@@ -1,0 +1,12 @@
+build*/
+.*
+!.git*
+.git/
+*.tar.*
+*.kdev4
+*.kate-swp
+*.orig
+tags
+astyle.sh
+cscope.*
+*.part

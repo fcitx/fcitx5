@@ -1,0 +1,1 @@
+Next generation of fcitx
