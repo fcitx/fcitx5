@@ -1,0 +1,77 @@
+/*
+ * Copyright (C) 2015~2015 by CSSlayer
+ * wengxt@gmail.com
+ *
+ * This library is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License as
+ * published by the Free Software Foundation; either version 2 of the
+ * License, or (at your option) any later version.
+ *
+ * This library is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this library; see the file COPYING. If not,
+ * see <http://www.gnu.org/licenses/>.
+ */
+#ifndef _FCITX_CONFIG_CONFIGURATION_H_
+#define _FCITX_CONFIG_CONFIGURATION_H_
+
+#include "fcitxconfig_export.h"
+#include <fcitx-utils/macros.h>
+#include "option.h"
+
+#include <memory>
+
+#define FCITX_CONFIGURATION(NAME, ...) \
+    class NAME : public fcitx::Configuration { \
+    public: \
+        NAME() { } \
+        NAME(const NAME & other) : NAME() { \
+            copyHelper(other); \
+        } \
+        NAME& operator=(const NAME &other) { \
+            copyHelper(other); \
+            return *this; \
+        } \
+        bool operator==(const NAME &other) const { \
+            return compareHelper(other); \
+        } \
+    public: \
+        __VA_ARGS__ \
+    };
+
+#define FCITX_OPTION(name, path, type, default, description) \
+    fcitx::Option<type> name { this, std::string(path), std::string(description), (default) };
+#define FCITX_OPTION_C(name, path, type, default, description, constrain) \
+    fcitx::Option<type> name { this, std::string(path), std::string(description), (default), constrain };
+
+namespace fcitx
+{
+
+class ConfigurationPrivate;
+
+class FCITXCONFIG_EXPORT Configuration {
+    friend class OptionBase;
+public:
+    Configuration();
+    virtual ~Configuration();
+
+    void load(const RawConfig &config);
+    void save(RawConfig &config) const;
+
+protected:
+    bool compareHelper(const Configuration& other) const;
+    bool copyHelper(const Configuration& other);
+
+private:
+    void addOption(fcitx::OptionBase *option);
+
+    FCITX_DECLARE_PRIVATE(Configuration);
+    std::unique_ptr<ConfigurationPrivate> d_ptr;
+};
+}
+
+#endif // _FCITX_CONFIG_CONFIGURATION_H_
