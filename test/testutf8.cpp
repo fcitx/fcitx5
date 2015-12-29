@@ -38,9 +38,9 @@ int main() {
     assert(strcmp(fcitx_utils_get_ascii_part(
                       UTF8_PART2 ASCII_PART2 UTF8_PART3 ASCII_PART),
                   ASCII_PART) == 0);
-    assert(strncmp(fcitx_utils_get_ascii_partn(UTF8_PART2 ASCII_PART2 UTF8_PART3
-                                                   ASCII_PART,
-                                               strlen(UTF8_PART2 ASCII_PART2)),
+    assert(strncmp(fcitx_utils_get_ascii_partn(
+                       UTF8_PART2 ASCII_PART2 UTF8_PART3 ASCII_PART,
+                       strlen(UTF8_PART2 ASCII_PART2)),
                    ASCII_PART2, strlen(ASCII_PART2)) == 0);
 
     for (uint32_t c = 0; c < 0x4000000; c++) {

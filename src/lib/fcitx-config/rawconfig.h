@@ -42,7 +42,7 @@ public:
     void parseIni(std::istream &in);
 
     std::shared_ptr<RawConfig> get(const std::string &path,
-                                       bool create = false);
+                                   bool create = false);
     std::shared_ptr<const RawConfig> get(const std::string &path) const;
     bool remove(const std::string &path);
     void removeAll();
@@ -63,9 +63,7 @@ public:
         return config ? &config->value() : nullptr;
     }
 
-    RawConfig &operator[](const std::string &path) {
-        return *get(path, true);
-    }
+    RawConfig &operator[](const std::string &path) { return *get(path, true); }
 
     RawConfig &operator=(RawConfig other);
 

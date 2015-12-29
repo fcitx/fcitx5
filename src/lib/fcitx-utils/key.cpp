@@ -217,8 +217,9 @@ KeySym Key::keySymFromString(const std::string &keyString) {
     auto compat = std::lower_bound(
         keyNameListCompat,
         keyNameListCompat + FCITX_ARRAY_SIZE(keyNameListCompat), keyString,
-        [](const KeyNameListCompat &c,
-           const std::string &str) { return c.name < str; });
+        [](const KeyNameListCompat &c, const std::string &str) {
+            return c.name < str;
+        });
     if (compat != keyNameListCompat + FCITX_ARRAY_SIZE(keyNameListCompat) &&
         compat->name == keyString) {
         return compat->sym;
@@ -242,8 +243,9 @@ std::string Key::keySymToString(KeySym sym) {
     const KeyNameOffsetByValue *result = std::lower_bound(
         keyNameOffsetByValue,
         keyNameOffsetByValue + FCITX_ARRAY_SIZE(keyNameOffsetByValue), sym,
-        [](const KeyNameOffsetByValue &item,
-           KeySym key) { return item.sym < key; });
+        [](const KeyNameOffsetByValue &item, KeySym key) {
+            return item.sym < key;
+        });
     if (result !=
             keyNameOffsetByValue + FCITX_ARRAY_SIZE(keyNameOffsetByValue) &&
         result->sym == sym) {

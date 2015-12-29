@@ -39,12 +39,11 @@ std::vector<std::string> split(const std::string &str,
 
 #define MAX_REPLACE_INDICES_NUM 128
 
-std::string replaceAll(std::string str, const std::string &before, const std::string &after)
-{
+std::string replaceAll(std::string str, const std::string &before,
+                       const std::string &after) {
     if (before.size() == 0) {
         return str;
     }
-
 
     size_t pivot = 0;
     std::string newString;
@@ -68,38 +67,43 @@ std::string replaceAll(std::string str, const std::string &before, const std::st
 
         if (nIndices) {
             if (!lastLen) {
-                lastLen = str.size() + nIndices * (after.size() - before.size());
+                lastLen =
+                    str.size() + nIndices * (after.size() - before.size());
                 newString.resize(lastLen);
             } else {
-                size_t newLen = lastLen + nIndices * (after.size() - before.size());
+                size_t newLen =
+                    lastLen + nIndices * (after.size() - before.size());
                 lastLen = newLen;
                 newString.resize(newLen);
             }
 
-#define _COPY_AND_MOVE_ON(s, pos, LEN) \
-    do { \
-        int diffLen = (LEN); \
-        if ((LEN) == 0) { \
-            break; \
-        } \
-        newString.replace(newStringPos, diffLen, s, pos, diffLen); \
-        newStringPos += diffLen; \
-    } while(0)
+#define _COPY_AND_MOVE_ON(s, pos, LEN)                                         \
+    do {                                                                       \
+        int diffLen = (LEN);                                                   \
+        if ((LEN) == 0) {                                                      \
+            break;                                                             \
+        }                                                                      \
+        newString.replace(newStringPos, diffLen, s, pos, diffLen);             \
+        newStringPos += diffLen;                                               \
+    } while (0)
 
             // string s is split as
-            // oldStringPos, indices[0], indices[0] + before.size(), indices[1], indices[1] + before.size()
+            // oldStringPos, indices[0], indices[0] + before.size(), indices[1],
+            // indices[1] + before.size()
             // .... indices[nIndices - 1], indices[nIndices - 1] + before.size()
             _COPY_AND_MOVE_ON(str, oldStringPos, indices[0] - oldStringPos);
             _COPY_AND_MOVE_ON(after, 0, after.size());
 
-            for (int i = 1; i < nIndices; i ++) {
-                _COPY_AND_MOVE_ON(str, indices[i] + before.size(), indices[i] - (indices[i - 1] + before.size()));
+            for (int i = 1; i < nIndices; i++) {
+                _COPY_AND_MOVE_ON(str, indices[i] + before.size(),
+                                  indices[i] -
+                                      (indices[i - 1] + before.size()));
                 _COPY_AND_MOVE_ON(after, 0, after.size());
             }
 
             oldStringPos = indices[nIndices - 1] + before.size();
         }
-    } while(pivot != std::string::npos);
+    } while (pivot != std::string::npos);
 
     if (!lastLen) {
         return str;
@@ -110,7 +114,5 @@ std::string replaceAll(std::string str, const std::string &before, const std::st
 
     return newString;
 }
-
-
 }
 }

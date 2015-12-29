@@ -23,9 +23,9 @@ int main() {
 
     // Test convert
     for (size_t i = 0; i < FCITX_ARRAY_SIZE(keyValueByNameOffset); i++) {
-        assert(
-            !fcitx::Key::keySymToString(
-                 static_cast<fcitx::KeySym>(keyValueByNameOffset[i])).empty());
+        assert(!fcitx::Key::keySymToString(
+                    static_cast<fcitx::KeySym>(keyValueByNameOffset[i]))
+                    .empty());
         assert(fcitx::Key::keySymFromString(keyNameList[i]) ==
                keyValueByNameOffset[i]);
     }
@@ -47,8 +47,9 @@ int main() {
     assert(fcitx::Key("Shift+S").normalize().check(fcitx::Key("S")));
     assert(fcitx::Key("Shift+F4").normalize().check(fcitx::Key("Shift+F4")));
     assert(fcitx::Key("Ctrl+a").normalize().check(fcitx::Key("Ctrl+A")));
-    assert(fcitx::Key("Alt+Shift+exclam").normalize().check(
-        fcitx::Key("Alt+exclam")));
+    assert(fcitx::Key("Alt+Shift+exclam")
+               .normalize()
+               .check(fcitx::Key("Alt+exclam")));
     assert(fcitx::Key("").sym() == FcitxKey_None);
     assert(fcitx::Key("-").sym() == FcitxKey_minus);
 

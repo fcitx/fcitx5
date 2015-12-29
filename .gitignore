@@ -10,3 +10,5 @@ tags
 astyle.sh
 cscope.*
 *.part
+XF86keysym.h
+keysymdef.h

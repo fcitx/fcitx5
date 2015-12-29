@@ -20,15 +20,12 @@
 #include "marshallfunction.h"
 #include "configuration.h"
 
-namespace fcitx
-{
-void marshallOption(RawConfig& config, const int value)
-{
+namespace fcitx {
+void marshallOption(RawConfig &config, const int value) {
     config = std::to_string(value);
 }
 
-bool unmarshallOption(int& value, const RawConfig& config)
-{
+bool unmarshallOption(int &value, const RawConfig &config) {
     try {
         value = std::stoi(config.value());
     } catch (std::invalid_argument) {
@@ -40,35 +37,29 @@ bool unmarshallOption(int& value, const RawConfig& config)
     return true;
 }
 
-void marshallOption(RawConfig& config, const std::string& value)
-{
+void marshallOption(RawConfig &config, const std::string &value) {
     config = value;
 }
 
-bool unmarshallOption(std::string& value, const RawConfig& config)
-{
+bool unmarshallOption(std::string &value, const RawConfig &config) {
     value = config.value();
     return true;
 }
 
-void marshallOption(RawConfig& config, const Key& value)
-{
+void marshallOption(RawConfig &config, const Key &value) {
     config = value.toString();
 }
 
-bool unmarshallOption(Key& value, const RawConfig& config)
-{
+bool unmarshallOption(Key &value, const RawConfig &config) {
     value = Key(config.value());
     return true;
 }
 
-void marshallOption(RawConfig& config, const Color& value)
-{
+void marshallOption(RawConfig &config, const Color &value) {
     config = value.toString();
 }
 
-bool unmarshallOption(Color& value, const RawConfig& config)
-{
+bool unmarshallOption(Color &value, const RawConfig &config) {
     try {
         value = Color(config.value());
     } catch (ColorParseException) {
@@ -77,16 +68,12 @@ bool unmarshallOption(Color& value, const RawConfig& config)
     return true;
 }
 
-void marshallOption(RawConfig& config, const Configuration& value)
-{
+void marshallOption(RawConfig &config, const Configuration &value) {
     value.save(config);
 }
 
-bool unmarshallOption(Configuration& value, const RawConfig& config)
-{
+bool unmarshallOption(Configuration &value, const RawConfig &config) {
     value.load(config);
     return true;
 }
-
-
 }

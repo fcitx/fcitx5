@@ -28,7 +28,9 @@ FCITXUTILS_EXPORT std::pair<std::string::size_type, std::string::size_type>
 trimInplace(const std::string &str);
 FCITXUTILS_EXPORT std::vector<std::string> split(const std::string &str,
                                                  const std::string &delim);
-FCITXUTILS_EXPORT std::string replaceAll(std::string str, const std::string &before, const std::string &after);
+FCITXUTILS_EXPORT std::string replaceAll(std::string str,
+                                         const std::string &before,
+                                         const std::string &after);
 }
 };
 

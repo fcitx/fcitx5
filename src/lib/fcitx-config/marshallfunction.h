@@ -24,29 +24,31 @@
 #include <fcitx-utils/color.h>
 #include <vector>
 
-namespace fcitx
-{
+namespace fcitx {
 
 class Configuration;
 
 FCITXCONFIG_EXPORT void marshallOption(RawConfig &config, const int value);
-FCITXCONFIG_EXPORT bool unmarshallOption(int &value, const RawConfig & config);
+FCITXCONFIG_EXPORT bool unmarshallOption(int &value, const RawConfig &config);
 
-FCITXCONFIG_EXPORT void marshallOption(RawConfig &config, const std::string &value);
-FCITXCONFIG_EXPORT bool unmarshallOption(std::string &value, const RawConfig & config);
+FCITXCONFIG_EXPORT void marshallOption(RawConfig &config,
+                                       const std::string &value);
+FCITXCONFIG_EXPORT bool unmarshallOption(std::string &value,
+                                         const RawConfig &config);
 
 FCITXCONFIG_EXPORT void marshallOption(RawConfig &config, const Key &value);
-FCITXCONFIG_EXPORT bool unmarshallOption(Key &value, const RawConfig & config);
+FCITXCONFIG_EXPORT bool unmarshallOption(Key &value, const RawConfig &config);
 
 FCITXCONFIG_EXPORT void marshallOption(RawConfig &config, const Color &value);
-FCITXCONFIG_EXPORT bool unmarshallOption(Color &value, const RawConfig & config);
+FCITXCONFIG_EXPORT bool unmarshallOption(Color &value, const RawConfig &config);
 
-FCITXCONFIG_EXPORT void marshallOption(RawConfig &config, const Configuration &value);
-FCITXCONFIG_EXPORT bool unmarshallOption(Configuration &value, const RawConfig & config);
+FCITXCONFIG_EXPORT void marshallOption(RawConfig &config,
+                                       const Configuration &value);
+FCITXCONFIG_EXPORT bool unmarshallOption(Configuration &value,
+                                         const RawConfig &config);
 
-template<typename T>
-void marshallOption(RawConfig &config, const std::vector<T> &value)
-{
+template <typename T>
+void marshallOption(RawConfig &config, const std::vector<T> &value) {
     config.removeAll();
     marshallOption(config["Length"], value.size());
     for (size_t i = 0; i < value.size(); i++) {
@@ -54,9 +56,8 @@ void marshallOption(RawConfig &config, const std::vector<T> &value)
     }
 }
 
-template<typename T>
-bool unmarshallOption(std::vector<T> &value, const RawConfig & config)
-{
+template <typename T>
+bool unmarshallOption(std::vector<T> &value, const RawConfig &config) {
     int size;
     auto lenSubConfigPtr = config.get("Length");
     if (!lenSubConfigPtr || !unmarshallOption(size, *lenSubConfigPtr)) {
@@ -79,7 +80,6 @@ bool unmarshallOption(std::vector<T> &value, const RawConfig & config)
     }
     return true;
 }
-
 }
 
 #endif // _FCITX_CONFIG_INTOPTION_H_

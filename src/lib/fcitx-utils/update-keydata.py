@@ -17,7 +17,7 @@ license = """/*
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with GLib; see the file COPYING.LIB. If not,
+ * License along with this library; see the file COPYING. If not,
  * see <http://www.gnu.org/licenses/>.
  */
 
@@ -61,26 +61,25 @@ for (i, (name, value, comment)) in enumerate(sorted(data, key=lambda n: n[0] )):
         valueToOffset[value] = i
 
 keysymdef = """
-#include <fcitx-utils/macro.h>
+#include <fcitx-utils/macros.h>
 
-FCITX_DECL_BEGIN
+FCITX_C_DECL_BEGIN
 
 typedef enum _FcitxKeySym
 {{
 {0}
 }} FcitxKeySym;
 
-FCITX_DECL_END
+FCITX_C_DECL_END
 """.format(keysymdef)
 f = open("keysymgen.h", "w")
 f.write(header(keysymdef, "_FCITX_UTILS_KEYSYMGEN_H_"))
 f.close()
 
 keynametable = """
-#include <fcitx-utils/types.h>
-#include <fcitx-utils/macro.h>
+#include <fcitx-utils/macros.h>
 
-FCITX_DECL_BEGIN
+FCITX_C_DECL_BEGIN
 
 static const char *keyNameList[] _FCITX_UNUSED_ =
 {{
@@ -99,7 +98,7 @@ static const struct KeyNameOffsetByValue {{
 {2}
 }};
 
-FCITX_DECL_END
+FCITX_C_DECL_END
 """.format("\n".join(['"{0}",'.format(s) for s in nameList]),
            ",\n".join(valueList),
            "\n".join('{{{0}, {1}}},'.format(s[0], s[1]) for s in sorted(valueToOffset.items(), key=lambda n: int(n[0], 16))))

@@ -26,28 +26,20 @@
 
 #include "configuration.h"
 
-namespace fcitx
-{
-struct ConfigurationPrivate
-{
+namespace fcitx {
+struct ConfigurationPrivate {
     std::list<std::string> m_optionsOrder;
     std::map<std::string, OptionBase *> m_options;
 };
 
-Configuration::Configuration() : d_ptr(std::make_unique<ConfigurationPrivate>())
-{
+Configuration::Configuration()
+    : d_ptr(std::make_unique<ConfigurationPrivate>()) {}
 
-}
+Configuration::~Configuration() {}
 
-Configuration::~Configuration()
-{
-
-}
-
-void Configuration::dumpDescription(RawConfig& config) const
-{
+void Configuration::dumpDescription(RawConfig &config) const {
     FCITX_D();
-    std::shared_ptr< RawConfig > subRoot = config.get(typeName(), true);
+    std::shared_ptr<RawConfig> subRoot = config.get(typeName(), true);
     std::vector<std::unique_ptr<Configuration>> subConfigs;
     for (const auto &path : d->m_optionsOrder) {
         auto optionIter = d->m_options.find(path);
@@ -68,8 +60,7 @@ void Configuration::dumpDescription(RawConfig& config) const
     }
 }
 
-bool Configuration::compareHelper(const Configuration& other) const
-{
+bool Configuration::compareHelper(const Configuration &other) const {
     FCITX_D();
     for (const auto &path : d->m_optionsOrder) {
         auto optionIter = d->m_options.find(path);
@@ -82,8 +73,7 @@ bool Configuration::compareHelper(const Configuration& other) const
     return true;
 }
 
-void Configuration::copyHelper(const Configuration& other)
-{
+void Configuration::copyHelper(const Configuration &other) {
     FCITX_D();
     for (const auto &path : d->m_optionsOrder) {
         auto optionIter = d->m_options.find(path);
@@ -94,8 +84,7 @@ void Configuration::copyHelper(const Configuration& other)
     }
 }
 
-void Configuration::load(const RawConfig& config)
-{
+void Configuration::load(const RawConfig &config) {
     FCITX_D();
     for (const auto &path : d->m_optionsOrder) {
         auto subConfigPtr = config.get(path);
@@ -110,8 +99,7 @@ void Configuration::load(const RawConfig& config)
     }
 }
 
-void Configuration::save(RawConfig& config) const
-{
+void Configuration::save(RawConfig &config) const {
     FCITX_D();
     for (const auto &path : d->m_optionsOrder) {
         auto subConfigPtr = config.get(path, true);
@@ -122,8 +110,7 @@ void Configuration::save(RawConfig& config) const
     }
 }
 
-void Configuration::addOption(OptionBase* option)
-{
+void Configuration::addOption(OptionBase *option) {
     FCITX_D();
     if (d->m_options.count(option->path())) {
         throw std::logic_error("Duplicate option path");
@@ -132,5 +119,4 @@ void Configuration::addOption(OptionBase* option)
     d->m_optionsOrder.push_back(option->path());
     d->m_options[option->path()] = option;
 }
-
 }

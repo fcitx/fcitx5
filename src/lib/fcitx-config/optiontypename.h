@@ -23,31 +23,23 @@
 #include <fcitx-utils/key.h>
 #include <fcitx-utils/color.h>
 
-namespace fcitx
-{
+namespace fcitx {
 
 template <typename T>
 struct OptionTypeName;
 
-#define FCITX_SPECIALIZE_TYPENAME(TYPE, NAME) \
-    namespace fcitx { \
-    template <> \
-    struct OptionTypeName<TYPE> { \
-    static std::string get() \
-    { \
-        return NAME; \
-    } \
-    }; \
+#define FCITX_SPECIALIZE_TYPENAME(TYPE, NAME)                                  \
+    namespace fcitx {                                                          \
+    template <>                                                                \
+    struct OptionTypeName<TYPE> {                                              \
+        static std::string get() { return NAME; }                              \
+    };                                                                         \
     }
 
 template <typename T>
 struct OptionTypeName<std::vector<T>> {
-static std::string get()
-{
-    return "List|" + OptionTypeName<T>::get();
-}
+    static std::string get() { return "List|" + OptionTypeName<T>::get(); }
 };
-
 }
 
 FCITX_SPECIALIZE_TYPENAME(int, "Integer");

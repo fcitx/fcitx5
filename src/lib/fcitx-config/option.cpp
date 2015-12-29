@@ -20,39 +20,23 @@
 #include "option.h"
 #include "configuration.h"
 
-namespace fcitx
-{
-OptionBase::OptionBase(Configuration *parent, std::string path, std::string description) :
-    m_parent(parent), m_path(path), m_description(description)
-{
+namespace fcitx {
+OptionBase::OptionBase(Configuration *parent, std::string path,
+                       std::string description)
+    : m_parent(parent), m_path(path), m_description(description) {
     m_parent->addOption(this);
 }
 
-OptionBase::~OptionBase()
-{
+OptionBase::~OptionBase() {}
 
-}
+bool OptionBase::isDefault() const { return false; }
 
+const std::string &OptionBase::path() const { return m_path; }
 
-bool OptionBase::isDefault() const
-{
-    return false;
-}
+const std::string &OptionBase::description() const { return m_description; }
 
-const std::string& OptionBase::path() const
-{
-    return m_path;
-}
-
-const std::string& OptionBase::description() const
-{
-    return m_description;
-}
-
-void OptionBase::dumpDescription(RawConfig& config) const
-{
+void OptionBase::dumpDescription(RawConfig &config) const {
     config.setValueByPath("Type", typeString());
     config.setValueByPath("Description", m_description);
 }
-
 }
