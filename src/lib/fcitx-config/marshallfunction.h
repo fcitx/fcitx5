@@ -48,10 +48,9 @@ template<typename T>
 void marshallOption(RawConfig &config, const std::vector<T> &value)
 {
     config.removeAll();
-    marshallOption(*config.get("Length", true), value.size());
+    marshallOption(config["Length"], value.size());
     for (size_t i = 0; i < value.size(); i++) {
-        auto subConfigPtr = config.get(std::to_string(i), true);
-        marshallOption(*subConfigPtr, value[i]);
+        marshallOption(config[std::to_string(i)], value[i]);
     }
 }
 

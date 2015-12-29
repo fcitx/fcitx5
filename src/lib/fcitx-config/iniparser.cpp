@@ -132,16 +132,14 @@ void writeAsIni(const RawConfig& root, std::ostream& out)
 
     callback = [&out, &callback] (const RawConfig & config, const std::string &path) {
         if (config.hasSubItems()) {
-            if (!path.empty()) {
-                out << "[" << path << "]\n";
-            }
-            config.visitSubItems([&out] (const RawConfig & config, const std::string &) {
+            std::stringstream valuesout;
+            config.visitSubItems([&valuesout] (const RawConfig & config, const std::string &) {
                 if (config.hasSubItems() && config.value().empty()) {
                     return true;
                 }
 
                 if (!config.comment().empty() && config.comment().find('\n') == std::string::npos) {
-                    out << "# " << config.comment() << "\n";
+                    valuesout << "# " << config.comment() << "\n";
                 }
 
                 auto value = config.value();
@@ -155,12 +153,19 @@ void writeAsIni(const RawConfig& root, std::ostream& out)
                 }
 
                 if (needQuote) {
-                    out << config.name() << "=\"" << value << "\"\n";
+                    valuesout << config.name() << "=\"" << value << "\"\n";
                 } else {
-                    out << config.name() << "=" << value << "\n";
+                    valuesout << config.name() << "=" << value << "\n";
                 }
                 return true;
             }, "", false, path);
+            auto valueString = valuesout.str();
+            if (!valueString.empty()) {
+                if (!path.empty()) {
+                    out << "[" << path << "]\n";
+                }
+                out << valueString << "\n";
+            }
         }
         config.visitSubItems(callback, "", false, path);
         return true;

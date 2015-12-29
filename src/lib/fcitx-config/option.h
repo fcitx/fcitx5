@@ -21,9 +21,12 @@
 
 #include "fcitxconfig_export.h"
 
+#include <limits>
 #include <string>
 #include <functional>
+#include <type_traits>
 
+#include "optiontypename.h"
 #include "rawconfig.h"
 #include "marshallfunction.h"
 
@@ -40,11 +43,13 @@ public:
 
     const std::string &path() const;
     const std::string &description() const;
+    virtual std::string typeString() const = 0;
     virtual void reset() = 0;
     virtual bool isDefault() const = 0;
 
     virtual void marshall(RawConfig &config) const = 0;
     virtual bool unmarshall(const RawConfig & config) = 0;
+    virtual Configuration *subConfigSkeleton() const = 0;
 
     virtual bool equalTo(const OptionBase &other) const = 0;
     virtual void copyFrom(const OptionBase &other) = 0;
@@ -55,6 +60,8 @@ public:
         return !operator==(other);
     }
 
+    virtual void dumpDescription(RawConfig &config) const;
+
 private:
     Configuration *m_parent;
     std::string m_path;
@@ -64,7 +71,23 @@ private:
 template<typename T>
 struct NoConstrain
 {
-    bool check(const T &) { return true; }
+    bool check(const T &) const { return true; }
+    void dumpDescription(RawConfig &) const { }
+};
+
+class IntConstrain
+{
+public:
+    IntConstrain(int min = std::numeric_limits<int>::min(), int max = std::numeric_limits<int>::max()) : m_min(min), m_max(max) {
+    }
+    bool check(int value) const { return value >= m_min && value <= m_max; }
+    void dumpDescription(RawConfig &config) const {
+        marshallOption(config["IntMin"], m_min);
+        marshallOption(config["IntMax"], m_max);
+    }
+private:
+    int m_min;
+    int m_max;
 };
 
 template<typename T>
@@ -78,11 +101,32 @@ struct DefaultMarshaller
     }
 };
 
+template <typename T, typename = void>
+struct ExtractSubConfig {
+    static Configuration *get() {
+        return nullptr;
+    }
+};
+
+template <typename T>
+struct ExtractSubConfig<std::vector<T>> {
+    static Configuration *get() {
+        return ExtractSubConfig<T>::get();
+    }
+};
+
+template <typename T>
+struct ExtractSubConfig<T, typename std::enable_if<std::is_base_of<Configuration, T>::value>::type> {
+    static Configuration *get() {
+        return new T;
+    }
+};
+
 template<typename T, typename Constrain = NoConstrain<T>, typename Marshaller = DefaultMarshaller<T>>
 class Option : public OptionBase
 {
 public:
-    Option(Configuration *parent, std::string path, std::string description, T defaultValue,
+    Option(Configuration *parent, std::string path, std::string description, T defaultValue = T(),
            Constrain constrain = Constrain(), Marshaller marshaller = Marshaller()) :
         OptionBase(parent, path, description)
       , m_defaultValue(defaultValue)
@@ -93,6 +137,20 @@ public:
         if (!m_constrain.check(m_defaultValue)) {
             throw std::invalid_argument("defaultValue doesn't satisfy constrain");
         }
+    }
+
+    virtual std::string typeString() const override {
+        return OptionTypeName<T>::get();
+    }
+
+    virtual void dumpDescription(RawConfig& config) const override {
+        OptionBase::dumpDescription(config);
+        m_marshaller.marshall(config["DefaultValue"], m_defaultValue);
+        m_constrain.dumpDescription(config);
+    }
+
+    virtual Configuration* subConfigSkeleton() const override {
+        return ExtractSubConfig<T>::get();
     }
 
     virtual bool isDefault() const override {
@@ -139,6 +197,8 @@ public:
         auto otherP = reinterpret_cast<const Option<T, Constrain, Marshaller>*>(&other);
         m_value = otherP->m_value;
     }
+
+
 
 private:
     T m_defaultValue;

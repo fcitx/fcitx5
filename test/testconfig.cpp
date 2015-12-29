@@ -24,28 +24,28 @@
 #include <vector>
 
 FCITX_CONFIGURATION(TestSubSubConfig,
-    FCITX_OPTION(intValue, "IntOption", int, 1, "Int Option")
-    FCITX_OPTION(keyValue, "KeyOption", fcitx::Key, fcitx::Key(FcitxKey_A, fcitx::KeyState::Ctrl), "Key Option")
+    fcitx::Option<int> intValue { this, "IntOption", "Int Option", 1 };
+    fcitx::Option<fcitx::Key> keyValue { this, "KeyOption", "Key Option", fcitx::Key(FcitxKey_A, fcitx::KeyState::Ctrl) };
 );
 
 FCITX_CONFIGURATION(TestSubConfig,
-    FCITX_OPTION(intValue, "IntOption", int, 1, "Int Option")
-    FCITX_OPTION(colorValue, "KeyOption", fcitx::Key, fcitx::Key(), "Key Option")
-    FCITX_OPTION(subSubVectorConfigValue, "SubSubConfig", std::vector<TestSubSubConfig>, [] () {
+    fcitx::Option<int> intValue { this, "IntOption", "Int Option", 1 };
+    fcitx::Option<fcitx::Key> keyValue { this, "KeyOption", "Key Option", fcitx::Key() };
+    fcitx::Option<std::vector<TestSubSubConfig>> subSubVectorConfigValue { this, "SubSubConfig", "SubSubConfig Option", [] () {
         std::vector<TestSubSubConfig> value;
         value.resize(2);
         value[0].intValue.setValue(2);
         value[0].keyValue.setValue(fcitx::Key("Alt+b"));
         return value;
-    }(), "SubConfig Option");
+    }() };
 );
 
 FCITX_CONFIGURATION(TestConfig,
-    FCITX_OPTION(intValue, "IntOption", int, 0, "Int Option");
-    FCITX_OPTION(colorValue, "ColorOption", fcitx::Color, fcitx::Color(), "Color Option");
-    FCITX_OPTION(stringValue, "StringOption", std::string, ("Test String"), "String Option");
-    FCITX_OPTION(stringVectorValue, "StringVectorOption", std::vector<std::string>, std::vector<std::string>({"ABC", "CDE"}), "String Option");
-    FCITX_OPTION(SubConfigValue, "SubConfig", TestSubConfig, TestSubConfig(), "SubConfig Option");
+    fcitx::Option<int, fcitx::IntConstrain> intValue { this, "IntOption", "Int Option", 0, fcitx::IntConstrain(0, 10) };
+    fcitx::Option<fcitx::Color> colorValue { this, "ColorOption", "Color Option", fcitx::Color() };
+    fcitx::Option<std::string> stringValue { this, "StringOption", "String Option", "Test String" };
+    fcitx::Option<std::vector<std::string>> stringVectorValue { this, "StringVectorOption", "String Option", std::vector<std::string>({"ABC", "CDE"}) };
+    fcitx::Option<TestSubConfig> subConfigValue { this, "SubConfigOption", "SubConfig Option" };
 )
 
 int main()
@@ -57,5 +57,20 @@ int main()
     fcitx::writeAsIni(rawConfig, std::cout);
 
     assert(*rawConfig.valueByPath("IntOption") == "0");
+
+    config.intValue.setValue(5);
+    assert(config.intValue.value() == 5);
+    // break constrain
+    config.intValue.setValue(20);
+    // still have the old value
+    assert(config.intValue.value() == 5);
+
+    config.load(rawConfig);
+    assert(config.intValue.value() == 0);
+
+    fcitx::RawConfig rawDescConfig;
+    config.dumpDescription(rawDescConfig);
+    fcitx::writeAsIni(rawDescConfig, std::cout);
+
     return 0;
 }

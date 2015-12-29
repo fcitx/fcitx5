@@ -22,6 +22,7 @@
 #include <exception>
 #include <list>
 #include <iostream>
+#include <memory>
 
 #include "configuration.h"
 
@@ -43,6 +44,30 @@ Configuration::~Configuration()
 
 }
 
+void Configuration::dumpDescription(RawConfig& config) const
+{
+    FCITX_D();
+    std::shared_ptr< RawConfig > subRoot = config.get(typeName(), true);
+    std::vector<std::unique_ptr<Configuration>> subConfigs;
+    for (const auto &path : d->m_optionsOrder) {
+        auto optionIter = d->m_options.find(path);
+        assert(optionIter != d->m_options.end());
+        auto option = optionIter->second;
+        auto descConfigPtr = subRoot->get(option->path(), true);
+        option->dumpDescription(*descConfigPtr);
+
+        Configuration *subConfig = (option->subConfigSkeleton());
+
+        if (subConfig) {
+            subConfigs.emplace_back(subConfig);
+        }
+    }
+
+    for (const auto &subConfigPtr : subConfigs) {
+        subConfigPtr->dumpDescription(config);
+    }
+}
+
 bool Configuration::compareHelper(const Configuration& other) const
 {
     FCITX_D();
@@ -57,7 +82,7 @@ bool Configuration::compareHelper(const Configuration& other) const
     return true;
 }
 
-bool Configuration::copyHelper(const Configuration& other)
+void Configuration::copyHelper(const Configuration& other)
 {
     FCITX_D();
     for (const auto &path : d->m_optionsOrder) {
@@ -67,7 +92,6 @@ bool Configuration::copyHelper(const Configuration& other)
         assert(otherOptionIter != d->m_options.end());
         optionIter->second->copyFrom(*otherOptionIter->second);
     }
-    return true;
 }
 
 void Configuration::load(const RawConfig& config)
@@ -94,6 +118,7 @@ void Configuration::save(RawConfig& config) const
         auto iter = d->m_options.find(path);
         assert(iter != d->m_options.end());
         iter->second->marshall(*subConfigPtr);
+        subConfigPtr->setComment(iter->second->description());
     }
 }
 

@@ -26,6 +26,8 @@
 #include <memory>
 
 #define FCITX_CONFIGURATION(NAME, ...) \
+    class NAME; \
+    FCITX_SPECIALIZE_TYPENAME(NAME, #NAME) \
     class NAME : public fcitx::Configuration { \
     public: \
         NAME() { } \
@@ -39,15 +41,13 @@
         bool operator==(const NAME &other) const { \
             return compareHelper(other); \
         } \
+        virtual const char* typeName() const override { return #NAME; } \
     public: \
         __VA_ARGS__ \
     };
 
-#define FCITX_OPTION(name, path, type, default, description) \
-    fcitx::Option<type> name { this, std::string(path), std::string(description), (default) };
-#define FCITX_OPTION_C(name, path, type, default, description, constrain) \
-    fcitx::Option<type> name { this, std::string(path), std::string(description), (default), constrain };
-
+#define FCITX_OPTION(name, path, type, default, description, ...) \
+    fcitx::Option<type> name { this, std::string(path), std::string(description), (default), __VA_ARGS__ };
 namespace fcitx
 {
 
@@ -61,10 +61,12 @@ public:
 
     void load(const RawConfig &config);
     void save(RawConfig &config) const;
+    void dumpDescription(RawConfig &config) const;
+    virtual const char* typeName() const = 0;
 
 protected:
     bool compareHelper(const Configuration& other) const;
-    bool copyHelper(const Configuration& other);
+    void copyHelper(const Configuration& other);
 
 private:
     void addOption(fcitx::OptionBase *option);

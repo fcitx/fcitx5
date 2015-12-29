@@ -16,43 +16,43 @@
  * License along with this library; see the file COPYING. If not,
  * see <http://www.gnu.org/licenses/>.
  */
+#ifndef _FCITX_CONFIG_TYPENAME_H_
+#define _FCITX_CONFIG_TYPENAME_H_
 
-#include "option.h"
-#include "configuration.h"
+#include <string>
+#include <fcitx-utils/key.h>
+#include <fcitx-utils/color.h>
 
 namespace fcitx
 {
-OptionBase::OptionBase(Configuration *parent, std::string path, std::string description) :
-    m_parent(parent), m_path(path), m_description(description)
+
+template <typename T>
+struct OptionTypeName;
+
+#define FCITX_SPECIALIZE_TYPENAME(TYPE, NAME) \
+    namespace fcitx { \
+    template <> \
+    struct OptionTypeName<TYPE> { \
+    static std::string get() \
+    { \
+        return NAME; \
+    } \
+    }; \
+    }
+
+template <typename T>
+struct OptionTypeName<std::vector<T>> {
+static std::string get()
 {
-    m_parent->addOption(this);
+    return "List|" + OptionTypeName<T>::get();
+}
+};
+
 }
 
-OptionBase::~OptionBase()
-{
+FCITX_SPECIALIZE_TYPENAME(int, "Integer");
+FCITX_SPECIALIZE_TYPENAME(std::string, "String");
+FCITX_SPECIALIZE_TYPENAME(fcitx::Key, "Key");
+FCITX_SPECIALIZE_TYPENAME(fcitx::Color, "Color");
 
-}
-
-
-bool OptionBase::isDefault() const
-{
-    return false;
-}
-
-const std::string& OptionBase::path() const
-{
-    return m_path;
-}
-
-const std::string& OptionBase::description() const
-{
-    return m_description;
-}
-
-void OptionBase::dumpDescription(RawConfig& config) const
-{
-    config.setValueByPath("Type", typeString());
-    config.setValueByPath("Description", m_description);
-}
-
-}
+#endif // _FCITX_CONFIG_TYPENAME_H_
