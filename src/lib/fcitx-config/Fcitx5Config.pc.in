@@ -3,9 +3,9 @@ exec_prefix=${prefix}
 libdir=@CMAKE_INSTALL_FULL_LIBDIR@
 includedir=@CMAKE_INSTALL_FULL_INCLUDEDIR@/Fcitx5/FcitxConfig
 
-Name: fcitx-config
+Name: Fcitx5Config
 Description: Fcitx Config Library
 Version: @FCITX_VERSION@
-Requires: fcitx-utils
+Requires: Fcitx5Utils
 Cflags: -I${includedir}
-Libs: -L${libdir} -lfcitx-config
+Libs: -L${libdir} -lFcitx5Config

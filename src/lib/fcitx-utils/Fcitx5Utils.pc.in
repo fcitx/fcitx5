@@ -1,10 +1,10 @@
 prefix=@CMAKE_INSTALL_PREFIX@
 exec_prefix=${prefix}
 libdir=@CMAKE_INSTALL_FULL_LIBDIR@
-includedir=@CMAKE_INSTALL_FULL_INCLUDEDIR@/Fcitx5/FcitxCore
+includedir=@CMAKE_INSTALL_FULL_INCLUDEDIR@/Fcitx5/FcitxUtils
 
-Name: fcitx-utils
+Name: Fcitx5Utils
 Description: Fcitx Utils Library
 Version: @FCITX_VERSION@
 Cflags: -I${includedir}
-Libs: -L${libdir} -lfcitx-utils
+Libs: -L${libdir} -lFcitx5Utils

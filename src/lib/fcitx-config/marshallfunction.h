@@ -23,6 +23,7 @@
 #include <fcitx-utils/key.h>
 #include <fcitx-utils/color.h>
 #include <vector>
+#include <type_traits>
 
 namespace fcitx {
 

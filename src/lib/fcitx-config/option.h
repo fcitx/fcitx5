@@ -97,6 +97,16 @@ struct DefaultMarshaller {
     }
 };
 
+template<typename T>
+struct RemoveVector {
+    typedef T type;
+};
+
+template<typename T>
+struct RemoveVector<std::vector<T>> {
+    typedef typename RemoveVector<T>::type type;
+};
+
 template <typename T, typename = void>
 struct ExtractSubConfig {
     static Configuration *get() { return nullptr; }
@@ -113,6 +123,9 @@ struct ExtractSubConfig<
     typename std::enable_if<std::is_base_of<Configuration, T>::value>::type> {
     static Configuration *get() { return new T; }
 };
+
+template<typename T>
+void dumpDescriptionHelper(RawConfig &, T*) { }
 
 template <typename T, typename Constrain = NoConstrain<T>,
           typename Marshaller = DefaultMarshaller<T>>
@@ -138,6 +151,8 @@ public:
         OptionBase::dumpDescription(config);
         m_marshaller.marshall(config["DefaultValue"], m_defaultValue);
         m_constrain.dumpDescription(config);
+        using ::fcitx::dumpDescriptionHelper;
+        dumpDescriptionHelper(config, static_cast<typename RemoveVector<T>::type*>(nullptr));
     }
 
     virtual Configuration *subConfigSkeleton() const override {
@@ -150,9 +165,9 @@ public:
 
     virtual void reset() override { m_value = m_defaultValue; }
 
-    const T &value() { return m_value; }
+    const T &value() const { return m_value; }
 
-    const T &defaultValue() { return m_defaultValue; }
+    const T &defaultValue() const { return m_defaultValue; }
 
     bool setValue(const T &value) {
         if (!m_constrain.check(value)) {

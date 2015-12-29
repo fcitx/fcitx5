@@ -28,6 +28,9 @@
 #define FCITX_CONFIGURATION(NAME, ...)                                         \
     class NAME;                                                                \
     FCITX_SPECIALIZE_TYPENAME(NAME, #NAME)                                     \
+    FCITX_CONFIGURATION_CLASS(NAME, __VA_ARGS__)
+
+#define FCITX_CONFIGURATION_CLASS(NAME, ...)                                         \
     class NAME : public fcitx::Configuration {                                 \
     public:                                                                    \
         NAME() {}                                                              \

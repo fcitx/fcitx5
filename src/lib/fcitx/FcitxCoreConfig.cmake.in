@@ -1,0 +1,6 @@
+@PACKAGE_INIT@
+
+find_dependency(FcitxConfig @FCITX_VERSION@)
+find_dependency(FcitxUtils @FCITX_VERSION@)
+
+include("${CMAKE_CURRENT_LIST_DIR}/FcitxCoreTargets.cmake")

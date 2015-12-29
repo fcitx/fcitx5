@@ -22,6 +22,12 @@
 #include <fcitx-config/iniparser.h>
 #include <iostream>
 #include <vector>
+#include <fcitx-config/enum.h>
+
+FCITX_CONFIG_ENUM(TestEnum, EnumA, EnumB)
+
+namespace my {
+FCITX_CONFIG_ENUM(TestEnum, EnumA, EnumB, EnumC)
 
 FCITX_CONFIGURATION(TestSubSubConfig,
                     fcitx::Option<int> intValue{this, "IntOption", "Int Option",
@@ -29,15 +35,17 @@ FCITX_CONFIGURATION(TestSubSubConfig,
                     fcitx::Option<fcitx::Key> keyValue{
                         this, "KeyOption", "Key Option",
                         fcitx::Key(FcitxKey_A, fcitx::KeyState::Ctrl)};);
+}
+
 
 FCITX_CONFIGURATION(
     TestSubConfig,
     fcitx::Option<int> intValue{this, "IntOption", "Int Option", 1};
     fcitx::Option<fcitx::Key> keyValue{this, "KeyOption", "Key Option",
                                        fcitx::Key()};
-    fcitx::Option<std::vector<TestSubSubConfig>> subSubVectorConfigValue{
+    fcitx::Option<std::vector<my::TestSubSubConfig>> subSubVectorConfigValue{
         this, "SubSubConfig", "SubSubConfig Option", []() {
-            std::vector<TestSubSubConfig> value;
+            std::vector<my::TestSubSubConfig> value;
             value.resize(2);
             value[0].intValue.setValue(2);
             value[0].keyValue.setValue(fcitx::Key("Alt+b"));
@@ -52,6 +60,10 @@ FCITX_CONFIGURATION(
                                            fcitx::Color()};
     fcitx::Option<std::string> stringValue{this, "StringOption",
                                            "String Option", "Test String"};
+    fcitx::Option<TestEnum> enumValue{this, "EnumOption",
+                                           "Enum Option", TestEnum::EnumA};
+    fcitx::Option<std::vector<my::TestEnum>> enumVectorValue{this, "EnumVectorOption",
+                                           "Enum Vector Option", {my::TestEnum::EnumA, my::TestEnum::EnumB}};
     fcitx::Option<std::vector<std::string>> stringVectorValue{
         this, "StringVectorOption", "String Option",
         std::vector<std::string>({"ABC", "CDE"})};

@@ -25,26 +25,35 @@
 
 namespace fcitx {
 
-template <typename T>
-struct OptionTypeName;
-
 #define FCITX_SPECIALIZE_TYPENAME(TYPE, NAME)                                  \
-    namespace fcitx {                                                          \
-    template <>                                                                \
-    struct OptionTypeName<TYPE> {                                              \
-        static std::string get() { return NAME; }                              \
-    };                                                                         \
-    }
-
-template <typename T>
-struct OptionTypeName<std::vector<T>> {
-    static std::string get() { return "List|" + OptionTypeName<T>::get(); }
-};
-}
+    static inline std::string configTypeNameHelper(TYPE *) { return NAME; }
 
 FCITX_SPECIALIZE_TYPENAME(int, "Integer");
 FCITX_SPECIALIZE_TYPENAME(std::string, "String");
 FCITX_SPECIALIZE_TYPENAME(fcitx::Key, "Key");
 FCITX_SPECIALIZE_TYPENAME(fcitx::Color, "Color");
+
+template <typename T, typename = void>
+struct OptionTypeName {
+    static std::string get() {
+        using ::fcitx::configTypeNameHelper;
+        return configTypeNameHelper(static_cast<T *>(nullptr));
+
+    }
+};
+
+template <typename T>
+struct OptionTypeName<std::vector<T>> {
+    static std::string get() {
+        return "List|" + OptionTypeName<T>::get();
+
+    }
+};
+
+template <typename T>
+struct OptionTypeName<T, typename std::enable_if<std::is_enum<T>::value>::type> {
+    static std::string get() { return "Enum"; }
+};
+}
 
 #endif // _FCITX_CONFIG_TYPENAME_H_
