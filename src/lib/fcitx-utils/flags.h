@@ -20,12 +20,13 @@
 #define _FCITX_UTILS_FLAG_H_
 
 #include <type_traits>
+#include <initializer_list>
 
 namespace fcitx {
 template <typename Enum>
 class Flags {
 public:
-    typedef std::underlying_type_t<Enum> storage_type;
+    typedef typename std::underlying_type_t<Enum> storage_type;
     Flags(Enum f) : m_flags(static_cast<storage_type>(f)) {}
     Flags(const Flags &other) : m_flags(other.m_flags) {}
     explicit Flags(storage_type i = 0) : m_flags(i) {}

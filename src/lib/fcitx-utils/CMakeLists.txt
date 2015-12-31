@@ -4,6 +4,8 @@ set(FCITX_UTILS_SOURCES
     cutf8.cpp
     color.cpp
     i18nstring.cpp
+    event_common.cpp
+    event_sdevent.cpp
     )
 
 set(FCITX_UTILS_HEADERS
@@ -12,6 +14,7 @@ set(FCITX_UTILS_HEADERS
     key.h
     color.h
     i18nstring.h
+    event.h
     )
 
 add_library(Fcitx5Utils SHARED ${FCITX_UTILS_SOURCES})
@@ -25,6 +28,7 @@ set_target_properties(Fcitx5Utils
 target_include_directories(Fcitx5Utils PUBLIC
     "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/..;${CMAKE_CURRENT_BINARY_DIR}>"
     "$<INSTALL_INTERFACE:${CMAKE_INSTALL_FULL_INCLUDEDIR}>/Fcitx5/FcitxUtils")
+target_link_libraries(Fcitx5Utils PRIVATE Systemd::Systemd)
 
 configure_file(Fcitx5Utils.pc.in ${CMAKE_CURRENT_BINARY_DIR}/Fcitx5Utils.pc @ONLY)
 

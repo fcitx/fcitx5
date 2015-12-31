@@ -67,7 +67,7 @@ void AddonInfo::loadInfo(RawConfig& config)
     FCITX_D();
     d->load(config);
 
-    // Validate more information
+    // TODO: Validate more information
     d->valid = true;
 }
 
