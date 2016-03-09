@@ -23,14 +23,14 @@
  */
 
 /**
- * @file   utf8.h
+ * @file   cutf8.h
  * @author CS Slayer wengxt@gmail.com
  *
  *  Utf8 related utils function
  *
  */
-#ifndef _FCITX_UTF8_H_
-#define _FCITX_UTF8_H_
+#ifndef _FCITX_UTILS_CUTF8_H_
+#define _FCITX_UTILS_CUTF8_H_
 
 #include <cstdlib>
 #include <cstdint>

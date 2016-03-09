@@ -59,4 +59,7 @@ void EventSourceTime::setNextInterval(uint64_t time) {
     setTime(now(clock()) + time);
 }
 
+EventSource::~EventSource() {
+}
+
 }

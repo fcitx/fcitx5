@@ -48,10 +48,10 @@
         __VA_ARGS__                                                            \
     };
 
-#define FCITX_OPTION(name, path, type, default, description, ...)              \
+#define FCITX_OPTION(name, type, path, description, default, ...)              \
     fcitx::Option<type> name{this, std::string(path),                          \
                              std::string(description), (default),              \
-                             __VA_ARGS__};
+                             __VA_ARGS__}
 namespace fcitx {
 
 class ConfigurationPrivate;

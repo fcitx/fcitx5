@@ -28,8 +28,9 @@ FCITX_CONFIGURATION(AddonConfig,
 )
 
 
-struct AddonInfoPrivate : public AddonConfig
+class AddonInfoPrivate : public AddonConfig
 {
+public:
     bool valid = false;
 };
 

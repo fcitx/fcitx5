@@ -45,9 +45,6 @@ static IOEventFlags EpollFlagsToIOEventFlags(uint32_t flags)
          | ((flags & EPOLLET) ? IOEventFlag::EdgeTrigger : IOEventFlags());
 }
 
-EventSource::~EventSource() {
-}
-
 template<typename Interface>
 struct SDEventSource : public Interface
 {

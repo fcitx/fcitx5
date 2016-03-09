@@ -3,7 +3,8 @@ set(FCITX_UTILS_TEST
     testutf8
     testcolor
     testi18nstring
-    testevent)
+    testevent
+    testdbus)
 
 foreach(TESTCASE ${FCITX_UTILS_TEST})
     add_executable(${TESTCASE} ${TESTCASE}.cpp)

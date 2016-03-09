@@ -6,6 +6,7 @@ set(FCITX_UTILS_SOURCES
     i18nstring.cpp
     event_common.cpp
     event_sdevent.cpp
+    dbus.cpp
     )
 
 set(FCITX_UTILS_HEADERS
@@ -15,6 +16,7 @@ set(FCITX_UTILS_HEADERS
     color.h
     i18nstring.h
     event.h
+    dbus.h
     )
 
 add_library(Fcitx5Utils SHARED ${FCITX_UTILS_SOURCES})

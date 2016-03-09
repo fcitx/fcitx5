@@ -30,11 +30,8 @@ namespace my {
 FCITX_CONFIG_ENUM(TestEnum, EnumA, EnumB, EnumC)
 
 FCITX_CONFIGURATION(TestSubSubConfig,
-                    fcitx::Option<int> intValue{this, "IntOption", "Int Option",
-                                                1};
-                    fcitx::Option<fcitx::Key> keyValue{
-                        this, "KeyOption", "Key Option",
-                        fcitx::Key(FcitxKey_A, fcitx::KeyState::Ctrl)};);
+                    FCITX_OPTION(intValue, int, "IntOption", "Int Option", 1);
+                    FCITX_OPTION(keyValue, fcitx::Key, "KeyOption", "Key Option", fcitx::Key(FcitxKey_A, fcitx::KeyState::Ctrl)););
 }
 
 

@@ -1,11 +1,9 @@
 set(FCITX_CORE_SOURCES
     addon.cpp
-    dbus_sdbus.cpp
     )
 
 set(FCITX_CORE_HEADERS
     addon.h
-    dbus.h
     )
 
 
