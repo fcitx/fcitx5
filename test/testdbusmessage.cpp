@@ -26,15 +26,8 @@ using namespace fcitx;
 int main()
 {
     Bus bus(BusType::Session);
-    EventLoop loop;
-    bus.attachEventLoop(&loop);
-    std::unique_ptr<EventSourceTime> s(loop.addTimeEvent(CLOCK_MONOTONIC, now(CLOCK_MONOTONIC), 0, [&bus, &loop] (EventSource *, uint64_t) {
-        auto msg = bus.createMethodCall("org.freedesktop.DBus", "/org/freedesktop/DBus", "org.freedesktop.DBus.Introspectable", "Introspect");
-        auto reply = bus.call(std::move(msg), 0);
-        std::cout << static_cast<int>(reply.type()) << std::endl;
-        loop.quit();
-        return false;
-    }));
-    loop.exec();
+
+    auto msg = bus.createSignal("/test", "test", "test");
+    msg << 1;
     return 0;
 }

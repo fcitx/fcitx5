@@ -4,11 +4,13 @@ set(FCITX_UTILS_TEST
     testcolor
     testi18nstring
     testevent
+    testdbusunixfd
+    testdbusmessage
     testdbus)
 
 foreach(TESTCASE ${FCITX_UTILS_TEST})
     add_executable(${TESTCASE} ${TESTCASE}.cpp)
-    target_link_libraries(${TESTCASE} Fcitx5::Utils)
+    target_link_libraries(${TESTCASE} Fcitx5::Utils Systemd::Systemd)
     add_test(NAME ${TESTCASE}
              COMMAND ${TESTCASE})
 endforeach()

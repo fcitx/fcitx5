@@ -7,6 +7,7 @@ set(FCITX_UTILS_SOURCES
     event_common.cpp
     event_sdevent.cpp
     dbus.cpp
+    dbus-message.cpp
     )
 
 set(FCITX_UTILS_HEADERS

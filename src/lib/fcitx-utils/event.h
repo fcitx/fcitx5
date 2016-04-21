@@ -96,8 +96,8 @@ public:
     const char *impl();
     void *nativeHandle();
 
-    EventSourceIO* addIOEvent(int fd, IOEventFlags flags, IOCallback callback);
-    EventSourceTime* addTimeEvent(clockid_t clock, uint64_t usec, uint64_t accuracy, TimeCallback callback);
+    EventSourceIO *addIOEvent(int fd, IOEventFlags flags, IOCallback callback);
+    EventSourceTime *addTimeEvent(clockid_t clock, uint64_t usec, uint64_t accuracy, TimeCallback callback);
 
 private:
     std::unique_ptr<EventLoopPrivate> d_ptr;

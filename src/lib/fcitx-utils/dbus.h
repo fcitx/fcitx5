@@ -23,46 +23,13 @@
 #include <string>
 #include <vector>
 #include <fcitx-utils/event.h>
+#include "dbus-message.h"
 
 namespace fcitx
 {
 
 namespace dbus
 {
-
-enum class MessageType
-{
-    Invalid,
-    Signal,
-    MethodCall,
-    Reply,
-    Error,
-};
-
-class MessagePrivate;
-
-class FCITXUTILS_EXPORT Message {
-    friend class Bus;
-public:
-    Message();
-    virtual ~Message();
-    
-    Message(const Message &other) = delete;
-    Message(Message &&other);
-    Message createReply() const;
-    Message createError(const char *name, const char *message) const;
-    
-    MessageType type() const;
-
-    std::string destination() const;
-    void setDestination(const std::string &dest);
-
-    void *nativeHandle() const;
-    
-private:
-    std::unique_ptr<MessagePrivate> d_ptr;
-    FCITX_DECLARE_PRIVATE(Message);
-};
 
 class FCITXUTILS_EXPORT Slot {
 public:
@@ -91,6 +58,8 @@ public:
     bool isOpen() const;
     
     void attachEventLoop(EventLoop *loop);
+    void detachEventLoop();
+
     Slot *addMatch(const std::string &match, MessageCallback callback);
     Slot *addFilter(MessageCallback callback);
     Slot *addObject(const std::string &path, MessageCallback callback);

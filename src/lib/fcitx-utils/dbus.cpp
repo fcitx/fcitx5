@@ -20,6 +20,7 @@
 #include <systemd/sd-bus.h>
 
 #include "dbus.h"
+#include "dbus-message-p.h"
 
 namespace fcitx
 {
@@ -43,105 +44,6 @@ public:
 private:
     sd_bus_error m_error;
 };
-    
-class MessagePrivate
-{
-public:
-    MessagePrivate() : type(MessageType::Invalid), msg(nullptr) {
-    }
-
-    ~MessagePrivate() {
-        sd_bus_message_unref(msg);
-    }
-
-    static Message fromSDBusMessage(sd_bus_message *sdmsg, bool ref = true) {
-        Message message;
-        message.d_ptr->msg = ref ? sd_bus_message_ref(sdmsg) : sdmsg;
-        uint8_t type = 0;
-        MessageType msgType = MessageType::Invalid;
-        sd_bus_message_get_type(sdmsg, &type);
-        switch (type) {
-            case SD_BUS_MESSAGE_METHOD_CALL:
-                msgType = MessageType::MethodCall;
-            case SD_BUS_MESSAGE_METHOD_RETURN:
-                msgType = MessageType::Reply;
-            case SD_BUS_MESSAGE_METHOD_ERROR:
-                msgType = MessageType::Error;
-            case SD_BUS_MESSAGE_SIGNAL:
-                msgType = MessageType::Signal;
-        }
-
-        message.d_ptr->type = msgType;
-
-        return message;
-    }
-
-    MessageType type;
-    sd_bus_message *msg;
-};
-    
-Message::Message() : d_ptr(std::make_unique<MessagePrivate>()) {
-}
-
-Message::~Message() {
-}
-
-Message::Message(Message &&other) : Message() {
-    using std::swap;
-    swap(d_ptr, other.d_ptr);
-}
-
-Message Message::createReply() const
-{
-    FCITX_D();
-    Message msg;
-    auto msgD = msg.d_func();
-    if (sd_bus_message_new_method_return(d->msg, &msgD->msg) < 0) {
-        msgD->type = MessageType::Invalid;
-    } else {
-        msgD->type = MessageType::Reply;
-    }
-    return msg;
-}
-
-Message Message::createError(const char *name, const char *message) const
-{
-    FCITX_D();
-    Message msg;
-    sd_bus_error error = SD_BUS_ERROR_MAKE_CONST(name, message);
-    auto msgD = msg.d_func();
-    if (sd_bus_message_new_method_error(d->msg, &msgD->msg, &error) < 0) {
-        msgD->type = MessageType::Invalid;
-    } else {
-        msgD->type = MessageType::Error;
-    }
-    return msg;
-}
-
-MessageType Message::type() const {
-    FCITX_D();
-    return d->type;
-}
-
-void Message::setDestination(const std::string &dest) {
-    FCITX_D();
-    if (d->msg) {
-        sd_bus_message_set_destination(d->msg, dest.c_str());
-    }
-}
-
-std::string Message::destination() const {
-    FCITX_D();
-    if (!d->msg) {
-        return {};
-    }
-    return sd_bus_message_get_destination(d->msg);
-}
-
-void *Message::nativeHandle() const {
-    FCITX_D();
-    return d->msg;
-}
 
 Slot::~Slot() {
 }
@@ -268,6 +170,12 @@ void Bus::attachEventLoop(EventLoop *loop)
     FCITX_D();
     sd_event *event = static_cast<sd_event *>(loop->nativeHandle());
     sd_bus_attach_event(d->bus, event, 0);
+}
+
+void Bus::detachEventLoop()
+{
+    FCITX_D();
+    sd_bus_detach_event(d->bus);
 }
 
 int SDMessageCallback(sd_bus_message *m, void *userdata, sd_bus_error *)
