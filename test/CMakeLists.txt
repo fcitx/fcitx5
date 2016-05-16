@@ -6,7 +6,8 @@ set(FCITX_UTILS_TEST
     testevent
     testdbusunixfd
     testdbusmessage
-    testdbus)
+    testdbus
+    testlist)
 
 foreach(TESTCASE ${FCITX_UTILS_TEST})
     add_executable(${TESTCASE} ${TESTCASE}.cpp)
@@ -21,6 +22,17 @@ set(FCITX_CONFIG_TEST
 foreach(TESTCASE ${FCITX_CONFIG_TEST})
     add_executable(${TESTCASE} ${TESTCASE}.cpp)
     target_link_libraries(${TESTCASE} Fcitx5::Config)
+    add_test(NAME ${TESTCASE}
+             COMMAND ${TESTCASE})
+endforeach()
+
+
+set(FCITX_CORE_TEST
+    testinputcontext
+    testsurroundingtext)
+foreach(TESTCASE ${FCITX_CORE_TEST})
+    add_executable(${TESTCASE} ${TESTCASE}.cpp)
+    target_link_libraries(${TESTCASE} Fcitx5::Core)
     add_test(NAME ${TESTCASE}
              COMMAND ${TESTCASE})
 endforeach()

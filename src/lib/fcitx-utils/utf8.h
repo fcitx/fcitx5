@@ -40,6 +40,16 @@ inline uint32_t getCharValidated(const std::string &s,
 inline std::string::size_type charLength(const std::string &s) {
     return fcitx_utf8_char_len(s.c_str());
 }
+
+inline int nthChar(const std::string &s, int start, size_t n) {
+    int diff = fcitx_utf8_get_nth_char(s.c_str() + start, n) - s.c_str();
+    return diff;
+}
+
+inline int nthChar(const std::string &s, size_t n) {
+    return nthChar(s, 0, n);
+}
+
 }
 }
 

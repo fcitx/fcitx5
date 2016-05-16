@@ -1,9 +1,18 @@
 set(FCITX_CORE_SOURCES
     addon.cpp
+    instance.cpp
+    inputcontextmanager.cpp
+    focusgroup.cpp
+    inputcontext.cpp
+    surroundingtext.cpp
     )
 
 set(FCITX_CORE_HEADERS
     addon.h
+    instance.h
+    inputcontextmanager.h
+    focusgroup.h
+    surroundingtext.h
     )
 
 
