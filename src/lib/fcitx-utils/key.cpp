@@ -31,7 +31,7 @@ Key::Key(const char *keyString) {
     /* old compatible code */
     const char *p = keyString;
     const char *lastModifier = keyString;
-    const char *found = NULL;
+    const char *found = nullptr;
 
 #define _CHECK_MODIFIER(NAME, VALUE)                                           \
     if ((found = strstr(p, NAME))) {                                           \

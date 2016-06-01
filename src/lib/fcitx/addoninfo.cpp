@@ -17,14 +17,15 @@
  * see <http://www.gnu.org/licenses/>.
  */
 
-#include "addon.h"
+#include "addoninfo.h"
 #include "fcitx-config/configuration.h"
 namespace fcitx
 {
 
 FCITX_CONFIGURATION(AddonConfig,
     fcitx::Option<std::string> name{this, "Addon/Name", "Addon Name"};
-    fcitx::Option<fcitx::AddonType> type{this, "Addon/Type", "Addon Type"};
+    fcitx::Option<std::string> type{this, "Addon/Type", "Addon Type"};
+    fcitx::Option<std::string> library{this, "Addon/Library", "Addon Library"};
 )
 
 
@@ -57,10 +58,16 @@ const std::string& AddonInfo::name() const
 
 }
 
-AddonType AddonInfo::type() const
+const std::string& AddonInfo::type() const
 {
     FCITX_D();
     return d->type.value();
+}
+
+const std::string& AddonInfo::library() const
+{
+    FCITX_D();
+    return d->library.value();
 }
 
 void AddonInfo::loadInfo(RawConfig& config)

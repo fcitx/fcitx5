@@ -8,6 +8,9 @@ set(FCITX_UTILS_SOURCES
     event_sdevent.cpp
     dbus.cpp
     dbus-message.cpp
+    library.cpp
+    fs.cpp
+    standardpath.cpp
     )
 
 set(FCITX_UTILS_HEADERS
@@ -18,6 +21,11 @@ set(FCITX_UTILS_HEADERS
     i18nstring.h
     event.h
     dbus.h
+    library.h
+    cutf8.h
+    dbus-message.h
+    fs.h
+    standardpath.h
     )
 
 add_library(Fcitx5Utils SHARED ${FCITX_UTILS_SOURCES})
@@ -31,7 +39,7 @@ set_target_properties(Fcitx5Utils
 target_include_directories(Fcitx5Utils PUBLIC
     "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/..;${CMAKE_CURRENT_BINARY_DIR}>"
     "$<INSTALL_INTERFACE:${CMAKE_INSTALL_FULL_INCLUDEDIR}>/Fcitx5/FcitxUtils")
-target_link_libraries(Fcitx5Utils PRIVATE Systemd::Systemd)
+target_link_libraries(Fcitx5Utils PRIVATE Systemd::Systemd DL::DL)
 
 configure_file(Fcitx5Utils.pc.in ${CMAKE_CURRENT_BINARY_DIR}/Fcitx5Utils.pc @ONLY)
 

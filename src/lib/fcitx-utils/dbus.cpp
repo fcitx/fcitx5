@@ -294,7 +294,7 @@ void *Bus::nativeHandle() const
 
 void Bus::send(Message msg) {
     FCITX_D();
-    sd_bus_send(d->bus, msg.d_func()->msg, NULL);
+    sd_bus_send(d->bus, msg.d_func()->msg, nullptr);
 }
 
 Message Bus::call(Message msg, uint64_t timeout) {

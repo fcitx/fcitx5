@@ -371,7 +371,7 @@ size_t fcitx_utf8_strnlen(const char *str, size_t byte) {
 FCITXUTILS_EXPORT
 const char *fcitx_utils_get_ascii_partn(const char *string, size_t len) {
     if (!string)
-        return NULL;
+        return nullptr;
 
     const char *s = string + len;
     while ((--s) >= string && !(*s & 0x80)) {
@@ -382,7 +382,7 @@ const char *fcitx_utils_get_ascii_partn(const char *string, size_t len) {
 FCITXUTILS_EXPORT
 const char *fcitx_utils_get_ascii_part(const char *string) {
     if (!string)
-        return NULL;
+        return nullptr;
     return fcitx_utils_get_ascii_partn(string, strlen(string));
 }
 
@@ -391,7 +391,7 @@ static inline int is_valid_ascii(char c) { return (!(c & 0x80)) && c; }
 FCITXUTILS_EXPORT
 char *fcitx_utils_get_ascii_endn(const char *string, size_t len) {
     if (!string)
-        return NULL;
+        return nullptr;
     const char *end = string + len;
     for (; string < end && is_valid_ascii(*string); string++) {
     }
@@ -401,7 +401,7 @@ char *fcitx_utils_get_ascii_endn(const char *string, size_t len) {
 FCITXUTILS_EXPORT
 char *fcitx_utils_get_ascii_end(const char *string) {
     if (!string)
-        return NULL;
+        return nullptr;
     for (; is_valid_ascii(*string); string++) {
     }
     return (char *)string;

@@ -1,4 +1,5 @@
 set(FCITX_UTILS_TEST
+    teststringutils
     testkey
     testutf8
     testcolor
@@ -7,13 +8,18 @@ set(FCITX_UTILS_TEST
     testdbusunixfd
     testdbusmessage
     testdbus
-    testlist)
+    testlist
+    testfs
+    testlibrary
+    teststandardpath)
+
+set(teststandardpath_ARGS "${CMAKE_CURRENT_SOURCE_DIR}/addon")
 
 foreach(TESTCASE ${FCITX_UTILS_TEST})
     add_executable(${TESTCASE} ${TESTCASE}.cpp)
     target_link_libraries(${TESTCASE} Fcitx5::Utils Systemd::Systemd)
     add_test(NAME ${TESTCASE}
-             COMMAND ${TESTCASE})
+             COMMAND ${TESTCASE} ${${TESTCASE}_ARGS})
 endforeach()
 
 set(FCITX_CONFIG_TEST

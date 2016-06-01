@@ -27,8 +27,6 @@
 namespace fcitx
 {
 
-FCITX_CONFIG_ENUM(AddonType, SharedLibrary)
-
 class AddonInfoPrivate;
 
 class FCITXCORE_EXPORT AddonInfo {
@@ -38,7 +36,8 @@ public:
 
     bool isValid() const;
     const std::string &name() const;
-    AddonType type() const;
+    const std::string &type() const;
+    const std::string &library() const;
 
     void loadInfo(RawConfig &config);
 

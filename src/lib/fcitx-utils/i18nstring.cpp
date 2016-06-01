@@ -23,7 +23,7 @@
 namespace fcitx {
 const std::string &I18NString::match(std::string locale) {
     if (locale == "system") {
-        char *lc = setlocale(LC_MESSAGES, NULL);
+        char *lc = setlocale(LC_MESSAGES, nullptr);
         if (lc) {
             locale = lc;
         } else {
