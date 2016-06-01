@@ -29,11 +29,11 @@ FCITX_CONFIG_ENUM(TestEnum, EnumA, EnumB)
 namespace my {
 FCITX_CONFIG_ENUM(TestEnum, EnumA, EnumB, EnumC)
 
-FCITX_CONFIGURATION(TestSubSubConfig,
-                    FCITX_OPTION(intValue, int, "IntOption", "Int Option", 1);
-                    FCITX_OPTION(keyValue, fcitx::Key, "KeyOption", "Key Option", fcitx::Key(FcitxKey_A, fcitx::KeyState::Ctrl)););
+FCITX_CONFIGURATION(
+    TestSubSubConfig, FCITX_OPTION(intValue, int, "IntOption", "Int Option", 1);
+    FCITX_OPTION(keyValue, fcitx::Key, "KeyOption", "Key Option",
+                 fcitx::Key(FcitxKey_A, fcitx::KeyState::Ctrl)););
 }
-
 
 FCITX_CONFIGURATION(
     TestSubConfig,
@@ -57,10 +57,13 @@ FCITX_CONFIGURATION(
                                            fcitx::Color()};
     fcitx::Option<std::string> stringValue{this, "StringOption",
                                            "String Option", "Test String"};
-    fcitx::Option<TestEnum> enumValue{this, "EnumOption",
-                                           "Enum Option", TestEnum::EnumA};
-    fcitx::Option<std::vector<my::TestEnum>> enumVectorValue{this, "EnumVectorOption",
-                                           "Enum Vector Option", {my::TestEnum::EnumA, my::TestEnum::EnumB}};
+    fcitx::Option<TestEnum> enumValue{this, "EnumOption", "Enum Option",
+                                      TestEnum::EnumA};
+    fcitx::Option<std::vector<my::TestEnum>> enumVectorValue{
+        this,
+        "EnumVectorOption",
+        "Enum Vector Option",
+        {my::TestEnum::EnumA, my::TestEnum::EnumB}};
     fcitx::Option<std::vector<std::string>> stringVectorValue{
         this, "StringVectorOption", "String Option",
         std::vector<std::string>({"ABC", "CDE"})};

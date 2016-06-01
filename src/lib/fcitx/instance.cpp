@@ -19,7 +19,4 @@
 
 #include "instance.h"
 
-namespace fcitx
-{
-
-}
+namespace fcitx {}

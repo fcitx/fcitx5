@@ -38,20 +38,17 @@ struct OptionTypeName {
     static std::string get() {
         using ::fcitx::configTypeNameHelper;
         return configTypeNameHelper(static_cast<T *>(nullptr));
-
     }
 };
 
 template <typename T>
 struct OptionTypeName<std::vector<T>> {
-    static std::string get() {
-        return "List|" + OptionTypeName<T>::get();
-
-    }
+    static std::string get() { return "List|" + OptionTypeName<T>::get(); }
 };
 
 template <typename T>
-struct OptionTypeName<T, typename std::enable_if<std::is_enum<T>::value>::type> {
+struct OptionTypeName<T,
+                      typename std::enable_if<std::is_enum<T>::value>::type> {
     static std::string get() { return "Enum"; }
 };
 }

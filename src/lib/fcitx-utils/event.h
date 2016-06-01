@@ -27,11 +27,9 @@
 #include <functional>
 #include <cstring>
 
-namespace fcitx
-{
+namespace fcitx {
 
-enum class IOEventFlag
-{
+enum class IOEventFlag {
     In = (1 << 0),
     Out = (1 << 1),
     Err = (1 << 2),
@@ -44,15 +42,14 @@ typedef Flags<IOEventFlag> IOEventFlags;
 class FCITXUTILS_EXPORT EventLoopException : public std::runtime_error {
 public:
     EventLoopException(int error);
-    
+
     int error() const { return m_errno; }
-    
+
 private:
     int m_errno;
 };
 
-struct FCITXUTILS_EXPORT EventSource
-{
+struct FCITXUTILS_EXPORT EventSource {
     virtual ~EventSource();
     virtual bool isEnabled() const = 0;
     virtual void setEnabled(bool enabled) = 0;
@@ -60,8 +57,7 @@ struct FCITXUTILS_EXPORT EventSource
     virtual void setOneShot() = 0;
 };
 
-struct FCITXUTILS_EXPORT EventSourceIO : public EventSource
-{
+struct FCITXUTILS_EXPORT EventSourceIO : public EventSource {
     virtual int fd() const = 0;
     virtual void setFd(int fd) = 0;
     virtual IOEventFlags events() const = 0;
@@ -69,8 +65,7 @@ struct FCITXUTILS_EXPORT EventSourceIO : public EventSource
     virtual IOEventFlags revents() const = 0;
 };
 
-struct FCITXUTILS_EXPORT EventSourceTime : public EventSource
-{
+struct FCITXUTILS_EXPORT EventSourceTime : public EventSource {
     virtual void setNextInterval(uint64_t time);
     virtual uint64_t time() const = 0;
     virtual void setTime(uint64_t time) = 0;
@@ -79,31 +74,31 @@ struct FCITXUTILS_EXPORT EventSourceTime : public EventSource
     virtual clockid_t clock() const = 0;
 };
 
-typedef std::function<bool(EventSource *, int fd, IOEventFlags flags)> IOCallback;
+typedef std::function<bool(EventSource *, int fd, IOEventFlags flags)>
+    IOCallback;
 typedef std::function<bool(EventSource *, uint64_t usec)> TimeCallback;
 
 FCITXUTILS_EXPORT uint64_t now(clockid_t clock);
 
 class EventLoopPrivate;
-class FCITXUTILS_EXPORT EventLoop
-{
+class FCITXUTILS_EXPORT EventLoop {
 public:
     EventLoop();
     virtual ~EventLoop();
     bool exec();
     void quit();
-    
+
     const char *impl();
     void *nativeHandle();
 
     EventSourceIO *addIOEvent(int fd, IOEventFlags flags, IOCallback callback);
-    EventSourceTime *addTimeEvent(clockid_t clock, uint64_t usec, uint64_t accuracy, TimeCallback callback);
+    EventSourceTime *addTimeEvent(clockid_t clock, uint64_t usec,
+                                  uint64_t accuracy, TimeCallback callback);
 
 private:
     std::unique_ptr<EventLoopPrivate> d_ptr;
     FCITX_DECLARE_PRIVATE(EventLoop);
 };
-
 }
 
 #endif // _FCITX_UTILS_EVENT_H_

@@ -19,65 +19,48 @@
 
 #include "addoninfo.h"
 #include "fcitx-config/configuration.h"
-namespace fcitx
-{
+namespace fcitx {
 
-FCITX_CONFIGURATION(AddonConfig,
+FCITX_CONFIGURATION(
+    AddonConfig,
     fcitx::Option<std::string> name{this, "Addon/Name", "Addon Name"};
     fcitx::Option<std::string> type{this, "Addon/Type", "Addon Type"};
-    fcitx::Option<std::string> library{this, "Addon/Library", "Addon Library"};
-)
+    fcitx::Option<std::string> library{this, "Addon/Library", "Addon Library"};)
 
-
-class AddonInfoPrivate : public AddonConfig
-{
+class AddonInfoPrivate : public AddonConfig {
 public:
     bool valid = false;
 };
 
-AddonInfo::AddonInfo() : d_ptr(std::make_unique<AddonInfoPrivate>())
-{
+AddonInfo::AddonInfo() : d_ptr(std::make_unique<AddonInfoPrivate>()) {}
 
-}
+AddonInfo::~AddonInfo() {}
 
-AddonInfo::~AddonInfo()
-{
-
-}
-
-bool AddonInfo::isValid() const
-{
+bool AddonInfo::isValid() const {
     FCITX_D();
     return d->valid;
 }
 
-const std::string& AddonInfo::name() const
-{
+const std::string &AddonInfo::name() const {
     FCITX_D();
     return d->name.value();
-
 }
 
-const std::string& AddonInfo::type() const
-{
+const std::string &AddonInfo::type() const {
     FCITX_D();
     return d->type.value();
 }
 
-const std::string& AddonInfo::library() const
-{
+const std::string &AddonInfo::library() const {
     FCITX_D();
     return d->library.value();
 }
 
-void AddonInfo::loadInfo(RawConfig& config)
-{
+void AddonInfo::loadInfo(RawConfig &config) {
     FCITX_D();
     d->load(config);
 
     // TODO: Validate more information
     d->valid = true;
 }
-
-
 }

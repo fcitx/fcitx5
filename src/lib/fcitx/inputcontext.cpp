@@ -22,41 +22,35 @@
 #include "inputcontextmanager.h"
 #include "focusgroup.h"
 
-namespace fcitx
-{
+namespace fcitx {
 
-InputContext::InputContext(InputContextManager &manager) : d_ptr(std::make_unique<InputContextPrivate>(this, manager))
-{
+InputContext::InputContext(InputContextManager &manager)
+    : d_ptr(std::make_unique<InputContextPrivate>(this, manager)) {
     manager.registerInputContext(*this);
 }
 
-InputContext::~InputContext()
-{
+InputContext::~InputContext() {
     FCITX_D();
     d->manager.unregisterInputContext(*this);
 }
 
-void InputContext::setCapabilityFlags(CapabilityFlags flags)
-{
+void InputContext::setCapabilityFlags(CapabilityFlags flags) {
     FCITX_D();
     d->capabilityFlags = flags;
 }
 
-CapabilityFlags InputContext::capabilityFlags()
-{
+CapabilityFlags InputContext::capabilityFlags() {
     FCITX_D();
     return d->capabilityFlags;
 }
 
-void InputContext::setFocusGroup(FocusGroup *group)
-{
+void InputContext::setFocusGroup(FocusGroup *group) {
     FCITX_D();
     focusOut();
     d->group = group;
 }
 
-void InputContext::focusIn()
-{
+void InputContext::focusIn() {
     FCITX_D();
     if (d->group) {
         if (focusGroupType() == FocusGroupType::Global) {
@@ -70,8 +64,7 @@ void InputContext::focusIn()
     }
 }
 
-void InputContext::focusOut()
-{
+void InputContext::focusOut() {
     FCITX_D();
     if (d->group) {
         if (d->group->focusedInputContext() == this) {
@@ -82,14 +75,12 @@ void InputContext::focusOut()
     }
 }
 
-bool InputContext::hasFocus() const
-{
+bool InputContext::hasFocus() const {
     FCITX_D();
     return d->hasFocus;
 }
 
-void InputContext::setHasFocus(bool hasFocus)
-{
+void InputContext::setHasFocus(bool hasFocus) {
     FCITX_D();
     if (hasFocus != d->hasFocus) {
         d->hasFocus = hasFocus;
@@ -97,25 +88,23 @@ void InputContext::setHasFocus(bool hasFocus)
     }
 }
 
-FocusGroupType InputContext::focusGroupType() const
-{
+FocusGroupType InputContext::focusGroupType() const {
     FCITX_D();
     if (d->group) {
-        return d->group == &d->manager.globalFocusGroup() ? FocusGroupType::Global : FocusGroupType::Local;
+        return d->group == &d->manager.globalFocusGroup()
+                   ? FocusGroupType::Global
+                   : FocusGroupType::Local;
     }
     return FocusGroupType::Independent;
 }
 
-SurroundingText &InputContext::surroundingText()
-{
+SurroundingText &InputContext::surroundingText() {
     FCITX_D();
     return d->surroundingText;
 }
 
-const SurroundingText &InputContext::surroundingText() const
-{
+const SurroundingText &InputContext::surroundingText() const {
     FCITX_D();
     return d->surroundingText;
 }
-
 }

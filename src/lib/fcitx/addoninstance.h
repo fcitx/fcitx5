@@ -19,20 +19,17 @@
 #ifndef _FCITX_ADDONINSTANCE_H_
 #define _FCITX_ADDONINSTANCE_H_
 
-namespace fcitx
-{
+namespace fcitx {
 
-class AddonInstance
-{
-    template<typename Signature>
+class AddonInstance {
+    template <typename Signature>
     std::function<Signature> callback(const std::string &name) {
-        Signature * callbackPtr = static_cast<Signature *>(rawCallback);
+        Signature *callbackPtr = static_cast<Signature *>(rawCallback);
         return {callbackPtr};
     }
 
     virtual void *rawCallback(const std::string &name) = 0;
 };
-
 }
 
 #endif // _FCITX_ADDONINSTANCE_H_

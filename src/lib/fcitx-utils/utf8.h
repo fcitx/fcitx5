@@ -46,10 +46,7 @@ inline int nthChar(const std::string &s, int start, size_t n) {
     return diff;
 }
 
-inline int nthChar(const std::string &s, size_t n) {
-    return nthChar(s, 0, n);
-}
-
+inline int nthChar(const std::string &s, size_t n) { return nthChar(s, 0, n); }
 }
 }
 

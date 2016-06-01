@@ -23,16 +23,13 @@
 #include "addoninfo.h"
 #include "addoninstance.h"
 
-namespace fcitx
-{
+namespace fcitx {
 
-class AddonLoader
-{
+class AddonLoader {
 public:
     virtual std::string type() const = 0;
-    virtual AddonInstance* load(const AddonInfo &info) = 0;
+    virtual AddonInstance *load(const AddonInfo &info) = 0;
 };
-
 }
 
 #endif // _FCITX_ADDONRESOLVER_H_

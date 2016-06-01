@@ -24,8 +24,7 @@
 
 using namespace fcitx;
 
-int main()
-{
+int main() {
     assert(stringutils::startsWith("abc", "ab"));
     assert(!stringutils::startsWith("abc", "abd"));
     assert(!stringutils::startsWith("abc", "abcd"));
@@ -52,7 +51,7 @@ int main()
         char largeReplaceCorrect[REPEAT + 1];
         char largeReplaceCorrect2[4 * REPEAT + 1];
         int i = 0, j = 0, k = 0;
-        for (int n = 0; n < REPEAT; n ++) {
+        for (int n = 0; n < REPEAT; n++) {
             largeReplace[i++] = 'a';
             largeReplace[i++] = 'b';
             largeReplace[i++] = 'c';
@@ -71,7 +70,8 @@ int main()
 
         auto replace_result = stringutils::replaceAll(largeReplace, "abc", "e");
         assert(replace_result == largeReplaceCorrect);
-        auto replace_result2 = stringutils::replaceAll(replace_result, "e", "abcd");
+        auto replace_result2 =
+            stringutils::replaceAll(replace_result, "e", "abcd");
         assert(replace_result2 == largeReplaceCorrect2);
     }
 

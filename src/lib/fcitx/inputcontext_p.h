@@ -22,16 +22,13 @@
 #include "fcitx-utils/intrusivelist.h"
 #include "inputcontext.h"
 
-namespace fcitx
-{
+namespace fcitx {
 
-class InputContextPrivate
-{
+class InputContextPrivate {
 public:
-    InputContextPrivate(InputContext* q, InputContextManager &manager_) :
-        q_ptr(q), manager(manager_), group(nullptr), hasFocus(false) {
-    }
-    InputContext* q_ptr;
+    InputContextPrivate(InputContext *q, InputContextManager &manager_)
+        : q_ptr(q), manager(manager_), group(nullptr), hasFocus(false) {}
+    InputContext *q_ptr;
     InputContextManager &manager;
     FocusGroup *group;
     bool hasFocus;
@@ -42,7 +39,6 @@ public:
 
     FCITX_DECLARE_PUBLIC(InputContext);
 };
-
 }
 
 #endif // _FCITX_INPUTCONTEXT_P_H_

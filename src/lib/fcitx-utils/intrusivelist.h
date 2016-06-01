@@ -23,67 +23,66 @@
 #include <type_traits>
 #include <array>
 
-namespace fcitx
-{
+namespace fcitx {
 
-class IntrusiveListNode
-{
+class IntrusiveListNode {
 public:
-    IntrusiveListNode() : prev(nullptr), next(nullptr) {
-    }
+    IntrusiveListNode() : prev(nullptr), next(nullptr) {}
 
     IntrusiveListNode *prev;
     IntrusiveListNode *next;
 };
 
-template<typename T>
-struct IntrusiveListTrivialNodeGetter
-{
-    static_assert(
-        std::is_base_of<IntrusiveListNode, T>::value,
-        "T must be a descendant of IntrusiveListNode"
-    );
+template <typename T>
+struct IntrusiveListTrivialNodeGetter {
+    static_assert(std::is_base_of<IntrusiveListNode, T>::value,
+                  "T must be a descendant of IntrusiveListNode");
 
-    static IntrusiveListNode &toNode (T &value) noexcept {
+    static IntrusiveListNode &toNode(T &value) noexcept {
         return *static_cast<IntrusiveListNode *>(&value);
     }
 
-    static T &toValue (IntrusiveListNode &node) noexcept {
+    static T &toValue(IntrusiveListNode &node) noexcept {
         return *reinterpret_cast<T *>(&node);
     }
 
-    static const IntrusiveListNode &toNode (const T &value) noexcept {
+    static const IntrusiveListNode &toNode(const T &value) noexcept {
         return *static_cast<const IntrusiveListNode *>(&value);
     }
 
-    static const T &toValue (const IntrusiveListNode &node) noexcept {
+    static const T &toValue(const IntrusiveListNode &node) noexcept {
         return *reinterpret_cast<const T *>(&node);
     }
 };
 
-
-template<typename T, typename NodeGetter>
+template <typename T, typename NodeGetter>
 class IntrusiveList;
 
-template<typename T, typename NodeGetter, bool isConst>
-class IntrusiveListIterator
-{
+template <typename T, typename NodeGetter, bool isConst>
+class IntrusiveListIterator {
     typedef IntrusiveList<T, NodeGetter> list_type;
-    typedef IntrusiveListNode * node_ptr;
+    typedef IntrusiveListNode *node_ptr;
+
 public:
     typedef std::bidirectional_iterator_tag iterator_category;
     typedef T value_type;
     typedef std::ptrdiff_t difference_type;
-    typedef typename std::conditional<isConst, typename list_type::const_reference, typename list_type::reference>::type reference;
-    typedef typename std::conditional<isConst, typename list_type::const_pointer, typename list_type::pointer>::type pointer;
+    typedef
+        typename std::conditional<isConst, typename list_type::const_reference,
+                                  typename list_type::reference>::type
+            reference;
+    typedef
+        typename std::conditional<isConst, typename list_type::const_pointer,
+                                  typename list_type::pointer>::type pointer;
 
-    IntrusiveListIterator() : node(nullptr), nodeGetter(nullptr) { }
-    IntrusiveListIterator(node_ptr node_, NodeGetter &nodeGetter_) : node(node_), nodeGetter(&nodeGetter_) {}
+    IntrusiveListIterator() : node(nullptr), nodeGetter(nullptr) {}
+    IntrusiveListIterator(node_ptr node_, NodeGetter &nodeGetter_)
+        : node(node_), nodeGetter(&nodeGetter_) {}
 
-    IntrusiveListIterator(const typename list_type::iterator& other)
-      :  IntrusiveListIterator(other.pointed_node(), other.get_nodeGetter()) {}
+    IntrusiveListIterator(const typename list_type::iterator &other)
+        : IntrusiveListIterator(other.pointed_node(), other.get_nodeGetter()) {}
 
-    IntrusiveListIterator &operator=(const IntrusiveListIterator& other) {
+    IntrusiveListIterator &operator=(const IntrusiveListIterator &other) {
         node = other.node;
         nodeGetter = other.nodeGetter;
         return *this;
@@ -101,35 +100,26 @@ public:
         return {old, *nodeGetter};
     }
 
-    IntrusiveListIterator& operator++(int) {
+    IntrusiveListIterator &operator++(int) {
         node = node->next;
         return *this;
     }
 
-    reference operator*() {
-        return nodeGetter->toValue(*node);
-    }
+    reference operator*() { return nodeGetter->toValue(*node); }
 
-    pointer operator->() {
-        return &nodeGetter->toValue(*node);
-    }
+    pointer operator->() { return &nodeGetter->toValue(*node); }
 
-    node_ptr pointed_node() const {
-        return node;
-    }
+    node_ptr pointed_node() const { return node; }
 
-    NodeGetter &get_nodeGetter() const {
-        return *nodeGetter;
-    }
+    NodeGetter &get_nodeGetter() const { return *nodeGetter; }
 
 private:
     node_ptr node;
     NodeGetter *nodeGetter;
 };
 
-template<typename T, typename NodeGetter = IntrusiveListTrivialNodeGetter<T>>
-class IntrusiveList
-{
+template <typename T, typename NodeGetter = IntrusiveListTrivialNodeGetter<T>>
+class IntrusiveList {
 public:
     typedef T value_type;
     typedef value_type *pointer;
@@ -138,51 +128,35 @@ public:
     typedef const value_type &const_reference;
     typedef IntrusiveListIterator<T, NodeGetter, false> iterator;
     typedef IntrusiveListIterator<T, NodeGetter, true> const_iterator;
-    typedef std::reverse_iterator<iterator>	      reverse_iterator;
-    typedef std::reverse_iterator<const_iterator>   const_reverse_iterator;
+    typedef std::reverse_iterator<iterator> reverse_iterator;
+    typedef std::reverse_iterator<const_iterator> const_reverse_iterator;
     typedef std::size_t size_type;
 
-    IntrusiveList(NodeGetter nodeGetter_ = NodeGetter()) : size_(0), nodeGetter(nodeGetter_) {
+    IntrusiveList(NodeGetter nodeGetter_ = NodeGetter())
+        : size_(0), nodeGetter(nodeGetter_) {
         root.prev = root.next = &root;
     }
 
-    iterator begin() {
-        return {root.next, nodeGetter};
-    }
-    iterator end() {
-        return {&root, nodeGetter};
-    }
+    iterator begin() { return {root.next, nodeGetter}; }
+    iterator end() { return {&root, nodeGetter}; }
 
-    const_iterator begin() const {
-        return {root.next, nodeGetter};
-    }
+    const_iterator begin() const { return {root.next, nodeGetter}; }
 
-    const_iterator end() const {
-        return {&root, nodeGetter};
-    }
+    const_iterator end() const { return {&root, nodeGetter}; }
 
-    const_iterator cbegin() const {
-        return {root.next, nodeGetter};
-    }
+    const_iterator cbegin() const { return {root.next, nodeGetter}; }
 
-    const_iterator cend() const {
-        return {&root, nodeGetter};
-    }
+    const_iterator cend() const { return {&root, nodeGetter}; }
 
-    reference front() {
-        return *begin();
-    }
+    reference front() { return *begin(); }
 
-    const_reference front() const {
-        return *cbegin();
-    }
+    const_reference front() const { return *cbegin(); }
 
-    reference back() {
-        return *iterator{root.prev, nodeGetter};
-    }
+    reference back() { return *iterator{root.prev, nodeGetter}; }
 
     const_reference back() const {
-        return *const_iterator{root.prev, nodeGetter};;
+        return *const_iterator{root.prev, nodeGetter};
+        ;
     }
 
     iterator iterator_to(reference value) {
@@ -218,17 +192,14 @@ public:
         }
 
         iterator iter;
-        while ((iter = erase(start)) != end) { }
+        while ((iter = erase(start)) != end) {
+        }
         return iter;
     }
 
-    size_type size() const {
-        return size_;
-    }
+    size_type size() const { return size_; }
 
-    bool empty() const {
-        return root.next == &root;
-    }
+    bool empty() const { return root.next == &root; }
 
     iterator insert(const_iterator pos, reference value) {
         append(&nodeGetter.toNode(value), pos.pointed_node());
@@ -237,7 +208,8 @@ public:
     }
 
 private:
-    void insertBetween(IntrusiveListNode *add, IntrusiveListNode *prev, IntrusiveListNode *next) noexcept {
+    void insertBetween(IntrusiveListNode *add, IntrusiveListNode *prev,
+                       IntrusiveListNode *next) noexcept {
         next->prev = add;
         prev->next = add;
         add->next = next;
@@ -266,7 +238,6 @@ private:
     size_type size_;
     NodeGetter nodeGetter;
 };
-
 }
 
 #endif // _FCITX_UTILS_INSTRUSIVELIST_H_

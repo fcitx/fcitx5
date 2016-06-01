@@ -22,33 +22,27 @@
 #include <unistd.h>
 #include <errno.h>
 
-namespace fcitx
-{
-namespace fs
-{
+namespace fcitx {
+namespace fs {
 
-bool isdir(const std::string &path)
-{
+bool isdir(const std::string &path) {
     struct stat stats;
     return (stat(path.c_str(), &stats) == 0 && S_ISDIR(stats.st_mode) &&
             access(path.c_str(), R_OK | X_OK) == 0);
 }
 
-bool isreg(const std::string &path)
-{
+bool isreg(const std::string &path) {
     struct stat stats;
     return (stat(path.c_str(), &stats) == 0 && S_ISREG(stats.st_mode) &&
             access(path.c_str(), R_OK) == 0);
 }
 
-bool islnk(const std::string &path)
-{
+bool islnk(const std::string &path) {
     struct stat stats;
     return stat(path.c_str(), &stats) == 0 && S_ISLNK(stats.st_mode);
 }
 
-std::string cleanPath(const std::string &path)
-{
+std::string cleanPath(const std::string &path) {
     std::string buf;
     if (path.empty()) {
         return {};
@@ -58,11 +52,11 @@ std::string cleanPath(const std::string &path)
     size_t i = 0;
     while (path[i] == '/') {
         buf.push_back(path[i]);
-        i ++;
+        i++;
     }
 
     int levels = 0;
-    while(true) {
+    while (true) {
         size_t dotcount = 0;
         size_t last = buf.size();
         size_t lasti = i;
@@ -93,10 +87,10 @@ std::string cleanPath(const std::string &path)
                     }
                 }
             } else {
-                levels ++;
+                levels++;
             }
         } else {
-            levels ++;
+            levels++;
         }
 
         if (i >= path.size()) {
@@ -104,7 +98,7 @@ std::string cleanPath(const std::string &path)
         }
 
         while (path[i] == '/') {
-            i ++;
+            i++;
         }
 
         if (!eaten) {
@@ -114,8 +108,7 @@ std::string cleanPath(const std::string &path)
     return buf;
 }
 
-bool makePath(const std::string &path)
-{
+bool makePath(const std::string &path) {
     if (isdir(path))
         return true;
     auto opath = cleanPath(path);
@@ -134,22 +127,21 @@ bool makePath(const std::string &path)
     }
     do {
         if (iter == opath.end() || *iter == '/') {
-            std::string curpath (opath.begin(), iter);
+            std::string curpath(opath.begin(), iter);
 
             if (mkdir(curpath.c_str(), S_IRWXU) != 0) {
                 if (errno == EEXIST) {
                     struct stat stats;
-                    if (stat(curpath.c_str(), &stats) != 0 || !S_ISDIR(stats.st_mode)) {
+                    if (stat(curpath.c_str(), &stats) != 0 ||
+                        !S_ISDIR(stats.st_mode)) {
                         return false;
                     }
                 }
             }
         }
-    } while(*(iter++) != '\0');
+    } while (*(iter++) != '\0');
 
     return true;
 }
-
-
 }
 }

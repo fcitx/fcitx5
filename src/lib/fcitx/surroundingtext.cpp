@@ -20,14 +20,11 @@
 #include "surroundingtext.h"
 #include "fcitx-utils/utf8.h"
 
-namespace fcitx
-{
+namespace fcitx {
 
-class SurroundingTextPrivate
-{
+class SurroundingTextPrivate {
 public:
-    SurroundingTextPrivate() : anchor(0), cursor(0), valid(false) {
-    }
+    SurroundingTextPrivate() : anchor(0), cursor(0), valid(false) {}
 
     unsigned int anchor, cursor;
     std::string text;
@@ -35,16 +32,12 @@ public:
     bool valid;
 };
 
-SurroundingText::SurroundingText() : d_ptr(std::make_unique<SurroundingTextPrivate>())
-{
-}
+SurroundingText::SurroundingText()
+    : d_ptr(std::make_unique<SurroundingTextPrivate>()) {}
 
-SurroundingText::~SurroundingText()
-{
-}
+SurroundingText::~SurroundingText() {}
 
-bool SurroundingText::isValid() const
-{
+bool SurroundingText::isValid() const {
     FCITX_D();
     return d->valid;
 }
@@ -57,27 +50,23 @@ void SurroundingText::invalidate() {
     d->text = std::string();
 }
 
-const std::string & SurroundingText::text() const
-{
+const std::string &SurroundingText::text() const {
     FCITX_D();
     return d->text;
 }
 
-
-unsigned int SurroundingText::anchor() const
-{
+unsigned int SurroundingText::anchor() const {
     FCITX_D();
     return d->anchor;
 }
 
-unsigned int SurroundingText::cursor() const
-{
+unsigned int SurroundingText::cursor() const {
     FCITX_D();
     return d->cursor;
 }
 
-void SurroundingText::setText(const std::string& text, unsigned int cursor, unsigned int anchor)
-{
+void SurroundingText::setText(const std::string &text, unsigned int cursor,
+                              unsigned int anchor) {
     FCITX_D();
     d->valid = true;
     d->text = text;
@@ -85,15 +74,15 @@ void SurroundingText::setText(const std::string& text, unsigned int cursor, unsi
     d->anchor = anchor;
 }
 
-void SurroundingText::deleteText(int offset, unsigned int size)
-{
+void SurroundingText::deleteText(int offset, unsigned int size) {
     FCITX_D();
     if (!d->valid) {
         return;
     }
 
     /*
-     * do the real deletion here, and client might update it, but input method itself
+     * do the real deletion here, and client might update it, but input method
+     * itself
      * would expect a up to date value after this call.
      *
      * Make their life easier.
@@ -110,7 +99,7 @@ void SurroundingText::deleteText(int offset, unsigned int size)
 
         int copylen = d->text.length() - end;
 
-        for (int i = 0; i < copylen; i ++ ) {
+        for (int i = 0; i < copylen; i++) {
             d->text[start + i] = d->text[end + i];
             d->text.erase(end);
         }
@@ -121,5 +110,4 @@ void SurroundingText::deleteText(int offset, unsigned int size)
     }
     d->anchor = d->cursor;
 }
-
 }

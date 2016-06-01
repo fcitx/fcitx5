@@ -52,14 +52,12 @@ uint64_t now(clockid_t clock_id) {
     return timespec_load(&ts);
 }
 
-EventLoopException::EventLoopException(int error) : std::runtime_error(std::strerror(error)), m_errno(error) {
-}
+EventLoopException::EventLoopException(int error)
+    : std::runtime_error(std::strerror(error)), m_errno(error) {}
 
 void EventSourceTime::setNextInterval(uint64_t time) {
     setTime(now(clock()) + time);
 }
 
-EventSource::~EventSource() {
-}
-
+EventSource::~EventSource() {}
 }

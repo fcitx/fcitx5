@@ -22,12 +22,10 @@
 #include <memory>
 #include <fcitx-utils/macros.h>
 
-namespace fcitx
-{
+namespace fcitx {
 
 class AddonManagerPrivate;
-class AddonManager
-{
+class AddonManager {
 public:
     AddonManager();
     virtual ~AddonManager();
@@ -40,7 +38,6 @@ private:
     std::unique_ptr<AddonManagerPrivate> d_ptr;
     FCITX_DECLARE_PRIVATE(AddonManager);
 };
-
 }
 
 #endif // _FCITX_ADDONMANAGER_H_

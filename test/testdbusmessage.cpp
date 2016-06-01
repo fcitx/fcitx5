@@ -23,8 +23,7 @@
 using namespace fcitx::dbus;
 using namespace fcitx;
 
-int main()
-{
+int main() {
     Bus bus(BusType::Session);
 
     auto msg = bus.createSignal("/test", "test", "test");

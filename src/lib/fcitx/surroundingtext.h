@@ -28,8 +28,7 @@ namespace fcitx {
 
 class SurroundingTextPrivate;
 
-class FCITXCORE_EXPORT SurroundingText
-{
+class FCITXCORE_EXPORT SurroundingText {
 public:
     SurroundingText();
     virtual ~SurroundingText();
@@ -40,15 +39,14 @@ public:
     unsigned int cursor() const;
     const std::string &text() const;
 
-    void setText(const std::string &text, unsigned int cursor, unsigned int anchor);
+    void setText(const std::string &text, unsigned int cursor,
+                 unsigned int anchor);
     void deleteText(int offset, unsigned int size);
-
 
 private:
     std::unique_ptr<SurroundingTextPrivate> d_ptr;
     FCITX_DECLARE_PRIVATE(SurroundingText);
 };
-
 }
 
 #endif // _FCITX_SURROUNDINGTEXT_H_

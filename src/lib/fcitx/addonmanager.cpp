@@ -19,20 +19,13 @@
 
 #include "addonmanager.h"
 
-namespace fcitx
-{
+namespace fcitx {
 
 class AddonManagerPrivate {
 public:
 };
 
-AddonManager::AddonManager() : d_ptr(std::make_unique<AddonManagerPrivate>())
-{
-}
+AddonManager::AddonManager() : d_ptr(std::make_unique<AddonManagerPrivate>()) {}
 
-AddonManager::~AddonManager()
-{
-}
-
-
+AddonManager::~AddonManager() {}
 }

@@ -31,15 +31,14 @@
 #include "surroundingtext.h"
 #include "fcitxcore_export.h"
 
-namespace fcitx
-{
+namespace fcitx {
 
 // Use uint64_t for more space for future
 enum class CapabilityFlag : uint64_t {
     None = 0,
     ClientSideUI = (1 << 0),
     Preedit = (1 << 1),
-    ClientSideControlState =  (1 << 2),
+    ClientSideControlState = (1 << 2),
     Password = (1 << 3),
     FormattedPreedit = (1 << 4),
     ClientUnfocusCommit = (1 << 5),
@@ -63,13 +62,7 @@ enum class CapabilityFlag : uint64_t {
     RelativeRect = (1 << 23),
 };
 
-
-enum class FocusGroupType
-{
-    Global,
-    Local,
-    Independent
-};
+enum class FocusGroupType { Global, Local, Independent };
 
 typedef Flags<CapabilityFlag> CapabilityFlags;
 
@@ -77,10 +70,10 @@ class InputContextManager;
 class FocusGroup;
 class InputContextPrivate;
 
-class FCITXCORE_EXPORT InputContext
-{
+class FCITXCORE_EXPORT InputContext {
     friend class InputContextManagerPrivate;
     friend class FocusGroup;
+
 public:
     InputContext(InputContextManager &manager);
     virtual ~InputContext();
@@ -115,7 +108,6 @@ private:
     std::unique_ptr<InputContextPrivate> d_ptr;
     FCITX_DECLARE_PRIVATE(InputContext);
 };
-
 }
 
 #endif // _FCITX_INPUTCONTEXT_H_

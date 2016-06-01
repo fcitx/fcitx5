@@ -20,39 +20,29 @@
 #include "addonloader.h"
 #include "fcitx-utils/library.h"
 
-namespace fcitx
-{
+namespace fcitx {
 
-class SharedLibraryInstance : public AddonInstance
-{
+class SharedLibraryInstance : public AddonInstance {
 public:
-
 private:
     Library lib;
 };
 
 class SharedLibraryLoader : public AddonLoader {
 public:
-    AddonInstance *load(const AddonInfo & info) override
-    {
+    AddonInstance *load(const AddonInfo &info) override {
         try {
         } catch (int) {
         }
     }
 
-    std::string type() const override {
-        return "SharedLibrary";
-    }
+    std::string type() const override { return "SharedLibrary"; }
 };
 
 class StaticLibraryLoader : public AddonLoader {
 public:
-    AddonInstance *load(const AddonInfo &info) override {
-    }
+    AddonInstance *load(const AddonInfo &info) override {}
 
-    std::string type() const override {
-        return "StaticLibrary";
-    }
+    std::string type() const override { return "StaticLibrary"; }
 };
-
 }

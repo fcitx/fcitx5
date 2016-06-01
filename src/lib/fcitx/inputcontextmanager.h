@@ -23,17 +23,16 @@
 #include <fcitx-utils/macros.h>
 #include "fcitxcore_export.h"
 
-namespace fcitx
-{
+namespace fcitx {
 
 class InputContext;
 class InputContextManagerPrivate;
 class FocusGroup;
 
-class FCITXCORE_EXPORT InputContextManager
-{
+class FCITXCORE_EXPORT InputContextManager {
     friend class InputContext;
     friend class FocusGroup;
+
 public:
     InputContextManager();
     virtual ~InputContextManager();
@@ -52,7 +51,6 @@ private:
     std::unique_ptr<InputContextManagerPrivate> d_ptr;
     FCITX_DECLARE_PRIVATE(InputContextManager);
 };
-
 }
 
 #endif // _FCITX_INPUTCONTEXTMANAGER_H_

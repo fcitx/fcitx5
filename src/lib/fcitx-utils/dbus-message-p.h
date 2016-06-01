@@ -22,20 +22,14 @@
 #include "dbus-message.h"
 #include <systemd/sd-bus.h>
 
-namespace fcitx
-{
-namespace dbus
-{
+namespace fcitx {
+namespace dbus {
 
-class MessagePrivate
-{
+class MessagePrivate {
 public:
-    MessagePrivate() : type(MessageType::Invalid), msg(nullptr) {
-    }
+    MessagePrivate() : type(MessageType::Invalid), msg(nullptr) {}
 
-    ~MessagePrivate() {
-        sd_bus_message_unref(msg);
-    }
+    ~MessagePrivate() { sd_bus_message_unref(msg); }
 
     static Message fromSDBusMessage(sd_bus_message *sdmsg, bool ref = true) {
         Message message;
@@ -44,14 +38,14 @@ public:
         MessageType msgType = MessageType::Invalid;
         sd_bus_message_get_type(sdmsg, &type);
         switch (type) {
-            case SD_BUS_MESSAGE_METHOD_CALL:
-                msgType = MessageType::MethodCall;
-            case SD_BUS_MESSAGE_METHOD_RETURN:
-                msgType = MessageType::Reply;
-            case SD_BUS_MESSAGE_METHOD_ERROR:
-                msgType = MessageType::Error;
-            case SD_BUS_MESSAGE_SIGNAL:
-                msgType = MessageType::Signal;
+        case SD_BUS_MESSAGE_METHOD_CALL:
+            msgType = MessageType::MethodCall;
+        case SD_BUS_MESSAGE_METHOD_RETURN:
+            msgType = MessageType::Reply;
+        case SD_BUS_MESSAGE_METHOD_ERROR:
+            msgType = MessageType::Error;
+        case SD_BUS_MESSAGE_SIGNAL:
+            msgType = MessageType::Signal;
         }
 
         message.d_ptr->type = msgType;
@@ -63,7 +57,6 @@ public:
     sd_bus_message *msg;
 };
 }
-
 }
 
 #endif // _FCITX_UTILS_DBUS_MESSAGE_P_H_

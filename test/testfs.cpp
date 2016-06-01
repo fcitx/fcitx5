@@ -24,14 +24,14 @@
 
 using namespace fcitx::fs;
 
-#define TEST_PATH(PATHSTR, EXPECT) do { \
-        char pathstr[] = PATHSTR; \
-        auto cleanStr = cleanPath(pathstr); \
-        assert(cleanStr == EXPECT); \
-    } while(0);
+#define TEST_PATH(PATHSTR, EXPECT)                                             \
+    do {                                                                       \
+        char pathstr[] = PATHSTR;                                              \
+        auto cleanStr = cleanPath(pathstr);                                    \
+        assert(cleanStr == EXPECT);                                            \
+    } while (0);
 
-int main()
-{
+int main() {
     TEST_PATH("/a", "/a");
     TEST_PATH("/a/b", "/a/b");
     TEST_PATH("a/b", "a/b");

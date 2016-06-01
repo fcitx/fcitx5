@@ -97,12 +97,12 @@ struct DefaultMarshaller {
     }
 };
 
-template<typename T>
+template <typename T>
 struct RemoveVector {
     typedef T type;
 };
 
-template<typename T>
+template <typename T>
 struct RemoveVector<std::vector<T>> {
     typedef typename RemoveVector<T>::type type;
 };
@@ -124,8 +124,8 @@ struct ExtractSubConfig<
     static Configuration *get() { return new T; }
 };
 
-template<typename T>
-void dumpDescriptionHelper(RawConfig &, T*) { }
+template <typename T>
+void dumpDescriptionHelper(RawConfig &, T *) {}
 
 template <typename T, typename Constrain = NoConstrain<T>,
           typename Marshaller = DefaultMarshaller<T>>
@@ -152,7 +152,8 @@ public:
         m_marshaller.marshall(config["DefaultValue"], m_defaultValue);
         m_constrain.dumpDescription(config);
         using ::fcitx::dumpDescriptionHelper;
-        dumpDescriptionHelper(config, static_cast<typename RemoveVector<T>::type*>(nullptr));
+        dumpDescriptionHelper(
+            config, static_cast<typename RemoveVector<T>::type *>(nullptr));
     }
 
     virtual Configuration *subConfigSkeleton() const override {

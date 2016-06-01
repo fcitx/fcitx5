@@ -23,34 +23,32 @@
 #include "fcitx/inputcontext.h"
 #include "fcitx/focusgroup.h"
 
-#define TEST_FOCUS(ARGS...) \
-    do { \
-        bool focus_result[] = { ARGS }; \
-        for (size_t i = 0; i < FCITX_ARRAY_SIZE(focus_result); i++) { \
-            assert(ic[i]->hasFocus() == focus_result[i]); \
-        } \
-    } while(0)
+#define TEST_FOCUS(ARGS...)                                                    \
+    do {                                                                       \
+        bool focus_result[] = {ARGS};                                          \
+        for (size_t i = 0; i < FCITX_ARRAY_SIZE(focus_result); i++) {          \
+            assert(ic[i]->hasFocus() == focus_result[i]);                      \
+        }                                                                      \
+    } while (0)
 
 using namespace fcitx;
 
-class TestInputContext : public InputContext
-{
+class TestInputContext : public InputContext {
 public:
-    TestInputContext(InputContextManager &manager) : InputContext(manager) { }
+    TestInputContext(InputContextManager &manager) : InputContext(manager) {}
 
-    void commitString(const std::string &) override { }
-    void deleteSurroundingText(int, unsigned int) override { }
-    void forwardKey(const KeyEvent &) override { }
-    void updatePreedit() override { }
+    void commitString(const std::string &) override {}
+    void deleteSurroundingText(int, unsigned int) override {}
+    void forwardKey(const KeyEvent &) override {}
+    void updatePreedit() override {}
 };
 
-int main()
-{
+int main() {
     InputContextManager manager;
 
     std::vector<std::unique_ptr<InputContext>> ic;
 
-    for (int i = 0; i < 8; i++ ) {
+    for (int i = 0; i < 8; i++) {
         ic.emplace_back(new TestInputContext(manager));
     }
 

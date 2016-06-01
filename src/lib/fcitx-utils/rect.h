@@ -20,18 +20,15 @@
 #ifndef _FCITX_UTILS_RECT_H_
 #define _FCITX_UTILS_RECT_H_
 
-namespace fcitx
-{
-class Rect
-{
+namespace fcitx {
+class Rect {
 public:
-    Rect(int _x1, int _y1, int _x2, int _y2) : x1(_x1), y1(_y1), x2(_x2), y2(_y2) {
-    }
+    Rect(int _x1, int _y1, int _x2, int _y2)
+        : x1(_x1), y1(_y1), x2(_x2), y2(_y2) {}
 
     Rect(const Rect &rect) = default;
     int x1, y1, x2, y2;
 };
-
 };
 
 #endif // _FCITX_UTILS_RECT_H_

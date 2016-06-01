@@ -22,8 +22,7 @@
 #include <stdint.h>
 #include <fcitx-utils/key.h>
 
-namespace fcitx
-{
+namespace fcitx {
 
 enum class ResetReason {
     ChangeByInactivate,
@@ -31,8 +30,7 @@ enum class ResetReason {
     SwitchIM,
 };
 
-enum class EventType : uint32_t
-{
+enum class EventType : uint32_t {
     EventTypeFlag = 0xffff0000,
     UserTypeFlag = 0xffff0000,
     InputContextEventFlag = 0x0001000,
@@ -50,11 +48,14 @@ enum class EventType : uint32_t
      * Controlled by [Output/DontCommitPreeditWhenUnfocus], this option will not
      * work for application switch doesn't support async commit.
      *
-     * So OnClose is called when preedit IS committed (not like CChangeByInactivate,
-     * this behavior cannot be overrided), it give im a chance to choose remember this
+     * So OnClose is called when preedit IS committed (not like
+     * CChangeByInactivate,
+     * this behavior cannot be overrided), it give im a chance to choose
+     * remember this
      * word or not.
      *
-     * Input method need to notice, that the commit is already DONE, do not do extra commit.
+     * Input method need to notice, that the commit is already DONE, do not do
+     * extra commit.
      */
     InputContextFocusOut = InputContextEventFlag | 0x4,
     InputContextKeyEvent = InputContextEventFlag | 0x5,
@@ -70,10 +71,12 @@ enum class EventType : uint32_t
     InputContextSwitchInputMethod = InputContextEventFlag | 0xA,
     /**
      * when user press inactivate key, default behavior is commit raw preedit.
-     * If you want to OVERRIDE this behavior, be sure to implement this function.
+     * If you want to OVERRIDE this behavior, be sure to implement this
+     * function.
      *
      * in some case, your implementation of OnClose should respect the value of
-     * [Output/SendTextWhenSwitchEng], when this value is true, commit something you
+     * [Output/SendTextWhenSwitchEng], when this value is true, commit something
+     * you
      * want.
      */
     InputContextInactivate = InputContextEventFlag | 0xB,
@@ -105,7 +108,6 @@ struct KeyEvent : public Event {
     Key key;
     bool isRelease;
 };
-
 }
 
 #endif // _FCITX_EVENT_H_

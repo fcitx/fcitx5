@@ -26,14 +26,12 @@
 
 using namespace fcitx;
 
-struct Foo : public IntrusiveListNode
-{
-    Foo(int d) : data(d) { }
+struct Foo : public IntrusiveListNode {
+    Foo(int d) : data(d) {}
     int data;
 };
 
-int main()
-{
+int main() {
     IntrusiveList<Foo> list;
     Foo a(1), b(2), c(3), d(4);
     list.push_back(a);
@@ -59,9 +57,14 @@ int main()
     }
     assert(idx == 3);
 
-    static_assert(std::is_same<std::iterator_traits<decltype(list)::iterator>::iterator_category, std::bidirectional_iterator_tag>::value, "Error");
+    static_assert(
+        std::is_same<
+            std::iterator_traits<decltype(list)::iterator>::iterator_category,
+            std::bidirectional_iterator_tag>::value,
+        "Error");
 
-    auto iter = std::find_if(list.begin(), list.end(), [] (Foo &f) {return f.data == 2;});
+    auto iter = std::find_if(list.begin(), list.end(),
+                             [](Foo &f) { return f.data == 2; });
     assert(iter != list.end());
     list.erase(iter);
     assert(list.size() == 2);

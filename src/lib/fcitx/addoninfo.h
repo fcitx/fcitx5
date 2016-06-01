@@ -24,8 +24,7 @@
 #include <fcitx-config/enum.h>
 #include "fcitxcore_export.h"
 
-namespace fcitx
-{
+namespace fcitx {
 
 class AddonInfoPrivate;
 
@@ -45,7 +44,6 @@ private:
     std::unique_ptr<AddonInfoPrivate> d_ptr;
     FCITX_DECLARE_PRIVATE(AddonInfo);
 };
-
 }
 
 #endif // _FCITX_ADDON_H_

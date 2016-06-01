@@ -29,9 +29,9 @@ class InputContextManager;
 class FocusGroupPrivate;
 class InputContext;
 
-class FCITXCORE_EXPORT FocusGroup
-{
+class FCITXCORE_EXPORT FocusGroup {
     friend class InputContextManagerPrivate;
+
 public:
     FocusGroup(InputContextManager &manager);
     virtual ~FocusGroup();
@@ -43,7 +43,6 @@ private:
     std::unique_ptr<FocusGroupPrivate> d_ptr;
     FCITX_DECLARE_PRIVATE(FocusGroup);
 };
-
 }
 
 #endif // _FCITX_FOCUSGROUP_H_

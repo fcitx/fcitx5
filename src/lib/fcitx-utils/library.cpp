@@ -27,28 +27,22 @@
 #include <unistd.h>
 #include "stringutils.h"
 
-namespace fcitx
-{
+namespace fcitx {
 
 class LibraryPrivate {
 public:
-    LibraryPrivate(const std::string &path_) : path(path_), handle(nullptr) { }
+    LibraryPrivate(const std::string &path_) : path(path_), handle(nullptr) {}
     std::string path;
     void *handle;
     std::string error;
 };
 
-Library::Library(const std::string &path) : d_ptr(std::make_unique<LibraryPrivate>(path))
-{
-}
+Library::Library(const std::string &path)
+    : d_ptr(std::make_unique<LibraryPrivate>(path)) {}
 
-Library::~Library()
-{
-    unload();
-}
+Library::~Library() { unload(); }
 
-bool Library::load(Flags<fcitx::LibraryLoadHint> hint)
-{
+bool Library::load(Flags<fcitx::LibraryLoadHint> hint) {
     FCITX_D();
     int flag = 0;
     if (hint & LibraryLoadHint::ResolveAllSymbolsHint) {
@@ -89,8 +83,7 @@ bool Library::unload() {
     return true;
 }
 
-void *Library::resolve(const char *name)
-{
+void *Library::resolve(const char *name) {
     FCITX_D();
     auto result = dlsym(d->handle, name);
     if (!result) {
@@ -99,11 +92,11 @@ void *Library::resolve(const char *name)
     return result;
 }
 
-bool Library::findData(const char* slug, const char* magic, size_t lenOfMagic, std::function<void(const char* data)> parser)
-{
+bool Library::findData(const char *slug, const char *magic, size_t lenOfMagic,
+                       std::function<void(const char *data)> parser) {
     FCITX_D();
     if (d->handle) {
-        void* data = dlsym(d->handle, slug);
+        void *data = dlsym(d->handle, slug);
         if (!data) {
             return false;
         }
@@ -113,7 +106,7 @@ bool Library::findData(const char* slug, const char* magic, size_t lenOfMagic, s
         }
 
         data = static_cast<char *>(data) + lenOfMagic;
-        parser(static_cast<const char*>(data));
+        parser(static_cast<const char *>(data));
         return true;
     }
 
@@ -123,7 +116,7 @@ bool Library::findData(const char* slug, const char* magic, size_t lenOfMagic, s
         return false;
     }
 
-    void* needfree = nullptr;
+    void *needfree = nullptr;
     bool result = false;
     do {
         struct stat statbuf;
@@ -132,8 +125,9 @@ bool Library::findData(const char* slug, const char* magic, size_t lenOfMagic, s
             d->error = strerror(errno);
             break;
         }
-        void* needunmap = nullptr;
-        void* data = needunmap = mmap(0, statbuf.st_size, PROT_READ, MAP_PRIVATE, fd, 0);
+        void *needunmap = nullptr;
+        void *data = needunmap =
+            mmap(0, statbuf.st_size, PROT_READ, MAP_PRIVATE, fd, 0);
         if (!data) {
             data = malloc(statbuf.st_size);
             needfree = data;
@@ -144,7 +138,9 @@ bool Library::findData(const char* slug, const char* magic, size_t lenOfMagic, s
                 break;
             }
         }
-        const char* pos = stringutils::backwardSearch(static_cast<char *>(data), static_cast<size_t>(statbuf.st_size), magic, lenOfMagic, 0);
+        const char *pos = stringutils::backwardSearch(
+            static_cast<char *>(data), static_cast<size_t>(statbuf.st_size),
+            magic, lenOfMagic, 0);
         pos += lenOfMagic;
 
         if (parser) {
@@ -154,7 +150,7 @@ bool Library::findData(const char* slug, const char* magic, size_t lenOfMagic, s
         if (needunmap) {
             munmap(needunmap, statbuf.st_size);
         }
-    } while(0);
+    } while (0);
 
     close(fd);
     free(needfree);
@@ -166,7 +162,4 @@ std::string Library::error() {
     FCITX_D();
     return d->error;
 }
-
-
 }
-

@@ -21,16 +21,14 @@
 #include "focusgroup_p.h"
 #include "inputcontextmanager.h"
 
-namespace fcitx
-{
+namespace fcitx {
 
-FocusGroup::FocusGroup(InputContextManager &manager) : d_ptr(std::make_unique<FocusGroupPrivate>(this, manager))
-{
+FocusGroup::FocusGroup(InputContextManager &manager)
+    : d_ptr(std::make_unique<FocusGroupPrivate>(this, manager)) {
     manager.registerFocusGroup(*this);
 }
 
-FocusGroup::~FocusGroup()
-{
+FocusGroup::~FocusGroup() {
     FCITX_D();
     d->manager.unregisterFocusGroup(*this);
 }
@@ -46,11 +44,8 @@ void FocusGroup::setFocusedInputContext(InputContext *ic) {
     }
 }
 
-InputContext *FocusGroup::focusedInputContext() const
-{
+InputContext *FocusGroup::focusedInputContext() const {
     FCITX_D();
     return d->focus;
 }
-
-
 }

@@ -22,92 +22,68 @@
 #include "dbus.h"
 #include "dbus-message-p.h"
 
-namespace fcitx
-{
+namespace fcitx {
 
-namespace dbus
-{
+namespace dbus {
 
 class ScopedSDBusError {
 public:
-    ScopedSDBusError() {
-        m_error = SD_BUS_ERROR_NULL;
-    }
-    ~ScopedSDBusError() {
-        sd_bus_error_free(&m_error);
-    }
+    ScopedSDBusError() { m_error = SD_BUS_ERROR_NULL; }
+    ~ScopedSDBusError() { sd_bus_error_free(&m_error); }
 
-    sd_bus_error &error() {
-        return m_error;
-    }
+    sd_bus_error &error() { return m_error; }
 
 private:
     sd_bus_error m_error;
 };
 
-Slot::~Slot() {
-}
+Slot::~Slot() {}
 
-class SDSlot : public Slot
-{
+class SDSlot : public Slot {
 public:
-    SDSlot(MessageCallback callback_) : callback(callback_), slot(nullptr) {
-    }
+    SDSlot(MessageCallback callback_) : callback(callback_), slot(nullptr) {}
 
-    ~SDSlot() {
-        sd_bus_slot_unref(slot);
-    }
+    ~SDSlot() { sd_bus_slot_unref(slot); }
 
     MessageCallback callback;
     sd_bus_slot *slot;
 };
 
-class SDSubTreeSlot : public SDSlot
-{
+class SDSubTreeSlot : public SDSlot {
 public:
-    SDSubTreeSlot(MessageCallback callback_, EnumerateObjectCallback enumerator_) :
-        SDSlot(callback_),
-        enumerator(enumerator_),
-        enumSlot(nullptr) {
-    }
+    SDSubTreeSlot(MessageCallback callback_,
+                  EnumerateObjectCallback enumerator_)
+        : SDSlot(callback_), enumerator(enumerator_), enumSlot(nullptr) {}
 
-    ~SDSubTreeSlot() {
-        sd_bus_slot_unref(enumSlot);
-    }
+    ~SDSubTreeSlot() { sd_bus_slot_unref(enumSlot); }
 
     EnumerateObjectCallback enumerator;
     sd_bus_slot *enumSlot;
 };
 
-class BusPrivate
-{
+class BusPrivate {
 public:
-    BusPrivate() : bus(nullptr) {
-    }
+    BusPrivate() : bus(nullptr) {}
 
-    ~BusPrivate() {
-        sd_bus_flush_close_unref(bus);
-    }
+    ~BusPrivate() { sd_bus_flush_close_unref(bus); }
 
     sd_bus *bus;
 };
 
-Bus::Bus(BusType type) : d_ptr(std::make_unique<BusPrivate>())
-{
+Bus::Bus(BusType type) : d_ptr(std::make_unique<BusPrivate>()) {
     decltype(&sd_bus_open) func;
     switch (type) {
-        case BusType::Session:
-            func = sd_bus_open_user;
-        case BusType::System:
-            func = sd_bus_open_system;
-        default:
-            func = sd_bus_open;
+    case BusType::Session:
+        func = sd_bus_open_user;
+    case BusType::System:
+        func = sd_bus_open_system;
+    default:
+        func = sd_bus_open;
     }
     func(&d_ptr->bus);
 }
 
-Bus::Bus(const std::string &address) : d_ptr(std::make_unique<BusPrivate>())
-{
+Bus::Bus(const std::string &address) : d_ptr(std::make_unique<BusPrivate>()) {
     if (sd_bus_new(&d_ptr->bus) < 0) {
         goto fail;
     }
@@ -125,9 +101,7 @@ fail:
     d_ptr->bus = nullptr;
 }
 
-Bus::~Bus()
-{
-}
+Bus::~Bus() {}
 
 Bus::Bus(Bus &&other) : d_ptr(std::make_unique<BusPrivate>()) {
     using std::swap;
@@ -139,12 +113,13 @@ bool Bus::isOpen() const {
     return d->bus && sd_bus_is_open(d->bus) > 0;
 }
 
-Message Bus::createMethodCall(const char *destination, const char *path, const char *interface, const char *member)
-{
+Message Bus::createMethodCall(const char *destination, const char *path,
+                              const char *interface, const char *member) {
     FCITX_D();
     Message msg;
     auto msgD = msg.d_func();
-    if (sd_bus_message_new_method_call(d->bus, &msgD->msg, destination, path, interface, member) < 0) {
+    if (sd_bus_message_new_method_call(d->bus, &msgD->msg, destination, path,
+                                       interface, member) < 0) {
         msgD->type = MessageType::Invalid;
     } else {
         msgD->type = MessageType::MethodCall;
@@ -152,12 +127,13 @@ Message Bus::createMethodCall(const char *destination, const char *path, const c
     return msg;
 }
 
-Message Bus::createSignal(const char *path, const char *interface, const char *member)
-{
+Message Bus::createSignal(const char *path, const char *interface,
+                          const char *member) {
     FCITX_D();
     Message msg;
     auto msgD = msg.d_func();
-    if (sd_bus_message_new_signal(d->bus, &msgD->msg, path, interface, member) < 0) {
+    if (sd_bus_message_new_signal(d->bus, &msgD->msg, path, interface, member) <
+        0) {
         msgD->type = MessageType::Invalid;
     } else {
         msgD->type = MessageType::Signal;
@@ -165,22 +141,19 @@ Message Bus::createSignal(const char *path, const char *interface, const char *m
     return msg;
 }
 
-void Bus::attachEventLoop(EventLoop *loop)
-{
+void Bus::attachEventLoop(EventLoop *loop) {
     FCITX_D();
     sd_event *event = static_cast<sd_event *>(loop->nativeHandle());
     sd_bus_attach_event(d->bus, event, 0);
 }
 
-void Bus::detachEventLoop()
-{
+void Bus::detachEventLoop() {
     FCITX_D();
     sd_bus_detach_event(d->bus);
 }
 
-int SDMessageCallback(sd_bus_message *m, void *userdata, sd_bus_error *)
-{
-    auto slot = static_cast<SDSlot*>(userdata);
+int SDMessageCallback(sd_bus_message *m, void *userdata, sd_bus_error *) {
+    auto slot = static_cast<SDSlot *>(userdata);
     try {
         auto result = slot->callback(MessagePrivate::fromSDBusMessage(m));
         return result ? 0 : 1;
@@ -191,16 +164,17 @@ int SDMessageCallback(sd_bus_message *m, void *userdata, sd_bus_error *)
     return 1;
 }
 
-int SDEnumeratorCallback(sd_bus *, const char *prefix, void *userdata, char ***ret_nodes, sd_bus_error *)
-{
-    auto slot = static_cast<SDSubTreeSlot*>(userdata);
+int SDEnumeratorCallback(sd_bus *, const char *prefix, void *userdata,
+                         char ***ret_nodes, sd_bus_error *) {
+    auto slot = static_cast<SDSubTreeSlot *>(userdata);
     try {
         auto result = slot->enumerator(prefix);
-        auto ret = static_cast<char **>(malloc(sizeof(char *) * (result.size() + 1)));
+        auto ret =
+            static_cast<char **>(malloc(sizeof(char *) * (result.size() + 1)));
         if (!ret) {
             return -ENOMEM;
         }
-        for (size_t i = 0; i < result.size(); i ++) {
+        for (size_t i = 0; i < result.size(); i++) {
             ret[i] = strdup(result[i].c_str());
             if (!ret[i]) {
                 int i = 0;
@@ -221,13 +195,12 @@ int SDEnumeratorCallback(sd_bus *, const char *prefix, void *userdata, char ***r
     return 1;
 }
 
-
-Slot *Bus::addMatch(const std::string &match, MessageCallback callback)
-{
+Slot *Bus::addMatch(const std::string &match, MessageCallback callback) {
     FCITX_D();
     auto slot = std::make_unique<SDSlot>(callback);
     sd_bus_slot *sdSlot;
-    int r = sd_bus_add_match(d->bus, &sdSlot, match.c_str(), SDMessageCallback, slot.get());
+    int r = sd_bus_add_match(d->bus, &sdSlot, match.c_str(), SDMessageCallback,
+                             slot.get());
     if (r < 0) {
         return nullptr;
     }
@@ -237,8 +210,7 @@ Slot *Bus::addMatch(const std::string &match, MessageCallback callback)
     return slot.release();
 }
 
-Slot *Bus::addFilter(MessageCallback callback)
-{
+Slot *Bus::addFilter(MessageCallback callback) {
     FCITX_D();
     auto slot = std::make_unique<SDSlot>(callback);
     sd_bus_slot *sdSlot;
@@ -252,12 +224,12 @@ Slot *Bus::addFilter(MessageCallback callback)
     return slot.release();
 }
 
-Slot *Bus::addObject(const std::string &path, MessageCallback callback)
-{
+Slot *Bus::addObject(const std::string &path, MessageCallback callback) {
     FCITX_D();
     auto slot = std::make_unique<SDSlot>(callback);
     sd_bus_slot *sdSlot;
-    int r = sd_bus_add_object(d->bus, &sdSlot, path.c_str(), SDMessageCallback, slot.get());
+    int r = sd_bus_add_object(d->bus, &sdSlot, path.c_str(), SDMessageCallback,
+                              slot.get());
     if (r < 0) {
         return nullptr;
     }
@@ -267,17 +239,18 @@ Slot *Bus::addObject(const std::string &path, MessageCallback callback)
     return slot.release();
 }
 
-
-Slot *Bus::addObjectSubTree(const std::string &path, MessageCallback callback, EnumerateObjectCallback enumerator)
-{
+Slot *Bus::addObjectSubTree(const std::string &path, MessageCallback callback,
+                            EnumerateObjectCallback enumerator) {
     FCITX_D();
     auto slot = std::make_unique<SDSubTreeSlot>(callback, enumerator);
     sd_bus_slot *sdSlot, *sdEnumSlot;
-    int r = sd_bus_add_node_enumerator(d->bus, &sdSlot, path.c_str(), SDEnumeratorCallback, slot.get());
+    int r = sd_bus_add_node_enumerator(d->bus, &sdSlot, path.c_str(),
+                                       SDEnumeratorCallback, slot.get());
     if (r < 0) {
         return nullptr;
     }
-    r = sd_bus_add_fallback(d->bus, &sdEnumSlot, path.c_str(), SDMessageCallback, slot.get());
+    r = sd_bus_add_fallback(d->bus, &sdEnumSlot, path.c_str(),
+                            SDMessageCallback, slot.get());
 
     slot->slot = sdSlot;
     slot->enumSlot = sdEnumSlot;
@@ -285,9 +258,7 @@ Slot *Bus::addObjectSubTree(const std::string &path, MessageCallback callback, E
     return slot.release();
 }
 
-
-void *Bus::nativeHandle() const
-{
+void *Bus::nativeHandle() const {
     FCITX_D();
     return d->bus;
 }
@@ -301,19 +272,20 @@ Message Bus::call(Message msg, uint64_t timeout) {
     FCITX_D();
     ScopedSDBusError error;
     sd_bus_message *reply = nullptr;
-    int r = sd_bus_call(d->bus, msg.d_func()->msg, timeout, &error.error(), &reply);
+    int r =
+        sd_bus_call(d->bus, msg.d_func()->msg, timeout, &error.error(), &reply);
     if (r < 0) {
         return msg.createError(error.error().name, error.error().message);
     }
     return MessagePrivate::fromSDBusMessage(reply, false);
 }
 
-Slot *Bus::callAsync(Message msg, uint64_t timeout, MessageCallback callback)
-{
+Slot *Bus::callAsync(Message msg, uint64_t timeout, MessageCallback callback) {
     FCITX_D();
     auto slot = std::make_unique<SDSlot>(callback);
     sd_bus_slot *sdSlot = nullptr;
-    int r = sd_bus_call_async(d->bus, &sdSlot, msg.d_func()->msg, SDMessageCallback, slot.get(), timeout);
+    int r = sd_bus_call_async(d->bus, &sdSlot, msg.d_func()->msg,
+                              SDMessageCallback, slot.get(), timeout);
     if (r < 0) {
         return nullptr;
     }
@@ -322,7 +294,5 @@ Slot *Bus::callAsync(Message msg, uint64_t timeout, MessageCallback callback)
 
     return slot.release();
 }
-
 }
-
 }

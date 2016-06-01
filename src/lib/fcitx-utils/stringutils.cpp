@@ -8,8 +8,7 @@
 namespace fcitx {
 namespace stringutils {
 
-bool startsWith(const std::string &str, const std::string &prefix)
-{
+bool startsWith(const std::string &str, const std::string &prefix) {
     if (str.size() < prefix.size()) {
         return false;
     }
@@ -17,13 +16,13 @@ bool startsWith(const std::string &str, const std::string &prefix)
     return (str.compare(0, prefix.size(), prefix) == 0);
 }
 
-bool endsWith(const std::string &str, const std::string &suffix)
-{
+bool endsWith(const std::string &str, const std::string &suffix) {
     if (str.size() < suffix.size()) {
         return false;
     }
 
-    return (str.compare(str.size() - suffix.size(), suffix.size(), suffix) == 0);
+    return (str.compare(str.size() - suffix.size(), suffix.size(), suffix) ==
+            0);
 }
 
 std::pair<std::string::size_type, std::string::size_type>
@@ -136,13 +135,13 @@ std::string replaceAll(std::string str, const std::string &before,
     return newString;
 }
 
-#define REHASH(a) \
-    if (ol_minus_1 < sizeof(uint) * CHAR_BIT) \
-        hashHaystack -= (a) << ol_minus_1; \
+#define REHASH(a)                                                              \
+    if (ol_minus_1 < sizeof(uint) * CHAR_BIT)                                  \
+        hashHaystack -= (a) << ol_minus_1;                                     \
     hashHaystack <<= 1
 
-const char* backwardSearch(const char* haystack, size_t l, const char* needle, size_t ol, size_t from)
-{
+const char *backwardSearch(const char *haystack, size_t l, const char *needle,
+                           size_t ol, size_t from) {
     if (ol > l) {
         return nullptr;
     }
@@ -160,8 +159,8 @@ const char* backwardSearch(const char* haystack, size_t l, const char* needle, s
     uint hashNeedle = 0, hashHaystack = 0;
     size_t idx;
     for (idx = 0; idx < ol; ++idx) {
-        hashNeedle = ((hashNeedle<<1) + *(n-idx));
-        hashHaystack = ((hashHaystack<<1) + *(h-idx));
+        hashNeedle = ((hashNeedle << 1) + *(n - idx));
+        hashHaystack = ((hashHaystack << 1) + *(h - idx));
     }
     hashHaystack -= *haystack;
     while (haystack >= end) {
@@ -174,20 +173,20 @@ const char* backwardSearch(const char* haystack, size_t l, const char* needle, s
     return nullptr;
 }
 
-char* backwardSearch(char* haystack, size_t l, const char* needle, size_t ol, size_t from)
-{
+char *backwardSearch(char *haystack, size_t l, const char *needle, size_t ol,
+                     size_t from) {
     return const_cast<char *>(backwardSearch(haystack, l, needle, ol, from));
 }
 
-size_t backwardSearch(const std::string &haystack, const std::string &needle, size_t from)
-{
+size_t backwardSearch(const std::string &haystack, const std::string &needle,
+                      size_t from) {
     auto cstr = haystack.c_str();
-    auto result = backwardSearch(cstr, haystack.size(), needle.c_str(), needle.size(), from);
+    auto result = backwardSearch(cstr, haystack.size(), needle.c_str(),
+                                 needle.size(), from);
     if (result) {
         return result - cstr;
     }
     return std::string::npos;
 }
-
 }
 }

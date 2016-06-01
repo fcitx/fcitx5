@@ -22,8 +22,7 @@
 
 using namespace fcitx;
 
-int main()
-{
+int main() {
     SurroundingText surroundingText;
     assert(!surroundingText.isValid());
     surroundingText.setText("abcd", 1, 1);

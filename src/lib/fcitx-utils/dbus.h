@@ -25,28 +25,22 @@
 #include <fcitx-utils/event.h>
 #include "dbus-message.h"
 
-namespace fcitx
-{
+namespace fcitx {
 
-namespace dbus
-{
+namespace dbus {
 
 class FCITXUTILS_EXPORT Slot {
 public:
     virtual ~Slot();
 };
 
-enum class BusType
-{
-    Default,
-    Session,
-    System
-};
+enum class BusType { Default, Session, System };
 
 class BusPrivate;
 
 typedef std::function<bool(Message message)> MessageCallback;
-typedef std::function<std::vector<std::string> (const std::string &path)> EnumerateObjectCallback;
+typedef std::function<std::vector<std::string>(const std::string &path)>
+    EnumerateObjectCallback;
 class FCITXUTILS_EXPORT Bus {
 public:
     Bus(const std::string &address);
@@ -56,32 +50,34 @@ public:
     Bus(Bus &&other);
 
     bool isOpen() const;
-    
+
     void attachEventLoop(EventLoop *loop);
     void detachEventLoop();
 
     Slot *addMatch(const std::string &match, MessageCallback callback);
     Slot *addFilter(MessageCallback callback);
     Slot *addObject(const std::string &path, MessageCallback callback);
-    Slot *addObjectSubTree(const std::string &prefix, MessageCallback callback, EnumerateObjectCallback enumerator);
-    
+    Slot *addObjectSubTree(const std::string &prefix, MessageCallback callback,
+                           EnumerateObjectCallback enumerator);
+
     void emitSignal();
-    
-    Message createSignal(const char *path, const char *interface, const char *member);
-    Message createMethodCall(const char *destination, const char *path, const char *interface, const char *member);
+
+    Message createSignal(const char *path, const char *interface,
+                         const char *member);
+    Message createMethodCall(const char *destination, const char *path,
+                             const char *interface, const char *member);
 
     void send(Message msg);
     Message call(Message msg, uint64_t usec);
     Slot *callAsync(Message msg, uint64_t usec, MessageCallback callback);
 
     void *nativeHandle() const;
+
 private:
     std::unique_ptr<BusPrivate> d_ptr;
     FCITX_DECLARE_PRIVATE(Bus);
 };
-
 }
-
 }
 
 #endif // _FCITX_UTILS_DBUS_H_

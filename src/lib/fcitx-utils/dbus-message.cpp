@@ -24,16 +24,13 @@
 #include <unistd.h>
 #include <atomic>
 
-namespace fcitx
-{
+namespace fcitx {
 
-namespace dbus
-{
+namespace dbus {
 
-class UnixFDPrivate
-{
+class UnixFDPrivate {
 public:
-    UnixFDPrivate() : m_fd(-1) { }
+    UnixFDPrivate() : m_fd(-1) {}
     ~UnixFDPrivate() {
         if (m_fd != -1) {
             int ret;
@@ -45,43 +42,25 @@ public:
     std::atomic_int m_fd;
 };
 
-UnixFD::UnixFD(int fd)
-{
-    set(fd);
-}
+UnixFD::UnixFD(int fd) { set(fd); }
 
-UnixFD::UnixFD(const UnixFD & other) : d(other.d)
-{
-}
+UnixFD::UnixFD(const UnixFD &other) : d(other.d) {}
 
-UnixFD::UnixFD(UnixFD &&other) : d(std::move(other.d))
-{
-}
+UnixFD::UnixFD(UnixFD &&other) : d(std::move(other.d)) {}
 
-UnixFD::~UnixFD()
-{
-}
+UnixFD::~UnixFD() {}
 
-UnixFD & UnixFD::operator=(UnixFD other)
-{
+UnixFD &UnixFD::operator=(UnixFD other) {
     using std::swap;
     swap(d, other.d);
     return *this;
 }
 
+bool UnixFD::isValid() const { return d && d->m_fd != -1; }
 
-bool UnixFD::isValid() const
-{
-    return d && d->m_fd != -1;
-}
+int UnixFD::fd() const { return d ? d->m_fd.load() : -1; }
 
-int UnixFD::fd() const
-{
-    return d ? d->m_fd.load() : -1;
-}
-
-void UnixFD::give(int fd)
-{
+void UnixFD::give(int fd) {
     if (fd == -1) {
         d.reset();
     } else {
@@ -93,8 +72,7 @@ void UnixFD::give(int fd)
     }
 }
 
-void UnixFD::set(int fd)
-{
+void UnixFD::set(int fd) {
     if (fd == -1) {
         d.reset();
     } else {
@@ -112,27 +90,22 @@ void UnixFD::set(int fd)
     }
 }
 
-int UnixFD::release()
-{
+int UnixFD::release() {
     int fd = d->m_fd.exchange(-1);
     d.reset();
     return fd;
 }
 
+Message::Message() : d_ptr(std::make_unique<MessagePrivate>()) {}
 
-Message::Message() : d_ptr(std::make_unique<MessagePrivate>()) {
-}
-
-Message::~Message() {
-}
+Message::~Message() {}
 
 Message::Message(Message &&other) : Message() {
     using std::swap;
     swap(d_ptr, other.d_ptr);
 }
 
-Message Message::createReply() const
-{
+Message Message::createReply() const {
     FCITX_D();
     Message msg;
     auto msgD = msg.d_func();
@@ -144,8 +117,7 @@ Message Message::createReply() const
     return msg;
 }
 
-Message Message::createError(const char *name, const char *message) const
-{
+Message Message::createError(const char *name, const char *message) const {
     FCITX_D();
     Message msg;
     sd_bus_error error = SD_BUS_ERROR_MAKE_CONST(name, message);
@@ -183,16 +155,14 @@ void *Message::nativeHandle() const {
     return d->msg;
 }
 
-Message & Message::operator<<(bool b)
-{
+Message &Message::operator<<(bool b) {
     FCITX_D();
     int i = b ? 1 : 0;
     sd_bus_message_append_basic(d->msg, SD_BUS_TYPE_BOOLEAN, &i);
     return *this;
 }
 
-Message & Message::operator>>(bool &b)
-{
+Message &Message::operator>>(bool &b) {
     FCITX_D();
     int i = 0;
     sd_bus_message_read_basic(d->msg, SD_BUS_TYPE_BOOLEAN, &i);
@@ -200,19 +170,17 @@ Message & Message::operator>>(bool &b)
     return *this;
 }
 
-#define _MARSHALL_FUNC(TYPE, TYPE2) \
-Message & Message::operator<<(TYPE v) \
-{ \
-    FCITX_D(); \
-    sd_bus_message_append_basic(d->msg, SD_BUS_TYPE_##TYPE2, &v); \
-    return *this; \
-} \
-Message & Message::operator>>(TYPE &v) \
-{ \
-    FCITX_D(); \
-    sd_bus_message_read_basic(d->msg, SD_BUS_TYPE_BOOLEAN, &v); \
-    return *this; \
-}
+#define _MARSHALL_FUNC(TYPE, TYPE2)                                            \
+    Message &Message::operator<<(TYPE v) {                                     \
+        FCITX_D();                                                             \
+        sd_bus_message_append_basic(d->msg, SD_BUS_TYPE_##TYPE2, &v);          \
+        return *this;                                                          \
+    }                                                                          \
+    Message &Message::operator>>(TYPE &v) {                                    \
+        FCITX_D();                                                             \
+        sd_bus_message_read_basic(d->msg, SD_BUS_TYPE_BOOLEAN, &v);            \
+        return *this;                                                          \
+    }
 
 _MARSHALL_FUNC(uint8_t, BYTE)
 _MARSHALL_FUNC(int16_t, INT16)
@@ -223,16 +191,13 @@ _MARSHALL_FUNC(int64_t, INT64)
 _MARSHALL_FUNC(uint64_t, UINT64)
 _MARSHALL_FUNC(double, DOUBLE)
 
-
-Message & Message::operator<<(const std::string &s)
-{
+Message &Message::operator<<(const std::string &s) {
     FCITX_D();
     sd_bus_message_append_basic(d->msg, SD_BUS_TYPE_STRING, s.c_str());
     return *this;
 }
 
-Message & Message::operator>>(std::string &s)
-{
+Message &Message::operator>>(std::string &s) {
     FCITX_D();
     char *p = nullptr;
     int r = sd_bus_message_read_basic(d->msg, SD_BUS_TYPE_STRING, &p);
@@ -243,16 +208,14 @@ Message & Message::operator>>(std::string &s)
     return *this;
 }
 
-Message & Message::operator<<(const ObjectPath& o)
-{
+Message &Message::operator<<(const ObjectPath &o) {
     FCITX_D();
-    sd_bus_message_append_basic(d->msg, SD_BUS_TYPE_OBJECT_PATH, o.path().c_str());
+    sd_bus_message_append_basic(d->msg, SD_BUS_TYPE_OBJECT_PATH,
+                                o.path().c_str());
     return *this;
 }
 
-
-Message & Message::operator>>(ObjectPath& o)
-{
+Message &Message::operator>>(ObjectPath &o) {
     FCITX_D();
     char *p = nullptr;
     int r = sd_bus_message_read_basic(d->msg, SD_BUS_TYPE_OBJECT_PATH, &p);
@@ -263,16 +226,14 @@ Message & Message::operator>>(ObjectPath& o)
     return *this;
 }
 
-Message & Message::operator<<(const Signature& s)
-{
+Message &Message::operator<<(const Signature &s) {
     FCITX_D();
-    sd_bus_message_append_basic(d->msg, SD_BUS_TYPE_OBJECT_PATH, s.sig().c_str());
+    sd_bus_message_append_basic(d->msg, SD_BUS_TYPE_OBJECT_PATH,
+                                s.sig().c_str());
     return *this;
 }
 
-
-Message & Message::operator>>(Signature& s)
-{
+Message &Message::operator>>(Signature &s) {
     FCITX_D();
     char *p = nullptr;
     int r = sd_bus_message_read_basic(d->msg, SD_BUS_TYPE_OBJECT_PATH, &p);
@@ -283,16 +244,14 @@ Message & Message::operator>>(Signature& s)
     return *this;
 }
 
-Message & Message::operator<<(const UnixFD& fd)
-{
+Message &Message::operator<<(const UnixFD &fd) {
     FCITX_D();
     int f = fd.fd();
     sd_bus_message_append_basic(d->msg, SD_BUS_TYPE_UNIX_FD, &f);
     return *this;
 }
 
-Message & Message::operator>>(UnixFD& fd)
-{
+Message &Message::operator>>(UnixFD &fd) {
     FCITX_D();
     int f = -1;
     int r = sd_bus_message_read_basic(d->msg, SD_BUS_TYPE_OBJECT_PATH, &f);
@@ -303,67 +262,60 @@ Message & Message::operator>>(UnixFD& fd)
     return *this;
 }
 
-Message & Message::operator<<(const Container& c)
-{
+Message &Message::operator<<(const Container &c) {
     FCITX_D();
 
     char t = '\0';
     switch (c.type()) {
-        case Container::Type::Array:
-            t = SD_BUS_TYPE_ARRAY;
-            break;
-        case Container::Type::DictEntry:
-            t = SD_BUS_TYPE_STRUCT;
-            break;
-        case Container::Type::Struct:
-            t = SD_BUS_TYPE_DICT_ENTRY;
-            break;
-        default:
-            throw std::runtime_error("invalid container type");
+    case Container::Type::Array:
+        t = SD_BUS_TYPE_ARRAY;
+        break;
+    case Container::Type::DictEntry:
+        t = SD_BUS_TYPE_STRUCT;
+        break;
+    case Container::Type::Struct:
+        t = SD_BUS_TYPE_DICT_ENTRY;
+        break;
+    default:
+        throw std::runtime_error("invalid container type");
     }
 
     sd_bus_message_open_container(d->msg, t, c.content().sig().c_str());
     return *this;
 }
 
-Message & Message::operator>>(const Container& c)
-{
+Message &Message::operator>>(const Container &c) {
     FCITX_D();
 
     char t = '\0';
     switch (c.type()) {
-        case Container::Type::Array:
-            t = SD_BUS_TYPE_ARRAY;
-            break;
-        case Container::Type::DictEntry:
-            t = SD_BUS_TYPE_STRUCT;
-            break;
-        case Container::Type::Struct:
-            t = SD_BUS_TYPE_DICT_ENTRY;
-            break;
-        default:
-            throw std::runtime_error("invalid container type");
+    case Container::Type::Array:
+        t = SD_BUS_TYPE_ARRAY;
+        break;
+    case Container::Type::DictEntry:
+        t = SD_BUS_TYPE_STRUCT;
+        break;
+    case Container::Type::Struct:
+        t = SD_BUS_TYPE_DICT_ENTRY;
+        break;
+    default:
+        throw std::runtime_error("invalid container type");
     }
 
     sd_bus_message_enter_container(d->msg, t, c.content().sig().c_str());
     return *this;
 }
 
-Message & Message::operator<<(const ContainerEnd&)
-{
+Message &Message::operator<<(const ContainerEnd &) {
     FCITX_D();
     sd_bus_message_close_container(d->msg);
     return *this;
 }
 
-Message & Message::operator>>(const ContainerEnd&)
-{
+Message &Message::operator>>(const ContainerEnd &) {
     FCITX_D();
     sd_bus_message_exit_container(d->msg);
     return *this;
 }
-
-
-
 }
 }

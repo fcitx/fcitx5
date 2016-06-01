@@ -26,13 +26,9 @@
 using namespace fcitx::dbus;
 using namespace fcitx;
 
-bool fd_is_valid(int fd)
-{
-    return fcntl(fd, F_GETFD) != -1 || errno != EBADF;
-}
+bool fd_is_valid(int fd) { return fcntl(fd, F_GETFD) != -1 || errno != EBADF; }
 
-int main()
-{
+int main() {
     char fname[] = "XXXXXX";
     int f = mkstemp(fname);
     assert(f != -1);
@@ -76,4 +72,3 @@ int main()
     unlink(fname);
     return 0;
 }
-

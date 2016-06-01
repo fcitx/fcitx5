@@ -22,10 +22,8 @@
 #include "fcitxutils_export.h"
 #include <string>
 
-namespace fcitx
-{
-namespace fs
-{
+namespace fcitx {
+namespace fs {
 
 FCITXUTILS_EXPORT bool isdir(const std::string &path);
 FCITXUTILS_EXPORT bool isreg(const std::string &path);
@@ -33,7 +31,6 @@ FCITXUTILS_EXPORT bool islnk(const std::string &path);
 
 FCITXUTILS_EXPORT std::string cleanPath(const std::string &path);
 FCITXUTILS_EXPORT bool makePath(const std::string &path);
-
 }
 }
 

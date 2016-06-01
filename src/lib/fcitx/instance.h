@@ -23,13 +23,11 @@
 #include <fcitx-utils/macros.h>
 #include "fcitxcore_export.h"
 
-namespace fcitx
-{
+namespace fcitx {
 
 class InstancePrivate;
 
-class FCITXCORE_EXPORT Instance
-{
+class FCITXCORE_EXPORT Instance {
 public:
     Instance();
     ~Instance();
@@ -38,7 +36,6 @@ private:
     std::unique_ptr<InstancePrivate> d_ptr;
     FCITX_DECLARE_PRIVATE(Instance);
 };
-
 };
 
 #endif // _FCITX_INSTANCE_H_

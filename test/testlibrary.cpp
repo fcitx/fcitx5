@@ -31,20 +31,12 @@ FCITXUTILS_EXPORT
 char magic_test[] = MAGIC DATA;
 
 FCITXUTILS_EXPORT
-int func()
-{
-    return 0;
+int func() { return 0; }
 }
 
-}
+void parser(const char *data) { assert(strcmp(data, DATA) == 0); }
 
-void parser(const char* data)
-{
-    assert(strcmp(data, DATA) == 0);
-}
-
-int main()
-{
+int main() {
     fcitx::Library lib("");
     assert(lib.load(fcitx::LibraryLoadHint::DefaultHint));
     assert(func == lib.resolve("func"));
@@ -54,6 +46,3 @@ int main()
 
     return 0;
 }
-
-
-

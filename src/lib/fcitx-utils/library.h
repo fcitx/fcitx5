@@ -19,17 +19,14 @@
 #ifndef _FCITX_UTILS_LIBRARY_H_
 #define _FCITX_UTILS_LIBRARY_H_
 
-
 #include <memory>
 #include "macros.h"
 #include "flags.h"
 #include "fcitxutils_export.h"
 
-namespace fcitx
-{
+namespace fcitx {
 
-enum class LibraryLoadHint
-{
+enum class LibraryLoadHint {
     NoHint = 0,
     ResolveAllSymbolsHint = 0x1,
     PreventUnloadHint = 0x2,
@@ -39,23 +36,22 @@ enum class LibraryLoadHint
 
 class LibraryPrivate;
 
-class FCITXUTILS_EXPORT Library
-{
+class FCITXUTILS_EXPORT Library {
 public:
     Library(const std::string &path);
     virtual ~Library();
 
     bool load(Flags<LibraryLoadHint> hint);
     bool unload();
-    void *resolve(const char* name);
-    bool findData(const char *slug, const char *magic, size_t lenOfMagic, std::function<void(const char* data)> library);
+    void *resolve(const char *name);
+    bool findData(const char *slug, const char *magic, size_t lenOfMagic,
+                  std::function<void(const char *data)> library);
     std::string error();
 
 private:
     std::unique_ptr<LibraryPrivate> d_ptr;
     FCITX_DECLARE_PRIVATE(Library);
 };
-
 }
 
 #endif // _FCITX_UTILS_LIBRARY_H_

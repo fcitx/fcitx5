@@ -22,24 +22,22 @@
 #include "fcitx-utils/intrusivelist.h"
 #include "focusgroup.h"
 
-namespace fcitx
-{
+namespace fcitx {
 
 class InputContextManager;
 
-class FocusGroupPrivate
-{
+class FocusGroupPrivate {
 public:
-    FocusGroupPrivate(FocusGroup* q, InputContextManager &manager_) : q_ptr(q), manager(manager_) { }
+    FocusGroupPrivate(FocusGroup *q, InputContextManager &manager_)
+        : q_ptr(q), manager(manager_) {}
 
-    FocusGroup* q_ptr;
+    FocusGroup *q_ptr;
     InputContextManager &manager;
     InputContext *focus;
 
     IntrusiveListNode listNode;
     FCITX_DECLARE_PUBLIC(FocusGroup);
 };
-
 }
 
 #endif // _FCITX_FOCUSGROUP_P_H_

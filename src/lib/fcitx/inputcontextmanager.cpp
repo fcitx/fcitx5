@@ -24,119 +24,104 @@
 #include "focusgroup_p.h"
 #include <fcitx-utils/intrusivelist.h>
 
-
-template<class Parent, class Member>
-inline std::ptrdiff_t offset_from_pointer_to_member(const Member Parent::* ptr_to_member)
-{
-    const Parent * const parent = 0;
-    const char *const member = static_cast<const char*>(static_cast<const void*>(&(parent->*ptr_to_member)));
-    return std::ptrdiff_t(member - static_cast<const char*>(static_cast<const void*>(parent)));
+template <class Parent, class Member>
+inline std::ptrdiff_t
+offset_from_pointer_to_member(const Member Parent::*ptr_to_member) {
+    const Parent *const parent = 0;
+    const char *const member = static_cast<const char *>(
+        static_cast<const void *>(&(parent->*ptr_to_member)));
+    return std::ptrdiff_t(
+        member - static_cast<const char *>(static_cast<const void *>(parent)));
 }
 
-template<class Parent, class Member>
-inline Parent *parent_from_member(Member *member, const Member Parent::* ptr_to_member)
-{
-   return static_cast<Parent*>
-      (
-         static_cast<void*>
-         (
-            static_cast<char*>(static_cast<void*>(member)) - offset_from_pointer_to_member(ptr_to_member)
-         )
-      );
+template <class Parent, class Member>
+inline Parent *parent_from_member(Member *member,
+                                  const Member Parent::*ptr_to_member) {
+    return static_cast<Parent *>(
+        static_cast<void *>(static_cast<char *>(static_cast<void *>(member)) -
+                            offset_from_pointer_to_member(ptr_to_member)));
 }
 
-namespace fcitx
-{
+namespace fcitx {
 
-struct InputContextListHelper
-{
-    static IntrusiveListNode &toNode (InputContext &ic) noexcept;
-    static InputContext &toValue (IntrusiveListNode &node) noexcept;
+struct InputContextListHelper {
+    static IntrusiveListNode &toNode(InputContext &ic) noexcept;
+    static InputContext &toValue(IntrusiveListNode &node) noexcept;
 };
 
-struct FocusGroupListHelper
-{
-    static IntrusiveListNode &toNode (FocusGroup &group) noexcept;
-    static FocusGroup &toValue (IntrusiveListNode &node) noexcept;
+struct FocusGroupListHelper {
+    static IntrusiveListNode &toNode(FocusGroup &group) noexcept;
+    static FocusGroup &toValue(IntrusiveListNode &node) noexcept;
 };
 
-class InputContextManagerPrivate
-{
+class InputContextManagerPrivate {
 public:
-    InputContextManagerPrivate(InputContextManager *) : globalFocusGroup(nullptr) {
-    }
+    InputContextManagerPrivate(InputContextManager *)
+        : globalFocusGroup(nullptr) {}
 
-    static InputContextPrivate *toInputContextPrivate(InputContext &ic) { return ic.d_func(); }
-    static FocusGroupPrivate *toFocusGroupPrivate(FocusGroup &group) { return group.d_func(); }
+    static InputContextPrivate *toInputContextPrivate(InputContext &ic) {
+        return ic.d_func();
+    }
+    static FocusGroupPrivate *toFocusGroupPrivate(FocusGroup &group) {
+        return group.d_func();
+    }
 
     IntrusiveList<InputContext, InputContextListHelper> inputContexts;
     IntrusiveList<FocusGroup, FocusGroupListHelper> groups;
     FocusGroup *globalFocusGroup;
 };
 
-IntrusiveListNode& InputContextListHelper::toNode (InputContext &ic) noexcept
-{
+IntrusiveListNode &InputContextListHelper::toNode(InputContext &ic) noexcept {
     return InputContextManagerPrivate::toInputContextPrivate(ic)->listNode;
 }
 
-InputContext& InputContextListHelper::toValue (IntrusiveListNode &node) noexcept
-{
+InputContext &
+InputContextListHelper::toValue(IntrusiveListNode &node) noexcept {
     return *parent_from_member(&node, &InputContextPrivate::listNode)->q_func();
 }
 
-IntrusiveListNode& FocusGroupListHelper::toNode (FocusGroup &group) noexcept
-{
+IntrusiveListNode &FocusGroupListHelper::toNode(FocusGroup &group) noexcept {
     return InputContextManagerPrivate::toFocusGroupPrivate(group)->listNode;
 }
 
-FocusGroup& FocusGroupListHelper::toValue (IntrusiveListNode &node) noexcept
-{
+FocusGroup &FocusGroupListHelper::toValue(IntrusiveListNode &node) noexcept {
     return *parent_from_member(&node, &FocusGroupPrivate::listNode)->q_func();
 }
 
-
-InputContextManager::InputContextManager() : d_ptr(std::make_unique<InputContextManagerPrivate>(this))
-{
+InputContextManager::InputContextManager()
+    : d_ptr(std::make_unique<InputContextManagerPrivate>(this)) {
     FCITX_D();
     d->globalFocusGroup = new FocusGroup(*this);
 }
 
-InputContextManager::~InputContextManager()
-{
-}
+InputContextManager::~InputContextManager() {}
 
-FocusGroup &InputContextManager::globalFocusGroup()
-{
+FocusGroup &InputContextManager::globalFocusGroup() {
     FCITX_D();
     return *d->globalFocusGroup;
 }
 
-void InputContextManager::registerInputContext(InputContext& inputContext)
-{
+void InputContextManager::registerInputContext(InputContext &inputContext) {
     FCITX_D();
     d->inputContexts.push_back(inputContext);
 }
 
-void InputContextManager::unregisterInputContext(InputContext& inputContext)
-{
+void InputContextManager::unregisterInputContext(InputContext &inputContext) {
     FCITX_D();
     d->inputContexts.erase(d->inputContexts.iterator_to(inputContext));
 }
 
-void InputContextManager::registerFocusGroup(fcitx::FocusGroup& group)
-{
+void InputContextManager::registerFocusGroup(fcitx::FocusGroup &group) {
     FCITX_D();
     d->groups.push_back(group);
 }
 
-void InputContextManager::unregisterFocusGroup(fcitx::FocusGroup& group)
-{
+void InputContextManager::unregisterFocusGroup(fcitx::FocusGroup &group) {
     FCITX_D();
     d->groups.erase(d->groups.iterator_to(group));
 }
 
-void InputContextManager::focusOutNonGlobal()
-{
+void InputContextManager::focusOutNonGlobal() {
     FCITX_D();
     for (auto &group : d->groups) {
         if (&group != d->globalFocusGroup) {
@@ -144,6 +129,4 @@ void InputContextManager::focusOutNonGlobal()
         }
     }
 }
-
-
 }
