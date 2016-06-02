@@ -19,10 +19,12 @@
 
 #include "dbus-message.h"
 #include "dbus-message-p.h"
+#include "dbus_p.h"
 #include <systemd/sd-bus.h>
 #include <fcntl.h>
 #include <unistd.h>
 #include <atomic>
+#include <iostream>
 
 namespace fcitx {
 
@@ -100,10 +102,7 @@ Message::Message() : d_ptr(std::make_unique<MessagePrivate>()) {}
 
 Message::~Message() {}
 
-Message::Message(Message &&other) : Message() {
-    using std::swap;
-    swap(d_ptr, other.d_ptr);
-}
+Message::Message(Message &&other) : d_ptr(std::move(other.d_ptr)) {}
 
 Message Message::createReply() const {
     FCITX_D();
@@ -122,7 +121,8 @@ Message Message::createError(const char *name, const char *message) const {
     Message msg;
     sd_bus_error error = SD_BUS_ERROR_MAKE_CONST(name, message);
     auto msgD = msg.d_func();
-    if (sd_bus_message_new_method_error(d->msg, &msgD->msg, &error) < 0) {
+    int r = sd_bus_message_new_method_error(d->msg, &msgD->msg, &error);
+    if (r < 0) {
         msgD->type = MessageType::Invalid;
     } else {
         msgD->type = MessageType::Error;
@@ -150,10 +150,55 @@ std::string Message::destination() const {
     return sd_bus_message_get_destination(d->msg);
 }
 
+std::string Message::signature() const
+{
+    FCITX_D();
+    return sd_bus_message_get_signature(d->msg, true);
+}
+
 void *Message::nativeHandle() const {
     FCITX_D();
     return d->msg;
 }
+
+
+
+Message Message::call(uint64_t timeout) {
+    FCITX_D();
+    ScopedSDBusError error;
+    sd_bus_message *reply = nullptr;
+    auto bus = sd_bus_message_get_bus(d->msg);
+    int r =
+        sd_bus_call(bus, d->msg, timeout, &error.error(), &reply);
+    if (r < 0) {
+        return createError(error.error().name, error.error().message);
+    }
+    return MessagePrivate::fromSDBusMessage(reply, false);
+}
+
+Slot *Message::callAsync(uint64_t timeout, MessageCallback callback) {
+    FCITX_D();
+    auto bus = sd_bus_message_get_bus(d->msg);
+    auto slot = std::make_unique<SDSlot>(callback);
+    sd_bus_slot *sdSlot = nullptr;
+    int r = sd_bus_call_async(bus, &sdSlot, d->msg,
+                              SDMessageCallback, slot.get(), timeout);
+    if (r < 0) {
+        return nullptr;
+    }
+
+    slot->slot = sdSlot;
+
+    return slot.release();
+}
+
+bool Message::send()
+{
+    FCITX_D();
+    auto bus = sd_bus_message_get_bus(d->msg);
+    return sd_bus_send(bus, d->msg, 0) >= 0;
+}
+
 
 Message &Message::operator<<(bool b) {
     FCITX_D();
@@ -178,7 +223,7 @@ Message &Message::operator>>(bool &b) {
     }                                                                          \
     Message &Message::operator>>(TYPE &v) {                                    \
         FCITX_D();                                                             \
-        sd_bus_message_read_basic(d->msg, SD_BUS_TYPE_BOOLEAN, &v);            \
+        sd_bus_message_read_basic(d->msg, SD_BUS_TYPE_##TYPE2, &v);            \
         return *this;                                                          \
     }
 

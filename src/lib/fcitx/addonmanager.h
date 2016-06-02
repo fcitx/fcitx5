@@ -21,18 +21,29 @@
 
 #include <memory>
 #include <fcitx-utils/macros.h>
+#include <map>
+#include <string>
+#include "fcitxcore_export.h"
+#include "addonloader.h"
 
 namespace fcitx {
 
+class Instance;
 class AddonManagerPrivate;
-class AddonManager {
+class FCITXCORE_EXPORT AddonManager {
 public:
     AddonManager();
     virtual ~AddonManager();
 
-    void registerDefaultLoader();
+    void registerDefaultLoader(StaticAddonRegistry *registry);
+    void registerLoader(std::unique_ptr<AddonLoader> loader);
     void load();
     void unload();
+
+    AddonInstance *addon(const std::string &name);
+
+    Instance *instance();
+    void setInstance(Instance *instance);
 
 private:
     std::unique_ptr<AddonManagerPrivate> d_ptr;

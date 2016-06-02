@@ -28,6 +28,10 @@ namespace fcitx {
 
 namespace dbus {
 
+class Message;
+typedef std::function<bool(Message message)> MessageCallback;
+class Slot;
+
 enum class MessageType {
     Invalid,
     Signal,
@@ -119,7 +123,13 @@ public:
     std::string destination() const;
     void setDestination(const std::string &dest);
 
+    std::string signature() const;
+
     void *nativeHandle() const;
+
+    Message call(uint64_t usec);
+    Slot *callAsync(uint64_t usec, MessageCallback callback);
+    bool send();
 
     Message &operator<<(uint8_t i);
     Message &operator<<(bool b);

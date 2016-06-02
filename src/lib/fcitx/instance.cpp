@@ -19,4 +19,21 @@
 
 #include "instance.h"
 
-namespace fcitx {}
+namespace fcitx {
+
+class InstancePrivate {
+public:
+    EventLoop *eventLoop;
+    InputContextManager *icManager;
+};
+
+EventLoop *Instance::eventLoop() {
+    FCITX_D();
+    return d->eventLoop;
+}
+
+InputContextManager *Instance::inputContextManager() {
+    FCITX_D();
+    return d->icManager;
+}
+}

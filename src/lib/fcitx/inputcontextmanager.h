@@ -22,10 +22,10 @@
 #include <memory>
 #include <fcitx-utils/macros.h>
 #include "fcitxcore_export.h"
+#include "inputcontext.h"
 
 namespace fcitx {
 
-class InputContext;
 class InputContextManagerPrivate;
 class FocusGroup;
 
@@ -38,6 +38,8 @@ public:
     virtual ~InputContextManager();
 
     FocusGroup &globalFocusGroup();
+
+    InputContext *findByUUID(ICUUID uuid);
 
 private:
     void registerInputContext(InputContext &inputContext);

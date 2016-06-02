@@ -38,15 +38,25 @@ class LibraryPrivate;
 
 class FCITXUTILS_EXPORT Library {
 public:
-    Library(const std::string &path);
+    Library(const std::string &path = {});
+    Library(const Library &) = delete;
+    Library(Library &&other) noexcept;
     virtual ~Library();
 
-    bool load(Flags<LibraryLoadHint> hint);
+    Library &operator=(Library lib) noexcept;
+
+    bool loaded() const;
+    bool load(Flags<LibraryLoadHint> hint = LibraryLoadHint::DefaultHint);
     bool unload();
     void *resolve(const char *name);
     bool findData(const char *slug, const char *magic, size_t lenOfMagic,
                   std::function<void(const char *data)> library);
     std::string error();
+
+    template <typename Func>
+    static std::function<Func> toFunction(void *ptr) {
+        return {reinterpret_cast<Func *>(ptr)};
+    }
 
 private:
     std::unique_ptr<LibraryPrivate> d_ptr;

@@ -15,7 +15,7 @@ endif()
 set(CMAKE_C_FLAGS "-Wall -Wextra -std=c99 -fvisibility=hidden ${CMAKE_C_FLAGS}")
 set(CMAKE_CXX_FLAGS "-Wall -Wextra -std=c++14 -fvisibility=hidden ${CMAKE_CXX_FLAGS}")
 set(CMAKE_SHARED_LINKER_FLAGS "-Wl,--no-undefined -Wl,--as-needed ${CMAKE_SHARED_LINKER_FLAGS}")
-set(CMAKE_MODULE_LINKER_FLAGS "-Wl,--as-needed ${CMAKE_MODULE_LINKER_FLAGS}")
+set(CMAKE_MODULE_LINKER_FLAGS "-Wl,--no-undefined -Wl,--as-needed ${CMAKE_MODULE_LINKER_FLAGS}")
 
 
 if(ENABLE_COVERAGE)

@@ -185,20 +185,11 @@ std::string StandardPath::fcitxPath(const char *path) {
     return {};
 }
 
-class ScopedOpenDir {
-public:
-    ScopedOpenDir(const std::string &path) : dir(opendir(path.c_str())) {}
-    ~ScopedOpenDir() {
-        if (dir) {
-            closedir(dir);
-        }
+void closedir0(DIR *dir) {
+    if (dir) {
+        closedir(dir);
     }
-
-    DIR *get() { return dir; }
-
-private:
-    DIR *dir;
-};
+}
 
 std::string StandardPath::userDirectory(Type type) const {
     FCITX_D();
@@ -246,8 +237,9 @@ void StandardPath::scanFiles(
     scanDirectories(type,
                     [scanner, &path](const std::string &dirPath, bool isUser) {
                         auto fullPath = constructPath(dirPath, path);
-                        ScopedOpenDir scopedDir(fullPath);
-                        if (scopedDir.get()) {
+                        std::unique_ptr<DIR, decltype(closedir0) *> scopedDir{
+                            opendir(fullPath.c_str()), closedir0};
+                        if (scopedDir) {
                             auto dir = scopedDir.get();
                             struct dirent *drt;
                             while ((drt = readdir(dir)) != nullptr) {
@@ -263,6 +255,32 @@ void StandardPath::scanFiles(
                         }
                         return true;
                     });
+}
+
+std::string StandardPath::locate(Type type, const std::string &path) {
+    std::string retPath;
+    scanDirectories(type, [&retPath, &path](const std::string &dirPath, bool) {
+        auto fullPath = constructPath(dirPath, path);
+        if (fs::isreg(fullPath)) {
+            return true;
+        }
+        retPath = fullPath;
+        return false;
+    });
+    return retPath;
+}
+
+std::vector<std::string> StandardPath::locateAll(Type type,
+                                                 const std::string &path) {
+    std::vector<std::string> retPaths;
+    scanDirectories(type, [&retPaths, &path](const std::string &dirPath, bool) {
+        auto fullPath = constructPath(dirPath, path);
+        if (fs::isreg(fullPath)) {
+            retPaths.push_back(fullPath);
+        }
+        return true;
+    });
+    return retPaths;
 }
 
 StandardPathFile StandardPath::open(Type type, const std::string &path,
@@ -282,7 +300,7 @@ StandardPathFile StandardPath::open(Type type, const std::string &path,
     return file;
 }
 
-std::map<std::string, StandardPathFile> StandardPath::openMultipleFilesFilter(
+std::map<std::string, StandardPathFile> StandardPath::multiOpenFilter(
     Type type, const std::string &path, int flags,
     std::function<bool(const std::string &path, const std::string &dir,
                        bool user)> filter) {
@@ -295,6 +313,28 @@ std::map<std::string, StandardPathFile> StandardPath::openMultipleFilesFilter(
                       int fd = ::open(fullPath.c_str(), flags);
                       if (fd >= 0) {
                           result[path] = std::make_pair(fd, fullPath);
+                      }
+                  }
+                  return true;
+              });
+
+    return result;
+}
+
+std::map<std::string, std::vector<StandardPathFile>>
+StandardPath::multiOpenAllFilter(
+    Type type, const std::string &path, int flags,
+    std::function<bool(const std::string &path, const std::string &dir,
+                       bool user)> filter) {
+    std::map<std::string, std::vector<StandardPathFile>> result;
+    scanFiles(type, path,
+              [&result, flags, &filter](const std::string &path,
+                                        const std::string dir, bool isUser) {
+                  if (filter(path, dir, isUser)) {
+                      auto fullPath = constructPath(dir, path);
+                      int fd = ::open(fullPath.c_str(), flags);
+                      if (fd >= 0) {
+                          result[path].push_back(std::make_pair(fd, fullPath));
                       }
                   }
                   return true;

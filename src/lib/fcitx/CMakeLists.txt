@@ -7,6 +7,7 @@ set(FCITX_CORE_SOURCES
     surroundingtext.cpp
     addonloader.cpp
     addonmanager.cpp
+    addonfactory.cpp
     )
 
 set(FCITX_CORE_HEADERS
@@ -31,7 +32,7 @@ set_target_properties(Fcitx5Core
 target_include_directories(Fcitx5Core PUBLIC
     "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/..;${CMAKE_CURRENT_BINARY_DIR}>"
     "$<INSTALL_INTERFACE:${CMAKE_INSTALL_FULL_INCLUDEDIR}>/Fcitx5/FcitxCore")
-target_link_libraries(Fcitx5Core PUBLIC Fcitx5::Config Fcitx5::Utils)
+target_link_libraries(Fcitx5Core PUBLIC Fcitx5::Config Fcitx5::Utils PRIVATE LibUUID::LibUUID)
 
 configure_file(Fcitx5Core.pc.in ${CMAKE_CURRENT_BINARY_DIR}/Fcitx5Core.pc @ONLY)
 

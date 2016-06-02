@@ -20,15 +20,25 @@
 #define _FCITX_ADDONRESOLVER_H_
 
 #include <string>
+#include <map>
+#include <string>
 #include "addoninfo.h"
 #include "addoninstance.h"
+#include "fcitxcore_export.h"
 
 namespace fcitx {
 
-class AddonLoader {
+class AddonFactory;
+class AddonManager;
+
+typedef std::map<std::string, AddonFactory *> StaticAddonRegistry;
+
+class FCITXCORE_EXPORT AddonLoader {
 public:
+    virtual ~AddonLoader();
     virtual std::string type() const = 0;
-    virtual AddonInstance *load(const AddonInfo &info) = 0;
+    virtual AddonInstance *load(const AddonInfo &info,
+                                AddonManager *manager) = 0;
 };
 }
 

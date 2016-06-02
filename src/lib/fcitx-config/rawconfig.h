@@ -22,7 +22,6 @@
 #include <memory>
 #include <string>
 #include <functional>
-#include <istream>
 #include "fcitxconfig_export.h"
 #include "fcitx-utils/macros.h"
 
@@ -38,8 +37,6 @@ public:
     virtual ~RawConfig();
     RawConfig(const RawConfig &other);
     RawConfig(RawConfig &&other);
-
-    void parseIni(std::istream &in);
 
     std::shared_ptr<RawConfig> get(const std::string &path,
                                    bool create = false);

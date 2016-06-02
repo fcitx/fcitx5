@@ -11,6 +11,8 @@ set(FCITX_UTILS_SOURCES
     library.cpp
     fs.cpp
     standardpath.cpp
+    dbus-object-vtable-wrapper.c
+    dbus-object-vtable.cpp
     )
 
 set(FCITX_UTILS_HEADERS

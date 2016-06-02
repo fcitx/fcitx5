@@ -39,7 +39,7 @@ bool isreg(const std::string &path) {
 
 bool islnk(const std::string &path) {
     struct stat stats;
-    return stat(path.c_str(), &stats) == 0 && S_ISLNK(stats.st_mode);
+    return lstat(path.c_str(), &stats) == 0 && S_ISLNK(stats.st_mode);
 }
 
 std::string cleanPath(const std::string &path) {

@@ -23,8 +23,10 @@
 #include "rawconfig.h"
 
 namespace fcitx {
-FCITXCONFIG_EXPORT void readFromIni(RawConfig &config, std::istream &in);
-FCITXCONFIG_EXPORT void writeAsIni(const RawConfig &config, std::ostream &out);
+FCITXCONFIG_EXPORT void readFromIni(RawConfig &config, int fd);
+FCITXCONFIG_EXPORT void writeAsIni(const RawConfig &config, int fd);
+FCITXCONFIG_EXPORT void readFromIni(RawConfig &config, FILE *fin);
+FCITXCONFIG_EXPORT void writeAsIni(const RawConfig &config, FILE *fout);
 }
 
 #endif // _FCITX_CONFIG_INIPARSER_H_

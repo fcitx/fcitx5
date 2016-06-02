@@ -26,11 +26,18 @@
 namespace fcitx {
 
 class InstancePrivate;
+class EventLoop;
+class AddonManager;
+class InputContextManager;
 
 class FCITXCORE_EXPORT Instance {
 public:
     Instance();
     ~Instance();
+
+    EventLoop *eventLoop();
+    AddonManager *addonManager();
+    InputContextManager *inputContextManager();
 
 private:
     std::unique_ptr<InstancePrivate> d_ptr;

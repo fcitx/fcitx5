@@ -21,6 +21,17 @@
 #include "configuration.h"
 
 namespace fcitx {
+void marshallOption(RawConfig &config, const bool value) {
+    config = value ? "True" : "False";
+}
+
+bool unmarshallOption(bool &value, const RawConfig &config) {
+    if (config.value() == "True" || config.value() == "False") {
+        value = config.value() == "True";
+    }
+
+    return false;
+}
 void marshallOption(RawConfig &config, const int value) {
     config = std::to_string(value);
 }

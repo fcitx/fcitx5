@@ -44,6 +44,7 @@
         }                                                                      \
         return false;                                                          \
     }                                                                          \
+    _FCITX_UNUSED_                                                             \
     static void dumpDescriptionHelper(fcitx::RawConfig &config, TYPE *) {      \
         auto size = FCITX_ARRAY_SIZE(_##TYPE##_Names);                         \
         config.setValueByPath("Enum/Length", std::to_string(size));            \

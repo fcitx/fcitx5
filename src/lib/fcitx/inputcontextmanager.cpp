@@ -17,12 +17,15 @@
  * see <http://www.gnu.org/licenses/>.
  */
 
-#include <list>
+#include <unordered_map>
+#include <map>
 #include "inputcontextmanager.h"
 #include "inputcontext_p.h"
 #include "focusgroup.h"
 #include "focusgroup_p.h"
-#include <fcitx-utils/intrusivelist.h>
+#include "fcitx-utils/intrusivelist.h"
+
+namespace {
 
 template <class Parent, class Member>
 inline std::ptrdiff_t
@@ -42,6 +45,22 @@ inline Parent *parent_from_member(Member *member,
                             offset_from_pointer_to_member(ptr_to_member)));
 }
 
+void hash_combine(std::size_t &seed, std::size_t value) {
+    seed ^= value + 0x9e3779b9 + (seed << 6) + (seed >> 2);
+}
+
+struct container_hasher {
+    template <class T>
+    std::size_t operator()(const T &c) const {
+        std::size_t seed = 0;
+        for (const auto &elem : c) {
+            hash_combine(seed, std::hash<typename T::value_type>()(elem));
+        }
+        return seed;
+    }
+};
+}
+
 namespace fcitx {
 
 struct InputContextListHelper {
@@ -56,9 +75,6 @@ struct FocusGroupListHelper {
 
 class InputContextManagerPrivate {
 public:
-    InputContextManagerPrivate(InputContextManager *)
-        : globalFocusGroup(nullptr) {}
-
     static InputContextPrivate *toInputContextPrivate(InputContext &ic) {
         return ic.d_func();
     }
@@ -66,9 +82,12 @@ public:
         return group.d_func();
     }
 
+    // order matters, need to delete it before groups gone
+    std::unique_ptr<FocusGroup> globalFocusGroup;
+    std::unordered_map<std::array<uint8_t, sizeof(uuid_t)>, InputContext *,
+                       container_hasher> uuidMap;
     IntrusiveList<InputContext, InputContextListHelper> inputContexts;
     IntrusiveList<FocusGroup, FocusGroupListHelper> groups;
-    FocusGroup *globalFocusGroup;
 };
 
 IntrusiveListNode &InputContextListHelper::toNode(InputContext &ic) noexcept {
@@ -89,21 +108,29 @@ FocusGroup &FocusGroupListHelper::toValue(IntrusiveListNode &node) noexcept {
 }
 
 InputContextManager::InputContextManager()
-    : d_ptr(std::make_unique<InputContextManagerPrivate>(this)) {
+    : d_ptr(std::make_unique<InputContextManagerPrivate>()) {
     FCITX_D();
-    d->globalFocusGroup = new FocusGroup(*this);
+    d->globalFocusGroup.reset(new FocusGroup(*this));
 }
 
-InputContextManager::~InputContextManager() {}
+InputContextManager::~InputContextManager() {
+}
 
 FocusGroup &InputContextManager::globalFocusGroup() {
     FCITX_D();
     return *d->globalFocusGroup;
 }
 
+InputContext *InputContextManager::findByUUID(ICUUID uuid) {
+    FCITX_D();
+    auto iter = d->uuidMap.find(uuid);
+    return (iter == d->uuidMap.end()) ? nullptr : iter->second;
+}
+
 void InputContextManager::registerInputContext(InputContext &inputContext) {
     FCITX_D();
     d->inputContexts.push_back(inputContext);
+    // d->uuidMap.insert();
 }
 
 void InputContextManager::unregisterInputContext(InputContext &inputContext) {
@@ -124,7 +151,7 @@ void InputContextManager::unregisterFocusGroup(fcitx::FocusGroup &group) {
 void InputContextManager::focusOutNonGlobal() {
     FCITX_D();
     for (auto &group : d->groups) {
-        if (&group != d->globalFocusGroup) {
+        if (&group != d->globalFocusGroup.get()) {
             group.setFocusedInputContext(nullptr);
         }
     }

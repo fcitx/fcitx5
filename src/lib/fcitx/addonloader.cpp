@@ -17,32 +17,55 @@
  * see <http://www.gnu.org/licenses/>.
  */
 
-#include "addonloader.h"
+#include <iostream>
+#include "addonloader_p.h"
 #include "fcitx-utils/library.h"
+#include "config.h"
 
 namespace fcitx {
 
-class SharedLibraryInstance : public AddonInstance {
-public:
-private:
-    Library lib;
-};
+AddonLoader::~AddonLoader() {}
 
-class SharedLibraryLoader : public AddonLoader {
-public:
-    AddonInstance *load(const AddonInfo &info) override {
-        try {
-        } catch (int) {
+SharedLibraryLoader::~SharedLibraryLoader() {}
+
+AddonInstance *SharedLibraryLoader::load(const AddonInfo &info,
+                                         AddonManager *manager) {
+    auto iter = m_registry.find(info.name());
+    if (iter == m_registry.end()) {
+        auto libs = m_standardPath.locateAll(
+            StandardPath::Type::Addon, info.library() + FCITX_LIBRARY_SUFFIX);
+        for (const auto &libraryPath : libs) {
+            Library lib(libraryPath);
+            if (!lib.load()) {
+                continue;
+            }
+            try {
+                m_registry.emplace(
+                    info.name(),
+                    std::make_unique<SharedLibraryFactory>(std::move(lib)));
+            } catch (const std::exception &e) {
+                std::cout << e.what() << std::endl;
+            }
+            break;
         }
+        iter = m_registry.find(info.name());
     }
 
-    std::string type() const override { return "SharedLibrary"; }
-};
+    if (iter == m_registry.end()) {
+        return nullptr;
+    }
+    return iter->second->factory()->create(manager);
+}
 
-class StaticLibraryLoader : public AddonLoader {
-public:
-    AddonInstance *load(const AddonInfo &info) override {}
+StaticLibraryLoader::StaticLibraryLoader(StaticAddonRegistry *registry_)
+    : AddonLoader(), registry(registry_) {}
 
-    std::string type() const override { return "StaticLibrary"; }
-};
+AddonInstance *StaticLibraryLoader::load(const AddonInfo &info,
+                                         AddonManager *manager) {
+    auto iter = registry->find(info.name());
+    if (iter == registry->end()) {
+        return nullptr;
+    }
+    return iter->second->create(manager);
+}
 }

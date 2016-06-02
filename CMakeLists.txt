@@ -24,6 +24,10 @@ option(ENABLE_COVERAGE "Build the project with gcov support (Need ENABLE_TEST=On
 #######################################################################
 find_package(Systemd REQUIRED)
 find_package(DL REQUIRED)
+find_package(LibUUID REQUIRED)
+find_package(Pthread REQUIRED)
+find_package(XCB COMPONENTS XCB AUX XKB)
+find_package(XKBCommon COMPONENTS XKBCommon X11)
 
 # directory needed by bsd
 if(NOT CMAKE_INSTALL_LIBDATADIR)
@@ -45,6 +49,8 @@ set(FCITX_INSTALL_LOCALEDIR ${CMAKE_INSTALL_FULL_LOCALEDIR})
 set(FCITX_INSTALL_ADDONDIR "${CMAKE_INSTALL_FULL_LIBDIR}/fcitx5")
 set(FCITX_INSTALL_CMAKECONFIG_DIR "${CMAKE_INSTALL_FULL_LIBDIR}/cmake/Fcitx5")
 set(FCITX_INSTALL_MODULE_HEADER_DIR "${CMAKE_INSTALL_FULL_INCLUDEDIR}/Fcitx5/FcitxCore/fcitx/module")
+# TODO mac/win
+set(FCITX_LIBRARY_SUFFIX ".so")
 
 configure_file(${CMAKE_CURRENT_SOURCE_DIR}/config.h.in ${CMAKE_CURRENT_BINARY_DIR}/config.h)
 include_directories(${CMAKE_CURRENT_BINARY_DIR})

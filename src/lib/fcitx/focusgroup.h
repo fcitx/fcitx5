@@ -31,13 +31,19 @@ class InputContext;
 
 class FCITXCORE_EXPORT FocusGroup {
     friend class InputContextManagerPrivate;
+    friend class InputContext;
 
 public:
     FocusGroup(InputContextManager &manager);
+    FocusGroup(const FocusGroup &) = delete;
     virtual ~FocusGroup();
 
     void setFocusedInputContext(InputContext *ic);
     InputContext *focusedInputContext() const;
+
+protected:
+    void addInputContext(InputContext *ic);
+    void removeInputContext(InputContext *ic);
 
 private:
     std::unique_ptr<FocusGroupPrivate> d_ptr;

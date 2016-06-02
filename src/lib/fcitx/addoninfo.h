@@ -28,6 +28,8 @@ namespace fcitx {
 
 class AddonInfoPrivate;
 
+FCITX_CONFIG_ENUM(AddonCategory, InputMethod, Frontend, Loader, Module)
+
 class FCITXCORE_EXPORT AddonInfo {
 public:
     AddonInfo();
@@ -38,7 +40,7 @@ public:
     const std::string &type() const;
     const std::string &library() const;
 
-    void loadInfo(RawConfig &config);
+    void loadInfo(const RawConfig &config);
 
 private:
     std::unique_ptr<AddonInfoPrivate> d_ptr;

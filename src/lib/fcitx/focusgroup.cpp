@@ -17,6 +17,7 @@
  * see <http://www.gnu.org/licenses/>.
  */
 
+#include <cassert>
 #include "inputcontext.h"
 #include "focusgroup_p.h"
 #include "inputcontextmanager.h"
@@ -30,11 +31,16 @@ FocusGroup::FocusGroup(InputContextManager &manager)
 
 FocusGroup::~FocusGroup() {
     FCITX_D();
+    while (!d->ics.empty()) {
+        auto ic = *d->ics.begin();
+        ic->setFocusGroup(nullptr);
+    }
     d->manager.unregisterFocusGroup(*this);
 }
 
 void FocusGroup::setFocusedInputContext(InputContext *ic) {
     FCITX_D();
+    assert(!ic || d->ics.count(ic) > 0);
     if (d->focus) {
         d->focus->setHasFocus(false);
     }
@@ -47,5 +53,21 @@ void FocusGroup::setFocusedInputContext(InputContext *ic) {
 InputContext *FocusGroup::focusedInputContext() const {
     FCITX_D();
     return d->focus;
+}
+
+void FocusGroup::addInputContext(InputContext *ic) {
+    FCITX_D();
+    auto iter = d->ics.insert(ic);
+    assert(iter.second);
+}
+
+void FocusGroup::removeInputContext(InputContext *ic) {
+    FCITX_D();
+    if (ic == d->focus) {
+        setFocusedInputContext(nullptr);
+    }
+    auto iter = d->ics.find(ic);
+    assert(iter != d->ics.end());
+    d->ics.erase(ic);
 }
 }

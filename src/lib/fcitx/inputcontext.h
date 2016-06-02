@@ -20,9 +20,11 @@
 #ifndef _FCITX_INPUTCONTEXT_H_
 #define _FCITX_INPUTCONTEXT_H_
 
-#include <stdint.h>
+#include <array>
+#include <cstdint>
 #include <string>
 #include <memory>
+#include <uuid/uuid.h>
 #include <fcitx-utils/key.h>
 #include <fcitx-utils/flags.h>
 #include <fcitx-utils/rect.h>
@@ -65,6 +67,7 @@ enum class CapabilityFlag : uint64_t {
 enum class FocusGroupType { Global, Local, Independent };
 
 typedef Flags<CapabilityFlag> CapabilityFlags;
+typedef std::array<uint8_t, sizeof(uuid_t)> ICUUID;
 
 class InputContextManager;
 class FocusGroup;
@@ -79,9 +82,12 @@ public:
     virtual ~InputContext();
     InputContext(InputContext &&other) = delete;
 
+    ICUUID uuid();
+
     void focusIn();
     void focusOut();
     void setFocusGroup(FocusGroup *group);
+    FocusGroup *focusGroup() const;
     void reset();
     void setCapabilityFlags(CapabilityFlags flags);
     CapabilityFlags capabilityFlags();

@@ -18,48 +18,17 @@
  */
 
 #include <systemd/sd-bus.h>
-
+#include <iostream>
 #include "dbus.h"
+#include "dbus_p.h"
 #include "dbus-message-p.h"
+#include "dbus-object-vtable_p.h"
 
 namespace fcitx {
 
 namespace dbus {
 
-class ScopedSDBusError {
-public:
-    ScopedSDBusError() { m_error = SD_BUS_ERROR_NULL; }
-    ~ScopedSDBusError() { sd_bus_error_free(&m_error); }
-
-    sd_bus_error &error() { return m_error; }
-
-private:
-    sd_bus_error m_error;
-};
-
-Slot::~Slot() {}
-
-class SDSlot : public Slot {
-public:
-    SDSlot(MessageCallback callback_) : callback(callback_), slot(nullptr) {}
-
-    ~SDSlot() { sd_bus_slot_unref(slot); }
-
-    MessageCallback callback;
-    sd_bus_slot *slot;
-};
-
-class SDSubTreeSlot : public SDSlot {
-public:
-    SDSubTreeSlot(MessageCallback callback_,
-                  EnumerateObjectCallback enumerator_)
-        : SDSlot(callback_), enumerator(enumerator_), enumSlot(nullptr) {}
-
-    ~SDSubTreeSlot() { sd_bus_slot_unref(enumSlot); }
-
-    EnumerateObjectCallback enumerator;
-    sd_bus_slot *enumSlot;
-};
+Slot::~Slot() { }
 
 class BusPrivate {
 public:
@@ -103,10 +72,7 @@ fail:
 
 Bus::~Bus() {}
 
-Bus::Bus(Bus &&other) : d_ptr(std::make_unique<BusPrivate>()) {
-    using std::swap;
-    swap(d_ptr, other.d_ptr);
-}
+Bus::Bus(Bus &&other) : d_ptr(std::move(other.d_ptr)) {}
 
 bool Bus::isOpen() const {
     FCITX_D();
@@ -239,6 +205,20 @@ Slot *Bus::addObject(const std::string &path, MessageCallback callback) {
     return slot.release();
 }
 
+bool Bus::addObjectVTable(const std::string &path, const std::string &interface, ObjectVTable &vtable) {
+    FCITX_D();
+    auto slot = std::make_unique<SDVTableSlot>(vtable.d_func()->toSDBusVTable());
+    sd_bus_slot *sdSlot;
+    int r = sd_bus_add_object_vtable(d->bus, &sdSlot, path.c_str(), interface.c_str(), slot->vtable.data(), &vtable);
+    if (r < 0) {
+        return false;
+    }
+
+    slot->slot = sdSlot;
+
+    vtable.setSlot(slot.release());
+}
+
 Slot *Bus::addObjectSubTree(const std::string &path, MessageCallback callback,
                             EnumerateObjectCallback enumerator) {
     FCITX_D();
@@ -263,36 +243,17 @@ void *Bus::nativeHandle() const {
     return d->bus;
 }
 
-void Bus::send(Message msg) {
+bool Bus::requestName(const std::string& name, Flags<RequestNameFlag> flags)
+{
     FCITX_D();
-    sd_bus_send(d->bus, msg.d_func()->msg, nullptr);
+    int sd_flags =
+        ((flags & RequestNameFlag::ReplaceExisting) ? SD_BUS_NAME_REPLACE_EXISTING : 0) |
+        ((flags & RequestNameFlag::AllowReplacement) ? SD_BUS_NAME_ALLOW_REPLACEMENT : 0) |
+        ((flags & RequestNameFlag::Queue) ? SD_BUS_NAME_QUEUE : 0);
+    int r = sd_bus_request_name(d->bus, name.c_str(), sd_flags);
+    return r >= 0;
 }
 
-Message Bus::call(Message msg, uint64_t timeout) {
-    FCITX_D();
-    ScopedSDBusError error;
-    sd_bus_message *reply = nullptr;
-    int r =
-        sd_bus_call(d->bus, msg.d_func()->msg, timeout, &error.error(), &reply);
-    if (r < 0) {
-        return msg.createError(error.error().name, error.error().message);
-    }
-    return MessagePrivate::fromSDBusMessage(reply, false);
-}
 
-Slot *Bus::callAsync(Message msg, uint64_t timeout, MessageCallback callback) {
-    FCITX_D();
-    auto slot = std::make_unique<SDSlot>(callback);
-    sd_bus_slot *sdSlot = nullptr;
-    int r = sd_bus_call_async(d->bus, &sdSlot, msg.d_func()->msg,
-                              SDMessageCallback, slot.get(), timeout);
-    if (r < 0) {
-        return nullptr;
-    }
-
-    slot->slot = sdSlot;
-
-    return slot.release();
-}
 }
 }

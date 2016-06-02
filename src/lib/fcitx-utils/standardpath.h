@@ -116,19 +116,6 @@ class FCITXUTILS_EXPORT StandardPath {
 public:
     enum class Type { Config, Data, Cache, Runtime, Addon };
 
-    enum class FilterFlag {
-        Writable = (1 << 0),
-        Append = (1 << 1),
-        Prefix = (1 << 2),
-        Suffix = (1 << 3),
-        Callback = (1 << 4),
-        Sort = (1 << 5),
-        LocateAll = (1 << 6),
-        Write = Writable | Append,
-    };
-
-    typedef Flags<FilterFlag> FilterFlags;
-
     StandardPath(bool skipFcitxPath = false);
     virtual ~StandardPath();
 
@@ -146,19 +133,30 @@ public:
     std::string userDirectory(Type type) const;
     std::vector<std::string> directories(Type type) const;
 
+    std::string locate(Type type, const std::string &path);
+    std::vector<std::string> locateAll(Type type, const std::string &path);
     // Open the first matched and succeed
     StandardPathFile open(Type type, const std::string &path, int flags);
     // Open first match for
-    std::map<std::string, StandardPathFile> openMultipleFilesFilter(
+    std::map<std::string, StandardPathFile> multiOpenFilter(
         Type type, const std::string &path, int flags,
         std::function<bool(const std::string &path, const std::string &dir,
                            bool user)> filter);
     template <typename... Args>
     std::map<std::string, StandardPathFile>
-    openMultipleFiles(Type type, const std::string &path, int flags,
-                      Args... args) {
-        return openMultipleFilesFilter(type, path, flags,
-                                       filter::Chainer<Args...>(args...));
+    multiOpen(Type type, const std::string &path, int flags, Args... args) {
+        return multiOpenFilter(type, path, flags,
+                               filter::Chainer<Args...>(args...));
+    }
+    std::map<std::string, std::vector<StandardPathFile>> multiOpenAllFilter(
+        Type type, const std::string &path, int flags,
+        std::function<bool(const std::string &path, const std::string &dir,
+                           bool user)> filter);
+    template <typename... Args>
+    std::map<std::string, std::vector<StandardPathFile>>
+    multiOpenAll(Type type, const std::string &path, int flags, Args... args) {
+        return multiOpenAllFilter(type, path, flags,
+                                  filter::Chainer<Args...>(args...));
     }
 
 private:

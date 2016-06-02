@@ -24,6 +24,7 @@
 #include <vector>
 #include <fcitx-utils/event.h>
 #include "dbus-message.h"
+#include "dbus-object-vtable.h"
 
 namespace fcitx {
 
@@ -35,12 +36,17 @@ public:
 };
 
 enum class BusType { Default, Session, System };
+enum class RequestNameFlag {
+    ReplaceExisting  = 1ULL << 0,
+    AllowReplacement = 1ULL << 1,
+    Queue            = 1ULL << 2
+};
 
 class BusPrivate;
 
-typedef std::function<bool(Message message)> MessageCallback;
 typedef std::function<std::vector<std::string>(const std::string &path)>
     EnumerateObjectCallback;
+
 class FCITXUTILS_EXPORT Bus {
 public:
     Bus(const std::string &address);
@@ -57,6 +63,7 @@ public:
     Slot *addMatch(const std::string &match, MessageCallback callback);
     Slot *addFilter(MessageCallback callback);
     Slot *addObject(const std::string &path, MessageCallback callback);
+    bool addObjectVTable(const std::string &path, const std::string &interface, ObjectVTable &vtable);
     Slot *addObjectSubTree(const std::string &prefix, MessageCallback callback,
                            EnumerateObjectCallback enumerator);
 
@@ -67,11 +74,8 @@ public:
     Message createMethodCall(const char *destination, const char *path,
                              const char *interface, const char *member);
 
-    void send(Message msg);
-    Message call(Message msg, uint64_t usec);
-    Slot *callAsync(Message msg, uint64_t usec, MessageCallback callback);
-
     void *nativeHandle() const;
+    bool requestName(const std::string &name, Flags<RequestNameFlag> flags);
 
 private:
     std::unique_ptr<BusPrivate> d_ptr;

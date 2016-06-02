@@ -21,6 +21,7 @@
 
 #include "fcitx-utils/intrusivelist.h"
 #include "focusgroup.h"
+#include <unordered_set>
 
 namespace fcitx {
 
@@ -29,11 +30,12 @@ class InputContextManager;
 class FocusGroupPrivate {
 public:
     FocusGroupPrivate(FocusGroup *q, InputContextManager &manager_)
-        : q_ptr(q), manager(manager_) {}
+        : q_ptr(q), manager(manager_), focus(nullptr) {}
 
     FocusGroup *q_ptr;
     InputContextManager &manager;
     InputContext *focus;
+    std::unordered_set<InputContext *> ics;
 
     IntrusiveListNode listNode;
     FCITX_DECLARE_PUBLIC(FocusGroup);

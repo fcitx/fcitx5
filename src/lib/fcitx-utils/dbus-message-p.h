@@ -40,12 +40,16 @@ public:
         switch (type) {
         case SD_BUS_MESSAGE_METHOD_CALL:
             msgType = MessageType::MethodCall;
+            break;
         case SD_BUS_MESSAGE_METHOD_RETURN:
             msgType = MessageType::Reply;
+            break;
         case SD_BUS_MESSAGE_METHOD_ERROR:
             msgType = MessageType::Error;
+            break;
         case SD_BUS_MESSAGE_SIGNAL:
             msgType = MessageType::Signal;
+            break;
         }
 
         message.d_ptr->type = msgType;

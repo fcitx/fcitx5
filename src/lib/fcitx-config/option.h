@@ -182,8 +182,8 @@ public:
         return m_marshaller.marshall(config, m_value);
     }
     bool unmarshall(const RawConfig &config) override {
-        T tempValue;
-        if (!m_marshaller.unmarshall(m_value, config)) {
+        T tempValue{};
+        if (!m_marshaller.unmarshall(tempValue, config)) {
             return false;
         }
         return setValue(tempValue);

@@ -25,7 +25,11 @@ FCITX_CONFIGURATION(
     AddonConfig,
     fcitx::Option<std::string> name{this, "Addon/Name", "Addon Name"};
     fcitx::Option<std::string> type{this, "Addon/Type", "Addon Type"};
-    fcitx::Option<std::string> library{this, "Addon/Library", "Addon Library"};)
+    fcitx::Option<std::string> library{this, "Addon/Library", "Addon Library"};
+    fcitx::Option<bool> enabled{this, "Addon/Enabled", "Enabled", true};
+    fcitx::Option<AddonCategory> category{this, "Addon/Category", "Category"};
+    fcitx::Option<std::vector<std::string>> dependencies{
+        this, "Addon/Dependencies", "Dependencies"};)
 
 class AddonInfoPrivate : public AddonConfig {
 public:
@@ -56,11 +60,12 @@ const std::string &AddonInfo::library() const {
     return d->library.value();
 }
 
-void AddonInfo::loadInfo(RawConfig &config) {
+void AddonInfo::loadInfo(const RawConfig &config) {
     FCITX_D();
     d->load(config);
 
-    // TODO: Validate more information
-    d->valid = true;
+    // Validate more information
+    d->valid = !(d->name.value().empty()) && !(d->type.value().empty()) &&
+               !(d->library.value().empty()) && d->enabled.value();
 }
 }

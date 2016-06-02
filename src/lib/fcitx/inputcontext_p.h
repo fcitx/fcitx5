@@ -21,13 +21,16 @@
 
 #include "fcitx-utils/intrusivelist.h"
 #include "inputcontext.h"
+#include <uuid/uuid.h>
 
 namespace fcitx {
 
 class InputContextPrivate {
 public:
     InputContextPrivate(InputContext *q, InputContextManager &manager_)
-        : q_ptr(q), manager(manager_), group(nullptr), hasFocus(false) {}
+        : q_ptr(q), manager(manager_), group(nullptr), hasFocus(false) {
+        uuid_generate(uuid.data());
+    }
     InputContext *q_ptr;
     InputContextManager &manager;
     FocusGroup *group;
@@ -36,6 +39,7 @@ public:
     SurroundingText surroundingText;
 
     IntrusiveListNode listNode;
+    ICUUID uuid;
 
     FCITX_DECLARE_PUBLIC(InputContext);
 };

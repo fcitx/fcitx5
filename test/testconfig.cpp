@@ -75,7 +75,7 @@ int main() {
     fcitx::RawConfig rawConfig;
     config.save(rawConfig);
 
-    fcitx::writeAsIni(rawConfig, std::cout);
+    fcitx::writeAsIni(rawConfig, stdout);
 
     assert(*rawConfig.valueByPath("IntOption") == "0");
 
@@ -91,7 +91,7 @@ int main() {
 
     fcitx::RawConfig rawDescConfig;
     config.dumpDescription(rawDescConfig);
-    fcitx::writeAsIni(rawDescConfig, std::cout);
+    fcitx::writeAsIni(rawDescConfig, stdout);
 
     return 0;
 }

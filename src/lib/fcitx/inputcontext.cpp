@@ -17,6 +17,7 @@
  * see <http://www.gnu.org/licenses/>.
  */
 
+#include <string.h>
 #include "inputcontext.h"
 #include "inputcontext_p.h"
 #include "inputcontextmanager.h"
@@ -31,7 +32,15 @@ InputContext::InputContext(InputContextManager &manager)
 
 InputContext::~InputContext() {
     FCITX_D();
+    if (d->group) {
+        d->group->removeInputContext(this);
+    }
     d->manager.unregisterInputContext(*this);
+}
+
+ICUUID InputContext::uuid() {
+    FCITX_D();
+    return d->uuid;
 }
 
 void InputContext::setCapabilityFlags(CapabilityFlags flags) {
@@ -47,7 +56,18 @@ CapabilityFlags InputContext::capabilityFlags() {
 void InputContext::setFocusGroup(FocusGroup *group) {
     FCITX_D();
     focusOut();
+    if (d->group) {
+        d->group->removeInputContext(this);
+    }
     d->group = group;
+    if (d->group) {
+        d->group->addInputContext(this);
+    }
+}
+
+FocusGroup *InputContext::focusGroup() const {
+    FCITX_D();
+    return d->group;
 }
 
 void InputContext::focusIn() {

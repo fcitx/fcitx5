@@ -29,6 +29,9 @@ namespace fcitx {
 
 class Configuration;
 
+FCITXCONFIG_EXPORT void marshallOption(RawConfig &config, const bool value);
+FCITXCONFIG_EXPORT bool unmarshallOption(bool &value, const RawConfig &config);
+
 FCITXCONFIG_EXPORT void marshallOption(RawConfig &config, const int value);
 FCITXCONFIG_EXPORT bool unmarshallOption(int &value, const RawConfig &config);
 
@@ -51,7 +54,7 @@ FCITXCONFIG_EXPORT bool unmarshallOption(Configuration &value,
 template <typename T>
 void marshallOption(RawConfig &config, const std::vector<T> &value) {
     config.removeAll();
-    marshallOption(config["Length"], value.size());
+    marshallOption(config["Length"], static_cast<int>(value.size()));
     for (size_t i = 0; i < value.size(); i++) {
         marshallOption(config[std::to_string(i)], value[i]);
     }

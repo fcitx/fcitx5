@@ -18,6 +18,7 @@
  */
 
 #include <sstream>
+#include <stdio.h>
 
 #include "iniparser.h"
 #include <fcitx-utils/stringutils.h>
@@ -64,12 +65,35 @@ bool _unescape_string(std::string &str, bool unescapeQuote) {
     return true;
 }
 
-void readFromIni(RawConfig &config, std::istream &in) {
+typedef std::unique_ptr<FILE, decltype(&fclose)> ScopedFILE;
+
+void readFromIni(RawConfig &config, int fd) {
+    FILE *f = fdopen(fd, "r");
+    if (!f) {
+        return;
+    }
+    ScopedFILE fp{f, fclose};
+    readFromIni(config, fp.get());
+}
+
+void writeAsIni(const RawConfig &config, int fd) {
+    FILE *f = fdopen(fd, "w");
+    if (!f) {
+        return;
+    }
+    ScopedFILE fp{f, fclose};
+    writeAsIni(config, fp.get());
+}
+
+void readFromIni(RawConfig &config, FILE *fin) {
     std::string lineBuf, currentGroup;
 
+    char *clineBuf = nullptr;
+    size_t bufSize = 0;
     unsigned int line = 0;
-    while (std::getline(in, lineBuf)) {
+    while (getline(&clineBuf, &bufSize, fin) >= 0) {
         line++;
+        lineBuf = clineBuf;
         std::string::size_type start, end;
         std::tie(start, end) = stringutils::trimInplace(lineBuf);
         if (start == end || lineBuf[start] == '#') {
@@ -122,12 +146,14 @@ void readFromIni(RawConfig &config, std::istream &in) {
             subConfig->setLineNumber(line);
         }
     }
+
+    free(clineBuf);
 }
 
-void writeAsIni(const RawConfig &root, std::ostream &out) {
+void writeAsIni(const RawConfig &root, FILE *fout) {
     std::function<bool(const RawConfig &, const std::string &path)> callback;
 
-    callback = [&out, &callback](const RawConfig &config,
+    callback = [fout, &callback](const RawConfig &config,
                                  const std::string &path) {
         if (config.hasSubItems()) {
             std::stringstream valuesout;
@@ -164,9 +190,9 @@ void writeAsIni(const RawConfig &root, std::ostream &out) {
             auto valueString = valuesout.str();
             if (!valueString.empty()) {
                 if (!path.empty()) {
-                    out << "[" << path << "]\n";
+                    fprintf(fout, "[%s]\n", path.c_str());
                 }
-                out << valueString << "\n";
+                fprintf(fout, "%s\n", valueString.c_str());
             }
         }
         config.visitSubItems(callback, "", false, path);

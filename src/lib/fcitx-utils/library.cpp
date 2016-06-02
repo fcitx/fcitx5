@@ -40,7 +40,19 @@ public:
 Library::Library(const std::string &path)
     : d_ptr(std::make_unique<LibraryPrivate>(path)) {}
 
-Library::~Library() { unload(); }
+Library::~Library() {
+    if (d_ptr) {
+        unload();
+    }
+}
+
+Library::Library(Library &&other) noexcept : d_ptr(std::move(other.d_ptr)) {}
+
+Library &Library::operator=(Library other) noexcept {
+    using std::swap;
+    swap(d_ptr, other.d_ptr);
+    return *this;
+}
 
 bool Library::load(Flags<fcitx::LibraryLoadHint> hint) {
     FCITX_D();
@@ -67,6 +79,11 @@ bool Library::load(Flags<fcitx::LibraryLoadHint> hint) {
     }
 
     return true;
+}
+
+bool Library::loaded() const {
+    FCITX_D();
+    return !!d->handle;
 }
 
 bool Library::unload() {

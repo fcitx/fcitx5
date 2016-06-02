@@ -19,17 +19,30 @@
 #ifndef _FCITX_ADDONINSTANCE_H_
 #define _FCITX_ADDONINSTANCE_H_
 
+#include <functional>
+#include "fcitxcore_export.h"
+#include "fcitx-utils/library.h"
+
 namespace fcitx {
 
 class AddonInstance {
+public:
     template <typename Signature>
     std::function<Signature> callback(const std::string &name) {
-        Signature *callbackPtr = static_cast<Signature *>(rawCallback);
-        return {callbackPtr};
+        return Library::toFunction<Signature>(rawCallback(name));
     }
 
-    virtual void *rawCallback(const std::string &name) = 0;
+    virtual void *rawCallback(const std::string &) { return nullptr; }
 };
 }
+
+#define FCITX_PLUGIN_FACTORY(ClassName)                                        \
+    extern "C" {                                                               \
+    FCITXCORE_EXPORT                                                           \
+    ::fcitx::AddonFactory *fcitx_addon_factory_instance() {                    \
+        static ClassName factory;                                              \
+        return &factory;                                                       \
+    }                                                                          \
+    }
 
 #endif // _FCITX_ADDONINSTANCE_H_

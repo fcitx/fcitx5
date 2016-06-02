@@ -43,7 +43,7 @@ int main(int argc, char *argv[]) {
            std::vector<std::string>({"/TEST/PATH1", "/TEST/PATH2"}));
 
     {
-        auto result = standardPath.openMultipleFiles(
+        auto result = standardPath.multiOpen(
             StandardPath::Type::Data, "fcitx5/addon", O_RDONLY,
             filter::Not(filter::User()), filter::Suffix(".conf"));
         std::set<std::string> names,
@@ -58,7 +58,7 @@ int main(int argc, char *argv[]) {
     }
 
     {
-        auto result = standardPath.openMultipleFiles(
+        auto result = standardPath.multiOpen(
             StandardPath::Type::Data, "fcitx5/addon", O_RDONLY,
             filter::Not(filter::User()), filter::Suffix("im.conf"));
         std::set<std::string> names, expect_names = {"testim.conf"};
