@@ -75,10 +75,14 @@ void Instance::configureInputMethod(const std::string& imName)
 
 std::string Instance::currentInputMethod()
 {
+    // FIXME
+    return {};
 }
 
 std::string Instance::currentUI()
 {
+    // FIXME
+    return {};
 }
 
 void Instance::deactivate()
@@ -111,6 +115,7 @@ void Instance::setCurrentInputMethod(const std::string &imName)
 
 int Instance::state()
 {
+    return 0;
 }
 
 void Instance::toggle()

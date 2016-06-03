@@ -56,7 +56,7 @@ const std::string &I18NString::match(std::string locale) {
         }
         languageLength = normalizedLocale.size();
 
-        if (*i == '_') {
+        if (i != e && *i == '_') {
             normalizedLocale.push_back('_');
             i++;
             while (i != e && charutils::isupper(*i)) {
@@ -67,7 +67,7 @@ const std::string &I18NString::match(std::string locale) {
             territoryLength = normalizedLocale.size();
         }
 
-        if (*i == '.') {
+        if (i != e && *i == '.') {
             // encoding is useless for us
             i++;
             while (i != e &&
@@ -77,7 +77,7 @@ const std::string &I18NString::match(std::string locale) {
             }
         }
 
-        if (*i == '@') {
+        if (i != e && *i == '@') {
             normalizedLocale.push_back('@');
             i++;
             while (i != e) {

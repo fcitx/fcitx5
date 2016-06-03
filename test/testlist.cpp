@@ -45,7 +45,8 @@ int main() {
 
     int idx = 0;
     for (auto &f : list) {
-        assert(f.data == check[idx++]);
+        assert(f.data == check[idx]);
+        idx++;
     }
     assert(idx == 4);
 
@@ -53,7 +54,8 @@ int main() {
     assert(list.size() == 3);
     idx = 0;
     for (auto &f : list) {
-        assert(f.data == check[idx++]);
+        assert(f.data == check[idx]);
+        idx++;
     }
     assert(idx == 3);
 
@@ -83,7 +85,8 @@ int main() {
     std::vector<int> check2 = {4, 1, 3, 2};
     idx = 0;
     for (auto &f : list) {
-        assert(f.data == check2[idx++]);
+        assert(f.data == check2[idx]);
+        idx++;
     }
     return 0;
 }

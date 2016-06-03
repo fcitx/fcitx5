@@ -7,6 +7,7 @@ set(FCITX_CORE_SOURCES
     surroundingtext.cpp
     addonloader.cpp
     addonmanager.cpp
+    addoninstance.cpp
     addonfactory.cpp
     )
 

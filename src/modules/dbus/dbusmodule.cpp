@@ -84,6 +84,9 @@ DBusModule::DBusModule(Instance *instance) : m_bus(std::make_unique<dbus::Bus>(d
     m_bus->addObjectVTable("/controller", FCITX_CONTROLLER_DBUS_INTERFACE, *m_controller);
 }
 
+DBusModule::~DBusModule() {
+}
+
 AddonInstance *DBusModuleFactory::create(AddonManager *manager)
 {
     return new DBusModule(manager->instance());

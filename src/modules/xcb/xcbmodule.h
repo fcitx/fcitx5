@@ -34,6 +34,7 @@
 #include "fcitx/addonmanager.h"
 #include <unordered_map>
 #include <list>
+#include <vector>
 
 namespace fcitx {
 
@@ -58,7 +59,7 @@ public:
     FocusGroup *focusGroup() const { return m_group; }
 
 private:
-    char *xkbRulesNames(int *length);
+    std::vector<char> xkbRulesNames();
     bool filterEvent(xcb_connection_t *conn, xcb_generic_event_t *event);
     void onIOEvent();
 
@@ -68,8 +69,8 @@ private:
     int m_screen;
     xcb_atom_t m_atom;
     xcb_window_t m_serverWindow;
-    FocusGroup *m_group;
     xcb_window_t m_root;
+    FocusGroup *m_group;
 
     bool m_hasXKB;
     xcb_atom_t m_xkbRulesNamesAtom;

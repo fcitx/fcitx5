@@ -25,13 +25,14 @@
 
 namespace fcitx {
 
-class AddonInstance {
+class FCITXCORE_EXPORT AddonInstance {
 public:
     template <typename Signature>
     std::function<Signature> callback(const std::string &name) {
         return Library::toFunction<Signature>(rawCallback(name));
     }
 
+    virtual ~AddonInstance();
     virtual void *rawCallback(const std::string &) { return nullptr; }
 };
 }
