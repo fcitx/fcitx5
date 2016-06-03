@@ -7,17 +7,29 @@ set(FCITX_UTILS_TEST
     testcolor
     testi18nstring
     testevent
-    testdbusunixfd
-    testdbusmessage
-    testdbus
     testlist
     testfs
     testlibrary
     teststandardpath
     testmetastring)
 
+set(FCITX_UTILS_DBUS_TEST
+    testdbusunixfd
+    testdbusmessage
+    testdbus)
+
 set(teststandardpath_ARGS "${CMAKE_CURRENT_SOURCE_DIR}/addon")
 set(testdbus_LIBS Pthread::Pthread)
+
+add_executable(DBusWrapper IMPORTED)
+set_target_properties(DBusWrapper PROPERTIES IMPORTED_LOCATION "${CMAKE_CURRENT_SOURCE_DIR}/dbus_wrapper.sh")
+
+foreach(TESTCASE ${FCITX_UTILS_DBUS_TEST})
+    add_executable(${TESTCASE} ${TESTCASE}.cpp)
+    target_link_libraries(${TESTCASE} Fcitx5::Utils Systemd::Systemd ${${TESTCASE}_LIBS})
+    add_test(NAME ${TESTCASE}
+             COMMAND DBusWrapper "${CMAKE_CURRENT_BINARY_DIR}/${TESTCASE}" ${${TESTCASE}_ARGS})
+endforeach()
 
 foreach(TESTCASE ${FCITX_UTILS_TEST})
     add_executable(${TESTCASE} ${TESTCASE}.cpp)
