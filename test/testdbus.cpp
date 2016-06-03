@@ -83,6 +83,9 @@ void *client(void *)
 
 int main() {
     Bus bus(BusType::Session);
+    if (!bus.isOpen()) {
+        return 1;
+    }
     EventLoop loop;
     bus.attachEventLoop(&loop);
     if (!bus.requestName(TEST_SERVICE, {RequestNameFlag::AllowReplacement, RequestNameFlag::ReplaceExisting})) {
