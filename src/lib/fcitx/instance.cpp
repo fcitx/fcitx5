@@ -105,7 +105,7 @@ void Instance::restart()
 {
 }
 
-void Instance::setCurrentInputMethod(std::string imName)
+void Instance::setCurrentInputMethod(const std::string &imName)
 {
 }
 
