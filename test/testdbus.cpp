@@ -29,13 +29,12 @@ class TestObject : public ObjectVTable
     void test1() { }
     std::string test2(int32_t i) { return std::to_string(i); }
     std::tuple<int32_t, uint32_t> test3(int32_t i) {
-        std::cout << "RET" << i << std::endl;
         return std::make_tuple(i - 1, i + 1);
     }
 private:
-    FCITX_OBJECT_VTABLE_METHOD(test1, "", "");
-    FCITX_OBJECT_VTABLE_METHOD(test2, "i", "s");
-    FCITX_OBJECT_VTABLE_METHOD(test3, "i", "iu");
+    FCITX_OBJECT_VTABLE_METHOD(test1, "test1", "", "");
+    FCITX_OBJECT_VTABLE_METHOD(test2, "test2", "i", "s");
+    FCITX_OBJECT_VTABLE_METHOD(test3, "test3", "i", "iu");
 };
 
 #define TEST_SERVICE "org.fcitx.Fcitx.TestDBus"
@@ -69,16 +68,10 @@ void *client(void *)
                 TEST_INTERFACE, "test3");
             msg << 2;
             auto reply = msg.call(0);
-            std::cout << static_cast<int>(reply.type()) << std::endl;
-            if (reply.type() == MessageType::Error) {
-                std::cout << reply.signature() << std::endl;
-            }
             assert(reply.type() == MessageType::Reply);
             assert(reply.signature() == "iu");
             STRING_TO_DBUS_TUPLE("iu") ret;
             reply >> ret;
-            std::cout << std::get<0>(ret) << std::endl;
-            std::cout << std::get<1>(ret) << std::endl;
             assert(std::get<0>(ret) == 1);
             assert(std::get<1>(ret) == 3);
             loop.quit();

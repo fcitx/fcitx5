@@ -48,21 +48,21 @@ public:
     void setCurrentInputMethod(std::string imName);
 
 private:
-    FCITX_OBJECT_VTABLE_METHOD(exit, "", "");
-    FCITX_OBJECT_VTABLE_METHOD(restart, "", "");
-    FCITX_OBJECT_VTABLE_METHOD(configure, "", "");
-    FCITX_OBJECT_VTABLE_METHOD(configureAddon, "s", "");
-    FCITX_OBJECT_VTABLE_METHOD(configureInputMethod, "s", "");
-    FCITX_OBJECT_VTABLE_METHOD(currentUI, "", "s");
-    FCITX_OBJECT_VTABLE_METHOD(addonForInputMethod, "s", "s");
-    FCITX_OBJECT_VTABLE_METHOD(activate, "", "");
-    FCITX_OBJECT_VTABLE_METHOD(toggle, "", "");
-    FCITX_OBJECT_VTABLE_METHOD(resetInputMethodList, "", "");
-    FCITX_OBJECT_VTABLE_METHOD(state, "", "i");
-    FCITX_OBJECT_VTABLE_METHOD(reloadConfig, "", "");
-    FCITX_OBJECT_VTABLE_METHOD(reloadAddonConfig, "s", "");
-    FCITX_OBJECT_VTABLE_METHOD(currentInputMethod, "", "s");
-    FCITX_OBJECT_VTABLE_METHOD(setCurrentInputMethod, "s", "");
+    FCITX_OBJECT_VTABLE_METHOD(exit, "Exit", "", "");
+    FCITX_OBJECT_VTABLE_METHOD(restart, "Restart", "", "");
+    FCITX_OBJECT_VTABLE_METHOD(configure, "Configure", "", "");
+    FCITX_OBJECT_VTABLE_METHOD(configureAddon, "ConfigureAddon", "s", "");
+    FCITX_OBJECT_VTABLE_METHOD(configureInputMethod, "ConfigureIM", "s", "");
+    FCITX_OBJECT_VTABLE_METHOD(currentUI, "CurrentUI", "", "s");
+    FCITX_OBJECT_VTABLE_METHOD(addonForInputMethod, "AddonForIM", "s", "s");
+    FCITX_OBJECT_VTABLE_METHOD(activate, "Activate", "", "");
+    FCITX_OBJECT_VTABLE_METHOD(toggle, "Toggle", "", "");
+    FCITX_OBJECT_VTABLE_METHOD(resetInputMethodList, "ResetIMList", "", "");
+    FCITX_OBJECT_VTABLE_METHOD(state, "State", "", "i");
+    FCITX_OBJECT_VTABLE_METHOD(reloadConfig, "ReloadConfig", "", "");
+    FCITX_OBJECT_VTABLE_METHOD(reloadAddonConfig, "ReloadAddonConfig", "s", "");
+    FCITX_OBJECT_VTABLE_METHOD(currentInputMethod, "CurrentInputMethod", "", "s");
+    FCITX_OBJECT_VTABLE_METHOD(setCurrentInputMethod, "SetCurrentIM", "s", "");
 };
 
 DBusModule::DBusModule(Instance *instance) : m_bus(std::make_unique<dbus::Bus>(dbus::BusType::Session)) {

@@ -76,8 +76,8 @@ struct ReturnValueHelper<void> {
     }
 };
 
-#define FCITX_OBJECT_VTABLE_METHOD(FUNCTION, SIGNATURE, RET) \
-    ObjectVTableMethod FUNCTION##Method{this, #FUNCTION, SIGNATURE, RET, [this] (Message msg) { \
+#define FCITX_OBJECT_VTABLE_METHOD(FUNCTION, FUNCTION_NAME, SIGNATURE, RET) \
+    ObjectVTableMethod FUNCTION##Method{this, FUNCTION_NAME, SIGNATURE, RET, [this] (Message msg) { \
         STRING_TO_DBUS_TUPLE(SIGNATURE) args; \
         msg >> args; \
         auto func = &std::remove_reference<decltype(*this)>::type::FUNCTION; \
