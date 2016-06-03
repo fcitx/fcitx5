@@ -321,6 +321,9 @@ Message &Message::operator<<(const Container &c) {
     case Container::Type::Struct:
         t = SD_BUS_TYPE_DICT_ENTRY;
         break;
+    case Container::Type::Variant:
+        t = SD_BUS_TYPE_VARIANT;
+        break;
     default:
         throw std::runtime_error("invalid container type");
     }

@@ -13,7 +13,8 @@ set(FCITX_UTILS_TEST
     testlist
     testfs
     testlibrary
-    teststandardpath)
+    teststandardpath
+    testmetastring)
 
 set(teststandardpath_ARGS "${CMAKE_CURRENT_SOURCE_DIR}/addon")
 set(testdbus_LIBS Pthread::Pthread)

@@ -20,6 +20,7 @@
 #define _FCITX_UTILS_DBUS_OBJECT_VTABLE_H_
 
 #include <memory>
+#include <functional>
 #include "macros.h"
 #include "fcitxutils_export.h"
 
@@ -53,6 +54,44 @@ private:
     std::string m_ret;
     ObjectMethod m_handler;
 };
+
+template<typename T>
+struct ReturnValueHelper {
+    typedef T type;
+    type ret;
+
+    template<typename U>
+    void call(U u) {
+        ret = u();
+    }
+};
+
+template<>
+struct ReturnValueHelper<void> {
+    typedef std::tuple<> type;
+    type ret;
+    template<typename U>
+    void call(U u) {
+        u();
+    }
+};
+
+#define FCITX_OBJECT_VTABLE_METHOD(FUNCTION, SIGNATURE, RET) \
+    ObjectVTableMethod FUNCTION##Method{this, #FUNCTION, SIGNATURE, RET, [this] (Message msg) { \
+        STRING_TO_DBUS_TUPLE(SIGNATURE) args; \
+        msg >> args; \
+        auto func = &std::remove_reference<decltype(*this)>::type::FUNCTION; \
+        typedef decltype(callWithTuple(this, func, args)) ReturnType; \
+        ReturnValueHelper<ReturnType> helper; \
+        auto functor = [this, &args, func] () { \
+            return callWithTuple(this, func, args); \
+        }; \
+        helper.call(functor); \
+        auto reply = msg.createReply(); \
+        reply << helper.ret; \
+        reply.send(); \
+        return true; \
+    }}
 
 class FCITXUTILS_EXPORT ObjectVTableSignal
 {

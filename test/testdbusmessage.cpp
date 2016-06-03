@@ -18,15 +18,33 @@
  */
 #include "fcitx-utils/dbus.h"
 #include "fcitx-utils/event.h"
-#include <iostream>
+#include "fcitx-utils/metastring.h"
+#include <cassert>
 
 using namespace fcitx::dbus;
 using namespace fcitx;
 
+
 int main() {
     Bus bus(BusType::Session);
 
-    auto msg = bus.createSignal("/test", "test", "test");
-    msg << 1;
+    static_assert(std::is_same<DBusSignatureToTuple<'i', 'u'>::type, std::tuple<int32_t, uint32_t>>::value, "Type is not same");
+
+    // interface name must has dot
+    {
+        auto msg = bus.createSignal("/test", "test.a.b.c", "test");
+        msg << 1;
+        assert(msg.signature() == "i");
+    }
+    {
+        auto msg = bus.createSignal("/test", "test.a.b.c", "test");
+        msg << DBusSignatureToTuple<'i', 'u'>::type(1, 2);
+        assert(msg.signature() == "iu");
+    }
+    {
+        auto msg = bus.createSignal("/test", "test.a.b.c", "test");
+        msg << STRING_TO_DBUS_TUPLE("siud")("a", 1, 2, 3);
+        assert(msg.signature() == "siud");
+    }
     return 0;
 }

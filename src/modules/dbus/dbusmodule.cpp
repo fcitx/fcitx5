@@ -33,7 +33,7 @@ public:
     void exit();
     void restart();
     void configure();
-    void configureAddon();
+    void configureAddon(const std::string &addon);
     void configureInputMethod(const std::string &imName);
     std::string currentUI();
     std::string addonForInputMethod(const std::string &imName);
@@ -48,11 +48,21 @@ public:
     void setCurrentInputMethod(std::string imName);
 
 private:
-    ObjectVTableMethod exitMethod{this, "Exit", "", "", [this] (Message msg) {
-        exit();
-        msg.createReply().send();
-        return true;
-    }};
+    FCITX_OBJECT_VTABLE_METHOD(exit, "", "");
+    FCITX_OBJECT_VTABLE_METHOD(restart, "", "");
+    FCITX_OBJECT_VTABLE_METHOD(configure, "", "");
+    FCITX_OBJECT_VTABLE_METHOD(configureAddon, "s", "");
+    FCITX_OBJECT_VTABLE_METHOD(configureInputMethod, "s", "");
+    FCITX_OBJECT_VTABLE_METHOD(currentUI, "", "s");
+    FCITX_OBJECT_VTABLE_METHOD(addonForInputMethod, "s", "s");
+    FCITX_OBJECT_VTABLE_METHOD(activate, "", "");
+    FCITX_OBJECT_VTABLE_METHOD(toggle, "", "");
+    FCITX_OBJECT_VTABLE_METHOD(resetInputMethodList, "", "");
+    FCITX_OBJECT_VTABLE_METHOD(state, "", "i");
+    FCITX_OBJECT_VTABLE_METHOD(reloadConfig, "", "");
+    FCITX_OBJECT_VTABLE_METHOD(reloadAddonConfig, "s", "");
+    FCITX_OBJECT_VTABLE_METHOD(currentInputMethod, "", "s");
+    FCITX_OBJECT_VTABLE_METHOD(setCurrentInputMethod, "s", "");
 };
 
 DBusModule::DBusModule(Instance *instance) : m_bus(std::make_unique<dbus::Bus>(dbus::BusType::Session)) {

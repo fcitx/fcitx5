@@ -28,6 +28,8 @@ set(FCITX_UTILS_HEADERS
     dbus-message.h
     fs.h
     standardpath.h
+    tuplehelpers.h
+    metastring.h
     )
 
 add_library(Fcitx5Utils SHARED ${FCITX_UTILS_SOURCES})

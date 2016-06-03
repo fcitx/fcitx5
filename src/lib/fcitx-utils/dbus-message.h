@@ -22,11 +22,64 @@
 #include "fcitxutils_export.h"
 #include <string>
 #include <memory>
+#include <tuple>
 #include "macros.h"
+#include "tuplehelpers.h"
+#include "metastring.h"
 
 namespace fcitx {
 
 namespace dbus {
+
+class UnixFD;
+
+template<typename T>
+struct DBusSignatureTraits;
+
+template<char>
+struct DBusSignatureToType;
+
+#define DBUS_SIGNATURE_TRAITS(TYPENAME, SIG) \
+template<> \
+struct DBusSignatureTraits<TYPENAME> { \
+    static constexpr char value = SIG; \
+}; \
+\
+template<> \
+struct DBusSignatureToType<SIG> { \
+    typedef TYPENAME type; \
+};
+
+DBUS_SIGNATURE_TRAITS(std::string, 's');
+DBUS_SIGNATURE_TRAITS(uint8_t, 'y');
+DBUS_SIGNATURE_TRAITS(bool, 'b');
+DBUS_SIGNATURE_TRAITS(int16_t, 'n');
+DBUS_SIGNATURE_TRAITS(uint16_t, 'q');
+DBUS_SIGNATURE_TRAITS(int32_t, 'i');
+DBUS_SIGNATURE_TRAITS(uint32_t, 'u');
+DBUS_SIGNATURE_TRAITS(int64_t, 'x');
+DBUS_SIGNATURE_TRAITS(uint64_t, 't');
+DBUS_SIGNATURE_TRAITS(double, 'd');
+DBUS_SIGNATURE_TRAITS(UnixFD, 'h');
+
+template<char...>
+struct DBusSignatureToTuple;
+
+template<char first, char...next>
+struct DBusSignatureToTuple<first, next...> {
+    typedef typename CombineTuples<std::tuple<typename DBusSignatureToType<first>::type>, typename
+    DBusSignatureToTuple<next...>::type>::type type;
+};
+
+template<>
+struct DBusSignatureToTuple<> {
+    typedef std::tuple<> type;
+};
+
+template<char...c>
+auto MetaStringToDBusTuple(MetaString<c...>) -> DBusSignatureToTuple<c...>;
+
+#define STRING_TO_DBUS_TUPLE(STRING) decltype(MetaStringToDBusTuple(makeMetaString(STRING)()))::type
 
 class Message;
 typedef std::function<bool(Message message)> MessageCallback;
@@ -89,6 +142,7 @@ public:
         Array,
         DictEntry,
         Struct,
+        Variant
     };
 
     Container(Type t = Type::Array, const Signature &content = Signature())
@@ -105,6 +159,37 @@ private:
 class FCITXUTILS_EXPORT ContainerEnd {};
 
 class MessagePrivate;
+
+template<typename Tuple, std::size_t N>
+struct TupleMarshaller
+{
+    static void marshall(Message& msg, const Tuple &t) {
+        TupleMarshaller<Tuple, N-1>::marshall(msg, t);
+        msg << std::get<N-1>(t);
+    }
+    static void unmarshall(Message& msg, Tuple &t) {
+        TupleMarshaller<Tuple, N-1>::unmarshall(msg, t);
+        msg >> std::get<N-1>(t);
+    }
+};
+
+template<typename Tuple>
+struct TupleMarshaller<Tuple, 1>
+{
+    static void marshall(Message& msg, const Tuple &t) {
+        msg << std::get<0>(t);
+    }
+    static void unmarshall(Message& msg, Tuple &t) {
+        msg >> std::get<0>(t);
+    }
+};
+
+template<typename Tuple>
+struct TupleMarshaller<Tuple, 0>
+{
+    static void marshall(Message&, const Tuple &) { }
+    static void unmarshall(Message&, Tuple &) { }
+};
 
 class FCITXUTILS_EXPORT Message {
     friend class Bus;
@@ -147,6 +232,12 @@ public:
     Message &operator<<(const Container &c);
     Message &operator<<(const ContainerEnd &c);
 
+    template<typename ...Args>
+    Message &operator<<(const std::tuple<Args...> &t) {
+        TupleMarshaller<decltype(t), sizeof...(Args)>::marshall(*this, t);
+        return *this;
+    }
+
     Message &operator>>(uint8_t &i);
     Message &operator>>(bool &b);
     Message &operator>>(int16_t &i);
@@ -162,6 +253,12 @@ public:
     Message &operator>>(UnixFD &fd);
     Message &operator>>(const Container &c);
     Message &operator>>(const ContainerEnd &c);
+
+    template<typename ...Args>
+    Message &operator>>(std::tuple<Args...> &t) {
+        TupleMarshaller<decltype(t), sizeof...(Args)>::unmarshall(*this, t);
+        return *this;
+    }
 
 private:
     std::unique_ptr<MessagePrivate> d_ptr;

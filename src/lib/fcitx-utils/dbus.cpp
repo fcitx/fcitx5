@@ -98,8 +98,9 @@ Message Bus::createSignal(const char *path, const char *interface,
     FCITX_D();
     Message msg;
     auto msgD = msg.d_func();
-    if (sd_bus_message_new_signal(d->bus, &msgD->msg, path, interface, member) <
-        0) {
+    int r = sd_bus_message_new_signal(d->bus, &msgD->msg, path, interface, member);
+    if (r < 0) {
+        std::cout << strerror(-r) << std::endl;
         msgD->type = MessageType::Invalid;
     } else {
         msgD->type = MessageType::Signal;
@@ -217,6 +218,7 @@ bool Bus::addObjectVTable(const std::string &path, const std::string &interface,
     slot->slot = sdSlot;
 
     vtable.setSlot(slot.release());
+    return true;
 }
 
 Slot *Bus::addObjectSubTree(const std::string &path, MessageCallback callback,

@@ -27,21 +27,15 @@ using namespace fcitx;
 class TestObject : public ObjectVTable
 {
     void test1() { }
-    std::string test2(int i) { return std::to_string(i); }
+    std::string test2(int32_t i) { return std::to_string(i); }
+    std::tuple<int32_t, uint32_t> test3(int32_t i) {
+        std::cout << "RET" << i << std::endl;
+        return std::make_tuple(i - 1, i + 1);
+    }
 private:
-    ObjectVTableMethod test1Method{this, "test1", "", "", [this] (Message msg) {
-        test1();
-        msg.createReply().send();
-        return true;
-    }};
-    ObjectVTableMethod test2Method{this, "test2", "i", "s", [this] (Message msg) {
-        int i;
-        msg >> i;
-        auto reply = msg.createReply();
-        reply << test2(i);
-        reply.send();
-        return true;
-    }};
+    FCITX_OBJECT_VTABLE_METHOD(test1, "", "");
+    FCITX_OBJECT_VTABLE_METHOD(test2, "i", "s");
+    FCITX_OBJECT_VTABLE_METHOD(test3, "i", "iu");
 };
 
 #define TEST_SERVICE "org.fcitx.Fcitx.TestDBus"
@@ -53,7 +47,7 @@ void *client(void *)
     EventLoop loop;
     clientBus.attachEventLoop(&loop);
     std::unique_ptr<EventSourceTime> s2(loop.addTimeEvent(
-        CLOCK_MONOTONIC, now(CLOCK_MONOTONIC) + 1000000, 0,
+        CLOCK_MONOTONIC, now(CLOCK_MONOTONIC) + 100000, 0,
         [&clientBus, &loop](EventSource *, uint64_t) {
             auto msg = clientBus.createMethodCall(
                 TEST_SERVICE, "/test",
@@ -65,6 +59,28 @@ void *client(void *)
             std::string ret;
             reply >> ret;
             assert(ret == "2");
+            return false;
+        }));
+    std::unique_ptr<EventSourceTime> s3(loop.addTimeEvent(
+        CLOCK_MONOTONIC, now(CLOCK_MONOTONIC) + 200000, 0,
+        [&clientBus, &loop](EventSource *, uint64_t) {
+            auto msg = clientBus.createMethodCall(
+                TEST_SERVICE, "/test",
+                TEST_INTERFACE, "test3");
+            msg << 2;
+            auto reply = msg.call(0);
+            std::cout << static_cast<int>(reply.type()) << std::endl;
+            if (reply.type() == MessageType::Error) {
+                std::cout << reply.signature() << std::endl;
+            }
+            assert(reply.type() == MessageType::Reply);
+            assert(reply.signature() == "iu");
+            STRING_TO_DBUS_TUPLE("iu") ret;
+            reply >> ret;
+            std::cout << std::get<0>(ret) << std::endl;
+            std::cout << std::get<1>(ret) << std::endl;
+            assert(std::get<0>(ret) == 1);
+            assert(std::get<1>(ret) == 3);
             loop.quit();
             return false;
         }));
@@ -82,7 +98,7 @@ int main() {
     TestObject obj;
     assert(bus.addObjectVTable("/test", TEST_INTERFACE, obj));
     std::unique_ptr<EventSourceTime> s(loop.addTimeEvent(
-        CLOCK_MONOTONIC, now(CLOCK_MONOTONIC) + 2000000, 0,
+        CLOCK_MONOTONIC, now(CLOCK_MONOTONIC) + 1000000, 0,
         [&bus, &loop](EventSource *, uint64_t) {
             auto msg = bus.createMethodCall(
                 "org.freedesktop.DBus", "/org/freedesktop/DBus",
