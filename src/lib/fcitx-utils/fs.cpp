@@ -131,10 +131,9 @@ bool makePath(const std::string &path) {
 
             if (mkdir(curpath.c_str(), S_IRWXU) != 0) {
                 if (errno == EEXIST) {
-                    if (isdir(curpath.c_str())) {
-                        continue;
+                    if (!isdir(curpath.c_str())) {
+                        return false;
                     }
-                    return false;
                 }
             }
         }
