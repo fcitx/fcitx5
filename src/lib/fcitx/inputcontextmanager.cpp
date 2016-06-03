@@ -18,7 +18,6 @@
  */
 
 #include <unordered_map>
-#include <map>
 #include "inputcontextmanager.h"
 #include "inputcontext_p.h"
 #include "focusgroup.h"

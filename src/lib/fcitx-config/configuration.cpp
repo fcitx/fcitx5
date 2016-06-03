@@ -18,7 +18,7 @@
  */
 
 #include <cassert>
-#include <map>
+#include <unordered_map>
 #include <exception>
 #include <list>
 #include <iostream>
@@ -29,7 +29,7 @@
 namespace fcitx {
 struct ConfigurationPrivate {
     std::list<std::string> m_optionsOrder;
-    std::map<std::string, OptionBase *> m_options;
+    std::unordered_map<std::string, OptionBase *> m_options;
 };
 
 Configuration::Configuration()

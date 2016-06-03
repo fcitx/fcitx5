@@ -17,7 +17,7 @@
  * see <http://www.gnu.org/licenses/>.
  */
 
-#include <map>
+#include <unordered_map>
 #include <fcntl.h>
 #include <unistd.h>
 #include "addonmanager.h"
@@ -53,8 +53,8 @@ public:
     AddonManager *q_ptr;
     FCITX_DECLARE_PUBLIC(AddonManager);
 
-    std::map<std::string, std::unique_ptr<Addon>> addons;
-    std::map<std::string, std::unique_ptr<AddonLoader>> loaders;
+    std::unordered_map<std::string, std::unique_ptr<Addon>> addons;
+    std::unordered_map<std::string, std::unique_ptr<AddonLoader>> loaders;
 
     Instance *instance;
 };

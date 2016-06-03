@@ -24,7 +24,7 @@
 #include <string>
 #include <functional>
 #include <memory>
-#include <map>
+#include <unordered_map>
 #include "macros.h"
 #include "flags.h"
 #include "stringutils.h"
@@ -112,6 +112,9 @@ class StandardPathPrivate;
 
 typedef std::pair<int, std::string> StandardPathFile;
 
+typedef std::unordered_map<std::string, StandardPathFile> StandardPathFileMap;
+typedef std::unordered_map<std::string, std::vector<StandardPathFile>> StandardPathFilesMap;
+
 class FCITXUTILS_EXPORT StandardPath {
 public:
     enum class Type { Config, Data, Cache, Runtime, Addon };
@@ -138,22 +141,22 @@ public:
     // Open the first matched and succeed
     StandardPathFile open(Type type, const std::string &path, int flags);
     // Open first match for
-    std::map<std::string, StandardPathFile> multiOpenFilter(
+    StandardPathFileMap multiOpenFilter(
         Type type, const std::string &path, int flags,
         std::function<bool(const std::string &path, const std::string &dir,
                            bool user)> filter);
     template <typename... Args>
-    std::map<std::string, StandardPathFile>
+    StandardPathFileMap
     multiOpen(Type type, const std::string &path, int flags, Args... args) {
         return multiOpenFilter(type, path, flags,
                                filter::Chainer<Args...>(args...));
     }
-    std::map<std::string, std::vector<StandardPathFile>> multiOpenAllFilter(
+    StandardPathFilesMap multiOpenAllFilter(
         Type type, const std::string &path, int flags,
         std::function<bool(const std::string &path, const std::string &dir,
                            bool user)> filter);
     template <typename... Args>
-    std::map<std::string, std::vector<StandardPathFile>>
+    StandardPathFilesMap
     multiOpenAll(Type type, const std::string &path, int flags, Args... args) {
         return multiOpenAllFilter(type, path, flags,
                                   filter::Chainer<Args...>(args...));

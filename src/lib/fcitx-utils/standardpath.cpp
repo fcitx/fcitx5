@@ -300,11 +300,11 @@ StandardPathFile StandardPath::open(Type type, const std::string &path,
     return file;
 }
 
-std::map<std::string, StandardPathFile> StandardPath::multiOpenFilter(
+std::unordered_map<std::string, StandardPathFile> StandardPath::multiOpenFilter(
     Type type, const std::string &path, int flags,
     std::function<bool(const std::string &path, const std::string &dir,
                        bool user)> filter) {
-    std::map<std::string, StandardPathFile> result;
+    std::unordered_map<std::string, StandardPathFile> result;
     scanFiles(type, path,
               [&result, flags, &filter](const std::string &path,
                                         const std::string dir, bool isUser) {
@@ -321,12 +321,12 @@ std::map<std::string, StandardPathFile> StandardPath::multiOpenFilter(
     return result;
 }
 
-std::map<std::string, std::vector<StandardPathFile>>
+StandardPathFilesMap
 StandardPath::multiOpenAllFilter(
     Type type, const std::string &path, int flags,
     std::function<bool(const std::string &path, const std::string &dir,
                        bool user)> filter) {
-    std::map<std::string, std::vector<StandardPathFile>> result;
+    StandardPathFilesMap result;
     scanFiles(type, path,
               [&result, flags, &filter](const std::string &path,
                                         const std::string dir, bool isUser) {

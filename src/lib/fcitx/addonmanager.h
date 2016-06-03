@@ -21,7 +21,6 @@
 
 #include <memory>
 #include <fcitx-utils/macros.h>
-#include <map>
 #include <string>
 #include "fcitxcore_export.h"
 #include "addonloader.h"

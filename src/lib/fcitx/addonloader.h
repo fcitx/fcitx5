@@ -20,8 +20,7 @@
 #define _FCITX_ADDONRESOLVER_H_
 
 #include <string>
-#include <map>
-#include <string>
+#include <unordered_map>
 #include "addoninfo.h"
 #include "addoninstance.h"
 #include "fcitxcore_export.h"
@@ -31,7 +30,7 @@ namespace fcitx {
 class AddonFactory;
 class AddonManager;
 
-typedef std::map<std::string, AddonFactory *> StaticAddonRegistry;
+typedef std::unordered_map<std::string, AddonFactory *> StaticAddonRegistry;
 
 class FCITXCORE_EXPORT AddonLoader {
 public:

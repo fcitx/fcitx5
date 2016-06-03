@@ -59,7 +59,7 @@ public:
 
 private:
     StandardPath m_standardPath;
-    std::map<std::string, std::unique_ptr<SharedLibraryFactory>> m_registry;
+    std::unordered_map<std::string, std::unique_ptr<SharedLibraryFactory>> m_registry;
 };
 
 class StaticLibraryLoader : public AddonLoader {
@@ -70,7 +70,7 @@ public:
 
     std::string type() const override { return "StaticLibrary"; }
 
-    std::map<std::string, AddonFactory *> *registry;
+    StaticAddonRegistry *registry;
 };
 }
 

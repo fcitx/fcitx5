@@ -16,8 +16,7 @@
  * License along with this library; see the file COPYING. If not,
  * see <http://www.gnu.org/licenses/>.
  */
-#include <list>
-#include <map>
+#include <unordered_map>
 #include <sstream>
 #include <iostream>
 #include "fcitx-utils/stringutils.h"
@@ -102,7 +101,7 @@ public:
     std::string name;
     std::string value;
     std::string comment;
-    std::map<std::string, std::shared_ptr<RawConfig>> subItems;
+    std::unordered_map<std::string, std::shared_ptr<RawConfig>> subItems;
     unsigned int lineNumber;
     FCITX_DECLARE_PUBLIC(RawConfig);
 };
