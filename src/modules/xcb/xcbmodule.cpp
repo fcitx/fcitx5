@@ -225,9 +225,9 @@ void XCBConnection::updateKeymap() {
     if (!m_keymap) {
         struct xkb_rule_names xkbNames;
 
-        int length;
         const auto nameString = xkbRulesNames();
         if (!nameString.empty()) {
+            int length = nameString.size();
             const char *names[5] = {nullptr, nullptr, nullptr, nullptr, nullptr};
             auto p = nameString.begin(), end = nameString.end();
             int i = 0;

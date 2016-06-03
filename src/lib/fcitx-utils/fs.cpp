@@ -122,25 +122,29 @@ bool makePath(const std::string &path) {
 
     // skip first /, the root directory or unc is not what we can create
     auto iter = opath.begin();
-    while (*iter == '/') {
+    while (iter != opath.end() && *iter == '/') {
         iter++;
     }
-    do {
+    while (true) {
         if (iter == opath.end() || *iter == '/') {
             std::string curpath(opath.begin(), iter);
 
             if (mkdir(curpath.c_str(), S_IRWXU) != 0) {
                 if (errno == EEXIST) {
-                    struct stat stats;
-                    if (stat(curpath.c_str(), &stats) != 0 ||
-                        !S_ISDIR(stats.st_mode)) {
-                        return false;
+                    if (isdir(curpath.c_str())) {
+                        continue;
                     }
+                    return false;
                 }
             }
         }
-    } while (*(iter++) != '\0');
 
+        if (iter == opath.end()) {
+            break;
+        } else {
+            iter++;
+        }
+    }
     return true;
 }
 }

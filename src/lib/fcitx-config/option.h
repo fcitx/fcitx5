@@ -132,7 +132,7 @@ template <typename T, typename Constrain = NoConstrain<T>,
 class Option : public OptionBase {
 public:
     Option(Configuration *parent, std::string path, std::string description,
-           T defaultValue = T(), Constrain constrain = Constrain(),
+           const T &defaultValue = T(), Constrain constrain = Constrain(),
            Marshaller marshaller = Marshaller())
         : OptionBase(parent, path, description), m_defaultValue(defaultValue),
           m_value(defaultValue), m_marshaller(marshaller),

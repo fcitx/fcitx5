@@ -22,6 +22,7 @@
 #include <iostream>
 #include <assert.h>
 #include <fcntl.h>
+#include <sys/stat.h>
 
 using namespace fcitx::dbus;
 using namespace fcitx;
@@ -30,6 +31,7 @@ bool fd_is_valid(int fd) { return fcntl(fd, F_GETFD) != -1 || errno != EBADF; }
 
 int main() {
     char fname[] = "XXXXXX";
+    umask(S_IXUSR | S_IRWXG | S_IRWXO);
     int f = mkstemp(fname);
     assert(f != -1);
     {
