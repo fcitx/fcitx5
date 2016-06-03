@@ -39,6 +39,23 @@ public:
     AddonManager *addonManager();
     InputContextManager *inputContextManager();
 
+    void exit();
+    void restart();
+    void configure();
+    void configureAddon(const std::string &addon);
+    void configureInputMethod(const std::string &imName);
+    std::string currentUI();
+    std::string addonForInputMethod(const std::string &imName);
+    void activate();
+    void deactivate();
+    void toggle();
+    void resetInputMethodList();
+    int state();
+    void reloadConfig();
+    void reloadAddonConfig(const std::string &addonName);
+    std::string currentInputMethod();
+    void setCurrentInputMethod(std::string imName);
+
 private:
     std::unique_ptr<InstancePrivate> d_ptr;
     FCITX_DECLARE_PRIVATE(Instance);

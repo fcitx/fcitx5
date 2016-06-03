@@ -21,6 +21,7 @@
 #include "fcitx-utils/dbus.h"
 #include "fcitx/addonmanager.h"
 
+#define FCITX_DBUS_SERVICE "org.fcitx.Fcitx"
 #define FCITX_CONTROLLER_DBUS_INTERFACE "org.fcitx.Fcitx.Controller1"
 
 using namespace fcitx::dbus;
@@ -28,24 +29,33 @@ using namespace fcitx::dbus;
 namespace fcitx
 {
 
-class Controller : public ObjectVTable {
+class Controller1 : public ObjectVTable {
 public:
-    void exit();
-    void restart();
-    void configure();
-    void configureAddon(const std::string &addon);
-    void configureInputMethod(const std::string &imName);
-    std::string currentUI();
-    std::string addonForInputMethod(const std::string &imName);
-    void activate();
-    void deactivate();
-    void toggle();
-    void resetInputMethodList();
-    int state();
-    void reloadConfig();
-    void reloadAddonConfig(const std::string &addonName);
-    std::string currentInputMethod();
-    void setCurrentInputMethod(std::string imName);
+    Controller1(Instance *instance) : m_instance(instance) {
+    }
+
+    void exit() {
+        m_instance->exit();
+    }
+
+    void restart() { m_instance->restart(); }
+    void configure() { m_instance->configure(); }
+    void configureAddon(const std::string &addon) { m_instance->configureAddon(addon); }
+    void configureInputMethod(const std::string &imName) { m_instance->configureInputMethod(imName); }
+    std::string currentUI() { return m_instance->currentUI(); }
+    std::string addonForInputMethod(const std::string &imName) { return m_instance->addonForInputMethod(imName); }
+    void activate() { return m_instance->activate(); }
+    void deactivate() { return m_instance->deactivate(); }
+    void toggle() { return m_instance->toggle(); }
+    void resetInputMethodList() { return m_instance->resetInputMethodList(); }
+    int state() { return m_instance->state(); }
+    void reloadConfig() { return m_instance->reloadConfig(); }
+    void reloadAddonConfig(const std::string &addonName) { return m_instance->reloadAddonConfig(addonName); }
+    std::string currentInputMethod() { return m_instance->currentInputMethod(); }
+    void setCurrentInputMethod(std::string imName) { return m_instance->setCurrentInputMethod(imName); }
+
+private:
+    Instance *m_instance;
 
 private:
     FCITX_OBJECT_VTABLE_METHOD(exit, "Exit", "", "");
@@ -67,10 +77,11 @@ private:
 
 DBusModule::DBusModule(Instance *instance) : m_bus(std::make_unique<dbus::Bus>(dbus::BusType::Session)) {
     m_bus->attachEventLoop(instance->eventLoop());
-    if (!m_bus->requestName(FCITX_CONTROLLER_DBUS_INTERFACE, Flags<RequestNameFlag>{RequestNameFlag::AllowReplacement, RequestNameFlag::ReplaceExisting})) {
+    if (!m_bus->requestName(FCITX_DBUS_SERVICE, Flags<RequestNameFlag>{RequestNameFlag::AllowReplacement, RequestNameFlag::ReplaceExisting})) {
         throw std::runtime_error("Unable to request dbus name");
     }
-    // m_bus->addObject();
+    m_controller = std::make_unique<Controller1>(instance);
+    m_bus->addObjectVTable("/controller", FCITX_CONTROLLER_DBUS_INTERFACE, *m_controller);
 }
 
 AddonInstance *DBusModuleFactory::create(AddonManager *manager)

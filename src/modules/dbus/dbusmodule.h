@@ -26,7 +26,7 @@
 
 namespace fcitx
 {
-
+class Controller1;
 class DBusModule : public AddonInstance {
 public:
     DBusModule(Instance *instance);
@@ -34,6 +34,7 @@ public:
 
 private:
     std::unique_ptr<dbus::Bus> m_bus;
+    std::unique_ptr<Controller1> m_controller;
 };
 
 class DBusModuleFactory : public AddonFactory {

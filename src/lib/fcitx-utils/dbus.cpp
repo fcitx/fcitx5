@@ -44,10 +44,13 @@ Bus::Bus(BusType type) : d_ptr(std::make_unique<BusPrivate>()) {
     switch (type) {
     case BusType::Session:
         func = sd_bus_open_user;
+        break;
     case BusType::System:
         func = sd_bus_open_system;
+        break;
     default:
         func = sd_bus_open;
+        break;
     }
     func(&d_ptr->bus);
 }

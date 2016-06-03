@@ -25,7 +25,16 @@ class InstancePrivate {
 public:
     EventLoop *eventLoop;
     InputContextManager *icManager;
+    AddonManager* addonManager;
 };
+
+Instance::Instance() {
+}
+
+Instance::~Instance()
+{
+}
+
 
 EventLoop *Instance::eventLoop() {
     FCITX_D();
@@ -36,4 +45,76 @@ InputContextManager *Instance::inputContextManager() {
     FCITX_D();
     return d->icManager;
 }
+
+AddonManager * Instance::addonManager()
+{
+    FCITX_D();
+    return d->addonManager;
+}
+
+void Instance::activate()
+{
+}
+
+std::string Instance::addonForInputMethod(const std::string& imName)
+{
+    return { };
+}
+
+void Instance::configure()
+{
+}
+
+void Instance::configureAddon(const std::string& addon)
+{
+}
+
+void Instance::configureInputMethod(const std::string& imName)
+{
+}
+
+std::string Instance::currentInputMethod()
+{
+}
+
+std::string Instance::currentUI()
+{
+}
+
+void Instance::deactivate()
+{
+}
+
+void Instance::exit()
+{
+}
+
+void Instance::reloadAddonConfig(const std::string& addonName)
+{
+}
+
+void Instance::reloadConfig()
+{
+}
+
+void Instance::resetInputMethodList()
+{
+}
+
+void Instance::restart()
+{
+}
+
+void Instance::setCurrentInputMethod(std::string imName)
+{
+}
+
+int Instance::state()
+{
+}
+
+void Instance::toggle()
+{
+}
+
 }
