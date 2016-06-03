@@ -18,6 +18,7 @@ set(FCITX_CORE_HEADERS
     surroundingtext.h
     addonloader.h
     addonmanager.h
+    ${CMAKE_CURRENT_BINARY_DIR}/fcitxcore_export.h
     )
 
 

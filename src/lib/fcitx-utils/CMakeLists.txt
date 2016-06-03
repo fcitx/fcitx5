@@ -26,10 +26,12 @@ set(FCITX_UTILS_HEADERS
     library.h
     cutf8.h
     dbus-message.h
+    dbus-object-vtable.h
     fs.h
     standardpath.h
     tuplehelpers.h
     metastring.h
+    ${CMAKE_CURRENT_BINARY_DIR}/fcitxutils_export.h
     )
 
 add_library(Fcitx5Utils SHARED ${FCITX_UTILS_SOURCES})
