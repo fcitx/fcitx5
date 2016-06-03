@@ -52,7 +52,7 @@ public:
     void reloadConfig() { return m_instance->reloadConfig(); }
     void reloadAddonConfig(const std::string &addonName) { return m_instance->reloadAddonConfig(addonName); }
     std::string currentInputMethod() { return m_instance->currentInputMethod(); }
-    void setCurrentInputMethod(std::string imName) { return m_instance->setCurrentInputMethod(imName); }
+    void setCurrentInputMethod(const std::string &imName) { return m_instance->setCurrentInputMethod(imName); }
 
 private:
     Instance *m_instance;

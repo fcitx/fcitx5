@@ -54,7 +54,7 @@ public:
     void reloadConfig();
     void reloadAddonConfig(const std::string &addonName);
     std::string currentInputMethod();
-    void setCurrentInputMethod(std::string imName);
+    void setCurrentInputMethod(const std::string &imName);
 
 private:
     std::unique_ptr<InstancePrivate> d_ptr;

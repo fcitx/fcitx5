@@ -43,15 +43,15 @@ public:
                        const std::string &name, const std::string &signature,
                        const std::string &ret, ObjectMethod handler);
 
-    const std::string name() const { return m_name; }
-    const std::string signature() const { return m_signature; }
-    const std::string ret() const { return m_ret; }
+    const std::string &name() const { return m_name; }
+    const std::string &signature() const { return m_signature; }
+    const std::string &ret() const { return m_ret; }
     ObjectMethod &handler() { return m_handler; }
 
 private:
-    std::string m_name;
-    std::string m_signature;
-    std::string m_ret;
+    const std::string m_name;
+    const std::string m_signature;
+    const std::string m_ret;
     ObjectMethod m_handler;
 };
 
@@ -100,8 +100,8 @@ public:
                        const std::string &name, const std::string signature);
 
 private:
-    std::string m_name;
-    std::string m_signature;
+    const std::string m_name;
+    const std::string m_signature;
 };
 
 class FCITXUTILS_EXPORT ObjectVTableProperty
@@ -111,8 +111,8 @@ public:
                          const std::string &name, const std::string signature, PropertyGetMethod getMethod);
 
 protected:
-    std::string m_name;
-    std::string m_signature;
+    const std::string m_name;
+    const std::string m_signature;
     PropertyGetMethod m_getMethod;
     bool m_writable;
 };

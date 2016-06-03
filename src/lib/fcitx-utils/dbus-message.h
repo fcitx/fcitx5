@@ -95,7 +95,7 @@ enum class MessageType {
 
 class FCITXUTILS_EXPORT ObjectPath {
 public:
-    ObjectPath(const std::string &path = std::string()) : m_path(path) {}
+    ObjectPath(const std::string &path = {}) : m_path(path) {}
 
     const std::string &path() const { return m_path; }
 
@@ -105,7 +105,7 @@ private:
 
 class FCITXUTILS_EXPORT Signature {
 public:
-    Signature(const std::string &sig = std::string()) : m_sig(sig) {}
+    Signature(const std::string &sig = {}) : m_sig(sig) {}
 
     const std::string &sig() const { return m_sig; }
 
