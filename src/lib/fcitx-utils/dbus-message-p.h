@@ -20,7 +20,7 @@
 #define _FCITX_UTILS_DBUS_MESSAGE_P_H_
 
 #include "dbus-message.h"
-#include <systemd/sd-bus.h>
+#include "sd-bus-wrap.h"
 
 namespace fcitx {
 namespace dbus {

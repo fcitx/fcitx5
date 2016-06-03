@@ -17,9 +17,6 @@
  * see <http://www.gnu.org/licenses/>.
  */
 
-#include <systemd/sd-bus.h>
-#include <iostream>
-#include "dbus.h"
 #include "dbus_p.h"
 #include "dbus-message-p.h"
 #include "dbus-object-vtable_p.h"
@@ -103,7 +100,6 @@ Message Bus::createSignal(const char *path, const char *interface,
     auto msgD = msg.d_func();
     int r = sd_bus_message_new_signal(d->bus, &msgD->msg, path, interface, member);
     if (r < 0) {
-        std::cout << strerror(-r) << std::endl;
         msgD->type = MessageType::Invalid;
     } else {
         msgD->type = MessageType::Signal;

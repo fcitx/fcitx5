@@ -16,38 +16,12 @@
  * License along with this library; see the file COPYING. If not,
  * see <http://www.gnu.org/licenses/>.
  */
-#ifndef _FCITX_UTILS_DBUS_OBJECT_VTABLE_P_H_
-#define _FCITX_UTILS_DBUS_OBJECT_VTABLE_P_H_
+#ifndef _FCITX_UTILS_SD_BUS_WRAP_H_
+#define _FCITX_UTILS_SD_BUS_WRAP_H_
 
-#include <vector>
-#include "dbus-object-vtable.h"
-#include "dbus-object-vtable-wrapper.h"
-#include "dbus-message-p.h"
+#if defined(__COVERITY__) && !defined(__INCLUDE_LEVEL__)
+#define __INCLUDE_LEVEL__ 2
+#endif
+#include <systemd/sd-bus.h>
 
-namespace fcitx
-{
-namespace dbus
-{
-
-
-class ObjectVTablePrivate
-{
-public:
-    ObjectVTablePrivate(ObjectVTable *q) : q_ptr(q) { }
-    ~ObjectVTablePrivate();
-
-    std::vector<sd_bus_vtable> toSDBusVTable() const;
-
-    ObjectVTable *q_ptr;
-    FCITX_DECLARE_PUBLIC(ObjectVTable);
-
-    std::vector<ObjectVTableMethod *> methods;
-    std::vector<ObjectVTableProperty *> properties;
-    std::vector<ObjectVTableSignal *> sigs;
-    std::unique_ptr<Slot> slot;
-};
-
-}
-}
-
-#endif // _FCITX_UTILS_DBUS_OBJECT_VTABLE_P_H_
+#endif // _FCITX_UTILS_SD_BUS_WRAP_H_

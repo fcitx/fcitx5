@@ -27,18 +27,12 @@ namespace fcitx
 template<char ...c>
 struct MetaString final {
 public:
-    static constexpr char const * data() noexcept
-    { return &m_str[0]; }
     static constexpr std::size_t size() {
         return m_size;    // size()
     }
 private:
-    static const char m_str[sizeof...(c)+1] = { c..., '\0' };
     static const std::size_t m_size = sizeof...(c);
 };
-
-template<char...c>
-constexpr const char MetaString<c...>::m_str[sizeof...(c)+1];
 
 template<int N, int M>
 constexpr char __getChar(char const(&str)[M]) noexcept

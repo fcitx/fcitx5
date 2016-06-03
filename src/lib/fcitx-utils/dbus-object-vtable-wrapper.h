@@ -19,7 +19,8 @@
 #ifndef _FCITX_UTILS_DBUS_OBJECT_VTABLE_WRAPPER_H_
 #define _FCITX_UTILS_DBUS_OBJECT_VTABLE_WRAPPER_H_
 
-#include <systemd/sd-bus.h>
+#include "sd-bus-wrap.h"
+
 
 #ifdef __cplusplus
 extern "C"

@@ -20,11 +20,9 @@
 #include "dbus-message.h"
 #include "dbus-message-p.h"
 #include "dbus_p.h"
-#include <systemd/sd-bus.h>
 #include <fcntl.h>
 #include <unistd.h>
 #include <atomic>
-#include <iostream>
 
 namespace fcitx {
 

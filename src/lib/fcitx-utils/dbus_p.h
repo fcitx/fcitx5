@@ -19,8 +19,8 @@
 #ifndef _FCITX_UTILS_DBUS_P_H_
 #define _FCITX_UTILS_DBUS_P_H_
 
-#include <systemd/sd-bus.h>
 #include "dbus.h"
+#include "sd-bus-wrap.h"
 
 namespace fcitx {
 
