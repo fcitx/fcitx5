@@ -41,9 +41,9 @@ public:
 class FCITXCORE_EXPORT AddonInstance {
 public:
     template <typename Signature, typename ...Args>
-    typename std::result_of<Signature*(Args...)>::type call(const std::string &name, Args&&... args) {
+    std::result_of_t<std::add_pointer_t<Signature>(Args...)> call(const std::string &name, Args&&... args) {
         auto adaptor = callbackMap[name];
-        auto func = Library::toFunction<typename std::result_of<Signature*(Args...)>::type(AddonInstance*, AddonFunctionAdaptorBase*, Args&&...)>(adaptor->wrapCallback);
+        auto func = Library::toFunction<std::result_of_t<std::add_pointer_t<Signature>(Args...)>(AddonInstance*, AddonFunctionAdaptorBase*, Args&&...)>(adaptor->wrapCallback);
         return func(this, adaptor, std::forward<Args>(args)...);
     }
 
