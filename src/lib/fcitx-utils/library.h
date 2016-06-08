@@ -54,8 +54,8 @@ public:
     std::string error();
 
     template <typename Func>
-    static std::function<Func> toFunction(void *ptr) {
-        return {reinterpret_cast<Func *>(ptr)};
+    static auto toFunction(void *ptr) {
+        return reinterpret_cast<Func *>(ptr);
     }
 
 private:

@@ -38,12 +38,21 @@ public:
     }
 };
 
+template<typename Signature>
+struct AddonFunctionWrapperType;
+
+template<typename Ret, typename ...Args>
+struct AddonFunctionWrapperType<Ret(Args...)>
+{
+    typedef Ret type(AddonInstance*, AddonFunctionAdaptorBase*, Args...);
+};
+
 class FCITXCORE_EXPORT AddonInstance {
 public:
     template <typename Signature, typename ...Args>
-    std::result_of_t<std::add_pointer_t<Signature>(Args...)> call(const std::string &name, Args&&... args) {
+    typename std::function<Signature>::result_type call(const std::string &name, Args&&... args) {
         auto adaptor = callbackMap[name];
-        auto func = Library::toFunction<std::result_of_t<std::add_pointer_t<Signature>(Args...)>(AddonInstance*, AddonFunctionAdaptorBase*, Args&&...)>(adaptor->wrapCallback);
+        auto func = Library::toFunction<typename AddonFunctionWrapperType<Signature>::type>(adaptor->wrapCallback);
         return func(this, adaptor, std::forward<Args>(args)...);
     }
 
