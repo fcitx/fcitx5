@@ -35,5 +35,6 @@ int main(int argc, char *argv[]) {
     auto addon = manager.addon("dummyaddon");
     assert(addon);
     assert(6 == addon->call<int(int)>("addOne", 5));
+    assert(6 == addon->call<int(int)>("addOne", 5.3));
     return 0;
 }

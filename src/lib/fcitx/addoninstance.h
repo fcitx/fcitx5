@@ -75,7 +75,7 @@ public:
         addon_->registerCallback(name, this);
     }
 
-    static Ret callback(AddonInstance *addon_, AddonFunctionAdaptorBase* adaptor_, Args&&... args) {
+    static Ret callback(AddonInstance *addon_, AddonFunctionAdaptorBase* adaptor_, Args... args) {
         auto adaptor = reinterpret_cast<AddonFunctionAdaptor<Class, Ret, Args...>*>(adaptor_);
         auto addon = reinterpret_cast<Class*>(addon_);
         auto pCallback = adaptor->pCallback;
