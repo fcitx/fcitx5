@@ -16,23 +16,33 @@
  * License along with this library; see the file COPYING. If not,
  * see <http://www.gnu.org/licenses/>.
  */
+#ifndef _FCITX_INPUTMETHODGROUP_H_
+#define _FCITX_INPUTMETHODGROUP_H_
 
-#include "fcitx/addoninstance.h"
-#include "fcitx/addonfactory.h"
+#include <memory>
+#include <fcitx-utils/macros.h>
+#include <vector>
+#include <string>
 
-class DummyAddon : public fcitx::AddonInstance {
+namespace fcitx
+{
+
+class InputMethodGroupPrivate;
+
+class InputMethodGroup
+{
 public:
-    int addOne(int a) {
-        return a + 1;
-    }
+    InputMethodGroup();
+    virtual ~InputMethodGroup();
 
-    FCITX_ADDON_EXPORT_FUNCTION(addOne, DummyAddon::addOne);
+    std::vector<std::string> &inputMethodList();
+    const std::vector<std::string> &inputMethodList() const;
+
+private:
+    std::unique_ptr<InputMethodGroupPrivate> d_ptr;
+    FCITX_DECLARE_PRIVATE(InputMethodGroup);
 };
 
-class DummyAddonFactory : public fcitx::AddonFactory {
-    virtual fcitx::AddonInstance *create(fcitx::AddonManager *) override {
-        return new DummyAddon;
-    }
-};
+}
 
-FCITX_ADDON_FACTORY(DummyAddonFactory)
+#endif // _FCITX_INPUTMETHODGROUP_H_

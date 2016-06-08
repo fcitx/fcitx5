@@ -1,2 +1,5 @@
 add_library(xcb MODULE xcbmodule.cpp)
 target_link_libraries(xcb Fcitx5::Core XCB::XCB XCB::AUX XCB::XKB XKBCommon::XKBCommon XKBCommon::X11)
+set_target_properties(xcb PROPERTIES PREFIX "")
+install(TARGETS xcb DESTINATION "${FCITX_INSTALL_ADDONDIR}")
+install(FILES xcb.conf DESTINATION "${FCITX_INSTALL_PKGDATADIR}/addon")

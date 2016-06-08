@@ -77,8 +77,8 @@ XCBConnection::XCBConnection(XCBModule *xcb, const std::string &name)
     xcb_set_selection_owner(m_conn.get(), w, m_atom, XCB_CURRENT_TIME);
     m_serverWindow = w;
     int fd = xcb_get_file_descriptor(m_conn.get());
-    auto eventLoop = m_parent->instance()->eventLoop();
-    eventLoop->addIOEvent(fd, IOEventFlag::In,
+    auto &eventLoop = m_parent->instance()->eventLoop();
+    eventLoop.addIOEvent(fd, IOEventFlag::In,
                           [this](EventSource *, int, IOEventFlags) {
                               onIOEvent();
                               return true;
@@ -128,7 +128,7 @@ XCBConnection::XCBConnection(XCBModule *xcb, const std::string &name)
     }
 
     // create a focus group for display server
-    m_group = new FocusGroup(*xcb->instance()->inputContextManager());
+    m_group = new FocusGroup(xcb->instance()->inputContextManager());
 
     addEventFilter([this](xcb_connection_t *conn, xcb_generic_event_t *event) {
         return filterEvent(conn, event);
@@ -163,7 +163,7 @@ bool XCBConnection::filterEvent(xcb_connection_t *,
             ICUUID uuid;
             memcpy(uuid.data(), client_message->data.data8, uuid.size());
             InputContext *ic =
-                m_parent->instance()->inputContextManager()->findByUUID(uuid);
+                m_parent->instance()->inputContextManager().findByUUID(uuid);
             if (ic) {
                 ic->setFocusGroup(m_group);
             }
@@ -330,6 +330,20 @@ void XCBModule::removeConnection(const std::string &name) {
     if (iter != m_conns.end()) {
         m_conns.erase(iter);
     }
+}
+
+void XCBModule::addEventFilter(const std::string &name, XCBEventFilter filter)
+{
+    auto iter = m_conns.find(name);
+    if (iter == m_conns.end()) {
+        return;
+    }
+    iter->second.addEventFilter(filter);
+}
+
+void XCBModule::addConnectionCreatedCallback(XCBConnectionCreated callback)
+{
+    m_createdCallbacks.emplace_back(callback);
 }
 
 void XCBModule::onConnectionCreated(XCBConnection &conn) {

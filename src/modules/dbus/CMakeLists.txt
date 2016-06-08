@@ -1,3 +1,5 @@
 add_library(dbus MODULE dbusmodule.cpp)
 target_link_libraries(dbus Fcitx5::Core)
-
+set_target_properties(dbus PROPERTIES PREFIX "")
+install(TARGETS dbus DESTINATION "${FCITX_INSTALL_ADDONDIR}")
+install(FILES dbus.conf DESTINATION "${FCITX_INSTALL_PKGDATADIR}/addon")

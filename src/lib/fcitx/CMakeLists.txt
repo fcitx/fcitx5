@@ -9,6 +9,9 @@ set(FCITX_CORE_SOURCES
     addonmanager.cpp
     addoninstance.cpp
     addonfactory.cpp
+    inputmethodgroup.cpp
+    inputmethodmanager.cpp
+    inputmethodengine.cpp
     )
 
 set(FCITX_CORE_HEADERS
@@ -19,6 +22,9 @@ set(FCITX_CORE_HEADERS
     surroundingtext.h
     addonloader.h
     addonmanager.h
+    inputmethodmanager.h
+    inputmethodgroup.h
+    inputmethodengine.h
     ${CMAKE_CURRENT_BINARY_DIR}/fcitxcore_export.h
     )
 
@@ -33,31 +39,32 @@ set_target_properties(Fcitx5Core
   )
 target_include_directories(Fcitx5Core PUBLIC
     "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/..;${CMAKE_CURRENT_BINARY_DIR}>"
-    "$<INSTALL_INTERFACE:${CMAKE_INSTALL_FULL_INCLUDEDIR}>/Fcitx5/FcitxCore")
+    "$<INSTALL_INTERFACE:${CMAKE_INSTALL_FULL_INCLUDEDIR}>/Fcitx5/Core")
 target_link_libraries(Fcitx5Core PUBLIC Fcitx5::Config Fcitx5::Utils PRIVATE LibUUID::LibUUID)
 
 configure_file(Fcitx5Core.pc.in ${CMAKE_CURRENT_BINARY_DIR}/Fcitx5Core.pc @ONLY)
 
-install(TARGETS Fcitx5Core EXPORT FcitxCoreTargets LIBRARY DESTINATION "${CMAKE_INSTALL_LIBDIR}")
+install(TARGETS Fcitx5Core EXPORT Fcitx5CoreTargets LIBRARY DESTINATION "${CMAKE_INSTALL_LIBDIR}")
 install(FILES ${CMAKE_CURRENT_BINARY_DIR}/Fcitx5Core.pc
   DESTINATION "${CMAKE_INSTALL_LIBDATADIR}/pkgconfig")
-install(FILES ${FCITX_CORE_HEADERS} DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}/Fcitx5/FcitxCore/fcitx")
+install(FILES ${FCITX_CORE_HEADERS} DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}/Fcitx5/Core/fcitx")
 
 add_library(Fcitx5::Core ALIAS Fcitx5Core)
 
 generate_export_header(Fcitx5Core BASE_NAME FcitxCore)
 ecm_setup_version(PROJECT
-                  PACKAGE_VERSION_FILE "${CMAKE_CURRENT_BINARY_DIR}/FcitxCoreConfigVersion.cmake"
+                  PACKAGE_VERSION_FILE "${CMAKE_CURRENT_BINARY_DIR}/Fcitx5CoreConfigVersion.cmake"
                   SOVERSION 5)
 
-configure_package_config_file("${CMAKE_CURRENT_SOURCE_DIR}/FcitxCoreConfig.cmake.in"
-                              "${CMAKE_CURRENT_BINARY_DIR}/FcitxCoreConfig.cmake"
-                              INSTALL_DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/FcitxCore
+configure_package_config_file("${CMAKE_CURRENT_SOURCE_DIR}/Fcitx5CoreConfig.cmake.in"
+                              "${CMAKE_CURRENT_BINARY_DIR}/Fcitx5CoreConfig.cmake"
+                              INSTALL_DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/Fcitx5Core
 )
 
-install(EXPORT FcitxCoreTargets DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/FcitxCore FILE FcitxCoreTargets.cmake NAMESPACE Fcitx5::)
+install(EXPORT Fcitx5CoreTargets DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/Fcitx5Core FILE Fcitx5CoreTargets.cmake NAMESPACE Fcitx5::)
 
-install(FILES  "${CMAKE_CURRENT_BINARY_DIR}/FcitxCoreConfig.cmake"
-               "${CMAKE_CURRENT_BINARY_DIR}/FcitxCoreConfigVersion.cmake"
-        DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/FcitxCore
+install(FILES  "${CMAKE_CURRENT_BINARY_DIR}/Fcitx5CoreConfig.cmake"
+               "${CMAKE_CURRENT_BINARY_DIR}/Fcitx5CoreConfigVersion.cmake"
+               "Fcitx5Macros.cmake"
+        DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/Fcitx5Core
         COMPONENT Devel )

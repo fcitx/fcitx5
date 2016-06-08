@@ -16,23 +16,22 @@
  * License along with this library; see the file COPYING. If not,
  * see <http://www.gnu.org/licenses/>.
  */
+#ifndef _FCITX_INPUTMETHODENGINE_H_
+#define _FCITX_INPUTMETHODENGINE_H_
 
-#include "fcitx/addoninstance.h"
-#include "fcitx/addonfactory.h"
+#include "addoninstance.h"
 
-class DummyAddon : public fcitx::AddonInstance {
+namespace fcitx
+{
+
+class InputMethodEngine : public AddonInstance
+{
 public:
-    int addOne(int a) {
-        return a + 1;
-    }
+    InputMethodEngine();
+    virtual ~InputMethodEngine();
 
-    FCITX_ADDON_EXPORT_FUNCTION(addOne, DummyAddon::addOne);
 };
 
-class DummyAddonFactory : public fcitx::AddonFactory {
-    virtual fcitx::AddonInstance *create(fcitx::AddonManager *) override {
-        return new DummyAddon;
-    }
-};
+}
 
-FCITX_ADDON_FACTORY(DummyAddonFactory)
+#endif // _FCITX_INPUTMETHODENGINE_H_

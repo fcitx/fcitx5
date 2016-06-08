@@ -44,32 +44,32 @@ set_target_properties(Fcitx5Utils
   )
 target_include_directories(Fcitx5Utils PUBLIC
     "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/..;${CMAKE_CURRENT_BINARY_DIR}>"
-    "$<INSTALL_INTERFACE:${CMAKE_INSTALL_FULL_INCLUDEDIR}>/Fcitx5/FcitxUtils")
+    "$<INSTALL_INTERFACE:${CMAKE_INSTALL_FULL_INCLUDEDIR}>/Fcitx5/Utils")
 target_link_libraries(Fcitx5Utils PRIVATE Systemd::Systemd DL::DL)
 
 configure_file(Fcitx5Utils.pc.in ${CMAKE_CURRENT_BINARY_DIR}/Fcitx5Utils.pc @ONLY)
 
-install(TARGETS Fcitx5Utils EXPORT FcitxUtilsTargets LIBRARY DESTINATION "${CMAKE_INSTALL_LIBDIR}")
+install(TARGETS Fcitx5Utils EXPORT Fcitx5UtilsTargets LIBRARY DESTINATION "${CMAKE_INSTALL_LIBDIR}")
 install(FILES ${CMAKE_CURRENT_BINARY_DIR}/Fcitx5Utils.pc
   DESTINATION "${CMAKE_INSTALL_LIBDIR}/pkgconfig")
-install(FILES ${FCITX_UTILS_HEADERS} DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}/Fcitx5/FcitxUtils/fcitx-utils")
+install(FILES ${FCITX_UTILS_HEADERS} DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}/Fcitx5/Utils/fcitx-utils")
 
 add_library(Fcitx5::Utils ALIAS Fcitx5Utils)
 
 ecm_setup_version(PROJECT
-                  PACKAGE_VERSION_FILE "${CMAKE_CURRENT_BINARY_DIR}/FcitxUtilsConfigVersion.cmake"
+                  PACKAGE_VERSION_FILE "${CMAKE_CURRENT_BINARY_DIR}/Fcitx5UtilsConfigVersion.cmake"
                   SOVERSION 1)
 
-configure_package_config_file("${CMAKE_CURRENT_SOURCE_DIR}/FcitxUtilsConfig.cmake.in"
-                              "${CMAKE_CURRENT_BINARY_DIR}/FcitxUtilsConfig.cmake"
-                              INSTALL_DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/FcitxUtils
+configure_package_config_file("${CMAKE_CURRENT_SOURCE_DIR}/Fcitx5UtilsConfig.cmake.in"
+                              "${CMAKE_CURRENT_BINARY_DIR}/Fcitx5UtilsConfig.cmake"
+                              INSTALL_DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/Fcitx5Utils
 )
 
 generate_export_header(Fcitx5Utils BASE_NAME FcitxUtils)
 
-install(EXPORT FcitxUtilsTargets DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/FcitxUtils FILE FcitxUtilsTargets.cmake NAMESPACE Fcitx5::)
+install(EXPORT Fcitx5UtilsTargets DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/Fcitx5Utils FILE Fcitx5UtilsTargets.cmake NAMESPACE Fcitx5::)
 
-install(FILES  "${CMAKE_CURRENT_BINARY_DIR}/FcitxUtilsConfig.cmake"
-               "${CMAKE_CURRENT_BINARY_DIR}/FcitxUtilsConfigVersion.cmake"
-        DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/FcitxUtils
+install(FILES  "${CMAKE_CURRENT_BINARY_DIR}/Fcitx5UtilsConfig.cmake"
+               "${CMAKE_CURRENT_BINARY_DIR}/Fcitx5UtilsConfigVersion.cmake"
+        DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/Fcitx5Utils
         COMPONENT Devel )

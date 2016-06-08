@@ -166,6 +166,8 @@ std::string StandardPath::fcitxPath(const char *path) {
     static std::unordered_map<std::string, std::string> pathMap = {
         std::make_pair<std::string, std::string>("datadir",
                                                  FCITX_INSTALL_DATADIR),
+        std::make_pair<std::string, std::string>("pkgdatadir",
+                                                 FCITX_INSTALL_PKGDATADIR),
         std::make_pair<std::string, std::string>("libdir",
                                                  FCITX_INSTALL_LIBDIR),
         std::make_pair<std::string, std::string>("bindir",

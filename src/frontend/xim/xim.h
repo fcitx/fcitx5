@@ -16,23 +16,44 @@
  * License along with this library; see the file COPYING. If not,
  * see <http://www.gnu.org/licenses/>.
  */
+#ifndef _XIM_XIMMODULE_H_
+#define _XIM_XIMMODULE_H_
 
+#include <xcb-imdkit/imdkit.h>
+
+#include "fcitx-utils/event.h"
 #include "fcitx/addoninstance.h"
 #include "fcitx/addonfactory.h"
+#include "fcitx/focusgroup.h"
+#include "fcitx/addonmanager.h"
+#include <unordered_map>
+#include <list>
+#include <vector>
 
-class DummyAddon : public fcitx::AddonInstance {
+namespace fcitx {
+
+class XIMModule;
+class XIMServer;
+
+class XIMModule : public AddonInstance {
 public:
-    int addOne(int a) {
-        return a + 1;
-    }
+    XIMModule(Instance *instance);
+    ~XIMModule();
 
-    FCITX_ADDON_EXPORT_FUNCTION(addOne, DummyAddon::addOne);
+private:
+    Instance *m_instance;
+    std::unordered_map<std::string, std::unique_ptr<XIMServer>> m_servers;
 };
 
-class DummyAddonFactory : public fcitx::AddonFactory {
-    virtual fcitx::AddonInstance *create(fcitx::AddonManager *) override {
-        return new DummyAddon;
+class XIMModuleFactory : public AddonFactory {
+public:
+    AddonInstance *create(AddonManager *manager) override {
+        return new XIMModule(manager->instance());
     }
 };
+}
 
-FCITX_ADDON_FACTORY(DummyAddonFactory)
+FCITX_ADDON_FACTORY(fcitx::XIMModuleFactory);
+
+#endif // _XIM_XIMMODULE_H_
+

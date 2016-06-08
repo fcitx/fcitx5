@@ -17,22 +17,4 @@
  * see <http://www.gnu.org/licenses/>.
  */
 
-#include "fcitx/addoninstance.h"
-#include "fcitx/addonfactory.h"
-
-class DummyAddon : public fcitx::AddonInstance {
-public:
-    int addOne(int a) {
-        return a + 1;
-    }
-
-    FCITX_ADDON_EXPORT_FUNCTION(addOne, DummyAddon::addOne);
-};
-
-class DummyAddonFactory : public fcitx::AddonFactory {
-    virtual fcitx::AddonInstance *create(fcitx::AddonManager *) override {
-        return new DummyAddon;
-    }
-};
-
-FCITX_ADDON_FACTORY(DummyAddonFactory)
+#include "inputmethodengine.h"

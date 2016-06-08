@@ -41,7 +41,7 @@ class DBusModuleFactory : public AddonFactory {
     AddonInstance *create(AddonManager *manager) override;
 };
 
-FCITX_PLUGIN_FACTORY(DBusModuleFactory)
+FCITX_ADDON_FACTORY(DBusModuleFactory)
 
 }
 

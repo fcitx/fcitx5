@@ -32,12 +32,16 @@ class InputContextManager;
 
 class FCITXCORE_EXPORT Instance {
 public:
-    Instance();
+    Instance(int argc, char *argv[]);
     ~Instance();
 
-    EventLoop *eventLoop();
-    AddonManager *addonManager();
-    InputContextManager *inputContextManager();
+    void setSignalPipe(int fd);
+    int exec();
+    bool willTryReplace() const;
+
+    EventLoop &eventLoop();
+    AddonManager &addonManager();
+    InputContextManager &inputContextManager();
 
     void exit();
     void restart();
@@ -57,6 +61,9 @@ public:
     void setCurrentInputMethod(const std::string &imName);
 
 private:
+    void initialize();
+    void handleSignal();
+
     std::unique_ptr<InstancePrivate> d_ptr;
     FCITX_DECLARE_PRIVATE(Instance);
 };

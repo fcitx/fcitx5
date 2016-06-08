@@ -12,6 +12,7 @@ include(FeatureSummary)
 include(GNUInstallDirs)
 include(ECMSetupVersion)
 include(GenerateExportHeader)
+include(src/lib/fcitx/Fcitx5Macros.cmake)
 
 #######################################################################
 # Options
@@ -28,6 +29,7 @@ find_package(LibUUID REQUIRED)
 find_package(Pthread REQUIRED)
 find_package(XCB COMPONENTS XCB AUX XKB)
 find_package(XKBCommon COMPONENTS XKBCommon X11)
+find_package(XCBImdkit)
 
 # directory needed by bsd
 if(NOT CMAKE_INSTALL_LIBDATADIR)
@@ -39,6 +41,16 @@ mark_as_advanced(CMAKE_INSTALL_LIBDATADIR)
 mark_as_advanced(CMAKE_INSTALL_FULL_LIBDATADIR)
 
 include(FcitxCompilerSettings)
+
+# RPATH
+list(FIND CMAKE_PLATFORM_IMPLICIT_LINK_DIRECTORIES "${CMAKE_INSTALL_FULL_LIBDIR}" _isSystemPlatformLibDir)
+list(FIND CMAKE_CXX_IMPLICIT_LINK_DIRECTORIES "${CMAKE_INSTALL_FULL_LIBDIR}" _isSystemCxxLibDir)
+if("${_isSystemPlatformLibDir}" STREQUAL "-1" AND "${_isSystemCxxLibDir}" STREQUAL "-1")
+    set(CMAKE_SKIP_BUILD_RPATH  FALSE)
+    set(CMAKE_BUILD_WITH_INSTALL_RPATH FALSE)
+    set(CMAKE_INSTALL_RPATH "${CMAKE_INSTALL_FULL_LIBDIR}")
+    set(CMAKE_INSTALL_RPATH_USE_LINK_PATH TRUE)
+endif("${_isSystemPlatformLibDir}" STREQUAL "-1" AND "${_isSystemCxxLibDir}" STREQUAL "-1")
 
 set(FCITX_INSTALL_LIBDIR ${CMAKE_INSTALL_FULL_LIBDIR})
 set(FCITX_INSTALL_LIBDATADIR ${CMAKE_INSTALL_FULL_LIBDATADIR})

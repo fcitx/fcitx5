@@ -93,13 +93,17 @@ public:
     Instance *instance() { return m_instance; }
 
     void addEventFilter(const std::string &name, XCBEventFilter filter);
+    void addConnectionCreatedCallback(XCBConnectionCreated callback);
 
 private:
+
     void onConnectionCreated(XCBConnection &conn);
 
     Instance *m_instance;
     std::unordered_map<std::string, XCBConnection> m_conns;
     std::list<XCBConnectionCreated> m_createdCallbacks;
+    FCITX_ADDON_EXPORT_FUNCTION(addEventFilter, XCBModule::addEventFilter);
+    FCITX_ADDON_EXPORT_FUNCTION(addConnectionCreatedCallback, XCBModule::addConnectionCreatedCallback);
 };
 
 class XCBModuleFactory : public AddonFactory {
@@ -110,6 +114,6 @@ public:
 };
 }
 
-FCITX_PLUGIN_FACTORY(fcitx::XCBModuleFactory);
+FCITX_ADDON_FACTORY(fcitx::XCBModuleFactory);
 
 #endif // _XCB_XCBMODULE_H_

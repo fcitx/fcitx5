@@ -19,6 +19,9 @@
 
 #include <cassert>
 #include "fcitx/addonmanager.h"
+double f(int) {
+    return 0;
+}
 
 int main(int argc, char *argv[]) {
     if (argc < 3) {
@@ -29,6 +32,8 @@ int main(int argc, char *argv[]) {
     fcitx::AddonManager manager;
     manager.registerDefaultLoader(nullptr);
     manager.load();
-    assert(manager.addon("dummyaddon"));
+    auto addon = manager.addon("dummyaddon");
+    assert(addon);
+    assert(6 == addon->call<int(int)>("addOne", 5));
     return 0;
 }
