@@ -31,11 +31,11 @@ namespace fcitx {
 typedef std::function<bool(xcb_connection_t *conn, xcb_generic_event_t *event)> XCBEventFilter;
 typedef std::function<void(const std::string &name, xcb_connection_t *conn, int screen, FocusGroup *group)>
     XCBConnectionCreated;
-typedef std::function<void(const std::string &name, xcb_connection_t *conn)>
-    XCBConnectionClosed;
+typedef std::function<void(const std::string &name, xcb_connection_t *conn)> XCBConnectionClosed;
 }
 
-FCITX_ADDON_DECLARE_FUNCTION(XCBModule, addEventFilter, void(const std::string &, XCBEventFilter));
+FCITX_ADDON_DECLARE_FUNCTION(XCBModule, addEventFilter, int(const std::string &, XCBEventFilter));
+FCITX_ADDON_DECLARE_FUNCTION(XCBModule, removeEventFilter, void(const std::string &, int));
 FCITX_ADDON_DECLARE_FUNCTION(XCBModule, addConnectionCreatedCallback, int(XCBConnectionCreated));
 FCITX_ADDON_DECLARE_FUNCTION(XCBModule, addConnectionClosedCallback, int(XCBConnectionClosed));
 FCITX_ADDON_DECLARE_FUNCTION(XCBModule, removeConnectionCreatedCallback, void(int));

@@ -41,13 +41,13 @@ public:
     ~XIMModule();
 
     AddonInstance *xcb();
-    Instance *instance() {
-        return m_instance;
-    }
+    Instance *instance() { return m_instance; }
 
 private:
     Instance *m_instance;
     std::unordered_map<std::string, std::unique_ptr<XIMServer>> m_servers;
+    int m_createdCallbackId;
+    int m_closedCallbackId;
 };
 
 class XIMModuleFactory : public AddonFactory {

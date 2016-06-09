@@ -47,13 +47,16 @@ public:
     ~XCBConnection();
 
     void updateKeymap();
-    void addEventFilter(XCBEventFilter filter);
+    int addEventFilter(XCBEventFilter filter);
+    void removeEventFilter(int id) { m_filters.erase(id); }
 
     const std::string &name() const { return m_name; }
     xcb_connection_t *connection() const { return m_conn.get(); }
     int screen() const { return m_screen; }
     FocusGroup *focusGroup() const { return m_group; }
-    struct xkb_state *xkbState() { return m_state.get(); }
+    struct xkb_state *xkbState() {
+        return m_state.get();
+    }
 
 private:
     std::vector<char> xkbRulesNames();
@@ -78,7 +81,10 @@ private:
     std::unique_ptr<struct xkb_keymap, decltype(&xkb_keymap_unref)> m_keymap;
     std::unique_ptr<struct xkb_state, decltype(&xkb_state_unref)> m_state;
 
-    std::list<XCBEventFilter> m_filters;
+    std::unique_ptr<EventSourceIO> m_ioEvent;
+
+    int m_filterIdx = 0;
+    std::unordered_map<int, XCBEventFilter> m_filters;
 };
 
 class XCBModule : public AddonInstance {
@@ -89,7 +95,8 @@ public:
     void removeConnection(const std::string &name);
     Instance *instance() { return m_instance; }
 
-    void addEventFilter(const std::string &name, XCBEventFilter filter);
+    int addEventFilter(const std::string &name, XCBEventFilter filter);
+    void removeEventFilter(const std::string &name, int id);
     int addConnectionCreatedCallback(XCBConnectionCreated callback);
     int addConnectionClosedCallback(XCBConnectionClosed callback);
     void removeConnectionCreatedCallback(int id);
@@ -98,6 +105,7 @@ public:
 
 private:
     void onConnectionCreated(XCBConnection &conn);
+    void onConnectionClosed(XCBConnection &conn);
 
     Instance *m_instance;
     std::unordered_map<std::string, XCBConnection> m_conns;
@@ -110,6 +118,8 @@ private:
     FCITX_ADDON_EXPORT_FUNCTION(XCBModule, addConnectionClosedCallback);
     FCITX_ADDON_EXPORT_FUNCTION(XCBModule, removeConnectionCreatedCallback);
     FCITX_ADDON_EXPORT_FUNCTION(XCBModule, removeConnectionClosedCallback);
+    FCITX_ADDON_EXPORT_FUNCTION(XCBModule, removeEventFilter);
+    FCITX_ADDON_EXPORT_FUNCTION(XCBModule, xkbState);
 };
 
 class XCBModuleFactory : public AddonFactory {

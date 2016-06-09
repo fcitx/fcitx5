@@ -84,6 +84,8 @@ public:
     std::unordered_map<std::string, std::unique_ptr<Addon>> addons;
     std::unordered_map<std::string, std::unique_ptr<AddonLoader>> loaders;
 
+    std::vector<std::string> loadOrder;
+
     Instance *instance;
 };
 
@@ -102,7 +104,13 @@ void Addon::load(AddonManagerPrivate *managerP) {
 
 AddonManager::AddonManager() : d_ptr(std::make_unique<AddonManagerPrivate>(this)) {}
 
-AddonManager::~AddonManager() {}
+AddonManager::~AddonManager() {
+    FCITX_D();
+    // reverse the unload order
+    for (auto iter = d->loadOrder.rbegin(), end = d->loadOrder.rend(); iter != end; iter++) {
+        d->addons.erase(*iter);
+    }
+}
 
 void AddonManager::registerLoader(std::unique_ptr<AddonLoader> loader) {
     FCITX_D();
@@ -153,6 +161,7 @@ void AddonManager::load() {
             } else if (result == DependencyCheckStatus::Satisfied) {
                 addon.load(d);
                 if (addon.loaded()) {
+                    d->loadOrder.push_back(addon.info().name());
                     changed = true;
                 }
             }

@@ -107,12 +107,9 @@ void InputContext::setHasFocus(bool hasFocus) {
     }
 }
 
-bool InputContext::keyEvent(const KeyEvent &event) {
-    return false;
-}
+bool InputContext::keyEvent(const KeyEvent &event) { return false; }
 
-void InputContext::reset() {
-}
+void InputContext::reset() {}
 
 FocusGroupType InputContext::focusGroupType() const {
     FCITX_D();

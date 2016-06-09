@@ -74,10 +74,10 @@ XCBConnection::XCBConnection(XCBModule *xcb, const std::string &name)
     m_serverWindow = w;
     int fd = xcb_get_file_descriptor(m_conn.get());
     auto &eventLoop = m_parent->instance()->eventLoop();
-    eventLoop.addIOEvent(fd, IOEventFlag::In, [this](EventSource *, int, IOEventFlags) {
+    m_ioEvent.reset(eventLoop.addIOEvent(fd, IOEventFlag::In, [this](EventSource *, int, IOEventFlags) {
         onIOEvent();
         return true;
-    });
+    }));
 
     const xcb_query_extension_reply_t *reply = xcb_get_extension_data(m_conn.get(), &xcb_xkb_id);
     if (reply && reply->present) {
@@ -126,10 +126,9 @@ void XCBConnection::onIOEvent() {
         return m_parent->removeConnection(m_name);
     }
 
-    while (true) {
-        auto event = makeXCBReply(xcb_poll_for_event(m_conn.get()));
+    while (auto event = makeXCBReply(xcb_poll_for_event(m_conn.get()))) {
         for (auto &callback : m_filters) {
-            if (callback(m_conn.get(), event.get())) {
+            if (callback.second(m_conn.get(), event.get())) {
                 break;
             }
         }
@@ -239,7 +238,10 @@ void XCBConnection::updateKeymap() {
     m_state.reset(new_state);
 }
 
-void XCBConnection::addEventFilter(XCBEventFilter filter) { m_filters.push_back(filter); }
+int XCBConnection::addEventFilter(XCBEventFilter filter) {
+    m_filters.emplace(m_filterIdx, filter);
+    return m_filterIdx++;
+}
 
 std::vector<char> XCBConnection::xkbRulesNames() {
     if (!m_xkbRulesNamesAtom) {
@@ -269,7 +271,7 @@ std::vector<char> XCBConnection::xkbRulesNames() {
     return {data, data + length};
 }
 
-XCBModule::XCBModule(Instance *instance) : m_instance(instance) {}
+XCBModule::XCBModule(Instance *instance) : m_instance(instance) { openConnection(""); }
 
 void XCBModule::openConnection(const std::string &name_) {
     std::string name = name_;
@@ -298,12 +300,20 @@ void XCBModule::removeConnection(const std::string &name) {
     }
 }
 
-void XCBModule::addEventFilter(const std::string &name, XCBEventFilter filter) {
+int XCBModule::addEventFilter(const std::string &name, XCBEventFilter filter) {
+    auto iter = m_conns.find(name);
+    if (iter == m_conns.end()) {
+        return -1;
+    }
+    return iter->second.addEventFilter(filter);
+}
+
+void XCBModule::removeEventFilter(const std::string &name, int id) {
     auto iter = m_conns.find(name);
     if (iter == m_conns.end()) {
         return;
     }
-    iter->second.addEventFilter(filter);
+    return iter->second.removeEventFilter(id);
 }
 
 int XCBModule::addConnectionCreatedCallback(XCBConnectionCreated callback) {
@@ -320,13 +330,9 @@ int XCBModule::addConnectionClosedCallback(XCBConnectionClosed callback) {
     return m_closedCallbacksIdx++;
 }
 
-void XCBModule::removeConnectionCreatedCallback(int id) {
-    m_createdCallbacks.erase(id);
-}
+void XCBModule::removeConnectionCreatedCallback(int id) { m_createdCallbacks.erase(id); }
 
-void XCBModule::removeConnectionClosedCallback(int id) {
-    m_closedCallbacks.erase(id);
-}
+void XCBModule::removeConnectionClosedCallback(int id) { m_closedCallbacks.erase(id); }
 
 xkb_state *XCBModule::xkbState(const std::string &name) {
     auto iter = m_conns.find(name);
@@ -339,6 +345,12 @@ xkb_state *XCBModule::xkbState(const std::string &name) {
 void XCBModule::onConnectionCreated(XCBConnection &conn) {
     for (auto &callback : m_createdCallbacks) {
         callback.second(conn.name(), conn.connection(), conn.screen(), conn.focusGroup());
+    }
+}
+
+void XCBModule::onConnectionClosed(XCBConnection &conn) {
+    for (auto &callback : m_closedCallbacks) {
+        callback.second(conn.name(), conn.connection());
     }
 }
 }

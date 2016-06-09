@@ -54,6 +54,10 @@ class FCITXCORE_EXPORT AddonInstance {
 public:
     template <typename Signature, typename... Args>
     typename std::function<Signature>::result_type callWithSignature(const std::string &name, Args &&... args) {
+        auto iter = callbackMap.find(name);
+        if (iter == callbackMap.end()) {
+            throw std::runtime_error(name.c_str());
+        }
         auto adaptor = callbackMap[name];
         auto func = Library::toFunction<typename AddonFunctionWrapperType<Signature>::type>(adaptor->wrapCallback);
         return func(this, adaptor, std::forward<Args>(args)...);
@@ -90,7 +94,7 @@ public:
         auto adaptor = reinterpret_cast<AddonFunctionAdaptor<Class, Ret, Args...> *>(adaptor_);
         auto addon = reinterpret_cast<Class *>(addon_);
         auto pCallback = adaptor->pCallback;
-        return (addon->*pCallback)(args...);
+        return (addon->*pCallback)(std::forward<Args>(args)...);
     }
 
 private:
