@@ -102,9 +102,9 @@ private:
     Instance *m_instance;
     std::unordered_map<std::string, XCBConnection> m_conns;
     std::unordered_map<int, XCBConnectionCreated> m_createdCallbacks;
-    int m_createdCallbacksIdx;
+    int m_createdCallbacksIdx = 0;
     std::unordered_map<int, XCBConnectionClosed> m_closedCallbacks;
-    int m_closedCallbacksIdx;
+    int m_closedCallbacksIdx = 0;
     FCITX_ADDON_EXPORT_FUNCTION(XCBModule, addEventFilter);
     FCITX_ADDON_EXPORT_FUNCTION(XCBModule, addConnectionCreatedCallback);
     FCITX_ADDON_EXPORT_FUNCTION(XCBModule, addConnectionClosedCallback);

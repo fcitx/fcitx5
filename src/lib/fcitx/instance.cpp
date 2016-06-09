@@ -82,7 +82,7 @@ public:
     InstanceArgument arg;
     bool initialized;
 
-    int signalPipe;
+    int signalPipe = -1;
     EventLoop eventLoop;
     std::unique_ptr<EventSourceIO> signalPipeEvent;
     InputContextManager icManager;
