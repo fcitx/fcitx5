@@ -82,11 +82,16 @@ struct InstanceArgument
 
 class InstancePrivate {
 public:
+    InstancePrivate(Instance *instance) {
+        addonManager.setInstance(instance);
+    }
+
     InstanceArgument arg;
     bool initialized;
 
     int signalPipe;
     EventLoop eventLoop;
+    std::unique_ptr<EventSourceIO> signalPipeEvent;
     InputContextManager icManager;
     AddonManager addonManager;
 };
@@ -107,7 +112,7 @@ Instance::Instance(int argc, char **argv) {
     }
 
     // we need fork before this
-    d_ptr.reset(new InstancePrivate);
+    d_ptr.reset(new InstancePrivate(this));
 }
 
 Instance::~Instance()
@@ -188,10 +193,10 @@ void Instance::setSignalPipe(int fd)
 {
     FCITX_D();
     d->signalPipe = fd;
-    d->eventLoop.addIOEvent(fd, IOEventFlag::In, [this] (EventSource *, int, IOEventFlags) {
+    d->signalPipeEvent.reset(d->eventLoop.addIOEvent(fd, IOEventFlag::In, [this] (EventSource *, int, IOEventFlags) {
         handleSignal();
         return true;
-    });
+    }));
 }
 
 bool Instance::willTryReplace() const

@@ -43,15 +43,15 @@ ObjectVTablePrivate::~ObjectVTablePrivate()
 {
 }
 
-std::vector<sd_bus_vtable> ObjectVTablePrivate::toSDBusVTable() const {
+std::vector<sd_bus_vtable> ObjectVTablePrivate::toSDBusVTable() {
     std::vector<sd_bus_vtable> result;
     result.push_back(vtable_start());
 
     for (auto method : methods) {
         auto offset = reinterpret_cast<char*>(method) - reinterpret_cast<char*>(q_ptr);
-        result.push_back(vtable_method(method->name().c_str(),
-                                        method->signature().c_str(),
-                                        method->ret().c_str(),
+        result.push_back(vtable_method(vtableString(method->name()).c_str(),
+                                        vtableString(method->signature()).c_str(),
+                                        vtableString(method->ret()).c_str(),
                                         offset,
                                         SDMethodCallback
                                         ));

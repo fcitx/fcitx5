@@ -18,6 +18,7 @@
  */
 
 #include "standardpath.h"
+#include <unordered_set>
 #include <sys/stat.h>
 #include <string.h>
 #include <dirent.h>
@@ -88,18 +89,27 @@ public:
     std::vector<std::string> defaultPaths(const char *env,
                                           const char *defaultPath,
                                           const char *fcitxPath) {
-        std::vector<std::string> paths;
+        std::vector<std::string> dirs;
 
         const char *dir = getenv(env);
         if (!dir) {
             dir = defaultPath;
         }
 
-        auto dirs = stringutils::split(dir, ":");
+        auto rawDirs = stringutils::split(dir, ":");
+        std::unordered_set<std::string> uniqueDirs(rawDirs.begin(), rawDirs.end());
+
+        for (auto &s : rawDirs) {
+            auto iter = uniqueDirs.find(s);
+            if (iter != uniqueDirs.end()) {
+                uniqueDirs.erase(iter);
+                dirs.push_back(s);
+            }
+        }
         if (fcitxPath) {
             std::string path = StandardPath::fcitxPath(fcitxPath);
             if (!path.empty() &&
-                std::find(dirs.begin(), dirs.end(), path) != dirs.end()) {
+                std::find(dirs.begin(), dirs.end(), path) == dirs.end()) {
                 dirs.push_back(path);
             }
         }

@@ -16,25 +16,12 @@
  * License along with this library; see the file COPYING. If not,
  * see <http://www.gnu.org/licenses/>.
  */
+#ifndef _DUMMYADDON_PUBLIC_H_
+#define _DUMMYADDON_PUBLIC_H_
 
-#include "fcitx-utils/metastring.h"
 #include "fcitx/addoninstance.h"
-#include "fcitx/addonfactory.h"
-#include "dummyaddon_public.h"
+#include "fcitx-utils/metastring.h"
 
-class DummyAddon : public fcitx::AddonInstance {
-public:
-    int addOne(int a) {
-        return a + 1;
-    }
+FCITX_ADDON_DECLARE_FUNCTION(DummyAddon, addOne, int(int));
 
-    FCITX_ADDON_EXPORT_FUNCTION(DummyAddon, addOne);
-};
-
-class DummyAddonFactory : public fcitx::AddonFactory {
-    virtual fcitx::AddonInstance *create(fcitx::AddonManager *) override {
-        return new DummyAddon;
-    }
-};
-
-FCITX_ADDON_FACTORY(DummyAddonFactory)
+#endif // _DUMMYADDON_PUBLIC_H_

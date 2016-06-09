@@ -23,6 +23,7 @@
 #include <fcitx-utils/macros.h>
 #include <fcitx-config/enum.h>
 #include "fcitxcore_export.h"
+#include <vector>
 
 namespace fcitx {
 
@@ -39,6 +40,7 @@ public:
     const std::string &name() const;
     const std::string &type() const;
     const std::string &library() const;
+    const std::vector<std::string> &dependencies() const;
 
     void loadInfo(const RawConfig &config);
 

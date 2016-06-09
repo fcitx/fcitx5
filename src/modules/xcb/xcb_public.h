@@ -16,25 +16,25 @@
  * License along with this library; see the file COPYING. If not,
  * see <http://www.gnu.org/licenses/>.
  */
+#ifndef _XCB_XCB_PUBLIC_H_
+#define _XCB_XCB_PUBLIC_H_
 
-#include "fcitx-utils/metastring.h"
-#include "fcitx/addoninstance.h"
-#include "fcitx/addonfactory.h"
-#include "dummyaddon_public.h"
+#include <string>
+#include <xcb/xcb.h>
+#include <fcitx/addoninstance.h>
+#include <fcitx/focusgroup.h>
+#include <fcitx-utils/metastring.h>
 
-class DummyAddon : public fcitx::AddonInstance {
-public:
-    int addOne(int a) {
-        return a + 1;
-    }
+namespace fcitx
+{
+typedef std::function<bool(xcb_connection_t *conn, xcb_generic_event_t *event)>
+    XCBEventFilter;
+typedef std::function<void(const std::string &name, xcb_connection_t *conn,
+                           int screen, FocusGroup *group)> XCBConnectionCreated;
 
-    FCITX_ADDON_EXPORT_FUNCTION(DummyAddon, addOne);
-};
+}
 
-class DummyAddonFactory : public fcitx::AddonFactory {
-    virtual fcitx::AddonInstance *create(fcitx::AddonManager *) override {
-        return new DummyAddon;
-    }
-};
+FCITX_ADDON_DECLARE_FUNCTION(XCBModule, addEventFilter, void(const std::string &, XCBEventFilter));
+FCITX_ADDON_DECLARE_FUNCTION(XCBModule, addConnectionCreatedCallback, void(XCBConnectionCreated));
 
-FCITX_ADDON_FACTORY(DummyAddonFactory)
+#endif // _XCB_XCB_PUBLIC_H_

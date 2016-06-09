@@ -21,7 +21,7 @@
 #include "fcitx-utils/dbus.h"
 #include "fcitx/addonmanager.h"
 
-#define FCITX_DBUS_SERVICE "org.fcitx.Fcitx"
+#define FCITX_DBUS_SERVICE "org.fcitx.Fcitx5"
 #define FCITX_CONTROLLER_DBUS_INTERFACE "org.fcitx.Fcitx.Controller1"
 
 using namespace fcitx::dbus;

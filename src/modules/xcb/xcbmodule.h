@@ -32,6 +32,7 @@
 #include "fcitx/addonfactory.h"
 #include "fcitx/focusgroup.h"
 #include "fcitx/addonmanager.h"
+#include "xcb_public.h"
 #include <unordered_map>
 #include <list>
 #include <vector>
@@ -39,11 +40,6 @@
 namespace fcitx {
 
 class XCBModule;
-
-typedef std::function<bool(xcb_connection_t *conn, xcb_generic_event_t *event)>
-    XCBEventFilter;
-typedef std::function<void(const std::string &name, xcb_connection_t *conn,
-                           int screen, FocusGroup *group)> XCBConnectionCreated;
 
 class XCBConnection {
 public:
@@ -102,8 +98,9 @@ private:
     Instance *m_instance;
     std::unordered_map<std::string, XCBConnection> m_conns;
     std::list<XCBConnectionCreated> m_createdCallbacks;
-    FCITX_ADDON_EXPORT_FUNCTION(addEventFilter, XCBModule::addEventFilter);
-    FCITX_ADDON_EXPORT_FUNCTION(addConnectionCreatedCallback, XCBModule::addConnectionCreatedCallback);
+    FCITX_ADDON_EXPORT_FUNCTION(XCBModule, addEventFilter);
+    FCITX_ADDON_EXPORT_FUNCTION(XCBModule, addConnectionCreatedCallback);
+
 };
 
 class XCBModuleFactory : public AddonFactory {

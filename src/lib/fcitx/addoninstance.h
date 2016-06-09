@@ -38,8 +38,13 @@ public:
     }
 };
 
+template<typename T> struct AddonFunctionSignature;
+
 template<typename Signature>
 struct AddonFunctionWrapperType;
+
+template<typename Signature>
+using AddonFunctionSignatureType = typename AddonFunctionSignature<Signature>::type;
 
 template<typename Ret, typename ...Args>
 struct AddonFunctionWrapperType<Ret(Args...)>
@@ -50,10 +55,18 @@ struct AddonFunctionWrapperType<Ret(Args...)>
 class FCITXCORE_EXPORT AddonInstance {
 public:
     template <typename Signature, typename ...Args>
-    typename std::function<Signature>::result_type call(const std::string &name, Args&&... args) {
+    typename std::function<Signature>::result_type callWithSignature(const std::string &name, Args&&... args) {
         auto adaptor = callbackMap[name];
         auto func = Library::toFunction<typename AddonFunctionWrapperType<Signature>::type>(adaptor->wrapCallback);
         return func(this, adaptor, std::forward<Args>(args)...);
+    }
+    template <typename MetaSignatureString, typename ...Args>
+    auto callWithMetaString(Args&&... args) {
+        return callWithSignature<AddonFunctionSignatureType<MetaSignatureString>>(MetaSignatureString::data(), std::forward<Args>(args)...);
+    }
+    template <typename MetaType, typename ...Args>
+    auto call(Args&&... args) {
+        return callWithSignature<typename MetaType::Signature>(MetaType::Name::data(), std::forward<Args>(args)...);
     }
 
     virtual ~AddonInstance();
@@ -69,6 +82,7 @@ template<typename Class, typename Ret, typename...Args>
 class AddonFunctionAdaptor : public AddonFunctionAdaptorBase {
 public:
     typedef Ret (Class::*CallbackType)(Args...);
+    typedef Ret Signature (Args...);
 
     AddonFunctionAdaptor(const std::string &name, Class* addon_, CallbackType pCallback_) :
         AddonFunctionAdaptorBase(addon_, reinterpret_cast<void*>(callback)), pCallback(pCallback_) {
@@ -90,8 +104,26 @@ AddonFunctionAdaptor<Class, Ret, Args...> MakeAddonFunctionAdaptor(Ret (Class::*
 
 }
 
-#define FCITX_ADDON_EXPORT_FUNCTION(NAME, FUNCTION) \
-    decltype(MakeAddonFunctionAdaptor(&FUNCTION)) NAME##Adaptor{#NAME, this, &FUNCTION}
+#define FCITX_ADDON_DECLARE_FUNCTION(NAME, FUNCTION, SIGNATURE...) \
+namespace fcitx { \
+template<> \
+struct AddonFunctionSignature<makeMetaString(#NAME "::" #FUNCTION)> \
+{ \
+    typedef std::remove_reference_t<decltype(std::declval<SIGNATURE>())> type;\
+}; \
+namespace I##NAME { \
+struct FUNCTION { \
+    typedef makeMetaString(#NAME "::" #FUNCTION) Name; \
+    using Signature = AddonFunctionSignatureType<Name>; \
+}; \
+} \
+}
+
+// template<typename Signature>
+
+#define FCITX_ADDON_EXPORT_FUNCTION(CLASS, FUNCTION) \
+    decltype(MakeAddonFunctionAdaptor(&CLASS::FUNCTION)) FUNCTION##Adaptor{#CLASS "::" #FUNCTION, this, &CLASS::FUNCTION}; \
+    static_assert(std::is_same<decltype(::fcitx::MakeAddonFunctionAdaptor(&CLASS::FUNCTION))::Signature, ::fcitx::AddonFunctionSignatureType<MSTR(#CLASS "::" #FUNCTION)>>::value, "Signature doesn't match");
 
 
 #define FCITX_ADDON_FACTORY(ClassName)                                        \

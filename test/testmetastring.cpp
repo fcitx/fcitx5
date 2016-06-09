@@ -20,6 +20,8 @@
 #include "fcitx-utils/metastring.h"
 #include <type_traits>
 #include <iostream>
+#include <cassert>
+#include <string>
 
 int main()
 {
@@ -31,5 +33,7 @@ int main()
     static_assert(c.size() == 0, "");
     static_assert(std::is_same<::fcitx::MetaStringTrim<'A'>::type, fcitx::MetaString<'A'>>::value , "");
     static_assert(std::is_same<makeMetaString("ABCDEF"), fcitx::MetaString<'A', 'B', 'C', 'D', 'E', 'F'>>::value , "");
+    auto test = makeMetaString("ABCD")::data() == std::string("ABCD");
+    assert(test);
     return 0;
 }

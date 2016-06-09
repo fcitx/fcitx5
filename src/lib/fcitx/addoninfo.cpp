@@ -60,6 +60,11 @@ const std::string &AddonInfo::library() const {
     return d->library.value();
 }
 
+const std::vector<std::string> &AddonInfo::dependencies() const {
+    FCITX_D();
+    return d->dependencies.value();
+}
+
 void AddonInfo::loadInfo(const RawConfig &config) {
     FCITX_D();
     d->load(config);

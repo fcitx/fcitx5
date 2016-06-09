@@ -31,7 +31,10 @@ class BusPrivate {
 public:
     BusPrivate() : bus(nullptr) {}
 
-    ~BusPrivate() { sd_bus_flush_close_unref(bus); }
+    ~BusPrivate() {
+        sd_bus_detach_event(bus);
+        sd_bus_flush_close_unref(bus);
+    }
 
     sd_bus *bus;
 };

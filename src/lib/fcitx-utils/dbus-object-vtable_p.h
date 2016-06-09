@@ -20,6 +20,7 @@
 #define _FCITX_UTILS_DBUS_OBJECT_VTABLE_P_H_
 
 #include <vector>
+#include <unordered_set>
 #include "dbus-object-vtable.h"
 #include "dbus-object-vtable-wrapper.h"
 #include "dbus-message-p.h"
@@ -36,11 +37,19 @@ public:
     ObjectVTablePrivate(ObjectVTable *q) : q_ptr(q) { }
     ~ObjectVTablePrivate();
 
-    std::vector<sd_bus_vtable> toSDBusVTable() const;
+    std::vector<sd_bus_vtable> toSDBusVTable();
+    const std::string &vtableString(const std::string &str) {
+        auto iter = stringPool.find(str);
+        if (iter == stringPool.end()) {
+            iter = stringPool.insert(str).first;
+        }
+        return *iter;
+    }
 
     ObjectVTable *q_ptr;
     FCITX_DECLARE_PUBLIC(ObjectVTable);
 
+    std::unordered_set<std::string> stringPool;
     std::vector<ObjectVTableMethod *> methods;
     std::vector<ObjectVTableProperty *> properties;
     std::vector<ObjectVTableSignal *> sigs;

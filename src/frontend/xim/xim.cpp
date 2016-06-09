@@ -17,6 +17,7 @@
  * see <http://www.gnu.org/licenses/>.
  */
 #include "xim.h"
+#include "modules/xcb/xcb_public.h"
 #include <xcb/xcb_aux.h>
 #include "fcitx/instance.h"
 #include "fcitx/focusgroup.h"
@@ -111,7 +112,8 @@ XIMModule::XIMModule(Instance* instance) : m_instance(instance)
 {
     auto &addonManager = instance->addonManager();
     auto xcb = addonManager.addon("xcb");
-    xcb->call<void(XCBConnectionCreated)>("addConnectionCreatedCallback", [this] (const std::string &name, xcb_connection_t *conn,
+
+    xcb->call<IXCBModule::addConnectionCreatedCallback>([this] (const std::string &name, xcb_connection_t *conn,
                                                                               int defaultScreen, FocusGroup *group) {
         XIMServer *server = new XIMServer(defaultScreen,
             this,

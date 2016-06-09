@@ -29,26 +29,60 @@ namespace fcitx {
 
 class Addon {
 public:
-    Addon(RawConfig &config) { m_info.loadInfo(config); }
+    Addon(RawConfig &config) : m_failed(false) { m_info.loadInfo(config); }
 
     const AddonInfo &info() const { return m_info; }
 
-    bool isValid() const { return m_info.isValid(); }
+    bool isValid() const { return m_info.isValid() && !m_failed; }
 
     bool loaded() const { return !!m_instance; }
 
     AddonInstance *instance() { return m_instance.get(); }
 
     void load(AddonManagerPrivate *managerP);
+    void setFailed(bool failed = true) {
+        m_failed = failed;
+    }
 
 private:
     AddonInfo m_info;
+    bool m_failed;
     std::unique_ptr<AddonInstance> m_instance;
+};
+
+enum class DependencyCheckStatus {
+    Satisfied,
+    Pending,
+    Failed
 };
 
 class AddonManagerPrivate {
 public:
     AddonManagerPrivate(AddonManager *q) : q_ptr(q), instance(nullptr) {}
+
+    Addon *addon(const std::string &name) const {
+        auto iter = addons.find(name);
+        if (iter != addons.end()) {
+            return iter->second.get();
+        }
+        return nullptr;
+    }
+
+    DependencyCheckStatus checkDependencies(const Addon &a) const {
+        auto &dependencies = a.info().dependencies();
+        for (auto &dependency : dependencies) {
+            Addon *dep = addon(dependency);
+            if (!dep || !dep->isValid()) {
+                return DependencyCheckStatus::Failed;
+            }
+
+            if (!dep->loaded()) {
+                return DependencyCheckStatus::Pending;
+            }
+        }
+
+        return DependencyCheckStatus::Satisfied;
+    }
 
     AddonManager *q_ptr;
     FCITX_DECLARE_PUBLIC(AddonManager);
@@ -67,6 +101,9 @@ void Addon::load(AddonManagerPrivate *managerP) {
     if (loaders.count(m_info.type())) {
         m_instance.reset(
             loaders[m_info.type()]->load(m_info, managerP->q_func()));
+    }
+    if (!m_instance) {
+        m_failed = true;
     }
 }
 
@@ -111,18 +148,31 @@ void AddonManager::load() {
         }
     }
 
-    for (auto &item : d->addons) {
-        auto &addon = *item.second;
-        addon.load(d);
-    }
+    bool changed = false;
+    do {
+        changed = false;
+
+        for (auto &item : d->addons) {
+            auto &addon = *item.second;
+            if (addon.loaded()) {
+                continue;
+            }
+            auto result = d->checkDependencies(addon);
+            if (result == DependencyCheckStatus::Failed) {
+                addon.setFailed();
+            } else if (result == DependencyCheckStatus::Satisfied) {
+                addon.load(d);
+                if (addon.loaded()) {
+                    changed = true;
+                }
+            }
+        }
+    } while (changed);
 }
 
 AddonInstance *AddonManager::addon(const std::string &name) {
     FCITX_D();
-    if (d->addons.count(name)) {
-        return d->addons[name]->instance();
-    }
-    return nullptr;
+    return d->addon(name)->instance();
 }
 
 Instance *AddonManager::instance() {
