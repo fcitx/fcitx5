@@ -106,15 +106,12 @@ void readFromIni(RawConfig &config, FILE *fin) {
 
         if (lineBuf[start] == '[' && lineBuf[end - 1] == ']') {
             currentGroup = lineBuf.substr(start + 1, end - start - 2);
-            config.visitItemsOnPath(
-                [line](RawConfig &config, const std::string &) {
-                    if (!config.lineNumber()) {
-                        config.setLineNumber(line);
-                    }
-                },
-                currentGroup);
-        } else if ((equalPos = lineBuf.find_first_of('=', start)) !=
-                   std::string::npos) {
+            config.visitItemsOnPath([line](RawConfig &config, const std::string &) {
+                if (!config.lineNumber()) {
+                    config.setLineNumber(line);
+                }
+            }, currentGroup);
+        } else if ((equalPos = lineBuf.find_first_of('=', start)) != std::string::npos) {
             auto name = lineBuf.substr(start, equalPos - start);
             auto valueStart = equalPos + 1;
             auto valueEnd = lineBuf.size();
@@ -122,8 +119,7 @@ void readFromIni(RawConfig &config, FILE *fin) {
             bool unescapeQuote = false;
             ;
             // having quote at beginning and end, escape
-            if (valueEnd - valueStart >= 2 && lineBuf[valueStart] == '"' &&
-                lineBuf[valueEnd - 1] == '"') {
+            if (valueEnd - valueStart >= 2 && lineBuf[valueStart] == '"' && lineBuf[valueEnd - 1] == '"') {
                 lineBuf.resize(valueEnd - 1);
                 valueStart++;
                 unescapeQuote = true;
@@ -153,40 +149,35 @@ void readFromIni(RawConfig &config, FILE *fin) {
 void writeAsIni(const RawConfig &root, FILE *fout) {
     std::function<bool(const RawConfig &, const std::string &path)> callback;
 
-    callback = [fout, &callback](const RawConfig &config,
-                                 const std::string &path) {
+    callback = [fout, &callback](const RawConfig &config, const std::string &path) {
         if (config.hasSubItems()) {
             std::stringstream valuesout;
-            config.visitSubItems(
-                [&valuesout](const RawConfig &config, const std::string &) {
-                    if (config.hasSubItems() && config.value().empty()) {
-                        return true;
-                    }
-
-                    if (!config.comment().empty() &&
-                        config.comment().find('\n') == std::string::npos) {
-                        valuesout << "# " << config.comment() << "\n";
-                    }
-
-                    auto value = config.value();
-                    value = stringutils::replaceAll(value, "\\", "\\\\");
-                    value = stringutils::replaceAll(value, "\n", "\\n");
-
-                    bool needQuote =
-                        value.find_first_of("\f\r\t\v ") != std::string::npos;
-
-                    if (needQuote) {
-                        value = stringutils::replaceAll(value, "\"", "\\\"");
-                    }
-
-                    if (needQuote) {
-                        valuesout << config.name() << "=\"" << value << "\"\n";
-                    } else {
-                        valuesout << config.name() << "=" << value << "\n";
-                    }
+            config.visitSubItems([&valuesout](const RawConfig &config, const std::string &) {
+                if (config.hasSubItems() && config.value().empty()) {
                     return true;
-                },
-                "", false, path);
+                }
+
+                if (!config.comment().empty() && config.comment().find('\n') == std::string::npos) {
+                    valuesout << "# " << config.comment() << "\n";
+                }
+
+                auto value = config.value();
+                value = stringutils::replaceAll(value, "\\", "\\\\");
+                value = stringutils::replaceAll(value, "\n", "\\n");
+
+                bool needQuote = value.find_first_of("\f\r\t\v ") != std::string::npos;
+
+                if (needQuote) {
+                    value = stringutils::replaceAll(value, "\"", "\\\"");
+                }
+
+                if (needQuote) {
+                    valuesout << config.name() << "=\"" << value << "\"\n";
+                } else {
+                    valuesout << config.name() << "=" << value << "\n";
+                }
+                return true;
+            }, "", false, path);
             auto valueString = valuesout.str();
             if (!valueString.empty()) {
                 if (!path.empty()) {

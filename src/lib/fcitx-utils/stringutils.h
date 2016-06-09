@@ -24,25 +24,15 @@
 
 namespace fcitx {
 namespace stringutils {
-FCITXUTILS_EXPORT bool startsWith(const std::string &str,
-                                  const std::string &prefix);
-FCITXUTILS_EXPORT bool endsWith(const std::string &str,
-                                const std::string &suffix);
-FCITXUTILS_EXPORT std::pair<std::string::size_type, std::string::size_type>
-trimInplace(const std::string &str);
-FCITXUTILS_EXPORT std::vector<std::string> split(const std::string &str,
-                                                 const std::string &delim);
-FCITXUTILS_EXPORT std::string replaceAll(std::string str,
-                                         const std::string &before,
-                                         const std::string &after);
-FCITXUTILS_EXPORT const char *backwardSearch(const char *haystack, size_t l,
-                                             const char *needle, size_t ol,
+FCITXUTILS_EXPORT bool startsWith(const std::string &str, const std::string &prefix);
+FCITXUTILS_EXPORT bool endsWith(const std::string &str, const std::string &suffix);
+FCITXUTILS_EXPORT std::pair<std::string::size_type, std::string::size_type> trimInplace(const std::string &str);
+FCITXUTILS_EXPORT std::vector<std::string> split(const std::string &str, const std::string &delim);
+FCITXUTILS_EXPORT std::string replaceAll(std::string str, const std::string &before, const std::string &after);
+FCITXUTILS_EXPORT const char *backwardSearch(const char *haystack, size_t l, const char *needle, size_t ol,
                                              size_t from);
-FCITXUTILS_EXPORT char *backwardSearch(char *haystack, size_t l,
-                                       const char *needle, size_t ol,
-                                       size_t from);
-FCITXUTILS_EXPORT size_t backwardSearch(const std::string &haystack,
-                                        const std::string &needle, size_t from);
+FCITXUTILS_EXPORT char *backwardSearch(char *haystack, size_t l, const char *needle, size_t ol, size_t from);
+FCITXUTILS_EXPORT size_t backwardSearch(const std::string &haystack, const std::string &needle, size_t from);
 }
 };
 

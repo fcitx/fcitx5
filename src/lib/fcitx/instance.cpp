@@ -29,8 +29,7 @@
 
 namespace {
 
-void initAsDaemon()
-{
+void initAsDaemon() {
     pid_t pid;
     if ((pid = fork()) > 0) {
         waitpid(pid, NULL, 0);
@@ -38,7 +37,7 @@ void initAsDaemon()
     }
     setsid();
     auto oldint = signal(SIGINT, SIG_IGN);
-    auto oldhup  =signal(SIGHUP, SIG_IGN);
+    auto oldhup = signal(SIGHUP, SIG_IGN);
     auto oldquit = signal(SIGQUIT, SIG_IGN);
     auto oldpipe = signal(SIGPIPE, SIG_IGN);
     auto oldttou = signal(SIGTTOU, SIG_IGN);
@@ -57,19 +56,15 @@ void initAsDaemon()
     signal(SIGTTIN, oldttin);
     signal(SIGCHLD, oldchld);
 }
-
 }
 
 namespace fcitx {
 
-struct InstanceArgument
-{
-    InstanceArgument() { }
+struct InstanceArgument {
+    InstanceArgument() {}
     void parseOption(int argc, char *argv[]);
-    void printVersion() {
-    }
-    void printUsage() {
-    }
+    void printVersion() {}
+    void printUsage() {}
 
     int overrideDelay = -1;
     bool tryReplace = false;
@@ -82,9 +77,7 @@ struct InstanceArgument
 
 class InstancePrivate {
 public:
-    InstancePrivate(Instance *instance) {
-        addonManager.setInstance(instance);
-    }
+    InstancePrivate(Instance *instance) { addonManager.setInstance(instance); }
 
     InstanceArgument arg;
     bool initialized;
@@ -115,21 +108,12 @@ Instance::Instance(int argc, char **argv) {
     d_ptr.reset(new InstancePrivate(this));
 }
 
-Instance::~Instance()
-{
-}
+Instance::~Instance() {}
 
-void InstanceArgument::parseOption(int argc, char **argv)
-{
-    struct option longOptions[] = {
-        {"ui", 1, 0, 0},
-        {"replace", 0, 0, 0},
-        {"enable", 1, 0, 0},
-        {"disable", 1, 0, 0},
-        {"version", 0, 0, 0},
-        {"help", 0, 0, 0},
-        {NULL, 0, 0, 0}
-    };
+void InstanceArgument::parseOption(int argc, char **argv) {
+    struct option longOptions[] = {{"ui", 1, 0, 0},      {"replace", 0, 0, 0}, {"enable", 1, 0, 0},
+                                   {"disable", 1, 0, 0}, {"version", 0, 0, 0}, {"help", 0, 0, 0},
+                                   {NULL, 0, 0, 0}};
 
     int optionIndex = 0;
     int c;
@@ -157,8 +141,7 @@ void InstanceArgument::parseOption(int argc, char **argv)
                 quietQuit = true;
                 printUsage();
             }
-        }
-        break;
+        } break;
         case 'r':
             tryReplace = true;
             break;
@@ -189,24 +172,21 @@ void InstanceArgument::parseOption(int argc, char **argv)
     }
 }
 
-void Instance::setSignalPipe(int fd)
-{
+void Instance::setSignalPipe(int fd) {
     FCITX_D();
     d->signalPipe = fd;
-    d->signalPipeEvent.reset(d->eventLoop.addIOEvent(fd, IOEventFlag::In, [this] (EventSource *, int, IOEventFlags) {
+    d->signalPipeEvent.reset(d->eventLoop.addIOEvent(fd, IOEventFlag::In, [this](EventSource *, int, IOEventFlags) {
         handleSignal();
         return true;
     }));
 }
 
-bool Instance::willTryReplace() const
-{
+bool Instance::willTryReplace() const {
     FCITX_D();
     return d->arg.tryReplace;
 }
 
-void Instance::handleSignal()
-{
+void Instance::handleSignal() {
     FCITX_D();
     uint8_t signo = 0;
     while (read(d->signalPipe, &signo, sizeof(signo)) > 0) {
@@ -220,14 +200,12 @@ void Instance::handleSignal()
     }
 }
 
-void Instance::initialize()
-{
+void Instance::initialize() {
     FCITX_D();
     d->addonManager.load();
 }
 
-int Instance::exec()
-{
+int Instance::exec() {
     FCITX_D();
     if (d->arg.quietQuit) {
         return 0;
@@ -248,81 +226,46 @@ InputContextManager &Instance::inputContextManager() {
     return d->icManager;
 }
 
-AddonManager &Instance::addonManager()
-{
+AddonManager &Instance::addonManager() {
     FCITX_D();
     return d->addonManager;
 }
 
-void Instance::activate()
-{
-}
+void Instance::activate() {}
 
-std::string Instance::addonForInputMethod(const std::string& imName)
-{
-    return { };
-}
+std::string Instance::addonForInputMethod(const std::string &imName) { return {}; }
 
-void Instance::configure()
-{
-}
+void Instance::configure() {}
 
-void Instance::configureAddon(const std::string& addon)
-{
-}
+void Instance::configureAddon(const std::string &addon) {}
 
-void Instance::configureInputMethod(const std::string& imName)
-{
-}
+void Instance::configureInputMethod(const std::string &imName) {}
 
-std::string Instance::currentInputMethod()
-{
+std::string Instance::currentInputMethod() {
     // FIXME
     return {};
 }
 
-std::string Instance::currentUI()
-{
+std::string Instance::currentUI() {
     // FIXME
     return {};
 }
 
-void Instance::deactivate()
-{
-}
+void Instance::deactivate() {}
 
-void Instance::exit()
-{
-    eventLoop().quit();
-}
+void Instance::exit() { eventLoop().quit(); }
 
-void Instance::reloadAddonConfig(const std::string& addonName)
-{
-}
+void Instance::reloadAddonConfig(const std::string &addonName) {}
 
-void Instance::reloadConfig()
-{
-}
+void Instance::reloadConfig() {}
 
-void Instance::resetInputMethodList()
-{
-}
+void Instance::resetInputMethodList() {}
 
-void Instance::restart()
-{
-}
+void Instance::restart() {}
 
-void Instance::setCurrentInputMethod(const std::string &imName)
-{
-}
+void Instance::setCurrentInputMethod(const std::string &imName) {}
 
-int Instance::state()
-{
-    return 0;
-}
+int Instance::state() { return 0; }
 
-void Instance::toggle()
-{
-}
-
+void Instance::toggle() {}
 }

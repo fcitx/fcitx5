@@ -76,8 +76,7 @@ public:
     }
 
     virtual void setEnabled(bool enabled) override {
-        sd_event_source_set_enabled(m_eventSource,
-                                    enabled ? SD_EVENT_ON : SD_EVENT_OFF);
+        sd_event_source_set_enabled(m_eventSource, enabled ? SD_EVENT_ON : SD_EVENT_OFF);
     }
 
     virtual bool isOneShot() const override {
@@ -88,17 +87,14 @@ public:
         return result == SD_EVENT_ONESHOT;
     }
 
-    virtual void setOneShot() override {
-        sd_event_source_set_enabled(m_eventSource, SD_EVENT_ONESHOT);
-    }
+    virtual void setOneShot() override { sd_event_source_set_enabled(m_eventSource, SD_EVENT_ONESHOT); }
 
 protected:
     sd_event_source *m_eventSource;
 };
 
 struct SDEventSourceIO : public SDEventSource<EventSourceIO> {
-    SDEventSourceIO(IOCallback _callback)
-        : SDEventSource(), callback(_callback) {}
+    SDEventSourceIO(IOCallback _callback) : SDEventSource(), callback(_callback) {}
 
     virtual int fd() const override {
         int ret = sd_event_source_get_io_fd(m_eventSource);
@@ -125,8 +121,7 @@ struct SDEventSourceIO : public SDEventSource<EventSourceIO> {
     }
 
     virtual void setEvents(IOEventFlags flags) override {
-        int ret = sd_event_source_set_io_events(
-            m_eventSource, IOEventFlagsToEpollFlags(flags));
+        int ret = sd_event_source_set_io_events(m_eventSource, IOEventFlagsToEpollFlags(flags));
         if (ret < 0) {
             throw EventLoopException(ret);
         }
@@ -145,8 +140,7 @@ struct SDEventSourceIO : public SDEventSource<EventSourceIO> {
 };
 
 struct SDEventSourceTime : public SDEventSource<EventSourceTime> {
-    SDEventSourceTime(TimeCallback _callback)
-        : SDEventSource(), callback(_callback) {}
+    SDEventSourceTime(TimeCallback _callback) : SDEventSource(), callback(_callback) {}
 
     virtual uint64_t time() const override {
         uint64_t time;
@@ -225,12 +219,10 @@ void EventLoop::quit() {
     sd_event_exit(d->event, 0);
 }
 
-int IOEventCallback(sd_event_source *, int fd, uint32_t revents,
-                    void *userdata) {
+int IOEventCallback(sd_event_source *, int fd, uint32_t revents, void *userdata) {
     auto source = static_cast<SDEventSourceIO *>(userdata);
     try {
-        auto result =
-            source->callback(source, fd, EpollFlagsToIOEventFlags(revents));
+        auto result = source->callback(source, fd, EpollFlagsToIOEventFlags(revents));
         return result ? 0 : -1;
     } catch (...) {
         // some abnormal things threw
@@ -239,14 +231,12 @@ int IOEventCallback(sd_event_source *, int fd, uint32_t revents,
     return -1;
 }
 
-EventSourceIO *EventLoop::addIOEvent(int fd, IOEventFlags flags,
-                                     IOCallback callback) {
+EventSourceIO *EventLoop::addIOEvent(int fd, IOEventFlags flags, IOCallback callback) {
     FCITX_D();
     auto source = std::make_unique<SDEventSourceIO>(callback);
     sd_event_source *sdEventSource;
     int err;
-    if ((err = sd_event_add_io(d->event, &sdEventSource, fd,
-                               IOEventFlagsToEpollFlags(flags), IOEventCallback,
+    if ((err = sd_event_add_io(d->event, &sdEventSource, fd, IOEventFlagsToEpollFlags(flags), IOEventCallback,
                                source.get())) < 0) {
         throw EventLoopException(err);
     }
@@ -267,15 +257,12 @@ int TimeEventCallback(sd_event_source *, uint64_t usec, void *userdata) {
     return -1;
 }
 
-EventSourceTime *EventLoop::addTimeEvent(clockid_t clock, uint64_t usec,
-                                         uint64_t accuracy,
-                                         TimeCallback callback) {
+EventSourceTime *EventLoop::addTimeEvent(clockid_t clock, uint64_t usec, uint64_t accuracy, TimeCallback callback) {
     FCITX_D();
     auto source = std::make_unique<SDEventSourceTime>(callback);
     sd_event_source *sdEventSource;
     int err;
-    if ((err = sd_event_add_time(d->event, &sdEventSource, clock, usec,
-                                 accuracy, TimeEventCallback, source.get())) <
+    if ((err = sd_event_add_time(d->event, &sdEventSource, clock, usec, accuracy, TimeEventCallback, source.get())) <
         0) {
         throw EventLoopException(err);
     }

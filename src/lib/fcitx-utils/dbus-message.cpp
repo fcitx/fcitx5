@@ -148,8 +148,7 @@ std::string Message::destination() const {
     return sd_bus_message_get_destination(d->msg);
 }
 
-std::string Message::signature() const
-{
+std::string Message::signature() const {
     FCITX_D();
     return sd_bus_message_get_signature(d->msg, true);
 }
@@ -159,15 +158,12 @@ void *Message::nativeHandle() const {
     return d->msg;
 }
 
-
-
 Message Message::call(uint64_t timeout) {
     FCITX_D();
     ScopedSDBusError error;
     sd_bus_message *reply = nullptr;
     auto bus = sd_bus_message_get_bus(d->msg);
-    int r =
-        sd_bus_call(bus, d->msg, timeout, &error.error(), &reply);
+    int r = sd_bus_call(bus, d->msg, timeout, &error.error(), &reply);
     if (r < 0) {
         return createError(error.error().name, error.error().message);
     }
@@ -179,8 +175,7 @@ Slot *Message::callAsync(uint64_t timeout, MessageCallback callback) {
     auto bus = sd_bus_message_get_bus(d->msg);
     auto slot = std::make_unique<SDSlot>(callback);
     sd_bus_slot *sdSlot = nullptr;
-    int r = sd_bus_call_async(bus, &sdSlot, d->msg,
-                              SDMessageCallback, slot.get(), timeout);
+    int r = sd_bus_call_async(bus, &sdSlot, d->msg, SDMessageCallback, slot.get(), timeout);
     if (r < 0) {
         return nullptr;
     }
@@ -190,13 +185,11 @@ Slot *Message::callAsync(uint64_t timeout, MessageCallback callback) {
     return slot.release();
 }
 
-bool Message::send()
-{
+bool Message::send() {
     FCITX_D();
     auto bus = sd_bus_message_get_bus(d->msg);
     return sd_bus_send(bus, d->msg, 0) >= 0;
 }
-
 
 Message &Message::operator<<(bool b) {
     FCITX_D();
@@ -213,16 +206,16 @@ Message &Message::operator>>(bool &b) {
     return *this;
 }
 
-#define _MARSHALL_FUNC(TYPE, TYPE2)                                            \
-    Message &Message::operator<<(TYPE v) {                                     \
-        FCITX_D();                                                             \
-        sd_bus_message_append_basic(d->msg, SD_BUS_TYPE_##TYPE2, &v);          \
-        return *this;                                                          \
-    }                                                                          \
-    Message &Message::operator>>(TYPE &v) {                                    \
-        FCITX_D();                                                             \
-        sd_bus_message_read_basic(d->msg, SD_BUS_TYPE_##TYPE2, &v);            \
-        return *this;                                                          \
+#define _MARSHALL_FUNC(TYPE, TYPE2)                                                                                    \
+    Message &Message::operator<<(TYPE v) {                                                                             \
+        FCITX_D();                                                                                                     \
+        sd_bus_message_append_basic(d->msg, SD_BUS_TYPE_##TYPE2, &v);                                                  \
+        return *this;                                                                                                  \
+    }                                                                                                                  \
+    Message &Message::operator>>(TYPE &v) {                                                                            \
+        FCITX_D();                                                                                                     \
+        sd_bus_message_read_basic(d->msg, SD_BUS_TYPE_##TYPE2, &v);                                                    \
+        return *this;                                                                                                  \
     }
 
 _MARSHALL_FUNC(uint8_t, BYTE)
@@ -253,8 +246,7 @@ Message &Message::operator>>(std::string &s) {
 
 Message &Message::operator<<(const ObjectPath &o) {
     FCITX_D();
-    sd_bus_message_append_basic(d->msg, SD_BUS_TYPE_OBJECT_PATH,
-                                o.path().c_str());
+    sd_bus_message_append_basic(d->msg, SD_BUS_TYPE_OBJECT_PATH, o.path().c_str());
     return *this;
 }
 
@@ -271,8 +263,7 @@ Message &Message::operator>>(ObjectPath &o) {
 
 Message &Message::operator<<(const Signature &s) {
     FCITX_D();
-    sd_bus_message_append_basic(d->msg, SD_BUS_TYPE_OBJECT_PATH,
-                                s.sig().c_str());
+    sd_bus_message_append_basic(d->msg, SD_BUS_TYPE_OBJECT_PATH, s.sig().c_str());
     return *this;
 }
 

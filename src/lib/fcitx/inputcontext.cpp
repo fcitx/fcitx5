@@ -25,8 +25,7 @@
 
 namespace fcitx {
 
-InputContext::InputContext(InputContextManager &manager)
-    : d_ptr(std::make_unique<InputContextPrivate>(this, manager)) {
+InputContext::InputContext(InputContextManager &manager) : d_ptr(std::make_unique<InputContextPrivate>(this, manager)) {
     manager.registerInputContext(*this);
 }
 
@@ -108,12 +107,17 @@ void InputContext::setHasFocus(bool hasFocus) {
     }
 }
 
+bool InputContext::keyEvent(const KeyEvent &event) {
+    return false;
+}
+
+void InputContext::reset() {
+}
+
 FocusGroupType InputContext::focusGroupType() const {
     FCITX_D();
     if (d->group) {
-        return d->group == &d->manager.globalFocusGroup()
-                   ? FocusGroupType::Global
-                   : FocusGroupType::Local;
+        return d->group == &d->manager.globalFocusGroup() ? FocusGroupType::Global : FocusGroupType::Local;
     }
     return FocusGroupType::Independent;
 }

@@ -21,17 +21,13 @@
 
 #include "addoninstance.h"
 
-namespace fcitx
-{
+namespace fcitx {
 
-class InputMethodEngine : public AddonInstance
-{
+class InputMethodEngine : public AddonInstance {
 public:
     InputMethodEngine();
     virtual ~InputMethodEngine();
-
 };
-
 }
 
 #endif // _FCITX_INPUTMETHODENGINE_H_

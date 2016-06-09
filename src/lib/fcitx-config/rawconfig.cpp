@@ -25,11 +25,9 @@
 namespace fcitx {
 class RawConfigPrivate {
 public:
-    RawConfigPrivate(RawConfig *q, std::string _name)
-        : q_ptr(q), name(_name), lineNumber(0) {}
+    RawConfigPrivate(RawConfig *q, std::string _name) : q_ptr(q), name(_name), lineNumber(0) {}
     RawConfigPrivate(RawConfig *q, const RawConfigPrivate &other)
-        : q_ptr(q), name(other.name), value(other.value),
-          comment(other.comment), lineNumber(other.lineNumber) {
+        : q_ptr(q), name(other.name), value(other.value), comment(other.comment), lineNumber(other.lineNumber) {
         for (auto item : other.subItems) {
             subItems[item.first] = std::make_shared<RawConfig>(*item.second);
         }
@@ -40,24 +38,18 @@ public:
         return result;
     }
 
-    std::shared_ptr<const RawConfig>
-    getNonexistentRawConfig(const std::string &key) const {
+    std::shared_ptr<const RawConfig> getNonexistentRawConfig(const std::string &key) const {
         FCITX_UNUSED(key);
         return nullptr;
     }
 
     template <typename T, typename U>
-    static std::shared_ptr<T> getRawConfigHelper(T &that, std::string path,
-                                                 U callback) {
+    static std::shared_ptr<T> getRawConfigHelper(T &that, std::string path, U callback) {
         auto cur = &that;
         std::shared_ptr<T> result;
-        for (std::string::size_type pos = 0, new_pos = path.find('/', pos);
-             pos != std::string::npos && cur;
-             pos = ((std::string::npos == new_pos) ? new_pos : (new_pos + 1)),
-                                    new_pos = path.find('/', pos)) {
-            auto key = path.substr(pos, (std::string::npos == new_pos)
-                                            ? new_pos
-                                            : (new_pos - pos));
+        for (std::string::size_type pos = 0, new_pos = path.find('/', pos); pos != std::string::npos && cur;
+             pos = ((std::string::npos == new_pos) ? new_pos : (new_pos + 1)), new_pos = path.find('/', pos)) {
+            auto key = path.substr(pos, (std::string::npos == new_pos) ? new_pos : (new_pos - pos));
             auto iter = cur->d_func()->subItems.find(key);
             if (iter == cur->d_func()->subItems.end()) {
                 result = cur->d_func()->getNonexistentRawConfig(key);
@@ -74,16 +66,12 @@ public:
     }
 
     template <typename T>
-    static bool
-    visitHelper(T &that,
-                std::function<bool(T &, const std::string &path)> callback,
-                bool recursive, const std::string &pathPrefix) {
+    static bool visitHelper(T &that, std::function<bool(T &, const std::string &path)> callback, bool recursive,
+                            const std::string &pathPrefix) {
         auto d = that.d_func();
         for (auto pair : d->subItems) {
             std::shared_ptr<T> item = pair.second;
-            auto newPathPrefix = pathPrefix.empty()
-                                     ? item->name()
-                                     : pathPrefix + "/" + item->name();
+            auto newPathPrefix = pathPrefix.empty() ? item->name() : pathPrefix + "/" + item->name();
             if (!callback(*item, newPathPrefix)) {
                 return false;
             }
@@ -106,28 +94,23 @@ public:
     FCITX_DECLARE_PUBLIC(RawConfig);
 };
 
-RawConfig::RawConfig(std::string name, std::string value)
-    : d_ptr(std::make_unique<RawConfigPrivate>(this, name)) {
+RawConfig::RawConfig(std::string name, std::string value) : d_ptr(std::make_unique<RawConfigPrivate>(this, name)) {
     setValue(std::move(value));
 }
 
 RawConfig::~RawConfig() {}
 
-RawConfig::RawConfig(const RawConfig &other)
-    : d_ptr(std::make_unique<RawConfigPrivate>(this, *other.d_func())) {}
+RawConfig::RawConfig(const RawConfig &other) : d_ptr(std::make_unique<RawConfigPrivate>(this, *other.d_func())) {}
 
-RawConfig::RawConfig(fcitx::RawConfig &&other)
-    : d_ptr(std::move(other.d_ptr)) {}
+RawConfig::RawConfig(fcitx::RawConfig &&other) : d_ptr(std::move(other.d_ptr)) {}
 
-std::shared_ptr<RawConfig> RawConfig::get(const std::string &path,
-                                          bool create) {
+std::shared_ptr<RawConfig> RawConfig::get(const std::string &path, bool create) {
     auto dummy = [](const RawConfig &, const std::string &) {};
     if (create) {
         return RawConfigPrivate::getRawConfigHelper(*this, path, dummy);
     } else {
         return std::const_pointer_cast<RawConfig>(
-            RawConfigPrivate::getRawConfigHelper<const RawConfig>(*this, path,
-                                                                  dummy));
+            RawConfigPrivate::getRawConfigHelper<const RawConfig>(*this, path, dummy));
     }
 }
 
@@ -200,9 +183,8 @@ RawConfig &RawConfig::operator=(RawConfig other) {
     return *this;
 }
 
-void RawConfig::visitSubItems(
-    std::function<bool(RawConfig &, const std::string &path)> callback,
-    const std::string &path, bool recursive, const std::string &pathPrefix) {
+void RawConfig::visitSubItems(std::function<bool(RawConfig &, const std::string &path)> callback,
+                              const std::string &path, bool recursive, const std::string &pathPrefix) {
     auto root = this;
     std::shared_ptr<RawConfig> subItem;
     if (!path.empty()) {
@@ -217,10 +199,8 @@ void RawConfig::visitSubItems(
     RawConfigPrivate::visitHelper(*root, callback, recursive, pathPrefix);
 }
 
-void RawConfig::visitSubItems(
-    std::function<bool(const RawConfig &, const std::string &path)> callback,
-    const std::string &path, bool recursive,
-    const std::string &pathPrefix) const {
+void RawConfig::visitSubItems(std::function<bool(const RawConfig &, const std::string &path)> callback,
+                              const std::string &path, bool recursive, const std::string &pathPrefix) const {
     auto root = this;
     std::shared_ptr<const RawConfig> subItem;
     if (!path.empty()) {
@@ -235,14 +215,12 @@ void RawConfig::visitSubItems(
     RawConfigPrivate::visitHelper(*root, callback, recursive, pathPrefix);
 }
 
-void RawConfig::visitItemsOnPath(
-    std::function<void(RawConfig &, const std::string &path)> callback,
-    const std::string &path) {
+void RawConfig::visitItemsOnPath(std::function<void(RawConfig &, const std::string &path)> callback,
+                                 const std::string &path) {
     RawConfigPrivate::getRawConfigHelper(*this, path, callback);
 }
-void RawConfig::visitItemsOnPath(
-    std::function<void(const RawConfig &, const std::string &path)> callback,
-    const std::string &path) const {
+void RawConfig::visitItemsOnPath(std::function<void(const RawConfig &, const std::string &path)> callback,
+                                 const std::string &path) const {
     RawConfigPrivate::getRawConfigHelper(*this, path, callback);
 }
 }

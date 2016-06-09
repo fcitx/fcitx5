@@ -36,13 +36,11 @@ uint64_t timespec_load(const struct timespec *ts) {
         return USEC_INFINITY;
     }
 
-    if ((uint64_t)ts->tv_sec >
-        (UINT64_MAX - (ts->tv_nsec / NSEC_PER_USEC)) / USEC_PER_SEC) {
+    if ((uint64_t)ts->tv_sec > (UINT64_MAX - (ts->tv_nsec / NSEC_PER_USEC)) / USEC_PER_SEC) {
         return USEC_INFINITY;
     }
 
-    return (uint64_t)ts->tv_sec * USEC_PER_SEC +
-           (uint64_t)ts->tv_nsec / NSEC_PER_USEC;
+    return (uint64_t)ts->tv_sec * USEC_PER_SEC + (uint64_t)ts->tv_nsec / NSEC_PER_USEC;
 }
 
 uint64_t now(clockid_t clock_id) {
@@ -52,12 +50,9 @@ uint64_t now(clockid_t clock_id) {
     return timespec_load(&ts);
 }
 
-EventLoopException::EventLoopException(int error)
-    : std::runtime_error(std::strerror(error)), m_errno(error) {}
+EventLoopException::EventLoopException(int error) : std::runtime_error(std::strerror(error)), m_errno(error) {}
 
-void EventSourceTime::setNextInterval(uint64_t time) {
-    setTime(now(clock()) + time);
-}
+void EventSourceTime::setNextInterval(uint64_t time) { setTime(now(clock()) + time); }
 
 EventSource::~EventSource() {}
 }

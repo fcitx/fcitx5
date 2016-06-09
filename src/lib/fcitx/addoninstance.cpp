@@ -19,7 +19,6 @@
 
 #include "addoninstance.h"
 
-namespace fcitx
-{
-AddonInstance::~AddonInstance() { }
+namespace fcitx {
+AddonInstance::~AddonInstance() {}
 }

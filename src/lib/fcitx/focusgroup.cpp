@@ -24,8 +24,7 @@
 
 namespace fcitx {
 
-FocusGroup::FocusGroup(InputContextManager &manager)
-    : d_ptr(std::make_unique<FocusGroupPrivate>(this, manager)) {
+FocusGroup::FocusGroup(InputContextManager &manager) : d_ptr(std::make_unique<FocusGroupPrivate>(this, manager)) {
     manager.registerFocusGroup(*this);
 }
 

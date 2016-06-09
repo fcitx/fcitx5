@@ -20,29 +20,20 @@
 #include <list>
 #include "inputmethodmanager.h"
 
-namespace fcitx
-{
+namespace fcitx {
 
-class InputMethodManagerPrivate
-{
+class InputMethodManagerPrivate {
 public:
     int currentGroup;
     std::vector<InputMethodGroup> groups;
 };
 
-InputMethodManager::InputMethodManager()
-{
-}
+InputMethodManager::InputMethodManager() {}
 
-InputMethodManager::~InputMethodManager()
-{
-}
+InputMethodManager::~InputMethodManager() {}
 
-int InputMethodManager::groupCount() const
-{
+int InputMethodManager::groupCount() const {
     FCITX_D();
     return d->groups.size();
 }
-
-
 }

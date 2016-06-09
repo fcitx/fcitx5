@@ -41,15 +41,14 @@
 #define MINIMAL_BUFFER_SIZE 256
 
 extern int selfpipe[2];
-extern char* crashlog;
+extern char *crashlog;
 
 typedef struct _MinimalBuffer {
     char buffer[MINIMAL_BUFFER_SIZE];
     int offset;
 } MinimalBuffer;
 
-void SetMyExceptionHandler(void)
-{
+void SetMyExceptionHandler(void) {
     int signo;
 
     for (signo = SIGHUP; signo < SIGUNUSED; signo++) {
@@ -69,14 +68,9 @@ void SetMyExceptionHandler(void)
     }
 }
 
-static inline void BufferReset(MinimalBuffer* buffer)
-{
-    buffer->offset = 0;
-}
+static inline void BufferReset(MinimalBuffer *buffer) { buffer->offset = 0; }
 
-static inline void
-BufferAppendUInt64(MinimalBuffer* buffer, uint64_t number, int radix)
-{
+static inline void BufferAppendUInt64(MinimalBuffer *buffer, uint64_t number, int radix) {
     int i = 0;
     while (buffer->offset + i < MINIMAL_BUFFER_SIZE) {
         const int tmp = number % radix;
@@ -91,8 +85,8 @@ BufferAppendUInt64(MinimalBuffer* buffer, uint64_t number, int radix)
     if (i > 1) {
         // reverse
         int j = 0;
-        char* cursor = buffer->buffer + buffer->offset;
-        for (j = 0; j < i / 2; j ++) {
+        char *cursor = buffer->buffer + buffer->offset;
+        for (j = 0; j < i / 2; j++) {
             char temp = cursor[j];
             cursor[j] = cursor[i - j - 1];
             cursor[i - j - 1] = temp;
@@ -101,28 +95,19 @@ BufferAppendUInt64(MinimalBuffer* buffer, uint64_t number, int radix)
     buffer->offset += i;
 }
 
-static inline void
-_write_string_len(int fd, const char *str, size_t len)
-{
+static inline void _write_string_len(int fd, const char *str, size_t len) {
     if (fd >= 0 && fd != STDERR_FILENO)
         write(fd, str, len);
     write(STDERR_FILENO, str, len);
 }
 
-static inline void
-_write_string(int fd, const char *str)
-{
-    _write_string_len(fd, str, strlen(str));
-}
+static inline void _write_string(int fd, const char *str) { _write_string_len(fd, str, strlen(str)); }
 
-static inline void
-_write_buffer(int fd, const MinimalBuffer *buffer)
-{
+static inline void _write_buffer(int fd, const MinimalBuffer *buffer) {
     _write_string_len(fd, buffer->buffer, buffer->offset);
 }
 
-void OnException(int signo)
-{
+void OnException(int signo) {
     if (signo == SIGCHLD)
         return;
 
@@ -157,7 +142,9 @@ void OnException(int signo)
 
 #if defined(LIBEXECINFO_FOUND)
 #define BACKTRACE_SIZE 32
-    void *array[BACKTRACE_SIZE] = { NULL, };
+    void *array[BACKTRACE_SIZE] = {
+        NULL,
+    };
 
     int size = backtrace(array, BACKTRACE_SIZE);
     backtrace_symbols_fd(array, size, STDERR_FILENO);
@@ -176,15 +163,13 @@ void OnException(int signo)
     case SIGFPE:
         _exit(1);
         break;
-    default:
-        {
-            uint8_t sig = 0;
-            if (signo < 0xff)
-                sig = (uint8_t)(signo & 0xff);
-            write(selfpipe[1], &sig, 1);
-            signal(signo, OnException);
-        }
-        break;
+    default: {
+        uint8_t sig = 0;
+        if (signo < 0xff)
+            sig = (uint8_t)(signo & 0xff);
+        write(selfpipe[1], &sig, 1);
+        signal(signo, OnException);
+    } break;
     }
 }
 

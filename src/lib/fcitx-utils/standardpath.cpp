@@ -40,14 +40,11 @@ public:
         configHome = defaultPath("XDG_CONFIG_HOME", ".config");
         configDirs = defaultPaths("XDG_CONFIG_DIRS", "/etc/xdg", nullptr);
         dataHome = defaultPath("XDG_DATA_HOME", ".local/share");
-        dataDirs = defaultPaths("XDG_DATA_DIRS", "/usr/local/share:/usr/share",
-                                skipFcitxPath ? nullptr : "datadir");
+        dataDirs = defaultPaths("XDG_DATA_DIRS", "/usr/local/share:/usr/share", skipFcitxPath ? nullptr : "datadir");
         cacheHome = defaultPath("XDG_CACHE_HOME", ".cache");
         const char *tmpdir = getenv("TMPDIR");
-        runtimeDir = defaultPath("XDG_RUNTIME_DIR",
-                                 !tmpdir || !tmpdir[0] ? "/tmp" : tmpdir);
-        addonDirs =
-            defaultPaths("FCITX_ADDON_DIRS", FCITX_INSTALL_ADDONDIR, nullptr);
+        runtimeDir = defaultPath("XDG_RUNTIME_DIR", !tmpdir || !tmpdir[0] ? "/tmp" : tmpdir);
+        addonDirs = defaultPaths("FCITX_ADDON_DIRS", FCITX_INSTALL_ADDONDIR, nullptr);
     }
 
     // http://standards.freedesktop.org/basedir-spec/basedir-spec-latest.html
@@ -63,8 +60,7 @@ public:
                 dir = std::string(home) + "/" + defaultPath;
             } else {
                 if (strcmp(env, "XDG_RUNTIME_DIR") == 0) {
-                    dir = std::string(defaultPath) + "/fcitx-runtime-" +
-                          std::to_string(geteuid());
+                    dir = std::string(defaultPath) + "/fcitx-runtime-" + std::to_string(geteuid());
                     if (!fs::isdir(dir)) {
                         if (mkdir(dir.c_str(), 0700) != 0) {
                             return {};
@@ -78,17 +74,14 @@ public:
 
         if (!dir.empty() && strcmp(env, "XDG_RUNTIME_DIR") == 0) {
             struct stat buf;
-            if (stat(dir.c_str(), &buf) != 0 || buf.st_uid != geteuid() ||
-                buf.st_mode != 0700) {
+            if (stat(dir.c_str(), &buf) != 0 || buf.st_uid != geteuid() || buf.st_mode != 0700) {
                 return {};
             }
         }
         return dir;
     }
 
-    std::vector<std::string> defaultPaths(const char *env,
-                                          const char *defaultPath,
-                                          const char *fcitxPath) {
+    std::vector<std::string> defaultPaths(const char *env, const char *defaultPath, const char *fcitxPath) {
         std::vector<std::string> dirs;
 
         const char *dir = getenv(env);
@@ -108,8 +101,7 @@ public:
         }
         if (fcitxPath) {
             std::string path = StandardPath::fcitxPath(fcitxPath);
-            if (!path.empty() &&
-                std::find(dirs.begin(), dirs.end(), path) == dirs.end()) {
+            if (!path.empty() && std::find(dirs.begin(), dirs.end(), path) == dirs.end()) {
                 dirs.push_back(path);
             }
         }
@@ -155,16 +147,14 @@ public:
     std::vector<std::string> addonDirs;
 };
 
-std::string constructPath(const std::string &basepath,
-                          const std::string &path) {
+std::string constructPath(const std::string &basepath, const std::string &path) {
     if (basepath.empty()) {
         return {};
     }
     return fs::cleanPath(basepath + "/" + path);
 }
 
-StandardPath::StandardPath(bool skipFcitxPath)
-    : d_ptr(std::make_unique<StandardPathPrivate>(skipFcitxPath)) {}
+StandardPath::StandardPath(bool skipFcitxPath) : d_ptr(std::make_unique<StandardPathPrivate>(skipFcitxPath)) {}
 
 StandardPath::~StandardPath() {}
 
@@ -174,20 +164,13 @@ std::string StandardPath::fcitxPath(const char *path) {
     }
 
     static std::unordered_map<std::string, std::string> pathMap = {
-        std::make_pair<std::string, std::string>("datadir",
-                                                 FCITX_INSTALL_DATADIR),
-        std::make_pair<std::string, std::string>("pkgdatadir",
-                                                 FCITX_INSTALL_PKGDATADIR),
-        std::make_pair<std::string, std::string>("libdir",
-                                                 FCITX_INSTALL_LIBDIR),
-        std::make_pair<std::string, std::string>("bindir",
-                                                 FCITX_INSTALL_BINDIR),
-        std::make_pair<std::string, std::string>("localedir",
-                                                 FCITX_INSTALL_LOCALEDIR),
-        std::make_pair<std::string, std::string>("addondir",
-                                                 FCITX_INSTALL_ADDONDIR),
-        std::make_pair<std::string, std::string>("libdatadir",
-                                                 FCITX_INSTALL_LIBDATADIR),
+        std::make_pair<std::string, std::string>("datadir", FCITX_INSTALL_DATADIR),
+        std::make_pair<std::string, std::string>("pkgdatadir", FCITX_INSTALL_PKGDATADIR),
+        std::make_pair<std::string, std::string>("libdir", FCITX_INSTALL_LIBDIR),
+        std::make_pair<std::string, std::string>("bindir", FCITX_INSTALL_BINDIR),
+        std::make_pair<std::string, std::string>("localedir", FCITX_INSTALL_LOCALEDIR),
+        std::make_pair<std::string, std::string>("addondir", FCITX_INSTALL_ADDONDIR),
+        std::make_pair<std::string, std::string>("libdatadir", FCITX_INSTALL_LIBDATADIR),
     };
 
     if (pathMap.count(path)) {
@@ -213,9 +196,7 @@ std::vector<std::string> StandardPath::directories(Type type) const {
     return d->directories(type);
 }
 
-void StandardPath::scanDirectories(
-    Type type,
-    std::function<bool(const std::string &path, bool user)> scanner) {
+void StandardPath::scanDirectories(Type type, std::function<bool(const std::string &path, bool user)> scanner) {
     FCITX_D();
     std::string userDir = d->userPath(type);
     std::vector<std::string> list = d->directories(type);
@@ -244,29 +225,25 @@ void StandardPath::scanDirectories(
 
 void StandardPath::scanFiles(
     Type type, const std::string &path,
-    std::function<bool(const std::string &fileName, const std::string &dir,
-                       bool user)> scanner) {
-    scanDirectories(type,
-                    [scanner, &path](const std::string &dirPath, bool isUser) {
-                        auto fullPath = constructPath(dirPath, path);
-                        std::unique_ptr<DIR, decltype(closedir0) *> scopedDir{
-                            opendir(fullPath.c_str()), closedir0};
-                        if (scopedDir) {
-                            auto dir = scopedDir.get();
-                            struct dirent *drt;
-                            while ((drt = readdir(dir)) != nullptr) {
-                                if (strcmp(drt->d_name, ".") == 0 ||
-                                    strcmp(drt->d_name, "..") == 0) {
-                                    continue;
-                                }
+    std::function<bool(const std::string &fileName, const std::string &dir, bool user)> scanner) {
+    scanDirectories(type, [scanner, &path](const std::string &dirPath, bool isUser) {
+        auto fullPath = constructPath(dirPath, path);
+        std::unique_ptr<DIR, decltype(closedir0) *> scopedDir{opendir(fullPath.c_str()), closedir0};
+        if (scopedDir) {
+            auto dir = scopedDir.get();
+            struct dirent *drt;
+            while ((drt = readdir(dir)) != nullptr) {
+                if (strcmp(drt->d_name, ".") == 0 || strcmp(drt->d_name, "..") == 0) {
+                    continue;
+                }
 
-                                if (!scanner(drt->d_name, fullPath, isUser)) {
-                                    return false;
-                                }
-                            }
-                        }
-                        return true;
-                    });
+                if (!scanner(drt->d_name, fullPath, isUser)) {
+                    return false;
+                }
+            }
+        }
+        return true;
+    });
 }
 
 std::string StandardPath::locate(Type type, const std::string &path) {
@@ -282,8 +259,7 @@ std::string StandardPath::locate(Type type, const std::string &path) {
     return retPath;
 }
 
-std::vector<std::string> StandardPath::locateAll(Type type,
-                                                 const std::string &path) {
+std::vector<std::string> StandardPath::locateAll(Type type, const std::string &path) {
     std::vector<std::string> retPaths;
     scanDirectories(type, [&retPaths, &path](const std::string &dirPath, bool) {
         auto fullPath = constructPath(dirPath, path);
@@ -295,62 +271,53 @@ std::vector<std::string> StandardPath::locateAll(Type type,
     return retPaths;
 }
 
-StandardPathFile StandardPath::open(Type type, const std::string &path,
-                                    int flags) {
+StandardPathFile StandardPath::open(Type type, const std::string &path, int flags) {
     StandardPathFile file;
-    scanDirectories(type,
-                    [flags, &file, &path](const std::string &dirPath, bool) {
-                        auto fullPath = constructPath(dirPath, path);
-                        int fd = ::open(fullPath.c_str(), flags);
-                        if (fd < 0) {
-                            return true;
-                        }
-                        file.first = fd;
-                        file.second = fullPath;
-                        return false;
-                    });
+    scanDirectories(type, [flags, &file, &path](const std::string &dirPath, bool) {
+        auto fullPath = constructPath(dirPath, path);
+        int fd = ::open(fullPath.c_str(), flags);
+        if (fd < 0) {
+            return true;
+        }
+        file.first = fd;
+        file.second = fullPath;
+        return false;
+    });
     return file;
 }
 
-std::unordered_map<std::string, StandardPathFile> StandardPath::multiOpenFilter(
-    Type type, const std::string &path, int flags,
-    std::function<bool(const std::string &path, const std::string &dir,
-                       bool user)> filter) {
+std::unordered_map<std::string, StandardPathFile>
+StandardPath::multiOpenFilter(Type type, const std::string &path, int flags,
+                              std::function<bool(const std::string &path, const std::string &dir, bool user)> filter) {
     std::unordered_map<std::string, StandardPathFile> result;
-    scanFiles(type, path,
-              [&result, flags, &filter](const std::string &path,
-                                        const std::string dir, bool isUser) {
-                  if (!result.count(path) && filter(path, dir, isUser)) {
-                      auto fullPath = constructPath(dir, path);
-                      int fd = ::open(fullPath.c_str(), flags);
-                      if (fd >= 0) {
-                          result[path] = std::make_pair(fd, fullPath);
-                      }
-                  }
-                  return true;
-              });
+    scanFiles(type, path, [&result, flags, &filter](const std::string &path, const std::string dir, bool isUser) {
+        if (!result.count(path) && filter(path, dir, isUser)) {
+            auto fullPath = constructPath(dir, path);
+            int fd = ::open(fullPath.c_str(), flags);
+            if (fd >= 0) {
+                result[path] = std::make_pair(fd, fullPath);
+            }
+        }
+        return true;
+    });
 
     return result;
 }
 
-StandardPathFilesMap
-StandardPath::multiOpenAllFilter(
+StandardPathFilesMap StandardPath::multiOpenAllFilter(
     Type type, const std::string &path, int flags,
-    std::function<bool(const std::string &path, const std::string &dir,
-                       bool user)> filter) {
+    std::function<bool(const std::string &path, const std::string &dir, bool user)> filter) {
     StandardPathFilesMap result;
-    scanFiles(type, path,
-              [&result, flags, &filter](const std::string &path,
-                                        const std::string dir, bool isUser) {
-                  if (filter(path, dir, isUser)) {
-                      auto fullPath = constructPath(dir, path);
-                      int fd = ::open(fullPath.c_str(), flags);
-                      if (fd >= 0) {
-                          result[path].push_back(std::make_pair(fd, fullPath));
-                      }
-                  }
-                  return true;
-              });
+    scanFiles(type, path, [&result, flags, &filter](const std::string &path, const std::string dir, bool isUser) {
+        if (filter(path, dir, isUser)) {
+            auto fullPath = constructPath(dir, path);
+            int fd = ::open(fullPath.c_str(), flags);
+            if (fd >= 0) {
+                result[path].push_back(std::make_pair(fd, fullPath));
+            }
+        }
+        return true;
+    });
 
     return result;
 }

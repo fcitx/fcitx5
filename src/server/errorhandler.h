@@ -42,7 +42,7 @@
  * @param  ...
  * @return void
  **/
-void            SetMyExceptionHandler(void);
+void SetMyExceptionHandler(void);
 
 /**
  * Process Posix signal
@@ -50,7 +50,7 @@ void            SetMyExceptionHandler(void);
  * @param signo
  * @return void
  **/
-void            OnException(int signo);
+void OnException(int signo);
 
 #endif
 

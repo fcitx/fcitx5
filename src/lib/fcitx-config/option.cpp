@@ -21,8 +21,7 @@
 #include "configuration.h"
 
 namespace fcitx {
-OptionBase::OptionBase(Configuration *parent, std::string path,
-                       std::string description)
+OptionBase::OptionBase(Configuration *parent, std::string path, std::string description)
     : m_parent(parent), m_path(path), m_description(description) {
     m_parent->addOption(this);
 }

@@ -26,17 +26,13 @@
 
 using namespace fcitx::dbus;
 
-namespace fcitx
-{
+namespace fcitx {
 
 class Controller1 : public ObjectVTable {
 public:
-    Controller1(Instance *instance) : m_instance(instance) {
-    }
+    Controller1(Instance *instance) : m_instance(instance) {}
 
-    void exit() {
-        m_instance->exit();
-    }
+    void exit() { m_instance->exit(); }
 
     void restart() { m_instance->restart(); }
     void configure() { m_instance->configure(); }
@@ -77,20 +73,15 @@ private:
 
 DBusModule::DBusModule(Instance *instance) : m_bus(std::make_unique<dbus::Bus>(dbus::BusType::Session)) {
     m_bus->attachEventLoop(&instance->eventLoop());
-    if (!m_bus->requestName(FCITX_DBUS_SERVICE, Flags<RequestNameFlag>{RequestNameFlag::AllowReplacement, RequestNameFlag::ReplaceExisting})) {
+    if (!m_bus->requestName(FCITX_DBUS_SERVICE, Flags<RequestNameFlag>{RequestNameFlag::AllowReplacement,
+                                                                       RequestNameFlag::ReplaceExisting})) {
         throw std::runtime_error("Unable to request dbus name");
     }
     m_controller = std::make_unique<Controller1>(instance);
     m_bus->addObjectVTable("/controller", FCITX_CONTROLLER_DBUS_INTERFACE, *m_controller);
 }
 
-DBusModule::~DBusModule() {
-}
+DBusModule::~DBusModule() {}
 
-AddonInstance *DBusModuleFactory::create(AddonManager *manager)
-{
-    return new DBusModule(manager->instance());
-}
-
-
+AddonInstance *DBusModuleFactory::create(AddonManager *manager) { return new DBusModule(manager->instance()); }
 }

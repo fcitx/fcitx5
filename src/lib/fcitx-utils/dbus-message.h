@@ -33,22 +33,22 @@ namespace dbus {
 
 class UnixFD;
 
-template<typename T>
+template <typename T>
 struct DBusSignatureTraits;
 
-template<char>
+template <char>
 struct DBusSignatureToType;
 
-#define DBUS_SIGNATURE_TRAITS(TYPENAME, SIG) \
-template<> \
-struct DBusSignatureTraits<TYPENAME> { \
-    static constexpr char value = SIG; \
-}; \
-\
-template<> \
-struct DBusSignatureToType<SIG> { \
-    typedef TYPENAME type; \
-};
+#define DBUS_SIGNATURE_TRAITS(TYPENAME, SIG)                                                                           \
+    template <>                                                                                                        \
+    struct DBusSignatureTraits<TYPENAME> {                                                                             \
+        static constexpr char value = SIG;                                                                             \
+    };                                                                                                                 \
+                                                                                                                       \
+    template <>                                                                                                        \
+    struct DBusSignatureToType<SIG> {                                                                                  \
+        typedef TYPENAME type;                                                                                         \
+    };
 
 DBUS_SIGNATURE_TRAITS(std::string, 's');
 DBUS_SIGNATURE_TRAITS(uint8_t, 'y');
@@ -62,21 +62,21 @@ DBUS_SIGNATURE_TRAITS(uint64_t, 't');
 DBUS_SIGNATURE_TRAITS(double, 'd');
 DBUS_SIGNATURE_TRAITS(UnixFD, 'h');
 
-template<char...>
+template <char...>
 struct DBusSignatureToTuple;
 
-template<char first, char...next>
+template <char first, char... next>
 struct DBusSignatureToTuple<first, next...> {
-    typedef typename CombineTuples<std::tuple<typename DBusSignatureToType<first>::type>, typename
-    DBusSignatureToTuple<next...>::type>::type type;
+    typedef typename CombineTuples<std::tuple<typename DBusSignatureToType<first>::type>,
+                                   typename DBusSignatureToTuple<next...>::type>::type type;
 };
 
-template<>
+template <>
 struct DBusSignatureToTuple<> {
     typedef std::tuple<> type;
 };
 
-template<char...c>
+template <char... c>
 auto MetaStringToDBusTuple(MetaString<c...>) -> DBusSignatureToTuple<c...>;
 
 #define STRING_TO_DBUS_TUPLE(STRING) decltype(MetaStringToDBusTuple(makeMetaString(STRING)()))::type
@@ -138,15 +138,9 @@ private:
 
 class FCITXUTILS_EXPORT Container {
 public:
-    enum class Type {
-        Array,
-        DictEntry,
-        Struct,
-        Variant
-    };
+    enum class Type { Array, DictEntry, Struct, Variant };
 
-    Container(Type t = Type::Array, const Signature &content = Signature())
-        : m_type(t), m_content(content) {}
+    Container(Type t = Type::Array, const Signature &content = Signature()) : m_type(t), m_content(content) {}
 
     Type type() const { return m_type; }
     const Signature &content() const { return m_content; }
@@ -160,35 +154,28 @@ class FCITXUTILS_EXPORT ContainerEnd {};
 
 class MessagePrivate;
 
-template<typename Tuple, std::size_t N>
-struct TupleMarshaller
-{
-    static void marshall(Message& msg, const Tuple &t) {
-        TupleMarshaller<Tuple, N-1>::marshall(msg, t);
-        msg << std::get<N-1>(t);
+template <typename Tuple, std::size_t N>
+struct TupleMarshaller {
+    static void marshall(Message &msg, const Tuple &t) {
+        TupleMarshaller<Tuple, N - 1>::marshall(msg, t);
+        msg << std::get<N - 1>(t);
     }
-    static void unmarshall(Message& msg, Tuple &t) {
-        TupleMarshaller<Tuple, N-1>::unmarshall(msg, t);
-        msg >> std::get<N-1>(t);
-    }
-};
-
-template<typename Tuple>
-struct TupleMarshaller<Tuple, 1>
-{
-    static void marshall(Message& msg, const Tuple &t) {
-        msg << std::get<0>(t);
-    }
-    static void unmarshall(Message& msg, Tuple &t) {
-        msg >> std::get<0>(t);
+    static void unmarshall(Message &msg, Tuple &t) {
+        TupleMarshaller<Tuple, N - 1>::unmarshall(msg, t);
+        msg >> std::get<N - 1>(t);
     }
 };
 
-template<typename Tuple>
-struct TupleMarshaller<Tuple, 0>
-{
-    static void marshall(Message&, const Tuple &) { }
-    static void unmarshall(Message&, Tuple &) { }
+template <typename Tuple>
+struct TupleMarshaller<Tuple, 1> {
+    static void marshall(Message &msg, const Tuple &t) { msg << std::get<0>(t); }
+    static void unmarshall(Message &msg, Tuple &t) { msg >> std::get<0>(t); }
+};
+
+template <typename Tuple>
+struct TupleMarshaller<Tuple, 0> {
+    static void marshall(Message &, const Tuple &) {}
+    static void unmarshall(Message &, Tuple &) {}
 };
 
 class FCITXUTILS_EXPORT Message {
@@ -232,7 +219,7 @@ public:
     Message &operator<<(const Container &c);
     Message &operator<<(const ContainerEnd &c);
 
-    template<typename ...Args>
+    template <typename... Args>
     Message &operator<<(const std::tuple<Args...> &t) {
         TupleMarshaller<decltype(t), sizeof...(Args)>::marshall(*this, t);
         return *this;
@@ -254,7 +241,7 @@ public:
     Message &operator>>(const Container &c);
     Message &operator>>(const ContainerEnd &c);
 
-    template<typename ...Args>
+    template <typename... Args>
     Message &operator>>(std::tuple<Args...> &t) {
         TupleMarshaller<decltype(t), sizeof...(Args)>::unmarshall(*this, t);
         return *this;

@@ -21,15 +21,12 @@
 #include "fcitx-config/configuration.h"
 namespace fcitx {
 
-FCITX_CONFIGURATION(
-    AddonConfig,
-    fcitx::Option<std::string> name{this, "Addon/Name", "Addon Name"};
-    fcitx::Option<std::string> type{this, "Addon/Type", "Addon Type"};
-    fcitx::Option<std::string> library{this, "Addon/Library", "Addon Library"};
-    fcitx::Option<bool> enabled{this, "Addon/Enabled", "Enabled", true};
-    fcitx::Option<AddonCategory> category{this, "Addon/Category", "Category"};
-    fcitx::Option<std::vector<std::string>> dependencies{
-        this, "Addon/Dependencies", "Dependencies"};)
+FCITX_CONFIGURATION(AddonConfig, fcitx::Option<std::string> name{this, "Addon/Name", "Addon Name"};
+                    fcitx::Option<std::string> type{this, "Addon/Type", "Addon Type"};
+                    fcitx::Option<std::string> library{this, "Addon/Library", "Addon Library"};
+                    fcitx::Option<bool> enabled{this, "Addon/Enabled", "Enabled", true};
+                    fcitx::Option<AddonCategory> category{this, "Addon/Category", "Category"};
+                    fcitx::Option<std::vector<std::string>> dependencies{this, "Addon/Dependencies", "Dependencies"};)
 
 class AddonInfoPrivate : public AddonConfig {
 public:
@@ -70,7 +67,7 @@ void AddonInfo::loadInfo(const RawConfig &config) {
     d->load(config);
 
     // Validate more information
-    d->valid = !(d->name.value().empty()) && !(d->type.value().empty()) &&
-               !(d->library.value().empty()) && d->enabled.value();
+    d->valid =
+        !(d->name.value().empty()) && !(d->type.value().empty()) && !(d->library.value().empty()) && d->enabled.value();
 }
 }

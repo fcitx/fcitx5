@@ -25,16 +25,12 @@
 #include "dbus-object-vtable-wrapper.h"
 #include "dbus-message-p.h"
 
-namespace fcitx
-{
-namespace dbus
-{
+namespace fcitx {
+namespace dbus {
 
-
-class ObjectVTablePrivate
-{
+class ObjectVTablePrivate {
 public:
-    ObjectVTablePrivate(ObjectVTable *q) : q_ptr(q) { }
+    ObjectVTablePrivate(ObjectVTable *q) : q_ptr(q) {}
     ~ObjectVTablePrivate();
 
     std::vector<sd_bus_vtable> toSDBusVTable();
@@ -55,7 +51,6 @@ public:
     std::vector<ObjectVTableSignal *> sigs;
     std::unique_ptr<Slot> slot;
 };
-
 }
 }
 

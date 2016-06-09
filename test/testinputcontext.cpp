@@ -23,12 +23,12 @@
 #include "fcitx/inputcontext.h"
 #include "fcitx/focusgroup.h"
 
-#define TEST_FOCUS(ARGS...)                                                    \
-    do {                                                                       \
-        bool focus_result[] = {ARGS};                                          \
-        for (size_t i = 0; i < FCITX_ARRAY_SIZE(focus_result); i++) {          \
-            assert(ic[i]->hasFocus() == focus_result[i]);                      \
-        }                                                                      \
+#define TEST_FOCUS(ARGS...)                                                                                            \
+    do {                                                                                                               \
+        bool focus_result[] = {ARGS};                                                                                  \
+        for (size_t i = 0; i < FCITX_ARRAY_SIZE(focus_result); i++) {                                                  \
+            assert(ic[i]->hasFocus() == focus_result[i]);                                                              \
+        }                                                                                                              \
     } while (0)
 
 using namespace fcitx;

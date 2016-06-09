@@ -39,9 +39,7 @@ class Chainer;
 template <>
 class Chainer<> {
 public:
-    bool operator()(const std::string &, const std::string &, bool) {
-        return true;
-    }
+    bool operator()(const std::string &, const std::string &, bool) { return true; }
 };
 
 template <typename First, typename... Rest>
@@ -51,8 +49,7 @@ class Chainer<First, Rest...> : Chainer<Rest...> {
 public:
     Chainer(First first, Rest... rest) : super_class(rest...), filter(first) {}
 
-    bool operator()(const std::string &path, const std::string &dir,
-                    bool user) {
+    bool operator()(const std::string &path, const std::string &dir, bool user) {
         if (!filter(path, dir, user)) {
             return false;
         }
@@ -67,10 +64,7 @@ template <typename T>
 struct NotFilter {
     NotFilter(T filter_) : filter(filter_) {}
 
-    bool operator()(const std::string &path, const std::string &dir,
-                    bool isUser) {
-        return !filter(path, dir, isUser);
-    }
+    bool operator()(const std::string &path, const std::string &dir, bool isUser) { return !filter(path, dir, isUser); }
 
 private:
     T filter;
@@ -82,9 +76,7 @@ NotFilter<T> Not(T t) {
 }
 
 struct User {
-    bool operator()(const std::string &, const std::string &, bool isUser) {
-        return isUser;
-    }
+    bool operator()(const std::string &, const std::string &, bool isUser) { return isUser; }
 };
 
 struct Prefix {
@@ -100,9 +92,7 @@ struct Prefix {
 struct Suffix {
     Suffix(const std::string &suffix_) : suffix(suffix_) {}
 
-    bool operator()(const std::string &path, const std::string &, bool) {
-        return stringutils::endsWith(path, suffix);
-    }
+    bool operator()(const std::string &path, const std::string &, bool) { return stringutils::endsWith(path, suffix); }
 
     std::string suffix;
 };
@@ -124,14 +114,10 @@ public:
 
     static std::string fcitxPath(const char *path);
 
-    void scanDirectories(
-        Type type,
-        std::function<bool(const std::string &path, bool user)> scanner);
+    void scanDirectories(Type type, std::function<bool(const std::string &path, bool user)> scanner);
     // scan file under dir/path, path is supposed to be a directory.
-    void
-    scanFiles(Type type, const std::string &path,
-              std::function<bool(const std::string &path,
-                                 const std::string &dir, bool user)> scanner);
+    void scanFiles(Type type, const std::string &path,
+                   std::function<bool(const std::string &path, const std::string &dir, bool user)> scanner);
 
     std::string userDirectory(Type type) const;
     std::vector<std::string> directories(Type type) const;
@@ -141,25 +127,19 @@ public:
     // Open the first matched and succeed
     StandardPathFile open(Type type, const std::string &path, int flags);
     // Open first match for
-    StandardPathFileMap multiOpenFilter(
-        Type type, const std::string &path, int flags,
-        std::function<bool(const std::string &path, const std::string &dir,
-                           bool user)> filter);
-    template <typename... Args>
     StandardPathFileMap
-    multiOpen(Type type, const std::string &path, int flags, Args... args) {
-        return multiOpenFilter(type, path, flags,
-                               filter::Chainer<Args...>(args...));
-    }
-    StandardPathFilesMap multiOpenAllFilter(
-        Type type, const std::string &path, int flags,
-        std::function<bool(const std::string &path, const std::string &dir,
-                           bool user)> filter);
+    multiOpenFilter(Type type, const std::string &path, int flags,
+                    std::function<bool(const std::string &path, const std::string &dir, bool user)> filter);
     template <typename... Args>
+    StandardPathFileMap multiOpen(Type type, const std::string &path, int flags, Args... args) {
+        return multiOpenFilter(type, path, flags, filter::Chainer<Args...>(args...));
+    }
     StandardPathFilesMap
-    multiOpenAll(Type type, const std::string &path, int flags, Args... args) {
-        return multiOpenAllFilter(type, path, flags,
-                                  filter::Chainer<Args...>(args...));
+    multiOpenAllFilter(Type type, const std::string &path, int flags,
+                       std::function<bool(const std::string &path, const std::string &dir, bool user)> filter);
+    template <typename... Args>
+    StandardPathFilesMap multiOpenAll(Type type, const std::string &path, int flags, Args... args) {
+        return multiOpenAllFilter(type, path, flags, filter::Chainer<Args...>(args...));
     }
 
 private:

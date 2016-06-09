@@ -25,16 +25,21 @@
 #include <fcitx/focusgroup.h>
 #include <fcitx-utils/metastring.h>
 
-namespace fcitx
-{
-typedef std::function<bool(xcb_connection_t *conn, xcb_generic_event_t *event)>
-    XCBEventFilter;
-typedef std::function<void(const std::string &name, xcb_connection_t *conn,
-                           int screen, FocusGroup *group)> XCBConnectionCreated;
+struct xkb_state;
 
+namespace fcitx {
+typedef std::function<bool(xcb_connection_t *conn, xcb_generic_event_t *event)> XCBEventFilter;
+typedef std::function<void(const std::string &name, xcb_connection_t *conn, int screen, FocusGroup *group)>
+    XCBConnectionCreated;
+typedef std::function<void(const std::string &name, xcb_connection_t *conn)>
+    XCBConnectionClosed;
 }
 
 FCITX_ADDON_DECLARE_FUNCTION(XCBModule, addEventFilter, void(const std::string &, XCBEventFilter));
-FCITX_ADDON_DECLARE_FUNCTION(XCBModule, addConnectionCreatedCallback, void(XCBConnectionCreated));
+FCITX_ADDON_DECLARE_FUNCTION(XCBModule, addConnectionCreatedCallback, int(XCBConnectionCreated));
+FCITX_ADDON_DECLARE_FUNCTION(XCBModule, addConnectionClosedCallback, int(XCBConnectionClosed));
+FCITX_ADDON_DECLARE_FUNCTION(XCBModule, removeConnectionCreatedCallback, void(int));
+FCITX_ADDON_DECLARE_FUNCTION(XCBModule, removeConnectionClosedCallback, void(int));
+FCITX_ADDON_DECLARE_FUNCTION(XCBModule, xkbState, xkb_state *(const std::string &));
 
 #endif // _XCB_XCB_PUBLIC_H_

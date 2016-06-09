@@ -80,12 +80,10 @@ static const struct _FcitxKeySymToUnicode gdk_keysym_to_unicode_tab[] = {
     {0x01d0, 0x0110}, /* Dstroke Đ LATIN CAPITAL LETTER D WITH STROKE */
     {0x01d1, 0x0143}, /* Nacute Ń LATIN CAPITAL LETTER N WITH ACUTE */
     {0x01d2, 0x0147}, /* Ncaron Ň LATIN CAPITAL LETTER N WITH CARON */
-    {0x01d5,
-     0x0150}, /* Odoubleacute Ő LATIN CAPITAL LETTER O WITH DOUBLE ACUTE */
+    {0x01d5, 0x0150}, /* Odoubleacute Ő LATIN CAPITAL LETTER O WITH DOUBLE ACUTE */
     {0x01d8, 0x0158}, /* Rcaron Ř LATIN CAPITAL LETTER R WITH CARON */
     {0x01d9, 0x016e}, /* Uring Ů LATIN CAPITAL LETTER U WITH RING ABOVE */
-    {0x01db,
-     0x0170}, /* Udoubleacute Ű LATIN CAPITAL LETTER U WITH DOUBLE ACUTE */
+    {0x01db, 0x0170}, /* Udoubleacute Ű LATIN CAPITAL LETTER U WITH DOUBLE ACUTE */
     {0x01de, 0x0162}, /* Tcedilla Ţ LATIN CAPITAL LETTER T WITH CEDILLA */
     {0x01e0, 0x0155}, /* racute ŕ LATIN SMALL LETTER R WITH ACUTE */
     {0x01e3, 0x0103}, /* abreve ă LATIN SMALL LETTER A WITH BREVE */
@@ -98,12 +96,10 @@ static const struct _FcitxKeySymToUnicode gdk_keysym_to_unicode_tab[] = {
     {0x01f0, 0x0111}, /* dstroke đ LATIN SMALL LETTER D WITH STROKE */
     {0x01f1, 0x0144}, /* nacute ń LATIN SMALL LETTER N WITH ACUTE */
     {0x01f2, 0x0148}, /* ncaron ň LATIN SMALL LETTER N WITH CARON */
-    {0x01f5,
-     0x0151}, /* odoubleacute ő LATIN SMALL LETTER O WITH DOUBLE ACUTE */
+    {0x01f5, 0x0151}, /* odoubleacute ő LATIN SMALL LETTER O WITH DOUBLE ACUTE */
     {0x01f8, 0x0159}, /* rcaron ř LATIN SMALL LETTER R WITH CARON */
     {0x01f9, 0x016f}, /* uring ů LATIN SMALL LETTER U WITH RING ABOVE */
-    {0x01fb,
-     0x0171}, /* udoubleacute ű LATIN SMALL LETTER U WITH DOUBLE ACUTE */
+    {0x01fb, 0x0171}, /* udoubleacute ű LATIN SMALL LETTER U WITH DOUBLE ACUTE */
     {0x01fe, 0x0163}, /* tcedilla ţ LATIN SMALL LETTER T WITH CEDILLA */
     {0x01ff, 0x02d9}, /* abovedot ˙ DOT ABOVE */
     {0x02a1, 0x0126}, /* Hstroke Ħ LATIN CAPITAL LETTER H WITH STROKE */
@@ -179,8 +175,7 @@ static const struct _FcitxKeySymToUnicode gdk_keysym_to_unicode_tab[] = {
     {0x04ad, 0x30e5}, /* kana_yu ュ KATAKANA LETTER SMALL YU */
     {0x04ae, 0x30e7}, /* kana_yo ョ KATAKANA LETTER SMALL YO */
     {0x04af, 0x30c3}, /* kana_tsu ッ KATAKANA LETTER SMALL TU */
-    {0x04b0,
-     0x30fc}, /* prolongedsound ー KATAKANA-HIRAGANA PROLONGED SOUND MARK */
+    {0x04b0, 0x30fc}, /* prolongedsound ー KATAKANA-HIRAGANA PROLONGED SOUND MARK */
     {0x04b1, 0x30a2}, /* kana_A ア KATAKANA LETTER A */
     {0x04b2, 0x30a4}, /* kana_I イ KATAKANA LETTER I */
     {0x04b3, 0x30a6}, /* kana_U ウ KATAKANA LETTER U */
@@ -227,22 +222,16 @@ static const struct _FcitxKeySymToUnicode gdk_keysym_to_unicode_tab[] = {
     {0x04dc, 0x30ef}, /* kana_WA ワ KATAKANA LETTER WA */
     {0x04dd, 0x30f3}, /* kana_N ン KATAKANA LETTER N */
     {0x04de, 0x309b}, /* voicedsound ゛ KATAKANA-HIRAGANA VOICED SOUND MARK */
-    {0x04df,
-     0x309c}, /* semivoicedsound ゜ KATAKANA-HIRAGANA SEMI-VOICED SOUND MARK */
+    {0x04df, 0x309c}, /* semivoicedsound ゜ KATAKANA-HIRAGANA SEMI-VOICED SOUND MARK */
     {0x05ac, 0x060c}, /* Arabic_comma ، ARABIC COMMA */
     {0x05bb, 0x061b}, /* Arabic_semicolon ؛ ARABIC SEMICOLON */
     {0x05bf, 0x061f}, /* Arabic_question_mark ؟ ARABIC QUESTION MARK */
     {0x05c1, 0x0621}, /* Arabic_hamza ء ARABIC LETTER HAMZA */
-    {0x05c2,
-     0x0622}, /* Arabic_maddaonalef آ ARABIC LETTER ALEF WITH MADDA ABOVE */
-    {0x05c3,
-     0x0623}, /* Arabic_hamzaonalef أ ARABIC LETTER ALEF WITH HAMZA ABOVE */
-    {0x05c4,
-     0x0624}, /* Arabic_hamzaonwaw ؤ ARABIC LETTER WAW WITH HAMZA ABOVE */
-    {0x05c5,
-     0x0625}, /* Arabic_hamzaunderalef إ ARABIC LETTER ALEF WITH HAMZA BELOW */
-    {0x05c6,
-     0x0626}, /* Arabic_hamzaonyeh ئ ARABIC LETTER YEH WITH HAMZA ABOVE */
+    {0x05c2, 0x0622}, /* Arabic_maddaonalef آ ARABIC LETTER ALEF WITH MADDA ABOVE */
+    {0x05c3, 0x0623}, /* Arabic_hamzaonalef أ ARABIC LETTER ALEF WITH HAMZA ABOVE */
+    {0x05c4, 0x0624}, /* Arabic_hamzaonwaw ؤ ARABIC LETTER WAW WITH HAMZA ABOVE */
+    {0x05c5, 0x0625}, /* Arabic_hamzaunderalef إ ARABIC LETTER ALEF WITH HAMZA BELOW */
+    {0x05c6, 0x0626}, /* Arabic_hamzaonyeh ئ ARABIC LETTER YEH WITH HAMZA ABOVE */
     {0x05c7, 0x0627}, /* Arabic_alef ا ARABIC LETTER ALEF */
     {0x05c8, 0x0628}, /* Arabic_beh ب ARABIC LETTER BEH */
     {0x05c9, 0x0629}, /* Arabic_tehmarbuta ة ARABIC LETTER TEH MARBUTA */
@@ -287,8 +276,7 @@ static const struct _FcitxKeySymToUnicode gdk_keysym_to_unicode_tab[] = {
     {0x06a3, 0x0451}, /* Cyrillic_io ё CYRILLIC SMALL LETTER IO */
     {0x06a4, 0x0454}, /* Ukrainian_ie є CYRILLIC SMALL LETTER UKRAINIAN IE */
     {0x06a5, 0x0455}, /* Macedonia_dse ѕ CYRILLIC SMALL LETTER DZE */
-    {0x06a6,
-     0x0456}, /* Ukrainian_i і CYRILLIC SMALL LETTER BYELORUSSIAN-UKRAINIAN I */
+    {0x06a6, 0x0456}, /* Ukrainian_i і CYRILLIC SMALL LETTER BYELORUSSIAN-UKRAINIAN I */
     {0x06a7, 0x0457}, /* Ukrainian_yi ї CYRILLIC SMALL LETTER YI */
     {0x06a8, 0x0458}, /* Cyrillic_je ј CYRILLIC SMALL LETTER JE */
     {0x06a9, 0x0459}, /* Cyrillic_lje љ CYRILLIC SMALL LETTER LJE */
@@ -313,11 +301,9 @@ static const struct _FcitxKeySymToUnicode gdk_keysym_to_unicode_tab[] = {
     {0x06ba, 0x040a}, /* Cyrillic_NJE Њ CYRILLIC CAPITAL LETTER NJE */
     {0x06bb, 0x040b}, /* Serbian_TSHE Ћ CYRILLIC CAPITAL LETTER TSHE */
     {0x06bc, 0x040c}, /* Macedonia_KJE Ќ CYRILLIC CAPITAL LETTER KJE */
-    {0x06bd,
-     0x0490}, /* Ukrainian_GHE_WITH_UPTURN Ґ CYRILLIC CAPITAL LETTER GHE WITH
-                 UPTURN */
-    {0x06be,
-     0x040e}, /* Byelorussian_SHORTU Ў CYRILLIC CAPITAL LETTER SHORT U */
+    {0x06bd, 0x0490}, /* Ukrainian_GHE_WITH_UPTURN Ґ CYRILLIC CAPITAL LETTER GHE WITH
+                         UPTURN */
+    {0x06be, 0x040e}, /* Byelorussian_SHORTU Ў CYRILLIC CAPITAL LETTER SHORT U */
     {0x06bf, 0x040f}, /* Cyrillic_DZHE Џ CYRILLIC CAPITAL LETTER DZHE */
     {0x06c0, 0x044e}, /* Cyrillic_yu ю CYRILLIC SMALL LETTER YU */
     {0x06c1, 0x0430}, /* Cyrillic_a а CYRILLIC SMALL LETTER A */
@@ -375,60 +361,44 @@ static const struct _FcitxKeySymToUnicode gdk_keysym_to_unicode_tab[] = {
     {0x06f5, 0x0423}, /* Cyrillic_U У CYRILLIC CAPITAL LETTER U */
     {0x06f6, 0x0416}, /* Cyrillic_ZHE Ж CYRILLIC CAPITAL LETTER ZHE */
     {0x06f7, 0x0412}, /* Cyrillic_VE В CYRILLIC CAPITAL LETTER VE */
-    {0x06f8,
-     0x042c}, /* Cyrillic_SOFTSIGN Ь CYRILLIC CAPITAL LETTER SOFT SIGN */
+    {0x06f8, 0x042c}, /* Cyrillic_SOFTSIGN Ь CYRILLIC CAPITAL LETTER SOFT SIGN */
     {0x06f9, 0x042b}, /* Cyrillic_YERU Ы CYRILLIC CAPITAL LETTER YERU */
     {0x06fa, 0x0417}, /* Cyrillic_ZE З CYRILLIC CAPITAL LETTER ZE */
     {0x06fb, 0x0428}, /* Cyrillic_SHA Ш CYRILLIC CAPITAL LETTER SHA */
     {0x06fc, 0x042d}, /* Cyrillic_E Э CYRILLIC CAPITAL LETTER E */
     {0x06fd, 0x0429}, /* Cyrillic_SHCHA Щ CYRILLIC CAPITAL LETTER SHCHA */
     {0x06fe, 0x0427}, /* Cyrillic_CHE Ч CYRILLIC CAPITAL LETTER CHE */
-    {0x06ff,
-     0x042a}, /* Cyrillic_HARDSIGN Ъ CYRILLIC CAPITAL LETTER HARD SIGN */
-    {0x07a1,
-     0x0386}, /* Greek_ALPHAaccent Ά GREEK CAPITAL LETTER ALPHA WITH TONOS */
-    {0x07a2,
-     0x0388}, /* Greek_EPSILONaccent Έ GREEK CAPITAL LETTER EPSILON WITH TONOS
-                 */
-    {0x07a3,
-     0x0389}, /* Greek_ETAaccent Ή GREEK CAPITAL LETTER ETA WITH TONOS */
-    {0x07a4,
-     0x038a}, /* Greek_IOTAaccent Ί GREEK CAPITAL LETTER IOTA WITH TONOS */
+    {0x06ff, 0x042a}, /* Cyrillic_HARDSIGN Ъ CYRILLIC CAPITAL LETTER HARD SIGN */
+    {0x07a1, 0x0386}, /* Greek_ALPHAaccent Ά GREEK CAPITAL LETTER ALPHA WITH TONOS */
+    {0x07a2, 0x0388}, /* Greek_EPSILONaccent Έ GREEK CAPITAL LETTER EPSILON WITH TONOS
+                         */
+    {0x07a3, 0x0389}, /* Greek_ETAaccent Ή GREEK CAPITAL LETTER ETA WITH TONOS */
+    {0x07a4, 0x038a}, /* Greek_IOTAaccent Ί GREEK CAPITAL LETTER IOTA WITH TONOS */
     {0x07a5, 0x03aa}, /* Greek_IOTAdieresis Ϊ GREEK CAPITAL LETTER IOTA WITH
                          DIALYTIKA */
-    {0x07a7,
-     0x038c}, /* Greek_OMICRONaccent Ό GREEK CAPITAL LETTER OMICRON WITH TONOS
-                 */
-    {0x07a8,
-     0x038e}, /* Greek_UPSILONaccent Ύ GREEK CAPITAL LETTER UPSILON WITH TONOS
-                 */
+    {0x07a7, 0x038c}, /* Greek_OMICRONaccent Ό GREEK CAPITAL LETTER OMICRON WITH TONOS
+                         */
+    {0x07a8, 0x038e}, /* Greek_UPSILONaccent Ύ GREEK CAPITAL LETTER UPSILON WITH TONOS
+                         */
     {0x07a9, 0x03ab}, /* Greek_UPSILONdieresis Ϋ GREEK CAPITAL LETTER UPSILON
                          WITH DIALYTIKA */
-    {0x07ab,
-     0x038f}, /* Greek_OMEGAaccent Ώ GREEK CAPITAL LETTER OMEGA WITH TONOS */
+    {0x07ab, 0x038f}, /* Greek_OMEGAaccent Ώ GREEK CAPITAL LETTER OMEGA WITH TONOS */
     {0x07ae, 0x0385}, /* Greek_accentdieresis ΅ GREEK DIALYTIKA TONOS */
     {0x07af, 0x2015}, /* Greek_horizbar ― HORIZONTAL BAR */
-    {0x07b1,
-     0x03ac}, /* Greek_alphaaccent ά GREEK SMALL LETTER ALPHA WITH TONOS */
-    {0x07b2,
-     0x03ad}, /* Greek_epsilonaccent έ GREEK SMALL LETTER EPSILON WITH TONOS */
+    {0x07b1, 0x03ac}, /* Greek_alphaaccent ά GREEK SMALL LETTER ALPHA WITH TONOS */
+    {0x07b2, 0x03ad}, /* Greek_epsilonaccent έ GREEK SMALL LETTER EPSILON WITH TONOS */
     {0x07b3, 0x03ae}, /* Greek_etaaccent ή GREEK SMALL LETTER ETA WITH TONOS */
-    {0x07b4,
-     0x03af}, /* Greek_iotaaccent ί GREEK SMALL LETTER IOTA WITH TONOS */
-    {0x07b5,
-     0x03ca}, /* Greek_iotadieresis ϊ GREEK SMALL LETTER IOTA WITH DIALYTIKA */
+    {0x07b4, 0x03af}, /* Greek_iotaaccent ί GREEK SMALL LETTER IOTA WITH TONOS */
+    {0x07b5, 0x03ca}, /* Greek_iotadieresis ϊ GREEK SMALL LETTER IOTA WITH DIALYTIKA */
     {0x07b6, 0x0390}, /* Greek_iotaaccentdieresis ΐ GREEK SMALL LETTER IOTA WITH
                          DIALYTIKA AND TONOS */
-    {0x07b7,
-     0x03cc}, /* Greek_omicronaccent ό GREEK SMALL LETTER OMICRON WITH TONOS */
-    {0x07b8,
-     0x03cd}, /* Greek_upsilonaccent ύ GREEK SMALL LETTER UPSILON WITH TONOS */
+    {0x07b7, 0x03cc}, /* Greek_omicronaccent ό GREEK SMALL LETTER OMICRON WITH TONOS */
+    {0x07b8, 0x03cd}, /* Greek_upsilonaccent ύ GREEK SMALL LETTER UPSILON WITH TONOS */
     {0x07b9, 0x03cb}, /* Greek_upsilondieresis ϋ GREEK SMALL LETTER UPSILON WITH
                          DIALYTIKA */
     {0x07ba, 0x03b0}, /* Greek_upsilonaccentdieresis ΰ GREEK SMALL LETTER
                          UPSILON WITH DIALYTIKA AND TONOS */
-    {0x07bb,
-     0x03ce}, /* Greek_omegaaccent ώ GREEK SMALL LETTER OMEGA WITH TONOS */
+    {0x07bb, 0x03ce}, /* Greek_omegaaccent ώ GREEK SMALL LETTER OMEGA WITH TONOS */
     {0x07c1, 0x0391}, /* Greek_ALPHA Α GREEK CAPITAL LETTER ALPHA */
     {0x07c2, 0x0392}, /* Greek_BETA Β GREEK CAPITAL LETTER BETA */
     {0x07c3, 0x0393}, /* Greek_GAMMA Γ GREEK CAPITAL LETTER GAMMA */
@@ -471,8 +441,7 @@ static const struct _FcitxKeySymToUnicode gdk_keysym_to_unicode_tab[] = {
     {0x07f0, 0x03c0}, /* Greek_pi π GREEK SMALL LETTER PI */
     {0x07f1, 0x03c1}, /* Greek_rho ρ GREEK SMALL LETTER RHO */
     {0x07f2, 0x03c3}, /* Greek_sigma σ GREEK SMALL LETTER SIGMA */
-    {0x07f3,
-     0x03c2}, /* Greek_finalsmallsigma ς GREEK SMALL LETTER FINAL SIGMA */
+    {0x07f3, 0x03c2}, /* Greek_finalsmallsigma ς GREEK SMALL LETTER FINAL SIGMA */
     {0x07f4, 0x03c4}, /* Greek_tau τ GREEK SMALL LETTER TAU */
     {0x07f5, 0x03c5}, /* Greek_upsilon υ GREEK SMALL LETTER UPSILON */
     {0x07f6, 0x03c6}, /* Greek_phi φ GREEK SMALL LETTER PHI */
@@ -541,8 +510,7 @@ static const struct _FcitxKeySymToUnicode gdk_keysym_to_unicode_tab[] = {
     {0x09eb, 0x2510}, /* uprightcorner ┐ BOX DRAWINGS LIGHT DOWN AND LEFT */
     {0x09ec, 0x250c}, /* upleftcorner ┌ BOX DRAWINGS LIGHT DOWN AND RIGHT */
     {0x09ed, 0x2514}, /* lowleftcorner └ BOX DRAWINGS LIGHT UP AND RIGHT */
-    {0x09ee,
-     0x253c}, /* crossinglines ┼ BOX DRAWINGS LIGHT VERTICAL AND HORIZONTAL */
+    {0x09ee, 0x253c}, /* crossinglines ┼ BOX DRAWINGS LIGHT VERTICAL AND HORIZONTAL */
     /* 0x09ef horizlinescan1 ? ??? */
     /* 0x09f0 horizlinescan3 ? ??? */
     {0x09f1, 0x2500}, /* horizlinescan5 ─ BOX DRAWINGS LIGHT HORIZONTAL */
@@ -747,8 +715,7 @@ static const struct _FcitxKeySymToUnicode gdk_keysym_to_unicode_tab[] = {
     {0x0de1, 0x0e41}, /* Thai_saraae แ THAI CHARACTER SARA AE */
     {0x0de2, 0x0e42}, /* Thai_sarao โ THAI CHARACTER SARA O */
     {0x0de3, 0x0e43}, /* Thai_saraaimaimuan ใ THAI CHARACTER SARA AI MAIMUAN */
-    {0x0de4,
-     0x0e44}, /* Thai_saraaimaimalai ไ THAI CHARACTER SARA AI MAIMALAI */
+    {0x0de4, 0x0e44}, /* Thai_saraaimaimalai ไ THAI CHARACTER SARA AI MAIMALAI */
     {0x0de5, 0x0e45}, /* Thai_lakkhangyao ๅ THAI CHARACTER LAKKHANGYAO */
     {0x0de6, 0x0e46}, /* Thai_maiyamok ๆ THAI CHARACTER MAIYAMOK */
     {0x0de7, 0x0e47}, /* Thai_maitaikhu ็ THAI CHARACTER MAITAIKHU */
@@ -827,15 +794,12 @@ static const struct _FcitxKeySymToUnicode gdk_keysym_to_unicode_tab[] = {
     {0x0ed9, 0x11ad}, /* Hangul_J_NieunHieuh ᆭ HANGUL JONGSEONG NIEUN-HIEUH */
     {0x0eda, 0x11ae}, /* Hangul_J_Dikeud ᆮ HANGUL JONGSEONG TIKEUT */
     {0x0edb, 0x11af}, /* Hangul_J_Rieul ᆯ HANGUL JONGSEONG RIEUL */
-    {0x0edc,
-     0x11b0}, /* Hangul_J_RieulKiyeog ᆰ HANGUL JONGSEONG RIEUL-KIYEOK */
+    {0x0edc, 0x11b0}, /* Hangul_J_RieulKiyeog ᆰ HANGUL JONGSEONG RIEUL-KIYEOK */
     {0x0edd, 0x11b1}, /* Hangul_J_RieulMieum ᆱ HANGUL JONGSEONG RIEUL-MIEUM */
     {0x0ede, 0x11b2}, /* Hangul_J_RieulPieub ᆲ HANGUL JONGSEONG RIEUL-PIEUP */
     {0x0edf, 0x11b3}, /* Hangul_J_RieulSios ᆳ HANGUL JONGSEONG RIEUL-SIOS */
-    {0x0ee0,
-     0x11b4}, /* Hangul_J_RieulTieut ᆴ HANGUL JONGSEONG RIEUL-THIEUTH */
-    {0x0ee1,
-     0x11b5}, /* Hangul_J_RieulPhieuf ᆵ HANGUL JONGSEONG RIEUL-PHIEUPH */
+    {0x0ee0, 0x11b4}, /* Hangul_J_RieulTieut ᆴ HANGUL JONGSEONG RIEUL-THIEUTH */
+    {0x0ee1, 0x11b5}, /* Hangul_J_RieulPhieuf ᆵ HANGUL JONGSEONG RIEUL-PHIEUPH */
     {0x0ee2, 0x11b6}, /* Hangul_J_RieulHieuh ᆶ HANGUL JONGSEONG RIEUL-HIEUH */
     {0x0ee3, 0x11b7}, /* Hangul_J_Mieum ᆷ HANGUL JONGSEONG MIEUM */
     {0x0ee4, 0x11b8}, /* Hangul_J_Pieub ᆸ HANGUL JONGSEONG PIEUP */
@@ -849,16 +813,12 @@ static const struct _FcitxKeySymToUnicode gdk_keysym_to_unicode_tab[] = {
     {0x0eec, 0x11c0}, /* Hangul_J_Tieut ᇀ HANGUL JONGSEONG THIEUTH */
     {0x0eed, 0x11c1}, /* Hangul_J_Phieuf ᇁ HANGUL JONGSEONG PHIEUPH */
     {0x0eee, 0x11c2}, /* Hangul_J_Hieuh ᇂ HANGUL JONGSEONG HIEUH */
-    {0x0eef,
-     0x316d}, /* Hangul_RieulYeorinHieuh ㅭ HANGUL LETTER RIEUL-YEORINHIEUH */
-    {0x0ef0,
-     0x3171}, /* Hangul_SunkyeongeumMieum ㅱ HANGUL LETTER KAPYEOUNMIEUM */
-    {0x0ef1,
-     0x3178}, /* Hangul_SunkyeongeumPieub ㅸ HANGUL LETTER KAPYEOUNPIEUP */
+    {0x0eef, 0x316d}, /* Hangul_RieulYeorinHieuh ㅭ HANGUL LETTER RIEUL-YEORINHIEUH */
+    {0x0ef0, 0x3171}, /* Hangul_SunkyeongeumMieum ㅱ HANGUL LETTER KAPYEOUNMIEUM */
+    {0x0ef1, 0x3178}, /* Hangul_SunkyeongeumPieub ㅸ HANGUL LETTER KAPYEOUNPIEUP */
     {0x0ef2, 0x317f}, /* Hangul_PanSios ㅿ HANGUL LETTER PANSIOS */
     /* 0x0ef3 Hangul_KkogjiDalrinIeung ? ??? */
-    {0x0ef4,
-     0x3184}, /* Hangul_SunkyeongeumPhieuf ㆄ HANGUL LETTER KAPYEOUNPHIEUPH */
+    {0x0ef4, 0x3184}, /* Hangul_SunkyeongeumPhieuf ㆄ HANGUL LETTER KAPYEOUNPHIEUPH */
     {0x0ef5, 0x3186}, /* Hangul_YeorinHieuh ㆆ HANGUL LETTER YEORINHIEUH */
     {0x0ef6, 0x318d}, /* Hangul_AraeA ㆍ HANGUL LETTER ARAEA */
     {0x0ef7, 0x318e}, /* Hangul_AraeAE ㆎ HANGUL LETTER ARAEAE */
@@ -994,10 +954,8 @@ static const struct _FcitxUnicodeToKeySym gdk_unicode_to_keysym_tab[] = {
     {0x03bf, 0x014b}, /* eng ŋ LATIN SMALL LETTER ENG */
     {0x03d2, 0x014c}, /* Omacron Ō LATIN CAPITAL LETTER O WITH MACRON */
     {0x03f2, 0x014d}, /* omacron ō LATIN SMALL LETTER O WITH MACRON */
-    {0x01d5,
-     0x0150}, /* Odoubleacute Ő LATIN CAPITAL LETTER O WITH DOUBLE ACUTE */
-    {0x01f5,
-     0x0151}, /* odoubleacute ő LATIN SMALL LETTER O WITH DOUBLE ACUTE */
+    {0x01d5, 0x0150}, /* Odoubleacute Ő LATIN CAPITAL LETTER O WITH DOUBLE ACUTE */
+    {0x01f5, 0x0151}, /* odoubleacute ő LATIN SMALL LETTER O WITH DOUBLE ACUTE */
     {0x13bc, 0x0152}, /* OE Œ LATIN CAPITAL LIGATURE OE */
     {0x13bd, 0x0153}, /* oe œ LATIN SMALL LIGATURE OE */
     {0x01c0, 0x0154}, /* Racute Ŕ LATIN CAPITAL LETTER R WITH ACUTE */
@@ -1028,10 +986,8 @@ static const struct _FcitxUnicodeToKeySym gdk_unicode_to_keysym_tab[] = {
     {0x02fd, 0x016d}, /* ubreve ŭ LATIN SMALL LETTER U WITH BREVE */
     {0x01d9, 0x016e}, /* Uring Ů LATIN CAPITAL LETTER U WITH RING ABOVE */
     {0x01f9, 0x016f}, /* uring ů LATIN SMALL LETTER U WITH RING ABOVE */
-    {0x01db,
-     0x0170}, /* Udoubleacute Ű LATIN CAPITAL LETTER U WITH DOUBLE ACUTE */
-    {0x01fb,
-     0x0171}, /* udoubleacute ű LATIN SMALL LETTER U WITH DOUBLE ACUTE */
+    {0x01db, 0x0170}, /* Udoubleacute Ű LATIN CAPITAL LETTER U WITH DOUBLE ACUTE */
+    {0x01fb, 0x0171}, /* udoubleacute ű LATIN SMALL LETTER U WITH DOUBLE ACUTE */
     {0x03d9, 0x0172}, /* Uogonek Ų LATIN CAPITAL LETTER U WITH OGONEK */
     {0x03f9, 0x0173}, /* uogonek ų LATIN SMALL LETTER U WITH OGONEK */
     {0x13be, 0x0178}, /* Ydiaeresis Ÿ LATIN CAPITAL LETTER Y WITH DIAERESIS */
@@ -1048,23 +1004,16 @@ static const struct _FcitxUnicodeToKeySym gdk_unicode_to_keysym_tab[] = {
     {0x01b2, 0x02db}, /* ogonek ˛ OGONEK */
     {0x01bd, 0x02dd}, /* doubleacute ˝ DOUBLE ACUTE ACCENT */
     {0x07ae, 0x0385}, /* Greek_accentdieresis ΅ GREEK DIALYTIKA TONOS */
-    {0x07a1,
-     0x0386}, /* Greek_ALPHAaccent Ά GREEK CAPITAL LETTER ALPHA WITH TONOS */
-    {0x07a2,
-     0x0388}, /* Greek_EPSILONaccent Έ GREEK CAPITAL LETTER EPSILON WITH TONOS
-                 */
-    {0x07a3,
-     0x0389}, /* Greek_ETAaccent Ή GREEK CAPITAL LETTER ETA WITH TONOS */
-    {0x07a4,
-     0x038a}, /* Greek_IOTAaccent Ί GREEK CAPITAL LETTER IOTA WITH TONOS */
-    {0x07a7,
-     0x038c}, /* Greek_OMICRONaccent Ό GREEK CAPITAL LETTER OMICRON WITH TONOS
-                 */
-    {0x07a8,
-     0x038e}, /* Greek_UPSILONaccent Ύ GREEK CAPITAL LETTER UPSILON WITH TONOS
-                 */
-    {0x07ab,
-     0x038f}, /* Greek_OMEGAaccent Ώ GREEK CAPITAL LETTER OMEGA WITH TONOS */
+    {0x07a1, 0x0386}, /* Greek_ALPHAaccent Ά GREEK CAPITAL LETTER ALPHA WITH TONOS */
+    {0x07a2, 0x0388}, /* Greek_EPSILONaccent Έ GREEK CAPITAL LETTER EPSILON WITH TONOS
+                         */
+    {0x07a3, 0x0389}, /* Greek_ETAaccent Ή GREEK CAPITAL LETTER ETA WITH TONOS */
+    {0x07a4, 0x038a}, /* Greek_IOTAaccent Ί GREEK CAPITAL LETTER IOTA WITH TONOS */
+    {0x07a7, 0x038c}, /* Greek_OMICRONaccent Ό GREEK CAPITAL LETTER OMICRON WITH TONOS
+                         */
+    {0x07a8, 0x038e}, /* Greek_UPSILONaccent Ύ GREEK CAPITAL LETTER UPSILON WITH TONOS
+                         */
+    {0x07ab, 0x038f}, /* Greek_OMEGAaccent Ώ GREEK CAPITAL LETTER OMEGA WITH TONOS */
     {0x07b6, 0x0390}, /* Greek_iotaaccentdieresis ΐ GREEK SMALL LETTER IOTA WITH
                          DIALYTIKA AND TONOS */
     {0x07c1, 0x0391}, /* Greek_ALPHA Α GREEK CAPITAL LETTER ALPHA */
@@ -1095,13 +1044,10 @@ static const struct _FcitxUnicodeToKeySym gdk_unicode_to_keysym_tab[] = {
                          DIALYTIKA */
     {0x07a9, 0x03ab}, /* Greek_UPSILONdieresis Ϋ GREEK CAPITAL LETTER UPSILON
                          WITH DIALYTIKA */
-    {0x07b1,
-     0x03ac}, /* Greek_alphaaccent ά GREEK SMALL LETTER ALPHA WITH TONOS */
-    {0x07b2,
-     0x03ad}, /* Greek_epsilonaccent έ GREEK SMALL LETTER EPSILON WITH TONOS */
+    {0x07b1, 0x03ac}, /* Greek_alphaaccent ά GREEK SMALL LETTER ALPHA WITH TONOS */
+    {0x07b2, 0x03ad}, /* Greek_epsilonaccent έ GREEK SMALL LETTER EPSILON WITH TONOS */
     {0x07b3, 0x03ae}, /* Greek_etaaccent ή GREEK SMALL LETTER ETA WITH TONOS */
-    {0x07b4,
-     0x03af}, /* Greek_iotaaccent ί GREEK SMALL LETTER IOTA WITH TONOS */
+    {0x07b4, 0x03af}, /* Greek_iotaaccent ί GREEK SMALL LETTER IOTA WITH TONOS */
     {0x07ba, 0x03b0}, /* Greek_upsilonaccentdieresis ΰ GREEK SMALL LETTER
                          UPSILON WITH DIALYTIKA AND TONOS */
     {0x07e1, 0x03b1}, /* Greek_alpha α GREEK SMALL LETTER ALPHA */
@@ -1121,8 +1067,7 @@ static const struct _FcitxUnicodeToKeySym gdk_unicode_to_keysym_tab[] = {
     {0x07ef, 0x03bf}, /* Greek_omicron ο GREEK SMALL LETTER OMICRON */
     {0x07f0, 0x03c0}, /* Greek_pi π GREEK SMALL LETTER PI */
     {0x07f1, 0x03c1}, /* Greek_rho ρ GREEK SMALL LETTER RHO */
-    {0x07f3,
-     0x03c2}, /* Greek_finalsmallsigma ς GREEK SMALL LETTER FINAL SIGMA */
+    {0x07f3, 0x03c2}, /* Greek_finalsmallsigma ς GREEK SMALL LETTER FINAL SIGMA */
     {0x07f2, 0x03c3}, /* Greek_sigma σ GREEK SMALL LETTER SIGMA */
     {0x07f4, 0x03c4}, /* Greek_tau τ GREEK SMALL LETTER TAU */
     {0x07f5, 0x03c5}, /* Greek_upsilon υ GREEK SMALL LETTER UPSILON */
@@ -1130,16 +1075,12 @@ static const struct _FcitxUnicodeToKeySym gdk_unicode_to_keysym_tab[] = {
     {0x07f7, 0x03c7}, /* Greek_chi χ GREEK SMALL LETTER CHI */
     {0x07f8, 0x03c8}, /* Greek_psi ψ GREEK SMALL LETTER PSI */
     {0x07f9, 0x03c9}, /* Greek_omega ω GREEK SMALL LETTER OMEGA */
-    {0x07b5,
-     0x03ca}, /* Greek_iotadieresis ϊ GREEK SMALL LETTER IOTA WITH DIALYTIKA */
+    {0x07b5, 0x03ca}, /* Greek_iotadieresis ϊ GREEK SMALL LETTER IOTA WITH DIALYTIKA */
     {0x07b9, 0x03cb}, /* Greek_upsilondieresis ϋ GREEK SMALL LETTER UPSILON WITH
                          DIALYTIKA */
-    {0x07b7,
-     0x03cc}, /* Greek_omicronaccent ό GREEK SMALL LETTER OMICRON WITH TONOS */
-    {0x07b8,
-     0x03cd}, /* Greek_upsilonaccent ύ GREEK SMALL LETTER UPSILON WITH TONOS */
-    {0x07bb,
-     0x03ce}, /* Greek_omegaaccent ώ GREEK SMALL LETTER OMEGA WITH TONOS */
+    {0x07b7, 0x03cc}, /* Greek_omicronaccent ό GREEK SMALL LETTER OMICRON WITH TONOS */
+    {0x07b8, 0x03cd}, /* Greek_upsilonaccent ύ GREEK SMALL LETTER UPSILON WITH TONOS */
+    {0x07bb, 0x03ce}, /* Greek_omegaaccent ώ GREEK SMALL LETTER OMEGA WITH TONOS */
     {0x06b3, 0x0401}, /* Cyrillic_IO Ё CYRILLIC CAPITAL LETTER IO */
     {0x06b1, 0x0402}, /* Serbian_DJE Ђ CYRILLIC CAPITAL LETTER DJE */
     {0x06b2, 0x0403}, /* Macedonia_GJE Ѓ CYRILLIC CAPITAL LETTER GJE */
@@ -1153,8 +1094,7 @@ static const struct _FcitxUnicodeToKeySym gdk_unicode_to_keysym_tab[] = {
     {0x06ba, 0x040a}, /* Cyrillic_NJE Њ CYRILLIC CAPITAL LETTER NJE */
     {0x06bb, 0x040b}, /* Serbian_TSHE Ћ CYRILLIC CAPITAL LETTER TSHE */
     {0x06bc, 0x040c}, /* Macedonia_KJE Ќ CYRILLIC CAPITAL LETTER KJE */
-    {0x06be,
-     0x040e}, /* Byelorussian_SHORTU Ў CYRILLIC CAPITAL LETTER SHORT U */
+    {0x06be, 0x040e}, /* Byelorussian_SHORTU Ў CYRILLIC CAPITAL LETTER SHORT U */
     {0x06bf, 0x040f}, /* Cyrillic_DZHE Џ CYRILLIC CAPITAL LETTER DZHE */
     {0x06e1, 0x0410}, /* Cyrillic_A А CYRILLIC CAPITAL LETTER A */
     {0x06e2, 0x0411}, /* Cyrillic_BE Б CYRILLIC CAPITAL LETTER BE */
@@ -1182,11 +1122,9 @@ static const struct _FcitxUnicodeToKeySym gdk_unicode_to_keysym_tab[] = {
     {0x06fe, 0x0427}, /* Cyrillic_CHE Ч CYRILLIC CAPITAL LETTER CHE */
     {0x06fb, 0x0428}, /* Cyrillic_SHA Ш CYRILLIC CAPITAL LETTER SHA */
     {0x06fd, 0x0429}, /* Cyrillic_SHCHA Щ CYRILLIC CAPITAL LETTER SHCHA */
-    {0x06ff,
-     0x042a}, /* Cyrillic_HARDSIGN Ъ CYRILLIC CAPITAL LETTER HARD SIGN */
+    {0x06ff, 0x042a}, /* Cyrillic_HARDSIGN Ъ CYRILLIC CAPITAL LETTER HARD SIGN */
     {0x06f9, 0x042b}, /* Cyrillic_YERU Ы CYRILLIC CAPITAL LETTER YERU */
-    {0x06f8,
-     0x042c}, /* Cyrillic_SOFTSIGN Ь CYRILLIC CAPITAL LETTER SOFT SIGN */
+    {0x06f8, 0x042c}, /* Cyrillic_SOFTSIGN Ь CYRILLIC CAPITAL LETTER SOFT SIGN */
     {0x06fc, 0x042d}, /* Cyrillic_E Э CYRILLIC CAPITAL LETTER E */
     {0x06e0, 0x042e}, /* Cyrillic_YU Ю CYRILLIC CAPITAL LETTER YU */
     {0x06f1, 0x042f}, /* Cyrillic_YA Я CYRILLIC CAPITAL LETTER YA */
@@ -1227,8 +1165,7 @@ static const struct _FcitxUnicodeToKeySym gdk_unicode_to_keysym_tab[] = {
     {0x06a2, 0x0453}, /* Macedonia_gje ѓ CYRILLIC SMALL LETTER GJE */
     {0x06a4, 0x0454}, /* Ukrainian_ie є CYRILLIC SMALL LETTER UKRAINIAN IE */
     {0x06a5, 0x0455}, /* Macedonia_dse ѕ CYRILLIC SMALL LETTER DZE */
-    {0x06a6,
-     0x0456}, /* Ukrainian_i і CYRILLIC SMALL LETTER BYELORUSSIAN-UKRAINIAN I */
+    {0x06a6, 0x0456}, /* Ukrainian_i і CYRILLIC SMALL LETTER BYELORUSSIAN-UKRAINIAN I */
     {0x06a7, 0x0457}, /* Ukrainian_yi ї CYRILLIC SMALL LETTER YI */
     {0x06a8, 0x0458}, /* Cyrillic_je ј CYRILLIC SMALL LETTER JE */
     {0x06a9, 0x0459}, /* Cyrillic_lje љ CYRILLIC SMALL LETTER LJE */
@@ -1268,16 +1205,11 @@ static const struct _FcitxUnicodeToKeySym gdk_unicode_to_keysym_tab[] = {
     {0x05bb, 0x061b}, /* Arabic_semicolon ؛ ARABIC SEMICOLON */
     {0x05bf, 0x061f}, /* Arabic_question_mark ؟ ARABIC QUESTION MARK */
     {0x05c1, 0x0621}, /* Arabic_hamza ء ARABIC LETTER HAMZA */
-    {0x05c2,
-     0x0622}, /* Arabic_maddaonalef آ ARABIC LETTER ALEF WITH MADDA ABOVE */
-    {0x05c3,
-     0x0623}, /* Arabic_hamzaonalef أ ARABIC LETTER ALEF WITH HAMZA ABOVE */
-    {0x05c4,
-     0x0624}, /* Arabic_hamzaonwaw ؤ ARABIC LETTER WAW WITH HAMZA ABOVE */
-    {0x05c5,
-     0x0625}, /* Arabic_hamzaunderalef إ ARABIC LETTER ALEF WITH HAMZA BELOW */
-    {0x05c6,
-     0x0626}, /* Arabic_hamzaonyeh ئ ARABIC LETTER YEH WITH HAMZA ABOVE */
+    {0x05c2, 0x0622}, /* Arabic_maddaonalef آ ARABIC LETTER ALEF WITH MADDA ABOVE */
+    {0x05c3, 0x0623}, /* Arabic_hamzaonalef أ ARABIC LETTER ALEF WITH HAMZA ABOVE */
+    {0x05c4, 0x0624}, /* Arabic_hamzaonwaw ؤ ARABIC LETTER WAW WITH HAMZA ABOVE */
+    {0x05c5, 0x0625}, /* Arabic_hamzaunderalef إ ARABIC LETTER ALEF WITH HAMZA BELOW */
+    {0x05c6, 0x0626}, /* Arabic_hamzaonyeh ئ ARABIC LETTER YEH WITH HAMZA ABOVE */
     {0x05c7, 0x0627}, /* Arabic_alef ا ARABIC LETTER ALEF */
     {0x05c8, 0x0628}, /* Arabic_beh ب ARABIC LETTER BEH */
     {0x05c9, 0x0629}, /* Arabic_tehmarbuta ة ARABIC LETTER TEH MARBUTA */
@@ -1380,8 +1312,7 @@ static const struct _FcitxUnicodeToKeySym gdk_unicode_to_keysym_tab[] = {
     {0x0de1, 0x0e41}, /* Thai_saraae แ THAI CHARACTER SARA AE */
     {0x0de2, 0x0e42}, /* Thai_sarao โ THAI CHARACTER SARA O */
     {0x0de3, 0x0e43}, /* Thai_saraaimaimuan ใ THAI CHARACTER SARA AI MAIMUAN */
-    {0x0de4,
-     0x0e44}, /* Thai_saraaimaimalai ไ THAI CHARACTER SARA AI MAIMALAI */
+    {0x0de4, 0x0e44}, /* Thai_saraaimaimalai ไ THAI CHARACTER SARA AI MAIMALAI */
     {0x0de5, 0x0e45}, /* Thai_lakkhangyao ๅ THAI CHARACTER LAKKHANGYAO */
     {0x0de6, 0x0e46}, /* Thai_maiyamok ๆ THAI CHARACTER MAIYAMOK */
     {0x0de7, 0x0e47}, /* Thai_maitaikhu ็ THAI CHARACTER MAITAIKHU */
@@ -1409,15 +1340,12 @@ static const struct _FcitxUnicodeToKeySym gdk_unicode_to_keysym_tab[] = {
     {0x0ed9, 0x11ad}, /* Hangul_J_NieunHieuh ᆭ HANGUL JONGSEONG NIEUN-HIEUH */
     {0x0eda, 0x11ae}, /* Hangul_J_Dikeud ᆮ HANGUL JONGSEONG TIKEUT */
     {0x0edb, 0x11af}, /* Hangul_J_Rieul ᆯ HANGUL JONGSEONG RIEUL */
-    {0x0edc,
-     0x11b0}, /* Hangul_J_RieulKiyeog ᆰ HANGUL JONGSEONG RIEUL-KIYEOK */
+    {0x0edc, 0x11b0}, /* Hangul_J_RieulKiyeog ᆰ HANGUL JONGSEONG RIEUL-KIYEOK */
     {0x0edd, 0x11b1}, /* Hangul_J_RieulMieum ᆱ HANGUL JONGSEONG RIEUL-MIEUM */
     {0x0ede, 0x11b2}, /* Hangul_J_RieulPieub ᆲ HANGUL JONGSEONG RIEUL-PIEUP */
     {0x0edf, 0x11b3}, /* Hangul_J_RieulSios ᆳ HANGUL JONGSEONG RIEUL-SIOS */
-    {0x0ee0,
-     0x11b4}, /* Hangul_J_RieulTieut ᆴ HANGUL JONGSEONG RIEUL-THIEUTH */
-    {0x0ee1,
-     0x11b5}, /* Hangul_J_RieulPhieuf ᆵ HANGUL JONGSEONG RIEUL-PHIEUPH */
+    {0x0ee0, 0x11b4}, /* Hangul_J_RieulTieut ᆴ HANGUL JONGSEONG RIEUL-THIEUTH */
+    {0x0ee1, 0x11b5}, /* Hangul_J_RieulPhieuf ᆵ HANGUL JONGSEONG RIEUL-PHIEUPH */
     {0x0ee2, 0x11b6}, /* Hangul_J_RieulHieuh ᆶ HANGUL JONGSEONG RIEUL-HIEUH */
     {0x0ee3, 0x11b7}, /* Hangul_J_Mieum ᆷ HANGUL JONGSEONG MIEUM */
     {0x0ee4, 0x11b8}, /* Hangul_J_Pieub ᆸ HANGUL JONGSEONG PIEUP */
@@ -1552,8 +1480,7 @@ static const struct _FcitxUnicodeToKeySym gdk_unicode_to_keysym_tab[] = {
     {0x09f5, 0x2524}, /* rightt ┤ BOX DRAWINGS LIGHT VERTICAL AND LEFT */
     {0x09f7, 0x252c}, /* topt ┬ BOX DRAWINGS LIGHT DOWN AND HORIZONTAL */
     {0x09f6, 0x2534}, /* bott ┴ BOX DRAWINGS LIGHT UP AND HORIZONTAL */
-    {0x09ee,
-     0x253c}, /* crossinglines ┼ BOX DRAWINGS LIGHT VERTICAL AND HORIZONTAL */
+    {0x09ee, 0x253c}, /* crossinglines ┼ BOX DRAWINGS LIGHT VERTICAL AND HORIZONTAL */
     {0x09e1, 0x2592}, /* checkerboard ▒ MEDIUM SHADE */
     {0x0adf, 0x25a0}, /* emfilledrect ■ BLACK SQUARE */
     {0x0acf, 0x25a1}, /* emopenrectangle □ WHITE SQUARE */
@@ -1595,8 +1522,7 @@ static const struct _FcitxUnicodeToKeySym gdk_unicode_to_keysym_tab[] = {
     {0x04a2, 0x300c}, /* kana_openingbracket 「 LEFT CORNER BRACKET */
     {0x04a3, 0x300d}, /* kana_closingbracket 」 RIGHT CORNER BRACKET */
     {0x04de, 0x309b}, /* voicedsound ゛ KATAKANA-HIRAGANA VOICED SOUND MARK */
-    {0x04df,
-     0x309c}, /* semivoicedsound ゜ KATAKANA-HIRAGANA SEMI-VOICED SOUND MARK */
+    {0x04df, 0x309c}, /* semivoicedsound ゜ KATAKANA-HIRAGANA SEMI-VOICED SOUND MARK */
     {0x04a7, 0x30a1}, /* kana_a ァ KATAKANA LETTER SMALL A */
     {0x04b1, 0x30a2}, /* kana_A ア KATAKANA LETTER A */
     {0x04a8, 0x30a3}, /* kana_i ィ KATAKANA LETTER SMALL I */
@@ -1653,8 +1579,7 @@ static const struct _FcitxUnicodeToKeySym gdk_unicode_to_keysym_tab[] = {
     {0x04a6, 0x30f2}, /* kana_WO ヲ KATAKANA LETTER WO */
     {0x04dd, 0x30f3}, /* kana_N ン KATAKANA LETTER N */
     {0x04a5, 0x30fb}, /* kana_conjunctive ・ KATAKANA MIDDLE DOT */
-    {0x04b0,
-     0x30fc}, /* prolongedsound ー KATAKANA-HIRAGANA PROLONGED SOUND MARK */
+    {0x04b0, 0x30fc}, /* prolongedsound ー KATAKANA-HIRAGANA PROLONGED SOUND MARK */
     {0x0ea1, 0x3131}, /* Hangul_Kiyeog ㄱ HANGUL LETTER KIYEOK */
     {0x0ea2, 0x3132}, /* Hangul_SsangKiyeog ㄲ HANGUL LETTER SSANGKIYEOK */
     {0x0ea3, 0x3133}, /* Hangul_KiyeogSios ㄳ HANGUL LETTER KIYEOK-SIOS */
@@ -1706,15 +1631,11 @@ static const struct _FcitxUnicodeToKeySym gdk_unicode_to_keysym_tab[] = {
     {0x0ed1, 0x3161}, /* Hangul_EU ㅡ HANGUL LETTER EU */
     {0x0ed2, 0x3162}, /* Hangul_YI ㅢ HANGUL LETTER YI */
     {0x0ed3, 0x3163}, /* Hangul_I ㅣ HANGUL LETTER I */
-    {0x0eef,
-     0x316d}, /* Hangul_RieulYeorinHieuh ㅭ HANGUL LETTER RIEUL-YEORINHIEUH */
-    {0x0ef0,
-     0x3171}, /* Hangul_SunkyeongeumMieum ㅱ HANGUL LETTER KAPYEOUNMIEUM */
-    {0x0ef1,
-     0x3178}, /* Hangul_SunkyeongeumPieub ㅸ HANGUL LETTER KAPYEOUNPIEUP */
+    {0x0eef, 0x316d}, /* Hangul_RieulYeorinHieuh ㅭ HANGUL LETTER RIEUL-YEORINHIEUH */
+    {0x0ef0, 0x3171}, /* Hangul_SunkyeongeumMieum ㅱ HANGUL LETTER KAPYEOUNMIEUM */
+    {0x0ef1, 0x3178}, /* Hangul_SunkyeongeumPieub ㅸ HANGUL LETTER KAPYEOUNPIEUP */
     {0x0ef2, 0x317f}, /* Hangul_PanSios ㅿ HANGUL LETTER PANSIOS */
-    {0x0ef4,
-     0x3184}, /* Hangul_SunkyeongeumPhieuf ㆄ HANGUL LETTER KAPYEOUNPHIEUPH */
+    {0x0ef4, 0x3184}, /* Hangul_SunkyeongeumPhieuf ㆄ HANGUL LETTER KAPYEOUNPHIEUPH */
     {0x0ef5, 0x3186}, /* Hangul_YeorinHieuh ㆆ HANGUL LETTER YEORINHIEUH */
     {0x0ef6, 0x318d}, /* Hangul_AraeA ㆍ HANGUL LETTER ARAEA */
     {0x0ef7, 0x318e}, /* Hangul_AraeAE ㆎ HANGUL LETTER ARAEAE */

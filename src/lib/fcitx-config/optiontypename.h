@@ -25,7 +25,7 @@
 
 namespace fcitx {
 
-#define FCITX_SPECIALIZE_TYPENAME(TYPE, NAME)                                  \
+#define FCITX_SPECIALIZE_TYPENAME(TYPE, NAME)                                                                          \
     static inline std::string configTypeNameHelper(TYPE *) { return NAME; }
 
 FCITX_SPECIALIZE_TYPENAME(bool, "Boolean");
@@ -48,8 +48,7 @@ struct OptionTypeName<std::vector<T>> {
 };
 
 template <typename T>
-struct OptionTypeName<T,
-                      typename std::enable_if<std::is_enum<T>::value>::type> {
+struct OptionTypeName<T, typename std::enable_if<std::is_enum<T>::value>::type> {
     static std::string get() { return "Enum"; }
 };
 }

@@ -45,8 +45,7 @@ const std::string &I18NString::match(std::string locale) {
     bool failed = false;
     auto i = locale.begin(), e = locale.end();
     do {
-        while (i != e && !charutils::isspace(*i) && *i != '_' && *i != '.' &&
-               *i != '@') {
+        while (i != e && !charutils::isspace(*i) && *i != '_' && *i != '.' && *i != '@') {
             normalizedLocale.push_back(*i++);
         }
 
@@ -70,9 +69,8 @@ const std::string &I18NString::match(std::string locale) {
         if (i != e && *i == '.') {
             // encoding is useless for us
             i++;
-            while (i != e &&
-                   (charutils::isupper(*i) || charutils::islower(*i) ||
-                    charutils::isdigit(*i) || *i == '_' || *i == '-')) {
+            while (i != e && (charutils::isupper(*i) || charutils::islower(*i) || charutils::isdigit(*i) || *i == '_' ||
+                              *i == '-')) {
                 i++;
             }
         }

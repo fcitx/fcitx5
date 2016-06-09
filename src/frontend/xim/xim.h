@@ -40,6 +40,11 @@ public:
     XIMModule(Instance *instance);
     ~XIMModule();
 
+    AddonInstance *xcb();
+    Instance *instance() {
+        return m_instance;
+    }
+
 private:
     Instance *m_instance;
     std::unordered_map<std::string, std::unique_ptr<XIMServer>> m_servers;
@@ -47,13 +52,10 @@ private:
 
 class XIMModuleFactory : public AddonFactory {
 public:
-    AddonInstance *create(AddonManager *manager) override {
-        return new XIMModule(manager->instance());
-    }
+    AddonInstance *create(AddonManager *manager) override { return new XIMModule(manager->instance()); }
 };
 }
 
 FCITX_ADDON_FACTORY(fcitx::XIMModuleFactory);
 
 #endif // _XIM_XIMMODULE_H_
-

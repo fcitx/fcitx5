@@ -23,10 +23,7 @@
 #include "fcitx-utils/metastring.h"
 #include "addon/dummyaddon_public.h"
 
-double f(int) {
-    return 0;
-}
-
+double f(int) { return 0; }
 
 int main(int argc, char *argv[]) {
     if (argc < 3) {

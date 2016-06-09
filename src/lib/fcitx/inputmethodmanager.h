@@ -25,13 +25,11 @@
 #include <fcitx-utils/macros.h>
 #include "inputmethodgroup.h"
 
-namespace fcitx
-{
+namespace fcitx {
 
 class InputMethodManagerPrivate;
 
-class InputMethodManager
-{
+class InputMethodManager {
 public:
     InputMethodManager();
     virtual ~InputMethodManager();
@@ -43,7 +41,6 @@ private:
     std::unique_ptr<InputMethodManagerPrivate> d_ptr;
     FCITX_DECLARE_PRIVATE(InputMethodManager);
 };
-
 }
 
 #endif // _FCITX_INPUTMETHODMANAGER_H_

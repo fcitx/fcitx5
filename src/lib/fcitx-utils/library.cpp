@@ -37,8 +37,7 @@ public:
     std::string error;
 };
 
-Library::Library(const std::string &path)
-    : d_ptr(std::make_unique<LibraryPrivate>(path)) {}
+Library::Library(const std::string &path) : d_ptr(std::make_unique<LibraryPrivate>(path)) {}
 
 Library::~Library() {
     if (d_ptr) {
@@ -143,8 +142,7 @@ bool Library::findData(const char *slug, const char *magic, size_t lenOfMagic,
             break;
         }
         void *needunmap = nullptr;
-        void *data = needunmap =
-            mmap(0, statbuf.st_size, PROT_READ, MAP_PRIVATE, fd, 0);
+        void *data = needunmap = mmap(0, statbuf.st_size, PROT_READ, MAP_PRIVATE, fd, 0);
         if (!data) {
             data = malloc(statbuf.st_size);
             needfree = data;
@@ -155,9 +153,8 @@ bool Library::findData(const char *slug, const char *magic, size_t lenOfMagic,
                 break;
             }
         }
-        const char *pos = stringutils::backwardSearch(
-            static_cast<char *>(data), static_cast<size_t>(statbuf.st_size),
-            magic, lenOfMagic, 0);
+        const char *pos = stringutils::backwardSearch(static_cast<char *>(data), static_cast<size_t>(statbuf.st_size),
+                                                      magic, lenOfMagic, 0);
         pos += lenOfMagic;
 
         if (parser) {

@@ -24,11 +24,11 @@
 using namespace fcitx::dbus;
 using namespace fcitx;
 
-
 int main() {
     Bus bus(BusType::Session);
 
-    static_assert(std::is_same<DBusSignatureToTuple<'i', 'u'>::type, std::tuple<int32_t, uint32_t>>::value, "Type is not same");
+    static_assert(std::is_same<DBusSignatureToTuple<'i', 'u'>::type, std::tuple<int32_t, uint32_t>>::value,
+                  "Type is not same");
 
     // interface name must has dot
     {

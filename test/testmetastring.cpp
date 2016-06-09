@@ -23,16 +23,15 @@
 #include <cassert>
 #include <string>
 
-int main()
-{
+int main() {
     ::fcitx::MetaStringTrim<'A', 'B'>::type a;
     static_assert(a.size() == 2, "");
     ::fcitx::MetaStringTrim<'A', 'B', '\0', 'C'>::type b;
     static_assert(b.size() == 2, "");
     ::fcitx::MetaStringTrim<'\0'>::type c;
     static_assert(c.size() == 0, "");
-    static_assert(std::is_same<::fcitx::MetaStringTrim<'A'>::type, fcitx::MetaString<'A'>>::value , "");
-    static_assert(std::is_same<makeMetaString("ABCDEF"), fcitx::MetaString<'A', 'B', 'C', 'D', 'E', 'F'>>::value , "");
+    static_assert(std::is_same<::fcitx::MetaStringTrim<'A'>::type, fcitx::MetaString<'A'>>::value, "");
+    static_assert(std::is_same<makeMetaString("ABCDEF"), fcitx::MetaString<'A', 'B', 'C', 'D', 'E', 'F'>>::value, "");
     auto test = makeMetaString("ABCD")::data() == std::string("ABCD");
     assert(test);
     return 0;

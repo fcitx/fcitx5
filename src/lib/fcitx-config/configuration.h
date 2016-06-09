@@ -25,34 +25,29 @@
 
 #include <memory>
 
-#define FCITX_CONFIGURATION(NAME, ...)                                         \
-    class NAME;                                                                \
-    FCITX_SPECIALIZE_TYPENAME(NAME, #NAME)                                     \
+#define FCITX_CONFIGURATION(NAME, ...)                                                                                 \
+    class NAME;                                                                                                        \
+    FCITX_SPECIALIZE_TYPENAME(NAME, #NAME)                                                                             \
     FCITX_CONFIGURATION_CLASS(NAME, __VA_ARGS__)
 
-#define FCITX_CONFIGURATION_CLASS(NAME, ...)                                   \
-    class NAME : public fcitx::Configuration {                                 \
-    public:                                                                    \
-        NAME() {}                                                              \
-        NAME(const NAME &other) : NAME() { copyHelper(other); }                \
-        NAME &operator=(const NAME &other) {                                   \
-            copyHelper(other);                                                 \
-            return *this;                                                      \
-        }                                                                      \
-        bool operator==(const NAME &other) const {                             \
-            return compareHelper(other);                                       \
-        }                                                                      \
-        virtual const char *typeName() const override { return #NAME; }        \
-                                                                               \
-    public:                                                                    \
-        __VA_ARGS__                                                            \
+#define FCITX_CONFIGURATION_CLASS(NAME, ...)                                                                           \
+    class NAME : public fcitx::Configuration {                                                                         \
+    public:                                                                                                            \
+        NAME() {}                                                                                                      \
+        NAME(const NAME &other) : NAME() { copyHelper(other); }                                                        \
+        NAME &operator=(const NAME &other) {                                                                           \
+            copyHelper(other);                                                                                         \
+            return *this;                                                                                              \
+        }                                                                                                              \
+        bool operator==(const NAME &other) const { return compareHelper(other); }                                      \
+        virtual const char *typeName() const override { return #NAME; }                                                \
+                                                                                                                       \
+    public:                                                                                                            \
+        __VA_ARGS__                                                                                                    \
     };
 
-#define FCITX_OPTION(name, type, path, description, default, ...)              \
-    fcitx::Option<type> name {                                                 \
-        this, std::string(path), std::string(description), (default),          \
-            __VA_ARGS__                                                        \
-    }
+#define FCITX_OPTION(name, type, path, description, default, ...)                                                      \
+    fcitx::Option<type> name { this, std::string(path), std::string(description), (default), __VA_ARGS__ }
 namespace fcitx {
 
 class ConfigurationPrivate;

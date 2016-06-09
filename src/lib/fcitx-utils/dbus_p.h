@@ -39,7 +39,6 @@ private:
     sd_bus_error m_error;
 };
 
-
 class SDVTableSlot : public Slot {
 public:
     SDVTableSlot(std::vector<sd_bus_vtable> vtable_) : slot(nullptr), vtable(vtable_) {}
@@ -62,8 +61,7 @@ public:
 
 class SDSubTreeSlot : public SDSlot {
 public:
-    SDSubTreeSlot(MessageCallback callback_,
-                  EnumerateObjectCallback enumerator_)
+    SDSubTreeSlot(MessageCallback callback_, EnumerateObjectCallback enumerator_)
         : SDSlot(callback_), enumerator(enumerator_), enumSlot(nullptr) {}
 
     ~SDSubTreeSlot() { sd_bus_slot_unref(enumSlot); }
@@ -71,7 +69,6 @@ public:
     EnumerateObjectCallback enumerator;
     sd_bus_slot *enumSlot;
 };
-
 }
 }
 

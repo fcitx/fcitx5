@@ -35,24 +35,17 @@ public:
 
 template <typename T>
 struct IntrusiveListTrivialNodeGetter {
-    static_assert(std::is_base_of<IntrusiveListNode, T>::value,
-                  "T must be a descendant of IntrusiveListNode");
+    static_assert(std::is_base_of<IntrusiveListNode, T>::value, "T must be a descendant of IntrusiveListNode");
 
-    static IntrusiveListNode &toNode(T &value) noexcept {
-        return *static_cast<IntrusiveListNode *>(&value);
-    }
+    static IntrusiveListNode &toNode(T &value) noexcept { return *static_cast<IntrusiveListNode *>(&value); }
 
-    static T &toValue(IntrusiveListNode &node) noexcept {
-        return *reinterpret_cast<T *>(&node);
-    }
+    static T &toValue(IntrusiveListNode &node) noexcept { return *reinterpret_cast<T *>(&node); }
 
     static const IntrusiveListNode &toNode(const T &value) noexcept {
         return *static_cast<const IntrusiveListNode *>(&value);
     }
 
-    static const T &toValue(const IntrusiveListNode &node) noexcept {
-        return *reinterpret_cast<const T *>(&node);
-    }
+    static const T &toValue(const IntrusiveListNode &node) noexcept { return *reinterpret_cast<const T *>(&node); }
 };
 
 template <typename T, typename NodeGetter>
@@ -67,17 +60,13 @@ public:
     typedef std::bidirectional_iterator_tag iterator_category;
     typedef T value_type;
     typedef std::ptrdiff_t difference_type;
-    typedef
-        typename std::conditional<isConst, typename list_type::const_reference,
-                                  typename list_type::reference>::type
-            reference;
-    typedef
-        typename std::conditional<isConst, typename list_type::const_pointer,
-                                  typename list_type::pointer>::type pointer;
+    typedef typename std::conditional<isConst, typename list_type::const_reference, typename list_type::reference>::type
+        reference;
+    typedef typename std::conditional<isConst, typename list_type::const_pointer, typename list_type::pointer>::type
+        pointer;
 
     IntrusiveListIterator() : node(nullptr), nodeGetter(nullptr) {}
-    IntrusiveListIterator(node_ptr node_, NodeGetter &nodeGetter_)
-        : node(node_), nodeGetter(&nodeGetter_) {}
+    IntrusiveListIterator(node_ptr node_, NodeGetter &nodeGetter_) : node(node_), nodeGetter(&nodeGetter_) {}
 
     IntrusiveListIterator(const typename list_type::iterator &other)
         : IntrusiveListIterator(other.pointed_node(), other.get_nodeGetter()) {}
@@ -88,12 +77,8 @@ public:
         return *this;
     }
 
-    bool operator==(const IntrusiveListIterator &other) const noexcept {
-        return node == other.node;
-    }
-    bool operator!=(const IntrusiveListIterator &other) const noexcept {
-        return !operator==(other);
-    }
+    bool operator==(const IntrusiveListIterator &other) const noexcept { return node == other.node; }
+    bool operator!=(const IntrusiveListIterator &other) const noexcept { return !operator==(other); }
     IntrusiveListIterator operator++() {
         auto old = node;
         node = node->next;
@@ -132,8 +117,7 @@ public:
     typedef std::reverse_iterator<const_iterator> const_reverse_iterator;
     typedef std::size_t size_type;
 
-    IntrusiveList(NodeGetter nodeGetter_ = NodeGetter())
-        : size_(0), nodeGetter(nodeGetter_) {
+    IntrusiveList(NodeGetter nodeGetter_ = NodeGetter()) : size_(0), nodeGetter(nodeGetter_) {
         root.prev = root.next = &root;
     }
 
@@ -159,13 +143,9 @@ public:
         ;
     }
 
-    iterator iterator_to(reference value) {
-        return iterator(&nodeGetter.toNode(value), nodeGetter);
-    }
+    iterator iterator_to(reference value) { return iterator(&nodeGetter.toNode(value), nodeGetter); }
 
-    const_iterator iterator_to(const_reference value) {
-        return const_iterator(&nodeGetter.toNode(value), nodeGetter);
-    }
+    const_iterator iterator_to(const_reference value) { return const_iterator(&nodeGetter.toNode(value), nodeGetter); }
 
     void push_back(reference value) {
         auto &node = nodeGetter.toNode(value);
@@ -208,21 +188,16 @@ public:
     }
 
 private:
-    void insertBetween(IntrusiveListNode *add, IntrusiveListNode *prev,
-                       IntrusiveListNode *next) noexcept {
+    void insertBetween(IntrusiveListNode *add, IntrusiveListNode *prev, IntrusiveListNode *next) noexcept {
         next->prev = add;
         prev->next = add;
         add->next = next;
         add->prev = prev;
     }
 
-    void prepend(IntrusiveListNode *add, IntrusiveListNode *pos) noexcept {
-        return insertBetween(add, pos, pos->next);
-    }
+    void prepend(IntrusiveListNode *add, IntrusiveListNode *pos) noexcept { return insertBetween(add, pos, pos->next); }
 
-    void append(IntrusiveListNode *add, IntrusiveListNode *pos) noexcept {
-        return insertBetween(add, pos->prev, pos);
-    }
+    void append(IntrusiveListNode *add, IntrusiveListNode *pos) noexcept { return insertBetween(add, pos->prev, pos); }
 
     void remove(IntrusiveListNode *pos) noexcept {
         auto next = pos->next;

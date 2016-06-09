@@ -105,8 +105,10 @@ struct Event {
 };
 
 struct KeyEvent : public Event {
-    Key key;
+    Key key, rawKey;
     bool isRelease;
+    int keyCode;
+    int time;
 };
 }
 

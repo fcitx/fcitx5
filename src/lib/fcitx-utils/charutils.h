@@ -43,10 +43,7 @@ static inline char toupper(char c) { return islower(c) ? c - 'a' + 'A' : c; }
 
 #define FCITX_WHITESPACE "\f\n\r\t\v "
 
-static inline bool isspace(char c) {
-    return c == '\f' || c == '\n' || c == '\r' || c == '\t' || c == '\v' ||
-           c == ' ';
-}
+static inline bool isspace(char c) { return c == '\f' || c == '\n' || c == '\r' || c == '\t' || c == '\v' || c == ' '; }
 
 static inline bool isdigit(char c) { return c >= '0' && c <= '9'; }
 }

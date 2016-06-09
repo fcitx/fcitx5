@@ -30,11 +30,9 @@ using namespace fcitx;
 int selfpipe[2];
 char *crashlog;
 
-StaticAddonRegistry staticAddon = {
-};
+StaticAddonRegistry staticAddon = {};
 
-int main(int argc, char* argv[])
-{
+int main(int argc, char *argv[]) {
     if (pipe(selfpipe)) {
         fprintf(stderr, "Could not create self-pipe.\n");
         return 1;
@@ -42,10 +40,8 @@ int main(int argc, char* argv[])
 
     SetMyExceptionHandler();
 
-    if (fcntl(selfpipe[0], F_SETFL, O_NONBLOCK) == -1
-     || fcntl(selfpipe[0], F_SETFD, FD_CLOEXEC) == -1
-     || fcntl(selfpipe[1], F_SETFL, O_NONBLOCK) == -1
-     || fcntl(selfpipe[1], F_SETFD, FD_CLOEXEC)) {
+    if (fcntl(selfpipe[0], F_SETFL, O_NONBLOCK) == -1 || fcntl(selfpipe[0], F_SETFD, FD_CLOEXEC) == -1 ||
+        fcntl(selfpipe[1], F_SETFL, O_NONBLOCK) == -1 || fcntl(selfpipe[1], F_SETFD, FD_CLOEXEC)) {
         fprintf(stderr, "fcntl failed.\n");
         exit(1);
     }
@@ -60,5 +56,6 @@ int main(int argc, char* argv[])
     instance.setSignalPipe(selfpipe[0]);
     instance.addonManager().registerDefaultLoader(&staticAddon);
 
-    return instance.exec();;
+    return instance.exec();
+    ;
 }

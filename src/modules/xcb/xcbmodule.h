@@ -53,6 +53,7 @@ public:
     xcb_connection_t *connection() const { return m_conn.get(); }
     int screen() const { return m_screen; }
     FocusGroup *focusGroup() const { return m_group; }
+    struct xkb_state *xkbState() { return m_state.get(); }
 
 private:
     std::vector<char> xkbRulesNames();
@@ -89,25 +90,31 @@ public:
     Instance *instance() { return m_instance; }
 
     void addEventFilter(const std::string &name, XCBEventFilter filter);
-    void addConnectionCreatedCallback(XCBConnectionCreated callback);
+    int addConnectionCreatedCallback(XCBConnectionCreated callback);
+    int addConnectionClosedCallback(XCBConnectionClosed callback);
+    void removeConnectionCreatedCallback(int id);
+    void removeConnectionClosedCallback(int id);
+    struct xkb_state *xkbState(const std::string &name);
 
 private:
-
     void onConnectionCreated(XCBConnection &conn);
 
     Instance *m_instance;
     std::unordered_map<std::string, XCBConnection> m_conns;
-    std::list<XCBConnectionCreated> m_createdCallbacks;
+    std::unordered_map<int, XCBConnectionCreated> m_createdCallbacks;
+    int m_createdCallbacksIdx;
+    std::unordered_map<int, XCBConnectionClosed> m_closedCallbacks;
+    int m_closedCallbacksIdx;
     FCITX_ADDON_EXPORT_FUNCTION(XCBModule, addEventFilter);
     FCITX_ADDON_EXPORT_FUNCTION(XCBModule, addConnectionCreatedCallback);
-
+    FCITX_ADDON_EXPORT_FUNCTION(XCBModule, addConnectionClosedCallback);
+    FCITX_ADDON_EXPORT_FUNCTION(XCBModule, removeConnectionCreatedCallback);
+    FCITX_ADDON_EXPORT_FUNCTION(XCBModule, removeConnectionClosedCallback);
 };
 
 class XCBModuleFactory : public AddonFactory {
 public:
-    AddonInstance *create(AddonManager *manager) override {
-        return new XCBModule(manager->instance());
-    }
+    AddonInstance *create(AddonManager *manager) override { return new XCBModule(manager->instance()); }
 };
 }
 

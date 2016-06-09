@@ -24,8 +24,7 @@
 #include "fcitx-utils/dbus.h"
 #include "fcitx/instance.h"
 
-namespace fcitx
-{
+namespace fcitx {
 class Controller1;
 class DBusModule : public AddonInstance {
 public:
@@ -42,7 +41,6 @@ class DBusModuleFactory : public AddonFactory {
 };
 
 FCITX_ADDON_FACTORY(DBusModuleFactory)
-
 }
 
 #endif // _DBUS_DBUSMODULE_H_

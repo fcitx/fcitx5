@@ -21,28 +21,23 @@ bool endsWith(const std::string &str, const std::string &suffix) {
         return false;
     }
 
-    return (str.compare(str.size() - suffix.size(), suffix.size(), suffix) ==
-            0);
+    return (str.compare(str.size() - suffix.size(), suffix.size(), suffix) == 0);
 }
 
-std::pair<std::string::size_type, std::string::size_type>
-trimInplace(const std::string &str) {
+std::pair<std::string::size_type, std::string::size_type> trimInplace(const std::string &str) {
     auto start = str.find_first_not_of(FCITX_WHITE_SPACE);
     if (start == std::string::npos) {
-        return std::pair<std::string::size_type, std::string::size_type>(
-            str.size(), str.size());
+        return std::pair<std::string::size_type, std::string::size_type>(str.size(), str.size());
     }
 
     auto end = str.size();
     while (end > start && charutils::isspace(str[end - 1]))
         --end;
 
-    return std::pair<std::string::size_type, std::string::size_type>(start,
-                                                                     end);
+    return std::pair<std::string::size_type, std::string::size_type>(start, end);
 }
 
-std::vector<std::string> split(const std::string &str,
-                               const std::string &delim) {
+std::vector<std::string> split(const std::string &str, const std::string &delim) {
     std::vector<std::string> strings;
 
     auto lastPos = str.find_first_not_of(delim, 0);
@@ -59,8 +54,7 @@ std::vector<std::string> split(const std::string &str,
 
 #define MAX_REPLACE_INDICES_NUM 128
 
-std::string replaceAll(std::string str, const std::string &before,
-                       const std::string &after) {
+std::string replaceAll(std::string str, const std::string &before, const std::string &after) {
     if (before.size() == 0) {
         return str;
     }
@@ -87,24 +81,22 @@ std::string replaceAll(std::string str, const std::string &before,
 
         if (nIndices) {
             if (!lastLen) {
-                lastLen =
-                    str.size() + nIndices * (after.size() - before.size());
+                lastLen = str.size() + nIndices * (after.size() - before.size());
                 newString.resize(lastLen);
             } else {
-                size_t newLen =
-                    lastLen + nIndices * (after.size() - before.size());
+                size_t newLen = lastLen + nIndices * (after.size() - before.size());
                 lastLen = newLen;
                 newString.resize(newLen);
             }
 
-#define _COPY_AND_MOVE_ON(s, pos, LEN)                                         \
-    do {                                                                       \
-        int diffLen = (LEN);                                                   \
-        if ((LEN) == 0) {                                                      \
-            break;                                                             \
-        }                                                                      \
-        newString.replace(newStringPos, diffLen, s, pos, diffLen);             \
-        newStringPos += diffLen;                                               \
+#define _COPY_AND_MOVE_ON(s, pos, LEN)                                                                                 \
+    do {                                                                                                               \
+        int diffLen = (LEN);                                                                                           \
+        if ((LEN) == 0) {                                                                                              \
+            break;                                                                                                     \
+        }                                                                                                              \
+        newString.replace(newStringPos, diffLen, s, pos, diffLen);                                                     \
+        newStringPos += diffLen;                                                                                       \
     } while (0)
 
             // string s is split as
@@ -115,9 +107,7 @@ std::string replaceAll(std::string str, const std::string &before,
             _COPY_AND_MOVE_ON(after, 0, after.size());
 
             for (int i = 1; i < nIndices; i++) {
-                _COPY_AND_MOVE_ON(str, indices[i] + before.size(),
-                                  indices[i] -
-                                      (indices[i - 1] + before.size()));
+                _COPY_AND_MOVE_ON(str, indices[i] + before.size(), indices[i] - (indices[i - 1] + before.size()));
                 _COPY_AND_MOVE_ON(after, 0, after.size());
             }
 
@@ -135,13 +125,12 @@ std::string replaceAll(std::string str, const std::string &before,
     return newString;
 }
 
-#define REHASH(a)                                                              \
-    if (ol_minus_1 < sizeof(uint) * CHAR_BIT)                                  \
-        hashHaystack -= (a) << ol_minus_1;                                     \
+#define REHASH(a)                                                                                                      \
+    if (ol_minus_1 < sizeof(uint) * CHAR_BIT)                                                                          \
+        hashHaystack -= (a) << ol_minus_1;                                                                             \
     hashHaystack <<= 1
 
-const char *backwardSearch(const char *haystack, size_t l, const char *needle,
-                           size_t ol, size_t from) {
+const char *backwardSearch(const char *haystack, size_t l, const char *needle, size_t ol, size_t from) {
     if (ol > l) {
         return nullptr;
     }
@@ -173,16 +162,13 @@ const char *backwardSearch(const char *haystack, size_t l, const char *needle,
     return nullptr;
 }
 
-char *backwardSearch(char *haystack, size_t l, const char *needle, size_t ol,
-                     size_t from) {
+char *backwardSearch(char *haystack, size_t l, const char *needle, size_t ol, size_t from) {
     return const_cast<char *>(backwardSearch(haystack, l, needle, ol, from));
 }
 
-size_t backwardSearch(const std::string &haystack, const std::string &needle,
-                      size_t from) {
+size_t backwardSearch(const std::string &haystack, const std::string &needle, size_t from) {
     auto cstr = haystack.c_str();
-    auto result = backwardSearch(cstr, haystack.size(), needle.c_str(),
-                                 needle.size(), from);
+    auto result = backwardSearch(cstr, haystack.size(), needle.c_str(), needle.size(), from);
     if (result) {
         return result - cstr;
     }

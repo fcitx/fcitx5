@@ -32,8 +32,7 @@ struct ConfigurationPrivate {
     std::unordered_map<std::string, OptionBase *> m_options;
 };
 
-Configuration::Configuration()
-    : d_ptr(std::make_unique<ConfigurationPrivate>()) {}
+Configuration::Configuration() : d_ptr(std::make_unique<ConfigurationPrivate>()) {}
 
 Configuration::~Configuration() {}
 

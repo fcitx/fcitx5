@@ -19,6 +19,4 @@
 #ifndef _FCITX_FRONTEND_H_
 #define _FCITX_FRONTEND_H_
 
-
-
 #endif // _FCITX_FRONTEND_H_

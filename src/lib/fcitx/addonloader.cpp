@@ -28,21 +28,17 @@ AddonLoader::~AddonLoader() {}
 
 SharedLibraryLoader::~SharedLibraryLoader() {}
 
-AddonInstance *SharedLibraryLoader::load(const AddonInfo &info,
-                                         AddonManager *manager) {
+AddonInstance *SharedLibraryLoader::load(const AddonInfo &info, AddonManager *manager) {
     auto iter = m_registry.find(info.name());
     if (iter == m_registry.end()) {
-        auto libs = m_standardPath.locateAll(
-            StandardPath::Type::Addon, info.library() + FCITX_LIBRARY_SUFFIX);
+        auto libs = m_standardPath.locateAll(StandardPath::Type::Addon, info.library() + FCITX_LIBRARY_SUFFIX);
         for (const auto &libraryPath : libs) {
             Library lib(libraryPath);
             if (!lib.load()) {
                 continue;
             }
             try {
-                m_registry.emplace(
-                    info.name(),
-                    std::make_unique<SharedLibraryFactory>(std::move(lib)));
+                m_registry.emplace(info.name(), std::make_unique<SharedLibraryFactory>(std::move(lib)));
             } catch (const std::exception &e) {
                 std::cout << e.what() << std::endl;
             }
@@ -57,11 +53,9 @@ AddonInstance *SharedLibraryLoader::load(const AddonInfo &info,
     return iter->second->factory()->create(manager);
 }
 
-StaticLibraryLoader::StaticLibraryLoader(StaticAddonRegistry *registry_)
-    : AddonLoader(), registry(registry_) {}
+StaticLibraryLoader::StaticLibraryLoader(StaticAddonRegistry *registry_) : AddonLoader(), registry(registry_) {}
 
-AddonInstance *StaticLibraryLoader::load(const AddonInfo &info,
-                                         AddonManager *manager) {
+AddonInstance *StaticLibraryLoader::load(const AddonInfo &info, AddonManager *manager) {
     auto iter = registry->find(info.name());
     if (iter == registry->end()) {
         return nullptr;

@@ -40,9 +40,7 @@ public:
     AddonInstance *instance() { return m_instance.get(); }
 
     void load(AddonManagerPrivate *managerP);
-    void setFailed(bool failed = true) {
-        m_failed = failed;
-    }
+    void setFailed(bool failed = true) { m_failed = failed; }
 
 private:
     AddonInfo m_info;
@@ -50,11 +48,7 @@ private:
     std::unique_ptr<AddonInstance> m_instance;
 };
 
-enum class DependencyCheckStatus {
-    Satisfied,
-    Pending,
-    Failed
-};
+enum class DependencyCheckStatus { Satisfied, Pending, Failed };
 
 class AddonManagerPrivate {
 public:
@@ -99,16 +93,14 @@ void Addon::load(AddonManagerPrivate *managerP) {
     }
     auto &loaders = managerP->loaders;
     if (loaders.count(m_info.type())) {
-        m_instance.reset(
-            loaders[m_info.type()]->load(m_info, managerP->q_func()));
+        m_instance.reset(loaders[m_info.type()]->load(m_info, managerP->q_func()));
     }
     if (!m_instance) {
         m_failed = true;
     }
 }
 
-AddonManager::AddonManager()
-    : d_ptr(std::make_unique<AddonManagerPrivate>(this)) {}
+AddonManager::AddonManager() : d_ptr(std::make_unique<AddonManagerPrivate>(this)) {}
 
 AddonManager::~AddonManager() {}
 
@@ -131,14 +123,12 @@ void AddonManager::registerDefaultLoader(StaticAddonRegistry *registry) {
 void AddonManager::load() {
     FCITX_D();
     StandardPath path;
-    auto files = path.multiOpenAll(StandardPath::Type::Data, "fcitx5/addon",
-                                   O_RDONLY, filter::Suffix(".conf"));
+    auto files = path.multiOpenAll(StandardPath::Type::Data, "fcitx5/addon", O_RDONLY, filter::Suffix(".conf"));
     for (const auto &file : files) {
         auto &files = file.second;
         RawConfig config;
         // reverse the order, so we end up parse user file at last.
-        for (auto iter = files.rbegin(), end = files.rend(); iter != end;
-             iter++) {
+        for (auto iter = files.rbegin(), end = files.rend(); iter != end; iter++) {
             auto fd = iter->first;
             readFromIni(config, fd);
         }

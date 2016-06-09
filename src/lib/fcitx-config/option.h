@@ -36,8 +36,7 @@ class Configuration;
 
 class FCITXCONFIG_EXPORT OptionBase {
 public:
-    OptionBase(Configuration *parent, std::string path,
-               std::string description);
+    OptionBase(Configuration *parent, std::string path, std::string description);
     virtual ~OptionBase();
 
     const std::string &path() const;
@@ -53,9 +52,7 @@ public:
     virtual bool equalTo(const OptionBase &other) const = 0;
     virtual void copyFrom(const OptionBase &other) = 0;
     bool operator==(const OptionBase &other) const { return equalTo(other); }
-    bool operator!=(const OptionBase &other) const {
-        return !operator==(other);
-    }
+    bool operator!=(const OptionBase &other) const { return !operator==(other); }
 
     virtual void dumpDescription(RawConfig &config) const;
 
@@ -73,8 +70,7 @@ struct NoConstrain {
 
 class IntConstrain {
 public:
-    IntConstrain(int min = std::numeric_limits<int>::min(),
-                 int max = std::numeric_limits<int>::max())
+    IntConstrain(int min = std::numeric_limits<int>::min(), int max = std::numeric_limits<int>::max())
         : m_min(min), m_max(max) {}
     bool check(int value) const { return value >= m_min && value <= m_max; }
     void dumpDescription(RawConfig &config) const {
@@ -89,12 +85,8 @@ private:
 
 template <typename T>
 struct DefaultMarshaller {
-    virtual void marshall(RawConfig &config, const T &value) const {
-        return marshallOption(config, value);
-    }
-    virtual bool unmarshall(T &value, const RawConfig &config) const {
-        return unmarshallOption(value, config);
-    }
+    virtual void marshall(RawConfig &config, const T &value) const { return marshallOption(config, value); }
+    virtual bool unmarshall(T &value, const RawConfig &config) const { return unmarshallOption(value, config); }
 };
 
 template <typename T>
@@ -118,51 +110,38 @@ struct ExtractSubConfig<std::vector<T>> {
 };
 
 template <typename T>
-struct ExtractSubConfig<
-    T,
-    typename std::enable_if<std::is_base_of<Configuration, T>::value>::type> {
+struct ExtractSubConfig<T, typename std::enable_if<std::is_base_of<Configuration, T>::value>::type> {
     static Configuration *get() { return new T; }
 };
 
 template <typename T>
 void dumpDescriptionHelper(RawConfig &, T *) {}
 
-template <typename T, typename Constrain = NoConstrain<T>,
-          typename Marshaller = DefaultMarshaller<T>>
+template <typename T, typename Constrain = NoConstrain<T>, typename Marshaller = DefaultMarshaller<T>>
 class Option : public OptionBase {
 public:
-    Option(Configuration *parent, std::string path, std::string description,
-           const T &defaultValue = T(), Constrain constrain = Constrain(),
-           Marshaller marshaller = Marshaller())
-        : OptionBase(parent, path, description), m_defaultValue(defaultValue),
-          m_value(defaultValue), m_marshaller(marshaller),
-          m_constrain(constrain) {
+    Option(Configuration *parent, std::string path, std::string description, const T &defaultValue = T(),
+           Constrain constrain = Constrain(), Marshaller marshaller = Marshaller())
+        : OptionBase(parent, path, description), m_defaultValue(defaultValue), m_value(defaultValue),
+          m_marshaller(marshaller), m_constrain(constrain) {
         if (!m_constrain.check(m_defaultValue)) {
-            throw std::invalid_argument(
-                "defaultValue doesn't satisfy constrain");
+            throw std::invalid_argument("defaultValue doesn't satisfy constrain");
         }
     }
 
-    virtual std::string typeString() const override {
-        return OptionTypeName<T>::get();
-    }
+    virtual std::string typeString() const override { return OptionTypeName<T>::get(); }
 
     virtual void dumpDescription(RawConfig &config) const override {
         OptionBase::dumpDescription(config);
         m_marshaller.marshall(config["DefaultValue"], m_defaultValue);
         m_constrain.dumpDescription(config);
         using ::fcitx::dumpDescriptionHelper;
-        dumpDescriptionHelper(
-            config, static_cast<typename RemoveVector<T>::type *>(nullptr));
+        dumpDescriptionHelper(config, static_cast<typename RemoveVector<T>::type *>(nullptr));
     }
 
-    virtual Configuration *subConfigSkeleton() const override {
-        return ExtractSubConfig<T>::get();
-    }
+    virtual Configuration *subConfigSkeleton() const override { return ExtractSubConfig<T>::get(); }
 
-    virtual bool isDefault() const override {
-        return m_defaultValue == m_value;
-    }
+    virtual bool isDefault() const override { return m_defaultValue == m_value; }
 
     virtual void reset() override { m_value = m_defaultValue; }
 
@@ -178,9 +157,7 @@ public:
         return true;
     }
 
-    void marshall(RawConfig &config) const override {
-        return m_marshaller.marshall(config, m_value);
-    }
+    void marshall(RawConfig &config) const override { return m_marshaller.marshall(config, m_value); }
     bool unmarshall(const RawConfig &config) override {
         T tempValue{};
         if (!m_marshaller.unmarshall(tempValue, config)) {
@@ -190,14 +167,12 @@ public:
     }
 
     virtual bool equalTo(const OptionBase &other) const override {
-        auto otherP =
-            reinterpret_cast<const Option<T, Constrain, Marshaller> *>(&other);
+        auto otherP = reinterpret_cast<const Option<T, Constrain, Marshaller> *>(&other);
         return m_value == otherP->m_value;
     }
 
     virtual void copyFrom(const OptionBase &other) override {
-        auto otherP =
-            reinterpret_cast<const Option<T, Constrain, Marshaller> *>(&other);
+        auto otherP = reinterpret_cast<const Option<T, Constrain, Marshaller> *>(&other);
         m_value = otherP->m_value;
     }
 

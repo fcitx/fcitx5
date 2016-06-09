@@ -26,9 +26,7 @@
 #include "charutils.h"
 
 namespace fcitx {
-static unsigned short roundColor(unsigned short c) {
-    return c <= 255 ? c : 255;
-}
+static unsigned short roundColor(unsigned short c) { return c <= 255 ? c : 255; }
 
 static float roundColorF(float f) { return f < 0 ? 0.0f : (f > 1.0 ? 1.0 : f); }
 
@@ -37,9 +35,7 @@ static unsigned short extendColor(unsigned short c) {
     return c << 8 | c;
 }
 
-static inline char to_hex_char(int v) {
-    return (char)(((v) >= 0 && (v) < 10) ? (v + '0') : (v - 10 + 'a'));
-}
+static inline char to_hex_char(int v) { return (char)(((v) >= 0 && (v) < 10) ? (v + '0') : (v - 10 + 'a')); }
 
 static inline unsigned short to_hex_digit(char hi, char lo) {
     hi = charutils::tolower(hi);
@@ -60,14 +56,12 @@ static inline unsigned short to_hex_digit(char hi, char lo) {
 }
 
 Color::Color(ushort r, ushort g, ushort b, ushort alpha)
-    : m_red(extendColor(r)), m_green(extendColor(g)), m_blue(extendColor(b)),
-      m_alpha(extendColor(alpha)) {}
+    : m_red(extendColor(r)), m_green(extendColor(g)), m_blue(extendColor(b)), m_alpha(extendColor(alpha)) {}
 
 Color::Color() : m_red(0), m_green(0), m_blue(0), m_alpha(USHRT_MAX) {}
 
 bool Color::operator==(const Color &other) const {
-    return m_red == other.m_red && m_green == other.m_green &&
-           m_blue == other.m_blue && m_alpha == other.m_alpha;
+    return m_red == other.m_red && m_green == other.m_green && m_blue == other.m_blue && m_alpha == other.m_alpha;
 }
 
 void Color::setFromString(const char *str) {
@@ -84,8 +78,7 @@ void Color::setFromString(const char *str) {
         const char *digits = &str[idx + 1];
         while (digits[len] &&
                (charutils::isdigit(digits[len]) ||
-                ('A' <= digits[len] && digits[len] <= 'F') |
-                    ('a' <= digits[len] && digits[len] <= 'f'))) {
+                ('A' <= digits[len] && digits[len] <= 'F') | ('a' <= digits[len] && digits[len] <= 'f'))) {
             len++;
         }
         if (len != 8) {
@@ -122,8 +115,8 @@ std::string Color::toString() const {
     std::string result;
     result.push_back('#');
     std::array<unsigned short, 4> v = {
-        (unsigned short)(m_red >> 8u), (unsigned short)(m_green >> 8u),
-        (unsigned short)(m_blue >> 8u), (unsigned short)(m_alpha >> 8u),
+        (unsigned short)(m_red >> 8u), (unsigned short)(m_green >> 8u), (unsigned short)(m_blue >> 8u),
+        (unsigned short)(m_alpha >> 8u),
     };
 
     for (auto value : v) {
@@ -151,16 +144,8 @@ void Color::setGreen(unsigned short green) { m_green = extendColor(green); }
 void Color::setBlue(unsigned short blue) { m_blue = extendColor(blue); }
 void Color::setAlpha(unsigned short alpha) { m_alpha = extendColor(alpha); }
 
-void Color::setRedF(float red) {
-    m_red = std::round(roundColorF(red) * USHRT_MAX);
-}
-void Color::setGreenF(float green) {
-    m_green = std::round(roundColorF(green) * USHRT_MAX);
-}
-void Color::setBlueF(float blue) {
-    m_blue = std::round(roundColorF(blue) * USHRT_MAX);
-}
-void Color::setAlphaF(float alpha) {
-    m_alpha = std::round(roundColorF(alpha) * USHRT_MAX);
-}
+void Color::setRedF(float red) { m_red = std::round(roundColorF(red) * USHRT_MAX); }
+void Color::setGreenF(float green) { m_green = std::round(roundColorF(green) * USHRT_MAX); }
+void Color::setBlueF(float blue) { m_blue = std::round(roundColorF(blue) * USHRT_MAX); }
+void Color::setAlphaF(float alpha) { m_alpha = std::round(roundColorF(alpha) * USHRT_MAX); }
 }

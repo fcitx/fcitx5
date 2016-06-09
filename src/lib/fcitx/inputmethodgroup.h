@@ -24,13 +24,11 @@
 #include <vector>
 #include <string>
 
-namespace fcitx
-{
+namespace fcitx {
 
 class InputMethodGroupPrivate;
 
-class InputMethodGroup
-{
+class InputMethodGroup {
 public:
     InputMethodGroup();
     virtual ~InputMethodGroup();
@@ -42,7 +40,6 @@ private:
     std::unique_ptr<InputMethodGroupPrivate> d_ptr;
     FCITX_DECLARE_PRIVATE(InputMethodGroup);
 };
-
 }
 
 #endif // _FCITX_INPUTMETHODGROUP_H_

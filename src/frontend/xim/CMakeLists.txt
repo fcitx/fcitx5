@@ -1,5 +1,5 @@
 add_library(xim MODULE xim.cpp)
-target_link_libraries(xim Fcitx5::Core XCBImdkit::XCBImdkit XCB::XCB XCB::AUX)
+target_link_libraries(xim Fcitx5::Core XCBImdkit::XCBImdkit XCB::XCB XCB::AUX XKBCommon::XKBCommon)
 set_target_properties(xim PROPERTIES PREFIX "")
 install(TARGETS xim DESTINATION "${FCITX_INSTALL_ADDONDIR}")
 install(FILES xim.conf DESTINATION "${FCITX_INSTALL_PKGDATADIR}/addon")

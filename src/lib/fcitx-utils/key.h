@@ -35,22 +35,16 @@ typedef Flags<KeyState> KeyStates;
 
 class FCITXUTILS_EXPORT Key {
 public:
-    explicit Key(KeySym sym = FcitxKey_None, KeyStates states = KeyStates())
-        : m_sym(sym), m_states(states) {}
+    explicit Key(KeySym sym = FcitxKey_None, KeyStates states = KeyStates()) : m_sym(sym), m_states(states) {}
     Key(const Key &other) : Key(other.m_sym, other.m_states) {}
     explicit Key(const char *keyString);
     explicit Key(const std::string &keyString) : Key(keyString.c_str()) {}
     virtual ~Key();
 
-    bool operator==(const Key &key) const {
-        return m_sym == key.m_sym && m_states == key.m_states;
-    }
+    bool operator==(const Key &key) const { return m_sym == key.m_sym && m_states == key.m_states; }
 
     bool check(const Key &key) const;
-    bool check(KeySym sym = FcitxKey_None,
-               KeyStates states = KeyStates()) const {
-        return check(Key(sym, states));
-    }
+    bool check(KeySym sym = FcitxKey_None, KeyStates states = KeyStates()) const { return check(Key(sym, states)); }
     bool isDigit() const;
     bool isUAZ() const;
     bool isLAZ() const;
@@ -87,9 +81,7 @@ public:
     }
     template <typename Container>
     static bool keyListCheck(Container c, const Key &key) {
-        return std::find_if(c.begin(), c.end(), [&key](const Key &toCheck) {
-                   return toCheck.check(key);
-               }) != c.end();
+        return std::find_if(c.begin(), c.end(), [&key](const Key &toCheck) { return toCheck.check(key); }) != c.end();
     }
 
 protected:

@@ -24,10 +24,8 @@
 #include "macros.h"
 #include "fcitxutils_export.h"
 
-namespace fcitx
-{
-namespace dbus
-{
+namespace fcitx {
+namespace dbus {
 class Message;
 class ObjectVTable;
 class Slot;
@@ -36,11 +34,9 @@ typedef std::function<bool(Message)> ObjectMethod;
 typedef std::function<Message()> PropertyGetMethod;
 typedef std::function<bool(Message)> PropertySetMethod;
 
-class FCITXUTILS_EXPORT ObjectVTableMethod
-{
+class FCITXUTILS_EXPORT ObjectVTableMethod {
 public:
-    ObjectVTableMethod(ObjectVTable *vtable,
-                       const std::string &name, const std::string &signature,
+    ObjectVTableMethod(ObjectVTable *vtable, const std::string &name, const std::string &signature,
                        const std::string &ret, ObjectMethod handler);
 
     const std::string &name() const { return m_name; }
@@ -55,60 +51,57 @@ private:
     ObjectMethod m_handler;
 };
 
-template<typename T>
+template <typename T>
 struct ReturnValueHelper {
     typedef T type;
     type ret;
 
-    template<typename U>
+    template <typename U>
     void call(U u) {
         ret = u();
     }
 };
 
-template<>
+template <>
 struct ReturnValueHelper<void> {
     typedef std::tuple<> type;
     type ret;
-    template<typename U>
+    template <typename U>
     void call(U u) {
         u();
     }
 };
 
-#define FCITX_OBJECT_VTABLE_METHOD(FUNCTION, FUNCTION_NAME, SIGNATURE, RET) \
-    ObjectVTableMethod FUNCTION##Method{this, FUNCTION_NAME, SIGNATURE, RET, [this] (Message msg) { \
-        STRING_TO_DBUS_TUPLE(SIGNATURE) args; \
-        msg >> args; \
-        auto func = &std::remove_reference<decltype(*this)>::type::FUNCTION; \
-        typedef decltype(callWithTuple(this, func, args)) ReturnType; \
-        ReturnValueHelper<ReturnType> helper; \
-        auto functor = [this, &args, func] () { \
-            return callWithTuple(this, func, args); \
-        }; \
-        helper.call(functor); \
-        auto reply = msg.createReply(); \
-        reply << helper.ret; \
-        reply.send(); \
-        return true; \
-    }}
+#define FCITX_OBJECT_VTABLE_METHOD(FUNCTION, FUNCTION_NAME, SIGNATURE, RET)                                            \
+    ObjectVTableMethod FUNCTION##Method {                                                                              \
+        this, FUNCTION_NAME, SIGNATURE, RET, [this](Message msg) {                                                     \
+            STRING_TO_DBUS_TUPLE(SIGNATURE) args;                                                                      \
+            msg >> args;                                                                                               \
+            auto func = &std::remove_reference<decltype(*this)>::type::FUNCTION;                                       \
+            typedef decltype(callWithTuple(this, func, args)) ReturnType;                                              \
+            ReturnValueHelper<ReturnType> helper;                                                                      \
+            auto functor = [this, &args, func]() { return callWithTuple(this, func, args); };                          \
+            helper.call(functor);                                                                                      \
+            auto reply = msg.createReply();                                                                            \
+            reply << helper.ret;                                                                                       \
+            reply.send();                                                                                              \
+            return true;                                                                                               \
+        }                                                                                                              \
+    }
 
-class FCITXUTILS_EXPORT ObjectVTableSignal
-{
+class FCITXUTILS_EXPORT ObjectVTableSignal {
 public:
-    ObjectVTableSignal(ObjectVTable *vtable,
-                       const std::string &name, const std::string signature);
+    ObjectVTableSignal(ObjectVTable *vtable, const std::string &name, const std::string signature);
 
 private:
     const std::string m_name;
     const std::string m_signature;
 };
 
-class FCITXUTILS_EXPORT ObjectVTableProperty
-{
+class FCITXUTILS_EXPORT ObjectVTableProperty {
 public:
-    ObjectVTableProperty(ObjectVTable *vtable,
-                         const std::string &name, const std::string signature, PropertyGetMethod getMethod);
+    ObjectVTableProperty(ObjectVTable *vtable, const std::string &name, const std::string signature,
+                         PropertyGetMethod getMethod);
 
 protected:
     const std::string m_name;
@@ -117,11 +110,10 @@ protected:
     bool m_writable;
 };
 
-class FCITXUTILS_EXPORT ObjectVTableWritableProperty : public ObjectVTableProperty
-{
+class FCITXUTILS_EXPORT ObjectVTableWritableProperty : public ObjectVTableProperty {
 public:
-    ObjectVTableWritableProperty(ObjectVTable *vtable,
-                                 const std::string &name, const std::string signature, PropertyGetMethod getMethod, PropertySetMethod setMethod);
+    ObjectVTableWritableProperty(ObjectVTable *vtable, const std::string &name, const std::string signature,
+                                 PropertyGetMethod getMethod, PropertySetMethod setMethod);
 
 private:
     PropertySetMethod m_setMethod;
@@ -129,9 +121,9 @@ private:
 
 class ObjectVTablePrivate;
 
-class FCITXUTILS_EXPORT ObjectVTable
-{
+class FCITXUTILS_EXPORT ObjectVTable {
     friend class Bus;
+
 public:
     ObjectVTable();
     virtual ~ObjectVTable();
@@ -140,13 +132,13 @@ public:
     void addSignal(ObjectVTableSignal *sig);
     void addProperty(ObjectVTableProperty *property);
     void releaseSlot();
+
 private:
     void setSlot(Slot *slot);
 
     std::unique_ptr<ObjectVTablePrivate> d_ptr;
     FCITX_DECLARE_PRIVATE(ObjectVTable);
 };
-
 }
 }
 

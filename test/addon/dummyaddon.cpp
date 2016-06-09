@@ -24,17 +24,13 @@
 
 class DummyAddon : public fcitx::AddonInstance {
 public:
-    int addOne(int a) {
-        return a + 1;
-    }
+    int addOne(int a) { return a + 1; }
 
     FCITX_ADDON_EXPORT_FUNCTION(DummyAddon, addOne);
 };
 
 class DummyAddonFactory : public fcitx::AddonFactory {
-    virtual fcitx::AddonInstance *create(fcitx::AddonManager *) override {
-        return new DummyAddon;
-    }
+    virtual fcitx::AddonInstance *create(fcitx::AddonManager *) override { return new DummyAddon; }
 };
 
 FCITX_ADDON_FACTORY(DummyAddonFactory)

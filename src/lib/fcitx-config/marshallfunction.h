@@ -35,10 +35,8 @@ FCITXCONFIG_EXPORT bool unmarshallOption(bool &value, const RawConfig &config);
 FCITXCONFIG_EXPORT void marshallOption(RawConfig &config, const int value);
 FCITXCONFIG_EXPORT bool unmarshallOption(int &value, const RawConfig &config);
 
-FCITXCONFIG_EXPORT void marshallOption(RawConfig &config,
-                                       const std::string &value);
-FCITXCONFIG_EXPORT bool unmarshallOption(std::string &value,
-                                         const RawConfig &config);
+FCITXCONFIG_EXPORT void marshallOption(RawConfig &config, const std::string &value);
+FCITXCONFIG_EXPORT bool unmarshallOption(std::string &value, const RawConfig &config);
 
 FCITXCONFIG_EXPORT void marshallOption(RawConfig &config, const Key &value);
 FCITXCONFIG_EXPORT bool unmarshallOption(Key &value, const RawConfig &config);
@@ -46,10 +44,8 @@ FCITXCONFIG_EXPORT bool unmarshallOption(Key &value, const RawConfig &config);
 FCITXCONFIG_EXPORT void marshallOption(RawConfig &config, const Color &value);
 FCITXCONFIG_EXPORT bool unmarshallOption(Color &value, const RawConfig &config);
 
-FCITXCONFIG_EXPORT void marshallOption(RawConfig &config,
-                                       const Configuration &value);
-FCITXCONFIG_EXPORT bool unmarshallOption(Configuration &value,
-                                         const RawConfig &config);
+FCITXCONFIG_EXPORT void marshallOption(RawConfig &config, const Configuration &value);
+FCITXCONFIG_EXPORT bool unmarshallOption(Configuration &value, const RawConfig &config);
 
 template <typename T>
 void marshallOption(RawConfig &config, const std::vector<T> &value) {

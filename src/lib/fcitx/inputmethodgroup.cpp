@@ -19,36 +19,24 @@
 
 #include "inputmethodgroup.h"
 
-namespace fcitx
-{
+namespace fcitx {
 
-class InputMethodGroupPrivate
-{
+class InputMethodGroupPrivate {
 public:
     std::vector<std::string> inputMethodList;
 };
 
-InputMethodGroup::InputMethodGroup() : d_ptr(std::make_unique<InputMethodGroupPrivate>())
-{
-}
+InputMethodGroup::InputMethodGroup() : d_ptr(std::make_unique<InputMethodGroupPrivate>()) {}
 
-InputMethodGroup::~InputMethodGroup()
-{
-}
+InputMethodGroup::~InputMethodGroup() {}
 
-std::vector<std::string> &InputMethodGroup::inputMethodList()
-{
+std::vector<std::string> &InputMethodGroup::inputMethodList() {
     FCITX_D();
     return d->inputMethodList;
 }
 
-const std::vector<std::string> & InputMethodGroup::inputMethodList() const
-{
+const std::vector<std::string> &InputMethodGroup::inputMethodList() const {
     FCITX_D();
     return d->inputMethodList;
 }
-
-
-
-
 }

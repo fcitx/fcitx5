@@ -7,9 +7,9 @@
 #include "fcitx-utils/keynametable.h"
 #include "fcitx-utils/keynametable-compat.h"
 
-#define CHECK_ARRAY_ORDER(ARRAY, COMPARE_FUNC)                                 \
-    for (size_t i = 0; i < FCITX_ARRAY_SIZE(ARRAY) - 1; i++) {                 \
-        assert(COMPARE_FUNC(ARRAY[i], ARRAY[i + 1]));                          \
+#define CHECK_ARRAY_ORDER(ARRAY, COMPARE_FUNC)                                                                         \
+    for (size_t i = 0; i < FCITX_ARRAY_SIZE(ARRAY) - 1; i++) {                                                         \
+        assert(COMPARE_FUNC(ARRAY[i], ARRAY[i + 1]));                                                                  \
     }
 
 int main() {
@@ -23,11 +23,8 @@ int main() {
 
     // Test convert
     for (size_t i = 0; i < FCITX_ARRAY_SIZE(keyValueByNameOffset); i++) {
-        assert(!fcitx::Key::keySymToString(
-                    static_cast<fcitx::KeySym>(keyValueByNameOffset[i]))
-                    .empty());
-        assert(fcitx::Key::keySymFromString(keyNameList[i]) ==
-               keyValueByNameOffset[i]);
+        assert(!fcitx::Key::keySymToString(static_cast<fcitx::KeySym>(keyValueByNameOffset[i])).empty());
+        assert(fcitx::Key::keySymFromString(keyNameList[i]) == keyValueByNameOffset[i]);
     }
 
     assert(fcitx::Key::keySymFromUnicode(' ') == FcitxKey_space);
@@ -47,27 +44,21 @@ int main() {
     assert(fcitx::Key("Shift+S").normalize().check(fcitx::Key("S")));
     assert(fcitx::Key("Shift+F4").normalize().check(fcitx::Key("Shift+F4")));
     assert(fcitx::Key("Ctrl+a").normalize().check(fcitx::Key("Ctrl+A")));
-    assert(fcitx::Key("Alt+Shift+exclam")
-               .normalize()
-               .check(fcitx::Key("Alt+exclam")));
+    assert(fcitx::Key("Alt+Shift+exclam").normalize().check(fcitx::Key("Alt+exclam")));
     assert(fcitx::Key("").sym() == FcitxKey_None);
     assert(fcitx::Key("-").sym() == FcitxKey_minus);
 
     // Test complex parse
-    auto keyList = fcitx::Key::keyListFromString(
-        "CTRL_A Control+B Control+Alt+c Control+Alt+Shift+d "
-        "Control+Alt+Shift+Super+E Super+Alt+=");
+    auto keyList = fcitx::Key::keyListFromString("CTRL_A Control+B Control+Alt+c Control+Alt+Shift+d "
+                                                 "Control+Alt+Shift+Super+E Super+Alt+=");
 
     fcitx::Key hotkey[] = {
         fcitx::Key(FcitxKey_A, fcitx::KeyState::Ctrl),
         fcitx::Key(FcitxKey_B, fcitx::KeyState::Ctrl),
         fcitx::Key(FcitxKey_c, fcitx::KeyState::Ctrl_Alt),
         fcitx::Key(FcitxKey_d, fcitx::KeyState::Ctrl_Alt_Shift),
-        fcitx::Key(FcitxKey_E,
-                   fcitx::KeyStates({fcitx::KeyState::Ctrl_Alt_Shift,
-                                     fcitx::KeyState::Super})),
-        fcitx::Key(FcitxKey_equal, fcitx::KeyStates({fcitx::KeyState::Super,
-                                                     fcitx::KeyState::Alt})),
+        fcitx::Key(FcitxKey_E, fcitx::KeyStates({fcitx::KeyState::Ctrl_Alt_Shift, fcitx::KeyState::Super})),
+        fcitx::Key(FcitxKey_equal, fcitx::KeyStates({fcitx::KeyState::Super, fcitx::KeyState::Alt})),
     };
 
     for (size_t i = 0; i < FCITX_ARRAY_SIZE(hotkey); i++) {

@@ -24,22 +24,16 @@
 
 namespace fcitx {
 namespace utf8 {
-inline std::string::size_type length(const std::string &s) {
-    return fcitx_utf8_strlen(s.c_str());
-}
+inline std::string::size_type length(const std::string &s) { return fcitx_utf8_strlen(s.c_str()); }
 
-inline uint32_t getCharValidated(const std::string &s,
-                                 std::string::size_type off = 0,
-                                 int maxLen = 6) {
+inline uint32_t getCharValidated(const std::string &s, std::string::size_type off = 0, int maxLen = 6) {
     if (off >= s.size()) {
         return 0;
     }
     return fcitx_utf8_get_char_validated(s.c_str() + off, maxLen);
 }
 
-inline std::string::size_type charLength(const std::string &s) {
-    return fcitx_utf8_char_len(s.c_str());
-}
+inline std::string::size_type charLength(const std::string &s) { return fcitx_utf8_char_len(s.c_str()); }
 
 inline int nthChar(const std::string &s, int start, size_t n) {
     int diff = fcitx_utf8_get_nth_char(s.c_str() + start, n) - s.c_str();
