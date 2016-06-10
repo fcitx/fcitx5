@@ -22,6 +22,7 @@
 #include "inputcontext_p.h"
 #include "inputcontextmanager.h"
 #include "focusgroup.h"
+#include "instance.h"
 
 namespace fcitx {
 
@@ -107,7 +108,14 @@ void InputContext::setHasFocus(bool hasFocus) {
     }
 }
 
-bool InputContext::keyEvent(const KeyEvent &event) { return false; }
+bool InputContext::keyEvent(const KeyEvent &event) {
+    FCITX_D();
+    auto instance = d->manager.instance();
+    if (!instance) {
+        return false;
+    }
+    return instance->keyEvent(*this, event);
+}
 
 void InputContext::reset() {}
 

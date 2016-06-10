@@ -28,10 +28,11 @@ namespace fcitx {
 
 class InputContextManagerPrivate;
 class FocusGroup;
-
+class Instance;
 class FCITXCORE_EXPORT InputContextManager {
     friend class InputContext;
     friend class FocusGroup;
+    friend class Instance;
 
 public:
     InputContextManager();
@@ -42,6 +43,8 @@ public:
     InputContext *findByUUID(ICUUID uuid);
 
 private:
+    Instance *instance();
+    void setInstance(Instance *instance);
     void registerInputContext(InputContext &inputContext);
     void unregisterInputContext(InputContext &inputContext);
 

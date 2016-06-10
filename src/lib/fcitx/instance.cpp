@@ -77,10 +77,10 @@ struct InstanceArgument {
 
 class InstancePrivate {
 public:
-    InstancePrivate(Instance *instance) { addonManager.setInstance(instance); }
+    InstancePrivate(Instance *instance) {}
 
     InstanceArgument arg;
-    bool initialized;
+    bool initialized = false;
 
     int signalPipe = -1;
     EventLoop eventLoop;
@@ -106,6 +106,9 @@ Instance::Instance(int argc, char **argv) {
 
     // we need fork before this
     d_ptr.reset(new InstancePrivate(this));
+    FCITX_D();
+    d->addonManager.setInstance(this);
+    d->icManager.setInstance(this);
 }
 
 Instance::~Instance() {}
@@ -230,6 +233,8 @@ AddonManager &Instance::addonManager() {
     FCITX_D();
     return d->addonManager;
 }
+
+bool Instance::keyEvent(fcitx::InputContext &ic, const fcitx::KeyEvent &event) { return false; }
 
 void Instance::activate() {}
 

@@ -60,8 +60,7 @@ namespace fcitx {
 class XIMServer {
 public:
     XIMServer(xcb_connection_t *conn, int defaultScreen, FocusGroup *group, const std::string &name, XIMModule *xim)
-        : m_group(group), m_name(name), m_parent(xim),
-          m_im(nullptr, xcb_im_destroy), m_serverWindow(0) {
+        : m_group(group), m_name(name), m_parent(xim), m_im(nullptr, xcb_im_destroy), m_serverWindow(0) {
         xcb_screen_t *screen = xcb_aux_get_screen(conn, defaultScreen);
         m_serverWindow = xcb_generate_id(conn);
         xcb_create_window(conn, XCB_COPY_FROM_PARENT, m_serverWindow, screen->root, 0, 0, 1, 1, 1,

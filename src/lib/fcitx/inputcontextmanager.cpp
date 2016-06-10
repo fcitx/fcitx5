@@ -75,6 +75,7 @@ public:
     std::unordered_map<std::array<uint8_t, sizeof(uuid_t)>, InputContext *, container_hasher> uuidMap;
     IntrusiveList<InputContext, InputContextListHelper> inputContexts;
     IntrusiveList<FocusGroup, FocusGroupListHelper> groups;
+    Instance *instance = nullptr;
 };
 
 IntrusiveListNode &InputContextListHelper::toNode(InputContext &ic) noexcept {
@@ -109,6 +110,16 @@ InputContext *InputContextManager::findByUUID(ICUUID uuid) {
     FCITX_D();
     auto iter = d->uuidMap.find(uuid);
     return (iter == d->uuidMap.end()) ? nullptr : iter->second;
+}
+
+void InputContextManager::setInstance(Instance *instance) {
+    FCITX_D();
+    d->instance = instance;
+}
+
+Instance *InputContextManager::instance() {
+    FCITX_D();
+    return d->instance;
 }
 
 void InputContextManager::registerInputContext(InputContext &inputContext) {

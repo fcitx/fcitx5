@@ -25,6 +25,8 @@
 
 namespace fcitx {
 
+class InputContext;
+class KeyEvent;
 class InstancePrivate;
 class EventLoop;
 class AddonManager;
@@ -42,6 +44,8 @@ public:
     EventLoop &eventLoop();
     AddonManager &addonManager();
     InputContextManager &inputContextManager();
+
+    bool keyEvent(InputContext &ic, const KeyEvent &event);
 
     void exit();
     void restart();

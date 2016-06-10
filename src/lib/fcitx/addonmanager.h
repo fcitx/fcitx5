@@ -30,6 +30,8 @@ namespace fcitx {
 class Instance;
 class AddonManagerPrivate;
 class FCITXCORE_EXPORT AddonManager {
+    friend class Instance;
+
 public:
     AddonManager();
     virtual ~AddonManager();
@@ -42,9 +44,9 @@ public:
     AddonInstance *addon(const std::string &name);
 
     Instance *instance();
-    void setInstance(Instance *instance);
 
 private:
+    void setInstance(Instance *instance);
     std::unique_ptr<AddonManagerPrivate> d_ptr;
     FCITX_DECLARE_PRIVATE(AddonManager);
 };

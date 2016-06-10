@@ -12,6 +12,7 @@ set(FCITX_CORE_SOURCES
     inputmethodgroup.cpp
     inputmethodmanager.cpp
     inputmethodengine.cpp
+    globalconfig.cpp
     )
 
 set(FCITX_CORE_HEADERS
@@ -25,6 +26,7 @@ set(FCITX_CORE_HEADERS
     inputmethodmanager.h
     inputmethodgroup.h
     inputmethodengine.h
+    globalconfig.h
     ${CMAKE_CURRENT_BINARY_DIR}/fcitxcore_export.h
     )
 
