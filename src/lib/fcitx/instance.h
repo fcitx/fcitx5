@@ -21,7 +21,9 @@
 
 #include <memory>
 #include <fcitx-utils/macros.h>
+#include "event.h"
 #include "fcitxcore_export.h"
+#include "globalconfig.h"
 
 namespace fcitx {
 
@@ -31,6 +33,14 @@ class InstancePrivate;
 class EventLoop;
 class AddonManager;
 class InputContextManager;
+class GlobalConfig;
+enum class EventWatcherPhase
+{
+    PreInputMethod,
+    InputMethod,
+    PostInputMethod,
+    Default = PostInputMethod
+};
 
 class FCITXCORE_EXPORT Instance {
 public:
@@ -44,8 +54,15 @@ public:
     EventLoop &eventLoop();
     AddonManager &addonManager();
     InputContextManager &inputContextManager();
+    GlobalConfig& globalConfig();
 
-    bool keyEvent(InputContext &ic, const KeyEvent &event);
+    bool postEvent(Event &event);
+    bool postEvent(Event &&event) {
+        return postEvent(event);
+    }
+
+    int watchEvent(EventType type, std::function<void(Event &event)> callback, EventWatcherPhase phase);
+    void unwatchEvent(int id);
 
     void exit();
     void restart();

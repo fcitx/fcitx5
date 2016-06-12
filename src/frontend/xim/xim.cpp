@@ -70,9 +70,9 @@ public:
                                  &styles, NULL, NULL, &encodings, XCB_EVENT_MASK_KEY_PRESS | XCB_EVENT_MASK_KEY_RELEASE,
                                  &XIMServer::callback, this));
 
-        m_filterId = m_parent->xcb()->call<fcitx::IXCBModule::addEventFilter>(
+        m_filter.reset(m_parent->xcb()->call<fcitx::IXCBModule::addEventFilter>(
             name,
-            [this](xcb_connection_t *, xcb_generic_event_t *event) { return xcb_im_filter_event(m_im.get(), event); });
+            [this](xcb_connection_t *, xcb_generic_event_t *event) { return xcb_im_filter_event(m_im.get(), event); }));
 
         xcb_im_open_im(m_im.get());
     }
@@ -82,9 +82,6 @@ public:
     ~XIMServer() {
         if (m_im) {
             xcb_im_close_im(m_im.get());
-        }
-        if (m_filterId >= 0) {
-            m_parent->xcb()->call<fcitx::IXCBModule::removeEventFilter>(m_name, m_filterId);
         }
     }
 
@@ -105,7 +102,7 @@ private:
     XIMModule *m_parent;
     std::unique_ptr<xcb_im_t, decltype(&xcb_im_destroy)> m_im;
     xcb_window_t m_serverWindow;
-    int m_filterId = -1;
+    std::unique_ptr<HandlerTableEntry<XCBEventFilter>> m_filter;
 };
 
 class XIMInputContext : public InputContext {
@@ -161,13 +158,10 @@ void XIMServer::callback(xcb_im_client_t *client, xcb_im_input_context_t *xic, c
             break;
         }
         xcb_key_press_event_t *xevent = static_cast<xcb_key_press_event_t *>(arg);
-        KeyEvent event;
-        event.rawKey =
-            Key(static_cast<KeySym>(xkb_state_key_get_one_sym(xkbState, xevent->detail)), KeyStates(xevent->state));
-        event.isRelease = (xevent->response_type & ~0x80) != XCB_KEY_RELEASE;
-        event.keyCode = xevent->detail;
-        event.key = event.rawKey.normalize();
-        event.time = xevent->time;
+        KeyEvent event(ic, Key(static_cast<KeySym>(xkb_state_key_get_one_sym(xkbState, xevent->detail)), KeyStates(xevent->state)),
+                       (xevent->response_type & ~0x80) != XCB_KEY_RELEASE,
+                       xevent->detail,
+                       xevent->time);
         if (!ic->keyEvent(event)) {
             xcb_im_forward_event(im(), xic, xevent);
         }
@@ -187,12 +181,12 @@ void XIMServer::callback(xcb_im_client_t *client, xcb_im_input_context_t *xic, c
 
 XIMModule::XIMModule(Instance *instance)
     : m_instance(instance),
-      m_createdCallbackId(xcb()->call<IXCBModule::addConnectionCreatedCallback>(
+      m_createdCallback(xcb()->call<IXCBModule::addConnectionCreatedCallback>(
           [this](const std::string &name, xcb_connection_t * conn, int defaultScreen, FocusGroup * group) {
               XIMServer *server = new XIMServer(conn, defaultScreen, group, name, this);
               m_servers[name].reset(server);
           })),
-      m_closedCallbackId(xcb()->call<IXCBModule::addConnectionClosedCallback>(
+      m_closedCallback(xcb()->call<IXCBModule::addConnectionClosedCallback>(
           [this](const std::string &name, xcb_connection_t *) { m_servers.erase(name); })) {}
 
 AddonInstance *XIMModule::xcb() {
@@ -201,7 +195,5 @@ AddonInstance *XIMModule::xcb() {
 }
 
 XIMModule::~XIMModule() {
-    xcb()->call<IXCBModule::removeConnectionCreatedCallback>(m_createdCallbackId);
-    xcb()->call<IXCBModule::removeConnectionCreatedCallback>(m_closedCallbackId);
 }
 }

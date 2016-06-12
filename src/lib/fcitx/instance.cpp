@@ -19,6 +19,7 @@
 
 #include "instance.h"
 #include "fcitx-utils/event.h"
+#include "globalconfig.h"
 #include "fcitx/inputcontextmanager.h"
 #include "fcitx/addonmanager.h"
 #include "fcitx-utils/stringutils.h"
@@ -87,6 +88,7 @@ public:
     std::unique_ptr<EventSourceIO> signalPipeEvent;
     InputContextManager icManager;
     AddonManager addonManager;
+    GlobalConfig globalConfig;
 };
 
 Instance::Instance(int argc, char **argv) {
@@ -234,7 +236,21 @@ AddonManager &Instance::addonManager() {
     return d->addonManager;
 }
 
-bool Instance::keyEvent(fcitx::InputContext &ic, const fcitx::KeyEvent &event) { return false; }
+GlobalConfig &Instance::globalConfig()
+{
+    FCITX_D();
+    return d->globalConfig;
+}
+
+
+bool Instance::postEvent(Event &event) {
+    return event.accepted();
+}
+
+int Instance::watchEvent(EventType type, std::function<void(Event &event)> callback, EventWatcherPhase phase)
+{
+    return 0;
+}
 
 void Instance::activate() {}
 

@@ -26,6 +26,7 @@
 #include "fcitx/addonfactory.h"
 #include "fcitx/focusgroup.h"
 #include "fcitx/addonmanager.h"
+#include "modules/xcb/xcb_public.h"
 #include <unordered_map>
 #include <list>
 #include <vector>
@@ -46,8 +47,8 @@ public:
 private:
     Instance *m_instance;
     std::unordered_map<std::string, std::unique_ptr<XIMServer>> m_servers;
-    int m_createdCallbackId;
-    int m_closedCallbackId;
+    std::unique_ptr<HandlerTableEntry<XCBConnectionCreated>> m_createdCallback;
+    std::unique_ptr<HandlerTableEntry<XCBConnectionClosed>> m_closedCallback;
 };
 
 class XIMModuleFactory : public AddonFactory {

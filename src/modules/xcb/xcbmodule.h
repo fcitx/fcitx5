@@ -32,6 +32,7 @@
 #include "fcitx/addonfactory.h"
 #include "fcitx/focusgroup.h"
 #include "fcitx/addonmanager.h"
+#include "fcitx-utils/handlertable.h"
 #include "xcb_public.h"
 #include <unordered_map>
 #include <list>
@@ -47,8 +48,7 @@ public:
     ~XCBConnection();
 
     void updateKeymap();
-    int addEventFilter(XCBEventFilter filter);
-    void removeEventFilter(int id) { m_filters.erase(id); }
+    HandlerTableEntry<XCBEventFilter> *addEventFilter(XCBEventFilter filter);
 
     const std::string &name() const { return m_name; }
     xcb_connection_t *connection() const { return m_conn.get(); }
@@ -83,8 +83,9 @@ private:
 
     std::unique_ptr<EventSourceIO> m_ioEvent;
 
-    int m_filterIdx = 0;
-    std::unordered_map<int, XCBEventFilter> m_filters;
+    HandlerTable<XCBEventFilter> m_filters;
+    // need to be clean up before m_filters destructs;
+    std::unique_ptr<HandlerTableEntry<XCBEventFilter>> m_filter;
 };
 
 class XCBModule : public AddonInstance {
@@ -95,12 +96,9 @@ public:
     void removeConnection(const std::string &name);
     Instance *instance() { return m_instance; }
 
-    int addEventFilter(const std::string &name, XCBEventFilter filter);
-    void removeEventFilter(const std::string &name, int id);
-    int addConnectionCreatedCallback(XCBConnectionCreated callback);
-    int addConnectionClosedCallback(XCBConnectionClosed callback);
-    void removeConnectionCreatedCallback(int id);
-    void removeConnectionClosedCallback(int id);
+    HandlerTableEntry<XCBEventFilter> *addEventFilter(const std::string &name, XCBEventFilter filter);
+    HandlerTableEntry<XCBConnectionCreated> *addConnectionCreatedCallback(XCBConnectionCreated callback);
+    HandlerTableEntry<XCBConnectionClosed> *addConnectionClosedCallback(XCBConnectionClosed callback);
     struct xkb_state *xkbState(const std::string &name);
 
 private:
@@ -109,16 +107,11 @@ private:
 
     Instance *m_instance;
     std::unordered_map<std::string, XCBConnection> m_conns;
-    std::unordered_map<int, XCBConnectionCreated> m_createdCallbacks;
-    int m_createdCallbacksIdx = 0;
-    std::unordered_map<int, XCBConnectionClosed> m_closedCallbacks;
-    int m_closedCallbacksIdx = 0;
+    HandlerTable<XCBConnectionCreated> m_createdCallbacks;
+    HandlerTable<XCBConnectionClosed> m_closedCallbacks;
     FCITX_ADDON_EXPORT_FUNCTION(XCBModule, addEventFilter);
     FCITX_ADDON_EXPORT_FUNCTION(XCBModule, addConnectionCreatedCallback);
     FCITX_ADDON_EXPORT_FUNCTION(XCBModule, addConnectionClosedCallback);
-    FCITX_ADDON_EXPORT_FUNCTION(XCBModule, removeConnectionCreatedCallback);
-    FCITX_ADDON_EXPORT_FUNCTION(XCBModule, removeConnectionClosedCallback);
-    FCITX_ADDON_EXPORT_FUNCTION(XCBModule, removeEventFilter);
     FCITX_ADDON_EXPORT_FUNCTION(XCBModule, xkbState);
 };
 

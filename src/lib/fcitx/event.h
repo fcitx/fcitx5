@@ -24,10 +24,29 @@
 
 namespace fcitx {
 
+class InputContext;
+
 enum class ResetReason {
     ChangeByInactivate,
     LostFocus,
     SwitchIM,
+};
+
+enum class InputMethodSwitchedReason {
+    Trigger,
+    /**
+     * when user press inactivate key, default behavior is commit raw preedit.
+     * If you want to OVERRIDE this behavior, be sure to implement this
+     * function.
+     *
+     * in some case, your implementation of OnClose should respect the value of
+     * [Output/SendTextWhenSwitchEng], when this value is true, commit something
+     * you
+     * want.
+     */
+    Deactivate,
+    AltTrigger,
+    Activate,
 };
 
 enum class EventType : uint32_t {
@@ -69,17 +88,6 @@ enum class EventType : uint32_t {
      * default behavior is reset IM.
      */
     InputContextSwitchInputMethod = InputContextEventFlag | 0xA,
-    /**
-     * when user press inactivate key, default behavior is commit raw preedit.
-     * If you want to OVERRIDE this behavior, be sure to implement this
-     * function.
-     *
-     * in some case, your implementation of OnClose should respect the value of
-     * [Output/SendTextWhenSwitchEng], when this value is true, commit something
-     * you
-     * want.
-     */
-    InputContextInactivate = InputContextEventFlag | 0xB,
 
     // send by im, captured by frontend, or module
     InputContextForwardKey = InputMethodEventFlag | 0x1,
@@ -100,16 +108,66 @@ enum class EventType : uint32_t {
     InputMethodInitFailed = InstanceEventFlag | 0x5,
 };
 
-struct Event {
-    EventType type;
+class Event {
+public:
+    Event(EventType type) : m_type(type) { }
+    virtual ~Event() { }
+
+    EventType type() const { return m_type; }
+    void accept() {
+        m_accepted = true;
+    }
+    bool accepted() const { return m_accepted; }
+    void filter() {
+        m_filtered = true;
+    }
+    bool filtered() const { return m_filtered; }
+
+protected:
+    EventType m_type;
+    bool m_accepted = false, m_filtered = false;
 };
 
-struct KeyEvent : public Event {
-    Key key, rawKey;
-    bool isRelease;
-    int keyCode;
-    int time;
+class InputContextEvent : public Event {
+public:
+    InputContextEvent(InputContext *context, EventType type) : Event(type), m_ic(context) { }
+protected:
+    InputContext *m_ic;
 };
+
+class KeyEvent : public InputContextEvent {
+public:
+    KeyEvent(InputContext* context, Key rawKey, bool isRelease = false, int keyCode = 0, int time = 0) : InputContextEvent(context, EventType::InputContextKeyEvent),
+    m_key(rawKey.normalize()), m_rawKey(rawKey), m_isRelease(isRelease), m_keyCode(keyCode), m_time(time) {
+    }
+
+    Key key() const { return m_key; }
+    Key rawKey() const { return m_rawKey; }
+    bool isRelease() const { return m_isRelease; }
+    int keyCode() const { return m_keyCode; }
+    int time() const { return m_time; }
+
+protected:
+    Key m_key, m_rawKey;
+    bool m_isRelease;
+    int m_keyCode;
+    int m_time;
+};
+
+#define FCITX_DEFINE_SIMPLE_EVENT(NAME, TYPE, ARGS...) \
+    struct NAME##Event : public InputContextEvent { \
+        NAME##Event(InputContext *ic) : InputContextEvent(ic, EventType::TYPE) { } \
+    }
+
+FCITX_DEFINE_SIMPLE_EVENT(InputContextCreated, InputContextCreated);
+FCITX_DEFINE_SIMPLE_EVENT(InputContextDestroyed, InputContextDestroyed);
+FCITX_DEFINE_SIMPLE_EVENT(FocusInEvent, InputContextFocusIn);
+FCITX_DEFINE_SIMPLE_EVENT(FocusOutEvent, InputContextFocusOut);
+FCITX_DEFINE_SIMPLE_EVENT(SurroundingTextUpdated, InputContextSurroundingTextUpdated);
+FCITX_DEFINE_SIMPLE_EVENT(CapabilityChanged, InputContextCapabilityChanged);
+FCITX_DEFINE_SIMPLE_EVENT(CursorRectChanged, InputContextCursorRectChanged);
+FCITX_DEFINE_SIMPLE_EVENT(UpdatePreedit, InputContextUpdatePreedit);
+
 }
 
 #endif // _FCITX_EVENT_H_

@@ -31,6 +31,16 @@ public:
 
     IntrusiveListNode *prev;
     IntrusiveListNode *next;
+
+    void remove() noexcept {
+        auto next_ = next;
+        auto prev_ = prev;
+        prev_->next = next_;
+        next_->prev = prev_;
+
+        next = nullptr;
+        prev = nullptr;
+    }
 };
 
 template <typename T>
@@ -39,7 +49,7 @@ struct IntrusiveListTrivialNodeGetter {
 
     static IntrusiveListNode &toNode(T &value) noexcept { return *static_cast<IntrusiveListNode *>(&value); }
 
-    static T &toValue(IntrusiveListNode &node) noexcept { return *reinterpret_cast<T *>(&node); }
+    static T &toValue(IntrusiveListNode &node) noexcept { return *static_cast<T *>(&node); }
 
     static const IntrusiveListNode &toNode(const T &value) noexcept {
         return *static_cast<const IntrusiveListNode *>(&value);
@@ -200,13 +210,7 @@ private:
     void append(IntrusiveListNode *add, IntrusiveListNode *pos) noexcept { return insertBetween(add, pos->prev, pos); }
 
     void remove(IntrusiveListNode *pos) noexcept {
-        auto next = pos->next;
-        auto prev = pos->prev;
-        prev->next = next;
-        next->prev = prev;
-
-        pos->next = nullptr;
-        pos->prev = nullptr;
+        pos->remove();
     }
 
     IntrusiveListNode root;

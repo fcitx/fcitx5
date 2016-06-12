@@ -28,6 +28,9 @@ namespace fcitx {
 
 InputContext::InputContext(InputContextManager &manager) : d_ptr(std::make_unique<InputContextPrivate>(this, manager)) {
     manager.registerInputContext(*this);
+    if (manager.instance()) {
+        manager.instance()->postEvent(InputContextCreatedEvent(this));
+    }
 }
 
 InputContext::~InputContext() {
@@ -108,13 +111,13 @@ void InputContext::setHasFocus(bool hasFocus) {
     }
 }
 
-bool InputContext::keyEvent(const KeyEvent &event) {
+bool InputContext::keyEvent(KeyEvent &event) {
     FCITX_D();
     auto instance = d->manager.instance();
     if (!instance) {
         return false;
     }
-    return instance->keyEvent(*this, event);
+    return instance->postEvent(event);
 }
 
 void InputContext::reset() {}

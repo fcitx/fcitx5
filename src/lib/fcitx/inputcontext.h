@@ -92,7 +92,7 @@ public:
     void setCapabilityFlags(CapabilityFlags flags);
     CapabilityFlags capabilityFlags();
     void setCursorRect(Rect rect);
-    bool keyEvent(const KeyEvent &key);
+    bool keyEvent(KeyEvent &key);
 
     bool hasFocus() const;
     FocusGroupType focusGroupType() const;

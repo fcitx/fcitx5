@@ -16,32 +16,48 @@
  * License along with this library; see the file COPYING. If not,
  * see <http://www.gnu.org/licenses/>.
  */
-#ifndef _FCITX_GLOBALCONFIG_H_
-#define _FCITX_GLOBALCONFIG_H_
+#ifndef _FCITX_UTILS_HANDLERTABLE_H_
+#define _FCITX_UTILS_HANDLERTABLE_H_
 
-#include <memory>
-#include <vector>
-#include "fcitxcore_export.h"
-#include "fcitx-utils/macros.h"
-#include "fcitx-utils/key.h"
+#include "intrusivelist.h"
 
 namespace fcitx
 {
 
-class GlobalConfigPrivate;
-
-class FCITXCORE_EXPORT GlobalConfig
+template<typename T>
+class HandlerTableEntry : public IntrusiveListNode
 {
 public:
-    GlobalConfig();
-    virtual ~GlobalConfig();
-    const std::vector<Key> &triggerKeys() const;
+    HandlerTableEntry(T handler) : m_handler(handler) {
+    }
+    virtual ~HandlerTableEntry() {
+        remove();
+    }
+
+    T& handler() { return m_handler; };
 
 private:
-    std::unique_ptr<GlobalConfigPrivate> d_ptr;
-    FCITX_DECLARE_PRIVATE(GlobalConfig);
+    T m_handler;
 };
+
+template<typename T>
+class HandlerTable : protected IntrusiveList<HandlerTableEntry<T>>
+{
+    typedef IntrusiveList<HandlerTableEntry<T>> super;
+public:
+    template<typename M>
+    HandlerTableEntry<T> *add(M&& t) {
+        auto result = new HandlerTableEntry<T>(std::forward<M>(t));
+        this->push_back(*result);
+        return result;
+    }
+
+    using super::begin;
+    using super::end;
+};
+
+
 
 }
 
-#endif // _FCITX_GLOBALCONFIG_H_
+#endif // _FCITX_UTILS_HANDLERTABLE_H_
