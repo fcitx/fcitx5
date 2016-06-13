@@ -35,9 +35,12 @@ typedef std::function<void(const std::string &name, xcb_connection_t *conn, int 
 typedef std::function<void(const std::string &name, xcb_connection_t *conn)> XCBConnectionClosed;
 }
 
-FCITX_ADDON_DECLARE_FUNCTION(XCBModule, addEventFilter, HandlerTableEntry<XCBEventFilter> *(const std::string &, XCBEventFilter));
-FCITX_ADDON_DECLARE_FUNCTION(XCBModule, addConnectionCreatedCallback, HandlerTableEntry<XCBConnectionCreated> *(XCBConnectionCreated));
-FCITX_ADDON_DECLARE_FUNCTION(XCBModule, addConnectionClosedCallback, HandlerTableEntry<XCBConnectionClosed> *(XCBConnectionClosed));
+FCITX_ADDON_DECLARE_FUNCTION(XCBModule, addEventFilter,
+                             HandlerTableEntry<XCBEventFilter> *(const std::string &, XCBEventFilter));
+FCITX_ADDON_DECLARE_FUNCTION(XCBModule, addConnectionCreatedCallback,
+                             HandlerTableEntry<XCBConnectionCreated> *(XCBConnectionCreated));
+FCITX_ADDON_DECLARE_FUNCTION(XCBModule, addConnectionClosedCallback,
+                             HandlerTableEntry<XCBConnectionClosed> *(XCBConnectionClosed));
 FCITX_ADDON_DECLARE_FUNCTION(XCBModule, xkbState, xkb_state *(const std::string &));
 
 #endif // _XCB_XCB_PUBLIC_H_

@@ -21,6 +21,7 @@
 
 #include <memory>
 #include <fcitx-utils/macros.h>
+#include <fcitx-utils/handlertable.h>
 #include "event.h"
 #include "fcitxcore_export.h"
 #include "globalconfig.h"
@@ -34,13 +35,8 @@ class EventLoop;
 class AddonManager;
 class InputContextManager;
 class GlobalConfig;
-enum class EventWatcherPhase
-{
-    PreInputMethod,
-    InputMethod,
-    PostInputMethod,
-    Default = PostInputMethod
-};
+typedef std::function<void(Event &event)> EventHandler;
+enum class EventWatcherPhase { PreInputMethod, InputMethod, PostInputMethod, Default = PostInputMethod };
 
 class FCITXCORE_EXPORT Instance {
 public:
@@ -54,14 +50,12 @@ public:
     EventLoop &eventLoop();
     AddonManager &addonManager();
     InputContextManager &inputContextManager();
-    GlobalConfig& globalConfig();
+    GlobalConfig &globalConfig();
 
     bool postEvent(Event &event);
-    bool postEvent(Event &&event) {
-        return postEvent(event);
-    }
+    bool postEvent(Event &&event) { return postEvent(event); }
 
-    int watchEvent(EventType type, std::function<void(Event &event)> callback, EventWatcherPhase phase);
+    HandlerTableEntry<EventHandler> *watchEvent(EventType type, EventWatcherPhase phase, EventHandler callback);
     void unwatchEvent(int id);
 
     void exit();

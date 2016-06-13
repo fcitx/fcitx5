@@ -25,13 +25,11 @@
 #include "fcitx-utils/macros.h"
 #include "fcitx-utils/key.h"
 
-namespace fcitx
-{
+namespace fcitx {
 
 class GlobalConfigPrivate;
 
-class FCITXCORE_EXPORT GlobalConfig
-{
+class FCITXCORE_EXPORT GlobalConfig {
 public:
     GlobalConfig();
     virtual ~GlobalConfig();
@@ -41,7 +39,6 @@ private:
     std::unique_ptr<GlobalConfigPrivate> d_ptr;
     FCITX_DECLARE_PRIVATE(GlobalConfig);
 };
-
 }
 
 #endif // _FCITX_GLOBALCONFIG_H_

@@ -209,9 +209,7 @@ private:
 
     void append(IntrusiveListNode *add, IntrusiveListNode *pos) noexcept { return insertBetween(add, pos->prev, pos); }
 
-    void remove(IntrusiveListNode *pos) noexcept {
-        pos->remove();
-    }
+    void remove(IntrusiveListNode *pos) noexcept { pos->remove(); }
 
     IntrusiveListNode root;
     size_type size_;

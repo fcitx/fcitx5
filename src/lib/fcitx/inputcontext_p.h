@@ -37,6 +37,9 @@ public:
     bool hasFocus;
     CapabilityFlags capabilityFlags;
     SurroundingText surroundingText;
+    Text preedit;
+    Text clientPreedit;
+    Rect cursorRect;
 
     IntrusiveListNode listNode;
     ICUUID uuid;

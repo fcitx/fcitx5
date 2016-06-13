@@ -61,6 +61,13 @@ void initAsDaemon() {
 
 namespace fcitx {
 
+struct enum_hash {
+    template <typename T>
+    inline auto operator()(T const value) const {
+        return std::hash<std::underlying_type_t<T>>()(static_cast<std::underlying_type_t<T>>(value));
+    }
+};
+
 struct InstanceArgument {
     InstanceArgument() {}
     void parseOption(int argc, char *argv[]);
@@ -78,7 +85,7 @@ struct InstanceArgument {
 
 class InstancePrivate {
 public:
-    InstancePrivate(Instance *instance) {}
+    InstancePrivate(Instance *) {}
 
     InstanceArgument arg;
     bool initialized = false;
@@ -89,6 +96,8 @@ public:
     InputContextManager icManager;
     AddonManager addonManager;
     GlobalConfig globalConfig;
+    std::unordered_map<EventType, std::unordered_map<EventWatcherPhase, HandlerTable<EventHandler>, enum_hash>,
+                       enum_hash> eventHandlers;
 };
 
 Instance::Instance(int argc, char **argv) {
@@ -236,19 +245,37 @@ AddonManager &Instance::addonManager() {
     return d->addonManager;
 }
 
-GlobalConfig &Instance::globalConfig()
-{
+GlobalConfig &Instance::globalConfig() {
     FCITX_D();
     return d->globalConfig;
 }
 
-
 bool Instance::postEvent(Event &event) {
+    FCITX_D();
+    auto iter = d->eventHandlers.find(event.type());
+    if (iter != d->eventHandlers.end()) {
+        auto &handlers = iter->second;
+        EventWatcherPhase phaseOrder[] = {EventWatcherPhase::PreInputMethod, EventWatcherPhase::InputMethod,
+                                          EventWatcherPhase::PostInputMethod};
+
+        for (auto phase : phaseOrder) {
+            auto iter2 = handlers.find(phase);
+            if (iter2 != handlers.end()) {
+                for (auto handler : iter2->second) {
+                    handler.handler()(event);
+                    if (event.filtered()) {
+                        return event.accepted();
+                    }
+                }
+            }
+        }
+    }
     return event.accepted();
 }
 
-int Instance::watchEvent(EventType type, std::function<void(Event &event)> callback, EventWatcherPhase phase)
-{
+HandlerTableEntry<EventHandler> *Instance::watchEvent(EventType type, EventWatcherPhase phase, EventHandler callback) {
+    FCITX_D();
+    d->eventHandlers[type][phase].add(callback);
     return 0;
 }
 

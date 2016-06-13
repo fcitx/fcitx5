@@ -21,6 +21,7 @@
 
 #include <stdint.h>
 #include <fcitx-utils/key.h>
+#include "fcitxcore_export.h"
 
 namespace fcitx {
 
@@ -108,19 +109,15 @@ enum class EventType : uint32_t {
     InputMethodInitFailed = InstanceEventFlag | 0x5,
 };
 
-class Event {
+class FCITXCORE_EXPORT Event {
 public:
-    Event(EventType type) : m_type(type) { }
-    virtual ~Event() { }
+    Event(EventType type) : m_type(type) {}
+    virtual ~Event() {}
 
     EventType type() const { return m_type; }
-    void accept() {
-        m_accepted = true;
-    }
+    void accept() { m_accepted = true; }
     bool accepted() const { return m_accepted; }
-    void filter() {
-        m_filtered = true;
-    }
+    void filter() { m_filtered = true; }
     bool filtered() const { return m_filtered; }
 
 protected:
@@ -128,18 +125,19 @@ protected:
     bool m_accepted = false, m_filtered = false;
 };
 
-class InputContextEvent : public Event {
+class FCITXCORE_EXPORT InputContextEvent : public Event {
 public:
-    InputContextEvent(InputContext *context, EventType type) : Event(type), m_ic(context) { }
+    InputContextEvent(InputContext *context, EventType type) : Event(type), m_ic(context) {}
+
 protected:
     InputContext *m_ic;
 };
 
-class KeyEvent : public InputContextEvent {
+class FCITXCORE_EXPORT KeyEvent : public InputContextEvent {
 public:
-    KeyEvent(InputContext* context, Key rawKey, bool isRelease = false, int keyCode = 0, int time = 0) : InputContextEvent(context, EventType::InputContextKeyEvent),
-    m_key(rawKey.normalize()), m_rawKey(rawKey), m_isRelease(isRelease), m_keyCode(keyCode), m_time(time) {
-    }
+    KeyEvent(InputContext *context, Key rawKey, bool isRelease = false, int keyCode = 0, int time = 0)
+        : InputContextEvent(context, EventType::InputContextKeyEvent), m_key(rawKey.normalize()), m_rawKey(rawKey),
+          m_isRelease(isRelease), m_keyCode(keyCode), m_time(time) {}
 
     Key key() const { return m_key; }
     Key rawKey() const { return m_rawKey; }
@@ -154,9 +152,22 @@ protected:
     int m_time;
 };
 
-#define FCITX_DEFINE_SIMPLE_EVENT(NAME, TYPE, ARGS...) \
-    struct NAME##Event : public InputContextEvent { \
-        NAME##Event(InputContext *ic) : InputContextEvent(ic, EventType::TYPE) { } \
+class FCITXCORE_EXPORT CommitStringEvent : public InputContextEvent {
+public:
+    CommitStringEvent(const std::string &text, InputContext *context)
+        : InputContextEvent(context, EventType::InputContextCommitString), m_originText(text), m_text(text) {}
+
+    const std::string originText() const { return m_originText; }
+    const std::string text() const { return m_text; }
+    std::string &text() { return m_text; }
+
+protected:
+    std::string m_originText, m_text;
+};
+
+#define FCITX_DEFINE_SIMPLE_EVENT(NAME, TYPE, ARGS...)                                                                 \
+    struct FCITXCORE_EXPORT NAME##Event : public InputContextEvent {                                                   \
+        NAME##Event(InputContext *ic) : InputContextEvent(ic, EventType::TYPE) {}                                      \
     }
 
 FCITX_DEFINE_SIMPLE_EVENT(InputContextCreated, InputContextCreated);
@@ -167,7 +178,6 @@ FCITX_DEFINE_SIMPLE_EVENT(SurroundingTextUpdated, InputContextSurroundingTextUpd
 FCITX_DEFINE_SIMPLE_EVENT(CapabilityChanged, InputContextCapabilityChanged);
 FCITX_DEFINE_SIMPLE_EVENT(CursorRectChanged, InputContextCursorRectChanged);
 FCITX_DEFINE_SIMPLE_EVENT(UpdatePreedit, InputContextUpdatePreedit);
-
 }
 
 #endif // _FCITX_EVENT_H_

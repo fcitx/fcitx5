@@ -41,22 +41,14 @@ FCITX_CONFIGURATION(
         this, "Hotkey/DeactivateKeys", "DeactivateKeys", {Key("Hangul_Romaja")}};);
 }
 
-class GlobalConfigPrivate : public impl::GlobalConfig
-{
-};
+class GlobalConfigPrivate : public impl::GlobalConfig {};
 
-GlobalConfig::GlobalConfig() : d_ptr(std::make_unique<GlobalConfigPrivate>()) {
-}
+GlobalConfig::GlobalConfig() : d_ptr(std::make_unique<GlobalConfigPrivate>()) {}
 
-GlobalConfig::~GlobalConfig()
-{
-}
+GlobalConfig::~GlobalConfig() {}
 
-const std::vector<Key> &GlobalConfig::triggerKeys() const
-{
+const std::vector<Key> &GlobalConfig::triggerKeys() const {
     FCITX_D();
     return d->triggerKeys.value();
 }
-
-
 }

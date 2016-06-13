@@ -37,10 +37,10 @@ class TestInputContext : public InputContext {
 public:
     TestInputContext(InputContextManager &manager) : InputContext(manager) {}
 
-    void commitString(const std::string &) override {}
-    void deleteSurroundingText(int, unsigned int) override {}
-    void forwardKey(const KeyEvent &) override {}
-    void updatePreedit() override {}
+    void commitStringImpl(const std::string &) override {}
+    void deleteSurroundingTextImpl(int, unsigned int) override {}
+    void forwardKeyImpl(const KeyEvent &) override {}
+    void updatePreeditImpl() override {}
 };
 
 int main() {

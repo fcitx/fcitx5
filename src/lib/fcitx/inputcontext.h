@@ -30,6 +30,7 @@
 #include <fcitx-utils/rect.h>
 #include <fcitx-utils/macros.h>
 #include "event.h"
+#include "text.h"
 #include "surroundingtext.h"
 #include "fcitxcore_export.h"
 
@@ -99,14 +100,23 @@ public:
 
     SurroundingText &surroundingText();
     const SurroundingText &surroundingText() const;
+    Text &preedit();
+    const Text &preedit() const;
+    Text &clientPreedit();
+    const Text &clientPreedit() const;
 
-    virtual void commitString(const std::string &text) = 0;
-    virtual void deleteSurroundingText(int offset, unsigned int size) = 0;
-    virtual void forwardKey(const KeyEvent &key) = 0;
-    virtual void updatePreedit() = 0;
+    void commitString(const std::string &text);
+    void deleteSurroundingText(int offset, unsigned int size);
+    void forwardKey(const KeyEvent &key);
+    void updatePreedit();
 
 protected:
     InputContext(InputContextPrivate &d);
+
+    virtual void commitStringImpl(const std::string &text) = 0;
+    virtual void deleteSurroundingTextImpl(int offset, unsigned int size) = 0;
+    virtual void forwardKeyImpl(const KeyEvent &key) = 0;
+    virtual void updatePreeditImpl() = 0;
 
 private:
     void setHasFocus(bool hasFocus);

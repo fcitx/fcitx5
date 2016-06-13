@@ -20,12 +20,20 @@
 #ifndef _FCITX_UTILS_RECT_H_
 #define _FCITX_UTILS_RECT_H_
 
+#include "fcitxutils_export.h"
+
 namespace fcitx {
-class Rect {
+class FCITXUTILS_EXPORT Rect {
 public:
-    Rect(int _x1, int _y1, int _x2, int _y2) : x1(_x1), y1(_y1), x2(_x2), y2(_y2) {}
+    Rect(int _x1 = 0, int _y1 = 0, int _x2 = 0, int _y2 = 0) : x1(_x1), y1(_y1), x2(_x2), y2(_y2) {}
 
     Rect(const Rect &rect) = default;
+
+    inline bool operator==(const Rect &other) const {
+        return x1 == other.x1 && x2 == other.x2 && y1 == other.y1 && y2 == other.y2;
+    }
+
+    inline bool operator!=(const Rect &other) const { return !operator==(other); }
     int x1, y1, x2, y2;
 };
 };

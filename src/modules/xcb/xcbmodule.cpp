@@ -116,7 +116,8 @@ XCBConnection::XCBConnection(XCBModule *xcb, const std::string &name)
     // create a focus group for display server
     m_group = new FocusGroup(xcb->instance()->inputContextManager());
 
-    m_filter.reset(addEventFilter([this](xcb_connection_t *conn, xcb_generic_event_t *event) { return filterEvent(conn, event); }));
+    m_filter.reset(addEventFilter(
+        [this](xcb_connection_t *conn, xcb_generic_event_t *event) { return filterEvent(conn, event); }));
 }
 
 XCBConnection::~XCBConnection() { delete m_group; }

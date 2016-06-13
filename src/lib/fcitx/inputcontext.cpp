@@ -35,6 +35,9 @@ InputContext::InputContext(InputContextManager &manager) : d_ptr(std::make_uniqu
 
 InputContext::~InputContext() {
     FCITX_D();
+    if (d->manager.instance()) {
+        d->manager.instance()->postEvent(InputContextDestroyedEvent(this));
+    }
     if (d->group) {
         d->group->removeInputContext(this);
     }
@@ -48,12 +51,28 @@ ICUUID InputContext::uuid() {
 
 void InputContext::setCapabilityFlags(CapabilityFlags flags) {
     FCITX_D();
-    d->capabilityFlags = flags;
+    if (d->capabilityFlags != flags) {
+        d->capabilityFlags = flags;
+
+        if (d->manager.instance()) {
+            d->manager.instance()->postEvent(CapabilityChangedEvent(this));
+        }
+    }
 }
 
 CapabilityFlags InputContext::capabilityFlags() {
     FCITX_D();
     return d->capabilityFlags;
+}
+
+void InputContext::setCursorRect(Rect rect) {
+    FCITX_D();
+    if (d->cursorRect != rect) {
+        d->cursorRect = rect;
+        if (d->manager.instance()) {
+            d->manager.instance()->postEvent(CursorRectChangedEvent(this));
+        }
+    }
 }
 
 void InputContext::setFocusGroup(FocusGroup *group) {
@@ -108,6 +127,11 @@ void InputContext::setHasFocus(bool hasFocus) {
     if (hasFocus != d->hasFocus) {
         d->hasFocus = hasFocus;
         // trigger event
+        if (d->hasFocus) {
+            d->manager.instance()->postEvent(FocusInEventEvent(this));
+        } else {
+            d->manager.instance()->postEvent(FocusOutEventEvent(this));
+        }
     }
 }
 
@@ -139,4 +163,41 @@ const SurroundingText &InputContext::surroundingText() const {
     FCITX_D();
     return d->surroundingText;
 }
+
+Text &InputContext::preedit() {
+    FCITX_D();
+    return d->preedit;
+}
+
+const Text &InputContext::preedit() const {
+    FCITX_D();
+    return d->preedit;
+}
+
+Text &InputContext::clientPreedit() {
+    FCITX_D();
+    return d->clientPreedit;
+}
+
+const Text &InputContext::clientPreedit() const {
+    FCITX_D();
+    return d->clientPreedit;
+}
+
+void InputContext::commitString(const std::string &text) {
+    FCITX_D();
+    CommitStringEvent event(text, this);
+    if (auto instance = d->manager.instance()) {
+        instance->postEvent(CommitStringEvent(text, this));
+    }
+    if (!event.accepted()) {
+        commitStringImpl(event.text());
+    }
+}
+
+void InputContext::deleteSurroundingText(int offset, unsigned int size) { deleteSurroundingTextImpl(offset, size); }
+
+void InputContext::forwardKey(const KeyEvent &key) {}
+
+void InputContext::updatePreedit() {}
 }
