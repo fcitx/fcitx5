@@ -30,8 +30,10 @@
 #include "flags.h"
 
 namespace fcitx {
+class Key;
 typedef FcitxKeySym KeySym;
 typedef Flags<KeyState> KeyStates;
+typedef std::vector<Key> KeyList;
 
 class FCITXUTILS_EXPORT Key {
 public:
@@ -64,7 +66,7 @@ public:
     static std::string keySymToString(KeySym sym);
     static KeySym keySymFromUnicode(uint32_t unicode);
     static uint32_t keySymToUnicode(KeySym sym);
-    static std::vector<Key> keyListFromString(const std::string &str);
+    static KeyList keyListFromString(const std::string &str);
     template <typename Container>
     static std::string keyListToString(Container c) {
         std::stringstream ss;

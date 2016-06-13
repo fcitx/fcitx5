@@ -24,6 +24,7 @@
 #include "addonloader.h"
 #include "addonloader_p.h"
 #include "fcitx-config/iniparser.h"
+#include "instance.h"
 
 namespace fcitx {
 

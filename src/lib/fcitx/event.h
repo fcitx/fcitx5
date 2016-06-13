@@ -112,7 +112,7 @@ enum class EventType : uint32_t {
 class FCITXCORE_EXPORT Event {
 public:
     Event(EventType type) : m_type(type) {}
-    virtual ~Event() {}
+    virtual ~Event();
 
     EventType type() const { return m_type; }
     void accept() { m_accepted = true; }
@@ -128,6 +128,8 @@ protected:
 class FCITXCORE_EXPORT InputContextEvent : public Event {
 public:
     InputContextEvent(InputContext *context, EventType type) : Event(type), m_ic(context) {}
+
+    InputContext *inputContext() const { return m_ic; }
 
 protected:
     InputContext *m_ic;

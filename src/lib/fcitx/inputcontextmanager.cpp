@@ -70,12 +70,52 @@ public:
     static InputContextPrivate *toInputContextPrivate(InputContext &ic) { return ic.d_func(); }
     static FocusGroupPrivate *toFocusGroupPrivate(FocusGroup &group) { return group.d_func(); }
 
+    inline int registerProperty(InputContextPropertyFactory factory) {
+        propertyFactories.emplace(propertyIdx, factory);
+        for (auto &inputContext : inputContexts) {
+            inputContext.registerProperty(propertyIdx, factory(inputContext));
+        }
+        return propertyIdx++;
+    }
+
+    inline void unregisterProperty(int idx) {
+        propertyFactories.erase(idx);
+        for (auto &inputContext : inputContexts) {
+            inputContext.unregisterProperty(idx);
+        }
+    }
+
+    inline void registerInputContext(InputContext &inputContext) {
+        inputContexts.push_back(inputContext);
+        uuidMap.emplace(inputContext.uuid(), &inputContext);
+        for (auto &p : propertyFactories) {
+            auto property = p.second(inputContext);
+            inputContext.registerProperty(p.first, property);
+            if (property->needCopy() &&
+                (propertyPropagatePolicy == PropertyPropagatePolicy::All ||
+                 (!inputContext.program().empty() && propertyPropagatePolicy == PropertyPropagatePolicy::Program))) {
+
+                for (auto &dstInputContext : inputContexts) {
+                    if (&dstInputContext != &inputContext &&
+                        (propertyPropagatePolicy == PropertyPropagatePolicy::All ||
+                         dstInputContext.program() == inputContext.program())) {
+                        dstInputContext.property(p.first)->copyTo(property);
+                        break;
+                    }
+                }
+            }
+        }
+    }
+
     // order matters, need to delete it before groups gone
     std::unique_ptr<FocusGroup> globalFocusGroup;
     std::unordered_map<std::array<uint8_t, sizeof(uuid_t)>, InputContext *, container_hasher> uuidMap;
     IntrusiveList<InputContext, InputContextListHelper> inputContexts;
     IntrusiveList<FocusGroup, FocusGroupListHelper> groups;
     Instance *instance = nullptr;
+    int propertyIdx = 0;
+    std::unordered_map<int, InputContextPropertyFactory> propertyFactories;
+    PropertyPropagatePolicy propertyPropagatePolicy = PropertyPropagatePolicy::None;
 };
 
 IntrusiveListNode &InputContextListHelper::toNode(InputContext &ic) noexcept {
@@ -112,6 +152,21 @@ InputContext *InputContextManager::findByUUID(ICUUID uuid) {
     return (iter == d->uuidMap.end()) ? nullptr : iter->second;
 }
 
+int InputContextManager::registerProperty(InputContextPropertyFactory factory) {
+    FCITX_D();
+    return d->registerProperty(std::move(factory));
+}
+
+void InputContextManager::unregisterProperty(int idx) {
+    FCITX_D();
+    return d->unregisterProperty(idx);
+}
+
+void InputContextManager::setPropertyPropagatePolicy(PropertyPropagatePolicy policy) {
+    FCITX_D();
+    d->propertyPropagatePolicy = policy;
+}
+
 void InputContextManager::setInstance(Instance *instance) {
     FCITX_D();
     d->instance = instance;
@@ -124,12 +179,12 @@ Instance *InputContextManager::instance() {
 
 void InputContextManager::registerInputContext(InputContext &inputContext) {
     FCITX_D();
-    d->inputContexts.push_back(inputContext);
-    // d->uuidMap.insert();
+    d->registerInputContext(inputContext);
 }
 
 void InputContextManager::unregisterInputContext(InputContext &inputContext) {
     FCITX_D();
+    d->uuidMap.erase(inputContext.uuid());
     d->inputContexts.erase(d->inputContexts.iterator_to(inputContext));
 }
 
@@ -141,6 +196,23 @@ void InputContextManager::registerFocusGroup(fcitx::FocusGroup &group) {
 void InputContextManager::unregisterFocusGroup(fcitx::FocusGroup &group) {
     FCITX_D();
     d->groups.erase(d->groups.iterator_to(group));
+}
+
+void InputContextManager::propagateProperty(InputContext &inputContext, int idx) {
+    FCITX_D();
+    if (d->propertyPropagatePolicy == PropertyPropagatePolicy::None ||
+        (inputContext.program().empty() && d->propertyPropagatePolicy == PropertyPropagatePolicy::Program)) {
+        return;
+    }
+
+    auto property = inputContext.property(idx);
+    for (auto &dstInputContext : d->inputContexts) {
+        if (&dstInputContext != &inputContext &&
+            (d->propertyPropagatePolicy == PropertyPropagatePolicy::All ||
+             dstInputContext.program() == inputContext.program())) {
+            property->copyTo(dstInputContext.property(idx));
+        }
+    }
 }
 
 void InputContextManager::focusOutNonGlobal() {

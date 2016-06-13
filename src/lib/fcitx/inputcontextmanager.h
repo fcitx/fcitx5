@@ -23,12 +23,22 @@
 #include <fcitx-utils/macros.h>
 #include "fcitxcore_export.h"
 #include "inputcontext.h"
+#include <fcitx-config/enum.h>
 
 namespace fcitx {
 
 class InputContextManagerPrivate;
 class FocusGroup;
 class Instance;
+class InputContextProperty;
+typedef std::function<InputContextProperty *(InputContext &)> InputContextPropertyFactory;
+
+FCITX_CONFIG_ENUM(PropertyPropagatePolicy,
+    All,
+    Program,
+    None
+);
+
 class FCITXCORE_EXPORT InputContextManager {
     friend class InputContext;
     friend class FocusGroup;
@@ -42,6 +52,11 @@ public:
 
     InputContext *findByUUID(ICUUID uuid);
 
+    int registerProperty(InputContextPropertyFactory factory);
+    void unregisterProperty(int idx);
+
+    void setPropertyPropagatePolicy(PropertyPropagatePolicy policy);
+
 private:
     Instance *instance();
     void setInstance(Instance *instance);
@@ -50,6 +65,8 @@ private:
 
     void registerFocusGroup(FocusGroup &group);
     void unregisterFocusGroup(FocusGroup &group);
+
+    void propagateProperty(InputContext &inputContext, int idx);
 
     void focusOutNonGlobal();
 

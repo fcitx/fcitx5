@@ -216,6 +216,30 @@ void Instance::handleSignal() {
 
 void Instance::initialize() {
     FCITX_D();
+    watchEvent(EventType::InputContextKeyEvent, EventWatcherPhase::PreInputMethod, [&] (Event &event) {
+        auto &keyEvent = static_cast<KeyEvent &>(event);
+        struct {
+            const KeyList &list;
+        } keyHandlers [] = {
+            { d->globalConfig.triggerKeys() },
+        };
+
+        auto ic = keyEvent.inputContext();
+        const bool isModifier = keyEvent.key().isModifier();
+        if (keyEvent.isRelease()) {
+            int idx = 0;
+            for (auto &keyHandler : keyHandlers) {
+                if (Key::keyListCheck(keyHandler.list, keyEvent.key())) {
+                }
+                idx++;
+            }
+        }
+
+        if (!keyEvent.filtered()) {
+            if (!keyEvent.isRelease()) {
+            }
+        }
+    });
     d->addonManager.load();
 }
 

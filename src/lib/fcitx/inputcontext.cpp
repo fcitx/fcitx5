@@ -26,7 +26,7 @@
 
 namespace fcitx {
 
-InputContext::InputContext(InputContextManager &manager) : d_ptr(std::make_unique<InputContextPrivate>(this, manager)) {
+InputContext::InputContext(InputContextManager &manager, const std::string &program) : d_ptr(std::make_unique<InputContextPrivate>(this, manager, program)) {
     manager.registerInputContext(*this);
     if (manager.instance()) {
         manager.instance()->postEvent(InputContextCreatedEvent(this));
@@ -44,9 +44,42 @@ InputContext::~InputContext() {
     d->manager.unregisterInputContext(*this);
 }
 
-ICUUID InputContext::uuid() {
+ICUUID InputContext::uuid() const {
     FCITX_D();
     return d->uuid;
+}
+
+const std::string &InputContext::program() const {
+    FCITX_D();
+    return d->program;
+}
+
+InputContextProperty *InputContext::property(int idx) {
+    FCITX_D();
+    auto iter = d->properties.find(idx);
+    if (iter == d->properties.end()) {
+        return nullptr;
+    }
+    return iter->second.get();
+}
+
+void InputContext::updateProperty(int idx) {
+    FCITX_D();
+    auto iter = d->properties.find(idx);
+    if (iter == d->properties.end() || !iter->second->needCopy()) {
+        return;
+    }
+    d->manager.propagateProperty(*this, idx);
+}
+
+void InputContext::registerProperty(int idx, InputContextProperty* property) {
+    FCITX_D();
+    d->properties[idx].reset(property);
+}
+
+void InputContext::unregisterProperty(int idx) {
+    FCITX_D();
+    d->properties.erase(idx);
 }
 
 void InputContext::setCapabilityFlags(CapabilityFlags flags) {
@@ -124,9 +157,12 @@ bool InputContext::hasFocus() const {
 
 void InputContext::setHasFocus(bool hasFocus) {
     FCITX_D();
-    if (hasFocus != d->hasFocus) {
-        d->hasFocus = hasFocus;
-        // trigger event
+    if (hasFocus == d->hasFocus) {
+        return;
+    }
+    d->hasFocus = hasFocus;
+    // trigger event
+    if (d->manager.instance()) {
         if (d->hasFocus) {
             d->manager.instance()->postEvent(FocusInEventEvent(this));
         } else {

@@ -16,12 +16,21 @@
  * License along with this library; see the file COPYING. If not,
  * see <http://www.gnu.org/licenses/>.
  */
+#ifndef _FCITX_INPUTCONTEXTPROPERTY_H_
+#define _FCITX_INPUTCONTEXTPROPERTY_H_
 
-#include "event.h"
-
-namespace fcitx {
-Event::~Event()
+namespace fcitx
 {
-}
+
+class InputContextProperty {
+public:
+    virtual ~InputContextProperty() { }
+    virtual void copyTo(InputContextProperty *) { };
+    virtual bool needCopy() const {
+        return false;
+    }
+};
 
 }
+
+#endif // _FCITX_INPUTCONTEXTPROPERTY_H_

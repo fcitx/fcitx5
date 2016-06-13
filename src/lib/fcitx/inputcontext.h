@@ -73,17 +73,19 @@ typedef std::array<uint8_t, sizeof(uuid_t)> ICUUID;
 class InputContextManager;
 class FocusGroup;
 class InputContextPrivate;
+class InputContextProperty;
 
 class FCITXCORE_EXPORT InputContext {
     friend class InputContextManagerPrivate;
     friend class FocusGroup;
 
 public:
-    InputContext(InputContextManager &manager);
+    InputContext(InputContextManager &manager, const std::string &program = {});
     virtual ~InputContext();
     InputContext(InputContext &&other) = delete;
 
-    ICUUID uuid();
+    ICUUID uuid() const;
+    const std::string &program() const;
 
     void focusIn();
     void focusOut();
@@ -110,6 +112,15 @@ public:
     void forwardKey(const KeyEvent &key);
     void updatePreedit();
 
+    InputContextProperty *property(int idx);
+
+    template<typename T>
+    T *propertyAs(int idx) {
+        return static_cast<T *>(property(idx));
+    }
+
+    void updateProperty(int idx);
+
 protected:
     InputContext(InputContextPrivate &d);
 
@@ -117,6 +128,9 @@ protected:
     virtual void deleteSurroundingTextImpl(int offset, unsigned int size) = 0;
     virtual void forwardKeyImpl(const KeyEvent &key) = 0;
     virtual void updatePreeditImpl() = 0;
+
+    void registerProperty(int idx, InputContextProperty *property);
+    void unregisterProperty(int idx);
 
 private:
     void setHasFocus(bool hasFocus);

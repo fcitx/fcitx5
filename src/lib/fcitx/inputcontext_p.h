@@ -21,20 +21,23 @@
 
 #include "fcitx-utils/intrusivelist.h"
 #include "inputcontext.h"
+#include "inputcontextproperty.h"
 #include <uuid/uuid.h>
+#include <unordered_map>
 
 namespace fcitx {
 
 class InputContextPrivate {
 public:
-    InputContextPrivate(InputContext *q, InputContextManager &manager_)
-        : q_ptr(q), manager(manager_), group(nullptr), hasFocus(false) {
+    InputContextPrivate(InputContext *q, InputContextManager &manager_, const std::string &program_)
+        : q_ptr(q), manager(manager_), group(nullptr), hasFocus(false), program(program_) {
         uuid_generate(uuid.data());
     }
     InputContext *q_ptr;
     InputContextManager &manager;
     FocusGroup *group;
     bool hasFocus;
+    std::string program;
     CapabilityFlags capabilityFlags;
     SurroundingText surroundingText;
     Text preedit;
@@ -43,6 +46,7 @@ public:
 
     IntrusiveListNode listNode;
     ICUUID uuid;
+    std::unordered_map<int, std::unique_ptr<InputContextProperty>> properties;
 
     FCITX_DECLARE_PUBLIC(InputContext);
 };
