@@ -25,7 +25,7 @@
 namespace fcitx {
 namespace utf8 {
 inline std::string::size_type length(const std::string &s) { return fcitx_utf8_strlen(s.c_str()); }
-inline std::string::size_type lengthN(const std::string &s, size_t) { return fcitx_utf8_strlen(s.c_str()); }
+inline std::string::size_type lengthN(const std::string &s, size_t n) { return fcitx_utf8_strnlen(s.c_str(), n); }
 
 inline uint32_t getCharValidated(const std::string &s, std::string::size_type off = 0, int maxLen = 6) {
     if (off >= s.size()) {
