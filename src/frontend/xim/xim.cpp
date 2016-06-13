@@ -125,7 +125,7 @@ protected:
         xcb_key_press_event_t xcbEvent;
         memset(&xcbEvent, 0, sizeof(xcb_key_press_event_t));
         xcbEvent.time = key.time();
-        xcbEvent.response_type = key.isRelease() ? XCB_KEY_PRESS : XCB_KEY_RELEASE;
+        xcbEvent.response_type = key.isRelease() ? XCB_KEY_RELEASE : XCB_KEY_PRESS;
         xcbEvent.state = key.rawKey().states();
         xcbEvent.detail = key.keyCode();
         xcbEvent.root = m_server->root();
@@ -251,7 +251,7 @@ void XIMServer::callback(xcb_im_client_t *client, xcb_im_input_context_t *xic, c
         xcb_key_press_event_t *xevent = static_cast<xcb_key_press_event_t *>(arg);
         KeyEvent event(
             ic, Key(static_cast<KeySym>(xkb_state_key_get_one_sym(xkbState, xevent->detail)), KeyStates(xevent->state)),
-            (xevent->response_type & ~0x80) != XCB_KEY_RELEASE, xevent->detail, xevent->time);
+            (xevent->response_type & ~0x80) == XCB_KEY_RELEASE, xevent->detail, xevent->time);
         if (!ic->keyEvent(event)) {
             xcb_im_forward_event(im(), xic, xevent);
         }

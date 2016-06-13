@@ -27,7 +27,7 @@ FCITX_CONFIGURATION(
     GlobalConfig, fcitx::Option<std::vector<Key>> triggerKeys{this,
                                                               "Hotkey/TriggerKeys",
                                                               "Trigger Input Method",
-                                                              {Key("Ctrl+Space"), Key("Super+Space"),
+                                                              {Key("Control+space"), Key("Super+space"),
                                                                Key("Zenkaku_Hankaku"), Key("Hangul")}};
     fcitx::Option<std::vector<Key>> altTriggerKeys{
         this, "Hotkey/AltTriggerKeys", "Trigger Input Method Only after using it to deactivate", {Key("L_Shift")}};

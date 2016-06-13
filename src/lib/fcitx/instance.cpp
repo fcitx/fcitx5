@@ -22,11 +22,13 @@
 #include "globalconfig.h"
 #include "fcitx/inputcontextmanager.h"
 #include "fcitx/addonmanager.h"
+#include "inputstate_p.h"
 #include "fcitx-utils/stringutils.h"
 #include <unistd.h>
 #include <getopt.h>
 #include <signal.h>
 #include <sys/wait.h>
+#include <iostream>
 
 namespace {
 
@@ -98,6 +100,8 @@ public:
     GlobalConfig globalConfig;
     std::unordered_map<EventType, std::unordered_map<EventWatcherPhase, HandlerTable<EventHandler>, enum_hash>,
                        enum_hash> eventHandlers;
+    int inputStateSlot = -1;
+    std::vector<std::unique_ptr<HandlerTableEntry<EventHandler>>> eventWatchers;
 };
 
 Instance::Instance(int argc, char **argv) {
@@ -120,6 +124,46 @@ Instance::Instance(int argc, char **argv) {
     FCITX_D();
     d->addonManager.setInstance(this);
     d->icManager.setInstance(this);
+
+    d->inputStateSlot = d->icManager.registerProperty([] (InputContext&) { return new InputState; });
+
+    d->eventWatchers.emplace_back(watchEvent(EventType::InputContextKeyEvent, EventWatcherPhase::PreInputMethod, [this, d] (Event &event) {
+        auto &keyEvent = static_cast<KeyEvent &>(event);
+        struct {
+            const KeyList &list;
+            std::function<void()> callback;
+        } keyHandlers [] = {
+            { d->globalConfig.triggerKeys(), [] () { } },
+        };
+
+        auto ic = keyEvent.inputContext();
+
+        auto inputState = ic->propertyAs<InputState>(d->inputStateSlot);
+        const bool isModifier = keyEvent.key().isModifier();
+        if (keyEvent.isRelease()) {
+            int idx = 0;
+            for (auto &keyHandler : keyHandlers) {
+                if (isModifier && inputState->keyReleased == idx && Key::keyListCheck(keyHandler.list, keyEvent.key())) {
+                    keyHandler.callback();
+                }
+                idx++;
+            }
+        }
+
+        if (!keyEvent.filtered() && !keyEvent.isRelease()) {
+            int idx = 0;
+            for (auto &keyHandler : keyHandlers) {
+                if (Key::keyListCheck(keyHandler.list, keyEvent.key())) {
+                    if (isModifier) {
+                        inputState->keyReleased = idx;
+                    } else {
+                        keyHandler.callback();
+                    }
+                }
+                idx++;
+            }
+        }
+    }));
 }
 
 Instance::~Instance() {}
@@ -216,30 +260,6 @@ void Instance::handleSignal() {
 
 void Instance::initialize() {
     FCITX_D();
-    watchEvent(EventType::InputContextKeyEvent, EventWatcherPhase::PreInputMethod, [&] (Event &event) {
-        auto &keyEvent = static_cast<KeyEvent &>(event);
-        struct {
-            const KeyList &list;
-        } keyHandlers [] = {
-            { d->globalConfig.triggerKeys() },
-        };
-
-        auto ic = keyEvent.inputContext();
-        const bool isModifier = keyEvent.key().isModifier();
-        if (keyEvent.isRelease()) {
-            int idx = 0;
-            for (auto &keyHandler : keyHandlers) {
-                if (Key::keyListCheck(keyHandler.list, keyEvent.key())) {
-                }
-                idx++;
-            }
-        }
-
-        if (!keyEvent.filtered()) {
-            if (!keyEvent.isRelease()) {
-            }
-        }
-    });
     d->addonManager.load();
 }
 
@@ -285,7 +305,7 @@ bool Instance::postEvent(Event &event) {
         for (auto phase : phaseOrder) {
             auto iter2 = handlers.find(phase);
             if (iter2 != handlers.end()) {
-                for (auto handler : iter2->second) {
+                for (auto &handler : iter2->second) {
                     handler.handler()(event);
                     if (event.filtered()) {
                         return event.accepted();
@@ -299,8 +319,7 @@ bool Instance::postEvent(Event &event) {
 
 HandlerTableEntry<EventHandler> *Instance::watchEvent(EventType type, EventWatcherPhase phase, EventHandler callback) {
     FCITX_D();
-    d->eventHandlers[type][phase].add(callback);
-    return 0;
+    return d->eventHandlers[type][phase].add(callback);
 }
 
 void Instance::activate() {}

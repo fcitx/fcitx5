@@ -82,7 +82,7 @@ public:
         return ss.str();
     }
     template <typename Container>
-    static bool keyListCheck(Container c, const Key &key) {
+    static bool keyListCheck(const Container &c, const Key &key) {
         return std::find_if(c.begin(), c.end(), [&key](const Key &toCheck) { return toCheck.check(key); }) != c.end();
     }
 

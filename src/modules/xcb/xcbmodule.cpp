@@ -309,7 +309,13 @@ HandlerTableEntry<XCBEventFilter> *XCBModule::addEventFilter(const std::string &
 }
 
 HandlerTableEntry<XCBConnectionCreated> *XCBModule::addConnectionCreatedCallback(XCBConnectionCreated callback) {
-    return m_createdCallbacks.add(callback);
+    auto result = m_createdCallbacks.add(callback);
+
+    for (auto &p : m_conns) {
+        auto &conn = p.second;
+        callback(conn.name(), conn.connection(), conn.screen(), conn.focusGroup());
+    }
+    return result;
 }
 
 HandlerTableEntry<XCBConnectionClosed> *XCBModule::addConnectionClosedCallback(XCBConnectionClosed callback) {
