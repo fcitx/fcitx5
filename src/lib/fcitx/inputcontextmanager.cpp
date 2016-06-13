@@ -65,6 +65,9 @@ struct FocusGroupListHelper {
     static FocusGroup &toValue(IntrusiveListNode &node) noexcept;
 };
 
+inline InputContext *toInputContextPointer(InputContext *self) { return self; }
+inline InputContext *toInputContextPointer(InputContext &self) { return &self; }
+
 class InputContextManagerPrivate {
 public:
     static InputContextPrivate *toInputContextPrivate(InputContext &ic) { return ic.d_func(); }
@@ -88,21 +91,33 @@ public:
     inline void registerInputContext(InputContext &inputContext) {
         inputContexts.push_back(inputContext);
         uuidMap.emplace(inputContext.uuid(), &inputContext);
+        if (!inputContext.program().empty()) {
+            programMap[inputContext.program()].insert(&inputContext);
+        }
         for (auto &p : propertyFactories) {
             auto property = p.second(inputContext);
             inputContext.registerProperty(p.first, property);
             if (property->needCopy() &&
                 (propertyPropagatePolicy == PropertyPropagatePolicy::All ||
                  (!inputContext.program().empty() && propertyPropagatePolicy == PropertyPropagatePolicy::Program))) {
-
-                for (auto &dstInputContext : inputContexts) {
-                    if (&dstInputContext != &inputContext &&
-                        (propertyPropagatePolicy == PropertyPropagatePolicy::All ||
-                         dstInputContext.program() == inputContext.program())) {
-                        dstInputContext.property(p.first)->copyTo(property);
-                        break;
+                auto copyProperty = [&p, &inputContext, &property] (auto &container) {
+                    for (auto &dstInputContext : container) {
+                        if (toInputContextPointer(dstInputContext) != &inputContext) {
+                            toInputContextPointer(dstInputContext)->
+                            property(p.first)->copyTo(property);
+                            break;
+                        }
+                    }
+                };
+                if (propertyPropagatePolicy == PropertyPropagatePolicy::All) {
+                    copyProperty(inputContexts);
+                } else {
+                    auto iter = programMap.find(inputContext.program());
+                    if (iter != programMap.end()) {
+                        copyProperty(iter->second);
                     }
                 }
+
             }
         }
     }
@@ -115,6 +130,7 @@ public:
     Instance *instance = nullptr;
     int propertyIdx = 0;
     std::unordered_map<int, InputContextPropertyFactory> propertyFactories;
+    std::unordered_map<std::string, std::unordered_set<InputContext*>> programMap;
     PropertyPropagatePolicy propertyPropagatePolicy = PropertyPropagatePolicy::None;
 };
 
@@ -184,6 +200,15 @@ void InputContextManager::registerInputContext(InputContext &inputContext) {
 
 void InputContextManager::unregisterInputContext(InputContext &inputContext) {
     FCITX_D();
+    if (!inputContext.program().empty()) {
+        auto iter = d->programMap.find(inputContext.program());
+        if (iter != d->programMap.end()) {
+            iter->second.erase(&inputContext);
+            if (iter->second.empty()) {
+                d->programMap.erase(iter);
+            }
+        }
+    }
     d->uuidMap.erase(inputContext.uuid());
     d->inputContexts.erase(d->inputContexts.iterator_to(inputContext));
 }
@@ -206,11 +231,21 @@ void InputContextManager::propagateProperty(InputContext &inputContext, int idx)
     }
 
     auto property = inputContext.property(idx);
-    for (auto &dstInputContext : d->inputContexts) {
-        if (&dstInputContext != &inputContext &&
-            (d->propertyPropagatePolicy == PropertyPropagatePolicy::All ||
-             dstInputContext.program() == inputContext.program())) {
-            property->copyTo(dstInputContext.property(idx));
+    auto copyProperty = [idx, &inputContext, &property] (auto &container) {
+        for (auto &dstInputContext_ : container) {
+            auto dstInputContext = toInputContextPointer(dstInputContext_);
+            if (dstInputContext != &inputContext) {
+                property->copyTo(dstInputContext->property(idx));
+            }
+        }
+    };
+
+    if (d->propertyPropagatePolicy == PropertyPropagatePolicy::All) {
+        copyProperty(d->inputContexts);
+    } else {
+        auto iter = d->programMap.find(inputContext.program());
+        if (iter != d->programMap.end()) {
+            copyProperty(iter->second);
         }
     }
 }
