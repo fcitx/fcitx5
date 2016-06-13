@@ -145,7 +145,7 @@ protected:
         if (strPreedit.empty() && preeditStarted) {
             xcb_im_preedit_draw_fr_t frame;
             memset(&frame, 0, sizeof(xcb_im_preedit_draw_fr_t));
-            frame.caret = 0; // TODO caret
+            frame.caret = 0;
             frame.chg_first = 0;
             frame.chg_length = lastPreeditLength;
             frame.length_of_preedit_string = 0;
@@ -188,16 +188,17 @@ protected:
 
             xcb_im_preedit_draw_fr_t frame;
             memset(&frame, 0, sizeof(xcb_im_preedit_draw_fr_t));
-            frame.caret = 0; // TODO caret
+            frame.caret = text.cursor(); // TODO caret
             frame.chg_first = 0;
             frame.chg_length = lastPreeditLength;
             size_t compoundTextLength;
-            char *compoundText = xcb_utf8_to_compound_text(strPreedit.c_str(), strPreedit.size(), &compoundTextLength);
+            std::unique_ptr<char, decltype(&std::free)> compoundText(
+                xcb_utf8_to_compound_text(strPreedit.c_str(), strPreedit.size(), &compoundTextLength), std::free);
             if (!compoundText) {
                 return;
             }
             frame.length_of_preedit_string = compoundTextLength;
-            frame.preedit_string = (uint8_t *)compoundText;
+            frame.preedit_string = (uint8_t *)compoundText.get();
             frame.feedback_array.size = feedbackBuffer.size();
             frame.feedback_array.items = feedbackBuffer.data();
             frame.status = frame.feedback_array.size ? 0 : 2;
