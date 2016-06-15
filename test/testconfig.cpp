@@ -91,6 +91,7 @@ int main() {
     assert(intOption);
     assert(intOption->value() == "0");
     assert(!rawConfig.get("IntOption"));
+    assert(!intOption->parent());
 
     return 0;
 }

@@ -201,6 +201,7 @@ std::shared_ptr<RawConfig> RawConfig::detach() {
     }
     auto ref = d->parent->get(d->name);
     d->parent->d_func()->subItems.erase(d->name);
+    d->parent = nullptr;
     return ref;
 }
 
