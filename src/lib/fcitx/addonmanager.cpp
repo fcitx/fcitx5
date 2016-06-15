@@ -50,7 +50,7 @@ private:
     std::unique_ptr<AddonInstance> m_instance;
 };
 
-enum class DependencyCheckStatus { Satisfied, Pending, Failed };
+enum class DependencyCheckStatus { Satisfied, Pending, PendingUpdateRequest, Failed };
 
 class AddonManagerPrivate {
 public:
@@ -73,8 +73,8 @@ public:
             }
 
             if (!dep->loaded()) {
-                if (dep->info().onRequest()) {
-                    requested.insert(dep->info().name());
+                if (dep->info().onRequest() && requested.insert(dep->info().name()).second) {
+                    return DependencyCheckStatus::PendingUpdateRequest;
                 }
                 return DependencyCheckStatus::Pending;
             }
@@ -89,8 +89,8 @@ public:
 
             // otherwise wait for it
             if (!dep->loaded()) {
-                if (dep->info().onRequest()) {
-                    requested.insert(dep->info().name());
+                if (dep->info().onRequest() && requested.insert(dep->info().name()).second) {
+                    return DependencyCheckStatus::PendingUpdateRequest;
                 }
                 return DependencyCheckStatus::Pending;
             }
@@ -111,7 +111,7 @@ public:
     }
 
     bool loadAddon(Addon &addon) {
-        if (addon.loaded()) {
+        if (addon.loaded() || !addon.isValid()) {
             return false;
         }
         if (addon.info().onRequest() && requested.count(addon.info().name()) == 0) {
@@ -126,9 +126,11 @@ public:
                 loadOrder.push_back(addon.info().name());
                 return true;
             }
+        } else if (result == DependencyCheckStatus::PendingUpdateRequest) {
+            return true;
         }
         // here we are "pending" on others.
-        return true;
+        return false;
     }
 
     AddonManager *q_ptr;
