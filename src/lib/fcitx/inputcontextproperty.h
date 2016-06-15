@@ -19,18 +19,14 @@
 #ifndef _FCITX_INPUTCONTEXTPROPERTY_H_
 #define _FCITX_INPUTCONTEXTPROPERTY_H_
 
-namespace fcitx
-{
+namespace fcitx {
 
 class InputContextProperty {
 public:
-    virtual ~InputContextProperty() { }
-    virtual void copyTo(InputContextProperty *) { };
-    virtual bool needCopy() const {
-        return false;
-    }
+    virtual ~InputContextProperty() {}
+    virtual void copyTo(InputContextProperty *){};
+    virtual bool needCopy() const { return false; }
 };
-
 }
 
 #endif // _FCITX_INPUTCONTEXTPROPERTY_H_

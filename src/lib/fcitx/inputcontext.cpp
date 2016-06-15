@@ -26,7 +26,8 @@
 
 namespace fcitx {
 
-InputContext::InputContext(InputContextManager &manager, const std::string &program) : d_ptr(std::make_unique<InputContextPrivate>(this, manager, program)) {
+InputContext::InputContext(InputContextManager &manager, const std::string &program)
+    : d_ptr(std::make_unique<InputContextPrivate>(this, manager, program)) {
     manager.registerInputContext(*this);
     if (manager.instance()) {
         manager.instance()->postEvent(InputContextCreatedEvent(this));
@@ -72,7 +73,7 @@ void InputContext::updateProperty(int idx) {
     d->manager.propagateProperty(*this, idx);
 }
 
-void InputContext::registerProperty(int idx, InputContextProperty* property) {
+void InputContext::registerProperty(int idx, InputContextProperty *property) {
     FCITX_D();
     d->properties[idx].reset(property);
 }

@@ -101,6 +101,7 @@ public:
     std::unordered_map<EventType, std::unordered_map<EventWatcherPhase, HandlerTable<EventHandler>, enum_hash>,
                        enum_hash> eventHandlers;
     int inputStateSlot = -1;
+    int inputMethodGroup = 0;
     std::vector<std::unique_ptr<HandlerTableEntry<EventHandler>>> eventWatchers;
 };
 
@@ -125,45 +126,47 @@ Instance::Instance(int argc, char **argv) {
     d->addonManager.setInstance(this);
     d->icManager.setInstance(this);
 
-    d->inputStateSlot = d->icManager.registerProperty([] (InputContext&) { return new InputState; });
+    d->inputStateSlot = d->icManager.registerProperty([](InputContext &) { return new InputState; });
 
-    d->eventWatchers.emplace_back(watchEvent(EventType::InputContextKeyEvent, EventWatcherPhase::PreInputMethod, [this, d] (Event &event) {
-        auto &keyEvent = static_cast<KeyEvent &>(event);
-        struct {
-            const KeyList &list;
-            std::function<void()> callback;
-        } keyHandlers [] = {
-            { d->globalConfig.triggerKeys(), [] () { } },
-        };
+    d->eventWatchers.emplace_back(
+        watchEvent(EventType::InputContextKeyEvent, EventWatcherPhase::PreInputMethod, [this, d](Event &event) {
+            auto &keyEvent = static_cast<KeyEvent &>(event);
+            struct {
+                const KeyList &list;
+                std::function<void()> callback;
+            } keyHandlers[] = {
+                {d->globalConfig.triggerKeys(), []() {}},
+            };
 
-        auto ic = keyEvent.inputContext();
+            auto ic = keyEvent.inputContext();
 
-        auto inputState = ic->propertyAs<InputState>(d->inputStateSlot);
-        const bool isModifier = keyEvent.key().isModifier();
-        if (keyEvent.isRelease()) {
-            int idx = 0;
-            for (auto &keyHandler : keyHandlers) {
-                if (isModifier && inputState->keyReleased == idx && Key::keyListCheck(keyHandler.list, keyEvent.key())) {
-                    keyHandler.callback();
-                }
-                idx++;
-            }
-        }
-
-        if (!keyEvent.filtered() && !keyEvent.isRelease()) {
-            int idx = 0;
-            for (auto &keyHandler : keyHandlers) {
-                if (Key::keyListCheck(keyHandler.list, keyEvent.key())) {
-                    if (isModifier) {
-                        inputState->keyReleased = idx;
-                    } else {
+            auto inputState = ic->propertyAs<InputState>(d->inputStateSlot);
+            const bool isModifier = keyEvent.key().isModifier();
+            if (keyEvent.isRelease()) {
+                int idx = 0;
+                for (auto &keyHandler : keyHandlers) {
+                    if (isModifier && inputState->keyReleased == idx &&
+                        Key::keyListCheck(keyHandler.list, keyEvent.key())) {
                         keyHandler.callback();
                     }
+                    idx++;
                 }
-                idx++;
             }
-        }
-    }));
+
+            if (!keyEvent.filtered() && !keyEvent.isRelease()) {
+                int idx = 0;
+                for (auto &keyHandler : keyHandlers) {
+                    if (Key::keyListCheck(keyHandler.list, keyEvent.key())) {
+                        if (isModifier) {
+                            inputState->keyReleased = idx;
+                        } else {
+                            keyHandler.callback();
+                        }
+                    }
+                    idx++;
+                }
+            }
+        }));
 }
 
 Instance::~Instance() {}

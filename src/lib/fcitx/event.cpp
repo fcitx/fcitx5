@@ -20,8 +20,5 @@
 #include "event.h"
 
 namespace fcitx {
-Event::~Event()
-{
-}
-
+Event::~Event() {}
 }

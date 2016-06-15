@@ -19,6 +19,11 @@
 
 #include <list>
 #include "inputmethodmanager.h"
+#include "fcitx-utils/standardpath.h"
+#include "fcitx-config/rawconfig.h"
+#include "fcitx-config/iniparser.h"
+#include "inputmethodconfig_p.h"
+#include <fcntl.h>
 
 namespace fcitx {
 
@@ -31,6 +36,23 @@ public:
 InputMethodManager::InputMethodManager() {}
 
 InputMethodManager::~InputMethodManager() {}
+
+void InputMethodManager::load() {
+    StandardPath path;
+    auto files = path.multiOpenAll(StandardPath::Type::Data, "fcitx5/addon", O_RDONLY, filter::Suffix(".conf"));
+    for (const auto &file : files) {
+        auto &files = file.second;
+        RawConfig config;
+        // reverse the order, so we end up parse user file at last.
+        for (auto iter = files.rbegin(), end = files.rend(); iter != end; iter++) {
+            auto fd = iter->first;
+            readFromIni(config, fd);
+        }
+
+        InputMethodConfig imConfig;
+        imConfig.load(config);
+    }
+}
 
 int InputMethodManager::groupCount() const {
     FCITX_D();

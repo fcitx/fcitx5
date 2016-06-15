@@ -57,9 +57,9 @@ public:
     struct xkb_state *xkbState() {
         return m_state.get();
     }
+    XkbRulesNames xkbRulesNames();
 
 private:
-    std::vector<char> xkbRulesNames();
     bool filterEvent(xcb_connection_t *conn, xcb_generic_event_t *event);
     void onIOEvent();
 
@@ -100,6 +100,7 @@ public:
     HandlerTableEntry<XCBConnectionCreated> *addConnectionCreatedCallback(XCBConnectionCreated callback);
     HandlerTableEntry<XCBConnectionClosed> *addConnectionClosedCallback(XCBConnectionClosed callback);
     struct xkb_state *xkbState(const std::string &name);
+    XkbRulesNames xkbRulesNames(const std::string &name);
 
 private:
     void onConnectionCreated(XCBConnection &conn);
@@ -113,6 +114,7 @@ private:
     FCITX_ADDON_EXPORT_FUNCTION(XCBModule, addConnectionCreatedCallback);
     FCITX_ADDON_EXPORT_FUNCTION(XCBModule, addConnectionClosedCallback);
     FCITX_ADDON_EXPORT_FUNCTION(XCBModule, xkbState);
+    FCITX_ADDON_EXPORT_FUNCTION(XCBModule, xkbRulesNames);
 };
 
 class XCBModuleFactory : public AddonFactory {

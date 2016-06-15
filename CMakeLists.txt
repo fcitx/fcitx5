@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.0.0)
+cmake_minimum_required(VERSION 3.4.0)
 set(FCITX_VERSION 4.99.0)
 project(fcitx VERSION ${FCITX_VERSION})
 
@@ -19,17 +19,27 @@ include(src/lib/fcitx/Fcitx5Macros.cmake)
 #######################################################################
 option(ENABLE_TEST "Build Test" On)
 option(ENABLE_COVERAGE "Build the project with gcov support (Need ENABLE_TEST=On)" Off)
+set(DEFAULT_XKB_RULES "evdev" CACHE STRING "Xkb rules name")
 
 #######################################################################
 # Find packages
 #######################################################################
 find_package(Systemd REQUIRED)
 find_package(DL REQUIRED)
+find_package(LibIntl REQUIRED)
 find_package(LibUUID REQUIRED)
 find_package(Pthread REQUIRED)
 find_package(XCB COMPONENTS XCB AUX XKB)
 find_package(XKBCommon COMPONENTS XKBCommon X11)
 find_package(XCBImdkit)
+find_package(IsoCodes)
+find_package(LibXml2)
+find_package(XKeyboardConfig)
+
+set(DEFAULT_XKB_RULES_FILES "${XKEYBOARDCONFIG_XKBBASE}/rules/${DEFAULT_XKB_RULES}.xml")
+if (NOT EXISTS "${DEFAULT_XKB_RULES_FILES}")
+message(FATAL_ERROR "Could not find default xkb rules file: ${DEFAULT_XKB_RULES_FILES}")
+endif ()
 
 # directory needed by bsd
 if(NOT CMAKE_INSTALL_LIBDATADIR)

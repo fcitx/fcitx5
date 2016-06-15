@@ -22,6 +22,7 @@
 #include "rawconfig.h"
 #include <fcitx-utils/key.h>
 #include <fcitx-utils/color.h>
+#include <fcitx-utils/i18nstring.h>
 #include <vector>
 #include <type_traits>
 
@@ -43,6 +44,9 @@ FCITXCONFIG_EXPORT bool unmarshallOption(Key &value, const RawConfig &config);
 
 FCITXCONFIG_EXPORT void marshallOption(RawConfig &config, const Color &value);
 FCITXCONFIG_EXPORT bool unmarshallOption(Color &value, const RawConfig &config);
+
+FCITXCONFIG_EXPORT void marshallOption(RawConfig &config, const I18NString &value);
+FCITXCONFIG_EXPORT bool unmarshallOption(I18NString &value, const RawConfig &config);
 
 FCITXCONFIG_EXPORT void marshallOption(RawConfig &config, const Configuration &value);
 FCITXCONFIG_EXPORT bool unmarshallOption(Configuration &value, const RawConfig &config);

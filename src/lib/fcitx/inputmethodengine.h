@@ -20,13 +20,26 @@
 #define _FCITX_INPUTMETHODENGINE_H_
 
 #include "addoninstance.h"
+#include "event.h"
+#include "inputmethodentry.h"
+#include "fcitxcore_export.h"
 
 namespace fcitx {
 
-class InputMethodEngine : public AddonInstance {
+class FCITXCORE_EXPORT InputMethodEngine : public AddonInstance {
 public:
-    InputMethodEngine();
-    virtual ~InputMethodEngine();
+    virtual ~InputMethodEngine() {}
+
+    virtual std::vector<InputMethodEntry> listInputMethods() = 0;
+    virtual void keyEvent(const InputMethodEntry &entry, KeyEvent &keyEvent) = 0;
+    virtual void save(const InputMethodEntry &) {}
+    virtual void focusIn(const InputMethodEntry &) {}
+    virtual void focusOut(const InputMethodEntry &) {}
+    virtual void reset(const InputMethodEntry &) {}
+    virtual void filterKey(const InputMethodEntry &, KeyEvent &) {}
+    virtual void updateSurroundingText(const InputMethodEntry &) {}
+    virtual std::string subMode(const InputMethodEntry &) { return {}; }
+    virtual std::string overrideIcon(const InputMethodEntry &) { return {}; }
 };
 }
 

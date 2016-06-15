@@ -33,11 +33,7 @@ class Instance;
 class InputContextProperty;
 typedef std::function<InputContextProperty *(InputContext &)> InputContextPropertyFactory;
 
-FCITX_CONFIG_ENUM(PropertyPropagatePolicy,
-    All,
-    Program,
-    None
-);
+FCITX_CONFIG_ENUM(PropertyPropagatePolicy, All, Program, None);
 
 class FCITXCORE_EXPORT InputContextManager {
     friend class InputContext;

@@ -188,7 +188,7 @@ void XCBConnection::updateKeymap() {
 
     m_keymap.reset(nullptr);
 
-    struct xkb_state *new_state = NULL;
+    struct xkb_state *new_state = nullptr;
     if (m_hasXKB) {
         m_keymap.reset(
             xkb_x11_keymap_new_from_device(m_context.get(), m_conn.get(), m_coreDeviceId, XKB_KEYMAP_COMPILE_NO_FLAGS));
@@ -200,28 +200,13 @@ void XCBConnection::updateKeymap() {
     if (!m_keymap) {
         struct xkb_rule_names xkbNames;
 
-        const auto nameString = xkbRulesNames();
-        if (!nameString.empty()) {
-            int length = nameString.size();
-            const char *names[5] = {nullptr, nullptr, nullptr, nullptr, nullptr};
-            auto p = nameString.begin(), end = nameString.end();
-            int i = 0;
-            // The result from xcb_get_property_value() is not necessarily
-            // \0-terminated,
-            // we need to make sure that too many or missing '\0' symbols are
-            // handled safely.
-            do {
-                uint len = strnlen(&(*p), length);
-                names[i++] = &(*p);
-                p += len + 1;
-                length -= len + 1;
-            } while (p < end || i < 5);
-
-            xkbNames.rules = names[0];
-            xkbNames.model = names[1];
-            xkbNames.layout = names[2];
-            xkbNames.variant = names[3];
-            xkbNames.options = names[4];
+        const auto names = xkbRulesNames();
+        if (!names[0].empty()) {
+            xkbNames.rules = names[0].c_str();
+            xkbNames.model = names[1].c_str();
+            xkbNames.layout = names[2].c_str();
+            xkbNames.variant = names[3].c_str();
+            xkbNames.options = names[4].c_str();
 
             m_keymap.reset(xkb_keymap_new_from_names(m_context.get(), &xkbNames, XKB_KEYMAP_COMPILE_NO_FLAGS));
         }
@@ -243,7 +228,7 @@ HandlerTableEntry<XCBEventFilter> *XCBConnection::addEventFilter(XCBEventFilter 
     return m_filters.add(filter);
 }
 
-std::vector<char> XCBConnection::xkbRulesNames() {
+XkbRulesNames XCBConnection::xkbRulesNames() {
     if (!m_xkbRulesNamesAtom) {
         xcb_intern_atom_cookie_t cookie =
             xcb_intern_atom(m_conn.get(), true, strlen("_XKB_RULES_NAMES"), "_XKB_RULES_NAMES");
@@ -268,7 +253,23 @@ std::vector<char> XCBConnection::xkbRulesNames() {
     auto data = static_cast<char *>(xcb_get_property_value(reply.get()));
     int length = xcb_get_property_value_length(reply.get());
 
-    return {data, data + length};
+    XkbRulesNames names;
+    if (length) {
+        std::string names[5];
+        auto p = data, end = data + length;
+        int i = 0;
+        // The result from xcb_get_property_value() is not necessarily
+        // \0-terminated,
+        // we need to make sure that too many or missing '\0' symbols are
+        // handled safely.
+        do {
+            uint len = strnlen(&(*p), length);
+            names[i++] = std::string(&(*p), len);
+            p += len + 1;
+            length -= len + 1;
+        } while (p < end || i < 5);
+    }
+    return names;
 }
 
 XCBModule::XCBModule(Instance *instance) : m_instance(instance) { openConnection(""); }
@@ -328,6 +329,14 @@ xkb_state *XCBModule::xkbState(const std::string &name) {
         return nullptr;
     }
     return iter->second.xkbState();
+}
+
+XkbRulesNames XCBModule::xkbRulesNames(const std::string &name) {
+    auto iter = m_conns.find(name);
+    if (iter == m_conns.end()) {
+        return {};
+    }
+    return iter->second.xkbRulesNames();
 }
 
 void XCBModule::onConnectionCreated(XCBConnection &conn) {

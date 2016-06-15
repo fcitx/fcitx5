@@ -41,6 +41,8 @@ public:
     const std::string &type() const;
     const std::string &library() const;
     const std::vector<std::string> &dependencies() const;
+    const std::vector<std::string> &optionalDependencies() const;
+    bool onRequest() const;
 
     void loadInfo(const RawConfig &config);
 

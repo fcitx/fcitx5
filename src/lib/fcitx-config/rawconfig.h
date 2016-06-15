@@ -62,9 +62,12 @@ public:
     RawConfig &operator=(RawConfig other);
 
     RawConfig &operator=(std::string value) {
-        setValue(value);
+        setValue(std::move(value));
         return *this;
     }
+
+    RawConfig *parent() const;
+    std::shared_ptr<RawConfig> detach();
 
     void visitSubItems(std::function<bool(RawConfig &, const std::string &path)> callback, const std::string &path = "",
                        bool recursive = false, const std::string &pathPrefix = "");

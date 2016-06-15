@@ -25,10 +25,12 @@
 #include <fcitx/focusgroup.h>
 #include <fcitx-utils/metastring.h>
 #include <fcitx-utils/handlertable.h>
+#include <tuple>
 
 struct xkb_state;
 
 namespace fcitx {
+typedef std::array<std::string, 5> XkbRulesNames;
 typedef std::function<bool(xcb_connection_t *conn, xcb_generic_event_t *event)> XCBEventFilter;
 typedef std::function<void(const std::string &name, xcb_connection_t *conn, int screen, FocusGroup *group)>
     XCBConnectionCreated;
@@ -42,5 +44,6 @@ FCITX_ADDON_DECLARE_FUNCTION(XCBModule, addConnectionCreatedCallback,
 FCITX_ADDON_DECLARE_FUNCTION(XCBModule, addConnectionClosedCallback,
                              HandlerTableEntry<XCBConnectionClosed> *(XCBConnectionClosed));
 FCITX_ADDON_DECLARE_FUNCTION(XCBModule, xkbState, xkb_state *(const std::string &));
+FCITX_ADDON_DECLARE_FUNCTION(XCBModule, xkbRulesNames, XkbRulesNames(const std::string &));
 
 #endif // _XCB_XCB_PUBLIC_H_

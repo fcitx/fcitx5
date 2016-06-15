@@ -28,7 +28,7 @@ public:
     I18NString() {}
     virtual ~I18NString() {}
 
-    void set(std::string str, std::string locale = "") {
+    void set(const std::string &str, const std::string &locale = "") {
         if (locale.size()) {
             m_map[locale] = str;
         } else {
@@ -41,7 +41,14 @@ public:
         m_map.clear();
     }
 
-    const std::string &match(std::string locale);
+    const std::string &match(std::string locale) const;
+
+    bool operator==(const I18NString &other) const { return other.m_default == m_default && other.m_map == m_map; }
+
+    bool operator!=(const I18NString &other) const { return !operator==(other); }
+
+    const std::string &defaultString() const { return m_default; }
+    const std::unordered_map<std::string, std::string> &localizedStrings() const { return m_map; }
 
 protected:
     std::string m_default;

@@ -26,7 +26,10 @@ FCITX_CONFIGURATION(AddonConfig, fcitx::Option<std::string> name{this, "Addon/Na
                     fcitx::Option<std::string> library{this, "Addon/Library", "Addon Library"};
                     fcitx::Option<bool> enabled{this, "Addon/Enabled", "Enabled", true};
                     fcitx::Option<AddonCategory> category{this, "Addon/Category", "Category"};
-                    fcitx::Option<std::vector<std::string>> dependencies{this, "Addon/Dependencies", "Dependencies"};)
+                    fcitx::Option<std::vector<std::string>> dependencies{this, "Addon/Dependencies", "Dependencies"};
+                    fcitx::Option<std::vector<std::string>> optionalDependencies{this, "Addon/OptionalDependencies",
+                                                                                 "Optional Dependencies"};
+                    fcitx::Option<bool> onRequest{this, "Addon/OnRequest", "Load only on request", false};)
 
 class AddonInfoPrivate : public AddonConfig {
 public:
@@ -60,6 +63,16 @@ const std::string &AddonInfo::library() const {
 const std::vector<std::string> &AddonInfo::dependencies() const {
     FCITX_D();
     return d->dependencies.value();
+}
+
+const std::vector<std::string> &AddonInfo::optionalDependencies() const {
+    FCITX_D();
+    return d->optionalDependencies.value();
+}
+
+bool AddonInfo::onRequest() const {
+    FCITX_D();
+    return d->onRequest.value();
 }
 
 void AddonInfo::loadInfo(const RawConfig &config) {

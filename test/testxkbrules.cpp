@@ -17,4 +17,12 @@
  * see <http://www.gnu.org/licenses/>.
  */
 
-#include "inputmethodengine.h"
+#include "config.h"
+#include "im/keyboard/xkbrules.h"
+
+int main() {
+    fcitx::XkbRules xkbRules;
+    xkbRules.read(XKEYBOARDCONFIG_XKBBASE "/rules/" DEFAULT_XKB_RULES ".xml");
+    xkbRules.dump();
+    return 0;
+}

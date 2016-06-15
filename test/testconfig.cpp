@@ -54,10 +54,16 @@ FCITX_CONFIGURATION(TestConfig, fcitx::Option<int, fcitx::IntConstrain> intValue
                         this, "EnumVectorOption", "Enum Vector Option", {my::TestEnum::EnumA, my::TestEnum::EnumB}};
                     fcitx::Option<std::vector<std::string>> stringVectorValue{
                         this, "StringVectorOption", "String Option", std::vector<std::string>({"ABC", "CDE"})};
+                    fcitx::Option<fcitx::I18NString> i18nStringValue{this, "I18NString", "I18NString"};
                     fcitx::Option<TestSubConfig> subConfigValue{this, "SubConfigOption", "SubConfig Option"};)
 
 int main() {
     TestConfig config;
+
+    fcitx::I18NString str;
+    str.set("A", "zh_CN");
+    str.set("ABCD");
+    config.i18nStringValue.setValue(str);
     fcitx::RawConfig rawConfig;
     config.save(rawConfig);
 
@@ -71,13 +77,20 @@ int main() {
     config.intValue.setValue(20);
     // still have the old value
     assert(config.intValue.value() == 5);
-
     config.load(rawConfig);
     assert(config.intValue.value() == 0);
+
+    assert(config.i18nStringValue.value().match("") == "ABCD");
+    assert(config.i18nStringValue.value().match("zh_CN") == "A");
 
     fcitx::RawConfig rawDescConfig;
     config.dumpDescription(rawDescConfig);
     fcitx::writeAsIni(rawDescConfig, stdout);
+
+    auto intOption = rawConfig.get("IntOption")->detach();
+    assert(intOption);
+    assert(intOption->value() == "0");
+    assert(!rawConfig.get("IntOption"));
 
     return 0;
 }

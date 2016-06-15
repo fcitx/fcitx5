@@ -20,6 +20,7 @@
 #define _FCITX_UTILS_STRINGUTILS_H_
 #include <string>
 #include <vector>
+#include <sstream>
 #include "fcitxutils_export.h"
 
 namespace fcitx {
@@ -33,6 +34,31 @@ FCITXUTILS_EXPORT const char *backwardSearch(const char *haystack, size_t l, con
                                              size_t from);
 FCITXUTILS_EXPORT char *backwardSearch(char *haystack, size_t l, const char *needle, size_t ol, size_t from);
 FCITXUTILS_EXPORT size_t backwardSearch(const std::string &haystack, const std::string &needle, size_t from);
+template <typename Iter, typename T>
+FCITXUTILS_EXPORT std::string join(Iter start, Iter end, T &&delim) {
+    std::stringstream result;
+    if (start != end) {
+        result << (*start);
+        start++;
+    }
+    for (; start != end; start++) {
+        result << (delim);
+        result << (*start);
+    }
+    return result.str();
+}
+template <typename C, typename T>
+FCITXUTILS_EXPORT std::string join(C &&container, T &&delim) {
+    using std::begin;
+    using std::end;
+    return join(begin(container), end(container), delim);
+}
+template <typename C, typename T>
+FCITXUTILS_EXPORT std::string join(std::initializer_list<C> &&container, T &&delim) {
+    using std::begin;
+    using std::end;
+    return join(begin(container), end(container), delim);
+}
 }
 };
 

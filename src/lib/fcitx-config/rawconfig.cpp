@@ -35,6 +35,7 @@ public:
 
     std::shared_ptr<RawConfig> getNonexistentRawConfig(const std::string &key) {
         auto result = subItems[key] = std::make_shared<RawConfig>(key);
+        result->d_func()->parent = q_ptr;
         return result;
     }
 
@@ -85,7 +86,7 @@ public:
     }
 
     RawConfig *q_ptr;
-
+    RawConfig *parent;
     std::string name;
     std::string value;
     std::string comment;
@@ -181,6 +182,21 @@ RawConfig &RawConfig::operator=(RawConfig other) {
     using std::swap;
     swap(d_ptr, other.d_ptr);
     return *this;
+}
+
+RawConfig *RawConfig::parent() const {
+    FCITX_D();
+    return d->parent;
+}
+
+std::shared_ptr<RawConfig> RawConfig::detach() {
+    FCITX_D();
+    if (!d->parent) {
+        return {};
+    }
+    auto ref = d->parent->get(d->name);
+    d->parent->d_func()->subItems.erase(d->name);
+    return ref;
 }
 
 void RawConfig::visitSubItems(std::function<bool(RawConfig &, const std::string &path)> callback,

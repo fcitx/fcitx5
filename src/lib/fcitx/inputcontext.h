@@ -114,7 +114,7 @@ public:
 
     InputContextProperty *property(int idx);
 
-    template<typename T>
+    template <typename T>
     T *propertyAs(int idx) {
         return static_cast<T *>(property(idx));
     }

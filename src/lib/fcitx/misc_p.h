@@ -16,16 +16,24 @@
  * License along with this library; see the file COPYING. If not,
  * see <http://www.gnu.org/licenses/>.
  */
-#ifndef _FCITX_INPUTSTATE_P_H_
-#define _FCITX_INPUTSTATE_P_H_
+#ifndef _FCITX_MISC_P_H_
+#define _FCITX_MISC_P_H_
 
-#include "inputcontextproperty.h"
+#include <libintl.h>
+#include <string>
 
 namespace fcitx {
 
-struct InputState : public InputContextProperty {
-    int keyReleased = -1;
-};
+inline const char *_gettext(const std::string &s) { return ::gettext(s.c_str()); }
+
+inline const char *_gettext(const char *s) { return ::gettext(s); }
+
+inline const char *_dgettext(const char *domain, const std::string &s) { return ::dgettext(domain, s.c_str()); }
+
+inline const char *_dgettext(const char *domain, const char *s) { return ::dgettext(domain, s); }
+
+#define _(X) fcitx::_gettext(X)
+#define D_(D, X) fcitx::_dgettext(D, X)
 }
 
-#endif // _FCITX_INPUTSTATE_P_H_
+#endif // _FCITX_MISC_P_H_

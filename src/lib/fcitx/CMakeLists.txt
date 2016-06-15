@@ -11,7 +11,6 @@ set(FCITX_CORE_SOURCES
     addonfactory.cpp
     inputmethodgroup.cpp
     inputmethodmanager.cpp
-    inputmethodengine.cpp
     globalconfig.cpp
     text.cpp
     event.cpp
@@ -28,6 +27,7 @@ set(FCITX_CORE_HEADERS
     inputmethodmanager.h
     inputmethodgroup.h
     inputmethodengine.h
+    inputmethodentry.h
     globalconfig.h
     text.h
     event.h

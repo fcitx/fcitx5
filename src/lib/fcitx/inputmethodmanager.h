@@ -34,6 +34,8 @@ public:
     InputMethodManager();
     virtual ~InputMethodManager();
 
+    void load();
+
     void setInputMethodGroups(std::vector<std::vector<std::string>> &inputMethodLists);
     int groupCount() const;
 

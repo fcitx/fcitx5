@@ -18,6 +18,7 @@
  */
 
 #include <unordered_map>
+#include <unordered_set>
 #include <fcntl.h>
 #include <unistd.h>
 #include "addonmanager.h"
@@ -63,7 +64,7 @@ public:
         return nullptr;
     }
 
-    DependencyCheckStatus checkDependencies(const Addon &a) const {
+    DependencyCheckStatus checkDependencies(const Addon &a) {
         auto &dependencies = a.info().dependencies();
         for (auto &dependency : dependencies) {
             Addon *dep = addon(dependency);
@@ -72,6 +73,25 @@ public:
             }
 
             if (!dep->loaded()) {
+                if (dep->info().onRequest()) {
+                    requested.insert(dep->info().name());
+                }
+                return DependencyCheckStatus::Pending;
+            }
+        }
+        auto &optionalDependencies = a.info().optionalDependencies();
+        for (auto &dependency : optionalDependencies) {
+            Addon *dep = addon(dependency);
+            // if not available, don't bother load it
+            if (!dep || !dep->isValid()) {
+                continue;
+            }
+
+            // otherwise wait for it
+            if (!dep->loaded()) {
+                if (dep->info().onRequest()) {
+                    requested.insert(dep->info().name());
+                }
                 return DependencyCheckStatus::Pending;
             }
         }
@@ -79,11 +99,44 @@ public:
         return DependencyCheckStatus::Satisfied;
     }
 
+    void loadAddons() {
+        bool changed = false;
+        do {
+            changed = false;
+
+            for (auto &item : addons) {
+                changed = loadAddon(*item.second.get());
+            }
+        } while (changed);
+    }
+
+    bool loadAddon(Addon &addon) {
+        if (addon.loaded()) {
+            return false;
+        }
+        if (addon.info().onRequest() && requested.count(addon.info().name()) == 0) {
+            return false;
+        }
+        auto result = checkDependencies(addon);
+        if (result == DependencyCheckStatus::Failed) {
+            addon.setFailed();
+        } else if (result == DependencyCheckStatus::Satisfied) {
+            addon.load(this);
+            if (addon.loaded()) {
+                loadOrder.push_back(addon.info().name());
+                return true;
+            }
+        }
+        // here we are "pending" on others.
+        return true;
+    }
+
     AddonManager *q_ptr;
     FCITX_DECLARE_PUBLIC(AddonManager);
 
     std::unordered_map<std::string, std::unique_ptr<Addon>> addons;
     std::unordered_map<std::string, std::unique_ptr<AddonLoader>> loaders;
+    std::unordered_set<std::string> requested;
 
     std::vector<std::string> loadOrder;
 
@@ -147,32 +200,20 @@ void AddonManager::load() {
         }
     }
 
-    bool changed = false;
-    do {
-        changed = false;
-
-        for (auto &item : d->addons) {
-            auto &addon = *item.second;
-            if (addon.loaded()) {
-                continue;
-            }
-            auto result = d->checkDependencies(addon);
-            if (result == DependencyCheckStatus::Failed) {
-                addon.setFailed();
-            } else if (result == DependencyCheckStatus::Satisfied) {
-                addon.load(d);
-                if (addon.loaded()) {
-                    d->loadOrder.push_back(addon.info().name());
-                    changed = true;
-                }
-            }
-        }
-    } while (changed);
+    d->loadAddons();
 }
 
 AddonInstance *AddonManager::addon(const std::string &name) {
     FCITX_D();
-    return d->addon(name)->instance();
+    auto addon = d->addon(name);
+    if (!addon) {
+        return nullptr;
+    }
+    if (addon->isValid() && !addon->loaded() && addon->info().onRequest()) {
+        d->requested.insert(name);
+        d->loadAddons();
+    }
+    return addon->instance();
 }
 
 Instance *AddonManager::instance() {

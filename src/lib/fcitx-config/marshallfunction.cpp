@@ -17,6 +17,7 @@
  * see <http://www.gnu.org/licenses/>.
  */
 
+#include "fcitx-utils/stringutils.h"
 #include "marshallfunction.h"
 #include "configuration.h"
 
@@ -66,6 +67,26 @@ bool unmarshallOption(Color &value, const RawConfig &config) {
     } catch (ColorParseException) {
         return false;
     }
+    return true;
+}
+
+void marshallOption(RawConfig &config, const I18NString &value) {
+    config = value.defaultString();
+    for (auto &p : value.localizedStrings()) {
+        (*config.parent())[config.name() + "[" + p.first + "]"] = p.second;
+    }
+}
+
+bool unmarshallOption(I18NString &value, const RawConfig &config) {
+    value.clear();
+    value.set(config.value());
+    config.parent()->visitSubItems([&value, &config](const RawConfig &config_, const std::string &path) {
+        if (stringutils::startsWith(path, config.name() + "[") && stringutils::endsWith(path, "]")) {
+            auto locale = path.substr(config.name().size() + 1, path.size() - config.name().size() - 2);
+            value.set(config_.value(), locale);
+        }
+        return true;
+    });
     return true;
 }
 

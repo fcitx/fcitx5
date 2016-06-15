@@ -22,6 +22,7 @@
 #include <string>
 #include <fcitx-utils/key.h>
 #include <fcitx-utils/color.h>
+#include <fcitx-utils/i18nstring.h>
 
 namespace fcitx {
 
@@ -33,6 +34,7 @@ FCITX_SPECIALIZE_TYPENAME(int, "Integer");
 FCITX_SPECIALIZE_TYPENAME(std::string, "String");
 FCITX_SPECIALIZE_TYPENAME(fcitx::Key, "Key");
 FCITX_SPECIALIZE_TYPENAME(fcitx::Color, "Color");
+FCITX_SPECIALIZE_TYPENAME(fcitx::I18NString, "I18NString");
 
 template <typename T, typename = void>
 struct OptionTypeName {

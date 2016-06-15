@@ -100,11 +100,10 @@ public:
             if (property->needCopy() &&
                 (propertyPropagatePolicy == PropertyPropagatePolicy::All ||
                  (!inputContext.program().empty() && propertyPropagatePolicy == PropertyPropagatePolicy::Program))) {
-                auto copyProperty = [&p, &inputContext, &property] (auto &container) {
+                auto copyProperty = [&p, &inputContext, &property](auto &container) {
                     for (auto &dstInputContext : container) {
                         if (toInputContextPointer(dstInputContext) != &inputContext) {
-                            toInputContextPointer(dstInputContext)->
-                            property(p.first)->copyTo(property);
+                            toInputContextPointer(dstInputContext)->property(p.first)->copyTo(property);
                             break;
                         }
                     }
@@ -117,7 +116,6 @@ public:
                         copyProperty(iter->second);
                     }
                 }
-
             }
         }
     }
@@ -130,7 +128,7 @@ public:
     Instance *instance = nullptr;
     int propertyIdx = 0;
     std::unordered_map<int, InputContextPropertyFactory> propertyFactories;
-    std::unordered_map<std::string, std::unordered_set<InputContext*>> programMap;
+    std::unordered_map<std::string, std::unordered_set<InputContext *>> programMap;
     PropertyPropagatePolicy propertyPropagatePolicy = PropertyPropagatePolicy::None;
 };
 
@@ -231,7 +229,7 @@ void InputContextManager::propagateProperty(InputContext &inputContext, int idx)
     }
 
     auto property = inputContext.property(idx);
-    auto copyProperty = [idx, &inputContext, &property] (auto &container) {
+    auto copyProperty = [idx, &inputContext, &property](auto &container) {
         for (auto &dstInputContext_ : container) {
             auto dstInputContext = toInputContextPointer(dstInputContext_);
             if (dstInputContext != &inputContext) {

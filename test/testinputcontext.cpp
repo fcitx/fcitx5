@@ -48,6 +48,7 @@ class TestProperty : public InputContextProperty {
 public:
     int num() const { return m_num; }
     void setNum(int n) { m_num = n; }
+
 protected:
     int m_num = 0;
 };
@@ -56,7 +57,7 @@ class TestSharedProperty : public TestProperty {
 public:
     bool needCopy() const override { return true; }
     void copyTo(InputContextProperty *other_) override {
-        auto other = static_cast<TestSharedProperty*>(other_);
+        auto other = static_cast<TestSharedProperty *>(other_);
         other->m_num = m_num;
     }
 };
@@ -112,26 +113,26 @@ int main() {
         ic.emplace_back(new TestInputContext(manager, "Firefox"));
         ic.emplace_back(new TestInputContext(manager, "Chrome"));
 
-        int slot[] = { manager.registerProperty([] (InputContext&) { return new TestSharedProperty; }),
-                       manager.registerProperty([] (InputContext&) { return new TestProperty; }) };
+        int slot[] = {manager.registerProperty([](InputContext &) { return new TestSharedProperty; }),
+                      manager.registerProperty([](InputContext &) { return new TestProperty; })};
 
         ic.emplace_back(new TestInputContext(manager, "Chrome"));
 
-        auto check = [&ic, &slot] (auto expect) {
+        auto check = [&ic, &slot](auto expect) {
             int idx = 0;
             for (auto s : slot) {
                 int idx2 = 0;
                 for (auto &context : ic) {
                     assert(context->propertyAs<TestProperty>(s)->num() == expect[idx][idx2]);
-                    idx2 ++;
+                    idx2++;
                 }
-                idx ++;
+                idx++;
             }
         };
 
         {
             int expect[][4] = {
-                {0,0,0,0}, {0,0,0,0},
+                {0, 0, 0, 0}, {0, 0, 0, 0},
             };
             check(expect);
         }
@@ -142,7 +143,7 @@ int main() {
         ic[0]->updateProperty(slot[1]);
         {
             int expect[][4] = {
-                {1,0,0,0}, {2,0,0,0},
+                {1, 0, 0, 0}, {2, 0, 0, 0},
             };
             check(expect);
         }
@@ -151,7 +152,7 @@ int main() {
         ic[0]->updateProperty(slot[1]);
         {
             int expect[][4] = {
-                {1,1,0,0}, {2,0,0,0},
+                {1, 1, 0, 0}, {2, 0, 0, 0},
             };
             check(expect);
         }
@@ -160,7 +161,7 @@ int main() {
         ic[0]->updateProperty(slot[1]);
         {
             int expect[][4] = {
-                {1,1,1,1}, {2,0,0,0},
+                {1, 1, 1, 1}, {2, 0, 0, 0},
             };
             check(expect);
         }
@@ -172,12 +173,11 @@ int main() {
             ic[3]->propertyAs<TestProperty>(slot[0])->setNum(3);
             ic[3]->updateProperty(slot[0]);
             int expect[][5] = {
-                {1,1,3,3,1}, {2,0,0,0,0},
+                {1, 1, 3, 3, 1}, {2, 0, 0, 0, 0},
             };
             check(expect);
         }
     }
-
 
     return 0;
 }

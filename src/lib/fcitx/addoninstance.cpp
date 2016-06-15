@@ -20,5 +20,26 @@
 #include "addoninstance.h"
 
 namespace fcitx {
+
+class AddonInstancePrivate {
+public:
+    std::unordered_map<std::string, AddonFunctionAdaptorBase *> callbackMap;
+};
+
+AddonInstance::AddonInstance() : d_ptr(std::make_unique<AddonInstancePrivate>()) {}
 AddonInstance::~AddonInstance() {}
+
+void AddonInstance::registerCallback(const std::string &name, AddonFunctionAdaptorBase *adaptor) {
+    FCITX_D();
+    d->callbackMap[name] = adaptor;
+}
+
+AddonFunctionAdaptorBase *AddonInstance::findCall(const std::string &name) {
+    FCITX_D();
+    auto iter = d->callbackMap.find(name);
+    if (iter == d->callbackMap.end()) {
+        throw std::runtime_error(name.c_str());
+    }
+    return iter->second;
+}
 }

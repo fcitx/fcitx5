@@ -19,6 +19,7 @@
 #ifndef _FCITX_ADDONINSTANCE_H_
 #define _FCITX_ADDONINSTANCE_H_
 
+#include <memory>
 #include <unordered_map>
 #include <functional>
 #include <type_traits>
@@ -28,6 +29,7 @@
 namespace fcitx {
 
 class AddonInstance;
+class AddonInstancePrivate;
 class AddonFunctionAdaptorBase {
 public:
     AddonInstance *addon;
@@ -52,13 +54,12 @@ struct AddonFunctionWrapperType<Ret(Args...)> {
 
 class FCITXCORE_EXPORT AddonInstance {
 public:
+    AddonInstance();
+    virtual ~AddonInstance();
+
     template <typename Signature, typename... Args>
     typename std::function<Signature>::result_type callWithSignature(const std::string &name, Args &&... args) {
-        auto iter = callbackMap.find(name);
-        if (iter == callbackMap.end()) {
-            throw std::runtime_error(name.c_str());
-        }
-        auto adaptor = callbackMap[name];
+        auto adaptor = findCall(name);
         auto func = Library::toFunction<typename AddonFunctionWrapperType<Signature>::type>(adaptor->wrapCallback);
         return func(this, adaptor, std::forward<Args>(args)...);
     }
@@ -72,11 +73,12 @@ public:
         return callWithSignature<typename MetaType::Signature>(MetaType::Name::data(), std::forward<Args>(args)...);
     }
 
-    virtual ~AddonInstance();
+    void registerCallback(const std::string &name, AddonFunctionAdaptorBase *adaptor);
 
-    void registerCallback(const std::string &name, AddonFunctionAdaptorBase *adaptor) { callbackMap[name] = adaptor; }
-
-    std::unordered_map<std::string, AddonFunctionAdaptorBase *> callbackMap;
+private:
+    AddonFunctionAdaptorBase *findCall(const std::string &name);
+    std::unique_ptr<AddonInstancePrivate> d_ptr;
+    FCITX_DECLARE_PRIVATE(AddonInstance);
 };
 
 template <typename Class, typename Ret, typename... Args>

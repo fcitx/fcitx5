@@ -37,6 +37,7 @@ foreach(TESTCASE ${FCITX_UTILS_TEST})
     add_test(NAME ${TESTCASE}
              COMMAND ${TESTCASE} ${${TESTCASE}_ARGS})
 endforeach()
+set_target_properties(testlibrary PROPERTIES LINK_FLAGS "-rdynamic")
 
 set(FCITX_CONFIG_TEST
     testconfig)
@@ -62,3 +63,8 @@ foreach(TESTCASE ${FCITX_CORE_TEST})
 endforeach()
 
 add_dependencies(testaddon dummyaddon)
+
+add_executable(testxkbrules testxkbrules.cpp ../src/im/keyboard/xkbrules.cpp)
+target_include_directories(testxkbrules PRIVATE ../src)
+target_link_libraries(testxkbrules Fcitx5::Utils LibXml2::LibXml)
+add_test(NAME testxkbrules COMMAND testxkbrules)

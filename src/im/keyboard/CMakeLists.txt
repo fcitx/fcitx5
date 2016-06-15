@@ -1,0 +1,5 @@
+add_library(keyboard MODULE keyboard.cpp isocodes.cpp xkbrules.cpp)
+target_link_libraries(keyboard Fcitx5::Core LibXml2::LibXml LibIntl::LibIntl)
+set_target_properties(keyboard PROPERTIES PREFIX "")
+install(TARGETS keyboard DESTINATION "${FCITX_INSTALL_ADDONDIR}")
+install(FILES keyboard.conf DESTINATION "${FCITX_INSTALL_PKGDATADIR}/addon")
