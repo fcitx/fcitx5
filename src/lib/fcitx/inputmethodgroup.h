@@ -27,14 +27,35 @@
 namespace fcitx {
 
 class InputMethodGroupPrivate;
+class InputMethodGroupItemPrivate;
+
+class InputMethodGroupItem {
+public:
+    InputMethodGroupItem(const std::string &name);
+    InputMethodGroupItem(InputMethodGroupItem &&other) noexcept;
+    virtual ~InputMethodGroupItem();
+
+    InputMethodGroupItem &setLayout(const std::string &layout);
+    const std::string &name() const;
+    const std::string &layout() const;
+
+    std::unique_ptr<InputMethodGroupItemPrivate> d_ptr;
+    FCITX_DECLARE_PRIVATE(InputMethodGroupItem);
+};
 
 class InputMethodGroup {
 public:
-    InputMethodGroup();
+    InputMethodGroup(const std::string &name);
+    InputMethodGroup(InputMethodGroup &&other) noexcept;
     virtual ~InputMethodGroup();
 
-    std::vector<std::string> &inputMethodList();
-    const std::vector<std::string> &inputMethodList() const;
+    const std::string &name() const;
+    void setDefaultLayout(const std::string &layout);
+    const std::string &defaultLayout() const;
+    std::vector<InputMethodGroupItem> &inputMethodList();
+    const std::vector<InputMethodGroupItem> &inputMethodList() const;
+    const std::string &defaultInputMethod() const;
+    void setDefaultInputMethod(const std::string &im);
 
 private:
     std::unique_ptr<InputMethodGroupPrivate> d_ptr;

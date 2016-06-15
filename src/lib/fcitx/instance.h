@@ -34,6 +34,7 @@ class InstancePrivate;
 class EventLoop;
 class AddonManager;
 class InputContextManager;
+class InputMethodManager;
 class GlobalConfig;
 typedef std::function<void(Event &event)> EventHandler;
 enum class EventWatcherPhase { PreInputMethod, InputMethod, PostInputMethod, Default = PostInputMethod };
@@ -50,6 +51,7 @@ public:
     EventLoop &eventLoop();
     AddonManager &addonManager();
     InputContextManager &inputContextManager();
+    InputMethodManager &inputMethodManager();
     GlobalConfig &globalConfig();
 
     bool postEvent(Event &event);

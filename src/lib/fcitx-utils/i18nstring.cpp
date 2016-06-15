@@ -21,7 +21,8 @@
 #include "charutils.h"
 
 namespace fcitx {
-const std::string &I18NString::match(std::string locale) const {
+const std::string &I18NString::match(const std::string &locale_) const {
+    std::string locale = locale_;
     if (locale == "system") {
         char *lc = setlocale(LC_MESSAGES, nullptr);
         if (lc) {

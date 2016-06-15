@@ -112,33 +112,36 @@ public:
     StandardPath(bool skipFcitxPath = false);
     virtual ~StandardPath();
 
+    // return a global default so we can share it, C++11 static initialization is thread-safe
+    static const StandardPath &global();
+
     static std::string fcitxPath(const char *path);
 
-    void scanDirectories(Type type, std::function<bool(const std::string &path, bool user)> scanner);
+    void scanDirectories(Type type, std::function<bool(const std::string &path, bool user)> scanner) const;
     // scan file under dir/path, path is supposed to be a directory.
     void scanFiles(Type type, const std::string &path,
-                   std::function<bool(const std::string &path, const std::string &dir, bool user)> scanner);
+                   std::function<bool(const std::string &path, const std::string &dir, bool user)> scanner) const;
 
     std::string userDirectory(Type type) const;
     std::vector<std::string> directories(Type type) const;
 
-    std::string locate(Type type, const std::string &path);
-    std::vector<std::string> locateAll(Type type, const std::string &path);
+    std::string locate(Type type, const std::string &path) const;
+    std::vector<std::string> locateAll(Type type, const std::string &path) const;
     // Open the first matched and succeed
-    StandardPathFile open(Type type, const std::string &path, int flags);
+    StandardPathFile open(Type type, const std::string &path, int flags) const;
     // Open first match for
     StandardPathFileMap
     multiOpenFilter(Type type, const std::string &path, int flags,
-                    std::function<bool(const std::string &path, const std::string &dir, bool user)> filter);
+                    std::function<bool(const std::string &path, const std::string &dir, bool user)> filter) const;
     template <typename... Args>
-    StandardPathFileMap multiOpen(Type type, const std::string &path, int flags, Args... args) {
+    StandardPathFileMap multiOpen(Type type, const std::string &path, int flags, Args... args) const {
         return multiOpenFilter(type, path, flags, filter::Chainer<Args...>(args...));
     }
     StandardPathFilesMap
     multiOpenAllFilter(Type type, const std::string &path, int flags,
-                       std::function<bool(const std::string &path, const std::string &dir, bool user)> filter);
+                       std::function<bool(const std::string &path, const std::string &dir, bool user)> filter) const;
     template <typename... Args>
-    StandardPathFilesMap multiOpenAll(Type type, const std::string &path, int flags, Args... args) {
+    StandardPathFilesMap multiOpenAll(Type type, const std::string &path, int flags, Args... args) const {
         return multiOpenAllFilter(type, path, flags, filter::Chainer<Args...>(args...));
     }
 

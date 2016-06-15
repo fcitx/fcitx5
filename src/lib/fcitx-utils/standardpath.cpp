@@ -158,6 +158,11 @@ StandardPath::StandardPath(bool skipFcitxPath) : d_ptr(std::make_unique<Standard
 
 StandardPath::~StandardPath() {}
 
+const StandardPath &StandardPath::global() {
+    static StandardPath globalPath;
+    return globalPath;
+}
+
 std::string StandardPath::fcitxPath(const char *path) {
     if (!path) {
         return {};
@@ -196,7 +201,7 @@ std::vector<std::string> StandardPath::directories(Type type) const {
     return d->directories(type);
 }
 
-void StandardPath::scanDirectories(Type type, std::function<bool(const std::string &path, bool user)> scanner) {
+void StandardPath::scanDirectories(Type type, std::function<bool(const std::string &path, bool user)> scanner) const {
     FCITX_D();
     std::string userDir = d->userPath(type);
     std::vector<std::string> list = d->directories(type);
@@ -225,7 +230,7 @@ void StandardPath::scanDirectories(Type type, std::function<bool(const std::stri
 
 void StandardPath::scanFiles(
     Type type, const std::string &path,
-    std::function<bool(const std::string &fileName, const std::string &dir, bool user)> scanner) {
+    std::function<bool(const std::string &fileName, const std::string &dir, bool user)> scanner) const {
     scanDirectories(type, [scanner, &path](const std::string &dirPath, bool isUser) {
         auto fullPath = constructPath(dirPath, path);
         std::unique_ptr<DIR, decltype(closedir0) *> scopedDir{opendir(fullPath.c_str()), closedir0};
@@ -246,7 +251,7 @@ void StandardPath::scanFiles(
     });
 }
 
-std::string StandardPath::locate(Type type, const std::string &path) {
+std::string StandardPath::locate(Type type, const std::string &path) const {
     std::string retPath;
     scanDirectories(type, [&retPath, &path](const std::string &dirPath, bool) {
         auto fullPath = constructPath(dirPath, path);
@@ -259,7 +264,7 @@ std::string StandardPath::locate(Type type, const std::string &path) {
     return retPath;
 }
 
-std::vector<std::string> StandardPath::locateAll(Type type, const std::string &path) {
+std::vector<std::string> StandardPath::locateAll(Type type, const std::string &path) const {
     std::vector<std::string> retPaths;
     scanDirectories(type, [&retPaths, &path](const std::string &dirPath, bool) {
         auto fullPath = constructPath(dirPath, path);
@@ -271,8 +276,8 @@ std::vector<std::string> StandardPath::locateAll(Type type, const std::string &p
     return retPaths;
 }
 
-StandardPathFile StandardPath::open(Type type, const std::string &path, int flags) {
-    StandardPathFile file;
+StandardPathFile StandardPath::open(Type type, const std::string &path, int flags) const {
+    StandardPathFile file{-1, ""};
     scanDirectories(type, [flags, &file, &path](const std::string &dirPath, bool) {
         auto fullPath = constructPath(dirPath, path);
         int fd = ::open(fullPath.c_str(), flags);
@@ -286,9 +291,9 @@ StandardPathFile StandardPath::open(Type type, const std::string &path, int flag
     return file;
 }
 
-std::unordered_map<std::string, StandardPathFile>
-StandardPath::multiOpenFilter(Type type, const std::string &path, int flags,
-                              std::function<bool(const std::string &path, const std::string &dir, bool user)> filter) {
+std::unordered_map<std::string, StandardPathFile> StandardPath::multiOpenFilter(
+    Type type, const std::string &path, int flags,
+    std::function<bool(const std::string &path, const std::string &dir, bool user)> filter) const {
     std::unordered_map<std::string, StandardPathFile> result;
     scanFiles(type, path, [&result, flags, &filter](const std::string &path, const std::string dir, bool isUser) {
         if (!result.count(path) && filter(path, dir, isUser)) {
@@ -306,7 +311,7 @@ StandardPath::multiOpenFilter(Type type, const std::string &path, int flags,
 
 StandardPathFilesMap StandardPath::multiOpenAllFilter(
     Type type, const std::string &path, int flags,
-    std::function<bool(const std::string &path, const std::string &dir, bool user)> filter) {
+    std::function<bool(const std::string &path, const std::string &dir, bool user)> filter) const {
     StandardPathFilesMap result;
     scanFiles(type, path, [&result, flags, &filter](const std::string &path, const std::string dir, bool isUser) {
         if (filter(path, dir, isUser)) {

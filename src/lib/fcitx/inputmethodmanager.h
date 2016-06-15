@@ -27,19 +27,29 @@
 
 namespace fcitx {
 
+class AddonManager;
 class InputMethodManagerPrivate;
+class Instance;
 
 class InputMethodManager {
 public:
-    InputMethodManager();
+    InputMethodManager(AddonManager *addonManager_);
     virtual ~InputMethodManager();
 
     void load();
 
-    void setInputMethodGroups(std::vector<std::vector<std::string>> &inputMethodLists);
+    void save();
+    void setInstance(Instance *instance);
+
+    const std::vector<InputMethodGroup> &groups();
     int groupCount() const;
+    void setCurrentGroup(const std::string &group);
+    void setGroupOrder(const std::vector<std::string> &groups);
 
 private:
+    void loadConfig();
+    void buildDefaultGroup();
+
     std::unique_ptr<InputMethodManagerPrivate> d_ptr;
     FCITX_DECLARE_PRIVATE(InputMethodManager);
 };

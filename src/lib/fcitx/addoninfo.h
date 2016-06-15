@@ -39,6 +39,7 @@ public:
     bool isValid() const;
     const std::string &name() const;
     const std::string &type() const;
+    AddonCategory category() const;
     const std::string &library() const;
     const std::vector<std::string> &dependencies() const;
     const std::vector<std::string> &optionalDependencies() const;

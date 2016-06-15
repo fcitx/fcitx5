@@ -83,7 +83,7 @@ void IsoCodes::isoCodes3166StartElement(const xmlChar *name, const xmlChar **att
         int i = 0;
         while (atts && atts[i * 2] != 0) {
             if (strcmp(reinterpret_cast<const char *>(atts[i * 2]), "alpha_2_code") == 0)
-                alpha_2_code = strdup(reinterpret_cast<const char *>(atts[i * 2 + 1]));
+                alpha_2_code = reinterpret_cast<const char *>(atts[i * 2 + 1]);
             else if (strcmp(reinterpret_cast<const char *>(atts[i * 2]), "name") == 0)
                 name = reinterpret_cast<const char *>(atts[i * 2 + 1]);
             i++;

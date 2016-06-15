@@ -55,6 +55,11 @@ const std::string &AddonInfo::type() const {
     return d->type.value();
 }
 
+AddonCategory AddonInfo::category() const {
+    FCITX_D();
+    return d->category.value();
+}
+
 const std::string &AddonInfo::library() const {
     FCITX_D();
     return d->library.value();

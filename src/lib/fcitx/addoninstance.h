@@ -56,6 +56,7 @@ class FCITXCORE_EXPORT AddonInstance {
 public:
     AddonInstance();
     virtual ~AddonInstance();
+    virtual void reloadConfig();
 
     template <typename Signature, typename... Args>
     typename std::function<Signature>::result_type callWithSignature(const std::string &name, Args &&... args) {

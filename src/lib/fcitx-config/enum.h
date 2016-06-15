@@ -35,8 +35,8 @@
         for (decltype(size) i = 0; i < size; i++) {                                                                    \
             if (config.value() == _##TYPE##_Names[i]) {                                                                \
                 value = static_cast<TYPE>(i);                                                                          \
+                return true;                                                                                           \
             }                                                                                                          \
-            return true;                                                                                               \
         }                                                                                                              \
         return false;                                                                                                  \
     }                                                                                                                  \

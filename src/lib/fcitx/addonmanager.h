@@ -22,6 +22,7 @@
 #include <memory>
 #include <fcitx-utils/macros.h>
 #include <string>
+#include <unordered_set>
 #include "fcitxcore_export.h"
 #include "addonloader.h"
 
@@ -41,7 +42,9 @@ public:
     void load();
     void unload();
 
-    AddonInstance *addon(const std::string &name);
+    AddonInstance *addon(const std::string &name, bool load = false);
+    const AddonInfo *addonInfo(const std::string &name) const;
+    std::unordered_set<std::string> addonNames(AddonCategory category);
 
     Instance *instance();
 

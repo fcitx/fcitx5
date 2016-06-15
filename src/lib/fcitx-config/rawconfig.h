@@ -36,7 +36,7 @@ public:
     explicit RawConfig(std::string name = "", std::string value = "");
     virtual ~RawConfig();
     RawConfig(const RawConfig &other);
-    RawConfig(RawConfig &&other);
+    RawConfig(RawConfig &&other) noexcept;
 
     std::shared_ptr<RawConfig> get(const std::string &path, bool create = false);
     std::shared_ptr<const RawConfig> get(const std::string &path) const;

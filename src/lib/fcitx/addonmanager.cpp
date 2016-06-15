@@ -186,7 +186,7 @@ void AddonManager::registerDefaultLoader(StaticAddonRegistry *registry) {
 
 void AddonManager::load() {
     FCITX_D();
-    StandardPath path;
+    auto &path = StandardPath::global();
     auto files = path.multiOpenAll(StandardPath::Type::Data, "fcitx5/addon", O_RDONLY, filter::Suffix(".conf"));
     for (const auto &file : files) {
         auto &files = file.second;
@@ -205,17 +205,37 @@ void AddonManager::load() {
     d->loadAddons();
 }
 
-AddonInstance *AddonManager::addon(const std::string &name) {
+AddonInstance *AddonManager::addon(const std::string &name, bool load) {
     FCITX_D();
     auto addon = d->addon(name);
     if (!addon) {
         return nullptr;
     }
-    if (addon->isValid() && !addon->loaded() && addon->info().onRequest()) {
+    if (addon->isValid() && !addon->loaded() && addon->info().onRequest() && load) {
         d->requested.insert(name);
         d->loadAddons();
     }
     return addon->instance();
+}
+
+const AddonInfo *AddonManager::addonInfo(const std::string &name) const {
+    FCITX_D();
+    auto addon = d->addon(name);
+    if (addon && addon->isValid()) {
+        return &addon->info();
+    }
+    return nullptr;
+}
+
+std::unordered_set<std::string> AddonManager::addonNames(AddonCategory category) {
+    FCITX_D();
+    std::unordered_set<std::string> result;
+    for (auto &item : d->addons) {
+        if (item.second->isValid() && item.second->info().category() == category) {
+            result.insert(item.first);
+        }
+    }
+    return result;
 }
 
 Instance *AddonManager::instance() {

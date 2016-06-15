@@ -22,6 +22,7 @@
 #include "globalconfig.h"
 #include "fcitx/inputcontextmanager.h"
 #include "fcitx/addonmanager.h"
+#include "inputmethodmanager.h"
 #include "inputstate_p.h"
 #include "fcitx-utils/stringutils.h"
 #include <unistd.h>
@@ -97,6 +98,7 @@ public:
     std::unique_ptr<EventSourceIO> signalPipeEvent;
     InputContextManager icManager;
     AddonManager addonManager;
+    InputMethodManager imManager{&this->addonManager};
     GlobalConfig globalConfig;
     std::unordered_map<EventType, std::unordered_map<EventWatcherPhase, HandlerTable<EventHandler>, enum_hash>,
                        enum_hash> eventHandlers;
@@ -264,6 +266,7 @@ void Instance::handleSignal() {
 void Instance::initialize() {
     FCITX_D();
     d->addonManager.load();
+    d->imManager.load();
 }
 
 int Instance::exec() {
@@ -349,7 +352,12 @@ void Instance::deactivate() {}
 
 void Instance::exit() { eventLoop().quit(); }
 
-void Instance::reloadAddonConfig(const std::string &addonName) {}
+void Instance::reloadAddonConfig(const std::string &addonName) {
+    auto addon = addonManager().addon(addonName);
+    if (addon) {
+        addon->reloadConfig();
+    }
+}
 
 void Instance::reloadConfig() {}
 

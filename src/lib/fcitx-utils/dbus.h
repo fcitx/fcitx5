@@ -48,7 +48,7 @@ public:
     Bus(BusType type);
     virtual ~Bus();
     Bus(const Bus &other) = delete;
-    Bus(Bus &&other);
+    Bus(Bus &&other) noexcept;
 
     bool isOpen() const;
 

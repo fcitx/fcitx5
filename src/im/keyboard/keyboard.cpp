@@ -120,8 +120,8 @@ std::vector<InputMethodEntry> KeyboardEngine::listInputMethods() {
         auto description =
             stringutils::join({_("Keyboard"), " - ", D_("xkeyboard-config", layoutInfo.description)}, "");
         auto uniqueName = "fcitx-keyboard-" + layoutInfo.name;
-        result.emplace_back(
-            std::move(InputMethodEntry(uniqueName, description, language).setIcon("kbd").setLabel(layoutInfo.name)));
+        result.emplace_back(std::move(
+            InputMethodEntry(uniqueName, description, language, "keyboard").setIcon("kbd").setLabel(layoutInfo.name)));
         for (auto &variantInfo : layoutInfo.variantInfos) {
             auto language =
                 findBestLanguage(m_isoCodes, variantInfo.description,
@@ -130,8 +130,9 @@ std::vector<InputMethodEntry> KeyboardEngine::listInputMethods() {
                                                   " - ", D_("xkeyboard-config", variantInfo.description)},
                                                  "");
             auto uniqueName = "fcitx-keyboard-" + layoutInfo.name + "-" + variantInfo.name;
-            result.emplace_back(std::move(
-                InputMethodEntry(uniqueName, description, language).setIcon("kbd").setLabel(layoutInfo.name)));
+            result.emplace_back(std::move(InputMethodEntry(uniqueName, description, language, "keyboard")
+                                              .setIcon("kbd")
+                                              .setLabel(layoutInfo.name)));
         }
     }
     return result;

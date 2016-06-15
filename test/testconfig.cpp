@@ -77,8 +77,10 @@ int main() {
     config.intValue.setValue(20);
     // still have the old value
     assert(config.intValue.value() == 5);
+    rawConfig.setValueByPath("EnumOption", "EnumB");
     config.load(rawConfig);
     assert(config.intValue.value() == 0);
+    assert(config.enumValue.value() == TestEnum::EnumB);
 
     assert(config.i18nStringValue.value().match("") == "ABCD");
     assert(config.i18nStringValue.value().match("zh_CN") == "A");

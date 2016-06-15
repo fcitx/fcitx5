@@ -108,7 +108,7 @@ RawConfig::~RawConfig() {
 
 RawConfig::RawConfig(const RawConfig &other) : d_ptr(std::make_unique<RawConfigPrivate>(this, *other.d_func())) {}
 
-RawConfig::RawConfig(fcitx::RawConfig &&other) : d_ptr(std::move(other.d_ptr)) {}
+RawConfig::RawConfig(RawConfig &&other) noexcept : d_ptr(std::move(other.d_ptr)) {}
 
 std::shared_ptr<RawConfig> RawConfig::get(const std::string &path, bool create) {
     auto dummy = [](const RawConfig &, const std::string &) {};

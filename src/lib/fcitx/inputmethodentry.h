@@ -20,6 +20,7 @@
 #define _FCITX_INPUTMETHODENTRY_H_
 
 #include <string>
+#include <memory>
 #include "fcitxcore_export.h"
 
 namespace fcitx {
@@ -30,8 +31,9 @@ struct FCITXCORE_EXPORT InputMethodEntryUserData {
 
 class FCITXCORE_EXPORT InputMethodEntry {
 public:
-    InputMethodEntry(const std::string &uniqueName, const std::string &name, const std::string &languageCode)
-        : m_uniqueName(uniqueName), m_name(name), m_languageCode(languageCode) {}
+    InputMethodEntry(const std::string &uniqueName, const std::string &name, const std::string &languageCode,
+                     const std::string &addon)
+        : m_uniqueName(uniqueName), m_name(name), m_languageCode(languageCode), m_addon(addon) {}
     InputMethodEntry(const InputMethodEntry &) = delete;
     InputMethodEntry(InputMethodEntry &&) = default;
     virtual ~InputMethodEntry() {}

@@ -17,26 +17,98 @@
  * see <http://www.gnu.org/licenses/>.
  */
 
+#include <algorithm>
 #include "inputmethodgroup.h"
 
 namespace fcitx {
 
-class InputMethodGroupPrivate {
+class InputMethodGroupItemPrivate {
 public:
-    std::vector<std::string> inputMethodList;
+    InputMethodGroupItemPrivate(const std::string &name_) : name(name_) {}
+
+    std::string name;
+    std::string layout;
 };
 
-InputMethodGroup::InputMethodGroup() : d_ptr(std::make_unique<InputMethodGroupPrivate>()) {}
+class InputMethodGroupPrivate {
+public:
+    InputMethodGroupPrivate(const std::string &name_) : name(name_) {}
+
+    std::string name;
+    std::vector<InputMethodGroupItem> inputMethodList;
+    std::string defaultInputMethod;
+};
+
+InputMethodGroupItem::InputMethodGroupItem(const std::string &name)
+    : d_ptr(std::make_unique<InputMethodGroupItemPrivate>(name)) {}
+
+InputMethodGroupItem::InputMethodGroupItem(InputMethodGroupItem &&other) noexcept : d_ptr(std::move(other.d_ptr)) {}
+
+InputMethodGroupItem::~InputMethodGroupItem() {}
+
+const std::string &InputMethodGroupItem::name() const {
+    FCITX_D();
+    return d->name;
+}
+
+const std::string &InputMethodGroupItem::layout() const {
+    FCITX_D();
+    return d->layout;
+}
+
+InputMethodGroupItem &InputMethodGroupItem::setLayout(const std::string &layout) {
+    FCITX_D();
+    d->layout = layout;
+    return *this;
+}
+
+InputMethodGroup::InputMethodGroup(const std::string &name) : d_ptr(std::make_unique<InputMethodGroupPrivate>(name)) {}
+
+InputMethodGroup::InputMethodGroup(InputMethodGroup &&other) noexcept : d_ptr(std::move(other.d_ptr)) {}
 
 InputMethodGroup::~InputMethodGroup() {}
 
-std::vector<std::string> &InputMethodGroup::inputMethodList() {
+const std::string &InputMethodGroup::name() const {
+    FCITX_D();
+    return d->name;
+}
+
+std::vector<InputMethodGroupItem> &InputMethodGroup::inputMethodList() {
     FCITX_D();
     return d->inputMethodList;
 }
 
-const std::vector<std::string> &InputMethodGroup::inputMethodList() const {
+const std::vector<InputMethodGroupItem> &InputMethodGroup::inputMethodList() const {
     FCITX_D();
     return d->inputMethodList;
+}
+
+void InputMethodGroup::setDefaultInputMethod(const std::string &im) {
+    FCITX_D();
+    if (std::any_of(d->inputMethodList.begin(), d->inputMethodList.end(),
+                    [&im](const InputMethodGroupItem &item) { return item.name() == im; })) {
+        d->defaultInputMethod = im;
+    } else {
+        if (d->inputMethodList.size() >= 2) {
+            d->defaultInputMethod = d->inputMethodList[1].name();
+        } else {
+            d->defaultInputMethod = d->defaultInputMethod.empty() ? "" : d->inputMethodList[0].name();
+        }
+    }
+}
+
+const std::string &InputMethodGroup::defaultInputMethod() const {
+    FCITX_D();
+    return d->defaultInputMethod;
+}
+
+void InputMethodGroup::setDefaultLayout(const std::string &im) {
+    FCITX_D();
+    d->defaultInputMethod = im;
+}
+
+const std::string &InputMethodGroup::defaultLayout() const {
+    FCITX_D();
+    return d->defaultInputMethod;
 }
 }

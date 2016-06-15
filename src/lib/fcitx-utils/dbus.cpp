@@ -75,7 +75,7 @@ fail:
 
 Bus::~Bus() {}
 
-Bus::Bus(Bus &&other) : d_ptr(std::move(other.d_ptr)) {}
+Bus::Bus(Bus &&other) noexcept : d_ptr(std::move(other.d_ptr)) {}
 
 bool Bus::isOpen() const {
     FCITX_D();

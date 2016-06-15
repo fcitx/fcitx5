@@ -41,7 +41,7 @@ public:
         m_map.clear();
     }
 
-    const std::string &match(std::string locale) const;
+    const std::string &match(const std::string &locale) const;
 
     bool operator==(const I18NString &other) const { return other.m_default == m_default && other.m_map == m_map; }
 
