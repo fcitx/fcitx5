@@ -86,7 +86,7 @@ public:
     }
 
     RawConfig *q_ptr;
-    RawConfig *parent;
+    RawConfig *parent = nullptr;
     std::string name;
     std::string value;
     std::string comment;
@@ -99,7 +99,12 @@ RawConfig::RawConfig(std::string name, std::string value) : d_ptr(std::make_uniq
     setValue(std::move(value));
 }
 
-RawConfig::~RawConfig() {}
+RawConfig::~RawConfig() {
+    FCITX_D();
+    for (auto pair : d->subItems) {
+        pair.second->d_func()->parent = nullptr;
+    }
+}
 
 RawConfig::RawConfig(const RawConfig &other) : d_ptr(std::make_unique<RawConfigPrivate>(this, *other.d_func())) {}
 
