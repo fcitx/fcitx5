@@ -109,7 +109,7 @@ public:
 
     void commitString(const std::string &text);
     void deleteSurroundingText(int offset, unsigned int size);
-    void forwardKey(const KeyEvent &key);
+    void forwardKey(const Key &rawKey, bool isRelease = false, int keyCode = 0, int time = 0);
     void updatePreedit();
 
     InputContextProperty *property(int idx);
@@ -126,7 +126,7 @@ protected:
 
     virtual void commitStringImpl(const std::string &text) = 0;
     virtual void deleteSurroundingTextImpl(int offset, unsigned int size) = 0;
-    virtual void forwardKeyImpl(const KeyEvent &key) = 0;
+    virtual void forwardKeyImpl(const ForwardKeyEvent &key) = 0;
     virtual void updatePreeditImpl() = 0;
 
     void registerProperty(int idx, InputContextProperty *property);

@@ -29,16 +29,13 @@ namespace fcitx {
 InputContext::InputContext(InputContextManager &manager, const std::string &program)
     : d_ptr(std::make_unique<InputContextPrivate>(this, manager, program)) {
     manager.registerInputContext(*this);
-    if (manager.instance()) {
-        manager.instance()->postEvent(InputContextCreatedEvent(this));
-    }
+    FCITX_D();
+    d->emplaceEvent<InputContextCreatedEvent>(this);
 }
 
 InputContext::~InputContext() {
     FCITX_D();
-    if (d->manager.instance()) {
-        d->manager.instance()->postEvent(InputContextDestroyedEvent(this));
-    }
+    d->emplaceEvent<InputContextDestroyedEvent>(this);
     if (d->group) {
         d->group->removeInputContext(this);
     }
@@ -88,9 +85,7 @@ void InputContext::setCapabilityFlags(CapabilityFlags flags) {
     if (d->capabilityFlags != flags) {
         d->capabilityFlags = flags;
 
-        if (d->manager.instance()) {
-            d->manager.instance()->postEvent(CapabilityChangedEvent(this));
-        }
+        d->emplaceEvent<CapabilityChangedEvent>(this);
     }
 }
 
@@ -103,9 +98,7 @@ void InputContext::setCursorRect(Rect rect) {
     FCITX_D();
     if (d->cursorRect != rect) {
         d->cursorRect = rect;
-        if (d->manager.instance()) {
-            d->manager.instance()->postEvent(CursorRectChangedEvent(this));
-        }
+        d->emplaceEvent<CursorRectChangedEvent>(this);
     }
 }
 
@@ -163,22 +156,16 @@ void InputContext::setHasFocus(bool hasFocus) {
     }
     d->hasFocus = hasFocus;
     // trigger event
-    if (d->manager.instance()) {
-        if (d->hasFocus) {
-            d->manager.instance()->postEvent(FocusInEventEvent(this));
-        } else {
-            d->manager.instance()->postEvent(FocusOutEventEvent(this));
-        }
+    if (d->hasFocus) {
+        d->emplaceEvent<FocusInEventEvent>(this);
+    } else {
+        d->emplaceEvent<FocusOutEventEvent>(this);
     }
 }
 
 bool InputContext::keyEvent(KeyEvent &event) {
     FCITX_D();
-    auto instance = d->manager.instance();
-    if (!instance) {
-        return false;
-    }
-    return instance->postEvent(event);
+    return d->postEvent(event);
 }
 
 void InputContext::reset() {}
@@ -224,17 +211,26 @@ const Text &InputContext::clientPreedit() const {
 void InputContext::commitString(const std::string &text) {
     FCITX_D();
     CommitStringEvent event(text, this);
-    if (auto instance = d->manager.instance()) {
-        instance->postEvent(CommitStringEvent(text, this));
-    }
-    if (!event.accepted()) {
+    if (!d->postEvent(event)) {
         commitStringImpl(event.text());
     }
 }
 
 void InputContext::deleteSurroundingText(int offset, unsigned int size) { deleteSurroundingTextImpl(offset, size); }
 
-void InputContext::forwardKey(const KeyEvent &key) {}
+void InputContext::forwardKey(const Key &rawKey, bool isRelease, int keyCode, int time) {
+    FCITX_D();
+    ForwardKeyEvent event(this, rawKey, isRelease, keyCode, time);
+    if (!d->postEvent(event)) {
+        forwardKeyImpl(event);
+    }
+}
 
-void InputContext::updatePreedit() {}
+void InputContext::updatePreedit() {
+    FCITX_D();
+    UpdatePreeditEvent event(this);
+    if (!d->postEvent(event)) {
+        updatePreeditImpl();
+    }
+}
 }

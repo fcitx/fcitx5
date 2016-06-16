@@ -22,6 +22,8 @@
 #include "fcitx-utils/intrusivelist.h"
 #include "inputcontext.h"
 #include "inputcontextproperty.h"
+#include "inputcontextmanager.h"
+#include "instance.h"
 #include <uuid/uuid.h>
 #include <unordered_map>
 
@@ -33,6 +35,23 @@ public:
         : q_ptr(q), manager(manager_), group(nullptr), hasFocus(false), program(program_) {
         uuid_generate(uuid.data());
     }
+
+    template<typename E>
+    bool postEvent(E &&event) {
+        if (auto instance = manager.instance()) {
+            return instance->postEvent(event);
+        }
+        return false;
+    }
+
+    template<typename E, typename ...Args>
+    bool emplaceEvent(Args &&...args) {
+        if (auto instance = manager.instance()) {
+            return instance->postEvent(E(std::forward<Args>(args)...));
+        }
+        return false;
+    }
+
     InputContext *q_ptr;
     InputContextManager &manager;
     FocusGroup *group;

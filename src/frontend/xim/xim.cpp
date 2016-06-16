@@ -121,7 +121,7 @@ protected:
         xcb_im_commit_string(m_server->im(), m_xic, XCB_XIM_LOOKUP_CHARS, text.c_str(), text.size(), 0);
     }
     virtual void deleteSurroundingTextImpl(int, unsigned int) override {}
-    virtual void forwardKeyImpl(const KeyEvent &key) override {
+    virtual void forwardKeyImpl(const ForwardKeyEvent &key) override {
         xcb_key_press_event_t xcbEvent;
         memset(&xcbEvent, 0, sizeof(xcb_key_press_event_t));
         xcbEvent.time = key.time();

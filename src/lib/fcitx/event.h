@@ -135,11 +135,12 @@ protected:
     InputContext *m_ic;
 };
 
-class FCITXCORE_EXPORT KeyEvent : public InputContextEvent {
+class FCITXCORE_EXPORT KeyEventBase : public InputContextEvent {
 public:
-    KeyEvent(InputContext *context, Key rawKey, bool isRelease = false, int keyCode = 0, int time = 0)
-        : InputContextEvent(context, EventType::InputContextKeyEvent), m_key(rawKey.normalize()), m_rawKey(rawKey),
+    KeyEventBase(EventType type, InputContext *context, Key rawKey, bool isRelease = false, int keyCode = 0, int time = 0)
+        : InputContextEvent(context, type), m_key(rawKey.normalize()), m_rawKey(rawKey),
           m_isRelease(isRelease), m_keyCode(keyCode), m_time(time) {}
+    KeyEventBase(const KeyEventBase &) = default;
 
     Key key() const { return m_key; }
     Key rawKey() const { return m_rawKey; }
@@ -152,6 +153,18 @@ protected:
     bool m_isRelease;
     int m_keyCode;
     int m_time;
+};
+
+class FCITXCORE_EXPORT KeyEvent : public KeyEventBase {
+public:
+    KeyEvent(InputContext *context, Key rawKey, bool isRelease = false, int keyCode = 0, int time = 0)
+        : KeyEventBase(EventType::InputContextKeyEvent, context, rawKey, isRelease, keyCode, time) {}
+};
+
+class FCITXCORE_EXPORT ForwardKeyEvent : public KeyEventBase {
+public:
+    ForwardKeyEvent(InputContext *context, Key rawKey, bool isRelease = false, int keyCode = 0, int time = 0)
+        : KeyEventBase(EventType::InputContextForwardKey, context, rawKey, isRelease, keyCode, time) {}
 };
 
 class FCITXCORE_EXPORT CommitStringEvent : public InputContextEvent {

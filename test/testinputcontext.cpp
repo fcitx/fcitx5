@@ -40,7 +40,7 @@ public:
 
     void commitStringImpl(const std::string &) override {}
     void deleteSurroundingTextImpl(int, unsigned int) override {}
-    void forwardKeyImpl(const KeyEvent &) override {}
+    void forwardKeyImpl(const ForwardKeyEvent &) override {}
     void updatePreeditImpl() override {}
 };
 

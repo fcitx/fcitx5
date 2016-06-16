@@ -53,8 +53,9 @@ public:
 
     void setPropertyPropagatePolicy(PropertyPropagatePolicy policy);
 
-private:
     Instance *instance();
+
+private:
     void setInstance(Instance *instance);
     void registerInputContext(InputContext &inputContext);
     void unregisterInputContext(InputContext &inputContext);
