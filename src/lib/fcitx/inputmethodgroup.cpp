@@ -37,6 +37,7 @@ public:
     std::string name;
     std::vector<InputMethodGroupItem> inputMethodList;
     std::string defaultInputMethod;
+    std::string defaultLayout;
 };
 
 InputMethodGroupItem::InputMethodGroupItem(const std::string &name)
@@ -92,7 +93,7 @@ void InputMethodGroup::setDefaultInputMethod(const std::string &im) {
         if (d->inputMethodList.size() >= 2) {
             d->defaultInputMethod = d->inputMethodList[1].name();
         } else {
-            d->defaultInputMethod = d->defaultInputMethod.empty() ? "" : d->inputMethodList[0].name();
+            d->defaultInputMethod = d->inputMethodList.empty() ? "" : d->inputMethodList[0].name();
         }
     }
 }
@@ -104,11 +105,11 @@ const std::string &InputMethodGroup::defaultInputMethod() const {
 
 void InputMethodGroup::setDefaultLayout(const std::string &im) {
     FCITX_D();
-    d->defaultInputMethod = im;
+    d->defaultLayout = im;
 }
 
 const std::string &InputMethodGroup::defaultLayout() const {
     FCITX_D();
-    return d->defaultInputMethod;
+    return d->defaultLayout;
 }
 }

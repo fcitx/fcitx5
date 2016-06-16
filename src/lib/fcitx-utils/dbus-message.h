@@ -23,6 +23,7 @@
 #include <string>
 #include <memory>
 #include <tuple>
+#include "unixfd.h"
 #include "macros.h"
 #include "tuplehelpers.h"
 #include "metastring.h"
@@ -30,8 +31,6 @@
 namespace fcitx {
 
 namespace dbus {
-
-class UnixFD;
 
 template <typename T>
 struct DBusSignatureTraits;
@@ -111,29 +110,6 @@ public:
 
 private:
     std::string m_sig;
-};
-
-class UnixFDPrivate;
-
-class FCITXUTILS_EXPORT UnixFD {
-    friend class Message;
-
-public:
-    UnixFD(int fd = -1);
-    UnixFD(const UnixFD &other);
-    UnixFD(UnixFD &&other);
-    ~UnixFD();
-
-    UnixFD &operator=(UnixFD other);
-
-    bool isValid() const;
-    void set(int fd);
-    int release();
-    int fd() const;
-
-private:
-    void give(int fd);
-    std::shared_ptr<UnixFDPrivate> d;
 };
 
 class FCITXUTILS_EXPORT Container {

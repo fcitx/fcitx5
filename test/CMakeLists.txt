@@ -11,10 +11,10 @@ set(FCITX_UTILS_TEST
     testfs
     testlibrary
     teststandardpath
+    testunixfd
     testmetastring)
 
 set(FCITX_UTILS_DBUS_TEST
-    testdbusunixfd
     testdbusmessage
     testdbus)
 

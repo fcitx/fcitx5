@@ -276,6 +276,7 @@ int Instance::exec() {
     }
     initialize();
     auto r = eventLoop().exec();
+    save();
 
     return r ? 0 : 1;
 }
@@ -326,6 +327,11 @@ bool Instance::postEvent(Event &event) {
 HandlerTableEntry<EventHandler> *Instance::watchEvent(EventType type, EventWatcherPhase phase, EventHandler callback) {
     FCITX_D();
     return d->eventHandlers[type][phase].add(callback);
+}
+
+void Instance::save() {
+    FCITX_D();
+    d->imManager.save();
 }
 
 void Instance::activate() {}

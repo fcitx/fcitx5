@@ -13,6 +13,7 @@ set(FCITX_UTILS_SOURCES
     standardpath.cpp
     dbus-object-vtable-wrapper.c
     dbus-object-vtable.cpp
+    unixfd.cpp
     )
 
 set(FCITX_UTILS_HEADERS
@@ -31,6 +32,7 @@ set(FCITX_UTILS_HEADERS
     standardpath.h
     tuplehelpers.h
     metastring.h
+    unixfd.h
     ${CMAKE_CURRENT_BINARY_DIR}/fcitxutils_export.h
     )
 

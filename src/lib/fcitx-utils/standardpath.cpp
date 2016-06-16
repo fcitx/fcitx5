@@ -26,12 +26,38 @@
 #include <unistd.h>
 #include <algorithm>
 #include <unordered_map>
+#include <string.h>
 #include <fcntl.h>
 #include "fs.h"
 #include "stringutils.h"
 #include "config.h"
 
 namespace fcitx {
+
+StandardPathFile::~StandardPathFile() {
+}
+
+int StandardPathFile::release() {
+    return m_fd.release();
+}
+
+StandardPathTempFile::~StandardPathTempFile() {
+    close();
+}
+
+int StandardPathTempFile::release() {
+    return m_fd.release();
+}
+
+void StandardPathTempFile::close() {
+    if (m_fd.fd() >= 0) {
+        // close it
+        m_fd.set(-1);
+        if (rename(m_tempPath.c_str(), m_path.c_str()) < 0) {
+            unlink(m_tempPath.c_str());
+        }
+    }
+}
 
 class StandardPathPrivate {
 public:
@@ -277,18 +303,51 @@ std::vector<std::string> StandardPath::locateAll(Type type, const std::string &p
 }
 
 StandardPathFile StandardPath::open(Type type, const std::string &path, int flags) const {
-    StandardPathFile file{-1, ""};
-    scanDirectories(type, [flags, &file, &path](const std::string &dirPath, bool) {
+    int retFD = -1;
+    std::string fdPath;
+    scanDirectories(type, [flags, &retFD, &fdPath, &path](const std::string &dirPath, bool) {
         auto fullPath = constructPath(dirPath, path);
         int fd = ::open(fullPath.c_str(), flags);
         if (fd < 0) {
             return true;
         }
-        file.first = fd;
-        file.second = fullPath;
+        retFD = fd;
+        fdPath = fullPath;
         return false;
     });
-    return file;
+    return {retFD, fdPath};
+}
+
+StandardPathFile StandardPath::openUser(Type type, const std::string &path, int flags) const {
+    auto dirPath = userDirectory(type);
+    if (dirPath.empty()) {
+        return {};
+    }
+    auto fullPath = constructPath(dirPath, path);
+    if (fs::makePath(fs::dirName(fullPath))) {
+        int fd = ::open(fullPath.c_str(), flags, 0600);
+        if (fd >= 0) {
+            return {fd, fullPath};
+        }
+    }
+    return {};
+}
+
+StandardPathTempFile StandardPath::openUserTemp(Type type, const std::string &path_orig) const {
+    std::string path = path_orig + "_XXXXXX";
+    auto dirPath = userDirectory(type);
+    if (dirPath.empty()) {
+        return {};
+    }
+    auto fullPath = constructPath(dirPath, path);
+    if (fs::makePath(fs::dirName(fullPath))) {
+        std::unique_ptr<char, decltype(&std::free)> cPath(strdup(fullPath.c_str()), &std::free);
+        int fd = mkstemp(cPath.get());
+        if (fd >= 0) {
+            return {fd, path, cPath.get()};
+        }
+    }
+    return {};
 }
 
 std::unordered_map<std::string, StandardPathFile> StandardPath::multiOpenFilter(
@@ -300,7 +359,7 @@ std::unordered_map<std::string, StandardPathFile> StandardPath::multiOpenFilter(
             auto fullPath = constructPath(dir, path);
             int fd = ::open(fullPath.c_str(), flags);
             if (fd >= 0) {
-                result[path] = std::make_pair(fd, fullPath);
+                result.emplace(std::piecewise_construct, std::forward_as_tuple(path), std::forward_as_tuple(fd, fullPath));
             }
         }
         return true;
@@ -318,7 +377,7 @@ StandardPathFilesMap StandardPath::multiOpenAllFilter(
             auto fullPath = constructPath(dir, path);
             int fd = ::open(fullPath.c_str(), flags);
             if (fd >= 0) {
-                result[path].push_back(std::make_pair(fd, fullPath));
+                result[path].emplace_back(fd, fullPath);
             }
         }
         return true;

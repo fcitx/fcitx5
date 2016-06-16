@@ -21,7 +21,8 @@
 #include <stdio.h>
 
 #include "iniparser.h"
-#include <fcitx-utils/stringutils.h>
+#include "fcitx-utils/stringutils.h"
+#include "fcitx-utils/unixfd.h"
 
 namespace fcitx {
 enum class UnescapeState { NORMAL, ESCAPE };
@@ -68,7 +69,9 @@ bool _unescape_string(std::string &str, bool unescapeQuote) {
 typedef std::unique_ptr<FILE, decltype(&fclose)> ScopedFILE;
 
 void readFromIni(RawConfig &config, int fd) {
-    FILE *f = fdopen(fd, "r");
+    // dup it
+    UnixFD unixFD(fd);
+    FILE *f = fdopen(unixFD.release(), "r");
     if (!f) {
         return;
     }
@@ -76,13 +79,15 @@ void readFromIni(RawConfig &config, int fd) {
     readFromIni(config, fp.get());
 }
 
-void writeAsIni(const RawConfig &config, int fd) {
-    FILE *f = fdopen(fd, "w");
+bool writeAsIni(const RawConfig &config, int fd) {
+    // dup it
+    UnixFD unixFD(fd);
+    FILE *f = fdopen(unixFD.release(), "w");
     if (!f) {
-        return;
+        return false;
     }
     ScopedFILE fp{f, fclose};
-    writeAsIni(config, fp.get());
+    return writeAsIni(config, fp.get());
 }
 
 void readFromIni(RawConfig &config, FILE *fin) {
@@ -146,7 +151,7 @@ void readFromIni(RawConfig &config, FILE *fin) {
     free(clineBuf);
 }
 
-void writeAsIni(const RawConfig &root, FILE *fout) {
+bool writeAsIni(const RawConfig &root, FILE *fout) {
     std::function<bool(const RawConfig &, const std::string &path)> callback;
 
     callback = [fout, &callback](const RawConfig &config, const std::string &path) {
@@ -181,15 +186,15 @@ void writeAsIni(const RawConfig &root, FILE *fout) {
             auto valueString = valuesout.str();
             if (!valueString.empty()) {
                 if (!path.empty()) {
-                    fprintf(fout, "[%s]\n", path.c_str());
+                    FCITX_RETURN_IF(fprintf(fout, "[%s]\n", path.c_str()) < 0, false);
                 }
-                fprintf(fout, "%s\n", valueString.c_str());
+                FCITX_RETURN_IF(fprintf(fout, "%s\n", valueString.c_str()) < 0, false);
             }
         }
         config.visitSubItems(callback, "", false, path);
         return true;
     };
 
-    callback(root, "");
+    return callback(root, "");
 }
 }

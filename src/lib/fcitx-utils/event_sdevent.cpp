@@ -19,6 +19,7 @@
 
 #include <functional>
 #include <exception>
+#include <iostream>
 
 #if defined(__COVERITY__) && !defined(__INCLUDE_LEVEL__)
 #define __INCLUDE_LEVEL__ 2
@@ -211,7 +212,9 @@ void *EventLoop::nativeHandle() {
 
 bool EventLoop::exec() {
     FCITX_D();
-    return sd_event_loop(d->event) >= 0;
+    int r = sd_event_loop(d->event);
+    std::cout << r << std::endl;
+    return r >= 0;
 }
 
 void EventLoop::quit() {

@@ -28,6 +28,7 @@
 #include "macros.h"
 #include "flags.h"
 #include "stringutils.h"
+#include "unixfd.h"
 
 namespace fcitx {
 
@@ -75,11 +76,11 @@ NotFilter<T> Not(T t) {
     return {t};
 }
 
-struct User {
+struct FCITXUTILS_EXPORT User {
     bool operator()(const std::string &, const std::string &, bool isUser) { return isUser; }
 };
 
-struct Prefix {
+struct FCITXUTILS_EXPORT Prefix {
     Prefix(const std::string &prefix_) : prefix(prefix_) {}
 
     bool operator()(const std::string &path, const std::string &, bool) {
@@ -89,7 +90,7 @@ struct Prefix {
     std::string prefix;
 };
 
-struct Suffix {
+struct FCITXUTILS_EXPORT Suffix {
     Suffix(const std::string &suffix_) : suffix(suffix_) {}
 
     bool operator()(const std::string &path, const std::string &, bool) { return stringutils::endsWith(path, suffix); }
@@ -98,9 +99,50 @@ struct Suffix {
 };
 }
 
-class StandardPathPrivate;
+class FCITXUTILS_EXPORT StandardPathTempFile
+{
+public:
+    StandardPathTempFile(int fd = -1, const std::string &realFile = {}, const std::string &tempPath = {}) : m_fd(UnixFD::own(fd)), m_path(realFile), m_tempPath(tempPath) { }
+    StandardPathTempFile(StandardPathTempFile &&other) = default;
+    virtual ~StandardPathTempFile();
 
-typedef std::pair<int, std::string> StandardPathFile;
+    int fd() const {
+        return m_fd.fd();
+    }
+
+    const std::string &path() const { return m_path; }
+    const std::string &tempPath() const { return m_tempPath; }
+
+    int release();
+    void close();
+
+private:
+    UnixFD m_fd;
+    std::string m_path;
+    std::string m_tempPath;
+};
+
+class FCITXUTILS_EXPORT StandardPathFile
+{
+public:
+    StandardPathFile(int fd = -1, const std::string &path = {}) : m_fd(UnixFD::own(fd)), m_path(path) { }
+    StandardPathFile(StandardPathFile &&other) = default;
+    virtual ~StandardPathFile();
+
+    int fd() const {
+        return m_fd.fd();
+    }
+
+    const std::string &path() const { return m_path; }
+
+    int release();
+
+private:
+    UnixFD m_fd;
+    std::string m_path;
+};
+
+class StandardPathPrivate;
 
 typedef std::unordered_map<std::string, StandardPathFile> StandardPathFileMap;
 typedef std::unordered_map<std::string, std::vector<StandardPathFile>> StandardPathFilesMap;
@@ -129,6 +171,8 @@ public:
     std::vector<std::string> locateAll(Type type, const std::string &path) const;
     // Open the first matched and succeed
     StandardPathFile open(Type type, const std::string &path, int flags) const;
+    StandardPathFile openUser(Type type, const std::string &path, int flags) const;
+    StandardPathTempFile openUserTemp(Type type, const std::string &path) const;
     // Open first match for
     StandardPathFileMap
     multiOpenFilter(Type type, const std::string &path, int flags,

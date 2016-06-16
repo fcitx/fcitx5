@@ -23,6 +23,7 @@
 #include <fcitx-utils/macros.h>
 #include <vector>
 #include <string>
+#include <list>
 
 namespace fcitx {
 
@@ -56,6 +57,8 @@ public:
     const std::vector<InputMethodGroupItem> &inputMethodList() const;
     const std::string &defaultInputMethod() const;
     void setDefaultInputMethod(const std::string &im);
+    const std::list<std::string> &groupOrder();
+    void setGroupOrder(const std::list<std::string>& groupOrder);
 
 private:
     std::unique_ptr<InputMethodGroupPrivate> d_ptr;

@@ -17,7 +17,9 @@
  * see <http://www.gnu.org/licenses/>.
  */
 
+#include <cassert>
 #include <list>
+#include <unistd.h>
 #include "inputmethodmanager.h"
 #include "inputmethodengine.h"
 #include "fcitx-utils/standardpath.h"
@@ -28,6 +30,7 @@
 #include <fcntl.h>
 #include <unordered_map>
 #include <iostream>
+#include "misc_p.h"
 
 namespace fcitx {
 
@@ -66,7 +69,7 @@ void InputMethodManager::load() {
         RawConfig config;
         // reverse the order, so we end up parse user file at last.
         for (auto iter = files.rbegin(), end = files.rend(); iter != end; iter++) {
-            auto fd = iter->first;
+            auto fd = iter->fd();
             readFromIni(config, fd);
         }
 
@@ -105,8 +108,8 @@ void InputMethodManager::loadConfig() {
     auto &path = StandardPath::global();
     auto file = path.open(StandardPath::Type::Config, "fcitx5/profile", O_RDONLY);
     RawConfig config;
-    if (file.first >= 0) {
-        readFromIni(config, file.first);
+    if (file.fd() >= 0) {
+        readFromIni(config, file.fd());
     }
     InputMethodConfig imConfig;
     imConfig.load(config);
@@ -129,22 +132,91 @@ void InputMethodManager::loadConfig() {
             }
             group.setDefaultInputMethod(groupConfig.defaultInputMethod.value());
         }
+        setCurrentGroup(imConfig.currentGroup.value());
 
     } else {
         buildDefaultGroup();
     }
 }
 
-void InputMethodManager::buildDefaultGroup() {}
+void InputMethodManager::buildDefaultGroup() {
+    FCITX_D();
+    std::string name = _("Default");
+    auto result = d->groups.emplace(name, InputMethodGroup(name));
+    auto &group = result.first->second;
+    // FIXME
+    group.inputMethodList().emplace_back(InputMethodGroupItem("fcitx-keyboard-us"));
+    group.setDefaultInputMethod("");
+    setCurrentGroup(name);
+    setGroupOrder({name});
+}
 
 int InputMethodManager::groupCount() const {
     FCITX_D();
     return d->groups.size();
 }
 
-void InputMethodManager::setCurrentGroup(const std::string &group) {
+void InputMethodManager::setCurrentGroup(const std::string &groupName) {
     FCITX_D();
-    d->currentGroup = group;
+    if (std::any_of(d->groups.begin(), d->groups.end(), [&groupName](const auto &group) { return group.second.name() == groupName; })) {
+        d->currentGroup = groupName;
+    } else {
+        d->currentGroup = d->groups.begin()->second.name();
+    }
+    // TODO Adjust group order
+    // TODO, post event
+}
+
+void InputMethodManager::setGroupOrder(const std::vector<std::string> &groupOrder) {
+    FCITX_D();
+    d->groupOrder.clear();
+    std::unordered_set<std::string> added;
+    for (auto &groupName : groupOrder) {
+        if (d->groups.count(groupName)) {
+            d->groupOrder.push_back(groupName);
+            added.insert(groupName);
+        }
+    }
+    for (auto &p : d->groups) {
+        if (!added.count(p.first)) {
+            d->groupOrder.push_back(p.first);
+        }
+    }
+    assert(d->groupOrder.size() == d->groups.size());
+}
+
+void InputMethodManager::save() {
+    FCITX_D();
+    InputMethodConfig config;
+    std::vector<InputMethodGroupConfig> groups;
+    config.currentGroup.setValue(d->currentGroup);
+    config.groupOrder.setValue(std::vector<std::string>{d->groupOrder.begin(), d->groupOrder.end()});
+
+    for (auto &p : d->groups) {
+        auto &group = p.second;
+        groups.emplace_back();
+        auto &groupConfig = groups.back();
+        groupConfig.name.setValue(group.name());
+        groupConfig.defaultLayout.setValue(group.defaultLayout());
+        groupConfig.defaultInputMethod.setValue(group.defaultInputMethod());
+        std::vector<InputMethodGroupItemConfig> itemsConfig;
+        for (auto &item : group.inputMethodList()) {
+            itemsConfig.emplace_back();
+            auto &itemConfig = itemsConfig.back();
+            itemConfig.name.setValue(item.name());
+            itemConfig.layout.setValue(item.layout());
+        }
+
+        groupConfig.items.setValue(std::move(itemsConfig));
+    }
+    config.groups.setValue(std::move(groups));
+
+    RawConfig rawConfig;
+    config.save(rawConfig);
+    auto file = StandardPath::global().openUserTemp(StandardPath::Type::Config, "fcitx5/profile");
+    if (file.fd() >= 0) {
+        writeAsIni(rawConfig, file.fd());
+    }
 }
 
 void InputMethodManager::setInstance(Instance *instance) {

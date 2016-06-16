@@ -80,6 +80,7 @@ public:
 private:
     void initialize();
     void handleSignal();
+    void save();
 
     std::unique_ptr<InstancePrivate> d_ptr;
     FCITX_DECLARE_PRIVATE(Instance);

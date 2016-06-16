@@ -21,6 +21,7 @@
 #include <sys/stat.h>
 #include <unistd.h>
 #include <errno.h>
+#include <algorithm>
 
 namespace fcitx {
 namespace fs {
@@ -144,5 +145,31 @@ bool makePath(const std::string &path) {
     }
     return true;
 }
+
+std::string dirName(const std::string& path)
+{
+    auto result = path;
+    // remove trailing slash
+    while (result.size() > 1 && result.back() == '/') {
+        result.pop_back();
+    }
+    if (result.size() <= 1) {
+        return result;
+    }
+
+    auto iter = std::find(result.rbegin(), result.rend(), '/');
+    if (iter != result.rend()) {
+        result.erase(iter.base(), result.end());
+        // remove trailing slash
+        while (result.size() > 1 && result.back() == '/') {
+            result.pop_back();
+        }
+    } else {
+        result = ".";
+    }
+    return result;
+}
+
+
 }
 }

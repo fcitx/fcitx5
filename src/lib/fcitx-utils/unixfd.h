@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015~2015 by CSSlayer
+ * Copyright (C) 2016~2016 by CSSlayer
  * wengxt@gmail.com
  *
  * This library is free software; you can redistribute it and/or modify
@@ -16,17 +16,42 @@
  * License along with this library; see the file COPYING. If not,
  * see <http://www.gnu.org/licenses/>.
  */
-#ifndef _FCITX_CONFIG_INIPARSER_H_
-#define _FCITX_CONFIG_INIPARSER_H_
+#ifndef _FCITX_UTILS_UNIXFD_H_
+#define _FCITX_UTILS_UNIXFD_H_
 
-#include "fcitxconfig_export.h"
-#include "rawconfig.h"
+#include <memory>
+#include "fcitxutils_export.h"
 
-namespace fcitx {
-FCITXCONFIG_EXPORT void readFromIni(RawConfig &config, int fd);
-FCITXCONFIG_EXPORT bool writeAsIni(const RawConfig &config, int fd);
-FCITXCONFIG_EXPORT void readFromIni(RawConfig &config, FILE *fin);
-FCITXCONFIG_EXPORT bool writeAsIni(const RawConfig &config, FILE *fout);
+namespace fcitx
+{
+
+class UnixFDPrivate;
+
+class FCITXUTILS_EXPORT UnixFD {
+public:
+    UnixFD(int fd = -1);
+    UnixFD(const UnixFD &other) = delete;
+    UnixFD(UnixFD &&other) noexcept;
+    ~UnixFD();
+
+    static UnixFD own(int fd) {
+        UnixFD unixFD;
+        unixFD.give(fd);
+        return unixFD;
+    }
+
+    UnixFD &operator=(UnixFD other);
+
+    bool isValid() const;
+    void set(int fd);
+    int release();
+    int fd() const;
+
+    void give(int fd);
+private:
+    std::unique_ptr<UnixFDPrivate> d;
+};
+
 }
 
-#endif // _FCITX_CONFIG_INIPARSER_H_
+#endif // _FCITX_UTILS_UNIXFD_H_

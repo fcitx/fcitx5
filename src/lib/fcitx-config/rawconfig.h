@@ -69,9 +69,9 @@ public:
     RawConfig *parent() const;
     std::shared_ptr<RawConfig> detach();
 
-    void visitSubItems(std::function<bool(RawConfig &, const std::string &path)> callback, const std::string &path = "",
+    bool visitSubItems(std::function<bool(RawConfig &, const std::string &path)> callback, const std::string &path = "",
                        bool recursive = false, const std::string &pathPrefix = "");
-    void visitSubItems(std::function<bool(const RawConfig &, const std::string &path)> callback,
+    bool visitSubItems(std::function<bool(const RawConfig &, const std::string &path)> callback,
                        const std::string &path = "", bool recursive = false, const std::string &pathPrefix = "") const;
     void visitItemsOnPath(std::function<void(RawConfig &, const std::string &path)> callback, const std::string &path);
     void visitItemsOnPath(std::function<void(const RawConfig &, const std::string &path)> callback,

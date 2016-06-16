@@ -205,7 +205,7 @@ std::shared_ptr<RawConfig> RawConfig::detach() {
     return ref;
 }
 
-void RawConfig::visitSubItems(std::function<bool(RawConfig &, const std::string &path)> callback,
+bool RawConfig::visitSubItems(std::function<bool(RawConfig &, const std::string &path)> callback,
                               const std::string &path, bool recursive, const std::string &pathPrefix) {
     auto root = this;
     std::shared_ptr<RawConfig> subItem;
@@ -215,13 +215,13 @@ void RawConfig::visitSubItems(std::function<bool(RawConfig &, const std::string 
     }
 
     if (!root) {
-        return;
+        return true;
     }
 
-    RawConfigPrivate::visitHelper(*root, callback, recursive, pathPrefix);
+    return RawConfigPrivate::visitHelper(*root, callback, recursive, pathPrefix);
 }
 
-void RawConfig::visitSubItems(std::function<bool(const RawConfig &, const std::string &path)> callback,
+bool RawConfig::visitSubItems(std::function<bool(const RawConfig &, const std::string &path)> callback,
                               const std::string &path, bool recursive, const std::string &pathPrefix) const {
     auto root = this;
     std::shared_ptr<const RawConfig> subItem;
@@ -231,10 +231,10 @@ void RawConfig::visitSubItems(std::function<bool(const RawConfig &, const std::s
     }
 
     if (!root) {
-        return;
+        return true;
     }
 
-    RawConfigPrivate::visitHelper(*root, callback, recursive, pathPrefix);
+    return RawConfigPrivate::visitHelper(*root, callback, recursive, pathPrefix);
 }
 
 void RawConfig::visitItemsOnPath(std::function<void(RawConfig &, const std::string &path)> callback,

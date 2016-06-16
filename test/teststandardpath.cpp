@@ -47,8 +47,7 @@ int main(int argc, char *argv[]) {
         std::set<std::string> names, expect_names = {"testim.conf", "testfrontend.conf"};
         for (auto &p : result) {
             names.insert(p.first);
-            assert(p.second.first >= 0);
-            close(p.second.first);
+            assert(p.second.fd() >= 0);
         }
 
         assert(names == expect_names);
@@ -60,18 +59,17 @@ int main(int argc, char *argv[]) {
         std::set<std::string> names, expect_names = {"testim.conf"};
         for (auto &p : result) {
             names.insert(p.first);
-            assert(p.second.first >= 0);
-            close(p.second.first);
+            assert(p.second.fd() >= 0);
         }
 
         assert(names == expect_names);
     }
 
     auto file = standardPath.open(StandardPath::Type::Data, "fcitx5/addon/testim.conf", O_RDONLY);
-    assert(file.second == fs::cleanPath(std::string(argv[1]) + "/" + "fcitx5/addon/testim.conf"));
+    assert(file.path() == fs::cleanPath(std::string(argv[1]) + "/" + "fcitx5/addon/testim.conf"));
 
     auto file2 = standardPath.open(StandardPath::Type::Data, "fcitx5/addon/testim2.conf", O_RDONLY);
-    assert(file2.first == 0);
+    assert(file2.fd() == -1);
 
     return 0;
 }

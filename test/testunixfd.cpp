@@ -16,15 +16,13 @@
  * License along with this library; see the file COPYING. If not,
  * see <http://www.gnu.org/licenses/>.
  */
-#include "fcitx-utils/dbus.h"
-#include "fcitx-utils/event.h"
+#include "fcitx-utils/unixfd.h"
 #include <unistd.h>
 #include <iostream>
 #include <assert.h>
 #include <fcntl.h>
 #include <sys/stat.h>
 
-using namespace fcitx::dbus;
 using namespace fcitx;
 
 bool fd_is_valid(int fd) { return fcntl(fd, F_GETFD) != -1 || errno != EBADF; }
@@ -61,13 +59,9 @@ int main() {
     assert(!fd_is_valid(fdnum));
     {
         UnixFD fd1(f);
-        UnixFD fd2 = fd1;
         assert(fd1.fd() != f);
-        assert(fd2.fd() != f);
-        assert(fd1.fd() == fd2.fd());
         fdnum = fd1.release();
         assert(fd1.fd() == -1);
-        assert(fd2.fd() == -1);
     }
     assert(fd_is_valid(fdnum));
 

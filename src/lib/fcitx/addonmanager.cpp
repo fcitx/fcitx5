@@ -193,7 +193,7 @@ void AddonManager::load() {
         RawConfig config;
         // reverse the order, so we end up parse user file at last.
         for (auto iter = files.rbegin(), end = files.rend(); iter != end; iter++) {
-            auto fd = iter->first;
+            auto fd = iter->fd();
             readFromIni(config, fd);
         }
         auto addon = std::make_unique<Addon>(config);
