@@ -30,6 +30,7 @@ namespace fcitx {
 class AddonManager;
 class InputMethodManagerPrivate;
 class Instance;
+class InputMethodEntry;
 
 class InputMethodManager {
 public:
@@ -44,7 +45,10 @@ public:
     const std::vector<InputMethodGroup> &groups();
     int groupCount() const;
     void setCurrentGroup(const std::string &group);
+    const InputMethodGroup &currentGroup() const;
     void setGroupOrder(const std::vector<std::string> &groups);
+
+    const InputMethodEntry *entry(const std::string &name) const;
 
 private:
     void loadConfig();

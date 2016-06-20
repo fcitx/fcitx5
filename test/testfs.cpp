@@ -33,13 +33,13 @@ using namespace fcitx::fs;
         assert(cleanStr == EXPECT);                                                                                    \
     } while (0);
 
-#define TEST_DIRNAME(PATHSTR)                                                                                     \
+#define TEST_DIRNAME(PATHSTR)                                                                                          \
     do {                                                                                                               \
         char pathstr[] = PATHSTR;                                                                                      \
-        auto cleanStr = dirName(pathstr);                                                                            \
-        const char* r = dirname(pathstr);   \
-        std::cout << r << " " << cleanStr << std::endl; \
-        assert(cleanStr == r);                                                                                    \
+        auto cleanStr = dirName(pathstr);                                                                              \
+        const char *r = dirname(pathstr);                                                                              \
+        std::cout << r << " " << cleanStr << std::endl;                                                                \
+        assert(cleanStr == r);                                                                                         \
     } while (0);
 
 int main() {
@@ -71,7 +71,6 @@ int main() {
     TEST_DIRNAME("///a/b");
     TEST_DIRNAME("/a/b/");
     TEST_DIRNAME("/a/b///");
-
 
     assert(!isdir("a"));
     assert(!isdir("a/b"));

@@ -24,6 +24,8 @@
 #include "fcitx/addonmanager.h"
 #include "isocodes.h"
 #include "xkbrules.h"
+#include <xkbcommon/xkbcommon.h>
+#include <xkbcommon/xkbcommon-compose.h>
 
 namespace fcitx {
 
@@ -37,10 +39,15 @@ public:
     void keyEvent(const InputMethodEntry &entry, KeyEvent &keyEvent) override;
     std::vector<InputMethodEntry> listInputMethods() override;
 
+    uint32_t processCompose(uint32_t keyval, uint32_t state);
+
 private:
     Instance *m_instance;
     IsoCodes m_isoCodes;
     XkbRules m_xkbRules;
+    std::unique_ptr<struct xkb_context, decltype(&xkb_context_unref)> m_xkbContext;
+    std::unique_ptr<struct xkb_compose_table, decltype(&xkb_compose_table_unref)> m_xkbComposeTable;
+    std::unique_ptr<struct xkb_compose_state, decltype(&xkb_compose_state_unref)> m_xkbComposeState;
 };
 
 class KeyboardEngineFactory : public AddonFactory {
@@ -48,7 +55,5 @@ public:
     AddonInstance *create(AddonManager *manager) override { return new KeyboardEngine(manager->instance()); }
 };
 }
-
-FCITX_ADDON_FACTORY(fcitx::KeyboardEngineFactory);
 
 #endif // _KEYBOARD_KEYBOARD_H_

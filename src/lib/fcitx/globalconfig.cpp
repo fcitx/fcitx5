@@ -38,7 +38,9 @@ FCITX_CONFIGURATION(
                                                      Key("Hangul_Hanja"),
                                                  }};
     fcitx::Option<std::vector<Key>> deactivateKeys{
-        this, "Hotkey/DeactivateKeys", "DeactivateKeys", {Key("Hangul_Romaja")}};);
+        this, "Hotkey/DeactivateKeys", "DeactivateKeys", {Key("Hangul_Romaja")}};
+
+    fcitx::Option<bool> activeByDefault{this, "Behavior/activeByDefault", "Active By Default"};);
 }
 
 class GlobalConfigPrivate : public impl::GlobalConfig {};
@@ -50,5 +52,10 @@ GlobalConfig::~GlobalConfig() {}
 const std::vector<Key> &GlobalConfig::triggerKeys() const {
     FCITX_D();
     return d->triggerKeys.value();
+}
+
+bool GlobalConfig::activeByDefault() const {
+    FCITX_D();
+    return d->activeByDefault.value();
 }
 }

@@ -118,7 +118,13 @@ public:
 
 protected:
     virtual void commitStringImpl(const std::string &text) override {
-        xcb_im_commit_string(m_server->im(), m_xic, XCB_XIM_LOOKUP_CHARS, text.c_str(), text.size(), 0);
+        size_t compoundTextLength;
+        std::unique_ptr<char, decltype(&std::free)> compoundText(
+            xcb_utf8_to_compound_text(text.c_str(), text.size(), &compoundTextLength), std::free);
+        if (!compoundText) {
+            return;
+        }
+        xcb_im_commit_string(m_server->im(), m_xic, XCB_XIM_LOOKUP_CHARS, compoundText.get(), compoundTextLength, 0);
     }
     virtual void deleteSurroundingTextImpl(int, unsigned int) override {}
     virtual void forwardKeyImpl(const ForwardKeyEvent &key) override {
@@ -198,7 +204,7 @@ protected:
                 return;
             }
             frame.length_of_preedit_string = compoundTextLength;
-            frame.preedit_string = (uint8_t *)compoundText.get();
+            frame.preedit_string = reinterpret_cast<uint8_t *>(compoundText.get());
             frame.feedback_array.size = feedbackBuffer.size();
             frame.feedback_array.items = feedbackBuffer.data();
             frame.status = frame.feedback_array.size ? 0 : 2;

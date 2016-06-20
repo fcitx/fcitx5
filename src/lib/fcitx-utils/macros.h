@@ -73,9 +73,9 @@
 
 #define FCITX_XSTRINGIFY(...) #__VA_ARGS__
 #define FCITX_STRINGIFY(...) FCITX_XSTRINGIFY(__VA_ARGS__)
-#define FCITX_RETURN_IF(EXPR, VALUE) \
-    if ((EXPR)) { \
-        return (VALUE); \
+#define FCITX_RETURN_IF(EXPR, VALUE)                                                                                   \
+    if ((EXPR)) {                                                                                                      \
+        return (VALUE);                                                                                                \
     }
 
 #endif // _FCITX_UTILS_MACROS_H_

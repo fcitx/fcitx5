@@ -21,6 +21,7 @@
 
 #include <libintl.h>
 #include <string>
+#include <type_traits>
 
 namespace fcitx {
 
@@ -34,6 +35,15 @@ inline const char *_dgettext(const char *domain, const char *s) { return ::dgett
 
 #define _(X) fcitx::_gettext(X)
 #define D_(D, X) fcitx::_dgettext(D, X)
+
+template <typename M, typename K>
+decltype(&std::declval<M>().begin()->second) findValue(M &&m, K &&key) {
+    auto iter = m.find(key);
+    if (iter != m.end()) {
+        return &iter->second;
+    }
+    return nullptr;
+}
 }
 
 #endif // _FCITX_MISC_P_H_

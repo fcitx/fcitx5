@@ -36,7 +36,7 @@ public:
         uuid_generate(uuid.data());
     }
 
-    template<typename E>
+    template <typename E>
     bool postEvent(E &&event) {
         if (auto instance = manager.instance()) {
             return instance->postEvent(event);
@@ -44,8 +44,8 @@ public:
         return false;
     }
 
-    template<typename E, typename ...Args>
-    bool emplaceEvent(Args &&...args) {
+    template <typename E, typename... Args>
+    bool emplaceEvent(Args &&... args) {
         if (auto instance = manager.instance()) {
             return instance->postEvent(E(std::forward<Args>(args)...));
         }

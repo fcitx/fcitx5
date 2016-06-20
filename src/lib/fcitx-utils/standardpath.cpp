@@ -34,20 +34,13 @@
 
 namespace fcitx {
 
-StandardPathFile::~StandardPathFile() {
-}
+StandardPathFile::~StandardPathFile() {}
 
-int StandardPathFile::release() {
-    return m_fd.release();
-}
+int StandardPathFile::release() { return m_fd.release(); }
 
-StandardPathTempFile::~StandardPathTempFile() {
-    close();
-}
+StandardPathTempFile::~StandardPathTempFile() { close(); }
 
-int StandardPathTempFile::release() {
-    return m_fd.release();
-}
+int StandardPathTempFile::release() { return m_fd.release(); }
 
 void StandardPathTempFile::close() {
     if (m_fd.fd() >= 0) {
@@ -359,7 +352,8 @@ std::unordered_map<std::string, StandardPathFile> StandardPath::multiOpenFilter(
             auto fullPath = constructPath(dir, path);
             int fd = ::open(fullPath.c_str(), flags);
             if (fd >= 0) {
-                result.emplace(std::piecewise_construct, std::forward_as_tuple(path), std::forward_as_tuple(fd, fullPath));
+                result.emplace(std::piecewise_construct, std::forward_as_tuple(path),
+                               std::forward_as_tuple(fd, fullPath));
             }
         }
         return true;

@@ -20,11 +20,16 @@
 #include <libintl.h>
 #include <string.h>
 #include "fcitx/instance.h"
+#include "fcitx/inputcontext.h"
+#include "fcitx-utils/cutf8.h"
 #include "fcitx-utils/stringutils.h"
 #include "keyboard.h"
 #include "modules/xcb/xcb_public.h"
 #include "config.h"
 #include "fcitx/misc_p.h"
+#include "fcitx-utils/utf8.h"
+
+#define INVALID_COMPOSE_RESULT 0xffffffff
 
 namespace fcitx {
 
@@ -88,11 +93,33 @@ static std::string findBestLanguage(const IsoCodes &isocodes, const std::string 
     return {};
 }
 
-KeyboardEngine::KeyboardEngine(Instance *instance) : m_instance(instance) {
+KeyboardEngine::KeyboardEngine(Instance *instance)
+    : m_instance(instance), m_xkbContext(nullptr, &xkb_context_unref),
+      m_xkbComposeTable(nullptr, &xkb_compose_table_unref), m_xkbComposeState(nullptr, &xkb_compose_state_unref) {
     m_isoCodes.read(ISOCODES_ISO639_XML, ISOCODES_ISO3166_XML);
     auto xcb = m_instance->addonManager().addon("xcb");
     std::string rule;
-    ;
+
+    const char *locale = getenv("LC_ALL");
+    if (!locale) {
+        locale = getenv("LC_CTYPE");
+    }
+    if (!locale) {
+        locale = getenv("LANG");
+    }
+    if (!locale) {
+        locale = "C";
+    }
+
+    m_xkbContext.reset(xkb_context_new(XKB_CONTEXT_NO_FLAGS));
+    if (m_xkbContext) {
+        xkb_context_set_log_level(m_xkbContext.get(), XKB_LOG_LEVEL_CRITICAL);
+        m_xkbComposeTable.reset(
+            xkb_compose_table_new_from_locale(m_xkbContext.get(), locale, XKB_COMPOSE_COMPILE_NO_FLAGS));
+        if (m_xkbComposeTable) {
+            m_xkbComposeState.reset(xkb_compose_state_new(m_xkbComposeTable.get(), XKB_COMPOSE_STATE_NO_FLAGS));
+        }
+    }
     if (xcb) {
         auto rules = xcb->call<IXCBModule::xkbRulesNames>("");
         if (!rules[0].empty()) {
@@ -138,5 +165,59 @@ std::vector<InputMethodEntry> KeyboardEngine::listInputMethods() {
     return result;
 }
 
-void KeyboardEngine::keyEvent(const InputMethodEntry &entry, KeyEvent &event) {}
+uint32_t KeyboardEngine::processCompose(uint32_t keyval, uint32_t state) {
+    if (!m_xkbComposeState) {
+        return 0;
+    }
+
+    enum xkb_compose_feed_result result = xkb_compose_state_feed(m_xkbComposeState.get(), keyval);
+    if (result == XKB_COMPOSE_FEED_IGNORED) {
+        return 0;
+    }
+
+    enum xkb_compose_status status = xkb_compose_state_get_status(m_xkbComposeState.get());
+    if (status == XKB_COMPOSE_NOTHING) {
+        return 0;
+    } else if (status == XKB_COMPOSE_COMPOSED) {
+        char buffer[FCITX_UTF8_MAX_LENGTH + 1] = {'\0', '\0', '\0', '\0', '\0', '\0', '\0'};
+        int length = xkb_compose_state_get_utf8(m_xkbComposeState.get(), buffer, sizeof(buffer));
+        xkb_compose_state_reset(m_xkbComposeState.get());
+        if (length == 0) {
+            return INVALID_COMPOSE_RESULT;
+        }
+
+        uint32_t c = 0;
+        fcitx_utf8_get_char(buffer, &c);
+        return c;
+    } else if (status == XKB_COMPOSE_CANCELLED) {
+        xkb_compose_state_reset(m_xkbComposeState.get());
+    }
+
+    return INVALID_COMPOSE_RESULT;
+}
+
+void KeyboardEngine::keyEvent(const InputMethodEntry &entry, KeyEvent &event) {
+    if (event.isRelease()) {
+        return;
+    }
+
+    auto sym = event.key().sym();
+
+    if (sym == FcitxKey_Shift_L || sym == FcitxKey_Shift_R || sym == FcitxKey_Alt_L || sym == FcitxKey_Alt_R ||
+        sym == FcitxKey_Control_L || sym == FcitxKey_Control_R || sym == FcitxKey_Super_L || sym == FcitxKey_Super_R) {
+        return;
+    }
+
+    auto compose = processCompose(event.key().sym(), event.key().states());
+    if (compose == INVALID_COMPOSE_RESULT) {
+        event.accept();
+        return;
+    }
+
+    if (compose) {
+        auto composeString = utf8::UCS4ToUTF8(compose);
+        event.accept();
+        event.inputContext()->commitString(composeString);
+    }
+}
 }

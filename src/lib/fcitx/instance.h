@@ -35,6 +35,8 @@ class EventLoop;
 class AddonManager;
 class InputContextManager;
 class InputMethodManager;
+class InputMethodEngine;
+class InputMethodEntry;
 class GlobalConfig;
 typedef std::function<void(Event &event)> EventHandler;
 enum class EventWatcherPhase { PreInputMethod, InputMethod, PostInputMethod, Default = PostInputMethod };
@@ -58,8 +60,12 @@ public:
     bool postEvent(Event &&event) { return postEvent(event); }
 
     HandlerTableEntry<EventHandler> *watchEvent(EventType type, EventWatcherPhase phase, EventHandler callback);
-    void unwatchEvent(int id);
 
+    std::string inputMethod(InputContext *ic);
+    const InputMethodEntry *inputMethodEntry(InputContext *ic);
+    InputMethodEngine *inputMethodEngine(InputContext *ic);
+
+    // controller
     void exit();
     void restart();
     void configure();

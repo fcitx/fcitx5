@@ -23,8 +23,7 @@
 #include <unistd.h>
 #include <fcntl.h>
 
-namespace fcitx
-{
+namespace fcitx {
 
 class UnixFDPrivate {
 public:
@@ -91,5 +90,4 @@ int UnixFD::release() {
     d.reset();
     return fd;
 }
-
 }

@@ -146,8 +146,7 @@ bool makePath(const std::string &path) {
     return true;
 }
 
-std::string dirName(const std::string& path)
-{
+std::string dirName(const std::string &path) {
     auto result = path;
     // remove trailing slash
     while (result.size() > 1 && result.back() == '/') {
@@ -169,7 +168,5 @@ std::string dirName(const std::string& path)
     }
     return result;
 }
-
-
 }
 }

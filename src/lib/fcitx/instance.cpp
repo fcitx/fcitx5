@@ -17,13 +17,16 @@
  * see <http://www.gnu.org/licenses/>.
  */
 
+#include "inputmethodengine.h"
 #include "instance.h"
 #include "fcitx-utils/event.h"
 #include "globalconfig.h"
 #include "fcitx/inputcontextmanager.h"
 #include "fcitx/addonmanager.h"
+#include "inputmethodentry.h"
 #include "inputmethodmanager.h"
 #include "inputstate_p.h"
+#include "fcitx-utils/standardpath.h"
 #include "fcitx-utils/stringutils.h"
 #include <unistd.h>
 #include <getopt.h>
@@ -127,8 +130,13 @@ Instance::Instance(int argc, char **argv) {
     FCITX_D();
     d->addonManager.setInstance(this);
     d->icManager.setInstance(this);
+    d->imManager.setInstance(this);
 
-    d->inputStateSlot = d->icManager.registerProperty([](InputContext &) { return new InputState; });
+    d->inputStateSlot = d->icManager.registerProperty([d](InputContext &) {
+        auto property = new InputState;
+        property->active = d->globalConfig.activeByDefault();
+        return property;
+    });
 
     d->eventWatchers.emplace_back(
         watchEvent(EventType::InputContextKeyEvent, EventWatcherPhase::PreInputMethod, [this, d](Event &event) {
@@ -296,6 +304,11 @@ AddonManager &Instance::addonManager() {
     return d->addonManager;
 }
 
+InputMethodManager &Instance::inputMethodManager() {
+    FCITX_D();
+    return d->imManager;
+}
+
 GlobalConfig &Instance::globalConfig() {
     FCITX_D();
     return d->globalConfig;
@@ -329,6 +342,35 @@ HandlerTableEntry<EventHandler> *Instance::watchEvent(EventType type, EventWatch
     return d->eventHandlers[type][phase].add(callback);
 }
 
+std::string Instance::inputMethod(InputContext *ic) {
+    FCITX_D();
+    auto &group = d->imManager.currentGroup();
+    auto inputState = ic->propertyAs<InputState>(d->inputStateSlot);
+    if (inputState->active) {
+        return group.defaultInputMethod();
+    }
+
+    return "fcitx-keyboard-" + group.defaultLayout();
+}
+
+const InputMethodEntry *Instance::inputMethodEntry(InputContext *ic) {
+    FCITX_D();
+    auto imName = inputMethod(ic);
+    if (imName.empty()) {
+        return nullptr;
+    }
+    return d->imManager.entry(imName);
+}
+
+InputMethodEngine *Instance::inputMethodEngine(InputContext *ic) {
+    FCITX_D();
+    auto entry = inputMethodEntry(ic);
+    if (!entry) {
+        return nullptr;
+    }
+    return static_cast<InputMethodEngine *>(d->addonManager.addon(entry->addon()));
+}
+
 void Instance::save() {
     FCITX_D();
     d->imManager.save();
@@ -336,13 +378,24 @@ void Instance::save() {
 
 void Instance::activate() {}
 
-std::string Instance::addonForInputMethod(const std::string &imName) { return {}; }
+std::string Instance::addonForInputMethod(const std::string &imName) {
+
+    if (auto entry = inputMethodManager().entry(imName)) {
+        return entry->name();
+    }
+    return {};
+}
 
 void Instance::configure() {}
 
 void Instance::configureAddon(const std::string &addon) {}
 
-void Instance::configureInputMethod(const std::string &imName) {}
+void Instance::configureInputMethod(const std::string &imName) {
+    auto addon = addonForInputMethod(imName);
+    if (!addon.empty()) {
+        return configureAddon(addon);
+    }
+}
 
 std::string Instance::currentInputMethod() {
     // FIXME
@@ -369,7 +422,17 @@ void Instance::reloadConfig() {}
 
 void Instance::resetInputMethodList() {}
 
-void Instance::restart() {}
+void Instance::restart() {
+    auto fcitxBinary = StandardPath::fcitxPath("bindir") + "/fcitx";
+    std::vector<char> command{fcitxBinary.begin(), fcitxBinary.end()};
+    command.push_back('\0');
+    char arg[] = "-D";
+    char *const argv[] = {command.data(), arg, /* Don't start as daemon */
+                          NULL};
+    execv(argv[0], argv);
+    perror("Restart failed: execvp:");
+    _exit(1);
+}
 
 void Instance::setCurrentInputMethod(const std::string &imName) {}
 

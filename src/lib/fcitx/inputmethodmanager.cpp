@@ -20,6 +20,7 @@
 #include <cassert>
 #include <list>
 #include <unistd.h>
+#include "instance.h"
 #include "inputmethodmanager.h"
 #include "inputmethodengine.h"
 #include "fcitx-utils/standardpath.h"
@@ -44,6 +45,8 @@ public:
     std::unordered_map<std::string, InputMethodGroup> groups;
     std::unordered_map<std::string, InputMethodEntry> entries;
     Instance *instance = nullptr;
+    std::unique_ptr<HandlerTableEntry<EventHandler>> eventWatcher;
+    ;
 };
 
 bool checkEntry(const InputMethodEntry &entry, const std::unordered_set<std::string> &inputMethods) {
@@ -119,7 +122,7 @@ void InputMethodManager::loadConfig() {
         auto &groupsConfig = imConfig.groups.value();
         for (auto &groupConfig : groupsConfig) {
             // group must have a name
-            if (groupConfig.name.value().empty()) {
+            if (groupConfig.name.value().empty() || groupConfig.defaultLayout.value().empty()) {
                 continue;
             }
             auto result = d->groups.emplace(groupConfig.name.value(), InputMethodGroup(groupConfig.name.value()));
@@ -132,10 +135,12 @@ void InputMethodManager::loadConfig() {
             }
             group.setDefaultInputMethod(groupConfig.defaultInputMethod.value());
         }
-        setCurrentGroup(imConfig.currentGroup.value());
+    }
 
-    } else {
+    if (d->groups.size() == 0) {
         buildDefaultGroup();
+    } else {
+        setCurrentGroup(imConfig.currentGroup.value());
     }
 }
 
@@ -147,6 +152,7 @@ void InputMethodManager::buildDefaultGroup() {
     // FIXME
     group.inputMethodList().emplace_back(InputMethodGroupItem("fcitx-keyboard-us"));
     group.setDefaultInputMethod("");
+    group.setDefaultLayout("us");
     setCurrentGroup(name);
     setGroupOrder({name});
 }
@@ -158,13 +164,19 @@ int InputMethodManager::groupCount() const {
 
 void InputMethodManager::setCurrentGroup(const std::string &groupName) {
     FCITX_D();
-    if (std::any_of(d->groups.begin(), d->groups.end(), [&groupName](const auto &group) { return group.second.name() == groupName; })) {
+    if (std::any_of(d->groups.begin(), d->groups.end(),
+                    [&groupName](const auto &group) { return group.second.name() == groupName; })) {
         d->currentGroup = groupName;
     } else {
         d->currentGroup = d->groups.begin()->second.name();
     }
     // TODO Adjust group order
     // TODO, post event
+}
+
+const InputMethodGroup &InputMethodManager::currentGroup() const {
+    FCITX_D();
+    return d->groups.find(d->currentGroup)->second;
 }
 
 void InputMethodManager::setGroupOrder(const std::vector<std::string> &groupOrder) {
@@ -222,5 +234,24 @@ void InputMethodManager::save() {
 void InputMethodManager::setInstance(Instance *instance) {
     FCITX_D();
     d->instance = instance;
+    d->eventWatcher.reset(
+        d->instance->watchEvent(EventType::InputContextKeyEvent, EventWatcherPhase::InputMethod, [this](Event &event) {
+            FCITX_D();
+            auto &keyEvent = static_cast<KeyEvent &>(event);
+            auto entry = d->instance->inputMethodEntry(keyEvent.inputContext());
+            if (!entry) {
+                return;
+            }
+            auto engine = static_cast<InputMethodEngine *>(d->instance->addonManager().addon(entry->addon()));
+            if (!engine) {
+                return;
+            }
+            engine->keyEvent(*entry, keyEvent);
+        }));
+}
+
+const InputMethodEntry *InputMethodManager::entry(const std::string &name) const {
+    FCITX_D();
+    return findValue(d->entries, name);
 }
 }

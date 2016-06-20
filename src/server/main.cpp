@@ -20,6 +20,8 @@
 #include "fcitx/instance.h"
 #include "fcitx-utils/standardpath.h"
 #include "fcitx/addonmanager.h"
+#include "fcitx/addonfactory.h"
+#include "im/keyboard/keyboard.h"
 #include "errorhandler.h"
 #include <fcntl.h>
 #include <unistd.h>
@@ -30,7 +32,8 @@ using namespace fcitx;
 int selfpipe[2];
 char *crashlog;
 
-StaticAddonRegistry staticAddon = {};
+static KeyboardEngineFactory keyboardFactory;
+StaticAddonRegistry staticAddon = {std::make_pair<std::string, AddonFactory *>("keyboard", &keyboardFactory)};
 
 int main(int argc, char *argv[]) {
     if (pipe(selfpipe)) {

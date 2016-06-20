@@ -137,9 +137,10 @@ protected:
 
 class FCITXCORE_EXPORT KeyEventBase : public InputContextEvent {
 public:
-    KeyEventBase(EventType type, InputContext *context, Key rawKey, bool isRelease = false, int keyCode = 0, int time = 0)
-        : InputContextEvent(context, type), m_key(rawKey.normalize()), m_rawKey(rawKey),
-          m_isRelease(isRelease), m_keyCode(keyCode), m_time(time) {}
+    KeyEventBase(EventType type, InputContext *context, Key rawKey, bool isRelease = false, int keyCode = 0,
+                 int time = 0)
+        : InputContextEvent(context, type), m_key(rawKey.normalize()), m_rawKey(rawKey), m_isRelease(isRelease),
+          m_keyCode(keyCode), m_time(time) {}
     KeyEventBase(const KeyEventBase &) = default;
 
     Key key() const { return m_key; }

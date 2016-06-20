@@ -23,6 +23,7 @@
 #include <string>
 #include <unordered_map>
 #include <vector>
+#include "fcitx/misc_p.h"
 
 namespace fcitx {
 
@@ -64,10 +65,7 @@ public:
     bool read(const std::string &fileName);
     void dump();
 
-    const XkbLayoutInfo *findByName(const std::string &name) const {
-        auto iter = m_layoutInfos.find(name);
-        return (iter != m_layoutInfos.end()) ? &iter->second : nullptr;
-    }
+    const XkbLayoutInfo *findByName(const std::string &name) const { return findValue(m_layoutInfos, name); }
 
     void clear() {
         m_layoutInfos.clear();

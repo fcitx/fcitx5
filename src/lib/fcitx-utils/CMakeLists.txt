@@ -14,6 +14,7 @@ set(FCITX_UTILS_SOURCES
     dbus-object-vtable-wrapper.c
     dbus-object-vtable.cpp
     unixfd.cpp
+    utf8.cpp
     )
 
 set(FCITX_UTILS_HEADERS

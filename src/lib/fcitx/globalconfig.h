@@ -34,6 +34,7 @@ public:
     GlobalConfig();
     virtual ~GlobalConfig();
     const std::vector<Key> &triggerKeys() const;
+    bool activeByDefault() const;
 
 private:
     std::unique_ptr<GlobalConfigPrivate> d_ptr;

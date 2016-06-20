@@ -149,7 +149,7 @@ public:
 
     const T &defaultValue() const { return m_defaultValue; }
 
-    template<typename U>
+    template <typename U>
     bool setValue(U &&value) {
         if (!m_constrain.check(value)) {
             return false;

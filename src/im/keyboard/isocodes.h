@@ -23,6 +23,7 @@
 #include <vector>
 #include <unordered_map>
 #include <libxml/parser.h>
+#include "fcitx/misc_p.h"
 
 namespace fcitx {
 
@@ -41,14 +42,14 @@ public:
     static void handleIsoCodes3166StartElement(void *ctx, const xmlChar *name, const xmlChar **atts);
 
     const IsoCodes639Entry *entry(const std::string &name) const {
-        auto iter = iso6392B.find(name);
-        if (iter == iso6392B.end()) {
-            iter = iso6392T.find(name);
-            if (iter == iso6392T.end()) {
-                return nullptr;
-            }
+        auto entry = findValue(iso6392B, name);
+        if (!entry) {
+            entry = findValue(iso6392T, name);
         }
-        return &iso639entires[iter->second];
+        if (!entry) {
+            return nullptr;
+        }
+        return &iso639entires[*entry];
     }
 
 private:

@@ -22,8 +22,7 @@
 #include <memory>
 #include "fcitxutils_export.h"
 
-namespace fcitx
-{
+namespace fcitx {
 
 class UnixFDPrivate;
 
@@ -48,10 +47,10 @@ public:
     int fd() const;
 
     void give(int fd);
+
 private:
     std::unique_ptr<UnixFDPrivate> d;
 };
-
 }
 
 #endif // _FCITX_UTILS_UNIXFD_H_
