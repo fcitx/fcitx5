@@ -40,6 +40,7 @@ public:
     const std::string &text() const;
 
     void setText(const std::string &text, unsigned int cursor, unsigned int anchor);
+    void setCursor(unsigned int cursor, unsigned int anchor);
     void deleteText(int offset, unsigned int size);
 
 private:

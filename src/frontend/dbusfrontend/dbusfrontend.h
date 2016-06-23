@@ -16,35 +16,39 @@
  * License along with this library; see the file COPYING. If not,
  * see <http://www.gnu.org/licenses/>.
  */
-#ifndef _DBUS_DBUSMODULE_H_
-#define _DBUS_DBUSMODULE_H_
+#ifndef _DBUSFRONTEND_DBUSFRONTEND_H_
+#define _DBUSFRONTEND_DBUSFRONTEND_H_
 
+
+#include "fcitx-utils/event.h"
 #include "fcitx/addoninstance.h"
 #include "fcitx/addonfactory.h"
-#include "fcitx-utils/dbus.h"
-#include "fcitx/instance.h"
-#include "dbus_public.h"
+#include "fcitx/focusgroup.h"
+#include "fcitx/addonmanager.h"
 
 namespace fcitx {
-class Controller1;
-class DBusModule : public AddonInstance {
-public:
-    DBusModule(Instance *instance);
-    ~DBusModule();
 
-    dbus::Bus &bus();
+class AddonInstance;
+class Instance;
+
+class DBusFrontendModule : public AddonInstance {
+public:
+    DBusFrontendModule(Instance *instance);
+    ~DBusFrontendModule();
+
+    AddonInstance *dbus();
+    Instance *instance() { return m_instance; }
 
 private:
-    FCITX_ADDON_EXPORT_FUNCTION(DBusModule, bus);
-    std::unique_ptr<dbus::Bus> m_bus;
-    std::unique_ptr<Controller1> m_controller;
+    Instance *m_instance;
 };
 
-class DBusModuleFactory : public AddonFactory {
-    AddonInstance *create(AddonManager *manager) override;
+class DBusFrontendModuleFactory : public AddonFactory {
+public:
+    AddonInstance *create(AddonManager *manager) override { return new DBusFrontendModule(manager->instance()); }
 };
-
-FCITX_ADDON_FACTORY(DBusModuleFactory)
 }
 
-#endif // _DBUS_DBUSMODULE_H_
+FCITX_ADDON_FACTORY(fcitx::DBusFrontendModuleFactory);
+
+#endif // _DBUSFRONTEND_DBUSFRONTEND_H_

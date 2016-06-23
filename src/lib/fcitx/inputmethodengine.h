@@ -34,7 +34,7 @@ public:
     virtual void keyEvent(const InputMethodEntry &entry, KeyEvent &keyEvent) = 0;
     virtual void save(const InputMethodEntry &) {}
     virtual void focusIn(const InputMethodEntry &) {}
-    virtual void focusOut(const InputMethodEntry &) {}
+    virtual void focusOut(const InputMethodEntry &entry) { reset(entry); }
     virtual void reset(const InputMethodEntry &) {}
     virtual void filterKey(const InputMethodEntry &, KeyEvent &) {}
     virtual void updateSurroundingText(const InputMethodEntry &) {}

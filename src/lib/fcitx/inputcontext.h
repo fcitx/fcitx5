@@ -102,6 +102,7 @@ public:
 
     SurroundingText &surroundingText();
     const SurroundingText &surroundingText() const;
+    void updateSurroundingText();
     Text &preedit();
     const Text &preedit() const;
     Text &clientPreedit();

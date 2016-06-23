@@ -16,35 +16,14 @@
  * License along with this library; see the file COPYING. If not,
  * see <http://www.gnu.org/licenses/>.
  */
-#ifndef _DBUS_DBUSMODULE_H_
-#define _DBUS_DBUSMODULE_H_
+#ifndef _DBUS_DBUS_PUBLIC_H_
+#define _DBUS_DBUS_PUBLIC_H_
 
-#include "fcitx/addoninstance.h"
-#include "fcitx/addonfactory.h"
-#include "fcitx-utils/dbus.h"
-#include "fcitx/instance.h"
-#include "dbus_public.h"
+#include <fcitx-utils/dbus.h>
+#include <fcitx/addoninstance.h>
 
-namespace fcitx {
-class Controller1;
-class DBusModule : public AddonInstance {
-public:
-    DBusModule(Instance *instance);
-    ~DBusModule();
+FCITX_ADDON_DECLARE_FUNCTION(DBusModule, bus,
+                             fcitx::dbus::Bus &());
 
-    dbus::Bus &bus();
 
-private:
-    FCITX_ADDON_EXPORT_FUNCTION(DBusModule, bus);
-    std::unique_ptr<dbus::Bus> m_bus;
-    std::unique_ptr<Controller1> m_controller;
-};
-
-class DBusModuleFactory : public AddonFactory {
-    AddonInstance *create(AddonManager *manager) override;
-};
-
-FCITX_ADDON_FACTORY(DBusModuleFactory)
-}
-
-#endif // _DBUS_DBUSMODULE_H_
+#endif // _DBUS_DBUS_PUBLIC_H_

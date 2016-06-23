@@ -29,6 +29,7 @@ namespace dbus {
 class Message;
 class ObjectVTable;
 class Slot;
+class Bus;
 
 typedef std::function<bool(Message)> ObjectMethod;
 typedef std::function<Message()> PropertyGetMethod;
@@ -73,13 +74,13 @@ struct ReturnValueHelper<void> {
 };
 
 #define FCITX_OBJECT_VTABLE_METHOD(FUNCTION, FUNCTION_NAME, SIGNATURE, RET)                                            \
-    ObjectVTableMethod FUNCTION##Method {                                                                              \
-        this, FUNCTION_NAME, SIGNATURE, RET, [this](Message msg) {                                                     \
+    ::fcitx::dbus::ObjectVTableMethod FUNCTION##Method {                                                                              \
+        this, FUNCTION_NAME, SIGNATURE, RET, [this](::fcitx::dbus::Message msg) {                                                     \
             STRING_TO_DBUS_TUPLE(SIGNATURE) args;                                                                      \
             msg >> args;                                                                                               \
             auto func = &std::remove_reference<decltype(*this)>::type::FUNCTION;                                       \
             typedef decltype(callWithTuple(this, func, args)) ReturnType;                                              \
-            ReturnValueHelper<ReturnType> helper;                                                                      \
+            ::fcitx::dbus::ReturnValueHelper<ReturnType> helper;                                                                      \
             auto functor = [this, &args, func]() { return callWithTuple(this, func, args); };                          \
             helper.call(functor);                                                                                      \
             auto reply = msg.createReply();                                                                            \
@@ -89,13 +90,26 @@ struct ReturnValueHelper<void> {
         }                                                                                                              \
     }
 
+#define FCITX_OBJECT_VTABLE_SIGNAL(SIGNAL, SIGNAL_NAME, SIGNATURE) \
+    ::fcitx::dbus::ObjectVTableSignal SIGNAL##Signal {this, SIGNAL_NAME, SIGNATURE}; \
+    template<typename ...Args> \
+    void SIGNAL(Args... args) { \
+        auto msg = SIGNAL##Signal.createSignal(); \
+        STRING_TO_DBUS_TUPLE(SIGNATURE) tupleArg = std::make_tuple(args...); \
+        msg << tupleArg; \
+        msg.send(); \
+    }
+
 class FCITXUTILS_EXPORT ObjectVTableSignal {
 public:
     ObjectVTableSignal(ObjectVTable *vtable, const std::string &name, const std::string signature);
 
+    Message createSignal();
+
 private:
     const std::string m_name;
     const std::string m_signature;
+    ObjectVTable *m_vtable;
 };
 
 class FCITXUTILS_EXPORT ObjectVTableProperty {
@@ -132,6 +146,10 @@ public:
     void addSignal(ObjectVTableSignal *sig);
     void addProperty(ObjectVTableProperty *property);
     void releaseSlot();
+
+    Bus *bus();
+    const std::string &path() const;
+    const std::string &interface() const;
 
 private:
     void setSlot(Slot *slot);

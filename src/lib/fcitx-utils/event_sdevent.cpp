@@ -213,7 +213,6 @@ void *EventLoop::nativeHandle() {
 bool EventLoop::exec() {
     FCITX_D();
     int r = sd_event_loop(d->event);
-    std::cout << r << std::endl;
     return r >= 0;
 }
 

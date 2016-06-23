@@ -188,6 +188,11 @@ const SurroundingText &InputContext::surroundingText() const {
     return d->surroundingText;
 }
 
+void InputContext::updateSurroundingText() {
+    FCITX_D();
+    d->emplaceEvent<SurroundingTextUpdatedEvent>(this);
+}
+
 Text &InputContext::preedit() {
     FCITX_D();
     return d->preedit;

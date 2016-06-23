@@ -45,6 +45,7 @@ private:
     Instance *m_instance;
     IsoCodes m_isoCodes;
     XkbRules m_xkbRules;
+    std::string m_ruleName;
     std::unique_ptr<struct xkb_context, decltype(&xkb_context_unref)> m_xkbContext;
     std::unique_ptr<struct xkb_compose_table, decltype(&xkb_compose_table_unref)> m_xkbComposeTable;
     std::unique_ptr<struct xkb_compose_state, decltype(&xkb_compose_state_unref)> m_xkbComposeState;

@@ -16,6 +16,7 @@
  * License along with this library; see the file COPYING. If not,
  * see <http://www.gnu.org/licenses/>.
  */
+#include <iostream>
 #include "xim.h"
 #include "modules/xcb/xcb_public.h"
 #include <xcb/xcb_aux.h>
@@ -258,6 +259,7 @@ void XIMServer::callback(xcb_im_client_t *client, xcb_im_input_context_t *xic, c
         KeyEvent event(
             ic, Key(static_cast<KeySym>(xkb_state_key_get_one_sym(xkbState, xevent->detail)), KeyStates(xevent->state)),
             (xevent->response_type & ~0x80) == XCB_KEY_RELEASE, xevent->detail, xevent->time);
+        std::cout << event.key().toString() << std::endl;
         if (!ic->keyEvent(event)) {
             xcb_im_forward_event(im(), xic, xevent);
         }

@@ -78,7 +78,7 @@ struct DBusSignatureToTuple<> {
 template <char... c>
 auto MetaStringToDBusTuple(MetaString<c...>) -> DBusSignatureToTuple<c...>;
 
-#define STRING_TO_DBUS_TUPLE(STRING) decltype(MetaStringToDBusTuple(makeMetaString(STRING)()))::type
+#define STRING_TO_DBUS_TUPLE(STRING) decltype(::fcitx::dbus::MetaStringToDBusTuple(makeMetaString(STRING)()))::type
 
 class Message;
 typedef std::function<bool(Message message)> MessageCallback;

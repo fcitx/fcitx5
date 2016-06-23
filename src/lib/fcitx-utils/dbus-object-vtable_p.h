@@ -27,6 +27,7 @@
 
 namespace fcitx {
 namespace dbus {
+class SDVTableSlot;
 
 class ObjectVTablePrivate {
 public:
@@ -49,7 +50,7 @@ public:
     std::vector<ObjectVTableMethod *> methods;
     std::vector<ObjectVTableProperty *> properties;
     std::vector<ObjectVTableSignal *> sigs;
-    std::unique_ptr<Slot> slot;
+    std::unique_ptr<SDVTableSlot> slot;
 };
 }
 }

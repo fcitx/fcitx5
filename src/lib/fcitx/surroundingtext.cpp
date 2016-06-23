@@ -72,6 +72,12 @@ void SurroundingText::setText(const std::string &text, unsigned int cursor, unsi
     d->anchor = anchor;
 }
 
+void SurroundingText::setCursor(unsigned int cursor, unsigned int anchor) {
+    FCITX_D();
+    d->cursor = cursor;
+    d->anchor = anchor;
+}
+
 void SurroundingText::deleteText(int offset, unsigned int size) {
     FCITX_D();
     if (!d->valid) {

@@ -72,8 +72,12 @@ ObjectVTableWritableProperty::ObjectVTableWritableProperty(ObjectVTable *vtable,
 }
 
 ObjectVTableSignal::ObjectVTableSignal(ObjectVTable *vtable, const std::string &name, const std::string signature)
-    : m_name(name), m_signature(signature) {
+    : m_name(name), m_signature(signature), m_vtable(vtable) {
     vtable->addSignal(this);
+}
+
+Message ObjectVTableSignal::createSignal() {
+    return m_vtable->bus()->createSignal(m_vtable->path().c_str(), m_vtable->interface().c_str(), m_name.c_str());
 }
 
 ObjectVTable::ObjectVTable() : d_ptr(std::make_unique<ObjectVTablePrivate>(this)) {}
@@ -97,9 +101,24 @@ void ObjectVTable::addSignal(ObjectVTableSignal *signal) {
 
 void ObjectVTable::releaseSlot() { setSlot(nullptr); }
 
+Bus *ObjectVTable::bus() {
+    FCITX_D();
+    return d->slot->bus;
+}
+
+const std::string &ObjectVTable::path() const {
+    FCITX_D();
+    return d->slot->path;
+}
+
+const std::string &ObjectVTable::interface() const {
+    FCITX_D();
+    return d->slot->interface;
+}
+
 void ObjectVTable::setSlot(Slot *slot) {
     FCITX_D();
-    d->slot.reset(slot);
+    d->slot.reset(static_cast<SDVTableSlot*>(slot));
 }
 }
 }

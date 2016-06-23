@@ -29,6 +29,8 @@
 #include "fcitx/misc_p.h"
 #include "fcitx-utils/utf8.h"
 
+const char imNamePrefix[] = "fcitx-keyboard-";
+const int imNamePrefixLength = sizeof(imNamePrefix) - 1;
 #define INVALID_COMPOSE_RESULT 0xffffffff
 
 namespace fcitx {
@@ -93,6 +95,14 @@ static std::string findBestLanguage(const IsoCodes &isocodes, const std::string 
     return {};
 }
 
+std::pair<std::string, std::string> layoutFromName(const std::string &s) {
+    auto pos = s.find('-', imNamePrefixLength);
+    if (pos == std::string::npos) {
+        return {s.substr(imNamePrefixLength), ""};
+    }
+    return {s.substr(imNamePrefixLength, pos - imNamePrefixLength), s.substr(pos + 1)};
+}
+
 KeyboardEngine::KeyboardEngine(Instance *instance)
     : m_instance(instance), m_xkbContext(nullptr, &xkb_context_unref),
       m_xkbComposeTable(nullptr, &xkb_compose_table_unref), m_xkbComposeState(nullptr, &xkb_compose_state_unref) {
@@ -110,16 +120,6 @@ KeyboardEngine::KeyboardEngine(Instance *instance)
     if (!locale) {
         locale = "C";
     }
-
-    m_xkbContext.reset(xkb_context_new(XKB_CONTEXT_NO_FLAGS));
-    if (m_xkbContext) {
-        xkb_context_set_log_level(m_xkbContext.get(), XKB_LOG_LEVEL_CRITICAL);
-        m_xkbComposeTable.reset(
-            xkb_compose_table_new_from_locale(m_xkbContext.get(), locale, XKB_COMPOSE_COMPILE_NO_FLAGS));
-        if (m_xkbComposeTable) {
-            m_xkbComposeState.reset(xkb_compose_state_new(m_xkbComposeTable.get(), XKB_COMPOSE_STATE_NO_FLAGS));
-        }
-    }
     if (xcb) {
         auto rules = xcb->call<IXCBModule::xkbRulesNames>("");
         if (!rules[0].empty()) {
@@ -129,11 +129,23 @@ KeyboardEngine::KeyboardEngine(Instance *instance)
             } else {
                 rule = XKEYBOARDCONFIG_XKBBASE "/rules/" + rule + ".xml";
             }
+            m_ruleName = rule;
         }
     }
     if (rule.empty() || !m_xkbRules.read(rule)) {
         rule = XKEYBOARDCONFIG_XKBBASE "/rules/" DEFAULT_XKB_RULES ".xml";
         m_xkbRules.read(rule);
+        m_ruleName = DEFAULT_XKB_RULES;
+    }
+
+    m_xkbContext.reset(xkb_context_new(XKB_CONTEXT_NO_FLAGS));
+    if (m_xkbContext) {
+        xkb_context_set_log_level(m_xkbContext.get(), XKB_LOG_LEVEL_CRITICAL);
+        m_xkbComposeTable.reset(
+            xkb_compose_table_new_from_locale(m_xkbContext.get(), locale, XKB_COMPOSE_COMPILE_NO_FLAGS));
+        if (m_xkbComposeTable) {
+            m_xkbComposeState.reset(xkb_compose_state_new(m_xkbComposeTable.get(), XKB_COMPOSE_STATE_NO_FLAGS));
+        }
     }
 }
 
@@ -146,7 +158,7 @@ std::vector<InputMethodEntry> KeyboardEngine::listInputMethods() {
         auto language = findBestLanguage(m_isoCodes, layoutInfo.description, layoutInfo.languages);
         auto description =
             stringutils::join({_("Keyboard"), " - ", D_("xkeyboard-config", layoutInfo.description)}, "");
-        auto uniqueName = "fcitx-keyboard-" + layoutInfo.name;
+        auto uniqueName = imNamePrefix + layoutInfo.name;
         result.emplace_back(std::move(
             InputMethodEntry(uniqueName, description, language, "keyboard").setIcon("kbd").setLabel(layoutInfo.name)));
         for (auto &variantInfo : layoutInfo.variantInfos) {
@@ -156,7 +168,7 @@ std::vector<InputMethodEntry> KeyboardEngine::listInputMethods() {
             auto description = stringutils::join({_("Keyboard"), " - ", D_("xkeyboard-config", layoutInfo.description),
                                                   " - ", D_("xkeyboard-config", variantInfo.description)},
                                                  "");
-            auto uniqueName = "fcitx-keyboard-" + layoutInfo.name + "-" + variantInfo.name;
+            auto uniqueName = imNamePrefix + layoutInfo.name + "-" + variantInfo.name;
             result.emplace_back(std::move(InputMethodEntry(uniqueName, description, language, "keyboard")
                                               .setIcon("kbd")
                                               .setLabel(layoutInfo.name)));

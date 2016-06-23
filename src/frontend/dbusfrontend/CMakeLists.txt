@@ -1,0 +1,5 @@
+add_library(dbusfrontend MODULE dbusfrontend.cpp)
+target_link_libraries(dbusfrontend Fcitx5::Core)
+set_target_properties(dbusfrontend PROPERTIES PREFIX "")
+install(TARGETS dbusfrontend DESTINATION "${FCITX_INSTALL_ADDONDIR}")
+install(FILES dbusfrontend.conf DESTINATION "${FCITX_INSTALL_PKGDATADIR}/addon")
