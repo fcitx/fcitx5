@@ -84,7 +84,7 @@ public:
     virtual ~InputContext();
     InputContext(InputContext &&other) = delete;
 
-    ICUUID uuid() const;
+    const ICUUID &uuid() const;
     const std::string &program() const;
 
     void focusIn();

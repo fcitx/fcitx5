@@ -22,6 +22,6 @@
 #include <fcitx-utils/dbus.h>
 #include <fcitx/addoninstance.h>
 
-FCITX_ADDON_DECLARE_FUNCTION(DBusModule, bus, fcitx::dbus::Bus &());
+FCITX_ADDON_DECLARE_FUNCTION(DBusModule, bus, fcitx::dbus::Bus *());
 
 #endif // _DBUS_DBUS_PUBLIC_H_

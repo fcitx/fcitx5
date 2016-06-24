@@ -42,7 +42,7 @@ InputContext::~InputContext() {
     d->manager.unregisterInputContext(*this);
 }
 
-ICUUID InputContext::uuid() const {
+const ICUUID &InputContext::uuid() const {
     FCITX_D();
     return d->uuid;
 }

@@ -21,10 +21,13 @@
 
 #include <tuple>
 #include "metastring.h"
+#include "unixfd.h"
 
 namespace fcitx {
 
 namespace dbus {
+
+class ObjectPath;
 
 template <typename... Args>
 struct DBusStruct;
@@ -57,6 +60,7 @@ DBUS_SIGNATURE_TRAITS(int64_t, 'x');
 DBUS_SIGNATURE_TRAITS(uint64_t, 't');
 DBUS_SIGNATURE_TRAITS(double, 'd');
 DBUS_SIGNATURE_TRAITS(UnixFD, 'h');
+DBUS_SIGNATURE_TRAITS(ObjectPath, 'o');
 
 template <typename Arg, typename... Args>
 struct DBusSignatureTraits<std::tuple<Arg, Args...>> {

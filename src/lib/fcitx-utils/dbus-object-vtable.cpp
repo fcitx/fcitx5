@@ -27,8 +27,8 @@ namespace dbus {
 int SDMethodCallback(sd_bus_message *m, void *userdata, sd_bus_error *) {
     try {
         auto method = static_cast<ObjectVTableMethod *>(userdata);
-        auto result = method->handler()(MessagePrivate::fromSDBusMessage(m));
-        return result ? 0 : 1;
+        method->handler()(MessagePrivate::fromSDBusMessage(m));
+        return 1;
     } catch (...) {
         // some abnormal things threw
         abort();
@@ -114,6 +114,16 @@ const std::string &ObjectVTable::path() const {
 const std::string &ObjectVTable::interface() const {
     FCITX_D();
     return d->slot->interface;
+}
+
+Message *ObjectVTable::currentMessage() const {
+    FCITX_D();
+    return d->msg;
+}
+
+void ObjectVTable::setCurrentMessage(Message *msg) {
+    FCITX_D();
+    d->msg = msg;
 }
 
 void ObjectVTable::setSlot(Slot *slot) {

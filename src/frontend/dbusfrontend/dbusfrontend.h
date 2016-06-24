@@ -29,6 +29,7 @@ namespace fcitx {
 
 class AddonInstance;
 class Instance;
+class InputMethod1;
 
 class DBusFrontendModule : public AddonInstance {
 public:
@@ -40,6 +41,7 @@ public:
 
 private:
     Instance *m_instance;
+    std::unique_ptr<InputMethod1> m_inputMethod1;
 };
 
 class DBusFrontendModuleFactory : public AddonFactory {

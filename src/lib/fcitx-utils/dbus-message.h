@@ -136,6 +136,8 @@ public:
     std::string destination() const;
     void setDestination(const std::string &dest);
 
+    std::string sender() const;
+
     std::string signature() const;
 
     void *nativeHandle() const;

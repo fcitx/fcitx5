@@ -102,6 +102,14 @@ std::string Message::destination() const {
     return sd_bus_message_get_destination(d->msg);
 }
 
+std::string Message::sender() const {
+    FCITX_D();
+    if (!d->msg) {
+        return {};
+    }
+    return sd_bus_message_get_sender(d->msg);
+}
+
 std::string Message::signature() const {
     FCITX_D();
     return sd_bus_message_get_signature(d->msg, true);

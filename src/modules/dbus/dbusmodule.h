@@ -32,7 +32,7 @@ public:
     DBusModule(Instance *instance);
     ~DBusModule();
 
-    dbus::Bus &bus();
+    dbus::Bus *bus();
 
 private:
     FCITX_ADDON_EXPORT_FUNCTION(DBusModule, bus);

@@ -51,6 +51,7 @@ public:
     std::vector<ObjectVTableProperty *> properties;
     std::vector<ObjectVTableSignal *> sigs;
     std::unique_ptr<SDVTableSlot> slot;
+    Message *msg = nullptr;
 };
 }
 }

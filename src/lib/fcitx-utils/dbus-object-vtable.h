@@ -76,6 +76,7 @@ struct ReturnValueHelper<void> {
 #define FCITX_OBJECT_VTABLE_METHOD(FUNCTION, FUNCTION_NAME, SIGNATURE, RET)                                            \
     ::fcitx::dbus::ObjectVTableMethod FUNCTION##Method {                                                               \
         this, FUNCTION_NAME, SIGNATURE, RET, [this](::fcitx::dbus::Message msg) {                                      \
+            ::fcitx::dbus::MessageSetter msgSetter(&msg, this);                                                                       \
             STRING_TO_DBUS_TUPLE(SIGNATURE) args;                                                                      \
             msg >> args;                                                                                               \
             auto func = &std::remove_reference<decltype(*this)>::type::FUNCTION;                                       \
@@ -137,6 +138,7 @@ class ObjectVTablePrivate;
 
 class FCITXUTILS_EXPORT ObjectVTable {
     friend class Bus;
+    friend class MessageSetter;
 
 public:
     ObjectVTable();
@@ -150,13 +152,30 @@ public:
     Bus *bus();
     const std::string &path() const;
     const std::string &interface() const;
+    Message *currentMessage() const;
 
 private:
+    void setCurrentMessage(Message *message);
     void setSlot(Slot *slot);
 
     std::unique_ptr<ObjectVTablePrivate> d_ptr;
     FCITX_DECLARE_PRIVATE(ObjectVTable);
 };
+
+
+class FCITXUTILS_EXPORT MessageSetter {
+public:
+    MessageSetter(Message *message, ObjectVTable *vtable) : m_vtable(vtable) {
+        vtable->setCurrentMessage(message);
+    }
+
+    ~MessageSetter() {
+        m_vtable->setCurrentMessage(nullptr);
+    }
+private:
+    ObjectVTable *m_vtable;
+};
+
 }
 }
 

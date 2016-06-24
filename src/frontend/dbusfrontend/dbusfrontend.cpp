@@ -23,6 +23,7 @@
 #include "fcitx-utils/dbus-object-vtable.h"
 #include "fcitx-utils/dbus-message.h"
 #include "fcitx-utils/metastring.h"
+#include "modules/dbus/dbus_public.h"
 
 #define FCITX_INPUTMETHOD_DBUS_INTERFACE "org.fcitx.Fcitx.InputMethod1"
 #define FCITX_INPUTCONTEXT_DBUS_INTERFACE "org.fcitx.Fcitx.InputContext1"
@@ -31,6 +32,14 @@ namespace fcitx {
 
 class DBusInputContext1 : public InputContext, public dbus::ObjectVTable {
 public:
+    DBusInputContext1(int id, InputContextManager &icManager, const std::string &program) : InputContext(icManager, program),
+        m_path("/inputcontext/" + std::to_string(id)) {
+    }
+
+    const dbus::ObjectPath path() const {
+        return m_path;
+    }
+
     using InputContext::focusIn;
     using InputContext::focusOut;
     using InputContext::reset;
@@ -66,6 +75,16 @@ public:
         }
         updateFormattedPreedit(strs, preedit.cursor());
     }
+
+    void deleteSurroundingTextImpl(int offset, unsigned int size) override {
+        deleteSurroundingTextDBus(offset, size);
+    }
+
+    void forwardKeyImpl(const ForwardKeyEvent & key) override {
+        forwardKeyDBus(static_cast<uint32_t>(key.rawKey().sym()),
+                       static_cast<uint32_t>(key.rawKey().states()),
+                       key.isRelease());
+    }
 private:
     FCITX_OBJECT_VTABLE_METHOD(focusIn, "focusIn", "", "");
     FCITX_OBJECT_VTABLE_METHOD(focusOut, "focusOut", "", "");
@@ -79,15 +98,58 @@ private:
     FCITX_OBJECT_VTABLE_SIGNAL(commitStringDBus, "CommitString", "s");
     FCITX_OBJECT_VTABLE_SIGNAL(currentIM, "CurrentIM", "sss");
     FCITX_OBJECT_VTABLE_SIGNAL(updateFormattedPreedit, "UpdateFormattedPreedit", "a(si)i");
+    FCITX_OBJECT_VTABLE_SIGNAL(deleteSurroundingTextDBus, "DeleteSurroundingText", "iu");
     // TODO UpdateClientSideUI
-    FCITX_OBJECT_VTABLE_SIGNAL(forwardKey, "forwardKey", "uui");
+    FCITX_OBJECT_VTABLE_SIGNAL(forwardKeyDBus, "forwardKey", "uub");
+
+    dbus::ObjectPath m_path;
 };
 
 class InputMethod1 : public dbus::ObjectVTable {
 public:
+    InputMethod1(DBusFrontendModule *module) : m_module(module), m_instance(module->instance()) {
+    }
+
+    std::tuple<dbus::ObjectPath, std::vector<uint8_t>> createInputContext(const std::vector<dbus::DBusStruct<std::string, std::string>> &args) {
+        std::unordered_map<std::string, std::string> strMap;
+        for (auto &p : args) {
+            std::string key, value;
+            std::tie(key, value) = p;
+            strMap[key] = value;
+        }
+        std::string program;
+        auto iter = strMap.find("program");
+        if (iter != strMap.end()) {
+            program = iter->second;
+        }
+
+        // TODO: monitor sender dbus name
+        // auto msg = currentMessage();
+        auto ic = new DBusInputContext1(icIdx++, m_instance->inputContextManager(), program);
+        auto bus = m_module->dbus()->call<IDBusModule::bus>();
+        bus->addObjectVTable(ic->path().path(), FCITX_INPUTCONTEXT_DBUS_INTERFACE, *ic);
+        return std::make_tuple(ic->path(), std::vector<uint8_t>(ic->uuid().begin(), ic->uuid().end()));
+    }
+
+    dbus::ObjectPath createInputContext2() {
+        return std::get<0>(createInputContext({}));
+    }
+private:
+    FCITX_OBJECT_VTABLE_METHOD(createInputContext, "CreateIC", "a(ss)", "oay");
+    // debug purpose for now
+    // TODO remove me
+    FCITX_OBJECT_VTABLE_METHOD(createInputContext2, "CreateIC2", "", "o");
+
+    DBusFrontendModule *m_module;
+    Instance *m_instance;
+    int icIdx = 0;
 };
 
-DBusFrontendModule::DBusFrontendModule(Instance *instance) : m_instance(instance) {}
+DBusFrontendModule::DBusFrontendModule(Instance *instance) : m_instance(instance),
+    m_inputMethod1(std::make_unique<InputMethod1>(this)) {
+    auto bus = this->dbus()->call<IDBusModule::bus>();
+    bus->addObjectVTable("/inputmethod", FCITX_INPUTMETHOD_DBUS_INTERFACE, *m_inputMethod1.get());
+}
 
 DBusFrontendModule::~DBusFrontendModule() {}
 
