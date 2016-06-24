@@ -118,7 +118,7 @@ const std::string &ObjectVTable::interface() const {
 
 void ObjectVTable::setSlot(Slot *slot) {
     FCITX_D();
-    d->slot.reset(static_cast<SDVTableSlot*>(slot));
+    d->slot.reset(static_cast<SDVTableSlot *>(slot));
 }
 }
 }

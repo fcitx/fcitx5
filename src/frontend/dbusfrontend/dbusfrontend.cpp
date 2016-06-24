@@ -27,8 +27,7 @@
 #define FCITX_INPUTMETHOD_DBUS_INTERFACE "org.fcitx.Fcitx.InputMethod1"
 #define FCITX_INPUTCONTEXT_DBUS_INTERFACE "org.fcitx.Fcitx.InputContext1"
 
-namespace fcitx
-{
+namespace fcitx {
 
 class DBusInputContext1 : public InputContext, public dbus::ObjectVTable {
 public:
@@ -36,13 +35,9 @@ public:
     using InputContext::focusOut;
     using InputContext::reset;
 
-    void setCursorRectDBus(int x, int y, int w, int h) {
-        setCursorRect({x, y, x + w, y + h});
-    }
+    void setCursorRectDBus(int x, int y, int w, int h) { setCursorRect({x, y, x + w, y + h}); }
 
-    void setCapability(uint64_t cap) {
-        setCapabilityFlags(CapabilityFlags{cap});
-    }
+    void setCapability(uint64_t cap) { setCapabilityFlags(CapabilityFlags{cap}); }
 
     void setSurroundingText(const std::string &str, uint32_t cursor, uint32_t anchor) {
         surroundingText().setText(str, cursor, anchor);
@@ -54,17 +49,22 @@ public:
         updateSurroundingText();
     }
 
-    void destroy() {
-        delete this;
-    }
+    void destroy() { delete this; }
 
     bool processKeyEvent(uint32_t keyval, uint32_t keycode, uint32_t state, bool isRelease, uint32_t time) {
         KeyEvent event(this, Key(static_cast<KeySym>(keyval), KeyStates(state)), isRelease, keycode, time);
         return keyEvent(event);
     }
 
-    void commitStringImpl(const std::string & text) override {
-        commitStringDBus(text);
+    void commitStringImpl(const std::string &text) override { commitStringDBus(text); }
+
+    void updatePreeditImpl() override {
+        auto &preedit = this->preedit();
+        std::vector<dbus::DBusStruct<std::string, int>> strs;
+        for (int i = 0, e = preedit.size(); i < e; i++) {
+            strs.push_back(std::make_tuple(preedit.stringAt(i), static_cast<int>(preedit.formatAt(i))));
+        }
+        updateFormattedPreedit(strs, preedit.cursor());
     }
 private:
     FCITX_OBJECT_VTABLE_METHOD(focusIn, "focusIn", "", "");
@@ -77,26 +77,22 @@ private:
     FCITX_OBJECT_VTABLE_METHOD(destroy, "DestroyIC", "", "");
     FCITX_OBJECT_VTABLE_METHOD(processKeyEvent, "ProcessKeyEvent", "uuuiu", "b");
     FCITX_OBJECT_VTABLE_SIGNAL(commitStringDBus, "CommitString", "s");
-
+    FCITX_OBJECT_VTABLE_SIGNAL(currentIM, "CurrentIM", "sss");
+    FCITX_OBJECT_VTABLE_SIGNAL(updateFormattedPreedit, "UpdateFormattedPreedit", "a(si)i");
+    // TODO UpdateClientSideUI
+    FCITX_OBJECT_VTABLE_SIGNAL(forwardKey, "forwardKey", "uui");
 };
 
 class InputMethod1 : public dbus::ObjectVTable {
 public:
-
 };
 
-DBusFrontendModule::DBusFrontendModule(Instance *instance) : m_instance(instance)
-{
-}
+DBusFrontendModule::DBusFrontendModule(Instance *instance) : m_instance(instance) {}
 
-DBusFrontendModule::~DBusFrontendModule() {
-}
+DBusFrontendModule::~DBusFrontendModule() {}
 
-AddonInstance *DBusFrontendModule::dbus()
-{
+AddonInstance *DBusFrontendModule::dbus() {
     auto &addonManager = m_instance->addonManager();
     return addonManager.addon("dbus");
 }
-
-
 }

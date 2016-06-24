@@ -64,6 +64,41 @@ struct MetaStringCombine<MetaString<c...>, MetaString<c2>, Rem...> {
     typedef typename MetaStringCombine<MetaString<c..., c2>, Rem...>::type type;
 };
 
+template <typename...>
+struct ConcatMetaString;
+
+template <>
+struct ConcatMetaString<MetaString<>> {
+    typedef MetaString<> type;
+};
+
+template <char... c>
+struct ConcatMetaString<MetaString<c...>> {
+    typedef MetaString<c...> type;
+};
+
+template <char... c1s, char... c2s, typename... _Rem>
+struct ConcatMetaString<MetaString<c1s...>, MetaString<c2s...>, _Rem...> {
+    typedef typename ConcatMetaString<MetaString<c1s..., c2s...>, _Rem...>::type type;
+};
+
+template <typename... Args>
+using ConcatMetaStringType = typename ConcatMetaString<Args...>::type;
+
+template <typename T>
+struct RemoveMetaStringTail;
+template <typename T>
+using RemoveMetaStringTailType = typename RemoveMetaStringTail<T>::type;
+
+template <char first, char... next>
+struct RemoveMetaStringTail<MetaString<first, next...>> {
+    typedef ConcatMetaStringType<MetaString<first>, RemoveMetaStringTailType<MetaString<next...>>> type;
+};
+template <char first>
+struct RemoveMetaStringTail<MetaString<first>> {
+    typedef MetaString<> type;
+};
+
 template <char... c>
 struct MetaStringTrim {
     typedef typename MetaStringCombine<MetaString<c>...>::type type;

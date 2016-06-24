@@ -20,6 +20,7 @@
 #include "fcitx-utils/event.h"
 #include "fcitx-utils/metastring.h"
 #include <cassert>
+#include <iostream>
 
 using namespace fcitx::dbus;
 using namespace fcitx;
@@ -27,7 +28,15 @@ using namespace fcitx;
 int main() {
     Bus bus(BusType::Session);
 
-    static_assert(std::is_same<DBusSignatureToTuple<'i', 'u'>::type, std::tuple<int32_t, uint32_t>>::value,
+    static_assert(std::is_same<DBusSignatureToType<'i', 'u'>::type, std::tuple<int32_t, uint32_t>>::value,
+                  "Type is not same");
+    static_assert(std::is_same<DBusSignatureToType<'i'>::type, int32_t>::value, "Type is not same");
+    static_assert(std::is_same<DBusSignatureToType<'a', 'u'>::type, std::vector<uint32_t>>::value, "Type is not same");
+    static_assert(std::is_same<DBusSignatureToType<'a', '(', 'i', 'u', ')'>::type,
+                               std::vector<DBusStruct<int32_t, uint32_t>>>::value,
+                  "Type is not same");
+    static_assert(std::is_same<DBusSignatureToType<'a', 'i', 'a', '(', 'i', 'u', ')'>::type,
+                               std::tuple<std::vector<int>, std::vector<DBusStruct<int32_t, uint32_t>>>>::value,
                   "Type is not same");
 
     // interface name must has dot
@@ -38,13 +47,18 @@ int main() {
     }
     {
         auto msg = bus.createSignal("/test", "test.a.b.c", "test");
-        msg << DBusSignatureToTuple<'i', 'u'>::type(1, 2);
+        msg << DBusSignatureToType<'i', 'u'>::type(1, 2);
         assert(msg.signature() == "iu");
     }
     {
         auto msg = bus.createSignal("/test", "test.a.b.c", "test");
         msg << STRING_TO_DBUS_TUPLE("siud")("a", 1, 2, 3);
         assert(msg.signature() == "siud");
+    }
+    {
+        auto msg = bus.createSignal("/test", "test.a.b.c", "test");
+        msg << STRING_TO_DBUS_TUPLE("as")(std::vector<std::string>{"a", "b"});
+        assert(msg.signature() == "as");
     }
     return 0;
 }

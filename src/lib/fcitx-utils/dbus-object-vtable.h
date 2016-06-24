@@ -74,13 +74,13 @@ struct ReturnValueHelper<void> {
 };
 
 #define FCITX_OBJECT_VTABLE_METHOD(FUNCTION, FUNCTION_NAME, SIGNATURE, RET)                                            \
-    ::fcitx::dbus::ObjectVTableMethod FUNCTION##Method {                                                                              \
-        this, FUNCTION_NAME, SIGNATURE, RET, [this](::fcitx::dbus::Message msg) {                                                     \
+    ::fcitx::dbus::ObjectVTableMethod FUNCTION##Method {                                                               \
+        this, FUNCTION_NAME, SIGNATURE, RET, [this](::fcitx::dbus::Message msg) {                                      \
             STRING_TO_DBUS_TUPLE(SIGNATURE) args;                                                                      \
             msg >> args;                                                                                               \
             auto func = &std::remove_reference<decltype(*this)>::type::FUNCTION;                                       \
             typedef decltype(callWithTuple(this, func, args)) ReturnType;                                              \
-            ::fcitx::dbus::ReturnValueHelper<ReturnType> helper;                                                                      \
+            ::fcitx::dbus::ReturnValueHelper<ReturnType> helper;                                                       \
             auto functor = [this, &args, func]() { return callWithTuple(this, func, args); };                          \
             helper.call(functor);                                                                                      \
             auto reply = msg.createReply();                                                                            \
@@ -90,14 +90,14 @@ struct ReturnValueHelper<void> {
         }                                                                                                              \
     }
 
-#define FCITX_OBJECT_VTABLE_SIGNAL(SIGNAL, SIGNAL_NAME, SIGNATURE) \
-    ::fcitx::dbus::ObjectVTableSignal SIGNAL##Signal {this, SIGNAL_NAME, SIGNATURE}; \
-    template<typename ...Args> \
-    void SIGNAL(Args... args) { \
-        auto msg = SIGNAL##Signal.createSignal(); \
-        STRING_TO_DBUS_TUPLE(SIGNATURE) tupleArg = std::make_tuple(args...); \
-        msg << tupleArg; \
-        msg.send(); \
+#define FCITX_OBJECT_VTABLE_SIGNAL(SIGNAL, SIGNAL_NAME, SIGNATURE)                                                     \
+    ::fcitx::dbus::ObjectVTableSignal SIGNAL##Signal{this, SIGNAL_NAME, SIGNATURE};                                    \
+    template <typename... Args>                                                                                        \
+    void SIGNAL(Args... args) {                                                                                        \
+        auto msg = SIGNAL##Signal.createSignal();                                                                      \
+        STRING_TO_DBUS_TUPLE(SIGNATURE) tupleArg = std::make_tuple(args...);                                           \
+        msg << tupleArg;                                                                                               \
+        msg.send();                                                                                                    \
     }
 
 class FCITXUTILS_EXPORT ObjectVTableSignal {

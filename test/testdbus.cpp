@@ -27,13 +27,18 @@ using namespace fcitx;
 class TestObject : public ObjectVTable {
     void test1() {}
     std::string test2(int32_t i) { return std::to_string(i); }
-    std::tuple<int32_t, uint32_t> test3(int32_t i) { testSignal(i); return std::make_tuple(i - 1, i + 1); }
+    std::tuple<int32_t, uint32_t> test3(int32_t i) {
+        std::vector<DBusStruct<std::string, int>> data;
+        data.push_back(std::make_tuple(std::to_string(i), i));
+        testSignal(data);
+        return std::make_tuple(i - 1, i + 1);
+    }
 
 private:
     FCITX_OBJECT_VTABLE_METHOD(test1, "test1", "", "");
     FCITX_OBJECT_VTABLE_METHOD(test2, "test2", "i", "s");
     FCITX_OBJECT_VTABLE_METHOD(test3, "test3", "i", "iu");
-    FCITX_OBJECT_VTABLE_SIGNAL(testSignal, "testSignal", "i");
+    FCITX_OBJECT_VTABLE_SIGNAL(testSignal, "testSignal", "a(si)");
 };
 
 #define TEST_SERVICE "org.fcitx.Fcitx.TestDBus"
@@ -45,15 +50,15 @@ void *client(void *) {
     clientBus.attachEventLoop(&loop);
     std::unique_ptr<EventSourceTime> s(
         loop.addTimeEvent(CLOCK_MONOTONIC, now(CLOCK_MONOTONIC), 0, [&clientBus](EventSource *, uint64_t) {
-            auto msg = clientBus.createMethodCall(TEST_SERVICE, "/test",
-                                            "org.freedesktop.DBus.Introspectable", "Introspect");
+            auto msg =
+                clientBus.createMethodCall(TEST_SERVICE, "/test", "org.freedesktop.DBus.Introspectable", "Introspect");
             auto reply = msg.call(0);
             std::string s;
             reply >> s;
             return false;
         }));
-    std::unique_ptr<EventSourceTime> s2(loop.addTimeEvent(
-        CLOCK_MONOTONIC, now(CLOCK_MONOTONIC) + 100000, 0, [&clientBus](EventSource *, uint64_t) {
+    std::unique_ptr<EventSourceTime> s2(
+        loop.addTimeEvent(CLOCK_MONOTONIC, now(CLOCK_MONOTONIC) + 100000, 0, [&clientBus](EventSource *, uint64_t) {
             auto msg = clientBus.createMethodCall(TEST_SERVICE, "/test", TEST_INTERFACE, "test2");
             msg << 2;
             auto reply = msg.call(0);
@@ -77,13 +82,17 @@ void *client(void *) {
             assert(std::get<1>(ret) == 3);
             return false;
         }));
-    std::unique_ptr<Slot> slot(clientBus.addMatch("type='signal',sender='" TEST_SERVICE "',interface='" TEST_INTERFACE "',member='testSignal'", [&loop] (dbus::Message message) {
-        int i;
-        message >> i;
-        assert(i == 2);
-        loop.quit();
-        return false;
-    }));
+    std::unique_ptr<Slot> slot(clientBus.addMatch("type='signal',sender='" TEST_SERVICE "',interface='" TEST_INTERFACE
+                                                  "',member='testSignal'",
+                                                  [&loop](dbus::Message message) {
+                                                      std::vector<DBusStruct<std::string, int>> data;
+                                                      message >> data;
+                                                      assert(data.size() == 1);
+                                                      assert(std::get<0>(data[0]) == "2");
+                                                      assert(std::get<1>(data[0]) == 2);
+                                                      loop.quit();
+                                                      return false;
+                                                  }));
     loop.exec();
     return nullptr;
 }

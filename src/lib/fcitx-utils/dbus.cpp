@@ -18,7 +18,7 @@
  */
 
 #include "dbus_p.h"
-#include "dbus-message-p.h"
+#include "dbus-message_p.h"
 #include "dbus-object-vtable_p.h"
 
 namespace fcitx {

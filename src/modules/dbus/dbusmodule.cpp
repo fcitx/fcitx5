@@ -83,9 +83,7 @@ DBusModule::DBusModule(Instance *instance) : m_bus(std::make_unique<dbus::Bus>(d
 
 DBusModule::~DBusModule() {}
 
-dbus::Bus &DBusModule::bus() {
-    return *m_bus;
-}
+dbus::Bus &DBusModule::bus() { return *m_bus; }
 
 AddonInstance *DBusModuleFactory::create(AddonManager *manager) { return new DBusModule(manager->instance()); }
 }

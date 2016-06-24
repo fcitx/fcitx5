@@ -31,6 +31,11 @@ struct CombineTuples<> {
     typedef std::tuple<> type;
 };
 
+template <typename _T1, typename... _Rem>
+struct CombineTuples<_T1, _Rem...> {
+    typedef typename CombineTuples<std::tuple<_T1>, _Rem...>::type type;
+};
+
 template <typename... _Ts>
 struct CombineTuples<std::tuple<_Ts...>> {
     typedef std::tuple<_Ts...> type;
@@ -40,6 +45,9 @@ template <typename... _T1s, typename... _T2s, typename... _Rem>
 struct CombineTuples<std::tuple<_T1s...>, std::tuple<_T2s...>, _Rem...> {
     typedef typename CombineTuples<std::tuple<_T1s..., _T2s...>, _Rem...>::type type;
 };
+
+template <typename... Args>
+using CombineTuplesType = typename CombineTuples<Args...>::type;
 
 template <int...>
 struct Sequence {};

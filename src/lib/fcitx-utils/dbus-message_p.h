@@ -59,6 +59,7 @@ public:
 
     MessageType type;
     sd_bus_message *msg;
+    int lastError = 0;
 };
 }
 }

@@ -23,62 +23,27 @@
 #include <string>
 #include <memory>
 #include <tuple>
+#include <vector>
 #include "unixfd.h"
 #include "macros.h"
 #include "tuplehelpers.h"
 #include "metastring.h"
+#include "dbus-message-details.h"
 
 namespace fcitx {
 
 namespace dbus {
 
-template <typename T>
-struct DBusSignatureTraits;
+template <typename... Args>
+struct DBusStruct : public std::tuple<Args...> {
+    typedef std::tuple<Args...> tuple_type;
 
-template <char>
-struct DBusSignatureToType;
+    DBusStruct() = default;
 
-#define DBUS_SIGNATURE_TRAITS(TYPENAME, SIG)                                                                           \
-    template <>                                                                                                        \
-    struct DBusSignatureTraits<TYPENAME> {                                                                             \
-        static constexpr char value = SIG;                                                                             \
-    };                                                                                                                 \
-                                                                                                                       \
-    template <>                                                                                                        \
-    struct DBusSignatureToType<SIG> {                                                                                  \
-        typedef TYPENAME type;                                                                                         \
-    };
+    DBusStruct(const tuple_type &other) : tuple_type(std::forward(other)) {}
 
-DBUS_SIGNATURE_TRAITS(std::string, 's');
-DBUS_SIGNATURE_TRAITS(uint8_t, 'y');
-DBUS_SIGNATURE_TRAITS(bool, 'b');
-DBUS_SIGNATURE_TRAITS(int16_t, 'n');
-DBUS_SIGNATURE_TRAITS(uint16_t, 'q');
-DBUS_SIGNATURE_TRAITS(int32_t, 'i');
-DBUS_SIGNATURE_TRAITS(uint32_t, 'u');
-DBUS_SIGNATURE_TRAITS(int64_t, 'x');
-DBUS_SIGNATURE_TRAITS(uint64_t, 't');
-DBUS_SIGNATURE_TRAITS(double, 'd');
-DBUS_SIGNATURE_TRAITS(UnixFD, 'h');
-
-template <char...>
-struct DBusSignatureToTuple;
-
-template <char first, char... next>
-struct DBusSignatureToTuple<first, next...> {
-    typedef typename CombineTuples<std::tuple<typename DBusSignatureToType<first>::type>,
-                                   typename DBusSignatureToTuple<next...>::type>::type type;
+    DBusStruct(tuple_type &&other) : tuple_type(std::forward<tuple_type>(other)) {}
 };
-
-template <>
-struct DBusSignatureToTuple<> {
-    typedef std::tuple<> type;
-};
-
-template <char... c>
-auto MetaStringToDBusTuple(MetaString<c...>) -> DBusSignatureToTuple<c...>;
-
-#define STRING_TO_DBUS_TUPLE(STRING) decltype(::fcitx::dbus::MetaStringToDBusTuple(makeMetaString(STRING)()))::type
 
 class Message;
 typedef std::function<bool(Message message)> MessageCallback;
@@ -179,6 +144,9 @@ public:
     Slot *callAsync(uint64_t usec, MessageCallback callback);
     bool send();
 
+    operator bool() const;
+    bool end() const;
+
     Message &operator<<(uint8_t i);
     Message &operator<<(bool b);
     Message &operator<<(int16_t i);
@@ -201,6 +169,35 @@ public:
         return *this;
     }
 
+    template <typename... Args>
+    Message &operator<<(const DBusStruct<Args...> &t) {
+        typedef DBusStruct<Args...> value_type;
+        typedef typename DBusContainerSignatureTraits<value_type>::signature signature;
+        if (*this << Container(Container::Type::Struct, Signature(signature::data()))) {
+            ;
+            TupleMarshaller<typename value_type::tuple_type, sizeof...(Args)>::marshall(
+                *this, static_cast<const typename value_type::tuple_type &>(t));
+            if (*this) {
+                *this << ContainerEnd();
+            }
+        }
+        return *this;
+    }
+
+    template <typename T>
+    Message &operator<<(const std::vector<T> &t) {
+        typedef std::vector<T> value_type;
+        typedef typename DBusContainerSignatureTraits<value_type>::signature signature;
+        if (*this << Container(Container::Type::Array, Signature(signature::data()))) {
+            ;
+            for (auto &v : t) {
+                *this << v;
+            }
+            *this << ContainerEnd();
+        }
+        return *this;
+    }
+
     Message &operator>>(uint8_t &i);
     Message &operator>>(bool &b);
     Message &operator>>(int16_t &i);
@@ -220,6 +217,36 @@ public:
     template <typename... Args>
     Message &operator>>(std::tuple<Args...> &t) {
         TupleMarshaller<decltype(t), sizeof...(Args)>::unmarshall(*this, t);
+        return *this;
+    }
+
+    template <typename... Args>
+    Message &operator>>(DBusStruct<Args...> &t) {
+        typedef DBusStruct<Args...> value_type;
+        typedef typename value_type::tuple_type tuple_type;
+        typedef typename DBusContainerSignatureTraits<value_type>::signature signature;
+        if (*this >> Container(Container::Type::Struct, Signature(signature::data()))) {
+            ;
+            TupleMarshaller<tuple_type, sizeof...(Args)>::unmarshall(*this, static_cast<tuple_type &>(t));
+            if (*this) {
+                *this >> ContainerEnd();
+            }
+        }
+        return *this;
+    }
+
+    template <typename T>
+    Message &operator>>(std::vector<T> &t) {
+        typedef std::vector<T> value_type;
+        typedef typename DBusContainerSignatureTraits<value_type>::signature signature;
+        if (*this >> Container(Container::Type::Array, Signature(signature::data()))) {
+            ;
+            T temp;
+            while (!end() && *this >> temp) {
+                t.push_back(temp);
+            }
+            *this >> ContainerEnd();
+        }
         return *this;
     }
 

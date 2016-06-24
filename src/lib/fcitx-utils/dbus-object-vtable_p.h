@@ -23,7 +23,7 @@
 #include <unordered_set>
 #include "dbus-object-vtable.h"
 #include "dbus-object-vtable-wrapper.h"
-#include "dbus-message-p.h"
+#include "dbus-message_p.h"
 
 namespace fcitx {
 namespace dbus {

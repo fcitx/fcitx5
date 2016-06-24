@@ -19,7 +19,6 @@
 #ifndef _DBUSFRONTEND_DBUSFRONTEND_H_
 #define _DBUSFRONTEND_DBUSFRONTEND_H_
 
-
 #include "fcitx-utils/event.h"
 #include "fcitx/addoninstance.h"
 #include "fcitx/addonfactory.h"

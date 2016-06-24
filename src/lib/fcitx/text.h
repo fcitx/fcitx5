@@ -27,7 +27,7 @@
 
 namespace fcitx {
 
-enum class TextFormatFlag {
+enum class TextFormatFlag : int {
     UnderLine = (1 << 0), /**< underline is a flag */
     HighLight = (1 << 1), /**< highlight the preedit */
     Bold = (1 << 2),
