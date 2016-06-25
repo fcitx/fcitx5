@@ -19,7 +19,7 @@
 #ifndef _DBUS_DBUS_PUBLIC_H_
 #define _DBUS_DBUS_PUBLIC_H_
 
-#include <fcitx-utils/dbus.h>
+#include <fcitx-utils/dbus/bus.h>
 #include <fcitx/addoninstance.h>
 
 FCITX_ADDON_DECLARE_FUNCTION(DBusModule, bus, fcitx::dbus::Bus *());

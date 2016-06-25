@@ -17,9 +17,9 @@
  * see <http://www.gnu.org/licenses/>.
  */
 
-#include "dbus-message.h"
-#include "dbus-message_p.h"
-#include "dbus_p.h"
+#include "dbus/message.h"
+#include "dbus/message_p.h"
+#include "dbus/bus_p.h"
 #include "unixfd.h"
 #include <fcntl.h>
 #include <unistd.h>

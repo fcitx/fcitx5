@@ -16,7 +16,7 @@
  * License along with this library; see the  file COPYING. If not,
  * see <http://www.gnu.org/licenses/>.
  */
-#include "fcitx-utils/dbus.h"
+#include "fcitx-utils/dbus/bus.h"
 #include "fcitx-utils/event.h"
 #include <iostream>
 #include <cassert>

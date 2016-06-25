@@ -6,13 +6,13 @@ set(FCITX_UTILS_SOURCES
     i18nstring.cpp
     event_common.cpp
     event_sdevent.cpp
-    dbus.cpp
-    dbus-message.cpp
     library.cpp
     fs.cpp
     standardpath.cpp
-    dbus-object-vtable-wrapper.c
-    dbus-object-vtable.cpp
+    dbus/bus.cpp
+    dbus/message.cpp
+    dbus/objectvtablewrapper.c
+    dbus/objectvtable.cpp
     unixfd.cpp
     utf8.cpp
     )
@@ -24,17 +24,21 @@ set(FCITX_UTILS_HEADERS
     color.h
     i18nstring.h
     event.h
-    dbus.h
     library.h
     cutf8.h
-    dbus-message.h
-    dbus-object-vtable.h
     fs.h
     standardpath.h
     tuplehelpers.h
     metastring.h
     unixfd.h
     ${CMAKE_CURRENT_BINARY_DIR}/fcitxutils_export.h
+    )
+
+set(FCITX_UTILS_DBUS_HEADERS
+    dbus/message.h
+    dbus/objectvtable.h
+    dbus/bus.h
+    dbus/message_details.h
     )
 
 add_library(Fcitx5Utils SHARED ${FCITX_UTILS_SOURCES})
@@ -46,7 +50,7 @@ set_target_properties(Fcitx5Utils
   EXPORT_NAME Utils
   )
 target_include_directories(Fcitx5Utils PUBLIC
-    "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/..;${CMAKE_CURRENT_BINARY_DIR}>"
+    "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR};${CMAKE_CURRENT_SOURCE_DIR}/..;${CMAKE_CURRENT_BINARY_DIR}>"
     "$<INSTALL_INTERFACE:${CMAKE_INSTALL_FULL_INCLUDEDIR}>/Fcitx5/Utils")
 target_link_libraries(Fcitx5Utils PRIVATE Systemd::Systemd DL::DL)
 
@@ -56,6 +60,7 @@ install(TARGETS Fcitx5Utils EXPORT Fcitx5UtilsTargets LIBRARY DESTINATION "${CMA
 install(FILES ${CMAKE_CURRENT_BINARY_DIR}/Fcitx5Utils.pc
   DESTINATION "${CMAKE_INSTALL_LIBDIR}/pkgconfig")
 install(FILES ${FCITX_UTILS_HEADERS} DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}/Fcitx5/Utils/fcitx-utils")
+install(FILES ${FCITX_UTILS_DBUS_HEADERS} DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}/Fcitx5/Utils/fcitx-utils/dbus")
 
 add_library(Fcitx5::Utils ALIAS Fcitx5Utils)
 

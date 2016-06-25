@@ -21,7 +21,7 @@
 
 #include "fcitx/addoninstance.h"
 #include "fcitx/addonfactory.h"
-#include "fcitx-utils/dbus.h"
+#include "fcitx-utils/dbus/bus.h"
 #include "fcitx/instance.h"
 #include "dbus_public.h"
 

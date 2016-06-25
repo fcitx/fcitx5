@@ -20,8 +20,8 @@
 #include "fcitx/inputcontext.h"
 #include "dbusfrontend.h"
 #include "fcitx/instance.h"
-#include "fcitx-utils/dbus-object-vtable.h"
-#include "fcitx-utils/dbus-message.h"
+#include "fcitx-utils/dbus/objectvtable.h"
+#include "fcitx-utils/dbus/message.h"
 #include "fcitx-utils/metastring.h"
 #include "modules/dbus/dbus_public.h"
 

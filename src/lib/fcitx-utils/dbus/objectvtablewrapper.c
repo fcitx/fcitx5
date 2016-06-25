@@ -17,7 +17,7 @@
  * see <http://www.gnu.org/licenses/>.
  */
 
-#include "dbus-object-vtable-wrapper.h"
+#include "dbus/objectvtablewrapper_p.h"
 
 sd_bus_vtable vtable_start() {
     sd_bus_vtable result = SD_BUS_VTABLE_START(0);

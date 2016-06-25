@@ -18,7 +18,7 @@
  */
 
 #include "dbusmodule.h"
-#include "fcitx-utils/dbus.h"
+#include "fcitx-utils/dbus/bus.h"
 #include "fcitx/addonmanager.h"
 
 #define FCITX_DBUS_SERVICE "org.fcitx.Fcitx5"

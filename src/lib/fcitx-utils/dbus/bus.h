@@ -23,8 +23,8 @@
 #include <string>
 #include <vector>
 #include <fcitx-utils/event.h>
-#include "dbus-message.h"
-#include "dbus-object-vtable.h"
+#include "dbus/message.h"
+#include "dbus/objectvtable.h"
 
 namespace fcitx {
 

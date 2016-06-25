@@ -28,7 +28,7 @@
 #include "macros.h"
 #include "tuplehelpers.h"
 #include "metastring.h"
-#include "dbus-message-details.h"
+#include "dbus/message_details.h"
 
 namespace fcitx {
 
