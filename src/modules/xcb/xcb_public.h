@@ -16,8 +16,8 @@
  * License along with this library; see the file COPYING. If not,
  * see <http://www.gnu.org/licenses/>.
  */
-#ifndef _XCB_XCB_PUBLIC_H_
-#define _XCB_XCB_PUBLIC_H_
+#ifndef _FCITX_MODULES_XCB_XCB_PUBLIC_H_
+#define _FCITX_MODULES_XCB_XCB_PUBLIC_H_
 
 #include <string>
 #include <xcb/xcb.h>
@@ -46,4 +46,4 @@ FCITX_ADDON_DECLARE_FUNCTION(XCBModule, addConnectionClosedCallback,
 FCITX_ADDON_DECLARE_FUNCTION(XCBModule, xkbState, xkb_state *(const std::string &));
 FCITX_ADDON_DECLARE_FUNCTION(XCBModule, xkbRulesNames, XkbRulesNames(const std::string &));
 
-#endif // _XCB_XCB_PUBLIC_H_
+#endif // _FCITX_MODULES_XCB_XCB_PUBLIC_H_

@@ -16,8 +16,8 @@
  * License along with this library; see the file COPYING. If not,
  * see <http://www.gnu.org/licenses/>.
  */
-#ifndef _KEYBOARD_XKBRULES_H_
-#define _KEYBOARD_XKBRULES_H_
+#ifndef _FCITX_IM_KEYBOARD_XKBRULES_H_
+#define _FCITX_IM_KEYBOARD_XKBRULES_H_
 
 #include <libxml/parser.h>
 #include <string>
@@ -87,4 +87,4 @@ private:
 };
 }
 
-#endif // _KEYBOARD_XKBRULES_H_
+#endif // _FCITX_IM_KEYBOARD_XKBRULES_H_

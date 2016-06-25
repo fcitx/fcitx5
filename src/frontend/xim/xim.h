@@ -16,8 +16,9 @@
  * License along with this library; see the file COPYING. If not,
  * see <http://www.gnu.org/licenses/>.
  */
-#ifndef _XIM_XIMMODULE_H_
-#define _XIM_XIMMODULE_H_
+#ifndef _FCITX_FRONTEND_XIM_XIM_H_
+#define _FCITX_FRONTEND_XIM_XIM_H_
+
 
 #include <xcb-imdkit/imdkit.h>
 
@@ -59,4 +60,4 @@ public:
 
 FCITX_ADDON_FACTORY(fcitx::XIMModuleFactory);
 
-#endif // _XIM_XIMMODULE_H_
+#endif // _FCITX_FRONTEND_XIM_XIM_H_

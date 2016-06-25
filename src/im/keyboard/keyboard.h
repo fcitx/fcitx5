@@ -16,8 +16,9 @@
  * License along with this library; see the file COPYING. If not,
  * see <http://www.gnu.org/licenses/>.
  */
-#ifndef _KEYBOARD_KEYBOARD_H_
-#define _KEYBOARD_KEYBOARD_H_
+#ifndef _FCITX_IM_KEYBOARD_KEYBOARD_H_
+#define _FCITX_IM_KEYBOARD_KEYBOARD_H_
+
 
 #include "fcitx/inputmethodengine.h"
 #include "fcitx/addonfactory.h"
@@ -57,4 +58,5 @@ public:
 };
 }
 
-#endif // _KEYBOARD_KEYBOARD_H_
+
+#endif // _FCITX_IM_KEYBOARD_KEYBOARD_H_

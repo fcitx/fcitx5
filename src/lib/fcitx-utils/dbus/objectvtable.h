@@ -16,8 +16,8 @@
  * License along with this library; see the file COPYING. If not,
  * see <http://www.gnu.org/licenses/>.
  */
-#ifndef _FCITX_UTILS_DBUS_OBJECT_VTABLE_H_
-#define _FCITX_UTILS_DBUS_OBJECT_VTABLE_H_
+#ifndef _FCITX_UTILS_DBUS_OBJECTVTABLE_H_
+#define _FCITX_UTILS_DBUS_OBJECTVTABLE_H_
 
 #include <memory>
 #include <functional>
@@ -179,4 +179,4 @@ private:
 }
 }
 
-#endif // _FCITX_UTILS_DBUS_OBJECT_VTABLE_H_
+#endif // _FCITX_UTILS_DBUS_OBJECTVTABLE_H_

@@ -16,8 +16,8 @@
  * License along with this library; see the file COPYING. If not,
  * see <http://www.gnu.org/licenses/>.
  */
-#ifndef _FCITX_UTILS_DBUS_OBJECT_VTABLE_WRAPPER_H_
-#define _FCITX_UTILS_DBUS_OBJECT_VTABLE_WRAPPER_H_
+#ifndef _FCITX_UTILS_DBUS_OBJECTVTABLEWRAPPER_P_H_
+#define _FCITX_UTILS_DBUS_OBJECTVTABLEWRAPPER_P_H_
 
 #include "sd-bus-wrap.h"
 
@@ -38,4 +38,4 @@ sd_bus_vtable vtable_end();
 }
 #endif
 
-#endif // _FCITX_UTILS_DBUS_OBJECT_VTABLE_WRAPPER_H_
+#endif // _FCITX_UTILS_DBUS_OBJECTVTABLEWRAPPER_P_H_

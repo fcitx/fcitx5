@@ -16,8 +16,8 @@
  * License along with this library; see the file COPYING. If not,
  * see <http://www.gnu.org/licenses/>.
  */
-#ifndef _FCITX_UTILS_DBUS_H_
-#define _FCITX_UTILS_DBUS_H_
+#ifndef _FCITX_UTILS_DBUS_BUS_H_
+#define _FCITX_UTILS_DBUS_BUS_H_
 
 #include "fcitxutils_export.h"
 #include <string>
@@ -76,4 +76,4 @@ private:
 }
 }
 
-#endif // _FCITX_UTILS_DBUS_H_
+#endif // _FCITX_UTILS_DBUS_BUS_H_

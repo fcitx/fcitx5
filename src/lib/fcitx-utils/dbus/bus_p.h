@@ -16,8 +16,8 @@
  * License along with this library; see the file COPYING. If not,
  * see <http://www.gnu.org/licenses/>.
  */
-#ifndef _FCITX_UTILS_DBUS_P_H_
-#define _FCITX_UTILS_DBUS_P_H_
+#ifndef _FCITX_UTILS_DBUS_BUS_P_H_
+#define _FCITX_UTILS_DBUS_BUS_P_H_
 
 #include "dbus/bus.h"
 #include "sd-bus-wrap.h"
@@ -76,4 +76,4 @@ public:
 }
 }
 
-#endif // _FCITX_UTILS_DBUS_P_H_
+#endif // _FCITX_UTILS_DBUS_BUS_P_H_

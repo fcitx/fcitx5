@@ -16,8 +16,9 @@
  * License along with this library; see the file COPYING. If not,
  * see <http://www.gnu.org/licenses/>.
  */
-#ifndef _XCB_XCBMODULE_H_
-#define _XCB_XCBMODULE_H_
+#ifndef _FCITX_MODULES_XCB_XCBMODULE_H_
+#define _FCITX_MODULES_XCB_XCBMODULE_H_
+
 
 #include <xcb/xcb.h>
 #include <xkbcommon/xkbcommon.h>
@@ -125,4 +126,4 @@ public:
 
 FCITX_ADDON_FACTORY(fcitx::XCBModuleFactory);
 
-#endif // _XCB_XCBMODULE_H_
+#endif // _FCITX_MODULES_XCB_XCBMODULE_H_

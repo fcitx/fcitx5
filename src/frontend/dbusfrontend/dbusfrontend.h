@@ -16,8 +16,8 @@
  * License along with this library; see the file COPYING. If not,
  * see <http://www.gnu.org/licenses/>.
  */
-#ifndef _DBUSFRONTEND_DBUSFRONTEND_H_
-#define _DBUSFRONTEND_DBUSFRONTEND_H_
+#ifndef _FCITX_FRONTEND_DBUSFRONTEND_DBUSFRONTEND_H_
+#define _FCITX_FRONTEND_DBUSFRONTEND_DBUSFRONTEND_H_
 
 #include "fcitx-utils/event.h"
 #include "fcitx/addoninstance.h"
@@ -52,4 +52,4 @@ public:
 
 FCITX_ADDON_FACTORY(fcitx::DBusFrontendModuleFactory);
 
-#endif // _DBUSFRONTEND_DBUSFRONTEND_H_
+#endif // _FCITX_FRONTEND_DBUSFRONTEND_DBUSFRONTEND_H_

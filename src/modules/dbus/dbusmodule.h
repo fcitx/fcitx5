@@ -16,8 +16,8 @@
  * License along with this library; see the file COPYING. If not,
  * see <http://www.gnu.org/licenses/>.
  */
-#ifndef _DBUS_DBUSMODULE_H_
-#define _DBUS_DBUSMODULE_H_
+#ifndef _FCITX_MODULES_DBUS_DBUSMODULE_H_
+#define _FCITX_MODULES_DBUS_DBUSMODULE_H_
 
 #include "fcitx/addoninstance.h"
 #include "fcitx/addonfactory.h"
@@ -47,4 +47,4 @@ class DBusModuleFactory : public AddonFactory {
 FCITX_ADDON_FACTORY(DBusModuleFactory)
 }
 
-#endif // _DBUS_DBUSMODULE_H_
+#endif // _FCITX_MODULES_DBUS_DBUSMODULE_H_
