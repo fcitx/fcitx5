@@ -17,22 +17,22 @@
  * see <http://www.gnu.org/licenses/>.
  */
 
-#include "inputmethodengine.h"
 #include "instance.h"
 #include "fcitx-utils/event.h"
-#include "globalconfig.h"
-#include "fcitx/inputcontextmanager.h"
+#include "fcitx-utils/standardpath.h"
+#include "fcitx-utils/stringutils.h"
 #include "fcitx/addonmanager.h"
+#include "fcitx/inputcontextmanager.h"
+#include "globalconfig.h"
+#include "inputmethodengine.h"
 #include "inputmethodentry.h"
 #include "inputmethodmanager.h"
 #include "inputstate_p.h"
-#include "fcitx-utils/standardpath.h"
-#include "fcitx-utils/stringutils.h"
-#include <unistd.h>
 #include <getopt.h>
+#include <iostream>
 #include <signal.h>
 #include <sys/wait.h>
-#include <iostream>
+#include <unistd.h>
 
 namespace {
 
@@ -104,7 +104,8 @@ public:
     InputMethodManager imManager{&this->addonManager};
     GlobalConfig globalConfig;
     std::unordered_map<EventType, std::unordered_map<EventWatcherPhase, HandlerTable<EventHandler>, enum_hash>,
-                       enum_hash> eventHandlers;
+                       enum_hash>
+        eventHandlers;
     int inputStateSlot = -1;
     int inputMethodGroup = 0;
     std::vector<std::unique_ptr<HandlerTableEntry<EventHandler>>> eventWatchers;

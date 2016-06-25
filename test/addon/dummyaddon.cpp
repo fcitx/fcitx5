@@ -17,10 +17,10 @@
  * see <http://www.gnu.org/licenses/>.
  */
 
-#include "fcitx-utils/metastring.h"
-#include "fcitx/addoninstance.h"
-#include "fcitx/addonfactory.h"
 #include "dummyaddon_public.h"
+#include "fcitx-utils/metastring.h"
+#include "fcitx/addonfactory.h"
+#include "fcitx/addoninstance.h"
 
 class DummyAddon : public fcitx::AddonInstance {
 public:

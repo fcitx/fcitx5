@@ -19,10 +19,10 @@
 
 #include <cassert>
 #include <fcitx-config/configuration.h>
+#include <fcitx-config/enum.h>
 #include <fcitx-config/iniparser.h>
 #include <iostream>
 #include <vector>
-#include <fcitx-config/enum.h>
 
 FCITX_CONFIG_ENUM(TestEnum, EnumA, EnumB)
 

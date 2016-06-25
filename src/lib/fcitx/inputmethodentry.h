@@ -19,9 +19,9 @@
 #ifndef _FCITX_INPUTMETHODENTRY_H_
 #define _FCITX_INPUTMETHODENTRY_H_
 
-#include <string>
-#include <memory>
 #include "fcitxcore_export.h"
+#include <memory>
+#include <string>
 
 namespace fcitx {
 

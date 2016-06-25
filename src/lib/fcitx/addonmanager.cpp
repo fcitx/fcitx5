@@ -17,15 +17,15 @@
  * see <http://www.gnu.org/licenses/>.
  */
 
-#include <unordered_map>
-#include <unordered_set>
-#include <fcntl.h>
-#include <unistd.h>
 #include "addonmanager.h"
 #include "addonloader.h"
 #include "addonloader_p.h"
 #include "fcitx-config/iniparser.h"
 #include "instance.h"
+#include <fcntl.h>
+#include <unistd.h>
+#include <unordered_map>
+#include <unordered_set>
 
 namespace fcitx {
 

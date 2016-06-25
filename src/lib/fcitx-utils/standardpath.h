@@ -20,15 +20,15 @@
 #define _FCITX_UTILS_STANDARDPATH_H_
 
 #include "fcitxutils_export.h"
-#include <vector>
-#include <string>
+#include <fcitx-utils/flags.h>
+#include <fcitx-utils/macros.h>
+#include <fcitx-utils/stringutils.h>
+#include <fcitx-utils/unixfd.h>
 #include <functional>
 #include <memory>
+#include <string>
 #include <unordered_map>
-#include "macros.h"
-#include "flags.h"
-#include "stringutils.h"
-#include "unixfd.h"
+#include <vector>
 
 namespace fcitx {
 

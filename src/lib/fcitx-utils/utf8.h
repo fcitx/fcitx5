@@ -19,9 +19,9 @@
 #ifndef _FCITX_UTILS_UTF8_H_
 #define _FCITX_UTILS_UTF8_H_
 
-#include <string>
-#include "cutf8.h"
 #include "fcitxutils_export.h"
+#include <fcitx-utils/cutf8.h>
+#include <string>
 
 namespace fcitx {
 namespace utf8 {

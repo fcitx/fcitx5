@@ -17,11 +17,11 @@
  * see <http://www.gnu.org/licenses/>.
  */
 
-#include <cassert>
-#include "fcitx/addonmanager.h"
-#include "fcitx/addoninstance.h"
-#include "fcitx-utils/metastring.h"
 #include "addon/dummyaddon_public.h"
+#include "fcitx-utils/metastring.h"
+#include "fcitx/addoninstance.h"
+#include "fcitx/addonmanager.h"
+#include <cassert>
 
 double f(int) { return 0; }
 

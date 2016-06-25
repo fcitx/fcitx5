@@ -18,10 +18,10 @@
  */
 
 #include "fs.h"
+#include <algorithm>
+#include <errno.h>
 #include <sys/stat.h>
 #include <unistd.h>
-#include <errno.h>
-#include <algorithm>
 
 namespace fcitx {
 namespace fs {

@@ -20,19 +20,19 @@
 #ifndef _FCITX_INPUTCONTEXT_H_
 #define _FCITX_INPUTCONTEXT_H_
 
+#include "fcitxcore_export.h"
 #include <array>
 #include <cstdint>
-#include <string>
-#include <memory>
-#include <uuid/uuid.h>
-#include <fcitx-utils/key.h>
 #include <fcitx-utils/flags.h>
-#include <fcitx-utils/rect.h>
+#include <fcitx-utils/key.h>
 #include <fcitx-utils/macros.h>
-#include "event.h"
-#include "text.h"
-#include "surroundingtext.h"
-#include "fcitxcore_export.h"
+#include <fcitx-utils/rect.h>
+#include <fcitx/event.h>
+#include <fcitx/surroundingtext.h>
+#include <fcitx/text.h>
+#include <memory>
+#include <string>
+#include <uuid/uuid.h>
 
 namespace fcitx {
 

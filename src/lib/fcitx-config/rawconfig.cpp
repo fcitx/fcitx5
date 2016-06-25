@@ -16,11 +16,11 @@
  * License along with this library; see the file COPYING. If not,
  * see <http://www.gnu.org/licenses/>.
  */
-#include <unordered_map>
-#include <sstream>
-#include <iostream>
-#include "fcitx-utils/stringutils.h"
 #include "rawconfig.h"
+#include "fcitx-utils/stringutils.h"
+#include <iostream>
+#include <sstream>
+#include <unordered_map>
 
 namespace fcitx {
 class RawConfigPrivate {

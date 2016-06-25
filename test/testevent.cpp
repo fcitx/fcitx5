@@ -17,11 +17,11 @@
 * see <http://www.gnu.org/licenses/>.
 */
 
+#include <cassert>
 #include <fcitx-utils/event.h>
-#include <unistd.h>
 #include <fcntl.h>
 #include <iostream>
-#include <cassert>
+#include <unistd.h>
 
 using namespace fcitx;
 

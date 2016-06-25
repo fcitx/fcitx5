@@ -19,11 +19,11 @@
 #ifndef _FCITX_MODULES_DBUS_DBUSMODULE_H_
 #define _FCITX_MODULES_DBUS_DBUSMODULE_H_
 
-#include "fcitx/addoninstance.h"
-#include "fcitx/addonfactory.h"
-#include "fcitx-utils/dbus/bus.h"
-#include "fcitx/instance.h"
 #include "dbus_public.h"
+#include "fcitx-utils/dbus/bus.h"
+#include "fcitx/addonfactory.h"
+#include "fcitx/addoninstance.h"
+#include "fcitx/instance.h"
 
 namespace fcitx {
 class Controller1;

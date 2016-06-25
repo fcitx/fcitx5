@@ -20,8 +20,9 @@
 #ifndef FCITX_UTILS_KEYSYM_H
 #define FCITX_UTILS_KEYSYM_H
 
-#include "macros.h"
-#include "keysymgen.h"
+#include <cstdint>
+#include <fcitx-utils/keysymgen.h>
+#include <fcitx-utils/macros.h>
 
 namespace fcitx {
 /**

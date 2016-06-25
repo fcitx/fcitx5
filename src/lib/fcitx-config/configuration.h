@@ -20,8 +20,8 @@
 #define _FCITX_CONFIG_CONFIGURATION_H_
 
 #include "fcitxconfig_export.h"
+#include <fcitx-config/option.h>
 #include <fcitx-utils/macros.h>
-#include "option.h"
 
 #include <memory>
 

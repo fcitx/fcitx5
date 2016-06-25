@@ -18,12 +18,12 @@
  */
 
 #include "dbus/message.h"
-#include "dbus/message_p.h"
 #include "dbus/bus_p.h"
+#include "dbus/message_p.h"
 #include "unixfd.h"
+#include <atomic>
 #include <fcntl.h>
 #include <unistd.h>
-#include <atomic>
 
 namespace fcitx {
 

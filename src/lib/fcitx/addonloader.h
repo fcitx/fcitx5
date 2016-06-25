@@ -19,11 +19,11 @@
 #ifndef _FCITX_ADDONRESOLVER_H_
 #define _FCITX_ADDONRESOLVER_H_
 
+#include "fcitxcore_export.h"
+#include <fcitx/addoninfo.h>
+#include <fcitx/addoninstance.h>
 #include <string>
 #include <unordered_map>
-#include "addoninfo.h"
-#include "addoninstance.h"
-#include "fcitxcore_export.h"
 
 namespace fcitx {
 

@@ -17,12 +17,12 @@
  * see <http://www.gnu.org/licenses/>.
  */
 
+#include <algorithm>
 #include <cassert>
 #include <fcitx-utils/intrusivelist.h>
-#include <vector>
 #include <iostream>
-#include <algorithm>
 #include <iterator>
+#include <vector>
 
 using namespace fcitx;
 

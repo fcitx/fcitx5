@@ -21,14 +21,14 @@
 
 #include "fcitxconfig_export.h"
 
+#include <functional>
 #include <limits>
 #include <string>
-#include <functional>
 #include <type_traits>
 
-#include "optiontypename.h"
-#include "rawconfig.h"
-#include "marshallfunction.h"
+#include <fcitx-config/marshallfunction.h>
+#include <fcitx-config/optiontypename.h>
+#include <fcitx-config/rawconfig.h>
 
 namespace fcitx {
 

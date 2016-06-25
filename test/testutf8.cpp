@@ -1,7 +1,7 @@
-#include <cassert>
-#include <cstring>
-#include <cstdio>
 #include "fcitx-utils/cutf8.h"
+#include <cassert>
+#include <cstdio>
+#include <cstring>
 
 #define BUF_SIZE 9
 

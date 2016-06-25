@@ -19,9 +19,11 @@
 #ifndef _FCITX_UTILS_DBUS_MESSAGE_DETAILS_H_
 #define _FCITX_UTILS_DBUS_MESSAGE_DETAILS_H_
 
+#include <fcitx-utils/metastring.h>
+#include <fcitx-utils/tuplehelpers.h>
+#include <fcitx-utils/unixfd.h>
 #include <tuple>
-#include "metastring.h"
-#include "unixfd.h"
+#include <vector>
 
 namespace fcitx {
 
@@ -65,7 +67,8 @@ DBUS_SIGNATURE_TRAITS(ObjectPath, 'o');
 template <typename Arg, typename... Args>
 struct DBusSignatureTraits<std::tuple<Arg, Args...>> {
     typedef ConcatMetaStringType<typename DBusSignatureTraits<Arg>::signature,
-                                 typename DBusSignatureTraits<std::tuple<Args...>>::signature> signature;
+                                 typename DBusSignatureTraits<std::tuple<Args...>>::signature>
+        signature;
 };
 
 template <>
@@ -76,7 +79,8 @@ struct DBusSignatureTraits<std::tuple<>> {
 template <typename... Args>
 struct DBusSignatureTraits<DBusStruct<Args...>> {
     typedef ConcatMetaStringType<MetaString<'('>, typename DBusSignatureTraits<std::tuple<Args...>>::signature,
-                                 MetaString<')'>> signature;
+                                 MetaString<')'>>
+        signature;
 };
 
 template <typename T>
@@ -167,7 +171,8 @@ struct DBusSignatureGetNextSignature<'a', nextChar...> {
 template <char... nextChar>
 struct DBusSignatureGetNextSignature<'(', nextChar...> {
     typedef TupleToDBusStruct<DBusMetaStringSignatureToTuple<
-        RemoveMetaStringTailType<typename SkipTillNextParentheses<1, MetaString<nextChar...>>::str>>> cur;
+        RemoveMetaStringTailType<typename SkipTillNextParentheses<1, MetaString<nextChar...>>::str>>>
+        cur;
     typedef DBusMetaStringSignatureToTuple<typename SkipTillNextParentheses<1, MetaString<nextChar...>>::type> next;
 };
 
@@ -201,7 +206,8 @@ template <char... c>
 struct DBusSignatureToType {
     typedef DBusSignatureGetNextSignature<c...> SplitType;
     typedef RemoveTupleIfUnnecessaryType<CombineTuplesType<MakeTupleIfNeededType<typename SplitType::cur>,
-                                                           MakeTupleIfNeededType<typename SplitType::next>>> type;
+                                                           MakeTupleIfNeededType<typename SplitType::next>>>
+        type;
 };
 template <char c>
 struct DBusSignatureToType<c> {

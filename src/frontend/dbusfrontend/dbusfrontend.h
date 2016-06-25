@@ -20,10 +20,10 @@
 #define _FCITX_FRONTEND_DBUSFRONTEND_DBUSFRONTEND_H_
 
 #include "fcitx-utils/event.h"
-#include "fcitx/addoninstance.h"
 #include "fcitx/addonfactory.h"
-#include "fcitx/focusgroup.h"
+#include "fcitx/addoninstance.h"
 #include "fcitx/addonmanager.h"
+#include "fcitx/focusgroup.h"
 
 namespace fcitx {
 

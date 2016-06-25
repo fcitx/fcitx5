@@ -17,9 +17,9 @@
  * see <http://www.gnu.org/licenses/>.
  */
 
+#include "text.h"
 #include <sstream>
 #include <vector>
-#include "text.h"
 namespace fcitx {
 
 class TextPrivate {

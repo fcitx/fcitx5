@@ -19,11 +19,11 @@
 #ifndef _FCITX_GLOBALCONFIG_H_
 #define _FCITX_GLOBALCONFIG_H_
 
+#include "fcitxcore_export.h"
+#include <fcitx-utils/key.h>
+#include <fcitx-utils/macros.h>
 #include <memory>
 #include <vector>
-#include "fcitxcore_export.h"
-#include "fcitx-utils/macros.h"
-#include "fcitx-utils/key.h"
 
 namespace fcitx {
 

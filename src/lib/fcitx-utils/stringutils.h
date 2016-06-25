@@ -18,10 +18,10 @@
  */
 #ifndef _FCITX_UTILS_STRINGUTILS_H_
 #define _FCITX_UTILS_STRINGUTILS_H_
+#include "fcitxutils_export.h"
+#include <sstream>
 #include <string>
 #include <vector>
-#include <sstream>
-#include "fcitxutils_export.h"
 
 namespace fcitx {
 namespace stringutils {

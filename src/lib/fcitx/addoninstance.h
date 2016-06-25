@@ -19,12 +19,12 @@
 #ifndef _FCITX_ADDONINSTANCE_H_
 #define _FCITX_ADDONINSTANCE_H_
 
-#include <memory>
-#include <unordered_map>
-#include <functional>
-#include <type_traits>
 #include "fcitxcore_export.h"
-#include "fcitx-utils/library.h"
+#include <fcitx-utils/library.h>
+#include <functional>
+#include <memory>
+#include <type_traits>
+#include <unordered_map>
 
 namespace fcitx {
 

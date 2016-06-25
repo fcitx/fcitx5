@@ -19,11 +19,11 @@
 #ifndef _FCITX_CONFIG_RAWCONFIG_H_
 #define _FCITX_CONFIG_RAWCONFIG_H_
 
+#include "fcitxconfig_export.h"
+#include <fcitx-utils/macros.h>
+#include <functional>
 #include <memory>
 #include <string>
-#include <functional>
-#include "fcitxconfig_export.h"
-#include "fcitx-utils/macros.h"
 
 namespace fcitx {
 class RawConfig;

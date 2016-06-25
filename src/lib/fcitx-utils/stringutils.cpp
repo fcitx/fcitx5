@@ -1,9 +1,9 @@
+#include "stringutils.h"
+#include "charutils.h"
+#include "macros.h"
 #include <algorithm>
 #include <climits>
 #include <string.h>
-#include "macros.h"
-#include "stringutils.h"
-#include "charutils.h"
 
 namespace fcitx {
 namespace stringutils {

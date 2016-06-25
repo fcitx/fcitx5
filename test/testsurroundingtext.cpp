@@ -17,8 +17,8 @@
  * see <http://www.gnu.org/licenses/>.
  */
 
-#include <assert.h>
 #include "fcitx/surroundingtext.h"
+#include <assert.h>
 
 using namespace fcitx;
 

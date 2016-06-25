@@ -17,16 +17,16 @@
  * see <http://www.gnu.org/licenses/>.
  */
 
-#include "fcitx/instance.h"
-#include "fcitx-utils/standardpath.h"
-#include "fcitx/addonmanager.h"
-#include "fcitx/addonfactory.h"
-#include "im/keyboard/keyboard.h"
 #include "errorhandler.h"
+#include "fcitx-utils/standardpath.h"
+#include "fcitx/addonfactory.h"
+#include "fcitx/addonmanager.h"
+#include "fcitx/instance.h"
+#include "im/keyboard/keyboard.h"
 #include <fcntl.h>
-#include <unistd.h>
-#include <locale.h>
 #include <libintl.h>
+#include <locale.h>
+#include <unistd.h>
 
 using namespace fcitx;
 int selfpipe[2];

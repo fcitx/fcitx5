@@ -20,14 +20,14 @@
 #ifndef _FCITX_UTILS_KEY_H_
 #define _FCITX_UTILS_KEY_H_
 
-#include <vector>
-#include <cstdint>
-#include <string>
-#include <sstream>
-#include <algorithm>
 #include "fcitxutils_export.h"
-#include "keysym.h"
-#include "flags.h"
+#include <algorithm>
+#include <cstdint>
+#include <fcitx-utils/flags.h>
+#include <fcitx-utils/keysym.h>
+#include <sstream>
+#include <string>
+#include <vector>
 
 namespace fcitx {
 class Key;

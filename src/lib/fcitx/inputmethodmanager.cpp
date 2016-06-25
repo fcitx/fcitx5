@@ -17,21 +17,21 @@
  * see <http://www.gnu.org/licenses/>.
  */
 
+#include "inputmethodmanager.h"
+#include "addonmanager.h"
+#include "fcitx-config/iniparser.h"
+#include "fcitx-config/rawconfig.h"
+#include "fcitx-utils/standardpath.h"
+#include "inputmethodconfig_p.h"
+#include "inputmethodengine.h"
+#include "instance.h"
+#include "misc_p.h"
 #include <cassert>
+#include <fcntl.h>
+#include <iostream>
 #include <list>
 #include <unistd.h>
-#include "instance.h"
-#include "inputmethodmanager.h"
-#include "inputmethodengine.h"
-#include "fcitx-utils/standardpath.h"
-#include "fcitx-config/rawconfig.h"
-#include "fcitx-config/iniparser.h"
-#include "inputmethodconfig_p.h"
-#include "addonmanager.h"
-#include <fcntl.h>
 #include <unordered_map>
-#include <iostream>
-#include "misc_p.h"
 
 namespace fcitx {
 

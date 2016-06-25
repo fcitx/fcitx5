@@ -19,7 +19,6 @@
 #ifndef _FCITX_MODULES_XCB_XCBMODULE_H_
 #define _FCITX_MODULES_XCB_XCBMODULE_H_
 
-
 #include <xcb/xcb.h>
 #include <xkbcommon/xkbcommon.h>
 
@@ -29,14 +28,14 @@
 #undef explicit
 
 #include "fcitx-utils/event.h"
-#include "fcitx/addoninstance.h"
-#include "fcitx/addonfactory.h"
-#include "fcitx/focusgroup.h"
-#include "fcitx/addonmanager.h"
 #include "fcitx-utils/handlertable.h"
+#include "fcitx/addonfactory.h"
+#include "fcitx/addoninstance.h"
+#include "fcitx/addonmanager.h"
+#include "fcitx/focusgroup.h"
 #include "xcb_public.h"
-#include <unordered_map>
 #include <list>
+#include <unordered_map>
 #include <vector>
 
 namespace fcitx {

@@ -19,8 +19,8 @@
 #ifndef _FCITX_CONFIG_ENUM_H_
 #define _FCITX_CONFIG_ENUM_H_
 
-#include <fcitx-utils/macros.h>
 #include <fcitx-config/rawconfig.h>
+#include <fcitx-utils/macros.h>
 
 #define FCITX_ENUM_STRINGIFY(X) FCITX_STRINGIFY(X),
 

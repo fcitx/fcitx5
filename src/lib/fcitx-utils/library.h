@@ -19,10 +19,10 @@
 #ifndef _FCITX_UTILS_LIBRARY_H_
 #define _FCITX_UTILS_LIBRARY_H_
 
-#include <memory>
-#include "macros.h"
-#include "flags.h"
 #include "fcitxutils_export.h"
+#include <fcitx-utils/flags.h>
+#include <fcitx-utils/macros.h>
+#include <memory>
 
 namespace fcitx {
 

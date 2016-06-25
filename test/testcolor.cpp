@@ -16,10 +16,10 @@
  * License along with this library; see the file COPYING. If not,
  * see <http://www.gnu.org/licenses/>.
  */
+#include "fcitx-utils/color.h"
 #include <cassert>
 #include <cmath>
 #include <iostream>
-#include "fcitx-utils/color.h"
 
 using namespace fcitx;
 

@@ -19,11 +19,11 @@
 #ifndef _FCITX_IM_KEYBOARD_XKBRULES_H_
 #define _FCITX_IM_KEYBOARD_XKBRULES_H_
 
+#include "fcitx/misc_p.h"
 #include <libxml/parser.h>
 #include <string>
 #include <unordered_map>
 #include <vector>
-#include "fcitx/misc_p.h"
 
 namespace fcitx {
 

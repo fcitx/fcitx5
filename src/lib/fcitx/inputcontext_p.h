@@ -19,13 +19,13 @@
 #ifndef _FCITX_INPUTCONTEXT_P_H_
 #define _FCITX_INPUTCONTEXT_P_H_
 
-#include "fcitx-utils/intrusivelist.h"
-#include "inputcontext.h"
-#include "inputcontextproperty.h"
-#include "inputcontextmanager.h"
-#include "instance.h"
-#include <uuid/uuid.h>
+#include <fcitx-utils/intrusivelist.h>
+#include <fcitx/inputcontext.h>
+#include <fcitx/inputcontextmanager.h>
+#include <fcitx/inputcontextproperty.h>
+#include <fcitx/instance.h>
 #include <unordered_map>
+#include <uuid/uuid.h>
 
 namespace fcitx {
 

@@ -20,11 +20,11 @@
 #define _FCITX_CONFIG_INTOPTION_H_
 
 #include "rawconfig.h"
-#include <fcitx-utils/key.h>
 #include <fcitx-utils/color.h>
 #include <fcitx-utils/i18nstring.h>
-#include <vector>
+#include <fcitx-utils/key.h>
 #include <type_traits>
+#include <vector>
 
 namespace fcitx {
 

@@ -17,17 +17,17 @@
  * see <http://www.gnu.org/licenses/>.
  */
 
-#include <libintl.h>
-#include <string.h>
-#include "fcitx/instance.h"
-#include "fcitx/inputcontext.h"
+#include "keyboard.h"
+#include "config.h"
 #include "fcitx-utils/cutf8.h"
 #include "fcitx-utils/stringutils.h"
-#include "keyboard.h"
-#include "modules/xcb/xcb_public.h"
-#include "config.h"
-#include "fcitx/misc_p.h"
 #include "fcitx-utils/utf8.h"
+#include "fcitx/inputcontext.h"
+#include "fcitx/instance.h"
+#include "fcitx/misc_p.h"
+#include "modules/xcb/xcb_public.h"
+#include <libintl.h>
+#include <string.h>
 
 const char imNamePrefix[] = "fcitx-keyboard-";
 const int imNamePrefixLength = sizeof(imNamePrefix) - 1;

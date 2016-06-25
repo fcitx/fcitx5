@@ -16,17 +16,17 @@
  * License along with this library; see the file COPYING. If not,
  * see <http://www.gnu.org/licenses/>.
  */
-#include <iostream>
 #include "xim.h"
-#include "modules/xcb/xcb_public.h"
-#include <xcb/xcb_aux.h>
-#include <xkbcommon/xkbcommon.h>
-#include "fcitx/instance.h"
-#include "fcitx/focusgroup.h"
-#include "fcitx/inputcontext.h"
 #include "fcitx-utils/stringutils.h"
 #include "fcitx-utils/utf8.h"
+#include "fcitx/focusgroup.h"
+#include "fcitx/inputcontext.h"
+#include "fcitx/instance.h"
+#include "modules/xcb/xcb_public.h"
+#include <iostream>
 #include <xcb-imdkit/encoding.h>
+#include <xcb/xcb_aux.h>
+#include <xkbcommon/xkbcommon.h>
 
 namespace {
 
@@ -278,12 +278,11 @@ void XIMServer::callback(xcb_im_client_t *client, xcb_im_input_context_t *xic, c
 }
 
 XIMModule::XIMModule(Instance *instance)
-    : m_instance(instance),
-      m_createdCallback(xcb()->call<IXCBModule::addConnectionCreatedCallback>(
-          [this](const std::string &name, xcb_connection_t * conn, int defaultScreen, FocusGroup * group) {
-              XIMServer *server = new XIMServer(conn, defaultScreen, group, name, this);
-              m_servers[name].reset(server);
-          })),
+    : m_instance(instance), m_createdCallback(xcb()->call<IXCBModule::addConnectionCreatedCallback>([this](
+                                const std::string &name, xcb_connection_t *conn, int defaultScreen, FocusGroup *group) {
+          XIMServer *server = new XIMServer(conn, defaultScreen, group, name, this);
+          m_servers[name].reset(server);
+      })),
       m_closedCallback(xcb()->call<IXCBModule::addConnectionClosedCallback>(
           [this](const std::string &name, xcb_connection_t *) { m_servers.erase(name); })) {
     xcb_compound_text_init();

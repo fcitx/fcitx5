@@ -19,11 +19,11 @@
 #ifndef _FCITX_TEXT_H_
 #define _FCITX_TEXT_H_
 
-#include <string>
+#include "fcitxcore_export.h"
 #include <fcitx-utils/flags.h>
 #include <fcitx-utils/macros.h>
 #include <memory>
-#include "fcitxcore_export.h"
+#include <string>
 
 namespace fcitx {
 

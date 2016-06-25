@@ -17,10 +17,10 @@
  * see <http://www.gnu.org/licenses/>.
  */
 
-#include <cassert>
-#include "inputcontext.h"
 #include "focusgroup_p.h"
+#include "inputcontext.h"
 #include "inputcontextmanager.h"
+#include <cassert>
 
 namespace fcitx {
 

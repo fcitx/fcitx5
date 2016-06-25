@@ -17,15 +17,15 @@
  * see <http://www.gnu.org/licenses/>.
  */
 
-#include <functional>
 #include <exception>
+#include <functional>
 #include <iostream>
 
 #if defined(__COVERITY__) && !defined(__INCLUDE_LEVEL__)
 #define __INCLUDE_LEVEL__ 2
 #endif
-#include <systemd/sd-event.h>
 #include "event.h"
+#include <systemd/sd-event.h>
 
 namespace fcitx {
 

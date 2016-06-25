@@ -18,11 +18,11 @@
  */
 
 #include <cassert>
-#include <unordered_map>
 #include <exception>
-#include <list>
 #include <iostream>
+#include <list>
 #include <memory>
+#include <unordered_map>
 
 #include "configuration.h"
 

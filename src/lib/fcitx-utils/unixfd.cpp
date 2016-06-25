@@ -18,10 +18,10 @@
  */
 
 #include "unixfd.h"
-#include <errno.h>
 #include <atomic>
-#include <unistd.h>
+#include <errno.h>
 #include <fcntl.h>
+#include <unistd.h>
 
 namespace fcitx {
 

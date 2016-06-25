@@ -17,13 +17,13 @@
  * see <http://www.gnu.org/licenses/>.
  */
 
+#include "fcitx-utils/fs.h"
 #include "fcitx-utils/standardpath.h"
 #include <cassert>
-#include <iostream>
 #include <fcntl.h>
-#include <unistd.h>
+#include <iostream>
 #include <set>
-#include "fcitx-utils/fs.h"
+#include <unistd.h>
 
 using namespace fcitx;
 

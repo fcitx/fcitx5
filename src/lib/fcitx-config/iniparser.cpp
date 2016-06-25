@@ -20,9 +20,9 @@
 #include <sstream>
 #include <stdio.h>
 
-#include "iniparser.h"
 #include "fcitx-utils/stringutils.h"
 #include "fcitx-utils/unixfd.h"
+#include "iniparser.h"
 
 namespace fcitx {
 enum class UnescapeState { NORMAL, ESCAPE };
@@ -111,11 +111,13 @@ void readFromIni(RawConfig &config, FILE *fin) {
 
         if (lineBuf[start] == '[' && lineBuf[end - 1] == ']') {
             currentGroup = lineBuf.substr(start + 1, end - start - 2);
-            config.visitItemsOnPath([line](RawConfig &config, const std::string &) {
-                if (!config.lineNumber()) {
-                    config.setLineNumber(line);
-                }
-            }, currentGroup);
+            config.visitItemsOnPath(
+                [line](RawConfig &config, const std::string &) {
+                    if (!config.lineNumber()) {
+                        config.setLineNumber(line);
+                    }
+                },
+                currentGroup);
         } else if ((equalPos = lineBuf.find_first_of('=', start)) != std::string::npos) {
             auto name = lineBuf.substr(start, equalPos - start);
             auto valueStart = equalPos + 1;
@@ -157,32 +159,34 @@ bool writeAsIni(const RawConfig &root, FILE *fout) {
     callback = [fout, &callback](const RawConfig &config, const std::string &path) {
         if (config.hasSubItems()) {
             std::stringstream valuesout;
-            config.visitSubItems([&valuesout](const RawConfig &config, const std::string &) {
-                if (config.hasSubItems() && config.value().empty()) {
+            config.visitSubItems(
+                [&valuesout](const RawConfig &config, const std::string &) {
+                    if (config.hasSubItems() && config.value().empty()) {
+                        return true;
+                    }
+
+                    if (!config.comment().empty() && config.comment().find('\n') == std::string::npos) {
+                        valuesout << "# " << config.comment() << "\n";
+                    }
+
+                    auto value = config.value();
+                    value = stringutils::replaceAll(value, "\\", "\\\\");
+                    value = stringutils::replaceAll(value, "\n", "\\n");
+
+                    bool needQuote = value.find_first_of("\f\r\t\v ") != std::string::npos;
+
+                    if (needQuote) {
+                        value = stringutils::replaceAll(value, "\"", "\\\"");
+                    }
+
+                    if (needQuote) {
+                        valuesout << config.name() << "=\"" << value << "\"\n";
+                    } else {
+                        valuesout << config.name() << "=" << value << "\n";
+                    }
                     return true;
-                }
-
-                if (!config.comment().empty() && config.comment().find('\n') == std::string::npos) {
-                    valuesout << "# " << config.comment() << "\n";
-                }
-
-                auto value = config.value();
-                value = stringutils::replaceAll(value, "\\", "\\\\");
-                value = stringutils::replaceAll(value, "\n", "\\n");
-
-                bool needQuote = value.find_first_of("\f\r\t\v ") != std::string::npos;
-
-                if (needQuote) {
-                    value = stringutils::replaceAll(value, "\"", "\\\"");
-                }
-
-                if (needQuote) {
-                    valuesout << config.name() << "=\"" << value << "\"\n";
-                } else {
-                    valuesout << config.name() << "=" << value << "\n";
-                }
-                return true;
-            }, "", false, path);
+                },
+                "", false, path);
             auto valueString = valuesout.str();
             if (!valueString.empty()) {
                 if (!path.empty()) {

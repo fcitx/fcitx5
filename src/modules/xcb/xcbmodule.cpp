@@ -17,13 +17,13 @@
  * see <http://www.gnu.org/licenses/>.
  */
 
+#include "xcbmodule.h"
+#include "fcitx/inputcontext.h"
+#include "fcitx/inputcontextmanager.h"
+#include "fcitx/instance.h"
 #include <xcb/xcb.h>
 #include <xcb/xcb_aux.h>
 #include <xkbcommon/xkbcommon-x11.h>
-#include "xcbmodule.h"
-#include "fcitx/instance.h"
-#include "fcitx/inputcontext.h"
-#include "fcitx/inputcontextmanager.h"
 
 union _xkb_event {
     /* All XKB events share these fields. */

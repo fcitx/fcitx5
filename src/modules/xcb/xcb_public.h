@@ -19,13 +19,13 @@
 #ifndef _FCITX_MODULES_XCB_XCB_PUBLIC_H_
 #define _FCITX_MODULES_XCB_XCB_PUBLIC_H_
 
-#include <string>
-#include <xcb/xcb.h>
+#include <fcitx-utils/handlertable.h>
+#include <fcitx-utils/metastring.h>
 #include <fcitx/addoninstance.h>
 #include <fcitx/focusgroup.h>
-#include <fcitx-utils/metastring.h>
-#include <fcitx-utils/handlertable.h>
+#include <string>
 #include <tuple>
+#include <xcb/xcb.h>
 
 struct xkb_state;
 

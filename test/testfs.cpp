@@ -19,10 +19,10 @@
 
 #include "fcitx-utils/fs.h"
 #include <cassert>
-#include <sys/stat.h>
-#include <unistd.h>
 #include <iostream>
 #include <libgen.h>
+#include <sys/stat.h>
+#include <unistd.h>
 
 using namespace fcitx::fs;
 

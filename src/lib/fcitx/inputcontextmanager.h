@@ -19,11 +19,11 @@
 #ifndef _FCITX_INPUTCONTEXTMANAGER_H_
 #define _FCITX_INPUTCONTEXTMANAGER_H_
 
-#include <memory>
-#include <fcitx-utils/macros.h>
 #include "fcitxcore_export.h"
-#include "inputcontext.h"
 #include <fcitx-config/enum.h>
+#include <fcitx-utils/macros.h>
+#include <fcitx/inputcontext.h>
+#include <memory>
 
 namespace fcitx {
 

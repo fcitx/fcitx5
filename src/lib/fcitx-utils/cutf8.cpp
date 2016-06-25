@@ -17,10 +17,10 @@
  * see <http://www.gnu.org/licenses/>.
  */
 
-#include <cstring>
-#include <cstdint>
 #include "cutf8.h"
 #include "fcitxutils_export.h"
+#include <cstdint>
+#include <cstring>
 
 FCITX_C_DECL_BEGIN
 

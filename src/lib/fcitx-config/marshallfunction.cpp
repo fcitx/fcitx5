@@ -17,9 +17,9 @@
  * see <http://www.gnu.org/licenses/>.
  */
 
-#include "fcitx-utils/stringutils.h"
 #include "marshallfunction.h"
 #include "configuration.h"
+#include "fcitx-utils/stringutils.h"
 
 namespace fcitx {
 void marshallOption(RawConfig &config, const bool value) { config = value ? "True" : "False"; }

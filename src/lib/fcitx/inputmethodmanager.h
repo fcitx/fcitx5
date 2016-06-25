@@ -19,11 +19,11 @@
 #ifndef _FCITX_INPUTMETHODMANAGER_H_
 #define _FCITX_INPUTMETHODMANAGER_H_
 
-#include <vector>
-#include <string>
-#include <memory>
 #include <fcitx-utils/macros.h>
-#include "inputmethodgroup.h"
+#include <fcitx/inputmethodgroup.h>
+#include <memory>
+#include <string>
+#include <vector>
 
 namespace fcitx {
 

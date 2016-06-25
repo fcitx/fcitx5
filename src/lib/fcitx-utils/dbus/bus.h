@@ -20,11 +20,11 @@
 #define _FCITX_UTILS_DBUS_BUS_H_
 
 #include "fcitxutils_export.h"
+#include <fcitx-utils/dbus/message.h>
+#include <fcitx-utils/dbus/objectvtable.h>
+#include <fcitx-utils/event.h>
 #include <string>
 #include <vector>
-#include <fcitx-utils/event.h>
-#include "dbus/message.h"
-#include "dbus/objectvtable.h"
 
 namespace fcitx {
 

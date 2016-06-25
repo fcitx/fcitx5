@@ -20,7 +20,7 @@
 #define _FCITX_CONFIG_INIPARSER_H_
 
 #include "fcitxconfig_export.h"
-#include "rawconfig.h"
+#include <fcitx-config/rawconfig.h>
 
 namespace fcitx {
 FCITXCONFIG_EXPORT void readFromIni(RawConfig &config, int fd);

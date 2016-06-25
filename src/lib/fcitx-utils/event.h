@@ -20,12 +20,12 @@
 #define _FCITX_UTILS_EVENT_H_
 
 #include "fcitxutils_export.h"
-#include <time.h>
-#include <fcitx-utils/macros.h>
-#include <fcitx-utils/flags.h>
-#include <memory>
-#include <functional>
 #include <cstring>
+#include <fcitx-utils/flags.h>
+#include <fcitx-utils/macros.h>
+#include <functional>
+#include <memory>
+#include <time.h>
 
 namespace fcitx {
 

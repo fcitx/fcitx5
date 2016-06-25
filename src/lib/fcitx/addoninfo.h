@@ -19,10 +19,10 @@
 #ifndef _FCITX_ADDON_H_
 #define _FCITX_ADDON_H_
 
-#include <memory>
-#include <fcitx-utils/macros.h>
-#include <fcitx-config/enum.h>
 #include "fcitxcore_export.h"
+#include <fcitx-config/enum.h>
+#include <fcitx-utils/macros.h>
+#include <memory>
 #include <vector>
 
 namespace fcitx {

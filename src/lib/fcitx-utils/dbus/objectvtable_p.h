@@ -19,11 +19,11 @@
 #ifndef _FCITX_UTILS_DBUS_OBJECTVTABLE_P_H_
 #define _FCITX_UTILS_DBUS_OBJECTVTABLE_P_H_
 
-#include <vector>
+#include <fcitx-utils/dbus/message_p.h>
+#include <fcitx-utils/dbus/objectvtable.h>
+#include <fcitx-utils/dbus/objectvtablewrapper_p.h>
 #include <unordered_set>
-#include "dbus/objectvtable.h"
-#include "dbus/objectvtablewrapper_p.h"
-#include "dbus/message_p.h"
+#include <vector>
 
 namespace fcitx {
 namespace dbus {

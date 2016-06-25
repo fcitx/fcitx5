@@ -17,12 +17,12 @@
  * see <http://www.gnu.org/licenses/>.
  */
 
-#include <unordered_map>
 #include "inputcontextmanager.h"
-#include "inputcontext_p.h"
+#include "fcitx-utils/intrusivelist.h"
 #include "focusgroup.h"
 #include "focusgroup_p.h"
-#include "fcitx-utils/intrusivelist.h"
+#include "inputcontext_p.h"
+#include <unordered_map>
 
 namespace {
 

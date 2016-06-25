@@ -19,10 +19,10 @@
 #ifndef _FCITX_UTILS_DBUS_OBJECTVTABLE_H_
 #define _FCITX_UTILS_DBUS_OBJECTVTABLE_H_
 
-#include <memory>
-#include <functional>
-#include "macros.h"
 #include "fcitxutils_export.h"
+#include <fcitx-utils/macros.h>
+#include <functional>
+#include <memory>
 
 namespace fcitx {
 namespace dbus {
@@ -76,7 +76,7 @@ struct ReturnValueHelper<void> {
 #define FCITX_OBJECT_VTABLE_METHOD(FUNCTION, FUNCTION_NAME, SIGNATURE, RET)                                            \
     ::fcitx::dbus::ObjectVTableMethod FUNCTION##Method {                                                               \
         this, FUNCTION_NAME, SIGNATURE, RET, [this](::fcitx::dbus::Message msg) {                                      \
-            ::fcitx::dbus::MessageSetter msgSetter(&msg, this);                                                                       \
+            ::fcitx::dbus::MessageSetter msgSetter(&msg, this);                                                        \
             STRING_TO_DBUS_TUPLE(SIGNATURE) args;                                                                      \
             msg >> args;                                                                                               \
             auto func = &std::remove_reference<decltype(*this)>::type::FUNCTION;                                       \
@@ -162,20 +162,15 @@ private:
     FCITX_DECLARE_PRIVATE(ObjectVTable);
 };
 
-
 class FCITXUTILS_EXPORT MessageSetter {
 public:
-    MessageSetter(Message *message, ObjectVTable *vtable) : m_vtable(vtable) {
-        vtable->setCurrentMessage(message);
-    }
+    MessageSetter(Message *message, ObjectVTable *vtable) : m_vtable(vtable) { vtable->setCurrentMessage(message); }
 
-    ~MessageSetter() {
-        m_vtable->setCurrentMessage(nullptr);
-    }
+    ~MessageSetter() { m_vtable->setCurrentMessage(nullptr); }
+
 private:
     ObjectVTable *m_vtable;
 };
-
 }
 }
 

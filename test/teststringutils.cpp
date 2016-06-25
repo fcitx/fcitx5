@@ -19,8 +19,8 @@
 
 #include "fcitx-utils/stringutils.h"
 #include <cassert>
-#include <tuple>
 #include <iostream>
+#include <tuple>
 
 using namespace fcitx;
 

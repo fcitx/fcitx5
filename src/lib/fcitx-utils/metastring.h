@@ -38,7 +38,7 @@ template <char... c>
 constexpr const char MetaString<c...>::m_str[sizeof...(c) + 1];
 
 template <int N, int M>
-constexpr char __getChar(char const(&str)[M]) noexcept {
+constexpr char __getChar(char const (&str)[M]) noexcept {
     return N < M ? str[N] : '\0';
 }
 
@@ -113,10 +113,12 @@ struct MetaStringTrim {
         ::fcitx::__getChar<0x##N##F>(S)
 
 #define METASTRING_TEMPLATE_256(N, S)                                                                                  \
-    METASTRING_TEMPLATE_16(N##0, S), METASTRING_TEMPLATE_16(N##1, S), METASTRING_TEMPLATE_16(N##2, S), METASTRING_TEMPLATE_16(N##3, S),\
-    METASTRING_TEMPLATE_16(N##4, S), METASTRING_TEMPLATE_16(N##5, S), METASTRING_TEMPLATE_16(N##6, S), METASTRING_TEMPLATE_16(N##7, S),\
-    METASTRING_TEMPLATE_16(N##8, S), METASTRING_TEMPLATE_16(N##9, S), METASTRING_TEMPLATE_16(N##A, S), METASTRING_TEMPLATE_16(N##B, S),\
-    METASTRING_TEMPLATE_16(N##C, S), METASTRING_TEMPLATE_16(N##D, S), METASTRING_TEMPLATE_16(N##E, S), METASTRING_TEMPLATE_16(N##F, S)
+    METASTRING_TEMPLATE_16(N##0, S)                                                                                    \
+    , METASTRING_TEMPLATE_16(N##1, S), METASTRING_TEMPLATE_16(N##2, S), METASTRING_TEMPLATE_16(N##3, S),               \
+        METASTRING_TEMPLATE_16(N##4, S), METASTRING_TEMPLATE_16(N##5, S), METASTRING_TEMPLATE_16(N##6, S),             \
+        METASTRING_TEMPLATE_16(N##7, S), METASTRING_TEMPLATE_16(N##8, S), METASTRING_TEMPLATE_16(N##9, S),             \
+        METASTRING_TEMPLATE_16(N##A, S), METASTRING_TEMPLATE_16(N##B, S), METASTRING_TEMPLATE_16(N##C, S),             \
+        METASTRING_TEMPLATE_16(N##D, S), METASTRING_TEMPLATE_16(N##E, S), METASTRING_TEMPLATE_16(N##F, S)
 
 #define makeMetaString(STRING) ::fcitx::MetaStringTrim<METASTRING_TEMPLATE_256(, STRING)>::type
 

@@ -19,17 +19,16 @@
 #ifndef _FCITX_FRONTEND_XIM_XIM_H_
 #define _FCITX_FRONTEND_XIM_XIM_H_
 
-
 #include <xcb-imdkit/imdkit.h>
 
 #include "fcitx-utils/event.h"
-#include "fcitx/addoninstance.h"
 #include "fcitx/addonfactory.h"
-#include "fcitx/focusgroup.h"
+#include "fcitx/addoninstance.h"
 #include "fcitx/addonmanager.h"
+#include "fcitx/focusgroup.h"
 #include "modules/xcb/xcb_public.h"
-#include <unordered_map>
 #include <list>
+#include <unordered_map>
 #include <vector>
 
 namespace fcitx {

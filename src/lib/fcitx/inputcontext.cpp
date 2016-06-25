@@ -17,12 +17,12 @@
  * see <http://www.gnu.org/licenses/>.
  */
 
-#include <string.h>
 #include "inputcontext.h"
+#include "focusgroup.h"
 #include "inputcontext_p.h"
 #include "inputcontextmanager.h"
-#include "focusgroup.h"
 #include "instance.h"
+#include <string.h>
 
 namespace fcitx {
 

@@ -19,11 +19,11 @@
 #ifndef _FCITX_INPUTMETHODGROUP_H_
 #define _FCITX_INPUTMETHODGROUP_H_
 
-#include <memory>
 #include <fcitx-utils/macros.h>
-#include <vector>
-#include <string>
 #include <list>
+#include <memory>
+#include <string>
+#include <vector>
 
 namespace fcitx {
 

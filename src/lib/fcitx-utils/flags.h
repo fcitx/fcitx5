@@ -19,8 +19,8 @@
 #ifndef _FCITX_UTILS_FLAG_H_
 #define _FCITX_UTILS_FLAG_H_
 
-#include <type_traits>
 #include <initializer_list>
+#include <type_traits>
 
 namespace fcitx {
 template <typename Enum>

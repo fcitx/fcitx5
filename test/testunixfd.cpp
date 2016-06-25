@@ -17,11 +17,11 @@
  * see <http://www.gnu.org/licenses/>.
  */
 #include "fcitx-utils/unixfd.h"
-#include <unistd.h>
-#include <iostream>
 #include <assert.h>
 #include <fcntl.h>
+#include <iostream>
 #include <sys/stat.h>
+#include <unistd.h>
 
 using namespace fcitx;
 

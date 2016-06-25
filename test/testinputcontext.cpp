@@ -17,12 +17,12 @@
  * see <http://www.gnu.org/licenses/>.
  */
 
-#include <vector>
-#include <assert.h>
-#include "fcitx/inputcontextmanager.h"
-#include "fcitx/inputcontext.h"
-#include "fcitx/inputcontextproperty.h"
 #include "fcitx/focusgroup.h"
+#include "fcitx/inputcontext.h"
+#include "fcitx/inputcontextmanager.h"
+#include "fcitx/inputcontextproperty.h"
+#include <assert.h>
+#include <vector>
 
 #define TEST_FOCUS(ARGS...)                                                                                            \
     do {                                                                                                               \

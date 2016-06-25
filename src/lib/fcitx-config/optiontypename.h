@@ -19,10 +19,10 @@
 #ifndef _FCITX_CONFIG_TYPENAME_H_
 #define _FCITX_CONFIG_TYPENAME_H_
 
-#include <string>
-#include <fcitx-utils/key.h>
 #include <fcitx-utils/color.h>
 #include <fcitx-utils/i18nstring.h>
+#include <fcitx-utils/key.h>
+#include <string>
 
 namespace fcitx {
 

@@ -19,9 +19,9 @@
 #ifndef _FCITX_UTILS_INSTRUSIVELIST_H_
 #define _FCITX_UTILS_INSTRUSIVELIST_H_
 
+#include <array>
 #include <iterator>
 #include <type_traits>
-#include <array>
 
 namespace fcitx {
 

@@ -21,11 +21,11 @@
 
 #include "config.h"
 
-#include <string.h>
-#include <signal.h>
-#include <unistd.h>
 #include <fcntl.h>
+#include <signal.h>
+#include <string.h>
 #include <time.h>
+#include <unistd.h>
 
 #include "errorhandler.h"
 #include "fcitx/instance.h"

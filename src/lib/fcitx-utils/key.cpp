@@ -17,13 +17,13 @@
  * see <http://www.gnu.org/licenses/>.
  */
 
-#include <cstring>
 #include "key.h"
-#include "keynametable.h"
-#include "keynametable-compat.h"
-#include "keydata.h"
 #include "charutils.h"
+#include "keydata.h"
+#include "keynametable-compat.h"
+#include "keynametable.h"
 #include "utf8.h"
+#include <cstring>
 
 namespace fcitx {
 Key::Key(const char *keyString) {

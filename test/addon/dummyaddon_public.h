@@ -19,8 +19,8 @@
 #ifndef _DUMMYADDON_PUBLIC_H_
 #define _DUMMYADDON_PUBLIC_H_
 
-#include "fcitx/addoninstance.h"
 #include "fcitx-utils/metastring.h"
+#include "fcitx/addoninstance.h"
 
 FCITX_ADDON_DECLARE_FUNCTION(DummyAddon, addOne, int(int));
 

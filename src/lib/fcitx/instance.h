@@ -19,12 +19,12 @@
 #ifndef _FCITX_INSTANCE_H_
 #define _FCITX_INSTANCE_H_
 
-#include <memory>
-#include <fcitx-utils/macros.h>
-#include <fcitx-utils/handlertable.h>
-#include "event.h"
 #include "fcitxcore_export.h"
-#include "globalconfig.h"
+#include <fcitx-utils/handlertable.h>
+#include <fcitx-utils/macros.h>
+#include <fcitx/event.h>
+#include <fcitx/globalconfig.h>
+#include <memory>
 
 namespace fcitx {
 

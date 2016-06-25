@@ -19,7 +19,7 @@
 #ifndef _FCITX_UTILS_HANDLERTABLE_H_
 #define _FCITX_UTILS_HANDLERTABLE_H_
 
-#include "intrusivelist.h"
+#include <fcitx-utils/intrusivelist.h>
 
 namespace fcitx {
 

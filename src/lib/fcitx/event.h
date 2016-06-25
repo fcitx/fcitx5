@@ -19,9 +19,9 @@
 #ifndef _FCITX_EVENT_H_
 #define _FCITX_EVENT_H_
 
-#include <stdint.h>
-#include <fcitx-utils/key.h>
 #include "fcitxcore_export.h"
+#include <fcitx-utils/key.h>
+#include <stdint.h>
 
 namespace fcitx {
 

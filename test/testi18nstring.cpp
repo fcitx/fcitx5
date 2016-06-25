@@ -16,8 +16,8 @@
  * License along with this library; see the file COPYING. If not,
  * see <http://www.gnu.org/licenses/>.
  */
-#include <assert.h>
 #include "fcitx-utils/i18nstring.h"
+#include <assert.h>
 
 using namespace fcitx;
 

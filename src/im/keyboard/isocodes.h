@@ -19,12 +19,11 @@
 #ifndef _FCITX_IM_KEYBOARD_ISOCODES_H_
 #define _FCITX_IM_KEYBOARD_ISOCODES_H_
 
-
-#include <string>
-#include <vector>
-#include <unordered_map>
-#include <libxml/parser.h>
 #include "fcitx/misc_p.h"
+#include <libxml/parser.h>
+#include <string>
+#include <unordered_map>
+#include <vector>
 
 namespace fcitx {
 

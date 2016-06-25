@@ -19,14 +19,13 @@
 #ifndef _FCITX_IM_KEYBOARD_KEYBOARD_H_
 #define _FCITX_IM_KEYBOARD_KEYBOARD_H_
 
-
-#include "fcitx/inputmethodengine.h"
 #include "fcitx/addonfactory.h"
 #include "fcitx/addonmanager.h"
+#include "fcitx/inputmethodengine.h"
 #include "isocodes.h"
 #include "xkbrules.h"
-#include <xkbcommon/xkbcommon.h>
 #include <xkbcommon/xkbcommon-compose.h>
+#include <xkbcommon/xkbcommon.h>
 
 namespace fcitx {
 
@@ -57,6 +56,5 @@ public:
     AddonInstance *create(AddonManager *manager) override { return new KeyboardEngine(manager->instance()); }
 };
 }
-
 
 #endif // _FCITX_IM_KEYBOARD_KEYBOARD_H_

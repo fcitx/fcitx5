@@ -19,12 +19,12 @@
 #ifndef _FCITX_ADDONLOADER_P_H_
 #define _FCITX_ADDONLOADER_P_H_
 
-#include "addoninstance.h"
-#include "addoninfo.h"
-#include "addonloader.h"
 #include "addonfactory.h"
-#include "fcitx-utils/standardpath.h"
+#include "addoninfo.h"
+#include "addoninstance.h"
+#include "addonloader.h"
 #include "fcitx-utils/library.h"
+#include "fcitx-utils/standardpath.h"
 #include <exception>
 
 namespace fcitx {

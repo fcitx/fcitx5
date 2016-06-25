@@ -17,11 +17,11 @@
  * see <http://www.gnu.org/licenses/>.
  */
 
+#include "xkbrules.h"
+#include "fcitx-utils/stringutils.h"
+#include <iostream>
 #include <list>
 #include <string.h>
-#include <iostream>
-#include "fcitx-utils/stringutils.h"
-#include "xkbrules.h"
 
 namespace fcitx {
 

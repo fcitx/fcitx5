@@ -32,9 +32,9 @@
 #ifndef _FCITX_UTILS_CUTF8_H_
 #define _FCITX_UTILS_CUTF8_H_
 
-#include <cstdlib>
 #include <cstdint>
-#include "macros.h"
+#include <cstdlib>
+#include <fcitx-utils/macros.h>
 
 FCITX_C_DECL_BEGIN
 

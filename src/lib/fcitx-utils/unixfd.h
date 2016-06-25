@@ -19,8 +19,8 @@
 #ifndef _FCITX_UTILS_UNIXFD_H_
 #define _FCITX_UTILS_UNIXFD_H_
 
-#include <memory>
 #include "fcitxutils_export.h"
+#include <memory>
 
 namespace fcitx {
 

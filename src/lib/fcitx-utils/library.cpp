@@ -18,14 +18,14 @@
  */
 
 #include "library.h"
-#include <dlfcn.h>
-#include <cstring>
-#include <sys/mman.h>
-#include <errno.h>
-#include <sys/stat.h>
-#include <fcntl.h>
-#include <unistd.h>
 #include "stringutils.h"
+#include <cstring>
+#include <dlfcn.h>
+#include <errno.h>
+#include <fcntl.h>
+#include <sys/mman.h>
+#include <sys/stat.h>
+#include <unistd.h>
 
 namespace fcitx {
 

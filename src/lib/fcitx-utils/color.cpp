@@ -17,13 +17,13 @@
  * see <http://www.gnu.org/licenses/>.
  */
 
+#include "color.h"
+#include "charutils.h"
+#include "stringutils.h"
 #include <array>
-#include <cstdio>
 #include <climits>
 #include <cmath>
-#include "color.h"
-#include "stringutils.h"
-#include "charutils.h"
+#include <cstdio>
 
 namespace fcitx {
 static unsigned short roundColor(unsigned short c) { return c <= 255 ? c : 255; }

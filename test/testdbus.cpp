@@ -18,8 +18,8 @@
  */
 #include "fcitx-utils/dbus/bus.h"
 #include "fcitx-utils/event.h"
-#include <iostream>
 #include <cassert>
+#include <iostream>
 
 using namespace fcitx::dbus;
 using namespace fcitx;

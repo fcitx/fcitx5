@@ -17,8 +17,8 @@
  * see <http://www.gnu.org/licenses/>.
  */
 
-#include <algorithm>
 #include "inputmethodgroup.h"
+#include <algorithm>
 
 namespace fcitx {
 

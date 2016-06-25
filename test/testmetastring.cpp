@@ -18,10 +18,10 @@
  */
 
 #include "fcitx-utils/metastring.h"
-#include <type_traits>
-#include <iostream>
 #include <cassert>
+#include <iostream>
 #include <string>
+#include <type_traits>
 
 int main() {
     ::fcitx::MetaStringTrim<'A', 'B'>::type a;
