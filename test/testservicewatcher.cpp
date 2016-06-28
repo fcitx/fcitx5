@@ -20,33 +20,12 @@
 #include "fcitx-utils/dbus/bus.h"
 #include "fcitx-utils/dbus/servicewatcher.h"
 #include <cassert>
-#include <systemd/sd-bus.h>
 
 using namespace fcitx::dbus;
 using namespace fcitx;
 #define TEST_SERVICE "org.fcitx.Fcitx.TestDBus"
-int quit = false;
-int handler(sd_bus_track *track, void *userdata) {
-    quit = true;
-    sd_bus_track_unref(track);
-    return 0;
-}
 
 int main() {
-    sd_bus *bus;
-    sd_bus_track *track;
-    sd_bus_open_user(&bus);
-    sd_bus_request_name(bus, TEST_SERVICE, 0);
-    sd_bus_track_new(bus, &track, handler, NULL);
-    sd_bus_track_add_name(track, TEST_SERVICE);
-    sd_bus_release_name(bus, TEST_SERVICE);
-    while (!quit) {
-        sd_bus_process(bus, NULL);
-        sd_bus_wait(bus, 0);
-    }
-
-    sd_bus_flush_close_unref(bus);
-    /*
     Bus bus(BusType::Session);
     if (!bus.isOpen()) {
         return 1;
@@ -68,6 +47,6 @@ int main() {
         return 1;
     }
 
-    loop.exec();*/
+    loop.exec();
     return 0;
 }
