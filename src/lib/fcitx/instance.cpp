@@ -326,7 +326,7 @@ bool Instance::postEvent(Event &event) {
         for (auto phase : phaseOrder) {
             auto iter2 = handlers.find(phase);
             if (iter2 != handlers.end()) {
-                for (auto &handler : iter2->second) {
+                for (auto &handler : iter2->second.view()) {
                     handler.handler()(event);
                     if (event.filtered()) {
                         return event.accepted();
@@ -389,7 +389,7 @@ std::string Instance::addonForInputMethod(const std::string &imName) {
 
 void Instance::configure() {}
 
-void Instance::configureAddon(const std::string &addon) {}
+void Instance::configureAddon(const std::string &) {}
 
 void Instance::configureInputMethod(const std::string &imName) {
     auto addon = addonForInputMethod(imName);
@@ -435,7 +435,7 @@ void Instance::restart() {
     _exit(1);
 }
 
-void Instance::setCurrentInputMethod(const std::string &imName) {}
+void Instance::setCurrentInputMethod(const std::string &) {}
 
 int Instance::state() { return 0; }
 

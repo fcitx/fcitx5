@@ -12,11 +12,13 @@ set(FCITX_UTILS_TEST
     testlibrary
     teststandardpath
     testunixfd
-    testmetastring)
+    testmetastring
+    testhandlertable)
 
 set(FCITX_UTILS_DBUS_TEST
     testdbusmessage
-    testdbus)
+    testdbus
+    testservicewatcher)
 
 set(teststandardpath_ARGS "${CMAKE_CURRENT_SOURCE_DIR}/addon")
 set(testdbus_LIBS Pthread::Pthread)

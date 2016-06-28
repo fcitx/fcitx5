@@ -19,36 +19,79 @@
 #ifndef _FCITX_UTILS_HANDLERTABLE_H_
 #define _FCITX_UTILS_HANDLERTABLE_H_
 
+#include <exception>
+#include <fcitx-utils/handlertable_details.h>
 #include <fcitx-utils/intrusivelist.h>
+#include <functional>
+#include <unordered_map>
 
 namespace fcitx {
 
 template <typename T>
-class HandlerTableEntry : public IntrusiveListNode {
-public:
-    HandlerTableEntry(T handler) : m_handler(handler) {}
-    virtual ~HandlerTableEntry() { remove(); }
-
-    T &handler() { return m_handler; };
-
-private:
-    T m_handler;
-};
+class HandlerTableEntry;
 
 template <typename T>
-class HandlerTable : protected IntrusiveList<HandlerTableEntry<T>> {
-    typedef IntrusiveList<HandlerTableEntry<T>> super;
+class HandlerTableView;
+
+template <typename T>
+class HandlerTable
+    : protected IntrusiveList<ListHandlerTableEntry<T>, HandlerTableEntryNodeGetter<ListHandlerTableEntry<T>, T>> {
+    typedef IntrusiveList<ListHandlerTableEntry<T>, HandlerTableEntryNodeGetter<ListHandlerTableEntry<T>, T>> super;
 
 public:
     template <typename M>
     HandlerTableEntry<T> *add(M &&t) {
-        auto result = new HandlerTableEntry<T>(std::forward<M>(t));
+        auto result = new ListHandlerTableEntry<T>(std::forward<M>(t));
         this->push_back(*result);
         return result;
     }
 
-    using super::begin;
-    using super::end;
+    HandlerTableView<T> view() { return {this->begin(), this->end()}; }
+};
+
+template <typename Key, typename T>
+class MultiHandlerTable
+    : protected std::unordered_map<Key, IntrusiveList<MultiHandlerTableEntry<Key, T>,
+                                                      HandlerTableEntryNodeGetter<MultiHandlerTableEntry<Key, T>, T>>> {
+    friend class MultiHandlerTableEntry<Key, T>;
+    typedef std::unordered_map<Key, IntrusiveList<MultiHandlerTableEntry<Key, T>,
+                                                  HandlerTableEntryNodeGetter<MultiHandlerTableEntry<Key, T>, T>>>
+        super;
+
+public:
+    MultiHandlerTable(std::function<void(const Key &)> addKey, std::function<void(const Key &)> removeKey)
+        : m_addKey(addKey), m_removeKey(removeKey) {}
+
+    template <typename M>
+    HandlerTableEntry<T> *add(const Key &key, M &&t) {
+        auto iter = super::find(key);
+        if (iter == super::end()) {
+            m_addKey(key);
+            iter = super::emplace(std::piecewise_construct, std::forward_as_tuple(key), std::forward_as_tuple()).first;
+        }
+        auto result = new MultiHandlerTableEntry<Key, T>(this, key, std::forward<M>(t));
+        iter->second.push_back(*result);
+        return result;
+    }
+
+    HandlerTableView<T> view(const Key &key) {
+        auto iter = super::find(key);
+        if (iter == super::end()) {
+            return {};
+        }
+        return {iter->second.begin(), iter->second.end()};
+    }
+
+private:
+    void postRemove(const Key &k) {
+        auto iter = this->find(k);
+        if (iter != this->end()) {
+            m_removeKey(k);
+            this->erase(iter);
+        }
+    }
+    std::function<void(const Key &)> m_addKey;
+    std::function<void(const Key &)> m_removeKey;
 };
 }
 

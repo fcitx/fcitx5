@@ -128,7 +128,7 @@ void XCBConnection::onIOEvent() {
     }
 
     while (auto event = makeXCBReply(xcb_poll_for_event(m_conn.get()))) {
-        for (auto &callback : m_filters) {
+        for (auto &callback : m_filters.view()) {
             if (callback.handler()(m_conn.get(), event.get())) {
                 break;
             }
@@ -340,13 +340,13 @@ XkbRulesNames XCBModule::xkbRulesNames(const std::string &name) {
 }
 
 void XCBModule::onConnectionCreated(XCBConnection &conn) {
-    for (auto &callback : m_createdCallbacks) {
+    for (auto &callback : m_createdCallbacks.view()) {
         callback.handler()(conn.name(), conn.connection(), conn.screen(), conn.focusGroup());
     }
 }
 
 void XCBModule::onConnectionClosed(XCBConnection &conn) {
-    for (auto &callback : m_closedCallbacks) {
+    for (auto &callback : m_closedCallbacks.view()) {
         callback.handler()(conn.name(), conn.connection());
     }
 }

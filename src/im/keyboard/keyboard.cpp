@@ -178,6 +178,8 @@ std::vector<InputMethodEntry> KeyboardEngine::listInputMethods() {
 }
 
 uint32_t KeyboardEngine::processCompose(uint32_t keyval, uint32_t state) {
+    // FIXME, should we check if state is 0?
+    FCITX_UNUSED(state);
     if (!m_xkbComposeState) {
         return 0;
     }
@@ -209,6 +211,8 @@ uint32_t KeyboardEngine::processCompose(uint32_t keyval, uint32_t state) {
 }
 
 void KeyboardEngine::keyEvent(const InputMethodEntry &entry, KeyEvent &event) {
+    // FIXME use entry to get layout info
+    FCITX_UNUSED(entry);
     if (event.isRelease()) {
         return;
     }

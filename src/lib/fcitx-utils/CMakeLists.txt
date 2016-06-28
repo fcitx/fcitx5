@@ -13,6 +13,7 @@ set(FCITX_UTILS_SOURCES
     dbus/message.cpp
     dbus/objectvtablewrapper.c
     dbus/objectvtable.cpp
+    dbus/servicewatcher.cpp
     unixfd.cpp
     utf8.cpp
     )
@@ -39,6 +40,7 @@ set(FCITX_UTILS_DBUS_HEADERS
     dbus/objectvtable.h
     dbus/bus.h
     dbus/message_details.h
+    dbus/servicewatcher.h
     )
 
 add_library(Fcitx5Utils SHARED ${FCITX_UTILS_SOURCES})

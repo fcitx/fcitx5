@@ -25,23 +25,91 @@
 
 namespace fcitx {
 
+template <class Parent, class Member>
+inline std::ptrdiff_t offset_from_pointer_to_member(const Member Parent::*ptr_to_member) {
+    const Parent *const parent = 0;
+    const char *const member = static_cast<const char *>(static_cast<const void *>(&(parent->*ptr_to_member)));
+    return std::ptrdiff_t(member - static_cast<const char *>(static_cast<const void *>(parent)));
+}
+
+template <class Parent, class Member>
+inline Parent *parent_from_member(Member *member, const Member Parent::*ptr_to_member) {
+    return static_cast<Parent *>(static_cast<void *>(static_cast<char *>(static_cast<void *>(member)) -
+                                                     offset_from_pointer_to_member(ptr_to_member)));
+}
+
+class IntrusiveListBase;
+
 class IntrusiveListNode {
+    friend class IntrusiveListBase;
+
 public:
-    IntrusiveListNode() : prev(nullptr), next(nullptr) {}
+    IntrusiveListNode() {}
+    IntrusiveListNode(const IntrusiveListNode &) = delete;
 
-    IntrusiveListNode *prev;
-    IntrusiveListNode *next;
+    bool isInList() const { return !!m_list; }
+    void remove();
+    IntrusiveListNode *prev() const { return m_prev; }
+    IntrusiveListNode *next() const { return m_next; }
 
-    void remove() noexcept {
-        auto next_ = next;
-        auto prev_ = prev;
-        prev_->next = next_;
-        next_->prev = prev_;
-
-        next = nullptr;
-        prev = nullptr;
-    }
+private:
+    IntrusiveListBase *m_list = nullptr;
+    IntrusiveListNode *m_prev = nullptr;
+    IntrusiveListNode *m_next = nullptr;
 };
+
+class IntrusiveListBase {
+    friend class IntrusiveListNode;
+
+protected:
+    IntrusiveListBase() { root.m_prev = root.m_next = &root; }
+
+    void insertBetween(IntrusiveListNode *add, IntrusiveListNode *prev, IntrusiveListNode *next) noexcept {
+        if (add->m_list) {
+            throw std::invalid_argument("node can't be insert to two different list");
+        }
+        next->m_prev = add;
+        prev->m_next = add;
+        add->m_next = next;
+        add->m_prev = prev;
+        add->m_list = this;
+        size_++;
+    }
+
+    void prepend(IntrusiveListNode *add, IntrusiveListNode *pos) noexcept {
+        return insertBetween(add, pos, pos->m_next);
+    }
+
+    void append(IntrusiveListNode *add, IntrusiveListNode *pos) noexcept {
+        return insertBetween(add, pos->m_prev, pos);
+    }
+
+    void remove(IntrusiveListNode *pos) noexcept {
+        if (pos->m_list != this) {
+            throw std::invalid_argument("node doesn't belongs to this list");
+        }
+
+        auto next_ = pos->m_next;
+        auto prev_ = pos->m_prev;
+        prev_->m_next = next_;
+        next_->m_prev = prev_;
+
+        pos->m_next = nullptr;
+        pos->m_prev = nullptr;
+        pos->m_list = nullptr;
+
+        size_--;
+    }
+
+    IntrusiveListNode root;
+    std::size_t size_ = 0;
+};
+
+inline void IntrusiveListNode::remove() {
+    if (m_list) {
+        m_list->remove(this);
+    }
+}
 
 template <typename T>
 struct IntrusiveListTrivialNodeGetter {
@@ -89,15 +157,15 @@ public:
 
     bool operator==(const IntrusiveListIterator &other) const noexcept { return node == other.node; }
     bool operator!=(const IntrusiveListIterator &other) const noexcept { return !operator==(other); }
-    IntrusiveListIterator operator++() {
-        auto old = node;
-        node = node->next;
-        return {old, *nodeGetter};
+    IntrusiveListIterator &operator++() {
+        node = node->next();
+        return *this;
     }
 
-    IntrusiveListIterator &operator++(int) {
-        node = node->next;
-        return *this;
+    IntrusiveListIterator operator++(int) {
+        auto old = node;
+        ++(*this);
+        return {old, *nodeGetter};
     }
 
     reference operator*() { return nodeGetter->toValue(*node); }
@@ -114,7 +182,7 @@ private:
 };
 
 template <typename T, typename NodeGetter = IntrusiveListTrivialNodeGetter<T>>
-class IntrusiveList {
+class IntrusiveList : public IntrusiveListBase {
 public:
     typedef T value_type;
     typedef value_type *pointer;
@@ -127,18 +195,23 @@ public:
     typedef std::reverse_iterator<const_iterator> const_reverse_iterator;
     typedef std::size_t size_type;
 
-    IntrusiveList(NodeGetter nodeGetter_ = NodeGetter()) : size_(0), nodeGetter(nodeGetter_) {
-        root.prev = root.next = &root;
+    IntrusiveList(NodeGetter nodeGetter_ = NodeGetter()) : nodeGetter(nodeGetter_) {}
+
+    virtual ~IntrusiveList() {
+        // remove everything from list, since we didn't own anything, then we are good.
+        while (size()) {
+            pop_back();
+        }
     }
 
-    iterator begin() { return {root.next, nodeGetter}; }
+    iterator begin() { return {root.next(), nodeGetter}; }
     iterator end() { return {&root, nodeGetter}; }
 
-    const_iterator begin() const { return {root.next, nodeGetter}; }
+    const_iterator begin() const { return {root.next(), nodeGetter}; }
 
     const_iterator end() const { return {&root, nodeGetter}; }
 
-    const_iterator cbegin() const { return {root.next, nodeGetter}; }
+    const_iterator cbegin() const { return {root.next(), nodeGetter}; }
 
     const_iterator cend() const { return {&root, nodeGetter}; }
 
@@ -146,10 +219,10 @@ public:
 
     const_reference front() const { return *cbegin(); }
 
-    reference back() { return *iterator{root.prev, nodeGetter}; }
+    reference back() { return *iterator{root.prev(), nodeGetter}; }
 
     const_reference back() const {
-        return *const_iterator{root.prev, nodeGetter};
+        return *const_iterator{root.prev(), nodeGetter};
         ;
     }
 
@@ -160,19 +233,14 @@ public:
     void push_back(reference value) {
         auto &node = nodeGetter.toNode(value);
         append(&node, &root);
-        size_++;
     }
 
-    void pop_back() {
-        remove(root.prev);
-        size_--;
-    }
+    void pop_back() { remove(root.prev()); }
 
     iterator erase(const_iterator pos) {
         auto node = pos.pointed_node();
-        auto next = node->next;
+        auto next = node->next();
         remove(node);
-        size_--;
         return {next, nodeGetter};
     }
 
@@ -189,30 +257,14 @@ public:
 
     size_type size() const { return size_; }
 
-    bool empty() const { return root.next == &root; }
+    bool empty() const { return root.next() == &root; }
 
     iterator insert(const_iterator pos, reference value) {
         append(&nodeGetter.toNode(value), pos.pointed_node());
-        size_++;
-        return {pos.pointed_node()->prev, nodeGetter};
+        return {pos.pointed_node()->prev(), nodeGetter};
     }
 
 private:
-    void insertBetween(IntrusiveListNode *add, IntrusiveListNode *prev, IntrusiveListNode *next) noexcept {
-        next->prev = add;
-        prev->next = add;
-        add->next = next;
-        add->prev = prev;
-    }
-
-    void prepend(IntrusiveListNode *add, IntrusiveListNode *pos) noexcept { return insertBetween(add, pos, pos->next); }
-
-    void append(IntrusiveListNode *add, IntrusiveListNode *pos) noexcept { return insertBetween(add, pos->prev, pos); }
-
-    void remove(IntrusiveListNode *pos) noexcept { pos->remove(); }
-
-    IntrusiveListNode root;
-    size_type size_;
     NodeGetter nodeGetter;
 };
 }
