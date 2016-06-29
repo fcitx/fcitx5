@@ -57,6 +57,7 @@ public:
     FocusGroup *group;
     bool hasFocus;
     std::string program;
+    std::string displayServer;
     CapabilityFlags capabilityFlags;
     SurroundingText surroundingText;
     Text preedit;

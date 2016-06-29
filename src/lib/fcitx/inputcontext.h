@@ -86,6 +86,8 @@ public:
 
     const ICUUID &uuid() const;
     const std::string &program() const;
+    void setDisplayServer(const std::string &displayServer);
+    const std::string &displayServer() const;
 
     void focusIn();
     void focusOut();

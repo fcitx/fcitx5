@@ -145,6 +145,7 @@ bool XCBConnection::filterEvent(xcb_connection_t *, xcb_generic_event_t *event) 
             memcpy(uuid.data(), client_message->data.data8, uuid.size());
             InputContext *ic = m_parent->instance()->inputContextManager().findByUUID(uuid);
             if (ic) {
+                ic->setDisplayServer("x11:" + m_name);
                 ic->setFocusGroup(m_group);
             }
         }

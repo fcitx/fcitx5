@@ -52,6 +52,16 @@ const std::string &InputContext::program() const {
     return d->program;
 }
 
+const std::string &InputContext::displayServer() const {
+    FCITX_D();
+    return d->displayServer;
+}
+
+void InputContext::setDisplayServer(const std::string &displayServer) {
+    FCITX_D();
+    d->displayServer = displayServer;
+}
+
 InputContextProperty *InputContext::property(int idx) {
     FCITX_D();
     auto iter = d->properties.find(idx);

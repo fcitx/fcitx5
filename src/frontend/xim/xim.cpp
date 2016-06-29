@@ -241,6 +241,7 @@ void XIMServer::callback(xcb_im_client_t *client, xcb_im_input_context_t *xic, c
     switch (hdr->major_opcode) {
     case XCB_XIM_CREATE_IC:
         ic = new XIMInputContext(m_parent->instance()->inputContextManager(), this, xic);
+        ic->setDisplayServer("x11:" + m_name);
         ic->setFocusGroup(m_group);
         xcb_im_input_context_set_data(xic, ic, nullptr);
         break;
