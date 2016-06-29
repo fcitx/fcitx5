@@ -25,7 +25,27 @@
 namespace fcitx {
 
 template <typename T>
-class HandlerTableEntryReference;
+class HandlerTableEntry;
+
+
+template <typename T>
+class HandlerTableEntryReference : public IntrusiveListNode {
+    friend class HandlerTableEntry<T>;
+
+public:
+    explicit HandlerTableEntryReference(HandlerTableEntry<T> *entry) : m_entry(entry) {
+        entry->m_refs.push_back(*this);
+    }
+    HandlerTableEntryReference(const HandlerTableEntryReference &) = delete;
+    ~HandlerTableEntryReference() {
+        remove();
+    }
+
+    HandlerTableEntry<T> *entry() const { return m_entry; }
+
+private:
+    HandlerTableEntry<T> *m_entry;
+};
 
 // Handler Tables are a kind of helper class that helps manage callbacks
 // HandlerTableEntry can be deleted
@@ -41,37 +61,13 @@ public:
 
 protected:
     T m_handler;
-    HandlerTableEntryReference<T> *m_ref = nullptr;
-};
-
-template <typename T>
-class HandlerTableEntryReference {
-    friend class HandlerTableEntry<T>;
-
-public:
-    explicit HandlerTableEntryReference(HandlerTableEntry<T> *entry) : m_entry(entry) {
-        if (entry->m_ref) {
-            throw std::logic_error("only one view at the same time");
-        }
-        entry->m_ref = this;
-    }
-    HandlerTableEntryReference(const HandlerTableEntryReference &) = delete;
-    ~HandlerTableEntryReference() {
-        if (m_entry) {
-            m_entry->m_ref = nullptr;
-        }
-    }
-
-    HandlerTableEntry<T> *entry() const { return m_entry; }
-
-private:
-    HandlerTableEntry<T> *m_entry;
+    IntrusiveList<HandlerTableEntryReference<T>> m_refs;
 };
 
 template <typename T>
 HandlerTableEntry<T>::~HandlerTableEntry() {
-    if (m_ref) {
-        m_ref->m_entry = nullptr;
+    for (auto &ref : m_refs) {
+        ref.m_entry = nullptr;
     }
 }
 
