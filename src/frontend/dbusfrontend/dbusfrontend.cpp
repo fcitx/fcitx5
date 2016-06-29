@@ -20,6 +20,7 @@
 #include "dbusfrontend.h"
 #include "fcitx-utils/dbus/message.h"
 #include "fcitx-utils/dbus/objectvtable.h"
+#include "fcitx-utils/dbus/servicewatcher.h"
 #include "fcitx-utils/metastring.h"
 #include "fcitx/inputcontext.h"
 #include "fcitx/instance.h"
@@ -32,8 +33,24 @@ namespace fcitx {
 
 class DBusInputContext1 : public InputContext, public dbus::ObjectVTable {
 public:
-    DBusInputContext1(int id, InputContextManager &icManager, const std::string &program)
-        : InputContext(icManager, program), m_path("/inputcontext/" + std::to_string(id)) {}
+    DBusInputContext1(int id, InputContextManager &icManager, DBusFrontendModule *module, const std::string &sender,
+                      const std::string &program)
+        : InputContext(icManager, program), m_path("/inputcontext/" + std::to_string(id)), m_module(module),
+          m_handler(m_module->serviceWatcher().watchService(
+              sender,
+              [this](const std::string &, const std::string &, const std::string &newName) {
+                  if (newName.empty()) {
+                      delete this;
+                  }
+              })),
+          m_name(sender), m_slot(m_module->bus()->serviceOwnerAsync(sender, 0, [this](dbus::Message msg) {
+              if (msg.type() == dbus::MessageType::Error) {
+                  delete this;
+              } else {
+                  m_slot.reset(nullptr);
+              }
+              return true;
+          })) {}
 
     const dbus::ObjectPath path() const { return m_path; }
 
@@ -62,7 +79,7 @@ public:
         return keyEvent(event);
     }
 
-    void commitStringImpl(const std::string &text) override { commitStringDBus(text); }
+    void commitStringImpl(const std::string &text) override { commitStringDBusTo(m_name, text); }
 
     void updatePreeditImpl() override {
         auto &preedit = this->preedit();
@@ -70,14 +87,16 @@ public:
         for (int i = 0, e = preedit.size(); i < e; i++) {
             strs.push_back(std::make_tuple(preedit.stringAt(i), static_cast<int>(preedit.formatAt(i))));
         }
-        updateFormattedPreedit(strs, preedit.cursor());
+        updateFormattedPreeditTo(m_name, strs, preedit.cursor());
     }
 
-    void deleteSurroundingTextImpl(int offset, unsigned int size) override { deleteSurroundingTextDBus(offset, size); }
+    void deleteSurroundingTextImpl(int offset, unsigned int size) override {
+        deleteSurroundingTextDBusTo(m_name, offset, size);
+    }
 
     void forwardKeyImpl(const ForwardKeyEvent &key) override {
-        forwardKeyDBus(static_cast<uint32_t>(key.rawKey().sym()), static_cast<uint32_t>(key.rawKey().states()),
-                       key.isRelease());
+        forwardKeyDBusTo(m_name, static_cast<uint32_t>(key.rawKey().sym()),
+                         static_cast<uint32_t>(key.rawKey().states()), key.isRelease());
     }
 
 private:
@@ -98,6 +117,10 @@ private:
     FCITX_OBJECT_VTABLE_SIGNAL(forwardKeyDBus, "forwardKey", "uub");
 
     dbus::ObjectPath m_path;
+    DBusFrontendModule *m_module;
+    std::unique_ptr<HandlerTableEntry<dbus::ServiceWatcherCallback>> m_handler;
+    std::string m_name;
+    std::unique_ptr<dbus::Slot> m_slot;
 };
 
 class InputMethod1 : public dbus::ObjectVTable {
@@ -118,21 +141,20 @@ public:
             program = iter->second;
         }
 
-        // TODO: monitor sender dbus name
-        // auto msg = currentMessage();
-        auto ic = new DBusInputContext1(icIdx++, m_instance->inputContextManager(), program);
+        auto sender = currentMessage()->sender();
+        auto ic = new DBusInputContext1(icIdx++, m_instance->inputContextManager(), m_module, sender, program);
         auto bus = m_module->dbus()->call<IDBusModule::bus>();
         bus->addObjectVTable(ic->path().path(), FCITX_INPUTCONTEXT_DBUS_INTERFACE, *ic);
         return std::make_tuple(ic->path(), std::vector<uint8_t>(ic->uuid().begin(), ic->uuid().end()));
     }
 
-    dbus::ObjectPath createInputContext2() { return std::get<0>(createInputContext({})); }
+    std::string createInputContext2() { return std::get<0>(createInputContext({})).path(); }
 
 private:
     FCITX_OBJECT_VTABLE_METHOD(createInputContext, "CreateIC", "a(ss)", "oay");
     // debug purpose for now
     // TODO remove me
-    FCITX_OBJECT_VTABLE_METHOD(createInputContext2, "CreateIC2", "", "o");
+    FCITX_OBJECT_VTABLE_METHOD(createInputContext2, "CreateIC2", "", "s");
 
     DBusFrontendModule *m_module;
     Instance *m_instance;
@@ -141,8 +163,8 @@ private:
 
 DBusFrontendModule::DBusFrontendModule(Instance *instance)
     : m_instance(instance), m_inputMethod1(std::make_unique<InputMethod1>(this)) {
-    auto bus = this->dbus()->call<IDBusModule::bus>();
-    bus->addObjectVTable("/inputmethod", FCITX_INPUTMETHOD_DBUS_INTERFACE, *m_inputMethod1.get());
+    bus()->addObjectVTable("/inputmethod", FCITX_INPUTMETHOD_DBUS_INTERFACE, *m_inputMethod1.get());
+    m_watcher.reset(new dbus::ServiceWatcher(*bus()));
 }
 
 DBusFrontendModule::~DBusFrontendModule() {}
@@ -151,4 +173,5 @@ AddonInstance *DBusFrontendModule::dbus() {
     auto &addonManager = m_instance->addonManager();
     return addonManager.addon("dbus");
 }
+dbus::Bus *DBusFrontendModule::bus() { return dbus()->call<IDBusModule::bus>(); }
 }

@@ -39,6 +39,8 @@ public:
     ServiceWatcher(Bus &bus);
     ~ServiceWatcher();
 
+    // unlike regular NameOwnerChanged signal, this will also initiate a GetNameOwner call to avoid race condition
+    // if GetNameOwner returns, it will intiate a call (name, "", owner) if service exists, otherwise (name, "", "")
     HandlerTableEntry<ServiceWatcherCallback> *watchService(const std::string &name, ServiceWatcherCallback callback);
 
 private:

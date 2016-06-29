@@ -19,6 +19,7 @@
 #ifndef _FCITX_FRONTEND_DBUSFRONTEND_DBUSFRONTEND_H_
 #define _FCITX_FRONTEND_DBUSFRONTEND_DBUSFRONTEND_H_
 
+#include "fcitx-utils/dbus/servicewatcher.h"
 #include "fcitx-utils/event.h"
 #include "fcitx/addonfactory.h"
 #include "fcitx/addoninstance.h"
@@ -37,11 +38,15 @@ public:
     ~DBusFrontendModule();
 
     AddonInstance *dbus();
+    dbus::Bus *bus();
     Instance *instance() { return m_instance; }
+
+    dbus::ServiceWatcher &serviceWatcher() { return *m_watcher; }
 
 private:
     Instance *m_instance;
     std::unique_ptr<InputMethod1> m_inputMethod1;
+    std::unique_ptr<dbus::ServiceWatcher> m_watcher;
 };
 
 class DBusFrontendModuleFactory : public AddonFactory {

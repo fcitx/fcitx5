@@ -245,5 +245,40 @@ bool Bus::requestName(const std::string &name, Flags<RequestNameFlag> flags) {
     int r = sd_bus_request_name(d->bus, name.c_str(), sd_flags);
     return r >= 0;
 }
+
+bool Bus::releaseName(const std::string &name) {
+    FCITX_D();
+    return sd_bus_release_name(d->bus, name.c_str()) >= 0;
+}
+
+std::string Bus::serviceOwner(const std::string &name, uint64_t usec) {
+    auto msg =
+        createMethodCall("org.freedesktop.DBus", "/org/freedesktop/DBus", "org.freedesktop.DBus", "GetNameOwner");
+    msg << name;
+    auto reply = msg.call(usec);
+
+    if (reply.type() == dbus::MessageType::Reply) {
+        std::string ownerName;
+        reply >> ownerName;
+        return ownerName;
+    }
+    return {};
+}
+
+Slot *Bus::serviceOwnerAsync(const std::string &name, uint64_t usec, MessageCallback callback) {
+    auto msg =
+        createMethodCall("org.freedesktop.DBus", "/org/freedesktop/DBus", "org.freedesktop.DBus", "GetNameOwner");
+    msg << name;
+    return msg.callAsync(usec, callback);
+}
+
+std::string Bus::uniqueName() {
+    FCITX_D();
+    const char *name = nullptr;
+    if (sd_bus_get_unique_name(d->bus, &name) < 0) {
+        return {};
+    }
+    return name;
+}
 }
 }

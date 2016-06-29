@@ -82,7 +82,12 @@ Message ObjectVTableSignal::createSignal() {
 
 ObjectVTable::ObjectVTable() : d_ptr(std::make_unique<ObjectVTablePrivate>(this)) {}
 
-ObjectVTable::~ObjectVTable() {}
+ObjectVTable::~ObjectVTable() {
+    FCITX_D();
+    if (d->setter) {
+        d->setter->m_vtable = nullptr;
+    }
+}
 
 void ObjectVTable::addMethod(ObjectVTableMethod *method) {
     FCITX_D();
@@ -121,9 +126,10 @@ Message *ObjectVTable::currentMessage() const {
     return d->msg;
 }
 
-void ObjectVTable::setCurrentMessage(Message *msg) {
+void ObjectVTable::setCurrentMessage(Message *msg, MessageSetter *setter) {
     FCITX_D();
     d->msg = msg;
+    d->setter = setter;
 }
 
 void ObjectVTable::setSlot(Slot *slot) {

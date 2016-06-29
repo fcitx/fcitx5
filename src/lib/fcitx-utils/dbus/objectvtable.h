@@ -99,6 +99,14 @@ struct ReturnValueHelper<void> {
         STRING_TO_DBUS_TUPLE(SIGNATURE) tupleArg = std::make_tuple(args...);                                           \
         msg << tupleArg;                                                                                               \
         msg.send();                                                                                                    \
+    }                                                                                                                  \
+    template <typename... Args>                                                                                        \
+    void SIGNAL##To(const std::string &dest, Args... args) {                                                           \
+        auto msg = SIGNAL##Signal.createSignal();                                                                      \
+        msg.setDestination(dest);                                                                                      \
+        STRING_TO_DBUS_TUPLE(SIGNATURE) tupleArg = std::make_tuple(args...);                                           \
+        msg << tupleArg;                                                                                               \
+        msg.send();                                                                                                    \
     }
 
 class FCITXUTILS_EXPORT ObjectVTableSignal {
@@ -135,6 +143,7 @@ private:
 };
 
 class ObjectVTablePrivate;
+class MessageSetter;
 
 class FCITXUTILS_EXPORT ObjectVTable {
     friend class Bus;
@@ -155,7 +164,7 @@ public:
     Message *currentMessage() const;
 
 private:
-    void setCurrentMessage(Message *message);
+    void setCurrentMessage(Message *message, MessageSetter *setter);
     void setSlot(Slot *slot);
 
     std::unique_ptr<ObjectVTablePrivate> d_ptr;
@@ -163,10 +172,18 @@ private:
 };
 
 class FCITXUTILS_EXPORT MessageSetter {
-public:
-    MessageSetter(Message *message, ObjectVTable *vtable) : m_vtable(vtable) { vtable->setCurrentMessage(message); }
+    friend class ObjectVTable;
 
-    ~MessageSetter() { m_vtable->setCurrentMessage(nullptr); }
+public:
+    MessageSetter(Message *message, ObjectVTable *vtable) : m_vtable(vtable) {
+        vtable->setCurrentMessage(message, this);
+    }
+
+    ~MessageSetter() {
+        if (m_vtable) {
+            m_vtable->setCurrentMessage(nullptr, nullptr);
+        }
+    }
 
 private:
     ObjectVTable *m_vtable;

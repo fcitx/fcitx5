@@ -20,6 +20,7 @@
 #include "fcitx-utils/dbus/bus.h"
 #include "fcitx-utils/dbus/servicewatcher.h"
 #include <cassert>
+#include <iostream>
 
 using namespace fcitx::dbus;
 using namespace fcitx;
@@ -35,18 +36,22 @@ int main() {
 
     std::unique_ptr<HandlerTableEntry<ServiceWatcherCallback>> handlerTableEntry;
     ServiceWatcher watcher(bus);
-    handlerTableEntry.reset(watcher.watchService(
-        TEST_SERVICE, [&loop](const std::string &name, const std::string &old, const std::string &newOwner) {
-            assert(name == TEST_SERVICE);
-            assert(old == "");
-            assert(!newOwner.empty());
-            loop.quit();
-        }));
 
     if (!bus.requestName(TEST_SERVICE, {RequestNameFlag::AllowReplacement, RequestNameFlag::ReplaceExisting})) {
         return 1;
     }
 
+    std::string name = bus.serviceOwner(TEST_SERVICE, 0);
+    std::cout << name << std::endl;
+    assert(name == bus.uniqueName());
+
+    handlerTableEntry.reset(
+        watcher.watchService(TEST_SERVICE, [&loop](const std::string &name, const std::string &, const std::string &) {
+            assert(name == TEST_SERVICE);
+            loop.quit();
+        }));
+
+    assert(bus.releaseName(TEST_SERVICE));
     loop.exec();
     return 0;
 }

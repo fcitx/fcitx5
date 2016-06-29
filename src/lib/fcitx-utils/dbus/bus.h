@@ -68,6 +68,12 @@ public:
 
     void *nativeHandle() const;
     bool requestName(const std::string &name, Flags<RequestNameFlag> flags);
+    bool releaseName(const std::string &name);
+
+    std::string serviceOwner(const std::string &name, uint64_t usec);
+    Slot *serviceOwnerAsync(const std::string &name, uint64_t usec, MessageCallback callback);
+
+    std::string uniqueName();
 
 private:
     std::unique_ptr<BusPrivate> d_ptr;
