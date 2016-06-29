@@ -19,24 +19,12 @@
 #ifndef _FCITX_UTILS_INSTRUSIVELIST_H_
 #define _FCITX_UTILS_INSTRUSIVELIST_H_
 
+#include "misc.h"
 #include <array>
 #include <iterator>
 #include <type_traits>
 
 namespace fcitx {
-
-template <class Parent, class Member>
-inline std::ptrdiff_t offset_from_pointer_to_member(const Member Parent::*ptr_to_member) {
-    const Parent *const parent = 0;
-    const char *const member = static_cast<const char *>(static_cast<const void *>(&(parent->*ptr_to_member)));
-    return std::ptrdiff_t(member - static_cast<const char *>(static_cast<const void *>(parent)));
-}
-
-template <class Parent, class Member>
-inline Parent *parent_from_member(Member *member, const Member Parent::*ptr_to_member) {
-    return static_cast<Parent *>(static_cast<void *>(static_cast<char *>(static_cast<void *>(member)) -
-                                                     offset_from_pointer_to_member(ptr_to_member)));
-}
 
 class IntrusiveListBase;
 
@@ -124,6 +112,17 @@ struct IntrusiveListTrivialNodeGetter {
     }
 
     static const T &toValue(const IntrusiveListNode &node) noexcept { return *reinterpret_cast<const T *>(&node); }
+};
+
+template <typename T, IntrusiveListNode T::*ptrToNode>
+struct IntrusiveListMemberNodeGetter {
+    static IntrusiveListNode &toNode(T &value) noexcept { return value.*ptrToNode; }
+
+    static T &toValue(IntrusiveListNode &node) noexcept { return *parentFromMember(&node, ptrToNode); }
+
+    static const IntrusiveListNode &toNode(const T &value) noexcept { return value.*ptrToNode; }
+
+    static const T &toValue(const IntrusiveListNode &node) noexcept { return *parentFromMember(&node, ptrToNode); }
 };
 
 template <typename T, typename NodeGetter>
@@ -267,6 +266,9 @@ public:
 private:
     NodeGetter nodeGetter;
 };
+
+template <typename T>
+using IntrusiveListFor = IntrusiveList<T, typename T::node_getter_type>;
 }
 
 #endif // _FCITX_UTILS_INSTRUSIVELIST_H_

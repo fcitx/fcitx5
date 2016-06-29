@@ -35,13 +35,13 @@ int main() {
 
     std::unique_ptr<HandlerTableEntry<ServiceWatcherCallback>> handlerTableEntry;
     ServiceWatcher watcher(bus);
-    handlerTableEntry.reset(watcher.watchService(TEST_SERVICE, [&loop] (const std::string &name, const std::string &old,
-    const std::string &newOwner) {
-        assert(name == TEST_SERVICE);
-        assert(old == "");
-        assert(!newOwner.empty());
-        loop.quit();
-    }));
+    handlerTableEntry.reset(watcher.watchService(
+        TEST_SERVICE, [&loop](const std::string &name, const std::string &old, const std::string &newOwner) {
+            assert(name == TEST_SERVICE);
+            assert(old == "");
+            assert(!newOwner.empty());
+            loop.quit();
+        }));
 
     if (!bus.requestName(TEST_SERVICE, {RequestNameFlag::AllowReplacement, RequestNameFlag::ReplaceExisting})) {
         return 1;

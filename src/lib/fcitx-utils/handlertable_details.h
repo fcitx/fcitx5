@@ -27,24 +27,22 @@ namespace fcitx {
 template <typename T>
 class HandlerTableEntry;
 
-
 template <typename T>
-class HandlerTableEntryReference : public IntrusiveListNode {
+class HandlerTableEntryReference {
     friend class HandlerTableEntry<T>;
+    HandlerTableEntry<T> *m_entry;
+    IntrusiveListNode m_node;
 
 public:
+    typedef IntrusiveListMemberNodeGetter<HandlerTableEntryReference<T>, &HandlerTableEntryReference<T>::m_node>
+        node_getter_type;
     explicit HandlerTableEntryReference(HandlerTableEntry<T> *entry) : m_entry(entry) {
         entry->m_refs.push_back(*this);
     }
     HandlerTableEntryReference(const HandlerTableEntryReference &) = delete;
-    ~HandlerTableEntryReference() {
-        remove();
-    }
+    ~HandlerTableEntryReference() { m_node.remove(); }
 
     HandlerTableEntry<T> *entry() const { return m_entry; }
-
-private:
-    HandlerTableEntry<T> *m_entry;
 };
 
 // Handler Tables are a kind of helper class that helps manage callbacks
@@ -61,7 +59,7 @@ public:
 
 protected:
     T m_handler;
-    IntrusiveList<HandlerTableEntryReference<T>> m_refs;
+    IntrusiveListFor<HandlerTableEntryReference<T>> m_refs;
 };
 
 template <typename T>
@@ -71,22 +69,16 @@ HandlerTableEntry<T>::~HandlerTableEntry() {
     }
 }
 
-template <typename Entry, typename T>
-struct HandlerTableEntryNodeGetter {
-    static IntrusiveListNode &toNode(Entry &entry) noexcept { return entry.m_node; }
-    static Entry &toValue(IntrusiveListNode &node) noexcept { return *parent_from_member(&node, &Entry::m_node); }
-};
-
 template <typename T>
 class ListHandlerTableEntry : public HandlerTableEntry<T> {
-    friend struct HandlerTableEntryNodeGetter<ListHandlerTableEntry<T>, T>;
+    IntrusiveListNode m_node;
+    friend struct IntrusiveListMemberNodeGetter<ListHandlerTableEntry<T>, &ListHandlerTableEntry<T>::m_node>;
 
 public:
+    typedef struct IntrusiveListMemberNodeGetter<ListHandlerTableEntry, &ListHandlerTableEntry::m_node>
+        node_getter_type;
     ListHandlerTableEntry(T handler) : HandlerTableEntry<T>(handler) {}
     virtual ~ListHandlerTableEntry() { m_node.remove(); }
-
-private:
-    IntrusiveListNode m_node;
 };
 
 template <typename Key, typename T>
@@ -94,18 +86,21 @@ class MultiHandlerTable;
 
 template <typename Key, typename T>
 class MultiHandlerTableEntry : public HandlerTableEntry<T> {
-    friend struct HandlerTableEntryNodeGetter<MultiHandlerTableEntry<Key, T>, T>;
     typedef MultiHandlerTable<Key, T> table_type;
+    table_type *m_table;
+    Key m_key;
+    IntrusiveListNode m_node;
+
+    friend struct IntrusiveListMemberNodeGetter<MultiHandlerTableEntry, &MultiHandlerTableEntry::m_node>;
 
 public:
+    typedef struct IntrusiveListMemberNodeGetter<MultiHandlerTableEntry, &MultiHandlerTableEntry::m_node>
+        node_getter_type;
     MultiHandlerTableEntry(table_type *table, Key key, T handler)
         : HandlerTableEntry<T>(handler), m_table(table), m_key(key) {}
     ~MultiHandlerTableEntry();
 
 private:
-    table_type *m_table;
-    Key m_key;
-    IntrusiveListNode m_node;
 };
 
 template <typename Key, typename T>

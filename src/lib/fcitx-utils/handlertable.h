@@ -34,9 +34,8 @@ template <typename T>
 class HandlerTableView;
 
 template <typename T>
-class HandlerTable
-    : protected IntrusiveList<ListHandlerTableEntry<T>, HandlerTableEntryNodeGetter<ListHandlerTableEntry<T>, T>> {
-    typedef IntrusiveList<ListHandlerTableEntry<T>, HandlerTableEntryNodeGetter<ListHandlerTableEntry<T>, T>> super;
+class HandlerTable : protected IntrusiveListFor<ListHandlerTableEntry<T>> {
+    typedef IntrusiveListFor<ListHandlerTableEntry<T>> super;
 
 public:
     template <typename M>
@@ -50,13 +49,9 @@ public:
 };
 
 template <typename Key, typename T>
-class MultiHandlerTable
-    : protected std::unordered_map<Key, IntrusiveList<MultiHandlerTableEntry<Key, T>,
-                                                      HandlerTableEntryNodeGetter<MultiHandlerTableEntry<Key, T>, T>>> {
+class MultiHandlerTable : protected std::unordered_map<Key, IntrusiveListFor<MultiHandlerTableEntry<Key, T>>> {
     friend class MultiHandlerTableEntry<Key, T>;
-    typedef std::unordered_map<Key, IntrusiveList<MultiHandlerTableEntry<Key, T>,
-                                                  HandlerTableEntryNodeGetter<MultiHandlerTableEntry<Key, T>, T>>>
-        super;
+    typedef std::unordered_map<Key, IntrusiveListFor<MultiHandlerTableEntry<Key, T>>> super;
 
 public:
     MultiHandlerTable(std::function<void(const Key &)> addKey, std::function<void(const Key &)> removeKey)

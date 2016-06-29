@@ -124,7 +124,7 @@ IntrusiveListNode &InputContextListHelper::toNode(InputContext &ic) noexcept {
 }
 
 InputContext &InputContextListHelper::toValue(IntrusiveListNode &node) noexcept {
-    return *parent_from_member(&node, &InputContextPrivate::listNode)->q_func();
+    return *parentFromMember(&node, &InputContextPrivate::listNode)->q_func();
 }
 
 IntrusiveListNode &FocusGroupListHelper::toNode(FocusGroup &group) noexcept {
@@ -132,7 +132,7 @@ IntrusiveListNode &FocusGroupListHelper::toNode(FocusGroup &group) noexcept {
 }
 
 FocusGroup &FocusGroupListHelper::toValue(IntrusiveListNode &node) noexcept {
-    return *parent_from_member(&node, &FocusGroupPrivate::listNode)->q_func();
+    return *parentFromMember(&node, &FocusGroupPrivate::listNode)->q_func();
 }
 
 InputContextManager::InputContextManager() : d_ptr(std::make_unique<InputContextManagerPrivate>()) {
