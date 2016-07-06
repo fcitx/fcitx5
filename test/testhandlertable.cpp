@@ -50,7 +50,7 @@ int main() {
 
         {
             for (auto &handler : table.view()) {
-                handler.handler()();
+                handler();
             }
         }
     }

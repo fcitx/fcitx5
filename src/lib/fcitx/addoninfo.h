@@ -29,7 +29,7 @@ namespace fcitx {
 
 class AddonInfoPrivate;
 
-FCITX_CONFIG_ENUM(AddonCategory, InputMethod, Frontend, Loader, Module)
+FCITX_CONFIG_ENUM(AddonCategory, InputMethod, Frontend, Loader, Module, UI)
 
 class FCITXCORE_EXPORT AddonInfo {
 public:

@@ -21,53 +21,25 @@
 
 #include <fcitx-utils/intrusivelist.h>
 #include <list>
+#include <vector>
+#include <memory>
 
 namespace fcitx {
-
-template <typename T>
-class HandlerTableEntry;
-
-template <typename T>
-class HandlerTableEntryReference {
-    friend class HandlerTableEntry<T>;
-    HandlerTableEntry<T> *m_entry;
-    IntrusiveListNode m_node;
-
-public:
-    typedef IntrusiveListMemberNodeGetter<HandlerTableEntryReference<T>, &HandlerTableEntryReference<T>::m_node>
-        node_getter_type;
-    explicit HandlerTableEntryReference(HandlerTableEntry<T> *entry) : m_entry(entry) {
-        entry->m_refs.push_back(*this);
-    }
-    HandlerTableEntryReference(const HandlerTableEntryReference &) = delete;
-    ~HandlerTableEntryReference() { m_node.remove(); }
-
-    HandlerTableEntry<T> *entry() const { return m_entry; }
-};
 
 // Handler Tables are a kind of helper class that helps manage callbacks
 // HandlerTableEntry can be deleted
 template <typename T>
 class HandlerTableEntry {
-    friend class HandlerTableEntryReference<T>;
 
 public:
-    HandlerTableEntry(T handler) : m_handler(handler) {}
-    virtual ~HandlerTableEntry();
+    HandlerTableEntry(T handler) : m_handler(std::make_shared<T>(handler)) {}
+    virtual ~HandlerTableEntry() { *m_handler = T(); }
 
-    T &handler() { return m_handler; };
+    std::shared_ptr<T> handler() { return m_handler; };
 
 protected:
-    T m_handler;
-    IntrusiveListFor<HandlerTableEntryReference<T>> m_refs;
+    std::shared_ptr<T> m_handler;
 };
-
-template <typename T>
-HandlerTableEntry<T>::~HandlerTableEntry() {
-    for (auto &ref : m_refs) {
-        ref.m_entry = nullptr;
-    }
-}
 
 template <typename T>
 class ListHandlerTableEntry : public HandlerTableEntry<T> {
@@ -112,28 +84,32 @@ MultiHandlerTableEntry<Key, T>::~MultiHandlerTableEntry() {
 }
 
 template <typename T>
-class HandlerTableView : private std::list<HandlerTableEntryReference<T>> {
+class HandlerTableView : public std::vector<std::shared_ptr<T>> {
 public:
-    typedef std::list<HandlerTableEntryReference<T>> super;
+    typedef std::vector<std::shared_ptr<T>> super;
     HandlerTableView() : super() {}
 
     template <typename _Iter>
     HandlerTableView(_Iter begin, _Iter end) {
         for (; begin != end; begin++) {
-            this->emplace_back(&(*begin));
+            this->emplace_back(begin->handler());
         }
     }
 
     class iterator {
     public:
         typedef std::bidirectional_iterator_tag iterator_category;
-        typedef HandlerTableEntry<T> value_type;
+        typedef T value_type;
         typedef std::ptrdiff_t difference_type;
         typedef value_type &reference;
         typedef value_type *pointer;
 
         iterator(typename super::const_iterator iter, typename super::const_iterator end)
-            : m_parentIter(iter), m_endIter(end) {}
+            : m_parentIter(iter), m_endIter(end) {
+             while (m_parentIter != m_endIter && !*m_parentIter) {
+                m_parentIter++;
+            }
+        }
 
         iterator(const iterator &other) = default;
 
@@ -145,7 +121,7 @@ public:
         iterator &operator++() {
             do {
                 m_parentIter++;
-            } while (m_parentIter != m_endIter && !m_parentIter->entry());
+            } while (m_parentIter != m_endIter && !(**m_parentIter));
             return *this;
         }
 
@@ -155,9 +131,9 @@ public:
             return {old, m_endIter};
         }
 
-        reference operator*() { return *m_parentIter->entry(); }
+        reference operator*() { return **m_parentIter; }
 
-        pointer operator->() { return m_parentIter->entry(); }
+        pointer operator->() { return (*m_parentIter).get(); }
 
     private:
         typename super::const_iterator m_parentIter;

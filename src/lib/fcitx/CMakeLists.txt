@@ -14,6 +14,10 @@ set(FCITX_CORE_SOURCES
     globalconfig.cpp
     text.cpp
     event.cpp
+    status.cpp
+    menu.cpp
+    userinterface.cpp
+    userinterfacemanager.cpp
     )
 
 set(FCITX_CORE_HEADERS
@@ -31,6 +35,8 @@ set(FCITX_CORE_HEADERS
     globalconfig.h
     text.h
     event.h
+    status.h
+    menu.h
     ${CMAKE_CURRENT_BINARY_DIR}/fcitxcore_export.h
     )
 

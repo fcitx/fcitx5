@@ -45,7 +45,7 @@ public:
 
                       auto view = watcherMap.view(name);
                       for (auto &entry : view) {
-                          entry.handler()(name, oldOwner, newOwner);
+                          entry(name, oldOwner, newOwner);
                       }
                       return true;
                   });

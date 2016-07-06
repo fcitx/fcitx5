@@ -126,8 +126,8 @@ public:
     Message();
     virtual ~Message();
 
-    Message(const Message &other) = delete;
-    Message(Message &&other);
+    Message(const Message &other);
+    Message(Message &&other) noexcept;
     Message createReply() const;
     Message createError(const char *name, const char *message) const;
 

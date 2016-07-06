@@ -35,6 +35,7 @@ find_package(XCBImdkit)
 find_package(IsoCodes)
 find_package(LibXml2)
 find_package(XKeyboardConfig)
+find_package(Cairo COMPONENTS Cairo XCB EGL)
 
 set(DEFAULT_XKB_RULES_FILES "${XKEYBOARDCONFIG_XKBBASE}/rules/${DEFAULT_XKB_RULES}.xml")
 if (NOT EXISTS "${DEFAULT_XKB_RULES_FILES}")

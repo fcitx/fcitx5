@@ -54,7 +54,10 @@ Message::Message() : d_ptr(std::make_unique<MessagePrivate>()) {}
 
 Message::~Message() {}
 
-Message::Message(Message &&other) : d_ptr(std::move(other.d_ptr)) {}
+Message::Message(const Message &other) : d_ptr(std::make_unique<MessagePrivate>(*other.d_func())) {
+}
+
+Message::Message(Message &&other) noexcept : d_ptr(std::move(other.d_ptr)) {}
 
 Message Message::createReply() const {
     FCITX_D();

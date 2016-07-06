@@ -28,6 +28,7 @@ namespace dbus {
 class MessagePrivate {
 public:
     MessagePrivate() : type(MessageType::Invalid), msg(nullptr) {}
+    MessagePrivate(const MessagePrivate &other) : type(other.type), msg(sd_bus_message_ref(other.msg)), lastError(other.lastError) {}
 
     ~MessagePrivate() { sd_bus_message_unref(msg); }
 

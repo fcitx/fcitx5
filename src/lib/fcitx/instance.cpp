@@ -327,7 +327,7 @@ bool Instance::postEvent(Event &event) {
             auto iter2 = handlers.find(phase);
             if (iter2 != handlers.end()) {
                 for (auto &handler : iter2->second.view()) {
-                    handler.handler()(event);
+                    handler(event);
                     if (event.filtered()) {
                         return event.accepted();
                     }

@@ -21,6 +21,7 @@
 
 #include "fcitxutils_export.h"
 #include <fcitx-utils/macros.h>
+#include <fcitx-utils/misc.h>
 #include <functional>
 #include <memory>
 
@@ -44,12 +45,14 @@ public:
     const std::string &signature() const { return m_signature; }
     const std::string &ret() const { return m_ret; }
     ObjectMethod &handler() { return m_handler; }
+    ObjectVTable *vtable() const { return m_vtable; }
 
 private:
     const std::string m_name;
     const std::string m_signature;
     const std::string m_ret;
     ObjectMethod m_handler;
+    ObjectVTable *m_vtable;
 };
 
 template <typename T>
@@ -76,7 +79,7 @@ struct ReturnValueHelper<void> {
 #define FCITX_OBJECT_VTABLE_METHOD(FUNCTION, FUNCTION_NAME, SIGNATURE, RET)                                            \
     ::fcitx::dbus::ObjectVTableMethod FUNCTION##Method {                                                               \
         this, FUNCTION_NAME, SIGNATURE, RET, [this](::fcitx::dbus::Message msg) {                                      \
-            ::fcitx::dbus::MessageSetter msgSetter(&msg, this);                                                        \
+            this->setCurrentMessage(&msg);                                                        \
             STRING_TO_DBUS_TUPLE(SIGNATURE) args;                                                                      \
             msg >> args;                                                                                               \
             auto func = &std::remove_reference<decltype(*this)>::type::FUNCTION;                                       \
@@ -145,7 +148,7 @@ private:
 class ObjectVTablePrivate;
 class MessageSetter;
 
-class FCITXUTILS_EXPORT ObjectVTable {
+class FCITXUTILS_EXPORT ObjectVTable : public EnableWeakRef<ObjectVTable> {
     friend class Bus;
     friend class MessageSetter;
 
@@ -163,31 +166,14 @@ public:
     const std::string &interface() const;
     Message *currentMessage() const;
 
+    void setCurrentMessage(Message *message);
 private:
-    void setCurrentMessage(Message *message, MessageSetter *setter);
     void setSlot(Slot *slot);
 
     std::unique_ptr<ObjectVTablePrivate> d_ptr;
     FCITX_DECLARE_PRIVATE(ObjectVTable);
 };
 
-class FCITXUTILS_EXPORT MessageSetter {
-    friend class ObjectVTable;
-
-public:
-    MessageSetter(Message *message, ObjectVTable *vtable) : m_vtable(vtable) {
-        vtable->setCurrentMessage(message, this);
-    }
-
-    ~MessageSetter() {
-        if (m_vtable) {
-            m_vtable->setCurrentMessage(nullptr, nullptr);
-        }
-    }
-
-private:
-    ObjectVTable *m_vtable;
-};
 }
 }
 

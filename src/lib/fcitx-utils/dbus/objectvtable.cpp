@@ -27,7 +27,13 @@ namespace dbus {
 int SDMethodCallback(sd_bus_message *m, void *userdata, sd_bus_error *) {
     try {
         auto method = static_cast<ObjectVTableMethod *>(userdata);
-        method->handler()(MessagePrivate::fromSDBusMessage(m));
+        auto msg = MessagePrivate::fromSDBusMessage(m);
+        auto wathcer = method->vtable()->watch();
+        method->vtable()->setCurrentMessage(&msg);
+        method->handler()(msg);
+        if (wathcer.isValid()) {
+            wathcer.get()->setCurrentMessage(nullptr);
+        }
         return 1;
     } catch (...) {
         // some abnormal things threw
@@ -54,7 +60,7 @@ std::vector<sd_bus_vtable> ObjectVTablePrivate::toSDBusVTable() {
 
 ObjectVTableMethod::ObjectVTableMethod(ObjectVTable *vtable, const std::string &name, const std::string &signature,
                                        const std::string &ret, ObjectMethod handler)
-    : m_name(name), m_signature(signature), m_ret(ret), m_handler(handler) {
+    : m_name(name), m_signature(signature), m_ret(ret), m_handler(handler), m_vtable(vtable) {
     vtable->addMethod(this);
 }
 
@@ -83,10 +89,6 @@ Message ObjectVTableSignal::createSignal() {
 ObjectVTable::ObjectVTable() : d_ptr(std::make_unique<ObjectVTablePrivate>(this)) {}
 
 ObjectVTable::~ObjectVTable() {
-    FCITX_D();
-    if (d->setter) {
-        d->setter->m_vtable = nullptr;
-    }
 }
 
 void ObjectVTable::addMethod(ObjectVTableMethod *method) {
@@ -126,10 +128,9 @@ Message *ObjectVTable::currentMessage() const {
     return d->msg;
 }
 
-void ObjectVTable::setCurrentMessage(Message *msg, MessageSetter *setter) {
+void ObjectVTable::setCurrentMessage(Message *msg) {
     FCITX_D();
     d->msg = msg;
-    d->setter = setter;
 }
 
 void ObjectVTable::setSlot(Slot *slot) {

@@ -20,6 +20,7 @@
 #define _FCITX_UTILS_MISC_H_
 
 #include <cstdint>
+#include <memory>
 
 namespace fcitx {
 
@@ -41,6 +42,46 @@ inline const Parent *parentFromMember(const Member *member, const Member Parent:
     return static_cast<const Parent *>(static_cast<const void *>(
         static_cast<const char *>(static_cast<const void *>(member)) - offsetFromPointerToMember(ptr_to_member)));
 }
+
+template<typename T>
+class EnableWeakRef;
+
+template<typename T>
+class WeakRef {
+    friend class EnableWeakRef<T>;
+public:
+    bool isValid() const {
+        return !m_that.expired();
+    }
+
+    T *get() const {
+        return m_that.expired() ? nullptr : m_rawThat;
+    }
+
+private:
+    WeakRef(std::weak_ptr<T*> that, T* rawThat) :
+        m_that(std::move(that)), m_rawThat(rawThat) {
+    }
+
+    std::weak_ptr<T*> m_that;
+    T *m_rawThat;
+};
+
+
+template<typename T>
+class EnableWeakRef {
+public:
+    EnableWeakRef() : m_self(std::make_shared<T*>(static_cast<T*>(this))) { }
+    EnableWeakRef(const EnableWeakRef &) = delete;
+
+    WeakRef<T> watch() {
+        return WeakRef<T>(m_self, static_cast<T*>(this));
+    }
+
+private:
+    std::shared_ptr<T*> m_self;
+};
+
 }
 
 #endif // _FCITX_UTILS_MISC_H_
