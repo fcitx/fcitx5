@@ -71,15 +71,15 @@ private:
 template<typename T>
 class EnableWeakRef {
 public:
-    EnableWeakRef() : m_self(std::make_shared<T*>(static_cast<T*>(this))) { }
+    EnableWeakRef() : m_self(std::make_unique<std::shared_ptr<T*>>(std::make_shared<T*>(static_cast<T*>(this)))) { }
     EnableWeakRef(const EnableWeakRef &) = delete;
 
     WeakRef<T> watch() {
-        return WeakRef<T>(m_self, static_cast<T*>(this));
+        return WeakRef<T>(*m_self, static_cast<T*>(this));
     }
 
 private:
-    std::shared_ptr<T*> m_self;
+    std::unique_ptr<std::shared_ptr<T*>> m_self;
 };
 
 }
