@@ -45,7 +45,7 @@ protected:
     }
 
 private:
-    bool m_destroyed;
+    bool m_destroyed = false;
 };
 };
 
