@@ -19,13 +19,8 @@
 
 #include <cairo/cairo-xcb.h>
 
-namespace fcitx
-{
-namespace classicui
-{
-class Window {
-};
-
+namespace fcitx {
+namespace classicui {
+class Window {};
 }
-
 }

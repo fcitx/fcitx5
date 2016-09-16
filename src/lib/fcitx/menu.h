@@ -19,24 +19,21 @@
 #ifndef _FCITX_MENU_H_
 #define _FCITX_MENU_H_
 
+#include "fcitxcore_export.h"
 #include <fcitx-utils/macros.h>
 #include <memory>
-#include "fcitxcore_export.h"
 
-namespace fcitx
-{
+namespace fcitx {
 class MenuPrivate;
 
 class FCITXCORE_EXPORT Menu {
 public:
-
     virtual ~Menu();
 
 private:
     std::unique_ptr<MenuPrivate> d_ptr;
     FCITX_DECLARE_PRIVATE(Menu);
 };
-
 }
 
 #endif // _FCITX_MENU_H_

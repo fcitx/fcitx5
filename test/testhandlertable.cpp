@@ -80,6 +80,14 @@ int main() {
             std::unique_ptr<HandlerTableEntry<Callback>>(table2.add("DEF", [&entries2]() { entries2[1].reset(); })),
             std::unique_ptr<HandlerTableEntry<Callback>>(table2.add("EFG", []() {})),
         };
+
+        std::unordered_set<std::string> keys2;
+        for (const auto &key : table2.keys()) {
+            keys2.insert(key);
+        }
+
+        assert(keys2 == keys);
+
         assert(keys == (decltype(keys){"ABC", "DEF", "EFG"}));
 
         for (auto &e : entries) {

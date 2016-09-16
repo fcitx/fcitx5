@@ -48,8 +48,8 @@ public:
 
     InputContext *findByUUID(ICUUID uuid);
 
-    int registerProperty(InputContextPropertyFactory factory);
-    void unregisterProperty(int idx);
+    bool registerProperty(const std::string &name, InputContextPropertyFactory factory);
+    void unregisterProperty(const std::string &name);
 
     void setPropertyPropagatePolicy(PropertyPropagatePolicy policy);
 
@@ -63,7 +63,7 @@ private:
     void registerFocusGroup(FocusGroup &group);
     void unregisterFocusGroup(FocusGroup &group);
 
-    void propagateProperty(InputContext &inputContext, int idx);
+    void propagateProperty(InputContext &inputContext, const std::string &name);
 
     void focusOutNonGlobal();
 

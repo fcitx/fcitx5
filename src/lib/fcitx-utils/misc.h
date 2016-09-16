@@ -21,6 +21,7 @@
 
 #include <cstdint>
 #include <memory>
+#include <utility>
 
 namespace fcitx {
 
@@ -43,45 +44,51 @@ inline const Parent *parentFromMember(const Member *member, const Member Parent:
         static_cast<const char *>(static_cast<const void *>(member)) - offsetFromPointerToMember(ptr_to_member)));
 }
 
-template<typename T>
-class EnableWeakRef;
-
-template<typename T>
-class WeakRef {
-    friend class EnableWeakRef<T>;
+template <typename Iter>
+class KeyIterator {
 public:
-    bool isValid() const {
-        return !m_that.expired();
+    typedef typename Iter::iterator_category iterator_category;
+    typedef typename Iter::value_type::first_type value_type;
+    typedef typename Iter::difference_type difference_type;
+    typedef typename Iter::value_type::first_type &reference;
+    typedef typename Iter::value_type::first_type *pointer;
+
+    KeyIterator(Iter iter) : m_iter(iter) {}
+
+    KeyIterator(const KeyIterator &other) = default;
+
+    KeyIterator &operator=(const KeyIterator &other) = default;
+
+    bool operator==(const KeyIterator &other) const noexcept { return m_iter == other.m_iter; }
+    bool operator!=(const KeyIterator &other) const noexcept { return !operator==(other); }
+
+    KeyIterator &operator++() {
+        m_iter++;
+        return *this;
     }
 
-    T *get() const {
-        return m_that.expired() ? nullptr : m_rawThat;
+    KeyIterator operator++(int) {
+        auto old = m_iter;
+        ++(*this);
+        return {old};
     }
+
+    reference operator*() { return m_iter->first; }
+
+    pointer operator->() { return &m_iter->first; }
 
 private:
-    WeakRef(std::weak_ptr<T*> that, T* rawThat) :
-        m_that(std::move(that)), m_rawThat(rawThat) {
-    }
-
-    std::weak_ptr<T*> m_that;
-    T *m_rawThat;
+    Iter m_iter;
 };
 
-
-template<typename T>
-class EnableWeakRef {
+template <class Iter>
+class IterRange : std::pair<Iter, Iter> {
 public:
-    EnableWeakRef() : m_self(std::make_unique<std::shared_ptr<T*>>(std::make_shared<T*>(static_cast<T*>(this)))) { }
-    EnableWeakRef(const EnableWeakRef &) = delete;
-
-    WeakRef<T> watch() {
-        return WeakRef<T>(*m_self, static_cast<T*>(this));
-    }
-
-private:
-    std::unique_ptr<std::shared_ptr<T*>> m_self;
+    typedef std::pair<Iter, Iter> super;
+    using super::pair;
+    Iter begin() const { return this->first; }
+    Iter end() const { return this->second; }
 };
-
 }
 
 #endif // _FCITX_UTILS_MISC_H_

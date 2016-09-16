@@ -19,18 +19,16 @@
 #ifndef _FCITX_USERINTERFACE_H_
 #define _FCITX_USERINTERFACE_H_
 
-#include <fcitx/addoninstance.h>
 #include <fcitx-utils/macros.h>
+#include <fcitx/addoninstance.h>
 #include <memory>
 
-namespace fcitx
-{
+namespace fcitx {
 
 class UserIntefacePrivate;
 
 class FCITXCORE_EXPORT UserInteface : public AddonInstance {
 public:
-
     virtual ~UserInteface();
 
     virtual bool availableFor(const std::string &displayServer) const = 0;
@@ -41,7 +39,6 @@ private:
     std::unique_ptr<UserIntefacePrivate> d_ptr;
     FCITX_DECLARE_PRIVATE(UserInteface);
 };
-
 };
 
 #endif // _FCITX_USERINTERFACE_H_

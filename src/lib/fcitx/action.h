@@ -16,44 +16,45 @@
  * License along with this library; see the file COPYING. If not,
  * see <http://www.gnu.org/licenses/>.
  */
-#ifndef _FCITX_ADDONMANAGER_H_
-#define _FCITX_ADDONMANAGER_H_
+#ifndef _FCITX_STATUS_H_
+#define _FCITX_STATUS_H_
 
 #include "fcitxcore_export.h"
+#include <fcitx-utils/dynamictrackableobject.h>
 #include <fcitx-utils/macros.h>
-#include <fcitx/addoninfo.h>
-#include <fcitx/addonloader.h>
 #include <memory>
-#include <string>
-#include <unordered_set>
 
 namespace fcitx {
+class ActionPrivate;
 
-class Instance;
-class AddonManagerPrivate;
-class FCITXCORE_EXPORT AddonManager {
-    friend class Instance;
-
+class FCITXCORE_EXPORT Action : public DynamicTrackableObject<Action> {
 public:
-    AddonManager();
-    virtual ~AddonManager();
+    Action(const std::string &name);
+    virtual ~Action();
 
-    void registerDefaultLoader(StaticAddonRegistry *registry);
-    void registerLoader(std::unique_ptr<AddonLoader> loader);
-    void load();
-    void unload();
+    const std::string &name() const;
 
-    AddonInstance *addon(const std::string &name, bool load = false);
-    const AddonInfo *addonInfo(const std::string &name) const;
-    std::unordered_set<std::string> addonNames(AddonCategory category);
+    const std::string &text() const;
+    Action &setText(const std::string &text);
+    const std::string &icon() const;
+    Action &setIcon(const std::string &icon);
 
-    Instance *instance();
+    bool isCheckable() const;
+    Action &setCheckable(bool checkable);
+
+    bool isChecked() const;
+    Action &setChecked(bool checked);
+
+    bool isEnabled() const;
+    Action &setEnabled(bool enabled);
+
+    void setCallack(std::function<void()> callback);
+    void activate();
 
 private:
-    void setInstance(Instance *instance);
-    std::unique_ptr<AddonManagerPrivate> d_ptr;
-    FCITX_DECLARE_PRIVATE(AddonManager);
+    std::unique_ptr<ActionPrivate> d_ptr;
+    FCITX_DECLARE_PRIVATE(Action);
 };
 }
 
-#endif // _FCITX_ADDONMANAGER_H_
+#endif // _FCITX_STATUS_H_

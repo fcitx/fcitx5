@@ -54,8 +54,7 @@ Message::Message() : d_ptr(std::make_unique<MessagePrivate>()) {}
 
 Message::~Message() {}
 
-Message::Message(const Message &other) : d_ptr(std::make_unique<MessagePrivate>(*other.d_func())) {
-}
+Message::Message(const Message &other) : d_ptr(std::make_unique<MessagePrivate>(*other.d_func())) {}
 
 Message::Message(Message &&other) noexcept : d_ptr(std::move(other.d_ptr)) {}
 

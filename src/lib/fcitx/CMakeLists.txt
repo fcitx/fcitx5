@@ -14,7 +14,7 @@ set(FCITX_CORE_SOURCES
     globalconfig.cpp
     text.cpp
     event.cpp
-    status.cpp
+    action.cpp
     menu.cpp
     userinterface.cpp
     userinterfacemanager.cpp

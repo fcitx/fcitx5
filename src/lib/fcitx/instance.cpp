@@ -106,7 +106,6 @@ public:
     std::unordered_map<EventType, std::unordered_map<EventWatcherPhase, HandlerTable<EventHandler>, enum_hash>,
                        enum_hash>
         eventHandlers;
-    int inputStateSlot = -1;
     int inputMethodGroup = 0;
     std::vector<std::unique_ptr<HandlerTableEntry<EventHandler>>> eventWatchers;
 };
@@ -133,7 +132,7 @@ Instance::Instance(int argc, char **argv) {
     d->icManager.setInstance(this);
     d->imManager.setInstance(this);
 
-    d->inputStateSlot = d->icManager.registerProperty([d](InputContext &) {
+    d->icManager.registerProperty("inputState", [d](InputContext &) {
         auto property = new InputState;
         property->active = d->globalConfig.activeByDefault();
         return property;
@@ -151,7 +150,7 @@ Instance::Instance(int argc, char **argv) {
 
             auto ic = keyEvent.inputContext();
 
-            auto inputState = ic->propertyAs<InputState>(d->inputStateSlot);
+            auto inputState = ic->propertyAs<InputState>("inputState");
             const bool isModifier = keyEvent.key().isModifier();
             if (keyEvent.isRelease()) {
                 int idx = 0;
@@ -346,7 +345,7 @@ HandlerTableEntry<EventHandler> *Instance::watchEvent(EventType type, EventWatch
 std::string Instance::inputMethod(InputContext *ic) {
     FCITX_D();
     auto &group = d->imManager.currentGroup();
-    auto inputState = ic->propertyAs<InputState>(d->inputStateSlot);
+    auto inputState = ic->propertyAs<InputState>("inputState");
     if (inputState->active) {
         return group.defaultInputMethod();
     }

@@ -19,18 +19,10 @@
 
 #include "classicui.h"
 
-namespace fcitx
-{
+namespace fcitx {
 namespace classicui {
-ClassicUI::ClassicUI(Instance* instance) : AddonInstance(), m_instance(instance)
-{
-}
+ClassicUI::ClassicUI(Instance *instance) : AddonInstance(), m_instance(instance) {}
 
-ClassicUI::~ClassicUI()
-{
+ClassicUI::~ClassicUI() {}
 }
-
 }
-
-}
-

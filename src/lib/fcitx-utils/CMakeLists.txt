@@ -32,6 +32,8 @@ set(FCITX_UTILS_HEADERS
     tuplehelpers.h
     metastring.h
     unixfd.h
+    trackableobject.h
+    dynamictrackableobject.h
     ${CMAKE_CURRENT_BINARY_DIR}/fcitxutils_export.h
     )
 

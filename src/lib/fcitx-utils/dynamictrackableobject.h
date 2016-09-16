@@ -16,40 +16,37 @@
  * License along with this library; see the file COPYING. If not,
  * see <http://www.gnu.org/licenses/>.
  */
-#ifndef _FCITX_STATUS_H_
-#define _FCITX_STATUS_H_
+#ifndef _FCITX_UTILS_DYNAMICTRACKABLEOBJECT_H_
+#define _FCITX_UTILS_DYNAMICTRACKABLEOBJECT_H_
 
-#include <fcitx-utils/macros.h>
+#include <fcitx-utils/signals.h>
 #include <memory>
-#include "fcitxcore_export.h"
 
-namespace fcitx
-{
-class StatusPrivate;
+namespace fcitx {
 
-class FCITXCORE_EXPORT Status {
+template <typename T>
+class DynamicTrackableObject {
+    typedef std::function<void(T *)> callback_type;
+
 public:
+    virtual ~DynamicTrackableObject() { destroy(); }
 
-    virtual ~Status();
+    Signal<void(T *)> destroyed;
 
-    std::string text() const;
-    void setText(const std::string &text);
-    std::string icon() const;
-    void setIcon(const std::string &icon);
-
-    bool isCheckable() const;
-    void setCheckable(bool checkable);
-
-    bool isChecked() const;
-    void setChecked(bool checked);
-
-    void activate();
+protected:
+    // permit user to notify the destroy event earlier, when the object is not
+    // fully destroyed.
+    void destroy() {
+        if (!m_destroyed) {
+            m_destroyed = true;
+            destroyed(static_cast<T *>(this));
+            destroyed.disconnectAll();
+        }
+    }
 
 private:
-    std::unique_ptr<StatusPrivate> d_ptr;
-    FCITX_DECLARE_PRIVATE(Status);
+    bool m_destroyed;
+};
 };
 
-}
-
-#endif // _FCITX_STATUS_H_
+#endif // _FCITX_UTILS_DYNAMICTRACKABLEOBJECT_H_

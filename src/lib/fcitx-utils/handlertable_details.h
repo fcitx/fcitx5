@@ -21,8 +21,8 @@
 
 #include <fcitx-utils/intrusivelist.h>
 #include <list>
-#include <vector>
 #include <memory>
+#include <vector>
 
 namespace fcitx {
 
@@ -59,10 +59,11 @@ class MultiHandlerTable;
 template <typename Key, typename T>
 class MultiHandlerTableEntry : public HandlerTableEntry<T> {
     typedef MultiHandlerTable<Key, T> table_type;
+
+private:
     table_type *m_table;
     Key m_key;
     IntrusiveListNode m_node;
-
     friend struct IntrusiveListMemberNodeGetter<MultiHandlerTableEntry, &MultiHandlerTableEntry::m_node>;
 
 public:
@@ -71,8 +72,6 @@ public:
     MultiHandlerTableEntry(table_type *table, Key key, T handler)
         : HandlerTableEntry<T>(handler), m_table(table), m_key(key) {}
     ~MultiHandlerTableEntry();
-
-private:
 };
 
 template <typename Key, typename T>
@@ -98,7 +97,7 @@ public:
 
     class iterator {
     public:
-        typedef std::bidirectional_iterator_tag iterator_category;
+        typedef std::input_iterator_tag iterator_category;
         typedef T value_type;
         typedef std::ptrdiff_t difference_type;
         typedef value_type &reference;
@@ -106,7 +105,7 @@ public:
 
         iterator(typename super::const_iterator iter, typename super::const_iterator end)
             : m_parentIter(iter), m_endIter(end) {
-             while (m_parentIter != m_endIter && !*m_parentIter) {
+            while (m_parentIter != m_endIter && !*m_parentIter) {
                 m_parentIter++;
             }
         }

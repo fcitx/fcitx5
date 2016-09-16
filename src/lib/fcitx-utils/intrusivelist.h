@@ -236,6 +236,10 @@ public:
 
     void pop_back() { remove(root.prev()); }
 
+    void push_front(reference value) { insert(begin(), value); }
+
+    void pop_front() { erase(begin()); }
+
     iterator erase(const_iterator pos) {
         auto node = pos.pointed_node();
         auto next = node->next();

@@ -13,7 +13,8 @@ set(FCITX_UTILS_TEST
     teststandardpath
     testunixfd
     testmetastring
-    testhandlertable)
+    testhandlertable
+    testsignals)
 
 set(FCITX_UTILS_DBUS_TEST
     testdbusmessage

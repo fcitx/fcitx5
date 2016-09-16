@@ -19,10 +19,10 @@
 #ifndef _FCITX_USERINTERFACEMANAGER_H_
 #define _FCITX_USERINTERFACEMANAGER_H_
 
+#include "fcitxcore_export.h"
 #include <fcitx-utils/macros.h>
 #include <fcitx/addonmanager.h>
 #include <memory>
-#include "fcitxcore_export.h"
 
 namespace fcitx {
 
@@ -39,7 +39,6 @@ private:
     std::unique_ptr<UserInterfaceManagerPrivate> d_ptr;
     FCITX_DECLARE_PRIVATE(UserInterfaceManager);
 };
-
 }
 
 #endif // _FCITX_USERINTERFACEMANAGER_H_

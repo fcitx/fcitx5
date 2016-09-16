@@ -60,18 +60,21 @@ public:
     static InputContextPrivate *toInputContextPrivate(InputContext &ic) { return ic.d_func(); }
     static FocusGroupPrivate *toFocusGroupPrivate(FocusGroup &group) { return group.d_func(); }
 
-    inline int registerProperty(InputContextPropertyFactory factory) {
-        propertyFactories.emplace(propertyIdx, factory);
-        for (auto &inputContext : inputContexts) {
-            inputContext.registerProperty(propertyIdx, factory(inputContext));
+    inline bool registerProperty(const std::string &name, InputContextPropertyFactory factory) {
+        auto result = propertyFactories.emplace(name, std::move(factory));
+        if (!result.second) {
+            return false;
         }
-        return propertyIdx++;
+        for (auto &inputContext : inputContexts) {
+            inputContext.registerProperty(name, result.first->second(inputContext));
+        }
+        return true;
     }
 
-    inline void unregisterProperty(int idx) {
-        propertyFactories.erase(idx);
+    inline void unregisterProperty(const std::string &name) {
+        propertyFactories.erase(name);
         for (auto &inputContext : inputContexts) {
-            inputContext.unregisterProperty(idx);
+            inputContext.unregisterProperty(name);
         }
     }
 
@@ -113,8 +116,7 @@ public:
     // order matters, need to delete it before groups gone
     std::unique_ptr<FocusGroup> globalFocusGroup;
     Instance *instance = nullptr;
-    int propertyIdx = 0;
-    std::unordered_map<int, InputContextPropertyFactory> propertyFactories;
+    std::unordered_map<std::string, InputContextPropertyFactory> propertyFactories;
     std::unordered_map<std::string, std::unordered_set<InputContext *>> programMap;
     PropertyPropagatePolicy propertyPropagatePolicy = PropertyPropagatePolicy::None;
 };
@@ -153,14 +155,14 @@ InputContext *InputContextManager::findByUUID(ICUUID uuid) {
     return (iter == d->uuidMap.end()) ? nullptr : iter->second;
 }
 
-int InputContextManager::registerProperty(InputContextPropertyFactory factory) {
+bool InputContextManager::registerProperty(const std::string &name, InputContextPropertyFactory factory) {
     FCITX_D();
-    return d->registerProperty(std::move(factory));
+    return d->registerProperty(name, std::move(factory));
 }
 
-void InputContextManager::unregisterProperty(int idx) {
+void InputContextManager::unregisterProperty(const std::string &name) {
     FCITX_D();
-    return d->unregisterProperty(idx);
+    return d->unregisterProperty(name);
 }
 
 void InputContextManager::setPropertyPropagatePolicy(PropertyPropagatePolicy policy) {
@@ -198,29 +200,29 @@ void InputContextManager::unregisterInputContext(InputContext &inputContext) {
     d->inputContexts.erase(d->inputContexts.iterator_to(inputContext));
 }
 
-void InputContextManager::registerFocusGroup(fcitx::FocusGroup &group) {
+void InputContextManager::registerFocusGroup(FocusGroup &group) {
     FCITX_D();
     d->groups.push_back(group);
 }
 
-void InputContextManager::unregisterFocusGroup(fcitx::FocusGroup &group) {
+void InputContextManager::unregisterFocusGroup(FocusGroup &group) {
     FCITX_D();
     d->groups.erase(d->groups.iterator_to(group));
 }
 
-void InputContextManager::propagateProperty(InputContext &inputContext, int idx) {
+void InputContextManager::propagateProperty(InputContext &inputContext, const std::string &name) {
     FCITX_D();
     if (d->propertyPropagatePolicy == PropertyPropagatePolicy::None ||
         (inputContext.program().empty() && d->propertyPropagatePolicy == PropertyPropagatePolicy::Program)) {
         return;
     }
 
-    auto property = inputContext.property(idx);
-    auto copyProperty = [idx, &inputContext, &property](auto &container) {
+    auto property = inputContext.property(name);
+    auto copyProperty = [&name, &inputContext, &property](auto &container) {
         for (auto &dstInputContext_ : container) {
             auto dstInputContext = toInputContextPointer(dstInputContext_);
             if (dstInputContext != &inputContext) {
-                property->copyTo(dstInputContext->property(idx));
+                property->copyTo(dstInputContext->property(name));
             }
         }
     };

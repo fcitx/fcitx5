@@ -88,8 +88,7 @@ Message ObjectVTableSignal::createSignal() {
 
 ObjectVTable::ObjectVTable() : d_ptr(std::make_unique<ObjectVTablePrivate>(this)) {}
 
-ObjectVTable::~ObjectVTable() {
-}
+ObjectVTable::~ObjectVTable() {}
 
 void ObjectVTable::addMethod(ObjectVTableMethod *method) {
     FCITX_D();

@@ -66,7 +66,7 @@ public:
 
     IntrusiveListNode listNode;
     ICUUID uuid;
-    std::unordered_map<int, std::unique_ptr<InputContextProperty>> properties;
+    std::unordered_map<std::string, std::unique_ptr<InputContextProperty>> properties;
 
     FCITX_DECLARE_PUBLIC(InputContext);
 };

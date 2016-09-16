@@ -110,7 +110,7 @@ int main() {
     TestObject obj;
     assert(bus.addObjectVTable("/test", TEST_INTERFACE, obj));
     std::unique_ptr<EventSourceTime> s(
-        loop.addTimeEvent(CLOCK_MONOTONIC, now(CLOCK_MONOTONIC) + 1000000, 0, [&bus, &loop](EventSource *, uint64_t) {
+        loop.addTimeEvent(CLOCK_MONOTONIC, now(CLOCK_MONOTONIC) + 500000, 0, [&bus, &loop](EventSource *, uint64_t) {
             auto msg = bus.createMethodCall("org.freedesktop.DBus", "/org/freedesktop/DBus",
                                             "org.freedesktop.DBus.Introspectable", "Introspect");
             auto reply = msg.call(0);

@@ -19,11 +19,9 @@
 #ifndef _FCITX_UI_CLASSIC_WINDOW_H_
 #define _FCITX_UI_CLASSIC_WINDOW_H_
 
-namespace fcitx
-{
+namespace fcitx {
 namespace classicui {
-class Window {
-};
+class Window {};
 }
 }
 

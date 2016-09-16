@@ -113,11 +113,12 @@ int main() {
         ic.emplace_back(new TestInputContext(manager, "Firefox"));
         ic.emplace_back(new TestInputContext(manager, "Chrome"));
 
-        int slot[] = {manager.registerProperty([](InputContext &) { return new TestSharedProperty; }),
-                      manager.registerProperty([](InputContext &) { return new TestProperty; })};
+        assert(manager.registerProperty("shared", [](InputContext &) { return new TestSharedProperty; }));
+        assert(manager.registerProperty("property", [](InputContext &) { return new TestProperty; }));
 
         ic.emplace_back(new TestInputContext(manager, "Chrome"));
 
+        std::array<const char *, 2> slot{{"shared", "property"}};
         auto check = [&ic, &slot](auto expect) {
             int idx = 0;
             for (auto s : slot) {

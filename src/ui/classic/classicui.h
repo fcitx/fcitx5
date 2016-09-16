@@ -49,5 +49,4 @@ public:
 
 FCITX_ADDON_FACTORY(fcitx::classicui::ClassicUIFactory);
 
-
 #endif // _FCITX_UI_CLASSIC_CLASSICUI_H_

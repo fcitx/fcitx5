@@ -54,14 +54,16 @@ class MultiHandlerTable : protected std::unordered_map<Key, IntrusiveListFor<Mul
     typedef std::unordered_map<Key, IntrusiveListFor<MultiHandlerTableEntry<Key, T>>> super;
 
 public:
-    MultiHandlerTable(std::function<void(const Key &)> addKey, std::function<void(const Key &)> removeKey)
+    MultiHandlerTable(std::function<void(const Key &)> addKey = {}, std::function<void(const Key &)> removeKey = {})
         : m_addKey(addKey), m_removeKey(removeKey) {}
 
     template <typename M>
     HandlerTableEntry<T> *add(const Key &key, M &&t) {
         auto iter = super::find(key);
         if (iter == super::end()) {
-            m_addKey(key);
+            if (m_addKey) {
+                m_addKey(key);
+            }
             iter = super::emplace(std::piecewise_construct, std::forward_as_tuple(key), std::forward_as_tuple()).first;
         }
         auto result = new MultiHandlerTableEntry<Key, T>(this, key, std::forward<M>(t));
@@ -77,11 +79,18 @@ public:
         return {iter->second.begin(), iter->second.end()};
     }
 
+    IterRange<KeyIterator<typename super::const_iterator>> keys() const {
+        return {KeyIterator<typename super::const_iterator>(super::begin()),
+                KeyIterator<typename super::const_iterator>(super::end())};
+    }
+
 private:
     void postRemove(const Key &k) {
         auto iter = this->find(k);
         if (iter != this->end()) {
-            m_removeKey(k);
+            if (m_removeKey) {
+                m_removeKey(k);
+            }
             this->erase(iter);
         }
     }

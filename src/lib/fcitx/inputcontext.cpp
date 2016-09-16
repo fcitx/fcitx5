@@ -62,32 +62,32 @@ void InputContext::setDisplayServer(const std::string &displayServer) {
     d->displayServer = displayServer;
 }
 
-InputContextProperty *InputContext::property(int idx) {
+InputContextProperty *InputContext::property(const std::string &name) {
     FCITX_D();
-    auto iter = d->properties.find(idx);
+    auto iter = d->properties.find(name);
     if (iter == d->properties.end()) {
         return nullptr;
     }
     return iter->second.get();
 }
 
-void InputContext::updateProperty(int idx) {
+void InputContext::updateProperty(const std::string &name) {
     FCITX_D();
-    auto iter = d->properties.find(idx);
+    auto iter = d->properties.find(name);
     if (iter == d->properties.end() || !iter->second->needCopy()) {
         return;
     }
-    d->manager.propagateProperty(*this, idx);
+    d->manager.propagateProperty(*this, name);
 }
 
-void InputContext::registerProperty(int idx, InputContextProperty *property) {
+void InputContext::registerProperty(const std::string &name, InputContextProperty *property) {
     FCITX_D();
-    d->properties[idx].reset(property);
+    d->properties[name].reset(property);
 }
 
-void InputContext::unregisterProperty(int idx) {
+void InputContext::unregisterProperty(const std::string &name) {
     FCITX_D();
-    d->properties.erase(idx);
+    d->properties.erase(name);
 }
 
 void InputContext::setCapabilityFlags(CapabilityFlags flags) {

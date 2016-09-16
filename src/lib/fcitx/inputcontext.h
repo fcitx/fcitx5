@@ -115,14 +115,14 @@ public:
     void forwardKey(const Key &rawKey, bool isRelease = false, int keyCode = 0, int time = 0);
     void updatePreedit();
 
-    InputContextProperty *property(int idx);
+    InputContextProperty *property(const std::string &name);
 
     template <typename T>
-    T *propertyAs(int idx) {
-        return static_cast<T *>(property(idx));
+    T *propertyAs(const std::string &name) {
+        return static_cast<T *>(property(name));
     }
 
-    void updateProperty(int idx);
+    void updateProperty(const std::string &name);
 
 protected:
     InputContext(InputContextPrivate &d);
@@ -132,8 +132,8 @@ protected:
     virtual void forwardKeyImpl(const ForwardKeyEvent &key) = 0;
     virtual void updatePreeditImpl() = 0;
 
-    void registerProperty(int idx, InputContextProperty *property);
-    void unregisterProperty(int idx);
+    void registerProperty(const std::string &name, InputContextProperty *property);
+    void unregisterProperty(const std::string &name);
 
 private:
     void setHasFocus(bool hasFocus);

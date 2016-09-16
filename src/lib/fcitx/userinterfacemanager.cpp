@@ -19,21 +19,19 @@
 
 #include "userinterfacemanager.h"
 
-namespace fcitx
-{
+namespace fcitx {
 
 class UserInterfaceManagerPrivate {
 public:
-    UserInterfaceManagerPrivate(AddonManager *manager) : addonManager(manager) {
-    }
+    UserInterfaceManagerPrivate(AddonManager *manager) : addonManager(manager) {}
 
     AddonManager *addonManager;
 };
 
-UserInterfaceManager::UserInterfaceManager(AddonManager *manager) : d_ptr(std::make_unique<UserInterfaceManagerPrivate>(manager)) {
-}
+UserInterfaceManager::UserInterfaceManager(AddonManager *manager)
+    : d_ptr(std::make_unique<UserInterfaceManagerPrivate>(manager)) {}
 
-UserInterfaceManager::~UserInterfaceManager() { }
+UserInterfaceManager::~UserInterfaceManager() {}
 
 void UserInterfaceManager::init() {
     FCITX_D();
@@ -41,5 +39,4 @@ void UserInterfaceManager::init() {
     for (auto &name : names) {
     }
 }
-
 }

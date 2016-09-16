@@ -21,7 +21,7 @@
 
 #include "fcitxutils_export.h"
 #include <fcitx-utils/macros.h>
-#include <fcitx-utils/misc.h>
+#include <fcitx-utils/trackableobject.h>
 #include <functional>
 #include <memory>
 
@@ -79,13 +79,13 @@ struct ReturnValueHelper<void> {
 #define FCITX_OBJECT_VTABLE_METHOD(FUNCTION, FUNCTION_NAME, SIGNATURE, RET)                                            \
     ::fcitx::dbus::ObjectVTableMethod FUNCTION##Method {                                                               \
         this, FUNCTION_NAME, SIGNATURE, RET, [this](::fcitx::dbus::Message msg) {                                      \
-            this->setCurrentMessage(&msg);                                                        \
+            this->setCurrentMessage(&msg);                                                                             \
             STRING_TO_DBUS_TUPLE(SIGNATURE) args;                                                                      \
             msg >> args;                                                                                               \
-            auto func = &std::remove_reference<decltype(*this)>::type::FUNCTION;                                       \
-            typedef decltype(callWithTuple(this, func, args)) ReturnType;                                              \
+            auto func = [this](auto &&... args) { return this->FUNCTION(std::forward<decltype(args)>(args)...); };     \
+            typedef decltype(callWithTuple(func, args)) ReturnType;                                                    \
             ::fcitx::dbus::ReturnValueHelper<ReturnType> helper;                                                       \
-            auto functor = [this, &args, func]() { return callWithTuple(this, func, args); };                          \
+            auto functor = [this, &args, func]() { return callWithTuple(func, args); };                                \
             helper.call(functor);                                                                                      \
             auto reply = msg.createReply();                                                                            \
             reply << helper.ret;                                                                                       \
@@ -148,7 +148,7 @@ private:
 class ObjectVTablePrivate;
 class MessageSetter;
 
-class FCITXUTILS_EXPORT ObjectVTable : public EnableWeakRef<ObjectVTable> {
+class FCITXUTILS_EXPORT ObjectVTable : public TrackableObject<ObjectVTable> {
     friend class Bus;
     friend class MessageSetter;
 
@@ -167,13 +167,13 @@ public:
     Message *currentMessage() const;
 
     void setCurrentMessage(Message *message);
+
 private:
     void setSlot(Slot *slot);
 
     std::unique_ptr<ObjectVTablePrivate> d_ptr;
     FCITX_DECLARE_PRIVATE(ObjectVTable);
 };
-
 }
 }
 
