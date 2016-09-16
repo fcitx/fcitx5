@@ -35,7 +35,7 @@ set(FCITX_CORE_HEADERS
     globalconfig.h
     text.h
     event.h
-    status.h
+    action.h
     menu.h
     ${CMAKE_CURRENT_BINARY_DIR}/fcitxcore_export.h
     )
