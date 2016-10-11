@@ -33,15 +33,16 @@ public:
     std::function<void()> callback;
 };
 
-Action::Action(const std::string &name) : d_ptr(std::make_unique<ActionPrivate>(name)) {
-    // actionManager->registerAction(this);
-}
+Action::Action(const std::string &name) : d_ptr(std::make_unique<ActionPrivate>(name)) {}
 
-Action::~Action() {
-    // actionManager->unregisterAction(this);
-}
+Action::~Action() {}
 
-void Action::activate() {}
+void Action::activate() {
+    FCITX_D();
+    if (!d->enabled) {
+        return;
+    }
+}
 
 Action &Action::setIcon(const std::string &icon) {
     FCITX_D();
@@ -96,11 +97,6 @@ Action &Action::setEnabled(bool enabled) {
 bool Action::isEnabled() const {
     FCITX_D();
     return d->enabled;
-}
-
-void Action::setCallack(std::function<void()> callback) {
-    FCITX_D();
-    d->callback = callback;
 }
 
 const std::string &Action::name() const {

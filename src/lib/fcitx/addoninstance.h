@@ -111,12 +111,12 @@ AddonFunctionAdaptor<Class, Ret, Args...> MakeAddonFunctionAdaptor(Ret (Class::*
 #define FCITX_ADDON_DECLARE_FUNCTION(NAME, FUNCTION, SIGNATURE...)                                                     \
     namespace fcitx {                                                                                                  \
     template <>                                                                                                        \
-    struct AddonFunctionSignature<makeMetaString(#NAME "::" #FUNCTION)> {                                              \
+    struct AddonFunctionSignature<fcitxMakeMetaString(#NAME "::" #FUNCTION)> {                                         \
         typedef std::remove_reference_t<decltype(std::declval<SIGNATURE>())> type;                                     \
     };                                                                                                                 \
     namespace I##NAME {                                                                                                \
         struct FUNCTION {                                                                                              \
-            typedef makeMetaString(#NAME "::" #FUNCTION) Name;                                                         \
+            typedef fcitxMakeMetaString(#NAME "::" #FUNCTION) Name;                                                    \
             using Signature = AddonFunctionSignatureType<Name>;                                                        \
         };                                                                                                             \
     }                                                                                                                  \
@@ -127,9 +127,10 @@ AddonFunctionAdaptor<Class, Ret, Args...> MakeAddonFunctionAdaptor(Ret (Class::*
 #define FCITX_ADDON_EXPORT_FUNCTION(CLASS, FUNCTION)                                                                   \
     decltype(MakeAddonFunctionAdaptor(&CLASS::FUNCTION)) FUNCTION##Adaptor{#CLASS "::" #FUNCTION, this,                \
                                                                            &CLASS::FUNCTION};                          \
-    static_assert(std::is_same<decltype(::fcitx::MakeAddonFunctionAdaptor(&CLASS::FUNCTION))::Signature,               \
-                               ::fcitx::AddonFunctionSignatureType<MSTR(#CLASS "::" #FUNCTION)>>::value,               \
-                  "Signature doesn't match");
+    static_assert(                                                                                                     \
+        std::is_same<decltype(::fcitx::MakeAddonFunctionAdaptor(&CLASS::FUNCTION))::Signature,                         \
+                     ::fcitx::AddonFunctionSignatureType<fcitxMakeMetaString(#CLASS "::" #FUNCTION)>>::value,          \
+        "Signature doesn't match");
 
 #define FCITX_ADDON_FACTORY(ClassName)                                                                                 \
     extern "C" {                                                                                                       \

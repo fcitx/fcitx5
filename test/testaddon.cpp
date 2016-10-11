@@ -38,7 +38,7 @@ int main(int argc, char *argv[]) {
     assert(addon);
     assert(6 == addon->callWithSignature<int(int)>("DummyAddon::addOne", 5));
     assert(6 == addon->callWithSignature<int(int)>("DummyAddon::addOne", 5.3));
-    auto result = 7 == addon->callWithMetaString<MSTR("DummyAddon::addOne")>(6);
+    auto result = 7 == addon->callWithMetaString<fcitxMakeMetaString("DummyAddon::addOne")>(6);
     assert(result);
     auto result2 = 8 == addon->call<fcitx::IDummyAddon::addOne>(7);
     assert(result2);

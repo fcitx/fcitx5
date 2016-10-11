@@ -55,12 +55,12 @@ int main() {
     }
     {
         auto msg = bus.createSignal("/test", "test.a.b.c", "test");
-        msg << STRING_TO_DBUS_TUPLE("siud")("a", 1, 2, 3);
+        msg << FCITX_STRING_TO_DBUS_TUPLE("siud")("a", 1, 2, 3);
         assert(msg.signature() == "siud");
     }
     {
         auto msg = bus.createSignal("/test", "test.a.b.c", "test");
-        msg << STRING_TO_DBUS_TUPLE("as")(std::vector<std::string>{"a", "b"});
+        msg << FCITX_STRING_TO_DBUS_TUPLE("as")(std::vector<std::string>{"a", "b"});
         assert(msg.signature() == "as");
     }
     return 0;

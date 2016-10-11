@@ -98,5 +98,6 @@ int main() {
     test_combiner();
     test_custom_combiner();
     test_destruct_order();
+
     return 0;
 }

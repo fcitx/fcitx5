@@ -31,8 +31,6 @@ class DynamicTrackableObject {
 public:
     virtual ~DynamicTrackableObject() { destroy(); }
 
-    Signal<void(T *)> destroyed;
-
 protected:
     // permit user to notify the destroy event earlier, when the object is not
     // fully destroyed.
@@ -45,6 +43,7 @@ protected:
     }
 
 private:
+    Signal<void(T *)> destroyed;
     bool m_destroyed = false;
 };
 };

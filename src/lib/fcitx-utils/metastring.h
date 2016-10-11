@@ -104,7 +104,7 @@ struct MetaStringTrim {
     typedef typename MetaStringCombine<MetaString<c>...>::type type;
 };
 
-#define METASTRING_TEMPLATE_16(N, S)                                                                                   \
+#define FCITX_METASTRING_TEMPLATE_16(N, S)                                                                             \
     ::fcitx::__getChar<0x##N##0>(S), ::fcitx::__getChar<0x##N##1>(S), ::fcitx::__getChar<0x##N##2>(S),                 \
         ::fcitx::__getChar<0x##N##3>(S), ::fcitx::__getChar<0x##N##4>(S), ::fcitx::__getChar<0x##N##5>(S),             \
         ::fcitx::__getChar<0x##N##6>(S), ::fcitx::__getChar<0x##N##7>(S), ::fcitx::__getChar<0x##N##8>(S),             \
@@ -112,19 +112,18 @@ struct MetaStringTrim {
         ::fcitx::__getChar<0x##N##C>(S), ::fcitx::__getChar<0x##N##D>(S), ::fcitx::__getChar<0x##N##E>(S),             \
         ::fcitx::__getChar<0x##N##F>(S)
 
-#define METASTRING_TEMPLATE_256(N, S)                                                                                  \
-    METASTRING_TEMPLATE_16(N##0, S)                                                                                    \
-    , METASTRING_TEMPLATE_16(N##1, S), METASTRING_TEMPLATE_16(N##2, S), METASTRING_TEMPLATE_16(N##3, S),               \
-        METASTRING_TEMPLATE_16(N##4, S), METASTRING_TEMPLATE_16(N##5, S), METASTRING_TEMPLATE_16(N##6, S),             \
-        METASTRING_TEMPLATE_16(N##7, S), METASTRING_TEMPLATE_16(N##8, S), METASTRING_TEMPLATE_16(N##9, S),             \
-        METASTRING_TEMPLATE_16(N##A, S), METASTRING_TEMPLATE_16(N##B, S), METASTRING_TEMPLATE_16(N##C, S),             \
-        METASTRING_TEMPLATE_16(N##D, S), METASTRING_TEMPLATE_16(N##E, S), METASTRING_TEMPLATE_16(N##F, S)
+#define FCITX_METASTRING_TEMPLATE_256(N, S)                                                                            \
+    FCITX_METASTRING_TEMPLATE_16(N##0, S)                                                                              \
+    , FCITX_METASTRING_TEMPLATE_16(N##1, S), FCITX_METASTRING_TEMPLATE_16(N##2, S),                                    \
+        FCITX_METASTRING_TEMPLATE_16(N##3, S), FCITX_METASTRING_TEMPLATE_16(N##4, S),                                  \
+        FCITX_METASTRING_TEMPLATE_16(N##5, S), FCITX_METASTRING_TEMPLATE_16(N##6, S),                                  \
+        FCITX_METASTRING_TEMPLATE_16(N##7, S), FCITX_METASTRING_TEMPLATE_16(N##8, S),                                  \
+        FCITX_METASTRING_TEMPLATE_16(N##9, S), FCITX_METASTRING_TEMPLATE_16(N##A, S),                                  \
+        FCITX_METASTRING_TEMPLATE_16(N##B, S), FCITX_METASTRING_TEMPLATE_16(N##C, S),                                  \
+        FCITX_METASTRING_TEMPLATE_16(N##D, S), FCITX_METASTRING_TEMPLATE_16(N##E, S),                                  \
+        FCITX_METASTRING_TEMPLATE_16(N##F, S)
 
-#define makeMetaString(STRING) ::fcitx::MetaStringTrim<METASTRING_TEMPLATE_256(, STRING)>::type
-
-#ifndef MSTR
-#define MSTR(STRING) makeMetaString(STRING)
-#endif
+#define fcitxMakeMetaString(STRING) ::fcitx::MetaStringTrim<FCITX_METASTRING_TEMPLATE_256(, STRING)>::type
 }
 
 #endif // _FCITX_UTILS_METASTRING_H_

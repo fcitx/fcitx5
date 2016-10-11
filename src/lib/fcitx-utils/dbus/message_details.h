@@ -222,8 +222,9 @@ struct DBusSignatureToType<> {
 template <char... c>
 auto MetaStringToDBusTuple(MetaString<c...>) -> DBusSignatureToType<c...>;
 
-#define STRING_TO_DBUS_TUPLE(STRING)                                                                                   \
-    ::fcitx::dbus::MakeTupleIfNeededType<decltype(::fcitx::dbus::MetaStringToDBusTuple(makeMetaString(STRING)()))::type>
+#define FCITX_STRING_TO_DBUS_TUPLE(STRING)                                                                             \
+    ::fcitx::dbus::MakeTupleIfNeededType<decltype(                                                                     \
+        ::fcitx::dbus::MetaStringToDBusTuple(fcitxMakeMetaString(STRING)()))::type>
 }
 }
 

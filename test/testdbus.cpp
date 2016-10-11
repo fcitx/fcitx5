@@ -76,7 +76,7 @@ void *client(void *) {
             auto reply = msg.call(0);
             assert(reply.type() == MessageType::Reply);
             assert(reply.signature() == "iu");
-            STRING_TO_DBUS_TUPLE("iu") ret;
+            FCITX_STRING_TO_DBUS_TUPLE("iu") ret;
             reply >> ret;
             assert(std::get<0>(ret) == 1);
             assert(std::get<1>(ret) == 3);

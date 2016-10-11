@@ -55,6 +55,8 @@
 #define FCITX_WHITE_SPACE "\f\n\r\t\v "
 
 #define FCITX_EXPAND(x) x
+
+#define FCITX_FOR_EACH_0(...)
 #define FCITX_FOR_EACH_1(what, x, ...) what(x)
 #define FCITX_FOR_EACH_2(what, x, ...) what(x) FCITX_EXPAND(FCITX_FOR_EACH_1(what, __VA_ARGS__))
 #define FCITX_FOR_EACH_3(what, x, ...) what(x) FCITX_EXPAND(FCITX_FOR_EACH_2(what, __VA_ARGS__))
@@ -63,13 +65,49 @@
 #define FCITX_FOR_EACH_6(what, x, ...) what(x) FCITX_EXPAND(FCITX_FOR_EACH_5(what, __VA_ARGS__))
 #define FCITX_FOR_EACH_7(what, x, ...) what(x) FCITX_EXPAND(FCITX_FOR_EACH_6(what, __VA_ARGS__))
 #define FCITX_FOR_EACH_8(what, x, ...) what(x) FCITX_EXPAND(FCITX_FOR_EACH_7(what, __VA_ARGS__))
-#define FCITX_FOR_EACH_NARG(...) FCITX_FOR_EACH_NARG_(__VA_ARGS__, FCITX_FOR_EACH_RSEQ_N())
-#define FCITX_FOR_EACH_NARG_(...) FCITX_EXPAND(FCITX_FOR_EACH_ARG_N(__VA_ARGS__))
-#define FCITX_FOR_EACH_ARG_N(_1, _2, _3, _4, _5, _6, _7, _8, N, ...) N
-#define FCITX_FOR_EACH_RSEQ_N() 8, 7, 6, 5, 4, 3, 2, 1, 0
+
+#define FCITX_FOR_EACH_IDX_0(...)
+#define FCITX_FOR_EACH_IDX_1(what, x, ...) what(1, x)
+#define FCITX_FOR_EACH_IDX_2(what, x, ...) what(2, x) FCITX_EXPAND(FCITX_FOR_EACH_IDX_1(what, __VA_ARGS__))
+#define FCITX_FOR_EACH_IDX_3(what, x, ...) what(3, x) FCITX_EXPAND(FCITX_FOR_EACH_IDX_2(what, __VA_ARGS__))
+#define FCITX_FOR_EACH_IDX_4(what, x, ...) what(4, x) FCITX_EXPAND(FCITX_FOR_EACH_IDX_3(what, __VA_ARGS__))
+#define FCITX_FOR_EACH_IDX_5(what, x, ...) what(5, x) FCITX_EXPAND(FCITX_FOR_EACH_IDX_4(what, __VA_ARGS__))
+#define FCITX_FOR_EACH_IDX_6(what, x, ...) what(6, x) FCITX_EXPAND(FCITX_FOR_EACH_IDX_5(what, __VA_ARGS__))
+#define FCITX_FOR_EACH_IDX_7(what, x, ...) what(7, x) FCITX_EXPAND(FCITX_FOR_EACH_IDX_6(what, __VA_ARGS__))
+#define FCITX_FOR_EACH_IDX_8(what, x, ...) what(8, x) FCITX_EXPAND(FCITX_FOR_EACH_IDX_7(what, __VA_ARGS__))
+
+#define FCITX_GET_ARG9(_1, _2, _3, _4, _5, _6, _7, _8, N, ...) N
+
+#define FCITX_HAS_COMMA(...) FCITX_GET_ARG9(__VA_ARGS__, 1, 1, 1, 1, 1, 1, 1, 0)
+
+#define FCITX_TRIGGER_PARENTHESIS_(...) ,
+
+#define FCITX_IS_EMPTY(...)                                                                                            \
+    FCITX_IS_EMPTY_(FCITX_HAS_COMMA(__VA_ARGS__), FCITX_HAS_COMMA(FCITX_TRIGGER_PARENTHESIS_ __VA_ARGS__),             \
+                    FCITX_HAS_COMMA(__VA_ARGS__()), FCITX_HAS_COMMA(FCITX_TRIGGER_PARENTHESIS_ __VA_ARGS__()))
+
+#define FCITX_PASTE5_(_0, _1, _2, _3, _4) _0##_1##_2##_3##_4
+
+#define FCITX_IS_EMPTY_(_0, _1, _2, _3) FCITX_HAS_COMMA(FCITX_PASTE5_(FCITX_IS_EMPTY_CASE_, _0, _1, _2, _3))
+
+#define FCITX_IS_EMPTY_CASE_0001 ,
+
+#define FCITX_EMPTY_1(X) 0
+#define FCITX_EMPTY_0(X) X
+
+#define FCITX_NARG(...) FCITX_NARG_HELPER_(FCITX_IS_EMPTY(__VA_ARGS__), FCITX_NARG_(__VA_ARGS__))
+#define FCITX_NARG_HELPER_(B, VAL) FCITX_NARG_HELPER__(FCITX_CONCATENATE(FCITX_EMPTY_, B), VAL)
+#define FCITX_NARG_HELPER__(B, VAL) B(VAL)
+
+#define FCITX_NARG_(...) FCITX_NARG__(__VA_ARGS__, FCITX_RSEQ8())
+#define FCITX_NARG__(...) FCITX_EXPAND(FCITX_GET_ARG9(__VA_ARGS__))
+#define FCITX_RSEQ8() 8, 7, 6, 5, 4, 3, 2, 1, 0
 #define FCITX_CONCATENATE(x, y) x##y
 #define FCITX_FOR_EACH_(N, what, ...) FCITX_EXPAND(FCITX_CONCATENATE(FCITX_FOR_EACH_, N)(what, __VA_ARGS__))
-#define FCITX_FOR_EACH(what, ...) FCITX_FOR_EACH_(FCITX_FOR_EACH_NARG(__VA_ARGS__), what, __VA_ARGS__)
+#define FCITX_FOR_EACH(what, ...) FCITX_FOR_EACH_(FCITX_NARG(__VA_ARGS__), what, __VA_ARGS__)
+
+#define FCITX_FOR_EACH_IDX_(N, what, ...) FCITX_EXPAND(FCITX_CONCATENATE(FCITX_FOR_EACH_IDX_, N)(what, __VA_ARGS__))
+#define FCITX_FOR_EACH_IDX(what, ...) FCITX_FOR_EACH_IDX_(FCITX_NARG(__VA_ARGS__), what, __VA_ARGS__)
 
 #define FCITX_XSTRINGIFY(...) #__VA_ARGS__
 #define FCITX_STRINGIFY(...) FCITX_XSTRINGIFY(__VA_ARGS__)

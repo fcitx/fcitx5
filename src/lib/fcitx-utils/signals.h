@@ -158,17 +158,12 @@ private:
     TrackableObjectReference<ConnectionBody> m_body;
 };
 
-class SignalBase {
-public:
-    virtual ~SignalBase() {}
-
-protected:
-};
-
 template <typename Ret, typename Combiner, typename... Args>
-class Signal<Ret(Args...), Combiner> : public SignalBase {
+class Signal<Ret(Args...), Combiner> {
 
 public:
+    typedef Ret return_type;
+    typedef Ret function_type(Args...);
     Signal(const Combiner &combiner = Combiner()) : m_combiner(combiner) {}
     virtual ~Signal() { disconnectAll(); }
 

@@ -80,7 +80,7 @@ struct ReturnValueHelper<void> {
     ::fcitx::dbus::ObjectVTableMethod FUNCTION##Method {                                                               \
         this, FUNCTION_NAME, SIGNATURE, RET, [this](::fcitx::dbus::Message msg) {                                      \
             this->setCurrentMessage(&msg);                                                                             \
-            STRING_TO_DBUS_TUPLE(SIGNATURE) args;                                                                      \
+            FCITX_STRING_TO_DBUS_TUPLE(SIGNATURE) args;                                                                \
             msg >> args;                                                                                               \
             auto func = [this](auto &&... args) { return this->FUNCTION(std::forward<decltype(args)>(args)...); };     \
             typedef decltype(callWithTuple(func, args)) ReturnType;                                                    \
@@ -99,7 +99,7 @@ struct ReturnValueHelper<void> {
     template <typename... Args>                                                                                        \
     void SIGNAL(Args... args) {                                                                                        \
         auto msg = SIGNAL##Signal.createSignal();                                                                      \
-        STRING_TO_DBUS_TUPLE(SIGNATURE) tupleArg = std::make_tuple(args...);                                           \
+        FCITX_STRING_TO_DBUS_TUPLE(SIGNATURE) tupleArg = std::make_tuple(args...);                                     \
         msg << tupleArg;                                                                                               \
         msg.send();                                                                                                    \
     }                                                                                                                  \
@@ -107,7 +107,7 @@ struct ReturnValueHelper<void> {
     void SIGNAL##To(const std::string &dest, Args... args) {                                                           \
         auto msg = SIGNAL##Signal.createSignal();                                                                      \
         msg.setDestination(dest);                                                                                      \
-        STRING_TO_DBUS_TUPLE(SIGNATURE) tupleArg = std::make_tuple(args...);                                           \
+        FCITX_STRING_TO_DBUS_TUPLE(SIGNATURE) tupleArg = std::make_tuple(args...);                                     \
         msg << tupleArg;                                                                                               \
         msg.send();                                                                                                    \
     }

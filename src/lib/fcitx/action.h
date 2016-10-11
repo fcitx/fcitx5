@@ -22,6 +22,7 @@
 #include "fcitxcore_export.h"
 #include <fcitx-utils/dynamictrackableobject.h>
 #include <fcitx-utils/macros.h>
+#include <fcitx-utils/signals.h>
 #include <memory>
 
 namespace fcitx {
@@ -48,8 +49,7 @@ public:
     bool isEnabled() const;
     Action &setEnabled(bool enabled);
 
-    void setCallack(std::function<void()> callback);
-    void activate();
+    Signal<void()> &activated();
 
 private:
     std::unique_ptr<ActionPrivate> d_ptr;
