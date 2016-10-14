@@ -18,22 +18,25 @@
  */
 
 #include "fcitx/action.h"
+#include "fcitx-utils/dynamictrackableobject.h"
+#include "menu.h"
 
 namespace fcitx {
 
 class ActionPrivate {
 public:
-    ActionPrivate(const std::string &name_) : name(name_) {}
+    ActionPrivate(Action *q, const std::string &name_) : name(name_), ActionActivatedAdaptor(q) {}
     std::string name;
     std::string icon;
     std::string text;
     bool checked = false;
     bool checkable = false;
     bool enabled = true;
-    std::function<void()> callback;
+    Menu *menu;
+    FCITX_DEFINE_SIGNAL_PRIVATE(Action, Activated);
 };
 
-Action::Action(const std::string &name) : d_ptr(std::make_unique<ActionPrivate>(name)) {}
+Action::Action(const std::string &name) : d_ptr(std::make_unique<ActionPrivate>(this, name)) {}
 
 Action::~Action() {}
 
@@ -42,6 +45,7 @@ void Action::activate() {
     if (!d->enabled) {
         return;
     }
+    emit<Action::Activated>();
 }
 
 Action &Action::setIcon(const std::string &icon) {
@@ -97,6 +101,14 @@ Action &Action::setEnabled(bool enabled) {
 bool Action::isEnabled() const {
     FCITX_D();
     return d->enabled;
+}
+
+void Action::setMenu(Menu *menu) {
+    FCITX_D();
+    if (menu) {
+        menu->connect<DynamicTrackableObject::Destroyed>([this](void *) { setMenu(nullptr); });
+    }
+    d->menu = menu;
 }
 
 const std::string &Action::name() const {

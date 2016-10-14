@@ -122,8 +122,6 @@ AddonFunctionAdaptor<Class, Ret, Args...> MakeAddonFunctionAdaptor(Ret (Class::*
     }                                                                                                                  \
     }
 
-// template<typename Signature>
-
 #define FCITX_ADDON_EXPORT_FUNCTION(CLASS, FUNCTION)                                                                   \
     decltype(MakeAddonFunctionAdaptor(&CLASS::FUNCTION)) FUNCTION##Adaptor{#CLASS "::" #FUNCTION, this,                \
                                                                            &CLASS::FUNCTION};                          \

@@ -18,3 +18,22 @@
  */
 
 #include "menu.h"
+#include "fcitx-utils/dynamictrackableobject.h"
+
+namespace fcitx {
+
+class MenuPrivate {};
+
+Menu::Menu() : d_ptr(std::make_unique<MenuPrivate>()) {}
+
+Menu::~Menu() {}
+
+void Menu::addAction(Action *action) {
+    if (!action) {
+        return;
+    }
+    action->connect<DynamicTrackableObject::Destroyed>([](void *) {
+
+    });
+}
+}

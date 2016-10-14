@@ -158,8 +158,13 @@ private:
     TrackableObjectReference<ConnectionBody> m_body;
 };
 
+class SignalBase {
+public:
+    virtual ~SignalBase() {}
+};
+
 template <typename Ret, typename Combiner, typename... Args>
-class Signal<Ret(Args...), Combiner> {
+class Signal<Ret(Args...), Combiner> : public SignalBase {
 
 public:
     typedef Ret return_type;

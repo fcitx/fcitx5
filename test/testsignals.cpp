@@ -17,8 +17,11 @@
  * see <http://www.gnu.org/licenses/>.
  */
 
+#include "fcitx-utils/dynamictrackableobject.h"
+#include "fcitx-utils/metastring.h"
 #include "fcitx-utils/signals.h"
 #include <cassert>
+#include <iostream>
 
 void test_simple_signal() {
     bool called = false;
@@ -93,11 +96,32 @@ void test_destruct_order() {
     connection.disconnect();
 }
 
+class TestObject : public fcitx::DynamicTrackableObject {
+public:
+    using fcitx::DynamicTrackableObject::destroy;
+};
+
+void test_connectable_object() {
+    using namespace fcitx;
+    TestObject obj;
+    bool called = false;
+    auto connection = obj.connect<DynamicTrackableObject::Destroyed>([&called, &obj](void *self) {
+        assert(&obj == self);
+        called = true;
+    });
+    assert(connection.connected());
+    obj.destroy();
+    assert(called);
+    assert(!connection.connected());
+    assert(!obj.connect<DynamicTrackableObject::Destroyed>([](void *) {}).connected());
+}
+
 int main() {
     test_simple_signal();
     test_combiner();
     test_custom_combiner();
     test_destruct_order();
+    test_connectable_object();
 
     return 0;
 }

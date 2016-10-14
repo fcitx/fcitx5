@@ -19,33 +19,33 @@
 #ifndef _FCITX_UTILS_DYNAMICTRACKABLEOBJECT_H_
 #define _FCITX_UTILS_DYNAMICTRACKABLEOBJECT_H_
 
+#include "fcitxutils_export.h"
+#include <fcitx-utils/connectableobject.h>
 #include <fcitx-utils/signals.h>
 #include <memory>
 
 namespace fcitx {
 
-template <typename T>
-class DynamicTrackableObject {
-    typedef std::function<void(T *)> callback_type;
+class DynamicTrackableObjectPrivate;
 
+class FCITXUTILS_EXPORT DynamicTrackableObject : public ConnectableObject {
 public:
-    virtual ~DynamicTrackableObject() { destroy(); }
+    DynamicTrackableObject();
+    virtual ~DynamicTrackableObject();
+
+    FCITX_DECLARE_SIGNAL(DynamicTrackableObject, Destroyed, void(void *));
 
 protected:
     // permit user to notify the destroy event earlier, when the object is not
     // fully destroyed.
-    void destroy() {
-        if (!m_destroyed) {
-            m_destroyed = true;
-            destroyed(static_cast<T *>(this));
-            destroyed.disconnectAll();
-        }
-    }
+    void destroy();
 
 private:
-    Signal<void(T *)> destroyed;
-    bool m_destroyed = false;
+    std::unique_ptr<DynamicTrackableObjectPrivate> d_ptr;
+    FCITX_DECLARE_PRIVATE(DynamicTrackableObject);
 };
-};
+
+using ObjectDestroyed = DynamicTrackableObject::Destroyed;
+}
 
 #endif // _FCITX_UTILS_DYNAMICTRACKABLEOBJECT_H_

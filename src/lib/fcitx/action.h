@@ -16,8 +16,8 @@
  * License along with this library; see the file COPYING. If not,
  * see <http://www.gnu.org/licenses/>.
  */
-#ifndef _FCITX_STATUS_H_
-#define _FCITX_STATUS_H_
+#ifndef _FCITX_ACTION_H_
+#define _FCITX_ACTION_H_
 
 #include "fcitxcore_export.h"
 #include <fcitx-utils/dynamictrackableobject.h>
@@ -27,8 +27,9 @@
 
 namespace fcitx {
 class ActionPrivate;
+class Menu;
 
-class FCITXCORE_EXPORT Action : public DynamicTrackableObject<Action> {
+class FCITXCORE_EXPORT Action : public DynamicTrackableObject {
 public:
     Action(const std::string &name);
     virtual ~Action();
@@ -49,7 +50,11 @@ public:
     bool isEnabled() const;
     Action &setEnabled(bool enabled);
 
-    Signal<void()> &activated();
+    void setMenu(Menu *menu);
+
+    void activate();
+
+    FCITX_DECLARE_SIGNAL(Action, Activated, void());
 
 private:
     std::unique_ptr<ActionPrivate> d_ptr;
@@ -57,4 +62,4 @@ private:
 };
 }
 
-#endif // _FCITX_STATUS_H_
+#endif // _FCITX_ACTION_H_

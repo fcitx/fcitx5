@@ -16,30 +16,25 @@
  * License along with this library; see the file COPYING. If not,
  * see <http://www.gnu.org/licenses/>.
  */
-#ifndef _FCITX_MENU_H_
-#define _FCITX_MENU_H_
-
-#include "fcitxcore_export.h"
-#include <fcitx-utils/dynamictrackableobject.h>
-#include <fcitx-utils/macros.h>
-#include <fcitx/action.h>
-#include <memory>
+#include "fcitx-utils/dynamictrackableobject.h"
 
 namespace fcitx {
-class MenuPrivate;
-
-class FCITXCORE_EXPORT Menu : public DynamicTrackableObject {
+class DynamicTrackableObjectPrivate {
 public:
-    Menu();
-    virtual ~Menu();
-
-    void addAction(Action *action);
-    void removeAction(Action *action);
-
-private:
-    std::unique_ptr<MenuPrivate> d_ptr;
-    FCITX_DECLARE_PRIVATE(Menu);
+    FCITX_DEFINE_SIGNAL_PRIVATE(DynamicTrackableObject, Destroyed);
+    DynamicTrackableObjectPrivate(DynamicTrackableObject *q) : DynamicTrackableObjectDestroyedAdaptor(q) {}
+    bool destroyed_ = false;
 };
-}
 
-#endif // _FCITX_MENU_H_
+DynamicTrackableObject::DynamicTrackableObject() : d_ptr(std::make_unique<DynamicTrackableObjectPrivate>(this)) {}
+
+DynamicTrackableObject::~DynamicTrackableObject() { destroy(); }
+
+void DynamicTrackableObject::destroy() {
+    FCITX_D();
+    if (!d->destroyed_) {
+        emit<DynamicTrackableObject::Destroyed>(this);
+        disconnectAll<DynamicTrackableObject::Destroyed>();
+    }
+}
+}

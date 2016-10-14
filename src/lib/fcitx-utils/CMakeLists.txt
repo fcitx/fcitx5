@@ -16,6 +16,8 @@ set(FCITX_UTILS_SOURCES
     dbus/servicewatcher.cpp
     unixfd.cpp
     utf8.cpp
+    dynamictrackableobject.cpp
+    connectableobject.cpp
     )
 
 set(FCITX_UTILS_HEADERS
@@ -34,6 +36,7 @@ set(FCITX_UTILS_HEADERS
     unixfd.h
     trackableobject.h
     dynamictrackableobject.h
+    connectableobject.h
     ${CMAKE_CURRENT_BINARY_DIR}/fcitxutils_export.h
     )
 
