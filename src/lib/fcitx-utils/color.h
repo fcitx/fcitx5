@@ -65,10 +65,10 @@ public:
     float alphaF() const;
 
 private:
-    unsigned short m_red;
-    unsigned short m_green;
-    unsigned short m_blue;
-    unsigned short m_alpha;
+    unsigned short red_;
+    unsigned short green_;
+    unsigned short blue_;
+    unsigned short alpha_;
 };
 }
 

@@ -35,20 +35,20 @@ class KeyboardEngine : public InputMethodEngine {
 public:
     KeyboardEngine(Instance *instance);
     ~KeyboardEngine();
-    Instance *instance() { return m_instance; }
+    Instance *instance() { return instance_; }
     void keyEvent(const InputMethodEntry &entry, KeyEvent &keyEvent) override;
     std::vector<InputMethodEntry> listInputMethods() override;
 
     uint32_t processCompose(uint32_t keyval, uint32_t state);
 
 private:
-    Instance *m_instance;
-    IsoCodes m_isoCodes;
-    XkbRules m_xkbRules;
-    std::string m_ruleName;
-    std::unique_ptr<struct xkb_context, decltype(&xkb_context_unref)> m_xkbContext;
-    std::unique_ptr<struct xkb_compose_table, decltype(&xkb_compose_table_unref)> m_xkbComposeTable;
-    std::unique_ptr<struct xkb_compose_state, decltype(&xkb_compose_state_unref)> m_xkbComposeState;
+    Instance *instance_;
+    IsoCodes isoCodes_;
+    XkbRules xkbRules_;
+    std::string ruleName_;
+    std::unique_ptr<struct xkb_context, decltype(&xkb_context_unref)> xkbContext_;
+    std::unique_ptr<struct xkb_compose_table, decltype(&xkb_compose_table_unref)> xkbComposeTable_;
+    std::unique_ptr<struct xkb_compose_state, decltype(&xkb_compose_state_unref)> xkbComposeState_;
 };
 
 class KeyboardEngineFactory : public AddonFactory {

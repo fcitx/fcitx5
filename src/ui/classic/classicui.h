@@ -34,10 +34,10 @@ public:
     ~ClassicUI();
 
     AddonInstance *xcb();
-    Instance *instance() { return m_instance; }
+    Instance *instance() { return instance_; }
 
 private:
-    Instance *m_instance;
+    Instance *instance_;
 };
 
 class ClassicUIFactory : public AddonFactory {

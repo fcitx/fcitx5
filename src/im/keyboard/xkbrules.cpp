@@ -28,10 +28,10 @@ namespace fcitx {
 struct XkbRulesParseState {
     std::vector<std::string> parseStack;
     XkbRules *rules;
-    std::list<XkbLayoutInfo> m_layoutInfos;
-    std::list<XkbModelInfo> m_modelInfos;
-    std::list<XkbOptionGroupInfo> m_optionGroupInfos;
-    std::string m_version;
+    std::list<XkbLayoutInfo> layoutInfos_;
+    std::list<XkbModelInfo> modelInfos_;
+    std::list<XkbOptionGroupInfo> optionGroupInfos_;
+    std::string version_;
 
     bool match(const std::initializer_list<const char *> &array) {
         if (parseStack.size() < array.size()) {
@@ -57,29 +57,29 @@ struct XkbRulesParseState {
         parseStack.emplace_back(reinterpret_cast<const char *>(name));
 
         if (match({"layoutList", "layout", "configItem"})) {
-            m_layoutInfos.emplace_back();
+            layoutInfos_.emplace_back();
         } else if (match({"layoutList", "layout", "variantList", "variant"})) {
-            m_layoutInfos.back().variantInfos.emplace_back();
+            layoutInfos_.back().variantInfos.emplace_back();
         } else if (match({"modelList", "model"})) {
-            m_modelInfos.emplace_back();
+            modelInfos_.emplace_back();
         } else if (match({"optionList", "group"})) {
-            m_optionGroupInfos.emplace_back();
+            optionGroupInfos_.emplace_back();
             int i = 0;
             while (attrs && attrs[i * 2] != 0) {
                 if (strcmp(reinterpret_cast<const char *>(attrs[i * 2]), "allowMultipleSelection") == 0) {
-                    m_optionGroupInfos.back().exclusive =
+                    optionGroupInfos_.back().exclusive =
                         (strcmp(reinterpret_cast<const char *>(attrs[i * 2 + 1]), "true") != 0);
                 }
                 i++;
             }
         } else if (match({"optionList", "group", "option"})) {
-            m_optionGroupInfos.back().optionInfos.emplace_back();
+            optionGroupInfos_.back().optionInfos.emplace_back();
         } else if (match({"xkbConfigRegistry"})) {
             int i = 0;
             while (attrs && attrs[i * 2] != 0) {
                 if (strcmp(reinterpret_cast<const char *>(attrs[i * 2]), "version") == 0 &&
                     strlen(reinterpret_cast<const char *>(attrs[i * 2 + 1])) != 0) {
-                    m_version = reinterpret_cast<const char *>(attrs[i * 2 + 1]);
+                    version_ = reinterpret_cast<const char *>(attrs[i * 2 + 1]);
                 }
                 i++;
             }
@@ -93,47 +93,47 @@ struct XkbRulesParseState {
         if (start != end) {
             std::string text = std::string(temp.begin() + start, temp.begin() + end);
             if (match({"layoutList", "layout", "configItem", "name"})) {
-                m_layoutInfos.back().name = text;
+                layoutInfos_.back().name = text;
             } else if (match({"layoutList", "layout", "configItem", "description"})) {
-                m_layoutInfos.back().description = text;
+                layoutInfos_.back().description = text;
             } else if (match({"layoutList", "layout", "configItem", "languageList", "iso639Id"})) {
-                m_layoutInfos.back().languages.push_back(text);
+                layoutInfos_.back().languages.push_back(text);
             } else if (match({"layoutList", "layout", "variantList", "variant", "configItem", "name"})) {
-                m_layoutInfos.back().variantInfos.back().name = text;
+                layoutInfos_.back().variantInfos.back().name = text;
             } else if (match({"layoutList", "layout", "variantList", "variant", "configItem", "description"})) {
-                m_layoutInfos.back().variantInfos.back().description = text;
+                layoutInfos_.back().variantInfos.back().description = text;
             } else if (match({"layoutList", "layout", "variantList", "variant", "configItem", "languageList",
                               "iso639Id"})) {
-                m_layoutInfos.back().variantInfos.back().languages.push_back(text);
+                layoutInfos_.back().variantInfos.back().languages.push_back(text);
             } else if (match({"modelList", "model", "configItem", "name"})) {
-                m_modelInfos.back().name = text;
+                modelInfos_.back().name = text;
             } else if (match({"modelList", "model", "configItem", "description"})) {
-                m_modelInfos.back().description = text;
+                modelInfos_.back().description = text;
             } else if (match({"modelList", "model", "configItem", "vendor"})) {
-                m_modelInfos.back().vendor = text;
+                modelInfos_.back().vendor = text;
             } else if (match({"optionList", "group", "configItem", "name"})) {
-                m_optionGroupInfos.back().name = text;
+                optionGroupInfos_.back().name = text;
             } else if (match({"optionList", "group", "configItem", "description"})) {
-                m_optionGroupInfos.back().description = text;
+                optionGroupInfos_.back().description = text;
             } else if (match({"optionList", "group", "option", "configItem", "name"})) {
-                m_optionGroupInfos.back().optionInfos.back().name = text;
+                optionGroupInfos_.back().optionInfos.back().name = text;
             } else if (match({"optionList", "group", "option", "configItem", "description"})) {
-                m_optionGroupInfos.back().optionInfos.back().description = text;
+                optionGroupInfos_.back().optionInfos.back().description = text;
             }
         }
     }
 
     void merge(XkbRules *rules) {
-        if (!m_version.empty()) {
-            rules->m_version = m_version;
+        if (!version_.empty()) {
+            rules->version_ = version_;
         }
-        while (!m_layoutInfos.empty()) {
-            XkbLayoutInfo info(std::move(m_layoutInfos.front()));
-            m_layoutInfos.pop_front();
-            auto iter = rules->m_layoutInfos.find(info.name);
-            if (iter == rules->m_layoutInfos.end()) {
+        while (!layoutInfos_.empty()) {
+            XkbLayoutInfo info(std::move(layoutInfos_.front()));
+            layoutInfos_.pop_front();
+            auto iter = rules->layoutInfos_.find(info.name);
+            if (iter == rules->layoutInfos_.end()) {
                 std::string name = info.name;
-                rules->m_layoutInfos.emplace(name, std::move(info));
+                rules->layoutInfos_.emplace(name, std::move(info));
             } else {
                 iter->second.languages.insert(iter->second.languages.end(),
                                               std::make_move_iterator(info.languages.begin()),
@@ -177,9 +177,9 @@ bool XkbRules::read(const std::string &fileName) {
 }
 
 void XkbRules::dump() {
-    std::cout << "Version: " << m_version << std::endl;
+    std::cout << "Version: " << version_ << std::endl;
 
-    for (auto &p : m_layoutInfos) {
+    for (auto &p : layoutInfos_) {
         auto &layoutInfo = p.second;
         std::cout << "\tLayout Name: " << layoutInfo.name << std::endl;
         std::cout << "\tLayout Description: " << layoutInfo.description << std::endl;
@@ -194,13 +194,13 @@ void XkbRules::dump() {
         }
     }
 
-    for (auto &modelInfo : m_modelInfos) {
+    for (auto &modelInfo : modelInfos_) {
         std::cout << "\tModel Name: " << modelInfo.name << std::endl;
         std::cout << "\tModel Description: " << modelInfo.description << std::endl;
         std::cout << "\tModel Vendor: " << modelInfo.vendor << std::endl;
     }
 
-    for (auto &optionGroupInfo : m_optionGroupInfos) {
+    for (auto &optionGroupInfo : optionGroupInfos_) {
         std::cout << "\tOption Group Name: " << optionGroupInfo.name << std::endl;
         std::cout << "\tOption Group Description: " << optionGroupInfo.description << std::endl;
         std::cout << "\tOption Group Exclusive: " << optionGroupInfo.exclusive << std::endl;

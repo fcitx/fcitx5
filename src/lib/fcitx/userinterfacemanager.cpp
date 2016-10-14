@@ -23,9 +23,9 @@ namespace fcitx {
 
 class UserInterfaceManagerPrivate {
 public:
-    UserInterfaceManagerPrivate(AddonManager *manager) : addonManager(manager) {}
+    UserInterfaceManagerPrivate(AddonManager *manager) : addonManager_(manager) {}
 
-    AddonManager *addonManager;
+    AddonManager *addonManager_;
 };
 
 UserInterfaceManager::UserInterfaceManager(AddonManager *manager)
@@ -35,7 +35,7 @@ UserInterfaceManager::~UserInterfaceManager() {}
 
 void UserInterfaceManager::init() {
     FCITX_D();
-    auto names = d->addonManager->addonNames(AddonCategory::UI);
+    auto names = d->addonManager_->addonNames(AddonCategory::UI);
     for (auto &name : names) {
     }
 }

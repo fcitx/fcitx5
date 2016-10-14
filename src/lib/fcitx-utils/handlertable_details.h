@@ -32,25 +32,25 @@ template <typename T>
 class HandlerTableEntry {
 
 public:
-    HandlerTableEntry(T handler) : m_handler(std::make_shared<T>(handler)) {}
-    virtual ~HandlerTableEntry() { *m_handler = T(); }
+    HandlerTableEntry(T handler) : handler_(std::make_shared<T>(handler)) {}
+    virtual ~HandlerTableEntry() { *handler_ = T(); }
 
-    std::shared_ptr<T> handler() { return m_handler; };
+    std::shared_ptr<T> handler() { return handler_; };
 
 protected:
-    std::shared_ptr<T> m_handler;
+    std::shared_ptr<T> handler_;
 };
 
 template <typename T>
 class ListHandlerTableEntry : public HandlerTableEntry<T> {
-    IntrusiveListNode m_node;
-    friend struct IntrusiveListMemberNodeGetter<ListHandlerTableEntry<T>, &ListHandlerTableEntry<T>::m_node>;
+    IntrusiveListNode node_;
+    friend struct IntrusiveListMemberNodeGetter<ListHandlerTableEntry<T>, &ListHandlerTableEntry<T>::node_>;
 
 public:
-    typedef struct IntrusiveListMemberNodeGetter<ListHandlerTableEntry, &ListHandlerTableEntry::m_node>
+    typedef struct IntrusiveListMemberNodeGetter<ListHandlerTableEntry, &ListHandlerTableEntry::node_>
         node_getter_type;
     ListHandlerTableEntry(T handler) : HandlerTableEntry<T>(handler) {}
-    virtual ~ListHandlerTableEntry() { m_node.remove(); }
+    virtual ~ListHandlerTableEntry() { node_.remove(); }
 };
 
 template <typename Key, typename T>
@@ -61,24 +61,24 @@ class MultiHandlerTableEntry : public HandlerTableEntry<T> {
     typedef MultiHandlerTable<Key, T> table_type;
 
 private:
-    table_type *m_table;
-    Key m_key;
-    IntrusiveListNode m_node;
-    friend struct IntrusiveListMemberNodeGetter<MultiHandlerTableEntry, &MultiHandlerTableEntry::m_node>;
+    table_type *table_;
+    Key key_;
+    IntrusiveListNode node_;
+    friend struct IntrusiveListMemberNodeGetter<MultiHandlerTableEntry, &MultiHandlerTableEntry::node_>;
 
 public:
-    typedef struct IntrusiveListMemberNodeGetter<MultiHandlerTableEntry, &MultiHandlerTableEntry::m_node>
+    typedef struct IntrusiveListMemberNodeGetter<MultiHandlerTableEntry, &MultiHandlerTableEntry::node_>
         node_getter_type;
     MultiHandlerTableEntry(table_type *table, Key key, T handler)
-        : HandlerTableEntry<T>(handler), m_table(table), m_key(key) {}
+        : HandlerTableEntry<T>(handler), table_(table), key_(key) {}
     ~MultiHandlerTableEntry();
 };
 
 template <typename Key, typename T>
 MultiHandlerTableEntry<Key, T>::~MultiHandlerTableEntry() {
-    if (m_node.isInList()) {
-        m_node.remove();
-        m_table->postRemove(m_key);
+    if (node_.isInList()) {
+        node_.remove();
+        table_->postRemove(key_);
     }
 }
 
@@ -104,9 +104,9 @@ public:
         typedef value_type *pointer;
 
         iterator(typename super::const_iterator iter, typename super::const_iterator end)
-            : m_parentIter(iter), m_endIter(end) {
-            while (m_parentIter != m_endIter && !*m_parentIter) {
-                m_parentIter++;
+            : parentIter_(iter), endIter_(end) {
+            while (parentIter_ != endIter_ && !*parentIter_) {
+                parentIter_++;
             }
         }
 
@@ -114,29 +114,29 @@ public:
 
         iterator &operator=(const iterator &other) = default;
 
-        bool operator==(const iterator &other) const noexcept { return m_parentIter == other.m_parentIter; }
+        bool operator==(const iterator &other) const noexcept { return parentIter_ == other.parentIter_; }
         bool operator!=(const iterator &other) const noexcept { return !operator==(other); }
 
         iterator &operator++() {
             do {
-                m_parentIter++;
-            } while (m_parentIter != m_endIter && !(**m_parentIter));
+                parentIter_++;
+            } while (parentIter_ != endIter_ && !(**parentIter_));
             return *this;
         }
 
         iterator operator++(int) {
-            auto old = m_parentIter;
+            auto old = parentIter_;
             ++(*this);
-            return {old, m_endIter};
+            return {old, endIter_};
         }
 
-        reference operator*() { return **m_parentIter; }
+        reference operator*() { return **parentIter_; }
 
-        pointer operator->() { return (*m_parentIter).get(); }
+        pointer operator->() { return (*parentIter_).get(); }
 
     private:
-        typename super::const_iterator m_parentIter;
-        typename super::const_iterator m_endIter;
+        typename super::const_iterator parentIter_;
+        typename super::const_iterator endIter_;
     };
 
     iterator begin() const { return iterator(super::cbegin(), super::cend()); }

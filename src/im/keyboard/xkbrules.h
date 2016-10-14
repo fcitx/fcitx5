@@ -65,25 +65,25 @@ public:
     bool read(const std::string &fileName);
     void dump();
 
-    const XkbLayoutInfo *findByName(const std::string &name) const { return findValue(m_layoutInfos, name); }
+    const XkbLayoutInfo *findByName(const std::string &name) const { return findValue(layoutInfos_, name); }
 
     void clear() {
-        m_layoutInfos.clear();
-        m_modelInfos.clear();
-        m_optionGroupInfos.clear();
-        m_version.clear();
+        layoutInfos_.clear();
+        modelInfos_.clear();
+        optionGroupInfos_.clear();
+        version_.clear();
     }
 
-    auto &layoutInfos() const { return m_layoutInfos; }
-    auto &modelInfos() const { return m_modelInfos; }
-    auto &optionGroupInfos() const { return m_optionGroupInfos; }
-    auto &version() const { return m_version; }
+    auto &layoutInfos() const { return layoutInfos_; }
+    auto &modelInfos() const { return modelInfos_; }
+    auto &optionGroupInfos() const { return optionGroupInfos_; }
+    auto &version() const { return version_; }
 
 private:
-    std::unordered_map<std::string, XkbLayoutInfo> m_layoutInfos;
-    std::vector<XkbModelInfo> m_modelInfos;
-    std::vector<XkbOptionGroupInfo> m_optionGroupInfos;
-    std::string m_version;
+    std::unordered_map<std::string, XkbLayoutInfo> layoutInfos_;
+    std::vector<XkbModelInfo> modelInfos_;
+    std::vector<XkbOptionGroupInfo> optionGroupInfos_;
+    std::string version_;
 };
 }
 

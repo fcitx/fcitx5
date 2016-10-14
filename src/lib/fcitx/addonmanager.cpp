@@ -31,34 +31,34 @@ namespace fcitx {
 
 class Addon {
 public:
-    Addon(RawConfig &config) : m_failed(false) { m_info.loadInfo(config); }
+    Addon(RawConfig &config) : failed_(false) { info_.loadInfo(config); }
 
-    const AddonInfo &info() const { return m_info; }
+    const AddonInfo &info() const { return info_; }
 
-    bool isValid() const { return m_info.isValid() && !m_failed; }
+    bool isValid() const { return info_.isValid() && !failed_; }
 
-    bool loaded() const { return !!m_instance; }
+    bool loaded() const { return !!instance_; }
 
-    AddonInstance *instance() { return m_instance.get(); }
+    AddonInstance *instance() { return instance_.get(); }
 
     void load(AddonManagerPrivate *managerP);
-    void setFailed(bool failed = true) { m_failed = failed; }
+    void setFailed(bool failed = true) { failed_ = failed; }
 
 private:
-    AddonInfo m_info;
-    bool m_failed;
-    std::unique_ptr<AddonInstance> m_instance;
+    AddonInfo info_;
+    bool failed_;
+    std::unique_ptr<AddonInstance> instance_;
 };
 
 enum class DependencyCheckStatus { Satisfied, Pending, PendingUpdateRequest, Failed };
 
 class AddonManagerPrivate {
 public:
-    AddonManagerPrivate(AddonManager *q) : q_ptr(q), instance(nullptr) {}
+    AddonManagerPrivate(AddonManager *q) : q_ptr(q), instance_(nullptr) {}
 
     Addon *addon(const std::string &name) const {
-        auto iter = addons.find(name);
-        if (iter != addons.end()) {
+        auto iter = addons_.find(name);
+        if (iter != addons_.end()) {
             return iter->second.get();
         }
         return nullptr;
@@ -73,7 +73,7 @@ public:
             }
 
             if (!dep->loaded()) {
-                if (dep->info().onRequest() && requested.insert(dep->info().name()).second) {
+                if (dep->info().onRequest() && requested_.insert(dep->info().name()).second) {
                     return DependencyCheckStatus::PendingUpdateRequest;
                 }
                 return DependencyCheckStatus::Pending;
@@ -89,7 +89,7 @@ public:
 
             // otherwise wait for it
             if (!dep->loaded()) {
-                if (dep->info().onRequest() && requested.insert(dep->info().name()).second) {
+                if (dep->info().onRequest() && requested_.insert(dep->info().name()).second) {
                     return DependencyCheckStatus::PendingUpdateRequest;
                 }
                 return DependencyCheckStatus::Pending;
@@ -104,7 +104,7 @@ public:
         do {
             changed = false;
 
-            for (auto &item : addons) {
+            for (auto &item : addons_) {
                 changed = loadAddon(*item.second.get());
             }
         } while (changed);
@@ -114,7 +114,7 @@ public:
         if (addon.loaded() || !addon.isValid()) {
             return false;
         }
-        if (addon.info().onRequest() && requested.count(addon.info().name()) == 0) {
+        if (addon.info().onRequest() && requested_.count(addon.info().name()) == 0) {
             return false;
         }
         auto result = checkDependencies(addon);
@@ -123,7 +123,7 @@ public:
         } else if (result == DependencyCheckStatus::Satisfied) {
             addon.load(this);
             if (addon.loaded()) {
-                loadOrder.push_back(addon.info().name());
+                loadOrder_.push_back(addon.info().name());
                 return true;
             }
         } else if (result == DependencyCheckStatus::PendingUpdateRequest) {
@@ -136,25 +136,25 @@ public:
     AddonManager *q_ptr;
     FCITX_DECLARE_PUBLIC(AddonManager);
 
-    std::unordered_map<std::string, std::unique_ptr<Addon>> addons;
-    std::unordered_map<std::string, std::unique_ptr<AddonLoader>> loaders;
-    std::unordered_set<std::string> requested;
+    std::unordered_map<std::string, std::unique_ptr<Addon>> addons_;
+    std::unordered_map<std::string, std::unique_ptr<AddonLoader>> loaders_;
+    std::unordered_set<std::string> requested_;
 
-    std::vector<std::string> loadOrder;
+    std::vector<std::string> loadOrder_;
 
-    Instance *instance;
+    Instance *instance_;
 };
 
 void Addon::load(AddonManagerPrivate *managerP) {
     if (!isValid()) {
         return;
     }
-    auto &loaders = managerP->loaders;
-    if (loaders.count(m_info.type())) {
-        m_instance.reset(loaders[m_info.type()]->load(m_info, managerP->q_func()));
+    auto &loaders = managerP->loaders_;
+    if (loaders.count(info_.type())) {
+        instance_.reset(loaders[info_.type()]->load(info_, managerP->q_func()));
     }
-    if (!m_instance) {
-        m_failed = true;
+    if (!instance_) {
+        failed_ = true;
     }
 }
 
@@ -163,18 +163,18 @@ AddonManager::AddonManager() : d_ptr(std::make_unique<AddonManagerPrivate>(this)
 AddonManager::~AddonManager() {
     FCITX_D();
     // reverse the unload order
-    for (auto iter = d->loadOrder.rbegin(), end = d->loadOrder.rend(); iter != end; iter++) {
-        d->addons.erase(*iter);
+    for (auto iter = d->loadOrder_.rbegin(), end = d->loadOrder_.rend(); iter != end; iter++) {
+        d->addons_.erase(*iter);
     }
 }
 
 void AddonManager::registerLoader(std::unique_ptr<AddonLoader> loader) {
     FCITX_D();
     // same loader shouldn't register twice
-    if (d->loaders.count(loader->type())) {
+    if (d->loaders_.count(loader->type())) {
         return;
     }
-    d->loaders.emplace(loader->type(), std::move(loader));
+    d->loaders_.emplace(loader->type(), std::move(loader));
 }
 
 void AddonManager::registerDefaultLoader(StaticAddonRegistry *registry) {
@@ -198,7 +198,7 @@ void AddonManager::load() {
         }
         auto addon = std::make_unique<Addon>(config);
         if (addon->isValid()) {
-            d->addons[addon->info().name()] = std::move(addon);
+            d->addons_[addon->info().name()] = std::move(addon);
         }
     }
 
@@ -212,7 +212,7 @@ AddonInstance *AddonManager::addon(const std::string &name, bool load) {
         return nullptr;
     }
     if (addon->isValid() && !addon->loaded() && addon->info().onRequest() && load) {
-        d->requested.insert(name);
+        d->requested_.insert(name);
         d->loadAddons();
     }
     return addon->instance();
@@ -230,7 +230,7 @@ const AddonInfo *AddonManager::addonInfo(const std::string &name) const {
 std::unordered_set<std::string> AddonManager::addonNames(AddonCategory category) {
     FCITX_D();
     std::unordered_set<std::string> result;
-    for (auto &item : d->addons) {
+    for (auto &item : d->addons_) {
         if (item.second->isValid() && item.second->info().category() == category) {
             result.insert(item.first);
         }
@@ -240,11 +240,11 @@ std::unordered_set<std::string> AddonManager::addonNames(AddonCategory category)
 
 Instance *AddonManager::instance() {
     FCITX_D();
-    return d->instance;
+    return d->instance_;
 }
 
 void AddonManager::setInstance(Instance *instance) {
     FCITX_D();
-    d->instance = instance;
+    d->instance_ = instance;
 }
 }

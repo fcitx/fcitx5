@@ -21,7 +21,7 @@
 
 namespace fcitx {
 namespace classicui {
-ClassicUI::ClassicUI(Instance *instance) : AddonInstance(), m_instance(instance) {}
+ClassicUI::ClassicUI(Instance *instance) : AddonInstance(), instance_(instance) {}
 
 ClassicUI::~ClassicUI() {}
 }

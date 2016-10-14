@@ -57,9 +57,9 @@ public:
     virtual void dumpDescription(RawConfig &config) const;
 
 private:
-    Configuration *m_parent;
-    std::string m_path;
-    std::string m_description;
+    Configuration *parent_;
+    std::string path_;
+    std::string description_;
 };
 
 template <typename T>
@@ -71,16 +71,16 @@ struct NoConstrain {
 class IntConstrain {
 public:
     IntConstrain(int min = std::numeric_limits<int>::min(), int max = std::numeric_limits<int>::max())
-        : m_min(min), m_max(max) {}
-    bool check(int value) const { return value >= m_min && value <= m_max; }
+        : min_(min), max_(max) {}
+    bool check(int value) const { return value >= min_ && value <= max_; }
     void dumpDescription(RawConfig &config) const {
-        marshallOption(config["IntMin"], m_min);
-        marshallOption(config["IntMax"], m_max);
+        marshallOption(config["IntMin"], min_);
+        marshallOption(config["IntMax"], max_);
     }
 
 private:
-    int m_min;
-    int m_max;
+    int min_;
+    int max_;
 };
 
 template <typename T>
@@ -122,9 +122,9 @@ class Option : public OptionBase {
 public:
     Option(Configuration *parent, std::string path, std::string description, const T &defaultValue = T(),
            Constrain constrain = Constrain(), Marshaller marshaller = Marshaller())
-        : OptionBase(parent, path, description), m_defaultValue(defaultValue), m_value(defaultValue),
-          m_marshaller(marshaller), m_constrain(constrain) {
-        if (!m_constrain.check(m_defaultValue)) {
+        : OptionBase(parent, path, description), defaultValue_(defaultValue), value_(defaultValue),
+          marshaller_(marshaller), constrain_(constrain) {
+        if (!constrain_.check(defaultValue_)) {
             throw std::invalid_argument("defaultValue doesn't satisfy constrain");
         }
     }
@@ -133,35 +133,35 @@ public:
 
     virtual void dumpDescription(RawConfig &config) const override {
         OptionBase::dumpDescription(config);
-        m_marshaller.marshall(config["DefaultValue"], m_defaultValue);
-        m_constrain.dumpDescription(config);
+        marshaller_.marshall(config["DefaultValue"], defaultValue_);
+        constrain_.dumpDescription(config);
         using ::fcitx::dumpDescriptionHelper;
         dumpDescriptionHelper(config, static_cast<typename RemoveVector<T>::type *>(nullptr));
     }
 
     virtual Configuration *subConfigSkeleton() const override { return ExtractSubConfig<T>::get(); }
 
-    virtual bool isDefault() const override { return m_defaultValue == m_value; }
+    virtual bool isDefault() const override { return defaultValue_ == value_; }
 
-    virtual void reset() override { m_value = m_defaultValue; }
+    virtual void reset() override { value_ = defaultValue_; }
 
-    const T &value() const { return m_value; }
+    const T &value() const { return value_; }
 
-    const T &defaultValue() const { return m_defaultValue; }
+    const T &defaultValue() const { return defaultValue_; }
 
     template <typename U>
     bool setValue(U &&value) {
-        if (!m_constrain.check(value)) {
+        if (!constrain_.check(value)) {
             return false;
         }
-        m_value = value;
+        value_ = value;
         return true;
     }
 
-    void marshall(RawConfig &config) const override { return m_marshaller.marshall(config, m_value); }
+    void marshall(RawConfig &config) const override { return marshaller_.marshall(config, value_); }
     bool unmarshall(const RawConfig &config) override {
         T tempValue{};
-        if (!m_marshaller.unmarshall(tempValue, config)) {
+        if (!marshaller_.unmarshall(tempValue, config)) {
             return false;
         }
         return setValue(tempValue);
@@ -169,19 +169,19 @@ public:
 
     virtual bool equalTo(const OptionBase &other) const override {
         auto otherP = reinterpret_cast<const Option<T, Constrain, Marshaller> *>(&other);
-        return m_value == otherP->m_value;
+        return value_ == otherP->value_;
     }
 
     virtual void copyFrom(const OptionBase &other) override {
         auto otherP = reinterpret_cast<const Option<T, Constrain, Marshaller> *>(&other);
-        m_value = otherP->m_value;
+        value_ = otherP->value_;
     }
 
 private:
-    T m_defaultValue;
-    T m_value;
-    Marshaller m_marshaller;
-    Constrain m_constrain;
+    T defaultValue_;
+    T value_;
+    Marshaller marshaller_;
+    Constrain constrain_;
 };
 }
 

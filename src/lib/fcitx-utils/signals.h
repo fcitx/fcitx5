@@ -30,11 +30,11 @@ namespace fcitx {
 template <typename T>
 class LastValue {
 public:
-    LastValue(T defaultValue = T()) : m_initial(defaultValue) {}
+    LastValue(T defaultValue = T()) : initial_(defaultValue) {}
 
     template <typename InputIterator>
     T operator()(InputIterator begin, InputIterator end) {
-        T v = m_initial;
+        T v = initial_;
         for (; begin != end; begin++) {
             v = *begin;
         }
@@ -42,7 +42,7 @@ public:
     }
 
 private:
-    T m_initial;
+    T initial_;
 };
 template <>
 class LastValue<void> {
@@ -59,15 +59,15 @@ public:
 template <typename Ret, typename... Args>
 class Invoker {
 public:
-    Invoker(Args &... args) : m_args(args...) {}
+    Invoker(Args &... args) : args_(args...) {}
 
     template <typename Func>
     Ret operator()(Func &func) {
-        return callWithTuple(func, m_args);
+        return callWithTuple(func, args_);
     }
 
 private:
-    std::tuple<Args &...> m_args;
+    std::tuple<Args &...> args_;
 };
 
 template <typename T>
@@ -85,31 +85,31 @@ public:
     typedef SlotInvokeIterator iterator;
     typedef Invoker<Ret, Args...> invoker_type;
 
-    SlotInvokeIterator(invoker_type &invoker, super_iterator iter) : m_parentIter(iter), m_invoker(invoker) {}
+    SlotInvokeIterator(invoker_type &invoker, super_iterator iter) : parentIter_(iter), invoker_(invoker) {}
 
     SlotInvokeIterator(const iterator &other) = default;
 
     iterator &operator=(const iterator &other) = default;
 
-    bool operator==(const iterator &other) const noexcept { return m_parentIter == other.m_parentIter; }
+    bool operator==(const iterator &other) const noexcept { return parentIter_ == other.parentIter_; }
     bool operator!=(const iterator &other) const noexcept { return !operator==(other); }
 
     iterator &operator++() {
-        m_parentIter++;
+        parentIter_++;
         return *this;
     }
 
     iterator operator++(int) {
-        auto old = m_parentIter;
+        auto old = parentIter_;
         ++(*this);
-        return {m_invoker, old};
+        return {invoker_, old};
     }
 
-    reference operator*() { return m_invoker(*m_parentIter); }
+    reference operator*() { return invoker_(*parentIter_); }
 
 private:
-    super_iterator m_parentIter;
-    invoker_type &m_invoker;
+    super_iterator parentIter_;
+    invoker_type &invoker_;
 };
 
 template <typename Invoker, typename Iter>
@@ -123,39 +123,39 @@ class Signal;
 class ConnectionBody : public TrackableObject<ConnectionBody>, public IntrusiveListNode {
 public:
     template <typename T>
-    ConnectionBody(HandlerTableEntry<T> *entry) : m_entry(entry) {}
+    ConnectionBody(HandlerTableEntry<T> *entry) : entry_(entry) {}
 
     virtual ~ConnectionBody() { remove(); }
 
 private:
     // Need type erasure here
-    std::shared_ptr<void> m_entry;
+    std::shared_ptr<void> entry_;
 };
 
 class Connection {
 public:
     Connection() {}
-    explicit Connection(TrackableObjectReference<ConnectionBody> body) : m_body(std::move(body)) {}
-    Connection(const Connection &other) : m_body(other.m_body) {}
+    explicit Connection(TrackableObjectReference<ConnectionBody> body) : body_(std::move(body)) {}
+    Connection(const Connection &other) : body_(other.body_) {}
 
-    bool connected() { return m_body.isValid(); }
+    bool connected() { return body_.isValid(); }
 
     void disconnect() {
-        auto body = m_body.get();
+        auto body = body_.get();
         // delete nullptr is no-op;
         delete body;
     }
-    bool operator==(const Connection &other) const { return m_body.get() == other.m_body.get(); }
+    bool operator==(const Connection &other) const { return body_.get() == other.body_.get(); }
     bool operator!=(const Connection &other) const { return !(*this == other); }
     Connection &operator=(const Connection &other) {
         if (&other == this)
             return *this;
-        m_body = other.m_body;
+        body_ = other.body_;
         return *this;
     }
 
 private:
-    TrackableObjectReference<ConnectionBody> m_body;
+    TrackableObjectReference<ConnectionBody> body_;
 };
 
 class SignalBase {
@@ -169,34 +169,34 @@ class Signal<Ret(Args...), Combiner> : public SignalBase {
 public:
     typedef Ret return_type;
     typedef Ret function_type(Args...);
-    Signal(const Combiner &combiner = Combiner()) : m_combiner(combiner) {}
+    Signal(const Combiner &combiner = Combiner()) : combiner_(combiner) {}
     virtual ~Signal() { disconnectAll(); }
 
     Ret operator()(Args &&... args) {
-        auto view = m_table.view();
+        auto view = table_.view();
         Invoker<Ret, Args...> invoker(args...);
         auto iter = MakeSlotInvokeIterator(invoker, view.begin());
         auto end = MakeSlotInvokeIterator(invoker, view.end());
-        return m_combiner(iter, end);
+        return combiner_(iter, end);
     }
 
     template <typename Func>
     Connection connect(Func &&func) {
-        auto body = new ConnectionBody(m_table.add(std::forward<Func>(func)));
-        m_connections.push_back(*body);
+        auto body = new ConnectionBody(table_.add(std::forward<Func>(func)));
+        connections_.push_back(*body);
         return Connection{body->watch()};
     }
 
     void disconnectAll() {
-        while (!m_connections.empty()) {
-            delete &m_connections.front();
+        while (!connections_.empty()) {
+            delete &connections_.front();
         }
     }
 
 private:
-    HandlerTable<std::function<Ret(Args...)>> m_table;
-    IntrusiveList<ConnectionBody> m_connections;
-    Combiner m_combiner;
+    HandlerTable<std::function<Ret(Args...)>> table_;
+    IntrusiveList<ConnectionBody> connections_;
+    Combiner combiner_;
 };
 }
 

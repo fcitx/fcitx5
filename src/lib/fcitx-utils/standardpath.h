@@ -102,39 +102,39 @@ struct FCITXUTILS_EXPORT Suffix {
 class FCITXUTILS_EXPORT StandardPathTempFile {
 public:
     StandardPathTempFile(int fd = -1, const std::string &realFile = {}, const std::string &tempPath = {})
-        : m_fd(UnixFD::own(fd)), m_path(realFile), m_tempPath(tempPath) {}
+        : fd_(UnixFD::own(fd)), path_(realFile), tempPath_(tempPath) {}
     StandardPathTempFile(StandardPathTempFile &&other) = default;
     virtual ~StandardPathTempFile();
 
-    int fd() const { return m_fd.fd(); }
+    int fd() const { return fd_.fd(); }
 
-    const std::string &path() const { return m_path; }
-    const std::string &tempPath() const { return m_tempPath; }
+    const std::string &path() const { return path_; }
+    const std::string &tempPath() const { return tempPath_; }
 
     int release();
     void close();
 
 private:
-    UnixFD m_fd;
-    std::string m_path;
-    std::string m_tempPath;
+    UnixFD fd_;
+    std::string path_;
+    std::string tempPath_;
 };
 
 class FCITXUTILS_EXPORT StandardPathFile {
 public:
-    StandardPathFile(int fd = -1, const std::string &path = {}) : m_fd(UnixFD::own(fd)), m_path(path) {}
+    StandardPathFile(int fd = -1, const std::string &path = {}) : fd_(UnixFD::own(fd)), path_(path) {}
     StandardPathFile(StandardPathFile &&other) = default;
     virtual ~StandardPathFile();
 
-    int fd() const { return m_fd.fd(); }
+    int fd() const { return fd_.fd(); }
 
-    const std::string &path() const { return m_path; }
+    const std::string &path() const { return path_; }
 
     int release();
 
 private:
-    UnixFD m_fd;
-    std::string m_path;
+    UnixFD fd_;
+    std::string path_;
 };
 
 class StandardPathPrivate;

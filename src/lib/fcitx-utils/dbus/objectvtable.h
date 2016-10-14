@@ -41,18 +41,18 @@ public:
     ObjectVTableMethod(ObjectVTable *vtable, const std::string &name, const std::string &signature,
                        const std::string &ret, ObjectMethod handler);
 
-    const std::string &name() const { return m_name; }
-    const std::string &signature() const { return m_signature; }
-    const std::string &ret() const { return m_ret; }
-    ObjectMethod &handler() { return m_handler; }
-    ObjectVTable *vtable() const { return m_vtable; }
+    const std::string &name() const { return name_; }
+    const std::string &signature() const { return signature_; }
+    const std::string &ret() const { return ret_; }
+    ObjectMethod &handler() { return handler_; }
+    ObjectVTable *vtable() const { return vtable_; }
 
 private:
-    const std::string m_name;
-    const std::string m_signature;
-    const std::string m_ret;
-    ObjectMethod m_handler;
-    ObjectVTable *m_vtable;
+    const std::string name_;
+    const std::string signature_;
+    const std::string ret_;
+    ObjectMethod handler_;
+    ObjectVTable *vtable_;
 };
 
 template <typename T>
@@ -119,9 +119,9 @@ public:
     Message createSignal();
 
 private:
-    const std::string m_name;
-    const std::string m_signature;
-    ObjectVTable *m_vtable;
+    const std::string name_;
+    const std::string signature_;
+    ObjectVTable *vtable_;
 };
 
 class FCITXUTILS_EXPORT ObjectVTableProperty {
@@ -130,10 +130,10 @@ public:
                          PropertyGetMethod getMethod);
 
 protected:
-    const std::string m_name;
-    const std::string m_signature;
-    PropertyGetMethod m_getMethod;
-    bool m_writable;
+    const std::string name_;
+    const std::string signature_;
+    PropertyGetMethod getMethod_;
+    bool writable_;
 };
 
 class FCITXUTILS_EXPORT ObjectVTableWritableProperty : public ObjectVTableProperty {
@@ -142,7 +142,7 @@ public:
                                  PropertyGetMethod getMethod, PropertySetMethod setMethod);
 
 private:
-    PropertySetMethod m_setMethod;
+    PropertySetMethod setMethod_;
 };
 
 class ObjectVTablePrivate;

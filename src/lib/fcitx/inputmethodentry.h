@@ -33,46 +33,46 @@ class FCITXCORE_EXPORT InputMethodEntry {
 public:
     InputMethodEntry(const std::string &uniqueName, const std::string &name, const std::string &languageCode,
                      const std::string &addon)
-        : m_uniqueName(uniqueName), m_name(name), m_languageCode(languageCode), m_addon(addon) {}
+        : uniqueName_(uniqueName), name_(name), languageCode_(languageCode), addon_(addon) {}
     InputMethodEntry(const InputMethodEntry &) = delete;
     InputMethodEntry(InputMethodEntry &&) = default;
     virtual ~InputMethodEntry() {}
 
     InputMethodEntry &setNativeName(const std::string &nativeName) {
-        m_nativeName = nativeName;
+        nativeName_ = nativeName;
         return *this;
     }
 
     InputMethodEntry &setIcon(const std::string &icon) {
-        m_icon = icon;
+        icon_ = icon;
         return *this;
     }
 
     InputMethodEntry &setLabel(const std::string &label) {
-        m_label = label;
+        label_ = label;
         return *this;
     }
 
-    void setUserData(InputMethodEntryUserData *userData) { m_userData.reset(userData); }
+    void setUserData(InputMethodEntryUserData *userData) { userData_.reset(userData); }
 
-    InputMethodEntryUserData *userData() { return m_userData.get(); }
+    InputMethodEntryUserData *userData() { return userData_.get(); }
 
-    const std::string &name() const { return m_name; }
-    const std::string &nativeName() const { return m_nativeName; }
-    const std::string &icon() const { return m_icon; }
-    const std::string &uniqueName() const { return m_uniqueName; }
-    const std::string &languageCode() const { return m_languageCode; }
-    const std::string &addon() const { return m_addon; }
+    const std::string &name() const { return name_; }
+    const std::string &nativeName() const { return nativeName_; }
+    const std::string &icon() const { return icon_; }
+    const std::string &uniqueName() const { return uniqueName_; }
+    const std::string &languageCode() const { return languageCode_; }
+    const std::string &addon() const { return addon_; }
 
 private:
-    std::string m_uniqueName;
-    std::string m_name;
-    std::string m_nativeName;
-    std::string m_icon;
-    std::string m_label;
-    std::string m_languageCode;
-    std::string m_addon;
-    std::unique_ptr<InputMethodEntryUserData> m_userData;
+    std::string uniqueName_;
+    std::string name_;
+    std::string nativeName_;
+    std::string icon_;
+    std::string label_;
+    std::string languageCode_;
+    std::string addon_;
+    std::unique_ptr<InputMethodEntryUserData> userData_;
 };
 }
 

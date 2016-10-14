@@ -43,10 +43,10 @@ class FCITXUTILS_EXPORT EventLoopException : public std::runtime_error {
 public:
     EventLoopException(int error);
 
-    int error() const { return m_errno; }
+    int error() const { return errno_; }
 
 private:
-    int m_errno;
+    int errno_;
 };
 
 struct FCITXUTILS_EXPORT EventSource {

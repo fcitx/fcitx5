@@ -25,17 +25,17 @@
 namespace fcitx {
 class RawConfigPrivate {
 public:
-    RawConfigPrivate(RawConfig *q, std::string _name) : q_ptr(q), name(_name), lineNumber(0) {}
+    RawConfigPrivate(RawConfig *q, std::string _name) : q_ptr(q), name_(_name), lineNumber_(0) {}
     RawConfigPrivate(RawConfig *q, const RawConfigPrivate &other)
-        : q_ptr(q), name(other.name), value(other.value), comment(other.comment), lineNumber(other.lineNumber) {
-        for (auto item : other.subItems) {
-            subItems[item.first] = std::make_shared<RawConfig>(*item.second);
+        : q_ptr(q), name_(other.name_), value_(other.value_), comment_(other.comment_), lineNumber_(other.lineNumber_) {
+        for (auto item : other.subItems_) {
+            subItems_[item.first] = std::make_shared<RawConfig>(*item.second);
         }
     }
 
     std::shared_ptr<RawConfig> getNonexistentRawConfig(const std::string &key) {
-        auto result = subItems[key] = std::make_shared<RawConfig>(key);
-        result->d_func()->parent = q_ptr;
+        auto result = subItems_[key] = std::make_shared<RawConfig>(key);
+        result->d_func()->parent_ = q_ptr;
         return result;
     }
 
@@ -51,8 +51,8 @@ public:
         for (std::string::size_type pos = 0, new_pos = path.find('/', pos); pos != std::string::npos && cur;
              pos = ((std::string::npos == new_pos) ? new_pos : (new_pos + 1)), new_pos = path.find('/', pos)) {
             auto key = path.substr(pos, (std::string::npos == new_pos) ? new_pos : (new_pos - pos));
-            auto iter = cur->d_func()->subItems.find(key);
-            if (iter == cur->d_func()->subItems.end()) {
+            auto iter = cur->d_func()->subItems_.find(key);
+            if (iter == cur->d_func()->subItems_.end()) {
                 result = cur->d_func()->getNonexistentRawConfig(key);
             } else {
                 result = iter->second;
@@ -70,7 +70,7 @@ public:
     static bool visitHelper(T &that, std::function<bool(T &, const std::string &path)> callback, bool recursive,
                             const std::string &pathPrefix) {
         auto d = that.d_func();
-        for (auto pair : d->subItems) {
+        for (auto pair : d->subItems_) {
             std::shared_ptr<T> item = pair.second;
             auto newPathPrefix = pathPrefix.empty() ? item->name() : pathPrefix + "/" + item->name();
             if (!callback(*item, newPathPrefix)) {
@@ -86,13 +86,13 @@ public:
     }
 
     RawConfig *q_ptr;
-    RawConfig *parent = nullptr;
-    std::string name;
-    std::string value;
-    std::string comment;
-    std::unordered_map<std::string, std::shared_ptr<RawConfig>> subItems;
-    unsigned int lineNumber;
     FCITX_DECLARE_PUBLIC(RawConfig);
+    RawConfig *parent_ = nullptr;
+    std::string name_;
+    std::string value_;
+    std::string comment_;
+    std::unordered_map<std::string, std::shared_ptr<RawConfig>> subItems_;
+    unsigned int lineNumber_;
 };
 
 RawConfig::RawConfig(std::string name, std::string value) : d_ptr(std::make_unique<RawConfigPrivate>(this, name)) {
@@ -101,8 +101,8 @@ RawConfig::RawConfig(std::string name, std::string value) : d_ptr(std::make_uniq
 
 RawConfig::~RawConfig() {
     FCITX_D();
-    for (auto pair : d->subItems) {
-        pair.second->d_func()->parent = nullptr;
+    for (auto pair : d->subItems_) {
+        pair.second->d_func()->parent_ = nullptr;
     }
 }
 
@@ -135,52 +135,52 @@ bool RawConfig::remove(const std::string &path) {
     if (pos != std::string::npos) {
         root = get(path.substr(0, pos)).get();
     }
-    return root->d_func()->subItems.erase(path.substr(pos + 1)) > 0;
+    return root->d_func()->subItems_.erase(path.substr(pos + 1)) > 0;
 }
 
 void RawConfig::removeAll() {
     FCITX_D();
-    d->subItems.clear();
+    d->subItems_.clear();
 }
 
 void RawConfig::setValue(std::string value) {
     FCITX_D();
-    d->value = value;
+    d->value_ = value;
 }
 
 void RawConfig::setComment(std::string comment) {
     FCITX_D();
-    d->comment = comment;
+    d->comment_ = comment;
 }
 
 void RawConfig::setLineNumber(unsigned int lineNumber) {
     FCITX_D();
-    d->lineNumber = lineNumber;
+    d->lineNumber_ = lineNumber;
 }
 
 const std::string &RawConfig::name() const {
     FCITX_D();
-    return d->name;
+    return d->name_;
 }
 
 const std::string &RawConfig::comment() const {
     FCITX_D();
-    return d->comment;
+    return d->comment_;
 }
 
 const std::string &RawConfig::value() const {
     FCITX_D();
-    return d->value;
+    return d->value_;
 }
 
 unsigned int RawConfig::lineNumber() const {
     FCITX_D();
-    return d->lineNumber;
+    return d->lineNumber_;
 }
 
 bool RawConfig::hasSubItems() const {
     FCITX_D();
-    return !d->subItems.empty();
+    return !d->subItems_.empty();
 }
 
 RawConfig &RawConfig::operator=(RawConfig other) {
@@ -191,17 +191,17 @@ RawConfig &RawConfig::operator=(RawConfig other) {
 
 RawConfig *RawConfig::parent() const {
     FCITX_D();
-    return d->parent;
+    return d->parent_;
 }
 
 std::shared_ptr<RawConfig> RawConfig::detach() {
     FCITX_D();
-    if (!d->parent) {
+    if (!d->parent_) {
         return {};
     }
-    auto ref = d->parent->get(d->name);
-    d->parent->d_func()->subItems.erase(d->name);
-    d->parent = nullptr;
+    auto ref = d->parent_->get(d->name_);
+    d->parent_->d_func()->subItems_.erase(d->name_);
+    d->parent_ = nullptr;
     return ref;
 }
 

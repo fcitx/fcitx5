@@ -30,28 +30,28 @@ namespace fcitx {
 
 class Controller1 : public ObjectVTable {
 public:
-    Controller1(Instance *instance) : m_instance(instance) {}
+    Controller1(Instance *instance) : instance_(instance) {}
 
-    void exit() { m_instance->exit(); }
+    void exit() { instance_->exit(); }
 
-    void restart() { m_instance->restart(); }
-    void configure() { m_instance->configure(); }
-    void configureAddon(const std::string &addon) { m_instance->configureAddon(addon); }
-    void configureInputMethod(const std::string &imName) { m_instance->configureInputMethod(imName); }
-    std::string currentUI() { return m_instance->currentUI(); }
-    std::string addonForInputMethod(const std::string &imName) { return m_instance->addonForInputMethod(imName); }
-    void activate() { return m_instance->activate(); }
-    void deactivate() { return m_instance->deactivate(); }
-    void toggle() { return m_instance->toggle(); }
-    void resetInputMethodList() { return m_instance->resetInputMethodList(); }
-    int state() { return m_instance->state(); }
-    void reloadConfig() { return m_instance->reloadConfig(); }
-    void reloadAddonConfig(const std::string &addonName) { return m_instance->reloadAddonConfig(addonName); }
-    std::string currentInputMethod() { return m_instance->currentInputMethod(); }
-    void setCurrentInputMethod(const std::string &imName) { return m_instance->setCurrentInputMethod(imName); }
+    void restart() { instance_->restart(); }
+    void configure() { instance_->configure(); }
+    void configureAddon(const std::string &addon) { instance_->configureAddon(addon); }
+    void configureInputMethod(const std::string &imName) { instance_->configureInputMethod(imName); }
+    std::string currentUI() { return instance_->currentUI(); }
+    std::string addonForInputMethod(const std::string &imName) { return instance_->addonForInputMethod(imName); }
+    void activate() { return instance_->activate(); }
+    void deactivate() { return instance_->deactivate(); }
+    void toggle() { return instance_->toggle(); }
+    void resetInputMethodList() { return instance_->resetInputMethodList(); }
+    int state() { return instance_->state(); }
+    void reloadConfig() { return instance_->reloadConfig(); }
+    void reloadAddonConfig(const std::string &addonName) { return instance_->reloadAddonConfig(addonName); }
+    std::string currentInputMethod() { return instance_->currentInputMethod(); }
+    void setCurrentInputMethod(const std::string &imName) { return instance_->setCurrentInputMethod(imName); }
 
 private:
-    Instance *m_instance;
+    Instance *instance_;
 
 private:
     FCITX_OBJECT_VTABLE_METHOD(exit, "Exit", "", "");
@@ -71,19 +71,19 @@ private:
     FCITX_OBJECT_VTABLE_METHOD(setCurrentInputMethod, "SetCurrentIM", "s", "");
 };
 
-DBusModule::DBusModule(Instance *instance) : m_bus(std::make_unique<dbus::Bus>(dbus::BusType::Session)) {
-    m_bus->attachEventLoop(&instance->eventLoop());
-    if (!m_bus->requestName(FCITX_DBUS_SERVICE, Flags<RequestNameFlag>{RequestNameFlag::AllowReplacement,
+DBusModule::DBusModule(Instance *instance) : bus_(std::make_unique<dbus::Bus>(dbus::BusType::Session)) {
+    bus_->attachEventLoop(&instance->eventLoop());
+    if (!bus_->requestName(FCITX_DBUS_SERVICE, Flags<RequestNameFlag>{RequestNameFlag::AllowReplacement,
                                                                        RequestNameFlag::ReplaceExisting})) {
         throw std::runtime_error("Unable to request dbus name");
     }
-    m_controller = std::make_unique<Controller1>(instance);
-    m_bus->addObjectVTable("/controller", FCITX_CONTROLLER_DBUS_INTERFACE, *m_controller);
+    controller_ = std::make_unique<Controller1>(instance);
+    bus_->addObjectVTable("/controller", FCITX_CONTROLLER_DBUS_INTERFACE, *controller_);
 }
 
 DBusModule::~DBusModule() {}
 
-dbus::Bus *DBusModule::bus() { return m_bus.get(); }
+dbus::Bus *DBusModule::bus() { return bus_.get(); }
 
 AddonInstance *DBusModuleFactory::create(AddonManager *manager) { return new DBusModule(manager->instance()); }
 }

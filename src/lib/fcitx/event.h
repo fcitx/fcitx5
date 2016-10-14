@@ -111,49 +111,49 @@ enum class EventType : uint32_t {
 
 class FCITXCORE_EXPORT Event {
 public:
-    Event(EventType type) : m_type(type) {}
+    Event(EventType type) : type_(type) {}
     virtual ~Event();
 
-    EventType type() const { return m_type; }
-    void accept() { m_accepted = true; }
-    bool accepted() const { return m_accepted; }
-    void filter() { m_filtered = true; }
-    bool filtered() const { return m_filtered; }
+    EventType type() const { return type_; }
+    void accept() { accepted_ = true; }
+    bool accepted() const { return accepted_; }
+    void filter() { filtered_ = true; }
+    bool filtered() const { return filtered_; }
 
 protected:
-    EventType m_type;
-    bool m_accepted = false, m_filtered = false;
+    EventType type_;
+    bool accepted_ = false, filtered_ = false;
 };
 
 class FCITXCORE_EXPORT InputContextEvent : public Event {
 public:
-    InputContextEvent(InputContext *context, EventType type) : Event(type), m_ic(context) {}
+    InputContextEvent(InputContext *context, EventType type) : Event(type), ic_(context) {}
 
-    InputContext *inputContext() const { return m_ic; }
+    InputContext *inputContext() const { return ic_; }
 
 protected:
-    InputContext *m_ic;
+    InputContext *ic_;
 };
 
 class FCITXCORE_EXPORT KeyEventBase : public InputContextEvent {
 public:
     KeyEventBase(EventType type, InputContext *context, Key rawKey, bool isRelease = false, int keyCode = 0,
                  int time = 0)
-        : InputContextEvent(context, type), m_key(rawKey.normalize()), m_rawKey(rawKey), m_isRelease(isRelease),
-          m_keyCode(keyCode), m_time(time) {}
+        : InputContextEvent(context, type), key_(rawKey.normalize()), rawKey_(rawKey), isRelease_(isRelease),
+          keyCode_(keyCode), time_(time) {}
     KeyEventBase(const KeyEventBase &) = default;
 
-    Key key() const { return m_key; }
-    Key rawKey() const { return m_rawKey; }
-    bool isRelease() const { return m_isRelease; }
-    int keyCode() const { return m_keyCode; }
-    int time() const { return m_time; }
+    Key key() const { return key_; }
+    Key rawKey() const { return rawKey_; }
+    bool isRelease() const { return isRelease_; }
+    int keyCode() const { return keyCode_; }
+    int time() const { return time_; }
 
 protected:
-    Key m_key, m_rawKey;
-    bool m_isRelease;
-    int m_keyCode;
-    int m_time;
+    Key key_, rawKey_;
+    bool isRelease_;
+    int keyCode_;
+    int time_;
 };
 
 class FCITXCORE_EXPORT KeyEvent : public KeyEventBase {
@@ -171,14 +171,14 @@ public:
 class FCITXCORE_EXPORT CommitStringEvent : public InputContextEvent {
 public:
     CommitStringEvent(const std::string &text, InputContext *context)
-        : InputContextEvent(context, EventType::InputContextCommitString), m_originText(text), m_text(text) {}
+        : InputContextEvent(context, EventType::InputContextCommitString), originText_(text), text_(text) {}
 
-    const std::string originText() const { return m_originText; }
-    const std::string text() const { return m_text; }
-    std::string &text() { return m_text; }
+    const std::string originText() const { return originText_; }
+    const std::string text() const { return text_; }
+    std::string &text() { return text_; }
 
 protected:
-    std::string m_originText, m_text;
+    std::string originText_, text_;
 };
 
 #define FCITX_DEFINE_SIMPLE_EVENT(NAME, TYPE, ARGS...)                                                                 \

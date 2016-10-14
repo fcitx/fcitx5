@@ -35,6 +35,8 @@ void DynamicTrackableObject::destroy() {
     if (!d->destroyed_) {
         emit<DynamicTrackableObject::Destroyed>(this);
         disconnectAll<DynamicTrackableObject::Destroyed>();
+        unregisterSignal<DynamicTrackableObject::Destroyed>();
+        d->destroyed_ = true;
     }
 }
 }

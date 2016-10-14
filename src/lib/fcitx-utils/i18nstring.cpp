@@ -92,18 +92,18 @@ const std::string &I18NString::match(const std::string &locale_) const {
     }
 
     if (normalizedLocale.size() == 0) {
-        return m_default;
+        return default_;
     }
-    auto iter = m_map.find(normalizedLocale);
-    if (territoryLength && iter == m_map.end()) {
-        iter = m_map.find(normalizedLocale.substr(0, territoryLength));
+    auto iter = map_.find(normalizedLocale);
+    if (territoryLength && iter == map_.end()) {
+        iter = map_.find(normalizedLocale.substr(0, territoryLength));
     }
-    if (languageLength && iter == m_map.end()) {
-        iter = m_map.find(normalizedLocale.substr(0, languageLength));
+    if (languageLength && iter == map_.end()) {
+        iter = map_.find(normalizedLocale.substr(0, languageLength));
     }
-    if (iter != m_map.end()) {
+    if (iter != map_.end()) {
         return iter->second;
     }
-    return m_default;
+    return default_;
 }
 }

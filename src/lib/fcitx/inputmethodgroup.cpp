@@ -24,20 +24,20 @@ namespace fcitx {
 
 class InputMethodGroupItemPrivate {
 public:
-    InputMethodGroupItemPrivate(const std::string &name_) : name(name_) {}
+    InputMethodGroupItemPrivate(const std::string &name) : name_(name) {}
 
-    std::string name;
-    std::string layout;
+    std::string name_;
+    std::string layout_;
 };
 
 class InputMethodGroupPrivate {
 public:
-    InputMethodGroupPrivate(const std::string &name_) : name(name_) {}
+    InputMethodGroupPrivate(const std::string &name) : name_(name) {}
 
-    std::string name;
-    std::vector<InputMethodGroupItem> inputMethodList;
-    std::string defaultInputMethod;
-    std::string defaultLayout;
+    std::string name_;
+    std::vector<InputMethodGroupItem> inputMethodList_;
+    std::string defaultInputMethod_;
+    std::string defaultLayout_;
 };
 
 InputMethodGroupItem::InputMethodGroupItem(const std::string &name)
@@ -49,17 +49,17 @@ InputMethodGroupItem::~InputMethodGroupItem() {}
 
 const std::string &InputMethodGroupItem::name() const {
     FCITX_D();
-    return d->name;
+    return d->name_;
 }
 
 const std::string &InputMethodGroupItem::layout() const {
     FCITX_D();
-    return d->layout;
+    return d->layout_;
 }
 
 InputMethodGroupItem &InputMethodGroupItem::setLayout(const std::string &layout) {
     FCITX_D();
-    d->layout = layout;
+    d->layout_ = layout;
     return *this;
 }
 
@@ -71,45 +71,45 @@ InputMethodGroup::~InputMethodGroup() {}
 
 const std::string &InputMethodGroup::name() const {
     FCITX_D();
-    return d->name;
+    return d->name_;
 }
 
 std::vector<InputMethodGroupItem> &InputMethodGroup::inputMethodList() {
     FCITX_D();
-    return d->inputMethodList;
+    return d->inputMethodList_;
 }
 
 const std::vector<InputMethodGroupItem> &InputMethodGroup::inputMethodList() const {
     FCITX_D();
-    return d->inputMethodList;
+    return d->inputMethodList_;
 }
 
 void InputMethodGroup::setDefaultInputMethod(const std::string &im) {
     FCITX_D();
-    if (std::any_of(d->inputMethodList.begin(), d->inputMethodList.end(),
+    if (std::any_of(d->inputMethodList_.begin(), d->inputMethodList_.end(),
                     [&im](const InputMethodGroupItem &item) { return item.name() == im; })) {
-        d->defaultInputMethod = im;
+        d->defaultInputMethod_ = im;
     } else {
-        if (d->inputMethodList.size() >= 2) {
-            d->defaultInputMethod = d->inputMethodList[1].name();
+        if (d->inputMethodList_.size() >= 2) {
+            d->defaultInputMethod_ = d->inputMethodList_[1].name();
         } else {
-            d->defaultInputMethod = d->inputMethodList.empty() ? "" : d->inputMethodList[0].name();
+            d->defaultInputMethod_ = d->inputMethodList_.empty() ? "" : d->inputMethodList_[0].name();
         }
     }
 }
 
 const std::string &InputMethodGroup::defaultInputMethod() const {
     FCITX_D();
-    return d->defaultInputMethod;
+    return d->defaultInputMethod_;
 }
 
 void InputMethodGroup::setDefaultLayout(const std::string &im) {
     FCITX_D();
-    d->defaultLayout = im;
+    d->defaultLayout_ = im;
 }
 
 const std::string &InputMethodGroup::defaultLayout() const {
     FCITX_D();
-    return d->defaultLayout;
+    return d->defaultLayout_;
 }
 }

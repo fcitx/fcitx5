@@ -93,21 +93,20 @@ class InstancePrivate {
 public:
     InstancePrivate(Instance *) {}
 
-    InstanceArgument arg;
-    bool initialized = false;
+    InstanceArgument arg_;
+    bool initialized_ = false;
 
-    int signalPipe = -1;
-    EventLoop eventLoop;
-    std::unique_ptr<EventSourceIO> signalPipeEvent;
-    InputContextManager icManager;
-    AddonManager addonManager;
-    InputMethodManager imManager{&this->addonManager};
-    GlobalConfig globalConfig;
+    int signalPipe_ = -1;
+    EventLoop eventLoop_;
+    std::unique_ptr<EventSourceIO> signalPipeEvent_;
+    InputContextManager icManager_;
+    AddonManager addonManager_;
+    InputMethodManager imManager_{&this->addonManager_};
+    GlobalConfig globalConfig_;
     std::unordered_map<EventType, std::unordered_map<EventWatcherPhase, HandlerTable<EventHandler>, enum_hash>,
                        enum_hash>
-        eventHandlers;
-    int inputMethodGroup = 0;
-    std::vector<std::unique_ptr<HandlerTableEntry<EventHandler>>> eventWatchers;
+        eventHandlers_;
+    std::vector<std::unique_ptr<HandlerTableEntry<EventHandler>>> eventWatchers_;
 };
 
 Instance::Instance(int argc, char **argv) {
@@ -128,24 +127,24 @@ Instance::Instance(int argc, char **argv) {
     // we need fork before this
     d_ptr.reset(new InstancePrivate(this));
     FCITX_D();
-    d->addonManager.setInstance(this);
-    d->icManager.setInstance(this);
-    d->imManager.setInstance(this);
+    d->addonManager_.setInstance(this);
+    d->icManager_.setInstance(this);
+    d->imManager_.setInstance(this);
 
-    d->icManager.registerProperty("inputState", [d](InputContext &) {
+    d->icManager_.registerProperty("inputState", [d](InputContext &) {
         auto property = new InputState;
-        property->active = d->globalConfig.activeByDefault();
+        property->active = d->globalConfig_.activeByDefault();
         return property;
     });
 
-    d->eventWatchers.emplace_back(
+    d->eventWatchers_.emplace_back(
         watchEvent(EventType::InputContextKeyEvent, EventWatcherPhase::PreInputMethod, [this, d](Event &event) {
             auto &keyEvent = static_cast<KeyEvent &>(event);
             struct {
                 const KeyList &list;
                 std::function<void()> callback;
             } keyHandlers[] = {
-                {d->globalConfig.triggerKeys(), []() {}},
+                {d->globalConfig_.triggerKeys(), []() {}},
             };
 
             auto ic = keyEvent.inputContext();
@@ -245,8 +244,8 @@ void InstanceArgument::parseOption(int argc, char **argv) {
 
 void Instance::setSignalPipe(int fd) {
     FCITX_D();
-    d->signalPipe = fd;
-    d->signalPipeEvent.reset(d->eventLoop.addIOEvent(fd, IOEventFlag::In, [this](EventSource *, int, IOEventFlags) {
+    d->signalPipe_ = fd;
+    d->signalPipeEvent_.reset(d->eventLoop_.addIOEvent(fd, IOEventFlag::In, [this](EventSource *, int, IOEventFlags) {
         handleSignal();
         return true;
     }));
@@ -254,13 +253,13 @@ void Instance::setSignalPipe(int fd) {
 
 bool Instance::willTryReplace() const {
     FCITX_D();
-    return d->arg.tryReplace;
+    return d->arg_.tryReplace;
 }
 
 void Instance::handleSignal() {
     FCITX_D();
     uint8_t signo = 0;
-    while (read(d->signalPipe, &signo, sizeof(signo)) > 0) {
+    while (read(d->signalPipe_, &signo, sizeof(signo)) > 0) {
         if (signo == SIGINT || signo == SIGTERM || signo == SIGQUIT || signo == SIGXCPU) {
             exit();
         } else if (signo == SIGHUP) {
@@ -273,13 +272,13 @@ void Instance::handleSignal() {
 
 void Instance::initialize() {
     FCITX_D();
-    d->addonManager.load();
-    d->imManager.load();
+    d->addonManager_.load();
+    d->imManager_.load();
 }
 
 int Instance::exec() {
     FCITX_D();
-    if (d->arg.quietQuit) {
+    if (d->arg_.quietQuit) {
         return 0;
     }
     initialize();
@@ -291,33 +290,33 @@ int Instance::exec() {
 
 EventLoop &Instance::eventLoop() {
     FCITX_D();
-    return d->eventLoop;
+    return d->eventLoop_;
 }
 
 InputContextManager &Instance::inputContextManager() {
     FCITX_D();
-    return d->icManager;
+    return d->icManager_;
 }
 
 AddonManager &Instance::addonManager() {
     FCITX_D();
-    return d->addonManager;
+    return d->addonManager_;
 }
 
 InputMethodManager &Instance::inputMethodManager() {
     FCITX_D();
-    return d->imManager;
+    return d->imManager_;
 }
 
 GlobalConfig &Instance::globalConfig() {
     FCITX_D();
-    return d->globalConfig;
+    return d->globalConfig_;
 }
 
 bool Instance::postEvent(Event &event) {
     FCITX_D();
-    auto iter = d->eventHandlers.find(event.type());
-    if (iter != d->eventHandlers.end()) {
+    auto iter = d->eventHandlers_.find(event.type());
+    if (iter != d->eventHandlers_.end()) {
         auto &handlers = iter->second;
         EventWatcherPhase phaseOrder[] = {EventWatcherPhase::PreInputMethod, EventWatcherPhase::InputMethod,
                                           EventWatcherPhase::PostInputMethod};
@@ -339,12 +338,12 @@ bool Instance::postEvent(Event &event) {
 
 HandlerTableEntry<EventHandler> *Instance::watchEvent(EventType type, EventWatcherPhase phase, EventHandler callback) {
     FCITX_D();
-    return d->eventHandlers[type][phase].add(callback);
+    return d->eventHandlers_[type][phase].add(callback);
 }
 
 std::string Instance::inputMethod(InputContext *ic) {
     FCITX_D();
-    auto &group = d->imManager.currentGroup();
+    auto &group = d->imManager_.currentGroup();
     auto inputState = ic->propertyAs<InputState>("inputState");
     if (inputState->active) {
         return group.defaultInputMethod();
@@ -359,7 +358,7 @@ const InputMethodEntry *Instance::inputMethodEntry(InputContext *ic) {
     if (imName.empty()) {
         return nullptr;
     }
-    return d->imManager.entry(imName);
+    return d->imManager_.entry(imName);
 }
 
 InputMethodEngine *Instance::inputMethodEngine(InputContext *ic) {
@@ -368,12 +367,12 @@ InputMethodEngine *Instance::inputMethodEngine(InputContext *ic) {
     if (!entry) {
         return nullptr;
     }
-    return static_cast<InputMethodEngine *>(d->addonManager.addon(entry->addon()));
+    return static_cast<InputMethodEngine *>(d->addonManager_.addon(entry->addon()));
 }
 
 void Instance::save() {
     FCITX_D();
-    d->imManager.save();
+    d->imManager_.save();
 }
 
 void Instance::activate() {}

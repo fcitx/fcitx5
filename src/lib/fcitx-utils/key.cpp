@@ -52,8 +52,8 @@ Key::Key(const char *keyString) {
 
 #undef _CHECK_MODIFIER
 
-    m_sym = keySymFromString(lastModifier);
-    m_states = states;
+    sym_ = keySymFromString(lastModifier);
+    states_ = states;
 }
 
 Key::~Key() {}
@@ -62,79 +62,79 @@ bool Key::check(const Key &key) const {
     bool isModifier = key.isModifier();
     if (isModifier) {
         Key keyAlt = key;
-        auto states = key.m_states & (~keySymToStates(key.m_sym));
-        keyAlt.m_states |= keySymToStates(key.m_sym);
+        auto states = key.states_ & (~keySymToStates(key.sym_));
+        keyAlt.states_ |= keySymToStates(key.sym_);
 
-        return (m_sym == key.m_sym && m_states == states) || (m_sym == keyAlt.m_sym && m_states == keyAlt.m_states);
+        return (sym_ == key.sym_ && states_ == states) || (sym_ == keyAlt.sym_ && states_ == keyAlt.states_);
     }
 
-    auto states = m_states & KeyStates({KeyState::Ctrl_Alt_Shift, KeyState::Super});
-    return (m_sym == key.m_sym && states == key.m_states);
+    auto states = states_ & KeyStates({KeyState::Ctrl_Alt_Shift, KeyState::Super});
+    return (sym_ == key.sym_ && states == key.states_);
 }
 
-bool Key::isDigit() const { return !m_states && m_sym >= FcitxKey_0 && m_sym <= FcitxKey_9; }
+bool Key::isDigit() const { return !states_ && sym_ >= FcitxKey_0 && sym_ <= FcitxKey_9; }
 
-bool Key::isUAZ() const { return !m_states && m_sym >= FcitxKey_A && m_sym <= FcitxKey_Z; }
+bool Key::isUAZ() const { return !states_ && sym_ >= FcitxKey_A && sym_ <= FcitxKey_Z; }
 
 bool Key::isLAZ() const {
-    return !m_states && m_sym >= FcitxKey_a && m_sym <= FcitxKey_z;
+    return !states_ && sym_ >= FcitxKey_a && sym_ <= FcitxKey_z;
 
     return false;
 }
 
-bool Key::isSimple() const { return !m_states && m_sym >= FcitxKey_space && m_sym <= FcitxKey_asciitilde; }
+bool Key::isSimple() const { return !states_ && sym_ >= FcitxKey_space && sym_ <= FcitxKey_asciitilde; }
 
 bool Key::isModifier() const {
-    return (m_sym == FcitxKey_Control_L || m_sym == FcitxKey_Control_R || m_sym == FcitxKey_Alt_L ||
-            m_sym == FcitxKey_Alt_R || m_sym == FcitxKey_Super_L || m_sym == FcitxKey_Super_R ||
-            m_sym == FcitxKey_Hyper_L || m_sym == FcitxKey_Hyper_R || m_sym == FcitxKey_Shift_L ||
-            m_sym == FcitxKey_Shift_R);
+    return (sym_ == FcitxKey_Control_L || sym_ == FcitxKey_Control_R || sym_ == FcitxKey_Alt_L ||
+            sym_ == FcitxKey_Alt_R || sym_ == FcitxKey_Super_L || sym_ == FcitxKey_Super_R ||
+            sym_ == FcitxKey_Hyper_L || sym_ == FcitxKey_Hyper_R || sym_ == FcitxKey_Shift_L ||
+            sym_ == FcitxKey_Shift_R);
 }
 
 bool Key::isCursorMove() const {
-    return ((m_sym == FcitxKey_Left || m_sym == FcitxKey_Right || m_sym == FcitxKey_Up || m_sym == FcitxKey_Down ||
-             m_sym == FcitxKey_Page_Up || m_sym == FcitxKey_Page_Down || m_sym == FcitxKey_Home ||
-             m_sym == FcitxKey_End) &&
-            (m_states == KeyState::Ctrl || m_states == KeyState::Ctrl_Shift || m_states == KeyState::Shift ||
-             m_states == KeyState::None));
+    return ((sym_ == FcitxKey_Left || sym_ == FcitxKey_Right || sym_ == FcitxKey_Up || sym_ == FcitxKey_Down ||
+             sym_ == FcitxKey_Page_Up || sym_ == FcitxKey_Page_Down || sym_ == FcitxKey_Home ||
+             sym_ == FcitxKey_End) &&
+            (states_ == KeyState::Ctrl || states_ == KeyState::Ctrl_Shift || states_ == KeyState::Shift ||
+             states_ == KeyState::None));
 }
 
-bool Key::hasModifier() const { return !!(m_states & KeyState::SimpleMask); }
+bool Key::hasModifier() const { return !!(states_ & KeyState::SimpleMask); }
 
 Key Key::normalize() const {
     Key key(*this);
     /* key state != 0 */
-    if (key.m_states) {
-        if (key.m_states != KeyState::Shift && Key(key.m_sym).isLAZ()) {
-            key.m_sym = static_cast<KeySym>(key.m_sym + FcitxKey_A - FcitxKey_a);
+    if (key.states_) {
+        if (key.states_ != KeyState::Shift && Key(key.sym_).isLAZ()) {
+            key.sym_ = static_cast<KeySym>(key.sym_ + FcitxKey_A - FcitxKey_a);
         }
         /*
          * alt shift 1 shoud be alt + !
          * shift+s should be S
          */
 
-        if (Key(key.m_sym).isLAZ() || Key(key.m_sym).isUAZ()) {
-            if (key.m_states == KeyState::Shift) {
-                key.m_states = 0;
+        if (Key(key.sym_).isLAZ() || Key(key.sym_).isUAZ()) {
+            if (key.states_ == KeyState::Shift) {
+                key.states_ = 0;
             }
         } else {
-            if ((key.m_states & KeyState::Shift) && (((Key(key.m_sym).isSimple() || keySymToUnicode(key.m_sym) != 0) &&
-                                                      key.m_sym != FcitxKey_space && key.m_sym != FcitxKey_Return) ||
-                                                     (key.m_sym >= FcitxKey_KP_0 && key.m_sym <= FcitxKey_KP_9))) {
-                key.m_states ^= KeyState::Shift;
+            if ((key.states_ & KeyState::Shift) && (((Key(key.sym_).isSimple() || keySymToUnicode(key.sym_) != 0) &&
+                                                      key.sym_ != FcitxKey_space && key.sym_ != FcitxKey_Return) ||
+                                                     (key.sym_ >= FcitxKey_KP_0 && key.sym_ <= FcitxKey_KP_9))) {
+                key.states_ ^= KeyState::Shift;
             }
         }
     }
 
-    if (key.m_sym == FcitxKey_ISO_Left_Tab) {
-        key.m_sym = FcitxKey_Tab;
+    if (key.sym_ == FcitxKey_ISO_Left_Tab) {
+        key.sym_ = FcitxKey_Tab;
     }
 
     return key;
 }
 
 std::string Key::toString() const {
-    auto sym = m_sym;
+    auto sym = sym_;
     if (sym == FcitxKey_None) {
         return std::string();
     }
@@ -149,7 +149,7 @@ std::string Key::toString() const {
 
     std::string str;
 #define _APPEND_MODIFIER_STRING(STR, VALUE)                                                                            \
-    if (m_states & KeyState::VALUE) {                                                                                  \
+    if (states_ & KeyState::VALUE) {                                                                                  \
         str += STR;                                                                                                    \
     }
     _APPEND_MODIFIER_STRING("Control+", Ctrl)

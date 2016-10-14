@@ -27,16 +27,16 @@ namespace fcitx {
 
 class UnixFDPrivate {
 public:
-    UnixFDPrivate() : m_fd(-1) {}
+    UnixFDPrivate() : fd_(-1) {}
     ~UnixFDPrivate() {
-        if (m_fd != -1) {
+        if (fd_ != -1) {
             int ret;
             do {
-                ret = close(m_fd);
+                ret = close(fd_);
             } while (ret == -1 && errno == EINTR);
         }
     }
-    std::atomic_int m_fd;
+    std::atomic_int fd_;
 };
 
 UnixFD::UnixFD(int fd) { set(fd); }
@@ -51,9 +51,9 @@ UnixFD &UnixFD::operator=(UnixFD other) {
     return *this;
 }
 
-bool UnixFD::isValid() const { return d && d->m_fd != -1; }
+bool UnixFD::isValid() const { return d && d->fd_ != -1; }
 
-int UnixFD::fd() const { return d ? d->m_fd.load() : -1; }
+int UnixFD::fd() const { return d ? d->fd_.load() : -1; }
 
 void UnixFD::give(int fd) {
     if (fd == -1) {
@@ -63,7 +63,7 @@ void UnixFD::give(int fd) {
             d = std::make_unique<UnixFDPrivate>();
         }
 
-        d->m_fd = fd;
+        d->fd_ = fd;
     }
 }
 
@@ -81,12 +81,12 @@ void UnixFD::set(int fd) {
             return;
         }
 
-        d->m_fd = nfd;
+        d->fd_ = nfd;
     }
 }
 
 int UnixFD::release() {
-    int fd = d->m_fd.exchange(-1);
+    int fd = d->fd_.exchange(-1);
     d.reset();
     return fd;
 }

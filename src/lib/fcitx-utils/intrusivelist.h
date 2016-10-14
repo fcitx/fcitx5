@@ -35,56 +35,56 @@ public:
     IntrusiveListNode() {}
     IntrusiveListNode(const IntrusiveListNode &) = delete;
 
-    bool isInList() const { return !!m_list; }
+    bool isInList() const { return !!list_; }
     void remove();
-    IntrusiveListNode *prev() const { return m_prev; }
-    IntrusiveListNode *next() const { return m_next; }
+    IntrusiveListNode *prev() const { return prev_; }
+    IntrusiveListNode *next() const { return next_; }
 
 private:
-    IntrusiveListBase *m_list = nullptr;
-    IntrusiveListNode *m_prev = nullptr;
-    IntrusiveListNode *m_next = nullptr;
+    IntrusiveListBase *list_ = nullptr;
+    IntrusiveListNode *prev_ = nullptr;
+    IntrusiveListNode *next_ = nullptr;
 };
 
 class IntrusiveListBase {
     friend class IntrusiveListNode;
 
 protected:
-    IntrusiveListBase() { root.m_prev = root.m_next = &root; }
+    IntrusiveListBase() { root.prev_ = root.next_ = &root; }
 
     void insertBetween(IntrusiveListNode *add, IntrusiveListNode *prev, IntrusiveListNode *next) noexcept {
-        if (add->m_list) {
+        if (add->list_) {
             throw std::invalid_argument("node can't be insert to two different list");
         }
-        next->m_prev = add;
-        prev->m_next = add;
-        add->m_next = next;
-        add->m_prev = prev;
-        add->m_list = this;
+        next->prev_ = add;
+        prev->next_ = add;
+        add->next_ = next;
+        add->prev_ = prev;
+        add->list_ = this;
         size_++;
     }
 
     void prepend(IntrusiveListNode *add, IntrusiveListNode *pos) noexcept {
-        return insertBetween(add, pos, pos->m_next);
+        return insertBetween(add, pos, pos->next_);
     }
 
     void append(IntrusiveListNode *add, IntrusiveListNode *pos) noexcept {
-        return insertBetween(add, pos->m_prev, pos);
+        return insertBetween(add, pos->prev_, pos);
     }
 
     void remove(IntrusiveListNode *pos) noexcept {
-        if (pos->m_list != this) {
+        if (pos->list_ != this) {
             throw std::invalid_argument("node doesn't belongs to this list");
         }
 
-        auto next_ = pos->m_next;
-        auto prev_ = pos->m_prev;
-        prev_->m_next = next_;
-        next_->m_prev = prev_;
+        auto next_ = pos->next_;
+        auto prev_ = pos->prev_;
+        prev_->next_ = next_;
+        next_->prev_ = prev_;
 
-        pos->m_next = nullptr;
-        pos->m_prev = nullptr;
-        pos->m_list = nullptr;
+        pos->next_ = nullptr;
+        pos->prev_ = nullptr;
+        pos->list_ = nullptr;
 
         size_--;
     }
@@ -94,8 +94,8 @@ protected:
 };
 
 inline void IntrusiveListNode::remove() {
-    if (m_list) {
-        m_list->remove(this);
+    if (list_) {
+        list_->remove(this);
     }
 }
 

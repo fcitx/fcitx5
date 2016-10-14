@@ -30,13 +30,13 @@ int SDMessageCallback(sd_bus_message *m, void *userdata, sd_bus_error *);
 
 class ScopedSDBusError {
 public:
-    ScopedSDBusError() { m_error = SD_BUS_ERROR_NULL; }
-    ~ScopedSDBusError() { sd_bus_error_free(&m_error); }
+    ScopedSDBusError() { error_ = SD_BUS_ERROR_NULL; }
+    ~ScopedSDBusError() { sd_bus_error_free(&error_); }
 
-    sd_bus_error &error() { return m_error; }
+    sd_bus_error &error() { return error_; }
 
 private:
-    sd_bus_error m_error;
+    sd_bus_error error_;
 };
 
 class SDVTableSlot : public Slot {

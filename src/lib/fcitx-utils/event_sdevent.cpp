@@ -61,44 +61,44 @@ template <typename Interface>
 struct SDEventSource : public Interface {
 public:
     ~SDEventSource() {
-        if (m_eventSource) {
-            sd_event_source_unref(m_eventSource);
+        if (eventSource_) {
+            sd_event_source_unref(eventSource_);
         }
     }
 
-    void setEventSource(sd_event_source *event) { m_eventSource = event; }
+    void setEventSource(sd_event_source *event) { eventSource_ = event; }
 
     virtual bool isEnabled() const override {
         int result = 0, err;
-        if ((err = sd_event_source_get_enabled(m_eventSource, &result)) < 0) {
+        if ((err = sd_event_source_get_enabled(eventSource_, &result)) < 0) {
             throw EventLoopException(err);
         }
         return result != 0;
     }
 
     virtual void setEnabled(bool enabled) override {
-        sd_event_source_set_enabled(m_eventSource, enabled ? SD_EVENT_ON : SD_EVENT_OFF);
+        sd_event_source_set_enabled(eventSource_, enabled ? SD_EVENT_ON : SD_EVENT_OFF);
     }
 
     virtual bool isOneShot() const override {
         int result = 0, err;
-        if ((err = sd_event_source_get_enabled(m_eventSource, &result)) < 0) {
+        if ((err = sd_event_source_get_enabled(eventSource_, &result)) < 0) {
             throw EventLoopException(err);
         }
         return result == SD_EVENT_ONESHOT;
     }
 
-    virtual void setOneShot() override { sd_event_source_set_enabled(m_eventSource, SD_EVENT_ONESHOT); }
+    virtual void setOneShot() override { sd_event_source_set_enabled(eventSource_, SD_EVENT_ONESHOT); }
 
 protected:
-    sd_event_source *m_eventSource;
+    sd_event_source *eventSource_;
 };
 
 struct SDEventSourceIO : public SDEventSource<EventSourceIO> {
     SDEventSourceIO(IOCallback _callback) : SDEventSource(), callback(_callback) {}
 
     virtual int fd() const override {
-        int ret = sd_event_source_get_io_fd(m_eventSource);
+        int ret = sd_event_source_get_io_fd(eventSource_);
         if (ret < 0) {
             throw EventLoopException(ret);
         }
@@ -106,7 +106,7 @@ struct SDEventSourceIO : public SDEventSource<EventSourceIO> {
     }
 
     virtual void setFd(int fd) override {
-        int ret = sd_event_source_set_io_fd(m_eventSource, fd);
+        int ret = sd_event_source_set_io_fd(eventSource_, fd);
         if (ret < 0) {
             throw EventLoopException(ret);
         }
@@ -114,7 +114,7 @@ struct SDEventSourceIO : public SDEventSource<EventSourceIO> {
 
     virtual IOEventFlags events() const override {
         uint32_t events;
-        int ret = sd_event_source_get_io_events(m_eventSource, &events);
+        int ret = sd_event_source_get_io_events(eventSource_, &events);
         if (ret < 0) {
             throw EventLoopException(ret);
         }
@@ -122,7 +122,7 @@ struct SDEventSourceIO : public SDEventSource<EventSourceIO> {
     }
 
     virtual void setEvents(IOEventFlags flags) override {
-        int ret = sd_event_source_set_io_events(m_eventSource, IOEventFlagsToEpollFlags(flags));
+        int ret = sd_event_source_set_io_events(eventSource_, IOEventFlagsToEpollFlags(flags));
         if (ret < 0) {
             throw EventLoopException(ret);
         }
@@ -130,7 +130,7 @@ struct SDEventSourceIO : public SDEventSource<EventSourceIO> {
 
     virtual IOEventFlags revents() const override {
         uint32_t revents;
-        int ret = sd_event_source_get_io_revents(m_eventSource, &revents);
+        int ret = sd_event_source_get_io_revents(eventSource_, &revents);
         if (ret < 0) {
             throw EventLoopException(ret);
         }
@@ -145,7 +145,7 @@ struct SDEventSourceTime : public SDEventSource<EventSourceTime> {
 
     virtual uint64_t time() const override {
         uint64_t time;
-        int err = sd_event_source_get_time(m_eventSource, &time);
+        int err = sd_event_source_get_time(eventSource_, &time);
         if (err < 0) {
             throw EventLoopException(err);
         }
@@ -153,7 +153,7 @@ struct SDEventSourceTime : public SDEventSource<EventSourceTime> {
     }
 
     virtual void setTime(uint64_t time) override {
-        int ret = sd_event_source_set_time(m_eventSource, time);
+        int ret = sd_event_source_set_time(eventSource_, time);
         if (ret < 0) {
             throw EventLoopException(ret);
         }
@@ -161,7 +161,7 @@ struct SDEventSourceTime : public SDEventSource<EventSourceTime> {
 
     virtual uint64_t accuracy() const override {
         uint64_t time;
-        int err = sd_event_source_get_time_accuracy(m_eventSource, &time);
+        int err = sd_event_source_get_time_accuracy(eventSource_, &time);
         if (err < 0) {
             throw EventLoopException(err);
         }
@@ -169,7 +169,7 @@ struct SDEventSourceTime : public SDEventSource<EventSourceTime> {
     }
 
     virtual void setAccuracy(uint64_t time) override {
-        int ret = sd_event_source_set_time_accuracy(m_eventSource, time);
+        int ret = sd_event_source_set_time_accuracy(eventSource_, time);
         if (ret < 0) {
             throw EventLoopException(ret);
         }
@@ -177,7 +177,7 @@ struct SDEventSourceTime : public SDEventSource<EventSourceTime> {
 
     virtual clockid_t clock() const override {
         clockid_t clock;
-        int err = sd_event_source_get_time_clock(m_eventSource, &clock);
+        int err = sd_event_source_get_time_clock(eventSource_, &clock);
         if (err < 0) {
             throw EventLoopException(err);
         }
@@ -189,14 +189,14 @@ struct SDEventSourceTime : public SDEventSource<EventSourceTime> {
 
 struct EventLoopPrivate {
     EventLoopPrivate() {
-        if (sd_event_new(&event) < 0) {
+        if (sd_event_new(&event_) < 0) {
             throw std::runtime_error("Create sd_event failed.");
         }
     }
 
-    ~EventLoopPrivate() { sd_event_unref(event); }
+    ~EventLoopPrivate() { sd_event_unref(event_); }
 
-    sd_event *event;
+    sd_event *event_;
 };
 
 EventLoop::EventLoop() : d_ptr(std::make_unique<EventLoopPrivate>()) {}
@@ -207,18 +207,18 @@ const char *EventLoop::impl() { return "sd-event"; }
 
 void *EventLoop::nativeHandle() {
     FCITX_D();
-    return d->event;
+    return d->event_;
 }
 
 bool EventLoop::exec() {
     FCITX_D();
-    int r = sd_event_loop(d->event);
+    int r = sd_event_loop(d->event_);
     return r >= 0;
 }
 
 void EventLoop::quit() {
     FCITX_D();
-    sd_event_exit(d->event, 0);
+    sd_event_exit(d->event_, 0);
 }
 
 int IOEventCallback(sd_event_source *, int fd, uint32_t revents, void *userdata) {
@@ -238,7 +238,7 @@ EventSourceIO *EventLoop::addIOEvent(int fd, IOEventFlags flags, IOCallback call
     auto source = std::make_unique<SDEventSourceIO>(callback);
     sd_event_source *sdEventSource;
     int err;
-    if ((err = sd_event_add_io(d->event, &sdEventSource, fd, IOEventFlagsToEpollFlags(flags), IOEventCallback,
+    if ((err = sd_event_add_io(d->event_, &sdEventSource, fd, IOEventFlagsToEpollFlags(flags), IOEventCallback,
                                source.get())) < 0) {
         throw EventLoopException(err);
     }
@@ -264,7 +264,7 @@ EventSourceTime *EventLoop::addTimeEvent(clockid_t clock, uint64_t usec, uint64_
     auto source = std::make_unique<SDEventSourceTime>(callback);
     sd_event_source *sdEventSource;
     int err;
-    if ((err = sd_event_add_time(d->event, &sdEventSource, clock, usec, accuracy, TimeEventCallback, source.get())) <
+    if ((err = sd_event_add_time(d->event_, &sdEventSource, clock, usec, accuracy, TimeEventCallback, source.get())) <
         0) {
         throw EventLoopException(err);
     }

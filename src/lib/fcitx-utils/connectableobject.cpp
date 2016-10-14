@@ -23,7 +23,7 @@ namespace fcitx {
 
 class ConnectableObjectPrivate {
 public:
-    std::unordered_map<std::string, std::unique_ptr<fcitx::SignalBase>> m_signals;
+    std::unordered_map<std::string, std::unique_ptr<fcitx::SignalBase>> signals_;
 };
 
 ConnectableObject::ConnectableObject() : d_ptr(std::make_unique<ConnectableObjectPrivate>()) {}
@@ -32,17 +32,17 @@ ConnectableObject::~ConnectableObject() {}
 
 void ConnectableObject::_registerSignal(std::string name, std::unique_ptr<fcitx::SignalBase> signal) {
     FCITX_D();
-    d->m_signals.emplace(std::move(name), std::move(signal));
+    d->signals_.emplace(std::move(name), std::move(signal));
 }
 void ConnectableObject::_unregisterSignal(const std::string &name) {
     FCITX_D();
-    d->m_signals.erase(name);
+    d->signals_.erase(name);
 }
 
 SignalBase *ConnectableObject::findSignal(const std::string &name) {
     FCITX_D();
-    auto iter = d->m_signals.find(name);
-    if (iter != d->m_signals.end()) {
+    auto iter = d->signals_.find(name);
+    if (iter != d->signals_.end()) {
         return iter->second.get();
     }
     return nullptr;

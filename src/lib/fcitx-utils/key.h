@@ -37,13 +37,13 @@ typedef std::vector<Key> KeyList;
 
 class FCITXUTILS_EXPORT Key {
 public:
-    explicit Key(KeySym sym = FcitxKey_None, KeyStates states = KeyStates()) : m_sym(sym), m_states(states) {}
-    Key(const Key &other) : Key(other.m_sym, other.m_states) {}
+    explicit Key(KeySym sym = FcitxKey_None, KeyStates states = KeyStates()) : sym_(sym), states_(states) {}
+    Key(const Key &other) : Key(other.sym_, other.states_) {}
     explicit Key(const char *keyString);
     explicit Key(const std::string &keyString) : Key(keyString.c_str()) {}
     virtual ~Key();
 
-    bool operator==(const Key &key) const { return m_sym == key.m_sym && m_states == key.m_states; }
+    bool operator==(const Key &key) const { return sym_ == key.sym_ && states_ == key.states_; }
 
     bool check(const Key &key) const;
     bool check(KeySym sym = FcitxKey_None, KeyStates states = KeyStates()) const { return check(Key(sym, states)); }
@@ -58,8 +58,8 @@ public:
 
     std::string toString() const;
 
-    inline KeySym sym() const { return m_sym; }
-    inline KeyStates states() const { return m_states; }
+    inline KeySym sym() const { return sym_; }
+    inline KeyStates states() const { return states_; }
 
     static KeyStates keySymToStates(KeySym sym);
     static KeySym keySymFromString(const std::string &keyString);
@@ -87,8 +87,8 @@ public:
     }
 
 protected:
-    KeySym m_sym;
-    KeyStates m_states;
+    KeySym sym_;
+    KeyStates states_;
 };
 }
 

@@ -36,9 +36,9 @@ public:
 
     std::vector<sd_bus_vtable> toSDBusVTable();
     const std::string &vtableString(const std::string &str) {
-        auto iter = stringPool.find(str);
-        if (iter == stringPool.end()) {
-            iter = stringPool.insert(str).first;
+        auto iter = stringPool_.find(str);
+        if (iter == stringPool_.end()) {
+            iter = stringPool_.insert(str).first;
         }
         return *iter;
     }
@@ -46,12 +46,12 @@ public:
     ObjectVTable *q_ptr;
     FCITX_DECLARE_PUBLIC(ObjectVTable);
 
-    std::unordered_set<std::string> stringPool;
-    std::vector<ObjectVTableMethod *> methods;
-    std::vector<ObjectVTableProperty *> properties;
-    std::vector<ObjectVTableSignal *> sigs;
-    std::unique_ptr<SDVTableSlot> slot;
-    Message *msg = nullptr;
+    std::unordered_set<std::string> stringPool_;
+    std::vector<ObjectVTableMethod *> methods_;
+    std::vector<ObjectVTableProperty *> properties_;
+    std::vector<ObjectVTableSignal *> sigs_;
+    std::unique_ptr<SDVTableSlot> slot_;
+    Message *msg_ = nullptr;
 };
 }
 }

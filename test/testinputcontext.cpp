@@ -46,11 +46,11 @@ public:
 
 class TestProperty : public InputContextProperty {
 public:
-    int num() const { return m_num; }
-    void setNum(int n) { m_num = n; }
+    int num() const { return num_; }
+    void setNum(int n) { num_ = n; }
 
 protected:
-    int m_num = 0;
+    int num_ = 0;
 };
 
 class TestSharedProperty : public TestProperty {
@@ -58,7 +58,7 @@ public:
     bool needCopy() const override { return true; }
     void copyTo(InputContextProperty *other_) override {
         auto other = static_cast<TestSharedProperty *>(other_);
-        other->m_num = m_num;
+        other->num_ = num_;
     }
 };
 

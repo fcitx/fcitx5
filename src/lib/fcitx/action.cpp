@@ -25,14 +25,14 @@ namespace fcitx {
 
 class ActionPrivate {
 public:
-    ActionPrivate(Action *q, const std::string &name_) : name(name_), ActionActivatedAdaptor(q) {}
-    std::string name;
-    std::string icon;
-    std::string text;
-    bool checked = false;
-    bool checkable = false;
-    bool enabled = true;
-    Menu *menu;
+    ActionPrivate(Action *q, const std::string &name) : name_(name), ActionActivatedAdaptor(q) {}
+    std::string name_;
+    std::string icon_;
+    std::string text_;
+    bool checked_ = false;
+    bool checkable_ = false;
+    bool enabled_ = true;
+    Menu *menu_ = nullptr;
     FCITX_DEFINE_SIGNAL_PRIVATE(Action, Activated);
 };
 
@@ -42,7 +42,7 @@ Action::~Action() {}
 
 void Action::activate() {
     FCITX_D();
-    if (!d->enabled) {
+    if (!d->enabled_) {
         return;
     }
     emit<Action::Activated>();
@@ -50,57 +50,57 @@ void Action::activate() {
 
 Action &Action::setIcon(const std::string &icon) {
     FCITX_D();
-    d->icon = icon;
+    d->icon_ = icon;
     return *this;
 }
 
 const std::string &Action::icon() const {
     FCITX_D();
-    return d->icon;
+    return d->icon_;
 }
 
 Action &Action::setText(const std::string &text) {
     FCITX_D();
-    d->text = text;
+    d->text_ = text;
     return *this;
 }
 
 const std::string &Action::text() const {
     FCITX_D();
-    return d->text;
+    return d->text_;
 }
 
 Action &Action::setCheckable(bool checkable) {
     FCITX_D();
-    d->checkable = checkable;
+    d->checkable_ = checkable;
     return *this;
 }
 
 bool Action::isCheckable() const {
     FCITX_D();
-    return d->checkable;
+    return d->checkable_;
 }
 
 Action &Action::setChecked(bool checked) {
     FCITX_D();
-    d->checked = checked;
+    d->checked_ = checked;
     return *this;
 }
 
 bool Action::isChecked() const {
     FCITX_D();
-    return d->checked;
+    return d->checked_;
 }
 
 Action &Action::setEnabled(bool enabled) {
     FCITX_D();
-    d->enabled = enabled;
+    d->enabled_ = enabled;
     return *this;
 }
 
 bool Action::isEnabled() const {
     FCITX_D();
-    return d->enabled;
+    return d->enabled_;
 }
 
 void Action::setMenu(Menu *menu) {
@@ -108,11 +108,11 @@ void Action::setMenu(Menu *menu) {
     if (menu) {
         menu->connect<DynamicTrackableObject::Destroyed>([this](void *) { setMenu(nullptr); });
     }
-    d->menu = menu;
+    d->menu_ = menu;
 }
 
 const std::string &Action::name() const {
     FCITX_D();
-    return d->name;
+    return d->name_;
 }
 }

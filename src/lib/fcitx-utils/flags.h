@@ -27,64 +27,64 @@ template <typename Enum>
 class Flags {
 public:
     typedef typename std::underlying_type_t<Enum> storage_type;
-    Flags(Enum f) : m_flags(static_cast<storage_type>(f)) {}
-    Flags(const Flags &other) : m_flags(other.m_flags) {}
-    explicit Flags(storage_type i = 0) : m_flags(i) {}
-    Flags(const std::initializer_list<Enum> &l) : m_flags(0) {
+    Flags(Enum f) : flags_(static_cast<storage_type>(f)) {}
+    Flags(const Flags &other) : flags_(other.flags_) {}
+    explicit Flags(storage_type i = 0) : flags_(i) {}
+    Flags(const std::initializer_list<Enum> &l) : flags_(0) {
         for (Enum e : l) {
             operator|=(e);
         }
     }
-    inline operator storage_type() const { return m_flags; }
+    inline operator storage_type() const { return flags_; }
     Flags &operator=(Enum f) {
-        m_flags = static_cast<storage_type>(f);
+        flags_ = static_cast<storage_type>(f);
         return *this;
     }
     Flags &operator=(storage_type f) {
-        m_flags = f;
+        flags_ = f;
         return *this;
     }
 
-    bool operator!() const { return !m_flags; }
+    bool operator!() const { return !flags_; }
     Flags &operator&=(Flags flag) {
-        m_flags &= flag.m_flags;
+        flags_ &= flag.flags_;
         return *this;
     }
     Flags &operator&=(Enum flag) {
-        m_flags &= static_cast<storage_type>(flag);
+        flags_ &= static_cast<storage_type>(flag);
         return *this;
     }
     Flags &operator|=(Flags flag) {
-        m_flags |= flag.m_flags;
+        flags_ |= flag.flags_;
         return *this;
     }
     Flags &operator|=(Enum flag) {
-        m_flags |= static_cast<storage_type>(flag);
+        flags_ |= static_cast<storage_type>(flag);
         return *this;
     }
     Flags &operator^=(Flags flag) {
-        m_flags ^= flag.m_flags;
+        flags_ ^= flag.flags_;
         return *this;
     }
     Flags &operator^=(Enum flag) {
-        m_flags ^= static_cast<storage_type>(flag);
+        flags_ ^= static_cast<storage_type>(flag);
         return *this;
     }
-    inline Flags operator|(Flags f) const { return Flags(m_flags | f.m_flags); }
-    inline Flags operator|(Enum f) const { return Flags(m_flags | static_cast<storage_type>(f)); }
-    inline Flags operator^(Flags f) const { return Flags(m_flags ^ f.m_flags); }
-    inline Flags operator^(Enum f) const { return Flags(m_flags ^ static_cast<storage_type>(f)); }
-    inline Flags operator&(Flags f) const { return Flags(m_flags & f.m_flags); }
-    inline Flags operator&(Enum f) const { return Flags(m_flags & static_cast<storage_type>(f)); }
-    inline Flags operator~() const { return Flags(~m_flags); }
+    inline Flags operator|(Flags f) const { return Flags(flags_ | f.flags_); }
+    inline Flags operator|(Enum f) const { return Flags(flags_ | static_cast<storage_type>(f)); }
+    inline Flags operator^(Flags f) const { return Flags(flags_ ^ f.flags_); }
+    inline Flags operator^(Enum f) const { return Flags(flags_ ^ static_cast<storage_type>(f)); }
+    inline Flags operator&(Flags f) const { return Flags(flags_ & f.flags_); }
+    inline Flags operator&(Enum f) const { return Flags(flags_ & static_cast<storage_type>(f)); }
+    inline Flags operator~() const { return Flags(~flags_); }
 
-    bool operator==(const Flags &f) const { return m_flags == f.m_flags; }
-    bool operator==(Enum f) const { return m_flags == static_cast<storage_type>(f); }
+    bool operator==(const Flags &f) const { return flags_ == f.flags_; }
+    bool operator==(Enum f) const { return flags_ == static_cast<storage_type>(f); }
     bool operator!=(const Flags &f) const { return !operator==(f); }
     bool operator!=(Enum f) const { return !operator==(f); }
 
 private:
-    storage_type m_flags;
+    storage_type flags_;
 };
 }
 

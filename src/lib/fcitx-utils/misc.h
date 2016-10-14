@@ -53,32 +53,32 @@ public:
     typedef typename Iter::value_type::first_type &reference;
     typedef typename Iter::value_type::first_type *pointer;
 
-    KeyIterator(Iter iter) : m_iter(iter) {}
+    KeyIterator(Iter iter) : iter_(iter) {}
 
     KeyIterator(const KeyIterator &other) = default;
 
     KeyIterator &operator=(const KeyIterator &other) = default;
 
-    bool operator==(const KeyIterator &other) const noexcept { return m_iter == other.m_iter; }
+    bool operator==(const KeyIterator &other) const noexcept { return iter_ == other.iter_; }
     bool operator!=(const KeyIterator &other) const noexcept { return !operator==(other); }
 
     KeyIterator &operator++() {
-        m_iter++;
+        iter_++;
         return *this;
     }
 
     KeyIterator operator++(int) {
-        auto old = m_iter;
+        auto old = iter_;
         ++(*this);
         return {old};
     }
 
-    reference operator*() { return m_iter->first; }
+    reference operator*() { return iter_->first; }
 
-    pointer operator->() { return &m_iter->first; }
+    pointer operator->() { return &iter_->first; }
 
 private:
-    Iter m_iter;
+    Iter iter_;
 };
 
 template <class Iter>

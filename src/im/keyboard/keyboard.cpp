@@ -104,10 +104,10 @@ std::pair<std::string, std::string> layoutFromName(const std::string &s) {
 }
 
 KeyboardEngine::KeyboardEngine(Instance *instance)
-    : m_instance(instance), m_xkbContext(nullptr, &xkb_context_unref),
-      m_xkbComposeTable(nullptr, &xkb_compose_table_unref), m_xkbComposeState(nullptr, &xkb_compose_state_unref) {
-    m_isoCodes.read(ISOCODES_ISO639_XML, ISOCODES_ISO3166_XML);
-    auto xcb = m_instance->addonManager().addon("xcb");
+    : instance_(instance), xkbContext_(nullptr, &xkb_context_unref),
+      xkbComposeTable_(nullptr, &xkb_compose_table_unref), xkbComposeState_(nullptr, &xkb_compose_state_unref) {
+    isoCodes_.read(ISOCODES_ISO639_XML, ISOCODES_ISO3166_XML);
+    auto xcb = instance_->addonManager().addon("xcb");
     std::string rule;
 
     const char *locale = getenv("LC_ALL");
@@ -129,22 +129,22 @@ KeyboardEngine::KeyboardEngine(Instance *instance)
             } else {
                 rule = XKEYBOARDCONFIG_XKBBASE "/rules/" + rule + ".xml";
             }
-            m_ruleName = rule;
+            ruleName_ = rule;
         }
     }
-    if (rule.empty() || !m_xkbRules.read(rule)) {
+    if (rule.empty() || !xkbRules_.read(rule)) {
         rule = XKEYBOARDCONFIG_XKBBASE "/rules/" DEFAULT_XKB_RULES ".xml";
-        m_xkbRules.read(rule);
-        m_ruleName = DEFAULT_XKB_RULES;
+        xkbRules_.read(rule);
+        ruleName_ = DEFAULT_XKB_RULES;
     }
 
-    m_xkbContext.reset(xkb_context_new(XKB_CONTEXT_NO_FLAGS));
-    if (m_xkbContext) {
-        xkb_context_set_log_level(m_xkbContext.get(), XKB_LOG_LEVEL_CRITICAL);
-        m_xkbComposeTable.reset(
-            xkb_compose_table_new_from_locale(m_xkbContext.get(), locale, XKB_COMPOSE_COMPILE_NO_FLAGS));
-        if (m_xkbComposeTable) {
-            m_xkbComposeState.reset(xkb_compose_state_new(m_xkbComposeTable.get(), XKB_COMPOSE_STATE_NO_FLAGS));
+    xkbContext_.reset(xkb_context_new(XKB_CONTEXT_NO_FLAGS));
+    if (xkbContext_) {
+        xkb_context_set_log_level(xkbContext_.get(), XKB_LOG_LEVEL_CRITICAL);
+        xkbComposeTable_.reset(
+            xkb_compose_table_new_from_locale(xkbContext_.get(), locale, XKB_COMPOSE_COMPILE_NO_FLAGS));
+        if (xkbComposeTable_) {
+            xkbComposeState_.reset(xkb_compose_state_new(xkbComposeTable_.get(), XKB_COMPOSE_STATE_NO_FLAGS));
         }
     }
 }
@@ -153,9 +153,9 @@ KeyboardEngine::~KeyboardEngine() {}
 
 std::vector<InputMethodEntry> KeyboardEngine::listInputMethods() {
     std::vector<InputMethodEntry> result;
-    for (auto &p : m_xkbRules.layoutInfos()) {
+    for (auto &p : xkbRules_.layoutInfos()) {
         auto &layoutInfo = p.second;
-        auto language = findBestLanguage(m_isoCodes, layoutInfo.description, layoutInfo.languages);
+        auto language = findBestLanguage(isoCodes_, layoutInfo.description, layoutInfo.languages);
         auto description =
             stringutils::join({_("Keyboard"), " - ", D_("xkeyboard-config", layoutInfo.description)}, "");
         auto uniqueName = imNamePrefix + layoutInfo.name;
@@ -163,7 +163,7 @@ std::vector<InputMethodEntry> KeyboardEngine::listInputMethods() {
             InputMethodEntry(uniqueName, description, language, "keyboard").setIcon("kbd").setLabel(layoutInfo.name)));
         for (auto &variantInfo : layoutInfo.variantInfos) {
             auto language =
-                findBestLanguage(m_isoCodes, variantInfo.description,
+                findBestLanguage(isoCodes_, variantInfo.description,
                                  variantInfo.languages.size() ? variantInfo.languages : layoutInfo.languages);
             auto description = stringutils::join({_("Keyboard"), " - ", D_("xkeyboard-config", layoutInfo.description),
                                                   " - ", D_("xkeyboard-config", variantInfo.description)},
@@ -180,22 +180,22 @@ std::vector<InputMethodEntry> KeyboardEngine::listInputMethods() {
 uint32_t KeyboardEngine::processCompose(uint32_t keyval, uint32_t state) {
     // FIXME, should we check if state is 0?
     FCITX_UNUSED(state);
-    if (!m_xkbComposeState) {
+    if (!xkbComposeState_) {
         return 0;
     }
 
-    enum xkb_compose_feed_result result = xkb_compose_state_feed(m_xkbComposeState.get(), keyval);
+    enum xkb_compose_feed_result result = xkb_compose_state_feed(xkbComposeState_.get(), keyval);
     if (result == XKB_COMPOSE_FEED_IGNORED) {
         return 0;
     }
 
-    enum xkb_compose_status status = xkb_compose_state_get_status(m_xkbComposeState.get());
+    enum xkb_compose_status status = xkb_compose_state_get_status(xkbComposeState_.get());
     if (status == XKB_COMPOSE_NOTHING) {
         return 0;
     } else if (status == XKB_COMPOSE_COMPOSED) {
         char buffer[FCITX_UTF8_MAX_LENGTH + 1] = {'\0', '\0', '\0', '\0', '\0', '\0', '\0'};
-        int length = xkb_compose_state_get_utf8(m_xkbComposeState.get(), buffer, sizeof(buffer));
-        xkb_compose_state_reset(m_xkbComposeState.get());
+        int length = xkb_compose_state_get_utf8(xkbComposeState_.get(), buffer, sizeof(buffer));
+        xkb_compose_state_reset(xkbComposeState_.get());
         if (length == 0) {
             return INVALID_COMPOSE_RESULT;
         }
@@ -204,7 +204,7 @@ uint32_t KeyboardEngine::processCompose(uint32_t keyval, uint32_t state) {
         fcitx_utf8_get_char(buffer, &c);
         return c;
     } else if (status == XKB_COMPOSE_CANCELLED) {
-        xkb_compose_state_reset(m_xkbComposeState.get());
+        xkb_compose_state_reset(xkbComposeState_.get());
     }
 
     return INVALID_COMPOSE_RESULT;

@@ -31,14 +31,14 @@ namespace fcitx {
 
 class InputContextPrivate {
 public:
-    InputContextPrivate(InputContext *q, InputContextManager &manager_, const std::string &program_)
-        : q_ptr(q), manager(manager_), group(nullptr), hasFocus(false), program(program_) {
-        uuid_generate(uuid.data());
+    InputContextPrivate(InputContext *q, InputContextManager &manager, const std::string &program)
+        : q_ptr(q), manager_(manager), group_(nullptr), hasFocus_(false), program_(program) {
+        uuid_generate(uuid_.data());
     }
 
     template <typename E>
     bool postEvent(E &&event) {
-        if (auto instance = manager.instance()) {
+        if (auto instance = manager_.instance()) {
             return instance->postEvent(event);
         }
         return false;
@@ -46,27 +46,27 @@ public:
 
     template <typename E, typename... Args>
     bool emplaceEvent(Args &&... args) {
-        if (auto instance = manager.instance()) {
+        if (auto instance = manager_.instance()) {
             return instance->postEvent(E(std::forward<Args>(args)...));
         }
         return false;
     }
 
     InputContext *q_ptr;
-    InputContextManager &manager;
-    FocusGroup *group;
-    bool hasFocus;
-    std::string program;
-    std::string displayServer;
-    CapabilityFlags capabilityFlags;
-    SurroundingText surroundingText;
-    Text preedit;
-    Text clientPreedit;
-    Rect cursorRect;
+    InputContextManager &manager_;
+    FocusGroup *group_;
+    bool hasFocus_;
+    std::string program_;
+    std::string displayServer_;
+    CapabilityFlags capabilityFlags_;
+    SurroundingText surroundingText_;
+    Text preedit_;
+    Text clientPreedit_;
+    Rect cursorRect_;
 
-    IntrusiveListNode listNode;
-    ICUUID uuid;
-    std::unordered_map<std::string, std::unique_ptr<InputContextProperty>> properties;
+    IntrusiveListNode listNode_;
+    ICUUID uuid_;
+    std::unordered_map<std::string, std::unique_ptr<InputContextProperty>> properties_;
 
     FCITX_DECLARE_PUBLIC(InputContext);
 };

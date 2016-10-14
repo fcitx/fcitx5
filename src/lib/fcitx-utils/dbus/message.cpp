@@ -62,10 +62,10 @@ Message Message::createReply() const {
     FCITX_D();
     Message msg;
     auto msgD = msg.d_func();
-    if (sd_bus_message_new_method_return(d->msg, &msgD->msg) < 0) {
-        msgD->type = MessageType::Invalid;
+    if (sd_bus_message_new_method_return(d->msg_, &msgD->msg_) < 0) {
+        msgD->type_ = MessageType::Invalid;
     } else {
-        msgD->type = MessageType::Reply;
+        msgD->type_ = MessageType::Reply;
     }
     return msg;
 }
@@ -75,59 +75,59 @@ Message Message::createError(const char *name, const char *message) const {
     Message msg;
     sd_bus_error error = SD_BUS_ERROR_MAKE_CONST(name, message);
     auto msgD = msg.d_func();
-    int r = sd_bus_message_new_method_error(d->msg, &msgD->msg, &error);
+    int r = sd_bus_message_new_method_error(d->msg_, &msgD->msg_, &error);
     if (r < 0) {
-        msgD->type = MessageType::Invalid;
+        msgD->type_ = MessageType::Invalid;
     } else {
-        msgD->type = MessageType::Error;
+        msgD->type_ = MessageType::Error;
     }
     return msg;
 }
 
 MessageType Message::type() const {
     FCITX_D();
-    return d->type;
+    return d->type_;
 }
 
 void Message::setDestination(const std::string &dest) {
     FCITX_D();
-    if (d->msg) {
-        sd_bus_message_set_destination(d->msg, dest.c_str());
+    if (d->msg_) {
+        sd_bus_message_set_destination(d->msg_, dest.c_str());
     }
 }
 
 std::string Message::destination() const {
     FCITX_D();
-    if (!d->msg) {
+    if (!d->msg_) {
         return {};
     }
-    return sd_bus_message_get_destination(d->msg);
+    return sd_bus_message_get_destination(d->msg_);
 }
 
 std::string Message::sender() const {
     FCITX_D();
-    if (!d->msg) {
+    if (!d->msg_) {
         return {};
     }
-    return sd_bus_message_get_sender(d->msg);
+    return sd_bus_message_get_sender(d->msg_);
 }
 
 std::string Message::signature() const {
     FCITX_D();
-    return sd_bus_message_get_signature(d->msg, true);
+    return sd_bus_message_get_signature(d->msg_, true);
 }
 
 void *Message::nativeHandle() const {
     FCITX_D();
-    return d->msg;
+    return d->msg_;
 }
 
 Message Message::call(uint64_t timeout) {
     FCITX_D();
     ScopedSDBusError error;
     sd_bus_message *reply = nullptr;
-    auto bus = sd_bus_message_get_bus(d->msg);
-    int r = sd_bus_call(bus, d->msg, timeout, &error.error(), &reply);
+    auto bus = sd_bus_message_get_bus(d->msg_);
+    int r = sd_bus_call(bus, d->msg_, timeout, &error.error(), &reply);
     if (r < 0) {
         return createError(error.error().name, error.error().message);
     }
@@ -136,10 +136,10 @@ Message Message::call(uint64_t timeout) {
 
 Slot *Message::callAsync(uint64_t timeout, MessageCallback callback) {
     FCITX_D();
-    auto bus = sd_bus_message_get_bus(d->msg);
+    auto bus = sd_bus_message_get_bus(d->msg_);
     auto slot = std::make_unique<SDSlot>(callback);
     sd_bus_slot *sdSlot = nullptr;
-    int r = sd_bus_call_async(bus, &sdSlot, d->msg, SDMessageCallback, slot.get(), timeout);
+    int r = sd_bus_call_async(bus, &sdSlot, d->msg_, SDMessageCallback, slot.get(), timeout);
     if (r < 0) {
         return nullptr;
     }
@@ -151,31 +151,31 @@ Slot *Message::callAsync(uint64_t timeout, MessageCallback callback) {
 
 Message::operator bool() const {
     FCITX_D();
-    return d->lastError >= 0;
+    return d->lastError_ >= 0;
 }
 
 bool Message::end() const {
     FCITX_D();
-    return sd_bus_message_at_end(d->msg, 0) > 0;
+    return sd_bus_message_at_end(d->msg_, 0) > 0;
 }
 
 bool Message::send() {
     FCITX_D();
-    auto bus = sd_bus_message_get_bus(d->msg);
-    return sd_bus_send(bus, d->msg, 0) >= 0;
+    auto bus = sd_bus_message_get_bus(d->msg_);
+    return sd_bus_send(bus, d->msg_, 0) >= 0;
 }
 
 Message &Message::operator<<(bool b) {
     FCITX_D();
     int i = b ? 1 : 0;
-    d->lastError = sd_bus_message_append_basic(d->msg, SD_BUS_TYPE_BOOLEAN, &i);
+    d->lastError_ = sd_bus_message_append_basic(d->msg_, SD_BUS_TYPE_BOOLEAN, &i);
     return *this;
 }
 
 Message &Message::operator>>(bool &b) {
     FCITX_D();
     int i = 0;
-    d->lastError = sd_bus_message_read_basic(d->msg, SD_BUS_TYPE_BOOLEAN, &i);
+    d->lastError_ = sd_bus_message_read_basic(d->msg_, SD_BUS_TYPE_BOOLEAN, &i);
     b = i ? true : false;
     return *this;
 }
@@ -183,12 +183,12 @@ Message &Message::operator>>(bool &b) {
 #define _MARSHALL_FUNC(TYPE, TYPE2)                                                                                    \
     Message &Message::operator<<(TYPE v) {                                                                             \
         FCITX_D();                                                                                                     \
-        d->lastError = sd_bus_message_append_basic(d->msg, SD_BUS_TYPE_##TYPE2, &v);                                   \
+        d->lastError_ = sd_bus_message_append_basic(d->msg_, SD_BUS_TYPE_##TYPE2, &v);                                   \
         return *this;                                                                                                  \
     }                                                                                                                  \
     Message &Message::operator>>(TYPE &v) {                                                                            \
         FCITX_D();                                                                                                     \
-        d->lastError = sd_bus_message_read_basic(d->msg, SD_BUS_TYPE_##TYPE2, &v);                                     \
+        d->lastError_ = sd_bus_message_read_basic(d->msg_, SD_BUS_TYPE_##TYPE2, &v);                                     \
         return *this;                                                                                                  \
     }
 
@@ -203,14 +203,14 @@ _MARSHALL_FUNC(double, DOUBLE)
 
 Message &Message::operator<<(const std::string &s) {
     FCITX_D();
-    d->lastError = sd_bus_message_append_basic(d->msg, SD_BUS_TYPE_STRING, s.c_str());
+    d->lastError_ = sd_bus_message_append_basic(d->msg_, SD_BUS_TYPE_STRING, s.c_str());
     return *this;
 }
 
 Message &Message::operator>>(std::string &s) {
     FCITX_D();
     char *p = nullptr;
-    int r = d->lastError = sd_bus_message_read_basic(d->msg, SD_BUS_TYPE_STRING, &p);
+    int r = d->lastError_ = sd_bus_message_read_basic(d->msg_, SD_BUS_TYPE_STRING, &p);
     if (r < 0) {
     } else {
         s = p;
@@ -220,14 +220,14 @@ Message &Message::operator>>(std::string &s) {
 
 Message &Message::operator<<(const ObjectPath &o) {
     FCITX_D();
-    d->lastError = sd_bus_message_append_basic(d->msg, SD_BUS_TYPE_OBJECT_PATH, o.path().c_str());
+    d->lastError_ = sd_bus_message_append_basic(d->msg_, SD_BUS_TYPE_OBJECT_PATH, o.path().c_str());
     return *this;
 }
 
 Message &Message::operator>>(ObjectPath &o) {
     FCITX_D();
     char *p = nullptr;
-    int r = d->lastError = sd_bus_message_read_basic(d->msg, SD_BUS_TYPE_OBJECT_PATH, &p);
+    int r = d->lastError_ = sd_bus_message_read_basic(d->msg_, SD_BUS_TYPE_OBJECT_PATH, &p);
     if (r < 0) {
     } else {
         o = ObjectPath(p);
@@ -237,14 +237,14 @@ Message &Message::operator>>(ObjectPath &o) {
 
 Message &Message::operator<<(const Signature &s) {
     FCITX_D();
-    d->lastError = sd_bus_message_append_basic(d->msg, SD_BUS_TYPE_SIGNATURE, s.sig().c_str());
+    d->lastError_ = sd_bus_message_append_basic(d->msg_, SD_BUS_TYPE_SIGNATURE, s.sig().c_str());
     return *this;
 }
 
 Message &Message::operator>>(Signature &s) {
     FCITX_D();
     char *p = nullptr;
-    int r = d->lastError = sd_bus_message_read_basic(d->msg, SD_BUS_TYPE_SIGNATURE, &p);
+    int r = d->lastError_ = sd_bus_message_read_basic(d->msg_, SD_BUS_TYPE_SIGNATURE, &p);
     if (r < 0) {
     } else {
         s = Signature(p);
@@ -255,14 +255,14 @@ Message &Message::operator>>(Signature &s) {
 Message &Message::operator<<(const UnixFD &fd) {
     FCITX_D();
     int f = fd.fd();
-    d->lastError = sd_bus_message_append_basic(d->msg, SD_BUS_TYPE_UNIX_FD, &f);
+    d->lastError_ = sd_bus_message_append_basic(d->msg_, SD_BUS_TYPE_UNIX_FD, &f);
     return *this;
 }
 
 Message &Message::operator>>(UnixFD &fd) {
     FCITX_D();
     int f = -1;
-    int r = d->lastError = sd_bus_message_read_basic(d->msg, SD_BUS_TYPE_UNIX_FD, &f);
+    int r = d->lastError_ = sd_bus_message_read_basic(d->msg_, SD_BUS_TYPE_UNIX_FD, &f);
     if (r < 0) {
     } else {
         fd.give(f);
@@ -273,25 +273,25 @@ Message &Message::operator>>(UnixFD &fd) {
 Message &Message::operator<<(const Container &c) {
     FCITX_D();
 
-    d->lastError = sd_bus_message_open_container(d->msg, toSDBusType(c.type()), c.content().sig().c_str());
+    d->lastError_ = sd_bus_message_open_container(d->msg_, toSDBusType(c.type()), c.content().sig().c_str());
     return *this;
 }
 
 Message &Message::operator>>(const Container &c) {
     FCITX_D();
-    d->lastError = sd_bus_message_enter_container(d->msg, toSDBusType(c.type()), c.content().sig().c_str());
+    d->lastError_ = sd_bus_message_enter_container(d->msg_, toSDBusType(c.type()), c.content().sig().c_str());
     return *this;
 }
 
 Message &Message::operator<<(const ContainerEnd &) {
     FCITX_D();
-    d->lastError = sd_bus_message_close_container(d->msg);
+    d->lastError_ = sd_bus_message_close_container(d->msg_);
     return *this;
 }
 
 Message &Message::operator>>(const ContainerEnd &) {
     FCITX_D();
-    d->lastError = sd_bus_message_exit_container(d->msg);
+    d->lastError_ = sd_bus_message_exit_container(d->msg_);
     return *this;
 }
 }

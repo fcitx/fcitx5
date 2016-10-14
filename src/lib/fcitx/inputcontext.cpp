@@ -36,36 +36,36 @@ InputContext::InputContext(InputContextManager &manager, const std::string &prog
 InputContext::~InputContext() {
     FCITX_D();
     d->emplaceEvent<InputContextDestroyedEvent>(this);
-    if (d->group) {
-        d->group->removeInputContext(this);
+    if (d->group_) {
+        d->group_->removeInputContext(this);
     }
-    d->manager.unregisterInputContext(*this);
+    d->manager_.unregisterInputContext(*this);
 }
 
 const ICUUID &InputContext::uuid() const {
     FCITX_D();
-    return d->uuid;
+    return d->uuid_;
 }
 
 const std::string &InputContext::program() const {
     FCITX_D();
-    return d->program;
+    return d->program_;
 }
 
 const std::string &InputContext::displayServer() const {
     FCITX_D();
-    return d->displayServer;
+    return d->displayServer_;
 }
 
 void InputContext::setDisplayServer(const std::string &displayServer) {
     FCITX_D();
-    d->displayServer = displayServer;
+    d->displayServer_ = displayServer;
 }
 
 InputContextProperty *InputContext::property(const std::string &name) {
     FCITX_D();
-    auto iter = d->properties.find(name);
-    if (iter == d->properties.end()) {
+    auto iter = d->properties_.find(name);
+    if (iter == d->properties_.end()) {
         return nullptr;
     }
     return iter->second.get();
@@ -73,27 +73,27 @@ InputContextProperty *InputContext::property(const std::string &name) {
 
 void InputContext::updateProperty(const std::string &name) {
     FCITX_D();
-    auto iter = d->properties.find(name);
-    if (iter == d->properties.end() || !iter->second->needCopy()) {
+    auto iter = d->properties_.find(name);
+    if (iter == d->properties_.end() || !iter->second->needCopy()) {
         return;
     }
-    d->manager.propagateProperty(*this, name);
+    d->manager_.propagateProperty(*this, name);
 }
 
 void InputContext::registerProperty(const std::string &name, InputContextProperty *property) {
     FCITX_D();
-    d->properties[name].reset(property);
+    d->properties_[name].reset(property);
 }
 
 void InputContext::unregisterProperty(const std::string &name) {
     FCITX_D();
-    d->properties.erase(name);
+    d->properties_.erase(name);
 }
 
 void InputContext::setCapabilityFlags(CapabilityFlags flags) {
     FCITX_D();
-    if (d->capabilityFlags != flags) {
-        d->capabilityFlags = flags;
+    if (d->capabilityFlags_ != flags) {
+        d->capabilityFlags_ = flags;
 
         d->emplaceEvent<CapabilityChangedEvent>(this);
     }
@@ -101,13 +101,13 @@ void InputContext::setCapabilityFlags(CapabilityFlags flags) {
 
 CapabilityFlags InputContext::capabilityFlags() {
     FCITX_D();
-    return d->capabilityFlags;
+    return d->capabilityFlags_;
 }
 
 void InputContext::setCursorRect(Rect rect) {
     FCITX_D();
-    if (d->cursorRect != rect) {
-        d->cursorRect = rect;
+    if (d->cursorRect_ != rect) {
+        d->cursorRect_ = rect;
         d->emplaceEvent<CursorRectChangedEvent>(this);
     }
 }
@@ -115,29 +115,29 @@ void InputContext::setCursorRect(Rect rect) {
 void InputContext::setFocusGroup(FocusGroup *group) {
     FCITX_D();
     focusOut();
-    if (d->group) {
-        d->group->removeInputContext(this);
+    if (d->group_) {
+        d->group_->removeInputContext(this);
     }
-    d->group = group;
-    if (d->group) {
-        d->group->addInputContext(this);
+    d->group_ = group;
+    if (d->group_) {
+        d->group_->addInputContext(this);
     }
 }
 
 FocusGroup *InputContext::focusGroup() const {
     FCITX_D();
-    return d->group;
+    return d->group_;
 }
 
 void InputContext::focusIn() {
     FCITX_D();
-    if (d->group) {
+    if (d->group_) {
         if (focusGroupType() == FocusGroupType::Global) {
-            d->manager.focusOutNonGlobal();
+            d->manager_.focusOutNonGlobal();
         } else {
-            d->manager.globalFocusGroup().setFocusedInputContext(nullptr);
+            d->manager_.globalFocusGroup().setFocusedInputContext(nullptr);
         }
-        d->group->setFocusedInputContext(this);
+        d->group_->setFocusedInputContext(this);
     } else {
         setHasFocus(true);
     }
@@ -145,9 +145,9 @@ void InputContext::focusIn() {
 
 void InputContext::focusOut() {
     FCITX_D();
-    if (d->group) {
-        if (d->group->focusedInputContext() == this) {
-            d->group->setFocusedInputContext(nullptr);
+    if (d->group_) {
+        if (d->group_->focusedInputContext() == this) {
+            d->group_->setFocusedInputContext(nullptr);
         }
     } else {
         setHasFocus(false);
@@ -156,17 +156,17 @@ void InputContext::focusOut() {
 
 bool InputContext::hasFocus() const {
     FCITX_D();
-    return d->hasFocus;
+    return d->hasFocus_;
 }
 
 void InputContext::setHasFocus(bool hasFocus) {
     FCITX_D();
-    if (hasFocus == d->hasFocus) {
+    if (hasFocus == d->hasFocus_) {
         return;
     }
-    d->hasFocus = hasFocus;
+    d->hasFocus_ = hasFocus;
     // trigger event
-    if (d->hasFocus) {
+    if (d->hasFocus_) {
         d->emplaceEvent<FocusInEventEvent>(this);
     } else {
         d->emplaceEvent<FocusOutEventEvent>(this);
@@ -182,20 +182,20 @@ void InputContext::reset() {}
 
 FocusGroupType InputContext::focusGroupType() const {
     FCITX_D();
-    if (d->group) {
-        return d->group == &d->manager.globalFocusGroup() ? FocusGroupType::Global : FocusGroupType::Local;
+    if (d->group_) {
+        return d->group_ == &d->manager_.globalFocusGroup() ? FocusGroupType::Global : FocusGroupType::Local;
     }
     return FocusGroupType::Independent;
 }
 
 SurroundingText &InputContext::surroundingText() {
     FCITX_D();
-    return d->surroundingText;
+    return d->surroundingText_;
 }
 
 const SurroundingText &InputContext::surroundingText() const {
     FCITX_D();
-    return d->surroundingText;
+    return d->surroundingText_;
 }
 
 void InputContext::updateSurroundingText() {
@@ -205,22 +205,22 @@ void InputContext::updateSurroundingText() {
 
 Text &InputContext::preedit() {
     FCITX_D();
-    return d->preedit;
+    return d->preedit_;
 }
 
 const Text &InputContext::preedit() const {
     FCITX_D();
-    return d->preedit;
+    return d->preedit_;
 }
 
 Text &InputContext::clientPreedit() {
     FCITX_D();
-    return d->clientPreedit;
+    return d->clientPreedit_;
 }
 
 const Text &InputContext::clientPreedit() const {
     FCITX_D();
-    return d->clientPreedit;
+    return d->clientPreedit_;
 }
 
 void InputContext::commitString(const std::string &text) {

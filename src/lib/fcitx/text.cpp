@@ -24,8 +24,8 @@ namespace fcitx {
 
 class TextPrivate {
 public:
-    std::vector<std::pair<std::string, TextFormatFlags>> texts;
-    int cursor = 0;
+    std::vector<std::pair<std::string, TextFormatFlags>> texts_;
+    int cursor_ = 0;
 };
 
 Text::Text() : d_ptr(std::make_unique<TextPrivate>()) {}
@@ -34,44 +34,44 @@ Text::~Text() {}
 
 void Text::clear() {
     FCITX_D();
-    d->texts.clear();
+    d->texts_.clear();
     setCursor();
 }
 
 int Text::cursor() const {
     FCITX_D();
-    return d->cursor;
+    return d->cursor_;
 }
 
 void Text::setCursor(int pos) {
     FCITX_D();
-    d->cursor = pos;
+    d->cursor_ = pos;
 }
 
 void Text::append(const std::string &str, TextFormatFlags flag) {
     FCITX_D();
-    d->texts.emplace_back(str, flag);
+    d->texts_.emplace_back(str, flag);
 }
 
 const std::string &Text::stringAt(int idx) const {
     FCITX_D();
-    return d->texts[idx].first;
+    return d->texts_[idx].first;
 }
 
 TextFormatFlags Text::formatAt(int idx) const {
     FCITX_D();
-    return d->texts[idx].second;
+    return d->texts_[idx].second;
 }
 
 size_t Text::size() const {
     FCITX_D();
-    return d->texts.size();
+    return d->texts_.size();
 }
 
 std::string Text::toString() const {
     FCITX_D();
     std::stringstream ss;
-    for (auto &p : d->texts) {
+    for (auto &p : d->texts_) {
         ss << p.first;
     }
 

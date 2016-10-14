@@ -22,20 +22,20 @@
 
 namespace fcitx {
 OptionBase::OptionBase(Configuration *parent, std::string path, std::string description)
-    : m_parent(parent), m_path(path), m_description(description) {
-    m_parent->addOption(this);
+    : parent_(parent), path_(path), description_(description) {
+    parent_->addOption(this);
 }
 
 OptionBase::~OptionBase() {}
 
 bool OptionBase::isDefault() const { return false; }
 
-const std::string &OptionBase::path() const { return m_path; }
+const std::string &OptionBase::path() const { return path_; }
 
-const std::string &OptionBase::description() const { return m_description; }
+const std::string &OptionBase::description() const { return description_; }
 
 void OptionBase::dumpDescription(RawConfig &config) const {
     config.setValueByPath("Type", typeString());
-    config.setValueByPath("Description", m_description);
+    config.setValueByPath("Description", description_);
 }
 }

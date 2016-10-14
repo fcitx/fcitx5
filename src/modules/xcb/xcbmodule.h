@@ -50,12 +50,12 @@ public:
     void updateKeymap();
     HandlerTableEntry<XCBEventFilter> *addEventFilter(XCBEventFilter filter);
 
-    const std::string &name() const { return m_name; }
-    xcb_connection_t *connection() const { return m_conn.get(); }
-    int screen() const { return m_screen; }
-    FocusGroup *focusGroup() const { return m_group; }
+    const std::string &name() const { return name_; }
+    xcb_connection_t *connection() const { return conn_.get(); }
+    int screen() const { return screen_; }
+    FocusGroup *focusGroup() const { return group_; }
     struct xkb_state *xkbState() {
-        return m_state.get();
+        return state_.get();
     }
     XkbRulesNames xkbRulesNames();
 
@@ -63,29 +63,29 @@ private:
     bool filterEvent(xcb_connection_t *conn, xcb_generic_event_t *event);
     void onIOEvent();
 
-    XCBModule *m_parent;
-    std::string m_name;
-    std::unique_ptr<xcb_connection_t, decltype(&xcb_disconnect)> m_conn;
-    int m_screen;
-    xcb_atom_t m_atom;
-    xcb_window_t m_serverWindow;
-    xcb_window_t m_root;
-    FocusGroup *m_group;
+    XCBModule *parent_;
+    std::string name_;
+    std::unique_ptr<xcb_connection_t, decltype(&xcb_disconnect)> conn_;
+    int screen_;
+    xcb_atom_t atom_;
+    xcb_window_t serverWindow_;
+    xcb_window_t root_;
+    FocusGroup *group_;
 
-    bool m_hasXKB;
-    xcb_atom_t m_xkbRulesNamesAtom;
-    uint8_t m_xkbFirstEvent;
-    int32_t m_coreDeviceId;
+    bool hasXKB_;
+    xcb_atom_t xkbRulesNamesAtom_;
+    uint8_t xkbFirstEvent_;
+    int32_t coreDeviceId_;
 
-    std::unique_ptr<struct xkb_context, decltype(&xkb_context_unref)> m_context;
-    std::unique_ptr<struct xkb_keymap, decltype(&xkb_keymap_unref)> m_keymap;
-    std::unique_ptr<struct xkb_state, decltype(&xkb_state_unref)> m_state;
+    std::unique_ptr<struct xkb_context, decltype(&xkb_context_unref)> context_;
+    std::unique_ptr<struct xkb_keymap, decltype(&xkb_keymap_unref)> keymap_;
+    std::unique_ptr<struct xkb_state, decltype(&xkb_state_unref)> state_;
 
-    std::unique_ptr<EventSourceIO> m_ioEvent;
+    std::unique_ptr<EventSourceIO> ioEvent_;
 
-    HandlerTable<XCBEventFilter> m_filters;
-    // need to be clean up before m_filters destructs;
-    std::unique_ptr<HandlerTableEntry<XCBEventFilter>> m_filter;
+    HandlerTable<XCBEventFilter> filters_;
+    // need to be clean up before filters_ destructs;
+    std::unique_ptr<HandlerTableEntry<XCBEventFilter>> filter_;
 };
 
 class XCBModule : public AddonInstance {
@@ -94,7 +94,7 @@ public:
 
     void openConnection(const std::string &name);
     void removeConnection(const std::string &name);
-    Instance *instance() { return m_instance; }
+    Instance *instance() { return instance_; }
 
     HandlerTableEntry<XCBEventFilter> *addEventFilter(const std::string &name, XCBEventFilter filter);
     HandlerTableEntry<XCBConnectionCreated> *addConnectionCreatedCallback(XCBConnectionCreated callback);
@@ -106,10 +106,10 @@ private:
     void onConnectionCreated(XCBConnection &conn);
     void onConnectionClosed(XCBConnection &conn);
 
-    Instance *m_instance;
-    std::unordered_map<std::string, XCBConnection> m_conns;
-    HandlerTable<XCBConnectionCreated> m_createdCallbacks;
-    HandlerTable<XCBConnectionClosed> m_closedCallbacks;
+    Instance *instance_;
+    std::unordered_map<std::string, XCBConnection> conns_;
+    HandlerTable<XCBConnectionCreated> createdCallbacks_;
+    HandlerTable<XCBConnectionClosed> closedCallbacks_;
     FCITX_ADDON_EXPORT_FUNCTION(XCBModule, addEventFilter);
     FCITX_ADDON_EXPORT_FUNCTION(XCBModule, addConnectionCreatedCallback);
     FCITX_ADDON_EXPORT_FUNCTION(XCBModule, addConnectionClosedCallback);

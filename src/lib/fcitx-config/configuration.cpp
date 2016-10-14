@@ -28,8 +28,8 @@
 
 namespace fcitx {
 struct ConfigurationPrivate {
-    std::list<std::string> m_optionsOrder;
-    std::unordered_map<std::string, OptionBase *> m_options;
+    std::list<std::string> optionsOrder_;
+    std::unordered_map<std::string, OptionBase *> options_;
 };
 
 Configuration::Configuration() : d_ptr(std::make_unique<ConfigurationPrivate>()) {}
@@ -40,9 +40,9 @@ void Configuration::dumpDescription(RawConfig &config) const {
     FCITX_D();
     std::shared_ptr<RawConfig> subRoot = config.get(typeName(), true);
     std::vector<std::unique_ptr<Configuration>> subConfigs;
-    for (const auto &path : d->m_optionsOrder) {
-        auto optionIter = d->m_options.find(path);
-        assert(optionIter != d->m_options.end());
+    for (const auto &path : d->optionsOrder_) {
+        auto optionIter = d->options_.find(path);
+        assert(optionIter != d->options_.end());
         auto option = optionIter->second;
         auto descConfigPtr = subRoot->get(option->path(), true);
         option->dumpDescription(*descConfigPtr);
@@ -61,10 +61,10 @@ void Configuration::dumpDescription(RawConfig &config) const {
 
 bool Configuration::compareHelper(const Configuration &other) const {
     FCITX_D();
-    for (const auto &path : d->m_optionsOrder) {
-        auto optionIter = d->m_options.find(path);
-        assert(optionIter != d->m_options.end());
-        auto otherOptionIter = other.d_func()->m_options.find(path);
+    for (const auto &path : d->optionsOrder_) {
+        auto optionIter = d->options_.find(path);
+        assert(optionIter != d->options_.end());
+        auto otherOptionIter = other.d_func()->options_.find(path);
         if (*optionIter->second != *otherOptionIter->second) {
             return false;
         }
@@ -74,20 +74,20 @@ bool Configuration::compareHelper(const Configuration &other) const {
 
 void Configuration::copyHelper(const Configuration &other) {
     FCITX_D();
-    for (const auto &path : d->m_optionsOrder) {
-        auto optionIter = d->m_options.find(path);
-        assert(optionIter != d->m_options.end());
-        auto otherOptionIter = other.d_func()->m_options.find(path);
-        assert(otherOptionIter != d->m_options.end());
+    for (const auto &path : d->optionsOrder_) {
+        auto optionIter = d->options_.find(path);
+        assert(optionIter != d->options_.end());
+        auto otherOptionIter = other.d_func()->options_.find(path);
+        assert(otherOptionIter != d->options_.end());
         optionIter->second->copyFrom(*otherOptionIter->second);
     }
 }
 
 void Configuration::load(const RawConfig &config) {
     FCITX_D();
-    for (const auto &path : d->m_optionsOrder) {
+    for (const auto &path : d->optionsOrder_) {
         auto subConfigPtr = config.get(path);
-        auto option = d->m_options[path];
+        auto option = d->options_[path];
         if (!subConfigPtr) {
             option->reset();
             continue;
@@ -100,10 +100,10 @@ void Configuration::load(const RawConfig &config) {
 
 void Configuration::save(RawConfig &config) const {
     FCITX_D();
-    for (const auto &path : d->m_optionsOrder) {
+    for (const auto &path : d->optionsOrder_) {
         auto subConfigPtr = config.get(path, true);
-        auto iter = d->m_options.find(path);
-        assert(iter != d->m_options.end());
+        auto iter = d->options_.find(path);
+        assert(iter != d->options_.end());
         iter->second->marshall(*subConfigPtr);
         subConfigPtr->setComment(iter->second->description());
     }
@@ -111,11 +111,11 @@ void Configuration::save(RawConfig &config) const {
 
 void Configuration::addOption(OptionBase *option) {
     FCITX_D();
-    if (d->m_options.count(option->path())) {
+    if (d->options_.count(option->path())) {
         throw std::logic_error("Duplicate option path");
     }
 
-    d->m_optionsOrder.push_back(option->path());
-    d->m_options[option->path()] = option;
+    d->optionsOrder_.push_back(option->path());
+    d->options_[option->path()] = option;
 }
 }

@@ -35,27 +35,27 @@ namespace dbus {
 
 class ServiceWatcherPrivate {
 public:
-    ServiceWatcherPrivate(Bus &bus_)
-        : bus(&bus_),
-          watcherMap(
+    ServiceWatcherPrivate(Bus &bus)
+        : bus_(&bus),
+          watcherMap_(
               [this](const std::string &key) {
-                  auto slot = bus->addMatch(MATCH_PREFIX + key + MATCH_SUFFIX, [this](Message msg) {
+                  auto slot = bus_->addMatch(MATCH_PREFIX + key + MATCH_SUFFIX, [this](Message msg) {
                       std::string name, oldOwner, newOwner;
                       msg >> name >> oldOwner >> newOwner;
 
-                      auto view = watcherMap.view(name);
+                      auto view = watcherMap_.view(name);
                       for (auto &entry : view) {
                           entry(name, oldOwner, newOwner);
                       }
                       return true;
                   });
-                  slots.emplace(std::piecewise_construct, std::forward_as_tuple(key), std::forward_as_tuple(slot));
+                  slots_.emplace(std::piecewise_construct, std::forward_as_tuple(key), std::forward_as_tuple(slot));
               },
-              [this](const std::string &key) { slots.erase(key); }) {}
+              [this](const std::string &key) { slots_.erase(key); }) {}
 
-    Bus *bus;
-    MultiHandlerTable<std::string, ServiceWatcherCallback> watcherMap;
-    std::unordered_map<std::string, std::unique_ptr<Slot>> slots;
+    Bus *bus_;
+    MultiHandlerTable<std::string, ServiceWatcherCallback> watcherMap_;
+    std::unordered_map<std::string, std::unique_ptr<Slot>> slots_;
 };
 
 ServiceWatcher::ServiceWatcher(Bus &bus) : d_ptr(std::make_unique<ServiceWatcherPrivate>(bus)) {}
@@ -63,7 +63,7 @@ ServiceWatcher::ServiceWatcher(Bus &bus) : d_ptr(std::make_unique<ServiceWatcher
 HandlerTableEntry<ServiceWatcherCallback> *ServiceWatcher::watchService(const std::string &name,
                                                                         ServiceWatcherCallback callback) {
     FCITX_D();
-    return d->watcherMap.add(name, callback);
+    return d->watcherMap_.add(name, callback);
 }
 
 ServiceWatcher::~ServiceWatcher() {}

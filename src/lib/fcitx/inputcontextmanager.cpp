@@ -61,35 +61,35 @@ public:
     static FocusGroupPrivate *toFocusGroupPrivate(FocusGroup &group) { return group.d_func(); }
 
     inline bool registerProperty(const std::string &name, InputContextPropertyFactory factory) {
-        auto result = propertyFactories.emplace(name, std::move(factory));
+        auto result = propertyFactories_.emplace(name, std::move(factory));
         if (!result.second) {
             return false;
         }
-        for (auto &inputContext : inputContexts) {
+        for (auto &inputContext : inputContexts_) {
             inputContext.registerProperty(name, result.first->second(inputContext));
         }
         return true;
     }
 
     inline void unregisterProperty(const std::string &name) {
-        propertyFactories.erase(name);
-        for (auto &inputContext : inputContexts) {
+        propertyFactories_.erase(name);
+        for (auto &inputContext : inputContexts_) {
             inputContext.unregisterProperty(name);
         }
     }
 
     inline void registerInputContext(InputContext &inputContext) {
-        inputContexts.push_back(inputContext);
-        uuidMap.emplace(inputContext.uuid(), &inputContext);
+        inputContexts_.push_back(inputContext);
+        uuidMap_.emplace(inputContext.uuid(), &inputContext);
         if (!inputContext.program().empty()) {
-            programMap[inputContext.program()].insert(&inputContext);
+            programMap_[inputContext.program()].insert(&inputContext);
         }
-        for (auto &p : propertyFactories) {
+        for (auto &p : propertyFactories_) {
             auto property = p.second(inputContext);
             inputContext.registerProperty(p.first, property);
             if (property->needCopy() &&
-                (propertyPropagatePolicy == PropertyPropagatePolicy::All ||
-                 (!inputContext.program().empty() && propertyPropagatePolicy == PropertyPropagatePolicy::Program))) {
+                (propertyPropagatePolicy_ == PropertyPropagatePolicy::All ||
+                 (!inputContext.program().empty() && propertyPropagatePolicy_ == PropertyPropagatePolicy::Program))) {
                 auto copyProperty = [&p, &inputContext, &property](auto &container) {
                     for (auto &dstInputContext : container) {
                         if (toInputContextPointer(dstInputContext) != &inputContext) {
@@ -98,11 +98,11 @@ public:
                         }
                     }
                 };
-                if (propertyPropagatePolicy == PropertyPropagatePolicy::All) {
-                    copyProperty(inputContexts);
+                if (propertyPropagatePolicy_ == PropertyPropagatePolicy::All) {
+                    copyProperty(inputContexts_);
                 } else {
-                    auto iter = programMap.find(inputContext.program());
-                    if (iter != programMap.end()) {
+                    auto iter = programMap_.find(inputContext.program());
+                    if (iter != programMap_.end()) {
                         copyProperty(iter->second);
                     }
                 }
@@ -110,49 +110,49 @@ public:
         }
     }
 
-    std::unordered_map<std::array<uint8_t, sizeof(uuid_t)>, InputContext *, container_hasher> uuidMap;
-    IntrusiveList<InputContext, InputContextListHelper> inputContexts;
-    IntrusiveList<FocusGroup, FocusGroupListHelper> groups;
+    std::unordered_map<std::array<uint8_t, sizeof(uuid_t)>, InputContext *, container_hasher> uuidMap_;
+    IntrusiveList<InputContext, InputContextListHelper> inputContexts_;
+    IntrusiveList<FocusGroup, FocusGroupListHelper> groups_;
     // order matters, need to delete it before groups gone
-    std::unique_ptr<FocusGroup> globalFocusGroup;
-    Instance *instance = nullptr;
-    std::unordered_map<std::string, InputContextPropertyFactory> propertyFactories;
-    std::unordered_map<std::string, std::unordered_set<InputContext *>> programMap;
-    PropertyPropagatePolicy propertyPropagatePolicy = PropertyPropagatePolicy::None;
+    std::unique_ptr<FocusGroup> globalFocusGroup_;
+    Instance *instance_ = nullptr;
+    std::unordered_map<std::string, InputContextPropertyFactory> propertyFactories_;
+    std::unordered_map<std::string, std::unordered_set<InputContext *>> programMap_;
+    PropertyPropagatePolicy propertyPropagatePolicy_ = PropertyPropagatePolicy::None;
 };
 
 IntrusiveListNode &InputContextListHelper::toNode(InputContext &ic) noexcept {
-    return InputContextManagerPrivate::toInputContextPrivate(ic)->listNode;
+    return InputContextManagerPrivate::toInputContextPrivate(ic)->listNode_;
 }
 
 InputContext &InputContextListHelper::toValue(IntrusiveListNode &node) noexcept {
-    return *parentFromMember(&node, &InputContextPrivate::listNode)->q_func();
+    return *parentFromMember(&node, &InputContextPrivate::listNode_)->q_func();
 }
 
 IntrusiveListNode &FocusGroupListHelper::toNode(FocusGroup &group) noexcept {
-    return InputContextManagerPrivate::toFocusGroupPrivate(group)->listNode;
+    return InputContextManagerPrivate::toFocusGroupPrivate(group)->listNode_;
 }
 
 FocusGroup &FocusGroupListHelper::toValue(IntrusiveListNode &node) noexcept {
-    return *parentFromMember(&node, &FocusGroupPrivate::listNode)->q_func();
+    return *parentFromMember(&node, &FocusGroupPrivate::listNode_)->q_func();
 }
 
 InputContextManager::InputContextManager() : d_ptr(std::make_unique<InputContextManagerPrivate>()) {
     FCITX_D();
-    d->globalFocusGroup.reset(new FocusGroup(*this));
+    d->globalFocusGroup_.reset(new FocusGroup(*this));
 }
 
 InputContextManager::~InputContextManager() {}
 
 FocusGroup &InputContextManager::globalFocusGroup() {
     FCITX_D();
-    return *d->globalFocusGroup;
+    return *d->globalFocusGroup_;
 }
 
 InputContext *InputContextManager::findByUUID(ICUUID uuid) {
     FCITX_D();
-    auto iter = d->uuidMap.find(uuid);
-    return (iter == d->uuidMap.end()) ? nullptr : iter->second;
+    auto iter = d->uuidMap_.find(uuid);
+    return (iter == d->uuidMap_.end()) ? nullptr : iter->second;
 }
 
 bool InputContextManager::registerProperty(const std::string &name, InputContextPropertyFactory factory) {
@@ -167,17 +167,17 @@ void InputContextManager::unregisterProperty(const std::string &name) {
 
 void InputContextManager::setPropertyPropagatePolicy(PropertyPropagatePolicy policy) {
     FCITX_D();
-    d->propertyPropagatePolicy = policy;
+    d->propertyPropagatePolicy_ = policy;
 }
 
 void InputContextManager::setInstance(Instance *instance) {
     FCITX_D();
-    d->instance = instance;
+    d->instance_ = instance;
 }
 
 Instance *InputContextManager::instance() {
     FCITX_D();
-    return d->instance;
+    return d->instance_;
 }
 
 void InputContextManager::registerInputContext(InputContext &inputContext) {
@@ -188,32 +188,32 @@ void InputContextManager::registerInputContext(InputContext &inputContext) {
 void InputContextManager::unregisterInputContext(InputContext &inputContext) {
     FCITX_D();
     if (!inputContext.program().empty()) {
-        auto iter = d->programMap.find(inputContext.program());
-        if (iter != d->programMap.end()) {
+        auto iter = d->programMap_.find(inputContext.program());
+        if (iter != d->programMap_.end()) {
             iter->second.erase(&inputContext);
             if (iter->second.empty()) {
-                d->programMap.erase(iter);
+                d->programMap_.erase(iter);
             }
         }
     }
-    d->uuidMap.erase(inputContext.uuid());
-    d->inputContexts.erase(d->inputContexts.iterator_to(inputContext));
+    d->uuidMap_.erase(inputContext.uuid());
+    d->inputContexts_.erase(d->inputContexts_.iterator_to(inputContext));
 }
 
 void InputContextManager::registerFocusGroup(FocusGroup &group) {
     FCITX_D();
-    d->groups.push_back(group);
+    d->groups_.push_back(group);
 }
 
 void InputContextManager::unregisterFocusGroup(FocusGroup &group) {
     FCITX_D();
-    d->groups.erase(d->groups.iterator_to(group));
+    d->groups_.erase(d->groups_.iterator_to(group));
 }
 
 void InputContextManager::propagateProperty(InputContext &inputContext, const std::string &name) {
     FCITX_D();
-    if (d->propertyPropagatePolicy == PropertyPropagatePolicy::None ||
-        (inputContext.program().empty() && d->propertyPropagatePolicy == PropertyPropagatePolicy::Program)) {
+    if (d->propertyPropagatePolicy_ == PropertyPropagatePolicy::None ||
+        (inputContext.program().empty() && d->propertyPropagatePolicy_ == PropertyPropagatePolicy::Program)) {
         return;
     }
 
@@ -227,11 +227,11 @@ void InputContextManager::propagateProperty(InputContext &inputContext, const st
         }
     };
 
-    if (d->propertyPropagatePolicy == PropertyPropagatePolicy::All) {
-        copyProperty(d->inputContexts);
+    if (d->propertyPropagatePolicy_ == PropertyPropagatePolicy::All) {
+        copyProperty(d->inputContexts_);
     } else {
-        auto iter = d->programMap.find(inputContext.program());
-        if (iter != d->programMap.end()) {
+        auto iter = d->programMap_.find(inputContext.program());
+        if (iter != d->programMap_.end()) {
             copyProperty(iter->second);
         }
     }
@@ -239,8 +239,8 @@ void InputContextManager::propagateProperty(InputContext &inputContext, const st
 
 void InputContextManager::focusOutNonGlobal() {
     FCITX_D();
-    for (auto &group : d->groups) {
-        if (&group != d->globalFocusGroup.get()) {
+    for (auto &group : d->groups_) {
+        if (&group != d->globalFocusGroup_.get()) {
             group.setFocusedInputContext(nullptr);
         }
     }

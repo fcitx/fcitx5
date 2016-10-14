@@ -31,10 +31,10 @@ namespace fcitx {
 
 class LibraryPrivate {
 public:
-    LibraryPrivate(const std::string &path_) : path(path_), handle(nullptr) {}
-    std::string path;
-    void *handle;
-    std::string error;
+    LibraryPrivate(const std::string &path) : path_(path), handle_(nullptr) {}
+    std::string path_;
+    void *handle_;
+    std::string error_;
 };
 
 Library::Library(const std::string &path) : d_ptr(std::make_unique<LibraryPrivate>(path)) {}
@@ -71,9 +71,9 @@ bool Library::load(Flags<fcitx::LibraryLoadHint> hint) {
     }
 
     // allow dlopen self
-    d->handle = dlopen(!d->path.empty() ? d->path.c_str() : nullptr, flag);
-    if (!d->handle) {
-        d->error = dlerror();
+    d->handle_ = dlopen(!d->path_.empty() ? d->path_.c_str() : nullptr, flag);
+    if (!d->handle_) {
+        d->error_ = dlerror();
         return false;
     }
 
@@ -82,28 +82,28 @@ bool Library::load(Flags<fcitx::LibraryLoadHint> hint) {
 
 bool Library::loaded() const {
     FCITX_D();
-    return !!d->handle;
+    return !!d->handle_;
 }
 
 bool Library::unload() {
     FCITX_D();
-    if (!d->handle) {
+    if (!d->handle_) {
         return false;
     }
-    if (dlclose(d->handle)) {
-        d->error = dlerror();
+    if (dlclose(d->handle_)) {
+        d->error_ = dlerror();
         return false;
     }
 
-    d->handle = nullptr;
+    d->handle_ = nullptr;
     return true;
 }
 
 void *Library::resolve(const char *name) {
     FCITX_D();
-    auto result = dlsym(d->handle, name);
+    auto result = dlsym(d->handle_, name);
     if (!result) {
-        d->error = dlerror();
+        d->error_ = dlerror();
     }
     return result;
 }
@@ -111,8 +111,8 @@ void *Library::resolve(const char *name) {
 bool Library::findData(const char *slug, const char *magic, size_t lenOfMagic,
                        std::function<void(const char *data)> parser) {
     FCITX_D();
-    if (d->handle) {
-        void *data = dlsym(d->handle, slug);
+    if (d->handle_) {
+        void *data = dlsym(d->handle_, slug);
         if (!data) {
             return false;
         }
@@ -126,9 +126,9 @@ bool Library::findData(const char *slug, const char *magic, size_t lenOfMagic,
         return true;
     }
 
-    int fd = open(d->path.c_str(), O_RDONLY);
+    int fd = open(d->path_.c_str(), O_RDONLY);
     if (fd < 0) {
-        d->error = strerror(errno);
+        d->error_ = strerror(errno);
         return false;
     }
 
@@ -138,7 +138,7 @@ bool Library::findData(const char *slug, const char *magic, size_t lenOfMagic,
         struct stat statbuf;
         int statresult = fstat(fd, &statbuf);
         if (statresult < 0) {
-            d->error = strerror(errno);
+            d->error_ = strerror(errno);
             break;
         }
         void *needunmap = nullptr;
@@ -174,6 +174,6 @@ bool Library::findData(const char *slug, const char *magic, size_t lenOfMagic,
 
 std::string Library::error() {
     FCITX_D();
-    return d->error;
+    return d->error_;
 }
 }

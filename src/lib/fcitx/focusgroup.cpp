@@ -30,43 +30,43 @@ FocusGroup::FocusGroup(InputContextManager &manager) : d_ptr(std::make_unique<Fo
 
 FocusGroup::~FocusGroup() {
     FCITX_D();
-    while (!d->ics.empty()) {
-        auto ic = *d->ics.begin();
+    while (!d->ics_.empty()) {
+        auto ic = *d->ics_.begin();
         ic->setFocusGroup(nullptr);
     }
-    d->manager.unregisterFocusGroup(*this);
+    d->manager_.unregisterFocusGroup(*this);
 }
 
 void FocusGroup::setFocusedInputContext(InputContext *ic) {
     FCITX_D();
-    assert(!ic || d->ics.count(ic) > 0);
-    if (d->focus) {
-        d->focus->setHasFocus(false);
+    assert(!ic || d->ics_.count(ic) > 0);
+    if (d->focus_) {
+        d->focus_->setHasFocus(false);
     }
-    d->focus = ic;
-    if (d->focus) {
-        d->focus->setHasFocus(true);
+    d->focus_ = ic;
+    if (d->focus_) {
+        d->focus_->setHasFocus(true);
     }
 }
 
 InputContext *FocusGroup::focusedInputContext() const {
     FCITX_D();
-    return d->focus;
+    return d->focus_;
 }
 
 void FocusGroup::addInputContext(InputContext *ic) {
     FCITX_D();
-    auto iter = d->ics.insert(ic);
+    auto iter = d->ics_.insert(ic);
     assert(iter.second);
 }
 
 void FocusGroup::removeInputContext(InputContext *ic) {
     FCITX_D();
-    if (ic == d->focus) {
+    if (ic == d->focus_) {
         setFocusedInputContext(nullptr);
     }
-    auto iter = d->ics.find(ic);
-    assert(iter != d->ics.end());
-    d->ics.erase(ic);
+    auto iter = d->ics_.find(ic);
+    assert(iter != d->ics_.end());
+    d->ics_.erase(ic);
 }
 }

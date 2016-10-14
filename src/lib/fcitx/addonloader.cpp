@@ -29,25 +29,25 @@ AddonLoader::~AddonLoader() {}
 SharedLibraryLoader::~SharedLibraryLoader() {}
 
 AddonInstance *SharedLibraryLoader::load(const AddonInfo &info, AddonManager *manager) {
-    auto iter = m_registry.find(info.name());
-    if (iter == m_registry.end()) {
-        auto libs = m_standardPath.locateAll(StandardPath::Type::Addon, info.library() + FCITX_LIBRARY_SUFFIX);
+    auto iter = registry_.find(info.name());
+    if (iter == registry_.end()) {
+        auto libs = standardPath_.locateAll(StandardPath::Type::Addon, info.library() + FCITX_LIBRARY_SUFFIX);
         for (const auto &libraryPath : libs) {
             Library lib(libraryPath);
             if (!lib.load()) {
                 continue;
             }
             try {
-                m_registry.emplace(info.name(), std::make_unique<SharedLibraryFactory>(std::move(lib)));
+                registry_.emplace(info.name(), std::make_unique<SharedLibraryFactory>(std::move(lib)));
             } catch (const std::exception &e) {
                 std::cout << e.what() << std::endl;
             }
             break;
         }
-        iter = m_registry.find(info.name());
+        iter = registry_.find(info.name());
     }
 
-    if (iter == m_registry.end()) {
+    if (iter == registry_.end()) {
         return nullptr;
     }
     return iter->second->factory()->create(manager);

@@ -27,15 +27,15 @@ namespace dbus {
 
 class MessagePrivate {
 public:
-    MessagePrivate() : type(MessageType::Invalid), msg(nullptr) {}
+    MessagePrivate() : type_(MessageType::Invalid), msg_(nullptr) {}
     MessagePrivate(const MessagePrivate &other)
-        : type(other.type), msg(sd_bus_message_ref(other.msg)), lastError(other.lastError) {}
+        : type_(other.type_), msg_(sd_bus_message_ref(other.msg_)), lastError_(other.lastError_) {}
 
-    ~MessagePrivate() { sd_bus_message_unref(msg); }
+    ~MessagePrivate() { sd_bus_message_unref(msg_); }
 
     static Message fromSDBusMessage(sd_bus_message *sdmsg, bool ref = true) {
         Message message;
-        message.d_ptr->msg = ref ? sd_bus_message_ref(sdmsg) : sdmsg;
+        message.d_ptr->msg_ = ref ? sd_bus_message_ref(sdmsg) : sdmsg;
         uint8_t type = 0;
         MessageType msgType = MessageType::Invalid;
         sd_bus_message_get_type(sdmsg, &type);
@@ -54,14 +54,14 @@ public:
             break;
         }
 
-        message.d_ptr->type = msgType;
+        message.d_ptr->type_ = msgType;
 
         return message;
     }
 
-    MessageType type;
-    sd_bus_message *msg;
-    int lastError = 0;
+    MessageType type_;
+    sd_bus_message *msg_;
+    int lastError_ = 0;
 };
 }
 }

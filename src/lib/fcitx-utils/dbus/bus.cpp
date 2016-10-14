@@ -29,14 +29,14 @@ Slot::~Slot() {}
 
 class BusPrivate {
 public:
-    BusPrivate() : bus(nullptr) {}
+    BusPrivate() : bus_(nullptr) {}
 
     ~BusPrivate() {
-        sd_bus_detach_event(bus);
-        sd_bus_flush_close_unref(bus);
+        sd_bus_detach_event(bus_);
+        sd_bus_flush_close_unref(bus_);
     }
 
-    sd_bus *bus;
+    sd_bus *bus_;
 };
 
 Bus::Bus(BusType type) : d_ptr(std::make_unique<BusPrivate>()) {
@@ -52,25 +52,25 @@ Bus::Bus(BusType type) : d_ptr(std::make_unique<BusPrivate>()) {
         func = sd_bus_open;
         break;
     }
-    func(&d_ptr->bus);
+    func(&d_ptr->bus_);
 }
 
 Bus::Bus(const std::string &address) : d_ptr(std::make_unique<BusPrivate>()) {
-    if (sd_bus_new(&d_ptr->bus) < 0) {
+    if (sd_bus_new(&d_ptr->bus_) < 0) {
         goto fail;
     }
 
-    if (sd_bus_set_address(d_ptr->bus, address.c_str()) < 0) {
+    if (sd_bus_set_address(d_ptr->bus_, address.c_str()) < 0) {
         goto fail;
     }
 
-    if (sd_bus_start(d_ptr->bus) < 0) {
+    if (sd_bus_start(d_ptr->bus_) < 0) {
         goto fail;
     }
 
 fail:
-    sd_bus_unref(d_ptr->bus);
-    d_ptr->bus = nullptr;
+    sd_bus_unref(d_ptr->bus_);
+    d_ptr->bus_ = nullptr;
 }
 
 Bus::~Bus() {}
@@ -79,17 +79,17 @@ Bus::Bus(Bus &&other) noexcept : d_ptr(std::move(other.d_ptr)) {}
 
 bool Bus::isOpen() const {
     FCITX_D();
-    return d->bus && sd_bus_is_open(d->bus) > 0;
+    return d->bus_ && sd_bus_is_open(d->bus_) > 0;
 }
 
 Message Bus::createMethodCall(const char *destination, const char *path, const char *interface, const char *member) {
     FCITX_D();
     Message msg;
     auto msgD = msg.d_func();
-    if (sd_bus_message_new_method_call(d->bus, &msgD->msg, destination, path, interface, member) < 0) {
-        msgD->type = MessageType::Invalid;
+    if (sd_bus_message_new_method_call(d->bus_, &msgD->msg_, destination, path, interface, member) < 0) {
+        msgD->type_ = MessageType::Invalid;
     } else {
-        msgD->type = MessageType::MethodCall;
+        msgD->type_ = MessageType::MethodCall;
     }
     return msg;
 }
@@ -98,11 +98,11 @@ Message Bus::createSignal(const char *path, const char *interface, const char *m
     FCITX_D();
     Message msg;
     auto msgD = msg.d_func();
-    int r = sd_bus_message_new_signal(d->bus, &msgD->msg, path, interface, member);
+    int r = sd_bus_message_new_signal(d->bus_, &msgD->msg_, path, interface, member);
     if (r < 0) {
-        msgD->type = MessageType::Invalid;
+        msgD->type_ = MessageType::Invalid;
     } else {
-        msgD->type = MessageType::Signal;
+        msgD->type_ = MessageType::Signal;
     }
     return msg;
 }
@@ -110,12 +110,12 @@ Message Bus::createSignal(const char *path, const char *interface, const char *m
 void Bus::attachEventLoop(EventLoop *loop) {
     FCITX_D();
     sd_event *event = static_cast<sd_event *>(loop->nativeHandle());
-    sd_bus_attach_event(d->bus, event, 0);
+    sd_bus_attach_event(d->bus_, event, 0);
 }
 
 void Bus::detachEventLoop() {
     FCITX_D();
-    sd_bus_detach_event(d->bus);
+    sd_bus_detach_event(d->bus_);
 }
 
 int SDMessageCallback(sd_bus_message *m, void *userdata, sd_bus_error *) {
@@ -163,7 +163,7 @@ Slot *Bus::addMatch(const std::string &match, MessageCallback callback) {
     FCITX_D();
     auto slot = std::make_unique<SDSlot>(callback);
     sd_bus_slot *sdSlot;
-    int r = sd_bus_add_match(d->bus, &sdSlot, match.c_str(), SDMessageCallback, slot.get());
+    int r = sd_bus_add_match(d->bus_, &sdSlot, match.c_str(), SDMessageCallback, slot.get());
     if (r < 0) {
         return nullptr;
     }
@@ -177,7 +177,7 @@ Slot *Bus::addFilter(MessageCallback callback) {
     FCITX_D();
     auto slot = std::make_unique<SDSlot>(callback);
     sd_bus_slot *sdSlot;
-    int r = sd_bus_add_filter(d->bus, &sdSlot, SDMessageCallback, slot.get());
+    int r = sd_bus_add_filter(d->bus_, &sdSlot, SDMessageCallback, slot.get());
     if (r < 0) {
         return nullptr;
     }
@@ -191,7 +191,7 @@ Slot *Bus::addObject(const std::string &path, MessageCallback callback) {
     FCITX_D();
     auto slot = std::make_unique<SDSlot>(callback);
     sd_bus_slot *sdSlot;
-    int r = sd_bus_add_object(d->bus, &sdSlot, path.c_str(), SDMessageCallback, slot.get());
+    int r = sd_bus_add_object(d->bus_, &sdSlot, path.c_str(), SDMessageCallback, slot.get());
     if (r < 0) {
         return nullptr;
     }
@@ -205,7 +205,7 @@ bool Bus::addObjectVTable(const std::string &path, const std::string &interface,
     FCITX_D();
     auto slot = std::make_unique<SDVTableSlot>(vtable.d_func()->toSDBusVTable(), this, path, interface);
     sd_bus_slot *sdSlot;
-    int r = sd_bus_add_object_vtable(d->bus, &sdSlot, path.c_str(), interface.c_str(), slot->vtable.data(), &vtable);
+    int r = sd_bus_add_object_vtable(d->bus_, &sdSlot, path.c_str(), interface.c_str(), slot->vtable.data(), &vtable);
     if (r < 0) {
         return false;
     }
@@ -220,11 +220,11 @@ Slot *Bus::addObjectSubTree(const std::string &path, MessageCallback callback, E
     FCITX_D();
     auto slot = std::make_unique<SDSubTreeSlot>(callback, enumerator);
     sd_bus_slot *sdSlot, *sdEnumSlot;
-    int r = sd_bus_add_node_enumerator(d->bus, &sdSlot, path.c_str(), SDEnumeratorCallback, slot.get());
+    int r = sd_bus_add_node_enumerator(d->bus_, &sdSlot, path.c_str(), SDEnumeratorCallback, slot.get());
     if (r < 0) {
         return nullptr;
     }
-    r = sd_bus_add_fallback(d->bus, &sdEnumSlot, path.c_str(), SDMessageCallback, slot.get());
+    r = sd_bus_add_fallback(d->bus_, &sdEnumSlot, path.c_str(), SDMessageCallback, slot.get());
 
     slot->slot = sdSlot;
     slot->enumSlot = sdEnumSlot;
@@ -234,7 +234,7 @@ Slot *Bus::addObjectSubTree(const std::string &path, MessageCallback callback, E
 
 void *Bus::nativeHandle() const {
     FCITX_D();
-    return d->bus;
+    return d->bus_;
 }
 
 bool Bus::requestName(const std::string &name, Flags<RequestNameFlag> flags) {
@@ -242,13 +242,13 @@ bool Bus::requestName(const std::string &name, Flags<RequestNameFlag> flags) {
     int sd_flags = ((flags & RequestNameFlag::ReplaceExisting) ? SD_BUS_NAME_REPLACE_EXISTING : 0) |
                    ((flags & RequestNameFlag::AllowReplacement) ? SD_BUS_NAME_ALLOW_REPLACEMENT : 0) |
                    ((flags & RequestNameFlag::Queue) ? SD_BUS_NAME_QUEUE : 0);
-    int r = sd_bus_request_name(d->bus, name.c_str(), sd_flags);
+    int r = sd_bus_request_name(d->bus_, name.c_str(), sd_flags);
     return r >= 0;
 }
 
 bool Bus::releaseName(const std::string &name) {
     FCITX_D();
-    return sd_bus_release_name(d->bus, name.c_str()) >= 0;
+    return sd_bus_release_name(d->bus_, name.c_str()) >= 0;
 }
 
 std::string Bus::serviceOwner(const std::string &name, uint64_t usec) {
@@ -275,7 +275,7 @@ Slot *Bus::serviceOwnerAsync(const std::string &name, uint64_t usec, MessageCall
 std::string Bus::uniqueName() {
     FCITX_D();
     const char *name = nullptr;
-    if (sd_bus_get_unique_name(d->bus, &name) < 0) {
+    if (sd_bus_get_unique_name(d->bus_, &name) < 0) {
         return {};
     }
     return name;

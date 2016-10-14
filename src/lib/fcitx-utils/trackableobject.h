@@ -33,48 +33,48 @@ class TrackableObjectReference {
     friend class TrackableObject<T>;
 
 public:
-    bool isValid() const { return !m_that.expired(); }
+    bool isValid() const { return !that_.expired(); }
 
-    T *get() const { return m_that.expired() ? nullptr : m_rawThat; }
+    T *get() const { return that_.expired() ? nullptr : rawThat_; }
 
-    TrackableObjectReference() : m_rawThat(nullptr) {}
+    TrackableObjectReference() : rawThat_(nullptr) {}
 
     TrackableObjectReference(const TrackableObjectReference &other)
-        : m_that(other.m_that), m_rawThat(other.m_rawThat) {}
+        : that_(other.that_), rawThat_(other.rawThat_) {}
 
     TrackableObjectReference(TrackableObjectReference &&other)
-        : m_that(std::move(other.m_that)), m_rawThat(other.m_rawThat) {}
+        : that_(std::move(other.that_)), rawThat_(other.rawThat_) {}
 
     TrackableObjectReference &operator=(const TrackableObjectReference &other) {
         if (&other == this)
             return *this;
-        m_that = other.m_that;
-        m_rawThat = other.m_rawThat;
+        that_ = other.that_;
+        rawThat_ = other.rawThat_;
         return *this;
     }
 
     void unwatch() {
-        m_that.reset();
-        m_rawThat = nullptr;
+        that_.reset();
+        rawThat_ = nullptr;
     }
 
 private:
-    TrackableObjectReference(std::weak_ptr<T *> that, T *rawThat) : m_that(std::move(that)), m_rawThat(rawThat) {}
+    TrackableObjectReference(std::weak_ptr<T *> that, T *rawThat) : that_(std::move(that)), rawThat_(rawThat) {}
 
-    std::weak_ptr<T *> m_that;
-    T *m_rawThat;
+    std::weak_ptr<T *> that_;
+    T *rawThat_;
 };
 
 template <typename T>
 class TrackableObject {
 public:
-    TrackableObject() : m_self(std::make_unique<std::shared_ptr<T *>>(std::make_shared<T *>(static_cast<T *>(this)))) {}
+    TrackableObject() : self_(std::make_unique<std::shared_ptr<T *>>(std::make_shared<T *>(static_cast<T *>(this)))) {}
     TrackableObject(const TrackableObject &) = delete;
 
-    TrackableObjectReference<T> watch() { return TrackableObjectReference<T>(*m_self, static_cast<T *>(this)); }
+    TrackableObjectReference<T> watch() { return TrackableObjectReference<T>(*self_, static_cast<T *>(this)); }
 
 private:
-    std::unique_ptr<std::shared_ptr<T *>> m_self;
+    std::unique_ptr<std::shared_ptr<T *>> self_;
 };
 }
 

@@ -29,14 +29,14 @@ class InputContextManager;
 
 class FocusGroupPrivate {
 public:
-    FocusGroupPrivate(FocusGroup *q, InputContextManager &manager_) : q_ptr(q), manager(manager_), focus(nullptr) {}
+    FocusGroupPrivate(FocusGroup *q, InputContextManager &manager) : q_ptr(q), manager_(manager), focus_(nullptr) {}
 
     FocusGroup *q_ptr;
-    InputContextManager &manager;
-    InputContext *focus;
-    std::unordered_set<InputContext *> ics;
+    InputContextManager &manager_;
+    InputContext *focus_;
+    std::unordered_set<InputContext *> ics_;
 
-    IntrusiveListNode listNode;
+    IntrusiveListNode listNode_;
     FCITX_DECLARE_PUBLIC(FocusGroup);
 };
 }

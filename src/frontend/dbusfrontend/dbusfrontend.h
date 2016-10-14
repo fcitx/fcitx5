@@ -39,14 +39,14 @@ public:
 
     AddonInstance *dbus();
     dbus::Bus *bus();
-    Instance *instance() { return m_instance; }
+    Instance *instance() { return instance_; }
 
-    dbus::ServiceWatcher &serviceWatcher() { return *m_watcher; }
+    dbus::ServiceWatcher &serviceWatcher() { return *watcher_; }
 
 private:
-    Instance *m_instance;
-    std::unique_ptr<InputMethod1> m_inputMethod1;
-    std::unique_ptr<dbus::ServiceWatcher> m_watcher;
+    Instance *instance_;
+    std::unique_ptr<InputMethod1> inputMethod1_;
+    std::unique_ptr<dbus::ServiceWatcher> watcher_;
 };
 
 class DBusFrontendModuleFactory : public AddonFactory {

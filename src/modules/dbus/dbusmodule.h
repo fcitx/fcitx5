@@ -36,8 +36,8 @@ public:
 
 private:
     FCITX_ADDON_EXPORT_FUNCTION(DBusModule, bus);
-    std::unique_ptr<dbus::Bus> m_bus;
-    std::unique_ptr<Controller1> m_controller;
+    std::unique_ptr<dbus::Bus> bus_;
+    std::unique_ptr<Controller1> controller_;
 };
 
 class DBusModuleFactory : public AddonFactory {

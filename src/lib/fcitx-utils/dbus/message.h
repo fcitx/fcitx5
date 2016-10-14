@@ -59,36 +59,36 @@ enum class MessageType {
 
 class FCITXUTILS_EXPORT ObjectPath {
 public:
-    ObjectPath(const std::string &path = {}) : m_path(path) {}
+    ObjectPath(const std::string &path = {}) : path_(path) {}
 
-    const std::string &path() const { return m_path; }
+    const std::string &path() const { return path_; }
 
 private:
-    std::string m_path;
+    std::string path_;
 };
 
 class FCITXUTILS_EXPORT Signature {
 public:
-    Signature(const std::string &sig = {}) : m_sig(sig) {}
+    Signature(const std::string &sig = {}) : sig_(sig) {}
 
-    const std::string &sig() const { return m_sig; }
+    const std::string &sig() const { return sig_; }
 
 private:
-    std::string m_sig;
+    std::string sig_;
 };
 
 class FCITXUTILS_EXPORT Container {
 public:
     enum class Type { Array, DictEntry, Struct, Variant };
 
-    Container(Type t = Type::Array, const Signature &content = Signature()) : m_type(t), m_content(content) {}
+    Container(Type t = Type::Array, const Signature &content = Signature()) : type_(t), content_(content) {}
 
-    Type type() const { return m_type; }
-    const Signature &content() const { return m_content; }
+    Type type() const { return type_; }
+    const Signature &content() const { return content_; }
 
 private:
-    Type m_type;
-    Signature m_content;
+    Type type_;
+    Signature content_;
 };
 
 class FCITXUTILS_EXPORT ContainerEnd {};

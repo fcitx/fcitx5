@@ -36,18 +36,18 @@ namespace fcitx {
 
 StandardPathFile::~StandardPathFile() {}
 
-int StandardPathFile::release() { return m_fd.release(); }
+int StandardPathFile::release() { return fd_.release(); }
 
 StandardPathTempFile::~StandardPathTempFile() { close(); }
 
-int StandardPathTempFile::release() { return m_fd.release(); }
+int StandardPathTempFile::release() { return fd_.release(); }
 
 void StandardPathTempFile::close() {
-    if (m_fd.fd() >= 0) {
+    if (fd_.fd() >= 0) {
         // close it
-        m_fd.set(-1);
-        if (rename(m_tempPath.c_str(), m_path.c_str()) < 0) {
-            unlink(m_tempPath.c_str());
+        fd_.set(-1);
+        if (rename(tempPath_.c_str(), path_.c_str()) < 0) {
+            unlink(tempPath_.c_str());
         }
     }
 }
@@ -56,14 +56,14 @@ class StandardPathPrivate {
 public:
     StandardPathPrivate(bool skipFcitxPath) {
         // initialize user directory
-        configHome = defaultPath("XDG_CONFIG_HOME", ".config");
-        configDirs = defaultPaths("XDG_CONFIG_DIRS", "/etc/xdg", nullptr);
-        dataHome = defaultPath("XDG_DATA_HOME", ".local/share");
-        dataDirs = defaultPaths("XDG_DATA_DIRS", "/usr/local/share:/usr/share", skipFcitxPath ? nullptr : "datadir");
-        cacheHome = defaultPath("XDG_CACHE_HOME", ".cache");
+        configHome_ = defaultPath("XDG_CONFIG_HOME", ".config");
+        configDirs_ = defaultPaths("XDG_CONFIG_DIRS", "/etc/xdg", nullptr);
+        dataHome_ = defaultPath("XDG_DATA_HOME", ".local/share");
+        dataDirs_ = defaultPaths("XDG_DATA_DIRS", "/usr/local/share:/usr/share", skipFcitxPath ? nullptr : "datadir");
+        cacheHome_ = defaultPath("XDG_CACHE_HOME", ".cache");
         const char *tmpdir = getenv("TMPDIR");
-        runtimeDir = defaultPath("XDG_RUNTIME_DIR", !tmpdir || !tmpdir[0] ? "/tmp" : tmpdir);
-        addonDirs = defaultPaths("FCITX_ADDON_DIRS", FCITX_INSTALL_ADDONDIR, nullptr);
+        runtimeDir_ = defaultPath("XDG_RUNTIME_DIR", !tmpdir || !tmpdir[0] ? "/tmp" : tmpdir);
+        addonDirs_ = defaultPaths("FCITX_ADDON_DIRS", FCITX_INSTALL_ADDONDIR, nullptr);
     }
 
     // http://standards.freedesktop.org/basedir-spec/basedir-spec-latest.html
@@ -131,14 +131,14 @@ public:
     std::string userPath(StandardPath::Type type) const {
         switch (type) {
         case StandardPath::Type::Config:
-            return configHome;
+            return configHome_;
         case StandardPath::Type::Data:
-            return dataHome;
+            return dataHome_;
         case StandardPath::Type::Cache:
-            return cacheHome;
+            return cacheHome_;
             break;
         case StandardPath::Type::Runtime:
-            return runtimeDir;
+            return runtimeDir_;
         default:
             return {};
         }
@@ -147,23 +147,23 @@ public:
     std::vector<std::string> directories(StandardPath::Type type) const {
         switch (type) {
         case StandardPath::Type::Config:
-            return configDirs;
+            return configDirs_;
         case StandardPath::Type::Data:
-            return dataDirs;
+            return dataDirs_;
         case StandardPath::Type::Addon:
-            return addonDirs;
+            return addonDirs_;
         default:
             return {};
         }
     }
 
-    std::string configHome;
-    std::vector<std::string> configDirs;
-    std::string dataHome;
-    std::vector<std::string> dataDirs;
-    std::string cacheHome;
-    std::string runtimeDir;
-    std::vector<std::string> addonDirs;
+    std::string configHome_;
+    std::vector<std::string> configDirs_;
+    std::string dataHome_;
+    std::vector<std::string> dataDirs_;
+    std::string cacheHome_;
+    std::string runtimeDir_;
+    std::vector<std::string> addonDirs_;
 };
 
 std::string constructPath(const std::string &basepath, const std::string &path) {

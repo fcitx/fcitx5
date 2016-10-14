@@ -31,23 +31,23 @@ namespace fcitx {
 
 class SharedLibraryFactory {
 public:
-    SharedLibraryFactory(Library lib) : m_library(std::move(lib)) {
-        auto funcPtr = m_library.resolve("fcitx_addon_factory_instance");
+    SharedLibraryFactory(Library lib) : library_(std::move(lib)) {
+        auto funcPtr = library_.resolve("fcitx_addon_factory_instance");
         if (!funcPtr) {
-            throw std::runtime_error(m_library.error());
+            throw std::runtime_error(library_.error());
         }
         auto func = Library::toFunction<AddonFactory *()>(funcPtr);
-        m_factory = func();
-        if (!m_factory) {
+        factory_ = func();
+        if (!factory_) {
             throw std::runtime_error("Failed to get a factory");
         }
     }
 
-    AddonFactory *factory() { return m_factory; }
+    AddonFactory *factory() { return factory_; }
 
 private:
-    Library m_library;
-    AddonFactory *m_factory;
+    Library library_;
+    AddonFactory *factory_;
 };
 
 class SharedLibraryLoader : public AddonLoader {
@@ -58,8 +58,8 @@ public:
     std::string type() const override { return "SharedLibrary"; }
 
 private:
-    StandardPath m_standardPath;
-    std::unordered_map<std::string, std::unique_ptr<SharedLibraryFactory>> m_registry;
+    StandardPath standardPath_;
+    std::unordered_map<std::string, std::unique_ptr<SharedLibraryFactory>> registry_;
 };
 
 class StaticLibraryLoader : public AddonLoader {

@@ -55,11 +55,11 @@ void test_combiner() {
 
 class MaxInteger {
 public:
-    MaxInteger() : m_initial(INT32_MIN) {}
+    MaxInteger() : initial_(INT32_MIN) {}
 
     template <typename InputIterator>
     int operator()(InputIterator begin, InputIterator end) {
-        int v = m_initial;
+        int v = initial_;
         for (; begin != end; begin++) {
             int newv = *begin;
             if (newv > v) {
@@ -70,7 +70,7 @@ public:
     }
 
 private:
-    int m_initial;
+    int initial_;
 };
 
 void test_custom_combiner() {

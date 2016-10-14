@@ -42,13 +42,13 @@ public:
     ~XIMModule();
 
     AddonInstance *xcb();
-    Instance *instance() { return m_instance; }
+    Instance *instance() { return instance_; }
 
 private:
-    Instance *m_instance;
-    std::unordered_map<std::string, std::unique_ptr<XIMServer>> m_servers;
-    std::unique_ptr<HandlerTableEntry<XCBConnectionCreated>> m_createdCallback;
-    std::unique_ptr<HandlerTableEntry<XCBConnectionClosed>> m_closedCallback;
+    Instance *instance_;
+    std::unordered_map<std::string, std::unique_ptr<XIMServer>> servers_;
+    std::unique_ptr<HandlerTableEntry<XCBConnectionCreated>> createdCallback_;
+    std::unique_ptr<HandlerTableEntry<XCBConnectionClosed>> closedCallback_;
 };
 
 class XIMModuleFactory : public AddonFactory {
