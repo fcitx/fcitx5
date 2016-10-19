@@ -44,14 +44,20 @@ WaylandConnection::WaylandConnection(WaylandModule *wayland, const char *name) :
 WaylandConnection::~WaylandConnection() {
 }
 
-void WaylandConnection::onIOEvent() {
-    if (wl_display_dispatch(display_.get()) == -1) {
+void WaylandConnection::onIOEvent() {    
+    if (wl_display_prepare_read(display_.get()) == 0) {
+        wl_display_read_events(display_.get());
+    }
+
+    if (wl_display_dispatch_pending(display_.get()) < 0) {
         error_ = wl_display_get_error(display_.get());
         if (error_ != 0) {
             display_.reset();
             parent_->removeDisplay(name_);
         }
     }
+    
+    wl_display_flush(display_.get());
 }
 
 WaylandModule::WaylandModule(fcitx::Instance* instance): instance_(instance) {
