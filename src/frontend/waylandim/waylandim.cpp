@@ -50,7 +50,7 @@ private:
     FocusGroup *group_;
     std::string name_;
     WaylandIMModule *parent_;
-    zwp_input_method_v1 *inputMethodV1_;
+    zwp_input_method_v1 *inputMethodV1_ = nullptr;
 
     std::unique_ptr<struct xkb_context, decltype(&xkb_context_unref)> context_;
     std::unique_ptr<struct xkb_keymap, decltype(&xkb_keymap_unref)> keymap_;
