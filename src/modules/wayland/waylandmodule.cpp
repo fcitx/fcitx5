@@ -18,33 +18,31 @@
  */
 
 #include "waylandmodule.h"
-#include <wayland-client.h>
 #include <fcitx/instance.h>
+#include <wayland-client.h>
 
 namespace fcitx {
-    
-WaylandConnection::WaylandConnection(WaylandModule *wayland, const char *name) :
-    parent_(wayland), name_(name ? name : ""), display_(nullptr, wl_display_disconnect)
-{
+
+WaylandConnection::WaylandConnection(WaylandModule *wayland, const char *name)
+    : parent_(wayland), name_(name ? name : ""), display_(nullptr, wl_display_disconnect) {
     display_.reset(wl_display_connect(name));
     if (!display_) {
         throw std::runtime_error("Failed to open wayland connection");
     }
 
     auto &eventLoop = parent_->instance()->eventLoop();
-    ioEvent_.reset(eventLoop.addIOEvent(wl_display_get_fd(display_.get()), IOEventFlag::In, [this](EventSource *, int, IOEventFlags) {
-        onIOEvent();
-        return true;
-    }));
-    
+    ioEvent_.reset(eventLoop.addIOEvent(wl_display_get_fd(display_.get()), IOEventFlag::In,
+                                        [this](EventSource *, int, IOEventFlags) {
+                                            onIOEvent();
+                                            return true;
+                                        }));
+
     group_ = new FocusGroup(wayland->instance()->inputContextManager());
-    
 }
 
-WaylandConnection::~WaylandConnection() {
-}
+WaylandConnection::~WaylandConnection() {}
 
-void WaylandConnection::onIOEvent() {    
+void WaylandConnection::onIOEvent() {
     if (wl_display_prepare_read(display_.get()) == 0) {
         wl_display_read_events(display_.get());
     }
@@ -56,23 +54,21 @@ void WaylandConnection::onIOEvent() {
             parent_->removeDisplay(name_);
         }
     }
-    
+
     wl_display_flush(display_.get());
 }
 
-WaylandModule::WaylandModule(fcitx::Instance* instance): instance_(instance) {
-    openDisplay(""); 
-}
+WaylandModule::WaylandModule(fcitx::Instance *instance) : instance_(instance) { openDisplay(""); }
 
 void WaylandModule::openDisplay(const std::string &name) {
     const char *displayString = nullptr;
     if (!name.empty()) {
         displayString = name.c_str();
     }
-    
+
     try {
-        auto iter =
-            conns_.emplace(std::piecewise_construct, std::forward_as_tuple(name), std::forward_as_tuple(this, displayString));
+        auto iter = conns_.emplace(std::piecewise_construct, std::forward_as_tuple(name),
+                                   std::forward_as_tuple(this, displayString));
         onConnectionCreated(iter.first->second);
     } catch (const std::exception &e) {
     }
@@ -85,7 +81,8 @@ void WaylandModule::removeDisplay(const std::string &name) {
     }
 }
 
-HandlerTableEntry<WaylandConnectionCreated> *WaylandModule::addConnectionCreatedCallback(WaylandConnectionCreated callback) {
+HandlerTableEntry<WaylandConnectionCreated> *
+WaylandModule::addConnectionCreatedCallback(WaylandConnectionCreated callback) {
     auto result = createdCallbacks_.add(callback);
 
     for (auto &p : conns_) {
@@ -95,7 +92,8 @@ HandlerTableEntry<WaylandConnectionCreated> *WaylandModule::addConnectionCreated
     return result;
 }
 
-HandlerTableEntry<WaylandConnectionClosed> *WaylandModule::addConnectionClosedCallback(WaylandConnectionClosed callback) {
+HandlerTableEntry<WaylandConnectionClosed> *
+WaylandModule::addConnectionClosedCallback(WaylandConnectionClosed callback) {
     return closedCallbacks_.add(callback);
 }
 
@@ -110,7 +108,4 @@ void WaylandModule::onConnectionClosed(WaylandConnection &conn) {
         callback(conn.name(), conn.display());
     }
 }
-
-
-
 }

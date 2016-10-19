@@ -30,9 +30,7 @@ FCITXUTILS_EXPORT inline std::string::size_type lengthN(const std::string &s, si
     return fcitx_utf8_strnlen(s.c_str(), n);
 }
 
-FCITXUTILS_EXPORT inline bool validate(const std::string &s) {
-    return fcitx_utf8_check_string(s.c_str());
-}
+FCITXUTILS_EXPORT inline bool validate(const std::string &s) { return fcitx_utf8_check_string(s.c_str()); }
 
 FCITXUTILS_EXPORT std::string UCS4ToUTF8(uint32_t code);
 

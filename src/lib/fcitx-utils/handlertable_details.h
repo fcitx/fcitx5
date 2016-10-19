@@ -47,8 +47,7 @@ class ListHandlerTableEntry : public HandlerTableEntry<T> {
     friend struct IntrusiveListMemberNodeGetter<ListHandlerTableEntry<T>, &ListHandlerTableEntry<T>::node_>;
 
 public:
-    typedef struct IntrusiveListMemberNodeGetter<ListHandlerTableEntry, &ListHandlerTableEntry::node_>
-        node_getter_type;
+    typedef struct IntrusiveListMemberNodeGetter<ListHandlerTableEntry, &ListHandlerTableEntry::node_> node_getter_type;
     ListHandlerTableEntry(T handler) : HandlerTableEntry<T>(handler) {}
     virtual ~ListHandlerTableEntry() { node_.remove(); }
 };

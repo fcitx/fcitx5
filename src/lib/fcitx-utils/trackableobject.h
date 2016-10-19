@@ -39,8 +39,7 @@ public:
 
     TrackableObjectReference() : rawThat_(nullptr) {}
 
-    TrackableObjectReference(const TrackableObjectReference &other)
-        : that_(other.that_), rawThat_(other.rawThat_) {}
+    TrackableObjectReference(const TrackableObjectReference &other) : that_(other.that_), rawThat_(other.rawThat_) {}
 
     TrackableObjectReference(TrackableObjectReference &&other)
         : that_(std::move(other.that_)), rawThat_(other.rawThat_) {}

@@ -68,9 +68,7 @@ protected:
         return insertBetween(add, pos, pos->next_);
     }
 
-    void append(IntrusiveListNode *add, IntrusiveListNode *pos) noexcept {
-        return insertBetween(add, pos->prev_, pos);
-    }
+    void append(IntrusiveListNode *add, IntrusiveListNode *pos) noexcept { return insertBetween(add, pos->prev_, pos); }
 
     void remove(IntrusiveListNode *pos) noexcept {
         if (pos->list_ != this) {

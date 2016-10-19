@@ -35,9 +35,8 @@ public:
     virtual ~UserInterfaceManager();
 
     void init();
-    
+
     Menu *mainPanel();
-    
 
 private:
     std::unique_ptr<UserInterfaceManagerPrivate> d_ptr;

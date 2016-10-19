@@ -93,8 +93,7 @@ bool Key::isModifier() const {
 
 bool Key::isCursorMove() const {
     return ((sym_ == FcitxKey_Left || sym_ == FcitxKey_Right || sym_ == FcitxKey_Up || sym_ == FcitxKey_Down ||
-             sym_ == FcitxKey_Page_Up || sym_ == FcitxKey_Page_Down || sym_ == FcitxKey_Home ||
-             sym_ == FcitxKey_End) &&
+             sym_ == FcitxKey_Page_Up || sym_ == FcitxKey_Page_Down || sym_ == FcitxKey_Home || sym_ == FcitxKey_End) &&
             (states_ == KeyState::Ctrl || states_ == KeyState::Ctrl_Shift || states_ == KeyState::Shift ||
              states_ == KeyState::None));
 }
@@ -119,8 +118,8 @@ Key Key::normalize() const {
             }
         } else {
             if ((key.states_ & KeyState::Shift) && (((Key(key.sym_).isSimple() || keySymToUnicode(key.sym_) != 0) &&
-                                                      key.sym_ != FcitxKey_space && key.sym_ != FcitxKey_Return) ||
-                                                     (key.sym_ >= FcitxKey_KP_0 && key.sym_ <= FcitxKey_KP_9))) {
+                                                     key.sym_ != FcitxKey_space && key.sym_ != FcitxKey_Return) ||
+                                                    (key.sym_ >= FcitxKey_KP_0 && key.sym_ <= FcitxKey_KP_9))) {
                 key.states_ ^= KeyState::Shift;
             }
         }
@@ -149,7 +148,7 @@ std::string Key::toString() const {
 
     std::string str;
 #define _APPEND_MODIFIER_STRING(STR, VALUE)                                                                            \
-    if (states_ & KeyState::VALUE) {                                                                                  \
+    if (states_ & KeyState::VALUE) {                                                                                   \
         str += STR;                                                                                                    \
     }
     _APPEND_MODIFIER_STRING("Control+", Ctrl)

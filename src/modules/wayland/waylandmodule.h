@@ -19,17 +19,17 @@
 #ifndef _FCITX_MODULES_WAYLAND_WAYLANDMODULE_H_
 #define _FCITX_MODULES_WAYLAND_WAYLANDMODULE_H_
 
-#include <fcitx/addoninstance.h>
-#include <fcitx/addonfactory.h>
-#include <fcitx/addonmanager.h>
-#include <fcitx/instance.h>
-#include <fcitx/focusgroup.h>
-#include <wayland-client.h>
 #include "wayland_public.h"
 #include <fcitx-utils/event.h>
+#include <fcitx/addonfactory.h>
+#include <fcitx/addoninstance.h>
+#include <fcitx/addonmanager.h>
+#include <fcitx/focusgroup.h>
+#include <fcitx/instance.h>
+#include <wayland-client.h>
 
 namespace fcitx {
-    
+
 class WaylandModule;
 
 class WaylandConnection {
@@ -43,7 +43,7 @@ public:
 
 private:
     void onIOEvent();
-    
+
     WaylandModule *parent_;
     std::string name_;
     std::unique_ptr<wl_display, decltype(&wl_display_disconnect)> display_;
@@ -56,17 +56,17 @@ class WaylandModule : public AddonInstance {
 public:
     WaylandModule(Instance *instance);
     Instance *instance() { return instance_; }
-    
+
     void openDisplay(const std::string &display);
     void removeDisplay(const std::string &name);
-    
+
     HandlerTableEntry<WaylandConnectionCreated> *addConnectionCreatedCallback(WaylandConnectionCreated callback);
     HandlerTableEntry<WaylandConnectionClosed> *addConnectionClosedCallback(WaylandConnectionClosed callback);
+
 private:
     void onConnectionCreated(WaylandConnection &conn);
     void onConnectionClosed(WaylandConnection &conn);
-    
-    
+
     Instance *instance_;
     std::unordered_map<std::string, WaylandConnection> conns_;
     HandlerTable<WaylandConnectionCreated> createdCallbacks_;

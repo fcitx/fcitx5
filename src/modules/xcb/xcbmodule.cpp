@@ -50,8 +50,8 @@ XCBReply<T> makeXCBReply(T *ptr) {
 }
 
 XCBConnection::XCBConnection(XCBModule *xcb, const std::string &name)
-    : parent_(xcb), name_(name), conn_(nullptr, xcb_disconnect), screen_(0), atom_(0), serverWindow_(0),
-      root_(0), group_(nullptr), hasXKB_(false), xkbRulesNamesAtom_(0), xkbFirstEvent_(0), coreDeviceId_(0),
+    : parent_(xcb), name_(name), conn_(nullptr, xcb_disconnect), screen_(0), atom_(0), serverWindow_(0), root_(0),
+      group_(nullptr), hasXKB_(false), xkbRulesNamesAtom_(0), xkbFirstEvent_(0), coreDeviceId_(0),
       context_(nullptr, xkb_context_unref), keymap_(nullptr, xkb_keymap_unref), state_(nullptr, xkb_state_unref) {
     conn_.reset(xcb_connect(name.c_str(), &screen_));
     if (!conn_ || xcb_connection_has_error(conn_.get())) {
@@ -103,8 +103,8 @@ XCBConnection::XCBConnection(XCBModule *xcb, const std::string &name)
             // XKB events are reported to all interested clients without regard
             // to the current keyboard input focus or grab state
             xcb_void_cookie_t select =
-                xcb_xkb_select_events_checked(conn_.get(), XCB_XKB_ID_USE_CORE_KBD, required_events, 0,
-                                              required_events, required_map_parts, required_map_parts, 0);
+                xcb_xkb_select_events_checked(conn_.get(), XCB_XKB_ID_USE_CORE_KBD, required_events, 0, required_events,
+                                              required_map_parts, required_map_parts, 0);
             XCBReply<xcb_generic_error_t> error(xcb_request_check(conn_.get(), select), std::free);
             if (!error) {
                 hasXKB_ = true;
@@ -225,9 +225,7 @@ void XCBConnection::updateKeymap() {
     state_.reset(new_state);
 }
 
-HandlerTableEntry<XCBEventFilter> *XCBConnection::addEventFilter(XCBEventFilter filter) {
-    return filters_.add(filter);
-}
+HandlerTableEntry<XCBEventFilter> *XCBConnection::addEventFilter(XCBEventFilter filter) { return filters_.add(filter); }
 
 XkbRulesNames XCBConnection::xkbRulesNames() {
     if (!xkbRulesNamesAtom_) {

@@ -71,8 +71,8 @@ public:
                           XCB_WINDOW_CLASS_INPUT_OUTPUT, screen->root_visual, 0, NULL);
 
         im_.reset(xcb_im_create(conn, defaultScreen, serverWindow_, guess_server_name().c_str(), XCB_IM_ALL_LOCALES,
-                                 &styles, NULL, NULL, &encodings, XCB_EVENT_MASK_KEY_PRESS | XCB_EVENT_MASK_KEY_RELEASE,
-                                 &XIMServer::callback, this));
+                                &styles, NULL, NULL, &encodings, XCB_EVENT_MASK_KEY_PRESS | XCB_EVENT_MASK_KEY_RELEASE,
+                                &XIMServer::callback, this));
 
         filter_.reset(parent_->xcb()->call<fcitx::IXCBModule::addEventFilter>(
             name,
@@ -280,7 +280,7 @@ void XIMServer::callback(xcb_im_client_t *client, xcb_im_input_context_t *xic, c
 
 XIMModule::XIMModule(Instance *instance)
     : instance_(instance), createdCallback_(xcb()->call<IXCBModule::addConnectionCreatedCallback>([this](
-                                const std::string &name, xcb_connection_t *conn, int defaultScreen, FocusGroup *group) {
+                               const std::string &name, xcb_connection_t *conn, int defaultScreen, FocusGroup *group) {
           XIMServer *server = new XIMServer(conn, defaultScreen, group, name, this);
           servers_[name].reset(server);
       })),

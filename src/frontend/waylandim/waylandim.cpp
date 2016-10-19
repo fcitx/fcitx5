@@ -29,6 +29,7 @@ namespace fcitx {
 
 class WaylandIMServer {
     friend class WaylandIMInputContextV1;
+
 public:
     WaylandIMServer(wl_display *display, FocusGroup *group, const std::string &name, WaylandIMModule *waylandim);
 
@@ -54,21 +55,21 @@ private:
     std::unique_ptr<struct xkb_context, decltype(&xkb_context_unref)> context_;
     std::unique_ptr<struct xkb_keymap, decltype(&xkb_keymap_unref)> keymap_;
     std::unique_ptr<struct xkb_state, decltype(&xkb_state_unref)> state_;
-    
+
     struct StateMask {
-        uint32_t shift_mask;
-        uint32_t lock_mask;
-        uint32_t control_mask;
-        uint32_t mod1_mask;
-        uint32_t mod2_mask;
-        uint32_t mod3_mask;
-        uint32_t mod4_mask;
-        uint32_t mod5_mask;
-        uint32_t super_mask;
-        uint32_t hyper_mask;
-        uint32_t meta_mask;
+        uint32_t shift_mask = 0;
+        uint32_t lock_mask = 0;
+        uint32_t control_mask = 0;
+        uint32_t mod1_mask = 0;
+        uint32_t mod2_mask = 0;
+        uint32_t mod3_mask = 0;
+        uint32_t mod4_mask = 0;
+        uint32_t mod5_mask = 0;
+        uint32_t super_mask = 0;
+        uint32_t hyper_mask = 0;
+        uint32_t meta_mask = 0;
     } stateMask_;
-    
+
     KeyStates modifiers_;
 };
 
@@ -143,7 +144,7 @@ protected:
         // FIXME second string should be for commit
         zwp_input_method_context_v1_preedit_string(ic_, serial_, preedit.toString().c_str(),
                                                    preedit.toString().c_str());
-        unsigned int index;
+        unsigned int index = 0;
         for (int i = 0, e = preedit.size(); i < e; i++) {
             zwp_input_method_context_v1_preedit_styling(ic_, index, preedit.stringAt(i).size(),
                                                         waylandFormat(preedit.formatAt(i)));
@@ -212,7 +213,8 @@ const struct wl_keyboard_listener WaylandIMInputContextV1::keyboardListener = {
 
 WaylandIMServer::WaylandIMServer(wl_display *display, FocusGroup *group, const std::string &name,
                                  WaylandIMModule *waylandim)
-    : group_(group), name_(name), parent_(waylandim), context_(nullptr, &xkb_context_unref), keymap_(nullptr, xkb_keymap_unref), state_(nullptr, xkb_state_unref) {
+    : group_(group), name_(name), parent_(waylandim), context_(nullptr, &xkb_context_unref),
+      keymap_(nullptr, xkb_keymap_unref), state_(nullptr, xkb_state_unref) {
     struct wl_registry *registry = wl_display_get_registry(display);
     wl_registry_add_listener(registry, &WaylandIMServer::registryListener, waylandim);
 }
@@ -350,11 +352,13 @@ void WaylandIMInputContextV1::preferredLanguageCallback(struct zwp_input_method_
 }
 
 void WaylandIMInputContextV1::keymapCallback(struct wl_keyboard *keyboard, uint32_t format, int32_t fd, uint32_t size) {
+    FCITX_UNUSED(keyboard);
+    FCITX_UNUSED(size);
     if (!server_->context_) {
         server_->context_.reset(xkb_context_new(XKB_CONTEXT_NO_FLAGS));
         xkb_context_set_log_level(server_->context_.get(), XKB_LOG_LEVEL_CRITICAL);
     }
-    
+
     if (format != WL_KEYBOARD_KEYMAP_FORMAT_XKB_V1) {
         close(fd);
         return;
@@ -366,7 +370,7 @@ void WaylandIMInputContextV1::keymapCallback(struct wl_keyboard *keyboard, uint3
 
     std::vector<char> buffer;
     buffer.resize(1024);
-    int bufferPtr = 0;
+    size_t bufferPtr = 0;
     int readSize;
     while ((readSize = read(fd, &buffer.data()[bufferPtr], buffer.size() - bufferPtr)) > 0) {
         bufferPtr += readSize;
@@ -376,10 +380,8 @@ void WaylandIMInputContextV1::keymapCallback(struct wl_keyboard *keyboard, uint3
     }
     buffer[bufferPtr] = 0;
 
-    server_->keymap_.reset(xkb_keymap_new_from_string (server_->context_.get(),
-                                 buffer.data(),
-                                 XKB_KEYMAP_FORMAT_TEXT_V1,
-                                 XKB_KEYMAP_COMPILE_NO_FLAGS));
+    server_->keymap_.reset(xkb_keymap_new_from_string(server_->context_.get(), buffer.data(), XKB_KEYMAP_FORMAT_TEXT_V1,
+                                                      XKB_KEYMAP_COMPILE_NO_FLAGS));
 
     close(fd);
 
@@ -387,67 +389,50 @@ void WaylandIMInputContextV1::keymapCallback(struct wl_keyboard *keyboard, uint3
         return;
     }
 
-    server_->state_.reset(xkb_state_new (server_->keymap_.get()));
+    server_->state_.reset(xkb_state_new(server_->keymap_.get()));
     if (!server_->state_) {
         server_->keymap_.reset();
         return;
     }
 
-    server_->stateMask_.shift_mask =
-        1 << xkb_keymap_mod_get_index(server_->keymap_.get(), "Shift");
-    server_->stateMask_.lock_mask =
-        1 << xkb_keymap_mod_get_index(server_->keymap_.get(), "Lock");
-    server_->stateMask_.control_mask =
-        1 << xkb_keymap_mod_get_index(server_->keymap_.get(), "Control");
-    server_->stateMask_.mod1_mask =
-        1 << xkb_keymap_mod_get_index(server_->keymap_.get(), "Mod1");
-    server_->stateMask_.mod2_mask =
-        1 << xkb_keymap_mod_get_index(server_->keymap_.get(), "Mod2");
-    server_->stateMask_.mod3_mask =
-        1 << xkb_keymap_mod_get_index(server_->keymap_.get(), "Mod3");
-    server_->stateMask_.mod4_mask =
-        1 << xkb_keymap_mod_get_index(server_->keymap_.get(), "Mod4");
-    server_->stateMask_.mod5_mask =
-        1 << xkb_keymap_mod_get_index(server_->keymap_.get(), "Mod5");
-    server_->stateMask_.super_mask =
-        1 << xkb_keymap_mod_get_index(server_->keymap_.get(), "Super");
-    server_->stateMask_.hyper_mask =
-        1 << xkb_keymap_mod_get_index(server_->keymap_.get(), "Hyper");
-    server_->stateMask_.meta_mask =
-        1 << xkb_keymap_mod_get_index(server_->keymap_.get(), "Meta");
+    server_->stateMask_.shift_mask = 1 << xkb_keymap_mod_get_index(server_->keymap_.get(), "Shift");
+    server_->stateMask_.lock_mask = 1 << xkb_keymap_mod_get_index(server_->keymap_.get(), "Lock");
+    server_->stateMask_.control_mask = 1 << xkb_keymap_mod_get_index(server_->keymap_.get(), "Control");
+    server_->stateMask_.mod1_mask = 1 << xkb_keymap_mod_get_index(server_->keymap_.get(), "Mod1");
+    server_->stateMask_.mod2_mask = 1 << xkb_keymap_mod_get_index(server_->keymap_.get(), "Mod2");
+    server_->stateMask_.mod3_mask = 1 << xkb_keymap_mod_get_index(server_->keymap_.get(), "Mod3");
+    server_->stateMask_.mod4_mask = 1 << xkb_keymap_mod_get_index(server_->keymap_.get(), "Mod4");
+    server_->stateMask_.mod5_mask = 1 << xkb_keymap_mod_get_index(server_->keymap_.get(), "Mod5");
+    server_->stateMask_.super_mask = 1 << xkb_keymap_mod_get_index(server_->keymap_.get(), "Super");
+    server_->stateMask_.hyper_mask = 1 << xkb_keymap_mod_get_index(server_->keymap_.get(), "Hyper");
+    server_->stateMask_.meta_mask = 1 << xkb_keymap_mod_get_index(server_->keymap_.get(), "Meta");
 }
 
-void WaylandIMInputContextV1::keyCallback(struct wl_keyboard *keyboard, uint32_t serial, uint32_t time, uint32_t key, uint32_t state) {
+void WaylandIMInputContextV1::keyCallback(struct wl_keyboard *keyboard, uint32_t serial, uint32_t time, uint32_t key,
+                                          uint32_t state) {
+    FCITX_UNUSED(keyboard);
     if (!server_->state_) {
         return;
     }
 
     // EVDEV OFFSET
     uint32_t code = key + 8;
-    const xkb_keysym_t *syms;
     KeyEvent event(
-        this,
-        Key(static_cast<KeySym>(xkb_state_key_get_one_sym(server_->state_.get(), code)), server_->modifiers_),
+        this, Key(static_cast<KeySym>(xkb_state_key_get_one_sym(server_->state_.get(), code)), server_->modifiers_),
         state == WL_KEYBOARD_KEY_STATE_RELEASED, code, time);
 
     if (!keyEvent(event)) {
-        zwp_input_method_context_v1_key(ic_,
-                            serial,
-                            time,
-                            key,
-                            state);
+        zwp_input_method_context_v1_key(ic_, serial, time, key, state);
     }
 }
 void WaylandIMInputContextV1::modifiersCallback(struct wl_keyboard *keyboard, uint32_t serial, uint32_t mods_depressed,
-                        uint32_t mods_latched, uint32_t mods_locked, uint32_t group) {
-    
+                                                uint32_t mods_latched, uint32_t mods_locked, uint32_t group) {
+    FCITX_UNUSED(keyboard);
     xkb_mod_mask_t mask;
 
-    xkb_state_update_mask (server_->state_.get(), mods_depressed,
-                           mods_latched, mods_locked, 0, 0, group);
-    mask = xkb_state_serialize_mods (server_->state_.get(),
-                                     static_cast<xkb_state_component>(XKB_STATE_DEPRESSED |
-                                     XKB_STATE_LATCHED));
+    xkb_state_update_mask(server_->state_.get(), mods_depressed, mods_latched, mods_locked, 0, 0, group);
+    mask = xkb_state_serialize_mods(server_->state_.get(),
+                                    static_cast<xkb_state_component>(XKB_STATE_DEPRESSED | XKB_STATE_LATCHED));
 
     server_->modifiers_ = 0;
     if (mask & server_->stateMask_.shift_mask)
@@ -465,9 +450,7 @@ void WaylandIMInputContextV1::modifiersCallback(struct wl_keyboard *keyboard, ui
     if (mask & server_->stateMask_.meta_mask)
         server_->modifiers_ |= KeyState::Meta;
 
-    zwp_input_method_context_v1_modifiers(ic_, serial,
-                                       mods_depressed, mods_depressed,
-                                       mods_latched, group);
+    zwp_input_method_context_v1_modifiers(ic_, serial, mods_depressed, mods_depressed, mods_latched, group);
 }
 
 WaylandIMModule::WaylandIMModule(Instance *instance)

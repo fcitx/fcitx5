@@ -183,12 +183,12 @@ Message &Message::operator>>(bool &b) {
 #define _MARSHALL_FUNC(TYPE, TYPE2)                                                                                    \
     Message &Message::operator<<(TYPE v) {                                                                             \
         FCITX_D();                                                                                                     \
-        d->lastError_ = sd_bus_message_append_basic(d->msg_, SD_BUS_TYPE_##TYPE2, &v);                                   \
+        d->lastError_ = sd_bus_message_append_basic(d->msg_, SD_BUS_TYPE_##TYPE2, &v);                                 \
         return *this;                                                                                                  \
     }                                                                                                                  \
     Message &Message::operator>>(TYPE &v) {                                                                            \
         FCITX_D();                                                                                                     \
-        d->lastError_ = sd_bus_message_read_basic(d->msg_, SD_BUS_TYPE_##TYPE2, &v);                                     \
+        d->lastError_ = sd_bus_message_read_basic(d->msg_, SD_BUS_TYPE_##TYPE2, &v);                                   \
         return *this;                                                                                                  \
     }
 

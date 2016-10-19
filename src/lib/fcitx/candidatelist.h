@@ -19,45 +19,42 @@
 #ifndef _FCITX_CANDIDATELIST_H_
 #define _FCITX_CANDIDATELIST_H_
 
-#include <fcitx/text.h>
 #include <fcitx-utils/dynamictrackableobject.h>
+#include <fcitx/text.h>
 
-namespace fcitx
-{
-    
+namespace fcitx {
+
 class CandidateWord : public DynamicTrackableObject {
 public:
     CandidateWord();
-    
+
     void remove();
-    
+
     bool isPlaceHolder() const;
     void setPlaceHolder(bool isPlaceHolder);
-    
+
     Text &text();
-    
+
     FCITX_DECLARE_SIGNAL(CandidateWord, Selected, void());
-    
+
 private:
-    
 };
 
 class CandidateListPrivate;
-    
+
 class CandidateList {
 public:
     CandidateList();
     ~CandidateList();
-    
+
     CandidateWord &append();
     CandidateWord &insert(int idx);
     void clear();
-    
+
 private:
     std::unique_ptr<CandidateListPrivate> d_ptr;
     FCITX_DECLARE_PRIVATE(CandidateList);
 };
-
 }
 
 #endif // _FCITX_CANDIDATELIST_H_

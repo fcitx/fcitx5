@@ -74,7 +74,7 @@ private:
 DBusModule::DBusModule(Instance *instance) : bus_(std::make_unique<dbus::Bus>(dbus::BusType::Session)) {
     bus_->attachEventLoop(&instance->eventLoop());
     if (!bus_->requestName(FCITX_DBUS_SERVICE, Flags<RequestNameFlag>{RequestNameFlag::AllowReplacement,
-                                                                       RequestNameFlag::ReplaceExisting})) {
+                                                                      RequestNameFlag::ReplaceExisting})) {
         throw std::runtime_error("Unable to request dbus name");
     }
     controller_ = std::make_unique<Controller1>(instance);
