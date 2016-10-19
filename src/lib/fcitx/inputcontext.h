@@ -63,6 +63,12 @@ enum class CapabilityFlag : uint64_t {
     Alpha = (1 << 21),
     Name = (1 << 22),
     RelativeRect = (1 << 23),
+    Terminal = (1 << 24),
+    Date = (1 << 25),
+    Time = (1 << 26),
+    Multiline = (1 << 27),
+    Sensitive = (1 << 28),
+    HiddenText = (1 << 29),
 };
 
 enum class FocusGroupType { Global, Local, Independent };

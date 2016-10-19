@@ -16,33 +16,48 @@
  * License along with this library; see the file COPYING. If not,
  * see <http://www.gnu.org/licenses/>.
  */
-#ifndef _FCITX_USERINTERFACEMANAGER_H_
-#define _FCITX_USERINTERFACEMANAGER_H_
+#ifndef _FCITX_CANDIDATELIST_H_
+#define _FCITX_CANDIDATELIST_H_
 
-#include "fcitxcore_export.h"
-#include <fcitx-utils/macros.h>
-#include <fcitx/addonmanager.h>
-#include <fcitx/menu.h>
-#include <memory>
+#include <fcitx/text.h>
+#include <fcitx-utils/dynamictrackableobject.h>
 
-namespace fcitx {
-
-class UserInterfaceManagerPrivate;
-
-class FCITXCORE_EXPORT UserInterfaceManager {
+namespace fcitx
+{
+    
+class CandidateWord : public DynamicTrackableObject {
 public:
-    UserInterfaceManager(AddonManager *manager);
-    virtual ~UserInterfaceManager();
-
-    void init();
+    CandidateWord();
     
-    Menu *mainPanel();
+    void remove();
     
-
+    bool isPlaceHolder() const;
+    void setPlaceHolder(bool isPlaceHolder);
+    
+    Text &text();
+    
+    FCITX_DECLARE_SIGNAL(CandidateWord, Selected, void());
+    
 private:
-    std::unique_ptr<UserInterfaceManagerPrivate> d_ptr;
-    FCITX_DECLARE_PRIVATE(UserInterfaceManager);
+    
 };
+
+class CandidateListPrivate;
+    
+class CandidateList {
+public:
+    CandidateList();
+    ~CandidateList();
+    
+    CandidateWord &append();
+    CandidateWord &insert(int idx);
+    void clear();
+    
+private:
+    std::unique_ptr<CandidateListPrivate> d_ptr;
+    FCITX_DECLARE_PRIVATE(CandidateList);
+};
+
 }
 
-#endif // _FCITX_USERINTERFACEMANAGER_H_
+#endif // _FCITX_CANDIDATELIST_H_
