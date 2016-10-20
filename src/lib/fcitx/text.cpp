@@ -77,4 +77,16 @@ std::string Text::toString() const {
 
     return ss.str();
 }
+
+std::string Text::toStringForCommit() const {
+    FCITX_D();
+    std::stringstream ss;
+    for (auto &p : d->texts_) {
+        if (!(p.second & TextFormatFlag::DontCommit)) {
+            ss << p.first;
+        }
+    }
+
+    return ss.str();
+}
 }

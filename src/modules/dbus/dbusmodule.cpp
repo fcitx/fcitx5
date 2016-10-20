@@ -34,7 +34,14 @@ public:
 
     void exit() { instance_->exit(); }
 
-    void restart() { instance_->restart(); }
+    void restart() {
+        auto instance = instance_;
+        instance_->eventLoop().addTimeEvent(CLOCK_MONOTONIC, now(CLOCK_MONOTONIC), 0,
+                                            [instance](EventSource *, uint64_t) {
+                                                instance->restart();
+                                                return false;
+                                            });
+    }
     void configure() { instance_->configure(); }
     void configureAddon(const std::string &addon) { instance_->configureAddon(addon); }
     void configureInputMethod(const std::string &imName) { instance_->configureInputMethod(imName); }
@@ -71,12 +78,24 @@ private:
     FCITX_OBJECT_VTABLE_METHOD(setCurrentInputMethod, "SetCurrentIM", "s", "");
 };
 
-DBusModule::DBusModule(Instance *instance) : bus_(std::make_unique<dbus::Bus>(dbus::BusType::Session)) {
+DBusModule::DBusModule(Instance *instance)
+    : bus_(std::make_unique<dbus::Bus>(dbus::BusType::Session)),
+      serviceWatcher_(std::make_unique<dbus::ServiceWatcher>(*bus_)) {
     bus_->attachEventLoop(&instance->eventLoop());
+    auto uniqueName = bus_->uniqueName();
     if (!bus_->requestName(FCITX_DBUS_SERVICE, Flags<RequestNameFlag>{RequestNameFlag::AllowReplacement,
                                                                       RequestNameFlag::ReplaceExisting})) {
         throw std::runtime_error("Unable to request dbus name");
     }
+
+    selfWatcher_.reset(serviceWatcher_->watchService(
+        FCITX_DBUS_SERVICE,
+        [this, uniqueName, instance](const std::string &, const std::string &, const std::string &newName) {
+            if (newName != uniqueName) {
+                instance->exit();
+            }
+        }));
+
     controller_ = std::make_unique<Controller1>(instance);
     bus_->addObjectVTable("/controller", FCITX_CONTROLLER_DBUS_INTERFACE, *controller_);
 }

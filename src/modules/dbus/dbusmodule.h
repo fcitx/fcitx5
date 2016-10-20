@@ -21,6 +21,7 @@
 
 #include "dbus_public.h"
 #include "fcitx-utils/dbus/bus.h"
+#include "fcitx-utils/dbus/servicewatcher.h"
 #include "fcitx/addonfactory.h"
 #include "fcitx/addoninstance.h"
 #include "fcitx/instance.h"
@@ -37,6 +38,8 @@ public:
 private:
     FCITX_ADDON_EXPORT_FUNCTION(DBusModule, bus);
     std::unique_ptr<dbus::Bus> bus_;
+    std::unique_ptr<dbus::ServiceWatcher> serviceWatcher_;
+    std::unique_ptr<HandlerTableEntry<dbus::ServiceWatcherCallback>> selfWatcher_;
     std::unique_ptr<Controller1> controller_;
 };
 

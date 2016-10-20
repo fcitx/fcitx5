@@ -19,7 +19,6 @@
 
 #include "fcitx-utils/fs.h"
 #include <cassert>
-#include <iostream>
 #include <libgen.h>
 #include <sys/stat.h>
 #include <unistd.h>
@@ -38,7 +37,6 @@ using namespace fcitx::fs;
         char pathstr[] = PATHSTR;                                                                                      \
         auto cleanStr = dirName(pathstr);                                                                              \
         const char *r = dirname(pathstr);                                                                              \
-        std::cout << r << " " << cleanStr << std::endl;                                                                \
         assert(cleanStr == r);                                                                                         \
     } while (0);
 

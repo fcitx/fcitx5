@@ -19,7 +19,6 @@
 
 #include <exception>
 #include <functional>
-#include <iostream>
 
 #if defined(__COVERITY__) && !defined(__INCLUDE_LEVEL__)
 #define __INCLUDE_LEVEL__ 2

@@ -29,7 +29,6 @@
 #include "inputmethodmanager.h"
 #include "inputstate_p.h"
 #include <getopt.h>
-#include <iostream>
 #include <signal.h>
 #include <sys/wait.h>
 #include <unistd.h>
@@ -83,7 +82,7 @@ struct InstanceArgument {
     int overrideDelay = -1;
     bool tryReplace = false;
     bool quietQuit = false;
-    bool runAsDaemon = true;
+    bool runAsDaemon = false;
     std::string uiName;
     std::vector<std::string> enableList;
     std::vector<std::string> disableList;

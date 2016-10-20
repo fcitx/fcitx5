@@ -50,11 +50,14 @@ private:
     FocusGroup *group_;
     std::string name_;
     WaylandIMModule *parent_;
-    zwp_input_method_v1 *inputMethodV1_ = nullptr;
+    std::unique_ptr<zwp_input_method_v1, decltype(&zwp_input_method_v1_destroy)> inputMethodV1_;
 
     std::unique_ptr<struct xkb_context, decltype(&xkb_context_unref)> context_;
     std::unique_ptr<struct xkb_keymap, decltype(&xkb_keymap_unref)> keymap_;
     std::unique_ptr<struct xkb_state, decltype(&xkb_state_unref)> state_;
+    std::unique_ptr<struct wl_registry, decltype(&wl_registry_destroy)> registry_;
+
+    wl_display *display_;
 
     struct StateMask {
         uint32_t shift_mask = 0;
@@ -92,25 +95,25 @@ class WaylandIMInputContextV1 : public InputContext {
 public:
     WaylandIMInputContextV1(InputContextManager &inputContextManager, WaylandIMServer *server,
                             zwp_input_method_context_v1 *ic)
-        : InputContext(inputContextManager), server_(server), ic_(ic) {
-        zwp_input_method_context_v1_set_user_data(ic_, this);
-        zwp_input_method_context_v1_add_listener(ic_, &inputMethodContextListener, this);
+        : InputContext(inputContextManager), server_(server), ic_(ic, &zwp_input_method_context_v1_destroy) {
+        zwp_input_method_context_v1_set_user_data(ic_.get(), this);
+        zwp_input_method_context_v1_add_listener(ic_.get(), &inputMethodContextListener, this);
 
-        auto keyboard = zwp_input_method_context_v1_grab_keyboard(ic_);
-        wl_keyboard_add_listener(keyboard, &keyboardListener, ic);
+        auto keyboard = zwp_input_method_context_v1_grab_keyboard(ic_.get());
+        wl_keyboard_add_listener(keyboard, &keyboardListener, this);
     }
-    ~WaylandIMInputContextV1() { zwp_input_method_context_v1_set_user_data(ic_, nullptr); }
+    ~WaylandIMInputContextV1() { zwp_input_method_context_v1_set_user_data(ic_.get(), nullptr); }
 
 protected:
     virtual void commitStringImpl(const std::string &text) override {
-        zwp_input_method_context_v1_commit_string(ic_, serial_, text.c_str());
+        zwp_input_method_context_v1_commit_string(ic_.get(), serial_, text.c_str());
     }
     virtual void deleteSurroundingTextImpl(int offset, unsigned int size) override {
-        zwp_input_method_context_v1_delete_surrounding_text(ic_, offset, size);
+        zwp_input_method_context_v1_delete_surrounding_text(ic_.get(), offset, size);
     }
     virtual void forwardKeyImpl(const ForwardKeyEvent &key) override {
         zwp_input_method_context_v1_keysym(
-            ic_, serial_, 0, key.rawKey().sym(),
+            ic_.get(), serial_, 0, key.rawKey().sym(),
             key.isRelease() ? WL_KEYBOARD_KEY_STATE_RELEASED : WL_KEYBOARD_KEY_STATE_PRESSED, key.rawKey().states());
     }
 
@@ -140,13 +143,12 @@ protected:
             }
         }
 
-        zwp_input_method_context_v1_preedit_cursor(ic_, preedit.cursor());
-        // FIXME second string should be for commit
-        zwp_input_method_context_v1_preedit_string(ic_, serial_, preedit.toString().c_str(),
-                                                   preedit.toString().c_str());
+        zwp_input_method_context_v1_preedit_cursor(ic_.get(), preedit.cursor());
+        zwp_input_method_context_v1_preedit_string(ic_.get(), serial_, preedit.toString().c_str(),
+                                                   preedit.toStringForCommit().c_str());
         unsigned int index = 0;
         for (int i = 0, e = preedit.size(); i < e; i++) {
-            zwp_input_method_context_v1_preedit_styling(ic_, index, preedit.stringAt(i).size(),
+            zwp_input_method_context_v1_preedit_styling(ic_.get(), index, preedit.stringAt(i).size(),
                                                         waylandFormat(preedit.formatAt(i)));
             index += preedit.stringAt(i).size();
         }
@@ -169,7 +171,7 @@ private:
     static const struct zwp_input_method_context_v1_listener inputMethodContextListener;
     static const struct wl_keyboard_listener keyboardListener;
     WaylandIMServer *server_;
-    zwp_input_method_context_v1 *ic_;
+    std::unique_ptr<zwp_input_method_context_v1, decltype(&zwp_input_method_context_v1_destroy)> ic_;
     uint32_t serial_ = 0;
 };
 
@@ -213,19 +215,22 @@ const struct wl_keyboard_listener WaylandIMInputContextV1::keyboardListener = {
 
 WaylandIMServer::WaylandIMServer(wl_display *display, FocusGroup *group, const std::string &name,
                                  WaylandIMModule *waylandim)
-    : group_(group), name_(name), parent_(waylandim), context_(nullptr, &xkb_context_unref),
-      keymap_(nullptr, xkb_keymap_unref), state_(nullptr, xkb_state_unref) {
-    struct wl_registry *registry = wl_display_get_registry(display);
-    wl_registry_add_listener(registry, &WaylandIMServer::registryListener, waylandim);
+    : group_(group), name_(name), parent_(waylandim), inputMethodV1_(nullptr, zwp_input_method_v1_destroy),
+      context_(nullptr, &xkb_context_unref), keymap_(nullptr, &xkb_keymap_unref), state_(nullptr, &xkb_state_unref),
+      registry_(nullptr, &wl_registry_destroy), display_(display) {
+    registry_.reset(wl_display_get_registry(display));
+    wl_registry_add_listener(registry_.get(), &WaylandIMServer::registryListener, this);
+    wl_display_flush(display_);
 }
 
 void WaylandIMServer::registryHandlerGlobal(struct wl_registry *registry, uint32_t name, const char *interface,
                                             uint32_t version) {
     FCITX_UNUSED(version);
     if (0 == strcmp(interface, "zwp_input_method_v1")) {
-        inputMethodV1_ =
-            static_cast<zwp_input_method_v1 *>(wl_registry_bind(registry, name, &zwp_input_method_v1_interface, 1));
-        zwp_input_method_v1_add_listener(inputMethodV1_, &WaylandIMServer::inputMethodListener, this);
+        inputMethodV1_.reset(
+            static_cast<zwp_input_method_v1 *>(wl_registry_bind(registry, name, &zwp_input_method_v1_interface, 1)));
+        zwp_input_method_v1_add_listener(inputMethodV1_.get(), &WaylandIMServer::inputMethodListener, this);
+        wl_display_flush(display_);
     }
 }
 
@@ -236,14 +241,14 @@ void WaylandIMServer::registryHandlerGlobalRemove(struct wl_registry *registry, 
 }
 
 void WaylandIMServer::activate(struct zwp_input_method_v1 *inputMethod, struct zwp_input_method_context_v1 *id) {
-    assert(inputMethod == inputMethodV1_);
+    assert(inputMethod == inputMethodV1_.get());
     auto ic = new WaylandIMInputContextV1(parent_->instance()->inputContextManager(), this, id);
     ic->setDisplayServer("wayland:" + name_);
     ic->setFocusGroup(group_);
 }
 
 void WaylandIMServer::deactivate(struct zwp_input_method_v1 *inputMethod, struct zwp_input_method_context_v1 *id) {
-    assert(inputMethod == inputMethodV1_);
+    assert(inputMethod == inputMethodV1_.get());
 
     auto ic = static_cast<WaylandIMInputContextV1 *>(zwp_input_method_context_v1_get_user_data(id));
     delete ic;
@@ -251,17 +256,17 @@ void WaylandIMServer::deactivate(struct zwp_input_method_v1 *inputMethod, struct
 
 void WaylandIMInputContextV1::surroundingTextCallback(struct zwp_input_method_context_v1 *inputContext,
                                                       const char *text, uint32_t cursor, uint32_t anchor) {
-    assert(ic_ == inputContext);
+    assert(ic_.get() == inputContext);
     surroundingText().setText(text, cursor, anchor);
     updateSurroundingText();
 }
 void WaylandIMInputContextV1::resetCallback(struct zwp_input_method_context_v1 *inputContext) {
-    assert(ic_ == inputContext);
+    assert(ic_.get() == inputContext);
     reset();
 }
 void WaylandIMInputContextV1::contentTypeCallback(struct zwp_input_method_context_v1 *inputContext, uint32_t hint,
                                                   uint32_t purpose) {
-    assert(ic_ == inputContext);
+    assert(ic_.get() == inputContext);
     CapabilityFlags flags;
     if (hint & ZWP_TEXT_INPUT_V1_CONTENT_HINT_PASSWORD) {
         flags |= CapabilityFlag::Password;
@@ -337,17 +342,17 @@ void WaylandIMInputContextV1::contentTypeCallback(struct zwp_input_method_contex
 }
 void WaylandIMInputContextV1::invokeActionCallback(struct zwp_input_method_context_v1 *inputContext, uint32_t button,
                                                    uint32_t index) {
-    assert(ic_ == inputContext);
+    assert(ic_.get() == inputContext);
     FCITX_UNUSED(button);
     FCITX_UNUSED(index);
 }
 void WaylandIMInputContextV1::commitStateCallback(struct zwp_input_method_context_v1 *inputContext, uint32_t serial) {
-    assert(ic_ == inputContext);
+    assert(ic_.get() == inputContext);
     serial_ = serial;
 }
 void WaylandIMInputContextV1::preferredLanguageCallback(struct zwp_input_method_context_v1 *inputContext,
                                                         const char *language) {
-    assert(ic_ == inputContext);
+    assert(ic_.get() == inputContext);
     FCITX_UNUSED(language);
 }
 
@@ -422,7 +427,7 @@ void WaylandIMInputContextV1::keyCallback(struct wl_keyboard *keyboard, uint32_t
         state == WL_KEYBOARD_KEY_STATE_RELEASED, code, time);
 
     if (!keyEvent(event)) {
-        zwp_input_method_context_v1_key(ic_, serial, time, key, state);
+        zwp_input_method_context_v1_key(ic_.get(), serial, time, key, state);
     }
 }
 void WaylandIMInputContextV1::modifiersCallback(struct wl_keyboard *keyboard, uint32_t serial, uint32_t mods_depressed,
@@ -450,17 +455,18 @@ void WaylandIMInputContextV1::modifiersCallback(struct wl_keyboard *keyboard, ui
     if (mask & server_->stateMask_.meta_mask)
         server_->modifiers_ |= KeyState::Meta;
 
-    zwp_input_method_context_v1_modifiers(ic_, serial, mods_depressed, mods_depressed, mods_latched, group);
+    zwp_input_method_context_v1_modifiers(ic_.get(), serial, mods_depressed, mods_depressed, mods_latched, group);
 }
 
-WaylandIMModule::WaylandIMModule(Instance *instance)
-    : instance_(instance), createdCallback_(wayland()->call<IWaylandModule::addConnectionCreatedCallback>(
-                               [this](const std::string &name, wl_display *display, FocusGroup *group) {
-                                   WaylandIMServer *server = new WaylandIMServer(display, group, name, this);
-                                   servers_[name].reset(server);
-                               })),
-      closedCallback_(wayland()->call<IWaylandModule::addConnectionClosedCallback>(
-          [this](const std::string &name, wl_display *) { servers_.erase(name); })) {}
+WaylandIMModule::WaylandIMModule(Instance *instance) : instance_(instance) {
+    createdCallback_.reset(wayland()->call<IWaylandModule::addConnectionCreatedCallback>(
+        [this](const std::string &name, wl_display *display, FocusGroup *group) {
+            WaylandIMServer *server = new WaylandIMServer(display, group, name, this);
+            servers_[name].reset(server);
+        }));
+    closedCallback_.reset(wayland()->call<IWaylandModule::addConnectionClosedCallback>(
+        [this](const std::string &name, wl_display *) { servers_.erase(name); }));
+}
 
 AddonInstance *WaylandIMModule::wayland() {
     auto &addonManager = instance_->addonManager();

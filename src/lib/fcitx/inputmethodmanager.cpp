@@ -28,7 +28,6 @@
 #include "misc_p.h"
 #include <cassert>
 #include <fcntl.h>
-#include <iostream>
 #include <list>
 #include <unistd.h>
 #include <unordered_map>

@@ -40,7 +40,7 @@ AddonInstance *SharedLibraryLoader::load(const AddonInfo &info, AddonManager *ma
             try {
                 registry_.emplace(info.name(), std::make_unique<SharedLibraryFactory>(std::move(lib)));
             } catch (const std::exception &e) {
-                std::cout << e.what() << std::endl;
+                std::cerr << e.what() << std::endl;
             }
             break;
         }

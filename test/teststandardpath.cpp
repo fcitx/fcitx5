@@ -21,7 +21,6 @@
 #include "fcitx-utils/standardpath.h"
 #include <cassert>
 #include <fcntl.h>
-#include <iostream>
 #include <set>
 #include <unistd.h>
 

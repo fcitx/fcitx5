@@ -20,7 +20,6 @@
 #include "fcitx-utils/dbus/bus.h"
 #include "fcitx-utils/dbus/servicewatcher.h"
 #include <cassert>
-#include <iostream>
 
 using namespace fcitx::dbus;
 using namespace fcitx;
@@ -42,7 +41,6 @@ int main() {
     }
 
     std::string name = bus.serviceOwner(TEST_SERVICE, 0);
-    std::cout << name << std::endl;
     assert(name == bus.uniqueName());
 
     handlerTableEntry.reset(

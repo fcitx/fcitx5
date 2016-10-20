@@ -20,7 +20,6 @@
 #include "fcitx-utils/event.h"
 #include "fcitx-utils/metastring.h"
 #include <cassert>
-#include <iostream>
 
 using namespace fcitx::dbus;
 using namespace fcitx;

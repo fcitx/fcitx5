@@ -32,17 +32,29 @@ WaylandConnection::WaylandConnection(WaylandModule *wayland, const char *name)
 
     auto &eventLoop = parent_->instance()->eventLoop();
     ioEvent_.reset(eventLoop.addIOEvent(wl_display_get_fd(display_.get()), IOEventFlag::In,
-                                        [this](EventSource *, int, IOEventFlags) {
-                                            onIOEvent();
+                                        [this](EventSource *, int, IOEventFlags flags) {
+                                            onIOEvent(flags);
                                             return true;
                                         }));
 
     group_ = new FocusGroup(wayland->instance()->inputContextManager());
 }
 
-WaylandConnection::~WaylandConnection() {}
+WaylandConnection::~WaylandConnection() { delete group_; }
 
-void WaylandConnection::onIOEvent() {
+void WaylandConnection::finish() {
+    display_.reset();
+    if (name_.empty()) {
+        parent_->instance()->exit();
+    }
+    parent_->removeDisplay(name_);
+}
+
+void WaylandConnection::onIOEvent(IOEventFlags flags) {
+    if ((flags & IOEventFlag::Err) || (flags & IOEventFlag::Hup)) {
+        return finish();
+    }
+
     if (wl_display_prepare_read(display_.get()) == 0) {
         wl_display_read_events(display_.get());
     }
@@ -50,8 +62,7 @@ void WaylandConnection::onIOEvent() {
     if (wl_display_dispatch_pending(display_.get()) < 0) {
         error_ = wl_display_get_error(display_.get());
         if (error_ != 0) {
-            display_.reset();
-            parent_->removeDisplay(name_);
+            return finish();
         }
     }
 

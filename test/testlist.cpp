@@ -20,7 +20,6 @@
 #include <algorithm>
 #include <cassert>
 #include <fcitx-utils/intrusivelist.h>
-#include <iostream>
 #include <iterator>
 #include <vector>
 

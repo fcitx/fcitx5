@@ -18,7 +18,6 @@
  */
 #include "rawconfig.h"
 #include "fcitx-utils/stringutils.h"
-#include <iostream>
 #include <sstream>
 #include <unordered_map>
 

@@ -19,7 +19,6 @@
 
 #include "fcitx-utils/metastring.h"
 #include <cassert>
-#include <iostream>
 #include <string>
 #include <type_traits>
 

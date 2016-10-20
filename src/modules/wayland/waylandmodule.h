@@ -42,12 +42,14 @@ public:
     FocusGroup *focusGroup() const { return group_; }
 
 private:
-    void onIOEvent();
+    void onIOEvent(IOEventFlags flags);
+    void finish();
 
     WaylandModule *parent_;
     std::string name_;
-    std::unique_ptr<wl_display, decltype(&wl_display_disconnect)> display_;
+    // order matters, callback in ioEvent_ uses display_.
     std::unique_ptr<EventSourceIO> ioEvent_;
+    std::unique_ptr<wl_display, decltype(&wl_display_disconnect)> display_;
     FocusGroup *group_ = nullptr;
     int error_ = 0;
 };

@@ -20,7 +20,6 @@
 #include "fcitx-utils/library.h"
 #include "fcitxutils_export.h"
 #include <cassert>
-#include <iostream>
 #include <string.h>
 
 #define DATA "AAAAAAAAA"

@@ -19,7 +19,6 @@
 #include "fcitx-utils/unixfd.h"
 #include <assert.h>
 #include <fcntl.h>
-#include <iostream>
 #include <sys/stat.h>
 #include <unistd.h>
 

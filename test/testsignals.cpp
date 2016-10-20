@@ -21,7 +21,6 @@
 #include "fcitx-utils/metastring.h"
 #include "fcitx-utils/signals.h"
 #include <cassert>
-#include <iostream>
 
 void test_simple_signal() {
     bool called = false;

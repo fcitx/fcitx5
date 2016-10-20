@@ -32,6 +32,7 @@ enum class TextFormatFlag : int {
     HighLight = (1 << 1), /**< highlight the preedit */
     Bold = (1 << 2),
     Strike = (1 << 3),
+    DontCommit = (1 << 4),
     None = 0,
 };
 
@@ -58,6 +59,7 @@ public:
     TextFormatFlags formatAt(int idx) const;
     size_t size() const;
     std::string toString() const;
+    std::string toStringForCommit() const;
 
 private:
     std::unique_ptr<TextPrivate> d_ptr;
