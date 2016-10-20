@@ -36,7 +36,6 @@ static KeyboardEngineFactory keyboardFactory;
 StaticAddonRegistry staticAddon = {std::make_pair<std::string, AddonFactory *>("keyboard", &keyboardFactory)};
 
 int main(int argc, char *argv[]) {
-    fprintf(stderr, "ABC\n");
     if (pipe(selfpipe)) {
         fprintf(stderr, "Could not create self-pipe.\n");
         return 1;
