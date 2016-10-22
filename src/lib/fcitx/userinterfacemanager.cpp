@@ -26,6 +26,8 @@ public:
     UserInterfaceManagerPrivate(AddonManager *manager) : addonManager_(manager) {}
 
     AddonManager *addonManager_;
+    AddonInstance *ui_ = nullptr;
+    AddonInstance *uiFallback_ = nullptr;
 };
 
 UserInterfaceManager::UserInterfaceManager(AddonManager *manager)
@@ -36,7 +38,14 @@ UserInterfaceManager::~UserInterfaceManager() {}
 void UserInterfaceManager::init() {
     FCITX_D();
     auto names = d->addonManager_->addonNames(AddonCategory::UI);
+
+    // FIXME: implement fallback
     for (auto &name : names) {
+        auto ui = d->addonManager_->addon(name);
+        if (ui) {
+            d->ui_ = ui;
+            break;
+        }
     }
 }
 }

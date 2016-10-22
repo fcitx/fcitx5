@@ -326,18 +326,19 @@ StandardPathFile StandardPath::openUser(Type type, const std::string &path, int 
     return {};
 }
 
-StandardPathTempFile StandardPath::openUserTemp(Type type, const std::string &path_orig) const {
-    std::string path = path_orig + "_XXXXXX";
+StandardPathTempFile StandardPath::openUserTemp(Type type, const std::string &pathOrig) const {
+    std::string path = pathOrig + "_XXXXXX";
     auto dirPath = userDirectory(type);
     if (dirPath.empty()) {
         return {};
     }
     auto fullPath = constructPath(dirPath, path);
+    auto fullPathOrig = constructPath(dirPath, pathOrig);
     if (fs::makePath(fs::dirName(fullPath))) {
         std::unique_ptr<char, decltype(&std::free)> cPath(strdup(fullPath.c_str()), &std::free);
         int fd = mkstemp(cPath.get());
         if (fd >= 0) {
-            return {fd, path, cPath.get()};
+            return {fd, fullPathOrig, cPath.get()};
         }
     }
     return {};

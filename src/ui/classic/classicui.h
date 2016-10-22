@@ -34,6 +34,7 @@ public:
     ~ClassicUI();
 
     AddonInstance *xcb();
+    AddonInstance *wayland();
     Instance *instance() { return instance_; }
 
 private:

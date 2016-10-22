@@ -98,6 +98,7 @@ public:
     int signalPipe_ = -1;
     EventLoop eventLoop_;
     std::unique_ptr<EventSourceIO> signalPipeEvent_;
+    std::unique_ptr<EventSource> exitEvent_;
     InputContextManager icManager_;
     AddonManager addonManager_;
     InputMethodManager imManager_{&this->addonManager_};
@@ -273,6 +274,10 @@ void Instance::initialize() {
     FCITX_D();
     d->addonManager_.load();
     d->imManager_.load();
+    d->exitEvent_.reset(d->eventLoop_.addExitEvent([this] (EventSource *) {
+        save();
+        return false;
+    }));
 }
 
 int Instance::exec() {
@@ -282,7 +287,6 @@ int Instance::exec() {
     }
     initialize();
     auto r = eventLoop().exec();
-    save();
 
     return r ? 0 : 1;
 }
@@ -424,8 +428,7 @@ void Instance::restart() {
     auto fcitxBinary = StandardPath::fcitxPath("bindir") + "/fcitx";
     std::vector<char> command{fcitxBinary.begin(), fcitxBinary.end()};
     command.push_back('\0');
-    char arg[] = "-D";
-    char *const argv[] = {command.data(), arg, /* Don't start as daemon */
+    char *const argv[] = {command.data(),
                           NULL};
     execv(argv[0], argv);
     perror("Restart failed: execvp:");

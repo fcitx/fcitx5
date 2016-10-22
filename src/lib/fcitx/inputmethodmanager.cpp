@@ -116,6 +116,7 @@ void InputMethodManager::loadConfig() {
     imConfig.load(config);
 
     d->groups_.clear();
+    std::vector<std::string> tempOrder;
     if (imConfig.groups.value().size()) {
         auto &groupsConfig = imConfig.groups.value();
         for (auto &groupConfig : groupsConfig) {
@@ -124,6 +125,7 @@ void InputMethodManager::loadConfig() {
                 continue;
             }
             auto result = d->groups_.emplace(groupConfig.name.value(), InputMethodGroup(groupConfig.name.value()));
+            tempOrder.push_back(groupConfig.name.value());
             auto &group = result.first->second;
             group.setDefaultLayout(groupConfig.defaultLayout.value());
             auto &items = groupConfig.items.value();
@@ -139,6 +141,11 @@ void InputMethodManager::loadConfig() {
         buildDefaultGroup();
     } else {
         setCurrentGroup(imConfig.currentGroup.value());
+        if (imConfig.groupOrder.value().size()) {
+            setGroupOrder(imConfig.groupOrder.value());
+        } else {
+            setGroupOrder(tempOrder);
+        }
     }
 }
 

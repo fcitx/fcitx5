@@ -57,9 +57,9 @@ static IOEventFlags EpollFlagsToIOEventFlags(uint32_t flags) {
 }
 
 template <typename Interface>
-struct SDEventSource : public Interface {
+struct SDEventSourceBase : public Interface {
 public:
-    ~SDEventSource() {
+    ~SDEventSourceBase() {
         if (eventSource_) {
             sd_event_source_unref(eventSource_);
         }
@@ -93,8 +93,14 @@ protected:
     sd_event_source *eventSource_;
 };
 
-struct SDEventSourceIO : public SDEventSource<EventSourceIO> {
-    SDEventSourceIO(IOCallback _callback) : SDEventSource(), callback(_callback) {}
+struct SDEventSource : public SDEventSourceBase<EventSource> {
+    SDEventSource(EventCallback _callback) : SDEventSourceBase(), callback_(_callback) {}
+
+    EventCallback callback_;
+};
+
+struct SDEventSourceIO : public SDEventSourceBase<EventSourceIO> {
+    SDEventSourceIO(IOCallback _callback) : SDEventSourceBase(), callback_(_callback) {}
 
     virtual int fd() const override {
         int ret = sd_event_source_get_io_fd(eventSource_);
@@ -136,11 +142,11 @@ struct SDEventSourceIO : public SDEventSource<EventSourceIO> {
         return EpollFlagsToIOEventFlags(revents);
     }
 
-    IOCallback callback;
+    IOCallback callback_;
 };
 
-struct SDEventSourceTime : public SDEventSource<EventSourceTime> {
-    SDEventSourceTime(TimeCallback _callback) : SDEventSource(), callback(_callback) {}
+struct SDEventSourceTime : public SDEventSourceBase<EventSourceTime> {
+    SDEventSourceTime(TimeCallback _callback) : SDEventSourceBase(), callback_(_callback) {}
 
     virtual uint64_t time() const override {
         uint64_t time;
@@ -183,10 +189,11 @@ struct SDEventSourceTime : public SDEventSource<EventSourceTime> {
         return clock;
     }
 
-    TimeCallback callback;
+    TimeCallback callback_;
 };
 
-struct EventLoopPrivate {
+class EventLoopPrivate {
+public:
     EventLoopPrivate() {
         if (sd_event_new(&event_) < 0) {
             throw std::runtime_error("Create sd_event failed.");
@@ -223,7 +230,7 @@ void EventLoop::quit() {
 int IOEventCallback(sd_event_source *, int fd, uint32_t revents, void *userdata) {
     auto source = static_cast<SDEventSourceIO *>(userdata);
     try {
-        auto result = source->callback(source, fd, EpollFlagsToIOEventFlags(revents));
+        auto result = source->callback_(source, fd, EpollFlagsToIOEventFlags(revents));
         return result ? 0 : -1;
     } catch (...) {
         // some abnormal things threw
@@ -249,7 +256,7 @@ int TimeEventCallback(sd_event_source *, uint64_t usec, void *userdata) {
     auto source = static_cast<SDEventSourceTime *>(userdata);
 
     try {
-        auto result = source->callback(source, usec);
+        auto result = source->callback_(source, usec);
         return result ? 0 : -1;
     } catch (...) {
         // some abnormal things threw
@@ -270,4 +277,31 @@ EventSourceTime *EventLoop::addTimeEvent(clockid_t clock, uint64_t usec, uint64_
     source->setEventSource(sdEventSource);
     return source.release();
 }
+
+int ExitEventCallback(sd_event_source *, void *userdata) {
+    auto source = static_cast<SDEventSource *>(userdata);
+
+    try {
+        auto result = source->callback_(source);
+        return result ? 0 : -1;
+    } catch (...) {
+        // some abnormal things threw
+        abort();
+    }
+    return -1;
+}
+
+EventSource *EventLoop::addExitEvent(EventCallback callback) {
+    FCITX_D();
+    auto source = std::make_unique<SDEventSource>(callback);
+    sd_event_source *sdEventSource;
+    int err;
+    if ((err = sd_event_add_exit(d->event_, &sdEventSource, ExitEventCallback, source.get())) <
+        0) {
+        throw EventLoopException(err);
+    }
+    source->setEventSource(sdEventSource);
+    return source.release();
+}
+
 }
