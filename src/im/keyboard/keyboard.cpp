@@ -25,7 +25,7 @@
 #include "fcitx/inputcontext.h"
 #include "fcitx/instance.h"
 #include "fcitx/misc_p.h"
-#include "modules/xcb/xcb_public.h"
+#include "xcb_public.h"
 #include <libintl.h>
 #include <string.h>
 

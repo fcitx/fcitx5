@@ -34,7 +34,7 @@ public:
     UserInterfaceManager(AddonManager *manager);
     virtual ~UserInterfaceManager();
 
-    void init();
+    void load();
 
     Menu *mainPanel();
 

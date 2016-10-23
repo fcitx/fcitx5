@@ -22,7 +22,6 @@
 #include "fcitx/focusgroup.h"
 #include "fcitx/inputcontext.h"
 #include "fcitx/instance.h"
-#include "modules/xcb/xcb_public.h"
 #include <xcb-imdkit/encoding.h>
 #include <xcb/xcb_aux.h>
 #include <xkbcommon/xkbcommon.h>

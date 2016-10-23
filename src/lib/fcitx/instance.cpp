@@ -17,17 +17,18 @@
  * see <http://www.gnu.org/licenses/>.
  */
 
-#include "instance.h"
+#include "fcitx/instance.h"
 #include "fcitx-utils/event.h"
 #include "fcitx-utils/standardpath.h"
 #include "fcitx-utils/stringutils.h"
 #include "fcitx/addonmanager.h"
 #include "fcitx/inputcontextmanager.h"
-#include "globalconfig.h"
-#include "inputmethodengine.h"
-#include "inputmethodentry.h"
-#include "inputmethodmanager.h"
-#include "inputstate_p.h"
+#include "fcitx/userinterfacemanager.h"
+#include "fcitx/globalconfig.h"
+#include "fcitx/inputmethodengine.h"
+#include "fcitx/inputmethodentry.h"
+#include "fcitx/inputmethodmanager.h"
+#include "fcitx/inputstate_p.h"
 #include <getopt.h>
 #include <signal.h>
 #include <sys/wait.h>
@@ -102,6 +103,7 @@ public:
     InputContextManager icManager_;
     AddonManager addonManager_;
     InputMethodManager imManager_{&this->addonManager_};
+    UserInterfaceManager uiManager_{&this->addonManager_};
     GlobalConfig globalConfig_;
     std::unordered_map<EventType, std::unordered_map<EventWatcherPhase, HandlerTable<EventHandler>, enum_hash>,
                        enum_hash>
@@ -274,6 +276,7 @@ void Instance::initialize() {
     FCITX_D();
     d->addonManager_.load();
     d->imManager_.load();
+    d->uiManager_.load();
     d->exitEvent_.reset(d->eventLoop_.addExitEvent([this] (EventSource *) {
         save();
         return false;

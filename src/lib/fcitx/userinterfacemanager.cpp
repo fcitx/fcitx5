@@ -35,7 +35,7 @@ UserInterfaceManager::UserInterfaceManager(AddonManager *manager)
 
 UserInterfaceManager::~UserInterfaceManager() {}
 
-void UserInterfaceManager::init() {
+void UserInterfaceManager::load() {
     FCITX_D();
     auto names = d->addonManager_->addonNames(AddonCategory::UI);
 

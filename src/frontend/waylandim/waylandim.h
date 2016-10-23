@@ -19,7 +19,7 @@
 #ifndef _FCITX_FRONTEND_WAYLANDIM_WAYLANDIM_H_
 #define _FCITX_FRONTEND_WAYLANDIM_WAYLANDIM_H_
 
-#include "modules/wayland/wayland_public.h"
+#include "wayland_public.h"
 #include "wayland-input-method-unstable-v1-client-protocol.h"
 #include <fcitx/addonfactory.h>
 #include <fcitx/addoninstance.h>

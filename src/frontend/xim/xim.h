@@ -26,7 +26,7 @@
 #include "fcitx/addoninstance.h"
 #include "fcitx/addonmanager.h"
 #include "fcitx/focusgroup.h"
-#include "modules/xcb/xcb_public.h"
+#include "xcb_public.h"
 #include <list>
 #include <unordered_map>
 #include <vector>

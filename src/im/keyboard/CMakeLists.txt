@@ -1,5 +1,5 @@
 add_library(keyboard STATIC keyboard.cpp isocodes.cpp xkbrules.cpp)
-target_link_libraries(keyboard Fcitx5::Core LibXml2::LibXml LibIntl::LibIntl XKBCommon::XKBCommon)
-set_target_properties(keyboard PROPERTIES PREFIX "")
+target_link_libraries(keyboard Fcitx5::Core LibXml2::LibXml LibIntl::LibIntl XKBCommon::XKBCommon Fcitx5::Module::XCB)
+target_include_directories(keyboard PUBLIC "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>")
 install(TARGETS keyboard DESTINATION "${FCITX_INSTALL_ADDONDIR}")
 install(FILES keyboard.conf DESTINATION "${FCITX_INSTALL_PKGDATADIR}/addon")

@@ -22,7 +22,7 @@
 #include "fcitx/addonfactory.h"
 #include "fcitx/addonmanager.h"
 #include "fcitx/instance.h"
-#include "im/keyboard/keyboard.h"
+#include "keyboard.h"
 #include <fcntl.h>
 #include <libintl.h>
 #include <locale.h>

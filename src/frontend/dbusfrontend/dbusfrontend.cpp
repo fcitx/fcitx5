@@ -24,7 +24,7 @@
 #include "fcitx-utils/metastring.h"
 #include "fcitx/inputcontext.h"
 #include "fcitx/instance.h"
-#include "modules/dbus/dbus_public.h"
+#include "dbus_public.h"
 
 #define FCITX_INPUTMETHOD_DBUS_INTERFACE "org.fcitx.Fcitx.InputMethod1"
 #define FCITX_INPUTCONTEXT_DBUS_INTERFACE "org.fcitx.Fcitx.InputContext1"

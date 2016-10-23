@@ -3,3 +3,6 @@ target_link_libraries(xcb Fcitx5::Core XCB::XCB XCB::AUX XCB::XKB XKBCommon::XKB
 set_target_properties(xcb PROPERTIES PREFIX "")
 install(TARGETS xcb DESTINATION "${FCITX_INSTALL_ADDONDIR}")
 install(FILES xcb.conf DESTINATION "${FCITX_INSTALL_PKGDATADIR}/addon")
+add_library(xcb-interface INTERFACE)
+add_library(Fcitx5::Module::XCB ALIAS xcb-interface)
+set_target_properties(xcb-interface PROPERTIES INTERFACE_INCLUDE_DIRECTORIES "${CMAKE_CURRENT_SOURCE_DIR}")
