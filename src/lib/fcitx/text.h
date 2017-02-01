@@ -36,6 +36,15 @@ enum class TextFormatFlag : int {
     None = 0,
 };
 
+enum class TextRole {
+    Normal,
+    UserInput,
+    CandidateIndex,
+    CurrentCandiate,
+    UserPhrase,
+    Hint,
+};
+
 typedef Flags<TextFormatFlag> TextFormatFlags;
 class TextPrivate;
 class FCITXCORE_EXPORT Text {
@@ -45,18 +54,19 @@ public:
     Text(const Text &other);
     Text(Text &&other);
 
-    Text &operator=(Text text) {
+    Text &operator=(Text other) {
         using std::swap;
-        swap(*this, text);
+        swap(d_ptr, other.d_ptr);
         return *this;
     }
 
     int cursor() const;
     void setCursor(int pos = -1);
     void clear();
-    void append(const std::string &str, TextFormatFlags flag = TextFormatFlag::None);
+    void append(const std::string &str, TextFormatFlags flag = TextFormatFlag::None, TextRole role = TextRole::Normal);
     const std::string &stringAt(int idx) const;
     TextFormatFlags formatAt(int idx) const;
+    TextRole roleAt(int idx) const;
     size_t size() const;
     std::string toString() const;
     std::string toStringForCommit() const;

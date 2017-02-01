@@ -1,4 +1,3 @@
-
 /*
  * Copyright (C) 2016~2016 by CSSlayer
  * wengxt@gmail.com
@@ -25,16 +24,55 @@
 namespace fcitx {
 class FCITXUTILS_EXPORT Rect {
 public:
-    Rect(int _x1 = 0, int _y1 = 0, int _x2 = 0, int _y2 = 0) : x1(_x1), y1(_y1), x2(_x2), y2(_y2) {}
+    Rect(int _x1 = 0, int _y1 = 0, int _x2 = 0, int _y2 = 0) : x1_(_x1), y1_(_y1), x2_(_x2), y2_(_y2) {}
 
     Rect(const Rect &rect) = default;
 
+    inline Rect &setPosition(int x, int y) noexcept {
+        x1_ = x;
+        y1_ = y;
+        return *this;
+    }
+
+    inline Rect &setSize(int width, int height) noexcept {
+        x2_ = width + x1_ - 1;
+        y2_ = height + y1_ - 1;
+        return *this;
+    }
+
+    inline Rect &setLeft(int pos) noexcept {
+        x1_ = pos;
+        return *this;
+    }
+    inline Rect &setTop(int pos) noexcept {
+        y1_ = pos;
+        return *this;
+    }
+    inline Rect &setRight(int pos) noexcept {
+        x2_ = pos;
+        return *this;
+    }
+    inline Rect &setBottom(int pos) noexcept {
+        y2_ = pos;
+        return *this;
+    }
+
+    inline int left() const noexcept { return x1_; }
+    inline int top() const noexcept { return y1_; }
+    inline int right() const noexcept { return x2_; }
+    inline int bottom() const noexcept { return y2_; }
+
+    inline int width() const noexcept { return x2_ - x1_ + 1; }
+    inline int height() const noexcept { return y2_ - y1_ + 1; }
+
     inline bool operator==(const Rect &other) const {
-        return x1 == other.x1 && x2 == other.x2 && y1 == other.y1 && y2 == other.y2;
+        return x1_ == other.x1_ && x2_ == other.x2_ && y1_ == other.y1_ && y2_ == other.y2_;
     }
 
     inline bool operator!=(const Rect &other) const { return !operator==(other); }
-    int x1, y1, x2, y2;
+
+private:
+    int x1_, y1_, x2_, y2_;
 };
 };
 

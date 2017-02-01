@@ -104,5 +104,9 @@ DBusModule::~DBusModule() {}
 
 dbus::Bus *DBusModule::bus() { return bus_.get(); }
 
-AddonInstance *DBusModuleFactory::create(AddonManager *manager) { return new DBusModule(manager->instance()); }
+class DBusModuleFactory : public AddonFactory {
+    AddonInstance *create(AddonManager *manager) override { return new DBusModule(manager->instance()); }
+};
 }
+
+FCITX_ADDON_FACTORY(fcitx::DBusModuleFactory)

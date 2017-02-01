@@ -42,12 +42,6 @@ private:
     std::unique_ptr<HandlerTableEntry<dbus::ServiceWatcherCallback>> selfWatcher_;
     std::unique_ptr<Controller1> controller_;
 };
-
-class DBusModuleFactory : public AddonFactory {
-    AddonInstance *create(AddonManager *manager) override;
-};
-
-FCITX_ADDON_FACTORY(DBusModuleFactory)
 }
 
 #endif // _FCITX_MODULES_DBUS_DBUSMODULE_H_

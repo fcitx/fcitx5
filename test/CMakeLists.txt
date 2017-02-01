@@ -57,7 +57,9 @@ set(testaddon_ARGS "${CMAKE_CURRENT_SOURCE_DIR}/addon2" "${CMAKE_CURRENT_BINARY_
 set(FCITX_CORE_TEST
     testinputcontext
     testsurroundingtext
-    testaddon)
+    testaddon
+    testmenu
+    testuserinterfacemanager)
 foreach(TESTCASE ${FCITX_CORE_TEST})
     add_executable(${TESTCASE} ${TESTCASE}.cpp)
     target_link_libraries(${TESTCASE} Fcitx5::Core)

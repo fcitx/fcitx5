@@ -1,0 +1,32 @@
+#ifndef WL_CALLBACK
+#define WL_CALLBACK
+#include <wayland-client.h>
+#include <memory>
+#include "fcitx-utils/signals.h"
+namespace fcitx {
+namespace wayland {
+class WlCallback {
+public:
+    static constexpr const char *interface = "wl_callback";
+    static constexpr const wl_interface *const wlInterface = &wl_callback_interface;
+    static constexpr const uint32_t version = 1;
+    typedef wl_callback wlType;
+    operator wl_callback *() { return data_.get(); }
+    WlCallback(wlType *data);
+    WlCallback(WlCallback &&other) : data_(std::move(other.data_)) {}
+    WlCallback &operator=(WlCallback &&other) {
+        data_ = std::move(other.data_);
+        return *this;
+    }
+    auto actualVersion() const { return version_; }
+    auto &done() { return doneSignal_; }
+private:
+    static void destructor(wl_callback *);
+    static const struct wl_callback_listener listener;
+    fcitx::Signal<void(uint32_t)> doneSignal_;
+    uint32_t version_;
+    std::unique_ptr<wl_callback, decltype(&destructor)> data_;
+};
+}
+}
+#endif

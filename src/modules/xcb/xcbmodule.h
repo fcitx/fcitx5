@@ -40,6 +40,8 @@
 
 namespace fcitx {
 
+typedef std::function<void(xcb_atom_t selection)> XCBSelectionNotifyCallback;
+
 class XCBModule;
 
 class XCBConnection {
@@ -49,6 +51,8 @@ public:
 
     void updateKeymap();
     HandlerTableEntry<XCBEventFilter> *addEventFilter(XCBEventFilter filter);
+    HandlerTableEntry<XCBSelectionNotifyCallback> *addSelection(const std::string &name,
+                                                                XCBSelectionNotifyCallback callback);
 
     const std::string &name() const { return name_; }
     xcb_connection_t *connection() const { return conn_.get(); }
@@ -62,6 +66,13 @@ public:
 private:
     bool filterEvent(xcb_connection_t *conn, xcb_generic_event_t *event);
     void onIOEvent();
+    void addSelectionAtom(xcb_atom_t atom);
+    void removeSelectionAtom(xcb_atom_t atom);
+    void initAtom();
+    xcb_atom_t atom(const std::string &atomName, bool exists);
+    void refreshCompositeManager();
+
+    std::unordered_map<std::string, xcb_atom_t> atomCache_;
 
     XCBModule *parent_;
     std::string name_;
@@ -72,10 +83,29 @@ private:
     xcb_window_t root_;
     FocusGroup *group_;
 
+    xcb_atom_t typeMenuAtom_ = XCB_ATOM_NONE;
+    xcb_atom_t windowTypeAtom_ = XCB_ATOM_NONE;
+    xcb_atom_t typeDialogAtom_ = XCB_ATOM_NONE;
+    xcb_atom_t typeDockAtom_ = XCB_ATOM_NONE;
+    xcb_atom_t typePopupMenuAtom_ = XCB_ATOM_NONE;
+    xcb_atom_t pidAtom_ = XCB_ATOM_NONE;
+    xcb_atom_t utf8Atom_ = XCB_ATOM_NONE;
+    xcb_atom_t stringAtom_ = XCB_ATOM_NONE;
+    xcb_atom_t compTextAtom_ = XCB_ATOM_NONE;
+    xcb_atom_t compMgrAtom_ = XCB_ATOM_NONE;
+
+    std::string compMgrAtomString_;
+    xcb_window_t compMgrWindow_;
+
     bool hasXKB_;
     xcb_atom_t xkbRulesNamesAtom_;
     uint8_t xkbFirstEvent_;
     int32_t coreDeviceId_;
+
+    bool hasXFixes_ = false;
+    MultiHandlerTable<xcb_atom_t, XCBSelectionNotifyCallback> selections_{
+        [this](xcb_atom_t selection) { addSelectionAtom(selection); },
+        [this](xcb_atom_t selection) { removeSelectionAtom(selection); }};
 
     std::unique_ptr<struct xkb_context, decltype(&xkb_context_unref)> context_;
     std::unique_ptr<struct xkb_keymap, decltype(&xkb_keymap_unref)> keymap_;
@@ -86,6 +116,7 @@ private:
     HandlerTable<XCBEventFilter> filters_;
     // need to be clean up before filters_ destructs;
     std::unique_ptr<HandlerTableEntry<XCBEventFilter>> filter_;
+    std::unique_ptr<HandlerTableEntry<XCBSelectionNotifyCallback>> compositeCallback_;
 };
 
 class XCBModule : public AddonInstance {
@@ -116,13 +147,6 @@ private:
     FCITX_ADDON_EXPORT_FUNCTION(XCBModule, xkbState);
     FCITX_ADDON_EXPORT_FUNCTION(XCBModule, xkbRulesNames);
 };
-
-class XCBModuleFactory : public AddonFactory {
-public:
-    AddonInstance *create(AddonManager *manager) override { return new XCBModule(manager->instance()); }
-};
 }
-
-FCITX_ADDON_FACTORY(fcitx::XCBModuleFactory);
 
 #endif // _FCITX_MODULES_XCB_XCBMODULE_H_

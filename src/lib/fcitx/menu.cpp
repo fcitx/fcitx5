@@ -19,21 +19,53 @@
 
 #include "menu.h"
 #include "fcitx-utils/dynamictrackableobject.h"
+#include <algorithm>
 
 namespace fcitx {
 
-class MenuPrivate {};
+class MenuPrivate {
+public:
+    std::vector<std::pair<Action *, ScopedConnection>> actions_;
+};
 
 Menu::Menu() : d_ptr(std::make_unique<MenuPrivate>()) {}
 
 Menu::~Menu() {}
 
-void Menu::addAction(Action *action) {
-    if (!action) {
-        return;
-    }
-    action->connect<DynamicTrackableObject::Destroyed>([](void *) {
+void Menu::addAction(Action *action) { return insertAction(nullptr, action); }
 
+void Menu::insertAction(Action *before, Action *action) {
+    FCITX_D();
+    auto iter = d->actions_.end();
+    if (before) {
+        iter = std::find_if(d->actions_.begin(), d->actions_.end(),
+                            [before](const auto &t) { return (t.first == before); });
+        if (iter == d->actions_.end()) {
+            return;
+        }
+    }
+    ScopedConnection conn = action->connect<ObjectDestroyed>([this](void *p) {
+        auto action = static_cast<Action *>(p);
+        removeAction(action);
     });
+    d->actions_.emplace(iter, std::make_pair(action, std::move(conn)));
+}
+
+void Menu::removeAction(Action *action) {
+    FCITX_D();
+    auto iter =
+        std::find_if(d->actions_.begin(), d->actions_.end(), [action](const auto &t) { return (t.first == action); });
+    if (iter != d->actions_.end()) {
+        d->actions_.erase(iter);
+    }
+}
+
+std::vector<Action *> Menu::actions() {
+    FCITX_D();
+    std::vector<Action *> result;
+    for (const auto &p : d->actions_) {
+        result.push_back(p.first);
+    }
+    return result;
 }
 }

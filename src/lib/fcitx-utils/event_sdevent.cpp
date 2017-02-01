@@ -296,12 +296,10 @@ EventSource *EventLoop::addExitEvent(EventCallback callback) {
     auto source = std::make_unique<SDEventSource>(callback);
     sd_event_source *sdEventSource;
     int err;
-    if ((err = sd_event_add_exit(d->event_, &sdEventSource, ExitEventCallback, source.get())) <
-        0) {
+    if ((err = sd_event_add_exit(d->event_, &sdEventSource, ExitEventCallback, source.get())) < 0) {
         throw EventLoopException(err);
     }
     source->setEventSource(sdEventSource);
     return source.release();
 }
-
 }

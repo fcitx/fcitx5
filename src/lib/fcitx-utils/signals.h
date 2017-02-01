@@ -137,6 +137,8 @@ public:
     Connection() {}
     explicit Connection(TrackableObjectReference<ConnectionBody> body) : body_(std::move(body)) {}
     Connection(const Connection &other) : body_(other.body_) {}
+    Connection(Connection &&other) : body_(std::move(other.body_)) {}
+    virtual ~Connection() {}
 
     bool connected() { return body_.isValid(); }
 
@@ -147,15 +149,41 @@ public:
     }
     bool operator==(const Connection &other) const { return body_.get() == other.body_.get(); }
     bool operator!=(const Connection &other) const { return !(*this == other); }
-    Connection &operator=(const Connection &other) {
-        if (&other == this)
-            return *this;
-        body_ = other.body_;
+
+    Connection &operator=(Connection other) {
+        using std::swap;
+        swap(body_, other.body_);
         return *this;
     }
 
-private:
+protected:
     TrackableObjectReference<ConnectionBody> body_;
+};
+
+class ScopedConnection : public Connection {
+public:
+    // You must create two Connection if you really want two ScopedConnection for same actual connection
+    ScopedConnection(ScopedConnection &&other) : Connection(std::move(other)) {}
+    ScopedConnection(Connection &&other) : Connection(std::move(other)) {}
+    ScopedConnection(const ScopedConnection &) = delete;
+    ScopedConnection() {}
+
+    ScopedConnection &operator=(ScopedConnection &&other) {
+        if (&other == this)
+            return *this;
+        disconnect();
+        Connection::operator=(std::move(other));
+        return *this;
+    }
+    ScopedConnection &operator=(const ScopedConnection &other) = delete;
+
+    virtual ~ScopedConnection() { disconnect(); }
+
+    Connection release() {
+        Connection conn(body_);
+        body_.unwatch();
+        return conn;
+    }
 };
 
 class SignalBase {
@@ -172,7 +200,7 @@ public:
     Signal(const Combiner &combiner = Combiner()) : combiner_(combiner) {}
     virtual ~Signal() { disconnectAll(); }
 
-    Ret operator()(Args &&... args) {
+    Ret operator()(Args... args) {
         auto view = table_.view();
         Invoker<Ret, Args...> invoker(args...);
         auto iter = MakeSlotInvokeIterator(invoker, view.begin());

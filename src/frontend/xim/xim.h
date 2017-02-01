@@ -50,13 +50,6 @@ private:
     std::unique_ptr<HandlerTableEntry<XCBConnectionCreated>> createdCallback_;
     std::unique_ptr<HandlerTableEntry<XCBConnectionClosed>> closedCallback_;
 };
-
-class XIMModuleFactory : public AddonFactory {
-public:
-    AddonInstance *create(AddonManager *manager) override { return new XIMModule(manager->instance()); }
-};
 }
-
-FCITX_ADDON_FACTORY(fcitx::XIMModuleFactory);
 
 #endif // _FCITX_FRONTEND_XIM_XIM_H_

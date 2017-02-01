@@ -19,12 +19,13 @@
 
 #include "text.h"
 #include <sstream>
+#include <tuple>
 #include <vector>
 namespace fcitx {
 
 class TextPrivate {
 public:
-    std::vector<std::pair<std::string, TextFormatFlags>> texts_;
+    std::vector<std::tuple<std::string, TextFormatFlags, TextRole>> texts_;
     int cursor_ = 0;
 };
 
@@ -48,19 +49,24 @@ void Text::setCursor(int pos) {
     d->cursor_ = pos;
 }
 
-void Text::append(const std::string &str, TextFormatFlags flag) {
+void Text::append(const std::string &str, TextFormatFlags flag, TextRole role) {
     FCITX_D();
-    d->texts_.emplace_back(str, flag);
+    d->texts_.emplace_back(str, flag, role);
 }
 
 const std::string &Text::stringAt(int idx) const {
     FCITX_D();
-    return d->texts_[idx].first;
+    return std::get<std::string>(d->texts_[idx]);
 }
 
 TextFormatFlags Text::formatAt(int idx) const {
     FCITX_D();
-    return d->texts_[idx].second;
+    return std::get<TextFormatFlags>(d->texts_[idx]);
+}
+
+TextRole Text::roleAt(int idx) const {
+    FCITX_D();
+    return std::get<TextRole>(d->texts_[idx]);
 }
 
 size_t Text::size() const {
@@ -72,7 +78,7 @@ std::string Text::toString() const {
     FCITX_D();
     std::stringstream ss;
     for (auto &p : d->texts_) {
-        ss << p.first;
+        ss << std::get<std::string>(p);
     }
 
     return ss.str();
@@ -82,8 +88,8 @@ std::string Text::toStringForCommit() const {
     FCITX_D();
     std::stringstream ss;
     for (auto &p : d->texts_) {
-        if (!(p.second & TextFormatFlag::DontCommit)) {
-            ss << p.first;
+        if (!(std::get<TextFormatFlags>(p) & TextFormatFlag::DontCommit)) {
+            ss << std::get<std::string>(p);
         }
     }
 

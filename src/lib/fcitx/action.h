@@ -28,13 +28,17 @@
 namespace fcitx {
 class ActionPrivate;
 class Menu;
+class UserInterfaceManager;
 
 class FCITXCORE_EXPORT Action : public DynamicTrackableObject {
+    friend class UserInterfaceManager;
+
 public:
-    Action(const std::string &name);
+    Action();
     virtual ~Action();
 
     const std::string &name() const;
+    bool registerAction(const std::string &name, UserInterfaceManager *uiManager);
 
     const std::string &text() const;
     Action &setText(const std::string &text);
@@ -57,6 +61,8 @@ public:
     FCITX_DECLARE_SIGNAL(Action, Activated, void());
 
 private:
+    void setName(const std::string &name);
+
     std::unique_ptr<ActionPrivate> d_ptr;
     FCITX_DECLARE_PRIVATE(Action);
 };

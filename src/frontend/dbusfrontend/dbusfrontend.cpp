@@ -18,13 +18,13 @@
  */
 
 #include "dbusfrontend.h"
+#include "dbus_public.h"
 #include "fcitx-utils/dbus/message.h"
 #include "fcitx-utils/dbus/objectvtable.h"
 #include "fcitx-utils/dbus/servicewatcher.h"
 #include "fcitx-utils/metastring.h"
 #include "fcitx/inputcontext.h"
 #include "fcitx/instance.h"
-#include "dbus_public.h"
 
 #define FCITX_INPUTMETHOD_DBUS_INTERFACE "org.fcitx.Fcitx.InputMethod1"
 #define FCITX_INPUTCONTEXT_DBUS_INTERFACE "org.fcitx.Fcitx.InputContext1"
@@ -173,5 +173,13 @@ AddonInstance *DBusFrontendModule::dbus() {
     auto &addonManager = instance_->addonManager();
     return addonManager.addon("dbus");
 }
+
 dbus::Bus *DBusFrontendModule::bus() { return dbus()->call<IDBusModule::bus>(); }
+
+class DBusFrontendModuleFactory : public AddonFactory {
+public:
+    AddonInstance *create(AddonManager *manager) override { return new DBusFrontendModule(manager->instance()); }
+};
 }
+
+FCITX_ADDON_FACTORY(fcitx::DBusFrontendModuleFactory);

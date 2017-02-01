@@ -19,6 +19,7 @@
 #ifndef _FCITX_MODULES_WAYLAND_WAYLANDMODULE_H_
 #define _FCITX_MODULES_WAYLAND_WAYLANDMODULE_H_
 
+#include "display.h"
 #include "wayland_public.h"
 #include <fcitx-utils/event.h>
 #include <fcitx/addonfactory.h>
@@ -26,7 +27,6 @@
 #include <fcitx/addonmanager.h>
 #include <fcitx/focusgroup.h>
 #include <fcitx/instance.h>
-#include <wayland-client.h>
 
 namespace fcitx {
 
@@ -38,7 +38,7 @@ public:
     ~WaylandConnection();
 
     const std::string &name() const { return name_; }
-    wl_display *display() const { return display_.get(); }
+    wayland::Display *display() const { return display_.get(); }
     FocusGroup *focusGroup() const { return group_; }
 
 private:
@@ -49,7 +49,7 @@ private:
     std::string name_;
     // order matters, callback in ioEvent_ uses display_.
     std::unique_ptr<EventSourceIO> ioEvent_;
-    std::unique_ptr<wl_display, decltype(&wl_display_disconnect)> display_;
+    std::unique_ptr<wayland::Display> display_;
     FocusGroup *group_ = nullptr;
     int error_ = 0;
 };
@@ -64,6 +64,7 @@ public:
 
     HandlerTableEntry<WaylandConnectionCreated> *addConnectionCreatedCallback(WaylandConnectionCreated callback);
     HandlerTableEntry<WaylandConnectionClosed> *addConnectionClosedCallback(WaylandConnectionClosed callback);
+    wl_registry *getRegistry(const std::string &name);
 
 private:
     void onConnectionCreated(WaylandConnection &conn);
@@ -76,13 +77,6 @@ private:
     FCITX_ADDON_EXPORT_FUNCTION(WaylandModule, addConnectionCreatedCallback);
     FCITX_ADDON_EXPORT_FUNCTION(WaylandModule, addConnectionClosedCallback);
 };
-
-class WaylandModuleFactory : public AddonFactory {
-public:
-    AddonInstance *create(AddonManager *manager) override { return new WaylandModule(manager->instance()); }
-};
 }
-
-FCITX_ADDON_FACTORY(fcitx::WaylandModuleFactory);
 
 #endif // _FCITX_MODULES_WAYLAND_WAYLANDMODULE_H_

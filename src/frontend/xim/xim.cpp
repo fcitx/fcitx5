@@ -293,4 +293,11 @@ AddonInstance *XIMModule::xcb() {
 }
 
 XIMModule::~XIMModule() {}
+
+class XIMModuleFactory : public AddonFactory {
+public:
+    AddonInstance *create(AddonManager *manager) override { return new XIMModule(manager->instance()); }
+};
 }
+
+FCITX_ADDON_FACTORY(fcitx::XIMModuleFactory);

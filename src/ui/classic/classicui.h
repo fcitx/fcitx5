@@ -24,11 +24,16 @@
 #include "fcitx/addoninstance.h"
 #include "fcitx/addonmanager.h"
 #include "fcitx/focusgroup.h"
+#include "fcitx/userinterface.h"
+#include "wayland_public.h"
 #include "xcb_public.h"
 
 namespace fcitx {
 namespace classicui {
-class ClassicUI : public AddonInstance {
+
+class UIInterface {};
+
+class ClassicUI : public UserInterface {
 public:
     ClassicUI(Instance *instance);
     ~ClassicUI();
@@ -36,18 +41,21 @@ public:
     AddonInstance *xcb();
     AddonInstance *wayland();
     Instance *instance() { return instance_; }
+    void suspend() override;
+    void resume() override;
 
 private:
+    std::unique_ptr<HandlerTableEntry<XCBConnectionCreated>> xcbCreatedCallback_;
+    std::unique_ptr<HandlerTableEntry<XCBConnectionClosed>> xcbClosedCallback_;
+
+    std::unique_ptr<HandlerTableEntry<WaylandConnectionCreated>> waylandCreatedCallback_;
+    std::unique_ptr<HandlerTableEntry<WaylandConnectionClosed>> waylandClosedCallback_;
+
+    std::unordered_map<std::string, std::unique_ptr<UIInterface>> uis_;
+
     Instance *instance_;
 };
-
-class ClassicUIFactory : public AddonFactory {
-public:
-    AddonInstance *create(AddonManager *manager) override { return new ClassicUI(manager->instance()); }
-};
 }
 }
-
-FCITX_ADDON_FACTORY(fcitx::classicui::ClassicUIFactory);
 
 #endif // _FCITX_UI_CLASSIC_CLASSICUI_H_

@@ -18,3 +18,8 @@
  */
 
 #include "userinterface.h"
+
+namespace fcitx {
+
+UserInterface::~UserInterface() {}
+}

@@ -25,19 +25,12 @@
 
 namespace fcitx {
 
-class UserIntefacePrivate;
-
-class FCITXCORE_EXPORT UserInteface : public AddonInstance {
+class FCITXCORE_EXPORT UserInterface : public AddonInstance {
 public:
-    virtual ~UserInteface();
+    virtual ~UserInterface();
 
-    virtual bool availableFor(const std::string &displayServer) const = 0;
     virtual void suspend() = 0;
     virtual void resume() = 0;
-
-private:
-    std::unique_ptr<UserIntefacePrivate> d_ptr;
-    FCITX_DECLARE_PRIVATE(UserInteface);
 };
 };
 

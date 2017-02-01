@@ -30,7 +30,7 @@
 #include "errorhandler.h"
 #include "fcitx/instance.h"
 
-#if defined(LIBEXECINFO_FOUND)
+#if defined(EXECINFO_FOUND)
 #include <execinfo.h>
 #endif
 
@@ -140,7 +140,7 @@ void OnException(int signo) {
     _write_buffer(fd, &buffer);
     _write_string(fd, "\n");
 
-#if defined(LIBEXECINFO_FOUND)
+#if defined(EXECINFO_FOUND)
 #define BACKTRACE_SIZE 32
     void *array[BACKTRACE_SIZE] = {
         NULL,

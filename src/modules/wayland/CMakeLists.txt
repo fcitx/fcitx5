@@ -1,5 +1,5 @@
 add_library(wayland MODULE waylandmodule.cpp)
-target_link_libraries(wayland Fcitx5::Core Wayland::Client)
+target_link_libraries(wayland Fcitx5::Core Wayland::Client Fcitx5::Wayland::Core)
 set_target_properties(wayland PROPERTIES PREFIX "")
 install(TARGETS wayland DESTINATION "${FCITX_INSTALL_ADDONDIR}")
 install(FILES wayland.conf DESTINATION "${FCITX_INSTALL_PKGDATADIR}/addon")

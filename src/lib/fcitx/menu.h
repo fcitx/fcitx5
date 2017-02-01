@@ -35,6 +35,10 @@ public:
 
     void addAction(Action *action);
     void removeAction(Action *action);
+    void insertAction(Action *before, Action *action);
+    std::vector<Action *> actions();
+
+    FCITX_DECLARE_SIGNAL(Menu, Update, void());
 
 private:
     std::unique_ptr<MenuPrivate> d_ptr;

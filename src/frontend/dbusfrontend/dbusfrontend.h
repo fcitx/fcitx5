@@ -48,13 +48,6 @@ private:
     std::unique_ptr<InputMethod1> inputMethod1_;
     std::unique_ptr<dbus::ServiceWatcher> watcher_;
 };
-
-class DBusFrontendModuleFactory : public AddonFactory {
-public:
-    AddonInstance *create(AddonManager *manager) override { return new DBusFrontendModule(manager->instance()); }
-};
 }
-
-FCITX_ADDON_FACTORY(fcitx::DBusFrontendModuleFactory);
 
 #endif // _FCITX_FRONTEND_DBUSFRONTEND_DBUSFRONTEND_H_

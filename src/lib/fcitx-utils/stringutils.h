@@ -60,6 +60,6 @@ FCITXUTILS_EXPORT std::string join(std::initializer_list<C> &&container, T &&del
     return join(begin(container), end(container), delim);
 }
 }
-};
+}
 
 #endif // _FCITX_UTILS_STRINGUTILS_H_

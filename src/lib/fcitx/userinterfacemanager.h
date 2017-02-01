@@ -31,10 +31,13 @@ class UserInterfaceManagerPrivate;
 
 class FCITXCORE_EXPORT UserInterfaceManager {
 public:
-    UserInterfaceManager(AddonManager *manager);
+    UserInterfaceManager();
     virtual ~UserInterfaceManager();
 
-    void load();
+    void load(AddonManager *manager);
+    bool registerAction(const std::string &name, Action *action);
+    void unregisterAction(Action *action);
+    Action *lookupAction(const std::string &name);
 
     Menu *mainPanel();
 

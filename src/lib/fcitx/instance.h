@@ -37,6 +37,7 @@ class InputContextManager;
 class InputMethodManager;
 class InputMethodEngine;
 class InputMethodEntry;
+class UserInterfaceManager;
 class GlobalConfig;
 typedef std::function<void(Event &event)> EventHandler;
 enum class EventWatcherPhase { PreInputMethod, InputMethod, PostInputMethod, Default = PostInputMethod };
@@ -54,6 +55,7 @@ public:
     AddonManager &addonManager();
     InputContextManager &inputContextManager();
     InputMethodManager &inputMethodManager();
+    UserInterfaceManager &userInterfaceManager();
     GlobalConfig &globalConfig();
 
     bool postEvent(Event &event);

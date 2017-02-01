@@ -18,34 +18,78 @@
  */
 
 #include "userinterfacemanager.h"
+#include "userinterface.h"
 
 namespace fcitx {
 
 class UserInterfaceManagerPrivate {
 public:
-    UserInterfaceManagerPrivate(AddonManager *manager) : addonManager_(manager) {}
+    UserInterfaceManagerPrivate() {}
 
-    AddonManager *addonManager_;
-    AddonInstance *ui_ = nullptr;
-    AddonInstance *uiFallback_ = nullptr;
+    UserInterface *ui_ = nullptr;
+    UserInterface *uiFallback_ = nullptr;
+    Menu menu_;
+
+    std::unordered_map<std::string, std::pair<Action *, ScopedConnection>> actions_;
 };
 
-UserInterfaceManager::UserInterfaceManager(AddonManager *manager)
-    : d_ptr(std::make_unique<UserInterfaceManagerPrivate>(manager)) {}
+UserInterfaceManager::UserInterfaceManager() : d_ptr(std::make_unique<UserInterfaceManagerPrivate>()) {}
 
 UserInterfaceManager::~UserInterfaceManager() {}
 
-void UserInterfaceManager::load() {
+void UserInterfaceManager::load(AddonManager *addonManager) {
     FCITX_D();
-    auto names = d->addonManager_->addonNames(AddonCategory::UI);
+    auto names = addonManager->addonNames(AddonCategory::UI);
 
     // FIXME: implement fallback
     for (auto &name : names) {
-        auto ui = d->addonManager_->addon(name);
+        auto ui = addonManager->addon(name);
         if (ui) {
-            d->ui_ = ui;
+            d->ui_ = static_cast<UserInterface *>(ui);
             break;
         }
     }
+}
+
+Menu *UserInterfaceManager::mainPanel() {
+    FCITX_D();
+    return &d->menu_;
+}
+
+bool UserInterfaceManager::registerAction(const std::string &name, Action *action) {
+    FCITX_D();
+    if (!action->name().empty() || name.empty()) {
+        return false;
+    }
+    auto iter = d->actions_.find(name);
+    if (iter != d->actions_.end()) {
+        return false;
+    }
+    ScopedConnection conn = action->connect<ObjectDestroyed>([this, action](void *) { unregisterAction(action); });
+    d->actions_.emplace(name, std::make_pair(action, std::move(conn)));
+    action->setName(name);
+    return true;
+}
+
+void UserInterfaceManager::unregisterAction(Action *action) {
+    FCITX_D();
+    auto iter = d->actions_.find(action->name());
+    if (iter == d->actions_.end()) {
+        return;
+    }
+    if (std::get<0>(iter->second) != action) {
+        return;
+    }
+    d->actions_.erase(iter);
+    action->setName(std::string());
+}
+
+Action *UserInterfaceManager::lookupAction(const std::string &name) {
+    FCITX_D();
+    auto iter = d->actions_.find(name);
+    if (iter == d->actions_.end()) {
+        return nullptr;
+    }
+    return std::get<0>(iter->second);
 }
 }

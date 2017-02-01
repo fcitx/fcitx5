@@ -24,18 +24,19 @@
 namespace fcitx {
 
 WaylandConnection::WaylandConnection(WaylandModule *wayland, const char *name)
-    : parent_(wayland), name_(name ? name : ""), display_(nullptr, wl_display_disconnect) {
-    display_.reset(wl_display_connect(name));
-    if (!display_) {
+    : parent_(wayland), name_(name ? name : "") {
+    auto display = wl_display_connect(name);
+    if (!display) {
         throw std::runtime_error("Failed to open wayland connection");
     }
+    display_ = std::make_unique<wayland::Display>(display);
 
     auto &eventLoop = parent_->instance()->eventLoop();
-    ioEvent_.reset(eventLoop.addIOEvent(wl_display_get_fd(display_.get()), IOEventFlag::In,
-                                        [this](EventSource *, int, IOEventFlags flags) {
-                                            onIOEvent(flags);
-                                            return true;
-                                        }));
+    ioEvent_.reset(
+        eventLoop.addIOEvent(display_->fd(), IOEventFlag::In, [this](EventSource *, int, IOEventFlags flags) {
+            onIOEvent(flags);
+            return true;
+        }));
 
     group_ = new FocusGroup(wayland->instance()->inputContextManager());
 }
@@ -55,18 +56,18 @@ void WaylandConnection::onIOEvent(IOEventFlags flags) {
         return finish();
     }
 
-    if (wl_display_prepare_read(display_.get()) == 0) {
-        wl_display_read_events(display_.get());
+    if (wl_display_prepare_read(*display_) == 0) {
+        wl_display_read_events(*display_);
     }
 
-    if (wl_display_dispatch_pending(display_.get()) < 0) {
-        error_ = wl_display_get_error(display_.get());
+    if (wl_display_dispatch_pending(*display_) < 0) {
+        error_ = wl_display_get_error(*display_);
         if (error_ != 0) {
             return finish();
         }
     }
 
-    wl_display_flush(display_.get());
+    display_->flush();
 }
 
 WaylandModule::WaylandModule(fcitx::Instance *instance) : instance_(instance) { openDisplay(""); }
@@ -98,7 +99,7 @@ WaylandModule::addConnectionCreatedCallback(WaylandConnectionCreated callback) {
 
     for (auto &p : conns_) {
         auto &conn = p.second;
-        callback(conn.name(), conn.display(), conn.focusGroup());
+        callback(conn.name(), *conn.display(), conn.focusGroup());
     }
     return result;
 }
@@ -110,13 +111,20 @@ WaylandModule::addConnectionClosedCallback(WaylandConnectionClosed callback) {
 
 void WaylandModule::onConnectionCreated(WaylandConnection &conn) {
     for (auto &callback : createdCallbacks_.view()) {
-        callback(conn.name(), conn.display(), conn.focusGroup());
+        callback(conn.name(), *conn.display(), conn.focusGroup());
     }
 }
 
 void WaylandModule::onConnectionClosed(WaylandConnection &conn) {
     for (auto &callback : closedCallbacks_.view()) {
-        callback(conn.name(), conn.display());
+        callback(conn.name(), *conn.display());
     }
 }
+
+class WaylandModuleFactory : public AddonFactory {
+public:
+    AddonInstance *create(AddonManager *manager) override { return new WaylandModule(manager->instance()); }
+};
 }
+
+FCITX_ADDON_FACTORY(fcitx::WaylandModuleFactory);

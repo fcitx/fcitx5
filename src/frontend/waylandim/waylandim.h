@@ -20,7 +20,6 @@
 #define _FCITX_FRONTEND_WAYLANDIM_WAYLANDIM_H_
 
 #include "wayland_public.h"
-#include "wayland-input-method-unstable-v1-client-protocol.h"
 #include <fcitx/addonfactory.h>
 #include <fcitx/addoninstance.h>
 #include <fcitx/addonmanager.h>
@@ -45,13 +44,6 @@ private:
     std::unique_ptr<HandlerTableEntry<WaylandConnectionCreated>> createdCallback_;
     std::unique_ptr<HandlerTableEntry<WaylandConnectionClosed>> closedCallback_;
 };
-
-class WaylandIMModuleFactory : public AddonFactory {
-public:
-    AddonInstance *create(AddonManager *manager) override { return new WaylandIMModule(manager->instance()); }
-};
 }
-
-FCITX_ADDON_FACTORY(fcitx::WaylandIMModuleFactory);
 
 #endif // _FCITX_FRONTEND_WAYLANDIM_WAYLANDIM_H_

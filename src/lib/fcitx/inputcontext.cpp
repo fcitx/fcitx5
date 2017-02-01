@@ -22,7 +22,7 @@
 #include "inputcontext_p.h"
 #include "inputcontextmanager.h"
 #include "instance.h"
-#include <string.h>
+#include <iostream>
 
 namespace fcitx {
 
@@ -59,6 +59,7 @@ const std::string &InputContext::displayServer() const {
 
 void InputContext::setDisplayServer(const std::string &displayServer) {
     FCITX_D();
+    std::cout << "ABCDEF" << displayServer << std::endl;
     d->displayServer_ = displayServer;
 }
 

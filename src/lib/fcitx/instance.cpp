@@ -17,18 +17,18 @@
  * see <http://www.gnu.org/licenses/>.
  */
 
-#include "fcitx/instance.h"
+#include "instance.h"
+#include "addonmanager.h"
 #include "fcitx-utils/event.h"
 #include "fcitx-utils/standardpath.h"
 #include "fcitx-utils/stringutils.h"
-#include "fcitx/addonmanager.h"
-#include "fcitx/inputcontextmanager.h"
-#include "fcitx/userinterfacemanager.h"
-#include "fcitx/globalconfig.h"
-#include "fcitx/inputmethodengine.h"
-#include "fcitx/inputmethodentry.h"
-#include "fcitx/inputmethodmanager.h"
-#include "fcitx/inputstate_p.h"
+#include "globalconfig.h"
+#include "inputcontextmanager.h"
+#include "inputmethodengine.h"
+#include "inputmethodentry.h"
+#include "inputmethodmanager.h"
+#include "inputstate_p.h"
+#include "userinterfacemanager.h"
 #include <getopt.h>
 #include <signal.h>
 #include <sys/wait.h>
@@ -103,7 +103,7 @@ public:
     InputContextManager icManager_;
     AddonManager addonManager_;
     InputMethodManager imManager_{&this->addonManager_};
-    UserInterfaceManager uiManager_{&this->addonManager_};
+    UserInterfaceManager uiManager_;
     GlobalConfig globalConfig_;
     std::unordered_map<EventType, std::unordered_map<EventWatcherPhase, HandlerTable<EventHandler>, enum_hash>,
                        enum_hash>
@@ -276,8 +276,8 @@ void Instance::initialize() {
     FCITX_D();
     d->addonManager_.load();
     d->imManager_.load();
-    d->uiManager_.load();
-    d->exitEvent_.reset(d->eventLoop_.addExitEvent([this] (EventSource *) {
+    d->uiManager_.load(&d->addonManager_);
+    d->exitEvent_.reset(d->eventLoop_.addExitEvent([this](EventSource *) {
         save();
         return false;
     }));
@@ -312,6 +312,11 @@ AddonManager &Instance::addonManager() {
 InputMethodManager &Instance::inputMethodManager() {
     FCITX_D();
     return d->imManager_;
+}
+
+UserInterfaceManager &Instance::userInterfaceManager() {
+    FCITX_D();
+    return d->uiManager_;
 }
 
 GlobalConfig &Instance::globalConfig() {
@@ -431,8 +436,7 @@ void Instance::restart() {
     auto fcitxBinary = StandardPath::fcitxPath("bindir") + "/fcitx";
     std::vector<char> command{fcitxBinary.begin(), fcitxBinary.end()};
     command.push_back('\0');
-    char *const argv[] = {command.data(),
-                          NULL};
+    char *const argv[] = {command.data(), NULL};
     execv(argv[0], argv);
     perror("Restart failed: execvp:");
     _exit(1);
