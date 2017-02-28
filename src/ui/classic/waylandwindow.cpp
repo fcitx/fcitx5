@@ -18,18 +18,23 @@
  */
 
 #include "waylandwindow.h"
+#include "wl_compositor.h"
+#include "wl_output.h"
+#include "wl_surface.h"
 
 namespace fcitx {
 namespace classicui {
 
-WaylandWindow::WaylandWindow(WaylandUI *ui) : ui_(ui) {}
+WaylandWindow::WaylandWindow(WaylandUI *ui, UserInterfaceComponent type) : Window(type), ui_(ui) {}
 
 WaylandWindow::~WaylandWindow() { destroyWindow(); }
 
-void WaylandWindow::createWindow() {}
+void WaylandWindow::createWindow() {
+    auto compositor = ui_->display()->getGlobal<wayland::WlCompositor>();
+    surface_.reset(compositor->createSurface());
+    surface_->enter().connect([](wayland::WlOutput *output) { output->scale(); });
+}
 
-void WaylandWindow::destroyWindow() {}
-
-void WaylandWindow::resize(unsigned int width, unsigned int height) {}
+void WaylandWindow::destroyWindow() { surface_.reset(); }
 }
 }

@@ -17,7 +17,7 @@
  * see <http://www.gnu.org/licenses/>.
  */
 #include "fcitx-utils/unixfd.h"
-#include <assert.h>
+#include <cassert>
 #include <fcntl.h>
 #include <sys/stat.h>
 #include <unistd.h>

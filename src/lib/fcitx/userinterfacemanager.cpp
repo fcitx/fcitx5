@@ -18,19 +18,36 @@
  */
 
 #include "userinterfacemanager.h"
+#include "action.h"
 #include "userinterface.h"
 
 namespace fcitx {
 
+struct UserInterfaceComponentHash {
+    template <typename T>
+    std::underlying_type_t<T> operator()(T t) const {
+        return static_cast<std::underlying_type_t<T>>(t);
+    }
+};
+
 class UserInterfaceManagerPrivate {
 public:
-    UserInterfaceManagerPrivate() {}
+    UserInterfaceManagerPrivate() {
+        UserInterfaceComponent comps[] = {UserInterfaceComponent::InputPanel, UserInterfaceComponent::StatusArea};
+        for (auto comp : comps) {
+            dirty_[comp] = false;
+        }
+
+        statusArea_.connect<StatusArea::Update>([]() {});
+    }
 
     UserInterface *ui_ = nullptr;
     UserInterface *uiFallback_ = nullptr;
-    Menu menu_;
+    StatusArea statusArea_;
 
     std::unordered_map<std::string, std::pair<Action *, ScopedConnection>> actions_;
+
+    std::unordered_map<UserInterfaceComponent, bool, UserInterfaceComponentHash> dirty_;
 };
 
 UserInterfaceManager::UserInterfaceManager() : d_ptr(std::make_unique<UserInterfaceManagerPrivate>()) {}
@@ -51,9 +68,18 @@ void UserInterfaceManager::load(AddonManager *addonManager) {
     }
 }
 
-Menu *UserInterfaceManager::mainPanel() {
+StatusArea &UserInterfaceManager::statusArea() {
     FCITX_D();
-    return &d->menu_;
+    return d->statusArea_;
+}
+
+void UserInterfaceManager::update() {
+    FCITX_D();
+    for (auto &p : d->dirty_) {
+        if (p.second) {
+            d->ui_->update(p.first);
+        }
+    }
 }
 
 bool UserInterfaceManager::registerAction(const std::string &name, Action *action) {

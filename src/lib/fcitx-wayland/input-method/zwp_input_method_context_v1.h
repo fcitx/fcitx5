@@ -1,9 +1,9 @@
 #ifndef ZWP_INPUT_METHOD_CONTEXT_V1
 #define ZWP_INPUT_METHOD_CONTEXT_V1
-#include <wayland-client.h>
-#include <memory>
-#include "wayland-input-method-unstable-v1-client-protocol.h"
 #include "fcitx-utils/signals.h"
+#include "wayland-input-method-unstable-v1-client-protocol.h"
+#include <memory>
+#include <wayland-client.h>
 namespace fcitx {
 namespace wayland {
 class WlKeyboard;
@@ -40,6 +40,7 @@ public:
     auto &invokeAction() { return invokeActionSignal_; }
     auto &commitState() { return commitStateSignal_; }
     auto &preferredLanguage() { return preferredLanguageSignal_; }
+
 private:
     static void destructor(zwp_input_method_context_v1 *);
     static const struct zwp_input_method_context_v1_listener listener;

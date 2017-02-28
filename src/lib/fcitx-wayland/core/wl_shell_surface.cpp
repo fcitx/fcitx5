@@ -12,46 +12,33 @@ const struct wl_shell_surface_listener WlShellSurface::listener = {
     [](void *data, wl_shell_surface *wldata, uint32_t serial) {
         auto obj = static_cast<WlShellSurface *>(data);
         assert(*obj == wldata);
-        {
-            return obj->ping()(serial);
-        }
+        { return obj->ping()(serial); }
     },
     [](void *data, wl_shell_surface *wldata, uint32_t edges, int32_t width, int32_t height) {
         auto obj = static_cast<WlShellSurface *>(data);
         assert(*obj == wldata);
-        {
-            return obj->configure()(edges, width, height);
-        }
+        { return obj->configure()(edges, width, height); }
     },
     [](void *data, wl_shell_surface *wldata) {
         auto obj = static_cast<WlShellSurface *>(data);
         assert(*obj == wldata);
-        {
-            return obj->popupDone()();
-        }
+        { return obj->popupDone()(); }
     },
 };
-WlShellSurface::WlShellSurface(wl_shell_surface *data) : version_(wl_shell_surface_get_version(data)), data_(data, &WlShellSurface::destructor) {
+WlShellSurface::WlShellSurface(wl_shell_surface *data)
+    : version_(wl_shell_surface_get_version(data)), data_(data, &WlShellSurface::destructor) {
     wl_shell_surface_set_user_data(*this, this);
     wl_shell_surface_add_listener(*this, &WlShellSurface::listener, this);
 }
 void WlShellSurface::destructor(wl_shell_surface *data) {
-    {
-        return wl_shell_surface_destroy(data);
-    }
+    { return wl_shell_surface_destroy(data); }
 }
-void WlShellSurface::pong(uint32_t serial) {
-    return wl_shell_surface_pong(*this, serial);
-}
-void WlShellSurface::move(WlSeat *seat, uint32_t serial) {
-    return wl_shell_surface_move(*this, *seat, serial);
-}
+void WlShellSurface::pong(uint32_t serial) { return wl_shell_surface_pong(*this, serial); }
+void WlShellSurface::move(WlSeat *seat, uint32_t serial) { return wl_shell_surface_move(*this, *seat, serial); }
 void WlShellSurface::resize(WlSeat *seat, uint32_t serial, uint32_t edges) {
     return wl_shell_surface_resize(*this, *seat, serial, edges);
 }
-void WlShellSurface::setToplevel() {
-    return wl_shell_surface_set_toplevel(*this);
-}
+void WlShellSurface::setToplevel() { return wl_shell_surface_set_toplevel(*this); }
 void WlShellSurface::setTransient(WlSurface *parent, int32_t x, int32_t y, uint32_t flags) {
     return wl_shell_surface_set_transient(*this, *parent, x, y, flags);
 }
@@ -61,14 +48,8 @@ void WlShellSurface::setFullscreen(uint32_t method, uint32_t framerate, WlOutput
 void WlShellSurface::setPopup(WlSeat *seat, uint32_t serial, WlSurface *parent, int32_t x, int32_t y, uint32_t flags) {
     return wl_shell_surface_set_popup(*this, *seat, serial, *parent, x, y, flags);
 }
-void WlShellSurface::setMaximized(WlOutput *output) {
-    return wl_shell_surface_set_maximized(*this, *output);
-}
-void WlShellSurface::setTitle(const char *title) {
-    return wl_shell_surface_set_title(*this, title);
-}
-void WlShellSurface::setClass(const char *class_) {
-    return wl_shell_surface_set_class(*this, class_);
-}
+void WlShellSurface::setMaximized(WlOutput *output) { return wl_shell_surface_set_maximized(*this, *output); }
+void WlShellSurface::setTitle(const char *title) { return wl_shell_surface_set_title(*this, title); }
+void WlShellSurface::setClass(const char *class_) { return wl_shell_surface_set_class(*this, class_); }
 }
 }

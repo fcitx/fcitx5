@@ -21,7 +21,6 @@
 #include "fcitx-utils/event.h"
 #include "fcitx-utils/utf8.h"
 #include "fcitx/inputcontext.h"
-#include "wayland-input-method-unstable-v1-client-protocol.h"
 #include "wayland-text-input-unstable-v1-client-protocol.h"
 #include "wl_keyboard.h"
 #include "zwp_input_method_context_v1.h"
@@ -115,7 +114,7 @@ public:
             [this](uint32_t serial, uint32_t mods_depressed, uint32_t mods_latched, uint32_t mods_locked,
                    uint32_t group) { modifiersCallback(serial, mods_depressed, mods_latched, mods_locked, group); });
         keyboard_->repeatInfo().connect([this](int32_t rate, int32_t delay) { repeatInfoCallback(rate, delay); });
-        wl_display_roundtrip(*server_->display_);
+        server_->display_->roundtrip();
         repeatInfoCallback(repeatRate_, repeatDelay_);
     }
     ~WaylandIMInputContextV1() { server_->remove(ic_.get()); }
@@ -149,7 +148,7 @@ protected:
     }
 
     virtual void updatePreeditImpl() override {
-        auto &preedit = this->preedit();
+        auto &preedit = inputPanel().preedit();
 
         for (int i = 0, e = preedit.size(); i < e; i++) {
             if (!utf8::validate(preedit.stringAt(i))) {
@@ -211,9 +210,9 @@ WaylandIMServer::WaylandIMServer(wl_display *display, FocusGroup *group, const s
 }
 
 void WaylandIMServer::init() {
-    auto ims = display_->getGlobals<wayland::ZwpInputMethodV1>();
-    if (ims.size() > 0 && !inputMethodV1_) {
-        inputMethodV1_ = ims[0];
+    auto im = display_->getGlobal<wayland::ZwpInputMethodV1>();
+    if (im && !inputMethodV1_) {
+        inputMethodV1_ = im;
         inputMethodV1_->activate().connect([this](wayland::ZwpInputMethodContextV1 *ic) { activate(ic); });
         inputMethodV1_->deactivate().connect([this](wayland::ZwpInputMethodContextV1 *ic) { deactivate(ic); });
         display_->flush();
@@ -222,7 +221,6 @@ void WaylandIMServer::init() {
 
 void WaylandIMServer::activate(wayland::ZwpInputMethodContextV1 *id) {
     auto ic = new WaylandIMInputContextV1(parent_->instance()->inputContextManager(), this, id);
-    ic->setDisplayServer("wayland:" + name_);
     ic->setFocusGroup(group_);
 }
 

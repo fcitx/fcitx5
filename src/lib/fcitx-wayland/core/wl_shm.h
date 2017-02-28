@@ -1,8 +1,8 @@
 #ifndef WL_SHM
 #define WL_SHM
-#include <wayland-client.h>
-#include <memory>
 #include "fcitx-utils/signals.h"
+#include <memory>
+#include <wayland-client.h>
 namespace fcitx {
 namespace wayland {
 class WlShmPool;
@@ -22,6 +22,7 @@ public:
     auto actualVersion() const { return version_; }
     WlShmPool *createPool(int32_t fd, int32_t size);
     auto &format() { return formatSignal_; }
+
 private:
     static void destructor(wl_shm *);
     static const struct wl_shm_listener listener;

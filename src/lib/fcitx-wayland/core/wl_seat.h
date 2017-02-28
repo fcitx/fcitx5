@@ -1,8 +1,8 @@
 #ifndef WL_SEAT
 #define WL_SEAT
-#include <wayland-client.h>
-#include <memory>
 #include "fcitx-utils/signals.h"
+#include <memory>
+#include <wayland-client.h>
 namespace fcitx {
 namespace wayland {
 class WlKeyboard;
@@ -27,6 +27,7 @@ public:
     WlTouch *getTouch();
     auto &capabilities() { return capabilitiesSignal_; }
     auto &name() { return nameSignal_; }
+
 private:
     static void destructor(wl_seat *);
     static const struct wl_seat_listener listener;

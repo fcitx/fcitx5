@@ -26,51 +26,37 @@ const struct wl_pointer_listener WlPointer::listener = {
     [](void *data, wl_pointer *wldata, uint32_t time, wl_fixed_t surfaceX, wl_fixed_t surfaceY) {
         auto obj = static_cast<WlPointer *>(data);
         assert(*obj == wldata);
-        {
-            return obj->motion()(time, surfaceX, surfaceY);
-        }
+        { return obj->motion()(time, surfaceX, surfaceY); }
     },
     [](void *data, wl_pointer *wldata, uint32_t serial, uint32_t time, uint32_t button, uint32_t state) {
         auto obj = static_cast<WlPointer *>(data);
         assert(*obj == wldata);
-        {
-            return obj->button()(serial, time, button, state);
-        }
+        { return obj->button()(serial, time, button, state); }
     },
     [](void *data, wl_pointer *wldata, uint32_t time, uint32_t axis, wl_fixed_t value) {
         auto obj = static_cast<WlPointer *>(data);
         assert(*obj == wldata);
-        {
-            return obj->axis()(time, axis, value);
-        }
+        { return obj->axis()(time, axis, value); }
     },
     [](void *data, wl_pointer *wldata) {
         auto obj = static_cast<WlPointer *>(data);
         assert(*obj == wldata);
-        {
-            return obj->frame()();
-        }
+        { return obj->frame()(); }
     },
     [](void *data, wl_pointer *wldata, uint32_t axisSource) {
         auto obj = static_cast<WlPointer *>(data);
         assert(*obj == wldata);
-        {
-            return obj->axisSource()(axisSource);
-        }
+        { return obj->axisSource()(axisSource); }
     },
     [](void *data, wl_pointer *wldata, uint32_t time, uint32_t axis) {
         auto obj = static_cast<WlPointer *>(data);
         assert(*obj == wldata);
-        {
-            return obj->axisStop()(time, axis);
-        }
+        { return obj->axisStop()(time, axis); }
     },
     [](void *data, wl_pointer *wldata, uint32_t axis, int32_t discrete) {
         auto obj = static_cast<WlPointer *>(data);
         assert(*obj == wldata);
-        {
-            return obj->axisDiscrete()(axis, discrete);
-        }
+        { return obj->axisDiscrete()(axis, discrete); }
     },
 };
 WlPointer::WlPointer(wl_pointer *data) : version_(wl_pointer_get_version(data)), data_(data, &WlPointer::destructor) {

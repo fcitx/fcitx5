@@ -59,7 +59,9 @@ set(FCITX_CORE_TEST
     testsurroundingtext
     testaddon
     testmenu
-    testuserinterfacemanager)
+    testuserinterfacemanager
+    testelement
+    testcandidatelist)
 foreach(TESTCASE ${FCITX_CORE_TEST})
     add_executable(${TESTCASE} ${TESTCASE}.cpp)
     target_link_libraries(${TESTCASE} Fcitx5::Core)

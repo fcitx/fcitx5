@@ -1,8 +1,8 @@
 #ifndef WL_DATA_DEVICE
 #define WL_DATA_DEVICE
-#include <wayland-client.h>
-#include <memory>
 #include "fcitx-utils/signals.h"
+#include <memory>
+#include <wayland-client.h>
 namespace fcitx {
 namespace wayland {
 class WlDataOffer;
@@ -30,6 +30,7 @@ public:
     auto &motion() { return motionSignal_; }
     auto &drop() { return dropSignal_; }
     auto &selection() { return selectionSignal_; }
+
 private:
     static void destructor(wl_data_device *);
     static const struct wl_data_device_listener listener;

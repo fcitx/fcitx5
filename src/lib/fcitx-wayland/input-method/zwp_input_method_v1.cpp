@@ -24,14 +24,13 @@ const struct zwp_input_method_v1_listener ZwpInputMethodV1::listener = {
         }
     },
 };
-ZwpInputMethodV1::ZwpInputMethodV1(zwp_input_method_v1 *data) : version_(zwp_input_method_v1_get_version(data)), data_(data, &ZwpInputMethodV1::destructor) {
+ZwpInputMethodV1::ZwpInputMethodV1(zwp_input_method_v1 *data)
+    : version_(zwp_input_method_v1_get_version(data)), data_(data, &ZwpInputMethodV1::destructor) {
     zwp_input_method_v1_set_user_data(*this, this);
     zwp_input_method_v1_add_listener(*this, &ZwpInputMethodV1::listener, this);
 }
 void ZwpInputMethodV1::destructor(zwp_input_method_v1 *data) {
-    {
-        return zwp_input_method_v1_destroy(data);
-    }
+    { return zwp_input_method_v1_destroy(data); }
 }
 }
 }

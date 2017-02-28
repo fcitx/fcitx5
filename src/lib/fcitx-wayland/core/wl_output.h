@@ -1,8 +1,8 @@
 #ifndef WL_OUTPUT
 #define WL_OUTPUT
-#include <wayland-client.h>
-#include <memory>
 #include "fcitx-utils/signals.h"
+#include <memory>
+#include <wayland-client.h>
 namespace fcitx {
 namespace wayland {
 class WlOutput {
@@ -23,10 +23,12 @@ public:
     auto &mode() { return modeSignal_; }
     auto &done() { return doneSignal_; }
     auto &scale() { return scaleSignal_; }
+
 private:
     static void destructor(wl_output *);
     static const struct wl_output_listener listener;
-    fcitx::Signal<void(int32_t, int32_t, int32_t, int32_t, int32_t, const char *, const char *, int32_t)> geometrySignal_;
+    fcitx::Signal<void(int32_t, int32_t, int32_t, int32_t, int32_t, const char *, const char *, int32_t)>
+        geometrySignal_;
     fcitx::Signal<void(uint32_t, int32_t, int32_t, int32_t)> modeSignal_;
     fcitx::Signal<void()> doneSignal_;
     fcitx::Signal<void(int32_t)> scaleSignal_;

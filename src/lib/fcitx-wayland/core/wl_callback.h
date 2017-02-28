@@ -1,8 +1,8 @@
 #ifndef WL_CALLBACK
 #define WL_CALLBACK
-#include <wayland-client.h>
-#include <memory>
 #include "fcitx-utils/signals.h"
+#include <memory>
+#include <wayland-client.h>
 namespace fcitx {
 namespace wayland {
 class WlCallback {
@@ -20,6 +20,7 @@ public:
     }
     auto actualVersion() const { return version_; }
     auto &done() { return doneSignal_; }
+
 private:
     static void destructor(wl_callback *);
     static const struct wl_callback_listener listener;

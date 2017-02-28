@@ -8,7 +8,6 @@ ecm_find_package_version_check(Cairo)
 set(Cairo_known_components
     Cairo
     XCB
-    XCB_SHM
     EGL)
 
 set(Cairo_Cairo_component_deps)

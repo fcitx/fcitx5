@@ -25,9 +25,16 @@
 
 namespace fcitx {
 
+enum class UserInterfaceComponent {
+    InputPanel,
+    StatusArea,
+};
+
 class FCITXCORE_EXPORT UserInterface : public AddonInstance {
 public:
     virtual ~UserInterface();
+
+    virtual void update(UserInterfaceComponent component) = 0;
 
     virtual void suspend() = 0;
     virtual void resume() = 0;

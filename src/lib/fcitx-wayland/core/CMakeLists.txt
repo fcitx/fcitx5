@@ -1,5 +1,6 @@
 set(FCITX_WAYLAND_CORE_SOURCES
     display.cpp
+    outputinfomation.cpp
     wl_buffer.cpp
     wl_callback.cpp
     wl_compositor.cpp

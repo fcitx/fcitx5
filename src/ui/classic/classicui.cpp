@@ -26,9 +26,6 @@
 namespace fcitx {
 namespace classicui {
 ClassicUI::ClassicUI(Instance *instance) : UserInterface(), instance_(instance) {
-    instance->userInterfaceManager().mainPanel()->connect<Menu::Update>([]() {
-
-    });
     xcbCreatedCallback_.reset(xcb()->call<IXCBModule::addConnectionCreatedCallback>(
         [this](const std::string &name, xcb_connection_t *conn, int screen, FocusGroup *) {
             uis_["x11:" + name].reset(new XCBUI(this, name, conn, screen));
@@ -61,6 +58,8 @@ AddonInstance *ClassicUI::wayland() {
 void ClassicUI::suspend() {}
 
 void ClassicUI::resume() {}
+
+void ClassicUI::update(UserInterfaceComponent component) {}
 
 class ClassicUIFactory : public AddonFactory {
 public:

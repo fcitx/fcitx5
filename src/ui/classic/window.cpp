@@ -17,10 +17,16 @@
  * see <http://www.gnu.org/licenses/>.
  */
 
-#include <cairo/cairo-xcb.h>
+#include "window.h"
 
 namespace fcitx {
 namespace classicui {
-class Window {};
+
+Window::Window(UserInterfaceComponent type) : type_(type) {}
+
+void Window::resize(unsigned int width, unsigned int height) {
+    width_ = width;
+    height_ = height;
+}
 }
 }

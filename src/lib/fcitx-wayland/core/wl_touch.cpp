@@ -7,7 +7,8 @@ constexpr const char *WlTouch::interface;
 constexpr const wl_interface *const WlTouch::wlInterface;
 const uint32_t WlTouch::version;
 const struct wl_touch_listener WlTouch::listener = {
-    [](void *data, wl_touch *wldata, uint32_t serial, uint32_t time, wl_surface *surface, int32_t id, wl_fixed_t x, wl_fixed_t y) {
+    [](void *data, wl_touch *wldata, uint32_t serial, uint32_t time, wl_surface *surface, int32_t id, wl_fixed_t x,
+       wl_fixed_t y) {
         auto obj = static_cast<WlTouch *>(data);
         assert(*obj == wldata);
         {
@@ -18,30 +19,22 @@ const struct wl_touch_listener WlTouch::listener = {
     [](void *data, wl_touch *wldata, uint32_t serial, uint32_t time, int32_t id) {
         auto obj = static_cast<WlTouch *>(data);
         assert(*obj == wldata);
-        {
-            return obj->up()(serial, time, id);
-        }
+        { return obj->up()(serial, time, id); }
     },
     [](void *data, wl_touch *wldata, uint32_t time, int32_t id, wl_fixed_t x, wl_fixed_t y) {
         auto obj = static_cast<WlTouch *>(data);
         assert(*obj == wldata);
-        {
-            return obj->motion()(time, id, x, y);
-        }
+        { return obj->motion()(time, id, x, y); }
     },
     [](void *data, wl_touch *wldata) {
         auto obj = static_cast<WlTouch *>(data);
         assert(*obj == wldata);
-        {
-            return obj->frame()();
-        }
+        { return obj->frame()(); }
     },
     [](void *data, wl_touch *wldata) {
         auto obj = static_cast<WlTouch *>(data);
         assert(*obj == wldata);
-        {
-            return obj->cancel()();
-        }
+        { return obj->cancel()(); }
     },
 };
 WlTouch::WlTouch(wl_touch *data) : version_(wl_touch_get_version(data)), data_(data, &WlTouch::destructor) {

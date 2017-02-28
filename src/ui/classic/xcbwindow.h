@@ -29,7 +29,7 @@ namespace classicui {
 
 class XCBWindow : public Window {
 public:
-    XCBWindow(XCBUI *ui);
+    XCBWindow(XCBUI *ui, UserInterfaceComponent type);
     ~XCBWindow();
 
     void createWindow();

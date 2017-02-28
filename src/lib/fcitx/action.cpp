@@ -20,25 +20,29 @@
 #include "action.h"
 #include "fcitx-utils/dynamictrackableobject.h"
 #include "menu.h"
+#include "userinterfacemanager.h"
 
 namespace fcitx {
 
 class ActionPrivate {
 public:
-    ActionPrivate(Action *q) : ActionActivatedAdaptor(q) {}
+    ActionPrivate(Action *q) : ActionActivatedAdaptor(q), ActionUpdateAdaptor(q) {}
     std::string name_;
     std::string icon_;
     std::string text_;
     bool checked_ = false;
     bool checkable_ = false;
     bool enabled_ = true;
-    Menu *menu_ = nullptr;
+    bool visible_ = true;
+    bool separator_ = false;
+    ScopedConnection connection_;
     FCITX_DEFINE_SIGNAL_PRIVATE(Action, Activated);
+    FCITX_DEFINE_SIGNAL_PRIVATE(Action, Update);
 };
 
 Action::Action() : d_ptr(std::make_unique<ActionPrivate>(this)) {}
 
-Action::~Action() { emit<ObjectDestroyed>(this); }
+Action::~Action() { destroy(); }
 
 void Action::activate() {
     FCITX_D();
@@ -46,6 +50,21 @@ void Action::activate() {
         return;
     }
     emit<Action::Activated>();
+}
+
+bool Action::isSeparator() const {
+    FCITX_D();
+    return d->separator_;
+}
+
+Action &Action::setSeparator(bool separator) {
+    FCITX_D();
+    d->separator_ = separator;
+    return *this;
+}
+
+bool Action::registerAction(const std::string &name, UserInterfaceManager *manager) {
+    return manager->registerAction(name, this);
 }
 
 void Action::setName(const std::string &name) {
@@ -110,10 +129,22 @@ bool Action::isEnabled() const {
 
 void Action::setMenu(Menu *menu) {
     FCITX_D();
-    if (menu) {
-        menu->connect<ObjectDestroyed>([this](void *) { setMenu(nullptr); });
+    auto oldMenu = this->menu();
+    if (oldMenu) {
+        oldMenu->removeParent(this);
     }
-    d->menu_ = menu;
+    if (menu) {
+        menu->addParent(this);
+        d->connection_ = menu->connect<ObjectDestroyed>([this](void *) { emit<Action::Update>(); });
+    }
+}
+
+Menu *Action::menu() {
+    auto childList = childs();
+    if (childList.size()) {
+        return static_cast<Menu *>(childList.front());
+    }
+    return nullptr;
 }
 
 const std::string &Action::name() const {

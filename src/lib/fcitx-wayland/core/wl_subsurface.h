@@ -1,8 +1,8 @@
 #ifndef WL_SUBSURFACE
 #define WL_SUBSURFACE
-#include <wayland-client.h>
-#include <memory>
 #include "fcitx-utils/signals.h"
+#include <memory>
+#include <wayland-client.h>
 namespace fcitx {
 namespace wayland {
 class WlSurface;
@@ -25,6 +25,7 @@ public:
     void placeBelow(WlSurface *sibling);
     void setSync();
     void setDesync();
+
 private:
     static void destructor(wl_subsurface *);
     uint32_t version_;

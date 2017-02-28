@@ -1,9 +1,9 @@
 #ifndef ZWP_INPUT_METHOD_V1
 #define ZWP_INPUT_METHOD_V1
-#include <wayland-client.h>
-#include <memory>
-#include "wayland-input-method-unstable-v1-client-protocol.h"
 #include "fcitx-utils/signals.h"
+#include "wayland-input-method-unstable-v1-client-protocol.h"
+#include <memory>
+#include <wayland-client.h>
 namespace fcitx {
 namespace wayland {
 class ZwpInputMethodContextV1;
@@ -23,6 +23,7 @@ public:
     auto actualVersion() const { return version_; }
     auto &activate() { return activateSignal_; }
     auto &deactivate() { return deactivateSignal_; }
+
 private:
     static void destructor(zwp_input_method_v1 *);
     static const struct zwp_input_method_v1_listener listener;

@@ -1,8 +1,8 @@
 #ifndef WL_BUFFER
 #define WL_BUFFER
-#include <wayland-client.h>
-#include <memory>
 #include "fcitx-utils/signals.h"
+#include <memory>
+#include <wayland-client.h>
 namespace fcitx {
 namespace wayland {
 class WlBuffer {
@@ -20,6 +20,7 @@ public:
     }
     auto actualVersion() const { return version_; }
     auto &release() { return releaseSignal_; }
+
 private:
     static void destructor(wl_buffer *);
     static const struct wl_buffer_listener listener;

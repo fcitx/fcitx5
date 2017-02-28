@@ -52,15 +52,9 @@ const std::string &InputContext::program() const {
     return d->program_;
 }
 
-const std::string &InputContext::displayServer() const {
+std::string InputContext::display() const {
     FCITX_D();
-    return d->displayServer_;
-}
-
-void InputContext::setDisplayServer(const std::string &displayServer) {
-    FCITX_D();
-    std::cout << "ABCDEF" << displayServer << std::endl;
-    d->displayServer_ = displayServer;
+    return d->group_ ? d->group_->display() : "";
 }
 
 InputContextProperty *InputContext::property(const std::string &name) {
@@ -133,11 +127,6 @@ FocusGroup *InputContext::focusGroup() const {
 void InputContext::focusIn() {
     FCITX_D();
     if (d->group_) {
-        if (focusGroupType() == FocusGroupType::Global) {
-            d->manager_.focusOutNonGlobal();
-        } else {
-            d->manager_.globalFocusGroup().setFocusedInputContext(nullptr);
-        }
         d->group_->setFocusedInputContext(this);
     } else {
         setHasFocus(true);
@@ -181,14 +170,6 @@ bool InputContext::keyEvent(KeyEvent &event) {
 
 void InputContext::reset() {}
 
-FocusGroupType InputContext::focusGroupType() const {
-    FCITX_D();
-    if (d->group_) {
-        return d->group_ == &d->manager_.globalFocusGroup() ? FocusGroupType::Global : FocusGroupType::Local;
-    }
-    return FocusGroupType::Independent;
-}
-
 SurroundingText &InputContext::surroundingText() {
     FCITX_D();
     return d->surroundingText_;
@@ -202,26 +183,6 @@ const SurroundingText &InputContext::surroundingText() const {
 void InputContext::updateSurroundingText() {
     FCITX_D();
     d->emplaceEvent<SurroundingTextUpdatedEvent>(this);
-}
-
-Text &InputContext::preedit() {
-    FCITX_D();
-    return d->preedit_;
-}
-
-const Text &InputContext::preedit() const {
-    FCITX_D();
-    return d->preedit_;
-}
-
-Text &InputContext::clientPreedit() {
-    FCITX_D();
-    return d->clientPreedit_;
-}
-
-const Text &InputContext::clientPreedit() const {
-    FCITX_D();
-    return d->clientPreedit_;
 }
 
 void InputContext::commitString(const std::string &text) {
@@ -248,5 +209,10 @@ void InputContext::updatePreedit() {
     if (!d->postEvent(event)) {
         updatePreeditImpl();
     }
+}
+
+InputPanel &InputContext::inputPanel() {
+    FCITX_D();
+    return d->inputPanel_;
 }
 }

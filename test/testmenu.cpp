@@ -23,16 +23,27 @@
 using namespace fcitx;
 
 int main() {
-    auto menu = std::make_unique<Menu>();
     {
-        Action a;
-        menu->addAction(&a);
+        auto menu = std::make_unique<Menu>();
+        {
+            Action a;
+            menu->addAction(&a);
+            assert(menu->actions().size() == 1);
+        }
+        assert(menu->actions().size() == 0);
+        Action a2;
+        menu->addAction(&a2);
         assert(menu->actions().size() == 1);
+        menu.reset();
     }
-    assert(menu->actions().size() == 0);
-    Action a2;
-    menu->addAction(&a2);
-    assert(menu->actions().size() == 1);
-    menu.reset();
+    {
+        auto menu = std::make_unique<Menu>();
+        Action a;
+        a.setMenu(menu.get());
+        bool called = false;
+        a.connect<Action::Update>([&called]() { called = true; });
+        menu.reset();
+        assert(called);
+    }
     return 0;
 }

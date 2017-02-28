@@ -1,8 +1,8 @@
 #ifndef WL_DATA_DEVICE_MANAGER
 #define WL_DATA_DEVICE_MANAGER
-#include <wayland-client.h>
-#include <memory>
 #include "fcitx-utils/signals.h"
+#include <memory>
+#include <wayland-client.h>
 namespace fcitx {
 namespace wayland {
 class WlDataDevice;
@@ -24,6 +24,7 @@ public:
     auto actualVersion() const { return version_; }
     WlDataSource *createDataSource();
     WlDataDevice *getDataDevice(WlSeat *seat);
+
 private:
     static void destructor(wl_data_device_manager *);
     uint32_t version_;

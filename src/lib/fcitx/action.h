@@ -20,9 +20,9 @@
 #define _FCITX_ACTION_H_
 
 #include "fcitxcore_export.h"
-#include <fcitx-utils/dynamictrackableobject.h>
 #include <fcitx-utils/macros.h>
 #include <fcitx-utils/signals.h>
+#include <fcitx/element.h>
 #include <memory>
 
 namespace fcitx {
@@ -30,12 +30,15 @@ class ActionPrivate;
 class Menu;
 class UserInterfaceManager;
 
-class FCITXCORE_EXPORT Action : public DynamicTrackableObject {
+class FCITXCORE_EXPORT Action : public Element {
     friend class UserInterfaceManager;
 
 public:
     Action();
     virtual ~Action();
+
+    bool isSeparator() const;
+    Action &setSeparator(bool separator);
 
     const std::string &name() const;
     bool registerAction(const std::string &name, UserInterfaceManager *uiManager);
@@ -55,10 +58,12 @@ public:
     Action &setEnabled(bool enabled);
 
     void setMenu(Menu *menu);
+    Menu *menu();
 
     void activate();
 
     FCITX_DECLARE_SIGNAL(Action, Activated, void());
+    FCITX_DECLARE_SIGNAL(Action, Update, void());
 
 private:
     void setName(const std::string &name);

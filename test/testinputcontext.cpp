@@ -21,7 +21,7 @@
 #include "fcitx/inputcontext.h"
 #include "fcitx/inputcontextmanager.h"
 #include "fcitx/inputcontextproperty.h"
-#include <assert.h>
+#include <cassert>
 #include <vector>
 
 #define TEST_FOCUS(ARGS...)                                                                                            \
@@ -75,9 +75,7 @@ int main() {
         ic.pop_back();
         ic.emplace_back(new TestInputContext(manager));
 
-        FocusGroup group(manager), group2(manager);
-        ic[0]->setFocusGroup(&manager.globalFocusGroup());
-        ic[1]->setFocusGroup(&manager.globalFocusGroup());
+        FocusGroup group("", manager), group2("", manager);
         ic[2]->setFocusGroup(&group);
         ic[3]->setFocusGroup(&group);
         ic[4]->setFocusGroup(&group2);
@@ -99,9 +97,9 @@ int main() {
         ic[7]->focusIn();
         TEST_FOCUS(false, false, false, true, true, false, true, true);
         ic[1]->focusIn();
-        TEST_FOCUS(false, true, false, false, false, false, true, true);
+        TEST_FOCUS(false, true, false, true, true, false, true, true);
         ic[5]->focusIn();
-        TEST_FOCUS(false, false, false, false, false, true, true, true);
+        TEST_FOCUS(false, true, false, true, false, true, true, true);
 
         ic[1]->setCapabilityFlags(CapabilityFlag::Digit);
         assert(ic[1]->capabilityFlags() == CapabilityFlag::Digit);

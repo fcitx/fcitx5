@@ -19,9 +19,30 @@
 #ifndef _FCITX_UI_CLASSIC_WINDOW_H_
 #define _FCITX_UI_CLASSIC_WINDOW_H_
 
+#include "fcitx/userinterface.h"
+#include <cairo/cairo.h>
+
 namespace fcitx {
 namespace classicui {
-class Window {};
+
+class Window {
+public:
+    Window(UserInterfaceComponent type);
+
+    unsigned int width() const { return width_; }
+    unsigned int height() const { return height_; }
+    virtual void resize(unsigned int width, unsigned int height);
+
+    virtual cairo_surface_t *prepare() = 0;
+    virtual void swap() = 0;
+    virtual void acquire() = 0;
+    virtual void release() = 0;
+
+protected:
+    unsigned int width_ = 100;
+    unsigned int height_ = 100;
+    UserInterfaceComponent type_;
+};
 }
 }
 

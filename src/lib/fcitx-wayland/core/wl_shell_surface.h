@@ -1,8 +1,8 @@
 #ifndef WL_SHELL_SURFACE
 #define WL_SHELL_SURFACE
-#include <wayland-client.h>
-#include <memory>
 #include "fcitx-utils/signals.h"
+#include <memory>
+#include <wayland-client.h>
 namespace fcitx {
 namespace wayland {
 class WlOutput;
@@ -35,6 +35,7 @@ public:
     auto &ping() { return pingSignal_; }
     auto &configure() { return configureSignal_; }
     auto &popupDone() { return popupDoneSignal_; }
+
 private:
     static void destructor(wl_shell_surface *);
     static const struct wl_shell_surface_listener listener;

@@ -25,7 +25,6 @@ namespace fcitx {
 
 struct InputState : public InputContextProperty {
     int keyReleased = -1;
-    int inputMethodGroupEpoch = 0;
     bool active;
 };
 }

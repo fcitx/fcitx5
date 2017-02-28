@@ -10,47 +10,36 @@ const struct zwp_input_method_context_v1_listener ZwpInputMethodContextV1::liste
     [](void *data, zwp_input_method_context_v1 *wldata, const char *text, uint32_t cursor, uint32_t anchor) {
         auto obj = static_cast<ZwpInputMethodContextV1 *>(data);
         assert(*obj == wldata);
-        {
-            return obj->surroundingText()(text, cursor, anchor);
-        }
+        { return obj->surroundingText()(text, cursor, anchor); }
     },
     [](void *data, zwp_input_method_context_v1 *wldata) {
         auto obj = static_cast<ZwpInputMethodContextV1 *>(data);
         assert(*obj == wldata);
-        {
-            return obj->reset()();
-        }
+        { return obj->reset()(); }
     },
     [](void *data, zwp_input_method_context_v1 *wldata, uint32_t hint, uint32_t purpose) {
         auto obj = static_cast<ZwpInputMethodContextV1 *>(data);
         assert(*obj == wldata);
-        {
-            return obj->contentType()(hint, purpose);
-        }
+        { return obj->contentType()(hint, purpose); }
     },
     [](void *data, zwp_input_method_context_v1 *wldata, uint32_t button, uint32_t index) {
         auto obj = static_cast<ZwpInputMethodContextV1 *>(data);
         assert(*obj == wldata);
-        {
-            return obj->invokeAction()(button, index);
-        }
+        { return obj->invokeAction()(button, index); }
     },
     [](void *data, zwp_input_method_context_v1 *wldata, uint32_t serial) {
         auto obj = static_cast<ZwpInputMethodContextV1 *>(data);
         assert(*obj == wldata);
-        {
-            return obj->commitState()(serial);
-        }
+        { return obj->commitState()(serial); }
     },
     [](void *data, zwp_input_method_context_v1 *wldata, const char *language) {
         auto obj = static_cast<ZwpInputMethodContextV1 *>(data);
         assert(*obj == wldata);
-        {
-            return obj->preferredLanguage()(language);
-        }
+        { return obj->preferredLanguage()(language); }
     },
 };
-ZwpInputMethodContextV1::ZwpInputMethodContextV1(zwp_input_method_context_v1 *data) : version_(zwp_input_method_context_v1_get_version(data)), data_(data, &ZwpInputMethodContextV1::destructor) {
+ZwpInputMethodContextV1::ZwpInputMethodContextV1(zwp_input_method_context_v1 *data)
+    : version_(zwp_input_method_context_v1_get_version(data)), data_(data, &ZwpInputMethodContextV1::destructor) {
     zwp_input_method_context_v1_set_user_data(*this, this);
     zwp_input_method_context_v1_add_listener(*this, &ZwpInputMethodContextV1::listener, this);
 }
@@ -92,7 +81,8 @@ WlKeyboard *ZwpInputMethodContextV1::grabKeyboard() {
 void ZwpInputMethodContextV1::key(uint32_t serial, uint32_t time, uint32_t key, uint32_t state) {
     return zwp_input_method_context_v1_key(*this, serial, time, key, state);
 }
-void ZwpInputMethodContextV1::modifiers(uint32_t serial, uint32_t modsDepressed, uint32_t modsLatched, uint32_t modsLocked, uint32_t group) {
+void ZwpInputMethodContextV1::modifiers(uint32_t serial, uint32_t modsDepressed, uint32_t modsLatched,
+                                        uint32_t modsLocked, uint32_t group) {
     return zwp_input_method_context_v1_modifiers(*this, serial, modsDepressed, modsLatched, modsLocked, group);
 }
 void ZwpInputMethodContextV1::language(uint32_t serial, const char *language) {

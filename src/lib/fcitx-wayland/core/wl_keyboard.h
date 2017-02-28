@@ -1,8 +1,8 @@
 #ifndef WL_KEYBOARD
 #define WL_KEYBOARD
-#include <wayland-client.h>
-#include <memory>
 #include "fcitx-utils/signals.h"
+#include <memory>
+#include <wayland-client.h>
 namespace fcitx {
 namespace wayland {
 class WlSurface;
@@ -26,6 +26,7 @@ public:
     auto &key() { return keySignal_; }
     auto &modifiers() { return modifiersSignal_; }
     auto &repeatInfo() { return repeatInfoSignal_; }
+
 private:
     static void destructor(wl_keyboard *);
     static const struct wl_keyboard_listener listener;

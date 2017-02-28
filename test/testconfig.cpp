@@ -47,6 +47,7 @@ FCITX_CONFIGURATION(TestSubConfig, fcitx::Option<int> intValue{this, "IntOption"
 FCITX_CONFIGURATION(TestConfig, fcitx::Option<int, fcitx::IntConstrain> intValue{this, "IntOption", "Int Option", 0,
                                                                                  fcitx::IntConstrain(0, 10)};
                     fcitx::Option<fcitx::Color> colorValue{this, "ColorOption", "Color Option", fcitx::Color()};
+                    fcitx::Option<bool> boolValue{this, "BoolOption", "Bool Option", true};
                     fcitx::Option<std::string> stringValue{this, "StringOption", "String Option", "Test String"};
                     fcitx::Option<TestEnum> enumValue{this, "EnumOption", "Enum Option", TestEnum::EnumA};
                     fcitx::Option<std::vector<my::TestEnum>> enumVectorValue{

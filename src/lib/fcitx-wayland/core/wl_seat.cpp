@@ -12,16 +12,12 @@ const struct wl_seat_listener WlSeat::listener = {
     [](void *data, wl_seat *wldata, uint32_t capabilities) {
         auto obj = static_cast<WlSeat *>(data);
         assert(*obj == wldata);
-        {
-            return obj->capabilities()(capabilities);
-        }
+        { return obj->capabilities()(capabilities); }
     },
     [](void *data, wl_seat *wldata, const char *name) {
         auto obj = static_cast<WlSeat *>(data);
         assert(*obj == wldata);
-        {
-            return obj->name()(name);
-        }
+        { return obj->name()(name); }
     },
 };
 WlSeat::WlSeat(wl_seat *data) : version_(wl_seat_get_version(data)), data_(data, &WlSeat::destructor) {
@@ -36,14 +32,8 @@ void WlSeat::destructor(wl_seat *data) {
         return wl_seat_destroy(data);
     }
 }
-WlPointer *WlSeat::getPointer() {
-    return new WlPointer(wl_seat_get_pointer(*this));
-}
-WlKeyboard *WlSeat::getKeyboard() {
-    return new WlKeyboard(wl_seat_get_keyboard(*this));
-}
-WlTouch *WlSeat::getTouch() {
-    return new WlTouch(wl_seat_get_touch(*this));
-}
+WlPointer *WlSeat::getPointer() { return new WlPointer(wl_seat_get_pointer(*this)); }
+WlKeyboard *WlSeat::getKeyboard() { return new WlKeyboard(wl_seat_get_keyboard(*this)); }
+WlTouch *WlSeat::getTouch() { return new WlTouch(wl_seat_get_touch(*this)); }
 }
 }

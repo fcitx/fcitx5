@@ -20,16 +20,18 @@
 #define _FCITX_MENU_H_
 
 #include "fcitxcore_export.h"
-#include <fcitx-utils/dynamictrackableobject.h>
 #include <fcitx-utils/macros.h>
 #include <fcitx/action.h>
+#include <fcitx/element.h>
 #include <memory>
 
 namespace fcitx {
+
 class MenuPrivate;
 
-class FCITXCORE_EXPORT Menu : public DynamicTrackableObject {
+class FCITXCORE_EXPORT Menu : public Element {
 public:
+    friend class Action;
     Menu();
     virtual ~Menu();
 

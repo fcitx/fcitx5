@@ -28,6 +28,7 @@
 #include <fcitx-utils/macros.h>
 #include <fcitx-utils/rect.h>
 #include <fcitx/event.h>
+#include <fcitx/inputpanel.h>
 #include <fcitx/surroundingtext.h>
 #include <fcitx/text.h>
 #include <memory>
@@ -71,8 +72,6 @@ enum class CapabilityFlag : uint64_t {
     HiddenText = (1 << 29),
 };
 
-enum class FocusGroupType { Global, Local, Independent };
-
 typedef Flags<CapabilityFlag> CapabilityFlags;
 typedef std::array<uint8_t, sizeof(uuid_t)> ICUUID;
 
@@ -92,8 +91,7 @@ public:
 
     const ICUUID &uuid() const;
     const std::string &program() const;
-    void setDisplayServer(const std::string &displayServer);
-    const std::string &displayServer() const;
+    std::string display() const;
 
     void focusIn();
     void focusOut();
@@ -106,15 +104,10 @@ public:
     bool keyEvent(KeyEvent &key);
 
     bool hasFocus() const;
-    FocusGroupType focusGroupType() const;
 
     SurroundingText &surroundingText();
     const SurroundingText &surroundingText() const;
     void updateSurroundingText();
-    Text &preedit();
-    const Text &preedit() const;
-    Text &clientPreedit();
-    const Text &clientPreedit() const;
 
     void commitString(const std::string &text);
     void deleteSurroundingText(int offset, unsigned int size);
@@ -122,6 +115,8 @@ public:
     void updatePreedit();
 
     InputContextProperty *property(const std::string &name);
+
+    InputPanel &inputPanel();
 
     template <typename T>
     T *propertyAs(const std::string &name) {
@@ -131,8 +126,6 @@ public:
     void updateProperty(const std::string &name);
 
 protected:
-    InputContext(InputContextPrivate &d);
-
     virtual void commitStringImpl(const std::string &text) = 0;
     virtual void deleteSurroundingTextImpl(int offset, unsigned int size) = 0;
     virtual void forwardKeyImpl(const ForwardKeyEvent &key) = 0;

@@ -1,8 +1,8 @@
 #ifndef WL_SURFACE
 #define WL_SURFACE
-#include <wayland-client.h>
-#include <memory>
 #include "fcitx-utils/signals.h"
+#include <memory>
+#include <wayland-client.h>
 namespace fcitx {
 namespace wayland {
 class WlBuffer;
@@ -34,6 +34,7 @@ public:
     void damageBuffer(int32_t x, int32_t y, int32_t width, int32_t height);
     auto &enter() { return enterSignal_; }
     auto &leave() { return leaveSignal_; }
+
 private:
     static void destructor(wl_surface *);
     static const struct wl_surface_listener listener;

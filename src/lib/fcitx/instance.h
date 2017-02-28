@@ -20,10 +20,12 @@
 #define _FCITX_INSTANCE_H_
 
 #include "fcitxcore_export.h"
+#include <fcitx-utils/connectableobject.h>
 #include <fcitx-utils/handlertable.h>
 #include <fcitx-utils/macros.h>
 #include <fcitx/event.h>
 #include <fcitx/globalconfig.h>
+#include <fcitx/text.h>
 #include <memory>
 
 namespace fcitx {
@@ -42,7 +44,7 @@ class GlobalConfig;
 typedef std::function<void(Event &event)> EventHandler;
 enum class EventWatcherPhase { PreInputMethod, InputMethod, PostInputMethod, Default = PostInputMethod };
 
-class FCITXCORE_EXPORT Instance {
+class FCITXCORE_EXPORT Instance : public ConnectableObject {
 public:
     Instance(int argc, char *argv[]);
     ~Instance();
@@ -66,6 +68,12 @@ public:
     std::string inputMethod(InputContext *ic);
     const InputMethodEntry *inputMethodEntry(InputContext *ic);
     InputMethodEngine *inputMethodEngine(InputContext *ic);
+
+    std::string commitFilter(const std::string &orig);
+    Text outputFilter(const Text &orig);
+
+    FCITX_DECLARE_SIGNAL(Instance, CommitFilter, std::string(const std::string &orig));
+    FCITX_DECLARE_SIGNAL(Instance, OutputFilter, Text(const Text &orig));
 
     // controller
     void exit();

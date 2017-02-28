@@ -1,8 +1,8 @@
 #ifndef WL_POINTER
 #define WL_POINTER
-#include <wayland-client.h>
-#include <memory>
 #include "fcitx-utils/signals.h"
+#include <memory>
+#include <wayland-client.h>
 namespace fcitx {
 namespace wayland {
 class WlSurface;
@@ -30,6 +30,7 @@ public:
     auto &axisSource() { return axisSourceSignal_; }
     auto &axisStop() { return axisStopSignal_; }
     auto &axisDiscrete() { return axisDiscreteSignal_; }
+
 private:
     static void destructor(wl_pointer *);
     static const struct wl_pointer_listener listener;

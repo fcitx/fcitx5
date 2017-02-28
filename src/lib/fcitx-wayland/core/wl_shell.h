@@ -1,8 +1,8 @@
 #ifndef WL_SHELL
 #define WL_SHELL
-#include <wayland-client.h>
-#include <memory>
 #include "fcitx-utils/signals.h"
+#include <memory>
+#include <wayland-client.h>
 namespace fcitx {
 namespace wayland {
 class WlShellSurface;
@@ -22,6 +22,7 @@ public:
     }
     auto actualVersion() const { return version_; }
     WlShellSurface *getShellSurface(WlSurface *surface);
+
 private:
     static void destructor(wl_shell *);
     uint32_t version_;

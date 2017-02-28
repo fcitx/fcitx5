@@ -9,9 +9,7 @@ const struct wl_buffer_listener WlBuffer::listener = {
     [](void *data, wl_buffer *wldata) {
         auto obj = static_cast<WlBuffer *>(data);
         assert(*obj == wldata);
-        {
-            return obj->release()();
-        }
+        { return obj->release()(); }
     },
 };
 WlBuffer::WlBuffer(wl_buffer *data) : version_(wl_buffer_get_version(data)), data_(data, &WlBuffer::destructor) {

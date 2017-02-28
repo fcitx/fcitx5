@@ -1,8 +1,8 @@
 #ifndef WL_REGISTRY
 #define WL_REGISTRY
-#include <wayland-client.h>
-#include <memory>
 #include "fcitx-utils/signals.h"
+#include <memory>
+#include <wayland-client.h>
 namespace fcitx {
 namespace wayland {
 class WlRegistry {
@@ -25,6 +25,7 @@ public:
     }
     auto &global() { return globalSignal_; }
     auto &globalRemove() { return globalRemoveSignal_; }
+
 private:
     static void destructor(wl_registry *);
     static const struct wl_registry_listener listener;

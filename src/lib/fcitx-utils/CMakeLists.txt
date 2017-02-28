@@ -37,6 +37,9 @@ set(FCITX_UTILS_HEADERS
     trackableobject.h
     dynamictrackableobject.h
     connectableobject.h
+    flags.h
+    keysym.h
+    keysymgen.h
     ${CMAKE_CURRENT_BINARY_DIR}/fcitxutils_export.h
     )
 

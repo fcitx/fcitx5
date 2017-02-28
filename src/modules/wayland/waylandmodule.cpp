@@ -38,7 +38,7 @@ WaylandConnection::WaylandConnection(WaylandModule *wayland, const char *name)
             return true;
         }));
 
-    group_ = new FocusGroup(wayland->instance()->inputContextManager());
+    group_ = new FocusGroup("wayland:" + name_, wayland->instance()->inputContextManager());
 }
 
 WaylandConnection::~WaylandConnection() { delete group_; }

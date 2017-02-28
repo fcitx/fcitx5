@@ -17,7 +17,7 @@
  * see <http://www.gnu.org/licenses/>.
  */
 #include "fcitx-utils/i18nstring.h"
-#include <assert.h>
+#include <cassert>
 
 using namespace fcitx;
 

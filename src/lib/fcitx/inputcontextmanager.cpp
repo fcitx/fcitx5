@@ -114,7 +114,6 @@ public:
     IntrusiveList<InputContext, InputContextListHelper> inputContexts_;
     IntrusiveList<FocusGroup, FocusGroupListHelper> groups_;
     // order matters, need to delete it before groups gone
-    std::unique_ptr<FocusGroup> globalFocusGroup_;
     Instance *instance_ = nullptr;
     std::unordered_map<std::string, InputContextPropertyFactory> propertyFactories_;
     std::unordered_map<std::string, std::unordered_set<InputContext *>> programMap_;
@@ -137,17 +136,9 @@ FocusGroup &FocusGroupListHelper::toValue(IntrusiveListNode &node) noexcept {
     return *parentFromMember(&node, &FocusGroupPrivate::listNode_)->q_func();
 }
 
-InputContextManager::InputContextManager() : d_ptr(std::make_unique<InputContextManagerPrivate>()) {
-    FCITX_D();
-    d->globalFocusGroup_.reset(new FocusGroup(*this));
-}
+InputContextManager::InputContextManager() : d_ptr(std::make_unique<InputContextManagerPrivate>()) {}
 
 InputContextManager::~InputContextManager() {}
-
-FocusGroup &InputContextManager::globalFocusGroup() {
-    FCITX_D();
-    return *d->globalFocusGroup_;
-}
 
 InputContext *InputContextManager::findByUUID(ICUUID uuid) {
     FCITX_D();
@@ -233,15 +224,6 @@ void InputContextManager::propagateProperty(InputContext &inputContext, const st
         auto iter = d->programMap_.find(inputContext.program());
         if (iter != d->programMap_.end()) {
             copyProperty(iter->second);
-        }
-    }
-}
-
-void InputContextManager::focusOutNonGlobal() {
-    FCITX_D();
-    for (auto &group : d->groups_) {
-        if (&group != d->globalFocusGroup_.get()) {
-            group.setFocusedInputContext(nullptr);
         }
     }
 }

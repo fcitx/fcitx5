@@ -21,10 +21,9 @@
 
 #include "classicui.h"
 #include "display.h"
-#include "wayland-input-method-unstable-v1-client-protocol.h"
-#include "waylandoutput.h"
 #include <EGL/egl.h>
 #include <cairo/cairo.h>
+#include <wayland-egl.h>
 
 namespace fcitx {
 namespace classicui {
@@ -32,21 +31,26 @@ namespace classicui {
 class WaylandUI : public UIInterface {
 public:
     WaylandUI(ClassicUI *parent, const std::string &name, wl_display *conn);
+    ~WaylandUI();
 
     bool initEGL();
+    EGLSurface createEGLSurface(wl_egl_window *window, const EGLint *attrib_list);
+    void destroyEGLSurface(EGLSurface surface);
+
+    cairo_surface_t *createEGLCairoSurface(EGLSurface surface, int width, int height);
 
     ClassicUI *parent() const { return parent_; }
     const std::string &name() const { return name_; }
     wayland::Display *display() const { return display_; }
-
-    void registryHandlerGlobal(struct wl_registry *registry, uint32_t name, const char *interface, uint32_t version);
-    void registryHandlerGlobalRemove(struct wl_registry *registry, uint32_t name);
 
 private:
     static const struct wl_registry_listener registryListener;
     ClassicUI *parent_;
     std::string name_;
     wayland::Display *display_;
+
+    // EGL stuff
+    bool hasEgl_;
     EGLDisplay eglDisplay_;
     EGLConfig argbConfig_;
     EGLContext argbCtx_;

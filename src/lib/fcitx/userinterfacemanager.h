@@ -22,7 +22,8 @@
 #include "fcitxcore_export.h"
 #include <fcitx-utils/macros.h>
 #include <fcitx/addonmanager.h>
-#include <fcitx/menu.h>
+#include <fcitx/inputpanel.h>
+#include <fcitx/statusarea.h>
 #include <memory>
 
 namespace fcitx {
@@ -39,7 +40,9 @@ public:
     void unregisterAction(Action *action);
     Action *lookupAction(const std::string &name);
 
-    Menu *mainPanel();
+    StatusArea &statusArea();
+    InputPanel &inputPanel();
+    void update();
 
 private:
     std::unique_ptr<UserInterfaceManagerPrivate> d_ptr;

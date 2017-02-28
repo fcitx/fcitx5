@@ -17,7 +17,8 @@ const struct wl_data_device_listener WlDataDevice::listener = {
             return obj->dataOffer()(id_);
         }
     },
-    [](void *data, wl_data_device *wldata, uint32_t serial, wl_surface *surface, wl_fixed_t x, wl_fixed_t y, wl_data_offer *id) {
+    [](void *data, wl_data_device *wldata, uint32_t serial, wl_surface *surface, wl_fixed_t x, wl_fixed_t y,
+       wl_data_offer *id) {
         auto obj = static_cast<WlDataDevice *>(data);
         assert(*obj == wldata);
         {
@@ -29,23 +30,17 @@ const struct wl_data_device_listener WlDataDevice::listener = {
     [](void *data, wl_data_device *wldata) {
         auto obj = static_cast<WlDataDevice *>(data);
         assert(*obj == wldata);
-        {
-            return obj->leave()();
-        }
+        { return obj->leave()(); }
     },
     [](void *data, wl_data_device *wldata, uint32_t time, wl_fixed_t x, wl_fixed_t y) {
         auto obj = static_cast<WlDataDevice *>(data);
         assert(*obj == wldata);
-        {
-            return obj->motion()(time, x, y);
-        }
+        { return obj->motion()(time, x, y); }
     },
     [](void *data, wl_data_device *wldata) {
         auto obj = static_cast<WlDataDevice *>(data);
         assert(*obj == wldata);
-        {
-            return obj->drop()();
-        }
+        { return obj->drop()(); }
     },
     [](void *data, wl_data_device *wldata, wl_data_offer *id) {
         auto obj = static_cast<WlDataDevice *>(data);
@@ -56,7 +51,8 @@ const struct wl_data_device_listener WlDataDevice::listener = {
         }
     },
 };
-WlDataDevice::WlDataDevice(wl_data_device *data) : version_(wl_data_device_get_version(data)), data_(data, &WlDataDevice::destructor) {
+WlDataDevice::WlDataDevice(wl_data_device *data)
+    : version_(wl_data_device_get_version(data)), data_(data, &WlDataDevice::destructor) {
     wl_data_device_set_user_data(*this, this);
     wl_data_device_add_listener(*this, &WlDataDevice::listener, this);
 }

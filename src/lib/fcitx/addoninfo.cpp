@@ -29,7 +29,8 @@ FCITX_CONFIGURATION(AddonConfig, fcitx::Option<std::string> name{this, "Addon/Na
                     fcitx::Option<std::vector<std::string>> dependencies{this, "Addon/Dependencies", "Dependencies"};
                     fcitx::Option<std::vector<std::string>> optionalDependencies{this, "Addon/OptionalDependencies",
                                                                                  "Optional Dependencies"};
-                    fcitx::Option<bool> onRequest{this, "Addon/OnRequest", "Load only on request", false};)
+                    fcitx::Option<bool> onRequest{this, "Addon/OnRequest", "Load only on request", false};
+                    fcitx::Option<bool> uiFallback{this, "Addon/UIFallback", "Support UI as a fallback", false};)
 
 class AddonInfoPrivate : public AddonConfig {
 public:
@@ -80,7 +81,12 @@ bool AddonInfo::onRequest() const {
     return d->onRequest.value();
 }
 
-void AddonInfo::loadInfo(const RawConfig &config) {
+bool AddonInfo::uiFallback() const {
+    FCITX_D();
+    return d->uiFallback.value();
+}
+
+void AddonInfo::load(const RawConfig &config) {
     FCITX_D();
     d->load(config);
 

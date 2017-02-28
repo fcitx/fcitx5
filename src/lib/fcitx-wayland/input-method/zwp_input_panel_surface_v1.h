@@ -1,9 +1,9 @@
 #ifndef ZWP_INPUT_PANEL_SURFACE_V1
 #define ZWP_INPUT_PANEL_SURFACE_V1
-#include <wayland-client.h>
-#include <memory>
-#include "wayland-input-method-unstable-v1-client-protocol.h"
 #include "fcitx-utils/signals.h"
+#include "wayland-input-method-unstable-v1-client-protocol.h"
+#include <memory>
+#include <wayland-client.h>
 namespace fcitx {
 namespace wayland {
 class WlOutput;
@@ -23,6 +23,7 @@ public:
     auto actualVersion() const { return version_; }
     void setToplevel(WlOutput *output, uint32_t position);
     void setOverlayPanel();
+
 private:
     static void destructor(zwp_input_panel_surface_v1 *);
     uint32_t version_;

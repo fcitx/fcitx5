@@ -10,9 +10,7 @@ const struct wl_shm_listener WlShm::listener = {
     [](void *data, wl_shm *wldata, uint32_t format) {
         auto obj = static_cast<WlShm *>(data);
         assert(*obj == wldata);
-        {
-            return obj->format()(format);
-        }
+        { return obj->format()(format); }
     },
 };
 WlShm::WlShm(wl_shm *data) : version_(wl_shm_get_version(data)), data_(data, &WlShm::destructor) {
@@ -20,12 +18,8 @@ WlShm::WlShm(wl_shm *data) : version_(wl_shm_get_version(data)), data_(data, &Wl
     wl_shm_add_listener(*this, &WlShm::listener, this);
 }
 void WlShm::destructor(wl_shm *data) {
-    {
-        return wl_shm_destroy(data);
-    }
+    { return wl_shm_destroy(data); }
 }
-WlShmPool *WlShm::createPool(int32_t fd, int32_t size) {
-    return new WlShmPool(wl_shm_create_pool(*this, fd, size));
-}
+WlShmPool *WlShm::createPool(int32_t fd, int32_t size) { return new WlShmPool(wl_shm_create_pool(*this, fd, size)); }
 }
 }

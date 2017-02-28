@@ -144,7 +144,7 @@ protected:
         xcb_im_forward_event(server_->im(), xic_, &xcbEvent);
     }
     virtual void updatePreeditImpl() override {
-        auto &text = preedit();
+        auto &text = inputPanel().clientPreedit();
         auto strPreedit = text.toString();
 
         if (strPreedit.empty() && preeditStarted) {
@@ -239,7 +239,6 @@ void XIMServer::callback(xcb_im_client_t *client, xcb_im_input_context_t *xic, c
     switch (hdr->major_opcode) {
     case XCB_XIM_CREATE_IC:
         ic = new XIMInputContext(parent_->instance()->inputContextManager(), this, xic);
-        ic->setDisplayServer("x11:" + name_);
         ic->setFocusGroup(group_);
         xcb_im_input_context_set_data(xic, ic, nullptr);
         break;

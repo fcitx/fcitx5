@@ -95,7 +95,7 @@ private:
     xcb_atom_t compMgrAtom_ = XCB_ATOM_NONE;
 
     std::string compMgrAtomString_;
-    xcb_window_t compMgrWindow_;
+    xcb_window_t compMgrWindow_ = XCB_WINDOW_NONE;
 
     bool hasXKB_;
     xcb_atom_t xkbRulesNamesAtom_;

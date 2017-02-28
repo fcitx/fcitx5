@@ -20,8 +20,6 @@ void WlShmPool::destructor(wl_shm_pool *data) {
 WlBuffer *WlShmPool::createBuffer(int32_t offset, int32_t width, int32_t height, int32_t stride, uint32_t format) {
     return new WlBuffer(wl_shm_pool_create_buffer(*this, offset, width, height, stride, format));
 }
-void WlShmPool::resize(int32_t size) {
-    return wl_shm_pool_resize(*this, size);
-}
+void WlShmPool::resize(int32_t size) { return wl_shm_pool_resize(*this, size); }
 }
 }

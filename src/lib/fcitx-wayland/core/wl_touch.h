@@ -1,8 +1,8 @@
 #ifndef WL_TOUCH
 #define WL_TOUCH
-#include <wayland-client.h>
-#include <memory>
 #include "fcitx-utils/signals.h"
+#include <memory>
+#include <wayland-client.h>
 namespace fcitx {
 namespace wayland {
 class WlSurface;
@@ -25,6 +25,7 @@ public:
     auto &motion() { return motionSignal_; }
     auto &frame() { return frameSignal_; }
     auto &cancel() { return cancelSignal_; }
+
 private:
     static void destructor(wl_touch *);
     static const struct wl_touch_listener listener;

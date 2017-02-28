@@ -44,8 +44,9 @@ public:
     const std::vector<std::string> &dependencies() const;
     const std::vector<std::string> &optionalDependencies() const;
     bool onRequest() const;
+    bool uiFallback() const;
 
-    void loadInfo(const RawConfig &config);
+    void load(const RawConfig &config);
 
 private:
     std::unique_ptr<AddonInfoPrivate> d_ptr;

@@ -24,7 +24,8 @@
 
 namespace fcitx {
 
-FocusGroup::FocusGroup(InputContextManager &manager) : d_ptr(std::make_unique<FocusGroupPrivate>(this, manager)) {
+FocusGroup::FocusGroup(const std::string &display, InputContextManager &manager)
+    : d_ptr(std::make_unique<FocusGroupPrivate>(this, display, manager)) {
     manager.registerFocusGroup(*this);
 }
 
@@ -68,5 +69,10 @@ void FocusGroup::removeInputContext(InputContext *ic) {
     auto iter = d->ics_.find(ic);
     assert(iter != d->ics_.end());
     d->ics_.erase(ic);
+}
+
+const std::string &FocusGroup::display() const {
+    FCITX_D();
+    return d->display_;
 }
 }

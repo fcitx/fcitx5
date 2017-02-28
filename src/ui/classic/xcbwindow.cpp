@@ -25,7 +25,7 @@
 namespace fcitx {
 namespace classicui {
 
-XCBWindow::XCBWindow(XCBUI *ui) : ui_(ui) {}
+XCBWindow::XCBWindow(XCBUI *ui, UserInterfaceComponent type) : Window(type), ui_(ui) {}
 
 XCBWindow::~XCBWindow() { destroyWindow(); }
 

@@ -1,8 +1,8 @@
 #ifndef WL_DATA_OFFER
 #define WL_DATA_OFFER
-#include <wayland-client.h>
-#include <memory>
 #include "fcitx-utils/signals.h"
+#include <memory>
+#include <wayland-client.h>
 namespace fcitx {
 namespace wayland {
 class WlDataOffer {
@@ -26,6 +26,7 @@ public:
     auto &offer() { return offerSignal_; }
     auto &sourceActions() { return sourceActionsSignal_; }
     auto &action() { return actionSignal_; }
+
 private:
     static void destructor(wl_data_offer *);
     static const struct wl_data_offer_listener listener;

@@ -31,7 +31,7 @@ namespace fcitx {
 
 class Addon {
 public:
-    Addon(RawConfig &config) : failed_(false) { info_.loadInfo(config); }
+    Addon(RawConfig &config) : failed_(false) { info_.load(config); }
 
     const AddonInfo &info() const { return info_; }
 

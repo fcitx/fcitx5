@@ -21,6 +21,7 @@
 
 #include "waylandui.h"
 #include "window.h"
+#include "wl_surface.h"
 #include <cairo/cairo.h>
 
 namespace fcitx {
@@ -28,15 +29,15 @@ namespace classicui {
 
 class WaylandWindow : public Window {
 public:
-    WaylandWindow(WaylandUI *ui);
+    WaylandWindow(WaylandUI *ui, UserInterfaceComponent type);
     ~WaylandWindow();
 
-    void createWindow();
-    void destroyWindow();
-    void resize(unsigned int width, unsigned int height);
+    virtual void createWindow();
+    virtual void destroyWindow();
 
-private:
+protected:
     WaylandUI *ui_;
+    std::unique_ptr<wayland::WlSurface> surface_;
 };
 }
 }

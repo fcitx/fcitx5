@@ -27,6 +27,7 @@ void marshallOption(RawConfig &config, const bool value) { config = value ? "Tru
 bool unmarshallOption(bool &value, const RawConfig &config) {
     if (config.value() == "True" || config.value() == "False") {
         value = config.value() == "True";
+        return true;
     }
 
     return false;

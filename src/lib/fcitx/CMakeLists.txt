@@ -18,6 +18,10 @@ set(FCITX_CORE_SOURCES
     menu.cpp
     userinterface.cpp
     userinterfacemanager.cpp
+    element.cpp
+    statusarea.cpp
+    inputpanel.cpp
+    candidatelist.cpp
     )
 
 set(FCITX_CORE_HEADERS

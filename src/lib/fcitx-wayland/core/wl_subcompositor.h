@@ -1,8 +1,8 @@
 #ifndef WL_SUBCOMPOSITOR
 #define WL_SUBCOMPOSITOR
-#include <wayland-client.h>
-#include <memory>
 #include "fcitx-utils/signals.h"
+#include <memory>
+#include <wayland-client.h>
 namespace fcitx {
 namespace wayland {
 class WlSubsurface;
@@ -22,6 +22,7 @@ public:
     }
     auto actualVersion() const { return version_; }
     WlSubsurface *getSubsurface(WlSurface *surface, WlSurface *parent);
+
 private:
     static void destructor(wl_subcompositor *);
     uint32_t version_;

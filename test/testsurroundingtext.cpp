@@ -18,7 +18,7 @@
  */
 
 #include "fcitx/surroundingtext.h"
-#include <assert.h>
+#include <cassert>
 
 using namespace fcitx;
 

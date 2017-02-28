@@ -86,6 +86,20 @@ public:
         return std::find_if(c.begin(), c.end(), [&key](const Key &toCheck) { return toCheck.check(key); }) != c.end();
     }
 
+    template <typename Container>
+    static int keyListIndex(const Container &c, const Key &key) {
+        int idx = 0;
+        for (auto &toCheck : c) {
+            if (toCheck.check(key)) {
+                break;
+            }
+            idx++;
+        }
+        if (idx == c.size()) {
+            return -1;
+        }
+    }
+
 protected:
     KeySym sym_;
     KeyStates states_;

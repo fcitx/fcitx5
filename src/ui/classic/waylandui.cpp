@@ -58,8 +58,18 @@ static inline EGLDisplay getEGLDisplay(EGLenum platform, wl_display *nativeDispl
 
 WaylandUI::WaylandUI(ClassicUI *parent, const std::string &name, wl_display *display)
     : parent_(parent), name_(name), display_(static_cast<wayland::Display *>(wl_display_get_user_data(display))) {
-    if (!initEGL()) {
-        throw std::runtime_error("Could not initialize EGL");
+    hasEgl_ = initEGL();
+}
+
+WaylandUI::~WaylandUI() {
+    if (argbDevice_) {
+        cairo_device_destroy(argbDevice_);
+    }
+
+    if (eglDisplay_) {
+        eglMakeCurrent(eglDisplay_, EGL_NO_SURFACE, EGL_NO_SURFACE, EGL_NO_CONTEXT);
+        eglTerminate(eglDisplay_);
+        eglReleaseThread();
     }
 }
 
@@ -111,6 +121,35 @@ bool WaylandUI::initEGL() {
     }
 
     return true;
+}
+
+static inline void *getEGLProcAddress(const char *address) {
+    if ((checkEGLExtension(EGL_NO_DISPLAY, "EGL_EXT_platform_wayland") ||
+         checkEGLExtension(EGL_NO_DISPLAY, "EGL_KHR_platform_wayland"))) {
+        return (void *)eglGetProcAddress(address);
+    }
+
+    return NULL;
+}
+
+EGLSurface WaylandUI::createEGLSurface(wl_egl_window *window, const EGLint *attrib_list) {
+    static PFNEGLCREATEPLATFORMWINDOWSURFACEEXTPROC create_platform_window = NULL;
+
+    if (!create_platform_window) {
+        create_platform_window =
+            (PFNEGLCREATEPLATFORMWINDOWSURFACEEXTPROC)getEGLProcAddress("eglCreatePlatformWindowSurfaceEXT");
+    }
+
+    if (create_platform_window)
+        return create_platform_window(eglDisplay_, argbConfig_, window, attrib_list);
+
+    return eglCreateWindowSurface(eglDisplay_, argbConfig_, (EGLNativeWindowType)window, attrib_list);
+}
+
+void WaylandUI::destroyEGLSurface(EGLSurface surface) { eglDestroySurface(eglDisplay_, surface); }
+
+cairo_surface_t *WaylandUI::createEGLCairoSurface(EGLSurface surface, int width, int height) {
+    return cairo_gl_surface_create_for_egl(argbDevice_, surface, width, height);
 }
 }
 }

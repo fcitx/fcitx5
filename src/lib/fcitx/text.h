@@ -50,6 +50,7 @@ class TextPrivate;
 class FCITXCORE_EXPORT Text {
 public:
     Text();
+    explicit Text(const std::string &text);
     virtual ~Text();
     Text(const Text &other);
     Text(Text &&other);

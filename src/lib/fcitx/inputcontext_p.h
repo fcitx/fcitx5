@@ -32,7 +32,7 @@ namespace fcitx {
 class InputContextPrivate {
 public:
     InputContextPrivate(InputContext *q, InputContextManager &manager, const std::string &program)
-        : q_ptr(q), manager_(manager), group_(nullptr), hasFocus_(false), program_(program) {
+        : q_ptr(q), manager_(manager), group_(nullptr), inputPanel_(q), hasFocus_(false), program_(program) {
         uuid_generate(uuid_.data());
     }
 
@@ -55,13 +55,11 @@ public:
     InputContext *q_ptr;
     InputContextManager &manager_;
     FocusGroup *group_;
+    InputPanel inputPanel_;
     bool hasFocus_;
     std::string program_;
-    std::string displayServer_;
     CapabilityFlags capabilityFlags_;
     SurroundingText surroundingText_;
-    Text preedit_;
-    Text clientPreedit_;
     Rect cursorRect_;
 
     IntrusiveListNode listNode_;

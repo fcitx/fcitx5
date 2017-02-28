@@ -82,7 +82,7 @@ public:
     void commitStringImpl(const std::string &text) override { commitStringDBusTo(name_, text); }
 
     void updatePreeditImpl() override {
-        auto &preedit = this->preedit();
+        auto &preedit = inputPanel().clientPreedit();
         std::vector<dbus::DBusStruct<std::string, int>> strs;
         for (int i = 0, e = preedit.size(); i < e; i++) {
             strs.push_back(std::make_tuple(preedit.stringAt(i), static_cast<int>(preedit.formatAt(i))));

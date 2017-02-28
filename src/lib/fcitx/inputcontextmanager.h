@@ -44,8 +44,6 @@ public:
     InputContextManager();
     virtual ~InputContextManager();
 
-    FocusGroup &globalFocusGroup();
-
     InputContext *findByUUID(ICUUID uuid);
 
     bool registerProperty(const std::string &name, InputContextPropertyFactory factory);
@@ -64,8 +62,6 @@ private:
     void unregisterFocusGroup(FocusGroup &group);
 
     void propagateProperty(InputContext &inputContext, const std::string &name);
-
-    void focusOutNonGlobal();
 
     std::unique_ptr<InputContextManagerPrivate> d_ptr;
     FCITX_DECLARE_PRIVATE(InputContextManager);

@@ -1,8 +1,8 @@
 #ifndef WL_COMPOSITOR
 #define WL_COMPOSITOR
-#include <wayland-client.h>
-#include <memory>
 #include "fcitx-utils/signals.h"
+#include <memory>
+#include <wayland-client.h>
 namespace fcitx {
 namespace wayland {
 class WlRegion;
@@ -23,6 +23,7 @@ public:
     auto actualVersion() const { return version_; }
     WlSurface *createSurface();
     WlRegion *createRegion();
+
 private:
     static void destructor(wl_compositor *);
     uint32_t version_;

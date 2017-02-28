@@ -20,6 +20,7 @@
 #define _FCITX_FOCUSGROUP_H_
 
 #include "fcitxcore_export.h"
+#include "inputpanel.h"
 #include <fcitx-utils/macros.h>
 #include <memory>
 
@@ -34,12 +35,14 @@ class FCITXCORE_EXPORT FocusGroup {
     friend class InputContext;
 
 public:
-    FocusGroup(InputContextManager &manager);
+    FocusGroup(const std::string &display, InputContextManager &manager);
     FocusGroup(const FocusGroup &) = delete;
     virtual ~FocusGroup();
 
     void setFocusedInputContext(InputContext *ic);
     InputContext *focusedInputContext() const;
+
+    const std::string &display() const;
 
 protected:
     void addInputContext(InputContext *ic);

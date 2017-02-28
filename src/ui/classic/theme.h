@@ -21,11 +21,13 @@
 
 #include "fcitx-config/configuration.h"
 #include "fcitx-config/enum.h"
+#include <cairo/cairo.h>
 
 namespace fcitx {
 
 FCITX_CONFIG_ENUM(Gravity, TopLeft, TopCenter, TopRight, CenterLeft, Center, CenterRight, BottomLeft, BottomCenter,
                   BottomRight)
+FCITX_CONFIG_ENUM(FillRule, Copy, Resize)
 
 FCITX_CONFIGURATION(MarginConfig, Option<int> marginLeft{this, "MarginLeft", "Margin Left"};
                     Option<int> marginRight{this, "MarginRight", "Margin Right"};
@@ -38,9 +40,12 @@ FCITX_CONFIGURATION(BackgroundImageConfig, Option<std::string> image{this, "Imag
                     Option<std::string> overlay{this, "Overlay", "Overlay Image"};
                     Option<Gravity> overlayGravity{this, "Overlay", "Overlay position"};
                     Option<int> overlayOffsetX{this, "OverlayOffsetX", "Overlay X offset"};
-                    Option<int> overlayOffsetY{this, "OverlayOffsetY", "Overlay Y offset"};)
+                    Option<int> overlayOffsetY{this, "OverlayOffsetY", "Overlay Y offset"};
+                    Option<FillRule> fillVertical{this, "FillVertical", "Fill Vertical"};
+                    Option<FillRule> fillHorizontal{this, "FillHorizontal", "Fill Horizontal"};)
 
 FCITX_CONFIGURATION(InputPanelThemeConfig, Option<std::string> font{this, "Font", "Font"};
+                    Option<BackgroundImageConfig> background{this, "Background", "Background"};
                     Option<Color> normalColor{this, "NormatTextColor", "Normal text color"};
                     Option<Color> userInputColor{this, "UserInputColor", "User input text color"};
                     Option<Color> candidateIndexColor{this, "CandidateIndexColor", "Candidate Index color"};
@@ -48,18 +53,44 @@ FCITX_CONFIGURATION(InputPanelThemeConfig, Option<std::string> font{this, "Font"
                     Option<Color> userPhraseColor{this, "UserPhraseColor", "User phrase text color"};
                     Option<Color> hintColor{this, "HintColor", "Hint color"};)
 
-FCITX_CONFIGURATION(MenuThemeConfig, Option<std::string> font{this, "Font", "Font"};)
+FCITX_CONFIGURATION(MenuThemeConfig, Option<std::string> font{this, "Font", "Font"};
+                    Option<BackgroundImageConfig> background{this, "Background", "Background"};)
+
+FCITX_CONFIGURATION(StatusAreaConfig, Option<BackgroundImageConfig> background{this, "Background", "Background"};);
 
 FCITX_CONFIGURATION(ThemeConfig, Option<I18NString> name{this, "Metadata/Name", "Skin Name"};
                     Option<int> version{this, "Metadata/Version", "Version", 1};
                     Option<std::string> author{this, "Metadata/Author", "Author"};
                     Option<std::string> description{this, "Metadata/Description", "Description"};
-                    Option<bool> scaleWithDPI{this, "Metadata/ScaleWithDPI", "Scale with DPI"};);
+                    Option<bool> scaleWithDPI{this, "Metadata/ScaleWithDPI", "Scale with DPI"};
+                    Option<InputPanelThemeConfig> inputPanel{this, "InputPanel", "Input Panel Theme"};
+                    Option<MenuThemeConfig> menu{this, "InputPanel", "Input Panel Theme"};);
+
+enum class ImagePurpose { General, Tray };
+
+class ThemeImage {
+public:
+    ThemeImage();
+    ~ThemeImage();
+
+    cairo_surface_t *loadSurface(const std::string &name, const std::string &fallbackText);
+
+private:
+    std::string currentText_;
+    std::unique_ptr<cairo_surface_t, decltype(&cairo_surface_destroy)> image_;
+};
 
 class Theme : public ThemeConfig {
 public:
     Theme();
     ~Theme();
+
+    void load(RawConfig &rawConfig);
+    ThemeImage *loadImage(const std::string &name, ImagePurpose purpose = ImagePurpose::General);
+
+private:
+    std::unordered_map<std::string, ThemeImage> imageTable;
+    std::unordered_map<std::string, ThemeImage> trayImageTable;
 };
 }
 

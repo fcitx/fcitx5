@@ -6,33 +6,26 @@ constexpr const char *WlOutput::interface;
 constexpr const wl_interface *const WlOutput::wlInterface;
 const uint32_t WlOutput::version;
 const struct wl_output_listener WlOutput::listener = {
-    [](void *data, wl_output *wldata, int32_t x, int32_t y, int32_t physicalWidth, int32_t physicalHeight, int32_t subpixel, const char *make, const char *model, int32_t transform) {
+    [](void *data, wl_output *wldata, int32_t x, int32_t y, int32_t physicalWidth, int32_t physicalHeight,
+       int32_t subpixel, const char *make, const char *model, int32_t transform) {
         auto obj = static_cast<WlOutput *>(data);
         assert(*obj == wldata);
-        {
-            return obj->geometry()(x, y, physicalWidth, physicalHeight, subpixel, make, model, transform);
-        }
+        { return obj->geometry()(x, y, physicalWidth, physicalHeight, subpixel, make, model, transform); }
     },
     [](void *data, wl_output *wldata, uint32_t flags, int32_t width, int32_t height, int32_t refresh) {
         auto obj = static_cast<WlOutput *>(data);
         assert(*obj == wldata);
-        {
-            return obj->mode()(flags, width, height, refresh);
-        }
+        { return obj->mode()(flags, width, height, refresh); }
     },
     [](void *data, wl_output *wldata) {
         auto obj = static_cast<WlOutput *>(data);
         assert(*obj == wldata);
-        {
-            return obj->done()();
-        }
+        { return obj->done()(); }
     },
     [](void *data, wl_output *wldata, int32_t factor) {
         auto obj = static_cast<WlOutput *>(data);
         assert(*obj == wldata);
-        {
-            return obj->scale()(factor);
-        }
+        { return obj->scale()(factor); }
     },
 };
 WlOutput::WlOutput(wl_output *data) : version_(wl_output_get_version(data)), data_(data, &WlOutput::destructor) {

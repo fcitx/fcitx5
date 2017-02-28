@@ -131,7 +131,7 @@ XCBConnection::XCBConnection(XCBModule *xcb, const std::string &name)
     compositeCallback_.reset(addSelection(compMgrAtomString_, [this](xcb_atom_t) { refreshCompositeManager(); }));
 
     // create a focus group for display server
-    group_ = new FocusGroup(xcb->instance()->inputContextManager());
+    group_ = new FocusGroup("x11:" + name_, xcb->instance()->inputContextManager());
 
     filter_.reset(addEventFilter(
         [this](xcb_connection_t *conn, xcb_generic_event_t *event) { return filterEvent(conn, event); }));
@@ -179,7 +179,6 @@ bool XCBConnection::filterEvent(xcb_connection_t *, xcb_generic_event_t *event) 
             memcpy(uuid.data(), client_message->data.data8, uuid.size());
             InputContext *ic = parent_->instance()->inputContextManager().findByUUID(uuid);
             if (ic) {
-                ic->setDisplayServer("x11:" + name_);
                 ic->setFocusGroup(group_);
             }
         }

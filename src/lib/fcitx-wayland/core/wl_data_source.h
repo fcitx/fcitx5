@@ -1,8 +1,8 @@
 #ifndef WL_DATA_SOURCE
 #define WL_DATA_SOURCE
-#include <wayland-client.h>
-#include <memory>
 #include "fcitx-utils/signals.h"
+#include <memory>
+#include <wayland-client.h>
 namespace fcitx {
 namespace wayland {
 class WlDataSource {
@@ -27,6 +27,7 @@ public:
     auto &dndDropPerformed() { return dndDropPerformedSignal_; }
     auto &dndFinished() { return dndFinishedSignal_; }
     auto &action() { return actionSignal_; }
+
 private:
     static void destructor(wl_data_source *);
     static const struct wl_data_source_listener listener;
