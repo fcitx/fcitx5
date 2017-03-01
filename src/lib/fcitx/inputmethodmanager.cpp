@@ -130,8 +130,16 @@ void InputMethodManager::loadConfig() {
             group.setDefaultLayout(groupConfig.defaultLayout.value());
             auto &items = groupConfig.items.value();
             for (auto &item : items) {
+                if (!d->entries_.count(item.name.value())) {
+                    continue;
+                }
                 group.inputMethodList().emplace_back(
                     std::move(InputMethodGroupItem(item.name.value()).setLayout(item.layout.value())));
+            }
+
+            if (!group.inputMethodList().size()) {
+                d->groups_.erase(groupConfig.name.value());
+                continue;
             }
             group.setDefaultInputMethod(groupConfig.defaultInputMethod.value());
         }

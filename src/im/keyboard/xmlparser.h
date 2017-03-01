@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2016~2016 by CSSlayer
+ * Copyright (C) 2017~2017 by CSSlayer
  * wengxt@gmail.com
  *
  * This library is free software; you can redistribute it and/or modify
@@ -16,17 +16,24 @@
  * License along with this library; see the file COPYING. If not,
  * see <http://www.gnu.org/licenses/>.
  */
-#ifndef _FCITX_INPUTSTATE_P_H_
-#define _FCITX_INPUTSTATE_P_H_
+#ifndef _FCITX_IM_KEYBOARD_XMLPARSER_H_
+#define _FCITX_IM_KEYBOARD_XMLPARSER_H_
 
-#include "inputcontextproperty.h"
+#include <expat.h>
+#include <string>
 
 namespace fcitx {
 
-struct InputState : public InputContextProperty {
-    int keyReleased = -1;
-    bool active;
+class XMLParser {
+public:
+    virtual ~XMLParser() {}
+    bool parse(const std::string &name);
+
+protected:
+    virtual void startElement(const XML_Char *, const XML_Char **) {}
+    virtual void endElement(const XML_Char *) {}
+    virtual void characterData(const XML_Char *, int) {}
 };
 }
 
-#endif // _FCITX_INPUTSTATE_P_H_
+#endif // _FCITX_IM_KEYBOARD_XMLPARSER_H_

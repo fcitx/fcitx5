@@ -27,6 +27,7 @@
 #include <fcitx-utils/key.h>
 #include <fcitx-utils/macros.h>
 #include <fcitx-utils/rect.h>
+#include <fcitx-utils/trackableobject.h>
 #include <fcitx/event.h>
 #include <fcitx/inputpanel.h>
 #include <fcitx/surroundingtext.h>
@@ -80,7 +81,7 @@ class FocusGroup;
 class InputContextPrivate;
 class InputContextProperty;
 
-class FCITXCORE_EXPORT InputContext {
+class FCITXCORE_EXPORT InputContext : public TrackableObject<InputContext> {
     friend class InputContextManagerPrivate;
     friend class FocusGroup;
 

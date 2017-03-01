@@ -111,6 +111,10 @@ public:
     }
 
     bool loadAddon(Addon &addon) {
+        if (unloading_) {
+            return false;
+        }
+
         if (addon.loaded() || !addon.isValid()) {
             return false;
         }
@@ -136,6 +140,8 @@ public:
     AddonManager *q_ptr;
     FCITX_DECLARE_PUBLIC(AddonManager);
 
+    bool unloading_ = false;
+
     std::unordered_map<std::string, std::unique_ptr<Addon>> addons_;
     std::unordered_map<std::string, std::unique_ptr<AddonLoader>> loaders_;
     std::unordered_set<std::string> requested_;
@@ -160,13 +166,7 @@ void Addon::load(AddonManagerPrivate *managerP) {
 
 AddonManager::AddonManager() : d_ptr(std::make_unique<AddonManagerPrivate>(this)) {}
 
-AddonManager::~AddonManager() {
-    FCITX_D();
-    // reverse the unload order
-    for (auto iter = d->loadOrder_.rbegin(), end = d->loadOrder_.rend(); iter != end; iter++) {
-        d->addons_.erase(*iter);
-    }
-}
+AddonManager::~AddonManager() { unload(); }
 
 void AddonManager::registerLoader(std::unique_ptr<AddonLoader> loader) {
     FCITX_D();
@@ -203,6 +203,21 @@ void AddonManager::load() {
     }
 
     d->loadAddons();
+}
+
+void AddonManager::unload() {
+    FCITX_D();
+    if (d->unloading_) {
+        return;
+    }
+    d->unloading_ = true;
+    // reverse the unload order
+    for (auto iter = d->loadOrder_.rbegin(), end = d->loadOrder_.rend(); iter != end; iter++) {
+        d->addons_.erase(*iter);
+    }
+    d->loadOrder_.clear();
+    d->requested_.clear();
+    d->unloading_ = false;
 }
 
 AddonInstance *AddonManager::addon(const std::string &name, bool load) {

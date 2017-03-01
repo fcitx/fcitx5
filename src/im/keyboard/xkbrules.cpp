@@ -19,13 +19,14 @@
 
 #include "xkbrules.h"
 #include "fcitx-utils/stringutils.h"
+#include "xmlparser.h"
+#include <cstring>
 #include <iostream>
 #include <list>
-#include <string.h>
 
 namespace fcitx {
 
-struct XkbRulesParseState {
+struct XkbRulesParseState : public XMLParser {
     std::vector<std::string> parseStack;
     XkbRules *rules;
     std::list<XkbLayoutInfo> layoutInfos_;
@@ -40,20 +41,7 @@ struct XkbRulesParseState {
         return std::equal(parseStack.end() - array.size(), parseStack.end(), array.begin());
     }
 
-    static void handleStartElement(void *ctx, const xmlChar *name, const xmlChar **attrs) {
-        auto that = static_cast<XkbRulesParseState *>(ctx);
-        that->startElement(name, attrs);
-    }
-    static void handleEndElement(void *ctx, const xmlChar *name) {
-        auto that = static_cast<XkbRulesParseState *>(ctx);
-        that->endElement(name);
-    }
-    static void handleCharacters(void *ctx, const xmlChar *ch, int len) {
-        auto that = static_cast<XkbRulesParseState *>(ctx);
-        that->characters(ch, len);
-    }
-
-    void startElement(const xmlChar *name, const xmlChar **attrs) {
+    void startElement(const XML_Char *name, const XML_Char **attrs) override {
         parseStack.emplace_back(reinterpret_cast<const char *>(name));
 
         if (match({"layoutList", "layout", "configItem"})) {
@@ -85,8 +73,8 @@ struct XkbRulesParseState {
             }
         }
     }
-    void endElement(const xmlChar *) { parseStack.pop_back(); }
-    void characters(const xmlChar *ch, int len) {
+    void endElement(const XML_Char *) override { parseStack.pop_back(); }
+    void characterData(const XML_Char *ch, int len) override {
         std::string temp(reinterpret_cast<const char *>(ch), len);
         std::string::size_type start, end;
         std::tie(start, end) = stringutils::trimInplace(temp);
@@ -148,16 +136,11 @@ struct XkbRulesParseState {
 
 bool XkbRules::read(const std::string &fileName) {
     clear();
-    xmlSAXHandler handle;
-    memset(&handle, 0, sizeof(xmlSAXHandler));
-    handle.startElement = &XkbRulesParseState::handleStartElement;
-    handle.endElement = &XkbRulesParseState::handleEndElement;
-    handle.characters = &XkbRulesParseState::handleCharacters;
 
     {
         XkbRulesParseState state;
         state.rules = this;
-        if (xmlSAXUserParseFile(&handle, &state, fileName.c_str()) != 0) {
+        if (!state.parse(fileName)) {
             return false;
         }
         state.merge(this);
@@ -168,7 +151,7 @@ bool XkbRules::read(const std::string &fileName) {
         {
             XkbRulesParseState state;
             state.rules = this;
-            if (xmlSAXUserParseFile(&handle, &state, extraFile.c_str()) == 0) {
+            if (state.parse(extraFile)) {
                 state.merge(this);
             }
         }

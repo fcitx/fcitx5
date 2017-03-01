@@ -18,79 +18,75 @@
  */
 
 #include "isocodes.h"
-#include <libxml/parser.h>
-#include <string.h>
+#include "xmlparser.h"
+#include <cstring>
 
 namespace fcitx {
 
-class LibXmlInit {
+class IsoCodes639Parser : public XMLParser {
 public:
-    LibXmlInit() { xmlInitParser(); }
+    IsoCodes639Parser(IsoCodes *that) : that_(that) {}
+
+    void startElement(const XML_Char *name, const XML_Char **atts) override {
+        if (strcmp(name, "iso_639_entry") == 0) {
+            IsoCodes639Entry entry;
+            int i = 0;
+            while (atts && atts[i * 2] != 0) {
+                if (strcmp(atts[i * 2], "iso_639_2B_code") == 0)
+                    entry.iso_639_2B_code = atts[i * 2 + 1];
+                else if (strcmp(atts[i * 2], "iso_639_2T_code") == 0)
+                    entry.iso_639_2T_code = atts[i * 2 + 1];
+                else if (strcmp(atts[i * 2], "iso_639_1_code") == 0)
+                    entry.iso_639_1_code = atts[i * 2 + 1];
+                else if (strcmp(atts[i * 2], "name") == 0)
+                    entry.name = atts[i * 2 + 1];
+                i++;
+            }
+            if ((!entry.iso_639_2B_code.empty() || !entry.iso_639_2T_code.empty()) && !entry.name.empty()) {
+                that_->iso639entires.emplace_back(entry);
+                if (!entry.iso_639_2B_code.empty()) {
+                    that_->iso6392B.emplace(entry.iso_639_2B_code, that_->iso639entires.size() - 1);
+                }
+                if (!entry.iso_639_2T_code.empty()) {
+                    that_->iso6392T.emplace(entry.iso_639_2T_code, that_->iso639entires.size() - 1);
+                }
+            }
+        }
+    }
+
+private:
+    IsoCodes *that_;
 };
 
-static LibXmlInit init;
+class IsoCodes3166Parser : public XMLParser {
+public:
+    IsoCodes3166Parser(IsoCodes *that) : that_(that) {}
+
+    void startElement(const XML_Char *name, const XML_Char **atts) override {
+        if (strcmp(name, "iso_3166_entry") == 0) {
+            std::string alpha_2_code, name;
+            int i = 0;
+            while (atts && atts[i * 2] != 0) {
+                if (strcmp(atts[i * 2], "alpha_2_code") == 0)
+                    alpha_2_code = atts[i * 2 + 1];
+                else if (strcmp(atts[i * 2], "name") == 0)
+                    name = atts[i * 2 + 1];
+                i++;
+            }
+            if (!name.empty() && !alpha_2_code.empty()) {
+                that_->iso3166.emplace(alpha_2_code, name);
+            }
+        }
+    }
+
+private:
+    IsoCodes *that_;
+};
 
 void IsoCodes::read(const std::string &iso639, const std::string &iso3166) {
-    xmlSAXHandler handle;
-    memset(&handle, 0, sizeof(xmlSAXHandler));
-
-    handle.startElement = &IsoCodes::handleIsoCodes639StartElement;
-    xmlSAXUserParseFile(&handle, this, iso639.c_str());
-    handle.startElement = &IsoCodes::handleIsoCodes3166StartElement;
-    xmlSAXUserParseFile(&handle, this, iso3166.c_str());
-}
-
-void IsoCodes::handleIsoCodes639StartElement(void *ctx, const xmlChar *name, const xmlChar **atts) {
-    auto that = static_cast<IsoCodes *>(ctx);
-    that->isoCodes639StartElement(name, atts);
-}
-
-void IsoCodes::handleIsoCodes3166StartElement(void *ctx, const xmlChar *name, const xmlChar **atts) {
-    auto that = static_cast<IsoCodes *>(ctx);
-    that->isoCodes3166StartElement(name, atts);
-}
-
-void IsoCodes::isoCodes639StartElement(const xmlChar *name, const xmlChar **atts) {
-    if (strcmp(reinterpret_cast<const char *>(name), "iso_639_entry") == 0) {
-        IsoCodes639Entry entry;
-        int i = 0;
-        while (atts && atts[i * 2] != 0) {
-            if (strcmp(reinterpret_cast<const char *>(atts[i * 2]), "iso_639_2B_code") == 0)
-                entry.iso_639_2B_code = reinterpret_cast<const char *>(atts[i * 2 + 1]);
-            else if (strcmp(reinterpret_cast<const char *>(atts[i * 2]), "iso_639_2T_code") == 0)
-                entry.iso_639_2T_code = reinterpret_cast<const char *>(atts[i * 2 + 1]);
-            else if (strcmp(reinterpret_cast<const char *>(atts[i * 2]), "iso_639_1_code") == 0)
-                entry.iso_639_1_code = reinterpret_cast<const char *>(atts[i * 2 + 1]);
-            else if (strcmp(reinterpret_cast<const char *>(atts[i * 2]), "name") == 0)
-                entry.name = reinterpret_cast<const char *>(atts[i * 2 + 1]);
-            i++;
-        }
-        if ((!entry.iso_639_2B_code.empty() || !entry.iso_639_2T_code.empty()) && !entry.name.empty()) {
-            iso639entires.emplace_back(entry);
-            if (!entry.iso_639_2B_code.empty()) {
-                iso6392B.emplace(entry.iso_639_2B_code, iso639entires.size() - 1);
-            }
-            if (!entry.iso_639_2T_code.empty()) {
-                iso6392T.emplace(entry.iso_639_2T_code, iso639entires.size() - 1);
-            }
-        }
-    }
-}
-
-void IsoCodes::isoCodes3166StartElement(const xmlChar *name, const xmlChar **atts) {
-    if (strcmp(reinterpret_cast<const char *>(name), "iso_3166_entry") == 0) {
-        std::string alpha_2_code, name;
-        int i = 0;
-        while (atts && atts[i * 2] != 0) {
-            if (strcmp(reinterpret_cast<const char *>(atts[i * 2]), "alpha_2_code") == 0)
-                alpha_2_code = reinterpret_cast<const char *>(atts[i * 2 + 1]);
-            else if (strcmp(reinterpret_cast<const char *>(atts[i * 2]), "name") == 0)
-                name = reinterpret_cast<const char *>(atts[i * 2 + 1]);
-            i++;
-        }
-        if (!name.empty() && !alpha_2_code.empty()) {
-            iso3166.emplace(alpha_2_code, name);
-        }
-    }
+    IsoCodes639Parser parser639(this);
+    parser639.parse(iso639);
+    IsoCodes3166Parser parser3166(this);
+    parser3166.parse(iso3166);
 }
 }

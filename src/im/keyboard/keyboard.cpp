@@ -26,8 +26,8 @@
 #include "fcitx/instance.h"
 #include "fcitx/misc_p.h"
 #include "xcb_public.h"
+#include <cstring>
 #include <libintl.h>
-#include <string.h>
 
 const char imNamePrefix[] = "fcitx-keyboard-";
 const int imNamePrefixLength = sizeof(imNamePrefix) - 1;
@@ -226,13 +226,13 @@ void KeyboardEngine::keyEvent(const InputMethodEntry &entry, KeyEvent &event) {
 
     auto compose = processCompose(event.key().sym(), event.key().states());
     if (compose == INVALID_COMPOSE_RESULT) {
-        event.accept();
+        event.filterAndAccept();
         return;
     }
 
     if (compose) {
         auto composeString = utf8::UCS4ToUTF8(compose);
-        event.accept();
+        event.filterAndAccept();
         event.inputContext()->commitString(composeString);
     }
 }

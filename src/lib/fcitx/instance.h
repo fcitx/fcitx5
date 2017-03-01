@@ -98,6 +98,8 @@ private:
     void handleSignal();
     void save();
 
+    bool trigger(InputContext *ic);
+
     std::unique_ptr<InstancePrivate> d_ptr;
     FCITX_DECLARE_PRIVATE(Instance);
 };

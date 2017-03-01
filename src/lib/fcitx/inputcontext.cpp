@@ -157,9 +157,9 @@ void InputContext::setHasFocus(bool hasFocus) {
     d->hasFocus_ = hasFocus;
     // trigger event
     if (d->hasFocus_) {
-        d->emplaceEvent<FocusInEventEvent>(this);
+        d->emplaceEvent<FocusInEvent>(this);
     } else {
-        d->emplaceEvent<FocusOutEventEvent>(this);
+        d->emplaceEvent<FocusOutEvent>(this);
     }
 }
 
@@ -168,7 +168,10 @@ bool InputContext::keyEvent(KeyEvent &event) {
     return d->postEvent(event);
 }
 
-void InputContext::reset() {}
+void InputContext::reset() {
+    FCITX_D();
+    d->emplaceEvent<ResetEvent>(this);
+}
 
 SurroundingText &InputContext::surroundingText() {
     FCITX_D();

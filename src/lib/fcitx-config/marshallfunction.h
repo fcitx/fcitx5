@@ -54,7 +54,6 @@ FCITXCONFIG_EXPORT bool unmarshallOption(Configuration &value, const RawConfig &
 template <typename T>
 void marshallOption(RawConfig &config, const std::vector<T> &value) {
     config.removeAll();
-    marshallOption(config["Length"], static_cast<int>(value.size()));
     for (size_t i = 0; i < value.size(); i++) {
         marshallOption(config[std::to_string(i)], value[i]);
     }
@@ -62,25 +61,20 @@ void marshallOption(RawConfig &config, const std::vector<T> &value) {
 
 template <typename T>
 bool unmarshallOption(std::vector<T> &value, const RawConfig &config) {
-    int size;
-    auto lenSubConfigPtr = config.get("Length");
-    if (!lenSubConfigPtr || !unmarshallOption(size, *lenSubConfigPtr)) {
-        return false;
-    }
-    if (size < 0) {
-        return false;
-    }
-
-    value.resize(size);
-    for (int i = 0; i < size; i++) {
+    value.clear();
+    int i = 0;
+    while (true) {
         auto subConfigPtr = config.get(std::to_string(i));
         if (!subConfigPtr) {
-            return false;
+            break;
         }
+
+        value.emplace_back();
 
         if (!unmarshallOption(value[i], *subConfigPtr)) {
             return false;
         }
+        i++;
     }
     return true;
 }

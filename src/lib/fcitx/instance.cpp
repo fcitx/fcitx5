@@ -24,12 +24,13 @@
 #include "fcitx-utils/stringutils.h"
 #include "globalconfig.h"
 #include "inputcontextmanager.h"
+#include "inputcontextproperty.h"
 #include "inputmethodengine.h"
 #include "inputmethodentry.h"
 #include "inputmethodmanager.h"
-#include "inputstate_p.h"
 #include "userinterfacemanager.h"
 #include <getopt.h>
+#include <iostream>
 #include <signal.h>
 #include <sys/wait.h>
 #include <unistd.h>
@@ -66,6 +67,39 @@ void initAsDaemon() {
 }
 
 namespace fcitx {
+
+class CheckInputMethodChanged;
+
+struct InputState : public InputContextProperty {
+    int keyReleased = -1;
+    bool active;
+    CheckInputMethodChanged *imChanged;
+};
+
+class CheckInputMethodChanged {
+public:
+    CheckInputMethodChanged(InputContext *ic, Instance *instance)
+        : instance_(instance), ic_(ic->watch()), inputMethod_(instance->inputMethod(ic)),
+          reason_(InputMethodSwitchedReason::Other) {
+        auto inputState = ic->propertyAs<InputState>("inputState");
+        inputState->imChanged = this;
+    }
+    ~CheckInputMethodChanged() {
+        if (!ic_.isValid()) {
+            return;
+        }
+        auto ic = ic_.get();
+        if (inputMethod_ != instance_->inputMethod(ic)) {
+            instance_->postEvent(InputContextSwitchInputMethodEvent(reason_, inputMethod_, ic));
+        }
+    }
+
+private:
+    Instance *instance_;
+    TrackableObjectReference<InputContext> ic_;
+    std::string inputMethod_;
+    InputMethodSwitchedReason reason_;
+};
 
 struct enum_hash {
     template <typename T>
@@ -142,14 +176,15 @@ Instance::Instance(int argc, char **argv) {
     d->eventWatchers_.emplace_back(
         watchEvent(EventType::InputContextKeyEvent, EventWatcherPhase::PreInputMethod, [this, d](Event &event) {
             auto &keyEvent = static_cast<KeyEvent &>(event);
+            auto ic = keyEvent.inputContext();
+            CheckInputMethodChanged imChangedRAII(ic, this);
+
             struct {
                 const KeyList &list;
-                std::function<void()> callback;
+                std::function<bool()> callback;
             } keyHandlers[] = {
-                {d->globalConfig_.triggerKeys(), []() {}},
+                {d->globalConfig_.triggerKeys(), [this, ic]() { return trigger(ic); }},
             };
-
-            auto ic = keyEvent.inputContext();
 
             auto inputState = ic->propertyAs<InputState>("inputState");
             const bool isModifier = keyEvent.key().isModifier();
@@ -158,7 +193,9 @@ Instance::Instance(int argc, char **argv) {
                 for (auto &keyHandler : keyHandlers) {
                     if (isModifier && inputState->keyReleased == idx &&
                         Key::keyListCheck(keyHandler.list, keyEvent.key())) {
-                        keyHandler.callback();
+                        if (keyHandler.callback()) {
+                            return event.filterAndAccept();
+                        }
                     }
                     idx++;
                 }
@@ -171,16 +208,55 @@ Instance::Instance(int argc, char **argv) {
                         if (isModifier) {
                             inputState->keyReleased = idx;
                         } else {
-                            keyHandler.callback();
+                            if (keyHandler.callback()) {
+                                return event.filterAndAccept();
+                            }
                         }
                     }
                     idx++;
                 }
             }
         }));
+    d->eventWatchers_.emplace_back(
+        watchEvent(EventType::InputContextKeyEvent, EventWatcherPhase::InputMethod, [this, d](Event &event) {
+            auto &keyEvent = static_cast<KeyEvent &>(event);
+            auto ic = keyEvent.inputContext();
+            auto engine = inputMethodEngine(ic);
+            auto entry = inputMethodEntry(ic);
+            if (!engine || !entry) {
+                return;
+            }
+            engine->keyEvent(*entry, keyEvent);
+        }));
+    d->eventWatchers_.emplace_back(
+        watchEvent(EventType::InputContextFocusIn, EventWatcherPhase::InputMethod, [this, d](Event &event) {
+            auto &icEvent = static_cast<InputContextEvent &>(event);
+            auto ic = icEvent.inputContext();
+            auto engine = inputMethodEngine(ic);
+            auto entry = inputMethodEntry(ic);
+            if (!engine || !entry) {
+                return;
+            }
+            engine->focusIn(*entry);
+        }));
+    d->eventWatchers_.emplace_back(
+        watchEvent(EventType::InputContextFocusOut, EventWatcherPhase::InputMethod, [this, d](Event &event) {
+            auto &icEvent = static_cast<InputContextEvent &>(event);
+            auto ic = icEvent.inputContext();
+            auto engine = inputMethodEngine(ic);
+            auto entry = inputMethodEntry(ic);
+            if (!engine || !entry) {
+                return;
+            }
+            engine->reset(*entry);
+        }));
 }
 
-Instance::~Instance() {}
+Instance::~Instance() {
+    FCITX_D();
+    d->addonManager_.unload();
+    d->icManager_.setInstance(nullptr);
+}
 
 void InstanceArgument::parseOption(int argc, char **argv) {
     struct option longOptions[] = {{"ui", 1, 0, 0},      {"replace", 0, 0, 0}, {"enable", 1, 0, 0},
@@ -360,7 +436,7 @@ std::string Instance::inputMethod(InputContext *ic) {
         return group.defaultInputMethod();
     }
 
-    return "fcitx-keyboard-" + group.defaultLayout();
+    return group.inputMethodList()[0].name();
 }
 
 const InputMethodEntry *Instance::inputMethodEntry(InputContext *ic) {
@@ -447,4 +523,14 @@ void Instance::setCurrentInputMethod(const std::string &) {}
 int Instance::state() { return 0; }
 
 void Instance::toggle() {}
+
+bool Instance::trigger(InputContext *ic) {
+    auto &imManager = inputMethodManager();
+    auto inputState = ic->propertyAs<InputState>("inputState");
+    if (imManager.currentGroup().inputMethodList().size() <= 1) {
+        return false;
+    }
+    inputState->active = !inputState->active;
+    return true;
+}
 }

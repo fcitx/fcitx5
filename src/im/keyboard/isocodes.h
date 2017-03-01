@@ -20,7 +20,6 @@
 #define _FCITX_IM_KEYBOARD_ISOCODES_H_
 
 #include "fcitx/misc_p.h"
-#include <libxml/parser.h>
 #include <string>
 #include <unordered_map>
 #include <vector>
@@ -34,12 +33,15 @@ struct IsoCodes639Entry {
     std::string name;
 };
 
+class IsoCodes639Parser;
+class IsoCodes3166Parser;
+
 class IsoCodes {
+    friend class IsoCodes639Parser;
+    friend class IsoCodes3166Parser;
+
 public:
     void read(const std::string &iso639, const std::string &iso3166);
-
-    static void handleIsoCodes639StartElement(void *ctx, const xmlChar *name, const xmlChar **atts);
-    static void handleIsoCodes3166StartElement(void *ctx, const xmlChar *name, const xmlChar **atts);
 
     const IsoCodes639Entry *entry(const std::string &name) const {
         auto entry = findValue(iso6392B, name);
@@ -53,9 +55,6 @@ public:
     }
 
 private:
-    void isoCodes639StartElement(const xmlChar *name, const xmlChar **atts);
-    void isoCodes3166StartElement(const xmlChar *name, const xmlChar **atts);
-
     std::vector<IsoCodes639Entry> iso639entires;
     std::unordered_map<std::string, int> iso6392B;
     std::unordered_map<std::string, int> iso6392T;

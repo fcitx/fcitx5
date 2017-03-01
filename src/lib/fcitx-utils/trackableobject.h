@@ -29,7 +29,7 @@ template <typename T>
 class TrackableObject;
 
 template <typename T>
-class TrackableObjectReference {
+class TrackableObjectReference final {
     friend class TrackableObject<T>;
 
 public:
@@ -69,6 +69,7 @@ class TrackableObject {
 public:
     TrackableObject() : self_(std::make_unique<std::shared_ptr<T *>>(std::make_shared<T *>(static_cast<T *>(this)))) {}
     TrackableObject(const TrackableObject &) = delete;
+    virtual ~TrackableObject() {}
 
     TrackableObjectReference<T> watch() { return TrackableObjectReference<T>(*self_, static_cast<T *>(this)); }
 

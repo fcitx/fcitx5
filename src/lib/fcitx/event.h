@@ -48,6 +48,7 @@ enum class InputMethodSwitchedReason {
     Deactivate,
     AltTrigger,
     Activate,
+    Other,
 };
 
 enum class EventType : uint32_t {
@@ -119,6 +120,10 @@ public:
     bool accepted() const { return accepted_; }
     void filter() { filtered_ = true; }
     bool filtered() const { return filtered_; }
+    void filterAndAccept() {
+        filter();
+        accept();
+    }
 
 protected:
     EventType type_;
@@ -181,6 +186,21 @@ protected:
     std::string originText_, text_;
 };
 
+class FCITXCORE_EXPORT InputContextSwitchInputMethodEvent : public InputContextEvent {
+public:
+    InputContextSwitchInputMethodEvent(InputMethodSwitchedReason reason, const std::string &oldIM,
+                                       InputContext *context)
+        : InputContextEvent(context, EventType::InputContextSwitchInputMethod), reason_(reason),
+          oldInputMethod_(oldIM) {}
+
+    InputMethodSwitchedReason reason() const { return reason_; }
+    const std::string &oldInputMethod() const { return oldInputMethod_; }
+
+protected:
+    InputMethodSwitchedReason reason_;
+    std::string oldInputMethod_;
+};
+
 #define FCITX_DEFINE_SIMPLE_EVENT(NAME, TYPE, ARGS...)                                                                 \
     struct FCITXCORE_EXPORT NAME##Event : public InputContextEvent {                                                   \
         NAME##Event(InputContext *ic) : InputContextEvent(ic, EventType::TYPE) {}                                      \
@@ -188,8 +208,9 @@ protected:
 
 FCITX_DEFINE_SIMPLE_EVENT(InputContextCreated, InputContextCreated);
 FCITX_DEFINE_SIMPLE_EVENT(InputContextDestroyed, InputContextDestroyed);
-FCITX_DEFINE_SIMPLE_EVENT(FocusInEvent, InputContextFocusIn);
-FCITX_DEFINE_SIMPLE_EVENT(FocusOutEvent, InputContextFocusOut);
+FCITX_DEFINE_SIMPLE_EVENT(FocusIn, InputContextFocusIn);
+FCITX_DEFINE_SIMPLE_EVENT(FocusOut, InputContextFocusOut);
+FCITX_DEFINE_SIMPLE_EVENT(Reset, InputContextReset);
 FCITX_DEFINE_SIMPLE_EVENT(SurroundingTextUpdated, InputContextSurroundingTextUpdated);
 FCITX_DEFINE_SIMPLE_EVENT(CapabilityChanged, InputContextCapabilityChanged);
 FCITX_DEFINE_SIMPLE_EVENT(CursorRectChanged, InputContextCursorRectChanged);

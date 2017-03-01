@@ -90,7 +90,7 @@ void InputMethodGroup::setDefaultInputMethod(const std::string &im) {
                     [&im](const InputMethodGroupItem &item) { return item.name() == im; })) {
         d->defaultInputMethod_ = im;
     } else {
-        if (d->inputMethodList_.size() >= 2) {
+        if (d->inputMethodList_.size() >= 1) {
             d->defaultInputMethod_ = d->inputMethodList_[1].name();
         } else {
             d->defaultInputMethod_ = d->inputMethodList_.empty() ? "" : d->inputMethodList_[0].name();
