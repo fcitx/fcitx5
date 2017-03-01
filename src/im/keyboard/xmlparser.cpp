@@ -22,11 +22,11 @@
 #define XML_BUFFER_SIZE 4096
 
 bool fcitx::XMLParser::parse(const std::string &name) {
-    FILE *input_ = fopen(name.c_str(), "r");
-    if (input_ == NULL) {
+    std::unique_ptr<XML_ParserStruct, decltype(&XML_ParserFree)> parser(XML_ParserCreate(nullptr), XML_ParserFree);
+    std::unique_ptr<std::FILE, decltype(&std::fclose)> input(std::fopen(name.c_str(), "r"), &std::fclose);
+    if (!input) {
         return false;
     }
-    std::unique_ptr<XML_ParserStruct, decltype(&XML_ParserFree)> parser(XML_ParserCreate(nullptr), XML_ParserFree);
 
     XML_SetUserData(parser.get(), this);
 
@@ -47,14 +47,11 @@ bool fcitx::XMLParser::parse(const std::string &name) {
     void *buf;
     do {
         buf = XML_GetBuffer(parser.get(), XML_BUFFER_SIZE);
-        len = fread(buf, 1, XML_BUFFER_SIZE, input_);
+        len = fread(buf, 1, XML_BUFFER_SIZE, input.get());
         if (len < 0) {
-            fprintf(stderr, "fread: %m\n");
-            fclose(input_);
-            exit(EXIT_FAILURE);
+            return false;
         }
         if (XML_ParseBuffer(parser.get(), len, len == 0) == 0) {
-            fclose(input_);
             return false;
         }
     } while (len > 0);
