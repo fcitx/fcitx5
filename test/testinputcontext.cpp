@@ -38,7 +38,7 @@ class TestInputContext : public InputContext {
 public:
     TestInputContext(InputContextManager &manager, const std::string &program = {}) : InputContext(manager, program) {}
 
-    ~TextInputContext() { destroy(); }
+    ~TestInputContext() { destroy(); }
 
     void commitStringImpl(const std::string &) override {}
     void deleteSurroundingTextImpl(int, unsigned int) override {}
