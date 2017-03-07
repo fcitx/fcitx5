@@ -25,6 +25,7 @@
 
 namespace fcitx {
 
+class InputContext;
 class CandidateList;
 class PageableCandidateList;
 class BulkCandidateList;
@@ -41,7 +42,7 @@ public:
     CandidateWord(Text text);
     virtual ~CandidateWord();
     const Text &text() const;
-    virtual void select() const {}
+    virtual void select(InputContext *inputContext) const = 0;
 
 private:
     std::unique_ptr<CandidateWordPrivate> d_ptr;

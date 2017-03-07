@@ -1,3 +1,5 @@
 add_subdirectory(xcb)
 add_subdirectory(dbus)
 add_subdirectory(wayland)
+add_subdirectory(spell)
+add_subdirectory(notifications)

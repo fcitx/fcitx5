@@ -52,6 +52,8 @@ public:
               return true;
           })) {}
 
+    ~DBusInputContext1() { InputContext::destroy(); }
+
     const dbus::ObjectPath path() const { return path_; }
 
     using InputContext::focusIn;

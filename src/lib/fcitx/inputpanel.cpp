@@ -53,7 +53,7 @@ void InputPanel::setCandidateList(CandidateList *candidate) {
     d->candidate_.reset(candidate);
 }
 
-void InputPanel::setClientPreeidt(const Text &clientPreedit) {
+void InputPanel::setClientPreedit(const Text &clientPreedit) {
     FCITX_D();
     d->clientPreedit_ = clientPreedit;
 }

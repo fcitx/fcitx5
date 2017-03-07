@@ -168,5 +168,20 @@ std::string dirName(const std::string &path) {
     }
     return result;
 }
+
+ssize_t safeRead(int fd, void *data, size_t maxlen) {
+    ssize_t ret = 0;
+    do {
+        ret = read(fd, data, maxlen);
+    } while (ret == -1 && errno == EINTR);
+    return ret;
+}
+ssize_t safeWrite(int fd, const void *data, size_t maxlen) {
+    ssize_t ret = 0;
+    do {
+        ret = write(fd, data, maxlen);
+    } while (ret == -1 && errno == EINTR);
+    return ret;
+}
 }
 }

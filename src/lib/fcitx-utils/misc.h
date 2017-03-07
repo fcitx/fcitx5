@@ -89,6 +89,13 @@ public:
     Iter begin() const { return this->first; }
     Iter end() const { return this->second; }
 };
+
+struct EnumHash {
+    template <typename T>
+    inline auto operator()(T const value) const {
+        return std::hash<std::underlying_type_t<T>>()(static_cast<std::underlying_type_t<T>>(value));
+    }
+};
 }
 
 #endif // _FCITX_UTILS_MISC_H_

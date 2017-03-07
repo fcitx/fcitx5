@@ -101,13 +101,6 @@ private:
     InputMethodSwitchedReason reason_;
 };
 
-struct enum_hash {
-    template <typename T>
-    inline auto operator()(T const value) const {
-        return std::hash<std::underlying_type_t<T>>()(static_cast<std::underlying_type_t<T>>(value));
-    }
-};
-
 struct InstanceArgument {
     InstanceArgument() {}
     void parseOption(int argc, char *argv[]);
@@ -139,8 +132,7 @@ public:
     InputMethodManager imManager_{&this->addonManager_};
     UserInterfaceManager uiManager_;
     GlobalConfig globalConfig_;
-    std::unordered_map<EventType, std::unordered_map<EventWatcherPhase, HandlerTable<EventHandler>, enum_hash>,
-                       enum_hash>
+    std::unordered_map<EventType, std::unordered_map<EventWatcherPhase, HandlerTable<EventHandler>, EnumHash>, EnumHash>
         eventHandlers_;
     std::vector<std::unique_ptr<HandlerTableEntry<EventHandler>>> eventWatchers_;
 };
@@ -191,8 +183,7 @@ Instance::Instance(int argc, char **argv) {
             if (keyEvent.isRelease()) {
                 int idx = 0;
                 for (auto &keyHandler : keyHandlers) {
-                    if (isModifier && inputState->keyReleased == idx &&
-                        Key::keyListCheck(keyHandler.list, keyEvent.key())) {
+                    if (isModifier && inputState->keyReleased == idx && keyEvent.key().checkKeyList(keyHandler.list)) {
                         if (keyHandler.callback()) {
                             return event.filterAndAccept();
                         }
@@ -204,7 +195,7 @@ Instance::Instance(int argc, char **argv) {
             if (!keyEvent.filtered() && !keyEvent.isRelease()) {
                 int idx = 0;
                 for (auto &keyHandler : keyHandlers) {
-                    if (Key::keyListCheck(keyHandler.list, keyEvent.key())) {
+                    if (keyEvent.key().checkKeyList(keyHandler.list)) {
                         if (isModifier) {
                             inputState->keyReleased = idx;
                         } else {
@@ -237,7 +228,7 @@ Instance::Instance(int argc, char **argv) {
             if (!engine || !entry) {
                 return;
             }
-            engine->focusIn(*entry);
+            engine->focusIn(*entry, icEvent);
         }));
     d->eventWatchers_.emplace_back(
         watchEvent(EventType::InputContextFocusOut, EventWatcherPhase::InputMethod, [this, d](Event &event) {
@@ -248,7 +239,7 @@ Instance::Instance(int argc, char **argv) {
             if (!engine || !entry) {
                 return;
             }
-            engine->reset(*entry);
+            engine->reset(*entry, icEvent);
         }));
 }
 

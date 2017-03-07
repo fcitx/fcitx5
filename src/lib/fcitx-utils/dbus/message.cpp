@@ -17,10 +17,10 @@
  * see <http://www.gnu.org/licenses/>.
  */
 
-#include "dbus/message.h"
-#include "dbus/bus_p.h"
-#include "dbus/message_p.h"
-#include "unixfd.h"
+#include "message.h"
+#include "../unixfd.h"
+#include "bus_p.h"
+#include "message_p.h"
 #include <atomic>
 #include <fcntl.h>
 #include <unistd.h>
@@ -159,6 +159,16 @@ bool Message::end() const {
     return sd_bus_message_at_end(d->msg_, 0) > 0;
 }
 
+void Message::resetError() {
+    FCITX_D();
+    d->lastError_ = 0;
+}
+
+void Message::rewind() {
+    FCITX_D();
+    sd_bus_message_rewind(d->msg_, true);
+}
+
 bool Message::send() {
     FCITX_D();
     auto bus = sd_bus_message_get_bus(d->msg_);
@@ -182,11 +192,17 @@ Message &Message::operator>>(bool &b) {
 
 #define _MARSHALL_FUNC(TYPE, TYPE2)                                                                                    \
     Message &Message::operator<<(TYPE v) {                                                                             \
+        if (!(*this)) {                                                                                                \
+            return *this;                                                                                              \
+        }                                                                                                              \
         FCITX_D();                                                                                                     \
         d->lastError_ = sd_bus_message_append_basic(d->msg_, SD_BUS_TYPE_##TYPE2, &v);                                 \
         return *this;                                                                                                  \
     }                                                                                                                  \
     Message &Message::operator>>(TYPE &v) {                                                                            \
+        if (!(*this)) {                                                                                                \
+            return *this;                                                                                              \
+        }                                                                                                              \
         FCITX_D();                                                                                                     \
         d->lastError_ = sd_bus_message_read_basic(d->msg_, SD_BUS_TYPE_##TYPE2, &v);                                   \
         return *this;                                                                                                  \
@@ -203,11 +219,17 @@ _MARSHALL_FUNC(double, DOUBLE)
 
 Message &Message::operator<<(const std::string &s) {
     FCITX_D();
+    if (!(*this)) {
+        return *this;
+    }
     d->lastError_ = sd_bus_message_append_basic(d->msg_, SD_BUS_TYPE_STRING, s.c_str());
     return *this;
 }
 
 Message &Message::operator>>(std::string &s) {
+    if (!(*this)) {
+        return *this;
+    }
     FCITX_D();
     char *p = nullptr;
     int r = d->lastError_ = sd_bus_message_read_basic(d->msg_, SD_BUS_TYPE_STRING, &p);
@@ -219,12 +241,18 @@ Message &Message::operator>>(std::string &s) {
 }
 
 Message &Message::operator<<(const ObjectPath &o) {
+    if (!(*this)) {
+        return *this;
+    }
     FCITX_D();
     d->lastError_ = sd_bus_message_append_basic(d->msg_, SD_BUS_TYPE_OBJECT_PATH, o.path().c_str());
     return *this;
 }
 
 Message &Message::operator>>(ObjectPath &o) {
+    if (!(*this)) {
+        return *this;
+    }
     FCITX_D();
     char *p = nullptr;
     int r = d->lastError_ = sd_bus_message_read_basic(d->msg_, SD_BUS_TYPE_OBJECT_PATH, &p);
@@ -236,12 +264,18 @@ Message &Message::operator>>(ObjectPath &o) {
 }
 
 Message &Message::operator<<(const Signature &s) {
+    if (!(*this)) {
+        return *this;
+    }
     FCITX_D();
     d->lastError_ = sd_bus_message_append_basic(d->msg_, SD_BUS_TYPE_SIGNATURE, s.sig().c_str());
     return *this;
 }
 
 Message &Message::operator>>(Signature &s) {
+    if (!(*this)) {
+        return *this;
+    }
     FCITX_D();
     char *p = nullptr;
     int r = d->lastError_ = sd_bus_message_read_basic(d->msg_, SD_BUS_TYPE_SIGNATURE, &p);
@@ -253,6 +287,9 @@ Message &Message::operator>>(Signature &s) {
 }
 
 Message &Message::operator<<(const UnixFD &fd) {
+    if (!(*this)) {
+        return *this;
+    }
     FCITX_D();
     int f = fd.fd();
     d->lastError_ = sd_bus_message_append_basic(d->msg_, SD_BUS_TYPE_UNIX_FD, &f);
@@ -260,6 +297,9 @@ Message &Message::operator<<(const UnixFD &fd) {
 }
 
 Message &Message::operator>>(UnixFD &fd) {
+    if (!(*this)) {
+        return *this;
+    }
     FCITX_D();
     int f = -1;
     int r = d->lastError_ = sd_bus_message_read_basic(d->msg_, SD_BUS_TYPE_UNIX_FD, &f);
@@ -271,6 +311,9 @@ Message &Message::operator>>(UnixFD &fd) {
 }
 
 Message &Message::operator<<(const Container &c) {
+    if (!(*this)) {
+        return *this;
+    }
     FCITX_D();
 
     d->lastError_ = sd_bus_message_open_container(d->msg_, toSDBusType(c.type()), c.content().sig().c_str());
@@ -278,18 +321,27 @@ Message &Message::operator<<(const Container &c) {
 }
 
 Message &Message::operator>>(const Container &c) {
+    if (!(*this)) {
+        return *this;
+    }
     FCITX_D();
     d->lastError_ = sd_bus_message_enter_container(d->msg_, toSDBusType(c.type()), c.content().sig().c_str());
     return *this;
 }
 
 Message &Message::operator<<(const ContainerEnd &) {
+    if (!(*this)) {
+        return *this;
+    }
     FCITX_D();
     d->lastError_ = sd_bus_message_close_container(d->msg_);
     return *this;
 }
 
 Message &Message::operator>>(const ContainerEnd &) {
+    if (!(*this)) {
+        return *this;
+    }
     FCITX_D();
     d->lastError_ = sd_bus_message_exit_container(d->msg_);
     return *this;

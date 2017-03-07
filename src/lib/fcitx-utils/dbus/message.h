@@ -132,6 +132,7 @@ public:
     Message createError(const char *name, const char *message) const;
 
     MessageType type() const;
+    inline bool isError() const { return type() == MessageType::Error; }
 
     std::string destination() const;
     void setDestination(const std::string &dest);
@@ -149,6 +150,9 @@ public:
     operator bool() const;
     bool end() const;
 
+    void resetError();
+    void rewind();
+
     Message &operator<<(uint8_t i);
     Message &operator<<(bool b);
     Message &operator<<(int16_t i);
@@ -164,6 +168,19 @@ public:
     Message &operator<<(const UnixFD &fd);
     Message &operator<<(const Container &c);
     Message &operator<<(const ContainerEnd &c);
+
+    template <typename K, typename V>
+    Message &operator<<(const std::pair<K, V> &t) {
+        if (!(*this)) {
+            return *this;
+        }
+        *this << std::get<0>(t);
+        if (!(*this)) {
+            return *this;
+        }
+        *this << std::get<1>(t);
+        return *this;
+    }
 
     template <typename... Args>
     Message &operator<<(const std::tuple<Args...> &t) {
@@ -216,6 +233,19 @@ public:
     Message &operator>>(const Container &c);
     Message &operator>>(const ContainerEnd &c);
 
+    template <typename K, typename V>
+    Message &operator>>(std::pair<K, V> &t) {
+        if (!(*this)) {
+            return *this;
+        }
+        *this >> std::get<0>(t);
+        if (!(*this)) {
+            return *this;
+        }
+        *this >> std::get<1>(t);
+        return *this;
+    }
+
     template <typename... Args>
     Message &operator>>(std::tuple<Args...> &t) {
         TupleMarshaller<decltype(t), sizeof...(Args)>::unmarshall(*this, t);
@@ -228,7 +258,6 @@ public:
         typedef typename value_type::tuple_type tuple_type;
         typedef typename DBusContainerSignatureTraits<value_type>::signature signature;
         if (*this >> Container(Container::Type::Struct, Signature(signature::data()))) {
-            ;
             TupleMarshaller<tuple_type, sizeof...(Args)>::unmarshall(*this, static_cast<tuple_type &>(t));
             if (*this) {
                 *this >> ContainerEnd();

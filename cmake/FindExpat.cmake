@@ -12,14 +12,12 @@
 #   EXPAT_INCLUDE_DIR - The Expat include directory
 #   EXPAT_LIBRARIES - The libraries needed to use Expat
 #   EXPAT_DEFINITIONS - Compiler switches required for using Expat
-#   EXPAT_XMLLINT_EXECUTABLE - The XML checking tool xmllint coming with Expat
 #   EXPAT_VERSION_STRING - the version of Expat found (since CMake 2.8.8)
 
 # use pkg-config to get the directories and then use these values
 # in the find_path() and find_library() calls
 find_package(PkgConfig QUIET)
-PKG_CHECK_MODULES(PC_EXPAT QUIET libxml-2.0)
-set(EXPAT_DEFINITIONS ${PC_EXPAT_CFLAGS_OTHER})
+PKG_CHECK_MODULES(PC_EXPAT QUIET expat)
 
 find_path(EXPAT_INCLUDE_DIR NAMES expat.h
    HINTS

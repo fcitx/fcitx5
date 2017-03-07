@@ -44,7 +44,7 @@ public:
     void setAuxDown(const Text &text);
 
     const Text &clientPreedit();
-    void setClientPreeidt(const Text &clientPreedit);
+    void setClientPreedit(const Text &clientPreedit);
 
     CandidateList *candidateList();
     void setCandidateList(CandidateList *candidate);

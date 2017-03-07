@@ -88,10 +88,7 @@ public:
             }
 
             // otherwise wait for it
-            if (!dep->loaded()) {
-                if (dep->info().onRequest() && requested_.insert(dep->info().name()).second) {
-                    return DependencyCheckStatus::PendingUpdateRequest;
-                }
+            if (!dep->loaded() && !dep->info().onRequest()) {
                 return DependencyCheckStatus::Pending;
             }
         }

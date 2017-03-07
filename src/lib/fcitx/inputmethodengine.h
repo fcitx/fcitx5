@@ -32,10 +32,9 @@ public:
 
     virtual std::vector<InputMethodEntry> listInputMethods() = 0;
     virtual void keyEvent(const InputMethodEntry &entry, KeyEvent &keyEvent) = 0;
-    virtual void save(const InputMethodEntry &) {}
-    virtual void focusIn(const InputMethodEntry &) {}
-    virtual void focusOut(const InputMethodEntry &entry) { reset(entry); }
-    virtual void reset(const InputMethodEntry &) {}
+    virtual void focusIn(const InputMethodEntry &, InputContextEvent &) {}
+    virtual void focusOut(const InputMethodEntry &entry, InputContextEvent &event) { reset(entry, event); }
+    virtual void reset(const InputMethodEntry &, InputContextEvent &) {}
     virtual void filterKey(const InputMethodEntry &, KeyEvent &) {}
     virtual void updateSurroundingText(const InputMethodEntry &) {}
     virtual std::string subMode(const InputMethodEntry &) { return {}; }

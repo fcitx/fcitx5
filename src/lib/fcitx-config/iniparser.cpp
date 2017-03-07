@@ -69,6 +69,9 @@ bool _unescape_string(std::string &str, bool unescapeQuote) {
 typedef std::unique_ptr<FILE, decltype(&fclose)> ScopedFILE;
 
 void readFromIni(RawConfig &config, int fd) {
+    if (fd < 0) {
+        return;
+    }
     // dup it
     UnixFD unixFD(fd);
     FILE *f = fdopen(unixFD.release(), "r");
@@ -80,6 +83,9 @@ void readFromIni(RawConfig &config, int fd) {
 }
 
 bool writeAsIni(const RawConfig &config, int fd) {
+    if (fd < 0) {
+        return false;
+    }
     // dup it
     UnixFD unixFD(fd);
     FILE *f = fdopen(unixFD.release(), "w");

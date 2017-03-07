@@ -1,0 +1,15 @@
+if (NOT EXISTS "@FCITX5_DOWNLOAD_DEST@")
+    message(STATUS "Downloading '@FCITX5_DOWNLOAD_URL@' to '@FCITX5_DOWNLOAD_DEST@'...")
+    file(DOWNLOAD
+         "@FCITX5_DOWNLOAD_URL@"
+         "@FCITX5_DOWNLOAD_DEST@"
+         EXPECTED_HASH SHA256=@FCITX5_DOWNLOAD_SHA256@
+         TLS_VERIFY ON
+         SHOW_PROGRESS)
+else()
+    file(SHA256 "@FCITX5_DOWNLOAD_DEST@" actual_value)
+    if(NOT "${actual_value}" STREQUAL "@FCITX5_DOWNLOAD_SHA256@")
+        message(STATUS "File exists but hash doesn't match, removing...")
+        file(REMOVE "@FCITX5_DOWNLOAD_DEST@")
+    endif()
+endif()

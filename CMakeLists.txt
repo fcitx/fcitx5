@@ -43,6 +43,17 @@ find_package(WaylandScanner)
 find_package(WaylandProtocols)
 find_package(EGL)
 
+option(ENABLE_ENCHANT "Enable enchant for word predication" On)
+option(ENABLE_PRESAGE "Enable presage for word predication" On)
+
+if(ENABLE_ENCHANT)
+  find_package(Enchant REQUIRED)
+endif()
+
+if(ENABLE_PRESAGE)
+  find_package(Presage REQUIRED)
+endif()
+
 set(DEFAULT_XKB_RULES_FILES "${XKEYBOARDCONFIG_XKBBASE}/rules/${DEFAULT_XKB_RULES}.xml")
 if (NOT EXISTS "${DEFAULT_XKB_RULES_FILES}")
 message(FATAL_ERROR "Could not find default xkb rules file: ${DEFAULT_XKB_RULES_FILES}")

@@ -41,10 +41,10 @@ int main() {
     assert(!fcitx::Key("a").isModifier());
     assert(fcitx::Key("Left").isCursorMove());
     assert(!fcitx::Key("Cancel").isCursorMove());
-    assert(fcitx::Key("Shift+S").normalize().check(fcitx::Key("S")));
-    assert(fcitx::Key("Shift+F4").normalize().check(fcitx::Key("Shift+F4")));
-    assert(fcitx::Key("Ctrl+a").normalize().check(fcitx::Key("Ctrl+A")));
-    assert(fcitx::Key("Alt+Shift+exclam").normalize().check(fcitx::Key("Alt+exclam")));
+    assert(fcitx::Key("S").check(fcitx::Key("Shift+S").normalize()));
+    assert(fcitx::Key("Shift+F4").check(fcitx::Key("Shift+F4").normalize()));
+    assert(fcitx::Key("Ctrl+A").check(fcitx::Key("Ctrl+a").normalize()));
+    assert(fcitx::Key("Alt+exclam").check(fcitx::Key("Alt+Shift+exclam").normalize()));
     assert(fcitx::Key("").sym() == FcitxKey_None);
     assert(fcitx::Key("-").sym() == FcitxKey_minus);
 
@@ -62,7 +62,7 @@ int main() {
     };
 
     for (size_t i = 0; i < FCITX_ARRAY_SIZE(hotkey); i++) {
-        assert(fcitx::Key::keyListCheck(keyList, hotkey[i]));
+        assert(hotkey[i].checkKeyList(keyList));
     }
 
     keyList.emplace_back(FcitxKey_A);
@@ -76,8 +76,8 @@ int main() {
     assert(keyString == "");
 
     fcitx::Key modifier = fcitx::Key("Control_L").normalize();
-    assert(fcitx::Key("Control+Control_L").check(modifier));
-    assert(fcitx::Key("Control_L").check(modifier));
+    assert(modifier.check(fcitx::Key("Control+Control_L")));
+    assert(modifier.check(fcitx::Key("Control_L")));
 
     return 0;
 }

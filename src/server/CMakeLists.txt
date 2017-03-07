@@ -1,3 +1,3 @@
-add_executable(fcitx main.cpp errorhandler.cpp)
-target_link_libraries(fcitx Fcitx5::Core keyboard)
-install(TARGETS fcitx DESTINATION "${FCITX_INSTALL_BINDIR}")
+add_executable(fcitx5 main.cpp errorhandler.cpp)
+target_link_libraries(fcitx5 Fcitx5::Core keyboard)
+install(TARGETS fcitx5 DESTINATION "${FCITX_INSTALL_BINDIR}")

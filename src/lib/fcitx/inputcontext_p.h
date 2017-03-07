@@ -38,6 +38,9 @@ public:
 
     template <typename E>
     bool postEvent(E &&event) {
+        if (destroyed_) {
+            return true;
+        }
         if (auto instance = manager_.instance()) {
             return instance->postEvent(event);
         }
@@ -46,6 +49,9 @@ public:
 
     template <typename E, typename... Args>
     bool emplaceEvent(Args &&... args) {
+        if (destroyed_) {
+            return true;
+        }
         if (auto instance = manager_.instance()) {
             return instance->postEvent(E(std::forward<Args>(args)...));
         }
@@ -65,6 +71,7 @@ public:
     IntrusiveListNode listNode_;
     ICUUID uuid_;
     std::unordered_map<std::string, std::unique_ptr<InputContextProperty>> properties_;
+    bool destroyed_ = false;
 
     FCITX_DECLARE_PUBLIC(InputContext);
 };

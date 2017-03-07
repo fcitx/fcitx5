@@ -59,17 +59,17 @@ Key::Key(const char *keyString) {
 Key::~Key() {}
 
 bool Key::check(const Key &key) const {
-    bool isModifier = key.isModifier();
-    if (isModifier) {
-        Key keyAlt = key;
-        auto states = key.states_ & (~keySymToStates(key.sym_));
-        keyAlt.states_ |= keySymToStates(key.sym_);
+    if (isModifier()) {
+        Key keyAlt = *this;
+        auto states = states_ & (~keySymToStates(sym_));
+        keyAlt.states_ |= keySymToStates(sym_);
 
-        return (sym_ == key.sym_ && states_ == states) || (sym_ == keyAlt.sym_ && states_ == keyAlt.states_);
+        return (key.sym_ == sym_ && key.states_ == states) ||
+               (key.sym_ == keyAlt.sym_ && key.states_ == keyAlt.states_);
     }
 
     auto states = states_ & KeyStates({KeyState::Ctrl_Alt_Shift, KeyState::Super});
-    return (sym_ == key.sym_ && states == key.states_);
+    return (key.sym_ == sym_ && key.states_ == states);
 }
 
 bool Key::isDigit() const { return !states_ && sym_ >= FcitxKey_0 && sym_ <= FcitxKey_9; }

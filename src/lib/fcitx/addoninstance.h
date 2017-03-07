@@ -21,6 +21,7 @@
 
 #include "fcitxcore_export.h"
 #include <fcitx-utils/library.h>
+#include <fcitx-utils/metastring.h>
 #include <functional>
 #include <memory>
 #include <type_traits>
@@ -57,6 +58,7 @@ public:
     AddonInstance();
     virtual ~AddonInstance();
     virtual void reloadConfig();
+    virtual void save();
 
     template <typename Signature, typename... Args>
     typename std::function<Signature>::result_type callWithSignature(const std::string &name, Args &&... args) {

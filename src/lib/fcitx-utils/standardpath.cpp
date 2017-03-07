@@ -326,6 +326,20 @@ StandardPathFile StandardPath::openUser(Type type, const std::string &path, int 
     return {};
 }
 
+std::vector<StandardPathFile> StandardPath::openAll(StandardPath::Type type, const std::string &path, int flags) const {
+    std::vector<StandardPathFile> result;
+    scanDirectories(type, [flags, &result, &path](const std::string &dirPath, bool) {
+        auto fullPath = constructPath(dirPath, path);
+        int fd = ::open(fullPath.c_str(), flags);
+        if (fd < 0) {
+            return true;
+        }
+        result.emplace_back(fd, fullPath);
+        return true;
+    });
+    return result;
+}
+
 StandardPathTempFile StandardPath::openUserTemp(Type type, const std::string &pathOrig) const {
     std::string path = pathOrig + "_XXXXXX";
     auto dirPath = userDirectory(type);

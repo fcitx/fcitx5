@@ -82,15 +82,15 @@ public:
         return ss.str();
     }
     template <typename Container>
-    static bool keyListCheck(const Container &c, const Key &key) {
-        return std::find_if(c.begin(), c.end(), [&key](const Key &toCheck) { return toCheck.check(key); }) != c.end();
+    bool checkKeyList(const Container &c) {
+        return std::find_if(c.begin(), c.end(), [this](const Key &toCheck) { return check(toCheck); }) != c.end();
     }
 
     template <typename Container>
-    static int keyListIndex(const Container &c, const Key &key) {
-        int idx = 0;
+    int keyListIndex(const Container &c) {
+        size_t idx = 0;
         for (auto &toCheck : c) {
-            if (toCheck.check(key)) {
+            if (check(toCheck)) {
                 break;
             }
             idx++;
@@ -98,6 +98,7 @@ public:
         if (idx == c.size()) {
             return -1;
         }
+        return idx;
     }
 
 protected:

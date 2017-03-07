@@ -28,6 +28,7 @@
 #include <algorithm>
 #include <cassert>
 #include <cstring>
+#include <iostream>
 #include <sys/mman.h>
 #include <unistd.h>
 #include <xkbcommon/xkbcommon.h>
@@ -117,7 +118,10 @@ public:
         server_->display_->roundtrip();
         repeatInfoCallback(repeatRate_, repeatDelay_);
     }
-    ~WaylandIMInputContextV1() { server_->remove(ic_.get()); }
+    ~WaylandIMInputContextV1() {
+        server_->remove(ic_.get());
+        destroy();
+    }
 
 protected:
     virtual void commitStringImpl(const std::string &text) override { ic_->commitString(serial_, text.c_str()); }
@@ -148,7 +152,7 @@ protected:
     }
 
     virtual void updatePreeditImpl() override {
-        auto &preedit = inputPanel().preedit();
+        auto &preedit = inputPanel().clientPreedit();
 
         for (int i = 0, e = preedit.size(); i < e; i++) {
             if (!utf8::validate(preedit.stringAt(i))) {

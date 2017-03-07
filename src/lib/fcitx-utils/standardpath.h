@@ -168,6 +168,7 @@ public:
     StandardPathFile open(Type type, const std::string &path, int flags) const;
     StandardPathFile openUser(Type type, const std::string &path, int flags) const;
     StandardPathTempFile openUserTemp(Type type, const std::string &pathOrig) const;
+    std::vector<StandardPathFile> openAll(Type type, const std::string &path, int flags) const;
     // Open first match for
     StandardPathFileMap
     multiOpenFilter(Type type, const std::string &path, int flags,

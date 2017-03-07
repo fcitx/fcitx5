@@ -64,6 +64,12 @@ DBUS_SIGNATURE_TRAITS(double, 'd');
 DBUS_SIGNATURE_TRAITS(UnixFD, 'h');
 DBUS_SIGNATURE_TRAITS(ObjectPath, 'o');
 
+template <typename K, typename V>
+struct DBusSignatureTraits<std::pair<K, V>> {
+    typedef ConcatMetaStringType<typename DBusSignatureTraits<K>::signature, typename DBusSignatureTraits<V>::signature>
+        signature;
+};
+
 template <typename Arg, typename... Args>
 struct DBusSignatureTraits<std::tuple<Arg, Args...>> {
     typedef ConcatMetaStringType<typename DBusSignatureTraits<Arg>::signature,

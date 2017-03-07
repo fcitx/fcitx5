@@ -19,7 +19,7 @@
 #ifndef _FCITX_UTILS_DBUS_BUS_P_H_
 #define _FCITX_UTILS_DBUS_BUS_P_H_
 
-#include "dbus/bus.h"
+#include "bus.h"
 #include "sd-bus-wrap.h"
 
 namespace fcitx {

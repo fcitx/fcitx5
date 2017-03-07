@@ -19,9 +19,11 @@
 #ifndef _FCITX_IM_KEYBOARD_KEYBOARD_H_
 #define _FCITX_IM_KEYBOARD_KEYBOARD_H_
 
+#include "fcitx-config/configuration.h"
 #include "fcitx/addonfactory.h"
 #include "fcitx/addonmanager.h"
 #include "fcitx/inputmethodengine.h"
+#include "fcitx/instance.h"
 #include "isocodes.h"
 #include "xkbrules.h"
 #include <xkbcommon/xkbcommon-compose.h>
@@ -31,6 +33,16 @@ namespace fcitx {
 
 class Instance;
 
+FCITX_CONFIG_ENUM(ChooseModifier, None, Alt, Control, Super);
+
+FCITX_CONFIGURATION(
+    KeyboardEngineConfig,
+    fcitx::Option<int, IntConstrain> pageSize{this, "PageSize", "Page size", 5, IntConstrain(3, 10)};
+    fcitx::Option<ChooseModifier> chooseModifier{this, "Choose Modifier", "Choose key modifier", ChooseModifier::Alt};
+    fcitx::Option<KeyList> hintTrigger{this, "Hint Trigger", "Trigger hint mode", {Key("Control+Alt+H")}};);
+
+struct KeyboardEngineState;
+
 class KeyboardEngine : public InputMethodEngine {
 public:
     KeyboardEngine(Instance *instance);
@@ -38,17 +50,42 @@ public:
     Instance *instance() { return instance_; }
     void keyEvent(const InputMethodEntry &entry, KeyEvent &keyEvent) override;
     std::vector<InputMethodEntry> listInputMethods() override;
+    void reloadConfig() override;
+    void reset(const InputMethodEntry &entry, InputContextEvent &event) override;
 
-    uint32_t processCompose(uint32_t keyval, uint32_t state);
+    uint32_t processCompose(KeyboardEngineState *state, uint32_t keyval);
+
+    AddonInstance *spell() {
+        if (!spell_) {
+            spell_ = instance_->addonManager().addon("spell", true);
+        }
+        return spell_;
+    }
+
+    AddonInstance *notifications() {
+        if (!notifications_) {
+            notifications_ = instance_->addonManager().addon("notifications", true);
+        }
+        return notifications_;
+    }
+
+    void updateCandidate(const InputMethodEntry &entry, InputContext *inputContext);
+
+    xkb_compose_table *xkbComposeTable() const { return xkbComposeTable_.get(); }
 
 private:
+    void commitBuffer(InputContext *inputContext);
+
     Instance *instance_;
+    AddonInstance *spell_ = nullptr;
+    AddonInstance *notifications_ = nullptr;
+    KeyboardEngineConfig config_;
     IsoCodes isoCodes_;
     XkbRules xkbRules_;
     std::string ruleName_;
     std::unique_ptr<struct xkb_context, decltype(&xkb_context_unref)> xkbContext_;
     std::unique_ptr<struct xkb_compose_table, decltype(&xkb_compose_table_unref)> xkbComposeTable_;
-    std::unique_ptr<struct xkb_compose_state, decltype(&xkb_compose_state_unref)> xkbComposeState_;
+    KeyList selectionKeys_;
 };
 
 class KeyboardEngineFactory : public AddonFactory {

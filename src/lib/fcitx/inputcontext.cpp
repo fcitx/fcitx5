@@ -22,6 +22,7 @@
 #include "inputcontext_p.h"
 #include "inputcontextmanager.h"
 #include "instance.h"
+#include <exception>
 #include <iostream>
 
 namespace fcitx {
@@ -35,11 +36,19 @@ InputContext::InputContext(InputContextManager &manager, const std::string &prog
 
 InputContext::~InputContext() {
     FCITX_D();
+    if (!d->destroyed_) {
+        throw std::runtime_error("destroy() is not called, this should be a bug.");
+    }
+}
+
+void InputContext::destroy() {
+    FCITX_D();
     d->emplaceEvent<InputContextDestroyedEvent>(this);
     if (d->group_) {
         d->group_->removeInputContext(this);
     }
     d->manager_.unregisterInputContext(*this);
+    d->destroyed_ = true;
 }
 
 const ICUUID &InputContext::uuid() const {

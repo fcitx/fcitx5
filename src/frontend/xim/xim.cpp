@@ -114,6 +114,7 @@ class XIMInputContext : public InputContext {
 public:
     XIMInputContext(InputContextManager &inputContextManager, XIMServer *server, xcb_im_input_context_t *ic)
         : InputContext(inputContextManager), server_(server), xic_(ic) {}
+    ~XIMInputContext() { destroy(); }
 
 protected:
     virtual void commitStringImpl(const std::string &text) override {

@@ -134,6 +134,7 @@ protected:
 
     void registerProperty(const std::string &name, InputContextProperty *property);
     void unregisterProperty(const std::string &name);
+    void destroy();
 
 private:
     void setHasFocus(bool hasFocus);

@@ -17,9 +17,9 @@
  * see <http://www.gnu.org/licenses/>.
  */
 
-#include "dbus/bus_p.h"
-#include "dbus/message_p.h"
-#include "dbus/objectvtable_p.h"
+#include "bus_p.h"
+#include "message_p.h"
+#include "objectvtable_p.h"
 
 namespace fcitx {
 
