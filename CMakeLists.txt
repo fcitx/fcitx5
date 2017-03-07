@@ -44,7 +44,7 @@ find_package(WaylandProtocols)
 find_package(EGL)
 
 option(ENABLE_ENCHANT "Enable enchant for word predication" On)
-option(ENABLE_PRESAGE "Enable presage for word predication" On)
+option(ENABLE_PRESAGE "Enable presage for word predication" Off)
 
 if(ENABLE_ENCHANT)
   find_package(Enchant REQUIRED)
