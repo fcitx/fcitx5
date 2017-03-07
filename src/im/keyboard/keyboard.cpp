@@ -292,24 +292,28 @@ static KeyList FCITX_HYPHEN_APOS = Key::keyListFromString("minus apostrophe");
 void KeyboardEngine::keyEvent(const InputMethodEntry &entry, KeyEvent &event) {
     // FIXME use entry to get layout info
     FCITX_UNUSED(entry);
+
+    // by pass all key release
     if (event.isRelease()) {
         return;
     }
 
-    auto sym = event.key().sym();
-
-    if (sym == FcitxKey_Shift_L || sym == FcitxKey_Shift_R || sym == FcitxKey_Alt_L || sym == FcitxKey_Alt_R ||
-        sym == FcitxKey_Control_L || sym == FcitxKey_Control_R || sym == FcitxKey_Super_L || sym == FcitxKey_Super_R) {
+    // and by pass all modifier
+    if (event.key().isModifier()) {
         return;
     }
     auto inputContext = event.inputContext();
     auto state = inputContext->propertyAs<KeyboardEngineState>("keyboardState");
 
+    // check compose first.
     auto compose = processCompose(state, event.key().sym());
+
+    // compose is invalid, ignore it.
     if (compose == INVALID_COMPOSE_RESULT) {
         return event.filterAndAccept();
     }
 
+    // check the spell trigger key
     if (event.key().checkKeyList(config_.hintTrigger.value()) && spell() &&
         spell()->call<ISpell::checkDict>(entry.languageCode())) {
         state->enableWordHint_ = !state->enableWordHint_;
@@ -323,14 +327,16 @@ void KeyboardEngine::keyEvent(const InputMethodEntry &entry, KeyEvent &event) {
     }
 
     do {
-        auto state = inputContext->propertyAs<KeyboardEngineState>("keyboardState");
+        // no spell hint enabled, ignore
         if (!state->enableWordHint_) {
             break;
         }
+        // no supported dictionary
         if (!spell() || !spell()->call<ISpell::checkDict>(entry.languageCode())) {
             break;
         }
 
+        // check if we can select candidate.
         if (inputContext->inputPanel().candidateList()) {
             int idx = event.key().keyListIndex(selectionKeys_);
             if (idx >= 0 && idx < inputContext->inputPanel().candidateList()->size()) {
@@ -345,6 +351,7 @@ void KeyboardEngine::keyEvent(const InputMethodEntry &entry, KeyEvent &event) {
         bool validCharacter = isValidCharacter(compose);
         bool validSym = isValidSym(event.key());
 
+        // check for valid character
         if (validCharacter || event.key().isSimple() || validSym) {
             if (validCharacter || event.key().isLAZ() || event.key().isUAZ() || validSym ||
                 (!buffer.empty() && event.key().checkKeyList(FCITX_HYPHEN_APOS))) {
@@ -383,9 +390,11 @@ void KeyboardEngine::keyEvent(const InputMethodEntry &entry, KeyEvent &event) {
             }
         }
 
+        // if we reach here, just commit and discard buffer.
         commitBuffer(inputContext);
     } while (0);
 
+    // and now we want to forward key.
     if (compose) {
         auto composeString = utf8::UCS4ToUTF8(compose);
         event.filterAndAccept();
