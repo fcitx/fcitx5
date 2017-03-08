@@ -1,9 +1,10 @@
 set(DICT_COMP_SRC
-  comp_spell_dict.c
+  comp_spell_dict.cpp
   )
 
 add_executable(comp-spell-dict ${DICT_COMP_SRC})
 add_executable(Fcitx5::comp-spell-dict ALIAS comp-spell-dict)
+target_link_libraries(comp-spell-dict Fcitx5::Utils)
 install(TARGETS comp-spell-dict
   DESTINATION "${FCITX_INSTALL_ADDONDIR}/libexec")
 

@@ -27,7 +27,7 @@ int selected = 0;
 class TestCandidateWord : public CandidateWord {
 public:
     TestCandidateWord(int number) : CandidateWord(Text(std::to_string(number))), number_(number) {}
-    void select(InputContext *inputContext) const override { selected = number_; }
+    void select(InputContext *) const override { selected = number_; }
 
 private:
     int number_;

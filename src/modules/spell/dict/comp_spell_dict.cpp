@@ -18,35 +18,40 @@
  *   51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.              *
  ***************************************************************************/
 
-#include <stdlib.h>
-#include <stdio.h>
-#include <sys/mman.h>
-#include <sys/stat.h>
 #include <fcntl.h>
 #include <stdint.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <sys/mman.h>
+#include <sys/stat.h>
 #include <unistd.h>
 #if defined(__linux__) || defined(__GLIBC__)
 #include <endian.h>
 #else
 #include <sys/endian.h>
 #endif
+#include "fcitx-utils/unixfd.h"
 #include <string.h>
+
+using namespace fcitx;
 
 #define DICT_BIN_MAGIC "FSCD0000"
 const char null_byte = '\0';
 
-static int
-compile_dict(int ifd, int ofd)
-{
+static int compile_dict(int ifd, int ofd) {
     struct stat istat_buf;
     uint32_t wcount = 0;
     char *p;
+    void *mmapped;
     char *ifend;
     if (fstat(ifd, &istat_buf) == -1)
         return 1;
-    p = mmap(NULL, istat_buf.st_size + 1, PROT_READ, MAP_PRIVATE, ifd, 0);
+    mmapped = mmap(nullptr, istat_buf.st_size + 1, PROT_READ, MAP_PRIVATE, ifd, 0);
+    if (mmapped == MAP_FAILED) {
+        return 1;
+    }
+    p = static_cast<char *>(mmapped);
     ifend = istat_buf.st_size + p;
-    close(ifd);
     write(ofd, DICT_BIN_MAGIC, strlen(DICT_BIN_MAGIC));
     lseek(ofd, sizeof(uint32_t), SEEK_CUR);
     while (p < ifend) {
@@ -68,27 +73,23 @@ compile_dict(int ifd, int ofd)
     lseek(ofd, strlen(DICT_BIN_MAGIC), SEEK_SET);
     wcount = htole32(wcount);
     write(ofd, &wcount, sizeof(uint32_t));
-    close(ofd);
+    munmap(mmapped, istat_buf.st_size + 1);
     return 0;
 }
 
-
-int
-main(int argc, char *argv[])
-{
-    int ifd;
-    int ofd;
+int main(int argc, char *argv[]) {
     const char *action = argv[1];
     if (strcmp(action, "--comp-dict") == 0) {
         if (argc != 4) {
             fprintf(stderr, "Wrong number of arguments.\n");
             exit(1);
         }
-        ifd = open(argv[2], O_RDONLY);
-        ofd = open(argv[3], O_WRONLY | O_TRUNC | O_CREAT, 0644);
-        if (ifd < 0 || ofd < 0)
+        UnixFD ifd = UnixFD::own(open(argv[2], O_RDONLY));
+        UnixFD ofd = UnixFD::own(open(argv[3], O_WRONLY | O_TRUNC | O_CREAT, 0644));
+        if (!ifd.isValid() || !ofd.isValid()) {
             return 1;
-        return compile_dict(ifd, ofd);
+        }
+        return compile_dict(ifd.fd(), ofd.fd());
     }
     return 1;
 }

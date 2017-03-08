@@ -18,76 +18,66 @@
  */
 
 #include "unixfd.h"
-#include <atomic>
 #include <errno.h>
 #include <fcntl.h>
 #include <unistd.h>
 
 namespace fcitx {
 
-class UnixFDPrivate {
-public:
-    UnixFDPrivate() : fd_(-1) {}
-    ~UnixFDPrivate() {
-        if (fd_ != -1) {
-            int ret;
-            do {
-                ret = close(fd_);
-            } while (ret == -1 && errno == EINTR);
-        }
-    }
-    std::atomic_int fd_;
-};
-
+UnixFD::UnixFD() noexcept : fd_(-1) {}
 UnixFD::UnixFD(int fd) { set(fd); }
 
-UnixFD::UnixFD(UnixFD &&other) noexcept : d(std::move(other.d)) {}
+UnixFD::UnixFD(UnixFD &&other) noexcept {
+    fd_ = other.fd_;
+    other.fd_ = -1;
+}
 
-UnixFD::~UnixFD() {}
+UnixFD::~UnixFD() { reset(); }
 
-UnixFD &UnixFD::operator=(UnixFD other) {
+UnixFD &UnixFD::operator=(UnixFD &&other) noexcept {
     using std::swap;
-    swap(d, other.d);
+    swap(fd_, other.fd_);
     return *this;
 }
 
-bool UnixFD::isValid() const { return d && d->fd_ != -1; }
+bool UnixFD::isValid() const noexcept { return fd_ != -1; }
 
-int UnixFD::fd() const { return d ? d->fd_.load() : -1; }
+int UnixFD::fd() const noexcept { return fd_; }
 
-void UnixFD::give(int fd) {
+void UnixFD::give(int fd) noexcept {
     if (fd == -1) {
-        d.reset();
+        reset();
     } else {
-        if (!d) {
-            d = std::make_unique<UnixFDPrivate>();
-        }
-
-        d->fd_ = fd;
+        fd_ = fd;
     }
 }
 
 void UnixFD::set(int fd) {
     if (fd == -1) {
-        d.reset();
+        reset();
     } else {
-        if (!d) {
-            d = std::make_unique<UnixFDPrivate>();
-        }
-
         int nfd = ::fcntl(fd, F_DUPFD_CLOEXEC, 0);
         if (nfd == -1) {
-            // FIXME: throw exception
-            return;
+            throw std::runtime_error("Failed to dup file descriptor");
         }
 
-        d->fd_ = nfd;
+        fd_ = nfd;
     }
 }
 
-int UnixFD::release() {
-    int fd = d->fd_.exchange(-1);
-    d.reset();
+void UnixFD::reset() noexcept {
+    if (fd_ != -1) {
+        int ret;
+        do {
+            ret = close(fd_);
+        } while (ret == -1 && errno == EINTR);
+        fd_ = -1;
+    }
+}
+
+int UnixFD::release() noexcept {
+    int fd = fd_;
+    fd_ = -1;
     return fd;
 }
 }

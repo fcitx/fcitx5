@@ -45,7 +45,7 @@ int StandardPathTempFile::release() { return fd_.release(); }
 void StandardPathTempFile::close() {
     if (fd_.fd() >= 0) {
         // close it
-        fd_.set(-1);
+        fd_.reset();
         if (rename(tempPath_.c_str(), path_.c_str()) < 0) {
             unlink(tempPath_.c_str());
         }

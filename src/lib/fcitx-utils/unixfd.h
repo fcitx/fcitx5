@@ -20,6 +20,7 @@
 #define _FCITX_UTILS_UNIXFD_H_
 
 #include "fcitxutils_export.h"
+#include <atomic>
 #include <memory>
 
 namespace fcitx {
@@ -28,10 +29,11 @@ class UnixFDPrivate;
 
 class FCITXUTILS_EXPORT UnixFD {
 public:
-    UnixFD(int fd = -1);
+    UnixFD() noexcept;
+    UnixFD(int fd);
     UnixFD(const UnixFD &other) = delete;
     UnixFD(UnixFD &&other) noexcept;
-    ~UnixFD();
+    ~UnixFD() noexcept;
 
     static UnixFD own(int fd) {
         UnixFD unixFD;
@@ -39,17 +41,18 @@ public:
         return unixFD;
     }
 
-    UnixFD &operator=(UnixFD other);
+    UnixFD &operator=(UnixFD &&other) noexcept;
 
-    bool isValid() const;
+    bool isValid() const noexcept;
     void set(int fd);
-    int release();
-    int fd() const;
+    void reset() noexcept;
+    int release() noexcept;
+    int fd() const noexcept;
 
-    void give(int fd);
+    void give(int fd) noexcept;
 
 private:
-    std::unique_ptr<UnixFDPrivate> d;
+    int fd_;
 };
 }
 
