@@ -13,6 +13,7 @@ set(FCITX_CONFIG_HEADERS
     marshallfunction.h
     iniparser.h
     enum.h
+    optiontypename.h
     ${CMAKE_CURRENT_BINARY_DIR}/fcitxconfig_export.h
     )
 

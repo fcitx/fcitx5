@@ -3,6 +3,4 @@ target_link_libraries(wayland Fcitx5::Core Wayland::Client Fcitx5::Wayland::Core
 set_target_properties(wayland PROPERTIES PREFIX "")
 install(TARGETS wayland DESTINATION "${FCITX_INSTALL_ADDONDIR}")
 install(FILES wayland.conf DESTINATION "${FCITX_INSTALL_PKGDATADIR}/addon")
-add_library(wayland-interface INTERFACE)
-add_library(Fcitx5::Module::Wayland ALIAS wayland-interface)
-set_target_properties(wayland-interface PROPERTIES INTERFACE_INCLUDE_DIRECTORIES "${CMAKE_CURRENT_SOURCE_DIR}")
+fcitx5_export_module(Wayland TARGET wayland BUILD_INCLUDE_DIRECTORIES "${CMAKE_CURRENT_SOURCE_DIR}" HEADERS wayland_public.h INSTALL)

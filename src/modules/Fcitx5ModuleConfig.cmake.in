@@ -1,0 +1,39 @@
+
+include(CMakeFindDependencyMacro)
+
+find_dependency(Fcitx5Core @FCITX_VERSION@)
+
+if (NOT Fcitx5Module_FIND_COMPONENTS)
+    set(Fcitx5Module_NOT_FOUND_MESSAGE "The Fcitx5Module package requires at least one component")
+    set(Fcitx5Module_FOUND False)
+    return()
+endif()
+
+set(_Fcitx5Module_FIND_PARTS_REQUIRED)
+if (Fcitx5Module_FIND_REQUIRED)
+    set(_Fcitx5Module_FIND_PARTS_REQUIRED REQUIRED)
+endif()
+set(_Fcitx5Module_FIND_PARTS_QUIET)
+if (Fcitx5Module_FIND_QUIETLY)
+    set(_Fcitx5Module_FIND_PARTS_QUIET QUIET)
+endif()
+
+foreach(module ${Fcitx5Module_FIND_COMPONENTS})
+    find_package(Fcitx5Module${module}
+        ${_Fcitx5Module_FIND_PARTS_QUIET}
+        ${_Fcitx5Module_FIND_PARTS_REQUIRED}
+        PATHS "${FCITX_INSTALL_PREFIX}"
+    )
+    if (NOT Fcitx5Module${module}_FOUND)
+        if (Fcitx5Module_FIND_REQUIRED_${module})
+            set(_Fcitx5Module_NOTFOUND_MESSAGE "${_Fcitx5Module_NOTFOUND_MESSAGE}Failed to find Fcitx5Module component \"${module}\" config file at \"${CMAKE_CURRENT_LIST_DIR}/Fcitx5Module${module}.cmake\"\n")
+        elseif(NOT Fcitx5Module_FIND_QUIETLY)
+            message(WARNING "Failed to find Fcitx5Module component \"${module}\" config file at \"${CMAKE_CURRENT_LIST_DIR}/Fcitx5Module${module}.cmake\"")
+        endif()
+    endif()
+endforeach()
+
+if (_Fcitx5Module_NOTFOUND_MESSAGE)
+    set(Fcitx5Module_NOT_FOUND_MESSAGE "${_Fcitx5Module_NOTFOUND_MESSAGE}")
+    set(Fcitx5Module_FOUND False)
+endif()

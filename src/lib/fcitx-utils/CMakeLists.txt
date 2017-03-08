@@ -40,6 +40,11 @@ set(FCITX_UTILS_HEADERS
     flags.h
     keysym.h
     keysymgen.h
+    signals.h
+    handlertable.h
+    handlertable_details.h
+    intrusivelist.h
+    misc.h
     ${CMAKE_CURRENT_BINARY_DIR}/fcitxutils_export.h
     )
 

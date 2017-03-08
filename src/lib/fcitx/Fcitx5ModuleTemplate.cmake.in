@@ -1,0 +1,7 @@
+if (TARGET Fcitx5::Module::@FEM_EXPORTNAME@ AND TARGET @FEM_TARGET@-interface)
+    return()
+endif()
+
+add_library(@FEM_TARGET@-interface INTERFACE)
+add_library(Fcitx5::Module::@FEM_EXPORTNAME@ ALIAS @FEM_TARGET@-interface)
+set_target_properties(@FEM_TARGET@-interface PROPERTIES INTERFACE_INCLUDE_DIRECTORIES "@_MODULE_HEADER_DIR@")
