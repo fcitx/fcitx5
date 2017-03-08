@@ -31,6 +31,7 @@ namespace dbus {
 
 typedef std::function<void(const std::string &serviceName, const std::string &oldOwner, const std::string &newOwner)>
     ServiceWatcherCallback;
+typedef HandlerTableEntry<ServiceWatcherCallback> ServiceWatcherEntry;
 
 class ServiceWatcherPrivate;
 
@@ -41,7 +42,7 @@ public:
 
     // unlike regular NameOwnerChanged signal, this will also initiate a GetNameOwner call to avoid race condition
     // if GetNameOwner returns, it will intiate a call (name, "", owner) if service exists, otherwise (name, "", "")
-    HandlerTableEntry<ServiceWatcherCallback> *watchService(const std::string &name, ServiceWatcherCallback callback);
+    ServiceWatcherEntry *watchService(const std::string &name, ServiceWatcherCallback callback);
 
 private:
     std::unique_ptr<ServiceWatcherPrivate> d_ptr;

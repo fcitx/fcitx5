@@ -12,8 +12,6 @@ void WlRegion::destructor(wl_region *data) {
     auto version = wl_region_get_version(data);
     if (version >= 1) {
         return wl_region_destroy(data);
-    } else {
-        return wl_region_destroy(data);
     }
 }
 void WlRegion::add(int32_t x, int32_t y, int32_t width, int32_t height) {

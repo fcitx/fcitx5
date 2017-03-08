@@ -96,7 +96,8 @@ private:
     std::unique_ptr<dbus::Slot> actionMatch_;
     std::unique_ptr<dbus::Slot> closedMatch_;
     dbus::ServiceWatcher watcher_;
-    int notifyCounter_ = 1;
+    std::unique_ptr<dbus::ServiceWatcherEntry> watcherEntry_;
+
     int lastTipId_ = 0;
     uint64_t internalId_ = 0;
     uint64_t epoch_ = 0;

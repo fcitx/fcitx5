@@ -20,8 +20,6 @@ void WlBuffer::destructor(wl_buffer *data) {
     auto version = wl_buffer_get_version(data);
     if (version >= 1) {
         return wl_buffer_destroy(data);
-    } else {
-        return wl_buffer_destroy(data);
     }
 }
 }

@@ -46,8 +46,6 @@ void WlDataSource::destructor(wl_data_source *data) {
     auto version = wl_data_source_get_version(data);
     if (version >= 1) {
         return wl_data_source_destroy(data);
-    } else {
-        return wl_data_source_destroy(data);
     }
 }
 void WlDataSource::offer(const char *mimeType) { return wl_data_source_offer(*this, mimeType); }

@@ -80,37 +80,38 @@ Notifications::Notifications(Instance *instance)
         }
         return true;
     }));
-    watcher_.watchService(NOTIFICATIONS_SERVICE_NAME, [this](const std::string &, const std::string &oldOwner,
-                                                             const std::string &newOwner) {
-        if (!oldOwner.empty()) {
-            capabilities_ = 0;
-            call_.reset();
-            items_.clear();
-            globalToInternalId_.clear();
-            internalId_ = epoch_ << 32u;
-            epoch_++;
-        }
-        if (!newOwner.empty()) {
-            auto message = bus_->createMethodCall(NOTIFICATIONS_SERVICE_NAME, NOTIFICATIONS_PATH,
-                                                  NOTIFICATIONS_INTERFACE_NAME, "GetCapabilities");
-            call_.reset(message.callAsync(0, [this](dbus::Message reply) {
-                std::vector<std::string> capabilities;
-                reply >> capabilities;
-                for (auto &capability : capabilities) {
-                    if (capability == "actions") {
-                        capabilities_ |= NotificationsCapability::Actions;
-                    } else if (capability == "body") {
-                        capabilities_ |= NotificationsCapability::Body;
-                    } else if (capability == "body-hyperlinks") {
-                        capabilities_ |= NotificationsCapability::Link;
-                    } else if (capability == "body-markup") {
-                        capabilities_ |= NotificationsCapability::Markup;
+    watcherEntry_.reset(
+        watcher_.watchService(NOTIFICATIONS_SERVICE_NAME, [this](const std::string &, const std::string &oldOwner,
+                                                                 const std::string &newOwner) {
+            if (!oldOwner.empty()) {
+                capabilities_ = 0;
+                call_.reset();
+                items_.clear();
+                globalToInternalId_.clear();
+                internalId_ = epoch_ << 32u;
+                epoch_++;
+            }
+            if (!newOwner.empty()) {
+                auto message = bus_->createMethodCall(NOTIFICATIONS_SERVICE_NAME, NOTIFICATIONS_PATH,
+                                                      NOTIFICATIONS_INTERFACE_NAME, "GetCapabilities");
+                call_.reset(message.callAsync(0, [this](dbus::Message reply) {
+                    std::vector<std::string> capabilities;
+                    reply >> capabilities;
+                    for (auto &capability : capabilities) {
+                        if (capability == "actions") {
+                            capabilities_ |= NotificationsCapability::Actions;
+                        } else if (capability == "body") {
+                            capabilities_ |= NotificationsCapability::Body;
+                        } else if (capability == "body-hyperlinks") {
+                            capabilities_ |= NotificationsCapability::Link;
+                        } else if (capability == "body-markup") {
+                            capabilities_ |= NotificationsCapability::Markup;
+                        }
                     }
-                }
-                return true;
-            }));
-        }
-    });
+                    return true;
+                }));
+            }
+        }));
 }
 
 Notifications::~Notifications() {}

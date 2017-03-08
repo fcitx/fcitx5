@@ -47,8 +47,6 @@ void ZwpInputMethodContextV1::destructor(zwp_input_method_context_v1 *data) {
     auto version = zwp_input_method_context_v1_get_version(data);
     if (version >= 1) {
         return zwp_input_method_context_v1_destroy(data);
-    } else {
-        return zwp_input_method_context_v1_destroy(data);
     }
 }
 void ZwpInputMethodContextV1::commitString(uint32_t serial, const char *text) {

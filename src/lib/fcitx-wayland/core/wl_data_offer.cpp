@@ -31,8 +31,6 @@ void WlDataOffer::destructor(wl_data_offer *data) {
     auto version = wl_data_offer_get_version(data);
     if (version >= 1) {
         return wl_data_offer_destroy(data);
-    } else {
-        return wl_data_offer_destroy(data);
     }
 }
 void WlDataOffer::accept(uint32_t serial, const char *mimeType) {

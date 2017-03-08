@@ -15,8 +15,6 @@ void WlSubcompositor::destructor(wl_subcompositor *data) {
     auto version = wl_subcompositor_get_version(data);
     if (version >= 1) {
         return wl_subcompositor_destroy(data);
-    } else {
-        return wl_subcompositor_destroy(data);
     }
 }
 WlSubsurface *WlSubcompositor::getSubsurface(WlSurface *surface, WlSurface *parent) {

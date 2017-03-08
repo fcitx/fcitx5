@@ -35,8 +35,6 @@ void WlSurface::destructor(wl_surface *data) {
     auto version = wl_surface_get_version(data);
     if (version >= 1) {
         return wl_surface_destroy(data);
-    } else {
-        return wl_surface_destroy(data);
     }
 }
 void WlSurface::attach(WlBuffer *buffer, int32_t x, int32_t y) { return wl_surface_attach(*this, *buffer, x, y); }
