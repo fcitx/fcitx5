@@ -18,7 +18,7 @@
  */
 
 #include "waylandmodule.h"
-#include <fcitx/instance.h>
+#include "fcitx/instance.h"
 #include <wayland-client.h>
 
 namespace fcitx {

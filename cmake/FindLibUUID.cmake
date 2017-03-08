@@ -37,7 +37,7 @@ endif()
 mark_as_advanced(LIBUUID_INCLUDE_DIR LIBUUID_LIBRARY)
 
 include(FeatureSummary)
-set_package_properties(LIBUUID PROPERTIES
+set_package_properties(LibUUID PROPERTIES
     URL "http://www.kernel.org/pub/linux/utils/util-linux/"
     DESCRIPTION "uuid library in util-linux"
 )

@@ -19,11 +19,11 @@
 
 #include "spell.h"
 #include "config.h"
+#include "fcitx-config/iniparser.h"
 #include "fcitx-utils/standardpath.h"
 #include "fcitx/addonmanager.h"
 #include "spell-custom.h"
 #include "spell-enchant.h"
-#include <fcitx-config/iniparser.h>
 #include <fcntl.h>
 
 namespace fcitx {

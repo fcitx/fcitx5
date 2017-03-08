@@ -22,11 +22,11 @@
 #include "spell-custom-dict.h"
 #include "fcitx-utils/fs.h"
 #include "fcitx-utils/standardpath.h"
+#include "fcitx-utils/utf8.h"
 #include <algorithm>
 #include <cstdint>
 #include <cstring>
 #include <endian.h>
-#include <fcitx-utils/utf8.h>
 #include <fcntl.h>
 #include <sys/stat.h>
 

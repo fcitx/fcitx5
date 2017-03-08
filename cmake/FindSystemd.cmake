@@ -38,7 +38,7 @@ endif()
 mark_as_advanced(SYSTEMD_INCLUDE_DIR SYSTEMD_ARCH_INCLUDE_DIR SYSTEMD_LIBRARY)
 
 include(FeatureSummary)
-set_package_properties(SYSTEMD PROPERTIES
+set_package_properties(Systemd PROPERTIES
     URL "http://www.freedesktop.org/wiki/Software/systemd"
     DESCRIPTION "A system and service manager for Linux"
 )
