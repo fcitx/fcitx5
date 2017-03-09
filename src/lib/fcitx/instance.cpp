@@ -528,18 +528,15 @@ bool Instance::trigger(InputContext *ic) {
     return true;
 }
 
-std::string Instance::commitFilter(InputContext *inputContext, const std::string& orig)
-{
+std::string Instance::commitFilter(InputContext *inputContext, const std::string &orig) {
     std::string result = orig;
     emit<Instance::CommitFilter>(inputContext, result);
     return result;
 }
 
-Text Instance::outputFilter(InputContext *inputContext, const Text& orig)
-{
+Text Instance::outputFilter(InputContext *inputContext, const Text &orig) {
     Text result = orig;
     emit<Instance::OutputFilter>(inputContext, result);
     return result;
 }
-
 }

@@ -115,10 +115,8 @@ std::string Color::toString() const {
     std::string result;
     result.push_back('#');
     unsigned short v[] = {
-        static_cast<unsigned short>(red_ >> 8u),
-        static_cast<unsigned short>(green_ >> 8u),
-        static_cast<unsigned short>(blue_ >> 8u),
-        static_cast<unsigned short>(alpha_ >> 8u),
+        static_cast<unsigned short>(red_ >> 8u), static_cast<unsigned short>(green_ >> 8u),
+        static_cast<unsigned short>(blue_ >> 8u), static_cast<unsigned short>(alpha_ >> 8u),
     };
 
     for (auto value : v) {

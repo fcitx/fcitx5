@@ -398,7 +398,7 @@ void KeyboardEngine::keyEvent(const InputMethodEntry &entry, KeyEvent &event) {
     if (compose) {
         auto composeString = utf8::UCS4ToUTF8(compose);
         event.filterAndAccept();
-        inputContext->commitString("时节");
+        inputContext->commitString(composeString);
     }
 }
 

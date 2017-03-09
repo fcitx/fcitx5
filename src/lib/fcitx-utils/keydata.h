@@ -1642,5 +1642,4 @@ static const struct _FcitxUnicodeToKeySym gdk_unicode_to_keysym_tab[] = {
     {0x0ef7, 0x318e}, /* Hangul_AraeAE ㆎ HANGUL LETTER ARAEAE */
 };
 
-
 #endif // _FCITX_UTILS_KEYDATA_H_
