@@ -20,7 +20,6 @@
 #define _FCITX_UTILS_UNIXFD_H_
 
 #include "fcitxutils_export.h"
-#include <atomic>
 #include <memory>
 
 namespace fcitx {

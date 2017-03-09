@@ -114,9 +114,11 @@ void Color::setFromString(const char *str) {
 std::string Color::toString() const {
     std::string result;
     result.push_back('#');
-    std::array<unsigned short, 4> v = {
-        (unsigned short)(red_ >> 8u), (unsigned short)(green_ >> 8u), (unsigned short)(blue_ >> 8u),
-        (unsigned short)(alpha_ >> 8u),
+    unsigned short v[] = {
+        static_cast<unsigned short>(red_ >> 8u),
+        static_cast<unsigned short>(green_ >> 8u),
+        static_cast<unsigned short>(blue_ >> 8u),
+        static_cast<unsigned short>(alpha_ >> 8u),
     };
 
     for (auto value : v) {

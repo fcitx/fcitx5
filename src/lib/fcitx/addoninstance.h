@@ -125,7 +125,7 @@ AddonFunctionAdaptor<Class, Ret, Args...> MakeAddonFunctionAdaptor(Ret (Class::*
     }
 
 #define FCITX_ADDON_EXPORT_FUNCTION(CLASS, FUNCTION)                                                                   \
-    decltype(MakeAddonFunctionAdaptor(&CLASS::FUNCTION)) FUNCTION##Adaptor{#CLASS "::" #FUNCTION, this,                \
+    decltype(::fcitx::MakeAddonFunctionAdaptor(&CLASS::FUNCTION)) FUNCTION##Adaptor{#CLASS "::" #FUNCTION, this,                \
                                                                            &CLASS::FUNCTION};                          \
     static_assert(                                                                                                     \
         std::is_same<decltype(::fcitx::MakeAddonFunctionAdaptor(&CLASS::FUNCTION))::Signature,                         \

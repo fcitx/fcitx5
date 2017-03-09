@@ -176,14 +176,12 @@ public:
 class FCITXCORE_EXPORT CommitStringEvent : public InputContextEvent {
 public:
     CommitStringEvent(const std::string &text, InputContext *context)
-        : InputContextEvent(context, EventType::InputContextCommitString), originText_(text), text_(text) {}
+        : InputContextEvent(context, EventType::InputContextCommitString), text_(text) {}
 
-    const std::string originText() const { return originText_; }
     const std::string text() const { return text_; }
-    std::string &text() { return text_; }
 
 protected:
-    std::string originText_, text_;
+    std::string text_;
 };
 
 class FCITXCORE_EXPORT InputContextSwitchInputMethodEvent : public InputContextEvent {

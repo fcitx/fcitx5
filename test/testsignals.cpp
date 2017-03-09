@@ -115,12 +115,43 @@ void test_connectable_object() {
     assert(!obj.connect<DynamicTrackableObject::Destroyed>([](void *) {}).connected());
 }
 
+class TestObject2 : public fcitx::ConnectableObject {
+public:
+    FCITX_DECLARE_SIGNAL(TestObject2, test, void(int &));
+    void emitTest(int &i) {
+        emit<TestObject2::test>(i);
+    }
+    FCITX_DECLARE_SIGNAL(TestObject2, test2, void(std::string &));
+    void emitTest2(std::string &s) {
+        emit<TestObject2::test2>(s);
+    }
+private:
+    FCITX_DEFINE_SIGNAL(TestObject2, test);
+    FCITX_DEFINE_SIGNAL(TestObject2, test2);
+};
+
+void test_reference()
+{
+    using namespace fcitx;
+    TestObject2 obj;
+    int i = 0;
+    obj.connect<TestObject2::test>([] (int &i) { i ++; });
+    obj.connect<TestObject2::test>([] (int &i) { i ++; });
+    obj.emitTest(i);
+    std::string s;
+    obj.connect<TestObject2::test2>([] (std::string &s) { s += "a"; });
+    obj.connect<TestObject2::test2>([] (std::string &s) { s += "b"; });
+    obj.emitTest2(s);
+    assert(s == "ab");
+}
+
 int main() {
     test_simple_signal();
     test_combiner();
     test_custom_combiner();
     test_destruct_order();
     test_connectable_object();
+    test_reference();
 
     return 0;
 }

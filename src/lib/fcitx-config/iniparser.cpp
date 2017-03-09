@@ -74,11 +74,12 @@ void readFromIni(RawConfig &config, int fd) {
     }
     // dup it
     UnixFD unixFD(fd);
-    FILE *f = fdopen(unixFD.release(), "r");
+    FILE *f = fdopen(unixFD.fd(), "r");
     if (!f) {
         return;
     }
     ScopedFILE fp{f, fclose};
+    unixFD.release();
     readFromIni(config, fp.get());
 }
 

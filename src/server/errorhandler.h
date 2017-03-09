@@ -36,20 +36,15 @@
  * Functions
  * *********************************************************** */
 
-/**
+/*
  * Set Posix Signal Handler
  *
- * @param  ...
- * @return void
- **/
+ */
 void SetMyExceptionHandler(void);
 
-/**
+/*
  * Process Posix signal
- *
- * @param signo
- * @return void
- **/
+ */
 void OnException(int signo);
 
 #endif

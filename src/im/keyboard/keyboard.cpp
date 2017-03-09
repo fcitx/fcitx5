@@ -210,7 +210,7 @@ std::vector<InputMethodEntry> KeyboardEngine::listInputMethods() {
 
 void KeyboardEngine::reloadConfig() {
     auto &standardPath = StandardPath::global();
-    auto file = standardPath.open(StandardPath::Type::Config, "conf/keyboard.conf", O_RDONLY);
+    auto file = standardPath.open(StandardPath::Type::Config, "fcitx5/conf/keyboard.conf", O_RDONLY);
     RawConfig config;
     readFromIni(config, file.fd());
 
@@ -398,7 +398,7 @@ void KeyboardEngine::keyEvent(const InputMethodEntry &entry, KeyEvent &event) {
     if (compose) {
         auto composeString = utf8::UCS4ToUTF8(compose);
         event.filterAndAccept();
-        inputContext->commitString(composeString);
+        inputContext->commitString("时节");
     }
 }
 

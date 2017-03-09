@@ -41,7 +41,7 @@ Spell::~Spell() {}
 
 void Spell::reloadConfig() {
     auto &standardPath = StandardPath::global();
-    auto file = standardPath.open(StandardPath::Type::Config, "conf/spell.conf", O_RDONLY);
+    auto file = standardPath.open(StandardPath::Type::Config, "fcitx5/conf/spell.conf", O_RDONLY);
     RawConfig config;
     readFromIni(config, file.fd());
 

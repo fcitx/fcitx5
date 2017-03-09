@@ -1,3 +1,24 @@
+/*
+ * Copyright (C) 2017~2017 by CSSlayer
+ * wengxt@gmail.com
+ *
+ * This library is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License as
+ * published by the Free Software Foundation; either version 2 of the
+ * License, or (at your option) any later version.
+ *
+ * This library is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this library; see the file COPYING. If not,
+ * see <http://www.gnu.org/licenses/>.
+ */
+#ifndef _FCITX_IM_KEYBOARD_CHARDATA_H_
+#define _FCITX_IM_KEYBOARD_CHARDATA_H_
+
 static const uint32_t validSyms[] = {
     0x0041,    0x0042,    0x0043,    0x0044,    0x0045,    0x0046,    0x0047,    0x0048,    0x0049,    0x004a,
     0x004b,    0x004c,    0x004d,    0x004e,    0x004f,    0x0050,    0x0051,    0x0052,    0x0053,    0x0054,
@@ -152,3 +173,6 @@ static const uint16_t validChars[] = {
     0x30bb, 0x30bd, 0x30bf, 0x30c1, 0x30c3, 0x30c4, 0x30c6, 0x30c8, 0x30ca, 0x30cb, 0x30cc, 0x30cd, 0x30ce, 0x30cf,
     0x30d2, 0x30d5, 0x30d8, 0x30db, 0x30de, 0x30df, 0x30e0, 0x30e1, 0x30e2, 0x30e3, 0x30e4, 0x30e5, 0x30e6, 0x30e7,
     0x30e8, 0x30e9, 0x30ea, 0x30eb, 0x30ec, 0x30ed, 0x30ef, 0x30f2, 0x30f3};
+
+
+#endif // _FCITX_IM_KEYBOARD_CHARDATA_H_

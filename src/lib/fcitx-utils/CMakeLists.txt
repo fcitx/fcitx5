@@ -45,6 +45,8 @@ set(FCITX_UTILS_HEADERS
     handlertable_details.h
     intrusivelist.h
     misc.h
+    utf8.h
+    cutf8.h
     ${CMAKE_CURRENT_BINARY_DIR}/fcitxutils_export.h
     )
 

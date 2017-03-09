@@ -118,7 +118,7 @@ Notifications::~Notifications() {}
 
 void Notifications::reloadConfig() {
     auto &standardPath = StandardPath::global();
-    auto file = standardPath.open(StandardPath::Type::Config, "conf/notifications.conf", O_RDONLY);
+    auto file = standardPath.open(StandardPath::Type::Config, "fcitx5/conf/notifications.conf", O_RDONLY);
     RawConfig config;
     readFromIni(config, file.fd());
 
@@ -138,7 +138,7 @@ void Notifications::save() {
     config_.hiddenNotifications.setValue(std::move(values_));
 
     auto &standardPath = StandardPath::global();
-    auto file = standardPath.openUserTemp(StandardPath::Type::Config, "conf/notifications.conf");
+    auto file = standardPath.openUserTemp(StandardPath::Type::Config, "fcitx5/conf/notifications.conf");
     RawConfig config;
 
     config_.save(config);

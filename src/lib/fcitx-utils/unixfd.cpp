@@ -32,7 +32,7 @@ UnixFD::UnixFD(UnixFD &&other) noexcept {
     other.fd_ = -1;
 }
 
-UnixFD::~UnixFD() { reset(); }
+UnixFD::~UnixFD() noexcept { reset(); }
 
 UnixFD &UnixFD::operator=(UnixFD &&other) noexcept {
     using std::swap;

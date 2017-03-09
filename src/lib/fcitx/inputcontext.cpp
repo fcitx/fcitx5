@@ -201,7 +201,12 @@ void InputContext::commitString(const std::string &text) {
     FCITX_D();
     CommitStringEvent event(text, this);
     if (!d->postEvent(event)) {
-        commitStringImpl(event.text());
+        if (auto instance = d->manager_.instance()) {
+            auto newString = instance->commitFilter(this, event.text());
+            commitStringImpl(newString);
+        } else {
+            commitStringImpl(event.text());
+        }
     }
 }
 

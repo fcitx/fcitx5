@@ -26,7 +26,8 @@
 #include "configuration.h"
 
 namespace fcitx {
-struct ConfigurationPrivate {
+class ConfigurationPrivate {
+public:
     std::list<std::string> optionsOrder_;
     std::unordered_map<std::string, OptionBase *> options_;
 };

@@ -118,7 +118,7 @@ struct InstanceArgument {
 
 class InstancePrivate {
 public:
-    InstancePrivate(Instance *) {}
+    InstancePrivate(Instance *q) : InstanceCommitFilterAdaptor(q), InstanceOutputFilterAdaptor(q) {}
 
     InstanceArgument arg_;
     bool initialized_ = false;
@@ -135,6 +135,9 @@ public:
     std::unordered_map<EventType, std::unordered_map<EventWatcherPhase, HandlerTable<EventHandler>, EnumHash>, EnumHash>
         eventHandlers_;
     std::vector<std::unique_ptr<HandlerTableEntry<EventHandler>>> eventWatchers_;
+
+    FCITX_DEFINE_SIGNAL_PRIVATE(Instance, CommitFilter);
+    FCITX_DEFINE_SIGNAL_PRIVATE(Instance, OutputFilter);
 };
 
 Instance::Instance(int argc, char **argv) {
@@ -524,4 +527,19 @@ bool Instance::trigger(InputContext *ic) {
     inputState->active = !inputState->active;
     return true;
 }
+
+std::string Instance::commitFilter(InputContext *inputContext, const std::string& orig)
+{
+    std::string result = orig;
+    emit<Instance::CommitFilter>(inputContext, result);
+    return result;
+}
+
+Text Instance::outputFilter(InputContext *inputContext, const Text& orig)
+{
+    Text result = orig;
+    emit<Instance::OutputFilter>(inputContext, result);
+    return result;
+}
+
 }

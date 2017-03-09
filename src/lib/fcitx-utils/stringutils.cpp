@@ -163,7 +163,7 @@ const char *backwardSearch(const char *haystack, size_t l, const char *needle, s
 }
 
 char *backwardSearch(char *haystack, size_t l, const char *needle, size_t ol, size_t from) {
-    return const_cast<char *>(backwardSearch(haystack, l, needle, ol, from));
+    return const_cast<char *>(backwardSearch(static_cast<const char *>(haystack), l, needle, ol, from));
 }
 
 size_t backwardSearch(const std::string &haystack, const std::string &needle, size_t from) {

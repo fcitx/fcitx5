@@ -190,7 +190,7 @@ public:
         }
         return c1 == c2;
     }
-    int wordCheck(const std::string &str) {
+    int wordCheck(const std::string &str) override {
         if (isFirstCapital(str))
             return CUSTOM_FIRST_CAPITAL;
         if (isAllCapital(str))

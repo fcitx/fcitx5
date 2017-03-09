@@ -1,4 +1,3 @@
-
 /* GDK - The GIMP Drawing Kit
 * Copyright (C) 1995-1997 Peter Mattis, Spencer Kimball and Josh MacDonald
 *
@@ -33,6 +32,8 @@
 * doing so
 * is smallish. It would save about ~1000 bytes total.
 */
+#ifndef _FCITX_UTILS_KEYDATA_H_
+#define _FCITX_UTILS_KEYDATA_H_
 
 struct _FcitxKeySymToUnicode {
     uint16_t keysym;
@@ -1640,3 +1641,6 @@ static const struct _FcitxUnicodeToKeySym gdk_unicode_to_keysym_tab[] = {
     {0x0ef6, 0x318d}, /* Hangul_AraeA ㆍ HANGUL LETTER ARAEA */
     {0x0ef7, 0x318e}, /* Hangul_AraeAE ㆎ HANGUL LETTER ARAEAE */
 };
+
+
+#endif // _FCITX_UTILS_KEYDATA_H_

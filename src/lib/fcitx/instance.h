@@ -69,11 +69,11 @@ public:
     const InputMethodEntry *inputMethodEntry(InputContext *ic);
     InputMethodEngine *inputMethodEngine(InputContext *ic);
 
-    std::string commitFilter(const std::string &orig);
-    Text outputFilter(const Text &orig);
+    std::string commitFilter(InputContext *inputContext, const std::string &orig);
+    Text outputFilter(InputContext *inputContext, const Text &orig);
 
-    FCITX_DECLARE_SIGNAL(Instance, CommitFilter, std::string(const std::string &orig));
-    FCITX_DECLARE_SIGNAL(Instance, OutputFilter, Text(const Text &orig));
+    FCITX_DECLARE_SIGNAL(Instance, CommitFilter, void(InputContext *inputContext, std::string &orig));
+    FCITX_DECLARE_SIGNAL(Instance, OutputFilter, void(InputContext *inputContext, Text &orig));
 
     // controller
     void exit();

@@ -31,7 +31,7 @@
     }
 
 #define FCITX_DEFINE_SIGNAL(CLASS_NAME, NAME)                                                                          \
-    SignalAdaptor<CLASS_NAME::NAME> CLASS_NAME##NAME##Adaptor { this }
+    ::fcitx::SignalAdaptor<CLASS_NAME::NAME> CLASS_NAME##NAME##Adaptor { this }
 
 #define FCITX_DEFINE_SIGNAL_PRIVATE(CLASS_NAME, NAME) SignalAdaptor<CLASS_NAME::NAME> CLASS_NAME##NAME##Adaptor
 

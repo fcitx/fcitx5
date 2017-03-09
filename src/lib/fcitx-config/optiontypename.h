@@ -27,7 +27,7 @@
 namespace fcitx {
 
 #define FCITX_SPECIALIZE_TYPENAME(TYPE, NAME)                                                                          \
-    static inline std::string configTypeNameHelper(TYPE *) { return NAME; }
+    static inline std::string _FCITX_UNUSED_ configTypeNameHelper(TYPE *) { return NAME; }
 
 FCITX_SPECIALIZE_TYPENAME(bool, "Boolean");
 FCITX_SPECIALIZE_TYPENAME(int, "Integer");
