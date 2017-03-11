@@ -29,9 +29,9 @@
 #include <fcitx-utils/rect.h>
 #include <fcitx-utils/trackableobject.h>
 #include <fcitx/event.h>
-#include <fcitx/inputpanel.h>
 #include <fcitx/surroundingtext.h>
 #include <fcitx/text.h>
+#include <fcitx/userinterface.h>
 #include <memory>
 #include <string>
 #include <uuid/uuid.h>
@@ -80,6 +80,8 @@ class InputContextManager;
 class FocusGroup;
 class InputContextPrivate;
 class InputContextProperty;
+class InputPanel;
+class StatusArea;
 
 class FCITXCORE_EXPORT InputContext : public TrackableObject<InputContext> {
     friend class InputContextManagerPrivate;
@@ -98,7 +100,7 @@ public:
     void focusOut();
     void setFocusGroup(FocusGroup *group);
     FocusGroup *focusGroup() const;
-    void reset();
+    void reset(ResetReason reason);
     void setCapabilityFlags(CapabilityFlags flags);
     CapabilityFlags capabilityFlags();
     void setCursorRect(Rect rect);
@@ -114,10 +116,12 @@ public:
     void deleteSurroundingText(int offset, unsigned int size);
     void forwardKey(const Key &rawKey, bool isRelease = false, int keyCode = 0, int time = 0);
     void updatePreedit();
+    void updateUserInterface(UserInterfaceComponent componet);
 
     InputContextProperty *property(const std::string &name);
 
     InputPanel &inputPanel();
+    StatusArea &statusArea();
 
     template <typename T>
     T *propertyAs(const std::string &name) {
@@ -135,6 +139,7 @@ protected:
     void registerProperty(const std::string &name, InputContextProperty *property);
     void unregisterProperty(const std::string &name);
     void destroy();
+    void created();
 
 private:
     void setHasFocus(bool hasFocus);

@@ -78,6 +78,11 @@ public:
     inline Flags operator&(Enum f) const { return Flags(flags_ & static_cast<storage_type>(f)); }
     inline Flags operator~() const { return Flags(~flags_); }
 
+    template <typename T>
+    inline bool test(T f) const {
+        return (*this & f) == f;
+    }
+
     bool operator==(const Flags &f) const { return flags_ == f.flags_; }
     bool operator==(Enum f) const { return flags_ == static_cast<storage_type>(f); }
     bool operator!=(const Flags &f) const { return !operator==(f); }

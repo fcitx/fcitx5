@@ -410,6 +410,7 @@ void KeyboardEngine::commitBuffer(InputContext *inputContext) {
         state->reset();
         inputContext->inputPanel().reset();
         inputContext->updatePreedit();
+        inputContext->updateUserInterface(UserInterfaceComponent::InputPanel);
     }
 }
 
@@ -422,6 +423,7 @@ public:
         inputContext->commitString(text().toString());
         inputContext->inputPanel().reset();
         inputContext->updatePreedit();
+        inputContext->updateUserInterface(UserInterfaceComponent::InputPanel);
         state->reset();
     }
 };
@@ -437,10 +439,12 @@ void KeyboardEngine::updateCandidate(const InputMethodEntry &entry, InputContext
     Text preedit(state->buffer_);
     preedit.setCursor(state->cursorPos_);
     inputContext->inputPanel().setClientPreedit(std::move(preedit));
-    if (inputContext->capabilityFlags()) {
+    if (!inputContext->capabilityFlags().test(CapabilityFlag::Preedit)) {
+        inputContext->inputPanel().setPreedit(std::move(preedit));
     }
     inputContext->inputPanel().setCandidateList(candidateList);
     inputContext->updatePreedit();
+    inputContext->updateUserInterface(UserInterfaceComponent::InputPanel);
 }
 void KeyboardEngine::reset(const InputMethodEntry &, InputContextEvent &event) {
     auto inputContext = event.inputContext();
@@ -448,5 +452,6 @@ void KeyboardEngine::reset(const InputMethodEntry &, InputContextEvent &event) {
     state->reset();
     inputContext->inputPanel().reset();
     inputContext->updatePreedit();
+    inputContext->updateUserInterface(UserInterfaceComponent::InputPanel);
 }
 }

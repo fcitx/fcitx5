@@ -19,22 +19,20 @@
 
 #include "statusarea.h"
 #include "action.h"
+#include "inputcontext.h"
 
 namespace fcitx {
 
 class StatusAreaPrivate {
 public:
-    StatusAreaPrivate(StatusArea *q) : StatusAreaUpdateAdaptor(q) {}
+    StatusAreaPrivate(InputContext *ic) : ic_(ic) {}
     Action separatorBeforeIM, separatorAfterIM;
-    std::unordered_map<Action *, ScopedConnection> actions_;
-    FCITX_DEFINE_SIGNAL_PRIVATE(StatusArea, Update);
+    std::unordered_map<Action *, std::vector<ScopedConnection>> actions_;
+    InputContext *ic_;
+    void update() { ic_->updatePreedit(); }
 };
 
-StatusArea::StatusArea() : d_ptr(std::make_unique<StatusAreaPrivate>(this)) {
-    FCITX_D();
-    addChild(&d->separatorBeforeIM);
-    addChild(&d->separatorAfterIM);
-}
+StatusArea::StatusArea(InputContext *ic) : d_ptr(std::make_unique<StatusAreaPrivate>(ic)) { clear(); }
 
 StatusArea::~StatusArea() {}
 
@@ -51,16 +49,40 @@ void StatusArea::addAction(StatusGroup group, Action *action) {
         addChild(action);
         break;
     }
-    ScopedConnection conn = action->connect<ObjectDestroyed>([this](void *p) {
+    d->actions_[action].emplace_back(action->connect<ObjectDestroyed>([this](void *p) {
         auto action = static_cast<Action *>(p);
         removeAction(action);
-    });
-    d->actions_.emplace(std::make_pair(action, std::move(conn)));
-    emit<StatusArea::Update>();
+    }));
+    d->actions_[action].emplace_back(action->connect<Action::Update>([this, d](InputContext *ic) {
+        if (ic == d->ic_) {
+            d->update();
+        }
+    }));
+    d->update();
 }
 
 void StatusArea::removeAction(Action *action) {
+    FCITX_D();
     removeChild(action);
-    emit<StatusArea::Update>();
+    d->actions_.erase(action);
+    d->update();
+}
+
+void StatusArea::clear() {
+    FCITX_D();
+    removeAllChild();
+    addChild(&d->separatorBeforeIM);
+    addChild(&d->separatorAfterIM);
+}
+
+std::vector<Action *> StatusArea::actions() {
+    FCITX_D();
+    std::vector<Action *> result;
+    for (auto ele : childs()) {
+        if (ele != &d->separatorBeforeIM && ele != &d->separatorAfterIM) {
+            result.push_back(static_cast<Action *>(ele));
+        }
+    }
+    return result;
 }
 }

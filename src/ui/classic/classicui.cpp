@@ -59,7 +59,7 @@ void ClassicUI::suspend() {}
 
 void ClassicUI::resume() {}
 
-void ClassicUI::update(UserInterfaceComponent component) {}
+void ClassicUI::update(UserInterfaceComponent component, InputContext *inputContext) {}
 
 class ClassicUIFactory : public AddonFactory {
 public:

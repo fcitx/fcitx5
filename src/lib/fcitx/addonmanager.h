@@ -40,7 +40,8 @@ public:
 
     void registerDefaultLoader(StaticAddonRegistry *registry);
     void registerLoader(std::unique_ptr<AddonLoader> loader);
-    void load();
+    void load(const std::unordered_set<std::string> &enabled = {},
+              const std::unordered_set<std::string> &disabled = {});
     void unload();
 
     AddonInstance *addon(const std::string &name, bool load = false);

@@ -30,8 +30,6 @@ namespace fcitx {
 InputContext::InputContext(InputContextManager &manager, const std::string &program)
     : d_ptr(std::make_unique<InputContextPrivate>(this, manager, program)) {
     manager.registerInputContext(*this);
-    FCITX_D();
-    d->emplaceEvent<InputContextCreatedEvent>(this);
 }
 
 InputContext::~InputContext() {
@@ -41,12 +39,17 @@ InputContext::~InputContext() {
     }
 }
 
+void InputContext::created() {
+    FCITX_D();
+    d->emplaceEvent<InputContextCreatedEvent>(this);
+}
+
 void InputContext::destroy() {
     FCITX_D();
-    d->emplaceEvent<InputContextDestroyedEvent>(this);
     if (d->group_) {
         d->group_->removeInputContext(this);
     }
+    d->emplaceEvent<InputContextDestroyedEvent>(this);
     d->manager_.unregisterInputContext(*this);
     d->destroyed_ = true;
 }
@@ -177,9 +180,9 @@ bool InputContext::keyEvent(KeyEvent &event) {
     return d->postEvent(event);
 }
 
-void InputContext::reset() {
+void InputContext::reset(ResetReason reason) {
     FCITX_D();
-    d->emplaceEvent<ResetEvent>(this);
+    d->emplaceEvent<ResetEvent>(reason, this);
 }
 
 SurroundingText &InputContext::surroundingText() {
@@ -222,14 +225,23 @@ void InputContext::forwardKey(const Key &rawKey, bool isRelease, int keyCode, in
 
 void InputContext::updatePreedit() {
     FCITX_D();
-    UpdatePreeditEvent event(this);
-    if (!d->postEvent(event)) {
+    if (!d->emplaceEvent<UpdatePreeditEvent>(this)) {
         updatePreeditImpl();
     }
+}
+
+void InputContext::updateUserInterface(UserInterfaceComponent component) {
+    FCITX_D();
+    d->emplaceEvent<InputContextUpdateUIEvent>(component, this);
 }
 
 InputPanel &InputContext::inputPanel() {
     FCITX_D();
     return d->inputPanel_;
+}
+
+StatusArea &InputContext::statusArea() {
+    FCITX_D();
+    return d->statusArea_;
 }
 }

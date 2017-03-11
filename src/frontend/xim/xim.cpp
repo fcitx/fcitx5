@@ -99,6 +99,7 @@ public:
     auto im() { return im_.get(); }
 
     auto root() { return root_; }
+    auto focusGroup() { return group_; }
 
 private:
     FocusGroup *group_;
@@ -113,7 +114,10 @@ private:
 class XIMInputContext : public InputContext {
 public:
     XIMInputContext(InputContextManager &inputContextManager, XIMServer *server, xcb_im_input_context_t *ic)
-        : InputContext(inputContextManager), server_(server), xic_(ic) {}
+        : InputContext(inputContextManager), server_(server), xic_(ic) {
+        setFocusGroup(server->focusGroup());
+        created();
+    }
     ~XIMInputContext() { destroy(); }
 
 protected:
@@ -240,7 +244,6 @@ void XIMServer::callback(xcb_im_client_t *client, xcb_im_input_context_t *xic, c
     switch (hdr->major_opcode) {
     case XCB_XIM_CREATE_IC:
         ic = new XIMInputContext(parent_->instance()->inputContextManager(), this, xic);
-        ic->setFocusGroup(group_);
         xcb_im_input_context_set_data(xic, ic, nullptr);
         break;
     case XCB_XIM_DESTROY_IC:
@@ -265,7 +268,7 @@ void XIMServer::callback(xcb_im_client_t *client, xcb_im_input_context_t *xic, c
         break;
     }
     case XCB_XIM_RESET_IC:
-        ic->reset();
+        ic->reset(ResetReason::Client);
         break;
     case XCB_XIM_SET_IC_FOCUS:
         ic->focusIn();

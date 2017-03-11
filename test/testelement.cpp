@@ -30,6 +30,8 @@ public:
     using fcitx::Element::removeChild;
     using fcitx::Element::insertParent;
     using fcitx::Element::insertChild;
+    using fcitx::Element::parents;
+    using fcitx::Element::childs;
 };
 }
 

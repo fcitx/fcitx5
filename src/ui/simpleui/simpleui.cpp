@@ -20,6 +20,11 @@
 #include "simpleui.h"
 #include "fcitx/addonfactory.h"
 #include "fcitx/addonmanager.h"
+#include "fcitx/candidatelist.h"
+#include "fcitx/inputcontext.h"
+#include "fcitx/inputpanel.h"
+#include "fcitx/statusarea.h"
+#include <iostream>
 
 namespace fcitx {
 
@@ -31,20 +36,35 @@ void SimpleUI::resume() {}
 
 void SimpleUI::suspend() {}
 
-void SimpleUI::update(UserInterfaceComponent component) {
+void SimpleUI::update(UserInterfaceComponent component, InputContext *inputContext) {
     switch (component) {
     case UserInterfaceComponent::StatusArea:
-        printStatusArea();
+        printStatusArea(inputContext);
         break;
     case UserInterfaceComponent::InputPanel:
-        printInputPanel();
+        printInputPanel(inputContext);
         break;
     }
 }
 
-void SimpleUI::printStatusArea() {}
+void SimpleUI::printStatusArea(InputContext *inputContext) {
+    auto &statusArea = inputContext->statusArea();
+    statusArea.actions();
+}
 
-void SimpleUI::printInputPanel() {}
+void SimpleUI::printInputPanel(InputContext *inputContext) {
+    auto &inputPanel = inputContext->inputPanel();
+    std::cerr << "Preedit: " << inputPanel.preedit().toString() << std::endl;
+    std::cerr << "AuxUp: " << inputPanel.auxUp().toString() << std::endl;
+    std::cerr << "AuxDown: " << inputPanel.auxDown().toString() << std::endl;
+    std::cerr << "Candidates: " << std::endl;
+    if (auto candidateList = inputPanel.candidateList()) {
+        for (int i = 0; i < candidateList->size(); i++) {
+            std::cerr << candidateList->label(i).toString() << " " << candidateList->candidate(i).text().toString()
+                      << std::endl;
+        }
+    }
+}
 
 class SimpleUIFactory : public AddonFactory {
 public:

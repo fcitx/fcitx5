@@ -94,6 +94,7 @@ public:
     EventSourceIO *addIOEvent(int fd, IOEventFlags flags, IOCallback callback);
     EventSourceTime *addTimeEvent(clockid_t clock, uint64_t usec, uint64_t accuracy, TimeCallback callback);
     EventSource *addExitEvent(EventCallback callback);
+    EventSource *addDeferEvent(EventCallback callback);
 
 private:
     std::unique_ptr<EventLoopPrivate> d_ptr;

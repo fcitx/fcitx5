@@ -32,11 +32,11 @@ public:
     Instance *instance() { return instance_; }
     void suspend() override;
     void resume() override;
-    void update(UserInterfaceComponent component) override;
+    void update(UserInterfaceComponent component, InputContext *inputContext) override;
 
 private:
-    void printStatusArea();
-    void printInputPanel();
+    void printStatusArea(InputContext *inputContext);
+    void printInputPanel(InputContext *inputContext);
 
     Instance *instance_;
 };

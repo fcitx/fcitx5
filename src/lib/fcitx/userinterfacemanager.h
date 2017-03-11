@@ -24,6 +24,7 @@
 #include <fcitx/addonmanager.h>
 #include <fcitx/inputpanel.h>
 #include <fcitx/statusarea.h>
+#include <fcitx/userinterface.h>
 #include <memory>
 
 namespace fcitx {
@@ -35,14 +36,13 @@ public:
     UserInterfaceManager();
     virtual ~UserInterfaceManager();
 
-    void load(AddonManager *manager);
+    void load(AddonManager *manager, const std::string &ui = {});
     bool registerAction(const std::string &name, Action *action);
     void unregisterAction(Action *action);
     Action *lookupAction(const std::string &name);
-
-    StatusArea &statusArea();
-    InputPanel &inputPanel();
-    void update();
+    void update(UserInterfaceComponent component, InputContext *inputContext);
+    void expire(InputContext *inputContext);
+    void flush();
 
 private:
     std::unique_ptr<UserInterfaceManagerPrivate> d_ptr;

@@ -88,9 +88,13 @@ void InputMethodGroup::setDefaultInputMethod(const std::string &im) {
     FCITX_D();
     if (std::any_of(d->inputMethodList_.begin(), d->inputMethodList_.end(),
                     [&im](const InputMethodGroupItem &item) { return item.name() == im; })) {
-        d->defaultInputMethod_ = im;
+        if (d->inputMethodList_.size() > 1 && d->inputMethodList_[0].name() == im) {
+            d->defaultInputMethod_ = d->inputMethodList_[1].name();
+        } else {
+            d->defaultInputMethod_ = im;
+        }
     } else {
-        if (d->inputMethodList_.size() >= 1) {
+        if (d->inputMethodList_.size() > 1) {
             d->defaultInputMethod_ = d->inputMethodList_[1].name();
         } else {
             d->defaultInputMethod_ = d->inputMethodList_.empty() ? "" : d->inputMethodList_[0].name();

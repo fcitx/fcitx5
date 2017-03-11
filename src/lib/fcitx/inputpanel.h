@@ -49,6 +49,7 @@ public:
     CandidateList *candidateList();
     void setCandidateList(CandidateList *candidate);
 
+    void update();
     void reset();
 
 private:

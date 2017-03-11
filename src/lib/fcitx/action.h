@@ -29,6 +29,7 @@ namespace fcitx {
 class ActionPrivate;
 class Menu;
 class UserInterfaceManager;
+class InputContext;
 
 class FCITXCORE_EXPORT Action : public Element {
     friend class UserInterfaceManager;
@@ -40,30 +41,23 @@ public:
     bool isSeparator() const;
     Action &setSeparator(bool separator);
 
-    const std::string &name() const;
-    bool registerAction(const std::string &name, UserInterfaceManager *uiManager);
-
-    const std::string &text() const;
-    Action &setText(const std::string &text);
-    const std::string &icon() const;
-    Action &setIcon(const std::string &icon);
-
     bool isCheckable() const;
     Action &setCheckable(bool checkable);
 
-    bool isChecked() const;
-    Action &setChecked(bool checked);
+    const std::string &name() const;
+    bool registerAction(const std::string &name, UserInterfaceManager *uiManager);
 
-    bool isEnabled() const;
-    Action &setEnabled(bool enabled);
+    virtual std::string text(InputContext *) const { return {}; }
+    virtual std::string icon(InputContext *) const { return {}; }
+
+    virtual bool isChecked(InputContext *) const { return false; }
 
     void setMenu(Menu *menu);
     Menu *menu();
 
-    void activate();
+    void activate(InputContext *) {}
 
-    FCITX_DECLARE_SIGNAL(Action, Activated, void());
-    FCITX_DECLARE_SIGNAL(Action, Update, void());
+    FCITX_DECLARE_SIGNAL(Action, Update, void(InputContext *));
 
 private:
     void setName(const std::string &name);

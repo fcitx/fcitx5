@@ -42,7 +42,14 @@ class InputMethodEntry;
 class UserInterfaceManager;
 class GlobalConfig;
 typedef std::function<void(Event &event)> EventHandler;
-enum class EventWatcherPhase { PreInputMethod, InputMethod, PostInputMethod, Default = PostInputMethod };
+enum class EventWatcherPhase {
+    PreInputMethod,
+    InputMethod,
+    PostInputMethod,
+    ReservedFirst,
+    ReservedLast,
+    Default = PostInputMethod
+};
 
 class FCITXCORE_EXPORT Instance : public ConnectableObject {
 public:

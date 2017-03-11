@@ -21,17 +21,14 @@
 
 #include "fcitxcore_export.h"
 #include <fcitx-utils/key.h>
+#include <fcitx/userinterface.h>
 #include <stdint.h>
 
 namespace fcitx {
 
 class InputContext;
 
-enum class ResetReason {
-    ChangeByInactivate,
-    LostFocus,
-    SwitchIM,
-};
+enum class ResetReason { ChangeByInactivate, LostFocus, SwitchIM, Client };
 
 enum class InputMethodSwitchedReason {
     Trigger,
@@ -96,6 +93,7 @@ enum class EventType : uint32_t {
     InputContextCommitString = InputMethodEventFlag | 0x2,
     InputContextDeleteSurroundingText = InputMethodEventFlag | 0x3,
     InputContextUpdatePreedit = InputMethodEventFlag | 0x4,
+    InputContextUpdateUI = InputMethodEventFlag | 0x5,
 
     // send by im or module, captured by ui TODO
 
@@ -118,16 +116,11 @@ public:
     EventType type() const { return type_; }
     void accept() { accepted_ = true; }
     bool accepted() const { return accepted_; }
-    void filter() { filtered_ = true; }
-    bool filtered() const { return filtered_; }
-    void filterAndAccept() {
-        filter();
-        accept();
-    }
+    virtual bool filtered() const { return false; }
 
 protected:
     EventType type_;
-    bool accepted_ = false, filtered_ = false;
+    bool accepted_ = false;
 };
 
 class FCITXCORE_EXPORT InputContextEvent : public Event {
@@ -165,6 +158,16 @@ class FCITXCORE_EXPORT KeyEvent : public KeyEventBase {
 public:
     KeyEvent(InputContext *context, Key rawKey, bool isRelease = false, int keyCode = 0, int time = 0)
         : KeyEventBase(EventType::InputContextKeyEvent, context, rawKey, isRelease, keyCode, time) {}
+
+    void filter() { filtered_ = true; }
+    virtual bool filtered() const { return filtered_; }
+    void filterAndAccept() {
+        filter();
+        accept();
+    }
+
+private:
+    bool filtered_ = false;
 };
 
 class FCITXCORE_EXPORT ForwardKeyEvent : public KeyEventBase {
@@ -199,6 +202,28 @@ protected:
     std::string oldInputMethod_;
 };
 
+class FCITXCORE_EXPORT ResetEvent : public InputContextEvent {
+public:
+    ResetEvent(ResetReason reason, InputContext *context)
+        : InputContextEvent(context, EventType::InputContextReset), reason_(reason) {}
+
+    ResetReason reason() const { return reason_; }
+
+protected:
+    ResetReason reason_;
+};
+
+class FCITXCORE_EXPORT InputContextUpdateUIEvent : public InputContextEvent {
+public:
+    InputContextUpdateUIEvent(UserInterfaceComponent component, InputContext *context)
+        : InputContextEvent(context, EventType::InputContextUpdateUI), component_(component) {}
+
+    UserInterfaceComponent component() const { return component_; }
+
+protected:
+    UserInterfaceComponent component_;
+};
+
 #define FCITX_DEFINE_SIMPLE_EVENT(NAME, TYPE, ARGS...)                                                                 \
     struct FCITXCORE_EXPORT NAME##Event : public InputContextEvent {                                                   \
         NAME##Event(InputContext *ic) : InputContextEvent(ic, EventType::TYPE) {}                                      \
@@ -208,7 +233,6 @@ FCITX_DEFINE_SIMPLE_EVENT(InputContextCreated, InputContextCreated);
 FCITX_DEFINE_SIMPLE_EVENT(InputContextDestroyed, InputContextDestroyed);
 FCITX_DEFINE_SIMPLE_EVENT(FocusIn, InputContextFocusIn);
 FCITX_DEFINE_SIMPLE_EVENT(FocusOut, InputContextFocusOut);
-FCITX_DEFINE_SIMPLE_EVENT(Reset, InputContextReset);
 FCITX_DEFINE_SIMPLE_EVENT(SurroundingTextUpdated, InputContextSurroundingTextUpdated);
 FCITX_DEFINE_SIMPLE_EVENT(CapabilityChanged, InputContextCapabilityChanged);
 FCITX_DEFINE_SIMPLE_EVENT(CursorRectChanged, InputContextCursorRectChanged);

@@ -40,10 +40,8 @@ int main() {
         auto menu = std::make_unique<Menu>();
         Action a;
         a.setMenu(menu.get());
-        bool called = false;
-        a.connect<Action::Update>([&called]() { called = true; });
         menu.reset();
-        assert(called);
+        assert(a.menu() == nullptr);
     }
     return 0;
 }

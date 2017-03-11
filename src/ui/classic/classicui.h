@@ -43,7 +43,7 @@ public:
     Instance *instance() { return instance_; }
     void suspend() override;
     void resume() override;
-    void update(UserInterfaceComponent component) override;
+    void update(UserInterfaceComponent component, InputContext *inputContext) override;
 
 private:
     std::unique_ptr<HandlerTableEntry<XCBConnectionCreated>> xcbCreatedCallback_;

@@ -23,7 +23,9 @@
 #include <fcitx/inputcontext.h>
 #include <fcitx/inputcontextmanager.h>
 #include <fcitx/inputcontextproperty.h>
+#include <fcitx/inputpanel.h>
 #include <fcitx/instance.h>
+#include <fcitx/statusarea.h>
 #include <unordered_map>
 #include <uuid/uuid.h>
 
@@ -32,7 +34,8 @@ namespace fcitx {
 class InputContextPrivate {
 public:
     InputContextPrivate(InputContext *q, InputContextManager &manager, const std::string &program)
-        : q_ptr(q), manager_(manager), group_(nullptr), inputPanel_(q), hasFocus_(false), program_(program) {
+        : q_ptr(q), manager_(manager), group_(nullptr), inputPanel_(q), statusArea_(q), hasFocus_(false),
+          program_(program) {
         uuid_generate(uuid_.data());
     }
 
@@ -62,6 +65,7 @@ public:
     InputContextManager &manager_;
     FocusGroup *group_;
     InputPanel inputPanel_;
+    StatusArea statusArea_;
     bool hasFocus_;
     std::string program_;
     CapabilityFlags capabilityFlags_;

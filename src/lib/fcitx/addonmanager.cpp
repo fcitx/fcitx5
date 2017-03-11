@@ -181,7 +181,8 @@ void AddonManager::registerDefaultLoader(StaticAddonRegistry *registry) {
     }
 }
 
-void AddonManager::load() {
+void AddonManager::load(const std::unordered_set<std::string> &enabled,
+                        const std::unordered_set<std::string> &disabled) {
     FCITX_D();
     auto &path = StandardPath::global();
     auto files = path.multiOpenAll(StandardPath::Type::Data, "fcitx5/addon", O_RDONLY, filter::Suffix(".conf"));
@@ -193,6 +194,17 @@ void AddonManager::load() {
             auto fd = iter->fd();
             readFromIni(config, fd);
         }
+
+        // override configuration
+        auto name = config.valueByPath("Addon/Name");
+        if (name) {
+            if (disabled.count(*name)) {
+                config.setValueByPath("Addon/Enabled", "False");
+            } else if (enabled.count(*name)) {
+                config.setValueByPath("Addon/Enabled", "True");
+            }
+        }
+
         auto addon = std::make_unique<Addon>(config);
         if (addon->isValid()) {
             d->addons_[addon->info().name()] = std::move(addon);

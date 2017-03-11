@@ -72,7 +72,7 @@ public:
         if ((err = sd_event_source_get_enabled(eventSource_, &result)) < 0) {
             throw EventLoopException(err);
         }
-        return result != 0;
+        return result != SD_EVENT_OFF;
     }
 
     virtual void setEnabled(bool enabled) override {
@@ -278,7 +278,7 @@ EventSourceTime *EventLoop::addTimeEvent(clockid_t clock, uint64_t usec, uint64_
     return source.release();
 }
 
-int ExitEventCallback(sd_event_source *, void *userdata) {
+int StaticEventCallback(sd_event_source *, void *userdata) {
     auto source = static_cast<SDEventSource *>(userdata);
 
     try {
@@ -296,7 +296,19 @@ EventSource *EventLoop::addExitEvent(EventCallback callback) {
     auto source = std::make_unique<SDEventSource>(callback);
     sd_event_source *sdEventSource;
     int err;
-    if ((err = sd_event_add_exit(d->event_, &sdEventSource, ExitEventCallback, source.get())) < 0) {
+    if ((err = sd_event_add_exit(d->event_, &sdEventSource, StaticEventCallback, source.get())) < 0) {
+        throw EventLoopException(err);
+    }
+    source->setEventSource(sdEventSource);
+    return source.release();
+}
+
+EventSource *EventLoop::addDeferEvent(EventCallback callback) {
+    FCITX_D();
+    auto source = std::make_unique<SDEventSource>(callback);
+    sd_event_source *sdEventSource;
+    int err;
+    if ((err = sd_event_add_defer(d->event_, &sdEventSource, StaticEventCallback, source.get())) < 0) {
         throw EventLoopException(err);
     }
     source->setEventSource(sdEventSource);

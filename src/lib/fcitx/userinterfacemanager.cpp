@@ -19,6 +19,7 @@
 
 #include "userinterfacemanager.h"
 #include "action.h"
+#include "inputcontext.h"
 #include "userinterface.h"
 
 namespace fcitx {
@@ -32,52 +33,41 @@ struct UserInterfaceComponentHash {
 
 class UserInterfaceManagerPrivate {
 public:
-    UserInterfaceManagerPrivate() {
-        UserInterfaceComponent comps[] = {UserInterfaceComponent::InputPanel, UserInterfaceComponent::StatusArea};
-        for (auto comp : comps) {
-            dirty_[comp] = false;
-        }
-
-        statusArea_.connect<StatusArea::Update>([]() {});
-    }
+    UserInterfaceManagerPrivate() {}
 
     UserInterface *ui_ = nullptr;
     UserInterface *uiFallback_ = nullptr;
-    StatusArea statusArea_;
 
     std::unordered_map<std::string, std::pair<Action *, ScopedConnection>> actions_;
 
-    std::unordered_map<UserInterfaceComponent, bool, UserInterfaceComponentHash> dirty_;
+    typedef std::list<std::pair<InputContext *, std::unordered_set<UserInterfaceComponent, EnumHash>>> UIUpdateList;
+    UIUpdateList updateList_;
+    std::unordered_map<InputContext *, UIUpdateList::iterator> updateIndex_;
 };
 
 UserInterfaceManager::UserInterfaceManager() : d_ptr(std::make_unique<UserInterfaceManagerPrivate>()) {}
 
 UserInterfaceManager::~UserInterfaceManager() {}
 
-void UserInterfaceManager::load(AddonManager *addonManager) {
+void UserInterfaceManager::load(AddonManager *addonManager, const std::string &uiName) {
     FCITX_D();
     auto names = addonManager->addonNames(AddonCategory::UI);
 
-    // FIXME: implement fallback
-    for (auto &name : names) {
-        auto ui = addonManager->addon(name);
+    if (names.count(uiName)) {
+        auto ui = addonManager->addon(uiName, true);
         if (ui) {
             d->ui_ = static_cast<UserInterface *>(ui);
-            break;
         }
     }
-}
 
-StatusArea &UserInterfaceManager::statusArea() {
-    FCITX_D();
-    return d->statusArea_;
-}
-
-void UserInterfaceManager::update() {
-    FCITX_D();
-    for (auto &p : d->dirty_) {
-        if (p.second) {
-            d->ui_->update(p.first);
+    if (!d->ui_) {
+        // FIXME: implement fallback
+        for (auto &name : names) {
+            auto ui = addonManager->addon(name, true);
+            if (ui) {
+                d->ui_ = static_cast<UserInterface *>(ui);
+                break;
+            }
         }
     }
 }
@@ -118,4 +108,41 @@ Action *UserInterfaceManager::lookupAction(const std::string &name) {
     }
     return std::get<0>(iter->second);
 }
+}
+
+void fcitx::UserInterfaceManager::update(fcitx::UserInterfaceComponent component, fcitx::InputContext *inputContext) {
+    FCITX_D();
+    auto iter = d->updateIndex_.find(inputContext);
+    decltype(d->updateList_)::iterator listIter;
+    if (d->updateIndex_.end() == iter) {
+        d->updateList_.emplace_back(std::piecewise_construct, std::forward_as_tuple(inputContext),
+                                    std::forward_as_tuple());
+        d->updateIndex_[inputContext] = listIter = std::prev(d->updateList_.end());
+    } else {
+        listIter = iter->second;
+    }
+    listIter->second.insert(component);
+}
+
+void fcitx::UserInterfaceManager::expire(fcitx::InputContext *inputContext) {
+    FCITX_D();
+    auto iter = d->updateIndex_.find(inputContext);
+    if (d->updateIndex_.end() != iter) {
+        d->updateList_.erase(iter->second);
+        d->updateIndex_.erase(iter);
+    }
+}
+
+void fcitx::UserInterfaceManager::flush() {
+    FCITX_D();
+    if (!d->ui_) {
+        return;
+    }
+    for (auto &p : d->updateList_) {
+        for (auto comp : p.second) {
+            d->ui_->update(comp, p.first);
+        }
+    }
+    d->updateIndex_.clear();
+    d->updateList_.clear();
 }

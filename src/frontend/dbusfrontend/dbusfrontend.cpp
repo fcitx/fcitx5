@@ -50,7 +50,9 @@ public:
                   slot_.reset(nullptr);
               }
               return true;
-          })) {}
+          })) {
+        created();
+    }
 
     ~DBusInputContext1() { InputContext::destroy(); }
 
@@ -74,7 +76,7 @@ public:
         updateSurroundingText();
     }
 
-    void destroy() { delete this; }
+    void destroyDBus() { delete this; }
 
     bool processKeyEvent(uint32_t keyval, uint32_t keycode, uint32_t state, bool isRelease, uint32_t time) {
         KeyEvent event(this, Key(static_cast<KeySym>(keyval), KeyStates(state)), isRelease, keycode, time);
@@ -101,15 +103,17 @@ public:
                          key.isRelease());
     }
 
+    void resetDBus() { reset(ResetReason::Client); }
+
 private:
     FCITX_OBJECT_VTABLE_METHOD(focusIn, "focusIn", "", "");
     FCITX_OBJECT_VTABLE_METHOD(focusOut, "focusOut", "", "");
-    FCITX_OBJECT_VTABLE_METHOD(reset, "Reset", "", "");
+    FCITX_OBJECT_VTABLE_METHOD(resetDBus, "Reset", "", "");
     FCITX_OBJECT_VTABLE_METHOD(setCursorRectDBus, "SetCursorRect", "iiii", "");
     FCITX_OBJECT_VTABLE_METHOD(setCapability, "SetCapability", "t", "");
     FCITX_OBJECT_VTABLE_METHOD(setSurroundingText, "SetSurroundingText", "suu", "");
     FCITX_OBJECT_VTABLE_METHOD(setSurroundingTextPosition, "SetSurroundingTextPosition", "uu", "");
-    FCITX_OBJECT_VTABLE_METHOD(destroy, "DestroyIC", "", "");
+    FCITX_OBJECT_VTABLE_METHOD(destroyDBus, "DestroyIC", "", "");
     FCITX_OBJECT_VTABLE_METHOD(processKeyEvent, "ProcessKeyEvent", "uuuiu", "b");
     FCITX_OBJECT_VTABLE_SIGNAL(commitStringDBus, "CommitString", "s");
     FCITX_OBJECT_VTABLE_SIGNAL(currentIM, "CurrentIM", "sss");

@@ -65,16 +65,11 @@ public:
 Element::Element() : d_ptr(std::make_unique<ElementPrivate>()) {}
 
 Element::~Element() {
-    for (auto p : parents()) {
-        removeParent(p);
-    }
-
-    for (auto c : childs()) {
-        c->removeParent(this);
-    }
+    removeAllParent();
+    removeAllChild();
 }
 
-std::list<Element *> Element::childs() {
+const std::list<Element *> &Element::childs() {
     FCITX_D();
     return d->childs_.order();
 }
@@ -82,7 +77,7 @@ std::list<Element *> Element::childs() {
 void Element::addChild(Element *child) { addEdge(this, child, nullptr, nullptr); }
 void Element::addParent(Element *parent) { addEdge(parent, this, nullptr, nullptr); }
 
-std::list<Element *> Element::parents() {
+const std::list<Element *> &Element::parents() {
     FCITX_D();
     return d->parents_.order();
 }
@@ -104,5 +99,17 @@ void Element::addEdge(Element *parent, Element *child, Element *beforeChild, Ele
 void Element::removeEdge(Element *parent, Element *child) {
     parent->d_func()->childs_.remove(child);
     child->d_func()->parents_.remove(parent);
+}
+
+void Element::removeAllParent() {
+    while (parents().size()) {
+        removeParent(parents().front());
+    }
+}
+
+void Element::removeAllChild() {
+    while (childs().size()) {
+        childs().front()->removeParent(this);
+    }
 }
 }

@@ -23,11 +23,13 @@
 #include <fcitx-utils/macros.h>
 #include <fcitx/element.h>
 #include <memory>
+#include <vector>
 
 namespace fcitx {
 
 class Action;
 class StatusAreaPrivate;
+class InputContext;
 
 enum class StatusGroup {
     BeforeInputMethod,
@@ -37,13 +39,13 @@ enum class StatusGroup {
 
 class FCITXCORE_EXPORT StatusArea : public Element {
 public:
-    StatusArea();
+    StatusArea(InputContext *ic);
     ~StatusArea();
 
     void addAction(StatusGroup group, Action *action);
     void removeAction(Action *action);
-
-    FCITX_DECLARE_SIGNAL(StatusArea, Update, void());
+    void clear();
+    std::vector<Action *> actions();
 
 private:
     std::unique_ptr<StatusAreaPrivate> d_ptr;

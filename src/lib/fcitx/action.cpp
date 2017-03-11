@@ -26,31 +26,16 @@ namespace fcitx {
 
 class ActionPrivate {
 public:
-    ActionPrivate(Action *q) : ActionActivatedAdaptor(q), ActionUpdateAdaptor(q) {}
+    ActionPrivate(Action *q) : ActionUpdateAdaptor(q) {}
     std::string name_;
-    std::string icon_;
-    std::string text_;
-    bool checked_ = false;
     bool checkable_ = false;
-    bool enabled_ = true;
-    bool visible_ = true;
     bool separator_ = false;
-    ScopedConnection connection_;
-    FCITX_DEFINE_SIGNAL_PRIVATE(Action, Activated);
     FCITX_DEFINE_SIGNAL_PRIVATE(Action, Update);
 };
 
 Action::Action() : d_ptr(std::make_unique<ActionPrivate>(this)) {}
 
 Action::~Action() { destroy(); }
-
-void Action::activate() {
-    FCITX_D();
-    if (!d->enabled_) {
-        return;
-    }
-    emit<Action::Activated>();
-}
 
 bool Action::isSeparator() const {
     FCITX_D();
@@ -72,28 +57,6 @@ void Action::setName(const std::string &name) {
     d->name_ = name;
 }
 
-Action &Action::setIcon(const std::string &icon) {
-    FCITX_D();
-    d->icon_ = icon;
-    return *this;
-}
-
-const std::string &Action::icon() const {
-    FCITX_D();
-    return d->icon_;
-}
-
-Action &Action::setText(const std::string &text) {
-    FCITX_D();
-    d->text_ = text;
-    return *this;
-}
-
-const std::string &Action::text() const {
-    FCITX_D();
-    return d->text_;
-}
-
 Action &Action::setCheckable(bool checkable) {
     FCITX_D();
     d->checkable_ = checkable;
@@ -105,37 +68,13 @@ bool Action::isCheckable() const {
     return d->checkable_;
 }
 
-Action &Action::setChecked(bool checked) {
-    FCITX_D();
-    d->checked_ = checked;
-    return *this;
-}
-
-bool Action::isChecked() const {
-    FCITX_D();
-    return d->checked_;
-}
-
-Action &Action::setEnabled(bool enabled) {
-    FCITX_D();
-    d->enabled_ = enabled;
-    return *this;
-}
-
-bool Action::isEnabled() const {
-    FCITX_D();
-    return d->enabled_;
-}
-
 void Action::setMenu(Menu *menu) {
-    FCITX_D();
     auto oldMenu = this->menu();
     if (oldMenu) {
         oldMenu->removeParent(this);
     }
     if (menu) {
         menu->addParent(this);
-        d->connection_ = menu->connect<ObjectDestroyed>([this](void *) { emit<Action::Update>(); });
     }
 }
 

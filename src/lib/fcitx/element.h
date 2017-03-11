@@ -31,10 +31,10 @@ class FCITXCORE_EXPORT Element : public DynamicTrackableObject {
 public:
     Element();
     ~Element();
-    std::list<Element *> parents();
-    std::list<Element *> childs();
 
 protected:
+    const std::list<Element *> &parents();
+    const std::list<Element *> &childs();
     // Sub class may use these functions carefully if they intends
     // to have single type of childs.
     void addChild(Element *child);
@@ -45,6 +45,9 @@ protected:
 
     void removeParent(Element *parent);
     void removeChild(Element *child);
+
+    void removeAllChild();
+    void removeAllParent();
 
     static void addEdge(Element *parent, Element *child, Element *beforeChild, Element *beforeParent);
     static void removeEdge(Element *parent, Element *child);

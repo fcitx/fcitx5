@@ -117,6 +117,7 @@ public:
         keyboard_->repeatInfo().connect([this](int32_t rate, int32_t delay) { repeatInfoCallback(rate, delay); });
         server_->display_->roundtrip();
         repeatInfoCallback(repeatRate_, repeatDelay_);
+        created();
     }
     ~WaylandIMInputContextV1() {
         server_->remove(ic_.get());
@@ -257,7 +258,7 @@ void WaylandIMInputContextV1::surroundingTextCallback(const char *text, uint32_t
     surroundingText().setText(text, cursor, anchor);
     updateSurroundingText();
 }
-void WaylandIMInputContextV1::resetCallback() { reset(); }
+void WaylandIMInputContextV1::resetCallback() { reset(ResetReason::Client); }
 void WaylandIMInputContextV1::contentTypeCallback(uint32_t hint, uint32_t purpose) {
     CapabilityFlags flags;
     if (hint & ZWP_TEXT_INPUT_V1_CONTENT_HINT_PASSWORD) {
