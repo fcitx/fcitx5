@@ -43,6 +43,8 @@ set(FCITX_CORE_HEADERS
     event.h
     action.h
     menu.h
+    userinterface.h
+    userinterfacemanager.h
     ${CMAKE_CURRENT_BINARY_DIR}/fcitxcore_export.h
     )
 
