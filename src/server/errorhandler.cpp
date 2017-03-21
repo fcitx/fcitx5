@@ -28,6 +28,7 @@
 #include <unistd.h>
 
 #include "errorhandler.h"
+#include "fcitx-utils/fs.h"
 #include "fcitx/instance.h"
 
 #if defined(EXECINFO_FOUND)
@@ -97,8 +98,8 @@ static inline void BufferAppendUInt64(MinimalBuffer *buffer, uint64_t number, in
 
 static inline void _write_string_len(int fd, const char *str, size_t len) {
     if (fd >= 0 && fd != STDERR_FILENO)
-        write(fd, str, len);
-    write(STDERR_FILENO, str, len);
+        fcitx::fs::safeWrite(fd, str, len);
+    fcitx::fs::safeWrite(STDERR_FILENO, str, len);
 }
 
 static inline void _write_string(int fd, const char *str) { _write_string_len(fd, str, strlen(str)); }

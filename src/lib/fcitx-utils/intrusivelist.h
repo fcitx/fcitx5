@@ -53,9 +53,6 @@ protected:
     IntrusiveListBase() { root.prev_ = root.next_ = &root; }
 
     void insertBetween(IntrusiveListNode *add, IntrusiveListNode *prev, IntrusiveListNode *next) noexcept {
-        if (add->list_) {
-            throw std::invalid_argument("node can't be insert to two different list");
-        }
         next->prev_ = add;
         prev->next_ = add;
         add->next_ = next;
@@ -71,10 +68,6 @@ protected:
     void append(IntrusiveListNode *add, IntrusiveListNode *pos) noexcept { return insertBetween(add, pos->prev_, pos); }
 
     void remove(IntrusiveListNode *pos) noexcept {
-        if (pos->list_ != this) {
-            throw std::invalid_argument("node doesn't belongs to this list");
-        }
-
         auto next_ = pos->next_;
         auto prev_ = pos->prev_;
         prev_->next_ = next_;

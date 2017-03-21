@@ -30,6 +30,7 @@
 #else
 #include <sys/endian.h>
 #endif
+#include "fcitx-utils/fs.h"
 #include "fcitx-utils/unixfd.h"
 #include <string.h>
 
@@ -52,8 +53,10 @@ static int compile_dict(int ifd, int ofd) {
     }
     p = static_cast<char *>(mmapped);
     ifend = istat_buf.st_size + p;
-    write(ofd, DICT_BIN_MAGIC, strlen(DICT_BIN_MAGIC));
-    lseek(ofd, sizeof(uint32_t), SEEK_CUR);
+    fs::safeWrite(ofd, DICT_BIN_MAGIC, strlen(DICT_BIN_MAGIC));
+    if (lseek(ofd, sizeof(uint32_t), SEEK_CUR) == static_cast<off_t>(-1)) {
+        return 1;
+    }
     while (p < ifend) {
         char *start;
         long int ceff;
@@ -62,17 +65,19 @@ static int compile_dict(int ifd, int ofd) {
         if (*p != ' ')
             return 1;
         ceff_buff = htole16(ceff > UINT16_MAX ? UINT16_MAX : ceff);
-        write(ofd, &ceff_buff, sizeof(uint16_t));
+        fs::safeWrite(ofd, &ceff_buff, sizeof(uint16_t));
         start = ++p;
         p += strcspn(p, "\n");
-        write(ofd, start, p - start);
-        write(ofd, &null_byte, 1);
+        fs::safeWrite(ofd, start, p - start);
+        fs::safeWrite(ofd, &null_byte, 1);
         wcount++;
         p++;
     }
-    lseek(ofd, strlen(DICT_BIN_MAGIC), SEEK_SET);
+    if (lseek(ofd, strlen(DICT_BIN_MAGIC), SEEK_SET) == static_cast<off_t>(-1)) {
+        return 1;
+    }
     wcount = htole32(wcount);
-    write(ofd, &wcount, sizeof(uint32_t));
+    fs::safeWrite(ofd, &wcount, sizeof(uint32_t));
     munmap(mmapped, istat_buf.st_size + 1);
     return 0;
 }
