@@ -54,7 +54,7 @@ private:
     EGLDisplay eglDisplay_;
     EGLConfig argbConfig_;
     EGLContext argbCtx_;
-    cairo_device_t *argbDevice_;
+    cairo_device_t *argbDevice_ = nullptr;
 };
 }
 }

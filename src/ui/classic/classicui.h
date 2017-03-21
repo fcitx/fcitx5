@@ -31,7 +31,10 @@
 namespace fcitx {
 namespace classicui {
 
-class UIInterface {};
+class UIInterface {
+public:
+    virtual ~UIInterface() {}
+};
 
 class ClassicUI : public UserInterface {
 public:

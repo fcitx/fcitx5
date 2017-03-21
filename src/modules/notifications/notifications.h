@@ -37,7 +37,7 @@ struct NotificationItem {
     NotificationItem(uint64_t internalId, NotificationActionCallback actionCallback,
                      NotificationClosedCallback closedCallback)
         : internalId_(internalId), actionCallback_(actionCallback), closedCallback_(closedCallback) {}
-    uint32_t globalId_;
+    uint32_t globalId_ = 0;
     uint64_t internalId_;
     NotificationActionCallback actionCallback_;
     NotificationClosedCallback closedCallback_;

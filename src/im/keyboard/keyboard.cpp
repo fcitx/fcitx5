@@ -277,14 +277,14 @@ static inline bool isValidSym(const Key &key) {
     if (key.states())
         return false;
 
-    return std::binary_search(std::begin(validSyms), std::end(validSyms), key.sym());
+    return validSyms.count(key.sym());
 }
 
 static inline bool isValidCharacter(uint32_t c) {
     if (c == 0 || c == INVALID_COMPOSE_RESULT)
         return false;
 
-    return std::binary_search(std::begin(validChars), std::end(validChars), c);
+    return validSyms.count(c);
 }
 
 static KeyList FCITX_HYPHEN_APOS = Key::keyListFromString("minus apostrophe");
