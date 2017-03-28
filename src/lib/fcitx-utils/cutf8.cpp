@@ -229,12 +229,15 @@ char *fcitx_utf8_get_nth_char(const char *s, uint32_t n) {
 }
 
 FCITXUTILS_EXPORT
-uint32_t fcitx_utf8_get_char_extended(const char *s, int max_len) {
+uint32_t fcitx_utf8_get_char_extended(const char *s, int max_len, int *plen) {
     const unsigned char *p = (const unsigned char *)s;
     int i, len;
     uint32_t wc = (unsigned char)*p;
 
     if (wc < 0x80) {
+        if (plen) {
+            *plen = 1;
+        }
         return wc;
     } else if (wc < 0xc0) {
         return (uint32_t)-1;
@@ -284,24 +287,33 @@ uint32_t fcitx_utf8_get_char_extended(const char *s, int max_len) {
     if (UTF8_LENGTH(wc) != len)
         return (uint32_t)-1;
 
+    if (plen) {
+        *plen = len;
+    }
+
     return wc;
 }
 
 FCITXUTILS_EXPORT
-uint32_t fcitx_utf8_get_char_validated(const char *p, int max_len) {
+uint32_t fcitx_utf8_get_char_validated(const char *p, int max_len, int *plen) {
     uint32_t result;
 
     if (max_len == 0)
         return -2;
 
-    result = fcitx_utf8_get_char_extended(p, max_len);
+    int len;
+    result = fcitx_utf8_get_char_extended(p, max_len, &len);
 
     if (result & 0x80000000)
         return result;
     else if (!UNICODE_VALID(result))
         return -1;
-    else
+    else {
+        if (plen) {
+            *plen = len;
+        }
         return result;
+    }
 }
 
 FCITXUTILS_EXPORT
@@ -309,11 +321,13 @@ bool fcitx_utf8_check_string(const char *s) {
     while (*s) {
         uint32_t chr;
 
-        chr = fcitx_utf8_get_char_validated(s, 6);
-        if (chr == (uint32_t)-1 || chr == (uint32_t)-2)
+        int len;
+        chr = fcitx_utf8_get_char_validated(s, FCITX_UTF8_MAX_LENGTH, &len);
+        if (chr == (uint32_t)-1 || chr == (uint32_t)-2) {
             return 0;
+        }
 
-        s = fcitx_utf8_get_char(s, &chr);
+        s += len;
     }
 
     return 1;
@@ -339,6 +353,23 @@ void fcitx_utf8_strncpy(char *str, const char *s, size_t byte) {
         *str = '\0';
         str++;
     }
+}
+
+FCITXUTILS_EXPORT
+size_t fcitx_utf8_strnlen_validated(const char *str, size_t byte) {
+    size_t len = 0;
+    while (*str && byte > 0) {
+        int charLen;
+        uint32_t chr =
+            fcitx_utf8_get_char_validated(str, (byte > FCITX_UTF8_MAX_LENGTH ? FCITX_UTF8_MAX_LENGTH : byte), &charLen);
+        if (chr == (uint32_t)-1 || chr == (uint32_t)-2) {
+            return (size_t)-1;
+        }
+        str += charLen;
+        byte -= charLen;
+        len++;
+    }
+    return len;
 }
 
 FCITXUTILS_EXPORT

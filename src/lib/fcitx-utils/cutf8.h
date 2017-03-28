@@ -133,7 +133,7 @@ bool fcitx_utf8_check_string(const char *s);
  * @param max_len max length
  * @return int
  **/
-uint32_t fcitx_utf8_get_char_extended(const char *p, int max_len);
+uint32_t fcitx_utf8_get_char_extended(const char *p, int max_len, int *plen);
 
 /**
  * get validated character
@@ -142,7 +142,7 @@ uint32_t fcitx_utf8_get_char_extended(const char *p, int max_len);
  * @param max_len max length
  * @return int
  **/
-uint32_t fcitx_utf8_get_char_validated(const char *p, int max_len);
+uint32_t fcitx_utf8_get_char_validated(const char *p, int max_len, int *plen);
 
 /**
  * @brief copy most byte length, but keep utf8 valid
@@ -165,6 +165,8 @@ void fcitx_utf8_strncpy(char *str, const char *s, size_t byte);
  * @since 4.2.4
  **/
 size_t fcitx_utf8_strnlen(const char *str, size_t byte);
+
+size_t fcitx_utf8_strnlen_validated(const char *str, size_t byte);
 
 /**
  * @brief get ucs4 char length
