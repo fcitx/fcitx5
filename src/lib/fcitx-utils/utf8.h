@@ -27,6 +27,10 @@ namespace fcitx {
 namespace utf8 {
 FCITXUTILS_EXPORT inline size_t length(const std::string &s) { return fcitx_utf8_strnlen(s.c_str(), s.size()); }
 FCITXUTILS_EXPORT inline size_t lengthN(const std::string &s, size_t n) { return fcitx_utf8_strnlen(s.c_str(), n); }
+template<typename Iter>
+inline size_t length(Iter start, Iter end) {
+    return fcitx_utf8_strnlen(&(*start), std::distance(start, end));
+}
 
 static const size_t INVALID_LENGTH = static_cast<size_t>(-1);
 
@@ -36,6 +40,10 @@ FCITXUTILS_EXPORT inline size_t lengthValidated(const std::string &s) {
 
 FCITXUTILS_EXPORT inline size_t lengthNValidated(const std::string &s, size_t n) {
     return fcitx_utf8_strnlen_validated(s.c_str(), n);
+}
+template<typename Iter>
+inline size_t lengthValidated(Iter start, Iter end) {
+    return fcitx_utf8_strnlen_validated(&(*start), std::distance(start, end));
 }
 
 FCITXUTILS_EXPORT inline bool validate(const std::string &s) { return fcitx_utf8_check_string(s.c_str()); }
