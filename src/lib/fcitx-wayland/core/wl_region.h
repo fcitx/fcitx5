@@ -8,7 +8,8 @@ namespace wayland {
 class WlRegion {
 public:
     static constexpr const char *interface = "wl_region";
-    static constexpr const wl_interface *const wlInterface = &wl_region_interface;
+    static constexpr const wl_interface *const wlInterface =
+        &wl_region_interface;
     static constexpr const uint32_t version = 1;
     typedef wl_region wlType;
     operator wl_region *() { return data_.get(); }

@@ -49,7 +49,8 @@ protected:
     void removeAllChild();
     void removeAllParent();
 
-    static void addEdge(Element *parent, Element *child, Element *beforeChild, Element *beforeParent);
+    static void addEdge(Element *parent, Element *child, Element *beforeChild,
+                        Element *beforeParent);
     static void removeEdge(Element *parent, Element *child);
 
 private:

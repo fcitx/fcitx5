@@ -59,7 +59,8 @@ public:
 
 private:
     StandardPath standardPath_;
-    std::unordered_map<std::string, std::unique_ptr<SharedLibraryFactory>> registry_;
+    std::unordered_map<std::string, std::unique_ptr<SharedLibraryFactory>>
+        registry_;
 };
 
 class StaticLibraryLoader : public AddonLoader {

@@ -39,14 +39,17 @@ public:
 class OutputInfomationPrivate {
 public:
     OutputInfomationData current_, next_;
-    ScopedConnection geometryConnection_, modeConnection_, scaleConnection_, doneConnection_;
+    ScopedConnection geometryConnection_, modeConnection_, scaleConnection_,
+        doneConnection_;
 };
 
-OutputInfomation::OutputInfomation(WlOutput *output) : d_ptr(std::make_unique<OutputInfomationPrivate>()) {
+OutputInfomation::OutputInfomation(WlOutput *output)
+    : d_ptr(std::make_unique<OutputInfomationPrivate>()) {
     FCITX_D();
-    d->geometryConnection_ =
-        output->geometry().connect([this](int32_t x, int32_t y, int32_t physicalWidth, int32_t physicalHeight,
-                                          int32_t subpixel, const char *make, const char *model, int32_t transform) {
+    d->geometryConnection_ = output->geometry().connect(
+        [this](int32_t x, int32_t y, int32_t physicalWidth,
+               int32_t physicalHeight, int32_t subpixel, const char *make,
+               const char *model, int32_t transform) {
             FCITX_D();
             d->next_.x_ = x;
             d->next_.y_ = y;
@@ -57,22 +60,23 @@ OutputInfomation::OutputInfomation(WlOutput *output) : d_ptr(std::make_unique<Ou
             d->next_.model_ = model;
             d->next_.transform_ = static_cast<wl_output_transform>(transform);
         });
-    d->modeConnection_ =
-        output->mode().connect([this, output](uint32_t flags, int32_t width, int32_t height, int32_t refresh) {
-            if (!(flags & WL_OUTPUT_MODE_CURRENT)) {
-                return;
-            }
+    d->modeConnection_ = output->mode().connect([this, output](
+        uint32_t flags, int32_t width, int32_t height, int32_t refresh) {
+        if (!(flags & WL_OUTPUT_MODE_CURRENT)) {
+            return;
+        }
 
-            FCITX_D();
-            d->next_.width_ = width;
-            d->next_.height_ = height;
-            d->next_.refreshRate_ = refresh;
-        });
-    d->scaleConnection_ = output->scale().connect([this, output](int32_t scale) {
         FCITX_D();
-        d->next_.scale_ = scale;
-
+        d->next_.width_ = width;
+        d->next_.height_ = height;
+        d->next_.refreshRate_ = refresh;
     });
+    d->scaleConnection_ =
+        output->scale().connect([this, output](int32_t scale) {
+            FCITX_D();
+            d->next_.scale_ = scale;
+
+        });
     d->doneConnection_ = output->done().connect([this, output]() {
         FCITX_D();
         d->current_ = d->next_;

@@ -34,10 +34,12 @@ public:
     ~WaylandUI();
 
     bool initEGL();
-    EGLSurface createEGLSurface(wl_egl_window *window, const EGLint *attrib_list);
+    EGLSurface createEGLSurface(wl_egl_window *window,
+                                const EGLint *attrib_list);
     void destroyEGLSurface(EGLSurface surface);
 
-    cairo_surface_t *createEGLCairoSurface(EGLSurface surface, int width, int height);
+    cairo_surface_t *createEGLCairoSurface(EGLSurface surface, int width,
+                                           int height);
 
     ClassicUI *parent() const { return parent_; }
     const std::string &name() const { return name_; }

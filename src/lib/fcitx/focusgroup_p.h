@@ -29,7 +29,8 @@ class InputContextManager;
 
 class FocusGroupPrivate {
 public:
-    FocusGroupPrivate(FocusGroup *q, const std::string &display, InputContextManager &manager)
+    FocusGroupPrivate(FocusGroup *q, const std::string &display,
+                      InputContextManager &manager)
         : q_ptr(q), display_(display), manager_(manager), focus_(nullptr) {}
 
     FocusGroup *q_ptr;

@@ -22,11 +22,13 @@ namespace fcitx {
 class DynamicTrackableObjectPrivate {
 public:
     FCITX_DEFINE_SIGNAL_PRIVATE(DynamicTrackableObject, Destroyed);
-    DynamicTrackableObjectPrivate(DynamicTrackableObject *q) : DynamicTrackableObjectDestroyedAdaptor(q) {}
+    DynamicTrackableObjectPrivate(DynamicTrackableObject *q)
+        : DynamicTrackableObjectDestroyedAdaptor(q) {}
     bool destroyed_ = false;
 };
 
-DynamicTrackableObject::DynamicTrackableObject() : d_ptr(std::make_unique<DynamicTrackableObjectPrivate>(this)) {}
+DynamicTrackableObject::DynamicTrackableObject()
+    : d_ptr(std::make_unique<DynamicTrackableObjectPrivate>(this)) {}
 
 DynamicTrackableObject::~DynamicTrackableObject() { destroy(); }
 

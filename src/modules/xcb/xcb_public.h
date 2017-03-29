@@ -31,19 +31,27 @@ struct xkb_state;
 
 namespace fcitx {
 typedef std::array<std::string, 5> XkbRulesNames;
-typedef std::function<bool(xcb_connection_t *conn, xcb_generic_event_t *event)> XCBEventFilter;
-typedef std::function<void(const std::string &name, xcb_connection_t *conn, int screen, FocusGroup *group)>
+typedef std::function<bool(xcb_connection_t *conn, xcb_generic_event_t *event)>
+    XCBEventFilter;
+typedef std::function<void(const std::string &name, xcb_connection_t *conn,
+                           int screen, FocusGroup *group)>
     XCBConnectionCreated;
-typedef std::function<void(const std::string &name, xcb_connection_t *conn)> XCBConnectionClosed;
+typedef std::function<void(const std::string &name, xcb_connection_t *conn)>
+    XCBConnectionClosed;
 }
 
-FCITX_ADDON_DECLARE_FUNCTION(XCBModule, addEventFilter,
-                             HandlerTableEntry<XCBEventFilter> *(const std::string &, XCBEventFilter));
-FCITX_ADDON_DECLARE_FUNCTION(XCBModule, addConnectionCreatedCallback,
-                             HandlerTableEntry<XCBConnectionCreated> *(XCBConnectionCreated));
-FCITX_ADDON_DECLARE_FUNCTION(XCBModule, addConnectionClosedCallback,
-                             HandlerTableEntry<XCBConnectionClosed> *(XCBConnectionClosed));
-FCITX_ADDON_DECLARE_FUNCTION(XCBModule, xkbState, xkb_state *(const std::string &));
-FCITX_ADDON_DECLARE_FUNCTION(XCBModule, xkbRulesNames, XkbRulesNames(const std::string &));
+FCITX_ADDON_DECLARE_FUNCTION(
+    XCBModule, addEventFilter,
+    HandlerTableEntry<XCBEventFilter> *(const std::string &, XCBEventFilter));
+FCITX_ADDON_DECLARE_FUNCTION(
+    XCBModule, addConnectionCreatedCallback,
+    HandlerTableEntry<XCBConnectionCreated> *(XCBConnectionCreated));
+FCITX_ADDON_DECLARE_FUNCTION(
+    XCBModule, addConnectionClosedCallback,
+    HandlerTableEntry<XCBConnectionClosed> *(XCBConnectionClosed));
+FCITX_ADDON_DECLARE_FUNCTION(XCBModule, xkbState,
+                             xkb_state *(const std::string &));
+FCITX_ADDON_DECLARE_FUNCTION(XCBModule, xkbRulesNames,
+                             XkbRulesNames(const std::string &));
 
 #endif // _FCITX_MODULES_XCB_XCB_PUBLIC_H_

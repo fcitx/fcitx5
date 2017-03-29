@@ -30,7 +30,8 @@ void WaylandEGLWindow::createWindow() {
     WaylandWindow::createWindow();
     window_.reset(wl_egl_window_create(*surface_, width(), height()));
     eglSurface_ = ui_->createEGLSurface(window_.get(), nullptr);
-    cairoSurface_.reset(ui_->createEGLCairoSurface(eglSurface_, width(), height()));
+    cairoSurface_.reset(
+        ui_->createEGLCairoSurface(eglSurface_, width(), height()));
 }
 
 void WaylandEGLWindow::destroyWindow() {

@@ -9,7 +9,8 @@ class WlSurface;
 class WlKeyboard {
 public:
     static constexpr const char *interface = "wl_keyboard";
-    static constexpr const wl_interface *const wlInterface = &wl_keyboard_interface;
+    static constexpr const wl_interface *const wlInterface =
+        &wl_keyboard_interface;
     static constexpr const uint32_t version = 5;
     typedef wl_keyboard wlType;
     operator wl_keyboard *() { return data_.get(); }
@@ -34,7 +35,8 @@ private:
     fcitx::Signal<void(uint32_t, WlSurface *, wl_array *)> enterSignal_;
     fcitx::Signal<void(uint32_t, WlSurface *)> leaveSignal_;
     fcitx::Signal<void(uint32_t, uint32_t, uint32_t, uint32_t)> keySignal_;
-    fcitx::Signal<void(uint32_t, uint32_t, uint32_t, uint32_t, uint32_t)> modifiersSignal_;
+    fcitx::Signal<void(uint32_t, uint32_t, uint32_t, uint32_t, uint32_t)>
+        modifiersSignal_;
     fcitx::Signal<void(int32_t, int32_t)> repeatInfoSignal_;
     uint32_t version_;
     std::unique_ptr<wl_keyboard, decltype(&destructor)> data_;

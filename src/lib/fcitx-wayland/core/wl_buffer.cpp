@@ -12,7 +12,9 @@ const struct wl_buffer_listener WlBuffer::listener = {
         { return obj->release()(); }
     },
 };
-WlBuffer::WlBuffer(wl_buffer *data) : version_(wl_buffer_get_version(data)), data_(data, &WlBuffer::destructor) {
+WlBuffer::WlBuffer(wl_buffer *data)
+    : version_(wl_buffer_get_version(data)),
+      data_(data, &WlBuffer::destructor) {
     wl_buffer_set_user_data(*this, this);
     wl_buffer_add_listener(*this, &WlBuffer::listener, this);
 }

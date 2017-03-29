@@ -9,7 +9,8 @@ class WlSurface;
 class WlPointer {
 public:
     static constexpr const char *interface = "wl_pointer";
-    static constexpr const wl_interface *const wlInterface = &wl_pointer_interface;
+    static constexpr const wl_interface *const wlInterface =
+        &wl_pointer_interface;
     static constexpr const uint32_t version = 5;
     typedef wl_pointer wlType;
     operator wl_pointer *() { return data_.get(); }
@@ -20,7 +21,8 @@ public:
         return *this;
     }
     auto actualVersion() const { return version_; }
-    void setCursor(uint32_t serial, WlSurface *surface, int32_t hotspotX, int32_t hotspotY);
+    void setCursor(uint32_t serial, WlSurface *surface, int32_t hotspotX,
+                   int32_t hotspotY);
     auto &enter() { return enterSignal_; }
     auto &leave() { return leaveSignal_; }
     auto &motion() { return motionSignal_; }
@@ -34,7 +36,8 @@ public:
 private:
     static void destructor(wl_pointer *);
     static const struct wl_pointer_listener listener;
-    fcitx::Signal<void(uint32_t, WlSurface *, wl_fixed_t, wl_fixed_t)> enterSignal_;
+    fcitx::Signal<void(uint32_t, WlSurface *, wl_fixed_t, wl_fixed_t)>
+        enterSignal_;
     fcitx::Signal<void(uint32_t, WlSurface *)> leaveSignal_;
     fcitx::Signal<void(uint32_t, wl_fixed_t, wl_fixed_t)> motionSignal_;
     fcitx::Signal<void(uint32_t, uint32_t, uint32_t, uint32_t)> buttonSignal_;

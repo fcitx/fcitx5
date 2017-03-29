@@ -25,22 +25,33 @@
 
 namespace fcitx {
 namespace classicui {
-ClassicUI::ClassicUI(Instance *instance) : UserInterface(), instance_(instance) {
-    xcbCreatedCallback_.reset(xcb()->call<IXCBModule::addConnectionCreatedCallback>(
-        [this](const std::string &name, xcb_connection_t *conn, int screen, FocusGroup *) {
-            uis_["x11:" + name].reset(new XCBUI(this, name, conn, screen));
-        }));
-    xcbClosedCallback_.reset(xcb()->call<IXCBModule::addConnectionClosedCallback>(
-        [this](const std::string &name, xcb_connection_t *) { uis_.erase("x11:" + name); }));
-    waylandCreatedCallback_.reset(wayland()->call<IWaylandModule::addConnectionCreatedCallback>(
-        [this](const std::string &name, wl_display *display, FocusGroup *) {
-            try {
-                uis_["wayland:" + name].reset(new WaylandUI(this, name, display));
-            } catch (std::runtime_error) {
-            }
-        }));
-    waylandClosedCallback_.reset(wayland()->call<IWaylandModule::addConnectionClosedCallback>(
-        [this](const std::string &name, wl_display *) { uis_.erase("wayland:" + name); }));
+ClassicUI::ClassicUI(Instance *instance)
+    : UserInterface(), instance_(instance) {
+    xcbCreatedCallback_.reset(
+        xcb()->call<IXCBModule::addConnectionCreatedCallback>(
+            [this](const std::string &name, xcb_connection_t *conn, int screen,
+                   FocusGroup *) {
+                uis_["x11:" + name].reset(new XCBUI(this, name, conn, screen));
+            }));
+    xcbClosedCallback_.reset(
+        xcb()->call<IXCBModule::addConnectionClosedCallback>(
+            [this](const std::string &name, xcb_connection_t *) {
+                uis_.erase("x11:" + name);
+            }));
+    waylandCreatedCallback_.reset(
+        wayland()->call<IWaylandModule::addConnectionCreatedCallback>(
+            [this](const std::string &name, wl_display *display, FocusGroup *) {
+                try {
+                    uis_["wayland:" + name].reset(
+                        new WaylandUI(this, name, display));
+                } catch (std::runtime_error) {
+                }
+            }));
+    waylandClosedCallback_.reset(
+        wayland()->call<IWaylandModule::addConnectionClosedCallback>(
+            [this](const std::string &name, wl_display *) {
+                uis_.erase("wayland:" + name);
+            }));
 }
 
 ClassicUI::~ClassicUI() {}
@@ -59,11 +70,14 @@ void ClassicUI::suspend() {}
 
 void ClassicUI::resume() {}
 
-void ClassicUI::update(UserInterfaceComponent component, InputContext *inputContext) {}
+void ClassicUI::update(UserInterfaceComponent component,
+                       InputContext *inputContext) {}
 
 class ClassicUIFactory : public AddonFactory {
 public:
-    AddonInstance *create(AddonManager *manager) override { return new ClassicUI(manager->instance()); }
+    AddonInstance *create(AddonManager *manager) override {
+        return new ClassicUI(manager->instance());
+    }
 };
 }
 }

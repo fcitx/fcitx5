@@ -24,16 +24,17 @@
 #include <fcitx-utils/signals.h>
 #include <memory>
 
-#define FCITX_DECLARE_SIGNAL(CLASS_NAME, NAME, ...)                                                                    \
-    struct NAME {                                                                                                      \
-        using signalType = __VA_ARGS__;                                                                                \
-        using signature = fcitxMakeMetaString(#CLASS_NAME "::" #NAME);                                                 \
+#define FCITX_DECLARE_SIGNAL(CLASS_NAME, NAME, ...)                            \
+    struct NAME {                                                              \
+        using signalType = __VA_ARGS__;                                        \
+        using signature = fcitxMakeMetaString(#CLASS_NAME "::" #NAME);         \
     }
 
-#define FCITX_DEFINE_SIGNAL(CLASS_NAME, NAME)                                                                          \
+#define FCITX_DEFINE_SIGNAL(CLASS_NAME, NAME)                                  \
     ::fcitx::SignalAdaptor<CLASS_NAME::NAME> CLASS_NAME##NAME##Adaptor { this }
 
-#define FCITX_DEFINE_SIGNAL_PRIVATE(CLASS_NAME, NAME) SignalAdaptor<CLASS_NAME::NAME> CLASS_NAME##NAME##Adaptor
+#define FCITX_DEFINE_SIGNAL_PRIVATE(CLASS_NAME, NAME)                          \
+    SignalAdaptor<CLASS_NAME::NAME> CLASS_NAME##NAME##Adaptor
 
 namespace fcitx {
 
@@ -63,7 +64,9 @@ public:
     Connection connect(F &&func) {
         auto signal = findSignal(SignalType::signature::data());
         if (signal) {
-            return reinterpret_cast<Signal<typename SignalType::signalType> *>(signal)->connect(std::forward<F>(func));
+            return reinterpret_cast<Signal<typename SignalType::signalType> *>(
+                       signal)
+                ->connect(std::forward<F>(func));
         }
         return {};
     }
@@ -71,20 +74,24 @@ public:
     template <typename SignalType>
     void disconnectAll() {
         auto signal = findSignal(SignalType::signature::data());
-        reinterpret_cast<Signal<typename SignalType::signalType> *>(signal)->disconnectAll();
+        reinterpret_cast<Signal<typename SignalType::signalType> *>(signal)
+            ->disconnectAll();
     }
 
 protected:
     template <typename SignalType, typename... Args>
     auto emit(Args &&... args) {
         auto signal = findSignal(SignalType::signature::data());
-        return (*reinterpret_cast<Signal<typename SignalType::signalType> *>(signal))(std::forward<Args>(args)...);
+        return (*reinterpret_cast<Signal<typename SignalType::signalType> *>(
+            signal))(std::forward<Args>(args)...);
     }
 
 protected:
     template <typename SignalType>
     void registerSignal() {
-        _registerSignal(SignalType::signature::data(), std::make_unique<Signal<typename SignalType::signalType>>());
+        _registerSignal(
+            SignalType::signature::data(),
+            std::make_unique<Signal<typename SignalType::signalType>>());
     }
 
     template <typename SignalType>

@@ -24,23 +24,31 @@ namespace fcitx {
 
 namespace impl {
 FCITX_CONFIGURATION(
-    GlobalConfig, fcitx::Option<std::vector<Key>> triggerKeys{this,
-                                                              "Hotkey/TriggerKeys",
-                                                              "Trigger Input Method",
-                                                              {Key("Control+space"), Key("Super+space"),
-                                                               Key("Zenkaku_Hankaku"), Key("Hangul")}};
+    GlobalConfig,
+    fcitx::Option<std::vector<Key>> triggerKeys{
+        this,
+        "Hotkey/TriggerKeys",
+        "Trigger Input Method",
+        {Key("Control+space"), Key("Super+space"), Key("Zenkaku_Hankaku"),
+         Key("Hangul")}};
     fcitx::Option<std::vector<Key>> altTriggerKeys{
-        this, "Hotkey/AltTriggerKeys", "Trigger Input Method Only after using it to deactivate", {Key("L_Shift")}};
+        this,
+        "Hotkey/AltTriggerKeys",
+        "Trigger Input Method Only after using it to deactivate",
+        {Key("L_Shift")}};
     fcitx::Option<std::vector<Key>> activateKeys{this,
                                                  "Hotkey/ActivateKeys",
                                                  "ActivateKeys",
                                                  {
                                                      Key("Hangul_Hanja"),
                                                  }};
-    fcitx::Option<std::vector<Key>> deactivateKeys{
-        this, "Hotkey/DeactivateKeys", "DeactivateKeys", {Key("Hangul_Romaja")}};
+    fcitx::Option<std::vector<Key>> deactivateKeys{this,
+                                                   "Hotkey/DeactivateKeys",
+                                                   "DeactivateKeys",
+                                                   {Key("Hangul_Romaja")}};
 
-    fcitx::Option<bool> activeByDefault{this, "Behavior/activeByDefault", "Active By Default"};);
+    fcitx::Option<bool> activeByDefault{this, "Behavior/activeByDefault",
+                                        "Active By Default"};);
 }
 
 class GlobalConfigPrivate : public impl::GlobalConfig {};

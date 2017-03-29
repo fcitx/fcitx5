@@ -26,7 +26,8 @@ int selected = 0;
 
 class TestCandidateWord : public CandidateWord {
 public:
-    TestCandidateWord(int number) : CandidateWord(Text(std::to_string(number))), number_(number) {}
+    TestCandidateWord(int number)
+        : CandidateWord(Text(std::to_string(number))), number_(number) {}
     void select(InputContext *) const override { selected = number_; }
 
 private:
@@ -35,7 +36,8 @@ private:
 
 int main() {
     CommonCandidateList candidatelist;
-    candidatelist.setSelectionKey(Key::keyListFromString("1 2 3 4 5 6 7 8 9 0"));
+    candidatelist.setSelectionKey(
+        Key::keyListFromString("1 2 3 4 5 6 7 8 9 0"));
     candidatelist.setPageSize(3);
     for (int i = 0; i < 10; i++) {
         candidatelist.append(new TestCandidateWord(i));
@@ -52,7 +54,8 @@ int main() {
 
     // BulkCandidateList
     for (int i = 0; i < 10; i++) {
-        assert(candidatelist.candidateFromAll(i).text().toString() == std::to_string(i));
+        assert(candidatelist.candidateFromAll(i).text().toString() ==
+               std::to_string(i));
     }
 
     assert(candidatelist.totalSize() == 10);
@@ -70,7 +73,8 @@ int main() {
 
     // BulkCandidateList
     for (int i = 0; i < 10; i++) {
-        assert(candidatelist.candidateFromAll(i).text().toString() == std::to_string(i));
+        assert(candidatelist.candidateFromAll(i).text().toString() ==
+               std::to_string(i));
     }
 
     assert(candidatelist.totalSize() == 10);
@@ -89,7 +93,8 @@ int main() {
 
     // BulkCandidateList
     for (int i = 0; i < 10; i++) {
-        assert(candidatelist.candidateFromAll(i).text().toString() == std::to_string(i));
+        assert(candidatelist.candidateFromAll(i).text().toString() ==
+               std::to_string(i));
     }
 
     assert(candidatelist.totalSize() == 10);
@@ -106,7 +111,8 @@ int main() {
 
     // BulkCandidateList
     for (int i = 0; i < 9; i++) {
-        assert(candidatelist.candidateFromAll(i).text().toString() == std::to_string(i + 1));
+        assert(candidatelist.candidateFromAll(i).text().toString() ==
+               std::to_string(i + 1));
     }
 
     assert(candidatelist.totalSize() == 9);
@@ -117,14 +123,16 @@ int main() {
     // result
     int expect1[] = {2, 3, 4, 5, 1, 6, 7, 8, 9};
     for (int i = 0; i < 9; i++) {
-        assert(candidatelist.candidateFromAll(i).text().toString() == std::to_string(expect1[i]));
+        assert(candidatelist.candidateFromAll(i).text().toString() ==
+               std::to_string(expect1[i]));
     }
     assert(candidatelist.totalSize() == 9);
 
     candidatelist.move(8, 3);
     int expect2[] = {2, 3, 4, 9, 5, 1, 6, 7, 8};
     for (int i = 0; i < 9; i++) {
-        assert(candidatelist.candidateFromAll(i).text().toString() == std::to_string(expect2[i]));
+        assert(candidatelist.candidateFromAll(i).text().toString() ==
+               std::to_string(expect2[i]));
     }
     assert(candidatelist.totalSize() == 9);
 

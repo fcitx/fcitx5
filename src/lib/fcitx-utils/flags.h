@@ -71,11 +71,17 @@ public:
         return *this;
     }
     inline Flags operator|(Flags f) const { return Flags(flags_ | f.flags_); }
-    inline Flags operator|(Enum f) const { return Flags(flags_ | static_cast<storage_type>(f)); }
+    inline Flags operator|(Enum f) const {
+        return Flags(flags_ | static_cast<storage_type>(f));
+    }
     inline Flags operator^(Flags f) const { return Flags(flags_ ^ f.flags_); }
-    inline Flags operator^(Enum f) const { return Flags(flags_ ^ static_cast<storage_type>(f)); }
+    inline Flags operator^(Enum f) const {
+        return Flags(flags_ ^ static_cast<storage_type>(f));
+    }
     inline Flags operator&(Flags f) const { return Flags(flags_ & f.flags_); }
-    inline Flags operator&(Enum f) const { return Flags(flags_ & static_cast<storage_type>(f)); }
+    inline Flags operator&(Enum f) const {
+        return Flags(flags_ & static_cast<storage_type>(f));
+    }
     inline Flags operator~() const { return Flags(~flags_); }
 
     template <typename T>
@@ -84,7 +90,9 @@ public:
     }
 
     bool operator==(const Flags &f) const { return flags_ == f.flags_; }
-    bool operator==(Enum f) const { return flags_ == static_cast<storage_type>(f); }
+    bool operator==(Enum f) const {
+        return flags_ == static_cast<storage_type>(f);
+    }
     bool operator!=(const Flags &f) const { return !operator==(f); }
     bool operator!=(Enum f) const { return !operator==(f); }
 

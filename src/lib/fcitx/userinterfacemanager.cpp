@@ -38,18 +38,23 @@ public:
     UserInterface *ui_ = nullptr;
     UserInterface *uiFallback_ = nullptr;
 
-    std::unordered_map<std::string, std::pair<Action *, ScopedConnection>> actions_;
+    std::unordered_map<std::string, std::pair<Action *, ScopedConnection>>
+        actions_;
 
-    typedef std::list<std::pair<InputContext *, std::unordered_set<UserInterfaceComponent, EnumHash>>> UIUpdateList;
+    typedef std::list<std::pair<
+        InputContext *, std::unordered_set<UserInterfaceComponent, EnumHash>>>
+        UIUpdateList;
     UIUpdateList updateList_;
     std::unordered_map<InputContext *, UIUpdateList::iterator> updateIndex_;
 };
 
-UserInterfaceManager::UserInterfaceManager() : d_ptr(std::make_unique<UserInterfaceManagerPrivate>()) {}
+UserInterfaceManager::UserInterfaceManager()
+    : d_ptr(std::make_unique<UserInterfaceManagerPrivate>()) {}
 
 UserInterfaceManager::~UserInterfaceManager() {}
 
-void UserInterfaceManager::load(AddonManager *addonManager, const std::string &uiName) {
+void UserInterfaceManager::load(AddonManager *addonManager,
+                                const std::string &uiName) {
     FCITX_D();
     auto names = addonManager->addonNames(AddonCategory::UI);
 
@@ -72,7 +77,8 @@ void UserInterfaceManager::load(AddonManager *addonManager, const std::string &u
     }
 }
 
-bool UserInterfaceManager::registerAction(const std::string &name, Action *action) {
+bool UserInterfaceManager::registerAction(const std::string &name,
+                                          Action *action) {
     FCITX_D();
     if (!action->name().empty() || name.empty()) {
         return false;
@@ -81,7 +87,8 @@ bool UserInterfaceManager::registerAction(const std::string &name, Action *actio
     if (iter != d->actions_.end()) {
         return false;
     }
-    ScopedConnection conn = action->connect<ObjectDestroyed>([this, action](void *) { unregisterAction(action); });
+    ScopedConnection conn = action->connect<ObjectDestroyed>(
+        [this, action](void *) { unregisterAction(action); });
     d->actions_.emplace(name, std::make_pair(action, std::move(conn)));
     action->setName(name);
     return true;
@@ -110,14 +117,18 @@ Action *UserInterfaceManager::lookupAction(const std::string &name) {
 }
 }
 
-void fcitx::UserInterfaceManager::update(fcitx::UserInterfaceComponent component, fcitx::InputContext *inputContext) {
+void fcitx::UserInterfaceManager::update(
+    fcitx::UserInterfaceComponent component,
+    fcitx::InputContext *inputContext) {
     FCITX_D();
     auto iter = d->updateIndex_.find(inputContext);
     decltype(d->updateList_)::iterator listIter;
     if (d->updateIndex_.end() == iter) {
-        d->updateList_.emplace_back(std::piecewise_construct, std::forward_as_tuple(inputContext),
+        d->updateList_.emplace_back(std::piecewise_construct,
+                                    std::forward_as_tuple(inputContext),
                                     std::forward_as_tuple());
-        d->updateIndex_[inputContext] = listIter = std::prev(d->updateList_.end());
+        d->updateIndex_[inputContext] = listIter =
+            std::prev(d->updateList_.end());
     } else {
         listIter = iter->second;
     }

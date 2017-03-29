@@ -33,9 +33,10 @@ namespace fcitx {
 
 class InputContextPrivate {
 public:
-    InputContextPrivate(InputContext *q, InputContextManager &manager, const std::string &program)
-        : q_ptr(q), manager_(manager), group_(nullptr), inputPanel_(q), statusArea_(q), hasFocus_(false),
-          program_(program) {
+    InputContextPrivate(InputContext *q, InputContextManager &manager,
+                        const std::string &program)
+        : q_ptr(q), manager_(manager), group_(nullptr), inputPanel_(q),
+          statusArea_(q), hasFocus_(false), program_(program) {
         uuid_generate(uuid_.data());
     }
 
@@ -74,7 +75,8 @@ public:
 
     IntrusiveListNode listNode_;
     ICUUID uuid_;
-    std::unordered_map<std::string, std::unique_ptr<InputContextProperty>> properties_;
+    std::unordered_map<std::string, std::unique_ptr<InputContextProperty>>
+        properties_;
     bool destroyed_ = false;
 
     FCITX_DECLARE_PUBLIC(InputContext);

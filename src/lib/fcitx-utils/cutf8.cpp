@@ -27,14 +27,19 @@ FCITX_C_DECL_BEGIN
 #define CONT(i) FCITX_ISUTF8_CB(in[i])
 #define VAL(i, s) ((in[i] & 0x3f) << s)
 
-#define UTF8_LENGTH(Char)                                                                                              \
-    ((Char) < 0x80                                                                                                     \
-         ? 1                                                                                                           \
-         : ((Char) < 0x800 ? 2 : ((Char) < 0x10000 ? 3 : ((Char) < 0x200000 ? 4 : ((Char) < 0x4000000 ? 5 : 6)))))
+#define UTF8_LENGTH(Char)                                                      \
+    ((Char) < 0x80                                                             \
+         ? 1                                                                   \
+         : ((Char) < 0x800                                                     \
+                ? 2                                                            \
+                : ((Char) < 0x10000                                            \
+                       ? 3                                                     \
+                       : ((Char) < 0x200000 ? 4                                \
+                                            : ((Char) < 0x4000000 ? 5 : 6)))))
 
-#define UNICODE_VALID(Char)                                                                                            \
-    ((Char) < 0x110000 && (((Char)&0xFFFFF800) != 0xD800) && ((Char) < 0xFDD0 || (Char) > 0xFDEF) &&                   \
-     ((Char)&0xFFFE) != 0xFFFE)
+#define UNICODE_VALID(Char)                                                    \
+    ((Char) < 0x110000 && (((Char)&0xFFFFF800) != 0xD800) &&                   \
+     ((Char) < 0xFDD0 || (Char) > 0xFDEF) && ((Char)&0xFFFE) != 0xFFFE)
 
 FCITXUTILS_EXPORT
 size_t fcitx_utf8_strlen(const char *s) {
@@ -72,7 +77,8 @@ unsigned int fcitx_utf8_char_len(const char *in) {
         return 5;
 
     /* 6-byte, 0x400000-0x7FFFFFF */
-    if ((in[0] & 0xfe) == 0xfc && CONT(1) && CONT(2) && CONT(3) && CONT(4) && CONT(5))
+    if ((in[0] & 0xfe) == 0xfc && CONT(1) && CONT(2) && CONT(3) && CONT(4) &&
+        CONT(5))
         return 6;
 
     return 1;
@@ -170,13 +176,16 @@ char *fcitx_utf8_get_char(const char *i, uint32_t *chr) {
 
     /* 5-byte, 0x200000-0x3FFFFFF */
     if ((in[0] & 0xfc) == 0xf8 && CONT(1) && CONT(2) && CONT(3) && CONT(4)) {
-        *chr = ((in[0] & 0x3) << 24) | VAL(1, 18) | VAL(2, 12) | VAL(3, 6) | VAL(4, 0);
+        *chr = ((in[0] & 0x3) << 24) | VAL(1, 18) | VAL(2, 12) | VAL(3, 6) |
+               VAL(4, 0);
         return (char *)in + 5;
     }
 
     /* 6-byte, 0x400000-0x7FFFFFF */
-    if ((in[0] & 0xfe) == 0xfc && CONT(1) && CONT(2) && CONT(3) && CONT(4) && CONT(5)) {
-        *chr = ((in[0] & 0x1) << 30) | VAL(1, 24) | VAL(2, 18) | VAL(3, 12) | VAL(4, 6) | VAL(5, 0);
+    if ((in[0] & 0xfe) == 0xfc && CONT(1) && CONT(2) && CONT(3) && CONT(4) &&
+        CONT(5)) {
+        *chr = ((in[0] & 0x1) << 30) | VAL(1, 24) | VAL(2, 18) | VAL(3, 12) |
+               VAL(4, 6) | VAL(5, 0);
         return (char *)in + 6;
     }
 
@@ -360,8 +369,9 @@ size_t fcitx_utf8_strnlen_validated(const char *str, size_t byte) {
     size_t len = 0;
     while (*str && byte > 0) {
         int charLen;
-        uint32_t chr =
-            fcitx_utf8_get_char_validated(str, (byte > FCITX_UTF8_MAX_LENGTH ? FCITX_UTF8_MAX_LENGTH : byte), &charLen);
+        uint32_t chr = fcitx_utf8_get_char_validated(
+            str, (byte > FCITX_UTF8_MAX_LENGTH ? FCITX_UTF8_MAX_LENGTH : byte),
+            &charLen);
         if (chr == (uint32_t)-1 || chr == (uint32_t)-2) {
             return (size_t)-1;
         }

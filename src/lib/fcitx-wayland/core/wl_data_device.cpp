@@ -17,13 +17,15 @@ const struct wl_data_device_listener WlDataDevice::listener = {
             return obj->dataOffer()(id_);
         }
     },
-    [](void *data, wl_data_device *wldata, uint32_t serial, wl_surface *surface, wl_fixed_t x, wl_fixed_t y,
-       wl_data_offer *id) {
+    [](void *data, wl_data_device *wldata, uint32_t serial, wl_surface *surface,
+       wl_fixed_t x, wl_fixed_t y, wl_data_offer *id) {
         auto obj = static_cast<WlDataDevice *>(data);
         assert(*obj == wldata);
         {
-            auto surface_ = static_cast<WlSurface *>(wl_surface_get_user_data(surface));
-            auto id_ = static_cast<WlDataOffer *>(wl_data_offer_get_user_data(id));
+            auto surface_ =
+                static_cast<WlSurface *>(wl_surface_get_user_data(surface));
+            auto id_ =
+                static_cast<WlDataOffer *>(wl_data_offer_get_user_data(id));
             return obj->enter()(serial, surface_, x, y, id_);
         }
     },
@@ -32,7 +34,8 @@ const struct wl_data_device_listener WlDataDevice::listener = {
         assert(*obj == wldata);
         { return obj->leave()(); }
     },
-    [](void *data, wl_data_device *wldata, uint32_t time, wl_fixed_t x, wl_fixed_t y) {
+    [](void *data, wl_data_device *wldata, uint32_t time, wl_fixed_t x,
+       wl_fixed_t y) {
         auto obj = static_cast<WlDataDevice *>(data);
         assert(*obj == wldata);
         { return obj->motion()(time, x, y); }
@@ -46,13 +49,15 @@ const struct wl_data_device_listener WlDataDevice::listener = {
         auto obj = static_cast<WlDataDevice *>(data);
         assert(*obj == wldata);
         {
-            auto id_ = static_cast<WlDataOffer *>(wl_data_offer_get_user_data(id));
+            auto id_ =
+                static_cast<WlDataOffer *>(wl_data_offer_get_user_data(id));
             return obj->selection()(id_);
         }
     },
 };
 WlDataDevice::WlDataDevice(wl_data_device *data)
-    : version_(wl_data_device_get_version(data)), data_(data, &WlDataDevice::destructor) {
+    : version_(wl_data_device_get_version(data)),
+      data_(data, &WlDataDevice::destructor) {
     wl_data_device_set_user_data(*this, this);
     wl_data_device_add_listener(*this, &WlDataDevice::listener, this);
 }
@@ -64,7 +69,8 @@ void WlDataDevice::destructor(wl_data_device *data) {
         return wl_data_device_destroy(data);
     }
 }
-void WlDataDevice::startDrag(WlDataSource *source, WlSurface *origin, WlSurface *icon, uint32_t serial) {
+void WlDataDevice::startDrag(WlDataSource *source, WlSurface *origin,
+                             WlSurface *icon, uint32_t serial) {
     return wl_data_device_start_drag(*this, *source, *origin, *icon, serial);
 }
 void WlDataDevice::setSelection(WlDataSource *source, uint32_t serial) {

@@ -26,12 +26,14 @@ public:
     std::unordered_map<std::string, AddonFunctionAdaptorBase *> callbackMap_;
 };
 
-AddonInstance::AddonInstance() : d_ptr(std::make_unique<AddonInstancePrivate>()) {}
+AddonInstance::AddonInstance()
+    : d_ptr(std::make_unique<AddonInstancePrivate>()) {}
 AddonInstance::~AddonInstance() {}
 void AddonInstance::reloadConfig() {}
 void AddonInstance::save() {}
 
-void AddonInstance::registerCallback(const std::string &name, AddonFunctionAdaptorBase *adaptor) {
+void AddonInstance::registerCallback(const std::string &name,
+                                     AddonFunctionAdaptorBase *adaptor) {
     FCITX_D();
     d->callbackMap_[name] = adaptor;
 }

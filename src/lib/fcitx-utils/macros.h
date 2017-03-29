@@ -21,14 +21,20 @@
 
 // steal some Qt macro here
 
-#define FCITX_DECLARE_PUBLIC(Class)                                                                                    \
-    inline Class *q_func() { return static_cast<Class *>(q_ptr); }                                                     \
-    inline const Class *q_func() const { return static_cast<const Class *>(q_ptr); }                                   \
+#define FCITX_DECLARE_PUBLIC(Class)                                            \
+    inline Class *q_func() { return static_cast<Class *>(q_ptr); }             \
+    inline const Class *q_func() const {                                       \
+        return static_cast<const Class *>(q_ptr);                              \
+    }                                                                          \
     friend class Class;
 
-#define FCITX_DECLARE_PRIVATE(Class)                                                                                   \
-    inline Class##Private *d_func() { return reinterpret_cast<Class##Private *>(d_ptr.get()); }                        \
-    inline const Class##Private *d_func() const { return reinterpret_cast<Class##Private *>(d_ptr.get()); }            \
+#define FCITX_DECLARE_PRIVATE(Class)                                           \
+    inline Class##Private *d_func() {                                          \
+        return reinterpret_cast<Class##Private *>(d_ptr.get());                \
+    }                                                                          \
+    inline const Class##Private *d_func() const {                              \
+        return reinterpret_cast<Class##Private *>(d_ptr.get());                \
+    }                                                                          \
     friend class Class##Private;
 
 #define FCITX_D() auto *const d = d_func()
@@ -58,70 +64,104 @@
 
 #define FCITX_FOR_EACH_0(...)
 #define FCITX_FOR_EACH_1(what, x, ...) what(x)
-#define FCITX_FOR_EACH_2(what, x, ...) what(x) FCITX_EXPAND(FCITX_FOR_EACH_1(what, __VA_ARGS__))
-#define FCITX_FOR_EACH_3(what, x, ...) what(x) FCITX_EXPAND(FCITX_FOR_EACH_2(what, __VA_ARGS__))
-#define FCITX_FOR_EACH_4(what, x, ...) what(x) FCITX_EXPAND(FCITX_FOR_EACH_3(what, __VA_ARGS__))
-#define FCITX_FOR_EACH_5(what, x, ...) what(x) FCITX_EXPAND(FCITX_FOR_EACH_4(what, __VA_ARGS__))
-#define FCITX_FOR_EACH_6(what, x, ...) what(x) FCITX_EXPAND(FCITX_FOR_EACH_5(what, __VA_ARGS__))
-#define FCITX_FOR_EACH_7(what, x, ...) what(x) FCITX_EXPAND(FCITX_FOR_EACH_6(what, __VA_ARGS__))
-#define FCITX_FOR_EACH_8(what, x, ...) what(x) FCITX_EXPAND(FCITX_FOR_EACH_7(what, __VA_ARGS__))
-#define FCITX_FOR_EACH_9(what, x, ...) what(x) FCITX_EXPAND(FCITX_FOR_EACH_8(what, __VA_ARGS__))
-#define FCITX_FOR_EACH_10(what, x, ...) what(x) FCITX_EXPAND(FCITX_FOR_EACH_9(what, __VA_ARGS__))
-#define FCITX_FOR_EACH_11(what, x, ...) what(x) FCITX_EXPAND(FCITX_FOR_EACH_10(what, __VA_ARGS__))
-#define FCITX_FOR_EACH_12(what, x, ...) what(x) FCITX_EXPAND(FCITX_FOR_EACH_11(what, __VA_ARGS__))
+#define FCITX_FOR_EACH_2(what, x, ...)                                         \
+    what(x) FCITX_EXPAND(FCITX_FOR_EACH_1(what, __VA_ARGS__))
+#define FCITX_FOR_EACH_3(what, x, ...)                                         \
+    what(x) FCITX_EXPAND(FCITX_FOR_EACH_2(what, __VA_ARGS__))
+#define FCITX_FOR_EACH_4(what, x, ...)                                         \
+    what(x) FCITX_EXPAND(FCITX_FOR_EACH_3(what, __VA_ARGS__))
+#define FCITX_FOR_EACH_5(what, x, ...)                                         \
+    what(x) FCITX_EXPAND(FCITX_FOR_EACH_4(what, __VA_ARGS__))
+#define FCITX_FOR_EACH_6(what, x, ...)                                         \
+    what(x) FCITX_EXPAND(FCITX_FOR_EACH_5(what, __VA_ARGS__))
+#define FCITX_FOR_EACH_7(what, x, ...)                                         \
+    what(x) FCITX_EXPAND(FCITX_FOR_EACH_6(what, __VA_ARGS__))
+#define FCITX_FOR_EACH_8(what, x, ...)                                         \
+    what(x) FCITX_EXPAND(FCITX_FOR_EACH_7(what, __VA_ARGS__))
+#define FCITX_FOR_EACH_9(what, x, ...)                                         \
+    what(x) FCITX_EXPAND(FCITX_FOR_EACH_8(what, __VA_ARGS__))
+#define FCITX_FOR_EACH_10(what, x, ...)                                        \
+    what(x) FCITX_EXPAND(FCITX_FOR_EACH_9(what, __VA_ARGS__))
+#define FCITX_FOR_EACH_11(what, x, ...)                                        \
+    what(x) FCITX_EXPAND(FCITX_FOR_EACH_10(what, __VA_ARGS__))
+#define FCITX_FOR_EACH_12(what, x, ...)                                        \
+    what(x) FCITX_EXPAND(FCITX_FOR_EACH_11(what, __VA_ARGS__))
 
 #define FCITX_FOR_EACH_IDX_0(...)
 #define FCITX_FOR_EACH_IDX_1(what, x, ...) what(1, x)
-#define FCITX_FOR_EACH_IDX_2(what, x, ...) what(2, x) FCITX_EXPAND(FCITX_FOR_EACH_IDX_1(what, __VA_ARGS__))
-#define FCITX_FOR_EACH_IDX_3(what, x, ...) what(3, x) FCITX_EXPAND(FCITX_FOR_EACH_IDX_2(what, __VA_ARGS__))
-#define FCITX_FOR_EACH_IDX_4(what, x, ...) what(4, x) FCITX_EXPAND(FCITX_FOR_EACH_IDX_3(what, __VA_ARGS__))
-#define FCITX_FOR_EACH_IDX_5(what, x, ...) what(5, x) FCITX_EXPAND(FCITX_FOR_EACH_IDX_4(what, __VA_ARGS__))
-#define FCITX_FOR_EACH_IDX_6(what, x, ...) what(6, x) FCITX_EXPAND(FCITX_FOR_EACH_IDX_5(what, __VA_ARGS__))
-#define FCITX_FOR_EACH_IDX_7(what, x, ...) what(7, x) FCITX_EXPAND(FCITX_FOR_EACH_IDX_6(what, __VA_ARGS__))
-#define FCITX_FOR_EACH_IDX_8(what, x, ...) what(8, x) FCITX_EXPAND(FCITX_FOR_EACH_IDX_7(what, __VA_ARGS__))
-#define FCITX_FOR_EACH_IDX_9(what, x, ...) what(9, x) FCITX_EXPAND(FCITX_FOR_EACH_IDX_8(what, __VA_ARGS__))
-#define FCITX_FOR_EACH_IDX_10(what, x, ...) what(10, x) FCITX_EXPAND(FCITX_FOR_EACH_IDX_9(what, __VA_ARGS__))
-#define FCITX_FOR_EACH_IDX_11(what, x, ...) what(11, x) FCITX_EXPAND(FCITX_FOR_EACH_IDX_10(what, __VA_ARGS__))
-#define FCITX_FOR_EACH_IDX_12(what, x, ...) what(12, x) FCITX_EXPAND(FCITX_FOR_EACH_IDX_11(what, __VA_ARGS__))
+#define FCITX_FOR_EACH_IDX_2(what, x, ...)                                     \
+    what(2, x) FCITX_EXPAND(FCITX_FOR_EACH_IDX_1(what, __VA_ARGS__))
+#define FCITX_FOR_EACH_IDX_3(what, x, ...)                                     \
+    what(3, x) FCITX_EXPAND(FCITX_FOR_EACH_IDX_2(what, __VA_ARGS__))
+#define FCITX_FOR_EACH_IDX_4(what, x, ...)                                     \
+    what(4, x) FCITX_EXPAND(FCITX_FOR_EACH_IDX_3(what, __VA_ARGS__))
+#define FCITX_FOR_EACH_IDX_5(what, x, ...)                                     \
+    what(5, x) FCITX_EXPAND(FCITX_FOR_EACH_IDX_4(what, __VA_ARGS__))
+#define FCITX_FOR_EACH_IDX_6(what, x, ...)                                     \
+    what(6, x) FCITX_EXPAND(FCITX_FOR_EACH_IDX_5(what, __VA_ARGS__))
+#define FCITX_FOR_EACH_IDX_7(what, x, ...)                                     \
+    what(7, x) FCITX_EXPAND(FCITX_FOR_EACH_IDX_6(what, __VA_ARGS__))
+#define FCITX_FOR_EACH_IDX_8(what, x, ...)                                     \
+    what(8, x) FCITX_EXPAND(FCITX_FOR_EACH_IDX_7(what, __VA_ARGS__))
+#define FCITX_FOR_EACH_IDX_9(what, x, ...)                                     \
+    what(9, x) FCITX_EXPAND(FCITX_FOR_EACH_IDX_8(what, __VA_ARGS__))
+#define FCITX_FOR_EACH_IDX_10(what, x, ...)                                    \
+    what(10, x) FCITX_EXPAND(FCITX_FOR_EACH_IDX_9(what, __VA_ARGS__))
+#define FCITX_FOR_EACH_IDX_11(what, x, ...)                                    \
+    what(11, x) FCITX_EXPAND(FCITX_FOR_EACH_IDX_10(what, __VA_ARGS__))
+#define FCITX_FOR_EACH_IDX_12(what, x, ...)                                    \
+    what(12, x) FCITX_EXPAND(FCITX_FOR_EACH_IDX_11(what, __VA_ARGS__))
 
-#define FCITX_GET_ARG13(_1, _2, _3, _4, _5, _6, _7, _8, _9, _10, _11, _12, N, ...) N
+#define FCITX_GET_ARG13(_1, _2, _3, _4, _5, _6, _7, _8, _9, _10, _11, _12, N,  \
+                        ...)                                                   \
+    N
 
-#define FCITX_HAS_COMMA(...) FCITX_GET_ARG13(__VA_ARGS__, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0)
+#define FCITX_HAS_COMMA(...)                                                   \
+    FCITX_GET_ARG13(__VA_ARGS__, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0)
 
 #define FCITX_TRIGGER_PARENTHESIS_(...) ,
 
-#define FCITX_IS_EMPTY(...)                                                                                            \
-    FCITX_IS_EMPTY_(FCITX_HAS_COMMA(__VA_ARGS__), FCITX_HAS_COMMA(FCITX_TRIGGER_PARENTHESIS_ __VA_ARGS__),             \
-                    FCITX_HAS_COMMA(__VA_ARGS__()), FCITX_HAS_COMMA(FCITX_TRIGGER_PARENTHESIS_ __VA_ARGS__()))
+#define FCITX_IS_EMPTY(...)                                                    \
+    FCITX_IS_EMPTY_(FCITX_HAS_COMMA(__VA_ARGS__),                              \
+                    FCITX_HAS_COMMA(FCITX_TRIGGER_PARENTHESIS_ __VA_ARGS__),   \
+                    FCITX_HAS_COMMA(__VA_ARGS__()),                            \
+                    FCITX_HAS_COMMA(FCITX_TRIGGER_PARENTHESIS_ __VA_ARGS__()))
 
 #define FCITX_PASTE5_(_0, _1, _2, _3, _4) _0##_1##_2##_3##_4
 
-#define FCITX_IS_EMPTY_(_0, _1, _2, _3) FCITX_HAS_COMMA(FCITX_PASTE5_(FCITX_IS_EMPTY_CASE_, _0, _1, _2, _3))
+#define FCITX_IS_EMPTY_(_0, _1, _2, _3)                                        \
+    FCITX_HAS_COMMA(FCITX_PASTE5_(FCITX_IS_EMPTY_CASE_, _0, _1, _2, _3))
 
 #define FCITX_IS_EMPTY_CASE_0001 ,
 
 #define FCITX_EMPTY_1(X) 0
 #define FCITX_EMPTY_0(X) X
 
-#define FCITX_NARG(...) FCITX_NARG_HELPER_(FCITX_IS_EMPTY(__VA_ARGS__), FCITX_NARG_(__VA_ARGS__))
-#define FCITX_NARG_HELPER_(B, VAL) FCITX_NARG_HELPER__(FCITX_CONCATENATE(FCITX_EMPTY_, B), VAL)
+#define FCITX_NARG(...)                                                        \
+    FCITX_NARG_HELPER_(FCITX_IS_EMPTY(__VA_ARGS__), FCITX_NARG_(__VA_ARGS__))
+#define FCITX_NARG_HELPER_(B, VAL)                                             \
+    FCITX_NARG_HELPER__(FCITX_CONCATENATE(FCITX_EMPTY_, B), VAL)
 #define FCITX_NARG_HELPER__(B, VAL) B(VAL)
 
 #define FCITX_NARG_(...) FCITX_NARG__(__VA_ARGS__, FCITX_RSEQ12())
 #define FCITX_NARG__(...) FCITX_EXPAND(FCITX_GET_ARG13(__VA_ARGS__))
 #define FCITX_RSEQ12() 12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1, 0
 #define FCITX_CONCATENATE(x, y) x##y
-#define FCITX_FOR_EACH_(N, what, ...) FCITX_EXPAND(FCITX_CONCATENATE(FCITX_FOR_EACH_, N)(what, __VA_ARGS__))
-#define FCITX_FOR_EACH(what, ...) FCITX_FOR_EACH_(FCITX_NARG(__VA_ARGS__), what, __VA_ARGS__)
+#define FCITX_FOR_EACH_(N, what, ...)                                          \
+    FCITX_EXPAND(FCITX_CONCATENATE(FCITX_FOR_EACH_, N)(what, __VA_ARGS__))
+#define FCITX_FOR_EACH(what, ...)                                              \
+    FCITX_FOR_EACH_(FCITX_NARG(__VA_ARGS__), what, __VA_ARGS__)
 
-#define FCITX_FOR_EACH_IDX_(N, what, ...) FCITX_EXPAND(FCITX_CONCATENATE(FCITX_FOR_EACH_IDX_, N)(what, __VA_ARGS__))
-#define FCITX_FOR_EACH_IDX(what, ...) FCITX_FOR_EACH_IDX_(FCITX_NARG(__VA_ARGS__), what, __VA_ARGS__)
+#define FCITX_FOR_EACH_IDX_(N, what, ...)                                      \
+    FCITX_EXPAND(FCITX_CONCATENATE(FCITX_FOR_EACH_IDX_, N)(what, __VA_ARGS__))
+#define FCITX_FOR_EACH_IDX(what, ...)                                          \
+    FCITX_FOR_EACH_IDX_(FCITX_NARG(__VA_ARGS__), what, __VA_ARGS__)
 
 #define FCITX_XSTRINGIFY(...) #__VA_ARGS__
 #define FCITX_STRINGIFY(...) FCITX_XSTRINGIFY(__VA_ARGS__)
-#define FCITX_RETURN_IF(EXPR, VALUE)                                                                                   \
-    if ((EXPR)) {                                                                                                      \
-        return (VALUE);                                                                                                \
+#define FCITX_RETURN_IF(EXPR, VALUE)                                           \
+    if ((EXPR)) {                                                              \
+        return (VALUE);                                                        \
     }
 
 #endif // _FCITX_UTILS_MACROS_H_

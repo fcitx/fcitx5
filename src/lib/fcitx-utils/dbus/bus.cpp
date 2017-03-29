@@ -82,11 +82,13 @@ bool Bus::isOpen() const {
     return d->bus_ && sd_bus_is_open(d->bus_) > 0;
 }
 
-Message Bus::createMethodCall(const char *destination, const char *path, const char *interface, const char *member) {
+Message Bus::createMethodCall(const char *destination, const char *path,
+                              const char *interface, const char *member) {
     FCITX_D();
     Message msg;
     auto msgD = msg.d_func();
-    if (sd_bus_message_new_method_call(d->bus_, &msgD->msg_, destination, path, interface, member) < 0) {
+    if (sd_bus_message_new_method_call(d->bus_, &msgD->msg_, destination, path,
+                                       interface, member) < 0) {
         msgD->type_ = MessageType::Invalid;
     } else {
         msgD->type_ = MessageType::MethodCall;
@@ -94,11 +96,13 @@ Message Bus::createMethodCall(const char *destination, const char *path, const c
     return msg;
 }
 
-Message Bus::createSignal(const char *path, const char *interface, const char *member) {
+Message Bus::createSignal(const char *path, const char *interface,
+                          const char *member) {
     FCITX_D();
     Message msg;
     auto msgD = msg.d_func();
-    int r = sd_bus_message_new_signal(d->bus_, &msgD->msg_, path, interface, member);
+    int r = sd_bus_message_new_signal(d->bus_, &msgD->msg_, path, interface,
+                                      member);
     if (r < 0) {
         msgD->type_ = MessageType::Invalid;
     } else {
@@ -130,11 +134,13 @@ int SDMessageCallback(sd_bus_message *m, void *userdata, sd_bus_error *) {
     return 1;
 }
 
-int SDEnumeratorCallback(sd_bus *, const char *prefix, void *userdata, char ***ret_nodes, sd_bus_error *) {
+int SDEnumeratorCallback(sd_bus *, const char *prefix, void *userdata,
+                         char ***ret_nodes, sd_bus_error *) {
     auto slot = static_cast<SDSubTreeSlot *>(userdata);
     try {
         auto result = slot->enumerator(prefix);
-        auto ret = static_cast<char **>(malloc(sizeof(char *) * (result.size() + 1)));
+        auto ret =
+            static_cast<char **>(malloc(sizeof(char *) * (result.size() + 1)));
         if (!ret) {
             return -ENOMEM;
         }
@@ -163,7 +169,8 @@ Slot *Bus::addMatch(const std::string &match, MessageCallback callback) {
     FCITX_D();
     auto slot = std::make_unique<SDSlot>(callback);
     sd_bus_slot *sdSlot;
-    int r = sd_bus_add_match(d->bus_, &sdSlot, match.c_str(), SDMessageCallback, slot.get());
+    int r = sd_bus_add_match(d->bus_, &sdSlot, match.c_str(), SDMessageCallback,
+                             slot.get());
     if (r < 0) {
         return nullptr;
     }
@@ -191,7 +198,8 @@ Slot *Bus::addObject(const std::string &path, MessageCallback callback) {
     FCITX_D();
     auto slot = std::make_unique<SDSlot>(callback);
     sd_bus_slot *sdSlot;
-    int r = sd_bus_add_object(d->bus_, &sdSlot, path.c_str(), SDMessageCallback, slot.get());
+    int r = sd_bus_add_object(d->bus_, &sdSlot, path.c_str(), SDMessageCallback,
+                              slot.get());
     if (r < 0) {
         return nullptr;
     }
@@ -201,11 +209,15 @@ Slot *Bus::addObject(const std::string &path, MessageCallback callback) {
     return slot.release();
 }
 
-bool Bus::addObjectVTable(const std::string &path, const std::string &interface, ObjectVTable &vtable) {
+bool Bus::addObjectVTable(const std::string &path, const std::string &interface,
+                          ObjectVTable &vtable) {
     FCITX_D();
-    auto slot = std::make_unique<SDVTableSlot>(vtable.d_func()->toSDBusVTable(), this, path, interface);
+    auto slot = std::make_unique<SDVTableSlot>(vtable.d_func()->toSDBusVTable(),
+                                               this, path, interface);
     sd_bus_slot *sdSlot;
-    int r = sd_bus_add_object_vtable(d->bus_, &sdSlot, path.c_str(), interface.c_str(), slot->vtable.data(), &vtable);
+    int r = sd_bus_add_object_vtable(d->bus_, &sdSlot, path.c_str(),
+                                     interface.c_str(), slot->vtable.data(),
+                                     &vtable);
     if (r < 0) {
         return false;
     }
@@ -216,15 +228,18 @@ bool Bus::addObjectVTable(const std::string &path, const std::string &interface,
     return true;
 }
 
-Slot *Bus::addObjectSubTree(const std::string &path, MessageCallback callback, EnumerateObjectCallback enumerator) {
+Slot *Bus::addObjectSubTree(const std::string &path, MessageCallback callback,
+                            EnumerateObjectCallback enumerator) {
     FCITX_D();
     auto slot = std::make_unique<SDSubTreeSlot>(callback, enumerator);
     sd_bus_slot *sdSlot, *sdEnumSlot;
-    int r = sd_bus_add_node_enumerator(d->bus_, &sdSlot, path.c_str(), SDEnumeratorCallback, slot.get());
+    int r = sd_bus_add_node_enumerator(d->bus_, &sdSlot, path.c_str(),
+                                       SDEnumeratorCallback, slot.get());
     if (r < 0) {
         return nullptr;
     }
-    r = sd_bus_add_fallback(d->bus_, &sdEnumSlot, path.c_str(), SDMessageCallback, slot.get());
+    r = sd_bus_add_fallback(d->bus_, &sdEnumSlot, path.c_str(),
+                            SDMessageCallback, slot.get());
 
     slot->slot = sdSlot;
     slot->enumSlot = sdEnumSlot;
@@ -239,8 +254,12 @@ void *Bus::nativeHandle() const {
 
 bool Bus::requestName(const std::string &name, Flags<RequestNameFlag> flags) {
     FCITX_D();
-    int sd_flags = ((flags & RequestNameFlag::ReplaceExisting) ? SD_BUS_NAME_REPLACE_EXISTING : 0) |
-                   ((flags & RequestNameFlag::AllowReplacement) ? SD_BUS_NAME_ALLOW_REPLACEMENT : 0) |
+    int sd_flags = ((flags & RequestNameFlag::ReplaceExisting)
+                        ? SD_BUS_NAME_REPLACE_EXISTING
+                        : 0) |
+                   ((flags & RequestNameFlag::AllowReplacement)
+                        ? SD_BUS_NAME_ALLOW_REPLACEMENT
+                        : 0) |
                    ((flags & RequestNameFlag::Queue) ? SD_BUS_NAME_QUEUE : 0);
     int r = sd_bus_request_name(d->bus_, name.c_str(), sd_flags);
     return r >= 0;
@@ -252,8 +271,8 @@ bool Bus::releaseName(const std::string &name) {
 }
 
 std::string Bus::serviceOwner(const std::string &name, uint64_t usec) {
-    auto msg =
-        createMethodCall("org.freedesktop.DBus", "/org/freedesktop/DBus", "org.freedesktop.DBus", "GetNameOwner");
+    auto msg = createMethodCall("org.freedesktop.DBus", "/org/freedesktop/DBus",
+                                "org.freedesktop.DBus", "GetNameOwner");
     msg << name;
     auto reply = msg.call(usec);
 
@@ -265,9 +284,10 @@ std::string Bus::serviceOwner(const std::string &name, uint64_t usec) {
     return {};
 }
 
-Slot *Bus::serviceOwnerAsync(const std::string &name, uint64_t usec, MessageCallback callback) {
-    auto msg =
-        createMethodCall("org.freedesktop.DBus", "/org/freedesktop/DBus", "org.freedesktop.DBus", "GetNameOwner");
+Slot *Bus::serviceOwnerAsync(const std::string &name, uint64_t usec,
+                             MessageCallback callback) {
+    auto msg = createMethodCall("org.freedesktop.DBus", "/org/freedesktop/DBus",
+                                "org.freedesktop.DBus", "GetNameOwner");
     msg << name;
     return msg.callAsync(usec, callback);
 }

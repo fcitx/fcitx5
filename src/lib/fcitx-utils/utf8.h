@@ -25,9 +25,13 @@
 
 namespace fcitx {
 namespace utf8 {
-FCITXUTILS_EXPORT inline size_t length(const std::string &s) { return fcitx_utf8_strnlen(s.c_str(), s.size()); }
-FCITXUTILS_EXPORT inline size_t lengthN(const std::string &s, size_t n) { return fcitx_utf8_strnlen(s.c_str(), n); }
-template<typename Iter>
+FCITXUTILS_EXPORT inline size_t length(const std::string &s) {
+    return fcitx_utf8_strnlen(s.c_str(), s.size());
+}
+FCITXUTILS_EXPORT inline size_t lengthN(const std::string &s, size_t n) {
+    return fcitx_utf8_strnlen(s.c_str(), n);
+}
+template <typename Iter>
 inline size_t length(Iter start, Iter end) {
     return fcitx_utf8_strnlen(&(*start), std::distance(start, end));
 }
@@ -38,33 +42,42 @@ FCITXUTILS_EXPORT inline size_t lengthValidated(const std::string &s) {
     return fcitx_utf8_strnlen_validated(s.c_str(), s.size());
 }
 
-FCITXUTILS_EXPORT inline size_t lengthNValidated(const std::string &s, size_t n) {
+FCITXUTILS_EXPORT inline size_t lengthNValidated(const std::string &s,
+                                                 size_t n) {
     return fcitx_utf8_strnlen_validated(s.c_str(), n);
 }
-template<typename Iter>
+template <typename Iter>
 inline size_t lengthValidated(Iter start, Iter end) {
     return fcitx_utf8_strnlen_validated(&(*start), std::distance(start, end));
 }
 
-FCITXUTILS_EXPORT inline bool validate(const std::string &s) { return fcitx_utf8_check_string(s.c_str()); }
+FCITXUTILS_EXPORT inline bool validate(const std::string &s) {
+    return fcitx_utf8_check_string(s.c_str());
+}
 
 FCITXUTILS_EXPORT std::string UCS4ToUTF8(uint32_t code);
 
-FCITXUTILS_EXPORT inline uint32_t getCharValidated(const std::string &s, size_t off = 0, int maxLen = 6) {
+FCITXUTILS_EXPORT inline uint32_t
+getCharValidated(const std::string &s, size_t off = 0, int maxLen = 6) {
     if (off >= s.size()) {
         return 0;
     }
     return fcitx_utf8_get_char_validated(s.c_str() + off, maxLen, nullptr);
 }
 
-FCITXUTILS_EXPORT inline size_t charLength(const std::string &s) { return fcitx_utf8_char_len(s.c_str()); }
+FCITXUTILS_EXPORT inline size_t charLength(const std::string &s) {
+    return fcitx_utf8_char_len(s.c_str());
+}
 
-FCITXUTILS_EXPORT inline int nthChar(const std::string &s, int start, size_t n) {
+FCITXUTILS_EXPORT inline int nthChar(const std::string &s, int start,
+                                     size_t n) {
     int diff = fcitx_utf8_get_nth_char(s.c_str() + start, n) - s.c_str();
     return diff;
 }
 
-FCITXUTILS_EXPORT inline int nthChar(const std::string &s, size_t n) { return nthChar(s, 0, n); }
+FCITXUTILS_EXPORT inline int nthChar(const std::string &s, size_t n) {
+    return nthChar(s, 0, n);
+}
 
 template <typename Iter>
 Iter nextChar(Iter iter) {

@@ -9,7 +9,8 @@ class WlSurface;
 class WlSubsurface {
 public:
     static constexpr const char *interface = "wl_subsurface";
-    static constexpr const wl_interface *const wlInterface = &wl_subsurface_interface;
+    static constexpr const wl_interface *const wlInterface =
+        &wl_subsurface_interface;
     static constexpr const uint32_t version = 1;
     typedef wl_subsurface wlType;
     operator wl_subsurface *() { return data_.get(); }

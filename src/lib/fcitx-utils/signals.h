@@ -85,14 +85,19 @@ public:
     typedef SlotInvokeIterator iterator;
     typedef Invoker<Ret, Args...> invoker_type;
 
-    SlotInvokeIterator(invoker_type &invoker, super_iterator iter) : parentIter_(iter), invoker_(invoker) {}
+    SlotInvokeIterator(invoker_type &invoker, super_iterator iter)
+        : parentIter_(iter), invoker_(invoker) {}
 
     SlotInvokeIterator(const iterator &other) = default;
 
     iterator &operator=(const iterator &other) = default;
 
-    bool operator==(const iterator &other) const noexcept { return parentIter_ == other.parentIter_; }
-    bool operator!=(const iterator &other) const noexcept { return !operator==(other); }
+    bool operator==(const iterator &other) const noexcept {
+        return parentIter_ == other.parentIter_;
+    }
+    bool operator!=(const iterator &other) const noexcept {
+        return !operator==(other);
+    }
 
     iterator &operator++() {
         parentIter_++;
@@ -113,14 +118,17 @@ private:
 };
 
 template <typename Invoker, typename Iter>
-SlotInvokeIterator<typename Iter::value_type> MakeSlotInvokeIterator(Invoker invoker, Iter iter) {
+SlotInvokeIterator<typename Iter::value_type>
+MakeSlotInvokeIterator(Invoker invoker, Iter iter) {
     return {invoker, iter};
 }
 
-template <typename T, typename Combiner = LastValue<typename std::function<T>::result_type>>
+template <typename T,
+          typename Combiner = LastValue<typename std::function<T>::result_type>>
 class Signal;
 
-class ConnectionBody : public TrackableObject<ConnectionBody>, public IntrusiveListNode {
+class ConnectionBody : public TrackableObject<ConnectionBody>,
+                       public IntrusiveListNode {
 public:
     template <typename T>
     ConnectionBody(HandlerTableEntry<T> *entry) : entry_(entry) {}
@@ -135,7 +143,8 @@ private:
 class Connection {
 public:
     Connection() {}
-    explicit Connection(TrackableObjectReference<ConnectionBody> body) : body_(std::move(body)) {}
+    explicit Connection(TrackableObjectReference<ConnectionBody> body)
+        : body_(std::move(body)) {}
     Connection(const Connection &other) : body_(other.body_) {}
     Connection(Connection &&other) : body_(std::move(other.body_)) {}
     virtual ~Connection() {}
@@ -147,7 +156,9 @@ public:
         // delete nullptr is no-op;
         delete body;
     }
-    bool operator==(const Connection &other) const { return body_.get() == other.body_.get(); }
+    bool operator==(const Connection &other) const {
+        return body_.get() == other.body_.get();
+    }
     bool operator!=(const Connection &other) const { return !(*this == other); }
 
     Connection &operator=(Connection other) {
@@ -162,7 +173,8 @@ protected:
 
 class ScopedConnection : public Connection {
 public:
-    // You must create two Connection if you really want two ScopedConnection for same actual connection
+    // You must create two Connection if you really want two ScopedConnection
+    // for same actual connection
     ScopedConnection(ScopedConnection &&other) : Connection(std::move(other)) {}
     ScopedConnection(Connection &&other) : Connection(std::move(other)) {}
     ScopedConnection(const ScopedConnection &) = delete;

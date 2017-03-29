@@ -23,14 +23,17 @@ namespace fcitx {
 
 class ConnectableObjectPrivate {
 public:
-    std::unordered_map<std::string, std::unique_ptr<fcitx::SignalBase>> signals_;
+    std::unordered_map<std::string, std::unique_ptr<fcitx::SignalBase>>
+        signals_;
 };
 
-ConnectableObject::ConnectableObject() : d_ptr(std::make_unique<ConnectableObjectPrivate>()) {}
+ConnectableObject::ConnectableObject()
+    : d_ptr(std::make_unique<ConnectableObjectPrivate>()) {}
 
 ConnectableObject::~ConnectableObject() {}
 
-void ConnectableObject::_registerSignal(std::string name, std::unique_ptr<fcitx::SignalBase> signal) {
+void ConnectableObject::_registerSignal(
+    std::string name, std::unique_ptr<fcitx::SignalBase> signal) {
     FCITX_D();
     d->signals_.emplace(std::move(name), std::move(signal));
 }

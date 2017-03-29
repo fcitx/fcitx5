@@ -28,7 +28,8 @@
 
 namespace fcitx {
 
-InputContext::InputContext(InputContextManager &manager, const std::string &program)
+InputContext::InputContext(InputContextManager &manager,
+                           const std::string &program)
     : d_ptr(std::make_unique<InputContextPrivate>(this, manager, program)) {
     manager.registerInputContext(*this);
 }
@@ -86,7 +87,8 @@ void InputContext::updateProperty(const std::string &name) {
     d->manager_.propagateProperty(*this, name);
 }
 
-void InputContext::registerProperty(const std::string &name, InputContextProperty *property) {
+void InputContext::registerProperty(const std::string &name,
+                                    InputContextProperty *property) {
     FCITX_D();
     d->properties_[name].reset(property);
 }
@@ -212,9 +214,12 @@ void InputContext::commitString(const std::string &text) {
     }
 }
 
-void InputContext::deleteSurroundingText(int offset, unsigned int size) { deleteSurroundingTextImpl(offset, size); }
+void InputContext::deleteSurroundingText(int offset, unsigned int size) {
+    deleteSurroundingTextImpl(offset, size);
+}
 
-void InputContext::forwardKey(const Key &rawKey, bool isRelease, int keyCode, int time) {
+void InputContext::forwardKey(const Key &rawKey, bool isRelease, int keyCode,
+                              int time) {
     FCITX_D();
     ForwardKeyEvent event(this, rawKey, isRelease, keyCode, time);
     if (!d->postEvent(event)) {

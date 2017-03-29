@@ -31,12 +31,14 @@ xcb_visualid_t findVisual(xcb_screen_t *screen) {
     return visual->visual_id;
 }
 
-XCBUI::XCBUI(ClassicUI *parent, const std::string &name, xcb_connection_t *conn, int defaultScreen)
+XCBUI::XCBUI(ClassicUI *parent, const std::string &name, xcb_connection_t *conn,
+             int defaultScreen)
     : parent_(parent), name_(name), conn_(conn), defaultScreen_(defaultScreen) {
     xcb_screen_t *screen = xcb_aux_get_screen(conn, defaultScreen);
     visualId_ = findVisual(screen);
     colorMap_ = xcb_generate_id(conn);
-    xcb_create_colormap(conn, XCB_COLORMAP_ALLOC_NONE, colorMap_, screen->root, visualId_);
+    xcb_create_colormap(conn, XCB_COLORMAP_ALLOC_NONE, colorMap_, screen->root,
+                        visualId_);
 }
 }
 }

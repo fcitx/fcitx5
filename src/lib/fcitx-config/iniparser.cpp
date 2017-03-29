@@ -125,7 +125,8 @@ void readFromIni(RawConfig &config, FILE *fin) {
                     }
                 },
                 currentGroup);
-        } else if ((equalPos = lineBuf.find_first_of('=', start)) != std::string::npos) {
+        } else if ((equalPos = lineBuf.find_first_of('=', start)) !=
+                   std::string::npos) {
             auto name = lineBuf.substr(start, equalPos - start);
             auto valueStart = equalPos + 1;
             auto valueEnd = lineBuf.size();
@@ -133,7 +134,8 @@ void readFromIni(RawConfig &config, FILE *fin) {
             bool unescapeQuote = false;
             ;
             // having quote at beginning and end, escape
-            if (valueEnd - valueStart >= 2 && lineBuf[valueStart] == '"' && lineBuf[valueEnd - 1] == '"') {
+            if (valueEnd - valueStart >= 2 && lineBuf[valueStart] == '"' &&
+                lineBuf[valueEnd - 1] == '"') {
                 lineBuf.resize(valueEnd - 1);
                 valueStart++;
                 unescapeQuote = true;
@@ -163,7 +165,8 @@ void readFromIni(RawConfig &config, FILE *fin) {
 bool writeAsIni(const RawConfig &root, FILE *fout) {
     std::function<bool(const RawConfig &, const std::string &path)> callback;
 
-    callback = [fout, &callback](const RawConfig &config, const std::string &path) {
+    callback = [fout, &callback](const RawConfig &config,
+                                 const std::string &path) {
         if (config.hasSubItems()) {
             std::stringstream valuesout;
             config.visitSubItems(
@@ -172,7 +175,8 @@ bool writeAsIni(const RawConfig &root, FILE *fout) {
                         return true;
                     }
 
-                    if (!config.comment().empty() && config.comment().find('\n') == std::string::npos) {
+                    if (!config.comment().empty() &&
+                        config.comment().find('\n') == std::string::npos) {
                         valuesout << "# " << config.comment() << "\n";
                     }
 
@@ -180,7 +184,8 @@ bool writeAsIni(const RawConfig &root, FILE *fout) {
                     value = stringutils::replaceAll(value, "\\", "\\\\");
                     value = stringutils::replaceAll(value, "\n", "\\n");
 
-                    bool needQuote = value.find_first_of("\f\r\t\v ") != std::string::npos;
+                    bool needQuote =
+                        value.find_first_of("\f\r\t\v ") != std::string::npos;
 
                     if (needQuote) {
                         value = stringutils::replaceAll(value, "\"", "\\\"");
@@ -197,9 +202,11 @@ bool writeAsIni(const RawConfig &root, FILE *fout) {
             auto valueString = valuesout.str();
             if (!valueString.empty()) {
                 if (!path.empty()) {
-                    FCITX_RETURN_IF(fprintf(fout, "[%s]\n", path.c_str()) < 0, false);
+                    FCITX_RETURN_IF(fprintf(fout, "[%s]\n", path.c_str()) < 0,
+                                    false);
                 }
-                FCITX_RETURN_IF(fprintf(fout, "%s\n", valueString.c_str()) < 0, false);
+                FCITX_RETURN_IF(fprintf(fout, "%s\n", valueString.c_str()) < 0,
+                                false);
             }
         }
         config.visitSubItems(callback, "", false, path);

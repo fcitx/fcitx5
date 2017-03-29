@@ -52,7 +52,8 @@ class IntrusiveListBase {
 protected:
     IntrusiveListBase() { root.prev_ = root.next_ = &root; }
 
-    void insertBetween(IntrusiveListNode *add, IntrusiveListNode *prev, IntrusiveListNode *next) noexcept {
+    void insertBetween(IntrusiveListNode *add, IntrusiveListNode *prev,
+                       IntrusiveListNode *next) noexcept {
         next->prev_ = add;
         prev->next_ = add;
         add->next_ = next;
@@ -65,7 +66,9 @@ protected:
         return insertBetween(add, pos, pos->next_);
     }
 
-    void append(IntrusiveListNode *add, IntrusiveListNode *pos) noexcept { return insertBetween(add, pos->prev_, pos); }
+    void append(IntrusiveListNode *add, IntrusiveListNode *pos) noexcept {
+        return insertBetween(add, pos->prev_, pos);
+    }
 
     void remove(IntrusiveListNode *pos) noexcept {
         auto next_ = pos->next_;
@@ -92,28 +95,43 @@ inline void IntrusiveListNode::remove() {
 
 template <typename T>
 struct IntrusiveListTrivialNodeGetter {
-    static_assert(std::is_base_of<IntrusiveListNode, T>::value, "T must be a descendant of IntrusiveListNode");
+    static_assert(std::is_base_of<IntrusiveListNode, T>::value,
+                  "T must be a descendant of IntrusiveListNode");
 
-    static IntrusiveListNode &toNode(T &value) noexcept { return *static_cast<IntrusiveListNode *>(&value); }
+    static IntrusiveListNode &toNode(T &value) noexcept {
+        return *static_cast<IntrusiveListNode *>(&value);
+    }
 
-    static T &toValue(IntrusiveListNode &node) noexcept { return *static_cast<T *>(&node); }
+    static T &toValue(IntrusiveListNode &node) noexcept {
+        return *static_cast<T *>(&node);
+    }
 
     static const IntrusiveListNode &toNode(const T &value) noexcept {
         return *static_cast<const IntrusiveListNode *>(&value);
     }
 
-    static const T &toValue(const IntrusiveListNode &node) noexcept { return *reinterpret_cast<const T *>(&node); }
+    static const T &toValue(const IntrusiveListNode &node) noexcept {
+        return *reinterpret_cast<const T *>(&node);
+    }
 };
 
 template <typename T, IntrusiveListNode T::*ptrToNode>
 struct IntrusiveListMemberNodeGetter {
-    static IntrusiveListNode &toNode(T &value) noexcept { return value.*ptrToNode; }
+    static IntrusiveListNode &toNode(T &value) noexcept {
+        return value.*ptrToNode;
+    }
 
-    static T &toValue(IntrusiveListNode &node) noexcept { return *parentFromMember(&node, ptrToNode); }
+    static T &toValue(IntrusiveListNode &node) noexcept {
+        return *parentFromMember(&node, ptrToNode);
+    }
 
-    static const IntrusiveListNode &toNode(const T &value) noexcept { return value.*ptrToNode; }
+    static const IntrusiveListNode &toNode(const T &value) noexcept {
+        return value.*ptrToNode;
+    }
 
-    static const T &toValue(const IntrusiveListNode &node) noexcept { return *parentFromMember(&node, ptrToNode); }
+    static const T &toValue(const IntrusiveListNode &node) noexcept {
+        return *parentFromMember(&node, ptrToNode);
+    }
 };
 
 template <typename T, typename NodeGetter>
@@ -128,13 +146,17 @@ public:
     typedef std::bidirectional_iterator_tag iterator_category;
     typedef T value_type;
     typedef std::ptrdiff_t difference_type;
-    typedef typename std::conditional<isConst, typename list_type::const_reference, typename list_type::reference>::type
-        reference;
-    typedef typename std::conditional<isConst, typename list_type::const_pointer, typename list_type::pointer>::type
-        pointer;
+    typedef
+        typename std::conditional<isConst, typename list_type::const_reference,
+                                  typename list_type::reference>::type
+            reference;
+    typedef
+        typename std::conditional<isConst, typename list_type::const_pointer,
+                                  typename list_type::pointer>::type pointer;
 
     IntrusiveListIterator() : node(nullptr), nodeGetter(nullptr) {}
-    IntrusiveListIterator(node_ptr node_, NodeGetter &nodeGetter_) : node(node_), nodeGetter(&nodeGetter_) {}
+    IntrusiveListIterator(node_ptr node_, NodeGetter &nodeGetter_)
+        : node(node_), nodeGetter(&nodeGetter_) {}
 
     IntrusiveListIterator(const typename list_type::iterator &other)
         : IntrusiveListIterator(other.pointed_node(), other.get_nodeGetter()) {}
@@ -145,8 +167,12 @@ public:
         return *this;
     }
 
-    bool operator==(const IntrusiveListIterator &other) const noexcept { return node == other.node; }
-    bool operator!=(const IntrusiveListIterator &other) const noexcept { return !operator==(other); }
+    bool operator==(const IntrusiveListIterator &other) const noexcept {
+        return node == other.node;
+    }
+    bool operator!=(const IntrusiveListIterator &other) const noexcept {
+        return !operator==(other);
+    }
     IntrusiveListIterator &operator++() {
         node = node->next();
         return *this;
@@ -185,10 +211,12 @@ public:
     typedef std::reverse_iterator<const_iterator> const_reverse_iterator;
     typedef std::size_t size_type;
 
-    IntrusiveList(NodeGetter nodeGetter_ = NodeGetter()) : nodeGetter(nodeGetter_) {}
+    IntrusiveList(NodeGetter nodeGetter_ = NodeGetter())
+        : nodeGetter(nodeGetter_) {}
 
     virtual ~IntrusiveList() {
-        // remove everything from list, since we didn't own anything, then we are good.
+        // remove everything from list, since we didn't own anything, then we
+        // are good.
         while (size()) {
             pop_back();
         }
@@ -216,9 +244,13 @@ public:
         ;
     }
 
-    iterator iterator_to(reference value) { return iterator(&nodeGetter.toNode(value), nodeGetter); }
+    iterator iterator_to(reference value) {
+        return iterator(&nodeGetter.toNode(value), nodeGetter);
+    }
 
-    const_iterator iterator_to(const_reference value) { return const_iterator(&nodeGetter.toNode(value), nodeGetter); }
+    const_iterator iterator_to(const_reference value) {
+        return const_iterator(&nodeGetter.toNode(value), nodeGetter);
+    }
 
     void push_back(reference value) {
         auto &node = nodeGetter.toNode(value);

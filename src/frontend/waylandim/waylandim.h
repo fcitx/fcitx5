@@ -41,7 +41,8 @@ public:
 private:
     Instance *instance_;
     std::unordered_map<std::string, std::unique_ptr<WaylandIMServer>> servers_;
-    std::unique_ptr<HandlerTableEntry<WaylandConnectionCreated>> createdCallback_;
+    std::unique_ptr<HandlerTableEntry<WaylandConnectionCreated>>
+        createdCallback_;
     std::unique_ptr<HandlerTableEntry<WaylandConnectionClosed>> closedCallback_;
 };
 }

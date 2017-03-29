@@ -22,9 +22,13 @@
 #include <fcitx/addoninstance.h>
 #include <vector>
 
-FCITX_ADDON_DECLARE_FUNCTION(Spell, checkDict, bool(const std::string &language));
-FCITX_ADDON_DECLARE_FUNCTION(Spell, addWord, void(const std::string &language, const std::string &word));
-FCITX_ADDON_DECLARE_FUNCTION(Spell, hint, std::vector<std::string>(const std::string &language, const std::string &word,
-                                                                   size_t limit));
+FCITX_ADDON_DECLARE_FUNCTION(Spell, checkDict,
+                             bool(const std::string &language));
+FCITX_ADDON_DECLARE_FUNCTION(Spell, addWord, void(const std::string &language,
+                                                  const std::string &word));
+FCITX_ADDON_DECLARE_FUNCTION(
+    Spell, hint,
+    std::vector<std::string>(const std::string &language,
+                             const std::string &word, size_t limit));
 
 #endif // _FCITX_MODULES_SPELL_SPELL_PUBLIC_H_

@@ -32,7 +32,8 @@ public:
     FCITX_DEFINE_SIGNAL_PRIVATE(CandidateList, Update);
 };
 
-CandidateList::CandidateList() : d_ptr(std::make_unique<CandidateListPrivate>(this)) {}
+CandidateList::CandidateList()
+    : d_ptr(std::make_unique<CandidateListPrivate>(this)) {}
 
 CandidateList::~CandidateList() {}
 
@@ -72,7 +73,8 @@ public:
     Text text_;
 };
 
-CandidateWord::CandidateWord(Text text) : d_ptr(std::make_unique<CandidateWordPrivate>(std::move(text))) {}
+CandidateWord::CandidateWord(Text text)
+    : d_ptr(std::make_unique<CandidateWordPrivate>(std::move(text))) {}
 
 CandidateWord::~CandidateWord() {}
 
@@ -115,7 +117,8 @@ public:
     }
 };
 
-CommonCandidateList::CommonCandidateList() : d_ptr(std::make_unique<CommonCandidateListPrivate>()) {
+CommonCandidateList::CommonCandidateList()
+    : d_ptr(std::make_unique<CommonCandidateListPrivate>()) {
     setPageable(this);
     setModifiable(this);
     setBulk(this);
@@ -126,9 +129,9 @@ CommonCandidateList::~CommonCandidateList() {}
 std::string keyToLabel(const Key &key) {
     std::string result;
 
-#define _APPEND_MODIFIER_STRING(STR, VALUE)                                                                            \
-    if (key.states() & KeyState::VALUE) {                                                                              \
-        result += STR;                                                                                                 \
+#define _APPEND_MODIFIER_STRING(STR, VALUE)                                    \
+    if (key.states() & KeyState::VALUE) {                                      \
+        result += STR;                                                         \
     }
     _APPEND_MODIFIER_STRING("C-", Ctrl)
     _APPEND_MODIFIER_STRING("A-", Alt)
@@ -224,7 +227,8 @@ const CandidateWord &CommonCandidateList::candidate(int idx) const {
 const Text &CommonCandidateList::label(int idx) const {
     FCITX_D();
     d->checkIndex(idx);
-    if (idx < 0 || idx >= size() || static_cast<size_t>(idx) >= d->labels.size()) {
+    if (idx < 0 || idx >= size() ||
+        static_cast<size_t>(idx) >= d->labels.size()) {
         throw std::invalid_argument("invalid idx");
     }
 
@@ -234,7 +238,8 @@ const Text &CommonCandidateList::label(int idx) const {
 void CommonCandidateList::insert(int idx, CandidateWord *word) {
     FCITX_D();
     d->checkGlobalIndex(idx);
-    d->candidateWord.insert(d->candidateWord.begin() + idx, std::shared_ptr<CandidateWord>(word));
+    d->candidateWord.insert(d->candidateWord.begin() + idx,
+                            std::shared_ptr<CandidateWord>(word));
 }
 
 void CommonCandidateList::remove(int idx) {
@@ -283,13 +288,15 @@ void CommonCandidateList::move(int from, int to) {
         // 1 2 3 4 5
         // from 2 to 5
         // 1 3 4 5 2
-        std::rotate(d->candidateWord.begin() + from, d->candidateWord.begin() + from + 1,
+        std::rotate(d->candidateWord.begin() + from,
+                    d->candidateWord.begin() + from + 1,
                     d->candidateWord.begin() + to + 1);
     } else if (from > to) {
         // 1 2 3 4 5
         // from 5 to 2
         // 1 5 2 3 4
-        std::rotate(d->candidateWord.begin() + to, d->candidateWord.begin() + from,
+        std::rotate(d->candidateWord.begin() + to,
+                    d->candidateWord.begin() + from,
                     d->candidateWord.begin() + from + 1);
     }
 }

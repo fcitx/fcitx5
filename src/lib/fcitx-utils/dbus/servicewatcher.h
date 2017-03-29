@@ -29,7 +29,9 @@
 namespace fcitx {
 namespace dbus {
 
-typedef std::function<void(const std::string &serviceName, const std::string &oldOwner, const std::string &newOwner)>
+typedef std::function<void(const std::string &serviceName,
+                           const std::string &oldOwner,
+                           const std::string &newOwner)>
     ServiceWatcherCallback;
 typedef HandlerTableEntry<ServiceWatcherCallback> ServiceWatcherEntry;
 
@@ -40,9 +42,12 @@ public:
     ServiceWatcher(Bus &bus);
     ~ServiceWatcher();
 
-    // unlike regular NameOwnerChanged signal, this will also initiate a GetNameOwner call to avoid race condition
-    // if GetNameOwner returns, it will intiate a call (name, "", owner) if service exists, otherwise (name, "", "")
-    ServiceWatcherEntry *watchService(const std::string &name, ServiceWatcherCallback callback);
+    // unlike regular NameOwnerChanged signal, this will also initiate a
+    // GetNameOwner call to avoid race condition
+    // if GetNameOwner returns, it will intiate a call (name, "", owner) if
+    // service exists, otherwise (name, "", "")
+    ServiceWatcherEntry *watchService(const std::string &name,
+                                      ServiceWatcherCallback callback);
 
 private:
     std::unique_ptr<ServiceWatcherPrivate> d_ptr;

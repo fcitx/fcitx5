@@ -33,18 +33,21 @@ int main() {
     EventLoop loop;
     bus.attachEventLoop(&loop);
 
-    std::unique_ptr<HandlerTableEntry<ServiceWatcherCallback>> handlerTableEntry;
+    std::unique_ptr<HandlerTableEntry<ServiceWatcherCallback>>
+        handlerTableEntry;
     ServiceWatcher watcher(bus);
 
-    if (!bus.requestName(TEST_SERVICE, {RequestNameFlag::AllowReplacement, RequestNameFlag::ReplaceExisting})) {
+    if (!bus.requestName(TEST_SERVICE, {RequestNameFlag::AllowReplacement,
+                                        RequestNameFlag::ReplaceExisting})) {
         return 1;
     }
 
     std::string name = bus.serviceOwner(TEST_SERVICE, 0);
     assert(name == bus.uniqueName());
 
-    handlerTableEntry.reset(
-        watcher.watchService(TEST_SERVICE, [&loop](const std::string &name, const std::string &, const std::string &) {
+    handlerTableEntry.reset(watcher.watchService(
+        TEST_SERVICE, [&loop](const std::string &name, const std::string &,
+                              const std::string &) {
             assert(name == TEST_SERVICE);
             loop.quit();
         }));

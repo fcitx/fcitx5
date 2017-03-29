@@ -33,12 +33,14 @@ WaylandConnection::WaylandConnection(WaylandModule *wayland, const char *name)
 
     auto &eventLoop = parent_->instance()->eventLoop();
     ioEvent_.reset(
-        eventLoop.addIOEvent(display_->fd(), IOEventFlag::In, [this](EventSource *, int, IOEventFlags flags) {
-            onIOEvent(flags);
-            return true;
-        }));
+        eventLoop.addIOEvent(display_->fd(), IOEventFlag::In,
+                             [this](EventSource *, int, IOEventFlags flags) {
+                                 onIOEvent(flags);
+                                 return true;
+                             }));
 
-    group_ = new FocusGroup("wayland:" + name_, wayland->instance()->inputContextManager());
+    group_ = new FocusGroup("wayland:" + name_,
+                            wayland->instance()->inputContextManager());
 }
 
 WaylandConnection::~WaylandConnection() { delete group_; }
@@ -70,7 +72,9 @@ void WaylandConnection::onIOEvent(IOEventFlags flags) {
     display_->flush();
 }
 
-WaylandModule::WaylandModule(fcitx::Instance *instance) : instance_(instance) { openDisplay(""); }
+WaylandModule::WaylandModule(fcitx::Instance *instance) : instance_(instance) {
+    openDisplay("");
+}
 
 void WaylandModule::openDisplay(const std::string &name) {
     const char *displayString = nullptr;
@@ -79,7 +83,8 @@ void WaylandModule::openDisplay(const std::string &name) {
     }
 
     try {
-        auto iter = conns_.emplace(std::piecewise_construct, std::forward_as_tuple(name),
+        auto iter = conns_.emplace(std::piecewise_construct,
+                                   std::forward_as_tuple(name),
                                    std::forward_as_tuple(this, displayString));
         onConnectionCreated(iter.first->second);
     } catch (const std::exception &e) {
@@ -123,7 +128,9 @@ void WaylandModule::onConnectionClosed(WaylandConnection &conn) {
 
 class WaylandModuleFactory : public AddonFactory {
 public:
-    AddonInstance *create(AddonManager *manager) override { return new WaylandModule(manager->instance()); }
+    AddonInstance *create(AddonManager *manager) override {
+        return new WaylandModule(manager->instance());
+    }
 };
 }
 

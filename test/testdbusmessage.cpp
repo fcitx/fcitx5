@@ -27,19 +27,29 @@ using namespace fcitx;
 int main() {
     Bus bus(BusType::Session);
 
-    static_assert(std::is_same<DBusSignatureToType<'i', 'u'>::type, std::tuple<int32_t, uint32_t>>::value,
+    static_assert(std::is_same<DBusSignatureToType<'i', 'u'>::type,
+                               std::tuple<int32_t, uint32_t>>::value,
                   "Type is not same");
-    static_assert(std::is_same<DBusSignatureToType<'i'>::type, int32_t>::value, "Type is not same");
-    static_assert(std::is_same<DBusSignatureToType<'a', 'u'>::type, std::vector<uint32_t>>::value, "Type is not same");
-    static_assert(std::is_same<DBusSignatureToType<'a', '(', 'i', 'u', ')'>::type,
-                               std::vector<DBusStruct<int32_t, uint32_t>>>::value,
+    static_assert(std::is_same<DBusSignatureToType<'i'>::type, int32_t>::value,
                   "Type is not same");
-    static_assert(std::is_same<DBusSignatureToType<'a', 'i', 'a', '(', 'i', 'u', ')'>::type,
-                               std::tuple<std::vector<int>, std::vector<DBusStruct<int32_t, uint32_t>>>>::value,
+    static_assert(std::is_same<DBusSignatureToType<'a', 'u'>::type,
+                               std::vector<uint32_t>>::value,
                   "Type is not same");
-    static_assert(std::is_same<DBusSignatureToType<'a', 'i', '(', 'i', 'u', ')'>::type,
-                               std::tuple<std::vector<int>, DBusStruct<int32_t, uint32_t>>>::value,
-                  "Type is not same");
+    static_assert(
+        std::is_same<DBusSignatureToType<'a', '(', 'i', 'u', ')'>::type,
+                     std::vector<DBusStruct<int32_t, uint32_t>>>::value,
+        "Type is not same");
+    static_assert(
+        std::is_same<
+            DBusSignatureToType<'a', 'i', 'a', '(', 'i', 'u', ')'>::type,
+            std::tuple<std::vector<int>,
+                       std::vector<DBusStruct<int32_t, uint32_t>>>>::value,
+        "Type is not same");
+    static_assert(
+        std::is_same<
+            DBusSignatureToType<'a', 'i', '(', 'i', 'u', ')'>::type,
+            std::tuple<std::vector<int>, DBusStruct<int32_t, uint32_t>>>::value,
+        "Type is not same");
 
     // interface name must has dot
     {
@@ -59,7 +69,8 @@ int main() {
     }
     {
         auto msg = bus.createSignal("/test", "test.a.b.c", "test");
-        msg << FCITX_STRING_TO_DBUS_TUPLE("as")(std::vector<std::string>{"a", "b"});
+        msg << FCITX_STRING_TO_DBUS_TUPLE("as")(
+            std::vector<std::string>{"a", "b"});
         assert(msg.signature() == "as");
     }
     return 0;

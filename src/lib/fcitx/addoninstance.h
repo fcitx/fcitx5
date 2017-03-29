@@ -36,7 +36,8 @@ public:
     AddonInstance *addon;
     void *wrapCallback;
 
-    AddonFunctionAdaptorBase(AddonInstance *addon_, void *wrapCallback_) : addon(addon_), wrapCallback(wrapCallback_) {}
+    AddonFunctionAdaptorBase(AddonInstance *addon_, void *wrapCallback_)
+        : addon(addon_), wrapCallback(wrapCallback_) {}
 };
 
 template <typename T>
@@ -46,7 +47,8 @@ template <typename Signature>
 struct AddonFunctionWrapperType;
 
 template <typename Signature>
-using AddonFunctionSignatureType = typename AddonFunctionSignature<Signature>::type;
+using AddonFunctionSignatureType =
+    typename AddonFunctionSignature<Signature>::type;
 
 template <typename Ret, typename... Args>
 struct AddonFunctionWrapperType<Ret(Args...)> {
@@ -61,22 +63,28 @@ public:
     virtual void save();
 
     template <typename Signature, typename... Args>
-    typename std::function<Signature>::result_type callWithSignature(const std::string &name, Args &&... args) {
+    typename std::function<Signature>::result_type
+    callWithSignature(const std::string &name, Args &&... args) {
         auto adaptor = findCall(name);
-        auto func = Library::toFunction<typename AddonFunctionWrapperType<Signature>::type>(adaptor->wrapCallback);
+        auto func = Library::toFunction<
+            typename AddonFunctionWrapperType<Signature>::type>(
+            adaptor->wrapCallback);
         return func(this, adaptor, std::forward<Args>(args)...);
     }
     template <typename MetaSignatureString, typename... Args>
     auto callWithMetaString(Args &&... args) {
-        return callWithSignature<AddonFunctionSignatureType<MetaSignatureString>>(MetaSignatureString::data(),
-                                                                                  std::forward<Args>(args)...);
+        return callWithSignature<
+            AddonFunctionSignatureType<MetaSignatureString>>(
+            MetaSignatureString::data(), std::forward<Args>(args)...);
     }
     template <typename MetaType, typename... Args>
     auto call(Args &&... args) {
-        return callWithSignature<typename MetaType::Signature>(MetaType::Name::data(), std::forward<Args>(args)...);
+        return callWithSignature<typename MetaType::Signature>(
+            MetaType::Name::data(), std::forward<Args>(args)...);
     }
 
-    void registerCallback(const std::string &name, AddonFunctionAdaptorBase *adaptor);
+    void registerCallback(const std::string &name,
+                          AddonFunctionAdaptorBase *adaptor);
 
 private:
     AddonFunctionAdaptorBase *findCall(const std::string &name);
@@ -90,13 +98,18 @@ public:
     typedef Ret (Class::*CallbackType)(Args...);
     typedef Ret Signature(Args...);
 
-    AddonFunctionAdaptor(const std::string &name, Class *addon_, CallbackType pCallback_)
-        : AddonFunctionAdaptorBase(addon_, reinterpret_cast<void *>(callback)), pCallback(pCallback_) {
+    AddonFunctionAdaptor(const std::string &name, Class *addon_,
+                         CallbackType pCallback_)
+        : AddonFunctionAdaptorBase(addon_, reinterpret_cast<void *>(callback)),
+          pCallback(pCallback_) {
         addon_->registerCallback(name, this);
     }
 
-    static Ret callback(AddonInstance *addon_, AddonFunctionAdaptorBase *adaptor_, Args... args) {
-        auto adaptor = reinterpret_cast<AddonFunctionAdaptor<Class, Ret, Args...> *>(adaptor_);
+    static Ret callback(AddonInstance *addon_,
+                        AddonFunctionAdaptorBase *adaptor_, Args... args) {
+        auto adaptor =
+            reinterpret_cast<AddonFunctionAdaptor<Class, Ret, Args...> *>(
+                adaptor_);
         auto addon = reinterpret_cast<Class *>(addon_);
         auto pCallback = adaptor->pCallback;
         return (addon->*pCallback)(std::forward<Args>(args)...);
@@ -107,38 +120,43 @@ private:
 };
 
 template <typename Class, typename Ret, typename... Args>
-AddonFunctionAdaptor<Class, Ret, Args...> MakeAddonFunctionAdaptor(Ret (Class::*pCallback)(Args...));
+AddonFunctionAdaptor<Class, Ret, Args...>
+MakeAddonFunctionAdaptor(Ret (Class::*pCallback)(Args...));
 }
 
-#define FCITX_ADDON_DECLARE_FUNCTION(NAME, FUNCTION, SIGNATURE...)                                                     \
-    namespace fcitx {                                                                                                  \
-    template <>                                                                                                        \
-    struct AddonFunctionSignature<fcitxMakeMetaString(#NAME "::" #FUNCTION)> {                                         \
-        typedef std::remove_reference_t<decltype(std::declval<SIGNATURE>())> type;                                     \
-    };                                                                                                                 \
-    namespace I##NAME {                                                                                                \
-        struct FUNCTION {                                                                                              \
-            typedef fcitxMakeMetaString(#NAME "::" #FUNCTION) Name;                                                    \
-            using Signature = AddonFunctionSignatureType<Name>;                                                        \
-        };                                                                                                             \
-    }                                                                                                                  \
+#define FCITX_ADDON_DECLARE_FUNCTION(NAME, FUNCTION, SIGNATURE...)             \
+    namespace fcitx {                                                          \
+    template <>                                                                \
+    struct AddonFunctionSignature<fcitxMakeMetaString(#NAME "::" #FUNCTION)> { \
+        typedef std::remove_reference_t<decltype(std::declval<SIGNATURE>())>   \
+            type;                                                              \
+    };                                                                         \
+    namespace I##NAME {                                                        \
+        struct FUNCTION {                                                      \
+            typedef fcitxMakeMetaString(#NAME "::" #FUNCTION) Name;            \
+            using Signature = AddonFunctionSignatureType<Name>;                \
+        };                                                                     \
+    }                                                                          \
     }
 
-#define FCITX_ADDON_EXPORT_FUNCTION(CLASS, FUNCTION)                                                                   \
-    decltype(::fcitx::MakeAddonFunctionAdaptor(&CLASS::FUNCTION)) FUNCTION##Adaptor{#CLASS "::" #FUNCTION, this,       \
-                                                                                    &CLASS::FUNCTION};                 \
-    static_assert(                                                                                                     \
-        std::is_same<decltype(::fcitx::MakeAddonFunctionAdaptor(&CLASS::FUNCTION))::Signature,                         \
-                     ::fcitx::AddonFunctionSignatureType<fcitxMakeMetaString(#CLASS "::" #FUNCTION)>>::value,          \
+#define FCITX_ADDON_EXPORT_FUNCTION(CLASS, FUNCTION)                           \
+    decltype(::fcitx::MakeAddonFunctionAdaptor(                                \
+        &CLASS::FUNCTION)) FUNCTION##Adaptor{#CLASS "::" #FUNCTION, this,      \
+                                             &CLASS::FUNCTION};                \
+    static_assert(                                                             \
+        std::is_same<decltype(::fcitx::MakeAddonFunctionAdaptor(               \
+                         &CLASS::FUNCTION))::Signature,                        \
+                     ::fcitx::AddonFunctionSignatureType<fcitxMakeMetaString(  \
+                         #CLASS "::" #FUNCTION)>>::value,                      \
         "Signature doesn't match");
 
-#define FCITX_ADDON_FACTORY(ClassName)                                                                                 \
-    extern "C" {                                                                                                       \
-    FCITXCORE_EXPORT                                                                                                   \
-    ::fcitx::AddonFactory *fcitx_addon_factory_instance() {                                                            \
-        static ClassName factory;                                                                                      \
-        return &factory;                                                                                               \
-    }                                                                                                                  \
+#define FCITX_ADDON_FACTORY(ClassName)                                         \
+    extern "C" {                                                               \
+    FCITXCORE_EXPORT                                                           \
+    ::fcitx::AddonFactory *fcitx_addon_factory_instance() {                    \
+        static ClassName factory;                                              \
+        return &factory;                                                       \
+    }                                                                          \
     }
 
 #endif // _FCITX_ADDONINSTANCE_H_

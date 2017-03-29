@@ -64,7 +64,9 @@ public:
     bool read(const std::string &fileName);
     void dump();
 
-    const XkbLayoutInfo *findByName(const std::string &name) const { return findValue(layoutInfos_, name); }
+    const XkbLayoutInfo *findByName(const std::string &name) const {
+        return findValue(layoutInfos_, name);
+    }
 
     void clear() {
         layoutInfos_.clear();

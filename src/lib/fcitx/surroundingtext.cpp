@@ -32,7 +32,8 @@ public:
     bool valid_;
 };
 
-SurroundingText::SurroundingText() : d_ptr(std::make_unique<SurroundingTextPrivate>()) {}
+SurroundingText::SurroundingText()
+    : d_ptr(std::make_unique<SurroundingTextPrivate>()) {}
 
 SurroundingText::~SurroundingText() {}
 
@@ -64,7 +65,8 @@ unsigned int SurroundingText::cursor() const {
     return d->cursor_;
 }
 
-void SurroundingText::setText(const std::string &text, unsigned int cursor, unsigned int anchor) {
+void SurroundingText::setText(const std::string &text, unsigned int cursor,
+                              unsigned int anchor) {
     FCITX_D();
     d->valid_ = true;
     d->text_ = text;

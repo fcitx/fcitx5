@@ -36,7 +36,8 @@ Text::Text() : d_ptr(std::make_unique<TextPrivate>()) {}
 
 Text::Text(const std::string &text) : Text() { append(text); }
 
-Text::Text(const Text &other) : d_ptr(std::make_unique<TextPrivate>(*other.d_ptr)) {}
+Text::Text(const Text &other)
+    : d_ptr(std::make_unique<TextPrivate>(*other.d_ptr)) {}
 Text::Text(Text &&other) : d_ptr(std::move(other.d_ptr)) {}
 
 Text::~Text() {}

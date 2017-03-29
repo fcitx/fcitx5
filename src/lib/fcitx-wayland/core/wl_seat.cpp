@@ -20,7 +20,8 @@ const struct wl_seat_listener WlSeat::listener = {
         { return obj->name()(name); }
     },
 };
-WlSeat::WlSeat(wl_seat *data) : version_(wl_seat_get_version(data)), data_(data, &WlSeat::destructor) {
+WlSeat::WlSeat(wl_seat *data)
+    : version_(wl_seat_get_version(data)), data_(data, &WlSeat::destructor) {
     wl_seat_set_user_data(*this, this);
     wl_seat_add_listener(*this, &WlSeat::listener, this);
 }
@@ -32,8 +33,12 @@ void WlSeat::destructor(wl_seat *data) {
         return wl_seat_destroy(data);
     }
 }
-WlPointer *WlSeat::getPointer() { return new WlPointer(wl_seat_get_pointer(*this)); }
-WlKeyboard *WlSeat::getKeyboard() { return new WlKeyboard(wl_seat_get_keyboard(*this)); }
+WlPointer *WlSeat::getPointer() {
+    return new WlPointer(wl_seat_get_pointer(*this));
+}
+WlKeyboard *WlSeat::getKeyboard() {
+    return new WlKeyboard(wl_seat_get_keyboard(*this));
+}
 WlTouch *WlSeat::getTouch() { return new WlTouch(wl_seat_get_touch(*this)); }
 }
 }

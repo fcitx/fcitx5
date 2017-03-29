@@ -12,7 +12,8 @@ class WlRegion;
 class WlSurface {
 public:
     static constexpr const char *interface = "wl_surface";
-    static constexpr const wl_interface *const wlInterface = &wl_surface_interface;
+    static constexpr const wl_interface *const wlInterface =
+        &wl_surface_interface;
     static constexpr const uint32_t version = 4;
     typedef wl_surface wlType;
     operator wl_surface *() { return data_.get(); }

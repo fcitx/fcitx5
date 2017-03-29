@@ -7,7 +7,8 @@ namespace wayland {
 constexpr const char *WlShell::interface;
 constexpr const wl_interface *const WlShell::wlInterface;
 const uint32_t WlShell::version;
-WlShell::WlShell(wl_shell *data) : version_(wl_shell_get_version(data)), data_(data, &WlShell::destructor) {
+WlShell::WlShell(wl_shell *data)
+    : version_(wl_shell_get_version(data)), data_(data, &WlShell::destructor) {
     wl_shell_set_user_data(*this, this);
 }
 void WlShell::destructor(wl_shell *data) {

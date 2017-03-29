@@ -42,7 +42,8 @@ struct DBusStruct : public std::tuple<Args...> {
 
     DBusStruct(const tuple_type &other) : tuple_type(std::forward(other)) {}
 
-    DBusStruct(tuple_type &&other) : tuple_type(std::forward<tuple_type>(other)) {}
+    DBusStruct(tuple_type &&other)
+        : tuple_type(std::forward<tuple_type>(other)) {}
 };
 
 class Message;
@@ -81,7 +82,8 @@ class FCITXUTILS_EXPORT Container {
 public:
     enum class Type { Array, DictEntry, Struct, Variant };
 
-    Container(Type t = Type::Array, const Signature &content = Signature()) : type_(t), content_(content) {}
+    Container(Type t = Type::Array, const Signature &content = Signature())
+        : type_(t), content_(content) {}
 
     Type type() const { return type_; }
     const Signature &content() const { return content_; }
@@ -109,7 +111,9 @@ struct TupleMarshaller {
 
 template <typename Tuple>
 struct TupleMarshaller<Tuple, 1> {
-    static void marshall(Message &msg, const Tuple &t) { msg << std::get<0>(t); }
+    static void marshall(Message &msg, const Tuple &t) {
+        msg << std::get<0>(t);
+    }
     static void unmarshall(Message &msg, Tuple &t) { msg >> std::get<0>(t); }
 };
 
@@ -191,11 +195,15 @@ public:
     template <typename... Args>
     Message &operator<<(const DBusStruct<Args...> &t) {
         typedef DBusStruct<Args...> value_type;
-        typedef typename DBusContainerSignatureTraits<value_type>::signature signature;
-        if (*this << Container(Container::Type::Struct, Signature(signature::data()))) {
+        typedef typename DBusContainerSignatureTraits<value_type>::signature
+            signature;
+        if (*this << Container(Container::Type::Struct,
+                               Signature(signature::data()))) {
             ;
-            TupleMarshaller<typename value_type::tuple_type, sizeof...(Args)>::marshall(
-                *this, static_cast<const typename value_type::tuple_type &>(t));
+            TupleMarshaller<typename value_type::tuple_type, sizeof...(Args)>::
+                marshall(
+                    *this,
+                    static_cast<const typename value_type::tuple_type &>(t));
             if (*this) {
                 *this << ContainerEnd();
             }
@@ -206,8 +214,10 @@ public:
     template <typename T>
     Message &operator<<(const std::vector<T> &t) {
         typedef std::vector<T> value_type;
-        typedef typename DBusContainerSignatureTraits<value_type>::signature signature;
-        if (*this << Container(Container::Type::Array, Signature(signature::data()))) {
+        typedef typename DBusContainerSignatureTraits<value_type>::signature
+            signature;
+        if (*this << Container(Container::Type::Array,
+                               Signature(signature::data()))) {
             ;
             for (auto &v : t) {
                 *this << v;
@@ -256,9 +266,12 @@ public:
     Message &operator>>(DBusStruct<Args...> &t) {
         typedef DBusStruct<Args...> value_type;
         typedef typename value_type::tuple_type tuple_type;
-        typedef typename DBusContainerSignatureTraits<value_type>::signature signature;
-        if (*this >> Container(Container::Type::Struct, Signature(signature::data()))) {
-            TupleMarshaller<tuple_type, sizeof...(Args)>::unmarshall(*this, static_cast<tuple_type &>(t));
+        typedef typename DBusContainerSignatureTraits<value_type>::signature
+            signature;
+        if (*this >>
+            Container(Container::Type::Struct, Signature(signature::data()))) {
+            TupleMarshaller<tuple_type, sizeof...(Args)>::unmarshall(
+                *this, static_cast<tuple_type &>(t));
             if (*this) {
                 *this >> ContainerEnd();
             }
@@ -269,8 +282,10 @@ public:
     template <typename T>
     Message &operator>>(std::vector<T> &t) {
         typedef std::vector<T> value_type;
-        typedef typename DBusContainerSignatureTraits<value_type>::signature signature;
-        if (*this >> Container(Container::Type::Array, Signature(signature::data()))) {
+        typedef typename DBusContainerSignatureTraits<value_type>::signature
+            signature;
+        if (*this >>
+            Container(Container::Type::Array, Signature(signature::data()))) {
             ;
             T temp;
             while (!end() && *this >> temp) {

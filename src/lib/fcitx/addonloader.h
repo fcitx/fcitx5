@@ -36,7 +36,8 @@ class FCITXCORE_EXPORT AddonLoader {
 public:
     virtual ~AddonLoader();
     virtual std::string type() const = 0;
-    virtual AddonInstance *load(const AddonInfo &info, AddonManager *manager) = 0;
+    virtual AddonInstance *load(const AddonInfo &info,
+                                AddonManager *manager) = 0;
 };
 }
 

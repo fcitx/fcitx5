@@ -8,7 +8,8 @@ namespace wayland {
 class WlCallback {
 public:
     static constexpr const char *interface = "wl_callback";
-    static constexpr const wl_interface *const wlInterface = &wl_callback_interface;
+    static constexpr const wl_interface *const wlInterface =
+        &wl_callback_interface;
     static constexpr const uint32_t version = 1;
     typedef wl_callback wlType;
     operator wl_callback *() { return data_.get(); }

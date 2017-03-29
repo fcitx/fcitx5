@@ -79,7 +79,8 @@ struct InputState : public InputContextProperty {
 class CheckInputMethodChanged {
 public:
     CheckInputMethodChanged(InputContext *ic, Instance *instance)
-        : instance_(instance), ic_(ic->watch()), inputMethod_(instance->inputMethod(ic)),
+        : instance_(instance), ic_(ic->watch()),
+          inputMethod_(instance->inputMethod(ic)),
           reason_(InputMethodSwitchedReason::Other) {
         auto inputState = ic->propertyAs<InputState>("inputState");
         inputState->imChanged = this;
@@ -92,7 +93,8 @@ public:
         auto inputState = ic->propertyAs<InputState>("inputState");
         inputState->imChanged = nullptr;
         if (inputMethod_ != instance_->inputMethod(ic)) {
-            instance_->postEvent(InputContextSwitchInputMethodEvent(reason_, inputMethod_, ic));
+            instance_->postEvent(
+                InputContextSwitchInputMethodEvent(reason_, inputMethod_, ic));
         }
     }
 
@@ -125,9 +127,11 @@ struct InstanceArgument {
 
 class InstancePrivate {
 public:
-    InstancePrivate(Instance *q) : InstanceCommitFilterAdaptor(q), InstanceOutputFilterAdaptor(q) {}
+    InstancePrivate(Instance *q)
+        : InstanceCommitFilterAdaptor(q), InstanceOutputFilterAdaptor(q) {}
 
-    HandlerTableEntry<EventHandler> *watchEvent(EventType type, EventWatcherPhase phase, EventHandler callback) {
+    HandlerTableEntry<EventHandler> *
+    watchEvent(EventType type, EventWatcherPhase phase, EventHandler callback) {
         return eventHandlers_[type][phase].add(callback);
     }
 
@@ -143,9 +147,13 @@ public:
     InputMethodManager imManager_{&this->addonManager_};
     UserInterfaceManager uiManager_;
     GlobalConfig globalConfig_;
-    std::unordered_map<EventType, std::unordered_map<EventWatcherPhase, HandlerTable<EventHandler>, EnumHash>, EnumHash>
+    std::unordered_map<EventType,
+                       std::unordered_map<EventWatcherPhase,
+                                          HandlerTable<EventHandler>, EnumHash>,
+                       EnumHash>
         eventHandlers_;
-    std::vector<std::unique_ptr<HandlerTableEntry<EventHandler>>> eventWatchers_;
+    std::vector<std::unique_ptr<HandlerTableEntry<EventHandler>>>
+        eventWatchers_;
     std::unique_ptr<EventSource> uiUpdateEvent_;
 
     FCITX_DEFINE_SIGNAL_PRIVATE(Instance, CommitFilter);
@@ -181,8 +189,9 @@ Instance::Instance(int argc, char **argv) {
         return property;
     });
 
-    d->eventWatchers_.emplace_back(
-        watchEvent(EventType::InputContextKeyEvent, EventWatcherPhase::PreInputMethod, [this, d](Event &event) {
+    d->eventWatchers_.emplace_back(watchEvent(
+        EventType::InputContextKeyEvent, EventWatcherPhase::PreInputMethod,
+        [this, d](Event &event) {
             auto &keyEvent = static_cast<KeyEvent &>(event);
             auto ic = keyEvent.inputContext();
             CheckInputMethodChanged imChangedRAII(ic, this);
@@ -191,7 +200,8 @@ Instance::Instance(int argc, char **argv) {
                 const KeyList &list;
                 std::function<bool()> callback;
             } keyHandlers[] = {
-                {d->globalConfig_.triggerKeys(), [this, ic]() { return trigger(ic); }},
+                {d->globalConfig_.triggerKeys(),
+                 [this, ic]() { return trigger(ic); }},
             };
 
             auto inputState = ic->propertyAs<InputState>("inputState");
@@ -199,7 +209,8 @@ Instance::Instance(int argc, char **argv) {
             if (keyEvent.isRelease()) {
                 int idx = 0;
                 for (auto &keyHandler : keyHandlers) {
-                    if (isModifier && inputState->keyReleased == idx && keyEvent.key().checkKeyList(keyHandler.list)) {
+                    if (isModifier && inputState->keyReleased == idx &&
+                        keyEvent.key().checkKeyList(keyHandler.list)) {
                         if (keyHandler.callback()) {
                             return keyEvent.filterAndAccept();
                         }
@@ -225,18 +236,20 @@ Instance::Instance(int argc, char **argv) {
             }
         }));
     d->eventWatchers_.emplace_back(
-        watchEvent(EventType::InputContextKeyEvent, EventWatcherPhase::InputMethod, [this, d](Event &event) {
-            auto &keyEvent = static_cast<KeyEvent &>(event);
-            auto ic = keyEvent.inputContext();
-            auto engine = inputMethodEngine(ic);
-            auto entry = inputMethodEntry(ic);
-            if (!engine || !entry) {
-                return;
-            }
-            engine->keyEvent(*entry, keyEvent);
-        }));
-    d->eventWatchers_.emplace_back(
-        d->watchEvent(EventType::InputContextFocusIn, EventWatcherPhase::ReservedFirst, [this, d](Event &event) {
+        watchEvent(EventType::InputContextKeyEvent,
+                   EventWatcherPhase::InputMethod, [this, d](Event &event) {
+                       auto &keyEvent = static_cast<KeyEvent &>(event);
+                       auto ic = keyEvent.inputContext();
+                       auto engine = inputMethodEngine(ic);
+                       auto entry = inputMethodEntry(ic);
+                       if (!engine || !entry) {
+                           return;
+                       }
+                       engine->keyEvent(*entry, keyEvent);
+                   }));
+    d->eventWatchers_.emplace_back(d->watchEvent(
+        EventType::InputContextFocusIn, EventWatcherPhase::ReservedFirst,
+        [this, d](Event &event) {
             auto &icEvent = static_cast<InputContextEvent &>(event);
             auto ic = icEvent.inputContext();
             auto engine = inputMethodEngine(ic);
@@ -246,8 +259,9 @@ Instance::Instance(int argc, char **argv) {
             }
             engine->activate(*entry, icEvent);
         }));
-    d->eventWatchers_.emplace_back(
-        d->watchEvent(EventType::InputContextFocusOut, EventWatcherPhase::ReservedFirst, [this, d](Event &event) {
+    d->eventWatchers_.emplace_back(d->watchEvent(
+        EventType::InputContextFocusOut, EventWatcherPhase::ReservedFirst,
+        [this, d](Event &event) {
             auto &icEvent = static_cast<InputContextEvent &>(event);
             auto ic = icEvent.inputContext();
             auto engine = inputMethodEngine(ic);
@@ -259,28 +273,32 @@ Instance::Instance(int argc, char **argv) {
             ic->statusArea().clear();
         }));
     d->eventWatchers_.emplace_back(
-        watchEvent(EventType::InputContextReset, EventWatcherPhase::InputMethod, [this, d](Event &event) {
-            auto &icEvent = static_cast<InputContextEvent &>(event);
-            auto ic = icEvent.inputContext();
-            if (!ic->hasFocus()) {
-                return;
-            }
-            auto engine = inputMethodEngine(ic);
-            auto entry = inputMethodEntry(ic);
-            if (!engine || !entry) {
-                return;
-            }
-            engine->reset(*entry, icEvent);
-        }));
+        watchEvent(EventType::InputContextReset, EventWatcherPhase::InputMethod,
+                   [this, d](Event &event) {
+                       auto &icEvent = static_cast<InputContextEvent &>(event);
+                       auto ic = icEvent.inputContext();
+                       if (!ic->hasFocus()) {
+                           return;
+                       }
+                       auto engine = inputMethodEngine(ic);
+                       auto entry = inputMethodEntry(ic);
+                       if (!engine || !entry) {
+                           return;
+                       }
+                       engine->reset(*entry, icEvent);
+                   }));
     d->eventWatchers_.emplace_back(d->watchEvent(
-        EventType::InputContextSwitchInputMethod, EventWatcherPhase::ReservedFirst, [this, d](Event &event) {
-            auto &icEvent = static_cast<InputContextSwitchInputMethodEvent &>(event);
+        EventType::InputContextSwitchInputMethod,
+        EventWatcherPhase::ReservedFirst, [this, d](Event &event) {
+            auto &icEvent =
+                static_cast<InputContextSwitchInputMethodEvent &>(event);
             auto ic = icEvent.inputContext();
             if (!ic->hasFocus()) {
                 return;
             }
             if (auto oldEntry = d->imManager_.entry(icEvent.oldInputMethod())) {
-                auto oldEngine = static_cast<InputMethodEngine *>(d->addonManager_.addon(oldEntry->addon()));
+                auto oldEngine = static_cast<InputMethodEngine *>(
+                    d->addonManager_.addon(oldEntry->addon()));
                 if (oldEngine) {
                     oldEngine->deactivate(*oldEntry, icEvent);
                 }
@@ -292,14 +310,16 @@ Instance::Instance(int argc, char **argv) {
             }
             engine->activate(*entry, icEvent);
         }));
-    d->eventWatchers_.emplace_back(
-        d->watchEvent(EventType::InputContextUpdateUI, EventWatcherPhase::ReservedFirst, [this, d](Event &event) {
+    d->eventWatchers_.emplace_back(d->watchEvent(
+        EventType::InputContextUpdateUI, EventWatcherPhase::ReservedFirst,
+        [this, d](Event &event) {
             auto &icEvent = static_cast<InputContextUpdateUIEvent &>(event);
             d->uiManager_.update(icEvent.component(), icEvent.inputContext());
             d->uiUpdateEvent_->setOneShot();
         }));
-    d->eventWatchers_.emplace_back(
-        d->watchEvent(EventType::InputContextDestroyed, EventWatcherPhase::ReservedFirst, [this, d](Event &event) {
+    d->eventWatchers_.emplace_back(d->watchEvent(
+        EventType::InputContextDestroyed, EventWatcherPhase::ReservedFirst,
+        [this, d](Event &event) {
             auto &icEvent = static_cast<InputContextEvent &>(event);
             d->uiManager_.expire(icEvent.inputContext());
         }));
@@ -327,7 +347,8 @@ void InstanceArgument::parseOption(int argc, char **argv) {
 
     int optionIndex = 0;
     int c;
-    while ((c = getopt_long(argc, argv, "ru:dDs:hv", longOptions, &optionIndex)) != EOF) {
+    while ((c = getopt_long(argc, argv, "ru:dDs:hv", longOptions,
+                            &optionIndex)) != EOF) {
         switch (c) {
         case 0: {
             switch (optionIndex) {
@@ -375,10 +396,11 @@ void InstanceArgument::parseOption(int argc, char **argv) {
 void Instance::setSignalPipe(int fd) {
     FCITX_D();
     d->signalPipe_ = fd;
-    d->signalPipeEvent_.reset(d->eventLoop_.addIOEvent(fd, IOEventFlag::In, [this](EventSource *, int, IOEventFlags) {
-        handleSignal();
-        return true;
-    }));
+    d->signalPipeEvent_.reset(d->eventLoop_.addIOEvent(
+        fd, IOEventFlag::In, [this](EventSource *, int, IOEventFlags) {
+            handleSignal();
+            return true;
+        }));
 }
 
 bool Instance::willTryReplace() const {
@@ -390,7 +412,8 @@ void Instance::handleSignal() {
     FCITX_D();
     uint8_t signo = 0;
     while (read(d->signalPipe_, &signo, sizeof(signo)) > 0) {
-        if (signo == SIGINT || signo == SIGTERM || signo == SIGQUIT || signo == SIGXCPU) {
+        if (signo == SIGINT || signo == SIGTERM || signo == SIGQUIT ||
+            signo == SIGXCPU) {
             exit();
         } else if (signo == SIGHUP) {
             restart();
@@ -405,8 +428,9 @@ void Instance::initialize() {
     if (d->arg_.uiName.size()) {
         d->arg_.enableList.push_back(d->arg_.uiName);
     }
-    d->addonManager_.load({std::begin(d->arg_.enableList), std::end(d->arg_.enableList)},
-                          {std::begin(d->arg_.disableList), std::end(d->arg_.disableList)});
+    d->addonManager_.load(
+        {std::begin(d->arg_.enableList), std::end(d->arg_.enableList)},
+        {std::begin(d->arg_.disableList), std::end(d->arg_.disableList)});
     d->imManager_.load();
     d->uiManager_.load(&d->addonManager_, d->arg_.uiName);
     d->exitEvent_.reset(d->eventLoop_.addExitEvent([this](EventSource *) {
@@ -461,9 +485,10 @@ bool Instance::postEvent(Event &event) {
     auto iter = d->eventHandlers_.find(event.type());
     if (iter != d->eventHandlers_.end()) {
         auto &handlers = iter->second;
-        EventWatcherPhase phaseOrder[] = {EventWatcherPhase::ReservedFirst, EventWatcherPhase::PreInputMethod,
-                                          EventWatcherPhase::InputMethod, EventWatcherPhase::PostInputMethod,
-                                          EventWatcherPhase::ReservedLast};
+        EventWatcherPhase phaseOrder[] = {
+            EventWatcherPhase::ReservedFirst, EventWatcherPhase::PreInputMethod,
+            EventWatcherPhase::InputMethod, EventWatcherPhase::PostInputMethod,
+            EventWatcherPhase::ReservedLast};
 
         for (auto phase : phaseOrder) {
             auto iter2 = handlers.find(phase);
@@ -480,9 +505,12 @@ bool Instance::postEvent(Event &event) {
     return event.accepted();
 }
 
-HandlerTableEntry<EventHandler> *Instance::watchEvent(EventType type, EventWatcherPhase phase, EventHandler callback) {
+HandlerTableEntry<EventHandler> *Instance::watchEvent(EventType type,
+                                                      EventWatcherPhase phase,
+                                                      EventHandler callback) {
     FCITX_D();
-    if (phase == EventWatcherPhase::ReservedFirst || phase == EventWatcherPhase::ReservedLast) {
+    if (phase == EventWatcherPhase::ReservedFirst ||
+        phase == EventWatcherPhase::ReservedLast) {
         throw std::invalid_argument("Reserved Phase is only for internal use");
     }
     return d->watchEvent(type, phase, callback);
@@ -514,7 +542,8 @@ InputMethodEngine *Instance::inputMethodEngine(InputContext *ic) {
     if (!entry) {
         return nullptr;
     }
-    return static_cast<InputMethodEngine *>(d->addonManager_.addon(entry->addon()));
+    return static_cast<InputMethodEngine *>(
+        d->addonManager_.addon(entry->addon()));
 }
 
 void Instance::save() {
@@ -597,7 +626,8 @@ bool Instance::trigger(InputContext *ic) {
     return true;
 }
 
-std::string Instance::commitFilter(InputContext *inputContext, const std::string &orig) {
+std::string Instance::commitFilter(InputContext *inputContext,
+                                   const std::string &orig) {
     std::string result = orig;
     emit<Instance::CommitFilter>(inputContext, result);
     return result;

@@ -10,12 +10,14 @@ class ZwpInputMethodContextV1;
 class ZwpInputMethodV1 {
 public:
     static constexpr const char *interface = "zwp_input_method_v1";
-    static constexpr const wl_interface *const wlInterface = &zwp_input_method_v1_interface;
+    static constexpr const wl_interface *const wlInterface =
+        &zwp_input_method_v1_interface;
     static constexpr const uint32_t version = 1;
     typedef zwp_input_method_v1 wlType;
     operator zwp_input_method_v1 *() { return data_.get(); }
     ZwpInputMethodV1(wlType *data);
-    ZwpInputMethodV1(ZwpInputMethodV1 &&other) : data_(std::move(other.data_)) {}
+    ZwpInputMethodV1(ZwpInputMethodV1 &&other)
+        : data_(std::move(other.data_)) {}
     ZwpInputMethodV1 &operator=(ZwpInputMethodV1 &&other) {
         data_ = std::move(other.data_);
         return *this;

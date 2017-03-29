@@ -32,7 +32,9 @@ public:
         if (dict_.count(v)) {
             return false;
         }
-        auto iter = std::find_if(order_.begin(), order_.end(), [before](const auto &t) { return (t == before); });
+        auto iter =
+            std::find_if(order_.begin(), order_.end(),
+                         [before](const auto &t) { return (t == before); });
         auto newIter = order_.insert(iter, v);
         dict_.insert(std::make_pair(v, newIter));
         return true;
@@ -74,8 +76,12 @@ const std::list<Element *> &Element::childs() {
     return d->childs_.order();
 }
 
-void Element::addChild(Element *child) { addEdge(this, child, nullptr, nullptr); }
-void Element::addParent(Element *parent) { addEdge(parent, this, nullptr, nullptr); }
+void Element::addChild(Element *child) {
+    addEdge(this, child, nullptr, nullptr);
+}
+void Element::addParent(Element *parent) {
+    addEdge(parent, this, nullptr, nullptr);
+}
 
 const std::list<Element *> &Element::parents() {
     FCITX_D();
@@ -86,11 +92,16 @@ void Element::removeChild(Element *child) { removeEdge(this, child); }
 
 void Element::removeParent(Element *parent) { removeEdge(parent, this); }
 
-void Element::insertChild(Element *before, Element *child) { addEdge(this, child, before, nullptr); }
+void Element::insertChild(Element *before, Element *child) {
+    addEdge(this, child, before, nullptr);
+}
 
-void Element::insertParent(Element *before, Element *parent) { addEdge(parent, this, nullptr, before); }
+void Element::insertParent(Element *before, Element *parent) {
+    addEdge(parent, this, nullptr, before);
+}
 
-void Element::addEdge(Element *parent, Element *child, Element *beforeChild, Element *beforeParent) {
+void Element::addEdge(Element *parent, Element *child, Element *beforeChild,
+                      Element *beforeParent) {
     removeEdge(parent, child);
     parent->d_func()->childs_.insert(beforeChild, child);
     child->d_func()->parents_.insert(beforeParent, parent);

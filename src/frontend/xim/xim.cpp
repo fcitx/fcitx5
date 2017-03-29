@@ -60,26 +60,34 @@ namespace fcitx {
 
 class XIMServer {
 public:
-    XIMServer(xcb_connection_t *conn, int defaultScreen, FocusGroup *group, const std::string &name, XIMModule *xim)
-        : group_(group), name_(name), parent_(xim), im_(nullptr, xcb_im_destroy), serverWindow_(0) {
+    XIMServer(xcb_connection_t *conn, int defaultScreen, FocusGroup *group,
+              const std::string &name, XIMModule *xim)
+        : group_(group), name_(name), parent_(xim),
+          im_(nullptr, xcb_im_destroy), serverWindow_(0) {
         xcb_screen_t *screen = xcb_aux_get_screen(conn, defaultScreen);
         root_ = screen->root;
         serverWindow_ = xcb_generate_id(conn);
-        xcb_create_window(conn, XCB_COPY_FROM_PARENT, serverWindow_, screen->root, 0, 0, 1, 1, 1,
-                          XCB_WINDOW_CLASS_INPUT_OUTPUT, screen->root_visual, 0, NULL);
+        xcb_create_window(
+            conn, XCB_COPY_FROM_PARENT, serverWindow_, screen->root, 0, 0, 1, 1,
+            1, XCB_WINDOW_CLASS_INPUT_OUTPUT, screen->root_visual, 0, NULL);
 
-        im_.reset(xcb_im_create(conn, defaultScreen, serverWindow_, guess_server_name().c_str(), XCB_IM_ALL_LOCALES,
-                                &styles, NULL, NULL, &encodings, XCB_EVENT_MASK_KEY_PRESS | XCB_EVENT_MASK_KEY_RELEASE,
-                                &XIMServer::callback, this));
+        im_.reset(xcb_im_create(
+            conn, defaultScreen, serverWindow_, guess_server_name().c_str(),
+            XCB_IM_ALL_LOCALES, &styles, NULL, NULL, &encodings,
+            XCB_EVENT_MASK_KEY_PRESS | XCB_EVENT_MASK_KEY_RELEASE,
+            &XIMServer::callback, this));
 
         filter_.reset(parent_->xcb()->call<fcitx::IXCBModule::addEventFilter>(
-            name,
-            [this](xcb_connection_t *, xcb_generic_event_t *event) { return xcb_im_filter_event(im_.get(), event); }));
+            name, [this](xcb_connection_t *, xcb_generic_event_t *event) {
+                return xcb_im_filter_event(im_.get(), event);
+            }));
 
         xcb_im_open_im(im_.get());
     }
 
-    InputContextManager &inputContextManager() { return parent_->instance()->inputContextManager(); }
+    InputContextManager &inputContextManager() {
+        return parent_->instance()->inputContextManager();
+    }
 
     ~XIMServer() {
         if (im_) {
@@ -87,14 +95,16 @@ public:
         }
     }
 
-    static void callback(xcb_im_t *, xcb_im_client_t *client, xcb_im_input_context_t *xic,
-                         const xcb_im_packet_header_fr_t *hdr, void *frame, void *arg, void *user_data) {
+    static void callback(xcb_im_t *, xcb_im_client_t *client,
+                         xcb_im_input_context_t *xic,
+                         const xcb_im_packet_header_fr_t *hdr, void *frame,
+                         void *arg, void *user_data) {
         XIMServer *that = static_cast<XIMServer *>(user_data);
         that->callback(client, xic, hdr, frame, arg);
     }
 
-    void callback(xcb_im_client_t *client, xcb_im_input_context_t *xic, const xcb_im_packet_header_fr_t *hdr,
-                  void *frame, void *arg);
+    void callback(xcb_im_client_t *client, xcb_im_input_context_t *xic,
+                  const xcb_im_packet_header_fr_t *hdr, void *frame, void *arg);
 
     auto im() { return im_.get(); }
 
@@ -113,7 +123,8 @@ private:
 
 class XIMInputContext : public InputContext {
 public:
-    XIMInputContext(InputContextManager &inputContextManager, XIMServer *server, xcb_im_input_context_t *ic)
+    XIMInputContext(InputContextManager &inputContextManager, XIMServer *server,
+                    xcb_im_input_context_t *ic)
         : InputContext(inputContextManager), server_(server), xic_(ic) {
         setFocusGroup(server->focusGroup());
         created();
@@ -124,23 +135,28 @@ protected:
     virtual void commitStringImpl(const std::string &text) override {
         size_t compoundTextLength;
         std::unique_ptr<char, decltype(&std::free)> compoundText(
-            xcb_utf8_to_compound_text(text.c_str(), text.size(), &compoundTextLength), std::free);
+            xcb_utf8_to_compound_text(text.c_str(), text.size(),
+                                      &compoundTextLength),
+            std::free);
         if (!compoundText) {
             return;
         }
-        xcb_im_commit_string(server_->im(), xic_, XCB_XIM_LOOKUP_CHARS, compoundText.get(), compoundTextLength, 0);
+        xcb_im_commit_string(server_->im(), xic_, XCB_XIM_LOOKUP_CHARS,
+                             compoundText.get(), compoundTextLength, 0);
     }
     virtual void deleteSurroundingTextImpl(int, unsigned int) override {}
     virtual void forwardKeyImpl(const ForwardKeyEvent &key) override {
         xcb_key_press_event_t xcbEvent;
         memset(&xcbEvent, 0, sizeof(xcb_key_press_event_t));
         xcbEvent.time = key.time();
-        xcbEvent.response_type = key.isRelease() ? XCB_KEY_RELEASE : XCB_KEY_PRESS;
+        xcbEvent.response_type =
+            key.isRelease() ? XCB_KEY_RELEASE : XCB_KEY_PRESS;
         xcbEvent.state = key.rawKey().states();
         xcbEvent.detail = key.keyCode();
         xcbEvent.root = server_->root();
         xcbEvent.event = xcb_im_input_context_get_focus_window(xic_);
-        if ((xcbEvent.event = xcb_im_input_context_get_focus_window(xic_)) == XCB_WINDOW_NONE) {
+        if ((xcbEvent.event = xcb_im_input_context_get_focus_window(xic_)) ==
+            XCB_WINDOW_NONE) {
             xcbEvent.event = xcb_im_input_context_get_client_window(xic_);
         }
         xcbEvent.child = XCB_WINDOW_NONE;
@@ -203,12 +219,15 @@ protected:
             frame.chg_length = lastPreeditLength;
             size_t compoundTextLength;
             std::unique_ptr<char, decltype(&std::free)> compoundText(
-                xcb_utf8_to_compound_text(strPreedit.c_str(), strPreedit.size(), &compoundTextLength), std::free);
+                xcb_utf8_to_compound_text(strPreedit.c_str(), strPreedit.size(),
+                                          &compoundTextLength),
+                std::free);
             if (!compoundText) {
                 return;
             }
             frame.length_of_preedit_string = compoundTextLength;
-            frame.preedit_string = reinterpret_cast<uint8_t *>(compoundText.get());
+            frame.preedit_string =
+                reinterpret_cast<uint8_t *>(compoundText.get());
             frame.feedback_array.size = feedbackBuffer.size();
             frame.feedback_array.items = feedbackBuffer.data();
             frame.status = frame.feedback_array.size ? 0 : 2;
@@ -225,8 +244,9 @@ private:
     std::vector<uint32_t> feedbackBuffer;
 };
 
-void XIMServer::callback(xcb_im_client_t *client, xcb_im_input_context_t *xic, const xcb_im_packet_header_fr_t *hdr,
-                         void *frame, void *arg) {
+void XIMServer::callback(xcb_im_client_t *client, xcb_im_input_context_t *xic,
+                         const xcb_im_packet_header_fr_t *hdr, void *frame,
+                         void *arg) {
     FCITX_UNUSED(client);
     FCITX_UNUSED(hdr);
     FCITX_UNUSED(frame);
@@ -243,7 +263,8 @@ void XIMServer::callback(xcb_im_client_t *client, xcb_im_input_context_t *xic, c
 
     switch (hdr->major_opcode) {
     case XCB_XIM_CREATE_IC:
-        ic = new XIMInputContext(parent_->instance()->inputContextManager(), this, xic);
+        ic = new XIMInputContext(parent_->instance()->inputContextManager(),
+                                 this, xic);
         xcb_im_input_context_set_data(xic, ic, nullptr);
         break;
     case XCB_XIM_DESTROY_IC:
@@ -257,10 +278,13 @@ void XIMServer::callback(xcb_im_client_t *client, xcb_im_input_context_t *xic, c
         if (!xkbState) {
             break;
         }
-        xcb_key_press_event_t *xevent = static_cast<xcb_key_press_event_t *>(arg);
-        KeyEvent event(
-            ic, Key(static_cast<KeySym>(xkb_state_key_get_one_sym(xkbState, xevent->detail)), KeyStates(xevent->state)),
-            (xevent->response_type & ~0x80) == XCB_KEY_RELEASE, xevent->detail, xevent->time);
+        xcb_key_press_event_t *xevent =
+            static_cast<xcb_key_press_event_t *>(arg);
+        KeyEvent event(ic, Key(static_cast<KeySym>(xkb_state_key_get_one_sym(
+                                   xkbState, xevent->detail)),
+                               KeyStates(xevent->state)),
+                       (xevent->response_type & ~0x80) == XCB_KEY_RELEASE,
+                       xevent->detail, xevent->time);
 
         if (!ic->keyEvent(event)) {
             xcb_im_forward_event(im(), xic, xevent);
@@ -280,13 +304,18 @@ void XIMServer::callback(xcb_im_client_t *client, xcb_im_input_context_t *xic, c
 }
 
 XIMModule::XIMModule(Instance *instance)
-    : instance_(instance), createdCallback_(xcb()->call<IXCBModule::addConnectionCreatedCallback>([this](
-                               const std::string &name, xcb_connection_t *conn, int defaultScreen, FocusGroup *group) {
-          XIMServer *server = new XIMServer(conn, defaultScreen, group, name, this);
-          servers_[name].reset(server);
-      })),
+    : instance_(instance),
+      createdCallback_(xcb()->call<IXCBModule::addConnectionCreatedCallback>(
+          [this](const std::string &name, xcb_connection_t *conn,
+                 int defaultScreen, FocusGroup *group) {
+              XIMServer *server =
+                  new XIMServer(conn, defaultScreen, group, name, this);
+              servers_[name].reset(server);
+          })),
       closedCallback_(xcb()->call<IXCBModule::addConnectionClosedCallback>(
-          [this](const std::string &name, xcb_connection_t *) { servers_.erase(name); })) {
+          [this](const std::string &name, xcb_connection_t *) {
+              servers_.erase(name);
+          })) {
     xcb_compound_text_init();
 }
 
@@ -299,7 +328,9 @@ XIMModule::~XIMModule() {}
 
 class XIMModuleFactory : public AddonFactory {
 public:
-    AddonInstance *create(AddonManager *manager) override { return new XIMModule(manager->instance()); }
+    AddonInstance *create(AddonManager *manager) override {
+        return new XIMModule(manager->instance());
+    }
 };
 }
 

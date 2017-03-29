@@ -30,13 +30,16 @@
 
 namespace fcitx {
 
-FCITX_CONFIGURATION(NotificationsConfig, fcitx::Option<std::vector<std::string>> hiddenNotifications{
-                                             this, "HiddenNotifications", "HiddenNotifications"};);
+FCITX_CONFIGURATION(NotificationsConfig,
+                    fcitx::Option<std::vector<std::string>> hiddenNotifications{
+                        this, "HiddenNotifications", "HiddenNotifications"};);
 
 struct NotificationItem {
-    NotificationItem(uint64_t internalId, NotificationActionCallback actionCallback,
+    NotificationItem(uint64_t internalId,
+                     NotificationActionCallback actionCallback,
                      NotificationClosedCallback closedCallback)
-        : internalId_(internalId), actionCallback_(actionCallback), closedCallback_(closedCallback) {}
+        : internalId_(internalId), actionCallback_(actionCallback),
+          closedCallback_(closedCallback) {}
     uint32_t globalId_ = 0;
     uint64_t internalId_;
     NotificationActionCallback actionCallback_;
@@ -52,12 +55,17 @@ public:
     void reloadConfig() override;
     void save() override;
 
-    uint32_t sendNotification(const std::string &appName, uint32_t replaceId, const std::string &appIcon,
-                              const std::string &summary, const std::string &body,
-                              const std::vector<std::string> &actions, int32_t timeout,
-                              NotificationActionCallback actionCallback, NotificationClosedCallback closedCallback);
-    void showTip(const std::string &tipId, const std::string &appName, const std::string &appIcon,
-                 const std::string &summary, const std::string &body, int32_t timeout);
+    uint32_t sendNotification(const std::string &appName, uint32_t replaceId,
+                              const std::string &appIcon,
+                              const std::string &summary,
+                              const std::string &body,
+                              const std::vector<std::string> &actions,
+                              int32_t timeout,
+                              NotificationActionCallback actionCallback,
+                              NotificationClosedCallback closedCallback);
+    void showTip(const std::string &tipId, const std::string &appName,
+                 const std::string &appIcon, const std::string &summary,
+                 const std::string &body, int32_t timeout);
 
     void closeNotification(uint64_t internalId);
 

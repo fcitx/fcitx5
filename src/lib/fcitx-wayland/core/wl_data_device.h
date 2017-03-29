@@ -11,7 +11,8 @@ class WlSurface;
 class WlDataDevice {
 public:
     static constexpr const char *interface = "wl_data_device";
-    static constexpr const wl_interface *const wlInterface = &wl_data_device_interface;
+    static constexpr const wl_interface *const wlInterface =
+        &wl_data_device_interface;
     static constexpr const uint32_t version = 3;
     typedef wl_data_device wlType;
     operator wl_data_device *() { return data_.get(); }
@@ -22,7 +23,8 @@ public:
         return *this;
     }
     auto actualVersion() const { return version_; }
-    void startDrag(WlDataSource *source, WlSurface *origin, WlSurface *icon, uint32_t serial);
+    void startDrag(WlDataSource *source, WlSurface *origin, WlSurface *icon,
+                   uint32_t serial);
     void setSelection(WlDataSource *source, uint32_t serial);
     auto &dataOffer() { return dataOfferSignal_; }
     auto &enter() { return enterSignal_; }
@@ -35,7 +37,9 @@ private:
     static void destructor(wl_data_device *);
     static const struct wl_data_device_listener listener;
     fcitx::Signal<void(WlDataOffer *)> dataOfferSignal_;
-    fcitx::Signal<void(uint32_t, WlSurface *, wl_fixed_t, wl_fixed_t, WlDataOffer *)> enterSignal_;
+    fcitx::Signal<void(uint32_t, WlSurface *, wl_fixed_t, wl_fixed_t,
+                       WlDataOffer *)>
+        enterSignal_;
     fcitx::Signal<void()> leaveSignal_;
     fcitx::Signal<void(uint32_t, wl_fixed_t, wl_fixed_t)> motionSignal_;
     fcitx::Signal<void()> dropSignal_;

@@ -28,12 +28,14 @@ namespace fs {
 
 bool isdir(const std::string &path) {
     struct stat stats;
-    return (stat(path.c_str(), &stats) == 0 && S_ISDIR(stats.st_mode) && access(path.c_str(), R_OK | X_OK) == 0);
+    return (stat(path.c_str(), &stats) == 0 && S_ISDIR(stats.st_mode) &&
+            access(path.c_str(), R_OK | X_OK) == 0);
 }
 
 bool isreg(const std::string &path) {
     struct stat stats;
-    return (stat(path.c_str(), &stats) == 0 && S_ISREG(stats.st_mode) && access(path.c_str(), R_OK) == 0);
+    return (stat(path.c_str(), &stats) == 0 && S_ISREG(stats.st_mode) &&
+            access(path.c_str(), R_OK) == 0);
 }
 
 bool islnk(const std::string &path) {

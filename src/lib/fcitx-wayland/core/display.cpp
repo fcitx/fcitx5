@@ -29,17 +29,23 @@ namespace wayland {
 
 void Display::createGlobalHelper(
     GlobalsFactoryBase *factory,
-    std::pair<const uint32_t, std::tuple<std::string, uint32_t, std::shared_ptr<void>>> &globalsPair) {
-    std::get<std::shared_ptr<void>>(globalsPair.second) = factory->create(*registry(), globalsPair.first);
+    std::pair<const uint32_t,
+              std::tuple<std::string, uint32_t, std::shared_ptr<void>>>
+        &globalsPair) {
+    std::get<std::shared_ptr<void>>(globalsPair.second) =
+        factory->create(*registry(), globalsPair.first);
     globalCreatedSignal_(std::get<std::string>(globalsPair.second),
                          std::get<std::shared_ptr<void>>(globalsPair.second));
 }
 
-Display::Display(wl_display *display) : display_(display, &wl_display_disconnect) {
+Display::Display(wl_display *display)
+    : display_(display, &wl_display_disconnect) {
     wl_display_set_user_data(display, this);
     auto reg = registry();
-    reg->global().connect([this](uint32_t name, const char *interface, uint32_t) {
-        auto result = globals_.emplace(std::make_pair(name, std::make_tuple(interface, name, nullptr)));
+    reg->global().connect([this](uint32_t name, const char *interface,
+                                 uint32_t) {
+        auto result = globals_.emplace(
+            std::make_pair(name, std::make_tuple(interface, name, nullptr)));
         auto iter = requestedGlobals_.find(interface);
         if (iter != requestedGlobals_.end()) {
             createGlobalHelper(iter->second.get(), *result.first);
@@ -48,26 +54,29 @@ Display::Display(wl_display *display) : display_(display, &wl_display_disconnect
     reg->globalRemove().connect([this](uint32_t name) {
         auto iter = globals_.find(name);
         if (iter != globals_.end()) {
-            globalRemovedSignal_(std::get<std::string>(iter->second), std::get<std::shared_ptr<void>>(iter->second));
+            globalRemovedSignal_(std::get<std::string>(iter->second),
+                                 std::get<std::shared_ptr<void>>(iter->second));
             requestedGlobals_[std::get<std::string>(iter->second)]->erase(name);
         }
     });
 
     requestGlobals<wayland::WlOutput>();
-    globalCreatedSignal_.connect([this](const std::string &interface, std::shared_ptr<void> data) {
-        if (interface != wayland::WlOutput::interface) {
-            return;
-        }
-        auto output = static_cast<wayland::WlOutput *>(data.get());
-        addOutput(output);
-    });
-    globalRemovedSignal_.connect([this](const std::string &interface, std::shared_ptr<void> data) {
-        if (interface != wayland::WlOutput::interface) {
-            return;
-        }
-        auto output = static_cast<wayland::WlOutput *>(data.get());
-        removeOutput(output);
-    });
+    globalCreatedSignal_.connect(
+        [this](const std::string &interface, std::shared_ptr<void> data) {
+            if (interface != wayland::WlOutput::interface) {
+                return;
+            }
+            auto output = static_cast<wayland::WlOutput *>(data.get());
+            addOutput(output);
+        });
+    globalRemovedSignal_.connect(
+        [this](const std::string &interface, std::shared_ptr<void> data) {
+            if (interface != wayland::WlOutput::interface) {
+                return;
+            }
+            auto output = static_cast<wayland::WlOutput *>(data.get());
+            removeOutput(output);
+        });
 
     wl_display_roundtrip(*this);
 }
@@ -116,13 +125,15 @@ void Display::run() {
 
 WlRegistry *Display::registry() {
     if (!registry_) {
-        registry_ = std::make_unique<WlRegistry>(wl_display_get_registry(*this));
+        registry_ =
+            std::make_unique<WlRegistry>(wl_display_get_registry(*this));
     }
 
     return registry_.get();
 }
 
-const OutputInfomation *Display::outputInformation(wayland::WlOutput *output) const {
+const OutputInfomation *
+Display::outputInformation(wayland::WlOutput *output) const {
     auto iter = outputInfo_.find(output);
     if (iter == outputInfo_.end()) {
         return nullptr;
@@ -131,9 +142,12 @@ const OutputInfomation *Display::outputInformation(wayland::WlOutput *output) co
 }
 
 void Display::addOutput(wayland::WlOutput *output) {
-    outputInfo_.emplace(std::piecewise_construct, std::forward_as_tuple(output), std::forward_as_tuple(output));
+    outputInfo_.emplace(std::piecewise_construct, std::forward_as_tuple(output),
+                        std::forward_as_tuple(output));
 }
 
-void Display::removeOutput(wayland::WlOutput *output) { outputInfo_.erase(output); }
+void Display::removeOutput(wayland::WlOutput *output) {
+    outputInfo_.erase(output);
+}
 }
 }

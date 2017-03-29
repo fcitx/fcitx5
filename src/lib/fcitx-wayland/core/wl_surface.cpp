@@ -14,7 +14,8 @@ const struct wl_surface_listener WlSurface::listener = {
         auto obj = static_cast<WlSurface *>(data);
         assert(*obj == wldata);
         {
-            auto output_ = static_cast<WlOutput *>(wl_output_get_user_data(output));
+            auto output_ =
+                static_cast<WlOutput *>(wl_output_get_user_data(output));
             return obj->enter()(output_);
         }
     },
@@ -22,12 +23,15 @@ const struct wl_surface_listener WlSurface::listener = {
         auto obj = static_cast<WlSurface *>(data);
         assert(*obj == wldata);
         {
-            auto output_ = static_cast<WlOutput *>(wl_output_get_user_data(output));
+            auto output_ =
+                static_cast<WlOutput *>(wl_output_get_user_data(output));
             return obj->leave()(output_);
         }
     },
 };
-WlSurface::WlSurface(wl_surface *data) : version_(wl_surface_get_version(data)), data_(data, &WlSurface::destructor) {
+WlSurface::WlSurface(wl_surface *data)
+    : version_(wl_surface_get_version(data)),
+      data_(data, &WlSurface::destructor) {
     wl_surface_set_user_data(*this, this);
     wl_surface_add_listener(*this, &WlSurface::listener, this);
 }
@@ -37,17 +41,30 @@ void WlSurface::destructor(wl_surface *data) {
         return wl_surface_destroy(data);
     }
 }
-void WlSurface::attach(WlBuffer *buffer, int32_t x, int32_t y) { return wl_surface_attach(*this, *buffer, x, y); }
+void WlSurface::attach(WlBuffer *buffer, int32_t x, int32_t y) {
+    return wl_surface_attach(*this, *buffer, x, y);
+}
 void WlSurface::damage(int32_t x, int32_t y, int32_t width, int32_t height) {
     return wl_surface_damage(*this, x, y, width, height);
 }
-WlCallback *WlSurface::frame() { return new WlCallback(wl_surface_frame(*this)); }
-void WlSurface::setOpaqueRegion(WlRegion *region) { return wl_surface_set_opaque_region(*this, *region); }
-void WlSurface::setInputRegion(WlRegion *region) { return wl_surface_set_input_region(*this, *region); }
+WlCallback *WlSurface::frame() {
+    return new WlCallback(wl_surface_frame(*this));
+}
+void WlSurface::setOpaqueRegion(WlRegion *region) {
+    return wl_surface_set_opaque_region(*this, *region);
+}
+void WlSurface::setInputRegion(WlRegion *region) {
+    return wl_surface_set_input_region(*this, *region);
+}
 void WlSurface::commit() { return wl_surface_commit(*this); }
-void WlSurface::setBufferTransform(int32_t transform) { return wl_surface_set_buffer_transform(*this, transform); }
-void WlSurface::setBufferScale(int32_t scale) { return wl_surface_set_buffer_scale(*this, scale); }
-void WlSurface::damageBuffer(int32_t x, int32_t y, int32_t width, int32_t height) {
+void WlSurface::setBufferTransform(int32_t transform) {
+    return wl_surface_set_buffer_transform(*this, transform);
+}
+void WlSurface::setBufferScale(int32_t scale) {
+    return wl_surface_set_buffer_scale(*this, scale);
+}
+void WlSurface::damageBuffer(int32_t x, int32_t y, int32_t width,
+                             int32_t height) {
     return wl_surface_damage_buffer(*this, x, y, width, height);
 }
 }

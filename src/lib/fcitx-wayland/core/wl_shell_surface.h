@@ -11,7 +11,8 @@ class WlSurface;
 class WlShellSurface {
 public:
     static constexpr const char *interface = "wl_shell_surface";
-    static constexpr const wl_interface *const wlInterface = &wl_shell_surface_interface;
+    static constexpr const wl_interface *const wlInterface =
+        &wl_shell_surface_interface;
     static constexpr const uint32_t version = 1;
     typedef wl_shell_surface wlType;
     operator wl_shell_surface *() { return data_.get(); }
@@ -28,7 +29,8 @@ public:
     void setToplevel();
     void setTransient(WlSurface *parent, int32_t x, int32_t y, uint32_t flags);
     void setFullscreen(uint32_t method, uint32_t framerate, WlOutput *output);
-    void setPopup(WlSeat *seat, uint32_t serial, WlSurface *parent, int32_t x, int32_t y, uint32_t flags);
+    void setPopup(WlSeat *seat, uint32_t serial, WlSurface *parent, int32_t x,
+                  int32_t y, uint32_t flags);
     void setMaximized(WlOutput *output);
     void setTitle(const char *title);
     void setClass(const char *class_);

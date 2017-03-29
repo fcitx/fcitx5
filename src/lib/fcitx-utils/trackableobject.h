@@ -39,7 +39,8 @@ public:
 
     TrackableObjectReference() : rawThat_(nullptr) {}
 
-    TrackableObjectReference(const TrackableObjectReference &other) : that_(other.that_), rawThat_(other.rawThat_) {}
+    TrackableObjectReference(const TrackableObjectReference &other)
+        : that_(other.that_), rawThat_(other.rawThat_) {}
 
     TrackableObjectReference(TrackableObjectReference &&other)
         : that_(std::move(other.that_)), rawThat_(other.rawThat_) {}
@@ -58,7 +59,8 @@ public:
     }
 
 private:
-    TrackableObjectReference(std::weak_ptr<T *> that, T *rawThat) : that_(std::move(that)), rawThat_(rawThat) {}
+    TrackableObjectReference(std::weak_ptr<T *> that, T *rawThat)
+        : that_(std::move(that)), rawThat_(rawThat) {}
 
     std::weak_ptr<T *> that_;
     T *rawThat_;
@@ -67,11 +69,15 @@ private:
 template <typename T>
 class TrackableObject {
 public:
-    TrackableObject() : self_(std::make_unique<std::shared_ptr<T *>>(std::make_shared<T *>(static_cast<T *>(this)))) {}
+    TrackableObject()
+        : self_(std::make_unique<std::shared_ptr<T *>>(
+              std::make_shared<T *>(static_cast<T *>(this)))) {}
     TrackableObject(const TrackableObject &) = delete;
     virtual ~TrackableObject() {}
 
-    TrackableObjectReference<T> watch() { return TrackableObjectReference<T>(*self_, static_cast<T *>(this)); }
+    TrackableObjectReference<T> watch() {
+        return TrackableObjectReference<T>(*self_, static_cast<T *>(this));
+    }
 
 private:
     std::unique_ptr<std::shared_ptr<T *>> self_;

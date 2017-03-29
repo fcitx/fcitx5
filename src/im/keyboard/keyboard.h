@@ -37,9 +37,12 @@ FCITX_CONFIG_ENUM(ChooseModifier, None, Alt, Control, Super);
 
 FCITX_CONFIGURATION(
     KeyboardEngineConfig,
-    fcitx::Option<int, IntConstrain> pageSize{this, "PageSize", "Page size", 5, IntConstrain(3, 10)};
-    fcitx::Option<ChooseModifier> chooseModifier{this, "Choose Modifier", "Choose key modifier", ChooseModifier::Alt};
-    fcitx::Option<KeyList> hintTrigger{this, "Hint Trigger", "Trigger hint mode", {Key("Control+Alt+H")}};);
+    fcitx::Option<int, IntConstrain> pageSize{this, "PageSize", "Page size", 5,
+                                              IntConstrain(3, 10)};
+    fcitx::Option<ChooseModifier> chooseModifier{
+        this, "Choose Modifier", "Choose key modifier", ChooseModifier::Alt};
+    fcitx::Option<KeyList> hintTrigger{
+        this, "Hint Trigger", "Trigger hint mode", {Key("Control+Alt+H")}};);
 
 struct KeyboardEngineState;
 
@@ -51,7 +54,8 @@ public:
     void keyEvent(const InputMethodEntry &entry, KeyEvent &keyEvent) override;
     std::vector<InputMethodEntry> listInputMethods() override;
     void reloadConfig() override;
-    void reset(const InputMethodEntry &entry, InputContextEvent &event) override;
+    void reset(const InputMethodEntry &entry,
+               InputContextEvent &event) override;
 
     uint32_t processCompose(KeyboardEngineState *state, uint32_t keyval);
 
@@ -64,14 +68,18 @@ public:
 
     AddonInstance *notifications() {
         if (!notifications_) {
-            notifications_ = instance_->addonManager().addon("notifications", true);
+            notifications_ =
+                instance_->addonManager().addon("notifications", true);
         }
         return notifications_;
     }
 
-    void updateCandidate(const InputMethodEntry &entry, InputContext *inputContext);
+    void updateCandidate(const InputMethodEntry &entry,
+                         InputContext *inputContext);
 
-    xkb_compose_table *xkbComposeTable() const { return xkbComposeTable_.get(); }
+    xkb_compose_table *xkbComposeTable() const {
+        return xkbComposeTable_.get();
+    }
 
 private:
     void commitBuffer(InputContext *inputContext);
@@ -83,14 +91,19 @@ private:
     IsoCodes isoCodes_;
     XkbRules xkbRules_;
     std::string ruleName_;
-    std::unique_ptr<struct xkb_context, decltype(&xkb_context_unref)> xkbContext_;
-    std::unique_ptr<struct xkb_compose_table, decltype(&xkb_compose_table_unref)> xkbComposeTable_;
+    std::unique_ptr<struct xkb_context, decltype(&xkb_context_unref)>
+        xkbContext_;
+    std::unique_ptr<struct xkb_compose_table,
+                    decltype(&xkb_compose_table_unref)>
+        xkbComposeTable_;
     KeyList selectionKeys_;
 };
 
 class KeyboardEngineFactory : public AddonFactory {
 public:
-    AddonInstance *create(AddonManager *manager) override { return new KeyboardEngine(manager->instance()); }
+    AddonInstance *create(AddonManager *manager) override {
+        return new KeyboardEngine(manager->instance());
+    }
 };
 }
 

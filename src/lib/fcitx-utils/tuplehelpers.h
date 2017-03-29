@@ -43,7 +43,8 @@ struct CombineTuples<std::tuple<_Ts...>> {
 
 template <typename... _T1s, typename... _T2s, typename... _Rem>
 struct CombineTuples<std::tuple<_T1s...>, std::tuple<_T2s...>, _Rem...> {
-    typedef typename CombineTuples<std::tuple<_T1s..., _T2s...>, _Rem...>::type type;
+    typedef typename CombineTuples<std::tuple<_T1s..., _T2s...>, _Rem...>::type
+        type;
 };
 
 template <typename... Args>

@@ -8,7 +8,8 @@ namespace wayland {
 class WlBuffer {
 public:
     static constexpr const char *interface = "wl_buffer";
-    static constexpr const wl_interface *const wlInterface = &wl_buffer_interface;
+    static constexpr const wl_interface *const wlInterface =
+        &wl_buffer_interface;
     static constexpr const uint32_t version = 1;
     typedef wl_buffer wlType;
     operator wl_buffer *() { return data_.get(); }

@@ -24,19 +24,21 @@
 #include <cassert>
 #include <vector>
 
-#define TEST_FOCUS(ARGS...)                                                                                            \
-    do {                                                                                                               \
-        bool focus_result[] = {ARGS};                                                                                  \
-        for (size_t i = 0; i < FCITX_ARRAY_SIZE(focus_result); i++) {                                                  \
-            assert(ic[i]->hasFocus() == focus_result[i]);                                                              \
-        }                                                                                                              \
+#define TEST_FOCUS(ARGS...)                                                    \
+    do {                                                                       \
+        bool focus_result[] = {ARGS};                                          \
+        for (size_t i = 0; i < FCITX_ARRAY_SIZE(focus_result); i++) {          \
+            assert(ic[i]->hasFocus() == focus_result[i]);                      \
+        }                                                                      \
     } while (0)
 
 using namespace fcitx;
 
 class TestInputContext : public InputContext {
 public:
-    TestInputContext(InputContextManager &manager, const std::string &program = {}) : InputContext(manager, program) {}
+    TestInputContext(InputContextManager &manager,
+                     const std::string &program = {})
+        : InputContext(manager, program) {}
 
     ~TestInputContext() { destroy(); }
 
@@ -113,8 +115,10 @@ int main() {
         ic.emplace_back(new TestInputContext(manager, "Firefox"));
         ic.emplace_back(new TestInputContext(manager, "Chrome"));
 
-        assert(manager.registerProperty("shared", [](InputContext &) { return new TestSharedProperty; }));
-        assert(manager.registerProperty("property", [](InputContext &) { return new TestProperty; }));
+        assert(manager.registerProperty(
+            "shared", [](InputContext &) { return new TestSharedProperty; }));
+        assert(manager.registerProperty(
+            "property", [](InputContext &) { return new TestProperty; }));
 
         ic.emplace_back(new TestInputContext(manager, "Chrome"));
 
@@ -124,7 +128,8 @@ int main() {
             for (auto s : slot) {
                 int idx2 = 0;
                 for (auto &context : ic) {
-                    assert(context->propertyAs<TestProperty>(s)->num() == expect[idx][idx2]);
+                    assert(context->propertyAs<TestProperty>(s)->num() ==
+                           expect[idx][idx2]);
                     idx2++;
                 }
                 idx++;

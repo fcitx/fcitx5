@@ -10,7 +10,8 @@ class WlSurface;
 class WlShell {
 public:
     static constexpr const char *interface = "wl_shell";
-    static constexpr const wl_interface *const wlInterface = &wl_shell_interface;
+    static constexpr const wl_interface *const wlInterface =
+        &wl_shell_interface;
     static constexpr const uint32_t version = 1;
     typedef wl_shell wlType;
     operator wl_shell *() { return data_.get(); }

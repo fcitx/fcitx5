@@ -45,7 +45,8 @@ public:
     Action &setCheckable(bool checkable);
 
     const std::string &name() const;
-    bool registerAction(const std::string &name, UserInterfaceManager *uiManager);
+    bool registerAction(const std::string &name,
+                        UserInterfaceManager *uiManager);
 
     virtual std::string text(InputContext *) const { return {}; }
     virtual std::string icon(InputContext *) const { return {}; }

@@ -26,22 +26,29 @@
 namespace fcitx {
 
 template <class Parent, class Member>
-inline std::ptrdiff_t offsetFromPointerToMember(const Member Parent::*ptr_to_member) {
+inline std::ptrdiff_t
+offsetFromPointerToMember(const Member Parent::*ptr_to_member) {
     const Parent *const parent = 0;
-    const char *const member = static_cast<const char *>(static_cast<const void *>(&(parent->*ptr_to_member)));
-    return std::ptrdiff_t(member - static_cast<const char *>(static_cast<const void *>(parent)));
+    const char *const member = static_cast<const char *>(
+        static_cast<const void *>(&(parent->*ptr_to_member)));
+    return std::ptrdiff_t(
+        member - static_cast<const char *>(static_cast<const void *>(parent)));
 }
 
 template <class Parent, class Member>
-inline Parent *parentFromMember(Member *member, const Member Parent::*ptr_to_member) {
-    return static_cast<Parent *>(static_cast<void *>(static_cast<char *>(static_cast<void *>(member)) -
-                                                     offsetFromPointerToMember(ptr_to_member)));
+inline Parent *parentFromMember(Member *member,
+                                const Member Parent::*ptr_to_member) {
+    return static_cast<Parent *>(
+        static_cast<void *>(static_cast<char *>(static_cast<void *>(member)) -
+                            offsetFromPointerToMember(ptr_to_member)));
 }
 
 template <class Parent, class Member>
-inline const Parent *parentFromMember(const Member *member, const Member Parent::*ptr_to_member) {
+inline const Parent *parentFromMember(const Member *member,
+                                      const Member Parent::*ptr_to_member) {
     return static_cast<const Parent *>(static_cast<const void *>(
-        static_cast<const char *>(static_cast<const void *>(member)) - offsetFromPointerToMember(ptr_to_member)));
+        static_cast<const char *>(static_cast<const void *>(member)) -
+        offsetFromPointerToMember(ptr_to_member)));
 }
 
 template <typename Iter>
@@ -59,8 +66,12 @@ public:
 
     KeyIterator &operator=(const KeyIterator &other) = default;
 
-    bool operator==(const KeyIterator &other) const noexcept { return iter_ == other.iter_; }
-    bool operator!=(const KeyIterator &other) const noexcept { return !operator==(other); }
+    bool operator==(const KeyIterator &other) const noexcept {
+        return iter_ == other.iter_;
+    }
+    bool operator!=(const KeyIterator &other) const noexcept {
+        return !operator==(other);
+    }
 
     KeyIterator &operator++() {
         iter_++;
@@ -93,7 +104,8 @@ public:
 struct EnumHash {
     template <typename T>
     inline auto operator()(T const value) const {
-        return std::hash<std::underlying_type_t<T>>()(static_cast<std::underlying_type_t<T>>(value));
+        return std::hash<std::underlying_type_t<T>>()(
+            static_cast<std::underlying_type_t<T>>(value));
     }
 };
 }

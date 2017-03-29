@@ -33,34 +33,37 @@ int main() {
     assert(r == 0);
 
     std::unique_ptr<EventSource> source(
-        e.addIOEvent(pipefd[0], IOEventFlag::In, [&e, pipefd](EventSource *, int fd, IOEventFlags flags) {
-            assert(pipefd[0] == fd);
-            if (flags & IOEventFlag::Hup) {
-                e.quit();
-            }
+        e.addIOEvent(pipefd[0], IOEventFlag::In,
+                     [&e, pipefd](EventSource *, int fd, IOEventFlags flags) {
+                         assert(pipefd[0] == fd);
+                         if (flags & IOEventFlag::Hup) {
+                             e.quit();
+                         }
 
-            if (flags & IOEventFlag::In) {
-                char buf[20];
-                auto size = read(fd, buf, 20);
-                std::cout << "QUIT" << flags << std::endl;
-                assert(size == 1);
-                assert(buf[0] == 'a');
-            }
-            return true;
-        }));
+                         if (flags & IOEventFlag::In) {
+                             char buf[20];
+                             auto size = read(fd, buf, 20);
+                             std::cout << "QUIT" << flags << std::endl;
+                             assert(size == 1);
+                             assert(buf[0] == 'a');
+                         }
+                         return true;
+                     }));
 
     std::unique_ptr<EventSource> source2(
-        e.addTimeEvent(CLOCK_MONOTONIC, now(CLOCK_MONOTONIC) + 1000000ul, 0, [&e, pipefd](EventSource *, uint64_t) {
-            auto r = write(pipefd[1], "a", 1);
-            assert(r == 1);
-            return false;
-        }));
+        e.addTimeEvent(CLOCK_MONOTONIC, now(CLOCK_MONOTONIC) + 1000000ul, 0,
+                       [&e, pipefd](EventSource *, uint64_t) {
+                           auto r = write(pipefd[1], "a", 1);
+                           assert(r == 1);
+                           return false;
+                       }));
 
     std::unique_ptr<EventSource> source3(
-        e.addTimeEvent(CLOCK_MONOTONIC, now(CLOCK_MONOTONIC) + 2000000ul, 0, [&e, pipefd](EventSource *, uint64_t) {
-            close(pipefd[1]);
-            return false;
-        }));
+        e.addTimeEvent(CLOCK_MONOTONIC, now(CLOCK_MONOTONIC) + 2000000ul, 0,
+                       [&e, pipefd](EventSource *, uint64_t) {
+                           close(pipefd[1]);
+                           return false;
+                       }));
 
     return e.exec() ? 0 : 1;
 }

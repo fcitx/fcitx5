@@ -31,9 +31,10 @@ struct FCITXCORE_EXPORT InputMethodEntryUserData {
 
 class FCITXCORE_EXPORT InputMethodEntry {
 public:
-    InputMethodEntry(const std::string &uniqueName, const std::string &name, const std::string &languageCode,
-                     const std::string &addon)
-        : uniqueName_(uniqueName), name_(name), languageCode_(languageCode), addon_(addon) {}
+    InputMethodEntry(const std::string &uniqueName, const std::string &name,
+                     const std::string &languageCode, const std::string &addon)
+        : uniqueName_(uniqueName), name_(name), languageCode_(languageCode),
+          addon_(addon) {}
     InputMethodEntry(const InputMethodEntry &) = delete;
     InputMethodEntry(InputMethodEntry &&) = default;
     virtual ~InputMethodEntry() {}
@@ -53,7 +54,9 @@ public:
         return *this;
     }
 
-    void setUserData(InputMethodEntryUserData *userData) { userData_.reset(userData); }
+    void setUserData(InputMethodEntryUserData *userData) {
+        userData_.reset(userData);
+    }
 
     InputMethodEntryUserData *userData() { return userData_.get(); }
 

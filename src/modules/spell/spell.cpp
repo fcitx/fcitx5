@@ -30,9 +30,11 @@ namespace fcitx {
 
 Spell::Spell(Instance *instance) : instance_(instance) {
 #ifdef ENABLE_ENCHANT
-    backends_.emplace(SpellProvider::Enchant, std::make_unique<SpellEnchant>(this));
+    backends_.emplace(SpellProvider::Enchant,
+                      std::make_unique<SpellEnchant>(this));
 #endif
-    backends_.emplace(SpellProvider::Custom, std::make_unique<SpellCustom>(this));
+    backends_.emplace(SpellProvider::Custom,
+                      std::make_unique<SpellCustom>(this));
 
     reloadConfig();
 }
@@ -41,7 +43,8 @@ Spell::~Spell() {}
 
 void Spell::reloadConfig() {
     auto &standardPath = StandardPath::global();
-    auto file = standardPath.open(StandardPath::Type::Config, "fcitx5/conf/spell.conf", O_RDONLY);
+    auto file = standardPath.open(StandardPath::Type::Config,
+                                  "fcitx5/conf/spell.conf", O_RDONLY);
     RawConfig config;
     readFromIni(config, file.fd());
 
@@ -72,7 +75,8 @@ void Spell::addWord(const std::string &language, const std::string &word) {
     iter->second->addWord(language, word);
 }
 
-std::vector<std::string> Spell::hint(const std::string &language, const std::string &word, size_t limit) {
+std::vector<std::string> Spell::hint(const std::string &language,
+                                     const std::string &word, size_t limit) {
     auto iter = findBackend(language);
     if (iter == backends_.end()) {
         return {};
@@ -82,7 +86,9 @@ std::vector<std::string> Spell::hint(const std::string &language, const std::str
 }
 
 class SpellModuleFactory : public AddonFactory {
-    AddonInstance *create(AddonManager *manager) override { return new Spell(manager->instance()); }
+    AddonInstance *create(AddonManager *manager) override {
+        return new Spell(manager->instance());
+    }
 };
 }
 

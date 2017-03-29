@@ -9,7 +9,8 @@ constexpr const char *WlDataDeviceManager::interface;
 constexpr const wl_interface *const WlDataDeviceManager::wlInterface;
 const uint32_t WlDataDeviceManager::version;
 WlDataDeviceManager::WlDataDeviceManager(wl_data_device_manager *data)
-    : version_(wl_data_device_manager_get_version(data)), data_(data, &WlDataDeviceManager::destructor) {
+    : version_(wl_data_device_manager_get_version(data)),
+      data_(data, &WlDataDeviceManager::destructor) {
     wl_data_device_manager_set_user_data(*this, this);
 }
 void WlDataDeviceManager::destructor(wl_data_device_manager *data) {
@@ -19,7 +20,8 @@ WlDataSource *WlDataDeviceManager::createDataSource() {
     return new WlDataSource(wl_data_device_manager_create_data_source(*this));
 }
 WlDataDevice *WlDataDeviceManager::getDataDevice(WlSeat *seat) {
-    return new WlDataDevice(wl_data_device_manager_get_data_device(*this, *seat));
+    return new WlDataDevice(
+        wl_data_device_manager_get_data_device(*this, *seat));
 }
 }
 }

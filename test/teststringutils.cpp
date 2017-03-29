@@ -69,7 +69,8 @@ int main() {
 
         auto replace_result = stringutils::replaceAll(largeReplace, "abc", "e");
         assert(replace_result == largeReplaceCorrect);
-        auto replace_result2 = stringutils::replaceAll(replace_result, "e", "abcd");
+        auto replace_result2 =
+            stringutils::replaceAll(replace_result, "e", "abcd");
         assert(replace_result2 == largeReplaceCorrect2);
     }
 

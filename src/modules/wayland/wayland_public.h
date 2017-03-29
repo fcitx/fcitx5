@@ -28,13 +28,20 @@
 
 namespace fcitx {
 
-typedef std::function<void(const std::string &name, wl_display *display, FocusGroup *group)> WaylandConnectionCreated;
-typedef std::function<void(const std::string &name, wl_display *display)> WaylandConnectionClosed;
+typedef std::function<void(const std::string &name, wl_display *display,
+                           FocusGroup *group)>
+    WaylandConnectionCreated;
+typedef std::function<void(const std::string &name, wl_display *display)>
+    WaylandConnectionClosed;
 }
 
-FCITX_ADDON_DECLARE_FUNCTION(WaylandModule, addConnectionCreatedCallback,
-                             fcitx::HandlerTableEntry<fcitx::WaylandConnectionCreated> *(WaylandConnectionCreated));
-FCITX_ADDON_DECLARE_FUNCTION(WaylandModule, addConnectionClosedCallback,
-                             fcitx::HandlerTableEntry<fcitx::WaylandConnectionClosed> *(WaylandConnectionClosed));
+FCITX_ADDON_DECLARE_FUNCTION(
+    WaylandModule, addConnectionCreatedCallback,
+    fcitx::HandlerTableEntry<fcitx::WaylandConnectionCreated> *(
+        WaylandConnectionCreated));
+FCITX_ADDON_DECLARE_FUNCTION(
+    WaylandModule, addConnectionClosedCallback,
+    fcitx::HandlerTableEntry<fcitx::WaylandConnectionClosed> *(
+        WaylandConnectionClosed));
 
 #endif // _FCITX_MODULES_WAYLAND_WAYLAND_PUBLIC_H_

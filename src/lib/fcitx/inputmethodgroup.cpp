@@ -43,7 +43,9 @@ public:
 InputMethodGroupItem::InputMethodGroupItem(const std::string &name)
     : d_ptr(std::make_unique<InputMethodGroupItemPrivate>(name)) {}
 
-InputMethodGroupItem::InputMethodGroupItem(InputMethodGroupItem &&other) noexcept : d_ptr(std::move(other.d_ptr)) {}
+InputMethodGroupItem::InputMethodGroupItem(
+    InputMethodGroupItem &&other) noexcept
+    : d_ptr(std::move(other.d_ptr)) {}
 
 InputMethodGroupItem::~InputMethodGroupItem() {}
 
@@ -57,15 +59,18 @@ const std::string &InputMethodGroupItem::layout() const {
     return d->layout_;
 }
 
-InputMethodGroupItem &InputMethodGroupItem::setLayout(const std::string &layout) {
+InputMethodGroupItem &
+InputMethodGroupItem::setLayout(const std::string &layout) {
     FCITX_D();
     d->layout_ = layout;
     return *this;
 }
 
-InputMethodGroup::InputMethodGroup(const std::string &name) : d_ptr(std::make_unique<InputMethodGroupPrivate>(name)) {}
+InputMethodGroup::InputMethodGroup(const std::string &name)
+    : d_ptr(std::make_unique<InputMethodGroupPrivate>(name)) {}
 
-InputMethodGroup::InputMethodGroup(InputMethodGroup &&other) noexcept : d_ptr(std::move(other.d_ptr)) {}
+InputMethodGroup::InputMethodGroup(InputMethodGroup &&other) noexcept
+    : d_ptr(std::move(other.d_ptr)) {}
 
 InputMethodGroup::~InputMethodGroup() {}
 
@@ -79,7 +84,8 @@ std::vector<InputMethodGroupItem> &InputMethodGroup::inputMethodList() {
     return d->inputMethodList_;
 }
 
-const std::vector<InputMethodGroupItem> &InputMethodGroup::inputMethodList() const {
+const std::vector<InputMethodGroupItem> &
+InputMethodGroup::inputMethodList() const {
     FCITX_D();
     return d->inputMethodList_;
 }
@@ -87,8 +93,11 @@ const std::vector<InputMethodGroupItem> &InputMethodGroup::inputMethodList() con
 void InputMethodGroup::setDefaultInputMethod(const std::string &im) {
     FCITX_D();
     if (std::any_of(d->inputMethodList_.begin(), d->inputMethodList_.end(),
-                    [&im](const InputMethodGroupItem &item) { return item.name() == im; })) {
-        if (d->inputMethodList_.size() > 1 && d->inputMethodList_[0].name() == im) {
+                    [&im](const InputMethodGroupItem &item) {
+                        return item.name() == im;
+                    })) {
+        if (d->inputMethodList_.size() > 1 &&
+            d->inputMethodList_[0].name() == im) {
             d->defaultInputMethod_ = d->inputMethodList_[1].name();
         } else {
             d->defaultInputMethod_ = im;
@@ -97,7 +106,9 @@ void InputMethodGroup::setDefaultInputMethod(const std::string &im) {
         if (d->inputMethodList_.size() > 1) {
             d->defaultInputMethod_ = d->inputMethodList_[1].name();
         } else {
-            d->defaultInputMethod_ = d->inputMethodList_.empty() ? "" : d->inputMethodList_[0].name();
+            d->defaultInputMethod_ = d->inputMethodList_.empty()
+                                         ? ""
+                                         : d->inputMethodList_[0].name();
         }
     }
 }

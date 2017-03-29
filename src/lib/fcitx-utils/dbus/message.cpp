@@ -54,7 +54,8 @@ Message::Message() : d_ptr(std::make_unique<MessagePrivate>()) {}
 
 Message::~Message() {}
 
-Message::Message(const Message &other) : d_ptr(std::make_unique<MessagePrivate>(*other.d_func())) {}
+Message::Message(const Message &other)
+    : d_ptr(std::make_unique<MessagePrivate>(*other.d_func())) {}
 
 Message::Message(Message &&other) noexcept : d_ptr(std::move(other.d_ptr)) {}
 
@@ -139,7 +140,8 @@ Slot *Message::callAsync(uint64_t timeout, MessageCallback callback) {
     auto bus = sd_bus_message_get_bus(d->msg_);
     auto slot = std::make_unique<SDSlot>(callback);
     sd_bus_slot *sdSlot = nullptr;
-    int r = sd_bus_call_async(bus, &sdSlot, d->msg_, SDMessageCallback, slot.get(), timeout);
+    int r = sd_bus_call_async(bus, &sdSlot, d->msg_, SDMessageCallback,
+                              slot.get(), timeout);
     if (r < 0) {
         return nullptr;
     }
@@ -178,7 +180,8 @@ bool Message::send() {
 Message &Message::operator<<(bool b) {
     FCITX_D();
     int i = b ? 1 : 0;
-    d->lastError_ = sd_bus_message_append_basic(d->msg_, SD_BUS_TYPE_BOOLEAN, &i);
+    d->lastError_ =
+        sd_bus_message_append_basic(d->msg_, SD_BUS_TYPE_BOOLEAN, &i);
     return *this;
 }
 
@@ -190,22 +193,24 @@ Message &Message::operator>>(bool &b) {
     return *this;
 }
 
-#define _MARSHALL_FUNC(TYPE, TYPE2)                                                                                    \
-    Message &Message::operator<<(TYPE v) {                                                                             \
-        if (!(*this)) {                                                                                                \
-            return *this;                                                                                              \
-        }                                                                                                              \
-        FCITX_D();                                                                                                     \
-        d->lastError_ = sd_bus_message_append_basic(d->msg_, SD_BUS_TYPE_##TYPE2, &v);                                 \
-        return *this;                                                                                                  \
-    }                                                                                                                  \
-    Message &Message::operator>>(TYPE &v) {                                                                            \
-        if (!(*this)) {                                                                                                \
-            return *this;                                                                                              \
-        }                                                                                                              \
-        FCITX_D();                                                                                                     \
-        d->lastError_ = sd_bus_message_read_basic(d->msg_, SD_BUS_TYPE_##TYPE2, &v);                                   \
-        return *this;                                                                                                  \
+#define _MARSHALL_FUNC(TYPE, TYPE2)                                            \
+    Message &Message::operator<<(TYPE v) {                                     \
+        if (!(*this)) {                                                        \
+            return *this;                                                      \
+        }                                                                      \
+        FCITX_D();                                                             \
+        d->lastError_ =                                                        \
+            sd_bus_message_append_basic(d->msg_, SD_BUS_TYPE_##TYPE2, &v);     \
+        return *this;                                                          \
+    }                                                                          \
+    Message &Message::operator>>(TYPE &v) {                                    \
+        if (!(*this)) {                                                        \
+            return *this;                                                      \
+        }                                                                      \
+        FCITX_D();                                                             \
+        d->lastError_ =                                                        \
+            sd_bus_message_read_basic(d->msg_, SD_BUS_TYPE_##TYPE2, &v);       \
+        return *this;                                                          \
     }
 
 _MARSHALL_FUNC(uint8_t, BYTE)
@@ -222,7 +227,8 @@ Message &Message::operator<<(const std::string &s) {
     if (!(*this)) {
         return *this;
     }
-    d->lastError_ = sd_bus_message_append_basic(d->msg_, SD_BUS_TYPE_STRING, s.c_str());
+    d->lastError_ =
+        sd_bus_message_append_basic(d->msg_, SD_BUS_TYPE_STRING, s.c_str());
     return *this;
 }
 
@@ -232,7 +238,8 @@ Message &Message::operator>>(std::string &s) {
     }
     FCITX_D();
     char *p = nullptr;
-    int r = d->lastError_ = sd_bus_message_read_basic(d->msg_, SD_BUS_TYPE_STRING, &p);
+    int r = d->lastError_ =
+        sd_bus_message_read_basic(d->msg_, SD_BUS_TYPE_STRING, &p);
     if (r < 0) {
     } else {
         s = p;
@@ -245,7 +252,8 @@ Message &Message::operator<<(const ObjectPath &o) {
         return *this;
     }
     FCITX_D();
-    d->lastError_ = sd_bus_message_append_basic(d->msg_, SD_BUS_TYPE_OBJECT_PATH, o.path().c_str());
+    d->lastError_ = sd_bus_message_append_basic(
+        d->msg_, SD_BUS_TYPE_OBJECT_PATH, o.path().c_str());
     return *this;
 }
 
@@ -255,7 +263,8 @@ Message &Message::operator>>(ObjectPath &o) {
     }
     FCITX_D();
     char *p = nullptr;
-    int r = d->lastError_ = sd_bus_message_read_basic(d->msg_, SD_BUS_TYPE_OBJECT_PATH, &p);
+    int r = d->lastError_ =
+        sd_bus_message_read_basic(d->msg_, SD_BUS_TYPE_OBJECT_PATH, &p);
     if (r < 0) {
     } else {
         o = ObjectPath(p);
@@ -268,7 +277,8 @@ Message &Message::operator<<(const Signature &s) {
         return *this;
     }
     FCITX_D();
-    d->lastError_ = sd_bus_message_append_basic(d->msg_, SD_BUS_TYPE_SIGNATURE, s.sig().c_str());
+    d->lastError_ = sd_bus_message_append_basic(d->msg_, SD_BUS_TYPE_SIGNATURE,
+                                                s.sig().c_str());
     return *this;
 }
 
@@ -278,7 +288,8 @@ Message &Message::operator>>(Signature &s) {
     }
     FCITX_D();
     char *p = nullptr;
-    int r = d->lastError_ = sd_bus_message_read_basic(d->msg_, SD_BUS_TYPE_SIGNATURE, &p);
+    int r = d->lastError_ =
+        sd_bus_message_read_basic(d->msg_, SD_BUS_TYPE_SIGNATURE, &p);
     if (r < 0) {
     } else {
         s = Signature(p);
@@ -292,7 +303,8 @@ Message &Message::operator<<(const UnixFD &fd) {
     }
     FCITX_D();
     int f = fd.fd();
-    d->lastError_ = sd_bus_message_append_basic(d->msg_, SD_BUS_TYPE_UNIX_FD, &f);
+    d->lastError_ =
+        sd_bus_message_append_basic(d->msg_, SD_BUS_TYPE_UNIX_FD, &f);
     return *this;
 }
 
@@ -302,7 +314,8 @@ Message &Message::operator>>(UnixFD &fd) {
     }
     FCITX_D();
     int f = -1;
-    int r = d->lastError_ = sd_bus_message_read_basic(d->msg_, SD_BUS_TYPE_UNIX_FD, &f);
+    int r = d->lastError_ =
+        sd_bus_message_read_basic(d->msg_, SD_BUS_TYPE_UNIX_FD, &f);
     if (r < 0) {
     } else {
         fd.give(f);
@@ -316,7 +329,8 @@ Message &Message::operator<<(const Container &c) {
     }
     FCITX_D();
 
-    d->lastError_ = sd_bus_message_open_container(d->msg_, toSDBusType(c.type()), c.content().sig().c_str());
+    d->lastError_ = sd_bus_message_open_container(
+        d->msg_, toSDBusType(c.type()), c.content().sig().c_str());
     return *this;
 }
 
@@ -325,7 +339,8 @@ Message &Message::operator>>(const Container &c) {
         return *this;
     }
     FCITX_D();
-    d->lastError_ = sd_bus_message_enter_container(d->msg_, toSDBusType(c.type()), c.content().sig().c_str());
+    d->lastError_ = sd_bus_message_enter_container(
+        d->msg_, toSDBusType(c.type()), c.content().sig().c_str());
     return *this;
 }
 

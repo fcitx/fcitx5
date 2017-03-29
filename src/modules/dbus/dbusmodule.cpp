@@ -36,26 +36,37 @@ public:
 
     void restart() {
         auto instance = instance_;
-        instance_->eventLoop().addTimeEvent(CLOCK_MONOTONIC, now(CLOCK_MONOTONIC), 0,
-                                            [instance](EventSource *, uint64_t) {
-                                                instance->restart();
-                                                return false;
-                                            });
+        instance_->eventLoop().addTimeEvent(
+            CLOCK_MONOTONIC, now(CLOCK_MONOTONIC), 0,
+            [instance](EventSource *, uint64_t) {
+                instance->restart();
+                return false;
+            });
     }
     void configure() { instance_->configure(); }
-    void configureAddon(const std::string &addon) { instance_->configureAddon(addon); }
-    void configureInputMethod(const std::string &imName) { instance_->configureInputMethod(imName); }
+    void configureAddon(const std::string &addon) {
+        instance_->configureAddon(addon);
+    }
+    void configureInputMethod(const std::string &imName) {
+        instance_->configureInputMethod(imName);
+    }
     std::string currentUI() { return instance_->currentUI(); }
-    std::string addonForInputMethod(const std::string &imName) { return instance_->addonForInputMethod(imName); }
+    std::string addonForInputMethod(const std::string &imName) {
+        return instance_->addonForInputMethod(imName);
+    }
     void activate() { return instance_->activate(); }
     void deactivate() { return instance_->deactivate(); }
     void toggle() { return instance_->toggle(); }
     void resetInputMethodList() { return instance_->resetInputMethodList(); }
     int state() { return instance_->state(); }
     void reloadConfig() { return instance_->reloadConfig(); }
-    void reloadAddonConfig(const std::string &addonName) { return instance_->reloadAddonConfig(addonName); }
+    void reloadAddonConfig(const std::string &addonName) {
+        return instance_->reloadAddonConfig(addonName);
+    }
     std::string currentInputMethod() { return instance_->currentInputMethod(); }
-    void setCurrentInputMethod(const std::string &imName) { return instance_->setCurrentInputMethod(imName); }
+    void setCurrentInputMethod(const std::string &imName) {
+        return instance_->setCurrentInputMethod(imName);
+    }
 
 private:
     Instance *instance_;
@@ -74,7 +85,8 @@ private:
     FCITX_OBJECT_VTABLE_METHOD(state, "State", "", "i");
     FCITX_OBJECT_VTABLE_METHOD(reloadConfig, "ReloadConfig", "", "");
     FCITX_OBJECT_VTABLE_METHOD(reloadAddonConfig, "ReloadAddonConfig", "s", "");
-    FCITX_OBJECT_VTABLE_METHOD(currentInputMethod, "CurrentInputMethod", "", "s");
+    FCITX_OBJECT_VTABLE_METHOD(currentInputMethod, "CurrentInputMethod", "",
+                               "s");
     FCITX_OBJECT_VTABLE_METHOD(setCurrentInputMethod, "SetCurrentIM", "s", "");
 };
 
@@ -83,21 +95,25 @@ DBusModule::DBusModule(Instance *instance)
       serviceWatcher_(std::make_unique<dbus::ServiceWatcher>(*bus_)) {
     bus_->attachEventLoop(&instance->eventLoop());
     auto uniqueName = bus_->uniqueName();
-    if (!bus_->requestName(FCITX_DBUS_SERVICE, Flags<RequestNameFlag>{RequestNameFlag::AllowReplacement,
-                                                                      RequestNameFlag::ReplaceExisting})) {
+    if (!bus_->requestName(
+            FCITX_DBUS_SERVICE,
+            Flags<RequestNameFlag>{RequestNameFlag::AllowReplacement,
+                                   RequestNameFlag::ReplaceExisting})) {
         throw std::runtime_error("Unable to request dbus name");
     }
 
     selfWatcher_.reset(serviceWatcher_->watchService(
         FCITX_DBUS_SERVICE,
-        [this, uniqueName, instance](const std::string &, const std::string &, const std::string &newName) {
+        [this, uniqueName, instance](const std::string &, const std::string &,
+                                     const std::string &newName) {
             if (newName != uniqueName) {
                 instance->exit();
             }
         }));
 
     controller_ = std::make_unique<Controller1>(instance);
-    bus_->addObjectVTable("/controller", FCITX_CONTROLLER_DBUS_INTERFACE, *controller_);
+    bus_->addObjectVTable("/controller", FCITX_CONTROLLER_DBUS_INTERFACE,
+                          *controller_);
 }
 
 DBusModule::~DBusModule() {}
@@ -105,7 +121,9 @@ DBusModule::~DBusModule() {}
 dbus::Bus *DBusModule::bus() { return bus_.get(); }
 
 class DBusModuleFactory : public AddonFactory {
-    AddonInstance *create(AddonManager *manager) override { return new DBusModule(manager->instance()); }
+    AddonInstance *create(AddonManager *manager) override {
+        return new DBusModule(manager->instance());
+    }
 };
 }
 

@@ -70,17 +70,21 @@ public:
     bool postEvent(Event &event);
     bool postEvent(Event &&event) { return postEvent(event); }
 
-    HandlerTableEntry<EventHandler> *watchEvent(EventType type, EventWatcherPhase phase, EventHandler callback);
+    HandlerTableEntry<EventHandler> *
+    watchEvent(EventType type, EventWatcherPhase phase, EventHandler callback);
 
     std::string inputMethod(InputContext *ic);
     const InputMethodEntry *inputMethodEntry(InputContext *ic);
     InputMethodEngine *inputMethodEngine(InputContext *ic);
 
-    std::string commitFilter(InputContext *inputContext, const std::string &orig);
+    std::string commitFilter(InputContext *inputContext,
+                             const std::string &orig);
     Text outputFilter(InputContext *inputContext, const Text &orig);
 
-    FCITX_DECLARE_SIGNAL(Instance, CommitFilter, void(InputContext *inputContext, std::string &orig));
-    FCITX_DECLARE_SIGNAL(Instance, OutputFilter, void(InputContext *inputContext, Text &orig));
+    FCITX_DECLARE_SIGNAL(Instance, CommitFilter,
+                         void(InputContext *inputContext, std::string &orig));
+    FCITX_DECLARE_SIGNAL(Instance, OutputFilter,
+                         void(InputContext *inputContext, Text &orig));
 
     // controller
     void exit();

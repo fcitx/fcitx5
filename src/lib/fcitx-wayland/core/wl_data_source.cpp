@@ -38,7 +38,8 @@ const struct wl_data_source_listener WlDataSource::listener = {
     },
 };
 WlDataSource::WlDataSource(wl_data_source *data)
-    : version_(wl_data_source_get_version(data)), data_(data, &WlDataSource::destructor) {
+    : version_(wl_data_source_get_version(data)),
+      data_(data, &WlDataSource::destructor) {
     wl_data_source_set_user_data(*this, this);
     wl_data_source_add_listener(*this, &WlDataSource::listener, this);
 }
@@ -48,7 +49,11 @@ void WlDataSource::destructor(wl_data_source *data) {
         return wl_data_source_destroy(data);
     }
 }
-void WlDataSource::offer(const char *mimeType) { return wl_data_source_offer(*this, mimeType); }
-void WlDataSource::setActions(uint32_t dndActions) { return wl_data_source_set_actions(*this, dndActions); }
+void WlDataSource::offer(const char *mimeType) {
+    return wl_data_source_offer(*this, mimeType);
+}
+void WlDataSource::setActions(uint32_t dndActions) {
+    return wl_data_source_set_actions(*this, dndActions);
+}
 }
 }

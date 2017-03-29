@@ -25,7 +25,8 @@
 namespace fcitx {
 namespace classicui {
 
-XCBWindow::XCBWindow(XCBUI *ui, UserInterfaceComponent type) : Window(type), ui_(ui) {}
+XCBWindow::XCBWindow(XCBUI *ui, UserInterfaceComponent type)
+    : Window(type), ui_(ui) {}
 
 XCBWindow::~XCBWindow() { destroyWindow(); }
 
@@ -41,18 +42,26 @@ void XCBWindow::createWindow() {
 
     auto depth = xcb_aux_get_depth_of_visual(screen, ui_->visualId());
 
-    uint32_t valueMask = XCB_CW_BACK_PIXEL | XCB_CW_BORDER_PIXEL | XCB_CW_BIT_GRAVITY | XCB_CW_BACKING_STORE |
-                         XCB_CW_OVERRIDE_REDIRECT | XCB_CW_SAVE_UNDER | XCB_CW_COLORMAP;
+    uint32_t valueMask = XCB_CW_BACK_PIXEL | XCB_CW_BORDER_PIXEL |
+                         XCB_CW_BIT_GRAVITY | XCB_CW_BACKING_STORE |
+                         XCB_CW_OVERRIDE_REDIRECT | XCB_CW_SAVE_UNDER |
+                         XCB_CW_COLORMAP;
 
-    uint32_t values[7] = {0, 0, XCB_GRAVITY_NORTH_WEST, XCB_BACKING_STORE_WHEN_MAPPED, 1, 1, ui_->colorMap()};
+    uint32_t values[7] = {
+        0, 0, XCB_GRAVITY_NORTH_WEST, XCB_BACKING_STORE_WHEN_MAPPED,
+        1, 1, ui_->colorMap()};
 
-    xcb_create_window(conn, depth, wid_, screen->root, 0, 0, 1, 1, 1, XCB_WINDOW_CLASS_INPUT_OUTPUT, ui_->visualId(),
-                      valueMask, values);
+    xcb_create_window(conn, depth, wid_, screen->root, 0, 0, 1, 1, 1,
+                      XCB_WINDOW_CLASS_INPUT_OUTPUT, ui_->visualId(), valueMask,
+                      values);
 
     eventFilter_.reset(ui_->parent()->xcb()->call<IXCBModule::addEventFilter>(
-        ui_->name(), [this](xcb_connection_t *, xcb_generic_event_t *event) { return filterEvent(event); }));
+        ui_->name(), [this](xcb_connection_t *, xcb_generic_event_t *event) {
+            return filterEvent(event);
+        }));
 
-    surface_ = cairo_xcb_surface_create(conn, wid_, xcb_aux_find_visual_by_id(screen, ui_->visualId()), 1, 1);
+    surface_ = cairo_xcb_surface_create(
+        conn, wid_, xcb_aux_find_visual_by_id(screen, ui_->visualId()), 1, 1);
 }
 
 void XCBWindow::destroyWindow() {
@@ -67,7 +76,9 @@ void XCBWindow::destroyWindow() {
 
 void XCBWindow::resize(unsigned int width, unsigned int height) {
     const uint32_t vals[2] = {width, height};
-    xcb_configure_window(ui_->connection(), wid_, XCB_CONFIG_WINDOW_WIDTH | XCB_CONFIG_WINDOW_HEIGHT, vals);
+    xcb_configure_window(ui_->connection(), wid_,
+                         XCB_CONFIG_WINDOW_WIDTH | XCB_CONFIG_WINDOW_HEIGHT,
+                         vals);
     cairo_xcb_surface_set_size(surface_, width, height);
 }
 }

@@ -36,11 +36,16 @@ public:
 };
 
 enum class BusType { Default, Session, System };
-enum class RequestNameFlag { ReplaceExisting = 1ULL << 0, AllowReplacement = 1ULL << 1, Queue = 1ULL << 2 };
+enum class RequestNameFlag {
+    ReplaceExisting = 1ULL << 0,
+    AllowReplacement = 1ULL << 1,
+    Queue = 1ULL << 2
+};
 
 class BusPrivate;
 
-typedef std::function<std::vector<std::string>(const std::string &path)> EnumerateObjectCallback;
+typedef std::function<std::vector<std::string>(const std::string &path)>
+    EnumerateObjectCallback;
 
 class FCITXUTILS_EXPORT Bus {
 public:
@@ -58,20 +63,25 @@ public:
     Slot *addMatch(const std::string &match, MessageCallback callback);
     Slot *addFilter(MessageCallback callback);
     Slot *addObject(const std::string &path, MessageCallback callback);
-    bool addObjectVTable(const std::string &path, const std::string &interface, ObjectVTable &vtable);
-    Slot *addObjectSubTree(const std::string &prefix, MessageCallback callback, EnumerateObjectCallback enumerator);
+    bool addObjectVTable(const std::string &path, const std::string &interface,
+                         ObjectVTable &vtable);
+    Slot *addObjectSubTree(const std::string &prefix, MessageCallback callback,
+                           EnumerateObjectCallback enumerator);
 
     void emitSignal();
 
-    Message createSignal(const char *path, const char *interface, const char *member);
-    Message createMethodCall(const char *destination, const char *path, const char *interface, const char *member);
+    Message createSignal(const char *path, const char *interface,
+                         const char *member);
+    Message createMethodCall(const char *destination, const char *path,
+                             const char *interface, const char *member);
 
     void *nativeHandle() const;
     bool requestName(const std::string &name, Flags<RequestNameFlag> flags);
     bool releaseName(const std::string &name);
 
     std::string serviceOwner(const std::string &name, uint64_t usec);
-    Slot *serviceOwnerAsync(const std::string &name, uint64_t usec, MessageCallback callback);
+    Slot *serviceOwnerAsync(const std::string &name, uint64_t usec,
+                            MessageCallback callback);
 
     std::string uniqueName();
 

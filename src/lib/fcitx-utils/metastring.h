@@ -79,7 +79,8 @@ struct ConcatMetaString<MetaString<c...>> {
 
 template <char... c1s, char... c2s, typename... _Rem>
 struct ConcatMetaString<MetaString<c1s...>, MetaString<c2s...>, _Rem...> {
-    typedef typename ConcatMetaString<MetaString<c1s..., c2s...>, _Rem...>::type type;
+    typedef typename ConcatMetaString<MetaString<c1s..., c2s...>, _Rem...>::type
+        type;
 };
 
 template <typename... Args>
@@ -92,7 +93,9 @@ using RemoveMetaStringTailType = typename RemoveMetaStringTail<T>::type;
 
 template <char first, char... next>
 struct RemoveMetaStringTail<MetaString<first, next...>> {
-    typedef ConcatMetaStringType<MetaString<first>, RemoveMetaStringTailType<MetaString<next...>>> type;
+    typedef ConcatMetaStringType<MetaString<first>,
+                                 RemoveMetaStringTailType<MetaString<next...>>>
+        type;
 };
 template <char first>
 struct RemoveMetaStringTail<MetaString<first>> {
@@ -104,26 +107,36 @@ struct MetaStringTrim {
     typedef typename MetaStringCombine<MetaString<c>...>::type type;
 };
 
-#define FCITX_METASTRING_TEMPLATE_16(N, S)                                                                             \
-    ::fcitx::__getChar<0x##N##0>(S), ::fcitx::__getChar<0x##N##1>(S), ::fcitx::__getChar<0x##N##2>(S),                 \
-        ::fcitx::__getChar<0x##N##3>(S), ::fcitx::__getChar<0x##N##4>(S), ::fcitx::__getChar<0x##N##5>(S),             \
-        ::fcitx::__getChar<0x##N##6>(S), ::fcitx::__getChar<0x##N##7>(S), ::fcitx::__getChar<0x##N##8>(S),             \
-        ::fcitx::__getChar<0x##N##9>(S), ::fcitx::__getChar<0x##N##A>(S), ::fcitx::__getChar<0x##N##B>(S),             \
-        ::fcitx::__getChar<0x##N##C>(S), ::fcitx::__getChar<0x##N##D>(S), ::fcitx::__getChar<0x##N##E>(S),             \
-        ::fcitx::__getChar<0x##N##F>(S)
+#define FCITX_METASTRING_TEMPLATE_16(N, S)                                     \
+    ::fcitx::__getChar<0x##N##0>(S), ::fcitx::__getChar<0x##N##1>(S),          \
+        ::fcitx::__getChar<0x##N##2>(S), ::fcitx::__getChar<0x##N##3>(S),      \
+        ::fcitx::__getChar<0x##N##4>(S), ::fcitx::__getChar<0x##N##5>(S),      \
+        ::fcitx::__getChar<0x##N##6>(S), ::fcitx::__getChar<0x##N##7>(S),      \
+        ::fcitx::__getChar<0x##N##8>(S), ::fcitx::__getChar<0x##N##9>(S),      \
+        ::fcitx::__getChar<0x##N##A>(S), ::fcitx::__getChar<0x##N##B>(S),      \
+        ::fcitx::__getChar<0x##N##C>(S), ::fcitx::__getChar<0x##N##D>(S),      \
+        ::fcitx::__getChar<0x##N##E>(S), ::fcitx::__getChar<0x##N##F>(S)
 
-#define FCITX_METASTRING_TEMPLATE_256(N, S)                                                                            \
-    FCITX_METASTRING_TEMPLATE_16(N##0, S)                                                                              \
-    , FCITX_METASTRING_TEMPLATE_16(N##1, S), FCITX_METASTRING_TEMPLATE_16(N##2, S),                                    \
-        FCITX_METASTRING_TEMPLATE_16(N##3, S), FCITX_METASTRING_TEMPLATE_16(N##4, S),                                  \
-        FCITX_METASTRING_TEMPLATE_16(N##5, S), FCITX_METASTRING_TEMPLATE_16(N##6, S),                                  \
-        FCITX_METASTRING_TEMPLATE_16(N##7, S), FCITX_METASTRING_TEMPLATE_16(N##8, S),                                  \
-        FCITX_METASTRING_TEMPLATE_16(N##9, S), FCITX_METASTRING_TEMPLATE_16(N##A, S),                                  \
-        FCITX_METASTRING_TEMPLATE_16(N##B, S), FCITX_METASTRING_TEMPLATE_16(N##C, S),                                  \
-        FCITX_METASTRING_TEMPLATE_16(N##D, S), FCITX_METASTRING_TEMPLATE_16(N##E, S),                                  \
+#define FCITX_METASTRING_TEMPLATE_256(N, S)                                    \
+    FCITX_METASTRING_TEMPLATE_16(N##0, S)                                      \
+    , FCITX_METASTRING_TEMPLATE_16(N##1, S),                                   \
+        FCITX_METASTRING_TEMPLATE_16(N##2, S),                                 \
+        FCITX_METASTRING_TEMPLATE_16(N##3, S),                                 \
+        FCITX_METASTRING_TEMPLATE_16(N##4, S),                                 \
+        FCITX_METASTRING_TEMPLATE_16(N##5, S),                                 \
+        FCITX_METASTRING_TEMPLATE_16(N##6, S),                                 \
+        FCITX_METASTRING_TEMPLATE_16(N##7, S),                                 \
+        FCITX_METASTRING_TEMPLATE_16(N##8, S),                                 \
+        FCITX_METASTRING_TEMPLATE_16(N##9, S),                                 \
+        FCITX_METASTRING_TEMPLATE_16(N##A, S),                                 \
+        FCITX_METASTRING_TEMPLATE_16(N##B, S),                                 \
+        FCITX_METASTRING_TEMPLATE_16(N##C, S),                                 \
+        FCITX_METASTRING_TEMPLATE_16(N##D, S),                                 \
+        FCITX_METASTRING_TEMPLATE_16(N##E, S),                                 \
         FCITX_METASTRING_TEMPLATE_16(N##F, S)
 
-#define fcitxMakeMetaString(STRING) ::fcitx::MetaStringTrim<FCITX_METASTRING_TEMPLATE_256(, STRING)>::type
+#define fcitxMakeMetaString(STRING)                                            \
+    ::fcitx::MetaStringTrim<FCITX_METASTRING_TEMPLATE_256(, STRING)>::type
 }
 
 #endif // _FCITX_UTILS_METASTRING_H_

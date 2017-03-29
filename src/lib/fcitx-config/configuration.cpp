@@ -32,7 +32,8 @@ public:
     std::unordered_map<std::string, OptionBase *> options_;
 };
 
-Configuration::Configuration() : d_ptr(std::make_unique<ConfigurationPrivate>()) {}
+Configuration::Configuration()
+    : d_ptr(std::make_unique<ConfigurationPrivate>()) {}
 
 Configuration::~Configuration() {}
 

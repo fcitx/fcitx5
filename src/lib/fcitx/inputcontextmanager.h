@@ -31,7 +31,8 @@ class InputContextManagerPrivate;
 class FocusGroup;
 class Instance;
 class InputContextProperty;
-typedef std::function<InputContextProperty *(InputContext &)> InputContextPropertyFactory;
+typedef std::function<InputContextProperty *(InputContext &)>
+    InputContextPropertyFactory;
 
 FCITX_CONFIG_ENUM(PropertyPropagatePolicy, All, Program, None);
 
@@ -46,7 +47,8 @@ public:
 
     InputContext *findByUUID(ICUUID uuid);
 
-    bool registerProperty(const std::string &name, InputContextPropertyFactory factory);
+    bool registerProperty(const std::string &name,
+                          InputContextPropertyFactory factory);
     void unregisterProperty(const std::string &name);
 
     void setPropertyPropagatePolicy(PropertyPropagatePolicy policy);

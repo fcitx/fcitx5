@@ -36,7 +36,8 @@ void SimpleUI::resume() {}
 
 void SimpleUI::suspend() {}
 
-void SimpleUI::update(UserInterfaceComponent component, InputContext *inputContext) {
+void SimpleUI::update(UserInterfaceComponent component,
+                      InputContext *inputContext) {
     switch (component) {
     case UserInterfaceComponent::StatusArea:
         printStatusArea(inputContext);
@@ -60,7 +61,8 @@ void SimpleUI::printInputPanel(InputContext *inputContext) {
     std::cerr << "Candidates: " << std::endl;
     if (auto candidateList = inputPanel.candidateList()) {
         for (int i = 0; i < candidateList->size(); i++) {
-            std::cerr << candidateList->label(i).toString() << " " << candidateList->candidate(i).text().toString()
+            std::cerr << candidateList->label(i).toString() << " "
+                      << candidateList->candidate(i).text().toString()
                       << std::endl;
         }
     }
@@ -68,7 +70,9 @@ void SimpleUI::printInputPanel(InputContext *inputContext) {
 
 class SimpleUIFactory : public AddonFactory {
 public:
-    AddonInstance *create(AddonManager *manager) override { return new SimpleUI(manager->instance()); }
+    AddonInstance *create(AddonManager *manager) override {
+        return new SimpleUI(manager->instance());
+    }
 };
 }
 

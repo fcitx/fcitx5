@@ -26,7 +26,8 @@ namespace classicui {
 
 class XCBUI : public UIInterface {
 public:
-    XCBUI(ClassicUI *parent, const std::string &name, xcb_connection_t *conn, int defaultScreen);
+    XCBUI(ClassicUI *parent, const std::string &name, xcb_connection_t *conn,
+          int defaultScreen);
 
     ClassicUI *parent() const { return parent_; }
     const std::string &name() const { return name_; }

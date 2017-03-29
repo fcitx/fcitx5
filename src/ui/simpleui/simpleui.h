@@ -32,7 +32,8 @@ public:
     Instance *instance() { return instance_; }
     void suspend() override;
     void resume() override;
-    void update(UserInterfaceComponent component, InputContext *inputContext) override;
+    void update(UserInterfaceComponent component,
+                InputContext *inputContext) override;
 
 private:
     void printStatusArea(InputContext *inputContext);

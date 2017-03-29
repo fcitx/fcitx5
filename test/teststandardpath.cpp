@@ -36,14 +36,17 @@ int main(int argc, char *argv[]) {
     assert(setenv("XDG_DATA_DIRS", argv[1], 1) == 0);
     StandardPath standardPath(true);
 
-    assert(standardPath.userDirectory(StandardPath::Type::Config) == "/TEST/PATH");
+    assert(standardPath.userDirectory(StandardPath::Type::Config) ==
+           "/TEST/PATH");
     assert(standardPath.directories(StandardPath::Type::Config) ==
            std::vector<std::string>({"/TEST/PATH1", "/TEST/PATH2"}));
 
     {
-        auto result = standardPath.multiOpen(StandardPath::Type::Data, "fcitx5/addon", O_RDONLY,
-                                             filter::Not(filter::User()), filter::Suffix(".conf"));
-        std::set<std::string> names, expect_names = {"testim.conf", "testfrontend.conf"};
+        auto result = standardPath.multiOpen(
+            StandardPath::Type::Data, "fcitx5/addon", O_RDONLY,
+            filter::Not(filter::User()), filter::Suffix(".conf"));
+        std::set<std::string> names,
+            expect_names = {"testim.conf", "testfrontend.conf"};
         for (auto &p : result) {
             names.insert(p.first);
             assert(p.second.fd() >= 0);
@@ -53,8 +56,9 @@ int main(int argc, char *argv[]) {
     }
 
     {
-        auto result = standardPath.multiOpen(StandardPath::Type::Data, "fcitx5/addon", O_RDONLY,
-                                             filter::Not(filter::User()), filter::Suffix("im.conf"));
+        auto result = standardPath.multiOpen(
+            StandardPath::Type::Data, "fcitx5/addon", O_RDONLY,
+            filter::Not(filter::User()), filter::Suffix("im.conf"));
         std::set<std::string> names, expect_names = {"testim.conf"};
         for (auto &p : result) {
             names.insert(p.first);
@@ -64,10 +68,13 @@ int main(int argc, char *argv[]) {
         assert(names == expect_names);
     }
 
-    auto file = standardPath.open(StandardPath::Type::Data, "fcitx5/addon/testim.conf", O_RDONLY);
-    assert(file.path() == fs::cleanPath(std::string(argv[1]) + "/" + "fcitx5/addon/testim.conf"));
+    auto file = standardPath.open(StandardPath::Type::Data,
+                                  "fcitx5/addon/testim.conf", O_RDONLY);
+    assert(file.path() == fs::cleanPath(std::string(argv[1]) + "/" +
+                                        "fcitx5/addon/testim.conf"));
 
-    auto file2 = standardPath.open(StandardPath::Type::Data, "fcitx5/addon/testim2.conf", O_RDONLY);
+    auto file2 = standardPath.open(StandardPath::Type::Data,
+                                   "fcitx5/addon/testim2.conf", O_RDONLY);
     assert(file2.fd() == -1);
 
     return 0;

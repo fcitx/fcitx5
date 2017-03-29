@@ -32,7 +32,10 @@ public:
     void update() { ic_->updatePreedit(); }
 };
 
-StatusArea::StatusArea(InputContext *ic) : d_ptr(std::make_unique<StatusAreaPrivate>(ic)) { clear(); }
+StatusArea::StatusArea(InputContext *ic)
+    : d_ptr(std::make_unique<StatusAreaPrivate>(ic)) {
+    clear();
+}
 
 StatusArea::~StatusArea() {}
 
@@ -49,15 +52,17 @@ void StatusArea::addAction(StatusGroup group, Action *action) {
         addChild(action);
         break;
     }
-    d->actions_[action].emplace_back(action->connect<ObjectDestroyed>([this](void *p) {
-        auto action = static_cast<Action *>(p);
-        removeAction(action);
-    }));
-    d->actions_[action].emplace_back(action->connect<Action::Update>([this, d](InputContext *ic) {
-        if (ic == d->ic_) {
-            d->update();
-        }
-    }));
+    d->actions_[action].emplace_back(
+        action->connect<ObjectDestroyed>([this](void *p) {
+            auto action = static_cast<Action *>(p);
+            removeAction(action);
+        }));
+    d->actions_[action].emplace_back(
+        action->connect<Action::Update>([this, d](InputContext *ic) {
+            if (ic == d->ic_) {
+                d->update();
+            }
+        }));
     d->update();
 }
 

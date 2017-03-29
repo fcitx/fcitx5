@@ -30,7 +30,9 @@ public:
 };
 
 class DummyAddonFactory : public fcitx::AddonFactory {
-    virtual fcitx::AddonInstance *create(fcitx::AddonManager *) override { return new DummyAddon; }
+    virtual fcitx::AddonInstance *create(fcitx::AddonManager *) override {
+        return new DummyAddon;
+    }
 };
 
 FCITX_ADDON_FACTORY(DummyAddonFactory)

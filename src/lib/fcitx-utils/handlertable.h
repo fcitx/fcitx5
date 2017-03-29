@@ -49,12 +49,17 @@ public:
 };
 
 template <typename Key, typename T>
-class MultiHandlerTable : protected std::unordered_map<Key, IntrusiveListFor<MultiHandlerTableEntry<Key, T>>> {
+class MultiHandlerTable
+    : protected std::unordered_map<
+          Key, IntrusiveListFor<MultiHandlerTableEntry<Key, T>>> {
     friend class MultiHandlerTableEntry<Key, T>;
-    typedef std::unordered_map<Key, IntrusiveListFor<MultiHandlerTableEntry<Key, T>>> super;
+    typedef std::unordered_map<Key,
+                               IntrusiveListFor<MultiHandlerTableEntry<Key, T>>>
+        super;
 
 public:
-    MultiHandlerTable(std::function<void(const Key &)> addKey = {}, std::function<void(const Key &)> removeKey = {})
+    MultiHandlerTable(std::function<void(const Key &)> addKey = {},
+                      std::function<void(const Key &)> removeKey = {})
         : addKey_(addKey), removeKey_(removeKey) {}
 
     template <typename M>
@@ -64,9 +69,13 @@ public:
             if (addKey_) {
                 addKey_(key);
             }
-            iter = super::emplace(std::piecewise_construct, std::forward_as_tuple(key), std::forward_as_tuple()).first;
+            iter = super::emplace(std::piecewise_construct,
+                                  std::forward_as_tuple(key),
+                                  std::forward_as_tuple())
+                       .first;
         }
-        auto result = new MultiHandlerTableEntry<Key, T>(this, key, std::forward<M>(t));
+        auto result =
+            new MultiHandlerTableEntry<Key, T>(this, key, std::forward<M>(t));
         iter->second.push_back(*result);
         return result;
     }

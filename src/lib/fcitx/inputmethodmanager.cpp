@@ -36,7 +36,8 @@ namespace fcitx {
 
 class InputMethodManagerPrivate {
 public:
-    InputMethodManagerPrivate(AddonManager *addonManager_) : addonManager_(addonManager_) {}
+    InputMethodManagerPrivate(AddonManager *addonManager_)
+        : addonManager_(addonManager_) {}
 
     AddonManager *addonManager_;
     std::string currentGroup_;
@@ -47,9 +48,10 @@ public:
     std::unique_ptr<HandlerTableEntry<EventHandler>> eventWatcher_;
 };
 
-bool checkEntry(const InputMethodEntry &entry, const std::unordered_set<std::string> &inputMethods) {
-    return (entry.name().empty() || entry.uniqueName().empty() || entry.addon().empty() ||
-            inputMethods.count(entry.addon()) == 0)
+bool checkEntry(const InputMethodEntry &entry,
+                const std::unordered_set<std::string> &inputMethods) {
+    return (entry.name().empty() || entry.uniqueName().empty() ||
+            entry.addon().empty() || inputMethods.count(entry.addon()) == 0)
                ? false
                : true;
 }
@@ -62,14 +64,18 @@ InputMethodManager::~InputMethodManager() {}
 void InputMethodManager::load() {
     FCITX_D();
 
-    auto inputMethods = d->addonManager_->addonNames(AddonCategory::InputMethod);
+    auto inputMethods =
+        d->addonManager_->addonNames(AddonCategory::InputMethod);
     auto &path = StandardPath::global();
-    auto files = path.multiOpenAll(StandardPath::Type::Data, "fcitx5/inputmethod", O_RDONLY, filter::Suffix(".conf"));
+    auto files =
+        path.multiOpenAll(StandardPath::Type::Data, "fcitx5/inputmethod",
+                          O_RDONLY, filter::Suffix(".conf"));
     for (const auto &file : files) {
         auto &files = file.second;
         RawConfig config;
         // reverse the order, so we end up parse user file at last.
-        for (auto iter = files.rbegin(), end = files.rend(); iter != end; iter++) {
+        for (auto iter = files.rbegin(), end = files.rend(); iter != end;
+             iter++) {
             auto fd = iter->fd();
             readFromIni(config, fd);
         }
@@ -77,8 +83,10 @@ void InputMethodManager::load() {
         InputMethodInfo imInfo;
         imInfo.load(config);
         InputMethodEntry entry = toInputMethodEntry(imInfo);
-        if (checkEntry(entry, inputMethods) && d->entries_.count(entry.uniqueName()) == 0) {
-            d->entries_.emplace(std::string(entry.uniqueName()), std::move(entry));
+        if (checkEntry(entry, inputMethods) &&
+            d->entries_.count(entry.uniqueName()) == 0) {
+            d->entries_.emplace(std::string(entry.uniqueName()),
+                                std::move(entry));
         }
     }
     for (const auto &addonName : inputMethods) {
@@ -87,16 +95,19 @@ void InputMethodManager::load() {
         if (!addonInfo || addonInfo->onRequest()) {
             continue;
         }
-        auto engine = static_cast<InputMethodEngine *>(d->addonManager_->addon(addonName));
+        auto engine = static_cast<InputMethodEngine *>(
+            d->addonManager_->addon(addonName));
         if (!engine) {
             continue;
         }
         auto newEntries = engine->listInputMethods();
         for (auto &newEntry : newEntries) {
             // ok we can't let you register something werid.
-            if (checkEntry(newEntry, inputMethods) && newEntry.addon() == addonName &&
+            if (checkEntry(newEntry, inputMethods) &&
+                newEntry.addon() == addonName &&
                 d->entries_.count(newEntry.uniqueName()) == 0) {
-                d->entries_.emplace(std::string(newEntry.uniqueName()), std::move(newEntry));
+                d->entries_.emplace(std::string(newEntry.uniqueName()),
+                                    std::move(newEntry));
             }
         }
     }
@@ -107,7 +118,8 @@ void InputMethodManager::load() {
 void InputMethodManager::loadConfig() {
     FCITX_D();
     auto &path = StandardPath::global();
-    auto file = path.open(StandardPath::Type::Config, "fcitx5/profile", O_RDONLY);
+    auto file =
+        path.open(StandardPath::Type::Config, "fcitx5/profile", O_RDONLY);
     RawConfig config;
     if (file.fd() >= 0) {
         readFromIni(config, file.fd());
@@ -121,10 +133,13 @@ void InputMethodManager::loadConfig() {
         auto &groupsConfig = imConfig.groups.value();
         for (auto &groupConfig : groupsConfig) {
             // group must have a name
-            if (groupConfig.name.value().empty() || groupConfig.defaultLayout.value().empty()) {
+            if (groupConfig.name.value().empty() ||
+                groupConfig.defaultLayout.value().empty()) {
                 continue;
             }
-            auto result = d->groups_.emplace(groupConfig.name.value(), InputMethodGroup(groupConfig.name.value()));
+            auto result =
+                d->groups_.emplace(groupConfig.name.value(),
+                                   InputMethodGroup(groupConfig.name.value()));
             tempOrder.push_back(groupConfig.name.value());
             auto &group = result.first->second;
             group.setDefaultLayout(groupConfig.defaultLayout.value());
@@ -134,7 +149,8 @@ void InputMethodManager::loadConfig() {
                     continue;
                 }
                 group.inputMethodList().emplace_back(
-                    std::move(InputMethodGroupItem(item.name.value()).setLayout(item.layout.value())));
+                    std::move(InputMethodGroupItem(item.name.value())
+                                  .setLayout(item.layout.value())));
             }
 
             if (!group.inputMethodList().size()) {
@@ -163,7 +179,8 @@ void InputMethodManager::buildDefaultGroup() {
     auto result = d->groups_.emplace(name, InputMethodGroup(name));
     auto &group = result.first->second;
     // FIXME
-    group.inputMethodList().emplace_back(InputMethodGroupItem("fcitx-keyboard-us"));
+    group.inputMethodList().emplace_back(
+        InputMethodGroupItem("fcitx-keyboard-us"));
     group.setDefaultInputMethod("");
     group.setDefaultLayout("us");
     setCurrentGroup(name);
@@ -178,7 +195,9 @@ int InputMethodManager::groupCount() const {
 void InputMethodManager::setCurrentGroup(const std::string &groupName) {
     FCITX_D();
     if (std::any_of(d->groups_.begin(), d->groups_.end(),
-                    [&groupName](const auto &group) { return group.second.name() == groupName; })) {
+                    [&groupName](const auto &group) {
+                        return group.second.name() == groupName;
+                    })) {
         d->currentGroup_ = groupName;
     } else {
         d->currentGroup_ = d->groups_.begin()->second.name();
@@ -192,7 +211,8 @@ const InputMethodGroup &InputMethodManager::currentGroup() const {
     return d->groups_.find(d->currentGroup_)->second;
 }
 
-void InputMethodManager::setGroupOrder(const std::vector<std::string> &groupOrder) {
+void InputMethodManager::setGroupOrder(
+    const std::vector<std::string> &groupOrder) {
     FCITX_D();
     d->groupOrder_.clear();
     std::unordered_set<std::string> added;
@@ -215,7 +235,8 @@ void InputMethodManager::save() {
     InputMethodConfig config;
     std::vector<InputMethodGroupConfig> groups;
     config.currentGroup.setValue(d->currentGroup_);
-    config.groupOrder.setValue(std::vector<std::string>{d->groupOrder_.begin(), d->groupOrder_.end()});
+    config.groupOrder.setValue(
+        std::vector<std::string>{d->groupOrder_.begin(), d->groupOrder_.end()});
 
     for (auto &p : d->groups_) {
         auto &group = p.second;
@@ -238,7 +259,8 @@ void InputMethodManager::save() {
 
     RawConfig rawConfig;
     config.save(rawConfig);
-    auto file = StandardPath::global().openUserTemp(StandardPath::Type::Config, "fcitx5/profile");
+    auto file = StandardPath::global().openUserTemp(StandardPath::Type::Config,
+                                                    "fcitx5/profile");
     if (file.fd() >= 0) {
         writeAsIni(rawConfig, file.fd());
     }
@@ -247,15 +269,18 @@ void InputMethodManager::save() {
 void InputMethodManager::setInstance(Instance *instance) {
     FCITX_D();
     d->instance_ = instance;
-    d->eventWatcher_.reset(
-        d->instance_->watchEvent(EventType::InputContextKeyEvent, EventWatcherPhase::InputMethod, [this](Event &event) {
+    d->eventWatcher_.reset(d->instance_->watchEvent(
+        EventType::InputContextKeyEvent, EventWatcherPhase::InputMethod,
+        [this](Event &event) {
             FCITX_D();
             auto &keyEvent = static_cast<KeyEvent &>(event);
-            auto entry = d->instance_->inputMethodEntry(keyEvent.inputContext());
+            auto entry =
+                d->instance_->inputMethodEntry(keyEvent.inputContext());
             if (!entry) {
                 return;
             }
-            auto engine = static_cast<InputMethodEngine *>(d->instance_->addonManager().addon(entry->addon()));
+            auto engine = static_cast<InputMethodEngine *>(
+                d->instance_->addonManager().addon(entry->addon()));
             if (!engine) {
                 return;
             }
@@ -263,7 +288,8 @@ void InputMethodManager::setInstance(Instance *instance) {
         }));
 }
 
-const InputMethodEntry *InputMethodManager::entry(const std::string &name) const {
+const InputMethodEntry *
+InputMethodManager::entry(const std::string &name) const {
     FCITX_D();
     return findValue(d->entries_, name);
 }

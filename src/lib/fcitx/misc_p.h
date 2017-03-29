@@ -25,13 +25,19 @@
 
 namespace fcitx {
 
-inline const char *_gettext(const std::string &s) { return ::gettext(s.c_str()); }
+inline const char *_gettext(const std::string &s) {
+    return ::gettext(s.c_str());
+}
 
 inline const char *_gettext(const char *s) { return ::gettext(s); }
 
-inline const char *_dgettext(const char *domain, const std::string &s) { return ::dgettext(domain, s.c_str()); }
+inline const char *_dgettext(const char *domain, const std::string &s) {
+    return ::dgettext(domain, s.c_str());
+}
 
-inline const char *_dgettext(const char *domain, const char *s) { return ::dgettext(domain, s); }
+inline const char *_dgettext(const char *domain, const char *s) {
+    return ::dgettext(domain, s);
+}
 
 #define _(X) fcitx::_gettext(X)
 #define D_(D, X) fcitx::_dgettext(D, X)

@@ -51,8 +51,8 @@ public:
 
     void updateKeymap();
     HandlerTableEntry<XCBEventFilter> *addEventFilter(XCBEventFilter filter);
-    HandlerTableEntry<XCBSelectionNotifyCallback> *addSelection(const std::string &name,
-                                                                XCBSelectionNotifyCallback callback);
+    HandlerTableEntry<XCBSelectionNotifyCallback> *
+    addSelection(const std::string &name, XCBSelectionNotifyCallback callback);
 
     const std::string &name() const { return name_; }
     xcb_connection_t *connection() const { return conn_.get(); }
@@ -116,7 +116,8 @@ private:
     HandlerTable<XCBEventFilter> filters_;
     // need to be clean up before filters_ destructs;
     std::unique_ptr<HandlerTableEntry<XCBEventFilter>> filter_;
-    std::unique_ptr<HandlerTableEntry<XCBSelectionNotifyCallback>> compositeCallback_;
+    std::unique_ptr<HandlerTableEntry<XCBSelectionNotifyCallback>>
+        compositeCallback_;
 };
 
 class XCBModule : public AddonInstance {
@@ -127,9 +128,12 @@ public:
     void removeConnection(const std::string &name);
     Instance *instance() { return instance_; }
 
-    HandlerTableEntry<XCBEventFilter> *addEventFilter(const std::string &name, XCBEventFilter filter);
-    HandlerTableEntry<XCBConnectionCreated> *addConnectionCreatedCallback(XCBConnectionCreated callback);
-    HandlerTableEntry<XCBConnectionClosed> *addConnectionClosedCallback(XCBConnectionClosed callback);
+    HandlerTableEntry<XCBEventFilter> *addEventFilter(const std::string &name,
+                                                      XCBEventFilter filter);
+    HandlerTableEntry<XCBConnectionCreated> *
+    addConnectionCreatedCallback(XCBConnectionCreated callback);
+    HandlerTableEntry<XCBConnectionClosed> *
+    addConnectionClosedCallback(XCBConnectionClosed callback);
     struct xkb_state *xkbState(const std::string &name);
     XkbRulesNames xkbRulesNames(const std::string &name);
 

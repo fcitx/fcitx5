@@ -31,15 +31,20 @@ namespace fcitx {
 FCITX_CONFIG_ENUM(SpellProvider, Presage, Custom, Enchant)
 
 struct NotEmptyProvider {
-    bool check(const std::vector<SpellProvider> &providers) const { return !providers.empty(); }
+    bool check(const std::vector<SpellProvider> &providers) const {
+        return !providers.empty();
+    }
     void dumpDescription(RawConfig &) const {}
 };
 
-FCITX_CONFIGURATION(SpellConfig, fcitx::Option<std::vector<SpellProvider>, NotEmptyProvider> providerOrder{
-                                     this,
-                                     "ProviderOrder",
-                                     "Order of providers",
-                                     {SpellProvider::Presage, SpellProvider::Custom, SpellProvider::Enchant}};);
+FCITX_CONFIGURATION(
+    SpellConfig,
+    fcitx::Option<std::vector<SpellProvider>, NotEmptyProvider> providerOrder{
+        this,
+        "ProviderOrder",
+        "Order of providers",
+        {SpellProvider::Presage, SpellProvider::Custom,
+         SpellProvider::Enchant}};);
 
 class Spell;
 class SpellBackend;
@@ -54,7 +59,8 @@ public:
 
     bool checkDict(const std::string &language);
     void addWord(const std::string &language, const std::string &word);
-    std::vector<std::string> hint(const std::string &language, const std::string &word, size_t limit);
+    std::vector<std::string> hint(const std::string &language,
+                                  const std::string &word, size_t limit);
     void reloadConfig() override;
 
 private:
@@ -62,7 +68,9 @@ private:
     FCITX_ADDON_EXPORT_FUNCTION(Spell, addWord);
     FCITX_ADDON_EXPORT_FUNCTION(Spell, hint);
     SpellConfig config_;
-    typedef std::unordered_map<SpellProvider, std::unique_ptr<SpellBackend>, EnumHash> BackendMap;
+    typedef std::unordered_map<SpellProvider, std::unique_ptr<SpellBackend>,
+                               EnumHash>
+        BackendMap;
     BackendMap backends_;
 
     BackendMap::iterator findBackend(const std::string &language);
@@ -75,8 +83,11 @@ public:
     virtual ~SpellBackend() {}
 
     virtual bool checkDict(const std::string &language) = 0;
-    virtual void addWord(const std::string &language, const std::string &word) = 0;
-    virtual std::vector<std::string> hint(const std::string &language, const std::string &word, size_t limit) = 0;
+    virtual void addWord(const std::string &language,
+                         const std::string &word) = 0;
+    virtual std::vector<std::string> hint(const std::string &language,
+                                          const std::string &word,
+                                          size_t limit) = 0;
 
     const SpellConfig &config() { return parent_->config(); }
 

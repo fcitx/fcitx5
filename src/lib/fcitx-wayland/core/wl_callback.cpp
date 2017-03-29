@@ -13,7 +13,8 @@ const struct wl_callback_listener WlCallback::listener = {
     },
 };
 WlCallback::WlCallback(wl_callback *data)
-    : version_(wl_callback_get_version(data)), data_(data, &WlCallback::destructor) {
+    : version_(wl_callback_get_version(data)),
+      data_(data, &WlCallback::destructor) {
     wl_callback_set_user_data(*this, this);
     wl_callback_add_listener(*this, &WlCallback::listener, this);
 }

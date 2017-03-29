@@ -32,17 +32,21 @@ struct ColorParseException : public std::exception {
 class FCITXUTILS_EXPORT Color {
 public:
     Color();
-    explicit Color(unsigned short r, unsigned short g, unsigned short b, unsigned short alpha = 255);
+    explicit Color(unsigned short r, unsigned short g, unsigned short b,
+                   unsigned short alpha = 255);
     explicit inline Color(const char *s) { setFromString(s); }
     explicit inline Color(const std::string &s) : Color(s.c_str()) {}
-    Color(const Color &other) : Color(other.red(), other.green(), other.blue(), other.alpha()) {}
+    Color(const Color &other)
+        : Color(other.red(), other.green(), other.blue(), other.alpha()) {}
 
     std::string toString() const;
 
     bool operator==(const Color &other) const;
 
     void setFromString(const char *s);
-    inline void setFromString(const std::string &s) { setFromString(s.c_str()); }
+    inline void setFromString(const std::string &s) {
+        setFromString(s.c_str());
+    }
 
     void setRed(unsigned short);
     void setGreen(unsigned short);

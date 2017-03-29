@@ -104,15 +104,17 @@ void test_connectable_object() {
     using namespace fcitx;
     TestObject obj;
     bool called = false;
-    auto connection = obj.connect<DynamicTrackableObject::Destroyed>([&called, &obj](void *self) {
-        assert(&obj == self);
-        called = true;
-    });
+    auto connection = obj.connect<DynamicTrackableObject::Destroyed>(
+        [&called, &obj](void *self) {
+            assert(&obj == self);
+            called = true;
+        });
     assert(connection.connected());
     obj.destroy();
     assert(called);
     assert(!connection.connected());
-    assert(!obj.connect<DynamicTrackableObject::Destroyed>([](void *) {}).connected());
+    assert(!obj.connect<DynamicTrackableObject::Destroyed>([](void *) {})
+                .connected());
 }
 
 class TestObject2 : public fcitx::ConnectableObject {

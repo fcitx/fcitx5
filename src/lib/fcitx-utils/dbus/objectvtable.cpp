@@ -49,44 +49,59 @@ std::vector<sd_bus_vtable> ObjectVTablePrivate::toSDBusVTable() {
     result.push_back(vtable_start());
 
     for (auto method : methods_) {
-        auto offset = reinterpret_cast<char *>(method) - reinterpret_cast<char *>(q_ptr);
-        result.push_back(vtable_method(vtableString(method->name()).c_str(), vtableString(method->signature()).c_str(),
-                                       vtableString(method->ret()).c_str(), offset, SDMethodCallback));
+        auto offset =
+            reinterpret_cast<char *>(method) - reinterpret_cast<char *>(q_ptr);
+        result.push_back(vtable_method(
+            vtableString(method->name()).c_str(),
+            vtableString(method->signature()).c_str(),
+            vtableString(method->ret()).c_str(), offset, SDMethodCallback));
     }
 
     result.push_back(vtable_end());
     return result;
 }
 
-ObjectVTableMethod::ObjectVTableMethod(ObjectVTable *vtable, const std::string &name, const std::string &signature,
-                                       const std::string &ret, ObjectMethod handler)
-    : name_(name), signature_(signature), ret_(ret), handler_(handler), vtable_(vtable) {
+ObjectVTableMethod::ObjectVTableMethod(ObjectVTable *vtable,
+                                       const std::string &name,
+                                       const std::string &signature,
+                                       const std::string &ret,
+                                       ObjectMethod handler)
+    : name_(name), signature_(signature), ret_(ret), handler_(handler),
+      vtable_(vtable) {
     vtable->addMethod(this);
 }
 
-ObjectVTableProperty::ObjectVTableProperty(ObjectVTable *vtable, const std::string &name, const std::string signature,
+ObjectVTableProperty::ObjectVTableProperty(ObjectVTable *vtable,
+                                           const std::string &name,
+                                           const std::string signature,
                                            PropertyGetMethod getMethod)
-    : name_(name), signature_(signature), getMethod_(getMethod), writable_(false) {
+    : name_(name), signature_(signature), getMethod_(getMethod),
+      writable_(false) {
     vtable->addProperty(this);
 }
 
-ObjectVTableWritableProperty::ObjectVTableWritableProperty(ObjectVTable *vtable, const std::string &name,
-                                                           const std::string signature, PropertyGetMethod getMethod,
-                                                           PropertySetMethod setMethod)
-    : ObjectVTableProperty(vtable, name, signature, getMethod), setMethod_(setMethod) {
+ObjectVTableWritableProperty::ObjectVTableWritableProperty(
+    ObjectVTable *vtable, const std::string &name, const std::string signature,
+    PropertyGetMethod getMethod, PropertySetMethod setMethod)
+    : ObjectVTableProperty(vtable, name, signature, getMethod),
+      setMethod_(setMethod) {
     writable_ = true;
 }
 
-ObjectVTableSignal::ObjectVTableSignal(ObjectVTable *vtable, const std::string &name, const std::string signature)
+ObjectVTableSignal::ObjectVTableSignal(ObjectVTable *vtable,
+                                       const std::string &name,
+                                       const std::string signature)
     : name_(name), signature_(signature), vtable_(vtable) {
     vtable->addSignal(this);
 }
 
 Message ObjectVTableSignal::createSignal() {
-    return vtable_->bus()->createSignal(vtable_->path().c_str(), vtable_->interface().c_str(), name_.c_str());
+    return vtable_->bus()->createSignal(
+        vtable_->path().c_str(), vtable_->interface().c_str(), name_.c_str());
 }
 
-ObjectVTable::ObjectVTable() : d_ptr(std::make_unique<ObjectVTablePrivate>(this)) {}
+ObjectVTable::ObjectVTable()
+    : d_ptr(std::make_unique<ObjectVTablePrivate>(this)) {}
 
 ObjectVTable::~ObjectVTable() {}
 

@@ -31,12 +31,17 @@ public:
     virtual ~InputMethodEngine() {}
 
     virtual std::vector<InputMethodEntry> listInputMethods() = 0;
-    virtual void keyEvent(const InputMethodEntry &entry, KeyEvent &keyEvent) = 0;
-    // fcitx gurantee that activate and deactivate appear in pair for all input context
+    virtual void keyEvent(const InputMethodEntry &entry,
+                          KeyEvent &keyEvent) = 0;
+    // fcitx gurantee that activate and deactivate appear in pair for all input
+    // context
     // activate means it will be used.
     virtual void activate(const InputMethodEntry &, InputContextEvent &) {}
     // deactivate means it will not be used for this context
-    virtual void deactivate(const InputMethodEntry &entry, InputContextEvent &event) { reset(entry, event); }
+    virtual void deactivate(const InputMethodEntry &entry,
+                            InputContextEvent &event) {
+        reset(entry, event);
+    }
     // reset will only be called if ic is focused
     virtual void reset(const InputMethodEntry &, InputContextEvent &) {}
     virtual void filterKey(const InputMethodEntry &, KeyEvent &) {}

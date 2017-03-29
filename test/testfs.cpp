@@ -25,19 +25,19 @@
 
 using namespace fcitx::fs;
 
-#define TEST_PATH(PATHSTR, EXPECT)                                                                                     \
-    do {                                                                                                               \
-        char pathstr[] = PATHSTR;                                                                                      \
-        auto cleanStr = cleanPath(pathstr);                                                                            \
-        assert(cleanStr == EXPECT);                                                                                    \
+#define TEST_PATH(PATHSTR, EXPECT)                                             \
+    do {                                                                       \
+        char pathstr[] = PATHSTR;                                              \
+        auto cleanStr = cleanPath(pathstr);                                    \
+        assert(cleanStr == EXPECT);                                            \
     } while (0);
 
-#define TEST_DIRNAME(PATHSTR)                                                                                          \
-    do {                                                                                                               \
-        char pathstr[] = PATHSTR;                                                                                      \
-        auto cleanStr = dirName(pathstr);                                                                              \
-        const char *r = dirname(pathstr);                                                                              \
-        assert(cleanStr == r);                                                                                         \
+#define TEST_DIRNAME(PATHSTR)                                                  \
+    do {                                                                       \
+        char pathstr[] = PATHSTR;                                              \
+        auto cleanStr = dirName(pathstr);                                      \
+        const char *r = dirname(pathstr);                                      \
+        assert(cleanStr == r);                                                 \
     } while (0);
 
 int main() {

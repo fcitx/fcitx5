@@ -36,7 +36,8 @@ class FCITXCORE_EXPORT UserInterface : public AddonInstance {
 public:
     virtual ~UserInterface();
 
-    virtual void update(UserInterfaceComponent component, InputContext *inputContext) = 0;
+    virtual void update(UserInterfaceComponent component,
+                        InputContext *inputContext) = 0;
 
     virtual void suspend() = 0;
     virtual void resume() = 0;

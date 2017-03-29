@@ -30,60 +30,60 @@
 #include <fcntl.h>
 #include <sys/stat.h>
 
-#define case_a_z                                                                                                       \
-    case 'a':                                                                                                          \
-    case 'b':                                                                                                          \
-    case 'c':                                                                                                          \
-    case 'd':                                                                                                          \
-    case 'e':                                                                                                          \
-    case 'f':                                                                                                          \
-    case 'g':                                                                                                          \
-    case 'h':                                                                                                          \
-    case 'i':                                                                                                          \
-    case 'j':                                                                                                          \
-    case 'k':                                                                                                          \
-    case 'l':                                                                                                          \
-    case 'm':                                                                                                          \
-    case 'n':                                                                                                          \
-    case 'o':                                                                                                          \
-    case 'p':                                                                                                          \
-    case 'q':                                                                                                          \
-    case 'r':                                                                                                          \
-    case 's':                                                                                                          \
-    case 't':                                                                                                          \
-    case 'u':                                                                                                          \
-    case 'v':                                                                                                          \
-    case 'w':                                                                                                          \
-    case 'x':                                                                                                          \
-    case 'y':                                                                                                          \
+#define case_a_z                                                               \
+    case 'a':                                                                  \
+    case 'b':                                                                  \
+    case 'c':                                                                  \
+    case 'd':                                                                  \
+    case 'e':                                                                  \
+    case 'f':                                                                  \
+    case 'g':                                                                  \
+    case 'h':                                                                  \
+    case 'i':                                                                  \
+    case 'j':                                                                  \
+    case 'k':                                                                  \
+    case 'l':                                                                  \
+    case 'm':                                                                  \
+    case 'n':                                                                  \
+    case 'o':                                                                  \
+    case 'p':                                                                  \
+    case 'q':                                                                  \
+    case 'r':                                                                  \
+    case 's':                                                                  \
+    case 't':                                                                  \
+    case 'u':                                                                  \
+    case 'v':                                                                  \
+    case 'w':                                                                  \
+    case 'x':                                                                  \
+    case 'y':                                                                  \
     case 'z'
 
-#define case_A_Z                                                                                                       \
-    case 'A':                                                                                                          \
-    case 'B':                                                                                                          \
-    case 'C':                                                                                                          \
-    case 'D':                                                                                                          \
-    case 'E':                                                                                                          \
-    case 'F':                                                                                                          \
-    case 'G':                                                                                                          \
-    case 'H':                                                                                                          \
-    case 'I':                                                                                                          \
-    case 'J':                                                                                                          \
-    case 'K':                                                                                                          \
-    case 'L':                                                                                                          \
-    case 'M':                                                                                                          \
-    case 'N':                                                                                                          \
-    case 'O':                                                                                                          \
-    case 'P':                                                                                                          \
-    case 'Q':                                                                                                          \
-    case 'R':                                                                                                          \
-    case 'S':                                                                                                          \
-    case 'T':                                                                                                          \
-    case 'U':                                                                                                          \
-    case 'V':                                                                                                          \
-    case 'W':                                                                                                          \
-    case 'X':                                                                                                          \
-    case 'Y':                                                                                                          \
+#define case_A_Z                                                               \
+    case 'A':                                                                  \
+    case 'B':                                                                  \
+    case 'C':                                                                  \
+    case 'D':                                                                  \
+    case 'E':                                                                  \
+    case 'F':                                                                  \
+    case 'G':                                                                  \
+    case 'H':                                                                  \
+    case 'I':                                                                  \
+    case 'J':                                                                  \
+    case 'K':                                                                  \
+    case 'L':                                                                  \
+    case 'M':                                                                  \
+    case 'N':                                                                  \
+    case 'O':                                                                  \
+    case 'P':                                                                  \
+    case 'Q':                                                                  \
+    case 'R':                                                                  \
+    case 'S':                                                                  \
+    case 'T':                                                                  \
+    case 'U':                                                                  \
+    case 'V':                                                                  \
+    case 'W':                                                                  \
+    case 'X':                                                                  \
+    case 'Y':                                                                  \
     case 'Z'
 
 #define DICT_BIN_MAGIC "FSCD0000"
@@ -103,7 +103,9 @@ bool checkLang(const std::string &full_lang, const std::string &lang) {
     return false;
 }
 
-static inline uint32_t load_le32(const void *p) { return le32toh(*(uint32_t *)p); }
+static inline uint32_t load_le32(const void *p) {
+    return le32toh(*(uint32_t *)p);
+}
 
 static bool isFirstCapital(const std::string &str) {
     if (str.empty())
@@ -239,18 +241,19 @@ std::string SpellCustomDict::locateDictFile(const std::string &lang) {
     auto templatePath = "fcitx/spell/" + lang + "_dict.fscd";
     auto &standardPath = StandardPath::global();
     std::string path;
-    standardPath.scanDirectories(StandardPath::Type::Data,
-                                 [&lang, &path, &templatePath](const std::string &dirPath, bool isUser) {
-                                     if (isUser) {
-                                         return true;
-                                     }
-                                     auto fullPath = dirPath + "/" + templatePath;
-                                     if (fs::isreg(fullPath)) {
-                                         path = fullPath;
-                                         return false;
-                                     }
-                                     return true;
-                                 });
+    standardPath.scanDirectories(
+        StandardPath::Type::Data,
+        [&lang, &path, &templatePath](const std::string &dirPath, bool isUser) {
+            if (isUser) {
+                return true;
+            }
+            auto fullPath = dirPath + "/" + templatePath;
+            if (fs::isreg(fullPath)) {
+                path = fullPath;
+                return false;
+            }
+            return true;
+        });
     return path;
 }
 
@@ -267,10 +270,12 @@ void SpellCustomDict::loadDict(const std::string &lang) {
         size_t total_len;
         char magic_buff[sizeof(DICT_BIN_MAGIC) - 1];
         if (fstat(fd.fd(), &stat_buf) == -1 ||
-            static_cast<size_t>(stat_buf.st_size) <= sizeof(uint32_t) + sizeof(magic_buff)) {
+            static_cast<size_t>(stat_buf.st_size) <=
+                sizeof(uint32_t) + sizeof(magic_buff)) {
             break;
         }
-        if (fs::safeRead(fd.fd(), magic_buff, sizeof(magic_buff)) != sizeof(magic_buff)) {
+        if (fs::safeRead(fd.fd(), magic_buff, sizeof(magic_buff)) !=
+            sizeof(magic_buff)) {
             break;
         }
         if (memcmp(DICT_BIN_MAGIC, magic_buff, sizeof(magic_buff))) {
@@ -278,7 +283,8 @@ void SpellCustomDict::loadDict(const std::string &lang) {
         }
         total_len = stat_buf.st_size - sizeof(magic_buff);
         data_.resize(total_len + 1);
-        if (fs::safeRead(fd.fd(), data_.data(), total_len) != static_cast<ssize_t>(total_len)) {
+        if (fs::safeRead(fd.fd(), data_.data(), total_len) !=
+            static_cast<ssize_t>(total_len)) {
             break;
         }
         data_[total_len] = '\0';
@@ -313,9 +319,12 @@ SpellCustomDict *SpellCustomDict::requestDict(const std::string &lang) {
     return nullptr;
 }
 
-bool SpellCustomDict::checkDict(const std::string &lang) { return !locateDictFile(lang).empty(); }
+bool SpellCustomDict::checkDict(const std::string &lang) {
+    return !locateDictFile(lang).empty();
+}
 
-int SpellCustomDict::getDistance(const char *word, int utf8Len, const char *dict) {
+int SpellCustomDict::getDistance(const char *word, int utf8Len,
+                                 const char *dict) {
 #define REPLACE_WEIGHT 3
 #define INSERT_WEIGHT 3
 #define REMOVE_WEIGHT 3
@@ -348,14 +357,17 @@ int SpellCustomDict::getDistance(const char *word, int utf8Len, const char *dict
     maxremove = (utf8Len - 2) / 3;
     word = fcitx_utf8_get_char(word, &cur_word_c);
     dict = fcitx_utf8_get_char(dict, &cur_dict_c);
-    while ((diff = replace + insert + remove) <= maxdiff && remove <= maxremove) {
+    while ((diff = replace + insert + remove) <= maxdiff &&
+           remove <= maxremove) {
         /*
          * cur_word_c and cur_dict_c are the current characters
          * and dict and word are pointing to the next one.
          */
         if (!cur_word_c) {
-            return ((replace * REPLACE_WEIGHT + insert * INSERT_WEIGHT + remove * REMOVE_WEIGHT) +
-                    (cur_dict_c ? (fcitx_utf8_strlen(dict) + 1) * END_WEIGHT : 0));
+            return (
+                (replace * REPLACE_WEIGHT + insert * INSERT_WEIGHT +
+                 remove * REMOVE_WEIGHT) +
+                (cur_dict_c ? (fcitx_utf8_strlen(dict) + 1) * END_WEIGHT : 0));
         }
         word = fcitx_utf8_get_char(word, &next_word_c);
 
@@ -365,7 +377,8 @@ int SpellCustomDict::getDistance(const char *word, int utf8Len, const char *dict
                 return -1;
             remove++;
             if (diff <= maxdiff && remove <= maxremove) {
-                return (replace * REPLACE_WEIGHT + insert * INSERT_WEIGHT + remove * REMOVE_WEIGHT);
+                return (replace * REPLACE_WEIGHT + insert * INSERT_WEIGHT +
+                        remove * REMOVE_WEIGHT);
             }
             return -1;
         }
@@ -375,7 +388,8 @@ int SpellCustomDict::getDistance(const char *word, int utf8Len, const char *dict
             cur_dict_c = next_dict_c;
             continue;
         }
-        if (next_word_c == cur_dict_c || (next_word_c && wordCompare(next_word_c, cur_dict_c))) {
+        if (next_word_c == cur_dict_c ||
+            (next_word_c && wordCompare(next_word_c, cur_dict_c))) {
             word = fcitx_utf8_get_char(word, &cur_word_c);
             cur_dict_c = next_dict_c;
             remove++;
@@ -383,7 +397,8 @@ int SpellCustomDict::getDistance(const char *word, int utf8Len, const char *dict
         }
 
         /* check insert error */
-        if (cur_word_c == next_dict_c || (next_dict_c && wordCompare(cur_word_c, next_dict_c))) {
+        if (cur_word_c == next_dict_c ||
+            (next_dict_c && wordCompare(cur_word_c, next_dict_c))) {
             cur_word_c = next_word_c;
             dict = fcitx_utf8_get_char(dict, &cur_dict_c);
             insert++;
@@ -391,7 +406,9 @@ int SpellCustomDict::getDistance(const char *word, int utf8Len, const char *dict
         }
 
         /* check replace error */
-        if (next_word_c == next_dict_c || (next_word_c && next_dict_c && wordCompare(next_word_c, next_dict_c))) {
+        if (next_word_c == next_dict_c ||
+            (next_word_c && next_dict_c &&
+             wordCompare(next_word_c, next_dict_c))) {
             if (next_word_c) {
                 dict = fcitx_utf8_get_char(dict, &cur_dict_c);
                 word = fcitx_utf8_get_char(word, &cur_word_c);
@@ -407,7 +424,8 @@ int SpellCustomDict::getDistance(const char *word, int utf8Len, const char *dict
     return -1;
 }
 
-std::vector<std::string> SpellCustomDict::hint(const std::string &str, size_t limit) {
+std::vector<std::string> SpellCustomDict::hint(const std::string &str,
+                                               size_t limit) {
     const char *word = str.c_str();
     const char *real_word = word;
     std::vector<std::string> result;
@@ -422,7 +440,8 @@ std::vector<std::string> SpellCustomDict::hint(const std::string &str, size_t li
         return {};
     auto word_type = wordCheck(real_word);
     int word_len = fcitx_utf8_strlen(real_word);
-    auto compare = [](const std::pair<const char *, int> &lhs, const std::pair<const char *, int> &rhs) {
+    auto compare = [](const std::pair<const char *, int> &lhs,
+                      const std::pair<const char *, int> &rhs) {
         return lhs.second < rhs.second;
     };
     for (const auto &wordOffset : words_) {

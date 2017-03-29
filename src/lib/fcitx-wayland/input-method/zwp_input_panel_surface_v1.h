@@ -10,12 +10,14 @@ class WlOutput;
 class ZwpInputPanelSurfaceV1 {
 public:
     static constexpr const char *interface = "zwp_input_panel_surface_v1";
-    static constexpr const wl_interface *const wlInterface = &zwp_input_panel_surface_v1_interface;
+    static constexpr const wl_interface *const wlInterface =
+        &zwp_input_panel_surface_v1_interface;
     static constexpr const uint32_t version = 1;
     typedef zwp_input_panel_surface_v1 wlType;
     operator zwp_input_panel_surface_v1 *() { return data_.get(); }
     ZwpInputPanelSurfaceV1(wlType *data);
-    ZwpInputPanelSurfaceV1(ZwpInputPanelSurfaceV1 &&other) : data_(std::move(other.data_)) {}
+    ZwpInputPanelSurfaceV1(ZwpInputPanelSurfaceV1 &&other)
+        : data_(std::move(other.data_)) {}
     ZwpInputPanelSurfaceV1 &operator=(ZwpInputPanelSurfaceV1 &&other) {
         data_ = std::move(other.data_);
         return *this;

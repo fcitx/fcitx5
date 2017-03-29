@@ -71,12 +71,14 @@ void SetMyExceptionHandler(void) {
 
 static inline void BufferReset(MinimalBuffer *buffer) { buffer->offset = 0; }
 
-static inline void BufferAppendUInt64(MinimalBuffer *buffer, uint64_t number, int radix) {
+static inline void BufferAppendUInt64(MinimalBuffer *buffer, uint64_t number,
+                                      int radix) {
     int i = 0;
     while (buffer->offset + i < MINIMAL_BUFFER_SIZE) {
         const int tmp = number % radix;
         number /= radix;
-        buffer->buffer[buffer->offset + i] = (tmp < 10 ? '0' + tmp : 'a' + tmp - 10);
+        buffer->buffer[buffer->offset + i] =
+            (tmp < 10 ? '0' + tmp : 'a' + tmp - 10);
         ++i;
         if (number == 0) {
             break;
@@ -102,7 +104,9 @@ static inline void _write_string_len(int fd, const char *str, size_t len) {
     fcitx::fs::safeWrite(STDERR_FILENO, str, len);
 }
 
-static inline void _write_string(int fd, const char *str) { _write_string_len(fd, str, strlen(str)); }
+static inline void _write_string(int fd, const char *str) {
+    _write_string_len(fd, str, strlen(str));
+}
 
 static inline void _write_buffer(int fd, const MinimalBuffer *buffer) {
     _write_string_len(fd, buffer->buffer, buffer->offset);

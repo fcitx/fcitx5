@@ -35,13 +35,15 @@ int main() {
 
         entry = table.add([]() {});
         std::unique_ptr<HandlerTableEntry<Callback>> entries[] = {
-            std::unique_ptr<HandlerTableEntry<Callback>>(table.add([&entries]() {
-                // entries is member of lambda, and it will be gone if it's deleted
-                auto e = entries;
-                for (int i = 0; i < 5; i++) {
-                    e[i].reset(nullptr);
-                }
-            })),
+            std::unique_ptr<HandlerTableEntry<Callback>>(
+                table.add([&entries]() {
+                    // entries is member of lambda, and it will be gone if it's
+                    // deleted
+                    auto e = entries;
+                    for (int i = 0; i < 5; i++) {
+                        e[i].reset(nullptr);
+                    }
+                })),
             std::unique_ptr<HandlerTableEntry<Callback>>(table.add([]() {})),
             std::unique_ptr<HandlerTableEntry<Callback>>(table.add([]() {})),
             std::unique_ptr<HandlerTableEntry<Callback>>(table.add([]() {})),
@@ -72,13 +74,17 @@ int main() {
         delete entry;
         assert(keys == decltype(keys){});
         std::unique_ptr<HandlerTableEntry<Callback>> entries[] = {
-            std::unique_ptr<HandlerTableEntry<Callback>>(table2.add("ABC", []() {})),
-            std::unique_ptr<HandlerTableEntry<Callback>>(table2.add("ABC", []() {})),
+            std::unique_ptr<HandlerTableEntry<Callback>>(
+                table2.add("ABC", []() {})),
+            std::unique_ptr<HandlerTableEntry<Callback>>(
+                table2.add("ABC", []() {})),
         };
         assert(keys == decltype(keys){"ABC"});
         std::unique_ptr<HandlerTableEntry<Callback>> entries2[] = {
-            std::unique_ptr<HandlerTableEntry<Callback>>(table2.add("DEF", [&entries2]() { entries2[1].reset(); })),
-            std::unique_ptr<HandlerTableEntry<Callback>>(table2.add("EFG", []() {})),
+            std::unique_ptr<HandlerTableEntry<Callback>>(
+                table2.add("DEF", [&entries2]() { entries2[1].reset(); })),
+            std::unique_ptr<HandlerTableEntry<Callback>>(
+                table2.add("EFG", []() {})),
         };
 
         std::unordered_set<std::string> keys2;

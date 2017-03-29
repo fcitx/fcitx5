@@ -43,12 +43,19 @@ public:
 
     const std::string &match(const std::string &locale) const;
 
-    bool operator==(const I18NString &other) const { return other.default_ == default_ && other.map_ == map_; }
+    bool operator==(const I18NString &other) const {
+        return other.default_ == default_ && other.map_ == map_;
+    }
 
-    bool operator!=(const I18NString &other) const { return !operator==(other); }
+    bool operator!=(const I18NString &other) const {
+        return !operator==(other);
+    }
 
     const std::string &defaultString() const { return default_; }
-    const std::unordered_map<std::string, std::string> &localizedStrings() const { return map_; }
+    const std::unordered_map<std::string, std::string> &
+    localizedStrings() const {
+        return map_;
+    }
 
 protected:
     std::string default_;

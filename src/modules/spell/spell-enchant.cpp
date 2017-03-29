@@ -30,7 +30,9 @@ namespace fcitx {
 
 SpellEnchant::SpellEnchant(Spell *spell)
     : SpellBackend(spell), broker_(enchant_broker_init(), &enchant_broker_free),
-      dict_(nullptr, [this](EnchantDict *dict) { enchant_broker_free_dict(broker_.get(), dict); }) {
+      dict_(nullptr, [this](EnchantDict *dict) {
+          enchant_broker_free_dict(broker_.get(), dict);
+      }) {
     if (!broker_) {
         throw std::runtime_error("Init enchant failed");
     }
@@ -38,13 +40,16 @@ SpellEnchant::SpellEnchant(Spell *spell)
 
 SpellEnchant::~SpellEnchant() {}
 
-std::vector<std::string> SpellEnchant::hint(const std::string &language, const std::string &word, size_t limit) {
+std::vector<std::string> SpellEnchant::hint(const std::string &language,
+                                            const std::string &word,
+                                            size_t limit) {
     if (word.empty() || !loadDict(language)) {
         return {};
     }
 
     size_t number;
-    char **suggestions = enchant_dict_suggest(dict_.get(), word.c_str(), word.size(), &number);
+    char **suggestions =
+        enchant_dict_suggest(dict_.get(), word.c_str(), word.size(), &number);
     if (!suggestions)
         return {};
 
@@ -74,7 +79,8 @@ bool SpellEnchant::loadDict(const std::string &language) {
     return false;
 }
 
-void SpellEnchant::addWord(const std::string &language, const std::string &word) {
+void SpellEnchant::addWord(const std::string &language,
+                           const std::string &word) {
     if (loadDict(language)) {
         enchant_dict_add_to_personal(dict_.get(), word.c_str(), word.size());
     }

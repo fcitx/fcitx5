@@ -46,14 +46,18 @@ public:
     Instance *instance() { return instance_; }
     void suspend() override;
     void resume() override;
-    void update(UserInterfaceComponent component, InputContext *inputContext) override;
+    void update(UserInterfaceComponent component,
+                InputContext *inputContext) override;
 
 private:
-    std::unique_ptr<HandlerTableEntry<XCBConnectionCreated>> xcbCreatedCallback_;
+    std::unique_ptr<HandlerTableEntry<XCBConnectionCreated>>
+        xcbCreatedCallback_;
     std::unique_ptr<HandlerTableEntry<XCBConnectionClosed>> xcbClosedCallback_;
 
-    std::unique_ptr<HandlerTableEntry<WaylandConnectionCreated>> waylandCreatedCallback_;
-    std::unique_ptr<HandlerTableEntry<WaylandConnectionClosed>> waylandClosedCallback_;
+    std::unique_ptr<HandlerTableEntry<WaylandConnectionCreated>>
+        waylandCreatedCallback_;
+    std::unique_ptr<HandlerTableEntry<WaylandConnectionClosed>>
+        waylandClosedCallback_;
 
     std::unordered_map<std::string, std::unique_ptr<UIInterface>> uis_;
 

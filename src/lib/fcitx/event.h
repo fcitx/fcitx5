@@ -125,7 +125,8 @@ protected:
 
 class FCITXCORE_EXPORT InputContextEvent : public Event {
 public:
-    InputContextEvent(InputContext *context, EventType type) : Event(type), ic_(context) {}
+    InputContextEvent(InputContext *context, EventType type)
+        : Event(type), ic_(context) {}
 
     InputContext *inputContext() const { return ic_; }
 
@@ -135,10 +136,11 @@ protected:
 
 class FCITXCORE_EXPORT KeyEventBase : public InputContextEvent {
 public:
-    KeyEventBase(EventType type, InputContext *context, Key rawKey, bool isRelease = false, int keyCode = 0,
-                 int time = 0)
-        : InputContextEvent(context, type), key_(rawKey.normalize()), rawKey_(rawKey), isRelease_(isRelease),
-          keyCode_(keyCode), time_(time) {}
+    KeyEventBase(EventType type, InputContext *context, Key rawKey,
+                 bool isRelease = false, int keyCode = 0, int time = 0)
+        : InputContextEvent(context, type), key_(rawKey.normalize()),
+          rawKey_(rawKey), isRelease_(isRelease), keyCode_(keyCode),
+          time_(time) {}
     KeyEventBase(const KeyEventBase &) = default;
 
     Key key() const { return key_; }
@@ -156,8 +158,10 @@ protected:
 
 class FCITXCORE_EXPORT KeyEvent : public KeyEventBase {
 public:
-    KeyEvent(InputContext *context, Key rawKey, bool isRelease = false, int keyCode = 0, int time = 0)
-        : KeyEventBase(EventType::InputContextKeyEvent, context, rawKey, isRelease, keyCode, time) {}
+    KeyEvent(InputContext *context, Key rawKey, bool isRelease = false,
+             int keyCode = 0, int time = 0)
+        : KeyEventBase(EventType::InputContextKeyEvent, context, rawKey,
+                       isRelease, keyCode, time) {}
 
     void filter() { filtered_ = true; }
     virtual bool filtered() const { return filtered_; }
@@ -172,14 +176,17 @@ private:
 
 class FCITXCORE_EXPORT ForwardKeyEvent : public KeyEventBase {
 public:
-    ForwardKeyEvent(InputContext *context, Key rawKey, bool isRelease = false, int keyCode = 0, int time = 0)
-        : KeyEventBase(EventType::InputContextForwardKey, context, rawKey, isRelease, keyCode, time) {}
+    ForwardKeyEvent(InputContext *context, Key rawKey, bool isRelease = false,
+                    int keyCode = 0, int time = 0)
+        : KeyEventBase(EventType::InputContextForwardKey, context, rawKey,
+                       isRelease, keyCode, time) {}
 };
 
 class FCITXCORE_EXPORT CommitStringEvent : public InputContextEvent {
 public:
     CommitStringEvent(const std::string &text, InputContext *context)
-        : InputContextEvent(context, EventType::InputContextCommitString), text_(text) {}
+        : InputContextEvent(context, EventType::InputContextCommitString),
+          text_(text) {}
 
     const std::string text() const { return text_; }
 
@@ -187,12 +194,14 @@ protected:
     std::string text_;
 };
 
-class FCITXCORE_EXPORT InputContextSwitchInputMethodEvent : public InputContextEvent {
+class FCITXCORE_EXPORT InputContextSwitchInputMethodEvent
+    : public InputContextEvent {
 public:
-    InputContextSwitchInputMethodEvent(InputMethodSwitchedReason reason, const std::string &oldIM,
+    InputContextSwitchInputMethodEvent(InputMethodSwitchedReason reason,
+                                       const std::string &oldIM,
                                        InputContext *context)
-        : InputContextEvent(context, EventType::InputContextSwitchInputMethod), reason_(reason),
-          oldInputMethod_(oldIM) {}
+        : InputContextEvent(context, EventType::InputContextSwitchInputMethod),
+          reason_(reason), oldInputMethod_(oldIM) {}
 
     InputMethodSwitchedReason reason() const { return reason_; }
     const std::string &oldInputMethod() const { return oldInputMethod_; }
@@ -205,7 +214,8 @@ protected:
 class FCITXCORE_EXPORT ResetEvent : public InputContextEvent {
 public:
     ResetEvent(ResetReason reason, InputContext *context)
-        : InputContextEvent(context, EventType::InputContextReset), reason_(reason) {}
+        : InputContextEvent(context, EventType::InputContextReset),
+          reason_(reason) {}
 
     ResetReason reason() const { return reason_; }
 
@@ -215,8 +225,10 @@ protected:
 
 class FCITXCORE_EXPORT InputContextUpdateUIEvent : public InputContextEvent {
 public:
-    InputContextUpdateUIEvent(UserInterfaceComponent component, InputContext *context)
-        : InputContextEvent(context, EventType::InputContextUpdateUI), component_(component) {}
+    InputContextUpdateUIEvent(UserInterfaceComponent component,
+                              InputContext *context)
+        : InputContextEvent(context, EventType::InputContextUpdateUI),
+          component_(component) {}
 
     UserInterfaceComponent component() const { return component_; }
 
@@ -224,16 +236,18 @@ protected:
     UserInterfaceComponent component_;
 };
 
-#define FCITX_DEFINE_SIMPLE_EVENT(NAME, TYPE, ARGS...)                                                                 \
-    struct FCITXCORE_EXPORT NAME##Event : public InputContextEvent {                                                   \
-        NAME##Event(InputContext *ic) : InputContextEvent(ic, EventType::TYPE) {}                                      \
+#define FCITX_DEFINE_SIMPLE_EVENT(NAME, TYPE, ARGS...)                         \
+    struct FCITXCORE_EXPORT NAME##Event : public InputContextEvent {           \
+        NAME##Event(InputContext *ic)                                          \
+            : InputContextEvent(ic, EventType::TYPE) {}                        \
     }
 
 FCITX_DEFINE_SIMPLE_EVENT(InputContextCreated, InputContextCreated);
 FCITX_DEFINE_SIMPLE_EVENT(InputContextDestroyed, InputContextDestroyed);
 FCITX_DEFINE_SIMPLE_EVENT(FocusIn, InputContextFocusIn);
 FCITX_DEFINE_SIMPLE_EVENT(FocusOut, InputContextFocusOut);
-FCITX_DEFINE_SIMPLE_EVENT(SurroundingTextUpdated, InputContextSurroundingTextUpdated);
+FCITX_DEFINE_SIMPLE_EVENT(SurroundingTextUpdated,
+                          InputContextSurroundingTextUpdated);
 FCITX_DEFINE_SIMPLE_EVENT(CapabilityChanged, InputContextCapabilityChanged);
 FCITX_DEFINE_SIMPLE_EVENT(CursorRectChanged, InputContextCursorRectChanged);
 FCITX_DEFINE_SIMPLE_EVENT(UpdatePreedit, InputContextUpdatePreedit);

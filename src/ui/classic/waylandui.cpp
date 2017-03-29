@@ -36,18 +36,24 @@ static bool checkEGLExtension(EGLDisplay display, const char *extension) {
         return false;
     }
     auto exts = stringutils::split(extensions, FCITX_WHITESPACE);
-    return std::find(exts.begin(), exts.end(), std::string(extension)) != exts.end();
+    return std::find(exts.begin(), exts.end(), std::string(extension)) !=
+           exts.end();
 }
 
-static inline EGLDisplay getEGLDisplay(EGLenum platform, wl_display *nativeDisplay, const EGLint *attribList) {
+static inline EGLDisplay getEGLDisplay(EGLenum platform,
+                                       wl_display *nativeDisplay,
+                                       const EGLint *attribList) {
     if (checkEGLExtension(EGL_NO_DISPLAY, "EGL_EXT_platform_base")) {
         if (checkEGLExtension(EGL_NO_DISPLAY, "EGL_KHR_platform_wayland") ||
             checkEGLExtension(EGL_NO_DISPLAY, "EGL_EXT_platform_wayland") ||
             checkEGLExtension(EGL_NO_DISPLAY, "EGL_MESA_platform_wayland")) {
 
-            static PFNEGLGETPLATFORMDISPLAYEXTPROC eglGetPlatformDisplay = nullptr;
+            static PFNEGLGETPLATFORMDISPLAYEXTPROC eglGetPlatformDisplay =
+                nullptr;
             if (!eglGetPlatformDisplay)
-                eglGetPlatformDisplay = (PFNEGLGETPLATFORMDISPLAYEXTPROC)eglGetProcAddress("eglGetPlatformDisplayEXT");
+                eglGetPlatformDisplay =
+                    (PFNEGLGETPLATFORMDISPLAYEXTPROC)eglGetProcAddress(
+                        "eglGetPlatformDisplayEXT");
 
             return eglGetPlatformDisplay(platform, nativeDisplay, attribList);
         }
@@ -56,8 +62,10 @@ static inline EGLDisplay getEGLDisplay(EGLenum platform, wl_display *nativeDispl
     return eglGetDisplay((EGLNativeDisplayType)nativeDisplay);
 }
 
-WaylandUI::WaylandUI(ClassicUI *parent, const std::string &name, wl_display *display)
-    : parent_(parent), name_(name), display_(static_cast<wayland::Display *>(wl_display_get_user_data(display))) {
+WaylandUI::WaylandUI(ClassicUI *parent, const std::string &name,
+                     wl_display *display)
+    : parent_(parent), name_(name), display_(static_cast<wayland::Display *>(
+                                        wl_display_get_user_data(display))) {
     hasEgl_ = initEGL();
 }
 
@@ -67,7 +75,8 @@ WaylandUI::~WaylandUI() {
     }
 
     if (eglDisplay_) {
-        eglMakeCurrent(eglDisplay_, EGL_NO_SURFACE, EGL_NO_SURFACE, EGL_NO_CONTEXT);
+        eglMakeCurrent(eglDisplay_, EGL_NO_SURFACE, EGL_NO_SURFACE,
+                       EGL_NO_CONTEXT);
         eglTerminate(eglDisplay_);
         eglReleaseThread();
     }
@@ -93,7 +102,8 @@ bool WaylandUI::initEGL() {
                                               EGL_OPENGL_ES2_BIT,
                                               EGL_NONE};
 
-    static const EGLint context_attribs[] = {EGL_CONTEXT_CLIENT_VERSION, 2, EGL_NONE};
+    static const EGLint context_attribs[] = {EGL_CONTEXT_CLIENT_VERSION, 2,
+                                             EGL_NONE};
     EGLint api = EGL_OPENGL_ES_API;
 
     eglDisplay_ = getEGLDisplay(EGL_PLATFORM_WAYLAND_KHR, *display_, NULL);
@@ -106,11 +116,13 @@ bool WaylandUI::initEGL() {
         return false;
     }
 
-    if (!eglChooseConfig(eglDisplay_, argb_cfg_attribs, &argbConfig_, 1, &n) || n != 1) {
+    if (!eglChooseConfig(eglDisplay_, argb_cfg_attribs, &argbConfig_, 1, &n) ||
+        n != 1) {
         return false;
     }
 
-    argbCtx_ = eglCreateContext(eglDisplay_, &argbConfig_, EGL_NO_CONTEXT, context_attribs);
+    argbCtx_ = eglCreateContext(eglDisplay_, &argbConfig_, EGL_NO_CONTEXT,
+                                context_attribs);
     if (!argbCtx_) {
         return false;
     }
@@ -132,23 +144,31 @@ static inline void *getEGLProcAddress(const char *address) {
     return NULL;
 }
 
-EGLSurface WaylandUI::createEGLSurface(wl_egl_window *window, const EGLint *attrib_list) {
-    static PFNEGLCREATEPLATFORMWINDOWSURFACEEXTPROC create_platform_window = NULL;
+EGLSurface WaylandUI::createEGLSurface(wl_egl_window *window,
+                                       const EGLint *attrib_list) {
+    static PFNEGLCREATEPLATFORMWINDOWSURFACEEXTPROC create_platform_window =
+        NULL;
 
     if (!create_platform_window) {
         create_platform_window =
-            (PFNEGLCREATEPLATFORMWINDOWSURFACEEXTPROC)getEGLProcAddress("eglCreatePlatformWindowSurfaceEXT");
+            (PFNEGLCREATEPLATFORMWINDOWSURFACEEXTPROC)getEGLProcAddress(
+                "eglCreatePlatformWindowSurfaceEXT");
     }
 
     if (create_platform_window)
-        return create_platform_window(eglDisplay_, argbConfig_, window, attrib_list);
+        return create_platform_window(eglDisplay_, argbConfig_, window,
+                                      attrib_list);
 
-    return eglCreateWindowSurface(eglDisplay_, argbConfig_, (EGLNativeWindowType)window, attrib_list);
+    return eglCreateWindowSurface(eglDisplay_, argbConfig_,
+                                  (EGLNativeWindowType)window, attrib_list);
 }
 
-void WaylandUI::destroyEGLSurface(EGLSurface surface) { eglDestroySurface(eglDisplay_, surface); }
+void WaylandUI::destroyEGLSurface(EGLSurface surface) {
+    eglDestroySurface(eglDisplay_, surface);
+}
 
-cairo_surface_t *WaylandUI::createEGLCairoSurface(EGLSurface surface, int width, int height) {
+cairo_surface_t *WaylandUI::createEGLCairoSurface(EGLSurface surface, int width,
+                                                  int height) {
     return cairo_gl_surface_create_for_egl(argbDevice_, surface, width, height);
 }
 }

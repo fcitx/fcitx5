@@ -47,7 +47,8 @@ static int compile_dict(int ifd, int ofd) {
     char *ifend;
     if (fstat(ifd, &istat_buf) == -1)
         return 1;
-    mmapped = mmap(nullptr, istat_buf.st_size + 1, PROT_READ, MAP_PRIVATE, ifd, 0);
+    mmapped =
+        mmap(nullptr, istat_buf.st_size + 1, PROT_READ, MAP_PRIVATE, ifd, 0);
     if (mmapped == MAP_FAILED) {
         return 1;
     }
@@ -73,7 +74,8 @@ static int compile_dict(int ifd, int ofd) {
         wcount++;
         p++;
     }
-    if (lseek(ofd, strlen(DICT_BIN_MAGIC), SEEK_SET) == static_cast<off_t>(-1)) {
+    if (lseek(ofd, strlen(DICT_BIN_MAGIC), SEEK_SET) ==
+        static_cast<off_t>(-1)) {
         return 1;
     }
     wcount = htole32(wcount);
@@ -90,7 +92,8 @@ int main(int argc, char *argv[]) {
             exit(1);
         }
         UnixFD ifd = UnixFD::own(open(argv[2], O_RDONLY));
-        UnixFD ofd = UnixFD::own(open(argv[3], O_WRONLY | O_TRUNC | O_CREAT, 0644));
+        UnixFD ofd =
+            UnixFD::own(open(argv[3], O_WRONLY | O_TRUNC | O_CREAT, 0644));
         if (!ifd.isValid() || !ofd.isValid()) {
             return 1;
         }

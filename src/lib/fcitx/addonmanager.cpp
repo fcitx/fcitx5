@@ -50,7 +50,12 @@ private:
     std::unique_ptr<AddonInstance> instance_;
 };
 
-enum class DependencyCheckStatus { Satisfied, Pending, PendingUpdateRequest, Failed };
+enum class DependencyCheckStatus {
+    Satisfied,
+    Pending,
+    PendingUpdateRequest,
+    Failed
+};
 
 class AddonManagerPrivate {
 public:
@@ -73,7 +78,8 @@ public:
             }
 
             if (!dep->loaded()) {
-                if (dep->info().onRequest() && requested_.insert(dep->info().name()).second) {
+                if (dep->info().onRequest() &&
+                    requested_.insert(dep->info().name()).second) {
                     return DependencyCheckStatus::PendingUpdateRequest;
                 }
                 return DependencyCheckStatus::Pending;
@@ -115,7 +121,8 @@ public:
         if (addon.loaded() || !addon.isValid()) {
             return false;
         }
-        if (addon.info().onRequest() && requested_.count(addon.info().name()) == 0) {
+        if (addon.info().onRequest() &&
+            requested_.count(addon.info().name()) == 0) {
             return false;
         }
         auto result = checkDependencies(addon);
@@ -161,7 +168,8 @@ void Addon::load(AddonManagerPrivate *managerP) {
     }
 }
 
-AddonManager::AddonManager() : d_ptr(std::make_unique<AddonManagerPrivate>(this)) {}
+AddonManager::AddonManager()
+    : d_ptr(std::make_unique<AddonManagerPrivate>(this)) {}
 
 AddonManager::~AddonManager() { unload(); }
 
@@ -185,12 +193,14 @@ void AddonManager::load(const std::unordered_set<std::string> &enabled,
                         const std::unordered_set<std::string> &disabled) {
     FCITX_D();
     auto &path = StandardPath::global();
-    auto files = path.multiOpenAll(StandardPath::Type::Data, "fcitx5/addon", O_RDONLY, filter::Suffix(".conf"));
+    auto files = path.multiOpenAll(StandardPath::Type::Data, "fcitx5/addon",
+                                   O_RDONLY, filter::Suffix(".conf"));
     for (const auto &file : files) {
         auto &files = file.second;
         RawConfig config;
         // reverse the order, so we end up parse user file at last.
-        for (auto iter = files.rbegin(), end = files.rend(); iter != end; iter++) {
+        for (auto iter = files.rbegin(), end = files.rend(); iter != end;
+             iter++) {
             auto fd = iter->fd();
             readFromIni(config, fd);
         }
@@ -221,7 +231,8 @@ void AddonManager::unload() {
     }
     d->unloading_ = true;
     // reverse the unload order
-    for (auto iter = d->loadOrder_.rbegin(), end = d->loadOrder_.rend(); iter != end; iter++) {
+    for (auto iter = d->loadOrder_.rbegin(), end = d->loadOrder_.rend();
+         iter != end; iter++) {
         d->addons_.erase(*iter);
     }
     d->loadOrder_.clear();
@@ -235,7 +246,8 @@ AddonInstance *AddonManager::addon(const std::string &name, bool load) {
     if (!addon) {
         return nullptr;
     }
-    if (addon->isValid() && !addon->loaded() && addon->info().onRequest() && load) {
+    if (addon->isValid() && !addon->loaded() && addon->info().onRequest() &&
+        load) {
         d->requested_.insert(name);
         d->loadAddons();
     }
@@ -251,11 +263,13 @@ const AddonInfo *AddonManager::addonInfo(const std::string &name) const {
     return nullptr;
 }
 
-std::unordered_set<std::string> AddonManager::addonNames(AddonCategory category) {
+std::unordered_set<std::string>
+AddonManager::addonNames(AddonCategory category) {
     FCITX_D();
     std::unordered_set<std::string> result;
     for (auto &item : d->addons_) {
-        if (item.second->isValid() && item.second->info().category() == category) {
+        if (item.second->isValid() &&
+            item.second->info().category() == category) {
             result.insert(item.first);
         }
     }

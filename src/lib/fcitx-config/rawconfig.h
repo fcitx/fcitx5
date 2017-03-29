@@ -38,7 +38,8 @@ public:
     RawConfig(const RawConfig &other);
     RawConfig(RawConfig &&other) noexcept;
 
-    std::shared_ptr<RawConfig> get(const std::string &path, bool create = false);
+    std::shared_ptr<RawConfig> get(const std::string &path,
+                                   bool create = false);
     std::shared_ptr<const RawConfig> get(const std::string &path) const;
     bool remove(const std::string &path);
     void removeAll();
@@ -50,7 +51,9 @@ public:
     const std::string &value() const;
     unsigned int lineNumber() const;
     bool hasSubItems() const;
-    void setValueByPath(const std::string &path, std::string value) { (*this)[path] = value; }
+    void setValueByPath(const std::string &path, std::string value) {
+        (*this)[path] = value;
+    }
 
     const std::string *valueByPath(const std::string &path) const {
         auto config = get(path);
@@ -69,13 +72,22 @@ public:
     RawConfig *parent() const;
     std::shared_ptr<RawConfig> detach();
 
-    bool visitSubItems(std::function<bool(RawConfig &, const std::string &path)> callback, const std::string &path = "",
-                       bool recursive = false, const std::string &pathPrefix = "");
-    bool visitSubItems(std::function<bool(const RawConfig &, const std::string &path)> callback,
-                       const std::string &path = "", bool recursive = false, const std::string &pathPrefix = "") const;
-    void visitItemsOnPath(std::function<void(RawConfig &, const std::string &path)> callback, const std::string &path);
-    void visitItemsOnPath(std::function<void(const RawConfig &, const std::string &path)> callback,
-                          const std::string &path) const;
+    bool visitSubItems(
+        std::function<bool(RawConfig &, const std::string &path)> callback,
+        const std::string &path = "", bool recursive = false,
+        const std::string &pathPrefix = "");
+    bool visitSubItems(
+        std::function<bool(const RawConfig &, const std::string &path)>
+            callback,
+        const std::string &path = "", bool recursive = false,
+        const std::string &pathPrefix = "") const;
+    void visitItemsOnPath(
+        std::function<void(RawConfig &, const std::string &path)> callback,
+        const std::string &path);
+    void visitItemsOnPath(
+        std::function<void(const RawConfig &, const std::string &path)>
+            callback,
+        const std::string &path) const;
 
 private:
     FCITX_DECLARE_PRIVATE(RawConfig);

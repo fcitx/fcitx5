@@ -23,7 +23,8 @@
 #include "fcitx-utils/cutf8.h"
 #include "spell-custom-dict.h"
 
-fcitx::SpellCustom::SpellCustom(fcitx::Spell *spell) : fcitx::SpellBackend(spell) {}
+fcitx::SpellCustom::SpellCustom(fcitx::Spell *spell)
+    : fcitx::SpellBackend(spell) {}
 
 fcitx::SpellCustom::~SpellCustom() {}
 
@@ -31,7 +32,9 @@ void fcitx::SpellCustom::addWord(const std::string &, const std::string &) {
     // TODO
 }
 
-bool fcitx::SpellCustom::checkDict(const std::string &language) { return SpellCustomDict::checkDict(language); }
+bool fcitx::SpellCustom::checkDict(const std::string &language) {
+    return SpellCustomDict::checkDict(language);
+}
 
 bool fcitx::SpellCustom::loadDict(const std::string &language) {
     if (language_ == language) {
@@ -48,7 +51,9 @@ bool fcitx::SpellCustom::loadDict(const std::string &language) {
     return false;
 }
 
-std::vector<std::string> fcitx::SpellCustom::hint(const std::string &language, const std::string &str, size_t limit) {
+std::vector<std::string> fcitx::SpellCustom::hint(const std::string &language,
+                                                  const std::string &str,
+                                                  size_t limit) {
     if (!loadDict(language)) {
         return {};
     }

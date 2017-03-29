@@ -42,13 +42,17 @@ public:
                     entry.name = atts[i * 2 + 1];
                 i++;
             }
-            if ((!entry.iso_639_2B_code.empty() || !entry.iso_639_2T_code.empty()) && !entry.name.empty()) {
+            if ((!entry.iso_639_2B_code.empty() ||
+                 !entry.iso_639_2T_code.empty()) &&
+                !entry.name.empty()) {
                 that_->iso639entires.emplace_back(entry);
                 if (!entry.iso_639_2B_code.empty()) {
-                    that_->iso6392B.emplace(entry.iso_639_2B_code, that_->iso639entires.size() - 1);
+                    that_->iso6392B.emplace(entry.iso_639_2B_code,
+                                            that_->iso639entires.size() - 1);
                 }
                 if (!entry.iso_639_2T_code.empty()) {
-                    that_->iso6392T.emplace(entry.iso_639_2T_code, that_->iso639entires.size() - 1);
+                    that_->iso6392T.emplace(entry.iso_639_2T_code,
+                                            that_->iso639entires.size() - 1);
                 }
             }
         }

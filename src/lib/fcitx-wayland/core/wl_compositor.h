@@ -10,7 +10,8 @@ class WlSurface;
 class WlCompositor {
 public:
     static constexpr const char *interface = "wl_compositor";
-    static constexpr const wl_interface *const wlInterface = &wl_compositor_interface;
+    static constexpr const wl_interface *const wlInterface =
+        &wl_compositor_interface;
     static constexpr const uint32_t version = 4;
     typedef wl_compositor wlType;
     operator wl_compositor *() { return data_.get(); }

@@ -9,7 +9,8 @@ class WlBuffer;
 class WlShmPool {
 public:
     static constexpr const char *interface = "wl_shm_pool";
-    static constexpr const wl_interface *const wlInterface = &wl_shm_pool_interface;
+    static constexpr const wl_interface *const wlInterface =
+        &wl_shm_pool_interface;
     static constexpr const uint32_t version = 1;
     typedef wl_shm_pool wlType;
     operator wl_shm_pool *() { return data_.get(); }
@@ -20,7 +21,8 @@ public:
         return *this;
     }
     auto actualVersion() const { return version_; }
-    WlBuffer *createBuffer(int32_t offset, int32_t width, int32_t height, int32_t stride, uint32_t format);
+    WlBuffer *createBuffer(int32_t offset, int32_t width, int32_t height,
+                           int32_t stride, uint32_t format);
     void resize(int32_t size);
 
 private:

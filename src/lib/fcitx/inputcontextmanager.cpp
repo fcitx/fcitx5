@@ -26,7 +26,9 @@
 
 namespace {
 
-void hash_combine(std::size_t &seed, std::size_t value) { seed ^= value + 0x9e3779b9 + (seed << 6) + (seed >> 2); }
+void hash_combine(std::size_t &seed, std::size_t value) {
+    seed ^= value + 0x9e3779b9 + (seed << 6) + (seed >> 2);
+}
 
 struct container_hasher {
     template <class T>
@@ -57,16 +59,22 @@ inline InputContext *toInputContextPointer(InputContext &self) { return &self; }
 
 class InputContextManagerPrivate {
 public:
-    static InputContextPrivate *toInputContextPrivate(InputContext &ic) { return ic.d_func(); }
-    static FocusGroupPrivate *toFocusGroupPrivate(FocusGroup &group) { return group.d_func(); }
+    static InputContextPrivate *toInputContextPrivate(InputContext &ic) {
+        return ic.d_func();
+    }
+    static FocusGroupPrivate *toFocusGroupPrivate(FocusGroup &group) {
+        return group.d_func();
+    }
 
-    inline bool registerProperty(const std::string &name, InputContextPropertyFactory factory) {
+    inline bool registerProperty(const std::string &name,
+                                 InputContextPropertyFactory factory) {
         auto result = propertyFactories_.emplace(name, std::move(factory));
         if (!result.second) {
             return false;
         }
         for (auto &inputContext : inputContexts_) {
-            inputContext.registerProperty(name, result.first->second(inputContext));
+            inputContext.registerProperty(name,
+                                          result.first->second(inputContext));
         }
         return true;
     }
@@ -89,11 +97,17 @@ public:
             inputContext.registerProperty(p.first, property);
             if (property->needCopy() &&
                 (propertyPropagatePolicy_ == PropertyPropagatePolicy::All ||
-                 (!inputContext.program().empty() && propertyPropagatePolicy_ == PropertyPropagatePolicy::Program))) {
-                auto copyProperty = [&p, &inputContext, &property](auto &container) {
+                 (!inputContext.program().empty() &&
+                  propertyPropagatePolicy_ ==
+                      PropertyPropagatePolicy::Program))) {
+                auto copyProperty = [&p, &inputContext,
+                                     &property](auto &container) {
                     for (auto &dstInputContext : container) {
-                        if (toInputContextPointer(dstInputContext) != &inputContext) {
-                            toInputContextPointer(dstInputContext)->property(p.first)->copyTo(property);
+                        if (toInputContextPointer(dstInputContext) !=
+                            &inputContext) {
+                            toInputContextPointer(dstInputContext)
+                                ->property(p.first)
+                                ->copyTo(property);
                             break;
                         }
                     }
@@ -110,21 +124,27 @@ public:
         }
     }
 
-    std::unordered_map<std::array<uint8_t, sizeof(uuid_t)>, InputContext *, container_hasher> uuidMap_;
+    std::unordered_map<std::array<uint8_t, sizeof(uuid_t)>, InputContext *,
+                       container_hasher>
+        uuidMap_;
     IntrusiveList<InputContext, InputContextListHelper> inputContexts_;
     IntrusiveList<FocusGroup, FocusGroupListHelper> groups_;
     // order matters, need to delete it before groups gone
     Instance *instance_ = nullptr;
-    std::unordered_map<std::string, InputContextPropertyFactory> propertyFactories_;
-    std::unordered_map<std::string, std::unordered_set<InputContext *>> programMap_;
-    PropertyPropagatePolicy propertyPropagatePolicy_ = PropertyPropagatePolicy::None;
+    std::unordered_map<std::string, InputContextPropertyFactory>
+        propertyFactories_;
+    std::unordered_map<std::string, std::unordered_set<InputContext *>>
+        programMap_;
+    PropertyPropagatePolicy propertyPropagatePolicy_ =
+        PropertyPropagatePolicy::None;
 };
 
 IntrusiveListNode &InputContextListHelper::toNode(InputContext &ic) noexcept {
     return InputContextManagerPrivate::toInputContextPrivate(ic)->listNode_;
 }
 
-InputContext &InputContextListHelper::toValue(IntrusiveListNode &node) noexcept {
+InputContext &
+InputContextListHelper::toValue(IntrusiveListNode &node) noexcept {
     return *parentFromMember(&node, &InputContextPrivate::listNode_)->q_func();
 }
 
@@ -136,7 +156,8 @@ FocusGroup &FocusGroupListHelper::toValue(IntrusiveListNode &node) noexcept {
     return *parentFromMember(&node, &FocusGroupPrivate::listNode_)->q_func();
 }
 
-InputContextManager::InputContextManager() : d_ptr(std::make_unique<InputContextManagerPrivate>()) {}
+InputContextManager::InputContextManager()
+    : d_ptr(std::make_unique<InputContextManagerPrivate>()) {}
 
 InputContextManager::~InputContextManager() {}
 
@@ -146,7 +167,8 @@ InputContext *InputContextManager::findByUUID(ICUUID uuid) {
     return (iter == d->uuidMap_.end()) ? nullptr : iter->second;
 }
 
-bool InputContextManager::registerProperty(const std::string &name, InputContextPropertyFactory factory) {
+bool InputContextManager::registerProperty(
+    const std::string &name, InputContextPropertyFactory factory) {
     FCITX_D();
     return d->registerProperty(name, std::move(factory));
 }
@@ -156,7 +178,8 @@ void InputContextManager::unregisterProperty(const std::string &name) {
     return d->unregisterProperty(name);
 }
 
-void InputContextManager::setPropertyPropagatePolicy(PropertyPropagatePolicy policy) {
+void InputContextManager::setPropertyPropagatePolicy(
+    PropertyPropagatePolicy policy) {
     FCITX_D();
     d->propertyPropagatePolicy_ = policy;
 }
@@ -201,10 +224,12 @@ void InputContextManager::unregisterFocusGroup(FocusGroup &group) {
     d->groups_.erase(d->groups_.iterator_to(group));
 }
 
-void InputContextManager::propagateProperty(InputContext &inputContext, const std::string &name) {
+void InputContextManager::propagateProperty(InputContext &inputContext,
+                                            const std::string &name) {
     FCITX_D();
     if (d->propertyPropagatePolicy_ == PropertyPropagatePolicy::None ||
-        (inputContext.program().empty() && d->propertyPropagatePolicy_ == PropertyPropagatePolicy::Program)) {
+        (inputContext.program().empty() &&
+         d->propertyPropagatePolicy_ == PropertyPropagatePolicy::Program)) {
         return;
     }
 

@@ -10,7 +10,8 @@ class WlSurface;
 class WlSubcompositor {
 public:
     static constexpr const char *interface = "wl_subcompositor";
-    static constexpr const wl_interface *const wlInterface = &wl_subcompositor_interface;
+    static constexpr const wl_interface *const wlInterface =
+        &wl_subcompositor_interface;
     static constexpr const uint32_t version = 1;
     typedef wl_subcompositor wlType;
     operator wl_subcompositor *() { return data_.get(); }

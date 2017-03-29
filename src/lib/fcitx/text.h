@@ -64,7 +64,9 @@ public:
     int cursor() const;
     void setCursor(int pos = -1);
     void clear();
-    void append(const std::string &str, TextFormatFlags flag = TextFormatFlag::None, TextRole role = TextRole::Normal);
+    void append(const std::string &str,
+                TextFormatFlags flag = TextFormatFlag::None,
+                TextRole role = TextRole::Normal);
     const std::string &stringAt(int idx) const;
     TextFormatFlags formatAt(int idx) const;
     TextRole roleAt(int idx) const;

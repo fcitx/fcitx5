@@ -48,7 +48,8 @@ Action &Action::setSeparator(bool separator) {
     return *this;
 }
 
-bool Action::registerAction(const std::string &name, UserInterfaceManager *manager) {
+bool Action::registerAction(const std::string &name,
+                            UserInterfaceManager *manager) {
     return manager->registerAction(name, this);
 }
 

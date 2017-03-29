@@ -11,7 +11,8 @@ class ZwpInputPanelSurfaceV1;
 class ZwpInputPanelV1 {
 public:
     static constexpr const char *interface = "zwp_input_panel_v1";
-    static constexpr const wl_interface *const wlInterface = &zwp_input_panel_v1_interface;
+    static constexpr const wl_interface *const wlInterface =
+        &zwp_input_panel_v1_interface;
     static constexpr const uint32_t version = 1;
     typedef zwp_input_panel_v1 wlType;
     operator zwp_input_panel_v1 *() { return data_.get(); }

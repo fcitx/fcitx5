@@ -22,7 +22,9 @@
 #include "fcitx-utils/stringutils.h"
 
 namespace fcitx {
-void marshallOption(RawConfig &config, const bool value) { config = value ? "True" : "False"; }
+void marshallOption(RawConfig &config, const bool value) {
+    config = value ? "True" : "False";
+}
 
 bool unmarshallOption(bool &value, const RawConfig &config) {
     if (config.value() == "True" || config.value() == "False") {
@@ -32,7 +34,9 @@ bool unmarshallOption(bool &value, const RawConfig &config) {
 
     return false;
 }
-void marshallOption(RawConfig &config, const int value) { config = std::to_string(value); }
+void marshallOption(RawConfig &config, const int value) {
+    config = std::to_string(value);
+}
 
 bool unmarshallOption(int &value, const RawConfig &config) {
     try {
@@ -46,21 +50,27 @@ bool unmarshallOption(int &value, const RawConfig &config) {
     return true;
 }
 
-void marshallOption(RawConfig &config, const std::string &value) { config = value; }
+void marshallOption(RawConfig &config, const std::string &value) {
+    config = value;
+}
 
 bool unmarshallOption(std::string &value, const RawConfig &config) {
     value = config.value();
     return true;
 }
 
-void marshallOption(RawConfig &config, const Key &value) { config = value.toString(); }
+void marshallOption(RawConfig &config, const Key &value) {
+    config = value.toString();
+}
 
 bool unmarshallOption(Key &value, const RawConfig &config) {
     value = Key(config.value());
     return true;
 }
 
-void marshallOption(RawConfig &config, const Color &value) { config = value.toString(); }
+void marshallOption(RawConfig &config, const Color &value) {
+    config = value.toString();
+}
 
 bool unmarshallOption(Color &value, const RawConfig &config) {
     try {
@@ -81,9 +91,12 @@ void marshallOption(RawConfig &config, const I18NString &value) {
 bool unmarshallOption(I18NString &value, const RawConfig &config) {
     value.clear();
     value.set(config.value());
-    config.parent()->visitSubItems([&value, &config](const RawConfig &config_, const std::string &path) {
-        if (stringutils::startsWith(path, config.name() + "[") && stringutils::endsWith(path, "]")) {
-            auto locale = path.substr(config.name().size() + 1, path.size() - config.name().size() - 2);
+    config.parent()->visitSubItems([&value, &config](const RawConfig &config_,
+                                                     const std::string &path) {
+        if (stringutils::startsWith(path, config.name() + "[") &&
+            stringutils::endsWith(path, "]")) {
+            auto locale = path.substr(config.name().size() + 1,
+                                      path.size() - config.name().size() - 2);
             value.set(config_.value(), locale);
         }
         return true;
@@ -91,7 +104,9 @@ bool unmarshallOption(I18NString &value, const RawConfig &config) {
     return true;
 }
 
-void marshallOption(RawConfig &config, const Configuration &value) { value.save(config); }
+void marshallOption(RawConfig &config, const Configuration &value) {
+    value.save(config);
+}
 
 bool unmarshallOption(Configuration &value, const RawConfig &config) {
     value.load(config);

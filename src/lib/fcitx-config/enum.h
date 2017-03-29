@@ -24,29 +24,34 @@
 
 #define FCITX_ENUM_STRINGIFY(X) FCITX_STRINGIFY(X),
 
-#define FCITX_CONFIG_ENUM(TYPE, ...)                                                                                   \
-    enum class TYPE { __VA_ARGS__ };                                                                                   \
-    static const char *_##TYPE##_Names[] = {FCITX_FOR_EACH(FCITX_ENUM_STRINGIFY, __VA_ARGS__)};                        \
-    static inline void marshallOption(fcitx::RawConfig &config, const TYPE value) {                                    \
-        config = _##TYPE##_Names[static_cast<std::underlying_type_t<TYPE>>(value)];                                    \
-    }                                                                                                                  \
-    static inline bool unmarshallOption(TYPE &value, const fcitx::RawConfig &config) {                                 \
-        auto size = FCITX_ARRAY_SIZE(_##TYPE##_Names);                                                                 \
-        for (decltype(size) i = 0; i < size; i++) {                                                                    \
-            if (config.value() == _##TYPE##_Names[i]) {                                                                \
-                value = static_cast<TYPE>(i);                                                                          \
-                return true;                                                                                           \
-            }                                                                                                          \
-        }                                                                                                              \
-        return false;                                                                                                  \
-    }                                                                                                                  \
-    _FCITX_UNUSED_                                                                                                     \
-    static void dumpDescriptionHelper(fcitx::RawConfig &config, TYPE *) {                                              \
-        auto size = FCITX_ARRAY_SIZE(_##TYPE##_Names);                                                                 \
-        config.setValueByPath("Enum/Length", std::to_string(size));                                                    \
-        for (decltype(size) i = 0; i < size; i++) {                                                                    \
-            config.setValueByPath("Enum/" + std::to_string(i), _##TYPE##_Names[i]);                                    \
-        }                                                                                                              \
+#define FCITX_CONFIG_ENUM(TYPE, ...)                                           \
+    enum class TYPE { __VA_ARGS__ };                                           \
+    static const char *_##TYPE##_Names[] = {                                   \
+        FCITX_FOR_EACH(FCITX_ENUM_STRINGIFY, __VA_ARGS__)};                    \
+    static inline void marshallOption(fcitx::RawConfig &config,                \
+                                      const TYPE value) {                      \
+        config =                                                               \
+            _##TYPE##_Names[static_cast<std::underlying_type_t<TYPE>>(value)]; \
+    }                                                                          \
+    static inline bool unmarshallOption(TYPE &value,                           \
+                                        const fcitx::RawConfig &config) {      \
+        auto size = FCITX_ARRAY_SIZE(_##TYPE##_Names);                         \
+        for (decltype(size) i = 0; i < size; i++) {                            \
+            if (config.value() == _##TYPE##_Names[i]) {                        \
+                value = static_cast<TYPE>(i);                                  \
+                return true;                                                   \
+            }                                                                  \
+        }                                                                      \
+        return false;                                                          \
+    }                                                                          \
+    _FCITX_UNUSED_                                                             \
+    static void dumpDescriptionHelper(fcitx::RawConfig &config, TYPE *) {      \
+        auto size = FCITX_ARRAY_SIZE(_##TYPE##_Names);                         \
+        config.setValueByPath("Enum/Length", std::to_string(size));            \
+        for (decltype(size) i = 0; i < size; i++) {                            \
+            config.setValueByPath("Enum/" + std::to_string(i),                 \
+                                  _##TYPE##_Names[i]);                         \
+        }                                                                      \
     }
 
 #endif // _FCITX_CONFIG_ENUM_H_

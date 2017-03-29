@@ -41,8 +41,10 @@ private:
 
 class SDVTableSlot : public Slot {
 public:
-    SDVTableSlot(std::vector<sd_bus_vtable> vtable_, Bus *bus_, const std::string &path_, const std::string &interface_)
-        : slot(nullptr), vtable(vtable_), bus(bus_), path(path_), interface(interface_) {}
+    SDVTableSlot(std::vector<sd_bus_vtable> vtable_, Bus *bus_,
+                 const std::string &path_, const std::string &interface_)
+        : slot(nullptr), vtable(vtable_), bus(bus_), path(path_),
+          interface(interface_) {}
 
     ~SDVTableSlot() { sd_bus_slot_unref(slot); }
 
@@ -65,7 +67,8 @@ public:
 
 class SDSubTreeSlot : public SDSlot {
 public:
-    SDSubTreeSlot(MessageCallback callback_, EnumerateObjectCallback enumerator_)
+    SDSubTreeSlot(MessageCallback callback_,
+                  EnumerateObjectCallback enumerator_)
         : SDSlot(callback_), enumerator(enumerator_), enumSlot(nullptr) {}
 
     ~SDSubTreeSlot() { sd_bus_slot_unref(enumSlot); }

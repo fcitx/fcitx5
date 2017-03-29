@@ -36,53 +36,56 @@
 #define NOTIFICATIONS_SERVICE_NAME "org.freedesktop.Notifications"
 #define NOTIFICATIONS_INTERFACE_NAME "org.freedesktop.Notifications"
 #define NOTIFICATIONS_PATH "/org/freedesktop/Notifications"
-#define NOTIFICATIONS_MATCH_NAMES                                                                                      \
-    "sender='" NOTIFICATIONS_SERVICE_NAME "',"                                                                         \
-    "interface='" NOTIFICATIONS_INTERFACE_NAME "',"                                                                    \
+#define NOTIFICATIONS_MATCH_NAMES                                              \
+    "sender='" NOTIFICATIONS_SERVICE_NAME "',"                                 \
+    "interface='" NOTIFICATIONS_INTERFACE_NAME "',"                            \
     "path='" NOTIFICATIONS_PATH "'"
 #define NOTIFICATIONS_MATCH_SIGNAL "type='signal'," NOTIFICATIONS_MATCH_NAMES
-#define NOTIFICATIONS_MATCH_ACTION                                                                                     \
-    NOTIFICATIONS_MATCH_SIGNAL ","                                                                                     \
+#define NOTIFICATIONS_MATCH_ACTION                                             \
+    NOTIFICATIONS_MATCH_SIGNAL ","                                             \
                                "member='ActionInvoked'"
-#define NOTIFICATIONS_MATCH_CLOSED                                                                                     \
-    NOTIFICATIONS_MATCH_SIGNAL ","                                                                                     \
+#define NOTIFICATIONS_MATCH_CLOSED                                             \
+    NOTIFICATIONS_MATCH_SIGNAL ","                                             \
                                "member='NotificationClosed'"
 
 namespace fcitx {
 
 Notifications::Notifications(Instance *instance)
-    : instance_(instance), dbus_(instance_->addonManager().addon("dbus")), bus_(dbus_->call<IDBusModule::bus>()),
-      watcher_(*bus_) {
+    : instance_(instance), dbus_(instance_->addonManager().addon("dbus")),
+      bus_(dbus_->call<IDBusModule::bus>()), watcher_(*bus_) {
     reloadConfig();
 
-    actionMatch_.reset(bus_->addMatch(NOTIFICATIONS_MATCH_ACTION, [this](dbus::Message message) {
-        uint32_t id = 0;
-        std::string key;
-        if (message >> id >> key) {
-            auto item = findByGlobalId(id);
-            if (item && item->actionCallback_) {
-                item->actionCallback_(key);
-            }
-        }
-        return true;
-    }));
-    closedMatch_.reset(bus_->addMatch(NOTIFICATIONS_MATCH_CLOSED, [this](dbus::Message message) {
-        uint32_t id = 0;
-        uint32_t reason = 0;
-        if (message >> id >> reason) {
-            auto item = findByGlobalId(id);
-            if (item) {
-                if (item->closedCallback_) {
-                    item->closedCallback_(reason);
+    actionMatch_.reset(bus_->addMatch(
+        NOTIFICATIONS_MATCH_ACTION, [this](dbus::Message message) {
+            uint32_t id = 0;
+            std::string key;
+            if (message >> id >> key) {
+                auto item = findByGlobalId(id);
+                if (item && item->actionCallback_) {
+                    item->actionCallback_(key);
                 }
-                removeItem(*item);
             }
-        }
-        return true;
-    }));
-    watcherEntry_.reset(
-        watcher_.watchService(NOTIFICATIONS_SERVICE_NAME, [this](const std::string &, const std::string &oldOwner,
-                                                                 const std::string &newOwner) {
+            return true;
+        }));
+    closedMatch_.reset(bus_->addMatch(
+        NOTIFICATIONS_MATCH_CLOSED, [this](dbus::Message message) {
+            uint32_t id = 0;
+            uint32_t reason = 0;
+            if (message >> id >> reason) {
+                auto item = findByGlobalId(id);
+                if (item) {
+                    if (item->closedCallback_) {
+                        item->closedCallback_(reason);
+                    }
+                    removeItem(*item);
+                }
+            }
+            return true;
+        }));
+    watcherEntry_.reset(watcher_.watchService(
+        NOTIFICATIONS_SERVICE_NAME,
+        [this](const std::string &, const std::string &oldOwner,
+               const std::string &newOwner) {
             if (!oldOwner.empty()) {
                 capabilities_ = 0;
                 call_.reset();
@@ -92,8 +95,9 @@ Notifications::Notifications(Instance *instance)
                 epoch_++;
             }
             if (!newOwner.empty()) {
-                auto message = bus_->createMethodCall(NOTIFICATIONS_SERVICE_NAME, NOTIFICATIONS_PATH,
-                                                      NOTIFICATIONS_INTERFACE_NAME, "GetCapabilities");
+                auto message = bus_->createMethodCall(
+                    NOTIFICATIONS_SERVICE_NAME, NOTIFICATIONS_PATH,
+                    NOTIFICATIONS_INTERFACE_NAME, "GetCapabilities");
                 call_.reset(message.callAsync(0, [this](dbus::Message reply) {
                     std::vector<std::string> capabilities;
                     reply >> capabilities;
@@ -118,7 +122,8 @@ Notifications::~Notifications() {}
 
 void Notifications::reloadConfig() {
     auto &standardPath = StandardPath::global();
-    auto file = standardPath.open(StandardPath::Type::Config, "fcitx5/conf/notifications.conf", O_RDONLY);
+    auto file = standardPath.open(StandardPath::Type::Config,
+                                  "fcitx5/conf/notifications.conf", O_RDONLY);
     RawConfig config;
     readFromIni(config, file.fd());
 
@@ -138,7 +143,8 @@ void Notifications::save() {
     config_.hiddenNotifications.setValue(std::move(values_));
 
     auto &standardPath = StandardPath::global();
-    auto file = standardPath.openUserTemp(StandardPath::Type::Config, "fcitx5/conf/notifications.conf");
+    auto file = standardPath.openUserTemp(StandardPath::Type::Config,
+                                          "fcitx5/conf/notifications.conf");
     RawConfig config;
 
     config_.save(config);
@@ -149,8 +155,9 @@ void Notifications::closeNotification(uint64_t internalId) {
     auto item = find(internalId);
     if (item) {
         if (item->globalId_) {
-            auto message = bus_->createMethodCall(NOTIFICATIONS_SERVICE_NAME, NOTIFICATIONS_PATH,
-                                                  NOTIFICATIONS_INTERFACE_NAME, "CloseNotification");
+            auto message = bus_->createMethodCall(
+                NOTIFICATIONS_SERVICE_NAME, NOTIFICATIONS_PATH,
+                NOTIFICATIONS_INTERFACE_NAME, "CloseNotification");
             message << item->globalId_;
             message.send();
         }
@@ -161,13 +168,15 @@ void Notifications::closeNotification(uint64_t internalId) {
 #define TIMEOUT_REAL_TIME (100)
 #define TIMEOUT_ADD_TIME (TIMEOUT_REAL_TIME + 10)
 
-uint32_t Notifications::sendNotification(const std::string &appName, uint32_t replaceId, const std::string &appIcon,
-                                         const std::string &summary, const std::string &body,
-                                         const std::vector<std::string> &actions, int32_t timeout,
-                                         NotificationActionCallback actionCallback,
-                                         NotificationClosedCallback closedCallback) {
+uint32_t Notifications::sendNotification(
+    const std::string &appName, uint32_t replaceId, const std::string &appIcon,
+    const std::string &summary, const std::string &body,
+    const std::vector<std::string> &actions, int32_t timeout,
+    NotificationActionCallback actionCallback,
+    NotificationClosedCallback closedCallback) {
     auto message =
-        bus_->createMethodCall(NOTIFICATIONS_SERVICE_NAME, NOTIFICATIONS_PATH, NOTIFICATIONS_INTERFACE_NAME, "Notify");
+        bus_->createMethodCall(NOTIFICATIONS_SERVICE_NAME, NOTIFICATIONS_PATH,
+                               NOTIFICATIONS_INTERFACE_NAME, "Notify");
     auto *replaceItem = find(replaceId);
     if (!replaceItem) {
         replaceId = 0;
@@ -178,44 +187,51 @@ uint32_t Notifications::sendNotification(const std::string &appName, uint32_t re
 
     message << appName << replaceId << appIcon << summary << body;
     message << actions;
-    message << dbus::Container(dbus::Container::Type::Array, dbus::Signature("{sv}"));
+    message << dbus::Container(dbus::Container::Type::Array,
+                               dbus::Signature("{sv}"));
     message << dbus::ContainerEnd();
     message << timeout;
 
     internalId_++;
-    auto result = items_.emplace(std::piecewise_construct, std::forward_as_tuple(internalId_),
-                                 std::forward_as_tuple(internalId_, actionCallback, closedCallback));
+    auto result = items_.emplace(
+        std::piecewise_construct, std::forward_as_tuple(internalId_),
+        std::forward_as_tuple(internalId_, actionCallback, closedCallback));
     if (!result.second) {
         return 0;
     }
 
     int internalId = internalId_;
     auto &item = result.first->second;
-    item.slot_.reset(message.callAsync(TIMEOUT_REAL_TIME * 1000 / 2, [this, internalId](dbus::Message message) {
-        auto item = find(internalId);
-        if (item) {
-            if (!message.isError()) {
-                uint32_t globalId;
-                if (message >> globalId) {
-                    ;
+    item.slot_.reset(message.callAsync(
+        TIMEOUT_REAL_TIME * 1000 / 2,
+        [this, internalId](dbus::Message message) {
+            auto item = find(internalId);
+            if (item) {
+                if (!message.isError()) {
+                    uint32_t globalId;
+                    if (message >> globalId) {
+                        ;
+                    }
+                    if (item) {
+                        item->globalId_ = globalId;
+                        globalToInternalId_[globalId] = internalId;
+                    }
+                    item->slot_.reset();
+                    return true;
                 }
-                if (item) {
-                    item->globalId_ = globalId;
-                    globalToInternalId_[globalId] = internalId;
-                }
-                item->slot_.reset();
-                return true;
+                removeItem(*item);
             }
-            removeItem(*item);
-        }
-        return true;
-    }));
+            return true;
+        }));
 
     return internalId;
 }
 
-void Notifications::showTip(const std::string &tipId, const std::string &appName, const std::string &appIcon,
-                            const std::string &summary, const std::string &body, int32_t timeout) {
+void Notifications::showTip(const std::string &tipId,
+                            const std::string &appName,
+                            const std::string &appIcon,
+                            const std::string &summary, const std::string &body,
+                            int32_t timeout) {
     if (hiddenNotifications_.count(tipId)) {
         return;
     }
@@ -223,7 +239,8 @@ void Notifications::showTip(const std::string &tipId, const std::string &appName
     if (capabilities_ & NotificationsCapability::Actions) {
         actions.clear();
     }
-    lastTipId_ = sendNotification(appName, lastTipId_, appIcon, summary, body, actions, timeout,
+    lastTipId_ = sendNotification(appName, lastTipId_, appIcon, summary, body,
+                                  actions, timeout,
                                   [this, tipId](const std::string &action) {
                                       if (action == "dont-show") {
                                           hiddenNotifications_.insert(tipId);
@@ -233,7 +250,9 @@ void Notifications::showTip(const std::string &tipId, const std::string &appName
 }
 
 class NotificationsModuleFactory : public AddonFactory {
-    AddonInstance *create(AddonManager *manager) override { return new Notifications(manager->instance()); }
+    AddonInstance *create(AddonManager *manager) override {
+        return new Notifications(manager->instance());
+    }
 };
 }
 

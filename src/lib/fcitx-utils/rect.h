@@ -24,7 +24,8 @@
 namespace fcitx {
 class FCITXUTILS_EXPORT Rect {
 public:
-    Rect(int _x1 = 0, int _y1 = 0, int _x2 = 0, int _y2 = 0) : x1_(_x1), y1_(_y1), x2_(_x2), y2_(_y2) {}
+    Rect(int _x1 = 0, int _y1 = 0, int _x2 = 0, int _y2 = 0)
+        : x1_(_x1), y1_(_y1), x2_(_x2), y2_(_y2) {}
 
     Rect(const Rect &rect) = default;
 
@@ -66,10 +67,13 @@ public:
     inline int height() const noexcept { return y2_ - y1_ + 1; }
 
     inline bool operator==(const Rect &other) const {
-        return x1_ == other.x1_ && x2_ == other.x2_ && y1_ == other.y1_ && y2_ == other.y2_;
+        return x1_ == other.x1_ && x2_ == other.x2_ && y1_ == other.y1_ &&
+               y2_ == other.y2_;
     }
 
-    inline bool operator!=(const Rect &other) const { return !operator==(other); }
+    inline bool operator!=(const Rect &other) const {
+        return !operator==(other);
+    }
 
 private:
     int x1_, y1_, x2_, y2_;

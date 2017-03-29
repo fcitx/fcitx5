@@ -83,7 +83,8 @@ public:
         std::vector<std::shared_ptr<T>> results;
         for (uint32_t item : items) {
             auto iter = globals_.find(item);
-            results.push_back(std::static_pointer_cast<T>(std::get<std::shared_ptr<void>>(iter->second)));
+            results.push_back(std::static_pointer_cast<T>(
+                std::get<std::shared_ptr<void>>(iter->second)));
         }
 
         return results;
@@ -102,15 +103,18 @@ public:
     template <typename T>
     std::shared_ptr<T> getGlobal(uint32_t name) {
         auto iter = globals_.find(name);
-        if (iter != globals_.end() && std::get<std::string>(iter->second) == T::interface) {
-            return std::static_pointer_cast<T>(std::get<std::shared_ptr<void>>(iter->second));
+        if (iter != globals_.end() &&
+            std::get<std::string>(iter->second) == T::interface) {
+            return std::static_pointer_cast<T>(
+                std::get<std::shared_ptr<void>>(iter->second));
         }
         return {};
     }
 
     template <typename T>
     void requestGlobals() {
-        auto result = requestedGlobals_.emplace(std::make_pair(T::interface, std::make_unique<GlobalsFactory<T>>()));
+        auto result = requestedGlobals_.emplace(std::make_pair(
+            T::interface, std::make_unique<GlobalsFactory<T>>()));
         if (result.second) {
             auto iter = result.first;
             for (auto &p : globals_) {
@@ -127,17 +131,24 @@ public:
 private:
     void createGlobalHelper(
         GlobalsFactoryBase *factory,
-        std::pair<const uint32_t, std::tuple<std::string, uint32_t, std::shared_ptr<void>>> &globalsPair);
+        std::pair<const uint32_t,
+                  std::tuple<std::string, uint32_t, std::shared_ptr<void>>>
+            &globalsPair);
 
     void addOutput(wayland::WlOutput *output);
     void removeOutput(wayland::WlOutput *output);
 
-    fcitx::Signal<void(const std::string &, std::shared_ptr<void>)> globalCreatedSignal_;
-    fcitx::Signal<void(const std::string &, std::shared_ptr<void>)> globalRemovedSignal_;
-    std::unordered_map<std::string, std::unique_ptr<GlobalsFactoryBase>> requestedGlobals_;
+    fcitx::Signal<void(const std::string &, std::shared_ptr<void>)>
+        globalCreatedSignal_;
+    fcitx::Signal<void(const std::string &, std::shared_ptr<void>)>
+        globalRemovedSignal_;
+    std::unordered_map<std::string, std::unique_ptr<GlobalsFactoryBase>>
+        requestedGlobals_;
     std::unique_ptr<wl_display, decltype(&wl_display_disconnect)> display_;
     std::unique_ptr<WlRegistry> registry_;
-    std::unordered_map<uint32_t, std::tuple<std::string, uint32_t, std::shared_ptr<void>>> globals_;
+    std::unordered_map<uint32_t,
+                       std::tuple<std::string, uint32_t, std::shared_ptr<void>>>
+        globals_;
     std::list<fcitx::Connection> conns_;
     std::unordered_map<WlOutput *, OutputInfomation> outputInfo_;
 };

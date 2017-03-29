@@ -29,7 +29,8 @@ class MessagePrivate {
 public:
     MessagePrivate() : type_(MessageType::Invalid), msg_(nullptr) {}
     MessagePrivate(const MessagePrivate &other)
-        : type_(other.type_), msg_(sd_bus_message_ref(other.msg_)), lastError_(other.lastError_) {}
+        : type_(other.type_), msg_(sd_bus_message_ref(other.msg_)),
+          lastError_(other.lastError_) {}
 
     ~MessagePrivate() { sd_bus_message_unref(msg_); }
 

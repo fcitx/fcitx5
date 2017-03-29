@@ -33,7 +33,8 @@ int selfpipe[2];
 char *crashlog;
 
 static KeyboardEngineFactory keyboardFactory;
-StaticAddonRegistry staticAddon = {std::make_pair<std::string, AddonFactory *>("keyboard", &keyboardFactory)};
+StaticAddonRegistry staticAddon = {
+    std::make_pair<std::string, AddonFactory *>("keyboard", &keyboardFactory)};
 
 int main(int argc, char *argv[]) {
     if (pipe(selfpipe)) {
@@ -43,8 +44,10 @@ int main(int argc, char *argv[]) {
 
     SetMyExceptionHandler();
 
-    if (fcntl(selfpipe[0], F_SETFL, O_NONBLOCK) == -1 || fcntl(selfpipe[0], F_SETFD, FD_CLOEXEC) == -1 ||
-        fcntl(selfpipe[1], F_SETFL, O_NONBLOCK) == -1 || fcntl(selfpipe[1], F_SETFD, FD_CLOEXEC)) {
+    if (fcntl(selfpipe[0], F_SETFL, O_NONBLOCK) == -1 ||
+        fcntl(selfpipe[0], F_SETFD, FD_CLOEXEC) == -1 ||
+        fcntl(selfpipe[1], F_SETFL, O_NONBLOCK) == -1 ||
+        fcntl(selfpipe[1], F_SETFD, FD_CLOEXEC)) {
         fprintf(stderr, "fcntl failed.\n");
         exit(1);
     }

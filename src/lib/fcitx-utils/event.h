@@ -74,7 +74,8 @@ struct FCITXUTILS_EXPORT EventSourceTime : public EventSource {
     virtual clockid_t clock() const = 0;
 };
 
-typedef std::function<bool(EventSourceIO *, int fd, IOEventFlags flags)> IOCallback;
+typedef std::function<bool(EventSourceIO *, int fd, IOEventFlags flags)>
+    IOCallback;
 typedef std::function<bool(EventSourceTime *, uint64_t usec)> TimeCallback;
 typedef std::function<bool(EventSource *)> EventCallback;
 
@@ -92,7 +93,8 @@ public:
     void *nativeHandle();
 
     EventSourceIO *addIOEvent(int fd, IOEventFlags flags, IOCallback callback);
-    EventSourceTime *addTimeEvent(clockid_t clock, uint64_t usec, uint64_t accuracy, TimeCallback callback);
+    EventSourceTime *addTimeEvent(clockid_t clock, uint64_t usec,
+                                  uint64_t accuracy, TimeCallback callback);
     EventSource *addExitEvent(EventCallback callback);
     EventSource *addDeferEvent(EventCallback callback);
 

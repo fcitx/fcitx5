@@ -44,10 +44,13 @@ protected:
 template <typename T>
 class ListHandlerTableEntry : public HandlerTableEntry<T> {
     IntrusiveListNode node_;
-    friend struct IntrusiveListMemberNodeGetter<ListHandlerTableEntry<T>, &ListHandlerTableEntry<T>::node_>;
+    friend struct IntrusiveListMemberNodeGetter<
+        ListHandlerTableEntry<T>, &ListHandlerTableEntry<T>::node_>;
 
 public:
-    typedef struct IntrusiveListMemberNodeGetter<ListHandlerTableEntry, &ListHandlerTableEntry::node_> node_getter_type;
+    typedef struct IntrusiveListMemberNodeGetter<ListHandlerTableEntry,
+                                                 &ListHandlerTableEntry::node_>
+        node_getter_type;
     ListHandlerTableEntry(T handler) : HandlerTableEntry<T>(handler) {}
     virtual ~ListHandlerTableEntry() { node_.remove(); }
 };
@@ -63,10 +66,12 @@ private:
     table_type *table_;
     Key key_;
     IntrusiveListNode node_;
-    friend struct IntrusiveListMemberNodeGetter<MultiHandlerTableEntry, &MultiHandlerTableEntry::node_>;
+    friend struct IntrusiveListMemberNodeGetter<MultiHandlerTableEntry,
+                                                &MultiHandlerTableEntry::node_>;
 
 public:
-    typedef struct IntrusiveListMemberNodeGetter<MultiHandlerTableEntry, &MultiHandlerTableEntry::node_>
+    typedef struct IntrusiveListMemberNodeGetter<MultiHandlerTableEntry,
+                                                 &MultiHandlerTableEntry::node_>
         node_getter_type;
     MultiHandlerTableEntry(table_type *table, Key key, T handler)
         : HandlerTableEntry<T>(handler), table_(table), key_(key) {}
@@ -102,7 +107,8 @@ public:
         typedef value_type &reference;
         typedef value_type *pointer;
 
-        iterator(typename super::const_iterator iter, typename super::const_iterator end)
+        iterator(typename super::const_iterator iter,
+                 typename super::const_iterator end)
             : parentIter_(iter), endIter_(end) {
             while (parentIter_ != endIter_ && !*parentIter_) {
                 parentIter_++;
@@ -113,8 +119,12 @@ public:
 
         iterator &operator=(const iterator &other) = default;
 
-        bool operator==(const iterator &other) const noexcept { return parentIter_ == other.parentIter_; }
-        bool operator!=(const iterator &other) const noexcept { return !operator==(other); }
+        bool operator==(const iterator &other) const noexcept {
+            return parentIter_ == other.parentIter_;
+        }
+        bool operator!=(const iterator &other) const noexcept {
+            return !operator==(other);
+        }
 
         iterator &operator++() {
             do {

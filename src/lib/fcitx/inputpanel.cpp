@@ -31,7 +31,8 @@ public:
     InputContext *ic_;
 };
 
-InputPanel::InputPanel(InputContext *ic) : d_ptr(std::make_unique<InputPanelPrivate>()) {
+InputPanel::InputPanel(InputContext *ic)
+    : d_ptr(std::make_unique<InputPanelPrivate>()) {
     FCITX_D();
     d->ic_ = ic;
 }

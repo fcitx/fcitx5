@@ -8,7 +8,8 @@ namespace wayland {
 class WlDataOffer {
 public:
     static constexpr const char *interface = "wl_data_offer";
-    static constexpr const wl_interface *const wlInterface = &wl_data_offer_interface;
+    static constexpr const wl_interface *const wlInterface =
+        &wl_data_offer_interface;
     static constexpr const uint32_t version = 3;
     typedef wl_data_offer wlType;
     operator wl_data_offer *() { return data_.get(); }

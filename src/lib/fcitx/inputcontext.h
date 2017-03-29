@@ -114,7 +114,8 @@ public:
 
     void commitString(const std::string &text);
     void deleteSurroundingText(int offset, unsigned int size);
-    void forwardKey(const Key &rawKey, bool isRelease = false, int keyCode = 0, int time = 0);
+    void forwardKey(const Key &rawKey, bool isRelease = false, int keyCode = 0,
+                    int time = 0);
     void updatePreedit();
     void updateUserInterface(UserInterfaceComponent componet);
 
@@ -136,7 +137,8 @@ protected:
     virtual void forwardKeyImpl(const ForwardKeyEvent &key) = 0;
     virtual void updatePreeditImpl() = 0;
 
-    void registerProperty(const std::string &name, InputContextProperty *property);
+    void registerProperty(const std::string &name,
+                          InputContextProperty *property);
     void unregisterProperty(const std::string &name);
     void destroy();
     void created();

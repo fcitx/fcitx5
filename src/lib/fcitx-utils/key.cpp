@@ -33,12 +33,12 @@ Key::Key(const char *keyString) {
     const char *lastModifier = keyString;
     const char *found = nullptr;
 
-#define _CHECK_MODIFIER(NAME, VALUE)                                                                                   \
-    if ((found = strstr(p, NAME))) {                                                                                   \
-        states |= KeyState::VALUE;                                                                                     \
-        if (found + strlen(NAME) > lastModifier) {                                                                     \
-            lastModifier = found + strlen(NAME);                                                                       \
-        }                                                                                                              \
+#define _CHECK_MODIFIER(NAME, VALUE)                                           \
+    if ((found = strstr(p, NAME))) {                                           \
+        states |= KeyState::VALUE;                                             \
+        if (found + strlen(NAME) > lastModifier) {                             \
+            lastModifier = found + strlen(NAME);                               \
+        }                                                                      \
     }
 
     _CHECK_MODIFIER("CTRL_", Ctrl)
@@ -68,13 +68,18 @@ bool Key::check(const Key &key) const {
                (key.sym_ == keyAlt.sym_ && key.states_ == keyAlt.states_);
     }
 
-    auto states = states_ & KeyStates({KeyState::Ctrl_Alt_Shift, KeyState::Super});
+    auto states =
+        states_ & KeyStates({KeyState::Ctrl_Alt_Shift, KeyState::Super});
     return (key.sym_ == sym_ && key.states_ == states);
 }
 
-bool Key::isDigit() const { return !states_ && sym_ >= FcitxKey_0 && sym_ <= FcitxKey_9; }
+bool Key::isDigit() const {
+    return !states_ && sym_ >= FcitxKey_0 && sym_ <= FcitxKey_9;
+}
 
-bool Key::isUAZ() const { return !states_ && sym_ >= FcitxKey_A && sym_ <= FcitxKey_Z; }
+bool Key::isUAZ() const {
+    return !states_ && sym_ >= FcitxKey_A && sym_ <= FcitxKey_Z;
+}
 
 bool Key::isLAZ() const {
     return !states_ && sym_ >= FcitxKey_a && sym_ <= FcitxKey_z;
@@ -82,20 +87,25 @@ bool Key::isLAZ() const {
     return false;
 }
 
-bool Key::isSimple() const { return !states_ && sym_ >= FcitxKey_space && sym_ <= FcitxKey_asciitilde; }
+bool Key::isSimple() const {
+    return !states_ && sym_ >= FcitxKey_space && sym_ <= FcitxKey_asciitilde;
+}
 
 bool Key::isModifier() const {
-    return (sym_ == FcitxKey_Control_L || sym_ == FcitxKey_Control_R || sym_ == FcitxKey_Alt_L ||
-            sym_ == FcitxKey_Alt_R || sym_ == FcitxKey_Super_L || sym_ == FcitxKey_Super_R ||
-            sym_ == FcitxKey_Hyper_L || sym_ == FcitxKey_Hyper_R || sym_ == FcitxKey_Shift_L ||
-            sym_ == FcitxKey_Shift_R);
+    return (sym_ == FcitxKey_Control_L || sym_ == FcitxKey_Control_R ||
+            sym_ == FcitxKey_Alt_L || sym_ == FcitxKey_Alt_R ||
+            sym_ == FcitxKey_Super_L || sym_ == FcitxKey_Super_R ||
+            sym_ == FcitxKey_Hyper_L || sym_ == FcitxKey_Hyper_R ||
+            sym_ == FcitxKey_Shift_L || sym_ == FcitxKey_Shift_R);
 }
 
 bool Key::isCursorMove() const {
-    return ((sym_ == FcitxKey_Left || sym_ == FcitxKey_Right || sym_ == FcitxKey_Up || sym_ == FcitxKey_Down ||
-             sym_ == FcitxKey_Page_Up || sym_ == FcitxKey_Page_Down || sym_ == FcitxKey_Home || sym_ == FcitxKey_End) &&
-            (states_ == KeyState::Ctrl || states_ == KeyState::Ctrl_Shift || states_ == KeyState::Shift ||
-             states_ == KeyState::None));
+    return ((sym_ == FcitxKey_Left || sym_ == FcitxKey_Right ||
+             sym_ == FcitxKey_Up || sym_ == FcitxKey_Down ||
+             sym_ == FcitxKey_Page_Up || sym_ == FcitxKey_Page_Down ||
+             sym_ == FcitxKey_Home || sym_ == FcitxKey_End) &&
+            (states_ == KeyState::Ctrl || states_ == KeyState::Ctrl_Shift ||
+             states_ == KeyState::Shift || states_ == KeyState::None));
 }
 
 bool Key::hasModifier() const { return !!(states_ & KeyState::SimpleMask); }
@@ -117,9 +127,11 @@ Key Key::normalize() const {
                 key.states_ = 0;
             }
         } else {
-            if ((key.states_ & KeyState::Shift) && (((Key(key.sym_).isSimple() || keySymToUnicode(key.sym_) != 0) &&
-                                                     key.sym_ != FcitxKey_space && key.sym_ != FcitxKey_Return) ||
-                                                    (key.sym_ >= FcitxKey_KP_0 && key.sym_ <= FcitxKey_KP_9))) {
+            if ((key.states_ & KeyState::Shift) &&
+                (((Key(key.sym_).isSimple() ||
+                   keySymToUnicode(key.sym_) != 0) &&
+                  key.sym_ != FcitxKey_space && key.sym_ != FcitxKey_Return) ||
+                 (key.sym_ >= FcitxKey_KP_0 && key.sym_ <= FcitxKey_KP_9))) {
                 key.states_ ^= KeyState::Shift;
             }
         }
@@ -147,9 +159,9 @@ std::string Key::toString() const {
         return std::string();
 
     std::string str;
-#define _APPEND_MODIFIER_STRING(STR, VALUE)                                                                            \
-    if (states_ & KeyState::VALUE) {                                                                                   \
-        str += STR;                                                                                                    \
+#define _APPEND_MODIFIER_STRING(STR, VALUE)                                    \
+    if (states_ & KeyState::VALUE) {                                           \
+        str += STR;                                                            \
     }
     _APPEND_MODIFIER_STRING("Control+", Ctrl)
     _APPEND_MODIFIER_STRING("Alt+", Alt)
@@ -187,18 +199,26 @@ KeyStates Key::keySymToStates(KeySym sym) {
 
 KeySym Key::keySymFromString(const std::string &keyString) {
     auto value = std::lower_bound(
-        keyValueByNameOffset, keyValueByNameOffset + FCITX_ARRAY_SIZE(keyValueByNameOffset), keyString,
-        [](const uint32_t &idx, const std::string &str) { return keyNameList[&idx - keyValueByNameOffset] < str; });
+        keyValueByNameOffset,
+        keyValueByNameOffset + FCITX_ARRAY_SIZE(keyValueByNameOffset),
+        keyString, [](const uint32_t &idx, const std::string &str) {
+            return keyNameList[&idx - keyValueByNameOffset] < str;
+        });
 
-    if (value != keyValueByNameOffset + FCITX_ARRAY_SIZE(keyValueByNameOffset) &&
+    if (value !=
+            keyValueByNameOffset + FCITX_ARRAY_SIZE(keyValueByNameOffset) &&
         keyString == keyNameList[value - keyValueByNameOffset]) {
         return static_cast<KeySym>(*value);
     }
 
-    auto compat =
-        std::lower_bound(keyNameListCompat, keyNameListCompat + FCITX_ARRAY_SIZE(keyNameListCompat), keyString,
-                         [](const KeyNameListCompat &c, const std::string &str) { return c.name < str; });
-    if (compat != keyNameListCompat + FCITX_ARRAY_SIZE(keyNameListCompat) && compat->name == keyString) {
+    auto compat = std::lower_bound(
+        keyNameListCompat,
+        keyNameListCompat + FCITX_ARRAY_SIZE(keyNameListCompat), keyString,
+        [](const KeyNameListCompat &c, const std::string &str) {
+            return c.name < str;
+        });
+    if (compat != keyNameListCompat + FCITX_ARRAY_SIZE(keyNameListCompat) &&
+        compat->name == keyString) {
         return compat->sym;
     }
 
@@ -217,10 +237,15 @@ KeySym Key::keySymFromString(const std::string &keyString) {
 }
 
 std::string Key::keySymToString(KeySym sym) {
-    const KeyNameOffsetByValue *result =
-        std::lower_bound(keyNameOffsetByValue, keyNameOffsetByValue + FCITX_ARRAY_SIZE(keyNameOffsetByValue), sym,
-                         [](const KeyNameOffsetByValue &item, KeySym key) { return item.sym < key; });
-    if (result != keyNameOffsetByValue + FCITX_ARRAY_SIZE(keyNameOffsetByValue) && result->sym == sym) {
+    const KeyNameOffsetByValue *result = std::lower_bound(
+        keyNameOffsetByValue,
+        keyNameOffsetByValue + FCITX_ARRAY_SIZE(keyNameOffsetByValue), sym,
+        [](const KeyNameOffsetByValue &item, KeySym key) {
+            return item.sym < key;
+        });
+    if (result !=
+            keyNameOffsetByValue + FCITX_ARRAY_SIZE(keyNameOffsetByValue) &&
+        result->sym == sym) {
         return keyNameList[result->offset];
     }
     return std::string();
@@ -228,7 +253,9 @@ std::string Key::keySymToString(KeySym sym) {
 
 KeySym Key::keySymFromUnicode(uint32_t wc) {
     int min = 0;
-    int max = sizeof(gdk_unicode_to_keysym_tab) / sizeof(gdk_unicode_to_keysym_tab[0]) - 1;
+    int max = sizeof(gdk_unicode_to_keysym_tab) /
+                  sizeof(gdk_unicode_to_keysym_tab[0]) -
+              1;
     int mid;
 
     /* First check for Latin-1 characters (1:1 mapping) */
@@ -257,11 +284,14 @@ KeySym Key::keySymFromUnicode(uint32_t wc) {
 
 uint32_t Key::keySymToUnicode(KeySym keyval) {
     int min = 0;
-    int max = sizeof(gdk_keysym_to_unicode_tab) / sizeof(gdk_keysym_to_unicode_tab[0]) - 1;
+    int max = sizeof(gdk_keysym_to_unicode_tab) /
+                  sizeof(gdk_keysym_to_unicode_tab[0]) -
+              1;
     int mid;
 
     /* First check for Latin-1 characters (1:1 mapping) */
-    if ((keyval >= 0x0020 && keyval <= 0x007e) || (keyval >= 0x00a0 && keyval <= 0x00ff))
+    if ((keyval >= 0x0020 && keyval <= 0x007e) ||
+        (keyval >= 0x00a0 && keyval <= 0x00ff))
         return keyval;
 
     /* Also check for directly encoded 24-bit UCS characters:
