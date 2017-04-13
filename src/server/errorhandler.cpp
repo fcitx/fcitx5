@@ -40,6 +40,7 @@
 #endif
 
 #define MINIMAL_BUFFER_SIZE 256
+#define BACKTRACE_SIZE 32
 
 extern int selfpipe[2];
 extern char *crashlog;
@@ -67,6 +68,11 @@ void SetMyExceptionHandler(void) {
             signal(signo, OnException);
         }
     }
+
+#if defined(ENABLE_BACKTRACE)
+    void *array[BACKTRACE_SIZE] = { NULL, };
+    (void) backtrace(array, BACKTRACE_SIZE);
+#endif
 }
 
 static inline void BufferReset(MinimalBuffer *buffer) { buffer->offset = 0; }
@@ -146,7 +152,6 @@ void OnException(int signo) {
     _write_string(fd, "\n");
 
 #if defined(EXECINFO_FOUND)
-#define BACKTRACE_SIZE 32
     void *array[BACKTRACE_SIZE] = {
         NULL,
     };
