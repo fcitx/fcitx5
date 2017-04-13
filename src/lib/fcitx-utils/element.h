@@ -16,10 +16,10 @@
  * License along with this library; see the file COPYING. If not,
  * see <http://www.gnu.org/licenses/>.
  */
-#ifndef _FCITX_ELEMENT_H_
-#define _FCITX_ELEMENT_H_
+#ifndef _FCITX_UTILS_ELEMENT_H_
+#define _FCITX_UTILS_ELEMENT_H_
 
-#include "fcitxcore_export.h"
+#include "fcitxutils_export.h"
 #include <fcitx-utils/dynamictrackableobject.h>
 #include <unordered_set>
 
@@ -27,14 +27,14 @@ namespace fcitx {
 
 class ElementPrivate;
 
-class FCITXCORE_EXPORT Element : public DynamicTrackableObject {
+class FCITXUTILS_EXPORT Element : public DynamicTrackableObject {
 public:
     Element();
     ~Element();
 
 protected:
-    const std::list<Element *> &parents();
-    const std::list<Element *> &childs();
+    const std::list<Element *> &parents() const;
+    const std::list<Element *> &childs() const;
     // Sub class may use these functions carefully if they intends
     // to have single type of childs.
     void addChild(Element *child);
@@ -59,4 +59,4 @@ private:
 };
 }
 
-#endif // _FCITX_ELEMENT_H_
+#endif // _FCITX_UTILS_ELEMENT_H_

@@ -17,7 +17,7 @@
  * see <http://www.gnu.org/licenses/>.
  */
 
-#include "fcitx/element.h"
+#include "fcitx-utils/element.h"
 #include <cassert>
 
 namespace test {

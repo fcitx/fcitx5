@@ -21,7 +21,7 @@
 
 #include "fcitxcore_export.h"
 #include <fcitx/candidatelist.h>
-#include <fcitx/element.h>
+#include <fcitx-utils/element.h>
 #include <fcitx/text.h>
 
 namespace fcitx {

@@ -18,6 +18,7 @@ set(FCITX_UTILS_SOURCES
     utf8.cpp
     dynamictrackableobject.cpp
     connectableobject.cpp
+    element.cpp
     )
 
 set(FCITX_UTILS_HEADERS
@@ -47,6 +48,7 @@ set(FCITX_UTILS_HEADERS
     misc.h
     utf8.h
     cutf8.h
+    element.h
     ${CMAKE_CURRENT_BINARY_DIR}/fcitxutils_export.h
     )
 

@@ -71,7 +71,7 @@ Element::~Element() {
     removeAllChild();
 }
 
-const std::list<Element *> &Element::childs() {
+const std::list<Element *> &Element::childs() const {
     FCITX_D();
     return d->childs_.order();
 }
@@ -83,7 +83,7 @@ void Element::addParent(Element *parent) {
     addEdge(parent, this, nullptr, nullptr);
 }
 
-const std::list<Element *> &Element::parents() {
+const std::list<Element *> &Element::parents() const {
     FCITX_D();
     return d->parents_.order();
 }
