@@ -22,8 +22,6 @@
 #include <cstdint>
 #include <cstring>
 
-FCITX_C_DECL_BEGIN
-
 #define CONT(i) FCITX_ISUTF8_CB(in[i])
 #define VAL(i, s) ((in[i] & 0x3f) << s)
 
@@ -438,5 +436,3 @@ char *fcitx_utils_get_ascii_end(const char *string) {
     }
     return (char *)string;
 }
-
-FCITX_C_DECL_END

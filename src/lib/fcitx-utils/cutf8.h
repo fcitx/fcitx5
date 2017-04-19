@@ -36,8 +36,6 @@
 #include <cstdlib>
 #include <fcitx-utils/macros.h>
 
-FCITX_C_DECL_BEGIN
-
 /** max length of a utf8 character */
 #define FCITX_UTF8_MAX_LENGTH 6
 
@@ -233,7 +231,5 @@ char *fcitx_utils_get_ascii_endn(const char *string, size_t len);
  * @since 4.2.6
  **/
 char *fcitx_utils_get_ascii_end(const char *string);
-
-FCITX_C_DECL_END
 
 #endif
