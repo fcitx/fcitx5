@@ -47,14 +47,15 @@ static int compile_dict(int ifd, int ofd) {
     if (fstat(ifd, &istat_buf) == -1)
         return 1;
 
-    auto unmap = [&istat_buf] (void *p) {
+    auto unmap = [&istat_buf](void *p) {
         if (p && p != MAP_FAILED) {
             munmap(p, istat_buf.st_size + 1);
         }
     };
-    std::unique_ptr<void, std::function<void(void*)>> mmapped(nullptr, unmap);
+    std::unique_ptr<void, std::function<void(void *)>> mmapped(nullptr, unmap);
 
-    mmapped.reset(mmap(nullptr, istat_buf.st_size + 1, PROT_READ, MAP_PRIVATE, ifd, 0));
+    mmapped.reset(
+        mmap(nullptr, istat_buf.st_size + 1, PROT_READ, MAP_PRIVATE, ifd, 0));
     if (mmapped.get() == MAP_FAILED) {
         return 1;
     }

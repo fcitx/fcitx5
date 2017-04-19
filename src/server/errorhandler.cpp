@@ -70,8 +70,10 @@ void SetMyExceptionHandler(void) {
     }
 
 #if defined(ENABLE_BACKTRACE)
-    void *array[BACKTRACE_SIZE] = { NULL, };
-    (void) backtrace(array, BACKTRACE_SIZE);
+    void *array[BACKTRACE_SIZE] = {
+        NULL,
+    };
+    (void)backtrace(array, BACKTRACE_SIZE);
 #endif
 }
 

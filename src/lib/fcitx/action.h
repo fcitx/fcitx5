@@ -20,9 +20,9 @@
 #define _FCITX_ACTION_H_
 
 #include "fcitxcore_export.h"
+#include <fcitx-utils/element.h>
 #include <fcitx-utils/macros.h>
 #include <fcitx-utils/signals.h>
-#include <fcitx-utils/element.h>
 #include <memory>
 
 namespace fcitx {

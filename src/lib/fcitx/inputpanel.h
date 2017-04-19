@@ -20,8 +20,8 @@
 #define _FCITX_INPUTPANEL_H_
 
 #include "fcitxcore_export.h"
-#include <fcitx/candidatelist.h>
 #include <fcitx-utils/element.h>
+#include <fcitx/candidatelist.h>
 #include <fcitx/text.h>
 
 namespace fcitx {

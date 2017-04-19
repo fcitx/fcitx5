@@ -84,13 +84,15 @@ struct ReturnValueHelper<void> {
             this->setCurrentMessage(&msg);                                     \
             FCITX_STRING_TO_DBUS_TUPLE(SIGNATURE) args;                        \
             msg >> args;                                                       \
-            auto func = [this](auto &&... args) {                              \
-                return this->FUNCTION(std::forward<decltype(args)>(args)...);  \
+            auto func = [this](auto that, auto &&... args) {                   \
+                return that->FUNCTION(std::forward<decltype(args)>(args)...);  \
             };                                                                 \
-            typedef decltype(callWithTuple(func, args)) ReturnType;            \
+            auto argsWithThis =                                                \
+                std::tuple_cat(std::make_tuple(this), std::move(args));        \
+            typedef decltype(callWithTuple(func, argsWithThis)) ReturnType;    \
             ::fcitx::dbus::ReturnValueHelper<ReturnType> helper;               \
-            auto functor = [this, &args, func]() {                             \
-                return callWithTuple(func, args);                              \
+            auto functor = [&argsWithThis, func]() {                           \
+                return callWithTuple(func, argsWithThis);                      \
             };                                                                 \
             helper.call(functor);                                              \
             auto reply = msg.createReply();                                    \
