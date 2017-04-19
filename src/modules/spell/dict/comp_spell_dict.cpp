@@ -43,16 +43,22 @@ static int compile_dict(int ifd, int ofd) {
     struct stat istat_buf;
     uint32_t wcount = 0;
     char *p;
-    void *mmapped;
     char *ifend;
     if (fstat(ifd, &istat_buf) == -1)
         return 1;
-    mmapped =
-        mmap(nullptr, istat_buf.st_size + 1, PROT_READ, MAP_PRIVATE, ifd, 0);
-    if (mmapped == MAP_FAILED) {
+
+    auto unmap = [&istat_buf] (void *p) {
+        if (p && p != MAP_FAILED) {
+            munmap(p, istat_buf.st_size + 1);
+        }
+    };
+    std::unique_ptr<void, std::function<void(void*)>> mmapped(nullptr, unmap);
+
+    mmapped.reset(mmap(nullptr, istat_buf.st_size + 1, PROT_READ, MAP_PRIVATE, ifd, 0));
+    if (mmapped.get() == MAP_FAILED) {
         return 1;
     }
-    p = static_cast<char *>(mmapped);
+    p = static_cast<char *>(mmapped.get());
     ifend = istat_buf.st_size + p;
     fs::safeWrite(ofd, DICT_BIN_MAGIC, strlen(DICT_BIN_MAGIC));
     if (lseek(ofd, sizeof(uint32_t), SEEK_CUR) == static_cast<off_t>(-1)) {
@@ -80,7 +86,6 @@ static int compile_dict(int ifd, int ofd) {
     }
     wcount = htole32(wcount);
     fs::safeWrite(ofd, &wcount, sizeof(uint32_t));
-    munmap(mmapped, istat_buf.st_size + 1);
     return 0;
 }
 

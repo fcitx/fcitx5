@@ -38,7 +38,7 @@ public:
 
 private:
     std::unique_ptr<wl_egl_window, decltype(&wl_egl_window_destroy)> window_;
-    EGLSurface eglSurface_;
+    EGLSurface eglSurface_ = nullptr;
     std::unique_ptr<cairo_surface_t, decltype(&cairo_surface_destroy)>
         cairoSurface_;
 };

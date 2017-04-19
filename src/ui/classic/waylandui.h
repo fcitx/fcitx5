@@ -53,9 +53,9 @@ private:
 
     // EGL stuff
     bool hasEgl_;
-    EGLDisplay eglDisplay_;
-    EGLConfig argbConfig_;
-    EGLContext argbCtx_;
+    EGLDisplay eglDisplay_ = nullptr;
+    EGLConfig argbConfig_ = nullptr;
+    EGLContext argbCtx_ = nullptr;
     cairo_device_t *argbDevice_ = nullptr;
 };
 }
