@@ -13,7 +13,7 @@ include(GNUInstallDirs)
 include(ECMSetupVersion)
 include(GenerateExportHeader)
 include(WriteBasicConfigVersionFile)
-include(src/lib/fcitx/Fcitx5Macros.cmake)
+include(src/lib/fcitx-utils/Fcitx5Macros.cmake)
 
 #######################################################################
 # Options

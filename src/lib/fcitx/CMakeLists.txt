@@ -84,8 +84,5 @@ install(EXPORT Fcitx5CoreTargets DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/Fcitx
 
 install(FILES  "${CMAKE_CURRENT_BINARY_DIR}/Fcitx5CoreConfig.cmake"
                "${CMAKE_CURRENT_BINARY_DIR}/Fcitx5CoreConfigVersion.cmake"
-               Fcitx5Macros.cmake
-               Fcitx5Download.cmake.in
-               Fcitx5ModuleTemplate.cmake.in
         DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/Fcitx5Core
         COMPONENT Devel )
