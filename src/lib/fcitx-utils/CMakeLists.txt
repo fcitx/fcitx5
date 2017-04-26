@@ -49,6 +49,7 @@ set(FCITX_UTILS_HEADERS
     utf8.h
     cutf8.h
     element.h
+    rect.h
     ${CMAKE_CURRENT_BINARY_DIR}/fcitxutils_export.h
     )
 

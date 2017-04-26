@@ -29,6 +29,9 @@ set(FCITX_CORE_HEADERS
     addonfactory.h
     instance.h
     inputcontextmanager.h
+    inputcontext.h
+    inputpanel.h
+    candidatelist.h
     focusgroup.h
     surroundingtext.h
     addonloader.h
