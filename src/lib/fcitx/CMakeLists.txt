@@ -30,6 +30,7 @@ set(FCITX_CORE_HEADERS
     instance.h
     inputcontextmanager.h
     inputcontext.h
+    inputcontextproperty.h
     inputpanel.h
     candidatelist.h
     focusgroup.h

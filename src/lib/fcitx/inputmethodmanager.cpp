@@ -180,7 +180,7 @@ void InputMethodManager::buildDefaultGroup() {
     auto &group = result.first->second;
     // FIXME
     group.inputMethodList().emplace_back(
-        InputMethodGroupItem("fcitx-keyboard-us"));
+        InputMethodGroupItem("keyboard-us"));
     group.setDefaultInputMethod("");
     group.setDefaultLayout("us");
     setCurrentGroup(name);
