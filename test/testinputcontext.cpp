@@ -115,10 +115,11 @@ int main() {
         ic.emplace_back(new TestInputContext(manager, "Firefox"));
         ic.emplace_back(new TestInputContext(manager, "Chrome"));
 
-        assert(manager.registerProperty(
-            "shared", [](InputContext &) { return new TestSharedProperty; }));
-        assert(manager.registerProperty(
-            "property", [](InputContext &) { return new TestProperty; }));
+        SimpleInputContextPropertyFactory<TestSharedProperty> testsharedFactory;
+        FactoryFor<TestProperty> testFactory(
+            [](InputContext &) { return new TestProperty; });
+        assert(manager.registerProperty("shared", &testsharedFactory));
+        assert(manager.registerProperty("property", &testFactory));
 
         ic.emplace_back(new TestInputContext(manager, "Chrome"));
 

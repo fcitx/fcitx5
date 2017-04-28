@@ -29,6 +29,7 @@
 #include <fcitx-utils/rect.h>
 #include <fcitx-utils/trackableobject.h>
 #include <fcitx/event.h>
+#include <fcitx/inputcontextproperty.h>
 #include <fcitx/surroundingtext.h>
 #include <fcitx/text.h>
 #include <fcitx/userinterface.h>
@@ -120,6 +121,7 @@ public:
     void updateUserInterface(UserInterfaceComponent componet);
 
     InputContextProperty *property(const std::string &name);
+    InputContextProperty *property(InputContextPropertyFactory *factory);
 
     InputPanel &inputPanel();
     StatusArea &statusArea();
@@ -129,6 +131,11 @@ public:
         return static_cast<T *>(property(name));
     }
 
+    template <typename T>
+    typename T::PropertyType *propertyFor(T *factory) {
+        return static_cast<typename T::PropertyType *>(property(factory));
+    }
+
     void updateProperty(const std::string &name);
 
 protected:
@@ -136,10 +143,6 @@ protected:
     virtual void deleteSurroundingTextImpl(int offset, unsigned int size) = 0;
     virtual void forwardKeyImpl(const ForwardKeyEvent &key) = 0;
     virtual void updatePreeditImpl() = 0;
-
-    void registerProperty(const std::string &name,
-                          InputContextProperty *property);
-    void unregisterProperty(const std::string &name);
     void destroy();
     void created();
 

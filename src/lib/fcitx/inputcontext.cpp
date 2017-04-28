@@ -71,31 +71,30 @@ std::string InputContext::display() const {
 
 InputContextProperty *InputContext::property(const std::string &name) {
     FCITX_D();
-    auto iter = d->properties_.find(name);
-    if (iter == d->properties_.end()) {
+    auto factory = d->manager_.factoryForName(name);
+    if (!factory) {
         return nullptr;
     }
-    return iter->second.get();
+    return d->manager_.property(*this, factory);
+}
+
+InputContextProperty *
+InputContext::property(InputContextPropertyFactory *factory) {
+    FCITX_D();
+    return d->manager_.property(*this, factory);
 }
 
 void InputContext::updateProperty(const std::string &name) {
     FCITX_D();
-    auto iter = d->properties_.find(name);
-    if (iter == d->properties_.end() || !iter->second->needCopy()) {
+    auto factory = d->manager_.factoryForName(name);
+    if (!factory) {
         return;
     }
-    d->manager_.propagateProperty(*this, name);
-}
-
-void InputContext::registerProperty(const std::string &name,
-                                    InputContextProperty *property) {
-    FCITX_D();
-    d->properties_[name].reset(property);
-}
-
-void InputContext::unregisterProperty(const std::string &name) {
-    FCITX_D();
-    d->properties_.erase(name);
+    auto property = d->manager_.property(*this, factory);
+    if (!property->needCopy()) {
+        return;
+    }
+    d->manager_.propagateProperty(*this, factory);
 }
 
 void InputContext::setCapabilityFlags(CapabilityFlags flags) {

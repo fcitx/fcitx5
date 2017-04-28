@@ -24,9 +24,9 @@
 
 namespace fcitx {
 
-class ActionPrivate {
+class ActionPrivate : QPtrHolder<Action> {
 public:
-    ActionPrivate(Action *q) : ActionUpdateAdaptor(q) {}
+    ActionPrivate(Action *q) : QPtrHolder<Action>(q) {}
     std::string name_;
     bool checkable_ = false;
     bool separator_ = false;

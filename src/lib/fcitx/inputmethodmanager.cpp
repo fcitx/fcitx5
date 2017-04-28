@@ -179,8 +179,7 @@ void InputMethodManager::buildDefaultGroup() {
     auto result = d->groups_.emplace(name, InputMethodGroup(name));
     auto &group = result.first->second;
     // FIXME
-    group.inputMethodList().emplace_back(
-        InputMethodGroupItem("keyboard-us"));
+    group.inputMethodList().emplace_back(InputMethodGroupItem("keyboard-us"));
     group.setDefaultInputMethod("");
     group.setDefaultLayout("us");
     setCurrentGroup(name);

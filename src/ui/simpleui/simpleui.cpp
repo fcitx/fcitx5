@@ -55,7 +55,12 @@ void SimpleUI::printStatusArea(InputContext *inputContext) {
 
 void SimpleUI::printInputPanel(InputContext *inputContext) {
     auto &inputPanel = inputContext->inputPanel();
-    std::cerr << "Preedit: " << inputPanel.preedit().toString() << std::endl;
+    auto preedit = inputPanel.preedit().toString();
+    auto cursor = inputPanel.preedit().cursor();
+    if (cursor >= 0) {
+        preedit.insert(cursor, "|");
+    }
+    std::cerr << "Preedit: " << preedit << std::endl;
     std::cerr << "AuxUp: " << inputPanel.auxUp().toString() << std::endl;
     std::cerr << "AuxDown: " << inputPanel.auxDown().toString() << std::endl;
     std::cerr << "Candidates: " << std::endl;

@@ -23,9 +23,9 @@
 
 namespace fcitx {
 
-class MenuPrivate {
+class MenuPrivate : public QPtrHolder<Menu> {
 public:
-    MenuPrivate(Menu *menu) : MenuUpdateAdaptor(menu) {}
+    MenuPrivate(Menu *q) : QPtrHolder<Menu>(q) {}
     std::unordered_map<Action *, ScopedConnection> actions_;
     FCITX_DEFINE_SIGNAL_PRIVATE(Menu, Update);
 };

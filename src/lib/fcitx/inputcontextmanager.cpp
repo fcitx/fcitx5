@@ -22,6 +22,8 @@
 #include "focusgroup.h"
 #include "focusgroup_p.h"
 #include "inputcontext_p.h"
+#include "inputcontextproperty_p.h"
+#include <cassert>
 #include <unordered_map>
 
 namespace {
@@ -66,24 +68,46 @@ public:
         return group.d_func();
     }
 
+    InputContextManagerPrivate(InputContextManager *q) : q_ptr(q) {}
+
     inline bool registerProperty(const std::string &name,
-                                 InputContextPropertyFactory factory) {
-        auto result = propertyFactories_.emplace(name, std::move(factory));
+                                 InputContextPropertyFactoryPrivate *factory) {
+        auto result = propertyFactories_.emplace(name, factory);
         if (!result.second) {
             return false;
         }
+        factory->manager_ = q_ptr;
+        factory->slot_ = propertyFactoriesSlots_.size();
+        factory->name_ = name;
+
+        propertyFactoriesSlots_.push_back(factory);
         for (auto &inputContext : inputContexts_) {
-            inputContext.registerProperty(name,
-                                          result.first->second(inputContext));
+            inputContext.d_func()->registerProperty(
+                factory->slot_, factory->q_ptr->create(inputContext));
         }
         return true;
     }
 
     inline void unregisterProperty(const std::string &name) {
-        propertyFactories_.erase(name);
-        for (auto &inputContext : inputContexts_) {
-            inputContext.unregisterProperty(name);
+        auto iter = propertyFactories_.find(name);
+        if (iter == propertyFactories_.end()) {
+            return;
         }
+        auto factory = iter->second;
+        auto slot = factory->slot_;
+        // move slot, logic need to be same as inputContext
+        propertyFactoriesSlots_[slot] = propertyFactoriesSlots_.back();
+        propertyFactoriesSlots_[slot]->slot_ = slot;
+        propertyFactoriesSlots_.pop_back();
+
+        for (auto &inputContext : inputContexts_) {
+            inputContext.d_func()->unregisterProperty(slot);
+        }
+        propertyFactories_.erase(iter);
+
+        factory->manager_ = nullptr;
+        factory->name_ = std::string();
+        factory->slot_ = -1;
     }
 
     inline void registerInputContext(InputContext &inputContext) {
@@ -93,8 +117,8 @@ public:
             programMap_[inputContext.program()].insert(&inputContext);
         }
         for (auto &p : propertyFactories_) {
-            auto property = p.second(inputContext);
-            inputContext.registerProperty(p.first, property);
+            auto property = p.second->q_ptr->create(inputContext);
+            inputContext.d_func()->registerProperty(p.second->slot_, property);
             if (property->needCopy() &&
                 (propertyPropagatePolicy_ == PropertyPropagatePolicy::All ||
                  (!inputContext.program().empty() &&
@@ -124,6 +148,8 @@ public:
         }
     }
 
+    InputContextManager *q_ptr;
+
     std::unordered_map<std::array<uint8_t, sizeof(uuid_t)>, InputContext *,
                        container_hasher>
         uuidMap_;
@@ -131,8 +157,9 @@ public:
     IntrusiveList<FocusGroup, FocusGroupListHelper> groups_;
     // order matters, need to delete it before groups gone
     Instance *instance_ = nullptr;
-    std::unordered_map<std::string, InputContextPropertyFactory>
+    std::unordered_map<std::string, InputContextPropertyFactoryPrivate *>
         propertyFactories_;
+    std::vector<InputContextPropertyFactoryPrivate *> propertyFactoriesSlots_;
     std::unordered_map<std::string, std::unordered_set<InputContext *>>
         programMap_;
     PropertyPropagatePolicy propertyPropagatePolicy_ =
@@ -157,7 +184,7 @@ FocusGroup &FocusGroupListHelper::toValue(IntrusiveListNode &node) noexcept {
 }
 
 InputContextManager::InputContextManager()
-    : d_ptr(std::make_unique<InputContextManagerPrivate>()) {}
+    : d_ptr(std::make_unique<InputContextManagerPrivate>(this)) {}
 
 InputContextManager::~InputContextManager() {}
 
@@ -168,9 +195,9 @@ InputContext *InputContextManager::findByUUID(ICUUID uuid) {
 }
 
 bool InputContextManager::registerProperty(
-    const std::string &name, InputContextPropertyFactory factory) {
+    const std::string &name, InputContextPropertyFactory *factory) {
     FCITX_D();
-    return d->registerProperty(name, std::move(factory));
+    return d->registerProperty(name, factory->d_func());
 }
 
 void InputContextManager::unregisterProperty(const std::string &name) {
@@ -223,22 +250,43 @@ void InputContextManager::unregisterFocusGroup(FocusGroup &group) {
     FCITX_D();
     d->groups_.erase(d->groups_.iterator_to(group));
 }
-
-void InputContextManager::propagateProperty(InputContext &inputContext,
-                                            const std::string &name) {
+InputContextPropertyFactory *
+InputContextManager::factoryForName(const std::string &name) {
     FCITX_D();
+    auto iter = d->propertyFactories_.find(name);
+    if (iter == d->propertyFactories_.end()) {
+        return nullptr;
+    }
+    return iter->second->q_ptr;
+}
+InputContextProperty *
+InputContextManager::property(InputContext &inputContext,
+                              InputContextPropertyFactory *factory) {
+    assert(factory->d_func()->manager_ == this);
+    return InputContextManagerPrivate::toInputContextPrivate(inputContext)
+        ->property(factory->d_func()->slot_);
+}
+
+void InputContextManager::propagateProperty(
+    InputContext &inputContext, InputContextPropertyFactory *factory) {
+    FCITX_D();
+    assert(factory->d_func()->manager_ == this);
     if (d->propertyPropagatePolicy_ == PropertyPropagatePolicy::None ||
         (inputContext.program().empty() &&
          d->propertyPropagatePolicy_ == PropertyPropagatePolicy::Program)) {
         return;
     }
 
-    auto property = inputContext.property(name);
-    auto copyProperty = [&name, &inputContext, &property](auto &container) {
+    auto property = this->property(inputContext, factory);
+    auto factoryRef = factory->watch();
+    auto copyProperty = [this, &factoryRef, &inputContext,
+                         &property](auto &container) {
         for (auto &dstInputContext_ : container) {
-            auto dstInputContext = toInputContextPointer(dstInputContext_);
-            if (dstInputContext != &inputContext) {
-                property->copyTo(dstInputContext->property(name));
+            if (auto factory = factoryRef.get()) {
+                auto dstInputContext = toInputContextPointer(dstInputContext_);
+                if (dstInputContext != &inputContext) {
+                    property->copyTo(this->property(*dstInputContext, factory));
+                }
             }
         }
     };

@@ -125,10 +125,9 @@ struct InstanceArgument {
     std::vector<std::string> disableList;
 };
 
-class InstancePrivate {
+class InstancePrivate : public QPtrHolder<Instance> {
 public:
-    InstancePrivate(Instance *q)
-        : InstanceCommitFilterAdaptor(q), InstanceOutputFilterAdaptor(q) {}
+    InstancePrivate(Instance *q) : QPtrHolder<Instance>(q) {}
 
     HandlerTableEntry<EventHandler> *
     watchEvent(EventType type, EventWatcherPhase phase, EventHandler callback) {
@@ -158,6 +157,22 @@ public:
 
     FCITX_DEFINE_SIGNAL_PRIVATE(Instance, CommitFilter);
     FCITX_DEFINE_SIGNAL_PRIVATE(Instance, OutputFilter);
+
+    class InputStateFactory : public InputContextPropertyFactory {
+    public:
+        InputStateFactory(InstancePrivate *d) : d_ptr(d) {}
+
+        InputContextProperty *create(InputContext &) override {
+            auto property = new InputState;
+            property->active = d_ptr->globalConfig_.activeByDefault();
+            return property;
+        }
+
+    private:
+        InstancePrivate *d_ptr;
+    };
+
+    InputStateFactory inputStateFactory{this};
 };
 
 Instance::Instance(int argc, char **argv) {
@@ -183,11 +198,7 @@ Instance::Instance(int argc, char **argv) {
     d->icManager_.setInstance(this);
     d->imManager_.setInstance(this);
 
-    d->icManager_.registerProperty("inputState", [d](InputContext &) {
-        auto property = new InputState;
-        property->active = d->globalConfig_.activeByDefault();
-        return property;
-    });
+    d->icManager_.registerProperty("inputState", &d->inputStateFactory);
 
     d->eventWatchers_.emplace_back(watchEvent(
         EventType::InputContextKeyEvent, EventWatcherPhase::PreInputMethod,
@@ -247,6 +258,18 @@ Instance::Instance(int argc, char **argv) {
                        }
                        engine->keyEvent(*entry, keyEvent);
                    }));
+    d->eventWatchers_.emplace_back(
+        d->watchEvent(EventType::InputContextKeyEvent,
+                      EventWatcherPhase::ReservedLast, [this, d](Event &event) {
+                          auto &keyEvent = static_cast<KeyEvent &>(event);
+                          auto ic = keyEvent.inputContext();
+                          auto engine = inputMethodEngine(ic);
+                          auto entry = inputMethodEntry(ic);
+                          if (!engine || !entry) {
+                              return;
+                          }
+                          engine->filterKey(*entry, keyEvent);
+                      }));
     d->eventWatchers_.emplace_back(d->watchEvent(
         EventType::InputContextFocusIn, EventWatcherPhase::ReservedFirst,
         [this, d](Event &event) {

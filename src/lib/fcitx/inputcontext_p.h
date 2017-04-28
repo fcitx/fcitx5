@@ -62,6 +62,23 @@ public:
         return false;
     }
 
+    void registerProperty(int slot, InputContextProperty *property) {
+        if (slot < 0) {
+            return;
+        }
+        if (static_cast<size_t>(slot) >= properties_.size()) {
+            properties_.resize(slot + 1);
+        }
+        properties_[slot].reset(property);
+    }
+
+    void unregisterProperty(int slot) {
+        properties_[slot] = std::move(properties_.back());
+        properties_.pop_back();
+    }
+
+    InputContextProperty *property(int slot) { return properties_[slot].get(); }
+
     InputContext *q_ptr;
     InputContextManager &manager_;
     FocusGroup *group_;
@@ -75,8 +92,7 @@ public:
 
     IntrusiveListNode listNode_;
     ICUUID uuid_;
-    std::unordered_map<std::string, std::unique_ptr<InputContextProperty>>
-        properties_;
+    std::vector<std::unique_ptr<InputContextProperty>> properties_;
     bool destroyed_ = false;
 
     FCITX_DECLARE_PUBLIC(InputContext);

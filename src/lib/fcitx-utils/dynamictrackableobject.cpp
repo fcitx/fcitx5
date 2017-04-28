@@ -19,12 +19,13 @@
 #include "fcitx-utils/dynamictrackableobject.h"
 
 namespace fcitx {
-class DynamicTrackableObjectPrivate {
+class DynamicTrackableObjectPrivate
+    : public QPtrHolder<DynamicTrackableObject> {
 public:
-    FCITX_DEFINE_SIGNAL_PRIVATE(DynamicTrackableObject, Destroyed);
     DynamicTrackableObjectPrivate(DynamicTrackableObject *q)
-        : DynamicTrackableObjectDestroyedAdaptor(q) {}
+        : QPtrHolder<DynamicTrackableObject>(q) {}
     bool destroyed_ = false;
+    FCITX_DEFINE_SIGNAL_PRIVATE(DynamicTrackableObject, Destroyed);
 };
 
 DynamicTrackableObject::DynamicTrackableObject()

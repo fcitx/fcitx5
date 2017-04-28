@@ -23,6 +23,7 @@
 #include <fcitx-config/enum.h>
 #include <fcitx-utils/macros.h>
 #include <fcitx/inputcontext.h>
+#include <fcitx/inputcontextproperty.h>
 #include <memory>
 
 namespace fcitx {
@@ -31,8 +32,6 @@ class InputContextManagerPrivate;
 class FocusGroup;
 class Instance;
 class InputContextProperty;
-typedef std::function<InputContextProperty *(InputContext &)>
-    InputContextPropertyFactory;
 
 FCITX_CONFIG_ENUM(PropertyPropagatePolicy, All, Program, None);
 
@@ -40,6 +39,7 @@ class FCITXCORE_EXPORT InputContextManager {
     friend class InputContext;
     friend class FocusGroup;
     friend class Instance;
+    friend class InputContextPropertyFactory;
 
 public:
     InputContextManager();
@@ -47,13 +47,12 @@ public:
 
     InputContext *findByUUID(ICUUID uuid);
 
-    bool registerProperty(const std::string &name,
-                          InputContextPropertyFactory factory);
-    void unregisterProperty(const std::string &name);
-
     void setPropertyPropagatePolicy(PropertyPropagatePolicy policy);
 
     Instance *instance();
+
+    bool registerProperty(const std::string &name,
+                          InputContextPropertyFactory *factory);
 
 private:
     void setInstance(Instance *instance);
@@ -62,8 +61,13 @@ private:
 
     void registerFocusGroup(FocusGroup &group);
     void unregisterFocusGroup(FocusGroup &group);
+    void unregisterProperty(const std::string &name);
 
-    void propagateProperty(InputContext &inputContext, const std::string &name);
+    InputContextPropertyFactory *factoryForName(const std::string &name);
+    void propagateProperty(InputContext &inputContext,
+                           InputContextPropertyFactory *factory);
+    InputContextProperty *property(InputContext &inputContext,
+                                   InputContextPropertyFactory *factory);
 
     std::unique_ptr<InputContextManagerPrivate> d_ptr;
     FCITX_DECLARE_PRIVATE(InputContextManager);

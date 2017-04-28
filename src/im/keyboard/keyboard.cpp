@@ -116,28 +116,13 @@ std::pair<std::string, std::string> layoutFromName(const std::string &s) {
             s.substr(pos + 1)};
 }
 
-struct KeyboardEngineState : public InputContextProperty {
-    KeyboardEngineState(KeyboardEngine *engine)
-        : xkbComposeState_(nullptr, &xkb_compose_state_unref) {
-        if (engine->xkbComposeTable()) {
-            xkbComposeState_.reset(xkb_compose_state_new(
-                engine->xkbComposeTable(), XKB_COMPOSE_STATE_NO_FLAGS));
-        }
+KeyboardEngineState::KeyboardEngineState(KeyboardEngine *engine)
+    : xkbComposeState_(nullptr, &xkb_compose_state_unref) {
+    if (engine->xkbComposeTable()) {
+        xkbComposeState_.reset(xkb_compose_state_new(
+            engine->xkbComposeTable(), XKB_COMPOSE_STATE_NO_FLAGS));
     }
-
-    bool enableWordHint_ = false;
-    std::string buffer_;
-    int cursorPos_ = 0;
-    std::unique_ptr<struct xkb_compose_state,
-                    decltype(&xkb_compose_state_unref)>
-        xkbComposeState_;
-
-    void reset() {
-        buffer_.clear();
-        cursorPos_ = 0;
-        xkb_compose_state_reset(xkbComposeState_.get());
-    }
-};
+}
 
 KeyboardEngine::KeyboardEngine(Instance *instance)
     : instance_(instance), xkbContext_(nullptr, &xkb_context_unref),
@@ -181,15 +166,12 @@ KeyboardEngine::KeyboardEngine(Instance *instance)
             xkbContext_.get(), locale, XKB_COMPOSE_COMPILE_NO_FLAGS));
     }
 
-    instance_->inputContextManager().registerProperty(
-        "keyboardState",
-        [this](InputContext &) { return new KeyboardEngineState(this); });
+    instance_->inputContextManager().registerProperty("keyboardState",
+                                                      &factory_);
     reloadConfig();
 }
 
-KeyboardEngine::~KeyboardEngine() {
-    instance_->inputContextManager().unregisterProperty("keyboardState");
-}
+KeyboardEngine::~KeyboardEngine() {}
 
 std::vector<InputMethodEntry> KeyboardEngine::listInputMethods() {
     std::vector<InputMethodEntry> result;
@@ -328,7 +310,7 @@ void KeyboardEngine::keyEvent(const InputMethodEntry &entry, KeyEvent &event) {
         return;
     }
     auto inputContext = event.inputContext();
-    auto state = inputContext->propertyAs<KeyboardEngineState>("keyboardState");
+    auto state = inputContext->propertyFor(&factory_);
 
     // check compose first.
     auto compose = processCompose(state, event.key().sym());
@@ -438,7 +420,7 @@ void KeyboardEngine::keyEvent(const InputMethodEntry &entry, KeyEvent &event) {
 }
 
 void KeyboardEngine::commitBuffer(InputContext *inputContext) {
-    auto state = inputContext->propertyAs<KeyboardEngineState>("keyboardState");
+    auto state = inputContext->propertyFor(&factory_);
     auto &buffer = state->buffer_;
     if (!buffer.empty()) {
         inputContext->commitString(buffer);
@@ -451,27 +433,30 @@ void KeyboardEngine::commitBuffer(InputContext *inputContext) {
 
 class KeyboardCandidateWord : public CandidateWord {
 public:
-    KeyboardCandidateWord(Text text) : CandidateWord(text) {}
+    KeyboardCandidateWord(KeyboardEngine *engine, Text text)
+        : CandidateWord(text), engine_(engine) {}
 
     void select(InputContext *inputContext) const override {
-        auto state =
-            inputContext->propertyAs<KeyboardEngineState>("keyboardState");
+        auto state = inputContext->propertyFor(engine_->state());
         inputContext->commitString(text().toString());
         inputContext->inputPanel().reset();
         inputContext->updatePreedit();
         inputContext->updateUserInterface(UserInterfaceComponent::InputPanel);
         state->reset();
     }
+
+private:
+    KeyboardEngine *engine_;
 };
 
 void KeyboardEngine::updateCandidate(const InputMethodEntry &entry,
                                      InputContext *inputContext) {
-    auto state = inputContext->propertyAs<KeyboardEngineState>("keyboardState");
+    auto state = inputContext->propertyFor(&factory_);
     auto results = spell()->call<ISpell::hint>(
         entry.languageCode(), state->buffer_, config_.pageSize.value());
     auto candidateList = new CommonCandidateList;
     for (const auto &result : results) {
-        candidateList->append(new KeyboardCandidateWord(Text(result)));
+        candidateList->append(new KeyboardCandidateWord(this, Text(result)));
     }
     candidateList->setSelectionKey(selectionKeys_);
     Text preedit(state->buffer_);
@@ -486,7 +471,7 @@ void KeyboardEngine::updateCandidate(const InputMethodEntry &entry,
 }
 void KeyboardEngine::reset(const InputMethodEntry &, InputContextEvent &event) {
     auto inputContext = event.inputContext();
-    auto state = inputContext->propertyAs<KeyboardEngineState>("keyboardState");
+    auto state = inputContext->propertyFor(&factory_);
     state->reset();
     inputContext->inputPanel().reset();
     inputContext->updatePreedit();

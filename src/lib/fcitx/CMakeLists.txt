@@ -2,6 +2,7 @@ set(FCITX_CORE_SOURCES
     addoninfo.cpp
     instance.cpp
     inputcontextmanager.cpp
+    inputcontextproperty.cpp
     focusgroup.cpp
     inputcontext.cpp
     surroundingtext.cpp

@@ -19,14 +19,62 @@
 #ifndef _FCITX_INPUTCONTEXTPROPERTY_H_
 #define _FCITX_INPUTCONTEXTPROPERTY_H_
 
+#include "fcitxcore_export.h"
+#include <fcitx-utils/macros.h>
+#include <fcitx-utils/trackableobject.h>
+#include <memory>
+
 namespace fcitx {
 
-class InputContextProperty {
+class FCITXCORE_EXPORT InputContextProperty {
 public:
     virtual ~InputContextProperty() {}
     virtual void copyTo(InputContextProperty *){};
     virtual bool needCopy() const { return false; }
 };
+
+class InputContext;
+class InputContextManager;
+class InputContextPropertyFactoryPrivate;
+
+class FCITXCORE_EXPORT InputContextPropertyFactory
+    : public fcitx::TrackableObject<InputContextPropertyFactory> {
+    friend class InputContextManager;
+
+public:
+    InputContextPropertyFactory();
+    virtual ~InputContextPropertyFactory();
+    virtual InputContextProperty *create(InputContext &) = 0;
+
+private:
+    std::unique_ptr<InputContextPropertyFactoryPrivate> d_ptr;
+    FCITX_DECLARE_PRIVATE(InputContextPropertyFactory);
+};
+
+template <typename T>
+class SimpleInputContextPropertyFactory : public InputContextPropertyFactory {
+public:
+    typedef T PropertyType;
+    InputContextProperty *create(InputContext &) override { return new T; }
+};
+
+template <typename Ret>
+class LambdaInputContextPropertyFactory : public InputContextPropertyFactory {
+public:
+    typedef Ret PropertyType;
+    LambdaInputContextPropertyFactory(std::function<Ret *(InputContext &)> f)
+        : func_(f) {}
+
+    InputContextProperty *create(InputContext &ic) override {
+        return func_(ic);
+    }
+
+private:
+    std::function<Ret *(InputContext &)> func_;
+};
+
+template <typename T>
+using FactoryFor = LambdaInputContextPropertyFactory<T>;
 }
 
 #endif // _FCITX_INPUTCONTEXTPROPERTY_H_

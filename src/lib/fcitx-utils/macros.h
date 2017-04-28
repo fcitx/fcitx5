@@ -164,4 +164,14 @@
         return (VALUE);                                                        \
     }
 
+namespace fcitx {
+template <typename T>
+class QPtrHolder {
+public:
+    explicit QPtrHolder(T *q) : q_ptr(q) {}
+
+protected:
+    T *q_ptr;
+};
+}
 #endif // _FCITX_UTILS_MACROS_H_

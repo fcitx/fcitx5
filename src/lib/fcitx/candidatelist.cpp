@@ -21,9 +21,9 @@
 
 namespace fcitx {
 
-class CandidateListPrivate {
+class CandidateListPrivate : QPtrHolder<CandidateList> {
 public:
-    CandidateListPrivate(CandidateList *q) : CandidateListUpdateAdaptor(q) {}
+    CandidateListPrivate(CandidateList *q) : QPtrHolder<CandidateList>(q) {}
 
     BulkCandidateList *bulk = nullptr;
     ModifiableCandidateList *modifiable = nullptr;

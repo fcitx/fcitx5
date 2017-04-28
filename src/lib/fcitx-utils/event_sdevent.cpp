@@ -19,6 +19,7 @@
 
 #include <exception>
 #include <functional>
+#include <iostream>
 
 #if defined(__COVERITY__) && !defined(__INCLUDE_LEVEL__)
 #define __INCLUDE_LEVEL__ 2
@@ -241,7 +242,8 @@ int IOEventCallback(sd_event_source *, int fd, uint32_t revents,
         auto result =
             source->callback_(source, fd, EpollFlagsToIOEventFlags(revents));
         return result ? 0 : -1;
-    } catch (...) {
+    } catch (const std::exception &e) {
+        std::cout << e.what() << std::endl;
         // some abnormal things threw
         abort();
     }
@@ -269,7 +271,8 @@ int TimeEventCallback(sd_event_source *, uint64_t usec, void *userdata) {
     try {
         auto result = source->callback_(source, usec);
         return result ? 0 : -1;
-    } catch (...) {
+    } catch (const std::exception &e) {
+        std::cout << e.what() << std::endl;
         // some abnormal things threw
         abort();
     }
@@ -298,7 +301,8 @@ int StaticEventCallback(sd_event_source *, void *userdata) {
     try {
         auto result = source->callback_(source);
         return result ? 0 : -1;
-    } catch (...) {
+    } catch (const std::exception &e) {
+        std::cout << e.what() << std::endl;
         // some abnormal things threw
         abort();
     }

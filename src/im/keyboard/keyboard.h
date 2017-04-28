@@ -22,6 +22,7 @@
 #include "fcitx-config/configuration.h"
 #include "fcitx/addonfactory.h"
 #include "fcitx/addonmanager.h"
+#include "fcitx/inputcontextproperty.h"
 #include "fcitx/inputmethodengine.h"
 #include "fcitx/instance.h"
 #include "isocodes.h"
@@ -44,7 +45,26 @@ FCITX_CONFIGURATION(
     fcitx::Option<KeyList> hintTrigger{
         this, "Hint Trigger", "Trigger hint mode", {Key("Control+Alt+H")}};);
 
-struct KeyboardEngineState;
+class KeyboardEngine;
+
+struct KeyboardEngineState : public InputContextProperty {
+    KeyboardEngineState(KeyboardEngine *engine);
+
+    bool enableWordHint_ = false;
+    std::string buffer_;
+    int cursorPos_ = 0;
+    std::unique_ptr<struct xkb_compose_state,
+                    decltype(&xkb_compose_state_unref)>
+        xkbComposeState_;
+
+    void reset() {
+        buffer_.clear();
+        cursorPos_ = 0;
+        xkb_compose_state_reset(xkbComposeState_.get());
+    }
+};
+
+class KeyboardEnginePrivate;
 
 class KeyboardEngine : public InputMethodEngine {
 public:
@@ -81,6 +101,8 @@ public:
         return xkbComposeTable_.get();
     }
 
+    auto state() { return &factory_; }
+
 private:
     void commitBuffer(InputContext *inputContext);
 
@@ -97,6 +119,9 @@ private:
                     decltype(&xkb_compose_table_unref)>
         xkbComposeTable_;
     KeyList selectionKeys_;
+
+    FactoryFor<KeyboardEngineState> factory_{
+        [this](InputContext &) { return new KeyboardEngineState(this); }};
 };
 
 class KeyboardEngineFactory : public AddonFactory {
