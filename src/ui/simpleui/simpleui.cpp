@@ -55,19 +55,24 @@ void SimpleUI::printStatusArea(InputContext *inputContext) {
 
 void SimpleUI::printInputPanel(InputContext *inputContext) {
     auto &inputPanel = inputContext->inputPanel();
-    auto preedit = inputPanel.preedit().toString();
-    auto cursor = inputPanel.preedit().cursor();
+    auto preedit = instance_->outputFilter(inputContext, inputPanel.preedit());
+    auto preeditString = preedit.toString();
+    auto auxUp = instance_->outputFilter(inputContext, inputPanel.auxUp());
+    auto auxDown = instance_->outputFilter(inputContext, inputPanel.auxDown());
+    auto cursor = preedit.cursor();
     if (cursor >= 0) {
-        preedit.insert(cursor, "|");
+        preeditString.insert(cursor, "|");
     }
-    std::cerr << "Preedit: " << preedit << std::endl;
-    std::cerr << "AuxUp: " << inputPanel.auxUp().toString() << std::endl;
-    std::cerr << "AuxDown: " << inputPanel.auxDown().toString() << std::endl;
+    std::cerr << "Preedit: " << preeditString << std::endl;
+    std::cerr << "AuxUp: " << auxUp.toString() << std::endl;
+    std::cerr << "AuxDown: " << auxDown.toString() << std::endl;
     std::cerr << "Candidates: " << std::endl;
     if (auto candidateList = inputPanel.candidateList()) {
         for (int i = 0; i < candidateList->size(); i++) {
-            std::cerr << candidateList->label(i).toString() << " "
-                      << candidateList->candidate(i).text().toString()
+            auto label = instance_->outputFilter(inputContext, candidateList->label(i));
+            auto candidate = instance_->outputFilter(inputContext, candidateList->candidate(i).text());
+            std::cerr << label.toString() << " "
+                      << candidate.toString()
                       << std::endl;
         }
     }
