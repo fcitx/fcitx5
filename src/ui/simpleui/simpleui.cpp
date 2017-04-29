@@ -69,10 +69,11 @@ void SimpleUI::printInputPanel(InputContext *inputContext) {
     std::cerr << "Candidates: " << std::endl;
     if (auto candidateList = inputPanel.candidateList()) {
         for (int i = 0; i < candidateList->size(); i++) {
-            auto label = instance_->outputFilter(inputContext, candidateList->label(i));
-            auto candidate = instance_->outputFilter(inputContext, candidateList->candidate(i).text());
-            std::cerr << label.toString() << " "
-                      << candidate.toString()
+            auto label =
+                instance_->outputFilter(inputContext, candidateList->label(i));
+            auto candidate = instance_->outputFilter(
+                inputContext, candidateList->candidate(i).text());
+            std::cerr << label.toString() << " " << candidate.toString()
                       << std::endl;
         }
     }
