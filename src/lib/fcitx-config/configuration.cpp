@@ -24,6 +24,7 @@
 #include <unordered_map>
 
 #include "configuration.h"
+#include "fcitx-utils/standardpath.h"
 
 namespace fcitx {
 class ConfigurationPrivate {

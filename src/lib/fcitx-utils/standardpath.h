@@ -124,6 +124,7 @@ public:
 
     int release();
     void close();
+    void removeTemp();
 
 private:
     UnixFD fd_;
@@ -189,6 +190,8 @@ public:
                               int flags) const;
     StandardPathTempFile openUserTemp(Type type,
                                       const std::string &pathOrig) const;
+    bool safeSave(Type type, const std::string &pathOrig,
+                  std::function<bool(int)> callback) const;
     std::vector<StandardPathFile> openAll(Type type, const std::string &path,
                                           int flags) const;
     // Open first match for

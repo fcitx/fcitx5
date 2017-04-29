@@ -42,6 +42,14 @@ StandardPathTempFile::~StandardPathTempFile() { close(); }
 
 int StandardPathTempFile::release() { return fd_.release(); }
 
+void StandardPathTempFile::removeTemp() {
+    if (fd_.fd() >= 0) {
+        // close it
+        fd_.reset();
+        unlink(tempPath_.c_str());
+    }
+}
+
 void StandardPathTempFile::close() {
     if (fd_.fd() >= 0) {
         // close it
@@ -390,6 +398,21 @@ StandardPath::openUserTemp(Type type, const std::string &pathOrig) const {
         }
     }
     return {};
+}
+
+bool StandardPath::safeSave(Type type, const std::string &pathOrig,
+                            std::function<bool(int)> callback) const {
+    auto &standardPath = StandardPath::global();
+    auto file = standardPath.openUserTemp(type, pathOrig);
+    if (file.fd() < 0) {
+        return false;
+    }
+    try {
+        return callback(file.fd());
+    } catch (const std::exception &) {
+        file.removeTemp();
+        return false;
+    }
 }
 
 std::unordered_map<std::string, StandardPathFile> StandardPath::multiOpenFilter(

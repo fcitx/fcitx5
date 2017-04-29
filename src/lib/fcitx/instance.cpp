@@ -572,6 +572,7 @@ InputMethodEngine *Instance::inputMethodEngine(InputContext *ic) {
 void Instance::save() {
     FCITX_D();
     d->imManager_.save();
+    d->addonManager_.saveAll();
 }
 
 void Instance::activate() {}

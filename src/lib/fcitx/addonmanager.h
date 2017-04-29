@@ -43,6 +43,7 @@ public:
     void load(const std::unordered_set<std::string> &enabled = {},
               const std::unordered_set<std::string> &disabled = {});
     void unload();
+    void saveAll();
 
     AddonInstance *addon(const std::string &name, bool load = false);
     const AddonInfo *addonInfo(const std::string &name) const;

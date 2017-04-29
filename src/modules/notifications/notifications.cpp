@@ -142,13 +142,7 @@ void Notifications::save() {
     }
     config_.hiddenNotifications.setValue(std::move(values_));
 
-    auto &standardPath = StandardPath::global();
-    auto file = standardPath.openUserTemp(StandardPath::Type::Config,
-                                          "fcitx5/conf/notifications.conf");
-    RawConfig config;
-
-    config_.save(config);
-    writeAsIni(config, file.fd());
+    safeSaveAsIni(config_, "fcitx5/conf/notifications.conf");
 }
 
 void Notifications::closeNotification(uint64_t internalId) {

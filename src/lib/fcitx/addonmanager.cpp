@@ -240,6 +240,20 @@ void AddonManager::unload() {
     d->unloading_ = false;
 }
 
+void AddonManager::saveAll() {
+    FCITX_D();
+    if (d->unloading_) {
+        return;
+    }
+    // reverse the unload order
+    for (auto iter = d->loadOrder_.rbegin(), end = d->loadOrder_.rend();
+         iter != end; iter++) {
+        if (auto addonInst = addon(*iter)) {
+            addonInst->save();
+        }
+    }
+}
+
 AddonInstance *AddonManager::addon(const std::string &name, bool load) {
     FCITX_D();
     auto addon = d->addon(name);

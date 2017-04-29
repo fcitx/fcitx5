@@ -23,10 +23,13 @@
 #include <fcitx-config/rawconfig.h>
 
 namespace fcitx {
+class Configuration;
 FCITXCONFIG_EXPORT void readFromIni(RawConfig &config, int fd);
 FCITXCONFIG_EXPORT bool writeAsIni(const RawConfig &config, int fd);
 FCITXCONFIG_EXPORT void readFromIni(RawConfig &config, FILE *fin);
 FCITXCONFIG_EXPORT bool writeAsIni(const RawConfig &config, FILE *fout);
+FCITXCONFIG_EXPORT bool safeSaveAsIni(const Configuration &,
+                                      const std::string &name);
 }
 
 #endif // _FCITX_CONFIG_INIPARSER_H_

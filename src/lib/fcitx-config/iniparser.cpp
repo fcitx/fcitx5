@@ -20,6 +20,8 @@
 #include <sstream>
 #include <stdio.h>
 
+#include "configuration.h"
+#include "fcitx-utils/standardpath.h"
 #include "fcitx-utils/stringutils.h"
 #include "fcitx-utils/unixfd.h"
 #include "iniparser.h"
@@ -214,5 +216,18 @@ bool writeAsIni(const RawConfig &root, FILE *fout) {
     };
 
     return callback(root, "");
+}
+
+bool safeSaveAsIni(const Configuration &configuration,
+                   const std::string &path) {
+    auto &standardPath = StandardPath::global();
+    return standardPath.safeSave(StandardPath::Type::Config, path,
+                                 [&configuration](int fd) {
+                                     RawConfig config;
+
+                                     configuration.save(config);
+                                     return writeAsIni(config, fd);
+                                     ;
+                                 });
 }
 }
