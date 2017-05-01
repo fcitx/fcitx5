@@ -157,6 +157,7 @@ public:
 
     FCITX_DEFINE_SIGNAL_PRIVATE(Instance, CommitFilter);
     FCITX_DEFINE_SIGNAL_PRIVATE(Instance, OutputFilter);
+    FCITX_DEFINE_SIGNAL_PRIVATE(Instance, KeyEventResult);
 
     class InputStateFactory : public InputContextPropertyFactory {
     public:
@@ -269,6 +270,7 @@ Instance::Instance(int argc, char **argv) {
                               return;
                           }
                           engine->filterKey(*entry, keyEvent);
+                          emit<Instance::KeyEventResult>(keyEvent);
                       }));
     d->eventWatchers_.emplace_back(d->watchEvent(
         EventType::InputContextFocusIn, EventWatcherPhase::ReservedFirst,

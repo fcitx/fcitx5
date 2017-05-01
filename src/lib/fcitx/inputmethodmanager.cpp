@@ -267,23 +267,6 @@ void InputMethodManager::save() {
 void InputMethodManager::setInstance(Instance *instance) {
     FCITX_D();
     d->instance_ = instance;
-    d->eventWatcher_.reset(d->instance_->watchEvent(
-        EventType::InputContextKeyEvent, EventWatcherPhase::InputMethod,
-        [this](Event &event) {
-            FCITX_D();
-            auto &keyEvent = static_cast<KeyEvent &>(event);
-            auto entry =
-                d->instance_->inputMethodEntry(keyEvent.inputContext());
-            if (!entry) {
-                return;
-            }
-            auto engine = static_cast<InputMethodEngine *>(
-                d->instance_->addonManager().addon(entry->addon()));
-            if (!engine) {
-                return;
-            }
-            engine->keyEvent(*entry, keyEvent);
-        }));
 }
 
 const InputMethodEntry *

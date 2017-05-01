@@ -110,6 +110,9 @@ public:
 
     auto root() { return root_; }
     auto focusGroup() { return group_; }
+    auto xkbState() {
+        return parent_->xcb()->call<IXCBModule::xkbState>(name_);
+    }
 
 private:
     FocusGroup *group_;
@@ -152,7 +155,23 @@ protected:
         xcbEvent.response_type =
             key.isRelease() ? XCB_KEY_RELEASE : XCB_KEY_PRESS;
         xcbEvent.state = key.rawKey().states();
-        xcbEvent.detail = key.keyCode();
+        if (key.keyCode()) {
+            xcbEvent.detail = key.keyCode();
+        } else {
+            xkb_state *xkbState = server_->xkbState();
+            if (xkbState) {
+                auto map = xkb_state_get_keymap(xkbState);
+                auto min = xkb_keymap_min_keycode(map),
+                     max = xkb_keymap_max_keycode(map);
+                for (auto keyCode = min; keyCode < max; keyCode++) {
+                    if (xkb_state_key_get_one_sym(xkbState, keyCode) ==
+                        static_cast<uint32_t>(key.rawKey().sym())) {
+                        xcbEvent.detail = keyCode;
+                        break;
+                    }
+                }
+            }
+        }
         xcbEvent.root = server_->root();
         xcbEvent.event = xcb_im_input_context_get_focus_window(xic_);
         if ((xcbEvent.event = xcb_im_input_context_get_focus_window(xic_)) ==
@@ -274,14 +293,14 @@ void XIMServer::callback(xcb_im_client_t *client, xcb_im_input_context_t *xic,
         // kinds of like notification for position moving
         break;
     case XCB_XIM_FORWARD_EVENT: {
-        xkb_state *xkbState = parent_->xcb()->call<IXCBModule::xkbState>(name_);
-        if (!xkbState) {
+        xkb_state *state = xkbState();
+        if (!state) {
             break;
         }
         xcb_key_press_event_t *xevent =
             static_cast<xcb_key_press_event_t *>(arg);
         KeyEvent event(ic, Key(static_cast<KeySym>(xkb_state_key_get_one_sym(
-                                   xkbState, xevent->detail)),
+                                   state, xevent->detail)),
                                KeyStates(xevent->state)),
                        (xevent->response_type & ~0x80) == XCB_KEY_RELEASE,
                        xevent->detail, xevent->time);

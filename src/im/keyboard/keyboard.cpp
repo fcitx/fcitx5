@@ -460,10 +460,12 @@ void KeyboardEngine::updateCandidate(const InputMethodEntry &entry,
     }
     candidateList->setSelectionKey(selectionKeys_);
     Text preedit(state->buffer_);
-    preedit.setCursor(state->cursorPos_);
-    inputContext->inputPanel().setClientPreedit(std::move(preedit));
+    if (state->buffer_.size()) {
+        preedit.setCursor(state->cursorPos_);
+    }
+    inputContext->inputPanel().setClientPreedit(preedit);
     if (!inputContext->capabilityFlags().test(CapabilityFlag::Preedit)) {
-        inputContext->inputPanel().setPreedit(std::move(preedit));
+        inputContext->inputPanel().setPreedit(preedit);
     }
     inputContext->inputPanel().setCandidateList(candidateList);
     inputContext->updatePreedit();
