@@ -17,6 +17,7 @@
  * see <http://www.gnu.org/licenses/>.
  */
 
+#include "fcitx-utils/charutils.h"
 #include "fcitx-utils/stringutils.h"
 #include <cassert>
 #include <tuple>
@@ -83,6 +84,13 @@ int main() {
     assert(stringutils::backwardSearch("abcabc", "bc", 6) == 4);
     assert(stringutils::backwardSearch("abcabc", "bc", 7) == std::string::npos);
     assert(stringutils::backwardSearch("abcabc", "bc", 8) == std::string::npos);
+
+    assert((stringutils::split("a  b c", FCITX_WHITESPACE) ==
+            std::vector<std::string>{"a", "b", "c"}));
+    assert((stringutils::split("a  b ", FCITX_WHITESPACE) ==
+            std::vector<std::string>{"a", "b"}));
+    assert((stringutils::split(" ", FCITX_WHITESPACE) ==
+            std::vector<std::string>{}));
 
     return 0;
 }

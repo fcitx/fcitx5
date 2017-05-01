@@ -36,6 +36,7 @@ class FCITXCORE_EXPORT AddonManager {
 
 public:
     AddonManager();
+    AddonManager(const std::string &addonConfigDir);
     virtual ~AddonManager();
 
     void registerDefaultLoader(StaticAddonRegistry *registry);

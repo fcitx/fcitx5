@@ -158,7 +158,7 @@ typedef std::unordered_map<std::string, std::vector<StandardPathFile>>
 
 class FCITXUTILS_EXPORT StandardPath {
 public:
-    enum class Type { Config, Data, Cache, Runtime, Addon };
+    enum class Type { Config, Data, Cache, Runtime, Addon, PkgData };
 
     StandardPath(bool skipFcitxPath = false);
     virtual ~StandardPath();

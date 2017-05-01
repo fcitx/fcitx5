@@ -43,7 +43,7 @@ int main(int argc, char *argv[]) {
 
     {
         auto result = standardPath.multiOpen(
-            StandardPath::Type::Data, "fcitx5/addon", O_RDONLY,
+            StandardPath::Type::PkgData, "addon", O_RDONLY,
             filter::Not(filter::User()), filter::Suffix(".conf"));
         std::set<std::string> names,
             expect_names = {"testim.conf", "testfrontend.conf"};

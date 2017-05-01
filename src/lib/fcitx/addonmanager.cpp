@@ -144,6 +144,8 @@ public:
     AddonManager *q_ptr;
     FCITX_DECLARE_PUBLIC(AddonManager);
 
+    std::string addonConfigDir_ = "addon";
+
     bool unloading_ = false;
 
     std::unordered_map<std::string, std::unique_ptr<Addon>> addons_;
@@ -171,6 +173,11 @@ void Addon::load(AddonManagerPrivate *managerP) {
 AddonManager::AddonManager()
     : d_ptr(std::make_unique<AddonManagerPrivate>(this)) {}
 
+AddonManager::AddonManager(const std::string &addonConfigDir) : AddonManager() {
+    FCITX_D();
+    d->addonConfigDir_ = addonConfigDir;
+}
+
 AddonManager::~AddonManager() { unload(); }
 
 void AddonManager::registerLoader(std::unique_ptr<AddonLoader> loader) {
@@ -193,8 +200,9 @@ void AddonManager::load(const std::unordered_set<std::string> &enabled,
                         const std::unordered_set<std::string> &disabled) {
     FCITX_D();
     auto &path = StandardPath::global();
-    auto files = path.multiOpenAll(StandardPath::Type::Data, "fcitx5/addon",
-                                   O_RDONLY, filter::Suffix(".conf"));
+    auto files =
+        path.multiOpenAll(StandardPath::Type::PkgData, d->addonConfigDir_,
+                          O_RDONLY, filter::Suffix(".conf"));
     for (const auto &file : files) {
         auto &files = file.second;
         RawConfig config;

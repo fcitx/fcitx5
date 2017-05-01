@@ -50,6 +50,7 @@ set(FCITX_UTILS_HEADERS
     cutf8.h
     element.h
     rect.h
+    charutils.h
     ${CMAKE_CURRENT_BINARY_DIR}/fcitxutils_export.h
     )
 

@@ -67,9 +67,8 @@ void InputMethodManager::load() {
     auto inputMethods =
         d->addonManager_->addonNames(AddonCategory::InputMethod);
     auto &path = StandardPath::global();
-    auto files =
-        path.multiOpenAll(StandardPath::Type::Data, "fcitx5/inputmethod",
-                          O_RDONLY, filter::Suffix(".conf"));
+    auto files = path.multiOpenAll(StandardPath::Type::PkgData, "inputmethod",
+                                   O_RDONLY, filter::Suffix(".conf"));
     for (const auto &file : files) {
         auto &files = file.second;
         RawConfig config;

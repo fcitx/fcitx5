@@ -85,8 +85,7 @@ struct XkbRulesParseState : public XMLParser {
         std::string::size_type start, end;
         std::tie(start, end) = stringutils::trimInplace(temp);
         if (start != end) {
-            std::string text =
-                std::string(temp.begin() + start, temp.begin() + end);
+            std::string text(temp.begin() + start, temp.begin() + end);
             if (match({"layoutList", "layout", "configItem", "name"})) {
                 layoutInfos_.back().name = text;
             } else if (match({"layoutList", "layout", "configItem",

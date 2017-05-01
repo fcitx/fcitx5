@@ -76,7 +76,7 @@ void readFromIni(RawConfig &config, int fd) {
     }
     // dup it
     UnixFD unixFD(fd);
-    FILE *f = fdopen(unixFD.fd(), "r");
+    FILE *f = fdopen(unixFD.fd(), "rb");
     if (!f) {
         return;
     }
@@ -91,7 +91,7 @@ bool writeAsIni(const RawConfig &config, int fd) {
     }
     // dup it
     UnixFD unixFD(fd);
-    FILE *f = fdopen(unixFD.release(), "w");
+    FILE *f = fdopen(unixFD.release(), "wb");
     if (!f) {
         return false;
     }
