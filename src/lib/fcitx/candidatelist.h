@@ -85,6 +85,8 @@ public:
     virtual void prev() = 0;
     virtual void next() = 0;
 
+    virtual bool usedNextBefore() const = 0;
+
     virtual int totalPages() const = 0;
     virtual int currentPage() const = 0;
     virtual void setPage(int page) = 0;
@@ -137,6 +139,8 @@ public:
     bool hasNext() const override;
     void prev() override;
     void next() override;
+
+    bool usedNextBefore() const override;
 
     int totalPages() const override;
     int currentPage() const override;

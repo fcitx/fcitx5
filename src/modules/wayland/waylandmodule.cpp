@@ -47,9 +47,6 @@ WaylandConnection::~WaylandConnection() { delete group_; }
 
 void WaylandConnection::finish() {
     display_.reset();
-    if (name_.empty()) {
-        parent_->instance()->exit();
-    }
     parent_->removeDisplay(name_);
 }
 
@@ -95,6 +92,9 @@ void WaylandModule::removeDisplay(const std::string &name) {
     auto iter = conns_.find(name);
     if (iter != conns_.end()) {
         conns_.erase(iter);
+    }
+    if (name.empty() && instance_->quitWhenMainDisplayDisconnected()) {
+        instance_->exit();
     }
 }
 

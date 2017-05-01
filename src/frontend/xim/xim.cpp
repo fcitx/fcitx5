@@ -304,6 +304,9 @@ void XIMServer::callback(xcb_im_client_t *client, xcb_im_input_context_t *xic,
                                KeyStates(xevent->state)),
                        (xevent->response_type & ~0x80) == XCB_KEY_RELEASE,
                        xevent->detail, xevent->time);
+        if (!ic->hasFocus()) {
+            ic->focusIn();
+        }
 
         if (!ic->keyEvent(event)) {
             xcb_im_forward_event(im(), xic, xevent);

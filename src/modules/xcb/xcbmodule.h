@@ -145,6 +145,7 @@ private:
     std::unordered_map<std::string, XCBConnection> conns_;
     HandlerTable<XCBConnectionCreated> createdCallbacks_;
     HandlerTable<XCBConnectionClosed> closedCallbacks_;
+    std::string mainDisplay_;
     FCITX_ADDON_EXPORT_FUNCTION(XCBModule, addEventFilter);
     FCITX_ADDON_EXPORT_FUNCTION(XCBModule, addConnectionCreatedCallback);
     FCITX_ADDON_EXPORT_FUNCTION(XCBModule, addConnectionClosedCallback);

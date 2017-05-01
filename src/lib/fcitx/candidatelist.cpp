@@ -85,6 +85,7 @@ const Text &CandidateWord::text() const {
 
 class CommonCandidateListPrivate {
 public:
+    bool usedNextBefore = false;
     int cursorIndex = -1;
     int currentPage = 0;
     int pageSize = 5;
@@ -196,6 +197,12 @@ void CommonCandidateList::next() {
         return;
     }
     d->currentPage++;
+    d->usedNextBefore = true;
+}
+
+bool CommonCandidateList::usedNextBefore() const {
+    FCITX_D();
+    return d->usedNextBefore;
 }
 
 void CommonCandidateList::setPageSize(int size) {

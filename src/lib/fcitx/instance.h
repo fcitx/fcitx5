@@ -59,6 +59,7 @@ public:
     void setSignalPipe(int fd);
     int exec();
     bool willTryReplace() const;
+    bool quitWhenMainDisplayDisconnected() const;
 
     EventLoop &eventLoop();
     AddonManager &addonManager();

@@ -120,6 +120,7 @@ struct InstanceArgument {
     bool tryReplace = false;
     bool quietQuit = false;
     bool runAsDaemon = false;
+    bool quitWhenMainDisplayDisconnected = true;
     std::string uiName;
     std::vector<std::string> enableList;
     std::vector<std::string> disableList;
@@ -289,6 +290,15 @@ Instance::Instance(int argc, char **argv) {
         [this, d](Event &event) {
             auto &icEvent = static_cast<InputContextEvent &>(event);
             auto ic = icEvent.inputContext();
+            if (!ic->capabilityFlags().test(
+                    CapabilityFlag::ClientUnfocusCommit)) {
+                // do server side commit
+                auto commit =
+                    ic->inputPanel().clientPreedit().toStringForCommit();
+                if (commit.size()) {
+                    ic->commitString(commit);
+                }
+            }
             auto engine = inputMethodEngine(ic);
             auto entry = inputMethodEntry(ic);
             if (!engine || !entry) {
@@ -364,6 +374,7 @@ Instance::~Instance() {
 void InstanceArgument::parseOption(int argc, char **argv) {
     struct option longOptions[] = {{"enable", required_argument, nullptr, 0},
                                    {"disable", required_argument, nullptr, 0},
+                                   {"keep", no_argument, nullptr, 'k'},
                                    {"ui", required_argument, nullptr, 'u'},
                                    {"replace", no_argument, nullptr, 'r'},
                                    {"version", no_argument, nullptr, 'v'},
@@ -400,6 +411,8 @@ void InstanceArgument::parseOption(int argc, char **argv) {
         case 'D':
             runAsDaemon = false;
             break;
+        case 'k':
+            quitWhenMainDisplayDisconnected = false;
         case 's':
             overrideDelay = std::atoi(optarg);
             break;
@@ -431,6 +444,11 @@ void Instance::setSignalPipe(int fd) {
 bool Instance::willTryReplace() const {
     FCITX_D();
     return d->arg_.tryReplace;
+}
+
+bool Instance::quitWhenMainDisplayDisconnected() const {
+    FCITX_D();
+    return d->arg_.quitWhenMainDisplayDisconnected;
 }
 
 void Instance::handleSignal() {

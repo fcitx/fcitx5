@@ -88,6 +88,10 @@ public:
     inline bool test(T f) const {
         return (*this & f) == f;
     }
+    template <typename T>
+    inline bool testAny(T f) const {
+        return (*this & f) != 0;
+    }
 
     bool operator==(const Flags &f) const { return flags_ == f.flags_; }
     bool operator==(Enum f) const {

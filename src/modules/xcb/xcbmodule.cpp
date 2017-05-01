@@ -417,6 +417,7 @@ void XCBModule::openConnection(const std::string &name_) {
         auto env = getenv("DISPLAY");
         if (env) {
             name = env;
+            mainDisplay_ = name;
         }
     }
     if (name.empty() || conns_.count(name)) {
@@ -436,6 +437,12 @@ void XCBModule::removeConnection(const std::string &name) {
     auto iter = conns_.find(name);
     if (iter != conns_.end()) {
         conns_.erase(iter);
+    }
+    if (name == mainDisplay_) {
+        mainDisplay_.clear();
+        if (instance_->quitWhenMainDisplayDisconnected()) {
+            instance_->exit();
+        }
     }
 }
 
