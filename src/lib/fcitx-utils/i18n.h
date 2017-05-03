@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2016~2016 by CSSlayer
+ * Copyright (C) 2017~2017 by CSSlayer
  * wengxt@gmail.com
  *
  * This library is free software; you can redistribute it and/or modify
@@ -16,23 +16,25 @@
  * License along with this library; see the file COPYING. If not,
  * see <http://www.gnu.org/licenses/>.
  */
-#ifndef _FCITX_MISC_P_H_
-#define _FCITX_MISC_P_H_
+#ifndef _FCITX_UTILS_I18N_H_
+#define _FCITX_UTILS_I18N_H_
 
-#include <libintl.h>
 #include <string>
-#include <type_traits>
 
 namespace fcitx {
 
-template <typename M, typename K>
-decltype(&std::declval<M>().begin()->second) findValue(M &&m, K &&key) {
-    auto iter = m.find(key);
-    if (iter != m.end()) {
-        return &iter->second;
-    }
-    return nullptr;
-}
+const char *translate(const std::string &s);
+const char *translate(const char *s);
+const char *translateDomain(const char *domain, const std::string &s);
+const char *translateDomain(const char *domain, const char *s);
 }
 
-#endif // _FCITX_MISC_P_H_
+#ifdef FCITX_GETTEXT_DOMAIN
+#define _(x) translateDomain(FCITX_GETTEXT_DOMAIN, x)
+#else
+#define _(x) translate(x)
+#endif
+
+#define D_(d, x) translateDomain(d, x)
+
+#endif // _FCITX_UTILS_I18N_H_

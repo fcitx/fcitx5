@@ -21,6 +21,7 @@
 #include "addonmanager.h"
 #include "fcitx-config/iniparser.h"
 #include "fcitx-config/rawconfig.h"
+#include "fcitx-utils/i18n.h"
 #include "fcitx-utils/standardpath.h"
 #include "inputmethodconfig_p.h"
 #include "inputmethodengine.h"

@@ -19,6 +19,7 @@ set(FCITX_UTILS_SOURCES
     dynamictrackableobject.cpp
     connectableobject.cpp
     element.cpp
+    i18n.cpp
     )
 
 set(FCITX_UTILS_HEADERS
@@ -51,6 +52,7 @@ set(FCITX_UTILS_HEADERS
     element.h
     rect.h
     charutils.h
+    i18n.h
     ${CMAKE_CURRENT_BINARY_DIR}/fcitxutils_export.h
     )
 
@@ -73,7 +75,7 @@ set_target_properties(Fcitx5Utils
 target_include_directories(Fcitx5Utils PUBLIC
     "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/..;${CMAKE_CURRENT_BINARY_DIR}>"
     "$<INSTALL_INTERFACE:${CMAKE_INSTALL_FULL_INCLUDEDIR}>/Fcitx5/Utils")
-target_link_libraries(Fcitx5Utils PRIVATE Systemd::Systemd DL::DL)
+target_link_libraries(Fcitx5Utils PRIVATE Systemd::Systemd DL::DL LibIntl::LibIntl Pthread::Pthread)
 
 configure_file(Fcitx5Utils.pc.in ${CMAKE_CURRENT_BINARY_DIR}/Fcitx5Utils.pc @ONLY)
 

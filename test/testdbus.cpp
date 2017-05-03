@@ -20,6 +20,7 @@
 #include "fcitx-utils/event.h"
 #include <cassert>
 #include <iostream>
+#include <thread>
 
 using namespace fcitx::dbus;
 using namespace fcitx;
@@ -44,7 +45,7 @@ private:
 #define TEST_SERVICE "org.fcitx.Fcitx.TestDBus"
 #define TEST_INTERFACE "org.fcitx.Fcitx.TestDBus.Interface"
 
-void *client(void *) {
+void client() {
     Bus clientBus(BusType::Session);
     EventLoop loop;
     clientBus.attachEventLoop(&loop);
@@ -101,7 +102,6 @@ void *client(void *) {
             return false;
         }));
     loop.exec();
-    return nullptr;
 }
 
 int main() {
@@ -130,11 +130,10 @@ int main() {
             return false;
         }));
 
-    pthread_t c;
-    pthread_create(&c, nullptr, client, nullptr);
+    std::thread thread(client);
 
     loop.exec();
 
-    pthread_join(c, nullptr);
+    thread.join();
     return 0;
 }

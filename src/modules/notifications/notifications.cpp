@@ -22,10 +22,10 @@
 #include "notifications.h"
 #include "dbus_public.h"
 #include "fcitx-config/iniparser.h"
+#include "fcitx-utils/i18n.h"
 #include "fcitx-utils/standardpath.h"
 #include "fcitx/addonfactory.h"
 #include "fcitx/addonmanager.h"
-#include "fcitx/misc_p.h"
 #include <fcntl.h>
 #include <iostream>
 
