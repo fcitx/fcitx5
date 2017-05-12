@@ -226,14 +226,16 @@ protected:
 class FCITXCORE_EXPORT InputContextUpdateUIEvent : public InputContextEvent {
 public:
     InputContextUpdateUIEvent(UserInterfaceComponent component,
-                              InputContext *context)
+                              InputContext *context, bool immediate = false)
         : InputContextEvent(context, EventType::InputContextUpdateUI),
-          component_(component) {}
+          component_(component), immediate_(immediate) {}
 
     UserInterfaceComponent component() const { return component_; }
+    bool immediate() const { return immediate_; }
 
 protected:
     UserInterfaceComponent component_;
+    bool immediate_;
 };
 
 #define FCITX_DEFINE_SIMPLE_EVENT(NAME, TYPE, ARGS...)                         \

@@ -119,7 +119,7 @@ public:
     void forwardKey(const Key &rawKey, bool isRelease = false, int keyCode = 0,
                     int time = 0);
     void updatePreedit();
-    void updateUserInterface(UserInterfaceComponent componet);
+    void updateUserInterface(UserInterfaceComponent componet, bool immediate = false);
 
     InputContextProperty *property(const std::string &name);
     InputContextProperty *property(InputContextPropertyFactory *factory);

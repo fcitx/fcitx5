@@ -349,8 +349,13 @@ Instance::Instance(int argc, char **argv) {
         EventType::InputContextUpdateUI, EventWatcherPhase::ReservedFirst,
         [this, d](Event &event) {
             auto &icEvent = static_cast<InputContextUpdateUIEvent &>(event);
-            d->uiManager_.update(icEvent.component(), icEvent.inputContext());
-            d->uiUpdateEvent_->setOneShot();
+            if (icEvent.immediate()) {
+                d->uiManager_.update(icEvent.component(), icEvent.inputContext());
+                d->uiManager_.flush();
+            } else {
+                d->uiManager_.update(icEvent.component(), icEvent.inputContext());
+                d->uiUpdateEvent_->setOneShot();
+            }
         }));
     d->eventWatchers_.emplace_back(d->watchEvent(
         EventType::InputContextDestroyed, EventWatcherPhase::ReservedFirst,
