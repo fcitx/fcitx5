@@ -32,6 +32,9 @@ public:
     Element();
     ~Element();
 
+    bool isChild(const Element *element) const;
+    bool isParent(const Element *element) const;
+
 protected:
     const std::list<Element *> &parents() const;
     const std::list<Element *> &childs() const;

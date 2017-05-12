@@ -19,11 +19,13 @@
 #ifndef _FCITX_UI_CLASSIC_CLASSICUI_H_
 #define _FCITX_UI_CLASSIC_CLASSICUI_H_
 
+#include "fcitx-config/configuration.h"
 #include "fcitx-utils/event.h"
 #include "fcitx/addonfactory.h"
 #include "fcitx/addoninstance.h"
 #include "fcitx/addonmanager.h"
 #include "fcitx/focusgroup.h"
+#include "fcitx/instance.h"
 #include "fcitx/userinterface.h"
 #include "wayland_public.h"
 #include "xcb_public.h"
@@ -34,7 +36,14 @@ namespace classicui {
 class UIInterface {
 public:
     virtual ~UIInterface() {}
+    virtual void update(UserInterfaceComponent component,
+                        InputContext *inputContext) = 0;
+    virtual void updateCursor(InputContext *inputContext) {}
 };
+
+FCITX_CONFIGURATION(ClassicUIConfig, fcitx::Option<bool> verticalCandidateList{
+                                         this, "Vertical Candidate List",
+                                         "Vertical Candidate List", false};);
 
 class ClassicUI : public UserInterface {
 public:
@@ -44,6 +53,7 @@ public:
     AddonInstance *xcb();
     AddonInstance *wayland();
     Instance *instance() { return instance_; }
+    auto &config() { return config_; }
     void suspend() override;
     void resume() override;
     void update(UserInterfaceComponent component,
@@ -58,10 +68,12 @@ private:
         waylandCreatedCallback_;
     std::unique_ptr<HandlerTableEntry<WaylandConnectionClosed>>
         waylandClosedCallback_;
+    std::unique_ptr<HandlerTableEntry<EventHandler>> eventHandler_;
 
     std::unordered_map<std::string, std::unique_ptr<UIInterface>> uis_;
 
     Instance *instance_;
+    ClassicUIConfig config_;
 };
 }
 }

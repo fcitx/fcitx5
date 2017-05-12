@@ -96,6 +96,7 @@ public:
     const ICUUID &uuid() const;
     const std::string &program() const;
     std::string display() const;
+    const Rect &cursorRect() const;
 
     void focusIn();
     void focusOut();

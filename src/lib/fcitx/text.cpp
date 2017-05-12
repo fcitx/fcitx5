@@ -28,7 +28,7 @@ public:
     TextPrivate(){};
     TextPrivate(const TextPrivate &other) = default;
 
-    std::vector<std::tuple<std::string, TextFormatFlags, TextRole>> texts_;
+    std::vector<std::tuple<std::string, TextFormatFlags>> texts_;
     int cursor_ = 0;
 };
 
@@ -58,9 +58,9 @@ void Text::setCursor(int pos) {
     d->cursor_ = pos;
 }
 
-void Text::append(const std::string &str, TextFormatFlags flag, TextRole role) {
+void Text::append(const std::string &str, TextFormatFlags flag) {
     FCITX_D();
-    d->texts_.emplace_back(str, flag, role);
+    d->texts_.emplace_back(str, flag);
 }
 
 const std::string &Text::stringAt(int idx) const {
@@ -71,11 +71,6 @@ const std::string &Text::stringAt(int idx) const {
 TextFormatFlags Text::formatAt(int idx) const {
     FCITX_D();
     return std::get<TextFormatFlags>(d->texts_[idx]);
-}
-
-TextRole Text::roleAt(int idx) const {
-    FCITX_D();
-    return std::get<TextRole>(d->texts_[idx]);
 }
 
 size_t Text::size() const {

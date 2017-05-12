@@ -29,7 +29,9 @@ public:
     Action separatorBeforeIM, separatorAfterIM;
     std::unordered_map<Action *, std::vector<ScopedConnection>> actions_;
     InputContext *ic_;
-    void update() { ic_->updatePreedit(); }
+    void update() {
+        ic_->updateUserInterface(UserInterfaceComponent::StatusArea);
+    }
 };
 
 StatusArea::StatusArea(InputContext *ic)
@@ -53,9 +55,10 @@ void StatusArea::addAction(StatusGroup group, Action *action) {
         break;
     }
     d->actions_[action].emplace_back(
-        action->connect<ObjectDestroyed>([this](void *p) {
+        action->connect<ObjectDestroyed>([this, d](void *p) {
             auto action = static_cast<Action *>(p);
             removeAction(action);
+            d->update();
         }));
     d->actions_[action].emplace_back(
         action->connect<Action::Update>([this, d](InputContext *ic) {

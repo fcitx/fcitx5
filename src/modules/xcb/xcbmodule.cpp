@@ -43,18 +43,8 @@ union _xkb_event {
 
 namespace fcitx {
 
-template <typename T>
-using XCBReply = std::unique_ptr<T, decltype(&std::free)>;
-
-template <typename T>
-XCBReply<T> makeXCBReply(T *ptr) {
-    return {ptr, &std::free};
-}
-
 XCBConnection::XCBConnection(XCBModule *xcb, const std::string &name)
-    : parent_(xcb), name_(name), conn_(nullptr, xcb_disconnect), screen_(0),
-      atom_(0), serverWindow_(0), root_(0), group_(nullptr), hasXKB_(false),
-      xkbRulesNamesAtom_(0), xkbFirstEvent_(0), coreDeviceId_(0),
+    : parent_(xcb), name_(name), conn_(nullptr, xcb_disconnect),
       context_(nullptr, xkb_context_unref), keymap_(nullptr, xkb_keymap_unref),
       state_(nullptr, xkb_state_unref) {
     // Open connection
@@ -72,7 +62,7 @@ XCBConnection::XCBConnection(XCBModule *xcb, const std::string &name)
     xcb_screen_t *screen = xcb_aux_get_screen(conn_.get(), screen_);
     xcb_create_window(conn_.get(), XCB_COPY_FROM_PARENT, w, screen->root, 0, 0,
                       1, 1, 1, XCB_WINDOW_CLASS_INPUT_OUTPUT,
-                      screen->root_visual, 0, NULL);
+                      screen->root_visual, 0, nullptr);
 
     xcb_set_selection_owner(conn_.get(), w, atom_, XCB_CURRENT_TIME);
     serverWindow_ = w;
@@ -97,7 +87,7 @@ XCBConnection::XCBConnection(XCBModule *xcb, const std::string &name)
                 XKB_X11_MIN_MINOR_XKB_VERSION);
             XCBReply<xcb_xkb_use_extension_reply_t> xkb_query{
                 xcb_xkb_use_extension_reply(conn_.get(), xkb_query_cookie,
-                                            NULL),
+                                            nullptr),
                 std::free};
 
             if (xkb_query && xkb_query->supported) {
@@ -139,14 +129,9 @@ XCBConnection::XCBConnection(XCBModule *xcb, const std::string &name)
         const auto *reply = xcb_get_extension_data(conn_.get(), &xcb_xfixes_id);
         if (reply && reply->present) {
             hasXFixes_ = true;
+            xfixesFirstEvent_ = reply->first_event;
         }
     }
-
-    initAtom();
-
-    // init compositor
-    compositeCallback_.reset(addSelection(
-        compMgrAtomString_, [this](xcb_atom_t) { refreshCompositeManager(); }));
 
     // create a focus group for display server
     group_ =
@@ -174,30 +159,6 @@ void XCBConnection::onIOEvent() {
     }
 }
 
-void XCBConnection::refreshCompositeManager() {
-    auto cookie = xcb_get_selection_owner(conn_.get(), compMgrAtom_);
-    auto reply = makeXCBReply(
-        xcb_get_selection_owner_reply(conn_.get(), cookie, nullptr));
-    if (reply) {
-        compMgrWindow_ = reply->owner;
-    }
-
-    if (compMgrWindow_) {
-        auto get_attr_cookie =
-            xcb_get_window_attributes(conn_.get(), reply->owner);
-        auto get_attr_reply = makeXCBReply(xcb_get_window_attributes_reply(
-            conn_.get(), get_attr_cookie, nullptr));
-        if (get_attr_reply &&
-            !(get_attr_reply->your_event_mask &
-              XCB_EVENT_MASK_STRUCTURE_NOTIFY)) {
-            const uint32_t mask = get_attr_reply->your_event_mask |
-                                  XCB_EVENT_MASK_STRUCTURE_NOTIFY;
-            xcb_change_window_attributes(conn_.get(), compMgrWindow_,
-                                         XCB_CW_EVENT_MASK, &mask);
-        }
-    }
-}
-
 bool XCBConnection::filterEvent(xcb_connection_t *,
                                 xcb_generic_event_t *event) {
     uint8_t response_type = event->response_type & ~0x80;
@@ -213,16 +174,6 @@ bool XCBConnection::filterEvent(xcb_connection_t *,
             if (ic) {
                 ic->setFocusGroup(group_);
             }
-        }
-    } else if (response_type == XCB_SELECTION_NOTIFY) {
-        auto selection_notify =
-            reinterpret_cast<xcb_selection_notify_event_t *>(event);
-        if (selection_notify->requestor == serverWindow_) {
-            auto callbacks = selections_.view(selection_notify->selection);
-            for (auto &callback : callbacks) {
-                callback(selection_notify->selection);
-            }
-            return true;
         }
     } else if (response_type == xkbFirstEvent_) {
         _xkb_event *xkbEvent = (_xkb_event *)event;
@@ -250,6 +201,15 @@ bool XCBConnection::filterEvent(xcb_connection_t *,
                 }
             } break;
             }
+        }
+    } else if (hasXFixes_ &&
+               response_type ==
+                   XCB_XFIXES_SELECTION_NOTIFY + xfixesFirstEvent_) {
+        auto selectionNofity =
+            reinterpret_cast<xcb_xfixes_selection_notify_event_t *>(event);
+        auto callbacks = selections_.view(selectionNofity->selection);
+        for (auto &callback : callbacks) {
+            callback(selectionNofity->selection);
         }
     }
     return false;
@@ -307,21 +267,6 @@ void XCBConnection::updateKeymap() {
     state_.reset(new_state);
 }
 
-void XCBConnection::initAtom() {
-    windowTypeAtom_ = atom("_NET_WM_WINDOW_TYPE", true);
-    typeDialogAtom_ = atom("_NET_WM_WINDOW_TYPE_DIALOG", true);
-    typeDockAtom_ = atom("_NET_WM_WINDOW_TYPE_DOCK", true);
-    typePopupMenuAtom_ = atom("_NET_WM_WINDOW_TYPE_POPUP_MENU", true);
-    pidAtom_ = atom("_NET_WM_PID", true);
-    utf8Atom_ = atom("UTF8_STRING", true);
-    stringAtom_ = atom("STRING", true);
-    compMgrAtom_ = atom("COMPOUND_TEXT", true);
-
-    compMgrAtomString_ = "_NET_WM_CM_S" + std::to_string(screen_);
-
-    compMgrAtom_ = atom(compMgrAtomString_, true);
-}
-
 HandlerTableEntry<XCBEventFilter> *
 XCBConnection::addEventFilter(XCBEventFilter filter) {
     return filters_.add(std::move(filter));
@@ -346,7 +291,8 @@ xcb_atom_t XCBConnection::atom(const std::string &atomName, bool exists) {
 
     xcb_intern_atom_cookie_t cookie =
         xcb_intern_atom(conn_.get(), exists, atomName.size(), atomName.c_str());
-    auto reply = makeXCBReply(xcb_intern_atom_reply(conn_.get(), cookie, NULL));
+    auto reply =
+        makeXCBReply(xcb_intern_atom_reply(conn_.get(), cookie, nullptr));
     xcb_atom_t result = XCB_ATOM_NONE;
     if (reply) {
         result = reply->atom;
@@ -378,7 +324,7 @@ XkbRulesNames XCBConnection::xkbRulesNames() {
         xcb_get_property(conn_.get(), false, root_, xkbRulesNamesAtom_,
                          XCB_ATOM_STRING, 0, 1024);
     auto reply = makeXCBReply(
-        xcb_get_property_reply(conn_.get(), get_prop_cookie, NULL));
+        xcb_get_property_reply(conn_.get(), get_prop_cookie, nullptr));
 
     if (!reply || reply->type != XCB_ATOM_STRING || reply->bytes_after > 0 ||
         reply->format != 8) {
@@ -486,6 +432,16 @@ XkbRulesNames XCBModule::xkbRulesNames(const std::string &name) {
         return {};
     }
     return iter->second.xkbRulesNames();
+}
+
+HandlerTableEntry<XCBSelectionNotifyCallback> *
+XCBModule::addSelection(const std::string &name, const std::string &atom,
+                        XCBSelectionNotifyCallback callback) {
+    auto iter = conns_.find(name);
+    if (iter == conns_.end()) {
+        return nullptr;
+    }
+    return iter->second.addSelection(atom, callback);
 }
 
 void XCBModule::onConnectionCreated(XCBConnection &conn) {

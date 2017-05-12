@@ -16,36 +16,21 @@
  * License along with this library; see the file COPYING. If not,
  * see <http://www.gnu.org/licenses/>.
  */
-#ifndef _FCITX_UI_CLASSIC_WAYLANDEGLWINDOW_H_
-#define _FCITX_UI_CLASSIC_WAYLANDEGLWINDOW_H_
+#ifndef _FCITX_UI_CLASSIC_XCBMAINWINDOW_H_
+#define _FCITX_UI_CLASSIC_XCBMAINWINDOW_H_
 
-#include "waylandui.h"
-#include "waylandwindow.h"
-#include <cairo/cairo.h>
-#include <wayland-egl.h>
+#include "mainwindow.h"
+#include "xcbwindow.h"
 
 namespace fcitx {
 namespace classicui {
 
-class WaylandEGLWindow : public WaylandWindow {
+class XCBMainWindow : public XCBWindow, public MainWindow {
 public:
-    WaylandEGLWindow(WaylandUI *ui);
-    ~WaylandEGLWindow();
-
-    void createWindow() override;
-    void destroyWindow() override;
-    void resize(unsigned int width, unsigned int height) override;
-
-    cairo_surface_t *prerender() override;
-    void render() override;
-
-private:
-    std::unique_ptr<wl_egl_window, decltype(&wl_egl_window_destroy)> window_;
-    EGLSurface eglSurface_ = nullptr;
-    std::unique_ptr<cairo_surface_t, decltype(&cairo_surface_destroy)>
-        cairoSurface_;
+    XCBMainWindow(XCBUI *ui);
+    bool filterEvent(xcb_generic_event_t *event) override;
 };
 }
 }
 
-#endif // _FCITX_UI_CLASSIC_WAYLANDEGLWINDOW_H_
+#endif // _FCITX_UI_CLASSIC_XCBMAINWINDOW_H_

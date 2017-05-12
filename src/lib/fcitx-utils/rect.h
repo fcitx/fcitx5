@@ -24,7 +24,7 @@
 namespace fcitx {
 class FCITXUTILS_EXPORT Rect {
 public:
-    Rect(int _x1 = 0, int _y1 = 0, int _x2 = 0, int _y2 = 0)
+    explicit Rect(int _x1 = 0, int _y1 = 0, int _x2 = 0, int _y2 = 0)
         : x1_(_x1), y1_(_y1), x2_(_x2), y2_(_y2) {}
 
     Rect(const Rect &rect) = default;
@@ -56,6 +56,20 @@ public:
     inline Rect &setBottom(int pos) noexcept {
         y2_ = pos;
         return *this;
+    }
+
+    int distance(int x, int y) const {
+        int dx = 0;
+        int dy = 0;
+        if (x < x1_)
+            dx = x1_ - x;
+        else if (x > x2_)
+            dx = x - x2_;
+        if (y < y1_)
+            dy = y1_ - y;
+        else if (y > y2_)
+            dy = y - y2_;
+        return dx + dy;
     }
 
     inline int left() const noexcept { return x1_; }

@@ -1,5 +1,5 @@
 
-include(ECMFindModuleHelpersStub)
+include(${CMAKE_CURRENT_LIST_DIR}/ECMFindModuleHelpers.cmake)
 
 ecm_find_package_version_check(Pango)
 

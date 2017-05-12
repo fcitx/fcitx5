@@ -37,6 +37,8 @@ public:
     EGLSurface createEGLSurface(wl_egl_window *window,
                                 const EGLint *attrib_list);
     void destroyEGLSurface(EGLSurface surface);
+    EGLContext argbCtx() { return argbCtx_; }
+    EGLDisplay eglDisplay() { return eglDisplay_; }
 
     cairo_surface_t *createEGLCairoSurface(EGLSurface surface, int width,
                                            int height);
@@ -44,6 +46,8 @@ public:
     ClassicUI *parent() const { return parent_; }
     const std::string &name() const { return name_; }
     wayland::Display *display() const { return display_; }
+    void update(UserInterfaceComponent component,
+                InputContext *inputContext) override;
 
 private:
     static const struct wl_registry_listener registryListener;

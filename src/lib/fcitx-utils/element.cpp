@@ -40,6 +40,8 @@ public:
         return true;
     }
 
+    bool contains(const T &v) const { return !!dict_.count(v); }
+
     bool remove(const T &v) {
         auto iter = dict_.find(v);
         if (iter == dict_.end()) {
@@ -81,6 +83,15 @@ void Element::addChild(Element *child) {
 }
 void Element::addParent(Element *parent) {
     addEdge(parent, this, nullptr, nullptr);
+}
+
+bool Element::isChild(const Element *child) const {
+    FCITX_D();
+    return d->childs_.contains(const_cast<Element *>(child));
+}
+bool Element::isParent(const Element *parent) const {
+    FCITX_D();
+    return d->parents_.contains(const_cast<Element *>(parent));
 }
 
 const std::list<Element *> &Element::parents() const {

@@ -40,7 +40,7 @@ namespace {
 void initAsDaemon() {
     pid_t pid;
     if ((pid = fork()) > 0) {
-        waitpid(pid, NULL, 0);
+        waitpid(pid, nullptr, 0);
         exit(0);
     }
     setsid();
@@ -379,7 +379,7 @@ void InstanceArgument::parseOption(int argc, char **argv) {
                                    {"replace", no_argument, nullptr, 'r'},
                                    {"version", no_argument, nullptr, 'v'},
                                    {"help", no_argument, nullptr, 'h'},
-                                   {NULL, 0, 0, 0}};
+                                   {nullptr, 0, 0, 0}};
 
     int optionIndex = 0;
     int c;
@@ -645,7 +645,7 @@ void Instance::restart() {
     auto fcitxBinary = StandardPath::fcitxPath("bindir") + "/fcitx";
     std::vector<char> command{fcitxBinary.begin(), fcitxBinary.end()};
     command.push_back('\0');
-    char *const argv[] = {command.data(), NULL};
+    char *const argv[] = {command.data(), nullptr};
     execv(argv[0], argv);
     perror("Restart failed: execvp:");
     _exit(1);

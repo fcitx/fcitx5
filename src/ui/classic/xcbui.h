@@ -20,30 +20,64 @@
 #define _FCITX_UI_CLASSIC_XCBUI_H_
 
 #include "classicui.h"
+#include "fcitx-utils/rect.h"
 
 namespace fcitx {
 namespace classicui {
+
+class XCBInputWindow;
+class XCBMainWindow;
+class XCBTrayWindow;
+
+enum class MultiScreenExtension { Randr, Xinerama, EXTNone };
 
 class XCBUI : public UIInterface {
 public:
     XCBUI(ClassicUI *parent, const std::string &name, xcb_connection_t *conn,
           int defaultScreen);
+    ~XCBUI();
 
     ClassicUI *parent() const { return parent_; }
     const std::string &name() const { return name_; }
     xcb_connection_t *connection() const { return conn_; }
     int defaultScreen() const { return defaultScreen_; }
     xcb_colormap_t colorMap() const { return colorMap_; }
-    xcb_visualid_t visualId() const { return visualId_; }
+    xcb_visualid_t visualId() const;
+    void update(UserInterfaceComponent component,
+                InputContext *inputContext) override;
+    void updateCursor(InputContext *inputContext) override;
+    const auto &screenRects() { return rects_; }
+    int dpi(int dpi);
 
 private:
+    void refreshCompositeManager();
+    void initScreen();
+
     ClassicUI *parent_;
     std::string name_;
     xcb_connection_t *conn_;
     int defaultScreen_;
     xcb_colormap_t colorMap_;
-    xcb_visualid_t visualId_;
+    std::unique_ptr<XCBInputWindow> inputWindow_;
+    std::unique_ptr<XCBTrayWindow> trayWindow_;
+    std::unique_ptr<XCBMainWindow> mainWindow_;
+
+    std::string compMgrAtomString_;
+    xcb_atom_t compMgrAtom_ = XCB_ATOM_NONE;
+    xcb_window_t compMgrWindow_ = XCB_WINDOW_NONE;
+
+    int forcedDpi_ = -1;
+    int maxDpi_ = -1;
+    MultiScreenExtension multiScreen_ = MultiScreenExtension::EXTNone;
+    int xrandrFirstEvent_ = 0;
+
+    std::vector<std::pair<Rect, int>> rects_;
 };
+
+void addEventMaskToWindow(xcb_connection_t *conn, xcb_window_t wid,
+                          uint32_t mask);
+
+xcb_atom_t internAtom(xcb_connection_t *conn, const std::string &atomName);
 }
 }
 

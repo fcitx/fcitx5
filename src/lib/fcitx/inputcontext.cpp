@@ -69,6 +69,11 @@ std::string InputContext::display() const {
     return d->group_ ? d->group_->display() : "";
 }
 
+const Rect &InputContext::cursorRect() const {
+    FCITX_D();
+    return d->cursorRect_;
+}
+
 InputContextProperty *InputContext::property(const std::string &name) {
     FCITX_D();
     auto factory = d->manager_.factoryForName(name);

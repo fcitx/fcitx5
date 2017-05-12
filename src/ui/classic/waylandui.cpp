@@ -106,7 +106,7 @@ bool WaylandUI::initEGL() {
                                              EGL_NONE};
     EGLint api = EGL_OPENGL_ES_API;
 
-    eglDisplay_ = getEGLDisplay(EGL_PLATFORM_WAYLAND_KHR, *display_, NULL);
+    eglDisplay_ = getEGLDisplay(EGL_PLATFORM_WAYLAND_KHR, *display_, nullptr);
 
     if (!eglInitialize(eglDisplay_, &major, &minor)) {
         return false;
@@ -141,13 +141,13 @@ static inline void *getEGLProcAddress(const char *address) {
         return (void *)eglGetProcAddress(address);
     }
 
-    return NULL;
+    return nullptr;
 }
 
 EGLSurface WaylandUI::createEGLSurface(wl_egl_window *window,
                                        const EGLint *attrib_list) {
     static PFNEGLCREATEPLATFORMWINDOWSURFACEEXTPROC create_platform_window =
-        NULL;
+        nullptr;
 
     if (!create_platform_window) {
         create_platform_window =
@@ -171,5 +171,8 @@ cairo_surface_t *WaylandUI::createEGLCairoSurface(EGLSurface surface, int width,
                                                   int height) {
     return cairo_gl_surface_create_for_egl(argbDevice_, surface, width, height);
 }
+
+void WaylandUI::update(UserInterfaceComponent component,
+                       InputContext *inputContext) {}
 }
 }

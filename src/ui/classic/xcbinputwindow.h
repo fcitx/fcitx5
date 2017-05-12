@@ -16,36 +16,26 @@
  * License along with this library; see the file COPYING. If not,
  * see <http://www.gnu.org/licenses/>.
  */
-#ifndef _FCITX_UI_CLASSIC_WAYLANDEGLWINDOW_H_
-#define _FCITX_UI_CLASSIC_WAYLANDEGLWINDOW_H_
+#ifndef _FCITX_UI_CLASSIC_XCBINPUTWINDOW_H_
+#define _FCITX_UI_CLASSIC_XCBINPUTWINDOW_H_
 
-#include "waylandui.h"
-#include "waylandwindow.h"
-#include <cairo/cairo.h>
-#include <wayland-egl.h>
+#include "inputwindow.h"
+#include "xcbwindow.h"
 
 namespace fcitx {
 namespace classicui {
 
-class WaylandEGLWindow : public WaylandWindow {
+class XCBInputWindow : public XCBWindow, protected InputWindow {
 public:
-    WaylandEGLWindow(WaylandUI *ui);
-    ~WaylandEGLWindow();
+    XCBInputWindow(XCBUI *ui);
 
-    void createWindow() override;
-    void destroyWindow() override;
-    void resize(unsigned int width, unsigned int height) override;
+    void postCreateWindow() override;
+    void update(InputContext *c);
+    void updatePosition(InputContext *c);
 
-    cairo_surface_t *prerender() override;
-    void render() override;
-
-private:
-    std::unique_ptr<wl_egl_window, decltype(&wl_egl_window_destroy)> window_;
-    EGLSurface eglSurface_ = nullptr;
-    std::unique_ptr<cairo_surface_t, decltype(&cairo_surface_destroy)>
-        cairoSurface_;
+    bool filterEvent(xcb_generic_event_t *event) override;
 };
 }
 }
 
-#endif // _FCITX_UI_CLASSIC_WAYLANDEGLWINDOW_H_
+#endif // _FCITX_UI_CLASSIC_XCBINPUTWINDOW_H_

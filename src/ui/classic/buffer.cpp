@@ -40,8 +40,8 @@ Buffer::Buffer(WlShm *shm, int width, int height, wl_shm_format format)
         close(fd);
         return;
     }
-    uint8_t *data =
-        (uint8_t *)mmap(NULL, alloc, PROT_READ | PROT_WRITE, MAP_SHARED, fd, 0);
+    uint8_t *data = (uint8_t *)mmap(nullptr, alloc, PROT_READ | PROT_WRITE,
+                                    MAP_SHARED, fd, 0);
     unlink(v.data());
 
     if (data == static_cast<uint8_t *>(MAP_FAILED)) {

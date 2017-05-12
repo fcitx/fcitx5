@@ -67,7 +67,7 @@ public:
     using InputContext::reset;
 
     void setCursorRectDBus(int x, int y, int w, int h) {
-        setCursorRect({x, y, x + w, y + h});
+        setCursorRect(Rect{x, y, x + w, y + h});
     }
 
     void setCapability(uint64_t cap) {

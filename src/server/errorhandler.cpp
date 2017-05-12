@@ -71,7 +71,7 @@ void SetMyExceptionHandler(void) {
 
 #if defined(ENABLE_BACKTRACE)
     void *array[BACKTRACE_SIZE] = {
-        NULL,
+        nullptr,
     };
     (void)backtrace(array, BACKTRACE_SIZE);
 #endif
@@ -139,7 +139,7 @@ void OnException(int signo) {
     _write_string(fd, "\n");
 
     /* print time info */
-    time_t t = time(NULL);
+    time_t t = time(nullptr);
     BufferReset(&buffer);
     BufferAppendUInt64(&buffer, t, 10);
     _write_string(fd, "Date: try \"date -d @");
@@ -155,7 +155,7 @@ void OnException(int signo) {
 
 #if defined(EXECINFO_FOUND)
     void *array[BACKTRACE_SIZE] = {
-        NULL,
+        nullptr,
     };
 
     int size = backtrace(array, BACKTRACE_SIZE);

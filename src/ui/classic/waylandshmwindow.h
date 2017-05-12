@@ -28,7 +28,7 @@ namespace classicui {
 
 class WaylandShmWindow : public WaylandWindow {
 public:
-    WaylandShmWindow(WaylandUI *ui, UserInterfaceComponent type);
+    WaylandShmWindow(WaylandUI *ui);
     ~WaylandShmWindow();
 
     void createWindow();

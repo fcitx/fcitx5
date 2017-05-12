@@ -22,7 +22,7 @@
 namespace fcitx {
 namespace classicui {
 
-Window::Window(UserInterfaceComponent type) : type_(type) {}
+Window::Window() {}
 
 void Window::resize(unsigned int width, unsigned int height) {
     width_ = width;

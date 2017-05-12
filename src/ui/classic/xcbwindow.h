@@ -29,20 +29,26 @@ namespace classicui {
 
 class XCBWindow : public Window {
 public:
-    XCBWindow(XCBUI *ui, UserInterfaceComponent type);
+    XCBWindow(XCBUI *ui);
     ~XCBWindow();
 
-    void createWindow();
+    void createWindow(xcb_visualid_t vid = 0);
+    virtual void postCreateWindow() {}
     void destroyWindow();
-    void resize(unsigned int width, unsigned int height);
+    void resize(unsigned int width, unsigned int height) override;
+
+    cairo_surface_t *prerender() override;
+    void render() override;
 
     virtual bool filterEvent(xcb_generic_event_t *event) = 0;
 
-private:
+protected:
     XCBUI *ui_;
     xcb_window_t wid_ = 0;
     std::unique_ptr<HandlerTableEntry<XCBEventFilter>> eventFilter_;
-    cairo_surface_t *surface_ = nullptr;
+    std::unique_ptr<cairo_surface_t, decltype(&cairo_surface_destroy)> surface_;
+    std::unique_ptr<cairo_surface_t, decltype(&cairo_surface_destroy)>
+        contentSurface_;
 };
 }
 }

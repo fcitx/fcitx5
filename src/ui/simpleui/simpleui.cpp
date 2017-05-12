@@ -18,6 +18,7 @@
  */
 
 #include "simpleui.h"
+#include "fcitx/action.h"
 #include "fcitx/addonfactory.h"
 #include "fcitx/addonmanager.h"
 #include "fcitx/candidatelist.h"
@@ -50,7 +51,11 @@ void SimpleUI::update(UserInterfaceComponent component,
 
 void SimpleUI::printStatusArea(InputContext *inputContext) {
     auto &statusArea = inputContext->statusArea();
-    statusArea.actions();
+    for (auto action : statusArea.actions()) {
+        std::cout << "Action: " << action->name() << std::endl;
+        std::cout << "Text: " << action->text(inputContext) << std::endl;
+        std::cout << "Icon: " << action->icon(inputContext) << std::endl;
+    }
 }
 
 void SimpleUI::printInputPanel(InputContext *inputContext) {

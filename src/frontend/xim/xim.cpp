@@ -62,18 +62,18 @@ class XIMServer {
 public:
     XIMServer(xcb_connection_t *conn, int defaultScreen, FocusGroup *group,
               const std::string &name, XIMModule *xim)
-        : group_(group), name_(name), parent_(xim),
+        : conn_(conn), group_(group), name_(name), parent_(xim),
           im_(nullptr, xcb_im_destroy), serverWindow_(0) {
         xcb_screen_t *screen = xcb_aux_get_screen(conn, defaultScreen);
         root_ = screen->root;
         serverWindow_ = xcb_generate_id(conn);
         xcb_create_window(
             conn, XCB_COPY_FROM_PARENT, serverWindow_, screen->root, 0, 0, 1, 1,
-            1, XCB_WINDOW_CLASS_INPUT_OUTPUT, screen->root_visual, 0, NULL);
+            1, XCB_WINDOW_CLASS_INPUT_OUTPUT, screen->root_visual, 0, nullptr);
 
         im_.reset(xcb_im_create(
             conn, defaultScreen, serverWindow_, guess_server_name().c_str(),
-            XCB_IM_ALL_LOCALES, &styles, NULL, NULL, &encodings,
+            XCB_IM_ALL_LOCALES, &styles, nullptr, nullptr, &encodings,
             XCB_EVENT_MASK_KEY_PRESS | XCB_EVENT_MASK_KEY_RELEASE,
             &XIMServer::callback, this));
 
@@ -115,6 +115,7 @@ public:
     }
 
 private:
+    xcb_connection_t *conn_;
     FocusGroup *group_;
     std::string name_;
     XIMModule *parent_;
@@ -194,9 +195,9 @@ protected:
             frame.chg_first = 0;
             frame.chg_length = lastPreeditLength;
             frame.length_of_preedit_string = 0;
-            frame.preedit_string = NULL;
+            frame.preedit_string = nullptr;
             frame.feedback_array.size = 0;
-            frame.feedback_array.items = NULL;
+            frame.feedback_array.items = nullptr;
             frame.status = 1;
             xcb_im_preedit_draw_callback(server_->im(), xic_, &frame);
             xcb_im_preedit_done_callback(server_->im(), xic_);
@@ -289,9 +290,26 @@ void XIMServer::callback(xcb_im_client_t *client, xcb_im_input_context_t *xic,
     case XCB_XIM_DESTROY_IC:
         delete ic;
         break;
-    case XCB_XIM_SET_IC_VALUES:
+    case XCB_XIM_SET_IC_VALUES: {
         // kinds of like notification for position moving
+        auto p = xcb_im_input_context_get_preedit_attr(xic)->spot_location;
+        auto w = xcb_im_input_context_get_focus_window(xic);
+        if (!w) {
+            w = xcb_im_input_context_get_client_window(xic);
+        }
+        if (w) {
+            auto trans_cookie =
+                xcb_translate_coordinates(conn_, w, root_, p.x, p.y);
+            auto reply = makeXCBReply(
+                xcb_translate_coordinates_reply(conn_, trans_cookie, nullptr));
+            if (reply) {
+                ic->setCursorRect(Rect(reply->dst_x, reply->dst_y, reply->dst_x,
+                                       reply->dst_y));
+            }
+        }
+
         break;
+    }
     case XCB_XIM_FORWARD_EVENT: {
         xkb_state *state = xkbState();
         if (!state) {

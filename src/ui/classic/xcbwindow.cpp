@@ -25,22 +25,27 @@
 namespace fcitx {
 namespace classicui {
 
-XCBWindow::XCBWindow(XCBUI *ui, UserInterfaceComponent type)
-    : Window(type), ui_(ui) {}
+XCBWindow::XCBWindow(XCBUI *ui)
+    : Window(), ui_(ui), surface_(nullptr, &cairo_surface_destroy),
+      contentSurface_(nullptr, &cairo_surface_destroy) {}
 
 XCBWindow::~XCBWindow() { destroyWindow(); }
 
-void XCBWindow::createWindow() {
+void XCBWindow::createWindow(xcb_visualid_t vid) {
     auto conn = ui_->connection();
 
     if (wid_) {
         destroyWindow();
     }
 
+    if (!vid) {
+        vid = ui_->visualId();
+    }
+
     xcb_screen_t *screen = xcb_aux_get_screen(conn, ui_->defaultScreen());
     wid_ = xcb_generate_id(conn);
 
-    auto depth = xcb_aux_get_depth_of_visual(screen, ui_->visualId());
+    auto depth = xcb_aux_get_depth_of_visual(screen, vid);
 
     uint32_t valueMask = XCB_CW_BACK_PIXEL | XCB_CW_BORDER_PIXEL |
                          XCB_CW_BIT_GRAVITY | XCB_CW_BACKING_STORE |
@@ -52,23 +57,24 @@ void XCBWindow::createWindow() {
         1, 1, ui_->colorMap()};
 
     xcb_create_window(conn, depth, wid_, screen->root, 0, 0, 1, 1, 1,
-                      XCB_WINDOW_CLASS_INPUT_OUTPUT, ui_->visualId(), valueMask,
-                      values);
+                      XCB_WINDOW_CLASS_INPUT_OUTPUT, vid, valueMask, values);
 
     eventFilter_.reset(ui_->parent()->xcb()->call<IXCBModule::addEventFilter>(
         ui_->name(), [this](xcb_connection_t *, xcb_generic_event_t *event) {
             return filterEvent(event);
         }));
 
-    surface_ = cairo_xcb_surface_create(
-        conn, wid_, xcb_aux_find_visual_by_id(screen, ui_->visualId()), 1, 1);
+    surface_.reset(cairo_xcb_surface_create(
+        conn, wid_, xcb_aux_find_visual_by_id(screen, vid), 1, 1));
+    contentSurface_.reset();
+    width_ = 1;
+    height_ = 1;
+
+    postCreateWindow();
 }
 
 void XCBWindow::destroyWindow() {
     auto conn = ui_->connection();
-    if (surface_) {
-        cairo_surface_destroy(surface_);
-    }
     eventFilter_.reset();
     xcb_destroy_window(conn, wid_);
     wid_ = 0;
@@ -79,7 +85,22 @@ void XCBWindow::resize(unsigned int width, unsigned int height) {
     xcb_configure_window(ui_->connection(), wid_,
                          XCB_CONFIG_WINDOW_WIDTH | XCB_CONFIG_WINDOW_HEIGHT,
                          vals);
-    cairo_xcb_surface_set_size(surface_, width, height);
+    cairo_xcb_surface_set_size(surface_.get(), width, height);
+    width_ = width;
+    height_ = height;
+}
+
+cairo_surface_t *XCBWindow::prerender() {
+    contentSurface_.reset(cairo_surface_create_similar(
+        surface_.get(), CAIRO_CONTENT_COLOR_ALPHA, width(), height()));
+    return contentSurface_.get();
+}
+
+void XCBWindow::render() {
+    auto cr = cairo_create(surface_.get());
+    cairo_set_source_surface(cr, contentSurface_.get(), 0, 0);
+    cairo_paint(cr);
+    cairo_destroy(cr);
 }
 }
 }

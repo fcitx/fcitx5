@@ -19,6 +19,7 @@
 #ifndef _FCITX_UI_CLASSIC_WAYLANDWINDOW_H_
 #define _FCITX_UI_CLASSIC_WAYLANDWINDOW_H_
 
+#include "fcitx-utils/rect.h"
 #include "waylandui.h"
 #include "window.h"
 #include "wl_surface.h"
@@ -29,16 +30,29 @@ namespace classicui {
 
 class WaylandWindow : public Window {
 public:
-    WaylandWindow(WaylandUI *ui, UserInterfaceComponent type);
+    WaylandWindow(WaylandUI *ui);
     ~WaylandWindow();
 
     virtual void createWindow();
     virtual void destroyWindow();
 
+    void setScale(int32_t scale) { scale_ = scale; }
+    void setTransform(wl_output_transform transform) { transform_ = transform; }
+
 protected:
     WaylandUI *ui_;
     std::unique_ptr<wayland::WlSurface> surface_;
+    std::list<fcitx::ScopedConnection> conns_;
+
+    Rect serverAllocation_;
+    Rect allocation_;
+
+    int scale_ = 1;
+    wl_output_transform transform_ = WL_OUTPUT_TRANSFORM_NORMAL;
 };
+
+void bufferToSurfaceSize(enum wl_output_transform buffer_transform,
+                         int32_t buffer_scale, int32_t *width, int32_t *height);
 }
 }
 

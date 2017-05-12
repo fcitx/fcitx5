@@ -18,12 +18,13 @@
  */
 
 #include "waylandeglwindow.h"
+#include <cairo/cairo-gl.h>
 #include <wayland-egl.h>
 
 namespace fcitx {
 namespace classicui {
-WaylandEGLWindow::WaylandEGLWindow(WaylandUI *ui, UserInterfaceComponent type)
-    : WaylandWindow(ui, type), window_(nullptr, &wl_egl_window_destroy),
+WaylandEGLWindow::WaylandEGLWindow(WaylandUI *ui)
+    : WaylandWindow(ui), window_(nullptr, &wl_egl_window_destroy),
       cairoSurface_(nullptr, &cairo_surface_destroy) {}
 
 void WaylandEGLWindow::createWindow() {
@@ -43,6 +44,38 @@ void WaylandEGLWindow::destroyWindow() {
 
 void WaylandEGLWindow::resize(unsigned int width, unsigned int height) {
     wl_egl_window_resize(window_.get(), width, height, 0, 0);
+}
+
+cairo_surface_t *WaylandEGLWindow::prerender() {
+    cairo_device_t *device = cairo_surface_get_device(cairoSurface_.get());
+    if (!device) {
+        return nullptr;
+    }
+
+    auto ctx = ui_->argbCtx();
+
+    cairo_device_flush(device);
+    cairo_device_acquire(device);
+    eglMakeCurrent(ui_->eglDisplay(), eglSurface_, eglSurface_, ctx);
+
+    return cairoSurface_.get();
+}
+
+void WaylandEGLWindow::render() {
+    cairo_gl_surface_swapbuffers(cairoSurface_.get());
+    int width, height;
+    wl_egl_window_get_attached_size(window_.get(), &width, &height);
+
+    bufferToSurfaceSize(transform_, scale_, &width, &height);
+    serverAllocation_.setSize(width, height);
+
+    cairo_device_t *device = cairo_surface_get_device(cairoSurface_.get());
+    if (!device)
+        return;
+
+    eglMakeCurrent(ui_->eglDisplay(), EGL_NO_SURFACE, EGL_NO_SURFACE,
+                   EGL_NO_CONTEXT);
+    cairo_device_release(device);
 }
 }
 }

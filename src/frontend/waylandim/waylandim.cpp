@@ -409,7 +409,7 @@ void WaylandIMInputContextV1::keymapCallback(uint32_t format, int32_t fd,
         server_->keymap_.reset();
     }
 
-    auto mapStr = mmap(NULL, size, PROT_READ, MAP_SHARED, fd, 0);
+    auto mapStr = mmap(nullptr, size, PROT_READ, MAP_SHARED, fd, 0);
     if (mapStr == MAP_FAILED) {
         close(fd);
         return;

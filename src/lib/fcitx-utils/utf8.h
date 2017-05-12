@@ -65,6 +65,12 @@ getCharValidated(const std::string &s, size_t off = 0, int maxLen = 6) {
     return fcitx_utf8_get_char_validated(s.c_str() + off, maxLen, nullptr);
 }
 
+template <typename Iter>
+uint32_t getChar(Iter iter, int maxLen = 6) {
+    const char *c = &(*iter);
+    return fcitx_utf8_get_char_validated(c, maxLen, nullptr);
+}
+
 FCITXUTILS_EXPORT inline size_t charLength(const std::string &s) {
     return fcitx_utf8_char_len(s.c_str());
 }

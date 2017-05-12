@@ -27,21 +27,18 @@ namespace classicui {
 
 class Window {
 public:
-    Window(UserInterfaceComponent type);
+    Window();
 
     unsigned int width() const { return width_; }
     unsigned int height() const { return height_; }
     virtual void resize(unsigned int width, unsigned int height);
 
-    virtual cairo_surface_t *prepare() = 0;
-    virtual void swap() = 0;
-    virtual void acquire() = 0;
-    virtual void release() = 0;
+    virtual cairo_surface_t *prerender() = 0;
+    virtual void render() = 0;
 
 protected:
     unsigned int width_ = 100;
     unsigned int height_ = 100;
-    UserInterfaceComponent type_;
 };
 }
 }

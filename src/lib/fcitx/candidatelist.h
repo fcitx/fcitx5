@@ -60,6 +60,8 @@ public:
     virtual int size() const = 0;
     virtual int cursorIndex() const = 0;
 
+    virtual CandidateLayoutHint layoutHint() const = 0;
+
     PageableCandidateList *toPageable() const;
     BulkCandidateList *toBulk() const;
     ModifiableCandidateList *toModifiable() const;
@@ -90,8 +92,6 @@ public:
     virtual int totalPages() const = 0;
     virtual int currentPage() const = 0;
     virtual void setPage(int page) = 0;
-
-    virtual CandidateLayoutHint layoutHint() const = 0;
 };
 
 // useful for virtual keyboard

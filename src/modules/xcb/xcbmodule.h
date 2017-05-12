@@ -40,8 +40,6 @@
 
 namespace fcitx {
 
-typedef std::function<void(xcb_atom_t selection)> XCBSelectionNotifyCallback;
-
 class XCBModule;
 
 class XCBConnection {
@@ -68,41 +66,26 @@ private:
     void onIOEvent();
     void addSelectionAtom(xcb_atom_t atom);
     void removeSelectionAtom(xcb_atom_t atom);
-    void initAtom();
     xcb_atom_t atom(const std::string &atomName, bool exists);
-    void refreshCompositeManager();
 
     std::unordered_map<std::string, xcb_atom_t> atomCache_;
 
     XCBModule *parent_;
     std::string name_;
     std::unique_ptr<xcb_connection_t, decltype(&xcb_disconnect)> conn_;
-    int screen_;
-    xcb_atom_t atom_;
-    xcb_window_t serverWindow_;
-    xcb_window_t root_;
-    FocusGroup *group_;
+    int screen_ = 0;
+    xcb_atom_t atom_ = XCB_ATOM_NONE;
+    xcb_window_t serverWindow_ = XCB_WINDOW_NONE;
+    xcb_window_t root_ = XCB_WINDOW_NONE;
+    FocusGroup *group_ = nullptr;
 
-    xcb_atom_t typeMenuAtom_ = XCB_ATOM_NONE;
-    xcb_atom_t windowTypeAtom_ = XCB_ATOM_NONE;
-    xcb_atom_t typeDialogAtom_ = XCB_ATOM_NONE;
-    xcb_atom_t typeDockAtom_ = XCB_ATOM_NONE;
-    xcb_atom_t typePopupMenuAtom_ = XCB_ATOM_NONE;
-    xcb_atom_t pidAtom_ = XCB_ATOM_NONE;
-    xcb_atom_t utf8Atom_ = XCB_ATOM_NONE;
-    xcb_atom_t stringAtom_ = XCB_ATOM_NONE;
-    xcb_atom_t compTextAtom_ = XCB_ATOM_NONE;
-    xcb_atom_t compMgrAtom_ = XCB_ATOM_NONE;
-
-    std::string compMgrAtomString_;
-    xcb_window_t compMgrWindow_ = XCB_WINDOW_NONE;
-
-    bool hasXKB_;
-    xcb_atom_t xkbRulesNamesAtom_;
-    uint8_t xkbFirstEvent_;
-    int32_t coreDeviceId_;
+    bool hasXKB_ = false;
+    xcb_atom_t xkbRulesNamesAtom_ = XCB_ATOM_NONE;
+    uint8_t xkbFirstEvent_ = 0;
+    int32_t coreDeviceId_ = 0;
 
     bool hasXFixes_ = false;
+    uint8_t xfixesFirstEvent_ = 0;
     MultiHandlerTable<xcb_atom_t, XCBSelectionNotifyCallback> selections_{
         [this](xcb_atom_t selection) { addSelectionAtom(selection); },
         [this](xcb_atom_t selection) { removeSelectionAtom(selection); }};
@@ -136,6 +119,9 @@ public:
     addConnectionClosedCallback(XCBConnectionClosed callback);
     struct xkb_state *xkbState(const std::string &name);
     XkbRulesNames xkbRulesNames(const std::string &name);
+    HandlerTableEntry<XCBSelectionNotifyCallback> *
+    addSelection(const std::string &name, const std::string &atom,
+                 XCBSelectionNotifyCallback callback);
 
 private:
     void onConnectionCreated(XCBConnection &conn);
@@ -151,6 +137,7 @@ private:
     FCITX_ADDON_EXPORT_FUNCTION(XCBModule, addConnectionClosedCallback);
     FCITX_ADDON_EXPORT_FUNCTION(XCBModule, xkbState);
     FCITX_ADDON_EXPORT_FUNCTION(XCBModule, xkbRulesNames);
+    FCITX_ADDON_EXPORT_FUNCTION(XCBModule, addSelection);
 };
 }
 

@@ -18,13 +18,18 @@
  */
 
 #include "classicui.h"
+#include "fcitx-utils/utf8.h"
+#include "fcitx/inputcontext.h"
 #include "fcitx/instance.h"
 #include "fcitx/userinterfacemanager.h"
 #include "waylandui.h"
 #include "xcbui.h"
+#include <iomanip>
+#include <sstream>
 
 namespace fcitx {
 namespace classicui {
+
 ClassicUI::ClassicUI(Instance *instance)
     : UserInterface(), instance_(instance) {
     xcbCreatedCallback_.reset(
@@ -52,6 +57,18 @@ ClassicUI::ClassicUI(Instance *instance)
             [this](const std::string &name, wl_display *) {
                 uis_.erase("wayland:" + name);
             }));
+    eventHandler_.reset(instance->watchEvent(
+        EventType::InputContextCursorRectChanged, EventWatcherPhase::Default,
+        [this](Event &event) {
+            auto &icEvent = static_cast<InputContextEvent &>(event);
+            auto inputContext = icEvent.inputContext();
+            auto iter = uis_.find(inputContext->display());
+            if (iter == uis_.end()) {
+                return;
+            }
+            auto ui = iter->second.get();
+            ui->updateCursor(inputContext);
+        }));
 }
 
 ClassicUI::~ClassicUI() {}
@@ -71,7 +88,14 @@ void ClassicUI::suspend() {}
 void ClassicUI::resume() {}
 
 void ClassicUI::update(UserInterfaceComponent component,
-                       InputContext *inputContext) {}
+                       InputContext *inputContext) {
+    auto iter = uis_.find(inputContext->display());
+    if (iter == uis_.end()) {
+        return;
+    }
+    auto ui = iter->second.get();
+    ui->update(component, inputContext);
+}
 
 class ClassicUIFactory : public AddonFactory {
 public:
