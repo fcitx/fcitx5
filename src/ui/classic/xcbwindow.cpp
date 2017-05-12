@@ -71,6 +71,7 @@ void XCBWindow::createWindow(xcb_visualid_t vid) {
     height_ = 1;
 
     postCreateWindow();
+    xcb_flush(ui_->connection());
 }
 
 void XCBWindow::destroyWindow() {
@@ -101,6 +102,7 @@ void XCBWindow::render() {
     cairo_set_source_surface(cr, contentSurface_.get(), 0, 0);
     cairo_paint(cr);
     cairo_destroy(cr);
+    xcb_flush(ui_->connection());
 }
 }
 }

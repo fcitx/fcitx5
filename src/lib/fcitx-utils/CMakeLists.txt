@@ -53,6 +53,8 @@ set(FCITX_UTILS_HEADERS
     rect.h
     charutils.h
     i18n.h
+    capabilityflags.h
+    textformatflags.h
     ${CMAKE_CURRENT_BINARY_DIR}/fcitxutils_export.h
     )
 

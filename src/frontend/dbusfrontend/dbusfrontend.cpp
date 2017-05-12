@@ -121,8 +121,8 @@ public:
     void resetDBus() { reset(ResetReason::Client); }
 
 private:
-    FCITX_OBJECT_VTABLE_METHOD(focusIn, "focusIn", "", "");
-    FCITX_OBJECT_VTABLE_METHOD(focusOut, "focusOut", "", "");
+    FCITX_OBJECT_VTABLE_METHOD(focusIn, "FocusIn", "", "");
+    FCITX_OBJECT_VTABLE_METHOD(focusOut, "FocusOut", "", "");
     FCITX_OBJECT_VTABLE_METHOD(resetDBus, "Reset", "", "");
     FCITX_OBJECT_VTABLE_METHOD(setCursorRectDBus, "SetCursorRect", "iiii", "");
     FCITX_OBJECT_VTABLE_METHOD(setCapability, "SetCapability", "t", "");
@@ -131,7 +131,7 @@ private:
     FCITX_OBJECT_VTABLE_METHOD(setSurroundingTextPosition,
                                "SetSurroundingTextPosition", "uu", "");
     FCITX_OBJECT_VTABLE_METHOD(destroyDBus, "DestroyIC", "", "");
-    FCITX_OBJECT_VTABLE_METHOD(processKeyEvent, "ProcessKeyEvent", "uuuiu",
+    FCITX_OBJECT_VTABLE_METHOD(processKeyEvent, "ProcessKeyEvent", "uuubu",
                                "b");
     FCITX_OBJECT_VTABLE_SIGNAL(commitStringDBus, "CommitString", "s");
     FCITX_OBJECT_VTABLE_SIGNAL(currentIM, "CurrentIM", "sss");
@@ -140,7 +140,7 @@ private:
     FCITX_OBJECT_VTABLE_SIGNAL(deleteSurroundingTextDBus,
                                "DeleteSurroundingText", "iu");
     // TODO UpdateClientSideUI
-    FCITX_OBJECT_VTABLE_SIGNAL(forwardKeyDBus, "forwardKey", "uub");
+    FCITX_OBJECT_VTABLE_SIGNAL(forwardKeyDBus, "ForwardKey", "uub");
 
     dbus::ObjectPath path_;
     DBusFrontendModule *module_;
@@ -180,15 +180,9 @@ public:
             std::vector<uint8_t>(ic->uuid().begin(), ic->uuid().end()));
     }
 
-    std::string createInputContext2() {
-        return std::get<0>(createInputContext({})).path();
-    }
-
 private:
-    FCITX_OBJECT_VTABLE_METHOD(createInputContext, "CreateIC", "a(ss)", "oay");
-    // debug purpose for now
-    // TODO remove me
-    FCITX_OBJECT_VTABLE_METHOD(createInputContext2, "CreateIC2", "", "s");
+    FCITX_OBJECT_VTABLE_METHOD(createInputContext, "CreateInputContext",
+                               "a(ss)", "oay");
 
     DBusFrontendModule *module_;
     Instance *instance_;

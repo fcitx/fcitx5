@@ -108,6 +108,7 @@ void XCBInputWindow::updatePosition(InputContext *inputContext) {
                              XCB_CONFIG_WINDOW_STACK_MODE |
                                  XCB_CONFIG_WINDOW_X | XCB_CONFIG_WINDOW_Y,
                              &wc);
+    xcb_flush(ui_->connection());
 }
 
 void XCBInputWindow::update(InputContext *inputContext) {
@@ -119,6 +120,7 @@ void XCBInputWindow::update(InputContext *inputContext) {
     if (!visible()) {
         if (oldVisible) {
             xcb_unmap_window(ui_->connection(), wid_);
+            xcb_flush(ui_->connection());
         }
         return;
     }

@@ -238,7 +238,8 @@ void InputContext::updatePreedit() {
     }
 }
 
-void InputContext::updateUserInterface(UserInterfaceComponent component, bool immediate) {
+void InputContext::updateUserInterface(UserInterfaceComponent component,
+                                       bool immediate) {
     FCITX_D();
     d->emplaceEvent<InputContextUpdateUIEvent>(component, this, immediate);
 }

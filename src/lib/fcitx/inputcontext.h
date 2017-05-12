@@ -23,6 +23,7 @@
 #include "fcitxcore_export.h"
 #include <array>
 #include <cstdint>
+#include <fcitx-utils/capabilityflags.h>
 #include <fcitx-utils/flags.h>
 #include <fcitx-utils/key.h>
 #include <fcitx-utils/macros.h>
@@ -38,43 +39,6 @@
 #include <uuid/uuid.h>
 
 namespace fcitx {
-
-// Use uint64_t for more space for future
-enum class CapabilityFlag : uint64_t {
-    None = 0,
-    ClientSideUI = (1 << 0),
-    Preedit = (1 << 1),
-    ClientSideControlState = (1 << 2),
-    Password = (1 << 3),
-    FormattedPreedit = (1 << 4),
-    ClientUnfocusCommit = (1 << 5),
-    SurroundingText = (1 << 6),
-    Email = (1 << 7),
-    Digit = (1 << 8),
-    Uppercase = (1 << 9),
-    Lowercase = (1 << 10),
-    NoAutoUpperCase = (1 << 11),
-    Url = (1 << 12),
-    Dialable = (1 << 13),
-    Number = (1 << 14),
-    NoOnScreenKeyboard = (1 << 15),
-    SpellCheck = (1 << 16),
-    NoSpellCheck = (1 << 17),
-    WordCompletion = (1 << 18),
-    UppercaseWords = (1 << 19),
-    UppwercaseSentences = (1 << 20),
-    Alpha = (1 << 21),
-    Name = (1 << 22),
-    RelativeRect = (1 << 23),
-    Terminal = (1 << 24),
-    Date = (1 << 25),
-    Time = (1 << 26),
-    Multiline = (1 << 27),
-    Sensitive = (1 << 28),
-    HiddenText = (1 << 29),
-};
-
-typedef Flags<CapabilityFlag> CapabilityFlags;
 typedef std::array<uint8_t, sizeof(uuid_t)> ICUUID;
 
 class InputContextManager;
@@ -119,7 +83,8 @@ public:
     void forwardKey(const Key &rawKey, bool isRelease = false, int keyCode = 0,
                     int time = 0);
     void updatePreedit();
-    void updateUserInterface(UserInterfaceComponent componet, bool immediate = false);
+    void updateUserInterface(UserInterfaceComponent componet,
+                             bool immediate = false);
 
     InputContextProperty *property(const std::string &name);
     InputContextProperty *property(InputContextPropertyFactory *factory);

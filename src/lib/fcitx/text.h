@@ -22,21 +22,11 @@
 #include "fcitxcore_export.h"
 #include <fcitx-utils/flags.h>
 #include <fcitx-utils/macros.h>
+#include <fcitx-utils/textformatflags.h>
 #include <memory>
 #include <string>
 
 namespace fcitx {
-
-enum class TextFormatFlag : int {
-    UnderLine = (1 << 0), /**< underline is a flag */
-    HighLight = (1 << 1), /**< highlight the preedit */
-    Bold = (1 << 2),
-    Strike = (1 << 3),
-    DontCommit = (1 << 4),
-    None = 0,
-};
-
-typedef Flags<TextFormatFlag> TextFormatFlags;
 class TextPrivate;
 class FCITXCORE_EXPORT Text {
 public:

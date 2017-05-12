@@ -41,6 +41,9 @@ FocusGroup::~FocusGroup() {
 void FocusGroup::setFocusedInputContext(InputContext *ic) {
     FCITX_D();
     assert(!ic || d->ics_.count(ic) > 0);
+    if (ic == d->focus_) {
+        return;
+    }
     if (d->focus_) {
         d->focus_->setHasFocus(false);
     }

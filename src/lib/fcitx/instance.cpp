@@ -350,10 +350,12 @@ Instance::Instance(int argc, char **argv) {
         [this, d](Event &event) {
             auto &icEvent = static_cast<InputContextUpdateUIEvent &>(event);
             if (icEvent.immediate()) {
-                d->uiManager_.update(icEvent.component(), icEvent.inputContext());
+                d->uiManager_.update(icEvent.component(),
+                                     icEvent.inputContext());
                 d->uiManager_.flush();
             } else {
-                d->uiManager_.update(icEvent.component(), icEvent.inputContext());
+                d->uiManager_.update(icEvent.component(),
+                                     icEvent.inputContext());
                 d->uiUpdateEvent_->setOneShot();
             }
         }));
