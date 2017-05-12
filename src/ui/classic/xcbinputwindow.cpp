@@ -59,6 +59,7 @@ void XCBInputWindow::updatePosition(InputContext *inputContext) {
         }
     }
 
+    // if dpi changed due to screen, resize.
     dpi = ui_->dpi(dpi);
     if (dpi != dpi_) {
         dpi_ = dpi;
@@ -82,7 +83,7 @@ void XCBInputWindow::updatePosition(InputContext *inputContext) {
         if (y < closestScreen->top()) {
             newY = closestScreen->top();
         } else {
-            newY = y + h;
+            newY = y + (h ? h : (10 * ((dpi_ < 0 ? 96.0 : dpi_) / 96.0)));
         }
 
         if ((newX + width()) > closestScreen->right())

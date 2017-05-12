@@ -303,8 +303,9 @@ void XIMServer::callback(xcb_im_client_t *client, xcb_im_input_context_t *xic,
             auto reply = makeXCBReply(
                 xcb_translate_coordinates_reply(conn_, trans_cookie, nullptr));
             if (reply) {
-                ic->setCursorRect(Rect(reply->dst_x, reply->dst_y, reply->dst_x,
-                                       reply->dst_y));
+                ic->setCursorRect(Rect()
+                                      .setPosition(reply->dst_x, reply->dst_y)
+                                      .setSize(0, 0));
             }
         }
 
