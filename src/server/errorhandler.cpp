@@ -43,7 +43,7 @@
 #define BACKTRACE_SIZE 32
 
 extern int selfpipe[2];
-extern char *crashlog;
+extern std::string crashlog;
 
 typedef struct _MinimalBuffer {
     char buffer[MINIMAL_BUFFER_SIZE];
@@ -127,8 +127,8 @@ void OnException(int signo) {
     MinimalBuffer buffer;
     int fd = -1;
 
-    if (crashlog && (signo == SIGSEGV || signo == SIGABRT))
-        fd = open(crashlog, O_WRONLY | O_CREAT | O_TRUNC, 0600);
+    if (crashlog.size() && (signo == SIGSEGV || signo == SIGABRT))
+        fd = open(crashlog.c_str(), O_WRONLY | O_CREAT | O_TRUNC, 0600);
 
     /* print signal info */
     BufferReset(&buffer);

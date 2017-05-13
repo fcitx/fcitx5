@@ -24,6 +24,21 @@
 namespace fcitx {
 namespace dbus {
 
+class ObjectVTablePrivate {
+public:
+    const std::string &vtableString(const std::string &str) {
+        auto iter = stringPool_.find(str);
+        if (iter == stringPool_.end()) {
+            iter = stringPool_.insert(str).first;
+        }
+        return *iter;
+    }
+
+    bool hasVTable_ = false;
+    std::vector<sd_bus_vtable> vtable_;
+    std::unordered_set<std::string> stringPool_;
+};
+
 int SDMethodCallback(sd_bus_message *m, void *userdata, sd_bus_error *) {
     try {
         auto method = static_cast<ObjectVTableMethod *>(userdata);
@@ -42,26 +57,34 @@ int SDMethodCallback(sd_bus_message *m, void *userdata, sd_bus_error *) {
     return 0;
 }
 
-ObjectVTablePrivate::~ObjectVTablePrivate() {}
+ObjectVTableBasePrivate::~ObjectVTableBasePrivate() {}
 
-std::vector<sd_bus_vtable> ObjectVTablePrivate::toSDBusVTable() {
-    std::vector<sd_bus_vtable> result;
-    result.push_back(vtable_start());
+const sd_bus_vtable *ObjectVTableBasePrivate::toSDBusVTable() {
+    FCITX_Q();
+    std::lock_guard<std::mutex> lock(q->privateDataMutexForType());
+    auto p = q->privateDataForType();
+    if (!p->hasVTable_) {
+        std::vector<sd_bus_vtable> &result = p->vtable_;
+        result.push_back(vtable_start());
 
-    for (auto method : methods_) {
-        auto offset =
-            reinterpret_cast<char *>(method) - reinterpret_cast<char *>(q_ptr);
-        result.push_back(vtable_method(
-            vtableString(method->name()).c_str(),
-            vtableString(method->signature()).c_str(),
-            vtableString(method->ret()).c_str(), offset, SDMethodCallback));
+        for (auto method : methods_) {
+            auto offset = reinterpret_cast<char *>(method) -
+                          reinterpret_cast<char *>(q_ptr);
+            result.push_back(
+                vtable_method(p->vtableString(method->name()).c_str(),
+                              p->vtableString(method->signature()).c_str(),
+                              p->vtableString(method->ret()).c_str(), offset,
+                              SDMethodCallback));
+        }
+
+        result.push_back(vtable_end());
+        p->hasVTable_ = true;
     }
 
-    result.push_back(vtable_end());
-    return result;
+    return p->vtable_.data();
 }
 
-ObjectVTableMethod::ObjectVTableMethod(ObjectVTable *vtable,
+ObjectVTableMethod::ObjectVTableMethod(ObjectVTableBase *vtable,
                                        const std::string &name,
                                        const std::string &signature,
                                        const std::string &ret,
@@ -71,7 +94,7 @@ ObjectVTableMethod::ObjectVTableMethod(ObjectVTable *vtable,
     vtable->addMethod(this);
 }
 
-ObjectVTableProperty::ObjectVTableProperty(ObjectVTable *vtable,
+ObjectVTableProperty::ObjectVTableProperty(ObjectVTableBase *vtable,
                                            const std::string &name,
                                            const std::string signature,
                                            PropertyGetMethod getMethod)
@@ -81,14 +104,15 @@ ObjectVTableProperty::ObjectVTableProperty(ObjectVTable *vtable,
 }
 
 ObjectVTableWritableProperty::ObjectVTableWritableProperty(
-    ObjectVTable *vtable, const std::string &name, const std::string signature,
-    PropertyGetMethod getMethod, PropertySetMethod setMethod)
+    ObjectVTableBase *vtable, const std::string &name,
+    const std::string signature, PropertyGetMethod getMethod,
+    PropertySetMethod setMethod)
     : ObjectVTableProperty(vtable, name, signature, getMethod),
       setMethod_(setMethod) {
     writable_ = true;
 }
 
-ObjectVTableSignal::ObjectVTableSignal(ObjectVTable *vtable,
+ObjectVTableSignal::ObjectVTableSignal(ObjectVTableBase *vtable,
                                        const std::string &name,
                                        const std::string signature)
     : name_(name), signature_(signature), vtable_(vtable) {
@@ -100,54 +124,58 @@ Message ObjectVTableSignal::createSignal() {
         vtable_->path().c_str(), vtable_->interface().c_str(), name_.c_str());
 }
 
-ObjectVTable::ObjectVTable()
-    : d_ptr(std::make_unique<ObjectVTablePrivate>(this)) {}
+ObjectVTableBase::ObjectVTableBase()
+    : d_ptr(std::make_unique<ObjectVTableBasePrivate>(this)) {}
 
-ObjectVTable::~ObjectVTable() {}
+ObjectVTableBase::~ObjectVTableBase() {}
 
-void ObjectVTable::addMethod(ObjectVTableMethod *method) {
+void ObjectVTableBase::addMethod(ObjectVTableMethod *method) {
     FCITX_D();
     d->methods_.push_back(method);
 }
 
-void ObjectVTable::addProperty(ObjectVTableProperty *property) {
+void ObjectVTableBase::addProperty(ObjectVTableProperty *property) {
     FCITX_D();
     d->properties_.push_back(property);
 }
 
-void ObjectVTable::addSignal(ObjectVTableSignal *signal) {
+void ObjectVTableBase::addSignal(ObjectVTableSignal *signal) {
     FCITX_D();
     d->sigs_.push_back(signal);
 }
 
-void ObjectVTable::releaseSlot() { setSlot(nullptr); }
+void ObjectVTableBase::releaseSlot() { setSlot(nullptr); }
 
-Bus *ObjectVTable::bus() {
+Bus *ObjectVTableBase::bus() {
     FCITX_D();
     return d->slot_->bus;
 }
 
-const std::string &ObjectVTable::path() const {
+const std::string &ObjectVTableBase::path() const {
     FCITX_D();
     return d->slot_->path;
 }
 
-const std::string &ObjectVTable::interface() const {
+const std::string &ObjectVTableBase::interface() const {
     FCITX_D();
     return d->slot_->interface;
 }
 
-Message *ObjectVTable::currentMessage() const {
+Message *ObjectVTableBase::currentMessage() const {
     FCITX_D();
     return d->msg_;
 }
 
-void ObjectVTable::setCurrentMessage(Message *msg) {
+void ObjectVTableBase::setCurrentMessage(Message *msg) {
     FCITX_D();
     d->msg_ = msg;
 }
 
-void ObjectVTable::setSlot(Slot *slot) {
+std::shared_ptr<ObjectVTablePrivate> ObjectVTableBase::newSharedPrivateData() {
+    return std::make_shared<ObjectVTablePrivate>();
+}
+
+void ObjectVTableBase::setSlot(Slot *slot) {
     FCITX_D();
     d->slot_.reset(static_cast<SDVTableSlot *>(slot));
 }

@@ -64,7 +64,7 @@ public:
     Slot *addFilter(MessageCallback callback);
     Slot *addObject(const std::string &path, MessageCallback callback);
     bool addObjectVTable(const std::string &path, const std::string &interface,
-                         ObjectVTable &vtable);
+                         ObjectVTableBase &vtable);
     Slot *addObjectSubTree(const std::string &prefix, MessageCallback callback,
                            EnumerateObjectCallback enumerator);
 

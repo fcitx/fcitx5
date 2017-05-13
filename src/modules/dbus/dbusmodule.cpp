@@ -28,7 +28,7 @@ using namespace fcitx::dbus;
 
 namespace fcitx {
 
-class Controller1 : public ObjectVTable {
+class Controller1 : public ObjectVTable<Controller1> {
 public:
     Controller1(Instance *instance) : instance_(instance) {}
 

@@ -25,13 +25,15 @@
 #include "fcitx-utils/metastring.h"
 #include "fcitx/inputcontext.h"
 #include "fcitx/instance.h"
+#include <iostream>
 
 #define FCITX_INPUTMETHOD_DBUS_INTERFACE "org.fcitx.Fcitx.InputMethod1"
 #define FCITX_INPUTCONTEXT_DBUS_INTERFACE "org.fcitx.Fcitx.InputContext1"
 
 namespace fcitx {
 
-class DBusInputContext1 : public InputContext, public dbus::ObjectVTable {
+class DBusInputContext1 : public InputContext,
+                          public dbus::ObjectVTable<DBusInputContext1> {
 public:
     DBusInputContext1(int id, InputContextManager &icManager,
                       DBusFrontendModule *module, const std::string &sender,
@@ -149,7 +151,7 @@ private:
     std::unique_ptr<dbus::Slot> slot_;
 };
 
-class InputMethod1 : public dbus::ObjectVTable {
+class InputMethod1 : public dbus::ObjectVTable<InputMethod1> {
 public:
     InputMethod1(DBusFrontendModule *module)
         : module_(module), instance_(module->instance()) {}

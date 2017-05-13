@@ -25,7 +25,7 @@
 using namespace fcitx::dbus;
 using namespace fcitx;
 
-class TestObject : public ObjectVTable {
+class TestObject : public ObjectVTable<TestObject> {
     void test1() {}
     std::string test2(int32_t i) { return std::to_string(i); }
     std::tuple<int32_t, uint32_t> test3(int32_t i) {

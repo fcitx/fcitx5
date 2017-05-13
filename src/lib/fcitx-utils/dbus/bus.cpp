@@ -210,14 +210,13 @@ Slot *Bus::addObject(const std::string &path, MessageCallback callback) {
 }
 
 bool Bus::addObjectVTable(const std::string &path, const std::string &interface,
-                          ObjectVTable &vtable) {
+                          ObjectVTableBase &vtable) {
     FCITX_D();
-    auto slot = std::make_unique<SDVTableSlot>(vtable.d_func()->toSDBusVTable(),
-                                               this, path, interface);
+    auto slot = std::make_unique<SDVTableSlot>(this, path, interface);
     sd_bus_slot *sdSlot;
     int r = sd_bus_add_object_vtable(d->bus_, &sdSlot, path.c_str(),
-                                     interface.c_str(), slot->vtable.data(),
-                                     &vtable);
+                                     interface.c_str(),
+                                     vtable.d_func()->toSDBusVTable(), &vtable);
     if (r < 0) {
         return false;
     }

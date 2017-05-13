@@ -18,6 +18,8 @@
  */
 
 #include "errorhandler.h"
+#include "fcitx-utils/fs.h"
+#include "fcitx-utils/standardpath.h"
 #include "fcitx-utils/standardpath.h"
 #include "fcitx/addonfactory.h"
 #include "fcitx/addonmanager.h"
@@ -30,7 +32,7 @@
 
 using namespace fcitx;
 int selfpipe[2];
-char *crashlog;
+std::string crashlog;
 
 static KeyboardEngineFactory keyboardFactory;
 StaticAddonRegistry staticAddon = {
@@ -42,7 +44,12 @@ int main(int argc, char *argv[]) {
         return 1;
     }
 
-    SetMyExceptionHandler();
+    auto userDir =
+        StandardPath::global().userDirectory(StandardPath::Type::Config);
+    if (!userDir.empty()) {
+        fs::makePath(userDir + "/fcitx5");
+        crashlog = userDir + "/fcitx5/crash.log";
+    }
 
     if (fcntl(selfpipe[0], F_SETFL, O_NONBLOCK) == -1 ||
         fcntl(selfpipe[0], F_SETFD, FD_CLOEXEC) == -1 ||
@@ -51,6 +58,8 @@ int main(int argc, char *argv[]) {
         fprintf(stderr, "fcntl failed.\n");
         exit(1);
     }
+
+    SetMyExceptionHandler();
 
     auto localedir = StandardPath::fcitxPath("localedir");
     setlocale(LC_ALL, "");

@@ -24,13 +24,15 @@
 #include <fcitx-utils/trackableobject.h>
 #include <functional>
 #include <memory>
+#include <mutex>
 
 namespace fcitx {
 namespace dbus {
 class Message;
-class ObjectVTable;
+class ObjectVTableBase;
 class Slot;
 class Bus;
+class ObjectVTablePrivate;
 
 typedef std::function<bool(Message)> ObjectMethod;
 typedef std::function<Message()> PropertyGetMethod;
@@ -38,7 +40,7 @@ typedef std::function<bool(Message)> PropertySetMethod;
 
 class FCITXUTILS_EXPORT ObjectVTableMethod {
 public:
-    ObjectVTableMethod(ObjectVTable *vtable, const std::string &name,
+    ObjectVTableMethod(ObjectVTableBase *vtable, const std::string &name,
                        const std::string &signature, const std::string &ret,
                        ObjectMethod handler);
 
@@ -46,14 +48,14 @@ public:
     const std::string &signature() const { return signature_; }
     const std::string &ret() const { return ret_; }
     ObjectMethod &handler() { return handler_; }
-    ObjectVTable *vtable() const { return vtable_; }
+    ObjectVTableBase *vtable() const { return vtable_; }
 
 private:
     const std::string name_;
     const std::string signature_;
     const std::string ret_;
     ObjectMethod handler_;
-    ObjectVTable *vtable_;
+    ObjectVTableBase *vtable_;
 };
 
 template <typename T>
@@ -125,7 +127,7 @@ struct ReturnValueHelper<void> {
 
 class FCITXUTILS_EXPORT ObjectVTableSignal {
 public:
-    ObjectVTableSignal(ObjectVTable *vtable, const std::string &name,
+    ObjectVTableSignal(ObjectVTableBase *vtable, const std::string &name,
                        const std::string signature);
 
     Message createSignal();
@@ -133,12 +135,12 @@ public:
 private:
     const std::string name_;
     const std::string signature_;
-    ObjectVTable *vtable_;
+    ObjectVTableBase *vtable_;
 };
 
 class FCITXUTILS_EXPORT ObjectVTableProperty {
 public:
-    ObjectVTableProperty(ObjectVTable *vtable, const std::string &name,
+    ObjectVTableProperty(ObjectVTableBase *vtable, const std::string &name,
                          const std::string signature,
                          PropertyGetMethod getMethod);
 
@@ -152,7 +154,8 @@ protected:
 class FCITXUTILS_EXPORT ObjectVTableWritableProperty
     : public ObjectVTableProperty {
 public:
-    ObjectVTableWritableProperty(ObjectVTable *vtable, const std::string &name,
+    ObjectVTableWritableProperty(ObjectVTableBase *vtable,
+                                 const std::string &name,
                                  const std::string signature,
                                  PropertyGetMethod getMethod,
                                  PropertySetMethod setMethod);
@@ -161,16 +164,17 @@ private:
     PropertySetMethod setMethod_;
 };
 
-class ObjectVTablePrivate;
+class ObjectVTableBasePrivate;
 class MessageSetter;
 
-class FCITXUTILS_EXPORT ObjectVTable : public TrackableObject<ObjectVTable> {
+class FCITXUTILS_EXPORT ObjectVTableBase
+    : public TrackableObject<ObjectVTableBase> {
     friend class Bus;
     friend class MessageSetter;
 
 public:
-    ObjectVTable();
-    virtual ~ObjectVTable();
+    ObjectVTableBase();
+    virtual ~ObjectVTableBase();
 
     void addMethod(ObjectVTableMethod *method);
     void addSignal(ObjectVTableSignal *sig);
@@ -184,11 +188,40 @@ public:
 
     void setCurrentMessage(Message *message);
 
+protected:
+    virtual std::mutex &privateDataMutexForType() = 0;
+    virtual ObjectVTablePrivate *privateDataForType() = 0;
+    static std::shared_ptr<ObjectVTablePrivate> newSharedPrivateData();
+
 private:
     void setSlot(Slot *slot);
 
-    std::unique_ptr<ObjectVTablePrivate> d_ptr;
-    FCITX_DECLARE_PRIVATE(ObjectVTable);
+    std::unique_ptr<ObjectVTableBasePrivate> d_ptr;
+    FCITX_DECLARE_PRIVATE(ObjectVTableBase);
+};
+
+template <typename T>
+class ObjectVTable : public ObjectVTableBase {
+public:
+    std::mutex &privateDataMutexForType() override {
+        return privateDataMutex();
+    }
+    ObjectVTablePrivate *privateDataForType() override { return privateData(); }
+    static std::mutex &privateDataMutex() {
+        static std::mutex mutex;
+        return mutex;
+    }
+    static ObjectVTablePrivate *privateData() {
+        std::mutex mutex; // not using privateDataMutex to avoid deadlock
+        static std::shared_ptr<ObjectVTablePrivate> d;
+        std::lock_guard<std::mutex> lock(mutex);
+        if (!d) {
+            d = newSharedPrivateData();
+        }
+        return d.get();
+    }
+
+private:
 };
 }
 }

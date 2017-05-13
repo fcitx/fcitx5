@@ -29,24 +29,15 @@ namespace fcitx {
 namespace dbus {
 class SDVTableSlot;
 
-class ObjectVTablePrivate {
+class ObjectVTableBasePrivate {
 public:
-    ObjectVTablePrivate(ObjectVTable *q) : q_ptr(q) {}
-    ~ObjectVTablePrivate();
+    ObjectVTableBasePrivate(ObjectVTableBase *q) : q_ptr(q) {}
+    ~ObjectVTableBasePrivate();
 
-    std::vector<sd_bus_vtable> toSDBusVTable();
-    const std::string &vtableString(const std::string &str) {
-        auto iter = stringPool_.find(str);
-        if (iter == stringPool_.end()) {
-            iter = stringPool_.insert(str).first;
-        }
-        return *iter;
-    }
+    const sd_bus_vtable *toSDBusVTable();
 
-    ObjectVTable *q_ptr;
-    FCITX_DECLARE_PUBLIC(ObjectVTable);
-
-    std::unordered_set<std::string> stringPool_;
+    ObjectVTableBase *q_ptr;
+    FCITX_DECLARE_PUBLIC(ObjectVTableBase);
     std::vector<ObjectVTableMethod *> methods_;
     std::vector<ObjectVTableProperty *> properties_;
     std::vector<ObjectVTableSignal *> sigs_;
