@@ -40,11 +40,10 @@ void XCBInputWindow::updatePosition(InputContext *inputContext) {
     if (!visible()) {
         return;
     }
-    int x, y, w, h;
+    int x, y, h;
 
     x = inputContext->cursorRect().left();
     y = inputContext->cursorRect().top();
-    w = inputContext->cursorRect().width();
     h = inputContext->cursorRect().height();
 
     const Rect *closestScreen = nullptr;
@@ -86,10 +85,10 @@ void XCBInputWindow::updatePosition(InputContext *inputContext) {
             newY = y + (h ? h : (10 * ((dpi_ < 0 ? 96.0 : dpi_) / 96.0)));
         }
 
-        if ((newX + width()) > closestScreen->right())
+        if ((newX + static_cast<int>(width())) > closestScreen->right())
             newX = closestScreen->right() - width();
 
-        if ((newY + height()) > closestScreen->bottom()) {
+        if ((newY + static_cast<int>(height())) > closestScreen->bottom()) {
             if (newY > closestScreen->bottom())
                 newY = closestScreen->bottom() - height() - 40;
             else { /* better position the window */

@@ -36,7 +36,7 @@ public:
     void update(InputContext *inputContext);
     std::pair<unsigned int, unsigned int> sizeHint();
     void paint(cairo_t *cr) const;
-
+    void hide();
     bool visible() const { return visible_; }
 
 protected:

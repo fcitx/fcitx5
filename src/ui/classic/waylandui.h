@@ -48,6 +48,7 @@ public:
     wayland::Display *display() const { return display_; }
     void update(UserInterfaceComponent component,
                 InputContext *inputContext) override;
+    void suspend() override;
 
 private:
     static const struct wl_registry_listener registryListener;

@@ -92,7 +92,7 @@ void InputMethodManager::load() {
     for (const auto &addonName : inputMethods) {
         auto addonInfo = d->addonManager_->addonInfo(addonName);
         // on request input method should always provides entry with config file
-        if (!addonInfo || addonInfo->onRequest()) {
+        if (!addonInfo || addonInfo->onDemand()) {
             continue;
         }
         auto engine = static_cast<InputMethodEngine *>(

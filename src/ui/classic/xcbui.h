@@ -46,6 +46,7 @@ public:
     void update(UserInterfaceComponent component,
                 InputContext *inputContext) override;
     void updateCursor(InputContext *inputContext) override;
+    void suspend() override;
     const auto &screenRects() { return rects_; }
     int dpi(int dpi);
 

@@ -32,10 +32,10 @@ FCITX_CONFIGURATION(
         this, "Addon/Dependencies", "Dependencies"};
     fcitx::Option<std::vector<std::string>> optionalDependencies{
         this, "Addon/OptionalDependencies", "Optional Dependencies"};
-    fcitx::Option<bool> onRequest{this, "Addon/OnRequest",
-                                  "Load only on request", false};
-    fcitx::Option<bool> uiFallback{this, "Addon/UIFallback",
-                                   "Support UI as a fallback", false};)
+    fcitx::Option<bool> onDemand{this, "Addon/OnDemand", "Load only on request",
+                                 false};
+    fcitx::Option<int> uiPriority{this, "Addon/UIPriority",
+                                  "User interface priority", 0};)
 
 class AddonInfoPrivate : public AddonConfig {
 public:
@@ -81,14 +81,14 @@ const std::vector<std::string> &AddonInfo::optionalDependencies() const {
     return d->optionalDependencies.value();
 }
 
-bool AddonInfo::onRequest() const {
+bool AddonInfo::onDemand() const {
     FCITX_D();
-    return d->onRequest.value();
+    return d->onDemand.value();
 }
 
-bool AddonInfo::uiFallback() const {
+int AddonInfo::uiPriority() const {
     FCITX_D();
-    return d->uiFallback.value();
+    return d->uiPriority.value();
 }
 
 void AddonInfo::load(const RawConfig &config) {

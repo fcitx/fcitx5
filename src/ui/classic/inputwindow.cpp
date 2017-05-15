@@ -118,6 +118,10 @@ void setTextToLayout(
 }
 
 void InputWindow::update(InputContext *inputContext) {
+    if (parent_->suspended()) {
+        visible_ = false;
+        return;
+    }
     // | aux up | preedit
     // | aux down
     // | 1 candidate | 2 ...
@@ -135,8 +139,8 @@ void InputWindow::update(InputContext *inputContext) {
     auto auxUp = instance->outputFilter(inputContext, inputPanel.auxUp());
     pango_layout_set_single_paragraph_mode(upperLayout_.get(), true);
     setTextToLayout(upperLayout_.get(), {auxUp, preedit});
-    if (preedit.cursor() > 0) {
-        cursor_ += preedit.cursor() + auxUp.toString().size();
+    if (preedit.cursor() >= 0) {
+        cursor_ = preedit.cursor() + auxUp.toString().size();
     }
 
     auto auxDown = instance->outputFilter(inputContext, inputPanel.auxDown());
@@ -262,7 +266,7 @@ void InputWindow::paint(cairo_t *cr) const {
         h = std::max(minH / PANGO_SCALE, h);
         PangoRectangle pos;
         if (cursor_ >= 0) {
-            pango_layout_get_cursor_pos(upperLayout_.get(), cursor_ + 1, &pos,
+            pango_layout_get_cursor_pos(upperLayout_.get(), cursor_, &pos,
                                         nullptr);
 
             cairo_set_line_width(cr, 1);

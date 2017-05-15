@@ -38,7 +38,8 @@ public:
     virtual ~UIInterface() {}
     virtual void update(UserInterfaceComponent component,
                         InputContext *inputContext) = 0;
-    virtual void updateCursor(InputContext *inputContext) {}
+    virtual void updateCursor(InputContext *) {}
+    virtual void suspend() = 0;
 };
 
 FCITX_CONFIGURATION(ClassicUIConfig, fcitx::Option<bool> verticalCandidateList{
@@ -56,6 +57,8 @@ public:
     auto &config() { return config_; }
     void suspend() override;
     void resume() override;
+    bool suspended() const { return suspended_; }
+    bool available() override { return true; }
     void update(UserInterfaceComponent component,
                 InputContext *inputContext) override;
 
@@ -74,6 +77,7 @@ private:
 
     Instance *instance_;
     ClassicUIConfig config_;
+    bool suspended_ = true;
 };
 }
 }

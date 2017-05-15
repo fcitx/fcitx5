@@ -57,18 +57,6 @@ ClassicUI::ClassicUI(Instance *instance)
             [this](const std::string &name, wl_display *) {
                 uis_.erase("wayland:" + name);
             }));
-    eventHandler_.reset(instance->watchEvent(
-        EventType::InputContextCursorRectChanged, EventWatcherPhase::Default,
-        [this](Event &event) {
-            auto &icEvent = static_cast<InputContextEvent &>(event);
-            auto inputContext = icEvent.inputContext();
-            auto iter = uis_.find(inputContext->display());
-            if (iter == uis_.end()) {
-                return;
-            }
-            auto ui = iter->second.get();
-            ui->updateCursor(inputContext);
-        }));
 }
 
 ClassicUI::~ClassicUI() {}
@@ -83,9 +71,32 @@ AddonInstance *ClassicUI::wayland() {
     return addonManager.addon("wayland");
 }
 
-void ClassicUI::suspend() {}
+void ClassicUI::suspend() {
+    suspended_ = true;
+    for (auto &p : uis_) {
+        p.second->suspend();
+    }
+    eventHandler_.reset();
+}
 
-void ClassicUI::resume() {}
+void ClassicUI::resume() {
+    suspended_ = false;
+    eventHandler_.reset(instance_->watchEvent(
+        EventType::InputContextCursorRectChanged, EventWatcherPhase::Default,
+        [this](Event &event) {
+            if (suspended_) {
+                return;
+            }
+            auto &icEvent = static_cast<InputContextEvent &>(event);
+            auto inputContext = icEvent.inputContext();
+            auto iter = uis_.find(inputContext->display());
+            if (iter == uis_.end()) {
+                return;
+            }
+            auto ui = iter->second.get();
+            ui->updateCursor(inputContext);
+        }));
+}
 
 void ClassicUI::update(UserInterfaceComponent component,
                        InputContext *inputContext) {

@@ -86,7 +86,7 @@ int forcedDpi(xcb_connection_t *conn, xcb_screen_t *screen) {
     while (iter < end) {
         auto next = std::find(iter, end, '\n');
         char c[] = "Xft.dpi:\t";
-        size_t cLen = sizeof(c) - 1;
+        int cLen = sizeof(c) - 1;
         if (next - iter > cLen && std::equal(iter, iter + cLen, c)) {
             std::string value(iter + cLen, next);
             try {
@@ -340,5 +340,7 @@ int XCBUI::dpi(int dpi) {
     }
     return (static_cast<double>(dpi) / maxDpi_) * forcedDpi_;
 }
+
+void XCBUI::suspend() { inputWindow_->update(nullptr); }
 }
 }

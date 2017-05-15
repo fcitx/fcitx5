@@ -33,10 +33,11 @@ struct UserInterfaceComponentHash {
 
 class UserInterfaceManagerPrivate {
 public:
-    UserInterfaceManagerPrivate() {}
+    UserInterfaceManagerPrivate(AddonManager *addonManager)
+        : addonManager_(addonManager) {}
 
     UserInterface *ui_ = nullptr;
-    UserInterface *uiFallback_ = nullptr;
+    std::vector<std::string> uis_;
 
     std::unordered_map<std::string, std::pair<Action *, ScopedConnection>>
         actions_;
@@ -46,34 +47,41 @@ public:
         UIUpdateList;
     UIUpdateList updateList_;
     std::unordered_map<InputContext *, UIUpdateList::iterator> updateIndex_;
+    AddonManager *addonManager_;
 };
 
-UserInterfaceManager::UserInterfaceManager()
-    : d_ptr(std::make_unique<UserInterfaceManagerPrivate>()) {}
+UserInterfaceManager::UserInterfaceManager(AddonManager *addonManager)
+    : d_ptr(std::make_unique<UserInterfaceManagerPrivate>(addonManager)) {}
 
 UserInterfaceManager::~UserInterfaceManager() {}
 
-void UserInterfaceManager::load(AddonManager *addonManager,
-                                const std::string &uiName) {
+void UserInterfaceManager::load(const std::string &uiName) {
     FCITX_D();
-    auto names = addonManager->addonNames(AddonCategory::UI);
+    auto names = d->addonManager_->addonNames(AddonCategory::UI);
 
     if (names.count(uiName)) {
-        auto ui = addonManager->addon(uiName, true);
+        auto ui = d->addonManager_->addon(uiName, true);
         if (ui) {
             d->ui_ = static_cast<UserInterface *>(ui);
+            d->uis_.clear();
+            d->uis_.push_back(uiName);
         }
     }
 
     if (!d->ui_) {
-        // FIXME: implement fallback
-        for (auto &name : names) {
-            auto ui = addonManager->addon(name, true);
-            if (ui) {
-                d->ui_ = static_cast<UserInterface *>(ui);
-                break;
-            }
-        }
+        d->uis_.clear();
+        d->uis_.insert(d->uis_.end(), names.begin(), names.end());
+        std::sort(d->uis_.begin(), d->uis_.end(),
+                  [d](const std::string &lhs, const std::string &rhs) {
+                      auto lp = d->addonManager_->addonInfo(lhs)->uiPriority();
+                      auto rp = d->addonManager_->addonInfo(rhs)->uiPriority();
+                      if (lp == rp) {
+                          return lhs > rhs;
+                      } else {
+                          return lp > rp;
+                      }
+                  });
+        updateAvailability();
     }
 }
 
@@ -156,4 +164,26 @@ void fcitx::UserInterfaceManager::flush() {
     }
     d->updateIndex_.clear();
     d->updateList_.clear();
+}
+void fcitx::UserInterfaceManager::updateAvailability() {
+    FCITX_D();
+    auto oldUI = d->ui_;
+    fcitx::UserInterface *newUI = nullptr;
+    for (auto &name : d->uis_) {
+        auto ui =
+            static_cast<UserInterface *>(d->addonManager_->addon(name, true));
+        if (ui && ui->available()) {
+            newUI = static_cast<UserInterface *>(ui);
+            break;
+        }
+    }
+    if (oldUI != newUI) {
+        if (oldUI) {
+            oldUI->suspend();
+        }
+        if (newUI) {
+            newUI->resume();
+        }
+        d->ui_ = newUI;
+    }
 }

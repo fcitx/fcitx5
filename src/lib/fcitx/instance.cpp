@@ -145,7 +145,7 @@ public:
     InputContextManager icManager_;
     AddonManager addonManager_;
     InputMethodManager imManager_{&this->addonManager_};
-    UserInterfaceManager uiManager_;
+    UserInterfaceManager uiManager_{&this->addonManager_};
     GlobalConfig globalConfig_;
     std::unordered_map<EventType,
                        std::unordered_map<EventWatcherPhase,
@@ -482,7 +482,7 @@ void Instance::initialize() {
         {std::begin(d->arg_.enableList), std::end(d->arg_.enableList)},
         {std::begin(d->arg_.disableList), std::end(d->arg_.disableList)});
     d->imManager_.load();
-    d->uiManager_.load(&d->addonManager_, d->arg_.uiName);
+    d->uiManager_.load(d->arg_.uiName);
     d->exitEvent_.reset(d->eventLoop_.addExitEvent([this](EventSource *) {
         save();
         return false;

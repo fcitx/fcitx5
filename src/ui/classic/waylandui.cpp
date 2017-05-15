@@ -174,5 +174,7 @@ cairo_surface_t *WaylandUI::createEGLCairoSurface(EGLSurface surface, int width,
 
 void WaylandUI::update(UserInterfaceComponent component,
                        InputContext *inputContext) {}
+
+void WaylandUI::suspend() { return; }
 }
 }

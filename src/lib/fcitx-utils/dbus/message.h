@@ -142,7 +142,8 @@ public:
     void setDestination(const std::string &dest);
 
     std::string sender() const;
-
+    std::string member() const;
+    std::string interface() const;
     std::string signature() const;
 
     void *nativeHandle() const;

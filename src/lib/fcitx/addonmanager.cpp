@@ -78,7 +78,7 @@ public:
             }
 
             if (!dep->loaded()) {
-                if (dep->info().onRequest() &&
+                if (dep->info().onDemand() &&
                     requested_.insert(dep->info().name()).second) {
                     return DependencyCheckStatus::PendingUpdateRequest;
                 }
@@ -94,7 +94,7 @@ public:
             }
 
             // otherwise wait for it
-            if (!dep->loaded() && !dep->info().onRequest()) {
+            if (!dep->loaded() && !dep->info().onDemand()) {
                 return DependencyCheckStatus::Pending;
             }
         }
@@ -121,7 +121,7 @@ public:
         if (addon.loaded() || !addon.isValid()) {
             return false;
         }
-        if (addon.info().onRequest() &&
+        if (addon.info().onDemand() &&
             requested_.count(addon.info().name()) == 0) {
             return false;
         }
@@ -268,7 +268,7 @@ AddonInstance *AddonManager::addon(const std::string &name, bool load) {
     if (!addon) {
         return nullptr;
     }
-    if (addon->isValid() && !addon->loaded() && addon->info().onRequest() &&
+    if (addon->isValid() && !addon->loaded() && addon->info().onDemand() &&
         load) {
         d->requested_.insert(name);
         d->loadAddons();

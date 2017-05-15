@@ -24,7 +24,7 @@
 using namespace fcitx;
 
 int main() {
-    auto uiManager = std::make_unique<UserInterfaceManager>();
+    auto uiManager = std::make_unique<UserInterfaceManager>(nullptr);
     {
         Action a;
         assert(uiManager->registerAction("test", &a));

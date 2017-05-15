@@ -33,9 +33,9 @@ SimpleUI::SimpleUI(Instance *instance) : instance_(instance) {}
 
 SimpleUI::~SimpleUI() {}
 
-void SimpleUI::resume() {}
+void SimpleUI::resume() { suspended_ = false; }
 
-void SimpleUI::suspend() {}
+void SimpleUI::suspend() { suspended_ = true; }
 
 void SimpleUI::update(UserInterfaceComponent component,
                       InputContext *inputContext) {

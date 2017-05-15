@@ -113,6 +113,22 @@ std::string Message::sender() const {
     return sd_bus_message_get_sender(d->msg_);
 }
 
+std::string Message::member() const {
+    FCITX_D();
+    if (!d->msg_) {
+        return {};
+    }
+    return sd_bus_message_get_member(d->msg_);
+}
+
+std::string Message::interface() const {
+    FCITX_D();
+    if (!d->msg_) {
+        return {};
+    }
+    return sd_bus_message_get_interface(d->msg_);
+}
+
 std::string Message::signature() const {
     FCITX_D();
     return sd_bus_message_get_signature(d->msg_, true);

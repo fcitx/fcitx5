@@ -16,33 +16,52 @@
  * License along with this library; see the file COPYING. If not,
  * see <http://www.gnu.org/licenses/>.
  */
-#ifndef _FCITX_UI_SIMPLE_SIMPLEUI_H_
-#define _FCITX_UI_SIMPLE_SIMPLEUI_H_
+#ifndef _FCITX_UI_KIMPANEL_KIMPANEL_H_
+#define _FCITX_UI_KIMPANEL_KIMPANEL_H_
 
+#include "fcitx-utils/dbus/bus.h"
+#include "fcitx-utils/dbus/servicewatcher.h"
+#include "fcitx-utils/event.h"
+#include "fcitx/addonfactory.h"
+#include "fcitx/addoninstance.h"
+#include "fcitx/addonmanager.h"
+#include "fcitx/focusgroup.h"
 #include "fcitx/instance.h"
 #include "fcitx/userinterface.h"
 
 namespace fcitx {
 
-class SimpleUI : public UserInterface {
+class KimpanelProxy;
+
+class Kimpanel : public UserInterface {
 public:
-    SimpleUI(Instance *instance);
-    ~SimpleUI();
+    Kimpanel(Instance *instance);
+    ~Kimpanel();
 
     Instance *instance() { return instance_; }
     void suspend() override;
     void resume() override;
-    bool available() override { return true; }
+    bool available() override { return available_; }
     void update(UserInterfaceComponent component,
                 InputContext *inputContext) override;
+    void updateInputPanel(InputContext *inputContext);
+
+    void msgV1Handler(dbus::Message &msg);
+    void msgV2Handler(dbus::Message &msg);
+
+    void init();
 
 private:
-    void printStatusArea(InputContext *inputContext);
-    void printInputPanel(InputContext *inputContext);
-
+    void setAvailable(bool available);
     Instance *instance_;
-    bool suspended_ = true;
+    dbus::Bus *bus_;
+    dbus::ServiceWatcher watcher_;
+    std::unique_ptr<KimpanelProxy> proxy_;
+    std::unique_ptr<dbus::ServiceWatcherEntry> entry_;
+    std::unique_ptr<HandlerTableEntry<EventHandler>> eventHandler_;
+    TrackableObjectReference<InputContext> lastInputContext_;
+    bool available_ = false;
 };
 }
 
-#endif // _FCITX_UI_SIMPLE_SIMPLEUI_H_
+#endif // _FCITX_UI_KIMPANEL_KIMPANEL_H_

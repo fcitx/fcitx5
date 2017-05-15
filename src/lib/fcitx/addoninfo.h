@@ -43,8 +43,8 @@ public:
     const std::string &library() const;
     const std::vector<std::string> &dependencies() const;
     const std::vector<std::string> &optionalDependencies() const;
-    bool onRequest() const;
-    bool uiFallback() const;
+    bool onDemand() const;
+    int uiPriority() const;
 
     void load(const RawConfig &config);
 

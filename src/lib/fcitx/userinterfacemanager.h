@@ -33,16 +33,17 @@ class UserInterfaceManagerPrivate;
 
 class FCITXCORE_EXPORT UserInterfaceManager {
 public:
-    UserInterfaceManager();
+    UserInterfaceManager(AddonManager *manager);
     virtual ~UserInterfaceManager();
 
-    void load(AddonManager *manager, const std::string &ui = {});
+    void load(const std::string &ui = {});
     bool registerAction(const std::string &name, Action *action);
     void unregisterAction(Action *action);
     Action *lookupAction(const std::string &name);
     void update(UserInterfaceComponent component, InputContext *inputContext);
     void expire(InputContext *inputContext);
     void flush();
+    void updateAvailability();
 
 private:
     std::unique_ptr<UserInterfaceManagerPrivate> d_ptr;
