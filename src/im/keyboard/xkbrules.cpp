@@ -21,8 +21,11 @@
 #include "fcitx-utils/stringutils.h"
 #include "xmlparser.h"
 #include <cstring>
-#include <iostream>
 #include <list>
+
+#ifdef _TEST_XKBRULES
+#include <iostream>
+#endif
 
 namespace fcitx {
 
@@ -176,6 +179,7 @@ bool XkbRules::read(const std::string &fileName) {
     return true;
 }
 
+#ifdef _TEST_XKBRULES
 void XkbRules::dump() {
     std::cout << "Version: " << version_ << std::endl;
 
@@ -220,4 +224,6 @@ void XkbRules::dump() {
         }
     }
 }
+#endif
+
 }

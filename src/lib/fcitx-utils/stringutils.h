@@ -19,7 +19,6 @@
 #ifndef _FCITX_UTILS_STRINGUTILS_H_
 #define _FCITX_UTILS_STRINGUTILS_H_
 #include "fcitxutils_export.h"
-#include <sstream>
 #include <string>
 #include <vector>
 
@@ -46,16 +45,16 @@ FCITXUTILS_EXPORT size_t backwardSearch(const std::string &haystack,
                                         const std::string &needle, size_t from);
 template <typename Iter, typename T>
 FCITXUTILS_EXPORT std::string join(Iter start, Iter end, T &&delim) {
-    std::stringstream result;
+    std::string result;
     if (start != end) {
-        result << (*start);
+        result += (*start);
         start++;
     }
     for (; start != end; start++) {
-        result << (delim);
-        result << (*start);
+        result += (delim);
+        result += (*start);
     }
-    return result.str();
+    return result;
 }
 template <typename C, typename T>
 FCITXUTILS_EXPORT std::string join(C &&container, T &&delim) {

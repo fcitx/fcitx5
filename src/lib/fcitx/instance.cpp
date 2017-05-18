@@ -31,7 +31,6 @@
 #include "inputmethodmanager.h"
 #include "userinterfacemanager.h"
 #include <getopt.h>
-#include <iostream>
 #include <signal.h>
 #include <sys/wait.h>
 #include <unistd.h>

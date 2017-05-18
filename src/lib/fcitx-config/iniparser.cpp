@@ -17,7 +17,6 @@
  * see <http://www.gnu.org/licenses/>.
  */
 
-#include <sstream>
 #include <stdio.h>
 
 #include "configuration.h"
@@ -150,9 +149,10 @@ void readFromIni(RawConfig &config, FILE *fin) {
 
             RawConfigPtr subConfig;
             if (!currentGroup.empty()) {
-                std::stringstream ss;
-                ss << currentGroup << "/" << name;
-                subConfig = config.get(ss.str(), true);
+                std::string s = currentGroup;
+                s += "/";
+                s += name;
+                subConfig = config.get(s, true);
             } else {
                 subConfig = config.get(name, true);
             }
@@ -170,16 +170,18 @@ bool writeAsIni(const RawConfig &root, FILE *fout) {
     callback = [fout, &callback](const RawConfig &config,
                                  const std::string &path) {
         if (config.hasSubItems()) {
-            std::stringstream valuesout;
+            std::string values;
             config.visitSubItems(
-                [&valuesout](const RawConfig &config, const std::string &) {
+                [&values](const RawConfig &config, const std::string &) {
                     if (config.hasSubItems() && config.value().empty()) {
                         return true;
                     }
 
                     if (!config.comment().empty() &&
                         config.comment().find('\n') == std::string::npos) {
-                        valuesout << "# " << config.comment() << "\n";
+                        values += "# ";
+                        values += config.comment();
+                        values += "\n";
                     }
 
                     auto value = config.value();
@@ -194,14 +196,20 @@ bool writeAsIni(const RawConfig &root, FILE *fout) {
                     }
 
                     if (needQuote) {
-                        valuesout << config.name() << "=\"" << value << "\"\n";
+                        values += config.name();
+                        values += "=\"";
+                        values += value;
+                        values += "\"\n";
                     } else {
-                        valuesout << config.name() << "=" << value << "\n";
+                        values += config.name();
+                        values += "=";
+                        values += value;
+                        values += "\n";
                     }
                     return true;
                 },
                 "", false, path);
-            auto valueString = valuesout.str();
+            auto valueString = values;
             if (!valueString.empty()) {
                 if (!path.empty()) {
                     FCITX_RETURN_IF(fprintf(fout, "[%s]\n", path.c_str()) < 0,

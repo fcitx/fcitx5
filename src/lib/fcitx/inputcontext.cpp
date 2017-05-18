@@ -24,7 +24,6 @@
 #include "instance.h"
 #include <cassert>
 #include <exception>
-#include <iostream>
 
 namespace fcitx {
 

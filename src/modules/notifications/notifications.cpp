@@ -27,7 +27,6 @@
 #include "fcitx/addonfactory.h"
 #include "fcitx/addonmanager.h"
 #include <fcntl.h>
-#include <iostream>
 
 #ifndef DBUS_TIMEOUT_USE_DEFAULT
 #define DBUS_TIMEOUT_USE_DEFAULT (-1)

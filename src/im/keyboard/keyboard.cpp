@@ -36,7 +36,6 @@
 #include "xcb_public.h"
 #include <cstring>
 #include <fcntl.h>
-#include <iostream>
 #include <libintl.h>
 
 const char imNamePrefix[] = "keyboard-";

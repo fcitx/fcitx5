@@ -23,7 +23,6 @@
 #include "fcitx/instance.h"
 #include <functional>
 #include <initializer_list>
-#include <iostream>
 #include <limits>
 #include <pango/pangocairo.h>
 

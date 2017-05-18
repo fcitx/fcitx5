@@ -24,8 +24,6 @@
 #include "fcitx/userinterfacemanager.h"
 #include "waylandui.h"
 #include "xcbui.h"
-#include <iomanip>
-#include <sstream>
 
 namespace fcitx {
 namespace classicui {

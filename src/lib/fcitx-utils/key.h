@@ -25,7 +25,6 @@
 #include <cstdint>
 #include <fcitx-utils/flags.h>
 #include <fcitx-utils/keysym.h>
-#include <sstream>
 #include <string>
 #include <vector>
 
@@ -75,17 +74,17 @@ public:
     static KeyList keyListFromString(const std::string &str);
     template <typename Container>
     static std::string keyListToString(Container c) {
-        std::stringstream ss;
+        std::string result;
         bool first = true;
         for (auto k : c) {
             if (first) {
                 first = false;
             } else {
-                ss << " ";
+                result += " ";
             }
-            ss << k.toString();
+            result += k.toString();
         }
-        return ss.str();
+        return result;
     }
     template <typename Container>
     bool checkKeyList(const Container &c) {

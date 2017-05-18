@@ -28,7 +28,6 @@
 #include "fcitx/inputcontextmanager.h"
 #include "fcitx/inputpanel.h"
 #include <fcntl.h>
-#include <iostream>
 
 namespace fcitx {
 

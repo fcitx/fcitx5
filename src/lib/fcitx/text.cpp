@@ -18,7 +18,6 @@
  */
 
 #include "text.h"
-#include <sstream>
 #include <tuple>
 #include <vector>
 namespace fcitx {
@@ -80,23 +79,23 @@ size_t Text::size() const {
 
 std::string Text::toString() const {
     FCITX_D();
-    std::stringstream ss;
+    std::string result;
     for (auto &p : d->texts_) {
-        ss << std::get<std::string>(p);
+        result += std::get<std::string>(p);
     }
 
-    return ss.str();
+    return result;
 }
 
 std::string Text::toStringForCommit() const {
     FCITX_D();
-    std::stringstream ss;
+    std::string result;
     for (auto &p : d->texts_) {
         if (!(std::get<TextFormatFlags>(p) & TextFormatFlag::DontCommit)) {
-            ss << std::get<std::string>(p);
+            result += std::get<std::string>(p);
         }
     }
 
-    return ss.str();
+    return result;
 }
 }

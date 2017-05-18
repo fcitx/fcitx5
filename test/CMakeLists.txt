@@ -73,6 +73,7 @@ endforeach()
 add_dependencies(testaddon dummyaddon)
 
 add_executable(testxkbrules testxkbrules.cpp ../src/im/keyboard/xkbrules.cpp ../src/im/keyboard/xmlparser.cpp)
+target_compile_definitions(testxkbrules PRIVATE "-D_TEST_XKBRULES")
 target_include_directories(testxkbrules PRIVATE ../src)
 target_link_libraries(testxkbrules Fcitx5::Utils Expat::Expat)
 add_test(NAME testxkbrules COMMAND testxkbrules)

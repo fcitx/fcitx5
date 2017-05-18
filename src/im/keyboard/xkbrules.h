@@ -62,7 +62,9 @@ class XkbRules {
 public:
     friend struct XkbRulesParseState;
     bool read(const std::string &fileName);
+#ifdef _TEST_XKBRULES
     void dump();
+#endif
 
     const XkbLayoutInfo *findByName(const std::string &name) const {
         return findValue(layoutInfos_, name);

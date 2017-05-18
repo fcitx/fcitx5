@@ -20,7 +20,6 @@
 #include "addonloader_p.h"
 #include "config.h"
 #include "fcitx-utils/library.h"
-#include <iostream>
 
 namespace fcitx {
 
@@ -44,7 +43,7 @@ AddonInstance *SharedLibraryLoader::load(const AddonInfo &info,
                     info.name(),
                     std::make_unique<SharedLibraryFactory>(std::move(lib)));
             } catch (const std::exception &e) {
-                std::cerr << e.what() << std::endl;
+                // TODO
             }
             break;
         }

@@ -19,7 +19,6 @@
 
 #include "xcbinputwindow.h"
 #include "fcitx-utils/rect.h"
-#include <iostream>
 #include <xcb/xcb_aux.h>
 
 namespace fcitx {
