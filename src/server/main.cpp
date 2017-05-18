@@ -45,10 +45,11 @@ int main(int argc, char *argv[]) {
     }
 
     auto userDir =
-        StandardPath::global().userDirectory(StandardPath::Type::Config);
+        StandardPath::global().userDirectory(StandardPath::Type::PkgConfig);
     if (!userDir.empty()) {
-        fs::makePath(userDir + "/fcitx5");
-        crashlog = userDir + "/fcitx5/crash.log";
+        if (fs::makePath(userDir)) {
+            crashlog = userDir + "/crash.log";
+        }
     }
 
     if (fcntl(selfpipe[0], F_SETFL, O_NONBLOCK) == -1 ||
