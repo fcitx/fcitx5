@@ -168,7 +168,7 @@ void InputWindow::update(InputContext *inputContext) {
 }
 
 std::pair<unsigned int, unsigned int> InputWindow::sizeHint() {
-    auto fontDesc = pango_font_description_from_string("Sans 10");
+    auto fontDesc = pango_font_description_from_string("Sans 9");
     pango_context_set_font_description(context_.get(), fontDesc);
     pango_cairo_context_set_resolution(context_.get(), dpi_);
     pango_font_description_free(fontDesc);
