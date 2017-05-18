@@ -76,26 +76,32 @@ void ClassicUI::suspend() {
     for (auto &p : uis_) {
         p.second->suspend();
     }
-    eventHandler_.reset();
+    eventHandlers_.clear();
 }
 
 void ClassicUI::resume() {
     suspended_ = false;
-    eventHandler_.reset(instance_->watchEvent(
-        EventType::InputContextCursorRectChanged, EventWatcherPhase::Default,
-        [this](Event &event) {
-            if (suspended_) {
-                return;
-            }
-            auto &icEvent = static_cast<InputContextEvent &>(event);
-            auto inputContext = icEvent.inputContext();
-            auto iter = uis_.find(inputContext->display());
-            if (iter == uis_.end()) {
-                return;
-            }
-            auto ui = iter->second.get();
-            ui->updateCursor(inputContext);
-        }));
+    auto check = [this](Event &event) {
+        if (suspended_) {
+            return;
+        }
+        auto &icEvent = static_cast<InputContextEvent &>(event);
+        auto inputContext = icEvent.inputContext();
+        if (!inputContext->hasFocus()) {
+            return;
+        }
+        auto iter = uis_.find(inputContext->display());
+        if (iter == uis_.end()) {
+            return;
+        }
+        auto ui = iter->second.get();
+        ui->updateCursor(inputContext);
+    };
+    eventHandlers_.emplace_back(
+        instance_->watchEvent(EventType::InputContextCursorRectChanged,
+                              EventWatcherPhase::Default, check));
+    eventHandlers_.emplace_back(instance_->watchEvent(
+        EventType::InputContextFocusIn, EventWatcherPhase::Default, check));
 }
 
 void ClassicUI::update(UserInterfaceComponent component,

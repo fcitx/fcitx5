@@ -22,6 +22,7 @@
 #include "fcitx-utils/event.h"
 #include "fcitx-utils/standardpath.h"
 #include "fcitx-utils/stringutils.h"
+#include "fcitx-utils/utf8.h"
 #include "globalconfig.h"
 #include "inputcontextmanager.h"
 #include "inputcontextproperty.h"
@@ -34,6 +35,8 @@
 #include <signal.h>
 #include <sys/wait.h>
 #include <unistd.h>
+#include <xkbcommon/xkbcommon-compose.h>
+#include <xkbcommon/xkbcommon.h>
 
 namespace {
 
@@ -71,9 +74,43 @@ namespace fcitx {
 class CheckInputMethodChanged;
 
 struct InputState : public InputContextProperty {
+    InputState(InstancePrivate *d, InputContext *ic);
+
+    InstancePrivate *d_ptr;
+    InputContext *ic_;
     int keyReleased = -1;
     bool active;
     CheckInputMethodChanged *imChanged;
+    std::unique_ptr<struct xkb_compose_state,
+                    decltype(&xkb_compose_state_unref)>
+        xkbComposeState_;
+
+    std::unique_ptr<EventSourceTime> imInfoTimer_;
+    std::string lastInfo_;
+
+    void reset() {
+        if (xkbComposeState_) {
+            xkb_compose_state_reset(xkbComposeState_.get());
+        }
+    }
+
+    void showInputMethodInformation(const std::string &name);
+
+    void hideInputMethodInfo() {
+        if (!imInfoTimer_) {
+            return;
+        }
+        imInfoTimer_.reset();
+        auto &panel = ic_->inputPanel();
+        if (panel.auxDown().size() == 0 && panel.preedit().size() == 0 &&
+            panel.clientPreedit().size() == 0 &&
+            (!panel.candidateList() || panel.candidateList()->size() == 0) &&
+            panel.auxUp().size() == 1 &&
+            panel.auxUp().stringAt(0) == lastInfo_) {
+            panel.reset();
+            ic_->updateUserInterface(UserInterfaceComponent::InputPanel);
+        }
+    }
 };
 
 class CheckInputMethodChanged {
@@ -128,7 +165,27 @@ struct InstanceArgument {
 
 class InstancePrivate : public QPtrHolder<Instance> {
 public:
-    InstancePrivate(Instance *q) : QPtrHolder<Instance>(q) {}
+    InstancePrivate(Instance *q)
+        : QPtrHolder<Instance>(q), xkbContext_(nullptr, &xkb_context_unref),
+          xkbComposeTable_(nullptr, &xkb_compose_table_unref) {
+        const char *locale = getenv("LC_ALL");
+        if (!locale) {
+            locale = getenv("LC_CTYPE");
+        }
+        if (!locale) {
+            locale = getenv("LANG");
+        }
+        if (!locale) {
+            locale = "C";
+        }
+        xkbContext_.reset(xkb_context_new(XKB_CONTEXT_NO_FLAGS));
+        if (xkbContext_) {
+            xkb_context_set_log_level(xkbContext_.get(),
+                                      XKB_LOG_LEVEL_CRITICAL);
+            xkbComposeTable_.reset(xkb_compose_table_new_from_locale(
+                xkbContext_.get(), locale, XKB_COMPOSE_COMPILE_NO_FLAGS));
+        }
+    }
 
     HandlerTableEntry<EventHandler> *
     watchEvent(EventType type, EventWatcherPhase phase, EventHandler callback) {
@@ -160,22 +217,36 @@ public:
     FCITX_DEFINE_SIGNAL_PRIVATE(Instance, OutputFilter);
     FCITX_DEFINE_SIGNAL_PRIVATE(Instance, KeyEventResult);
 
-    class InputStateFactory : public InputContextPropertyFactory {
-    public:
-        InputStateFactory(InstancePrivate *d) : d_ptr(d) {}
+    FactoryFor<InputState> inputStateFactory{
+        [this](InputContext &ic) { return new InputState(this, &ic); }};
 
-        InputContextProperty *create(InputContext &) override {
-            auto property = new InputState;
-            property->active = d_ptr->globalConfig_.activeByDefault();
-            return property;
-        }
-
-    private:
-        InstancePrivate *d_ptr;
-    };
-
-    InputStateFactory inputStateFactory{this};
+    std::unique_ptr<struct xkb_context, decltype(&xkb_context_unref)>
+        xkbContext_;
+    std::unique_ptr<struct xkb_compose_table,
+                    decltype(&xkb_compose_table_unref)>
+        xkbComposeTable_;
 };
+
+InputState::InputState(InstancePrivate *d, InputContext *ic)
+    : d_ptr(d), ic_(ic), xkbComposeState_(nullptr, &xkb_compose_state_unref) {
+    active = d->globalConfig_.activeByDefault();
+    if (d->xkbComposeTable_) {
+        xkbComposeState_.reset(xkb_compose_state_new(
+            d->xkbComposeTable_.get(), XKB_COMPOSE_STATE_NO_FLAGS));
+    }
+}
+
+void InputState::showInputMethodInformation(const std::string &name) {
+    ic_->inputPanel().setAuxUp(Text(name));
+    ic_->updateUserInterface(UserInterfaceComponent::InputPanel);
+    lastInfo_ = name;
+    imInfoTimer_.reset(d_ptr->eventLoop_.addTimeEvent(
+        CLOCK_MONOTONIC, now(CLOCK_MONOTONIC) + 1000000, 0,
+        [this](EventSourceTime *, uint64_t) {
+            hideInputMethodInfo();
+            return true;
+        }));
+}
 
 Instance::Instance(int argc, char **argv) {
     InstanceArgument arg;
@@ -217,7 +288,7 @@ Instance::Instance(int argc, char **argv) {
                  [this, ic]() { return trigger(ic); }},
             };
 
-            auto inputState = ic->propertyAs<InputState>("inputState");
+            auto inputState = ic->propertyFor(&d->inputStateFactory);
             const bool isModifier = keyEvent.key().isModifier();
             if (keyEvent.isRelease()) {
                 int idx = 0;
@@ -247,6 +318,17 @@ Instance::Instance(int argc, char **argv) {
                     idx++;
                 }
             }
+        }));
+    d->eventWatchers_.emplace_back(d->watchEvent(
+        EventType::InputContextKeyEvent, EventWatcherPhase::ReservedFirst,
+        [this, d](Event &event) {
+            auto &keyEvent = static_cast<KeyEvent &>(event);
+            if (keyEvent.isRelease()) {
+                return;
+            }
+            auto ic = keyEvent.inputContext();
+            auto inputState = ic->propertyFor(&d->inputStateFactory);
+            inputState->hideInputMethodInfo();
         }));
     d->eventWatchers_.emplace_back(
         watchEvent(EventType::InputContextKeyEvent,
@@ -290,6 +372,8 @@ Instance::Instance(int argc, char **argv) {
         [this, d](Event &event) {
             auto &icEvent = static_cast<InputContextEvent &>(event);
             auto ic = icEvent.inputContext();
+            auto inputState = ic->propertyFor(&d->inputStateFactory);
+            inputState->reset();
             if (!ic->capabilityFlags().test(
                     CapabilityFlag::ClientUnfocusCommit)) {
                 // do server side commit
@@ -306,6 +390,14 @@ Instance::Instance(int argc, char **argv) {
             }
             engine->deactivate(*entry, icEvent);
             ic->statusArea().clear();
+        }));
+    d->eventWatchers_.emplace_back(d->watchEvent(
+        EventType::InputContextReset, EventWatcherPhase::ReservedFirst,
+        [this, d](Event &event) {
+            auto &icEvent = static_cast<InputContextEvent &>(event);
+            auto ic = icEvent.inputContext();
+            auto inputState = ic->propertyFor(&d->inputStateFactory);
+            inputState->reset();
         }));
     d->eventWatchers_.emplace_back(
         watchEvent(EventType::InputContextReset, EventWatcherPhase::InputMethod,
@@ -344,6 +436,27 @@ Instance::Instance(int argc, char **argv) {
                 return;
             }
             engine->activate(*entry, icEvent);
+        }));
+    d->eventWatchers_.emplace_back(d->watchEvent(
+        EventType::InputContextSwitchInputMethod,
+        EventWatcherPhase::ReservedLast, [this, d](Event &event) {
+            auto &icEvent =
+                static_cast<InputContextSwitchInputMethodEvent &>(event);
+            auto ic = icEvent.inputContext();
+            if (!ic->hasFocus()) {
+                return;
+            }
+            FCITX_D();
+            auto engine = inputMethodEngine(ic);
+            auto entry = inputMethodEntry(ic);
+            if (!engine || !entry) {
+                return;
+            }
+            if (d->globalConfig_.showInputMethodInformation() &&
+                icEvent.reason() == InputMethodSwitchedReason::Trigger) {
+                auto inputState = ic->propertyFor(&d->inputStateFactory);
+                inputState->showInputMethodInformation(entry->name());
+            }
         }));
     d->eventWatchers_.emplace_back(d->watchEvent(
         EventType::InputContextUpdateUI, EventWatcherPhase::ReservedFirst,
@@ -569,7 +682,7 @@ HandlerTableEntry<EventHandler> *Instance::watchEvent(EventType type,
 std::string Instance::inputMethod(InputContext *ic) {
     FCITX_D();
     auto &group = d->imManager_.currentGroup();
-    auto inputState = ic->propertyAs<InputState>("inputState");
+    auto inputState = ic->propertyFor(&d->inputStateFactory);
     if (inputState->active) {
         return group.defaultInputMethod();
     }
@@ -594,6 +707,56 @@ InputMethodEngine *Instance::inputMethodEngine(InputContext *ic) {
     }
     return static_cast<InputMethodEngine *>(
         d->addonManager_.addon(entry->addon()));
+}
+
+uint32_t Instance::processCompose(InputContext *ic, KeySym keysym) {
+    FCITX_D();
+    auto state = ic->propertyFor(&d->inputStateFactory);
+
+    if (!state->xkbComposeState_) {
+        return 0;
+    }
+
+    auto keyval = static_cast<xkb_keysym_t>(keysym);
+
+    enum xkb_compose_feed_result result =
+        xkb_compose_state_feed(state->xkbComposeState_.get(), keyval);
+    if (result == XKB_COMPOSE_FEED_IGNORED) {
+        return 0;
+    }
+
+    enum xkb_compose_status status =
+        xkb_compose_state_get_status(state->xkbComposeState_.get());
+    if (status == XKB_COMPOSE_NOTHING) {
+        return 0;
+    } else if (status == XKB_COMPOSE_COMPOSED) {
+        char buffer[FCITX_UTF8_MAX_LENGTH + 1] = {'\0', '\0', '\0', '\0',
+                                                  '\0', '\0', '\0'};
+        int length = xkb_compose_state_get_utf8(state->xkbComposeState_.get(),
+                                                buffer, sizeof(buffer));
+        xkb_compose_state_reset(state->xkbComposeState_.get());
+        if (length == 0) {
+            return FCITX_INVALID_COMPOSE_RESULT;
+        }
+
+        uint32_t c = 0;
+        fcitx_utf8_get_char(buffer, &c);
+        return c;
+    } else if (status == XKB_COMPOSE_CANCELLED) {
+        xkb_compose_state_reset(state->xkbComposeState_.get());
+    }
+
+    return FCITX_INVALID_COMPOSE_RESULT;
+}
+
+void Instance::resetCompose(InputContext *inputContext) {
+    FCITX_D();
+    auto state = inputContext->propertyFor(&d->inputStateFactory);
+
+    if (!state->xkbComposeState_) {
+        return;
+    }
+    xkb_compose_state_reset(state->xkbComposeState_.get());
 }
 
 void Instance::save() {
@@ -665,8 +828,9 @@ int Instance::state() { return 0; }
 void Instance::toggle() {}
 
 bool Instance::trigger(InputContext *ic) {
+    FCITX_D();
     auto &imManager = inputMethodManager();
-    auto inputState = ic->propertyAs<InputState>("inputState");
+    auto inputState = ic->propertyFor(&d->inputStateFactory);
     if (imManager.currentGroup().inputMethodList().size() <= 1) {
         return false;
     }

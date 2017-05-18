@@ -221,7 +221,7 @@ bool writeAsIni(const RawConfig &root, FILE *fout) {
 bool safeSaveAsIni(const Configuration &configuration,
                    const std::string &path) {
     auto &standardPath = StandardPath::global();
-    return standardPath.safeSave(StandardPath::Type::Config, path,
+    return standardPath.safeSave(StandardPath::Type::PkgConfig, path,
                                  [&configuration](int fd) {
                                      RawConfig config;
 

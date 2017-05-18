@@ -79,7 +79,17 @@ public:
     StandardPathPrivate(bool skipFcitxPath) {
         // initialize user directory
         configHome_ = defaultPath("XDG_CONFIG_HOME", ".config");
+        pkgconfigHome_ = defaultPath(
+            "FCITX_CONFIG_HOME", constructPath(configHome_, "fcitx5").c_str());
         configDirs_ = defaultPaths("XDG_CONFIG_DIRS", "/etc/xdg", nullptr);
+        auto pkgconfigDirFallback = configDirs_;
+        for (auto &path : pkgconfigDirFallback) {
+            path = constructPath(path, "fcitx5");
+        }
+        pkgconfigDirs_ = defaultPaths(
+            "FCITX_CONFIG_DIRS",
+            stringutils::join(pkgconfigDirFallback, ":").c_str(), nullptr);
+
         dataHome_ = defaultPath("XDG_DATA_HOME", ".local/share");
         pkgdataHome_ = defaultPath("FCITX_DATA_HOME",
                                    constructPath(dataHome_, "fcitx5").c_str());
@@ -176,6 +186,8 @@ public:
         switch (type) {
         case StandardPath::Type::Config:
             return configHome_;
+        case StandardPath::Type::PkgConfig:
+            return pkgconfigHome_;
         case StandardPath::Type::Data:
             return dataHome_;
         case StandardPath::Type::PkgData:
@@ -194,6 +206,8 @@ public:
         switch (type) {
         case StandardPath::Type::Config:
             return configDirs_;
+        case StandardPath::Type::PkgConfig:
+            return pkgconfigDirs_;
         case StandardPath::Type::Data:
             return dataDirs_;
         case StandardPath::Type::PkgData:
@@ -207,6 +221,8 @@ public:
 
     std::string configHome_;
     std::vector<std::string> configDirs_;
+    std::string pkgconfigHome_;
+    std::vector<std::string> pkgconfigDirs_;
     std::string dataHome_;
     std::vector<std::string> dataDirs_;
     std::string pkgdataHome_;
@@ -487,12 +503,12 @@ bool StandardPath::safeSave(Type type, const std::string &pathOrig,
     }
 }
 
-std::unordered_map<std::string, StandardPathFile> StandardPath::multiOpenFilter(
+StandardPathFileMap StandardPath::multiOpenFilter(
     Type type, const std::string &path, int flags,
     std::function<bool(const std::string &path, const std::string &dir,
                        bool user)>
         filter) const {
-    std::unordered_map<std::string, StandardPathFile> result;
+    StandardPathFileMap result;
     scanFiles(type, path,
               [&result, flags, &filter](const std::string &path,
                                         const std::string dir, bool isUser) {

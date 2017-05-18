@@ -41,8 +41,6 @@ static inline char tolower(char c) { return isupper(c) ? c - 'A' + 'a' : c; }
 
 static inline char toupper(char c) { return islower(c) ? c - 'a' + 'A' : c; }
 
-#define FCITX_WHITESPACE "\f\n\r\t\v "
-
 static inline bool isspace(char c) {
     return c == '\f' || c == '\n' || c == '\r' || c == '\t' || c == '\v' ||
            c == ' ';

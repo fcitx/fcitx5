@@ -56,7 +56,7 @@ public:
     virtual ~CandidateList();
 
     virtual const Text &label(int idx) const = 0;
-    virtual const CandidateWord &candidate(int idx) const = 0;
+    virtual std::shared_ptr<const CandidateWord> candidate(int idx) const = 0;
     virtual int size() const = 0;
     virtual int cursorIndex() const = 0;
 
@@ -130,7 +130,7 @@ public:
 
     // CandidateList
     const fcitx::Text &label(int idx) const override;
-    const CandidateWord &candidate(int idx) const override;
+    std::shared_ptr<const CandidateWord> candidate(int idx) const override;
     int cursorIndex() const override;
     int size() const override;
 

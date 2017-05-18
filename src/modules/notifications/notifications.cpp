@@ -122,8 +122,8 @@ Notifications::~Notifications() {}
 
 void Notifications::reloadConfig() {
     auto &standardPath = StandardPath::global();
-    auto file = standardPath.open(StandardPath::Type::Config,
-                                  "fcitx5/conf/notifications.conf", O_RDONLY);
+    auto file = standardPath.open(StandardPath::Type::PkgConfig,
+                                  "conf/notifications.conf", O_RDONLY);
     RawConfig config;
     readFromIni(config, file.fd());
 
@@ -142,7 +142,7 @@ void Notifications::save() {
     }
     config_.hiddenNotifications.setValue(std::move(values_));
 
-    safeSaveAsIni(config_, "fcitx5/conf/notifications.conf");
+    safeSaveAsIni(config_, "conf/notifications.conf");
 }
 
 void Notifications::closeNotification(uint64_t internalId) {

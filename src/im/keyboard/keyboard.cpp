@@ -41,7 +41,6 @@
 
 const char imNamePrefix[] = "keyboard-";
 const int imNamePrefixLength = sizeof(imNamePrefix) - 1;
-#define INVALID_COMPOSE_RESULT 0xffffffff
 #define FCITX_KEYBOARD_MAX_BUFFER 20
 
 namespace fcitx {
@@ -116,31 +115,10 @@ std::pair<std::string, std::string> layoutFromName(const std::string &s) {
             s.substr(pos + 1)};
 }
 
-KeyboardEngineState::KeyboardEngineState(KeyboardEngine *engine)
-    : xkbComposeState_(nullptr, &xkb_compose_state_unref) {
-    if (engine->xkbComposeTable()) {
-        xkbComposeState_.reset(xkb_compose_state_new(
-            engine->xkbComposeTable(), XKB_COMPOSE_STATE_NO_FLAGS));
-    }
-}
-
-KeyboardEngine::KeyboardEngine(Instance *instance)
-    : instance_(instance), xkbContext_(nullptr, &xkb_context_unref),
-      xkbComposeTable_(nullptr, &xkb_compose_table_unref) {
+KeyboardEngine::KeyboardEngine(Instance *instance) : instance_(instance) {
     isoCodes_.read(ISOCODES_ISO639_XML, ISOCODES_ISO3166_XML);
     auto xcb = instance_->addonManager().addon("xcb");
     std::string rule;
-
-    const char *locale = getenv("LC_ALL");
-    if (!locale) {
-        locale = getenv("LC_CTYPE");
-    }
-    if (!locale) {
-        locale = getenv("LANG");
-    }
-    if (!locale) {
-        locale = "C";
-    }
     if (xcb) {
         auto rules = xcb->call<IXCBModule::xkbRulesNames>("");
         if (!rules[0].empty()) {
@@ -157,13 +135,6 @@ KeyboardEngine::KeyboardEngine(Instance *instance)
         rule = XKEYBOARDCONFIG_XKBBASE "/rules/" DEFAULT_XKB_RULES ".xml";
         xkbRules_.read(rule);
         ruleName_ = DEFAULT_XKB_RULES;
-    }
-
-    xkbContext_.reset(xkb_context_new(XKB_CONTEXT_NO_FLAGS));
-    if (xkbContext_) {
-        xkb_context_set_log_level(xkbContext_.get(), XKB_LOG_LEVEL_CRITICAL);
-        xkbComposeTable_.reset(xkb_compose_table_new_from_locale(
-            xkbContext_.get(), locale, XKB_COMPOSE_COMPILE_NO_FLAGS));
     }
 
     instance_->inputContextManager().registerProperty("keyboardState",
@@ -211,8 +182,8 @@ std::vector<InputMethodEntry> KeyboardEngine::listInputMethods() {
 
 void KeyboardEngine::reloadConfig() {
     auto &standardPath = StandardPath::global();
-    auto file = standardPath.open(StandardPath::Type::Config,
-                                  "fcitx5/conf/keyboard.conf", O_RDONLY);
+    auto file = standardPath.open(StandardPath::Type::PkgConfig,
+                                  "conf/keyboard.conf", O_RDONLY);
     RawConfig config;
     readFromIni(config, file.fd());
 
@@ -243,43 +214,6 @@ void KeyboardEngine::reloadConfig() {
     }
 }
 
-uint32_t KeyboardEngine::processCompose(KeyboardEngineState *state,
-                                        uint32_t keyval) {
-    // FIXME, should we check if state is 0?
-    if (!state->xkbComposeState_) {
-        return 0;
-    }
-
-    enum xkb_compose_feed_result result =
-        xkb_compose_state_feed(state->xkbComposeState_.get(), keyval);
-    if (result == XKB_COMPOSE_FEED_IGNORED) {
-        return 0;
-    }
-
-    enum xkb_compose_status status =
-        xkb_compose_state_get_status(state->xkbComposeState_.get());
-    if (status == XKB_COMPOSE_NOTHING) {
-        return 0;
-    } else if (status == XKB_COMPOSE_COMPOSED) {
-        char buffer[FCITX_UTF8_MAX_LENGTH + 1] = {'\0', '\0', '\0', '\0',
-                                                  '\0', '\0', '\0'};
-        int length = xkb_compose_state_get_utf8(state->xkbComposeState_.get(),
-                                                buffer, sizeof(buffer));
-        xkb_compose_state_reset(state->xkbComposeState_.get());
-        if (length == 0) {
-            return INVALID_COMPOSE_RESULT;
-        }
-
-        uint32_t c = 0;
-        fcitx_utf8_get_char(buffer, &c);
-        return c;
-    } else if (status == XKB_COMPOSE_CANCELLED) {
-        xkb_compose_state_reset(state->xkbComposeState_.get());
-    }
-
-    return INVALID_COMPOSE_RESULT;
-}
-
 static inline bool isValidSym(const Key &key) {
     if (key.states())
         return false;
@@ -288,10 +222,10 @@ static inline bool isValidSym(const Key &key) {
 }
 
 static inline bool isValidCharacter(uint32_t c) {
-    if (c == 0 || c == INVALID_COMPOSE_RESULT)
+    if (c == 0 || c == FCITX_INVALID_COMPOSE_RESULT)
         return false;
 
-    return validSyms.count(c);
+    return validChars.count(c);
 }
 
 static KeyList FCITX_HYPHEN_APOS = Key::keyListFromString("minus apostrophe");
@@ -313,10 +247,10 @@ void KeyboardEngine::keyEvent(const InputMethodEntry &entry, KeyEvent &event) {
     auto state = inputContext->propertyFor(&factory_);
 
     // check compose first.
-    auto compose = processCompose(state, event.key().sym());
+    auto compose = instance_->processCompose(inputContext, event.key().sym());
 
     // compose is invalid, ignore it.
-    if (compose == INVALID_COMPOSE_RESULT) {
+    if (compose == FCITX_INVALID_COMPOSE_RESULT) {
         return event.filterAndAccept();
     }
 
@@ -356,13 +290,12 @@ void KeyboardEngine::keyEvent(const InputMethodEntry &entry, KeyEvent &event) {
                 inputContext->inputPanel()
                     .candidateList()
                     ->candidate(idx)
-                    .select(inputContext);
+                    ->select(inputContext);
                 return;
             }
         }
 
-        std::string &buffer = state->buffer_;
-        int &cursorPos = state->cursorPos_;
+        auto &buffer = state->buffer_;
         bool validCharacter = isValidCharacter(compose);
         bool validSym = isValidSym(event.key());
 
@@ -371,22 +304,16 @@ void KeyboardEngine::keyEvent(const InputMethodEntry &entry, KeyEvent &event) {
             if (validCharacter || event.key().isLAZ() || event.key().isUAZ() ||
                 validSym || (!buffer.empty() &&
                              event.key().checkKeyList(FCITX_HYPHEN_APOS))) {
-                char buf[FCITX_UTF8_MAX_LENGTH + 1];
-                memset(buf, 0, sizeof(buf));
                 if (compose) {
-                    fcitx_ucs4_to_utf8(compose, buf);
+                    buffer.type(compose);
                 } else {
-                    fcitx_ucs4_to_utf8(Key::keySymToUnicode(event.key().sym()),
-                                       buf);
+                    buffer.type(Key::keySymToUnicode(event.key().sym()));
                 }
-                size_t charlen = strlen(buf);
-                buffer.insert(cursorPos, buf);
-                cursorPos += charlen;
 
                 event.filterAndAccept();
                 if (buffer.size() >= FCITX_KEYBOARD_MAX_BUFFER) {
-                    inputContext->commitString(buffer);
-                    state->reset();
+                    inputContext->commitString(buffer.userInput());
+                    resetState(inputContext);
                     return;
                 }
 
@@ -394,13 +321,7 @@ void KeyboardEngine::keyEvent(const InputMethodEntry &entry, KeyEvent &event) {
             }
         } else {
             if (event.key().check(FcitxKey_BackSpace)) {
-                if (buffer.size()) {
-                    if (cursorPos > 0) {
-                        size_t len = utf8::length(buffer);
-                        int pos = utf8::nthChar(buffer, len - 1);
-                        cursorPos = pos;
-                        buffer.erase(pos);
-                    }
+                if (buffer.backspace()) {
                     event.filterAndAccept();
                     return updateCandidate(entry, inputContext);
                 }
@@ -423,8 +344,8 @@ void KeyboardEngine::commitBuffer(InputContext *inputContext) {
     auto state = inputContext->propertyFor(&factory_);
     auto &buffer = state->buffer_;
     if (!buffer.empty()) {
-        inputContext->commitString(buffer);
-        state->reset();
+        inputContext->commitString(buffer.userInput());
+        resetState(inputContext);
         inputContext->inputPanel().reset();
         inputContext->updatePreedit();
         inputContext->updateUserInterface(UserInterfaceComponent::InputPanel);
@@ -434,15 +355,16 @@ void KeyboardEngine::commitBuffer(InputContext *inputContext) {
 class KeyboardCandidateWord : public CandidateWord {
 public:
     KeyboardCandidateWord(KeyboardEngine *engine, Text text)
-        : CandidateWord(text), engine_(engine) {}
+        : CandidateWord(std::move(text)), engine_(engine) {}
 
     void select(InputContext *inputContext) const override {
-        auto state = inputContext->propertyFor(engine_->state());
-        inputContext->commitString(text().toString());
+        auto commit = text().toString();
         inputContext->inputPanel().reset();
         inputContext->updatePreedit();
-        inputContext->updateUserInterface(UserInterfaceComponent::InputPanel);
-        state->reset();
+        inputContext->updateUserInterface(UserInterfaceComponent::InputPanel,
+                                          true);
+        inputContext->commitString(commit);
+        engine_->resetState(inputContext);
     }
 
 private:
@@ -452,16 +374,17 @@ private:
 void KeyboardEngine::updateCandidate(const InputMethodEntry &entry,
                                      InputContext *inputContext) {
     auto state = inputContext->propertyFor(&factory_);
-    auto results = spell()->call<ISpell::hint>(
-        entry.languageCode(), state->buffer_, config_.pageSize.value());
+    auto results = spell()->call<ISpell::hint>(entry.languageCode(),
+                                               state->buffer_.userInput(),
+                                               config_.pageSize.value());
     auto candidateList = new CommonCandidateList;
     for (const auto &result : results) {
         candidateList->append(new KeyboardCandidateWord(this, Text(result)));
     }
     candidateList->setSelectionKey(selectionKeys_);
-    Text preedit(state->buffer_);
+    Text preedit(state->buffer_.userInput());
     if (state->buffer_.size()) {
-        preedit.setCursor(state->cursorPos_);
+        preedit.setCursor(state->buffer_.cursorByChar());
     }
     inputContext->inputPanel().setClientPreedit(preedit);
     if (!inputContext->capabilityFlags().test(CapabilityFlag::Preedit)) {
@@ -471,10 +394,15 @@ void KeyboardEngine::updateCandidate(const InputMethodEntry &entry,
     inputContext->updatePreedit();
     inputContext->updateUserInterface(UserInterfaceComponent::InputPanel);
 }
-void KeyboardEngine::reset(const InputMethodEntry &, InputContextEvent &event) {
-    auto inputContext = event.inputContext();
+
+void KeyboardEngine::resetState(InputContext *inputContext) {
     auto state = inputContext->propertyFor(&factory_);
     state->reset();
+    instance_->resetCompose(inputContext);
+}
+
+void KeyboardEngine::reset(const InputMethodEntry &, InputContextEvent &event) {
+    auto inputContext = event.inputContext();
     inputContext->inputPanel().reset();
     inputContext->updatePreedit();
     inputContext->updateUserInterface(UserInterfaceComponent::InputPanel);

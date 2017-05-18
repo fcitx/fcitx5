@@ -71,7 +71,9 @@ private:
         waylandCreatedCallback_;
     std::unique_ptr<HandlerTableEntry<WaylandConnectionClosed>>
         waylandClosedCallback_;
-    std::unique_ptr<HandlerTableEntry<EventHandler>> eventHandler_;
+
+    std::vector<std::unique_ptr<HandlerTableEntry<EventHandler>>>
+        eventHandlers_;
 
     std::unordered_map<std::string, std::unique_ptr<UIInterface>> uis_;
 

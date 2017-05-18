@@ -59,17 +59,15 @@ void UserInterfaceManager::load(const std::string &uiName) {
     FCITX_D();
     auto names = d->addonManager_->addonNames(AddonCategory::UI);
 
+    d->uis_.clear();
     if (names.count(uiName)) {
         auto ui = d->addonManager_->addon(uiName, true);
         if (ui) {
-            d->ui_ = static_cast<UserInterface *>(ui);
-            d->uis_.clear();
             d->uis_.push_back(uiName);
         }
     }
 
-    if (!d->ui_) {
-        d->uis_.clear();
+    if (d->uis_.empty()) {
         d->uis_.insert(d->uis_.end(), names.begin(), names.end());
         std::sort(d->uis_.begin(), d->uis_.end(),
                   [d](const std::string &lhs, const std::string &rhs) {
@@ -81,8 +79,8 @@ void UserInterfaceManager::load(const std::string &uiName) {
                           return lp > rp;
                       }
                   });
-        updateAvailability();
     }
+    updateAvailability();
 }
 
 bool UserInterfaceManager::registerAction(const std::string &name,

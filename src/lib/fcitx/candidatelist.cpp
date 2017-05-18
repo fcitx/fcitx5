@@ -224,11 +224,12 @@ int CommonCandidateList::totalSize() const {
     return d->candidateWord.size();
 }
 
-const CandidateWord &CommonCandidateList::candidate(int idx) const {
+std::shared_ptr<const CandidateWord>
+CommonCandidateList::candidate(int idx) const {
     FCITX_D();
     d->checkIndex(idx);
     auto globalIndex = d->toGlobalIndex(idx);
-    return *d->candidateWord[globalIndex];
+    return d->candidateWord[globalIndex];
 }
 
 const Text &CommonCandidateList::label(int idx) const {

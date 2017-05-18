@@ -319,8 +319,8 @@ uint32_t Key::keySymToUnicode(KeySym keyval) {
 std::vector<Key> Key::keyListFromString(const std::string &keyString) {
     std::vector<Key> keyList;
 
-    auto lastPos = keyString.find_first_not_of(FCITX_WHITE_SPACE, 0);
-    auto pos = keyString.find_first_of(FCITX_WHITE_SPACE, lastPos);
+    auto lastPos = keyString.find_first_not_of(FCITX_WHITESPACE, 0);
+    auto pos = keyString.find_first_of(FCITX_WHITESPACE, lastPos);
 
     while (std::string::npos != pos || std::string::npos != lastPos) {
         Key key(keyString.substr(lastPos, pos - lastPos));
@@ -328,8 +328,8 @@ std::vector<Key> Key::keyListFromString(const std::string &keyString) {
         if (key.sym() != FcitxKey_None) {
             keyList.push_back(key);
         }
-        lastPos = keyString.find_first_not_of(FCITX_WHITE_SPACE, pos);
-        pos = keyString.find_first_of(FCITX_WHITE_SPACE, lastPos);
+        lastPos = keyString.find_first_not_of(FCITX_WHITESPACE, pos);
+        pos = keyString.find_first_of(FCITX_WHITESPACE, lastPos);
     }
 
     return keyList;

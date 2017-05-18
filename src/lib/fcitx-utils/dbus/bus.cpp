@@ -299,5 +299,10 @@ std::string Bus::uniqueName() {
     }
     return name;
 }
+
+void Bus::flush() {
+    FCITX_D();
+    sd_bus_flush(d->bus_);
+}
 }
 }

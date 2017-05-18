@@ -58,7 +58,7 @@
 #define _FCITX_UNUSED_
 #endif
 
-#define FCITX_WHITE_SPACE "\f\n\r\t\v "
+#define FCITX_WHITESPACE "\f\n\r\t\v "
 
 #define FCITX_EXPAND(x) x
 

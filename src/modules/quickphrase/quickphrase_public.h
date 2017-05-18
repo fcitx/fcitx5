@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2016~2016 by CSSlayer
+ * Copyright (C) 2017~2017 by CSSlayer
  * wengxt@gmail.com
  *
  * This library is free software; you can redistribute it and/or modify
@@ -16,20 +16,7 @@
  * License along with this library; see the file COPYING. If not,
  * see <http://www.gnu.org/licenses/>.
  */
+#ifndef _FCITX_MODULES_QUICKPHRASE_QUICKPHRASE_PUBLIC_H_
+#define _FCITX_MODULES_QUICKPHRASE_QUICKPHRASE_PUBLIC_H_
 
-#include "utf8.h"
-#include "cutf8.h"
-
-namespace fcitx {
-namespace utf8 {
-
-std::string UCS4ToUTF8(uint32_t code) {
-    if (!code) {
-        return "";
-    }
-    char buf[FCITX_UTF8_MAX_LENGTH + 1];
-    auto length = fcitx_ucs4_to_utf8(code, buf);
-    return {buf, buf + length};
-}
-}
-}
+#endif // _FCITX_MODULES_QUICKPHRASE_QUICKPHRASE_PUBLIC_H_

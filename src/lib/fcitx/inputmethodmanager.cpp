@@ -118,8 +118,7 @@ void InputMethodManager::load() {
 void InputMethodManager::loadConfig() {
     FCITX_D();
     auto &path = StandardPath::global();
-    auto file =
-        path.open(StandardPath::Type::Config, "fcitx5/profile", O_RDONLY);
+    auto file = path.open(StandardPath::Type::PkgConfig, "profile", O_RDONLY);
     RawConfig config;
     if (file.fd() >= 0) {
         readFromIni(config, file.fd());

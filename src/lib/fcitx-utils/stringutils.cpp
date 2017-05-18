@@ -27,7 +27,7 @@ bool endsWith(const std::string &str, const std::string &suffix) {
 
 std::pair<std::string::size_type, std::string::size_type>
 trimInplace(const std::string &str) {
-    auto start = str.find_first_not_of(FCITX_WHITE_SPACE);
+    auto start = str.find_first_not_of(FCITX_WHITESPACE);
     if (start == std::string::npos) {
         return std::pair<std::string::size_type, std::string::size_type>(
             str.size(), str.size());

@@ -50,6 +50,7 @@ public:
     void setCandidateList(CandidateList *candidate);
 
     void reset();
+    bool empty() const;
 
 private:
     std::unique_ptr<InputPanelPrivate> d_ptr;

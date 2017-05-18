@@ -57,7 +57,7 @@ int main(int argc, char *argv[]) {
 
     {
         auto result = standardPath.multiOpen(
-            StandardPath::Type::Data, "fcitx5/addon", O_RDONLY,
+            StandardPath::Type::PkgData, "addon", O_RDONLY,
             filter::Not(filter::User()), filter::Suffix("im.conf"));
         std::set<std::string> names, expect_names = {"testim.conf"};
         for (auto &p : result) {
@@ -68,8 +68,8 @@ int main(int argc, char *argv[]) {
         assert(names == expect_names);
     }
 
-    auto file = standardPath.open(StandardPath::Type::Data,
-                                  "fcitx5/addon/testim.conf", O_RDONLY);
+    auto file = standardPath.open(StandardPath::Type::PkgData,
+                                  "addon/testim.conf", O_RDONLY);
     assert(file.path() == fs::cleanPath(std::string(argv[1]) + "/" +
                                         "fcitx5/addon/testim.conf"));
 

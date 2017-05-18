@@ -25,9 +25,9 @@
 #include <fcitx-utils/stringutils.h>
 #include <fcitx-utils/unixfd.h>
 #include <functional>
+#include <map>
 #include <memory>
 #include <string>
-#include <unordered_map>
 #include <vector>
 
 namespace fcitx {
@@ -152,13 +152,13 @@ private:
 
 class StandardPathPrivate;
 
-typedef std::unordered_map<std::string, StandardPathFile> StandardPathFileMap;
-typedef std::unordered_map<std::string, std::vector<StandardPathFile>>
+typedef std::map<std::string, StandardPathFile> StandardPathFileMap;
+typedef std::map<std::string, std::vector<StandardPathFile>>
     StandardPathFilesMap;
 
 class FCITXUTILS_EXPORT StandardPath {
 public:
-    enum class Type { Config, Data, Cache, Runtime, Addon, PkgData };
+    enum class Type { Config, PkgConfig, Data, Cache, Runtime, Addon, PkgData };
 
     StandardPath(bool skipFcitxPath = false);
     virtual ~StandardPath();

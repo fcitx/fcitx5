@@ -69,7 +69,8 @@ public:
     FCITX_OBJECT_VTABLE_SIGNAL(showAux, "ShowAux", "b");
     FCITX_OBJECT_VTABLE_SIGNAL(showPreedit, "ShowPreedit", "b");
     FCITX_OBJECT_VTABLE_SIGNAL(showLookupTable, "ShowLookupTable", "b");
-    FCITX_OBJECT_VTABLE_SIGNAL(updateLookupTable, "UpdateLookupTable", "asas");
+    FCITX_OBJECT_VTABLE_SIGNAL(updateLookupTable, "UpdateLookupTable",
+                               "asasbb");
     FCITX_OBJECT_VTABLE_SIGNAL(updateLookupTableCursor,
                                "UpdateLookupTableCursor", "i");
     FCITX_OBJECT_VTABLE_SIGNAL(updatePreeditCaret, "UpdatePreeditCaret", "i");
@@ -104,7 +105,7 @@ Kimpanel::~Kimpanel() {}
 
 void Kimpanel::suspend() {
     proxy_.reset();
-    eventHandler_.reset();
+    eventHandlers_.clear();
 }
 
 void Kimpanel::init() {
@@ -120,16 +121,21 @@ void Kimpanel::resume() {
         init();
     }
 
-    eventHandler_.reset(instance_->watchEvent(
-        EventType::InputContextCursorRectChanged, EventWatcherPhase::Default,
-        [this](Event &event) {
-            if (!proxy_) {
-                return;
-            }
-            auto &icEvent = static_cast<InputContextEvent &>(event);
-            auto inputContext = icEvent.inputContext();
+    auto check = [this](Event &event) {
+        if (!proxy_) {
+            return;
+        }
+        auto &icEvent = static_cast<InputContextEvent &>(event);
+        auto inputContext = icEvent.inputContext();
+        if (inputContext->hasFocus()) {
             proxy_->updateCursor(inputContext);
-        }));
+        }
+    };
+    eventHandlers_.emplace_back(
+        instance_->watchEvent(EventType::InputContextCursorRectChanged,
+                              EventWatcherPhase::Default, check));
+    eventHandlers_.emplace_back(instance_->watchEvent(
+        EventType::InputContextFocusIn, EventWatcherPhase::Default, check));
 }
 
 void Kimpanel::update(UserInterfaceComponent component,
@@ -177,9 +183,11 @@ void Kimpanel::updateInputPanel(InputContext *inputContext) {
     auto auxDownString = auxDown.toString();
     auto candidateList = inputPanel.candidateList();
 
-    if (auxDownString.size() || (candidateList && candidateList->size())) {
-        auto msg = bus_->createMethodCall("org.kde.impanel", "/org/kde/impanel",
-                                          "org.kde.impanel2", "SetLookupTable");
+    auto msg = bus_->createMethodCall("org.kde.impanel", "/org/kde/impanel",
+                                      "org.kde.impanel2", "SetLookupTable");
+    auto visible =
+        auxDownString.size() || (candidateList && candidateList->size());
+    if (visible) {
         std::vector<std::string> labels;
         std::vector<std::string> texts;
         std::vector<std::string> attrs;
@@ -193,7 +201,7 @@ void Kimpanel::updateInputPanel(InputContext *inputContext) {
                 instance->outputFilter(inputContext, candidateList->label(i));
             labels.push_back(label.toString());
             auto candidate = instance->outputFilter(
-                inputContext, candidateList->candidate(i).text());
+                inputContext, candidateList->candidate(i)->text());
             texts.push_back(candidate.toString());
             attrs.emplace_back("");
         }
@@ -207,12 +215,16 @@ void Kimpanel::updateInputPanel(InputContext *inputContext) {
         int layout = static_cast<int>(candidateList->layoutHint());
 
         msg << hasPrev << hasNext << pos << layout;
-
-        msg.send();
-        proxy_->showLookupTable(true);
     } else {
-        proxy_->showLookupTable(false);
+        std::vector<std::string> labels;
+        std::vector<std::string> texts;
+        std::vector<std::string> attrs;
+        msg << labels << texts << attrs;
+        msg << false << false << -1 << 0;
     }
+    msg.send();
+    proxy_->showLookupTable(visible);
+    bus_->flush();
 }
 
 void Kimpanel::msgV1Handler(dbus::Message &msg) {
@@ -259,7 +271,7 @@ void Kimpanel::msgV1Handler(dbus::Message &msg) {
             if (auto candidateList =
                     inputContext->inputPanel().candidateList()) {
                 if (idx >= 0 && idx < candidateList->size()) {
-                    candidateList->candidate(idx).select(inputContext);
+                    candidateList->candidate(idx)->select(inputContext);
                 }
             }
         }

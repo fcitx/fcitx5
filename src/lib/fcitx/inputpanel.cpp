@@ -93,6 +93,13 @@ void InputPanel::reset() {
     d->auxDown_.clear();
 }
 
+bool InputPanel::empty() const {
+    FCITX_D();
+    return d->preedit_.size() == 0 && d->clientPreedit_.size() == 0 &&
+           (!d->candidate_ || d->candidate_->size() == 0) &&
+           d->auxUp_.size() == 0 && d->auxDown_.size() == 0;
+}
+
 CandidateList *InputPanel::candidateList() {
     FCITX_D();
     return d->candidate_.get();

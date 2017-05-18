@@ -20,6 +20,7 @@
 #define _FCITX_IM_KEYBOARD_KEYBOARD_H_
 
 #include "fcitx-config/configuration.h"
+#include "fcitx-utils/inputbuffer.h"
 #include "fcitx/addonfactory.h"
 #include "fcitx/addonmanager.h"
 #include "fcitx/inputcontextproperty.h"
@@ -48,20 +49,10 @@ FCITX_CONFIGURATION(
 class KeyboardEngine;
 
 struct KeyboardEngineState : public InputContextProperty {
-    KeyboardEngineState(KeyboardEngine *engine);
-
     bool enableWordHint_ = false;
-    std::string buffer_;
-    int cursorPos_ = 0;
-    std::unique_ptr<struct xkb_compose_state,
-                    decltype(&xkb_compose_state_unref)>
-        xkbComposeState_;
+    InputBuffer buffer_{false};
 
-    void reset() {
-        buffer_.clear();
-        cursorPos_ = 0;
-        xkb_compose_state_reset(xkbComposeState_.get());
-    }
+    void reset() { buffer_.clear(); }
 };
 
 class KeyboardEnginePrivate;
@@ -77,7 +68,7 @@ public:
     void reset(const InputMethodEntry &entry,
                InputContextEvent &event) override;
 
-    uint32_t processCompose(KeyboardEngineState *state, uint32_t keyval);
+    void resetState(InputContext *inputContext);
 
     AddonInstance *spell() {
         if (!spell_) {
@@ -97,10 +88,6 @@ public:
     void updateCandidate(const InputMethodEntry &entry,
                          InputContext *inputContext);
 
-    xkb_compose_table *xkbComposeTable() const {
-        return xkbComposeTable_.get();
-    }
-
     auto state() { return &factory_; }
 
 private:
@@ -113,15 +100,10 @@ private:
     IsoCodes isoCodes_;
     XkbRules xkbRules_;
     std::string ruleName_;
-    std::unique_ptr<struct xkb_context, decltype(&xkb_context_unref)>
-        xkbContext_;
-    std::unique_ptr<struct xkb_compose_table,
-                    decltype(&xkb_compose_table_unref)>
-        xkbComposeTable_;
     KeyList selectionKeys_;
 
     FactoryFor<KeyboardEngineState> factory_{
-        [this](InputContext &) { return new KeyboardEngineState(this); }};
+        [this](InputContext &) { return new KeyboardEngineState; }};
 };
 
 class KeyboardEngineFactory : public AddonFactory {

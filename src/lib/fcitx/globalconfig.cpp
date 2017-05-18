@@ -42,13 +42,23 @@ FCITX_CONFIGURATION(
                                                  {
                                                      Key("Hangul_Hanja"),
                                                  }};
-    fcitx::Option<std::vector<Key>> deactivateKeys{this,
-                                                   "Hotkey/DeactivateKeys",
-                                                   "DeactivateKeys",
-                                                   {Key("Hangul_Romaja")}};
+    fcitx::Option<KeyList> deactivateKeys{this,
+                                          "Hotkey/DeactivateKeys",
+                                          "DeactivateKeys",
+                                          {Key("Hangul_Romaja")}};
 
-    fcitx::Option<bool> activeByDefault{this, "Behavior/activeByDefault",
-                                        "Active By Default"};);
+    fcitx::Option<bool> activeByDefault{this, "Behavior/ActiveByDefault",
+                                        "Active By Default"};
+    fcitx::Option<bool> showInputMethodInformation{
+        this, "Behavior/ShowInputMethodInformation",
+        "ShowInputMethodInformation when switch input method", true};
+    fcitx::Option<KeyList> defaultPrevPage{
+        this, "Hotkey/PrevPage", "Default Previous page", {Key("Up")}};
+    fcitx::Option<KeyList> defaultNextPage{
+        this, "Hotkey/NextPage", "Default Next page", {Key("Down")}};
+    fcitx::Option<int, IntConstrain> defaultPageSize{
+        this, "Behavior/DefaultPageSize", "Default page size", 5,
+        IntConstrain(1, 10)};);
 }
 
 class GlobalConfigPrivate : public impl::GlobalConfig {};
@@ -65,5 +75,25 @@ const std::vector<Key> &GlobalConfig::triggerKeys() const {
 bool GlobalConfig::activeByDefault() const {
     FCITX_D();
     return d->activeByDefault.value();
+}
+
+bool GlobalConfig::showInputMethodInformation() const {
+    FCITX_D();
+    return d->showInputMethodInformation.value();
+}
+
+const KeyList &GlobalConfig::defaultPrevPage() const {
+    FCITX_D();
+    return d->defaultPrevPage.value();
+}
+
+const KeyList &GlobalConfig::defaultNextPage() const {
+    FCITX_D();
+    return d->defaultNextPage.value();
+}
+
+int GlobalConfig::defaultPageSize() const {
+    FCITX_D();
+    return d->defaultPageSize.value();
 }
 }

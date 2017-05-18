@@ -28,6 +28,8 @@
 #include <fcitx/text.h>
 #include <memory>
 
+#define FCITX_INVALID_COMPOSE_RESULT 0xffffffff
+
 namespace fcitx {
 
 class InputContext;
@@ -77,6 +79,9 @@ public:
     std::string inputMethod(InputContext *ic);
     const InputMethodEntry *inputMethodEntry(InputContext *ic);
     InputMethodEngine *inputMethodEngine(InputContext *ic);
+
+    uint32_t processCompose(InputContext *ic, KeySym keyval);
+    void resetCompose(InputContext *ic);
 
     std::string commitFilter(InputContext *inputContext,
                              const std::string &orig);

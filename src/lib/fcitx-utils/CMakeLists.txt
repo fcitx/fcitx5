@@ -20,6 +20,7 @@ set(FCITX_UTILS_SOURCES
     connectableobject.cpp
     element.cpp
     i18n.cpp
+    inputbuffer.cpp
     )
 
 set(FCITX_UTILS_HEADERS
@@ -55,6 +56,7 @@ set(FCITX_UTILS_HEADERS
     i18n.h
     capabilityflags.h
     textformatflags.h
+    inputbuffer.h
     ${CMAKE_CURRENT_BINARY_DIR}/fcitxutils_export.h
     )
 

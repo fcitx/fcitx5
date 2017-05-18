@@ -45,7 +45,7 @@ int main() {
 
     assert(candidatelist.size() == 3);
     assert(candidatelist.label(0).toString() == "1");
-    assert(candidatelist.candidate(0).text().toString() == "0");
+    assert(candidatelist.candidate(0)->text().toString() == "0");
     assert(!candidatelist.hasPrev());
     assert(candidatelist.hasNext());
 
@@ -64,7 +64,7 @@ int main() {
 
     assert(candidatelist.size() == 3);
     assert(candidatelist.label(0).toString() == "1");
-    assert(candidatelist.candidate(0).text().toString() == "3");
+    assert(candidatelist.candidate(0)->text().toString() == "3");
     assert(candidatelist.hasPrev());
     assert(candidatelist.hasNext());
 
@@ -84,7 +84,7 @@ int main() {
 
     assert(candidatelist.size() == 1);
     assert(candidatelist.label(0).toString() == "1");
-    assert(candidatelist.candidate(0).text().toString() == "9");
+    assert(candidatelist.candidate(0)->text().toString() == "9");
     assert(candidatelist.hasPrev());
     assert(!candidatelist.hasNext());
 
@@ -102,7 +102,7 @@ int main() {
     candidatelist.remove(0);
     assert(candidatelist.size() == 3);
     assert(candidatelist.label(0).toString() == "1");
-    assert(candidatelist.candidate(0).text().toString() == "7");
+    assert(candidatelist.candidate(0)->text().toString() == "7");
     assert(candidatelist.hasPrev());
     assert(!candidatelist.hasNext());
 

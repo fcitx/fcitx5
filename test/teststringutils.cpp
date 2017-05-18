@@ -18,6 +18,7 @@
  */
 
 #include "fcitx-utils/charutils.h"
+#include "fcitx-utils/macros.h"
 #include "fcitx-utils/stringutils.h"
 #include <cassert>
 #include <tuple>

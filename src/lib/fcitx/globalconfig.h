@@ -35,6 +35,11 @@ public:
     virtual ~GlobalConfig();
     const std::vector<Key> &triggerKeys() const;
     bool activeByDefault() const;
+    bool showInputMethodInformation() const;
+
+    const KeyList &defaultPrevPage() const;
+    const KeyList &defaultNextPage() const;
+    int defaultPageSize() const;
 
 private:
     std::unique_ptr<GlobalConfigPrivate> d_ptr;

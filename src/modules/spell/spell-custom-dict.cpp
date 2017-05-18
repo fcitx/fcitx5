@@ -238,11 +238,11 @@ load_le16(const void* p)
  * Open the dict file, return -1 if failed.
  **/
 std::string SpellCustomDict::locateDictFile(const std::string &lang) {
-    auto templatePath = "fcitx/spell/" + lang + "_dict.fscd";
+    auto templatePath = "spell/" + lang + "_dict.fscd";
     auto &standardPath = StandardPath::global();
     std::string path;
     standardPath.scanDirectories(
-        StandardPath::Type::Data,
+        StandardPath::Type::PkgData,
         [&lang, &path, &templatePath](const std::string &dirPath, bool isUser) {
             if (isUser) {
                 return true;

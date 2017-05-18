@@ -58,7 +58,8 @@ private:
     dbus::ServiceWatcher watcher_;
     std::unique_ptr<KimpanelProxy> proxy_;
     std::unique_ptr<dbus::ServiceWatcherEntry> entry_;
-    std::unique_ptr<HandlerTableEntry<EventHandler>> eventHandler_;
+    std::vector<std::unique_ptr<HandlerTableEntry<EventHandler>>>
+        eventHandlers_;
     TrackableObjectReference<InputContext> lastInputContext_;
     bool available_ = false;
 };

@@ -68,8 +68,6 @@ public:
     Slot *addObjectSubTree(const std::string &prefix, MessageCallback callback,
                            EnumerateObjectCallback enumerator);
 
-    void emitSignal();
-
     Message createSignal(const char *path, const char *interface,
                          const char *member);
     Message createMethodCall(const char *destination, const char *path,
@@ -84,6 +82,7 @@ public:
                             MessageCallback callback);
 
     std::string uniqueName();
+    void flush();
 
 private:
     std::unique_ptr<BusPrivate> d_ptr;

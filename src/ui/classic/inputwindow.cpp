@@ -154,7 +154,7 @@ void InputWindow::update(InputContext *inputContext) {
                 instance->outputFilter(inputContext, candidateList->label(i));
             setTextToLayout(labelLayouts_[i].get(), {label});
             auto candidate = instance->outputFilter(
-                inputContext, candidateList->candidate(i).text());
+                inputContext, candidateList->candidate(i)->text());
             setTextToLayout(candidateLayouts_[i].get(), {candidate});
         }
 
