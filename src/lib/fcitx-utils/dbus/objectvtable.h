@@ -107,20 +107,19 @@ struct ReturnValueHelper<void> {
 #define FCITX_OBJECT_VTABLE_SIGNAL(SIGNAL, SIGNAL_NAME, SIGNATURE)             \
     ::fcitx::dbus::ObjectVTableSignal SIGNAL##Signal{this, SIGNAL_NAME,        \
                                                      SIGNATURE};               \
+    typedef FCITX_STRING_TO_DBUS_TUPLE(SIGNATURE) SIGNAL##ArgType;             \
     template <typename... Args>                                                \
-    void SIGNAL(Args... args) {                                                \
+    void SIGNAL(Args &&... args) {                                             \
         auto msg = SIGNAL##Signal.createSignal();                              \
-        FCITX_STRING_TO_DBUS_TUPLE(SIGNATURE)                                  \
-        tupleArg = std::make_tuple(args...);                                   \
+        SIGNAL##ArgType tupleArg{std::forward<Args>(args)...};                 \
         msg << tupleArg;                                                       \
         msg.send();                                                            \
     }                                                                          \
     template <typename... Args>                                                \
-    void SIGNAL##To(const std::string &dest, Args... args) {                   \
+    void SIGNAL##To(const std::string &dest, Args &&... args) {                \
         auto msg = SIGNAL##Signal.createSignal();                              \
         msg.setDestination(dest);                                              \
-        FCITX_STRING_TO_DBUS_TUPLE(SIGNATURE)                                  \
-        tupleArg = std::make_tuple(args...);                                   \
+        SIGNAL##ArgType tupleArg{std::forward<Args>(args)...};                 \
         msg << tupleArg;                                                       \
         msg.send();                                                            \
     }
