@@ -60,9 +60,11 @@ void XCBInputWindow::updatePosition(InputContext *inputContext) {
     // if dpi changed due to screen, resize.
     dpi = ui_->dpi(dpi);
     if (dpi != dpi_) {
-        dpi_ = static_cast<int>((dpi / 48.0) + 0.5) * 48.0;
-        if (dpi_ <= 0) {
-            dpi_ = 48;
+        if (dpi >= 0) {
+            dpi_ = static_cast<int>((dpi / 48.0) + 0.5) * 48.0;
+            if (dpi_ <= 0) {
+                dpi_ = 48;
+            }
         }
         unsigned int width, height;
         std::tie(width, height) = sizeHint();

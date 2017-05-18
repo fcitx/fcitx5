@@ -83,6 +83,13 @@ InputWindow::InputWindow(ClassicUI *parent)
       lowerLayout_(nullptr, &g_object_unref) {
     auto fontMap = pango_cairo_font_map_get_default();
     context_.reset(pango_font_map_create_context(fontMap));
+    auto options = cairo_font_options_create();
+    cairo_font_options_set_hint_style (options, CAIRO_HINT_STYLE_NONE);
+    cairo_font_options_set_subpixel_order(options, CAIRO_SUBPIXEL_ORDER_RGB);
+    cairo_font_options_set_antialias(options, CAIRO_ANTIALIAS_SUBPIXEL);
+    cairo_font_options_set_hint_metrics(options, CAIRO_HINT_METRICS_ON);
+    pango_cairo_context_set_font_options(context_.get(), options);
+    cairo_font_options_destroy(options);
     upperLayout_.reset(pango_layout_new(context_.get()));
     lowerLayout_.reset(pango_layout_new(context_.get()));
 }
@@ -245,6 +252,38 @@ std::pair<unsigned int, unsigned int> InputWindow::sizeHint() {
     return {width, height};
 }
 
+static void
+prepareLayout (cairo_t *cr,
+                            PangoLayout *layout)
+{
+  const PangoMatrix *matrix;
+
+  matrix = pango_context_get_matrix (pango_layout_get_context (layout));
+
+  if (matrix)
+    {
+      cairo_matrix_t cairo_matrix;
+
+      cairo_matrix_init (&cairo_matrix,
+                         matrix->xx, matrix->yx,
+                         matrix->xy, matrix->yy,
+                         matrix->x0, matrix->y0);
+
+      cairo_transform (cr, &cairo_matrix);
+    }
+}
+
+static void
+renderLayout (cairo_t         *cr,
+                      PangoLayout     *layout)
+{
+    cairo_save(cr);
+  prepareLayout (cr, layout);
+  pango_cairo_show_layout (cr, layout);
+
+  cairo_restore (cr);
+}
+
 void InputWindow::paint(cairo_t *cr) const {
     cairo_save(cr);
     // FIXME
@@ -260,7 +299,7 @@ void InputWindow::paint(cairo_t *cr) const {
     size_t height = 0;
     int w, h;
     if (pango_layout_get_character_count(upperLayout_.get())) {
-        pango_cairo_show_layout(cr, upperLayout_.get());
+        renderLayout(cr, upperLayout_.get());
         pango_layout_get_pixel_size(upperLayout_.get(), &w, &h);
         h = std::max(PANGO_PIXELS_FLOOR(minH), h);
         PangoRectangle pos;
@@ -277,7 +316,7 @@ void InputWindow::paint(cairo_t *cr) const {
     }
     if (pango_layout_get_character_count(lowerLayout_.get())) {
         cairo_move_to(cr, 0, height);
-        pango_cairo_show_layout(cr, lowerLayout_.get());
+        renderLayout(cr, lowerLayout_.get());
         pango_layout_get_pixel_size(lowerLayout_.get(), &w, &h);
         height += h;
     }
@@ -323,11 +362,11 @@ void InputWindow::paint(cairo_t *cr) const {
         }
         if (pango_layout_get_character_count(labelLayouts_[i].get())) {
             cairo_move_to(cr, x, y + (vheight - labelH) / 2.0);
-            pango_cairo_show_layout(cr, labelLayouts_[i].get());
+            renderLayout(cr, labelLayouts_[i].get());
         }
         if (pango_layout_get_character_count(candidateLayouts_[i].get())) {
             cairo_move_to(cr, x + labelW, y + (vheight - candidateH) / 2.0);
-            pango_cairo_show_layout(cr, candidateLayouts_[i].get());
+            renderLayout(cr, candidateLayouts_[i].get());
         }
     }
     cairo_restore(cr);
