@@ -54,8 +54,8 @@ protected:
     int cursor_ = 0;
     int dpi_ = -1;
     size_t nCandidates_ = 0;
-    CandidateLayoutHint layoutHint_;
-    size_t candidatesHeight_;
+    CandidateLayoutHint layoutHint_ = CandidateLayoutHint::NotSet;
+    size_t candidatesHeight_ = 0;
 };
 }
 }

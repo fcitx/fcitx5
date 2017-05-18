@@ -198,7 +198,7 @@ std::pair<unsigned int, unsigned int> InputWindow::sizeHint() {
     if (pango_layout_get_character_count(upperLayout_.get())) {
 
         pango_layout_get_pixel_size(upperLayout_.get(), &w, &h);
-        h = std::max(minH / PANGO_SCALE, h);
+        h = std::max(PANGO_PIXELS_FLOOR(minH), h);
         height += h;
         updateIfLarger(width, w);
     }
@@ -235,7 +235,7 @@ std::pair<unsigned int, unsigned int> InputWindow::sizeHint() {
         } else {
             wholeW += candidateW;
             if (i != 0) {
-                wholeW += spaceWidth / PANGO_SCALE;
+                wholeW += PANGO_PIXELS_FLOOR(spaceWidth);
             }
             updateIfLarger(wholeH, candidateH);
         }
@@ -263,15 +263,15 @@ void InputWindow::paint(cairo_t *cr) const {
     if (pango_layout_get_character_count(upperLayout_.get())) {
         pango_cairo_show_layout(cr, upperLayout_.get());
         pango_layout_get_pixel_size(upperLayout_.get(), &w, &h);
-        h = std::max(minH / PANGO_SCALE, h);
+        h = std::max(PANGO_PIXELS_FLOOR(minH), h);
         PangoRectangle pos;
         if (cursor_ >= 0) {
             pango_layout_get_cursor_pos(upperLayout_.get(), cursor_, &pos,
                                         nullptr);
 
             cairo_set_line_width(cr, 1);
-            cairo_move_to(cr, pos.x / PANGO_SCALE + 0.5, 0);
-            cairo_line_to(cr, pos.x / PANGO_SCALE + 0.5, h);
+            cairo_move_to(cr, pango_units_to_double(pos.x) + 0.5, 0);
+            cairo_line_to(cr, pango_units_to_double(pos.x) + 0.5, h);
             cairo_stroke(cr);
         }
         height += h;
@@ -300,7 +300,7 @@ void InputWindow::paint(cairo_t *cr) const {
             y = height + wholeH;
         } else {
             if (i != 0) {
-                wholeW += spaceWidth / PANGO_SCALE;
+                wholeW += PANGO_PIXELS_FLOOR(spaceWidth);
             }
             x = wholeW;
             y = height;

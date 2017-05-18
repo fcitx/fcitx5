@@ -80,7 +80,7 @@ struct InputState : public InputContextProperty {
     InputContext *ic_;
     int keyReleased = -1;
     bool active;
-    CheckInputMethodChanged *imChanged;
+    CheckInputMethodChanged *imChanged = nullptr;
     std::unique_ptr<struct xkb_compose_state,
                     decltype(&xkb_compose_state_unref)>
         xkbComposeState_;
@@ -533,6 +533,7 @@ void InstanceArgument::parseOption(int argc, char **argv) {
             break;
         case 'k':
             quitWhenMainDisplayDisconnected = false;
+            break;
         case 's':
             overrideDelay = std::atoi(optarg);
             break;

@@ -37,7 +37,7 @@ public:
     QuickPhraseState(QuickPhrase *q) : q_(q) { buffer_.setMaxSize(30); }
 
     bool enabled_ = false;
-    InputBuffer buffer_{true};
+    InputBuffer buffer_;
     QuickPhrase *q_;
 
     void reset(InputContext *ic) {
