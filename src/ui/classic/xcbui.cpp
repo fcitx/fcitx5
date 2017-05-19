@@ -81,7 +81,8 @@ XCBFontOption forcedDpi(xcb_connection_t *conn, xcb_screen_t *screen) {
     } while (more);
 
     XCBFontOption option;
-    auto parse = [] (const std::vector<char> resources, const char *item, auto callback) {
+    auto parse = [](const std::vector<char> resources, const char *item,
+                    auto callback) {
         auto iter = resources.begin();
         auto end = resources.end();
         while (iter < end) {
@@ -95,19 +96,19 @@ XCBFontOption forcedDpi(xcb_connection_t *conn, xcb_screen_t *screen) {
             iter = std::next(next);
         }
     };
-    parse(resources, "Xft.dpi:\t", [&option] (const std::string &value) {
+    parse(resources, "Xft.dpi:\t", [&option](const std::string &value) {
         try {
             option.dpi = std::stoi(value);
         } catch (const std::exception &e) {
         }
     });
-    parse(resources, "Xft.antialias:\t", [&option] (const std::string &value) {
+    parse(resources, "Xft.antialias:\t", [&option](const std::string &value) {
         try {
             option.antialias = std::stoi(value) != 0;
         } catch (const std::exception &e) {
         }
     });
-    parse(resources, "Xft.hintstyle:\t", [&option] (const std::string &value) {
+    parse(resources, "Xft.hintstyle:\t", [&option](const std::string &value) {
         if (value == "hintfull") {
             option.hint = XCBHintStyle::Full;
         } else if (value == "hintnone") {
@@ -119,7 +120,7 @@ XCBFontOption forcedDpi(xcb_connection_t *conn, xcb_screen_t *screen) {
         }
         // default
     });
-    parse(resources, "Xft.rgba:\t", [&option] (const std::string &value) {
+    parse(resources, "Xft.rgba:\t", [&option](const std::string &value) {
         if (value == "none") {
             option.rgba = XCBRGBA::None;
         } else if (value == "hintnone") {

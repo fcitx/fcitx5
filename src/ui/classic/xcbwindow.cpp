@@ -95,7 +95,8 @@ cairo_surface_t *XCBWindow::prerender() {
     contentSurface_.reset(cairo_surface_create_similar(
         surface_.get(), CAIRO_CONTENT_COLOR_ALPHA, width(), height()));
 #else
-    contentSurface_.reset(cairo_image_surface_create(CAIRO_FORMAT_ARGB32, width(), height()));
+    contentSurface_.reset(
+        cairo_image_surface_create(CAIRO_FORMAT_ARGB32, width(), height()));
 #endif
     return contentSurface_.get();
 }

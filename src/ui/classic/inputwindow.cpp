@@ -245,36 +245,27 @@ std::pair<unsigned int, unsigned int> InputWindow::sizeHint() {
     return {width, height};
 }
 
-static void
-prepareLayout (cairo_t *cr,
-                            PangoLayout *layout)
-{
-  const PangoMatrix *matrix;
+static void prepareLayout(cairo_t *cr, PangoLayout *layout) {
+    const PangoMatrix *matrix;
 
-  matrix = pango_context_get_matrix (pango_layout_get_context (layout));
+    matrix = pango_context_get_matrix(pango_layout_get_context(layout));
 
-  if (matrix)
-    {
-      cairo_matrix_t cairo_matrix;
+    if (matrix) {
+        cairo_matrix_t cairo_matrix;
 
-      cairo_matrix_init (&cairo_matrix,
-                         matrix->xx, matrix->yx,
-                         matrix->xy, matrix->yy,
-                         matrix->x0, matrix->y0);
+        cairo_matrix_init(&cairo_matrix, matrix->xx, matrix->yx, matrix->xy,
+                          matrix->yy, matrix->x0, matrix->y0);
 
-      cairo_transform (cr, &cairo_matrix);
+        cairo_transform(cr, &cairo_matrix);
     }
 }
 
-static void
-renderLayout (cairo_t         *cr,
-                      PangoLayout     *layout)
-{
+static void renderLayout(cairo_t *cr, PangoLayout *layout) {
     cairo_save(cr);
-  prepareLayout (cr, layout);
-  pango_cairo_show_layout (cr, layout);
+    prepareLayout(cr, layout);
+    pango_cairo_show_layout(cr, layout);
 
-  cairo_restore (cr);
+    cairo_restore(cr);
 }
 
 void InputWindow::paint(cairo_t *cr) const {

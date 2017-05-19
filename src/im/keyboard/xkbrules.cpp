@@ -225,5 +225,4 @@ void XkbRules::dump() {
     }
 }
 #endif
-
 }

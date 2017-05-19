@@ -33,22 +33,9 @@ class XCBTrayWindow;
 
 enum class MultiScreenExtension { Randr, Xinerama, EXTNone };
 
-enum class XCBHintStyle {
-    Default,
-    None,
-    Medium,
-    Slight,
-    Full
-};
+enum class XCBHintStyle { Default, None, Medium, Slight, Full };
 
-enum class XCBRGBA {
-    Default,
-    None,
-    RGB,
-    BGR,
-    VRGB,
-    VBGR
-};
+enum class XCBRGBA { Default, None, RGB, BGR, VRGB, VBGR };
 
 struct XCBFontOption {
     int dpi = -1;
