@@ -103,7 +103,7 @@ public:
         auto &preedit = inputPanel().clientPreedit();
         std::vector<dbus::DBusStruct<std::string, int>> strs;
         for (int i = 0, e = preedit.size(); i < e; i++) {
-            strs.push_back(std::make_tuple(
+            strs.emplace_back(std::make_tuple(
                 preedit.stringAt(i), static_cast<int>(preedit.formatAt(i))));
         }
         updateFormattedPreeditTo(name_, strs, preedit.cursor());
@@ -161,7 +161,7 @@ public:
         std::unordered_map<std::string, std::string> strMap;
         for (auto &p : args) {
             std::string key, value;
-            std::tie(key, value) = p;
+            std::tie(key, value) = p.data();
             strMap[key] = value;
         }
         std::string program;

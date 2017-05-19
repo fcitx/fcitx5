@@ -35,15 +35,25 @@ namespace fcitx {
 namespace dbus {
 
 template <typename... Args>
-struct DBusStruct : public std::tuple<Args...> {
+struct DBusStruct {
     typedef std::tuple<Args...> tuple_type;
 
     DBusStruct() = default;
+    DBusStruct(const DBusStruct &) = default;
+    DBusStruct(DBusStruct &&) = default;
 
-    DBusStruct(const tuple_type &other) : tuple_type(std::forward(other)) {}
+    DBusStruct &operator=(const DBusStruct &) = default;
+    DBusStruct &operator=(DBusStruct &&) = default;
 
-    DBusStruct(tuple_type &&other)
-        : tuple_type(std::forward<tuple_type>(other)) {}
+    explicit DBusStruct(const tuple_type &other) : data_(std::forward(other)) {}
+    explicit DBusStruct(tuple_type &&other)
+        : data_(std::forward<tuple_type>(other)) {}
+
+    constexpr tuple_type &data() { return data_; }
+    constexpr const tuple_type &data() const { return data_; }
+
+private:
+    tuple_type data_;
 };
 
 class Message;
@@ -201,10 +211,8 @@ public:
         if (*this << Container(Container::Type::Struct,
                                Signature(signature::data()))) {
             ;
-            TupleMarshaller<typename value_type::tuple_type, sizeof...(Args)>::
-                marshall(
-                    *this,
-                    static_cast<const typename value_type::tuple_type &>(t));
+            TupleMarshaller<typename value_type::tuple_type,
+                            sizeof...(Args)>::marshall(*this, t.data());
             if (*this) {
                 *this << ContainerEnd();
             }
@@ -271,8 +279,8 @@ public:
             signature;
         if (*this >>
             Container(Container::Type::Struct, Signature(signature::data()))) {
-            TupleMarshaller<tuple_type, sizeof...(Args)>::unmarshall(
-                *this, static_cast<tuple_type &>(t));
+            TupleMarshaller<tuple_type, sizeof...(Args)>::unmarshall(*this,
+                                                                     t.data());
             if (*this) {
                 *this >> ContainerEnd();
             }
@@ -301,6 +309,29 @@ private:
     std::unique_ptr<MessagePrivate> d_ptr;
     FCITX_DECLARE_PRIVATE(Message);
 };
+}
+}
+
+namespace std {
+
+template <std::size_t i, typename... _Elements>
+constexpr auto &get(fcitx::dbus::DBusStruct<_Elements...> &t) noexcept {
+    return std::get<i>(t.data());
+}
+
+template <std::size_t i, typename... _Elements>
+constexpr auto &get(const fcitx::dbus::DBusStruct<_Elements...> &t) noexcept {
+    return std::get<i>(t.data());
+}
+
+template <typename T, typename... _Elements>
+constexpr auto &get(fcitx::dbus::DBusStruct<_Elements...> &t) noexcept {
+    return std::get<T>(t.data());
+}
+
+template <typename T, typename... _Elements>
+constexpr auto &get(const fcitx::dbus::DBusStruct<_Elements...> &t) noexcept {
+    return std::get<T>(t.data());
 }
 }
 

@@ -30,7 +30,7 @@ class TestObject : public ObjectVTable<TestObject> {
     std::string test2(int32_t i) { return std::to_string(i); }
     std::tuple<int32_t, uint32_t> test3(int32_t i) {
         std::vector<DBusStruct<std::string, int>> data;
-        data.push_back(std::make_tuple(std::to_string(i), i));
+        data.emplace_back(std::make_tuple(std::to_string(i), i));
         testSignal(data);
         return std::make_tuple(i - 1, i + 1);
     }
@@ -98,6 +98,8 @@ void client() {
             assert(data.size() == 1);
             assert(std::get<0>(data[0]) == "2");
             assert(std::get<1>(data[0]) == 2);
+            assert(std::get<std::string>(data[0]) == "2");
+            assert(std::get<int>(data[0]) == 2);
             loop.quit();
             return false;
         }));
