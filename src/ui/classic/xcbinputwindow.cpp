@@ -20,12 +20,72 @@
 #include "xcbinputwindow.h"
 #include "fcitx-utils/rect.h"
 #include <xcb/xcb_aux.h>
+#include <pango/pangocairo.h>
 
 namespace fcitx {
 namespace classicui {
 
 XCBInputWindow::XCBInputWindow(XCBUI *ui)
-    : XCBWindow(ui), InputWindow(ui->parent()) {}
+    : XCBWindow(ui), InputWindow(ui->parent()) {
+    cairo_hint_style_t hint = CAIRO_HINT_STYLE_DEFAULT;
+    cairo_antialias_t aa = CAIRO_ANTIALIAS_DEFAULT;
+    cairo_subpixel_order_t subpixel = CAIRO_SUBPIXEL_ORDER_DEFAULT;
+    switch (ui->fontOption().hint) {
+        case XCBHintStyle::None:
+            hint = CAIRO_HINT_STYLE_NONE;
+            break;
+        case XCBHintStyle::Slight:
+            hint = CAIRO_HINT_STYLE_SLIGHT;
+            break;
+        case XCBHintStyle::Medium:
+            hint = CAIRO_HINT_STYLE_MEDIUM;
+            break;
+        case XCBHintStyle::Full:
+            hint = CAIRO_HINT_STYLE_FULL;
+            break;
+        default:
+            hint = CAIRO_HINT_STYLE_DEFAULT;
+            break;
+    }
+    switch (ui->fontOption().rgba) {
+        case XCBRGBA::None:
+            subpixel = CAIRO_SUBPIXEL_ORDER_DEFAULT;
+            break;
+        case XCBRGBA::RGB:
+            subpixel = CAIRO_SUBPIXEL_ORDER_RGB;
+            break;
+        case XCBRGBA::BGR:
+            subpixel = CAIRO_SUBPIXEL_ORDER_BGR;
+            break;
+        case XCBRGBA::VRGB:
+            subpixel = CAIRO_SUBPIXEL_ORDER_VRGB;
+            break;
+        case XCBRGBA::VBGR:
+            subpixel = CAIRO_SUBPIXEL_ORDER_VBGR;
+            break;
+        default:
+            subpixel = CAIRO_SUBPIXEL_ORDER_DEFAULT;
+            break;
+    }
+
+    if (ui->fontOption().antialias) {
+        if (subpixel != CAIRO_SUBPIXEL_ORDER_DEFAULT) {
+            aa = CAIRO_ANTIALIAS_SUBPIXEL;
+        } else {
+            aa = CAIRO_ANTIALIAS_GRAY;
+        }
+    } else {
+        aa = CAIRO_ANTIALIAS_NONE;
+    }
+
+    auto options = cairo_font_options_create();
+    cairo_font_options_set_hint_style (options, hint);
+    cairo_font_options_set_subpixel_order(options, subpixel);
+    cairo_font_options_set_antialias(options, aa);
+    cairo_font_options_set_hint_metrics(options, CAIRO_HINT_METRICS_ON);
+    pango_cairo_context_set_font_options(context_.get(), options);
+    cairo_font_options_destroy(options);
+}
 
 void XCBInputWindow::postCreateWindow() {
     addEventMaskToWindow(
@@ -158,9 +218,6 @@ bool XCBInputWindow::filterEvent(xcb_generic_event_t *event) {
             if (visible()) {
                 if (auto surface = prerender()) {
                     cairo_t *c = cairo_create(surface);
-                    cairo_set_source_rgba(c, 1, 1, 1, 1);
-                    cairo_set_operator(c, CAIRO_OPERATOR_SOURCE);
-                    cairo_paint(c);
                     paint(c);
                     cairo_destroy(c);
                     render();

@@ -45,6 +45,7 @@ public:
 protected:
     XCBUI *ui_;
     xcb_window_t wid_ = 0;
+    xcb_visualid_t vid_ = 0;
     std::unique_ptr<HandlerTableEntry<XCBEventFilter>> eventFilter_;
     std::unique_ptr<cairo_surface_t, decltype(&cairo_surface_destroy)> surface_;
     std::unique_ptr<cairo_surface_t, decltype(&cairo_surface_destroy)>

@@ -56,7 +56,7 @@ void XCBWindow::createWindow(xcb_visualid_t vid) {
         0, 0, XCB_GRAVITY_NORTH_WEST, XCB_BACKING_STORE_WHEN_MAPPED,
         1, 1, ui_->colorMap()};
 
-    xcb_create_window(conn, depth, wid_, screen->root, 0, 0, 1, 1, 1,
+    xcb_create_window(conn, depth, wid_, screen->root, 0, 0, 1, 1, 0,
                       XCB_WINDOW_CLASS_INPUT_OUTPUT, vid, valueMask, values);
 
     eventFilter_.reset(ui_->parent()->xcb()->call<IXCBModule::addEventFilter>(
@@ -87,13 +87,16 @@ void XCBWindow::resize(unsigned int width, unsigned int height) {
                          XCB_CONFIG_WINDOW_WIDTH | XCB_CONFIG_WINDOW_HEIGHT,
                          vals);
     cairo_xcb_surface_set_size(surface_.get(), width, height);
-    width_ = width;
-    height_ = height;
+    Window::resize(width, height);
 }
 
 cairo_surface_t *XCBWindow::prerender() {
+#if 0
     contentSurface_.reset(cairo_surface_create_similar(
         surface_.get(), CAIRO_CONTENT_COLOR_ALPHA, width(), height()));
+#else
+    contentSurface_.reset(cairo_image_surface_create(CAIRO_FORMAT_ARGB32, width(), height()));
+#endif
     return contentSurface_.get();
 }
 

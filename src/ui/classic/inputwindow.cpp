@@ -83,13 +83,6 @@ InputWindow::InputWindow(ClassicUI *parent)
       lowerLayout_(nullptr, &g_object_unref) {
     auto fontMap = pango_cairo_font_map_get_default();
     context_.reset(pango_font_map_create_context(fontMap));
-    auto options = cairo_font_options_create();
-    cairo_font_options_set_hint_style (options, CAIRO_HINT_STYLE_NONE);
-    cairo_font_options_set_subpixel_order(options, CAIRO_SUBPIXEL_ORDER_RGB);
-    cairo_font_options_set_antialias(options, CAIRO_ANTIALIAS_SUBPIXEL);
-    cairo_font_options_set_hint_metrics(options, CAIRO_HINT_METRICS_ON);
-    pango_cairo_context_set_font_options(context_.get(), options);
-    cairo_font_options_destroy(options);
     upperLayout_.reset(pango_layout_new(context_.get()));
     lowerLayout_.reset(pango_layout_new(context_.get()));
 }
@@ -285,6 +278,13 @@ renderLayout (cairo_t         *cr,
 }
 
 void InputWindow::paint(cairo_t *cr) const {
+    // FIXME background
+    cairo_save(cr);
+    cairo_set_source_rgb(cr, 1, 1, 1);
+    cairo_set_operator(cr, CAIRO_OPERATOR_SOURCE);
+    cairo_paint(cr);
+    cairo_restore(cr);
+
     cairo_save(cr);
     // FIXME
     cairo_set_source_rgb(cr, 0, 0, 0);

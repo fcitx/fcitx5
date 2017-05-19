@@ -59,7 +59,7 @@ xcb_visualid_t findVisual(xcb_screen_t *screen) {
     return visual->visual_id;
 }
 
-int forcedDpi(xcb_connection_t *conn, xcb_screen_t *screen) {
+XCBFontOption forcedDpi(xcb_connection_t *conn, xcb_screen_t *screen) {
     int offset = 0;
     std::vector<char> resources;
     bool more = true;
@@ -80,24 +80,60 @@ int forcedDpi(xcb_connection_t *conn, xcb_screen_t *screen) {
         }
     } while (more);
 
-    auto iter = resources.begin();
-    auto end = resources.end();
-    auto dpi = -1;
-    while (iter < end) {
-        auto next = std::find(iter, end, '\n');
-        char c[] = "Xft.dpi:\t";
-        int cLen = sizeof(c) - 1;
-        if (next - iter > cLen && std::equal(iter, iter + cLen, c)) {
-            std::string value(iter + cLen, next);
-            try {
-                dpi = std::stoi(value);
-            } catch (const std::exception &) {
+    XCBFontOption option;
+    auto parse = [] (const std::vector<char> resources, const char *item, auto callback) {
+        auto iter = resources.begin();
+        auto end = resources.end();
+        while (iter < end) {
+            auto next = std::find(iter, end, '\n');
+            int cLen = strlen(item);
+            if (next - iter > cLen && std::equal(iter, iter + cLen, item)) {
+                std::string value(iter + cLen, next);
+                callback(value);
             }
-        }
 
-        iter = next + 1;
-    }
-    return dpi;
+            iter = std::next(next);
+        }
+    };
+    parse(resources, "Xft.dpi:\t", [&option] (const std::string &value) {
+        try {
+            option.dpi = std::stoi(value);
+        } catch (const std::exception &e) {
+        }
+    });
+    parse(resources, "Xft.antialias:\t", [&option] (const std::string &value) {
+        try {
+            option.antialias = std::stoi(value) != 0;
+        } catch (const std::exception &e) {
+        }
+    });
+    parse(resources, "Xft.hintstyle:\t", [&option] (const std::string &value) {
+        if (value == "hintfull") {
+            option.hint = XCBHintStyle::Full;
+        } else if (value == "hintnone") {
+            option.hint = XCBHintStyle::None;
+        } else if (value == "hintmedium") {
+            option.hint = XCBHintStyle::Medium;
+        } else if (value == "hintslight") {
+            option.hint = XCBHintStyle::Slight;
+        }
+        // default
+    });
+    parse(resources, "Xft.rgba:\t", [&option] (const std::string &value) {
+        if (value == "none") {
+            option.rgba = XCBRGBA::None;
+        } else if (value == "hintnone") {
+            option.rgba = XCBRGBA::RGB;
+        } else if (value == "hintmedium") {
+            option.rgba = XCBRGBA::BGR;
+        } else if (value == "hintslight") {
+            option.rgba = XCBRGBA::VRGB;
+        } else if (value == "hintslight") {
+            option.rgba = XCBRGBA::VBGR;
+        }
+        // default
+    });
+    return option;
 }
 
 XCBUI::XCBUI(ClassicUI *parent, const std::string &name, xcb_connection_t *conn,
@@ -148,7 +184,7 @@ XCBUI::XCBUI(ClassicUI *parent, const std::string &name, xcb_connection_t *conn,
 
     xcb_screen_t *screen = xcb_aux_get_screen(conn_, defaultScreen_);
     addEventMaskToWindow(conn_, screen->root, XCB_EVENT_MASK_STRUCTURE_NOTIFY);
-    forcedDpi_ = forcedDpi(conn_, screen);
+    fontOption_ = forcedDpi(conn_, screen);
     initScreen();
     refreshCompositeManager();
 }
@@ -333,12 +369,12 @@ void XCBUI::updateCursor(InputContext *inputContext) {
 
 int XCBUI::dpi(int dpi) {
     if (dpi < 0) {
-        return forcedDpi_;
+        return fontOption_.dpi;
     }
-    if (forcedDpi_ < 0) {
+    if (fontOption_.dpi < 0) {
         return dpi;
     }
-    return (static_cast<double>(dpi) / maxDpi_) * forcedDpi_;
+    return (static_cast<double>(dpi) / maxDpi_) * fontOption_.dpi;
 }
 
 void XCBUI::suspend() { inputWindow_->update(nullptr); }

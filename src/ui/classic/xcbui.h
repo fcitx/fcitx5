@@ -22,6 +22,8 @@
 #include "classicui.h"
 #include "fcitx-utils/rect.h"
 
+#undef None
+
 namespace fcitx {
 namespace classicui {
 
@@ -30,6 +32,30 @@ class XCBMainWindow;
 class XCBTrayWindow;
 
 enum class MultiScreenExtension { Randr, Xinerama, EXTNone };
+
+enum class XCBHintStyle {
+    Default,
+    None,
+    Medium,
+    Slight,
+    Full
+};
+
+enum class XCBRGBA {
+    Default,
+    None,
+    RGB,
+    BGR,
+    VRGB,
+    VBGR
+};
+
+struct XCBFontOption {
+    int dpi = -1;
+    bool antialias = true;
+    XCBHintStyle hint = XCBHintStyle::Default;
+    XCBRGBA rgba = XCBRGBA::Default;
+};
 
 class XCBUI : public UIInterface {
 public:
@@ -49,6 +75,7 @@ public:
     void suspend() override;
     const auto &screenRects() { return rects_; }
     int dpi(int dpi);
+    const XCBFontOption &fontOption() const { return fontOption_; }
 
 private:
     void refreshCompositeManager();
@@ -67,7 +94,7 @@ private:
     xcb_atom_t compMgrAtom_ = XCB_ATOM_NONE;
     xcb_window_t compMgrWindow_ = XCB_WINDOW_NONE;
 
-    int forcedDpi_ = -1;
+    XCBFontOption fontOption_;
     int maxDpi_ = -1;
     MultiScreenExtension multiScreen_ = MultiScreenExtension::EXTNone;
     int xrandrFirstEvent_ = 0;
