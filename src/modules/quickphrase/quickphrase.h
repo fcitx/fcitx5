@@ -57,7 +57,13 @@ public:
     void updateUI(InputContext *inputContext);
     auto &factory() { return factory_; }
 
+    void trigger(InputContext *ic, const std::string &text,
+                 const std::string &prefix, const std::string &str,
+                 const std::string &alt, const Key &key);
+
 private:
+    FCITX_ADDON_EXPORT_FUNCTION(QuickPhrase, trigger);
+
     std::multimap<std::string, std::string> map_;
     QuickPhraseConfig config_;
     Instance *instance_;

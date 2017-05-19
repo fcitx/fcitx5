@@ -117,6 +117,7 @@ public:
         forwardKeyDBusTo(name_, static_cast<uint32_t>(key.rawKey().sym()),
                          static_cast<uint32_t>(key.rawKey().states()),
                          key.isRelease());
+        bus()->flush();
     }
 
     void resetDBus() { reset(ResetReason::Client); }

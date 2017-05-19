@@ -96,7 +96,10 @@ void InputBuffer::typeImpl(const char *s, size_t length) {
             pos++;
         }
         d->acc_.resize(d->sz_.size() + 1);
-        d->accDirty_ = d->cursor_ > 0 ? d->cursor_ - 1 : 0;
+        auto newDirty = d->cursor_ > 0 ? d->cursor_ - 1 : 0;
+        if (d->accDirty_ > newDirty) {
+            d->accDirty_ = newDirty;
+        }
     }
     d->cursor_ += len;
 }

@@ -78,6 +78,35 @@ void test_utf8() {
     assert(buffer.cursorByChar() == 0);
     assert(buffer.cursor() == 0);
     assert(buffer.size() == 0);
+
+    buffer.type('a');
+    assert(buffer.userInput() == "a");
+    buffer.type('b');
+    assert(buffer.userInput() == "ab");
+    buffer.type('c');
+    assert(buffer.userInput() == "abc");
+    buffer.type('d');
+    assert(buffer.userInput() == "abcd");
+    buffer.type('e');
+    assert(buffer.userInput() == "abcde");
+    buffer.type('f');
+    assert(buffer.userInput() == "abcdef");
+    buffer.type('g');
+    assert(buffer.userInput() == "abcdefg");
+    buffer.backspace();
+    assert(buffer.userInput() == "abcdef");
+    buffer.backspace();
+    assert(buffer.userInput() == "abcde");
+    buffer.backspace();
+    assert(buffer.userInput() == "abcd");
+    buffer.backspace();
+    assert(buffer.userInput() == "abc");
+    buffer.backspace();
+    assert(buffer.userInput() == "ab");
+    buffer.backspace();
+    assert(buffer.userInput() == "a");
+    buffer.backspace();
+    assert(buffer.userInput() == "");
 }
 
 int main() {

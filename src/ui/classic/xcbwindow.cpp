@@ -91,7 +91,7 @@ void XCBWindow::resize(unsigned int width, unsigned int height) {
 }
 
 cairo_surface_t *XCBWindow::prerender() {
-#if 0
+#if 1
     contentSurface_.reset(cairo_surface_create_similar(
         surface_.get(), CAIRO_CONTENT_COLOR_ALPHA, width(), height()));
 #else

@@ -28,7 +28,7 @@ public:
     TextPrivate(const TextPrivate &other) = default;
 
     std::vector<std::tuple<std::string, TextFormatFlags>> texts_;
-    int cursor_ = 0;
+    int cursor_ = -1;
 };
 
 Text::Text() : d_ptr(std::make_unique<TextPrivate>()) {}

@@ -360,8 +360,7 @@ public:
         auto commit = text().toString();
         inputContext->inputPanel().reset();
         inputContext->updatePreedit();
-        inputContext->updateUserInterface(UserInterfaceComponent::InputPanel,
-                                          true);
+        inputContext->updateUserInterface(UserInterfaceComponent::InputPanel);
         inputContext->commitString(commit);
         engine_->resetState(inputContext);
     }

@@ -19,4 +19,16 @@
 #ifndef _FCITX_MODULES_QUICKPHRASE_QUICKPHRASE_PUBLIC_H_
 #define _FCITX_MODULES_QUICKPHRASE_QUICKPHRASE_PUBLIC_H_
 
+#include <fcitx-utils/key.h>
+#include <fcitx-utils/metastring.h>
+#include <fcitx/addoninstance.h>
+#include <fcitx/inputcontext.h>
+#include <string>
+
+FCITX_ADDON_DECLARE_FUNCTION(
+    QuickPhrase, trigger,
+    void(fcitx::InputContext *ic, const std::string &text,
+         const std::string &prefix, const std::string &str,
+         const std::string &alt, const fcitx::Key &key));
+
 #endif // _FCITX_MODULES_QUICKPHRASE_QUICKPHRASE_PUBLIC_H_
