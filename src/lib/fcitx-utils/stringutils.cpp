@@ -153,10 +153,10 @@ const char *backwardSearch(const char *haystack, size_t l, const char *needle,
 
     const char *end = haystack;
     haystack += from;
-    const uint ol_minus_1 = ol - 1;
+    const unsigned int ol_minus_1 = ol - 1;
     const char *n = needle + ol_minus_1;
     const char *h = haystack + ol_minus_1;
-    uint hashNeedle = 0, hashHaystack = 0;
+    unsigned int hashNeedle = 0, hashHaystack = 0;
     size_t idx;
     for (idx = 0; idx < ol; ++idx) {
         hashNeedle = ((hashNeedle << 1) + *(n - idx));

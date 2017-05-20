@@ -344,7 +344,7 @@ XkbRulesNames XCBConnection::xkbRulesNames() {
         // we need to make sure that too many or missing '\0' symbols are
         // handled safely.
         do {
-            uint len = strnlen(&(*p), length);
+            auto len = strnlen(&(*p), length);
             names[i++] = std::string(&(*p), len);
             p += len + 1;
             length -= len + 1;
