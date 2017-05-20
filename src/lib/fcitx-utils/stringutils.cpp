@@ -136,7 +136,7 @@ std::string replaceAll(std::string str, const std::string &before,
 }
 
 #define REHASH(a)                                                              \
-    if (ol_minus_1 < sizeof(uint) * CHAR_BIT)                                  \
+    if (ol_minus_1 < sizeof(unsigned int) * CHAR_BIT)                                  \
         hashHaystack -= (a) << ol_minus_1;                                     \
     hashHaystack <<= 1
 
