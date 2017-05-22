@@ -30,6 +30,7 @@
 namespace fcitx {
 
 class Instance;
+class EventLoop;
 class AddonManagerPrivate;
 class FCITXCORE_EXPORT AddonManager {
     friend class Instance;
@@ -51,6 +52,10 @@ public:
     std::unordered_set<std::string> addonNames(AddonCategory category);
 
     Instance *instance();
+    EventLoop *eventLoop();
+
+    // for test purpose.
+    void setEventLoop(EventLoop *eventLoop);
 
 private:
     void setInstance(Instance *instance);

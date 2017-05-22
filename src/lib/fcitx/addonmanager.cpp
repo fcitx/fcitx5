@@ -154,7 +154,8 @@ public:
 
     std::vector<std::string> loadOrder_;
 
-    Instance *instance_;
+    Instance *instance_ = nullptr;
+    EventLoop *eventLoop_ = nullptr;
 };
 
 void Addon::load(AddonManagerPrivate *managerP) {
@@ -306,5 +307,16 @@ Instance *AddonManager::instance() {
 void AddonManager::setInstance(Instance *instance) {
     FCITX_D();
     d->instance_ = instance;
+    d->eventLoop_ = &instance->eventLoop();
+}
+
+void AddonManager::setEventLoop(EventLoop *eventLoop) {
+    FCITX_D();
+    d->eventLoop_ = eventLoop;
+}
+
+EventLoop *AddonManager::eventLoop() {
+    FCITX_D();
+    return d->eventLoop_;
 }
 }

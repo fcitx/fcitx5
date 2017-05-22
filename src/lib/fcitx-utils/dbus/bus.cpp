@@ -124,6 +124,9 @@ void Bus::detachEventLoop() {
 
 int SDMessageCallback(sd_bus_message *m, void *userdata, sd_bus_error *) {
     auto slot = static_cast<SDSlot *>(userdata);
+    if (!slot) {
+        return 0;
+    }
     try {
         auto result = slot->callback(MessagePrivate::fromSDBusMessage(m));
         return result ? 0 : 1;
@@ -137,6 +140,9 @@ int SDMessageCallback(sd_bus_message *m, void *userdata, sd_bus_error *) {
 int SDEnumeratorCallback(sd_bus *, const char *prefix, void *userdata,
                          char ***ret_nodes, sd_bus_error *) {
     auto slot = static_cast<SDSubTreeSlot *>(userdata);
+    if (!slot) {
+        return 0;
+    }
     try {
         auto result = slot->enumerator(prefix);
         auto ret =

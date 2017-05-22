@@ -30,14 +30,14 @@ set_target_properties(DBusWrapper PROPERTIES IMPORTED_LOCATION "${CMAKE_CURRENT_
 
 foreach(TESTCASE ${FCITX_UTILS_DBUS_TEST})
     add_executable(${TESTCASE} ${TESTCASE}.cpp)
-    target_link_libraries(${TESTCASE} Fcitx5::Utils Systemd::Systemd ${${TESTCASE}_LIBS})
+    target_link_libraries(${TESTCASE} Fcitx5::Utils ${${TESTCASE}_LIBS})
     add_test(NAME ${TESTCASE}
              COMMAND DBusWrapper "${CMAKE_CURRENT_BINARY_DIR}/${TESTCASE}" ${${TESTCASE}_ARGS})
 endforeach()
 
 foreach(TESTCASE ${FCITX_UTILS_TEST})
     add_executable(${TESTCASE} ${TESTCASE}.cpp)
-    target_link_libraries(${TESTCASE} Fcitx5::Utils Systemd::Systemd ${${TESTCASE}_LIBS})
+    target_link_libraries(${TESTCASE} Fcitx5::Utils ${${TESTCASE}_LIBS})
     add_test(NAME ${TESTCASE}
              COMMAND ${TESTCASE} ${${TESTCASE}_ARGS})
 endforeach()

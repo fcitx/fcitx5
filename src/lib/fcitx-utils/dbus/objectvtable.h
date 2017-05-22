@@ -35,7 +35,7 @@ class Bus;
 class ObjectVTablePrivate;
 
 typedef std::function<bool(Message)> ObjectMethod;
-typedef std::function<Message()> PropertyGetMethod;
+typedef std::function<void(Message &)> PropertyGetMethod;
 typedef std::function<bool(Message)> PropertySetMethod;
 
 class FCITXUTILS_EXPORT ObjectVTableMethod {
@@ -47,7 +47,7 @@ public:
     const std::string &name() const { return name_; }
     const std::string &signature() const { return signature_; }
     const std::string &ret() const { return ret_; }
-    ObjectMethod &handler() { return handler_; }
+    ObjectMethod handler() { return handler_; }
     ObjectVTableBase *vtable() const { return vtable_; }
 
 private:
@@ -130,6 +130,8 @@ public:
                        const std::string signature);
 
     Message createSignal();
+    const std::string &name() const { return name_; }
+    const std::string &signature() const { return signature_; }
 
 private:
     const std::string name_;
@@ -142,6 +144,14 @@ public:
     ObjectVTableProperty(ObjectVTableBase *vtable, const std::string &name,
                          const std::string signature,
                          PropertyGetMethod getMethod);
+
+    const std::string &name() const { return name_; }
+
+    const std::string &signature() const { return signature_; }
+
+    bool writable() { return writable_; }
+
+    auto getMethod() { return getMethod_; }
 
 protected:
     const std::string name_;
@@ -158,6 +168,8 @@ public:
                                  const std::string signature,
                                  PropertyGetMethod getMethod,
                                  PropertySetMethod setMethod);
+
+    auto setMethod() { return setMethod_; }
 
 private:
     PropertySetMethod setMethod_;
@@ -186,6 +198,9 @@ public:
     Message *currentMessage() const;
 
     void setCurrentMessage(Message *message);
+
+    ObjectVTableMethod *findMethod(const std::string &name);
+    ObjectVTableProperty *findProperty(const std::string &name);
 
 protected:
     virtual std::mutex &privateDataMutexForType() = 0;

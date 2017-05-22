@@ -22,7 +22,7 @@
 #include <fcitx-utils/dbus/message_p.h>
 #include <fcitx-utils/dbus/objectvtable.h>
 #include <fcitx-utils/dbus/objectvtablewrapper_p.h>
-#include <unordered_set>
+#include <map>
 #include <vector>
 
 namespace fcitx {
@@ -38,9 +38,9 @@ public:
 
     ObjectVTableBase *q_ptr;
     FCITX_DECLARE_PUBLIC(ObjectVTableBase);
-    std::vector<ObjectVTableMethod *> methods_;
-    std::vector<ObjectVTableProperty *> properties_;
-    std::vector<ObjectVTableSignal *> sigs_;
+    std::map<std::string, ObjectVTableMethod *> methods_;
+    std::map<std::string, ObjectVTableProperty *> properties_;
+    std::map<std::string, ObjectVTableSignal *> sigs_;
     std::unique_ptr<SDVTableSlot> slot_;
     Message *msg_ = nullptr;
 };

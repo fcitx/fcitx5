@@ -44,6 +44,9 @@ public:
     const Text &text() const;
     virtual void select(InputContext *inputContext) const = 0;
 
+protected:
+    Text &text();
+
 private:
     std::unique_ptr<CandidateWordPrivate> d_ptr;
     FCITX_DECLARE_PRIVATE(CandidateWord);

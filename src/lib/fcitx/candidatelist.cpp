@@ -83,6 +83,11 @@ const Text &CandidateWord::text() const {
     return d->text_;
 }
 
+Text &CandidateWord::text() {
+    FCITX_D();
+    return d->text_;
+}
+
 class CommonCandidateListPrivate {
 public:
     bool usedNextBefore = false;

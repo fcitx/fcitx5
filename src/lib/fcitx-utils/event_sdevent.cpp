@@ -62,6 +62,7 @@ public:
     ~SDEventSourceBase() {
         if (eventSource_) {
             setEnabled(false);
+            sd_event_source_set_userdata(eventSource_, nullptr);
             sd_event_source_unref(eventSource_);
         }
     }
@@ -238,6 +239,9 @@ void EventLoop::quit() {
 int IOEventCallback(sd_event_source *, int fd, uint32_t revents,
                     void *userdata) {
     auto source = static_cast<SDEventSourceIO *>(userdata);
+    if (!source) {
+        return 0;
+    }
     try {
         auto result =
             source->callback_(source, fd, EpollFlagsToIOEventFlags(revents));
@@ -266,7 +270,9 @@ EventSourceIO *EventLoop::addIOEvent(int fd, IOEventFlags flags,
 
 int TimeEventCallback(sd_event_source *, uint64_t usec, void *userdata) {
     auto source = static_cast<SDEventSourceTime *>(userdata);
-
+    if (!source) {
+        return 0;
+    }
     try {
         auto result = source->callback_(source, usec);
         return result ? 0 : -1;
@@ -295,7 +301,9 @@ EventSourceTime *EventLoop::addTimeEvent(clockid_t clock, uint64_t usec,
 
 int StaticEventCallback(sd_event_source *, void *userdata) {
     auto source = static_cast<SDEventSource *>(userdata);
-
+    if (!source) {
+        return 0;
+    }
     try {
         auto result = source->callback_(source);
         return result ? 0 : -1;

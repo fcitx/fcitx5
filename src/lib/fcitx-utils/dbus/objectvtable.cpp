@@ -20,6 +20,7 @@
 #include "objectvtable.h"
 #include "bus_p.h"
 #include "objectvtable_p.h"
+#include <unordered_set>
 
 namespace fcitx {
 namespace dbus {
@@ -40,15 +41,66 @@ public:
 };
 
 int SDMethodCallback(sd_bus_message *m, void *userdata, sd_bus_error *) {
+    auto vtable = static_cast<ObjectVTableBase *>(userdata);
+    if (!vtable) {
+        return 0;
+    }
+    auto method = vtable->findMethod(sd_bus_message_get_member(m));
+    if (!method) {
+        return 0;
+    }
     try {
-        auto method = static_cast<ObjectVTableMethod *>(userdata);
         auto msg = MessagePrivate::fromSDBusMessage(m);
-        auto wathcer = method->vtable()->watch();
-        method->vtable()->setCurrentMessage(&msg);
+        auto wathcer = vtable->watch();
+        vtable->setCurrentMessage(&msg);
         method->handler()(msg);
         if (wathcer.isValid()) {
             wathcer.get()->setCurrentMessage(nullptr);
         }
+        return 1;
+    } catch (...) {
+        // some abnormal things threw
+        abort();
+    }
+    return 0;
+}
+
+int SDPropertyGetCallback(sd_bus *, const char *, const char *,
+                          const char *property, sd_bus_message *reply,
+                          void *userdata, sd_bus_error *) {
+    auto vtable = static_cast<ObjectVTableBase *>(userdata);
+    if (!vtable) {
+        return 0;
+    }
+    auto prop = vtable->findProperty(property);
+    if (!prop) {
+        return 0;
+    }
+    try {
+        auto msg = MessagePrivate::fromSDBusMessage(reply);
+        prop->getMethod()(msg);
+        return 1;
+    } catch (...) {
+        // some abnormal things threw
+        abort();
+    }
+    return 0;
+}
+
+int SDPropertySetCallback(sd_bus *, const char *, const char *,
+                          const char *property, sd_bus_message *reply,
+                          void *userdata, sd_bus_error *) {
+    auto vtable = static_cast<ObjectVTableBase *>(userdata);
+    if (!vtable) {
+        return 0;
+    }
+    auto prop = vtable->findProperty(property);
+    if (!prop || !prop->writable()) {
+        return 0;
+    }
+    try {
+        auto msg = MessagePrivate::fromSDBusMessage(reply);
+        static_cast<ObjectVTableWritableProperty *>(prop)->setMethod()(msg);
         return 1;
     } catch (...) {
         // some abnormal things threw
@@ -67,14 +119,34 @@ const sd_bus_vtable *ObjectVTableBasePrivate::toSDBusVTable() {
         std::vector<sd_bus_vtable> &result = p->vtable_;
         result.push_back(vtable_start());
 
-        for (auto method : methods_) {
-            auto offset = reinterpret_cast<char *>(method) -
-                          reinterpret_cast<char *>(q_ptr);
+        for (const auto &m : methods_) {
+            auto method = m.second;
+            result.push_back(vtable_method(
+                p->vtableString(method->name()).c_str(),
+                p->vtableString(method->signature()).c_str(),
+                p->vtableString(method->ret()).c_str(), 0, SDMethodCallback));
+        }
+
+        for (const auto &s : sigs_) {
+            auto sig = s.second;
             result.push_back(
-                vtable_method(p->vtableString(method->name()).c_str(),
-                              p->vtableString(method->signature()).c_str(),
-                              p->vtableString(method->ret()).c_str(), offset,
-                              SDMethodCallback));
+                vtable_signal(p->vtableString(sig->name()).c_str(),
+                              p->vtableString(sig->signature()).c_str()));
+        }
+
+        for (const auto &pr : properties_) {
+            auto prop = pr.second;
+            if (prop->writable()) {
+                result.push_back(vtable_writable_property(
+                    p->vtableString(prop->name()).c_str(),
+                    p->vtableString(prop->signature()).c_str(),
+                    SDPropertyGetCallback, SDPropertySetCallback));
+            } else {
+                result.push_back(
+                    vtable_property(p->vtableString(prop->name()).c_str(),
+                                    p->vtableString(prop->signature()).c_str(),
+                                    SDPropertyGetCallback));
+            }
         }
 
         result.push_back(vtable_end());
@@ -131,17 +203,35 @@ ObjectVTableBase::~ObjectVTableBase() {}
 
 void ObjectVTableBase::addMethod(ObjectVTableMethod *method) {
     FCITX_D();
-    d->methods_.push_back(method);
+    d->methods_[method->name()] = method;
 }
 
 void ObjectVTableBase::addProperty(ObjectVTableProperty *property) {
     FCITX_D();
-    d->properties_.push_back(property);
+    d->properties_[property->name()] = property;
 }
 
 void ObjectVTableBase::addSignal(ObjectVTableSignal *signal) {
     FCITX_D();
-    d->sigs_.push_back(signal);
+    d->sigs_[signal->name()] = signal;
+}
+
+ObjectVTableMethod *ObjectVTableBase::findMethod(const std::string &name) {
+    FCITX_D();
+    auto iter = d->methods_.find(name);
+    if (iter == d->methods_.end()) {
+        return nullptr;
+    }
+    return iter->second;
+}
+
+ObjectVTableProperty *ObjectVTableBase::findProperty(const std::string &name) {
+    FCITX_D();
+    auto iter = d->properties_.find(name);
+    if (iter == d->properties_.end()) {
+        return nullptr;
+    }
+    return iter->second;
 }
 
 void ObjectVTableBase::releaseSlot() { setSlot(nullptr); }

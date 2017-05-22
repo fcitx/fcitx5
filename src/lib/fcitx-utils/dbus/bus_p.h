@@ -45,7 +45,10 @@ public:
                  const std::string &interface_)
         : slot(nullptr), bus(bus_), path(path_), interface(interface_) {}
 
-    ~SDVTableSlot() { sd_bus_slot_unref(slot); }
+    ~SDVTableSlot() {
+        sd_bus_slot_set_userdata(slot, nullptr);
+        sd_bus_slot_unref(slot);
+    }
 
     sd_bus_slot *slot;
     Bus *bus;
@@ -57,7 +60,10 @@ class SDSlot : public Slot {
 public:
     SDSlot(MessageCallback callback_) : callback(callback_), slot(nullptr) {}
 
-    ~SDSlot() { sd_bus_slot_unref(slot); }
+    ~SDSlot() {
+        sd_bus_slot_set_userdata(slot, nullptr);
+        sd_bus_slot_unref(slot);
+    }
 
     MessageCallback callback;
     sd_bus_slot *slot;
@@ -69,7 +75,10 @@ public:
                   EnumerateObjectCallback enumerator_)
         : SDSlot(callback_), enumerator(enumerator_), enumSlot(nullptr) {}
 
-    ~SDSubTreeSlot() { sd_bus_slot_unref(enumSlot); }
+    ~SDSubTreeSlot() {
+        sd_bus_slot_set_userdata(slot, nullptr);
+        sd_bus_slot_unref(enumSlot);
+    }
 
     EnumerateObjectCallback enumerator;
     sd_bus_slot *enumSlot;
