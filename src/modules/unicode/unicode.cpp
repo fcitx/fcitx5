@@ -137,13 +137,6 @@ Unicode::Unicode(Instance *instance)
                     return;
                 }
 
-                if (keyEvent.key().check(FcitxKey_space) &&
-                    candidateList->size()) {
-                    keyEvent.accept();
-                    candidateList->candidate(0)->select(inputContext);
-                    return;
-                }
-
                 if (keyEvent.key().checkKeyList(
                         instance_->globalConfig().defaultPrevPage())) {
                     auto pageable = candidateList->toPageable();
