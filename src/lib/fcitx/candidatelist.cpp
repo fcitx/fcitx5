@@ -147,6 +147,8 @@ std::string keyToLabel(const Key &key) {
 #undef _APPEND_MODIFIER_STRING
 
     result += Key::keySymToUnicode(key.sym());
+    // add a dot as separator
+    result += ". ";
 
     return result;
 }
@@ -251,7 +253,7 @@ const Text &CommonCandidateList::label(int idx) const {
 void CommonCandidateList::insert(int idx, CandidateWord *word) {
     FCITX_D();
     // it's ok to insert at tail
-    if (idx != d->candidateWord.size()) {
+    if (idx != static_cast<int>(d->candidateWord.size())) {
         d->checkGlobalIndex(idx);
     }
     d->candidateWord.insert(d->candidateWord.begin() + idx,

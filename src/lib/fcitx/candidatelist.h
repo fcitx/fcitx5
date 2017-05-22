@@ -39,7 +39,7 @@ class CandidateWordPrivate;
 
 class FCITXCORE_EXPORT CandidateWord {
 public:
-    CandidateWord(Text text);
+    CandidateWord(Text text = {});
     virtual ~CandidateWord();
     const Text &text() const;
     virtual void select(InputContext *inputContext) const = 0;

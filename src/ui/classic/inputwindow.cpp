@@ -346,6 +346,7 @@ void InputWindow::paint(cairo_t *cr) const {
         int vheight;
         if (vertical) {
             vheight = std::max(labelH, candidateH);
+            wholeH += vheight;
         } else {
             vheight = candidatesHeight_;
 
