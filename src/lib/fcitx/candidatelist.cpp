@@ -117,7 +117,7 @@ public:
     }
 
     void checkGlobalIndex(int idx) const {
-        if (idx < 0 || static_cast<size_t>(idx) > candidateWord.size()) {
+        if (idx < 0 || static_cast<size_t>(idx) >= candidateWord.size()) {
             throw std::invalid_argument("invalid index");
         }
     }
@@ -250,7 +250,10 @@ const Text &CommonCandidateList::label(int idx) const {
 
 void CommonCandidateList::insert(int idx, CandidateWord *word) {
     FCITX_D();
-    d->checkGlobalIndex(idx);
+    // it's ok to insert at tail
+    if (idx != d->candidateWord.size()) {
+        d->checkGlobalIndex(idx);
+    }
     d->candidateWord.insert(d->candidateWord.begin() + idx,
                             std::shared_ptr<CandidateWord>(word));
 }
