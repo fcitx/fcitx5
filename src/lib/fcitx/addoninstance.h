@@ -159,4 +159,15 @@ MakeAddonFunctionAdaptor(Ret (Class::*pCallback)(Args...));
     }                                                                          \
     }
 
+#define FCITX_ADDON_DEPENDENCY_LOADER(NAME, ADDONMANAGER)                      \
+    auto NAME() {                                                              \
+        if (_##NAME##FirstCall_) {                                             \
+            _##NAME##_ = (ADDONMANAGER).addon(#NAME, true);                    \
+            _##NAME##FirstCall_ = false;                                       \
+        }                                                                      \
+        return _##NAME##_;                                                     \
+    }                                                                          \
+    bool _##NAME##FirstCall_ = true;                                           \
+    ::fcitx::AddonInstance *_##NAME##_ = nullptr;
+
 #endif // _FCITX_ADDONINSTANCE_H_

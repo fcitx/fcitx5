@@ -103,6 +103,11 @@ public:
     }
 
     void loadAddons() {
+        if (inLoadAddons_) {
+            throw std::runtime_error("loadAddons is not reentrant, do not call "
+                                     "addon(.., true) in constructor");
+        }
+        inLoadAddons_ = true;
         bool changed = false;
         do {
             changed = false;
@@ -111,6 +116,7 @@ public:
                 changed = loadAddon(*item.second.get());
             }
         } while (changed);
+        inLoadAddons_ = false;
     }
 
     bool loadAddon(Addon &addon) {
@@ -147,6 +153,7 @@ public:
     std::string addonConfigDir_ = "addon";
 
     bool unloading_ = false;
+    bool inLoadAddons_ = false;
 
     std::unordered_map<std::string, std::unique_ptr<Addon>> addons_;
     std::unordered_map<std::string, std::unique_ptr<AddonLoader>> loaders_;
