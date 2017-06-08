@@ -164,6 +164,20 @@
         return (VALUE);                                                        \
     }
 
+#define FCITX_DECLARE_PROPERTY(TYPE, GETTER, SETTER) \
+    TYPE GETTER() const; \
+    void SETTER(TYPE v);
+
+#define FCITX_DEFINE_PROPERTY_PRIVATE(THIS, TYPE, GETTER, SETTER) \
+    TYPE THIS::GETTER() const { \
+        FCITX_D(); \
+        return d->GETTER##_; \
+    } \
+    void THIS::SETTER(TYPE v) { \
+        FCITX_D(); \
+        d->GETTER##_ = v; \
+    }
+
 namespace fcitx {
 template <typename T>
 class QPtrHolder {

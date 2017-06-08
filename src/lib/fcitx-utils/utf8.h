@@ -55,6 +55,11 @@ FCITXUTILS_EXPORT inline bool validate(const std::string &s) {
     return fcitx_utf8_check_string(s.c_str());
 }
 
+template <typename Iter>
+inline bool validate(Iter start, Iter end) {
+    return lengthValidated(start, end) != INVALID_LENGTH;
+}
+
 FCITXUTILS_EXPORT std::string UCS4ToUTF8(uint32_t code);
 
 FCITXUTILS_EXPORT inline uint32_t
