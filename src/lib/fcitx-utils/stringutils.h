@@ -26,15 +26,13 @@ namespace fcitx {
 namespace stringutils {
 FCITXUTILS_EXPORT bool startsWith(const std::string &str,
                                   const std::string &prefix);
-inline bool startsWith(const std::string &str,
-                       char prefix) {
+inline bool startsWith(const std::string &str, char prefix) {
     return str.size() && str.front() == prefix;
 }
 
 FCITXUTILS_EXPORT bool endsWith(const std::string &str,
                                 const std::string &suffix);
-inline bool endsWith(const std::string &str,
-                       char suffix) {
+inline bool endsWith(const std::string &str, char suffix) {
     return str.size() && str.back() == suffix;
 }
 
@@ -73,8 +71,7 @@ inline std::string join(C &&container, T &&delim) {
     return join(begin(container), end(container), delim);
 }
 template <typename C, typename T>
-inline std::string join(std::initializer_list<C> &&container,
-                        T &&delim) {
+inline std::string join(std::initializer_list<C> &&container, T &&delim) {
     using std::begin;
     using std::end;
     return join(begin(container), end(container), delim);

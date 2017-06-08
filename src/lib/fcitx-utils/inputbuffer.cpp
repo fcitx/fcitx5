@@ -19,9 +19,9 @@
 #include "inputbuffer.h"
 #include <exception>
 #include <fcitx-utils/utf8.h>
+#include <functional>
 #include <numeric>
 #include <vector>
-#include <functional>
 
 namespace fcitx {
 

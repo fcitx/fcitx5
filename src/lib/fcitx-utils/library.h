@@ -22,8 +22,8 @@
 #include "fcitxutils_export.h"
 #include <fcitx-utils/flags.h>
 #include <fcitx-utils/macros.h>
-#include <memory>
 #include <functional>
+#include <memory>
 
 namespace fcitx {
 

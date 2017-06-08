@@ -25,11 +25,11 @@
 #include <fcitx-utils/metastring.h>
 #include <fcitx-utils/tuplehelpers.h>
 #include <fcitx-utils/unixfd.h>
+#include <functional>
 #include <memory>
 #include <string>
 #include <tuple>
 #include <vector>
-#include <functional>
 
 namespace fcitx {
 

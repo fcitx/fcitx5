@@ -18,10 +18,10 @@
  *   51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.              *
  ***************************************************************************/
 
-#include <fcntl.h>
 #include <cstdint>
 #include <cstdio>
 #include <cstdlib>
+#include <fcntl.h>
 #include <sys/mman.h>
 #include <sys/stat.h>
 #include <unistd.h>
