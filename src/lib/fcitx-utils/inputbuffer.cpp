@@ -21,6 +21,7 @@
 #include <fcitx-utils/utf8.h>
 #include <numeric>
 #include <vector>
+#include <functional>
 
 namespace fcitx {
 

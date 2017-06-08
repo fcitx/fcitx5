@@ -29,6 +29,7 @@
 #include <string>
 #include <tuple>
 #include <vector>
+#include <functional>
 
 namespace fcitx {
 

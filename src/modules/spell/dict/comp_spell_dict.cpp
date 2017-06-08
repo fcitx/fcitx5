@@ -19,9 +19,9 @@
  ***************************************************************************/
 
 #include <fcntl.h>
-#include <stdint.h>
-#include <stdio.h>
-#include <stdlib.h>
+#include <cstdint>
+#include <cstdio>
+#include <cstdlib>
 #include <sys/mman.h>
 #include <sys/stat.h>
 #include <unistd.h>
@@ -32,7 +32,8 @@
 #endif
 #include "fcitx-utils/fs.h"
 #include "fcitx-utils/unixfd.h"
-#include <string.h>
+#include <cstring>
+#include <functional>
 
 using namespace fcitx;
 
