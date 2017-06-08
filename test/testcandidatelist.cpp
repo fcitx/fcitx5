@@ -63,7 +63,7 @@ int main() {
     candidatelist.next();
 
     assert(candidatelist.size() == 3);
-    assert(candidatelist.label(0).toString() == "1");
+    assert(candidatelist.label(0).toString() == "1. ");
     assert(candidatelist.candidate(0)->text().toString() == "3");
     assert(candidatelist.hasPrev());
     assert(candidatelist.hasNext());
