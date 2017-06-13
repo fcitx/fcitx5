@@ -40,6 +40,14 @@ using namespace fcitx::fs;
         assert(cleanStr == r);                                                 \
     } while (0);
 
+#define TEST_BASENAME(PATHSTR)                                                 \
+    do {                                                                       \
+        char pathstr[] = PATHSTR;                                              \
+        auto cleanStr = baseName(pathstr);                                     \
+        const char *r = basename(pathstr);                                     \
+        assert(cleanStr == r);                                                 \
+    } while (0);
+
 int main() {
     TEST_PATH("/a", "/a");
     TEST_PATH("/a/b", "/a/b");
@@ -69,6 +77,18 @@ int main() {
     TEST_DIRNAME("///a/b");
     TEST_DIRNAME("/a/b/");
     TEST_DIRNAME("/a/b///");
+
+    TEST_BASENAME("/usr/lib");
+    TEST_BASENAME("/usr/");
+    TEST_BASENAME("usr");
+    TEST_BASENAME("/");
+    TEST_BASENAME(".");
+    TEST_BASENAME("..");
+    TEST_BASENAME("a///b");
+    TEST_BASENAME("a//b///");
+    TEST_BASENAME("///a/b");
+    TEST_BASENAME("/a/b/");
+    TEST_BASENAME("/a/b///");
 
     assert(!isdir("a"));
     assert(!isdir("a/b"));

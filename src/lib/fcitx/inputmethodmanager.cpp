@@ -22,6 +22,7 @@
 #include "fcitx-config/iniparser.h"
 #include "fcitx-config/rawconfig.h"
 #include "fcitx-utils/i18n.h"
+#include "fcitx-utils/log.h"
 #include "fcitx-utils/standardpath.h"
 #include "inputmethodconfig_p.h"
 #include "inputmethodengine.h"
@@ -98,9 +99,13 @@ void InputMethodManager::load() {
         auto engine = static_cast<InputMethodEngine *>(
             d->addonManager_->addon(addonName));
         if (!engine) {
+            FCITX_LOG(Warn) << "Failed to load input method addon: "
+                            << addonName;
             continue;
         }
         auto newEntries = engine->listInputMethods();
+        FCITX_LOG(Info) << "Found " << newEntries.size() << " input method(s) "
+                        << "in addon " << addonName;
         for (auto &newEntry : newEntries) {
             // ok we can't let you register something werid.
             if (checkEntry(newEntry, inputMethods) &&
@@ -161,6 +166,8 @@ void InputMethodManager::loadConfig() {
     }
 
     if (d->groups_.size() == 0) {
+        FCITX_LOG(Info) << "No valid input method group in configuration. "
+                        << "Building a default one";
         buildDefaultGroup();
     } else {
         setCurrentGroup(imConfig.currentGroup.value());

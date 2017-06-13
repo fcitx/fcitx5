@@ -171,6 +171,23 @@ std::string dirName(const std::string &path) {
     return result;
 }
 
+std::string baseName(const std::string &path) {
+    auto result = path;
+    // remove trailing slash
+    while (result.size() > 1 && result.back() == '/') {
+        result.pop_back();
+    }
+    if (result.size() <= 1) {
+        return result;
+    }
+
+    auto iter = std::find(result.rbegin(), result.rend(), '/');
+    if (iter != result.rend()) {
+        result.erase(result.begin(), iter.base());
+    }
+    return result;
+}
+
 ssize_t safeRead(int fd, void *data, size_t maxlen) {
     ssize_t ret = 0;
     do {

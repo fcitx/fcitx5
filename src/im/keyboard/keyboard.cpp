@@ -154,7 +154,7 @@ std::vector<InputMethodEntry> KeyboardEngine::listInputMethods() {
                                D_("xkeyboard-config", layoutInfo.description)},
                               "");
         auto uniqueName = imNamePrefix + layoutInfo.name;
-        result.emplace_back(std::move(
+        result.push_back(std::move(
             InputMethodEntry(uniqueName, description, language, "keyboard")
                 .setIcon("kbd")
                 .setLabel(layoutInfo.name)));
@@ -170,7 +170,7 @@ std::vector<InputMethodEntry> KeyboardEngine::listInputMethods() {
                 "");
             auto uniqueName =
                 imNamePrefix + layoutInfo.name + "-" + variantInfo.name;
-            result.emplace_back(std::move(
+            result.push_back(std::move(
                 InputMethodEntry(uniqueName, description, language, "keyboard")
                     .setIcon("kbd")
                     .setLabel(layoutInfo.name)));

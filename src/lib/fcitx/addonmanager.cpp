@@ -21,6 +21,7 @@
 #include "addonloader.h"
 #include "addonloader_p.h"
 #include "fcitx-config/iniparser.h"
+#include "fcitx-utils/log.h"
 #include "instance.h"
 #include <fcntl.h>
 #include <unistd.h>
@@ -175,6 +176,8 @@ void Addon::load(AddonManagerPrivate *managerP) {
     }
     if (!instance_) {
         failed_ = true;
+    } else {
+        FCITX_LOG(Info) << "Loaded addon " << info_.name();
     }
 }
 

@@ -32,6 +32,7 @@ FCITXUTILS_EXPORT bool islnk(const std::string &path);
 FCITXUTILS_EXPORT std::string cleanPath(const std::string &path);
 FCITXUTILS_EXPORT bool makePath(const std::string &path);
 FCITXUTILS_EXPORT std::string dirName(const std::string &path);
+FCITXUTILS_EXPORT std::string baseName(const std::string &path);
 
 FCITXUTILS_EXPORT ssize_t safeRead(int fd, void *data, size_t maxlen);
 FCITXUTILS_EXPORT ssize_t safeWrite(int fd, const void *data, size_t maxlen);

@@ -57,6 +57,7 @@ set(FCITX_UTILS_HEADERS
     capabilityflags.h
     textformatflags.h
     inputbuffer.h
+    log.h
     ${CMAKE_CURRENT_BINARY_DIR}/fcitxutils_export.h
     )
 
