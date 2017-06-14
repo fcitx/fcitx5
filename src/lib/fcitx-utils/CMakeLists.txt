@@ -21,6 +21,7 @@ set(FCITX_UTILS_SOURCES
     element.cpp
     i18n.cpp
     inputbuffer.cpp
+    log.cpp
     )
 
 set(FCITX_UTILS_HEADERS

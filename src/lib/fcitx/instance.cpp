@@ -19,7 +19,9 @@
 
 #include "instance.h"
 #include "addonmanager.h"
+#include "config.h"
 #include "fcitx-utils/event.h"
+#include "fcitx-utils/log.h"
 #include "fcitx-utils/standardpath.h"
 #include "fcitx-utils/stringutils.h"
 #include "fcitx-utils/utf8.h"
@@ -147,7 +149,7 @@ struct InstanceArgument {
     InstanceArgument() {}
     InstanceArgument(const InstanceArgument &) = default;
     void parseOption(int argc, char *argv[]);
-    void printVersion() {}
+    void printVersion() { std::cout << FCITX_VERSION_STRING << std::endl; }
     void printUsage() {}
 
     InstanceArgument &operator=(const InstanceArgument &) = default;
@@ -192,7 +194,6 @@ public:
     }
 
     InstanceArgument arg_;
-    bool initialized_ = false;
 
     int signalPipe_ = -1;
     EventLoop eventLoop_;
@@ -251,7 +252,7 @@ Instance::Instance(int argc, char **argv) {
     InstanceArgument arg;
     arg.parseOption(argc, argv);
     if (arg.quietQuit) {
-        return;
+        throw InstanceQuietQuit();
     }
 
     if (arg.runAsDaemon) {
@@ -493,6 +494,7 @@ Instance::~Instance() {
 void InstanceArgument::parseOption(int argc, char **argv) {
     struct option longOptions[] = {{"enable", required_argument, nullptr, 0},
                                    {"disable", required_argument, nullptr, 0},
+                                   {"verbose", required_argument, nullptr, 0},
                                    {"keep", no_argument, nullptr, 'k'},
                                    {"ui", required_argument, nullptr, 'u'},
                                    {"replace", no_argument, nullptr, 'r'},
@@ -513,9 +515,13 @@ void InstanceArgument::parseOption(int argc, char **argv) {
             case 1:
                 disableList = stringutils::split(optarg, ",");
                 break;
+            case 2:
+                Log::setLogLevel(std::atoi(optarg));
+                break;
             default:
                 quietQuit = true;
                 printUsage();
+                break;
             }
         } break;
         case 'r':

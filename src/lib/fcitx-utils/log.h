@@ -21,25 +21,41 @@
 
 #include "fcitxutils_export.h"
 #include <fcitx-utils/fs.h>
+#include <fcitx-utils/key.h>
 #include <iostream>
 #include <string>
+#include <type_traits>
 
 namespace fcitx {
 
-enum LogLevel { Debug, Info, Warn, Error };
+enum LogLevel : int { None = 0, Error = 1, Warn = 2, Info = 3, Debug = 4 };
 
 #define FCITX_SIMPLE_LOG(TYPE)                                                 \
     inline LogMessageBuilder &operator<<(TYPE v) {                             \
-        out_ << v;                                                             \
+        if (writeLog_) {                                                       \
+            out_ << v;                                                         \
+        }                                                                      \
         return *this;                                                          \
     }
 
+class FCITXUTILS_EXPORT Log {
+public:
+    static void setLogLevel(LogLevel l);
+    static void setLogLevel(std::underlying_type_t<LogLevel> l);
+    static LogLevel logLevel();
+    static bool checkLogLevel(LogLevel l);
+
+private:
+    static LogLevel level_;
+};
+
 class FCITXUTILS_EXPORT LogMessageBuilder {
 public:
-    inline LogMessageBuilder(std::ostream &out) : out_(out) {}
-    inline ~LogMessageBuilder() { out_ << std::endl; }
-
-    inline LogMessageBuilder &operator<<(LogLevel l) {
+    inline LogMessageBuilder(std::ostream &out, LogLevel l)
+        : out_(out), writeLog_(Log::checkLogLevel(l)) {
+        if (!writeLog_) {
+            return;
+        }
         switch (l) {
         case LogLevel::Debug:
             out_ << "D";
@@ -53,12 +69,26 @@ public:
         case LogLevel::Error:
             out_ << "E";
             break;
+        default:
+            break;
         }
-        return *this;
+        out_ << " ";
+    }
+    inline ~LogMessageBuilder() {
+        if (writeLog_) {
+            out_ << std::endl;
+        }
     }
 
     inline LogMessageBuilder &operator<<(const std::string &s) {
-        out_ << s.c_str();
+        *this << s.c_str();
+        return *this;
+    }
+
+    inline LogMessageBuilder &operator<<(const Key &key) {
+        if (writeLog_) {
+            out_ << "Key(" << key.toString() << ")";
+        }
         return *this;
     }
 
@@ -81,12 +111,12 @@ public:
 
 private:
     std::ostream &out_;
+    bool writeLog_;
 };
 }
 
 #define FCITX_LOG(LEVEL)                                                       \
-    ::fcitx::LogMessageBuilder(std::cerr) << ::fcitx::LogLevel::LEVEL << " "   \
-                                          << ::fcitx::fs::baseName(__FILE__)   \
-                                          << ":" << __LINE__ << "] "
+    ::fcitx::LogMessageBuilder(std::cerr, ::fcitx::LogLevel::LEVEL)            \
+        << ::fcitx::fs::baseName(__FILE__) << ":" << __LINE__ << "] "
 
 #endif // _FCITX_UTILS_LOG_H_

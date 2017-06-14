@@ -25,7 +25,9 @@
 #include "fcitx/addonmanager.h"
 #include "fcitx/instance.h"
 #include "keyboard.h"
+#include <exception>
 #include <fcntl.h>
+#include <iostream>
 #include <libintl.h>
 #include <locale.h>
 #include <unistd.h>
@@ -68,9 +70,16 @@ int main(int argc, char *argv[]) {
     bind_textdomain_codeset("fcitx", "UTF-8");
     textdomain("fcitx");
 
-    Instance instance(argc, argv);
-    instance.setSignalPipe(selfpipe[0]);
-    instance.addonManager().registerDefaultLoader(&staticAddon);
+    try {
+        Instance instance(argc, argv);
+        instance.setSignalPipe(selfpipe[0]);
+        instance.addonManager().registerDefaultLoader(&staticAddon);
 
-    return instance.exec();
+        return instance.exec();
+    } catch (const InstanceQuietQuit &) {
+    } catch (const std::exception &e) {
+        std::cerr << "Received exception" << e.what();
+        return 1;
+    }
+    return 0;
 }

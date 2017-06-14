@@ -53,10 +53,14 @@ enum class EventWatcherPhase {
     Default = PostInputMethod
 };
 
+struct InstanceQuietQuit : public std::exception {};
+
 class FCITXCORE_EXPORT Instance : public ConnectableObject {
 public:
     Instance(int argc, char *argv[]);
     ~Instance();
+
+    bool initialized() const { return !!d_ptr; }
 
     void setSignalPipe(int fd);
     int exec();
