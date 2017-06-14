@@ -1,6 +1,7 @@
 add_subdirectory(addon)
 
 set(FCITX_UTILS_TEST
+    testflags
     teststringutils
     testkey
     testutf8
