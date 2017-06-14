@@ -113,6 +113,8 @@ bool Key::hasModifier() const { return !!(states_ & KeyState::SimpleMask); }
 Key Key::normalize() const {
     Key key(*this);
     /* key state != 0 */
+    key.states_ =
+        key.states_ & KeyStates({KeyState::Ctrl_Alt_Shift, KeyState::Super});
     if (key.states_) {
         if (key.states_ != KeyState::Shift && Key(key.sym_).isLAZ()) {
             key.sym_ = static_cast<KeySym>(key.sym_ + FcitxKey_A - FcitxKey_a);

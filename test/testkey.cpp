@@ -87,5 +87,8 @@ int main() {
     assert(modifier.check(fcitx::Key("Control+Control_L")));
     assert(modifier.check(fcitx::Key("Control_L")));
 
+    assert(fcitx::Key(FcitxKey_a, fcitx::KeyState::NumLock).normalize().sym() ==
+           FcitxKey_a);
+
     return 0;
 }
