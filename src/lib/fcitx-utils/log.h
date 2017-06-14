@@ -87,7 +87,8 @@ public:
 
     inline LogMessageBuilder &operator<<(const Key &key) {
         if (writeLog_) {
-            out_ << "Key(" << key.toString() << ")";
+            out_ << "Key(" << key.toString()
+                 << " states=" << key.states().toInteger() << ")";
         }
         return *this;
     }

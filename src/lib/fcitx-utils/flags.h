@@ -36,6 +36,8 @@ public:
         }
     }
     inline operator storage_type() const { return flags_; }
+    inline storage_type toInteger() const { return flags_; }
+
     Flags &operator=(Enum f) {
         flags_ = static_cast<storage_type>(f);
         return *this;
