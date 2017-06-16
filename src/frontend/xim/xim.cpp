@@ -85,9 +85,7 @@ public:
         xcb_im_open_im(im_.get());
     }
 
-    InputContextManager &inputContextManager() {
-        return parent_->instance()->inputContextManager();
-    }
+    Instance *instance() { return parent_->instance(); }
 
     ~XIMServer() {
         if (im_) {
@@ -185,7 +183,8 @@ protected:
         xcb_im_forward_event(server_->im(), xic_, &xcbEvent);
     }
     virtual void updatePreeditImpl() override {
-        auto &text = inputPanel().clientPreedit();
+        auto text = server_->instance()->outputFilter(
+            this, inputPanel().clientPreedit());
         auto strPreedit = text.toString();
 
         if (strPreedit.empty() && preeditStarted) {

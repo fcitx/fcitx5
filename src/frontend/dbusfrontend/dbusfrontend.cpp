@@ -100,7 +100,8 @@ public:
     }
 
     void updatePreeditImpl() override {
-        auto &preedit = inputPanel().clientPreedit();
+        auto preedit = module_->instance()->outputFilter(
+            this, inputPanel().clientPreedit());
         std::vector<dbus::DBusStruct<std::string, int>> strs;
         for (int i = 0, e = preedit.size(); i < e; i++) {
             strs.emplace_back(std::make_tuple(

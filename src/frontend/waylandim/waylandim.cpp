@@ -178,7 +178,8 @@ protected:
     }
 
     virtual void updatePreeditImpl() override {
-        auto &preedit = inputPanel().clientPreedit();
+        auto preedit = server_->instance()->outputFilter(
+            this, inputPanel().clientPreedit());
 
         for (int i = 0, e = preedit.size(); i < e; i++) {
             if (!utf8::validate(preedit.stringAt(i))) {

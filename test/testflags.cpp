@@ -21,11 +21,7 @@
 
 using namespace fcitx;
 
-enum class F {
-    F1 = 1,
-    F2 = 2,
-    F3 = 4
-};
+enum class F { F1 = 1, F2 = 2, F3 = 4 };
 
 int main() {
     Flags<F> f{F::F1, F::F3};
