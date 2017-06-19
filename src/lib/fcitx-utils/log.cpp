@@ -25,12 +25,14 @@ namespace fcitx {
 LogLevel Log::level_ = LogLevel::Info;
 
 bool Log::checkLogLevel(LogLevel l) {
-    return static_cast<std::underlying_type_t<LogLevel>>(l) <=
-           static_cast<std::underlying_type_t<LogLevel>>(level_);
+    return l != LogLevel::None &&
+           static_cast<std::underlying_type_t<LogLevel>>(l) <=
+               static_cast<std::underlying_type_t<LogLevel>>(level_);
 }
 
 void Log::setLogLevel(std::underlying_type_t<LogLevel> l) {
-    if (l >= 0 && l <= std::underlying_type_t<LogLevel>(LogLevel::Debug)) {
+    if (l >= 0 &&
+        l <= std::underlying_type_t<LogLevel>(LogLevel::LastLogLevel)) {
         setLogLevel(static_cast<LogLevel>(l));
     }
 }

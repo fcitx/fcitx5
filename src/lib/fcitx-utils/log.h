@@ -20,6 +20,7 @@
 #define _FCITX_UTILS_LOG_H_
 
 #include "fcitxutils_export.h"
+#include <cstdlib>
 #include <fcitx-utils/fs.h>
 #include <fcitx-utils/key.h>
 #include <iostream>
@@ -28,7 +29,15 @@
 
 namespace fcitx {
 
-enum LogLevel : int { None = 0, Error = 1, Warn = 2, Info = 3, Debug = 4 };
+enum LogLevel : int {
+    None = 0,
+    Fatal = 1,
+    Error = 2,
+    Warn = 3,
+    Info = 4,
+    Debug = 5,
+    LastLogLevel = Debug
+};
 
 #define FCITX_SIMPLE_LOG(TYPE)                                                 \
     inline LogMessageBuilder &operator<<(TYPE v) {                             \
@@ -52,11 +61,14 @@ private:
 class FCITXUTILS_EXPORT LogMessageBuilder {
 public:
     inline LogMessageBuilder(std::ostream &out, LogLevel l)
-        : out_(out), writeLog_(Log::checkLogLevel(l)) {
+        : out_(out), writeLog_(Log::checkLogLevel(l)), level_(l) {
         if (!writeLog_) {
             return;
         }
         switch (l) {
+        case LogLevel::Fatal:
+            out_ << "D";
+            break;
         case LogLevel::Debug:
             out_ << "D";
             break;
@@ -77,6 +89,9 @@ public:
     inline ~LogMessageBuilder() {
         if (writeLog_) {
             out_ << std::endl;
+        }
+        if (level_ == LogLevel::Fatal) {
+            std::abort();
         }
     }
 
@@ -113,11 +128,18 @@ public:
 private:
     std::ostream &out_;
     bool writeLog_;
+    LogLevel level_;
 };
 }
 
 #define FCITX_LOG(LEVEL)                                                       \
     ::fcitx::LogMessageBuilder(std::cerr, ::fcitx::LogLevel::LEVEL)            \
+        << ::fcitx::fs::baseName(__FILE__) << ":" << __LINE__ << "] "
+
+#define FCITX_LOG_IF(LEVEL, CONDITION)                                         \
+    ::fcitx::LogMessageBuilder(std::cerr,                                      \
+                               ((CONDITION) ? (::fcitx::LogLevel::LEVEL)       \
+                                            : (::fcitx::LogLevel::None)))      \
         << ::fcitx::fs::baseName(__FILE__) << ":" << __LINE__ << "] "
 
 #endif // _FCITX_UTILS_LOG_H_
