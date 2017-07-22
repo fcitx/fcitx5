@@ -92,6 +92,11 @@ public:
                          bool isRelease, uint32_t time) {
         KeyEvent event(this, Key(static_cast<KeySym>(keyval), KeyStates(state)),
                        isRelease, keycode, time);
+        // Force focus if there's keyevent.
+        if (!hasFocus()) {
+            focusIn();
+        }
+
         return keyEvent(event);
     }
 

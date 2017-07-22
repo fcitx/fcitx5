@@ -17,10 +17,9 @@
 * see <http://www.gnu.org/licenses/>.
 */
 
-#include <cassert>
+#include "fcitx-utils/log.h"
 #include <fcitx-utils/event.h>
 #include <fcntl.h>
-#include <iostream>
 #include <unistd.h>
 
 using namespace fcitx;
@@ -30,12 +29,12 @@ int main() {
 
     int pipefd[2];
     int r = pipe(pipefd);
-    assert(r == 0);
+    FCITX_ASSERT(r == 0);
 
     std::unique_ptr<EventSource> source(
         e.addIOEvent(pipefd[0], IOEventFlag::In,
                      [&e, pipefd](EventSource *, int fd, IOEventFlags flags) {
-                         assert(pipefd[0] == fd);
+                         FCITX_ASSERT(pipefd[0] == fd);
                          if (flags & IOEventFlag::Hup) {
                              e.quit();
                          }
@@ -43,9 +42,9 @@ int main() {
                          if (flags & IOEventFlag::In) {
                              char buf[20];
                              auto size = read(fd, buf, 20);
-                             std::cout << "QUIT" << flags << std::endl;
-                             assert(size == 1);
-                             assert(buf[0] == 'a');
+                             FCITX_LOG(Info) << "QUIT" << flags;
+                             FCITX_ASSERT(size == 1);
+                             FCITX_ASSERT(buf[0] == 'a');
                          }
                          return true;
                      }));
@@ -54,7 +53,7 @@ int main() {
         e.addTimeEvent(CLOCK_MONOTONIC, now(CLOCK_MONOTONIC) + 1000000ul, 0,
                        [&e, pipefd](EventSource *, uint64_t) {
                            auto r = write(pipefd[1], "a", 1);
-                           assert(r == 1);
+                           FCITX_ASSERT(r == 1);
                            return false;
                        }));
 

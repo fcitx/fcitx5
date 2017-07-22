@@ -18,7 +18,7 @@
  */
 
 #include "fcitx-utils/handlertable.h"
-#include <cassert>
+#include "fcitx-utils/log.h"
 #include <memory>
 #include <unordered_set>
 
@@ -63,23 +63,23 @@ int main() {
         MultiHandlerTable<std::string, Callback> table2(
             [](const std::string &key) {
                 auto result = keys.insert(key);
-                assert(result.second);
+                FCITX_ASSERT(result.second);
             },
             [](const std::string &key) {
                 auto result = keys.erase(key);
-                assert(result);
+                FCITX_ASSERT(result);
             });
         entry = table2.add("ABC", []() {});
-        assert(keys == decltype(keys){"ABC"});
+        FCITX_ASSERT(keys == decltype(keys){"ABC"});
         delete entry;
-        assert(keys == decltype(keys){});
+        FCITX_ASSERT(keys == decltype(keys){});
         std::unique_ptr<HandlerTableEntry<Callback>> entries[] = {
             std::unique_ptr<HandlerTableEntry<Callback>>(
                 table2.add("ABC", []() {})),
             std::unique_ptr<HandlerTableEntry<Callback>>(
                 table2.add("ABC", []() {})),
         };
-        assert(keys == decltype(keys){"ABC"});
+        FCITX_ASSERT(keys == decltype(keys){"ABC"});
         std::unique_ptr<HandlerTableEntry<Callback>> entries2[] = {
             std::unique_ptr<HandlerTableEntry<Callback>>(
                 table2.add("DEF", [&entries2]() { entries2[1].reset(); })),
@@ -92,14 +92,14 @@ int main() {
             keys2.insert(key);
         }
 
-        assert(keys2 == keys);
+        FCITX_ASSERT(keys2 == keys);
 
-        assert(keys == (decltype(keys){"ABC", "DEF", "EFG"}));
+        FCITX_ASSERT(keys == (decltype(keys){"ABC", "DEF", "EFG"}));
 
         for (auto &e : entries) {
             e.reset(nullptr);
         }
-        assert(keys == (decltype(keys){"DEF", "EFG"}));
+        FCITX_ASSERT(keys == (decltype(keys){"DEF", "EFG"}));
     }
 
     return 0;

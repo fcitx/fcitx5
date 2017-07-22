@@ -1,5 +1,5 @@
 #include "fcitx-utils/cutf8.h"
-#include <cassert>
+#include "fcitx-utils/log.h"
 #include <cstdio>
 #include <cstring>
 
@@ -13,35 +13,37 @@ int main() {
                            '\xbd', '\0',   '\0',   '\0'};
     fcitx_utf8_strncpy(buf, string, BUF_SIZE - 1);
     buf[BUF_SIZE - 1] = 0;
-    assert(memcmp(buf, result, BUF_SIZE) == 0);
+    FCITX_ASSERT(memcmp(buf, result, BUF_SIZE) == 0);
     FCITX_UNUSED(result);
 
-    assert(fcitx_utf8_strnlen(string, 0) == 0);
-    assert(fcitx_utf8_strnlen(string, 1) == 0);
-    assert(fcitx_utf8_strnlen(string, 2) == 0);
-    assert(fcitx_utf8_strnlen(string, 3) == 1);
-    assert(fcitx_utf8_strnlen(string, 6) == 2);
-    assert(fcitx_utf8_strnlen(string, 8) == 2);
-    assert(fcitx_utf8_strnlen(string, 9) == 3);
+    FCITX_ASSERT(fcitx_utf8_strnlen(string, 0) == 0);
+    FCITX_ASSERT(fcitx_utf8_strnlen(string, 1) == 0);
+    FCITX_ASSERT(fcitx_utf8_strnlen(string, 2) == 0);
+    FCITX_ASSERT(fcitx_utf8_strnlen(string, 3) == 1);
+    FCITX_ASSERT(fcitx_utf8_strnlen(string, 6) == 2);
+    FCITX_ASSERT(fcitx_utf8_strnlen(string, 8) == 2);
+    FCITX_ASSERT(fcitx_utf8_strnlen(string, 9) == 3);
 
 #define ASCII_PART "ascii_part"
 #define ASCII_PART2 "ascii"
 #define UTF8_PART "随便测几个例子"
 #define UTF8_PART2 "一个有两段"
 #define UTF8_PART3 "的"
-    assert(strcmp(fcitx_utils_get_ascii_part(UTF8_PART ASCII_PART),
-                  ASCII_PART) == 0);
-    assert(strcmp(fcitx_utils_get_ascii_part(ASCII_PART), ASCII_PART) == 0);
-    assert(strcmp(fcitx_utils_get_ascii_part(""), "") == 0);
-    assert(strcmp(fcitx_utils_get_ascii_part(UTF8_PART2 ASCII_PART2 UTF8_PART3),
-                  "") == 0);
-    assert(strcmp(fcitx_utils_get_ascii_part(
-                      UTF8_PART2 ASCII_PART2 UTF8_PART3 ASCII_PART),
-                  ASCII_PART) == 0);
-    assert(strncmp(fcitx_utils_get_ascii_partn(
-                       UTF8_PART2 ASCII_PART2 UTF8_PART3 ASCII_PART,
-                       strlen(UTF8_PART2 ASCII_PART2)),
-                   ASCII_PART2, strlen(ASCII_PART2)) == 0);
+    FCITX_ASSERT(strcmp(fcitx_utils_get_ascii_part(UTF8_PART ASCII_PART),
+                        ASCII_PART) == 0);
+    FCITX_ASSERT(strcmp(fcitx_utils_get_ascii_part(ASCII_PART), ASCII_PART) ==
+                 0);
+    FCITX_ASSERT(strcmp(fcitx_utils_get_ascii_part(""), "") == 0);
+    FCITX_ASSERT(
+        strcmp(fcitx_utils_get_ascii_part(UTF8_PART2 ASCII_PART2 UTF8_PART3),
+               "") == 0);
+    FCITX_ASSERT(strcmp(fcitx_utils_get_ascii_part(
+                            UTF8_PART2 ASCII_PART2 UTF8_PART3 ASCII_PART),
+                        ASCII_PART) == 0);
+    FCITX_ASSERT(strncmp(fcitx_utils_get_ascii_partn(
+                             UTF8_PART2 ASCII_PART2 UTF8_PART3 ASCII_PART,
+                             strlen(UTF8_PART2 ASCII_PART2)),
+                         ASCII_PART2, strlen(ASCII_PART2)) == 0);
 
     for (uint32_t c = 0; c < 0x4000000; c++) {
         char utf8_buf[7];
@@ -53,8 +55,8 @@ int main() {
                 printf("%x %x\n", c, c2);
                 printf("%d\n", len);
             }
-            assert(c == c2);
-            assert(pos == utf8_buf + len);
+            FCITX_ASSERT(c == c2);
+            FCITX_ASSERT(pos == utf8_buf + len);
         }
     }
 

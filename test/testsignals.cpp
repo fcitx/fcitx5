@@ -18,9 +18,9 @@
  */
 
 #include "fcitx-utils/dynamictrackableobject.h"
+#include "fcitx-utils/log.h"
 #include "fcitx-utils/metastring.h"
 #include "fcitx-utils/signals.h"
-#include <cassert>
 
 void test_simple_signal() {
     bool called = false;
@@ -29,27 +29,27 @@ void test_simple_signal() {
         called = true;
         return;
     });
-    assert(connection.connected());
-    assert(!called);
+    FCITX_ASSERT(connection.connected());
+    FCITX_ASSERT(!called);
     signal1();
     called = false;
     auto connection2 = connection;
-    assert(connection.connected());
-    assert(connection2.connected());
+    FCITX_ASSERT(connection.connected());
+    FCITX_ASSERT(connection2.connected());
 
     connection.disconnect();
-    assert(!connection.connected());
-    assert(!connection2.connected());
+    FCITX_ASSERT(!connection.connected());
+    FCITX_ASSERT(!connection2.connected());
     signal1();
-    assert(!called);
+    FCITX_ASSERT(!called);
 }
 
 void test_combiner() {
     fcitx::Signal<int(int)> signal1;
     auto connection = signal1.connect([](int i) { return i; });
-    assert(signal1(1) == 1);
+    FCITX_ASSERT(signal1(1) == 1);
     auto connection2 = signal1.connect([](int) { return -1; });
-    assert(signal1(2) == -1);
+    FCITX_ASSERT(signal1(2) == -1);
 }
 
 class MaxInteger {
@@ -75,23 +75,23 @@ private:
 void test_custom_combiner() {
     fcitx::Signal<int(int), MaxInteger> signal1;
     auto connection = signal1.connect([](int i) { return i; });
-    assert(signal1(1) == 1);
+    FCITX_ASSERT(signal1(1) == 1);
     auto connection2 = signal1.connect([](int) { return -1; });
-    assert(signal1(2) == 2);
+    FCITX_ASSERT(signal1(2) == 2);
     connection.disconnect();
-    assert(signal1(2) == -1);
+    FCITX_ASSERT(signal1(2) == -1);
 }
 
 void test_destruct_order() {
     fcitx::Connection connection;
-    assert(!connection.connected());
+    FCITX_ASSERT(!connection.connected());
     {
         fcitx::Signal<void()> signal1;
         connection = signal1.connect([]() {});
 
-        assert(connection.connected());
+        FCITX_ASSERT(connection.connected());
     }
-    assert(!connection.connected());
+    FCITX_ASSERT(!connection.connected());
     connection.disconnect();
 }
 
@@ -106,15 +106,15 @@ void test_connectable_object() {
     bool called = false;
     auto connection = obj.connect<DynamicTrackableObject::Destroyed>(
         [&called, &obj](void *self) {
-            assert(&obj == self);
+            FCITX_ASSERT(&obj == self);
             called = true;
         });
-    assert(connection.connected());
+    FCITX_ASSERT(connection.connected());
     obj.destroy();
-    assert(called);
-    assert(!connection.connected());
-    assert(!obj.connect<DynamicTrackableObject::Destroyed>([](void *) {})
-                .connected());
+    FCITX_ASSERT(called);
+    FCITX_ASSERT(!connection.connected());
+    FCITX_ASSERT(!obj.connect<DynamicTrackableObject::Destroyed>([](void *) {})
+                      .connected());
 }
 
 class TestObject2 : public fcitx::ConnectableObject {
@@ -140,7 +140,7 @@ void test_reference() {
     obj.connect<TestObject2::test2>([](std::string &s) { s += "a"; });
     obj.connect<TestObject2::test2>([](std::string &s) { s += "b"; });
     obj.emitTest2(s);
-    assert(s == "ab");
+    FCITX_ASSERT(s == "ab");
 }
 
 int main() {

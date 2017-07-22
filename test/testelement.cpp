@@ -18,7 +18,7 @@
  */
 
 #include "fcitx-utils/element.h"
-#include <cassert>
+#include "fcitx-utils/log.h"
 
 namespace test {
 
@@ -40,43 +40,43 @@ int main() {
     {
         Element e, e2;
         e.addParent(&e2);
-        assert(e.parents().size() == 1);
-        assert(e.childs().size() == 0);
-        assert(e2.parents().size() == 0);
-        assert(e2.childs().size() == 1);
+        FCITX_ASSERT(e.parents().size() == 1);
+        FCITX_ASSERT(e.childs().size() == 0);
+        FCITX_ASSERT(e2.parents().size() == 0);
+        FCITX_ASSERT(e2.childs().size() == 1);
     }
     {
         Element e, e2;
         e.addParent(&e2);
         e2.addParent(&e);
-        assert(e.parents().size() == 1);
-        assert(e.childs().size() == 1);
-        assert(e2.parents().size() == 1);
-        assert(e2.childs().size() == 1);
+        FCITX_ASSERT(e.parents().size() == 1);
+        FCITX_ASSERT(e.childs().size() == 1);
+        FCITX_ASSERT(e2.parents().size() == 1);
+        FCITX_ASSERT(e2.childs().size() == 1);
     }
     {
         Element e, *e2 = new Element;
         e.addParent(e2);
-        assert(e.parents().size() == 1);
-        assert(e.childs().size() == 0);
-        assert(e2->parents().size() == 0);
-        assert(e2->childs().size() == 1);
+        FCITX_ASSERT(e.parents().size() == 1);
+        FCITX_ASSERT(e.childs().size() == 0);
+        FCITX_ASSERT(e2->parents().size() == 0);
+        FCITX_ASSERT(e2->childs().size() == 1);
         delete e2;
 
-        assert(e.parents().size() == 0);
-        assert(e.childs().size() == 0);
+        FCITX_ASSERT(e.parents().size() == 0);
+        FCITX_ASSERT(e.childs().size() == 0);
     }
     {
         Element e, e2, e3;
         e.addChild(&e2);
-        assert(e.childs().front() == &e2);
+        FCITX_ASSERT(e.childs().front() == &e2);
         e.addChild(&e3);
-        assert(e.childs().front() == &e2);
-        assert(e.childs().back() == &e3);
+        FCITX_ASSERT(e.childs().front() == &e2);
+        FCITX_ASSERT(e.childs().back() == &e3);
         e.insertChild(&e2, &e3);
-        assert(e.childs().front() == &e3);
-        assert(e.childs().back() == &e2);
-        assert(e.childs().size() == 2);
+        FCITX_ASSERT(e.childs().front() == &e3);
+        FCITX_ASSERT(e.childs().back() == &e2);
+        FCITX_ASSERT(e.childs().size() == 2);
     }
     return 0;
 }

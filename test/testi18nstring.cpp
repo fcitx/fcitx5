@@ -17,7 +17,7 @@
  * see <http://www.gnu.org/licenses/>.
  */
 #include "fcitx-utils/i18nstring.h"
-#include <cassert>
+#include "fcitx-utils/log.h"
 
 using namespace fcitx;
 
@@ -27,13 +27,13 @@ int main() {
     s.set("TEST2", "zh_CN");
     s.set("TEST3");
 
-    assert("TEST2" == s.match("zh_CN@whatever"));
-    assert("TEST2" == s.match("zh_CN"));
-    assert("TEST1" == s.match("zh_TW"));
-    assert("TEST2" == s.match("zh_CN.UTF-8"));
-    assert("TEST2" == s.match("zh_CN.utf8"));
-    assert("TEST3" == s.match(""));
-    assert("TEST3" == s.match("en"));
+    FCITX_ASSERT("TEST2" == s.match("zh_CN@whatever"));
+    FCITX_ASSERT("TEST2" == s.match("zh_CN"));
+    FCITX_ASSERT("TEST1" == s.match("zh_TW"));
+    FCITX_ASSERT("TEST2" == s.match("zh_CN.UTF-8"));
+    FCITX_ASSERT("TEST2" == s.match("zh_CN.utf8"));
+    FCITX_ASSERT("TEST3" == s.match(""));
+    FCITX_ASSERT("TEST3" == s.match("en"));
 
     return 0;
 }

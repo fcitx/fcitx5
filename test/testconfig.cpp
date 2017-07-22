@@ -17,7 +17,7 @@
  * see <http://www.gnu.org/licenses/>.
  */
 
-#include <cassert>
+#include "fcitx-utils/log.h"
 #include <fcitx-config/configuration.h>
 #include <fcitx-config/enum.h>
 #include <fcitx-config/iniparser.h>
@@ -84,31 +84,31 @@ int main() {
 
     fcitx::writeAsIni(rawConfig, stdout);
 
-    assert(*rawConfig.valueByPath("IntOption") == "0");
+    FCITX_ASSERT(*rawConfig.valueByPath("IntOption") == "0");
 
     config.intValue.setValue(5);
-    assert(config.intValue.value() == 5);
+    FCITX_ASSERT(config.intValue.value() == 5);
     // break constrain
     config.intValue.setValue(20);
     // still have the old value
-    assert(config.intValue.value() == 5);
+    FCITX_ASSERT(config.intValue.value() == 5);
     rawConfig.setValueByPath("EnumOption", "EnumB");
     config.load(rawConfig);
-    assert(config.intValue.value() == 0);
-    assert(config.enumValue.value() == TestEnum::EnumB);
+    FCITX_ASSERT(config.intValue.value() == 0);
+    FCITX_ASSERT(config.enumValue.value() == TestEnum::EnumB);
 
-    assert(config.i18nStringValue.value().match("") == "ABCD");
-    assert(config.i18nStringValue.value().match("zh_CN") == "A");
+    FCITX_ASSERT(config.i18nStringValue.value().match("") == "ABCD");
+    FCITX_ASSERT(config.i18nStringValue.value().match("zh_CN") == "A");
 
     fcitx::RawConfig rawDescConfig;
     config.dumpDescription(rawDescConfig);
     fcitx::writeAsIni(rawDescConfig, stdout);
 
     auto intOption = rawConfig.get("IntOption")->detach();
-    assert(intOption);
-    assert(intOption->value() == "0");
-    assert(!rawConfig.get("IntOption"));
-    assert(!intOption->parent());
+    FCITX_ASSERT(intOption);
+    FCITX_ASSERT(intOption->value() == "0");
+    FCITX_ASSERT(!rawConfig.get("IntOption"));
+    FCITX_ASSERT(!intOption->parent());
 
     return 0;
 }

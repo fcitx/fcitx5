@@ -17,25 +17,25 @@
  * see <http://www.gnu.org/licenses/>.
  */
 
+#include "fcitx-utils/log.h"
 #include "fcitx/surroundingtext.h"
-#include <cassert>
 
 using namespace fcitx;
 
 int main() {
     SurroundingText surroundingText;
-    assert(!surroundingText.isValid());
+    FCITX_ASSERT(!surroundingText.isValid());
     surroundingText.setText("abcd", 1, 1);
 
-    assert(surroundingText.isValid());
-    assert(surroundingText.text() == "abcd");
+    FCITX_ASSERT(surroundingText.isValid());
+    FCITX_ASSERT(surroundingText.text() == "abcd");
     surroundingText.deleteText(-1, 2);
-    assert(surroundingText.text() == "cd");
-    assert(surroundingText.anchor() == 0);
-    assert(surroundingText.cursor() == 0);
-    assert(surroundingText.isValid());
+    FCITX_ASSERT(surroundingText.text() == "cd");
+    FCITX_ASSERT(surroundingText.anchor() == 0);
+    FCITX_ASSERT(surroundingText.cursor() == 0);
+    FCITX_ASSERT(surroundingText.isValid());
     surroundingText.invalidate();
-    assert(!surroundingText.isValid());
+    FCITX_ASSERT(!surroundingText.isValid());
 
     return 0;
 }

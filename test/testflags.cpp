@@ -17,7 +17,7 @@
  * see <http://www.gnu.org/licenses/>.
  */
 #include "fcitx-utils/flags.h"
-#include <cassert>
+#include "fcitx-utils/log.h"
 
 using namespace fcitx;
 
@@ -25,11 +25,11 @@ enum class F { F1 = 1, F2 = 2, F3 = 4 };
 
 int main() {
     Flags<F> f{F::F1, F::F3};
-    assert(f.test(F::F1));
-    assert(!f.test(F::F2));
-    assert(f.test(F::F3));
-    assert(f.testAny(F::F1));
-    assert(f.testAny(Flags<F>{F::F1, F::F2}));
-    assert(f.testAny(F::F3));
+    FCITX_ASSERT(f.test(F::F1));
+    FCITX_ASSERT(!f.test(F::F2));
+    FCITX_ASSERT(f.test(F::F3));
+    FCITX_ASSERT(f.testAny(F::F1));
+    FCITX_ASSERT(f.testAny(Flags<F>{F::F1, F::F2}));
+    FCITX_ASSERT(f.testAny(F::F3));
     return 0;
 }

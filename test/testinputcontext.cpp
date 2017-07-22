@@ -17,18 +17,18 @@
  * see <http://www.gnu.org/licenses/>.
  */
 
+#include "fcitx-utils/log.h"
 #include "fcitx/focusgroup.h"
 #include "fcitx/inputcontext.h"
 #include "fcitx/inputcontextmanager.h"
 #include "fcitx/inputcontextproperty.h"
-#include <cassert>
 #include <vector>
 
 #define TEST_FOCUS(ARGS...)                                                    \
     do {                                                                       \
         bool focus_result[] = {ARGS};                                          \
         for (size_t i = 0; i < FCITX_ARRAY_SIZE(focus_result); i++) {          \
-            assert(ic[i]->hasFocus() == focus_result[i]);                      \
+            FCITX_ASSERT(ic[i]->hasFocus() == focus_result[i]);                \
         }                                                                      \
     } while (0)
 
@@ -106,7 +106,7 @@ int main() {
         TEST_FOCUS(false, true, false, true, false, true, true, true);
 
         ic[1]->setCapabilityFlags(CapabilityFlag::Digit);
-        assert(ic[1]->capabilityFlags() == CapabilityFlag::Digit);
+        FCITX_ASSERT(ic[1]->capabilityFlags() == CapabilityFlag::Digit);
     }
 
     {
@@ -118,8 +118,8 @@ int main() {
         SimpleInputContextPropertyFactory<TestSharedProperty> testsharedFactory;
         FactoryFor<TestProperty> testFactory(
             [](InputContext &) { return new TestProperty; });
-        assert(manager.registerProperty("shared", &testsharedFactory));
-        assert(manager.registerProperty("property", &testFactory));
+        FCITX_ASSERT(manager.registerProperty("shared", &testsharedFactory));
+        FCITX_ASSERT(manager.registerProperty("property", &testFactory));
 
         ic.emplace_back(new TestInputContext(manager, "Chrome"));
 
@@ -129,8 +129,8 @@ int main() {
             for (auto s : slot) {
                 int idx2 = 0;
                 for (auto &context : ic) {
-                    assert(context->propertyAs<TestProperty>(s)->num() ==
-                           expect[idx][idx2]);
+                    FCITX_ASSERT(context->propertyAs<TestProperty>(s)->num() ==
+                                 expect[idx][idx2]);
                     idx2++;
                 }
                 idx++;
@@ -173,8 +173,8 @@ int main() {
             check(expect);
         }
         ic.emplace_back(new TestInputContext(manager, "Firefox"));
-        assert(ic.back()->propertyAs<TestProperty>(slot[0])->num() == 1);
-        assert(ic.back()->propertyAs<TestProperty>(slot[1])->num() == 0);
+        FCITX_ASSERT(ic.back()->propertyAs<TestProperty>(slot[0])->num() == 1);
+        FCITX_ASSERT(ic.back()->propertyAs<TestProperty>(slot[1])->num() == 0);
         manager.setPropertyPropagatePolicy(PropertyPropagatePolicy::Program);
         {
             ic[3]->propertyAs<TestProperty>(slot[0])->setNum(3);

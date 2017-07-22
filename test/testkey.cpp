@@ -1,4 +1,4 @@
-#include <cassert>
+#include "fcitx-utils/log.h"
 #include <cstdio>
 #include <cstdlib>
 #include <cstring>
@@ -9,7 +9,7 @@
 
 #define CHECK_ARRAY_ORDER(ARRAY, COMPARE_FUNC)                                 \
     for (size_t i = 0; i < FCITX_ARRAY_SIZE(ARRAY) - 1; i++) {                 \
-        assert(COMPARE_FUNC(ARRAY[i], ARRAY[i + 1]));                          \
+        FCITX_ASSERT(COMPARE_FUNC(ARRAY[i], ARRAY[i + 1]));                    \
     }
 
 int main() {
@@ -23,34 +23,35 @@ int main() {
 
     // Test convert
     for (size_t i = 0; i < FCITX_ARRAY_SIZE(keyValueByNameOffset); i++) {
-        assert(!fcitx::Key::keySymToString(
-                    static_cast<fcitx::KeySym>(keyValueByNameOffset[i]))
-                    .empty());
-        assert(fcitx::Key::keySymFromString(keyNameList[i]) ==
-               keyValueByNameOffset[i]);
+        FCITX_ASSERT(!fcitx::Key::keySymToString(
+                          static_cast<fcitx::KeySym>(keyValueByNameOffset[i]))
+                          .empty());
+        FCITX_ASSERT(fcitx::Key::keySymFromString(keyNameList[i]) ==
+                     keyValueByNameOffset[i]);
     }
 
-    assert(fcitx::Key::keySymFromUnicode(' ') == FcitxKey_space);
-    assert(fcitx::Key("1").isDigit());
-    assert(!fcitx::Key("Ctrl+1").isDigit());
-    assert(!fcitx::Key("a").isDigit());
-    assert(fcitx::Key("a").isLAZ());
-    assert(!fcitx::Key("Shift_L").isLAZ());
-    assert(fcitx::Key("A").isUAZ());
-    assert(!fcitx::Key("BackSpace").isUAZ());
-    assert(fcitx::Key("space").isSimple());
-    assert(!fcitx::Key("EuroSign").isSimple());
-    assert(fcitx::Key("Control+Alt_L").isModifier());
-    assert(!fcitx::Key("a").isModifier());
-    assert(fcitx::Key("Left").isCursorMove());
-    assert(!fcitx::Key("Cancel").isCursorMove());
-    assert(fcitx::Key("S").check(fcitx::Key("Shift+S").normalize()));
-    assert(fcitx::Key("Shift+F4").check(fcitx::Key("Shift+F4").normalize()));
-    assert(fcitx::Key("Ctrl+A").check(fcitx::Key("Ctrl+a").normalize()));
-    assert(fcitx::Key("Alt+exclam")
-               .check(fcitx::Key("Alt+Shift+exclam").normalize()));
-    assert(fcitx::Key("").sym() == FcitxKey_None);
-    assert(fcitx::Key("-").sym() == FcitxKey_minus);
+    FCITX_ASSERT(fcitx::Key::keySymFromUnicode(' ') == FcitxKey_space);
+    FCITX_ASSERT(fcitx::Key("1").isDigit());
+    FCITX_ASSERT(!fcitx::Key("Ctrl+1").isDigit());
+    FCITX_ASSERT(!fcitx::Key("a").isDigit());
+    FCITX_ASSERT(fcitx::Key("a").isLAZ());
+    FCITX_ASSERT(!fcitx::Key("Shift_L").isLAZ());
+    FCITX_ASSERT(fcitx::Key("A").isUAZ());
+    FCITX_ASSERT(!fcitx::Key("BackSpace").isUAZ());
+    FCITX_ASSERT(fcitx::Key("space").isSimple());
+    FCITX_ASSERT(!fcitx::Key("EuroSign").isSimple());
+    FCITX_ASSERT(fcitx::Key("Control+Alt_L").isModifier());
+    FCITX_ASSERT(!fcitx::Key("a").isModifier());
+    FCITX_ASSERT(fcitx::Key("Left").isCursorMove());
+    FCITX_ASSERT(!fcitx::Key("Cancel").isCursorMove());
+    FCITX_ASSERT(fcitx::Key("S").check(fcitx::Key("Shift+S").normalize()));
+    FCITX_ASSERT(
+        fcitx::Key("Shift+F4").check(fcitx::Key("Shift+F4").normalize()));
+    FCITX_ASSERT(fcitx::Key("Ctrl+A").check(fcitx::Key("Ctrl+a").normalize()));
+    FCITX_ASSERT(fcitx::Key("Alt+exclam")
+                     .check(fcitx::Key("Alt+Shift+exclam").normalize()));
+    FCITX_ASSERT(fcitx::Key("").sym() == FcitxKey_None);
+    FCITX_ASSERT(fcitx::Key("-").sym() == FcitxKey_minus);
 
     // Test complex parse
     auto keyList = fcitx::Key::keyListFromString(
@@ -70,25 +71,27 @@ int main() {
     };
 
     for (size_t i = 0; i < FCITX_ARRAY_SIZE(hotkey); i++) {
-        assert(hotkey[i].checkKeyList(keyList));
+        FCITX_ASSERT(hotkey[i].checkKeyList(keyList));
     }
 
     keyList.emplace_back(FcitxKey_A);
 
     auto keyString = fcitx::Key::keyListToString(keyList);
-    assert(keyString == "Control+A Control+B Control+Alt+c Control+Alt+Shift+d "
-                        "Control+Alt+Shift+Super+E Alt+Super+equal A");
+    FCITX_ASSERT(keyString ==
+                 "Control+A Control+B Control+Alt+c Control+Alt+Shift+d "
+                 "Control+Alt+Shift+Super+E Alt+Super+equal A");
 
     keyList.clear();
     keyString = fcitx::Key::keyListToString(keyList);
-    assert(keyString == "");
+    FCITX_ASSERT(keyString == "");
 
     fcitx::Key modifier = fcitx::Key("Control_L").normalize();
-    assert(modifier.check(fcitx::Key("Control+Control_L")));
-    assert(modifier.check(fcitx::Key("Control_L")));
+    FCITX_ASSERT(modifier.check(fcitx::Key("Control+Control_L")));
+    FCITX_ASSERT(modifier.check(fcitx::Key("Control_L")));
 
-    assert(fcitx::Key(FcitxKey_a, fcitx::KeyState::NumLock).normalize().sym() ==
-           FcitxKey_a);
+    FCITX_ASSERT(
+        fcitx::Key(FcitxKey_a, fcitx::KeyState::NumLock).normalize().sym() ==
+        FcitxKey_a);
 
     return 0;
 }

@@ -18,7 +18,7 @@
  */
 
 #include "fcitx-utils/fs.h"
-#include <cassert>
+#include "fcitx-utils/log.h"
 #include <libgen.h>
 #include <sys/stat.h>
 #include <unistd.h>
@@ -29,7 +29,7 @@ using namespace fcitx::fs;
     do {                                                                       \
         char pathstr[] = PATHSTR;                                              \
         auto cleanStr = cleanPath(pathstr);                                    \
-        assert(cleanStr == EXPECT);                                            \
+        FCITX_ASSERT(cleanStr == EXPECT);                                      \
     } while (0);
 
 #define TEST_DIRNAME(PATHSTR)                                                  \
@@ -37,7 +37,7 @@ using namespace fcitx::fs;
         char pathstr[] = PATHSTR;                                              \
         auto cleanStr = dirName(pathstr);                                      \
         const char *r = dirname(pathstr);                                      \
-        assert(cleanStr == r);                                                 \
+        FCITX_ASSERT(cleanStr == r);                                           \
     } while (0);
 
 #define TEST_BASENAME(PATHSTR)                                                 \
@@ -45,7 +45,7 @@ using namespace fcitx::fs;
         char pathstr[] = PATHSTR;                                              \
         auto cleanStr = baseName(pathstr);                                     \
         const char *r = basename(pathstr);                                     \
-        assert(cleanStr == r);                                                 \
+        FCITX_ASSERT(cleanStr == r);                                           \
     } while (0);
 
 int main() {
@@ -90,23 +90,23 @@ int main() {
     TEST_BASENAME("/a/b/");
     TEST_BASENAME("/a/b///");
 
-    assert(!isdir("a"));
-    assert(!isdir("a/b"));
-    assert(!isdir("a/b/c"));
-    assert(makePath("a/b/c"));
-    assert(makePath("///"));
-    assert(makePath("a/b/c"));
-    assert(makePath("a/b/d"));
-    assert(makePath("a/b"));
-    assert(makePath("a"));
-    assert(makePath(""));
-    assert(isdir("a"));
-    assert(isdir("a/b"));
-    assert(isdir("a/b/c"));
-    assert(isdir("a/b/d"));
-    assert(rmdir("a/b/c") == 0);
-    assert(rmdir("a/b/d") == 0);
-    assert(rmdir("a/b") == 0);
-    assert(rmdir("a") == 0);
+    FCITX_ASSERT(!isdir("a"));
+    FCITX_ASSERT(!isdir("a/b"));
+    FCITX_ASSERT(!isdir("a/b/c"));
+    FCITX_ASSERT(makePath("a/b/c"));
+    FCITX_ASSERT(makePath("///"));
+    FCITX_ASSERT(makePath("a/b/c"));
+    FCITX_ASSERT(makePath("a/b/d"));
+    FCITX_ASSERT(makePath("a/b"));
+    FCITX_ASSERT(makePath("a"));
+    FCITX_ASSERT(makePath(""));
+    FCITX_ASSERT(isdir("a"));
+    FCITX_ASSERT(isdir("a/b"));
+    FCITX_ASSERT(isdir("a/b/c"));
+    FCITX_ASSERT(isdir("a/b/d"));
+    FCITX_ASSERT(rmdir("a/b/c") == 0);
+    FCITX_ASSERT(rmdir("a/b/d") == 0);
+    FCITX_ASSERT(rmdir("a/b") == 0);
+    FCITX_ASSERT(rmdir("a") == 0);
     return 0;
 }

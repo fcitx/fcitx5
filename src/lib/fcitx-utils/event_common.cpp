@@ -19,7 +19,6 @@
  */
 
 #include "event.h"
-#include <cassert>
 #include <cstring>
 
 #define USEC_INFINITY ((uint64_t)-1)
@@ -30,8 +29,6 @@ namespace fcitx {
 
 // From systemd :)
 uint64_t timespec_load(const struct timespec *ts) {
-    assert(ts);
-
     if (ts->tv_sec == (time_t)-1 && ts->tv_nsec == (long)-1) {
         return USEC_INFINITY;
     }
@@ -47,7 +44,7 @@ uint64_t timespec_load(const struct timespec *ts) {
 
 uint64_t now(clockid_t clock_id) {
     struct timespec ts;
-    assert(clock_gettime(clock_id, &ts) == 0);
+    clock_gettime(clock_id, &ts);
 
     return timespec_load(&ts);
 }

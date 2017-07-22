@@ -16,8 +16,8 @@
  * License along with this library; see the file COPYING. If not,
  * see <http://www.gnu.org/licenses/>.
  */
+#include "fcitx-utils/log.h"
 #include "fcitx-utils/unixfd.h"
-#include <cassert>
 #include <fcntl.h>
 #include <sys/stat.h>
 #include <unistd.h>
@@ -30,39 +30,39 @@ int main() {
     char fname[] = "XXXXXX";
     umask(S_IXUSR | S_IRWXG | S_IRWXO);
     int f = mkstemp(fname);
-    assert(f != -1);
+    FCITX_ASSERT(f != -1);
     {
         UnixFD fd;
-        assert(fd.fd() == -1);
+        FCITX_ASSERT(fd.fd() == -1);
     }
 
     int fdnum = -1;
     {
         UnixFD fd;
         fd.set(f);
-        assert(fd.fd() != f);
-        assert(fd.fd() != -1);
+        FCITX_ASSERT(fd.fd() != f);
+        FCITX_ASSERT(fd.fd() != -1);
         fdnum = fd.fd();
     }
 
-    assert(!fd_is_valid(fdnum));
+    FCITX_ASSERT(!fd_is_valid(fdnum));
     {
         UnixFD fd(f);
-        assert(fd.fd() != f);
-        assert(fd.fd() != -1);
+        FCITX_ASSERT(fd.fd() != f);
+        FCITX_ASSERT(fd.fd() != -1);
         fdnum = fd.release();
-        assert(fd.fd() == -1);
+        FCITX_ASSERT(fd.fd() == -1);
     }
-    assert(fd_is_valid(fdnum));
+    FCITX_ASSERT(fd_is_valid(fdnum));
     close(fdnum);
-    assert(!fd_is_valid(fdnum));
+    FCITX_ASSERT(!fd_is_valid(fdnum));
     {
         UnixFD fd1(f);
-        assert(fd1.fd() != f);
+        FCITX_ASSERT(fd1.fd() != f);
         fdnum = fd1.release();
-        assert(fd1.fd() == -1);
+        FCITX_ASSERT(fd1.fd() == -1);
     }
-    assert(fd_is_valid(fdnum));
+    FCITX_ASSERT(fd_is_valid(fdnum));
 
     unlink(fname);
     return 0;

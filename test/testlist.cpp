@@ -17,8 +17,8 @@
  * see <http://www.gnu.org/licenses/>.
  */
 
+#include "fcitx-utils/log.h"
 #include <algorithm>
-#include <cassert>
 #include <fcitx-utils/intrusivelist.h>
 #include <iterator>
 #include <vector>
@@ -40,23 +40,23 @@ int main() {
 
     std::vector<int> check = {1, 2, 3, 4};
 
-    assert(list.size() == 4);
+    FCITX_ASSERT(list.size() == 4);
 
     int idx = 0;
     for (auto &f : list) {
-        assert(f.data == check[idx]);
+        FCITX_ASSERT(f.data == check[idx]);
         idx++;
     }
-    assert(idx == 4);
+    FCITX_ASSERT(idx == 4);
 
     list.pop_back();
-    assert(list.size() == 3);
+    FCITX_ASSERT(list.size() == 3);
     idx = 0;
     for (auto &f : list) {
-        assert(f.data == check[idx]);
+        FCITX_ASSERT(f.data == check[idx]);
         idx++;
     }
-    assert(idx == 3);
+    FCITX_ASSERT(idx == 3);
 
     static_assert(
         std::is_same<
@@ -66,25 +66,25 @@ int main() {
 
     auto iter = std::find_if(list.begin(), list.end(),
                              [](Foo &f) { return f.data == 2; });
-    assert(iter != list.end());
+    FCITX_ASSERT(iter != list.end());
     list.erase(iter);
-    assert(list.size() == 2);
-    assert(list.front().data == 1);
-    assert(list.back().data == 3);
+    FCITX_ASSERT(list.size() == 2);
+    FCITX_ASSERT(list.front().data == 1);
+    FCITX_ASSERT(list.back().data == 3);
 
-    assert(std::distance(list.begin(), list.end()) == 2);
+    FCITX_ASSERT(std::distance(list.begin(), list.end()) == 2);
 
     auto iter2 = list.insert(list.begin(), d);
-    assert(iter2->data == 4);
-    assert(list.size() == 3);
+    FCITX_ASSERT(iter2->data == 4);
+    FCITX_ASSERT(list.size() == 3);
 
     list.insert(list.end(), b);
-    assert(list.size() == 4);
+    FCITX_ASSERT(list.size() == 4);
 
     std::vector<int> check2 = {4, 1, 3, 2};
     idx = 0;
     for (auto &f : list) {
-        assert(f.data == check2[idx]);
+        FCITX_ASSERT(f.data == check2[idx]);
         idx++;
     }
     return 0;

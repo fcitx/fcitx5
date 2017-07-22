@@ -18,8 +18,8 @@
  */
 #include "fcitx-utils/dbus/bus.h"
 #include "fcitx-utils/event.h"
+#include "fcitx-utils/log.h"
 #include "fcitx-utils/metastring.h"
-#include <cassert>
 
 using namespace fcitx::dbus;
 using namespace fcitx;
@@ -55,23 +55,23 @@ int main() {
     {
         auto msg = bus.createSignal("/test", "test.a.b.c", "test");
         msg << 1;
-        assert(msg.signature() == "i");
+        FCITX_ASSERT(msg.signature() == "i");
     }
     {
         auto msg = bus.createSignal("/test", "test.a.b.c", "test");
         msg << DBusSignatureToType<'i', 'u'>::type(1, 2);
-        assert(msg.signature() == "iu");
+        FCITX_ASSERT(msg.signature() == "iu");
     }
     {
         auto msg = bus.createSignal("/test", "test.a.b.c", "test");
         msg << FCITX_STRING_TO_DBUS_TUPLE("siud")("a", 1, 2, 3);
-        assert(msg.signature() == "siud");
+        FCITX_ASSERT(msg.signature() == "siud");
     }
     {
         auto msg = bus.createSignal("/test", "test.a.b.c", "test");
         msg << FCITX_STRING_TO_DBUS_TUPLE("as")(
             std::vector<std::string>{"a", "b"});
-        assert(msg.signature() == "as");
+        FCITX_ASSERT(msg.signature() == "as");
     }
     return 0;
 }

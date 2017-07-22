@@ -17,8 +17,8 @@
  * see <http://www.gnu.org/licenses/>.
  */
 
+#include "fcitx-utils/log.h"
 #include "fcitx-utils/metastring.h"
-#include <cassert>
 #include <string>
 #include <type_traits>
 
@@ -37,6 +37,6 @@ int main() {
                      fcitx::MetaString<'A', 'B', 'C', 'D', 'E', 'F'>>::value,
         "");
     auto test = fcitxMakeMetaString("ABCD")::data() == std::string("ABCD");
-    assert(test);
+    FCITX_ASSERT(test);
     return 0;
 }

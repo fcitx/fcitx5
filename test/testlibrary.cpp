@@ -18,8 +18,8 @@
  */
 
 #include "fcitx-utils/library.h"
+#include "fcitx-utils/log.h"
 #include "fcitxutils_export.h"
-#include <cassert>
 #include <string.h>
 
 #define DATA "AAAAAAAAA"
@@ -33,15 +33,15 @@ FCITXUTILS_EXPORT
 int func() { return 0; }
 }
 
-void parser(const char *data) { assert(strcmp(data, DATA) == 0); }
+void parser(const char *data) { FCITX_ASSERT(strcmp(data, DATA) == 0); }
 
 int main() {
     fcitx::Library lib("");
-    assert(lib.load(fcitx::LibraryLoadHint::DefaultHint));
-    assert(func == lib.resolve("func"));
-    assert(lib.findData("magic_test", MAGIC, strlen(MAGIC), parser));
+    FCITX_ASSERT(lib.load(fcitx::LibraryLoadHint::DefaultHint));
+    FCITX_ASSERT(func == lib.resolve("func"));
+    FCITX_ASSERT(lib.findData("magic_test", MAGIC, strlen(MAGIC), parser));
 
-    assert(lib.unload());
+    FCITX_ASSERT(lib.unload());
 
     return 0;
 }

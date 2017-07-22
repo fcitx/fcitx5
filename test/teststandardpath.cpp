@@ -18,8 +18,8 @@
  */
 
 #include "fcitx-utils/fs.h"
+#include "fcitx-utils/log.h"
 #include "fcitx-utils/standardpath.h"
-#include <cassert>
 #include <fcntl.h>
 #include <set>
 #include <unistd.h>
@@ -31,15 +31,15 @@ int main(int argc, char *argv[]) {
         return 1;
     }
 
-    assert(setenv("XDG_CONFIG_HOME", "/TEST/PATH", 1) == 0);
-    assert(setenv("XDG_CONFIG_DIRS", "/TEST/PATH1:/TEST/PATH2", 1) == 0);
-    assert(setenv("XDG_DATA_DIRS", argv[1], 1) == 0);
+    FCITX_ASSERT(setenv("XDG_CONFIG_HOME", "/TEST/PATH", 1) == 0);
+    FCITX_ASSERT(setenv("XDG_CONFIG_DIRS", "/TEST/PATH1:/TEST/PATH2", 1) == 0);
+    FCITX_ASSERT(setenv("XDG_DATA_DIRS", argv[1], 1) == 0);
     StandardPath standardPath(true);
 
-    assert(standardPath.userDirectory(StandardPath::Type::Config) ==
-           "/TEST/PATH");
-    assert(standardPath.directories(StandardPath::Type::Config) ==
-           std::vector<std::string>({"/TEST/PATH1", "/TEST/PATH2"}));
+    FCITX_ASSERT(standardPath.userDirectory(StandardPath::Type::Config) ==
+                 "/TEST/PATH");
+    FCITX_ASSERT(standardPath.directories(StandardPath::Type::Config) ==
+                 std::vector<std::string>({"/TEST/PATH1", "/TEST/PATH2"}));
 
     {
         auto result = standardPath.multiOpen(
@@ -49,10 +49,10 @@ int main(int argc, char *argv[]) {
             expect_names = {"testim.conf", "testfrontend.conf"};
         for (auto &p : result) {
             names.insert(p.first);
-            assert(p.second.fd() >= 0);
+            FCITX_ASSERT(p.second.fd() >= 0);
         }
 
-        assert(names == expect_names);
+        FCITX_ASSERT(names == expect_names);
     }
 
     {
@@ -62,20 +62,20 @@ int main(int argc, char *argv[]) {
         std::set<std::string> names, expect_names = {"testim.conf"};
         for (auto &p : result) {
             names.insert(p.first);
-            assert(p.second.fd() >= 0);
+            FCITX_ASSERT(p.second.fd() >= 0);
         }
 
-        assert(names == expect_names);
+        FCITX_ASSERT(names == expect_names);
     }
 
     auto file = standardPath.open(StandardPath::Type::PkgData,
                                   "addon/testim.conf", O_RDONLY);
-    assert(file.path() == fs::cleanPath(std::string(argv[1]) + "/" +
-                                        "fcitx5/addon/testim.conf"));
+    FCITX_ASSERT(file.path() == fs::cleanPath(std::string(argv[1]) + "/" +
+                                              "fcitx5/addon/testim.conf"));
 
     auto file2 = standardPath.open(StandardPath::Type::Data,
                                    "fcitx5/addon/testim2.conf", O_RDONLY);
-    assert(file2.fd() == -1);
+    FCITX_ASSERT(file2.fd() == -1);
 
     return 0;
 }

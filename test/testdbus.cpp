@@ -18,8 +18,7 @@
  */
 #include "fcitx-utils/dbus/bus.h"
 #include "fcitx-utils/event.h"
-#include <cassert>
-#include <iostream>
+#include "fcitx-utils/log.h"
 #include <thread>
 
 using namespace fcitx::dbus;
@@ -67,11 +66,11 @@ void client() {
                                                   TEST_INTERFACE, "test2");
             msg << 2;
             auto reply = msg.call(0);
-            assert(reply.type() == MessageType::Reply);
-            assert(reply.signature() == "s");
+            FCITX_ASSERT(reply.type() == MessageType::Reply);
+            FCITX_ASSERT(reply.signature() == "s");
             std::string ret;
             reply >> ret;
-            assert(ret == "2");
+            FCITX_ASSERT(ret == "2");
             return false;
         }));
     std::unique_ptr<EventSourceTime> s3(loop.addTimeEvent(
@@ -81,12 +80,12 @@ void client() {
                                                   TEST_INTERFACE, "test3");
             msg << 2;
             auto reply = msg.call(0);
-            assert(reply.type() == MessageType::Reply);
-            assert(reply.signature() == "iu");
+            FCITX_ASSERT(reply.type() == MessageType::Reply);
+            FCITX_ASSERT(reply.signature() == "iu");
             FCITX_STRING_TO_DBUS_TUPLE("iu") ret;
             reply >> ret;
-            assert(std::get<0>(ret) == 1);
-            assert(std::get<1>(ret) == 3);
+            FCITX_ASSERT(std::get<0>(ret) == 1);
+            FCITX_ASSERT(std::get<1>(ret) == 3);
             return false;
         }));
     std::unique_ptr<Slot> slot(clientBus.addMatch(
@@ -95,11 +94,11 @@ void client() {
         [&loop](dbus::Message message) {
             std::vector<DBusStruct<std::string, int>> data;
             message >> data;
-            assert(data.size() == 1);
-            assert(std::get<0>(data[0]) == "2");
-            assert(std::get<1>(data[0]) == 2);
-            assert(std::get<std::string>(data[0]) == "2");
-            assert(std::get<int>(data[0]) == 2);
+            FCITX_ASSERT(data.size() == 1);
+            FCITX_ASSERT(std::get<0>(data[0]) == "2");
+            FCITX_ASSERT(std::get<1>(data[0]) == 2);
+            FCITX_ASSERT(std::get<std::string>(data[0]) == "2");
+            FCITX_ASSERT(std::get<int>(data[0]) == 2);
             loop.quit();
             return false;
         }));
@@ -118,7 +117,7 @@ int main() {
         return 1;
     }
     TestObject obj;
-    assert(bus.addObjectVTable("/test", TEST_INTERFACE, obj));
+    FCITX_ASSERT(bus.addObjectVTable("/test", TEST_INTERFACE, obj));
     std::unique_ptr<EventSourceTime> s(loop.addTimeEvent(
         CLOCK_MONOTONIC, now(CLOCK_MONOTONIC) + 500000, 0,
         [&bus, &loop](EventSource *, uint64_t) {

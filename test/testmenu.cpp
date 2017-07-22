@@ -17,8 +17,8 @@
  * see <http://www.gnu.org/licenses/>.
  */
 
+#include "fcitx-utils/log.h"
 #include "fcitx/menu.h"
-#include <cassert>
 
 using namespace fcitx;
 
@@ -28,12 +28,12 @@ int main() {
         {
             Action a;
             menu->addAction(&a);
-            assert(menu->actions().size() == 1);
+            FCITX_ASSERT(menu->actions().size() == 1);
         }
-        assert(menu->actions().size() == 0);
+        FCITX_ASSERT(menu->actions().size() == 0);
         Action a2;
         menu->addAction(&a2);
-        assert(menu->actions().size() == 1);
+        FCITX_ASSERT(menu->actions().size() == 1);
         menu.reset();
     }
     {
@@ -41,7 +41,7 @@ int main() {
         Action a;
         a.setMenu(menu.get());
         menu.reset();
-        assert(a.menu() == nullptr);
+        FCITX_ASSERT(a.menu() == nullptr);
     }
     return 0;
 }

@@ -113,6 +113,10 @@ void Element::insertParent(Element *before, Element *parent) {
 
 void Element::addEdge(Element *parent, Element *child, Element *beforeChild,
                       Element *beforeParent) {
+    // Try not to invalidate the list iterator of elements.
+    if (parent->d_func()->childs_.contains(child)) {
+        return;
+    }
     removeEdge(parent, child);
     parent->d_func()->childs_.insert(beforeChild, child);
     child->d_func()->parents_.insert(beforeParent, parent);

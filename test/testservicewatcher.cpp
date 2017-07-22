@@ -19,7 +19,7 @@
 
 #include "fcitx-utils/dbus/bus.h"
 #include "fcitx-utils/dbus/servicewatcher.h"
-#include <cassert>
+#include "fcitx-utils/log.h"
 
 using namespace fcitx::dbus;
 using namespace fcitx;
@@ -43,16 +43,16 @@ int main() {
     }
 
     std::string name = bus.serviceOwner(TEST_SERVICE, 0);
-    assert(name == bus.uniqueName());
+    FCITX_ASSERT(name == bus.uniqueName());
 
     handlerTableEntry.reset(watcher.watchService(
         TEST_SERVICE, [&loop](const std::string &name, const std::string &,
                               const std::string &) {
-            assert(name == TEST_SERVICE);
+            FCITX_ASSERT(name == TEST_SERVICE);
             loop.quit();
         }));
 
-    assert(bus.releaseName(TEST_SERVICE));
+    FCITX_ASSERT(bus.releaseName(TEST_SERVICE));
     loop.exec();
     return 0;
 }

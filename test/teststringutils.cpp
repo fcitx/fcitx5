@@ -18,33 +18,33 @@
  */
 
 #include "fcitx-utils/charutils.h"
+#include "fcitx-utils/log.h"
 #include "fcitx-utils/macros.h"
 #include "fcitx-utils/stringutils.h"
-#include <cassert>
 #include <tuple>
 
 using namespace fcitx;
 
 int main() {
-    assert(stringutils::startsWith("abc", "ab"));
-    assert(!stringutils::startsWith("abc", "abd"));
-    assert(!stringutils::startsWith("abc", "abcd"));
-    assert(!stringutils::endsWith("abc", "ab"));
-    assert(stringutils::endsWith("abc", "abc"));
-    assert(!stringutils::endsWith("abc", "eabc"));
+    FCITX_ASSERT(stringutils::startsWith("abc", "ab"));
+    FCITX_ASSERT(!stringutils::startsWith("abc", "abd"));
+    FCITX_ASSERT(!stringutils::startsWith("abc", "abcd"));
+    FCITX_ASSERT(!stringutils::endsWith("abc", "ab"));
+    FCITX_ASSERT(stringutils::endsWith("abc", "abc"));
+    FCITX_ASSERT(!stringutils::endsWith("abc", "eabc"));
 
     std::string trim = " ab c\td\n";
     size_t start, end;
     std::tie(start, end) = stringutils::trimInplace(trim);
-    assert(start == 1);
-    assert(end == 7);
-    assert(trim.compare(start, end - start, "ab c\td") == 0);
+    FCITX_ASSERT(start == 1);
+    FCITX_ASSERT(end == 7);
+    FCITX_ASSERT(trim.compare(start, end - start, "ab c\td") == 0);
 
     std::tie(start, end) = stringutils::trimInplace("\t\n\r ");
-    assert(start == end);
+    FCITX_ASSERT(start == end);
 
     auto replace_result = stringutils::replaceAll("abcabc", "a", "b");
-    assert(replace_result == "bbcbbc");
+    FCITX_ASSERT(replace_result == "bbcbbc");
 
     {
 #define REPEAT 2049
@@ -70,28 +70,31 @@ int main() {
         largeReplaceCorrect2[k] = '\0';
 
         auto replace_result = stringutils::replaceAll(largeReplace, "abc", "e");
-        assert(replace_result == largeReplaceCorrect);
+        FCITX_ASSERT(replace_result == largeReplaceCorrect);
         auto replace_result2 =
             stringutils::replaceAll(replace_result, "e", "abcd");
-        assert(replace_result2 == largeReplaceCorrect2);
+        FCITX_ASSERT(replace_result2 == largeReplaceCorrect2);
     }
 
-    assert(stringutils::backwardSearch("abcabc", "bc", 0) == std::string::npos);
-    assert(stringutils::backwardSearch("abcabc", "bc", 1) == 1);
-    assert(stringutils::backwardSearch("abcabc", "bc", 2) == 1);
-    assert(stringutils::backwardSearch("abcabc", "bc", 3) == 1);
-    assert(stringutils::backwardSearch("abcabc", "bc", 4) == 4);
-    assert(stringutils::backwardSearch("abcabc", "bc", 5) == 4);
-    assert(stringutils::backwardSearch("abcabc", "bc", 6) == 4);
-    assert(stringutils::backwardSearch("abcabc", "bc", 7) == std::string::npos);
-    assert(stringutils::backwardSearch("abcabc", "bc", 8) == std::string::npos);
+    FCITX_ASSERT(stringutils::backwardSearch("abcabc", "bc", 0) ==
+                 std::string::npos);
+    FCITX_ASSERT(stringutils::backwardSearch("abcabc", "bc", 1) == 1);
+    FCITX_ASSERT(stringutils::backwardSearch("abcabc", "bc", 2) == 1);
+    FCITX_ASSERT(stringutils::backwardSearch("abcabc", "bc", 3) == 1);
+    FCITX_ASSERT(stringutils::backwardSearch("abcabc", "bc", 4) == 4);
+    FCITX_ASSERT(stringutils::backwardSearch("abcabc", "bc", 5) == 4);
+    FCITX_ASSERT(stringutils::backwardSearch("abcabc", "bc", 6) == 4);
+    FCITX_ASSERT(stringutils::backwardSearch("abcabc", "bc", 7) ==
+                 std::string::npos);
+    FCITX_ASSERT(stringutils::backwardSearch("abcabc", "bc", 8) ==
+                 std::string::npos);
 
-    assert((stringutils::split("a  b c", FCITX_WHITESPACE) ==
-            std::vector<std::string>{"a", "b", "c"}));
-    assert((stringutils::split("a  b ", FCITX_WHITESPACE) ==
-            std::vector<std::string>{"a", "b"}));
-    assert((stringutils::split(" ", FCITX_WHITESPACE) ==
-            std::vector<std::string>{}));
+    FCITX_ASSERT((stringutils::split("a  b c", FCITX_WHITESPACE) ==
+                  std::vector<std::string>{"a", "b", "c"}));
+    FCITX_ASSERT((stringutils::split("a  b ", FCITX_WHITESPACE) ==
+                  std::vector<std::string>{"a", "b"}));
+    FCITX_ASSERT((stringutils::split(" ", FCITX_WHITESPACE) ==
+                  std::vector<std::string>{}));
 
     return 0;
 }

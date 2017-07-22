@@ -18,10 +18,10 @@
  */
 
 #include "addon/dummyaddon_public.h"
+#include "fcitx-utils/log.h"
 #include "fcitx-utils/metastring.h"
 #include "fcitx/addoninstance.h"
 #include "fcitx/addonmanager.h"
-#include <cassert>
 
 double f(int) { return 0; }
 
@@ -35,14 +35,16 @@ int main(int argc, char *argv[]) {
     manager.registerDefaultLoader(nullptr);
     manager.load();
     auto addon = manager.addon("dummyaddon");
-    assert(addon);
-    assert(6 == addon->callWithSignature<int(int)>("DummyAddon::addOne", 5));
-    assert(6 == addon->callWithSignature<int(int)>("DummyAddon::addOne", 5.3));
+    FCITX_ASSERT(addon);
+    FCITX_ASSERT(6 ==
+                 addon->callWithSignature<int(int)>("DummyAddon::addOne", 5));
+    FCITX_ASSERT(6 ==
+                 addon->callWithSignature<int(int)>("DummyAddon::addOne", 5.3));
     auto result =
         7 ==
         addon->callWithMetaString<fcitxMakeMetaString("DummyAddon::addOne")>(6);
-    assert(result);
+    FCITX_ASSERT(result);
     auto result2 = 8 == addon->call<fcitx::IDummyAddon::addOne>(7);
-    assert(result2);
+    FCITX_ASSERT(result2);
     return 0;
 }

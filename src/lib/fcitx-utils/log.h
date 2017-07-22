@@ -125,6 +125,10 @@ public:
     FCITX_SIMPLE_LOG(signed long long)
     FCITX_SIMPLE_LOG(unsigned long long)
 
+    // For some random type, use ostream.
+    template<typename T>
+    FCITX_SIMPLE_LOG(T)
+
 private:
     std::ostream &out_;
     bool writeLog_;
@@ -141,5 +145,7 @@ private:
                                ((CONDITION) ? (::fcitx::LogLevel::LEVEL)       \
                                             : (::fcitx::LogLevel::None)))      \
         << ::fcitx::fs::baseName(__FILE__) << ":" << __LINE__ << "] "
+
+#define FCITX_ASSERT(EXPR) FCITX_LOG_IF(Fatal, !(EXPR)) << #EXPR << " failed"
 
 #endif // _FCITX_UTILS_LOG_H_

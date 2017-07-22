@@ -17,9 +17,9 @@
  * see <http://www.gnu.org/licenses/>.
  */
 
+#include "fcitx-utils/log.h"
 #include "fcitx/action.h"
 #include "fcitx/userinterfacemanager.h"
-#include <cassert>
 
 using namespace fcitx;
 
@@ -27,26 +27,26 @@ int main() {
     auto uiManager = std::make_unique<UserInterfaceManager>(nullptr);
     {
         Action a;
-        assert(uiManager->registerAction("test", &a));
-        assert(uiManager->lookupAction("test") == &a);
-        assert(a.name() == "test");
+        FCITX_ASSERT(uiManager->registerAction("test", &a));
+        FCITX_ASSERT(uiManager->lookupAction("test") == &a);
+        FCITX_ASSERT(a.name() == "test");
     }
-    assert(uiManager->lookupAction("test") == nullptr);
+    FCITX_ASSERT(uiManager->lookupAction("test") == nullptr);
     Action a2;
-    assert(uiManager->registerAction("test", &a2));
-    assert(a2.name() == "test");
-    assert(!uiManager->registerAction("test", &a2));
-    assert(!uiManager->registerAction("test2", &a2));
-    assert(uiManager->lookupAction("test") == &a2);
+    FCITX_ASSERT(uiManager->registerAction("test", &a2));
+    FCITX_ASSERT(a2.name() == "test");
+    FCITX_ASSERT(!uiManager->registerAction("test", &a2));
+    FCITX_ASSERT(!uiManager->registerAction("test2", &a2));
+    FCITX_ASSERT(uiManager->lookupAction("test") == &a2);
 
     {
         Action a3;
-        assert(!uiManager->registerAction("test", &a3));
-        assert(uiManager->registerAction("test2", &a3));
+        FCITX_ASSERT(!uiManager->registerAction("test", &a3));
+        FCITX_ASSERT(uiManager->registerAction("test2", &a3));
 
-        assert(uiManager->lookupAction("test2") == &a3);
+        FCITX_ASSERT(uiManager->lookupAction("test2") == &a3);
         uiManager->unregisterAction(&a3);
-        assert(uiManager->lookupAction("test2") == nullptr);
+        FCITX_ASSERT(uiManager->lookupAction("test2") == nullptr);
     }
 
     uiManager.reset();
