@@ -6,7 +6,7 @@
 namespace fcitx {
 namespace wayland {
 class WlSurface;
-class WlKeyboard {
+class WlKeyboard final {
 public:
     static constexpr const char *interface = "wl_keyboard";
     static constexpr const wl_interface *const wlInterface =
@@ -15,11 +15,8 @@ public:
     typedef wl_keyboard wlType;
     operator wl_keyboard *() { return data_.get(); }
     WlKeyboard(wlType *data);
-    WlKeyboard(WlKeyboard &&other) : data_(std::move(other.data_)) {}
-    WlKeyboard &operator=(WlKeyboard &&other) {
-        data_ = std::move(other.data_);
-        return *this;
-    }
+    WlKeyboard(WlKeyboard &&other) noexcept = default;
+    WlKeyboard &operator=(WlKeyboard &&other) noexcept = default;
     auto actualVersion() const { return version_; }
     auto &keymap() { return keymapSignal_; }
     auto &enter() { return enterSignal_; }

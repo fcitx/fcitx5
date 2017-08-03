@@ -224,14 +224,19 @@
 
 #define FCITX_DEFINE_DEFAULT_DTOR(TypeName) TypeName::~TypeName() = default;
 
-#define FCITX_DEFINE_DPTR_COPY(TypeName)                                       \
-    TypeName::TypeName(const TypeName &other)                                  \
-        : d_ptr(                                                               \
-              std::make_unique<decltype(d_ptr)::element_type>(*other.d_ptr)) { \
-    }                                                                          \
-    TypeName &TypeName::operator=(const TypeName &other) {                     \
-        *d_ptr = *other.d_ptr;                                                 \
-        return *this;                                                          \
+#define FCITX_DEFINE_DPTR_COPY(TypeName)                                        \
+    TypeName::TypeName(const TypeName &other)                                   \
+        : d_ptr(                                                                \
+              std::make_unique<decltype(d_ptr)::element_type>(*other.d_ptr)) {  \
+    }                                                                           \
+    TypeName &TypeName::operator=(const TypeName &other) {                      \
+        if (d_ptr) {                                                            \
+            *d_ptr = *other.d_ptr;                                              \
+        } else {                                                                \
+            d_ptr =                                                             \
+                std::make_unique<decltype(d_ptr)::element_type>(*other.d_ptr);  \
+        }                                                                       \
+        return *this;                                                           \
     }
 
 #define FCITX_DEFINE_DPTR_COPY_AND_DEFAULT_MOVE(TypeName)                      \

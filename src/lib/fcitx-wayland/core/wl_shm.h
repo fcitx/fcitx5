@@ -6,7 +6,7 @@
 namespace fcitx {
 namespace wayland {
 class WlShmPool;
-class WlShm {
+class WlShm final {
 public:
     static constexpr const char *interface = "wl_shm";
     static constexpr const wl_interface *const wlInterface = &wl_shm_interface;
@@ -14,11 +14,8 @@ public:
     typedef wl_shm wlType;
     operator wl_shm *() { return data_.get(); }
     WlShm(wlType *data);
-    WlShm(WlShm &&other) : data_(std::move(other.data_)) {}
-    WlShm &operator=(WlShm &&other) {
-        data_ = std::move(other.data_);
-        return *this;
-    }
+    WlShm(WlShm &&other) noexcept = default;
+    WlShm &operator=(WlShm &&other) noexcept = default;
     auto actualVersion() const { return version_; }
     WlShmPool *createPool(int32_t fd, int32_t size);
     auto &format() { return formatSignal_; }

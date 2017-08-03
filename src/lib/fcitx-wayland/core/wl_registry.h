@@ -5,7 +5,7 @@
 #include <wayland-client.h>
 namespace fcitx {
 namespace wayland {
-class WlRegistry {
+class WlRegistry final {
 public:
     static constexpr const char *interface = "wl_registry";
     static constexpr const wl_interface *const wlInterface =
@@ -14,11 +14,8 @@ public:
     typedef wl_registry wlType;
     operator wl_registry *() { return data_.get(); }
     WlRegistry(wlType *data);
-    WlRegistry(WlRegistry &&other) : data_(std::move(other.data_)) {}
-    WlRegistry &operator=(WlRegistry &&other) {
-        data_ = std::move(other.data_);
-        return *this;
-    }
+    WlRegistry(WlRegistry &&other) noexcept = default;
+    WlRegistry &operator=(WlRegistry &&other) noexcept = default;
     auto actualVersion() const { return version_; }
     template <typename T>
     T *bind(uint32_t name) {

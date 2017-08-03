@@ -7,7 +7,7 @@
 namespace fcitx {
 namespace wayland {
 class ZwpInputMethodContextV1;
-class ZwpInputMethodV1 {
+class ZwpInputMethodV1 final {
 public:
     static constexpr const char *interface = "zwp_input_method_v1";
     static constexpr const wl_interface *const wlInterface =
@@ -16,12 +16,8 @@ public:
     typedef zwp_input_method_v1 wlType;
     operator zwp_input_method_v1 *() { return data_.get(); }
     ZwpInputMethodV1(wlType *data);
-    ZwpInputMethodV1(ZwpInputMethodV1 &&other)
-        : data_(std::move(other.data_)) {}
-    ZwpInputMethodV1 &operator=(ZwpInputMethodV1 &&other) {
-        data_ = std::move(other.data_);
-        return *this;
-    }
+    ZwpInputMethodV1(ZwpInputMethodV1 &&other) noexcept = default;
+    ZwpInputMethodV1 &operator=(ZwpInputMethodV1 &&other) noexcept = default;
     auto actualVersion() const { return version_; }
     auto &activate() { return activateSignal_; }
     auto &deactivate() { return deactivateSignal_; }

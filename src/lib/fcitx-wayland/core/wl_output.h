@@ -5,7 +5,7 @@
 #include <wayland-client.h>
 namespace fcitx {
 namespace wayland {
-class WlOutput {
+class WlOutput final {
 public:
     static constexpr const char *interface = "wl_output";
     static constexpr const wl_interface *const wlInterface =
@@ -14,11 +14,8 @@ public:
     typedef wl_output wlType;
     operator wl_output *() { return data_.get(); }
     WlOutput(wlType *data);
-    WlOutput(WlOutput &&other) : data_(std::move(other.data_)) {}
-    WlOutput &operator=(WlOutput &&other) {
-        data_ = std::move(other.data_);
-        return *this;
-    }
+    WlOutput(WlOutput &&other) noexcept = default;
+    WlOutput &operator=(WlOutput &&other) noexcept = default;
     auto actualVersion() const { return version_; }
     auto &geometry() { return geometrySignal_; }
     auto &mode() { return modeSignal_; }

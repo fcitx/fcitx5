@@ -7,7 +7,7 @@ namespace fcitx {
 namespace wayland {
 class WlRegion;
 class WlSurface;
-class WlCompositor {
+class WlCompositor final {
 public:
     static constexpr const char *interface = "wl_compositor";
     static constexpr const wl_interface *const wlInterface =
@@ -16,11 +16,8 @@ public:
     typedef wl_compositor wlType;
     operator wl_compositor *() { return data_.get(); }
     WlCompositor(wlType *data);
-    WlCompositor(WlCompositor &&other) : data_(std::move(other.data_)) {}
-    WlCompositor &operator=(WlCompositor &&other) {
-        data_ = std::move(other.data_);
-        return *this;
-    }
+    WlCompositor(WlCompositor &&other) noexcept = default;
+    WlCompositor &operator=(WlCompositor &&other) noexcept = default;
     auto actualVersion() const { return version_; }
     WlSurface *createSurface();
     WlRegion *createRegion();

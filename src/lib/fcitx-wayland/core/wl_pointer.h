@@ -6,7 +6,7 @@
 namespace fcitx {
 namespace wayland {
 class WlSurface;
-class WlPointer {
+class WlPointer final {
 public:
     static constexpr const char *interface = "wl_pointer";
     static constexpr const wl_interface *const wlInterface =
@@ -15,11 +15,8 @@ public:
     typedef wl_pointer wlType;
     operator wl_pointer *() { return data_.get(); }
     WlPointer(wlType *data);
-    WlPointer(WlPointer &&other) : data_(std::move(other.data_)) {}
-    WlPointer &operator=(WlPointer &&other) {
-        data_ = std::move(other.data_);
-        return *this;
-    }
+    WlPointer(WlPointer &&other) noexcept = default;
+    WlPointer &operator=(WlPointer &&other) noexcept = default;
     auto actualVersion() const { return version_; }
     void setCursor(uint32_t serial, WlSurface *surface, int32_t hotspotX,
                    int32_t hotspotY);

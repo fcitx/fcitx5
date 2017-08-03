@@ -7,7 +7,7 @@
 namespace fcitx {
 namespace wayland {
 class WlKeyboard;
-class ZwpInputMethodContextV1 {
+class ZwpInputMethodContextV1 final {
 public:
     static constexpr const char *interface = "zwp_input_method_context_v1";
     static constexpr const wl_interface *const wlInterface =
@@ -16,12 +16,9 @@ public:
     typedef zwp_input_method_context_v1 wlType;
     operator zwp_input_method_context_v1 *() { return data_.get(); }
     ZwpInputMethodContextV1(wlType *data);
-    ZwpInputMethodContextV1(ZwpInputMethodContextV1 &&other)
-        : data_(std::move(other.data_)) {}
-    ZwpInputMethodContextV1 &operator=(ZwpInputMethodContextV1 &&other) {
-        data_ = std::move(other.data_);
-        return *this;
-    }
+    ZwpInputMethodContextV1(ZwpInputMethodContextV1 &&other) noexcept = default;
+    ZwpInputMethodContextV1 &
+    operator=(ZwpInputMethodContextV1 &&other) noexcept = default;
     auto actualVersion() const { return version_; }
     void commitString(uint32_t serial, const char *text);
     void preeditString(uint32_t serial, const char *text, const char *commit);

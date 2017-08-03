@@ -5,7 +5,7 @@
 #include <wayland-client.h>
 namespace fcitx {
 namespace wayland {
-class WlDataSource {
+class WlDataSource final {
 public:
     static constexpr const char *interface = "wl_data_source";
     static constexpr const wl_interface *const wlInterface =
@@ -14,11 +14,8 @@ public:
     typedef wl_data_source wlType;
     operator wl_data_source *() { return data_.get(); }
     WlDataSource(wlType *data);
-    WlDataSource(WlDataSource &&other) : data_(std::move(other.data_)) {}
-    WlDataSource &operator=(WlDataSource &&other) {
-        data_ = std::move(other.data_);
-        return *this;
-    }
+    WlDataSource(WlDataSource &&other) noexcept = default;
+    WlDataSource &operator=(WlDataSource &&other) noexcept = default;
     auto actualVersion() const { return version_; }
     void offer(const char *mimeType);
     void setActions(uint32_t dndActions);

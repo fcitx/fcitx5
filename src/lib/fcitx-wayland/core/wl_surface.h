@@ -9,7 +9,7 @@ class WlBuffer;
 class WlCallback;
 class WlOutput;
 class WlRegion;
-class WlSurface {
+class WlSurface final {
 public:
     static constexpr const char *interface = "wl_surface";
     static constexpr const wl_interface *const wlInterface =
@@ -18,11 +18,8 @@ public:
     typedef wl_surface wlType;
     operator wl_surface *() { return data_.get(); }
     WlSurface(wlType *data);
-    WlSurface(WlSurface &&other) : data_(std::move(other.data_)) {}
-    WlSurface &operator=(WlSurface &&other) {
-        data_ = std::move(other.data_);
-        return *this;
-    }
+    WlSurface(WlSurface &&other) noexcept = default;
+    WlSurface &operator=(WlSurface &&other) noexcept = default;
     auto actualVersion() const { return version_; }
     void attach(WlBuffer *buffer, int32_t x, int32_t y);
     void damage(int32_t x, int32_t y, int32_t width, int32_t height);

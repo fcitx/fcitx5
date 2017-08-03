@@ -5,7 +5,7 @@
 #include <wayland-client.h>
 namespace fcitx {
 namespace wayland {
-class WlCallback {
+class WlCallback final {
 public:
     static constexpr const char *interface = "wl_callback";
     static constexpr const wl_interface *const wlInterface =
@@ -14,11 +14,8 @@ public:
     typedef wl_callback wlType;
     operator wl_callback *() { return data_.get(); }
     WlCallback(wlType *data);
-    WlCallback(WlCallback &&other) : data_(std::move(other.data_)) {}
-    WlCallback &operator=(WlCallback &&other) {
-        data_ = std::move(other.data_);
-        return *this;
-    }
+    WlCallback(WlCallback &&other) noexcept = default;
+    WlCallback &operator=(WlCallback &&other) noexcept = default;
     auto actualVersion() const { return version_; }
     auto &done() { return doneSignal_; }
 

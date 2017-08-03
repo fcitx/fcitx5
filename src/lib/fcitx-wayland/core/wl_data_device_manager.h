@@ -8,7 +8,7 @@ namespace wayland {
 class WlDataDevice;
 class WlDataSource;
 class WlSeat;
-class WlDataDeviceManager {
+class WlDataDeviceManager final {
 public:
     static constexpr const char *interface = "wl_data_device_manager";
     static constexpr const wl_interface *const wlInterface =
@@ -17,12 +17,9 @@ public:
     typedef wl_data_device_manager wlType;
     operator wl_data_device_manager *() { return data_.get(); }
     WlDataDeviceManager(wlType *data);
-    WlDataDeviceManager(WlDataDeviceManager &&other)
-        : data_(std::move(other.data_)) {}
-    WlDataDeviceManager &operator=(WlDataDeviceManager &&other) {
-        data_ = std::move(other.data_);
-        return *this;
-    }
+    WlDataDeviceManager(WlDataDeviceManager &&other) noexcept = default;
+    WlDataDeviceManager &
+    operator=(WlDataDeviceManager &&other) noexcept = default;
     auto actualVersion() const { return version_; }
     WlDataSource *createDataSource();
     WlDataDevice *getDataDevice(WlSeat *seat);

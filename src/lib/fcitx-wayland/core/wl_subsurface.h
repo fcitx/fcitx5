@@ -6,7 +6,7 @@
 namespace fcitx {
 namespace wayland {
 class WlSurface;
-class WlSubsurface {
+class WlSubsurface final {
 public:
     static constexpr const char *interface = "wl_subsurface";
     static constexpr const wl_interface *const wlInterface =
@@ -15,11 +15,8 @@ public:
     typedef wl_subsurface wlType;
     operator wl_subsurface *() { return data_.get(); }
     WlSubsurface(wlType *data);
-    WlSubsurface(WlSubsurface &&other) : data_(std::move(other.data_)) {}
-    WlSubsurface &operator=(WlSubsurface &&other) {
-        data_ = std::move(other.data_);
-        return *this;
-    }
+    WlSubsurface(WlSubsurface &&other) noexcept = default;
+    WlSubsurface &operator=(WlSubsurface &&other) noexcept = default;
     auto actualVersion() const { return version_; }
     void setPosition(int32_t x, int32_t y);
     void placeAbove(WlSurface *sibling);

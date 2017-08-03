@@ -5,7 +5,7 @@
 #include <wayland-client.h>
 namespace fcitx {
 namespace wayland {
-class WlBuffer {
+class WlBuffer final {
 public:
     static constexpr const char *interface = "wl_buffer";
     static constexpr const wl_interface *const wlInterface =
@@ -14,11 +14,8 @@ public:
     typedef wl_buffer wlType;
     operator wl_buffer *() { return data_.get(); }
     WlBuffer(wlType *data);
-    WlBuffer(WlBuffer &&other) : data_(std::move(other.data_)) {}
-    WlBuffer &operator=(WlBuffer &&other) {
-        data_ = std::move(other.data_);
-        return *this;
-    }
+    WlBuffer(WlBuffer &&other) noexcept = default;
+    WlBuffer &operator=(WlBuffer &&other) noexcept = default;
     auto actualVersion() const { return version_; }
     auto &release() { return releaseSignal_; }
 

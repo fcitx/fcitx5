@@ -7,7 +7,7 @@ namespace fcitx {
 namespace wayland {
 class WlSubsurface;
 class WlSurface;
-class WlSubcompositor {
+class WlSubcompositor final {
 public:
     static constexpr const char *interface = "wl_subcompositor";
     static constexpr const wl_interface *const wlInterface =
@@ -16,11 +16,8 @@ public:
     typedef wl_subcompositor wlType;
     operator wl_subcompositor *() { return data_.get(); }
     WlSubcompositor(wlType *data);
-    WlSubcompositor(WlSubcompositor &&other) : data_(std::move(other.data_)) {}
-    WlSubcompositor &operator=(WlSubcompositor &&other) {
-        data_ = std::move(other.data_);
-        return *this;
-    }
+    WlSubcompositor(WlSubcompositor &&other) noexcept = default;
+    WlSubcompositor &operator=(WlSubcompositor &&other) noexcept = default;
     auto actualVersion() const { return version_; }
     WlSubsurface *getSubsurface(WlSurface *surface, WlSurface *parent);
 

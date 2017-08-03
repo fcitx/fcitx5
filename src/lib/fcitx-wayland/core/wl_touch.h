@@ -6,7 +6,7 @@
 namespace fcitx {
 namespace wayland {
 class WlSurface;
-class WlTouch {
+class WlTouch final {
 public:
     static constexpr const char *interface = "wl_touch";
     static constexpr const wl_interface *const wlInterface =
@@ -15,11 +15,8 @@ public:
     typedef wl_touch wlType;
     operator wl_touch *() { return data_.get(); }
     WlTouch(wlType *data);
-    WlTouch(WlTouch &&other) : data_(std::move(other.data_)) {}
-    WlTouch &operator=(WlTouch &&other) {
-        data_ = std::move(other.data_);
-        return *this;
-    }
+    WlTouch(WlTouch &&other) noexcept = default;
+    WlTouch &operator=(WlTouch &&other) noexcept = default;
     auto actualVersion() const { return version_; }
     auto &down() { return downSignal_; }
     auto &up() { return upSignal_; }

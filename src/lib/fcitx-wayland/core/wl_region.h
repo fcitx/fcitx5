@@ -5,7 +5,7 @@
 #include <wayland-client.h>
 namespace fcitx {
 namespace wayland {
-class WlRegion {
+class WlRegion final {
 public:
     static constexpr const char *interface = "wl_region";
     static constexpr const wl_interface *const wlInterface =
@@ -14,11 +14,8 @@ public:
     typedef wl_region wlType;
     operator wl_region *() { return data_.get(); }
     WlRegion(wlType *data);
-    WlRegion(WlRegion &&other) : data_(std::move(other.data_)) {}
-    WlRegion &operator=(WlRegion &&other) {
-        data_ = std::move(other.data_);
-        return *this;
-    }
+    WlRegion(WlRegion &&other) noexcept = default;
+    WlRegion &operator=(WlRegion &&other) noexcept = default;
     auto actualVersion() const { return version_; }
     void add(int32_t x, int32_t y, int32_t width, int32_t height);
     void subtract(int32_t x, int32_t y, int32_t width, int32_t height);

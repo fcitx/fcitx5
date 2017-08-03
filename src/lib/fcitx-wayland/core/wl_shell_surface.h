@@ -8,7 +8,7 @@ namespace wayland {
 class WlOutput;
 class WlSeat;
 class WlSurface;
-class WlShellSurface {
+class WlShellSurface final {
 public:
     static constexpr const char *interface = "wl_shell_surface";
     static constexpr const wl_interface *const wlInterface =
@@ -17,11 +17,8 @@ public:
     typedef wl_shell_surface wlType;
     operator wl_shell_surface *() { return data_.get(); }
     WlShellSurface(wlType *data);
-    WlShellSurface(WlShellSurface &&other) : data_(std::move(other.data_)) {}
-    WlShellSurface &operator=(WlShellSurface &&other) {
-        data_ = std::move(other.data_);
-        return *this;
-    }
+    WlShellSurface(WlShellSurface &&other) noexcept = default;
+    WlShellSurface &operator=(WlShellSurface &&other) noexcept = default;
     auto actualVersion() const { return version_; }
     void pong(uint32_t serial);
     void move(WlSeat *seat, uint32_t serial);

@@ -7,7 +7,7 @@ namespace fcitx {
 namespace wayland {
 class WlShellSurface;
 class WlSurface;
-class WlShell {
+class WlShell final {
 public:
     static constexpr const char *interface = "wl_shell";
     static constexpr const wl_interface *const wlInterface =
@@ -16,11 +16,8 @@ public:
     typedef wl_shell wlType;
     operator wl_shell *() { return data_.get(); }
     WlShell(wlType *data);
-    WlShell(WlShell &&other) : data_(std::move(other.data_)) {}
-    WlShell &operator=(WlShell &&other) {
-        data_ = std::move(other.data_);
-        return *this;
-    }
+    WlShell(WlShell &&other) noexcept = default;
+    WlShell &operator=(WlShell &&other) noexcept = default;
     auto actualVersion() const { return version_; }
     WlShellSurface *getShellSurface(WlSurface *surface);
 

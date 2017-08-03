@@ -8,7 +8,7 @@ namespace wayland {
 class WlKeyboard;
 class WlPointer;
 class WlTouch;
-class WlSeat {
+class WlSeat final {
 public:
     static constexpr const char *interface = "wl_seat";
     static constexpr const wl_interface *const wlInterface = &wl_seat_interface;
@@ -16,11 +16,8 @@ public:
     typedef wl_seat wlType;
     operator wl_seat *() { return data_.get(); }
     WlSeat(wlType *data);
-    WlSeat(WlSeat &&other) : data_(std::move(other.data_)) {}
-    WlSeat &operator=(WlSeat &&other) {
-        data_ = std::move(other.data_);
-        return *this;
-    }
+    WlSeat(WlSeat &&other) noexcept = default;
+    WlSeat &operator=(WlSeat &&other) noexcept = default;
     auto actualVersion() const { return version_; }
     WlPointer *getPointer();
     WlKeyboard *getKeyboard();

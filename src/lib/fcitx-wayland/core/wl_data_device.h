@@ -8,7 +8,7 @@ namespace wayland {
 class WlDataOffer;
 class WlDataSource;
 class WlSurface;
-class WlDataDevice {
+class WlDataDevice final {
 public:
     static constexpr const char *interface = "wl_data_device";
     static constexpr const wl_interface *const wlInterface =
@@ -17,11 +17,8 @@ public:
     typedef wl_data_device wlType;
     operator wl_data_device *() { return data_.get(); }
     WlDataDevice(wlType *data);
-    WlDataDevice(WlDataDevice &&other) : data_(std::move(other.data_)) {}
-    WlDataDevice &operator=(WlDataDevice &&other) {
-        data_ = std::move(other.data_);
-        return *this;
-    }
+    WlDataDevice(WlDataDevice &&other) noexcept = default;
+    WlDataDevice &operator=(WlDataDevice &&other) noexcept = default;
     auto actualVersion() const { return version_; }
     void startDrag(WlDataSource *source, WlSurface *origin, WlSurface *icon,
                    uint32_t serial);

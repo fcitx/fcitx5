@@ -8,7 +8,7 @@ namespace fcitx {
 namespace wayland {
 class WlSurface;
 class ZwpInputPanelSurfaceV1;
-class ZwpInputPanelV1 {
+class ZwpInputPanelV1 final {
 public:
     static constexpr const char *interface = "zwp_input_panel_v1";
     static constexpr const wl_interface *const wlInterface =
@@ -17,11 +17,8 @@ public:
     typedef zwp_input_panel_v1 wlType;
     operator zwp_input_panel_v1 *() { return data_.get(); }
     ZwpInputPanelV1(wlType *data);
-    ZwpInputPanelV1(ZwpInputPanelV1 &&other) : data_(std::move(other.data_)) {}
-    ZwpInputPanelV1 &operator=(ZwpInputPanelV1 &&other) {
-        data_ = std::move(other.data_);
-        return *this;
-    }
+    ZwpInputPanelV1(ZwpInputPanelV1 &&other) noexcept = default;
+    ZwpInputPanelV1 &operator=(ZwpInputPanelV1 &&other) noexcept = default;
     auto actualVersion() const { return version_; }
     ZwpInputPanelSurfaceV1 *getInputPanelSurface(WlSurface *surface);
 
