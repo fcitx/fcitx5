@@ -31,11 +31,11 @@
 
 namespace fcitx {
 
-class InputContextPrivate {
+class InputContextPrivate : public QPtrHolder<InputContext> {
 public:
     InputContextPrivate(InputContext *q, InputContextManager &manager,
                         const std::string &program)
-        : q_ptr(q), manager_(manager), group_(nullptr), inputPanel_(q),
+        : QPtrHolder(q), manager_(manager), group_(nullptr), inputPanel_(q),
           statusArea_(q), hasFocus_(false), program_(program) {
         uuid_generate(uuid_.data());
     }
@@ -79,7 +79,6 @@ public:
 
     InputContextProperty *property(int slot) { return properties_[slot].get(); }
 
-    InputContext *q_ptr;
     InputContextManager &manager_;
     FocusGroup *group_;
     InputPanel inputPanel_;
@@ -94,8 +93,6 @@ public:
     ICUUID uuid_;
     std::vector<std::unique_ptr<InputContextProperty>> properties_;
     bool destroyed_ = false;
-
-    FCITX_DECLARE_PUBLIC(InputContext);
 };
 }
 

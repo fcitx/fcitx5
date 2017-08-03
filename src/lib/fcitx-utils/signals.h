@@ -21,6 +21,7 @@
 
 #include <fcitx-utils/handlertable.h>
 #include <fcitx-utils/intrusivelist.h>
+#include <fcitx-utils/macros.h>
 #include <fcitx-utils/trackableobject.h>
 #include <fcitx-utils/tuplehelpers.h>
 #include <tuple>
@@ -145,9 +146,8 @@ public:
     Connection() {}
     explicit Connection(TrackableObjectReference<ConnectionBody> body)
         : body_(std::move(body)) {}
-    Connection(const Connection &other) : body_(other.body_) {}
-    Connection(Connection &&other) : body_(std::move(other.body_)) {}
-    virtual ~Connection() {}
+    FCITX_INLINE_DEFINE_DEFAULT_COPY(Connection);
+    FCITX_INLINE_DEFINE_DEFAULT_MOVE(Connection);
 
     bool connected() { return body_.isValid(); }
 
@@ -160,12 +160,6 @@ public:
         return body_.get() == other.body_.get();
     }
     bool operator!=(const Connection &other) const { return !(*this == other); }
-
-    Connection &operator=(Connection other) {
-        using std::swap;
-        swap(body_, other.body_);
-        return *this;
-    }
 
 protected:
     TrackableObjectReference<ConnectionBody> body_;
@@ -211,6 +205,8 @@ public:
     typedef Ret function_type(Args...);
     Signal(const Combiner &combiner = Combiner()) : combiner_(combiner) {}
     virtual ~Signal() { disconnectAll(); }
+
+    FCITX_INLINE_DEFINE_DEFAULT_MOVE(Signal)
 
     Ret operator()(Args... args) {
         auto view = table_.view();

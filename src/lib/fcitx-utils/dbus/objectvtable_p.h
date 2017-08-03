@@ -31,13 +31,11 @@ class SDVTableSlot;
 
 class ObjectVTableBasePrivate {
 public:
-    ObjectVTableBasePrivate(ObjectVTableBase *q) : q_ptr(q) {}
+    ObjectVTableBasePrivate() {}
     ~ObjectVTableBasePrivate();
 
-    const sd_bus_vtable *toSDBusVTable();
+    const sd_bus_vtable *toSDBusVTable(ObjectVTableBase *q);
 
-    ObjectVTableBase *q_ptr;
-    FCITX_DECLARE_PUBLIC(ObjectVTableBase);
     std::map<std::string, ObjectVTableMethod *> methods_;
     std::map<std::string, ObjectVTableProperty *> properties_;
     std::map<std::string, ObjectVTableSignal *> sigs_;

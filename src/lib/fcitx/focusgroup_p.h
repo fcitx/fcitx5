@@ -27,20 +27,19 @@ namespace fcitx {
 
 class InputContextManager;
 
-class FocusGroupPrivate {
+class FocusGroupPrivate : public QPtrHolder<FocusGroup> {
 public:
     FocusGroupPrivate(FocusGroup *q, const std::string &display,
                       InputContextManager &manager)
-        : q_ptr(q), display_(display), manager_(manager), focus_(nullptr) {}
+        : QPtrHolder(q), display_(display), manager_(manager), focus_(nullptr) {
+    }
 
-    FocusGroup *q_ptr;
     std::string display_;
     InputContextManager &manager_;
     InputContext *focus_;
     std::unordered_set<InputContext *> ics_;
 
     IntrusiveListNode listNode_;
-    FCITX_DECLARE_PUBLIC(FocusGroup);
 };
 }
 

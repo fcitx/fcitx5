@@ -32,15 +32,7 @@ class FCITXCORE_EXPORT Text {
 public:
     Text();
     explicit Text(const std::string &text);
-    virtual ~Text();
-    Text(const Text &other);
-    Text(Text &&other);
-
-    Text &operator=(Text other) {
-        using std::swap;
-        swap(d_ptr, other.d_ptr);
-        return *this;
-    }
+    FCITX_DECLARE_VIRTUAL_DTOR_COPY_AND_MOVE(Text);
 
     int cursor() const;
     void setCursor(int pos = -1);

@@ -220,9 +220,9 @@ bool Bus::addObjectVTable(const std::string &path, const std::string &interface,
     FCITX_D();
     auto slot = std::make_unique<SDVTableSlot>(this, path, interface);
     sd_bus_slot *sdSlot;
-    int r = sd_bus_add_object_vtable(d->bus_, &sdSlot, path.c_str(),
-                                     interface.c_str(),
-                                     vtable.d_func()->toSDBusVTable(), &vtable);
+    int r = sd_bus_add_object_vtable(
+        d->bus_, &sdSlot, path.c_str(), interface.c_str(),
+        vtable.d_func()->toSDBusVTable(&vtable), &vtable);
     if (r < 0) {
         return false;
     }

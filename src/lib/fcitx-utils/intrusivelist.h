@@ -141,6 +141,7 @@ template <typename T, typename NodeGetter, bool isConst>
 class IntrusiveListIterator {
     typedef IntrusiveList<T, NodeGetter> list_type;
     typedef IntrusiveListNode *node_ptr;
+    struct enabler {};
 
 public:
     typedef std::bidirectional_iterator_tag iterator_category;
@@ -158,14 +159,14 @@ public:
     IntrusiveListIterator(node_ptr node_, NodeGetter &nodeGetter_)
         : node(node_), nodeGetter(&nodeGetter_) {}
 
-    IntrusiveListIterator(const typename list_type::iterator &other)
+    // Enable non-const to const conversion.
+    template <bool fromConst>
+    IntrusiveListIterator(
+        const IntrusiveListIterator<T, NodeGetter, fromConst> &other,
+        std::enable_if_t<isConst && !fromConst, enabler> = enabler())
         : IntrusiveListIterator(other.pointed_node(), other.get_nodeGetter()) {}
 
-    IntrusiveListIterator &operator=(const IntrusiveListIterator &other) {
-        node = other.node;
-        nodeGetter = other.nodeGetter;
-        return *this;
-    }
+    FCITX_INLINE_DEFINE_DEFAULT_COPY(IntrusiveListIterator)
 
     bool operator==(const IntrusiveListIterator &other) const noexcept {
         return node == other.node;
@@ -213,6 +214,8 @@ public:
 
     IntrusiveList(NodeGetter nodeGetter_ = NodeGetter())
         : nodeGetter(nodeGetter_) {}
+
+    FCITX_INLINE_DEFINE_DEFAULT_MOVE(IntrusiveList)
 
     virtual ~IntrusiveList() {
         // remove everything from list, since we didn't own anything, then we

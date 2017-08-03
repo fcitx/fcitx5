@@ -21,13 +21,6 @@
 
 // steal some Qt macro here
 
-#define FCITX_DECLARE_PUBLIC(Class)                                            \
-    inline Class *q_func() { return static_cast<Class *>(q_ptr); }             \
-    inline const Class *q_func() const {                                       \
-        return static_cast<const Class *>(q_ptr);                              \
-    }                                                                          \
-    friend class Class;
-
 #define FCITX_DECLARE_PRIVATE(Class)                                           \
     inline Class##Private *d_func() {                                          \
         return reinterpret_cast<Class##Private *>(d_ptr.get());                \
@@ -38,7 +31,6 @@
     friend class Class##Private;
 
 #define FCITX_D() auto *const d = d_func()
-#define FCITX_Q() auto *const q = q_func()
 
 #define FCITX_UNUSED(X) ((void)(X))
 
@@ -178,11 +170,91 @@
         d->GETTER##_ = v;                                                      \
     }
 
+#define FCITX_DECLARE_VIRTUAL_DTOR(TypeName) virtual ~TypeName();
+
+#define FCITX_DECLARE_MOVE(TypeName)                                           \
+    TypeName(TypeName &&other) noexcept;                                       \
+    TypeName &operator=(TypeName &&other) noexcept;
+
+#define FCITX_DECLARE_COPY(TypeName)                                           \
+    TypeName(const TypeName &other);                                           \
+    TypeName &operator=(const TypeName &other);
+
+#define FCITX_DECLARE_COPY_AND_MOVE(TypeName)                                  \
+    FCITX_DECLARE_COPY(TypeName)                                               \
+    FCITX_DECLARE_MOVE(TypeName)
+
+#define FCITX_DECLARE_VIRTUAL_DTOR_COPY_AND_MOVE(TypeName)                     \
+    FCITX_DECLARE_VIRTUAL_DTOR(TypeName)                                       \
+    FCITX_DECLARE_COPY_AND_MOVE(TypeName)
+
+#define FCITX_DECLARE_VIRTUAL_DTOR_COPY(TypeName)                              \
+    FCITX_DECLARE_VIRTUAL_DTOR(TypeName)                                       \
+    FCITX_DECLARE_COPY(TypeName)
+
+#define FCITX_DECLARE_VIRTUAL_DTOR_MOVE(TypeName)                              \
+    FCITX_DECLARE_VIRTUAL_DTOR(TypeName)                                       \
+    FCITX_DECLARE_MOVE(TypeName)
+
+#define FCITX_INLINE_DEFINE_DEFAULT_MOVE(TypeName)                             \
+    TypeName(TypeName &&other) noexcept = default;                             \
+    TypeName &operator=(TypeName &&other) noexcept = default;
+
+#define FCITX_INLINE_DEFINE_DEFAULT_COPY(TypeName)                             \
+    TypeName(const TypeName &other) = default;                                 \
+    TypeName &operator=(const TypeName &other) = default;
+
+#define FCITX_DEFINE_DEFAULT_MOVE(TypeName)                                    \
+    TypeName::TypeName(TypeName &&other) noexcept = default;                   \
+    TypeName &TypeName::operator=(TypeName &&other) noexcept = default;
+
+#define FCITX_DEFINE_DEFAULT_COPY(TypeName)                                    \
+    TypeName::TypeName(const TypeName &other) = default;                       \
+    TypeName &TypeName::operator=(const TypeName &other) = default;
+
+#define FCITX_DEFINE_DEFAULT_DTOR(TypeName) TypeName::~TypeName() = default;
+
+#define FCITX_DEFINE_DPTR_COPY(TypeName)                                       \
+    TypeName::TypeName(const TypeName &other)                                  \
+        : d_ptr(                                                               \
+              std::make_unique<decltype(d_ptr)::element_type>(*other.d_ptr)) { \
+    }                                                                          \
+    TypeName &TypeName::operator=(const TypeName &other) {                     \
+        *d_ptr = *other.d_ptr;                                                 \
+        return *this;                                                          \
+    }
+
+#define FCITX_DEFINE_DPTR_COPY_AND_DEFAULT_MOVE(TypeName)                      \
+    FCITX_DEFINE_DPTR_COPY(TypeName)                                           \
+    FCITX_DEFINE_DEFAULT_MOVE(TypeName)
+
+#define FCITX_DEFINE_DEFAULT_DTOR_AND_MOVE(TypeName)                           \
+    FCITX_DEFINE_DEFAULT_DTOR(TypeName)                                        \
+    FCITX_DEFINE_DEFAULT_MOVE(TypeName)
+
+#define FCITX_DEFINE_DPTR_COPY_AND_DEFAULT_DTOR_AND_MOVE(TypeName)             \
+    FCITX_DEFINE_DPTR_COPY(TypeName)                                           \
+    FCITX_DEFINE_DEFAULT_MOVE(TypeName)                                        \
+    FCITX_DEFINE_DEFAULT_DTOR(TypeName)
+
+#define FCITX_DEFAULT_DTOR_MOVE_AND_COPY(TypeName)                             \
+    FCITX_DEFINE_DEFAULT_COPY(TypeName)                                        \
+    FCITX_DEFINE_DEFAULT_MOVE(TypeName)                                        \
+    FCITX_DEFINE_DEFAULT_DTOR(TypeName)
+
 namespace fcitx {
 template <typename T>
 class QPtrHolder {
 public:
     explicit QPtrHolder(T *q) : q_ptr(q) {}
+    QPtrHolder(const QPtrHolder &) = delete;
+    QPtrHolder(QPtrHolder &&) = delete;
+
+    QPtrHolder &operator=(const QPtrHolder &) = delete;
+    QPtrHolder &operator=(QPtrHolder &&) = delete;
+
+    T *q_func() { return q_ptr; }
+    const T *q_func() const { return q_ptr; }
 
 protected:
     T *q_ptr;

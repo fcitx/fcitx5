@@ -32,6 +32,21 @@ namespace fcitx {
 class LibraryPrivate {
 public:
     LibraryPrivate(const std::string &path) : path_(path), handle_(nullptr) {}
+    ~LibraryPrivate() { unload(); }
+
+    bool unload() {
+        if (!handle_) {
+            return false;
+        }
+        if (dlclose(handle_)) {
+            error_ = dlerror();
+            return false;
+        }
+
+        handle_ = nullptr;
+        return true;
+    }
+
     std::string path_;
     void *handle_;
     std::string error_;
@@ -40,19 +55,7 @@ public:
 Library::Library(const std::string &path)
     : d_ptr(std::make_unique<LibraryPrivate>(path)) {}
 
-Library::~Library() {
-    if (d_ptr) {
-        unload();
-    }
-}
-
-Library::Library(Library &&other) noexcept : d_ptr(std::move(other.d_ptr)) {}
-
-Library &Library::operator=(Library other) noexcept {
-    using std::swap;
-    swap(d_ptr, other.d_ptr);
-    return *this;
-}
+FCITX_DEFINE_DEFAULT_DTOR_AND_MOVE(Library)
 
 bool Library::load(Flags<fcitx::LibraryLoadHint> hint) {
     FCITX_D();
@@ -88,16 +91,7 @@ bool Library::loaded() const {
 
 bool Library::unload() {
     FCITX_D();
-    if (!d->handle_) {
-        return false;
-    }
-    if (dlclose(d->handle_)) {
-        d->error_ = dlerror();
-        return false;
-    }
-
-    d->handle_ = nullptr;
-    return true;
+    return d->unload();
 }
 
 void *Library::resolve(const char *name) {

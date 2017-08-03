@@ -25,7 +25,6 @@
 #include <dirent.h>
 #include <fcntl.h>
 #include <string.h>
-#include <string.h>
 #include <sys/stat.h>
 #include <unistd.h>
 #include <unordered_map>
@@ -111,8 +110,7 @@ public:
             defaultPaths("FCITX_ADDON_DIRS", FCITX_INSTALL_ADDONDIR, nullptr);
     }
 
-    StandardPathPrivate(const StandardPathPrivate &) = default;
-    StandardPathPrivate &operator=(const StandardPathPrivate &) = default;
+    FCITX_INLINE_DEFINE_DEFAULT_COPY(StandardPathPrivate);
 
     // http://standards.freedesktop.org/basedir-spec/basedir-spec-latest.html
     std::string defaultPath(const char *env, const char *defaultPath) {

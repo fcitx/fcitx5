@@ -19,6 +19,7 @@
 #ifndef _FCITX_UTILS_FLAG_H_
 #define _FCITX_UTILS_FLAG_H_
 
+#include "fcitx-utils/macros.h"
 #include <initializer_list>
 #include <type_traits>
 
@@ -28,13 +29,15 @@ class Flags {
 public:
     typedef typename std::underlying_type_t<Enum> storage_type;
     Flags(Enum f) : flags_(static_cast<storage_type>(f)) {}
-    Flags(const Flags &other) : flags_(other.flags_) {}
     explicit Flags(storage_type i = 0) : flags_(i) {}
     Flags(const std::initializer_list<Enum> &l) : flags_(0) {
         for (Enum e : l) {
             operator|=(e);
         }
     }
+
+    FCITX_INLINE_DEFINE_DEFAULT_COPY(Flags)
+
     inline operator storage_type() const { return flags_; }
     inline storage_type toInteger() const { return flags_; }
 

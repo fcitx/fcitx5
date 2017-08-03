@@ -146,13 +146,12 @@ private:
 };
 
 struct InstanceArgument {
-    InstanceArgument() {}
-    InstanceArgument(const InstanceArgument &) = default;
+    InstanceArgument() = default;
+    FCITX_INLINE_DEFINE_DEFAULT_COPY(InstanceArgument);
+
     void parseOption(int argc, char *argv[]);
     void printVersion() { std::cout << FCITX_VERSION_STRING << std::endl; }
     void printUsage() {}
-
-    InstanceArgument &operator=(const InstanceArgument &) = default;
 
     int overrideDelay = -1;
     bool tryReplace = false;

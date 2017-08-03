@@ -23,25 +23,24 @@
 namespace fcitx {
 class RawConfigPrivate {
 public:
-    RawConfigPrivate(RawConfig *q, std::string _name)
-        : q_ptr(q), name_(_name), lineNumber_(0) {}
-    RawConfigPrivate(RawConfig *q, const RawConfigPrivate &other)
-        : q_ptr(q), name_(other.name_), value_(other.value_),
-          comment_(other.comment_), lineNumber_(other.lineNumber_) {
+    RawConfigPrivate(std::string _name) : name_(_name), lineNumber_(0) {}
+    RawConfigPrivate(const RawConfigPrivate &other)
+        : name_(other.name_), value_(other.value_), comment_(other.comment_),
+          lineNumber_(other.lineNumber_) {
         for (auto item : other.subItems_) {
             subItems_[item.first] = std::make_shared<RawConfig>(*item.second);
         }
     }
 
-    std::shared_ptr<RawConfig> getNonexistentRawConfig(const std::string &key) {
+    std::shared_ptr<RawConfig> getNonexistentRawConfig(RawConfig *q,
+                                                       const std::string &key) {
         auto result = subItems_[key] = std::make_shared<RawConfig>(key);
-        result->d_func()->parent_ = q_ptr;
+        result->d_func()->parent_ = q;
         return result;
     }
 
     std::shared_ptr<const RawConfig>
-    getNonexistentRawConfig(const std::string &key) const {
-        FCITX_UNUSED(key);
+    getNonexistentRawConfig(const RawConfig *, const std::string &) const {
         return nullptr;
     }
 
@@ -54,12 +53,12 @@ public:
              pos != std::string::npos && cur;
              pos = ((std::string::npos == new_pos) ? new_pos : (new_pos + 1)),
                                     new_pos = path.find('/', pos)) {
-            auto key = path.substr(pos, (std::string::npos == new_pos)
-                                            ? new_pos
-                                            : (new_pos - pos));
+            auto key = path.substr(
+                pos,
+                (std::string::npos == new_pos) ? new_pos : (new_pos - pos));
             auto iter = cur->d_func()->subItems_.find(key);
             if (iter == cur->d_func()->subItems_.end()) {
-                result = cur->d_func()->getNonexistentRawConfig(key);
+                result = cur->d_func()->getNonexistentRawConfig(cur, key);
             } else {
                 result = iter->second;
             }
@@ -95,8 +94,6 @@ public:
         return true;
     }
 
-    RawConfig *q_ptr;
-    FCITX_DECLARE_PUBLIC(RawConfig);
     RawConfig *parent_ = nullptr;
     std::string name_;
     std::string value_;
@@ -106,7 +103,7 @@ public:
 };
 
 RawConfig::RawConfig(std::string name, std::string value)
-    : d_ptr(std::make_unique<RawConfigPrivate>(this, name)) {
+    : d_ptr(std::make_unique<RawConfigPrivate>(name)) {
     setValue(std::move(value));
 }
 
@@ -117,11 +114,7 @@ RawConfig::~RawConfig() {
     }
 }
 
-RawConfig::RawConfig(const RawConfig &other)
-    : d_ptr(std::make_unique<RawConfigPrivate>(this, *other.d_func())) {}
-
-RawConfig::RawConfig(RawConfig &&other) noexcept
-    : d_ptr(std::move(other.d_ptr)) {}
+FCITX_DEFINE_DPTR_COPY_AND_DEFAULT_MOVE(RawConfig)
 
 std::shared_ptr<RawConfig> RawConfig::get(const std::string &path,
                                           bool create) {
@@ -196,12 +189,6 @@ unsigned int RawConfig::lineNumber() const {
 bool RawConfig::hasSubItems() const {
     FCITX_D();
     return !d->subItems_.empty();
-}
-
-RawConfig &RawConfig::operator=(RawConfig other) {
-    using std::swap;
-    swap(d_ptr, other.d_ptr);
-    return *this;
 }
 
 RawConfig *RawConfig::parent() const {

@@ -24,11 +24,11 @@
 
 namespace fcitx {
 class InputContextManagerPrivate;
-class InputContextPropertyFactoryPrivate {
+class InputContextPropertyFactoryPrivate
+    : public QPtrHolder<InputContextPropertyFactory> {
 public:
     InputContextPropertyFactoryPrivate(InputContextPropertyFactory *q)
-        : q_ptr(q) {}
-    InputContextPropertyFactory *q_ptr;
+        : QPtrHolder(q) {}
     InputContextManager *manager_ = nullptr;
     int slot_ = -1;
     std::string name_;

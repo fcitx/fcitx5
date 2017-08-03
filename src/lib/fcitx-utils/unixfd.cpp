@@ -28,8 +28,7 @@ UnixFD::UnixFD() noexcept : fd_(-1) {}
 UnixFD::UnixFD(int fd) { set(fd); }
 
 UnixFD::UnixFD(UnixFD &&other) noexcept {
-    fd_ = other.fd_;
-    other.fd_ = -1;
+    operator=(std::forward<UnixFD>(other));
 }
 
 UnixFD::~UnixFD() noexcept { reset(); }

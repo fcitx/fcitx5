@@ -38,20 +38,8 @@ public:
     T *get() const { return that_.expired() ? nullptr : rawThat_; }
 
     TrackableObjectReference() : rawThat_(nullptr) {}
-
-    TrackableObjectReference(const TrackableObjectReference &other)
-        : that_(other.that_), rawThat_(other.rawThat_) {}
-
-    TrackableObjectReference(TrackableObjectReference &&other)
-        : that_(std::move(other.that_)), rawThat_(other.rawThat_) {}
-
-    TrackableObjectReference &operator=(const TrackableObjectReference &other) {
-        if (&other == this)
-            return *this;
-        that_ = other.that_;
-        rawThat_ = other.rawThat_;
-        return *this;
-    }
+    FCITX_INLINE_DEFINE_DEFAULT_COPY(TrackableObjectReference);
+    FCITX_INLINE_DEFINE_DEFAULT_MOVE(TrackableObjectReference);
 
     void unwatch() {
         that_.reset();

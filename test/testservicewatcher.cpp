@@ -37,8 +37,9 @@ int main() {
         handlerTableEntry;
     ServiceWatcher watcher(bus);
 
-    if (!bus.requestName(TEST_SERVICE, {RequestNameFlag::AllowReplacement,
-                                        RequestNameFlag::ReplaceExisting})) {
+    if (!bus.requestName(TEST_SERVICE,
+                         {RequestNameFlag::AllowReplacement,
+                          RequestNameFlag::ReplaceExisting})) {
         return 1;
     }
 

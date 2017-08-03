@@ -20,6 +20,7 @@
 #define _FCITX_UTILS_UNIXFD_H_
 
 #include "fcitxutils_export.h"
+#include "macros.h"
 #include <memory>
 
 namespace fcitx {
@@ -31,7 +32,7 @@ public:
     UnixFD() noexcept;
     UnixFD(int fd);
     UnixFD(const UnixFD &other) = delete;
-    UnixFD(UnixFD &&other) noexcept;
+    FCITX_DECLARE_MOVE(UnixFD);
     ~UnixFD() noexcept;
 
     static UnixFD own(int fd) {
@@ -39,8 +40,6 @@ public:
         unixFD.give(fd);
         return unixFD;
     }
-
-    UnixFD &operator=(UnixFD &&other) noexcept;
 
     bool isValid() const noexcept;
     void set(int fd);

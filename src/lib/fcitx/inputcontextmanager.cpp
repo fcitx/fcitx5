@@ -68,9 +68,8 @@ public:
         return group.d_func();
     }
 
-    InputContextManagerPrivate(InputContextManager *q) : q_ptr(q) {}
-
-    inline bool registerProperty(const std::string &name,
+    inline bool registerProperty(InputContextManager *q_ptr,
+                                 const std::string &name,
                                  InputContextPropertyFactoryPrivate *factory) {
         auto result = propertyFactories_.emplace(name, factory);
         if (!result.second) {
@@ -83,7 +82,7 @@ public:
         propertyFactoriesSlots_.push_back(factory);
         for (auto &inputContext : inputContexts_) {
             inputContext.d_func()->registerProperty(
-                factory->slot_, factory->q_ptr->create(inputContext));
+                factory->slot_, factory->q_func()->create(inputContext));
         }
         return true;
     }
@@ -117,7 +116,7 @@ public:
             programMap_[inputContext.program()].insert(&inputContext);
         }
         for (auto &p : propertyFactories_) {
-            auto property = p.second->q_ptr->create(inputContext);
+            auto property = p.second->q_func()->create(inputContext);
             inputContext.d_func()->registerProperty(p.second->slot_, property);
             if (property->needCopy() &&
                 (propertyPropagatePolicy_ == PropertyPropagatePolicy::All ||
@@ -147,8 +146,6 @@ public:
             }
         }
     }
-
-    InputContextManager *q_ptr;
 
     std::unordered_map<std::array<uint8_t, sizeof(uuid_t)>, InputContext *,
                        container_hasher>
@@ -184,7 +181,7 @@ FocusGroup &FocusGroupListHelper::toValue(IntrusiveListNode &node) noexcept {
 }
 
 InputContextManager::InputContextManager()
-    : d_ptr(std::make_unique<InputContextManagerPrivate>(this)) {}
+    : d_ptr(std::make_unique<InputContextManagerPrivate>()) {}
 
 InputContextManager::~InputContextManager() {}
 
@@ -197,7 +194,7 @@ InputContext *InputContextManager::findByUUID(ICUUID uuid) {
 bool InputContextManager::registerProperty(
     const std::string &name, InputContextPropertyFactory *factory) {
     FCITX_D();
-    return d->registerProperty(name, factory->d_func());
+    return d->registerProperty(this, name, factory->d_func());
 }
 
 void InputContextManager::unregisterProperty(const std::string &name) {
@@ -257,7 +254,7 @@ InputContextManager::factoryForName(const std::string &name) {
     if (iter == d->propertyFactories_.end()) {
         return nullptr;
     }
-    return iter->second->q_ptr;
+    return iter->second->q_func();
 }
 InputContextProperty *
 InputContextManager::property(InputContext &inputContext,

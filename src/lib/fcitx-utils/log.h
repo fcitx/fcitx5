@@ -126,7 +126,7 @@ public:
     FCITX_SIMPLE_LOG(unsigned long long)
 
     // For some random type, use ostream.
-    template<typename T>
+    template <typename T>
     FCITX_SIMPLE_LOG(T)
 
 private:

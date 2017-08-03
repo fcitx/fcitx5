@@ -115,9 +115,7 @@ public:
             }
         }
 
-        iterator(const iterator &other) = default;
-
-        iterator &operator=(const iterator &other) = default;
+        FCITX_INLINE_DEFINE_DEFAULT_COPY(iterator)
 
         bool operator==(const iterator &other) const noexcept {
             return parentIter_ == other.parentIter_;

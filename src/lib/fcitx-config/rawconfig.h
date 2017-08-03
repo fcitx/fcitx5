@@ -34,9 +34,7 @@ class RawConfigPrivate;
 class FCITXCONFIG_EXPORT RawConfig {
 public:
     explicit RawConfig(std::string name = "", std::string value = "");
-    virtual ~RawConfig();
-    RawConfig(const RawConfig &other);
-    RawConfig(RawConfig &&other) noexcept;
+    FCITX_DECLARE_VIRTUAL_DTOR_COPY_AND_MOVE(RawConfig)
 
     std::shared_ptr<RawConfig> get(const std::string &path,
                                    bool create = false);
@@ -61,9 +59,6 @@ public:
     }
 
     RawConfig &operator[](const std::string &path) { return *get(path, true); }
-
-    RawConfig &operator=(RawConfig other);
-
     RawConfig &operator=(std::string value) {
         setValue(std::move(value));
         return *this;

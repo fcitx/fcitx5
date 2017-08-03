@@ -111,8 +111,8 @@ int SDPropertySetCallback(sd_bus *, const char *, const char *,
 
 ObjectVTableBasePrivate::~ObjectVTableBasePrivate() {}
 
-const sd_bus_vtable *ObjectVTableBasePrivate::toSDBusVTable() {
-    FCITX_Q();
+const sd_bus_vtable *
+ObjectVTableBasePrivate::toSDBusVTable(ObjectVTableBase *q) {
     std::lock_guard<std::mutex> lock(q->privateDataMutexForType());
     auto p = q->privateDataForType();
     if (!p->hasVTable_) {
@@ -197,7 +197,7 @@ Message ObjectVTableSignal::createSignal() {
 }
 
 ObjectVTableBase::ObjectVTableBase()
-    : d_ptr(std::make_unique<ObjectVTableBasePrivate>(this)) {}
+    : d_ptr(std::make_unique<ObjectVTableBasePrivate>()) {}
 
 ObjectVTableBase::~ObjectVTableBase() {}
 

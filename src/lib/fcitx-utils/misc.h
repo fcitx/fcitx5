@@ -20,6 +20,7 @@
 #define _FCITX_UTILS_MISC_H_
 
 #include <cstdint>
+#include <fcitx-utils/macros.h>
 #include <memory>
 #include <utility>
 
@@ -61,10 +62,7 @@ public:
     typedef typename Iter::value_type::first_type *pointer;
 
     KeyIterator(Iter iter) : iter_(iter) {}
-
-    KeyIterator(const KeyIterator &other) = default;
-
-    KeyIterator &operator=(const KeyIterator &other) = default;
+    FCITX_INLINE_DEFINE_DEFAULT_COPY(KeyIterator)
 
     bool operator==(const KeyIterator &other) const noexcept {
         return iter_ == other.iter_;

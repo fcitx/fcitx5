@@ -74,6 +74,12 @@ int main() {
         FCITX_ASSERT(e.childs().front() == &e2);
         FCITX_ASSERT(e.childs().back() == &e3);
         e.insertChild(&e2, &e3);
+        // e3 is in, this is no op.
+        FCITX_ASSERT(e.childs().front() == &e2);
+        FCITX_ASSERT(e.childs().back() == &e3);
+        FCITX_ASSERT(e.childs().size() == 2);
+        e.removeChild(&e3);
+        e.insertChild(&e2, &e3);
         FCITX_ASSERT(e.childs().front() == &e3);
         FCITX_ASSERT(e.childs().back() == &e2);
         FCITX_ASSERT(e.childs().size() == 2);

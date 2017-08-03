@@ -142,8 +142,9 @@ void paint(cairo_t *c, cairo_surface_t *image, BackgroundImageConfig *cfg,
         } else {
             cairo_save(c);
             cairo_translate(c, marginLeft, 0);
-            cairo_scale(c, (double)(width - marginLeft - marginRight) /
-                               (double)resizeWidth,
+            cairo_scale(c,
+                        (double)(width - marginLeft - marginRight) /
+                            (double)resizeWidth,
                         1);
             cairo_set_source_surface(c, image, -marginLeft, 0);
             cairo_rectangle(c, 0, 0, resizeWidth, marginTop);
@@ -153,8 +154,9 @@ void paint(cairo_t *c, cairo_surface_t *image, BackgroundImageConfig *cfg,
 
             cairo_save(c);
             cairo_translate(c, marginLeft, height - marginBottom);
-            cairo_scale(c, (double)(width - marginLeft - marginRight) /
-                               (double)resizeWidth,
+            cairo_scale(c,
+                        (double)(width - marginLeft - marginRight) /
+                            (double)resizeWidth,
                         1);
             cairo_set_source_surface(c, image, -marginLeft,
                                      -marginTop - resizeHeight);
@@ -220,8 +222,9 @@ void paint(cairo_t *c, cairo_surface_t *image, BackgroundImageConfig *cfg,
         } else {
             cairo_save(c);
             cairo_translate(c, 0, marginTop);
-            cairo_scale(c, 1, (double)(height - marginTop - marginBottom) /
-                                  (double)resizeHeight);
+            cairo_scale(c, 1,
+                        (double)(height - marginTop - marginBottom) /
+                            (double)resizeHeight);
             cairo_set_source_surface(c, image, 0, -marginTop);
             cairo_rectangle(c, 0, 0, marginLeft, resizeHeight);
             cairo_clip(c);
@@ -230,8 +233,9 @@ void paint(cairo_t *c, cairo_surface_t *image, BackgroundImageConfig *cfg,
 
             cairo_save(c);
             cairo_translate(c, width - marginRight, marginTop);
-            cairo_scale(c, 1, (double)(height - marginTop - marginBottom) /
-                                  (double)resizeHeight);
+            cairo_scale(c, 1,
+                        (double)(height - marginTop - marginBottom) /
+                            (double)resizeHeight);
             cairo_set_source_surface(c, image, -marginLeft - resizeWidth,
                                      -marginTop);
             cairo_rectangle(c, 0, 0, marginRight, resizeHeight);

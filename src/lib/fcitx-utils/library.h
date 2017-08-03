@@ -40,11 +40,7 @@ class LibraryPrivate;
 class FCITXUTILS_EXPORT Library {
 public:
     Library(const std::string &path = {});
-    Library(const Library &) = delete;
-    Library(Library &&other) noexcept;
-    virtual ~Library();
-
-    Library &operator=(Library lib) noexcept;
+    FCITX_DECLARE_VIRTUAL_DTOR_MOVE(Library);
 
     bool loaded() const;
     bool load(Flags<LibraryLoadHint> hint = LibraryLoadHint::DefaultHint);

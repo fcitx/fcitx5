@@ -20,7 +20,6 @@
 #include "errorhandler.h"
 #include "fcitx-utils/fs.h"
 #include "fcitx-utils/standardpath.h"
-#include "fcitx-utils/standardpath.h"
 #include "fcitx/addonfactory.h"
 #include "fcitx/addonmanager.h"
 #include "fcitx/instance.h"

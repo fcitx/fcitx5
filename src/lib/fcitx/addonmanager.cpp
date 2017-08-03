@@ -23,6 +23,7 @@
 #include "fcitx-config/iniparser.h"
 #include "fcitx-utils/log.h"
 #include "instance.h"
+#include "misc_p.h"
 #include <fcntl.h>
 #include <unistd.h>
 #include <unordered_map>
@@ -31,6 +32,8 @@
 namespace fcitx {
 
 class Addon {
+    friend class AddonManagerPrivate;
+
 public:
     Addon(RawConfig &config) : failed_(false) { info_.load(config); }
 
@@ -42,7 +45,6 @@ public:
 
     AddonInstance *instance() { return instance_.get(); }
 
-    void load(AddonManagerPrivate *managerP);
     void setFailed(bool failed = true) { failed_ = failed; }
 
 private:
@@ -60,7 +62,7 @@ enum class DependencyCheckStatus {
 
 class AddonManagerPrivate {
 public:
-    AddonManagerPrivate(AddonManager *q) : q_ptr(q), instance_(nullptr) {}
+    AddonManagerPrivate() : instance_(nullptr) {}
 
     Addon *addon(const std::string &name) const {
         auto iter = addons_.find(name);
@@ -103,7 +105,7 @@ public:
         return DependencyCheckStatus::Satisfied;
     }
 
-    void loadAddons() {
+    void loadAddons(AddonManager *q_ptr) {
         if (inLoadAddons_) {
             throw std::runtime_error("loadAddons is not reentrant, do not call "
                                      "addon(.., true) in constructor");
@@ -114,13 +116,13 @@ public:
             changed = false;
 
             for (auto &item : addons_) {
-                changed = loadAddon(*item.second.get());
+                changed = loadAddon(q_ptr, *item.second.get());
             }
         } while (changed);
         inLoadAddons_ = false;
     }
 
-    bool loadAddon(Addon &addon) {
+    bool loadAddon(AddonManager *q_ptr, Addon &addon) {
         if (unloading_) {
             return false;
         }
@@ -136,7 +138,7 @@ public:
         if (result == DependencyCheckStatus::Failed) {
             addon.setFailed();
         } else if (result == DependencyCheckStatus::Satisfied) {
-            addon.load(this);
+            realLoad(q_ptr, addon);
             if (addon.loaded()) {
                 loadOrder_.push_back(addon.info().name());
                 return true;
@@ -148,8 +150,20 @@ public:
         return false;
     }
 
-    AddonManager *q_ptr;
-    FCITX_DECLARE_PUBLIC(AddonManager);
+    void realLoad(AddonManager *q_ptr, Addon &addon) {
+        if (!addon.isValid()) {
+            return;
+        }
+
+        if (auto loader = findValue(loaders_, addon.info().type())) {
+            addon.instance_.reset((*loader)->load(addon.info(), q_ptr));
+        }
+        if (!addon.instance_) {
+            addon.setFailed(true);
+        } else {
+            FCITX_LOG(Info) << "Loaded addon " << addon.info().name();
+        }
+    }
 
     std::string addonConfigDir_ = "addon";
 
@@ -166,23 +180,7 @@ public:
     EventLoop *eventLoop_ = nullptr;
 };
 
-void Addon::load(AddonManagerPrivate *managerP) {
-    if (!isValid()) {
-        return;
-    }
-    auto &loaders = managerP->loaders_;
-    if (loaders.count(info_.type())) {
-        instance_.reset(loaders[info_.type()]->load(info_, managerP->q_func()));
-    }
-    if (!instance_) {
-        failed_ = true;
-    } else {
-        FCITX_LOG(Info) << "Loaded addon " << info_.name();
-    }
-}
-
-AddonManager::AddonManager()
-    : d_ptr(std::make_unique<AddonManagerPrivate>(this)) {}
+AddonManager::AddonManager() : d_ptr(std::make_unique<AddonManagerPrivate>()) {}
 
 AddonManager::AddonManager(const std::string &addonConfigDir) : AddonManager() {
     FCITX_D();
@@ -240,7 +238,7 @@ void AddonManager::load(const std::unordered_set<std::string> &enabled,
         }
     }
 
-    d->loadAddons();
+    d->loadAddons(this);
 }
 
 void AddonManager::unload() {
@@ -282,7 +280,7 @@ AddonInstance *AddonManager::addon(const std::string &name, bool load) {
     if (addon->isValid() && !addon->loaded() && addon->info().onDemand() &&
         load) {
         d->requested_.insert(name);
-        d->loadAddons();
+        d->loadAddons(this);
     }
     return addon->instance();
 }
