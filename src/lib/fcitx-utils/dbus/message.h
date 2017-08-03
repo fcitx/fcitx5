@@ -40,8 +40,7 @@ struct DBusStruct {
     typedef std::tuple<Args...> tuple_type;
 
     DBusStruct() = default;
-    FCITX_INLINE_DEFINE_DEFAULT_COPY(DBusStruct)
-    FCITX_INLINE_DEFINE_DEFAULT_MOVE(DBusStruct)
+    FCITX_INLINE_DEFINE_DEFAULT_DTOR_COPY_AND_MOVE(DBusStruct)
 
     explicit DBusStruct(const tuple_type &other) : data_(std::forward(other)) {}
     explicit DBusStruct(tuple_type &&other)

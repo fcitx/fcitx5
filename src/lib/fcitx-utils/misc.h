@@ -62,7 +62,7 @@ public:
     typedef typename Iter::value_type::first_type *pointer;
 
     KeyIterator(Iter iter) : iter_(iter) {}
-    FCITX_INLINE_DEFINE_DEFAULT_COPY(KeyIterator)
+    FCITX_INLINE_DEFINE_DEFAULT_DTOR_AND_COPY(KeyIterator)
 
     bool operator==(const KeyIterator &other) const noexcept {
         return iter_ == other.iter_;

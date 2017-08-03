@@ -196,13 +196,23 @@
     FCITX_DECLARE_VIRTUAL_DTOR(TypeName)                                       \
     FCITX_DECLARE_MOVE(TypeName)
 
-#define FCITX_INLINE_DEFINE_DEFAULT_MOVE(TypeName)                             \
+// try to enforce rule of three-five-zero
+#define FCITX_INLINE_DEFINE_DEFAULT_DTOR_AND_MOVE(TypeName)                    \
+    ~TypeName() = default;                                                     \
     TypeName(TypeName &&other) noexcept = default;                             \
     TypeName &operator=(TypeName &&other) noexcept = default;
 
-#define FCITX_INLINE_DEFINE_DEFAULT_COPY(TypeName)                             \
+#define FCITX_INLINE_DEFINE_DEFAULT_DTOR_AND_COPY(TypeName)                    \
+    ~TypeName() = default;                                                     \
     TypeName(const TypeName &other) = default;                                 \
     TypeName &operator=(const TypeName &other) = default;
+
+#define FCITX_INLINE_DEFINE_DEFAULT_DTOR_COPY_AND_MOVE(TypeName)               \
+    ~TypeName() = default;                                                     \
+    TypeName(const TypeName &other) = default;                                 \
+    TypeName &operator=(const TypeName &other) = default;                      \
+    TypeName(TypeName &&other) noexcept = default;                             \
+    TypeName &operator=(TypeName &&other) noexcept = default;
 
 #define FCITX_DEFINE_DEFAULT_MOVE(TypeName)                                    \
     TypeName::TypeName(TypeName &&other) noexcept = default;                   \

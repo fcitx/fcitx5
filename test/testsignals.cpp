@@ -143,6 +143,29 @@ void test_reference() {
     FCITX_ASSERT(s == "ab");
 }
 
+void test_move() {
+    bool called = false;
+    fcitx::Signal<void()> signal1;
+    auto connection = signal1.connect([&called]() {
+        called = true;
+        return;
+    });
+    FCITX_ASSERT(connection.connected());
+    FCITX_ASSERT(!called);
+    signal1();
+    FCITX_ASSERT(called);
+
+    called = false;
+    auto signal2 = std::move(signal1);
+    FCITX_ASSERT(connection.connected());
+    // shouldn't use signal1() anymore, unless we want to assign to it again.
+    FCITX_ASSERT(!called);
+    signal2();
+    FCITX_ASSERT(called);
+    signal2.disconnectAll();
+    FCITX_ASSERT(!connection.connected());
+}
+
 int main() {
     test_simple_signal();
     test_combiner();
@@ -150,6 +173,7 @@ int main() {
     test_destruct_order();
     test_connectable_object();
     test_reference();
+    test_move();
 
     return 0;
 }

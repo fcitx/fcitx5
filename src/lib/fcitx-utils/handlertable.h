@@ -34,44 +34,49 @@ template <typename T>
 class HandlerTableView;
 
 template <typename T>
-class HandlerTable : protected IntrusiveListFor<ListHandlerTableEntry<T>> {
-    typedef IntrusiveListFor<ListHandlerTableEntry<T>> super;
-
+class HandlerTable {
 public:
+    HandlerTable() = default;
+    FCITX_INLINE_DEFINE_DEFAULT_DTOR_AND_MOVE(HandlerTable)
+
     template <typename M>
     HandlerTableEntry<T> *add(M &&t) {
         auto result = new ListHandlerTableEntry<T>(std::forward<M>(t));
-        this->push_back(*result);
+        handlers_.push_back(*result);
         return result;
     }
 
-    HandlerTableView<T> view() { return {this->begin(), this->end()}; }
+    HandlerTableView<T> view() { return {handlers_.begin(), handlers_.end()}; }
+
+private:
+    IntrusiveListFor<ListHandlerTableEntry<T>> handlers_;
 };
 
 template <typename Key, typename T>
-class MultiHandlerTable
-    : protected std::unordered_map<
-          Key, IntrusiveListFor<MultiHandlerTableEntry<Key, T>>> {
+class MultiHandlerTable {
     friend class MultiHandlerTableEntry<Key, T>;
     typedef std::unordered_map<Key,
                                IntrusiveListFor<MultiHandlerTableEntry<Key, T>>>
-        super;
+        map_type;
 
 public:
     MultiHandlerTable(std::function<void(const Key &)> addKey = {},
                       std::function<void(const Key &)> removeKey = {})
         : addKey_(addKey), removeKey_(removeKey) {}
 
+    FCITX_INLINE_DEFINE_DEFAULT_DTOR_AND_MOVE(MultiHandlerTable)
+
     template <typename M>
     HandlerTableEntry<T> *add(const Key &key, M &&t) {
-        auto iter = super::find(key);
-        if (iter == super::end()) {
+        auto iter = keyToHandlers_.find(key);
+        if (iter == keyToHandlers_.end()) {
             if (addKey_) {
                 addKey_(key);
             }
-            iter = super::emplace(std::piecewise_construct,
-                                  std::forward_as_tuple(key),
-                                  std::forward_as_tuple())
+            iter = keyToHandlers_
+                       .emplace(std::piecewise_construct,
+                                std::forward_as_tuple(key),
+                                std::forward_as_tuple())
                        .first;
         }
         auto result =
@@ -81,28 +86,32 @@ public:
     }
 
     HandlerTableView<T> view(const Key &key) {
-        auto iter = super::find(key);
-        if (iter == super::end()) {
+        auto iter = keyToHandlers_.find(key);
+        if (iter == keyToHandlers_.end()) {
             return {};
         }
         return {iter->second.begin(), iter->second.end()};
     }
 
-    IterRange<KeyIterator<typename super::const_iterator>> keys() const {
-        return {KeyIterator<typename super::const_iterator>(super::begin()),
-                KeyIterator<typename super::const_iterator>(super::end())};
+    IterRange<KeyIterator<typename map_type::const_iterator>> keys() const {
+        return {KeyIterator<typename map_type::const_iterator>(
+                    keyToHandlers_.begin()),
+                KeyIterator<typename map_type::const_iterator>(
+                    keyToHandlers_.end())};
     }
 
 private:
     void postRemove(const Key &k) {
-        auto iter = this->find(k);
-        if (iter != this->end()) {
+        auto iter = keyToHandlers_.find(k);
+        if (iter != keyToHandlers_.end()) {
             if (removeKey_) {
                 removeKey_(k);
             }
-            this->erase(iter);
+            keyToHandlers_.erase(iter);
         }
     }
+    std::unordered_map<Key, IntrusiveListFor<MultiHandlerTableEntry<Key, T>>>
+        keyToHandlers_;
     std::function<void(const Key &)> addKey_;
     std::function<void(const Key &)> removeKey_;
 };

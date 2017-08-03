@@ -87,5 +87,13 @@ int main() {
         FCITX_ASSERT(f.data == check2[idx]);
         idx++;
     }
+
+    idx = 0;
+    auto list2 = std::move(list);
+    for (auto &f : list2) {
+        FCITX_ASSERT(f.data == check2[idx]);
+        idx++;
+    }
+
     return 0;
 }

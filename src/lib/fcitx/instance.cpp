@@ -147,7 +147,7 @@ private:
 
 struct InstanceArgument {
     InstanceArgument() = default;
-    FCITX_INLINE_DEFINE_DEFAULT_COPY(InstanceArgument);
+    FCITX_INLINE_DEFINE_DEFAULT_DTOR_AND_COPY(InstanceArgument)
 
     void parseOption(int argc, char *argv[]);
     void printVersion() { std::cout << FCITX_VERSION_STRING << std::endl; }

@@ -146,8 +146,8 @@ public:
     Connection() {}
     explicit Connection(TrackableObjectReference<ConnectionBody> body)
         : body_(std::move(body)) {}
-    FCITX_INLINE_DEFINE_DEFAULT_COPY(Connection);
-    FCITX_INLINE_DEFINE_DEFAULT_MOVE(Connection);
+
+    FCITX_INLINE_DEFINE_DEFAULT_DTOR_COPY_AND_MOVE(Connection)
 
     bool connected() { return body_.isValid(); }
 
@@ -199,40 +199,56 @@ public:
 
 template <typename Ret, typename Combiner, typename... Args>
 class Signal<Ret(Args...), Combiner> : public SignalBase {
+    struct SignalData {
+        SignalData(Combiner combiner) : combiner_(std::move(combiner)) {}
+
+        HandlerTable<std::function<Ret(Args...)>> table_;
+        IntrusiveList<ConnectionBody> connections_;
+        Combiner combiner_;
+    };
 
 public:
     typedef Ret return_type;
     typedef Ret function_type(Args...);
-    Signal(const Combiner &combiner = Combiner()) : combiner_(combiner) {}
-    virtual ~Signal() { disconnectAll(); }
-
-    FCITX_INLINE_DEFINE_DEFAULT_MOVE(Signal)
+    Signal(Combiner combiner = Combiner())
+        : d_ptr(std::make_unique<SignalData>(std::move(combiner))) {}
+    virtual ~Signal() {
+        if (d_ptr) {
+            disconnectAll();
+        }
+    }
+    Signal(Signal &&other) noexcept { operator=(std::forward<Signal>(other)); }
+    Signal &operator=(Signal &&other) noexcept {
+        using std::swap;
+        swap(d_ptr, other.d_ptr);
+        return *this;
+    }
 
     Ret operator()(Args... args) {
-        auto view = table_.view();
+        auto view = d_ptr->table_.view();
         Invoker<Ret, Args...> invoker(args...);
         auto iter = MakeSlotInvokeIterator(invoker, view.begin());
         auto end = MakeSlotInvokeIterator(invoker, view.end());
-        return combiner_(iter, end);
+        return d_ptr->combiner_(iter, end);
     }
 
     template <typename Func>
     Connection connect(Func &&func) {
-        auto body = new ConnectionBody(table_.add(std::forward<Func>(func)));
-        connections_.push_back(*body);
+        auto body =
+            new ConnectionBody(d_ptr->table_.add(std::forward<Func>(func)));
+        d_ptr->connections_.push_back(*body);
         return Connection{body->watch()};
     }
 
     void disconnectAll() {
-        while (!connections_.empty()) {
-            delete &connections_.front();
+        while (!d_ptr->connections_.empty()) {
+            delete &d_ptr->connections_.front();
         }
     }
 
 private:
-    HandlerTable<std::function<Ret(Args...)>> table_;
-    IntrusiveList<ConnectionBody> connections_;
-    Combiner combiner_;
+    // store data in a unique_ptr to speed up move.
+    std::unique_ptr<SignalData> d_ptr;
 };
 }
 

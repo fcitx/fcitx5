@@ -110,7 +110,7 @@ public:
             defaultPaths("FCITX_ADDON_DIRS", FCITX_INSTALL_ADDONDIR, nullptr);
     }
 
-    FCITX_INLINE_DEFINE_DEFAULT_COPY(StandardPathPrivate);
+    FCITX_INLINE_DEFINE_DEFAULT_DTOR_AND_COPY(StandardPathPrivate)
 
     // http://standards.freedesktop.org/basedir-spec/basedir-spec-latest.html
     std::string defaultPath(const char *env, const char *defaultPath) {

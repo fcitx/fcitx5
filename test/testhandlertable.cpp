@@ -50,8 +50,10 @@ int main() {
             std::unique_ptr<HandlerTableEntry<Callback>>(table.add([]() {})),
         };
 
+        auto table2 = std::move(table);
+
         {
-            for (auto &handler : table.view()) {
+            for (auto &handler : table2.view()) {
                 handler();
             }
         }

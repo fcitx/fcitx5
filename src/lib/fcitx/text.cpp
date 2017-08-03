@@ -25,7 +25,7 @@ namespace fcitx {
 class TextPrivate {
 public:
     TextPrivate() = default;
-    FCITX_INLINE_DEFINE_DEFAULT_COPY(TextPrivate);
+    FCITX_INLINE_DEFINE_DEFAULT_DTOR_AND_COPY(TextPrivate)
 
     std::vector<std::tuple<std::string, TextFormatFlags>> texts_;
     int cursor_ = -1;

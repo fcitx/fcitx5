@@ -33,13 +33,12 @@ class TrackableObjectReference final {
     friend class TrackableObject<T>;
 
 public:
+    TrackableObjectReference() : rawThat_(nullptr) {}
+    FCITX_INLINE_DEFINE_DEFAULT_DTOR_COPY_AND_MOVE(TrackableObjectReference)
+
     bool isValid() const { return !that_.expired(); }
 
     T *get() const { return that_.expired() ? nullptr : rawThat_; }
-
-    TrackableObjectReference() : rawThat_(nullptr) {}
-    FCITX_INLINE_DEFINE_DEFAULT_COPY(TrackableObjectReference);
-    FCITX_INLINE_DEFINE_DEFAULT_MOVE(TrackableObjectReference);
 
     void unwatch() {
         that_.reset();

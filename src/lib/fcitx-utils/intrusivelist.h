@@ -50,7 +50,60 @@ class IntrusiveListBase {
     friend class IntrusiveListNode;
 
 protected:
-    IntrusiveListBase() { root.prev_ = root.next_ = &root; }
+    IntrusiveListBase() noexcept { root_.prev_ = root_.next_ = &root_; }
+    IntrusiveListBase(IntrusiveListBase &&other) noexcept
+        : IntrusiveListBase() {
+        operator=(std::forward<IntrusiveListBase>(other));
+    }
+
+    virtual ~IntrusiveListBase() {
+        // remove everything from list, since we didn't own anything, then we
+        // are good.
+        while (size_) {
+            remove(root_.prev_);
+        }
+    }
+
+    IntrusiveListBase &operator=(IntrusiveListBase &&other) noexcept {
+        using std::swap;
+        // no need to swap empty list.
+        if (size_ == 0 && other.size_ == 0) {
+            return *this;
+        }
+        // two non-empty list
+        if (size_ != 0 && other.size_ != 0) {
+            auto prev = root_.prev_;
+            auto next = root_.next_;
+
+            auto otherPrev = other.root_.prev_;
+            auto otherNext = other.root_.next_;
+
+            swap(prev->next_, otherPrev->next_);
+            swap(next->prev_, otherNext->prev_);
+            swap(root_.prev_, other.root_.prev_);
+            swap(root_.next_, other.root_.next_);
+        } else {
+            IntrusiveListBase *empty, *nonempty;
+            if (size_ == 0) {
+                empty = this;
+                nonempty = &other;
+            } else {
+                empty = &other;
+                nonempty = this;
+            }
+
+            nonempty->root_.prev_->next_ = &empty->root_;
+            nonempty->root_.next_->prev_ = &empty->root_;
+            empty->root_.prev_ = nonempty->root_.prev_;
+            empty->root_.next_ = nonempty->root_.next_;
+            nonempty->root_.prev_ = nonempty->root_.next_ = &nonempty->root_;
+        }
+
+        swap(size_, other.size_);
+        fixList(this);
+        fixList(&other);
+        return *this;
+    }
 
     void insertBetween(IntrusiveListNode *add, IntrusiveListNode *prev,
                        IntrusiveListNode *next) noexcept {
@@ -83,8 +136,17 @@ protected:
         size_--;
     }
 
-    IntrusiveListNode root;
+    IntrusiveListNode root_;
     std::size_t size_ = 0;
+
+private:
+    static void fixList(IntrusiveListBase *list) {
+        auto node = list->root_.next_;
+        while (node != &list->root_) {
+            node->list_ = list;
+            node = node->next_;
+        }
+    }
 };
 
 inline void IntrusiveListNode::remove() {
@@ -166,7 +228,7 @@ public:
         std::enable_if_t<isConst && !fromConst, enabler> = enabler())
         : IntrusiveListIterator(other.pointed_node(), other.get_nodeGetter()) {}
 
-    FCITX_INLINE_DEFINE_DEFAULT_COPY(IntrusiveListIterator)
+    FCITX_INLINE_DEFINE_DEFAULT_DTOR_AND_COPY(IntrusiveListIterator)
 
     bool operator==(const IntrusiveListIterator &other) const noexcept {
         return node == other.node;
@@ -215,35 +277,27 @@ public:
     IntrusiveList(NodeGetter nodeGetter_ = NodeGetter())
         : nodeGetter(nodeGetter_) {}
 
-    FCITX_INLINE_DEFINE_DEFAULT_MOVE(IntrusiveList)
+    FCITX_INLINE_DEFINE_DEFAULT_DTOR_AND_MOVE(IntrusiveList)
 
-    virtual ~IntrusiveList() {
-        // remove everything from list, since we didn't own anything, then we
-        // are good.
-        while (size()) {
-            pop_back();
-        }
-    }
+    iterator begin() { return {root_.next(), nodeGetter}; }
+    iterator end() { return {&root_, nodeGetter}; }
 
-    iterator begin() { return {root.next(), nodeGetter}; }
-    iterator end() { return {&root, nodeGetter}; }
+    const_iterator begin() const { return {root_.next(), nodeGetter}; }
 
-    const_iterator begin() const { return {root.next(), nodeGetter}; }
+    const_iterator end() const { return {&root_, nodeGetter}; }
 
-    const_iterator end() const { return {&root, nodeGetter}; }
+    const_iterator cbegin() const { return {root_.next(), nodeGetter}; }
 
-    const_iterator cbegin() const { return {root.next(), nodeGetter}; }
-
-    const_iterator cend() const { return {&root, nodeGetter}; }
+    const_iterator cend() const { return {&root_, nodeGetter}; }
 
     reference front() { return *begin(); }
 
     const_reference front() const { return *cbegin(); }
 
-    reference back() { return *iterator{root.prev(), nodeGetter}; }
+    reference back() { return *iterator{root_.prev(), nodeGetter}; }
 
     const_reference back() const {
-        return *const_iterator{root.prev(), nodeGetter};
+        return *const_iterator{root_.prev(), nodeGetter};
         ;
     }
 
@@ -257,10 +311,10 @@ public:
 
     void push_back(reference value) {
         auto &node = nodeGetter.toNode(value);
-        append(&node, &root);
+        append(&node, &root_);
     }
 
-    void pop_back() { remove(root.prev()); }
+    void pop_back() { remove(root_.prev()); }
 
     void push_front(reference value) { insert(begin(), value); }
 
@@ -286,7 +340,7 @@ public:
 
     size_type size() const { return size_; }
 
-    bool empty() const { return root.next() == &root; }
+    bool empty() const { return root_.next() == &root_; }
 
     iterator insert(const_iterator pos, reference value) {
         append(&nodeGetter.toNode(value), pos.pointed_node());

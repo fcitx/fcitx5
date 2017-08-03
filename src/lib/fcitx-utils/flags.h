@@ -36,7 +36,7 @@ public:
         }
     }
 
-    FCITX_INLINE_DEFINE_DEFAULT_COPY(Flags)
+    FCITX_INLINE_DEFINE_DEFAULT_DTOR_AND_COPY(Flags)
 
     inline operator storage_type() const { return flags_; }
     inline storage_type toInteger() const { return flags_; }
