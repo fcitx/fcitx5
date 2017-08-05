@@ -94,7 +94,9 @@ CharSelectData::CharSelectData() {
     }
 
     struct stat s;
-    fstat(file.fd(), &s);
+    if (fstat(file.fd(), &s) < 0) {
+        throw std::runtime_error("Failed to fstat the unicode data");
+    }
     auto size = s.st_size;
     data_.resize(size);
     fs::safeRead(file.fd(), data_.data(), size);

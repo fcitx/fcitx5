@@ -196,7 +196,6 @@ KeyStates Key::keySymToStates(KeySym sym) {
     default:
         return KeyStates();
     }
-    return KeyStates();
 }
 
 KeySym Key::keySymFromString(const std::string &keyString) {
