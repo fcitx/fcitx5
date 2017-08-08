@@ -18,6 +18,7 @@
  */
 
 #include "xcbmodule.h"
+#include "fcitx-utils/log.h"
 #include "fcitx/inputcontext.h"
 #include "fcitx/inputcontextmanager.h"
 #include "fcitx/instance.h"
@@ -42,6 +43,73 @@ union _xkb_event {
 };
 
 namespace fcitx {
+
+ConvertSelectionRequest::ConvertSelectionRequest(
+    XCBConnection *conn, xcb_atom_t selection, xcb_atom_t type,
+    xcb_atom_t property, XCBConvertSelectionCallback callback)
+
+    : conn_(conn), selection_(selection), property_(property),
+      callback_([this](xcb_atom_t type, const char *data, size_t length) {
+          handleReply(type, data, length);
+      }),
+      realCallback_(std::move(callback)) {
+    if (type == 0) {
+        fallbacks_.push_back(XCB_ATOM_STRING);
+        auto compoundAtom = conn->atom("COMPOUND_TEXT", true);
+        if (compoundAtom) {
+            fallbacks_.push_back(compoundAtom);
+        }
+        auto utf8Atom = conn->atom("UTF8_STRING", true);
+        if (utf8Atom) {
+            fallbacks_.push_back(utf8Atom);
+        }
+    } else {
+        fallbacks_.push_back(type);
+    }
+    xcb_delete_property(conn->connection(), conn->serverWindow(), property_);
+    xcb_convert_selection(conn->connection(), conn->serverWindow(), selection_,
+                          fallbacks_.back(), property_, XCB_TIME_CURRENT_TIME);
+    xcb_flush(conn->connection());
+    timer_.reset(conn->parent()->instance()->eventLoop().addTimeEvent(
+        CLOCK_MONOTONIC, now(CLOCK_MONOTONIC) + 5000000, 0,
+        [this](EventSourceTime *, uint64_t) {
+            if (realCallback_) {
+                realCallback_(XCB_ATOM_NONE, nullptr, 0);
+            }
+            cleanUp();
+            return true;
+        }));
+}
+
+void ConvertSelectionRequest::cleanUp() {
+    realCallback_ = decltype(realCallback_)();
+    timer_.reset();
+}
+
+void ConvertSelectionRequest::handleReply(xcb_atom_t type, const char *data,
+                                          size_t length) {
+    if (!realCallback_) {
+        return;
+    }
+    if (type == fallbacks_.back()) {
+        fallbacks_.pop_back();
+        realCallback_(type, data, length);
+        cleanUp();
+    } else {
+        fallbacks_.pop_back();
+        if (fallbacks_.empty()) {
+            realCallback_(XCB_ATOM_NONE, nullptr, 0);
+            cleanUp();
+        } else {
+            xcb_delete_property(conn_->connection(), conn_->serverWindow(),
+                                property_);
+            xcb_convert_selection(conn_->connection(), conn_->serverWindow(),
+                                  selection_, fallbacks_.back(), property_,
+                                  XCB_TIME_CURRENT_TIME);
+            xcb_flush(conn_->connection());
+        }
+    }
+}
 
 XCBConnection::XCBConnection(XCBModule *xcb, const std::string &name)
     : parent_(xcb), name_(name), conn_(nullptr, xcb_disconnect),
@@ -128,8 +196,16 @@ XCBConnection::XCBConnection(XCBModule *xcb, const std::string &name)
     {
         const auto *reply = xcb_get_extension_data(conn_.get(), &xcb_xfixes_id);
         if (reply && reply->present) {
-            hasXFixes_ = true;
-            xfixesFirstEvent_ = reply->first_event;
+
+            xcb_xfixes_query_version_cookie_t xfixes_query_cookie =
+                xcb_xfixes_query_version(conn_.get(), XCB_XFIXES_MAJOR_VERSION,
+                                         XCB_XFIXES_MINOR_VERSION);
+            auto xfixes_query = makeXCBReply(xcb_xfixes_query_version_reply(
+                conn_.get(), xfixes_query_cookie, nullptr));
+            if (xfixes_query && xfixes_query->major_version >= 2) {
+                hasXFixes_ = true;
+                xfixesFirstEvent_ = reply->first_event;
+            }
         }
     }
 
@@ -211,6 +287,39 @@ bool XCBConnection::filterEvent(xcb_connection_t *,
         for (auto &callback : callbacks) {
             callback(selectionNofity->selection);
         }
+    } else if (response_type == XCB_SELECTION_NOTIFY) {
+        auto selectionNotify =
+            reinterpret_cast<xcb_selection_notify_event_t *>(event);
+        if (selectionNotify->requestor != serverWindow_) {
+            return false;
+        }
+        for (auto &callback : convertSelections_.view()) {
+            if (callback.property_ != selectionNotify->property &&
+                callback.selection_ != selectionNotify->selection) {
+                continue;
+            }
+
+            do {
+                constexpr size_t bufLimit = 4096;
+                xcb_get_property_cookie_t get_prop_cookie = xcb_get_property(
+                    conn_.get(), false, serverWindow_,
+                    selectionNotify->property, XCB_ATOM_ANY, 0, bufLimit);
+
+                auto reply = makeXCBReply(xcb_get_property_reply(
+                    conn_.get(), get_prop_cookie, nullptr));
+                const char *data = nullptr;
+                int length = 0;
+                xcb_atom_t type = XCB_ATOM_NONE;
+                if (reply && reply->type != XCB_NONE &&
+                    reply->bytes_after == 0) {
+                    type = reply->type;
+                    data = static_cast<const char *>(
+                        xcb_get_property_value(reply.get()));
+                    length = xcb_get_property_value_length(reply.get());
+                }
+                callback.callback_(type, data, length);
+            } while (0);
+        }
     }
     return false;
 }
@@ -278,6 +387,7 @@ void XCBConnection::addSelectionAtom(xcb_atom_t atom) {
         XCB_XFIXES_SELECTION_EVENT_MASK_SET_SELECTION_OWNER |
             XCB_XFIXES_SELECTION_EVENT_MASK_SELECTION_WINDOW_DESTROY |
             XCB_XFIXES_SELECTION_EVENT_MASK_SELECTION_CLIENT_CLOSE);
+    xcb_flush(conn_.get());
 }
 
 void XCBConnection::removeSelectionAtom(xcb_atom_t atom) {
@@ -309,6 +419,34 @@ XCBConnection::addSelection(const std::string &selection,
         return selections_.add(atomValue, std::move(callback));
     }
     return nullptr;
+}
+
+HandlerTableEntryBase *
+XCBConnection::convertSelection(const std::string &selection,
+                                const std::string &type,
+                                XCBConvertSelectionCallback callback) {
+    auto atomValue = atom(selection, true);
+    if (atomValue == XCB_ATOM_NONE) {
+        return nullptr;
+    }
+
+    xcb_atom_t typeAtom;
+    if (type.empty()) {
+        typeAtom = XCB_ATOM_NONE;
+    } else {
+        typeAtom = atom(type, true);
+        if (typeAtom == XCB_ATOM_NONE) {
+            return nullptr;
+        }
+    }
+    std::string name = "FCITX_X11_SEL_" + selection;
+    auto propertyAtom = atom(name, false);
+    if (propertyAtom == XCB_ATOM_NONE) {
+        return nullptr;
+    }
+
+    return convertSelections_.add(this, atomValue, typeAtom, propertyAtom,
+                                  callback);
 }
 
 XkbRulesNames XCBConnection::xkbRulesNames() {
@@ -444,6 +582,18 @@ XCBModule::addSelection(const std::string &name, const std::string &atom,
     return iter->second.addSelection(atom, callback);
 }
 
+HandlerTableEntryBase *
+XCBModule::convertSelection(const std::string &name, const std::string &atom,
+                            const std::string &type,
+                            XCBConvertSelectionCallback callback) {
+
+    auto iter = conns_.find(name);
+    if (iter == conns_.end()) {
+        return nullptr;
+    }
+    return iter->second.convertSelection(atom, type, callback);
+}
+
 void XCBModule::onConnectionCreated(XCBConnection &conn) {
     for (auto &callback : createdCallbacks_.view()) {
         callback(conn.name(), conn.connection(), conn.screen(),
@@ -455,6 +605,15 @@ void XCBModule::onConnectionClosed(XCBConnection &conn) {
     for (auto &callback : closedCallbacks_.view()) {
         callback(conn.name(), conn.connection());
     }
+}
+
+xcb_atom_t XCBModule::atom(const std::string &name, const std::string &atom,
+                           bool exists) {
+    auto iter = conns_.find(name);
+    if (iter == conns_.end()) {
+        return XCB_ATOM_NONE;
+    }
+    return iter->second.atom(atom, exists);
 }
 
 class XCBModuleFactory : public AddonFactory {

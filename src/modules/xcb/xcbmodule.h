@@ -39,6 +39,31 @@
 #include <vector>
 
 namespace fcitx {
+template <class T>
+inline void hash_combine(std::size_t &seed, T const &v) {
+    seed ^= std::hash<T>()(v) + 0x9e3779b9 + (seed << 6) + (seed >> 2);
+}
+
+class XCBConnection;
+
+struct ConvertSelectionRequest {
+    ConvertSelectionRequest() = default;
+    ConvertSelectionRequest(XCBConnection *conn, xcb_atom_t selection,
+                            xcb_atom_t type, xcb_atom_t property,
+                            XCBConvertSelectionCallback callback);
+
+    ConvertSelectionRequest(const ConvertSelectionRequest &) = delete;
+    void cleanUp();
+    void handleReply(xcb_atom_t type, const char *data, size_t length);
+
+    XCBConnection *conn_ = nullptr;
+    xcb_atom_t selection_ = 0;
+    xcb_atom_t property_ = 0;
+    std::vector<xcb_atom_t> fallbacks_;
+    XCBConvertSelectionCallback callback_;
+    XCBConvertSelectionCallback realCallback_;
+    std::unique_ptr<EventSourceTime> timer_;
+};
 
 class XCBModule;
 
@@ -52,6 +77,11 @@ public:
     HandlerTableEntry<XCBSelectionNotifyCallback> *
     addSelection(const std::string &name, XCBSelectionNotifyCallback callback);
 
+    HandlerTableEntryBase *convertSelection(const std::string &selection,
+                                            const std::string &type,
+                                            XCBConvertSelectionCallback);
+
+    XCBModule *parent() { return parent_; }
     const std::string &name() const { return name_; }
     xcb_connection_t *connection() const { return conn_.get(); }
     int screen() const { return screen_; }
@@ -60,13 +90,16 @@ public:
         return state_.get();
     }
     XkbRulesNames xkbRulesNames();
+    xcb_window_t serverWindow() const { return serverWindow_; }
+
+    void convertSelectionRequest(const ConvertSelectionRequest &request);
+    xcb_atom_t atom(const std::string &atomName, bool exists);
 
 private:
     bool filterEvent(xcb_connection_t *conn, xcb_generic_event_t *event);
     void onIOEvent();
     void addSelectionAtom(xcb_atom_t atom);
     void removeSelectionAtom(xcb_atom_t atom);
-    xcb_atom_t atom(const std::string &atomName, bool exists);
 
     std::unordered_map<std::string, xcb_atom_t> atomCache_;
 
@@ -89,6 +122,8 @@ private:
     MultiHandlerTable<xcb_atom_t, XCBSelectionNotifyCallback> selections_{
         [this](xcb_atom_t selection) { addSelectionAtom(selection); },
         [this](xcb_atom_t selection) { removeSelectionAtom(selection); }};
+
+    HandlerTable<ConvertSelectionRequest> convertSelections_;
 
     std::unique_ptr<struct xkb_context, decltype(&xkb_context_unref)> context_;
     std::unique_ptr<struct xkb_keymap, decltype(&xkb_keymap_unref)> keymap_;
@@ -122,6 +157,13 @@ public:
     HandlerTableEntry<XCBSelectionNotifyCallback> *
     addSelection(const std::string &name, const std::string &atom,
                  XCBSelectionNotifyCallback callback);
+    HandlerTableEntryBase *
+    convertSelection(const std::string &name, const std::string &atom,
+                     const std::string &type,
+                     XCBConvertSelectionCallback callback);
+
+    xcb_atom_t atom(const std::string &name, const std::string &atom,
+                    bool exists);
 
 private:
     void onConnectionCreated(XCBConnection &conn);
@@ -138,6 +180,8 @@ private:
     FCITX_ADDON_EXPORT_FUNCTION(XCBModule, xkbState);
     FCITX_ADDON_EXPORT_FUNCTION(XCBModule, xkbRulesNames);
     FCITX_ADDON_EXPORT_FUNCTION(XCBModule, addSelection);
+    FCITX_ADDON_EXPORT_FUNCTION(XCBModule, convertSelection);
+    FCITX_ADDON_EXPORT_FUNCTION(XCBModule, atom);
 };
 }
 

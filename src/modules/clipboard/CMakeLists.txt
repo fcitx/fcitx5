@@ -1,0 +1,5 @@
+add_library(clipboard MODULE clipboard.cpp)
+target_link_libraries(clipboard Fcitx5::Core Fcitx5::Module::XCB)
+set_target_properties(clipboard PROPERTIES PREFIX "")
+install(TARGETS clipboard DESTINATION "${FCITX_INSTALL_ADDONDIR}")
+install(FILES clipboard.conf DESTINATION "${FCITX_INSTALL_PKGDATADIR}/addon")

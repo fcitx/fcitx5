@@ -5,6 +5,7 @@ add_subdirectory(spell)
 add_subdirectory(notifications)
 add_subdirectory(quickphrase)
 add_subdirectory(unicode)
+add_subdirectory(clipboard)
 
 write_basic_package_version_file("${CMAKE_CURRENT_BINARY_DIR}/Fcitx5ModuleConfigVersion.cmake" VERSION @FCITX_VERSION@ COMPATIBILITY AnyNewerVersion)
 

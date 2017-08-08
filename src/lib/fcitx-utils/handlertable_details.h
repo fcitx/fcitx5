@@ -19,6 +19,7 @@
 #ifndef _FCITX_UTILS_HANDLERTABLE_DETAILS_H_
 #define _FCITX_UTILS_HANDLERTABLE_DETAILS_H_
 
+#include "fcitxutils_export.h"
 #include <fcitx-utils/intrusivelist.h>
 #include <list>
 #include <memory>
@@ -26,19 +27,33 @@
 
 namespace fcitx {
 
+class FCITXUTILS_EXPORT HandlerTableEntryBase {
+
+public:
+    HandlerTableEntryBase() = default;
+    virtual ~HandlerTableEntryBase() = default;
+};
+
+// Ugly hack since we don't want to maintain optional.
+template <typename T>
+using HandlerTableData = std::shared_ptr<std::unique_ptr<T>>;
+
 // Handler Tables are a kind of helper class that helps manage callbacks
 // HandlerTableEntry can be deleted
 template <typename T>
-class HandlerTableEntry {
+class HandlerTableEntry : public HandlerTableEntryBase {
 
 public:
-    HandlerTableEntry(T handler) : handler_(std::make_shared<T>(handler)) {}
-    virtual ~HandlerTableEntry() { *handler_ = T(); }
+    template <typename... Args>
+    HandlerTableEntry(Args &&... args)
+        : handler_(std::make_shared<std::unique_ptr<T>>(
+              std::make_unique<T>(std::forward<Args>(args)...))) {}
+    virtual ~HandlerTableEntry() { handler_->reset(); }
 
-    std::shared_ptr<T> handler() { return handler_; };
+    HandlerTableData<T> handler() { return handler_; };
 
 protected:
-    std::shared_ptr<T> handler_;
+    HandlerTableData<T> handler_;
 };
 
 template <typename T>
@@ -51,7 +66,10 @@ public:
     typedef struct IntrusiveListMemberNodeGetter<ListHandlerTableEntry,
                                                  &ListHandlerTableEntry::node_>
         node_getter_type;
-    ListHandlerTableEntry(T handler) : HandlerTableEntry<T>(handler) {}
+
+    template <typename... Args>
+    ListHandlerTableEntry(Args &&... args)
+        : HandlerTableEntry<T>(std::forward<Args>(args)...) {}
     virtual ~ListHandlerTableEntry() { node_.remove(); }
 };
 
@@ -74,7 +92,7 @@ public:
                                                  &MultiHandlerTableEntry::node_>
         node_getter_type;
     MultiHandlerTableEntry(table_type *table, Key key, T handler)
-        : HandlerTableEntry<T>(handler), table_(table), key_(key) {}
+        : HandlerTableEntry<T>(std::move(handler)), table_(table), key_(key) {}
     ~MultiHandlerTableEntry();
 };
 
@@ -87,15 +105,16 @@ MultiHandlerTableEntry<Key, T>::~MultiHandlerTableEntry() {
 }
 
 template <typename T>
-class HandlerTableView : public std::vector<std::shared_ptr<T>> {
+class HandlerTableView {
+    using container_type = std::vector<HandlerTableData<T>>;
+
 public:
-    typedef std::vector<std::shared_ptr<T>> super;
-    HandlerTableView() : super() {}
+    HandlerTableView() = default;
 
     template <typename _Iter>
     HandlerTableView(_Iter begin, _Iter end) {
         for (; begin != end; begin++) {
-            this->emplace_back(begin->handler());
+            view_.emplace_back(begin->handler());
         }
     }
 
@@ -107,10 +126,10 @@ public:
         typedef value_type &reference;
         typedef value_type *pointer;
 
-        iterator(typename super::const_iterator iter,
-                 typename super::const_iterator end)
+        iterator(typename container_type::const_iterator iter,
+                 typename container_type::const_iterator end)
             : parentIter_(iter), endIter_(end) {
-            while (parentIter_ != endIter_ && !*parentIter_) {
+            while (parentIter_ != endIter_ && !*parentIter_ && !**parentIter_) {
                 parentIter_++;
             }
         }
@@ -127,7 +146,8 @@ public:
         iterator &operator++() {
             do {
                 parentIter_++;
-            } while (parentIter_ != endIter_ && !(**parentIter_));
+            } while (parentIter_ != endIter_ && !(*parentIter_) &&
+                     !(**parentIter_));
             return *this;
         }
 
@@ -137,17 +157,20 @@ public:
             return {old, endIter_};
         }
 
-        reference operator*() { return **parentIter_; }
+        reference operator*() { return ***parentIter_; }
 
-        pointer operator->() { return (*parentIter_).get(); }
+        pointer operator->() { return (**parentIter_).get(); }
 
     private:
-        typename super::const_iterator parentIter_;
-        typename super::const_iterator endIter_;
+        typename container_type::const_iterator parentIter_;
+        typename container_type::const_iterator endIter_;
     };
 
-    iterator begin() const { return iterator(super::cbegin(), super::cend()); }
-    iterator end() const { return iterator(super::cend(), super::cend()); }
+    iterator begin() const { return iterator(view_.cbegin(), view_.cend()); }
+    iterator end() const { return iterator(view_.cend(), view_.cend()); }
+
+private:
+    std::vector<HandlerTableData<T>> view_;
 };
 }
 

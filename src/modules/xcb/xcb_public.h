@@ -39,6 +39,8 @@ typedef std::function<void(const std::string &name, xcb_connection_t *conn,
 typedef std::function<void(const std::string &name, xcb_connection_t *conn)>
     XCBConnectionClosed;
 typedef std::function<void(xcb_atom_t selection)> XCBSelectionNotifyCallback;
+typedef std::function<void(xcb_atom_t, const char *, size_t)>
+    XCBConvertSelectionCallback;
 
 template <typename T>
 using XCBReply = std::unique_ptr<T, decltype(&std::free)>;
@@ -60,11 +62,18 @@ FCITX_ADDON_DECLARE_FUNCTION(
     HandlerTableEntry<XCBConnectionClosed> *(XCBConnectionClosed));
 FCITX_ADDON_DECLARE_FUNCTION(XCBModule, xkbState,
                              xkb_state *(const std::string &));
+FCITX_ADDON_DECLARE_FUNCTION(XCBModule, atom,
+                             xcb_atom_t(const std::string &,
+                                        const std::string &, bool));
 FCITX_ADDON_DECLARE_FUNCTION(XCBModule, xkbRulesNames,
                              XkbRulesNames(const std::string &));
 FCITX_ADDON_DECLARE_FUNCTION(XCBModule, addSelection,
                              HandlerTableEntry<XCBSelectionNotifyCallback> *(
                                  const std::string &, const std::string &,
                                  XCBSelectionNotifyCallback));
+FCITX_ADDON_DECLARE_FUNCTION(
+    XCBModule, convertSelection,
+    HandlerTableEntryBase *(const std::string &, const std::string &,
+                            const std::string &, XCBConvertSelectionCallback));
 
 #endif // _FCITX_MODULES_XCB_XCB_PUBLIC_H_

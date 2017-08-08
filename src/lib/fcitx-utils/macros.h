@@ -196,11 +196,14 @@
     FCITX_DECLARE_VIRTUAL_DTOR(TypeName)                                       \
     FCITX_DECLARE_MOVE(TypeName)
 
+#define FCITX_INLINE_DEFINE_DEFAULT_DTOR_AND_MOVE_WITH_SPEC(TypeName, Spec)    \
+    ~TypeName() = default;                                                     \
+    TypeName(TypeName &&other) Spec = default;                                 \
+    TypeName &operator=(TypeName &&other) Spec = default;
+
 // try to enforce rule of three-five-zero
 #define FCITX_INLINE_DEFINE_DEFAULT_DTOR_AND_MOVE(TypeName)                    \
-    ~TypeName() = default;                                                     \
-    TypeName(TypeName &&other) noexcept = default;                             \
-    TypeName &operator=(TypeName &&other) noexcept = default;
+    FCITX_INLINE_DEFINE_DEFAULT_DTOR_AND_MOVE_WITH_SPEC(TypeName, noexcept)
 
 #define FCITX_INLINE_DEFINE_DEFAULT_DTOR_AND_COPY(TypeName)                    \
     ~TypeName() = default;                                                     \
@@ -208,11 +211,9 @@
     TypeName &operator=(const TypeName &other) = default;
 
 #define FCITX_INLINE_DEFINE_DEFAULT_DTOR_COPY_AND_MOVE(TypeName)               \
-    ~TypeName() = default;                                                     \
+    FCITX_INLINE_DEFINE_DEFAULT_DTOR_AND_MOVE_WITH_SPEC(TypeName, noexcept)    \
     TypeName(const TypeName &other) = default;                                 \
-    TypeName &operator=(const TypeName &other) = default;                      \
-    TypeName(TypeName &&other) noexcept = default;                             \
-    TypeName &operator=(TypeName &&other) noexcept = default;
+    TypeName &operator=(const TypeName &other) = default;
 
 #define FCITX_DEFINE_DEFAULT_MOVE(TypeName)                                    \
     TypeName::TypeName(TypeName &&other) noexcept = default;                   \
@@ -224,19 +225,19 @@
 
 #define FCITX_DEFINE_DEFAULT_DTOR(TypeName) TypeName::~TypeName() = default;
 
-#define FCITX_DEFINE_DPTR_COPY(TypeName)                                        \
-    TypeName::TypeName(const TypeName &other)                                   \
-        : d_ptr(                                                                \
-              std::make_unique<decltype(d_ptr)::element_type>(*other.d_ptr)) {  \
-    }                                                                           \
-    TypeName &TypeName::operator=(const TypeName &other) {                      \
-        if (d_ptr) {                                                            \
-            *d_ptr = *other.d_ptr;                                              \
-        } else {                                                                \
-            d_ptr =                                                             \
-                std::make_unique<decltype(d_ptr)::element_type>(*other.d_ptr);  \
-        }                                                                       \
-        return *this;                                                           \
+#define FCITX_DEFINE_DPTR_COPY(TypeName)                                       \
+    TypeName::TypeName(const TypeName &other)                                  \
+        : d_ptr(                                                               \
+              std::make_unique<decltype(d_ptr)::element_type>(*other.d_ptr)) { \
+    }                                                                          \
+    TypeName &TypeName::operator=(const TypeName &other) {                     \
+        if (d_ptr) {                                                           \
+            *d_ptr = *other.d_ptr;                                             \
+        } else {                                                               \
+            d_ptr =                                                            \
+                std::make_unique<decltype(d_ptr)::element_type>(*other.d_ptr); \
+        }                                                                      \
+        return *this;                                                          \
     }
 
 #define FCITX_DEFINE_DPTR_COPY_AND_DEFAULT_MOVE(TypeName)                      \

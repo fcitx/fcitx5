@@ -28,9 +28,9 @@ template <typename Enum>
 class Flags {
 public:
     typedef typename std::underlying_type_t<Enum> storage_type;
-    Flags(Enum f) : flags_(static_cast<storage_type>(f)) {}
+    constexpr Flags(Enum f) : flags_(static_cast<storage_type>(f)) {}
     explicit Flags(storage_type i = 0) : flags_(i) {}
-    Flags(const std::initializer_list<Enum> &l) : flags_(0) {
+    constexpr Flags(const std::initializer_list<Enum> &l) : flags_(0) {
         for (Enum e : l) {
             operator|=(e);
         }
@@ -38,8 +38,8 @@ public:
 
     FCITX_INLINE_DEFINE_DEFAULT_DTOR_COPY_AND_MOVE(Flags)
 
-    inline operator storage_type() const { return flags_; }
-    inline storage_type toInteger() const { return flags_; }
+    constexpr inline operator storage_type() const { return flags_; }
+    constexpr inline storage_type toInteger() const { return flags_; }
 
     Flags &operator=(Enum f) {
         flags_ = static_cast<storage_type>(f);
@@ -50,7 +50,7 @@ public:
         return *this;
     }
 
-    bool operator!() const { return !flags_; }
+    constexpr bool operator!() const { return !flags_; }
     Flags &operator&=(Flags flag) {
         flags_ &= flag.flags_;
         return *this;
@@ -75,35 +75,43 @@ public:
         flags_ ^= static_cast<storage_type>(flag);
         return *this;
     }
-    inline Flags operator|(Flags f) const { return Flags(flags_ | f.flags_); }
-    inline Flags operator|(Enum f) const {
+    constexpr inline Flags operator|(Flags f) const {
+        return Flags(flags_ | f.flags_);
+    }
+    constexpr inline Flags operator|(Enum f) const {
         return Flags(flags_ | static_cast<storage_type>(f));
     }
-    inline Flags operator^(Flags f) const { return Flags(flags_ ^ f.flags_); }
-    inline Flags operator^(Enum f) const {
+    constexpr inline Flags operator^(Flags f) const {
+        return Flags(flags_ ^ f.flags_);
+    }
+    constexpr inline Flags operator^(Enum f) const {
         return Flags(flags_ ^ static_cast<storage_type>(f));
     }
-    inline Flags operator&(Flags f) const { return Flags(flags_ & f.flags_); }
-    inline Flags operator&(Enum f) const {
+    constexpr inline Flags operator&(Flags f) const {
+        return Flags(flags_ & f.flags_);
+    }
+    constexpr inline Flags operator&(Enum f) const {
         return Flags(flags_ & static_cast<storage_type>(f));
     }
-    inline Flags operator~() const { return Flags(~flags_); }
+    constexpr inline Flags operator~() const { return Flags(~flags_); }
 
     template <typename T>
-    inline bool test(T f) const {
+    constexpr inline bool test(T f) const {
         return (*this & f) == f;
     }
     template <typename T>
-    inline bool testAny(T f) const {
+    constexpr inline bool testAny(T f) const {
         return (*this & f) != 0;
     }
 
-    bool operator==(const Flags &f) const { return flags_ == f.flags_; }
-    bool operator==(Enum f) const {
+    constexpr bool operator==(const Flags &f) const {
+        return flags_ == f.flags_;
+    }
+    constexpr bool operator==(Enum f) const {
         return flags_ == static_cast<storage_type>(f);
     }
-    bool operator!=(const Flags &f) const { return !operator==(f); }
-    bool operator!=(Enum f) const { return !operator==(f); }
+    constexpr bool operator!=(const Flags &f) const { return !operator==(f); }
+    constexpr bool operator!=(Enum f) const { return !operator==(f); }
 
 private:
     storage_type flags_;

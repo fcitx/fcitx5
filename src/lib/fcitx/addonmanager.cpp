@@ -108,7 +108,7 @@ public:
     void loadAddons(AddonManager *q_ptr) {
         if (inLoadAddons_) {
             throw std::runtime_error("loadAddons is not reentrant, do not call "
-                                     "addon(.., true) in constructor");
+                                     "addon(.., true) in constructor of addon");
         }
         inLoadAddons_ = true;
         bool changed = false;
@@ -116,7 +116,7 @@ public:
             changed = false;
 
             for (auto &item : addons_) {
-                changed = loadAddon(q_ptr, *item.second.get());
+                changed |= loadAddon(q_ptr, *item.second.get());
             }
         } while (changed);
         inLoadAddons_ = false;
@@ -135,6 +135,9 @@ public:
             return false;
         }
         auto result = checkDependencies(addon);
+        FCITX_LOG(Debug) << "Call loadAddon() with " << addon.info().name()
+                         << " checkDependencies() returns "
+                         << static_cast<int>(result);
         if (result == DependencyCheckStatus::Failed) {
             addon.setFailed();
         } else if (result == DependencyCheckStatus::Satisfied) {

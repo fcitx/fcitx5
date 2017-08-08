@@ -39,9 +39,9 @@ public:
     HandlerTable() = default;
     FCITX_INLINE_DEFINE_DEFAULT_DTOR_AND_MOVE(HandlerTable)
 
-    template <typename M>
-    HandlerTableEntry<T> *add(M &&t) {
-        auto result = new ListHandlerTableEntry<T>(std::forward<M>(t));
+    template <typename... Args>
+    HandlerTableEntry<T> *add(Args &&... args) {
+        auto result = new ListHandlerTableEntry<T>(std::forward<Args>(args)...);
         handlers_.push_back(*result);
         return result;
     }
