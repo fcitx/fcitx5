@@ -31,7 +31,9 @@ int main() {
     {
         HandlerTable<Callback> table;
         entry = table.add([]() {});
+        FCITX_ASSERT(table.size() == 1);
         delete entry;
+        FCITX_ASSERT(table.size() == 0);
 
         entry = table.add([]() {});
         std::unique_ptr<HandlerTableEntry<Callback>> entries[] = {
@@ -53,9 +55,11 @@ int main() {
         auto table2 = std::move(table);
 
         {
+            FCITX_ASSERT(table2.size() == 6);
             for (auto &handler : table2.view()) {
                 handler();
             }
+            FCITX_ASSERT(table2.size() == 1);
         }
     }
 

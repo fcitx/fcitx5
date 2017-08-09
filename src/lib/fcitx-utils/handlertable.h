@@ -48,6 +48,8 @@ public:
 
     HandlerTableView<T> view() { return {handlers_.begin(), handlers_.end()}; }
 
+    size_t size() const { return handlers_.size(); }
+
 private:
     IntrusiveListFor<ListHandlerTableEntry<T>> handlers_;
 };

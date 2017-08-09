@@ -145,9 +145,11 @@ public:
 
         iterator &operator++() {
             do {
-                parentIter_++;
-            } while (parentIter_ != endIter_ && !(*parentIter_) &&
-                     !(**parentIter_));
+                ++parentIter_;
+                // *parentIter_ is the shared_ptr, should never be null.
+                // **parentIter_ is the optional value, may be null if
+                // HandlerEntry is deleted.
+            } while (parentIter_ != endIter_ && !(**parentIter_));
             return *this;
         }
 
