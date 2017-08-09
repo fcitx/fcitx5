@@ -95,7 +95,7 @@ void SurroundingText::deleteText(int offset, unsigned int size) {
      */
     int cursor_pos = d->cursor_ + offset;
     size_t len = utf8::length(d->text_);
-    if (cursor_pos >= 0 && len - cursor_pos >= size) {
+    if (cursor_pos >= 0 && len >= size + cursor_pos) {
         auto start = utf8::nextNChar(d->text_.begin(), cursor_pos);
         auto end = utf8::nextNChar(start, size);
         d->text_.erase(start, end);

@@ -32,12 +32,14 @@ namespace fcitx {
 namespace utf8 {
 
 /// \brief Return the number UTF-8 characters in the string iterator range.
+/// \see lengthValidated()
 template <typename Iter>
 inline size_t length(Iter start, Iter end) {
     return fcitx_utf8_strnlen(&(*start), std::distance(start, end));
 }
 
 /// \brief Return the number UTF-8 characters in the string.
+/// \see lengthValidated()
 template <typename T>
 inline size_t length(const T &s) {
     return length(std::begin(s), std::end(s));
@@ -50,6 +52,8 @@ inline size_t length(const T &s, size_t start, size_t end) {
                   std::next(std::begin(s), end));
 }
 
+/// \brief Possible return value of lengthValidated if the string is not valid.
+/// \see lengthValidated()
 constexpr size_t INVALID_LENGTH = static_cast<size_t>(-1);
 
 /// \brief Validate and return the number UTF-8 characters in the string
@@ -60,6 +64,7 @@ template <typename Iter>
 inline size_t lengthValidated(Iter start, Iter end) {
     return fcitx_utf8_strnlen_validated(&(*start), std::distance(start, end));
 }
+
 /// \brief Validate and return the number UTF-8 characters in the string
 ///
 /// Will return INVALID_LENGTH if string is not a valid utf8 string.
@@ -84,7 +89,10 @@ static inline bool validate(const T &s) {
 /// \brief Convert UCS4 to UTF8 string.
 FCITXUTILS_EXPORT std::string UCS4ToUTF8(uint32_t code);
 
+/// \brief Possible return value for getChar.
 constexpr size_t INVALID_CHAR = static_cast<uint32_t>(-1);
+
+/// \brief Possible return value for getChar.
 constexpr size_t NOT_ENOUGH_SPACE = static_cast<uint32_t>(-2);
 
 /// \brief Get next UCS4 char from iter, do not cross end.
@@ -100,10 +108,10 @@ static uint32_t getChar(const T &s) {
     return getChar(std::begin(s), std::end(s));
 }
 
-static inline size_t charLength(const std::string &s) {
-    return fcitx_utf8_char_len(s.c_str());
-}
-
+/// \brief get the byte length of next N utf-8 character.
+///
+/// This function has no error check on invalid string or end of string. Check
+/// the string before use it.
 template <typename Iter>
 inline int ncharByteLength(Iter iter, size_t n) {
     const char *c = &(*iter);
@@ -111,11 +119,13 @@ inline int ncharByteLength(Iter iter, size_t n) {
     return diff;
 }
 
+/// \brief Move iter over next n character.
 template <typename Iter>
 inline Iter nextNChar(Iter iter, size_t n) {
     return std::next(iter, ncharByteLength(iter, n));
 }
 
+/// \brief Move iter over next one character.
 template <typename Iter>
 Iter nextChar(Iter iter) {
     return nextNChar(iter, 1);

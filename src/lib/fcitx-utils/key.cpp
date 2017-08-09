@@ -223,10 +223,10 @@ KeySym Key::keySymFromString(const std::string &keyString) {
         return compat->sym;
     }
 
-    if (fcitx::utf8::length(keyString) == 1) {
+    if (fcitx::utf8::lengthValidated(keyString) == 1) {
         auto chr = fcitx::utf8::getChar(keyString);
         if (chr > 0) {
-            if (fcitx::utf8::charLength(keyString) == 1) {
+            if (fcitx::utf8::ncharByteLength(keyString.begin(), 1) == 1) {
                 return static_cast<KeySym>(keyString[0]);
             } else {
                 return keySymFromUnicode(chr);

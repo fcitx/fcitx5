@@ -156,7 +156,8 @@ void Kimpanel::updateInputPanel(InputContext *inputContext) {
     auto auxUpString = auxUp.toString();
     if (preeditString.size() || auxUpString.size()) {
         auto text = auxUpString + preeditString;
-        if (preedit.cursor() >= 0) {
+        if (preedit.cursor() >= 0 &&
+            static_cast<size_t>(preedit.cursor()) <= preeditString.size()) {
             auto cursor = preedit.cursor() + auxUpString.size();
             auto utf8Cursor = utf8::lengthValidated(
                 text.begin(), std::next(text.begin(), cursor));

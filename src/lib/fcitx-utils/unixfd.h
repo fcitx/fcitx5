@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2016~2016 by CSSlayer
+ * Copyright (C) 2016~2017 by CSSlayer
  * wengxt@gmail.com
  *
  * This library is free software; you can redistribute it and/or modify
@@ -19,6 +19,11 @@
 #ifndef _FCITX_UTILS_UNIXFD_H_
 #define _FCITX_UTILS_UNIXFD_H_
 
+/// \addtogroup FcitxUtils
+/// @{
+/// \file
+/// \brief Utility class to handle unix file decriptor.
+
 #include "fcitxutils_export.h"
 #include "macros.h"
 #include <memory>
@@ -27,26 +32,43 @@ namespace fcitx {
 
 class UnixFDPrivate;
 
+/// \brief Class wrap around the unix fd.
 class FCITXUTILS_EXPORT UnixFD {
 public:
+    /// \brief Create an empty UnixFD.
     UnixFD() noexcept;
+
+    /// \brief Create a UnixFD by using dup.
     UnixFD(int fd);
     UnixFD(const UnixFD &other) = delete;
     FCITX_DECLARE_MOVE(UnixFD);
     ~UnixFD() noexcept;
 
+    /// \brief Create a UnixFD by owning the fd.
     static UnixFD own(int fd) {
         UnixFD unixFD;
         unixFD.give(fd);
         return unixFD;
     }
 
+    /// \brief Check if fd is not empty.
     bool isValid() const noexcept;
+
+    /// \brief Set a new FD.
+    ///
+    /// if fd is -1, reset it. Otherwise use dup to make copy.
     void set(int fd);
+
+    /// \brief Clear the FD and close it.
     void reset() noexcept;
+
+    /// \brief Get the internal fd and release the ownership.
     int release() noexcept;
+
+    /// \brief Get the internal fd.
     int fd() const noexcept;
 
+    /// \brief Set a new FD and transfer the ownership to UnixFD.
     void give(int fd) noexcept;
 
 private:

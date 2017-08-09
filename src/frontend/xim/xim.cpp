@@ -209,6 +209,9 @@ protected:
         }
         if (!strPreedit.empty()) {
             size_t utf8Length = utf8::length(strPreedit);
+            if (utf8Length == utf8::INVALID_LENGTH) {
+                return;
+            }
             feedbackBuffer.clear();
 
             for (size_t i = 0, offset = 0; i < text.size(); i++) {
@@ -233,9 +236,11 @@ protected:
 
             xcb_im_preedit_draw_fr_t frame;
             memset(&frame, 0, sizeof(xcb_im_preedit_draw_fr_t));
-            frame.caret =
-                utf8::length(strPreedit.begin(),
-                             std::next(strPreedit.begin(), text.cursor()));
+            if (text.cursor() <= strPreedit.size() && text.cursor() >= 0) {
+                frame.caret =
+                    utf8::length(strPreedit.begin(),
+                                 std::next(strPreedit.begin(), text.cursor()));
+            }
             frame.chg_first = 0;
             frame.chg_length = lastPreeditLength;
             size_t compoundTextLength;

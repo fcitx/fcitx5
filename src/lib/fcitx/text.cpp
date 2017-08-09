@@ -18,6 +18,7 @@
  */
 
 #include "text.h"
+#include "fcitx-utils/utf8.h"
 #include <tuple>
 #include <vector>
 namespace fcitx {
@@ -55,6 +56,9 @@ void Text::setCursor(int pos) {
 
 void Text::append(const std::string &str, TextFormatFlags flag) {
     FCITX_D();
+    if (!utf8::validate(str)) {
+        throw std::invalid_argument("Invalid utf8 string");
+    }
     d->texts_.emplace_back(str, flag);
 }
 
@@ -81,6 +85,16 @@ std::string Text::toString() const {
     }
 
     return result;
+}
+
+size_t Text::textLength() const {
+    FCITX_D();
+    size_t length = 0;
+    for (auto &p : d->texts_) {
+        length += std::get<std::string>(p).size();
+    }
+
+    return length;
 }
 
 std::string Text::toStringForCommit() const {
