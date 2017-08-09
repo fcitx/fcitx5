@@ -233,7 +233,9 @@ protected:
 
             xcb_im_preedit_draw_fr_t frame;
             memset(&frame, 0, sizeof(xcb_im_preedit_draw_fr_t));
-            frame.caret = utf8::lengthN(strPreedit.c_str(), text.cursor());
+            frame.caret =
+                utf8::length(strPreedit.begin(),
+                             std::next(strPreedit.begin(), text.cursor()));
             frame.chg_first = 0;
             frame.chg_length = lastPreeditLength;
             size_t compoundTextLength;

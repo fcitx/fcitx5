@@ -22,6 +22,9 @@ include(src/lib/fcitx-utils/Fcitx5Macros.cmake)
 option(ENABLE_TEST "Build Test" On)
 option(ENABLE_COVERAGE "Build the project with gcov support (Need ENABLE_TEST=On)" Off)
 set(DEFAULT_XKB_RULES "evdev" CACHE STRING "Xkb rules name")
+option(ENABLE_ENCHANT "Enable enchant for word predication" On)
+option(ENABLE_PRESAGE "Enable presage for word predication" Off)
+option(ENABLE_DOC "Build doxygen" Off)
 
 #######################################################################
 # Find packages
@@ -46,9 +49,6 @@ find_package(Wayland COMPONENTS Client Egl)
 find_package(WaylandScanner)
 find_package(WaylandProtocols)
 find_package(EGL)
-
-option(ENABLE_ENCHANT "Enable enchant for word predication" On)
-option(ENABLE_PRESAGE "Enable presage for word predication" Off)
 
 if(ENABLE_ENCHANT)
   find_package(Enchant REQUIRED)
@@ -103,10 +103,23 @@ if (ENABLE_TEST)
     if (ENABLE_COVERAGE)
         add_custom_target(coverage
                         COMMAND "${CMAKE_CTEST_COMMAND}"
-                        COMMAND lcov --capture --directory ./ --output-file coverage.info
+                        COMMAND lcov --no-external --capture --directory ./ -b "${CMAKE_CURRENT_SOURCE_DIR}" --output-file coverage.info
                         COMMAND genhtml coverage.info --output-directory "coverage_pages"
                         WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR})
     endif()
 endif ()
+
+if (ENABLE_DOC)
+  find_package(Doxygen REQUIRED)
+  configure_file(
+    ${CMAKE_CURRENT_SOURCE_DIR}/Doxyfile.in
+    ${CMAKE_CURRENT_BINARY_DIR}/Doxyfile
+    @ONLY)
+  add_custom_target(doc
+      COMMAND ${DOXYGEN_EXECUTABLE} ${CMAKE_CURRENT_BINARY_DIR}/Doxyfile
+      WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
+      COMMENT "Generating API documentation with Doxygen"
+      VERBATIM)
+endif()
 
 feature_summary(WHAT ALL FATAL_ON_MISSING_REQUIRED_PACKAGES)

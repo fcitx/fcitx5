@@ -158,7 +158,8 @@ void Kimpanel::updateInputPanel(InputContext *inputContext) {
         auto text = auxUpString + preeditString;
         if (preedit.cursor() >= 0) {
             auto cursor = preedit.cursor() + auxUpString.size();
-            auto utf8Cursor = utf8::lengthNValidated(text, cursor);
+            auto utf8Cursor = utf8::lengthValidated(
+                text.begin(), std::next(text.begin(), cursor));
             proxy_->updateAux("", "");
             proxy_->updatePreeditText(text, "");
             if (utf8Cursor != utf8::INVALID_LENGTH) {

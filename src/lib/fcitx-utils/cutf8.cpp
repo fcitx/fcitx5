@@ -22,6 +22,9 @@
 #include <cstdint>
 #include <cstring>
 
+/** check utf8 character */
+#define FCITX_ISUTF8_CB(c) (((c)&0xc0) == 0x80)
+
 #define CONT(i) FCITX_ISUTF8_CB(in[i])
 #define VAL(i, s) ((in[i] & 0x3f) << s)
 
@@ -193,35 +196,6 @@ char *fcitx_utf8_get_char(const char *i, uint32_t *chr) {
 }
 
 FCITXUTILS_EXPORT
-int fcitx_utf8_strncmp(const char *s1, const char *s2, int n) {
-    // Seems to work.
-    uint32_t c1, c2;
-    int i;
-
-    for (i = 0; i < n; i++) {
-        if (!(*s1 & 0x80)) {
-            if (*s1 != *s2)
-                return 1;
-
-            if (*s1 == 0)
-                return 0;
-
-            s1++;
-
-            s2++;
-        } else {
-            s1 = fcitx_utf8_get_char(s1, &c1);
-            s2 = fcitx_utf8_get_char(s2, &c2);
-
-            if (c1 != c2)
-                return 1;
-        }
-    }
-
-    return 0;
-}
-
-FCITXUTILS_EXPORT
 char *fcitx_utf8_get_nth_char(const char *s, uint32_t n) {
     size_t l = 0;
 
@@ -235,8 +209,8 @@ char *fcitx_utf8_get_nth_char(const char *s, uint32_t n) {
     return (char *)s;
 }
 
-FCITXUTILS_EXPORT
-uint32_t fcitx_utf8_get_char_extended(const char *s, int max_len, int *plen) {
+static uint32_t fcitx_utf8_get_char_extended(const char *s, int max_len,
+                                             int *plen) {
     const unsigned char *p = (const unsigned char *)s;
     int i, len;
     uint32_t wc = (unsigned char)*p;
@@ -396,43 +370,4 @@ size_t fcitx_utf8_strnlen(const char *str, size_t byte) {
         len++;
     }
     return len;
-}
-
-FCITXUTILS_EXPORT
-const char *fcitx_utils_get_ascii_partn(const char *string, size_t len) {
-    if (!string)
-        return nullptr;
-
-    const char *s = string + len;
-    while ((--s) >= string && !(*s & 0x80)) {
-    }
-    return s + 1;
-}
-
-FCITXUTILS_EXPORT
-const char *fcitx_utils_get_ascii_part(const char *string) {
-    if (!string)
-        return nullptr;
-    return fcitx_utils_get_ascii_partn(string, strlen(string));
-}
-
-static inline int is_valid_ascii(char c) { return (!(c & 0x80)) && c; }
-
-FCITXUTILS_EXPORT
-char *fcitx_utils_get_ascii_endn(const char *string, size_t len) {
-    if (!string)
-        return nullptr;
-    const char *end = string + len;
-    for (; string < end && is_valid_ascii(*string); string++) {
-    }
-    return (char *)string;
-}
-
-FCITXUTILS_EXPORT
-char *fcitx_utils_get_ascii_end(const char *string) {
-    if (!string)
-        return nullptr;
-    for (; is_valid_ascii(*string); string++) {
-    }
-    return (char *)string;
 }

@@ -46,21 +46,27 @@ inline void hash_combine(std::size_t &seed, T const &v) {
 
 class XCBConnection;
 
-struct ConvertSelectionRequest {
+class ConvertSelectionRequest {
+public:
     ConvertSelectionRequest() = default;
     ConvertSelectionRequest(XCBConnection *conn, xcb_atom_t selection,
                             xcb_atom_t type, xcb_atom_t property,
                             XCBConvertSelectionCallback callback);
 
     ConvertSelectionRequest(const ConvertSelectionRequest &) = delete;
-    void cleanUp();
+
     void handleReply(xcb_atom_t type, const char *data, size_t length);
+
+    xcb_atom_t property() const { return property_; }
+    xcb_atom_t selection() const { return selection_; }
+
+private:
+    void cleanUp();
 
     XCBConnection *conn_ = nullptr;
     xcb_atom_t selection_ = 0;
     xcb_atom_t property_ = 0;
     std::vector<xcb_atom_t> fallbacks_;
-    XCBConvertSelectionCallback callback_;
     XCBConvertSelectionCallback realCallback_;
     std::unique_ptr<EventSourceTime> timer_;
 };

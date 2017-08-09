@@ -49,9 +49,6 @@ ConvertSelectionRequest::ConvertSelectionRequest(
     xcb_atom_t property, XCBConvertSelectionCallback callback)
 
     : conn_(conn), selection_(selection), property_(property),
-      callback_([this](xcb_atom_t type, const char *data, size_t length) {
-          handleReply(type, data, length);
-      }),
       realCallback_(std::move(callback)) {
     if (type == 0) {
         fallbacks_.push_back(XCB_ATOM_STRING);
@@ -294,8 +291,8 @@ bool XCBConnection::filterEvent(xcb_connection_t *,
             return false;
         }
         for (auto &callback : convertSelections_.view()) {
-            if (callback.property_ != selectionNotify->property &&
-                callback.selection_ != selectionNotify->selection) {
+            if (callback.property() != selectionNotify->property &&
+                callback.selection() != selectionNotify->selection) {
                 continue;
             }
 
@@ -317,7 +314,7 @@ bool XCBConnection::filterEvent(xcb_connection_t *,
                         xcb_get_property_value(reply.get()));
                     length = xcb_get_property_value_length(reply.get());
                 }
-                callback.callback_(type, data, length);
+                callback.handleReply(type, data, length);
             } while (0);
         }
     }

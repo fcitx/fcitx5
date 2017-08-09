@@ -24,27 +24,6 @@ int main() {
     FCITX_ASSERT(fcitx_utf8_strnlen(string, 8) == 2);
     FCITX_ASSERT(fcitx_utf8_strnlen(string, 9) == 3);
 
-#define ASCII_PART "ascii_part"
-#define ASCII_PART2 "ascii"
-#define UTF8_PART "随便测几个例子"
-#define UTF8_PART2 "一个有两段"
-#define UTF8_PART3 "的"
-    FCITX_ASSERT(strcmp(fcitx_utils_get_ascii_part(UTF8_PART ASCII_PART),
-                        ASCII_PART) == 0);
-    FCITX_ASSERT(strcmp(fcitx_utils_get_ascii_part(ASCII_PART), ASCII_PART) ==
-                 0);
-    FCITX_ASSERT(strcmp(fcitx_utils_get_ascii_part(""), "") == 0);
-    FCITX_ASSERT(
-        strcmp(fcitx_utils_get_ascii_part(UTF8_PART2 ASCII_PART2 UTF8_PART3),
-               "") == 0);
-    FCITX_ASSERT(strcmp(fcitx_utils_get_ascii_part(
-                            UTF8_PART2 ASCII_PART2 UTF8_PART3 ASCII_PART),
-                        ASCII_PART) == 0);
-    FCITX_ASSERT(strncmp(fcitx_utils_get_ascii_partn(
-                             UTF8_PART2 ASCII_PART2 UTF8_PART3 ASCII_PART,
-                             strlen(UTF8_PART2 ASCII_PART2)),
-                         ASCII_PART2, strlen(ASCII_PART2)) == 0);
-
     for (uint32_t c = 0; c < 0x4000000; c++) {
         char utf8_buf[7];
         int len = fcitx_ucs4_to_utf8(c, utf8_buf);

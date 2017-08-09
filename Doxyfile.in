@@ -1,0 +1,17 @@
+OUTPUT_DIRECTORY       = @CMAKE_CURRENT_BINARY_DIR@/doc/
+INPUT                  = src/lib
+DOXYFILE_ENCODING      = UTF-8
+PROJECT_NAME           = Fcitx
+PROJECT_NUMBER         = @FCITX_VERSION@
+OUTPUT_LANGUAGE        = English
+SOURCE_BROWSER         = YES
+FILE_PATTERNS          =
+GENERATE_LATEX         = NO
+QT_AUTOBRIEF           = YES
+RECURSIVE              = YES
+STRIP_CODE_COMMENTS    = NO
+EXCLUDE_PATTERNS       = "*/src/lib/fcitx-wayland/*" "*/*_p.h
+
+
+STRIP_FROM_PATH        = @CMAKE_CURRENT_SOURCE_DIR@/src/lib
+STRIP_FROM_INC_PATH    = @CMAKE_CURRENT_SOURCE_DIR@/src/lib

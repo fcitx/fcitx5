@@ -224,7 +224,7 @@ KeySym Key::keySymFromString(const std::string &keyString) {
     }
 
     if (fcitx::utf8::length(keyString) == 1) {
-        auto chr = fcitx::utf8::getCharValidated(keyString);
+        auto chr = fcitx::utf8::getChar(keyString);
         if (chr > 0) {
             if (fcitx::utf8::charLength(keyString) == 1) {
                 return static_cast<KeySym>(keyString[0]);

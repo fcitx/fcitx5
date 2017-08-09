@@ -96,19 +96,9 @@ void SurroundingText::deleteText(int offset, unsigned int size) {
     int cursor_pos = d->cursor_ + offset;
     size_t len = utf8::length(d->text_);
     if (cursor_pos >= 0 && len - cursor_pos >= size) {
-        /*
-         * the original size must be larger, so we can do in-place copy here
-         * without alloc new string
-         */
-        auto start = utf8::nthChar(d->text_, cursor_pos);
-        auto end = utf8::nthChar(d->text_, start, size);
-
-        int copylen = d->text_.length() - end;
-
-        for (int i = 0; i < copylen; i++) {
-            d->text_[start + i] = d->text_[end + i];
-            d->text_.erase(end);
-        }
+        auto start = utf8::nextNChar(d->text_.begin(), cursor_pos);
+        auto end = utf8::nextNChar(start, size);
+        d->text_.erase(start, end);
         d->cursor_ = cursor_pos;
     } else {
         d->text_.clear();

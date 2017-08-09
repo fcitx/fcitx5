@@ -194,7 +194,8 @@ uint32_t InputBuffer::charAt(size_t i) const {
         return d->input_[i];
     } else {
         d->ensureAccTill(i);
-        return utf8::getChar(d->input_.begin() + d->acc_[i], d->sz_[i]);
+        return utf8::getChar(d->input_.begin() + d->acc_[i],
+                             d->input_.begin() + d->sz_[i]);
     }
 }
 

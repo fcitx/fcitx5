@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015~2015 by CSSlayer
+ * Copyright (C) 2015~2017 by CSSlayer
  * wengxt@gmail.com
  *
  * This library is free software; you can redistribute it and/or modify
@@ -19,83 +19,106 @@
 #ifndef _FCITX_UTILS_UTF8_H_
 #define _FCITX_UTILS_UTF8_H_
 
+/// \addtogroup FcitxUtils
+/// @{
+/// \file
+/// \brief C++ Utility functions for handling utf8 strings.
+
 #include "fcitxutils_export.h"
 #include <fcitx-utils/cutf8.h>
 #include <string>
 
 namespace fcitx {
 namespace utf8 {
-FCITXUTILS_EXPORT inline size_t length(const std::string &s) {
-    return fcitx_utf8_strnlen(s.c_str(), s.size());
-}
-FCITXUTILS_EXPORT inline size_t lengthN(const std::string &s, size_t n) {
-    return fcitx_utf8_strnlen(s.c_str(), n);
-}
+
+/// \brief Return the number UTF-8 characters in the string iterator range.
 template <typename Iter>
 inline size_t length(Iter start, Iter end) {
     return fcitx_utf8_strnlen(&(*start), std::distance(start, end));
 }
 
-static const size_t INVALID_LENGTH = static_cast<size_t>(-1);
-
-FCITXUTILS_EXPORT inline size_t lengthValidated(const std::string &s) {
-    return fcitx_utf8_strnlen_validated(s.c_str(), s.size());
+/// \brief Return the number UTF-8 characters in the string.
+template <typename T>
+inline size_t length(const T &s) {
+    return length(std::begin(s), std::end(s));
 }
 
-FCITXUTILS_EXPORT inline size_t lengthNValidated(const std::string &s,
-                                                 size_t n) {
-    return fcitx_utf8_strnlen_validated(s.c_str(), n);
+/// \brief Return the number UTF-8 characters in the string.
+template <typename T>
+inline size_t length(const T &s, size_t start, size_t end) {
+    return length(std::next(std::begin(s), start),
+                  std::next(std::begin(s), end));
 }
+
+constexpr size_t INVALID_LENGTH = static_cast<size_t>(-1);
+
+/// \brief Validate and return the number UTF-8 characters in the string
+/// iterator range
+///
+/// Will return INVALID_LENGTH if string is not a valid utf8 string.
 template <typename Iter>
 inline size_t lengthValidated(Iter start, Iter end) {
     return fcitx_utf8_strnlen_validated(&(*start), std::distance(start, end));
 }
-
-FCITXUTILS_EXPORT inline bool validate(const std::string &s) {
-    return fcitx_utf8_check_string(s.c_str());
+/// \brief Validate and return the number UTF-8 characters in the string
+///
+/// Will return INVALID_LENGTH if string is not a valid utf8 string.
+template <typename T>
+inline size_t lengthValidated(const T &s) {
+    return lengthValidated(std::begin(s), std::end(s));
+    ;
 }
 
+/// \brief Check if the string iterator range is valid utf8 string
 template <typename Iter>
 inline bool validate(Iter start, Iter end) {
     return lengthValidated(start, end) != INVALID_LENGTH;
 }
 
+/// \brief Check if the string is valid utf8 string.
+template <typename T>
+static inline bool validate(const T &s) {
+    return validate(std::begin(s), std::end(s));
+}
+
+/// \brief Convert UCS4 to UTF8 string.
 FCITXUTILS_EXPORT std::string UCS4ToUTF8(uint32_t code);
 
-FCITXUTILS_EXPORT inline uint32_t
-getCharValidated(const std::string &s, size_t off = 0, int maxLen = 6) {
-    if (off >= s.size()) {
-        return 0;
-    }
-    return fcitx_utf8_get_char_validated(s.c_str() + off, maxLen, nullptr);
-}
+constexpr size_t INVALID_CHAR = static_cast<uint32_t>(-1);
+constexpr size_t NOT_ENOUGH_SPACE = static_cast<uint32_t>(-2);
 
+/// \brief Get next UCS4 char from iter, do not cross end.
 template <typename Iter>
-uint32_t getChar(Iter iter, int maxLen = 6) {
+static uint32_t getChar(Iter iter, Iter end) {
     const char *c = &(*iter);
-    return fcitx_utf8_get_char_validated(c, maxLen, nullptr);
+    return fcitx_utf8_get_char_validated(c, std::distance(iter, end), nullptr);
 }
 
-FCITXUTILS_EXPORT inline size_t charLength(const std::string &s) {
+/// \brief Get next UCS4 char
+template <typename T>
+static uint32_t getChar(const T &s) {
+    return getChar(std::begin(s), std::end(s));
+}
+
+static inline size_t charLength(const std::string &s) {
     return fcitx_utf8_char_len(s.c_str());
 }
 
-FCITXUTILS_EXPORT inline int nthChar(const std::string &s, int start,
-                                     size_t n) {
-    int diff = fcitx_utf8_get_nth_char(s.c_str() + start, n) - s.c_str();
+template <typename Iter>
+inline int ncharByteLength(Iter iter, size_t n) {
+    const char *c = &(*iter);
+    int diff = fcitx_utf8_get_nth_char(c, n) - c;
     return diff;
 }
 
-FCITXUTILS_EXPORT inline int nthChar(const std::string &s, size_t n) {
-    return nthChar(s, 0, n);
+template <typename Iter>
+inline Iter nextNChar(Iter iter, size_t n) {
+    return std::next(iter, ncharByteLength(iter, n));
 }
 
 template <typename Iter>
 Iter nextChar(Iter iter) {
-    const char *c = &(*iter);
-    uint32_t ch;
-    auto nc = fcitx_utf8_get_char(c, &ch);
-    return std::next(iter, nc - c);
+    return nextNChar(iter, 1);
 }
 }
 }

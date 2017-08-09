@@ -30,7 +30,7 @@ struct Foo : public IntrusiveListNode {
     int data;
 };
 
-int main() {
+void test_regular() {
     IntrusiveList<Foo> list;
     Foo a(1), b(2), c(3), d(4);
     list.push_back(a);
@@ -94,6 +94,59 @@ int main() {
         FCITX_ASSERT(f.data == check2[idx]);
         idx++;
     }
+}
 
+void test_move() {
+    {
+        // empty to empty
+        IntrusiveList<Foo> list;
+        IntrusiveList<Foo> list2;
+        list2 = std::move(list);
+        FCITX_ASSERT(list2.size() == 0);
+    }
+    {
+        // something to empty
+        IntrusiveList<Foo> list;
+        Foo a(1), b(2), c(3), d(4);
+        list.push_back(a);
+        list.push_back(b);
+        list.push_back(c);
+        list.push_back(d);
+        IntrusiveList<Foo> list2;
+        list2 = std::move(list);
+        FCITX_ASSERT(a.isInList());
+        FCITX_ASSERT(b.isInList());
+        FCITX_ASSERT(c.isInList());
+        FCITX_ASSERT(d.isInList());
+        FCITX_ASSERT(list2.size() == 4);
+
+        std::vector<int> check = {1, 2, 3, 4};
+        size_t idx = 0;
+        for (auto &f : list2) {
+            FCITX_ASSERT(f.data == check[idx]);
+            idx++;
+        }
+    }
+    {
+        // something to empty
+        IntrusiveList<Foo> list;
+        IntrusiveList<Foo> list2;
+        Foo a(1), b(2), c(3), d(4);
+        list2.push_back(a);
+        list2.push_back(b);
+        list2.push_back(c);
+        list2.push_back(d);
+        list2 = std::move(list);
+        FCITX_ASSERT(!a.isInList());
+        FCITX_ASSERT(!b.isInList());
+        FCITX_ASSERT(!c.isInList());
+        FCITX_ASSERT(!d.isInList());
+        FCITX_ASSERT(list2.size() == 0);
+    }
+}
+
+int main() {
+    test_regular();
+    test_move();
     return 0;
 }

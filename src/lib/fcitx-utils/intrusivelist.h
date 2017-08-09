@@ -21,6 +21,7 @@
 
 #include "misc.h"
 #include <array>
+#include <cassert>
 #include <iterator>
 #include <type_traits>
 
@@ -56,13 +57,7 @@ protected:
         operator=(std::forward<IntrusiveListBase>(other));
     }
 
-    virtual ~IntrusiveListBase() {
-        // remove everything from list, since we didn't own anything, then we
-        // are good.
-        while (size_) {
-            remove(root_.prev_);
-        }
-    }
+    virtual ~IntrusiveListBase() { removeAll(); }
 
     IntrusiveListBase &operator=(IntrusiveListBase &&other) noexcept {
         using std::swap;
@@ -70,38 +65,17 @@ protected:
         if (size_ == 0 && other.size_ == 0) {
             return *this;
         }
-        // two non-empty list
-        if (size_ != 0 && other.size_ != 0) {
-            auto prev = root_.prev_;
-            auto next = root_.next_;
 
-            auto otherPrev = other.root_.prev_;
-            auto otherNext = other.root_.next_;
-
-            swap(prev->next_, otherPrev->next_);
-            swap(next->prev_, otherNext->prev_);
-            swap(root_.prev_, other.root_.prev_);
-            swap(root_.next_, other.root_.next_);
-        } else {
-            IntrusiveListBase *empty, *nonempty;
-            if (size_ == 0) {
-                empty = this;
-                nonempty = &other;
-            } else {
-                empty = &other;
-                nonempty = this;
-            }
-
-            nonempty->root_.prev_->next_ = &empty->root_;
-            nonempty->root_.next_->prev_ = &empty->root_;
-            empty->root_.prev_ = nonempty->root_.prev_;
-            empty->root_.next_ = nonempty->root_.next_;
-            nonempty->root_.prev_ = nonempty->root_.next_ = &nonempty->root_;
+        // clear current one.
+        removeAll();
+        while (other.size_) {
+            auto node = other.root_.prev_;
+            // pop_back
+            other.remove(other.root_.prev_);
+            // push_front
+            prepend(node, root_.next_);
         }
 
-        swap(size_, other.size_);
-        fixList(this);
-        fixList(&other);
         return *this;
     }
 
@@ -115,11 +89,13 @@ protected:
         size_++;
     }
 
-    void prepend(IntrusiveListNode *add, IntrusiveListNode *pos) noexcept {
+    void append(IntrusiveListNode *add, IntrusiveListNode *pos) noexcept {
+        add->remove();
         return insertBetween(add, pos, pos->next_);
     }
 
-    void append(IntrusiveListNode *add, IntrusiveListNode *pos) noexcept {
+    void prepend(IntrusiveListNode *add, IntrusiveListNode *pos) noexcept {
+        add->remove();
         return insertBetween(add, pos->prev_, pos);
     }
 
@@ -136,17 +112,16 @@ protected:
         size_--;
     }
 
-    IntrusiveListNode root_;
-    std::size_t size_ = 0;
-
-private:
-    static void fixList(IntrusiveListBase *list) {
-        auto node = list->root_.next_;
-        while (node != &list->root_) {
-            node->list_ = list;
-            node = node->next_;
+    void removeAll() {
+        // remove everything from list, since we didn't own anything, then we
+        // are good.
+        while (size_) {
+            remove(root_.prev_);
         }
     }
+
+    IntrusiveListNode root_;
+    std::size_t size_ = 0;
 };
 
 inline void IntrusiveListNode::remove() {
@@ -311,7 +286,7 @@ public:
 
     void push_back(reference value) {
         auto &node = nodeGetter.toNode(value);
-        append(&node, &root_);
+        prepend(&node, &root_);
     }
 
     void pop_back() { remove(root_.prev()); }
@@ -343,7 +318,8 @@ public:
     bool empty() const { return root_.next() == &root_; }
 
     iterator insert(const_iterator pos, reference value) {
-        append(&nodeGetter.toNode(value), pos.pointed_node());
+        // insert value before pos.
+        prepend(&nodeGetter.toNode(value), pos.pointed_node());
         return {pos.pointed_node()->prev(), nodeGetter};
     }
 
