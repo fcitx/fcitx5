@@ -11,7 +11,8 @@ QT_AUTOBRIEF           = YES
 RECURSIVE              = YES
 STRIP_CODE_COMMENTS    = NO
 EXCLUDE_PATTERNS       = "*/src/lib/fcitx-wayland/*" "*/*_p.h
-
+ENABLE_PREPROCESSING   = YES
+MACRO_EXPANSION        = YES
 
 STRIP_FROM_PATH        = @CMAKE_CURRENT_SOURCE_DIR@/src/lib
 STRIP_FROM_INC_PATH    = @CMAKE_CURRENT_SOURCE_DIR@/src/lib

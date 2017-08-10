@@ -18,7 +18,7 @@
  */
 
 /// \addtogroup FcitxUtils
-/// @{
+/// \{
 ///
 /// \file
 /// \brief C-style utf8 utility functions.

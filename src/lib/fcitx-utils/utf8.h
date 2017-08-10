@@ -20,7 +20,7 @@
 #define _FCITX_UTILS_UTF8_H_
 
 /// \addtogroup FcitxUtils
-/// @{
+/// \{
 /// \file
 /// \brief C++ Utility functions for handling utf8 strings.
 

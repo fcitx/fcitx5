@@ -20,7 +20,7 @@
 #define _FCITX_UTILS_UNIXFD_H_
 
 /// \addtogroup FcitxUtils
-/// @{
+/// \{
 /// \file
 /// \brief Utility class to handle unix file decriptor.
 

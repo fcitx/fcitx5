@@ -19,6 +19,11 @@
 #ifndef _FCITX_UTILS_TRACKABLEOBJECT_H_
 #define _FCITX_UTILS_TRACKABLEOBJECT_H_
 
+/// \addtogroup FcitxUtils
+/// \{
+/// \file
+/// \brief Utitliy classes for statically tracking the life of a object.
+
 #include <fcitx-utils/handlertable.h>
 #include <fcitx-utils/macros.h>
 #include <memory>
@@ -28,6 +33,9 @@ namespace fcitx {
 template <typename T>
 class TrackableObject;
 
+/// \brief Utility class provides a weak reference to the object.
+///
+/// Not thread-safe.
 template <typename T>
 class TrackableObjectReference final {
     friend class TrackableObject<T>;
@@ -36,10 +44,13 @@ public:
     TrackableObjectReference() : rawThat_(nullptr) {}
     FCITX_INLINE_DEFINE_DEFAULT_DTOR_COPY_AND_MOVE(TrackableObjectReference)
 
+    /// \brief Check if the reference is still valid.
     bool isValid() const { return !that_.expired(); }
 
+    /// \brief Get the referenced object. Return nullptr if it is not available.
     T *get() const { return that_.expired() ? nullptr : rawThat_; }
 
+    /// \brief Reset reference to empty state.
     void unwatch() {
         that_.reset();
         rawThat_ = nullptr;
@@ -53,6 +64,15 @@ private:
     T *rawThat_;
 };
 
+/// \brief Helper class to be used with TrackableObjectReference
+///
+/// One need to subclass it to make use of it.
+/// \code{.cpp}
+/// class Object : TrackableObject<Object> {};
+///
+/// Object obj; auto ref = obj.watch();
+/// \endcode
+/// \see TrackableObjectReference
 template <typename T>
 class TrackableObject {
 public:

@@ -19,10 +19,16 @@
 #ifndef _FCITX_UTILS_TEXTFORMATFLAGS_H_
 #define _FCITX_UTILS_TEXTFORMATFLAGS_H_
 
+/// \addtogroup FcitxUtils
+/// \{
+/// \file
+/// \brief Enum flag for text formatting.
+
 #include <fcitx-utils/flags.h>
 
 namespace fcitx {
 
+/// \brief Enum flag for text formatting.
 enum class TextFormatFlag : int {
     UnderLine = (1 << 0), /**< underline is a flag */
     HighLight = (1 << 1), /**< highlight the preedit */
