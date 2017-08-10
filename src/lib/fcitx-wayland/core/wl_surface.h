@@ -18,8 +18,8 @@ public:
     typedef wl_surface wlType;
     operator wl_surface *() { return data_.get(); }
     WlSurface(wlType *data);
-    WlSurface(WlSurface &&other) noexcept = default;
-    WlSurface &operator=(WlSurface &&other) noexcept = default;
+    WlSurface(WlSurface &&other) noexcept = delete;
+    WlSurface &operator=(WlSurface &&other) noexcept = delete;
     auto actualVersion() const { return version_; }
     void attach(WlBuffer *buffer, int32_t x, int32_t y);
     void damage(int32_t x, int32_t y, int32_t width, int32_t height);

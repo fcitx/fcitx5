@@ -14,8 +14,8 @@ public:
     typedef wl_output wlType;
     operator wl_output *() { return data_.get(); }
     WlOutput(wlType *data);
-    WlOutput(WlOutput &&other) noexcept = default;
-    WlOutput &operator=(WlOutput &&other) noexcept = default;
+    WlOutput(WlOutput &&other) noexcept = delete;
+    WlOutput &operator=(WlOutput &&other) noexcept = delete;
     auto actualVersion() const { return version_; }
     auto &geometry() { return geometrySignal_; }
     auto &mode() { return modeSignal_; }

@@ -16,8 +16,8 @@ public:
     typedef wl_shell wlType;
     operator wl_shell *() { return data_.get(); }
     WlShell(wlType *data);
-    WlShell(WlShell &&other) noexcept = default;
-    WlShell &operator=(WlShell &&other) noexcept = default;
+    WlShell(WlShell &&other) noexcept = delete;
+    WlShell &operator=(WlShell &&other) noexcept = delete;
     auto actualVersion() const { return version_; }
     WlShellSurface *getShellSurface(WlSurface *surface);
 

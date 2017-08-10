@@ -17,8 +17,8 @@ public:
     typedef wl_data_device wlType;
     operator wl_data_device *() { return data_.get(); }
     WlDataDevice(wlType *data);
-    WlDataDevice(WlDataDevice &&other) noexcept = default;
-    WlDataDevice &operator=(WlDataDevice &&other) noexcept = default;
+    WlDataDevice(WlDataDevice &&other) noexcept = delete;
+    WlDataDevice &operator=(WlDataDevice &&other) noexcept = delete;
     auto actualVersion() const { return version_; }
     void startDrag(WlDataSource *source, WlSurface *origin, WlSurface *icon,
                    uint32_t serial);

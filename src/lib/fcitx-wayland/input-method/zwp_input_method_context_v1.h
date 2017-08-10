@@ -16,9 +16,9 @@ public:
     typedef zwp_input_method_context_v1 wlType;
     operator zwp_input_method_context_v1 *() { return data_.get(); }
     ZwpInputMethodContextV1(wlType *data);
-    ZwpInputMethodContextV1(ZwpInputMethodContextV1 &&other) noexcept = default;
+    ZwpInputMethodContextV1(ZwpInputMethodContextV1 &&other) noexcept = delete;
     ZwpInputMethodContextV1 &
-    operator=(ZwpInputMethodContextV1 &&other) noexcept = default;
+    operator=(ZwpInputMethodContextV1 &&other) noexcept = delete;
     auto actualVersion() const { return version_; }
     void commitString(uint32_t serial, const char *text);
     void preeditString(uint32_t serial, const char *text, const char *commit);

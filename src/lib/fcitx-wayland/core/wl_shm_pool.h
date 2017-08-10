@@ -15,8 +15,8 @@ public:
     typedef wl_shm_pool wlType;
     operator wl_shm_pool *() { return data_.get(); }
     WlShmPool(wlType *data);
-    WlShmPool(WlShmPool &&other) noexcept = default;
-    WlShmPool &operator=(WlShmPool &&other) noexcept = default;
+    WlShmPool(WlShmPool &&other) noexcept = delete;
+    WlShmPool &operator=(WlShmPool &&other) noexcept = delete;
     auto actualVersion() const { return version_; }
     WlBuffer *createBuffer(int32_t offset, int32_t width, int32_t height,
                            int32_t stride, uint32_t format);

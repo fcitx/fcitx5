@@ -14,8 +14,8 @@ public:
     typedef wl_registry wlType;
     operator wl_registry *() { return data_.get(); }
     WlRegistry(wlType *data);
-    WlRegistry(WlRegistry &&other) noexcept = default;
-    WlRegistry &operator=(WlRegistry &&other) noexcept = default;
+    WlRegistry(WlRegistry &&other) noexcept = delete;
+    WlRegistry &operator=(WlRegistry &&other) noexcept = delete;
     auto actualVersion() const { return version_; }
     template <typename T>
     T *bind(uint32_t name) {

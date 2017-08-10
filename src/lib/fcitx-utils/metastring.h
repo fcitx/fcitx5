@@ -28,7 +28,6 @@
 
 namespace fcitx {
 
-
 template <char... c>
 struct MetaString final {
 public:

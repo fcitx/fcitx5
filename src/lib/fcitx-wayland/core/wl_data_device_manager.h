@@ -17,9 +17,9 @@ public:
     typedef wl_data_device_manager wlType;
     operator wl_data_device_manager *() { return data_.get(); }
     WlDataDeviceManager(wlType *data);
-    WlDataDeviceManager(WlDataDeviceManager &&other) noexcept = default;
+    WlDataDeviceManager(WlDataDeviceManager &&other) noexcept = delete;
     WlDataDeviceManager &
-    operator=(WlDataDeviceManager &&other) noexcept = default;
+    operator=(WlDataDeviceManager &&other) noexcept = delete;
     auto actualVersion() const { return version_; }
     WlDataSource *createDataSource();
     WlDataDevice *getDataDevice(WlSeat *seat);

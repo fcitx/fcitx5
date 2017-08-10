@@ -14,8 +14,8 @@ public:
     typedef wl_data_source wlType;
     operator wl_data_source *() { return data_.get(); }
     WlDataSource(wlType *data);
-    WlDataSource(WlDataSource &&other) noexcept = default;
-    WlDataSource &operator=(WlDataSource &&other) noexcept = default;
+    WlDataSource(WlDataSource &&other) noexcept = delete;
+    WlDataSource &operator=(WlDataSource &&other) noexcept = delete;
     auto actualVersion() const { return version_; }
     void offer(const char *mimeType);
     void setActions(uint32_t dndActions);

@@ -15,8 +15,8 @@ public:
     typedef wl_keyboard wlType;
     operator wl_keyboard *() { return data_.get(); }
     WlKeyboard(wlType *data);
-    WlKeyboard(WlKeyboard &&other) noexcept = default;
-    WlKeyboard &operator=(WlKeyboard &&other) noexcept = default;
+    WlKeyboard(WlKeyboard &&other) noexcept = delete;
+    WlKeyboard &operator=(WlKeyboard &&other) noexcept = delete;
     auto actualVersion() const { return version_; }
     auto &keymap() { return keymapSignal_; }
     auto &enter() { return enterSignal_; }

@@ -14,8 +14,8 @@ public:
     typedef wl_callback wlType;
     operator wl_callback *() { return data_.get(); }
     WlCallback(wlType *data);
-    WlCallback(WlCallback &&other) noexcept = default;
-    WlCallback &operator=(WlCallback &&other) noexcept = default;
+    WlCallback(WlCallback &&other) noexcept = delete;
+    WlCallback &operator=(WlCallback &&other) noexcept = delete;
     auto actualVersion() const { return version_; }
     auto &done() { return doneSignal_; }
 

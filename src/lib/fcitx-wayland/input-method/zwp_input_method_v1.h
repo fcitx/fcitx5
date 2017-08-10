@@ -16,8 +16,8 @@ public:
     typedef zwp_input_method_v1 wlType;
     operator zwp_input_method_v1 *() { return data_.get(); }
     ZwpInputMethodV1(wlType *data);
-    ZwpInputMethodV1(ZwpInputMethodV1 &&other) noexcept = default;
-    ZwpInputMethodV1 &operator=(ZwpInputMethodV1 &&other) noexcept = default;
+    ZwpInputMethodV1(ZwpInputMethodV1 &&other) noexcept = delete;
+    ZwpInputMethodV1 &operator=(ZwpInputMethodV1 &&other) noexcept = delete;
     auto actualVersion() const { return version_; }
     auto &activate() { return activateSignal_; }
     auto &deactivate() { return deactivateSignal_; }

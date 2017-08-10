@@ -14,8 +14,8 @@ public:
     typedef wl_data_offer wlType;
     operator wl_data_offer *() { return data_.get(); }
     WlDataOffer(wlType *data);
-    WlDataOffer(WlDataOffer &&other) noexcept = default;
-    WlDataOffer &operator=(WlDataOffer &&other) noexcept = default;
+    WlDataOffer(WlDataOffer &&other) noexcept = delete;
+    WlDataOffer &operator=(WlDataOffer &&other) noexcept = delete;
     auto actualVersion() const { return version_; }
     void accept(uint32_t serial, const char *mimeType);
     void receive(const char *mimeType, int32_t fd);

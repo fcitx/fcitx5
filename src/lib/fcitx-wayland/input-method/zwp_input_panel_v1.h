@@ -17,8 +17,8 @@ public:
     typedef zwp_input_panel_v1 wlType;
     operator zwp_input_panel_v1 *() { return data_.get(); }
     ZwpInputPanelV1(wlType *data);
-    ZwpInputPanelV1(ZwpInputPanelV1 &&other) noexcept = default;
-    ZwpInputPanelV1 &operator=(ZwpInputPanelV1 &&other) noexcept = default;
+    ZwpInputPanelV1(ZwpInputPanelV1 &&other) noexcept = delete;
+    ZwpInputPanelV1 &operator=(ZwpInputPanelV1 &&other) noexcept = delete;
     auto actualVersion() const { return version_; }
     ZwpInputPanelSurfaceV1 *getInputPanelSurface(WlSurface *surface);
 

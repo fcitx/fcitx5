@@ -16,8 +16,8 @@ public:
     typedef wl_seat wlType;
     operator wl_seat *() { return data_.get(); }
     WlSeat(wlType *data);
-    WlSeat(WlSeat &&other) noexcept = default;
-    WlSeat &operator=(WlSeat &&other) noexcept = default;
+    WlSeat(WlSeat &&other) noexcept = delete;
+    WlSeat &operator=(WlSeat &&other) noexcept = delete;
     auto actualVersion() const { return version_; }
     WlPointer *getPointer();
     WlKeyboard *getKeyboard();

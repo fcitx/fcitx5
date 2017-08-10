@@ -17,8 +17,8 @@ public:
     typedef wl_shell_surface wlType;
     operator wl_shell_surface *() { return data_.get(); }
     WlShellSurface(wlType *data);
-    WlShellSurface(WlShellSurface &&other) noexcept = default;
-    WlShellSurface &operator=(WlShellSurface &&other) noexcept = default;
+    WlShellSurface(WlShellSurface &&other) noexcept = delete;
+    WlShellSurface &operator=(WlShellSurface &&other) noexcept = delete;
     auto actualVersion() const { return version_; }
     void pong(uint32_t serial);
     void move(WlSeat *seat, uint32_t serial);

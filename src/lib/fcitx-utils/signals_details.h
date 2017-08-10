@@ -19,11 +19,11 @@
 #ifndef _FCITX_UTILS_SIGNAL_DETAILS_H_
 #define _FCITX_UTILS_SIGNAL_DETAILS_H_
 
-#include <fcitx-utils/intrusivelist.h>
 #include <fcitx-utils/handlertable.h>
+#include <fcitx-utils/intrusivelist.h>
 #include <functional>
-#include <tuple>
 #include <iterator>
+#include <tuple>
 
 namespace fcitx {
 
@@ -105,7 +105,6 @@ public:
 private:
     std::unique_ptr<HandlerTableEntryBase> entry_;
 };
-
 }
 
 #endif // _FCITX_UTILS_SIGNAL_DETAILS_H_

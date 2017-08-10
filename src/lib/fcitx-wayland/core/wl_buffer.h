@@ -14,8 +14,8 @@ public:
     typedef wl_buffer wlType;
     operator wl_buffer *() { return data_.get(); }
     WlBuffer(wlType *data);
-    WlBuffer(WlBuffer &&other) noexcept = default;
-    WlBuffer &operator=(WlBuffer &&other) noexcept = default;
+    WlBuffer(WlBuffer &&other) noexcept = delete;
+    WlBuffer &operator=(WlBuffer &&other) noexcept = delete;
     auto actualVersion() const { return version_; }
     auto &release() { return releaseSignal_; }
 

@@ -16,9 +16,9 @@ public:
     typedef zwp_input_panel_surface_v1 wlType;
     operator zwp_input_panel_surface_v1 *() { return data_.get(); }
     ZwpInputPanelSurfaceV1(wlType *data);
-    ZwpInputPanelSurfaceV1(ZwpInputPanelSurfaceV1 &&other) noexcept = default;
+    ZwpInputPanelSurfaceV1(ZwpInputPanelSurfaceV1 &&other) noexcept = delete;
     ZwpInputPanelSurfaceV1 &
-    operator=(ZwpInputPanelSurfaceV1 &&other) noexcept = default;
+    operator=(ZwpInputPanelSurfaceV1 &&other) noexcept = delete;
     auto actualVersion() const { return version_; }
     void setToplevel(WlOutput *output, uint32_t position);
     void setOverlayPanel();

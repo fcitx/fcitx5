@@ -16,8 +16,8 @@ public:
     typedef wl_subcompositor wlType;
     operator wl_subcompositor *() { return data_.get(); }
     WlSubcompositor(wlType *data);
-    WlSubcompositor(WlSubcompositor &&other) noexcept = default;
-    WlSubcompositor &operator=(WlSubcompositor &&other) noexcept = default;
+    WlSubcompositor(WlSubcompositor &&other) noexcept = delete;
+    WlSubcompositor &operator=(WlSubcompositor &&other) noexcept = delete;
     auto actualVersion() const { return version_; }
     WlSubsurface *getSubsurface(WlSurface *surface, WlSurface *parent);
 

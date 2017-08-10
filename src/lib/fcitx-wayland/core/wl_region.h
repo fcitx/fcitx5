@@ -14,8 +14,8 @@ public:
     typedef wl_region wlType;
     operator wl_region *() { return data_.get(); }
     WlRegion(wlType *data);
-    WlRegion(WlRegion &&other) noexcept = default;
-    WlRegion &operator=(WlRegion &&other) noexcept = default;
+    WlRegion(WlRegion &&other) noexcept = delete;
+    WlRegion &operator=(WlRegion &&other) noexcept = delete;
     auto actualVersion() const { return version_; }
     void add(int32_t x, int32_t y, int32_t width, int32_t height);
     void subtract(int32_t x, int32_t y, int32_t width, int32_t height);

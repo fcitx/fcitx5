@@ -16,8 +16,8 @@ public:
     typedef wl_compositor wlType;
     operator wl_compositor *() { return data_.get(); }
     WlCompositor(wlType *data);
-    WlCompositor(WlCompositor &&other) noexcept = default;
-    WlCompositor &operator=(WlCompositor &&other) noexcept = default;
+    WlCompositor(WlCompositor &&other) noexcept = delete;
+    WlCompositor &operator=(WlCompositor &&other) noexcept = delete;
     auto actualVersion() const { return version_; }
     WlSurface *createSurface();
     WlRegion *createRegion();

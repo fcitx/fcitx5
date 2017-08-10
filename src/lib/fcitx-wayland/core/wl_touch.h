@@ -15,8 +15,8 @@ public:
     typedef wl_touch wlType;
     operator wl_touch *() { return data_.get(); }
     WlTouch(wlType *data);
-    WlTouch(WlTouch &&other) noexcept = default;
-    WlTouch &operator=(WlTouch &&other) noexcept = default;
+    WlTouch(WlTouch &&other) noexcept = delete;
+    WlTouch &operator=(WlTouch &&other) noexcept = delete;
     auto actualVersion() const { return version_; }
     auto &down() { return downSignal_; }
     auto &up() { return upSignal_; }

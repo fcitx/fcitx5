@@ -28,9 +28,7 @@
 namespace fcitx {
 
 class FCITXUTILS_EXPORT HandlerTableEntryBase {
-
 public:
-    HandlerTableEntryBase() = default;
     virtual ~HandlerTableEntryBase() = default;
 };
 

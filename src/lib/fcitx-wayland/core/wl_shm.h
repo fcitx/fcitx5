@@ -14,8 +14,8 @@ public:
     typedef wl_shm wlType;
     operator wl_shm *() { return data_.get(); }
     WlShm(wlType *data);
-    WlShm(WlShm &&other) noexcept = default;
-    WlShm &operator=(WlShm &&other) noexcept = default;
+    WlShm(WlShm &&other) noexcept = delete;
+    WlShm &operator=(WlShm &&other) noexcept = delete;
     auto actualVersion() const { return version_; }
     WlShmPool *createPool(int32_t fd, int32_t size);
     auto &format() { return formatSignal_; }

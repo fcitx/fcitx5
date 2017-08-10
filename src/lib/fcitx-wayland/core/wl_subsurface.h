@@ -15,8 +15,8 @@ public:
     typedef wl_subsurface wlType;
     operator wl_subsurface *() { return data_.get(); }
     WlSubsurface(wlType *data);
-    WlSubsurface(WlSubsurface &&other) noexcept = default;
-    WlSubsurface &operator=(WlSubsurface &&other) noexcept = default;
+    WlSubsurface(WlSubsurface &&other) noexcept = delete;
+    WlSubsurface &operator=(WlSubsurface &&other) noexcept = delete;
     auto actualVersion() const { return version_; }
     void setPosition(int32_t x, int32_t y);
     void placeAbove(WlSurface *sibling);
