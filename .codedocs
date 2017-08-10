@@ -7,7 +7,7 @@ FILE_PATTERNS          =
 QT_AUTOBRIEF           = YES
 RECURSIVE              = YES
 STRIP_CODE_COMMENTS    = NO
-EXCLUDE_PATTERNS       = "*/src/lib/fcitx-wayland/*" "*/*_p.h
+EXCLUDE_PATTERNS       = "*/src/lib/fcitx-wayland/*" "*/*_p.h"
 ENABLE_PREPROCESSING   = YES
 MACRO_EXPANSION        = YES
 

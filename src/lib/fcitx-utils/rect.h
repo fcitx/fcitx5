@@ -19,6 +19,11 @@
 #ifndef _FCITX_UTILS_RECT_H_
 #define _FCITX_UTILS_RECT_H_
 
+/// \addtogroup FcitxUtils
+/// \{
+/// \file
+/// \brief Provide utility to handle rectangle.
+
 #include "fcitxutils_export.h"
 
 namespace fcitx {

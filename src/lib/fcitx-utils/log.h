@@ -19,6 +19,11 @@
 #ifndef _FCITX_UTILS_LOG_H_
 #define _FCITX_UTILS_LOG_H_
 
+/// \addtogroup FcitxUtils
+/// \{
+/// \file
+/// \brief Log utilities.
+
 #include "fcitxutils_export.h"
 #include <cstdlib>
 #include <fcitx-utils/fs.h>
@@ -29,6 +34,7 @@
 
 namespace fcitx {
 
+/// \brief LogLevel from high to low.
 enum LogLevel : int {
     None = 0,
     Fatal = 1,

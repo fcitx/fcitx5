@@ -45,6 +45,7 @@ set(FCITX_UTILS_HEADERS
     keysym.h
     keysymgen.h
     signals.h
+    signals_details.h
     handlertable.h
     handlertable_details.h
     intrusivelist.h

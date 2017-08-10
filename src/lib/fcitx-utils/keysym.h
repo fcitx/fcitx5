@@ -20,14 +20,17 @@
 #ifndef FCITX_UTILS_KEYSYM_H
 #define FCITX_UTILS_KEYSYM_H
 
+/// \addtogroup FcitxUtils
+/// \{
+/// \file
+/// \brief Key sym related types.
+
 #include <cstdint>
 #include <fcitx-utils/keysymgen.h>
 #include <fcitx-utils/macros.h>
 
 namespace fcitx {
-/**
- * fcitx key state (modifier keys)
- **/
+/// \brief KeyState to represent modifier keys.
 enum class KeyState : uint32_t {
     None = 0,
     Shift = 1 << 0,

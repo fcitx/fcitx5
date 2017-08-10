@@ -20,6 +20,11 @@
 #ifndef _FCITX_UTILS_KEY_H_
 #define _FCITX_UTILS_KEY_H_
 
+/// \addtogroup FcitxUtils
+/// \{
+/// \file
+/// \brief Class to represent a key.
+
 #include "fcitxutils_export.h"
 #include <algorithm>
 #include <cstdint>

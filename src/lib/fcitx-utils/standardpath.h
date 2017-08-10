@@ -19,6 +19,18 @@
 #ifndef _FCITX_UTILS_STANDARDPATH_H_
 #define _FCITX_UTILS_STANDARDPATH_H_
 
+/// \addtogroup FcitxUtils
+/// \{
+/// \file
+/// \brief Utility classes to handle XDG file path.
+///
+/// Example:
+/// \code{.cpp}
+/// auto files = path.multiOpenAll(StandardPath::Type::PkgData, "inputmethod",
+///                                O_RDONLY, filter::Suffix(".conf"));
+/// \endcode
+/// Open all files under $XDG_CONFIG_{HOME,DIRS}/fcitx5/inputmethod/*.conf.
+
 #include "fcitxutils_export.h"
 #include <fcitx-utils/flags.h>
 #include <fcitx-utils/macros.h>
@@ -34,6 +46,7 @@ namespace fcitx {
 
 namespace filter {
 
+/// \brief Filter class to chain sub filters together.
 template <typename... Types>
 class Chainer;
 
@@ -64,6 +77,7 @@ private:
     First filter;
 };
 
+/// \brief Filter class that revert the sub filter result.
 template <typename T>
 struct NotFilter {
     NotFilter(T filter_) : filter(filter_) {}
@@ -82,12 +96,14 @@ NotFilter<T> Not(T t) {
     return {t};
 }
 
+/// \brief Filter class that filters based on user file.
 struct FCITXUTILS_EXPORT User {
     bool operator()(const std::string &, const std::string &, bool isUser) {
         return isUser;
     }
 };
 
+/// \brief Filter class that filters file based on prefix
 struct FCITXUTILS_EXPORT Prefix {
     Prefix(const std::string &prefix_) : prefix(prefix_) {}
 
@@ -98,6 +114,7 @@ struct FCITXUTILS_EXPORT Prefix {
     std::string prefix;
 };
 
+/// \brief Filter class that filters file based on suffix
 struct FCITXUTILS_EXPORT Suffix {
     Suffix(const std::string &suffix_) : suffix(suffix_) {}
 
@@ -109,6 +126,8 @@ struct FCITXUTILS_EXPORT Suffix {
 };
 }
 
+/// \brief File descriptor wrapper that handles file descriptor and rename
+/// automatically.
 class FCITXUTILS_EXPORT StandardPathTempFile {
 public:
     StandardPathTempFile(int fd = -1, const std::string &realFile = {},
@@ -132,6 +151,8 @@ private:
     std::string tempPath_;
 };
 
+/// \brief Utility class that wraps around UnixFD. It also contains the actual
+/// file name information.
 class FCITXUTILS_EXPORT StandardPathFile {
 public:
     StandardPathFile(int fd = -1, const std::string &path = {})
@@ -156,61 +177,103 @@ typedef std::map<std::string, StandardPathFile> StandardPathFileMap;
 typedef std::map<std::string, std::vector<StandardPathFile>>
     StandardPathFilesMap;
 
+/// \brief Utility class to open, locate, list files based on XDG standard.
 class FCITXUTILS_EXPORT StandardPath {
 public:
+    /// \brief Enum for location type.
     enum class Type { Config, PkgConfig, Data, Cache, Runtime, Addon, PkgData };
 
     StandardPath(bool skipFcitxPath = false);
     virtual ~StandardPath();
 
-    // return a global default so we can share it, C++11 static initialization
-    // is thread-safe
+    /// \brief Return the global instance of StandardPath.
+    ///
+    /// return a global default so we can share it, C++11 static initialization
+    /// is thread-safe
     static const StandardPath &global();
 
+    /// \brief Return fcitx specific path defined at compile time.
     static std::string fcitxPath(const char *path);
 
+    /// \brief Scan the directories of given type.
+    ///
+    /// Callback returns true to continue the scan.
     void scanDirectories(
         Type type,
         std::function<bool(const std::string &path, bool user)> scanner) const;
-    // scan file under dir/path, path is supposed to be a directory.
+
+    /// \brief Scan files scan file under [directory]/[path]
+    /// \param path sub directory name.
     void scanFiles(Type type, const std::string &path,
                    std::function<bool(const std::string &path,
                                       const std::string &dir, bool user)>
                        scanner) const;
 
+    /// \brief Get user writable directory for given type.
     std::string userDirectory(Type type) const;
+
+    /// \brief Get all directories in the order of priority.
     std::vector<std::string> directories(Type type) const;
 
+    /// \brief Check if a file exists.
     std::string locate(Type type, const std::string &path) const;
+
+    /// \brief list all matched files.
     std::vector<std::string> locateAll(Type type,
                                        const std::string &path) const;
-    // Open the first matched and succeed
+
+    /// \brief Open the first matched and succeeded file.
+    ///
+    /// This function is preferred over locale if you just want to open the
+    /// file. Then you can avoid the race condition.
+    /// \see openUser()
     StandardPathFile open(Type type, const std::string &path, int flags) const;
+
+    /// \brief Open the user file.
     StandardPathFile openUser(Type type, const std::string &path,
                               int flags) const;
+
+    /// \brief Open user file, but create file with mktemp.
     StandardPathTempFile openUserTemp(Type type,
                                       const std::string &pathOrig) const;
+
+    /// \brief Save the file safely with write and rename to make sure the
+    /// operation is atomic.
+    /// \param callback Callback function that accept a file descriptor and
+    /// return whether the save if success or not.
     bool safeSave(Type type, const std::string &pathOrig,
                   std::function<bool(int)> callback) const;
+
+    /// \brief Open all files match the first [directory]/[path].
     std::vector<StandardPathFile> openAll(Type type, const std::string &path,
                                           int flags) const;
-    // Open first match for
+    /// \brief Open all files match the filter under first [directory]/[path].
     StandardPathFileMap
     multiOpenFilter(Type type, const std::string &path, int flags,
                     std::function<bool(const std::string &path,
                                        const std::string &dir, bool user)>
                         filter) const;
+
+    /// \brief Open all files match the filter under first [directory]/[path].
+    ///
+    /// You may pass multiple filter to it.
     template <typename... Args>
     StandardPathFileMap multiOpen(Type type, const std::string &path, int flags,
                                   Args... args) const {
         return multiOpenFilter(type, path, flags,
                                filter::Chainer<Args...>(args...));
     }
+
+    /// \brief Open all files match the filter under all [directory]/[path].
     StandardPathFilesMap
     multiOpenAllFilter(Type type, const std::string &path, int flags,
                        std::function<bool(const std::string &path,
                                           const std::string &dir, bool user)>
                            filter) const;
+
+    /// \brief Open all files match the filter under all [directory]/[path].
+    ///
+    /// You may pass multiple filter to it.
     template <typename... Args>
     StandardPathFilesMap multiOpenAll(Type type, const std::string &path,
                                       int flags, Args... args) const {

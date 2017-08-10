@@ -19,6 +19,11 @@
 #ifndef _FCITX_UTILS_LIBRARY_H_
 #define _FCITX_UTILS_LIBRARY_H_
 
+/// \addtogroup FcitxUtils
+/// \{
+/// \file
+/// \brief Class to handler dynamic library.
+
 #include "fcitxutils_export.h"
 #include <fcitx-utils/flags.h>
 #include <fcitx-utils/macros.h>

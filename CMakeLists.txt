@@ -111,6 +111,7 @@ endif ()
 
 if (ENABLE_DOC)
   find_package(Doxygen REQUIRED)
+  file(READ "${CMAKE_CURRENT_SOURCE_DIR}/.codedocs" FCITX_DOXYGEN_CONFIGURATION)
   configure_file(
     ${CMAKE_CURRENT_SOURCE_DIR}/Doxyfile.in
     ${CMAKE_CURRENT_BINARY_DIR}/Doxyfile

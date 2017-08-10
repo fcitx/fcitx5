@@ -19,9 +19,15 @@
 #ifndef _FCITX_UTILS_METASTRING_H_
 #define _FCITX_UTILS_METASTRING_H_
 
+/// \addtogroup FcitxUtils
+/// \{
+/// \file
+/// \brief Static string based on template argument.
+
 #include <exception>
 
 namespace fcitx {
+
 
 template <char... c>
 struct MetaString final {
@@ -135,6 +141,7 @@ struct MetaStringTrim {
         FCITX_METASTRING_TEMPLATE_16(N##E, S),                                 \
         FCITX_METASTRING_TEMPLATE_16(N##F, S)
 
+/// \brief Create meta string from string literal.
 #define fcitxMakeMetaString(STRING)                                            \
     ::fcitx::MetaStringTrim<FCITX_METASTRING_TEMPLATE_256(, STRING)>::type
 }
