@@ -21,8 +21,8 @@
 
 #include <fcitx-utils/handlertable.h>
 #include <fcitx-utils/intrusivelist.h>
-#include <fcitx-utils/tuplehelpers.h>
 #include <fcitx-utils/trackableobject.h>
+#include <fcitx-utils/tuplehelpers.h>
 #include <functional>
 #include <iterator>
 #include <tuple>

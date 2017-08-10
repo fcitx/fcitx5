@@ -236,7 +236,8 @@ protected:
 
             xcb_im_preedit_draw_fr_t frame;
             memset(&frame, 0, sizeof(xcb_im_preedit_draw_fr_t));
-            if (text.cursor() <= strPreedit.size() && text.cursor() >= 0) {
+            if (text.cursor() >= 0 &&
+                static_cast<size_t>(text.cursor()) <= strPreedit.size()) {
                 frame.caret =
                     utf8::length(strPreedit.begin(),
                                  std::next(strPreedit.begin(), text.cursor()));

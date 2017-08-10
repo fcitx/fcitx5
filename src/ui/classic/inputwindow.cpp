@@ -138,7 +138,8 @@ void InputWindow::update(InputContext *inputContext) {
     auto auxUp = instance->outputFilter(inputContext, inputPanel.auxUp());
     pango_layout_set_single_paragraph_mode(upperLayout_.get(), true);
     setTextToLayout(upperLayout_.get(), {auxUp, preedit});
-    if (preedit.cursor() >= 0 && preedit.cursor() <= preedit.textLength()) {
+    if (preedit.cursor() >= 0 &&
+        static_cast<size_t>(preedit.cursor()) <= preedit.textLength()) {
         cursor_ = preedit.cursor() + auxUp.toString().size();
     }
 
