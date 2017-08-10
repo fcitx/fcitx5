@@ -1,0 +1,15 @@
+INPUT                  = src/lib
+DOXYFILE_ENCODING      = UTF-8
+PROJECT_NAME           = Fcitx
+OUTPUT_LANGUAGE        = English
+SOURCE_BROWSER         = YES
+FILE_PATTERNS          =
+QT_AUTOBRIEF           = YES
+RECURSIVE              = YES
+STRIP_CODE_COMMENTS    = NO
+EXCLUDE_PATTERNS       = "*/src/lib/fcitx-wayland/*" "*/*_p.h
+ENABLE_PREPROCESSING   = YES
+MACRO_EXPANSION        = YES
+
+STRIP_FROM_PATH        = src/lib
+STRIP_FROM_INC_PATH    = src/lib
