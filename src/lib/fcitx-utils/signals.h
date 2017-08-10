@@ -150,7 +150,7 @@ public:
             disconnectAll();
         }
     }
-    Signal(Signal &&other) noexcept { operator=(std::move<Signal>(other)); }
+    Signal(Signal &&other) noexcept { operator=(std::move(other)); }
     Signal &operator=(Signal &&other) noexcept {
         using std::swap;
         swap(d_ptr, other.d_ptr);
