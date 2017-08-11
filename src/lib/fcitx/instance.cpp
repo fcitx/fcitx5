@@ -306,6 +306,7 @@ Instance::Instance(int argc, char **argv) {
 
             if (!keyEvent.filtered() && !keyEvent.isRelease()) {
                 int idx = 0;
+                inputState->keyReleased = -1;
                 for (auto &keyHandler : keyHandlers) {
                     if (keyEvent.key().checkKeyList(keyHandler.list)) {
                         if (isModifier) {
