@@ -253,6 +253,7 @@ void AddonManager::unload() {
     // reverse the unload order
     for (auto iter = d->loadOrder_.rbegin(), end = d->loadOrder_.rend();
          iter != end; iter++) {
+        FCITX_LOG(Info) << "Unloading addon " << *iter;
         d->addons_.erase(*iter);
     }
     d->loadOrder_.clear();

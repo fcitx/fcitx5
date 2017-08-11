@@ -55,6 +55,8 @@ public:
                           InputContextPropertyFactory *factory);
 
 private:
+    void finalize();
+
     void setInstance(Instance *instance);
     void registerInputContext(InputContext &inputContext);
     void unregisterInputContext(InputContext &inputContext);

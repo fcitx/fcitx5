@@ -35,6 +35,7 @@ class IntrusiveListNode {
 public:
     IntrusiveListNode() {}
     IntrusiveListNode(const IntrusiveListNode &) = delete;
+    virtual ~IntrusiveListNode() { remove(); }
 
     bool isInList() const { return !!list_; }
     void remove();

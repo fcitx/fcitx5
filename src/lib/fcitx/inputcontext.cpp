@@ -45,6 +45,7 @@ void InputContext::created() {
 
 void InputContext::destroy() {
     FCITX_D();
+    assert(!d->destroyed_);
     if (d->group_) {
         d->group_->removeInputContext(this);
     }

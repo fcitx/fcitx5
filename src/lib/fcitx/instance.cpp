@@ -486,6 +486,7 @@ Instance::Instance(int argc, char **argv) {
 
 Instance::~Instance() {
     FCITX_D();
+    d->icManager_.finalize();
     d->addonManager_.unload();
     d->icManager_.setInstance(nullptr);
 }

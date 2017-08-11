@@ -161,6 +161,7 @@ public:
         programMap_;
     PropertyPropagatePolicy propertyPropagatePolicy_ =
         PropertyPropagatePolicy::None;
+    bool finalized_ = false;
 };
 
 IntrusiveListNode &InputContextListHelper::toNode(InputContext &ic) noexcept {
@@ -208,6 +209,14 @@ void InputContextManager::setPropertyPropagatePolicy(
     d->propertyPropagatePolicy_ = policy;
 }
 
+void InputContextManager::finalize() {
+    FCITX_D();
+    d->finalized_ = true;
+    while (d->inputContexts_.size()) {
+        delete &d->inputContexts_.front();
+    }
+}
+
 void InputContextManager::setInstance(Instance *instance) {
     FCITX_D();
     d->instance_ = instance;
@@ -220,6 +229,10 @@ Instance *InputContextManager::instance() {
 
 void InputContextManager::registerInputContext(InputContext &inputContext) {
     FCITX_D();
+    if (d->finalized_) {
+        throw std::runtime_error(
+            "Should not register input context after finalize");
+    }
     d->registerInputContext(inputContext);
 }
 
