@@ -67,6 +67,11 @@ GlobalConfig::GlobalConfig() : d_ptr(std::make_unique<GlobalConfigPrivate>()) {}
 
 GlobalConfig::~GlobalConfig() {}
 
+void GlobalConfig::load(const RawConfig &config) {
+    FCITX_D();
+    d->load(config);
+}
+
 const std::vector<Key> &GlobalConfig::triggerKeys() const {
     FCITX_D();
     return d->triggerKeys.value();

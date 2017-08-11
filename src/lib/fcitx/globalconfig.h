@@ -20,6 +20,7 @@
 #define _FCITX_GLOBALCONFIG_H_
 
 #include "fcitxcore_export.h"
+#include <fcitx-config/rawconfig.h>
 #include <fcitx-utils/key.h>
 #include <fcitx-utils/macros.h>
 #include <memory>
@@ -40,6 +41,8 @@ public:
     const KeyList &defaultPrevPage() const;
     const KeyList &defaultNextPage() const;
     int defaultPageSize() const;
+
+    void load(const RawConfig &rawConfig);
 
 private:
     std::unique_ptr<GlobalConfigPrivate> d_ptr;

@@ -1,3 +1,4 @@
+#include <fcitx-config/iniparser.h>
 /*
  * Copyright (C) 2016~2016 by CSSlayer
  * wengxt@gmail.com
@@ -17,7 +18,6 @@
  * see <http://www.gnu.org/licenses/>.
  */
 
-#include "instance.h"
 #include "addonmanager.h"
 #include "config.h"
 #include "fcitx-utils/event.h"
@@ -31,7 +31,9 @@
 #include "inputmethodengine.h"
 #include "inputmethodentry.h"
 #include "inputmethodmanager.h"
+#include "instance.h"
 #include "userinterfacemanager.h"
+#include <fcntl.h>
 #include <getopt.h>
 #include <signal.h>
 #include <sys/wait.h>
@@ -606,6 +608,7 @@ void Instance::initialize() {
         save();
         return false;
     }));
+    reloadConfig();
 }
 
 int Instance::exec() {
@@ -813,7 +816,17 @@ void Instance::reloadAddonConfig(const std::string &addonName) {
     }
 }
 
-void Instance::reloadConfig() {}
+void Instance::reloadConfig() {
+    FCITX_D();
+    auto &standardPath = StandardPath::global();
+    auto file =
+        standardPath.open(StandardPath::Type::PkgConfig, "config", O_RDONLY);
+    RawConfig config;
+    readFromIni(config, file.fd());
+    d->globalConfig_.load(config);
+    FCITX_LOG(Debug) << "Trigger Key: "
+                     << Key::keyListToString(d->globalConfig_.triggerKeys());
+}
 
 void Instance::resetInputMethodList() {}
 
