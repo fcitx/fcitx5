@@ -61,6 +61,8 @@ public:
     xcb_atom_t selection() const { return selection_; }
 
 private:
+    void invokeCallbackAndCleanUp(xcb_atom_t type, const char *data,
+                                  size_t length);
     void cleanUp();
 
     XCBConnection *conn_ = nullptr;

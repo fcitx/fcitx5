@@ -27,14 +27,16 @@ namespace fcitx {
 UnixFD::UnixFD() noexcept : fd_(-1) {}
 UnixFD::UnixFD(int fd) { set(fd); }
 
-UnixFD::UnixFD(UnixFD &&other) noexcept {
+UnixFD::UnixFD(UnixFD &&other) noexcept : UnixFD() {
     operator=(std::forward<UnixFD>(other));
 }
 
 UnixFD::~UnixFD() noexcept { reset(); }
 
 UnixFD &UnixFD::operator=(UnixFD &&other) noexcept {
+    // Close current, move over the other one.
     using std::swap;
+    reset();
     swap(fd_, other.fd_);
     return *this;
 }

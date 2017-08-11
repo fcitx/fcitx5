@@ -70,10 +70,7 @@ ConvertSelectionRequest::ConvertSelectionRequest(
     timer_.reset(conn->parent()->instance()->eventLoop().addTimeEvent(
         CLOCK_MONOTONIC, now(CLOCK_MONOTONIC) + 5000000, 0,
         [this](EventSourceTime *, uint64_t) {
-            if (realCallback_) {
-                realCallback_(XCB_ATOM_NONE, nullptr, 0);
-            }
-            cleanUp();
+            invokeCallbackAndCleanUp(XCB_ATOM_NONE, nullptr, 0);
             return true;
         }));
 }
@@ -83,6 +80,17 @@ void ConvertSelectionRequest::cleanUp() {
     timer_.reset();
 }
 
+void ConvertSelectionRequest::invokeCallbackAndCleanUp(xcb_atom_t type,
+                                                       const char *data,
+                                                       size_t length) {
+    // Make a copy to real callback, because it might delete the this.
+    auto realCallback = realCallback_;
+    cleanUp();
+    if (realCallback) {
+        realCallback(type, data, length);
+    }
+}
+
 void ConvertSelectionRequest::handleReply(xcb_atom_t type, const char *data,
                                           size_t length) {
     if (!realCallback_) {
@@ -90,22 +98,19 @@ void ConvertSelectionRequest::handleReply(xcb_atom_t type, const char *data,
     }
     if (type == fallbacks_.back()) {
         fallbacks_.pop_back();
-        realCallback_(type, data, length);
-        cleanUp();
-    } else {
-        fallbacks_.pop_back();
-        if (fallbacks_.empty()) {
-            realCallback_(XCB_ATOM_NONE, nullptr, 0);
-            cleanUp();
-        } else {
-            xcb_delete_property(conn_->connection(), conn_->serverWindow(),
-                                property_);
-            xcb_convert_selection(conn_->connection(), conn_->serverWindow(),
-                                  selection_, fallbacks_.back(), property_,
-                                  XCB_TIME_CURRENT_TIME);
-            xcb_flush(conn_->connection());
-        }
+        return invokeCallbackAndCleanUp(type, data, length);
     }
+
+    fallbacks_.pop_back();
+    if (fallbacks_.empty()) {
+        return invokeCallbackAndCleanUp(XCB_ATOM_NONE, nullptr, 0);
+    }
+
+    xcb_delete_property(conn_->connection(), conn_->serverWindow(), property_);
+    xcb_convert_selection(conn_->connection(), conn_->serverWindow(),
+                          selection_, fallbacks_.back(), property_,
+                          XCB_TIME_CURRENT_TIME);
+    xcb_flush(conn_->connection());
 }
 
 XCBConnection::XCBConnection(XCBModule *xcb, const std::string &name)
