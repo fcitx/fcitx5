@@ -26,6 +26,7 @@
 
 #include "fcitxutils_export.h"
 #include <fcitx-utils/cutf8.h>
+#include <fcitx-utils/misc.h>
 #include <string>
 
 namespace fcitx {
@@ -82,7 +83,7 @@ inline bool validate(Iter start, Iter end) {
 
 /// \brief Check if the string is valid utf8 string.
 template <typename T>
-static inline bool validate(const T &s) {
+inline bool validate(const T &s) {
     return validate(std::begin(s), std::end(s));
 }
 
@@ -90,22 +91,35 @@ static inline bool validate(const T &s) {
 FCITXUTILS_EXPORT std::string UCS4ToUTF8(uint32_t code);
 
 /// \brief Possible return value for getChar.
-constexpr size_t INVALID_CHAR = static_cast<uint32_t>(-1);
+constexpr uint32_t INVALID_CHAR = static_cast<uint32_t>(-1);
 
 /// \brief Possible return value for getChar.
-constexpr size_t NOT_ENOUGH_SPACE = static_cast<uint32_t>(-2);
+constexpr uint32_t NOT_ENOUGH_SPACE = static_cast<uint32_t>(-2);
+
+/// \brief Check the chr value is not two invalid value above.
+inline bool isValidChar(uint32_t c) {
+    return c != INVALID_CHAR && c != NOT_ENOUGH_SPACE;
+}
 
 /// \brief Get next UCS4 char from iter, do not cross end.
 template <typename Iter>
-static uint32_t getChar(Iter iter, Iter end) {
+inline uint32_t getChar(Iter iter, Iter end) {
     const char *c = &(*iter);
     return fcitx_utf8_get_char_validated(c, std::distance(iter, end), nullptr);
 }
 
 /// \brief Get next UCS4 char
 template <typename T>
-static uint32_t getChar(const T &s) {
+inline uint32_t getChar(const T &s) {
     return getChar(std::begin(s), std::end(s));
+}
+
+template <typename Iter>
+inline Iter getNextChar(Iter iter, Iter end, uint32_t *chr) {
+    const char *c = &(*iter);
+    int plen = 0;
+    *chr = fcitx_utf8_get_char_validated(c, std::distance(iter, end), &plen);
+    return std::next(iter, plen);
 }
 
 /// \brief get the byte length of next N utf-8 character.
@@ -129,6 +143,87 @@ inline Iter nextNChar(Iter iter, size_t n) {
 template <typename Iter>
 Iter nextChar(Iter iter) {
     return nextNChar(iter, 1);
+}
+
+template <typename Iter>
+uint32_t getLastChar(Iter iter, Iter end) {
+    uint32_t c = NOT_ENOUGH_SPACE;
+    while (iter != end) {
+        iter = getNextChar(iter, end, &c);
+        if (!isValidChar(c)) {
+            break;
+        }
+    }
+    return c;
+}
+
+template <typename T>
+uint32_t getLastChar(const T &str) {
+    return getLastChar(std::begin(str), std::end(str));
+}
+
+/// \brief Helper class to iterate character, you need to validate the string
+/// before using it.
+template <typename Iter>
+class UTF8CharIterator {
+public:
+    typedef std::input_iterator_tag iterator_category;
+    typedef uint32_t value_type;
+    typedef std::ptrdiff_t difference_type;
+    typedef const value_type &reference;
+    typedef const value_type *pointer;
+
+    UTF8CharIterator(Iter iter, Iter end) : iter_(iter), end_(end) { update(); }
+    FCITX_INLINE_DEFINE_DEFAULT_DTOR_AND_COPY(UTF8CharIterator)
+
+    reference operator*() const { return currentChar_; }
+
+    pointer operator->() const { return &currentChar_; }
+
+    std::pair<Iter, Iter> charRange() const { return {iter_, next_}; }
+
+    UTF8CharIterator &operator++() {
+        iter_ = next_;
+        update();
+        return *this;
+    }
+
+    UTF8CharIterator operator++(int) {
+        auto old = *this;
+        ++(*this);
+        return old;
+    }
+
+    bool operator==(const UTF8CharIterator &other) {
+        return iter_ == other.iter_;
+    }
+    bool operator!=(const UTF8CharIterator &other) {
+        return !operator==(other);
+    }
+
+private:
+    void update() {
+        next_ = getNextChar(iter_, end_, &currentChar_);
+        if (iter_ != end_ && iter_ == next_) {
+            throw std::runtime_error("Invalid UTF8 character.");
+        }
+    }
+
+    uint32_t currentChar_ = 0;
+    Iter iter_;
+    Iter next_;
+    Iter end_;
+};
+
+template <typename Iter>
+auto MakeUTF8CharIterator(Iter iter, Iter end) {
+    return UTF8CharIterator<Iter>(iter, end);
+}
+
+template <typename T>
+auto MakeUTF8CharRange(const T &str) {
+    return MakeIterRange(MakeUTF8CharIterator(str.begin(), str.end()),
+                         MakeUTF8CharIterator(str.end(), str.end()));
 }
 }
 }

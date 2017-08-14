@@ -339,7 +339,7 @@ void fcitx_utf8_strncpy(char *str, const char *s, size_t byte) {
 FCITXUTILS_EXPORT
 size_t fcitx_utf8_strnlen_validated(const char *str, size_t byte) {
     size_t len = 0;
-    while (*str && byte > 0) {
+    while (byte && *str) {
         int charLen;
         uint32_t chr = fcitx_utf8_get_char_validated(
             str, (byte > FCITX_UTF8_MAX_LENGTH ? FCITX_UTF8_MAX_LENGTH : byte),
@@ -357,7 +357,8 @@ size_t fcitx_utf8_strnlen_validated(const char *str, size_t byte) {
 FCITXUTILS_EXPORT
 size_t fcitx_utf8_strnlen(const char *str, size_t byte) {
     size_t len = 0;
-    while (*str && byte > 0) {
+    // if byte is zero no need to go further.
+    while (byte && *str) {
         uint32_t chr;
 
         const char *next = fcitx_utf8_get_char(str, &chr);

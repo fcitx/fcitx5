@@ -90,14 +90,17 @@ private:
     Iter iter_;
 };
 
-template <class Iter>
-class IterRange : std::pair<Iter, Iter> {
-public:
-    typedef std::pair<Iter, Iter> super;
-    using super::pair;
-    Iter begin() const { return this->first; }
-    Iter end() const { return this->second; }
+template <typename It>
+struct IterRange {
+    It begin_, end_;
+    It begin() const { return begin_; }
+    It end() const { return end_; }
 };
+
+template <typename Iter>
+IterRange<Iter> MakeIterRange(Iter begin, Iter end) {
+    return {begin, end};
+}
 
 struct EnumHash {
     template <typename T>

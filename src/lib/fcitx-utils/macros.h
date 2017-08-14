@@ -157,17 +157,19 @@
     }
 
 #define FCITX_DECLARE_PROPERTY(TYPE, GETTER, SETTER)                           \
-    TYPE GETTER() const;                                                       \
-    void SETTER(TYPE v);
+    std::conditional_t<std::is_class<TYPE>::value, const TYPE &, TYPE>         \
+    GETTER() const;                                                            \
+    void SETTER(TYPE);
 
 #define FCITX_DEFINE_PROPERTY_PRIVATE(THIS, TYPE, GETTER, SETTER)              \
-    TYPE THIS::GETTER() const {                                                \
+    std::conditional_t<std::is_class<TYPE>::value, const TYPE &, TYPE>         \
+    THIS::GETTER() const {                                                     \
         FCITX_D();                                                             \
         return d->GETTER##_;                                                   \
     }                                                                          \
     void THIS::SETTER(TYPE v) {                                                \
         FCITX_D();                                                             \
-        d->GETTER##_ = v;                                                      \
+        d->GETTER##_ = std::move(v);                                           \
     }
 
 #define FCITX_DECLARE_VIRTUAL_DTOR(TypeName) virtual ~TypeName();
@@ -201,6 +203,9 @@
     TypeName(TypeName &&other) Spec = default;                                 \
     TypeName &operator=(TypeName &&other) Spec = default;
 
+#define FCITX_INLINE_DEFINE_DEFAULT_DTOR_AND_MOVE_WITHOUT_SPEC(TypeName)       \
+    FCITX_INLINE_DEFINE_DEFAULT_DTOR_AND_MOVE_WITH_SPEC(TypeName, )
+
 // try to enforce rule of three-five-zero
 #define FCITX_INLINE_DEFINE_DEFAULT_DTOR_AND_MOVE(TypeName)                    \
     FCITX_INLINE_DEFINE_DEFAULT_DTOR_AND_MOVE_WITH_SPEC(TypeName, noexcept)
@@ -210,10 +215,17 @@
     TypeName(const TypeName &other) = default;                                 \
     TypeName &operator=(const TypeName &other) = default;
 
-#define FCITX_INLINE_DEFINE_DEFAULT_DTOR_COPY_AND_MOVE(TypeName)               \
-    FCITX_INLINE_DEFINE_DEFAULT_DTOR_AND_MOVE_WITH_SPEC(TypeName, noexcept)    \
+#define FCITX_INLINE_DEFINE_DEFAULT_DTOR_COPY_AND_MOVE_WITH_SPEC(TypeName,     \
+                                                                 Spec)         \
+    FCITX_INLINE_DEFINE_DEFAULT_DTOR_AND_MOVE_WITH_SPEC(TypeName, Spec)        \
     TypeName(const TypeName &other) = default;                                 \
     TypeName &operator=(const TypeName &other) = default;
+
+#define FCITX_INLINE_DEFINE_DEFAULT_DTOR_COPY_AND_MOVE_WITHOUT_SPEC(TypeName)  \
+    FCITX_INLINE_DEFINE_DEFAULT_DTOR_COPY_AND_MOVE_WITH_SPEC(TypeName, )
+
+#define FCITX_INLINE_DEFINE_DEFAULT_DTOR_COPY_AND_MOVE(TypeName)               \
+    FCITX_INLINE_DEFINE_DEFAULT_DTOR_COPY_AND_MOVE_WITH_SPEC(TypeName, noexcept)
 
 #define FCITX_DEFINE_DEFAULT_MOVE(TypeName)                                    \
     TypeName::TypeName(TypeName &&other) noexcept = default;                   \

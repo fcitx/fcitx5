@@ -1,5 +1,6 @@
 #include "fcitx-utils/cutf8.h"
 #include "fcitx-utils/log.h"
+#include "fcitx-utils/utf8.h"
 #include <cstdio>
 #include <cstring>
 
@@ -38,6 +39,31 @@ int main() {
             FCITX_ASSERT(pos == utf8_buf + len);
         }
     }
+
+    std::string str = "\xe4\xbd\xa0\xe5\xa5\xbd\xe5\x90\x97\x61\x62\x63\x0a";
+    FCITX_ASSERT(fcitx::utf8::validate(str));
+    FCITX_ASSERT(fcitx::utf8::lengthValidated(str) == 7);
+    uint32_t expect[] = {0x4f60, 0x597d, 0x5417, 0x61, 0x62, 0x63, 0x0a};
+    int counter = 0;
+    for (auto c : fcitx::utf8::MakeUTF8CharRange(str)) {
+        FCITX_ASSERT(expect[counter] == c);
+        counter++;
+    }
+
+    FCITX_ASSERT(fcitx::utf8::getLastChar(str) == 0xa);
+
+    std::string invalidStr = "\xe4\xff";
+    FCITX_ASSERT(fcitx::utf8::getLastChar(invalidStr) ==
+                 fcitx::utf8::INVALID_CHAR);
+    std::string empty = "";
+    FCITX_ASSERT(fcitx::utf8::getLastChar(empty) ==
+                 fcitx::utf8::NOT_ENOUGH_SPACE);
+    FCITX_ASSERT(fcitx::utf8::length(empty) == 0);
+    FCITX_ASSERT(fcitx::utf8::lengthValidated(empty) == 0);
+    FCITX_ASSERT(fcitx::utf8::lengthValidated(invalidStr) ==
+                 fcitx::utf8::INVALID_LENGTH);
+
+    FCITX_ASSERT(counter == 7);
 
     return 0;
 }
