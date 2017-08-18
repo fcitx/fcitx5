@@ -227,7 +227,9 @@ void Unicode::updateUI(InputContext *inputContext) {
         auto candidateList = new CommonCandidateList;
         candidateList->setPageSize(instance_->globalConfig().defaultPageSize());
         for (auto c : result) {
-            candidateList->append(new UnicodeCandidateWord(this, c));
+            if (utf8::UCS4IsValid(c)) {
+                candidateList->append(new UnicodeCandidateWord(this, c));
+            }
         }
         candidateList->setSelectionKey(selectionKeys_);
         candidateList->setLayoutHint(CandidateLayoutHint::Vertical);

@@ -23,6 +23,11 @@
 namespace fcitx {
 namespace utf8 {
 
+bool UCS4IsValid(uint32_t code) {
+    return ((code) < 0x110000 && (((code)&0xFFFFF800) != 0xD800) &&
+            ((code) < 0xFDD0 || (code) > 0xFDEF) && ((code)&0xFFFE) != 0xFFFE);
+}
+
 std::string UCS4ToUTF8(uint32_t code) {
     if (!code) {
         return "";

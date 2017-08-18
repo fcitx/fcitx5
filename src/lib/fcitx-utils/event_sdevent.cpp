@@ -24,6 +24,7 @@
 #define __INCLUDE_LEVEL__ 2
 #endif
 #include "event.h"
+#include "log.h"
 #include <systemd/sd-event.h>
 
 namespace fcitx {
@@ -247,8 +248,7 @@ int IOEventCallback(sd_event_source *, int fd, uint32_t revents,
             source->callback_(source, fd, EpollFlagsToIOEventFlags(revents));
         return result ? 0 : -1;
     } catch (const std::exception &e) {
-        // some abnormal things threw
-        abort();
+        FCITX_LOG(Fatal) << e.what();
     }
     return -1;
 }

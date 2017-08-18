@@ -90,6 +90,9 @@ inline bool validate(const T &s) {
 /// \brief Convert UCS4 to UTF8 string.
 FCITXUTILS_EXPORT std::string UCS4ToUTF8(uint32_t code);
 
+/// \brief Check if a ucs4 is valid.
+FCITXUTILS_EXPORT bool UCS4IsValid(uint32_t code);
+
 /// \brief Possible return value for getChar.
 constexpr uint32_t INVALID_CHAR = static_cast<uint32_t>(-1);
 
