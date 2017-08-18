@@ -129,8 +129,8 @@ public:
                     xcb_im_input_context_t *ic)
         : InputContext(inputContextManager), server_(server), xic_(ic) {
         setFocusGroup(server->focusGroup());
-        created();
         xcb_im_input_context_set_data(xic_, this, nullptr);
+        created();
     }
     ~XIMInputContext() {
         xcb_im_input_context_set_data(xic_, nullptr, nullptr);
