@@ -130,8 +130,12 @@ public:
         : InputContext(inputContextManager), server_(server), xic_(ic) {
         setFocusGroup(server->focusGroup());
         created();
+        xcb_im_input_context_set_data(xic_, this, nullptr);
     }
-    ~XIMInputContext() { destroy(); }
+    ~XIMInputContext() {
+        xcb_im_input_context_set_data(xic_, nullptr, nullptr);
+        destroy();
+    }
 
 protected:
     virtual void commitStringImpl(const std::string &text) override {
@@ -286,13 +290,15 @@ void XIMServer::callback(xcb_im_client_t *client, xcb_im_input_context_t *xic,
     XIMInputContext *ic = nullptr;
     if (hdr->major_opcode != XCB_XIM_CREATE_IC) {
         ic = static_cast<XIMInputContext *>(xcb_im_input_context_get_data(xic));
+        if (!ic) {
+            return;
+        }
     }
 
     switch (hdr->major_opcode) {
     case XCB_XIM_CREATE_IC:
         ic = new XIMInputContext(parent_->instance()->inputContextManager(),
                                  this, xic);
-        xcb_im_input_context_set_data(xic, ic, nullptr);
         break;
     case XCB_XIM_DESTROY_IC:
         delete ic;
