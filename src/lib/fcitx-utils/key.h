@@ -27,6 +27,7 @@
 
 #include "fcitxutils_export.h"
 #include <algorithm>
+#include <cstddef>
 #include <cstdint>
 #include <fcitx-utils/flags.h>
 #include <fcitx-utils/keysym.h>

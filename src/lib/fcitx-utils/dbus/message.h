@@ -29,6 +29,7 @@
 #include <memory>
 #include <string>
 #include <tuple>
+#include <type_traits>
 #include <vector>
 
 namespace fcitx {
@@ -40,7 +41,12 @@ struct DBusStruct {
     typedef std::tuple<Args...> tuple_type;
 
     DBusStruct() = default;
-    FCITX_INLINE_DEFINE_DEFAULT_DTOR_COPY_AND_MOVE(DBusStruct)
+    DBusStruct(const DBusStruct &) = default;
+    DBusStruct(DBusStruct &&) noexcept(
+        std::is_nothrow_move_constructible<tuple_type>::value) = default;
+    DBusStruct &operator=(const DBusStruct &other);
+    DBusStruct &operator=(DBusStruct &&other) noexcept(
+        std::is_nothrow_move_assignable<tuple_type>::value) = default;
 
     explicit DBusStruct(const tuple_type &other) : data_(std::forward(other)) {}
     explicit DBusStruct(tuple_type &&other)

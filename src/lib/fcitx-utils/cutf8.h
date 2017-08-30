@@ -27,7 +27,6 @@
 
 #include <cstdint>
 #include <cstdlib>
-#include <fcitx-utils/macros.h>
 
 //// Max length of a utf8 character
 #define FCITX_UTF8_MAX_LENGTH 6

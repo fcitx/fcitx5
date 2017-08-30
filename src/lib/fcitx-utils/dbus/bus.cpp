@@ -245,6 +245,9 @@ Slot *Bus::addObjectSubTree(const std::string &path, MessageCallback callback,
     }
     r = sd_bus_add_fallback(d->bus_, &sdEnumSlot, path.c_str(),
                             SDMessageCallback, slot.get());
+    if (r < 0) {
+        return nullptr;
+    }
 
     slot->slot = sdSlot;
     slot->enumSlot = sdEnumSlot;

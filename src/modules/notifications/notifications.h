@@ -47,7 +47,7 @@ struct NotificationItem {
     std::unique_ptr<dbus::Slot> slot_;
 };
 
-class Notifications : public AddonInstance {
+class Notifications final : public AddonInstance {
 public:
     Notifications(Instance *instance);
     ~Notifications();

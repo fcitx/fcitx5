@@ -44,7 +44,7 @@ FCITX_CONFIGURATION(QuickPhraseConfig,
                         QuickPhraseChooseModifier::None};);
 
 class QuickPhraseState;
-class QuickPhrase : public AddonInstance {
+class QuickPhrase final : public AddonInstance {
 public:
     QuickPhrase(Instance *instance);
     ~QuickPhrase();

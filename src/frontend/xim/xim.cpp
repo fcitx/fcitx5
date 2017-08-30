@@ -297,8 +297,8 @@ void XIMServer::callback(xcb_im_client_t *client, xcb_im_input_context_t *xic,
 
     switch (hdr->major_opcode) {
     case XCB_XIM_CREATE_IC:
-        ic = new XIMInputContext(parent_->instance()->inputContextManager(),
-                                 this, xic);
+        new XIMInputContext(parent_->instance()->inputContextManager(), this,
+                            xic);
         break;
     case XCB_XIM_DESTROY_IC:
         delete ic;

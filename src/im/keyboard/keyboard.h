@@ -57,7 +57,7 @@ struct KeyboardEngineState : public InputContextProperty {
 
 class KeyboardEnginePrivate;
 
-class KeyboardEngine : public InputMethodEngine {
+class KeyboardEngine final : public InputMethodEngine {
 public:
     KeyboardEngine(Instance *instance);
     ~KeyboardEngine();

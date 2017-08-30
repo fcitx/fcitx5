@@ -300,23 +300,20 @@ void XCBUI::initScreen() {
         }
 
     } else if (multiScreen_ == MultiScreenExtension::Xinerama) {
-
         auto cookie = xcb_xinerama_query_screens(conn_);
-        auto reply = makeXCBReply(
-            xcb_xinerama_query_screens_reply(conn_, cookie, nullptr));
-        if (reply) {
-            newScreenCount = reply->number;
-        }
-        xcb_xinerama_screen_info_iterator_t iter;
-        for (iter =
-                 xcb_xinerama_query_screens_screen_info_iterator(reply.get());
-             iter.rem; xcb_xinerama_screen_info_next(&iter)) {
-            auto info = iter.data;
-            auto x = info->x_org;
-            auto y = info->y_org;
-            auto w = info->width;
-            auto h = info->height;
-            rects_.emplace_back(Rect(x, y, x + w - 1, y + h - 1), -1);
+        if (auto reply = makeXCBReply(
+            xcb_xinerama_query_screens_reply(conn_, cookie, nullptr))) {
+            xcb_xinerama_screen_info_iterator_t iter;
+            for (iter =
+                    xcb_xinerama_query_screens_screen_info_iterator(reply.get());
+                iter.rem; xcb_xinerama_screen_info_next(&iter)) {
+                auto info = iter.data;
+                auto x = info->x_org;
+                auto y = info->y_org;
+                auto w = info->width;
+                auto h = info->height;
+                rects_.emplace_back(Rect(x, y, x + w - 1, y + h - 1), -1);
+            }
         }
     }
 

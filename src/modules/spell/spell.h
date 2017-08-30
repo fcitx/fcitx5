@@ -49,7 +49,7 @@ FCITX_CONFIGURATION(
 class Spell;
 class SpellBackend;
 
-class Spell : public AddonInstance {
+class Spell final : public AddonInstance {
 public:
     Spell(Instance *instance);
     ~Spell();

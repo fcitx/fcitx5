@@ -302,7 +302,7 @@ bool fcitx_utf8_check_string(const char *s) {
     while (*s) {
         uint32_t chr;
 
-        int len;
+        int len = 0;
         chr = fcitx_utf8_get_char_validated(s, FCITX_UTF8_MAX_LENGTH, &len);
         if (chr == (uint32_t)-1 || chr == (uint32_t)-2) {
             return 0;
@@ -340,7 +340,7 @@ FCITXUTILS_EXPORT
 size_t fcitx_utf8_strnlen_validated(const char *str, size_t byte) {
     size_t len = 0;
     while (byte && *str) {
-        int charLen;
+        int charLen = 0;
         uint32_t chr = fcitx_utf8_get_char_validated(
             str, (byte > FCITX_UTF8_MAX_LENGTH ? FCITX_UTF8_MAX_LENGTH : byte),
             &charLen);

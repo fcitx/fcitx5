@@ -19,7 +19,6 @@
 #include "stringutils.h"
 #include "charutils.h"
 #include "macros.h"
-#include <algorithm>
 #include <climits>
 #include <string.h>
 

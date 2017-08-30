@@ -27,7 +27,7 @@ namespace classicui {
 
 WaylandWindow::WaylandWindow(WaylandUI *ui) : Window(), ui_(ui) {}
 
-WaylandWindow::~WaylandWindow() { destroyWindow(); }
+WaylandWindow::~WaylandWindow() {}
 
 void WaylandWindow::createWindow() {
     auto compositor = ui_->display()->getGlobal<wayland::WlCompositor>();
