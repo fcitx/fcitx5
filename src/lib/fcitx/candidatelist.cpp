@@ -25,9 +25,9 @@ class CandidateListPrivate : QPtrHolder<CandidateList> {
 public:
     CandidateListPrivate(CandidateList *q) : QPtrHolder<CandidateList>(q) {}
 
-    BulkCandidateList *bulk = nullptr;
-    ModifiableCandidateList *modifiable = nullptr;
-    PageableCandidateList *pageable = nullptr;
+    BulkCandidateList *bulk_ = nullptr;
+    ModifiableCandidateList *modifiable_ = nullptr;
+    PageableCandidateList *pageable_ = nullptr;
 
     FCITX_DEFINE_SIGNAL_PRIVATE(CandidateList, Update);
 };
@@ -39,32 +39,32 @@ CandidateList::~CandidateList() {}
 
 BulkCandidateList *CandidateList::toBulk() const {
     FCITX_D();
-    return d->bulk;
+    return d->bulk_;
 }
 
 ModifiableCandidateList *CandidateList::toModifiable() const {
     FCITX_D();
-    return d->modifiable;
+    return d->modifiable_;
 }
 
 PageableCandidateList *CandidateList::toPageable() const {
     FCITX_D();
-    return d->pageable;
+    return d->pageable_;
 }
 
 void CandidateList::setBulk(BulkCandidateList *list) {
     FCITX_D();
-    d->bulk = list;
+    d->bulk_ = list;
 }
 
 void CandidateList::setModifiable(ModifiableCandidateList *list) {
     FCITX_D();
-    d->modifiable = list;
+    d->modifiable_ = list;
 }
 
 void CandidateList::setPageable(PageableCandidateList *list) {
     FCITX_D();
-    d->pageable = list;
+    d->pageable_ = list;
 }
 
 class CandidateWordPrivate {
@@ -88,36 +88,122 @@ Text &CandidateWord::text() {
     return d->text_;
 }
 
+class DisplayOnlyCandidateWord : public CandidateWord {
+public:
+    DisplayOnlyCandidateWord(Text text) : CandidateWord(std::move(text)) {}
+
+    void select(InputContext *) const override{};
+};
+
+class DisplayOnlyCandidateListPrivate {
+public:
+    Text emptyText_;
+    int cursorIndex_ = -1;
+    CandidateLayoutHint layoutHint_ = CandidateLayoutHint::Vertical;
+    std::vector<std::shared_ptr<CandidateWord>> candidateWords_;
+
+    void checkIndex(int idx) const {
+        if (idx < 0 || static_cast<size_t>(idx) >= candidateWords_.size()) {
+            throw std::invalid_argument("invalid index");
+        }
+    }
+};
+
+DisplayOnlyCandidateList::DisplayOnlyCandidateList()
+    : d_ptr(std::make_unique<DisplayOnlyCandidateListPrivate>()) {}
+
+DisplayOnlyCandidateList::~DisplayOnlyCandidateList() = default;
+
+void DisplayOnlyCandidateList::setContent(std::vector<std::string> content) {
+    std::vector<Text> text_content;
+    for (const auto &str : content) {
+        text_content.emplace_back();
+        text_content.back().append(str);
+    }
+    setContent(std::move(text_content));
+}
+
+void DisplayOnlyCandidateList::setContent(std::vector<Text> content) {
+    FCITX_D();
+    for (auto &text : content) {
+        d->candidateWords_.emplace_back(
+            std::make_shared<DisplayOnlyCandidateWord>(std::move(text)));
+    }
+}
+
+void DisplayOnlyCandidateList::setLayoutHint(CandidateLayoutHint hint) {
+    FCITX_D();
+    d->layoutHint_ = hint;
+}
+
+void DisplayOnlyCandidateList::setCursorIndex(int index) {
+    FCITX_D();
+    if (index < 0) {
+        d->cursorIndex_ = -1;
+    } else {
+        d->checkIndex(index);
+        d->cursorIndex_ = index;
+    }
+}
+
+const Text &DisplayOnlyCandidateList::label(int idx) const {
+    FCITX_D();
+    d->checkIndex(idx);
+    return d->emptyText_;
+}
+
+std::shared_ptr<const CandidateWord>
+DisplayOnlyCandidateList::candidate(int idx) const {
+    FCITX_D();
+    d->checkIndex(idx);
+    return d->candidateWords_[idx];
+}
+
+int DisplayOnlyCandidateList::cursorIndex() const {
+    FCITX_D();
+    return d->cursorIndex_;
+}
+
+int DisplayOnlyCandidateList::size() const {
+    FCITX_D();
+    return d->candidateWords_.size();
+}
+
+CandidateLayoutHint DisplayOnlyCandidateList::layoutHint() const {
+    FCITX_D();
+    return d->layoutHint_;
+}
+
 class CommonCandidateListPrivate {
 public:
-    bool usedNextBefore = false;
-    int cursorIndex = -1;
-    int currentPage = 0;
-    int pageSize = 5;
-    std::vector<Text> labels;
+    bool usedNextBefore_ = false;
+    int cursorIndex_ = -1;
+    int currentPage_ = 0;
+    int pageSize_ = 5;
+    std::vector<Text> labels_;
     // use shared_ptr for type erasure
-    std::vector<std::shared_ptr<CandidateWord>> candidateWord;
-    CandidateLayoutHint layoutHint;
+    std::vector<std::shared_ptr<CandidateWord>> candidateWord_;
+    CandidateLayoutHint layoutHint_ = CandidateLayoutHint::NotSet;
 
     int size() const {
-        auto start = currentPage * pageSize;
-        auto remain = static_cast<int>(candidateWord.size()) - start;
-        if (remain > pageSize) {
-            return pageSize;
+        auto start = currentPage_ * pageSize_;
+        auto remain = static_cast<int>(candidateWord_.size()) - start;
+        if (remain > pageSize_) {
+            return pageSize_;
         }
         return remain;
     }
 
-    int toGlobalIndex(int idx) const { return idx + currentPage * pageSize; }
+    int toGlobalIndex(int idx) const { return idx + currentPage_ * pageSize_; }
 
     void checkIndex(int idx) const {
-        if (idx < 0 && idx >= size()) {
+        if (idx < 0 || idx >= size()) {
             throw std::invalid_argument("invalid index");
         }
     }
 
     void checkGlobalIndex(int idx) const {
-        if (idx < 0 || static_cast<size_t>(idx) >= candidateWord.size()) {
+        if (idx < 0 || static_cast<size_t>(idx) >= candidateWord_.size()) {
             throw std::invalid_argument("invalid index");
         }
     }
@@ -155,26 +241,26 @@ std::string keyToLabel(const Key &key) {
 
 void CommonCandidateList::setSelectionKey(const KeyList &keyList) {
     FCITX_D();
-    d->labels.clear();
-    d->labels.reserve(keyList.size());
+    d->labels_.clear();
+    d->labels_.reserve(keyList.size());
     for (auto &key : keyList) {
-        d->labels.emplace_back(keyToLabel(key));
+        d->labels_.emplace_back(keyToLabel(key));
     }
 }
 
 void CommonCandidateList::clear() {
     FCITX_D();
-    d->candidateWord.clear();
+    d->candidateWord_.clear();
 }
 
 int CommonCandidateList::currentPage() const {
     FCITX_D();
-    return d->currentPage;
+    return d->currentPage_;
 }
 
 int CommonCandidateList::cursorIndex() const {
     FCITX_D();
-    return d->cursorIndex;
+    return d->cursorIndex_;
 }
 
 bool CommonCandidateList::hasNext() const {
@@ -182,12 +268,12 @@ bool CommonCandidateList::hasNext() const {
     // total size = 5 -> 1 page
     // total size = 6 -> 2 page
     FCITX_D();
-    return d->currentPage + 1 < totalPages();
+    return d->currentPage_ + 1 < totalPages();
 }
 
 bool CommonCandidateList::hasPrev() const {
     FCITX_D();
-    return d->currentPage > 0;
+    return d->currentPage_ > 0;
 }
 
 void CommonCandidateList::prev() {
@@ -195,7 +281,7 @@ void CommonCandidateList::prev() {
     if (!hasPrev()) {
         return;
     }
-    d->currentPage--;
+    d->currentPage_--;
 }
 
 void CommonCandidateList::next() {
@@ -203,13 +289,13 @@ void CommonCandidateList::next() {
     if (!hasNext()) {
         return;
     }
-    d->currentPage++;
-    d->usedNextBefore = true;
+    d->currentPage_++;
+    d->usedNextBefore_ = true;
 }
 
 bool CommonCandidateList::usedNextBefore() const {
     FCITX_D();
-    return d->usedNextBefore;
+    return d->usedNextBefore_;
 }
 
 void CommonCandidateList::setPageSize(int size) {
@@ -217,8 +303,8 @@ void CommonCandidateList::setPageSize(int size) {
     if (size < 1) {
         throw std::invalid_argument("invalid page size");
     }
-    d->pageSize = size;
-    d->currentPage = 0;
+    d->pageSize_ = size;
+    d->currentPage_ = 0;
 }
 
 int CommonCandidateList::size() const {
@@ -228,7 +314,7 @@ int CommonCandidateList::size() const {
 
 int CommonCandidateList::totalSize() const {
     FCITX_D();
-    return d->candidateWord.size();
+    return d->candidateWord_.size();
 }
 
 std::shared_ptr<const CandidateWord>
@@ -236,66 +322,66 @@ CommonCandidateList::candidate(int idx) const {
     FCITX_D();
     d->checkIndex(idx);
     auto globalIndex = d->toGlobalIndex(idx);
-    return d->candidateWord[globalIndex];
+    return d->candidateWord_[globalIndex];
 }
 
 const Text &CommonCandidateList::label(int idx) const {
     FCITX_D();
     d->checkIndex(idx);
     if (idx < 0 || idx >= size() ||
-        static_cast<size_t>(idx) >= d->labels.size()) {
+        static_cast<size_t>(idx) >= d->labels_.size()) {
         throw std::invalid_argument("invalid idx");
     }
 
-    return d->labels[idx];
+    return d->labels_[idx];
 }
 
 void CommonCandidateList::insert(int idx, CandidateWord *word) {
     FCITX_D();
     // it's ok to insert at tail
-    if (idx != static_cast<int>(d->candidateWord.size())) {
+    if (idx != static_cast<int>(d->candidateWord_.size())) {
         d->checkGlobalIndex(idx);
     }
-    d->candidateWord.insert(d->candidateWord.begin() + idx,
-                            std::shared_ptr<CandidateWord>(word));
+    d->candidateWord_.insert(d->candidateWord_.begin() + idx,
+                             std::shared_ptr<CandidateWord>(word));
 }
 
 void CommonCandidateList::remove(int idx) {
     FCITX_D();
     d->checkGlobalIndex(idx);
-    d->candidateWord.erase(d->candidateWord.begin() + idx);
+    d->candidateWord_.erase(d->candidateWord_.begin() + idx);
     fixAfterUpdate();
 }
 
 int CommonCandidateList::totalPages() const {
     FCITX_D();
-    return (totalSize() + d->pageSize - 1) / d->pageSize;
+    return (totalSize() + d->pageSize_ - 1) / d->pageSize_;
 }
 
 void CommonCandidateList::setLayoutHint(CandidateLayoutHint hint) {
     FCITX_D();
-    d->layoutHint = hint;
+    d->layoutHint_ = hint;
 }
 
 void CommonCandidateList::setCursorIndex(int index) {
     FCITX_D();
     if (index < 0) {
-        d->cursorIndex = -1;
+        d->cursorIndex_ = -1;
     } else {
         d->checkIndex(index);
-        d->cursorIndex = index;
+        d->cursorIndex_ = index;
     }
 }
 
 CandidateLayoutHint CommonCandidateList::layoutHint() const {
     FCITX_D();
-    return d->layoutHint;
+    return d->layoutHint_;
 }
 
 const CandidateWord &CommonCandidateList::candidateFromAll(int idx) const {
     FCITX_D();
     d->checkGlobalIndex(idx);
-    return *d->candidateWord[idx];
+    return *d->candidateWord_[idx];
 }
 
 void CommonCandidateList::move(int from, int to) {
@@ -306,16 +392,16 @@ void CommonCandidateList::move(int from, int to) {
         // 1 2 3 4 5
         // from 2 to 5
         // 1 3 4 5 2
-        std::rotate(d->candidateWord.begin() + from,
-                    d->candidateWord.begin() + from + 1,
-                    d->candidateWord.begin() + to + 1);
+        std::rotate(d->candidateWord_.begin() + from,
+                    d->candidateWord_.begin() + from + 1,
+                    d->candidateWord_.begin() + to + 1);
     } else if (from > to) {
         // 1 2 3 4 5
         // from 5 to 2
         // 1 5 2 3 4
-        std::rotate(d->candidateWord.begin() + to,
-                    d->candidateWord.begin() + from,
-                    d->candidateWord.begin() + from + 1);
+        std::rotate(d->candidateWord_.begin() + to,
+                    d->candidateWord_.begin() + from,
+                    d->candidateWord_.begin() + from + 1);
     }
 }
 
@@ -323,7 +409,7 @@ void CommonCandidateList::setPage(int page) {
     FCITX_D();
     auto totalPage = totalPages();
     if (page >= 0 && page < totalPage) {
-        d->currentPage = page;
+        d->currentPage_ = page;
     } else {
         throw std::invalid_argument("invalid page");
     }
@@ -331,17 +417,17 @@ void CommonCandidateList::setPage(int page) {
 
 void CommonCandidateList::replace(int idx, CandidateWord *word) {
     FCITX_D();
-    d->candidateWord[idx].reset(word);
+    d->candidateWord_[idx].reset(word);
 }
 
 void CommonCandidateList::fixAfterUpdate() {
     FCITX_D();
-    if (d->currentPage >= totalPages() && d->currentPage > 0) {
-        d->currentPage = totalPages() - 1;
+    if (d->currentPage_ >= totalPages() && d->currentPage_ > 0) {
+        d->currentPage_ = totalPages() - 1;
     }
-    if (d->cursorIndex >= 0) {
-        if (d->cursorIndex >= size()) {
-            d->cursorIndex = 0;
+    if (d->cursorIndex_ >= 0) {
+        if (d->cursorIndex_ >= size()) {
+            d->cursorIndex_ = 0;
         }
     }
 }

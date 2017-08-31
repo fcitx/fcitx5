@@ -19,7 +19,6 @@
 #ifndef _FCITX_UTILS_DBUS_SERVICEWATCHER_H_
 #define _FCITX_UTILS_DBUS_SERVICEWATCHER_H_
 
-#include "fcitxutils_export.h"
 #include <fcitx-utils/dbus/bus.h>
 #include <fcitx-utils/handlertable.h>
 #include <fcitx-utils/macros.h>

@@ -29,12 +29,18 @@ const char *translateDomain(const char *domain, const std::string &s);
 const char *translateDomain(const char *domain, const char *s);
 }
 
+#ifndef FCITX_NO_I18N_MACRO
+
 #ifdef FCITX_GETTEXT_DOMAIN
-#define _(x) translateDomain(FCITX_GETTEXT_DOMAIN, x)
+#define _(x) ::fcitx::translateDomain(FCITX_GETTEXT_DOMAIN, x)
 #else
-#define _(x) translate(x)
+#define _(x) ::fcitx::translate(x)
 #endif
 
-#define D_(d, x) translateDomain(d, x)
+#define D_(d, x) ::fcitx::translateDomain(d, x)
+
+#define N_(x) (x)
+
+#endif
 
 #endif // _FCITX_UTILS_I18N_H_

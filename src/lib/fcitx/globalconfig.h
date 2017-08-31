@@ -35,6 +35,8 @@ public:
     GlobalConfig();
     virtual ~GlobalConfig();
     const std::vector<Key> &triggerKeys() const;
+    const std::vector<Key> &enumerateForwardKeys() const;
+    const std::vector<Key> &enumerateBackwardKeys() const;
     bool activeByDefault() const;
     bool showInputMethodInformation() const;
 

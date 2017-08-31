@@ -46,6 +46,7 @@ public:
     int groupCount() const;
     void setCurrentGroup(const std::string &group);
     const InputMethodGroup &currentGroup() const;
+    InputMethodGroup &currentGroup();
     void setGroupOrder(const std::vector<std::string> &groups);
 
     const InputMethodEntry *entry(const std::string &name) const;

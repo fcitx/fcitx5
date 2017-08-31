@@ -216,6 +216,11 @@ const InputMethodGroup &InputMethodManager::currentGroup() const {
     return d->groups_.find(d->currentGroup_)->second;
 }
 
+InputMethodGroup &InputMethodManager::currentGroup() {
+    FCITX_D();
+    return d->groups_.find(d->currentGroup_)->second;
+}
+
 void InputMethodManager::setGroupOrder(
     const std::vector<std::string> &groupOrder) {
     FCITX_D();

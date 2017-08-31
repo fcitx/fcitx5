@@ -19,7 +19,6 @@
 #ifndef _FCITX_UTILS_DBUS_OBJECTVTABLE_H_
 #define _FCITX_UTILS_DBUS_OBJECTVTABLE_H_
 
-#include "fcitxutils_export.h"
 #include <fcitx-utils/macros.h>
 #include <fcitx-utils/trackableobject.h>
 #include <functional>

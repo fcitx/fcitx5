@@ -302,11 +302,11 @@ void XCBUI::initScreen() {
     } else if (multiScreen_ == MultiScreenExtension::Xinerama) {
         auto cookie = xcb_xinerama_query_screens(conn_);
         if (auto reply = makeXCBReply(
-            xcb_xinerama_query_screens_reply(conn_, cookie, nullptr))) {
+                xcb_xinerama_query_screens_reply(conn_, cookie, nullptr))) {
             xcb_xinerama_screen_info_iterator_t iter;
-            for (iter =
-                    xcb_xinerama_query_screens_screen_info_iterator(reply.get());
-                iter.rem; xcb_xinerama_screen_info_next(&iter)) {
+            for (iter = xcb_xinerama_query_screens_screen_info_iterator(
+                     reply.get());
+                 iter.rem; xcb_xinerama_screen_info_next(&iter)) {
                 auto info = iter.data;
                 auto x = info->x_org;
                 auto y = info->y_org;

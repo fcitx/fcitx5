@@ -122,6 +122,7 @@ private:
     void save();
 
     bool trigger(InputContext *ic);
+    bool enumerate(InputContext *ic, bool forward);
 
     std::unique_ptr<InstancePrivate> d_ptr;
     FCITX_DECLARE_PRIVATE(Instance);

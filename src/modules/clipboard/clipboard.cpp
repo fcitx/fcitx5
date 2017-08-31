@@ -345,6 +345,19 @@ void Clipboard::clipboardChanged(const std::string &name) {
         }));
 }
 
+std::string Clipboard::primary(const InputContext *) {
+    // TODO: per ic
+    return primary_;
+}
+
+std::string Clipboard::clipboard(const InputContext *) {
+    // TODO: per ic
+    if (history_.empty()) {
+        return "";
+    }
+    return history_.front();
+}
+
 class ClipboardModuleFactory : public AddonFactory {
     AddonInstance *create(AddonManager *manager) override {
         return new Clipboard(manager->instance());

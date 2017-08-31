@@ -16,3 +16,7 @@ install(FILES "${CMAKE_CURRENT_BINARY_DIR}/Fcitx5ModuleConfigVersion.cmake"
               "${CMAKE_CURRENT_BINARY_DIR}/Fcitx5ModuleConfig.cmake"
         DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/Fcitx5Module
         COMPONENT Devel )
+
+configure_file(Fcitx5Module.pc.in ${CMAKE_CURRENT_BINARY_DIR}/Fcitx5Module.pc @ONLY)
+install(FILES ${CMAKE_CURRENT_BINARY_DIR}/Fcitx5Module.pc
+  DESTINATION "${CMAKE_INSTALL_LIBDATADIR}/pkgconfig")

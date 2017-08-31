@@ -44,7 +44,12 @@ constexpr const char MetaString<c...>::str_[sizeof...(c) + 1];
 
 template <int N, int M>
 constexpr char __getChar(char const (&str)[M]) noexcept {
-    return N < M ? str[N] : '\0';
+    // hack to avoid warning.
+    int n = N < M ? N : 0;
+    if (N < M) {
+        return str[n];
+    }
+    return '\0';
 }
 
 template <typename... T>

@@ -111,7 +111,7 @@ void InputContext::setCapabilityFlags(CapabilityFlags flags) {
     }
 }
 
-CapabilityFlags InputContext::capabilityFlags() {
+CapabilityFlags InputContext::capabilityFlags() const {
     FCITX_D();
     return d->capabilityFlags_;
 }

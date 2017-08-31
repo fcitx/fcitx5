@@ -29,13 +29,22 @@ FCITX_CONFIGURATION(
         this,
         "Hotkey/TriggerKeys",
         "Trigger Input Method",
-        {Key("Control+space"), Key("Super+space"), Key("Zenkaku_Hankaku"),
-         Key("Hangul")}};
+        {Key("Control+space"), Key("Zenkaku_Hankaku"), Key("Hangul")}};
     fcitx::Option<std::vector<Key>> altTriggerKeys{
         this,
         "Hotkey/AltTriggerKeys",
         "Trigger Input Method Only after using it to deactivate",
-        {Key("L_Shift")}};
+        {Key("Shift_L")}};
+    fcitx::Option<std::vector<Key>> enumerateForwardKeys{
+        this,
+        "Hotkey/EnumerateForwardKeys",
+        "Enumerate Input Method Forward",
+        {Key("Control+Shift_L")}};
+    fcitx::Option<std::vector<Key>> enumerateBackwardKeys{
+        this,
+        "Hotkey/EnumerateBackwardKeys",
+        "Enumerate Input Method Backward",
+        {Key("Control+Shift_R")}};
     fcitx::Option<std::vector<Key>> activateKeys{this,
                                                  "Hotkey/ActivateKeys",
                                                  "ActivateKeys",
@@ -75,6 +84,16 @@ void GlobalConfig::load(const RawConfig &config) {
 const std::vector<Key> &GlobalConfig::triggerKeys() const {
     FCITX_D();
     return d->triggerKeys.value();
+}
+
+const std::vector<Key> &GlobalConfig::enumerateForwardKeys() const {
+    FCITX_D();
+    return d->enumerateForwardKeys.value();
+}
+
+const std::vector<Key> &GlobalConfig::enumerateBackwardKeys() const {
+    FCITX_D();
+    return d->enumerateBackwardKeys.value();
 }
 
 bool GlobalConfig::activeByDefault() const {

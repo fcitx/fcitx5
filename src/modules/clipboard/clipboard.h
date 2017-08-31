@@ -19,6 +19,7 @@
 #ifndef _FCITX_MODULES_CLIPBOARD_CLIPBOARD_H_
 #define _FCITX_MODULES_CLIPBOARD_CLIPBOARD_H_
 
+#include "clipboard_public.h"
 #include "fcitx-config/configuration.h"
 #include "fcitx-config/enum.h"
 #include "fcitx-utils/key.h"
@@ -42,7 +43,7 @@ FCITX_CONFIGURATION(ClipboardConfig,
                         IntConstrain(3, 10)};);
 
 class ClipboardState;
-class Clipboard : public AddonInstance {
+class Clipboard final : public AddonInstance {
 public:
     Clipboard(Instance *instance);
     ~Clipboard();
@@ -55,9 +56,14 @@ public:
 
     void reloadConfig() override;
 
+    std::string primary(const InputContext *ic);
+    std::string clipboard(const InputContext *ic);
+
 private:
     void primaryChanged(const std::string &name);
     void clipboardChanged(const std::string &name);
+    FCITX_ADDON_EXPORT_FUNCTION(Clipboard, primary);
+    FCITX_ADDON_EXPORT_FUNCTION(Clipboard, clipboard);
 
     Instance *instance_;
     std::vector<std::unique_ptr<fcitx::HandlerTableEntry<fcitx::EventHandler>>>

@@ -1,0 +1,11 @@
+prefix=@CMAKE_INSTALL_PREFIX@
+exec_prefix=${prefix}
+libdir=@CMAKE_INSTALL_FULL_LIBDIR@
+includedir=@CMAKE_INSTALL_FULL_INCLUDEDIR@/Fcitx5/Module
+
+Name: Fcitx5Module
+Description: Fcitx Public Module Library
+Version: @FCITX_VERSION@
+Requires: Fcitx5Core
+Cflags: -I${includedir}
+

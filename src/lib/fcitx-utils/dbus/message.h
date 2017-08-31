@@ -19,7 +19,6 @@
 #ifndef _FCITX_UTILS_DBUS_MESSAGE_H_
 #define _FCITX_UTILS_DBUS_MESSAGE_H_
 
-#include "fcitxutils_export.h"
 #include <fcitx-utils/dbus/message_details.h>
 #include <fcitx-utils/macros.h>
 #include <fcitx-utils/metastring.h>

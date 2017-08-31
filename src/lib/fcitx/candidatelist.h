@@ -62,7 +62,6 @@ public:
     virtual std::shared_ptr<const CandidateWord> candidate(int idx) const = 0;
     virtual int size() const = 0;
     virtual int cursorIndex() const = 0;
-
     virtual CandidateLayoutHint layoutHint() const = 0;
 
     PageableCandidateList *toPageable() const;
@@ -92,9 +91,10 @@ public:
 
     virtual bool usedNextBefore() const = 0;
 
-    virtual int totalPages() const = 0;
-    virtual int currentPage() const = 0;
-    virtual void setPage(int page) = 0;
+    // Following are optional.
+    virtual int totalPages() const { return -1; }
+    virtual int currentPage() const { return -1; }
+    virtual void setPage(int) {}
 };
 
 // useful for virtual keyboard
@@ -114,6 +114,30 @@ public:
     virtual void move(int from, int to) = 0;
 
     void append(CandidateWord *word) { insert(totalSize(), word); }
+};
+
+class DisplayOnlyCandidateListPrivate;
+
+class FCITXCORE_EXPORT DisplayOnlyCandidateList : public CandidateList {
+public:
+    DisplayOnlyCandidateList();
+    ~DisplayOnlyCandidateList();
+
+    void setContent(std::vector<std::string> content);
+    void setContent(std::vector<Text> content);
+    void setLayoutHint(CandidateLayoutHint hint);
+    void setCursorIndex(int index);
+
+    // CandidateList
+    const fcitx::Text &label(int idx) const override;
+    std::shared_ptr<const CandidateWord> candidate(int idx) const override;
+    int cursorIndex() const override;
+    int size() const override;
+    CandidateLayoutHint layoutHint() const override;
+
+private:
+    std::unique_ptr<DisplayOnlyCandidateListPrivate> d_ptr;
+    FCITX_DECLARE_PRIVATE(DisplayOnlyCandidateList);
 };
 
 class CommonCandidateListPrivate;

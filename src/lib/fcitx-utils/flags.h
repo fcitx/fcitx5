@@ -95,6 +95,10 @@ public:
     }
     constexpr inline Flags operator~() const { return Flags(~flags_); }
 
+    constexpr inline Flags unset(Enum f) const {
+        return Flags(flags_ & (~static_cast<storage_type>(f)));
+    }
+
     template <typename T>
     constexpr inline bool test(T f) const {
         return (*this & f) == f;

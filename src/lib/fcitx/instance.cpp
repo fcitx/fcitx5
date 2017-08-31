@@ -287,6 +287,10 @@ Instance::Instance(int argc, char **argv) {
             } keyHandlers[] = {
                 {d->globalConfig_.triggerKeys(),
                  [this, ic]() { return trigger(ic); }},
+                {d->globalConfig_.enumerateForwardKeys(),
+                 [this, ic]() { return enumerate(ic, true); }},
+                {d->globalConfig_.enumerateBackwardKeys(),
+                 [this, ic]() { return enumerate(ic, false); }},
             };
 
             auto inputState = ic->propertyFor(&d->inputStateFactory);
@@ -455,7 +459,10 @@ Instance::Instance(int argc, char **argv) {
                 return;
             }
             if (d->globalConfig_.showInputMethodInformation() &&
-                icEvent.reason() == InputMethodSwitchedReason::Trigger) {
+                (icEvent.reason() == InputMethodSwitchedReason::Trigger ||
+                 icEvent.reason() == InputMethodSwitchedReason::Enumerate ||
+                 icEvent.reason() == InputMethodSwitchedReason::Activate ||
+                 icEvent.reason() == InputMethodSwitchedReason::Deactivate)) {
                 auto inputState = ic->propertyFor(&d->inputStateFactory);
                 inputState->showInputMethodInformation(entry->name());
             }
@@ -858,6 +865,40 @@ bool Instance::trigger(InputContext *ic) {
     if (inputState->imChanged) {
         inputState->imChanged->setReason(InputMethodSwitchedReason::Trigger);
     }
+    return true;
+}
+
+bool Instance::enumerate(InputContext *ic, bool forward) {
+    FCITX_D();
+    auto &imManager = inputMethodManager();
+    auto inputState = ic->propertyFor(&d->inputStateFactory);
+    const auto &imList = imManager.currentGroup().inputMethodList();
+    if (imManager.currentGroup().inputMethodList().size() <= 1) {
+        return false;
+    }
+
+    auto currentIM = inputMethod(ic);
+
+    auto iter = std::find_if(imList.begin(), imList.end(),
+                             [&currentIM](const InputMethodGroupItem &item) {
+                                 return item.name() == currentIM;
+                             });
+    if (iter == imList.end()) {
+        return false;
+    }
+    auto idx = std::distance(imList.begin(), iter);
+    // be careful not to use negative to avoid overflow.
+    idx = (idx + (forward ? 1 : (imList.size() - 1))) % imList.size();
+    if (idx != 0) {
+        imManager.currentGroup().setDefaultInputMethod(imList[idx].name());
+        inputState->active = true;
+    } else {
+        inputState->active = false;
+    }
+    if (inputState->imChanged) {
+        inputState->imChanged->setReason(InputMethodSwitchedReason::Enumerate);
+    }
+
     return true;
 }
 

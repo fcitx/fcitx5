@@ -45,6 +45,7 @@ enum class InputMethodSwitchedReason {
     Deactivate,
     AltTrigger,
     Activate,
+    Enumerate,
     Other,
 };
 

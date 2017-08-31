@@ -68,7 +68,7 @@ public:
     FocusGroup *focusGroup() const;
     void reset(ResetReason reason);
     void setCapabilityFlags(CapabilityFlags flags);
-    CapabilityFlags capabilityFlags();
+    CapabilityFlags capabilityFlags() const;
     void setCursorRect(Rect rect);
     bool keyEvent(KeyEvent &key);
 
