@@ -92,7 +92,7 @@ private:
 
 template <typename Invoker, typename Iter>
 SlotInvokeIterator<typename Iter::value_type>
-MakeSlotInvokeIterator(Invoker invoker, Iter iter) {
+MakeSlotInvokeIterator(Invoker &invoker, Iter iter) {
     return {invoker, iter};
 }
 
