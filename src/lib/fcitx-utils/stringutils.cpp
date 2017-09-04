@@ -46,16 +46,14 @@ std::pair<std::string::size_type, std::string::size_type>
 trimInplace(const std::string &str) {
     auto start = str.find_first_not_of(FCITX_WHITESPACE);
     if (start == std::string::npos) {
-        return std::pair<std::string::size_type, std::string::size_type>(
-            str.size(), str.size());
+        return {str.size(), str.size()};
     }
 
     auto end = str.size();
     while (end > start && charutils::isspace(str[end - 1]))
         --end;
 
-    return std::pair<std::string::size_type, std::string::size_type>(start,
-                                                                     end);
+    return {start, end};
 }
 
 std::vector<std::string> split(const std::string &str,

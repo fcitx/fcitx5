@@ -107,8 +107,8 @@ void readFromIni(RawConfig &config, FILE *fin) {
     while (getline(&clineBuf, &bufSize, fin) >= 0) {
         line++;
         lineBuf = clineBuf;
-        std::string::size_type start, end;
-        std::tie(start, end) = stringutils::trimInplace(lineBuf);
+        auto pair = stringutils::trimInplace(lineBuf);
+        std::string::size_type start = pair.first, end = pair.second;
         if (start == end || lineBuf[start] == '#') {
             continue;
         }

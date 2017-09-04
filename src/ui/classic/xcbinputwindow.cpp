@@ -126,8 +126,8 @@ void XCBInputWindow::updatePosition(InputContext *inputContext) {
                 dpi_ = 48;
             }
         }
-        unsigned int width, height;
-        std::tie(width, height) = sizeHint();
+        auto pair = sizeHint();
+        unsigned int width = pair.first, height = pair.second;
 
         if (width != this->width() || height != this->height()) {
             resize(width, height);
@@ -200,8 +200,8 @@ void XCBInputWindow::update(InputContext *inputContext) {
         }
         return;
     }
-    unsigned int width, height;
-    std::tie(width, height) = sizeHint();
+    auto pair = sizeHint();
+    unsigned int width = pair.first, height = pair.second;
 
     if (width != this->width() || height != this->height()) {
         resize(width, height);

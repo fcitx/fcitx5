@@ -85,8 +85,8 @@ struct XkbRulesParseState : public XMLParser {
     void endElement(const XML_Char *) override { parseStack.pop_back(); }
     void characterData(const XML_Char *ch, int len) override {
         std::string temp(reinterpret_cast<const char *>(ch), len);
-        std::string::size_type start, end;
-        std::tie(start, end) = stringutils::trimInplace(temp);
+        auto pair = stringutils::trimInplace(temp);
+        std::string::size_type start = pair.first, end = pair.second;
         if (start != end) {
             std::string text(temp.begin() + start, temp.begin() + end);
             if (match({"layoutList", "layout", "configItem", "name"})) {

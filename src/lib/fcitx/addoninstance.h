@@ -33,27 +33,25 @@ class AddonInstance;
 class AddonInstancePrivate;
 class AddonFunctionAdaptorBase {
 public:
-    AddonInstance *addon;
-    void *wrapCallback;
+    virtual ~AddonFunctionAdaptorBase() = default;
+};
 
-    AddonFunctionAdaptorBase(AddonInstance *addon_, void *wrapCallback_)
-        : addon(addon_), wrapCallback(wrapCallback_) {}
+template <typename Sig>
+class AddonFunctionAdaptorErasure;
+
+template <typename Ret, typename... Args>
+class AddonFunctionAdaptorErasure<Ret(Args...)>
+    : public AddonFunctionAdaptorBase {
+public:
+    virtual Ret callback(Args... args) = 0;
 };
 
 template <typename T>
 struct AddonFunctionSignature;
 
 template <typename Signature>
-struct AddonFunctionWrapperType;
-
-template <typename Signature>
 using AddonFunctionSignatureType =
     typename AddonFunctionSignature<Signature>::type;
-
-template <typename Ret, typename... Args>
-struct AddonFunctionWrapperType<Ret(Args...)> {
-    typedef Ret type(AddonInstance *, AddonFunctionAdaptorBase *, Args...);
-};
 
 class FCITXCORE_EXPORT AddonInstance {
 public:
@@ -66,10 +64,9 @@ public:
     typename std::function<Signature>::result_type
     callWithSignature(const std::string &name, Args &&... args) {
         auto adaptor = findCall(name);
-        auto func = Library::toFunction<
-            typename AddonFunctionWrapperType<Signature>::type>(
-            adaptor->wrapCallback);
-        return func(this, adaptor, std::forward<Args>(args)...);
+        auto erasureAdaptor =
+            static_cast<AddonFunctionAdaptorErasure<Signature> *>(adaptor);
+        return erasureAdaptor->callback(std::forward<Args>(args)...);
     }
     template <typename MetaSignatureString, typename... Args>
     auto callWithMetaString(Args &&... args) {
@@ -93,30 +90,25 @@ private:
 };
 
 template <typename Class, typename Ret, typename... Args>
-class AddonFunctionAdaptor : public AddonFunctionAdaptorBase {
+class AddonFunctionAdaptor : public AddonFunctionAdaptorErasure<Ret(Args...)> {
 public:
     typedef Ret (Class::*CallbackType)(Args...);
     typedef Ret Signature(Args...);
 
-    AddonFunctionAdaptor(const std::string &name, Class *addon_,
-                         CallbackType pCallback_)
-        : AddonFunctionAdaptorBase(addon_, reinterpret_cast<void *>(callback)),
-          pCallback(pCallback_) {
-        addon_->registerCallback(name, this);
+    AddonFunctionAdaptor(const std::string &name, Class *addon,
+                         CallbackType pCallback)
+        : AddonFunctionAdaptorErasure<Ret(Args...)>(), addon_(addon),
+          pCallback_(pCallback) {
+        addon->registerCallback(name, this);
     }
 
-    static Ret callback(AddonInstance *addon_,
-                        AddonFunctionAdaptorBase *adaptor_, Args... args) {
-        auto adaptor =
-            reinterpret_cast<AddonFunctionAdaptor<Class, Ret, Args...> *>(
-                adaptor_);
-        auto addon = reinterpret_cast<Class *>(addon_);
-        auto pCallback = adaptor->pCallback;
-        return (addon->*pCallback)(std::forward<Args>(args)...);
+    Ret callback(Args... args) override {
+        return (addon_->*pCallback_)(args...);
     }
 
 private:
-    CallbackType pCallback;
+    Class *addon_;
+    CallbackType pCallback_;
 };
 
 template <typename Class, typename Ret, typename... Args>

@@ -25,10 +25,10 @@
 
 #define FCITX_DECLARE_PRIVATE(Class)                                           \
     inline Class##Private *d_func() {                                          \
-        return reinterpret_cast<Class##Private *>(d_ptr.get());                \
+        return static_cast<Class##Private *>(d_ptr.get());                     \
     }                                                                          \
     inline const Class##Private *d_func() const {                              \
-        return reinterpret_cast<Class##Private *>(d_ptr.get());                \
+        return static_cast<Class##Private *>(d_ptr.get());                     \
     }                                                                          \
     friend class Class##Private;
 

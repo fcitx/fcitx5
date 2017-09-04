@@ -149,7 +149,7 @@ struct IntrusiveListTrivialNodeGetter {
     }
 
     static const T &toValue(const IntrusiveListNode &node) noexcept {
-        return *reinterpret_cast<const T *>(&node);
+        return *static_cast<const T *>(&node);
     }
 };
 

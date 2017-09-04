@@ -57,8 +57,6 @@ add_library(Fcitx5Core SHARED ${FCITX_CORE_SOURCES})
 set_target_properties(Fcitx5Core
   PROPERTIES VERSION 5.0
   SOVERSION 5
-  COMPILE_FLAGS "-fvisibility=hidden"
-  LINK_FLAGS "-Wl,--no-undefined"
   EXPORT_NAME Core
   )
 target_include_directories(Fcitx5Core PUBLIC

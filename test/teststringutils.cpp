@@ -34,13 +34,15 @@ int main() {
     FCITX_ASSERT(!stringutils::endsWith("abc", "eabc"));
 
     std::string trim = " ab c\td\n";
-    size_t start, end;
-    std::tie(start, end) = stringutils::trimInplace(trim);
+    auto pair = stringutils::trimInplace(trim);
+    auto start = pair.first, end = pair.second;
     FCITX_ASSERT(start == 1);
     FCITX_ASSERT(end == 7);
     FCITX_ASSERT(trim.compare(start, end - start, "ab c\td") == 0);
 
-    std::tie(start, end) = stringutils::trimInplace("\t\n\r ");
+    pair = stringutils::trimInplace("\t\n\r ");
+    start = pair.first;
+    end = pair.second;
     FCITX_ASSERT(start == end);
 
     auto replace_result = stringutils::replaceAll("abcabc", "a", "b");

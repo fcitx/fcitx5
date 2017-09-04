@@ -75,8 +75,6 @@ add_library(Fcitx5Utils SHARED ${FCITX_UTILS_SOURCES})
 set_target_properties(Fcitx5Utils
   PROPERTIES VERSION 1.0
   SOVERSION 1
-  COMPILE_FLAGS "-fvisibility=hidden"
-  LINK_FLAGS "-Wl,--no-undefined"
   EXPORT_NAME Utils
   )
 target_include_directories(Fcitx5Utils PUBLIC

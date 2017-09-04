@@ -22,8 +22,6 @@ add_library(Fcitx5Config SHARED ${FCITX_CONFIG_SOURCES})
 set_target_properties(Fcitx5Config
   PROPERTIES VERSION 5.0
   SOVERSION 5
-  COMPILE_FLAGS "-fvisibility=hidden"
-  LINK_FLAGS "-Wl,--no-undefined"
   EXPORT_NAME Config
   )
 target_include_directories(Fcitx5Config PUBLIC

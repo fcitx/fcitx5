@@ -26,7 +26,7 @@ namespace fcitx {
 class Configuration;
 FCITXCONFIG_EXPORT void readFromIni(RawConfig &config, int fd);
 FCITXCONFIG_EXPORT bool writeAsIni(const RawConfig &config, int fd);
-FCITXCONFIG_EXPORT void readFromIni(RawConfig &config, FILE *fin);
+void readFromIni(RawConfig &config, FILE *fin);
 FCITXCONFIG_EXPORT bool writeAsIni(const RawConfig &config, FILE *fout);
 FCITXCONFIG_EXPORT bool safeSaveAsIni(const Configuration &,
                                       const std::string &name);

@@ -64,7 +64,7 @@ public:
     Connection connect(F &&func) {
         auto signal = findSignal(SignalType::signature::data());
         if (signal) {
-            return reinterpret_cast<Signal<typename SignalType::signalType> *>(
+            return static_cast<Signal<typename SignalType::signalType> *>(
                        signal)
                 ->connect(std::forward<F>(func));
         }
@@ -74,7 +74,7 @@ public:
     template <typename SignalType>
     void disconnectAll() {
         auto signal = findSignal(SignalType::signature::data());
-        reinterpret_cast<Signal<typename SignalType::signalType> *>(signal)
+        static_cast<Signal<typename SignalType::signalType> *>(signal)
             ->disconnectAll();
     }
 
@@ -82,7 +82,7 @@ protected:
     template <typename SignalType, typename... Args>
     auto emit(Args &&... args) {
         auto signal = findSignal(SignalType::signature::data());
-        return (*reinterpret_cast<Signal<typename SignalType::signalType> *>(
+        return (*static_cast<Signal<typename SignalType::signalType> *>(
             signal))(std::forward<Args>(args)...);
     }
 

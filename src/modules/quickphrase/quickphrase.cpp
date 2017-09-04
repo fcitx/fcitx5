@@ -400,8 +400,8 @@ void QuickPhrase::load(StandardPathFile &file) {
     while (getline(&buf, &len, fp.get()) != -1) {
         std::string strBuf(buf);
 
-        std::string::size_type start, end;
-        std::tie(start, end) = stringutils::trimInplace(strBuf);
+        auto pair = stringutils::trimInplace(strBuf);
+        std::string::size_type start = pair.first, end = pair.second;
         if (start == end) {
             continue;
         }

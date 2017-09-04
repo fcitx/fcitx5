@@ -188,14 +188,12 @@ public:
     }
 
     virtual bool equalTo(const OptionBase &other) const override {
-        auto otherP =
-            reinterpret_cast<const Option<T, Constrain, Marshaller> *>(&other);
+        auto otherP = static_cast<const Option *>(&other);
         return value_ == otherP->value_;
     }
 
     virtual void copyFrom(const OptionBase &other) override {
-        auto otherP =
-            reinterpret_cast<const Option<T, Constrain, Marshaller> *>(&other);
+        auto otherP = static_cast<const Option *>(&other);
         value_ = otherP->value_;
     }
 
