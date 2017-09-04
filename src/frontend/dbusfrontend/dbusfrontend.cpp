@@ -166,7 +166,8 @@ public:
         const std::vector<dbus::DBusStruct<std::string, std::string>> &args) {
         std::unordered_map<std::string, std::string> strMap;
         for (auto &p : args) {
-            std::string key = std::get<0>(p.data()), value = std::get<1>(p.data());
+            std::string key = std::get<0>(p.data()),
+                        value = std::get<1>(p.data());
             strMap[key] = value;
         }
         std::string program;
