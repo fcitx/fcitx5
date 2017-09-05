@@ -82,7 +82,7 @@ bool SpellEnchant::loadDict(const std::string &language) {
 void SpellEnchant::addWord(const std::string &language,
                            const std::string &word) {
     if (loadDict(language)) {
-        enchant_dict_add_to_personal(dict_.get(), word.c_str(), word.size());
+        enchant_dict_add(dict_.get(), word.c_str(), word.size());
     }
 }
 
