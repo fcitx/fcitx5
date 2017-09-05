@@ -110,5 +110,6 @@ install(FILES  "${CMAKE_CURRENT_BINARY_DIR}/Fcitx5UtilsConfig.cmake"
                Fcitx5Macros.cmake
                Fcitx5Download.cmake.in
                Fcitx5ModuleTemplate.cmake.in
+               "${CMAKE_SOURCE_DIR}/cmake/Fcitx5CompilerSettings.cmake"
         DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/Fcitx5Utils
         COMPONENT Devel )
