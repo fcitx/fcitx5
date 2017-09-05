@@ -1,3 +1,6 @@
+configure_file(testdir.h.in ${CMAKE_CURRENT_BINARY_DIR}/testdir.h @ONLY)
+include_directories(${CMAKE_CURRENT_BINARY_DIR})
+
 add_subdirectory(addon)
 
 set(FCITX_UTILS_TEST
@@ -23,7 +26,6 @@ set(FCITX_UTILS_DBUS_TEST
     testdbus
     testservicewatcher)
 
-set(teststandardpath_ARGS "${CMAKE_CURRENT_SOURCE_DIR}/addon")
 set(testdbus_LIBS Pthread::Pthread)
 
 add_executable(DBusWrapper IMPORTED)
@@ -53,8 +55,6 @@ foreach(TESTCASE ${FCITX_CONFIG_TEST})
     add_test(NAME ${TESTCASE}
              COMMAND ${TESTCASE})
 endforeach()
-
-set(testaddon_ARGS "${CMAKE_CURRENT_SOURCE_DIR}/addon2" "${CMAKE_CURRENT_BINARY_DIR}/addon")
 
 set(FCITX_CORE_TEST
     testinputcontext

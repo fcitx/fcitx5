@@ -20,20 +20,19 @@
 #include "fcitx-utils/fs.h"
 #include "fcitx-utils/log.h"
 #include "fcitx-utils/standardpath.h"
+#include "testdir.h"
 #include <fcntl.h>
 #include <set>
 #include <unistd.h>
 
 using namespace fcitx;
 
-int main(int argc, char *argv[]) {
-    if (argc < 2) {
-        return 1;
-    }
+#define TEST_ADDON_DIR FCITX5_SOURCE_DIR "/test/addon"
 
+int main() {
     FCITX_ASSERT(setenv("XDG_CONFIG_HOME", "/TEST/PATH", 1) == 0);
     FCITX_ASSERT(setenv("XDG_CONFIG_DIRS", "/TEST/PATH1:/TEST/PATH2", 1) == 0);
-    FCITX_ASSERT(setenv("XDG_DATA_DIRS", argv[1], 1) == 0);
+    FCITX_ASSERT(setenv("XDG_DATA_DIRS", TEST_ADDON_DIR, 1) == 0);
     StandardPath standardPath(true);
 
     FCITX_ASSERT(standardPath.userDirectory(StandardPath::Type::Config) ==
@@ -70,8 +69,8 @@ int main(int argc, char *argv[]) {
 
     auto file = standardPath.open(StandardPath::Type::PkgData,
                                   "addon/testim.conf", O_RDONLY);
-    FCITX_ASSERT(file.path() == fs::cleanPath(std::string(argv[1]) + "/" +
-                                              "fcitx5/addon/testim.conf"));
+    FCITX_ASSERT(file.path() ==
+                 fs::cleanPath(TEST_ADDON_DIR "/fcitx5/addon/testim.conf"));
 
     auto file2 = standardPath.open(StandardPath::Type::Data,
                                    "fcitx5/addon/testim2.conf", O_RDONLY);

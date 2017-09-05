@@ -22,15 +22,13 @@
 #include "fcitx-utils/metastring.h"
 #include "fcitx/addoninstance.h"
 #include "fcitx/addonmanager.h"
+#include "testdir.h"
 
 double f(int) { return 0; }
 
-int main(int argc, char *argv[]) {
-    if (argc < 3) {
-        return 1;
-    }
-    setenv("XDG_DATA_DIRS", argv[1], 1);
-    setenv("FCITX_ADDON_DIRS", argv[2], 1);
+int main() {
+    setenv("XDG_DATA_DIRS", FCITX5_SOURCE_DIR "/test/addon2", 1);
+    setenv("FCITX_ADDON_DIRS", FCITX5_BINARY_DIR "/test/addon", 1);
     fcitx::AddonManager manager;
     manager.registerDefaultLoader(nullptr);
     manager.load();
