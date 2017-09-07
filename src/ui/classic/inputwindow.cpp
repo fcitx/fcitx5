@@ -147,15 +147,36 @@ void InputWindow::update(InputContext *inputContext) {
     setTextToLayout(lowerLayout_.get(), {auxDown});
 
     if (auto candidateList = inputPanel.candidateList()) {
-        resizeCandidates(candidateList->size());
-
+        // Count non-placeholder candidates.
+        int count = 0;
         for (int i = 0, e = candidateList->size(); i < e; i++) {
-            auto label =
-                instance->outputFilter(inputContext, candidateList->label(i));
-            setTextToLayout(labelLayouts_[i].get(), {label});
-            auto candidate = instance->outputFilter(
-                inputContext, candidateList->candidate(i)->text());
-            setTextToLayout(candidateLayouts_[i].get(), {candidate});
+            auto candidate = candidateList->candidate(i);
+            if (candidate->isPlaceHolder()) {
+                continue;
+            }
+            count++;
+        }
+        resizeCandidates(count);
+
+        int localIndex = 0;
+        for (int i = 0, e = candidateList->size(); i < e; i++) {
+            auto candidate = candidateList->candidate(i);
+            // Skip placeholder.
+            if (candidate->isPlaceHolder()) {
+                continue;
+            }
+
+            Text labelText = candidate->hasCustomLabel()
+                                 ? candidate->customLabel()
+                                 : candidateList->label(i);
+
+            labelText = instance->outputFilter(inputContext, labelText);
+            setTextToLayout(labelLayouts_[localIndex].get(), {labelText});
+            auto candidateText =
+                instance->outputFilter(inputContext, candidate->text());
+            setTextToLayout(candidateLayouts_[localIndex].get(),
+                            {candidateText});
+            localIndex++;
         }
 
         layoutHint_ = candidateList->layoutHint();

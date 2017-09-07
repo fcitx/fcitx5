@@ -40,11 +40,18 @@ class FCITXCORE_EXPORT CandidateWord {
 public:
     CandidateWord(Text text = {});
     virtual ~CandidateWord();
-    const Text &text() const;
     virtual void select(InputContext *inputContext) const = 0;
 
+    const Text &text() const;
+    bool isPlaceHolder() const;
+    bool hasCustomLabel() const;
+    const Text &customLabel() const;
+
 protected:
-    Text &text();
+    void setText(Text text);
+    void setPlaceHolder(bool placeHolder);
+    void resetCustomLabel();
+    void setCustomLabel(Text text);
 
 private:
     std::unique_ptr<CandidateWordPrivate> d_ptr;

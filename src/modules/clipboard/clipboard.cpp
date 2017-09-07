@@ -95,7 +95,7 @@ public:
         : CandidateWord(), q_(q), str_(str) {
         Text text;
         text.append(ClipboardSelectionStrip(str));
-        this->text() = text;
+        setText(std::move(text));
     }
 
     void select(InputContext *inputContext) const override {

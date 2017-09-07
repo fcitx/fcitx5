@@ -67,6 +67,9 @@ class CandidateWordPrivate {
 public:
     CandidateWordPrivate(Text &&text) : text_(std::move(text)) {}
     Text text_;
+    bool isPlaceHolder_ = false;
+    Text customLabel_;
+    bool hasCustomLabel_ = false;
 };
 
 CandidateWord::CandidateWord(Text text)
@@ -79,9 +82,41 @@ const Text &CandidateWord::text() const {
     return d->text_;
 }
 
-Text &CandidateWord::text() {
+void CandidateWord::setText(Text text) {
     FCITX_D();
-    return d->text_;
+    d->text_ = std::move(text);
+}
+
+bool CandidateWord::isPlaceHolder() const {
+    FCITX_D();
+    return d->isPlaceHolder_;
+}
+
+bool CandidateWord::hasCustomLabel() const {
+    FCITX_D();
+    return d->hasCustomLabel_;
+}
+
+const Text &CandidateWord::customLabel() const {
+    FCITX_D();
+    return d->customLabel_;
+}
+
+void CandidateWord::setPlaceHolder(bool placeHolder) {
+    FCITX_D();
+    d->isPlaceHolder_ = placeHolder;
+}
+
+void CandidateWord::resetCustomLabel() {
+    FCITX_D();
+    d->customLabel_ = Text();
+    d->hasCustomLabel_ = false;
+}
+
+void CandidateWord::setCustomLabel(Text text) {
+    FCITX_D();
+    d->customLabel_ = std::move(text);
+    d->hasCustomLabel_ = true;
 }
 
 class DisplayOnlyCandidateWord : public CandidateWord {

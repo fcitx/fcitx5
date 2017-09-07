@@ -199,12 +199,19 @@ void Kimpanel::updateInputPanel(InputContext *inputContext) {
             attrs.emplace_back("");
         }
         for (int i = 0, e = candidateList->size(); i < e; i++) {
-            auto label =
-                instance->outputFilter(inputContext, candidateList->label(i));
-            labels.push_back(label.toString());
-            auto candidate = instance->outputFilter(
-                inputContext, candidateList->candidate(i)->text());
-            texts.push_back(candidate.toString());
+            auto candidate = candidateList->candidate(i);
+            if (candidate->isPlaceHolder()) {
+                continue;
+            }
+            Text labelText = candidate->hasCustomLabel()
+                                 ? candidate->customLabel()
+                                 : candidateList->label(i);
+
+            labelText = instance->outputFilter(inputContext, labelText);
+            labels.push_back(labelText.toString());
+            auto candidateText =
+                instance->outputFilter(inputContext, candidate->text());
+            texts.push_back(candidateText.toString());
             attrs.emplace_back("");
         }
         msg << labels << texts << attrs;

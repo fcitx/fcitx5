@@ -52,7 +52,7 @@ public:
         text.append(utf8::UCS4ToUTF8(c));
         text.append(" ");
         text.append(q->data().name(c));
-        this->text() = text;
+        setText(std::move(text));
     }
 
     void select(InputContext *inputContext) const override {
