@@ -21,7 +21,8 @@
 
 void test_basic(bool ascii) {
     using namespace fcitx;
-    InputBuffer buffer(ascii);
+    InputBuffer buffer(InputBufferOptions(ascii ? InputBufferOption::AsciiOnly
+                                                : InputBufferOption::None));
     FCITX_ASSERT(buffer.size() == 0);
     FCITX_ASSERT(buffer.cursor() == 0);
     FCITX_ASSERT(buffer.cursorByChar() == 0);

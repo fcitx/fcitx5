@@ -50,7 +50,7 @@ class KeyboardEngine;
 
 struct KeyboardEngineState : public InputContextProperty {
     bool enableWordHint_ = false;
-    InputBuffer buffer_{false};
+    InputBuffer buffer_;
 
     void reset() { buffer_.clear(); }
 };

@@ -21,16 +21,23 @@
 
 #include "fcitxutils_export.h"
 #include <cstring>
+#include <fcitx-utils/flags.h>
 #include <fcitx-utils/macros.h>
 #include <memory>
 
 namespace fcitx {
 class InputBufferPrivate;
 
+enum class InputBufferOption { None = 0, AsciiOnly = 1, FixedCursor = 1 << 1 };
+
+using InputBufferOptions = Flags<InputBufferOption>;
+
 class FCITXUTILS_EXPORT InputBuffer {
 public:
-    InputBuffer(bool asciiOnly = false);
+    InputBuffer(InputBufferOptions options = InputBufferOption::None);
     virtual ~InputBuffer();
+
+    InputBufferOptions options() const;
 
     void type(const char *s, size_t length) { typeImpl(s, length); }
     void type(const std::string &s) { type(s.c_str(), s.size()); }

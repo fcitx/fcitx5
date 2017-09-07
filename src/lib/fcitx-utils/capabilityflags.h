@@ -22,9 +22,14 @@
 #include <cstdint>
 #include <fcitx-utils/flags.h>
 
+/// \addtogroup FcitxUtils
+/// \{
+/// \file
+/// \brief Enum type for input context capability.
+
 namespace fcitx {
 
-// Use uint64_t for more space for future
+/// \brief Input context CapabilityFlags.
 enum class CapabilityFlag : uint64_t {
     None = 0,
     ClientSideUI = (1 << 0),

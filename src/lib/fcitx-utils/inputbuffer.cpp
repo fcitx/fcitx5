@@ -27,7 +27,7 @@ namespace fcitx {
 
 class InputBufferPrivate {
 public:
-    InputBufferPrivate(bool asciiOnly) : asciiOnly_(asciiOnly) {}
+    InputBufferPrivate(InputBufferOptions options) : options_(options) {}
 
     // make sure acc_[i] is valid, i \in [0, size()]
     // acc_[i] = sum(j \in 0..i-1 | sz_[j])
@@ -46,7 +46,15 @@ public:
         }
     }
 
-    const bool asciiOnly_;
+    inline bool isAsciiOnly() const {
+        return options_.test(InputBufferOption::AsciiOnly);
+    }
+
+    inline bool isFixedCursor() const {
+        return options_.test(InputBufferOption::FixedCursor);
+    }
+
+    const InputBufferOptions options_;
     std::string input_;
     size_t cursor_ = 0;
     std::vector<size_t> sz_; // utf8 lengthindex helper
@@ -55,10 +63,15 @@ public:
     mutable size_t accDirty_ = 0;
 };
 
-InputBuffer::InputBuffer(bool asciiOnly)
-    : d_ptr(std::make_unique<InputBufferPrivate>(asciiOnly)) {}
+InputBuffer::InputBuffer(InputBufferOptions options)
+    : d_ptr(std::make_unique<InputBufferPrivate>(options)) {}
 
-InputBuffer::~InputBuffer() {}
+InputBuffer::~InputBuffer() = default;
+
+InputBufferOptions InputBuffer::options() const {
+    FCITX_D();
+    return d->options_;
+}
 
 void InputBuffer::type(uint32_t c) { type(fcitx::utf8::UCS4ToUTF8(c)); }
 
@@ -69,20 +82,20 @@ const std::string &InputBuffer::userInput() const {
 
 void InputBuffer::typeImpl(const char *s, size_t length) {
     FCITX_D();
-    auto len = fcitx::utf8::lengthValidated(s, s + length);
-    if (len == fcitx::utf8::INVALID_LENGTH) {
+    auto utf8Length = fcitx::utf8::lengthValidated(s, s + length);
+    if (utf8Length == fcitx::utf8::INVALID_LENGTH) {
         throw std::invalid_argument("Invalid UTF-8 string");
     }
-    if (d->asciiOnly_ && len != length) {
+    if (d->isAsciiOnly() && utf8Length != length) {
         throw std::invalid_argument(
             "ascii only buffer only accept ascii only string");
     }
-    if (d->maxSize_ && (len + size() > d->maxSize_)) {
+    if (d->maxSize_ && (utf8Length + size() > d->maxSize_)) {
         return;
     }
     d->input_.insert(std::next(d->input_.begin(), cursorByChar()), s,
                      s + length);
-    if (!d->asciiOnly_) {
+    if (!d->isAsciiOnly()) {
         auto iter = s;
         std::function<size_t()> func = [&iter]() {
             auto next = fcitx::utf8::nextChar(iter);
@@ -102,12 +115,12 @@ void InputBuffer::typeImpl(const char *s, size_t length) {
             d->accDirty_ = newDirty;
         }
     }
-    d->cursor_ += len;
+    d->cursor_ += utf8Length;
 }
 
 size_t InputBuffer::cursorByChar() const {
     FCITX_D();
-    if (d->asciiOnly_) {
+    if (d->isAsciiOnly()) {
         return d->cursor_;
     }
     if (d->cursor_ == size()) {
@@ -124,11 +137,19 @@ size_t InputBuffer::cursor() const {
 
 size_t InputBuffer::size() const {
     FCITX_D();
-    return d->asciiOnly_ ? d->input_.size() : d->sz_.size();
+    return d->isAsciiOnly() ? d->input_.size() : d->sz_.size();
 }
 
 void InputBuffer::setCursor(size_t cursor) {
     FCITX_D();
+    if (d->isFixedCursor()) {
+        if (cursor != size()) {
+            throw std::out_of_range(
+                "only valid position of cursor is size() for fixed cursor");
+        }
+        return;
+    }
+
     if (d->cursor_ > size()) {
         throw std::out_of_range("cursor position out of range");
     }
@@ -148,8 +169,12 @@ size_t InputBuffer::maxSize() const {
 void InputBuffer::erase(size_t from, size_t to) {
     FCITX_D();
     if (from < to && to <= size()) {
+        if (d->isFixedCursor() && to != size()) {
+            return;
+        }
+
         size_t fromByChar, lengthByChar;
-        if (d->asciiOnly_) {
+        if (d->isAsciiOnly()) {
             fromByChar = from;
             lengthByChar = to - from;
         } else {
@@ -177,7 +202,7 @@ std::pair<size_t, size_t> InputBuffer::rangeAt(size_t i) const {
     if (i >= size()) {
         throw std::out_of_range("out of range");
     }
-    if (d->asciiOnly_) {
+    if (d->isAsciiOnly()) {
         return {i, i + 1};
     } else {
         d->ensureAccTill(i);
@@ -190,7 +215,7 @@ uint32_t InputBuffer::charAt(size_t i) const {
     if (i >= size()) {
         throw std::out_of_range("out of range");
     }
-    if (d->asciiOnly_) {
+    if (d->isAsciiOnly()) {
         return d->input_[i];
     } else {
         d->ensureAccTill(i);
@@ -201,7 +226,7 @@ uint32_t InputBuffer::charAt(size_t i) const {
 
 size_t InputBuffer::sizeAt(size_t i) const {
     FCITX_D();
-    if (d->asciiOnly_) {
+    if (d->isAsciiOnly()) {
         return 1;
     } else {
         return d->sz_[i];

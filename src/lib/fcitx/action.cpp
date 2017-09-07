@@ -18,7 +18,6 @@
  */
 
 #include "action.h"
-#include "fcitx-utils/dynamictrackableobject.h"
 #include "menu.h"
 #include "userinterfacemanager.h"
 

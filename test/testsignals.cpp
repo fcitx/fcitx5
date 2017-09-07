@@ -17,7 +17,7 @@
  * see <http://www.gnu.org/licenses/>.
  */
 
-#include "fcitx-utils/dynamictrackableobject.h"
+#include "fcitx-utils/connectableobject.h"
 #include "fcitx-utils/log.h"
 #include "fcitx-utils/metastring.h"
 #include "fcitx-utils/signals.h"
@@ -95,17 +95,17 @@ void test_destruct_order() {
     connection.disconnect();
 }
 
-class TestObject : public fcitx::DynamicTrackableObject {
+class TestObject : public fcitx::ConnectableObject {
 public:
-    using fcitx::DynamicTrackableObject::destroy;
+    using fcitx::ConnectableObject::destroy;
 };
 
 void test_connectable_object() {
     using namespace fcitx;
     TestObject obj;
     bool called = false;
-    auto connection = obj.connect<DynamicTrackableObject::Destroyed>(
-        [&called, &obj](void *self) {
+    auto connection =
+        obj.connect<ConnectableObject::Destroyed>([&called, &obj](void *self) {
             FCITX_ASSERT(&obj == self);
             called = true;
         });
@@ -113,8 +113,8 @@ void test_connectable_object() {
     obj.destroy();
     FCITX_ASSERT(called);
     FCITX_ASSERT(!connection.connected());
-    FCITX_ASSERT(!obj.connect<DynamicTrackableObject::Destroyed>([](void *) {})
-                      .connected());
+    FCITX_ASSERT(
+        !obj.connect<ConnectableObject::Destroyed>([](void *) {}).connected());
 }
 
 class TestObject2 : public fcitx::ConnectableObject {

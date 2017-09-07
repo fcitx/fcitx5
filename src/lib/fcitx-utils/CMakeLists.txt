@@ -16,7 +16,6 @@ set(FCITX_UTILS_SOURCES
     dbus/servicewatcher.cpp
     unixfd.cpp
     utf8.cpp
-    dynamictrackableobject.cpp
     connectableobject.cpp
     element.cpp
     i18n.cpp
@@ -39,7 +38,6 @@ set(FCITX_UTILS_HEADERS
     metastring.h
     unixfd.h
     trackableobject.h
-    dynamictrackableobject.h
     connectableobject.h
     flags.h
     keysym.h

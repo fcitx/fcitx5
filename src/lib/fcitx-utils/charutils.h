@@ -19,33 +19,32 @@
 #ifndef _FCITX_UTILS_CHARUTILS_H_
 #define _FCITX_UTILS_CHARUTILS_H_
 
+/// \addtogroup FcitxUtils
+/// \{
+/// \file
+/// \brief Local independent API to detect character type.
+
 namespace fcitx {
 namespace charutils {
-/**
- * ascii only is lower
- *
- * @param c char
- * @return bool
- */
+/// \brief ascii only is lower
 static inline bool islower(char c) { return c >= 'a' && c <= 'z'; }
 
-/**
- * ascii only is upper
- *
- * @param c char
- * @return bool
- */
+/// \brief ascii only is upper
 static inline bool isupper(char c) { return c >= 'A' && c <= 'Z'; }
 
+/// \brief ascii only to lower
 static inline char tolower(char c) { return isupper(c) ? c - 'A' + 'a' : c; }
 
+/// \brief ascii only to upper
 static inline char toupper(char c) { return islower(c) ? c - 'a' + 'A' : c; }
 
+/// \brief ascii only is space
 static inline bool isspace(char c) {
     return c == '\f' || c == '\n' || c == '\r' || c == '\t' || c == '\v' ||
            c == ' ';
 }
 
+/// \brief ascii only is digit
 static inline bool isdigit(char c) { return c >= '0' && c <= '9'; }
 }
 }

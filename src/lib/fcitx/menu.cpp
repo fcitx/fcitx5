@@ -18,7 +18,6 @@
  */
 
 #include "menu.h"
-#include "fcitx-utils/dynamictrackableobject.h"
 #include <algorithm>
 
 namespace fcitx {

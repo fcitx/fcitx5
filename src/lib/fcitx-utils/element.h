@@ -20,14 +20,14 @@
 #define _FCITX_UTILS_ELEMENT_H_
 
 #include "fcitxutils_export.h"
-#include <fcitx-utils/dynamictrackableobject.h>
+#include <fcitx-utils/connectableobject.h>
 #include <unordered_set>
 
 namespace fcitx {
 
 class ElementPrivate;
 
-class FCITXUTILS_EXPORT Element : public DynamicTrackableObject {
+class FCITXUTILS_EXPORT Element : public ConnectableObject {
 public:
     Element();
     ~Element();

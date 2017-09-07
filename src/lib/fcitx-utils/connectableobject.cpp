@@ -23,14 +23,20 @@ namespace fcitx {
 
 class ConnectableObjectPrivate {
 public:
+    ConnectableObjectPrivate(ConnectableObject *q) {}
     std::unordered_map<std::string, std::unique_ptr<fcitx::SignalBase>>
         signals_;
+    bool destroyed_ = false;
+    std::unique_ptr<SignalAdaptor<ConnectableObject::Destroyed>> adaptor_;
 };
 
 ConnectableObject::ConnectableObject()
-    : d_ptr(std::make_unique<ConnectableObjectPrivate>()) {}
+    : d_ptr(std::make_unique<ConnectableObjectPrivate>(this)) {
+    FCITX_D();
+    d->adaptor_ = std::make_unique<decltype(d->adaptor_)::element_type>(this);
+}
 
-ConnectableObject::~ConnectableObject() {}
+ConnectableObject::~ConnectableObject() { destroy(); }
 
 void ConnectableObject::_registerSignal(
     std::string name, std::unique_ptr<fcitx::SignalBase> signal) {
@@ -49,5 +55,15 @@ SignalBase *ConnectableObject::findSignal(const std::string &name) {
         return iter->second.get();
     }
     return nullptr;
+}
+
+void ConnectableObject::destroy() {
+    FCITX_D();
+    if (!d->destroyed_) {
+        emit<ConnectableObject::Destroyed>(this);
+        disconnectAll<ConnectableObject::Destroyed>();
+        unregisterSignal<ConnectableObject::Destroyed>();
+        d->destroyed_ = true;
+    }
 }
 }

@@ -24,11 +24,17 @@
 #include <string>
 #include <type_traits>
 
+/// \addtogroup FcitxUtils
+/// \{
+/// \file
+/// \brief Simple color class that represent a 64bit color.
+
 namespace fcitx {
 struct ColorParseException : public std::exception {
     virtual const char *what() const noexcept { return "Color parse error"; }
 };
 
+/// \brief Color class for handling color.
 class FCITXUTILS_EXPORT Color {
 public:
     Color();
@@ -39,6 +45,7 @@ public:
     Color(const Color &other)
         : Color(other.red(), other.green(), other.blue(), other.alpha()) {}
 
+    /// \brief Get color string in the format of "#rrggbbaa".
     std::string toString() const;
 
     bool operator==(const Color &other) const;

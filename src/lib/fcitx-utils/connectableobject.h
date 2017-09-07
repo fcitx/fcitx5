@@ -78,6 +78,16 @@ public:
             ->disconnectAll();
     }
 
+    FCITX_DECLARE_SIGNAL(ConnectableObject, Destroyed, void(void *));
+
+protected:
+    /// \brief Allow user to notify the destroy event earlier.
+    /// Due the C++ destructor calling order, the subclass is not "subclass"
+    /// anymore at the time when parent destructor is called. This protected
+    /// function allow user to notify the destruction of objects when they are
+    /// still the original type.
+    void destroy();
+
 protected:
     template <typename SignalType, typename... Args>
     auto emit(Args &&... args) {
@@ -118,6 +128,8 @@ template <typename T>
 SignalAdaptor<T>::~SignalAdaptor() {
     self->unregisterSignal<T>();
 }
+
+using ObjectDestroyed = ConnectableObject::Destroyed;
 }
 
 #endif // _FCITX_UTILS_CONNECTABLEOBJECT_H_

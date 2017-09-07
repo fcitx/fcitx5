@@ -21,19 +21,15 @@
 
 namespace fcitx {
 
-class CandidateListPrivate : QPtrHolder<CandidateList> {
+class CandidateListPrivate {
 public:
-    CandidateListPrivate(CandidateList *q) : QPtrHolder<CandidateList>(q) {}
-
     BulkCandidateList *bulk_ = nullptr;
     ModifiableCandidateList *modifiable_ = nullptr;
     PageableCandidateList *pageable_ = nullptr;
-
-    FCITX_DEFINE_SIGNAL_PRIVATE(CandidateList, Update);
 };
 
 CandidateList::CandidateList()
-    : d_ptr(std::make_unique<CandidateListPrivate>(this)) {}
+    : d_ptr(std::make_unique<CandidateListPrivate>()) {}
 
 CandidateList::~CandidateList() {}
 

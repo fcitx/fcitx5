@@ -19,7 +19,6 @@
 #ifndef _FCITX_CANDIDATELIST_H_
 #define _FCITX_CANDIDATELIST_H_
 
-#include <fcitx-utils/dynamictrackableobject.h>
 #include <fcitx-utils/key.h>
 #include <fcitx/text.h>
 
@@ -53,7 +52,7 @@ private:
 };
 
 // basic stuff
-class FCITXCORE_EXPORT CandidateList : public DynamicTrackableObject {
+class FCITXCORE_EXPORT CandidateList {
 public:
     CandidateList();
     virtual ~CandidateList();
@@ -67,8 +66,6 @@ public:
     PageableCandidateList *toPageable() const;
     BulkCandidateList *toBulk() const;
     ModifiableCandidateList *toModifiable() const;
-
-    FCITX_DECLARE_SIGNAL(CandidateList, Update, void());
 
 protected:
     void setPageable(PageableCandidateList *list);

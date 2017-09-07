@@ -23,7 +23,24 @@
 #include <initializer_list>
 #include <type_traits>
 
+/// \addtogroup FcitxUtils
+/// \{
+/// \file
+/// \brief Helper template class to make easier to use type safe enum flags.
+///
+/// Commonly, One can not do any arithmetic calculation with enum class type
+/// without using static_cast. To make enum flags easier, this template class
+/// Stores the actual flag value with enum.
+///
+/// Example:
+/// \code{.cpp}
+/// enum class EnumTypeFlag { /* ... */ };
+/// using EnumTypeFlags = Flags<EnumTypeFlag>;
+/// \endcode
+
 namespace fcitx {
+
+/// \brief Class provides bit flag support for Enum.
 template <typename Enum>
 class Flags {
 public:
