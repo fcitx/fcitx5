@@ -1,9 +1,9 @@
 add_library(classicui MODULE classicui.cpp xcbui.cpp xcbwindow.cpp window.cpp theme.cpp waylandui.cpp waylandwindow.cpp waylandeglwindow.cpp waylandshmwindow.cpp xcbtraywindow.cpp inputwindow.cpp mainwindow.cpp xcbinputwindow.cpp xcbmainwindow.cpp)
 
 if (CAIRO_EGL_FOUND)
-set(CAIRO_EGL_LIBRARY)
-else()
 set(CAIRO_EGL_LIBRARY PkgConfig::CairoEGL Wayland::Egl EGL::EGL)
+else()
+set(CAIRO_EGL_LIBRARY)
 endif()
 
 target_link_libraries(classicui
