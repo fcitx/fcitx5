@@ -58,6 +58,12 @@ if(ENABLE_PRESAGE)
   find_package(Presage REQUIRED)
 endif()
 
+if (TARGET PkgConfig::CairoEGL AND TARGET EGL::EGL AND TARGET Wayland::Egl)
+  set(CAIRO_EGL_FOUND TRUE)
+else()
+  set(CAIRO_EGL_FOUND FALSE)
+endif()
+
 set(DEFAULT_XKB_RULES_FILES "${XKEYBOARDCONFIG_XKBBASE}/rules/${DEFAULT_XKB_RULES}.xml")
 if (NOT EXISTS "${DEFAULT_XKB_RULES_FILES}")
 message(FATAL_ERROR "Could not find default xkb rules file: ${DEFAULT_XKB_RULES_FILES}")

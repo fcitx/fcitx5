@@ -19,6 +19,10 @@
 #ifndef _FCITX_UI_CLASSIC_WAYLANDEGLWINDOW_H_
 #define _FCITX_UI_CLASSIC_WAYLANDEGLWINDOW_H_
 
+#include "config.h"
+
+#ifdef CAIRO_EGL_FOUND
+
 #include "waylandui.h"
 #include "waylandwindow.h"
 #include <cairo/cairo.h>
@@ -47,5 +51,7 @@ private:
 };
 }
 }
+
+#endif
 
 #endif // _FCITX_UI_CLASSIC_WAYLANDEGLWINDOW_H_

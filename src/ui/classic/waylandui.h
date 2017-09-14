@@ -19,6 +19,7 @@
 #ifndef _FCITX_UI_CLASSIC_WAYLANDUI_H_
 #define _FCITX_UI_CLASSIC_WAYLANDUI_H_
 
+#include "config.h"
 #include "classicui.h"
 #include "display.h"
 #include <EGL/egl.h>
@@ -33,6 +34,8 @@ public:
     WaylandUI(ClassicUI *parent, const std::string &name, wl_display *conn);
     ~WaylandUI();
 
+#ifdef CAIRO_EGL_FOUND
+
     bool initEGL();
     EGLSurface createEGLSurface(wl_egl_window *window,
                                 const EGLint *attrib_list);
@@ -42,6 +45,7 @@ public:
 
     cairo_surface_t *createEGLCairoSurface(EGLSurface surface, int width,
                                            int height);
+#endif
 
     ClassicUI *parent() const { return parent_; }
     const std::string &name() const { return name_; }
@@ -56,12 +60,14 @@ private:
     std::string name_;
     wayland::Display *display_;
 
+#ifdef CAIRO_EGL_FOUND
     // EGL stuff
     bool hasEgl_;
     EGLDisplay eglDisplay_ = nullptr;
     EGLConfig argbConfig_ = nullptr;
     EGLContext argbCtx_ = nullptr;
     cairo_device_t *argbDevice_ = nullptr;
+#endif
 };
 }
 }

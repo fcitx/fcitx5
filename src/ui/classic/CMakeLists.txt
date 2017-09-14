@@ -1,10 +1,17 @@
 add_library(classicui MODULE classicui.cpp xcbui.cpp xcbwindow.cpp window.cpp theme.cpp waylandui.cpp waylandwindow.cpp waylandeglwindow.cpp waylandshmwindow.cpp xcbtraywindow.cpp inputwindow.cpp mainwindow.cpp xcbinputwindow.cpp xcbmainwindow.cpp)
 
+if (CAIRO_EGL_FOUND)
+set(CAIRO_EGL_LIBRARY)
+else()
+set(CAIRO_EGL_LIBRARY PkgConfig::CairoEGL Wayland::Egl EGL::EGL)
+endif()
+
 target_link_libraries(classicui
     Fcitx5::Core
-    PkgConfig::Cairo PkgConfig::CairoEGL PkgConfig::CairoXCB PkgConfig::Pango
+    PkgConfig::Cairo PkgConfig::CairoXCB PkgConfig::Pango
     Fcitx5::Module::XCB Fcitx5::Module::Wayland
-    XCB::AUX XCB::ICCCM XCB::XINERAMA Wayland::Client EGL::EGL Wayland::Egl XCB::RANDR
+    XCB::AUX XCB::ICCCM XCB::XINERAMA Wayland::Client XCB::RANDR
+    ${CAIRO_EGL_LIBRARY}
     Fcitx5::Wayland::Core)
 set_target_properties(classicui PROPERTIES PREFIX "")
 install(TARGETS classicui DESTINATION "${FCITX_INSTALL_ADDONDIR}")

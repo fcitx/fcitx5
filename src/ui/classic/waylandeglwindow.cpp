@@ -16,6 +16,9 @@
  * License along with this library; see the file COPYING. If not,
  * see <http://www.gnu.org/licenses/>.
  */
+#include "config.h"
+
+#ifdef CAIRO_EGL_FOUND
 
 #include "waylandeglwindow.h"
 #include <cairo/cairo-gl.h>
@@ -79,3 +82,5 @@ void WaylandEGLWindow::render() {
 }
 }
 }
+
+#endif

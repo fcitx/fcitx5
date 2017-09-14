@@ -19,6 +19,8 @@
 #ifndef _FCITX_UI_CLASSIC_CLASSICUI_H_
 #define _FCITX_UI_CLASSIC_CLASSICUI_H_
 
+#include "config.h"
+
 #include "fcitx-config/configuration.h"
 #include "fcitx-utils/event.h"
 #include "fcitx/addonfactory.h"

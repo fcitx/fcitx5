@@ -17,18 +17,26 @@
  * see <http://www.gnu.org/licenses/>.
  */
 
+#include "config.h"
 #include "waylandui.h"
 #include "display.h"
 #include "fcitx-utils/charutils.h"
 #include "fcitx-utils/stringutils.h"
 #include "xcbui.h"
+#include <algorithm>
+
+#ifdef CAIRO_EGL_FOUND
+
 #include <EGL/egl.h>
 #include <EGL/eglext.h>
-#include <algorithm>
 #include <cairo/cairo-gl.h>
+
+#endif
 
 namespace fcitx {
 namespace classicui {
+
+#ifdef CAIRO_EGL_FOUND
 
 static bool checkEGLExtension(EGLDisplay display, const char *extension) {
     const char *extensions = eglQueryString(display, EGL_EXTENSIONS);
@@ -62,14 +70,19 @@ static inline EGLDisplay getEGLDisplay(EGLenum platform,
     return eglGetDisplay((EGLNativeDisplayType)nativeDisplay);
 }
 
+#endif
+
 WaylandUI::WaylandUI(ClassicUI *parent, const std::string &name,
                      wl_display *display)
     : parent_(parent), name_(name), display_(static_cast<wayland::Display *>(
                                         wl_display_get_user_data(display))) {
+#ifdef CAIRO_EGL_FOUND
     hasEgl_ = initEGL();
+#endif
 }
 
 WaylandUI::~WaylandUI() {
+#ifdef CAIRO_EGL_FOUND
     if (argbDevice_) {
         cairo_device_destroy(argbDevice_);
     }
@@ -80,8 +93,10 @@ WaylandUI::~WaylandUI() {
         eglTerminate(eglDisplay_);
         eglReleaseThread();
     }
+#endif
 }
 
+#ifdef CAIRO_EGL_FOUND
 bool WaylandUI::initEGL() {
     EGLint major, minor;
     EGLint n;
@@ -171,6 +186,7 @@ cairo_surface_t *WaylandUI::createEGLCairoSurface(EGLSurface surface, int width,
                                                   int height) {
     return cairo_gl_surface_create_for_egl(argbDevice_, surface, width, height);
 }
+#endif
 
 void WaylandUI::update(UserInterfaceComponent component,
                        InputContext *inputContext) {}
