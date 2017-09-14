@@ -138,31 +138,28 @@ protected:
 class FCITXCORE_EXPORT KeyEventBase : public InputContextEvent {
 public:
     KeyEventBase(EventType type, InputContext *context, Key rawKey,
-                 bool isRelease = false, int keyCode = 0, int time = 0)
+                 bool isRelease = false, int time = 0)
         : InputContextEvent(context, type), key_(rawKey.normalize()),
-          rawKey_(rawKey), isRelease_(isRelease), keyCode_(keyCode),
-          time_(time) {}
+          rawKey_(rawKey), isRelease_(isRelease), time_(time) {}
     KeyEventBase(const KeyEventBase &) = default;
 
     Key key() const { return key_; }
     Key rawKey() const { return rawKey_; }
     bool isRelease() const { return isRelease_; }
-    int keyCode() const { return keyCode_; }
     int time() const { return time_; }
 
 protected:
     Key key_, rawKey_;
     bool isRelease_;
-    int keyCode_;
     int time_;
 };
 
 class FCITXCORE_EXPORT KeyEvent : public KeyEventBase {
 public:
     KeyEvent(InputContext *context, Key rawKey, bool isRelease = false,
-             int keyCode = 0, int time = 0)
+             int time = 0)
         : KeyEventBase(EventType::InputContextKeyEvent, context, rawKey,
-                       isRelease, keyCode, time) {}
+                       isRelease, time) {}
 
     void filter() { filtered_ = true; }
     virtual bool filtered() const { return filtered_; }
@@ -178,9 +175,9 @@ private:
 class FCITXCORE_EXPORT ForwardKeyEvent : public KeyEventBase {
 public:
     ForwardKeyEvent(InputContext *context, Key rawKey, bool isRelease = false,
-                    int keyCode = 0, int time = 0)
+                    int time = 0)
         : KeyEventBase(EventType::InputContextForwardKey, context, rawKey,
-                       isRelease, keyCode, time) {}
+                       isRelease, time) {}
 };
 
 class FCITXCORE_EXPORT CommitStringEvent : public InputContextEvent {

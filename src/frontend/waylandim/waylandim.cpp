@@ -283,8 +283,8 @@ void WaylandIMServer::remove(wayland::ZwpInputMethodContextV1 *id) {
 }
 
 void WaylandIMInputContextV1::repeat() {
-    KeyEvent event(this, Key(repeatSym_, server_->modifiers_), false,
-                   repeatKey_, repeatTime_);
+    KeyEvent event(this, Key(repeatSym_, server_->modifiers_, repeatKey_),
+                   false, repeatTime_);
     if (!keyEvent(event)) {
         ic_->keysym(serial_, repeatTime_, event.rawKey().sym(),
                     event.isRelease() ? WL_KEYBOARD_KEY_STATE_RELEASED
@@ -469,7 +469,7 @@ void WaylandIMInputContextV1::keyCallback(uint32_t serial, uint32_t time,
     KeyEvent event(this, Key(static_cast<KeySym>(xkb_state_key_get_one_sym(
                                  server_->state_.get(), code)),
                              server_->modifiers_),
-                   state == WL_KEYBOARD_KEY_STATE_RELEASED, code, time);
+                   state == WL_KEYBOARD_KEY_STATE_RELEASED, time);
 
     if (state == WL_KEYBOARD_KEY_STATE_RELEASED && key == repeatKey_) {
         timeEvent_->setEnabled(false);

@@ -41,9 +41,7 @@ void marshallOption(RawConfig &config, const int value) {
 bool unmarshallOption(int &value, const RawConfig &config) {
     try {
         value = std::stoi(config.value());
-    } catch (std::invalid_argument) {
-        return false;
-    } catch (std::out_of_range) {
+    } catch (const std::exception &) {
         return false;
     }
 

@@ -69,9 +69,10 @@ void InputMethodManager::load() {
     auto inputMethods =
         d->addonManager_->addonNames(AddonCategory::InputMethod);
     auto &path = StandardPath::global();
-    auto files = path.multiOpenAll(StandardPath::Type::PkgData, "inputmethod",
-                                   O_RDONLY, filter::Suffix(".conf"));
-    for (const auto &file : files) {
+    auto filesMap =
+        path.multiOpenAll(StandardPath::Type::PkgData, "inputmethod", O_RDONLY,
+                          filter::Suffix(".conf"));
+    for (const auto &file : filesMap) {
         auto &files = file.second;
         RawConfig config;
         // reverse the order, so we end up parse user file at last.
@@ -85,6 +86,7 @@ void InputMethodManager::load() {
         imInfo.load(config);
         InputMethodEntry entry = toInputMethodEntry(imInfo);
         if (checkEntry(entry, inputMethods) &&
+            stringutils::isConcatOf(file.first, entry.uniqueName(), ".conf") &&
             d->entries_.count(entry.uniqueName()) == 0) {
             d->entries_.emplace(std::string(entry.uniqueName()),
                                 std::move(entry));

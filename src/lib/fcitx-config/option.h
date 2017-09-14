@@ -167,6 +167,8 @@ public:
 
     const T &defaultValue() const { return defaultValue_; }
 
+    const T &operator*() const { return value(); }
+
     template <typename U>
     bool setValue(U &&value) {
         if (!constrain_.check(value)) {

@@ -158,8 +158,8 @@ protected:
         xcbEvent.response_type =
             key.isRelease() ? XCB_KEY_RELEASE : XCB_KEY_PRESS;
         xcbEvent.state = key.rawKey().states();
-        if (key.keyCode()) {
-            xcbEvent.detail = key.keyCode();
+        if (key.rawKey().code()) {
+            xcbEvent.detail = key.rawKey().code();
         } else {
             xkb_state *xkbState = server_->xkbState();
             if (xkbState) {
@@ -333,9 +333,9 @@ void XIMServer::callback(xcb_im_client_t *client, xcb_im_input_context_t *xic,
             static_cast<xcb_key_press_event_t *>(arg);
         KeyEvent event(ic, Key(static_cast<KeySym>(xkb_state_key_get_one_sym(
                                    state, xevent->detail)),
-                               KeyStates(xevent->state)),
+                               KeyStates(xevent->state), xevent->detail),
                        (xevent->response_type & ~0x80) == XCB_KEY_RELEASE,
-                       xevent->detail, xevent->time);
+                       xevent->time);
         if (!ic->hasFocus()) {
             ic->focusIn();
         }

@@ -34,7 +34,9 @@ public:
     explicit Text(const std::string &text);
     FCITX_DECLARE_VIRTUAL_DTOR_COPY_AND_MOVE(Text);
 
+    /// Get cursor by byte.
     int cursor() const;
+    /// Set cursor by byte.
     void setCursor(int pos = -1);
     void clear();
     void append(const std::string &str,

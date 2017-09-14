@@ -53,6 +53,13 @@ inline bool endsWith(const std::string &str, char suffix) {
     return str.size() && str.back() == suffix;
 }
 
+/// \brief Check if a string is a concatenation of two other strings
+inline bool isConcatOf(const std::string &str, const std::string &sub1,
+                       const std::string &sub2) {
+    return str.size() == sub1.size() + sub2.size() && startsWith(str, sub1) &&
+           endsWith(str, sub2);
+}
+
 /// \brief Trim the whitespace by returning start end end of first and list non
 /// whitespace character position.
 ///

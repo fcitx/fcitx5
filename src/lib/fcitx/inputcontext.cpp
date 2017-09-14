@@ -222,10 +222,9 @@ void InputContext::deleteSurroundingText(int offset, unsigned int size) {
     deleteSurroundingTextImpl(offset, size);
 }
 
-void InputContext::forwardKey(const Key &rawKey, bool isRelease, int keyCode,
-                              int time) {
+void InputContext::forwardKey(const Key &rawKey, bool isRelease, int time) {
     FCITX_D();
-    ForwardKeyEvent event(this, rawKey, isRelease, keyCode, time);
+    ForwardKeyEvent event(this, rawKey, isRelease, time);
     if (!d->postEvent(event)) {
         forwardKeyImpl(event);
     }

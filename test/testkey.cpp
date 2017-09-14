@@ -93,5 +93,12 @@ int main() {
         fcitx::Key(FcitxKey_a, fcitx::KeyState::NumLock).normalize().sym() ==
         FcitxKey_a);
 
+    FCITX_ASSERT(
+        fcitx::Key("Control+<25>")
+            .check(fcitx::Key::fromKeyCode(25, fcitx::KeyState::Ctrl)));
+    FCITX_ASSERT(
+        fcitx::Key::fromKeyCode(25, fcitx::KeyState::Ctrl).toString() ==
+        "Control+<25>");
+
     return 0;
 }

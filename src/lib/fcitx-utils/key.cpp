@@ -22,11 +22,12 @@
 #include "keydata.h"
 #include "keynametable-compat.h"
 #include "keynametable.h"
+#include "stringutils.h"
 #include "utf8.h"
 #include <cstring>
 
 namespace fcitx {
-Key::Key(const char *keyString) {
+Key::Key(const char *keyString) : Key() {
     KeyStates states;
     /* old compatible code */
     const char *p = keyString;
@@ -52,13 +53,29 @@ Key::Key(const char *keyString) {
 
 #undef _CHECK_MODIFIER
 
-    sym_ = keySymFromString(lastModifier);
+    // Special code for keycode baesd parsing.
+    std::string keyValue = lastModifier;
+    if (stringutils::startsWith(keyValue, "<") &&
+        stringutils::endsWith(keyValue, ">")) {
+        try {
+            code_ = std::stoi(keyValue.substr(1, keyValue.size() - 2));
+        } catch (const std::exception &) {
+        }
+    } else {
+        sym_ = keySymFromString(lastModifier);
+    }
     states_ = states;
 }
 
-Key::~Key() {}
-
 bool Key::check(const Key &key) const {
+    auto states =
+        states_ & KeyStates({KeyState::Ctrl_Alt_Shift, KeyState::Super});
+
+    // key is keycode based, do key code based check.
+    if (key.code()) {
+        return key.states_ == states && key.code_ == code_;
+    }
+
     if (isModifier()) {
         Key keyAlt = *this;
         auto states = states_ & (~keySymToStates(sym_));
@@ -68,8 +85,6 @@ bool Key::check(const Key &key) const {
                (key.sym_ == keyAlt.sym_ && key.states_ == keyAlt.states_);
     }
 
-    auto states =
-        states_ & KeyStates({KeyState::Ctrl_Alt_Shift, KeyState::Super});
     return (key.sym_ == sym_ && key.states_ == states);
 }
 
@@ -147,15 +162,22 @@ Key Key::normalize() const {
 }
 
 std::string Key::toString() const {
-    auto sym = sym_;
-    if (sym == FcitxKey_None) {
-        return std::string();
+
+    std::string key;
+    if (code_) {
+        key = "<";
+        key += std::to_string(code_);
+        key += ">";
+    } else {
+        auto sym = sym_;
+        if (sym == FcitxKey_None) {
+            return std::string();
+        }
+
+        if (sym == FcitxKey_ISO_Left_Tab)
+            sym = FcitxKey_Tab;
+        key = keySymToString(sym);
     }
-
-    if (sym == FcitxKey_ISO_Left_Tab)
-        sym = FcitxKey_Tab;
-
-    auto key = keySymToString(sym);
 
     if (key.empty())
         return std::string();

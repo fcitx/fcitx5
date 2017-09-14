@@ -42,15 +42,21 @@ typedef std::vector<Key> KeyList;
 
 class FCITXUTILS_EXPORT Key {
 public:
-    explicit Key(KeySym sym = FcitxKey_None, KeyStates states = KeyStates())
-        : sym_(sym), states_(states) {}
-    Key(const Key &other) : Key(other.sym_, other.states_) {}
+    explicit Key(KeySym sym = FcitxKey_None, KeyStates states = KeyStates(),
+                 int code = 0)
+        : sym_(sym), states_(states), code_(code) {}
+
     explicit Key(const char *keyString);
     explicit Key(const std::string &keyString) : Key(keyString.c_str()) {}
-    virtual ~Key();
+
+    FCITX_INLINE_DEFINE_DEFAULT_DTOR_COPY_AND_MOVE(Key)
+
+    static Key fromKeyCode(int code = 0, KeyStates states = KeyStates()) {
+        return Key(FcitxKey_None, states, code);
+    }
 
     bool operator==(const Key &key) const {
-        return sym_ == key.sym_ && states_ == key.states_;
+        return sym_ == key.sym_ && states_ == key.states_ && code_ == key.code_;
     }
 
     bool check(const Key &key) const;
@@ -71,6 +77,7 @@ public:
 
     inline KeySym sym() const { return sym_; }
     inline KeyStates states() const { return states_; }
+    inline int code() const { return code_; }
 
     static KeyStates keySymToStates(KeySym sym);
     static KeySym keySymFromString(const std::string &keyString);
@@ -114,9 +121,10 @@ public:
         return idx;
     }
 
-protected:
+private:
     KeySym sym_;
     KeyStates states_;
+    int code_;
 };
 }
 

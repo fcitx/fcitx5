@@ -90,8 +90,9 @@ public:
 
     bool processKeyEvent(uint32_t keyval, uint32_t keycode, uint32_t state,
                          bool isRelease, uint32_t time) {
-        KeyEvent event(this, Key(static_cast<KeySym>(keyval), KeyStates(state)),
-                       isRelease, keycode, time);
+        KeyEvent event(
+            this, Key(static_cast<KeySym>(keyval), KeyStates(state), keycode),
+            isRelease, time);
         // Force focus if there's keyevent.
         if (!hasFocus()) {
             focusIn();

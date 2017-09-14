@@ -30,7 +30,7 @@ class FCITXCORE_EXPORT InputMethodEngine : public AddonInstance {
 public:
     virtual ~InputMethodEngine() {}
 
-    virtual std::vector<InputMethodEntry> listInputMethods() = 0;
+    virtual std::vector<InputMethodEntry> listInputMethods() { return {}; }
     virtual void keyEvent(const InputMethodEntry &entry,
                           KeyEvent &keyEvent) = 0;
     // fcitx gurantee that activate and deactivate appear in pair for all input

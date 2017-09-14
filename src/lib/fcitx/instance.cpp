@@ -1,4 +1,3 @@
-#include <fcitx-config/iniparser.h>
 /*
  * Copyright (C) 2016~2016 by CSSlayer
  * wengxt@gmail.com
@@ -18,8 +17,10 @@
  * see <http://www.gnu.org/licenses/>.
  */
 
+#include "instance.h"
 #include "addonmanager.h"
 #include "config.h"
+#include "fcitx-config/iniparser.h"
 #include "fcitx-utils/event.h"
 #include "fcitx-utils/log.h"
 #include "fcitx-utils/standardpath.h"
@@ -31,7 +32,6 @@
 #include "inputmethodengine.h"
 #include "inputmethodentry.h"
 #include "inputmethodmanager.h"
-#include "instance.h"
 #include "userinterfacemanager.h"
 #include <fcntl.h>
 #include <getopt.h>
@@ -723,7 +723,7 @@ InputMethodEngine *Instance::inputMethodEngine(InputContext *ic) {
         return nullptr;
     }
     return static_cast<InputMethodEngine *>(
-        d->addonManager_.addon(entry->addon()));
+        d->addonManager_.addon(entry->addon(), true));
 }
 
 uint32_t Instance::processCompose(InputContext *ic, KeySym keysym) {
