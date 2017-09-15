@@ -87,3 +87,41 @@ macro(fcitx5_export_module EXPORTNAME)
         install(FILES ${FEM_HEADERS} DESTINATION "${_MODULE_HEADER_DIR}")
     endif()
 endmacro()
+
+function(fcitx5_translate_conf_file SRC DEST)
+  fcitx5_translate_desktop_file(${SRC} ${DEST} KEYWORDS GeneralName Comment ${ARGN})
+endfunction()
+
+function(fcitx5_translate_desktop_file SRC DEST)
+  set(options)
+  set(one_value_args PO_DIRECTORY)
+  set(multi_value_args KEYWORDS)
+  cmake_parse_arguments(FCITX5_TRANSLATE
+    "${options}" "${one_value_args}" "${multi_value_args}" ${ARGN})
+
+  if (NOT IS_ABSOLUTE SRC)
+    set(SRC "${CMAKE_CURRENT_SOURCE_DIR}/${SRC}")
+  endif()
+  if (NOT IS_ABSOLUTE DEST)
+    set(DEST "${CMAKE_CURRENT_BINARY_DIR}/${DEST}")
+  endif()
+  get_filename_component(SRC_BASE ${SRC} NAME)
+
+  set(KEYWORD_ARGS)
+  if (NOT PO_DIRECTORY)
+    set(PO_DIRECTORY "${PROJECT_SOURCE_DIR}/po")
+  endif()
+
+  if (FCITX5_TRANSLATE_KEYWORDS)
+    list(APPEND KEYWORD_ARGS "--keyword=")
+    foreach(KEYWORD IN LISTS FCITX5_TRANSLATE_KEYWORDS)
+      list(APPEND KEYWORD_ARGS "--keyword=${KEYWORD}")
+    endforeach()
+  endif()
+
+  add_custom_command(OUTPUT "${DEST}"
+    COMMAND "${GETTEXT_MSGFMT_EXECUTABLE}" --desktop -d ${PO_DIRECTORY}
+            ${KEYWORD_ARGS} --template "${SRC}" -o "${DEST}"
+    DEPENDS "${SRC}")
+  add_custom_target("${SRC_BASE}-fmt" ALL DEPENDS "${DEST}")
+endfunction()

@@ -1,0 +1,2433 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+#
+# Translators:
+# mar well <m.wellendorf@gmx.de>, 2012-2013
+# mar well <m.wellendorf@gmx.de>, 2014,2017
+# csslayer <wengxt@gmail.com>, 2013,2015
+# csslayer <wengxt@gmail.com>, 2013
+msgid ""
+msgstr ""
+"Project-Id-Version: fcitx\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2017-09-14 19:48-0700\n"
+"PO-Revision-Date: 2017-07-28 12:48+0000\n"
+"Last-Translator: mar well <m.wellendorf@gmx.de>\n"
+"Language-Team: German (http://www.transifex.com/fcitx/fcitx/language/de/)\n"
+"Language: de\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: src/modules/unicode/charselectdata.cpp:214
+msgid "<Low Surrogate>"
+msgstr "<Low Surrogate>"
+
+#: src/modules/unicode/charselectdata.cpp:210
+msgid "<Non Private Use High Surrogate>"
+msgstr "<Non Private Use High Surrogate>"
+
+#: src/modules/unicode/charselectdata.cpp:212
+msgid "<Private Use High Surrogate>"
+msgstr "<Private Use High Surrogate>"
+
+#: src/modules/unicode/charselectdata.cpp:216
+msgid "<Private Use>"
+msgstr "<Private Use>"
+
+#: src/modules/unicode/charselectdata.cpp:246
+msgid "<not assigned>"
+msgstr "<not assigned>"
+
+#: src/modules/unicode/unicode.conf.in:5
+msgid "Add Unicode Typing Support"
+msgstr "Unicode-Unterstützung hinzufügen"
+
+#: src/modules/clipboard/clipboard.cpp:290
+#, fuzzy
+msgid "Clipboard:"
+msgstr "Zwischenablage"
+
+#: src/lib/fcitx/inputmethodmanager.cpp:186
+msgid "Default"
+msgstr "Standard"
+
+#: src/modules/notifications/notifications.cpp:231
+msgid "Do not show again"
+msgstr "Nicht mehr zeigen"
+
+#: src/modules/unicode/unicode.conf.in:4
+msgid "Fcitx Unicode Typing Support"
+msgstr "Fcitx Unicode Eingabeunterstützung"
+
+#: src/im/keyboard/keyboard.cpp:153 src/im/keyboard/keyboard.cpp:167
+msgid "Keyboard"
+msgstr "Tastatur"
+
+#: src/modules/clipboard/clipboard.cpp:292
+#, fuzzy
+msgid "No clipboard history."
+msgstr "Zwischenablagenverlauf in Datei sichern"
+
+#: src/modules/quickphrase/quickphrase.cpp:283
+msgid "Quick Phrase: "
+msgstr "Quick Phrase: "
+
+#: src/im/keyboard/keyboard.cpp:264
+msgid "Spell hint"
+msgstr "Rechtschreibungshinweis"
+
+#: src/im/keyboard/keyboard.cpp:266
+msgid "Spell hint is disabled."
+msgstr "Rechtschreibungshinweis ist deaktiviert."
+
+#: src/im/keyboard/keyboard.cpp:265
+msgid "Spell hint is enabled."
+msgstr "Rechtschreibungshinweis ist aktiviert."
+
+#: src/modules/unicode/unicode.cpp:244
+#, fuzzy
+msgid "Unicode: "
+msgstr "Unicode"
+
+#: src/modules/unicode/unicode.conf.in:3
+#, fuzzy
+msgid "unicode"
+msgstr "Unicode"
+
+#~ msgid " Ctrl+Delete To Delete"
+#~ msgstr " Ctrl+Delete zum Löschen"
+
+#~ msgid "${1} Environment Variables:"
+#~ msgstr "${1} Umgebungsvariablen:"
+
+#~ msgid "${1} is not set."
+#~ msgstr "${1} ist nicht gesetzt."
+
+#~ msgid "${1} is set to ${2}."
+#~ msgstr "${1} ist auf ${2} eingestellt."
+
+#~ msgid "${1} not found."
+#~ msgstr "${1} nicht gefunden"
+
+#~ msgid "${1} works properly."
+#~ msgstr "${1} läuft ohne Fehler."
+
+#~ msgid "%1 is a system file, do you want to delete all phrases instead?"
+#~ msgstr ""
+#~ "%1 ist eine Systemdatei, wollen Sie stattdessen alle Phrasen löschen?"
+
+#~ msgid "&Add"
+#~ msgstr "&Hinzufügen"
+
+#~ msgid "&Batch Edit"
+#~ msgstr "&Stapelbearbeitung"
+
+#~ msgid "&Close"
+#~ msgstr "&Schließen"
+
+#~ msgid "&Delete"
+#~ msgstr "&Löschen"
+
+#~ msgid "&Import"
+#~ msgstr "&Importieren"
+
+#~ msgid "&Operation"
+#~ msgstr "&Operation"
+
+#~ msgid "&Reset"
+#~ msgstr "&Zurücksetzen"
+
+#~ msgid "&Save"
+#~ msgstr "&Speichern"
+
+#~ msgid "(Unavailable)"
+#~ msgstr "(Nicht erreichbar)"
+
+#~ msgid "/Beginner%27s_Guide"
+#~ msgstr "/Anfänger %27s_Handbuch"
+
+#~ msgid "/Hall_of_Shame_for_Linux_IME_Support"
+#~ msgstr "/Hall_of_Shame_für_Linux_IME_Support"
+
+#~ msgid "/Input_method_related_environment_variables"
+#~ msgstr "/Eingabemethodenbezogene_Umgebungsvariablen"
+
+#~ msgid "/Note_for_GNOME_Later_than_3.6"
+#~ msgstr "/Hinweis_für_GNOME_höher_als_3.6"
+
+#~ msgid "/XIM"
+#~ msgstr "/XIM"
+
+#~ msgid "/min  Time Used: "
+#~ msgstr "/min Verwendete Zeit:"
+
+#~ msgid "0 for commit immediately, -1 for keep all words"
+#~ msgstr "0 um sofort zu bestätigen, -1 um alle Wörter zu behalten"
+
+#~ msgid ""
+#~ "A different value from the global one may be useful when using horizontal "
+#~ "candidate list"
+#~ msgstr ""
+#~ "Eine andere Anzahl kann bei einer horizontalen Kandidatenliste sinnvoll "
+#~ "sein"
+
+#~ msgid "ABC"
+#~ msgstr "ABC"
+
+#~ msgid "ALT Both"
+#~ msgstr "Beide ALT-Tasten"
+
+#~ msgid "ALT_L_SHIFT"
+#~ msgstr "ALT_L_SHIFT"
+
+#~ msgid "ALT_R_SHIFT"
+#~ msgstr "ALT_R_SHIFT"
+
+#~ msgid "ALT_SHIFT"
+#~ msgstr "ALT_SHIFT"
+
+#~ msgid "ALT_SUPER"
+#~ msgstr "ALT_SUPER"
+
+#~ msgid "Activate input method"
+#~ msgstr "Eingabemethode aktivieren"
+
+#~ msgid "Active"
+#~ msgstr "Aktiv"
+
+#~ msgid "Active Menu Color"
+#~ msgstr "Farbe des aktiven Menüs"
+
+#~ msgid "Active Menu Item Character Color"
+#~ msgstr "Farbe aktivierter Menüeintrag"
+
+#~ msgid "Active Mode Icon"
+#~ msgstr "Icon des Aktiven Modus"
+
+#~ msgid "Active Text Icon Color"
+#~ msgstr "Aktive Texticon-Farbe"
+
+#~ msgid "Active Tray Icon"
+#~ msgstr "Systemtray Icon AKTIV"
+
+#~ msgid "Add Extra space when selecting a candidate word"
+#~ msgstr "Extra SPACE hinzufügen, um einen Kandidaten auszuwählen"
+
+#~ msgid "Add File"
+#~ msgstr "Datei hinzufügen"
+
+#~ msgid "Add Lua script support to Fcitx"
+#~ msgstr "Lua-Skript-Unterstützung für Fcitx hinzufügen"
+
+#~ msgid "Add Phrase"
+#~ msgstr "Phrase hinzufügen"
+
+#~ msgid "Add current input buffer to user dictionary"
+#~ msgstr "Aktuellen Eingabespeicher in das Benutzerlexikon übernehmen"
+
+#~ msgid "Addon"
+#~ msgstr "Addon"
+
+#~ msgid "Addon Config %s is %s"
+#~ msgstr "Addon Konfiguration %s ist %s"
+
+#~ msgid "Addon Config Dir:"
+#~ msgstr "Verzeichnis Konfiguration Addons:"
+
+#~ msgid "Addon Libraries:"
+#~ msgstr "Bibliotheken des Addons:"
+
+#~ msgid "Addon List:"
+#~ msgstr "Liste Addons:"
+
+#~ msgid "Adjust Order"
+#~ msgstr "Reihenfolge anpassen"
+
+#~ msgid "AdjustFast"
+#~ msgstr "Schnell einstellen"
+
+#~ msgid "AdjustFreq"
+#~ msgstr "geschwindigkeitsangepasst"
+
+#~ msgid "AdjustNo"
+#~ msgstr "Keine Einstellung"
+
+#~ msgid "All"
+#~ msgstr "Für alle Programme"
+
+#~ msgid "All found Gtk ${1} immodule files exist."
+#~ msgstr "Alle Dateien gefundener Gtk ${1} Eingabemodule existieren."
+
+#~ msgid "All libraries for all addons are found."
+#~ msgstr "Alle Bibliotheken für Addons gefunden."
+
+#~ msgid "All locale:"
+#~ msgstr "Alle Locale:"
+
+#~ msgid ""
+#~ "Allow Pinyin Enhance to replace the first candidate word when the input "
+#~ "string is very closed to English."
+#~ msgstr ""
+#~ "Verbessertem Pinyin erlauben,  der ersten Kandidaten zu ersetzen, wenn "
+#~ "der String nah an einem englischen Wort ist"
+
+#~ msgid "Allow replacing the first candidate"
+#~ msgstr "Zulassen, den ersten Kandidaten zu ersetzen"
+
+#~ msgid "Allow to Override System XKB Settings"
+#~ msgstr "Erlaube die XKB-Einstellungen zu ignorieren"
+
+#~ msgid "Alt"
+#~ msgstr "Alt"
+
+#~ msgid "Alternative Next Page Key"
+#~ msgstr "Alternative Taste Nächste Seite"
+
+#~ msgid "Alternative Prev Page Key"
+#~ msgstr "Alternative Taste Vorherige Seite"
+
+#~ msgid "Alternative Trigger Key for QuickPhrase"
+#~ msgstr "Alternative Tastenkombination für Quickphrase"
+
+#~ msgid "Appearance"
+#~ msgstr "Aussehen"
+
+#~ msgid "Apply this custom xmodmap script after layout change"
+#~ msgstr "Dieses xmodmap script anwenden, nachdem das Layout gewechselt wurde"
+
+#~ msgid "Are you sure to delete %1?"
+#~ msgstr "Wollen Sie %1 wirklich löschen?"
+
+#~ msgid "Argument for InputMethod Register"
+#~ msgstr "Argument für das IM-Register"
+
+#~ msgid "Aspell"
+#~ msgstr "Aspell"
+
+#~ msgid "Auto"
+#~ msgstr "Automatisch"
+
+#~ msgid "Auto Change to English Mode while Input Specific String"
+#~ msgstr ""
+#~ "Automatischer Wechsel zur zweiten Eingabemethode durch bestimmte "
+#~ "Zeichenfolge"
+
+#~ msgid "Auto Create Phrase"
+#~ msgstr "Phrasen selbst vorschlagen"
+
+#~ msgid "Auto English"
+#~ msgstr "Englisch automatisch"
+
+#~ msgid "Auto English Mode"
+#~ msgstr "Auto Englisch"
+
+#~ msgid "Auto English Trigger Word"
+#~ msgstr "Wortliste für automatischen Wechsel zur Englisch-Eingabe"
+
+#~ msgid "Auto Phrase"
+#~ msgstr "Automatische Phrase"
+
+#~ msgid "Auto Phrase Length"
+#~ msgstr "Länge der automatischen Phrase"
+
+#~ msgid "Auto Phrase Phrase"
+#~ msgstr "Automatische Phrasen"
+
+#~ msgid "Auto Send Candidate Word"
+#~ msgstr "Automatisches Senden des Kandidaten"
+
+#~ msgid "Available Value:"
+#~ msgstr "Mögliche Werte:"
+
+#~ msgid "Background Image"
+#~ msgstr "Hintergrundgraphik"
+
+#~ msgid "Bash Version:"
+#~ msgstr "Bash Version:"
+
+#~ msgid "Beginner's Guide"
+#~ msgstr "Erste Schritte"
+
+#~ msgid "Bingchan"
+#~ msgstr "Bingchan"
+
+#~ msgid "BottomCenter"
+#~ msgstr "unten mitte"
+
+#~ msgid "BottomLeft"
+#~ msgstr "unten rechts"
+
+#~ msgid "BottomRight"
+#~ msgstr "unten rechts"
+
+#~ msgid "CTRL Both"
+#~ msgstr "CTRL Beide"
+
+#~ msgid "CTRL_SHIFT"
+#~ msgstr "CTRL_SHIFT"
+
+#~ msgid "CTRL_SUPER"
+#~ msgstr "CTRL_SUPER"
+
+#~ msgid "Can't Create imWindow"
+#~ msgstr "Kann Eigabemethodenfenster nicht erzeugen"
+
+#~ msgid "Can't open punc file."
+#~ msgstr "Kann punc-Datei nicht öffnen"
+
+#~ msgid "Can't open socket %s: %s"
+#~ msgstr "Socket kann nicht geöffnet werden %s: %s"
+
+#~ msgid "Candidate Index Color"
+#~ msgstr "Farbe vorgeschlagene Kandidaten"
+
+#~ msgid "Candidate Word Number"
+#~ msgstr "Anzahl Zeichenvorschläge"
+
+#~ msgid "Cangjie"
+#~ msgstr "Cangjie"
+
+#~ msgid "Cannot Save Frequent word: %s"
+#~ msgstr "\"Häufig benutztes Wort\" kann nicht gesichert werden: %s"
+
+#~ msgid "Cannot Save Pinyin Index: %s"
+#~ msgstr "\"Pinyin Index\" kann nicht gesichert werden: %s"
+
+#~ msgid "Cannot Save User Pinyin Database: %s"
+#~ msgstr "Die Benutzerdaten können nicht gesichert werden: %s"
+
+#~ msgid "Cannot connect to fcitx correctly."
+#~ msgstr "Kann nicht richtig mit Fcitx verbinden."
+
+#~ msgid "Cannot create file %1."
+#~ msgstr "Datei %1 kann nicht erstellt werden."
+
+#~ msgid "Cannot determine desktop environment."
+#~ msgstr "Kann die Desktopumgebung nicht feststellen."
+
+#~ msgid "Cannot find ${2} for gtk ${1}"
+#~ msgstr "${2} für gtk ${1} kann nicht gefunden werden"
+
+#~ msgid "Cannot find DBus name ${1} owner."
+#~ msgstr "Kann den Eigentümer vom dbus mit Namen ${1} nicht finden."
+
+#~ msgid "Cannot find System Database of Pinyin!"
+#~ msgstr "Die Datenbank für Pinyin kann nicht gefunden werden!"
+
+#~ msgid ""
+#~ "Cannot find a GUI config tool, please install one of ${1}, ${2}, or ${3}."
+#~ msgstr ""
+#~ "Kann kein Konfigurationsprogramm für die Benutzeroberfläche finden, bitte "
+#~ "installieren Sie ${1}, ${2}, oder ${3}."
+
+#~ msgid "Cannot find enabled fcitx user interface!"
+#~ msgstr "Kann keine aktivierte fcitx-Oberfläche finden!"
+
+#~ msgid "Cannot find fcitx addon config directory."
+#~ msgstr "Kann das Fcitz Addon Konfigurationsverzeichnis nicht finden."
+
+#~ msgid "Cannot find fcitx executable!"
+#~ msgstr "Kann das Programm Fcitx nicht finden!"
+
+#~ msgid "Cannot find fcitx im module for gtk ${1} in cache."
+#~ msgstr "Kann Fcitx im module für gtk ${1} nicht im Cache finden."
+
+#~ msgid "Cannot find fcitx im module for gtk ${1}."
+#~ msgstr "Kann kein Modul für gtk ${1} finden"
+
+#~ msgid "Cannot find fcitx input method module for ${1}."
+#~ msgstr "Kann Fcitx-Eingabemodul für ${1} nicht finden."
+
+#~ msgid "Cannot find fcitx-configtool executable!"
+#~ msgstr "Kann das Programm fcitx-configtool nicht finden!"
+
+#~ msgid "Cannot find file ${1} of addon ${2}."
+#~ msgstr "Kann Datei ${1} von Addon ${2} nicht finden."
+
+#~ msgid "Cannot find following required libraries for ${1} of addon ${2}."
+#~ msgstr ""
+#~ "Die erforderlichen Bibliotheken für ${1} für Addon ${2} können nicht "
+#~ "gefunden werden."
+
+#~ msgid "Cannot find immodules cache for gtk ${1}"
+#~ msgstr "Kann den Eingabecache für gtk ${1} nicht finden"
+
+#~ msgid ""
+#~ "Cannot find kimpanel dbus interface or enabled non-kimpanel user "
+#~ "interface."
+#~ msgstr ""
+#~ "Kann keine kimpanel DBus- oder andere aktivierte Schnittstelle finden."
+
+#~ msgid "Cannot find pid of DBus name ${1} owner."
+#~ msgstr "Kann die PID des Eigentümers des dbus mit Namen ${1} nicht finden."
+
+#~ msgid "Cannot find xim_server on root window."
+#~ msgstr "Kann keinen xim_Server für root finden."
+
+#~ msgid "Cannot found Pinyin"
+#~ msgstr "Pinyin kann nicht gefunden werden"
+
+#~ msgid "Cannot interpret XMODIFIERS: ${1}."
+#~ msgstr "Kann  XMODIFIERS: ${1} nicht richtig interpretieren"
+
+#~ msgid "Cannot load default skin, is installation correct?"
+#~ msgstr ""
+#~ "die Standardoberfläche kann nicht geladen werden, ist die Installation "
+#~ "vollständig?"
+
+#~ msgid "Cannot load skin %s, return to default"
+#~ msgstr "Kann die Oberfläche %s nicht finden, zurück zu Default"
+
+#~ msgid "Cannot read im list from fcitx profile."
+#~ msgstr "Kann die IM Liste nicht aus dem Fcitzprofil lesen"
+
+#~ msgid "Cannot remove system file"
+#~ msgstr "Systemdatei kann nicht entfernt werden."
+
+#~ msgid "Category"
+#~ msgstr "Kategorie"
+
+#~ msgid "Center"
+#~ msgstr "Mitte"
+
+#~ msgid "CenterLeft"
+#~ msgstr "Mitte links"
+
+#~ msgid "CenterRight"
+#~ msgstr "Mitte rechts"
+
+#~ msgid "Change Fcitx Configuration"
+#~ msgstr "Wechsel der Fcitx Konfiguration"
+
+#~ msgid "Choose"
+#~ msgstr "Auswählen"
+
+#~ msgid "Choose Second and Third Candidate Word"
+#~ msgstr "Zweiten und dritten Kandidaten auswählen"
+
+#~ msgid "Choose the phrase to be deleted, Press Escape to Cancel"
+#~ msgstr "Phrase zum löschen auswählen, ESC zum Abbrechen"
+
+#~ msgid "Choose the phrase to be put in the front, Press Escape to Cancel"
+#~ msgstr "Phrase zum nach vorne bringen auswählen, ESC zum Abrrechen"
+
+#~ msgid "Choose the phrase to clear typing history, Press Escape to Cancel"
+#~ msgstr ""
+#~ "Phrase auswählen um den Eingabeverlauf zu löschen. ESC zum Abbrechen"
+
+#~ msgid "Classic"
+#~ msgstr "CLASSIC (Fcitx Benutzeroberfläche)"
+
+#~ msgid "Classic User Interface with Skin support"
+#~ msgstr "CLASSIC mit Unterstützung von Skins"
+
+#~ msgid "ClassicUI"
+#~ msgstr "Klassik Oberfläche"
+
+#~ msgid "Clear"
+#~ msgstr "Löschen"
+
+#~ msgid "Clear Frequency"
+#~ msgstr "Frequenz leeren"
+
+#~ msgid "Clear local Input Method"
+#~ msgstr "Lokale Eingabemethode zurücksetzen"
+
+#~ msgid "Clear local input method"
+#~ msgstr "Lokale Eingabemethode leeren"
+
+#~ msgid "Close virtual keyboard"
+#~ msgstr "Virtuelle Tastatur schließen"
+
+#~ msgid "Code is "
+#~ msgstr "Code ist"
+
+#~ msgid "Color of Cursor"
+#~ msgstr "Farbe der Cursors"
+
+#~ msgid "Comment"
+#~ msgstr "Kommentar"
+
+#~ msgid "Commit key for select first candidate"
+#~ msgstr "Bestätigungstaste für den ersten Kandidaten"
+
+#~ msgid "Commit string when there is no match"
+#~ msgstr "Bestätigungstaste wenn kein Kandidat vorhanden ist"
+
+#~ msgid "Commit when toggle state"
+#~ msgstr "Bestätigen, wenn der Status verändert wird"
+
+#~ msgid "Commit with extra space when choose candidate word"
+#~ msgstr "Auswahl eines Kandidaten zusätzlich mit SPACE bestätigen"
+
+#~ msgid "Config GUI for gtk${1} not found."
+#~ msgstr "Konfigurationsoberfläche für gtk${1} nicht gefunden."
+
+#~ msgid "Config GUI for gtk${1}:"
+#~ msgstr "Konfigurationsoberfläche für gtk${1}:"
+
+#~ msgid "Config GUI for kde:"
+#~ msgstr "Konfigurationsoberfläche für KDE:"
+
+#~ msgid "Config Tool Wrapper:"
+#~ msgstr "Konfigurationswerkzeug Wrapper:"
+
+#~ msgid "ConfigFile"
+#~ msgstr "Konfigurationsdatei"
+
+#~ msgid "Configuration:"
+#~ msgstr "Konfiguration:"
+
+#~ msgid "Configure"
+#~ msgstr "Konfigurieren"
+
+#~ msgid "Configure Current Input Method"
+#~ msgstr "Aktuelle Eingabemethode konfigurieren"
+
+#~ msgid "Configure group name error: line %d"
+#~ msgstr "Fehler in der Konfiguration des Gruppennamens: Zeile %d"
+
+#~ msgid "Confirm deletion"
+#~ msgstr "Löschen bestätigen"
+
+#~ msgid "Conveniently Input English or User-Defined Simple Table"
+#~ msgstr "Leichte EIngabe von Englisch oder benutzerdefinierten Tabellen"
+
+#~ msgid "Convert Simplified Chinese To Traditional Chinese"
+#~ msgstr "Konvertieren Kurz- zu Langzeichen"
+
+#~ msgid "Copy"
+#~ msgstr "Kopieren"
+
+#~ msgid "Create new file"
+#~ msgstr "Neue Datei erzeugen"
+
+#~ msgid "Ctrl"
+#~ msgstr "Ctrl"
+
+#~ msgid "Ctrl+Left Super"
+#~ msgstr "Ctrl-L Super"
+
+#~ msgid "Ctrl+Right Super"
+#~ msgstr "Ctrl-R Super"
+
+#~ msgid "Current Enabled Input Method List"
+#~ msgstr "Liste der aktivierten Eingabemethoden"
+
+#~ msgid "Current Input Method Name"
+#~ msgstr "Name der aktivierten Eingabemethode"
+
+#~ msgid "Current fcitx settings directory is ${1} (${2})."
+#~ msgstr "Das gegenwärtige Fcitx Konfigurationsverzeichnis ist ${1} (${2})."
+
+#~ msgid "Current local input method is "
+#~ msgstr "Die gegenwärtig aktivierte Eingabemethode ist"
+
+#~ msgid "Current locale:"
+#~ msgstr "Zur Zeit aktivierte Locale:"
+
+#~ msgid "Current user:"
+#~ msgstr "Aktueller Benutzer:"
+
+#~ msgid "Current value of ${1} is ${2} (${3})."
+#~ msgstr "Die gegenwärtige Einstellung von ${1} ist ${2} (${3})."
+
+#~ msgid "Custom"
+#~ msgstr "Anwenderspezifisch"
+
+#~ msgid "DBus"
+#~ msgstr "DBus"
+
+#~ msgid "DBus Support"
+#~ msgstr "DBus Unterstützung"
+
+#~ msgid "DBus based new Freedesktop.org tray icon"
+#~ msgstr "DBus basiertes, neues Trayicon von Freedesktop.org"
+
+#~ msgid "DBus interface:"
+#~ msgstr "DBus Interface:"
+
+#~ msgid "De&lete All"
+#~ msgstr "De&lete All"
+
+#~ msgid "Default Input Method State"
+#~ msgstr "Standard Status Eingabemethode"
+
+#~ msgid "Default Shuangpin Schema"
+#~ msgstr "Standard Shuangpin Schema"
+
+#~ msgid "Default input methods:"
+#~ msgstr "Standard Eingabemethoden:"
+
+#~ msgid "Delete Phrase"
+#~ msgstr "Phrase entfernen"
+
+#~ msgid "Dependency"
+#~ msgstr "Abhängigkeit"
+
+#~ msgid "Description of Skin"
+#~ msgstr "Beschreibung Skin"
+
+#~ msgid "Desktop Environment:"
+#~ msgstr "Desktop Umgebung:"
+
+#~ msgid "Desktop environment is ${1}."
+#~ msgstr "Die Desktopumgebung ist ${1}."
+
+#~ msgid "Dianbaoma"
+#~ msgstr "Dianbaoma"
+
+#~ msgid "Directories:"
+#~ msgstr "Verzeichnisse:"
+
+#~ msgid "Disable Pinyin Symbol"
+#~ msgstr "Symbol für Pinyin deaktivieren"
+
+#~ msgid "Disable addon %s, dependency %s cannot be satisfied."
+#~ msgstr "Addon %s ausgeschaltet, die Abhängigkeit %s ist nicht erfüllt."
+
+#~ msgid "Disabled"
+#~ msgstr "Ausgeschaltet"
+
+#~ msgid "Do not commit preedit text when unfocus a window"
+#~ msgstr "Preedittext nicht eingeben, wenn das Fenster den Fokus verliert"
+
+#~ msgid "Do not show in GUI"
+#~ msgstr "Nicht in grafischen Anwendungen zeigen"
+
+#~ msgid "Do not show input window if there is only one candidate and preedit"
+#~ msgstr ""
+#~ "Eingabefenster nicht zeigen, wenn nur ein Kandidat und der Preeditstring "
+#~ "vorhanden sind"
+
+#~ msgid "Do not show input window if there is only preedit string"
+#~ msgstr "Fcitx Fenster nicht anzeigen, wenn es nur einen Vorschlag gibt"
+
+#~ msgid "Do not show spell hint"
+#~ msgstr "Keinen Rechtsschreibungshinweis zeigen"
+
+#~ msgid "Do not sort word with code less than this level"
+#~ msgstr "Wörter mit weniger Eingabe als diese Länge nicht sortieren"
+
+#~ msgid "Duplicate entry %s in group %s,@ line %d, override previous one."
+#~ msgstr "Doppelter Eintrag %s in Gruppe %s,@ Zeile %d, vorherige übergehen."
+
+#~ msgid ""
+#~ "Duplicate group %s in a desktop file,@ line %d, merge with previous one."
+#~ msgstr ""
+#~ "Doppelte Gruppe in %s im Desktop.file, @ Zeile %d, mit vorheriger "
+#~ "zusammenfügen"
+
+#~ msgid "Duplicate group name, merge with the previous: %s :line %d"
+#~ msgstr ""
+#~ "Gruppenname doppelt vorhanden, wird mit dem vorherigen zusammengeführt: "
+#~ "%s :Zeile %d"
+
+#~ msgid "Duplicate option, overwrite: line %d"
+#~ msgstr "Doppelte Option, überschreibe Zeile %d"
+
+#~ msgid "E&xport"
+#~ msgstr "E&xport"
+
+#~ msgid "Empty"
+#~ msgstr "Leer"
+
+#~ msgid "Enable"
+#~ msgstr "Aktivieren"
+
+#~ msgid "Enable Hotkey to scroll Between Input Method"
+#~ msgstr "Hotkey aktivieren, um durch die Eingabemethoden zu scrollen"
+
+#~ msgid "Enabled"
+#~ msgstr "Aktiviert"
+
+#~ msgid "Enabled state for im"
+#~ msgstr "Aktivierter Status der IM"
+
+#~ msgid "Enchance pinyin input in Fcitx"
+#~ msgstr "Erweiterte Pinyineingabe in Fcitx"
+
+#~ msgid "End Key"
+#~ msgstr "Taste ENDE"
+
+#~ msgid "English (US)"
+#~ msgstr "English (US)"
+
+#~ msgid "English Mode Icon"
+#~ msgstr "Icon Englischer Modus"
+
+#~ msgid ""
+#~ "Environment variable ${1} is \"${2}\" instead of \"${3}\". Please check "
+#~ "if you have exported it incorrectly in any of your init files."
+#~ msgstr ""
+#~ "Die Umgebungsvariable ${1} ist \"${2}\" anstatt \"${3}\". Bitte "
+#~ "überprüfen Sie, ob die Variable falsch in die Initfiles exportiert wurde."
+
+#~ msgid "Environment variable ${1} is not set."
+#~ msgstr "Umgebungsvariable ${1} ist nicht gesetzt."
+
+#~ msgid "Environment variable ${1} is set to \"${2}\" correctly."
+#~ msgstr "Die Umgebungsvariable ${1} ist richtig auf \"${2}\" gesetzt."
+
+#~ msgid "Environment variable ${1} is set to ${2}."
+#~ msgstr "Umgebungsvariable ${1} ist auf ${2} gesetzt."
+
+#~ msgid "Environment:"
+#~ msgstr "Umgebung:"
+
+#~ msgid "Erbi"
+#~ msgstr "Erbi"
+
+#~ msgid "Error occurs when running ${1}. Please check your locale settings."
+#~ msgstr ""
+#~ "Fehler beim ausführen von ${1}. Bitte checken Sie die Einstellung von "
+#~ "LOCALE."
+
+#~ msgid "Error while deleting %1."
+#~ msgstr "Fehler beim Löschen von %1."
+
+#~ msgid ""
+#~ "Error: $HOME or $XDG_CONFIG_HOME is not set, cannot determine the install "
+#~ "path"
+#~ msgstr ""
+#~ "Fehler: $HOME oder $XDG_CONFIG_HOME nicht gesetzt, kann den "
+#~ "Installationspfad nicht bestimmen."
+
+#~ msgid "Error: Load fontconfig failed"
+#~ msgstr "Laden der fontconfig gescheitert"
+
+#~ msgid "Error: skin failed to install"
+#~ msgstr "Fehler: Skin konnte nicht installiert werden"
+
+#~ msgid "Error: skin file doesn't contain skin config."
+#~ msgstr "Fahler: Skin enthält keine Konfigurationsdatei"
+
+#~ msgid "Error: skin file should only contain one directory."
+#~ msgstr "Fehler: Skin Datei sollte nur ein Verzeichnis enthalten"
+
+#~ msgid "Exact Match"
+#~ msgstr "Genaue Übereinstimmung"
+
+#~ msgid "Exec"
+#~ msgstr "Exec"
+
+#~ msgid "Exit"
+#~ msgstr "Beenden"
+
+#~ msgid "Extra key for trigger input method"
+#~ msgstr "Extrataste zum Aktivieren der Eingabemethode"
+
+#~ msgid "Failed to find fcitx in immodule cache at ${1}"
+#~ msgstr "In ${1} kein Eingabemethodencache gefunden"
+
+#~ msgid "Failed to find fcitx in the output of ${1}"
+#~ msgstr "In der Ausgabe von ${1} wurde Fcitx nicht gefunden."
+
+#~ msgid "Fallback UI Addon"
+#~ msgstr "Fallback UI Addon"
+
+#~ msgid "Fcitx"
+#~ msgstr "Fcitx"
+
+#~ msgid "Fcitx Addons:"
+#~ msgstr "Fcitx Addons:"
+
+#~ msgid "Fcitx Clipboard access"
+#~ msgstr "Fcitx Zugriff auf Zwischenablage"
+
+#~ msgid "Fcitx Configuration"
+#~ msgstr "Fcitx Konfiguration"
+
+#~ msgid "Fcitx Configure UI:"
+#~ msgstr "Konfigurationsoberfläche fcitx:"
+
+#~ msgid "Fcitx DBus Frontend"
+#~ msgstr "Fcitx DBus Schnittstelle"
+
+#~ msgid "Fcitx Lua Support"
+#~ msgstr "Fcitx Lua Unterstützung"
+
+#~ msgid "Fcitx Settings Directory:"
+#~ msgstr "Fcitx Konfigurationsverzeichnis:"
+
+#~ msgid "Fcitx Skin Installer"
+#~ msgstr "Fcitx Skin Installer"
+
+#~ msgid "Fcitx Spelling Hint/Completion Support"
+#~ msgstr "Vorschlagen von Wörtern"
+
+#~ msgid "Fcitx State:"
+#~ msgstr "Fcitx Status:"
+
+#~ msgid "Fcitx XIM Frontend"
+#~ msgstr "Schnittstelle für XIM"
+
+#~ msgid "Fcitx is not running."
+#~ msgstr "Fcitx läuft nicht."
+
+#~ msgid "Fcitx version: ${1}"
+#~ msgstr "Fcitx-Version: ${1}"
+
+#~ msgid "File Operation Failed"
+#~ msgstr "Dateioperation fehlgeschlagen"
+
+#~ msgid "File name should not contain '/'."
+#~ msgstr "Dateiname darf kein '/' enthalten."
+
+#~ msgid "Fill Background Horizontal rule"
+#~ msgstr "Regel Verwendung der Hintergrundgraphik horizontal"
+
+#~ msgid "Fill Background Vertical rule"
+#~ msgstr "Regel Verwendung der Hintergrundgraphik vertikal"
+
+#~ msgid "First Candidate Color"
+#~ msgstr "Farbe erster Kandidat"
+
+#~ msgid "First Candidate Display as Preedit"
+#~ msgstr "Den ersten Kandidaten als Preedit darstellen"
+
+#~ msgid "Fix misstype gn/ng"
+#~ msgstr "Autokorrektur gn/ng"
+
+#~ msgid "Fix misstype v/u like jv, qv, xv, yv"
+#~ msgstr "Falscheingaben korrigieren wie: v/u oder jv, qv, xv, yv"
+
+#~ msgid "Font"
+#~ msgstr "Font"
+
+#~ msgid "Font Locale to display"
+#~ msgstr "Locale anzeigen"
+
+#~ msgid "Font Size"
+#~ msgstr "Fontgröße"
+
+#~ msgid "Font sizes respect dpi setting"
+#~ msgstr "Zeichengröße beachtet die dpi Einstellungen"
+
+#~ msgid ""
+#~ "For example, if Keyboard - English (US) is the first input method in the "
+#~ "list, then English (US) will be applied to all other non keyboard input "
+#~ "method layout"
+#~ msgstr ""
+#~ "Zum Beispiel: Wenn Keyboard - English (US) die erste Eingabemethode in "
+#~ "der Liste ist, dann wird English (US) allen anderen Nicht-Tastatur-"
+#~ "Eingabemethoden zugewiesen."
+
+#~ msgid "Found ${1} at ${2}."
+#~ msgstr "${1} in ${2} gefunden."
+
+#~ msgid "Found ${1} disabled addons:"
+#~ msgstr "Deaktivierte Addons gefunden ${1}"
+
+#~ msgid "Found ${1} enabled addons:"
+#~ msgstr "Aktivierte Addons gefunden ${1}"
+
+#~ msgid "Found ${1} enabled input methods:"
+#~ msgstr "${1} Aktivierte Eingabemethoden gefunden:"
+
+#~ msgid "Found ${1} enabled user interface addons:"
+#~ msgstr "Aktivierte Benutzeroberflächen-Addons ${1} gefunden:"
+
+#~ msgid "Found ${1} fcitx process:"
+#~ msgstr "Gefundener Fcitxprozess ${1}:"
+
+#~ msgid "Found ${1} fcitx processes:"
+#~ msgstr "Gefundene Fcitxprozesse ${1}:"
+
+#~ msgid "Found ${2} for unknown gtk version at ${1}."
+#~ msgstr "${2} für unbekannte gtk-Version hier gefunden: ${1}."
+
+#~ msgid "Found ${3} for gtk ${1} at ${2}."
+#~ msgstr "${3} für gtk ${1} gefunden: ${2}."
+
+#~ msgid "Found fcitx addon config directory: ${1}."
+#~ msgstr "Fcitz Addon Konfigurationsverzeichnis gefunden: ${1}"
+
+#~ msgid "Found fcitx at ${1}."
+#~ msgstr "Fcitx gefunden: ${1}"
+
+#~ msgid "Found fcitx im module for ${2}: ${1}."
+#~ msgstr "Fcitx-Eingabemodul für ${2}: ${1} gefunden"
+
+#~ msgid "Found fcitx im modules for gtk ${1}."
+#~ msgstr "gtk ${1} Module für Fcitz gefunden"
+
+#~ msgid "Found fcitx kcm module."
+#~ msgstr "KCM-Modul für Fcitx gefunden"
+
+#~ msgid "Found fcitx qt module: ${1}."
+#~ msgstr "QT-Eingabemodul für fcitx gefunden: ${1}."
+
+#~ msgid "Found fcitx-configtool at ${1}."
+#~ msgstr "fcitx-configtool hier gefunden: ${1}."
+
+#~ msgid "Found immodule cache for unknown gtk version at ${1}."
+#~ msgstr "Unbekannte Version des Eingabemethodencaches gefunden: ${1}"
+
+#~ msgid "Found immodules cache for gtk ${1} at ${2}."
+#~ msgstr "Eingabemodulcache für gtk ${1} gefunden: ${2}"
+
+#~ msgid "Found unknown fcitx qt module: ${1}."
+#~ msgstr "Unbekanntes Fcitx QT Modul gefunden: ${1}"
+
+#~ msgid "Freedesktop.org Notification Support"
+#~ msgstr "Unterstützung von Freedesktop.org Benachrichtigungen"
+
+#~ msgid "Frontend"
+#~ msgstr "Schnittstelle"
+
+#~ msgid "Frontend Used by IM Modules"
+#~ msgstr "Schnittstelle für IM Modules"
+
+#~ msgid "Frontend: bad frontend"
+#~ msgstr "Schnittstelle: Falsche Schnittstelle"
+
+#~ msgid "Frontend: open %s fail %s"
+#~ msgstr "Schnittstelle: Öffnen von %s fehlgeschlagen %s"
+
+#~ msgid "Frontends setup:"
+#~ msgstr "Einrichtung Schnittstelle:"
+
+#~ msgid "Full width Character"
+#~ msgstr "Vollbreite Zeichen"
+
+#~ msgid "Full width punct"
+#~ msgstr "Vollbreite Interpunktion"
+
+#~ msgid "Full width punctuations are used."
+#~ msgstr "Vollbreite Satzzeichen werden verwendet."
+
+#~ msgid "Fullwidth"
+#~ msgstr "Vollbreit"
+
+#~ msgid "Fullwidth Character"
+#~ msgstr "Vollbreite Zeichen"
+
+#~ msgid "Fuzzy an and ang"
+#~ msgstr "Fuzzy Pinyin an/ang"
+
+#~ msgid "Fuzzy c and ch"
+#~ msgstr "Fuzzy Pinyin c/ch"
+
+#~ msgid "Fuzzy en and eng"
+#~ msgstr "Fuzzy Pinyin en/eng"
+
+#~ msgid "Fuzzy f and h"
+#~ msgstr "Fuzzy Pinyin f/h"
+
+#~ msgid "Fuzzy ian and iang"
+#~ msgstr "Fuzzy Pinyin lan/lang"
+
+#~ msgid "Fuzzy in and ing"
+#~ msgstr "Fuzzy Pinyin in/ing"
+
+#~ msgid "Fuzzy l and n"
+#~ msgstr "Fuzzy Pinyin l/n"
+
+#~ msgid "Fuzzy ou and u"
+#~ msgstr "Fuzzy Pinyin ou/u"
+
+#~ msgid "Fuzzy s and sh"
+#~ msgstr "Fuzzy Pinyin s/sh"
+
+#~ msgid "Fuzzy uan and uang"
+#~ msgstr "Fuzzy Pinyin uan/uang"
+
+#~ msgid "Fuzzy z and zh"
+#~ msgstr "Fuzzy Pinyin z/zh"
+
+#~ msgid "Give the tips of Phrase"
+#~ msgstr "Phrasenvorschläge aktivieren"
+
+#~ msgid "Global Input Method SelectKey"
+#~ msgstr "Auswahltaste für die globale Eingabemethode"
+
+#~ msgid "GlobalSelector"
+#~ msgstr "Global auswählen"
+
+#~ msgid "Grave"
+#~ msgstr "Accent Grave"
+
+#~ msgid "Greek"
+#~ msgstr "Griechisch"
+
+#~ msgid "Gtk ${1} immodule file ${2} does not exist."
+#~ msgstr "Datei für Gtk ${1} Eingabemodul ${2} existiert nicht."
+
+#~ msgid "Gtk IM module cache:"
+#~ msgstr "GTK Im module Cache:"
+
+#~ msgid "Gtk IM module files:"
+#~ msgstr "GTK Im modules Dateien:"
+
+#~ msgid "Half width Character"
+#~ msgstr "Halbbreite Zeichen"
+
+#~ msgid "Hall of Shame for Linux IME Support"
+#~ msgstr "Hall of Shame für Linux IME Support"
+
+#~ msgid "Hide"
+#~ msgstr "Verstecken"
+
+#~ msgid "Hide when tray icon is available"
+#~ msgstr "Verstecken, falls Trayicon aktiv"
+
+#~ msgid "Hiragana"
+#~ msgstr "Hiragana"
+
+#~ msgid "Home:"
+#~ msgstr "Home Verzeichnis:"
+
+#~ msgid "Horizontal"
+#~ msgstr "Horizontal"
+
+#~ msgid "Hotkey"
+#~ msgstr "Kurzbefehl"
+
+#~ msgid "Hotkey for Inputing Character From Phrase"
+#~ msgstr "Hotkey zur Eingabe eines Zeichens aus einer Phrase"
+
+#~ msgid "Hotkey for switching to Inputing Character From Phrase mode"
+#~ msgstr "Hotkey, um vom Phrasenmodus zum Zeicheneingabemodus zu wechseln"
+
+#~ msgid "Hotkey of Adding Frequent Word"
+#~ msgstr "Kurzbefehl Hinzufügen zur Liste oft verwendeter Wörter"
+
+#~ msgid "Hotkey of Delete User Phrase"
+#~ msgstr "Kurzbefehl Löschen benutzerdefinierter Phrasen"
+
+#~ msgid "Hotkey of Deleting Frequent Word"
+#~ msgstr "Kurzbefehl Entfernen aus der Liste oft verwendeter Wörter"
+
+#~ msgid "IM: bad im %s"
+#~ msgstr "Eingabemethode: Defekte Eingabemethode %s"
+
+#~ msgid "IM: open %s fail %s"
+#~ msgstr "Eingabemethode: Öffnen von %s fehlgeschlagen %s"
+
+#~ msgid "IMSelector"
+#~ msgstr "IM Auswahl"
+
+#~ msgid "Icon Name"
+#~ msgstr "Name des Icons"
+
+#~ msgid "IconName"
+#~ msgstr "Name des Icons"
+
+#~ msgid ""
+#~ "If you are using ${1}, you may want to uninstall ${2} or remove ${3} in "
+#~ "order to use any input method other than ${2}. See ${link} for more "
+#~ "detail as well as alternative solutions."
+#~ msgstr ""
+#~ "Wenn Sie  ${1} benutzen wollen, sollten Sie ${2} deinstallieren, oder "
+#~ "${3} entfernen, um andere Eingabemethoden als ${2} zu benutzen. Mehr Info "
+#~ "und andere Lösungen hier: ${link} "
+
+#~ msgid ""
+#~ "If you are using ${1}, you may want to uninstall ${2}, remove ${3} or use "
+#~ "the command ${g36_disable_ibus} to disable IBus integration in order to "
+#~ "use any input method other than ${2}. See ${link} for more detail."
+#~ msgstr ""
+#~ "Wenn Sie  ${1} benutzen, sollten Sie ${2} deinstallieren, ${3} entfernen "
+#~ "oder den Befehl ${g36_disable_ibus} ausführen, um die iBus-Integration zu "
+#~ "deaktivieren und andere Eingabemethoden als ${2} zu benutzen. Mehr Info "
+#~ "hier: ${link} "
+
+#~ msgid "Ignore Punctuation"
+#~ msgstr "Interpunktion ignorieren"
+
+#~ msgid "Ignore blank selections"
+#~ msgstr "Leere Auswahl ignorieren"
+
+#~ msgid "Ignore some Punctuation, if it is empty, then ignore all punctuation"
+#~ msgstr ""
+#~ "Punktuation ignorieren, wenn dies leer ist, alle Punktuation ignorieren"
+
+#~ msgid "Inactivate Input Method"
+#~ msgstr "Eingabemethode deaktivieren"
+
+#~ msgid "Inactive"
+#~ msgstr "Inaktiv"
+
+#~ msgid "Inactive Menu Item Character Color"
+#~ msgstr "Farbe inaktiver Menüeintrag"
+
+#~ msgid "Inactive Text Icon Color"
+#~ msgstr "Inaktive Texticon-Farbe"
+
+#~ msgid "Include Inactivate when scrolling between Input Method"
+#~ msgstr ""
+#~ "\"Deaktiviert\" einschließen, wenn durch die Eingabemethoden gescrollt "
+#~ "wird"
+
+#~ msgid "Include the text currently selected in clipboard history."
+#~ msgstr "Den gerade in der Zwischenablage ausgewählten Text einschließen"
+
+#~ msgid "Inctive Tray Icon"
+#~ msgstr "Systemtray Icon INAKTIV"
+
+#~ msgid "Index"
+#~ msgstr "Index"
+
+#~ msgid "Input Font Size"
+#~ msgstr "Schriftgröße Eingabe"
+
+#~ msgid "Input Message Color"
+#~ msgstr "Farbe der Pinyineingabe"
+
+#~ msgid "Input Method"
+#~ msgstr "Eingabemethode"
+
+#~ msgid "Input Method Configuration"
+#~ msgstr "Konfiguration Eingabemethode"
+
+#~ msgid "Input Method Disabled"
+#~ msgstr "Eingabemethode deaktiviert"
+
+#~ msgid "Input Method Hint will be only shown when state is active"
+#~ msgstr ""
+#~ "Hinweis auf die Eingabemethode wird nur angezeigt, wenn der Status AKTIV "
+#~ "ist"
+
+#~ msgid "Input Method Related Environment Variables: "
+#~ msgstr "Eingabemethodenbezogenene Umgebungsvariablen:"
+
+#~ msgid "Input Methods:"
+#~ msgstr "Eingabemethoden:"
+
+#~ msgid "Input Speed: "
+#~ msgstr "Eingabegeschwindigkeit"
+
+#~ msgid "Input method selector"
+#~ msgstr "Auswahl Eingabemethode"
+
+#~ msgid "InputMethod"
+#~ msgstr "Eingabemethode"
+
+#~ msgid "Installer Script for Fcitx Skin"
+#~ msgstr "Installationsscript für Fcitx-Skins"
+
+#~ msgid "Interval of Two Key Input"
+#~ msgstr "Tastenwiederholung/Sekunde"
+
+#~ msgid "Invalid Entry: line %d missing '='"
+#~ msgstr "Ungültiger Eintrag: In Linie %d fehlt \"=\""
+
+#~ msgid "Invalid addon config file ${1}."
+#~ msgstr "Ungültige Addon Konfigurationsdatei ${1}"
+
+#~ msgid "Invalid entry line @ line %d %s"
+#~ msgstr "Ungültiger Eintrag Zeile @ Zeile %d %s"
+
+#~ msgid "Invalid filename"
+#~ msgstr "Ungültiger Dateiname"
+
+#~ msgid "Invalid group name line @ line %d %s"
+#~ msgstr "Ungültiger Gruppenname Zeile @ Zeile %d %s"
+
+#~ msgid "Invalid item ${1} in im list."
+#~ msgstr "Ungültiger Eintrag ${1} in der IM-Liste"
+
+#~ msgid "Katakana"
+#~ msgstr "Katakana"
+
+#~ msgid "Key"
+#~ msgstr "Taste"
+
+#~ msgid "Key Color On Virutal Keyboard"
+#~ msgstr "Icon für Virtuelle Tastatur"
+
+#~ msgid "Keyboard Layout"
+#~ msgstr "Tastaturlayout"
+
+#~ msgid "Keyboard Layout to be used"
+#~ msgstr "Zu benutzendes Tastaturlayout"
+
+#~ msgid "Keyboard Layout:"
+#~ msgstr "Tastatur Layout:"
+
+#~ msgid "Keyword"
+#~ msgstr "Schlüsselwort"
+
+#~ msgid "Keyword:"
+#~ msgstr "Schlüsselwort:"
+
+#~ msgid "Kimpanel"
+#~ msgstr "Kimpanel"
+
+#~ msgid "Kimpanel Support for Fcitx"
+#~ msgstr ""
+#~ "Unterstützung zur Integration von Fcitx mit Kimpanel (KDE Plasma Widget)"
+
+#~ msgid "Kimpanel process:"
+#~ msgstr "Prozeß Kimpanel:"
+
+#~ msgid "L_ALT"
+#~ msgstr "L_ALT"
+
+#~ msgid "L_CTRL"
+#~ msgstr "L_CTRL"
+
+#~ msgid "L_SHIFT"
+#~ msgstr "L_SHIFT"
+
+#~ msgid "LangCode"
+#~ msgstr "LangCode"
+
+#~ msgid "Language Code for this table"
+#~ msgstr "Sprachcode für Tabelle"
+
+#~ msgid "Latin"
+#~ msgstr "Latin"
+
+#~ msgid "Latin punct"
+#~ msgstr "Lateinische Interpunktion"
+
+#~ msgid "Latin punctuations are used."
+#~ msgstr "Lateinische Satzzeichen werden verwendet."
+
+#~ msgid "Left"
+#~ msgstr "Links"
+
+#~ msgid "Left Super"
+#~ msgstr "Linke Super-Taste"
+
+#~ msgid ""
+#~ "Left/Right to choose selected character, Press Enter to confirm, Press "
+#~ "Escape to Cancel"
+#~ msgstr ""
+#~ "Links/Rechts zum Auswählen des Zeichens, Enter zum Bestätigen, ESC um "
+#~ "abzubrechen"
+
+#~ msgid "Length of Clipboard History to Save"
+#~ msgstr "Länge des zu sichernden Zwischenablageverlaufs"
+
+#~ msgid "Library"
+#~ msgstr "Bibliothek"
+
+#~ msgid "Load Addon Config File:%s"
+#~ msgstr "Lade Addon Konfigurationsdatei: %s"
+
+#~ msgid "Load Autophrase OK"
+#~ msgstr "Autophrasen laden OK"
+
+#~ msgid "Load Table Dict OK"
+#~ msgstr "Tabelle laden OK"
+
+#~ msgid "Loading Autophrase."
+#~ msgstr "Automatische Phrase laden"
+
+#~ msgid "Loading Table Dict"
+#~ msgstr "Wörterbuch der Tabelle laden"
+
+#~ msgid "Local Input Method SelectKey"
+#~ msgstr "Taste zur Auswahl der lokalen Eingabemethode"
+
+#~ msgid "LocalSelector"
+#~ msgstr "Lokal auswählen"
+
+#~ msgid "Locale:"
+#~ msgstr "Locale:"
+
+#~ msgid "Log:"
+#~ msgstr "Log:"
+
+#~ msgid "Logo Icon"
+#~ msgstr "Icon Logo"
+
+#~ msgid "Lookup Pinyin"
+#~ msgstr "Pinyin nachsehen"
+
+#~ msgid "MS"
+#~ msgstr "MS"
+
+#~ msgid "Margin Bottom for clickable region"
+#~ msgstr "Abstand unten für den anklickbaren Bereich"
+
+#~ msgid "Margin Left for clickable region"
+#~ msgstr "Abstand links für den anklickbaren Bereich"
+
+#~ msgid "Margin Right for clickable region"
+#~ msgstr "Abstand rechts für den anklickbaren Bereich"
+
+#~ msgid "Margin Top for clickable region"
+#~ msgstr "Abstand oben für den anklickbaren Bereich"
+
+#~ msgid "Matching Key"
+#~ msgstr "Passende Taste"
+
+#~ msgid "Math"
+#~ msgstr "Mathematik"
+
+#~ msgid "Maximum hint length"
+#~ msgstr "Maximale Hinweislänge"
+
+#~ msgid "Maximum length of each candidate word"
+#~ msgstr "Maximale Länge der Kandidaten"
+
+#~ msgid "Maximum length of spell hint list"
+#~ msgstr "Maximale Anzahl von Wortvorschlägen"
+
+#~ msgid "Maximum length of spell hint list for Auto English"
+#~ msgstr ""
+#~ "Maximale Länge der Rechtschreibungshinweise für automatisches Englisch"
+
+#~ msgid "Maximum length of spell hint list for Pinyin Enhance"
+#~ msgstr "Maximale Länge der Rechtschreibhinweise für Verbessertes Pinyin"
+
+#~ msgid "Maximum length of spell hint list for Quick Phrase"
+#~ msgstr "Maximale Länge der Rechtsschreibhinweise für Quickphrase"
+
+#~ msgid "Maximum results from stroke input."
+#~ msgstr "Maximale Anzahl Ergebnisse bei Stricheingabe"
+
+#~ msgid "Maximum words number kept in preedit"
+#~ msgstr "Maximale Anzahl Wörter, die im Preeditstring gehalten werden"
+
+#~ msgid "Menu Font"
+#~ msgstr "Font Menu"
+
+#~ msgid "Menu Font Size"
+#~ msgstr "Schriftgröße Menu"
+
+#~ msgid "Migrate the old file path to the new one"
+#~ msgstr "Dateien vom alten Pfad zum neuen verschieben"
+
+#~ msgid "Minimum input length to trigger stroke input (set to -1 to disable)"
+#~ msgstr ""
+#~ "Minimale Eingabelänge um die Stricheingabe zu aktivieren (zum "
+#~ "deaktivieren auf -1 setzen)"
+
+#~ msgid "Minimum length to trigger word hint"
+#~ msgstr "Minimale Länge um Wordtip zu bekommen"
+
+#~ msgid ""
+#~ "Minimum length trigger auto send candidate when there will be no candidate"
+#~ msgstr ""
+#~ "Minimal Länge um einen Kandidaten automatisch zu senden, wenn kein "
+#~ "Kandidat vorhanden ist"
+
+#~ msgid ""
+#~ "Minimum length trigger auto send candidate word when only one candidate"
+#~ msgstr ""
+#~ "Minimal Länge um einen Kandidaten automatisch zu senden, wenn nur ein "
+#~ "Kandidat vorhanden ist"
+
+#~ msgid "Missing type, take it as string"
+#~ msgstr "Fehlender Typ, als String benutzen"
+
+#~ msgid "Module"
+#~ msgstr "Modul"
+
+#~ msgid "Module: bad module"
+#~ msgstr "Modul: Defektes Modul"
+
+#~ msgid "Module: open %s fail %s"
+#~ msgstr "Modul: %s öffnen fehlgeschlagen %s"
+
+#~ msgid "Myspell"
+#~ msgstr "Myspell"
+
+#~ msgid "Name"
+#~ msgstr "Name"
+
+#~ msgid "Name that can be display in UI"
+#~ msgstr "Name der in der Benutzeroberfläche angezeigt werden kann"
+
+#~ msgid "Native"
+#~ msgstr "nativ"
+
+#~ msgid "Next Candidate Word"
+#~ msgstr "Nächster Kandidat (Wort)"
+
+#~ msgid "Next Page"
+#~ msgstr "Taste für weitere Kanditaten"
+
+#~ msgid "Next Page Icon"
+#~ msgstr "Icon für nächste Seite Kandidaten"
+
+#~ msgid "No"
+#~ msgstr "Keine"
+
+#~ msgid "No available Input Method"
+#~ msgstr "Keine verfügbare Eingabemethode"
+
+#~ msgid "No available frontend"
+#~ msgstr "Keine Schnittstelle verfügbar"
+
+#~ msgid "No input window"
+#~ msgstr "Kein Eingabefenster"
+
+#~ msgid "No local input method"
+#~ msgstr "Keine lokale Eingabemethode"
+
+#~ msgid "No remind"
+#~ msgstr "Nicht erinnern"
+
+#~ msgid "None"
+#~ msgstr "Nicht beibehalten"
+
+#~ msgid "Not Set"
+#~ msgstr "Nicht ausgewählt"
+
+#~ msgid "Note for GNOME Later than 3.6"
+#~ msgstr "Hinweis für GNOME höher als 3.6"
+
+#~ msgid "Number"
+#~ msgstr "Nummer"
+
+#~ msgid "Online Help"
+#~ msgstr "Online Hilfe"
+
+#~ msgid "OpenCC"
+#~ msgstr "OpenCC"
+
+#~ msgid "Option %s is Invalid, Use Default Value %s"
+#~ msgstr "Option %s ist ungültig, verwende Standardeinstellung %s"
+
+#~ msgid "Option %s is Invalid."
+#~ msgstr "Option %s ist ungültig"
+
+#~ msgid "Other Color"
+#~ msgstr "Farbe Andere"
+
+#~ msgid "Output"
+#~ msgstr "Ausgabe"
+
+#~ msgid "Overlay X offset"
+#~ msgstr "Ebene X Offset"
+
+#~ msgid "Overlay Y offset"
+#~ msgstr "Overlay Y offset"
+
+#~ msgid "Overlay dock position"
+#~ msgstr "Position des Ebenen-Docks"
+
+#~ msgid "Overlay image"
+#~ msgstr "Darüberliegendes Bild"
+
+#~ msgid "Override the skin font size"
+#~ msgstr "Fontgröße der Skin ignorieren"
+
+#~ msgid "Owner of DBus name ${1} is ${2}."
+#~ msgstr "Eigentümer des dbus mit dem Namen ${1} ist ${2}."
+
+#~ msgid "PID of DBus name ${1} owner is ${2}."
+#~ msgstr "Die PID vom Eigentümer des dbus mit Namen ${1} ist ${2}."
+
+#~ msgid "Parent"
+#~ msgstr "Parent"
+
+#~ msgid "PerProgram"
+#~ msgstr "Für jedes Programm"
+
+#~ msgid "Phrase"
+#~ msgstr "Phrase"
+
+#~ msgid "Phrase is already in Dict "
+#~ msgstr "Phrase ist schon im Wörterbuch"
+
+#~ msgid "Phrase:"
+#~ msgstr "Phrase:"
+
+#~ msgid "Pinyin"
+#~ msgstr "Pinyin"
+
+#~ msgid "Pinyin Enhance"
+#~ msgstr "Pinyin Verbesserung"
+
+#~ msgid "Pinyin Index Magic Number Doesn't match"
+#~ msgstr "Die \"Pinyin Index Magic Number\" stimmt nicht überein!"
+
+#~ msgid "Pinyin Key"
+#~ msgstr "Taste PINYIN"
+
+#~ msgid "Pinyin: "
+#~ msgstr "Pinyin: "
+
+#~ msgid "PinyinJiaJia"
+#~ msgstr "PinyinJiaJia"
+
+#~ msgid "Please check ${1} for how to install fcitx."
+#~ msgstr "Bitte überprüfen ${1}, wie Fcitx installiert werden soll."
+
+#~ msgid ""
+#~ "Please check the Configure link of your distribution in ${1} for how to "
+#~ "setup fcitx autostart."
+#~ msgstr ""
+#~ "Bitte überprüfen Sie für Ihre Distribution, wie für Fcitx Autostart "
+#~ "konfiguriert wird ${1}."
+
+#~ msgid "Please input a filename for newfile"
+#~ msgstr "Bitte für die neue Datei einen Namen eingeben"
+
+#~ msgid "Please set XMODIFIERS."
+#~ msgstr "Bitte XMODIFIERS einstellen"
+
+#~ msgid ""
+#~ "Please set environment variable ${env_name} to \"${value}\" using the "
+#~ "tool your distribution provides or add ${1} to your ${2}. See ${link}."
+#~ msgstr ""
+#~ "Bitte die Umgebungsvariable ${env_name} auf \"${value}\" setzen. Bitte "
+#~ "die Einstellungen der Distribution nutzen oder ${1} zu ${2} hinzufügen. "
+#~ "Siehe ${link}."
+
+#~ msgid "Position or offset of LookupTable"
+#~ msgstr "Position oder Offset des LookupTable"
+
+#~ msgid "Position or offset of Preedit"
+#~ msgstr "Position / Offset des Preeditstrings"
+
+#~ msgid "Press 1 to delete %s in frequent list (ESC for cancel)"
+#~ msgstr ""
+#~ "\"1\" drücken um %s aus der Liste der oft benutzten Wörter zu entfernen"
+
+#~ msgid "Press 1-%d to delete %s in frequent list (ESC for cancel)"
+#~ msgstr ""
+#~ "1-%d drücken um %s aus der Liste \"häufig benutzt\" zu löschen (ESC um "
+#~ "abzubrechen)"
+
+#~ msgid "Press Enter to input text"
+#~ msgstr "ENTER drücken zum Text eingeben"
+
+#~ msgid "Press index to delete user phrase (ESC for cancel)"
+#~ msgstr ""
+#~ "Index drücken um die Benutzer-Phrasen zu löschen (ESC zum Abbrechen)"
+
+#~ msgid "Press number to make word in frequent list"
+#~ msgstr ""
+#~ "Nummer drücken, um das Wort in die Lister der oft benutzen Wörter "
+#~ "einzufügen"
+
+#~ msgid "Prev Page"
+#~ msgstr "Taste vorherige Kandidaten"
+
+#~ msgid "Prev Page Icon"
+#~ msgstr "Icon für vorherige Seite Kandidaten"
+
+#~ msgid "Previous Candidate Word"
+#~ msgstr "Vorheriger Kandidat (Wort)"
+
+#~ msgid "Priority"
+#~ msgstr "Priorität"
+
+#~ msgid "Priority of addon"
+#~ msgstr "Priorität des Addons"
+
+#~ msgid "Profile"
+#~ msgstr "Profil"
+
+#~ msgid "Program"
+#~ msgstr "Programm"
+
+#~ msgid "Prompt the phrases after input"
+#~ msgstr "Phrasen nach der Eingabe anzeigen"
+
+#~ msgid "Provide extra feature for pinyin in Fcitx"
+#~ msgstr "Unterstützt weitere Funktionen für Pinyin in Fcitx"
+
+#~ msgid "Provides DBus Support (Used by other Addon)"
+#~ msgstr "Bietet DBus-Unterstützung (von anderem Addon verwendet)"
+
+#~ msgid "Provides Freedesktop.org Notification Support (Used by other Addon)"
+#~ msgstr ""
+#~ "Unterstützt Freedesktop.org Benachrichtigungsunterstützung (Von anderem "
+#~ "Addon verwendet)"
+
+#~ msgid "Provides Fullwidth Character Input Support"
+#~ msgstr "Unterstüztzt die Eingabe Vollbreiter Zeichen"
+
+#~ msgid "Provides XIM support"
+#~ msgstr "Unterstützt XIM als Systemeingabe"
+
+#~ msgid "Punctuation Conversion Support"
+#~ msgstr "Unterstützung der Umwandlung der Interpunktion"
+
+#~ msgid "Punctuation Support"
+#~ msgstr "Unterstützung Interpunktion"
+
+#~ msgid "Qt IM module files:"
+#~ msgstr "QT IM module Dateien:"
+
+#~ msgid "Quick Phrase Editor"
+#~ msgstr "Quick Phrase Editor"
+
+#~ msgid "Quick Phrase List"
+#~ msgstr "Liste Quickphrase"
+
+#~ msgid "QuickPhrase"
+#~ msgstr "QuickPhrase"
+
+#~ msgid "Quickphrase"
+#~ msgstr "Quickphrase"
+
+#~ msgid "Quwei"
+#~ msgstr "Quwei"
+
+#~ msgid "Quwei Input Method for Fcitx"
+#~ msgstr "Quwei Eingabemethode für Fcitx"
+
+#~ msgid "R_ALT"
+#~ msgstr "R_ALT"
+
+#~ msgid "R_CTRL"
+#~ msgstr "R_CTRL"
+
+#~ msgid "R_SHIFT"
+#~ msgstr "R_SHIFT"
+
+#~ msgid "Refresh List"
+#~ msgstr "Liste neu laden"
+
+#~ msgid "Register IM"
+#~ msgstr "Eingabemethode registrieren"
+
+#~ msgid "Reload configuration"
+#~ msgstr "Konfiguration erneut laden"
+
+#~ msgid "Remind:"
+#~ msgstr "Beachte:"
+
+#~ msgid "Remind: "
+#~ msgstr "Erinnern:"
+
+#~ msgid "Remote"
+#~ msgstr "Fcitx-Remote"
+
+#~ msgid "Remove File"
+#~ msgstr "Datei entfernen"
+
+#~ msgid "Rename OK"
+#~ msgstr "Umbenennen OK"
+
+#~ msgid "Resize"
+#~ msgstr "Größe anpassen"
+
+#~ msgid "Resize Margin Bottom"
+#~ msgstr "Korrektur Größe Rand unten"
+
+#~ msgid "Resize Margin Left"
+#~ msgstr "Korrektur Größe Rand links"
+
+#~ msgid "Resize Margin Right"
+#~ msgstr "Korrektur Größe Rand rechts"
+
+#~ msgid "Resize Margin Top"
+#~ msgstr "Korrektur Größe Rand oben"
+
+#~ msgid "Restart"
+#~ msgstr "Neustart"
+
+#~ msgid "Right"
+#~ msgstr "Rechts"
+
+#~ msgid "Right Super"
+#~ msgstr "Rechte Super-Taste"
+
+#~ msgid "Rule of Candidate Phrase Order"
+#~ msgstr "Regel Darstellung vorgeschlagener Phrasen"
+
+#~ msgid "Rule of Candidate Word Order"
+#~ msgstr "Regel Darstellung vorgeschlagener Zeichen"
+
+#~ msgid "Rule of Frequent Word Order"
+#~ msgstr "Regel Darstellung der Liste häufiger Wörter"
+
+#~ msgid "Running as root:"
+#~ msgstr "Als Root ausgeführt:"
+
+#~ msgid "Russian"
+#~ msgstr "Russisch"
+
+#~ msgid "SHIFT Both"
+#~ msgstr "SHIFT Beide"
+
+#~ msgid "Save Auto Created Phrase"
+#~ msgstr "Von Fcitx vorgeschlagene Phrasen speichern"
+
+#~ msgid "Save Auto Phrase"
+#~ msgstr "Automatische Phrase speichern"
+
+#~ msgid "Save Changes"
+#~ msgstr "Änderungen speichern"
+
+#~ msgid "Save dict error"
+#~ msgstr "Fehler beim Speichern der dict-Datei"
+
+#~ msgid "Saving All Config and Input History"
+#~ msgstr "Konfiguration und Eingabeverlauf sichern"
+
+#~ msgid "Scroll between Input Method"
+#~ msgstr "Durch Eingabemethoden scrollen"
+
+#~ msgid "Search unicode"
+#~ msgstr "Unicode suchen"
+
+#~ msgid "Seconds sleep before fcitx really start"
+#~ msgstr "Warten, bevor fcitx started (sec.)"
+
+#~ msgid "Select global input method: "
+#~ msgstr "Globale Eingabemethode auswählen:"
+
+#~ msgid "Select local input method: "
+#~ msgstr "Lokale Eingabemethode auswählen:"
+
+#~ msgid "Select specific input method via keyboard"
+#~ msgstr "Eingabemethode per Tastatur asuwählen"
+
+#~ msgid "Select to paste"
+#~ msgstr "Auswählen zum Einfügen"
+
+#~ msgid "Self"
+#~ msgstr "Self"
+
+#~ msgid "Semicolon"
+#~ msgstr "Semikolon"
+
+#~ msgid "Send Raw Preedit"
+#~ msgstr "Raw Preeditstring eingeben"
+
+#~ msgid "Send typed raw text if Switch to inactive Mode"
+#~ msgstr "Raw-Text eingeben, wenn zum inaktiven Modus gewechselt wird"
+
+#~ msgid "Share State Among Window"
+#~ msgstr "Eingabemethode beibehalten"
+
+#~ msgid "SharedLibrary"
+#~ msgstr "Gemeinsam genutzte Bibliotheken"
+
+#~ msgid "Shift"
+#~ msgstr "Shift"
+
+#~ msgid "Show"
+#~ msgstr "Zeigen"
+
+#~ msgid "Show Input Method Hint After Input method changed"
+#~ msgstr "Hinweis zur Eingabemethode zeigen, nachdem sie gewechselt wurde"
+
+#~ msgid "Show Input Method Hint After Input method changed and Focus in"
+#~ msgstr ""
+#~ "Hinweis zur Eingabemethode zeigen, nachdem sie gewechselt wurde und Fokus "
+#~ "auf"
+
+#~ msgid "Show Input Speed"
+#~ msgstr "Eingabegeschwindigkeit zeigen"
+
+#~ msgid "Show Preedit String in Client Window"
+#~ msgstr "Eingabe im Programmfenster integrieren"
+
+#~ msgid "Show Version"
+#~ msgstr "Version zeigen"
+
+#~ msgid "Shuang Pin Schema"
+#~ msgstr "Shuangpin Schema"
+
+#~ msgid "Shuangpin"
+#~ msgstr "Shuangpin"
+
+#~ msgid "Simple Pinyin support for Fcitx"
+#~ msgstr "Simple Pinyin Unterstützung für Fcitx"
+
+#~ msgid "Simplified Chinese"
+#~ msgstr "Kurzzeichen"
+
+#~ msgid "Simplified Chinese To Traditional Chinese"
+#~ msgstr "Kurz-/Langzeichen"
+
+#~ msgid "Simplified Chinese is enabled."
+#~ msgstr "Vereinfachte Zeichen aktiviert."
+
+#~ msgid "Skin"
+#~ msgstr "Oberfläche"
+
+#~ msgid "Skin Author"
+#~ msgstr "Skin Autor"
+
+#~ msgid "Skin Name"
+#~ msgstr "Name Skin"
+
+#~ msgid "Skin Version"
+#~ msgstr "Skin Version"
+
+#~ msgid "SkinFont"
+#~ msgstr "Oberfläche Font"
+
+#~ msgid "SkinInfo"
+#~ msgstr "Oberfläche Info"
+
+#~ msgid "SkinInputBar"
+#~ msgstr "Oberfläche Eingabefeld"
+
+#~ msgid "SkinKeyboard"
+#~ msgstr "Oberfläche Tastatur"
+
+#~ msgid "SkinMainBar"
+#~ msgstr "Oberfläche Hauptfenster"
+
+#~ msgid "SkinMenu"
+#~ msgstr "Oberfläche Menu"
+
+#~ msgid "SkinTrayIcon"
+#~ msgstr "Oberfläche Trayicons"
+
+#~ msgid "Space Line Color"
+#~ msgstr "Farbe Trennlinie"
+
+#~ msgid "Space for %s Enter for %s"
+#~ msgstr "Space zum %s Enter zum %s"
+
+#~ msgid "Special"
+#~ msgstr "Spezial"
+
+#~ msgid "Special Icon position"
+#~ msgstr "Position des Icons verschieben"
+
+#~ msgid "Spell"
+#~ msgstr "Rechtschreibung"
+
+#~ msgid "Spell Hint"
+#~ msgstr "Rechtschreibungshinweis"
+
+#~ msgid "Start Input Method"
+#~ msgstr "Eingabemethode starten"
+
+#~ msgid "Start XIM error. Another XIM daemon named %s is running?"
+#~ msgstr ""
+#~ "Fehler beim Starten von XIM. Läuft bereits ein anderer XIM Deamon %s?"
+
+#~ msgid "Status Panel Hide Mode"
+#~ msgstr "Modus Status Panel verbergen "
+
+#~ msgid "Status Panel Position X"
+#~ msgstr "Status Panel Position X"
+
+#~ msgid "Status Panel Position Y"
+#~ msgstr "Status Panel Position Y"
+
+#~ msgid "Stroke input trigger length"
+#~ msgstr "Stricheingabe Aktivierungslänge"
+
+#~ msgid "Sub Configuration for Module"
+#~ msgstr "Unterkonfiguration für das Modul"
+
+#~ msgid "Successfully Installed skin"
+#~ msgstr "Skin erfolgreich installiert"
+
+#~ msgid "Super Both"
+#~ msgstr "Super (Beide)"
+
+#~ msgid "Super+Left Ctrl"
+#~ msgstr "Super + Ctrl-L"
+
+#~ msgid "Super+Right Ctrl"
+#~ msgstr "Super+Ctrl_R"
+
+#~ msgid "Switch Embeded Preedit"
+#~ msgstr "Wechsel zum eingebetteten Preedit"
+
+#~ msgid "Switch Full Width Punc Mode"
+#~ msgstr "Wechsel zum Modus Vollbreite Interpunktion"
+
+#~ msgid "Switch to the Eighth Input Method"
+#~ msgstr "Zur achten Eingabemethode wechseln"
+
+#~ msgid "Switch to the Fifth Input Method"
+#~ msgstr "Zur fünften Eingabemethode wechseln"
+
+#~ msgid "Switch to the First Input Method"
+#~ msgstr "Zur ersten Eingabemethode wechseln"
+
+#~ msgid "Switch to the Fourth Input Method"
+#~ msgstr "Zur vierten Eingabemethode wechseln"
+
+#~ msgid "Switch to the Ninth Input Method"
+#~ msgstr "Zur neunten Eingabemethode wechseln"
+
+#~ msgid "Switch to the Second Input Method"
+#~ msgstr "Zur zweiten Eingabemethode wechseln"
+
+#~ msgid "Switch to the Seventh Input Method"
+#~ msgstr "Zur siebten Eingabemethode wechseln"
+
+#~ msgid "Switch to the Sixth Input Method"
+#~ msgstr "Zur sechsten Eingabemethode wechseln"
+
+#~ msgid "Switch to the Third Input Method"
+#~ msgstr "Zur dritten Eingabemethode wechseln"
+
+#~ msgid "Switching Full Width Character Mode"
+#~ msgstr "Wechsel zum Modus Vollbreite Zeichen"
+
+#~ msgid "Switching Remind Mode"
+#~ msgstr "Erinnerungsmodus wechseln"
+
+#~ msgid "Switching Virtual Keyboard"
+#~ msgstr "Wechsel der Virtuellen Tastatur"
+
+#~ msgid "Symbol"
+#~ msgstr "Symbol"
+
+#~ msgid "Symbol File"
+#~ msgstr "Symbol > Datei"
+
+#~ msgid "System Info:"
+#~ msgstr "System Info:"
+
+#~ msgid "Table"
+#~ msgstr "Tabelle"
+
+#~ msgid "Table Code Color"
+#~ msgstr "Farbe Eingabe Tabelle"
+
+#~ msgid "Table Input Method for Fcitx"
+#~ msgstr "Table Eingabemethode für Fcitx"
+
+#~ msgid "Table Symbol"
+#~ msgstr "Tabellen Symbol"
+
+#~ msgid ""
+#~ "The content has changed.\n"
+#~ "Do you want to save the changes or discard them?"
+#~ msgstr ""
+#~ "Der Inhalt hat sich geändert.\n"
+#~ "Möchten Sie die Änderungen speichern oder verwerfen?"
+
+#~ msgid "The key you just pressed is not supported by Qt."
+#~ msgstr "Die Taste wird von Qt nicht unterstützt."
+
+#~ msgid "The script is run as ${1} (${2})."
+#~ msgstr "Das Script läuft als ${1} (${2})."
+
+#~ msgid ""
+#~ "This is only a soft limit, the actually number of candidate words may be "
+#~ "larger than this when multiple characters have the same order of strokes."
+#~ msgstr ""
+#~ "Das ist nur ein ungefähres Limit der Kandidatenanzahl. Die tatsächliche "
+#~ "Anzahl kann größer sein, wenn mehrere Zeichen die selbe Anzahle von "
+#~ "Strichen haben."
+
+#~ msgid ""
+#~ "This is used in some modules and input methods to navigate to the next "
+#~ "candidate word"
+#~ msgstr ""
+#~ "Dies wird in einigen Modulen und Eingabemethoden benutzt um zum nächsten "
+#~ "Kandidaten (Wort) zu navigieren"
+
+#~ msgid ""
+#~ "This is used in some modules and input methods to navigate to the "
+#~ "previous candidate word"
+#~ msgstr ""
+#~ "Dies wird in einigen Modulen und Eingabemethoden benutzt um zum "
+#~ "vorherigen Kandidaten (Wort) zu navigieren"
+
+#~ msgid "Tip Message Color"
+#~ msgstr "Farbe Tooltips"
+
+#~ msgid ""
+#~ "To see some application specific problems you may have when using xim, "
+#~ "check ${link1}. For other more general problems of using XIM including "
+#~ "application freezing, see ${link2}."
+#~ msgstr ""
+#~ "Um anwendungsspezifische Probleme nachzusehen, die eventuell bei der "
+#~ "Verwendung von xim auftreten, siehe ${link1}. Für mehr Infos zu "
+#~ "generellen Problemen mit xim, einschließlich Abstürzen von Programmen, "
+#~ "siehe ${link2}"
+
+#~ msgid "Toggle Full Width Punctuation"
+#~ msgstr "Wechsel Vollbreite Interpunktion"
+
+#~ msgid "Toggle Half/Full width Character"
+#~ msgstr "Zwischen halb- und vollbreiten Zeichen wechseln"
+
+#~ msgid "Toggle Input Method"
+#~ msgstr "Wechsel Eingabemethode"
+
+#~ msgid "Toggle Remind"
+#~ msgstr "Erinnern ausblenden"
+
+#~ msgid "Toggle Simp/Trad Chinese Conversion"
+#~ msgstr "Wechseln zwischen Vereinfachtem/Traditionellem Chinesisch"
+
+#~ msgid "Toggle Virtual Keyboard"
+#~ msgstr "Wechsel Virtuelle Tastatur"
+
+#~ msgid "Toggle for enable or disable"
+#~ msgstr "Drücken zum an- und ausschalten"
+
+#~ msgid "Toggle the word hint"
+#~ msgstr "Worthinweis An/Aus"
+
+#~ msgid "Too long item for AutoEng"
+#~ msgstr "Zu lang für AutoEng"
+
+#~ msgid "TopCenter"
+#~ msgstr "Oben Mitte"
+
+#~ msgid "TopLeft"
+#~ msgstr "Oben links"
+
+#~ msgid "TopRight"
+#~ msgstr "Oben rechts"
+
+#~ msgid "Traditional Chinese"
+#~ msgstr "Langzeichen"
+
+#~ msgid "Traditional Chinese Translate Engine"
+#~ msgstr "Übersetzungsmaschine für Traditionelles Chinesisch"
+
+#~ msgid "Traditional Chinese is enabled."
+#~ msgstr "Traditionelle Zeichen aktiviert."
+
+#~ msgid "TraditionalChinese"
+#~ msgstr "Chinesisch Langform"
+
+#~ msgid "Treating abbreviated Pinyin as English"
+#~ msgstr "Gekürztes Pinyin als Englisch bearbeiten"
+
+#~ msgid "Trigger Input Method"
+#~ msgstr "Eingabemethode aktivieren"
+
+#~ msgid "Trigger Key for Clipboard History List"
+#~ msgstr "Auswahltaste für den Zwischenablageverlauf"
+
+#~ msgid "Trigger Key for QuickPhrase"
+#~ msgstr "Trigger Key für QuickPhrase"
+
+#~ msgid "Type"
+#~ msgstr "Typ"
+
+#~ msgid "Type half width Punc After a Number"
+#~ msgstr "Halbweite Interpunktion nach Zahlen"
+
+#~ msgid "UI"
+#~ msgstr "Oberflache"
+
+#~ msgid "UI: bad ui"
+#~ msgstr "UI: Defekte UI"
+
+#~ msgid "UI: open %s fail %s"
+#~ msgstr "UI: Das öffnen von %s ist fehlgeschlagen %s"
+
+#~ msgid "Unable to find a program to check dbus."
+#~ msgstr "Kann kein Programm zum Überprüfen des dbusses finden."
+
+#~ msgid "Unique Name for Table"
+#~ msgstr "Eindeutiger Name für Tabellen-Eingabemethoden"
+
+#~ msgid "UniqueName"
+#~ msgstr "Eindeutiger Name"
+
+#~ msgid "Unknown type, take it as string: %s"
+#~ msgstr "Unbekannter Typ, als String verwenden: %s"
+
+#~ msgid "Unsupported Key"
+#~ msgstr "Nicht unterstützte Taste"
+
+#~ msgid "Use <Keyword> <Phrase> format on every line."
+#~ msgstr "Benutze  <Keyword> <Phrase> Format in jeder Linie."
+
+#~ msgid "Use Complete Pinyin"
+#~ msgstr "Vollständiges Pinyin verwenden"
+
+#~ msgid "Use Custom Prompt String defined in table"
+#~ msgstr "Costum Prompt String wie im table definiert verwenden"
+
+#~ msgid "Use Custom text icon color"
+#~ msgstr "Benutze angepasste Texticon-Farbe"
+
+#~ msgid "Use Full Width Character"
+#~ msgstr "Verwende Vollbreite Form der Zeichen"
+
+#~ msgid "Use Keyboard Layout as Input Method"
+#~ msgstr "Tastaturlayout als Eingabemethode benutzen"
+
+#~ msgid "Use Matching Key"
+#~ msgstr "Passende Taste benutzen"
+
+#~ msgid "Use Pinyin"
+#~ msgstr "Pinyin benutzen"
+
+#~ msgid "Use RTLD_LOCAL to load library"
+#~ msgstr "Benutze RTLD_LOCAL um die Bibliothek zu laden"
+
+#~ msgid "Use Selection Text"
+#~ msgstr "Ausgewählten Text benutzen"
+
+#~ msgid "Use System Tray Icon"
+#~ msgstr "Systemtray benutzen"
+
+#~ msgid "Use V to trigger quickphrase"
+#~ msgstr "Benutze V um Quickphrase zu aktivieren"
+
+#~ msgid "Use Wide Punctuation"
+#~ msgstr "Verwende Vollbreite Form der Punktuation"
+
+#~ msgid "Use enter to commit the existing string"
+#~ msgstr "Benutzte ENTER um den existierenden String zu bestätigen"
+
+#~ msgid "Use extra trigger key only after using it to inactivate"
+#~ msgstr ""
+#~ "Extra Triggertaste nur benutzen, wenn sie vorher zum Inaktivieren benutzt "
+#~ "wurde"
+
+#~ msgid "Use remind"
+#~ msgstr "Erinnern"
+
+#~ msgid ""
+#~ "Use the layout of first keyboard input method in list as default layout"
+#~ msgstr ""
+#~ "Benutzen des ersten Tastatureingabemethode in der Liste als "
+#~ "Standardlayout."
+
+#~ msgid "Used by fcitx-remote to change Fcitx state from console"
+#~ msgstr ""
+#~ "Benutzt Fcitx-Remote, um den Status von Fcitx über die Konsole zu steuern"
+
+#~ msgid "Useful when you hardly ever use abbreviated pinyin."
+#~ msgstr "Nützlich, wenn man quasi nie verkürztes Pinyin benutzt."
+
+#~ msgid "User Defined"
+#~ msgstr "Benutzer definiert"
+
+#~ msgid "User Interface:"
+#~ msgstr "Benutzeroberfläche:"
+
+#~ msgid "User Phrase Color"
+#~ msgstr "Farbe nutzerdefinierter Phrasen"
+
+#~ msgid "Using ${1} to check dbus."
+#~ msgstr "Benutze ${1} um dbus zu überprüfen."
+
+#~ msgid "Version Line:"
+#~ msgstr "Version Line:"
+
+#~ msgid "Vertical"
+#~ msgstr "Vertikal"
+
+#~ msgid "Vertical Candidate Word List"
+#~ msgstr "Senkrechte Kandidatenliste"
+
+#~ msgid "Virtual Key Board"
+#~ msgstr "Virtuelle Tastatur"
+
+#~ msgid "Virtual Key Board in order to input special character"
+#~ msgstr "Virtuelle Tastatur zur Eingabe von Sonderzeichen"
+
+#~ msgid "Virtual Keyboard"
+#~ msgstr "Virtuelle Tastatur"
+
+#~ msgid "Virtual Keyboard Image"
+#~ msgstr "Bild für \"Virtuelle Tastatur\""
+
+#~ msgid "Virtual Keyboard State"
+#~ msgstr "Status der virtuellen Tastatur"
+
+#~ msgid "Wanfeng"
+#~ msgstr "Wanfeng"
+
+#~ msgid "Why is it bad to run as root"
+#~ msgstr "Warum es schlecht ist, es als root auszuführen"
+
+#~ msgid "Wubi"
+#~ msgstr "Wubi"
+
+#~ msgid "WubiPinyin"
+#~ msgstr "WubiPinyin"
+
+#~ msgid "X Keyboard"
+#~ msgstr "X Keyboard"
+
+#~ msgid "X Keyboard Integration"
+#~ msgstr "X Keyboard Integration"
+
+#~ msgid "X Keyboard Integration export with DBus"
+#~ msgstr "X Keyboard Integration - Export per DBus"
+
+#~ msgid "X error %i on opcode send"
+#~ msgstr "X Error %i für opcode gesendet"
+
+#~ msgid "X11 Support"
+#~ msgstr "Unterstützung für X11"
+
+#~ msgid "X11 Utilitiy used by other Addon"
+#~ msgstr "X11 Werkzeug (von anderem Addon verwendet)"
+
+#~ msgid "X11 not initialized"
+#~ msgstr "X11 nicht initialisiert"
+
+#~ msgid "XIM encoding:"
+#~ msgstr "XIM Encoding:"
+
+#~ msgid "XIM for Emacs:"
+#~ msgstr "XIM für Emacs:"
+
+#~ msgid "XIM_SERVERS on root window:"
+#~ msgstr "XIM_Server im Root-Fenster:"
+
+#~ msgid "XMODIFIERS Error."
+#~ msgstr "Fehler XMODIFIERS"
+
+#~ msgid "XMODIFIERS is not set"
+#~ msgstr "XMODIFIERS ist nicht gesetzt"
+
+#~ msgid "XiaoHe"
+#~ msgstr "XiaoHe"
+
+#~ msgid "Xim"
+#~ msgstr "Xim"
+
+#~ msgid "Xim Server Name from Environment variable is ${1}."
+#~ msgstr "Der Xim-Server-Name der Umgebungsvariable ist ${1}."
+
+#~ msgid ""
+#~ "Xim server name is the same with that set in the environment variable."
+#~ msgstr ""
+#~ "Der Name des xim-Servers ist derselbe, wie in der Umgebungsvariablen "
+#~ "gesetzt."
+
+#~ msgid ""
+#~ "Xim server name: \"${1}\" is different from that set in the environment "
+#~ "variable: \"${2}\"."
+#~ msgstr ""
+#~ "Der Name des xim-Servers \"${1}\" ist unterschiedlich von dem in der "
+#~ "Umgebungsvariablen gesetzten: \"${2}\"."
+
+#~ msgid ""
+#~ "You are probably logging in as ${1} or using ${2} to run this script. "
+#~ "This either means you have security problems or the result of this script "
+#~ "may not be accurate. See ${3} or ${4} for more information."
+#~ msgstr ""
+#~ "Sie scheinen sich als ${1} einzuloggen oder benutzen ${2} um das Skript "
+#~ "anzuwenden. Das kann zu Sicherheitsproblemen führen oder das Ergebnis des "
+#~ "Skripts ist nicht genau. Sehen Sie in ${3} oder ${4} für mehr "
+#~ "Informationen."
+
+#~ msgid ""
+#~ "You are probably using ${1} to run this script. This means the result of "
+#~ "this script may not be accurate. See ${2} for more information."
+#~ msgstr ""
+#~ "Sie benutzen wahrscheinlich ${1} um das Skript auszuführen. Das heißt, "
+#~ "dass das Ergebnis des Skriptes falsch sein kann. Mehr Information hier: "
+#~ "${2}."
+
+#~ msgid "You are using xim in ${1} programs."
+#~ msgstr "Sie benutzen xim in ${1} Programmen"
+
+#~ msgid "You don't have any input methods enabled."
+#~ msgstr "Es sind gar keine Eingabemethoden aktiviert."
+
+#~ msgid ""
+#~ "You have a keyboard input method \"${1}\" correctly added as your default "
+#~ "input method."
+#~ msgstr ""
+#~ "Sie haben erfolgreich eine Tastatureingabemethode \"${1}\" als "
+#~ "Standardeingabe hinzugefügt."
+
+#~ msgid "You may have trouble using fcitx in ${1} programs."
+#~ msgstr ""
+#~ "Sie haben eventuell Schwierigkeiten, Fcitz mit ${1} Programmen zu benutzen"
+
+#~ msgid ""
+#~ "You only have one input method enabled, please add a keyboard input "
+#~ "method as the first one and your main input method as the second one."
+#~ msgstr ""
+#~ "Es ist nur eine Eingabemethode aktiviert. Bitte aktivieren Sie wenigstens "
+#~ "eine Tastatureingabemethode als ersten Eintrag und die "
+#~ "Haupteingabemethode als zweiten Eintrag."
+
+#~ msgid ""
+#~ "You only have one keyboard input method enabled. You may want to add "
+#~ "another input method to input other languages."
+#~ msgstr ""
+#~ "Sie haben nur eine Eingabemethode aktiviert. Sie wollen wahrscheinlich "
+#~ "weitere für die Eingabe anderer Sprachen hinzufügen."
+
+#~ msgid ""
+#~ "You're currently running Fcitx with GUI, but fcitx-configtool couldn't be "
+#~ "found, the package name is usually fcitx-config-gtk, fcitx-config-gtk3 or "
+#~ "fcitx-configtool. Now it will open config file with default text editor."
+#~ msgstr ""
+#~ "Sie benutzen Fcitx mit Benutzeroberfläche, aber das fcitx-configtool "
+#~ "konnte nicht gefunden werden. Der Paketname ist normalerweise fcitx-"
+#~ "config-gtk, fcitx-config-gtk3 oder fcitx-configtool. Fcitx wird die "
+#~ "Konfiguration nun mit dem Standard-Texteditor öffnen."
+
+#~ msgid ""
+#~ "You're currently running KDE, but KCModule for fcitx couldn't be found, "
+#~ "the package name of this KCModule is usually kcm-fcitx or kde-config-"
+#~ "fcitx. Now it will open config file with default text editor."
+#~ msgstr ""
+#~ "Sie benutzen gegenwärtig KDE, aber das Kontrollmodul für Fcitx kann nicht "
+#~ "gefunden werden. Der Paketname ist normalerweise kcm-fcitx oder kde-"
+#~ "config-fcitx. Die Konfigurationsdatei wird nun mit dem Standard-"
+#~ "Texteditor geöffnet."
+
+#~ msgid ""
+#~ "Your LC_CTYPE is set to ${1} instead of one of zh, ja, ko. You may not be "
+#~ "able to use input method in emacs because of an really old emacs bug that "
+#~ "upstream refuse to fix for years."
+#~ msgstr ""
+#~ "Ihr LC_CTYPE ist auf ${1} gesetzt, anstatt auf eins aus zh, ja, ko. "
+#~ "Möglicherweise können Sie wegen eines wirklich sehr alten emacs-BUGs, der "
+#~ "upstream seit Jahren nicht behoben wird, keine Eingabemethoden unter "
+#~ "emacs benutzen."
+
+#~ msgid ""
+#~ "Your LC_CTYPE is set to ${1} whose encoding is not UTF-8. You may have "
+#~ "trouble committing strings using XIM."
+#~ msgstr ""
+#~ "Ihr LC_CTYPE ist auf ${1} gesetzt, dessen Encoding nicht UTF-8 ist. Sie "
+#~ "werden eventuell Schwierigkeiten haben, Strings mit XIM einzugeben."
+
+#~ msgid ""
+#~ "Your first (default) input method is ${1} instead of a keyboard input "
+#~ "method. You may have trouble deactivate fcitx."
+#~ msgstr ""
+#~ "Ihre erste (Standard-) Eingabemethode ist ${1} anstatt einer "
+#~ "Tastatureingabemethode. Eventuell werden Sie Schwierigkeiten haben, Fcitx "
+#~ "zu deaktivieren."
+
+#~ msgid "Zhongwenzhixing"
+#~ msgstr "Zhongwenzhixing"
+
+#~ msgid "Ziguang"
+#~ msgstr "Ziguang"
+
+#~ msgid "Ziranma"
+#~ msgstr "Ziranma"
+
+#~ msgid "executable:"
+#~ msgstr "Programm:"
+
+#~ msgid "here"
+#~ msgstr "hier"
+
+#~ msgid "min Num of Characters: "
+#~ msgstr "min Anzahl Zeichen:"
+
+#~ msgid "no default option for %s/%s"
+#~ msgstr "Keine Standardeinstellung für %s/%s"
+
+#~ msgid "no valid font."
+#~ msgstr "kein gültiger Font"
+
+#~ msgid "process:"
+#~ msgstr "Prozess:"
+
+#~ msgid "pthread mutex init failed"
+#~ msgstr "Initialisierung von pthread mutex fehlgeschlagen"
+
+#~ msgid "sudo environment variables"
+#~ msgstr "sudo Umgebungsvariablen"
+
+#~ msgid "version:"
+#~ msgstr "Version:"
+
+#~ msgid "xmodmap command"
+#~ msgstr "xmodmap Befehl"
+
+#~ msgid "your current font is: %s"
+#~ msgstr "der aktuelle Font ist: %s"

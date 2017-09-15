@@ -24,6 +24,8 @@ namespace fcitx {
 FCITX_CONFIGURATION(
     AddonConfig,
     fcitx::Option<std::string> name{this, "Addon/Name", "Addon Name"};
+    fcitx::Option<I18NString> generalName{this, "Addon/GeneralName", "GeneralName"};
+    fcitx::Option<I18NString> comment{this, "Addon/Comment", "Comment"};
     fcitx::Option<std::string> type{this, "Addon/Type", "Addon Type"};
     fcitx::Option<std::string> library{this, "Addon/Library", "Addon Library"};
     fcitx::Option<bool> enabled{this, "Addon/Enabled", "Enabled", true};
@@ -54,6 +56,17 @@ bool AddonInfo::isValid() const {
 const std::string &AddonInfo::name() const {
     FCITX_D();
     return d->name.value();
+}
+
+const I18NString &AddonInfo::generalName() const {
+    FCITX_D();
+    return d->generalName.value();
+}
+
+
+const I18NString &AddonInfo::comment() const {
+    FCITX_D();
+    return d->comment.value();
 }
 
 const std::string &AddonInfo::type() const {

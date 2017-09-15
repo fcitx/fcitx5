@@ -21,6 +21,7 @@
 
 #include "fcitxcore_export.h"
 #include <fcitx-config/enum.h>
+#include <fcitx-utils/i18nstring.h>
 #include <fcitx-utils/macros.h>
 #include <memory>
 #include <vector>
@@ -38,6 +39,8 @@ public:
 
     bool isValid() const;
     const std::string &name() const;
+    const I18NString &generalName() const;
+    const I18NString &comment() const;
     const std::string &type() const;
     AddonCategory category() const;
     const std::string &library() const;

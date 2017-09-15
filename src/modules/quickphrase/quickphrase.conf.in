@@ -4,5 +4,7 @@ Type=SharedLibrary
 Library=quickphrase
 Category=Module
 OnDemand=False
-OptionalDependencies/0=spell
+
+[Addon/OptionalDependencies]
+0=spell
 

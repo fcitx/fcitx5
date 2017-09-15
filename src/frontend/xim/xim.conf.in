@@ -3,4 +3,6 @@ Name=xim
 Type=SharedLibrary
 Library=xim
 Category=Frontend
-Dependencies/0=xcb
+
+[Addon/Dependencies]
+0=xcb

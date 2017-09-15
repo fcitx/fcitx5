@@ -3,5 +3,7 @@ Name=waylandim
 Type=SharedLibrary
 Library=waylandim
 Category=Frontend
-Dependencies/0=wayland
+
+[Addon/Dependencies]
+0=wayland
 

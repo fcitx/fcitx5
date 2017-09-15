@@ -168,6 +168,7 @@ public:
     const T &defaultValue() const { return defaultValue_; }
 
     const T &operator*() const { return value(); }
+    const T *operator->() const { return &value_; }
 
     template <typename U>
     bool setValue(U &&value) {

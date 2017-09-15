@@ -4,4 +4,6 @@ Type=SharedLibrary
 Library=clipboard
 Category=Module
 OnDemand=False
-Dependencies/0=xcb
+
+[Addon/Dependencies]
+0=xcb

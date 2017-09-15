@@ -1,0 +1,10 @@
+[Addon]
+Name=keyboard
+Type=StaticLibrary
+Library=keyboard
+Category=InputMethod
+
+[Addon/OptionalDependencies]
+0=xcb
+1=spell
+2=notifications

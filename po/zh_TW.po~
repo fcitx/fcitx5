@@ -1,0 +1,2360 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+#
+# Translators:
+# Alisha <alisha.4m@gmail.com>, 2012
+# Alisha <alisha.4m@gmail.com>, 2012
+# BrLi <rainman59118@gmail.com>, 2014
+# PHLin <Cypressyew@gmail.com>, 2017
+# fhoshino <fh@pinchia.com>, 2014
+# Gerald Du <frozenmouse@gmail.com>, 2015
+# Hiunn-hué <hiunnhue108@ymail.com>, 2012-2013
+# Pellaeon Lin <nfsmwlin@gmail.com>, 2013
+# Pellaeon Lin <nfsmwlin@gmail.com>, 2013
+# csslayer <wengxt@gmail.com>, 2013,2015
+# csslayer <wengxt@gmail.com>, 2012-2013
+# csslayer <wengxt@gmail.com>, 2013
+# yyc1992 <yyc1992@gmail.com>, 2015
+msgid ""
+msgstr ""
+"Project-Id-Version: fcitx\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2017-09-14 19:46-0700\n"
+"PO-Revision-Date: 2017-07-12 16:37+0000\n"
+"Last-Translator: PHLin <Cypressyew@gmail.com>\n"
+"Language-Team: Chinese (Taiwan) (http://www.transifex.com/fcitx/fcitx/"
+"language/zh_TW/)\n"
+"Language: zh_TW\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+
+#: src/modules/unicode/charselectdata.cpp:214
+msgid "<Low Surrogate>"
+msgstr "<低半代理區>"
+
+#: src/modules/unicode/charselectdata.cpp:210
+msgid "<Non Private Use High Surrogate>"
+msgstr "<非專用高半代理區>"
+
+#: src/modules/unicode/charselectdata.cpp:212
+msgid "<Private Use High Surrogate>"
+msgstr "<專用高半代理區>"
+
+#: src/modules/unicode/charselectdata.cpp:216
+msgid "<Private Use>"
+msgstr "<專用區>"
+
+#: src/modules/unicode/charselectdata.cpp:246
+msgid "<not assigned>"
+msgstr "<未指定>"
+
+#: src/modules/clipboard/clipboard.cpp:290
+#, fuzzy
+msgid "Clipboard:"
+msgstr "剪貼簿"
+
+#: src/lib/fcitx/inputmethodmanager.cpp:186
+msgid "Default"
+msgstr "預設"
+
+#: src/modules/notifications/notifications.cpp:231
+msgid "Do not show again"
+msgstr "不再顯示"
+
+#: src/im/keyboard/keyboard.cpp:153 src/im/keyboard/keyboard.cpp:167
+msgid "Keyboard"
+msgstr "鍵盤"
+
+#: src/modules/clipboard/clipboard.cpp:292
+#, fuzzy
+msgid "No clipboard history."
+msgstr "儲存剪貼簿歷史為檔案"
+
+#: src/modules/quickphrase/quickphrase.cpp:283
+msgid "Quick Phrase: "
+msgstr "快速輸入："
+
+#: src/im/keyboard/keyboard.cpp:264
+msgid "Spell hint"
+msgstr "拼字提示"
+
+#: src/im/keyboard/keyboard.cpp:266
+msgid "Spell hint is disabled."
+msgstr "已停用拼字提示。"
+
+#: src/im/keyboard/keyboard.cpp:265
+msgid "Spell hint is enabled."
+msgstr "已啟用拼字提示。"
+
+#: src/modules/unicode/unicode.cpp:244
+#, fuzzy
+msgid "Unicode: "
+msgstr "萬國碼"
+
+#: src/modules/unicode/unicode.conf.in:4
+msgid "Fcitx Unicode Typing Support"
+msgstr "Fcitx 的 Unicode 輸入支援"
+
+#: src/modules/unicode/unicode.conf.in:5
+msgid "Add Unicode Typing Support"
+msgstr "加入 Unicode 輸入支援"
+
+#~ msgid " Ctrl+Delete To Delete"
+#~ msgstr " 用 Ctrl+Delete 刪除"
+
+#~ msgid "${1} Environment Variables:"
+#~ msgstr "${1} 環境變數："
+
+#~ msgid "${1} is not set."
+#~ msgstr "${1} 未設定。"
+
+#~ msgid "${1} is set to ${2}."
+#~ msgstr "${1} 被設定為 ${2}。"
+
+#~ msgid "${1} not found."
+#~ msgstr "找不到 ${1}。"
+
+#~ msgid "${1} works properly."
+#~ msgstr "${1} 運作正常。"
+
+#~ msgid "%1 is a system file, do you want to delete all phrases instead?"
+#~ msgstr "%1 是系統檔，您是否想要改為清空所有字詞？"
+
+#~ msgid "&Add"
+#~ msgstr "新增 (&A)"
+
+#~ msgid "&Batch Edit"
+#~ msgstr "批次編輯 (&B)"
+
+#~ msgid "&Close"
+#~ msgstr "關閉 (&C)"
+
+#~ msgid "&Delete"
+#~ msgstr "刪除 (&D)"
+
+#~ msgid "&Import"
+#~ msgstr "匯入 (&I)"
+
+#~ msgid "&Operation"
+#~ msgstr "操作 (&O)"
+
+#~ msgid "&Reset"
+#~ msgstr "重新設定 (&R)"
+
+#~ msgid "&Save"
+#~ msgstr "儲存 (&S)"
+
+#~ msgid "(Unavailable)"
+#~ msgstr "(不可用)"
+
+#~ msgid "/Beginner%27s_Guide"
+#~ msgstr "/Beginner%27s_Guide"
+
+#~ msgid "/Hall_of_Shame_for_Linux_IME_Support"
+#~ msgstr "/Hall_of_Shame_for_Linux_IME_Support"
+
+#~ msgid "/Input_method_related_environment_variables"
+#~ msgstr "/Input_method_related_environment_variables"
+
+#~ msgid "/Note_for_GNOME_Later_than_3.6"
+#~ msgstr "/Note_for_GNOME_Later_than_3.6"
+
+#~ msgid "/XIM"
+#~ msgstr "/XIM"
+
+#~ msgid "/min  Time Used: "
+#~ msgstr "/分 經過時間："
+
+#~ msgid "0 for commit immediately, -1 for keep all words"
+#~ msgstr "0 代表立即提交，-1 代表保留所有已選單字"
+
+#~ msgid ""
+#~ "A different value from the global one may be useful when using horizontal "
+#~ "candidate list"
+#~ msgstr "如果您使用橫排候選字，一個與全域不同的設定可能會有所幫助"
+
+#~ msgid "ABC"
+#~ msgstr "智能ABC"
+
+#~ msgid "ALT Both"
+#~ msgstr "兩側 Alt"
+
+#~ msgid "ALT_L_SHIFT"
+#~ msgstr "Alt+左 Shift"
+
+#~ msgid "ALT_R_SHIFT"
+#~ msgstr "Alt+右 Shift"
+
+#~ msgid "ALT_SHIFT"
+#~ msgstr "Alt+Shift"
+
+#~ msgid "ALT_SUPER"
+#~ msgstr "Alt+Super"
+
+#~ msgid "Activate input method"
+#~ msgstr "啟用輸入法"
+
+#~ msgid "Active"
+#~ msgstr "作用"
+
+#~ msgid "Active Menu Color"
+#~ msgstr "使用中功能表項目的顏色"
+
+#~ msgid "Active Menu Item Character Color"
+#~ msgstr "使用中功能表項目的字體顏色"
+
+#~ msgid "Active Mode Icon"
+#~ msgstr "使用中模式圖示"
+
+#~ msgid "Active Tray Icon"
+#~ msgstr "活動中操作列圖示"
+
+#~ msgid "Add Extra space when selecting a candidate word"
+#~ msgstr "選擇候選字時輸入額外空格"
+
+#~ msgid "Add File"
+#~ msgstr "加入檔案"
+
+#~ msgid "Add Lua script support to Fcitx"
+#~ msgstr "加入 Fcitx 的 Lua 支援"
+
+#~ msgid "Add Phrase"
+#~ msgstr "加入字詞"
+
+#~ msgid "Add current input buffer to user dictionary"
+#~ msgstr "加入目前輸入內容至使用者詞典"
+
+#~ msgid "Addon"
+#~ msgstr "附加元件"
+
+#~ msgid "Addon Config %s is %s"
+#~ msgstr "附加元件設定 %s 為 %s"
+
+#~ msgid "Addon Config Dir:"
+#~ msgstr "附加元件設定目錄："
+
+#~ msgid "Addon Libraries:"
+#~ msgstr "附加元件函式庫："
+
+#~ msgid "Addon List:"
+#~ msgstr "附加元件清單："
+
+#~ msgid "Adjust Order"
+#~ msgstr "輸入順序"
+
+#~ msgid "AdjustFast"
+#~ msgstr "快速"
+
+#~ msgid "AdjustFreq"
+#~ msgstr "依據頻率"
+
+#~ msgid "AdjustNo"
+#~ msgstr "不調整"
+
+#~ msgid "All"
+#~ msgstr "所有"
+
+#~ msgid "All found Gtk ${1} immodule files exist."
+#~ msgstr "所有找到的 gtk ${1} 輸入法模組檔案皆存在。"
+
+#~ msgid "All libraries for all addons are found."
+#~ msgstr "找到了所有附加元件的函式庫。"
+
+#~ msgid "All locale:"
+#~ msgstr "全部地區設定："
+
+#~ msgid ""
+#~ "Allow Pinyin Enhance to replace the first candidate word when the input "
+#~ "string is very closed to English."
+#~ msgstr "允許在輸入字串十分接近英文的時候替換第一個候選字"
+
+#~ msgid "Allow replacing the first candidate"
+#~ msgstr "允許替換第一個候選字"
+
+#~ msgid "Allow to Override System XKB Settings"
+#~ msgstr "允許覆蓋系統的 XKB 設定"
+
+#~ msgid "Alt"
+#~ msgstr "Alt"
+
+#~ msgid "Alternative Next Page Key"
+#~ msgstr "替代下一頁快捷鍵"
+
+#~ msgid "Alternative Prev Page Key"
+#~ msgstr "替代上一頁快捷鍵"
+
+#~ msgid "Alternative Trigger Key for QuickPhrase"
+#~ msgstr "額外快速輸入觸發鍵"
+
+#~ msgid "Appearance"
+#~ msgstr "外觀"
+
+#~ msgid "Apply this custom xmodmap script after layout change"
+#~ msgstr "在鍵盤配置修改之後應用自訂的 xmodmap 文稿"
+
+#~ msgid "Are you sure to delete %1?"
+#~ msgstr "您確定要刪除 %1？"
+
+#~ msgid "Argument for InputMethod Register"
+#~ msgstr "註冊輸入法的參數"
+
+#~ msgid "Aspell"
+#~ msgstr "Aspell"
+
+#~ msgid "Auto"
+#~ msgstr "自動"
+
+#~ msgid "Auto Change to English Mode while Input Specific String"
+#~ msgstr "在輸入特定字串時自動切換到英文模式"
+
+#~ msgid "Auto Create Phrase"
+#~ msgstr "自動組詞"
+
+#~ msgid "Auto English"
+#~ msgstr "自動英文模式"
+
+#~ msgid "Auto English Mode"
+#~ msgstr "自動英文模式"
+
+#~ msgid "Auto English Trigger Word"
+#~ msgstr "自動觸發英文模式字詞"
+
+#~ msgid "Auto Phrase"
+#~ msgstr "自動字詞"
+
+#~ msgid "Auto Phrase Length"
+#~ msgstr "自動字詞長度"
+
+#~ msgid "Auto Phrase Phrase"
+#~ msgstr "字詞參與自動造詞"
+
+#~ msgid "Auto Send Candidate Word"
+#~ msgstr "自動送出候選字"
+
+#~ msgid "Available Value:"
+#~ msgstr "可選值："
+
+#~ msgid "Background Image"
+#~ msgstr "背景圖片"
+
+#~ msgid "Beginner's Guide"
+#~ msgstr "新手指南"
+
+#~ msgid "Bingchan"
+#~ msgstr "冰蟾全息"
+
+#~ msgid "BottomCenter"
+#~ msgstr "中下"
+
+#~ msgid "BottomLeft"
+#~ msgstr "左下"
+
+#~ msgid "BottomRight"
+#~ msgstr "右下"
+
+#~ msgid "CTRL Both"
+#~ msgstr "兩側 Ctrl"
+
+#~ msgid "CTRL_SHIFT"
+#~ msgstr "Ctrl+Shift"
+
+#~ msgid "CTRL_SUPER"
+#~ msgstr "Ctrl+Super"
+
+#~ msgid "Can't Create imWindow"
+#~ msgstr "無法建立輸入法視窗"
+
+#~ msgid "Can't open punc file."
+#~ msgstr "無法開啟標點符號檔案"
+
+#~ msgid "Can't open socket %s: %s"
+#~ msgstr "無法開啟 Socket %s：%s"
+
+#~ msgid "Candidate Index Color"
+#~ msgstr "候選字編號顏色"
+
+#~ msgid "Candidate Table Layout"
+#~ msgstr "候選字表佈局"
+
+#~ msgid "Candidate Word Number"
+#~ msgstr "候選字數"
+
+#~ msgid "Cangjie"
+#~ msgstr "倉頡"
+
+#~ msgid "Cannot Save Frequent word: %s"
+#~ msgstr "無法保存詞頻：%s"
+
+#~ msgid "Cannot Save Pinyin Index: %s"
+#~ msgstr "無法保存拼音索引：%s"
+
+#~ msgid "Cannot Save User Pinyin Database: %s"
+#~ msgstr "無法保存使用者拼音字庫：%s"
+
+#~ msgid "Cannot connect to fcitx correctly."
+#~ msgstr "無法正確連接 fcitx。"
+
+#~ msgid "Cannot create file %1."
+#~ msgstr "無法建立檔案 %1。"
+
+#~ msgid "Cannot determine desktop environment."
+#~ msgstr "無法確認桌面環境。"
+
+#~ msgid "Cannot find ${2} for gtk ${1}"
+#~ msgstr "找不到 gtk ${1} 的 ${2}"
+
+#~ msgid "Cannot find System Database of Pinyin!"
+#~ msgstr "找不到拼音的系統字庫！"
+
+#~ msgid ""
+#~ "Cannot find a GUI config tool, please install one of ${1}, ${2}, or ${3}."
+#~ msgstr "找不到設定介面，請安裝 ${1}、${2} 或 ${3} 其中之一。"
+
+#~ msgid "Cannot find enabled fcitx user interface!"
+#~ msgstr "找不到啟用的 fcitx 使用者介面！"
+
+#~ msgid "Cannot find fcitx addon config directory."
+#~ msgstr "找不到附加元件設定目錄。"
+
+#~ msgid "Cannot find fcitx executable!"
+#~ msgstr "找不到 fcitx 可執行檔！"
+
+#~ msgid "Cannot find fcitx im module for gtk ${1} in cache."
+#~ msgstr "在快取中找不到 gtk ${1} 的 fcitx 輸入法模組。"
+
+#~ msgid "Cannot find fcitx im module for gtk ${1}."
+#~ msgstr "找不到 gtk ${1} 的 fcitx 輸入法模組。"
+
+#~ msgid "Cannot find fcitx input method module for ${1}."
+#~ msgstr "找不到 ${1} 的 fcitx 輸入法模組。"
+
+#~ msgid "Cannot find fcitx-configtool executable!"
+#~ msgstr "找不到 fcitx-configtool 可執行檔！"
+
+#~ msgid "Cannot find file ${1} of addon ${2}."
+#~ msgstr "找不到附加元件 ${2} 的檔案 ${1}。"
+
+#~ msgid "Cannot find following required libraries for ${1} of addon ${2}."
+#~ msgstr "找不到附加元件 ${2} 的 ${1} 所需之以下函式庫。"
+
+#~ msgid "Cannot find immodules cache for gtk ${1}"
+#~ msgstr "找不到 gtk ${1} 的輸入法模組快取"
+
+#~ msgid ""
+#~ "Cannot find kimpanel dbus interface or enabled non-kimpanel user "
+#~ "interface."
+#~ msgstr "找不到 kimpanel dbus 介面或非 kimpanel 使用者介面。"
+
+#~ msgid "Cannot find xim_server on root window."
+#~ msgstr "在 root 視窗找不到 xim_server。"
+
+#~ msgid "Cannot found Pinyin"
+#~ msgstr "找不到拼音"
+
+#~ msgid "Cannot interpret XMODIFIERS: ${1}."
+#~ msgstr "無法解析 XMODIFIERS：${1}。"
+
+#~ msgid "Cannot load default skin, is installation correct?"
+#~ msgstr "無法載入預設佈景，安裝正確嗎？"
+
+#~ msgid "Cannot load skin %s, return to default"
+#~ msgstr "無法載入佈景 %s，使用預設"
+
+#~ msgid "Cannot read im list from fcitx profile."
+#~ msgstr "無法從 fcitx 設定檔中讀取輸入法清單。"
+
+#~ msgid "Cannot remove system file"
+#~ msgstr "無法移除系統檔案"
+
+#~ msgid "Category"
+#~ msgstr "類別"
+
+#~ msgid "Center"
+#~ msgstr "正中"
+
+#~ msgid "CenterLeft"
+#~ msgstr "左中"
+
+#~ msgid "CenterRight"
+#~ msgstr "右中"
+
+#~ msgid "Change Fcitx Configuration"
+#~ msgstr "修改 Fcitx 設定"
+
+#~ msgid "Choose"
+#~ msgstr "選擇鍵"
+
+#~ msgid "Choose Second and Third Candidate Word"
+#~ msgstr "選擇第二第三候選詞"
+
+#~ msgid "Choose key modifier"
+#~ msgstr "選詞修飾鍵"
+
+#~ msgid "Choose the phrase to be deleted, Press Escape to Cancel"
+#~ msgstr "選擇要刪除的字詞，Escape 鍵取消"
+
+#~ msgid "Choose the phrase to be put in the front, Press Escape to Cancel"
+#~ msgstr "選擇放在前面的字詞，Escape 鍵取消"
+
+#~ msgid "Choose the phrase to clear typing history, Press Escape to Cancel"
+#~ msgstr "選擇要清理輸入頻率的字詞，Escape 鍵取消"
+
+#~ msgid "Classic"
+#~ msgstr "經典介面"
+
+#~ msgid "Classic User Interface with Skin support"
+#~ msgstr "支援外觀主題的傳統介面"
+
+#~ msgid "ClassicUI"
+#~ msgstr "經典介面"
+
+#~ msgid "Clear"
+#~ msgstr "清除"
+
+#~ msgid "Clear Frequency"
+#~ msgstr "清除輸入頻率"
+
+#~ msgid "Clear local Input Method"
+#~ msgstr "清空局部輸入法"
+
+#~ msgid "Clear local input method"
+#~ msgstr "清空局部輸入法"
+
+#~ msgid "Close virtual keyboard"
+#~ msgstr "關閉虛擬鍵盤"
+
+#~ msgid "Code Table File"
+#~ msgstr "碼表檔案"
+
+#~ msgid "Code Table Name"
+#~ msgstr "碼表名稱"
+
+#~ msgid "Code is "
+#~ msgstr "編碼為 "
+
+#~ msgid "CodeTable"
+#~ msgstr "碼表"
+
+#~ msgid "Color of Cursor"
+#~ msgstr "游標顏色"
+
+#~ msgid "Comment"
+#~ msgstr "描述"
+
+#~ msgid "Commit and pass when invalid key of this table pressed"
+#~ msgstr "當輸入碼表中非法的按鍵時，提交輸入並且發送這個按鍵"
+
+#~ msgid "Commit key for select first candidate"
+#~ msgstr "第一個候選字的提交鍵"
+
+#~ msgid "Commit string when there is no match"
+#~ msgstr "當無符合時提交輸入"
+
+#~ msgid "Commit when toggle state"
+#~ msgstr "切換狀態時提交"
+
+#~ msgid "Commit with extra space when choose candidate word"
+#~ msgstr "選擇候選詞時加入額外空格"
+
+#~ msgid "Config GUI for gtk${1} not found."
+#~ msgstr "找不到 gtk${1} 的設定介面。"
+
+#~ msgid "Config GUI for gtk${1}:"
+#~ msgstr "gtk${1} 的設定介面："
+
+#~ msgid "Config GUI for kde:"
+#~ msgstr "KDE 的設定介面："
+
+#~ msgid "Config Tool Wrapper:"
+#~ msgstr "設定工具封裝："
+
+#~ msgid "ConfigFile"
+#~ msgstr "設定檔"
+
+#~ msgid "Configuration:"
+#~ msgstr "設定："
+
+#~ msgid "Configure"
+#~ msgstr "設定"
+
+#~ msgid "Configure Current Input Method"
+#~ msgstr "設定目前輸入法"
+
+#~ msgid "Configure group name error: line %d"
+#~ msgstr "設定群組名稱出錯：第 %d 行"
+
+#~ msgid "Confirm deletion"
+#~ msgstr "確定刪除"
+
+#~ msgid "Conveniently Input English or User-Defined Simple Table"
+#~ msgstr "方便地輸入英文或使用者定義的碼表"
+
+#~ msgid "Convert Simplified Chinese To Traditional Chinese"
+#~ msgstr "轉換簡體中文為正體中文"
+
+#~ msgid "Copy"
+#~ msgstr "複製"
+
+#~ msgid "Create new file"
+#~ msgstr "建立新檔"
+
+#~ msgid "Ctrl"
+#~ msgstr "Ctrl"
+
+#~ msgid "Ctrl+Left Super"
+#~ msgstr "Ctrl+左 Super"
+
+#~ msgid "Ctrl+Right Super"
+#~ msgstr "Ctrl+右 Super"
+
+#~ msgid "Current Enabled Input Method List"
+#~ msgstr "目前啟用的輸入法清單"
+
+#~ msgid "Current Input Method Name"
+#~ msgstr "目前輸入法名稱"
+
+#~ msgid "Current fcitx settings directory is ${1} (${2})."
+#~ msgstr "目前的 fcitx 設定目錄為 ${1} (${2})。"
+
+#~ msgid "Current local input method is "
+#~ msgstr "目前輸入法為 "
+
+#~ msgid "Current locale:"
+#~ msgstr "目前地區設定："
+
+#~ msgid "Current user:"
+#~ msgstr "目前使用者："
+
+#~ msgid "Current value of ${1} is ${2} (${3})."
+#~ msgstr "${1} 目前的值為 ${2} (${3})。"
+
+#~ msgid "Custom"
+#~ msgstr "自訂"
+
+#~ msgid "Custom switch key"
+#~ msgstr "自訂切換鍵"
+
+#~ msgid "DBus"
+#~ msgstr "DBus"
+
+#~ msgid "DBus Support"
+#~ msgstr "DBus 支援"
+
+#~ msgid "DBus based new Freedesktop.org tray icon"
+#~ msgstr "基於 DBus 的新 Freedesktop.org 系統匣圖示"
+
+#~ msgid "DBus interface:"
+#~ msgstr "DBus 介面："
+
+#~ msgid "De&lete All"
+#~ msgstr "全部刪除 (&L)"
+
+#~ msgid "Default Input Method State"
+#~ msgstr "預設輸入法狀態"
+
+#~ msgid "Default Shuangpin Schema"
+#~ msgstr "預設雙拼方案"
+
+#~ msgid "Default Spell Hint Backends Order"
+#~ msgstr "拼寫提示後端的使用順序"
+
+#~ msgid "Default input methods:"
+#~ msgstr "預設輸入法："
+
+#~ msgid "Delete Phrase"
+#~ msgstr "刪除字詞"
+
+#~ msgid "Dependency"
+#~ msgstr "相依性"
+
+#~ msgid "Description of Skin"
+#~ msgstr "佈景說明"
+
+#~ msgid "Desktop Environment:"
+#~ msgstr "桌面環境："
+
+#~ msgid "Desktop environment is ${1}."
+#~ msgstr "桌面環境為 ${1}。"
+
+#~ msgid "Dianbaoma"
+#~ msgstr "電報碼"
+
+#~ msgid "Directories:"
+#~ msgstr "目錄："
+
+#~ msgid "Disable Paging in Remind Mode"
+#~ msgstr "聯想模式停用翻頁"
+
+#~ msgid "Disable Pinyin Symbol"
+#~ msgstr "禁用拼音特殊符號"
+
+#~ msgid "Disable addon %s, dependency %s cannot be satisfied."
+#~ msgstr "停用附加元件 %s，無法滿足 %s 的相依性。"
+
+#~ msgid "Disabled"
+#~ msgstr "停用"
+
+#~ msgid "Do not commit preedit text when unfocus a window"
+#~ msgstr "未聚焦視窗時，不要提交預編輯文字"
+
+#~ msgid "Do not show in GUI"
+#~ msgstr "不在圖形介面顯示"
+
+#~ msgid "Do not show input window if there is only one candidate and preedit"
+#~ msgstr "只有一個候選詞和預編輯字串時不顯示輸入視窗"
+
+#~ msgid "Do not show input window if there is only preedit string"
+#~ msgstr "只有預編輯字串時不顯示輸入視窗"
+
+#~ msgid "Do not show spell hint"
+#~ msgstr "不顯示拼寫提示"
+
+#~ msgid "Do not sort word with code less than this level"
+#~ msgstr "比此級別短的碼不進行排序"
+
+#~ msgid "Duplicate entry %s in group %s,@ line %d, override previous one."
+#~ msgstr "重複的內容 %s 於群組 %s 中，於第 %d 行，覆寫前一個。"
+
+#~ msgid "Duplicate group name, merge with the previous: %s :line %d"
+#~ msgstr "群組名稱重複，與先前的合併：%s：第 %d 行"
+
+#~ msgid "Duplicate option, overwrite: line %d"
+#~ msgstr "選項重複，覆寫：第 %d 行"
+
+#~ msgid "E&xport"
+#~ msgstr "匯出 (&X)"
+
+#~ msgid "Empty"
+#~ msgstr "空"
+
+#~ msgid "Enable"
+#~ msgstr "啟用"
+
+#~ msgid "Enable Hotkey to scroll Between Input Method"
+#~ msgstr "啟用輸入法間切換"
+
+#~ msgid "Enabled"
+#~ msgstr "啟用"
+
+#~ msgid "Enabled state for im"
+#~ msgstr "輸入法啟用狀態"
+
+#~ msgid "Enchance pinyin input in Fcitx"
+#~ msgstr "增強 Fcitx 的拼音輸入"
+
+#~ msgid "End Key"
+#~ msgstr "中止鍵"
+
+#~ msgid "English (US)"
+#~ msgstr "英文 (美國)"
+
+#~ msgid "English Mode Icon"
+#~ msgstr "英文模式圖示"
+
+#~ msgid "Enum Option is invalid, take it as string"
+#~ msgstr "Enum 選項不正確，作為字串處理"
+
+#~ msgid "Enum option duplicated."
+#~ msgstr "Enum 選項重複。"
+
+#~ msgid "Enum option number must larger than 0"
+#~ msgstr "Enum 選項必須大於 0"
+
+#~ msgid ""
+#~ "Environment variable ${1} is \"${2}\" instead of \"${3}\". Please check "
+#~ "if you have exported it incorrectly in any of your init files."
+#~ msgstr ""
+#~ "環境變數 ${1} 的值為「${2}」而不是「${3}」。請檢查您是否在某個初始化檔中設"
+#~ "定了錯誤的值。"
+
+#~ msgid "Environment variable ${1} is not set."
+#~ msgstr "環境變數 ${1} 未設定。"
+
+#~ msgid "Environment variable ${1} is set to \"${2}\" correctly."
+#~ msgstr "環境變數 ${1} 正確地設定為「${2}」。"
+
+#~ msgid "Environment variable ${1} is set to ${2}."
+#~ msgstr "環境變數 ${1} 被設定為 ${2}。"
+
+#~ msgid "Environment:"
+#~ msgstr "環境："
+
+#~ msgid "Erbi"
+#~ msgstr "二筆"
+
+#~ msgid "Error occurs when running ${1}. Please check your locale settings."
+#~ msgstr "執行 ${1} 時發生錯誤。請檢查您的地區設定。"
+
+#~ msgid "Error while deleting %1."
+#~ msgstr "刪除 %1 時出錯。"
+
+#~ msgid ""
+#~ "Error: $HOME or $XDG_CONFIG_HOME is not set, cannot determine the install "
+#~ "path"
+#~ msgstr "錯誤：$HOME 或 $XDG_CONFIG_HOME 未設定，無法得知安裝路徑"
+
+#~ msgid "Error: Load fontconfig failed"
+#~ msgstr "錯誤：讀取 fontconfig 失敗"
+
+#~ msgid "Error: skin failed to install"
+#~ msgstr "錯誤：佈景安裝失敗"
+
+#~ msgid "Error: skin file doesn't contain skin config."
+#~ msgstr "錯誤：佈景檔未包含佈景設定。"
+
+#~ msgid "Error: skin file should only contain one directory."
+#~ msgstr "錯誤：佈景檔只能包含一個目錄。"
+
+#~ msgid "Exact Match"
+#~ msgstr "精確相符"
+
+#~ msgid "Exec"
+#~ msgstr "Exec"
+
+#~ msgid "Exit"
+#~ msgstr "離開"
+
+#~ msgid "Extra key for trigger input method"
+#~ msgstr "額外的啟用輸入法快捷鍵"
+
+#~ msgid "Failed to find fcitx in immodule cache at ${1}"
+#~ msgstr "無法在 ${1} 的輸入法模組快取中找到 fcitx"
+
+#~ msgid "Failed to find fcitx in the output of ${1}"
+#~ msgstr "無法在 ${1} 的輸出中找到 fcitx。"
+
+#~ msgid "Fcitx"
+#~ msgstr "Fcitx"
+
+#~ msgid "Fcitx Addons:"
+#~ msgstr "Fcitx 附加元件："
+
+#~ msgid "Fcitx Clipboard access"
+#~ msgstr "Fcitx 的剪貼簿訪問支援"
+
+#~ msgid "Fcitx Configuration"
+#~ msgstr "Fcitx 設定"
+
+#~ msgid "Fcitx Configure UI:"
+#~ msgstr "Fcitx 設定介面："
+
+#~ msgid "Fcitx DBus Frontend"
+#~ msgstr "Fcitx DBus 前端"
+
+#~ msgid "Fcitx Lua Support"
+#~ msgstr "Fcitx Lua 支援"
+
+#~ msgid "Fcitx Settings Directory:"
+#~ msgstr "Fcitx 設定目錄："
+
+#~ msgid "Fcitx Skin Installer"
+#~ msgstr "Fcitx 佈景安裝程式"
+
+#~ msgid "Fcitx Spelling Hint/Completion Support"
+#~ msgstr "Fcitx 的拼寫提示與補全支援"
+
+#~ msgid "Fcitx State:"
+#~ msgstr "Fcitx 狀態："
+
+#~ msgid "Fcitx XIM Frontend"
+#~ msgstr "Fcitx XIM 前端"
+
+#~ msgid "Fcitx is not running."
+#~ msgstr "Fcitx 未執行。"
+
+#~ msgid "Fcitx version: ${1}"
+#~ msgstr "Fcitx 版本：${1}"
+
+#~ msgid "File Operation Failed"
+#~ msgstr "檔案操作失敗"
+
+#~ msgid "File name should not contain '/'."
+#~ msgstr "檔案名稱不能有「/」。"
+
+#~ msgid "Fill Background Horizontal rule"
+#~ msgstr "背景填滿規則（垂直）"
+
+#~ msgid "Fill Background Vertical rule"
+#~ msgstr "背景填滿規則（垂直）"
+
+#~ msgid "First Candidate Color"
+#~ msgstr "第一候選字顏色"
+
+#~ msgid "First Candidate Display as Preedit"
+#~ msgstr "顯示第一候選字為預編輯文字"
+
+#~ msgid "Fix misstype gn/ng"
+#~ msgstr "忽略拼音中ng->gn的輸入錯誤"
+
+#~ msgid "Fix misstype v/u like jv, qv, xv, yv"
+#~ msgstr "忽略拼音jv，qv，xv，yv中u->v的輸入錯誤"
+
+#~ msgid "Fix preedit cursor at head"
+#~ msgstr "將游標固定在預輸入文字開頭"
+
+#~ msgid "Font"
+#~ msgstr "字型"
+
+#~ msgid "Font Locale to display"
+#~ msgstr "要顯示的字型語系"
+
+#~ msgid "Font Size"
+#~ msgstr "字型大小"
+
+#~ msgid "Font sizes respect dpi setting"
+#~ msgstr "字型大小按照 dpi 設定"
+
+#~ msgid ""
+#~ "For example, if Keyboard - English (US) is the first input method in the "
+#~ "list, then English (US) will be applied to all other non keyboard input "
+#~ "method layout"
+#~ msgstr ""
+#~ "比方說，若鍵盤 - 英語 (美式) 為列表中第一個輸入法，則英語 (美式) 將被套用"
+#~ "為所有非鍵盤輸入法的配置"
+
+#~ msgid "Found ${1} at ${2}."
+#~ msgstr "在 ${2} 找到了 ${1}。"
+
+#~ msgid "Found ${1} disabled addons:"
+#~ msgstr "找到 ${1} 個停用的附加元件："
+
+#~ msgid "Found ${1} enabled addons:"
+#~ msgstr "找到 ${1} 個啟用的附加元件："
+
+#~ msgid "Found ${1} enabled input methods:"
+#~ msgstr "找到 ${1} 個啟用的輸入法："
+
+#~ msgid "Found ${1} enabled user interface addons:"
+#~ msgstr "找到 ${1} 個啟用的使用者介面附加元件："
+
+#~ msgid "Found ${1} fcitx process:"
+#~ msgstr "找到 ${1} 個 fcitx 程序："
+
+#~ msgid "Found ${1} fcitx processes:"
+#~ msgstr "找到 ${1} 個 fcitx 程序："
+
+#~ msgid "Found ${2} for unknown gtk version at ${1}."
+#~ msgstr "在 ${1} 找到未知 gtk 版本的 ${2}。"
+
+#~ msgid "Found ${3} for gtk ${1} at ${2}."
+#~ msgstr "在 ${2} 找到 gtk ${1} 的 ${3}。"
+
+#~ msgid "Found fcitx addon config directory: ${1}."
+#~ msgstr "找到 fcitx 附加元件設定目錄：${1}。"
+
+#~ msgid "Found fcitx at ${1}."
+#~ msgstr "在 ${1} 找到 fcitx。"
+
+#~ msgid "Found fcitx im module for ${2}: ${1}."
+#~ msgstr "找到了 ${2} 的 fcitx 輸入法模組：${1}。"
+
+#~ msgid "Found fcitx im modules for gtk ${1}."
+#~ msgstr "找到了 gtk ${1} 的 fcitx 輸入法模組。"
+
+#~ msgid "Found fcitx kcm module."
+#~ msgstr "找到了 fcitx 的 kcm 模組。"
+
+#~ msgid "Found fcitx qt module: ${1}."
+#~ msgstr "找到了 fcitx 的 qt 模組：${1}。"
+
+#~ msgid "Found fcitx-configtool at ${1}."
+#~ msgstr "在 ${1} 找到 fcitx-configtool。"
+
+#~ msgid "Found immodule cache for unknown gtk version at ${1}."
+#~ msgstr "在 ${1} 找到未知 gtk 版本的輸入法模組快取。"
+
+#~ msgid "Found immodules cache for gtk ${1} at ${2}."
+#~ msgstr "在 ${2} 找到 gtk ${1} 的輸入法模組快取。"
+
+#~ msgid "Found unknown fcitx qt module: ${1}."
+#~ msgstr "找到未知的 fcitx qt 模組：${1}。"
+
+#~ msgid "Freedesktop.org Notification Support"
+#~ msgstr "Freedesktop.org 桌面提示支援"
+
+#~ msgid "Frontend"
+#~ msgstr "前端"
+
+#~ msgid "Frontend Used by IM Modules"
+#~ msgstr "輸入法模組使用的前端"
+
+#~ msgid "Frontend: bad frontend"
+#~ msgstr "前端：有問題的前端"
+
+#~ msgid "Frontend: open %s fail %s"
+#~ msgstr "前端：開啟 %s 失敗 %s"
+
+#~ msgid "Frontends setup:"
+#~ msgstr "前端設定："
+
+#~ msgid "Full width Character"
+#~ msgstr "全形字元"
+
+#~ msgid "Full width punct"
+#~ msgstr "全形標點符號"
+
+#~ msgid "Full width punctuations are used."
+#~ msgstr "已啟用全形標點符號。"
+
+#~ msgid "Fullwidth"
+#~ msgstr "全形字元"
+
+#~ msgid "Fullwidth Character"
+#~ msgstr "全形字元"
+
+#~ msgid "Fuzzy an and ang"
+#~ msgstr "模糊 an 和 ang"
+
+#~ msgid "Fuzzy c and ch"
+#~ msgstr "模糊 c 和 ch"
+
+#~ msgid "Fuzzy en and eng"
+#~ msgstr "模糊 en 和 eng"
+
+#~ msgid "Fuzzy f and h"
+#~ msgstr "模糊 f 和 h"
+
+#~ msgid "Fuzzy ian and iang"
+#~ msgstr "模糊 ian 和 iang"
+
+#~ msgid "Fuzzy in and ing"
+#~ msgstr "模糊 in 和 ing"
+
+#~ msgid "Fuzzy l and n"
+#~ msgstr "模糊 i 和 n"
+
+#~ msgid "Fuzzy ou and u"
+#~ msgstr "模糊 ou 和 u"
+
+#~ msgid "Fuzzy s and sh"
+#~ msgstr "模糊 s 和 sh"
+
+#~ msgid "Fuzzy uan and uang"
+#~ msgstr "模糊 uan 和 uang"
+
+#~ msgid "Fuzzy z and zh"
+#~ msgstr "模糊 z 和 zh"
+
+#~ msgid "Give the tips of Phrase"
+#~ msgstr "提示詞庫中字詞"
+
+#~ msgid "Global Input Method SelectKey"
+#~ msgstr "全域輸入法選擇鍵"
+
+#~ msgid "GlobalSelector"
+#~ msgstr "全局選擇"
+
+#~ msgid "Grave"
+#~ msgstr "反引號"
+
+#~ msgid "Greek"
+#~ msgstr "希臘字母"
+
+#~ msgid "Gtk ${1} immodule file ${2} does not exist."
+#~ msgstr "Gtk ${1} 輸入法模組檔案 ${2} 不存在。"
+
+#~ msgid "Gtk IM module cache:"
+#~ msgstr "Gtk 輸入法模組快取："
+
+#~ msgid "Gtk IM module files:"
+#~ msgstr "Gtk 輸入法模組檔案："
+
+#~ msgid "Half width Character"
+#~ msgstr "半形字元"
+
+#~ msgid "Hall of Shame for Linux IME Support"
+#~ msgstr "Linux 程式的輸入法支援問題"
+
+#~ msgid "Hide"
+#~ msgstr "隱藏"
+
+#~ msgid "Hide when tray icon is available"
+#~ msgstr "當系統匣圖示可用時隱藏"
+
+#~ msgid "Hiragana"
+#~ msgstr "平假名"
+
+#~ msgid "Home:"
+#~ msgstr "家目錄："
+
+#~ msgid "Horizontal"
+#~ msgstr "水平"
+
+#~ msgid "Hotkey"
+#~ msgstr "快捷鍵"
+
+#~ msgid "Hotkey for Inputing Character From Phrase"
+#~ msgstr "以詞定字"
+
+#~ msgid "Hotkey for switching to Inputing Character From Phrase mode"
+#~ msgstr "切換至以詞定字模式"
+
+#~ msgid "Hotkey of Adding Frequent Word"
+#~ msgstr "快捷鍵：加入常用字"
+
+#~ msgid "Hotkey of Delete User Phrase"
+#~ msgstr "快捷鍵：刪除使用者字詞"
+
+#~ msgid "Hotkey of Deleting Frequent Word"
+#~ msgstr "快捷鍵：刪除常用字"
+
+#~ msgid "IM: bad im %s"
+#~ msgstr "輸入法：有問題的輸入法 %s"
+
+#~ msgid "IM: open %s fail %s"
+#~ msgstr "輸入法：開啟 %s 失敗 %s"
+
+#~ msgid "IMSelector"
+#~ msgstr "輸入法選擇器"
+
+#~ msgid "Icon Name"
+#~ msgstr "圖示名稱"
+
+#~ msgid "IconName"
+#~ msgstr "圖示名稱"
+
+#~ msgid ""
+#~ "If you are using ${1}, you may want to uninstall ${2} or remove ${3} in "
+#~ "order to use any input method other than ${2}. See ${link} for more "
+#~ "detail as well as alternative solutions."
+#~ msgstr ""
+#~ "如果您正在使用 ${1}，您可能需要反安裝 ${2} 或者移除 ${3} 以使用 ${2} 以外"
+#~ "的任何輸入法。更多細節和其它的解決方法參見 ${link}。"
+
+#~ msgid ""
+#~ "If you are using ${1}, you may want to uninstall ${2}, remove ${3} or use "
+#~ "the command ${g36_disable_ibus} to disable IBus integration in order to "
+#~ "use any input method other than ${2}. See ${link} for more detail."
+#~ msgstr ""
+#~ "如果您正在使用 ${1}，您可能需要反安裝 ${2}、移除 ${3} 或使用 "
+#~ "${g36_disable_ibus} 指令停用 IBus 整合以使用 ${2} 以外的任何輸入法。更多細"
+#~ "節參見 ${link}。"
+
+#~ msgid "Ignore Punctuation"
+#~ msgstr "忽略標點"
+
+#~ msgid "Ignore blank selections"
+#~ msgstr "忽略空白的剪貼簿內容"
+
+#~ msgid "Ignore some Punctuation, if it is empty, then ignore all punctuation"
+#~ msgstr "忽略部分標點，如果空白則忽略所有標點"
+
+#~ msgid "Inactivate Input Method"
+#~ msgstr "不啟用輸入法"
+
+#~ msgid "Inactive"
+#~ msgstr "非作用"
+
+#~ msgid "Inactive Menu Item Character Color"
+#~ msgstr "非使用中功能表項目的字體顏色"
+
+#~ msgid "Include Inactivate when scrolling between Input Method"
+#~ msgstr "輸入法間切換時包含未啟用狀態"
+
+#~ msgid "Include the text currently selected in clipboard history."
+#~ msgstr "加入目前選取文字到剪貼簿歷史"
+
+#~ msgid "Inctive Tray Icon"
+#~ msgstr "非活動中操作列圖示"
+
+#~ msgid "Index"
+#~ msgstr "索引"
+
+#~ msgid "Input Font Size"
+#~ msgstr "輸入字型大小"
+
+#~ msgid "Input Message Color"
+#~ msgstr "輸入訊息顏色"
+
+#~ msgid "Input Method"
+#~ msgstr "輸入法"
+
+#~ msgid "Input Method Configuration"
+#~ msgstr "輸入法設定"
+
+#~ msgid "Input Method Disabled"
+#~ msgstr "停用輸入法"
+
+#~ msgid "Input Method Hint will be only shown when state is active"
+#~ msgstr "輸入法提示只在啟用狀態顯示"
+
+#~ msgid "Input Method Related Environment Variables: "
+#~ msgstr "輸入法相關環境變數："
+
+#~ msgid "Input Methods:"
+#~ msgstr "輸入法："
+
+#~ msgid "Input Speed: "
+#~ msgstr "輸入速度："
+
+#~ msgid "Input method selector"
+#~ msgstr "輸入法選擇器"
+
+#~ msgid "InputMethod"
+#~ msgstr "輸入法"
+
+#~ msgid "Installer Script for Fcitx Skin"
+#~ msgstr "Fcitx 佈景主題安裝器文本"
+
+#~ msgid "Interval of Two Key Input"
+#~ msgstr "輸入間隔"
+
+#~ msgid "Invalid Entry: line %d missing '='"
+#~ msgstr "無效的內容：第 %d 行缺少「=」"
+
+#~ msgid "Invalid addon config file ${1}."
+#~ msgstr "不正確的附加元件設定檔：${1}。"
+
+#~ msgid "Invalid entry line @ line %d %s"
+#~ msgstr "無效的內容於行 %d %s"
+
+#~ msgid "Invalid filename"
+#~ msgstr "無效的檔案名稱"
+
+#~ msgid "Invalid group name line @ line %d %s"
+#~ msgstr "非法組名出現在第 %d 行：%s"
+
+#~ msgid "Invalid item ${1} in im list."
+#~ msgstr "輸入法清單中無效的項目：${1}。"
+
+#~ msgid "Katakana"
+#~ msgstr "片假名"
+
+#~ msgid ""
+#~ "Keep current buffer when there is no match item and input length is equal "
+#~ "code length"
+#~ msgstr "當目前沒有符合項並且輸入長度等於碼長時，保持目前的輸入緩衝區"
+
+#~ msgid "Key"
+#~ msgstr "按鍵"
+
+#~ msgid "Key Color On Virutal Keyboard"
+#~ msgstr "虛擬鍵盤按鍵顏色"
+
+#~ msgid "Keyboard Layout"
+#~ msgstr "鍵盤配置"
+
+#~ msgid "Keyboard Layout to be used"
+#~ msgstr "鍵盤配置"
+
+#~ msgid "Keyboard Layout:"
+#~ msgstr "鍵盤配置："
+
+#~ msgid "Keyword"
+#~ msgstr "關鍵字"
+
+#~ msgid "Keyword:"
+#~ msgstr "關鍵字："
+
+#~ msgid "Kimpanel"
+#~ msgstr "Kimpanel"
+
+#~ msgid "Kimpanel Support for Fcitx"
+#~ msgstr "Fcitx 的 Kimpanel 支援"
+
+#~ msgid "Kimpanel process:"
+#~ msgstr "Kimpanel 程序："
+
+#~ msgid "L_ALT"
+#~ msgstr "左 Alt"
+
+#~ msgid "L_CTRL"
+#~ msgstr "左 Ctrl"
+
+#~ msgid "L_SHIFT"
+#~ msgstr "左 Shift"
+
+#~ msgid "LangCode"
+#~ msgstr "語言代碼"
+
+#~ msgid "Language Code for this table"
+#~ msgstr "這個碼表的語言代碼"
+
+#~ msgid "Latin"
+#~ msgstr "拉丁字母"
+
+#~ msgid "Latin punct"
+#~ msgstr "英文標點符號"
+
+#~ msgid "Latin punctuations are used."
+#~ msgstr "已啟用半形標點符號。"
+
+#~ msgid "Left"
+#~ msgstr "左"
+
+#~ msgid "Left Super"
+#~ msgstr "左 Super"
+
+#~ msgid ""
+#~ "Left/Right to choose selected character, Press Enter to confirm, Press "
+#~ "Escape to Cancel"
+#~ msgstr "左/右鍵選字，Enter 鍵確認，Escape 鍵取消"
+
+#~ msgid "Length of Clipboard History to Save"
+#~ msgstr "剪切簿歷史長度"
+
+#~ msgid "Level of simple code"
+#~ msgstr "簡碼級別"
+
+#~ msgid "Library"
+#~ msgstr "程式庫"
+
+#~ msgid "Load Addon Config File:%s"
+#~ msgstr "載入附加元件設定檔：%s"
+
+#~ msgid "Load Autophrase OK"
+#~ msgstr "載入自動字詞成功"
+
+#~ msgid "Load Table Dict OK"
+#~ msgstr "載入碼表字典成功"
+
+#~ msgid "Loading Autophrase."
+#~ msgstr "載入自動字詞中"
+
+#~ msgid "Loading Table Dict"
+#~ msgstr "載入碼表字典"
+
+#~ msgid "Local Input Method SelectKey"
+#~ msgstr "局部輸入法選擇鍵"
+
+#~ msgid "LocalSelector"
+#~ msgstr "局部選擇"
+
+#~ msgid "Locale:"
+#~ msgstr "地區設定："
+
+#~ msgid "Log:"
+#~ msgstr "日誌："
+
+#~ msgid "Logo Icon"
+#~ msgstr "Logo 圖示"
+
+#~ msgid "Lookup Pinyin"
+#~ msgstr "反查拼音"
+
+#~ msgid "MS"
+#~ msgstr "微軟"
+
+#~ msgid "Margin Bottom for clickable region"
+#~ msgstr "可點擊區域的下邊界寬度"
+
+#~ msgid "Margin Left for clickable region"
+#~ msgstr "可點擊區域的左邊界寬度"
+
+#~ msgid "Margin Right for clickable region"
+#~ msgstr "可點擊區域的右邊界寬度"
+
+#~ msgid "Margin Top for clickable region"
+#~ msgstr "可點擊區域的上邊界寬度"
+
+#~ msgid "Matching Key"
+#~ msgstr "模糊鍵"
+
+#~ msgid "Math"
+#~ msgstr "數學符號"
+
+#~ msgid "Maximum hint length"
+#~ msgstr "拼寫提示候選字的最大數"
+
+#~ msgid "Maximum length of each candidate word"
+#~ msgstr "每個候選字最大長度"
+
+#~ msgid "Maximum length of spell hint list"
+#~ msgstr "拼寫提示候選字最大個數"
+
+#~ msgid "Maximum length of spell hint list for Auto English"
+#~ msgstr "自動英文的拼寫提示候選詞最大個數"
+
+#~ msgid "Maximum length of spell hint list for Pinyin Enhance"
+#~ msgstr "拼音增強的拼寫提示候選字最大個數"
+
+#~ msgid "Maximum length of spell hint list for Quick Phrase"
+#~ msgstr "快速輸入的拼寫提示的候選詞最大數"
+
+#~ msgid "Maximum results from stroke input."
+#~ msgstr "筆劃輸入結果的最大數。"
+
+#~ msgid "Maximum words number kept in preedit"
+#~ msgstr "在預編輯中保留的最大單字數"
+
+#~ msgid "Menu Font"
+#~ msgstr "選單字型"
+
+#~ msgid "Menu Font Size"
+#~ msgstr "選單字型大小"
+
+#~ msgid "Migrate the old file path to the new one"
+#~ msgstr "移動舊檔案路徑到新檔案路徑"
+
+#~ msgid "Minimum input length to trigger stroke input (set to -1 to disable)"
+#~ msgstr "最小觸發筆劃輸入的輸入長度（設為-1禁用筆劃輸入）"
+
+#~ msgid "Minimum length to trigger word hint"
+#~ msgstr "最小觸發單字提示長度"
+
+#~ msgid ""
+#~ "Minimum length trigger auto send candidate when there will be no candidate"
+#~ msgstr "沒有候選字時觸發自動送出候選字的最短輸入長度"
+
+#~ msgid ""
+#~ "Minimum length trigger auto send candidate word when only one candidate"
+#~ msgstr "在只有一個候選字時觸發自動送出候選字的最短輸入長度"
+
+#~ msgid "Missing type, take it as string"
+#~ msgstr "遺失類型，作為字串處理"
+
+#~ msgid "Module"
+#~ msgstr "模組"
+
+#~ msgid "Module: bad module"
+#~ msgstr "模組：有問題的模組"
+
+#~ msgid "Module: open %s fail %s"
+#~ msgstr "模組：開啟 %s 失敗 %s"
+
+#~ msgid "Myspell"
+#~ msgstr "Myspell"
+
+#~ msgid "Name"
+#~ msgstr "名稱"
+
+#~ msgid "Name that can be display in UI"
+#~ msgstr "顯示於使用者介面的名稱"
+
+#~ msgid "Native"
+#~ msgstr "原生"
+
+#~ msgid "Next Candidate Word"
+#~ msgstr "下一個候選字"
+
+#~ msgid "Next Page"
+#~ msgstr "下一頁"
+
+#~ msgid "Next Page Icon"
+#~ msgstr "下一頁圖示"
+
+#~ msgid "No"
+#~ msgstr "否"
+
+#~ msgid "No available Input Method"
+#~ msgstr "無可用輸入法"
+
+#~ msgid "No available frontend"
+#~ msgstr "無可用前端"
+
+#~ msgid "No input window"
+#~ msgstr "沒有輸入視窗"
+
+#~ msgid "No local input method"
+#~ msgstr "沒有局部輸入法"
+
+#~ msgid "No remind"
+#~ msgstr "沒有聯想"
+
+#~ msgid "Non-comment doesn't belongs to any group @ %d %s"
+#~ msgstr "不屬於任一群組的非註解出現在第 %d 行：%s"
+
+#~ msgid "None"
+#~ msgstr "無"
+
+#~ msgid "Not Set"
+#~ msgstr "未設定"
+
+#~ msgid "Number"
+#~ msgstr "數字"
+
+#~ msgid "Online Help"
+#~ msgstr "線上說明"
+
+#~ msgid "OpenCC"
+#~ msgstr "OpenCC"
+
+#~ msgid "Option %s is Invalid, Use Default Value %s"
+#~ msgstr "選項 %s 無效，使用預設值 %s"
+
+#~ msgid "Option %s is Invalid."
+#~ msgstr "選項 %s 無效。"
+
+#~ msgid "Order of Code Table"
+#~ msgstr "碼表順序"
+
+#~ msgid "Other Color"
+#~ msgstr "其他顏色"
+
+#~ msgid "Output"
+#~ msgstr "輸出"
+
+#~ msgid "Override the skin font size"
+#~ msgstr "覆寫佈景字型大小"
+
+#~ msgid "Parent"
+#~ msgstr "所屬附加元件"
+
+#~ msgid "PerProgram"
+#~ msgstr "按程式"
+
+#~ msgid "Phrase"
+#~ msgstr "字詞"
+
+#~ msgid "Phrase is already in Dict "
+#~ msgstr "字詞已在碼表中"
+
+#~ msgid "Phrase:"
+#~ msgstr "字詞："
+
+#~ msgid "Pinyin"
+#~ msgstr "拼音"
+
+#~ msgid "Pinyin Enhance"
+#~ msgstr "拼音增強"
+
+#~ msgid "Pinyin Index Magic Number Doesn't match"
+#~ msgstr "拼音索引的Magic Number不相符"
+
+#~ msgid "Pinyin Key"
+#~ msgstr "拼音鍵"
+
+#~ msgid "Pinyin: "
+#~ msgstr "拼音："
+
+#~ msgid "PinyinJiaJia"
+#~ msgstr "拼音加加"
+
+#~ msgid "Please check ${1} for how to install fcitx."
+#~ msgstr "如何安裝 fcitx 請查閱 ${1}。"
+
+#~ msgid ""
+#~ "Please check the Configure link of your distribution in ${1} for how to "
+#~ "setup fcitx autostart."
+#~ msgstr "請在 ${1} 檢查您的發行版的設定連結是如何設定 fcitx 自動啟動。"
+
+#~ msgid "Please input a filename for newfile"
+#~ msgstr "請輸入新檔案的名稱"
+
+#~ msgid "Please set XMODIFIERS."
+#~ msgstr "請設定環境變數 XMOIFIERS。"
+
+#~ msgid ""
+#~ "Please set environment variable ${env_name} to \"${value}\" using the "
+#~ "tool your distribution provides or add ${1} to your ${2}. See ${link}."
+#~ msgstr ""
+#~ "請設定環境變數 ${env_name} 到「${value}」，使用您的發行版提供的工具或加入 "
+#~ "${1} 到您的 ${2}。請參閱 ${link}。"
+
+#~ msgid "Possible Providers: presage, custom, enchant (separate with comma)"
+#~ msgstr "可用的後端：presage, custom, enchant（用半形逗號分隔）"
+
+#~ msgid "Preferred Enchant provider"
+#~ msgstr "Enchant 後端"
+
+#~ msgid "Press 1 to delete %s in frequent list (ESC for cancel)"
+#~ msgstr "按下 1 刪除常用字表中的 %s（ESC 取消）"
+
+#~ msgid "Press 1-%d to delete %s in frequent list (ESC for cancel)"
+#~ msgstr "按下 1-%d 來刪除常用字表中的 %s（ESC 取消）"
+
+#~ msgid "Press Enter to input text"
+#~ msgstr "按下 Enter 輸入文字"
+
+#~ msgid "Press index to delete user phrase (ESC for cancel)"
+#~ msgstr "按下索引來刪除使用者字詞（ESC 取消）"
+
+#~ msgid "Press number to make word in frequent list"
+#~ msgstr "按下數字加入常用字表"
+
+#~ msgid "Prev Page"
+#~ msgstr "上一頁"
+
+#~ msgid "Prev Page Icon"
+#~ msgstr "上一頁圖示"
+
+#~ msgid "Previous Candidate Word"
+#~ msgstr "前一個候選字"
+
+#~ msgid "Priority"
+#~ msgstr "優先權"
+
+#~ msgid "Priority of addon"
+#~ msgstr "附加元件優先權"
+
+#~ msgid "Profile"
+#~ msgstr "設定檔"
+
+#~ msgid "Program"
+#~ msgstr "程式"
+
+#~ msgid "Prompt Table Code"
+#~ msgstr "提示碼表編碼"
+
+#~ msgid "Prompt the phrases after input"
+#~ msgstr "輸入後提示字詞"
+
+#~ msgid "Provide extra feature for pinyin in Fcitx"
+#~ msgstr "增強 Fcitx 的拼音輸入的功能"
+
+#~ msgid "Provides DBus Support (Used by other Addon)"
+#~ msgstr "提供 DBus 支援 (給其他附加元件使用)"
+
+#~ msgid "Provides Freedesktop.org Notification Support (Used by other Addon)"
+#~ msgstr "提供 Freedesktop.org 桌面提示支援 (給其它附加元件使用)"
+
+#~ msgid "Provides Fullwidth Character Input Support"
+#~ msgstr "提供全形字元輸入支援"
+
+#~ msgid "Provides XIM support"
+#~ msgstr "提供 XIM 支援"
+
+#~ msgid "Punctuation Conversion Support"
+#~ msgstr "標點符號轉換支援"
+
+#~ msgid "Punctuation Support"
+#~ msgstr "標點支援"
+
+#~ msgid "Qt IM module files:"
+#~ msgstr "Qt 輸入法模組檔案："
+
+#~ msgid "Quick Phrase Editor"
+#~ msgstr "快速輸入編輯器"
+
+#~ msgid "Quick Phrase List"
+#~ msgstr "快速輸入清單"
+
+#~ msgid "QuickPhrase"
+#~ msgstr "快速輸入"
+
+#~ msgid "Quickphrase"
+#~ msgstr "快速輸入"
+
+#~ msgid "Quwei"
+#~ msgstr "區位"
+
+#~ msgid "Quwei Input Method for Fcitx"
+#~ msgstr "Fcitx 的區位輸入法"
+
+#~ msgid "R_ALT"
+#~ msgstr "右 Alt"
+
+#~ msgid "R_CTRL"
+#~ msgstr "右 Ctrl"
+
+#~ msgid "R_SHIFT"
+#~ msgstr "右 Shift"
+
+#~ msgid "Refresh List"
+#~ msgstr "更新列表"
+
+#~ msgid "Register IM"
+#~ msgstr "註冊輸入法方法"
+
+#~ msgid "Reload configuration"
+#~ msgstr "重新載入設定"
+
+#~ msgid "Remind:"
+#~ msgstr "聯想："
+
+#~ msgid "Remind: "
+#~ msgstr "聯想："
+
+#~ msgid "Remote"
+#~ msgstr "遠端操作"
+
+#~ msgid "Remove File"
+#~ msgstr "移除檔案"
+
+#~ msgid "Rename OK"
+#~ msgstr "重新命名成功"
+
+#~ msgid "Resize"
+#~ msgstr "調整大小"
+
+#~ msgid "Resize Margin Bottom"
+#~ msgstr "下邊界寬度"
+
+#~ msgid "Resize Margin Left"
+#~ msgstr "左邊界寬度"
+
+#~ msgid "Resize Margin Right"
+#~ msgstr "右邊界寬度"
+
+#~ msgid "Resize Margin Top"
+#~ msgstr "上邊界寬度"
+
+#~ msgid "Restart"
+#~ msgstr "重新啟動"
+
+#~ msgid "Right"
+#~ msgstr "右"
+
+#~ msgid "Right Super"
+#~ msgstr "右 Super"
+
+#~ msgid ""
+#~ "Roughly the same length with this number of english letters, the actual "
+#~ "length depends on the font and the content"
+#~ msgstr "大致長度和英文字母相同，實際長度取決於字型與內容"
+
+#~ msgid "Rule of Candidate Phrase Order"
+#~ msgstr "候選詞順序"
+
+#~ msgid "Rule of Candidate Word Order"
+#~ msgstr "候選字順序"
+
+#~ msgid "Rule of Frequent Word Order"
+#~ msgstr "常用字順序"
+
+#~ msgid "Running as root:"
+#~ msgstr "以 root 執行："
+
+#~ msgid "Russian"
+#~ msgstr "俄文字母"
+
+#~ msgid "SHIFT Both"
+#~ msgstr "兩側 Shift"
+
+#~ msgid "Save Auto Created Phrase"
+#~ msgstr "保存自動組詞"
+
+#~ msgid "Save Auto Phrase"
+#~ msgstr "儲存自動字詞"
+
+#~ msgid "Save Changes"
+#~ msgstr "儲存修改"
+
+#~ msgid "Save dict error"
+#~ msgstr "儲存碼表出錯"
+
+#~ msgid "Saving All Config and Input History"
+#~ msgstr "保存所有設定及輸入歷史"
+
+#~ msgid "Scroll between Input Method"
+#~ msgstr "輸入法切換鍵"
+
+#~ msgid "Search unicode"
+#~ msgstr "搜尋 unicode"
+
+#~ msgid "Seconds sleep before fcitx really start"
+#~ msgstr "Fcitx 真正啟動前延遲的秒數"
+
+#~ msgid "Select global input method: "
+#~ msgstr "選擇全域輸入法："
+
+#~ msgid "Select local input method: "
+#~ msgstr "選擇局部輸入法："
+
+#~ msgid "Select specific input method via keyboard"
+#~ msgstr "透過鍵盤選擇特定的輸入法"
+
+#~ msgid "Select to paste"
+#~ msgstr "選擇以貼上"
+
+#~ msgid "Semicolon"
+#~ msgstr "分號"
+
+#~ msgid "Send Raw Preedit"
+#~ msgstr "發送原始輸入按鍵"
+
+#~ msgid "Send typed raw text if Switch to inactive Mode"
+#~ msgstr "切換到非作用模式時直接送出輸入文字"
+
+#~ msgid "Share State Among Window"
+#~ msgstr "在視窗間共享狀態"
+
+#~ msgid "SharedLibrary"
+#~ msgstr "共享庫"
+
+#~ msgid "Shift"
+#~ msgstr "Shift"
+
+#~ msgid "Show"
+#~ msgstr "顯示"
+
+#~ msgid "Show Input Method Hint After Input method changed"
+#~ msgstr "切換輸入法時顯示輸入法提示"
+
+#~ msgid "Show Input Method Hint After Input method changed and Focus in"
+#~ msgstr "獲得輸入焦點並且輸入法變化時顯示輸入法提示"
+
+#~ msgid "Show Input Speed"
+#~ msgstr "顯示輸入速度"
+
+#~ msgid "Show Preedit String in Client Window"
+#~ msgstr "在用戶端視窗中顯示預編輯字串"
+
+#~ msgid "Show Version"
+#~ msgstr "顯示版本"
+
+#~ msgid "Shuang Pin Schema"
+#~ msgstr "預設雙拼方案"
+
+#~ msgid "Shuangpin"
+#~ msgstr "雙拼"
+
+#~ msgid "Simple Pinyin support for Fcitx"
+#~ msgstr "Fcitx 簡單的拼音支援"
+
+#~ msgid "Simplified Chinese"
+#~ msgstr "簡體中文"
+
+#~ msgid "Simplified Chinese To Traditional Chinese"
+#~ msgstr "正簡轉換"
+
+#~ msgid "Simplified Chinese is enabled."
+#~ msgstr "已啟用簡體中文。"
+
+#~ msgid "Skin"
+#~ msgstr "佈景"
+
+#~ msgid "Skin Author"
+#~ msgstr "佈景作者"
+
+#~ msgid "Skin Name"
+#~ msgstr "佈景名稱"
+
+#~ msgid "Skin Version"
+#~ msgstr "佈景版本"
+
+#~ msgid "SkinFont"
+#~ msgstr "佈景字型"
+
+#~ msgid "SkinInfo"
+#~ msgstr "佈景資訊"
+
+#~ msgid "SkinInputBar"
+#~ msgstr "緩衝區佈景"
+
+#~ msgid "SkinKeyboard"
+#~ msgstr "鍵盤佈景"
+
+#~ msgid "SkinMainBar"
+#~ msgstr "主工具列佈景"
+
+#~ msgid "SkinMenu"
+#~ msgstr "選單佈景"
+
+#~ msgid "SkinTrayIcon"
+#~ msgstr "系統匣小圖示佈景"
+
+#~ msgid "Space Line Color"
+#~ msgstr "空白行顏色"
+
+#~ msgid "Space for %s Enter for %s"
+#~ msgstr "空格輸入 %s，Enter 輸入 %s"
+
+#~ msgid "Special"
+#~ msgstr "特殊符號"
+
+#~ msgid "Special Icon position"
+#~ msgstr "特殊圖示位置"
+
+#~ msgid "Spell"
+#~ msgstr "拼寫"
+
+#~ msgid "Spell Hint"
+#~ msgstr "拼寫提示"
+
+#~ msgid "Start Input Method"
+#~ msgstr "啓動輸入法"
+
+#~ msgid "Start XIM error. Another XIM daemon named %s is running?"
+#~ msgstr "啟動 XIM 錯誤。是否有另一個名為 %s 的 XIM 背景程式正在執行？"
+
+#~ msgid "Status Panel Hide Mode"
+#~ msgstr "狀態面板隱藏模式"
+
+#~ msgid "Status Panel Position X"
+#~ msgstr "狀態面板 X 軸位置"
+
+#~ msgid "Status Panel Position Y"
+#~ msgstr "狀態面板 Y 軸位置"
+
+#~ msgid "Stroke input trigger length"
+#~ msgstr "筆劃輸入觸發長度"
+
+#~ msgid "Sub Configuration for Module"
+#~ msgstr "模組的子選項"
+
+#~ msgid "Successfully Installed skin"
+#~ msgstr "佈景安裝成功"
+
+#~ msgid "Super Both"
+#~ msgstr "兩側 Super"
+
+#~ msgid "Super+Left Ctrl"
+#~ msgstr "Super+左 Ctrl"
+
+#~ msgid "Super+Right Ctrl"
+#~ msgstr "Super+右 Ctrl"
+
+#~ msgid "Switch Embeded Preedit"
+#~ msgstr "切換嵌入預編輯字串"
+
+#~ msgid "Switch Full Width Punc Mode"
+#~ msgstr "切換全形標點符號"
+
+#~ msgid "Switch to the Eighth Input Method"
+#~ msgstr "切換至第8個輸入法"
+
+#~ msgid "Switch to the Fifth Input Method"
+#~ msgstr "切換至第5個輸入法"
+
+#~ msgid "Switch to the First Input Method"
+#~ msgstr "切換至第1個輸入法"
+
+#~ msgid "Switch to the Fourth Input Method"
+#~ msgstr "切換至第4個輸入法"
+
+#~ msgid "Switch to the Ninth Input Method"
+#~ msgstr "切換至第9個輸入法"
+
+#~ msgid "Switch to the Second Input Method"
+#~ msgstr "切換至第2個輸入法"
+
+#~ msgid "Switch to the Seventh Input Method"
+#~ msgstr "切換至第7個輸入法"
+
+#~ msgid "Switch to the Sixth Input Method"
+#~ msgstr "切換至第6個輸入法"
+
+#~ msgid "Switch to the Third Input Method"
+#~ msgstr "切換至第3個輸入法"
+
+#~ msgid "Switching Full Width Character Mode"
+#~ msgstr "切換全形字元模式"
+
+#~ msgid "Switching Remind Mode"
+#~ msgstr "切換聯想模式"
+
+#~ msgid "Switching Virtual Keyboard"
+#~ msgstr "切換虛擬鍵盤"
+
+#~ msgid "Symbol"
+#~ msgstr "符號"
+
+#~ msgid "Symbol File"
+#~ msgstr "符號檔案"
+
+#~ msgid "System Info:"
+#~ msgstr "系統資訊："
+
+#~ msgid "Table"
+#~ msgstr "碼表"
+
+#~ msgid "Table Code Color"
+#~ msgstr "碼表顏色"
+
+#~ msgid "Table Input Method for Fcitx"
+#~ msgstr "Fcitx 的碼表輸入法"
+
+#~ msgid "Table Symbol"
+#~ msgstr "製表符號"
+
+#~ msgid ""
+#~ "The content has changed.\n"
+#~ "Do you want to save the changes or discard them?"
+#~ msgstr ""
+#~ "內容已修改。\n"
+#~ "您想要儲存還是放棄這些修改？"
+
+#~ msgid "The key you just pressed is not supported by Qt."
+#~ msgstr "Qt 不支援你剛輸入的按鍵組合"
+
+#~ msgid "The script is run as ${1} (${2})."
+#~ msgstr "此腳本以 ${1} (${2}) 執行。"
+
+#~ msgid ""
+#~ "This is only a soft limit, the actually number of candidate words may be "
+#~ "larger than this when multiple characters have the same order of strokes."
+#~ msgstr ""
+#~ "這僅僅是個軟性限制。當有多個字的筆順相同時，實際的筆劃輸入結果個數可能多於"
+#~ "這個值。"
+
+#~ msgid ""
+#~ "This is used in some modules and input methods to navigate to the next "
+#~ "candidate word"
+#~ msgstr "這將在一些模組和輸入法中移至下一個候選字"
+
+#~ msgid ""
+#~ "This is used in some modules and input methods to navigate to the "
+#~ "previous candidate word"
+#~ msgstr "這將在一些模組和輸入法中移至前一個候選字"
+
+#~ msgid "Tip Message Color"
+#~ msgstr "提示訊息顏色"
+
+#~ msgid ""
+#~ "To see some application specific problems you may have when using xim, "
+#~ "check ${link1}. For other more general problems of using XIM including "
+#~ "application freezing, see ${link2}."
+#~ msgstr ""
+#~ "若要查看您在使用 xim 時，一些應用程式的特定問題，請檢查 ${link1}。使用 "
+#~ "XIM 的其他一般性的問題包括應用程式凍結，請參閱 ${link2}。"
+
+#~ msgid "Toggle Full Width Punctuation"
+#~ msgstr "切換全形標點符號"
+
+#~ msgid "Toggle Half/Full width Character"
+#~ msgstr "切換全半形字元"
+
+#~ msgid "Toggle Input Method"
+#~ msgstr "切換輸入法"
+
+#~ msgid "Toggle Remind"
+#~ msgstr "切換聯想"
+
+#~ msgid "Toggle Simp/Trad Chinese Conversion"
+#~ msgstr "切換正簡轉換"
+
+#~ msgid "Toggle Virtual Keyboard"
+#~ msgstr "切換虛擬鍵盤"
+
+#~ msgid "Toggle for enable or disable"
+#~ msgstr "啟用停用切換鍵"
+
+#~ msgid "Toggle the word hint"
+#~ msgstr "切換單字提示"
+
+#~ msgid "Too long item for AutoEng"
+#~ msgstr "自動英文條目過長"
+
+#~ msgid "TopCenter"
+#~ msgstr "中上"
+
+#~ msgid "TopLeft"
+#~ msgstr "左上"
+
+#~ msgid "TopRight"
+#~ msgstr "右上"
+
+#~ msgid "Traditional Chinese"
+#~ msgstr "正體中文"
+
+#~ msgid "Traditional Chinese Translate Engine"
+#~ msgstr "正簡轉換引擎"
+
+#~ msgid "Traditional Chinese is enabled."
+#~ msgstr "已啟用正體中文。"
+
+#~ msgid "TraditionalChinese"
+#~ msgstr "正體中文"
+
+#~ msgid "Treating abbreviated Pinyin as English"
+#~ msgstr "將簡拼視為英文"
+
+#~ msgid "Trigger Input Method"
+#~ msgstr "切換啟用或非啟用輸入法"
+
+#~ msgid "Trigger Key for Clipboard History List"
+#~ msgstr "剪貼簿歷史快捷鍵"
+
+#~ msgid "Trigger Key for QuickPhrase"
+#~ msgstr "快速輸入觸發鍵"
+
+#~ msgid "Type"
+#~ msgstr "類型"
+
+#~ msgid "Type half width Punc After a Number"
+#~ msgstr "數字後跟半形標點符號"
+
+#~ msgid "UI"
+#~ msgstr "介面"
+
+#~ msgid "UI: bad ui"
+#~ msgstr "介面：有問題的介面"
+
+#~ msgid "UI: open %s fail %s"
+#~ msgstr "使用者介面：開啟 %s 失敗 %s"
+
+#~ msgid "Unique Name for Table"
+#~ msgstr "碼表的唯一名稱"
+
+#~ msgid "UniqueName"
+#~ msgstr "唯一名稱"
+
+#~ msgid "Unknown type, take it as string: %s"
+#~ msgstr "未知類型，作為字串處理：%s"
+
+#~ msgid "Unsupported Key"
+#~ msgstr "不支援的按鍵組合"
+
+#~ msgid "Use <Keyword> <Phrase> format on every line."
+#~ msgstr "每一行請使用 <Keyword> <Phrase> 格式。"
+
+#~ msgid "Use Alternative Candidate Word Number"
+#~ msgstr "使用替代的選字碼"
+
+#~ msgid "Use Alternative Key for paging"
+#~ msgstr "使用替代的翻頁按鍵"
+
+#~ msgid "Use Complete Pinyin"
+#~ msgstr "使用完整拼音"
+
+#~ msgid "Use Custom Prompt String defined in table"
+#~ msgstr "使用碼表中自訂的提示文字"
+
+#~ msgid "Use Full Width Character"
+#~ msgstr "使用全形字元"
+
+#~ msgid "Use Keyboard Layout as Input Method"
+#~ msgstr "使用鍵盤配置作為輸入法"
+
+#~ msgid "Use Matching Key"
+#~ msgstr "使用模糊鍵"
+
+#~ msgid "Use Pinyin"
+#~ msgstr "使用拼音"
+
+#~ msgid "Use RTLD_LOCAL to load library"
+#~ msgstr "使用 RTLD_GLOBAL 載入函式庫"
+
+#~ msgid "Use Selection Text"
+#~ msgstr "使用選取區文字"
+
+#~ msgid "Use System Tray Icon"
+#~ msgstr "使用系統匣圖示"
+
+#~ msgid "Use V to trigger quickphrase"
+#~ msgstr "使用 V 來觸發快速輸入"
+
+#~ msgid "Use Wide Punctuation"
+#~ msgstr "使用全形標點符號"
+
+#~ msgid "Use enter to commit the existing string"
+#~ msgstr "使用 enter 鍵確認輸入字串"
+
+#~ msgid "Use extra trigger key only after using it to inactivate"
+#~ msgstr "只在用額外切換鍵取消啟動後才使用它進行切換"
+
+#~ msgid "Use remind"
+#~ msgstr "使用聯想"
+
+#~ msgid ""
+#~ "Use the layout of first keyboard input method in list as default layout"
+#~ msgstr "使用第一個鍵盤輸入法的配置為預設配置"
+
+#~ msgid "Used by fcitx-remote to change Fcitx state from console"
+#~ msgstr "藉由 fcitx-remote 從指令列改變 Fcitx 的狀態"
+
+#~ msgid "Useful when you hardly ever use abbreviated pinyin."
+#~ msgstr "適用於很少使用簡拼的情況"
+
+#~ msgid "User Defined"
+#~ msgstr "使用者定義"
+
+#~ msgid "User Interface:"
+#~ msgstr "使用者介面："
+
+#~ msgid "User Phrase Color"
+#~ msgstr "使用者詞彙顏色"
+
+#~ msgid "Version Line:"
+#~ msgstr "版本："
+
+#~ msgid "Vertical"
+#~ msgstr "垂直"
+
+#~ msgid "Vertical Candidate Word List"
+#~ msgstr "垂直候選字清單"
+
+#~ msgid "Virtual Key Board"
+#~ msgstr "虛擬鍵盤"
+
+#~ msgid "Virtual Key Board in order to input special character"
+#~ msgstr "用於輸入特殊字元的虛擬鍵盤"
+
+#~ msgid "Virtual Keyboard"
+#~ msgstr "虛擬鍵盤"
+
+#~ msgid "Virtual Keyboard Image"
+#~ msgstr "虛擬鍵盤圖示"
+
+#~ msgid "Virtual Keyboard State"
+#~ msgstr "虛擬鍵盤狀態"
+
+#~ msgid "Wanfeng"
+#~ msgstr "晚風"
+
+#~ msgid "Why is it bad to run as root"
+#~ msgstr "為何不宜以 root 執行"
+
+#~ msgid "Wubi"
+#~ msgstr "五筆字型"
+
+#~ msgid "WubiPinyin"
+#~ msgstr "五筆拼音"
+
+#~ msgid "X Keyboard"
+#~ msgstr "X 鍵盤"
+
+#~ msgid "X Keyboard Integration"
+#~ msgstr "X 鍵盤整合"
+
+#~ msgid "X Keyboard Integration export with DBus"
+#~ msgstr "透過 DBus 輸出的 X 鍵盤整合介面"
+
+#~ msgid "X error %i on opcode send"
+#~ msgstr "Opcode 送出時發生 X error %i"
+
+#~ msgid "X11 Support"
+#~ msgstr "X11 支援"
+
+#~ msgid "X11 Utilitiy used by other Addon"
+#~ msgstr "給其他附加元件使用的 X11 工具"
+
+#~ msgid "X11 not initialized"
+#~ msgstr "X11 無法初始化"
+
+#~ msgid "XIM encoding:"
+#~ msgstr "XIM 編碼："
+
+#~ msgid "XIM for Emacs:"
+#~ msgstr "用於 Emacs 的 XIM："
+
+#~ msgid "XIM_SERVERS on root window:"
+#~ msgstr "root 視窗上的 XIM_SERVERS："
+
+#~ msgid "XMODIFIERS Error."
+#~ msgstr "XMODIFIERS 錯誤。"
+
+#~ msgid "XMODIFIERS is not set"
+#~ msgstr "XMODIFIERS 未設定"
+
+#~ msgid "XiaoHe"
+#~ msgstr "小鶴"
+
+#~ msgid "Xim"
+#~ msgstr "Xim"
+
+#~ msgid "Xim Server Name from Environment variable is ${1}."
+#~ msgstr "環境變數中 XIM 服務名稱為 ${1}。"
+
+#~ msgid ""
+#~ "Xim server name is the same with that set in the environment variable."
+#~ msgstr "Xim 服務的名稱與環境變數的設定相同。"
+
+#~ msgid ""
+#~ "Xim server name: \"${1}\" is different from that set in the environment "
+#~ "variable: \"${2}\"."
+#~ msgstr "Xim 服務名稱：「${1}」與環境變數設定的值「${2}」不同。"
+
+#~ msgid ""
+#~ "You are probably logging in as ${1} or using ${2} to run this script. "
+#~ "This either means you have security problems or the result of this script "
+#~ "may not be accurate. See ${3} or ${4} for more information."
+#~ msgstr ""
+#~ "您可能正登入為 ${1} 或以 ${2} 執行這個腳本。這可能表示有安全問題或是此腳本"
+#~ "的結果不準確。詳情請參照 ${3} 或 ${4}。"
+
+#~ msgid ""
+#~ "You are probably using ${1} to run this script. This means the result of "
+#~ "this script may not be accurate. See ${2} for more information."
+#~ msgstr ""
+#~ "您可能正以 ${1} 執行這個腳本。這表示此腳本的結果可能不準確。詳情請參照 "
+#~ "${2}。"
+
+#~ msgid "You are using xim in ${1} programs."
+#~ msgstr "你在 ${1} 程式使用 xim。"
+
+#~ msgid "You don't have any input methods enabled."
+#~ msgstr "你沒有啟用任何輸入法。"
+
+#~ msgid ""
+#~ "You have a keyboard input method \"${1}\" correctly added as your default "
+#~ "input method."
+#~ msgstr "您使用鍵盤輸入法 ${1}，正確加入作為您的預設輸入法。"
+
+#~ msgid "You may have trouble using fcitx in ${1} programs."
+#~ msgstr "在 ${1} 程式使用 fcitx 你可能會遇到一些問題。"
+
+#~ msgid ""
+#~ "You only have one input method enabled, please add a keyboard input "
+#~ "method as the first one and your main input method as the second one."
+#~ msgstr ""
+#~ "您只有啟用一個輸入法。請加入一個鍵盤輸入法作為第一個輸入法，以及將你主要的"
+#~ "輸入法作為第二個輸入法。"
+
+#~ msgid ""
+#~ "You only have one keyboard input method enabled. You may want to add "
+#~ "another input method to input other languages."
+#~ msgstr ""
+#~ "您只有啟用一個鍵盤輸入法。您可能會想加入其他的輸入法以輸入其他語言。"
+
+#~ msgid ""
+#~ "You're currently running Fcitx with GUI, but fcitx-configtool couldn't be "
+#~ "found, the package name is usually fcitx-config-gtk, fcitx-config-gtk3 or "
+#~ "fcitx-configtool. Now it will open config file with default text editor."
+#~ msgstr ""
+#~ "您正在 GUI 下執行 Fcitx，但找不到 fcitx-configtool，該套件名稱通常為 "
+#~ "fcitx-config-gtx、fcitx-config-gtk3 或 fcitx-configtool。現在將使用預設文"
+#~ "字編輯器開啟設定檔。"
+
+#~ msgid ""
+#~ "You're currently running KDE, but KCModule for fcitx couldn't be found, "
+#~ "the package name of this KCModule is usually kcm-fcitx or kde-config-"
+#~ "fcitx. Now it will open config file with default text editor."
+#~ msgstr ""
+#~ "您正在執行 KDE，但找不到 fcitx 的 KCModule，此 KCModule 的套件名稱通常為 "
+#~ "kcm-fcitx 或 kde-config-fcitx。現在將使用預設文字編輯器開啟設定檔。"
+
+#~ msgid ""
+#~ "Your LC_CTYPE is set to ${1} instead of one of zh, ja, ko. You may not be "
+#~ "able to use input method in emacs because of an really old emacs bug that "
+#~ "upstream refuse to fix for years."
+#~ msgstr ""
+#~ "您的 LC_CTYPE 設定為 ${1} 而不是 zh, ja, ko 其中之一。您可能無法在 Emacs "
+#~ "中使用輸入法，原因是上游多年來拒絕修復的一個古老 bug。"
+
+#~ msgid ""
+#~ "Your LC_CTYPE is set to ${1} whose encoding is not UTF-8. You may have "
+#~ "trouble committing strings using XIM."
+#~ msgstr ""
+#~ "您的 LC_CTYPE 設定為 ${1}，它的編碼不是 UTF-8。您可能會在使用 XIM 提交字串"
+#~ "時遇到問題。"
+
+#~ msgid ""
+#~ "Your first (default) input method is ${1} instead of a keyboard input "
+#~ "method. You may have trouble deactivate fcitx."
+#~ msgstr ""
+#~ "您第一個（預設）輸入法使用 ${1} 代替鍵盤輸入法。您可能會有無法使用 fcitx "
+#~ "的問題。"
+
+#~ msgid "Zhongwenzhixing"
+#~ msgstr "中文之星"
+
+#~ msgid "Ziguang"
+#~ msgstr "紫光"
+
+#~ msgid "Ziranma"
+#~ msgstr "自然碼"
+
+#~ msgid "executable:"
+#~ msgstr "可執行檔："
+
+#~ msgid "here"
+#~ msgstr "在此"
+
+#~ msgid "min Num of Characters: "
+#~ msgstr "分 字元數："
+
+#~ msgid "no default option for %s/%s"
+#~ msgstr "選項 %s/%s 沒有預設選項"
+
+#~ msgid "no valid font."
+#~ msgstr "無可用的字型"
+
+#~ msgid "process:"
+#~ msgstr "程序："
+
+#~ msgid "pthread mutex init failed"
+#~ msgstr "pthread mutex 初始化失敗"
+
+#~ msgid "version:"
+#~ msgstr "版本："
+
+#~ msgid "xmodmap command"
+#~ msgstr "xmodmap 指令"
+
+#~ msgid "your current font is: %s"
+#~ msgstr "目前使用的字型：%s"

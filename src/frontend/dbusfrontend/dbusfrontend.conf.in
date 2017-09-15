@@ -3,5 +3,7 @@ Name=dbusfrontend
 Type=SharedLibrary
 Library=dbusfrontend
 Category=Frontend
-Dependencies/0=dbus
+
+[Addon/Dependencies]
+0=dbus
 

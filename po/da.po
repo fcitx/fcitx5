@@ -1,0 +1,764 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+#
+# Translators:
+# scootergrisen, 2017
+msgid ""
+msgstr ""
+"Project-Id-Version: fcitx\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2017-09-14 19:48-0700\n"
+"PO-Revision-Date: 2017-09-12 20:30+0000\n"
+"Last-Translator: scootergrisen\n"
+"Language-Team: Danish (http://www.transifex.com/fcitx/fcitx/language/da/)\n"
+"Language: da\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: src/modules/unicode/charselectdata.cpp:214
+msgid "<Low Surrogate>"
+msgstr "<Low Surrogate>"
+
+#: src/modules/unicode/charselectdata.cpp:210
+msgid "<Non Private Use High Surrogate>"
+msgstr "<Non Private Use High Surrogate>"
+
+#: src/modules/unicode/charselectdata.cpp:212
+msgid "<Private Use High Surrogate>"
+msgstr "<Private Use High Surrogate>"
+
+#: src/modules/unicode/charselectdata.cpp:216
+msgid "<Private Use>"
+msgstr "<Private Use>"
+
+#: src/modules/unicode/charselectdata.cpp:246
+msgid "<not assigned>"
+msgstr "<not assigned>"
+
+#: src/modules/unicode/unicode.conf.in:5
+msgid "Add Unicode Typing Support"
+msgstr ""
+
+#: src/modules/clipboard/clipboard.cpp:290
+#, fuzzy
+msgid "Clipboard:"
+msgstr "Udklipsholder"
+
+#: src/lib/fcitx/inputmethodmanager.cpp:186
+msgid "Default"
+msgstr "Standard"
+
+#: src/modules/notifications/notifications.cpp:231
+msgid "Do not show again"
+msgstr "Vis ikke igen"
+
+#: src/modules/unicode/unicode.conf.in:4
+msgid "Fcitx Unicode Typing Support"
+msgstr ""
+
+#: src/im/keyboard/keyboard.cpp:153 src/im/keyboard/keyboard.cpp:167
+msgid "Keyboard"
+msgstr "Tastatur"
+
+#: src/modules/clipboard/clipboard.cpp:292
+msgid "No clipboard history."
+msgstr ""
+
+#: src/modules/quickphrase/quickphrase.cpp:283
+msgid "Quick Phrase: "
+msgstr ""
+
+#: src/im/keyboard/keyboard.cpp:264
+msgid "Spell hint"
+msgstr "Stavetip"
+
+#: src/im/keyboard/keyboard.cpp:266
+msgid "Spell hint is disabled."
+msgstr "Stavetip er deaktiveret."
+
+#: src/im/keyboard/keyboard.cpp:265
+msgid "Spell hint is enabled."
+msgstr "Stavetip er aktiveret."
+
+#: src/modules/unicode/unicode.cpp:244
+#, fuzzy
+msgid "Unicode: "
+msgstr "Unicode"
+
+#: src/modules/unicode/unicode.conf.in:3
+#, fuzzy
+msgid "unicode"
+msgstr "Unicode"
+
+#~ msgid " Ctrl+Delete To Delete"
+#~ msgstr " Ctrl+Delete for at slette"
+
+#~ msgid "${1} not found."
+#~ msgstr "${1} ikke fundet."
+
+#~ msgid "&Add"
+#~ msgstr "&Tilføj"
+
+#~ msgid "&Close"
+#~ msgstr "&Luk"
+
+#~ msgid "&Delete"
+#~ msgstr "&Slet"
+
+#~ msgid "&Import"
+#~ msgstr "&Importér"
+
+#~ msgid "&Operation"
+#~ msgstr "&Handling"
+
+#~ msgid "&Reset"
+#~ msgstr "&Nulstil"
+
+#~ msgid "&Save"
+#~ msgstr "&Gem"
+
+#~ msgid "(Unavailable)"
+#~ msgstr "(utilgængelig)"
+
+#~ msgid "/Beginner%27s_Guide"
+#~ msgstr "/Begynder%27s_guide"
+
+#~ msgid "/Input_method_related_environment_variables"
+#~ msgstr "/Inputmetode_som_er_har_relation_til_miljøvariabler"
+
+#~ msgid "/Note_for_GNOME_Later_than_3.6"
+#~ msgstr "/Bemærkning_til_GNOME_senere_end_3.6"
+
+#~ msgid "ALT Both"
+#~ msgstr "ALT begge"
+
+#~ msgid "ALT_L_SHIFT"
+#~ msgstr "ALT_V_SKIFT"
+
+#~ msgid "ALT_R_SHIFT"
+#~ msgstr "ALT_H_SKIFT"
+
+#~ msgid "ALT_SHIFT"
+#~ msgstr "ALT_SKIFT"
+
+#~ msgid "ALT_SUPER"
+#~ msgstr "ALT_SUPER"
+
+#~ msgid "Active"
+#~ msgstr "Aktiv"
+
+#~ msgid "Add File"
+#~ msgstr "Tilføj fil"
+
+#~ msgid "Addon"
+#~ msgstr "Tilføjelse"
+
+#~ msgid "Addon Libraries:"
+#~ msgstr "Tilføjelsesbiblioteker:"
+
+#~ msgid "Addon List:"
+#~ msgstr "Tilføjelsesliste:"
+
+#~ msgid "All locale:"
+#~ msgstr "Alle sprog:"
+
+#~ msgid "Alt"
+#~ msgstr "Alt"
+
+#~ msgid "Appearance"
+#~ msgstr "Udseende"
+
+#~ msgid "Are you sure to delete %1?"
+#~ msgstr "Er du sikker på, at du vil slette %1?"
+
+#~ msgid "Aspell"
+#~ msgstr "Aspell"
+
+#~ msgid "Auto"
+#~ msgstr "Automatisk"
+
+#~ msgid "Available Value:"
+#~ msgstr "Tilgængelig værdi:"
+
+#~ msgid "Background Image"
+#~ msgstr "Baggrundsbillede"
+
+#~ msgid "Bash Version:"
+#~ msgstr "Bash-version:"
+
+#~ msgid "Beginner's Guide"
+#~ msgstr "Begynderguide"
+
+#~ msgid "CTRL Both"
+#~ msgstr "CTRL begge"
+
+#~ msgid "CTRL_SHIFT"
+#~ msgstr "CTRL_SKIFT"
+
+#~ msgid "CTRL_SUPER"
+#~ msgstr "CTRL_SUPER"
+
+#~ msgid "Can't Create imWindow"
+#~ msgstr "Kan ikke oprette imWindow"
+
+#~ msgid "Cannot create file %1."
+#~ msgstr "Kan ikke oprette filen %1."
+
+#~ msgid "Cannot determine desktop environment."
+#~ msgstr "Kan ikke bestemme skrivebordsmiljø."
+
+#~ msgid "Cannot find fcitx executable!"
+#~ msgstr "Kan ikke finde fcitx-eksekverbar!"
+
+#~ msgid "Cannot found Pinyin"
+#~ msgstr "Kan ikke finde Pinyin"
+
+#~ msgid "Cannot interpret XMODIFIERS: ${1}."
+#~ msgstr "Kan ikke fortolke XMODIFIERS: ${1}."
+
+#~ msgid "Cannot remove system file"
+#~ msgstr "Kan ikke fjerne systemfil"
+
+#~ msgid "Category"
+#~ msgstr "Kategori"
+
+#~ msgid "Change Fcitx Configuration"
+#~ msgstr "Skift Fcitx-konfiguration"
+
+#~ msgid "Choose"
+#~ msgstr "Vælg"
+
+#~ msgid "Classic"
+#~ msgstr "Klassisk"
+
+#~ msgid "ClassicUI"
+#~ msgstr "Klassisk grænseflade"
+
+#~ msgid "Clear"
+#~ msgstr "Ryd"
+
+#~ msgid "Close virtual keyboard"
+#~ msgstr "Luk virtuelt tastatur"
+
+#~ msgid "Code is "
+#~ msgstr "Kode is"
+
+#~ msgid "Comment"
+#~ msgstr "Kommentar"
+
+#~ msgid "ConfigFile"
+#~ msgstr "KonfigurationsFil"
+
+#~ msgid "Configuration:"
+#~ msgstr "Konfiguration:"
+
+#~ msgid "Configure"
+#~ msgstr "Konfigurer"
+
+#~ msgid "Confirm deletion"
+#~ msgstr "Bekræft sletning"
+
+#~ msgid "Copy"
+#~ msgstr "Kopiér"
+
+#~ msgid "Create new file"
+#~ msgstr "Opret ny fil"
+
+#~ msgid "Ctrl"
+#~ msgstr "Ctrl"
+
+#~ msgid "Ctrl+Left Super"
+#~ msgstr "Ctrl+Venstre Super"
+
+#~ msgid "Ctrl+Right Super"
+#~ msgstr "Ctrl+Højre Super"
+
+#~ msgid "Current locale:"
+#~ msgstr "Nuværende sprog:"
+
+#~ msgid "Current user:"
+#~ msgstr "Nuværende bruger:"
+
+#~ msgid "Custom"
+#~ msgstr "Tilpasset"
+
+#~ msgid "DBus"
+#~ msgstr "DBus"
+
+#~ msgid "DBus interface:"
+#~ msgstr "DBus-grænseflade:"
+
+#~ msgid "Default input methods:"
+#~ msgstr "Standard inputmetoder:"
+
+#~ msgid "Dependency"
+#~ msgstr "Afhængighed"
+
+#~ msgid "Description of Skin"
+#~ msgstr "Beskrivelse af skin"
+
+#~ msgid "Desktop Environment:"
+#~ msgstr "Skrivebordsmiljø:"
+
+#~ msgid "Desktop environment is ${1}."
+#~ msgstr "Skrivebordsmiljø er ${1}."
+
+#~ msgid "Directories:"
+#~ msgstr "Mapper:"
+
+#~ msgid "Disabled"
+#~ msgstr "Deaktiveret"
+
+#~ msgid "E&xport"
+#~ msgstr "&Eksportér"
+
+#~ msgid "Empty"
+#~ msgstr "Tøm"
+
+#~ msgid "Enable"
+#~ msgstr "Aktivér"
+
+#~ msgid "Enabled"
+#~ msgstr "Aktiveret"
+
+#~ msgid "English (US)"
+#~ msgstr "Engelsk (USA)"
+
+#~ msgid "Environment:"
+#~ msgstr "Miljø:"
+
+#~ msgid "Exit"
+#~ msgstr "Afslut"
+
+#~ msgid "Fcitx Addons:"
+#~ msgstr "Fcitx-tilføjelser:"
+
+#~ msgid "Fcitx Configuration"
+#~ msgstr "Fcitx-konfiguration"
+
+#~ msgid "Fcitx State:"
+#~ msgstr "Fcitx-tilstand:"
+
+#~ msgid "Fcitx is not running."
+#~ msgstr "Fcitx kører ikke."
+
+#~ msgid "Fcitx version: ${1}"
+#~ msgstr "Fcitx-version: ${1}"
+
+#~ msgid "File Operation Failed"
+#~ msgstr "Filhandling mislykkedes"
+
+#~ msgid "Font"
+#~ msgstr "Skrifttype"
+
+#~ msgid "Font Size"
+#~ msgstr "Skriftstørrelse"
+
+#~ msgid "Found fcitx at ${1}."
+#~ msgstr "Fandt fcitx ved ${1}."
+
+#~ msgid "Found fcitx qt module: ${1}."
+#~ msgstr "Fandt fcitx qt-modul: ${1}."
+
+#~ msgid "Found unknown fcitx qt module: ${1}."
+#~ msgstr "Fandt ukendt fcitx qt-modul: ${1}."
+
+#~ msgid "Greek"
+#~ msgstr "Græsk"
+
+#~ msgid "Hide"
+#~ msgstr "Skjul"
+
+#~ msgid "Home:"
+#~ msgstr "Hjem:"
+
+#~ msgid "Horizontal"
+#~ msgstr "Vandret"
+
+#~ msgid "Hotkey"
+#~ msgstr "Hottast"
+
+#~ msgid "IconName"
+#~ msgstr "IkonNavn"
+
+#~ msgid "Inactive"
+#~ msgstr "Inaktiv"
+
+#~ msgid "Index"
+#~ msgstr "Indeks"
+
+#~ msgid "Input Method"
+#~ msgstr "Inputmetode"
+
+#~ msgid "Input Method Configuration"
+#~ msgstr "Konfiguration af inputmetode"
+
+#~ msgid "Input Method Disabled"
+#~ msgstr "Inputmetode deaktiveret"
+
+#~ msgid "Input Method Related Environment Variables: "
+#~ msgstr "Inputmetode som er har relation til miljøvariabler:"
+
+#~ msgid "Input Methods:"
+#~ msgstr "Inputmetoder:"
+
+#~ msgid "Input Speed: "
+#~ msgstr "Inputhastighed:"
+
+#~ msgid "InputMethod"
+#~ msgstr "InputMetode"
+
+#~ msgid "Invalid filename"
+#~ msgstr "Ugyldigt filnavn"
+
+#~ msgid "Keyboard Layout"
+#~ msgstr "Tastaturlayout"
+
+#~ msgid "Keyboard Layout to be used"
+#~ msgstr "Tastaturlayout som skal bruges"
+
+#~ msgid "Keyboard Layout:"
+#~ msgstr "Tastaturlayout:"
+
+#~ msgid "Keyword"
+#~ msgstr "Nøgleord"
+
+#~ msgid "Keyword:"
+#~ msgstr "Nøgleord:"
+
+#~ msgid "Kimpanel process:"
+#~ msgstr "Kimpanel-proces:"
+
+#~ msgid "L_ALT"
+#~ msgstr "V_ALT"
+
+#~ msgid "L_CTRL"
+#~ msgstr "V_CTRL"
+
+#~ msgid "L_SHIFT"
+#~ msgstr "V_SKIFT"
+
+#~ msgid "LangCode"
+#~ msgstr "SprogKode"
+
+#~ msgid "Language Code for this table"
+#~ msgstr "Sprogkode for denne tabel"
+
+#~ msgid "Latin"
+#~ msgstr "Latinsk"
+
+#~ msgid "Left"
+#~ msgstr "Venstre"
+
+#~ msgid "Left Super"
+#~ msgstr "Venstre Super"
+
+#~ msgid "Library"
+#~ msgstr "Bibliotek"
+
+#~ msgid "Locale:"
+#~ msgstr "Sprog:"
+
+#~ msgid "Log:"
+#~ msgstr "Log:"
+
+#~ msgid "Logo Icon"
+#~ msgstr "Logoikon"
+
+#~ msgid "Math"
+#~ msgstr "Matematik"
+
+#~ msgid "Menu Font"
+#~ msgstr "Menuens skrifttype"
+
+#~ msgid "Module"
+#~ msgstr "Modul"
+
+#~ msgid "Myspell"
+#~ msgstr "Myspell"
+
+#~ msgid "Name"
+#~ msgstr "Navn"
+
+#~ msgid "Next Page"
+#~ msgstr "Næste side"
+
+#~ msgid "Next Page Icon"
+#~ msgstr "Næste side-ikon"
+
+#~ msgid "No"
+#~ msgstr "Nej"
+
+#~ msgid "No available frontend"
+#~ msgstr "Ingen tilgængelig frontend"
+
+#~ msgid "No input window"
+#~ msgstr "Intet inputvindue"
+
+#~ msgid "No remind"
+#~ msgstr "Ingen påmindelse"
+
+#~ msgid "None"
+#~ msgstr "Ingen"
+
+#~ msgid "Not Set"
+#~ msgstr "Ikke sat"
+
+#~ msgid "Note for GNOME Later than 3.6"
+#~ msgstr "Bemærkning til GNOME senere end 3.6"
+
+#~ msgid "Number"
+#~ msgstr "Tal"
+
+#~ msgid "Online Help"
+#~ msgstr "Onlinehjælp"
+
+#~ msgid "Other Color"
+#~ msgstr "Anden farve"
+
+#~ msgid "Output"
+#~ msgstr "Output"
+
+#~ msgid "Overlay image"
+#~ msgstr "Overlægningsbillede"
+
+#~ msgid "Parent"
+#~ msgstr "Forælder"
+
+#~ msgid "PerProgram"
+#~ msgstr "PrProgram"
+
+#~ msgid "Pinyin"
+#~ msgstr "Pinyin"
+
+#~ msgid "Pinyin: "
+#~ msgstr "Pinyin: "
+
+#~ msgid "Please set XMODIFIERS."
+#~ msgstr "Sæt venligst XMODIFIERS."
+
+#~ msgid "Press Enter to input text"
+#~ msgstr "Tryk på Enter for at indtaste tekst"
+
+#~ msgid "Prev Page"
+#~ msgstr "Forrige side"
+
+#~ msgid "Prev Page Icon"
+#~ msgstr "Forrige side-ikon"
+
+#~ msgid "Priority"
+#~ msgstr "Proritet"
+
+#~ msgid "Priority of addon"
+#~ msgstr "Prioritet af tilføjelse"
+
+#~ msgid "Profile"
+#~ msgstr "Profil"
+
+#~ msgid "Program"
+#~ msgstr "Program"
+
+#~ msgid "Quwei"
+#~ msgstr "Quwei"
+
+#~ msgid "R_ALT"
+#~ msgstr "H_ALT"
+
+#~ msgid "R_CTRL"
+#~ msgstr "H_CTRL"
+
+#~ msgid "R_SHIFT"
+#~ msgstr "H_SKIFT"
+
+#~ msgid "Refresh List"
+#~ msgstr "Genopfrisk liste"
+
+#~ msgid "Remind:"
+#~ msgstr "Påmindelse:"
+
+#~ msgid "Remind: "
+#~ msgstr "Påmindelse:"
+
+#~ msgid "Remove File"
+#~ msgstr "Fjern fil"
+
+#~ msgid "Rename OK"
+#~ msgstr "Omdøbning OK"
+
+#~ msgid "Resize"
+#~ msgstr "Tilpas størrelse"
+
+#~ msgid "Restart"
+#~ msgstr "Genstart"
+
+#~ msgid "Right"
+#~ msgstr "Højre"
+
+#~ msgid "Right Super"
+#~ msgstr "Højre Super"
+
+#~ msgid "Running as root:"
+#~ msgstr "Kører som root:"
+
+#~ msgid "Russian"
+#~ msgstr "Russisk"
+
+#~ msgid "SHIFT Both"
+#~ msgstr "SKIFT begge"
+
+#~ msgid "Save Changes"
+#~ msgstr "Gem ændringer"
+
+#~ msgid "Search unicode"
+#~ msgstr "Søg efter unicode"
+
+#~ msgid "Select to paste"
+#~ msgstr "Vælg for at indsætte"
+
+#~ msgid "SharedLibrary"
+#~ msgstr "DeltBibliotek"
+
+#~ msgid "Shift"
+#~ msgstr "Skift"
+
+#~ msgid "Show"
+#~ msgstr "Vis"
+
+#~ msgid "Show Version"
+#~ msgstr "Vis version"
+
+#~ msgid "Shuangpin"
+#~ msgstr "Shuangpin"
+
+#~ msgid "Simplified Chinese"
+#~ msgstr "Forenklet kinesisk"
+
+#~ msgid "Skin Author"
+#~ msgstr "Skin-forfatter"
+
+#~ msgid "Skin Name"
+#~ msgstr "Skinnavn"
+
+#~ msgid "Skin Version"
+#~ msgstr "Skin-version"
+
+#~ msgid "SkinInfo"
+#~ msgstr "Skininfo"
+
+#~ msgid "Start Input Method"
+#~ msgstr "Start inputmetode"
+
+#~ msgid "Super Both"
+#~ msgstr "Super begge"
+
+#~ msgid "Super+Left Ctrl"
+#~ msgstr "Super+Venstre Ctrl"
+
+#~ msgid "Super+Right Ctrl"
+#~ msgstr "Super+Højre Ctrl"
+
+#~ msgid "Switching Remind Mode"
+#~ msgstr "Skifter påmindelsestilstand"
+
+#~ msgid "System Info:"
+#~ msgstr "Systeminfo:"
+
+#~ msgid "Toggle Remind"
+#~ msgstr "Påmindelse til/fra"
+
+#~ msgid "Traditional Chinese"
+#~ msgstr "Traditionel kinesisk"
+
+#~ msgid "TraditionalChinese"
+#~ msgstr "Traditionel kinesisk"
+
+#~ msgid "Trigger Input Method"
+#~ msgstr "Udløs inputmetode"
+
+#~ msgid "Type"
+#~ msgstr "Type"
+
+#~ msgid "UI"
+#~ msgstr "Brugerflade"
+
+#~ msgid "UniqueName"
+#~ msgstr "UniktNavn"
+
+#~ msgid "Unsupported Key"
+#~ msgstr "Ikke-understøttet tast"
+
+#~ msgid "Use Keyboard Layout as Input Method"
+#~ msgstr "Brug tastaturlayout som inputmetode"
+
+#~ msgid "Use System Tray Icon"
+#~ msgstr "Brug systembakkeikon"
+
+#~ msgid "Use remind"
+#~ msgstr "Brug påmindelse"
+
+#~ msgid "User Defined"
+#~ msgstr "Brugerdefineret"
+
+#~ msgid "User Interface:"
+#~ msgstr "Brugerflade:"
+
+#~ msgid "Version Line:"
+#~ msgstr "Versionslinje:"
+
+#~ msgid "Vertical"
+#~ msgstr "Lodret"
+
+#~ msgid "Why is it bad to run as root"
+#~ msgstr "Hvorfor det er en dårlig ide at køre som root"
+
+#~ msgid "X Keyboard"
+#~ msgstr "X-tastatur"
+
+#~ msgid "X11 not initialized"
+#~ msgstr "X11 er ikke initialiseret"
+
+#~ msgid "XIM encoding:"
+#~ msgstr "XIM-kodning:"
+
+#~ msgid "XMODIFIERS Error."
+#~ msgstr "XMODIFIERS-fejl."
+
+#~ msgid "XMODIFIERS is not set"
+#~ msgstr "XMODIFIERS er ikke sat"
+
+#~ msgid "Xim"
+#~ msgstr "Xim"
+
+#~ msgid "You are using xim in ${1} programs."
+#~ msgstr "Du bruger xim i ${1} programmer."
+
+#~ msgid "You may have trouble using fcitx in ${1} programs."
+#~ msgstr ""
+#~ "Det kan være at du har problemer med at bruge fcitx i ${1} programmer."
+
+#~ msgid "executable:"
+#~ msgstr "eksekverbar:"
+
+#~ msgid "here"
+#~ msgstr "her"
+
+#~ msgid "no valid font."
+#~ msgstr "ingen gyldig skrifttype."
+
+#~ msgid "process:"
+#~ msgstr "proces:"
+
+#~ msgid "sudo environment variables"
+#~ msgstr "sudo-miljøvariabler"
+
+#~ msgid "version:"
+#~ msgstr "version:"
+
+#~ msgid "xmodmap command"
+#~ msgstr "xmodmap-kommando"
+
+#~ msgid "your current font is: %s"
+#~ msgstr "din nuværende skrifttype er: %s"

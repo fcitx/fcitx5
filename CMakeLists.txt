@@ -35,6 +35,7 @@ find_package(LibIntl REQUIRED)
 find_package(LibUUID REQUIRED)
 find_package(Pthread REQUIRED)
 find_package(Execinfo)
+find_package(Gettext REQUIRED)
 find_package(XCB COMPONENTS XCB AUX XKB XFIXES ICCCM XINERAMA RANDR)
 find_package(XKBCommon COMPONENTS XKBCommon X11)
 find_package(XCBImdkit)
@@ -98,6 +99,7 @@ configure_file(${CMAKE_CURRENT_SOURCE_DIR}/config.h.in ${CMAKE_CURRENT_BINARY_DI
 include_directories(${CMAKE_CURRENT_BINARY_DIR})
 
 add_subdirectory(src)
+add_subdirectory(po)
 
 #######################################################################
 # Test features

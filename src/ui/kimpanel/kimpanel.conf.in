@@ -4,5 +4,7 @@ Type=SharedLibrary
 Library=kimpanel
 Category=UI
 UIPriority=50
-Dependencies/0=dbus
 OnDemand=True
+
+[Addon/Dependencies]
+0=dbus

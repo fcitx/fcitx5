@@ -3,6 +3,8 @@ Name=classicui
 Type=SharedLibrary
 Library=classicui
 Category=UI
-OptionalDependencies/0=xcb
-OptionalDependencies/1=wayland
 OnDemand=True
+
+[Addon/OptionalDependencies]
+0=xcb
+1=wayland
