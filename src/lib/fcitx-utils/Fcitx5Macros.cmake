@@ -121,3 +121,26 @@ function(fcitx5_translate_desktop_file SRC DEST)
     DEPENDS "${SRC}")
   add_custom_target("${SRC_BASE}-fmt" ALL DEPENDS "${DEST}")
 endfunction()
+
+# Gettext function are not good for our use case.
+# GETTEXT_CREATE_TRANSLATIONS will call msgmerge which may update po file
+function(fcitx5_install_translation domain)
+  file(GLOB PO_FILES RELATIVE "${CMAKE_CURRENT_SOURCE_DIR}" *.po)
+  set(MO_FILES)
+  foreach(PO_FILE IN LISTS PO_FILES)
+    get_filename_component(PO_LANG ${PO_FILE} NAME_WE)
+    get_filename_component(ABS_PO_FILE ${PO_FILE} ABSOLUTE)
+    set(MO_FILE ${CMAKE_CURRENT_BINARY_DIR}/${domain}-${PO_LANG}.mo)
+
+    add_custom_command(
+        OUTPUT ${MO_FILE}
+        COMMAND ${GETTEXT_MSGFMT_EXECUTABLE} -o ${MO_FILE} ${ABS_PO_FILE}
+        DEPENDS ${ABS_PO_FILE}
+    )
+
+    install(FILES ${MO_FILE} RENAME ${domain}.mo DESTINATION share/locale/${PO_LANG}/LC_MESSAGES)
+    set(MO_FILES ${MO_FILES} ${MO_FILE})
+  endforeach ()
+  add_custom_target("${domain}-translation" ALL DEPENDS ${MO_FILES})
+
+endfunction()

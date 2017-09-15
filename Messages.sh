@@ -11,6 +11,6 @@ echo > po/LINGUAS
 for pofile in $(ls po/*.po | sort); do
   pofilebase=$(basename $pofile)
   pofilebase=${pofilebase/.po/}
-  msgmerge -U $pofile ${POT_FILE}
+  msgmerge -U --backup=none $pofile ${POT_FILE}
   echo $pofilebase >> po/LINGUAS
 done
