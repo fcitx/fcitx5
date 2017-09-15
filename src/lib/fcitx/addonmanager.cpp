@@ -35,7 +35,10 @@ class Addon {
     friend class AddonManagerPrivate;
 
 public:
-    Addon(const std::string &name, RawConfig &config) : info_(name), failed_(false) { info_.load(config); }
+    Addon(const std::string &name, RawConfig &config)
+        : info_(name), failed_(false) {
+        info_.load(config);
+    }
 
     const AddonInfo &info() const { return info_; }
 
@@ -135,7 +138,8 @@ public:
             return false;
         }
         auto result = checkDependencies(addon);
-        FCITX_LOG(Debug) << "Call loadAddon() with " << addon.info().uniqueName()
+        FCITX_LOG(Debug) << "Call loadAddon() with "
+                         << addon.info().uniqueName()
                          << " checkDependencies() returns "
                          << static_cast<int>(result);
         if (result == DependencyCheckStatus::Failed) {

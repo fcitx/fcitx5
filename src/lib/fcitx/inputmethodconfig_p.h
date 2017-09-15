@@ -27,41 +27,40 @@
 namespace fcitx {
 FCITX_CONFIGURATION(InputMethodGroupItemConfig,
                     Option<std::string> name{this, "Name", "Name"};
-                    Option<std::string> layout{this, "Layout",
-                                                      "Layout"};);
+                    Option<std::string> layout{this, "Layout", "Layout"};);
 
 FCITX_CONFIGURATION(
     InputMethodGroupConfig,
     Option<std::string> name{this, "Name", "Group Name"};
     Option<std::vector<InputMethodGroupItemConfig>> items{this, "Items",
-                                                                 "Items"};
+                                                          "Items"};
     Option<std::string> defaultLayout{this, "Default Layout", "Layout"};
     Option<std::string> defaultInputMethod{this, "DefaultIM",
-                                                  "Default Input Method"};);
+                                           "Default Input Method"};);
 
 FCITX_CONFIGURATION(
     InputMethodConfig,
-    Option<std::vector<InputMethodGroupConfig>> groups{
-        this, "Profile/Groups", "Groups"};
-    Option<std::vector<std::string>> groupOrder{
-        this, "Profile/GroupOrder", "Group Order"};
+    Option<std::vector<InputMethodGroupConfig>> groups{this, "Profile/Groups",
+                                                       "Groups"};
+    Option<std::vector<std::string>> groupOrder{this, "Profile/GroupOrder",
+                                                "Group Order"};
     Option<std::string> currentGroup{this, "Profile/CurrentGroup",
-                                            "CurrentGroup"};);
+                                     "CurrentGroup"};);
 
 FCITX_CONFIGURATION(
-    InputMethodInfo,
-    Option<I18NString> name{this, "InputMethod/Name", "Name"};
+    InputMethodInfo, Option<I18NString> name{this, "InputMethod/Name", "Name"};
     Option<std::string> icon{this, "InputMethod/Icon", "Icon"};
     Option<std::string> label{this, "InputMethod/Label", "Label"};
     Option<std::string> languageCode{this, "InputMethod/LangCode",
-                                            "Language Code"};
+                                     "Language Code"};
     Option<std::string> addon{this, "InputMethod/Addon", "Addon"};)
 
-InputMethodEntry toInputMethodEntry(const std::string &uniqueName, const InputMethodInfo &config) {
+InputMethodEntry toInputMethodEntry(const std::string &uniqueName,
+                                    const InputMethodInfo &config) {
     const auto &langCode = config.languageCode.value();
     const auto &name = config.name.value();
-    InputMethodEntry result(uniqueName, name.match("system"),
-                            langCode, config.addon.value());
+    InputMethodEntry result(uniqueName, name.match("system"), langCode,
+                            config.addon.value());
     if (!langCode.empty() && langCode != "*") {
         const auto &nativeName = name.match(langCode);
         if (nativeName != name.defaultString()) {

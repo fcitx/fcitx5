@@ -46,7 +46,8 @@ public:
     std::string uniqueName_;
 };
 
-AddonInfo::AddonInfo(const std::string &name) : d_ptr(std::make_unique<AddonInfoPrivate>(name)) {}
+AddonInfo::AddonInfo(const std::string &name)
+    : d_ptr(std::make_unique<AddonInfoPrivate>(name)) {}
 
 AddonInfo::~AddonInfo() {}
 
@@ -64,7 +65,6 @@ const I18NString &AddonInfo::name() const {
     FCITX_D();
     return d->name.value();
 }
-
 
 const I18NString &AddonInfo::comment() const {
     FCITX_D();
@@ -112,6 +112,6 @@ void AddonInfo::load(const RawConfig &config) {
 
     // Validate more information
     d->valid_ = !(d->uniqueName_.empty()) && !(d->type.value().empty()) &&
-               !(d->library.value().empty()) && d->enabled.value();
+                !(d->library.value().empty()) && d->enabled.value();
 }
 }

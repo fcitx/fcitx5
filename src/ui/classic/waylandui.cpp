@@ -17,8 +17,8 @@
  * see <http://www.gnu.org/licenses/>.
  */
 
-#include "config.h"
 #include "waylandui.h"
+#include "config.h"
 #include "display.h"
 #include "fcitx-utils/charutils.h"
 #include "fcitx-utils/stringutils.h"

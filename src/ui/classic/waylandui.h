@@ -19,8 +19,8 @@
 #ifndef _FCITX_UI_CLASSIC_WAYLANDUI_H_
 #define _FCITX_UI_CLASSIC_WAYLANDUI_H_
 
-#include "config.h"
 #include "classicui.h"
+#include "config.h"
 #include "display.h"
 #include <EGL/egl.h>
 #include <cairo/cairo.h>
