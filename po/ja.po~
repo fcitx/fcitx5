@@ -21,7 +21,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-09-14 19:46-0700\n"
+"POT-Creation-Date: 2017-09-14 19:48-0700\n"
 "PO-Revision-Date: 2016-04-18 18:04+0000\n"
 "Last-Translator: csslayer <wengxt@gmail.com>\n"
 "Language-Team: Japanese (http://www.transifex.com/fcitx/fcitx/language/ja/)\n"
@@ -51,6 +51,10 @@ msgstr "<プライベート用>"
 msgid "<not assigned>"
 msgstr "<未定義>"
 
+#: src/modules/unicode/unicode.conf.in:5
+msgid "Add Unicode Typing Support"
+msgstr "ユニコード入力対応を追加します"
+
 #: src/modules/clipboard/clipboard.cpp:290
 #, fuzzy
 msgid "Clipboard:"
@@ -63,6 +67,10 @@ msgstr "既定"
 #: src/modules/notifications/notifications.cpp:231
 msgid "Do not show again"
 msgstr "次回から表示しない"
+
+#: src/modules/unicode/unicode.conf.in:4
+msgid "Fcitx Unicode Typing Support"
+msgstr "Fcitx ユニコード入力対応"
 
 #: src/im/keyboard/keyboard.cpp:153 src/im/keyboard/keyboard.cpp:167
 msgid "Keyboard"
@@ -94,13 +102,10 @@ msgstr "スペルヒントは有効です。"
 msgid "Unicode: "
 msgstr "Unicode"
 
-#: src/modules/unicode/unicode.conf.in:4
-msgid "Fcitx Unicode Typing Support"
-msgstr "Fcitx ユニコード入力対応"
-
-#: src/modules/unicode/unicode.conf.in:5
-msgid "Add Unicode Typing Support"
-msgstr "ユニコード入力対応を追加します"
+#: src/modules/unicode/unicode.conf.in:3
+#, fuzzy
+msgid "unicode"
+msgstr "Unicode"
 
 #~ msgid " Ctrl+Delete To Delete"
 #~ msgstr "Ctrl+Delete で削除"

@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-09-14 19:48-0700\n"
+"POT-Creation-Date: 2017-09-15 08:42-0700\n"
 "PO-Revision-Date: 2017-09-14 19:41-0800\n"
 "Last-Translator: Weng Xuetian <wengxt@gmail.com>\n"
 "Language-Team: Chinese <kde-china@kde.org>\n"
@@ -85,7 +85,6 @@ msgstr "已启用拼写提示。"
 msgid "Unicode: "
 msgstr "Unicode："
 
-#: src/modules/unicode/unicode.conf.in:3
 #, fuzzy
-msgid "unicode"
-msgstr "Unicode："
+#~ msgid "unicode"
+#~ msgstr "Unicode："

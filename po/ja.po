@@ -21,7 +21,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-09-14 19:48-0700\n"
+"POT-Creation-Date: 2017-09-15 08:42-0700\n"
 "PO-Revision-Date: 2016-04-18 18:04+0000\n"
 "Last-Translator: csslayer <wengxt@gmail.com>\n"
 "Language-Team: Japanese (http://www.transifex.com/fcitx/fcitx/language/ja/)\n"
@@ -100,11 +100,6 @@ msgstr "スペルヒントは有効です。"
 #: src/modules/unicode/unicode.cpp:244
 #, fuzzy
 msgid "Unicode: "
-msgstr "Unicode"
-
-#: src/modules/unicode/unicode.conf.in:3
-#, fuzzy
-msgid "unicode"
 msgstr "Unicode"
 
 #~ msgid " Ctrl+Delete To Delete"
@@ -2266,6 +2261,10 @@ msgstr "Unicode"
 
 #~ msgid "sudo environment variables"
 #~ msgstr "sudoの環境変数"
+
+#, fuzzy
+#~ msgid "unicode"
+#~ msgstr "Unicode"
 
 #~ msgid "version:"
 #~ msgstr "バージョン:"

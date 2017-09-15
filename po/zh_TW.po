@@ -20,7 +20,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-09-14 19:48-0700\n"
+"POT-Creation-Date: 2017-09-15 08:42-0700\n"
 "PO-Revision-Date: 2017-07-12 16:37+0000\n"
 "Last-Translator: PHLin <Cypressyew@gmail.com>\n"
 "Language-Team: Chinese (Taiwan) (http://www.transifex.com/fcitx/fcitx/"
@@ -100,11 +100,6 @@ msgstr "已啟用拼字提示。"
 #: src/modules/unicode/unicode.cpp:244
 #, fuzzy
 msgid "Unicode: "
-msgstr "萬國碼"
-
-#: src/modules/unicode/unicode.conf.in:3
-#, fuzzy
-msgid "unicode"
 msgstr "萬國碼"
 
 #~ msgid " Ctrl+Delete To Delete"
@@ -2354,6 +2349,10 @@ msgstr "萬國碼"
 
 #~ msgid "pthread mutex init failed"
 #~ msgstr "pthread mutex 初始化失敗"
+
+#, fuzzy
+#~ msgid "unicode"
+#~ msgstr "萬國碼"
 
 #~ msgid "version:"
 #~ msgstr "版本："

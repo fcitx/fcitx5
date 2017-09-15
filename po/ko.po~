@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-09-14 19:46-0700\n"
+"POT-Creation-Date: 2017-09-14 19:48-0700\n"
 "PO-Revision-Date: 2017-07-15 16:16+0000\n"
 "Last-Translator: Bon Keun Seo <scobyseo@gmail.com>\n"
 "Language-Team: Korean (http://www.transifex.com/fcitx/fcitx/language/ko/)\n"
@@ -40,6 +40,10 @@ msgstr "<개인사용>"
 msgid "<not assigned>"
 msgstr "<할당 안됨>"
 
+#: src/modules/unicode/unicode.conf.in:5
+msgid "Add Unicode Typing Support"
+msgstr "유니코드 입력 지원 추가"
+
 #: src/modules/clipboard/clipboard.cpp:290
 #, fuzzy
 msgid "Clipboard:"
@@ -52,6 +56,10 @@ msgstr "기본값"
 #: src/modules/notifications/notifications.cpp:231
 msgid "Do not show again"
 msgstr "다시 보이지 않기"
+
+#: src/modules/unicode/unicode.conf.in:4
+msgid "Fcitx Unicode Typing Support"
+msgstr "Fcitx 유니코드 입력지원"
 
 #: src/im/keyboard/keyboard.cpp:153 src/im/keyboard/keyboard.cpp:167
 msgid "Keyboard"
@@ -83,13 +91,10 @@ msgstr "철자 힌트 활성화됨."
 msgid "Unicode: "
 msgstr "유니코드"
 
-#: src/modules/unicode/unicode.conf.in:4
-msgid "Fcitx Unicode Typing Support"
-msgstr "Fcitx 유니코드 입력지원"
-
-#: src/modules/unicode/unicode.conf.in:5
-msgid "Add Unicode Typing Support"
-msgstr "유니코드 입력 지원 추가"
+#: src/modules/unicode/unicode.conf.in:3
+#, fuzzy
+msgid "unicode"
+msgstr "유니코드"
 
 #~ msgid " Ctrl+Delete To Delete"
 #~ msgstr "Ctrl+Delete로 지우기"

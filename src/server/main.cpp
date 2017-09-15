@@ -65,9 +65,6 @@ int main(int argc, char *argv[]) {
 
     auto localedir = StandardPath::fcitxPath("localedir");
     setlocale(LC_ALL, "");
-    bindtextdomain("fcitx", localedir.c_str());
-    bind_textdomain_codeset("fcitx", "UTF-8");
-    textdomain("fcitx");
 
     try {
         Instance instance(argc, argv);

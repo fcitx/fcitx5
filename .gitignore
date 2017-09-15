@@ -12,3 +12,4 @@ cscope.*
 *.part
 XF86keysym.h
 keysymdef.h
+*~

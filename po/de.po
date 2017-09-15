@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-09-14 19:48-0700\n"
+"POT-Creation-Date: 2017-09-15 08:42-0700\n"
 "PO-Revision-Date: 2017-07-28 12:48+0000\n"
 "Last-Translator: mar well <m.wellendorf@gmx.de>\n"
 "Language-Team: German (http://www.transifex.com/fcitx/fcitx/language/de/)\n"
@@ -90,11 +90,6 @@ msgstr "Rechtschreibungshinweis ist aktiviert."
 #: src/modules/unicode/unicode.cpp:244
 #, fuzzy
 msgid "Unicode: "
-msgstr "Unicode"
-
-#: src/modules/unicode/unicode.conf.in:3
-#, fuzzy
-msgid "unicode"
 msgstr "Unicode"
 
 #~ msgid " Ctrl+Delete To Delete"
@@ -2422,6 +2417,10 @@ msgstr "Unicode"
 
 #~ msgid "sudo environment variables"
 #~ msgstr "sudo Umgebungsvariablen"
+
+#, fuzzy
+#~ msgid "unicode"
+#~ msgstr "Unicode"
 
 #~ msgid "version:"
 #~ msgstr "Version:"

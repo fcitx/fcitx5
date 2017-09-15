@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-09-14 19:48-0700\n"
+"POT-Creation-Date: 2017-09-15 08:42-0700\n"
 "PO-Revision-Date: 2016-11-29 16:37+0000\n"
 "Last-Translator: Walter Garcia-Fontes <walter.garcia@upf.edu>\n"
 "Language-Team: Catalan (http://www.transifex.com/fcitx/fcitx/language/ca/)\n"
@@ -87,11 +87,6 @@ msgstr "S'han activat les pistes d'ortografia"
 #: src/modules/unicode/unicode.cpp:244
 #, fuzzy
 msgid "Unicode: "
-msgstr "Unicode"
-
-#: src/modules/unicode/unicode.conf.in:3
-#, fuzzy
-msgid "unicode"
 msgstr "Unicode"
 
 #~ msgid " Ctrl+Delete To Delete"
@@ -2512,6 +2507,10 @@ msgstr "Unicode"
 
 #~ msgid "sudo environment variables"
 #~ msgstr "variables d'entorn del sudo"
+
+#, fuzzy
+#~ msgid "unicode"
+#~ msgstr "Unicode"
 
 #~ msgid "version:"
 #~ msgstr "versió:"

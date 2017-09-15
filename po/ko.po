@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-09-14 19:48-0700\n"
+"POT-Creation-Date: 2017-09-15 08:42-0700\n"
 "PO-Revision-Date: 2017-07-15 16:16+0000\n"
 "Last-Translator: Bon Keun Seo <scobyseo@gmail.com>\n"
 "Language-Team: Korean (http://www.transifex.com/fcitx/fcitx/language/ko/)\n"
@@ -89,11 +89,6 @@ msgstr "철자 힌트 활성화됨."
 #: src/modules/unicode/unicode.cpp:244
 #, fuzzy
 msgid "Unicode: "
-msgstr "유니코드"
-
-#: src/modules/unicode/unicode.conf.in:3
-#, fuzzy
-msgid "unicode"
 msgstr "유니코드"
 
 #~ msgid " Ctrl+Delete To Delete"
@@ -2431,6 +2426,10 @@ msgstr "유니코드"
 
 #~ msgid "sudo environment variables"
 #~ msgstr "sudo 환경 변수"
+
+#, fuzzy
+#~ msgid "unicode"
+#~ msgstr "유니코드"
 
 #~ msgid "version:"
 #~ msgstr "버전:"

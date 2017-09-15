@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-09-14 19:48-0700\n"
+"POT-Creation-Date: 2017-09-15 08:42-0700\n"
 "PO-Revision-Date: 2016-11-24 13:04+0000\n"
 "Last-Translator: Riwan BEN EZZEDDINE <riwan.benezzeddine@gmail.com>\n"
 "Language-Team: French (http://www.transifex.com/fcitx/fcitx/language/fr/)\n"
@@ -84,10 +84,6 @@ msgstr ""
 
 #: src/modules/unicode/unicode.cpp:244
 msgid "Unicode: "
-msgstr ""
-
-#: src/modules/unicode/unicode.conf.in:3
-msgid "unicode"
 msgstr ""
 
 #~ msgid ""

@@ -20,7 +20,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-09-14 19:46-0700\n"
+"POT-Creation-Date: 2017-09-14 19:48-0700\n"
 "PO-Revision-Date: 2017-07-12 16:37+0000\n"
 "Last-Translator: PHLin <Cypressyew@gmail.com>\n"
 "Language-Team: Chinese (Taiwan) (http://www.transifex.com/fcitx/fcitx/"
@@ -51,6 +51,10 @@ msgstr "<專用區>"
 msgid "<not assigned>"
 msgstr "<未指定>"
 
+#: src/modules/unicode/unicode.conf.in:5
+msgid "Add Unicode Typing Support"
+msgstr "加入 Unicode 輸入支援"
+
 #: src/modules/clipboard/clipboard.cpp:290
 #, fuzzy
 msgid "Clipboard:"
@@ -63,6 +67,10 @@ msgstr "預設"
 #: src/modules/notifications/notifications.cpp:231
 msgid "Do not show again"
 msgstr "不再顯示"
+
+#: src/modules/unicode/unicode.conf.in:4
+msgid "Fcitx Unicode Typing Support"
+msgstr "Fcitx 的 Unicode 輸入支援"
 
 #: src/im/keyboard/keyboard.cpp:153 src/im/keyboard/keyboard.cpp:167
 msgid "Keyboard"
@@ -94,13 +102,10 @@ msgstr "已啟用拼字提示。"
 msgid "Unicode: "
 msgstr "萬國碼"
 
-#: src/modules/unicode/unicode.conf.in:4
-msgid "Fcitx Unicode Typing Support"
-msgstr "Fcitx 的 Unicode 輸入支援"
-
-#: src/modules/unicode/unicode.conf.in:5
-msgid "Add Unicode Typing Support"
-msgstr "加入 Unicode 輸入支援"
+#: src/modules/unicode/unicode.conf.in:3
+#, fuzzy
+msgid "unicode"
+msgstr "萬國碼"
 
 #~ msgid " Ctrl+Delete To Delete"
 #~ msgstr " 用 Ctrl+Delete 刪除"

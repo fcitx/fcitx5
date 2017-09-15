@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-09-14 19:46-0700\n"
+"POT-Creation-Date: 2017-09-14 19:48-0700\n"
 "PO-Revision-Date: 2016-11-24 13:04+0000\n"
 "Last-Translator: Riwan BEN EZZEDDINE <riwan.benezzeddine@gmail.com>\n"
 "Language-Team: French (http://www.transifex.com/fcitx/fcitx/language/fr/)\n"
@@ -38,6 +38,10 @@ msgstr ""
 msgid "<not assigned>"
 msgstr ""
 
+#: src/modules/unicode/unicode.conf.in:5
+msgid "Add Unicode Typing Support"
+msgstr ""
+
 #: src/modules/clipboard/clipboard.cpp:290
 msgid "Clipboard:"
 msgstr ""
@@ -48,6 +52,10 @@ msgstr ""
 
 #: src/modules/notifications/notifications.cpp:231
 msgid "Do not show again"
+msgstr ""
+
+#: src/modules/unicode/unicode.conf.in:4
+msgid "Fcitx Unicode Typing Support"
 msgstr ""
 
 #: src/im/keyboard/keyboard.cpp:153 src/im/keyboard/keyboard.cpp:167
@@ -78,12 +86,8 @@ msgstr ""
 msgid "Unicode: "
 msgstr ""
 
-#: src/modules/unicode/unicode.conf.in:4
-msgid "Fcitx Unicode Typing Support"
-msgstr ""
-
-#: src/modules/unicode/unicode.conf.in:5
-msgid "Add Unicode Typing Support"
+#: src/modules/unicode/unicode.conf.in:3
+msgid "unicode"
 msgstr ""
 
 #~ msgid ""
