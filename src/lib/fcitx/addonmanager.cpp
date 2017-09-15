@@ -35,7 +35,7 @@ class Addon {
     friend class AddonManagerPrivate;
 
 public:
-    Addon(RawConfig &config) : failed_(false) { info_.load(config); }
+    Addon(const std::string &name, RawConfig &config) : info_(name), failed_(false) { info_.load(config); }
 
     const AddonInfo &info() const { return info_; }
 
@@ -82,7 +82,7 @@ public:
 
             if (!dep->loaded()) {
                 if (dep->info().onDemand() &&
-                    requested_.insert(dep->info().name()).second) {
+                    requested_.insert(dep->info().uniqueName()).second) {
                     return DependencyCheckStatus::PendingUpdateRequest;
                 }
                 return DependencyCheckStatus::Pending;
@@ -131,11 +131,11 @@ public:
             return false;
         }
         if (addon.info().onDemand() &&
-            requested_.count(addon.info().name()) == 0) {
+            requested_.count(addon.info().uniqueName()) == 0) {
             return false;
         }
         auto result = checkDependencies(addon);
-        FCITX_LOG(Debug) << "Call loadAddon() with " << addon.info().name()
+        FCITX_LOG(Debug) << "Call loadAddon() with " << addon.info().uniqueName()
                          << " checkDependencies() returns "
                          << static_cast<int>(result);
         if (result == DependencyCheckStatus::Failed) {
@@ -143,7 +143,7 @@ public:
         } else if (result == DependencyCheckStatus::Satisfied) {
             realLoad(q_ptr, addon);
             if (addon.loaded()) {
-                loadOrder_.push_back(addon.info().name());
+                loadOrder_.push_back(addon.info().uniqueName());
                 return true;
             }
         } else if (result == DependencyCheckStatus::PendingUpdateRequest) {
@@ -164,7 +164,7 @@ public:
         if (!addon.instance_) {
             addon.setFailed(true);
         } else {
-            FCITX_LOG(Info) << "Loaded addon " << addon.info().name();
+            FCITX_LOG(Info) << "Loaded addon " << addon.info().uniqueName();
         }
     }
 
@@ -212,10 +212,10 @@ void AddonManager::load(const std::unordered_set<std::string> &enabled,
                         const std::unordered_set<std::string> &disabled) {
     FCITX_D();
     auto &path = StandardPath::global();
-    auto files =
+    auto fileMap =
         path.multiOpenAll(StandardPath::Type::PkgData, d->addonConfigDir_,
                           O_RDONLY, filter::Suffix(".conf"));
-    for (const auto &file : files) {
+    for (const auto &file : fileMap) {
         auto &files = file.second;
         RawConfig config;
         // reverse the order, so we end up parse user file at last.
@@ -225,19 +225,18 @@ void AddonManager::load(const std::unordered_set<std::string> &enabled,
             readFromIni(config, fd);
         }
 
+        // remove .conf
+        auto name = file.first.substr(0, file.first.size() - 5);
         // override configuration
-        auto name = config.valueByPath("Addon/Name");
-        if (name) {
-            if (disabled.count(*name)) {
-                config.setValueByPath("Addon/Enabled", "False");
-            } else if (enabled.count(*name)) {
-                config.setValueByPath("Addon/Enabled", "True");
-            }
+        if (disabled.count(name)) {
+            config.setValueByPath("Addon/Enabled", "False");
+        } else if (enabled.count(name)) {
+            config.setValueByPath("Addon/Enabled", "True");
         }
 
-        auto addon = std::make_unique<Addon>(config);
+        auto addon = std::make_unique<Addon>(name, config);
         if (addon->isValid()) {
-            d->addons_[addon->info().name()] = std::move(addon);
+            d->addons_[addon->info().uniqueName()] = std::move(addon);
         }
     }
 

@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-09-15 08:42-0700\n"
+"POT-Creation-Date: 2017-09-15 09:26-0700\n"
 "PO-Revision-Date: 2017-07-28 12:48+0000\n"
 "Last-Translator: mar well <m.wellendorf@gmx.de>\n"
 "Language-Team: German (http://www.transifex.com/fcitx/fcitx/language/de/)\n"
@@ -41,16 +41,12 @@ msgstr "<Private Use>"
 msgid "<not assigned>"
 msgstr "<not assigned>"
 
-#: src/modules/unicode/unicode.conf.in:5
-msgid "Add Unicode Typing Support"
-msgstr "Unicode-Unterstützung hinzufügen"
-
 #: src/modules/clipboard/clipboard.cpp:290
 #, fuzzy
 msgid "Clipboard:"
 msgstr "Zwischenablage"
 
-#: src/lib/fcitx/inputmethodmanager.cpp:186
+#: src/lib/fcitx/inputmethodmanager.cpp:188
 msgid "Default"
 msgstr "Standard"
 
@@ -58,11 +54,8 @@ msgstr "Standard"
 msgid "Do not show again"
 msgstr "Nicht mehr zeigen"
 
-#: src/modules/unicode/unicode.conf.in:4
-msgid "Fcitx Unicode Typing Support"
-msgstr "Fcitx Unicode Eingabeunterstützung"
-
 #: src/im/keyboard/keyboard.cpp:153 src/im/keyboard/keyboard.cpp:167
+#: src/im/keyboard/keyboard.conf.in:3
 msgid "Keyboard"
 msgstr "Tastatur"
 
@@ -91,6 +84,74 @@ msgstr "Rechtschreibungshinweis ist aktiviert."
 #, fuzzy
 msgid "Unicode: "
 msgstr "Unicode"
+
+#: src/modules/spell/spell.conf.in:3
+msgid "Spell"
+msgstr "Rechtschreibung"
+
+#: src/modules/notifications/notifications.conf.in:3
+msgid "notifications"
+msgstr ""
+
+#: src/modules/dbus/dbus.conf.in:3
+msgid "DBus"
+msgstr "DBus"
+
+#: src/modules/xcb/xcb.conf.in:3
+msgid "XCB"
+msgstr ""
+
+#: src/modules/clipboard/clipboard.conf.in:3
+#, fuzzy
+msgid "Clipboard"
+msgstr "Zwischenablage"
+
+#: src/modules/wayland/wayland.conf.in:3
+msgid "Wayland"
+msgstr ""
+
+#: src/modules/unicode/unicode.conf.in:3
+#, fuzzy
+msgid "Unicode"
+msgstr "Unicode"
+
+#: src/modules/unicode/unicode.conf.in:4
+msgid "Add Unicode Typing Support"
+msgstr "Unicode-Unterstützung hinzufügen"
+
+#: src/modules/quickphrase/quickphrase.conf.in:3
+#, fuzzy
+msgid "Quick Phrase"
+msgstr "QuickPhrase"
+
+#: src/frontend/dbusfrontend/dbusfrontend.conf.in:3
+#, fuzzy
+msgid "DBus Frontend"
+msgstr "Fcitx DBus Schnittstelle"
+
+#: src/frontend/waylandim/waylandim.conf.in:3
+#, fuzzy
+msgid "Wayland Input method frontend"
+msgstr "Table Eingabemethode für Fcitx"
+
+#: src/frontend/xim/xim.conf.in:3
+#, fuzzy
+msgid "X Input Method Frontend"
+msgstr "Konfiguration Eingabemethode"
+
+#: src/ui/simpleui/simpleui.conf.in:3
+msgid "Simple UI for testing"
+msgstr ""
+
+#: src/ui/kimpanel/kimpanel.conf.in:3
+#, fuzzy
+msgid "KDE Input Method Panel"
+msgstr "Standard Status Eingabemethode"
+
+#: src/ui/classic/classicui.conf.in:3
+#, fuzzy
+msgid "classicui"
+msgstr "CLASSIC (Fcitx Benutzeroberfläche)"
 
 #~ msgid " Ctrl+Delete To Delete"
 #~ msgstr " Ctrl+Delete zum Löschen"
@@ -513,9 +574,6 @@ msgstr "Unicode"
 #~ msgstr ""
 #~ "Phrase auswählen um den Eingabeverlauf zu löschen. ESC zum Abbrechen"
 
-#~ msgid "Classic"
-#~ msgstr "CLASSIC (Fcitx Benutzeroberfläche)"
-
 #~ msgid "Classic User Interface with Skin support"
 #~ msgstr "CLASSIC mit Unterstützung von Skins"
 
@@ -633,9 +691,6 @@ msgstr "Unicode"
 #~ msgid "Custom"
 #~ msgstr "Anwenderspezifisch"
 
-#~ msgid "DBus"
-#~ msgstr "DBus"
-
 #~ msgid "DBus Support"
 #~ msgstr "DBus Unterstützung"
 
@@ -647,9 +702,6 @@ msgstr "Unicode"
 
 #~ msgid "De&lete All"
 #~ msgstr "De&lete All"
-
-#~ msgid "Default Input Method State"
-#~ msgstr "Standard Status Eingabemethode"
 
 #~ msgid "Default Shuangpin Schema"
 #~ msgstr "Standard Shuangpin Schema"
@@ -839,9 +891,6 @@ msgstr "Unicode"
 #~ msgid "Fcitx Configure UI:"
 #~ msgstr "Konfigurationsoberfläche fcitx:"
 
-#~ msgid "Fcitx DBus Frontend"
-#~ msgstr "Fcitx DBus Schnittstelle"
-
 #~ msgid "Fcitx Lua Support"
 #~ msgstr "Fcitx Lua Unterstützung"
 
@@ -856,6 +905,9 @@ msgstr "Unicode"
 
 #~ msgid "Fcitx State:"
 #~ msgstr "Fcitx Status:"
+
+#~ msgid "Fcitx Unicode Typing Support"
+#~ msgstr "Fcitx Unicode Eingabeunterstützung"
 
 #~ msgid "Fcitx XIM Frontend"
 #~ msgstr "Schnittstelle für XIM"
@@ -1175,9 +1227,6 @@ msgstr "Unicode"
 
 #~ msgid "Input Method"
 #~ msgstr "Eingabemethode"
-
-#~ msgid "Input Method Configuration"
-#~ msgstr "Konfiguration Eingabemethode"
 
 #~ msgid "Input Method Disabled"
 #~ msgstr "Eingabemethode deaktiviert"
@@ -1653,9 +1702,6 @@ msgstr "Unicode"
 #~ msgid "Quick Phrase List"
 #~ msgstr "Liste Quickphrase"
 
-#~ msgid "QuickPhrase"
-#~ msgstr "QuickPhrase"
-
 #~ msgid "Quickphrase"
 #~ msgstr "Quickphrase"
 
@@ -1880,9 +1926,6 @@ msgstr "Unicode"
 #~ msgid "Special Icon position"
 #~ msgstr "Position des Icons verschieben"
 
-#~ msgid "Spell"
-#~ msgstr "Rechtschreibung"
-
 #~ msgid "Spell Hint"
 #~ msgstr "Rechtschreibungshinweis"
 
@@ -1976,9 +2019,6 @@ msgstr "Unicode"
 
 #~ msgid "Table Code Color"
 #~ msgstr "Farbe Eingabe Tabelle"
-
-#~ msgid "Table Input Method for Fcitx"
-#~ msgstr "Table Eingabemethode für Fcitx"
 
 #~ msgid "Table Symbol"
 #~ msgstr "Tabellen Symbol"

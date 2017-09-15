@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-09-15 08:42-0700\n"
+"POT-Creation-Date: 2017-09-15 09:26-0700\n"
 "PO-Revision-Date: 2017-09-12 20:30+0000\n"
 "Last-Translator: scootergrisen\n"
 "Language-Team: Danish (http://www.transifex.com/fcitx/fcitx/language/da/)\n"
@@ -38,16 +38,12 @@ msgstr "<Private Use>"
 msgid "<not assigned>"
 msgstr "<not assigned>"
 
-#: src/modules/unicode/unicode.conf.in:5
-msgid "Add Unicode Typing Support"
-msgstr ""
-
 #: src/modules/clipboard/clipboard.cpp:290
 #, fuzzy
 msgid "Clipboard:"
 msgstr "Udklipsholder"
 
-#: src/lib/fcitx/inputmethodmanager.cpp:186
+#: src/lib/fcitx/inputmethodmanager.cpp:188
 msgid "Default"
 msgstr "Standard"
 
@@ -55,11 +51,8 @@ msgstr "Standard"
 msgid "Do not show again"
 msgstr "Vis ikke igen"
 
-#: src/modules/unicode/unicode.conf.in:4
-msgid "Fcitx Unicode Typing Support"
-msgstr ""
-
 #: src/im/keyboard/keyboard.cpp:153 src/im/keyboard/keyboard.cpp:167
+#: src/im/keyboard/keyboard.conf.in:3
 msgid "Keyboard"
 msgstr "Tastatur"
 
@@ -87,6 +80,72 @@ msgstr "Stavetip er aktiveret."
 #, fuzzy
 msgid "Unicode: "
 msgstr "Unicode"
+
+#: src/modules/spell/spell.conf.in:3
+#, fuzzy
+msgid "Spell"
+msgstr "Aspell"
+
+#: src/modules/notifications/notifications.conf.in:3
+msgid "notifications"
+msgstr ""
+
+#: src/modules/dbus/dbus.conf.in:3
+msgid "DBus"
+msgstr "DBus"
+
+#: src/modules/xcb/xcb.conf.in:3
+msgid "XCB"
+msgstr ""
+
+#: src/modules/clipboard/clipboard.conf.in:3
+#, fuzzy
+msgid "Clipboard"
+msgstr "Udklipsholder"
+
+#: src/modules/wayland/wayland.conf.in:3
+msgid "Wayland"
+msgstr ""
+
+#: src/modules/unicode/unicode.conf.in:3
+#, fuzzy
+msgid "Unicode"
+msgstr "Unicode"
+
+#: src/modules/unicode/unicode.conf.in:4
+msgid "Add Unicode Typing Support"
+msgstr ""
+
+#: src/modules/quickphrase/quickphrase.conf.in:3
+msgid "Quick Phrase"
+msgstr ""
+
+#: src/frontend/dbusfrontend/dbusfrontend.conf.in:3
+msgid "DBus Frontend"
+msgstr ""
+
+#: src/frontend/waylandim/waylandim.conf.in:3
+msgid "Wayland Input method frontend"
+msgstr ""
+
+#: src/frontend/xim/xim.conf.in:3
+#, fuzzy
+msgid "X Input Method Frontend"
+msgstr "Konfiguration af inputmetode"
+
+#: src/ui/simpleui/simpleui.conf.in:3
+msgid "Simple UI for testing"
+msgstr ""
+
+#: src/ui/kimpanel/kimpanel.conf.in:3
+#, fuzzy
+msgid "KDE Input Method Panel"
+msgstr "Inputmetode"
+
+#: src/ui/classic/classicui.conf.in:3
+#, fuzzy
+msgid "classicui"
+msgstr "Klassisk"
 
 #~ msgid " Ctrl+Delete To Delete"
 #~ msgstr " Ctrl+Delete for at slette"
@@ -169,9 +228,6 @@ msgstr "Unicode"
 #~ msgid "Are you sure to delete %1?"
 #~ msgstr "Er du sikker på, at du vil slette %1?"
 
-#~ msgid "Aspell"
-#~ msgstr "Aspell"
-
 #~ msgid "Auto"
 #~ msgstr "Automatisk"
 
@@ -226,9 +282,6 @@ msgstr "Unicode"
 #~ msgid "Choose"
 #~ msgstr "Vælg"
 
-#~ msgid "Classic"
-#~ msgstr "Klassisk"
-
 #~ msgid "ClassicUI"
 #~ msgstr "Klassisk grænseflade"
 
@@ -279,9 +332,6 @@ msgstr "Unicode"
 
 #~ msgid "Custom"
 #~ msgstr "Tilpasset"
-
-#~ msgid "DBus"
-#~ msgstr "DBus"
 
 #~ msgid "DBus interface:"
 #~ msgstr "DBus-grænseflade:"
@@ -384,12 +434,6 @@ msgstr "Unicode"
 
 #~ msgid "Index"
 #~ msgstr "Indeks"
-
-#~ msgid "Input Method"
-#~ msgstr "Inputmetode"
-
-#~ msgid "Input Method Configuration"
-#~ msgstr "Konfiguration af inputmetode"
 
 #~ msgid "Input Method Disabled"
 #~ msgstr "Inputmetode deaktiveret"

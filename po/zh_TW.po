@@ -20,7 +20,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-09-15 08:42-0700\n"
+"POT-Creation-Date: 2017-09-15 09:26-0700\n"
 "PO-Revision-Date: 2017-07-12 16:37+0000\n"
 "Last-Translator: PHLin <Cypressyew@gmail.com>\n"
 "Language-Team: Chinese (Taiwan) (http://www.transifex.com/fcitx/fcitx/"
@@ -51,16 +51,12 @@ msgstr "<專用區>"
 msgid "<not assigned>"
 msgstr "<未指定>"
 
-#: src/modules/unicode/unicode.conf.in:5
-msgid "Add Unicode Typing Support"
-msgstr "加入 Unicode 輸入支援"
-
 #: src/modules/clipboard/clipboard.cpp:290
 #, fuzzy
 msgid "Clipboard:"
 msgstr "剪貼簿"
 
-#: src/lib/fcitx/inputmethodmanager.cpp:186
+#: src/lib/fcitx/inputmethodmanager.cpp:188
 msgid "Default"
 msgstr "預設"
 
@@ -68,11 +64,8 @@ msgstr "預設"
 msgid "Do not show again"
 msgstr "不再顯示"
 
-#: src/modules/unicode/unicode.conf.in:4
-msgid "Fcitx Unicode Typing Support"
-msgstr "Fcitx 的 Unicode 輸入支援"
-
 #: src/im/keyboard/keyboard.cpp:153 src/im/keyboard/keyboard.cpp:167
+#: src/im/keyboard/keyboard.conf.in:3
 msgid "Keyboard"
 msgstr "鍵盤"
 
@@ -101,6 +94,74 @@ msgstr "已啟用拼字提示。"
 #, fuzzy
 msgid "Unicode: "
 msgstr "萬國碼"
+
+#: src/modules/spell/spell.conf.in:3
+msgid "Spell"
+msgstr "拼寫"
+
+#: src/modules/notifications/notifications.conf.in:3
+msgid "notifications"
+msgstr ""
+
+#: src/modules/dbus/dbus.conf.in:3
+msgid "DBus"
+msgstr "DBus"
+
+#: src/modules/xcb/xcb.conf.in:3
+msgid "XCB"
+msgstr ""
+
+#: src/modules/clipboard/clipboard.conf.in:3
+#, fuzzy
+msgid "Clipboard"
+msgstr "剪貼簿"
+
+#: src/modules/wayland/wayland.conf.in:3
+msgid "Wayland"
+msgstr ""
+
+#: src/modules/unicode/unicode.conf.in:3
+#, fuzzy
+msgid "Unicode"
+msgstr "萬國碼"
+
+#: src/modules/unicode/unicode.conf.in:4
+msgid "Add Unicode Typing Support"
+msgstr "加入 Unicode 輸入支援"
+
+#: src/modules/quickphrase/quickphrase.conf.in:3
+#, fuzzy
+msgid "Quick Phrase"
+msgstr "快速輸入"
+
+#: src/frontend/dbusfrontend/dbusfrontend.conf.in:3
+#, fuzzy
+msgid "DBus Frontend"
+msgstr "Fcitx DBus 前端"
+
+#: src/frontend/waylandim/waylandim.conf.in:3
+#, fuzzy
+msgid "Wayland Input method frontend"
+msgstr "Fcitx 的碼表輸入法"
+
+#: src/frontend/xim/xim.conf.in:3
+#, fuzzy
+msgid "X Input Method Frontend"
+msgstr "輸入法設定"
+
+#: src/ui/simpleui/simpleui.conf.in:3
+msgid "Simple UI for testing"
+msgstr ""
+
+#: src/ui/kimpanel/kimpanel.conf.in:3
+#, fuzzy
+msgid "KDE Input Method Panel"
+msgstr "預設輸入法狀態"
+
+#: src/ui/classic/classicui.conf.in:3
+#, fuzzy
+msgid "classicui"
+msgstr "經典介面"
 
 #~ msgid " Ctrl+Delete To Delete"
 #~ msgstr " 用 Ctrl+Delete 刪除"
@@ -502,9 +563,6 @@ msgstr "萬國碼"
 #~ msgid "Choose the phrase to clear typing history, Press Escape to Cancel"
 #~ msgstr "選擇要清理輸入頻率的字詞，Escape 鍵取消"
 
-#~ msgid "Classic"
-#~ msgstr "經典介面"
-
 #~ msgid "Classic User Interface with Skin support"
 #~ msgstr "支援外觀主題的傳統介面"
 
@@ -637,9 +695,6 @@ msgstr "萬國碼"
 #~ msgid "Custom switch key"
 #~ msgstr "自訂切換鍵"
 
-#~ msgid "DBus"
-#~ msgstr "DBus"
-
 #~ msgid "DBus Support"
 #~ msgstr "DBus 支援"
 
@@ -651,9 +706,6 @@ msgstr "萬國碼"
 
 #~ msgid "De&lete All"
 #~ msgstr "全部刪除 (&L)"
-
-#~ msgid "Default Input Method State"
-#~ msgstr "預設輸入法狀態"
 
 #~ msgid "Default Shuangpin Schema"
 #~ msgstr "預設雙拼方案"
@@ -841,9 +893,6 @@ msgstr "萬國碼"
 #~ msgid "Fcitx Configure UI:"
 #~ msgstr "Fcitx 設定介面："
 
-#~ msgid "Fcitx DBus Frontend"
-#~ msgstr "Fcitx DBus 前端"
-
 #~ msgid "Fcitx Lua Support"
 #~ msgstr "Fcitx Lua 支援"
 
@@ -858,6 +907,9 @@ msgstr "萬國碼"
 
 #~ msgid "Fcitx State:"
 #~ msgstr "Fcitx 狀態："
+
+#~ msgid "Fcitx Unicode Typing Support"
+#~ msgstr "Fcitx 的 Unicode 輸入支援"
 
 #~ msgid "Fcitx XIM Frontend"
 #~ msgstr "Fcitx XIM 前端"
@@ -1171,9 +1223,6 @@ msgstr "萬國碼"
 
 #~ msgid "Input Method"
 #~ msgstr "輸入法"
-
-#~ msgid "Input Method Configuration"
-#~ msgstr "輸入法設定"
 
 #~ msgid "Input Method Disabled"
 #~ msgstr "停用輸入法"
@@ -1622,9 +1671,6 @@ msgstr "萬國碼"
 #~ msgid "Quick Phrase List"
 #~ msgstr "快速輸入清單"
 
-#~ msgid "QuickPhrase"
-#~ msgstr "快速輸入"
-
 #~ msgid "Quickphrase"
 #~ msgstr "快速輸入"
 
@@ -1849,9 +1895,6 @@ msgstr "萬國碼"
 #~ msgid "Special Icon position"
 #~ msgstr "特殊圖示位置"
 
-#~ msgid "Spell"
-#~ msgstr "拼寫"
-
 #~ msgid "Spell Hint"
 #~ msgstr "拼寫提示"
 
@@ -1944,9 +1987,6 @@ msgstr "萬國碼"
 
 #~ msgid "Table Code Color"
 #~ msgstr "碼表顏色"
-
-#~ msgid "Table Input Method for Fcitx"
-#~ msgstr "Fcitx 的碼表輸入法"
 
 #~ msgid "Table Symbol"
 #~ msgstr "製表符號"

@@ -21,7 +21,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-09-15 08:42-0700\n"
+"POT-Creation-Date: 2017-09-15 09:26-0700\n"
 "PO-Revision-Date: 2016-04-18 18:04+0000\n"
 "Last-Translator: csslayer <wengxt@gmail.com>\n"
 "Language-Team: Japanese (http://www.transifex.com/fcitx/fcitx/language/ja/)\n"
@@ -51,16 +51,12 @@ msgstr "<プライベート用>"
 msgid "<not assigned>"
 msgstr "<未定義>"
 
-#: src/modules/unicode/unicode.conf.in:5
-msgid "Add Unicode Typing Support"
-msgstr "ユニコード入力対応を追加します"
-
 #: src/modules/clipboard/clipboard.cpp:290
 #, fuzzy
 msgid "Clipboard:"
 msgstr "クリップボード"
 
-#: src/lib/fcitx/inputmethodmanager.cpp:186
+#: src/lib/fcitx/inputmethodmanager.cpp:188
 msgid "Default"
 msgstr "既定"
 
@@ -68,11 +64,8 @@ msgstr "既定"
 msgid "Do not show again"
 msgstr "次回から表示しない"
 
-#: src/modules/unicode/unicode.conf.in:4
-msgid "Fcitx Unicode Typing Support"
-msgstr "Fcitx ユニコード入力対応"
-
 #: src/im/keyboard/keyboard.cpp:153 src/im/keyboard/keyboard.cpp:167
+#: src/im/keyboard/keyboard.conf.in:3
 msgid "Keyboard"
 msgstr "キーボード"
 
@@ -101,6 +94,74 @@ msgstr "スペルヒントは有効です。"
 #, fuzzy
 msgid "Unicode: "
 msgstr "Unicode"
+
+#: src/modules/spell/spell.conf.in:3
+msgid "Spell"
+msgstr "スペル"
+
+#: src/modules/notifications/notifications.conf.in:3
+msgid "notifications"
+msgstr ""
+
+#: src/modules/dbus/dbus.conf.in:3
+msgid "DBus"
+msgstr "DBus"
+
+#: src/modules/xcb/xcb.conf.in:3
+msgid "XCB"
+msgstr ""
+
+#: src/modules/clipboard/clipboard.conf.in:3
+#, fuzzy
+msgid "Clipboard"
+msgstr "クリップボード"
+
+#: src/modules/wayland/wayland.conf.in:3
+msgid "Wayland"
+msgstr ""
+
+#: src/modules/unicode/unicode.conf.in:3
+#, fuzzy
+msgid "Unicode"
+msgstr "Unicode"
+
+#: src/modules/unicode/unicode.conf.in:4
+msgid "Add Unicode Typing Support"
+msgstr "ユニコード入力対応を追加します"
+
+#: src/modules/quickphrase/quickphrase.conf.in:3
+#, fuzzy
+msgid "Quick Phrase"
+msgstr "クイックフレーズ"
+
+#: src/frontend/dbusfrontend/dbusfrontend.conf.in:3
+#, fuzzy
+msgid "DBus Frontend"
+msgstr "Fcitx DBusフロントエンド"
+
+#: src/frontend/waylandim/waylandim.conf.in:3
+#, fuzzy
+msgid "Wayland Input method frontend"
+msgstr "Fcitx用のテーブル入力メソッド"
+
+#: src/frontend/xim/xim.conf.in:3
+#, fuzzy
+msgid "X Input Method Frontend"
+msgstr "入力メソッドの設定"
+
+#: src/ui/simpleui/simpleui.conf.in:3
+msgid "Simple UI for testing"
+msgstr ""
+
+#: src/ui/kimpanel/kimpanel.conf.in:3
+#, fuzzy
+msgid "KDE Input Method Panel"
+msgstr "既定の入力メソッドの状態"
+
+#: src/ui/classic/classicui.conf.in:3
+#, fuzzy
+msgid "classicui"
+msgstr "クラシック"
 
 #~ msgid " Ctrl+Delete To Delete"
 #~ msgstr "Ctrl+Delete で削除"
@@ -489,9 +550,6 @@ msgstr "Unicode"
 #~ msgid "Choose the phrase to clear typing history, Press Escape to Cancel"
 #~ msgstr "入力履歴を削除するフレーズを選択、Escapeでキャンセル"
 
-#~ msgid "Classic"
-#~ msgstr "クラシック"
-
 #~ msgid "Classic User Interface with Skin support"
 #~ msgstr "スキンをサポートしたクラシックなユーザーインタフェース"
 
@@ -618,9 +676,6 @@ msgstr "Unicode"
 #~ msgid "Custom switch key"
 #~ msgstr "カスタム切り替えキー"
 
-#~ msgid "DBus"
-#~ msgstr "DBus"
-
 #~ msgid "DBus Support"
 #~ msgstr "DBusサポート"
 
@@ -629,9 +684,6 @@ msgstr "Unicode"
 
 #~ msgid "De&lete All"
 #~ msgstr "全削除 (&l)"
-
-#~ msgid "Default Input Method State"
-#~ msgstr "既定の入力メソッドの状態"
 
 #~ msgid "Default Shuangpin Schema"
 #~ msgstr "既定のShuangpinのスキーマー"
@@ -817,9 +869,6 @@ msgstr "Unicode"
 #~ msgid "Fcitx Configure UI:"
 #~ msgstr "Fcitx設定UI:"
 
-#~ msgid "Fcitx DBus Frontend"
-#~ msgstr "Fcitx DBusフロントエンド"
-
 #~ msgid "Fcitx Lua Support"
 #~ msgstr "FcitxのLua サポート"
 
@@ -834,6 +883,9 @@ msgstr "Unicode"
 
 #~ msgid "Fcitx State:"
 #~ msgstr "Fcitxの状態:"
+
+#~ msgid "Fcitx Unicode Typing Support"
+#~ msgstr "Fcitx ユニコード入力対応"
 
 #~ msgid "Fcitx XIM Frontend"
 #~ msgstr "Fcitx XIMフロントエンド"
@@ -1110,9 +1162,6 @@ msgstr "Unicode"
 
 #~ msgid "Input Method"
 #~ msgstr "入力メソッド"
-
-#~ msgid "Input Method Configuration"
-#~ msgstr "入力メソッドの設定"
 
 #~ msgid "Input Method Disabled"
 #~ msgstr "入力メソッドが無効"
@@ -1560,9 +1609,6 @@ msgstr "Unicode"
 #~ msgid "Quick Phrase List"
 #~ msgstr "クイックフレーズリスト"
 
-#~ msgid "QuickPhrase"
-#~ msgstr "クイックフレーズ"
-
 #~ msgid "Quickphrase"
 #~ msgstr "クイックフレーズ"
 
@@ -1776,9 +1822,6 @@ msgstr "Unicode"
 #~ msgid "Special Icon position"
 #~ msgstr "特殊アイコンの位置"
 
-#~ msgid "Spell"
-#~ msgstr "スペル"
-
 #~ msgid "Spell Hint"
 #~ msgstr "スペルヒント"
 
@@ -1868,9 +1911,6 @@ msgstr "Unicode"
 
 #~ msgid "Table Code Color"
 #~ msgstr "テーブルコードの色"
-
-#~ msgid "Table Input Method for Fcitx"
-#~ msgstr "Fcitx用のテーブル入力メソッド"
 
 #~ msgid "Table Symbol"
 #~ msgstr "罫線文字"

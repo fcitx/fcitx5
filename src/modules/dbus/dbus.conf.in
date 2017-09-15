@@ -1,5 +1,5 @@
 [Addon]
-Name=dbus
+Name=DBus
 Type=SharedLibrary
 Library=dbus
 Category=Module

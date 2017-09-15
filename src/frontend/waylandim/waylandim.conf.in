@@ -1,5 +1,5 @@
 [Addon]
-Name=waylandim
+Name=Wayland Input method frontend
 Type=SharedLibrary
 Library=waylandim
 Category=Frontend

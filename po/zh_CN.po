@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-09-15 08:42-0700\n"
+"POT-Creation-Date: 2017-09-15 09:26-0700\n"
 "PO-Revision-Date: 2017-09-14 19:41-0800\n"
 "Last-Translator: Weng Xuetian <wengxt@gmail.com>\n"
 "Language-Team: Chinese <kde-china@kde.org>\n"
@@ -37,15 +37,11 @@ msgstr "<专用区>"
 msgid "<not assigned>"
 msgstr "<未指派>"
 
-#: src/modules/unicode/unicode.conf.in:5
-msgid "Add Unicode Typing Support"
-msgstr "添加 Unicode 输入支持"
-
 #: src/modules/clipboard/clipboard.cpp:290
 msgid "Clipboard:"
 msgstr ""
 
-#: src/lib/fcitx/inputmethodmanager.cpp:186
+#: src/lib/fcitx/inputmethodmanager.cpp:188
 msgid "Default"
 msgstr "默认"
 
@@ -53,11 +49,8 @@ msgstr "默认"
 msgid "Do not show again"
 msgstr "不要再显示"
 
-#: src/modules/unicode/unicode.conf.in:4
-msgid "Fcitx Unicode Typing Support"
-msgstr "Fcitx 的 Unicode 输入支持"
-
 #: src/im/keyboard/keyboard.cpp:153 src/im/keyboard/keyboard.cpp:167
+#: src/im/keyboard/keyboard.conf.in:3
 msgid "Keyboard"
 msgstr "键盘"
 
@@ -84,6 +77,72 @@ msgstr "已启用拼写提示。"
 #: src/modules/unicode/unicode.cpp:244
 msgid "Unicode: "
 msgstr "Unicode："
+
+#: src/modules/spell/spell.conf.in:3
+#, fuzzy
+msgid "Spell"
+msgstr "拼写提示"
+
+#: src/modules/notifications/notifications.conf.in:3
+msgid "notifications"
+msgstr ""
+
+#: src/modules/dbus/dbus.conf.in:3
+msgid "DBus"
+msgstr ""
+
+#: src/modules/xcb/xcb.conf.in:3
+msgid "XCB"
+msgstr ""
+
+#: src/modules/clipboard/clipboard.conf.in:3
+msgid "Clipboard"
+msgstr ""
+
+#: src/modules/wayland/wayland.conf.in:3
+msgid "Wayland"
+msgstr ""
+
+#: src/modules/unicode/unicode.conf.in:3
+#, fuzzy
+msgid "Unicode"
+msgstr "Unicode："
+
+#: src/modules/unicode/unicode.conf.in:4
+msgid "Add Unicode Typing Support"
+msgstr "添加 Unicode 输入支持"
+
+#: src/modules/quickphrase/quickphrase.conf.in:3
+#, fuzzy
+msgid "Quick Phrase"
+msgstr "快速输入: "
+
+#: src/frontend/dbusfrontend/dbusfrontend.conf.in:3
+msgid "DBus Frontend"
+msgstr ""
+
+#: src/frontend/waylandim/waylandim.conf.in:3
+msgid "Wayland Input method frontend"
+msgstr ""
+
+#: src/frontend/xim/xim.conf.in:3
+msgid "X Input Method Frontend"
+msgstr ""
+
+#: src/ui/simpleui/simpleui.conf.in:3
+msgid "Simple UI for testing"
+msgstr ""
+
+#: src/ui/kimpanel/kimpanel.conf.in:3
+msgid "KDE Input Method Panel"
+msgstr ""
+
+#: src/ui/classic/classicui.conf.in:3
+msgid "classicui"
+msgstr ""
+
+#~ msgid "Fcitx Unicode Typing Support"
+#~ msgstr "Fcitx 的 Unicode 输入支持"
 
 #, fuzzy
 #~ msgid "unicode"

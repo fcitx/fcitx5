@@ -29,7 +29,7 @@ SharedLibraryLoader::~SharedLibraryLoader() {}
 
 AddonInstance *SharedLibraryLoader::load(const AddonInfo &info,
                                          AddonManager *manager) {
-    auto iter = registry_.find(info.name());
+    auto iter = registry_.find(info.uniqueName());
     if (iter == registry_.end()) {
         auto libs = standardPath_.locateAll(
             StandardPath::Type::Addon, info.library() + FCITX_LIBRARY_SUFFIX);
@@ -40,14 +40,14 @@ AddonInstance *SharedLibraryLoader::load(const AddonInfo &info,
             }
             try {
                 registry_.emplace(
-                    info.name(),
+                    info.uniqueName(),
                     std::make_unique<SharedLibraryFactory>(std::move(lib)));
             } catch (const std::exception &e) {
                 // TODO
             }
             break;
         }
-        iter = registry_.find(info.name());
+        iter = registry_.find(info.uniqueName());
     }
 
     if (iter == registry_.end()) {
@@ -61,7 +61,7 @@ StaticLibraryLoader::StaticLibraryLoader(StaticAddonRegistry *registry_)
 
 AddonInstance *StaticLibraryLoader::load(const AddonInfo &info,
                                          AddonManager *manager) {
-    auto iter = registry->find(info.name());
+    auto iter = registry->find(info.uniqueName());
     if (iter == registry->end()) {
         return nullptr;
     }

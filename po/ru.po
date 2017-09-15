@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-09-15 08:42-0700\n"
+"POT-Creation-Date: 2017-09-15 09:26-0700\n"
 "PO-Revision-Date: 2016-12-02 00:55+0000\n"
 "Last-Translator: TotalCaesar659 <x24cm5b8c54q6szxw@yandex.ru>\n"
 "Language-Team: Russian (http://www.transifex.com/fcitx/fcitx/language/ru/)\n"
@@ -40,16 +40,12 @@ msgstr "<Для личного использования>"
 msgid "<not assigned>"
 msgstr "<не назначен>"
 
-#: src/modules/unicode/unicode.conf.in:5
-msgid "Add Unicode Typing Support"
-msgstr "Добавляет поддержку набора с помощью символов Юникод"
-
 #: src/modules/clipboard/clipboard.cpp:290
 #, fuzzy
 msgid "Clipboard:"
 msgstr "Буфер обмена"
 
-#: src/lib/fcitx/inputmethodmanager.cpp:186
+#: src/lib/fcitx/inputmethodmanager.cpp:188
 msgid "Default"
 msgstr "По умолчанию"
 
@@ -57,11 +53,8 @@ msgstr "По умолчанию"
 msgid "Do not show again"
 msgstr "Больше не показывать"
 
-#: src/modules/unicode/unicode.conf.in:4
-msgid "Fcitx Unicode Typing Support"
-msgstr "Поддержка в Fcitx ввода символов Юникод"
-
 #: src/im/keyboard/keyboard.cpp:153 src/im/keyboard/keyboard.cpp:167
+#: src/im/keyboard/keyboard.conf.in:3
 msgid "Keyboard"
 msgstr "Клавиатура"
 
@@ -90,6 +83,74 @@ msgstr "Подсказки по написанию включены."
 #, fuzzy
 msgid "Unicode: "
 msgstr "Unicode"
+
+#: src/modules/spell/spell.conf.in:3
+msgid "Spell"
+msgstr "Подсказки"
+
+#: src/modules/notifications/notifications.conf.in:3
+msgid "notifications"
+msgstr ""
+
+#: src/modules/dbus/dbus.conf.in:3
+msgid "DBus"
+msgstr "DBus"
+
+#: src/modules/xcb/xcb.conf.in:3
+msgid "XCB"
+msgstr ""
+
+#: src/modules/clipboard/clipboard.conf.in:3
+#, fuzzy
+msgid "Clipboard"
+msgstr "Буфер обмена"
+
+#: src/modules/wayland/wayland.conf.in:3
+msgid "Wayland"
+msgstr ""
+
+#: src/modules/unicode/unicode.conf.in:3
+#, fuzzy
+msgid "Unicode"
+msgstr "Unicode"
+
+#: src/modules/unicode/unicode.conf.in:4
+msgid "Add Unicode Typing Support"
+msgstr "Добавляет поддержку набора с помощью символов Юникод"
+
+#: src/modules/quickphrase/quickphrase.conf.in:3
+#, fuzzy
+msgid "Quick Phrase"
+msgstr "Быстрая фраза"
+
+#: src/frontend/dbusfrontend/dbusfrontend.conf.in:3
+#, fuzzy
+msgid "DBus Frontend"
+msgstr "Интерфейс Fcitx DBus"
+
+#: src/frontend/waylandim/waylandim.conf.in:3
+#, fuzzy
+msgid "Wayland Input method frontend"
+msgstr "Метод ввода таблиц для Fcitx"
+
+#: src/frontend/xim/xim.conf.in:3
+#, fuzzy
+msgid "X Input Method Frontend"
+msgstr "Настройка метода ввода"
+
+#: src/ui/simpleui/simpleui.conf.in:3
+msgid "Simple UI for testing"
+msgstr ""
+
+#: src/ui/kimpanel/kimpanel.conf.in:3
+#, fuzzy
+msgid "KDE Input Method Panel"
+msgstr "Состояние метода ввода по умолчанию"
+
+#: src/ui/classic/classicui.conf.in:3
+#, fuzzy
+msgid "classicui"
+msgstr "Классический"
 
 #~ msgid " Ctrl+Delete To Delete"
 #~ msgstr "Ctrl+Delete для удаления"
@@ -516,9 +577,6 @@ msgstr "Unicode"
 #~ msgid "Choose the phrase to clear typing history, Press Escape to Cancel"
 #~ msgstr "Выберите фразу для очистки истории ввода. Нажмите Esc для отмены"
 
-#~ msgid "Classic"
-#~ msgstr "Классический"
-
 #~ msgid "Classic User Interface with Skin support"
 #~ msgstr "Классический интерфейс с поддержкой скинов"
 
@@ -652,9 +710,6 @@ msgstr "Unicode"
 #~ msgid "Custom switch key"
 #~ msgstr "Пользовательская клавиша переключения"
 
-#~ msgid "DBus"
-#~ msgstr "DBus"
-
 #~ msgid "DBus Support"
 #~ msgstr "Поддержка DBus"
 
@@ -667,9 +722,6 @@ msgstr "Unicode"
 
 #~ msgid "De&lete All"
 #~ msgstr "Уд&алить все"
-
-#~ msgid "Default Input Method State"
-#~ msgstr "Состояние метода ввода по умолчанию"
 
 #~ msgid "Default Shuangpin Schema"
 #~ msgstr "Схема шуаньпинь по умолчанию"
@@ -874,9 +926,6 @@ msgstr "Unicode"
 #~ msgid "Fcitx Configure UI:"
 #~ msgstr "Конфигурационный интерфейс Fcitx:"
 
-#~ msgid "Fcitx DBus Frontend"
-#~ msgstr "Интерфейс Fcitx DBus"
-
 #~ msgid "Fcitx Lua Support"
 #~ msgstr "Поддержка Lua в Fcitx"
 
@@ -891,6 +940,9 @@ msgstr "Unicode"
 
 #~ msgid "Fcitx State:"
 #~ msgstr "Состояние Fcitx:"
+
+#~ msgid "Fcitx Unicode Typing Support"
+#~ msgstr "Поддержка в Fcitx ввода символов Юникод"
 
 #~ msgid "Fcitx XIM Frontend"
 #~ msgstr "Интерфейс XIM Fcitx"
@@ -1212,9 +1264,6 @@ msgstr "Unicode"
 
 #~ msgid "Input Method"
 #~ msgstr "Метод ввода"
-
-#~ msgid "Input Method Configuration"
-#~ msgstr "Настройка метода ввода"
 
 #~ msgid "Input Method Disabled"
 #~ msgstr "Метод ввода отключен"
@@ -1714,9 +1763,6 @@ msgstr "Unicode"
 #~ msgid "Quick Phrase List"
 #~ msgstr "Список быстрых фраз"
 
-#~ msgid "QuickPhrase"
-#~ msgstr "Быстрая фраза"
-
 #~ msgid "Quickphrase"
 #~ msgstr "Быстрая фраза"
 
@@ -1949,9 +1995,6 @@ msgstr "Unicode"
 #~ msgid "Special Icon position"
 #~ msgstr "Особое положение значка"
 
-#~ msgid "Spell"
-#~ msgstr "Подсказки"
-
 #~ msgid "Spell Hint"
 #~ msgstr "Подсказка по написанию"
 
@@ -2044,9 +2087,6 @@ msgstr "Unicode"
 
 #~ msgid "Table Code Color"
 #~ msgstr "Цвет кода таблицы"
-
-#~ msgid "Table Input Method for Fcitx"
-#~ msgstr "Метод ввода таблиц для Fcitx"
 
 #~ msgid "Table Symbol"
 #~ msgstr "Символы таблицы"

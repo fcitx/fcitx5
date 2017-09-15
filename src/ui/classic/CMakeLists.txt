@@ -15,5 +15,5 @@ target_link_libraries(classicui
     Fcitx5::Wayland::Core)
 set_target_properties(classicui PROPERTIES PREFIX "")
 install(TARGETS classicui DESTINATION "${FCITX_INSTALL_ADDONDIR}")
-fcitx5_translate_conf_file(classicui.conf.in classicui.conf)
+fcitx5_translate_desktop_file(classicui.conf.in classicui.conf)
 install(FILES "${CMAKE_CURRENT_BINARY_DIR}/classicui.conf" DESTINATION "${FCITX_INSTALL_PKGDATADIR}/addon")

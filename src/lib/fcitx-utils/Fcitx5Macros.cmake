@@ -88,10 +88,6 @@ macro(fcitx5_export_module EXPORTNAME)
     endif()
 endmacro()
 
-function(fcitx5_translate_conf_file SRC DEST)
-  fcitx5_translate_desktop_file(${SRC} ${DEST} KEYWORDS GeneralName Comment ${ARGN})
-endfunction()
-
 function(fcitx5_translate_desktop_file SRC DEST)
   set(options)
   set(one_value_args PO_DIRECTORY)

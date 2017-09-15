@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-09-15 08:42-0700\n"
+"POT-Creation-Date: 2017-09-15 09:26-0700\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -41,7 +41,7 @@ msgstr ""
 msgid "Clipboard:"
 msgstr ""
 
-#: src/lib/fcitx/inputmethodmanager.cpp:186
+#: src/lib/fcitx/inputmethodmanager.cpp:188
 msgid "Default"
 msgstr ""
 
@@ -50,6 +50,7 @@ msgid "Do not show again"
 msgstr ""
 
 #: src/im/keyboard/keyboard.cpp:153 src/im/keyboard/keyboard.cpp:167
+#: src/im/keyboard/keyboard.conf.in:3
 msgid "Keyboard"
 msgstr ""
 
@@ -77,10 +78,62 @@ msgstr ""
 msgid "Unicode: "
 msgstr ""
 
-#: src/modules/unicode/unicode.conf.in:4
-msgid "Fcitx Unicode Typing Support"
+#: src/modules/spell/spell.conf.in:3
+msgid "Spell"
 msgstr ""
 
-#: src/modules/unicode/unicode.conf.in:5
+#: src/modules/notifications/notifications.conf.in:3
+msgid "notifications"
+msgstr ""
+
+#: src/modules/dbus/dbus.conf.in:3
+msgid "DBus"
+msgstr ""
+
+#: src/modules/xcb/xcb.conf.in:3
+msgid "XCB"
+msgstr ""
+
+#: src/modules/clipboard/clipboard.conf.in:3
+msgid "Clipboard"
+msgstr ""
+
+#: src/modules/wayland/wayland.conf.in:3
+msgid "Wayland"
+msgstr ""
+
+#: src/modules/unicode/unicode.conf.in:3
+msgid "Unicode"
+msgstr ""
+
+#: src/modules/unicode/unicode.conf.in:4
 msgid "Add Unicode Typing Support"
+msgstr ""
+
+#: src/modules/quickphrase/quickphrase.conf.in:3
+msgid "Quick Phrase"
+msgstr ""
+
+#: src/frontend/dbusfrontend/dbusfrontend.conf.in:3
+msgid "DBus Frontend"
+msgstr ""
+
+#: src/frontend/waylandim/waylandim.conf.in:3
+msgid "Wayland Input method frontend"
+msgstr ""
+
+#: src/frontend/xim/xim.conf.in:3
+msgid "X Input Method Frontend"
+msgstr ""
+
+#: src/ui/simpleui/simpleui.conf.in:3
+msgid "Simple UI for testing"
+msgstr ""
+
+#: src/ui/kimpanel/kimpanel.conf.in:3
+msgid "KDE Input Method Panel"
+msgstr ""
+
+#: src/ui/classic/classicui.conf.in:3
+msgid "classicui"
 msgstr ""

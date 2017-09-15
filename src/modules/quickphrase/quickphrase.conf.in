@@ -1,5 +1,5 @@
 [Addon]
-Name=quickphrase
+Name=Quick Phrase
 Type=SharedLibrary
 Library=quickphrase
 Category=Module

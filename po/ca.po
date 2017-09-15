@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-09-15 08:42-0700\n"
+"POT-Creation-Date: 2017-09-15 09:26-0700\n"
 "PO-Revision-Date: 2016-11-29 16:37+0000\n"
 "Last-Translator: Walter Garcia-Fontes <walter.garcia@upf.edu>\n"
 "Language-Team: Catalan (http://www.transifex.com/fcitx/fcitx/language/ca/)\n"
@@ -38,16 +38,12 @@ msgstr "<Ús privat>"
 msgid "<not assigned>"
 msgstr "<no assignat>"
 
-#: src/modules/unicode/unicode.conf.in:5
-msgid "Add Unicode Typing Support"
-msgstr "Afegeix suport per a l'escriptura unicode"
-
 #: src/modules/clipboard/clipboard.cpp:290
 #, fuzzy
 msgid "Clipboard:"
 msgstr "Porta-retalls"
 
-#: src/lib/fcitx/inputmethodmanager.cpp:186
+#: src/lib/fcitx/inputmethodmanager.cpp:188
 msgid "Default"
 msgstr "Per defecte"
 
@@ -55,11 +51,8 @@ msgstr "Per defecte"
 msgid "Do not show again"
 msgstr "No ho mostris un altre cop"
 
-#: src/modules/unicode/unicode.conf.in:4
-msgid "Fcitx Unicode Typing Support"
-msgstr "Suport per a l'escriptura unicode del fcitx"
-
 #: src/im/keyboard/keyboard.cpp:153 src/im/keyboard/keyboard.cpp:167
+#: src/im/keyboard/keyboard.conf.in:3
 msgid "Keyboard"
 msgstr "Teclat"
 
@@ -88,6 +81,74 @@ msgstr "S'han activat les pistes d'ortografia"
 #, fuzzy
 msgid "Unicode: "
 msgstr "Unicode"
+
+#: src/modules/spell/spell.conf.in:3
+msgid "Spell"
+msgstr "Ortografia"
+
+#: src/modules/notifications/notifications.conf.in:3
+msgid "notifications"
+msgstr ""
+
+#: src/modules/dbus/dbus.conf.in:3
+msgid "DBus"
+msgstr "DBus"
+
+#: src/modules/xcb/xcb.conf.in:3
+msgid "XCB"
+msgstr ""
+
+#: src/modules/clipboard/clipboard.conf.in:3
+#, fuzzy
+msgid "Clipboard"
+msgstr "Porta-retalls"
+
+#: src/modules/wayland/wayland.conf.in:3
+msgid "Wayland"
+msgstr ""
+
+#: src/modules/unicode/unicode.conf.in:3
+#, fuzzy
+msgid "Unicode"
+msgstr "Unicode"
+
+#: src/modules/unicode/unicode.conf.in:4
+msgid "Add Unicode Typing Support"
+msgstr "Afegeix suport per a l'escriptura unicode"
+
+#: src/modules/quickphrase/quickphrase.conf.in:3
+#, fuzzy
+msgid "Quick Phrase"
+msgstr "Frase ràpida"
+
+#: src/frontend/dbusfrontend/dbusfrontend.conf.in:3
+#, fuzzy
+msgid "DBus Frontend"
+msgstr "Frontal DBus del fcitx"
+
+#: src/frontend/waylandim/waylandim.conf.in:3
+#, fuzzy
+msgid "Wayland Input method frontend"
+msgstr "Mètode d'entrada de taula per al fcitx"
+
+#: src/frontend/xim/xim.conf.in:3
+#, fuzzy
+msgid "X Input Method Frontend"
+msgstr "Configuració del mètode d'entrada"
+
+#: src/ui/simpleui/simpleui.conf.in:3
+msgid "Simple UI for testing"
+msgstr ""
+
+#: src/ui/kimpanel/kimpanel.conf.in:3
+#, fuzzy
+msgid "KDE Input Method Panel"
+msgstr "Estat predeterminat de mètode d'entrada"
+
+#: src/ui/classic/classicui.conf.in:3
+#, fuzzy
+msgid "classicui"
+msgstr "Clàssic"
 
 #~ msgid " Ctrl+Delete To Delete"
 #~ msgstr "Ctrl+Supr per esborrar"
@@ -523,9 +584,6 @@ msgstr "Unicode"
 #~ "Escolliu la frase per netejar la història d'escriptura, premeu Escape per "
 #~ "cancel·lar"
 
-#~ msgid "Classic"
-#~ msgstr "Clàssic"
-
 #~ msgid "Classic User Interface with Skin support"
 #~ msgstr "Interfície clàssica d'usuari amb suport per a l'aparença"
 
@@ -660,9 +718,6 @@ msgstr "Unicode"
 #~ msgid "Custom switch key"
 #~ msgstr "Tecla personalitzada de commutació"
 
-#~ msgid "DBus"
-#~ msgstr "DBus"
-
 #~ msgid "DBus Support"
 #~ msgstr "Suport del DBus"
 
@@ -674,9 +729,6 @@ msgstr "Unicode"
 
 #~ msgid "De&lete All"
 #~ msgstr "E&limina tot"
-
-#~ msgid "Default Input Method State"
-#~ msgstr "Estat predeterminat de mètode d'entrada"
 
 #~ msgid "Default Shuangpin Schema"
 #~ msgstr "Esquema Shuangpin predeterminat"
@@ -886,9 +938,6 @@ msgstr "Unicode"
 #~ msgid "Fcitx Configure UI:"
 #~ msgstr "Interfície d'usuari de configuració del fcitx:"
 
-#~ msgid "Fcitx DBus Frontend"
-#~ msgstr "Frontal DBus del fcitx"
-
 #~ msgid "Fcitx Lua Support"
 #~ msgstr "Suport del Lua del fcitx"
 
@@ -903,6 +952,9 @@ msgstr "Unicode"
 
 #~ msgid "Fcitx State:"
 #~ msgstr "Estat del fcitx:"
+
+#~ msgid "Fcitx Unicode Typing Support"
+#~ msgstr "Suport per a l'escriptura unicode del fcitx"
 
 #~ msgid "Fcitx XIM Frontend"
 #~ msgstr "Frontal de l'XIM del fcitx"
@@ -1227,9 +1279,6 @@ msgstr "Unicode"
 
 #~ msgid "Input Method"
 #~ msgstr "Mètode d'entrada"
-
-#~ msgid "Input Method Configuration"
-#~ msgstr "Configuració del mètode d'entrada"
 
 #~ msgid "Input Method Disabled"
 #~ msgstr "Mètode d'entrada desactivat"
@@ -1724,9 +1773,6 @@ msgstr "Unicode"
 #~ msgid "Quick Phrase List"
 #~ msgstr "Llista de frases ràpides"
 
-#~ msgid "QuickPhrase"
-#~ msgstr "Frase ràpida"
-
 #~ msgid "Quickphrase"
 #~ msgstr "Frase ràpida"
 
@@ -1961,9 +2007,6 @@ msgstr "Unicode"
 #~ msgid "Special Icon position"
 #~ msgstr "Posició especial de la icona"
 
-#~ msgid "Spell"
-#~ msgstr "Ortografia"
-
 #~ msgid "Spell Hint"
 #~ msgstr "Pista d'ortografia"
 
@@ -2058,9 +2101,6 @@ msgstr "Unicode"
 
 #~ msgid "Table Code Color"
 #~ msgstr "Color del codi de taula"
-
-#~ msgid "Table Input Method for Fcitx"
-#~ msgstr "Mètode d'entrada de taula per al fcitx"
 
 #~ msgid "Table Symbol"
 #~ msgstr "Símbol de taula"

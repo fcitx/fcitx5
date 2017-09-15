@@ -23,8 +23,7 @@ namespace fcitx {
 
 FCITX_CONFIGURATION(
     AddonConfig,
-    fcitx::Option<std::string> name{this, "Addon/Name", "Addon Name"};
-    fcitx::Option<I18NString> generalName{this, "Addon/GeneralName", "GeneralName"};
+    fcitx::Option<I18NString> name{this, "Addon/Name", "Addon Name"};
     fcitx::Option<I18NString> comment{this, "Addon/Comment", "Comment"};
     fcitx::Option<std::string> type{this, "Addon/Type", "Addon Type"};
     fcitx::Option<std::string> library{this, "Addon/Library", "Addon Library"};
@@ -41,26 +40,29 @@ FCITX_CONFIGURATION(
 
 class AddonInfoPrivate : public AddonConfig {
 public:
-    bool valid = false;
+    AddonInfoPrivate(const std::string &name) : uniqueName_(name) {}
+
+    bool valid_ = false;
+    std::string uniqueName_;
 };
 
-AddonInfo::AddonInfo() : d_ptr(std::make_unique<AddonInfoPrivate>()) {}
+AddonInfo::AddonInfo(const std::string &name) : d_ptr(std::make_unique<AddonInfoPrivate>(name)) {}
 
 AddonInfo::~AddonInfo() {}
 
 bool AddonInfo::isValid() const {
     FCITX_D();
-    return d->valid;
+    return d->valid_;
 }
 
-const std::string &AddonInfo::name() const {
+const std::string &AddonInfo::uniqueName() const {
+    FCITX_D();
+    return d->uniqueName_;
+}
+
+const I18NString &AddonInfo::name() const {
     FCITX_D();
     return d->name.value();
-}
-
-const I18NString &AddonInfo::generalName() const {
-    FCITX_D();
-    return d->generalName.value();
 }
 
 
@@ -109,7 +111,7 @@ void AddonInfo::load(const RawConfig &config) {
     d->load(config);
 
     // Validate more information
-    d->valid = !(d->name.value().empty()) && !(d->type.value().empty()) &&
+    d->valid_ = !(d->uniqueName_.empty()) && !(d->type.value().empty()) &&
                !(d->library.value().empty()) && d->enabled.value();
 }
 }

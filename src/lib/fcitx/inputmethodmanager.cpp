@@ -84,7 +84,9 @@ void InputMethodManager::load() {
 
         InputMethodInfo imInfo;
         imInfo.load(config);
-        InputMethodEntry entry = toInputMethodEntry(imInfo);
+        // Remove ".conf"
+        auto name = file.first.substr(0, file.first.size() - 5);
+        InputMethodEntry entry = toInputMethodEntry(name, imInfo);
         if (checkEntry(entry, inputMethods) &&
             stringutils::isConcatOf(file.first, entry.uniqueName(), ".conf") &&
             d->entries_.count(entry.uniqueName()) == 0) {

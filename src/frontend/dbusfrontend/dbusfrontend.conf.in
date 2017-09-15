@@ -1,5 +1,5 @@
 [Addon]
-Name=dbusfrontend
+Name=DBus Frontend
 Type=SharedLibrary
 Library=dbusfrontend
 Category=Frontend

@@ -1,5 +1,5 @@
 [Addon]
-Name=clipboard
+Name=Clipboard
 Type=SharedLibrary
 Library=clipboard
 Category=Module

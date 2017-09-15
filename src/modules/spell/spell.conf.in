@@ -1,5 +1,5 @@
 [Addon]
-Name=spell
+Name=Spell
 Type=SharedLibrary
 Library=spell
 Category=Module

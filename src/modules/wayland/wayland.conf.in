@@ -1,5 +1,5 @@
 [Addon]
-Name=wayland
+Name=Wayland
 Type=SharedLibrary
 Library=wayland
 Category=Module

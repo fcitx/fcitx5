@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-09-15 08:42-0700\n"
+"POT-Creation-Date: 2017-09-15 09:26-0700\n"
 "PO-Revision-Date: 2015-12-12 07:18+0000\n"
 "Last-Translator: csslayer <wengxt@gmail.com>\n"
 "Language-Team: Spanish (http://www.transifex.com/fcitx/fcitx/language/es/)\n"
@@ -38,15 +38,11 @@ msgstr ""
 msgid "<not assigned>"
 msgstr ""
 
-#: src/modules/unicode/unicode.conf.in:5
-msgid "Add Unicode Typing Support"
-msgstr ""
-
 #: src/modules/clipboard/clipboard.cpp:290
 msgid "Clipboard:"
 msgstr ""
 
-#: src/lib/fcitx/inputmethodmanager.cpp:186
+#: src/lib/fcitx/inputmethodmanager.cpp:188
 msgid "Default"
 msgstr ""
 
@@ -54,11 +50,8 @@ msgstr ""
 msgid "Do not show again"
 msgstr ""
 
-#: src/modules/unicode/unicode.conf.in:4
-msgid "Fcitx Unicode Typing Support"
-msgstr ""
-
 #: src/im/keyboard/keyboard.cpp:153 src/im/keyboard/keyboard.cpp:167
+#: src/im/keyboard/keyboard.conf.in:3
 msgid "Keyboard"
 msgstr ""
 
@@ -84,6 +77,71 @@ msgstr ""
 
 #: src/modules/unicode/unicode.cpp:244
 msgid "Unicode: "
+msgstr ""
+
+#: src/modules/spell/spell.conf.in:3
+msgid "Spell"
+msgstr ""
+
+#: src/modules/notifications/notifications.conf.in:3
+msgid "notifications"
+msgstr ""
+
+#: src/modules/dbus/dbus.conf.in:3
+msgid "DBus"
+msgstr ""
+
+#: src/modules/xcb/xcb.conf.in:3
+msgid "XCB"
+msgstr ""
+
+#: src/modules/clipboard/clipboard.conf.in:3
+msgid "Clipboard"
+msgstr ""
+
+#: src/modules/wayland/wayland.conf.in:3
+msgid "Wayland"
+msgstr ""
+
+#: src/modules/unicode/unicode.conf.in:3
+msgid "Unicode"
+msgstr ""
+
+#: src/modules/unicode/unicode.conf.in:4
+msgid "Add Unicode Typing Support"
+msgstr ""
+
+#: src/modules/quickphrase/quickphrase.conf.in:3
+#, fuzzy
+msgid "Quick Phrase"
+msgstr "Lista de frases rápidas"
+
+#: src/frontend/dbusfrontend/dbusfrontend.conf.in:3
+#, fuzzy
+msgid "DBus Frontend"
+msgstr "Interfaz"
+
+#: src/frontend/waylandim/waylandim.conf.in:3
+#, fuzzy
+msgid "Wayland Input method frontend"
+msgstr "Estado predeterminado del método de entrada"
+
+#: src/frontend/xim/xim.conf.in:3
+#, fuzzy
+msgid "X Input Method Frontend"
+msgstr "Método de entrada"
+
+#: src/ui/simpleui/simpleui.conf.in:3
+msgid "Simple UI for testing"
+msgstr ""
+
+#: src/ui/kimpanel/kimpanel.conf.in:3
+#, fuzzy
+msgid "KDE Input Method Panel"
+msgstr "Estado predeterminado del método de entrada"
+
+#: src/ui/classic/classicui.conf.in:3
+msgid "classicui"
 msgstr ""
 
 #~ msgid " Ctrl+Delete To Delete"
@@ -131,9 +189,6 @@ msgstr ""
 #~ msgid "Current Input Method Name"
 #~ msgstr "Nombre del método de entrada actual"
 
-#~ msgid "Default Input Method State"
-#~ msgstr "Estado predeterminado del método de entrada"
-
 #~ msgid "Dependency"
 #~ msgstr "Dependencia"
 
@@ -161,9 +216,6 @@ msgstr ""
 #~ msgid "Font"
 #~ msgstr "Tipo de letra"
 
-#~ msgid "Frontend"
-#~ msgstr "Interfaz"
-
 #~ msgid "Hide"
 #~ msgstr "Ocultar"
 
@@ -172,9 +224,6 @@ msgstr ""
 
 #~ msgid "Input Font Size"
 #~ msgstr "Tamaño de letra de entrada"
-
-#~ msgid "Input Method"
-#~ msgstr "Método de entrada"
 
 #~ msgid "Input Method Disabled"
 #~ msgstr "Método de entrada desactivado"
@@ -245,9 +294,6 @@ msgstr ""
 
 #~ msgid "Priority"
 #~ msgstr "Prioridad"
-
-#~ msgid "Quick Phrase List"
-#~ msgstr "Lista de frases rápidas"
 
 #~ msgid "Resize"
 #~ msgstr "Redimensionar"

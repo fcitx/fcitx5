@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-09-15 08:42-0700\n"
+"POT-Creation-Date: 2017-09-15 09:26-0700\n"
 "PO-Revision-Date: 2017-07-15 16:16+0000\n"
 "Last-Translator: Bon Keun Seo <scobyseo@gmail.com>\n"
 "Language-Team: Korean (http://www.transifex.com/fcitx/fcitx/language/ko/)\n"
@@ -40,16 +40,12 @@ msgstr "<개인사용>"
 msgid "<not assigned>"
 msgstr "<할당 안됨>"
 
-#: src/modules/unicode/unicode.conf.in:5
-msgid "Add Unicode Typing Support"
-msgstr "유니코드 입력 지원 추가"
-
 #: src/modules/clipboard/clipboard.cpp:290
 #, fuzzy
 msgid "Clipboard:"
 msgstr "클립보드"
 
-#: src/lib/fcitx/inputmethodmanager.cpp:186
+#: src/lib/fcitx/inputmethodmanager.cpp:188
 msgid "Default"
 msgstr "기본값"
 
@@ -57,11 +53,8 @@ msgstr "기본값"
 msgid "Do not show again"
 msgstr "다시 보이지 않기"
 
-#: src/modules/unicode/unicode.conf.in:4
-msgid "Fcitx Unicode Typing Support"
-msgstr "Fcitx 유니코드 입력지원"
-
 #: src/im/keyboard/keyboard.cpp:153 src/im/keyboard/keyboard.cpp:167
+#: src/im/keyboard/keyboard.conf.in:3
 msgid "Keyboard"
 msgstr "키보드"
 
@@ -90,6 +83,74 @@ msgstr "철자 힌트 활성화됨."
 #, fuzzy
 msgid "Unicode: "
 msgstr "유니코드"
+
+#: src/modules/spell/spell.conf.in:3
+msgid "Spell"
+msgstr "철자"
+
+#: src/modules/notifications/notifications.conf.in:3
+msgid "notifications"
+msgstr ""
+
+#: src/modules/dbus/dbus.conf.in:3
+msgid "DBus"
+msgstr "DBus"
+
+#: src/modules/xcb/xcb.conf.in:3
+msgid "XCB"
+msgstr ""
+
+#: src/modules/clipboard/clipboard.conf.in:3
+#, fuzzy
+msgid "Clipboard"
+msgstr "클립보드"
+
+#: src/modules/wayland/wayland.conf.in:3
+msgid "Wayland"
+msgstr ""
+
+#: src/modules/unicode/unicode.conf.in:3
+#, fuzzy
+msgid "Unicode"
+msgstr "유니코드"
+
+#: src/modules/unicode/unicode.conf.in:4
+msgid "Add Unicode Typing Support"
+msgstr "유니코드 입력 지원 추가"
+
+#: src/modules/quickphrase/quickphrase.conf.in:3
+#, fuzzy
+msgid "Quick Phrase"
+msgstr "상용구"
+
+#: src/frontend/dbusfrontend/dbusfrontend.conf.in:3
+#, fuzzy
+msgid "DBus Frontend"
+msgstr "Fcitx DBus 프론트엔드"
+
+#: src/frontend/waylandim/waylandim.conf.in:3
+#, fuzzy
+msgid "Wayland Input method frontend"
+msgstr "Fcitx를 위한 표 입력기"
+
+#: src/frontend/xim/xim.conf.in:3
+#, fuzzy
+msgid "X Input Method Frontend"
+msgstr "입력기 설정"
+
+#: src/ui/simpleui/simpleui.conf.in:3
+msgid "Simple UI for testing"
+msgstr ""
+
+#: src/ui/kimpanel/kimpanel.conf.in:3
+#, fuzzy
+msgid "KDE Input Method Panel"
+msgstr "기본 입력기 상태"
+
+#: src/ui/classic/classicui.conf.in:3
+#, fuzzy
+msgid "classicui"
+msgstr "전통"
 
 #~ msgid " Ctrl+Delete To Delete"
 #~ msgstr "Ctrl+Delete로 지우기"
@@ -509,9 +570,6 @@ msgstr "유니코드"
 #~ msgid "Choose the phrase to clear typing history, Press Escape to Cancel"
 #~ msgstr "입력 기록을 삭제하기 위한 문구를 선택하세요 (취소는 ESC)"
 
-#~ msgid "Classic"
-#~ msgstr "전통"
-
 #~ msgid "Classic User Interface with Skin support"
 #~ msgstr "스킨을 지원하는 전통 사용자 인터페이스"
 
@@ -644,9 +702,6 @@ msgstr "유니코드"
 #~ msgid "Custom switch key"
 #~ msgstr "커스텀 변경키"
 
-#~ msgid "DBus"
-#~ msgstr "DBus"
-
 #~ msgid "DBus Support"
 #~ msgstr "DBus 지원"
 
@@ -658,9 +713,6 @@ msgstr "유니코드"
 
 #~ msgid "De&lete All"
 #~ msgstr "모두 지우기(&l)"
-
-#~ msgid "Default Input Method State"
-#~ msgstr "기본 입력기 상태"
 
 #~ msgid "Default Shuangpin Schema"
 #~ msgstr "기본 Shuangpin 스키마"
@@ -858,9 +910,6 @@ msgstr "유니코드"
 #~ msgid "Fcitx Configure UI:"
 #~ msgstr "Fcitx 설정UI:"
 
-#~ msgid "Fcitx DBus Frontend"
-#~ msgstr "Fcitx DBus 프론트엔드"
-
 #~ msgid "Fcitx Lua Support"
 #~ msgstr "Fcitx Lua 지원"
 
@@ -875,6 +924,9 @@ msgstr "유니코드"
 
 #~ msgid "Fcitx State:"
 #~ msgstr "Fcitx 상태:"
+
+#~ msgid "Fcitx Unicode Typing Support"
+#~ msgstr "Fcitx 유니코드 입력지원"
 
 #~ msgid "Fcitx XIM Frontend"
 #~ msgstr "Fcitx XIM 프론트엔드"
@@ -1192,9 +1244,6 @@ msgstr "유니코드"
 
 #~ msgid "Input Method"
 #~ msgstr "입력기"
-
-#~ msgid "Input Method Configuration"
-#~ msgstr "입력기 설정"
 
 #~ msgid "Input Method Disabled"
 #~ msgstr "입력기 비활성"
@@ -1676,9 +1725,6 @@ msgstr "유니코드"
 #~ msgid "Quick Phrase List"
 #~ msgstr "상용구 리스트"
 
-#~ msgid "QuickPhrase"
-#~ msgstr "상용구"
-
 #~ msgid "Quickphrase"
 #~ msgstr "상용구"
 
@@ -1907,9 +1953,6 @@ msgstr "유니코드"
 #~ msgid "Special Icon position"
 #~ msgstr "특수 아이콘 위치"
 
-#~ msgid "Spell"
-#~ msgstr "철자"
-
 #~ msgid "Spell Hint"
 #~ msgstr "철자 힌트"
 
@@ -2002,9 +2045,6 @@ msgstr "유니코드"
 
 #~ msgid "Table Code Color"
 #~ msgstr "표 코드 색"
-
-#~ msgid "Table Input Method for Fcitx"
-#~ msgstr "Fcitx를 위한 표 입력기"
 
 #~ msgid "Table Symbol"
 #~ msgstr "표 기호"

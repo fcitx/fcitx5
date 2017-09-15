@@ -1,5 +1,5 @@
 [Addon]
-Name=xim
+Name=X Input Method Frontend
 Type=SharedLibrary
 Library=xim
 Category=Frontend

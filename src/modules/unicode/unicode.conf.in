@@ -1,6 +1,5 @@
 [Addon]
-Name=unicode
-GeneralName=Fcitx Unicode Typing Support
+Name=Unicode
 Comment=Add Unicode Typing Support
 Type=SharedLibrary
 Library=unicode

@@ -34,12 +34,12 @@ FCITX_CONFIG_ENUM(AddonCategory, InputMethod, Frontend, Loader, Module, UI)
 
 class FCITXCORE_EXPORT AddonInfo {
 public:
-    AddonInfo();
+    AddonInfo(const std::string &name);
     virtual ~AddonInfo();
 
     bool isValid() const;
-    const std::string &name() const;
-    const I18NString &generalName() const;
+    const std::string &uniqueName() const;
+    const I18NString &name() const;
     const I18NString &comment() const;
     const std::string &type() const;
     AddonCategory category() const;

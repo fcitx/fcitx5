@@ -50,8 +50,6 @@ FCITX_CONFIGURATION(
 
 FCITX_CONFIGURATION(
     InputMethodInfo,
-    Option<std::string> uniqueName{this, "InputMethod/UniqueName",
-                                          "Unique Name"};
     Option<I18NString> name{this, "InputMethod/Name", "Name"};
     Option<std::string> icon{this, "InputMethod/Icon", "Icon"};
     Option<std::string> label{this, "InputMethod/Label", "Label"};
@@ -59,10 +57,10 @@ FCITX_CONFIGURATION(
                                             "Language Code"};
     Option<std::string> addon{this, "InputMethod/Addon", "Addon"};)
 
-InputMethodEntry toInputMethodEntry(const InputMethodInfo &config) {
+InputMethodEntry toInputMethodEntry(const std::string &uniqueName, const InputMethodInfo &config) {
     const auto &langCode = config.languageCode.value();
     const auto &name = config.name.value();
-    InputMethodEntry result(config.uniqueName.value(), name.match("system"),
+    InputMethodEntry result(uniqueName, name.match("system"),
                             langCode, config.addon.value());
     if (!langCode.empty() && langCode != "*") {
         const auto &nativeName = name.match(langCode);
