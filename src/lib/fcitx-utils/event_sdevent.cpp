@@ -278,6 +278,7 @@ int TimeEventCallback(sd_event_source *, uint64_t usec, void *userdata) {
         return result ? 0 : -1;
     } catch (const std::exception &e) {
         // some abnormal things threw
+        FCITX_LOG(Error) << e.what();
         abort();
     }
     return -1;
@@ -309,6 +310,7 @@ int StaticEventCallback(sd_event_source *, void *userdata) {
         return result ? 0 : -1;
     } catch (const std::exception &e) {
         // some abnormal things threw
+        FCITX_LOG(Error) << e.what();
         abort();
     }
     return -1;

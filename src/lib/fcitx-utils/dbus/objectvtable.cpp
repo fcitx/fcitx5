@@ -20,6 +20,7 @@
 #include "objectvtable.h"
 #include "bus_p.h"
 #include "objectvtable_p.h"
+#include "../log.h"
 #include <unordered_set>
 
 namespace fcitx {
@@ -58,8 +59,9 @@ int SDMethodCallback(sd_bus_message *m, void *userdata, sd_bus_error *) {
             wathcer.get()->setCurrentMessage(nullptr);
         }
         return 1;
-    } catch (...) {
+    } catch (const std::exception &e) {
         // some abnormal things threw
+        FCITX_LOG(Error) << e.what();
         abort();
     }
     return 0;
@@ -80,8 +82,9 @@ int SDPropertyGetCallback(sd_bus *, const char *, const char *,
         auto msg = MessagePrivate::fromSDBusMessage(reply);
         prop->getMethod()(msg);
         return 1;
-    } catch (...) {
+    } catch (const std::exception &e) {
         // some abnormal things threw
+        FCITX_LOG(Error) << e.what();
         abort();
     }
     return 0;
@@ -102,8 +105,9 @@ int SDPropertySetCallback(sd_bus *, const char *, const char *,
         auto msg = MessagePrivate::fromSDBusMessage(reply);
         static_cast<ObjectVTableWritableProperty *>(prop)->setMethod()(msg);
         return 1;
-    } catch (...) {
+    } catch (const std::exception &e) {
         // some abnormal things threw
+        FCITX_LOG(Error) << e.what();
         abort();
     }
     return 0;

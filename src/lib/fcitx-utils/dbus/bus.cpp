@@ -17,6 +17,7 @@
  * see <http://www.gnu.org/licenses/>.
  */
 
+#include "../log.h"
 #include "bus_p.h"
 #include "message_p.h"
 #include "objectvtable_p.h"
@@ -130,8 +131,9 @@ int SDMessageCallback(sd_bus_message *m, void *userdata, sd_bus_error *) {
     try {
         auto result = slot->callback(MessagePrivate::fromSDBusMessage(m));
         return result ? 0 : 1;
-    } catch (...) {
+    } catch (const std::exception &e) {
         // some abnormal things threw
+        FCITX_LOG(Error) << e.what();
         abort();
     }
     return 1;
@@ -164,8 +166,9 @@ int SDEnumeratorCallback(sd_bus *, const char *prefix, void *userdata,
         }
         ret[result.size()] = nullptr;
         *ret_nodes = ret;
-    } catch (...) {
+    } catch (const std::exception &e) {
         // some abnormal things threw
+        FCITX_LOG(Error) << e.what();
         abort();
     }
     return 1;

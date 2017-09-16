@@ -271,13 +271,7 @@ void InputMethodManager::save() {
     }
     config.groups.setValue(std::move(groups));
 
-    RawConfig rawConfig;
-    config.save(rawConfig);
-    auto file = StandardPath::global().openUserTemp(StandardPath::Type::Config,
-                                                    "fcitx5/profile");
-    if (file.fd() >= 0) {
-        writeAsIni(rawConfig, file.fd());
-    }
+    safeSaveAsIni(config, "profile");
 }
 
 void InputMethodManager::setInstance(Instance *instance) {

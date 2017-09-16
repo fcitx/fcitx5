@@ -462,7 +462,7 @@ std::vector<StandardPathFile> StandardPath::openAll(StandardPath::Type type,
 
 StandardPathTempFile
 StandardPath::openUserTemp(Type type, const std::string &pathOrig) const {
-    std::string path = "XXXXXX_" + pathOrig;
+    std::string path = pathOrig + "_XXXXXX";
     std::string fullPath, fullPathOrig;
     if (isAbsolutePath(pathOrig)) {
         fullPath = path;
