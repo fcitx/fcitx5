@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-09-15 09:26-0700\n"
+"POT-Creation-Date: 2017-09-15 16:52-0700\n"
 "PO-Revision-Date: 2017-09-12 20:30+0000\n"
 "Last-Translator: scootergrisen\n"
 "Language-Team: Danish (http://www.transifex.com/fcitx/fcitx/language/da/)\n"
@@ -51,9 +51,13 @@ msgstr "Standard"
 msgid "Do not show again"
 msgstr "Vis ikke igen"
 
-#: src/im/keyboard/keyboard.cpp:153 src/im/keyboard/keyboard.cpp:167
-#: src/im/keyboard/keyboard.conf.in:3
+#: src/im/keyboard/keyboard.cpp:167 src/im/keyboard/keyboard.conf.in:3
 msgid "Keyboard"
+msgstr "Tastatur"
+
+#: src/im/keyboard/keyboard.cpp:154
+#, fuzzy
+msgid "Keyboard - {0}"
 msgstr "Tastatur"
 
 #: src/modules/clipboard/clipboard.cpp:292
@@ -80,6 +84,15 @@ msgstr "Stavetip er aktiveret."
 #, fuzzy
 msgid "Unicode: "
 msgstr "Unicode"
+
+#: src/lib/fcitx/instance.cpp:475
+#, fuzzy
+msgid "{0} (Not available)"
+msgstr "(utilgængelig)"
+
+#: src/lib/fcitx/instance.cpp:472
+msgid "{0} ({1})"
+msgstr ""
 
 #: src/modules/spell/spell.conf.in:3
 #, fuzzy
@@ -173,9 +186,6 @@ msgstr "Klassisk"
 
 #~ msgid "&Save"
 #~ msgstr "&Gem"
-
-#~ msgid "(Unavailable)"
-#~ msgstr "(utilgængelig)"
 
 #~ msgid "/Beginner%27s_Guide"
 #~ msgstr "/Begynder%27s_guide"

@@ -20,7 +20,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-09-15 09:26-0700\n"
+"POT-Creation-Date: 2017-09-15 16:52-0700\n"
 "PO-Revision-Date: 2017-07-12 16:37+0000\n"
 "Last-Translator: PHLin <Cypressyew@gmail.com>\n"
 "Language-Team: Chinese (Taiwan) (http://www.transifex.com/fcitx/fcitx/"
@@ -64,9 +64,13 @@ msgstr "預設"
 msgid "Do not show again"
 msgstr "不再顯示"
 
-#: src/im/keyboard/keyboard.cpp:153 src/im/keyboard/keyboard.cpp:167
-#: src/im/keyboard/keyboard.conf.in:3
+#: src/im/keyboard/keyboard.cpp:167 src/im/keyboard/keyboard.conf.in:3
 msgid "Keyboard"
+msgstr "鍵盤"
+
+#: src/im/keyboard/keyboard.cpp:154
+#, fuzzy
+msgid "Keyboard - {0}"
 msgstr "鍵盤"
 
 #: src/modules/clipboard/clipboard.cpp:292
@@ -94,6 +98,15 @@ msgstr "已啟用拼字提示。"
 #, fuzzy
 msgid "Unicode: "
 msgstr "萬國碼"
+
+#: src/lib/fcitx/instance.cpp:475
+#, fuzzy
+msgid "{0} (Not available)"
+msgstr "(不可用)"
+
+#: src/lib/fcitx/instance.cpp:472
+msgid "{0} ({1})"
+msgstr ""
 
 #: src/modules/spell/spell.conf.in:3
 msgid "Spell"
@@ -207,9 +220,6 @@ msgstr "經典介面"
 
 #~ msgid "&Save"
 #~ msgstr "儲存 (&S)"
-
-#~ msgid "(Unavailable)"
-#~ msgstr "(不可用)"
 
 #~ msgid "/Beginner%27s_Guide"
 #~ msgstr "/Beginner%27s_Guide"

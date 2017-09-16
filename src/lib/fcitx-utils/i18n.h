@@ -27,6 +27,7 @@ const char *translate(const std::string &s);
 const char *translate(const char *s);
 const char *translateDomain(const char *domain, const std::string &s);
 const char *translateDomain(const char *domain, const char *s);
+void registerDomain(const char* domain, const char* dir);
 }
 
 #ifndef FCITX_NO_I18N_MACRO

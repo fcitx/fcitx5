@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-09-15 09:26-0700\n"
+"POT-Creation-Date: 2017-09-15 16:52-0700\n"
 "PO-Revision-Date: 2017-07-28 12:48+0000\n"
 "Last-Translator: mar well <m.wellendorf@gmx.de>\n"
 "Language-Team: German (http://www.transifex.com/fcitx/fcitx/language/de/)\n"
@@ -54,9 +54,13 @@ msgstr "Standard"
 msgid "Do not show again"
 msgstr "Nicht mehr zeigen"
 
-#: src/im/keyboard/keyboard.cpp:153 src/im/keyboard/keyboard.cpp:167
-#: src/im/keyboard/keyboard.conf.in:3
+#: src/im/keyboard/keyboard.cpp:167 src/im/keyboard/keyboard.conf.in:3
 msgid "Keyboard"
+msgstr "Tastatur"
+
+#: src/im/keyboard/keyboard.cpp:154
+#, fuzzy
+msgid "Keyboard - {0}"
 msgstr "Tastatur"
 
 #: src/modules/clipboard/clipboard.cpp:292
@@ -84,6 +88,15 @@ msgstr "Rechtschreibungshinweis ist aktiviert."
 #, fuzzy
 msgid "Unicode: "
 msgstr "Unicode"
+
+#: src/lib/fcitx/instance.cpp:475
+#, fuzzy
+msgid "{0} (Not available)"
+msgstr "(Nicht erreichbar)"
+
+#: src/lib/fcitx/instance.cpp:472
+msgid "{0} ({1})"
+msgstr ""
 
 #: src/modules/spell/spell.conf.in:3
 msgid "Spell"
@@ -198,9 +211,6 @@ msgstr "CLASSIC (Fcitx Benutzeroberfläche)"
 
 #~ msgid "&Save"
 #~ msgstr "&Speichern"
-
-#~ msgid "(Unavailable)"
-#~ msgstr "(Nicht erreichbar)"
 
 #~ msgid "/Beginner%27s_Guide"
 #~ msgstr "/Anfänger %27s_Handbuch"

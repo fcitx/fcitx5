@@ -21,7 +21,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-09-15 09:26-0700\n"
+"POT-Creation-Date: 2017-09-15 16:52-0700\n"
 "PO-Revision-Date: 2016-04-18 18:04+0000\n"
 "Last-Translator: csslayer <wengxt@gmail.com>\n"
 "Language-Team: Japanese (http://www.transifex.com/fcitx/fcitx/language/ja/)\n"
@@ -64,9 +64,13 @@ msgstr "既定"
 msgid "Do not show again"
 msgstr "次回から表示しない"
 
-#: src/im/keyboard/keyboard.cpp:153 src/im/keyboard/keyboard.cpp:167
-#: src/im/keyboard/keyboard.conf.in:3
+#: src/im/keyboard/keyboard.cpp:167 src/im/keyboard/keyboard.conf.in:3
 msgid "Keyboard"
+msgstr "キーボード"
+
+#: src/im/keyboard/keyboard.cpp:154
+#, fuzzy
+msgid "Keyboard - {0}"
 msgstr "キーボード"
 
 #: src/modules/clipboard/clipboard.cpp:292
@@ -94,6 +98,15 @@ msgstr "スペルヒントは有効です。"
 #, fuzzy
 msgid "Unicode: "
 msgstr "Unicode"
+
+#: src/lib/fcitx/instance.cpp:475
+#, fuzzy
+msgid "{0} (Not available)"
+msgstr "(使えません)"
+
+#: src/lib/fcitx/instance.cpp:472
+msgid "{0} ({1})"
+msgstr ""
 
 #: src/modules/spell/spell.conf.in:3
 msgid "Spell"
@@ -198,9 +211,6 @@ msgstr "クラシック"
 
 #~ msgid "&Save"
 #~ msgstr "保存 (&S)"
-
-#~ msgid "(Unavailable)"
-#~ msgstr "(使えません)"
 
 #~ msgid "/Beginner%27s_Guide"
 #~ msgstr "/Beginner%27s_Guide"

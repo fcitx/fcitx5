@@ -40,6 +40,8 @@
 #include <unistd.h>
 #include <xkbcommon/xkbcommon-compose.h>
 #include <xkbcommon/xkbcommon.h>
+#include <fmt/format.h>
+#include "fcitx-utils/i18n.h"
 
 namespace {
 
@@ -455,16 +457,27 @@ Instance::Instance(int argc, char **argv) {
             FCITX_D();
             auto engine = inputMethodEngine(ic);
             auto entry = inputMethodEntry(ic);
-            if (!engine || !entry) {
-                return;
-            }
-            if (d->globalConfig_.showInputMethodInformation() &&
+            if (entry && d->globalConfig_.showInputMethodInformation() &&
                 (icEvent.reason() == InputMethodSwitchedReason::Trigger ||
                  icEvent.reason() == InputMethodSwitchedReason::Enumerate ||
                  icEvent.reason() == InputMethodSwitchedReason::Activate ||
                  icEvent.reason() == InputMethodSwitchedReason::Deactivate)) {
                 auto inputState = ic->propertyFor(&d->inputStateFactory);
-                inputState->showInputMethodInformation(entry->name());
+                std::string display;
+                if (engine) {
+                    auto subMode = engine->subMode(*entry, *ic);
+                    if (subMode.empty()) {
+                        display = entry->name();
+                    } else {
+                        display = fmt::format(_("{0} ({1})"), entry->name(), subMode);
+                    }
+                } else {
+                    display = fmt::format(_("{0} (Not available)"), entry->name());
+                }
+                inputState->showInputMethodInformation(display);
+            }
+            if (!engine || !entry) {
+                return;
             }
         }));
     d->eventWatchers_.emplace_back(d->watchEvent(

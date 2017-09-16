@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-09-15 09:26-0700\n"
+"POT-Creation-Date: 2017-09-15 16:52-0700\n"
 "PO-Revision-Date: 2016-12-02 00:55+0000\n"
 "Last-Translator: TotalCaesar659 <x24cm5b8c54q6szxw@yandex.ru>\n"
 "Language-Team: Russian (http://www.transifex.com/fcitx/fcitx/language/ru/)\n"
@@ -53,9 +53,13 @@ msgstr "По умолчанию"
 msgid "Do not show again"
 msgstr "Больше не показывать"
 
-#: src/im/keyboard/keyboard.cpp:153 src/im/keyboard/keyboard.cpp:167
-#: src/im/keyboard/keyboard.conf.in:3
+#: src/im/keyboard/keyboard.cpp:167 src/im/keyboard/keyboard.conf.in:3
 msgid "Keyboard"
+msgstr "Клавиатура"
+
+#: src/im/keyboard/keyboard.cpp:154
+#, fuzzy
+msgid "Keyboard - {0}"
 msgstr "Клавиатура"
 
 #: src/modules/clipboard/clipboard.cpp:292
@@ -83,6 +87,15 @@ msgstr "Подсказки по написанию включены."
 #, fuzzy
 msgid "Unicode: "
 msgstr "Unicode"
+
+#: src/lib/fcitx/instance.cpp:475
+#, fuzzy
+msgid "{0} (Not available)"
+msgstr "(Недоступный)"
+
+#: src/lib/fcitx/instance.cpp:472
+msgid "{0} ({1})"
+msgstr ""
 
 #: src/modules/spell/spell.conf.in:3
 msgid "Spell"
@@ -196,9 +209,6 @@ msgstr "Классический"
 
 #~ msgid "&Save"
 #~ msgstr "&Сохранить"
-
-#~ msgid "(Unavailable)"
-#~ msgstr "(Недоступный)"
 
 #~ msgid "/Beginner%27s_Guide"
 #~ msgstr "/Руководство_для_начинающих"

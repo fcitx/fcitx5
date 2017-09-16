@@ -95,10 +95,10 @@ function(fcitx5_translate_desktop_file SRC DEST)
   cmake_parse_arguments(FCITX5_TRANSLATE
     "${options}" "${one_value_args}" "${multi_value_args}" ${ARGN})
 
-  if (NOT IS_ABSOLUTE SRC)
+  if (NOT IS_ABSOLUTE ${SRC})
     set(SRC "${CMAKE_CURRENT_SOURCE_DIR}/${SRC}")
   endif()
-  if (NOT IS_ABSOLUTE DEST)
+  if (NOT IS_ABSOLUTE ${DEST})
     set(DEST "${CMAKE_CURRENT_BINARY_DIR}/${DEST}")
   endif()
   get_filename_component(SRC_BASE ${SRC} NAME)

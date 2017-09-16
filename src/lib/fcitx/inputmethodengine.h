@@ -46,7 +46,7 @@ public:
     virtual void reset(const InputMethodEntry &, InputContextEvent &) {}
     virtual void filterKey(const InputMethodEntry &, KeyEvent &) {}
     virtual void updateSurroundingText(const InputMethodEntry &) {}
-    virtual std::string subMode(const InputMethodEntry &) { return {}; }
+    virtual std::string subMode(const InputMethodEntry &, InputContext &) { return {}; }
     virtual std::string overrideIcon(const InputMethodEntry &) { return {}; }
 };
 }

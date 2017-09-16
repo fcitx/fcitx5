@@ -37,6 +37,7 @@
 #include <cstring>
 #include <fcntl.h>
 #include <libintl.h>
+#include <fmt/format.h>
 
 const char imNamePrefix[] = "keyboard-";
 const int imNamePrefixLength = sizeof(imNamePrefix) - 1;
@@ -115,6 +116,7 @@ std::pair<std::string, std::string> layoutFromName(const std::string &s) {
 }
 
 KeyboardEngine::KeyboardEngine(Instance *instance) : instance_(instance) {
+    registerDomain("xkeyboard-config", XKEYBOARDCONFIG_DATADIR "/locale");
     isoCodes_.read(ISOCODES_ISO639_XML, ISOCODES_ISO3166_XML);
     auto xcb = instance_->addonManager().addon("xcb");
     std::string rule;
@@ -149,10 +151,8 @@ std::vector<InputMethodEntry> KeyboardEngine::listInputMethods() {
         auto &layoutInfo = p.second;
         auto language = findBestLanguage(isoCodes_, layoutInfo.description,
                                          layoutInfo.languages);
-        auto description =
-            stringutils::join({_("Keyboard"), " - ",
-                               D_("xkeyboard-config", layoutInfo.description)},
-                              "");
+        auto description = fmt::format(_("Keyboard - {0}"),
+                               D_("xkeyboard-config", layoutInfo.description));
         auto uniqueName = imNamePrefix + layoutInfo.name;
         result.push_back(std::move(
             InputMethodEntry(uniqueName, description, language, "keyboard")

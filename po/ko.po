@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-09-15 09:26-0700\n"
+"POT-Creation-Date: 2017-09-15 16:52-0700\n"
 "PO-Revision-Date: 2017-07-15 16:16+0000\n"
 "Last-Translator: Bon Keun Seo <scobyseo@gmail.com>\n"
 "Language-Team: Korean (http://www.transifex.com/fcitx/fcitx/language/ko/)\n"
@@ -53,9 +53,13 @@ msgstr "기본값"
 msgid "Do not show again"
 msgstr "다시 보이지 않기"
 
-#: src/im/keyboard/keyboard.cpp:153 src/im/keyboard/keyboard.cpp:167
-#: src/im/keyboard/keyboard.conf.in:3
+#: src/im/keyboard/keyboard.cpp:167 src/im/keyboard/keyboard.conf.in:3
 msgid "Keyboard"
+msgstr "키보드"
+
+#: src/im/keyboard/keyboard.cpp:154
+#, fuzzy
+msgid "Keyboard - {0}"
 msgstr "키보드"
 
 #: src/modules/clipboard/clipboard.cpp:292
@@ -83,6 +87,15 @@ msgstr "철자 힌트 활성화됨."
 #, fuzzy
 msgid "Unicode: "
 msgstr "유니코드"
+
+#: src/lib/fcitx/instance.cpp:475
+#, fuzzy
+msgid "{0} (Not available)"
+msgstr "(이용할 수 없음)"
+
+#: src/lib/fcitx/instance.cpp:472
+msgid "{0} ({1})"
+msgstr ""
 
 #: src/modules/spell/spell.conf.in:3
 msgid "Spell"
@@ -196,9 +209,6 @@ msgstr "전통"
 
 #~ msgid "&Save"
 #~ msgstr "저장(&S)"
-
-#~ msgid "(Unavailable)"
-#~ msgstr "(이용할 수 없음)"
 
 #~ msgid "/Beginner%27s_Guide"
 #~ msgstr "/Beginner%27s_Guide"

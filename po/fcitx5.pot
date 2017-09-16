@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-09-15 11:34-0700\n"
+"POT-Creation-Date: 2017-09-15 16:53-0700\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -49,9 +49,12 @@ msgstr ""
 msgid "Do not show again"
 msgstr ""
 
-#: src/im/keyboard/keyboard.cpp:153 src/im/keyboard/keyboard.cpp:167
-#: src/im/keyboard/keyboard.conf.in:3
+#: src/im/keyboard/keyboard.cpp:167 src/im/keyboard/keyboard.conf.in:3
 msgid "Keyboard"
+msgstr ""
+
+#: src/im/keyboard/keyboard.cpp:154
+msgid "Keyboard - {0}"
 msgstr ""
 
 #: src/modules/clipboard/clipboard.cpp:292
@@ -76,6 +79,14 @@ msgstr ""
 
 #: src/modules/unicode/unicode.cpp:244
 msgid "Unicode: "
+msgstr ""
+
+#: src/lib/fcitx/instance.cpp:475
+msgid "{0} (Not available)"
+msgstr ""
+
+#: src/lib/fcitx/instance.cpp:472
+msgid "{0} ({1})"
 msgstr ""
 
 #: src/modules/spell/spell.conf.in:3

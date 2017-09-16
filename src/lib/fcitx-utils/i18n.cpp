@@ -1,5 +1,6 @@
 
 #include "i18n.h"
+#include "log.h"
 #include "fcitxutils_export.h"
 #include "standardpath.h"
 #include <libintl.h>
@@ -11,13 +12,19 @@ namespace fcitx {
 
 class GettextManager {
 public:
-    void addDomain(const char *domain) {
+    void addDomain(const char *domain, const char* dir = nullptr) {
         std::lock_guard<std::mutex> lock(mutex_);
         if (domains_.count(domain)) {
             return;
         }
-        bindtextdomain(domain, StandardPath::fcitxPath("localedir").c_str());
+        auto localedir = StandardPath::fcitxPath("localedir");
+        if (!dir) {
+            dir = localedir.data();
+        }
+        bindtextdomain(domain, dir);
         bind_textdomain_codeset(domain, "UTF-8");
+        domains_.insert(domain);
+        FCITX_LOG(Debug) << "Add gettext domain " << domain << " at " << dir;
     }
 
 private:
@@ -42,5 +49,9 @@ FCITXUTILS_EXPORT const char *translateDomain(const char *domain,
                                               const char *s) {
     gettextManager.addDomain(domain);
     return ::dgettext(domain, s);
+}
+FCITXUTILS_EXPORT void registerDomain(const char *domain,
+                                      const char *dir) {
+    gettextManager.addDomain(domain, dir);
 }
 }
