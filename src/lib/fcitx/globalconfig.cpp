@@ -39,12 +39,12 @@ FCITX_CONFIGURATION(
         this,
         "Hotkey/EnumerateForwardKeys",
         "Enumerate Input Method Forward",
-        {Key("Control+Shift_L")}};
+        {Key("Control+Shift_R")}};
     fcitx::Option<std::vector<Key>> enumerateBackwardKeys{
         this,
         "Hotkey/EnumerateBackwardKeys",
         "Enumerate Input Method Backward",
-        {Key("Control+Shift_R")}};
+        {Key("Control+Shift_L")}};
     fcitx::Option<std::vector<Key>> activateKeys{this,
                                                  "Hotkey/ActivateKeys",
                                                  "ActivateKeys",
