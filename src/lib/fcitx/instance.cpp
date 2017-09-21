@@ -22,6 +22,7 @@
 #include "config.h"
 #include "fcitx-config/iniparser.h"
 #include "fcitx-utils/event.h"
+#include "fcitx-utils/i18n.h"
 #include "fcitx-utils/log.h"
 #include "fcitx-utils/standardpath.h"
 #include "fcitx-utils/stringutils.h"
@@ -34,14 +35,13 @@
 #include "inputmethodmanager.h"
 #include "userinterfacemanager.h"
 #include <fcntl.h>
+#include <fmt/format.h>
 #include <getopt.h>
 #include <signal.h>
 #include <sys/wait.h>
 #include <unistd.h>
 #include <xkbcommon/xkbcommon-compose.h>
 #include <xkbcommon/xkbcommon.h>
-#include <fmt/format.h>
-#include "fcitx-utils/i18n.h"
 
 namespace {
 
@@ -83,9 +83,11 @@ struct InputState : public InputContextProperty {
 
     InstancePrivate *d_ptr;
     InputContext *ic_;
-    int keyReleased = -1;
-    bool active;
-    CheckInputMethodChanged *imChanged = nullptr;
+    int keyReleased_ = -1;
+    // We use -2 to make sure -2 != -1 (From keyListIndex)
+    int keyReleasedIndex_ = -2;
+    bool active_;
+    CheckInputMethodChanged *imChanged_ = nullptr;
     std::unique_ptr<struct xkb_compose_state,
                     decltype(&xkb_compose_state_unref)>
         xkbComposeState_;
@@ -125,7 +127,7 @@ public:
           inputMethod_(instance->inputMethod(ic)),
           reason_(InputMethodSwitchedReason::Other) {
         auto inputState = ic->propertyAs<InputState>("inputState");
-        inputState->imChanged = this;
+        inputState->imChanged_ = this;
     }
     ~CheckInputMethodChanged() {
         if (!ic_.isValid()) {
@@ -133,7 +135,7 @@ public:
         }
         auto ic = ic_.get();
         auto inputState = ic->propertyAs<InputState>("inputState");
-        inputState->imChanged = nullptr;
+        inputState->imChanged_ = nullptr;
         if (inputMethod_ != instance_->inputMethod(ic)) {
             instance_->postEvent(
                 InputContextSwitchInputMethodEvent(reason_, inputMethod_, ic));
@@ -232,7 +234,7 @@ public:
 
 InputState::InputState(InstancePrivate *d, InputContext *ic)
     : d_ptr(d), ic_(ic), xkbComposeState_(nullptr, &xkb_compose_state_unref) {
-    active = d->globalConfig_.activeByDefault();
+    active_ = d->globalConfig_.activeByDefault();
     if (d->xkbComposeTable_) {
         xkbComposeState_.reset(xkb_compose_state_new(
             d->xkbComposeTable_.get(), XKB_COMPOSE_STATE_NO_FLAGS));
@@ -285,13 +287,17 @@ Instance::Instance(int argc, char **argv) {
 
             struct {
                 const KeyList &list;
-                std::function<bool()> callback;
+                std::function<bool()> check;
+                std::function<void()> trigger;
             } keyHandlers[] = {
                 {d->globalConfig_.triggerKeys(),
+                 [this]() { return canTrigger(); },
                  [this, ic]() { return trigger(ic); }},
                 {d->globalConfig_.enumerateForwardKeys(),
+                 [this]() { return canTrigger(); },
                  [this, ic]() { return enumerate(ic, true); }},
                 {d->globalConfig_.enumerateBackwardKeys(),
+                 [this]() { return canTrigger(); },
                  [this, ic]() { return enumerate(ic, false); }},
             };
 
@@ -300,10 +306,15 @@ Instance::Instance(int argc, char **argv) {
             if (keyEvent.isRelease()) {
                 int idx = 0;
                 for (auto &keyHandler : keyHandlers) {
-                    if (isModifier && inputState->keyReleased == idx &&
-                        keyEvent.key().checkKeyList(keyHandler.list)) {
-                        if (keyHandler.callback()) {
+                    if (inputState->keyReleased_ == idx &&
+                        inputState->keyReleasedIndex_ ==
+                            keyEvent.key().keyListIndex(keyHandler.list) &&
+                        keyHandler.check()) {
+                        if (isModifier) {
+                            keyHandler.trigger();
                             return keyEvent.filterAndAccept();
+                        } else {
+                            return keyEvent.filter();
                         }
                     }
                     idx++;
@@ -312,15 +323,20 @@ Instance::Instance(int argc, char **argv) {
 
             if (!keyEvent.filtered() && !keyEvent.isRelease()) {
                 int idx = 0;
-                inputState->keyReleased = -1;
+                inputState->keyReleased_ = -1;
+                inputState->keyReleasedIndex_ = -2;
                 for (auto &keyHandler : keyHandlers) {
-                    if (keyEvent.key().checkKeyList(keyHandler.list)) {
+                    auto keyIdx = keyEvent.key().keyListIndex(keyHandler.list);
+                    if (keyIdx >= 0 && keyHandler.check()) {
+                        inputState->keyReleased_ = idx;
+                        inputState->keyReleasedIndex_ = keyIdx;
                         if (isModifier) {
-                            inputState->keyReleased = idx;
+                            // don't forward to input method, but make it pass
+                            // through to client.
+                            return keyEvent.filter();
                         } else {
-                            if (keyHandler.callback()) {
-                                return keyEvent.filterAndAccept();
-                            }
+                            keyHandler.trigger();
+                            return keyEvent.filterAndAccept();
                         }
                     }
                     idx++;
@@ -469,10 +485,12 @@ Instance::Instance(int argc, char **argv) {
                     if (subMode.empty()) {
                         display = entry->name();
                     } else {
-                        display = fmt::format(_("{0} ({1})"), entry->name(), subMode);
+                        display =
+                            fmt::format(_("{0} ({1})"), entry->name(), subMode);
                     }
                 } else {
-                    display = fmt::format(_("{0} (Not available)"), entry->name());
+                    display =
+                        fmt::format(_("{0} (Not available)"), entry->name());
                 }
                 inputState->showInputMethodInformation(display);
             }
@@ -713,7 +731,7 @@ std::string Instance::inputMethod(InputContext *ic) {
     FCITX_D();
     auto &group = d->imManager_.currentGroup();
     auto inputState = ic->propertyFor(&d->inputStateFactory);
-    if (inputState->active) {
+    if (inputState->active_) {
         return group.defaultInputMethod();
     }
 
@@ -867,16 +885,20 @@ int Instance::state() { return 0; }
 
 void Instance::toggle() {}
 
+bool Instance::canTrigger() {
+    auto &imManager = inputMethodManager();
+    return (imManager.currentGroup().inputMethodList().size() > 1);
+}
+
 bool Instance::trigger(InputContext *ic) {
     FCITX_D();
-    auto &imManager = inputMethodManager();
     auto inputState = ic->propertyFor(&d->inputStateFactory);
-    if (imManager.currentGroup().inputMethodList().size() <= 1) {
+    if (!canTrigger()) {
         return false;
     }
-    inputState->active = !inputState->active;
-    if (inputState->imChanged) {
-        inputState->imChanged->setReason(InputMethodSwitchedReason::Trigger);
+    inputState->active_ = !inputState->active_;
+    if (inputState->imChanged_) {
+        inputState->imChanged_->setReason(InputMethodSwitchedReason::Trigger);
     }
     return true;
 }
@@ -886,7 +908,7 @@ bool Instance::enumerate(InputContext *ic, bool forward) {
     auto &imManager = inputMethodManager();
     auto inputState = ic->propertyFor(&d->inputStateFactory);
     const auto &imList = imManager.currentGroup().inputMethodList();
-    if (imManager.currentGroup().inputMethodList().size() <= 1) {
+    if (!canTrigger()) {
         return false;
     }
 
@@ -904,12 +926,12 @@ bool Instance::enumerate(InputContext *ic, bool forward) {
     idx = (idx + (forward ? 1 : (imList.size() - 1))) % imList.size();
     if (idx != 0) {
         imManager.currentGroup().setDefaultInputMethod(imList[idx].name());
-        inputState->active = true;
+        inputState->active_ = true;
     } else {
-        inputState->active = false;
+        inputState->active_ = false;
     }
-    if (inputState->imChanged) {
-        inputState->imChanged->setReason(InputMethodSwitchedReason::Enumerate);
+    if (inputState->imChanged_) {
+        inputState->imChanged_->setReason(InputMethodSwitchedReason::Enumerate);
     }
 
     return true;

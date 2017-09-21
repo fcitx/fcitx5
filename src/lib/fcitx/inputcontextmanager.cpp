@@ -192,6 +192,16 @@ InputContext *InputContextManager::findByUUID(ICUUID uuid) {
     return (iter == d->uuidMap_.end()) ? nullptr : iter->second;
 }
 
+bool InputContextManager::foreach(const InputContextVisitor &visitor) {
+    FCITX_D();
+    for (auto &ic : d->inputContexts_) {
+        if (visitor(&ic)) {
+            return false;
+        }
+    }
+    return true;
+}
+
 bool InputContextManager::registerProperty(
     const std::string &name, InputContextPropertyFactory *factory) {
     FCITX_D();

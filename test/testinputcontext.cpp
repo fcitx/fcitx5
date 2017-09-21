@@ -66,7 +66,7 @@ public:
     }
 };
 
-int main() {
+void test_simple() {
     InputContextManager manager;
 
     {
@@ -185,6 +185,29 @@ int main() {
             check(expect);
         }
     }
+}
+
+void test_property() {
+    InputContextManager manager;
+    FactoryFor<TestProperty> testFactory(
+        [](InputContext &) { return new TestProperty; });
+    manager.registerProperty("test", &testFactory);
+    std::vector<std::unique_ptr<InputContext>> ic;
+    ic.emplace_back(new TestInputContext(manager, "Firefox"));
+    auto testProperty = ic[0]->propertyFor(&testFactory);
+    FCITX_ASSERT(testProperty->num() == 0);
+    FCITX_ASSERT(testFactory.registered());
+    testFactory.unregister();
+    FCITX_ASSERT(!testFactory.registered());
+
+    manager.registerProperty("test", &testFactory);
+    auto testProperty2 = ic[0]->propertyFor(&testFactory);
+    FCITX_ASSERT(testProperty2->num() == 0);
+}
+
+int main() {
+    test_simple();
+    test_property();
 
     return 0;
 }

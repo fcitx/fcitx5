@@ -24,7 +24,14 @@ namespace fcitx {
 InputContextPropertyFactory::InputContextPropertyFactory()
     : d_ptr(std::make_unique<InputContextPropertyFactoryPrivate>(this)) {}
 
-InputContextPropertyFactory::~InputContextPropertyFactory() {
+InputContextPropertyFactory::~InputContextPropertyFactory() { unregister(); }
+
+bool InputContextPropertyFactory::registered() const {
+    FCITX_D();
+    return d->manager_;
+}
+
+void InputContextPropertyFactory::unregister() {
     FCITX_D();
     if (d->manager_) {
         d->manager_->unregisterProperty(d->name_);

@@ -34,19 +34,19 @@ public:
     InputPanel(InputContext *ic);
     virtual ~InputPanel();
 
-    const Text &preedit();
+    const Text &preedit() const;
     void setPreedit(const Text &text);
 
-    const Text &auxUp();
+    const Text &auxUp() const;
     void setAuxUp(const Text &text);
 
-    const Text &auxDown();
+    const Text &auxDown() const;
     void setAuxDown(const Text &text);
 
-    const Text &clientPreedit();
+    const Text &clientPreedit() const;
     void setClientPreedit(const Text &clientPreedit);
 
-    CandidateList *candidateList();
+    CandidateList *candidateList() const;
     void setCandidateList(CandidateList *candidate);
 
     void reset();

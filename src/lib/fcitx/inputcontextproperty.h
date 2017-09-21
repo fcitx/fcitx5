@@ -46,6 +46,9 @@ public:
     virtual ~InputContextPropertyFactory();
     virtual InputContextProperty *create(InputContext &) = 0;
 
+    bool registered() const;
+    void unregister();
+
 private:
     std::unique_ptr<InputContextPropertyFactoryPrivate> d_ptr;
     FCITX_DECLARE_PRIVATE(InputContextPropertyFactory);

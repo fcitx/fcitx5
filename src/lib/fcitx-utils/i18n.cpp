@@ -1,7 +1,7 @@
 
 #include "i18n.h"
-#include "log.h"
 #include "fcitxutils_export.h"
+#include "log.h"
 #include "standardpath.h"
 #include <libintl.h>
 #include <mutex>
@@ -12,7 +12,7 @@ namespace fcitx {
 
 class GettextManager {
 public:
-    void addDomain(const char *domain, const char* dir = nullptr) {
+    void addDomain(const char *domain, const char *dir = nullptr) {
         std::lock_guard<std::mutex> lock(mutex_);
         if (domains_.count(domain)) {
             return;
@@ -50,8 +50,7 @@ FCITXUTILS_EXPORT const char *translateDomain(const char *domain,
     gettextManager.addDomain(domain);
     return ::dgettext(domain, s);
 }
-FCITXUTILS_EXPORT void registerDomain(const char *domain,
-                                      const char *dir) {
+FCITXUTILS_EXPORT void registerDomain(const char *domain, const char *dir) {
     gettextManager.addDomain(domain, dir);
 }
 }

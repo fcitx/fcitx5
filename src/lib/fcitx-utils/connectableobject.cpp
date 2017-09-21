@@ -23,7 +23,7 @@ namespace fcitx {
 
 class ConnectableObjectPrivate {
 public:
-    ConnectableObjectPrivate(ConnectableObject *q) {}
+    ConnectableObjectPrivate() {}
     std::unordered_map<std::string, std::unique_ptr<fcitx::SignalBase>>
         signals_;
     bool destroyed_ = false;
@@ -31,7 +31,7 @@ public:
 };
 
 ConnectableObject::ConnectableObject()
-    : d_ptr(std::make_unique<ConnectableObjectPrivate>(this)) {
+    : d_ptr(std::make_unique<ConnectableObjectPrivate>()) {
     FCITX_D();
     d->adaptor_ = std::make_unique<decltype(d->adaptor_)::element_type>(this);
 }

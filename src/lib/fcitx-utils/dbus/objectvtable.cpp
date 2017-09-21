@@ -18,9 +18,9 @@
  */
 
 #include "objectvtable.h"
+#include "../log.h"
 #include "bus_p.h"
 #include "objectvtable_p.h"
-#include "../log.h"
 #include <unordered_set>
 
 namespace fcitx {

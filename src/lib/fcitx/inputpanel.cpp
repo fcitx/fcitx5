@@ -64,22 +64,22 @@ void InputPanel::setPreedit(const Text &text) {
     d->preedit_ = text;
 }
 
-const Text &InputPanel::auxDown() {
+const Text &InputPanel::auxDown() const {
     FCITX_D();
     return d->auxDown_;
 }
 
-const Text &InputPanel::auxUp() {
+const Text &InputPanel::auxUp() const {
     FCITX_D();
     return d->auxUp_;
 }
 
-const Text &InputPanel::clientPreedit() {
+const Text &InputPanel::clientPreedit() const {
     FCITX_D();
     return d->clientPreedit_;
 }
 
-const Text &InputPanel::preedit() {
+const Text &InputPanel::preedit() const {
     FCITX_D();
     return d->preedit_;
 }
@@ -100,7 +100,7 @@ bool InputPanel::empty() const {
            d->auxUp_.size() == 0 && d->auxDown_.size() == 0;
 }
 
-CandidateList *InputPanel::candidateList() {
+CandidateList *InputPanel::candidateList() const {
     FCITX_D();
     return d->candidate_.get();
 }

@@ -121,6 +121,7 @@ private:
     void handleSignal();
     void save();
 
+    bool canTrigger();
     bool trigger(InputContext *ic);
     bool enumerate(InputContext *ic, bool forward);
 
