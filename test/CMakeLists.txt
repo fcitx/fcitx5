@@ -19,7 +19,8 @@ set(FCITX_UTILS_TEST
     testmetastring
     testhandlertable
     testsignals
-    testinputbuffer)
+    testinputbuffer
+    testlog)
 
 set(FCITX_UTILS_DBUS_TEST
     testdbusmessage

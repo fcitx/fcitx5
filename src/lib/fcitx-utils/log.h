@@ -26,9 +26,9 @@
 
 #include "fcitxutils_export.h"
 #include <cstdlib>
-#include <fcitx-utils/fs.h>
 #include <fcitx-utils/key.h>
 #include <iostream>
+#include <memory>
 #include <string>
 #include <type_traits>
 
@@ -37,7 +37,7 @@ namespace fcitx {
 /// \brief LogLevel from high to low.
 enum LogLevel : int {
     None = 0,
-    Fatal = 1,
+    Fatal = 1, /// Fatal will always abort regardless of log or not.
     Error = 2,
     Warn = 3,
     Info = 4,
@@ -47,59 +47,43 @@ enum LogLevel : int {
 
 #define FCITX_SIMPLE_LOG(TYPE)                                                 \
     inline LogMessageBuilder &operator<<(TYPE v) {                             \
-        if (writeLog_) {                                                       \
-            out_ << v;                                                         \
-        }                                                                      \
+        out_ << v;                                                             \
         return *this;                                                          \
     }
 
-class FCITXUTILS_EXPORT Log {
+class LogCategoryPrivate;
+class FCITXUTILS_EXPORT LogCategory {
 public:
-    static void setLogLevel(LogLevel l);
-    static void setLogLevel(std::underlying_type_t<LogLevel> l);
-    static LogLevel logLevel();
-    static bool checkLogLevel(LogLevel l);
+    LogCategory(const char *name, LogLevel level = LogLevel::Info);
+    ~LogCategory();
+
+    LogLevel logLevel() const;
+    bool checkLogLevel(LogLevel l) const;
+    void setLogLevel(LogLevel l);
+    void setLogLevel(std::underlying_type_t<LogLevel> l);
+    void resetLogLevel();
+    const std::string &name() const;
+
+    // Helper function
+    bool fatalWrapper(LogLevel l) const;
+    bool fatalWrapper2(LogLevel l) const;
 
 private:
-    static LogLevel level_;
+    FCITX_DECLARE_PRIVATE(LogCategory);
+    std::unique_ptr<LogCategoryPrivate> d_ptr;
+};
+
+class FCITXUTILS_EXPORT Log {
+public:
+    static const LogCategory &defaultCategory();
+    static void setLogRule(const std::string &rule);
 };
 
 class FCITXUTILS_EXPORT LogMessageBuilder {
 public:
-    inline LogMessageBuilder(std::ostream &out, LogLevel l)
-        : out_(out), writeLog_(Log::checkLogLevel(l)), level_(l) {
-        if (!writeLog_) {
-            return;
-        }
-        switch (l) {
-        case LogLevel::Fatal:
-            out_ << "D";
-            break;
-        case LogLevel::Debug:
-            out_ << "D";
-            break;
-        case LogLevel::Info:
-            out_ << "I";
-            break;
-        case LogLevel::Warn:
-            out_ << "W";
-            break;
-        case LogLevel::Error:
-            out_ << "E";
-            break;
-        default:
-            break;
-        }
-        out_ << " ";
-    }
-    inline ~LogMessageBuilder() {
-        if (writeLog_) {
-            out_ << std::endl;
-        }
-        if (level_ == LogLevel::Fatal) {
-            std::abort();
-        }
-    }
+    LogMessageBuilder(std::ostream &out, LogLevel l,
+                      const std::string &filename, int lineNumber);
+    ~LogMessageBuilder();
 
     inline LogMessageBuilder &operator<<(const std::string &s) {
         *this << s.c_str();
@@ -107,10 +91,8 @@ public:
     }
 
     inline LogMessageBuilder &operator<<(const Key &key) {
-        if (writeLog_) {
-            out_ << "Key(" << key.toString()
-                 << " states=" << key.states().toInteger() << ")";
-        }
+        out_ << "Key(" << key.toString()
+             << " states=" << key.states().toInteger() << ")";
         return *this;
     }
 
@@ -136,21 +118,37 @@ public:
     FCITX_SIMPLE_LOG(T)
 
     private : std::ostream &out_;
-    bool writeLog_;
     LogLevel level_;
 };
 }
 
-#define FCITX_LOG(LEVEL)                                                       \
-    ::fcitx::LogMessageBuilder(std::cerr, ::fcitx::LogLevel::LEVEL)            \
-        << ::fcitx::fs::baseName(__FILE__) << ":" << __LINE__ << "] "
+#define FCITX_LOGC_IF(CATEGORY, LEVEL, CONDITION)                              \
+    for (bool fcitxLogEnabled =                                                \
+             (CONDITION) && CATEGORY().fatalWrapper(::fcitx::LogLevel::LEVEL); \
+         fcitxLogEnabled;                                                      \
+         fcitxLogEnabled = CATEGORY().fatalWrapper2(::fcitx::LogLevel::LEVEL)) \
+    ::fcitx::LogMessageBuilder(std::cerr, ::fcitx::LogLevel::LEVEL, __FILE__,  \
+                               __LINE__)
+
+#define FCITX_LOGC(CATEGORY, LEVEL)                                            \
+    for (bool fcitxLogEnabled =                                                \
+             CATEGORY().fatalWrapper(::fcitx::LogLevel::LEVEL);                \
+         fcitxLogEnabled;                                                      \
+         fcitxLogEnabled = CATEGORY().fatalWrapper2(::fcitx::LogLevel::LEVEL)) \
+    ::fcitx::LogMessageBuilder(std::cerr, ::fcitx::LogLevel::LEVEL, __FILE__,  \
+                               __LINE__)
+
+#define FCITX_LOG(LEVEL) FCITX_LOGC(::fcitx::Log::defaultCategory, LEVEL)
 
 #define FCITX_LOG_IF(LEVEL, CONDITION)                                         \
-    ::fcitx::LogMessageBuilder(std::cerr,                                      \
-                               ((CONDITION) ? (::fcitx::LogLevel::LEVEL)       \
-                                            : (::fcitx::LogLevel::None)))      \
-        << ::fcitx::fs::baseName(__FILE__) << ":" << __LINE__ << "] "
+    FCITX_LOGC_IF(::fcitx::Log::defaultCategory, LEVEL, CONDITION)
 
 #define FCITX_ASSERT(EXPR) FCITX_LOG_IF(Fatal, !(EXPR)) << #EXPR << " failed"
+
+#define FCITX_DEFINE_LOG_CATEGORY(name, ...)                                   \
+    const ::fcitx::LogCategory &name() {                                       \
+        static const ::fcitx::LogCategory category(__VA_ARGS__);               \
+        return category;                                                       \
+    }
 
 #endif // _FCITX_UTILS_LOG_H_

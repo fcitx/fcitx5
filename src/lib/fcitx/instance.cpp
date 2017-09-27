@@ -557,7 +557,7 @@ void InstanceArgument::parseOption(int argc, char **argv) {
                 disableList = stringutils::split(optarg, ",");
                 break;
             case 2:
-                Log::setLogLevel(std::atoi(optarg));
+                Log::setLogRule(optarg);
                 break;
             default:
                 quietQuit = true;
