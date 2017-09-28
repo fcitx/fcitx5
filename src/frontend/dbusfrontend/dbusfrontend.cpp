@@ -31,15 +31,41 @@
 
 namespace fcitx {
 
+class InputMethod1 : public dbus::ObjectVTable<InputMethod1> {
+public:
+    InputMethod1(DBusFrontendModule *module, dbus::Bus* bus)
+        : module_(module), instance_(module->instance()), bus_(bus), watcher_(std::make_unique<dbus::ServiceWatcher>(*bus_)) {
+        bus_->addObjectVTable("/inputmethod", FCITX_INPUTMETHOD_DBUS_INTERFACE,
+                              *this);
+    }
+
+    std::tuple<dbus::ObjectPath, std::vector<uint8_t>> createInputContext(
+        const std::vector<dbus::DBusStruct<std::string, std::string>> &args);
+
+    dbus::ServiceWatcher &serviceWatcher() { return *watcher_; }
+    dbus::Bus* bus() { return bus_; }
+    Instance *instance() { return module_->instance(); }
+
+private:
+    FCITX_OBJECT_VTABLE_METHOD(createInputContext, "CreateInputContext",
+                               "a(ss)", "oay");
+
+    DBusFrontendModule *module_;
+    Instance *instance_;
+    int icIdx = 0;
+    dbus::Bus* bus_;
+    std::unique_ptr<dbus::ServiceWatcher> watcher_;
+};
+
 class DBusInputContext1 : public InputContext,
                           public dbus::ObjectVTable<DBusInputContext1> {
 public:
     DBusInputContext1(int id, InputContextManager &icManager,
-                      DBusFrontendModule *module, const std::string &sender,
+                      InputMethod1 *im, const std::string &sender,
                       const std::string &program)
         : InputContext(icManager, program),
-          path_("/inputcontext/" + std::to_string(id)), module_(module),
-          handler_(module_->serviceWatcher().watchService(
+          path_("/inputcontext/" + std::to_string(id)), im_(im),
+          handler_(im_->serviceWatcher().watchService(
               sender,
               [this](const std::string &, const std::string &,
                      const std::string &newName) {
@@ -47,7 +73,7 @@ public:
                       delete this;
                   }
               })),
-          name_(sender), slot_(module_->bus()->serviceOwnerAsync(
+          name_(sender), slot_(im_->bus()->serviceOwnerAsync(
                              sender, 0, [this](dbus::Message msg) {
                                  if (msg.type() == dbus::MessageType::Error) {
                                      delete this;
@@ -63,50 +89,12 @@ public:
 
     const dbus::ObjectPath path() const { return path_; }
 
-    using InputContext::focusIn;
-    using InputContext::focusOut;
-    using InputContext::reset;
-
-    void setCursorRectDBus(int x, int y, int w, int h) {
-        setCursorRect(Rect{x, y, x + w, y + h});
-    }
-
-    void setCapability(uint64_t cap) {
-        setCapabilityFlags(CapabilityFlags{cap});
-    }
-
-    void setSurroundingText(const std::string &str, uint32_t cursor,
-                            uint32_t anchor) {
-        surroundingText().setText(str, cursor, anchor);
-        updateSurroundingText();
-    }
-
-    void setSurroundingTextPosition(uint32_t cursor, uint32_t anchor) {
-        surroundingText().setCursor(cursor, anchor);
-        updateSurroundingText();
-    }
-
-    void destroyDBus() { delete this; }
-
-    bool processKeyEvent(uint32_t keyval, uint32_t keycode, uint32_t state,
-                         bool isRelease, uint32_t time) {
-        KeyEvent event(
-            this, Key(static_cast<KeySym>(keyval), KeyStates(state), keycode),
-            isRelease, time);
-        // Force focus if there's keyevent.
-        if (!hasFocus()) {
-            focusIn();
-        }
-
-        return keyEvent(event);
-    }
-
     void commitStringImpl(const std::string &text) override {
         commitStringDBusTo(name_, text);
     }
 
     void updatePreeditImpl() override {
-        auto preedit = module_->instance()->outputFilter(
+        auto preedit = im_->instance()->outputFilter(
             this, inputPanel().clientPreedit());
         std::vector<dbus::DBusStruct<std::string, int>> strs;
         for (int i = 0, e = preedit.size(); i < e; i++) {
@@ -126,12 +114,70 @@ public:
                          key.isRelease());
         bus()->flush();
     }
+#define CHECK_SENDER_OR_RETURN \
+    if (currentMessage()->sender() != name_) \
+        return
 
-    void resetDBus() { reset(ResetReason::Client); }
+    void focusInDBus() {
+        CHECK_SENDER_OR_RETURN;
+        focusIn();
+    }
+
+    void focusOutDBus() {
+        CHECK_SENDER_OR_RETURN;
+        focusOut();
+    }
+
+    void resetDBus() {
+        CHECK_SENDER_OR_RETURN;
+        reset(ResetReason::Client);
+    }
+
+    void setCursorRectDBus(int x, int y, int w, int h) {
+        CHECK_SENDER_OR_RETURN;
+        setCursorRect(Rect{x, y, x + w, y + h});
+    }
+
+    void setCapability(uint64_t cap) {
+        CHECK_SENDER_OR_RETURN;
+        setCapabilityFlags(CapabilityFlags{cap});
+    }
+
+    void setSurroundingText(const std::string &str, uint32_t cursor,
+                            uint32_t anchor) {
+        CHECK_SENDER_OR_RETURN;
+        surroundingText().setText(str, cursor, anchor);
+        updateSurroundingText();
+    }
+
+    void setSurroundingTextPosition(uint32_t cursor, uint32_t anchor) {
+        surroundingText().setCursor(cursor, anchor);
+        CHECK_SENDER_OR_RETURN;
+        updateSurroundingText();
+    }
+
+    void destroyDBus() {
+        CHECK_SENDER_OR_RETURN;
+        delete this;
+    }
+
+    bool processKeyEvent(uint32_t keyval, uint32_t keycode, uint32_t state,
+                         bool isRelease, uint32_t time) {
+        CHECK_SENDER_OR_RETURN false;
+        KeyEvent event(
+            this, Key(static_cast<KeySym>(keyval), KeyStates(state), keycode),
+            isRelease, time);
+        // Force focus if there's keyevent.
+        if (!hasFocus()) {
+            focusIn();
+        }
+
+        return keyEvent(event);
+    }
 
 private:
-    FCITX_OBJECT_VTABLE_METHOD(focusIn, "FocusIn", "", "");
-    FCITX_OBJECT_VTABLE_METHOD(focusOut, "FocusOut", "", "");
+    FCITX_OBJECT_VTABLE_METHOD(focusInDBus, "FocusIn", "", "");
+    FCITX_OBJECT_VTABLE_METHOD(focusOutDBus, "FocusOut", "", "");
     FCITX_OBJECT_VTABLE_METHOD(resetDBus, "Reset", "", "");
     FCITX_OBJECT_VTABLE_METHOD(setCursorRectDBus, "SetCursorRect", "iiii", "");
     FCITX_OBJECT_VTABLE_METHOD(setCapability, "SetCapability", "t", "");
@@ -152,64 +198,52 @@ private:
     FCITX_OBJECT_VTABLE_SIGNAL(forwardKeyDBus, "ForwardKey", "uub");
 
     dbus::ObjectPath path_;
-    DBusFrontendModule *module_;
+    InputMethod1 *im_;
     std::unique_ptr<HandlerTableEntry<dbus::ServiceWatcherCallback>> handler_;
     std::string name_;
     std::unique_ptr<dbus::Slot> slot_;
 };
 
-class InputMethod1 : public dbus::ObjectVTable<InputMethod1> {
-public:
-    InputMethod1(DBusFrontendModule *module)
-        : module_(module), instance_(module->instance()) {}
-
-    std::tuple<dbus::ObjectPath, std::vector<uint8_t>> createInputContext(
+std::tuple<dbus::ObjectPath, std::vector<uint8_t>> InputMethod1::createInputContext(
         const std::vector<dbus::DBusStruct<std::string, std::string>> &args) {
-        std::unordered_map<std::string, std::string> strMap;
-        for (auto &p : args) {
-            std::string key = std::get<0>(p.data()),
-                        value = std::get<1>(p.data());
-            strMap[key] = value;
-        }
-        std::string program;
-        auto iter = strMap.find("program");
-        if (iter != strMap.end()) {
-            program = iter->second;
-        }
-
-        auto sender = currentMessage()->sender();
-        auto ic =
-            new DBusInputContext1(icIdx++, instance_->inputContextManager(),
-                                  module_, sender, program);
-        auto bus = module_->dbus()->call<IDBusModule::bus>();
-        bus->addObjectVTable(ic->path().path(),
-                             FCITX_INPUTCONTEXT_DBUS_INTERFACE, *ic);
-        return std::make_tuple(
-            ic->path(),
-            std::vector<uint8_t>(ic->uuid().begin(), ic->uuid().end()));
+    std::unordered_map<std::string, std::string> strMap;
+    for (auto &p : args) {
+        std::string key = std::get<0>(p.data()),
+                    value = std::get<1>(p.data());
+        strMap[key] = value;
+    }
+    std::string program;
+    auto iter = strMap.find("program");
+    if (iter != strMap.end()) {
+        program = iter->second;
     }
 
-private:
-    FCITX_OBJECT_VTABLE_METHOD(createInputContext, "CreateInputContext",
-                               "a(ss)", "oay");
-
-    DBusFrontendModule *module_;
-    Instance *instance_;
-    int icIdx = 0;
-};
-
-DBusFrontendModule::DBusFrontendModule(Instance *instance)
-    : instance_(instance), inputMethod1_(std::make_unique<InputMethod1>(this)) {
-    bus()->addObjectVTable("/inputmethod", FCITX_INPUTMETHOD_DBUS_INTERFACE,
-                           *inputMethod1_.get());
-    watcher_.reset(new dbus::ServiceWatcher(*bus()));
+    auto sender = currentMessage()->sender();
+    auto ic =
+        new DBusInputContext1(icIdx++, instance_->inputContextManager(),
+                                this, sender, program);
+    bus_->addObjectVTable(ic->path().path(),
+                            FCITX_INPUTCONTEXT_DBUS_INTERFACE, *ic);
+    return std::make_tuple(
+        ic->path(),
+        std::vector<uint8_t>(ic->uuid().begin(), ic->uuid().end()));
 }
 
-DBusFrontendModule::~DBusFrontendModule() {}
+#define FCITX_PORTAL_DBUS_SERVICE "org.freedesktop.portal.Fcitx"
 
-AddonInstance *DBusFrontendModule::dbus() {
-    auto &addonManager = instance_->addonManager();
-    return addonManager.addon("dbus");
+DBusFrontendModule::DBusFrontendModule(Instance *instance)
+    : instance_(instance), portalBus_(std::make_unique<dbus::Bus>(dbus::BusType::Session)),
+    inputMethod1_(std::make_unique<InputMethod1>(this, bus())), portalInputMethod1_(std::make_unique<InputMethod1>(this, portalBus_.get())) {
+
+    portalBus_->attachEventLoop(&instance->eventLoop());
+    portalBus_->requestName(
+            FCITX_PORTAL_DBUS_SERVICE,
+            Flags<dbus::RequestNameFlag>{dbus::RequestNameFlag::AllowReplacement,
+                                         dbus::RequestNameFlag::ReplaceExisting});
+}
+
+DBusFrontendModule::~DBusFrontendModule() {
+    portalBus_->releaseName(FCITX_PORTAL_DBUS_SERVICE);
 }
 
 dbus::Bus *DBusFrontendModule::bus() {

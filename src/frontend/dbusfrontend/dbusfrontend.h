@@ -25,6 +25,7 @@
 #include "fcitx/addoninstance.h"
 #include "fcitx/addonmanager.h"
 #include "fcitx/focusgroup.h"
+#include "fcitx/instance.h"
 
 namespace fcitx {
 
@@ -37,16 +38,16 @@ public:
     DBusFrontendModule(Instance *instance);
     ~DBusFrontendModule();
 
-    AddonInstance *dbus();
     dbus::Bus *bus();
     Instance *instance() { return instance_; }
 
-    dbus::ServiceWatcher &serviceWatcher() { return *watcher_; }
-
 private:
+    FCITX_ADDON_DEPENDENCY_LOADER(dbus, instance_->addonManager());
+
     Instance *instance_;
+    std::unique_ptr<dbus::Bus> portalBus_;
     std::unique_ptr<InputMethod1> inputMethod1_;
-    std::unique_ptr<dbus::ServiceWatcher> watcher_;
+    std::unique_ptr<InputMethod1> portalInputMethod1_;
 };
 }
 
