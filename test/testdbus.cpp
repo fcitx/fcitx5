@@ -33,11 +33,16 @@ class TestObject : public ObjectVTable<TestObject> {
         testSignal(data);
         return std::make_tuple(i - 1, i + 1);
     }
+    bool testError() {
+        throw MethodCallError("org.freedesktop.DBus.Error.FileNotFound",
+                              "File not found");
+    }
 
 private:
     FCITX_OBJECT_VTABLE_METHOD(test1, "test1", "", "");
     FCITX_OBJECT_VTABLE_METHOD(test2, "test2", "i", "s");
     FCITX_OBJECT_VTABLE_METHOD(test3, "test3", "i", "iu");
+    FCITX_OBJECT_VTABLE_METHOD(testError, "testError", "", "b");
     FCITX_OBJECT_VTABLE_SIGNAL(testSignal, "testSignal", "a(si)");
 };
 
@@ -75,6 +80,18 @@ void client() {
         }));
     std::unique_ptr<EventSourceTime> s3(loop.addTimeEvent(
         CLOCK_MONOTONIC, now(CLOCK_MONOTONIC) + 200000, 0,
+        [&clientBus](EventSource *, uint64_t) {
+            auto msg = clientBus.createMethodCall(TEST_SERVICE, "/test",
+                                                  TEST_INTERFACE, "testError");
+            auto reply = msg.call(0);
+            FCITX_ASSERT(reply.type() == MessageType::Error);
+            FCITX_ASSERT(reply.errorName() ==
+                         "org.freedesktop.DBus.Error.FileNotFound");
+            FCITX_ASSERT(reply.errorMessage() == "File not found");
+            return false;
+        }));
+    std::unique_ptr<EventSourceTime> s4(loop.addTimeEvent(
+        CLOCK_MONOTONIC, now(CLOCK_MONOTONIC) + 300000, 0,
         [&clientBus, &loop](EventSource *, uint64_t) {
             auto msg = clientBus.createMethodCall(TEST_SERVICE, "/test",
                                                   TEST_INTERFACE, "test3");

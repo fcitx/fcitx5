@@ -24,6 +24,7 @@
 #include <functional>
 #include <memory>
 #include <mutex>
+#include <stdexcept>
 
 namespace fcitx {
 namespace dbus {
@@ -36,6 +37,20 @@ class ObjectVTablePrivate;
 typedef std::function<bool(Message)> ObjectMethod;
 typedef std::function<void(Message &)> PropertyGetMethod;
 typedef std::function<bool(Message)> PropertySetMethod;
+
+class FCITXUTILS_EXPORT MethodCallError : public std::exception {
+public:
+    MethodCallError(const char *name, const char *error)
+        : name_(name), error_(error) {}
+
+    const char *what() const noexcept override { return error_.c_str(); }
+
+    const char *name() const { return name_.c_str(); }
+
+private:
+    std::string name_;
+    std::string error_;
+};
 
 class FCITXUTILS_EXPORT ObjectVTableMethod {
 public:
@@ -95,10 +110,15 @@ struct ReturnValueHelper<void> {
             auto functor = [&argsWithThis, func]() {                           \
                 return callWithTuple(func, argsWithThis);                      \
             };                                                                 \
-            helper.call(functor);                                              \
-            auto reply = msg.createReply();                                    \
-            reply << helper.ret;                                               \
-            reply.send();                                                      \
+            try {                                                              \
+                helper.call(functor);                                          \
+                auto reply = msg.createReply();                                \
+                reply << helper.ret;                                           \
+                reply.send();                                                  \
+            } catch (const MethodCallError &error) {                           \
+                auto reply = msg.createError(error.name(), error.what());      \
+                reply.send();                                                  \
+            }                                                                  \
             return true;                                                       \
         }                                                                      \
     }

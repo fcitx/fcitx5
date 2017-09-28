@@ -134,6 +134,18 @@ std::string Message::signature() const {
     return sd_bus_message_get_signature(d->msg_, true);
 }
 
+std::string Message::errorName() const {
+    FCITX_D();
+    auto error = sd_bus_message_get_error(d->msg_);
+    return error->name;
+}
+
+std::string Message::errorMessage() const {
+    FCITX_D();
+    auto error = sd_bus_message_get_error(d->msg_);
+    return error->message;
+}
+
 void *Message::nativeHandle() const {
     FCITX_D();
     return d->msg_;

@@ -157,6 +157,8 @@ public:
     std::string member() const;
     std::string interface() const;
     std::string signature() const;
+    std::string errorName() const;
+    std::string errorMessage() const;
 
     void *nativeHandle() const;
 

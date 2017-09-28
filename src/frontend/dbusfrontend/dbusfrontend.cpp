@@ -33,8 +33,9 @@ namespace fcitx {
 
 class InputMethod1 : public dbus::ObjectVTable<InputMethod1> {
 public:
-    InputMethod1(DBusFrontendModule *module, dbus::Bus* bus)
-        : module_(module), instance_(module->instance()), bus_(bus), watcher_(std::make_unique<dbus::ServiceWatcher>(*bus_)) {
+    InputMethod1(DBusFrontendModule *module, dbus::Bus *bus)
+        : module_(module), instance_(module->instance()), bus_(bus),
+          watcher_(std::make_unique<dbus::ServiceWatcher>(*bus_)) {
         bus_->addObjectVTable("/inputmethod", FCITX_INPUTMETHOD_DBUS_INTERFACE,
                               *this);
     }
@@ -43,7 +44,7 @@ public:
         const std::vector<dbus::DBusStruct<std::string, std::string>> &args);
 
     dbus::ServiceWatcher &serviceWatcher() { return *watcher_; }
-    dbus::Bus* bus() { return bus_; }
+    dbus::Bus *bus() { return bus_; }
     Instance *instance() { return module_->instance(); }
 
 private:
@@ -53,16 +54,15 @@ private:
     DBusFrontendModule *module_;
     Instance *instance_;
     int icIdx = 0;
-    dbus::Bus* bus_;
+    dbus::Bus *bus_;
     std::unique_ptr<dbus::ServiceWatcher> watcher_;
 };
 
 class DBusInputContext1 : public InputContext,
                           public dbus::ObjectVTable<DBusInputContext1> {
 public:
-    DBusInputContext1(int id, InputContextManager &icManager,
-                      InputMethod1 *im, const std::string &sender,
-                      const std::string &program)
+    DBusInputContext1(int id, InputContextManager &icManager, InputMethod1 *im,
+                      const std::string &sender, const std::string &program)
         : InputContext(icManager, program),
           path_("/inputcontext/" + std::to_string(id)), im_(im),
           handler_(im_->serviceWatcher().watchService(
@@ -94,8 +94,8 @@ public:
     }
 
     void updatePreeditImpl() override {
-        auto preedit = im_->instance()->outputFilter(
-            this, inputPanel().clientPreedit());
+        auto preedit =
+            im_->instance()->outputFilter(this, inputPanel().clientPreedit());
         std::vector<dbus::DBusStruct<std::string, int>> strs;
         for (int i = 0, e = preedit.size(); i < e; i++) {
             strs.emplace_back(std::make_tuple(
@@ -114,9 +114,9 @@ public:
                          key.isRelease());
         bus()->flush();
     }
-#define CHECK_SENDER_OR_RETURN \
-    if (currentMessage()->sender() != name_) \
-        return
+#define CHECK_SENDER_OR_RETURN                                                 \
+    if (currentMessage()->sender() != name_)                                   \
+    return
 
     void focusInDBus() {
         CHECK_SENDER_OR_RETURN;
@@ -204,12 +204,12 @@ private:
     std::unique_ptr<dbus::Slot> slot_;
 };
 
-std::tuple<dbus::ObjectPath, std::vector<uint8_t>> InputMethod1::createInputContext(
-        const std::vector<dbus::DBusStruct<std::string, std::string>> &args) {
+std::tuple<dbus::ObjectPath, std::vector<uint8_t>>
+InputMethod1::createInputContext(
+    const std::vector<dbus::DBusStruct<std::string, std::string>> &args) {
     std::unordered_map<std::string, std::string> strMap;
     for (auto &p : args) {
-        std::string key = std::get<0>(p.data()),
-                    value = std::get<1>(p.data());
+        std::string key = std::get<0>(p.data()), value = std::get<1>(p.data());
         strMap[key] = value;
     }
     std::string program;
@@ -219,27 +219,28 @@ std::tuple<dbus::ObjectPath, std::vector<uint8_t>> InputMethod1::createInputCont
     }
 
     auto sender = currentMessage()->sender();
-    auto ic =
-        new DBusInputContext1(icIdx++, instance_->inputContextManager(),
-                                this, sender, program);
-    bus_->addObjectVTable(ic->path().path(),
-                            FCITX_INPUTCONTEXT_DBUS_INTERFACE, *ic);
+    auto ic = new DBusInputContext1(icIdx++, instance_->inputContextManager(),
+                                    this, sender, program);
+    bus_->addObjectVTable(ic->path().path(), FCITX_INPUTCONTEXT_DBUS_INTERFACE,
+                          *ic);
     return std::make_tuple(
-        ic->path(),
-        std::vector<uint8_t>(ic->uuid().begin(), ic->uuid().end()));
+        ic->path(), std::vector<uint8_t>(ic->uuid().begin(), ic->uuid().end()));
 }
 
 #define FCITX_PORTAL_DBUS_SERVICE "org.freedesktop.portal.Fcitx"
 
 DBusFrontendModule::DBusFrontendModule(Instance *instance)
-    : instance_(instance), portalBus_(std::make_unique<dbus::Bus>(dbus::BusType::Session)),
-    inputMethod1_(std::make_unique<InputMethod1>(this, bus())), portalInputMethod1_(std::make_unique<InputMethod1>(this, portalBus_.get())) {
+    : instance_(instance),
+      portalBus_(std::make_unique<dbus::Bus>(dbus::BusType::Session)),
+      inputMethod1_(std::make_unique<InputMethod1>(this, bus())),
+      portalInputMethod1_(
+          std::make_unique<InputMethod1>(this, portalBus_.get())) {
 
     portalBus_->attachEventLoop(&instance->eventLoop());
     portalBus_->requestName(
-            FCITX_PORTAL_DBUS_SERVICE,
-            Flags<dbus::RequestNameFlag>{dbus::RequestNameFlag::AllowReplacement,
-                                         dbus::RequestNameFlag::ReplaceExisting});
+        FCITX_PORTAL_DBUS_SERVICE,
+        Flags<dbus::RequestNameFlag>{dbus::RequestNameFlag::AllowReplacement,
+                                     dbus::RequestNameFlag::ReplaceExisting});
 }
 
 DBusFrontendModule::~DBusFrontendModule() {
