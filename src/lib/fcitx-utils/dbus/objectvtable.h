@@ -115,7 +115,7 @@ struct ReturnValueHelper<void> {
                 auto reply = msg.createReply();                                \
                 reply << helper.ret;                                           \
                 reply.send();                                                  \
-            } catch (const MethodCallError &error) {                           \
+            } catch (const ::fcitx::dbus::MethodCallError &error) {            \
                 auto reply = msg.createError(error.name(), error.what());      \
                 reply.send();                                                  \
             }                                                                  \
