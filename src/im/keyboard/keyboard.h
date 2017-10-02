@@ -41,6 +41,10 @@ FCITX_CONFIGURATION(
     KeyboardEngineConfig,
     fcitx::Option<int, IntConstrain> pageSize{this, "PageSize", "Page size", 5,
                                               IntConstrain(3, 10)};
+    fcitx::Option<KeyList> nextCandidate{
+        this, "NextCandidate", "Next Candidate", {Key("Tab")}};
+    fcitx::Option<KeyList> prevCandidate{
+        this, "PrevCandidate", "Prev Candidate", {Key("Shift+Tab")}};
     fcitx::Option<ChooseModifier> chooseModifier{
         this, "Choose Modifier", "Choose key modifier", ChooseModifier::Alt};
     fcitx::Option<KeyList> hintTrigger{
@@ -91,7 +95,9 @@ public:
     auto state() { return &factory_; }
 
 private:
+    std::string preeditString(InputContext *inputContext);
     void commitBuffer(InputContext *inputContext);
+    void updateUI(InputContext *inputContext);
 
     Instance *instance_;
     AddonInstance *spell_ = nullptr;

@@ -31,7 +31,8 @@ class TextPrivate;
 class FCITXCORE_EXPORT Text {
 public:
     Text();
-    explicit Text(const std::string &text);
+    explicit Text(const std::string &text,
+                  TextFormatFlags flag = TextFormatFlag::None);
     FCITX_DECLARE_VIRTUAL_DTOR_COPY_AND_MOVE(Text);
 
     /// Get cursor by byte.

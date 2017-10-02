@@ -29,6 +29,7 @@ class CandidateList;
 class PageableCandidateList;
 class BulkCandidateList;
 class ModifiableCandidateList;
+class CursorMovableCandidateList;
 
 class CandidateListPrivate;
 
@@ -73,11 +74,13 @@ public:
     PageableCandidateList *toPageable() const;
     BulkCandidateList *toBulk() const;
     ModifiableCandidateList *toModifiable() const;
+    CursorMovableCandidateList *toCursorMovable() const;
 
 protected:
     void setPageable(PageableCandidateList *list);
     void setBulk(BulkCandidateList *list);
     void setModifiable(ModifiableCandidateList *list);
+    void setCursorMovable(CursorMovableCandidateList *list);
 
 private:
     std::unique_ptr<CandidateListPrivate> d_ptr;
@@ -99,6 +102,12 @@ public:
     virtual int totalPages() const { return -1; }
     virtual int currentPage() const { return -1; }
     virtual void setPage(int) {}
+};
+
+class FCITXCORE_EXPORT CursorMovableCandidateList {
+public:
+    virtual void prevCandidate() = 0;
+    virtual void nextCandidate() = 0;
 };
 
 // useful for virtual keyboard
@@ -148,7 +157,8 @@ class CommonCandidateListPrivate;
 
 class FCITXCORE_EXPORT CommonCandidateList : public CandidateList,
                                              public PageableCandidateList,
-                                             public ModifiableCandidateList {
+                                             public ModifiableCandidateList,
+                                             public CursorMovableCandidateList {
 public:
     CommonCandidateList();
     ~CommonCandidateList();
@@ -157,7 +167,7 @@ public:
     void setSelectionKey(const KeyList &keyList);
     void setPageSize(int size);
     void setLayoutHint(CandidateLayoutHint hint);
-    void setCursorIndex(int index);
+    void setGlobalCursorIndex(int index);
 
     // CandidateList
     const fcitx::Text &label(int idx) const override;
@@ -189,8 +199,17 @@ public:
     void replace(int idx, CandidateWord *word) override;
     void move(int from, int to) override;
 
+    // CursorMovableCandidateList
+    void prevCandidate() override;
+    void nextCandidate() override;
+
+    // A simple switch to change the behavior of prevCandidate and nextCandidate
+    void setCursorIncludeUnselected(bool);
+    void setCursorKeepInSamePage(bool);
+
 private:
     void fixAfterUpdate();
+    void moveCursor(bool prev);
 
     std::unique_ptr<CommonCandidateListPrivate> d_ptr;
     FCITX_DECLARE_PRIVATE(CommonCandidateList);

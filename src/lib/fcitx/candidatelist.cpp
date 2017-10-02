@@ -26,6 +26,7 @@ public:
     BulkCandidateList *bulk_ = nullptr;
     ModifiableCandidateList *modifiable_ = nullptr;
     PageableCandidateList *pageable_ = nullptr;
+    CursorMovableCandidateList *cursorMovable_ = nullptr;
 };
 
 CandidateList::CandidateList()
@@ -48,6 +49,11 @@ PageableCandidateList *CandidateList::toPageable() const {
     return d->pageable_;
 }
 
+CursorMovableCandidateList *CandidateList::toCursorMovable() const {
+    FCITX_D();
+    return d->cursorMovable_;
+}
+
 void CandidateList::setBulk(BulkCandidateList *list) {
     FCITX_D();
     d->bulk_ = list;
@@ -61,6 +67,11 @@ void CandidateList::setModifiable(ModifiableCandidateList *list) {
 void CandidateList::setPageable(PageableCandidateList *list) {
     FCITX_D();
     d->pageable_ = list;
+}
+
+void CandidateList::setCursorMovable(CursorMovableCandidateList *list) {
+    FCITX_D();
+    d->cursorMovable_ = list;
 }
 
 class CandidateWordPrivate {
@@ -215,6 +226,8 @@ public:
     // use shared_ptr for type erasure
     std::vector<std::shared_ptr<CandidateWord>> candidateWord_;
     CandidateLayoutHint layoutHint_ = CandidateLayoutHint::NotSet;
+    bool cursorIncludeUnselected_ = false;
+    bool cursorKeepInSamePage_ = false;
 
     int size() const {
         auto start = currentPage_ * pageSize_;
@@ -245,6 +258,7 @@ CommonCandidateList::CommonCandidateList()
     setPageable(this);
     setModifiable(this);
     setBulk(this);
+    setCursorMovable(this);
 }
 
 CommonCandidateList::~CommonCandidateList() {}
@@ -291,7 +305,11 @@ int CommonCandidateList::currentPage() const {
 
 int CommonCandidateList::cursorIndex() const {
     FCITX_D();
-    return d->cursorIndex_;
+    int cursorPage = d->cursorIndex_ / d->pageSize_;
+    if (d->cursorIndex_ >= 0 && cursorPage == d->currentPage_) {
+        return d->cursorIndex_ % d->pageSize_;
+    }
+    return -1;
 }
 
 bool CommonCandidateList::hasNext() const {
@@ -394,12 +412,12 @@ void CommonCandidateList::setLayoutHint(CandidateLayoutHint hint) {
     d->layoutHint_ = hint;
 }
 
-void CommonCandidateList::setCursorIndex(int index) {
+void CommonCandidateList::setGlobalCursorIndex(int index) {
     FCITX_D();
     if (index < 0) {
         d->cursorIndex_ = -1;
     } else {
-        d->checkIndex(index);
+        d->checkGlobalIndex(index);
         d->cursorIndex_ = index;
     }
 }
@@ -436,6 +454,54 @@ void CommonCandidateList::move(int from, int to) {
     }
 }
 
+void CommonCandidateList::moveCursor(bool prev) {
+    FCITX_D();
+    if (totalSize() <= 0 || size() <= 0) {
+        return;
+    }
+
+    auto pageBegin = d->pageSize_ * d->currentPage_;
+    if (cursorIndex() < 0) {
+        setGlobalCursorIndex(pageBegin + (prev ? size() - 1 : 0));
+    } else {
+        int rotationBase;
+        int rotationSize;
+        if (d->cursorKeepInSamePage_) {
+            rotationBase = pageBegin;
+            rotationSize = size();
+        } else {
+            rotationBase = 0;
+            rotationSize = totalSize();
+        }
+        auto newGlobalIndex = d->cursorIndex_ + (prev ? -1 : 1);
+        if (newGlobalIndex < rotationBase ||
+            newGlobalIndex >= rotationBase + rotationSize) {
+            if (d->cursorIncludeUnselected_) {
+                d->cursorIndex_ = -1;
+            } else {
+                d->cursorIndex_ =
+                    prev ? (rotationBase + rotationSize - 1) : rotationBase;
+            }
+        } else {
+            d->cursorIndex_ = newGlobalIndex;
+        }
+    }
+}
+
+void CommonCandidateList::prevCandidate() { moveCursor(true); }
+
+void CommonCandidateList::nextCandidate() { moveCursor(false); }
+
+void CommonCandidateList::setCursorIncludeUnselected(bool v) {
+    FCITX_D();
+    d->cursorIncludeUnselected_ = v;
+}
+
+void CommonCandidateList::setCursorKeepInSamePage(bool v) {
+    FCITX_D();
+    d->cursorKeepInSamePage_ = v;
+}
+
 void CommonCandidateList::setPage(int page) {
     FCITX_D();
     auto totalPage = totalPages();
@@ -457,7 +523,7 @@ void CommonCandidateList::fixAfterUpdate() {
         d->currentPage_ = totalPages() - 1;
     }
     if (d->cursorIndex_ >= 0) {
-        if (d->cursorIndex_ >= size()) {
+        if (d->cursorIndex_ >= totalSize()) {
             d->cursorIndex_ = 0;
         }
     }

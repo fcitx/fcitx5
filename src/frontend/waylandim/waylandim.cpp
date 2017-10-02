@@ -162,7 +162,7 @@ protected:
 
     static inline unsigned int waylandFormat(TextFormatFlags flags) {
         unsigned int result = 0;
-        if (flags & TextFormatFlag::UnderLine) {
+        if (flags & TextFormatFlag::Underline) {
             result |= ZWP_TEXT_INPUT_V1_PREEDIT_STYLE_UNDERLINE;
         }
         if (flags & TextFormatFlag::HighLight) {

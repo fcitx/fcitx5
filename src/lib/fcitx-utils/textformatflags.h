@@ -30,11 +30,12 @@ namespace fcitx {
 
 /// \brief Enum flag for text formatting.
 enum class TextFormatFlag : int {
-    UnderLine = (1 << 0), /**< underline is a flag */
+    Underline = (1 << 0), /**< underline is a flag */
     HighLight = (1 << 1), /**< highlight the preedit */
     Bold = (1 << 2),
     Strike = (1 << 3),
     DontCommit = (1 << 4),
+    Italic = (1 << 5),
     None = 0,
 };
 

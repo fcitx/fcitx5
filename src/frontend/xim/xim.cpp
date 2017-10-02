@@ -222,7 +222,7 @@ protected:
                 auto format = text.formatAt(i);
                 auto &str = text.stringAt(i);
                 uint32_t feedback = 0;
-                if (format & TextFormatFlag::UnderLine) {
+                if (format & TextFormatFlag::Underline) {
                     feedback |= XCB_XIM_UNDERLINE;
                 }
                 if (format & TextFormatFlag::HighLight) {

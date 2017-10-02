@@ -39,7 +39,7 @@ void appendText(std::string &s, PangoAttrList *attrList, const Text &text) {
             continue;
         }
         const auto format = text.formatAt(i);
-        if (format & TextFormatFlag::UnderLine) {
+        if (format & TextFormatFlag::Underline) {
             auto attr = pango_attr_underline_new(PANGO_UNDERLINE_SINGLE);
             attr->start_index = start;
             attr->end_index = end;

@@ -23,6 +23,7 @@
 #include "fcitx-config/iniparser.h"
 #include "fcitx-utils/cutf8.h"
 #include "fcitx-utils/i18n.h"
+#include "fcitx-utils/log.h"
 #include "fcitx-utils/standardpath.h"
 #include "fcitx-utils/stringutils.h"
 #include "fcitx-utils/utf8.h"
@@ -282,16 +283,25 @@ void KeyboardEngine::keyEvent(const InputMethodEntry &entry, KeyEvent &event) {
         }
 
         // check if we can select candidate.
-        if (inputContext->inputPanel().candidateList()) {
+        if (auto candList = inputContext->inputPanel().candidateList()) {
             int idx = event.key().keyListIndex(selectionKeys_);
-            if (idx >= 0 &&
-                idx < inputContext->inputPanel().candidateList()->size()) {
+            if (idx >= 0 && idx < candList->size()) {
                 event.filterAndAccept();
-                inputContext->inputPanel()
-                    .candidateList()
-                    ->candidate(idx)
-                    ->select(inputContext);
+                candList->candidate(idx)->select(inputContext);
                 return;
+            }
+
+            auto movable = candList->toCursorMovable();
+            if (movable) {
+                if (event.key().checkKeyList(*config_.nextCandidate)) {
+                    movable->nextCandidate();
+                    updateUI(inputContext);
+                    return event.filterAndAccept();
+                } else if (event.key().checkKeyList(*config_.prevCandidate)) {
+                    movable->prevCandidate();
+                    updateUI(inputContext);
+                    return event.filterAndAccept();
+                }
             }
         }
 
@@ -304,6 +314,12 @@ void KeyboardEngine::keyEvent(const InputMethodEntry &entry, KeyEvent &event) {
             if (validCharacter || event.key().isLAZ() || event.key().isUAZ() ||
                 validSym || (!buffer.empty() &&
                              event.key().checkKeyList(FCITX_HYPHEN_APOS))) {
+                auto preedit = preeditString(inputContext);
+                if (preedit != buffer.userInput()) {
+                    buffer.clear();
+                    buffer.type(preedit);
+                }
+
                 if (compose) {
                     buffer.type(compose);
                 } else {
@@ -312,8 +328,7 @@ void KeyboardEngine::keyEvent(const InputMethodEntry &entry, KeyEvent &event) {
 
                 event.filterAndAccept();
                 if (buffer.size() >= FCITX_KEYBOARD_MAX_BUFFER) {
-                    inputContext->commitString(buffer.userInput());
-                    resetState(inputContext);
+                    commitBuffer(inputContext);
                     return;
                 }
 
@@ -370,6 +385,31 @@ private:
     KeyboardEngine *engine_;
 };
 
+std::string KeyboardEngine::preeditString(InputContext *inputContext) {
+    auto state = inputContext->propertyFor(&factory_);
+    auto candidate = inputContext->inputPanel().candidateList();
+    std::string preedit;
+    if (candidate && candidate->cursorIndex() >= 0) {
+        return candidate->candidate(candidate->cursorIndex())
+            ->text()
+            .toString();
+    }
+    return state->buffer_.userInput();
+}
+
+void KeyboardEngine::updateUI(InputContext *inputContext) {
+    Text preedit(preeditString(inputContext), TextFormatFlag::Underline);
+    if (auto length = preedit.textLength()) {
+        preedit.setCursor(length);
+    }
+    inputContext->inputPanel().setClientPreedit(preedit);
+    if (!inputContext->capabilityFlags().test(CapabilityFlag::Preedit)) {
+        inputContext->inputPanel().setPreedit(preedit);
+    }
+    inputContext->updatePreedit();
+    inputContext->updateUserInterface(UserInterfaceComponent::InputPanel);
+}
+
 void KeyboardEngine::updateCandidate(const InputMethodEntry &entry,
                                      InputContext *inputContext) {
     auto state = inputContext->propertyFor(&factory_);
@@ -381,17 +421,10 @@ void KeyboardEngine::updateCandidate(const InputMethodEntry &entry,
         candidateList->append(new KeyboardCandidateWord(this, Text(result)));
     }
     candidateList->setSelectionKey(selectionKeys_);
-    Text preedit(state->buffer_.userInput());
-    if (state->buffer_.size()) {
-        preedit.setCursor(state->buffer_.cursorByChar());
-    }
-    inputContext->inputPanel().setClientPreedit(preedit);
-    if (!inputContext->capabilityFlags().test(CapabilityFlag::Preedit)) {
-        inputContext->inputPanel().setPreedit(preedit);
-    }
+    candidateList->setCursorIncludeUnselected(true);
     inputContext->inputPanel().setCandidateList(candidateList);
-    inputContext->updatePreedit();
-    inputContext->updateUserInterface(UserInterfaceComponent::InputPanel);
+
+    updateUI(inputContext);
 }
 
 void KeyboardEngine::resetState(InputContext *inputContext) {
@@ -402,6 +435,11 @@ void KeyboardEngine::resetState(InputContext *inputContext) {
 
 void KeyboardEngine::reset(const InputMethodEntry &, InputContextEvent &event) {
     auto inputContext = event.inputContext();
+    if (event.type() != EventType::InputContextFocusOut) {
+        commitBuffer(inputContext);
+    } else {
+        resetState(inputContext);
+    }
     inputContext->inputPanel().reset();
     inputContext->updatePreedit();
     inputContext->updateUserInterface(UserInterfaceComponent::InputPanel);

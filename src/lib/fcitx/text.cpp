@@ -34,7 +34,9 @@ public:
 
 Text::Text() : d_ptr(std::make_unique<TextPrivate>()) {}
 
-Text::Text(const std::string &text) : Text() { append(text); }
+Text::Text(const std::string &text, TextFormatFlags flag) : Text() {
+    append(text, flag);
+}
 
 FCITX_DEFINE_DPTR_COPY_AND_DEFAULT_DTOR_AND_MOVE(Text)
 

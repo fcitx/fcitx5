@@ -164,7 +164,7 @@ Key Key::normalize() const {
 std::string Key::toString() const {
 
     std::string key;
-    if (code_) {
+    if (code_ && sym_ == FcitxKey_None) {
         key = "<";
         key += std::to_string(code_);
         key += ">";
