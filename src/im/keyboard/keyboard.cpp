@@ -435,6 +435,8 @@ void KeyboardEngine::resetState(InputContext *inputContext) {
 
 void KeyboardEngine::reset(const InputMethodEntry &, InputContextEvent &event) {
     auto inputContext = event.inputContext();
+    // The reason that we do not commit here is we want to force the behavior.
+    // When client get unfocused, the framework will try to commit the string.
     if (event.type() != EventType::InputContextFocusOut) {
         commitBuffer(inputContext);
     } else {
