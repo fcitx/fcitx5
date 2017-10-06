@@ -295,8 +295,6 @@ void QuickPhrase::reloadConfig() {
     map_.clear();
     auto file = StandardPath::global().open(StandardPath::Type::PkgData,
                                             "data/QuickPhrase.mb", O_RDONLY);
-    if (file.fd() >= 0) {
-    }
     auto files = StandardPath::global().multiOpen(
         StandardPath::Type::PkgData, "data/quickphrase.d/", O_RDONLY,
         filter::Suffix(".mb"));

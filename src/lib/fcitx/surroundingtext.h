@@ -38,6 +38,7 @@ public:
     unsigned int anchor() const;
     unsigned int cursor() const;
     const std::string &text() const;
+    std::string selectedText() const;
 
     void setText(const std::string &text, unsigned int cursor,
                  unsigned int anchor);

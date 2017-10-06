@@ -65,6 +65,20 @@ unsigned int SurroundingText::cursor() const {
     return d->cursor_;
 }
 
+std::string SurroundingText::selectedText() const {
+    FCITX_D();
+    auto start = std::min(anchor(), cursor());
+    auto end = std::max(anchor(), cursor());
+    auto len = end - start;
+    if (len == 0) {
+        return {};
+    }
+
+    auto startIter = utf8::nextNChar(d->text_.begin(), start);
+    auto endIter = utf8::nextNChar(startIter, len);
+    return std::string(startIter, endIter);
+}
+
 void SurroundingText::setText(const std::string &text, unsigned int cursor,
                               unsigned int anchor) {
     FCITX_D();

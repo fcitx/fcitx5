@@ -84,6 +84,7 @@ public:
     static std::string keySymToString(KeySym sym);
     static KeySym keySymFromUnicode(uint32_t unicode);
     static uint32_t keySymToUnicode(KeySym sym);
+    static std::string keySymToUTF8(KeySym sym);
     static KeyList keyListFromString(const std::string &str);
     template <typename Container>
     static std::string keyListToString(Container c) {

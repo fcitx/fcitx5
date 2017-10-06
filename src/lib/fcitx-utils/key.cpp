@@ -339,6 +339,10 @@ uint32_t Key::keySymToUnicode(KeySym keyval) {
     return 0;
 }
 
+std::string Key::keySymToUTF8(KeySym keyval) {
+    return utf8::UCS4ToUTF8(keySymToUnicode(keyval));
+}
+
 std::vector<Key> Key::keyListFromString(const std::string &keyString) {
     std::vector<Key> keyList;
 

@@ -69,8 +69,6 @@ public:
     FCITX_OBJECT_VTABLE_SIGNAL(showAux, "ShowAux", "b");
     FCITX_OBJECT_VTABLE_SIGNAL(showPreedit, "ShowPreedit", "b");
     FCITX_OBJECT_VTABLE_SIGNAL(showLookupTable, "ShowLookupTable", "b");
-    FCITX_OBJECT_VTABLE_SIGNAL(updateLookupTable, "UpdateLookupTable",
-                               "asasbb");
     FCITX_OBJECT_VTABLE_SIGNAL(updateLookupTableCursor,
                                "UpdateLookupTableCursor", "i");
     FCITX_OBJECT_VTABLE_SIGNAL(updatePreeditCaret, "UpdatePreeditCaret", "i");
@@ -193,36 +191,43 @@ void Kimpanel::updateInputPanel(InputContext *inputContext) {
         std::vector<std::string> labels;
         std::vector<std::string> texts;
         std::vector<std::string> attrs;
+        bool hasPrev = false, hasNext = false;
+        int pos = -1;
+        int layout = static_cast<int>(CandidateLayoutHint::NotSet);
         if (auxDownString.size()) {
             labels.emplace_back("");
             texts.push_back(auxDownString);
             attrs.emplace_back("");
         }
-        for (int i = 0, e = candidateList->size(); i < e; i++) {
-            auto candidate = candidateList->candidate(i);
-            if (candidate->isPlaceHolder()) {
-                continue;
+        if (candidateList) {
+            for (int i = 0, e = candidateList->size(); i < e; i++) {
+                auto candidate = candidateList->candidate(i);
+                if (candidate->isPlaceHolder()) {
+                    continue;
+                }
+                Text labelText = candidate->hasCustomLabel()
+                                     ? candidate->customLabel()
+                                     : candidateList->label(i);
+
+                labelText = instance->outputFilter(inputContext, labelText);
+                labels.push_back(labelText.toString());
+                auto candidateText =
+                    instance->outputFilter(inputContext, candidate->text());
+                texts.push_back(candidateText.toString());
+                attrs.emplace_back("");
             }
-            Text labelText = candidate->hasCustomLabel()
-                                 ? candidate->customLabel()
-                                 : candidateList->label(i);
-
-            labelText = instance->outputFilter(inputContext, labelText);
-            labels.push_back(labelText.toString());
-            auto candidateText =
-                instance->outputFilter(inputContext, candidate->text());
-            texts.push_back(candidateText.toString());
-            attrs.emplace_back("");
+            if (auto pageable = candidateList->toPageable()) {
+                hasPrev = pageable->hasPrev();
+                hasNext = pageable->hasNext();
+            }
+            pos = candidateList->cursorIndex();
+            if (pos >= 0) {
+                pos += (auxDownString.empty() ? 0 : 1);
+            }
+            layout = static_cast<int>(candidateList->layoutHint());
         }
+
         msg << labels << texts << attrs;
-        bool hasPrev = false, hasNext = false;
-        if (auto pageable = candidateList->toPageable()) {
-            hasPrev = pageable->hasPrev();
-            hasNext = pageable->hasNext();
-        }
-        int pos = candidateList->cursorIndex();
-        int layout = static_cast<int>(candidateList->layoutHint());
-
         msg << hasPrev << hasNext << pos << layout;
     } else {
         std::vector<std::string> labels;
