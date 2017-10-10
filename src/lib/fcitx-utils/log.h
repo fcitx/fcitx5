@@ -151,4 +151,6 @@ public:
         return category;                                                       \
     }
 
+#define FCITX_DECLARE_LOG_CATEGORY(name) const ::fcitx::LogCategory &name()
+
 #endif // _FCITX_UTILS_LOG_H_
