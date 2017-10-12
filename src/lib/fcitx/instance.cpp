@@ -127,7 +127,11 @@ public:
           inputMethod_(instance->inputMethod(ic)),
           reason_(InputMethodSwitchedReason::Other) {
         auto inputState = ic->propertyAs<InputState>("inputState");
-        inputState->imChanged_ = this;
+        if (!inputState->imChanged_) {
+            inputState->imChanged_ = this;
+        } else {
+            ic_.unwatch();
+        }
     }
     ~CheckInputMethodChanged() {
         if (!ic_.isValid()) {
@@ -293,6 +297,12 @@ Instance::Instance(int argc, char **argv) {
                 {d->globalConfig_.triggerKeys(),
                  [this]() { return canTrigger(); },
                  [this, ic]() { return trigger(ic); }},
+                {d->globalConfig_.activateKeys(),
+                 [this]() { return canTrigger(); },
+                 [this, ic]() { return activate(ic); }},
+                {d->globalConfig_.deactivateKeys(),
+                 [this]() { return canTrigger(); },
+                 [this, ic]() { return deactivate(ic); }},
                 {d->globalConfig_.enumerateForwardKeys(),
                  [this]() { return canTrigger(); },
                  [this, ic]() { return enumerate(ic, true); }},
@@ -470,6 +480,7 @@ Instance::Instance(int argc, char **argv) {
             if (!ic->hasFocus()) {
                 return;
             }
+            FCITX_LOG(Debug) << "Input method switched";
             FCITX_D();
             auto engine = inputMethodEngine(ic);
             auto entry = inputMethodEntry(ic);
@@ -477,6 +488,7 @@ Instance::Instance(int argc, char **argv) {
                 (icEvent.reason() == InputMethodSwitchedReason::Trigger ||
                  icEvent.reason() == InputMethodSwitchedReason::Enumerate ||
                  icEvent.reason() == InputMethodSwitchedReason::Activate ||
+                 icEvent.reason() == InputMethodSwitchedReason::Other ||
                  icEvent.reason() == InputMethodSwitchedReason::Deactivate)) {
                 auto inputState = ic->propertyFor(&d->inputStateFactory);
                 std::string display;
@@ -813,7 +825,12 @@ void Instance::save() {
     d->addonManager_.saveAll();
 }
 
-void Instance::activate() {}
+void Instance::activate() {
+    if (auto ic = lastFocusedInputContext()) {
+        CheckInputMethodChanged imChangedRAII(ic, this);
+        activate(ic);
+    }
+}
 
 std::string Instance::addonForInputMethod(const std::string &imName) {
 
@@ -835,16 +852,25 @@ void Instance::configureInputMethod(const std::string &imName) {
 }
 
 std::string Instance::currentInputMethod() {
-    // FIXME
+    if (auto ic = lastFocusedInputContext()) {
+        if (auto entry = inputMethodEntry(ic)) {
+            return entry->uniqueName();
+        }
+    }
     return {};
 }
 
 std::string Instance::currentUI() {
-    // FIXME
-    return {};
+    FCITX_D();
+    return d->uiManager_.currentUI();
 }
 
-void Instance::deactivate() {}
+void Instance::deactivate() {
+    if (auto ic = lastFocusedInputContext()) {
+        CheckInputMethodChanged imChangedRAII(ic, this);
+        deactivate(ic);
+    }
+}
 
 void Instance::exit() { eventLoop().quit(); }
 
@@ -879,11 +905,56 @@ void Instance::restart() {
     _exit(1);
 }
 
-void Instance::setCurrentInputMethod(const std::string &) {}
+void Instance::setCurrentInputMethod(const std::string &name) {
+    FCITX_D();
+    if (!canTrigger()) {
+        return;
+    }
+    if (auto ic = lastFocusedInputContext()) {
+        CheckInputMethodChanged imChangedRAII(ic, this);
+        auto currentIM = inputMethod(ic);
+        if (currentIM == name) {
+            return;
+        }
+        auto &imManager = inputMethodManager();
+        auto inputState = ic->propertyFor(&d->inputStateFactory);
+        const auto &imList = imManager.currentGroup().inputMethodList();
 
-int Instance::state() { return 0; }
+        auto iter = std::find_if(imList.begin(), imList.end(),
+                                 [&name](const InputMethodGroupItem &item) {
+                                     return item.name() == name;
+                                 });
+        if (iter == imList.end()) {
+            return;
+        }
+        auto idx = std::distance(imList.begin(), iter);
+        if (idx != 0) {
+            imManager.currentGroup().setDefaultInputMethod(name);
+            inputState->active_ = true;
+        } else {
+            inputState->active_ = false;
+        }
+        if (inputState->imChanged_) {
+            inputState->imChanged_->setReason(InputMethodSwitchedReason::Other);
+        }
+    }
+}
 
-void Instance::toggle() {}
+int Instance::state() {
+    FCITX_D();
+    if (auto ic = lastFocusedInputContext()) {
+        auto inputState = ic->propertyFor(&d->inputStateFactory);
+        return inputState->active_ ? 2 : 1;
+    }
+    return 0;
+}
+
+void Instance::toggle() {
+    if (auto ic = lastFocusedInputContext()) {
+        CheckInputMethodChanged imChangedRAII(ic, this);
+        trigger(ic);
+    }
+}
 
 bool Instance::canTrigger() {
     auto &imManager = inputMethodManager();
@@ -899,6 +970,39 @@ bool Instance::trigger(InputContext *ic) {
     inputState->active_ = !inputState->active_;
     if (inputState->imChanged_) {
         inputState->imChanged_->setReason(InputMethodSwitchedReason::Trigger);
+    }
+    return true;
+}
+
+bool Instance::activate(InputContext *ic) {
+    FCITX_D();
+    auto inputState = ic->propertyFor(&d->inputStateFactory);
+    if (!canTrigger()) {
+        return false;
+    }
+    if (!inputState->active_) {
+        return true;
+    }
+    inputState->active_ = true;
+    if (inputState->imChanged_) {
+        inputState->imChanged_->setReason(InputMethodSwitchedReason::Activate);
+    }
+    return true;
+}
+
+bool Instance::deactivate(InputContext *ic) {
+    FCITX_D();
+    auto inputState = ic->propertyFor(&d->inputStateFactory);
+    if (!canTrigger()) {
+        return false;
+    }
+    if (!inputState->active_) {
+        return true;
+    }
+    inputState->active_ = false;
+    if (inputState->imChanged_) {
+        inputState->imChanged_->setReason(
+            InputMethodSwitchedReason::Deactivate);
     }
     return true;
 }
@@ -948,5 +1052,10 @@ Text Instance::outputFilter(InputContext *inputContext, const Text &orig) {
     Text result = orig;
     emit<Instance::OutputFilter>(inputContext, result);
     return result;
+}
+
+InputContext *Instance::lastFocusedInputContext() {
+    FCITX_D();
+    return d->icManager_.lastFocusedInputContext();
 }
 }

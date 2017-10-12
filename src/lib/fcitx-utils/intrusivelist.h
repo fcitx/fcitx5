@@ -38,6 +38,7 @@ public:
     virtual ~IntrusiveListNode() { remove(); }
 
     bool isInList() const { return !!list_; }
+    bool isInList(const IntrusiveListBase *list) const { return list == list_; }
     void remove();
     IntrusiveListNode *prev() const { return prev_; }
     IntrusiveListNode *next() const { return next_; }
@@ -283,6 +284,10 @@ public:
 
     const_iterator iterator_to(const_reference value) {
         return const_iterator(&nodeGetter.toNode(value), nodeGetter);
+    }
+
+    bool isInList(const_reference value) const {
+        return nodeGetter.toNode(value).isInList(this);
     }
 
     void push_back(reference value) {

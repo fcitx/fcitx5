@@ -70,7 +70,6 @@ public:
     EventLoop &eventLoop();
     AddonManager &addonManager();
     InputContextManager &inputContextManager();
-    InputMethodManager &inputMethodManager();
     UserInterfaceManager &userInterfaceManager();
     GlobalConfig &globalConfig();
 
@@ -98,6 +97,8 @@ public:
     FCITX_DECLARE_SIGNAL(Instance, KeyEventResult,
                          void(const KeyEvent &keyEvent));
 
+    InputContext *lastFocusedInputContext();
+
     // controller
     void exit();
     void restart();
@@ -117,12 +118,15 @@ public:
     void setCurrentInputMethod(const std::string &imName);
 
 private:
+    InputMethodManager &inputMethodManager();
     void initialize();
     void handleSignal();
     void save();
 
     bool canTrigger();
     bool trigger(InputContext *ic);
+    bool activate(InputContext *ic);
+    bool deactivate(InputContext *ic);
     bool enumerate(InputContext *ic, bool forward);
 
     std::unique_ptr<InstancePrivate> d_ptr;

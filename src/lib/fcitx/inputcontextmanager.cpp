@@ -49,11 +49,22 @@ namespace fcitx {
 struct InputContextListHelper {
     static IntrusiveListNode &toNode(InputContext &ic) noexcept;
     static InputContext &toValue(IntrusiveListNode &node) noexcept;
+    static const IntrusiveListNode &toNode(const InputContext &ic) noexcept;
+    static const InputContext &toValue(const IntrusiveListNode &node) noexcept;
+};
+
+struct InputContextFocusedListHelper {
+    static IntrusiveListNode &toNode(InputContext &ic) noexcept;
+    static InputContext &toValue(IntrusiveListNode &node) noexcept;
+    static const IntrusiveListNode &toNode(const InputContext &ic) noexcept;
+    static const InputContext &toValue(const IntrusiveListNode &node) noexcept;
 };
 
 struct FocusGroupListHelper {
     static IntrusiveListNode &toNode(FocusGroup &group) noexcept;
     static FocusGroup &toValue(IntrusiveListNode &node) noexcept;
+    static const IntrusiveListNode &toNode(const FocusGroup &group) noexcept;
+    static const FocusGroup &toValue(const IntrusiveListNode &node) noexcept;
 };
 
 inline InputContext *toInputContextPointer(InputContext *self) { return self; }
@@ -65,6 +76,14 @@ public:
         return ic.d_func();
     }
     static FocusGroupPrivate *toFocusGroupPrivate(FocusGroup &group) {
+        return group.d_func();
+    }
+    static const InputContextPrivate *
+    toInputContextPrivate(const InputContext &ic) {
+        return ic.d_func();
+    }
+    static const FocusGroupPrivate *
+    toFocusGroupPrivate(const FocusGroup &group) {
         return group.d_func();
     }
 
@@ -151,6 +170,8 @@ public:
                        container_hasher>
         uuidMap_;
     IntrusiveList<InputContext, InputContextListHelper> inputContexts_;
+    IntrusiveList<InputContext, InputContextFocusedListHelper>
+        focusedInputContexts_;
     IntrusiveList<FocusGroup, FocusGroupListHelper> groups_;
     // order matters, need to delete it before groups gone
     Instance *instance_ = nullptr;
@@ -164,22 +185,24 @@ public:
     bool finalized_ = false;
 };
 
-IntrusiveListNode &InputContextListHelper::toNode(InputContext &ic) noexcept {
-    return InputContextManagerPrivate::toInputContextPrivate(ic)->listNode_;
-}
+#define DEFINE_LIST_HELPERS(HELPERTYPE, TYPE, MEMBER)                          \
+    IntrusiveListNode &HELPERTYPE::toNode(TYPE &ic) noexcept {                 \
+        return InputContextManagerPrivate::to##TYPE##Private(ic)->MEMBER;      \
+    }                                                                          \
+    TYPE &HELPERTYPE::toValue(IntrusiveListNode &node) noexcept {              \
+        return *parentFromMember(&node, &TYPE##Private::MEMBER)->q_func();     \
+    }                                                                          \
+    const IntrusiveListNode &HELPERTYPE::toNode(const TYPE &ic) noexcept {     \
+        return InputContextManagerPrivate::to##TYPE##Private(ic)->MEMBER;      \
+    }                                                                          \
+    const TYPE &HELPERTYPE::toValue(const IntrusiveListNode &node) noexcept {  \
+        return *parentFromMember(&node, &TYPE##Private::MEMBER)->q_func();     \
+    }
 
-InputContext &
-InputContextListHelper::toValue(IntrusiveListNode &node) noexcept {
-    return *parentFromMember(&node, &InputContextPrivate::listNode_)->q_func();
-}
-
-IntrusiveListNode &FocusGroupListHelper::toNode(FocusGroup &group) noexcept {
-    return InputContextManagerPrivate::toFocusGroupPrivate(group)->listNode_;
-}
-
-FocusGroup &FocusGroupListHelper::toValue(IntrusiveListNode &node) noexcept {
-    return *parentFromMember(&node, &FocusGroupPrivate::listNode_)->q_func();
-}
+DEFINE_LIST_HELPERS(InputContextListHelper, InputContext, listNode_)
+DEFINE_LIST_HELPERS(InputContextFocusedListHelper, InputContext,
+                    focusedListNode_)
+DEFINE_LIST_HELPERS(FocusGroupListHelper, FocusGroup, listNode_)
 
 InputContextManager::InputContextManager()
     : d_ptr(std::make_unique<InputContextManagerPrivate>()) {}
@@ -196,6 +219,16 @@ bool InputContextManager::foreach(const InputContextVisitor &visitor) {
     FCITX_D();
     for (auto &ic : d->inputContexts_) {
         if (visitor(&ic)) {
+            return false;
+        }
+    }
+    return true;
+}
+
+bool InputContextManager::foreachGroup(const FocusGroupVisitor &visitor) {
+    FCITX_D();
+    for (auto &group : d->groups_) {
+        if (visitor(&group)) {
             return false;
         }
     }
@@ -259,6 +292,11 @@ void InputContextManager::unregisterInputContext(InputContext &inputContext) {
     }
     d->uuidMap_.erase(inputContext.uuid());
     d->inputContexts_.erase(d->inputContexts_.iterator_to(inputContext));
+
+    if (d->focusedInputContexts_.isInList(inputContext)) {
+        d->focusedInputContexts_.erase(
+            d->focusedInputContexts_.iterator_to(inputContext));
+    }
 }
 
 void InputContextManager::registerFocusGroup(FocusGroup &group) {
@@ -319,5 +357,30 @@ void InputContextManager::propagateProperty(
             copyProperty(iter->second);
         }
     }
+}
+
+void InputContextManager::notifyFocus(InputContext &ic, bool hasFocus) {
+    FCITX_D();
+    if (hasFocus) {
+        if (d->focusedInputContexts_.isInList(ic)) {
+            if (&d->focusedInputContexts_.front() == &ic) {
+                return;
+            }
+            auto iter = d->focusedInputContexts_.iterator_to(ic);
+            d->focusedInputContexts_.erase(iter);
+        }
+        d->focusedInputContexts_.push_front(ic);
+    } else {
+        if (d->focusedInputContexts_.isInList(ic)) {
+            auto iter = d->focusedInputContexts_.iterator_to(ic);
+            d->focusedInputContexts_.erase(iter);
+        }
+    }
+}
+
+InputContext *InputContextManager::lastFocusedInputContext() {
+    FCITX_D();
+    return d->focusedInputContexts_.empty() ? nullptr
+                                            : &d->focusedInputContexts_.front();
 }
 }

@@ -228,6 +228,8 @@ public:
     CandidateLayoutHint layoutHint_ = CandidateLayoutHint::NotSet;
     bool cursorIncludeUnselected_ = false;
     bool cursorKeepInSamePage_ = false;
+    CursorPositionAfterPaging cursorPositionAfterPaging_ =
+        CursorPositionAfterPaging::DonotChange;
 
     int size() const {
         auto start = currentPage_ * pageSize_;
@@ -249,6 +251,29 @@ public:
     void checkGlobalIndex(int idx) const {
         if (idx < 0 || static_cast<size_t>(idx) >= candidateWord_.size()) {
             throw std::invalid_argument("invalid index");
+        }
+    }
+
+    void fixCursorAfterPaging(int oldIndex) {
+        if (oldIndex < 0) {
+            return;
+        }
+
+        switch (cursorPositionAfterPaging_) {
+        case CursorPositionAfterPaging::DonotChange:
+            break;
+        case CursorPositionAfterPaging::ResetToFirst:
+            cursorIndex_ = currentPage_ * pageSize_;
+            break;
+        case CursorPositionAfterPaging::SameAsLast: {
+            auto currentPageSize = size();
+            if (oldIndex >= currentPageSize) {
+                cursorIndex_ = currentPage_ * pageSize_ + size() - 1;
+            } else {
+                cursorIndex_ = currentPage_ * pageSize_ + oldIndex;
+            }
+            break;
+        }
         }
     }
 };
@@ -330,7 +355,9 @@ void CommonCandidateList::prev() {
     if (!hasPrev()) {
         return;
     }
+    auto oldIndex = cursorIndex();
     d->currentPage_--;
+    d->fixCursorAfterPaging(oldIndex);
 }
 
 void CommonCandidateList::next() {
@@ -338,7 +365,9 @@ void CommonCandidateList::next() {
     if (!hasNext()) {
         return;
     }
+    auto oldIndex = cursorIndex();
     d->currentPage_++;
+    d->fixCursorAfterPaging(oldIndex);
     d->usedNextBefore_ = true;
 }
 
@@ -485,6 +514,9 @@ void CommonCandidateList::moveCursor(bool prev) {
         } else {
             d->cursorIndex_ = newGlobalIndex;
         }
+        if (!d->cursorKeepInSamePage_) {
+            setPage(d->cursorIndex_ / d->pageSize_);
+        }
     }
 }
 
@@ -500,6 +532,12 @@ void CommonCandidateList::setCursorIncludeUnselected(bool v) {
 void CommonCandidateList::setCursorKeepInSamePage(bool v) {
     FCITX_D();
     d->cursorKeepInSamePage_ = v;
+}
+
+void CommonCandidateList::setCursorPositionAfterPaging(
+    CursorPositionAfterPaging afterPaging) {
+    FCITX_D();
+    d->cursorPositionAfterPaging_ = afterPaging;
 }
 
 void CommonCandidateList::setPage(int page) {

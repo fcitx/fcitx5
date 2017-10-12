@@ -88,7 +88,7 @@ void Color::setFromString(const char *str) {
                     ('a' <= digits[len] && digits[len] <= 'f'))) {
             len++;
         }
-        if (len != 8) {
+        if (len != 8 && len != 6) {
             throw ColorParseException();
         }
 
@@ -98,8 +98,12 @@ void Color::setFromString(const char *str) {
         g = to_hex_digit(digits[0], digits[1]);
         digits += 2;
         b = to_hex_digit(digits[0], digits[1]);
-        digits += 2;
-        a = to_hex_digit(digits[0], digits[1]);
+        if (len == 8) {
+            digits += 2;
+            a = to_hex_digit(digits[0], digits[1]);
+        } else {
+            a = 255;
+        }
 
         red_ = extendColor(r);
         green_ = extendColor(g);
@@ -133,6 +137,9 @@ std::string Color::toString() const {
         auto lo = value % 16;
         result.push_back(to_hex_char(hi));
         result.push_back(to_hex_char(lo));
+    }
+    if (stringutils::endsWith(result, "ff")) {
+        result.erase(result.size() - 2, 2);
     }
 
     return result;

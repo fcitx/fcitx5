@@ -155,6 +155,8 @@ private:
 
 class CommonCandidateListPrivate;
 
+enum CursorPositionAfterPaging { SameAsLast, DonotChange, ResetToFirst };
+
 class FCITXCORE_EXPORT CommonCandidateList : public CandidateList,
                                              public PageableCandidateList,
                                              public ModifiableCandidateList,
@@ -206,6 +208,7 @@ public:
     // A simple switch to change the behavior of prevCandidate and nextCandidate
     void setCursorIncludeUnselected(bool);
     void setCursorKeepInSamePage(bool);
+    void setCursorPositionAfterPaging(CursorPositionAfterPaging afterPaging);
 
 private:
     void fixAfterUpdate();

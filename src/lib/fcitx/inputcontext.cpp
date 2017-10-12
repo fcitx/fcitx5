@@ -24,6 +24,7 @@
 #include "instance.h"
 #include <cassert>
 #include <exception>
+#include <fcitx-utils/event.h>
 
 namespace fcitx {
 
@@ -172,6 +173,7 @@ void InputContext::setHasFocus(bool hasFocus) {
         return;
     }
     d->hasFocus_ = hasFocus;
+    d->manager_.notifyFocus(*this, d->hasFocus_);
     // trigger event
     if (d->hasFocus_) {
         d->emplaceEvent<FocusInEvent>(this);

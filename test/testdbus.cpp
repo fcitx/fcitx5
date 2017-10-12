@@ -137,7 +137,7 @@ int main() {
     TestObject obj;
     FCITX_ASSERT(bus.addObjectVTable("/test", TEST_INTERFACE, obj));
     std::unique_ptr<EventSourceTime> s(loop.addTimeEvent(
-        CLOCK_MONOTONIC, now(CLOCK_MONOTONIC) + 500000, 0,
+        CLOCK_MONOTONIC, now(CLOCK_MONOTONIC) + 1000000, 0,
         [&bus, &loop](EventSource *, uint64_t) {
             auto msg = bus.createMethodCall(
                 "org.freedesktop.DBus", "/org/freedesktop/DBus",

@@ -35,12 +35,18 @@ public:
     InputWindow(ClassicUI *parent);
     void update(InputContext *inputContext);
     std::pair<unsigned int, unsigned int> sizeHint();
-    void paint(cairo_t *cr) const;
+    void paint(cairo_t *cr, unsigned int width, unsigned int height) const;
     void hide();
     bool visible() const { return visible_; }
 
 protected:
     void resizeCandidates(size_t s);
+    void appendText(std::string &s, PangoAttrList *attrList, const Text &text,
+                    bool candidateHighlight = false);
+    void setTextToLayout(
+        PangoLayout *layout,
+        std::initializer_list<std::reference_wrapper<const Text>> texts,
+        bool candidateHighlight = false);
 
     ClassicUI *parent_;
     std::unique_ptr<PangoContext, decltype(&g_object_unref)> context_;
@@ -54,6 +60,7 @@ protected:
     int cursor_ = 0;
     int dpi_ = -1;
     size_t nCandidates_ = 0;
+    int candidateIndex_ = -1;
     CandidateLayoutHint layoutHint_ = CandidateLayoutHint::NotSet;
     size_t candidatesHeight_ = 0;
 };

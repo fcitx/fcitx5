@@ -78,8 +78,12 @@ public:
         : min_(min), max_(max) {}
     bool check(int value) const { return value >= min_ && value <= max_; }
     void dumpDescription(RawConfig &config) const {
-        marshallOption(config["IntMin"], min_);
-        marshallOption(config["IntMax"], max_);
+        if (min_ != std::numeric_limits<int>::min()) {
+            marshallOption(config["IntMin"], min_);
+        }
+        if (max_ != std::numeric_limits<int>::max()) {
+            marshallOption(config["IntMax"], max_);
+        }
     }
 
 private:

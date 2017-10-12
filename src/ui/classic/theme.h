@@ -21,53 +21,60 @@
 
 #include "fcitx-config/configuration.h"
 #include "fcitx-config/enum.h"
+#include "fcitx-utils/log.h"
 #include <cairo/cairo.h>
 
 namespace fcitx {
 
 FCITX_CONFIG_ENUM(Gravity, TopLeft, TopCenter, TopRight, CenterLeft, Center,
                   CenterRight, BottomLeft, BottomCenter, BottomRight)
-FCITX_CONFIG_ENUM(FillRule, Copy, Resize)
 
-FCITX_CONFIGURATION(
-    MarginConfig, Option<int> marginLeft{this, "MarginLeft", "Margin Left"};
-    Option<int> marginRight{this, "MarginRight", "Margin Right"};
-    Option<int> marginTop{this, "MarginTop", "Margin Top"};
-    Option<int> marginBottom{this, "MarginBottom", "Margin Bottom"};)
+FCITX_CONFIGURATION(MarginConfig,
+                    Option<int, IntConstrain> marginLeft{
+                        this, "Left", "Margin Left", 0, IntConstrain(0)};
+                    Option<int, IntConstrain> marginRight{this, "Right",
+                                                          "Margin Right", 0,
+                                                          IntConstrain(0)};
+                    Option<int, IntConstrain> marginTop{
+                        this, "Top", "Margin Top", 0, IntConstrain(0)};
+                    Option<int, IntConstrain> marginBottom{
+                        this, "Bottom", "Margin Bottom", 0, IntConstrain(0)};)
 
 FCITX_CONFIGURATION(
     BackgroundImageConfig,
     Option<std::string> image{this, "Image", "Background Image"};
+    Option<Color> color{this, "Color", "Color", Color("#ffffff")};
     Option<MarginConfig> margin{this, "Margin", "Margin"};
     Option<MarginConfig> clickMargin{this, "ClickMargin", "Click Margin"};
     Option<std::string> overlay{this, "Overlay", "Overlay Image"};
-    Option<Gravity> overlayGravity{this, "Overlay", "Overlay position"};
+    Option<Gravity> gravity{this, "Gravity", "Overlay position"};
     Option<int> overlayOffsetX{this, "OverlayOffsetX", "Overlay X offset"};
-    Option<int> overlayOffsetY{this, "OverlayOffsetY", "Overlay Y offset"};
-    Option<FillRule> fillVertical{this, "FillVertical", "Fill Vertical"};
-    Option<FillRule> fillHorizontal{this, "FillHorizontal", "Fill Horizontal"};)
+    Option<int> overlayOffsetY{this, "OverlayOffsetY", "Overlay Y offset"};)
 
 FCITX_CONFIGURATION(
-    InputPanelThemeConfig, Option<std::string> font{this, "Font", "Font"};
+    InputPanelThemeConfig,
+    Option<std::string> font{this, "Font", "Font", "Sans 9"};
     Option<BackgroundImageConfig> background{this, "Background", "Background"};
-    Option<Color> normalColor{this, "NormatTextColor", "Normal text color"};
-    Option<Color> userInputColor{this, "UserInputColor",
-                                 "User input text color"};
-    Option<Color> candidateIndexColor{this, "CandidateIndexColor",
-                                      "Candidate Index color"};
-    Option<Color> currentCandiate{this, "CurrentCandiateColor",
-                                  "Current candidate color"};
-    Option<Color> userPhraseColor{this, "UserPhraseColor",
-                                  "User phrase text color"};
-    Option<Color> hintColor{this, "HintColor", "Hint color"};)
-
-FCITX_CONFIGURATION(MenuThemeConfig,
-                    Option<std::string> font{this, "Font", "Font"};
-                    Option<BackgroundImageConfig> background{this, "Background",
-                                                             "Background"};)
-
-FCITX_CONFIGURATION(StatusAreaConfig, Option<BackgroundImageConfig> background{
-                                          this, "Background", "Background"};);
+    Option<BackgroundImageConfig> highlight{this, "Highlight",
+                                            "Highlight Background"};
+    Option<MarginConfig> contentMargin{this, "ContentMargin",
+                                       "Margin around all content"};
+    Option<MarginConfig> textMargin{this, "TextMargin", "Margin around text"};
+    Option<Color> normalColor{this, "NormalColor", "Normal text color",
+                              Color("#000000ff")};
+    Option<Color> highlightCandidateColor{this, "HighlightCandidateColor",
+                                          "Highlight Candidate Color",
+                                          Color("#ffffffff")};
+    Option<int> spacing{this, "Spacing", "Spacing", 0};
+    Option<bool> fullWidthHighlight{
+        this, "FullWidthHighlight",
+        "Use all horizontal space for highlight when it is vertical list",
+        true};
+    Option<Color> highlightColor{this, "HighlightColor", "Highlight text color",
+                                 Color("#ffffffff")};
+    Option<Color> highlightBackgroundColor{this, "HighlightBackgroundColor",
+                                           "Highlight Background color",
+                                           Color("#a5a5a5ff")};);
 
 FCITX_CONFIGURATION(
     ThemeConfig, Option<I18NString> name{this, "Metadata/Name", "Skin Name"};
@@ -77,18 +84,17 @@ FCITX_CONFIGURATION(
                                     "Description"};
     Option<bool> scaleWithDPI{this, "Metadata/ScaleWithDPI", "Scale with DPI"};
     Option<InputPanelThemeConfig> inputPanel{this, "InputPanel",
-                                             "Input Panel Theme"};
-    Option<MenuThemeConfig> menu{this, "InputPanel", "Input Panel Theme"};);
+                                             "Input Panel Theme"};);
 
 enum class ImagePurpose { General, Tray };
 
 class ThemeImage {
 public:
-    ThemeImage();
-    ~ThemeImage();
+    ThemeImage(const std::string &name, const BackgroundImageConfig &cfg);
+    ThemeImage(const std::string &name, const std::string &icon,
+               const std::string &label, const std::string &font);
 
-    cairo_surface_t *loadSurface(const std::string &name,
-                                 const std::string &fallbackText);
+    operator cairo_surface_t *() const { return image_.get(); }
 
 private:
     std::string currentText_;
@@ -100,14 +106,30 @@ public:
     Theme();
     ~Theme();
 
-    void load(RawConfig &rawConfig);
-    ThemeImage *loadImage(const std::string &name,
-                          ImagePurpose purpose = ImagePurpose::General);
+    void load(const std::string &name, const RawConfig &rawConfig);
+    const ThemeImage &loadImage(const std::string &name,
+                                const std::string &label,
+                                ImagePurpose purpose = ImagePurpose::General);
+    const ThemeImage &loadBackground(const BackgroundImageConfig &cfg);
+
+    void paint(cairo_t *c, const BackgroundImageConfig &cfg, int width,
+               int height);
 
 private:
-    std::unordered_map<std::string, ThemeImage> imageTable;
-    std::unordered_map<std::string, ThemeImage> trayImageTable;
+    std::unordered_map<const BackgroundImageConfig *, ThemeImage>
+        backgroundImageTable_;
+    std::unordered_map<std::string, ThemeImage> imageTable_;
+    std::unordered_map<std::string, ThemeImage> trayImageTable_;
+    std::string name_;
 };
+
+inline void cairoSetSourceColor(cairo_t *cr, const Color &color) {
+    cairo_set_source_rgba(cr, color.redF(), color.blueF(), color.greenF(),
+                          color.alphaF());
+}
+
+FCITX_DECLARE_LOG_CATEGORY(classicui_logcategory);
+#define CLASSICUI_DEBUG() FCITX_LOGC(::fcitx::classicui_logcategory, Debug)
 }
 
 #endif // _FCITX_UI_CLASSIC_THEME_H_

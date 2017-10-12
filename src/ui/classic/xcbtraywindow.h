@@ -36,6 +36,7 @@ private:
     void sendTrayOpcode(long message, long data1, long data2, long data3);
     void refreshDockWindow();
     xcb_visualid_t trayVisual();
+    void paint(cairo_t *cr);
 
     xcb_window_t dockWindow_ = XCB_WINDOW_NONE;
     std::unique_ptr<HandlerTableEntry<XCBSelectionNotifyCallback>>

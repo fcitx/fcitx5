@@ -24,12 +24,17 @@
 #include "fcitx/userinterfacemanager.h"
 #include "waylandui.h"
 #include "xcbui.h"
+#include <fcitx-config/iniparser.h>
+#include <fcitx-utils/standardpath.h>
+#include <fcntl.h>
 
 namespace fcitx {
 namespace classicui {
 
 ClassicUI::ClassicUI(Instance *instance)
     : UserInterface(), instance_(instance) {
+    reloadConfig();
+
     xcbCreatedCallback_.reset(
         xcb()->call<IXCBModule::addConnectionCreatedCallback>(
             [this](const std::string &name, xcb_connection_t *conn, int screen,
@@ -58,6 +63,21 @@ ClassicUI::ClassicUI(Instance *instance)
 }
 
 ClassicUI::~ClassicUI() {}
+
+void ClassicUI::reloadConfig() {
+    auto configFile = StandardPath::global().open(
+        StandardPath::Type::PkgConfig, "conf/classicui.conf", O_RDONLY);
+    RawConfig config;
+    readFromIni(config, configFile.fd());
+    config_.load(config);
+
+    auto themeConfigFile = StandardPath::global().open(
+        StandardPath::Type::PkgData, "themes/" + *config_.theme + "/theme.conf",
+        O_RDONLY);
+    RawConfig themeConfig;
+    readFromIni(themeConfig, themeConfigFile.fd());
+    theme_.load(*config_.theme, themeConfig);
+}
 
 AddonInstance *ClassicUI::xcb() {
     auto &addonManager = instance_->addonManager();

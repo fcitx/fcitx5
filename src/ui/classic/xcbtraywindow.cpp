@@ -55,6 +55,9 @@ bool XCBTrayWindow::filterEvent(xcb_generic_event_t *event) {
         auto expose = reinterpret_cast<xcb_expose_event_t *>(event);
         if (expose->window == wid_) {
             if (auto surface = prerender()) {
+                cairo_t *c = cairo_create(surface);
+                paint(c);
+                cairo_destroy(c);
                 render();
             }
         }
@@ -204,6 +207,12 @@ xcb_visualid_t XCBTrayWindow::trayVisual() {
         }
     }
     return vid;
+}
+
+void XCBTrayWindow::paint(cairo_t *c) {
+    auto &theme = ui_->parent()->theme();
+    auto instance = ui_->parent()->instance();
+    auto ic = ui_->parent()->instance()->lastFocusedInputContext();
 }
 }
 }

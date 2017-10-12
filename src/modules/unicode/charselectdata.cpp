@@ -99,7 +99,9 @@ CharSelectData::CharSelectData() {
     }
     auto size = s.st_size;
     data_.resize(size);
-    fs::safeRead(file.fd(), data_.data(), size);
+    if (size != fs::safeRead(file.fd(), data_.data(), size)) {
+        throw std::runtime_error("Failed to read all data");
+    };
 
     createIndex();
 }

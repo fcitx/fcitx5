@@ -37,6 +37,7 @@ public:
         : addonManager_(addonManager) {}
 
     UserInterface *ui_ = nullptr;
+    std::string uiName_;
     std::vector<std::string> uis_;
 
     std::unordered_map<std::string, std::pair<Action *, ScopedConnection>>
@@ -167,11 +168,13 @@ void fcitx::UserInterfaceManager::updateAvailability() {
     FCITX_D();
     auto oldUI = d->ui_;
     fcitx::UserInterface *newUI = nullptr;
+    std::string newUIName;
     for (auto &name : d->uis_) {
         auto ui =
             static_cast<UserInterface *>(d->addonManager_->addon(name, true));
         if (ui && ui->available()) {
             newUI = static_cast<UserInterface *>(ui);
+            newUIName = name;
             break;
         }
     }
@@ -183,5 +186,11 @@ void fcitx::UserInterfaceManager::updateAvailability() {
             newUI->resume();
         }
         d->ui_ = newUI;
+        d->uiName_ = newUIName;
     }
+}
+
+std::string fcitx::UserInterfaceManager::currentUI() const {
+    FCITX_D();
+    return d->uiName_;
 }

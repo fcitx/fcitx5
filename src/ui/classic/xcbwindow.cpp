@@ -103,6 +103,7 @@ cairo_surface_t *XCBWindow::prerender() {
 
 void XCBWindow::render() {
     auto cr = cairo_create(surface_.get());
+    cairo_set_operator(cr, CAIRO_OPERATOR_SOURCE);
     cairo_set_source_surface(cr, contentSurface_.get(), 0, 0);
     cairo_paint(cr);
     cairo_destroy(cr);

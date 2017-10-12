@@ -1,0 +1,36 @@
+[Metadata]
+Name=Default
+Version=1
+Author=Fcitx
+Description=Default Theme
+ScaleWithDPI=True
+
+[InputPanel]
+Font=Sans 10
+NormalColor=#000000
+HighlightColor=#ffffff
+Spacing=3
+
+[InputPanel/TextMargin]
+Left=7
+Right=7
+Top=7
+Bottom=7
+
+[InputPanel/Background]
+Image=panel.png
+
+[InputPanel/Background/Margin]
+Left=2
+Right=2
+Top=2
+Bottom=2
+
+[InputPanel/Highlight]
+Image=highlight.png
+
+[InputPanel/Highlight/Margin]
+Left=5
+Right=5
+Top=5
+Bottom=5

@@ -33,6 +33,7 @@ class FocusGroup;
 class Instance;
 class InputContextProperty;
 typedef std::function<bool(InputContext *ic)> InputContextVisitor;
+typedef std::function<bool(FocusGroup *ic)> FocusGroupVisitor;
 
 FCITX_CONFIG_ENUM(PropertyPropagatePolicy, All, Program, None);
 
@@ -56,6 +57,9 @@ public:
                           InputContextPropertyFactory *factory);
 
     bool foreach(const InputContextVisitor &visitor);
+    bool foreachGroup(const FocusGroupVisitor &visitor);
+
+    InputContext *lastFocusedInputContext();
 
 private:
     void finalize();
@@ -67,6 +71,8 @@ private:
     void registerFocusGroup(FocusGroup &group);
     void unregisterFocusGroup(FocusGroup &group);
     void unregisterProperty(const std::string &name);
+
+    void notifyFocus(InputContext &inputContext, bool focus);
 
     InputContextPropertyFactory *factoryForName(const std::string &name);
     void propagateProperty(InputContext &inputContext,

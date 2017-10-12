@@ -83,13 +83,14 @@ public:
     FocusGroup *group_;
     InputPanel inputPanel_;
     StatusArea statusArea_;
-    bool hasFocus_;
+    bool hasFocus_ = false;
     std::string program_;
     CapabilityFlags capabilityFlags_;
     SurroundingText surroundingText_;
     Rect cursorRect_;
 
     IntrusiveListNode listNode_;
+    IntrusiveListNode focusedListNode_;
     ICUUID uuid_;
     std::vector<std::unique_ptr<InputContextProperty>> properties_;
     bool destroyed_ = false;

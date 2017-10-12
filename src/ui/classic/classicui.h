@@ -29,6 +29,7 @@
 #include "fcitx/focusgroup.h"
 #include "fcitx/instance.h"
 #include "fcitx/userinterface.h"
+#include "theme.h"
 #include "wayland_public.h"
 #include "xcb_public.h"
 
@@ -44,9 +45,17 @@ public:
     virtual void suspend() = 0;
 };
 
-FCITX_CONFIGURATION(ClassicUIConfig, fcitx::Option<bool> verticalCandidateList{
-                                         this, "Vertical Candidate List",
-                                         "Vertical Candidate List", false};);
+struct NotEmpty {
+    bool check(const std::string &value) const { return !value.empty(); }
+    void dumpDescription(RawConfig &) const {}
+};
+
+FCITX_CONFIGURATION(ClassicUIConfig,
+                    fcitx::Option<bool> verticalCandidateList{
+                        this, "Vertical Candidate List",
+                        "Vertical Candidate List", false};
+                    fcitx::Option<std::string, NotEmpty> theme{
+                        this, "Theme", "Theme", "default"};);
 
 class ClassicUI : public UserInterface {
 public:
@@ -57,12 +66,14 @@ public:
     AddonInstance *wayland();
     Instance *instance() { return instance_; }
     auto &config() { return config_; }
+    Theme &theme() { return theme_; }
     void suspend() override;
     void resume() override;
     bool suspended() const { return suspended_; }
     bool available() override { return true; }
     void update(UserInterfaceComponent component,
                 InputContext *inputContext) override;
+    void reloadConfig() override;
 
 private:
     std::unique_ptr<HandlerTableEntry<XCBConnectionCreated>>
@@ -81,6 +92,7 @@ private:
 
     Instance *instance_;
     ClassicUIConfig config_;
+    Theme theme_;
     bool suspended_ = true;
 };
 }

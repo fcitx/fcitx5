@@ -57,10 +57,10 @@ public:
     }
 
 private:
-    TrackableObjectReference(std::weak_ptr<T *> that, T *rawThat)
+    TrackableObjectReference(std::weak_ptr<bool> that, T *rawThat)
         : that_(std::move(that)), rawThat_(rawThat) {}
 
-    std::weak_ptr<T *> that_;
+    std::weak_ptr<bool> that_;
     T *rawThat_;
 };
 
@@ -77,8 +77,8 @@ template <typename T>
 class TrackableObject {
 public:
     TrackableObject()
-        : self_(std::make_unique<std::shared_ptr<T *>>(
-              std::make_shared<T *>(static_cast<T *>(this)))) {}
+        : self_(std::make_unique<std::shared_ptr<bool>>(
+              std::make_shared<bool>())) {}
     TrackableObject(const TrackableObject &) = delete;
     virtual ~TrackableObject() {}
 
@@ -87,7 +87,7 @@ public:
     }
 
 private:
-    std::unique_ptr<std::shared_ptr<T *>> self_;
+    std::unique_ptr<std::shared_ptr<bool>> self_;
 };
 }
 

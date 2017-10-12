@@ -19,7 +19,6 @@
 
 #include "xcbui.h"
 #include "xcbinputwindow.h"
-#include "xcbmainwindow.h"
 #include "xcbtraywindow.h"
 #include <fcitx-utils/stringutils.h>
 #include <xcb/randr.h>
@@ -141,7 +140,7 @@ XCBUI::XCBUI(ClassicUI *parent, const std::string &name, xcb_connection_t *conn,
              int defaultScreen)
     : parent_(parent), name_(name), conn_(conn), defaultScreen_(defaultScreen) {
     inputWindow_ = std::make_unique<XCBInputWindow>(this);
-    mainWindow_ = std::make_unique<XCBMainWindow>(this);
+    trayWindow_ = std::make_unique<XCBTrayWindow>(this);
 
     compMgrAtomString_ = "_NET_WM_CM_S" + std::to_string(defaultScreen_);
     compMgrAtom_ = internAtom(conn_, compMgrAtomString_);

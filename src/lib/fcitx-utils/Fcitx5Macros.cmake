@@ -88,6 +88,18 @@ macro(fcitx5_export_module EXPORTNAME)
     endif()
 endmacro()
 
+function(_fcitx5_get_unique_target_name _name _unique_name)
+  set(propertyName "_FCITX5_UNIQUE_COUNTER_${_name}")
+  get_property(currentCounter GLOBAL PROPERTY "${propertyName}")
+  if(NOT currentCounter)
+    set(${_unique_name} "${_name}" PARENT_SCOPE)
+    set(currentCounter 0)
+  else()
+    math(EXPR currentCounter "${currentCounter} + 1")
+  endif()
+  set_property(GLOBAL PROPERTY ${propertyName} ${currentCounter} )
+endfunction()
+
 function(fcitx5_translate_desktop_file SRC DEST)
   set(options)
   set(one_value_args PO_DIRECTORY)
@@ -120,7 +132,8 @@ function(fcitx5_translate_desktop_file SRC DEST)
     COMMAND "${GETTEXT_MSGFMT_EXECUTABLE}" --desktop -d ${PO_DIRECTORY}
             ${KEYWORD_ARGS} --template "${SRC}" -o "${DEST}"
     DEPENDS "${SRC}" ${PO_FILES})
-  add_custom_target("${SRC_BASE}-fmt" ALL DEPENDS "${DEST}")
+  _fcitx5_get_unique_target_name("${SRC_BASE}-fmt" uniqueTargetName)
+  add_custom_target("${uniqueTargetName}" ALL DEPENDS "${DEST}")
 endfunction()
 
 # Gettext function are not good for our use case.

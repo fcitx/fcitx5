@@ -28,7 +28,6 @@ namespace fcitx {
 namespace classicui {
 
 class XCBInputWindow;
-class XCBMainWindow;
 class XCBTrayWindow;
 
 enum class MultiScreenExtension { Randr, Xinerama, EXTNone };
@@ -75,7 +74,6 @@ private:
     xcb_colormap_t colorMap_;
     std::unique_ptr<XCBInputWindow> inputWindow_;
     std::unique_ptr<XCBTrayWindow> trayWindow_;
-    std::unique_ptr<XCBMainWindow> mainWindow_;
 
     std::string compMgrAtomString_;
     xcb_atom_t compMgrAtom_ = XCB_ATOM_NONE;

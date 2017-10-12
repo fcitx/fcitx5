@@ -44,6 +44,7 @@ public:
     void expire(InputContext *inputContext);
     void flush();
     void updateAvailability();
+    std::string currentUI() const;
 
 private:
     std::unique_ptr<UserInterfaceManagerPrivate> d_ptr;

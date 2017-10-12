@@ -34,9 +34,11 @@ class FCITXCORE_EXPORT GlobalConfig {
 public:
     GlobalConfig();
     virtual ~GlobalConfig();
-    const std::vector<Key> &triggerKeys() const;
-    const std::vector<Key> &enumerateForwardKeys() const;
-    const std::vector<Key> &enumerateBackwardKeys() const;
+    const KeyList &triggerKeys() const;
+    const KeyList &activateKeys() const;
+    const KeyList &deactivateKeys() const;
+    const KeyList &enumerateForwardKeys() const;
+    const KeyList &enumerateBackwardKeys() const;
     bool activeByDefault() const;
     bool showInputMethodInformation() const;
 

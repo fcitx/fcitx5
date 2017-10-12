@@ -208,16 +208,12 @@ void XCBInputWindow::update(InputContext *inputContext) {
     }
 
     cairo_t *c = cairo_create(prerender());
-    // TODO
-    cairo_set_source_rgba(c, 1, 1, 1, 1);
-    cairo_set_operator(c, CAIRO_OPERATOR_SOURCE);
-    cairo_paint(c);
     updatePosition(inputContext);
     if (!oldVisible) {
         xcb_map_window(ui_->connection(), wid_);
         xcb_flush(ui_->connection());
     }
-    paint(c);
+    paint(c, width, height);
     cairo_destroy(c);
     render();
 }
@@ -232,7 +228,7 @@ bool XCBInputWindow::filterEvent(xcb_generic_event_t *event) {
             if (visible()) {
                 if (auto surface = prerender()) {
                     cairo_t *c = cairo_create(surface);
-                    paint(c);
+                    paint(c, width(), height());
                     cairo_destroy(c);
                     render();
                 }

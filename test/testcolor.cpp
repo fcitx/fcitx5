@@ -24,7 +24,7 @@ using namespace fcitx;
 
 int main() {
     Color c("100 101 102");
-    FCITX_ASSERT(c.toString() == "#646566ff");
+    FCITX_ASSERT(c.toString() == "#646566");
     FCITX_ASSERT(c.red() == 100);
     FCITX_ASSERT(c.green() == 101);
     FCITX_ASSERT(c.blue() == 102);
@@ -51,6 +51,10 @@ int main() {
     FCITX_ASSERT(c.alpha() == 73);
     Color c2("#aabbccdd");
     FCITX_ASSERT(c2.toString() == "#aabbccdd");
+    Color c3("#aabbccff");
+    FCITX_ASSERT(c3.toString() == "#aabbcc");
+    Color c4("#aabbcc");
+    FCITX_ASSERT(c4.toString() == "#aabbcc");
 
     try {
         c2.setFromString("#a");
