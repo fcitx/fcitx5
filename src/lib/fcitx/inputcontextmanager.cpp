@@ -19,6 +19,7 @@
 
 #include "inputcontextmanager.h"
 #include "fcitx-utils/intrusivelist.h"
+#include "fcitx-utils/log.h"
 #include "focusgroup.h"
 #include "focusgroup_p.h"
 #include "inputcontext_p.h"
@@ -301,6 +302,7 @@ void InputContextManager::unregisterInputContext(InputContext &inputContext) {
 
 void InputContextManager::registerFocusGroup(FocusGroup &group) {
     FCITX_D();
+    FCITX_LOG(Debug) << "Register focus group for display: " << group.display();
     d->groups_.push_back(group);
 }
 
@@ -383,4 +385,5 @@ InputContext *InputContextManager::lastFocusedInputContext() {
     return d->focusedInputContexts_.empty() ? nullptr
                                             : &d->focusedInputContexts_.front();
 }
+
 }

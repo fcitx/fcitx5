@@ -66,6 +66,7 @@ public:
     const std::string &uniqueName() const { return uniqueName_; }
     const std::string &languageCode() const { return languageCode_; }
     const std::string &addon() const { return addon_; }
+    const std::string &label() const { return label_; }
 
 private:
     std::string uniqueName_;

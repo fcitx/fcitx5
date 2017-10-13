@@ -55,14 +55,17 @@ enum class CapabilityFlag : uint64_t {
     UppwercaseSentences = (1 << 20),
     Alpha = (1 << 21),
     Name = (1 << 22),
-    RelativeRect = (1 << 23),
-    Terminal = (1 << 24),
-    Date = (1 << 25),
-    Time = (1 << 26),
-    Multiline = (1 << 27),
-    Sensitive = (1 << 28),
-    HiddenText = (1 << 29),
-    GetIMInfoOnFocus = (1 << 30),
+    GetIMInfoOnFocus = (1 << 23),
+    RelativeRect = (1 << 24),
+    // 25 ~ 31 are reserved for fcitx 4 compatibility.
+
+    // New addition in fcitx 5.
+    Terminal = (1ull << 32),
+    Date = (1ull << 33),
+    Time = (1ull << 34),
+    Multiline = (1ull << 35),
+    Sensitive = (1ull << 36),
+    HiddenText = (1ull << 36),
 };
 
 typedef Flags<CapabilityFlag> CapabilityFlags;

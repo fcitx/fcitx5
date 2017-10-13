@@ -45,6 +45,10 @@ cairo_status_t readFromFd(void *closure, unsigned char *data,
     return CAIRO_STATUS_SUCCESS;
 }
 
+ThemeImage::ThemeImage(const std::string &name, const std::string &icon,
+            const std::string &label, const std::string &font) : image_(nullptr, &cairo_surface_destroy) {
+}
+
 ThemeImage::ThemeImage(const std::string &name,
                        const BackgroundImageConfig &cfg)
     : image_(nullptr, &cairo_surface_destroy) {
@@ -77,10 +81,6 @@ ThemeImage::ThemeImage(const std::string &name,
     }
 }
 
-ThemeImage::ThemeImage(const std::string &name, const std::string &icon,
-                       const std::string &label, const std::string &font)
-    : image_(nullptr, &cairo_surface_destroy) {}
-
 Theme::Theme() {}
 
 Theme::~Theme() {}
@@ -93,6 +93,22 @@ const ThemeImage &Theme::loadBackground(const BackgroundImageConfig &cfg) {
     auto result = backgroundImageTable_.emplace(
         std::piecewise_construct, std::forward_as_tuple(&cfg),
         std::forward_as_tuple(name_, cfg));
+    assert(result.second);
+    return result.first->second;
+}
+
+const ThemeImage &Theme::loadImage(const std::string &name,
+                                   const std::string &icon,
+                                const std::string &label,
+                                ImagePurpose purpose) {
+    auto &map = purpose == ImagePurpose::General ? imageTable_ : trayImageTable_;
+    if (auto image = findValue(map, name)) {
+        return *image;
+    }
+
+    auto result = map.emplace(
+        std::piecewise_construct, std::forward_as_tuple(name),
+        std::forward_as_tuple(name_, icon, label, *trayFont));
     assert(result.second);
     return result.first->second;
 }

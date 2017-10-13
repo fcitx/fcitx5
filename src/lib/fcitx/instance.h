@@ -43,6 +43,7 @@ class InputMethodEngine;
 class InputMethodEntry;
 class UserInterfaceManager;
 class GlobalConfig;
+class FocusGroup;
 typedef std::function<void(Event &event)> EventHandler;
 enum class EventWatcherPhase {
     PreInputMethod,
@@ -116,6 +117,8 @@ public:
     void reloadAddonConfig(const std::string &addonName);
     std::string currentInputMethod();
     void setCurrentInputMethod(const std::string &imName);
+
+    FocusGroup *defaultFocusGroup(const std::string &displayHint = {});
 
 private:
     InputMethodManager &inputMethodManager();

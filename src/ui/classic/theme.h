@@ -83,6 +83,7 @@ FCITX_CONFIGURATION(
     Option<std::string> description{this, "Metadata/Description",
                                     "Description"};
     Option<bool> scaleWithDPI{this, "Metadata/ScaleWithDPI", "Scale with DPI"};
+    Option<std::string> trayFont{this, "TrayFont", "Tray Font", "Sans 9"};
     Option<InputPanelThemeConfig> inputPanel{this, "InputPanel",
                                              "Input Panel Theme"};);
 
@@ -108,6 +109,7 @@ public:
 
     void load(const std::string &name, const RawConfig &rawConfig);
     const ThemeImage &loadImage(const std::string &name,
+                                const std::string &icon,
                                 const std::string &label,
                                 ImagePurpose purpose = ImagePurpose::General);
     const ThemeImage &loadBackground(const BackgroundImageConfig &cfg);

@@ -25,6 +25,8 @@
 #include "fcitx-utils/metastring.h"
 #include "fcitx/inputcontext.h"
 #include "fcitx/instance.h"
+#include "fcitx-utils/log.h"
+#include "fcitx/misc_p.h"
 
 #define FCITX_INPUTMETHOD_DBUS_INTERFACE "org.fcitx.Fcitx.InputMethod1"
 #define FCITX_INPUTCONTEXT_DBUS_INTERFACE "org.fcitx.Fcitx.InputContext1"
@@ -218,9 +220,13 @@ InputMethod1::createInputContext(
         program = iter->second;
     }
 
+    std::string *display = findValue(strMap, "display");
+
     auto sender = currentMessage()->sender();
     auto ic = new DBusInputContext1(icIdx++, instance_->inputContextManager(),
                                     this, sender, program);
+    ic->setFocusGroup(instance_->defaultFocusGroup(display ? *display : ""));
+
     bus_->addObjectVTable(ic->path().path(), FCITX_INPUTCONTEXT_DBUS_INTERFACE,
                           *ic);
     return std::make_tuple(

@@ -19,6 +19,7 @@
 #include "xcbtraywindow.h"
 #include <xcb/xcb_aux.h>
 #include <xcb/xcb_icccm.h>
+#include <fcitx/inputmethodentry.h>
 
 namespace fcitx {
 namespace classicui {
@@ -213,6 +214,19 @@ void XCBTrayWindow::paint(cairo_t *c) {
     auto &theme = ui_->parent()->theme();
     auto instance = ui_->parent()->instance();
     auto ic = ui_->parent()->instance()->lastFocusedInputContext();
+    auto entry = instance->inputMethodEntry(ic);
+    std::string icon = "keyboard";
+    std::string label = "";
+    if (entry) {
+        icon = entry->icon();
+        label = entry->label();
+    }
+
+    auto &image = theme.loadImage(icon, icon, label, ImagePurpose::Tray);
+    cairo_save(c);
+    cairo_set_operator(c, CAIRO_OPERATOR_SOURCE);
+    cairo_set_source_surface(c, image, 0, 0);
+    cairo_restore(c);
 }
 }
 }

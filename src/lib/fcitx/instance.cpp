@@ -28,6 +28,7 @@
 #include "fcitx-utils/stringutils.h"
 #include "fcitx-utils/utf8.h"
 #include "globalconfig.h"
+#include "focusgroup.h"
 #include "inputcontextmanager.h"
 #include "inputcontextproperty.h"
 #include "inputmethodengine.h"
@@ -1058,4 +1059,48 @@ InputContext *Instance::lastFocusedInputContext() {
     FCITX_D();
     return d->icManager_.lastFocusedInputContext();
 }
+
+int scoreForGroup(FocusGroup *group, const std::string &displayHint) {
+    // Hardcode wayland over X11.
+    if (displayHint.empty()) {
+        if (group->display() == "x11:") {
+            return 2;
+        }
+        if (stringutils::startsWith(group->display(), "x11:")) {
+            return 1;
+        }
+        if (group->display() == "wayland:") {
+            return 4;
+        }
+        if (stringutils::startsWith(group->display(), "wayland:")) {
+            return 3;
+        }
+    } else {
+        if (group->display() == displayHint) {
+            return 2;
+        }
+        if (stringutils::startsWith(group->display(), displayHint)) {
+            return 1;
+        }
+        return -1;
+    }
+}
+
+FocusGroup* Instance::defaultFocusGroup(const std::string &displayHint) {
+    FCITX_D();
+    FocusGroup *defaultFocusGroup = nullptr;
+
+    int score = 0;
+    d->icManager_.foreachGroup([&score, &displayHint, &defaultFocusGroup] (FocusGroup *group) {
+        auto newScore =  scoreForGroup(group, displayHint);
+        if (newScore > score) {
+            defaultFocusGroup = group;
+            score = newScore;
+        }
+
+        return true;
+    });
+    return defaultFocusGroup;
+}
+
 }
