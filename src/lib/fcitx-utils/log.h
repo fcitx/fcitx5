@@ -117,8 +117,8 @@ public:
     template <typename T>
     FCITX_SIMPLE_LOG(T)
 
-    private : std::ostream &out_;
-    LogLevel level_;
+private:
+    std::ostream &out_;
 };
 }
 
