@@ -246,7 +246,8 @@ DBusFrontendModule::DBusFrontendModule(Instance *instance)
     portalBus_->requestName(
         FCITX_PORTAL_DBUS_SERVICE,
         Flags<dbus::RequestNameFlag>{dbus::RequestNameFlag::AllowReplacement,
-                                     dbus::RequestNameFlag::ReplaceExisting});
+                                     dbus::RequestNameFlag::ReplaceExisting,
+                                     dbus::RequestNameFlag::Queue});
 }
 
 DBusFrontendModule::~DBusFrontendModule() {
