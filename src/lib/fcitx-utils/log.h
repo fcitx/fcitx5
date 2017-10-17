@@ -117,8 +117,7 @@ public:
     template <typename T>
     FCITX_SIMPLE_LOG(T)
 
-private:
-    std::ostream &out_;
+    private : std::ostream &out_;
 };
 }
 

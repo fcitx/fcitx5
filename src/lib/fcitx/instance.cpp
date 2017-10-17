@@ -27,8 +27,8 @@
 #include "fcitx-utils/standardpath.h"
 #include "fcitx-utils/stringutils.h"
 #include "fcitx-utils/utf8.h"
-#include "globalconfig.h"
 #include "focusgroup.h"
+#include "globalconfig.h"
 #include "inputcontextmanager.h"
 #include "inputcontextproperty.h"
 #include "inputmethodengine.h"
@@ -1086,21 +1086,21 @@ int scoreForGroup(FocusGroup *group, const std::string &displayHint) {
     }
 }
 
-FocusGroup* Instance::defaultFocusGroup(const std::string &displayHint) {
+FocusGroup *Instance::defaultFocusGroup(const std::string &displayHint) {
     FCITX_D();
     FocusGroup *defaultFocusGroup = nullptr;
 
     int score = 0;
-    d->icManager_.foreachGroup([&score, &displayHint, &defaultFocusGroup] (FocusGroup *group) {
-        auto newScore =  scoreForGroup(group, displayHint);
-        if (newScore > score) {
-            defaultFocusGroup = group;
-            score = newScore;
-        }
+    d->icManager_.foreachGroup(
+        [&score, &displayHint, &defaultFocusGroup](FocusGroup *group) {
+            auto newScore = scoreForGroup(group, displayHint);
+            if (newScore > score) {
+                defaultFocusGroup = group;
+                score = newScore;
+            }
 
-        return true;
-    });
+            return true;
+        });
     return defaultFocusGroup;
 }
-
 }

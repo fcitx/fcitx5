@@ -46,8 +46,8 @@ cairo_status_t readFromFd(void *closure, unsigned char *data,
 }
 
 ThemeImage::ThemeImage(const std::string &name, const std::string &icon,
-            const std::string &label, const std::string &font) : image_(nullptr, &cairo_surface_destroy) {
-}
+                       const std::string &label, const std::string &font)
+    : image_(nullptr, &cairo_surface_destroy) {}
 
 ThemeImage::ThemeImage(const std::string &name,
                        const BackgroundImageConfig &cfg)
@@ -99,16 +99,17 @@ const ThemeImage &Theme::loadBackground(const BackgroundImageConfig &cfg) {
 
 const ThemeImage &Theme::loadImage(const std::string &name,
                                    const std::string &icon,
-                                const std::string &label,
-                                ImagePurpose purpose) {
-    auto &map = purpose == ImagePurpose::General ? imageTable_ : trayImageTable_;
+                                   const std::string &label,
+                                   ImagePurpose purpose) {
+    auto &map =
+        purpose == ImagePurpose::General ? imageTable_ : trayImageTable_;
     if (auto image = findValue(map, name)) {
         return *image;
     }
 
-    auto result = map.emplace(
-        std::piecewise_construct, std::forward_as_tuple(name),
-        std::forward_as_tuple(name_, icon, label, *trayFont));
+    auto result =
+        map.emplace(std::piecewise_construct, std::forward_as_tuple(name),
+                    std::forward_as_tuple(name_, icon, label, *trayFont));
     assert(result.second);
     return result.first->second;
 }

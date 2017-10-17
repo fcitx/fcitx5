@@ -17,9 +17,9 @@
  * see <http://www.gnu.org/licenses/>.
  */
 #include "xcbtraywindow.h"
+#include <fcitx/inputmethodentry.h>
 #include <xcb/xcb_aux.h>
 #include <xcb/xcb_icccm.h>
-#include <fcitx/inputmethodentry.h>
 
 namespace fcitx {
 namespace classicui {

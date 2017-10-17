@@ -22,10 +22,10 @@
 #include "fcitx-utils/dbus/message.h"
 #include "fcitx-utils/dbus/objectvtable.h"
 #include "fcitx-utils/dbus/servicewatcher.h"
+#include "fcitx-utils/log.h"
 #include "fcitx-utils/metastring.h"
 #include "fcitx/inputcontext.h"
 #include "fcitx/instance.h"
-#include "fcitx-utils/log.h"
 #include "fcitx/misc_p.h"
 
 #define FCITX_INPUTMETHOD_DBUS_INTERFACE "org.fcitx.Fcitx.InputMethod1"

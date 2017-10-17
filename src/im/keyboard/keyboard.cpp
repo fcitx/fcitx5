@@ -21,6 +21,7 @@
 #include "chardata.h"
 #include "config.h"
 #include "fcitx-config/iniparser.h"
+#include "fcitx-utils/charutils.h"
 #include "fcitx-utils/cutf8.h"
 #include "fcitx-utils/i18n.h"
 #include "fcitx-utils/log.h"
@@ -45,6 +46,58 @@ const int imNamePrefixLength = sizeof(imNamePrefix) - 1;
 #define FCITX_KEYBOARD_MAX_BUFFER 20
 
 namespace fcitx {
+
+namespace {
+
+enum class SpellType { AllLower, Mixed, FirstUpper, AllUpper };
+
+SpellType guessSpellType(const std::string &input) {
+    if (input.size() <= 1) {
+        if (charutils::isupper(input[0])) {
+            return SpellType::FirstUpper;
+        } else {
+            return SpellType::AllLower;
+        }
+    }
+
+    if (std::all_of(input.begin(), input.end(),
+                    [](char c) { return charutils::isupper(c); })) {
+        return SpellType::AllUpper;
+    }
+
+    if (std::all_of(input.begin() + 1, input.end(),
+                    [](char c) { return charutils::islower(c); })) {
+        if (charutils::isupper(input[0])) {
+            return SpellType::FirstUpper;
+        } else {
+            return SpellType::AllLower;
+        }
+    }
+
+    return SpellType::Mixed;
+}
+
+std::string formatWord(const std::string &input, SpellType type) {
+    if (type == SpellType::Mixed || type == SpellType::AllLower) {
+        return input;
+    }
+    if (guessSpellType(input) != SpellType::AllLower) {
+        return input;
+    }
+    std::string result;
+    if (type == SpellType::AllUpper) {
+        result.reserve(input.size());
+        std::transform(input.begin(), input.end(), std::back_inserter(result),
+                       charutils::toupper);
+    } else {
+        // FirstUpper
+        result = input;
+        if (!result.empty()) {
+            result[0] = charutils::toupper(result[0]);
+        }
+    }
+    return result;
+}
 
 static std::string findBestLanguage(const IsoCodes &isocodes,
                                     const std::string &hint,
@@ -114,6 +167,7 @@ std::pair<std::string, std::string> layoutFromName(const std::string &s) {
     }
     return {s.substr(imNamePrefixLength, pos - imNamePrefixLength),
             s.substr(pos + 1)};
+}
 }
 
 KeyboardEngine::KeyboardEngine(Instance *instance) : instance_(instance) {
@@ -416,9 +470,12 @@ void KeyboardEngine::updateCandidate(const InputMethodEntry &entry,
     auto results = spell()->call<ISpell::hint>(entry.languageCode(),
                                                state->buffer_.userInput(),
                                                config_.pageSize.value());
+
     auto candidateList = new CommonCandidateList;
+    auto spellType = guessSpellType(state->buffer_.userInput());
     for (const auto &result : results) {
-        candidateList->append(new KeyboardCandidateWord(this, Text(result)));
+        candidateList->append(new KeyboardCandidateWord(
+            this, Text(formatWord(result, spellType))));
     }
     candidateList->setSelectionKey(selectionKeys_);
     candidateList->setCursorIncludeUnselected(true);

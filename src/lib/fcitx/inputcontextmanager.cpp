@@ -385,5 +385,4 @@ InputContext *InputContextManager::lastFocusedInputContext() {
     return d->focusedInputContexts_.empty() ? nullptr
                                             : &d->focusedInputContexts_.front();
 }
-
 }
