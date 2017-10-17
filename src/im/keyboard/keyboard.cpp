@@ -359,7 +359,7 @@ void KeyboardEngine::commitBuffer(InputContext *inputContext) {
     auto state = inputContext->propertyFor(&factory_);
     auto &buffer = state->buffer_;
     if (!buffer.empty()) {
-        inputContext->commitString(buffer.userInput());
+        inputContext->commitString(preeditString(inputContext));
         resetState(inputContext);
         inputContext->inputPanel().reset();
         inputContext->updatePreedit();
