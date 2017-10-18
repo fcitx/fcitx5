@@ -41,7 +41,7 @@ public:
         map_.clear();
     }
 
-    const std::string &match(const std::string &locale) const;
+    const std::string &match(const std::string &locale = "system") const;
 
     bool operator==(const I18NString &other) const {
         return other.default_ == default_ && other.map_ == map_;

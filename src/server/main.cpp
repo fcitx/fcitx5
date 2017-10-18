@@ -45,6 +45,12 @@ int main(int argc, char *argv[]) {
         return 1;
     }
 
+    auto home = getenv("HOME");
+    if (!home || home[0] == '\0') {
+        fprintf(stderr, "Please set HOME.");
+        return 1;
+    }
+
     auto userDir =
         StandardPath::global().userDirectory(StandardPath::Type::PkgConfig);
     if (!userDir.empty()) {

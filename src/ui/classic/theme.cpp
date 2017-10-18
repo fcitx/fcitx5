@@ -25,6 +25,8 @@
 #include <fcitx-utils/log.h>
 #include <fcntl.h>
 #include <fmt/format.h>
+#include <gdk-pixbuf/gdk-pixbuf.h>
+#include <gio/gunixinputstream.h>
 
 namespace fcitx {
 
@@ -45,6 +47,134 @@ cairo_status_t readFromFd(void *closure, unsigned char *data,
     return CAIRO_STATUS_SUCCESS;
 }
 
+cairo_surface_t *pixBufToCairoSurface(GdkPixbuf *image) {
+    cairo_format_t format;
+    cairo_surface_t *surface;
+
+    if (gdk_pixbuf_get_n_channels(image) == 3)
+        format = CAIRO_FORMAT_RGB24;
+    else
+        format = CAIRO_FORMAT_ARGB32;
+
+    surface = cairo_image_surface_create(format, gdk_pixbuf_get_width(image),
+                                         gdk_pixbuf_get_height(image));
+
+    gint width, height;
+    guchar *gdk_pixels, *cairo_pixels;
+    int gdk_rowstride, cairo_stride;
+    int n_channels;
+    int j;
+
+    if (cairo_surface_status(surface) != CAIRO_STATUS_SUCCESS) {
+        cairo_surface_destroy(surface);
+        return nullptr;
+    }
+
+    cairo_surface_flush(surface);
+
+    width = gdk_pixbuf_get_width(image);
+    height = gdk_pixbuf_get_height(image);
+    gdk_pixels = gdk_pixbuf_get_pixels(image);
+    gdk_rowstride = gdk_pixbuf_get_rowstride(image);
+    n_channels = gdk_pixbuf_get_n_channels(image);
+    cairo_stride = cairo_image_surface_get_stride(surface);
+    cairo_pixels = cairo_image_surface_get_data(surface);
+
+    for (j = height; j; j--) {
+        guchar *p = gdk_pixels;
+        guchar *q = cairo_pixels;
+
+        if (n_channels == 3) {
+            guchar *end = p + 3 * width;
+
+            while (p < end) {
+#if G_BYTE_ORDER == G_LITTLE_ENDIAN
+                q[0] = p[2];
+                q[1] = p[1];
+                q[2] = p[0];
+                q[3] = 0xFF;
+#else
+                q[0] = 0xFF;
+                q[1] = p[0];
+                q[2] = p[1];
+                q[3] = p[2];
+#endif
+                p += 3;
+                q += 4;
+            }
+        } else {
+            guchar *end = p + 4 * width;
+            guint t1, t2, t3;
+
+#define MULT(d, c, a, t)                                                       \
+    G_STMT_START {                                                             \
+        t = c * a + 0x80;                                                      \
+        d = ((t >> 8) + t) >> 8;                                               \
+    }                                                                          \
+    G_STMT_END
+
+            while (p < end) {
+#if G_BYTE_ORDER == G_LITTLE_ENDIAN
+                MULT(q[0], p[2], p[3], t1);
+                MULT(q[1], p[1], p[3], t2);
+                MULT(q[2], p[0], p[3], t3);
+                q[3] = p[3];
+#else
+                q[0] = p[3];
+                MULT(q[1], p[0], p[3], t1);
+                MULT(q[2], p[1], p[3], t2);
+                MULT(q[3], p[2], p[3], t3);
+#endif
+
+                p += 4;
+                q += 4;
+            }
+
+#undef MULT
+        }
+
+        gdk_pixels += gdk_rowstride;
+        cairo_pixels += cairo_stride;
+    }
+
+    cairo_surface_mark_dirty(surface);
+    return surface;
+}
+
+cairo_surface_t *loadImage(StandardPathFile &file) {
+    if (file.fd() < 0) {
+        return nullptr;
+    }
+    if (stringutils::endsWith(file.path(), ".png")) {
+        int fd = file.fd();
+        auto surface =
+            cairo_image_surface_create_from_png_stream(readFromFd, &fd);
+        if (!surface) {
+            return nullptr;
+        }
+        if (cairo_surface_status(surface) != CAIRO_STATUS_SUCCESS) {
+            g_clear_pointer(&surface, cairo_surface_destroy);
+            return nullptr;
+        }
+        return surface;
+    } else {
+        auto *stream = g_unix_input_stream_new(file.fd(), false);
+        auto image = gdk_pixbuf_new_from_stream(stream, nullptr, nullptr);
+        if (!image) {
+            return nullptr;
+        }
+
+        auto surface = pixBufToCairoSurface(image);
+
+        g_input_stream_close(stream, nullptr, nullptr);
+        g_object_unref(stream);
+        g_object_unref(image);
+
+        return surface;
+    }
+    return nullptr;
+}
+
 ThemeImage::ThemeImage(const std::string &name, const std::string &icon,
                        const std::string &label, const std::string &font)
     : image_(nullptr, &cairo_surface_destroy) {}
@@ -56,13 +186,10 @@ ThemeImage::ThemeImage(const std::string &name,
         auto imageFile = StandardPath::global().open(
             StandardPath::Type::PkgData,
             fmt::format("themes/{0}/{1}", name, *cfg.image), O_RDONLY);
-        if (imageFile.fd() >= 0) {
-            int fd = imageFile.fd();
-            image_.reset(
-                cairo_image_surface_create_from_png_stream(readFromFd, &fd));
-            if (cairo_surface_status(image_.get()) != CAIRO_STATUS_SUCCESS) {
-                image_.reset();
-            }
+        image_.reset(loadImage(imageFile));
+        if (image_ &&
+            cairo_surface_status(image_.get()) != CAIRO_STATUS_SUCCESS) {
+            image_.reset();
         }
     }
 

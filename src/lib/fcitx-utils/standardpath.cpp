@@ -359,7 +359,7 @@ std::string StandardPath::locate(Type type, const std::string &path) const {
         scanDirectories(type,
                         [&retPath, &path](const std::string &dirPath, bool) {
                             auto fullPath = constructPath(dirPath, path);
-                            if (fs::isreg(fullPath)) {
+                            if (!fs::isreg(fullPath)) {
                                 return true;
                             }
                             retPath = fullPath;

@@ -158,17 +158,24 @@
         return (VALUE);                                                        \
     }
 
+#define FCITX_DECLARE_READ_ONLY_PROPERTY(TYPE, GETTER)                         \
+    std::conditional_t<std::is_class<TYPE>::value, const TYPE &, TYPE>         \
+    GETTER() const;
+
 #define FCITX_DECLARE_PROPERTY(TYPE, GETTER, SETTER)                           \
     std::conditional_t<std::is_class<TYPE>::value, const TYPE &, TYPE>         \
     GETTER() const;                                                            \
     void SETTER(TYPE);
 
-#define FCITX_DEFINE_PROPERTY_PRIVATE(THIS, TYPE, GETTER, SETTER)              \
+#define FCITX_DEFINE_READ_ONLY_PROPERTY_PRIVATE(THIS, TYPE, GETTER)            \
     std::conditional_t<std::is_class<TYPE>::value, const TYPE &, TYPE>         \
     THIS::GETTER() const {                                                     \
         FCITX_D();                                                             \
         return d->GETTER##_;                                                   \
-    }                                                                          \
+    }
+
+#define FCITX_DEFINE_PROPERTY_PRIVATE(THIS, TYPE, GETTER, SETTER)              \
+    FCITX_DEFINE_READ_ONLY_PROPERTY_PRIVATE(THIS, TYPE, GETTER)                \
     void THIS::SETTER(TYPE v) {                                                \
         FCITX_D();                                                             \
         d->GETTER##_ = std::move(v);                                           \

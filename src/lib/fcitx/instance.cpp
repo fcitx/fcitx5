@@ -1082,8 +1082,8 @@ int scoreForGroup(FocusGroup *group, const std::string &displayHint) {
         if (stringutils::startsWith(group->display(), displayHint)) {
             return 1;
         }
-        return -1;
     }
+    return -1;
 }
 
 FocusGroup *Instance::defaultFocusGroup(const std::string &displayHint) {
