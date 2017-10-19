@@ -46,7 +46,7 @@ template <typename T>
 using XCBReply = std::unique_ptr<T, decltype(&std::free)>;
 
 template <typename T>
-XCBReply<T> makeXCBReply(T *ptr) {
+XCBReply<T> makeXCBReply(T *ptr) noexcept {
     return {ptr, &std::free};
 }
 }
