@@ -39,7 +39,7 @@ public:
     UnixFD() noexcept;
 
     /// \brief Create a UnixFD by using dup.
-    UnixFD(int fd);
+    explicit UnixFD(int fd);
     UnixFD(const UnixFD &other) = delete;
     FCITX_DECLARE_MOVE(UnixFD);
     ~UnixFD() noexcept;
@@ -72,7 +72,7 @@ public:
     void give(int fd) noexcept;
 
 private:
-    int fd_;
+    int fd_ = -1;
 };
 }
 

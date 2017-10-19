@@ -24,10 +24,10 @@
 
 namespace fcitx {
 
-UnixFD::UnixFD() noexcept : fd_(-1) {}
+UnixFD::UnixFD() noexcept = default;
 UnixFD::UnixFD(int fd) { set(fd); }
 
-UnixFD::UnixFD(UnixFD &&other) noexcept : UnixFD() {
+UnixFD::UnixFD(UnixFD &&other) noexcept {
     operator=(std::forward<UnixFD>(other));
 }
 

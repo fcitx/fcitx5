@@ -185,7 +185,7 @@ public:
             return;
         }
 
-        UnixFD fd = open(filename.c_str(), O_RDONLY);
+        auto fd = UnixFD::own(open(filename.c_str(), O_RDONLY));
         memory_ = static_cast<uint8_t *>(
             mmap(nullptr, st.st_size, PROT_READ, MAP_SHARED, fd.fd(), 0));
         if (!memory_) {
@@ -352,6 +352,10 @@ public:
 
         auto section = config_.get("Icon Theme");
         if (!section) {
+            // If it's top level theme, make it fallback to hicolor.
+            if (!parent) {
+                addInherit("hicolor");
+            }
             return;
         }
 
@@ -610,15 +614,12 @@ IconTheme::IconTheme(const std::string &name, IconTheme *parent,
     FCITX_D();
     auto files = standardPath.openAll(
         StandardPath::Type::Data, "icons/" + name + "/index.theme", O_RDONLY);
-    if (files.empty()) {
-        return;
-    }
 
     for (auto iter = files.rbegin(), end = files.rend(); iter != end; iter++) {
         d->loadFile(iter->fd());
     }
     auto path = d->home_ + "/.icons/" + name + "/index.theme";
-    UnixFD fd = open(path.c_str(), O_RDONLY);
+    auto fd = UnixFD::own(open(path.c_str(), O_RDONLY));
     if (fd.fd() >= 0) {
         d->loadFile(fd.fd());
     }
@@ -768,7 +769,7 @@ std::string IconTheme::defaultIconThemeName() {
                                    homeStr + "/.kde/share/config/kdeglobals",
                                    "/etc/kde4/kdeglobals"};
             for (auto &file : files) {
-                UnixFD fd = open(file.c_str(), O_RDONLY);
+                auto fd = UnixFD::own(open(file.c_str(), O_RDONLY));
                 auto theme = getKdeTheme(fd.fd());
                 if (!theme.empty()) {
                     return theme;
@@ -790,7 +791,7 @@ std::string IconTheme::defaultIconThemeName() {
                 return theme;
             }
         }
-        UnixFD fd = open("/etc/gtk-3.0/settings.ini", O_RDONLY);
+        auto fd = UnixFD::own(open("/etc/gtk-3.0/settings.ini", O_RDONLY));
         auto theme = getGtk3Theme(fd.fd());
         if (!theme.empty()) {
             return theme;
