@@ -28,7 +28,7 @@
     enum class TYPE { __VA_ARGS__ };                                           \
     static const char *_##TYPE##_Names[] = {                                   \
         FCITX_FOR_EACH(FCITX_ENUM_STRINGIFY, __VA_ARGS__)};                    \
-    static inline std::string to_string(TYPE value) {                          \
+    static inline std::string TYPE##ToString(TYPE value) {                     \
         return _##TYPE##_Names[static_cast<std::underlying_type_t<TYPE>>(      \
             value)];                                                           \
     }                                                                          \
