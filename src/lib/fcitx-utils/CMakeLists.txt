@@ -26,6 +26,7 @@ set(FCITX_UTILS_SOURCES
 set(FCITX_UTILS_HEADERS
     macros.h
     stringutils.h
+    stringutils_details.h
     key.h
     color.h
     i18nstring.h
