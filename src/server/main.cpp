@@ -55,7 +55,7 @@ int main(int argc, char *argv[]) {
         StandardPath::global().userDirectory(StandardPath::Type::PkgConfig);
     if (!userDir.empty()) {
         if (fs::makePath(userDir)) {
-            crashlog = userDir + "/crash.log";
+            crashlog = stringutils::joinPath(userDir, "crash.log");
         }
     }
 

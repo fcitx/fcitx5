@@ -179,11 +179,10 @@ KeyboardEngine::KeyboardEngine(Instance *instance) : instance_(instance) {
         auto rules = xcb->call<IXCBModule::xkbRulesNames>("");
         if (!rules[0].empty()) {
             rule = rules[0];
-            if (rule[0] == '/') {
-                rule += ".xml";
-            } else {
-                rule = XKEYBOARDCONFIG_XKBBASE "/rules/" + rule + ".xml";
+            if (rule[0] != '/') {
+                rule = XKEYBOARDCONFIG_XKBBASE "/rules/" + rule;
             }
+            rule += ".xml";
             ruleName_ = rule;
         }
     }
@@ -219,13 +218,12 @@ std::vector<InputMethodEntry> KeyboardEngine::listInputMethods() {
                                              variantInfo.languages.size()
                                                  ? variantInfo.languages
                                                  : layoutInfo.languages);
-            auto description = stringutils::join(
-                {_("Keyboard"), " - ",
-                 D_("xkeyboard-config", layoutInfo.description), " - ",
-                 D_("xkeyboard-config", variantInfo.description)},
-                "");
-            auto uniqueName =
-                imNamePrefix + layoutInfo.name + "-" + variantInfo.name;
+            auto description =
+                fmt::format(_("Keyboard - {0} - {0}"),
+                            D_("xkeyboard-config", layoutInfo.description),
+                            D_("xkeyboard-config", variantInfo.description));
+            auto uniqueName = stringutils::concat(imNamePrefix, layoutInfo.name,
+                                                  "-", variantInfo.name);
             result.push_back(std::move(
                 InputMethodEntry(uniqueName, description, language, "keyboard")
                     .setIcon("kbd")

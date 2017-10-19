@@ -247,7 +247,7 @@ std::string SpellCustomDict::locateDictFile(const std::string &lang) {
             if (isUser) {
                 return true;
             }
-            auto fullPath = dirPath + "/" + templatePath;
+            auto fullPath = stringutils::joinPath(dirPath, templatePath);
             if (fs::isreg(fullPath)) {
                 path = fullPath;
                 return false;

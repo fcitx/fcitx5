@@ -43,7 +43,7 @@ std::string constructPath(const std::string &basepath,
     if (basepath.empty()) {
         return {};
     }
-    return fs::cleanPath(basepath + "/" + path);
+    return fs::cleanPath(stringutils::joinPath(basepath, path));
 }
 }
 
@@ -122,11 +122,12 @@ public:
             // caller need to ensure HOME is not empty;
             if (defaultPath[0] != '/') {
                 const char *home = getenv("HOME");
-                dir = std::string(home) + "/" + defaultPath;
+                dir = stringutils::joinPath(home, defaultPath);
             } else {
                 if (strcmp(env, "XDG_RUNTIME_DIR") == 0) {
-                    dir = std::string(defaultPath) + "/fcitx-runtime-" +
-                          std::to_string(geteuid());
+                    dir = stringutils::joinPath(
+                        defaultPath,
+                        stringutils::concat("fcitx-runtime-", geteuid()));
                     if (!fs::isdir(dir)) {
                         if (mkdir(dir.c_str(), 0700) != 0) {
                             return {};

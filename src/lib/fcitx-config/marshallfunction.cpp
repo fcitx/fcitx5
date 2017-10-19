@@ -82,7 +82,8 @@ bool unmarshallOption(Color &value, const RawConfig &config) {
 void marshallOption(RawConfig &config, const I18NString &value) {
     config = value.defaultString();
     for (auto &p : value.localizedStrings()) {
-        (*config.parent())[config.name() + "[" + p.first + "]"] = p.second;
+        (*config.parent())[stringutils::concat(config.name(), "[", p.first,
+                                               "]")] = p.second;
     }
 }
 

@@ -25,6 +25,69 @@
 namespace fcitx {
 namespace stringutils {
 
+namespace details {
+
+std::string
+concatPieces(std::initializer_list<std::pair<const char *, std::size_t>> list) {
+    if (!list.size()) {
+        return {};
+    }
+
+    std::size_t size = 0;
+    for (auto pair : list) {
+        size += pair.second;
+    }
+    std::string result;
+    result.reserve(size);
+    for (auto pair : list) {
+        result.append(pair.first, pair.first + pair.second);
+    }
+    assert(result.size() == size);
+    return result;
+}
+
+std::string concatPathPieces(
+    std::initializer_list<std::pair<const char *, std::size_t>> list) {
+    if (!list.size()) {
+        return {};
+    }
+
+    bool first = true;
+    bool firstPieceIsSlash = false;
+    std::size_t size = 0;
+    for (auto pair : list) {
+        if (first) {
+            if (pair.first[pair.second - 1] == '/') {
+                firstPieceIsSlash = true;
+            }
+            first = false;
+        } else {
+            size += 1;
+        }
+        size += pair.second;
+    }
+    if (list.size() > 1 && firstPieceIsSlash) {
+        size -= 1;
+    }
+    std::string result;
+    result.reserve(size);
+    first = true;
+    for (auto pair : list) {
+        if (first) {
+            first = false;
+        } else if (firstPieceIsSlash) {
+            firstPieceIsSlash = false;
+        } else {
+            result += '/';
+        }
+
+        result.append(pair.first, pair.first + pair.second);
+    }
+    assert(result.size() == size);
+    return result;
+}
+}
+
 bool startsWith(const std::string &str, const std::string &prefix) {
     if (str.size() < prefix.size()) {
         return false;

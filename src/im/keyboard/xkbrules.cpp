@@ -167,7 +167,8 @@ bool XkbRules::read(const std::string &fileName) {
     }
 
     if (stringutils::endsWith(fileName, ".xml")) {
-        auto extraFile = fileName.substr(0, fileName.size() - 3) + "extras.xml";
+        auto extraFile = fileName.substr(0, fileName.size() - 3);
+        extraFile += "extras.xml";
         {
             XkbRulesParseState state;
             state.rules = this;

@@ -72,7 +72,8 @@ void ClassicUI::reloadConfig() {
     config_.load(config);
 
     auto themeConfigFile = StandardPath::global().open(
-        StandardPath::Type::PkgData, "themes/" + *config_.theme + "/theme.conf",
+        StandardPath::Type::PkgData,
+        stringutils::joinPath("themes", *config_.theme, "theme.conf"),
         O_RDONLY);
     RawConfig themeConfig;
     readFromIni(themeConfig, themeConfigFile.fd());

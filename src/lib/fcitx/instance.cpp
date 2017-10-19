@@ -897,7 +897,8 @@ void Instance::reloadConfig() {
 void Instance::resetInputMethodList() {}
 
 void Instance::restart() {
-    auto fcitxBinary = StandardPath::fcitxPath("bindir") + "/fcitx";
+    auto fcitxBinary =
+        stringutils::joinPath(StandardPath::fcitxPath("bindir"), "fcitx5");
     std::vector<char> command{fcitxBinary.begin(), fcitxBinary.end()};
     command.push_back('\0');
     char *const argv[] = {command.data(), nullptr};

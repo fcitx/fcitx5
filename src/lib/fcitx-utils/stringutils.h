@@ -25,6 +25,7 @@
 /// \brief String handle utilities.
 
 #include "fcitxutils_export.h"
+#include "stringutils_details.h"
 #include <cstddef>
 #include <initializer_list>
 #include <iterator>
@@ -133,6 +134,12 @@ inline std::string join(std::initializer_list<C> &&container, T &&delim) {
     using std::end;
     return join(begin(container), end(container), delim);
 }
+
+template <typename... Args>
+std::string concat(const Args &... args);
+
+template <typename FirstArg, typename... Args>
+std::string joinPath(const FirstArg &firstArg, const Args &... args);
 }
 }
 

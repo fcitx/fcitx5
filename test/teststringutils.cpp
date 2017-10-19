@@ -98,5 +98,15 @@ int main() {
     FCITX_ASSERT((stringutils::split(" ", FCITX_WHITESPACE) ==
                   std::vector<std::string>{}));
 
+    const char *p = "def";
+    FCITX_ASSERT(stringutils::concat() == "");
+    FCITX_ASSERT(stringutils::concat("abc", 1, p) == "abc1def");
+    FCITX_ASSERT(stringutils::joinPath("/", 1, p) == "/1/def");
+    FCITX_ASSERT(stringutils::joinPath("/abc", 1, p) == "/abc/1/def");
+    FCITX_ASSERT(stringutils::joinPath("///abc", 1, p) == "///abc/1/def");
+    FCITX_ASSERT(stringutils::joinPath("///abc") == "///abc");
+    FCITX_ASSERT(stringutils::joinPath("///") == "///");
+    FCITX_ASSERT(stringutils::joinPath("abc") == "abc");
+
     return 0;
 }

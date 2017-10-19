@@ -4,6 +4,7 @@
 #include "wl_shm_pool.h"
 #include <cairo/cairo.h>
 #include <cassert>
+#include <fcitx-utils/stringutils.h>
 #include <fcntl.h>
 #include <stdexcept>
 #include <stdlib.h>
@@ -25,7 +26,7 @@ Buffer::Buffer(WlShm *shm, int width, int height, wl_shm_format format)
     }
     int stride = width * 4;
     int alloc = stride * height;
-    auto filename = std::string(path) + "/fcitx-wayland-shm-XXXXXX";
+    auto filename = stringutils::joinPath(path, "fcitx-wayland-shm-XXXXXX");
     std::vector<char> v(filename.begin(), filename.end());
     v.push_back('\0');
     int fd = mkstemp(v.data());
