@@ -28,6 +28,10 @@
 #include <string>
 #include <tuple>
 
+#ifdef FCITX_STRINGUTILS_ENABLE_BOOST_STRING_VIEW
+#include <boost/utility/string_view.hpp>
+#endif
+
 namespace fcitx {
 namespace stringutils {
 namespace details {
@@ -52,7 +56,7 @@ struct UniversalPieceHelper<T *> {
     }
 };
 
-#if ENABLE_BOOST_STRING_VIEW
+#ifdef FCITX_STRINGUTILS_ENABLE_BOOST_STRING_VIEW
 
 template <>
 struct UniversalPieceHelper<boost::string_view> {
