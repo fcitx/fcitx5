@@ -56,6 +56,11 @@ trimInplace(const std::string &str) {
     return {start, end};
 }
 
+std::string trim(const std::string &str) {
+    auto pair = trimInplace(str);
+    return std::string(str.begin() + pair.first, str.begin() + pair.second);
+}
+
 std::vector<std::string> split(const std::string &str,
                                const std::string &delim) {
     std::vector<std::string> strings;

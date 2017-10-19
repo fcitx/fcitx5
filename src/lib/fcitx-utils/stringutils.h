@@ -67,6 +67,10 @@ inline bool isConcatOf(const std::string &str, const std::string &sub1,
 FCITXUTILS_EXPORT std::pair<std::string::size_type, std::string::size_type>
 trimInplace(const std::string &str);
 
+/// \brief Trim the white space in str.
+/// \see trimInplace
+FCITXUTILS_EXPORT std::string trim(const std::string &str);
+
 /// \brief Split the string by delim.
 FCITXUTILS_EXPORT std::vector<std::string> split(const std::string &str,
                                                  const std::string &delim);

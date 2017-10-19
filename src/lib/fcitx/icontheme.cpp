@@ -21,6 +21,7 @@
 #include "fcitx-config/marshallfunction.h"
 #include <fcitx-utils/fs.h>
 #include <fcntl.h>
+#include <fstream>
 #include <sys/mman.h>
 #include <sys/stat.h>
 #include <unordered_set>
@@ -222,6 +223,21 @@ public:
         }
     }
 
+    IconThemeCache() = default;
+    IconThemeCache(IconThemeCache &&other)
+        : isValid_(other.isValid_), memory_(other.memory_), size_(other.size_) {
+        other.isValid_ = false;
+        other.memory_ = nullptr;
+        other.size_ = 0;
+    }
+
+    IconThemeCache &operator=(IconThemeCache other) {
+        std::swap(other.isValid_, isValid_);
+        std::swap(other.size_, size_);
+        std::swap(other.memory_, memory_);
+        return *this;
+    }
+
     bool isValid() const { return isValid_; }
 
     ~IconThemeCache() {
@@ -320,7 +336,12 @@ IconThemeCache::lookup(const std::string &name) const {
 class IconThemePrivate : QPtrHolder<IconTheme> {
 public:
     IconThemePrivate(IconTheme *q, const StandardPath &path)
-        : QPtrHolder(q), standardPath_(path) {}
+        : QPtrHolder(q), standardPath_(path) {
+        const char *home = getenv("HOME");
+        if (home) {
+            home_ = home;
+        }
+    }
 
     void loadFile(int fd) { readFromIni(config_, fd); }
 
@@ -532,8 +553,7 @@ public:
     std::string
     lookupFallbackIcon(const std::string &iconname,
                        const std::vector<std::string> &extensions) const {
-        const char *home = getenv("HOME");
-        auto defaultBasePath = std::string(home) + "/.icons/" + iconname;
+        auto defaultBasePath = home_ + "/.icons/" + iconname;
         for (auto &ext : extensions) {
             auto path = defaultBasePath + ext;
             if (fs::isreg(path)) {
@@ -549,8 +569,7 @@ public:
     }
 
     void prepare() {
-        const char *home = getenv("HOME");
-        auto path = std::string(home) + "/.icons/" + internalName_;
+        auto path = home_ + "/.icons/" + internalName_;
         if (fs::isdir(path)) {
             baseDirs_.emplace_back(
                 std::piecewise_construct, std::forward_as_tuple(path),
@@ -567,6 +586,7 @@ public:
         }
     }
 
+    std::string home_;
     std::string internalName_;
     const StandardPath &standardPath_;
     RawConfig config_;
@@ -594,9 +614,15 @@ IconTheme::IconTheme(const std::string &name, IconTheme *parent,
         return;
     }
 
-    for (auto &file : files) {
-        d->loadFile(file.fd());
+    for (auto iter = files.rbegin(), end = files.rend(); iter != end; iter++) {
+        d->loadFile(iter->fd());
     }
+    auto path = d->home_ + "/.icons/" + name + "/index.theme";
+    UnixFD fd = open(path.c_str(), O_RDONLY);
+    if (fd.fd() >= 0) {
+        d->loadFile(fd.fd());
+    }
+
     d->parse(parent);
     d->internalName_ = name;
     d->prepare();
@@ -620,12 +646,174 @@ FCITX_DEFINE_READ_ONLY_PROPERTY_PRIVATE(IconTheme,
                                         scaledDirectories);
 FCITX_DEFINE_READ_ONLY_PROPERTY_PRIVATE(IconTheme, bool, hidden);
 FCITX_DEFINE_READ_ONLY_PROPERTY_PRIVATE(IconTheme, std::string, example);
-}
 
-std::string
-fcitx::IconTheme::findIcon(const std::string &iconName, uint desiredSize,
-                           int scale,
-                           const std::vector<std::string> &extensions) {
+std::string IconTheme::findIcon(const std::string &iconName, uint desiredSize,
+                                int scale,
+                                const std::vector<std::string> &extensions) {
     FCITX_D();
     return d->findIcon(iconName, desiredSize, scale, extensions);
+}
+
+enum class DesktopType {
+    KDE5,
+    KDE4,
+    GNOME,
+    Cinnamon,
+    MATE,
+    LXDE,
+    XFCE,
+    Unknown
+};
+
+DesktopType getDesktopType() {
+    std::string desktop;
+    auto desktopEnv = getenv("XDG_CURRENT_DESKTOP");
+    if (desktopEnv) {
+        desktop = desktopEnv;
+    }
+    if (desktop == "KDE") {
+        auto version = getenv("KDE_SESSION_VERSION");
+        auto versionInt = 0;
+        if (version) {
+            try {
+                versionInt = std::stoi(version);
+            } catch (...) {
+            }
+        }
+        if (versionInt == 4) {
+            return DesktopType::KDE4;
+        } else if (versionInt == 5) {
+            return DesktopType::KDE5;
+        }
+    } else if (desktop == "X-Cinnamon") {
+        return DesktopType::Cinnamon;
+    } else if (desktop == "LXDE") {
+        return DesktopType::LXDE;
+    } else if (desktop == "MATE") {
+        return DesktopType::MATE;
+    } else if (desktop == "Gnome") {
+        return DesktopType::GNOME;
+    } else if (desktop == "XFCE") {
+        return DesktopType::XFCE;
+    }
+    return DesktopType::Unknown;
+}
+
+std::string getKdeTheme(int fd) {
+    RawConfig rawConfig;
+    readFromIni(rawConfig, fd);
+    if (auto icons = rawConfig.get("Icons")) {
+        if (auto theme = icons->get("Theme")) {
+            if (!theme->value().empty() &&
+                theme->value().find("/") == std::string::npos) {
+                return theme->value();
+            }
+        }
+    }
+    return "";
+}
+
+std::string getGtk3Theme(int fd) {
+    RawConfig rawConfig;
+    readFromIni(rawConfig, fd);
+    if (auto settings = rawConfig.get("Settings")) {
+        if (auto theme = settings->get("gtk-icon-theme-name")) {
+            if (!theme->value().empty() &&
+                theme->value().find("/") == std::string::npos) {
+                return theme->value();
+            }
+        }
+    }
+    return "";
+}
+
+std::string getGtk2Theme(const std::string filename) {
+    // Evil Gtk2 use an non standard "ini-like" rc file.
+    // Grep it and try to find the line we want ourselves.
+    std::ifstream fin(filename, std::ios::in | std::ios::binary);
+    std::string line;
+    while (std::getline(fin, line)) {
+        auto tokens = stringutils::split(line, "=");
+        if (tokens.size() == 2 &&
+            stringutils::trim(tokens[0]) == "gtk-icon-theme-name") {
+            auto value = stringutils::trim(tokens[1]);
+            if (!value.empty() && value.find("/") == std::string::npos) {
+                return value;
+            }
+        }
+    }
+    return "";
+}
+
+std::string IconTheme::defaultIconThemeName() {
+    DesktopType desktopType = getDesktopType();
+    switch (desktopType) {
+    case DesktopType::KDE5: {
+        auto files = StandardPath::global().openAll(StandardPath::Type::Config,
+                                                    "kdeglobals", O_RDONLY);
+        for (auto &file : files) {
+            auto theme = getKdeTheme(file.fd());
+            if (!theme.empty()) {
+                return theme;
+            }
+        }
+
+        return "oxygen";
+    }
+    case DesktopType::KDE4: {
+        const char *home = getenv("HOME");
+        if (home && home[0]) {
+            std::string homeStr(home);
+            std::string files[] = {homeStr + "/.kde4/share/config/kdeglobals",
+                                   homeStr + "/.kde/share/config/kdeglobals",
+                                   "/etc/kde4/kdeglobals"};
+            for (auto &file : files) {
+                UnixFD fd = open(file.c_str(), O_RDONLY);
+                auto theme = getKdeTheme(fd.fd());
+                if (!theme.empty()) {
+                    return theme;
+                }
+            }
+        }
+        return "breeze";
+    }
+    case DesktopType::GNOME:
+    case DesktopType::Cinnamon:
+    case DesktopType::LXDE:
+    case DesktopType::MATE:
+    case DesktopType::XFCE: {
+        auto files = StandardPath::global().openAll(
+            StandardPath::Type::Config, "gtk-3.0/settings.ini", O_RDONLY);
+        for (auto &file : files) {
+            auto theme = getGtk3Theme(file.fd());
+            if (!theme.empty()) {
+                return theme;
+            }
+        }
+        UnixFD fd = open("/etc/gtk-3.0/settings.ini", O_RDONLY);
+        auto theme = getGtk3Theme(fd.fd());
+        if (!theme.empty()) {
+            return theme;
+        }
+        const char *home = getenv("HOME");
+        if (home && home[0]) {
+            std::string homeStr(home);
+            std::string files[] = {homeStr + "/.gtkrc-2.0",
+                                   "/etc/gtk-2.0/gtkrc"};
+            for (auto &file : files) {
+                auto theme = getGtk2Theme(file);
+                if (!theme.empty()) {
+                    return theme;
+                }
+            }
+        }
+
+        return "gnome";
+    }
+    default:
+        break;
+    }
+
+    return "Tango";
+}
 }

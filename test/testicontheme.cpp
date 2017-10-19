@@ -22,7 +22,7 @@
 using namespace fcitx;
 
 int main() {
-    IconTheme theme("breeze");
+    IconTheme theme("oxygen");
     FCITX_LOG(Info) << theme.name().match();
     FCITX_LOG(Info) << theme.comment().match();
 

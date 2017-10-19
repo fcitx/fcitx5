@@ -56,7 +56,6 @@ public:
 
     bool matchesSize(int iconsize, int iconscale) const;
     int sizeDistance(int iconsize, int iconscale) const;
-    static std::string defaultIconThemeName();
 
 private:
     std::unique_ptr<IconThemeDirectoryPrivate> d_ptr;
@@ -80,6 +79,7 @@ public:
                          int scale = 1,
                          const std::vector<std::string> &extensions = {
                              ".svg", ".png", ".xpm"});
+    static std::string defaultIconThemeName();
 
     FCITX_DECLARE_READ_ONLY_PROPERTY(std::string, internalName);
     FCITX_DECLARE_READ_ONLY_PROPERTY(I18NString, name);
