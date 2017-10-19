@@ -19,7 +19,8 @@
 #include "icontheme.h"
 #include "fcitx-config/iniparser.h"
 #include "fcitx-config/marshallfunction.h"
-#include <fcitx-utils/fs.h>
+#include "fcitx-utils/fs.h"
+#include "fcitx-utils/log.h"
 #include <fcntl.h>
 #include <fstream>
 #include <sys/mman.h>
@@ -470,10 +471,15 @@ public:
 
         auto checkDirectory = [&extensions, &iconname, size, scale, this](
             const IconThemeDirectory &directory,
-            const std::string &baseDir) -> std::string {
+            std::string baseDir) -> std::string {
+            baseDir = stringutils::joinPath(baseDir, directory.path());
+            if (!fs::isdir(baseDir)) {
+                return {};
+            }
+
             for (auto &ext : extensions) {
                 auto defaultPath =
-                    stringutils::joinPath(baseDir, directory.path(), iconname);
+                    stringutils::joinPath(baseDir, iconname);
                 defaultPath += ext;
                 if (fs::isreg(defaultPath)) {
                     return defaultPath;
