@@ -25,9 +25,11 @@
 namespace fcitx {
 namespace classicui {
 
-XCBWindow::XCBWindow(XCBUI *ui)
+XCBWindow::XCBWindow(XCBUI *ui, int width, int height)
     : Window(), ui_(ui), surface_(nullptr, &cairo_surface_destroy),
-      contentSurface_(nullptr, &cairo_surface_destroy) {}
+      contentSurface_(nullptr, &cairo_surface_destroy) {
+    Window::resize(width, height);
+}
 
 XCBWindow::~XCBWindow() { destroyWindow(); }
 
@@ -37,12 +39,18 @@ void XCBWindow::createWindow(xcb_visualid_t vid) {
     if (wid_) {
         destroyWindow();
     }
+    xcb_screen_t *screen = xcb_aux_get_screen(conn, ui_->defaultScreen());
 
     if (!vid) {
         vid = ui_->visualId();
+    } else {
+        if (vid != ui_->visualId()) {
+            colorMap_ = xcb_generate_id(conn);
+            xcb_create_colormap(conn, XCB_COLORMAP_ALLOC_NONE, colorMap_,
+                                screen->root, vid);
+        }
     }
 
-    xcb_screen_t *screen = xcb_aux_get_screen(conn, ui_->defaultScreen());
     wid_ = xcb_generate_id(conn);
 
     auto depth = xcb_aux_get_depth_of_visual(screen, vid);
@@ -52,12 +60,23 @@ void XCBWindow::createWindow(xcb_visualid_t vid) {
                          XCB_CW_OVERRIDE_REDIRECT | XCB_CW_SAVE_UNDER |
                          XCB_CW_COLORMAP;
 
-    uint32_t values[7] = {
-        0, 0, XCB_GRAVITY_NORTH_WEST, XCB_BACKING_STORE_WHEN_MAPPED,
-        1, 1, ui_->colorMap()};
+    uint32_t values[7] = {0,
+                          0,
+                          XCB_GRAVITY_NORTH_WEST,
+                          XCB_BACKING_STORE_WHEN_MAPPED,
+                          1,
+                          1,
+                          colorMap_ ? colorMap_ : ui_->colorMap()};
 
-    xcb_create_window(conn, depth, wid_, screen->root, 0, 0, 1, 1, 0,
-                      XCB_WINDOW_CLASS_INPUT_OUTPUT, vid, valueMask, values);
+    auto cookie = xcb_create_window_checked(
+        conn, depth, wid_, screen->root, 0, 0, width_, height_, 0,
+        XCB_WINDOW_CLASS_INPUT_OUTPUT, vid, valueMask, values);
+    if (auto error = xcb_request_check(conn, cookie)) {
+        CLASSICUI_DEBUG() << static_cast<int>(error->error_code);
+        free(error);
+    } else {
+        CLASSICUI_DEBUG() << "Window created id: " << wid_;
+    }
 
     eventFilter_.reset(ui_->parent()->xcb()->call<IXCBModule::addEventFilter>(
         ui_->name(), [this](xcb_connection_t *, xcb_generic_event_t *event) {
@@ -65,10 +84,8 @@ void XCBWindow::createWindow(xcb_visualid_t vid) {
         }));
 
     surface_.reset(cairo_xcb_surface_create(
-        conn, wid_, xcb_aux_find_visual_by_id(screen, vid), 1, 1));
+        conn, wid_, xcb_aux_find_visual_by_id(screen, vid), width_, height_));
     contentSurface_.reset();
-    width_ = 1;
-    height_ = 1;
 
     postCreateWindow();
     xcb_flush(ui_->connection());
@@ -77,8 +94,15 @@ void XCBWindow::createWindow(xcb_visualid_t vid) {
 void XCBWindow::destroyWindow() {
     auto conn = ui_->connection();
     eventFilter_.reset();
-    xcb_destroy_window(conn, wid_);
-    wid_ = 0;
+    if (wid_) {
+        xcb_destroy_window(conn, wid_);
+        wid_ = 0;
+    }
+    if (colorMap_) {
+        xcb_free_colormap(conn, colorMap_);
+        colorMap_ = 0;
+    }
+    xcb_flush(conn);
 }
 
 void XCBWindow::resize(unsigned int width, unsigned int height) {

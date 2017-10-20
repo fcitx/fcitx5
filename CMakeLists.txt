@@ -44,7 +44,7 @@ else()
   set(FMT_TARGET fmt::fmt)
 endif ()
 
-find_package(XCB COMPONENTS XCB AUX XKB XFIXES ICCCM XINERAMA RANDR)
+find_package(XCB COMPONENTS XCB AUX XKB XFIXES ICCCM XINERAMA RANDR EWMH)
 find_package(XKBCommon COMPONENTS XKBCommon X11)
 find_package(XCBImdkit)
 find_package(IsoCodes)

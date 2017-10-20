@@ -22,6 +22,7 @@
 #include "fcitx-config/configuration.h"
 #include "fcitx-config/enum.h"
 #include "fcitx-utils/log.h"
+#include "fcitx/icontheme.h"
 #include <cairo/cairo.h>
 
 namespace fcitx {
@@ -92,13 +93,16 @@ enum class ImagePurpose { General, Tray };
 class ThemeImage {
 public:
     ThemeImage(const std::string &name, const BackgroundImageConfig &cfg);
-    ThemeImage(const std::string &name, const std::string &icon,
-               const std::string &label, const std::string &font);
+    ThemeImage(const std::string &icon, const std::string &label,
+               const std::string &font, uint32_t size);
 
     operator cairo_surface_t *() const { return image_.get(); }
 
+    auto size() { return size_; }
+
 private:
     std::string currentText_;
+    uint32_t size_ = 0;
     std::unique_ptr<cairo_surface_t, decltype(&cairo_surface_destroy)> image_;
 };
 
@@ -108,9 +112,8 @@ public:
     ~Theme();
 
     void load(const std::string &name, const RawConfig &rawConfig);
-    const ThemeImage &loadImage(const std::string &name,
-                                const std::string &icon,
-                                const std::string &label,
+    const ThemeImage &loadImage(const std::string &icon,
+                                const std::string &label, uint32_t size,
                                 ImagePurpose purpose = ImagePurpose::General);
     const ThemeImage &loadBackground(const BackgroundImageConfig &cfg);
 
@@ -122,6 +125,7 @@ private:
         backgroundImageTable_;
     std::unordered_map<std::string, ThemeImage> imageTable_;
     std::unordered_map<std::string, ThemeImage> trayImageTable_;
+    IconTheme iconTheme_;
     std::string name_;
 };
 

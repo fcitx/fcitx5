@@ -27,6 +27,7 @@
 #include <fmt/format.h>
 #include <gdk-pixbuf/gdk-pixbuf.h>
 #include <gio/gunixinputstream.h>
+#include <pango/pangocairo.h>
 
 namespace fcitx {
 
@@ -175,9 +176,52 @@ cairo_surface_t *loadImage(StandardPathFile &file) {
     return nullptr;
 }
 
-ThemeImage::ThemeImage(const std::string &name, const std::string &icon,
-                       const std::string &label, const std::string &font)
-    : image_(nullptr, &cairo_surface_destroy) {}
+ThemeImage::ThemeImage(const std::string &icon, const std::string &label,
+                       const std::string &font, uint32_t size)
+    : size_(size), image_(nullptr, &cairo_surface_destroy) {
+    if (!icon.empty()) {
+        auto fd = open(icon.c_str(), O_RDONLY);
+        StandardPathFile file(fd, icon);
+        image_.reset(loadImage(file));
+        if (image_ &&
+            cairo_surface_status(image_.get()) != CAIRO_STATUS_SUCCESS) {
+            image_.reset();
+        }
+    }
+    if (!image_) {
+        image_.reset(
+            cairo_image_surface_create(CAIRO_FORMAT_ARGB32, size, size));
+        auto cr = cairo_create(image_.get());
+        cairo_set_operator(cr, CAIRO_OPERATOR_SOURCE);
+        cairoSetSourceColor(cr, Color("#00000000"));
+        cairo_paint(cr);
+
+        int pixelSize = size * 0.7;
+        // FIXME use a color from config.
+        Color color("#ffffffff");
+        cairoSetSourceColor(cr, color);
+        auto fontMap = pango_cairo_font_map_get_default();
+        std::unique_ptr<PangoContext, decltype(&g_object_unref)> context(
+            pango_font_map_create_context(fontMap), &g_object_unref);
+        std::unique_ptr<PangoLayout, decltype(&g_object_unref)> layout(
+            pango_layout_new(context.get()), &g_object_unref);
+        pango_layout_set_single_paragraph_mode(layout.get(), true);
+        pango_layout_set_text(layout.get(), label.c_str(), label.size());
+        pango_layout_set_height(layout.get(), -(2 << 20));
+        PangoRectangle rect;
+        PangoFontDescription *desc =
+            pango_font_description_from_string(font.c_str());
+        pango_font_description_set_absolute_size(desc, pixelSize * PANGO_SCALE);
+        pango_layout_set_font_description(layout.get(), desc);
+        pango_font_description_free(desc);
+        pango_layout_get_pixel_extents(layout.get(), &rect, NULL);
+        cairo_move_to(cr, (size - rect.width) * 0.5 - rect.x,
+                      (size - rect.height) * 0.5 - rect.y);
+        pango_cairo_show_layout(cr, layout.get());
+
+        cairo_destroy(cr);
+    }
+}
 
 ThemeImage::ThemeImage(const std::string &name,
                        const BackgroundImageConfig &cfg)
@@ -208,7 +252,7 @@ ThemeImage::ThemeImage(const std::string &name,
     }
 }
 
-Theme::Theme() {}
+Theme::Theme() : iconTheme_(IconTheme::defaultIconThemeName()) {}
 
 Theme::~Theme() {}
 
@@ -224,19 +268,27 @@ const ThemeImage &Theme::loadBackground(const BackgroundImageConfig &cfg) {
     return result.first->second;
 }
 
-const ThemeImage &Theme::loadImage(const std::string &name,
-                                   const std::string &icon,
-                                   const std::string &label,
+const ThemeImage &Theme::loadImage(const std::string &icon,
+                                   const std::string &label, uint32_t size,
                                    ImagePurpose purpose) {
     auto &map =
         purpose == ImagePurpose::General ? imageTable_ : trayImageTable_;
+    auto name = stringutils::concat("icon:", icon, "label:", label);
     if (auto image = findValue(map, name)) {
-        return *image;
+        if (image->size() == size) {
+            return *image;
+        }
+        map.erase(name);
+    }
+
+    std::string iconPath;
+    if (!icon.empty()) {
+        iconPath = iconTheme_.findIcon(icon, size, 1);
     }
 
     auto result =
         map.emplace(std::piecewise_construct, std::forward_as_tuple(name),
-                    std::forward_as_tuple(name_, icon, label, *trayFont));
+                    std::forward_as_tuple(iconPath, label, *trayFont, size));
     assert(result.second);
     return result.first->second;
 }
@@ -252,8 +304,6 @@ void Theme::paint(cairo_t *c, const BackgroundImageConfig &cfg, int width,
         cairo_image_surface_get_height(image) - marginTop - marginBottom;
     int resizeWidth =
         cairo_image_surface_get_width(image) - marginLeft - marginRight;
-    CLASSICUI_DEBUG() << "resizeHeight" << resizeHeight << "resizeWidth"
-                      << resizeWidth;
 
     if (resizeHeight <= 0) {
         resizeHeight = 1;

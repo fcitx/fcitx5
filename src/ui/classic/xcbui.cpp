@@ -39,17 +39,6 @@ void addEventMaskToWindow(xcb_connection_t *conn, xcb_window_t wid,
     }
 }
 
-xcb_atom_t internAtom(xcb_connection_t *conn, const std::string &atomName) {
-    xcb_intern_atom_cookie_t cookie =
-        xcb_intern_atom(conn, false, atomName.size(), atomName.c_str());
-    auto reply = makeXCBReply(xcb_intern_atom_reply(conn, cookie, nullptr));
-    xcb_atom_t result = XCB_ATOM_NONE;
-    if (reply) {
-        result = reply->atom;
-    }
-    return result;
-}
-
 xcb_visualid_t findVisual(xcb_screen_t *screen) {
     auto visual = xcb_aux_find_visual_by_attrs(screen, -1, 32);
     if (!visual) {
@@ -139,11 +128,13 @@ XCBFontOption forcedDpi(xcb_connection_t *conn, xcb_screen_t *screen) {
 XCBUI::XCBUI(ClassicUI *parent, const std::string &name, xcb_connection_t *conn,
              int defaultScreen)
     : parent_(parent), name_(name), conn_(conn), defaultScreen_(defaultScreen) {
+    ewmh_ = parent_->xcb()->call<IXCBModule::ewmh>(name_);
     inputWindow_ = std::make_unique<XCBInputWindow>(this);
     trayWindow_ = std::make_unique<XCBTrayWindow>(this);
 
     compMgrAtomString_ = "_NET_WM_CM_S" + std::to_string(defaultScreen_);
-    compMgrAtom_ = internAtom(conn_, compMgrAtomString_);
+    compMgrAtom_ = parent_->xcb()->call<IXCBModule::atom>(
+        name_, compMgrAtomString_, false);
 
     parent_->xcb()->call<IXCBModule::addSelection>(
         name, compMgrAtomString_,
@@ -187,6 +178,7 @@ XCBUI::XCBUI(ClassicUI *parent, const std::string &name, xcb_connection_t *conn,
     fontOption_ = forcedDpi(conn_, screen);
     initScreen();
     refreshCompositeManager();
+    trayWindow_->initTray();
 }
 
 XCBUI::~XCBUI() {}
@@ -341,7 +333,6 @@ void XCBUI::refreshCompositeManager() {
         colorMap_ = screen->default_colormap;
     }
     inputWindow_->createWindow();
-    // TODO
     // mainWindow_->createWindow();
 }
 
@@ -364,6 +355,8 @@ void XCBUI::updateCursor(InputContext *inputContext) {
     inputWindow_->updatePosition(inputContext);
 }
 
+void XCBUI::updateCurrentInputMethod(InputContext *) { trayWindow_->update(); }
+
 int XCBUI::dpi(int dpi) {
     if (dpi < 0) {
         return fontOption_.dpi;
@@ -374,6 +367,11 @@ int XCBUI::dpi(int dpi) {
     return (static_cast<double>(dpi) / maxDpi_) * fontOption_.dpi;
 }
 
-void XCBUI::suspend() { inputWindow_->update(nullptr); }
+void XCBUI::resume() { trayWindow_->resume(); }
+
+void XCBUI::suspend() {
+    inputWindow_->update(nullptr);
+    trayWindow_->suspend();
+}
 }
 }

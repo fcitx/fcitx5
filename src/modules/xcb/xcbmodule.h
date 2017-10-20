@@ -102,6 +102,7 @@ public:
 
     void convertSelectionRequest(const ConvertSelectionRequest &request);
     xcb_atom_t atom(const std::string &atomName, bool exists);
+    xcb_ewmh_connection_t *ewmh();
 
 private:
     bool filterEvent(xcb_connection_t *conn, xcb_generic_event_t *event);
@@ -144,6 +145,8 @@ private:
     std::unique_ptr<HandlerTableEntry<XCBEventFilter>> filter_;
     std::unique_ptr<HandlerTableEntry<XCBSelectionNotifyCallback>>
         compositeCallback_;
+
+    xcb_ewmh_connection_t ewmh_;
 };
 
 class XCBModule : public AddonInstance {
@@ -172,6 +175,7 @@ public:
 
     xcb_atom_t atom(const std::string &name, const std::string &atom,
                     bool exists);
+    xcb_ewmh_connection_t *ewmh(const std::string &name);
 
 private:
     void onConnectionCreated(XCBConnection &conn);
@@ -190,6 +194,7 @@ private:
     FCITX_ADDON_EXPORT_FUNCTION(XCBModule, addSelection);
     FCITX_ADDON_EXPORT_FUNCTION(XCBModule, convertSelection);
     FCITX_ADDON_EXPORT_FUNCTION(XCBModule, atom);
+    FCITX_ADDON_EXPORT_FUNCTION(XCBModule, ewmh);
 };
 }
 

@@ -52,13 +52,16 @@ public:
     ClassicUI *parent() const { return parent_; }
     const std::string &name() const { return name_; }
     xcb_connection_t *connection() const { return conn_; }
+    xcb_ewmh_connection_t *ewmh() const { return ewmh_; }
     int defaultScreen() const { return defaultScreen_; }
     xcb_colormap_t colorMap() const { return colorMap_; }
     xcb_visualid_t visualId() const;
     void update(UserInterfaceComponent component,
                 InputContext *inputContext) override;
     void updateCursor(InputContext *inputContext) override;
+    void updateCurrentInputMethod(InputContext *inputContext) override;
     void suspend() override;
+    void resume() override;
     const auto &screenRects() { return rects_; }
     int dpi(int dpi);
     const XCBFontOption &fontOption() const { return fontOption_; }
@@ -70,6 +73,7 @@ private:
     ClassicUI *parent_;
     std::string name_;
     xcb_connection_t *conn_;
+    xcb_ewmh_connection_t *ewmh_;
     int defaultScreen_;
     xcb_colormap_t colorMap_;
     std::unique_ptr<XCBInputWindow> inputWindow_;
@@ -89,8 +93,6 @@ private:
 
 void addEventMaskToWindow(xcb_connection_t *conn, xcb_window_t wid,
                           uint32_t mask);
-
-xcb_atom_t internAtom(xcb_connection_t *conn, const std::string &atomName);
 }
 }
 

@@ -100,27 +100,49 @@ void ClassicUI::suspend() {
 
 void ClassicUI::resume() {
     suspended_ = false;
-    auto check = [this](Event &event) {
+    for (auto &p : uis_) {
+        p.second->resume();
+    }
+    auto uiForEvent = [this](Event &event) -> UIInterface * {
         if (suspended_) {
-            return;
+            return nullptr;
         }
         auto &icEvent = static_cast<InputContextEvent &>(event);
         auto inputContext = icEvent.inputContext();
         if (!inputContext->hasFocus()) {
-            return;
+            return nullptr;
         }
         auto iter = uis_.find(inputContext->display());
         if (iter == uis_.end()) {
-            return;
+            return nullptr;
         }
-        auto ui = iter->second.get();
-        ui->updateCursor(inputContext);
+        return iter->second.get();
     };
-    eventHandlers_.emplace_back(
-        instance_->watchEvent(EventType::InputContextCursorRectChanged,
-                              EventWatcherPhase::Default, check));
     eventHandlers_.emplace_back(instance_->watchEvent(
-        EventType::InputContextFocusIn, EventWatcherPhase::Default, check));
+        EventType::InputContextCursorRectChanged, EventWatcherPhase::Default,
+        [this, uiForEvent](Event &event) {
+            if (auto ui = uiForEvent(event)) {
+                auto &icEvent = static_cast<InputContextEvent &>(event);
+                ui->updateCursor(icEvent.inputContext());
+            }
+        }));
+    eventHandlers_.emplace_back(instance_->watchEvent(
+        EventType::InputContextFocusIn, EventWatcherPhase::Default,
+        [this, uiForEvent](Event &event) {
+            if (auto ui = uiForEvent(event)) {
+                auto &icEvent = static_cast<InputContextEvent &>(event);
+                ui->updateCursor(icEvent.inputContext());
+                ui->updateCurrentInputMethod(icEvent.inputContext());
+            }
+        }));
+    eventHandlers_.emplace_back(instance_->watchEvent(
+        EventType::InputContextSwitchInputMethod, EventWatcherPhase::Default,
+        [this, uiForEvent](Event &event) {
+            if (auto ui = uiForEvent(event)) {
+                auto &icEvent = static_cast<InputContextEvent &>(event);
+                ui->updateCurrentInputMethod(icEvent.inputContext());
+            }
+        }));
 }
 
 void ClassicUI::update(UserInterfaceComponent component,

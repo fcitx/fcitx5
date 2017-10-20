@@ -27,11 +27,15 @@ namespace classicui {
 class XCBTrayWindow : public XCBWindow {
 public:
     XCBTrayWindow(XCBUI *ui);
+    void initTray();
 
     bool filterEvent(xcb_generic_event_t *event) override;
+    void resume();
+    void suspend();
+    void update();
+    void postCreateWindow() override;
 
 private:
-    void initTray();
     void findDock();
     void sendTrayOpcode(long message, long data1, long data2, long data3);
     void refreshDockWindow();

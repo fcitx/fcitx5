@@ -26,6 +26,7 @@
 #include <string>
 #include <tuple>
 #include <xcb/xcb.h>
+#include <xcb/xcb_ewmh.h>
 
 struct xkb_state;
 
@@ -62,6 +63,8 @@ FCITX_ADDON_DECLARE_FUNCTION(
     HandlerTableEntry<XCBConnectionClosed> *(XCBConnectionClosed));
 FCITX_ADDON_DECLARE_FUNCTION(XCBModule, xkbState,
                              xkb_state *(const std::string &));
+FCITX_ADDON_DECLARE_FUNCTION(XCBModule, ewmh,
+                             xcb_ewmh_connection_t *(const std::string &));
 FCITX_ADDON_DECLARE_FUNCTION(XCBModule, atom,
                              xcb_atom_t(const std::string &,
                                         const std::string &, bool));

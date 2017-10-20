@@ -469,17 +469,16 @@ public:
     std::string lookupIcon(const std::string &iconname, int size, int scale,
                            const std::vector<std::string> &extensions) const {
 
-        auto checkDirectory = [&extensions, &iconname, size, scale, this](
-            const IconThemeDirectory &directory,
-            std::string baseDir) -> std::string {
+        auto checkDirectory = [&extensions, &iconname, size, scale,
+                               this](const IconThemeDirectory &directory,
+                                     std::string baseDir) -> std::string {
             baseDir = stringutils::joinPath(baseDir, directory.path());
             if (!fs::isdir(baseDir)) {
                 return {};
             }
 
             for (auto &ext : extensions) {
-                auto defaultPath =
-                    stringutils::joinPath(baseDir, iconname);
+                auto defaultPath = stringutils::joinPath(baseDir, iconname);
                 defaultPath += ext;
                 if (fs::isreg(defaultPath)) {
                     return defaultPath;

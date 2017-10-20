@@ -13,7 +13,7 @@ target_link_libraries(classicui
     PkgConfig::Cairo PkgConfig::CairoXCB PkgConfig::Pango
     PkgConfig::GdkPixbuf PkgConfig::GioUnix
     Fcitx5::Module::XCB Fcitx5::Module::Wayland
-    XCB::AUX XCB::ICCCM XCB::XINERAMA Wayland::Client XCB::RANDR
+    XCB::AUX XCB::ICCCM XCB::XINERAMA Wayland::Client XCB::RANDR XCB::EWMH
     ${CAIRO_EGL_LIBRARY}
     Fcitx5::Wayland::Core ${FMT_TARGET})
 set_target_properties(classicui PROPERTIES PREFIX "")

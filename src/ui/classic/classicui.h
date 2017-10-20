@@ -42,7 +42,9 @@ public:
     virtual void update(UserInterfaceComponent component,
                         InputContext *inputContext) = 0;
     virtual void updateCursor(InputContext *) {}
+    virtual void updateCurrentInputMethod(InputContext *) {}
     virtual void suspend() = 0;
+    virtual void resume() {}
 };
 
 struct NotEmpty {

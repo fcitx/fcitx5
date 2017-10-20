@@ -29,7 +29,7 @@ namespace classicui {
 
 class XCBWindow : public Window {
 public:
-    XCBWindow(XCBUI *ui);
+    XCBWindow(XCBUI *ui, int width = 1, int height = 1);
     ~XCBWindow();
 
     void createWindow(xcb_visualid_t vid = 0);
@@ -45,6 +45,7 @@ public:
 protected:
     XCBUI *ui_;
     xcb_window_t wid_ = 0;
+    xcb_colormap_t colorMap_ = 0;
     xcb_visualid_t vid_ = 0;
     std::unique_ptr<HandlerTableEntry<XCBEventFilter>> eventFilter_;
     std::unique_ptr<cairo_surface_t, decltype(&cairo_surface_destroy)> surface_;

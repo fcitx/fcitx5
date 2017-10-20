@@ -210,6 +210,15 @@ XCBConnection::XCBConnection(XCBModule *xcb, const std::string &name)
             }
         }
     }
+    /// init ewmh
+    memset(&ewmh_, 0, sizeof(ewmh_));
+    xcb_intern_atom_cookie_t *cookie = xcb_ewmh_init_atoms(conn_.get(), &ewmh_);
+    if (cookie) {
+        // They will wipe for us. and cookie will be free'd anyway.
+        if (!xcb_ewmh_init_atoms_replies(&ewmh_, cookie, NULL)) {
+            memset(&ewmh_, 0, sizeof(ewmh_));
+        }
+    }
 
     // create a focus group for display server
     group_ =
@@ -221,7 +230,10 @@ XCBConnection::XCBConnection(XCBModule *xcb, const std::string &name)
         }));
 }
 
-XCBConnection::~XCBConnection() { delete group_; }
+XCBConnection::~XCBConnection() {
+    xcb_ewmh_connection_wipe(&ewmh_);
+    delete group_;
+}
 
 void XCBConnection::onIOEvent() {
     if (xcb_connection_has_error(conn_.get())) {
@@ -412,6 +424,8 @@ xcb_atom_t XCBConnection::atom(const std::string &atomName, bool exists) {
     atomCache_.emplace(std::make_pair(atomName, result));
     return result;
 }
+
+xcb_ewmh_connection_t *XCBConnection::ewmh() { return &ewmh_; }
 
 HandlerTableEntry<XCBSelectionNotifyCallback> *
 XCBConnection::addSelection(const std::string &selection,
@@ -616,6 +630,14 @@ xcb_atom_t XCBModule::atom(const std::string &name, const std::string &atom,
         return XCB_ATOM_NONE;
     }
     return iter->second.atom(atom, exists);
+}
+
+xcb_ewmh_connection_t *XCBModule::ewmh(const std::string &name) {
+    auto iter = conns_.find(name);
+    if (iter == conns_.end()) {
+        return nullptr;
+    }
+    return iter->second.ewmh();
 }
 
 class XCBModuleFactory : public AddonFactory {

@@ -18,6 +18,7 @@
  */
 #include "xcbtraywindow.h"
 #include <fcitx/inputmethodentry.h>
+#include <unistd.h>
 #include <xcb/xcb_aux.h>
 #include <xcb/xcb_icccm.h>
 
@@ -34,7 +35,7 @@ namespace classicui {
 #define ATOM_ORIENTATION 3
 #define ATOM_VISUAL 4
 
-XCBTrayWindow::XCBTrayWindow(XCBUI *ui) : XCBWindow(ui) {}
+XCBTrayWindow::XCBTrayWindow(XCBUI *ui) : XCBWindow(ui, 22, 22) {}
 
 bool XCBTrayWindow::filterEvent(xcb_generic_event_t *event) {
     uint8_t response_type = event->response_type & ~0x80;
@@ -55,12 +56,8 @@ bool XCBTrayWindow::filterEvent(xcb_generic_event_t *event) {
     case XCB_EXPOSE: {
         auto expose = reinterpret_cast<xcb_expose_event_t *>(event);
         if (expose->window == wid_) {
-            if (auto surface = prerender()) {
-                cairo_t *c = cairo_create(surface);
-                paint(c);
-                cairo_destroy(c);
-                render();
-            }
+            CLASSICUI_DEBUG() << "Tray recevied expose event";
+            update();
         }
         break;
     }
@@ -68,6 +65,7 @@ bool XCBTrayWindow::filterEvent(xcb_generic_event_t *event) {
         auto configure =
             reinterpret_cast<xcb_configure_notify_event_t *>(event);
         if (wid_ == configure->event) {
+            CLASSICUI_DEBUG() << "Tray recevied configure event";
             if (width() != configure->width && height() != configure->height) {
                 resize(configure->width, configure->height);
                 xcb_size_hints_t size_hints;
@@ -130,16 +128,10 @@ void XCBTrayWindow::initTray() {
     sprintf(trayAtomNameBuf, "_NET_SYSTEM_TRAY_S%d", ui_->defaultScreen());
     size_t i = 0;
     for (auto name : atom_names) {
-        atoms_[i] = internAtom(ui_->connection(), name);
+        atoms_[i] = ui_->parent()->xcb()->call<IXCBModule::atom>(ui_->name(),
+                                                                 name, false);
         i++;
     }
-    xcb_screen_t *screen =
-        xcb_aux_get_screen(ui_->connection(), ui_->defaultScreen());
-    addEventMaskToWindow(ui_->connection(), screen->root,
-                         XCB_EVENT_MASK_STRUCTURE_NOTIFY);
-    dockCallback_.reset(ui_->parent()->xcb()->call<IXCBModule::addSelection>(
-        ui_->name(), atom_names[ATOM_SELECTION],
-        [this](xcb_atom_t) { refreshDockWindow(); }));
 }
 
 void XCBTrayWindow::refreshDockWindow() {
@@ -151,6 +143,7 @@ void XCBTrayWindow::refreshDockWindow() {
     }
 
     if (dockWindow_) {
+        CLASSICUI_DEBUG() << "Found dock window";
         addEventMaskToWindow(ui_->connection(), dockWindow_,
                              XCB_EVENT_MASK_STRUCTURE_NOTIFY);
         createWindow(trayVisual());
@@ -166,6 +159,7 @@ void XCBTrayWindow::findDock() {
     }
 
     if (dockWindow_) {
+        CLASSICUI_DEBUG() << "Send op code to tray";
         sendTrayOpcode(SYSTEM_TRAY_REQUEST_DOCK, wid_, 0, 0);
     }
 }
@@ -187,6 +181,7 @@ void XCBTrayWindow::sendTrayOpcode(long message, long data1, long data2,
 
     xcb_send_event(ui_->connection(), false, dockWindow_,
                    XCB_EVENT_MASK_NO_EVENT, reinterpret_cast<char *>(&ev));
+    xcb_flush(ui_->connection());
 }
 
 xcb_visualid_t XCBTrayWindow::trayVisual() {
@@ -210,23 +205,79 @@ xcb_visualid_t XCBTrayWindow::trayVisual() {
     return vid;
 }
 
+void XCBTrayWindow::postCreateWindow() {
+    if (ui_->ewmh()->_NET_WM_WINDOW_TYPE_DOCK &&
+        ui_->ewmh()->_NET_WM_WINDOW_TYPE) {
+        xcb_ewmh_set_wm_window_type(ui_->ewmh(), wid_, 1,
+                                    &ui_->ewmh()->_NET_WM_WINDOW_TYPE_DOCK);
+    }
+
+    if (ui_->ewmh()->_NET_WM_PID) {
+        xcb_ewmh_set_wm_pid(ui_->ewmh(), wid_, getpid());
+    }
+    const char name[] = "Fcitx5 Tray Window";
+    xcb_icccm_set_wm_name(ui_->connection(), wid_, XCB_ATOM_STRING, 8,
+                          sizeof(name) - 1, name);
+
+    addEventMaskToWindow(
+        ui_->connection(), wid_,
+        XCB_EVENT_MASK_EXPOSURE | XCB_EVENT_MASK_BUTTON_PRESS |
+            XCB_EVENT_MASK_BUTTON_RELEASE | XCB_EVENT_MASK_STRUCTURE_NOTIFY |
+            XCB_EVENT_MASK_ENTER_WINDOW | XCB_EVENT_MASK_LEAVE_WINDOW |
+            XCB_EVENT_MASK_VISIBILITY_CHANGE | XCB_EVENT_MASK_POINTER_MOTION);
+}
+
 void XCBTrayWindow::paint(cairo_t *c) {
     auto &theme = ui_->parent()->theme();
     auto instance = ui_->parent()->instance();
     auto ic = ui_->parent()->instance()->lastFocusedInputContext();
-    auto entry = instance->inputMethodEntry(ic);
-    std::string icon = "keyboard";
+    std::string icon = "input-keyboard";
     std::string label = "";
+    const InputMethodEntry *entry = nullptr;
+    if (ic) {
+        entry = instance->inputMethodEntry(ic);
+        icon = entry->icon();
+        label = entry->label();
+    }
     if (entry) {
         icon = entry->icon();
         label = entry->label();
     }
 
-    auto &image = theme.loadImage(icon, icon, label, ImagePurpose::Tray);
+    auto &image = theme.loadImage(icon, label, std::min(height(), width()),
+                                  ImagePurpose::Tray);
     cairo_save(c);
     cairo_set_operator(c, CAIRO_OPERATOR_SOURCE);
     cairo_set_source_surface(c, image, 0, 0);
+    cairo_paint(c);
     cairo_restore(c);
+}
+
+void XCBTrayWindow::update() {
+    if (auto surface = prerender()) {
+        cairo_t *c = cairo_create(surface);
+        paint(c);
+        cairo_destroy(c);
+        render();
+    }
+}
+
+void XCBTrayWindow::resume() {
+    char trayAtomNameBuf[100];
+    sprintf(trayAtomNameBuf, "_NET_SYSTEM_TRAY_S%d", ui_->defaultScreen());
+    xcb_screen_t *screen =
+        xcb_aux_get_screen(ui_->connection(), ui_->defaultScreen());
+    addEventMaskToWindow(ui_->connection(), screen->root,
+                         XCB_EVENT_MASK_STRUCTURE_NOTIFY);
+    dockCallback_.reset(ui_->parent()->xcb()->call<IXCBModule::addSelection>(
+        ui_->name(), trayAtomNameBuf,
+        [this](xcb_atom_t) { refreshDockWindow(); }));
+    refreshDockWindow();
+}
+
+void XCBTrayWindow::suspend() {
+    dockCallback_.reset();
+    destroyWindow();
 }
 }
 }
