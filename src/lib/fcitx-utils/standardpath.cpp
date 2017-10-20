@@ -241,12 +241,12 @@ const StandardPath &StandardPath::global() {
     return globalPath;
 }
 
-std::string StandardPath::fcitxPath(const char *path) {
+const char *StandardPath::fcitxPath(const char *path) {
     if (!path) {
-        return {};
+        return nullptr;
     }
 
-    static std::unordered_map<std::string, std::string> pathMap = {
+    static const std::unordered_map<std::string, std::string> pathMap = {
         std::make_pair<std::string, std::string>("datadir",
                                                  FCITX_INSTALL_DATADIR),
         std::make_pair<std::string, std::string>("pkgdatadir",
@@ -263,11 +263,16 @@ std::string StandardPath::fcitxPath(const char *path) {
                                                  FCITX_INSTALL_LIBDATADIR),
     };
 
-    if (pathMap.count(path)) {
-        return pathMap[path];
+    auto iter = pathMap.find(path);
+    if (iter != pathMap.end()) {
+        return iter->second.c_str();
     }
 
-    return {};
+    return nullptr;
+}
+
+std::string StandardPath::fcitxPath(const char *path, const char *subPath) {
+    return stringutils::joinPath(fcitxPath(path), subPath);
 }
 
 void closedir0(DIR *dir) {

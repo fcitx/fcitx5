@@ -193,7 +193,15 @@ public:
     static const StandardPath &global();
 
     /// \brief Return fcitx specific path defined at compile time.
-    static std::string fcitxPath(const char *path);
+    ///
+    /// Currently, available value of fcitxPath are:
+    /// datadir, pkgdatadir, libdir, bindir, localedir, addondir, libdatadir.
+    /// Otherwise it will return nullptr.
+    static const char *fcitxPath(const char *path);
+
+    /// \brief Return a path under specific fcitxPath directory.
+    /// path is required to be a valid value.
+    static std::string fcitxPath(const char *path, const char *subPath);
 
     /// \brief Scan the directories of given type.
     ///

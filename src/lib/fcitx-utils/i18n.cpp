@@ -19,7 +19,7 @@ public:
         }
         auto localedir = StandardPath::fcitxPath("localedir");
         if (!dir) {
-            dir = localedir.data();
+            dir = localedir;
         }
         bindtextdomain(domain, dir);
         bind_textdomain_codeset(domain, "UTF-8");
