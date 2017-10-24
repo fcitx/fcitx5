@@ -45,6 +45,16 @@ FCITX_CONFIGURATION(
         "Hotkey/EnumerateBackwardKeys",
         "Enumerate Input Method Backward",
         {Key("Control+Shift_L")}};
+    fcitx::Option<KeyList> enumerateGroupForwardKeys{
+        this,
+        "Hotkey/EnumerateGroupForwardKeys",
+        "Enumerate Input Method Group Forward",
+        {Key("Super+space")}};
+    fcitx::Option<KeyList> enumerateGroupBackwardKeys{
+        this,
+        "Hotkey/EnumerateGroupBackwardKeys",
+        "Enumerate Input Method Group Backward",
+        {Key("Super+Shift+space")}};
     fcitx::Option<KeyList> activateKeys{this,
                                         "Hotkey/ActivateKeys",
                                         "ActivateKeys",
@@ -104,6 +114,16 @@ const KeyList &GlobalConfig::enumerateForwardKeys() const {
 const KeyList &GlobalConfig::enumerateBackwardKeys() const {
     FCITX_D();
     return d->enumerateBackwardKeys.value();
+}
+
+const KeyList &GlobalConfig::enumerateGroupForwardKeys() const {
+    FCITX_D();
+    return *d->enumerateGroupForwardKeys;
+}
+
+const KeyList &GlobalConfig::enumerateGroupBackwardKeys() const {
+    FCITX_D();
+    return *d->enumerateGroupBackwardKeys;
 }
 
 bool GlobalConfig::activeByDefault() const {

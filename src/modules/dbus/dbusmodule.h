@@ -24,6 +24,7 @@
 #include "fcitx-utils/dbus/servicewatcher.h"
 #include "fcitx/addonfactory.h"
 #include "fcitx/addoninstance.h"
+#include "fcitx/addonmanager.h"
 #include "fcitx/instance.h"
 
 namespace fcitx {
@@ -34,6 +35,7 @@ public:
     ~DBusModule();
 
     dbus::Bus *bus();
+    FCITX_ADDON_DEPENDENCY_LOADER(keyboard, instance_->addonManager());
 
 private:
     FCITX_ADDON_EXPORT_FUNCTION(DBusModule, bus);
@@ -42,6 +44,7 @@ private:
     std::unique_ptr<HandlerTableEntry<dbus::ServiceWatcherCallback>>
         selfWatcher_;
     std::unique_ptr<Controller1> controller_;
+    Instance *instance_;
 };
 }
 

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015~2015 by CSSlayer
+ * Copyright (C) 2015~2017 by CSSlayer
  * wengxt@gmail.com
  *
  * This library is free software; you can redistribute it and/or modify

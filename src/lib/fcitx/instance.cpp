@@ -82,20 +82,6 @@ class CheckInputMethodChanged;
 struct InputState : public InputContextProperty {
     InputState(InstancePrivate *d, InputContext *ic);
 
-    InstancePrivate *d_ptr;
-    InputContext *ic_;
-    int keyReleased_ = -1;
-    // We use -2 to make sure -2 != -1 (From keyListIndex)
-    int keyReleasedIndex_ = -2;
-    bool active_;
-    CheckInputMethodChanged *imChanged_ = nullptr;
-    std::unique_ptr<struct xkb_compose_state,
-                    decltype(&xkb_compose_state_unref)>
-        xkbComposeState_;
-
-    std::unique_ptr<EventSourceTime> imInfoTimer_;
-    std::string lastInfo_;
-
     void reset() {
         if (xkbComposeState_) {
             xkb_compose_state_reset(xkbComposeState_.get());
@@ -119,6 +105,21 @@ struct InputState : public InputContextProperty {
             ic_->updateUserInterface(UserInterfaceComponent::InputPanel);
         }
     }
+
+    InstancePrivate *d_ptr;
+    InputContext *ic_;
+    int keyReleased_ = -1;
+    // We use -2 to make sure -2 != -1 (From keyListIndex)
+    int keyReleasedIndex_ = -2;
+    bool active_;
+    CheckInputMethodChanged *imChanged_ = nullptr;
+    std::unique_ptr<struct xkb_compose_state,
+                    decltype(&xkb_compose_state_unref)>
+        xkbComposeState_;
+
+    std::unique_ptr<EventSourceTime> imInfoTimer_;
+    std::string lastInfo_;
+    std::string lastIM_;
 };
 
 class CheckInputMethodChanged {
@@ -134,6 +135,9 @@ public:
             ic_.unwatch();
         }
     }
+
+    void ignore() { ignore_ = true; }
+
     ~CheckInputMethodChanged() {
         if (!ic_.isValid()) {
             return;
@@ -141,7 +145,7 @@ public:
         auto ic = ic_.get();
         auto inputState = ic->propertyAs<InputState>("inputState");
         inputState->imChanged_ = nullptr;
-        if (inputMethod_ != instance_->inputMethod(ic)) {
+        if (inputMethod_ != instance_->inputMethod(ic) && !ignore_) {
             instance_->postEvent(
                 InputContextSwitchInputMethodEvent(reason_, inputMethod_, ic));
         }
@@ -154,6 +158,7 @@ private:
     TrackableObjectReference<InputContext> ic_;
     std::string inputMethod_;
     InputMethodSwitchedReason reason_;
+    bool ignore_ = false;
 };
 
 struct InstanceArgument {
@@ -235,6 +240,8 @@ public:
     std::unique_ptr<struct xkb_compose_table,
                     decltype(&xkb_compose_table_unref)>
         xkbComposeTable_;
+
+    std::vector<ScopedConnection> connections_;
 };
 
 InputState::InputState(InstancePrivate *d, InputContext *ic)
@@ -279,7 +286,29 @@ Instance::Instance(int argc, char **argv) {
     d->arg_ = arg;
     d->addonManager_.setInstance(this);
     d->icManager_.setInstance(this);
-    d->imManager_.setInstance(this);
+    d->connections_.emplace_back(
+        d->imManager_.connect<InputMethodManager::CurrentGroupAboutToBeChanged>(
+            [this, d](const std::string &) {
+                d->icManager_.foreachFocused([this](InputContext *ic) {
+                    assert(ic->hasFocus());
+                    InputContextSwitchInputMethodEvent event(
+                        InputMethodSwitchedReason::GroupChange, "", ic);
+                    deactivateInputMethod(event);
+                    return true;
+                });
+            }));
+    d->connections_.emplace_back(
+        d->imManager_.connect<InputMethodManager::CurrentGroupChanged>(
+            [this, d](const std::string &) {
+                d->icManager_.foreachFocused([this](InputContext *ic) {
+                    assert(ic->hasFocus());
+                    InputContextSwitchInputMethodEvent event(
+                        InputMethodSwitchedReason::GroupChange, "", ic);
+                    activateInputMethod(event);
+                    return true;
+                });
+                postEvent(InputMethodGroupChangedEvent());
+            }));
 
     d->icManager_.registerProperty("inputState", &d->inputStateFactory);
 
@@ -310,6 +339,24 @@ Instance::Instance(int argc, char **argv) {
                 {d->globalConfig_.enumerateBackwardKeys(),
                  [this]() { return canTrigger(); },
                  [this, ic]() { return enumerate(ic, false); }},
+                {d->globalConfig_.enumerateGroupForwardKeys(),
+                 [this]() { return canChangeGroup(); },
+                 [this, ic, d]() {
+                     auto inputState = ic->propertyFor(&d->inputStateFactory);
+                     if (inputState->imChanged_) {
+                         inputState->imChanged_->ignore();
+                     }
+                     return enumerateGroup(true);
+                 }},
+                {d->globalConfig_.enumerateGroupBackwardKeys(),
+                 [this]() { return canChangeGroup(); },
+                 [this, ic, d]() {
+                     auto inputState = ic->propertyFor(&d->inputStateFactory);
+                     if (inputState->imChanged_) {
+                         inputState->imChanged_->ignore();
+                     }
+                     return enumerateGroup(true);
+                 }},
             };
 
             auto inputState = ic->propertyFor(&d->inputStateFactory);
@@ -392,15 +439,9 @@ Instance::Instance(int argc, char **argv) {
                       }));
     d->eventWatchers_.emplace_back(d->watchEvent(
         EventType::InputContextFocusIn, EventWatcherPhase::ReservedFirst,
-        [this, d](Event &event) {
+        [this](Event &event) {
             auto &icEvent = static_cast<InputContextEvent &>(event);
-            auto ic = icEvent.inputContext();
-            auto engine = inputMethodEngine(ic);
-            auto entry = inputMethodEntry(ic);
-            if (!engine || !entry) {
-                return;
-            }
-            engine->activate(*entry, icEvent);
+            activateInputMethod(icEvent);
         }));
     d->eventWatchers_.emplace_back(d->watchEvent(
         EventType::InputContextFocusOut, EventWatcherPhase::ReservedFirst,
@@ -418,12 +459,7 @@ Instance::Instance(int argc, char **argv) {
                     ic->commitString(commit);
                 }
             }
-            auto engine = inputMethodEngine(ic);
-            auto entry = inputMethodEntry(ic);
-            if (!engine || !entry) {
-                return;
-            }
-            engine->deactivate(*entry, icEvent);
+            deactivateInputMethod(icEvent);
             ic->statusArea().clear();
         }));
     d->eventWatchers_.emplace_back(d->watchEvent(
@@ -459,18 +495,20 @@ Instance::Instance(int argc, char **argv) {
                 return;
             }
             if (auto oldEntry = d->imManager_.entry(icEvent.oldInputMethod())) {
+                auto inputState = ic->propertyFor(&d->inputStateFactory);
+                FCITX_LOG(Debug) << "Deactivate: "
+                                 << "[Last]:" << inputState->lastIM_
+                                 << " [Activating]:" << oldEntry->uniqueName();
+                assert(inputState->lastIM_ == oldEntry->uniqueName());
+                inputState->lastIM_.clear();
                 auto oldEngine = static_cast<InputMethodEngine *>(
                     d->addonManager_.addon(oldEntry->addon()));
                 if (oldEngine) {
                     oldEngine->deactivate(*oldEntry, icEvent);
                 }
             }
-            auto engine = inputMethodEngine(ic);
-            auto entry = inputMethodEntry(ic);
-            if (!engine || !entry) {
-                return;
-            }
-            engine->activate(*entry, icEvent);
+
+            activateInputMethod(icEvent);
         }));
     d->eventWatchers_.emplace_back(d->watchEvent(
         EventType::InputContextSwitchInputMethod,
@@ -478,39 +516,25 @@ Instance::Instance(int argc, char **argv) {
             auto &icEvent =
                 static_cast<InputContextSwitchInputMethodEvent &>(event);
             auto ic = icEvent.inputContext();
-            if (!ic->hasFocus()) {
+            if (!ic->hasFocus() ||
+                (icEvent.reason() != InputMethodSwitchedReason::Trigger &&
+                 icEvent.reason() != InputMethodSwitchedReason::Enumerate &&
+                 icEvent.reason() != InputMethodSwitchedReason::Activate &&
+                 icEvent.reason() != InputMethodSwitchedReason::Other &&
+                 icEvent.reason() != InputMethodSwitchedReason::Deactivate)) {
                 return;
             }
-            FCITX_LOG(Debug) << "Input method switched";
-            FCITX_D();
-            auto engine = inputMethodEngine(ic);
-            auto entry = inputMethodEntry(ic);
-            if (entry && d->globalConfig_.showInputMethodInformation() &&
-                (icEvent.reason() == InputMethodSwitchedReason::Trigger ||
-                 icEvent.reason() == InputMethodSwitchedReason::Enumerate ||
-                 icEvent.reason() == InputMethodSwitchedReason::Activate ||
-                 icEvent.reason() == InputMethodSwitchedReason::Other ||
-                 icEvent.reason() == InputMethodSwitchedReason::Deactivate)) {
-                auto inputState = ic->propertyFor(&d->inputStateFactory);
-                std::string display;
-                if (engine) {
-                    auto subMode = engine->subMode(*entry, *ic);
-                    if (subMode.empty()) {
-                        display = entry->name();
-                    } else {
-                        display =
-                            fmt::format(_("{0} ({1})"), entry->name(), subMode);
-                    }
-                } else {
-                    display =
-                        fmt::format(_("{0} (Not available)"), entry->name());
-                }
-                inputState->showInputMethodInformation(display);
-            }
-            if (!engine || !entry) {
-                return;
-            }
+            showInputMethodInformation(ic);
         }));
+    d->eventWatchers_.emplace_back(d->watchEvent(
+        EventType::InputMethodGroupChanged, EventWatcherPhase::ReservedFirst,
+        [this, d](Event &) {
+            inputContextManager().foreachFocused([this](InputContext *ic) {
+                showInputMethodInformation(ic);
+                return true;
+            });
+        }));
+
     d->eventWatchers_.emplace_back(d->watchEvent(
         EventType::InputContextUpdateUI, EventWatcherPhase::ReservedFirst,
         [this, d](Event &event) {
@@ -657,6 +681,7 @@ void Instance::initialize() {
     d->imManager_.load();
     d->uiManager_.load(d->arg_.uiName);
     d->exitEvent_.reset(d->eventLoop_.addExitEvent([this](EventSource *) {
+        FCITX_LOG(Debug) << "Running save...";
         save();
         return false;
     }));
@@ -690,6 +715,11 @@ AddonManager &Instance::addonManager() {
 }
 
 InputMethodManager &Instance::inputMethodManager() {
+    FCITX_D();
+    return d->imManager_;
+}
+
+const InputMethodManager &Instance::inputMethodManager() const {
     FCITX_D();
     return d->imManager_;
 }
@@ -744,6 +774,9 @@ std::string Instance::inputMethod(InputContext *ic) {
     FCITX_D();
     auto &group = d->imManager_.currentGroup();
     auto inputState = ic->propertyFor(&d->inputStateFactory);
+    if (group.inputMethodList().empty()) {
+        return "";
+    }
     if (inputState->active_) {
         return group.defaultInputMethod();
     }
@@ -957,9 +990,14 @@ void Instance::toggle() {
     }
 }
 
-bool Instance::canTrigger() {
+bool Instance::canTrigger() const {
     auto &imManager = inputMethodManager();
     return (imManager.currentGroup().inputMethodList().size() > 1);
+}
+
+bool Instance::canChangeGroup() const {
+    auto &imManager = inputMethodManager();
+    return (imManager.groupCount() > 1);
 }
 
 bool Instance::trigger(InputContext *ic) {
@@ -1102,5 +1140,87 @@ FocusGroup *Instance::defaultFocusGroup(const std::string &displayHint) {
             return true;
         });
     return defaultFocusGroup;
+}
+
+void Instance::activateInputMethod(InputContextEvent &event) {
+    FCITX_D();
+    InputContext *ic = event.inputContext();
+    auto inputState = ic->propertyFor(&d->inputStateFactory);
+    auto entry = inputMethodEntry(ic);
+    if (entry) {
+        FCITX_LOG(Debug) << "Activate: "
+                         << "[Last]:" << inputState->lastIM_
+                         << " [Activating]:" << entry->uniqueName();
+        assert(inputState->lastIM_.empty());
+        inputState->lastIM_ = entry->uniqueName();
+    }
+    auto engine = inputMethodEngine(ic);
+    if (!engine || !entry) {
+        return;
+    }
+    engine->activate(*entry, event);
+}
+
+void Instance::deactivateInputMethod(InputContextEvent &event) {
+    FCITX_D();
+    InputContext *ic = event.inputContext();
+    auto inputState = ic->propertyFor(&d->inputStateFactory);
+    auto entry = inputMethodEntry(ic);
+    if (entry) {
+        FCITX_LOG(Debug) << "Deactivate: "
+                         << "[Last]:" << inputState->lastIM_
+                         << " [Deactivating]:" << entry->uniqueName();
+        assert(entry->uniqueName() == inputState->lastIM_);
+    }
+    inputState->lastIM_.clear();
+    auto engine = inputMethodEngine(ic);
+    if (!engine || !entry) {
+        return;
+    }
+    engine->deactivate(*entry, event);
+}
+
+bool Instance::enumerateGroup(bool forward) {
+    auto &imManager = inputMethodManager();
+    auto groups = imManager.groups();
+    if (groups.size() <= 1) {
+        return false;
+    }
+    if (forward) {
+        imManager.setCurrentGroup(groups[1]);
+    } else {
+        imManager.setCurrentGroup(groups.back());
+    }
+    return true;
+}
+
+void Instance::showInputMethodInformation(InputContext *ic) {
+    FCITX_LOG(Debug) << "Input method switched";
+    FCITX_D();
+    if (!d->globalConfig_.showInputMethodInformation()) {
+        return;
+    }
+    auto inputState = ic->propertyFor(&d->inputStateFactory);
+    auto engine = inputMethodEngine(ic);
+    auto entry = inputMethodEntry(ic);
+    auto &imManager = inputMethodManager();
+    std::string display;
+    if (engine) {
+        auto subMode = engine->subMode(*entry, *ic);
+        if (subMode.empty()) {
+            display = entry->name();
+        } else {
+            display = fmt::format(_("{0} ({1})"), entry->name(), subMode);
+        }
+    } else if (entry) {
+        display = fmt::format(_("{0} (Not available)"), entry->name());
+    } else {
+        display = _("(Not available)");
+    }
+    if (imManager.groupCount() > 1) {
+        display = fmt::format(_("Group {0}: {1}"),
+                              imManager.currentGroup().name(), display);
+    }
+    inputState->showInputMethodInformation(display);
 }
 }

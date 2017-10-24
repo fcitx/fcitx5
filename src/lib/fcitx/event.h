@@ -46,6 +46,7 @@ enum class InputMethodSwitchedReason {
     AltTrigger,
     Activate,
     Enumerate,
+    GroupChange,
     Other,
 };
 
@@ -118,6 +119,11 @@ public:
     void accept() { accepted_ = true; }
     bool accepted() const { return accepted_; }
     virtual bool filtered() const { return false; }
+
+    bool isInputContextEvent() const {
+        auto flag = static_cast<uint32_t>(EventType::InputContextEventFlag);
+        return (static_cast<uint32_t>(type_) & flag) == flag;
+    }
 
 protected:
     EventType type_;
@@ -251,6 +257,12 @@ FCITX_DEFINE_SIMPLE_EVENT(SurroundingTextUpdated,
 FCITX_DEFINE_SIMPLE_EVENT(CapabilityChanged, InputContextCapabilityChanged);
 FCITX_DEFINE_SIMPLE_EVENT(CursorRectChanged, InputContextCursorRectChanged);
 FCITX_DEFINE_SIMPLE_EVENT(UpdatePreedit, InputContextUpdatePreedit);
+
+class InputMethodGroupChangedEvent : public Event {
+public:
+    InputMethodGroupChangedEvent()
+        : Event(EventType::InputMethodGroupChanged) {}
+};
 }
 
 #endif // _FCITX_EVENT_H_

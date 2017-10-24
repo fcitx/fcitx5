@@ -27,6 +27,7 @@
 #include "fcitx/inputmethodengine.h"
 #include "fcitx/instance.h"
 #include "isocodes.h"
+#include "keyboard_public.h"
 #include "xkbrules.h"
 #include <xkbcommon/xkbcommon-compose.h>
 #include <xkbcommon/xkbcommon.h>
@@ -94,7 +95,20 @@ public:
 
     auto state() { return &factory_; }
 
+    bool
+    foreachLayout(const std::function<bool(
+                      const std::string &layout, const std::string &description,
+                      const std::vector<std::string> &languages)> &callback);
+    bool foreachVariant(
+        const std::string &layout,
+        const std::function<
+            bool(const std::string &variant, const std::string &description,
+                 const std::vector<std::string> &languages)> &callback);
+
 private:
+    FCITX_ADDON_EXPORT_FUNCTION(KeyboardEngine, foreachLayout);
+    FCITX_ADDON_EXPORT_FUNCTION(KeyboardEngine, foreachVariant);
+
     std::string preeditString(InputContext *inputContext);
     void commitBuffer(InputContext *inputContext);
     void updateUI(InputContext *inputContext);

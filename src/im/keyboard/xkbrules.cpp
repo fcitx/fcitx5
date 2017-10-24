@@ -139,7 +139,7 @@ struct XkbRulesParseState : public XMLParser {
             auto iter = rules->layoutInfos_.find(info.name);
             if (iter == rules->layoutInfos_.end()) {
                 std::string name = info.name;
-                rules->layoutInfos_.emplace(name, std::move(info));
+                rules->layoutInfos_.emplace(std::move(name), std::move(info));
             } else {
                 iter->second.languages.insert(
                     iter->second.languages.end(),

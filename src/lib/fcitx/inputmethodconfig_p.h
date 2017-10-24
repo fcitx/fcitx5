@@ -38,14 +38,11 @@ FCITX_CONFIGURATION(
     Option<std::string> defaultInputMethod{this, "DefaultIM",
                                            "Default Input Method"};);
 
-FCITX_CONFIGURATION(
-    InputMethodConfig,
-    Option<std::vector<InputMethodGroupConfig>> groups{this, "Profile/Groups",
-                                                       "Groups"};
-    Option<std::vector<std::string>> groupOrder{this, "Profile/GroupOrder",
-                                                "Group Order"};
-    Option<std::string> currentGroup{this, "Profile/CurrentGroup",
-                                     "CurrentGroup"};);
+FCITX_CONFIGURATION(InputMethodConfig,
+                    Option<std::vector<InputMethodGroupConfig>> groups{
+                        this, "Profile/Groups", "Groups"};
+                    Option<std::vector<std::string>> groupOrder{
+                        this, "Profile/GroupOrder", "Group Order"};);
 
 FCITX_CONFIGURATION(
     InputMethodInfo, Option<I18NString> name{this, "InputMethod/Name", "Name"};

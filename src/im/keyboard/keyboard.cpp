@@ -219,7 +219,7 @@ std::vector<InputMethodEntry> KeyboardEngine::listInputMethods() {
                                                  ? variantInfo.languages
                                                  : layoutInfo.languages);
             auto description =
-                fmt::format(_("Keyboard - {0} - {0}"),
+                fmt::format(_("Keyboard - {0} - {1}"),
                             D_("xkeyboard-config", layoutInfo.description),
                             D_("xkeyboard-config", variantInfo.description));
             auto uniqueName = stringutils::concat(imNamePrefix, layoutInfo.name,
@@ -500,5 +500,32 @@ void KeyboardEngine::reset(const InputMethodEntry &, InputContextEvent &event) {
     inputContext->inputPanel().reset();
     inputContext->updatePreedit();
     inputContext->updateUserInterface(UserInterfaceComponent::InputPanel);
+}
+
+bool KeyboardEngine::foreachLayout(
+    const std::function<
+        bool(const std::string &variant, const std::string &description,
+             const std::vector<std::string> &languages)> &callback) {
+    for (auto &p : xkbRules_.layoutInfos()) {
+        if (!callback(p.second.name, p.second.description,
+                      p.second.languages)) {
+            return false;
+        }
+    }
+    return true;
+}
+
+bool KeyboardEngine::foreachVariant(
+    const std::string &layout,
+    const std::function<
+        bool(const std::string &variant, const std::string &description,
+             const std::vector<std::string> &languages)> &callback) {
+    auto info = xkbRules_.findByName(layout);
+    for (auto &p : info->variantInfos) {
+        if (!callback(p.name, p.description, p.languages)) {
+            return false;
+        }
+    }
+    return true;
 }
 }

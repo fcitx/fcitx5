@@ -20,6 +20,7 @@
 #include "classicui.h"
 #include "fcitx-utils/utf8.h"
 #include "fcitx/inputcontext.h"
+#include "fcitx/inputcontextmanager.h"
 #include "fcitx/instance.h"
 #include "fcitx/userinterfacemanager.h"
 #include "waylandui.h"
@@ -98,29 +99,42 @@ void ClassicUI::suspend() {
     eventHandlers_.clear();
 }
 
+UIInterface *ClassicUI::uiForEvent(Event &event) {
+    if (suspended_) {
+        return nullptr;
+    }
+
+    if (!event.isInputContextEvent()) {
+        return nullptr;
+    }
+
+    auto &icEvent = static_cast<InputContextEvent &>(event);
+    return uiForInputContext(icEvent.inputContext());
+}
+
+UIInterface *ClassicUI::uiForInputContext(InputContext *inputContext) {
+    if (suspended_ || !inputContext) {
+        return nullptr;
+    }
+    if (!inputContext->hasFocus()) {
+        return nullptr;
+    }
+    auto iter = uis_.find(inputContext->display());
+    if (iter == uis_.end()) {
+        return nullptr;
+    }
+    return iter->second.get();
+}
+
 void ClassicUI::resume() {
     suspended_ = false;
     for (auto &p : uis_) {
         p.second->resume();
     }
-    auto uiForEvent = [this](Event &event) -> UIInterface * {
-        if (suspended_) {
-            return nullptr;
-        }
-        auto &icEvent = static_cast<InputContextEvent &>(event);
-        auto inputContext = icEvent.inputContext();
-        if (!inputContext->hasFocus()) {
-            return nullptr;
-        }
-        auto iter = uis_.find(inputContext->display());
-        if (iter == uis_.end()) {
-            return nullptr;
-        }
-        return iter->second.get();
-    };
+
     eventHandlers_.emplace_back(instance_->watchEvent(
         EventType::InputContextCursorRectChanged, EventWatcherPhase::Default,
-        [this, uiForEvent](Event &event) {
+        [this](Event &event) {
             if (auto ui = uiForEvent(event)) {
                 auto &icEvent = static_cast<InputContextEvent &>(event);
                 ui->updateCursor(icEvent.inputContext());
@@ -128,7 +142,7 @@ void ClassicUI::resume() {
         }));
     eventHandlers_.emplace_back(instance_->watchEvent(
         EventType::InputContextFocusIn, EventWatcherPhase::Default,
-        [this, uiForEvent](Event &event) {
+        [this](Event &event) {
             if (auto ui = uiForEvent(event)) {
                 auto &icEvent = static_cast<InputContextEvent &>(event);
                 ui->updateCursor(icEvent.inputContext());
@@ -137,11 +151,22 @@ void ClassicUI::resume() {
         }));
     eventHandlers_.emplace_back(instance_->watchEvent(
         EventType::InputContextSwitchInputMethod, EventWatcherPhase::Default,
-        [this, uiForEvent](Event &event) {
+        [this](Event &event) {
             if (auto ui = uiForEvent(event)) {
                 auto &icEvent = static_cast<InputContextEvent &>(event);
                 ui->updateCurrentInputMethod(icEvent.inputContext());
             }
+        }));
+    eventHandlers_.emplace_back(instance_->watchEvent(
+        EventType::InputMethodGroupChanged, EventWatcherPhase::Default,
+        [this](Event &) {
+            instance_->inputContextManager().foreachFocused(
+                [this](InputContext *ic) {
+                    if (auto ui = uiForInputContext(ic)) {
+                        ui->updateCurrentInputMethod(ic);
+                    }
+                    return true;
+                });
         }));
 }
 

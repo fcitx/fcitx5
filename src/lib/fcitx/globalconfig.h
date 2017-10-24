@@ -39,6 +39,8 @@ public:
     const KeyList &deactivateKeys() const;
     const KeyList &enumerateForwardKeys() const;
     const KeyList &enumerateBackwardKeys() const;
+    const KeyList &enumerateGroupForwardKeys() const;
+    const KeyList &enumerateGroupBackwardKeys() const;
     bool activeByDefault() const;
     bool showInputMethodInformation() const;
 

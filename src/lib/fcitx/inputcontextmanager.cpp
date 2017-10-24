@@ -226,6 +226,16 @@ bool InputContextManager::foreach(const InputContextVisitor &visitor) {
     return true;
 }
 
+bool InputContextManager::foreachFocused(const InputContextVisitor &visitor) {
+    FCITX_D();
+    for (auto &ic : d->focusedInputContexts_) {
+        if (visitor(&ic)) {
+            return false;
+        }
+    }
+    return true;
+}
+
 bool InputContextManager::foreachGroup(const FocusGroupVisitor &visitor) {
     FCITX_D();
     for (auto &group : d->groups_) {

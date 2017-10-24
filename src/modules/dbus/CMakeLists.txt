@@ -1,5 +1,5 @@
 add_library(dbus MODULE dbusmodule.cpp)
-target_link_libraries(dbus Fcitx5::Core)
+target_link_libraries(dbus Fcitx5::Core Fcitx5::Module::Keyboard)
 set_target_properties(dbus PROPERTIES PREFIX "")
 install(TARGETS dbus DESTINATION "${FCITX_INSTALL_ADDONDIR}")
 fcitx5_translate_desktop_file(dbus.conf.in dbus.conf)

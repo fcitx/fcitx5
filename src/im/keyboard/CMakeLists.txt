@@ -3,3 +3,4 @@ target_link_libraries(keyboard Fcitx5::Core Expat::Expat LibIntl::LibIntl XKBCom
 target_include_directories(keyboard PUBLIC "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>")
 fcitx5_translate_desktop_file(keyboard.conf.in keyboard.conf)
 install(FILES "${CMAKE_CURRENT_BINARY_DIR}/keyboard.conf" DESTINATION "${FCITX_INSTALL_PKGDATADIR}/addon")
+fcitx5_export_module(Keyboard TARGET keyboard BUILD_INCLUDE_DIRECTORIES "${CMAKE_CURRENT_SOURCE_DIR}" HEADERS keyboard_public.h)

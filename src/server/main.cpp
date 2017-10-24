@@ -69,7 +69,6 @@ int main(int argc, char *argv[]) {
 
     SetMyExceptionHandler();
 
-    auto localedir = StandardPath::fcitxPath("localedir");
     setlocale(LC_ALL, "");
 
     try {

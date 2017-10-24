@@ -20,6 +20,9 @@
 #include "dbusmodule.h"
 #include "fcitx-utils/dbus/bus.h"
 #include "fcitx/addonmanager.h"
+#include "fcitx/inputmethodentry.h"
+#include "fcitx/inputmethodmanager.h"
+#include "keyboard_public.h"
 
 #define FCITX_DBUS_SERVICE "org.fcitx.Fcitx5"
 #define FCITX_CONTROLLER_DBUS_INTERFACE "org.fcitx.Fcitx.Controller1"
@@ -30,7 +33,8 @@ namespace fcitx {
 
 class Controller1 : public ObjectVTable<Controller1> {
 public:
-    Controller1(Instance *instance) : instance_(instance) {}
+    Controller1(DBusModule *module, Instance *instance)
+        : module_(module), instance_(instance) {}
 
     void exit() { instance_->exit(); }
 
@@ -68,10 +72,125 @@ public:
         return instance_->setCurrentInputMethod(imName);
     }
 
+    std::vector<std::string> inputMethodGroups() {
+        return instance_->inputMethodManager().groups();
+    }
+
+    std::tuple<std::string, std::vector<DBusStruct<std::string, std::string>>>
+    inputMethodGroupInfo(const std::string &groupName) {
+        auto group = instance_->inputMethodManager().group(groupName);
+        if (group) {
+            std::vector<DBusStruct<std::string, std::string>> vec;
+            for (auto &item : group->inputMethodList()) {
+                vec.emplace_back(
+                    std::forward_as_tuple(item.name(), item.layout()));
+            }
+            return {group->defaultLayout(), vec};
+        }
+        return {"", {}};
+    }
+
+    std::vector<DBusStruct<std::string, std::string, std::string, std::string,
+                           std::string, std::string>>
+    availableInputMethods() {
+        std::vector<DBusStruct<std::string, std::string, std::string,
+                               std::string, std::string, std::string>>
+            entries;
+        instance_->inputMethodManager().foreachEntries(
+            [&entries](const InputMethodEntry &entry) {
+                entries.emplace_back(std::forward_as_tuple(
+                    entry.uniqueName(), entry.name(), entry.nativeName(),
+                    entry.icon(), entry.label(), entry.languageCode()));
+                return true;
+            });
+        return entries;
+    }
+
+    void setInputMethodGroupInfo(
+        const std::string &groupName, const std::string &defaultLayout,
+        const std::vector<DBusStruct<std::string, std::string>> &entries) {
+        auto &imManager = instance_->inputMethodManager();
+        if (imManager.group(groupName)) {
+            InputMethodGroup group(groupName);
+            group.setDefaultLayout(defaultLayout);
+            for (auto &entry : entries) {
+                group.inputMethodList().push_back(
+                    InputMethodGroupItem(std::get<0>(entry))
+                        .setLayout(std::get<1>(entry)));
+            }
+            group.setDefaultInputMethod("");
+            imManager.setGroup(std::move(group));
+        }
+    }
+
+    std::vector<DBusStruct<std::string, std::string, std::vector<std::string>,
+                           std::vector<DBusStruct<std::string, std::string,
+                                                  std::vector<std::string>>>>>
+    availableKeyboardLayouts() {
+        std::vector<
+            DBusStruct<std::string, std::string, std::vector<std::string>,
+                       std::vector<DBusStruct<std::string, std::string,
+                                              std::vector<std::string>>>>>
+            result;
+        module_->keyboard()->call<IKeyboardEngine::foreachLayout>(
+            [&result, this](const std::string &layout,
+                            const std::string &description,
+                            const std::vector<std::string> &languages) {
+                result.emplace_back();
+                auto &layoutItem = result.back();
+                std::get<0>(layoutItem) = layout;
+                std::get<1>(layoutItem) = description;
+                std::get<2>(layoutItem) = languages;
+                auto &variants = std::get<3>(layoutItem);
+                module_->keyboard()->call<IKeyboardEngine::foreachVariant>(
+                    layout, [&variants,
+                             this](const std::string &variant,
+                                   const std::string &description,
+                                   const std::vector<std::string> &languages) {
+                        variants.emplace_back();
+                        auto &variantItem = variants.back();
+                        std::get<0>(variantItem) = variant;
+                        std::get<1>(variantItem) = description;
+                        std::get<2>(variantItem) = languages;
+                        return true;
+                    });
+                return true;
+            });
+        return result;
+    }
+
+    void addInputMethodGroup(const std::string &group) {
+        instance_->inputMethodManager().addEmptyGroup(group);
+    }
+
+    void removeInputMethodGroup(const std::string &group) {
+        instance_->inputMethodManager().removeGroup(group);
+    }
+
 private:
+    DBusModule *module_;
     Instance *instance_;
 
 private:
+    FCITX_OBJECT_VTABLE_SIGNAL(inputMethodGroupChanged,
+                               "InputMethodGroupsChanged", "");
+
+    FCITX_OBJECT_VTABLE_METHOD(availableKeyboardLayouts,
+                               "AvailableKeyboardLayouts", "",
+                               "a(ssasa(ssas))");
+
+    FCITX_OBJECT_VTABLE_METHOD(setInputMethodGroupInfo,
+                               "SetInputMethodGroupInfo", "ssa(ss)", "");
+    FCITX_OBJECT_VTABLE_METHOD(addInputMethodGroup, "AddInputMethodGroup", "s",
+                               "");
+    FCITX_OBJECT_VTABLE_METHOD(removeInputMethodGroup, "RemoveInputMethodGroup",
+                               "s", "");
+    FCITX_OBJECT_VTABLE_METHOD(availableInputMethods, "AvailableInputMethods",
+                               "", "a(ssssss)");
+    FCITX_OBJECT_VTABLE_METHOD(inputMethodGroupInfo, "InputMethodGroupInfo",
+                               "s", "sa(ss)");
+    FCITX_OBJECT_VTABLE_METHOD(inputMethodGroups, "InputMethodGroups", "",
+                               "as");
     FCITX_OBJECT_VTABLE_METHOD(exit, "Exit", "", "");
     FCITX_OBJECT_VTABLE_METHOD(restart, "Restart", "", "");
     FCITX_OBJECT_VTABLE_METHOD(configure, "Configure", "", "");
@@ -92,7 +211,8 @@ private:
 
 DBusModule::DBusModule(Instance *instance)
     : bus_(std::make_unique<dbus::Bus>(dbus::BusType::Session)),
-      serviceWatcher_(std::make_unique<dbus::ServiceWatcher>(*bus_)) {
+      serviceWatcher_(std::make_unique<dbus::ServiceWatcher>(*bus_)),
+      instance_(instance) {
     bus_->attachEventLoop(&instance->eventLoop());
     auto uniqueName = bus_->uniqueName();
     if (!bus_->requestName(
@@ -111,7 +231,7 @@ DBusModule::DBusModule(Instance *instance)
             }
         }));
 
-    controller_ = std::make_unique<Controller1>(instance);
+    controller_ = std::make_unique<Controller1>(this, instance);
     bus_->addObjectVTable("/controller", FCITX_CONTROLLER_DBUS_INTERFACE,
                           *controller_);
 }

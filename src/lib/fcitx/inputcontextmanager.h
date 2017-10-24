@@ -57,6 +57,7 @@ public:
                           InputContextPropertyFactory *factory);
 
     bool foreach(const InputContextVisitor &visitor);
+    bool foreachFocused(const InputContextVisitor &visitor);
     bool foreachGroup(const FocusGroupVisitor &visitor);
 
     InputContext *lastFocusedInputContext();

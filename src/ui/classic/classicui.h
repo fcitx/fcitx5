@@ -78,6 +78,9 @@ public:
     void reloadConfig() override;
 
 private:
+    UIInterface *uiForEvent(Event &event);
+    UIInterface *uiForInputContext(InputContext *inputContext);
+
     std::unique_ptr<HandlerTableEntry<XCBConnectionCreated>>
         xcbCreatedCallback_;
     std::unique_ptr<HandlerTableEntry<XCBConnectionClosed>> xcbClosedCallback_;

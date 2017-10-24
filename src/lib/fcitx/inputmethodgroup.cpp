@@ -25,6 +25,7 @@ namespace fcitx {
 class InputMethodGroupItemPrivate {
 public:
     InputMethodGroupItemPrivate(const std::string &name) : name_(name) {}
+    FCITX_INLINE_DEFINE_DEFAULT_DTOR_COPY_AND_MOVE(InputMethodGroupItemPrivate);
 
     std::string name_;
     std::string layout_;
@@ -43,11 +44,7 @@ public:
 InputMethodGroupItem::InputMethodGroupItem(const std::string &name)
     : d_ptr(std::make_unique<InputMethodGroupItemPrivate>(name)) {}
 
-InputMethodGroupItem::InputMethodGroupItem(
-    InputMethodGroupItem &&other) noexcept
-    : d_ptr(std::move(other.d_ptr)) {}
-
-InputMethodGroupItem::~InputMethodGroupItem() {}
+FCITX_DEFINE_DPTR_COPY_AND_DEFAULT_DTOR_AND_MOVE(InputMethodGroupItem);
 
 const std::string &InputMethodGroupItem::name() const {
     FCITX_D();
@@ -69,10 +66,7 @@ InputMethodGroupItem::setLayout(const std::string &layout) {
 InputMethodGroup::InputMethodGroup(const std::string &name)
     : d_ptr(std::make_unique<InputMethodGroupPrivate>(name)) {}
 
-InputMethodGroup::InputMethodGroup(InputMethodGroup &&other) noexcept
-    : d_ptr(std::move(other.d_ptr)) {}
-
-InputMethodGroup::~InputMethodGroup() {}
+FCITX_DEFINE_DPTR_COPY_AND_DEFAULT_DTOR_AND_MOVE(InputMethodGroup);
 
 const std::string &InputMethodGroup::name() const {
     FCITX_D();

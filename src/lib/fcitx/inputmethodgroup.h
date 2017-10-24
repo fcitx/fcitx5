@@ -19,6 +19,7 @@
 #ifndef _FCITX_INPUTMETHODGROUP_H_
 #define _FCITX_INPUTMETHODGROUP_H_
 
+#include "fcitxcore_export.h"
 #include <fcitx-utils/macros.h>
 #include <list>
 #include <memory>
@@ -30,11 +31,10 @@ namespace fcitx {
 class InputMethodGroupPrivate;
 class InputMethodGroupItemPrivate;
 
-class InputMethodGroupItem {
+class FCITXCORE_EXPORT InputMethodGroupItem {
 public:
     InputMethodGroupItem(const std::string &name);
-    InputMethodGroupItem(InputMethodGroupItem &&other) noexcept;
-    virtual ~InputMethodGroupItem();
+    FCITX_DECLARE_VIRTUAL_DTOR_COPY_AND_MOVE(InputMethodGroupItem);
 
     InputMethodGroupItem &setLayout(const std::string &layout);
     const std::string &name() const;
@@ -44,11 +44,10 @@ public:
     FCITX_DECLARE_PRIVATE(InputMethodGroupItem);
 };
 
-class InputMethodGroup {
+class FCITXCORE_EXPORT InputMethodGroup {
 public:
-    InputMethodGroup(const std::string &name);
-    InputMethodGroup(InputMethodGroup &&other) noexcept;
-    virtual ~InputMethodGroup();
+    explicit InputMethodGroup(const std::string &name);
+    FCITX_DECLARE_VIRTUAL_DTOR_COPY_AND_MOVE(InputMethodGroup);
 
     const std::string &name() const;
     void setDefaultLayout(const std::string &layout);
@@ -57,8 +56,6 @@ public:
     const std::vector<InputMethodGroupItem> &inputMethodList() const;
     const std::string &defaultInputMethod() const;
     void setDefaultInputMethod(const std::string &im);
-    const std::list<std::string> &groupOrder();
-    void setGroupOrder(const std::list<std::string> &groupOrder);
 
 private:
     std::unique_ptr<InputMethodGroupPrivate> d_ptr;

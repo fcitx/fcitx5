@@ -19,8 +19,11 @@
 #ifndef _FCITX_INPUTMETHODMANAGER_H_
 #define _FCITX_INPUTMETHODMANAGER_H_
 
+#include "fcitxcore_export.h"
+#include <fcitx-utils/connectableobject.h>
 #include <fcitx-utils/macros.h>
 #include <fcitx/inputmethodgroup.h>
+#include <functional>
 #include <memory>
 #include <string>
 #include <vector>
@@ -32,28 +35,37 @@ class InputMethodManagerPrivate;
 class Instance;
 class InputMethodEntry;
 
-class InputMethodManager {
+class FCITXCORE_EXPORT InputMethodManager : public ConnectableObject {
 public:
     InputMethodManager(AddonManager *addonManager_);
     virtual ~InputMethodManager();
 
     void load();
-
     void save();
-    void setInstance(Instance *instance);
 
-    const std::vector<InputMethodGroup> &groups();
+    std::vector<std::string> groups() const;
     int groupCount() const;
     void setCurrentGroup(const std::string &group);
     const InputMethodGroup &currentGroup() const;
     InputMethodGroup &currentGroup();
-    void setGroupOrder(const std::vector<std::string> &groups);
+    const InputMethodGroup *group(const std::string &name) const;
+    void setGroup(InputMethodGroup newGroup);
+    void addEmptyGroup(const std::string &name);
+    void removeGroup(const std::string &name);
 
     const InputMethodEntry *entry(const std::string &name) const;
+    bool foreachEntries(
+        const std::function<bool(const InputMethodEntry &entry)> callback);
+
+    FCITX_DECLARE_SIGNAL(InputMethodManager, CurrentGroupAboutToBeChanged,
+                         void(const std::string &group));
+    FCITX_DECLARE_SIGNAL(InputMethodManager, CurrentGroupChanged,
+                         void(const std::string &group));
 
 private:
     void loadConfig();
     void buildDefaultGroup();
+    void setGroupOrder(const std::vector<std::string> &groups);
 
     std::unique_ptr<InputMethodManagerPrivate> d_ptr;
     FCITX_DECLARE_PRIVATE(InputMethodManager);

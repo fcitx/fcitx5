@@ -3,3 +3,7 @@ Name=DBus
 Type=SharedLibrary
 Library=dbus
 Category=Module
+Dependencies
+
+[Addon/Dependencies]
+0=keyboard

@@ -99,6 +99,8 @@ public:
                          void(const KeyEvent &keyEvent));
 
     InputContext *lastFocusedInputContext();
+    InputMethodManager &inputMethodManager();
+    const InputMethodManager &inputMethodManager() const;
 
     // controller
     void exit();
@@ -121,16 +123,21 @@ public:
     FocusGroup *defaultFocusGroup(const std::string &displayHint = {});
 
 private:
-    InputMethodManager &inputMethodManager();
     void initialize();
     void handleSignal();
     void save();
 
-    bool canTrigger();
+    bool canTrigger() const;
+    bool canChangeGroup() const;
     bool trigger(InputContext *ic);
     bool activate(InputContext *ic);
     bool deactivate(InputContext *ic);
     bool enumerate(InputContext *ic, bool forward);
+    bool enumerateGroup(bool forward);
+
+    void activateInputMethod(InputContextEvent &event);
+    void deactivateInputMethod(InputContextEvent &event);
+    void showInputMethodInformation(InputContext *ic);
 
     std::unique_ptr<InstancePrivate> d_ptr;
     FCITX_DECLARE_PRIVATE(Instance);
