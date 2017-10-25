@@ -110,8 +110,10 @@ void XCBWindow::resize(unsigned int width, unsigned int height) {
     xcb_configure_window(ui_->connection(), wid_,
                          XCB_CONFIG_WINDOW_WIDTH | XCB_CONFIG_WINDOW_HEIGHT,
                          vals);
+    xcb_flush(ui_->connection());
     cairo_xcb_surface_set_size(surface_.get(), width, height);
     Window::resize(width, height);
+    CLASSICUI_DEBUG() << width << " " << height;
 }
 
 cairo_surface_t *XCBWindow::prerender() {

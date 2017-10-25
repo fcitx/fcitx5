@@ -107,30 +107,11 @@ void XCBInputWindow::updatePosition(InputContext *inputContext) {
 
     const Rect *closestScreen = nullptr;
     int shortestDistance = INT_MAX;
-    int dpi = -1;
     for (auto &rect : ui_->screenRects()) {
         int thisDistance = rect.first.distance(x, y);
         if (thisDistance < shortestDistance) {
             shortestDistance = thisDistance;
             closestScreen = &rect.first;
-            dpi = rect.second;
-        }
-    }
-
-    // if dpi changed due to screen, resize.
-    dpi = ui_->dpi(dpi);
-    if (dpi != dpi_) {
-        if (dpi >= 0) {
-            dpi_ = static_cast<int>((dpi / 48.0) + 0.5) * 48.0;
-            if (dpi_ <= 0) {
-                dpi_ = 48;
-            }
-        }
-        auto pair = sizeHint();
-        unsigned int width = pair.first, height = pair.second;
-
-        if (width != this->width() || height != this->height()) {
-            resize(width, height);
         }
     }
 
@@ -174,11 +155,31 @@ void XCBInputWindow::updatePosition(InputContext *inputContext) {
     xcb_flush(ui_->connection());
 }
 
+void XCBInputWindow::updateDPI(InputContext *inputContext) {
+    int x, y;
+
+    x = inputContext->cursorRect().left();
+    y = inputContext->cursorRect().top();
+
+    int shortestDistance = INT_MAX;
+    int dpi = -1;
+    for (auto &rect : ui_->screenRects()) {
+        int thisDistance = rect.first.distance(x, y);
+        if (thisDistance < shortestDistance) {
+            shortestDistance = thisDistance;
+            dpi = rect.second;
+        }
+    }
+
+    dpi_ = ui_->dpi(dpi);
+}
+
 void XCBInputWindow::update(InputContext *inputContext) {
     if (!wid_) {
         return;
     }
     auto oldVisible = visible();
+    updateDPI(inputContext);
     InputWindow::update(inputContext);
     if (!visible()) {
         if (oldVisible) {

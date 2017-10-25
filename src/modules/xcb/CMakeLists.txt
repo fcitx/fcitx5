@@ -1,5 +1,5 @@
 add_library(xcb MODULE xcbmodule.cpp)
-target_link_libraries(xcb Fcitx5::Core XCB::XCB XCB::AUX XCB::XKB XCB::XFIXES XCB::EWMH XKBCommon::XKBCommon XKBCommon::X11)
+target_link_libraries(xcb Fcitx5::Core XCB::XCB XCB::AUX XCB::XKB XCB::XFIXES XCB::EWMH XCB::KEYSYMS XKBCommon::XKBCommon XKBCommon::X11)
 set_target_properties(xcb PROPERTIES PREFIX "")
 install(TARGETS xcb DESTINATION "${FCITX_INSTALL_ADDONDIR}")
 fcitx5_translate_desktop_file(xcb.conf.in xcb.conf)

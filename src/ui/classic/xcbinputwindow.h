@@ -34,6 +34,8 @@ public:
     void updatePosition(InputContext *c);
 
     bool filterEvent(xcb_generic_event_t *event) override;
+
+    void updateDPI(InputContext *c);
 };
 }
 }

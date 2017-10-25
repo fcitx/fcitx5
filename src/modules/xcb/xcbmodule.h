@@ -33,10 +33,12 @@
 #include "fcitx/addoninstance.h"
 #include "fcitx/addonmanager.h"
 #include "fcitx/focusgroup.h"
+#include "fcitx/instance.h"
 #include "xcb_public.h"
 #include <list>
 #include <unordered_map>
 #include <vector>
+#include <xcb/xcb_keysyms.h>
 
 namespace fcitx {
 template <class T>
@@ -110,6 +112,18 @@ private:
     void addSelectionAtom(xcb_atom_t atom);
     void removeSelectionAtom(xcb_atom_t atom);
 
+    // Group enumerate.
+    void setDoGrab(bool doGrab);
+    void grabKey();
+    void grabKey(const Key &key);
+    void ungrabKey();
+    void ungrabKey(const Key &key);
+    bool grabXKeyboard();
+    void ungrabXKeyboard();
+    void keyRelease(const xcb_key_release_event_t *event);
+    void acceptGroupChange();
+    void navigateGroup(bool forward);
+
     std::unordered_map<std::string, xcb_atom_t> atomCache_;
 
     XCBModule *parent_;
@@ -139,6 +153,8 @@ private:
     std::unique_ptr<struct xkb_state, decltype(&xkb_state_unref)> state_;
 
     std::unique_ptr<EventSourceIO> ioEvent_;
+    std::vector<std::unique_ptr<HandlerTableEntry<EventHandler>>>
+        eventHandlers_;
 
     HandlerTable<XCBEventFilter> filters_;
     // need to be clean up before filters_ destructs;
@@ -147,6 +163,12 @@ private:
         compositeCallback_;
 
     xcb_ewmh_connection_t ewmh_;
+    std::unique_ptr<xcb_key_symbols_t, decltype(&xcb_key_symbols_free)> syms_;
+
+    size_t groupIndex_ = 0;
+    KeyList forwardGroup_, backwardGroup_;
+    bool doGrab_ = false;
+    bool keyboardGrabbed_ = false;
 };
 
 class XCBModule : public AddonInstance {

@@ -119,6 +119,7 @@ public:
     void reloadAddonConfig(const std::string &addonName);
     std::string currentInputMethod();
     void setCurrentInputMethod(const std::string &imName);
+    bool enumerateGroup(bool forward);
 
     FocusGroup *defaultFocusGroup(const std::string &displayHint = {});
 
@@ -133,7 +134,6 @@ private:
     bool activate(InputContext *ic);
     bool deactivate(InputContext *ic);
     bool enumerate(InputContext *ic, bool forward);
-    bool enumerateGroup(bool forward);
 
     void activateInputMethod(InputContextEvent &event);
     void deactivateInputMethod(InputContextEvent &event);

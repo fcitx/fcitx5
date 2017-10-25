@@ -242,6 +242,7 @@ public:
         xkbComposeTable_;
 
     std::vector<ScopedConnection> connections_;
+    std::unique_ptr<EventSourceTime> imGroupInfoTimer_;
 };
 
 InputState::InputState(InstancePrivate *d, InputContext *ic)
@@ -526,14 +527,22 @@ Instance::Instance(int argc, char **argv) {
             }
             showInputMethodInformation(ic);
         }));
-    d->eventWatchers_.emplace_back(d->watchEvent(
-        EventType::InputMethodGroupChanged, EventWatcherPhase::ReservedFirst,
-        [this, d](Event &) {
-            inputContextManager().foreachFocused([this](InputContext *ic) {
-                showInputMethodInformation(ic);
-                return true;
-            });
-        }));
+    d->eventWatchers_.emplace_back(
+        d->watchEvent(EventType::InputMethodGroupChanged,
+                      EventWatcherPhase::ReservedFirst, [this, d](Event &) {
+                          // Use a timer here. so we can get focus back to real
+                          // window.
+                          d->imGroupInfoTimer_.reset(d->eventLoop_.addTimeEvent(
+                              CLOCK_MONOTONIC, now(CLOCK_MONOTONIC) + 30000, 0,
+                              [this](EventSourceTime *, uint64_t) {
+                                  inputContextManager().foreachFocused(
+                                      [this](InputContext *ic) {
+                                          showInputMethodInformation(ic);
+                                          return true;
+                                      });
+                                  return true;
+                              }));
+                      }));
 
     d->eventWatchers_.emplace_back(d->watchEvent(
         EventType::InputContextUpdateUI, EventWatcherPhase::ReservedFirst,
