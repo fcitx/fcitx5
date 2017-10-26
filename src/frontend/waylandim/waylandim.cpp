@@ -52,6 +52,7 @@ public:
     void add(WaylandIMInputContextV1 *ic, wayland::ZwpInputMethodContextV1 *id);
     void remove(wayland::ZwpInputMethodContextV1 *id);
     Instance *instance() { return parent_->instance(); }
+    FocusGroup *group() { return group_; }
 
     ~WaylandIMServer() {}
 
@@ -505,6 +506,8 @@ void WaylandIMInputContextV1::modifiersCallback(uint32_t serial,
 
     xkb_state_update_mask(server_->state_.get(), mods_depressed, mods_latched,
                           mods_locked, 0, 0, group);
+    server_->instance()->updateXkbStateMask(
+        server_->group()->display(), mods_depressed, mods_latched, mods_locked);
     mask = xkb_state_serialize_mods(
         server_->state_.get(), static_cast<xkb_state_component>(
                                    XKB_STATE_DEPRESSED | XKB_STATE_LATCHED));

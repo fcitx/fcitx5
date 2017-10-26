@@ -56,6 +56,7 @@ public:
     const std::vector<InputMethodGroupItem> &inputMethodList() const;
     const std::string &defaultInputMethod() const;
     void setDefaultInputMethod(const std::string &im);
+    const std::string &layoutFor(const std::string &im);
 
 private:
     std::unique_ptr<InputMethodGroupPrivate> d_ptr;

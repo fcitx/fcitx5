@@ -247,6 +247,11 @@ void InputMethodManager::setGroup(InputMethodGroup newGroup) {
     FCITX_D();
     auto group = findValue(d->groups_, newGroup.name());
     if (group) {
+        bool isCurrent = (group == &currentGroup());
+        if (isCurrent) {
+            emit<InputMethodManager::CurrentGroupAboutToBeChanged>(
+                d->groupOrder_.front());
+        }
         auto &list = newGroup.inputMethodList();
         auto iter = std::remove_if(list.begin(), list.end(),
                                    [d](const InputMethodGroupItem &item) {
@@ -255,6 +260,10 @@ void InputMethodManager::setGroup(InputMethodGroup newGroup) {
         list.erase(iter, list.end());
         newGroup.setDefaultInputMethod(newGroup.defaultInputMethod());
         *group = std::move(newGroup);
+        if (isCurrent) {
+            emit<InputMethodManager::CurrentGroupChanged>(
+                d->groupOrder_.front());
+        }
     }
 }
 

@@ -23,6 +23,7 @@
 #include "fcitx/inputmethodentry.h"
 #include "fcitx/inputmethodmanager.h"
 #include "keyboard_public.h"
+#include "fcitx-utils/i18n.h"
 
 #define FCITX_DBUS_SERVICE "org.fcitx.Fcitx5"
 #define FCITX_CONTROLLER_DBUS_INTERFACE "org.fcitx.Fcitx.Controller1"
@@ -139,7 +140,7 @@ public:
                 result.emplace_back();
                 auto &layoutItem = result.back();
                 std::get<0>(layoutItem) = layout;
-                std::get<1>(layoutItem) = description;
+                std::get<1>(layoutItem) = D_("xkeyboard-config", description);
                 std::get<2>(layoutItem) = languages;
                 auto &variants = std::get<3>(layoutItem);
                 module_->keyboard()->call<IKeyboardEngine::foreachVariant>(
@@ -150,7 +151,7 @@ public:
                         variants.emplace_back();
                         auto &variantItem = variants.back();
                         std::get<0>(variantItem) = variant;
-                        std::get<1>(variantItem) = description;
+                        std::get<1>(variantItem) = D_("xkeyboard-config", description);;
                         std::get<2>(variantItem) = languages;
                         return true;
                     });

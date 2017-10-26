@@ -22,6 +22,10 @@
 
 namespace fcitx {
 
+namespace {
+static const std::string emptyString;
+}
+
 class InputMethodGroupItemPrivate {
 public:
     InputMethodGroupItemPrivate(const std::string &name) : name_(name) {}
@@ -105,6 +109,17 @@ void InputMethodGroup::setDefaultInputMethod(const std::string &im) {
                                          : d->inputMethodList_[0].name();
         }
     }
+}
+
+const std::string &InputMethodGroup::layoutFor(const std::string &im) {
+    FCITX_D();
+    auto iter = std::find_if(
+        d->inputMethodList_.begin(), d->inputMethodList_.end(),
+        [&im](const InputMethodGroupItem &item) { return item.name() == im; });
+    if (iter != d->inputMethodList_.end()) {
+        return iter->layout();
+    }
+    return emptyString;
 }
 
 const std::string &InputMethodGroup::defaultInputMethod() const {

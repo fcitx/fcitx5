@@ -34,6 +34,7 @@
 #include "inputmethodengine.h"
 #include "inputmethodentry.h"
 #include "inputmethodmanager.h"
+#include "misc_p.h"
 #include "userinterfacemanager.h"
 #include <fcntl.h>
 #include <fmt/format.h>
@@ -77,6 +78,15 @@ void initAsDaemon() {
 
 namespace fcitx {
 
+#define FCITX_DEFINE_XKB_AUTOPTR(TYPE)                                         \
+    using TYPE##_autoptr = std::unique_ptr<struct TYPE, decltype(&TYPE##_unref)>
+
+FCITX_DEFINE_XKB_AUTOPTR(xkb_context);
+FCITX_DEFINE_XKB_AUTOPTR(xkb_compose_table);
+FCITX_DEFINE_XKB_AUTOPTR(xkb_compose_state);
+FCITX_DEFINE_XKB_AUTOPTR(xkb_state);
+FCITX_DEFINE_XKB_AUTOPTR(xkb_keymap);
+
 class CheckInputMethodChanged;
 
 struct InputState : public InputContextProperty {
@@ -106,6 +116,12 @@ struct InputState : public InputContextProperty {
         }
     }
 
+    xkb_state *customXkbState(bool refresh = false);
+    void resetXkbState() {
+        lastXkbLayout_.clear();
+        xkbState_.reset();
+    }
+
     InstancePrivate *d_ptr;
     InputContext *ic_;
     int keyReleased_ = -1;
@@ -113,9 +129,9 @@ struct InputState : public InputContextProperty {
     int keyReleasedIndex_ = -2;
     bool active_;
     CheckInputMethodChanged *imChanged_ = nullptr;
-    std::unique_ptr<struct xkb_compose_state,
-                    decltype(&xkb_compose_state_unref)>
-        xkbComposeState_;
+    xkb_compose_state_autoptr xkbComposeState_;
+    xkb_state_autoptr xkbState_;
+    std::string lastXkbLayout_;
 
     std::unique_ptr<EventSourceTime> imInfoTimer_;
     std::string lastInfo_;
@@ -208,6 +224,35 @@ public:
         return eventHandlers_[type][phase].add(callback);
     }
 
+    xkb_keymap *keymap(const std::string &display, const std::string &layout,
+                       const std::string &variant) {
+        auto layoutAndVariant = stringutils::concat(layout, "-", variant);
+        if (auto keymapPtr =
+                findValue(keymapCache_[display], layoutAndVariant)) {
+            return (*keymapPtr).get();
+        }
+        struct xkb_rule_names names;
+        names.layout = layout.c_str();
+        names.variant = variant.c_str();
+        std::tuple<std::string, std::string, std::string> xkbParam;
+        if (auto param = findValue(xkbParams_, display)) {
+            xkbParam = *param;
+        } else {
+            xkbParam = std::make_tuple(DEFAULT_XKB_RULES, "pc101", "");
+        }
+        names.rules = std::get<0>(xkbParam).c_str();
+        names.model = std::get<1>(xkbParam).c_str();
+        names.options = std::get<2>(xkbParam).c_str();
+        xkb_keymap_autoptr keymap(
+            xkb_keymap_new_from_names(xkbContext_.get(), &names,
+                                      XKB_KEYMAP_COMPILE_NO_FLAGS),
+            &xkb_keymap_unref);
+        auto result =
+            keymapCache_[display].emplace(layoutAndVariant, std::move(keymap));
+        assert(result.second);
+        return result.first->second.get();
+    }
+
     InstanceArgument arg_;
 
     int signalPipe_ = -1;
@@ -235,18 +280,25 @@ public:
     FactoryFor<InputState> inputStateFactory{
         [this](InputContext &ic) { return new InputState(this, &ic); }};
 
-    std::unique_ptr<struct xkb_context, decltype(&xkb_context_unref)>
-        xkbContext_;
-    std::unique_ptr<struct xkb_compose_table,
-                    decltype(&xkb_compose_table_unref)>
-        xkbComposeTable_;
+    xkb_context_autoptr xkbContext_;
+    xkb_compose_table_autoptr xkbComposeTable_;
 
     std::vector<ScopedConnection> connections_;
     std::unique_ptr<EventSourceTime> imGroupInfoTimer_;
+
+    std::unordered_map<std::string,
+                       std::unordered_map<std::string, xkb_keymap_autoptr>>
+        keymapCache_;
+    std::unordered_map<std::string, std::tuple<uint32_t, uint32_t, uint32_t>>
+        stateMask_;
+    std::unordered_map<std::string,
+                       std::tuple<std::string, std::string, std::string>>
+        xkbParams_;
 };
 
 InputState::InputState(InstancePrivate *d, InputContext *ic)
-    : d_ptr(d), ic_(ic), xkbComposeState_(nullptr, &xkb_compose_state_unref) {
+    : d_ptr(d), ic_(ic), xkbComposeState_(nullptr, &xkb_compose_state_unref),
+      xkbState_(nullptr, &xkb_state_unref) {
     active_ = d->globalConfig_.activeByDefault();
     if (d->xkbComposeTable_) {
         xkbComposeState_.reset(xkb_compose_state_new(
@@ -264,6 +316,36 @@ void InputState::showInputMethodInformation(const std::string &name) {
             hideInputMethodInfo();
             return true;
         }));
+}
+
+xkb_state *InputState::customXkbState(bool refresh) {
+    auto instance = d_ptr->q_func();
+    auto defaultLayout = d_ptr->imManager_.currentGroup().defaultLayout();
+    auto im = instance->inputMethod(ic_);
+    auto layout = d_ptr->imManager_.currentGroup().layoutFor(im);
+    if (layout.empty() && stringutils::startsWith(im, "keyboard-")) {
+        layout = im.substr(9);
+    }
+    if (layout == defaultLayout || layout.empty()) {
+        // Use system one.
+        xkbState_.reset();
+        lastXkbLayout_.clear();
+        return nullptr;
+    }
+
+    if (layout == lastXkbLayout_ && !refresh) {
+        return xkbState_.get();
+    }
+
+    lastXkbLayout_ = layout;
+    auto layoutAndVariant = parseLayout(layout);
+    if (auto keymap = d_ptr->keymap(ic_->display(), layoutAndVariant.first,
+                                    layoutAndVariant.second)) {
+        xkbState_.reset(xkb_state_new(keymap));
+    } else {
+        xkbState_.reset();
+    }
+    return xkbState_.get();
 }
 
 Instance::Instance(int argc, char **argv) {
@@ -406,12 +488,54 @@ Instance::Instance(int argc, char **argv) {
         EventType::InputContextKeyEvent, EventWatcherPhase::ReservedFirst,
         [this, d](Event &event) {
             auto &keyEvent = static_cast<KeyEvent &>(event);
+            auto ic = keyEvent.inputContext();
+            auto inputState = ic->propertyFor(&d->inputStateFactory);
+            auto xkbState = inputState->customXkbState();
+            if (xkbState) {
+                if (auto mods = findValue(d->stateMask_, ic->display())) {
+                    FCITX_LOG(Debug) << "Update mask to customXkbState";
+                    // Keep depressed, but propagate latched and locked.
+                    auto depressed = xkb_state_serialize_mods(
+                        xkbState, XKB_STATE_MODS_DEPRESSED);
+                    auto latched = std::get<1>(*mods);
+                    auto locked = std::get<2>(*mods);
+
+                    // set modifiers in depressed if they don't appear in any of
+                    // the final masks
+                    // depressed |= ~(depressed | latched | locked);
+                    FCITX_LOG(Debug)
+                        << depressed << " " << latched << " " << locked;
+                    xkb_state_update_mask(xkbState, depressed, latched, locked,
+                                          0, 0, 0);
+                }
+                FCITX_LOG(Debug) << "XkbState update key";
+                xkb_state_update_key(xkbState, keyEvent.rawKey().code(),
+                                     keyEvent.isRelease() ? XKB_KEY_UP
+                                                          : XKB_KEY_DOWN);
+
+                const uint32_t modsDepressed = xkb_state_serialize_mods(
+                    xkbState, XKB_STATE_MODS_DEPRESSED);
+                const uint32_t modsLatched =
+                    xkb_state_serialize_mods(xkbState, XKB_STATE_MODS_LATCHED);
+                const uint32_t modsLocked =
+                    xkb_state_serialize_mods(xkbState, XKB_STATE_MODS_LOCKED);
+                FCITX_LOG(Debug) << "Current mods" << modsDepressed
+                                 << modsLatched << modsLocked;
+                auto newSym = xkb_state_key_get_one_sym(
+                    xkbState, keyEvent.rawKey().code());
+                auto newModifier = keyEvent.rawKey().states();
+                auto newCode = keyEvent.rawKey().code();
+                Key key(static_cast<KeySym>(newSym), newModifier, newCode);
+                FCITX_LOG(Debug)
+                    << "Custom Xkb translated Key: " << key.toString();
+                keyEvent.setKey(key.normalize());
+            }
+
             if (keyEvent.isRelease()) {
                 return;
             }
-            auto ic = keyEvent.inputContext();
-            auto inputState = ic->propertyFor(&d->inputStateFactory);
             inputState->hideInputMethodInfo();
+            keyEvent.key();
         }));
     d->eventWatchers_.emplace_back(
         watchEvent(EventType::InputContextKeyEvent,
@@ -425,19 +549,40 @@ Instance::Instance(int argc, char **argv) {
                        }
                        engine->keyEvent(*entry, keyEvent);
                    }));
-    d->eventWatchers_.emplace_back(
-        d->watchEvent(EventType::InputContextKeyEvent,
-                      EventWatcherPhase::ReservedLast, [this, d](Event &event) {
-                          auto &keyEvent = static_cast<KeyEvent &>(event);
-                          auto ic = keyEvent.inputContext();
-                          auto engine = inputMethodEngine(ic);
-                          auto entry = inputMethodEntry(ic);
-                          if (!engine || !entry) {
-                              return;
-                          }
-                          engine->filterKey(*entry, keyEvent);
-                          emit<Instance::KeyEventResult>(keyEvent);
-                      }));
+    d->eventWatchers_.emplace_back(d->watchEvent(
+        EventType::InputContextKeyEvent, EventWatcherPhase::ReservedLast,
+        [this, d](Event &event) {
+            auto &keyEvent = static_cast<KeyEvent &>(event);
+            auto ic = keyEvent.inputContext();
+            auto engine = inputMethodEngine(ic);
+            auto entry = inputMethodEntry(ic);
+            if (!engine || !entry) {
+                return;
+            }
+            engine->filterKey(*entry, keyEvent);
+            auto inputState = ic->propertyFor(&d->inputStateFactory);
+            emit<Instance::KeyEventResult>(keyEvent);
+            if (keyEvent.forward()) {
+                if (auto xkbState = inputState->customXkbState()) {
+                    if (auto utf32 = xkb_state_key_get_utf32(
+                            xkbState, keyEvent.key().code())) {
+                        if (utf32 == '\n' || utf32 == '\b' || utf32 == '\r' ||
+                            utf32 == '\033') {
+                            return;
+                        }
+                        if (keyEvent.key().states().test(KeyState::Ctrl) ||
+                            keyEvent.key().sym() == keyEvent.origKey().sym()) {
+                            return;
+                        }
+                        if (!keyEvent.isRelease()) {
+                            FCITX_LOG(Debug) << "Will commit char: " << utf32;
+                            ic->commitString(utf8::UCS4ToUTF8(utf32));
+                        }
+                        keyEvent.filterAndAccept();
+                    }
+                }
+            }
+        }));
     d->eventWatchers_.emplace_back(d->watchEvent(
         EventType::InputContextFocusIn, EventWatcherPhase::ReservedFirst,
         [this](Event &event) {
@@ -1167,6 +1312,20 @@ void Instance::activateInputMethod(InputContextEvent &event) {
     if (!engine || !entry) {
         return;
     }
+    if (auto xkbState = inputState->customXkbState(true)) {
+        if (auto mods = findValue(d->stateMask_, ic->display())) {
+            FCITX_LOG(Debug) << "Update mask to customXkbState";
+            auto depressed = std::get<0>(*mods);
+            auto latched = std::get<1>(*mods);
+            auto locked = std::get<2>(*mods);
+
+            // set modifiers in depressed if they don't appear in any of the
+            // final masks
+            // depressed |= ~(depressed | latched | locked);
+            FCITX_LOG(Debug) << depressed << " " << latched << " " << locked;
+            xkb_state_update_mask(xkbState, 0, latched, locked, 0, 0, 0);
+        }
+    }
     engine->activate(*entry, event);
 }
 
@@ -1231,5 +1390,44 @@ void Instance::showInputMethodInformation(InputContext *ic) {
                               imManager.currentGroup().name(), display);
     }
     inputState->showInputMethodInformation(display);
+}
+
+void Instance::setXkbParameters(const std::string &display,
+                                const std::string &rule,
+                                const std::string &model,
+                                const std::string &options) {
+    FCITX_D();
+    bool resetState = false;
+    ;
+    if (auto param = findValue(d->xkbParams_, display)) {
+        if (std::get<0>(*param) != rule || std::get<1>(*param) != model ||
+            std::get<2>(*param) != options) {
+            std::get<0>(*param) = rule;
+            std::get<1>(*param) = model;
+            std::get<2>(*param) = options;
+            resetState = true;
+        }
+    } else {
+        d->xkbParams_.emplace(display, std::make_tuple(rule, model, options));
+    }
+
+    if (resetState) {
+        d->keymapCache_[display].clear();
+        d->icManager_.foreach([this, d, &display](InputContext *ic) {
+            if (ic->display() == display) {
+                auto inputState = ic->propertyFor(&d->inputStateFactory);
+                inputState->resetXkbState();
+            }
+            return true;
+        });
+    }
+}
+
+void Instance::updateXkbStateMask(const std::string &display,
+                                  uint32_t depressed_mods,
+                                  uint32_t latched_mods, uint32_t locked_mods) {
+    FCITX_D();
+    d->stateMask_[display] =
+        std::make_tuple(depressed_mods, latched_mods, locked_mods);
 }
 }

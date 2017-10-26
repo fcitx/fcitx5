@@ -252,6 +252,10 @@ void XCBTrayWindow::paint(cairo_t *c) {
 }
 
 void XCBTrayWindow::update() {
+    if (!wid_) {
+        return;
+    }
+
     if (auto surface = prerender()) {
         cairo_t *c = cairo_create(surface);
         paint(c);

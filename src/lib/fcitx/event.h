@@ -146,18 +146,25 @@ public:
     KeyEventBase(EventType type, InputContext *context, Key rawKey,
                  bool isRelease = false, int time = 0)
         : InputContextEvent(context, type), key_(rawKey.normalize()),
-          rawKey_(rawKey), isRelease_(isRelease), time_(time) {}
+          origKey_(key_), rawKey_(rawKey), isRelease_(isRelease), time_(time) {}
     KeyEventBase(const KeyEventBase &) = default;
 
     Key key() const { return key_; }
+    void setKey(const Key &key) {
+        key_ = key;
+        forward_ = true;
+    }
+    Key origKey() const { return origKey_; }
     Key rawKey() const { return rawKey_; }
     bool isRelease() const { return isRelease_; }
     int time() const { return time_; }
+    bool forward() const { return forward_; }
 
 protected:
-    Key key_, rawKey_;
+    Key key_, origKey_, rawKey_;
     bool isRelease_;
     int time_;
+    bool forward_ = false;
 };
 
 class FCITXCORE_EXPORT KeyEvent : public KeyEventBase {

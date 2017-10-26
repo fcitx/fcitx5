@@ -33,6 +33,15 @@ decltype(&std::declval<M>().begin()->second) findValue(M &&m, K &&key) {
     }
     return nullptr;
 }
+
+static inline std::pair<std::string, std::string>
+parseLayout(const std::string &layout) {
+    auto pos = layout.find('-');
+    if (pos == std::string::npos) {
+        return {layout, ""};
+    }
+    return {layout.substr(0, pos), layout.substr(pos + 1)};
+}
 }
 
 #endif // _FCITX_MISC_P_H_

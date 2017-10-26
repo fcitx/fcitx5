@@ -123,6 +123,11 @@ public:
 
     FocusGroup *defaultFocusGroup(const std::string &displayHint = {});
 
+    void setXkbParameters(const std::string &display, const std::string &rule,
+                          const std::string &model, const std::string &options);
+    void updateXkbStateMask(const std::string &display, uint32_t depressed_mods,
+                            uint32_t latched_mods, uint32_t locked_mods);
+
 private:
     void initialize();
     void handleSignal();
