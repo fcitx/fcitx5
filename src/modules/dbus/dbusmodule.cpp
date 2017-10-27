@@ -28,6 +28,10 @@
 #define FCITX_DBUS_SERVICE "org.fcitx.Fcitx5"
 #define FCITX_CONTROLLER_DBUS_INTERFACE "org.fcitx.Fcitx.Controller1"
 
+#define GNOME_HELPER_NAME "org.fcitx.GnomeHelper"
+#define GNOME_HELPER_PATH "/org/fcitx/GnomeHelper"
+#define GNOME_HELPER_INTERFACE "org.fcitx.GnomeHelper"
+
 using namespace fcitx::dbus;
 
 namespace fcitx {
@@ -234,6 +238,11 @@ DBusModule::DBusModule(Instance *instance)
             }
         }));
 
+    xkbWatcher_.reset(serviceWatcher_->watchService(GNOME_HELPER_NAME,
+                                                    [this] (const std::string &, const std::string &, const std::string &newName) {
+                                                        xkbHelperName_ = newName;
+                                                    }));
+
     controller_ = std::make_unique<Controller1>(this, instance);
     bus_->addObjectVTable("/controller", FCITX_CONTROLLER_DBUS_INTERFACE,
                           *controller_);
@@ -242,6 +251,17 @@ DBusModule::DBusModule(Instance *instance)
 DBusModule::~DBusModule() {}
 
 dbus::Bus *DBusModule::bus() { return bus_.get(); }
+
+bool DBusModule::lockGroup(int group) {
+    if (xkbHelperName_.empty()) {
+        return false;
+    }
+
+    auto msg = bus_->createMethodCall(xkbHelperName_.c_str(), GNOME_HELPER_PATH,
+                                GNOME_HELPER_INTERFACE, "LockXkbGroup");
+    msg << group;
+    return msg.send();
+}
 
 class DBusModuleFactory : public AddonFactory {
     AddonInstance *create(AddonManager *manager) override {

@@ -35,14 +35,19 @@ public:
     ~DBusModule();
 
     dbus::Bus *bus();
+    bool lockGroup(int group);
     FCITX_ADDON_DEPENDENCY_LOADER(keyboard, instance_->addonManager());
 
 private:
     FCITX_ADDON_EXPORT_FUNCTION(DBusModule, bus);
+    FCITX_ADDON_EXPORT_FUNCTION(DBusModule, lockGroup);
+
     std::unique_ptr<dbus::Bus> bus_;
     std::unique_ptr<dbus::ServiceWatcher> serviceWatcher_;
     std::unique_ptr<HandlerTableEntry<dbus::ServiceWatcherCallback>>
         selfWatcher_;
+    std::unique_ptr<HandlerTableEntry<dbus::ServiceWatcherCallback>> xkbWatcher_;
+    std::string xkbHelperName_;
     std::unique_ptr<Controller1> controller_;
     Instance *instance_;
 };

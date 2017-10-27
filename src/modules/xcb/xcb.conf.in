@@ -3,4 +3,3 @@ Name=XCB
 Type=SharedLibrary
 Library=xcb
 Category=Module
-
