@@ -159,15 +159,6 @@ static std::string findBestLanguage(const IsoCodes &isocodes,
     }
     return {};
 }
-
-std::pair<std::string, std::string> layoutFromName(const std::string &s) {
-    auto pos = s.find('-', imNamePrefixLength);
-    if (pos == std::string::npos) {
-        return {s.substr(imNamePrefixLength), ""};
-    }
-    return {s.substr(imNamePrefixLength, pos - imNamePrefixLength),
-            s.substr(pos + 1)};
-}
 }
 
 KeyboardEngine::KeyboardEngine(Instance *instance) : instance_(instance) {
@@ -211,7 +202,6 @@ std::vector<InputMethodEntry> KeyboardEngine::listInputMethods() {
         auto uniqueName = imNamePrefix + layoutInfo.name;
         result.push_back(std::move(
             InputMethodEntry(uniqueName, description, language, "keyboard")
-                .setIcon("kbd")
                 .setLabel(layoutInfo.name)));
         for (auto &variantInfo : layoutInfo.variantInfos) {
             auto language = findBestLanguage(isoCodes_, variantInfo.description,
@@ -226,7 +216,6 @@ std::vector<InputMethodEntry> KeyboardEngine::listInputMethods() {
                                                   "-", variantInfo.name);
             result.push_back(std::move(
                 InputMethodEntry(uniqueName, description, language, "keyboard")
-                    .setIcon("kbd")
                     .setLabel(layoutInfo.name)));
         }
     }

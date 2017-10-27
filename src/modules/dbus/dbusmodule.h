@@ -46,7 +46,8 @@ private:
     std::unique_ptr<dbus::ServiceWatcher> serviceWatcher_;
     std::unique_ptr<HandlerTableEntry<dbus::ServiceWatcherCallback>>
         selfWatcher_;
-    std::unique_ptr<HandlerTableEntry<dbus::ServiceWatcherCallback>> xkbWatcher_;
+    std::unique_ptr<HandlerTableEntry<dbus::ServiceWatcherCallback>>
+        xkbWatcher_;
     std::string xkbHelperName_;
     std::unique_ptr<Controller1> controller_;
     Instance *instance_;

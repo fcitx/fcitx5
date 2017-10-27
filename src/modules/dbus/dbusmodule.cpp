@@ -238,10 +238,10 @@ DBusModule::DBusModule(Instance *instance)
             }
         }));
 
-    xkbWatcher_.reset(serviceWatcher_->watchService(GNOME_HELPER_NAME,
-                                                    [this] (const std::string &, const std::string &, const std::string &newName) {
-                                                        xkbHelperName_ = newName;
-                                                    }));
+    xkbWatcher_.reset(serviceWatcher_->watchService(
+        GNOME_HELPER_NAME,
+        [this](const std::string &, const std::string &,
+               const std::string &newName) { xkbHelperName_ = newName; }));
 
     controller_ = std::make_unique<Controller1>(this, instance);
     bus_->addObjectVTable("/controller", FCITX_CONTROLLER_DBUS_INTERFACE,
@@ -258,7 +258,7 @@ bool DBusModule::lockGroup(int group) {
     }
 
     auto msg = bus_->createMethodCall(xkbHelperName_.c_str(), GNOME_HELPER_PATH,
-                                GNOME_HELPER_INTERFACE, "LockXkbGroup");
+                                      GNOME_HELPER_INTERFACE, "LockXkbGroup");
     msg << group;
     return msg.send();
 }

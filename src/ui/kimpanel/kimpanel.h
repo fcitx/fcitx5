@@ -45,6 +45,7 @@ public:
     void update(UserInterfaceComponent component,
                 InputContext *inputContext) override;
     void updateInputPanel(InputContext *inputContext);
+    void updateCurrentInputMethod(InputContext *inputContext);
 
     void msgV1Handler(dbus::Message &msg);
     void msgV2Handler(dbus::Message &msg);

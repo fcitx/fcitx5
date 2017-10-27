@@ -21,9 +21,13 @@
 #include "dbus_public.h"
 #include "fcitx-utils/dbus/objectvtable.h"
 #include "fcitx-utils/dbus/servicewatcher.h"
+#include "fcitx-utils/i18n.h"
+#include "fcitx-utils/log.h"
+#include "fcitx-utils/stringutils.h"
 #include "fcitx-utils/utf8.h"
 #include "fcitx/addonmanager.h"
 #include "fcitx/inputcontext.h"
+#include "fcitx/inputmethodentry.h"
 #include "fcitx/instance.h"
 #include "fcitx/userinterfacemanager.h"
 
@@ -91,30 +95,31 @@ Kimpanel::Kimpanel(Instance *instance)
     entry_.reset(watcher_.watchService(
         "org.kde.impanel", [this](const std::string &, const std::string &,
                                   const std::string &newOwner) {
+            FCITX_LOG(Info) << "Kimpanel new owner" << newOwner;
             setAvailable(!newOwner.empty());
         }));
-
-    if (!bus_->serviceOwner("org.kde.impanel", 0).empty()) {
-        available_ = true;
-    }
 }
 
 Kimpanel::~Kimpanel() {}
 
 void Kimpanel::suspend() {
-    proxy_.reset();
     eventHandlers_.clear();
+    proxy_.reset();
 }
 
 void Kimpanel::init() {
     std::vector<std::string> props;
     props.push_back("/Fcitx/im:Fcitx:fcitx:");
     proxy_->registerProperties(props);
+    updateCurrentInputMethod(instance_->lastFocusedInputContext());
+
+    bus_->flush();
 }
 
 void Kimpanel::resume() {
     proxy_ = std::make_unique<KimpanelProxy>(this, bus_);
     bus_->addObjectVTable("/kimpanel", "org.kde.kimpanel.inputmethod", *proxy_);
+    bus_->flush();
     if (available_) {
         init();
     }
@@ -134,6 +139,25 @@ void Kimpanel::resume() {
                               EventWatcherPhase::Default, check));
     eventHandlers_.emplace_back(instance_->watchEvent(
         EventType::InputContextFocusIn, EventWatcherPhase::Default, check));
+    eventHandlers_.emplace_back(instance_->watchEvent(
+        EventType::InputContextSwitchInputMethod, EventWatcherPhase::Default,
+        [this](Event &event) {
+            auto &icEvent = static_cast<InputContextEvent &>(event);
+            updateCurrentInputMethod(icEvent.inputContext());
+        }));
+    eventHandlers_.emplace_back(instance_->watchEvent(
+        EventType::InputMethodGroupChanged, EventWatcherPhase::Default,
+        [this](Event &) {
+            if (auto ic = instance_->lastFocusedInputContext()) {
+                updateCurrentInputMethod(ic);
+            }
+        }));
+    eventHandlers_.emplace_back(instance_->watchEvent(
+        EventType::InputContextFocusIn, EventWatcherPhase::Default,
+        [this](Event &event) {
+            auto &icEvent = static_cast<InputContextEvent &>(event);
+            updateCurrentInputMethod(icEvent.inputContext());
+        }));
 }
 
 void Kimpanel::update(UserInterfaceComponent component,
@@ -241,6 +265,26 @@ void Kimpanel::updateInputPanel(InputContext *inputContext) {
     bus_->flush();
 }
 
+void Kimpanel::updateCurrentInputMethod(InputContext *ic) {
+    if (!proxy_) {
+        return;
+    }
+    std::string icon = "input-keyboard";
+    std::string label = "";
+    std::string description = _("Not available");
+    if (ic) {
+        auto entry = instance_->inputMethodEntry(ic);
+        if (entry) {
+            icon = entry->icon();
+            label = entry->label();
+            description = entry->name();
+        }
+    }
+    proxy_->updateProperty(stringutils::concat(
+        "/Fcitx/im:", label.empty() ? description : label, ":", icon, ":",
+        label.empty() ? "" : description, ":menu"));
+}
+
 void Kimpanel::msgV1Handler(dbus::Message &msg) {
     if (msg.member() == "Exit") {
         instance_->exit();
@@ -289,10 +333,22 @@ void Kimpanel::msgV1Handler(dbus::Message &msg) {
                 }
             }
         }
+    } else if (msg.member() == "PanelCreated") {
+        if (!available_) {
+            setAvailable(true);
+        }
+        init();
     }
 }
 
-void Kimpanel::msgV2Handler(dbus::Message &) {}
+void Kimpanel::msgV2Handler(dbus::Message &msg) {
+    if (msg.member() == "PanelCreated2") {
+        if (!available_) {
+            setAvailable(true);
+        }
+        init();
+    }
+}
 
 void Kimpanel::setAvailable(bool available) {
     if (available != available_) {

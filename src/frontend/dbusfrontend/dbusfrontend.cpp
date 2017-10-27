@@ -75,15 +75,7 @@ public:
                       delete this;
                   }
               })),
-          name_(sender), slot_(im_->bus()->serviceOwnerAsync(
-                             sender, 0, [this](dbus::Message msg) {
-                                 if (msg.type() == dbus::MessageType::Error) {
-                                     delete this;
-                                 } else {
-                                     slot_.reset(nullptr);
-                                 }
-                                 return true;
-                             })) {
+          name_(sender) {
         created();
     }
 
@@ -203,7 +195,6 @@ private:
     InputMethod1 *im_;
     std::unique_ptr<HandlerTableEntry<dbus::ServiceWatcherCallback>> handler_;
     std::string name_;
-    std::unique_ptr<dbus::Slot> slot_;
 };
 
 std::tuple<dbus::ObjectPath, std::vector<uint8_t>>
