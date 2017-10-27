@@ -179,7 +179,9 @@ void XCBInputWindow::update(InputContext *inputContext) {
         return;
     }
     auto oldVisible = visible();
-    updateDPI(inputContext);
+    if (inputContext) {
+        updateDPI(inputContext);
+    }
     InputWindow::update(inputContext);
     if (!visible()) {
         if (oldVisible) {
