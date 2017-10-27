@@ -135,7 +135,7 @@ private:
 
     bool canTrigger() const;
     bool canChangeGroup() const;
-    bool trigger(InputContext *ic);
+    bool trigger(InputContext *ic, bool totallyReleased);
     bool activate(InputContext *ic);
     bool deactivate(InputContext *ic);
     bool enumerate(InputContext *ic, bool forward);

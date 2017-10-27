@@ -96,6 +96,9 @@ struct InputState : public InputContextProperty {
         if (xkbComposeState_) {
             xkb_compose_state_reset(xkbComposeState_.get());
         }
+        keyReleased_ = -1;
+        keyReleasedIndex_ = -2;
+        totallyReleased_ = true;
     }
 
     void showInputMethodInformation(const std::string &name);
@@ -127,6 +130,7 @@ struct InputState : public InputContextProperty {
     int keyReleased_ = -1;
     // We use -2 to make sure -2 != -1 (From keyListIndex)
     int keyReleasedIndex_ = -2;
+    bool totallyReleased_ = true;
     bool active_;
     CheckInputMethodChanged *imChanged_ = nullptr;
     xkb_compose_state_autoptr xkbComposeState_;
@@ -405,26 +409,28 @@ Instance::Instance(int argc, char **argv) {
             struct {
                 const KeyList &list;
                 std::function<bool()> check;
-                std::function<void()> trigger;
+                std::function<void(bool)> trigger;
             } keyHandlers[] = {
                 {d->globalConfig_.triggerKeys(),
                  [this]() { return canTrigger(); },
-                 [this, ic]() { return trigger(ic); }},
+                 [this, ic](bool totallyReleased) {
+                     return trigger(ic, totallyReleased);
+                 }},
                 {d->globalConfig_.activateKeys(),
                  [this]() { return canTrigger(); },
-                 [this, ic]() { return activate(ic); }},
+                 [this, ic](bool) { return activate(ic); }},
                 {d->globalConfig_.deactivateKeys(),
                  [this]() { return canTrigger(); },
-                 [this, ic]() { return deactivate(ic); }},
+                 [this, ic](bool) { return deactivate(ic); }},
                 {d->globalConfig_.enumerateForwardKeys(),
                  [this]() { return canTrigger(); },
-                 [this, ic]() { return enumerate(ic, true); }},
+                 [this, ic](bool) { return enumerate(ic, true); }},
                 {d->globalConfig_.enumerateBackwardKeys(),
                  [this]() { return canTrigger(); },
-                 [this, ic]() { return enumerate(ic, false); }},
+                 [this, ic](bool) { return enumerate(ic, false); }},
                 {d->globalConfig_.enumerateGroupForwardKeys(),
                  [this]() { return canChangeGroup(); },
-                 [this, ic, d]() {
+                 [this, ic, d](bool) {
                      auto inputState = ic->propertyFor(&d->inputStateFactory);
                      if (inputState->imChanged_) {
                          inputState->imChanged_->ignore();
@@ -433,7 +439,7 @@ Instance::Instance(int argc, char **argv) {
                  }},
                 {d->globalConfig_.enumerateGroupBackwardKeys(),
                  [this]() { return canChangeGroup(); },
-                 [this, ic, d]() {
+                 [this, ic, d](bool) {
                      auto inputState = ic->propertyFor(&d->inputStateFactory);
                      if (inputState->imChanged_) {
                          inputState->imChanged_->ignore();
@@ -443,22 +449,30 @@ Instance::Instance(int argc, char **argv) {
             };
 
             auto inputState = ic->propertyFor(&d->inputStateFactory);
-            const bool isModifier = keyEvent.key().isModifier();
+            const bool isModifier = keyEvent.origKey().isModifier();
             if (keyEvent.isRelease()) {
                 int idx = 0;
                 for (auto &keyHandler : keyHandlers) {
                     if (inputState->keyReleased_ == idx &&
                         inputState->keyReleasedIndex_ ==
-                            keyEvent.key().keyListIndex(keyHandler.list) &&
+                            keyEvent.origKey().keyListIndex(keyHandler.list) &&
                         keyHandler.check()) {
                         if (isModifier) {
-                            keyHandler.trigger();
+                            keyHandler.trigger(inputState->totallyReleased_);
+                            if (keyEvent.origKey().hasModifier()) {
+                                inputState->totallyReleased_ = false;
+                            }
                             return keyEvent.filterAndAccept();
                         } else {
                             return keyEvent.filter();
                         }
                     }
                     idx++;
+                }
+                if (keyEvent.origKey().isModifier() &&
+                    Key::keySymToStates(keyEvent.origKey().sym()) ==
+                        keyEvent.origKey().states()) {
+                    inputState->totallyReleased_ = true;
                 }
             }
 
@@ -467,7 +481,8 @@ Instance::Instance(int argc, char **argv) {
                 inputState->keyReleased_ = -1;
                 inputState->keyReleasedIndex_ = -2;
                 for (auto &keyHandler : keyHandlers) {
-                    auto keyIdx = keyEvent.key().keyListIndex(keyHandler.list);
+                    auto keyIdx =
+                        keyEvent.origKey().keyListIndex(keyHandler.list);
                     if (keyIdx >= 0 && keyHandler.check()) {
                         inputState->keyReleased_ = idx;
                         inputState->keyReleasedIndex_ = keyIdx;
@@ -476,7 +491,10 @@ Instance::Instance(int argc, char **argv) {
                             // through to client.
                             return keyEvent.filter();
                         } else {
-                            keyHandler.trigger();
+                            keyHandler.trigger(inputState->totallyReleased_);
+                            if (keyEvent.origKey().hasModifier()) {
+                                inputState->totallyReleased_ = false;
+                            }
                             return keyEvent.filterAndAccept();
                         }
                     }
@@ -535,7 +553,6 @@ Instance::Instance(int argc, char **argv) {
                 return;
             }
             inputState->hideInputMethodInfo();
-            keyEvent.key();
         }));
     d->eventWatchers_.emplace_back(
         watchEvent(EventType::InputContextKeyEvent,
@@ -1140,7 +1157,7 @@ int Instance::state() {
 void Instance::toggle() {
     if (auto ic = lastFocusedInputContext()) {
         CheckInputMethodChanged imChangedRAII(ic, this);
-        trigger(ic);
+        trigger(ic, true);
     }
 }
 
@@ -1154,15 +1171,20 @@ bool Instance::canChangeGroup() const {
     return (imManager.groupCount() > 1);
 }
 
-bool Instance::trigger(InputContext *ic) {
+bool Instance::trigger(InputContext *ic, bool totallyReleased) {
     FCITX_D();
     auto inputState = ic->propertyFor(&d->inputStateFactory);
     if (!canTrigger()) {
         return false;
     }
-    inputState->active_ = !inputState->active_;
-    if (inputState->imChanged_) {
-        inputState->imChanged_->setReason(InputMethodSwitchedReason::Trigger);
+    if (totallyReleased) {
+        inputState->active_ = !inputState->active_;
+        if (inputState->imChanged_) {
+            inputState->imChanged_->setReason(
+                InputMethodSwitchedReason::Trigger);
+        }
+    } else {
+        enumerate(ic, true);
     }
     return true;
 }

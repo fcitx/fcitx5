@@ -19,11 +19,11 @@
 
 #include "dbusmodule.h"
 #include "fcitx-utils/dbus/bus.h"
+#include "fcitx-utils/i18n.h"
 #include "fcitx/addonmanager.h"
 #include "fcitx/inputmethodentry.h"
 #include "fcitx/inputmethodmanager.h"
 #include "keyboard_public.h"
-#include "fcitx-utils/i18n.h"
 
 #define FCITX_DBUS_SERVICE "org.fcitx.Fcitx5"
 #define FCITX_CONTROLLER_DBUS_INTERFACE "org.fcitx.Fcitx.Controller1"
@@ -151,7 +151,9 @@ public:
                         variants.emplace_back();
                         auto &variantItem = variants.back();
                         std::get<0>(variantItem) = variant;
-                        std::get<1>(variantItem) = D_("xkeyboard-config", description);;
+                        std::get<1>(variantItem) =
+                            D_("xkeyboard-config", description);
+                        ;
                         std::get<2>(variantItem) = languages;
                         return true;
                     });

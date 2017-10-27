@@ -275,7 +275,7 @@ int XCBKeyboard::findOrAddLayout(const std::string &layout,
 void XCBKeyboard::addNewLayout(const std::string &layout,
                                const std::string &variant, int index,
                                bool toDefault) {
-    FCITX_LOG(Info) << "addNewLayout " << layout << " " << variant;
+    FCITX_LOG(Debug) << "addNewLayout " << layout << " " << variant;
     while (defaultVariants_.size() < defaultLayouts_.size()) {
         defaultVariants_.emplace_back();
     }
