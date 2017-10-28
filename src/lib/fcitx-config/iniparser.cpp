@@ -24,6 +24,7 @@
 #include "fcitx-utils/stringutils.h"
 #include "fcitx-utils/unixfd.h"
 #include "iniparser.h"
+#include <fcntl.h>
 
 namespace fcitx {
 enum class UnescapeState { NORMAL, ESCAPE };
@@ -224,6 +225,16 @@ bool writeAsIni(const RawConfig &root, FILE *fout) {
     };
 
     return callback(root, "");
+}
+
+void readAsIni(Configuration &configuration, const std::string &path) {
+    auto &standardPath = StandardPath::global();
+    auto file =
+        standardPath.open(StandardPath::Type::PkgConfig, path, O_RDONLY);
+    RawConfig config;
+    readFromIni(config, file.fd());
+
+    configuration.load(config);
 }
 
 bool safeSaveAsIni(const Configuration &configuration,

@@ -90,6 +90,13 @@ enum class EventType : uint32_t {
      */
     InputContextSwitchInputMethod = InputContextEventFlag | 0xA,
 
+    // Two convenient event after input method is actually activate and
+    // deactivated. Useful for UI to update after specific input method get
+    // activated and deactivated. Will not be emitted if the input method is not
+    // a valid one.
+    InputContextInputMethodActivated = InputContextEventFlag | 0xB,
+    InputContextInputMethodDeactivated = InputContextEventFlag | 0xC,
+
     // send by im, captured by frontend, or module
     InputContextForwardKey = InputMethodEventFlag | 0x1,
     InputContextCommitString = InputMethodEventFlag | 0x2,
@@ -104,10 +111,7 @@ enum class EventType : uint32_t {
      * This would also trigger InputContextSwitchInputMethod afterwards.
      */
     InputMethodGroupChanged = InstanceEventFlag | 0x1,
-    InputMethodGroupAboutToReset = InstanceEventFlag | 0x2,
-    InputMethodGroupReset = InstanceEventFlag | 0x3,
-    NewInputMethodGroup = InstanceEventFlag | 0x4,
-    InputMethodInitFailed = InstanceEventFlag | 0x5,
+    InputMethodGroupAboutToChange = InstanceEventFlag | 0x2,
 };
 
 class FCITXCORE_EXPORT Event {
@@ -249,6 +253,34 @@ protected:
     bool immediate_;
 };
 
+class FCITXCORE_EXPORT InputMethodNotificationEvent : public InputContextEvent {
+public:
+    InputMethodNotificationEvent(EventType type, const std::string &name,
+                                 InputContext *context)
+        : InputContextEvent(context, type), name_(name) {}
+
+    const std::string &name() const { return name_; }
+
+protected:
+    std::string name_;
+};
+
+class FCITXCORE_EXPORT InputMethodActivatedEvent
+    : public InputMethodNotificationEvent {
+public:
+    InputMethodActivatedEvent(const std::string &name, InputContext *context)
+        : InputMethodNotificationEvent(
+              EventType::InputContextInputMethodActivated, name, context) {}
+};
+
+class FCITXCORE_EXPORT InputMethodDeactivatedEvent
+    : public InputMethodNotificationEvent {
+public:
+    InputMethodDeactivatedEvent(const std::string &name, InputContext *context)
+        : InputMethodNotificationEvent(
+              EventType::InputContextInputMethodDeactivated, name, context) {}
+};
+
 #define FCITX_DEFINE_SIMPLE_EVENT(NAME, TYPE, ARGS...)                         \
     struct FCITXCORE_EXPORT NAME##Event : public InputContextEvent {           \
         NAME##Event(InputContext *ic)                                          \
@@ -269,6 +301,12 @@ class InputMethodGroupChangedEvent : public Event {
 public:
     InputMethodGroupChangedEvent()
         : Event(EventType::InputMethodGroupChanged) {}
+};
+
+class InputMethodGroupAboutToChangeEvent : public Event {
+public:
+    InputMethodGroupAboutToChangeEvent()
+        : Event(EventType::InputMethodGroupAboutToChange) {}
 };
 }
 

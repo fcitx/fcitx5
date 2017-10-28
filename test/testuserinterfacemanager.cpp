@@ -26,13 +26,13 @@ using namespace fcitx;
 int main() {
     auto uiManager = std::make_unique<UserInterfaceManager>(nullptr);
     {
-        Action a;
+        SimpleAction a;
         FCITX_ASSERT(uiManager->registerAction("test", &a));
         FCITX_ASSERT(uiManager->lookupAction("test") == &a);
         FCITX_ASSERT(a.name() == "test");
     }
     FCITX_ASSERT(uiManager->lookupAction("test") == nullptr);
-    Action a2;
+    SimpleAction a2;
     FCITX_ASSERT(uiManager->registerAction("test", &a2));
     FCITX_ASSERT(a2.name() == "test");
     FCITX_ASSERT(!uiManager->registerAction("test", &a2));
@@ -40,7 +40,7 @@ int main() {
     FCITX_ASSERT(uiManager->lookupAction("test") == &a2);
 
     {
-        Action a3;
+        SimpleAction a3;
         FCITX_ASSERT(!uiManager->registerAction("test", &a3));
         FCITX_ASSERT(uiManager->registerAction("test2", &a3));
 

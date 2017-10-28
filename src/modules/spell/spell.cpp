@@ -41,15 +41,7 @@ Spell::Spell(Instance *instance) : instance_(instance) {
 
 Spell::~Spell() {}
 
-void Spell::reloadConfig() {
-    auto &standardPath = StandardPath::global();
-    auto file = standardPath.open(StandardPath::Type::PkgConfig,
-                                  "conf/spell.conf", O_RDONLY);
-    RawConfig config;
-    readFromIni(config, file.fd());
-
-    config_.load(config);
-}
+void Spell::reloadConfig() { readAsIni(config_, "conf/spell.conf"); }
 
 Spell::BackendMap::iterator Spell::findBackend(const std::string &language) {
     for (auto backend : config_.providerOrder.value()) {

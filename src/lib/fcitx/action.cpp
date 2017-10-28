@@ -90,4 +90,59 @@ const std::string &Action::name() const {
     FCITX_D();
     return d->name_;
 }
+
+void Action::update(InputContext *ic) { emit<Update>(ic); }
+
+class SimpleActionPrivate {
+public:
+    std::string longText_;
+    std::string shortText_;
+    std::string icon_;
+    bool checked_;
+};
+
+SimpleAction::SimpleAction()
+    : Action(), d_ptr(std::make_unique<SimpleActionPrivate>()) {}
+
+FCITX_DEFINE_DEFAULT_DTOR(SimpleAction);
+
+void SimpleAction::setIcon(const std::string &icon) {
+    FCITX_D();
+    d->icon_ = icon;
+}
+
+void SimpleAction::setChecked(bool checked) {
+    FCITX_D();
+    d->checked_ = checked;
+}
+
+void SimpleAction::setShortText(const std::string &text) {
+    FCITX_D();
+    d->shortText_ = text;
+}
+
+void SimpleAction::setLongText(const std::string &text) {
+    FCITX_D();
+    d->longText_ = text;
+}
+
+std::string SimpleAction::icon(InputContext *) const {
+    FCITX_D();
+    return d->icon_;
+}
+
+bool SimpleAction::isChecked(InputContext *) const {
+    FCITX_D();
+    return d->checked_;
+}
+
+std::string SimpleAction::shortText(InputContext *) const {
+    FCITX_D();
+    return d->shortText_;
+}
+
+std::string SimpleAction::longText(InputContext *) const {
+    FCITX_D();
+    return d->longText_;
+}
 }

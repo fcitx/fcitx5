@@ -51,10 +51,14 @@ void SimpleUI::update(UserInterfaceComponent component,
 
 void SimpleUI::printStatusArea(InputContext *inputContext) {
     auto &statusArea = inputContext->statusArea();
-    for (auto action : statusArea.actions()) {
-        std::cout << "Action: " << action->name() << std::endl;
-        std::cout << "Text: " << action->text(inputContext) << std::endl;
-        std::cout << "Icon: " << action->icon(inputContext) << std::endl;
+    for (auto group : {StatusGroup::BeforeInputMethod, StatusGroup::InputMethod,
+                       StatusGroup::AfterInputMethod}) {
+        for (auto action : statusArea.actions(group)) {
+            std::cout << "Action: " << action->name() << std::endl;
+            std::cout << "Text: " << action->shortText(inputContext)
+                      << std::endl;
+            std::cout << "Icon: " << action->icon(inputContext) << std::endl;
+        }
     }
 }
 

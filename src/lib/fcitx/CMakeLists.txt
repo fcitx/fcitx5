@@ -51,6 +51,7 @@ set(FCITX_CORE_HEADERS
     userinterface.h
     userinterfacemanager.h
     icontheme.h
+    statusarea.h
     ${CMAKE_CURRENT_BINARY_DIR}/fcitxcore_export.h
     )
 

@@ -28,6 +28,7 @@ FCITXCONFIG_EXPORT void readFromIni(RawConfig &config, int fd);
 FCITXCONFIG_EXPORT bool writeAsIni(const RawConfig &config, int fd);
 void readFromIni(RawConfig &config, FILE *fin);
 FCITXCONFIG_EXPORT bool writeAsIni(const RawConfig &config, FILE *fout);
+FCITXCONFIG_EXPORT void readAsIni(Configuration &, const std::string &name);
 FCITXCONFIG_EXPORT bool safeSaveAsIni(const Configuration &,
                                       const std::string &name);
 }

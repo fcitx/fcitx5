@@ -45,7 +45,8 @@ public:
     void addAction(StatusGroup group, Action *action);
     void removeAction(Action *action);
     void clear();
-    std::vector<Action *> actions();
+    void clearGroup(StatusGroup group);
+    std::vector<Action *> actions(StatusGroup group);
 
 private:
     std::unique_ptr<StatusAreaPrivate> d_ptr;

@@ -66,11 +66,7 @@ ClassicUI::ClassicUI(Instance *instance)
 ClassicUI::~ClassicUI() {}
 
 void ClassicUI::reloadConfig() {
-    auto configFile = StandardPath::global().open(
-        StandardPath::Type::PkgConfig, "conf/classicui.conf", O_RDONLY);
-    RawConfig config;
-    readFromIni(config, configFile.fd());
-    config_.load(config);
+    readAsIni(config_, "conf/classicui.conf");
 
     auto themeConfigFile = StandardPath::global().open(
         StandardPath::Type::PkgData,

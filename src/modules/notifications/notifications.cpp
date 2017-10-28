@@ -120,13 +120,7 @@ Notifications::Notifications(Instance *instance)
 Notifications::~Notifications() {}
 
 void Notifications::reloadConfig() {
-    auto &standardPath = StandardPath::global();
-    auto file = standardPath.open(StandardPath::Type::PkgConfig,
-                                  "conf/notifications.conf", O_RDONLY);
-    RawConfig config;
-    readFromIni(config, file.fd());
-
-    config_.load(config);
+    readAsIni(config_, "conf/notifications.conf");
 
     hiddenNotifications_.clear();
     for (const auto &id : config_.hiddenNotifications.value()) {

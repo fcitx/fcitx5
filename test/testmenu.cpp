@@ -26,19 +26,19 @@ int main() {
     {
         auto menu = std::make_unique<Menu>();
         {
-            Action a;
+            SimpleAction a;
             menu->addAction(&a);
             FCITX_ASSERT(menu->actions().size() == 1);
         }
         FCITX_ASSERT(menu->actions().size() == 0);
-        Action a2;
+        SimpleAction a2;
         menu->addAction(&a2);
         FCITX_ASSERT(menu->actions().size() == 1);
         menu.reset();
     }
     {
         auto menu = std::make_unique<Menu>();
-        Action a;
+        SimpleAction a;
         a.setMenu(menu.get());
         menu.reset();
         FCITX_ASSERT(a.menu() == nullptr);

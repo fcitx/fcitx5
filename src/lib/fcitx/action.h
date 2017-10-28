@@ -27,6 +27,7 @@
 
 namespace fcitx {
 class ActionPrivate;
+class SimpleActionPrivate;
 class Menu;
 class UserInterfaceManager;
 class InputContext;
@@ -48,15 +49,16 @@ public:
     bool registerAction(const std::string &name,
                         UserInterfaceManager *uiManager);
 
-    virtual std::string text(InputContext *) const { return {}; }
-    virtual std::string icon(InputContext *) const { return {}; }
-
+    virtual std::string shortText(InputContext *) const = 0;
+    virtual std::string icon(InputContext *) const = 0;
     virtual bool isChecked(InputContext *) const { return false; }
+    virtual std::string longText(InputContext *) const { return {}; }
 
     void setMenu(Menu *menu);
     Menu *menu();
 
-    void activate(InputContext *) {}
+    virtual void activate(InputContext *) {}
+    void update(InputContext *ic);
 
     FCITX_DECLARE_SIGNAL(Action, Update, void(InputContext *));
 
@@ -65,6 +67,26 @@ private:
 
     std::unique_ptr<ActionPrivate> d_ptr;
     FCITX_DECLARE_PRIVATE(Action);
+};
+
+class FCITXCORE_EXPORT SimpleAction : public Action {
+public:
+    SimpleAction();
+    ~SimpleAction();
+
+    void setIcon(const std::string &icon);
+    void setChecked(bool checked);
+    void setShortText(const std::string &text);
+    void setLongText(const std::string &text);
+
+    std::string shortText(InputContext *) const override;
+    std::string icon(InputContext *) const override;
+    bool isChecked(InputContext *) const override;
+    std::string longText(InputContext *) const override;
+
+private:
+    std::unique_ptr<SimpleActionPrivate> d_ptr;
+    FCITX_DECLARE_PRIVATE(SimpleAction);
 };
 }
 

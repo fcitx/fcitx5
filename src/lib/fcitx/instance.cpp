@@ -131,6 +131,8 @@ struct InputState : public InputContextProperty {
     // We use -2 to make sure -2 != -1 (From keyListIndex)
     int keyReleasedIndex_ = -2;
     bool totallyReleased_ = true;
+    bool firstTrigger_ = false;
+
     bool active_;
     CheckInputMethodChanged *imChanged_ = nullptr;
     xkb_compose_state_autoptr xkbComposeState_;
@@ -383,6 +385,7 @@ Instance::Instance(int argc, char **argv) {
                     deactivateInputMethod(event);
                     return true;
                 });
+                postEvent(InputMethodGroupAboutToChangeEvent());
             }));
     d->connections_.emplace_back(
         d->imManager_.connect<InputMethodManager::CurrentGroupChanged>(
@@ -452,6 +455,11 @@ Instance::Instance(int argc, char **argv) {
             const bool isModifier = keyEvent.origKey().isModifier();
             if (keyEvent.isRelease()) {
                 int idx = 0;
+                if (keyEvent.origKey().isModifier() &&
+                    Key::keySymToStates(keyEvent.origKey().sym()) ==
+                        keyEvent.origKey().states()) {
+                    inputState->totallyReleased_ = true;
+                }
                 for (auto &keyHandler : keyHandlers) {
                     if (inputState->keyReleased_ == idx &&
                         inputState->keyReleasedIndex_ ==
@@ -468,11 +476,6 @@ Instance::Instance(int argc, char **argv) {
                         }
                     }
                     idx++;
-                }
-                if (keyEvent.origKey().isModifier() &&
-                    Key::keySymToStates(keyEvent.origKey().sym()) ==
-                        keyEvent.origKey().states()) {
-                    inputState->totallyReleased_ = true;
                 }
             }
 
@@ -669,6 +672,8 @@ Instance::Instance(int argc, char **argv) {
                     d->addonManager_.addon(oldEntry->addon()));
                 if (oldEngine) {
                     oldEngine->deactivate(*oldEntry, icEvent);
+                    postEvent(InputMethodDeactivatedEvent(
+                        oldEntry->uniqueName(), ic));
                 }
             }
 
@@ -1172,20 +1177,37 @@ bool Instance::canChangeGroup() const {
     return (imManager.groupCount() > 1);
 }
 
+bool Instance::toggle(InputContext *ic) {
+    FCITX_D();
+    auto inputState = ic->propertyFor(&d->inputStateFactory);
+    if (!canTrigger()) {
+        return false;
+    }
+    inputState->active_ = !inputState->active_;
+    if (inputState->imChanged_) {
+        inputState->imChanged_->setReason(InputMethodSwitchedReason::Trigger);
+    }
+    return true;
+}
+
 bool Instance::trigger(InputContext *ic, bool totallyReleased) {
     FCITX_D();
     auto inputState = ic->propertyFor(&d->inputStateFactory);
     if (!canTrigger()) {
         return false;
     }
+    // Active -> inactive -> enumerate.
+    // Inactive -> active -> inactive -> enumerate.
     if (totallyReleased) {
-        inputState->active_ = !inputState->active_;
-        if (inputState->imChanged_) {
-            inputState->imChanged_->setReason(
-                InputMethodSwitchedReason::Trigger);
-        }
+        toggle(ic);
+        inputState->firstTrigger_ = true;
     } else {
-        enumerate(ic, true);
+        if (inputState->firstTrigger_ && inputState->active_) {
+            toggle(ic);
+        } else {
+            enumerate(ic, true);
+        }
+        inputState->firstTrigger_ = false;
     }
     return true;
 }
@@ -1350,6 +1372,7 @@ void Instance::activateInputMethod(InputContextEvent &event) {
         }
     }
     engine->activate(*entry, event);
+    postEvent(InputMethodActivatedEvent(entry->uniqueName(), ic));
 }
 
 void Instance::deactivateInputMethod(InputContextEvent &event) {
@@ -1369,6 +1392,7 @@ void Instance::deactivateInputMethod(InputContextEvent &event) {
         return;
     }
     engine->deactivate(*entry, event);
+    postEvent(InputMethodDeactivatedEvent(entry->uniqueName(), ic));
 }
 
 bool Instance::enumerateGroup(bool forward) {

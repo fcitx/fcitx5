@@ -139,6 +139,7 @@ private:
     bool activate(InputContext *ic);
     bool deactivate(InputContext *ic);
     bool enumerate(InputContext *ic, bool forward);
+    bool toggle(InputContext *ic);
 
     void activateInputMethod(InputContextEvent &event);
     void deactivateInputMethod(InputContextEvent &event);

@@ -32,6 +32,7 @@
 namespace fcitx {
 
 class KimpanelProxy;
+class Action;
 
 class Kimpanel : public UserInterface {
 public:
@@ -50,7 +51,9 @@ public:
     void msgV1Handler(dbus::Message &msg);
     void msgV2Handler(dbus::Message &msg);
 
-    void init();
+    void registerAllProperties(InputContext *ic = nullptr);
+    std::string inputMethodStatus(InputContext *ic);
+    std::string actionToStatus(Action *action, InputContext *ic);
 
 private:
     void setAvailable(bool available);

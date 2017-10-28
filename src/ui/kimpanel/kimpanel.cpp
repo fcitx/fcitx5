@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2016~2016 by CSSlayer
+ * Copyright (C) 2016~2017 by CSSlayer
  * wengxt@gmail.com
  *
  * This library is free software; you can redistribute it and/or modify
@@ -25,6 +25,7 @@
 #include "fcitx-utils/log.h"
 #include "fcitx-utils/stringutils.h"
 #include "fcitx-utils/utf8.h"
+#include "fcitx/action.h"
 #include "fcitx/addonmanager.h"
 #include "fcitx/inputcontext.h"
 #include "fcitx/inputmethodentry.h"
@@ -107,13 +108,42 @@ void Kimpanel::suspend() {
     proxy_.reset();
 }
 
-void Kimpanel::init() {
+void Kimpanel::registerAllProperties(InputContext *ic) {
     std::vector<std::string> props;
-    props.push_back("/Fcitx/im:Fcitx:fcitx:");
+    if (!ic) {
+        ic = instance_->lastFocusedInputContext();
+    }
+    if (ic) {
+        for (auto action :
+             ic->statusArea().actions(StatusGroup::BeforeInputMethod)) {
+            props.push_back(actionToStatus(action, ic));
+        }
+    }
+    props.push_back(inputMethodStatus(ic));
+
+    if (ic) {
+        for (auto group :
+             {StatusGroup::InputMethod, StatusGroup::AfterInputMethod}) {
+            for (auto action : ic->statusArea().actions(group)) {
+                props.push_back(actionToStatus(action, ic));
+            }
+        }
+    }
+
     proxy_->registerProperties(props);
-    updateCurrentInputMethod(instance_->lastFocusedInputContext());
 
     bus_->flush();
+}
+
+std::string Kimpanel::actionToStatus(Action *action, InputContext *ic) {
+    // Path : Short Text : icon : Long text : special
+    const char *type = "";
+    if (action->menu()) {
+        type = "menu";
+    }
+    return stringutils::concat("/Fcitx/", action->name(), ":",
+                               action->shortText(ic), ":", action->icon(ic),
+                               ":", action->longText(ic), ":", type);
 }
 
 void Kimpanel::resume() {
@@ -121,7 +151,7 @@ void Kimpanel::resume() {
     bus_->addObjectVTable("/kimpanel", "org.kde.kimpanel.inputmethod", *proxy_);
     bus_->flush();
     if (available_) {
-        init();
+        registerAllProperties();
     }
 
     auto check = [this](Event &event) {
@@ -164,6 +194,8 @@ void Kimpanel::update(UserInterfaceComponent component,
                       InputContext *inputContext) {
     if (component == UserInterfaceComponent::InputPanel) {
         updateInputPanel(inputContext);
+    } else if (component == UserInterfaceComponent::StatusArea) {
+        registerAllProperties(inputContext);
     }
 }
 
@@ -265,10 +297,7 @@ void Kimpanel::updateInputPanel(InputContext *inputContext) {
     bus_->flush();
 }
 
-void Kimpanel::updateCurrentInputMethod(InputContext *ic) {
-    if (!proxy_) {
-        return;
-    }
+std::string Kimpanel::inputMethodStatus(InputContext *ic) {
     std::string icon = "input-keyboard";
     std::string label = "";
     std::string description = _("Not available");
@@ -280,9 +309,16 @@ void Kimpanel::updateCurrentInputMethod(InputContext *ic) {
             description = entry->name();
         }
     }
-    proxy_->updateProperty(stringutils::concat(
+    return stringutils::concat(
         "/Fcitx/im:", label.empty() ? description : label, ":", icon, ":",
-        label.empty() ? "" : description, ":menu"));
+        label.empty() ? "" : description, ":menu");
+}
+
+void Kimpanel::updateCurrentInputMethod(InputContext *ic) {
+    if (!proxy_) {
+        return;
+    }
+    proxy_->updateProperty(inputMethodStatus(ic));
 }
 
 void Kimpanel::msgV1Handler(dbus::Message &msg) {
@@ -294,8 +330,18 @@ void Kimpanel::msgV1Handler(dbus::Message &msg) {
         instance_->restart();
     } else if (msg.member() == "Configure") {
         instance_->configure();
-    } else if (msg.member() == "TriggerProperty") {
-        // TODO
+    } else if (msg.member() == "TriggerProperty" && msg.signature() == "s") {
+        std::string property;
+        msg >> property;
+        if (stringutils::startsWith(property, "/Fcitx/")) {
+            auto actionName = property.substr(7);
+            if (auto action = instance_->userInterfaceManager().lookupAction(
+                    actionName)) {
+                if (auto ic = instance_->lastFocusedInputContext()) {
+                    action->activate(ic);
+                }
+            }
+        }
     } else if (msg.member() == "LookupTablePageUp") {
         if (auto inputContext = lastInputContext_.get()) {
             if (auto candidateList =
@@ -337,7 +383,7 @@ void Kimpanel::msgV1Handler(dbus::Message &msg) {
         if (!available_) {
             setAvailable(true);
         }
-        init();
+        registerAllProperties();
     }
 }
 
@@ -346,7 +392,7 @@ void Kimpanel::msgV2Handler(dbus::Message &msg) {
         if (!available_) {
             setAvailable(true);
         }
-        init();
+        registerAllProperties();
     }
 }
 

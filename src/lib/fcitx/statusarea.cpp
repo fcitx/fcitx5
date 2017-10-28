@@ -26,7 +26,7 @@ namespace fcitx {
 class StatusAreaPrivate {
 public:
     StatusAreaPrivate(InputContext *ic) : ic_(ic) {}
-    Action separatorBeforeIM, separatorAfterIM;
+    SimpleAction separatorBeforeIM, separatorAfterIM;
     std::unordered_map<Action *, std::vector<ScopedConnection>> actions_;
     InputContext *ic_;
     void update() {
@@ -43,6 +43,10 @@ StatusArea::~StatusArea() {}
 
 void StatusArea::addAction(StatusGroup group, Action *action) {
     FCITX_D();
+    if (isChild(action)) {
+        removeChild(action);
+        d->actions_.erase(action);
+    }
     switch (group) {
     case StatusGroup::BeforeInputMethod:
         insertChild(&d->separatorBeforeIM, action);
@@ -71,9 +75,11 @@ void StatusArea::addAction(StatusGroup group, Action *action) {
 
 void StatusArea::removeAction(Action *action) {
     FCITX_D();
-    removeChild(action);
-    d->actions_.erase(action);
-    d->update();
+    if (isChild(action)) {
+        removeChild(action);
+        d->actions_.erase(action);
+        d->update();
+    }
 }
 
 void StatusArea::clear() {
@@ -83,13 +89,54 @@ void StatusArea::clear() {
     addChild(&d->separatorAfterIM);
 }
 
-std::vector<Action *> StatusArea::actions() {
+void StatusArea::clearGroup(StatusGroup group) {
+    FCITX_D();
+    for (auto action : actions(group)) {
+        removeAction(action);
+    }
+}
+
+std::vector<Action *> StatusArea::actions(StatusGroup group) {
     FCITX_D();
     std::vector<Action *> result;
-    for (auto ele : childs()) {
-        if (ele != &d->separatorBeforeIM && ele != &d->separatorAfterIM) {
+    switch (group) {
+    case StatusGroup::BeforeInputMethod:
+        for (auto ele : childs()) {
+            if (ele == &d->separatorBeforeIM) {
+                break;
+            }
             result.push_back(static_cast<Action *>(ele));
         }
+        break;
+    case StatusGroup::InputMethod: {
+        bool push = false;
+        for (auto ele : childs()) {
+            if (ele == &d->separatorBeforeIM) {
+                push = true;
+                continue;
+            }
+            if (ele == &d->separatorAfterIM) {
+                break;
+            }
+            if (push) {
+                result.push_back(static_cast<Action *>(ele));
+            }
+        }
+        break;
+    }
+    case StatusGroup::AfterInputMethod: {
+        bool push = false;
+        for (auto ele : childs()) {
+            if (ele == &d->separatorAfterIM) {
+                push = true;
+                continue;
+            }
+            if (push) {
+                result.push_back(static_cast<Action *>(ele));
+            }
+        }
+        break;
+    }
     }
     return result;
 }

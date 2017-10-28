@@ -223,13 +223,7 @@ std::vector<InputMethodEntry> KeyboardEngine::listInputMethods() {
 }
 
 void KeyboardEngine::reloadConfig() {
-    auto &standardPath = StandardPath::global();
-    auto file = standardPath.open(StandardPath::Type::PkgConfig,
-                                  "conf/keyboard.conf", O_RDONLY);
-    RawConfig config;
-    readFromIni(config, file.fd());
-
-    config_.load(config);
+    readAsIni(config_, "conf/keyboard.conf");
     selectionKeys_.clear();
     KeySym syms[] = {
         FcitxKey_1, FcitxKey_2, FcitxKey_3, FcitxKey_4, FcitxKey_5,
