@@ -30,9 +30,13 @@ namespace fcitx {
 namespace dbus {
 
 class ObjectPath;
+class Variant;
 
 template <typename... Args>
 struct DBusStruct;
+
+template <typename Key, typename Value>
+struct DictEntry;
 
 template <typename T>
 struct DBusSignatureTraits;
@@ -63,6 +67,7 @@ DBUS_SIGNATURE_TRAITS(uint64_t, 't');
 DBUS_SIGNATURE_TRAITS(double, 'd');
 DBUS_SIGNATURE_TRAITS(UnixFD, 'h');
 DBUS_SIGNATURE_TRAITS(ObjectPath, 'o');
+DBUS_SIGNATURE_TRAITS(Variant, 'v');
 
 template <typename K, typename V>
 struct DBusSignatureTraits<std::pair<K, V>> {
@@ -93,6 +98,15 @@ struct DBusSignatureTraits<DBusStruct<Args...>> {
         signature;
 };
 
+template <typename Key, typename Value>
+struct DBusSignatureTraits<DictEntry<Key, Value>> {
+    typedef ConcatMetaStringType<
+        MetaString<'{'>,
+        typename DBusSignatureTraits<std::tuple<Key, Value>>::signature,
+        MetaString<'}'>>
+        signature;
+};
+
 template <typename T>
 struct DBusSignatureTraits<std::vector<T>> {
     typedef ConcatMetaStringType<MetaString<'a'>,
@@ -109,54 +123,60 @@ struct DBusContainerSignatureTraits<DBusStruct<Args...>> {
         typename DBusSignatureTraits<std::tuple<Args...>>::signature signature;
 };
 
+template <typename Key, typename Value>
+struct DBusContainerSignatureTraits<DictEntry<Key, Value>> {
+    typedef typename DBusSignatureTraits<std::tuple<Key, Value>>::signature
+        signature;
+};
+
 template <typename T>
 struct DBusContainerSignatureTraits<std::vector<T>> {
     typedef typename DBusSignatureTraits<T>::signature signature;
 };
 
-template <int level, typename S>
-struct SkipTillNextParentheses;
+template <char left, char right, int level, typename S>
+struct SkipTillNext;
 
-template <int level, char first, char... next>
-struct SkipTillNextParentheses<level, MetaString<first, next...>> {
-    typedef
-        typename SkipTillNextParentheses<level, MetaString<next...>>::type type;
+template <char left, char right, int level, char first, char... next>
+struct SkipTillNext<left, right, level, MetaString<first, next...>> {
+    typedef typename SkipTillNext<left, right, level, MetaString<next...>>::type
+        type;
     typedef ConcatMetaStringType<
         MetaString<first>,
-        typename SkipTillNextParentheses<level, MetaString<next...>>::str>
+        typename SkipTillNext<left, right, level, MetaString<next...>>::str>
         str;
 };
 
-template <int level, char... next>
-struct SkipTillNextParentheses<level, MetaString<'(', next...>> {
+template <char left, char right, int level, char... next>
+struct SkipTillNext<left, right, level, MetaString<left, next...>> {
     typedef
-        typename SkipTillNextParentheses<level + 1, MetaString<next...>>::type
+        typename SkipTillNext<left, right, level + 1, MetaString<next...>>::type
             type;
     typedef ConcatMetaStringType<
-        MetaString<'('>,
-        typename SkipTillNextParentheses<level + 1, MetaString<next...>>::str>
+        MetaString<left>,
+        typename SkipTillNext<left, right, level + 1, MetaString<next...>>::str>
         str;
 };
 
-template <int level, char... next>
-struct SkipTillNextParentheses<level, MetaString<')', next...>> {
+template <char left, char right, int level, char... next>
+struct SkipTillNext<left, right, level, MetaString<right, next...>> {
     typedef
-        typename SkipTillNextParentheses<level - 1, MetaString<next...>>::type
+        typename SkipTillNext<left, right, level - 1, MetaString<next...>>::type
             type;
     typedef ConcatMetaStringType<
-        MetaString<')'>,
-        typename SkipTillNextParentheses<level - 1, MetaString<next...>>::str>
+        MetaString<right>,
+        typename SkipTillNext<left, right, level - 1, MetaString<next...>>::str>
         str;
 };
 
-template <char first, char... next>
-struct SkipTillNextParentheses<0, MetaString<first, next...>> {
+template <char left, char right, char first, char... next>
+struct SkipTillNext<left, right, 0, MetaString<first, next...>> {
     typedef MetaString<first, next...> type;
     typedef MetaString<> str;
 };
 
-template <>
-struct SkipTillNextParentheses<0, MetaString<>> {
+template <char left, char right>
+struct SkipTillNext<left, right, 0, MetaString<>> {
     typedef MetaString<> type;
     typedef MetaString<> str;
 };
@@ -178,6 +198,12 @@ DBusStruct<Args...> TupleToDBusStructHelper(std::tuple<Args...>);
 template <typename T>
 using TupleToDBusStruct = decltype(TupleToDBusStructHelper(std::declval<T>()));
 
+template <typename Key, typename Value>
+DictEntry<Key, Value> TupleToDictEntryHelper(std::tuple<Key, Value>);
+
+template <typename T>
+using TupleToDictEntry = decltype(TupleToDictEntryHelper(std::declval<T>()));
+
 template <char... next>
 struct DBusSignatureGetNextSignature;
 
@@ -194,6 +220,12 @@ struct DBusSignatureGetNextSignature<'a', nextChar...> {
     typedef typename SplitType::next next;
 };
 
+template <int level, typename S>
+using SkipTillNextParentheses = SkipTillNext<'(', ')', level, S>;
+
+template <int level, typename S>
+using SkipTillNextBrace = SkipTillNext<'{', '}', level, S>;
+
 template <char... nextChar>
 struct DBusSignatureGetNextSignature<'(', nextChar...> {
     typedef TupleToDBusStruct<
@@ -202,6 +234,17 @@ struct DBusSignatureGetNextSignature<'(', nextChar...> {
         cur;
     typedef DBusMetaStringSignatureToTuple<
         typename SkipTillNextParentheses<1, MetaString<nextChar...>>::type>
+        next;
+};
+
+template <char... nextChar>
+struct DBusSignatureGetNextSignature<'{', nextChar...> {
+    typedef TupleToDictEntry<
+        DBusMetaStringSignatureToTuple<RemoveMetaStringTailType<
+            typename SkipTillNextBrace<1, MetaString<nextChar...>>::str>>>
+        cur;
+    typedef DBusMetaStringSignatureToTuple<
+        typename SkipTillNextBrace<1, MetaString<nextChar...>>::type>
         next;
 };
 

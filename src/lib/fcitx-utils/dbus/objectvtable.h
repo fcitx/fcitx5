@@ -143,6 +143,13 @@ struct ReturnValueHelper<void> {
         msg.send();                                                            \
     }
 
+#define FCITX_OBJECT_VTABLE_PROPERTY(PROPERTY, NAME, SIGNATURE, GETMETHOD)     \
+    ::fcitx::dbus::ObjectVTableProperty PROPERTY##Property{                    \
+        this, NAME, SIGNATURE, [this](::fcitx::dbus::Message &msg) {           \
+            auto method = GETMETHOD;                                           \
+            msg << method();                                                   \
+        }};
+
 class FCITXUTILS_EXPORT ObjectVTableSignal {
 public:
     ObjectVTableSignal(ObjectVTableBase *vtable, const std::string &name,

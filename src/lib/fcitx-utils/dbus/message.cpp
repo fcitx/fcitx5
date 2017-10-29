@@ -199,6 +199,16 @@ void Message::rewind() {
     sd_bus_message_rewind(d->msg_, true);
 }
 
+std::pair<char, std::string> Message::peekType() {
+    FCITX_D();
+    char container;
+    const char *content;
+    if (sd_bus_message_peek_type(d->msg_, &container, &content) >= 0) {
+        return {container, content};
+    }
+    return {};
+}
+
 bool Message::send() {
     FCITX_D();
     auto bus = sd_bus_message_get_bus(d->msg_);
@@ -388,6 +398,36 @@ Message &Message::operator>>(const ContainerEnd &) {
     FCITX_D();
     d->lastError_ = sd_bus_message_exit_container(d->msg_);
     return *this;
+}
+
+Message &Message::operator<<(const Variant &v) {
+    if (!(*this)) {
+        return *this;
+    }
+    if (*this << Container(Container::Type::Variant,
+                           Signature(v.signature()))) {
+        v.writeToMessage(*this);
+        if (!(*this)) {
+            return *this;
+        }
+        if (*this) {
+            *this << ContainerEnd();
+        }
+    }
+    return *this;
+}
+
+Message &Message::operator>>(const Variant &) {
+    if (!(*this)) {
+        return *this;
+    }
+    FCITX_D();
+    d->lastError_ = sd_bus_message_skip(d->msg_, "v");
+    return *this;
+}
+
+void Variant::writeToMessage(dbus::Message &msg) const {
+    serialize_(msg, data_.get());
 }
 }
 }

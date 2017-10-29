@@ -35,6 +35,8 @@ namespace fcitx {
 
 namespace dbus {
 
+class Message;
+
 template <typename... Args>
 struct DBusStruct {
     typedef std::tuple<Args...> tuple_type;
@@ -43,7 +45,7 @@ struct DBusStruct {
     DBusStruct(const DBusStruct &) = default;
     DBusStruct(DBusStruct &&) noexcept(
         std::is_nothrow_move_constructible<tuple_type>::value) = default;
-    DBusStruct &operator=(const DBusStruct &other);
+    DBusStruct &operator=(const DBusStruct &other) = default;
     DBusStruct &operator=(DBusStruct &&other) noexcept(
         std::is_nothrow_move_assignable<tuple_type>::value) = default;
 
@@ -56,6 +58,67 @@ struct DBusStruct {
 
 private:
     tuple_type data_;
+};
+
+class FCITXUTILS_EXPORT Variant {
+public:
+    Variant() = default;
+    template <typename Value>
+    explicit Variant(Value &&value) {
+        setData(std::forward<Value>(value));
+    }
+
+    Variant(const Variant &v)
+        : signature_(v.signature_), copy_(v.copy_), serialize_(v.serialize_) {
+        data_ = copy_(v.data_.get());
+    }
+
+    Variant(Variant &&v) = default;
+    Variant &operator=(const Variant &v) {
+        signature_ = v.signature_;
+        copy_ = v.copy_;
+        serialize_ = v.serialize_;
+        data_ = copy_(v.data_.get());
+        return *this;
+    }
+    Variant &operator=(Variant &&v) = default;
+
+    template <typename Value>
+    void setData(Value &&value);
+    void writeToMessage(dbus::Message &msg) const;
+
+    const std::string &signature() const { return signature_; }
+
+private:
+    std::string signature_;
+    std::shared_ptr<void> data_;
+    std::function<std::shared_ptr<void>(const void *)> copy_;
+    std::function<void(dbus::Message &msg, const void *data)> serialize_;
+};
+
+template <typename Key, typename Value>
+class DictEntry {
+public:
+    DictEntry() = default;
+    DictEntry(const DictEntry &) = default;
+    DictEntry(DictEntry &&) noexcept(
+        std::is_nothrow_move_constructible<Key>::value
+            &&std::is_nothrow_move_constructible<Value>::value) = default;
+    DictEntry &operator=(const DictEntry &other) = default;
+    DictEntry &operator=(DictEntry &&other) noexcept(
+        std::is_nothrow_move_constructible<Key>::value
+            &&std::is_nothrow_move_constructible<Value>::value) = default;
+
+    DictEntry(const Key &key, const Value &value) : key_(key), value_(value) {}
+
+    constexpr Key &key() { return key_; }
+    constexpr const Key &key() const { return key_; }
+    constexpr Value &value() { return value_; }
+    constexpr const Value &value() const { return value_; }
+
+private:
+    Key key_;
+    Value value_;
 };
 
 class Message;
@@ -171,6 +234,7 @@ public:
 
     void resetError();
     void rewind();
+    std::pair<char, std::string> peekType();
 
     Message &operator<<(uint8_t i);
     Message &operator<<(bool b);
@@ -187,6 +251,7 @@ public:
     Message &operator<<(const UnixFD &fd);
     Message &operator<<(const Container &c);
     Message &operator<<(const ContainerEnd &c);
+    Message &operator<<(const Variant &v);
 
     template <typename K, typename V>
     Message &operator<<(const std::pair<K, V> &t) {
@@ -217,6 +282,28 @@ public:
             ;
             TupleMarshaller<typename value_type::tuple_type,
                             sizeof...(Args)>::marshall(*this, t.data());
+            if (*this) {
+                *this << ContainerEnd();
+            }
+        }
+        return *this;
+    }
+
+    template <typename Key, typename Value>
+    Message &operator<<(const DictEntry<Key, Value> &t) {
+        typedef DictEntry<Key, Value> value_type;
+        typedef typename DBusContainerSignatureTraits<value_type>::signature
+            signature;
+        if (*this << Container(Container::Type::DictEntry,
+                               Signature(signature::data()))) {
+            *this << t.key();
+            if (!(*this)) {
+                return *this;
+            }
+            *this << t.value();
+            if (!(*this)) {
+                return *this;
+            }
             if (*this) {
                 *this << ContainerEnd();
             }
@@ -255,6 +342,8 @@ public:
     Message &operator>>(UnixFD &fd);
     Message &operator>>(const Container &c);
     Message &operator>>(const ContainerEnd &c);
+    // We don't support variant, just skip it.
+    Message &operator>>(const Variant &c);
 
     template <typename K, typename V>
     Message &operator>>(std::pair<K, V> &t) {
@@ -292,6 +381,28 @@ public:
         return *this;
     }
 
+    template <typename Key, typename Value>
+    Message &operator>>(DictEntry<Key, Value> &t) {
+        typedef DictEntry<Key, Value> value_type;
+        typedef typename DBusContainerSignatureTraits<value_type>::signature
+            signature;
+        if (*this >> Container(Container::Type::DictEntry,
+                               Signature(signature::data()))) {
+            *this >> t.key();
+            if (!(*this)) {
+                return *this;
+            }
+            *this >> t.value();
+            if (!(*this)) {
+                return *this;
+            }
+            if (*this) {
+                *this >> ContainerEnd();
+            }
+        }
+        return *this;
+    }
+
     template <typename T>
     Message &operator>>(std::vector<T> &t) {
         typedef std::vector<T> value_type;
@@ -313,6 +424,21 @@ private:
     std::unique_ptr<MessagePrivate> d_ptr;
     FCITX_DECLARE_PRIVATE(Message);
 };
+
+template <typename Value>
+void Variant::setData(Value &&value) {
+    typedef std::remove_reference_t<std::remove_cv_t<Value>> value_type;
+    signature_ = DBusSignatureTraits<value_type>::signature::data();
+    data_ = std::make_shared<value_type>(std::forward<Value>(value));
+    copy_ = [](const void *src) {
+        auto s = static_cast<const value_type *>(src);
+        return std::make_shared<value_type>(*s);
+    };
+    serialize_ = [](dbus::Message &msg, const void *data) {
+        auto s = static_cast<const value_type *>(data);
+        msg << *s;
+    };
+}
 }
 }
 
