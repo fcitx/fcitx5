@@ -85,6 +85,9 @@ public:
 
     template <typename Value>
     void setData(Value &&value);
+
+    void setData(const char *str) { setData(std::string(str)); }
+
     void writeToMessage(dbus::Message &msg) const;
 
     const std::string &signature() const { return signature_; }
@@ -427,7 +430,7 @@ private:
 
 template <typename Value>
 void Variant::setData(Value &&value) {
-    typedef std::remove_reference_t<std::remove_cv_t<Value>> value_type;
+    typedef std::remove_cv_t<std::remove_reference_t<Value>> value_type;
     signature_ = DBusSignatureTraits<value_type>::signature::data();
     data_ = std::make_shared<value_type>(std::forward<Value>(value));
     copy_ = [](const void *src) {

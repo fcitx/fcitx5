@@ -90,13 +90,23 @@ void StatusArea::clear() {
 }
 
 void StatusArea::clearGroup(StatusGroup group) {
-    FCITX_D();
     for (auto action : actions(group)) {
         removeAction(action);
     }
 }
+std::vector<Action *> StatusArea::allActions() const {
+    FCITX_D();
+    std::vector<Action *> result;
+    for (auto ele : childs()) {
+        if (ele == &d->separatorBeforeIM || ele == &d->separatorAfterIM) {
+            continue;
+        }
+        result.push_back(static_cast<Action *>(ele));
+    }
+    return result;
+}
 
-std::vector<Action *> StatusArea::actions(StatusGroup group) {
+std::vector<Action *> StatusArea::actions(StatusGroup group) const {
     FCITX_D();
     std::vector<Action *> result;
     switch (group) {

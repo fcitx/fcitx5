@@ -61,6 +61,7 @@ public:
     bool foreachGroup(const FocusGroupVisitor &visitor);
 
     InputContext *lastFocusedInputContext();
+    InputContext *mostRecentInputContext();
 
 private:
     void finalize();

@@ -21,6 +21,7 @@
 #include "action.h"
 #include "inputcontext.h"
 #include "userinterface.h"
+#include <set>
 
 namespace fcitx {
 
@@ -29,6 +30,27 @@ struct UserInterfaceComponentHash {
     std::underlying_type_t<T> operator()(T t) const {
         return static_cast<std::underlying_type_t<T>>(t);
     }
+};
+
+class IdAllocator {
+public:
+    int allocId() {
+        if (freeList_.empty()) {
+            ++maxId_;
+            return maxId_;
+        } else {
+            auto value = *freeList_.begin();
+            freeList_.erase(freeList_.begin());
+            return value;
+        }
+    }
+    void returnId(int id) {
+        assert(id <= maxId_ && freeList_.count(id) == 0);
+        freeList_.insert(id);
+    }
+
+    std::set<int> freeList_;
+    int maxId_ = 0;
 };
 
 class UserInterfaceManagerPrivate {
@@ -42,6 +64,7 @@ public:
 
     std::unordered_map<std::string, std::pair<Action *, ScopedConnection>>
         actions_;
+    std::unordered_map<int, Action *> idToAction_;
 
     typedef std::list<std::pair<
         InputContext *, std::unordered_set<UserInterfaceComponent, EnumHash>>>
@@ -49,6 +72,8 @@ public:
     UIUpdateList updateList_;
     std::unordered_map<InputContext *, UIUpdateList::iterator> updateIndex_;
     AddonManager *addonManager_;
+
+    IdAllocator ids_;
 };
 
 UserInterfaceManager::UserInterfaceManager(AddonManager *addonManager)
@@ -96,8 +121,10 @@ bool UserInterfaceManager::registerAction(const std::string &name,
     }
     ScopedConnection conn = action->connect<ObjectDestroyed>(
         [this, action](void *) { unregisterAction(action); });
-    d->actions_.emplace(name, std::make_pair(action, std::move(conn)));
     action->setName(name);
+    action->setId(d->ids_.allocId());
+    d->actions_.emplace(name, std::make_pair(action, std::move(conn)));
+    d->idToAction_.emplace(action->id(), action);
     return true;
 }
 
@@ -111,10 +138,13 @@ void UserInterfaceManager::unregisterAction(Action *action) {
         return;
     }
     d->actions_.erase(iter);
+    d->idToAction_.erase(action->id());
+    d->ids_.returnId(action->id());
     action->setName(std::string());
+    action->setId(0);
 }
 
-Action *UserInterfaceManager::lookupAction(const std::string &name) {
+Action *UserInterfaceManager::lookupAction(const std::string &name) const {
     FCITX_D();
     auto iter = d->actions_.find(name);
     if (iter == d->actions_.end()) {
@@ -122,11 +152,18 @@ Action *UserInterfaceManager::lookupAction(const std::string &name) {
     }
     return std::get<0>(iter->second);
 }
+
+Action *UserInterfaceManager::lookupActionById(int id) const {
+    FCITX_D();
+    auto iter = d->idToAction_.find(id);
+    if (iter == d->idToAction_.end()) {
+        return nullptr;
+    }
+    return iter->second;
 }
 
-void fcitx::UserInterfaceManager::update(
-    fcitx::UserInterfaceComponent component,
-    fcitx::InputContext *inputContext) {
+void UserInterfaceManager::update(UserInterfaceComponent component,
+                                  InputContext *inputContext) {
     FCITX_D();
     auto iter = d->updateIndex_.find(inputContext);
     decltype(d->updateList_)::iterator listIter;
@@ -142,7 +179,7 @@ void fcitx::UserInterfaceManager::update(
     listIter->second.insert(component);
 }
 
-void fcitx::UserInterfaceManager::expire(fcitx::InputContext *inputContext) {
+void UserInterfaceManager::expire(InputContext *inputContext) {
     FCITX_D();
     auto iter = d->updateIndex_.find(inputContext);
     if (d->updateIndex_.end() != iter) {
@@ -151,7 +188,7 @@ void fcitx::UserInterfaceManager::expire(fcitx::InputContext *inputContext) {
     }
 }
 
-void fcitx::UserInterfaceManager::flush() {
+void UserInterfaceManager::flush() {
     FCITX_D();
     if (!d->ui_) {
         return;
@@ -164,10 +201,10 @@ void fcitx::UserInterfaceManager::flush() {
     d->updateIndex_.clear();
     d->updateList_.clear();
 }
-void fcitx::UserInterfaceManager::updateAvailability() {
+void UserInterfaceManager::updateAvailability() {
     FCITX_D();
     auto oldUI = d->ui_;
-    fcitx::UserInterface *newUI = nullptr;
+    UserInterface *newUI = nullptr;
     std::string newUIName;
     for (auto &name : d->uis_) {
         auto ui =
@@ -190,7 +227,8 @@ void fcitx::UserInterfaceManager::updateAvailability() {
     }
 }
 
-std::string fcitx::UserInterfaceManager::currentUI() const {
+std::string UserInterfaceManager::currentUI() const {
     FCITX_D();
     return d->uiName_;
+}
 }

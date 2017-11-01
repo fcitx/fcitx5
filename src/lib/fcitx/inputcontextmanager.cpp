@@ -173,6 +173,7 @@ public:
     IntrusiveList<InputContext, InputContextListHelper> inputContexts_;
     IntrusiveList<InputContext, InputContextFocusedListHelper>
         focusedInputContexts_;
+    TrackableObjectReference<InputContext> mostRecentInputContext_;
     IntrusiveList<FocusGroup, FocusGroupListHelper> groups_;
     // order matters, need to delete it before groups gone
     Instance *instance_ = nullptr;
@@ -382,10 +383,15 @@ void InputContextManager::notifyFocus(InputContext &ic, bool hasFocus) {
             d->focusedInputContexts_.erase(iter);
         }
         d->focusedInputContexts_.push_front(ic);
+        d->mostRecentInputContext_.unwatch();
     } else {
         if (d->focusedInputContexts_.isInList(ic)) {
             auto iter = d->focusedInputContexts_.iterator_to(ic);
             d->focusedInputContexts_.erase(iter);
+        }
+        // If this is the last ic. unwatch it.
+        if (d->focusedInputContexts_.empty()) {
+            d->mostRecentInputContext_ = ic.watch();
         }
     }
 }
@@ -394,5 +400,14 @@ InputContext *InputContextManager::lastFocusedInputContext() {
     FCITX_D();
     return d->focusedInputContexts_.empty() ? nullptr
                                             : &d->focusedInputContexts_.front();
+}
+
+InputContext *InputContextManager::mostRecentInputContext() {
+    FCITX_D();
+    auto ic = lastFocusedInputContext();
+    if (ic) {
+        return ic;
+    }
+    return d->mostRecentInputContext_.get();
 }
 }

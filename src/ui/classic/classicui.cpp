@@ -23,6 +23,7 @@
 #include "fcitx/inputcontextmanager.h"
 #include "fcitx/instance.h"
 #include "fcitx/userinterfacemanager.h"
+#include "notificationitem_public.h"
 #include "waylandui.h"
 #include "xcbui.h"
 #include <fcitx-config/iniparser.h>
@@ -92,6 +93,10 @@ void ClassicUI::suspend() {
     for (auto &p : uis_) {
         p.second->suspend();
     }
+
+    if (auto sni = notificationitem()) {
+        sni->call<INotificationItem::disable>();
+    }
     eventHandlers_.clear();
 }
 
@@ -126,6 +131,18 @@ void ClassicUI::resume() {
     suspended_ = false;
     for (auto &p : uis_) {
         p.second->resume();
+    }
+
+    if (auto sni = notificationitem()) {
+        if (!sniHandler_) {
+            sniHandler_.reset(
+                sni->call<INotificationItem::watch>([this](bool enable) {
+                    for (auto &p : uis_) {
+                        p.second->setEnableTray(!enable);
+                    }
+                }));
+        }
+        sni->call<INotificationItem::enable>();
     }
 
     eventHandlers_.emplace_back(instance_->watchEvent(

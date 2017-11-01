@@ -57,6 +57,8 @@ public:
     void setMenu(Menu *menu);
     Menu *menu();
 
+    int id();
+
     virtual void activate(InputContext *) {}
     void update(InputContext *ic);
 
@@ -64,6 +66,7 @@ public:
 
 private:
     void setName(const std::string &name);
+    void setId(int id);
 
     std::unique_ptr<ActionPrivate> d_ptr;
     FCITX_DECLARE_PRIVATE(Action);

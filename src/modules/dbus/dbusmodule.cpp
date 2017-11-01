@@ -45,12 +45,12 @@ public:
 
     void restart() {
         auto instance = instance_;
-        instance_->eventLoop().addTimeEvent(
-            CLOCK_MONOTONIC, now(CLOCK_MONOTONIC), 0,
-            [instance](EventSource *, uint64_t) {
+        deferEvent_.reset(instance_->eventLoop().addDeferEvent(
+            [this, instance](EventSource *e) {
                 instance->restart();
+                deferEvent_.reset();
                 return false;
-            });
+            }));
     }
     void configure() { instance_->configure(); }
     void configureAddon(const std::string &addon) {
@@ -177,6 +177,7 @@ public:
 private:
     DBusModule *module_;
     Instance *instance_;
+    std::unique_ptr<EventSource> deferEvent_;
 
 private:
     FCITX_OBJECT_VTABLE_SIGNAL(inputMethodGroupChanged,

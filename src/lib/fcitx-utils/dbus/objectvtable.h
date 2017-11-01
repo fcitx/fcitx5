@@ -146,8 +146,10 @@ struct ReturnValueHelper<void> {
 #define FCITX_OBJECT_VTABLE_PROPERTY(PROPERTY, NAME, SIGNATURE, GETMETHOD)     \
     ::fcitx::dbus::ObjectVTableProperty PROPERTY##Property{                    \
         this, NAME, SIGNATURE, [this](::fcitx::dbus::Message &msg) {           \
+            typedef FCITX_STRING_TO_DBUS_TUPLE(SIGNATURE) property_type;       \
             auto method = GETMETHOD;                                           \
-            msg << method();                                                   \
+            property_type property = method();                                 \
+            msg << property;                                                   \
         }};
 
 class FCITXUTILS_EXPORT ObjectVTableSignal {

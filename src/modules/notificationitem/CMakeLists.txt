@@ -1,0 +1,7 @@
+add_library(notificationitem MODULE notificationitem.cpp dbusmenu.cpp)
+target_link_libraries(notificationitem Fcitx5::Core Fcitx5::Module::DBus ${FMT_TARGET})
+set_target_properties(notificationitem PROPERTIES PREFIX "")
+install(TARGETS notificationitem DESTINATION "${FCITX_INSTALL_ADDONDIR}")
+fcitx5_translate_desktop_file(notificationitem.conf.in notificationitem.conf)
+install(FILES "${CMAKE_CURRENT_BINARY_DIR}/notificationitem.conf" DESTINATION "${FCITX_INSTALL_PKGDATADIR}/addon")
+fcitx5_export_module(NotificationItem TARGET notificationitem BUILD_INCLUDE_DIRECTORIES "${CMAKE_CURRENT_SOURCE_DIR}" HEADERS notificationitem_public.h INSTALL)

@@ -39,7 +39,8 @@ public:
     void load(const std::string &ui = {});
     bool registerAction(const std::string &name, Action *action);
     void unregisterAction(Action *action);
-    Action *lookupAction(const std::string &name);
+    Action *lookupAction(const std::string &name) const;
+    Action *lookupActionById(int id) const;
     void update(UserInterfaceComponent component, InputContext *inputContext);
     void expire(InputContext *inputContext);
     void flush();

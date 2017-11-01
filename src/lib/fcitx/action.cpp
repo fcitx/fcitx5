@@ -27,6 +27,7 @@ class ActionPrivate : QPtrHolder<Action> {
 public:
     ActionPrivate(Action *q) : QPtrHolder<Action>(q) {}
     std::string name_;
+    int id_ = 0;
     bool checkable_ = false;
     bool separator_ = false;
     FCITX_DEFINE_SIGNAL_PRIVATE(Action, Update);
@@ -55,6 +56,16 @@ bool Action::registerAction(const std::string &name,
 void Action::setName(const std::string &name) {
     FCITX_D();
     d->name_ = name;
+}
+
+int Action::id() {
+    FCITX_D();
+    return d->id_;
+}
+
+void Action::setId(int id) {
+    FCITX_D();
+    d->id_ = id;
 }
 
 Action &Action::setCheckable(bool checkable) {

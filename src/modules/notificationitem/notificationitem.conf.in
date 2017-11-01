@@ -1,0 +1,10 @@
+[Addon]
+Name=notificationitem
+Type=SharedLibrary
+Library=notificationitem
+Category=Module
+OnDemand=True
+
+[Addon/Dependencies]
+0=dbus
+

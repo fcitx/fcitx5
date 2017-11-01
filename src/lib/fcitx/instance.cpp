@@ -1167,6 +1167,13 @@ void Instance::toggle() {
     }
 }
 
+void Instance::enumerate(bool forward) {
+    if (auto ic = lastFocusedInputContext()) {
+        CheckInputMethodChanged imChangedRAII(ic, this);
+        enumerate(ic, forward);
+    }
+}
+
 bool Instance::canTrigger() const {
     auto &imManager = inputMethodManager();
     return (imManager.currentGroup().inputMethodList().size() > 1);
@@ -1295,6 +1302,11 @@ Text Instance::outputFilter(InputContext *inputContext, const Text &orig) {
 InputContext *Instance::lastFocusedInputContext() {
     FCITX_D();
     return d->icManager_.lastFocusedInputContext();
+}
+
+InputContext *Instance::mostRecentInputContext() {
+    FCITX_D();
+    return d->icManager_.mostRecentInputContext();
 }
 
 int scoreForGroup(FocusGroup *group, const std::string &displayHint) {

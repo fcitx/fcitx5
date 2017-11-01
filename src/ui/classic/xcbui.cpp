@@ -367,11 +367,27 @@ int XCBUI::dpi(int dpi) {
     return (static_cast<double>(dpi) / maxDpi_) * fontOption_.dpi;
 }
 
-void XCBUI::resume() { trayWindow_->resume(); }
+void XCBUI::resume() { updateTray(); }
 
 void XCBUI::suspend() {
     inputWindow_->update(nullptr);
-    trayWindow_->suspend();
+    updateTray();
+}
+
+void XCBUI::updateTray() {
+    bool enableTray = enableTray_ && !parent_->suspended();
+    if (enableTray) {
+        trayWindow_->resume();
+    } else {
+        trayWindow_->suspend();
+    }
+}
+
+void XCBUI::setEnableTray(bool enable) {
+    if (enable != enableTray_) {
+        enableTray_ = enable;
+        updateTray();
+    }
 }
 }
 }

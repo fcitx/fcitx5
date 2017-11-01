@@ -98,7 +98,11 @@ public:
     FCITX_DECLARE_SIGNAL(Instance, KeyEventResult,
                          void(const KeyEvent &keyEvent));
 
+    /// Return a focused input context.
     InputContext *lastFocusedInputContext();
+    /// Return the most recent focused input context. If there isn't such ic,
+    /// return the last unfocused input context.
+    InputContext *mostRecentInputContext();
     InputMethodManager &inputMethodManager();
     const InputMethodManager &inputMethodManager() const;
 
@@ -120,6 +124,7 @@ public:
     std::string currentInputMethod();
     void setCurrentInputMethod(const std::string &imName);
     bool enumerateGroup(bool forward);
+    void enumerate(bool forward);
 
     FocusGroup *defaultFocusGroup(const std::string &displayHint = {});
 

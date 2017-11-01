@@ -53,6 +53,7 @@ public:
     void update(UserInterfaceComponent component,
                 InputContext *inputContext) override;
     void suspend() override;
+    void setEnableTray(bool) override{};
 
 private:
     static const struct wl_registry_listener registryListener;

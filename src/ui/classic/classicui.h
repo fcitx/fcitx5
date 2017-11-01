@@ -45,6 +45,7 @@ public:
     virtual void updateCurrentInputMethod(InputContext *) {}
     virtual void suspend() = 0;
     virtual void resume() {}
+    virtual void setEnableTray(bool) = 0;
 };
 
 struct NotEmpty {
@@ -78,6 +79,8 @@ public:
     void reloadConfig() override;
 
 private:
+    FCITX_ADDON_DEPENDENCY_LOADER(notificationitem, instance_->addonManager());
+
     UIInterface *uiForEvent(Event &event);
     UIInterface *uiForInputContext(InputContext *inputContext);
 
@@ -92,6 +95,7 @@ private:
 
     std::vector<std::unique_ptr<HandlerTableEntry<EventHandler>>>
         eventHandlers_;
+    std::unique_ptr<HandlerTableEntryBase> sniHandler_;
 
     std::unordered_map<std::string, std::unique_ptr<UIInterface>> uis_;
 

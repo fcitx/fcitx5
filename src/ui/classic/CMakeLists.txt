@@ -12,7 +12,7 @@ target_link_libraries(classicui
     Fcitx5::Core
     PkgConfig::Cairo PkgConfig::CairoXCB PkgConfig::Pango
     PkgConfig::GdkPixbuf PkgConfig::GioUnix
-    Fcitx5::Module::XCB Fcitx5::Module::Wayland
+    Fcitx5::Module::XCB Fcitx5::Module::Wayland Fcitx5::Module::NotificationItem
     XCB::AUX XCB::ICCCM XCB::XINERAMA Wayland::Client XCB::RANDR XCB::EWMH
     ${CAIRO_EGL_LIBRARY}
     Fcitx5::Wayland::Core ${FMT_TARGET})

@@ -265,6 +265,9 @@ void XCBTrayWindow::update() {
 }
 
 void XCBTrayWindow::resume() {
+    if (dockCallback_) {
+        return;
+    }
     char trayAtomNameBuf[100];
     sprintf(trayAtomNameBuf, "_NET_SYSTEM_TRAY_S%d", ui_->defaultScreen());
     xcb_screen_t *screen =
@@ -278,6 +281,9 @@ void XCBTrayWindow::resume() {
 }
 
 void XCBTrayWindow::suspend() {
+    if (!dockCallback_) {
+        return;
+    }
     dockCallback_.reset();
     destroyWindow();
 }

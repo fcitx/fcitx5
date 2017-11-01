@@ -62,6 +62,8 @@ public:
     void updateCurrentInputMethod(InputContext *inputContext) override;
     void suspend() override;
     void resume() override;
+    void setEnableTray(bool) override;
+
     const auto &screenRects() { return rects_; }
     int dpi(int dpi);
     const XCBFontOption &fontOption() const { return fontOption_; }
@@ -69,6 +71,7 @@ public:
 private:
     void refreshCompositeManager();
     void initScreen();
+    void updateTray();
 
     ClassicUI *parent_;
     std::string name_;
@@ -78,6 +81,7 @@ private:
     xcb_colormap_t colorMap_;
     std::unique_ptr<XCBInputWindow> inputWindow_;
     std::unique_ptr<XCBTrayWindow> trayWindow_;
+    bool enableTray_ = false;
 
     std::string compMgrAtomString_;
     xcb_atom_t compMgrAtom_ = XCB_ATOM_NONE;

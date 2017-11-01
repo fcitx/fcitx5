@@ -36,7 +36,7 @@ template <typename... Args>
 struct DBusStruct;
 
 template <typename Key, typename Value>
-struct DictEntry;
+class DictEntry;
 
 template <typename T>
 struct DBusSignatureTraits;

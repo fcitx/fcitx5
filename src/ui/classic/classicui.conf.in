@@ -8,3 +8,4 @@ OnDemand=True
 [Addon/OptionalDependencies]
 0=xcb
 1=wayland
+2=notificationitem

@@ -29,7 +29,8 @@ static const std::string emptyString;
 class InputMethodGroupItemPrivate {
 public:
     InputMethodGroupItemPrivate(const std::string &name) : name_(name) {}
-    FCITX_INLINE_DEFINE_DEFAULT_DTOR_COPY_AND_MOVE(InputMethodGroupItemPrivate);
+    FCITX_INLINE_DEFINE_DEFAULT_DTOR_COPY_AND_MOVE_WITHOUT_SPEC(
+        InputMethodGroupItemPrivate);
 
     std::string name_;
     std::string layout_;

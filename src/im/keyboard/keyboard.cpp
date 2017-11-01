@@ -202,7 +202,8 @@ std::vector<InputMethodEntry> KeyboardEngine::listInputMethods() {
         auto uniqueName = imNamePrefix + layoutInfo.name;
         result.push_back(std::move(
             InputMethodEntry(uniqueName, description, language, "keyboard")
-                .setLabel(layoutInfo.name)));
+                .setLabel(layoutInfo.name)
+                .setIcon("input-keyboard")));
         for (auto &variantInfo : layoutInfo.variantInfos) {
             auto language = findBestLanguage(isoCodes_, variantInfo.description,
                                              variantInfo.languages.size()
@@ -216,7 +217,8 @@ std::vector<InputMethodEntry> KeyboardEngine::listInputMethods() {
                                                   "-", variantInfo.name);
             result.push_back(std::move(
                 InputMethodEntry(uniqueName, description, language, "keyboard")
-                    .setLabel(layoutInfo.name)));
+                    .setLabel(layoutInfo.name)
+                    .setIcon("input-keyboard")));
         }
     }
     return result;
