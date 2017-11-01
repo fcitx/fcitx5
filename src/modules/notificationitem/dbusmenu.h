@@ -121,7 +121,6 @@ private:
     FCITX_OBJECT_VTABLE_METHOD(aboutToShow, "AboutToShow", "i", "b");
 
     constexpr static uint32_t version_ = 2;
-    int pendingId_;
     uint32_t revision_ = 0;
     NotificationItem *parent_;
     std::unique_ptr<EventSourceTime> timeEvent_;

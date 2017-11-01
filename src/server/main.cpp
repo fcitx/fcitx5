@@ -47,7 +47,7 @@ int main(int argc, char *argv[]) {
 
     auto home = getenv("HOME");
     if (!home || home[0] == '\0') {
-        fprintf(stderr, "Please set HOME.");
+        fprintf(stderr, "Please set HOME.\n");
         return 1;
     }
 

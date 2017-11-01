@@ -204,6 +204,11 @@ public:
         // Check that all the directories are older than the cache
         uint32_t dirListOffset = readDoubleWord(8);
         uint32_t dirListLen = readDoubleWord(dirListOffset);
+        // We assume it won't be so long just in case we hit a corruptted file.
+        if (dirListLen > 4096) {
+            isValid_ = false;
+            return;
+        }
         for (uint32_t i = 0; i < dirListLen; ++i) {
             uint32_t offset = readDoubleWord(dirListOffset + 4 + 4 * i);
             if (!isValid_ || offset >= size_) {

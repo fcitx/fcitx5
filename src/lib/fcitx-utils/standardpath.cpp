@@ -122,6 +122,9 @@ public:
             // caller need to ensure HOME is not empty;
             if (defaultPath[0] != '/') {
                 const char *home = getenv("HOME");
+                if (!home) {
+                    throw std::runtime_error("Home is not set");
+                }
                 dir = stringutils::joinPath(home, defaultPath);
             } else {
                 if (strcmp(env, "XDG_RUNTIME_DIR") == 0) {

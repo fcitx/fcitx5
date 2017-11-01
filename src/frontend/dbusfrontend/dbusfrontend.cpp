@@ -234,11 +234,13 @@ DBusFrontendModule::DBusFrontendModule(Instance *instance)
           std::make_unique<InputMethod1>(this, portalBus_.get())) {
 
     portalBus_->attachEventLoop(&instance->eventLoop());
-    portalBus_->requestName(
+    if (!portalBus_->requestName(
         FCITX_PORTAL_DBUS_SERVICE,
         Flags<dbus::RequestNameFlag>{dbus::RequestNameFlag::AllowReplacement,
                                      dbus::RequestNameFlag::ReplaceExisting,
-                                     dbus::RequestNameFlag::Queue});
+                                     dbus::RequestNameFlag::Queue})) {
+        FCITX_LOG(Warn) << "Can not get portal dbus name right now.";
+    }
 }
 
 DBusFrontendModule::~DBusFrontendModule() {
