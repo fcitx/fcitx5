@@ -170,11 +170,12 @@ static uint32_t iconNameHash(const char *p) {
 class IconThemeCache {
 public:
     IconThemeCache(const std::string &filename) {
-        if (!fs::isreg(filename)) {
+        auto fd = UnixFD::own(open(filename.c_str(), O_RDONLY));
+        if (!fd.isValid()) {
             return;
         }
         struct stat st;
-        if (stat(filename.c_str(), &st) != 0) {
+        if (fstat(fd.fd(), &st) != 0) {
             return;
         }
         struct stat dirSt;
@@ -186,11 +187,11 @@ public:
             return;
         }
 
-        auto fd = UnixFD::own(open(filename.c_str(), O_RDONLY));
         memory_ = static_cast<uint8_t *>(
             mmap(nullptr, st.st_size, PROT_READ, MAP_SHARED, fd.fd(), 0));
         if (!memory_) {
-            throw std::runtime_error("Failed to mmap");
+            // Failed to mmap is not critical here.
+            return;
         }
         size_ = st.st_size;
 
@@ -386,9 +387,9 @@ public:
         };
         parseDirectory("Directories", directories_);
         parseDirectory("ScaledDirectories", scaledDirectories_);
-        if (auto subConfig = section->get("Hidden")) {
-            unmarshallOption(hidden_, *subConfig);
-        }
+        // if (auto subConfig = section->get("Hidden")) {
+        //    unmarshallOption(hidden_, *subConfig);
+        // }
         if (auto subConfig = section->get("Example")) {
             unmarshallOption(example_, *subConfig);
         }
@@ -610,7 +611,8 @@ public:
     std::vector<IconThemeDirectory> scaledDirectories_;
     std::unordered_set<std::string> subThemeNames_;
     std::vector<std::pair<std::string, IconThemeCache>> baseDirs_;
-    bool hidden_;
+    // Not really useful for our usecase.
+    // bool hidden_;
     std::string example_;
 };
 
@@ -655,7 +657,6 @@ FCITX_DEFINE_READ_ONLY_PROPERTY_PRIVATE(IconTheme,
 FCITX_DEFINE_READ_ONLY_PROPERTY_PRIVATE(IconTheme,
                                         std::vector<IconThemeDirectory>,
                                         scaledDirectories);
-FCITX_DEFINE_READ_ONLY_PROPERTY_PRIVATE(IconTheme, bool, hidden);
 FCITX_DEFINE_READ_ONLY_PROPERTY_PRIVATE(IconTheme, std::string, example);
 
 std::string IconTheme::findIcon(const std::string &iconName, uint desiredSize,

@@ -89,7 +89,6 @@ public:
                                      directories);
     FCITX_DECLARE_READ_ONLY_PROPERTY(std::vector<IconThemeDirectory>,
                                      scaledDirectories);
-    FCITX_DECLARE_READ_ONLY_PROPERTY(bool, hidden);
     FCITX_DECLARE_READ_ONLY_PROPERTY(std::string, example);
 
 private:

@@ -136,11 +136,11 @@ XCBUI::XCBUI(ClassicUI *parent, const std::string &name, xcb_connection_t *conn,
     compMgrAtom_ = parent_->xcb()->call<IXCBModule::atom>(
         name_, compMgrAtomString_, false);
 
-    parent_->xcb()->call<IXCBModule::addSelection>(
+    eventHandlers_.emplace_back(parent_->xcb()->call<IXCBModule::addSelection>(
         name, compMgrAtomString_,
-        [this](xcb_atom_t) { refreshCompositeManager(); });
+        [this](xcb_atom_t) { refreshCompositeManager(); }));
 
-    parent_->xcb()->call<IXCBModule::addEventFilter>(
+    eventHandlers_.emplace_back(parent_->xcb()->call<IXCBModule::addEventFilter>(
         name, [this](xcb_connection_t *, xcb_generic_event_t *event) {
             uint8_t response_type = event->response_type & ~0x80;
             switch (response_type) {
@@ -171,7 +171,7 @@ XCBUI::XCBUI(ClassicUI *parent, const std::string &name, xcb_connection_t *conn,
                 }
             }
             return false;
-        });
+        }));
 
     xcb_screen_t *screen = xcb_aux_get_screen(conn_, defaultScreen_);
     addEventMaskToWindow(conn_, screen->root, XCB_EVENT_MASK_STRUCTURE_NOTIFY);

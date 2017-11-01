@@ -173,8 +173,8 @@ void NotificationItem::registerSNI() {
         NOTIFICATION_WATCHER_DBUS_IFACE, "RegisterStatusNotifierItem");
     call << serviceName_;
     pendingRegisterCall_.reset(call.callAsync(0, [this](dbus::Message msg) {
-        pendingRegisterCall_.reset();
         setRegistered(!msg.isError());
+        pendingRegisterCall_.reset();
         return true;
     }));
 }
