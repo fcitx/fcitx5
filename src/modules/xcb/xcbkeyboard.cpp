@@ -160,9 +160,9 @@ void XCBKeyboard::updateKeymap() {
     }
 
     if (!keymap_) {
-        struct xkb_rule_names xkbNames;
 
         if (!xkbRule_.empty()) {
+            struct xkb_rule_names xkbNames;
             auto layout = stringutils::join(defaultLayouts_, ',');
             auto variant = stringutils::join(defaultVariants_, ',');
             xkbNames.rules = xkbRule_.c_str();
@@ -176,6 +176,7 @@ void XCBKeyboard::updateKeymap() {
         }
 
         if (!keymap_) {
+            struct xkb_rule_names xkbNames;
             memset(&xkbNames, 0, sizeof(xkbNames));
             keymap_.reset(xkb_keymap_new_from_names(
                 context_.get(), &xkbNames, XKB_KEYMAP_COMPILE_NO_FLAGS));
