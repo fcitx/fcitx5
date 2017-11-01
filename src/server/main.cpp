@@ -40,7 +40,7 @@ StaticAddonRegistry staticAddon = {
     std::make_pair<std::string, AddonFactory *>("keyboard", &keyboardFactory)};
 
 int main(int argc, char *argv[]) {
-    if (pipe(selfpipe)) {
+    if (pipe2(selfpipe, O_CLOEXEC | O_NONBLOCK) < 0) {
         fprintf(stderr, "Could not create self-pipe.\n");
         return 1;
     }
@@ -57,14 +57,6 @@ int main(int argc, char *argv[]) {
         if (fs::makePath(userDir)) {
             crashlog = stringutils::joinPath(userDir, "crash.log");
         }
-    }
-
-    if (fcntl(selfpipe[0], F_SETFL, O_NONBLOCK) == -1 ||
-        fcntl(selfpipe[0], F_SETFD, FD_CLOEXEC) == -1 ||
-        fcntl(selfpipe[1], F_SETFL, O_NONBLOCK) == -1 ||
-        fcntl(selfpipe[1], F_SETFD, FD_CLOEXEC)) {
-        fprintf(stderr, "fcntl failed.\n");
-        exit(1);
     }
 
     SetMyExceptionHandler();
