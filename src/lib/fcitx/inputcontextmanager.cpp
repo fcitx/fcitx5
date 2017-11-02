@@ -389,7 +389,7 @@ void InputContextManager::notifyFocus(InputContext &ic, bool hasFocus) {
             auto iter = d->focusedInputContexts_.iterator_to(ic);
             d->focusedInputContexts_.erase(iter);
         }
-        // If this is the last ic. unwatch it.
+        // If this is the last ic. watch it.
         if (d->focusedInputContexts_.empty()) {
             d->mostRecentInputContext_ = ic.watch();
         }

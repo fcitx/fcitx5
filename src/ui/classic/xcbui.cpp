@@ -140,38 +140,39 @@ XCBUI::XCBUI(ClassicUI *parent, const std::string &name, xcb_connection_t *conn,
         name, compMgrAtomString_,
         [this](xcb_atom_t) { refreshCompositeManager(); }));
 
-    eventHandlers_.emplace_back(parent_->xcb()->call<IXCBModule::addEventFilter>(
-        name, [this](xcb_connection_t *, xcb_generic_event_t *event) {
-            uint8_t response_type = event->response_type & ~0x80;
-            switch (response_type) {
-            case XCB_CLIENT_MESSAGE: {
-                auto client_message =
-                    reinterpret_cast<xcb_client_message_event_t *>(event);
-                if (client_message->data.data32[1] == compMgrAtom_) {
-                    refreshCompositeManager();
+    eventHandlers_.emplace_back(
+        parent_->xcb()->call<IXCBModule::addEventFilter>(
+            name, [this](xcb_connection_t *, xcb_generic_event_t *event) {
+                uint8_t response_type = event->response_type & ~0x80;
+                switch (response_type) {
+                case XCB_CLIENT_MESSAGE: {
+                    auto client_message =
+                        reinterpret_cast<xcb_client_message_event_t *>(event);
+                    if (client_message->data.data32[1] == compMgrAtom_) {
+                        refreshCompositeManager();
+                    }
+                    break;
                 }
-                break;
-            }
-            case XCB_CONFIGURE_NOTIFY: {
-                auto configure =
-                    reinterpret_cast<xcb_configure_notify_event_t *>(event);
-                auto screen = xcb_aux_get_screen(conn_, defaultScreen_);
-                if (configure->window == screen->root) {
-                    initScreen();
+                case XCB_CONFIGURE_NOTIFY: {
+                    auto configure =
+                        reinterpret_cast<xcb_configure_notify_event_t *>(event);
+                    auto screen = xcb_aux_get_screen(conn_, defaultScreen_);
+                    if (configure->window == screen->root) {
+                        initScreen();
+                    }
+                    break;
                 }
-                break;
-            }
-            }
-            if (multiScreen_ == MultiScreenExtension::Randr &&
-                xrandrFirstEvent_ == XCB_RANDR_NOTIFY) {
-                auto randr =
-                    reinterpret_cast<xcb_randr_notify_event_t *>(event);
-                if (randr->subCode == XCB_RANDR_NOTIFY_CRTC_CHANGE) {
-                    initScreen();
                 }
-            }
-            return false;
-        }));
+                if (multiScreen_ == MultiScreenExtension::Randr &&
+                    xrandrFirstEvent_ == XCB_RANDR_NOTIFY) {
+                    auto randr =
+                        reinterpret_cast<xcb_randr_notify_event_t *>(event);
+                    if (randr->subCode == XCB_RANDR_NOTIFY_CRTC_CHANGE) {
+                        initScreen();
+                    }
+                }
+                return false;
+            }));
 
     xcb_screen_t *screen = xcb_aux_get_screen(conn_, defaultScreen_);
     addEventMaskToWindow(conn_, screen->root, XCB_EVENT_MASK_STRUCTURE_NOTIFY);

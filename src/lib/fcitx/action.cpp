@@ -104,8 +104,10 @@ const std::string &Action::name() const {
 
 void Action::update(InputContext *ic) { emit<Update>(ic); }
 
-class SimpleActionPrivate {
+class SimpleActionPrivate : public QPtrHolder<Action> {
 public:
+    SimpleActionPrivate(SimpleAction *q) : QPtrHolder(q) {}
+    FCITX_DEFINE_SIGNAL_PRIVATE(SimpleAction, Activated);
     std::string longText_;
     std::string shortText_;
     std::string icon_;
@@ -113,7 +115,7 @@ public:
 };
 
 SimpleAction::SimpleAction()
-    : Action(), d_ptr(std::make_unique<SimpleActionPrivate>()) {}
+    : Action(), d_ptr(std::make_unique<SimpleActionPrivate>(this)) {}
 
 FCITX_DEFINE_DEFAULT_DTOR(SimpleAction);
 
@@ -155,5 +157,9 @@ std::string SimpleAction::shortText(InputContext *) const {
 std::string SimpleAction::longText(InputContext *) const {
     FCITX_D();
     return d->longText_;
+}
+
+void SimpleAction::activate(InputContext *ic) {
+    emit<SimpleAction::Activated>(ic);
 }
 }

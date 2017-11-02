@@ -132,6 +132,7 @@ public:
                           const std::string &model, const std::string &options);
     void updateXkbStateMask(const std::string &display, uint32_t depressed_mods,
                             uint32_t latched_mods, uint32_t locked_mods);
+    void showInputMethodInformation(InputContext *ic);
 
 private:
     void initialize();
@@ -148,7 +149,6 @@ private:
 
     void activateInputMethod(InputContextEvent &event);
     void deactivateInputMethod(InputContextEvent &event);
-    void showInputMethodInformation(InputContext *ic);
 
     std::unique_ptr<InstancePrivate> d_ptr;
     FCITX_DECLARE_PRIVATE(Instance);

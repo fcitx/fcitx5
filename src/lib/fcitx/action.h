@@ -87,6 +87,10 @@ public:
     bool isChecked(InputContext *) const override;
     std::string longText(InputContext *) const override;
 
+    void activate(fcitx::InputContext *) override;
+
+    FCITX_DECLARE_SIGNAL(SimpleAction, Activated, void(InputContext *));
+
 private:
     std::unique_ptr<SimpleActionPrivate> d_ptr;
     FCITX_DECLARE_PRIVATE(SimpleAction);

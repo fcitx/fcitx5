@@ -29,7 +29,9 @@
 #include "fcitx/addonmanager.h"
 #include "fcitx/inputcontext.h"
 #include "fcitx/inputmethodentry.h"
+#include "fcitx/inputmethodmanager.h"
 #include "fcitx/instance.h"
+#include "fcitx/menu.h"
 #include "fcitx/userinterfacemanager.h"
 
 namespace fcitx {
@@ -333,13 +335,63 @@ void Kimpanel::msgV1Handler(dbus::Message &msg) {
     } else if (msg.member() == "TriggerProperty" && msg.signature() == "s") {
         std::string property;
         msg >> property;
-        if (stringutils::startsWith(property, "/Fcitx/")) {
-            auto actionName = property.substr(7);
-            if (auto action = instance_->userInterfaceManager().lookupAction(
-                    actionName)) {
-                if (auto ic = instance_->lastFocusedInputContext()) {
-                    action->activate(ic);
+        if (property == "/Fcitx/im") {
+            auto &imManager = instance_->inputMethodManager();
+            std::vector<std::string> menuitems;
+            for (const auto &item :
+                 imManager.currentGroup().inputMethodList()) {
+                auto entry = imManager.entry(item.name());
+                if (!entry) {
+                    continue;
                 }
+                menuitems.push_back(stringutils::concat(
+                    "/Fcitx/im/", entry->uniqueName(), ":", entry->name(), ":",
+                    entry->icon(), "::"));
+            }
+            proxy_->execMenu(menuitems);
+        } else if (stringutils::startsWith(property, "/Fcitx/im/")) {
+            auto imName = property.substr(10);
+            timeEvent_.reset(instance_->eventLoop().addTimeEvent(
+                CLOCK_MONOTONIC, now(CLOCK_MONOTONIC) + 30000, 0,
+                [this, imName](EventSourceTime *, uint64_t) {
+                    instance_->setCurrentInputMethod(imName);
+                    timeEvent_.reset();
+                    return true;
+                }));
+        } else if (stringutils::startsWith(property, "/Fcitx/")) {
+            auto actionName = property.substr(7);
+            auto action =
+                instance_->userInterfaceManager().lookupAction(actionName);
+            if (!action) {
+                return;
+            }
+            auto ic = instance_->mostRecentInputContext();
+            if (!ic) {
+                return;
+            }
+            auto icRef = ic->watch();
+            if (auto menu = action->menu()) {
+                std::vector<std::string> menuitems;
+                for (auto menuAction : menu->actions()) {
+                    menuitems.push_back(actionToStatus(menuAction, ic));
+                }
+                proxy_->execMenu(menuitems);
+            } else {
+                // Why we need to delay the event, because we want to
+                // make ic has focus.
+                timeEvent_.reset(instance_->eventLoop().addTimeEvent(
+                    CLOCK_MONOTONIC, now(CLOCK_MONOTONIC) + 30000, 0,
+                    [this, actionName, icRef](EventSourceTime *, uint64_t) {
+                        if (auto action =
+                                instance_->userInterfaceManager().lookupAction(
+                                    actionName)) {
+                            if (auto ic = icRef.get()) {
+                                action->activate(ic);
+                            }
+                        }
+                        timeEvent_.reset();
+                        return true;
+                    }));
             }
         }
     } else if (msg.member() == "LookupTablePageUp") {

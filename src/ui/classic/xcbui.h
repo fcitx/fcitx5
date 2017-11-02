@@ -94,8 +94,7 @@ private:
 
     std::vector<std::pair<Rect, int>> rects_;
 
-    std::vector<std::unique_ptr<HandlerTableEntryBase>>
-        eventHandlers_;
+    std::vector<std::unique_ptr<HandlerTableEntryBase>> eventHandlers_;
 };
 
 void addEventMaskToWindow(xcb_connection_t *conn, xcb_window_t wid,

@@ -23,6 +23,7 @@
 #include "fcitx-utils/dbus/objectvtable.h"
 #include "fcitx-utils/i18n.h"
 #include "fcitx-utils/log.h"
+#include "fcitx/inputcontext.h"
 #include <unordered_set>
 
 namespace fcitx {
@@ -95,12 +96,9 @@ private:
         }
         return result;
     }
-    bool aboutToShow(int32_t id) {
-        // for fcitx, we always return true.
-        revision_++;
-        layoutUpdated(revision_, id);
-        return true;
-    }
+    bool aboutToShow(int32_t id);
+
+    InputContext *lastRelevantIc();
 
     FCITX_OBJECT_VTABLE_PROPERTY(version, "Version", "u",
                                  [this]() { return version_; });
@@ -124,6 +122,7 @@ private:
     uint32_t revision_ = 0;
     NotificationItem *parent_;
     std::unique_ptr<EventSourceTime> timeEvent_;
+    TrackableObjectReference<InputContext> lastRelevantIc_;
 };
 
 } // namespace fcitx
