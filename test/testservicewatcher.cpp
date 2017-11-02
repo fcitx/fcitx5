@@ -46,12 +46,12 @@ int main() {
     std::string name = bus.serviceOwner(TEST_SERVICE, 0);
     FCITX_ASSERT(name == bus.uniqueName());
 
-    handlerTableEntry.reset(watcher.watchService(
+    handlerTableEntry = watcher.watchService(
         TEST_SERVICE, [&loop](const std::string &name, const std::string &,
                               const std::string &) {
             FCITX_ASSERT(name == TEST_SERVICE);
             loop.quit();
-        }));
+        });
 
     FCITX_ASSERT(bus.releaseName(TEST_SERVICE));
     loop.exec();

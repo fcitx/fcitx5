@@ -78,10 +78,10 @@ void XCBWindow::createWindow(xcb_visualid_t vid) {
         CLASSICUI_DEBUG() << "Window created id: " << wid_;
     }
 
-    eventFilter_.reset(ui_->parent()->xcb()->call<IXCBModule::addEventFilter>(
+    eventFilter_ = ui_->parent()->xcb()->call<IXCBModule::addEventFilter>(
         ui_->name(), [this](xcb_connection_t *, xcb_generic_event_t *event) {
             return filterEvent(event);
-        }));
+        });
 
     surface_.reset(cairo_xcb_surface_create(
         conn, wid_, xcb_aux_find_visual_by_id(screen, vid), width_, height_));

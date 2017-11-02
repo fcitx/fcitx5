@@ -24,6 +24,7 @@
 #include <fcitx/addoninstance.h>
 #include <fcitx/focusgroup.h>
 #include <functional>
+#include <memory>
 #include <wayland-client.h>
 
 namespace fcitx {
@@ -37,11 +38,11 @@ typedef std::function<void(const std::string &name, wl_display *display)>
 
 FCITX_ADDON_DECLARE_FUNCTION(
     WaylandModule, addConnectionCreatedCallback,
-    fcitx::HandlerTableEntry<fcitx::WaylandConnectionCreated> *(
+    std::unique_ptr<HandlerTableEntry<fcitx::WaylandConnectionCreated>>(
         WaylandConnectionCreated));
 FCITX_ADDON_DECLARE_FUNCTION(
     WaylandModule, addConnectionClosedCallback,
-    fcitx::HandlerTableEntry<fcitx::WaylandConnectionClosed> *(
+    std::unique_ptr<HandlerTableEntry<fcitx::WaylandConnectionClosed>>(
         WaylandConnectionClosed));
 
 #endif // _FCITX_MODULES_WAYLAND_WAYLAND_PUBLIC_H_

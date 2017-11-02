@@ -225,7 +225,7 @@ public:
         }
     }
 
-    HandlerTableEntry<EventHandler> *
+    std::unique_ptr<HandlerTableEntry<EventHandler>>
     watchEvent(EventType type, EventWatcherPhase phase, EventHandler callback) {
         return eventHandlers_[type][phase].add(callback);
     }
@@ -936,9 +936,9 @@ bool Instance::postEvent(Event &event) {
     return event.accepted();
 }
 
-HandlerTableEntry<EventHandler> *Instance::watchEvent(EventType type,
-                                                      EventWatcherPhase phase,
-                                                      EventHandler callback) {
+std::unique_ptr<HandlerTableEntry<EventHandler>>
+Instance::watchEvent(EventType type, EventWatcherPhase phase,
+                     EventHandler callback) {
     FCITX_D();
     if (phase == EventWatcherPhase::ReservedFirst ||
         phase == EventWatcherPhase::ReservedLast) {

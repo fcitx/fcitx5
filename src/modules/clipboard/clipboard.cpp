@@ -116,9 +116,8 @@ Clipboard::Clipboard(Instance *instance)
     instance_->inputContextManager().registerProperty("clipboardState",
                                                       &factory_);
 
-    xcbCreatedCallback_.reset(
-        xcb_->call<IXCBModule::addConnectionCreatedCallback>([this](
-            const std::string &name, xcb_connection_t *, int, FocusGroup *) {
+    xcbCreatedCallback_ = xcb_->call<IXCBModule::addConnectionCreatedCallback>(
+        [this](const std::string &name, xcb_connection_t *, int, FocusGroup *) {
             auto &callbacks = selectionCallbacks_[name];
 
             callbacks.emplace_back(xcb_->call<IXCBModule::addSelection>(
@@ -129,12 +128,11 @@ Clipboard::Clipboard(Instance *instance)
                 [this, name](xcb_atom_t) { clipboardChanged(name); }));
             primaryChanged(name);
             clipboardChanged(name);
-        }));
-    xcbClosedCallback_.reset(
-        xcb_->call<IXCBModule::addConnectionClosedCallback>(
-            [this](const std::string &name, xcb_connection_t *) {
-                selectionCallbacks_.erase(name);
-            }));
+        });
+    xcbClosedCallback_ = xcb_->call<IXCBModule::addConnectionClosedCallback>(
+        [this](const std::string &name, xcb_connection_t *) {
+            selectionCallbacks_.erase(name);
+        });
 
     constexpr KeySym syms[] = {
         FcitxKey_1, FcitxKey_2, FcitxKey_3, FcitxKey_4, FcitxKey_5,
@@ -306,7 +304,7 @@ void Clipboard::reloadConfig() {
 }
 
 void Clipboard::primaryChanged(const std::string &name) {
-    primaryCallback_.reset(xcb_->call<IXCBModule::convertSelection>(
+    primaryCallback_ = xcb_->call<IXCBModule::convertSelection>(
         name, "PRIMARY", "",
         [this](xcb_atom_t, const char *data, size_t length) {
             if (!data) {
@@ -316,11 +314,11 @@ void Clipboard::primaryChanged(const std::string &name) {
                 primary_ = std::move(str);
             }
             primaryCallback_.reset();
-        }));
+        });
 }
 
 void Clipboard::clipboardChanged(const std::string &name) {
-    clipboardCallback_.reset(xcb_->call<IXCBModule::convertSelection>(
+    clipboardCallback_ = xcb_->call<IXCBModule::convertSelection>(
         name, "CLIPBOARD", "",
         [this](xcb_atom_t, const char *data, size_t length) {
             if (data) {
@@ -342,7 +340,7 @@ void Clipboard::clipboardChanged(const std::string &name) {
                 }
             }
             clipboardCallback_.reset();
-        }));
+        });
 }
 
 std::string Clipboard::primary(const InputContext *) {

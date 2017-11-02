@@ -52,15 +52,17 @@ XCBReply<T> makeXCBReply(T *ptr) noexcept {
 }
 }
 
-FCITX_ADDON_DECLARE_FUNCTION(
-    XCBModule, addEventFilter,
-    HandlerTableEntry<XCBEventFilter> *(const std::string &, XCBEventFilter));
+FCITX_ADDON_DECLARE_FUNCTION(XCBModule, addEventFilter,
+                             std::unique_ptr<HandlerTableEntry<XCBEventFilter>>(
+                                 const std::string &, XCBEventFilter));
 FCITX_ADDON_DECLARE_FUNCTION(
     XCBModule, addConnectionCreatedCallback,
-    HandlerTableEntry<XCBConnectionCreated> *(XCBConnectionCreated));
+    std::unique_ptr<HandlerTableEntry<XCBConnectionCreated>>(
+        XCBConnectionCreated));
 FCITX_ADDON_DECLARE_FUNCTION(
     XCBModule, addConnectionClosedCallback,
-    HandlerTableEntry<XCBConnectionClosed> *(XCBConnectionClosed));
+    std::unique_ptr<HandlerTableEntry<XCBConnectionClosed>>(
+        XCBConnectionClosed));
 FCITX_ADDON_DECLARE_FUNCTION(XCBModule, xkbState,
                              xkb_state *(const std::string &));
 FCITX_ADDON_DECLARE_FUNCTION(XCBModule, ewmh,
@@ -70,13 +72,14 @@ FCITX_ADDON_DECLARE_FUNCTION(XCBModule, atom,
                                         const std::string &, bool));
 FCITX_ADDON_DECLARE_FUNCTION(XCBModule, xkbRulesNames,
                              XkbRulesNames(const std::string &));
-FCITX_ADDON_DECLARE_FUNCTION(XCBModule, addSelection,
-                             HandlerTableEntry<XCBSelectionNotifyCallback> *(
-                                 const std::string &, const std::string &,
-                                 XCBSelectionNotifyCallback));
 FCITX_ADDON_DECLARE_FUNCTION(
-    XCBModule, convertSelection,
-    HandlerTableEntryBase *(const std::string &, const std::string &,
-                            const std::string &, XCBConvertSelectionCallback));
+    XCBModule, addSelection,
+    std::unique_ptr<HandlerTableEntry<XCBSelectionNotifyCallback>>(
+        const std::string &, const std::string &, XCBSelectionNotifyCallback));
+FCITX_ADDON_DECLARE_FUNCTION(XCBModule, convertSelection,
+                             std::unique_ptr<HandlerTableEntryBase>(
+                                 const std::string &, const std::string &,
+                                 const std::string &,
+                                 XCBConvertSelectionCallback));
 
 #endif // _FCITX_MODULES_XCB_XCB_PUBLIC_H_

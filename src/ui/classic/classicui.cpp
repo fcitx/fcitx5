@@ -37,18 +37,16 @@ ClassicUI::ClassicUI(Instance *instance)
     : UserInterface(), instance_(instance) {
     reloadConfig();
 
-    xcbCreatedCallback_.reset(
-        xcb()->call<IXCBModule::addConnectionCreatedCallback>(
-            [this](const std::string &name, xcb_connection_t *conn, int screen,
-                   FocusGroup *) {
-                uis_["x11:" + name].reset(new XCBUI(this, name, conn, screen));
-            }));
-    xcbClosedCallback_.reset(
-        xcb()->call<IXCBModule::addConnectionClosedCallback>(
-            [this](const std::string &name, xcb_connection_t *) {
-                uis_.erase("x11:" + name);
-            }));
-    waylandCreatedCallback_.reset(
+    xcbCreatedCallback_ = xcb()->call<IXCBModule::addConnectionCreatedCallback>(
+        [this](const std::string &name, xcb_connection_t *conn, int screen,
+               FocusGroup *) {
+            uis_["x11:" + name].reset(new XCBUI(this, name, conn, screen));
+        });
+    xcbClosedCallback_ = xcb()->call<IXCBModule::addConnectionClosedCallback>(
+        [this](const std::string &name, xcb_connection_t *) {
+            uis_.erase("x11:" + name);
+        });
+    waylandCreatedCallback_ =
         wayland()->call<IWaylandModule::addConnectionCreatedCallback>(
             [this](const std::string &name, wl_display *display, FocusGroup *) {
                 try {
@@ -56,12 +54,12 @@ ClassicUI::ClassicUI(Instance *instance)
                         new WaylandUI(this, name, display));
                 } catch (std::runtime_error) {
                 }
-            }));
-    waylandClosedCallback_.reset(
+            });
+    waylandClosedCallback_ =
         wayland()->call<IWaylandModule::addConnectionClosedCallback>(
             [this](const std::string &name, wl_display *) {
                 uis_.erase("wayland:" + name);
-            }));
+            });
 }
 
 ClassicUI::~ClassicUI() {}
@@ -135,12 +133,12 @@ void ClassicUI::resume() {
 
     if (auto sni = notificationitem()) {
         if (!sniHandler_) {
-            sniHandler_.reset(
+            sniHandler_ =
                 sni->call<INotificationItem::watch>([this](bool enable) {
                     for (auto &p : uis_) {
                         p.second->setEnableTray(!enable);
                     }
-                }));
+                });
         }
         sni->call<INotificationItem::enable>();
     }

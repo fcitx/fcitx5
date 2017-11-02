@@ -77,10 +77,10 @@ public:
             XCB_EVENT_MASK_KEY_PRESS | XCB_EVENT_MASK_KEY_RELEASE,
             &XIMServer::callback, this));
 
-        filter_.reset(parent_->xcb()->call<fcitx::IXCBModule::addEventFilter>(
+        filter_ = parent_->xcb()->call<fcitx::IXCBModule::addEventFilter>(
             name, [this](xcb_connection_t *, xcb_generic_event_t *event) {
                 return xcb_im_filter_event(im_.get(), event);
-            }));
+            });
 
         xcb_im_open_im(im_.get());
     }

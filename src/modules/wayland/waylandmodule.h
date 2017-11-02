@@ -62,9 +62,9 @@ public:
     void openDisplay(const std::string &display);
     void removeDisplay(const std::string &name);
 
-    HandlerTableEntry<WaylandConnectionCreated> *
+    std::unique_ptr<HandlerTableEntry<WaylandConnectionCreated>>
     addConnectionCreatedCallback(WaylandConnectionCreated callback);
-    HandlerTableEntry<WaylandConnectionClosed> *
+    std::unique_ptr<HandlerTableEntry<WaylandConnectionClosed>>
     addConnectionClosedCallback(WaylandConnectionClosed callback);
     wl_registry *getRegistry(const std::string &name);
 

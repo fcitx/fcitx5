@@ -27,12 +27,12 @@ using namespace fcitx;
 static std::unordered_set<std::string> keys;
 
 int main() {
-    HandlerTableEntry<Callback> *entry;
+    std::unique_ptr<HandlerTableEntry<Callback>> entry;
     {
         HandlerTable<Callback> table;
         entry = table.add([]() {});
         FCITX_ASSERT(table.size() == 1);
-        delete entry;
+        entry.reset();
         FCITX_ASSERT(table.size() == 0);
 
         entry = table.add([]() {});
@@ -63,7 +63,7 @@ int main() {
         }
     }
 
-    delete entry;
+    entry.reset();
 
     {
         MultiHandlerTable<std::string, Callback> table2(
@@ -77,7 +77,7 @@ int main() {
             });
         entry = table2.add("ABC", []() {});
         FCITX_ASSERT(keys == decltype(keys){"ABC"});
-        delete entry;
+        entry.reset();
         FCITX_ASSERT(keys == decltype(keys){});
         std::unique_ptr<HandlerTableEntry<Callback>> entries[] = {
             std::unique_ptr<HandlerTableEntry<Callback>>(

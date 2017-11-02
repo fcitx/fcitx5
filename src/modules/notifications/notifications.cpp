@@ -81,7 +81,7 @@ Notifications::Notifications(Instance *instance)
             }
             return true;
         }));
-    watcherEntry_.reset(watcher_.watchService(
+    watcherEntry_ = watcher_.watchService(
         NOTIFICATIONS_SERVICE_NAME,
         [this](const std::string &, const std::string &oldOwner,
                const std::string &newOwner) {
@@ -114,7 +114,7 @@ Notifications::Notifications(Instance *instance)
                     return true;
                 }));
             }
-        }));
+        });
 }
 
 Notifications::~Notifications() {}

@@ -98,7 +98,7 @@ void WaylandModule::removeDisplay(const std::string &name) {
     }
 }
 
-HandlerTableEntry<WaylandConnectionCreated> *
+std::unique_ptr<HandlerTableEntry<WaylandConnectionCreated>>
 WaylandModule::addConnectionCreatedCallback(WaylandConnectionCreated callback) {
     auto result = createdCallbacks_.add(callback);
 
@@ -109,7 +109,7 @@ WaylandModule::addConnectionCreatedCallback(WaylandConnectionCreated callback) {
     return result;
 }
 
-HandlerTableEntry<WaylandConnectionClosed> *
+std::unique_ptr<HandlerTableEntry<WaylandConnectionClosed>>
 WaylandModule::addConnectionClosedCallback(WaylandConnectionClosed callback) {
     return closedCallbacks_.add(callback);
 }

@@ -127,10 +127,10 @@ NotificationItem::NotificationItem(Instance *instance)
       menu_(std::make_unique<DBusMenu>(this)) {
     bus_->addObjectVTable(NOTIFICATION_ITEM_DEFAULT_OBJ,
                           NOTIFICATION_ITEM_DBUS_IFACE, *sni_);
-    watcherEntry_.reset(watcher_->watchService(
+    watcherEntry_ = watcher_->watchService(
         NOTIFICATION_WATCHER_DBUS_ADDR,
         [this](const std::string &, const std::string &,
-               const std::string &newName) { setSerivceName(newName); }));
+               const std::string &newName) { setSerivceName(newName); });
 
     eventHandlers_.emplace_back(instance_->watchEvent(
         EventType::InputContextFocusIn, EventWatcherPhase::Default,
@@ -203,7 +203,7 @@ void NotificationItem::disable() {
     enabled_ = false;
 }
 
-HandlerTableEntry<NotificationItemCallback> *
+std::unique_ptr<HandlerTableEntry<NotificationItemCallback>>
 NotificationItem::watch(NotificationItemCallback callback) {
     return handlers_.add(callback);
 }

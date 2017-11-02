@@ -538,16 +538,16 @@ void WaylandIMInputContextV1::repeatInfoCallback(int32_t rate, int32_t delay) {
 }
 
 WaylandIMModule::WaylandIMModule(Instance *instance) : instance_(instance) {
-    createdCallback_.reset(
+    createdCallback_ =
         wayland()->call<IWaylandModule::addConnectionCreatedCallback>([this](
             const std::string &name, wl_display *display, FocusGroup *group) {
             WaylandIMServer *server =
                 new WaylandIMServer(display, group, name, this);
             servers_[name].reset(server);
-        }));
-    closedCallback_.reset(
+        });
+    closedCallback_ =
         wayland()->call<IWaylandModule::addConnectionClosedCallback>([this](
-            const std::string &name, wl_display *) { servers_.erase(name); }));
+            const std::string &name, wl_display *) { servers_.erase(name); });
 }
 
 AddonInstance *WaylandIMModule::wayland() {

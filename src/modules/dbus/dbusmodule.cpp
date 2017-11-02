@@ -230,19 +230,19 @@ DBusModule::DBusModule(Instance *instance)
         throw std::runtime_error("Unable to request dbus name");
     }
 
-    selfWatcher_.reset(serviceWatcher_->watchService(
+    selfWatcher_ = serviceWatcher_->watchService(
         FCITX_DBUS_SERVICE,
         [this, uniqueName, instance](const std::string &, const std::string &,
                                      const std::string &newName) {
             if (newName != uniqueName) {
                 instance->exit();
             }
-        }));
+        });
 
-    xkbWatcher_.reset(serviceWatcher_->watchService(
+    xkbWatcher_ = serviceWatcher_->watchService(
         GNOME_HELPER_NAME,
         [this](const std::string &, const std::string &,
-               const std::string &newName) { xkbHelperName_ = newName; }));
+               const std::string &newName) { xkbHelperName_ = newName; });
 
     controller_ = std::make_unique<Controller1>(this, instance);
     bus_->addObjectVTable("/controller", FCITX_CONTROLLER_DBUS_INTERFACE,

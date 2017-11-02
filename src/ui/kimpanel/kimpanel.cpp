@@ -95,12 +95,12 @@ Kimpanel::Kimpanel(Instance *instance)
     : UserInterface(), instance_(instance),
       bus_(instance_->addonManager().addon("dbus")->call<IDBusModule::bus>()),
       watcher_(*bus_) {
-    entry_.reset(watcher_.watchService(
+    entry_ = watcher_.watchService(
         "org.kde.impanel", [this](const std::string &, const std::string &,
                                   const std::string &newOwner) {
             FCITX_LOG(Info) << "Kimpanel new owner" << newOwner;
             setAvailable(!newOwner.empty());
-        }));
+        });
 }
 
 Kimpanel::~Kimpanel() {}

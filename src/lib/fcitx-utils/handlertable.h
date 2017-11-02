@@ -40,8 +40,9 @@ public:
     FCITX_INLINE_DEFINE_DEFAULT_DTOR_AND_MOVE(HandlerTable)
 
     template <typename... Args>
-    HandlerTableEntry<T> *add(Args &&... args) {
-        auto result = new ListHandlerTableEntry<T>(std::forward<Args>(args)...);
+    std::unique_ptr<HandlerTableEntry<T>> add(Args &&... args) {
+        auto result = std::make_unique<ListHandlerTableEntry<T>>(
+            std::forward<Args>(args)...);
         handlers_.push_back(*result);
         return result;
     }
@@ -69,7 +70,7 @@ public:
     FCITX_INLINE_DEFINE_DEFAULT_DTOR_AND_MOVE(MultiHandlerTable)
 
     template <typename M>
-    HandlerTableEntry<T> *add(const Key &key, M &&t) {
+    std::unique_ptr<HandlerTableEntry<T>> add(const Key &key, M &&t) {
         auto iter = keyToHandlers_.find(key);
         if (iter == keyToHandlers_.end()) {
             if (addKey_) {
@@ -81,8 +82,8 @@ public:
                                 std::forward_as_tuple())
                        .first;
         }
-        auto result =
-            new MultiHandlerTableEntry<Key, T>(this, key, std::forward<M>(t));
+        auto result = std::make_unique<MultiHandlerTableEntry<Key, T>>(
+            this, key, std::forward<M>(t));
         iter->second.push_back(*result);
         return result;
     }

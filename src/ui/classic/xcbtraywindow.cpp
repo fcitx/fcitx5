@@ -274,9 +274,9 @@ void XCBTrayWindow::resume() {
         xcb_aux_get_screen(ui_->connection(), ui_->defaultScreen());
     addEventMaskToWindow(ui_->connection(), screen->root,
                          XCB_EVENT_MASK_STRUCTURE_NOTIFY);
-    dockCallback_.reset(ui_->parent()->xcb()->call<IXCBModule::addSelection>(
+    dockCallback_ = ui_->parent()->xcb()->call<IXCBModule::addSelection>(
         ui_->name(), trayAtomNameBuf,
-        [this](xcb_atom_t) { refreshDockWindow(); }));
+        [this](xcb_atom_t) { refreshDockWindow(); });
     refreshDockWindow();
 }
 

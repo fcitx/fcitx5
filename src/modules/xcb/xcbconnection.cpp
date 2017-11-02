@@ -104,10 +104,10 @@ XCBConnection::XCBConnection(XCBModule *xcb, const std::string &name)
 
     syms_.reset(xcb_key_symbols_alloc(conn_.get()));
 
-    filter_.reset(addEventFilter(
+    filter_ = addEventFilter(
         [this](xcb_connection_t *conn, xcb_generic_event_t *event) {
             return filterEvent(conn, event);
-        }));
+        });
     auto &imManager = parent_->instance()->inputMethodManager();
     setDoGrab(imManager.groupCount() > 1);
 }
@@ -411,7 +411,7 @@ void XCBConnection::navigateGroup(bool forward) {
     FCITX_LOG(Debug) << "Switch to group " << groupIndex_;
 }
 
-HandlerTableEntry<XCBEventFilter> *
+std::unique_ptr<HandlerTableEntry<XCBEventFilter>>
 XCBConnection::addEventFilter(XCBEventFilter filter) {
     return filters_.add(std::move(filter));
 }
@@ -448,7 +448,7 @@ xcb_atom_t XCBConnection::atom(const std::string &atomName, bool exists) {
 
 xcb_ewmh_connection_t *XCBConnection::ewmh() { return &ewmh_; }
 
-HandlerTableEntry<XCBSelectionNotifyCallback> *
+std::unique_ptr<HandlerTableEntry<XCBSelectionNotifyCallback>>
 XCBConnection::addSelection(const std::string &selection,
                             XCBSelectionNotifyCallback callback) {
     auto atomValue = atom(selection, true);
@@ -458,7 +458,7 @@ XCBConnection::addSelection(const std::string &selection,
     return nullptr;
 }
 
-HandlerTableEntryBase *
+std::unique_ptr<HandlerTableEntryBase>
 XCBConnection::convertSelection(const std::string &selection,
                                 const std::string &type,
                                 XCBConvertSelectionCallback callback) {

@@ -45,7 +45,7 @@ public:
     void registerSNI();
     void enable();
     void disable();
-    HandlerTableEntry<NotificationItemCallback> *
+    std::unique_ptr<HandlerTableEntry<NotificationItemCallback>>
         watch(NotificationItemCallback);
 
 private:

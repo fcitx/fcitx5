@@ -44,18 +44,18 @@ public:
     void removeConnection(const std::string &name);
     Instance *instance() { return instance_; }
 
-    HandlerTableEntry<XCBEventFilter> *addEventFilter(const std::string &name,
-                                                      XCBEventFilter filter);
-    HandlerTableEntry<XCBConnectionCreated> *
+    std::unique_ptr<HandlerTableEntry<XCBEventFilter>>
+    addEventFilter(const std::string &name, XCBEventFilter filter);
+    std::unique_ptr<HandlerTableEntry<XCBConnectionCreated>>
     addConnectionCreatedCallback(XCBConnectionCreated callback);
-    HandlerTableEntry<XCBConnectionClosed> *
+    std::unique_ptr<HandlerTableEntry<XCBConnectionClosed>>
     addConnectionClosedCallback(XCBConnectionClosed callback);
     struct xkb_state *xkbState(const std::string &name);
     XkbRulesNames xkbRulesNames(const std::string &name);
-    HandlerTableEntry<XCBSelectionNotifyCallback> *
+    std::unique_ptr<HandlerTableEntry<XCBSelectionNotifyCallback>>
     addSelection(const std::string &name, const std::string &atom,
                  XCBSelectionNotifyCallback callback);
-    HandlerTableEntryBase *
+    std::unique_ptr<HandlerTableEntryBase>
     convertSelection(const std::string &name, const std::string &atom,
                      const std::string &type,
                      XCBConvertSelectionCallback callback);

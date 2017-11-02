@@ -30,7 +30,8 @@ using NotificationItemCallback = std::function<void(bool)>;
 FCITX_ADDON_DECLARE_FUNCTION(NotificationItem, enable, void());
 FCITX_ADDON_DECLARE_FUNCTION(
     NotificationItem, watch,
-    HandlerTableEntry<NotificationItemCallback> *(NotificationItemCallback));
+    std::unique_ptr<HandlerTableEntry<NotificationItemCallback>>(
+        NotificationItemCallback));
 FCITX_ADDON_DECLARE_FUNCTION(NotificationItem, disable, void());
 
 #endif // _FCITX_MODULES_NOTIFICATIONITEM_NOTIFICATIONITEM_PUBLIC_H_

@@ -45,8 +45,8 @@ public:
     // GetNameOwner call to avoid race condition
     // if GetNameOwner returns, it will intiate a call (name, "", owner) if
     // service exists, otherwise (name, "", "")
-    ServiceWatcherEntry *watchService(const std::string &name,
-                                      ServiceWatcherCallback callback);
+    std::unique_ptr<ServiceWatcherEntry>
+    watchService(const std::string &name, ServiceWatcherCallback callback);
 
 private:
     std::unique_ptr<ServiceWatcherPrivate> d_ptr;

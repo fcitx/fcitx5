@@ -100,7 +100,8 @@ class ConnectionBody : public TrackableObject<ConnectionBody>,
                        public IntrusiveListNode {
 public:
     template <typename T>
-    ConnectionBody(HandlerTableEntry<T> *entry) : entry_(entry) {}
+    ConnectionBody(std::unique_ptr<HandlerTableEntry<T>> entry)
+        : entry_(std::move(entry)) {}
 
     virtual ~ConnectionBody() { remove(); }
 

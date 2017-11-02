@@ -85,7 +85,7 @@ public:
 ServiceWatcher::ServiceWatcher(Bus &bus)
     : d_ptr(std::make_unique<ServiceWatcherPrivate>(bus)) {}
 
-HandlerTableEntry<ServiceWatcherCallback> *
+std::unique_ptr<HandlerTableEntry<ServiceWatcherCallback>>
 ServiceWatcher::watchService(const std::string &name,
                              ServiceWatcherCallback callback) {
     FCITX_D();

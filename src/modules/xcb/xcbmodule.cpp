@@ -63,7 +63,7 @@ void XCBModule::removeConnection(const std::string &name) {
     }
 }
 
-HandlerTableEntry<XCBEventFilter> *
+std::unique_ptr<HandlerTableEntry<XCBEventFilter>>
 XCBModule::addEventFilter(const std::string &name, XCBEventFilter filter) {
     auto iter = conns_.find(name);
     if (iter == conns_.end()) {
@@ -72,7 +72,7 @@ XCBModule::addEventFilter(const std::string &name, XCBEventFilter filter) {
     return iter->second.addEventFilter(filter);
 }
 
-HandlerTableEntry<XCBConnectionCreated> *
+std::unique_ptr<HandlerTableEntry<XCBConnectionCreated>>
 XCBModule::addConnectionCreatedCallback(XCBConnectionCreated callback) {
     auto result = createdCallbacks_.add(callback);
 
@@ -84,7 +84,7 @@ XCBModule::addConnectionCreatedCallback(XCBConnectionCreated callback) {
     return result;
 }
 
-HandlerTableEntry<XCBConnectionClosed> *
+std::unique_ptr<HandlerTableEntry<XCBConnectionClosed>>
 XCBModule::addConnectionClosedCallback(XCBConnectionClosed callback) {
     return closedCallbacks_.add(callback);
 }
@@ -105,7 +105,7 @@ XkbRulesNames XCBModule::xkbRulesNames(const std::string &name) {
     return iter->second.xkbRulesNames();
 }
 
-HandlerTableEntry<XCBSelectionNotifyCallback> *
+std::unique_ptr<HandlerTableEntry<XCBSelectionNotifyCallback>>
 XCBModule::addSelection(const std::string &name, const std::string &atom,
                         XCBSelectionNotifyCallback callback) {
     auto iter = conns_.find(name);
@@ -115,7 +115,7 @@ XCBModule::addSelection(const std::string &name, const std::string &atom,
     return iter->second.addSelection(atom, callback);
 }
 
-HandlerTableEntryBase *
+std::unique_ptr<HandlerTableEntryBase>
 XCBModule::convertSelection(const std::string &name, const std::string &atom,
                             const std::string &type,
                             XCBConvertSelectionCallback callback) {

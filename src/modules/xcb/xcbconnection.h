@@ -37,13 +37,14 @@ public:
     XCBConnection(XCBModule *xcb, const std::string &name);
     ~XCBConnection();
 
-    HandlerTableEntry<XCBEventFilter> *addEventFilter(XCBEventFilter filter);
-    HandlerTableEntry<XCBSelectionNotifyCallback> *
+    std::unique_ptr<HandlerTableEntry<XCBEventFilter>>
+    addEventFilter(XCBEventFilter filter);
+    std::unique_ptr<HandlerTableEntry<XCBSelectionNotifyCallback>>
     addSelection(const std::string &name, XCBSelectionNotifyCallback callback);
 
-    HandlerTableEntryBase *convertSelection(const std::string &selection,
-                                            const std::string &type,
-                                            XCBConvertSelectionCallback);
+    std::unique_ptr<HandlerTableEntryBase>
+    convertSelection(const std::string &selection, const std::string &type,
+                     XCBConvertSelectionCallback);
 
     XCBModule *parent() { return parent_; }
     Instance *instance();
