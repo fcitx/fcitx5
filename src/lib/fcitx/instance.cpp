@@ -316,12 +316,12 @@ void InputState::showInputMethodInformation(const std::string &name) {
     ic_->inputPanel().setAuxUp(Text(name));
     ic_->updateUserInterface(UserInterfaceComponent::InputPanel);
     lastInfo_ = name;
-    imInfoTimer_.reset(d_ptr->eventLoop_.addTimeEvent(
+    imInfoTimer_ = d_ptr->eventLoop_.addTimeEvent(
         CLOCK_MONOTONIC, now(CLOCK_MONOTONIC) + 1000000, 0,
         [this](EventSourceTime *, uint64_t) {
             hideInputMethodInfo();
             return true;
-        }));
+        });
 }
 
 xkb_state *InputState::customXkbState(bool refresh) {
@@ -700,7 +700,7 @@ Instance::Instance(int argc, char **argv) {
                       EventWatcherPhase::ReservedFirst, [this, d](Event &) {
                           // Use a timer here. so we can get focus back to real
                           // window.
-                          d->imGroupInfoTimer_.reset(d->eventLoop_.addTimeEvent(
+                          d->imGroupInfoTimer_ = d->eventLoop_.addTimeEvent(
                               CLOCK_MONOTONIC, now(CLOCK_MONOTONIC) + 30000, 0,
                               [this](EventSourceTime *, uint64_t) {
                                   inputContextManager().foreachFocused(
@@ -709,7 +709,7 @@ Instance::Instance(int argc, char **argv) {
                                           return true;
                                       });
                                   return true;
-                              }));
+                              });
                       }));
 
     d->eventWatchers_.emplace_back(d->watchEvent(
@@ -732,10 +732,10 @@ Instance::Instance(int argc, char **argv) {
             auto &icEvent = static_cast<InputContextEvent &>(event);
             d->uiManager_.expire(icEvent.inputContext());
         }));
-    d->uiUpdateEvent_.reset(d->eventLoop_.addDeferEvent([d](EventSource *) {
+    d->uiUpdateEvent_ = d->eventLoop_.addDeferEvent([d](EventSource *) {
         d->uiManager_.flush();
         return true;
-    }));
+    });
     d->uiUpdateEvent_->setEnabled(false);
 }
 
@@ -815,11 +815,11 @@ void InstanceArgument::parseOption(int argc, char **argv) {
 void Instance::setSignalPipe(int fd) {
     FCITX_D();
     d->signalPipe_ = fd;
-    d->signalPipeEvent_.reset(d->eventLoop_.addIOEvent(
+    d->signalPipeEvent_ = d->eventLoop_.addIOEvent(
         fd, IOEventFlag::In, [this](EventSource *, int, IOEventFlags) {
             handleSignal();
             return true;
-        }));
+        });
 }
 
 bool Instance::willTryReplace() const {
@@ -857,11 +857,11 @@ void Instance::initialize() {
         {std::begin(d->arg_.disableList), std::end(d->arg_.disableList)});
     d->imManager_.load();
     d->uiManager_.load(d->arg_.uiName);
-    d->exitEvent_.reset(d->eventLoop_.addExitEvent([this](EventSource *) {
+    d->exitEvent_ = d->eventLoop_.addExitEvent([this](EventSource *) {
         FCITX_LOG(Debug) << "Running save...";
         save();
         return false;
-    }));
+    });
     reloadConfig();
 }
 

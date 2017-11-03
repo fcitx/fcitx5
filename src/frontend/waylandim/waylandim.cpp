@@ -112,12 +112,12 @@ public:
         ic_->preferredLanguage().connect([this](const char *language) {
             preferredLanguageCallback(language);
         });
-        timeEvent_.reset(server_->instance()->eventLoop().addTimeEvent(
+        timeEvent_ = server_->instance()->eventLoop().addTimeEvent(
             CLOCK_MONOTONIC, now(CLOCK_MONOTONIC), 0,
             [this](EventSourceTime *, uint64_t) {
                 repeat();
                 return true;
-            }));
+            });
         timeEvent_->setEnabled(false);
 
         keyboard_.reset(ic_->grabKeyboard());

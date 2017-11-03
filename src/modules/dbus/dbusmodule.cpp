@@ -45,12 +45,12 @@ public:
 
     void restart() {
         auto instance = instance_;
-        deferEvent_.reset(instance_->eventLoop().addDeferEvent(
-            [this, instance](EventSource *e) {
+        deferEvent_ = instance_->eventLoop().addDeferEvent(
+            [this, instance](EventSource *) {
                 instance->restart();
                 deferEvent_.reset();
                 return false;
-            }));
+            });
     }
     void configure() { instance_->configure(); }
     void configureAddon(const std::string &addon) {

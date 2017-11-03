@@ -351,13 +351,13 @@ void Kimpanel::msgV1Handler(dbus::Message &msg) {
             proxy_->execMenu(menuitems);
         } else if (stringutils::startsWith(property, "/Fcitx/im/")) {
             auto imName = property.substr(10);
-            timeEvent_.reset(instance_->eventLoop().addTimeEvent(
+            timeEvent_ = instance_->eventLoop().addTimeEvent(
                 CLOCK_MONOTONIC, now(CLOCK_MONOTONIC) + 30000, 0,
                 [this, imName](EventSourceTime *, uint64_t) {
                     instance_->setCurrentInputMethod(imName);
                     timeEvent_.reset();
                     return true;
-                }));
+                });
         } else if (stringutils::startsWith(property, "/Fcitx/")) {
             auto actionName = property.substr(7);
             auto action =
@@ -379,7 +379,7 @@ void Kimpanel::msgV1Handler(dbus::Message &msg) {
             } else {
                 // Why we need to delay the event, because we want to
                 // make ic has focus.
-                timeEvent_.reset(instance_->eventLoop().addTimeEvent(
+                timeEvent_ = instance_->eventLoop().addTimeEvent(
                     CLOCK_MONOTONIC, now(CLOCK_MONOTONIC) + 30000, 0,
                     [this, actionName, icRef](EventSourceTime *, uint64_t) {
                         if (auto action =
@@ -391,7 +391,7 @@ void Kimpanel::msgV1Handler(dbus::Message &msg) {
                         }
                         timeEvent_.reset();
                         return true;
-                    }));
+                    });
             }
         }
     } else if (msg.member() == "LookupTablePageUp") {

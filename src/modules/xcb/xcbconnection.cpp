@@ -57,11 +57,11 @@ XCBConnection::XCBConnection(XCBModule *xcb, const std::string &name)
     serverWindow_ = w;
     int fd = xcb_get_file_descriptor(conn_.get());
     auto &eventLoop = parent_->instance()->eventLoop();
-    ioEvent_.reset(eventLoop.addIOEvent(
-        fd, IOEventFlag::In, [this](EventSource *, int, IOEventFlags) {
-            onIOEvent();
-            return true;
-        }));
+    ioEvent_ = eventLoop.addIOEvent(fd, IOEventFlag::In,
+                                    [this](EventSource *, int, IOEventFlags) {
+                                        onIOEvent();
+                                        return true;
+                                    });
 
     eventHandlers_.emplace_back(parent_->instance()->watchEvent(
         EventType::InputMethodGroupChanged, EventWatcherPhase::Default,

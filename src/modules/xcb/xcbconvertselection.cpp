@@ -45,12 +45,12 @@ XCBConvertSelectionRequest::XCBConvertSelectionRequest(
     xcb_convert_selection(conn->connection(), conn->serverWindow(), selection_,
                           fallbacks_.back(), property_, XCB_TIME_CURRENT_TIME);
     xcb_flush(conn->connection());
-    timer_.reset(conn->parent()->instance()->eventLoop().addTimeEvent(
+    timer_ = conn->parent()->instance()->eventLoop().addTimeEvent(
         CLOCK_MONOTONIC, now(CLOCK_MONOTONIC) + 5000000, 0,
         [this](EventSourceTime *, uint64_t) {
             invokeCallbackAndCleanUp(XCB_ATOM_NONE, nullptr, 0);
             return true;
-        }));
+        });
 }
 
 void XCBConvertSelectionRequest::cleanUp() {

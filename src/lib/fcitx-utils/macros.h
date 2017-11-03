@@ -279,6 +279,21 @@
     FCITX_DEFINE_DEFAULT_MOVE(TypeName)                                        \
     FCITX_DEFINE_DEFAULT_DTOR(TypeName)
 
+#if defined(__clang__) || __GNUC__ >= 5
+#define HAS_CPP_ATTRIBUTE(attr) __has_cpp_attribute(attr)
+#else
+#define HAS_CPP_ATTRIBUTE(attr) 0
+#endif
+
+// Use [[nodiscard]] specifier if supported by our compiler.
+#if HAS_CPP_ATTRIBUTE(nodiscard)
+#define FCITX_NODISCARD [[nodiscard]]
+#elif __has_cpp_attribute(gnu::warn_unused_result)
+#define FCITX_NODISCARD [[gnu::warn_unused_result]]
+#else
+#define FCITX_NODISCARD
+#endif
+
 namespace fcitx {
 template <typename T>
 class QPtrHolder {

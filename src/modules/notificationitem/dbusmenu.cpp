@@ -76,13 +76,13 @@ void DBusMenu::event(int32_t id, const std::string &type, const dbus::Variant &,
         return;
     }
     // Why we need to delay the event, because we want to make ic has focus.
-    timeEvent_.reset(parent_->instance()->eventLoop().addTimeEvent(
+    timeEvent_ = parent_->instance()->eventLoop().addTimeEvent(
         CLOCK_MONOTONIC, now(CLOCK_MONOTONIC) + 30000, 0,
         [this, id](EventSourceTime *, uint64_t) {
             handleEvent(id);
             timeEvent_.reset();
             return true;
-        }));
+        });
 }
 
 void DBusMenu::handleEvent(int32_t id) {

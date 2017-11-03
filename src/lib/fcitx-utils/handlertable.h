@@ -40,7 +40,7 @@ public:
     FCITX_INLINE_DEFINE_DEFAULT_DTOR_AND_MOVE(HandlerTable)
 
     template <typename... Args>
-    std::unique_ptr<HandlerTableEntry<T>> add(Args &&... args) {
+    FCITX_NODISCARD std::unique_ptr<HandlerTableEntry<T>> add(Args &&... args) {
         auto result = std::make_unique<ListHandlerTableEntry<T>>(
             std::forward<Args>(args)...);
         handlers_.push_back(*result);
@@ -70,7 +70,8 @@ public:
     FCITX_INLINE_DEFINE_DEFAULT_DTOR_AND_MOVE(MultiHandlerTable)
 
     template <typename M>
-    std::unique_ptr<HandlerTableEntry<T>> add(const Key &key, M &&t) {
+    FCITX_NODISCARD std::unique_ptr<HandlerTableEntry<T>> add(const Key &key,
+                                                              M &&t) {
         auto iter = keyToHandlers_.find(key);
         if (iter == keyToHandlers_.end()) {
             if (addKey_) {

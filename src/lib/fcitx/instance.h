@@ -77,7 +77,7 @@ public:
     bool postEvent(Event &event);
     bool postEvent(Event &&event) { return postEvent(event); }
 
-    std::unique_ptr<HandlerTableEntry<EventHandler>>
+    FCITX_NODISCARD std::unique_ptr<HandlerTableEntry<EventHandler>>
     watchEvent(EventType type, EventWatcherPhase phase, EventHandler callback);
 
     std::string inputMethod(InputContext *ic);

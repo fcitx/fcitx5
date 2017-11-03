@@ -92,11 +92,15 @@ public:
     const char *impl();
     void *nativeHandle();
 
-    EventSourceIO *addIOEvent(int fd, IOEventFlags flags, IOCallback callback);
-    EventSourceTime *addTimeEvent(clockid_t clock, uint64_t usec,
-                                  uint64_t accuracy, TimeCallback callback);
-    EventSource *addExitEvent(EventCallback callback);
-    EventSource *addDeferEvent(EventCallback callback);
+    FCITX_NODISCARD std::unique_ptr<EventSourceIO>
+    addIOEvent(int fd, IOEventFlags flags, IOCallback callback);
+    FCITX_NODISCARD std::unique_ptr<EventSourceTime>
+    addTimeEvent(clockid_t clock, uint64_t usec, uint64_t accuracy,
+                 TimeCallback callback);
+    FCITX_NODISCARD std::unique_ptr<EventSource>
+    addExitEvent(EventCallback callback);
+    FCITX_NODISCARD std::unique_ptr<EventSource>
+    addDeferEvent(EventCallback callback);
 
 private:
     std::unique_ptr<EventLoopPrivate> d_ptr;

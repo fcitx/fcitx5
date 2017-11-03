@@ -111,7 +111,7 @@ public:
     std::string longText_;
     std::string shortText_;
     std::string icon_;
-    bool checked_;
+    bool checked_ = false;
 };
 
 SimpleAction::SimpleAction()

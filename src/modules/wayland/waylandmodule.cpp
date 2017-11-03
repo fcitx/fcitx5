@@ -32,18 +32,18 @@ WaylandConnection::WaylandConnection(WaylandModule *wayland, const char *name)
     display_ = std::make_unique<wayland::Display>(display);
 
     auto &eventLoop = parent_->instance()->eventLoop();
-    ioEvent_.reset(
+    ioEvent_ =
         eventLoop.addIOEvent(display_->fd(), IOEventFlag::In,
                              [this](EventSource *, int, IOEventFlags flags) {
                                  onIOEvent(flags);
                                  return true;
-                             }));
+                             });
 
-    group_ = new FocusGroup("wayland:" + name_,
-                            wayland->instance()->inputContextManager());
+    group_ = std::make_unique<FocusGroup>(
+        "wayland:" + name_, wayland->instance()->inputContextManager());
 }
 
-WaylandConnection::~WaylandConnection() { delete group_; }
+WaylandConnection::~WaylandConnection() {}
 
 void WaylandConnection::finish() {
     display_.reset();

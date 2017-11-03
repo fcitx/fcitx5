@@ -39,7 +39,7 @@ public:
 
     const std::string &name() const { return name_; }
     wayland::Display *display() const { return display_.get(); }
-    FocusGroup *focusGroup() const { return group_; }
+    FocusGroup *focusGroup() const { return group_.get(); }
 
 private:
     void onIOEvent(IOEventFlags flags);
@@ -50,7 +50,7 @@ private:
     // order matters, callback in ioEvent_ uses display_.
     std::unique_ptr<EventSourceIO> ioEvent_;
     std::unique_ptr<wayland::Display> display_;
-    FocusGroup *group_ = nullptr;
+    std::unique_ptr<FocusGroup> group_;
     int error_ = 0;
 };
 
