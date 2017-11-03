@@ -253,7 +253,7 @@ void QuickPhrase::updateUI(InputContext *inputContext) {
     if (!state->buffer_.empty()) {
         auto start = map_.lower_bound(state->buffer_.userInput());
         auto end = map_.end();
-        auto candidateList = new CommonCandidateList;
+        auto candidateList = std::make_unique<CommonCandidateList>();
         candidateList->setPageSize(instance_->globalConfig().defaultPageSize());
         for (; start != end; start++) {
             if (!stringutils::startsWith(start->first,
@@ -268,7 +268,7 @@ void QuickPhrase::updateUI(InputContext *inputContext) {
                 new QuickPhraseCandidateWord(this, std::move(text)));
         }
         candidateList->setSelectionKey(selectionKeys_);
-        inputContext->inputPanel().setCandidateList(candidateList);
+        inputContext->inputPanel().setCandidateList(std::move(candidateList));
     }
     Text preedit;
     if (state->prefix_.size()) {

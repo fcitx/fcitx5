@@ -224,7 +224,7 @@ void Unicode::updateUI(InputContext *inputContext) {
     inputContext->inputPanel().reset();
     if (!state->buffer_.empty()) {
         auto result = data_.find(state->buffer_.userInput());
-        auto candidateList = new CommonCandidateList;
+        auto candidateList = std::make_unique<CommonCandidateList>();
         candidateList->setPageSize(instance_->globalConfig().defaultPageSize());
         for (auto c : result) {
             if (utf8::UCS4IsValid(c)) {
@@ -233,7 +233,7 @@ void Unicode::updateUI(InputContext *inputContext) {
         }
         candidateList->setSelectionKey(selectionKeys_);
         candidateList->setLayoutHint(CandidateLayoutHint::Vertical);
-        inputContext->inputPanel().setCandidateList(candidateList);
+        inputContext->inputPanel().setCandidateList(std::move(candidateList));
     }
     Text preedit;
     preedit.append(state->buffer_.userInput());

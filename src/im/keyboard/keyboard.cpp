@@ -454,7 +454,7 @@ void KeyboardEngine::updateCandidate(const InputMethodEntry &entry,
                                                state->buffer_.userInput(),
                                                config_.pageSize.value());
 
-    auto candidateList = new CommonCandidateList;
+    auto candidateList = std::make_unique<CommonCandidateList>();
     auto spellType = guessSpellType(state->buffer_.userInput());
     for (const auto &result : results) {
         candidateList->append(new KeyboardCandidateWord(
@@ -462,7 +462,7 @@ void KeyboardEngine::updateCandidate(const InputMethodEntry &entry,
     }
     candidateList->setSelectionKey(selectionKeys_);
     candidateList->setCursorIncludeUnselected(true);
-    inputContext->inputPanel().setCandidateList(candidateList);
+    inputContext->inputPanel().setCandidateList(std::move(candidateList));
 
     updateUI(inputContext);
 }

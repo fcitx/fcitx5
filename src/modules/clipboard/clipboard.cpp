@@ -252,7 +252,7 @@ void Clipboard::trigger(InputContext *inputContext) {
 void Clipboard::updateUI(InputContext *inputContext) {
     inputContext->inputPanel().reset();
 
-    auto candidateList = new CommonCandidateList;
+    auto candidateList = std::make_unique<CommonCandidateList>();
     candidateList->setPageSize(config_.numOfEntries.value());
 
     // Append first item from history_.
@@ -283,13 +283,13 @@ void Clipboard::updateUI(InputContext *inputContext) {
     }
     candidateList->setSelectionKey(selectionKeys_);
     candidateList->setLayoutHint(CandidateLayoutHint::Vertical);
-    inputContext->inputPanel().setCandidateList(candidateList);
 
     Text auxUp(_("Clipboard:"));
     if (!candidateList->totalSize()) {
         Text auxDown(_("No clipboard history."));
         inputContext->inputPanel().setAuxDown(auxDown);
     }
+    inputContext->inputPanel().setCandidateList(std::move(candidateList));
     inputContext->inputPanel().setAuxUp(auxUp);
     inputContext->updatePreedit();
     inputContext->updateUserInterface(UserInterfaceComponent::InputPanel);

@@ -47,7 +47,7 @@ public:
     void setClientPreedit(const Text &clientPreedit);
 
     CandidateList *candidateList() const;
-    void setCandidateList(CandidateList *candidate);
+    void setCandidateList(std::unique_ptr<CandidateList> candidate);
 
     void reset();
     bool empty() const;

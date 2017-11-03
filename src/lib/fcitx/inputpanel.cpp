@@ -49,9 +49,9 @@ void InputPanel::setAuxUp(const Text &text) {
     d->auxUp_ = text;
 }
 
-void InputPanel::setCandidateList(CandidateList *candidate) {
+void InputPanel::setCandidateList(std::unique_ptr<CandidateList> candidate) {
     FCITX_D();
-    d->candidate_.reset(candidate);
+    d->candidate_ = std::move(candidate);
 }
 
 void InputPanel::setClientPreedit(const Text &clientPreedit) {
