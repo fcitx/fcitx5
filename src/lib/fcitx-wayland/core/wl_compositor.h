@@ -27,6 +27,9 @@ private:
     uint32_t version_;
     std::unique_ptr<wl_compositor, decltype(&destructor)> data_;
 };
+static inline wl_compositor *rawPointer(WlCompositor *p) {
+    return p ? static_cast<wl_compositor *>(*p) : nullptr;
+}
 }
 }
 #endif

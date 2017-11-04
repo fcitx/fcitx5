@@ -81,7 +81,8 @@ void WlPointer::destructor(wl_pointer *data) {
 }
 void WlPointer::setCursor(uint32_t serial, WlSurface *surface, int32_t hotspotX,
                           int32_t hotspotY) {
-    return wl_pointer_set_cursor(*this, serial, *surface, hotspotX, hotspotY);
+    return wl_pointer_set_cursor(*this, serial, rawPointer(surface), hotspotX,
+                                 hotspotY);
 }
 }
 }

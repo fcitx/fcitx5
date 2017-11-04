@@ -18,6 +18,7 @@
  */
 
 #include "waylandmodule.h"
+#include "fcitx-utils/log.h"
 #include "fcitx/instance.h"
 #include <wayland-client.h>
 
@@ -45,10 +46,7 @@ WaylandConnection::WaylandConnection(WaylandModule *wayland, const char *name)
 
 WaylandConnection::~WaylandConnection() {}
 
-void WaylandConnection::finish() {
-    display_.reset();
-    parent_->removeDisplay(name_);
-}
+void WaylandConnection::finish() { parent_->removeDisplay(name_); }
 
 void WaylandConnection::onIOEvent(IOEventFlags flags) {
     if ((flags & IOEventFlag::Err) || (flags & IOEventFlag::Hup)) {
@@ -89,8 +87,10 @@ void WaylandModule::openDisplay(const std::string &name) {
 }
 
 void WaylandModule::removeDisplay(const std::string &name) {
+    FCITX_LOG(Debug) << "Display removed " << name;
     auto iter = conns_.find(name);
     if (iter != conns_.end()) {
+        onConnectionClosed(iter->second);
         conns_.erase(iter);
     }
     if (name.empty() && instance_->quitWhenMainDisplayDisconnected()) {

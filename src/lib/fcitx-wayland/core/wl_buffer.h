@@ -26,6 +26,9 @@ private:
     uint32_t version_;
     std::unique_ptr<wl_buffer, decltype(&destructor)> data_;
 };
+static inline wl_buffer *rawPointer(WlBuffer *p) {
+    return p ? static_cast<wl_buffer *>(*p) : nullptr;
+}
 }
 }
 #endif

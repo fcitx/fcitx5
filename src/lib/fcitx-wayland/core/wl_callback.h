@@ -26,6 +26,9 @@ private:
     uint32_t version_;
     std::unique_ptr<wl_callback, decltype(&destructor)> data_;
 };
+static inline wl_callback *rawPointer(WlCallback *p) {
+    return p ? static_cast<wl_callback *>(*p) : nullptr;
+}
 }
 }
 #endif

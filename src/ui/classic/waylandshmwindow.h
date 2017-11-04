@@ -19,8 +19,11 @@
 #ifndef _FCITX_UI_CLASSIC_WAYLANDSHMWINDOW_H_
 #define _FCITX_UI_CLASSIC_WAYLANDSHMWINDOW_H_
 
+#include "buffer.h"
 #include "waylandui.h"
 #include "waylandwindow.h"
+#include "wl_callback.h"
+#include "wl_shm.h"
 #include <cairo/cairo.h>
 
 namespace fcitx {
@@ -31,12 +34,18 @@ public:
     WaylandShmWindow(WaylandUI *ui);
     ~WaylandShmWindow();
 
-    void createWindow();
-    void destroyWindow();
-    void resize(unsigned int width, unsigned int height);
+    void destroyWindow() override;
+    cairo_surface_t *prerender() override;
+    void render() override;
 
 private:
-    WaylandUI *ui_;
+    void newBuffer();
+
+    std::shared_ptr<wayland::WlShm> shm_;
+    std::vector<std::unique_ptr<wayland::Buffer>> buffers_;
+    // Pointer to the current buffer.
+    wayland::Buffer *buffer_ = nullptr;
+    bool pending_ = false;
 };
 }
 }

@@ -30,6 +30,8 @@ WaylandEGLWindow::WaylandEGLWindow(WaylandUI *ui)
     : WaylandWindow(ui), window_(nullptr, &wl_egl_window_destroy),
       cairoSurface_(nullptr, &cairo_surface_destroy) {}
 
+WaylandEGLWindow::~WaylandEGLWindow() { destroyWindow(); }
+
 void WaylandEGLWindow::createWindow() {
     WaylandWindow::createWindow();
     window_.reset(wl_egl_window_create(*surface_, width(), height()));
@@ -40,13 +42,17 @@ void WaylandEGLWindow::createWindow() {
 
 void WaylandEGLWindow::destroyWindow() {
     cairoSurface_.reset();
-    ui_->destroyEGLSurface(eglSurface_);
+    if (eglSurface_) {
+        ui_->destroyEGLSurface(eglSurface_);
+        eglSurface_ = nullptr;
+    }
     window_.reset();
     WaylandWindow::destroyWindow();
 }
 
 void WaylandEGLWindow::resize(unsigned int width, unsigned int height) {
     wl_egl_window_resize(window_.get(), width, height, 0, 0);
+    Window::resize(width, height);
 }
 
 cairo_surface_t *WaylandEGLWindow::prerender() {

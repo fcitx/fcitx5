@@ -21,10 +21,10 @@ void WlSubsurface::setPosition(int32_t x, int32_t y) {
     return wl_subsurface_set_position(*this, x, y);
 }
 void WlSubsurface::placeAbove(WlSurface *sibling) {
-    return wl_subsurface_place_above(*this, *sibling);
+    return wl_subsurface_place_above(*this, rawPointer(sibling));
 }
 void WlSubsurface::placeBelow(WlSurface *sibling) {
-    return wl_subsurface_place_below(*this, *sibling);
+    return wl_subsurface_place_below(*this, rawPointer(sibling));
 }
 void WlSubsurface::setSync() { return wl_subsurface_set_sync(*this); }
 void WlSubsurface::setDesync() { return wl_subsurface_set_desync(*this); }

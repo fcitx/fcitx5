@@ -29,6 +29,9 @@ private:
     uint32_t version_;
     std::unique_ptr<wl_data_device_manager, decltype(&destructor)> data_;
 };
+static inline wl_data_device_manager *rawPointer(WlDataDeviceManager *p) {
+    return p ? static_cast<wl_data_device_manager *>(*p) : nullptr;
+}
 }
 }
 #endif

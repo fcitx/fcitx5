@@ -30,27 +30,32 @@ namespace wayland {
 class WlShm;
 class WlShmPool;
 class WlBuffer;
+class WlCallback;
+class WlSurface;
 
 class Buffer {
 public:
-    Buffer(WlShm *shm, int width, int height, wl_shm_format format);
+    Buffer(WlShm *shm, uint32_t width, uint32_t height, wl_shm_format format);
     ~Buffer();
 
     bool busy() const { return busy_; }
-    void setBusy() { busy_ = true; }
-    int32_t width() const { return width_; }
-    int32_t height() const { return height_; }
-    cairo_t *cairo() const { return cairo_.get(); }
+    uint32_t width() const { return width_; }
+    uint32_t height() const { return height_; }
     cairo_surface_t *cairoSurface() const { return surface_.get(); }
     WlBuffer *buffer() const { return buffer_.get(); }
 
+    void attachToSurface(WlSurface *surface);
+
+    auto &rendered() { return rendered_; }
+
 private:
+    Signal<void()> rendered_;
     std::unique_ptr<WlShmPool> pool_;
     std::unique_ptr<WlBuffer> buffer_;
+    std::unique_ptr<WlCallback> callback_;
     std::unique_ptr<cairo_surface_t, decltype(&cairo_surface_destroy)> surface_;
-    std::unique_ptr<cairo_t, decltype(&cairo_destroy)> cairo_;
     bool busy_ = false;
-    int32_t width_, height_;
+    uint32_t width_, height_;
 };
 }
 }

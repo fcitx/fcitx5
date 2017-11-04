@@ -22,11 +22,18 @@
 #include "display.h"
 #include "fcitx-utils/charutils.h"
 #include "fcitx-utils/stringutils.h"
+#include "waylandinputwindow.h"
+#include "waylandshmwindow.h"
+#include "wl_compositor.h"
+#include "wl_shell.h"
+#include "wl_shm.h"
 #include "xcbui.h"
+#include "zwp_input_panel_v1.h"
 #include <algorithm>
 
 #ifdef CAIRO_EGL_FOUND
 
+#include "waylandeglwindow.h"
 #include <EGL/egl.h>
 #include <EGL/eglext.h>
 #include <cairo/cairo-gl.h>
@@ -79,6 +86,27 @@ WaylandUI::WaylandUI(ClassicUI *parent, const std::string &name,
 #ifdef CAIRO_EGL_FOUND
     hasEgl_ = initEGL();
 #endif
+
+    display_->requestGlobals<wayland::WlCompositor>();
+    display_->requestGlobals<wayland::WlShm>();
+    display_->requestGlobals<wayland::WlShell>();
+    display_->requestGlobals<wayland::ZwpInputPanelV1>();
+    panelConn_ = display_->globalCreated().connect(
+        [this](const std::string &name, std::shared_ptr<void>) {
+            if (name == wayland::ZwpInputPanelV1::interface) {
+                if (inputWindow_) {
+                    inputWindow_->initPanel();
+                }
+            }
+        });
+    panelRemovedConn_ = display_->globalRemoved().connect(
+        [this](const std::string &name, std::shared_ptr<void>) {
+            if (name == wayland::ZwpInputPanelV1::interface) {
+                if (inputWindow_) {
+                    inputWindow_->resetPanel();
+                }
+            }
+        });
 }
 
 WaylandUI::~WaylandUI() {
@@ -189,8 +217,30 @@ cairo_surface_t *WaylandUI::createEGLCairoSurface(EGLSurface surface, int width,
 #endif
 
 void WaylandUI::update(UserInterfaceComponent component,
-                       InputContext *inputContext) {}
+                       InputContext *inputContext) {
+    if (inputWindow_ && component == UserInterfaceComponent::InputPanel) {
+        inputWindow_->update(inputContext);
+    }
+}
 
-void WaylandUI::suspend() { return; }
+void WaylandUI::suspend() {
+    inputWindow_.reset();
+    return;
+}
+
+void WaylandUI::resume() {
+    inputWindow_ = std::make_unique<WaylandInputWindow>(this);
+}
+
+std::unique_ptr<WaylandWindow> WaylandUI::newWindow() {
+#ifdef CAIRO_EGL_FOUND
+    if (hasEgl_) {
+        return std::make_unique<WaylandEGLWindow>(this);
+    } else
+#endif
+    {
+        return std::make_unique<WaylandShmWindow>(this);
+    }
+}
 }
 }

@@ -42,7 +42,7 @@ void WlSurface::destructor(wl_surface *data) {
     }
 }
 void WlSurface::attach(WlBuffer *buffer, int32_t x, int32_t y) {
-    return wl_surface_attach(*this, *buffer, x, y);
+    return wl_surface_attach(*this, rawPointer(buffer), x, y);
 }
 void WlSurface::damage(int32_t x, int32_t y, int32_t width, int32_t height) {
     return wl_surface_damage(*this, x, y, width, height);
@@ -51,10 +51,10 @@ WlCallback *WlSurface::frame() {
     return new WlCallback(wl_surface_frame(*this));
 }
 void WlSurface::setOpaqueRegion(WlRegion *region) {
-    return wl_surface_set_opaque_region(*this, *region);
+    return wl_surface_set_opaque_region(*this, rawPointer(region));
 }
 void WlSurface::setInputRegion(WlRegion *region) {
-    return wl_surface_set_input_region(*this, *region);
+    return wl_surface_set_input_region(*this, rawPointer(region));
 }
 void WlSurface::commit() { return wl_surface_commit(*this); }
 void WlSurface::setBufferTransform(int32_t transform) {

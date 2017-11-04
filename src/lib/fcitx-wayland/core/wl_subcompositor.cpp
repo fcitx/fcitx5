@@ -20,8 +20,8 @@ void WlSubcompositor::destructor(wl_subcompositor *data) {
 }
 WlSubsurface *WlSubcompositor::getSubsurface(WlSurface *surface,
                                              WlSurface *parent) {
-    return new WlSubsurface(
-        wl_subcompositor_get_subsurface(*this, *surface, *parent));
+    return new WlSubsurface(wl_subcompositor_get_subsurface(
+        *this, rawPointer(surface), rawPointer(parent)));
 }
 }
 }

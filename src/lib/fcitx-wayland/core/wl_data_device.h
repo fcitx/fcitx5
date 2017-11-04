@@ -44,6 +44,9 @@ private:
     uint32_t version_;
     std::unique_ptr<wl_data_device, decltype(&destructor)> data_;
 };
+static inline wl_data_device *rawPointer(WlDataDevice *p) {
+    return p ? static_cast<wl_data_device *>(*p) : nullptr;
+}
 }
 }
 #endif

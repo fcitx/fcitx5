@@ -27,6 +27,9 @@ private:
     uint32_t version_;
     std::unique_ptr<wl_shm, decltype(&destructor)> data_;
 };
+static inline wl_shm *rawPointer(WlShm *p) {
+    return p ? static_cast<wl_shm *>(*p) : nullptr;
+}
 }
 }
 #endif

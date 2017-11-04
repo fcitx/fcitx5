@@ -25,6 +25,9 @@ private:
     uint32_t version_;
     std::unique_ptr<wl_region, decltype(&destructor)> data_;
 };
+static inline wl_region *rawPointer(WlRegion *p) {
+    return p ? static_cast<wl_region *>(*p) : nullptr;
+}
 }
 }
 #endif

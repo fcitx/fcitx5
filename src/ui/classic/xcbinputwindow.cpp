@@ -186,19 +186,6 @@ void XCBInputWindow::update(InputContext *inputContext) {
     if (!visible()) {
         if (oldVisible) {
             xcb_unmap_window(ui_->connection(), wid_);
-
-            xcb_unmap_notify_event_t event;
-            memset(&event, 0, sizeof(event));
-            xcb_screen_t *screen =
-                xcb_aux_get_screen(ui_->connection(), ui_->defaultScreen());
-            event.response_type = XCB_UNMAP_NOTIFY;
-            event.event = screen->root;
-            event.window = wid_;
-            event.from_configure = false;
-            xcb_send_event(ui_->connection(), false, screen->root,
-                           XCB_EVENT_MASK_SUBSTRUCTURE_NOTIFY |
-                               XCB_EVENT_MASK_SUBSTRUCTURE_REDIRECT,
-                           reinterpret_cast<const char *>(&event));
             xcb_flush(ui_->connection());
         }
         return;

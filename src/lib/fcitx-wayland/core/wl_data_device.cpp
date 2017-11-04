@@ -71,10 +71,12 @@ void WlDataDevice::destructor(wl_data_device *data) {
 }
 void WlDataDevice::startDrag(WlDataSource *source, WlSurface *origin,
                              WlSurface *icon, uint32_t serial) {
-    return wl_data_device_start_drag(*this, *source, *origin, *icon, serial);
+    return wl_data_device_start_drag(*this, rawPointer(source),
+                                     rawPointer(origin), rawPointer(icon),
+                                     serial);
 }
 void WlDataDevice::setSelection(WlDataSource *source, uint32_t serial) {
-    return wl_data_device_set_selection(*this, *source, serial);
+    return wl_data_device_set_selection(*this, rawPointer(source), serial);
 }
 }
 }

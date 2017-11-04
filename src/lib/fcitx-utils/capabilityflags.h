@@ -31,7 +31,7 @@ namespace fcitx {
 
 /// \brief Input context CapabilityFlags.
 enum class CapabilityFlag : uint64_t {
-    None = 0,
+    NoFlag = 0,
     ClientSideUI = (1 << 0),
     Preedit = (1 << 1),
     ClientSideControlState = (1 << 2),

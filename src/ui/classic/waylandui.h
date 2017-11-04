@@ -22,12 +22,20 @@
 #include "classicui.h"
 #include "config.h"
 #include "display.h"
-#include <EGL/egl.h>
 #include <cairo/cairo.h>
+
+#ifdef CAIRO_EGL_FOUND
+
+#include <EGL/egl.h>
 #include <wayland-egl.h>
+
+#endif
 
 namespace fcitx {
 namespace classicui {
+
+class WaylandWindow;
+class WaylandInputWindow;
 
 class WaylandUI : public UIInterface {
 public:
@@ -53,17 +61,22 @@ public:
     void update(UserInterfaceComponent component,
                 InputContext *inputContext) override;
     void suspend() override;
+    void resume() override;
     void setEnableTray(bool) override{};
+
+    std::unique_ptr<WaylandWindow> newWindow();
 
 private:
     static const struct wl_registry_listener registryListener;
     ClassicUI *parent_;
     std::string name_;
     wayland::Display *display_;
+    ScopedConnection panelConn_, panelRemovedConn_;
+    std::unique_ptr<WaylandInputWindow> inputWindow_;
 
 #ifdef CAIRO_EGL_FOUND
     // EGL stuff
-    bool hasEgl_;
+    bool hasEgl_ = false;
     EGLDisplay eglDisplay_ = nullptr;
     EGLConfig argbConfig_ = nullptr;
     EGLContext argbCtx_ = nullptr;

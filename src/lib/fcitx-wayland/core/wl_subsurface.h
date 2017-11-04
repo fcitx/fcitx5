@@ -29,6 +29,9 @@ private:
     uint32_t version_;
     std::unique_ptr<wl_subsurface, decltype(&destructor)> data_;
 };
+static inline wl_subsurface *rawPointer(WlSubsurface *p) {
+    return p ? static_cast<wl_subsurface *>(*p) : nullptr;
+}
 }
 }
 #endif

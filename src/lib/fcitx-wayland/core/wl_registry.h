@@ -33,6 +33,9 @@ private:
     uint32_t version_;
     std::unique_ptr<wl_registry, decltype(&destructor)> data_;
 };
+static inline wl_registry *rawPointer(WlRegistry *p) {
+    return p ? static_cast<wl_registry *>(*p) : nullptr;
+}
 }
 }
 #endif

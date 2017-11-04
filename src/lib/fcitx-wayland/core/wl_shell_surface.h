@@ -44,6 +44,9 @@ private:
     uint32_t version_;
     std::unique_ptr<wl_shell_surface, decltype(&destructor)> data_;
 };
+static inline wl_shell_surface *rawPointer(WlShellSurface *p) {
+    return p ? static_cast<wl_shell_surface *>(*p) : nullptr;
+}
 }
 }
 #endif

@@ -39,29 +39,31 @@ void WlShellSurface::pong(uint32_t serial) {
     return wl_shell_surface_pong(*this, serial);
 }
 void WlShellSurface::move(WlSeat *seat, uint32_t serial) {
-    return wl_shell_surface_move(*this, *seat, serial);
+    return wl_shell_surface_move(*this, rawPointer(seat), serial);
 }
 void WlShellSurface::resize(WlSeat *seat, uint32_t serial, uint32_t edges) {
-    return wl_shell_surface_resize(*this, *seat, serial, edges);
+    return wl_shell_surface_resize(*this, rawPointer(seat), serial, edges);
 }
 void WlShellSurface::setToplevel() {
     return wl_shell_surface_set_toplevel(*this);
 }
 void WlShellSurface::setTransient(WlSurface *parent, int32_t x, int32_t y,
                                   uint32_t flags) {
-    return wl_shell_surface_set_transient(*this, *parent, x, y, flags);
+    return wl_shell_surface_set_transient(*this, rawPointer(parent), x, y,
+                                          flags);
 }
 void WlShellSurface::setFullscreen(uint32_t method, uint32_t framerate,
                                    WlOutput *output) {
-    return wl_shell_surface_set_fullscreen(*this, method, framerate, *output);
+    return wl_shell_surface_set_fullscreen(*this, method, framerate,
+                                           rawPointer(output));
 }
 void WlShellSurface::setPopup(WlSeat *seat, uint32_t serial, WlSurface *parent,
                               int32_t x, int32_t y, uint32_t flags) {
-    return wl_shell_surface_set_popup(*this, *seat, serial, *parent, x, y,
-                                      flags);
+    return wl_shell_surface_set_popup(*this, rawPointer(seat), serial,
+                                      rawPointer(parent), x, y, flags);
 }
 void WlShellSurface::setMaximized(WlOutput *output) {
-    return wl_shell_surface_set_maximized(*this, *output);
+    return wl_shell_surface_set_maximized(*this, rawPointer(output));
 }
 void WlShellSurface::setTitle(const char *title) {
     return wl_shell_surface_set_title(*this, title);

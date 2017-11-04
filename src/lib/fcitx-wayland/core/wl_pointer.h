@@ -46,6 +46,9 @@ private:
     uint32_t version_;
     std::unique_ptr<wl_pointer, decltype(&destructor)> data_;
 };
+static inline wl_pointer *rawPointer(WlPointer *p) {
+    return p ? static_cast<wl_pointer *>(*p) : nullptr;
+}
 }
 }
 #endif

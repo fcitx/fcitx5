@@ -42,6 +42,8 @@ public:
     WaylandIMServer(wl_display *display, FocusGroup *group,
                     const std::string &name, WaylandIMModule *waylandim);
 
+    ~WaylandIMServer();
+
     InputContextManager &inputContextManager() {
         return parent_->instance()->inputContextManager();
     }
@@ -54,8 +56,6 @@ public:
     Instance *instance() { return parent_->instance(); }
     FocusGroup *group() { return group_; }
 
-    ~WaylandIMServer() {}
-
 private:
     FocusGroup *group_;
     std::string name_;
@@ -67,6 +67,7 @@ private:
     std::unique_ptr<struct xkb_state, decltype(&xkb_state_unref)> state_;
 
     wayland::Display *display_;
+    ScopedConnection globalConn_;
 
     struct StateMask {
         uint32_t shift_mask = 0;
@@ -240,7 +241,7 @@ WaylandIMServer::WaylandIMServer(wl_display *display, FocusGroup *group,
       display_(
           static_cast<wayland::Display *>(wl_display_get_user_data(display))) {
     display_->requestGlobals<wayland::ZwpInputMethodV1>();
-    display_->registry()->global().connect(
+    globalConn_ = display_->registry()->global().connect(
         [this](uint32_t, const char *interface, uint32_t) {
             if (0 == strcmp(interface, wayland::ZwpInputMethodV1::interface)) {
                 init();
@@ -248,6 +249,13 @@ WaylandIMServer::WaylandIMServer(wl_display *display, FocusGroup *group,
         });
 
     init();
+}
+
+WaylandIMServer::~WaylandIMServer() {
+    // Delete all input context when server goes away.
+    while (icMap_.size()) {
+        delete icMap_.begin()->second;
+    }
 }
 
 void WaylandIMServer::init() {
@@ -266,6 +274,7 @@ void WaylandIMServer::activate(wayland::ZwpInputMethodContextV1 *id) {
     auto ic = new WaylandIMInputContextV1(
         parent_->instance()->inputContextManager(), this, id);
     ic->setFocusGroup(group_);
+    ic->focusIn();
 }
 
 void WaylandIMServer::deactivate(wayland::ZwpInputMethodContextV1 *id) {
@@ -280,11 +289,13 @@ void WaylandIMServer::add(WaylandIMInputContextV1 *ic,
 
 void WaylandIMServer::remove(wayland::ZwpInputMethodContextV1 *id) {
     auto iter = icMap_.find(id);
-    icMap_.erase(iter);
+    if (iter != icMap_.end()) {
+        icMap_.erase(iter);
+    }
 }
 
 void WaylandIMInputContextV1::repeat() {
-    KeyEvent event(this, Key(repeatSym_, server_->modifiers_, repeatKey_),
+    KeyEvent event(this, Key(repeatSym_, server_->modifiers_, repeatKey_ + 8),
                    false, repeatTime_);
     if (!keyEvent(event)) {
         ic_->keysym(serial_, repeatTime_, event.rawKey().sym(),
@@ -469,7 +480,7 @@ void WaylandIMInputContextV1::keyCallback(uint32_t serial, uint32_t time,
 
     KeyEvent event(this, Key(static_cast<KeySym>(xkb_state_key_get_one_sym(
                                  server_->state_.get(), code)),
-                             server_->modifiers_),
+                             server_->modifiers_, code),
                    state == WL_KEYBOARD_KEY_STATE_RELEASED, time);
 
     if (state == WL_KEYBOARD_KEY_STATE_RELEASED && key == repeatKey_) {

@@ -1,7 +1,10 @@
 #include "buffer.h"
+#include "theme.h"
 #include "wl_buffer.h"
+#include "wl_callback.h"
 #include "wl_shm.h"
 #include "wl_shm_pool.h"
+#include "wl_surface.h"
 #include <cairo/cairo.h>
 #include <cassert>
 #include <fcitx-utils/stringutils.h>
@@ -17,15 +20,16 @@
 namespace fcitx {
 namespace wayland {
 
-Buffer::Buffer(WlShm *shm, int width, int height, wl_shm_format format)
-    : surface_(nullptr, &cairo_surface_destroy),
-      cairo_(nullptr, &cairo_destroy), width_(width), height_(height) {
+Buffer::Buffer(WlShm *shm, uint32_t width, uint32_t height,
+               wl_shm_format format)
+    : surface_(nullptr, &cairo_surface_destroy), width_(width),
+      height_(height) {
     const char *path = getenv("XDG_RUNTIME_DIR");
     if (!path) {
         throw std::runtime_error("XDG_RUNTIME_DIR is not set");
     }
-    int stride = width * 4;
-    int alloc = stride * height;
+    uint32_t stride = width * 4;
+    uint32_t alloc = stride * height;
     auto filename = stringutils::joinPath(path, "fcitx-wayland-shm-XXXXXX");
     std::vector<char> v(filename.begin(), filename.end());
     v.push_back('\0');
@@ -56,11 +60,29 @@ Buffer::Buffer(WlShm *shm, int width, int height, wl_shm_format format)
 
     surface_.reset(cairo_image_surface_create_for_data(
         data, CAIRO_FORMAT_ARGB32, width, height, stride));
-    cairo_.reset(cairo_create(surface_.get()));
 
     close(fd);
 }
 
 Buffer::~Buffer() {}
+
+void Buffer::attachToSurface(WlSurface *surface) {
+    if (busy_) {
+        return;
+    }
+    busy_ = true;
+    callback_.reset(surface->frame());
+    callback_->done().connect([this](uint32_t) {
+        // CLASSICUI_DEBUG() << "Shm window rendered. " << this;
+        busy_ = false;
+        rendered_();
+        callback_.reset();
+    });
+
+    surface->attach(buffer(), 0, 0);
+    surface->damage(0, 0, width_, height_);
+    surface->commit();
 }
-}
+
+} // namspace wayland
+} // namespace fcitx

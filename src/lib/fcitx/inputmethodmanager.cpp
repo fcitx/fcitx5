@@ -162,6 +162,9 @@ void InputMethodManager::loadConfig() {
             auto &items = groupConfig.items.value();
             for (auto &item : items) {
                 if (!d->entries_.count(item.name.value())) {
+                    FCITX_LOG(Warn) << "Group Item " << item.name.value()
+                                    << " in group " << groupConfig.name.value()
+                                    << " is not valid. Removed.";
                     continue;
                 }
                 group.inputMethodList().emplace_back(
@@ -170,6 +173,8 @@ void InputMethodManager::loadConfig() {
             }
 
             if (!group.inputMethodList().size()) {
+                FCITX_LOG(Warn) << "Group " << groupConfig.name.value()
+                                << " is empty. Removed.";
                 d->groups_.erase(groupConfig.name.value());
                 continue;
             }
