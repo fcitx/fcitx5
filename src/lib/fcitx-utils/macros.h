@@ -288,7 +288,7 @@
 // Use [[nodiscard]] specifier if supported by our compiler.
 #if HAS_CPP_ATTRIBUTE(nodiscard)
 #define FCITX_NODISCARD [[nodiscard]]
-#elif __has_cpp_attribute(gnu::warn_unused_result)
+#elif HAS_CPP_ATTRIBUTE(gnu::warn_unused_result)
 #define FCITX_NODISCARD [[gnu::warn_unused_result]]
 #else
 #define FCITX_NODISCARD
