@@ -89,3 +89,8 @@ void fcitx::classicui::WaylandShmWindow::render() {
     surface_->setBufferScale(1);
     buffer_->attachToSurface(surface_.get());
 }
+
+void fcitx::classicui::WaylandShmWindow::hide() {
+    surface_->attach(nullptr, 0, 0);
+    surface_->commit();
+}

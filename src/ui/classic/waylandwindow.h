@@ -35,10 +35,10 @@ public:
 
     virtual void createWindow();
     virtual void destroyWindow();
+    virtual void hide() = 0;
 
     void setScale(int32_t scale) { scale_ = scale; }
     void setTransform(wl_output_transform transform) { transform_ = transform; }
-    void hide();
     wayland::WlSurface *surface() { return surface_.get(); }
 
     auto &repaint() { return repaint_; }

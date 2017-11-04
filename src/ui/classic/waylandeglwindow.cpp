@@ -21,6 +21,7 @@
 #ifdef CAIRO_EGL_FOUND
 
 #include "waylandeglwindow.h"
+#include "wl_callback.h"
 #include <cairo/cairo-gl.h>
 #include <wayland-egl.h>
 
@@ -32,59 +33,63 @@ WaylandEGLWindow::WaylandEGLWindow(WaylandUI *ui)
 
 WaylandEGLWindow::~WaylandEGLWindow() { destroyWindow(); }
 
-void WaylandEGLWindow::createWindow() {
-    WaylandWindow::createWindow();
-    window_.reset(wl_egl_window_create(*surface_, width(), height()));
-    eglSurface_ = ui_->createEGLSurface(window_.get(), nullptr);
-    cairoSurface_.reset(
-        ui_->createEGLCairoSurface(eglSurface_, width(), height()));
-}
+void WaylandEGLWindow::createWindow() { WaylandWindow::createWindow(); }
 
 void WaylandEGLWindow::destroyWindow() {
+    hide();
+    WaylandWindow::destroyWindow();
+}
+
+cairo_surface_t *WaylandEGLWindow::prerender() {
+    if (width_ == 0 || height_ == 0) {
+        hide();
+        return nullptr;
+    }
+
+    if (!window_) {
+        window_.reset(wl_egl_window_create(*surface_, width_, height_));
+    }
+    if (window_ && !eglSurface_) {
+        eglSurface_ = ui_->createEGLSurface(window_.get(), nullptr);
+    }
+    if (eglSurface_ && !cairoSurface_) {
+        cairoSurface_.reset(
+            ui_->createEGLCairoSurface(eglSurface_, width_, height_));
+    }
+    if (!cairoSurface_) {
+        return nullptr;
+    }
+    int width, height;
+    wl_egl_window_get_attached_size(window_.get(), &width, &height);
+    if (width != static_cast<int>(width_) ||
+        height != static_cast<int>(height_)) {
+    }
+    cairo_gl_surface_set_size(cairoSurface_.get(), width_, height_);
+    if (cairo_surface_status(cairoSurface_.get()) != CAIRO_STATUS_SUCCESS) {
+        return nullptr;
+    }
+
+    return cairoSurface_.get();
+}
+
+void WaylandEGLWindow::render() {
+    if (cairo_surface_status(cairoSurface_.get()) != CAIRO_STATUS_SUCCESS) {
+        return;
+    }
+    cairo_gl_surface_swapbuffers(cairoSurface_.get());
+    callback_.reset(surface_->frame());
+    callback_->done().connect([this](uint32_t) { callback_.reset(); });
+}
+
+void WaylandEGLWindow::hide() {
     cairoSurface_.reset();
     if (eglSurface_) {
         ui_->destroyEGLSurface(eglSurface_);
         eglSurface_ = nullptr;
     }
     window_.reset();
-    WaylandWindow::destroyWindow();
-}
-
-void WaylandEGLWindow::resize(unsigned int width, unsigned int height) {
-    wl_egl_window_resize(window_.get(), width, height, 0, 0);
-    Window::resize(width, height);
-}
-
-cairo_surface_t *WaylandEGLWindow::prerender() {
-    cairo_device_t *device = cairo_surface_get_device(cairoSurface_.get());
-    if (!device) {
-        return nullptr;
-    }
-
-    auto ctx = ui_->argbCtx();
-
-    cairo_device_flush(device);
-    cairo_device_acquire(device);
-    eglMakeCurrent(ui_->eglDisplay(), eglSurface_, eglSurface_, ctx);
-
-    return cairoSurface_.get();
-}
-
-void WaylandEGLWindow::render() {
-    cairo_gl_surface_swapbuffers(cairoSurface_.get());
-    int width, height;
-    wl_egl_window_get_attached_size(window_.get(), &width, &height);
-
-    bufferToSurfaceSize(transform_, scale_, &width, &height);
-    serverAllocation_.setSize(width, height);
-
-    cairo_device_t *device = cairo_surface_get_device(cairoSurface_.get());
-    if (!device)
-        return;
-
-    eglMakeCurrent(ui_->eglDisplay(), EGL_NO_SURFACE, EGL_NO_SURFACE,
-                   EGL_NO_CONTEXT);
-    cairo_device_release(device);
+    surface_->attach(nullptr, 0, 0);
+    surface_->commit();
 }
 }
 }

@@ -37,6 +37,7 @@ public:
     void destroyWindow() override;
     cairo_surface_t *prerender() override;
     void render() override;
+    void hide() override;
 
 private:
     void newBuffer();

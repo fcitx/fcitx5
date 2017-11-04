@@ -141,8 +141,8 @@ void XCBConnection::grabKey(const Key &key) {
     if (!keycode) {
         FCITX_LOG(Warn) << "Can not convert keyval=" << sym << " to keycode!";
     } else {
-        FCITX_LOG(Debug) << "grab keycode " << *keycode << " modifiers "
-                         << modifiers;
+        FCITX_LOG(Debug) << "grab keycode " << static_cast<int>(*keycode)
+                         << " modifiers " << modifiers;
         auto cookie =
             xcb_grab_key_checked(conn_.get(), true, root_, modifiers, *keycode,
                                  XCB_GRAB_MODE_ASYNC, XCB_GRAB_MODE_ASYNC);

@@ -147,15 +147,15 @@ bool WaylandUI::initEGL() {
 
     static const EGLint context_attribs[] = {EGL_CONTEXT_CLIENT_VERSION, 2,
                                              EGL_NONE};
-    EGLint api = EGL_OPENGL_ES_API;
+    EGLint api = EGL_OPENGL_API;
 
     eglDisplay_ = getEGLDisplay(EGL_PLATFORM_WAYLAND_KHR, *display_, nullptr);
 
-    if (!eglInitialize(eglDisplay_, &major, &minor)) {
+    if (eglInitialize(eglDisplay_, &major, &minor) != EGL_TRUE) {
         return false;
     }
 
-    if (!eglBindAPI(api)) {
+    if (eglBindAPI(api) != EGL_TRUE) {
         return false;
     }
 
@@ -164,9 +164,10 @@ bool WaylandUI::initEGL() {
         return false;
     }
 
-    argbCtx_ = eglCreateContext(eglDisplay_, &argbConfig_, EGL_NO_CONTEXT,
+    argbCtx_ = eglCreateContext(eglDisplay_, argbConfig_, EGL_NO_CONTEXT,
                                 context_attribs);
     if (!argbCtx_) {
+        CLASSICUI_DEBUG() << "EGL Error: " << eglGetError();
         return false;
     }
 
@@ -198,9 +199,10 @@ EGLSurface WaylandUI::createEGLSurface(wl_egl_window *window,
                 "eglCreatePlatformWindowSurfaceEXT");
     }
 
-    if (create_platform_window)
+    if (create_platform_window) {
         return create_platform_window(eglDisplay_, argbConfig_, window,
                                       attrib_list);
+    }
 
     return eglCreateWindowSurface(eglDisplay_, argbConfig_,
                                   (EGLNativeWindowType)window, attrib_list);

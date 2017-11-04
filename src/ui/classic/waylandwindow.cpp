@@ -66,10 +66,5 @@ void bufferToSurfaceSize(enum wl_output_transform buffer_transform,
     *width /= buffer_scale;
     *height /= buffer_scale;
 }
-
-void WaylandWindow::hide() {
-    surface_->attach(nullptr, 0, 0);
-    surface_->commit();
-}
 }
 }

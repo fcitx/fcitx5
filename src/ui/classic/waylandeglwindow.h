@@ -38,16 +38,17 @@ public:
 
     void createWindow() override;
     void destroyWindow() override;
-    void resize(unsigned int width, unsigned int height) override;
 
     cairo_surface_t *prerender() override;
     void render() override;
+    void hide() override;
 
 private:
     std::unique_ptr<wl_egl_window, decltype(&wl_egl_window_destroy)> window_;
     EGLSurface eglSurface_ = nullptr;
     std::unique_ptr<cairo_surface_t, decltype(&cairo_surface_destroy)>
         cairoSurface_;
+    std::unique_ptr<wayland::WlCallback> callback_;
 };
 }
 }
