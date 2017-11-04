@@ -142,11 +142,10 @@ bool WaylandUI::initEGL() {
                                               EGL_DEPTH_SIZE,
                                               1,
                                               EGL_RENDERABLE_TYPE,
-                                              EGL_OPENGL_ES2_BIT,
+                                              EGL_OPENGL_BIT,
                                               EGL_NONE};
 
-    static const EGLint context_attribs[] = {EGL_CONTEXT_CLIENT_VERSION, 2,
-                                             EGL_NONE};
+    EGLint *context_attribs = NULL;
     EGLint api = EGL_OPENGL_API;
 
     eglDisplay_ = getEGLDisplay(EGL_PLATFORM_WAYLAND_KHR, *display_, nullptr);

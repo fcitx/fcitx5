@@ -63,6 +63,7 @@ cairo_surface_t *WaylandEGLWindow::prerender() {
     wl_egl_window_get_attached_size(window_.get(), &width, &height);
     if (width != static_cast<int>(width_) ||
         height != static_cast<int>(height_)) {
+        wl_egl_window_resize(window_.get(), width_, height_, 0, 0);
     }
     cairo_gl_surface_set_size(cairoSurface_.get(), width_, height_);
     if (cairo_surface_status(cairoSurface_.get()) != CAIRO_STATUS_SUCCESS) {
