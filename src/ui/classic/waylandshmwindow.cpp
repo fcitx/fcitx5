@@ -33,6 +33,9 @@ void fcitx::classicui::WaylandShmWindow::destroyWindow() {
 }
 
 void fcitx::classicui::WaylandShmWindow::newBuffer() {
+    if (!shm_) {
+        return;
+    }
     buffers_.emplace_back(std::make_unique<wayland::Buffer>(
         shm_.get(), width_, height_, WL_SHM_FORMAT_ARGB8888));
     buffers_.back()->rendered().connect([this]() {
@@ -64,7 +67,9 @@ cairo_surface_t *fcitx::classicui::WaylandShmWindow::prerender() {
 
     if (iter == buffers_.end() && buffers_.size() < 2) {
         newBuffer();
-        iter = std::prev(buffers_.end());
+        if (buffers_.size()) {
+            iter = std::prev(buffers_.end());
+        }
     }
 
     if (iter == buffers_.end()) {

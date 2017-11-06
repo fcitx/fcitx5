@@ -31,6 +31,9 @@ WaylandWindow::~WaylandWindow() {}
 
 void WaylandWindow::createWindow() {
     auto compositor = ui_->display()->getGlobal<wayland::WlCompositor>();
+    if (!compositor) {
+        return;
+    }
     surface_.reset(compositor->createSurface());
     conns_.emplace_back(
         surface_->enter().connect([this](wayland::WlOutput *output) {
