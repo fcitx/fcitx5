@@ -84,10 +84,11 @@ FCITX_CONFIGURATION(ThemeMetadata,
                     Option<std::string> description{this, "Description",
                                                     "Description"};)
 
-FCITX_CONFIGURATION(
-    ThemeGeneralConfig,
-    Option<std::string> trayFont{this, "TrayFont", "Tray Font", "Sans 9"};
-    Option<bool> scaleWithDPI{this, "ScaleWithDPI", "Scale with DPI"};);
+FCITX_CONFIGURATION(ThemeGeneralConfig,
+                    Option<std::string> trayFont{this, "TrayFont", "Tray Font",
+                                                 "Sans 9"};
+                    Option<bool> scaleWithDPI{this, "ScaleWithDPI",
+                                              "Scale with DPI"};);
 
 FCITX_CONFIGURATION(
     ThemeConfig, Option<ThemeMetadata> metadata{this, "Metadata", "Metadata"};

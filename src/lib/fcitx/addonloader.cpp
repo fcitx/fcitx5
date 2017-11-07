@@ -20,6 +20,7 @@
 #include "addonloader_p.h"
 #include "config.h"
 #include "fcitx-utils/library.h"
+#include "fcitx-utils/log.h"
 
 namespace fcitx {
 
@@ -36,6 +37,9 @@ AddonInstance *SharedLibraryLoader::load(const AddonInfo &info,
         for (const auto &libraryPath : libs) {
             Library lib(libraryPath);
             if (!lib.load()) {
+                FCITX_LOG(Error)
+                    << "Failed to load library for addon " << info.uniqueName()
+                    << " on " << libraryPath << ". Error: " << lib.error();
                 continue;
             }
             try {
@@ -43,7 +47,6 @@ AddonInstance *SharedLibraryLoader::load(const AddonInfo &info,
                     info.uniqueName(),
                     std::make_unique<SharedLibraryFactory>(std::move(lib)));
             } catch (const std::exception &e) {
-                // TODO
             }
             break;
         }
