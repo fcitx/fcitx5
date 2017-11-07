@@ -288,7 +288,7 @@ const ThemeImage &Theme::loadImage(const std::string &icon,
 
     auto result =
         map.emplace(std::piecewise_construct, std::forward_as_tuple(name),
-                    std::forward_as_tuple(iconPath, label, *trayFont, size));
+                    std::forward_as_tuple(iconPath, label, *config->trayFont, size));
     assert(result.second);
     return result.first->second;
 }

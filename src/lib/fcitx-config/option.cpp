@@ -24,6 +24,13 @@ namespace fcitx {
 OptionBase::OptionBase(Configuration *parent, std::string path,
                        std::string description)
     : parent_(parent), path_(path), description_(description) {
+
+    // Force the rule of "/" not allowed in option, so our live of GUI would be
+    // easier.
+    if (path.find('/') != std::string::npos) {
+        throw std::invalid_argument(
+            "/ is not allowed in option, option path is " + path);
+    }
     parent_->addOption(this);
 }
 

@@ -71,7 +71,7 @@ int main(int argc, char *argv[]) {
         return instance.exec();
     } catch (const InstanceQuietQuit &) {
     } catch (const std::exception &e) {
-        std::cerr << "Received exception" << e.what();
+        std::cerr << "Received exception: " << e.what() << std::endl;
         return 1;
     }
     return 0;

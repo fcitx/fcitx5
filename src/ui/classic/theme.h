@@ -77,14 +77,21 @@ FCITX_CONFIGURATION(
                                            "Highlight Background color",
                                            Color("#a5a5a5ff")};);
 
+FCITX_CONFIGURATION(ThemeMetadata,
+                    Option<I18NString> name{this, "Name", "Skin Name"};
+                    Option<int> version{this, "Version", "Version", 1};
+                    Option<std::string> author{this, "Author", "Author"};
+                    Option<std::string> description{this, "Description",
+                                                    "Description"};)
+
 FCITX_CONFIGURATION(
-    ThemeConfig, Option<I18NString> name{this, "Metadata/Name", "Skin Name"};
-    Option<int> version{this, "Metadata/Version", "Version", 1};
-    Option<std::string> author{this, "Metadata/Author", "Author"};
-    Option<std::string> description{this, "Metadata/Description",
-                                    "Description"};
-    Option<bool> scaleWithDPI{this, "Metadata/ScaleWithDPI", "Scale with DPI"};
+    ThemeGeneralConfig,
     Option<std::string> trayFont{this, "TrayFont", "Tray Font", "Sans 9"};
+    Option<bool> scaleWithDPI{this, "ScaleWithDPI", "Scale with DPI"};);
+
+FCITX_CONFIGURATION(
+    ThemeConfig, Option<ThemeMetadata> metadata{this, "Metadata", "Metadata"};
+    Option<ThemeGeneralConfig> config{this, "General", "General"};
     Option<InputPanelThemeConfig> inputPanel{this, "InputPanel",
                                              "Input Panel Theme"};);
 

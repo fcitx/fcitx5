@@ -22,21 +22,23 @@
 namespace fcitx {
 
 FCITX_CONFIGURATION(
-    AddonConfig,
-    fcitx::Option<I18NString> name{this, "Addon/Name", "Addon Name"};
-    fcitx::Option<I18NString> comment{this, "Addon/Comment", "Comment"};
-    fcitx::Option<std::string> type{this, "Addon/Type", "Addon Type"};
-    fcitx::Option<std::string> library{this, "Addon/Library", "Addon Library"};
-    fcitx::Option<bool> enabled{this, "Addon/Enabled", "Enabled", true};
-    fcitx::Option<AddonCategory> category{this, "Addon/Category", "Category"};
-    fcitx::Option<std::vector<std::string>> dependencies{
-        this, "Addon/Dependencies", "Dependencies"};
+    AddonConfigBase, fcitx::Option<I18NString> name{this, "Name", "Addon Name"};
+    fcitx::Option<I18NString> comment{this, "Comment", "Comment"};
+    fcitx::Option<std::string> type{this, "Type", "Addon Type"};
+    fcitx::Option<std::string> library{this, "Library", "Addon Library"};
+    fcitx::Option<bool> enabled{this, "Enabled", "Enabled", true};
+    fcitx::Option<AddonCategory> category{this, "Category", "Category"};
+    fcitx::Option<std::vector<std::string>> dependencies{this, "Dependencies",
+                                                         "Dependencies"};
     fcitx::Option<std::vector<std::string>> optionalDependencies{
-        this, "Addon/OptionalDependencies", "Optional Dependencies"};
-    fcitx::Option<bool> onDemand{this, "Addon/OnDemand", "Load only on request",
+        this, "OptionalDependencies", "Optional Dependencies"};
+    fcitx::Option<bool> onDemand{this, "OnDemand", "Load only on request",
                                  false};
-    fcitx::Option<int> uiPriority{this, "Addon/UIPriority",
-                                  "User interface priority", 0};)
+    fcitx::Option<int> uiPriority{this, "UIPriority", "User interface priority",
+                                  0};)
+
+FCITX_CONFIGURATION(AddonConfig,
+                    Option<AddonConfigBase> addon{this, "Addon", "Addon"};)
 
 class AddonInfoPrivate : public AddonConfig {
 public:
@@ -63,47 +65,47 @@ const std::string &AddonInfo::uniqueName() const {
 
 const I18NString &AddonInfo::name() const {
     FCITX_D();
-    return d->name.value();
+    return d->addon->name.value();
 }
 
 const I18NString &AddonInfo::comment() const {
     FCITX_D();
-    return d->comment.value();
+    return d->addon->comment.value();
 }
 
 const std::string &AddonInfo::type() const {
     FCITX_D();
-    return d->type.value();
+    return d->addon->type.value();
 }
 
 AddonCategory AddonInfo::category() const {
     FCITX_D();
-    return d->category.value();
+    return d->addon->category.value();
 }
 
 const std::string &AddonInfo::library() const {
     FCITX_D();
-    return d->library.value();
+    return d->addon->library.value();
 }
 
 const std::vector<std::string> &AddonInfo::dependencies() const {
     FCITX_D();
-    return d->dependencies.value();
+    return d->addon->dependencies.value();
 }
 
 const std::vector<std::string> &AddonInfo::optionalDependencies() const {
     FCITX_D();
-    return d->optionalDependencies.value();
+    return d->addon->optionalDependencies.value();
 }
 
 bool AddonInfo::onDemand() const {
     FCITX_D();
-    return d->onDemand.value();
+    return d->addon->onDemand.value();
 }
 
 int AddonInfo::uiPriority() const {
     FCITX_D();
-    return d->uiPriority.value();
+    return d->addon->uiPriority.value();
 }
 
 void AddonInfo::load(const RawConfig &config) {
@@ -111,7 +113,8 @@ void AddonInfo::load(const RawConfig &config) {
     d->load(config);
 
     // Validate more information
-    d->valid_ = !(d->uniqueName_.empty()) && !(d->type.value().empty()) &&
-                !(d->library.value().empty()) && d->enabled.value();
+    d->valid_ =
+        !(d->uniqueName_.empty()) && !(d->addon->type.value().empty()) &&
+        !(d->addon->library.value().empty()) && d->addon->enabled.value();
 }
 }

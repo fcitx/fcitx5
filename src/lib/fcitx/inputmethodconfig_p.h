@@ -40,31 +40,34 @@ FCITX_CONFIGURATION(
 
 FCITX_CONFIGURATION(InputMethodConfig,
                     Option<std::vector<InputMethodGroupConfig>> groups{
-                        this, "Profile/Groups", "Groups"};
+                        this, "Groups", "Groups"};
                     Option<std::vector<std::string>> groupOrder{
-                        this, "Profile/GroupOrder", "Group Order"};);
+                        this, "GroupOrder", "Group Order"};);
 
-FCITX_CONFIGURATION(
-    InputMethodInfo, Option<I18NString> name{this, "InputMethod/Name", "Name"};
-    Option<std::string> icon{this, "InputMethod/Icon", "Icon"};
-    Option<std::string> label{this, "InputMethod/Label", "Label"};
-    Option<std::string> languageCode{this, "InputMethod/LangCode",
-                                     "Language Code"};
-    Option<std::string> addon{this, "InputMethod/Addon", "Addon"};)
+FCITX_CONFIGURATION(InputMethodInfoBase,
+                    Option<I18NString> name{this, "Name", "Name"};
+                    Option<std::string> icon{this, "Icon", "Icon"};
+                    Option<std::string> label{this, "Label", "Label"};
+                    Option<std::string> languageCode{this, "LangCode",
+                                                     "Language Code"};
+                    Option<std::string> addon{this, "Addon", "Addon"};)
+
+FCITX_CONFIGURATION(InputMethodInfo, Option<InputMethodInfoBase> im{
+                                         this, "InputMethod", "Input Method"};)
 
 InputMethodEntry toInputMethodEntry(const std::string &uniqueName,
                                     const InputMethodInfo &config) {
-    const auto &langCode = config.languageCode.value();
-    const auto &name = config.name.value();
+    const auto &langCode = config.im->languageCode.value();
+    const auto &name = config.im->name.value();
     InputMethodEntry result(uniqueName, name.match("system"), langCode,
-                            config.addon.value());
+                            config.im->addon.value());
     if (!langCode.empty() && langCode != "*") {
         const auto &nativeName = name.match(langCode);
         if (nativeName != name.defaultString()) {
             result.setNativeName(nativeName);
         }
     }
-    result.setIcon(config.icon.value()).setLabel(config.label.value());
+    result.setIcon(config.im->icon.value()).setLabel(config.im->label.value());
     return result;
 }
 }
