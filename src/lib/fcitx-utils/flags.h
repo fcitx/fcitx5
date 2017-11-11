@@ -116,6 +116,10 @@ public:
         return Flags(flags_ & (~static_cast<storage_type>(f)));
     }
 
+    constexpr inline Flags unset(Flags f) const {
+        return Flags(flags_ & (~f.flags_));
+    }
+
     template <typename T>
     constexpr inline bool test(T f) const {
         return (*this & f) == f;

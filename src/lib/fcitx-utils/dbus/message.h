@@ -19,7 +19,9 @@
 #ifndef _FCITX_UTILS_DBUS_MESSAGE_H_
 #define _FCITX_UTILS_DBUS_MESSAGE_H_
 
+#include <cassert>
 #include <fcitx-utils/dbus/message_details.h>
+#include <fcitx-utils/log.h>
 #include <fcitx-utils/macros.h>
 #include <fcitx-utils/metastring.h>
 #include <fcitx-utils/tuplehelpers.h>
@@ -60,6 +62,65 @@ private:
     tuple_type data_;
 };
 
+struct FCITXUTILS_EXPORT VariantHelperBase {
+public:
+    virtual std::shared_ptr<void> copy(const void *) const = 0;
+    virtual void serialize(dbus::Message &msg, const void *data) const = 0;
+    virtual void print(LogMessageBuilder &builder, const void *data) const = 0;
+    virtual void deserialize(dbus::Message &msg, void *data) const = 0;
+    virtual std::string signature() const = 0;
+};
+
+template <typename Value>
+class FCITXUTILS_EXPORT VariantHelper : public VariantHelperBase {
+    std::shared_ptr<void> copy(const void *src) const override {
+        if (src) {
+            auto s = static_cast<const Value *>(src);
+            return std::make_shared<Value>(*s);
+        }
+        return std::make_shared<Value>();
+    }
+    void serialize(dbus::Message &msg, const void *data) const override {
+        auto s = static_cast<const Value *>(data);
+        msg << *s;
+    }
+    void deserialize(dbus::Message &msg, void *data) const override {
+        auto s = static_cast<Value *>(data);
+        msg >> *s;
+    }
+    void print(LogMessageBuilder &builder, const void *data) const override {
+        auto s = static_cast<const Value *>(data);
+        builder << *s;
+    }
+    std::string signature() const override {
+        return DBusSignatureTraits<Value>::signature::data();
+    }
+};
+
+class VariantTypeRegistryPrivate;
+
+/// We need to "predefine some of the variant type that we want to handle".
+class FCITXUTILS_EXPORT VariantTypeRegistry {
+public:
+    static VariantTypeRegistry &defaultRegistry();
+
+    template <typename TypeName>
+    void registerType() {
+        registerTypeImpl(DBusSignatureTraits<TypeName>::signature::data(),
+                         std::make_shared<VariantHelper<TypeName>>());
+    }
+
+    std::shared_ptr<VariantHelperBase>
+    lookupType(const std::string &signature) const;
+
+private:
+    void registerTypeImpl(const std::string &signature,
+                          std::shared_ptr<VariantHelperBase>);
+    VariantTypeRegistry();
+    std::unique_ptr<VariantTypeRegistryPrivate> d_ptr;
+    FCITX_DECLARE_PRIVATE(VariantTypeRegistry);
+};
+
 class FCITXUTILS_EXPORT Variant {
 public:
     Variant() = default;
@@ -68,35 +129,64 @@ public:
         setData(std::forward<Value>(value));
     }
 
-    Variant(const Variant &v)
-        : signature_(v.signature_), copy_(v.copy_), serialize_(v.serialize_) {
-        data_ = copy_(v.data_.get());
+    Variant(const Variant &v) : signature_(v.signature_), helper_(v.helper_) {
+        if (helper_) {
+            data_ = helper_->copy(v.data_.get());
+        }
     }
 
     Variant(Variant &&v) = default;
     Variant &operator=(const Variant &v) {
         signature_ = v.signature_;
-        copy_ = v.copy_;
-        serialize_ = v.serialize_;
-        data_ = copy_(v.data_.get());
+        helper_ = v.helper_;
+        if (helper_) {
+            data_ = helper_->copy(v.data_.get());
+        }
         return *this;
     }
     Variant &operator=(Variant &&v) = default;
 
-    template <typename Value>
+    template <typename Value,
+              typename = std::enable_if_t<!std::is_same<
+                  std::remove_cv_t<std::remove_reference_t<Value>>,
+                  dbus::Variant>::value>>
     void setData(Value &&value);
 
+    void setData(const Variant &v) { *this = v; }
+
+    void setData(Variant &&v) { *this = std::move(v); }
+
     void setData(const char *str) { setData(std::string(str)); }
+
+    void setRawData(std::shared_ptr<void> data,
+                    std::shared_ptr<VariantHelperBase> helper) {
+        data_ = data;
+        helper_ = helper;
+        if (helper_) {
+            signature_ = helper->signature();
+        }
+    }
+
+    template <typename Value>
+    const Value &dataAs() const {
+        assert(signature() == DBusSignatureTraits<Value>::signature::data());
+        return *static_cast<Value *>(data_.get());
+    }
 
     void writeToMessage(dbus::Message &msg) const;
 
     const std::string &signature() const { return signature_; }
 
+    void printData(LogMessageBuilder &builder) const {
+        if (helper_) {
+            helper_->print(builder, data_.get());
+        }
+    }
+
 private:
     std::string signature_;
     std::shared_ptr<void> data_;
-    std::function<std::shared_ptr<void>(const void *)> copy_;
-    std::function<void(dbus::Message &msg, const void *data)> serialize_;
+    std::shared_ptr<const VariantHelperBase> helper_;
 };
 
 template <typename Key, typename Value>
@@ -104,13 +194,9 @@ class DictEntry {
 public:
     DictEntry() = default;
     DictEntry(const DictEntry &) = default;
-    DictEntry(DictEntry &&) noexcept(
-        std::is_nothrow_move_constructible<Key>::value
-            &&std::is_nothrow_move_constructible<Value>::value) = default;
+    DictEntry(DictEntry &&) = default;
     DictEntry &operator=(const DictEntry &other) = default;
-    DictEntry &operator=(DictEntry &&other) noexcept(
-        std::is_nothrow_move_constructible<Key>::value
-            &&std::is_nothrow_move_constructible<Value>::value) = default;
+    DictEntry &operator=(DictEntry &&other) = default;
 
     DictEntry(const Key &key, const Value &value) : key_(key), value_(value) {}
 
@@ -225,11 +311,12 @@ public:
     std::string signature() const;
     std::string errorName() const;
     std::string errorMessage() const;
+    std::string path() const;
 
     void *nativeHandle() const;
 
     Message call(uint64_t usec);
-    Slot *callAsync(uint64_t usec, MessageCallback callback);
+    std::unique_ptr<Slot> callAsync(uint64_t usec, MessageCallback callback);
     bool send();
 
     operator bool() const;
@@ -249,6 +336,8 @@ public:
     Message &operator<<(uint64_t i);
     Message &operator<<(double d);
     Message &operator<<(const std::string &s);
+    Message &operator<<(const char *s);
+
     Message &operator<<(const ObjectPath &o);
     Message &operator<<(const Signature &s);
     Message &operator<<(const UnixFD &fd);
@@ -345,8 +434,7 @@ public:
     Message &operator>>(UnixFD &fd);
     Message &operator>>(const Container &c);
     Message &operator>>(const ContainerEnd &c);
-    // We don't support variant, just skip it.
-    Message &operator>>(const Variant &c);
+    Message &operator>>(Variant &c);
 
     template <typename K, typename V>
     Message &operator>>(std::pair<K, V> &t) {
@@ -428,22 +516,50 @@ private:
     FCITX_DECLARE_PRIVATE(Message);
 };
 
-template <typename Value>
+template <typename Value, typename>
 void Variant::setData(Value &&value) {
     typedef std::remove_cv_t<std::remove_reference_t<Value>> value_type;
     signature_ = DBusSignatureTraits<value_type>::signature::data();
     data_ = std::make_shared<value_type>(std::forward<Value>(value));
-    copy_ = [](const void *src) {
-        auto s = static_cast<const value_type *>(src);
-        return std::make_shared<value_type>(*s);
-    };
-    serialize_ = [](dbus::Message &msg, const void *data) {
-        auto s = static_cast<const value_type *>(data);
-        msg << *s;
-    };
+    helper_ = std::make_shared<VariantHelper<value_type>>();
 }
+
+template <typename K, typename V>
+inline LogMessageBuilder &operator<<(LogMessageBuilder &builder,
+                                     const DictEntry<K, V> &entry) {
+    builder << "(" << entry.key() << ", " << entry.value() << ")";
+    return builder;
 }
+
+template <typename... Args>
+inline LogMessageBuilder &operator<<(LogMessageBuilder &builder,
+                                     const DBusStruct<Args...> &st) {
+    builder << st.data();
+    return builder;
 }
+
+static inline LogMessageBuilder &operator<<(LogMessageBuilder &builder,
+                                            const Signature &sig) {
+    builder << "Signature(" << sig.sig() << ")";
+    return builder;
+}
+
+static inline LogMessageBuilder &operator<<(LogMessageBuilder &builder,
+                                            const ObjectPath &path) {
+    builder << "ObjectPath(" << path.path() << ")";
+    return builder;
+}
+
+static inline LogMessageBuilder &operator<<(LogMessageBuilder &builder,
+                                            const Variant &var) {
+    builder << "Variant(sig=" << var.signature() << ", content=";
+    var.printData(builder);
+    builder << ")";
+    return builder;
+}
+
+} // namespace dbus
+} // namespace fcitx
 
 namespace std {
 

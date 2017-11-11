@@ -27,7 +27,7 @@ public:
     RawConfigPrivate(const RawConfigPrivate &other)
         : name_(other.name_), value_(other.value_), comment_(other.comment_),
           lineNumber_(other.lineNumber_) {
-        for (auto item : other.subItems_) {
+        for (const auto &item : other.subItems_) {
             subItems_[item.first] = std::make_shared<RawConfig>(*item.second);
         }
     }
@@ -77,7 +77,7 @@ public:
                 std::function<bool(T &, const std::string &path)> callback,
                 bool recursive, const std::string &pathPrefix) {
         auto d = that.d_func();
-        for (auto pair : d->subItems_) {
+        for (const auto pair : d->subItems_) {
             std::shared_ptr<T> item = pair.second;
             auto newPathPrefix = pathPrefix.empty()
                                      ? item->name()
@@ -109,7 +109,7 @@ RawConfig::RawConfig(std::string name, std::string value)
 
 RawConfig::~RawConfig() {
     FCITX_D();
-    for (auto pair : d->subItems_) {
+    for (const auto pair : d->subItems_) {
         pair.second->d_func()->parent_ = nullptr;
     }
 }
@@ -189,6 +189,21 @@ unsigned int RawConfig::lineNumber() const {
 bool RawConfig::hasSubItems() const {
     FCITX_D();
     return !d->subItems_.empty();
+}
+
+size_t RawConfig::subItemsSize() const {
+    FCITX_D();
+    return d->subItems_.size();
+}
+
+std::vector<std::string> RawConfig::subItems() const {
+    FCITX_D();
+    std::vector<std::string> result;
+    result.reserve(d->subItems_.size());
+    for (auto &pair : d->subItems_) {
+        result.push_back(pair.first);
+    }
+    return result;
 }
 
 RawConfig *RawConfig::parent() const {

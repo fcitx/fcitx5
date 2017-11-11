@@ -4,6 +4,7 @@ set(FCITX_CONFIG_SOURCES
     configuration.cpp
     marshallfunction.cpp
     iniparser.cpp
+    dbushelper.cpp
     )
 
 set(FCITX_CONFIG_HEADERS
@@ -14,6 +15,7 @@ set(FCITX_CONFIG_HEADERS
     iniparser.h
     enum.h
     optiontypename.h
+    dbushelper.h
     ${CMAKE_CURRENT_BINARY_DIR}/fcitxconfig_export.h
     )
 

@@ -31,7 +31,7 @@
     FCITX_CONFIGURATION_CLASS(NAME, __VA_ARGS__)
 
 #define FCITX_CONFIGURATION_CLASS(NAME, ...)                                   \
-    class NAME : public fcitx::Configuration {                                 \
+    class NAME : public ::fcitx::Configuration {                               \
     public:                                                                    \
         NAME() {}                                                              \
         NAME(const NAME &other) : NAME() { copyHelper(other); }                \
@@ -49,7 +49,7 @@
     };
 
 #define FCITX_OPTION(name, type, path, description, default, ...)              \
-    fcitx::Option<type> name {                                                 \
+    ::fcitx::Option<type> name {                                               \
         this, std::string(path), std::string(description), (default),          \
             __VA_ARGS__                                                        \
     }

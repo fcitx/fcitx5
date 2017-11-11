@@ -16,26 +16,9 @@
 * License along with this library; see the file COPYING. If not,
 * see <http://www.gnu.org/licenses/>.
 */
-#include <fcitx-utils/log.h>
 
-int main() {
-    int a = 0;
-    fcitx::Log::setLogRule("*=5");
+#include "ibustypes.h"
 
-    FCITX_LOG(Info) << (a = 1);
-    FCITX_ASSERT(a == 1);
-
-    fcitx::Log::setLogRule("*=4");
-    FCITX_LOG(Debug) << (a = 2);
-    FCITX_ASSERT(a == 1);
-
-    std::vector<int> vec{1, 2, 3};
-    FCITX_INFO() << vec;
-
-    std::unordered_map<int, int> map{{1, 1}, {2, 3}};
-    FCITX_INFO() << map;
-
-    FCITX_INFO() << std::make_tuple(1, 3, "a", false);
-
-    return 0;
+void fcitx::IBusAttribute::deserializeFrom(const dbus::Message &argument) {
+    argument <<
 }

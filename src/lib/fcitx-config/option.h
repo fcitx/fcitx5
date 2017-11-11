@@ -48,7 +48,7 @@ public:
 
     virtual void marshall(RawConfig &config) const = 0;
     virtual bool unmarshall(const RawConfig &config) = 0;
-    virtual Configuration *subConfigSkeleton() const = 0;
+    virtual std::unique_ptr<Configuration> subConfigSkeleton() const = 0;
 
     virtual bool equalTo(const OptionBase &other) const = 0;
     virtual void copyFrom(const OptionBase &other) = 0;
@@ -113,19 +113,23 @@ struct RemoveVector<std::vector<T>> {
 
 template <typename T, typename = void>
 struct ExtractSubConfig {
-    static Configuration *get() { return nullptr; }
+    static std::unique_ptr<Configuration> get() { return nullptr; }
 };
 
 template <typename T>
 struct ExtractSubConfig<std::vector<T>> {
-    static Configuration *get() { return ExtractSubConfig<T>::get(); }
+    static std::unique_ptr<Configuration> get() {
+        return ExtractSubConfig<T>::get();
+    }
 };
 
 template <typename T>
 struct ExtractSubConfig<
     T,
     typename std::enable_if<std::is_base_of<Configuration, T>::value>::type> {
-    static Configuration *get() { return new T; }
+    static std::unique_ptr<Configuration> get() {
+        return std::make_unique<T>();
+    }
 };
 
 template <typename T>
@@ -159,7 +163,7 @@ public:
             config, static_cast<typename RemoveVector<T>::type *>(nullptr));
     }
 
-    virtual Configuration *subConfigSkeleton() const override {
+    virtual std::unique_ptr<Configuration> subConfigSkeleton() const override {
         return ExtractSubConfig<T>::get();
     }
 

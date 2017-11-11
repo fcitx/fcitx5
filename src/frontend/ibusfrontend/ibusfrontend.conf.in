@@ -1,0 +1,9 @@
+[Addon]
+Name=IBus Frontend
+Type=SharedLibrary
+Library=ibusfrontend
+Category=Frontend
+
+[Addon/Dependencies]
+0=dbus
+

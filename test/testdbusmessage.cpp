@@ -20,6 +20,7 @@
 #include "fcitx-utils/event.h"
 #include "fcitx-utils/log.h"
 #include "fcitx-utils/metastring.h"
+#include <unistd.h>
 
 using namespace fcitx::dbus;
 using namespace fcitx;
@@ -64,14 +65,47 @@ int main() {
     }
     {
         auto msg = bus.createSignal("/test", "test.a.b.c", "test");
-        msg << FCITX_STRING_TO_DBUS_TUPLE("siud")("a", 1, 2, 3);
+        auto data = FCITX_STRING_TO_DBUS_TUPLE("siud")("a", 1, 2, 3);
+        msg << data;
         FCITX_ASSERT(msg.signature() == "siud");
+        FCITX_INFO() << data;
     }
     {
         auto msg = bus.createSignal("/test", "test.a.b.c", "test");
-        msg << FCITX_STRING_TO_DBUS_TUPLE("as")(
+        auto data = FCITX_STRING_TO_DBUS_TUPLE("as")(
             std::vector<std::string>{"a", "b"});
+        msg << data;
         FCITX_ASSERT(msg.signature() == "as");
+        FCITX_INFO() << data;
     }
+    {
+        dbus::Variant var;
+        FCITX_INFO() << var;
+
+        auto msg = bus.createSignal("/test", "test.a.b.c", "test");
+        var.setData("abc");
+        msg << var;
+        FCITX_INFO() << msg.signature();
+        FCITX_ASSERT(msg.signature() == "v");
+        FCITX_INFO() << var;
+    }
+    {
+        UnixFD fd = UnixFD::own(STDIN_FILENO);
+        FCITX_INFO() << fd;
+
+        auto msg = bus.createSignal("/test", "test.a.b.c", "test");
+        msg << fd;
+        FCITX_INFO() << msg.signature();
+        FCITX_ASSERT(msg.signature() == "h");
+        FCITX_INFO() << fd;
+    }
+
+    // Test Copy
+    {
+        dbus::Variant var;
+        var.setData("abcd");
+        dbus::Variant var2(var);
+    }
+
     return 0;
 }

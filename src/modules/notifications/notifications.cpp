@@ -97,7 +97,7 @@ Notifications::Notifications(Instance *instance)
                 auto message = bus_->createMethodCall(
                     NOTIFICATIONS_SERVICE_NAME, NOTIFICATIONS_PATH,
                     NOTIFICATIONS_INTERFACE_NAME, "GetCapabilities");
-                call_.reset(message.callAsync(0, [this](dbus::Message reply) {
+                call_ = message.callAsync(0, [this](dbus::Message reply) {
                     std::vector<std::string> capabilities;
                     reply >> capabilities;
                     for (auto &capability : capabilities) {
@@ -112,7 +112,7 @@ Notifications::Notifications(Instance *instance)
                         }
                     }
                     return true;
-                }));
+                });
             }
         });
 }
@@ -189,27 +189,28 @@ uint32_t Notifications::sendNotification(
 
     int internalId = internalId_;
     auto &item = result.first->second;
-    item.slot_.reset(message.callAsync(
-        TIMEOUT_REAL_TIME * 1000 / 2,
-        [this, internalId](dbus::Message message) {
-            auto item = find(internalId);
-            if (item) {
-                if (!message.isError()) {
-                    uint32_t globalId;
-                    if (message >> globalId) {
-                        ;
-                    }
-                    if (item) {
-                        item->globalId_ = globalId;
-                        globalToInternalId_[globalId] = internalId;
-                    }
-                    item->slot_.reset();
-                    return true;
-                }
-                removeItem(*item);
-            }
-            return true;
-        }));
+    item.slot_ =
+        message.callAsync(TIMEOUT_REAL_TIME * 1000 / 2,
+                          [this, internalId](dbus::Message message) {
+                              auto item = find(internalId);
+                              if (item) {
+                                  if (!message.isError()) {
+                                      uint32_t globalId;
+                                      if (message >> globalId) {
+                                          ;
+                                      }
+                                      if (item) {
+                                          item->globalId_ = globalId;
+                                          globalToInternalId_[globalId] =
+                                              internalId;
+                                      }
+                                      item->slot_.reset();
+                                      return true;
+                                  }
+                                  removeItem(*item);
+                              }
+                              return true;
+                          });
 
     return internalId;
 }

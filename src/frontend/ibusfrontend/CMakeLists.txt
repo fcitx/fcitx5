@@ -1,0 +1,6 @@
+add_library(ibusfrontend MODULE ibusfrontend.cpp)
+target_link_libraries(ibusfrontend Fcitx5::Core Fcitx5::Module::DBus)
+set_target_properties(ibusfrontend PROPERTIES PREFIX "")
+install(TARGETS ibusfrontend DESTINATION "${FCITX_INSTALL_ADDONDIR}")
+fcitx5_translate_desktop_file(ibusfrontend.conf.in ibusfrontend.conf)
+install(FILES "${CMAKE_CURRENT_BINARY_DIR}/ibusfrontend.conf" DESTINATION "${FCITX_INSTALL_PKGDATADIR}/addon")

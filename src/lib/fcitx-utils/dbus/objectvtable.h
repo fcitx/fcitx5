@@ -25,6 +25,7 @@
 #include <memory>
 #include <mutex>
 #include <stdexcept>
+#include <type_traits>
 
 namespace fcitx {
 namespace dbus {
@@ -113,6 +114,9 @@ struct ReturnValueHelper<void> {
             try {                                                              \
                 helper.call(functor);                                          \
                 auto reply = msg.createReply();                                \
+                static_assert(std::is_same<FCITX_STRING_TO_DBUS_TYPE(RET),     \
+                                           ReturnType>::value,                 \
+                              "Return type does not match: " RET);             \
                 reply << helper.ret;                                           \
                 reply.send();                                                  \
             } catch (const ::fcitx::dbus::MethodCallError &error) {            \
@@ -150,6 +154,25 @@ struct ReturnValueHelper<void> {
             auto method = GETMETHOD;                                           \
             property_type property = method();                                 \
             msg << property;                                                   \
+        }};
+
+#define FCITX_OBJECT_VTABLE_WRITABLE_PROPERTY(PROPERTY, NAME, SIGNATURE,       \
+                                              GETMETHOD, SETMETHOD)            \
+    ::fcitx::dbus::ObjectVTableWritableProperty PROPERTY##Property{            \
+        this, NAME, SIGNATURE,                                                 \
+        [this](::fcitx::dbus::Message &msg) {                                  \
+            typedef FCITX_STRING_TO_DBUS_TUPLE(SIGNATURE) property_type;       \
+            auto method = GETMETHOD;                                           \
+            property_type property = method();                                 \
+            msg << property;                                                   \
+        },                                                                     \
+        [this](::fcitx::dbus::Message msg) {                                   \
+            this->setCurrentMessage(&msg);                                     \
+            FCITX_STRING_TO_DBUS_TUPLE(SIGNATURE) args;                        \
+            msg >> args;                                                       \
+            auto method = SETMETHOD;                                           \
+            callWithTuple(method, args);                                       \
+            return true;                                                       \
         }};
 
 class FCITXUTILS_EXPORT ObjectVTableSignal {
@@ -254,16 +277,9 @@ public:
         return mutex;
     }
     static ObjectVTablePrivate *privateData() {
-        std::mutex mutex; // not using privateDataMutex to avoid deadlock
-        static std::shared_ptr<ObjectVTablePrivate> d;
-        std::lock_guard<std::mutex> lock(mutex);
-        if (!d) {
-            d = newSharedPrivateData();
-        }
+        static std::shared_ptr<ObjectVTablePrivate> d(newSharedPrivateData());
         return d.get();
     }
-
-private:
 };
 }
 }

@@ -27,10 +27,13 @@
 #include "fcitxutils_export.h"
 #include <cstdlib>
 #include <fcitx-utils/key.h>
+#include <fcitx-utils/tuplehelpers.h>
 #include <iostream>
 #include <memory>
 #include <string>
+#include <tuple>
 #include <type_traits>
+#include <unordered_map>
 
 namespace fcitx {
 
@@ -85,6 +88,8 @@ public:
                       const std::string &filename, int lineNumber);
     ~LogMessageBuilder();
 
+    LogMessageBuilder &self() { return *this; }
+
     inline LogMessageBuilder &operator<<(const std::string &s) {
         *this << s.c_str();
         return *this;
@@ -117,7 +122,63 @@ public:
     template <typename T>
     FCITX_SIMPLE_LOG(T)
 
-    private : std::ostream &out_;
+    template <typename T>
+    inline LogMessageBuilder &operator<<(const std::vector<T> &vec) {
+        *this << "[";
+        bool first = true;
+        for (auto &item : vec) {
+            if (first) {
+                first = false;
+            } else {
+                *this << ", ";
+            }
+            *this << item;
+        }
+        *this << "]";
+        return *this;
+    }
+
+    template <typename K, typename V>
+    inline LogMessageBuilder &operator<<(const std::pair<K, V> &pair) {
+        *this << "(" << pair.first << ", " << pair.second << ")";
+        return *this;
+    }
+
+    template <typename... Args>
+    inline LogMessageBuilder &operator<<(const std::tuple<Args...> &tuple) {
+        typename MakeSequence<sizeof...(Args)>::type a;
+        *this << "(";
+        printWithIndices(a, tuple);
+        *this << ")";
+        return *this;
+    }
+
+    template <typename K, typename V>
+    inline LogMessageBuilder &operator<<(const std::unordered_map<K, V> &vec) {
+        *this << "{";
+        bool first = true;
+        for (auto &item : vec) {
+            if (first) {
+                first = false;
+            } else {
+                *this << ", ";
+            }
+            *this << item;
+        }
+        *this << "}";
+        return *this;
+    }
+
+private:
+    template <typename... Args, int... S>
+    void printWithIndices(Sequence<S...>, const std::tuple<Args...> &tuple) {
+        using swallow = int[];
+        (void)swallow{
+            0,
+            (void(*this << (S == 0 ? "" : ", ") << std::get<S>(tuple)), 0)...};
+    }
+
+    std::ostream &out_;
 };
 }
 
@@ -127,7 +188,8 @@ public:
          fcitxLogEnabled;                                                      \
          fcitxLogEnabled = CATEGORY().fatalWrapper2(::fcitx::LogLevel::LEVEL)) \
     ::fcitx::LogMessageBuilder(std::cerr, ::fcitx::LogLevel::LEVEL, __FILE__,  \
-                               __LINE__)
+                               __LINE__)                                       \
+        .self()
 
 #define FCITX_LOGC(CATEGORY, LEVEL)                                            \
     for (bool fcitxLogEnabled =                                                \
@@ -135,9 +197,16 @@ public:
          fcitxLogEnabled;                                                      \
          fcitxLogEnabled = CATEGORY().fatalWrapper2(::fcitx::LogLevel::LEVEL)) \
     ::fcitx::LogMessageBuilder(std::cerr, ::fcitx::LogLevel::LEVEL, __FILE__,  \
-                               __LINE__)
+                               __LINE__)                                       \
+        .self()
 
 #define FCITX_LOG(LEVEL) FCITX_LOGC(::fcitx::Log::defaultCategory, LEVEL)
+
+#define FCITX_DEBUG() FCITX_LOG(Debug)
+#define FCITX_WARN() FCITX_LOG(Warn)
+#define FCITX_INFO() FCITX_LOG(Info)
+#define FCITX_ERROR() FCITX_LOG(Error)
+#define FCITX_FATAL() FCITX_LOG(Fatal)
 
 #define FCITX_LOG_IF(LEVEL, CONDITION)                                         \
     FCITX_LOGC_IF(::fcitx::Log::defaultCategory, LEVEL, CONDITION)

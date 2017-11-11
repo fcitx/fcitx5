@@ -20,10 +20,12 @@
 #define _FCITX_CONFIG_RAWCONFIG_H_
 
 #include "fcitxconfig_export.h"
+#include <algorithm>
 #include <fcitx-utils/macros.h>
 #include <functional>
 #include <memory>
 #include <string>
+#include <vector>
 
 namespace fcitx {
 class RawConfig;
@@ -49,6 +51,8 @@ public:
     const std::string &value() const;
     unsigned int lineNumber() const;
     bool hasSubItems() const;
+    size_t subItemsSize() const;
+    std::vector<std::string> subItems() const;
     void setValueByPath(const std::string &path, std::string value) {
         (*this)[path] = value;
     }
@@ -62,6 +66,30 @@ public:
     RawConfig &operator=(std::string value) {
         setValue(std::move(value));
         return *this;
+    }
+
+    bool operator==(const RawConfig &other) const {
+        if (this == &other) {
+            return true;
+        }
+        if (value() != other.value()) {
+            return false;
+        }
+        if (subItemsSize() != other.subItemsSize()) {
+            return false;
+        }
+        return visitSubItems(
+            [&other](const RawConfig &subConfig, const std::string &path) {
+                auto otherSubConfig = other.get(path);
+                if (!otherSubConfig || *otherSubConfig != subConfig) {
+                    return false;
+                }
+                return true;
+            });
+    }
+
+    bool operator!=(const RawConfig &config) const {
+        return !(*this == config);
     }
 
     RawConfig *parent() const;

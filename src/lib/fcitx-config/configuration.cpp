@@ -49,10 +49,10 @@ void Configuration::dumpDescription(RawConfig &config) const {
         auto descConfigPtr = subRoot->get(option->path(), true);
         option->dumpDescription(*descConfigPtr);
 
-        Configuration *subConfig = (option->subConfigSkeleton());
+        auto subConfig = (option->subConfigSkeleton());
 
         if (subConfig) {
-            subConfigs.emplace_back(subConfig);
+            subConfigs.emplace_back(std::move(subConfig));
         }
     }
 

@@ -295,8 +295,25 @@ struct DBusSignatureToType<> {
 template <char... c>
 auto MetaStringToDBusTuple(MetaString<c...>) -> DBusSignatureToType<c...>;
 
+template <typename T>
+struct DBusTupleToReturn {
+    typedef T type;
+};
+
+template <>
+struct DBusTupleToReturn<std::tuple<>> {
+    typedef void type;
+};
+
+template <typename T>
+using DBusTupleToReturnType = typename DBusTupleToReturn<T>::type;
+
 #define FCITX_STRING_TO_DBUS_TUPLE(STRING)                                     \
     ::fcitx::dbus::MakeTupleIfNeededType<decltype(                             \
+        ::fcitx::dbus::MetaStringToDBusTuple(                                  \
+            fcitxMakeMetaString(STRING)()))::type>
+#define FCITX_STRING_TO_DBUS_TYPE(STRING)                                      \
+    ::fcitx::dbus::DBusTupleToReturnType<decltype(                             \
         ::fcitx::dbus::MetaStringToDBusTuple(                                  \
             fcitxMakeMetaString(STRING)()))::type>
 }

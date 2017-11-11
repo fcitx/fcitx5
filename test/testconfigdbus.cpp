@@ -16,26 +16,32 @@
 * License along with this library; see the file COPYING. If not,
 * see <http://www.gnu.org/licenses/>.
 */
-#include <fcitx-utils/log.h>
+
+#include "fcitx-config/dbushelper.h"
+#include "fcitx-config/iniparser.h"
+#include "testconfig.h"
+#include <unistd.h>
+
+using namespace fcitx;
 
 int main() {
-    int a = 0;
-    fcitx::Log::setLogRule("*=5");
 
-    FCITX_LOG(Info) << (a = 1);
-    FCITX_ASSERT(a == 1);
+    RawConfig config;
+    *config.get("OptionA/SubOptionB", true) = "abc";
+    *config.get("OptionC", true) = "def";
 
-    fcitx::Log::setLogRule("*=4");
-    FCITX_LOG(Debug) << (a = 2);
-    FCITX_ASSERT(a == 1);
-
-    std::vector<int> vec{1, 2, 3};
-    FCITX_INFO() << vec;
-
-    std::unordered_map<int, int> map{{1, 1}, {2, 3}};
+    auto map = rawConfigToVariant(config);
     FCITX_INFO() << map;
 
-    FCITX_INFO() << std::make_tuple(1, 3, "a", false);
+    RawConfig config2 = variantToRawConfig(map);
+    FCITX_ASSERT(config == config2);
+
+    writeAsIni(config2, STDOUT_FILENO);
+
+    RawConfig desc;
+    TestConfig testconfig;
+    testconfig.dumpDescription(desc);
+    FCITX_INFO() << dumpDBusConfigDescription(testconfig);
 
     return 0;
 }

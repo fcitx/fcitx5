@@ -48,7 +48,8 @@ endforeach()
 set_target_properties(testlibrary PROPERTIES LINK_FLAGS "-rdynamic")
 
 set(FCITX_CONFIG_TEST
-    testconfig)
+    testconfig
+    testconfigdbus)
 
 foreach(TESTCASE ${FCITX_CONFIG_TEST})
     add_executable(${TESTCASE} ${TESTCASE}.cpp)

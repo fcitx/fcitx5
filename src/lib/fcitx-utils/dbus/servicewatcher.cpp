@@ -18,6 +18,7 @@
  */
 
 #include "servicewatcher.h"
+#include "../trackableobject.h"
 #include <unordered_map>
 
 #define MATCH_PREFIX                                                           \
@@ -33,7 +34,7 @@
 namespace fcitx {
 namespace dbus {
 
-class ServiceWatcherPrivate {
+class ServiceWatcherPrivate : public TrackableObject<ServiceWatcherPrivate> {
 public:
     ServiceWatcherPrivate(Bus &bus)
         : bus_(&bus),
@@ -53,6 +54,7 @@ public:
                       });
                   auto querySlot =
                       bus_->serviceOwnerAsync(key, 0, [this, key](Message msg) {
+                          auto protector = watch();
                           std::string newName = "";
                           if (msg.type() != dbus::MessageType::Error) {
                               msg >> newName;
@@ -61,15 +63,17 @@ public:
                           for (auto &entry : view) {
                               entry(key, "", newName);
                           }
-                          querySlots_.erase(key);
+                          if (protector.isValid()) {
+                              querySlots_.erase(key);
+                          }
                           return true;
                       });
                   slots_.emplace(std::piecewise_construct,
                                  std::forward_as_tuple(key),
-                                 std::forward_as_tuple(slot));
-                  querySlots_.emplace(std::piecewise_construct,
-                                      std::forward_as_tuple(key),
-                                      std::forward_as_tuple(querySlot));
+                                 std::forward_as_tuple(std::move(slot)));
+                  querySlots_.emplace(
+                      std::piecewise_construct, std::forward_as_tuple(key),
+                      std::forward_as_tuple(std::move(querySlot)));
               },
               [this](const std::string &key) {
                   slots_.erase(key);

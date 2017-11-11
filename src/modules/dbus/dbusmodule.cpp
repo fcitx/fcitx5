@@ -18,6 +18,7 @@
  */
 
 #include "dbusmodule.h"
+#include "fcitx-config/dbushelper.h"
 #include "fcitx-utils/dbus/bus.h"
 #include "fcitx-utils/i18n.h"
 #include "fcitx/addonmanager.h"
@@ -174,6 +175,12 @@ public:
         instance_->inputMethodManager().removeGroup(group);
     }
 
+    std::tuple<dbus::Variant, DBusConfig> getConfig(const std::string &uri) {
+        return {};
+    }
+
+    void setConfig(const std::string &uri, const dbus::Variant &v) { return; }
+
 private:
     DBusModule *module_;
     Instance *instance_;
@@ -215,6 +222,9 @@ private:
     FCITX_OBJECT_VTABLE_METHOD(currentInputMethod, "CurrentInputMethod", "",
                                "s");
     FCITX_OBJECT_VTABLE_METHOD(setCurrentInputMethod, "SetCurrentIM", "s", "");
+    FCITX_OBJECT_VTABLE_METHOD(getConfig, "GetConfig", "s",
+                               "va(sa(sssva{sv}))");
+    FCITX_OBJECT_VTABLE_METHOD(setConfig, "SetConfig", "sv", "");
 };
 
 DBusModule::DBusModule(Instance *instance)

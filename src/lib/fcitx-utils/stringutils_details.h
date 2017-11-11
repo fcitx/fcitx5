@@ -73,7 +73,7 @@ public:
         : piece_(p.first), size_(p.second) {}
 
     template <typename T,
-              typename = std::enable_if<std::is_same<T, char>::value>>
+              typename = std::enable_if_t<std::is_same<T, char>::value>>
     UniversalPiece(const T *p)
         : piece_(p), size_(std::char_traits<T>::length(p)) {}
 

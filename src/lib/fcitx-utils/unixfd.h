@@ -25,7 +25,8 @@
 /// \brief Utility class to handle unix file decriptor.
 
 #include "fcitxutils_export.h"
-#include "macros.h"
+#include <fcitx-utils/log.h>
+#include <fcitx-utils/macros.h>
 #include <memory>
 
 namespace fcitx {
@@ -74,6 +75,12 @@ public:
 private:
     int fd_ = -1;
 };
+
+static inline LogMessageBuilder &operator<<(LogMessageBuilder &builder,
+                                            const UnixFD &fd) {
+    builder << "UnixFD(fd=" << fd.fd() << ")";
+    return builder;
+}
 }
 
 #endif // _FCITX_UTILS_UNIXFD_H_

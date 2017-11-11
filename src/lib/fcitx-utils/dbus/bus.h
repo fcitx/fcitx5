@@ -77,10 +77,12 @@ public:
     bool releaseName(const std::string &name);
 
     std::string serviceOwner(const std::string &name, uint64_t usec);
-    Slot *serviceOwnerAsync(const std::string &name, uint64_t usec,
-                            MessageCallback callback);
+    std::unique_ptr<Slot> serviceOwnerAsync(const std::string &name,
+                                            uint64_t usec,
+                                            MessageCallback callback);
 
     std::string uniqueName();
+    std::string address();
     void flush();
 
 private:

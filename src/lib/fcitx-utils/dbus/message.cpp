@@ -20,14 +20,22 @@
 #include "message.h"
 #include "../unixfd.h"
 #include "bus_p.h"
+#include "fcitx/misc_p.h"
 #include "message_p.h"
 #include <atomic>
 #include <fcntl.h>
+#include <shared_mutex>
 #include <unistd.h>
 
 namespace fcitx {
 
 namespace dbus {
+
+class VariantTypeRegistryPrivate {
+public:
+    std::unordered_map<std::string, std::shared_ptr<VariantHelperBase>> types_;
+    mutable std::shared_timed_mutex mutex_;
+};
 
 static char toSDBusType(Container::Type type) {
     char t = '\0';
@@ -134,16 +142,29 @@ std::string Message::signature() const {
     return sd_bus_message_get_signature(d->msg_, true);
 }
 
+std::string Message::path() const {
+    FCITX_D();
+    return sd_bus_message_get_path(d->msg_);
+}
+
 std::string Message::errorName() const {
     FCITX_D();
-    auto error = sd_bus_message_get_error(d->msg_);
-    return error->name;
+    if (d->msg_) {
+        auto error = sd_bus_message_get_error(d->msg_);
+        return error->name;
+    } else {
+        return d->error_;
+    }
 }
 
 std::string Message::errorMessage() const {
     FCITX_D();
-    auto error = sd_bus_message_get_error(d->msg_);
-    return error->message;
+    if (d->msg_) {
+        auto error = sd_bus_message_get_error(d->msg_);
+        return error->message;
+    } else {
+        return d->message_;
+    }
 }
 
 void *Message::nativeHandle() const {
@@ -158,12 +179,13 @@ Message Message::call(uint64_t timeout) {
     auto bus = sd_bus_message_get_bus(d->msg_);
     int r = sd_bus_call(bus, d->msg_, timeout, &error.error(), &reply);
     if (r < 0) {
-        return createError(error.error().name, error.error().message);
+        return MessagePrivate::fromSDError(error.error());
     }
     return MessagePrivate::fromSDBusMessage(reply, false);
 }
 
-Slot *Message::callAsync(uint64_t timeout, MessageCallback callback) {
+std::unique_ptr<Slot> Message::callAsync(uint64_t timeout,
+                                         MessageCallback callback) {
     FCITX_D();
     auto bus = sd_bus_message_get_bus(d->msg_);
     auto slot = std::make_unique<SDSlot>(callback);
@@ -176,7 +198,7 @@ Slot *Message::callAsync(uint64_t timeout, MessageCallback callback) {
 
     slot->slot = sdSlot;
 
-    return slot.release();
+    return slot;
 }
 
 Message::operator bool() const {
@@ -261,12 +283,16 @@ _MARSHALL_FUNC(uint64_t, UINT64)
 _MARSHALL_FUNC(double, DOUBLE)
 
 Message &Message::operator<<(const std::string &s) {
+    *this << s.c_str();
+    return *this;
+}
+
+Message &Message::operator<<(const char *s) {
     FCITX_D();
     if (!(*this)) {
         return *this;
     }
-    d->lastError_ =
-        sd_bus_message_append_basic(d->msg_, SD_BUS_TYPE_STRING, s.c_str());
+    d->lastError_ = sd_bus_message_append_basic(d->msg_, SD_BUS_TYPE_STRING, s);
     return *this;
 }
 
@@ -417,17 +443,75 @@ Message &Message::operator<<(const Variant &v) {
     return *this;
 }
 
-Message &Message::operator>>(const Variant &) {
+Message &Message::operator>>(Variant &variant) {
     if (!(*this)) {
         return *this;
     }
     FCITX_D();
+    auto type = peekType();
+    if (type.first == 'v') {
+        auto helper =
+            VariantTypeRegistry::defaultRegistry().lookupType(type.second);
+        if (helper) {
+            if (*this >>
+                Container(Container::Type::Variant, Signature(type.second))) {
+                auto data = helper->copy(nullptr);
+                helper->deserialize(*this, data.get());
+                if (*this) {
+                    variant.setRawData(data, helper);
+                    *this >> ContainerEnd();
+                }
+            }
+            return *this;
+        }
+    }
     d->lastError_ = sd_bus_message_skip(d->msg_, "v");
     return *this;
 }
 
 void Variant::writeToMessage(dbus::Message &msg) const {
-    serialize_(msg, data_.get());
+    helper_->serialize(msg, data_.get());
+}
+
+VariantTypeRegistry::VariantTypeRegistry()
+    : d_ptr(std::make_unique<VariantTypeRegistryPrivate>()) {
+    registerType<std::string>();
+    registerType<uint8_t>();
+    registerType<bool>();
+    registerType<int16_t>();
+    registerType<uint16_t>();
+    registerType<int32_t>();
+    registerType<uint32_t>();
+    registerType<int64_t>();
+    registerType<uint64_t>();
+    // registerType<UnixFD>();
+    registerType<FCITX_STRING_TO_DBUS_TYPE("a{sv}")>();
+    registerType<FCITX_STRING_TO_DBUS_TYPE("as")>();
+    registerType<ObjectPath>();
+    registerType<Variant>();
+}
+
+void VariantTypeRegistry::registerTypeImpl(
+    const std::string &signature, std::shared_ptr<VariantHelperBase> helper) {
+    FCITX_D();
+    std::lock_guard<std::shared_timed_mutex> lock(d->mutex_);
+    if (d->types_.count(signature)) {
+        return;
+    }
+    d->types_.emplace(signature, helper);
+}
+
+std::shared_ptr<VariantHelperBase>
+VariantTypeRegistry::lookupType(const std::string &signature) const {
+    FCITX_D();
+    std::shared_lock<std::shared_timed_mutex> lock(d->mutex_);
+    auto v = findValue(d->types_, signature);
+    return v ? *v : nullptr;
+}
+
+VariantTypeRegistry &VariantTypeRegistry::defaultRegistry() {
+    static VariantTypeRegistry registry;
+    return registry;
 }
 }
 }

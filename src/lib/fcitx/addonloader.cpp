@@ -56,7 +56,13 @@ AddonInstance *SharedLibraryLoader::load(const AddonInfo &info,
     if (iter == registry_.end()) {
         return nullptr;
     }
-    return iter->second->factory()->create(manager);
+
+    try {
+        return iter->second->factory()->create(manager);
+    } catch (...) {
+        FCITX_ERROR() << "Failed to create addon: " << info.uniqueName();
+    }
+    return nullptr;
 }
 
 StaticLibraryLoader::StaticLibraryLoader(StaticAddonRegistry *registry_)
@@ -68,6 +74,11 @@ AddonInstance *StaticLibraryLoader::load(const AddonInfo &info,
     if (iter == registry->end()) {
         return nullptr;
     }
-    return iter->second->create(manager);
+    try {
+        return iter->second->create(manager);
+    } catch (...) {
+        FCITX_ERROR() << "Failed to create addon: " << info.uniqueName();
+    }
+    return nullptr;
 }
 }

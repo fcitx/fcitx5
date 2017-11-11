@@ -37,9 +37,10 @@ class TestObject : public ObjectVTable<TestObject> {
         throw MethodCallError("org.freedesktop.DBus.Error.FileNotFound",
                               "File not found");
     }
-    Variant test4(const Variant &) {
+    Variant test4(const Variant &v) {
         Variant result;
         auto msg = currentMessage();
+        FCITX_INFO() << v;
         msg->rewind();
         auto type = msg->peekType();
         if (type.first == 'v' && type.second == "i") {
@@ -62,6 +63,7 @@ class TestObject : public ObjectVTable<TestObject> {
     }
 
 private:
+    int prop2 = 1;
     FCITX_OBJECT_VTABLE_METHOD(test1, "test1", "", "");
     FCITX_OBJECT_VTABLE_METHOD(test2, "test2", "i", "s");
     FCITX_OBJECT_VTABLE_METHOD(test3, "test3", "i", "iu");
@@ -69,6 +71,11 @@ private:
     FCITX_OBJECT_VTABLE_METHOD(test5, "test5", "a{ss}", "s");
     FCITX_OBJECT_VTABLE_METHOD(testError, "testError", "", "b");
     FCITX_OBJECT_VTABLE_SIGNAL(testSignal, "testSignal", "a(si)");
+    FCITX_OBJECT_VTABLE_PROPERTY(testProperty, "testProperty", "i",
+                                 []() { return 5; });
+    FCITX_OBJECT_VTABLE_WRITABLE_PROPERTY(testProperty2, "testProperty2", "i",
+                                          [this]() { return prop2; },
+                                          [this](int32_t v) { prop2 = v; });
 };
 
 #define TEST_SERVICE "org.fcitx.Fcitx.TestDBus"
@@ -87,6 +94,7 @@ void client() {
             auto reply = msg.call(0);
             std::string s;
             reply >> s;
+            FCITX_INFO() << s;
             return false;
         }));
     std::unique_ptr<EventSourceTime> s2(loop.addTimeEvent(
@@ -165,6 +173,22 @@ void client() {
             FCITX_ASSERT(std::get<1>(ret) == 3);
             return false;
         }));
+    std::unique_ptr<EventSourceTime> s7(
+        loop.addTimeEvent(CLOCK_MONOTONIC, now(CLOCK_MONOTONIC) + 400000, 0,
+                          [&clientBus, &loop](EventSource *, uint64_t) {
+                              auto msg = clientBus.createMethodCall(
+                                  TEST_SERVICE, "/test",
+                                  "org.freedesktop.DBus.Properties", "Get");
+                              msg << TEST_INTERFACE << "testProperty";
+                              auto reply = msg.call(0);
+                              FCITX_ASSERT(reply.type() == MessageType::Reply);
+                              FCITX_ASSERT(reply.signature() == "v");
+                              dbus::Variant ret;
+                              reply >> ret;
+                              FCITX_ASSERT(ret.signature() == "i");
+                              FCITX_ASSERT(ret.dataAs<int32_t>() == 5);
+                              return false;
+                          }));
     std::unique_ptr<Slot> slot(clientBus.addMatch(
         "type='signal',sender='" TEST_SERVICE "',interface='" TEST_INTERFACE
         "',member='testSignal'",

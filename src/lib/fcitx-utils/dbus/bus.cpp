@@ -32,12 +32,10 @@ class BusPrivate {
 public:
     BusPrivate() : bus_(nullptr) {}
 
-    ~BusPrivate() {
-        sd_bus_detach_event(bus_);
-        sd_bus_flush_close_unref(bus_);
-    }
+    ~BusPrivate() { sd_bus_flush_close_unref(bus_); }
 
     sd_bus *bus_;
+    bool attached_ = false;
 };
 
 Bus::Bus(BusType type) : d_ptr(std::make_unique<BusPrivate>()) {
@@ -65,16 +63,26 @@ Bus::Bus(const std::string &address) : d_ptr(std::make_unique<BusPrivate>()) {
         goto fail;
     }
 
+    if (sd_bus_set_bus_client(d_ptr->bus_, true) < 0) {
+        goto fail;
+    }
+
     if (sd_bus_start(d_ptr->bus_) < 0) {
         goto fail;
     }
+    return;
 
 fail:
     sd_bus_unref(d_ptr->bus_);
     d_ptr->bus_ = nullptr;
 }
 
-Bus::~Bus() {}
+Bus::~Bus() {
+    FCITX_D();
+    if (d->attached_) {
+        detachEventLoop();
+    }
+}
 
 Bus::Bus(Bus &&other) noexcept : d_ptr(std::move(other.d_ptr)) {}
 
@@ -115,12 +123,15 @@ Message Bus::createSignal(const char *path, const char *interface,
 void Bus::attachEventLoop(EventLoop *loop) {
     FCITX_D();
     sd_event *event = static_cast<sd_event *>(loop->nativeHandle());
-    sd_bus_attach_event(d->bus_, event, 0);
+    if (sd_bus_attach_event(d->bus_, event, 0) >= 0) {
+        d->attached_ = true;
+    }
 }
 
 void Bus::detachEventLoop() {
     FCITX_D();
     sd_bus_detach_event(d->bus_);
+    d->attached_ = false;
 }
 
 int SDMessageCallback(sd_bus_message *m, void *userdata, sd_bus_error *) {
@@ -295,8 +306,9 @@ std::string Bus::serviceOwner(const std::string &name, uint64_t usec) {
     return {};
 }
 
-Slot *Bus::serviceOwnerAsync(const std::string &name, uint64_t usec,
-                             MessageCallback callback) {
+std::unique_ptr<Slot> Bus::serviceOwnerAsync(const std::string &name,
+                                             uint64_t usec,
+                                             MessageCallback callback) {
     auto msg = createMethodCall("org.freedesktop.DBus", "/org/freedesktop/DBus",
                                 "org.freedesktop.DBus", "GetNameOwner");
     msg << name;
@@ -310,6 +322,15 @@ std::string Bus::uniqueName() {
         return {};
     }
     return name;
+}
+
+std::string Bus::address() {
+    FCITX_D();
+    const char *address = nullptr;
+    if (sd_bus_get_address(d->bus_, &address) < 0) {
+        return {};
+    }
+    return address;
 }
 
 void Bus::flush() {

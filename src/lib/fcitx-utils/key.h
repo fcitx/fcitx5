@@ -87,10 +87,10 @@ public:
     static std::string keySymToUTF8(KeySym sym);
     static KeyList keyListFromString(const std::string &str);
     template <typename Container>
-    static std::string keyListToString(Container c) {
+    static std::string keyListToString(Container container) {
         std::string result;
         bool first = true;
-        for (auto k : c) {
+        for (auto k : container) {
             if (first) {
                 first = false;
             } else {
