@@ -620,6 +620,7 @@ pid_t startProcess() {
 
 void IBusFrontendModule::replaceIBus() {
     auto address = getAddress();
+    oldAddress_ = address.first;
     if (!address.first.empty()) {
         auto pid = startProcess();
         if (pid > 0) {
@@ -679,7 +680,17 @@ void IBusFrontendModule::becomeIBus() {
     inputMethod1_ = std::make_unique<IBusFrontend>(
         this, bus(), IBUS_INPUTMETHOD_DBUS_INTERFACE);
     RawConfig config;
-    config.setValueByPath("IBUS_ADDRESS", bus()->address());
+    auto address = bus()->address();
+    // This is a small hack to make ibus think that address is changed.
+    // Otherwise it won't retry connection since we always use session bus
+    // instead of start our own one.
+    // https://dbus.freedesktop.org/doc/dbus-specification.html#addresses
+    // DBus address may use ; to add multiple fallback addresses.
+    // Adding a semicolon at the end of the address won't change the behavior.
+    if (oldAddress_.find(';') == std::string::npos) {
+        address += ";";
+    }
+    config.setValueByPath("IBUS_ADDRESS", address);
     config.setValueByPath("IBUS_DAEMON_PID", std::to_string(getpid()));
 
     FCITX_DEBUG() << "Writing ibus daemon info.";

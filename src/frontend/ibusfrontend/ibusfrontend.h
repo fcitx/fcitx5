@@ -48,6 +48,7 @@ private:
     void becomeIBus();
 
     Instance *instance_;
+    std::string oldAddress_;
     std::unique_ptr<dbus::Bus> portalBus_;
     std::unique_ptr<IBusFrontend> inputMethod1_;
     std::unique_ptr<IBusFrontend> portalIBusFrontend_;
