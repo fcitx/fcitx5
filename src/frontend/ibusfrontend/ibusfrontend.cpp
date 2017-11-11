@@ -51,11 +51,11 @@ using IBusAttribute = FCITX_STRING_TO_DBUS_TYPE("(sa{sv}uuuu)");
 
 class IBusFrontend : public dbus::ObjectVTable<IBusFrontend> {
 public:
-    IBusFrontend(IBusFrontendModule *module, dbus::Bus *bus)
+    IBusFrontend(IBusFrontendModule *module, dbus::Bus *bus,
+                 const std::string &interface)
         : module_(module), instance_(module->instance()), bus_(bus),
           watcher_(std::make_unique<dbus::ServiceWatcher>(*bus_)) {
-        bus_->addObjectVTable("/org/freedesktop/IBus",
-                              IBUS_INPUTMETHOD_DBUS_INTERFACE, *this);
+        bus_->addObjectVTable("/org/freedesktop/IBus", interface, *this);
     }
 
     dbus::ObjectPath createInputContext(const std::string &args);
@@ -300,8 +300,8 @@ private:
     FCITX_OBJECT_VTABLE_METHOD(processKeyEvent, "ProcessKeyEvent", "uuu", "b");
     FCITX_OBJECT_VTABLE_METHOD(setCursorLocation, "SetCursorLocation", "iiii",
                                "");
-    FCITX_OBJECT_VTABLE_METHOD(setCursorLocationRelative, "SetCursorLocationRelative", "iiii",
-                               "");
+    FCITX_OBJECT_VTABLE_METHOD(setCursorLocationRelative,
+                               "SetCursorLocationRelative", "iiii", "");
     FCITX_OBJECT_VTABLE_METHOD(focusInDBus, "FocusIn", "", "");
     FCITX_OBJECT_VTABLE_METHOD(focusOutDBus, "FocusOut", "", "");
     FCITX_OBJECT_VTABLE_METHOD(resetDBus, "Reset", "", "");
@@ -473,6 +473,7 @@ IBusFrontend::createInputContext(const std::string & /* unused */) {
 }
 
 #define IBUS_PORTAL_DBUS_SERVICE "org.freedesktop.portal.IBus"
+#define IBUS_PORTAL_DBUS_INTERFACE "org.freedesktop.IBus.Portal"
 
 IBusFrontendModule::IBusFrontendModule(Instance *instance)
     : instance_(instance) {
@@ -675,7 +676,8 @@ void IBusFrontendModule::becomeIBus() {
         return;
     }
 
-    inputMethod1_ = std::make_unique<IBusFrontend>(this, bus());
+    inputMethod1_ = std::make_unique<IBusFrontend>(
+        this, bus(), IBUS_INPUTMETHOD_DBUS_INTERFACE);
     RawConfig config;
     config.setValueByPath("IBUS_ADDRESS", bus()->address());
     config.setValueByPath("IBUS_DAEMON_PID", std::to_string(getpid()));
@@ -688,8 +690,8 @@ void IBusFrontendModule::becomeIBus() {
     }
 
     portalBus_ = std::make_unique<dbus::Bus>(dbus::BusType::Session);
-    portalIBusFrontend_ =
-        std::make_unique<IBusFrontend>(this, portalBus_.get());
+    portalIBusFrontend_ = std::make_unique<IBusFrontend>(
+        this, portalBus_.get(), IBUS_PORTAL_DBUS_INTERFACE);
     portalBus_->attachEventLoop(&instance()->eventLoop());
     if (!portalBus_->requestName(
             IBUS_PORTAL_DBUS_SERVICE,
