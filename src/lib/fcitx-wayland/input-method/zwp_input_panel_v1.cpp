@@ -18,7 +18,7 @@ void ZwpInputPanelV1::destructor(zwp_input_panel_v1 *data) {
 ZwpInputPanelSurfaceV1 *
 ZwpInputPanelV1::getInputPanelSurface(WlSurface *surface) {
     return new ZwpInputPanelSurfaceV1(
-        zwp_input_panel_v1_get_input_panel_surface(*this, *surface));
+        zwp_input_panel_v1_get_input_panel_surface(*this, rawPointer(surface)));
 }
 }
 }

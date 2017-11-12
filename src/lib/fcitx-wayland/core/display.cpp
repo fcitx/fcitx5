@@ -29,11 +29,10 @@ namespace wayland {
 
 void Display::createGlobalHelper(
     GlobalsFactoryBase *factory,
-    std::pair<const uint32_t,
-              std::tuple<std::string, uint32_t, std::shared_ptr<void>>>
-        &globalsPair) {
-    std::get<std::shared_ptr<void>>(globalsPair.second) =
-        factory->create(*registry(), globalsPair.first);
+    std::pair<const uint32_t, std::tuple<std::string, uint32_t, uint32_t,
+                                         std::shared_ptr<void>>> &globalsPair) {
+    std::get<std::shared_ptr<void>>(globalsPair.second) = factory->create(
+        *registry(), globalsPair.first, std::get<2>(globalsPair.second));
     globalCreatedSignal_(std::get<std::string>(globalsPair.second),
                          std::get<std::shared_ptr<void>>(globalsPair.second));
 }
@@ -42,15 +41,15 @@ Display::Display(wl_display *display)
     : display_(display, &wl_display_disconnect) {
     wl_display_set_user_data(display, this);
     auto reg = registry();
-    reg->global().connect([this](uint32_t name, const char *interface,
-                                 uint32_t) {
-        auto result = globals_.emplace(
-            std::make_pair(name, std::make_tuple(interface, name, nullptr)));
-        auto iter = requestedGlobals_.find(interface);
-        if (iter != requestedGlobals_.end()) {
-            createGlobalHelper(iter->second.get(), *result.first);
-        }
-    });
+    reg->global().connect(
+        [this](uint32_t name, const char *interface, uint32_t version) {
+            auto result = globals_.emplace(std::make_pair(
+                name, std::make_tuple(interface, name, version, nullptr)));
+            auto iter = requestedGlobals_.find(interface);
+            if (iter != requestedGlobals_.end()) {
+                createGlobalHelper(iter->second.get(), *result.first);
+            }
+        });
     reg->globalRemove().connect([this](uint32_t name) {
         auto iter = globals_.find(name);
         if (iter != globals_.end()) {

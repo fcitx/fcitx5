@@ -36,7 +36,8 @@ class WlOutput;
 
 class GlobalsFactoryBase {
 public:
-    virtual std::shared_ptr<void> create(WlRegistry &, uint32_t name) = 0;
+    virtual std::shared_ptr<void> create(WlRegistry &, uint32_t name,
+                                         uint32_t version) = 0;
     void erase(uint32_t name) { globals_.erase(name); }
 
     const std::set<uint32_t> &globals() { return globals_; }
@@ -48,9 +49,10 @@ protected:
 template <typename T>
 class GlobalsFactory : public GlobalsFactoryBase {
 public:
-    virtual std::shared_ptr<void> create(WlRegistry &registry, uint32_t name) {
+    virtual std::shared_ptr<void> create(WlRegistry &registry, uint32_t name,
+                                         uint32_t version) {
         std::shared_ptr<T> p;
-        p.reset(registry.bind<T>(name));
+        p.reset(registry.bind<T>(name, version));
         globals_.insert(name);
         return p;
     }
@@ -131,8 +133,8 @@ public:
 private:
     void createGlobalHelper(
         GlobalsFactoryBase *factory,
-        std::pair<const uint32_t,
-                  std::tuple<std::string, uint32_t, std::shared_ptr<void>>>
+        std::pair<const uint32_t, std::tuple<std::string, uint32_t, uint32_t,
+                                             std::shared_ptr<void>>>
             &globalsPair);
 
     void addOutput(wayland::WlOutput *output);
@@ -146,8 +148,8 @@ private:
         requestedGlobals_;
     std::unique_ptr<wl_display, decltype(&wl_display_disconnect)> display_;
     std::unique_ptr<WlRegistry> registry_;
-    std::unordered_map<uint32_t,
-                       std::tuple<std::string, uint32_t, std::shared_ptr<void>>>
+    std::unordered_map<uint32_t, std::tuple<std::string, uint32_t, uint32_t,
+                                            std::shared_ptr<void>>>
         globals_;
     std::list<fcitx::Connection> conns_;
     std::unordered_map<WlOutput *, OutputInfomation> outputInfo_;

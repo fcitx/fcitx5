@@ -18,9 +18,9 @@ public:
     WlRegistry &operator=(WlRegistry &&other) noexcept = delete;
     auto actualVersion() const { return version_; }
     template <typename T>
-    T *bind(uint32_t name) {
+    T *bind(uint32_t name, uint32_t requested_version) {
         return new T(static_cast<typename T::wlType *>(
-            wl_registry_bind(*this, name, T::wlInterface, T::version)));
+            wl_registry_bind(*this, name, T::wlInterface, requested_version)));
     }
     auto &global() { return globalSignal_; }
     auto &globalRemove() { return globalRemoveSignal_; }

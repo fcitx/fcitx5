@@ -27,6 +27,9 @@ private:
     uint32_t version_;
     std::unique_ptr<zwp_input_panel_v1, decltype(&destructor)> data_;
 };
+static inline zwp_input_panel_v1 *rawPointer(ZwpInputPanelV1 *p) {
+    return p ? static_cast<zwp_input_panel_v1 *>(*p) : nullptr;
+}
 }
 }
 #endif
