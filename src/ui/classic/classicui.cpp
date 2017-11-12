@@ -37,29 +37,37 @@ ClassicUI::ClassicUI(Instance *instance)
     : UserInterface(), instance_(instance) {
     reloadConfig();
 
-    xcbCreatedCallback_ = xcb()->call<IXCBModule::addConnectionCreatedCallback>(
-        [this](const std::string &name, xcb_connection_t *conn, int screen,
-               FocusGroup *) {
-            uis_["x11:" + name].reset(new XCBUI(this, name, conn, screen));
-        });
-    xcbClosedCallback_ = xcb()->call<IXCBModule::addConnectionClosedCallback>(
-        [this](const std::string &name, xcb_connection_t *) {
-            uis_.erase("x11:" + name);
-        });
-    waylandCreatedCallback_ =
-        wayland()->call<IWaylandModule::addConnectionCreatedCallback>(
-            [this](const std::string &name, wl_display *display, FocusGroup *) {
-                try {
-                    uis_["wayland:" + name].reset(
-                        new WaylandUI(this, name, display));
-                } catch (std::runtime_error) {
-                }
+    if (auto xcbAddon = xcb()) {
+        xcbCreatedCallback_ =
+            xcbAddon->call<IXCBModule::addConnectionCreatedCallback>([this](
+                const std::string &name, xcb_connection_t *conn, int screen,
+                FocusGroup *) {
+                uis_["x11:" + name].reset(new XCBUI(this, name, conn, screen));
             });
-    waylandClosedCallback_ =
-        wayland()->call<IWaylandModule::addConnectionClosedCallback>(
-            [this](const std::string &name, wl_display *) {
-                uis_.erase("wayland:" + name);
-            });
+        xcbClosedCallback_ =
+            xcbAddon->call<IXCBModule::addConnectionClosedCallback>(
+                [this](const std::string &name, xcb_connection_t *) {
+                    uis_.erase("x11:" + name);
+                });
+    }
+
+    if (auto waylandAddon = wayland()) {
+        waylandCreatedCallback_ =
+            waylandAddon->call<IWaylandModule::addConnectionCreatedCallback>(
+                [this](const std::string &name, wl_display *display,
+                       FocusGroup *) {
+                    try {
+                        uis_["wayland:" + name].reset(
+                            new WaylandUI(this, name, display));
+                    } catch (std::runtime_error) {
+                    }
+                });
+        waylandClosedCallback_ =
+            waylandAddon->call<IWaylandModule::addConnectionClosedCallback>(
+                [this](const std::string &name, wl_display *) {
+                    uis_.erase("wayland:" + name);
+                });
+    }
 }
 
 ClassicUI::~ClassicUI() {}
