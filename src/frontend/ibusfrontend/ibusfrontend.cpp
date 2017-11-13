@@ -41,8 +41,139 @@
 #define IBUS_INPUTMETHOD_DBUS_INTERFACE "org.freedesktop.IBus"
 #define IBUS_INPUTCONTEXT_DBUS_INTERFACE "org.freedesktop.IBus.InputContext"
 #define IBUS_SERVICE_DBUS_INTERFACE "org.freedesktop.IBus.Service"
+#define IBUS_PANEL_SERVICE_NAME "org.freedesktop.IBus.Panel"
 
 namespace fcitx {
+
+namespace {
+
+std::string readFileContent(const std::string &file) {
+    std::ifstream fin(file, std::ios::binary | std::ios::in);
+    std::vector<char> buffer;
+    constexpr auto chunkSize = 4096;
+    do {
+        auto curSize = buffer.size();
+        buffer.resize(curSize + chunkSize);
+        if (!fin.read(buffer.data() + curSize, chunkSize)) {
+            buffer.resize(curSize + fin.gcount());
+            break;
+        }
+    } while (0);
+    std::string str{buffer.begin(), buffer.end()};
+    return stringutils::trim(str);
+}
+
+std::string getLocalMachineId(void) {
+    auto content = readFileContent("/var/lib/dbus/machine-id");
+    if (content.empty()) {
+        content = readFileContent("/etc/machine-id");
+    }
+
+    if (content.empty()) {
+        content = "machine-id";
+    }
+
+    return content;
+}
+
+std::string getSocketPath(void) {
+    auto path = getenv("IBUS_ADDRESS_FILE");
+    if (path) {
+        return path;
+    }
+    std::string hostname = "unix";
+    std::string displaynumber = "0";
+    if (auto display = getenv("DISPLAY")) {
+        auto p = display;
+        for (; *p != ':' && *p != '\0'; p++)
+            ;
+
+        char *displaynumberStart = nullptr;
+        if (*p == ':') {
+            hostname = std::string(display, p);
+            displaynumberStart = p + 1;
+
+            for (; *p != '.' && *p != '\0'; p++)
+                ;
+
+            if (*p == '.') {
+                displaynumber = std::string(displaynumberStart, p);
+            }
+        } else {
+            hostname = display;
+        }
+    }
+
+    if (hostname[0] == '\0') {
+        hostname = "unix";
+    }
+
+    return stringutils::joinPath(
+        "ibus/bus", stringutils::concat(getLocalMachineId(), "-", hostname, "-",
+                                        displaynumber));
+}
+
+std::string getFullSocketPath(void) {
+    return stringutils::joinPath(
+        StandardPath::global().userDirectory(StandardPath::Type::Config),
+        getSocketPath());
+}
+
+std::pair<std::string, pid_t> getAddress(void) {
+    pid_t pid = -1;
+
+    /* get address from env variable */
+    auto address = getenv("IBUS_ADDRESS");
+    if (address) {
+        return {address, -1};
+    }
+
+    /* read address from ~/.config/ibus/bus/soketfile */
+    std::unique_ptr<std::FILE, decltype(&std::fclose)> file(
+        fopen(getFullSocketPath().c_str(), "rb"), &std::fclose);
+    if (!file) {
+        return {};
+    }
+    RawConfig config;
+    readFromIni(config, file.get());
+    if (auto value = config.valueByPath("IBUS_ADDRESS")) {
+        if (auto pidValue = config.valueByPath("IBUS_DAEMON_PID")) {
+            try {
+                pid = std::stoi(*pidValue);
+                if (kill(pid, 0) == 0 && pid != getpid()) {
+                    return {*value, pid};
+                }
+            } catch (...) {
+            }
+        }
+    }
+
+    return {};
+}
+
+pid_t startProcess() {
+    pid_t child_pid;
+    if ((child_pid = fork()) == -1) {
+        perror("fork");
+        return -1;
+    }
+
+    /* child process */
+    if (child_pid == 0) {
+        char arg0[] = "ibus";
+        char arg1[] = "exit";
+        char *args[] = {arg0, arg1, NULL};
+        setpgid(
+            child_pid,
+            child_pid); // Needed so negative PIDs can kill children of /bin/sh
+        execvp(args[0], args);
+        perror("execl");
+        _exit(1);
+    }
+
+    return child_pid;
+}
+}
 
 using AttachmentsType = FCITX_STRING_TO_DBUS_TYPE("a{sv}");
 using IBusText = FCITX_STRING_TO_DBUS_TYPE("(sa{sv}sv)");
@@ -380,9 +511,9 @@ private:
         flag.unset(purpose_related_capability);
         flag.unset(hints_related_capability);
 
-#define CASE_PURPOSE(_PURPOSE, _CAPABILITY)                                      \
+#define CASE_PURPOSE(_PURPOSE, _CAPABILITY)                                    \
     case _PURPOSE:                                                             \
-        flag |= _CAPABILITY;                                                     \
+        flag |= _CAPABILITY;                                                   \
         break;
 
         switch (purpose) {
@@ -417,7 +548,7 @@ private:
             GTK_INPUT_HINT_NO_EMOJI = 1 << 10
         };
 
-#define CHECK_HINTS(_HINTS, _CAPABILITY)                                         \
+#define CHECK_HINTS(_HINTS, _CAPABILITY)                                       \
     if (hints & _HINTS)                                                        \
         flag |= _CAPABILITY;
 
@@ -487,135 +618,17 @@ IBusFrontendModule::~IBusFrontendModule() {
     if (portalBus_) {
         portalBus_->releaseName(IBUS_PORTAL_DBUS_SERVICE);
     }
+
+    if (!addressWrote_.empty()) {
+        auto address = getAddress();
+        if (address.first == addressWrote_ && address.second == pidWrote_) {
+            unlink(getFullSocketPath().c_str());
+        }
+    }
 }
 
 dbus::Bus *IBusFrontendModule::bus() {
     return dbus()->call<IDBusModule::bus>();
-}
-
-std::string readFileContent(const std::string &file) {
-    std::ifstream fin(file, std::ios::binary | std::ios::in);
-    std::vector<char> buffer;
-    constexpr auto chunkSize = 4096;
-    do {
-        auto curSize = buffer.size();
-        buffer.resize(curSize + chunkSize);
-        if (!fin.read(buffer.data() + curSize, chunkSize)) {
-            buffer.resize(curSize + fin.gcount());
-            break;
-        }
-    } while (0);
-    std::string str{buffer.begin(), buffer.end()};
-    return stringutils::trim(str);
-}
-
-std::string getLocalMachineId(void) {
-    auto content = readFileContent("/var/lib/dbus/machine-id");
-    if (content.empty()) {
-        content = readFileContent("/etc/machine-id");
-    }
-
-    if (content.empty()) {
-        content = "machine-id";
-    }
-
-    return content;
-}
-std::string getSocketPath(void) {
-    auto path = getenv("IBUS_ADDRESS_FILE");
-    if (path) {
-        return path;
-    }
-    std::string hostname = "unix";
-    std::string displaynumber = "0";
-    if (auto display = getenv("DISPLAY")) {
-        auto p = display;
-        for (; *p != ':' && *p != '\0'; p++)
-            ;
-
-        char *displaynumberStart = nullptr;
-        if (*p == ':') {
-            hostname = std::string(display, p);
-            displaynumberStart = p + 1;
-
-            for (; *p != '.' && *p != '\0'; p++)
-                ;
-
-            if (*p == '.') {
-                displaynumber = std::string(displaynumberStart, p);
-            }
-        } else {
-            hostname = display;
-        }
-    }
-
-    if (hostname[0] == '\0') {
-        hostname = "unix";
-    }
-
-    return stringutils::joinPath(
-        "ibus/bus", stringutils::concat(getLocalMachineId(), "-", hostname, "-",
-                                        displaynumber));
-}
-
-std::string getFullSocketPath(void) {
-    return stringutils::joinPath(
-        StandardPath::global().userDirectory(StandardPath::Type::Config),
-        getSocketPath());
-}
-
-std::pair<std::string, pid_t> getAddress(void) {
-    pid_t pid = -1;
-
-    /* get address from env variable */
-    auto address = getenv("IBUS_ADDRESS");
-    if (address) {
-        return {address, -1};
-    }
-
-    /* read address from ~/.config/ibus/bus/soketfile */
-    auto file = fopen(getFullSocketPath().c_str(), "rb");
-    if (!file) {
-        return {};
-    }
-    RawConfig config;
-    readFromIni(config, file);
-    if (auto value = config.valueByPath("IBUS_ADDRESS")) {
-        if (auto pidValue = config.valueByPath("IBUS_DAEMON_PID")) {
-            try {
-                pid = std::stoi(*pidValue);
-                if (kill(pid, 0) == 0 && pid != getpid()) {
-                    return {*value, pid};
-                }
-            } catch (...) {
-            }
-        }
-    }
-
-    return {};
-}
-
-pid_t startProcess() {
-    pid_t child_pid;
-    if ((child_pid = fork()) == -1) {
-        perror("fork");
-        return -1;
-    }
-
-    /* child process */
-    if (child_pid == 0) {
-        char arg0[] = "ibus";
-        char arg1[] = "exit";
-        char *args[] = {arg0, arg1, NULL};
-        setpgid(
-            child_pid,
-            child_pid); // Needed so negative PIDs can kill children of /bin/sh
-        execvp(args[0], args);
-        perror("execl");
-        _exit(1);
-    }
-
-    return child_pid;
 }
 
 void IBusFrontendModule::replaceIBus() {
@@ -699,6 +712,14 @@ void IBusFrontendModule::becomeIBus() {
             [&config](int fd) { return writeAsIni(config, fd); })) {
         return;
     }
+
+    addressWrote_ = address;
+    pidWrote_ = getpid();
+
+    bus()->requestName(
+        IBUS_PANEL_SERVICE_NAME,
+        Flags<dbus::RequestNameFlag>{dbus::RequestNameFlag::ReplaceExisting,
+                                     dbus::RequestNameFlag::Queue});
 
     portalBus_ = std::make_unique<dbus::Bus>(dbus::BusType::Session);
     portalIBusFrontend_ = std::make_unique<IBusFrontend>(

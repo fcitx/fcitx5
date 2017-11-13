@@ -26,6 +26,7 @@
 #include "fcitx/addonmanager.h"
 #include "fcitx/focusgroup.h"
 #include "fcitx/instance.h"
+#include <unistd.h>
 
 namespace fcitx {
 
@@ -53,6 +54,9 @@ private:
     std::unique_ptr<IBusFrontend> inputMethod1_;
     std::unique_ptr<IBusFrontend> portalIBusFrontend_;
     std::unique_ptr<EventSourceTime> timeEvent_;
+
+    std::string addressWrote_;
+    pid_t pidWrote_;
 };
 }
 

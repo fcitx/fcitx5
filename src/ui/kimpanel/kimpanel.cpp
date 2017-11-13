@@ -108,6 +108,7 @@ Kimpanel::~Kimpanel() {}
 void Kimpanel::suspend() {
     eventHandlers_.clear();
     proxy_.reset();
+    bus_->releaseName("org.kde.kimpanel.inputmethod");
 }
 
 void Kimpanel::registerAllProperties(InputContext *ic) {
@@ -151,6 +152,10 @@ std::string Kimpanel::actionToStatus(Action *action, InputContext *ic) {
 void Kimpanel::resume() {
     proxy_ = std::make_unique<KimpanelProxy>(this, bus_);
     bus_->addObjectVTable("/kimpanel", "org.kde.kimpanel.inputmethod", *proxy_);
+    bus_->requestName(
+        "org.kde.kimpanel.inputmethod",
+        Flags<dbus::RequestNameFlag>{dbus::RequestNameFlag::ReplaceExisting,
+                                     dbus::RequestNameFlag::Queue});
     bus_->flush();
     if (available_) {
         registerAllProperties();

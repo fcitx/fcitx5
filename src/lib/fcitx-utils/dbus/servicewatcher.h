@@ -45,7 +45,7 @@ public:
     // GetNameOwner call to avoid race condition
     // if GetNameOwner returns, it will intiate a call (name, "", owner) if
     // service exists, otherwise (name, "", "")
-    std::unique_ptr<ServiceWatcherEntry>
+    FCITX_NODISCARD std::unique_ptr<ServiceWatcherEntry>
     watchService(const std::string &name, ServiceWatcherCallback callback);
 
 private:
