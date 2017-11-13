@@ -380,9 +380,9 @@ private:
         flag.unset(purpose_related_capability);
         flag.unset(hints_related_capability);
 
-#define CASE_PURPOSE(_PURPOSE, _CAPACITY)                                      \
+#define CASE_PURPOSE(_PURPOSE, _CAPABILITY)                                      \
     case _PURPOSE:                                                             \
-        flag |= _CAPACITY;                                                     \
+        flag |= _CAPABILITY;                                                     \
         break;
 
         switch (purpose) {
@@ -417,9 +417,9 @@ private:
             GTK_INPUT_HINT_NO_EMOJI = 1 << 10
         };
 
-#define CHECK_HINTS(_HINTS, _CAPACITY)                                         \
+#define CHECK_HINTS(_HINTS, _CAPABILITY)                                         \
     if (hints & _HINTS)                                                        \
-        flag |= _CAPACITY;
+        flag |= _CAPABILITY;
 
         CHECK_HINTS(GTK_INPUT_HINT_SPELLCHECK,
                     fcitx::CapabilityFlag::SpellCheck)
