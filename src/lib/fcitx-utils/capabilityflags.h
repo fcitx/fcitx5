@@ -65,7 +65,8 @@ enum class CapabilityFlag : uint64_t {
     Time = (1ull << 34),
     Multiline = (1ull << 35),
     Sensitive = (1ull << 36),
-    HiddenText = (1ull << 36),
+
+    PasswordOrSensitive = Password | Sensitive
 };
 
 typedef Flags<CapabilityFlag> CapabilityFlags;

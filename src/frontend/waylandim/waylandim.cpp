@@ -341,7 +341,7 @@ void WaylandIMInputContextV1::contentTypeCallback(uint32_t hint,
         // ??
     }
     if (hint & ZWP_TEXT_INPUT_V1_CONTENT_HINT_HIDDEN_TEXT) {
-        flags |= CapabilityFlag::HiddenText;
+        flags |= CapabilityFlag::Password;
     }
     if (hint & ZWP_TEXT_INPUT_V1_CONTENT_HINT_SENSITIVE_DATA) {
         flags |= CapabilityFlag::Sensitive;

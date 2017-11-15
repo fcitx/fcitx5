@@ -313,9 +313,13 @@ void KeyboardEngine::keyEvent(const InputMethodEntry &entry, KeyEvent &event) {
         if (!state->enableWordHint_) {
             break;
         }
+        const CapabilityFlags noPredictFlag{CapabilityFlag::Password,
+                                            CapabilityFlag::NoSpellCheck,
+                                            CapabilityFlag::Sensitive};
         // no supported dictionary
         if (!spell() ||
-            !spell()->call<ISpell::checkDict>(entry.languageCode())) {
+            !spell()->call<ISpell::checkDict>(entry.languageCode()) ||
+            inputContext->capabilityFlags().testAny(noPredictFlag)) {
             break;
         }
 

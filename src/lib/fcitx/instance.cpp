@@ -1320,6 +1320,23 @@ std::string Instance::commitFilter(InputContext *inputContext,
 Text Instance::outputFilter(InputContext *inputContext, const Text &orig) {
     Text result = orig;
     emit<Instance::OutputFilter>(inputContext, result);
+    if ((&orig == &inputContext->inputPanel().clientPreedit() ||
+         &orig == &inputContext->inputPanel().preedit()) &&
+        inputContext->capabilityFlags().test(CapabilityFlag::Password)) {
+        Text newText;
+        for (int i = 0, e = result.size(); i < e; i++) {
+            auto length = utf8::length(result.stringAt(i));
+            std::string dot;
+            dot.reserve(length * 3);
+            while (length != 0) {
+                dot += "\xe2\x80\xa2";
+                length -= 1;
+            }
+            newText.append(dot,
+                           result.formatAt(i) | TextFormatFlag::DontCommit);
+        }
+        result = std::move(newText);
+    }
     return result;
 }
 
