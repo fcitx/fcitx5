@@ -83,7 +83,12 @@ cairo_surface_t *fcitx::classicui::WaylandShmWindow::prerender() {
         buffer_ = iter->get();
     }
 
-    return buffer_->cairoSurface();
+    auto cairoSurface = buffer_->cairoSurface();
+    if (!cairoSurface) {
+        buffer_ = nullptr;
+        return nullptr;
+    }
+    return cairoSurface;
 }
 
 void fcitx::classicui::WaylandShmWindow::render() {

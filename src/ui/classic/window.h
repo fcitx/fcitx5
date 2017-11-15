@@ -28,6 +28,7 @@ namespace classicui {
 class Window {
 public:
     Window();
+    virtual ~Window() = default;
 
     unsigned int width() const { return width_; }
     unsigned int height() const { return height_; }

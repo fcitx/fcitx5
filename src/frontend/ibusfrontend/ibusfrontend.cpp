@@ -349,8 +349,7 @@ public:
 
     void setCursorLocation(int x, int y, int w, int h) {
         CHECK_SENDER_OR_RETURN;
-        auto flags = capabilityFlags();
-        flags.unset(CapabilityFlag::RelativeRect);
+        auto flags = capabilityFlags().unset(CapabilityFlag::RelativeRect);
         setCapabilityFlags(flags);
         setCursorRect(Rect{x, y, x + w, y + h});
     }
@@ -374,9 +373,9 @@ public:
             IBUS_CAP_PROPERTY = 1 << 4,
             IBUS_CAP_SURROUNDING_TEXT = 1 << 5
         };
-        auto flags = capabilityFlags();
-        flags.unset(CapabilityFlag::FormattedPreedit);
-        flags.unset(CapabilityFlag::SurroundingText);
+        auto flags = capabilityFlags()
+                         .unset(CapabilityFlag::FormattedPreedit)
+                         .unset(CapabilityFlag::SurroundingText);
         if (cap & IBUS_CAP_PREEDIT_TEXT) {
             flags |= CapabilityFlag::FormattedPreedit;
         }

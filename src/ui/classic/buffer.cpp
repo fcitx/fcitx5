@@ -33,35 +33,35 @@ Buffer::Buffer(WlShm *shm, uint32_t width, uint32_t height,
     auto filename = stringutils::joinPath(path, "fcitx-wayland-shm-XXXXXX");
     std::vector<char> v(filename.begin(), filename.end());
     v.push_back('\0');
-    int fd = mkstemp(v.data());
-    if (fd < 0) {
+    UnixFD fd = UnixFD::own(mkstemp(v.data()));
+    if (!fd.isValid()) {
         return;
     }
-    int flags = fcntl(fd, F_GETFD);
-    if (flags != -1)
-        fcntl(fd, F_SETFD, flags | FD_CLOEXEC);
+    int flags = fcntl(fd.fd(), F_GETFD);
+    if (flags == -1) {
+        return;
+    }
+    if (fcntl(fd.fd(), F_SETFD, flags | FD_CLOEXEC) == -1) {
+        return;
+    }
 
-    if (ftruncate(fd, alloc) < 0) {
-        close(fd);
+    if (posix_fallocate(fd.fd(), 0, alloc) != 0) {
         return;
     }
     uint8_t *data = (uint8_t *)mmap(nullptr, alloc, PROT_READ | PROT_WRITE,
-                                    MAP_SHARED, fd, 0);
+                                    MAP_SHARED, fd.fd(), 0);
     unlink(v.data());
 
     if (data == static_cast<uint8_t *>(MAP_FAILED)) {
-        close(fd);
         return;
     }
 
-    pool_.reset(shm->createPool(fd, alloc));
+    pool_.reset(shm->createPool(fd.fd(), alloc));
     buffer_.reset(pool_->createBuffer(0, width, height, stride, format));
     buffer_->release().connect([this]() { busy_ = false; });
 
     surface_.reset(cairo_image_surface_create_for_data(
         data, CAIRO_FORMAT_ARGB32, width, height, stride));
-
-    close(fd);
 }
 
 Buffer::~Buffer() {}
