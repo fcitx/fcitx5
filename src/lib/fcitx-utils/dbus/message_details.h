@@ -292,8 +292,16 @@ struct DBusSignatureToType<> {
     typedef std::tuple<> type;
 };
 
+template <typename M>
+struct MetaStringToDBusTuple;
+
 template <char... c>
-auto MetaStringToDBusTuple(MetaString<c...>) -> DBusSignatureToType<c...>;
+struct MetaStringToDBusTuple<MetaString<c...>> {
+    typedef typename DBusSignatureToType<c...>::type type;
+};
+
+template <typename M>
+using MetaStringToDBusTupleType = typename MetaStringToDBusTuple<M>::type;
 
 template <typename T>
 struct DBusTupleToReturn {
@@ -309,13 +317,11 @@ template <typename T>
 using DBusTupleToReturnType = typename DBusTupleToReturn<T>::type;
 
 #define FCITX_STRING_TO_DBUS_TUPLE(STRING)                                     \
-    ::fcitx::dbus::MakeTupleIfNeededType<decltype(                             \
-        ::fcitx::dbus::MetaStringToDBusTuple(                                  \
-            fcitxMakeMetaString(STRING)()))::type>
+    ::fcitx::dbus::MakeTupleIfNeededType<                                      \
+        ::fcitx::dbus::MetaStringToDBusTupleType<fcitxMakeMetaString(STRING)>>
 #define FCITX_STRING_TO_DBUS_TYPE(STRING)                                      \
-    ::fcitx::dbus::DBusTupleToReturnType<decltype(                             \
-        ::fcitx::dbus::MetaStringToDBusTuple(                                  \
-            fcitxMakeMetaString(STRING)()))::type>
+    ::fcitx::dbus::DBusTupleToReturnType<                                      \
+        ::fcitx::dbus::MetaStringToDBusTupleType<fcitxMakeMetaString(STRING)>>
 }
 }
 

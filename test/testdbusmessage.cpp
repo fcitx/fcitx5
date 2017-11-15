@@ -107,5 +107,11 @@ int main() {
         dbus::Variant var2(var);
     }
 
+#if 0
+    // Compile fail, because there is redundant tuple.
+    dbus::VariantTypeRegistry::defaultRegistry()
+        .registerType<std::tuple<std::tuple<std::string, int>>>();
+#endif
+
     return 0;
 }

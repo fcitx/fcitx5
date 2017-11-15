@@ -116,6 +116,11 @@ public:
 
     template <typename TypeName>
     void registerType() {
+        using SignatureType = typename DBusSignatureTraits<TypeName>::signature;
+        using PureType = FCITX_STRING_TO_DBUS_TYPE(SignatureType::str());
+        static_assert(
+            std::is_same<TypeName, PureType>::value,
+            "Type is not pure enough, remove the redundant tuple from it");
         registerTypeImpl(DBusSignatureTraits<TypeName>::signature::data(),
                          std::make_shared<VariantHelper<TypeName>>());
     }

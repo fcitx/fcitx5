@@ -38,5 +38,11 @@ int main() {
         "");
     auto test = fcitxMakeMetaString("ABCD")::data() == std::string("ABCD");
     FCITX_ASSERT(test);
+
+    using StringABCD = fcitxMakeMetaString("ABCD");
+
+    static_assert(
+        std::is_same<StringABCD, fcitxMakeMetaString(StringABCD::str())>::value,
+        "");
     return 0;
 }

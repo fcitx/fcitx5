@@ -31,8 +31,12 @@ namespace fcitx {
 template <char... c>
 struct MetaString final {
 public:
+    typedef char const (&array_type)[sizeof...(c) + 1];
+
     static constexpr std::size_t size() { return size_; }
     static constexpr const char *data() { return str_; }
+
+    static constexpr array_type str() { return str_; }
 
 private:
     static constexpr const char str_[sizeof...(c) + 1] = {c..., '\0'};
@@ -117,6 +121,9 @@ struct MetaStringTrim {
     typedef typename MetaStringCombine<MetaString<c>...>::type type;
 };
 
+template <char... c>
+using MetaStringTrimType = typename MetaStringTrim<c...>::type;
+
 #define FCITX_METASTRING_TEMPLATE_16(N, S)                                     \
     ::fcitx::__getChar<0x##N##0>(S), ::fcitx::__getChar<0x##N##1>(S),          \
         ::fcitx::__getChar<0x##N##2>(S), ::fcitx::__getChar<0x##N##3>(S),      \
@@ -147,7 +154,7 @@ struct MetaStringTrim {
 
 /// \brief Create meta string from string literal.
 #define fcitxMakeMetaString(STRING)                                            \
-    ::fcitx::MetaStringTrim<FCITX_METASTRING_TEMPLATE_256(, STRING)>::type
+    ::fcitx::MetaStringTrimType<FCITX_METASTRING_TEMPLATE_256(, STRING)>
 }
 
 #endif // _FCITX_UTILS_METASTRING_H_

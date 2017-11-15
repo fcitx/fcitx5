@@ -119,7 +119,7 @@ std::string getFullSocketPath(void) {
         getSocketPath());
 }
 
-std::pair<std::string, pid_t> getAddress(void) {
+std::pair<std::string, pid_t> getAddress(const std::string &socketPath) {
     pid_t pid = -1;
 
     /* get address from env variable */
@@ -130,7 +130,7 @@ std::pair<std::string, pid_t> getAddress(void) {
 
     /* read address from ~/.config/ibus/bus/soketfile */
     std::unique_ptr<std::FILE, decltype(&std::fclose)> file(
-        fopen(getFullSocketPath().c_str(), "rb"), &std::fclose);
+        fopen(socketPath.c_str(), "rb"), &std::fclose);
     if (!file) {
         return {};
     }
@@ -506,9 +506,9 @@ private:
             GTK_INPUT_PURPOSE_PIN
         };
 
-        auto flag = capabilityFlags();
-        flag.unset(purpose_related_capability);
-        flag.unset(hints_related_capability);
+        auto flag = capabilityFlags()
+                        .unset(purpose_related_capability)
+                        .unset(hints_related_capability);
 
 #define CASE_PURPOSE(_PURPOSE, _CAPABILITY)                                    \
     case _PURPOSE:                                                             \
@@ -605,7 +605,7 @@ IBusFrontend::createInputContext(const std::string & /* unused */) {
 #define IBUS_PORTAL_DBUS_INTERFACE "org.freedesktop.IBus.Portal"
 
 IBusFrontendModule::IBusFrontendModule(Instance *instance)
-    : instance_(instance) {
+    : instance_(instance), socketPath_(getFullSocketPath()) {
     dbus::VariantTypeRegistry::defaultRegistry().registerType<IBusText>();
     dbus::VariantTypeRegistry::defaultRegistry().registerType<IBusAttribute>();
     dbus::VariantTypeRegistry::defaultRegistry().registerType<IBusAttrList>();
@@ -618,9 +618,9 @@ IBusFrontendModule::~IBusFrontendModule() {
     }
 
     if (!addressWrote_.empty()) {
-        auto address = getAddress();
+        auto address = getAddress(socketPath_);
         if (address.first == addressWrote_ && address.second == pidWrote_) {
-            unlink(getFullSocketPath().c_str());
+            unlink(socketPath_.c_str());
         }
     }
 }
@@ -630,7 +630,7 @@ dbus::Bus *IBusFrontendModule::bus() {
 }
 
 void IBusFrontendModule::replaceIBus() {
-    auto address = getAddress();
+    auto address = getAddress(socketPath_);
     oldAddress_ = address.first;
     if (!address.first.empty()) {
         auto pid = startProcess();
