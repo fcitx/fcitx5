@@ -135,10 +135,46 @@ struct ExtractSubConfig<
 template <typename T>
 void dumpDescriptionHelper(RawConfig &, T *) {}
 
+template <typename OptionType>
+class MutableOption {
+public:
+    using value_type = typename OptionType::value_type;
+
+    MutableOption(OptionType *option = nullptr)
+        : option_(option), value_(option ? option->value() : value_type()) {}
+
+    ~MutableOption() {
+        if (option_) {
+            option_->setValue(std::move(value_));
+        }
+    }
+
+    MutableOption(MutableOption &&other)
+        : option_(other.option_), value_(std::move(other.value_)) {
+        other.option_ = nullptr;
+    }
+
+    MutableOption &operator=(MutableOption &&other) {
+        option_ = other.option_;
+        value_ = std::move(other.value_);
+        other.option_ = nullptr;
+    }
+
+    value_type &operator*() { return value_; }
+    value_type *operator->() { return &value_; }
+
+private:
+    OptionType *option_;
+    value_type value_;
+};
+
 template <typename T, typename Constrain = NoConstrain<T>,
           typename Marshaller = DefaultMarshaller<T>>
 class Option : public OptionBase {
 public:
+    using value_type = T;
+    using constrain_type = Constrain;
+
     Option(Configuration *parent, std::string path, std::string description,
            const T &defaultValue = T(), Constrain constrain = Constrain(),
            Marshaller marshaller = Marshaller())
@@ -183,8 +219,22 @@ public:
         if (!constrain_.check(value)) {
             return false;
         }
-        value_ = value;
+        value_ = std::forward<U>(value);
         return true;
+    }
+
+    template <typename Dummy = int,
+              std::enable_if_t<!std::is_same<Constrain, NoConstrain<T>>::value,
+                               Dummy> = 0>
+    MutableOption<Option> mutableValue() {
+        return {this};
+    }
+
+    template <typename Dummy = int,
+              std::enable_if_t<std::is_same<Constrain, NoConstrain<T>>::value,
+                               Dummy> = 0>
+    T *mutableValue() {
+        return &value_;
     }
 
     void marshall(RawConfig &config) const override {

@@ -46,6 +46,7 @@ public:
 
     bool valid_ = false;
     std::string uniqueName_;
+    OverrideEnabled overrideEnabled_ = OverrideEnabled::NotSet;
 };
 
 AddonInfo::AddonInfo(const std::string &name)
@@ -113,8 +114,26 @@ void AddonInfo::load(const RawConfig &config) {
     d->load(config);
 
     // Validate more information
-    d->valid_ =
-        !(d->uniqueName_.empty()) && !(d->addon->type.value().empty()) &&
-        !(d->addon->library.value().empty()) && d->addon->enabled.value();
+    d->valid_ = !(d->uniqueName_.empty()) &&
+                !(d->addon->type.value().empty()) &&
+                !(d->addon->library.value().empty());
+}
+
+bool AddonInfo::isEnabled() const {
+    FCITX_D();
+    if (d->overrideEnabled_ == OverrideEnabled::NotSet) {
+        return *d->addon->enabled;
+    }
+    return d->overrideEnabled_ == OverrideEnabled::Enabled;
+}
+
+bool AddonInfo::isDefaultEnabled() const {
+    FCITX_D();
+    return *d->addon->enabled;
+}
+
+void AddonInfo::setOverrideEnabled(OverrideEnabled overrideEnabled) {
+    FCITX_D();
+    d->overrideEnabled_ = overrideEnabled;
 }
 }

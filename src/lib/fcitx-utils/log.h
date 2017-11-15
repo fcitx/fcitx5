@@ -34,6 +34,7 @@
 #include <tuple>
 #include <type_traits>
 #include <unordered_map>
+#include <unordered_set>
 
 namespace fcitx {
 
@@ -155,6 +156,22 @@ public:
 
     template <typename K, typename V>
     inline LogMessageBuilder &operator<<(const std::unordered_map<K, V> &vec) {
+        *this << "{";
+        bool first = true;
+        for (auto &item : vec) {
+            if (first) {
+                first = false;
+            } else {
+                *this << ", ";
+            }
+            *this << item;
+        }
+        *this << "}";
+        return *this;
+    }
+
+    template <typename V>
+    inline LogMessageBuilder &operator<<(const std::unordered_set<V> &vec) {
         *this << "{";
         bool first = true;
         for (auto &item : vec) {

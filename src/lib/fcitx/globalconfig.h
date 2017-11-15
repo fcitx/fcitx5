@@ -48,7 +48,15 @@ public:
     const KeyList &defaultNextPage() const;
     int defaultPageSize() const;
 
+    const std::vector<std::string> &enabledAddons() const;
+    const std::vector<std::string> &disabledAddons() const;
+
+    void setEnabledAddons(const std::vector<std::string> &addons);
+    void setDisabledAddons(const std::vector<std::string> &addons);
+
     void load(const RawConfig &rawConfig);
+    void save(RawConfig &rawConfig) const;
+    bool safeSave(const std::string &path = "config") const;
 
 private:
     std::unique_ptr<GlobalConfigPrivate> d_ptr;

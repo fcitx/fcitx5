@@ -572,8 +572,7 @@ private:
     FCITX_OBJECT_VTABLE_WRITABLE_PROPERTY(
         contentType, "ContentType", "(uu)",
         ([]() -> dbus::DBusStruct<uint32_t, uint32_t> {
-            return dbus::DBusStruct<uint32_t, uint32_t>(
-                std::tuple<uint32_t, uint32_t>(0, 0));
+            return {0, 0};
         }),
         ([this](dbus::DBusStruct<uint32_t, uint32_t> type) {
             setContentType(std::get<0>(type), std::get<1>(type));

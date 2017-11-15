@@ -44,6 +44,16 @@ struct DBusStruct {
     typedef std::tuple<Args...> tuple_type;
 
     DBusStruct() = default;
+
+    template <
+        typename Element, typename... Elements,
+        typename = typename std::enable_if_t<
+            sizeof...(Elements) != 0 ||
+            !std::is_same<typename std::decay_t<Element>, DBusStruct>::value>>
+    DBusStruct(Element &&ele, Elements &&... elements)
+        : data_(std::forward<Element>(ele),
+                std::forward<Elements>(elements)...) {}
+
     DBusStruct(const DBusStruct &) = default;
     DBusStruct(DBusStruct &&) noexcept(
         std::is_nothrow_move_constructible<tuple_type>::value) = default;

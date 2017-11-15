@@ -42,6 +42,9 @@ public:
 
     const AddonInfo &info() const { return info_; }
 
+    bool isLoadable() const {
+        return info_.isValid() && info_.isEnabled() && !failed_;
+    }
     bool isValid() const { return info_.isValid() && !failed_; }
 
     bool loaded() const { return !!instance_; }
@@ -49,6 +52,9 @@ public:
     AddonInstance *instance() { return instance_.get(); }
 
     void setFailed(bool failed = true) { failed_ = failed; }
+    void setOverrideEnabled(OverrideEnabled overrideEnabled) {
+        info_.setOverrideEnabled(overrideEnabled);
+    }
 
 private:
     AddonInfo info_;
@@ -79,7 +85,7 @@ public:
         auto &dependencies = a.info().dependencies();
         for (auto &dependency : dependencies) {
             Addon *dep = addon(dependency);
-            if (!dep || !dep->isValid()) {
+            if (!dep || !dep->isLoadable()) {
                 return DependencyCheckStatus::Failed;
             }
 
@@ -95,7 +101,7 @@ public:
         for (auto &dependency : optionalDependencies) {
             Addon *dep = addon(dependency);
             // if not available, don't bother load it
-            if (!dep || !dep->isValid()) {
+            if (!dep || !dep->isLoadable()) {
                 continue;
             }
 
@@ -130,7 +136,7 @@ public:
             return false;
         }
 
-        if (addon.loaded() || !addon.isValid()) {
+        if (addon.loaded() || !addon.isLoadable()) {
             return false;
         }
         if (addon.info().onDemand() &&
@@ -158,7 +164,7 @@ public:
     }
 
     void realLoad(AddonManager *q_ptr, Addon &addon) {
-        if (!addon.isValid()) {
+        if (!addon.isLoadable()) {
             return;
         }
 
@@ -232,14 +238,14 @@ void AddonManager::load(const std::unordered_set<std::string> &enabled,
         // remove .conf
         auto name = file.first.substr(0, file.first.size() - 5);
         // override configuration
-        if (disabled.count(name)) {
-            config.setValueByPath("Addon/Enabled", "False");
-        } else if (enabled.count(name)) {
-            config.setValueByPath("Addon/Enabled", "True");
-        }
 
         auto addon = std::make_unique<Addon>(name, config);
         if (addon->isValid()) {
+            if (disabled.count(name)) {
+                addon->setOverrideEnabled(OverrideEnabled::Disabled);
+            } else if (enabled.count(name)) {
+                addon->setOverrideEnabled(OverrideEnabled::Enabled);
+            }
             d->addons_[addon->info().uniqueName()] = std::move(addon);
         }
     }
@@ -284,7 +290,7 @@ AddonInstance *AddonManager::addon(const std::string &name, bool load) {
     if (!addon) {
         return nullptr;
     }
-    if (addon->isValid() && !addon->loaded() && addon->info().onDemand() &&
+    if (addon->isLoadable() && !addon->loaded() && addon->info().onDemand() &&
         load) {
         d->requested_.insert(name);
         d->loadAddons(this);

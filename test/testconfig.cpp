@@ -40,11 +40,15 @@ int main() {
 
     config.intValue.setValue(5);
     FCITX_ASSERT(config.intValue.value() == 5);
-    // break constrain
+    // violates constrain
     config.intValue.setValue(20);
     // still have the old value
     FCITX_ASSERT(config.intValue.value() == 5);
     rawConfig.setValueByPath("EnumOption", "EnumB");
+
+    config.subConfigValue.mutableValue()->intValue.setValue(5);
+    FCITX_ASSERT(*config.subConfigValue->intValue == 5);
+
     config.load(rawConfig);
     FCITX_ASSERT(config.intValue.value() == 0);
     FCITX_ASSERT(config.enumValue.value() == TestEnum::EnumB);

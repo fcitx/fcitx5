@@ -19,6 +19,7 @@
 
 #include "globalconfig.h"
 #include "fcitx-config/configuration.h"
+#include "fcitx-config/iniparser.h"
 
 namespace fcitx {
 
@@ -74,7 +75,11 @@ FCITX_CONFIGURATION(
         this, "ShowInputMethodInformation",
         "ShowInputMethodInformation when switch input method", true};
     Option<int, IntConstrain> defaultPageSize{
-        this, "DefaultPageSize", "Default page size", 5, IntConstrain(1, 10)};);
+        this, "DefaultPageSize", "Default page size", 5, IntConstrain(1, 10)};
+    Option<std::vector<std::string>> enabledAddons{this, "EnabledAddons",
+                                                   "Force Enabled Addons"};
+    Option<std::vector<std::string>> disabledAddons{this, "DisabledAddons",
+                                                    "Force Disabled Addons"};);
 
 FCITX_CONFIGURATION(GlobalConfig,
                     Option<HotkeyConfig> hotkey{this, "Hotkey", "Hotkey"};
@@ -91,6 +96,16 @@ GlobalConfig::~GlobalConfig() {}
 void GlobalConfig::load(const RawConfig &config) {
     FCITX_D();
     d->load(config);
+}
+
+void GlobalConfig::save(RawConfig &config) const {
+    FCITX_D();
+    d->save(config);
+}
+
+bool GlobalConfig::safeSave(const std::string &path) const {
+    FCITX_D();
+    return safeSaveAsIni(*d, path);
 }
 
 const KeyList &GlobalConfig::triggerKeys() const {
@@ -151,5 +166,25 @@ const KeyList &GlobalConfig::defaultNextPage() const {
 int GlobalConfig::defaultPageSize() const {
     FCITX_D();
     return d->behavior->defaultPageSize.value();
+}
+
+const std::vector<std::string> &GlobalConfig::enabledAddons() const {
+    FCITX_D();
+    return *d->behavior->enabledAddons;
+}
+
+const std::vector<std::string> &GlobalConfig::disabledAddons() const {
+    FCITX_D();
+    return *d->behavior->disabledAddons;
+}
+
+void GlobalConfig::setEnabledAddons(const std::vector<std::string> &addons) {
+    FCITX_D();
+    d->behavior.mutableValue()->enabledAddons.setValue(addons);
+}
+
+void GlobalConfig::setDisabledAddons(const std::vector<std::string> &addons) {
+    FCITX_D();
+    d->behavior.mutableValue()->disabledAddons.setValue(addons);
 }
 }

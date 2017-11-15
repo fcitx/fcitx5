@@ -25,6 +25,7 @@
 #include "fcitx/inputmethodentry.h"
 #include "fcitx/inputmethodmanager.h"
 #include "keyboard_public.h"
+#include <set>
 
 #define FCITX_DBUS_SERVICE "org.fcitx.Fcitx5"
 #define FCITX_CONTROLLER_DBUS_INTERFACE "org.fcitx.Fcitx.Controller1"
@@ -181,6 +182,74 @@ public:
 
     void setConfig(const std::string &uri, const dbus::Variant &v) { return; }
 
+    std::vector<
+        dbus::DBusStruct<std::string, std::string, std::string, int32_t, bool>>
+    getAddons() {
+        std::vector<dbus::DBusStruct<std::string, std::string, std::string,
+                                     int32_t, bool>>
+            result;
+        // Track override.
+        auto &enabled = instance_->globalConfig().enabledAddons();
+        std::unordered_set<std::string> enabledSet(enabled.begin(),
+                                                   enabled.end());
+        auto &disabled = instance_->globalConfig().disabledAddons();
+        std::unordered_set<std::string> disabledSet(disabled.begin(),
+                                                    disabled.end());
+        for (auto category : {AddonCategory::InputMethod,
+                              AddonCategory::Frontend, AddonCategory::Loader,
+                              AddonCategory::Module, AddonCategory::UI}) {
+            auto names = instance_->addonManager().addonNames(category);
+            for (const auto &name : names) {
+                auto info = instance_->addonManager().addonInfo(name);
+                if (!info) {
+                    continue;
+                }
+                bool enabled = info->isDefaultEnabled();
+                if (disabledSet.count(info->uniqueName())) {
+                    enabled = false;
+                } else if (enabledSet.count(info->uniqueName())) {
+                    enabled = true;
+                }
+                result.emplace_back(info->uniqueName(), info->name().match(),
+                                    info->comment().match(),
+                                    static_cast<int32_t>(info->category()),
+                                    enabled);
+            }
+        }
+        return result;
+    }
+
+    void setAddonsState(
+        const std::vector<dbus::DBusStruct<std::string, bool>> &addons) {
+        auto &enabled = instance_->globalConfig().enabledAddons();
+        std::set<std::string> enabledSet(enabled.begin(), enabled.end());
+
+        auto &disabled = instance_->globalConfig().disabledAddons();
+        std::set<std::string> disabledSet(disabled.begin(), disabled.end());
+        for (auto &item : addons) {
+            auto info = instance_->addonManager().addonInfo(std::get<0>(item));
+            if (!info) {
+                continue;
+            }
+
+            if (std::get<1>(item) == info->isDefaultEnabled()) {
+                enabledSet.erase(info->uniqueName());
+                disabledSet.erase(info->uniqueName());
+            } else if (std::get<1>(item)) {
+                enabledSet.insert(info->uniqueName());
+                disabledSet.erase(info->uniqueName());
+            } else {
+                disabledSet.insert(info->uniqueName());
+                enabledSet.erase(info->uniqueName());
+            }
+        }
+        instance_->globalConfig().setEnabledAddons(
+            {enabledSet.begin(), enabledSet.end()});
+        instance_->globalConfig().setDisabledAddons(
+            {disabledSet.begin(), disabledSet.end()});
+        instance_->globalConfig().safeSave();
+    }
+
 private:
     DBusModule *module_;
     Instance *instance_;
@@ -225,6 +294,8 @@ private:
     FCITX_OBJECT_VTABLE_METHOD(getConfig, "GetConfig", "s",
                                "va(sa(sssva{sv}))");
     FCITX_OBJECT_VTABLE_METHOD(setConfig, "SetConfig", "sv", "");
+    FCITX_OBJECT_VTABLE_METHOD(getAddons, "GetAddons", "", "a(sssib)");
+    FCITX_OBJECT_VTABLE_METHOD(setAddonsState, "SetAddonsState", "a(sb)", "");
 };
 
 DBusModule::DBusModule(Instance *instance)

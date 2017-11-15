@@ -258,6 +258,27 @@ public:
         assert(result.second);
         return result.first->second.get();
     }
+    std::pair<std::unordered_set<std::string>, std::unordered_set<std::string>>
+    overrideAddons() {
+        std::unordered_set<std::string> enabled;
+        std::unordered_set<std::string> disabled;
+        for (auto &addon : globalConfig_.enabledAddons()) {
+            enabled.insert(addon);
+        }
+        for (auto &addon : globalConfig_.disabledAddons()) {
+            enabled.erase(addon);
+            disabled.insert(addon);
+        }
+        for (auto &addon : arg_.enableList) {
+            disabled.erase(addon);
+            enabled.insert(addon);
+        }
+        for (auto &addon : arg_.disableList) {
+            enabled.erase(addon);
+            disabled.insert(addon);
+        }
+        return {enabled, disabled};
+    }
 
     InstanceArgument arg_;
 
@@ -852,9 +873,13 @@ void Instance::initialize() {
     if (d->arg_.uiName.size()) {
         d->arg_.enableList.push_back(d->arg_.uiName);
     }
-    d->addonManager_.load(
-        {std::begin(d->arg_.enableList), std::end(d->arg_.enableList)},
-        {std::begin(d->arg_.disableList), std::end(d->arg_.disableList)});
+    reloadConfig();
+    std::unordered_set<std::string> enabled;
+    std::unordered_set<std::string> disabled;
+    std::tie(enabled, disabled) = d->overrideAddons();
+    FCITX_INFO() << "Override Enabled Addons: " << enabled;
+    FCITX_INFO() << "Override Disabled Addons: " << disabled;
+    d->addonManager_.load(enabled, disabled);
     d->imManager_.load();
     d->uiManager_.load(d->arg_.uiName);
     d->exitEvent_ = d->eventLoop_.addExitEvent([this](EventSource *) {
@@ -862,7 +887,6 @@ void Instance::initialize() {
         save();
         return false;
     });
-    reloadConfig();
 }
 
 int Instance::exec() {

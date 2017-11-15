@@ -32,6 +32,8 @@ class AddonInfoPrivate;
 
 FCITX_CONFIG_ENUM(AddonCategory, InputMethod, Frontend, Loader, Module, UI)
 
+enum class OverrideEnabled { NotSet, Enabled, Disabled };
+
 class FCITXCORE_EXPORT AddonInfo {
 public:
     AddonInfo(const std::string &name);
@@ -48,6 +50,9 @@ public:
     const std::vector<std::string> &optionalDependencies() const;
     bool onDemand() const;
     int uiPriority() const;
+    bool isEnabled() const;
+    bool isDefaultEnabled() const;
+    void setOverrideEnabled(OverrideEnabled overrideEnabled);
 
     void load(const RawConfig &config);
 
