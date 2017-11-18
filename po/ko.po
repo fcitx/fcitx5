@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-09-15 16:52-0700\n"
+"POT-Creation-Date: 2017-11-17 20:15-0800\n"
 "PO-Revision-Date: 2017-07-15 16:16+0000\n"
 "Last-Translator: Bon Keun Seo <scobyseo@gmail.com>\n"
 "Language-Team: Korean (http://www.transifex.com/fcitx/fcitx/language/ko/)\n"
@@ -20,80 +20,218 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
-#: src/modules/unicode/charselectdata.cpp:214
+#: src/lib/fcitx/instance.cpp:1496
+#, fuzzy
+msgid "(Not available)"
+msgstr "(이용할 수 없음)"
+
+#: src/modules/unicode/charselectdata.cpp:216
 msgid "<Low Surrogate>"
 msgstr "<하위 확장코드>"
 
-#: src/modules/unicode/charselectdata.cpp:210
+#: src/modules/unicode/charselectdata.cpp:212
 msgid "<Non Private Use High Surrogate>"
 msgstr "<비 개인용 상위 확장코드>"
 
-#: src/modules/unicode/charselectdata.cpp:212
+#: src/modules/unicode/charselectdata.cpp:214
 msgid "<Private Use High Surrogate>"
 msgstr "<개인용 상위 확장코드>"
 
-#: src/modules/unicode/charselectdata.cpp:216
+#: src/modules/unicode/charselectdata.cpp:218
 msgid "<Private Use>"
 msgstr "<개인사용>"
 
-#: src/modules/unicode/charselectdata.cpp:246
+#: src/modules/unicode/charselectdata.cpp:248
 msgid "<not assigned>"
 msgstr "<할당 안됨>"
 
-#: src/modules/clipboard/clipboard.cpp:290
+#: src/lib/fcitx/globalconfig.cpp:61
+#, fuzzy
+msgid "Activate Input Method"
+msgstr "입력기 비활성화"
+
+#: src/lib/fcitx/globalconfig.cpp:76
+msgid "Active By Default"
+msgstr ""
+
+#: src/modules/quickphrase/quickphrase.h:38 src/im/keyboard/keyboard.h:41
+msgid "Alt"
+msgstr "Alt"
+
+#: src/lib/fcitx/globalconfig.cpp:91
+msgid "Behavior"
+msgstr ""
+
+#: src/modules/clipboard/clipboard.cpp:287
 #, fuzzy
 msgid "Clipboard:"
 msgstr "클립보드"
 
-#: src/lib/fcitx/inputmethodmanager.cpp:188
+#: src/modules/notificationitem/dbusmenu.cpp:280
+msgid "Configure"
+msgstr "설정"
+
+#: src/modules/notificationitem/dbusmenu.cpp:275
+msgid "Configure Current Input Method"
+msgstr "현재 입력기 설정"
+
+#: src/modules/quickphrase/quickphrase.h:38 src/im/keyboard/keyboard.h:42
+msgid "Control"
+msgstr ""
+
+#: src/modules/spell/spell.h:33
+msgid "Custom"
+msgstr "사용자 설정"
+
+#: src/lib/fcitx/globalconfig.cpp:67
+#, fuzzy
+msgid "Deactivate Input Method"
+msgstr "입력기 비활성화"
+
+#: src/lib/fcitx/inputmethodmanager.cpp:200
+#: src/ui/classic/themes/default/theme.conf.in:3
 msgid "Default"
 msgstr "기본값"
 
-#: src/modules/notifications/notifications.cpp:231
+#: src/lib/fcitx/globalconfig.cpp:72
+#, fuzzy
+msgid "Default Next page"
+msgstr "다음 페이지"
+
+#: src/lib/fcitx/globalconfig.cpp:70
+msgid "Default Previous page"
+msgstr ""
+
+#: src/lib/fcitx/globalconfig.cpp:81
+msgid "Default page size"
+msgstr ""
+
+#: src/modules/notifications/notifications.cpp:226
 msgid "Do not show again"
 msgstr "다시 보이지 않기"
 
-#: src/im/keyboard/keyboard.cpp:167 src/im/keyboard/keyboard.conf.in:3
-msgid "Keyboard"
-msgstr "키보드"
+#: src/modules/spell/spell.h:34
+#, fuzzy
+msgid "Enchant"
+msgstr "Bingchan"
 
-#: src/im/keyboard/keyboard.cpp:154
+#: src/lib/fcitx/globalconfig.cpp:47
+#, fuzzy
+msgid "Enumerate Input Method Backward"
+msgstr "현재 입력기 이름"
+
+#: src/lib/fcitx/globalconfig.cpp:43
+#, fuzzy
+msgid "Enumerate Input Method Forward"
+msgstr "현재 입력기 이름"
+
+#: src/lib/fcitx/globalconfig.cpp:57
+msgid "Enumerate Input Method Group Backward"
+msgstr ""
+
+#: src/lib/fcitx/globalconfig.cpp:52
+msgid "Enumerate Input Method Group Forward"
+msgstr ""
+
+#: src/modules/notificationitem/dbusmenu.cpp:293
+msgid "Exit"
+msgstr "나가기"
+
+#: src/modules/notificationitem/dbusmenu.cpp:265
+msgid "Group"
+msgstr ""
+
+#: src/lib/fcitx/instance.cpp:1499
+msgid "Group {0}: {1}"
+msgstr ""
+
+#: src/lib/fcitx/globalconfig.cpp:89
+msgid "Hotkey"
+msgstr "단축키"
+
+#: src/modules/notificationitem/notificationitem.cpp:102
+#: src/modules/notificationitem/dbusmenu.cpp:259
+msgid "Input Method"
+msgstr "입력기"
+
+#: src/im/keyboard/keyboard.cpp:200
 #, fuzzy
 msgid "Keyboard - {0}"
 msgstr "키보드"
 
-#: src/modules/clipboard/clipboard.cpp:292
+#: src/im/keyboard/keyboard.cpp:213
+#, fuzzy
+msgid "Keyboard - {0} - {1}"
+msgstr "키보드"
+
+#: src/modules/clipboard/clipboard.cpp:289
 #, fuzzy
 msgid "No clipboard history."
 msgstr "클립보드 기록 파일에 저장"
+
+#: src/modules/quickphrase/quickphrase.h:37 src/im/keyboard/keyboard.h:41
+msgid "None"
+msgstr "없음"
+
+#: src/ui/kimpanel/kimpanel.cpp:310
+#, fuzzy
+msgid "Not available"
+msgstr "(이용할 수 없음)"
+
+#: src/modules/spell/spell.h:33
+msgid "Presage"
+msgstr ""
 
 #: src/modules/quickphrase/quickphrase.cpp:283
 msgid "Quick Phrase: "
 msgstr "상용구:"
 
-#: src/im/keyboard/keyboard.cpp:264
+#: src/modules/notificationitem/dbusmenu.cpp:287
+msgid "Restart"
+msgstr "재시작"
+
+#: src/lib/fcitx/globalconfig.cpp:79
+#, fuzzy
+msgid "Show Input Method Information when switch input method"
+msgstr "입력기 변경 후 입력기 힌트 보이기"
+
+#: src/im/keyboard/keyboard.cpp:303
 msgid "Spell hint"
 msgstr "철자 힌트"
 
-#: src/im/keyboard/keyboard.cpp:266
+#: src/im/keyboard/keyboard.cpp:305
 msgid "Spell hint is disabled."
 msgstr "철자 힌트 비활성화됨."
 
-#: src/im/keyboard/keyboard.cpp:265
+#: src/im/keyboard/keyboard.cpp:304
 msgid "Spell hint is enabled."
 msgstr "철자 힌트 활성화됨."
+
+#: src/modules/quickphrase/quickphrase.h:38 src/im/keyboard/keyboard.h:42
+#, fuzzy
+msgid "Super"
+msgstr "왼쪽 Super"
+
+#: src/lib/fcitx/globalconfig.cpp:34
+msgid "Trigger Input Method"
+msgstr "입력기 전환"
+
+#: src/lib/fcitx/globalconfig.cpp:39
+#, fuzzy
+msgid "Trigger Input Method Only after using it to deactivate"
+msgstr "트리거 키를 사용하여 비활성화 한 후에 만 ​​추가 트리거 키 사용"
 
 #: src/modules/unicode/unicode.cpp:244
 #, fuzzy
 msgid "Unicode: "
 msgstr "유니코드"
 
-#: src/lib/fcitx/instance.cpp:475
+#: src/lib/fcitx/instance.cpp:1494
 #, fuzzy
 msgid "{0} (Not available)"
 msgstr "(이용할 수 없음)"
 
-#: src/lib/fcitx/instance.cpp:472
+#: src/lib/fcitx/instance.cpp:1491
 msgid "{0} ({1})"
 msgstr ""
 
@@ -103,6 +241,10 @@ msgstr "철자"
 
 #: src/modules/notifications/notifications.conf.in:3
 msgid "notifications"
+msgstr ""
+
+#: src/modules/notificationitem/notificationitem.conf.in:3
+msgid "notificationitem"
 msgstr ""
 
 #: src/modules/dbus/dbus.conf.in:3
@@ -135,6 +277,15 @@ msgstr "유니코드 입력 지원 추가"
 #, fuzzy
 msgid "Quick Phrase"
 msgstr "상용구"
+
+#: src/im/keyboard/keyboard.conf.in:3
+msgid "Keyboard"
+msgstr "키보드"
+
+#: src/frontend/ibusfrontend/ibusfrontend.conf.in:3
+#, fuzzy
+msgid "IBus Frontend"
+msgstr "Fcitx DBus 프론트엔드"
 
 #: src/frontend/dbusfrontend/dbusfrontend.conf.in:3
 #, fuzzy
@@ -342,9 +493,6 @@ msgstr "전통"
 #~ msgid "Allow to Override System XKB Settings"
 #~ msgstr "시스템 XKB 설정을 덮어쓰도록 허용"
 
-#~ msgid "Alt"
-#~ msgstr "Alt"
-
 #~ msgid "Alternative Next Page Key"
 #~ msgstr "대체 다음 페이지 키"
 
@@ -410,9 +558,6 @@ msgstr "전통"
 
 #~ msgid "Beginner's Guide"
 #~ msgstr "초보자 가이드"
-
-#~ msgid "Bingchan"
-#~ msgstr "Bingchan"
 
 #~ msgid "BottomCenter"
 #~ msgstr "가운데아래"
@@ -652,12 +797,6 @@ msgstr "전통"
 #~ msgid "Configuration:"
 #~ msgstr "설정:"
 
-#~ msgid "Configure"
-#~ msgstr "설정"
-
-#~ msgid "Configure Current Input Method"
-#~ msgstr "현재 입력기 설정"
-
 #~ msgid "Configure group name error: line %d"
 #~ msgstr "그룹 이름 설정 오류 : 라인 %d"
 
@@ -688,9 +827,6 @@ msgstr "전통"
 #~ msgid "Current Enabled Input Method List"
 #~ msgstr "현재 사용 가능한 입력기 리스트"
 
-#~ msgid "Current Input Method Name"
-#~ msgstr "현재 입력기 이름"
-
 #~ msgid "Current fcitx settings directory is ${1} (${2})."
 #~ msgstr "현재 fcitx 설정 경로는 ${1} (${2}) 입니다."
 
@@ -705,9 +841,6 @@ msgstr "전통"
 
 #~ msgid "Current value of ${1} is ${2} (${3})."
 #~ msgstr "${1}의 현재 값은 ${2}(${3})."
-
-#~ msgid "Custom"
-#~ msgstr "사용자 설정"
 
 #~ msgid "Custom switch key"
 #~ msgstr "커스텀 변경키"
@@ -889,9 +1022,6 @@ msgstr "전통"
 
 #~ msgid "Exec"
 #~ msgstr "실행"
-
-#~ msgid "Exit"
-#~ msgstr "나가기"
 
 #~ msgid "Extra key for trigger input method"
 #~ msgstr "트리거 입력 방법을 위한 추가 키"
@@ -1162,9 +1292,6 @@ msgstr "전통"
 #~ msgid "Horizontal"
 #~ msgstr "가로"
 
-#~ msgid "Hotkey"
-#~ msgstr "단축키"
-
 #~ msgid "Hotkey for Inputing Character From Phrase"
 #~ msgstr "상용구 입력키"
 
@@ -1222,9 +1349,6 @@ msgstr "전통"
 #~ msgid "Ignore some Punctuation, if it is empty, then ignore all punctuation"
 #~ msgstr "비어있으면 일부 문장부호를 무시한 후 모든 문장부호를 무시"
 
-#~ msgid "Inactivate Input Method"
-#~ msgstr "입력기 비활성화"
-
 #~ msgid "Inactive"
 #~ msgstr "비활성"
 
@@ -1251,9 +1375,6 @@ msgstr "전통"
 
 #~ msgid "Input Message Color"
 #~ msgstr "입력 메세지 색"
-
-#~ msgid "Input Method"
-#~ msgstr "입력기"
 
 #~ msgid "Input Method Disabled"
 #~ msgstr "입력기 비활성"
@@ -1365,9 +1486,6 @@ msgstr "전통"
 
 #~ msgid "Left"
 #~ msgstr "왼쪽"
-
-#~ msgid "Left Super"
-#~ msgstr "왼쪽 Super"
 
 #~ msgid ""
 #~ "Left/Right to choose selected character, Press Enter to confirm, Press "
@@ -1513,9 +1631,6 @@ msgstr "전통"
 #~ msgid "Next Candidate Word"
 #~ msgstr "다음 후보 단어"
 
-#~ msgid "Next Page"
-#~ msgstr "다음 페이지"
-
 #~ msgid "Next Page Icon"
 #~ msgstr "다음 페이지 아이콘"
 
@@ -1539,9 +1654,6 @@ msgstr "전통"
 
 #~ msgid "Non-comment doesn't belongs to any group @ %d %s"
 #~ msgstr "주석이 아닌 문자가 어떤 그룹에도 속하지 않음 @ %d %s"
-
-#~ msgid "None"
-#~ msgstr "없음"
 
 #~ msgid "Not Set"
 #~ msgstr "설정되지 않음"
@@ -1792,9 +1904,6 @@ msgstr "전통"
 #~ msgid "Resize Margin Top"
 #~ msgstr "위쪽 여백 크기 변경"
 
-#~ msgid "Restart"
-#~ msgstr "재시작"
-
 #~ msgid "Right"
 #~ msgstr "오른쪽"
 
@@ -1884,9 +1993,6 @@ msgstr "전통"
 
 #~ msgid "Show"
 #~ msgstr "보이기"
-
-#~ msgid "Show Input Method Hint After Input method changed"
-#~ msgstr "입력기 변경 후 입력기 힌트 보이기"
 
 #~ msgid "Show Input Method Hint After Input method changed and Focus in"
 #~ msgstr "입력기 변경, 포커스 전환 후 입력기 힌트 보이기"
@@ -2150,9 +2256,6 @@ msgstr "전통"
 #~ msgid "Treating abbreviated Pinyin as English"
 #~ msgstr "병음 약어를 영어로 취급"
 
-#~ msgid "Trigger Input Method"
-#~ msgstr "입력기 전환"
-
 #~ msgid "Trigger Key for Clipboard History List"
 #~ msgstr "클립보드 히스토리 목록의 트리거 키"
 
@@ -2239,9 +2342,6 @@ msgstr "전통"
 
 #~ msgid "Use enter to commit the existing string"
 #~ msgstr "엔터를 사용하여 현재 문자열 입력"
-
-#~ msgid "Use extra trigger key only after using it to inactivate"
-#~ msgstr "트리거 키를 사용하여 비활성화 한 후에 만 ​​추가 트리거 키 사용"
 
 #~ msgid "Use remind"
 #~ msgstr "리마인드 사용"

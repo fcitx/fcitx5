@@ -18,11 +18,11 @@
  */
 
 #include "theme.h"
+#include "fcitx-utils/fs.h"
+#include "fcitx-utils/log.h"
 #include "fcitx-utils/standardpath.h"
 #include "fcitx/misc_p.h"
 #include <cassert>
-#include <fcitx-utils/fs.h>
-#include <fcitx-utils/log.h>
 #include <fcntl.h>
 #include <fmt/format.h>
 #include <gdk-pixbuf/gdk-pixbuf.h>

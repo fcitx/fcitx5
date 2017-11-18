@@ -12,6 +12,7 @@ set(FCITX_CORE_SOURCES
     addonfactory.cpp
     inputmethodgroup.cpp
     inputmethodmanager.cpp
+    inputmethodentry.cpp
     globalconfig.cpp
     text.cpp
     event.cpp

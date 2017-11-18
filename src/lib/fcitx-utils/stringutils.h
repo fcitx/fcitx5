@@ -140,6 +140,10 @@ std::string concat(const Args &... args);
 
 template <typename FirstArg, typename... Args>
 std::string joinPath(const FirstArg &firstArg, const Args &... args);
+
+constexpr bool literalEqual(char const *a, char const *b) {
+    return *a == *b && (*a == '\0' || literalEqual(a + 1, b + 1));
+}
 }
 }
 

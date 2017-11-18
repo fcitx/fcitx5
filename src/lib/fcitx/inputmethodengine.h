@@ -50,6 +50,12 @@ public:
         return {};
     }
     virtual std::string overrideIcon(const InputMethodEntry &) { return {}; }
+    virtual const Configuration *
+    getConfigForInputMethod(const InputMethodEntry &) const {
+        return nullptr;
+    }
+    virtual void setConfigForInputMethod(const InputMethodEntry &,
+                                         const RawConfig &) {}
 };
 }
 

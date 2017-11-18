@@ -21,6 +21,8 @@
 
 #include "fcitx-config/configuration.h"
 #include "fcitx-config/enum.h"
+#include "fcitx-config/iniparser.h"
+#include "fcitx-utils/i18n.h"
 #include "fcitx/addonfactory.h"
 #include "fcitx/addoninstance.h"
 #include "fcitx/instance.h"
@@ -29,6 +31,8 @@
 namespace fcitx {
 
 FCITX_CONFIG_ENUM(SpellProvider, Presage, Custom, Enchant)
+FCITX_CONFIG_ENUM_I18N_ANNOTATION(SpellProvider, N_("Presage"), N_("Custom"),
+                                  N_("Enchant"));
 
 struct NotEmptyProvider {
     bool check(const std::vector<SpellProvider> &providers) const {
@@ -37,14 +41,16 @@ struct NotEmptyProvider {
     void dumpDescription(RawConfig &) const {}
 };
 
-FCITX_CONFIGURATION(
-    SpellConfig,
-    fcitx::Option<std::vector<SpellProvider>, NotEmptyProvider> providerOrder{
-        this,
-        "ProviderOrder",
-        "Order of providers",
-        {SpellProvider::Presage, SpellProvider::Custom,
-         SpellProvider::Enchant}};);
+FCITX_CONFIGURATION(SpellConfig,
+                    fcitx::Option<std::vector<SpellProvider>, NotEmptyProvider,
+                                  DefaultMarshaller<std::vector<SpellProvider>>,
+                                  SpellProviderI18NAnnoation>
+                        providerOrder{this,
+                                      "ProviderOrder",
+                                      "Order of providers",
+                                      {SpellProvider::Presage,
+                                       SpellProvider::Custom,
+                                       SpellProvider::Enchant}};);
 
 class Spell;
 class SpellBackend;
@@ -54,6 +60,13 @@ public:
     Spell(Instance *instance);
     ~Spell();
 
+    void reloadConfig() override;
+    const Configuration *getConfig() const override { return &config_; }
+    void setConfig(const RawConfig &config) override {
+        config_.load(config, true);
+        safeSaveAsIni(config_, "conf/spell.conf");
+    }
+
     const SpellConfig &config() const { return config_; }
     Instance *instance() { return instance_; }
 
@@ -61,7 +74,6 @@ public:
     void addWord(const std::string &language, const std::string &word);
     std::vector<std::string> hint(const std::string &language,
                                   const std::string &word, size_t limit);
-    void reloadConfig() override;
 
 private:
     FCITX_ADDON_EXPORT_FUNCTION(Spell, checkDict);

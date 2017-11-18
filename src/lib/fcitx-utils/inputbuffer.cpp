@@ -17,8 +17,8 @@
  * see <http://www.gnu.org/licenses/>.
  */
 #include "inputbuffer.h"
+#include "fcitx-utils/utf8.h"
 #include <exception>
-#include <fcitx-utils/utf8.h>
 #include <functional>
 #include <numeric>
 #include <vector>

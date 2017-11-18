@@ -20,6 +20,8 @@
 #define _FCITX_IM_KEYBOARD_KEYBOARD_H_
 
 #include "fcitx-config/configuration.h"
+#include "fcitx-config/iniparser.h"
+#include "fcitx-utils/i18n.h"
 #include "fcitx-utils/inputbuffer.h"
 #include "fcitx/addonfactory.h"
 #include "fcitx/addonmanager.h"
@@ -37,6 +39,8 @@ namespace fcitx {
 class Instance;
 
 FCITX_CONFIG_ENUM(ChooseModifier, None, Alt, Control, Super);
+FCITX_CONFIG_ENUM_I18N_ANNOTATION(ChooseModifier, N_("None"), N_("Alt"),
+                                  N_("Control"), N_("Super"));
 
 FCITX_CONFIGURATION(
     KeyboardEngineConfig,
@@ -46,8 +50,9 @@ FCITX_CONFIGURATION(
         this, "NextCandidate", "Next Candidate", {Key("Tab")}};
     fcitx::Option<KeyList> prevCandidate{
         this, "PrevCandidate", "Prev Candidate", {Key("Shift+Tab")}};
-    fcitx::Option<ChooseModifier> chooseModifier{
-        this, "Choose Modifier", "Choose key modifier", ChooseModifier::Alt};
+    fcitx::OptionWithAnnotation<ChooseModifier, ChooseModifierI18NAnnoation>
+        chooseModifier{this, "Choose Modifier", "Choose key modifier",
+                       ChooseModifier::Alt};
     fcitx::Option<KeyList> hintTrigger{
         this, "Hint Trigger", "Trigger hint mode", {Key("Control+Alt+H")}};);
 
@@ -70,6 +75,13 @@ public:
     void keyEvent(const InputMethodEntry &entry, KeyEvent &keyEvent) override;
     std::vector<InputMethodEntry> listInputMethods() override;
     void reloadConfig() override;
+
+    const Configuration *getConfig() const override { return &config_; }
+    void setConfig(const RawConfig &config) override {
+        config_.load(config, true);
+        safeSaveAsIni(config_, "conf/keyboard.conf");
+    }
+
     void reset(const InputMethodEntry &entry,
                InputContextEvent &event) override;
 

@@ -22,6 +22,7 @@
 #include "config.h"
 
 #include "fcitx-config/configuration.h"
+#include "fcitx-config/iniparser.h"
 #include "fcitx-utils/event.h"
 #include "fcitx/addonfactory.h"
 #include "fcitx/addoninstance.h"
@@ -68,6 +69,11 @@ public:
     AddonInstance *xcb();
     AddonInstance *wayland();
     Instance *instance() { return instance_; }
+    const Configuration *getConfig() const override { return &config_; }
+    void setConfig(const RawConfig &config) override {
+        config_.load(config, true);
+        safeSaveAsIni(config_, "conf/classicui.conf");
+    }
     auto &config() { return config_; }
     Theme &theme() { return theme_; }
     void suspend() override;

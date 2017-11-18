@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-09-15 16:52-0700\n"
+"POT-Creation-Date: 2017-11-17 20:15-0800\n"
 "PO-Revision-Date: 2017-09-14 19:41-0800\n"
 "Last-Translator: Weng Xuetian <wengxt@gmail.com>\n"
 "Language-Team: Chinese <kde-china@kde.org>\n"
@@ -17,76 +17,203 @@ msgstr ""
 "Plural-Forms: nplurals=1; plural=0;\n"
 "X-Generator: Lokalize 2.0\n"
 
-#: src/modules/unicode/charselectdata.cpp:214
+#: src/lib/fcitx/instance.cpp:1496
+msgid "(Not available)"
+msgstr ""
+
+#: src/modules/unicode/charselectdata.cpp:216
 msgid "<Low Surrogate>"
 msgstr "<低半代理区>"
 
-#: src/modules/unicode/charselectdata.cpp:210
+#: src/modules/unicode/charselectdata.cpp:212
 msgid "<Non Private Use High Surrogate>"
 msgstr "<非专用高半代理区>"
 
-#: src/modules/unicode/charselectdata.cpp:212
+#: src/modules/unicode/charselectdata.cpp:214
 msgid "<Private Use High Surrogate>"
 msgstr "<专用高半代理区>"
 
-#: src/modules/unicode/charselectdata.cpp:216
+#: src/modules/unicode/charselectdata.cpp:218
 msgid "<Private Use>"
 msgstr "<专用区>"
 
-#: src/modules/unicode/charselectdata.cpp:246
+#: src/modules/unicode/charselectdata.cpp:248
 msgid "<not assigned>"
 msgstr "<未指派>"
 
-#: src/modules/clipboard/clipboard.cpp:290
+#: src/lib/fcitx/globalconfig.cpp:61
+msgid "Activate Input Method"
+msgstr ""
+
+#: src/lib/fcitx/globalconfig.cpp:76
+msgid "Active By Default"
+msgstr ""
+
+#: src/modules/quickphrase/quickphrase.h:38 src/im/keyboard/keyboard.h:41
+msgid "Alt"
+msgstr ""
+
+#: src/lib/fcitx/globalconfig.cpp:91
+msgid "Behavior"
+msgstr ""
+
+#: src/modules/clipboard/clipboard.cpp:287
 msgid "Clipboard:"
 msgstr ""
 
-#: src/lib/fcitx/inputmethodmanager.cpp:188
+#: src/modules/notificationitem/dbusmenu.cpp:280
+msgid "Configure"
+msgstr ""
+
+#: src/modules/notificationitem/dbusmenu.cpp:275
+msgid "Configure Current Input Method"
+msgstr ""
+
+#: src/modules/quickphrase/quickphrase.h:38 src/im/keyboard/keyboard.h:42
+msgid "Control"
+msgstr ""
+
+#: src/modules/spell/spell.h:33
+msgid "Custom"
+msgstr ""
+
+#: src/lib/fcitx/globalconfig.cpp:67
+msgid "Deactivate Input Method"
+msgstr ""
+
+#: src/lib/fcitx/inputmethodmanager.cpp:200
+#: src/ui/classic/themes/default/theme.conf.in:3
 msgid "Default"
 msgstr "默认"
 
-#: src/modules/notifications/notifications.cpp:231
+#: src/lib/fcitx/globalconfig.cpp:72
+msgid "Default Next page"
+msgstr ""
+
+#: src/lib/fcitx/globalconfig.cpp:70
+msgid "Default Previous page"
+msgstr ""
+
+#: src/lib/fcitx/globalconfig.cpp:81
+msgid "Default page size"
+msgstr ""
+
+#: src/modules/notifications/notifications.cpp:226
 msgid "Do not show again"
 msgstr "不要再显示"
 
-#: src/im/keyboard/keyboard.cpp:167 src/im/keyboard/keyboard.conf.in:3
-msgid "Keyboard"
-msgstr "键盘"
+#: src/modules/spell/spell.h:34
+msgid "Enchant"
+msgstr ""
 
-#: src/im/keyboard/keyboard.cpp:154
+#: src/lib/fcitx/globalconfig.cpp:47
+msgid "Enumerate Input Method Backward"
+msgstr ""
+
+#: src/lib/fcitx/globalconfig.cpp:43
+msgid "Enumerate Input Method Forward"
+msgstr ""
+
+#: src/lib/fcitx/globalconfig.cpp:57
+msgid "Enumerate Input Method Group Backward"
+msgstr ""
+
+#: src/lib/fcitx/globalconfig.cpp:52
+msgid "Enumerate Input Method Group Forward"
+msgstr ""
+
+#: src/modules/notificationitem/dbusmenu.cpp:293
+msgid "Exit"
+msgstr ""
+
+#: src/modules/notificationitem/dbusmenu.cpp:265
+msgid "Group"
+msgstr ""
+
+#: src/lib/fcitx/instance.cpp:1499
+msgid "Group {0}: {1}"
+msgstr ""
+
+#: src/lib/fcitx/globalconfig.cpp:89
+msgid "Hotkey"
+msgstr ""
+
+#: src/modules/notificationitem/notificationitem.cpp:102
+#: src/modules/notificationitem/dbusmenu.cpp:259
+msgid "Input Method"
+msgstr ""
+
+#: src/im/keyboard/keyboard.cpp:200
 #, fuzzy
 msgid "Keyboard - {0}"
 msgstr "键盘"
 
-#: src/modules/clipboard/clipboard.cpp:292
+#: src/im/keyboard/keyboard.cpp:213
+#, fuzzy
+msgid "Keyboard - {0} - {1}"
+msgstr "键盘"
+
+#: src/modules/clipboard/clipboard.cpp:289
 msgid "No clipboard history."
+msgstr ""
+
+#: src/modules/quickphrase/quickphrase.h:37 src/im/keyboard/keyboard.h:41
+msgid "None"
+msgstr "无"
+
+#: src/ui/kimpanel/kimpanel.cpp:310
+msgid "Not available"
+msgstr ""
+
+#: src/modules/spell/spell.h:33
+msgid "Presage"
 msgstr ""
 
 #: src/modules/quickphrase/quickphrase.cpp:283
 msgid "Quick Phrase: "
 msgstr "快速输入: "
 
-#: src/im/keyboard/keyboard.cpp:264
+#: src/modules/notificationitem/dbusmenu.cpp:287
+msgid "Restart"
+msgstr ""
+
+#: src/lib/fcitx/globalconfig.cpp:79
+msgid "Show Input Method Information when switch input method"
+msgstr ""
+
+#: src/im/keyboard/keyboard.cpp:303
 msgid "Spell hint"
 msgstr "拼写提示"
 
-#: src/im/keyboard/keyboard.cpp:266
+#: src/im/keyboard/keyboard.cpp:305
 msgid "Spell hint is disabled."
 msgstr "已禁用拼写提示。"
 
-#: src/im/keyboard/keyboard.cpp:265
+#: src/im/keyboard/keyboard.cpp:304
 msgid "Spell hint is enabled."
 msgstr "已启用拼写提示。"
+
+#: src/modules/quickphrase/quickphrase.h:38 src/im/keyboard/keyboard.h:42
+msgid "Super"
+msgstr ""
+
+#: src/lib/fcitx/globalconfig.cpp:34
+msgid "Trigger Input Method"
+msgstr ""
+
+#: src/lib/fcitx/globalconfig.cpp:39
+msgid "Trigger Input Method Only after using it to deactivate"
+msgstr ""
 
 #: src/modules/unicode/unicode.cpp:244
 msgid "Unicode: "
 msgstr "Unicode："
 
-#: src/lib/fcitx/instance.cpp:475
+#: src/lib/fcitx/instance.cpp:1494
 msgid "{0} (Not available)"
 msgstr ""
 
-#: src/lib/fcitx/instance.cpp:472
+#: src/lib/fcitx/instance.cpp:1491
 msgid "{0} ({1})"
 msgstr ""
 
@@ -97,6 +224,10 @@ msgstr "拼写提示"
 
 #: src/modules/notifications/notifications.conf.in:3
 msgid "notifications"
+msgstr ""
+
+#: src/modules/notificationitem/notificationitem.conf.in:3
+msgid "notificationitem"
 msgstr ""
 
 #: src/modules/dbus/dbus.conf.in:3
@@ -128,6 +259,14 @@ msgstr "添加 Unicode 输入支持"
 #, fuzzy
 msgid "Quick Phrase"
 msgstr "快速输入: "
+
+#: src/im/keyboard/keyboard.conf.in:3
+msgid "Keyboard"
+msgstr "键盘"
+
+#: src/frontend/ibusfrontend/ibusfrontend.conf.in:3
+msgid "IBus Frontend"
+msgstr ""
 
 #: src/frontend/dbusfrontend/dbusfrontend.conf.in:3
 msgid "DBus Frontend"

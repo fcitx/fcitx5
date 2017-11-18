@@ -1004,6 +1004,16 @@ InputMethodEngine *Instance::inputMethodEngine(InputContext *ic) {
         d->addonManager_.addon(entry->addon(), true));
 }
 
+InputMethodEngine *Instance::inputMethodEngine(const std::string &name) {
+    FCITX_D();
+    auto entry = d->imManager_.entry(name);
+    if (!entry) {
+        return nullptr;
+    }
+    return static_cast<InputMethodEngine *>(
+        d->addonManager_.addon(entry->addon(), true));
+}
+
 uint32_t Instance::processCompose(InputContext *ic, KeySym keysym) {
     FCITX_D();
     auto state = ic->propertyFor(&d->inputStateFactory);

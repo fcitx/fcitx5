@@ -18,9 +18,9 @@
  */
 
 #include "xcbui.h"
+#include "fcitx-utils/stringutils.h"
 #include "xcbinputwindow.h"
 #include "xcbtraywindow.h"
-#include <fcitx-utils/stringutils.h>
 #include <xcb/randr.h>
 #include <xcb/xcb_aux.h>
 #include <xcb/xinerama.h>

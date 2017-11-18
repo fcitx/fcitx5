@@ -18,9 +18,168 @@
  */
 #include "rawconfig.h"
 #include "fcitx-utils/stringutils.h"
+#include <list>
 #include <unordered_map>
 
 namespace fcitx {
+
+template <typename K, typename V, class Hash = std::hash<K>,
+          class Pred = std::equal_to<K>>
+class OrderedMap {
+private:
+    std::list<std::pair<const K, V>> order_;
+    std::unordered_map<K, typename decltype(order_)::iterator, Hash, Pred> map_;
+
+public:
+    typedef decltype(map_) map_type;
+    typedef decltype(order_) list_type;
+    typedef typename map_type::key_type key_type;
+    typedef typename list_type::value_type value_type;
+    typedef typename value_type::second_type mapped_type;
+
+    typedef typename list_type::pointer pointer;
+    typedef typename list_type::const_pointer const_pointer;
+    typedef typename list_type::reference reference;
+    typedef typename list_type::const_reference const_reference;
+    typedef typename list_type::iterator iterator;
+    typedef typename list_type::const_iterator const_iterator;
+    typedef typename list_type::size_type size_type;
+    typedef typename list_type::difference_type difference_type;
+
+    OrderedMap() = default;
+    OrderedMap(const OrderedMap &other) : order_(other.order_) { fillMap(); }
+
+    /// Move constructor.
+    OrderedMap(OrderedMap &&other) { operator=(std::move(other)); }
+
+    OrderedMap(std::initializer_list<value_type> l) : order_(l) { fillMap(); }
+
+    template <typename InputIterator>
+    OrderedMap(InputIterator first, InputIterator last) : order_(first, last) {
+        fillMap();
+    }
+
+    /// Copy assignment operator.
+    OrderedMap &operator=(const OrderedMap &other) {
+        order_ = list_type(other.order_.begin(), other.order_.end());
+        fillMap();
+        return *this;
+    }
+
+    /// Move assignment operator.
+    OrderedMap &operator=(OrderedMap &&other) {
+        using std::swap;
+        swap(order_, other.order_);
+        swap(map_, other.map_);
+        other.order_.clear();
+        other.map_.clear();
+        return *this;
+    }
+
+    bool empty() const noexcept { return order_.empty(); }
+
+    size_type size() const noexcept { return order_.size(); }
+
+    iterator begin() noexcept { return order_.begin(); }
+
+    const_iterator begin() const noexcept { return order_.begin(); }
+
+    const_iterator cbegin() const noexcept { return order_.begin(); }
+
+    iterator end() noexcept { return order_.end(); }
+
+    const_iterator end() const noexcept { return order_.end(); }
+
+    const_iterator cend() const noexcept { return order_.end(); }
+
+    template <typename... _Args>
+    std::pair<iterator, bool> emplace(_Args &&... __args) {
+        order_.emplace_back(std::forward<_Args>(__args)...);
+        auto iter = std::prev(order_.end());
+        auto mapResult = map_.emplace(iter->first, iter);
+        if (mapResult.second) {
+            return {iter, true};
+        } else {
+            order_.erase(iter);
+            iter = mapResult.first->second;
+            return {iter, false};
+        }
+    }
+
+    std::pair<iterator, bool> insert(const value_type &v) { return emplace(v); }
+
+    iterator erase(const_iterator position) {
+        map_.erase(position->first);
+        return order_.erase(position);
+    }
+
+    iterator erase(iterator position) {
+        map_.erase(position->first);
+        return order_.erase(position);
+    }
+
+    size_type erase(const key_type &k) {
+        auto iter = map_.find(k);
+        if (iter != map_.end()) {
+            order_.erase(iter->second);
+            map_.erase(iter);
+            return 1;
+        }
+        return 0;
+    }
+
+    void clear() noexcept {
+        order_.clear();
+        map_.clear();
+    }
+
+    iterator find(const key_type &k) {
+        auto iter = map_.find(k);
+        if (iter != map_.end()) {
+            return iter->second;
+        }
+        return order_.end();
+    }
+
+    const_iterator find(const key_type &k) const {
+        auto iter = map_.find(k);
+        if (iter != map_.end()) {
+            return iter->second;
+        }
+        return order_.end();
+    }
+
+    size_type count(const key_type &k) const { return map_.count(k); }
+
+    mapped_type &operator[](const key_type &k) {
+        auto iter = find(k);
+        if (iter != end()) {
+            return iter->second;
+        } else {
+            auto result = emplace(k, mapped_type());
+            return result.first->second;
+        }
+    }
+
+    mapped_type &operator[](key_type &&k) {
+        auto iter = find(k);
+        if (iter != end()) {
+            return iter->second;
+        } else {
+            auto result = emplace(std::move(k), value_type());
+            return result.first->second;
+        }
+    }
+
+private:
+    void fillMap() {
+        for (auto iter = order_.begin(), end = order_.end(); iter != end;
+             iter++) {
+            map_[iter->first] = iter;
+        }
+    }
+};
+
 class RawConfigPrivate {
 public:
     RawConfigPrivate(std::string _name) : name_(_name), lineNumber_(0) {}
@@ -98,7 +257,7 @@ public:
     std::string name_;
     std::string value_;
     std::string comment_;
-    std::unordered_map<std::string, std::shared_ptr<RawConfig>> subItems_;
+    OrderedMap<std::string, std::shared_ptr<RawConfig>> subItems_;
     unsigned int lineNumber_;
 };
 

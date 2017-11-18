@@ -20,6 +20,7 @@
 #define _FCITX_ADDONINSTANCE_H_
 
 #include "fcitxcore_export.h"
+#include <fcitx-config/configuration.h>
 #include <fcitx-utils/library.h>
 #include <fcitx-utils/metastring.h>
 #include <functional>
@@ -57,8 +58,10 @@ class FCITXCORE_EXPORT AddonInstance {
 public:
     AddonInstance();
     virtual ~AddonInstance();
-    virtual void reloadConfig();
-    virtual void save();
+    virtual void reloadConfig() {}
+    virtual void save() {}
+    virtual const Configuration *getConfig() const { return nullptr; }
+    virtual void setConfig(const RawConfig &) {}
 
     template <typename Signature, typename... Args>
     typename std::function<Signature>::result_type

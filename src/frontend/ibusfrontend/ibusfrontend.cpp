@@ -19,18 +19,18 @@
 
 #include "ibusfrontend.h"
 #include "dbus_public.h"
+#include "fcitx-config/iniparser.h"
 #include "fcitx-utils/dbus/message.h"
 #include "fcitx-utils/dbus/objectvtable.h"
 #include "fcitx-utils/dbus/servicewatcher.h"
 #include "fcitx-utils/log.h"
 #include "fcitx-utils/metastring.h"
+#include "fcitx-utils/standardpath.h"
+#include "fcitx-utils/stringutils.h"
+#include "fcitx-utils/utf8.h"
 #include "fcitx/inputcontext.h"
 #include "fcitx/instance.h"
 #include "fcitx/misc_p.h"
-#include <fcitx-config/iniparser.h>
-#include <fcitx-utils/standardpath.h>
-#include <fcitx-utils/stringutils.h>
-#include <fcitx-utils/utf8.h>
 #include <fcntl.h>
 #include <fstream>
 #include <mutex>

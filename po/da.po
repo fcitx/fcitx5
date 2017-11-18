@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-09-15 16:52-0700\n"
+"POT-Creation-Date: 2017-11-17 20:15-0800\n"
 "PO-Revision-Date: 2017-09-12 20:30+0000\n"
 "Last-Translator: scootergrisen\n"
 "Language-Team: Danish (http://www.transifex.com/fcitx/fcitx/language/da/)\n"
@@ -18,79 +18,217 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: src/modules/unicode/charselectdata.cpp:214
+#: src/lib/fcitx/instance.cpp:1496
+#, fuzzy
+msgid "(Not available)"
+msgstr "(utilgængelig)"
+
+#: src/modules/unicode/charselectdata.cpp:216
 msgid "<Low Surrogate>"
 msgstr "<Low Surrogate>"
 
-#: src/modules/unicode/charselectdata.cpp:210
+#: src/modules/unicode/charselectdata.cpp:212
 msgid "<Non Private Use High Surrogate>"
 msgstr "<Non Private Use High Surrogate>"
 
-#: src/modules/unicode/charselectdata.cpp:212
+#: src/modules/unicode/charselectdata.cpp:214
 msgid "<Private Use High Surrogate>"
 msgstr "<Private Use High Surrogate>"
 
-#: src/modules/unicode/charselectdata.cpp:216
+#: src/modules/unicode/charselectdata.cpp:218
 msgid "<Private Use>"
 msgstr "<Private Use>"
 
-#: src/modules/unicode/charselectdata.cpp:246
+#: src/modules/unicode/charselectdata.cpp:248
 msgid "<not assigned>"
 msgstr "<not assigned>"
 
-#: src/modules/clipboard/clipboard.cpp:290
+#: src/lib/fcitx/globalconfig.cpp:61
+#, fuzzy
+msgid "Activate Input Method"
+msgstr "Start inputmetode"
+
+#: src/lib/fcitx/globalconfig.cpp:76
+msgid "Active By Default"
+msgstr ""
+
+#: src/modules/quickphrase/quickphrase.h:38 src/im/keyboard/keyboard.h:41
+msgid "Alt"
+msgstr "Alt"
+
+#: src/lib/fcitx/globalconfig.cpp:91
+msgid "Behavior"
+msgstr ""
+
+#: src/modules/clipboard/clipboard.cpp:287
 #, fuzzy
 msgid "Clipboard:"
 msgstr "Udklipsholder"
 
-#: src/lib/fcitx/inputmethodmanager.cpp:188
+#: src/modules/notificationitem/dbusmenu.cpp:280
+msgid "Configure"
+msgstr "Konfigurer"
+
+#: src/modules/notificationitem/dbusmenu.cpp:275
+#, fuzzy
+msgid "Configure Current Input Method"
+msgstr "Udløs inputmetode"
+
+#: src/modules/quickphrase/quickphrase.h:38 src/im/keyboard/keyboard.h:42
+msgid "Control"
+msgstr ""
+
+#: src/modules/spell/spell.h:33
+msgid "Custom"
+msgstr "Tilpasset"
+
+#: src/lib/fcitx/globalconfig.cpp:67
+#, fuzzy
+msgid "Deactivate Input Method"
+msgstr "Start inputmetode"
+
+#: src/lib/fcitx/inputmethodmanager.cpp:200
+#: src/ui/classic/themes/default/theme.conf.in:3
 msgid "Default"
 msgstr "Standard"
 
-#: src/modules/notifications/notifications.cpp:231
+#: src/lib/fcitx/globalconfig.cpp:72
+#, fuzzy
+msgid "Default Next page"
+msgstr "Næste side"
+
+#: src/lib/fcitx/globalconfig.cpp:70
+msgid "Default Previous page"
+msgstr ""
+
+#: src/lib/fcitx/globalconfig.cpp:81
+msgid "Default page size"
+msgstr ""
+
+#: src/modules/notifications/notifications.cpp:226
 msgid "Do not show again"
 msgstr "Vis ikke igen"
 
-#: src/im/keyboard/keyboard.cpp:167 src/im/keyboard/keyboard.conf.in:3
-msgid "Keyboard"
-msgstr "Tastatur"
+#: src/modules/spell/spell.h:34
+msgid "Enchant"
+msgstr ""
 
-#: src/im/keyboard/keyboard.cpp:154
+#: src/lib/fcitx/globalconfig.cpp:47
+#, fuzzy
+msgid "Enumerate Input Method Backward"
+msgstr "Start inputmetode"
+
+#: src/lib/fcitx/globalconfig.cpp:43
+#, fuzzy
+msgid "Enumerate Input Method Forward"
+msgstr "Konfiguration af inputmetode"
+
+#: src/lib/fcitx/globalconfig.cpp:57
+msgid "Enumerate Input Method Group Backward"
+msgstr ""
+
+#: src/lib/fcitx/globalconfig.cpp:52
+msgid "Enumerate Input Method Group Forward"
+msgstr ""
+
+#: src/modules/notificationitem/dbusmenu.cpp:293
+msgid "Exit"
+msgstr "Afslut"
+
+#: src/modules/notificationitem/dbusmenu.cpp:265
+msgid "Group"
+msgstr ""
+
+#: src/lib/fcitx/instance.cpp:1499
+msgid "Group {0}: {1}"
+msgstr ""
+
+#: src/lib/fcitx/globalconfig.cpp:89
+msgid "Hotkey"
+msgstr "Hottast"
+
+#: src/modules/notificationitem/notificationitem.cpp:102
+#: src/modules/notificationitem/dbusmenu.cpp:259
+#, fuzzy
+msgid "Input Method"
+msgstr "InputMetode"
+
+#: src/im/keyboard/keyboard.cpp:200
 #, fuzzy
 msgid "Keyboard - {0}"
 msgstr "Tastatur"
 
-#: src/modules/clipboard/clipboard.cpp:292
+#: src/im/keyboard/keyboard.cpp:213
+#, fuzzy
+msgid "Keyboard - {0} - {1}"
+msgstr "Tastatur"
+
+#: src/modules/clipboard/clipboard.cpp:289
 msgid "No clipboard history."
+msgstr ""
+
+#: src/modules/quickphrase/quickphrase.h:37 src/im/keyboard/keyboard.h:41
+msgid "None"
+msgstr "Ingen"
+
+#: src/ui/kimpanel/kimpanel.cpp:310
+#, fuzzy
+msgid "Not available"
+msgstr "(utilgængelig)"
+
+#: src/modules/spell/spell.h:33
+msgid "Presage"
 msgstr ""
 
 #: src/modules/quickphrase/quickphrase.cpp:283
 msgid "Quick Phrase: "
 msgstr ""
 
-#: src/im/keyboard/keyboard.cpp:264
+#: src/modules/notificationitem/dbusmenu.cpp:287
+msgid "Restart"
+msgstr "Genstart"
+
+#: src/lib/fcitx/globalconfig.cpp:79
+msgid "Show Input Method Information when switch input method"
+msgstr ""
+
+#: src/im/keyboard/keyboard.cpp:303
 msgid "Spell hint"
 msgstr "Stavetip"
 
-#: src/im/keyboard/keyboard.cpp:266
+#: src/im/keyboard/keyboard.cpp:305
 msgid "Spell hint is disabled."
 msgstr "Stavetip er deaktiveret."
 
-#: src/im/keyboard/keyboard.cpp:265
+#: src/im/keyboard/keyboard.cpp:304
 msgid "Spell hint is enabled."
 msgstr "Stavetip er aktiveret."
+
+#: src/modules/quickphrase/quickphrase.h:38 src/im/keyboard/keyboard.h:42
+#, fuzzy
+msgid "Super"
+msgstr "Venstre Super"
+
+#: src/lib/fcitx/globalconfig.cpp:34
+#, fuzzy
+msgid "Trigger Input Method"
+msgstr "InputMetode"
+
+#: src/lib/fcitx/globalconfig.cpp:39
+msgid "Trigger Input Method Only after using it to deactivate"
+msgstr ""
 
 #: src/modules/unicode/unicode.cpp:244
 #, fuzzy
 msgid "Unicode: "
 msgstr "Unicode"
 
-#: src/lib/fcitx/instance.cpp:475
+#: src/lib/fcitx/instance.cpp:1494
 #, fuzzy
 msgid "{0} (Not available)"
 msgstr "(utilgængelig)"
 
-#: src/lib/fcitx/instance.cpp:472
+#: src/lib/fcitx/instance.cpp:1491
 msgid "{0} ({1})"
 msgstr ""
 
@@ -101,6 +239,10 @@ msgstr "Aspell"
 
 #: src/modules/notifications/notifications.conf.in:3
 msgid "notifications"
+msgstr ""
+
+#: src/modules/notificationitem/notificationitem.conf.in:3
+msgid "notificationitem"
 msgstr ""
 
 #: src/modules/dbus/dbus.conf.in:3
@@ -132,6 +274,15 @@ msgstr ""
 #: src/modules/quickphrase/quickphrase.conf.in:3
 msgid "Quick Phrase"
 msgstr ""
+
+#: src/im/keyboard/keyboard.conf.in:3
+msgid "Keyboard"
+msgstr "Tastatur"
+
+#: src/frontend/ibusfrontend/ibusfrontend.conf.in:3
+#, fuzzy
+msgid "IBus Frontend"
+msgstr "Konfiguration af inputmetode"
 
 #: src/frontend/dbusfrontend/dbusfrontend.conf.in:3
 msgid "DBus Frontend"
@@ -229,9 +380,6 @@ msgstr "Klassisk"
 #~ msgid "All locale:"
 #~ msgstr "Alle sprog:"
 
-#~ msgid "Alt"
-#~ msgstr "Alt"
-
 #~ msgid "Appearance"
 #~ msgstr "Udseende"
 
@@ -313,9 +461,6 @@ msgstr "Klassisk"
 #~ msgid "Configuration:"
 #~ msgstr "Konfiguration:"
 
-#~ msgid "Configure"
-#~ msgstr "Konfigurer"
-
 #~ msgid "Confirm deletion"
 #~ msgstr "Bekræft sletning"
 
@@ -339,9 +484,6 @@ msgstr "Klassisk"
 
 #~ msgid "Current user:"
 #~ msgstr "Nuværende bruger:"
-
-#~ msgid "Custom"
-#~ msgstr "Tilpasset"
 
 #~ msgid "DBus interface:"
 #~ msgstr "DBus-grænseflade:"
@@ -384,9 +526,6 @@ msgstr "Klassisk"
 
 #~ msgid "Environment:"
 #~ msgstr "Miljø:"
-
-#~ msgid "Exit"
-#~ msgstr "Afslut"
 
 #~ msgid "Fcitx Addons:"
 #~ msgstr "Fcitx-tilføjelser:"
@@ -433,9 +572,6 @@ msgstr "Klassisk"
 #~ msgid "Horizontal"
 #~ msgstr "Vandret"
 
-#~ msgid "Hotkey"
-#~ msgstr "Hottast"
-
 #~ msgid "IconName"
 #~ msgstr "IkonNavn"
 
@@ -456,9 +592,6 @@ msgstr "Klassisk"
 
 #~ msgid "Input Speed: "
 #~ msgstr "Inputhastighed:"
-
-#~ msgid "InputMethod"
-#~ msgstr "InputMetode"
 
 #~ msgid "Invalid filename"
 #~ msgstr "Ugyldigt filnavn"
@@ -502,9 +635,6 @@ msgstr "Klassisk"
 #~ msgid "Left"
 #~ msgstr "Venstre"
 
-#~ msgid "Left Super"
-#~ msgstr "Venstre Super"
-
 #~ msgid "Library"
 #~ msgstr "Bibliotek"
 
@@ -532,9 +662,6 @@ msgstr "Klassisk"
 #~ msgid "Name"
 #~ msgstr "Navn"
 
-#~ msgid "Next Page"
-#~ msgstr "Næste side"
-
 #~ msgid "Next Page Icon"
 #~ msgstr "Næste side-ikon"
 
@@ -549,9 +676,6 @@ msgstr "Klassisk"
 
 #~ msgid "No remind"
 #~ msgstr "Ingen påmindelse"
-
-#~ msgid "None"
-#~ msgstr "Ingen"
 
 #~ msgid "Not Set"
 #~ msgstr "Ikke sat"
@@ -640,9 +764,6 @@ msgstr "Klassisk"
 #~ msgid "Resize"
 #~ msgstr "Tilpas størrelse"
 
-#~ msgid "Restart"
-#~ msgstr "Genstart"
-
 #~ msgid "Right"
 #~ msgstr "Højre"
 
@@ -697,9 +818,6 @@ msgstr "Klassisk"
 #~ msgid "SkinInfo"
 #~ msgstr "Skininfo"
 
-#~ msgid "Start Input Method"
-#~ msgstr "Start inputmetode"
-
 #~ msgid "Super Both"
 #~ msgstr "Super begge"
 
@@ -723,9 +841,6 @@ msgstr "Klassisk"
 
 #~ msgid "TraditionalChinese"
 #~ msgstr "Traditionel kinesisk"
-
-#~ msgid "Trigger Input Method"
-#~ msgstr "Udløs inputmetode"
 
 #~ msgid "Type"
 #~ msgstr "Type"

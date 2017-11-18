@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-09-15 16:52-0700\n"
+"POT-Creation-Date: 2017-11-17 20:15-0800\n"
 "PO-Revision-Date: 2016-11-29 16:37+0000\n"
 "Last-Translator: Walter Garcia-Fontes <walter.garcia@upf.edu>\n"
 "Language-Team: Catalan (http://www.transifex.com/fcitx/fcitx/language/ca/)\n"
@@ -18,80 +18,221 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: src/modules/unicode/charselectdata.cpp:214
+#: src/lib/fcitx/instance.cpp:1496
+#, fuzzy
+msgid "(Not available)"
+msgstr "(No disponible)"
+
+#: src/modules/unicode/charselectdata.cpp:216
 msgid "<Low Surrogate>"
 msgstr "<Succedani baix>"
 
-#: src/modules/unicode/charselectdata.cpp:210
+#: src/modules/unicode/charselectdata.cpp:212
 msgid "<Non Private Use High Surrogate>"
 msgstr "<Succedani alt d'ús no privat>"
 
-#: src/modules/unicode/charselectdata.cpp:212
+#: src/modules/unicode/charselectdata.cpp:214
 msgid "<Private Use High Surrogate>"
 msgstr " <Succedani alt d'ús privat>"
 
-#: src/modules/unicode/charselectdata.cpp:216
+#: src/modules/unicode/charselectdata.cpp:218
 msgid "<Private Use>"
 msgstr "<Ús privat>"
 
-#: src/modules/unicode/charselectdata.cpp:246
+#: src/modules/unicode/charselectdata.cpp:248
 msgid "<not assigned>"
 msgstr "<no assignat>"
 
-#: src/modules/clipboard/clipboard.cpp:290
+#: src/lib/fcitx/globalconfig.cpp:61
+#, fuzzy
+msgid "Activate Input Method"
+msgstr "Desactiva el mètode d'entrada"
+
+#: src/lib/fcitx/globalconfig.cpp:76
+msgid "Active By Default"
+msgstr ""
+
+#: src/modules/quickphrase/quickphrase.h:38 src/im/keyboard/keyboard.h:41
+msgid "Alt"
+msgstr "Alt"
+
+#: src/lib/fcitx/globalconfig.cpp:91
+msgid "Behavior"
+msgstr ""
+
+#: src/modules/clipboard/clipboard.cpp:287
 #, fuzzy
 msgid "Clipboard:"
 msgstr "Porta-retalls"
 
-#: src/lib/fcitx/inputmethodmanager.cpp:188
+#: src/modules/notificationitem/dbusmenu.cpp:280
+msgid "Configure"
+msgstr "Configura"
+
+#: src/modules/notificationitem/dbusmenu.cpp:275
+msgid "Configure Current Input Method"
+msgstr "Configura el mètode actual d'entrada"
+
+#: src/modules/quickphrase/quickphrase.h:38 src/im/keyboard/keyboard.h:42
+msgid "Control"
+msgstr ""
+
+#: src/modules/spell/spell.h:33
+msgid "Custom"
+msgstr "Personalitzat"
+
+#: src/lib/fcitx/globalconfig.cpp:67
+#, fuzzy
+msgid "Deactivate Input Method"
+msgstr "Desactiva el mètode d'entrada"
+
+#: src/lib/fcitx/inputmethodmanager.cpp:200
+#: src/ui/classic/themes/default/theme.conf.in:3
 msgid "Default"
 msgstr "Per defecte"
 
-#: src/modules/notifications/notifications.cpp:231
+#: src/lib/fcitx/globalconfig.cpp:72
+#, fuzzy
+msgid "Default Next page"
+msgstr "Pàgina següent"
+
+#: src/lib/fcitx/globalconfig.cpp:70
+msgid "Default Previous page"
+msgstr ""
+
+#: src/lib/fcitx/globalconfig.cpp:81
+msgid "Default page size"
+msgstr ""
+
+#: src/modules/notifications/notifications.cpp:226
 msgid "Do not show again"
 msgstr "No ho mostris un altre cop"
 
-#: src/im/keyboard/keyboard.cpp:167 src/im/keyboard/keyboard.conf.in:3
-msgid "Keyboard"
-msgstr "Teclat"
+#: src/modules/spell/spell.h:34
+#, fuzzy
+msgid "Enchant"
+msgstr "Bingchan"
 
-#: src/im/keyboard/keyboard.cpp:154
+#: src/lib/fcitx/globalconfig.cpp:47
+#, fuzzy
+msgid "Enumerate Input Method Backward"
+msgstr "Nom del mètode actual d'entrada"
+
+#: src/lib/fcitx/globalconfig.cpp:43
+#, fuzzy
+msgid "Enumerate Input Method Forward"
+msgstr "Nom del mètode actual d'entrada"
+
+#: src/lib/fcitx/globalconfig.cpp:57
+msgid "Enumerate Input Method Group Backward"
+msgstr ""
+
+#: src/lib/fcitx/globalconfig.cpp:52
+msgid "Enumerate Input Method Group Forward"
+msgstr ""
+
+#: src/modules/notificationitem/dbusmenu.cpp:293
+msgid "Exit"
+msgstr "Surt"
+
+#: src/modules/notificationitem/dbusmenu.cpp:265
+msgid "Group"
+msgstr ""
+
+#: src/lib/fcitx/instance.cpp:1499
+msgid "Group {0}: {1}"
+msgstr ""
+
+#: src/lib/fcitx/globalconfig.cpp:89
+msgid "Hotkey"
+msgstr "Drecera de teclat"
+
+#: src/modules/notificationitem/notificationitem.cpp:102
+#: src/modules/notificationitem/dbusmenu.cpp:259
+msgid "Input Method"
+msgstr "Mètode d'entrada"
+
+#: src/im/keyboard/keyboard.cpp:200
 #, fuzzy
 msgid "Keyboard - {0}"
 msgstr "Teclat"
 
-#: src/modules/clipboard/clipboard.cpp:292
+#: src/im/keyboard/keyboard.cpp:213
+#, fuzzy
+msgid "Keyboard - {0} - {1}"
+msgstr "Teclat"
+
+#: src/modules/clipboard/clipboard.cpp:289
 #, fuzzy
 msgid "No clipboard history."
 msgstr "Desa la història del porta-retalls a un fitxer"
+
+#: src/modules/quickphrase/quickphrase.h:37 src/im/keyboard/keyboard.h:41
+msgid "None"
+msgstr "Cap"
+
+#: src/ui/kimpanel/kimpanel.cpp:310
+#, fuzzy
+msgid "Not available"
+msgstr "(No disponible)"
+
+#: src/modules/spell/spell.h:33
+msgid "Presage"
+msgstr ""
 
 #: src/modules/quickphrase/quickphrase.cpp:283
 msgid "Quick Phrase: "
 msgstr "Frase ràpida:"
 
-#: src/im/keyboard/keyboard.cpp:264
+#: src/modules/notificationitem/dbusmenu.cpp:287
+msgid "Restart"
+msgstr "Reinicia"
+
+#: src/lib/fcitx/globalconfig.cpp:79
+#, fuzzy
+msgid "Show Input Method Information when switch input method"
+msgstr ""
+"Mostra la pista de mètode d'entrada després que hagi canviat el mètode "
+"d'entrada"
+
+#: src/im/keyboard/keyboard.cpp:303
 msgid "Spell hint"
 msgstr "Pista d'ortografia"
 
-#: src/im/keyboard/keyboard.cpp:266
+#: src/im/keyboard/keyboard.cpp:305
 msgid "Spell hint is disabled."
 msgstr "S'han desactivat les pistes d'ortografia"
 
-#: src/im/keyboard/keyboard.cpp:265
+#: src/im/keyboard/keyboard.cpp:304
 msgid "Spell hint is enabled."
 msgstr "S'han activat les pistes d'ortografia"
+
+#: src/modules/quickphrase/quickphrase.h:38 src/im/keyboard/keyboard.h:42
+#, fuzzy
+msgid "Super"
+msgstr "Súper esquerra"
+
+#: src/lib/fcitx/globalconfig.cpp:34
+msgid "Trigger Input Method"
+msgstr "Activa el mètode d'entrada"
+
+#: src/lib/fcitx/globalconfig.cpp:39
+#, fuzzy
+msgid "Trigger Input Method Only after using it to deactivate"
+msgstr ""
+"Usa la tecla addicional d'activació sols després d'usar-la per desactivar"
 
 #: src/modules/unicode/unicode.cpp:244
 #, fuzzy
 msgid "Unicode: "
 msgstr "Unicode"
 
-#: src/lib/fcitx/instance.cpp:475
+#: src/lib/fcitx/instance.cpp:1494
 #, fuzzy
 msgid "{0} (Not available)"
 msgstr "(No disponible)"
 
-#: src/lib/fcitx/instance.cpp:472
+#: src/lib/fcitx/instance.cpp:1491
 msgid "{0} ({1})"
 msgstr ""
 
@@ -101,6 +242,10 @@ msgstr "Ortografia"
 
 #: src/modules/notifications/notifications.conf.in:3
 msgid "notifications"
+msgstr ""
+
+#: src/modules/notificationitem/notificationitem.conf.in:3
+msgid "notificationitem"
 msgstr ""
 
 #: src/modules/dbus/dbus.conf.in:3
@@ -133,6 +278,15 @@ msgstr "Afegeix suport per a l'escriptura unicode"
 #, fuzzy
 msgid "Quick Phrase"
 msgstr "Frase ràpida"
+
+#: src/im/keyboard/keyboard.conf.in:3
+msgid "Keyboard"
+msgstr "Teclat"
+
+#: src/frontend/ibusfrontend/ibusfrontend.conf.in:3
+#, fuzzy
+msgid "IBus Frontend"
+msgstr "Frontal DBus del fcitx"
 
 #: src/frontend/dbusfrontend/dbusfrontend.conf.in:3
 #, fuzzy
@@ -346,9 +500,6 @@ msgstr "Clàssic"
 #~ msgid "Allow to Override System XKB Settings"
 #~ msgstr "Permet ignorar la configuració de sistema del teclat X"
 
-#~ msgid "Alt"
-#~ msgstr "Alt"
-
 #~ msgid "Alternative Next Page Key"
 #~ msgstr "Clau alternativa de pàgina següent"
 
@@ -418,9 +569,6 @@ msgstr "Clàssic"
 
 #~ msgid "Beginner's Guide"
 #~ msgstr "Manual d'instroducció."
-
-#~ msgid "Bingchan"
-#~ msgstr "Bingchan"
 
 #~ msgid "BottomCenter"
 #~ msgstr "Inferior centre"
@@ -667,12 +815,6 @@ msgstr "Clàssic"
 #~ msgid "Configuration:"
 #~ msgstr "Configuració:"
 
-#~ msgid "Configure"
-#~ msgstr "Configura"
-
-#~ msgid "Configure Current Input Method"
-#~ msgstr "Configura el mètode actual d'entrada"
-
 #~ msgid "Configure group name error: line %d"
 #~ msgstr "Configura l'error de nom de grup: línia %d"
 
@@ -704,9 +846,6 @@ msgstr "Clàssic"
 #~ msgid "Current Enabled Input Method List"
 #~ msgstr "Llista actual de mètodes d'entrada activats"
 
-#~ msgid "Current Input Method Name"
-#~ msgstr "Nom del mètode actual d'entrada"
-
 #~ msgid "Current fcitx settings directory is ${1} (${2})."
 #~ msgstr "El directori actual de configuracions del fcitx és ${1}(${2})."
 
@@ -721,9 +860,6 @@ msgstr "Clàssic"
 
 #~ msgid "Current value of ${1} is ${2} (${3})."
 #~ msgstr "El valor actual de ${1} és ${2} (${3})."
-
-#~ msgid "Custom"
-#~ msgstr "Personalitzat"
 
 #~ msgid "Custom switch key"
 #~ msgstr "Tecla personalitzada de commutació"
@@ -917,9 +1053,6 @@ msgstr "Clàssic"
 
 #~ msgid "Exec"
 #~ msgstr "Exec"
-
-#~ msgid "Exit"
-#~ msgstr "Surt"
 
 #~ msgid "Extra key for trigger input method"
 #~ msgstr "Tecla addicional per activar el mètode d'entrada"
@@ -1193,9 +1326,6 @@ msgstr "Clàssic"
 #~ msgid "Horizontal"
 #~ msgstr "Horitzontal"
 
-#~ msgid "Hotkey"
-#~ msgstr "Drecera de teclat"
-
 #~ msgid "Hotkey for Inputing Character From Phrase"
 #~ msgstr "Drecera de teclat per entrar un caràcter des d'una frase"
 
@@ -1256,9 +1386,6 @@ msgstr "Clàssic"
 #~ msgstr ""
 #~ "Ignora alguna puntuació, si està buida, després ignora tota la puntuació"
 
-#~ msgid "Inactivate Input Method"
-#~ msgstr "Desactiva el mètode d'entrada"
-
 #~ msgid "Inactive"
 #~ msgstr "Inactiu"
 
@@ -1286,9 +1413,6 @@ msgstr "Clàssic"
 
 #~ msgid "Input Message Color"
 #~ msgstr "Color del missatge d'entrada"
-
-#~ msgid "Input Method"
-#~ msgstr "Mètode d'entrada"
 
 #~ msgid "Input Method Disabled"
 #~ msgstr "Mètode d'entrada desactivat"
@@ -1402,9 +1526,6 @@ msgstr "Clàssic"
 
 #~ msgid "Left"
 #~ msgstr "Esquerra"
-
-#~ msgid "Left Super"
-#~ msgstr "Súper esquerra"
 
 #~ msgid ""
 #~ "Left/Right to choose selected character, Press Enter to confirm, Press "
@@ -1556,9 +1677,6 @@ msgstr "Clàssic"
 #~ msgid "Next Candidate Word"
 #~ msgstr "Pròxima paraula candidata"
 
-#~ msgid "Next Page"
-#~ msgstr "Pàgina següent"
-
 #~ msgid "Next Page Icon"
 #~ msgstr "Icona de pàgina següent"
 
@@ -1582,9 +1700,6 @@ msgstr "Clàssic"
 
 #~ msgid "Non-comment doesn't belongs to any group @ %d %s"
 #~ msgstr "El comentari nul no pertany a cap grup @ %d %s"
-
-#~ msgid "None"
-#~ msgstr "Cap"
 
 #~ msgid "Not Set"
 #~ msgstr "No està establert"
@@ -1840,9 +1955,6 @@ msgstr "Clàssic"
 #~ msgid "Resize Margin Top"
 #~ msgstr "Canvia la mida del marge superior"
 
-#~ msgid "Restart"
-#~ msgstr "Reinicia"
-
 #~ msgid "Right"
 #~ msgstr "Dreta"
 
@@ -1933,11 +2045,6 @@ msgstr "Clàssic"
 
 #~ msgid "Show"
 #~ msgstr "Mostra"
-
-#~ msgid "Show Input Method Hint After Input method changed"
-#~ msgstr ""
-#~ "Mostra la pista de mètode d'entrada després que hagi canviat el mètode "
-#~ "d'entrada"
 
 #~ msgid "Show Input Method Hint After Input method changed and Focus in"
 #~ msgstr ""
@@ -2213,9 +2320,6 @@ msgstr "Clàssic"
 #~ msgid "Treating abbreviated Pinyin as English"
 #~ msgstr "Es tractarà el pinyin abreujat com a anglès"
 
-#~ msgid "Trigger Input Method"
-#~ msgstr "Activa el mètode d'entrada"
-
 #~ msgid "Trigger Key for Clipboard History List"
 #~ msgstr "Tecla d'activació per a la llista d'història del porta-retalls"
 
@@ -2304,10 +2408,6 @@ msgstr "Clàssic"
 
 #~ msgid "Use enter to commit the existing string"
 #~ msgstr "Useu Intro per enviar la cadena de caràcters existent"
-
-#~ msgid "Use extra trigger key only after using it to inactivate"
-#~ msgstr ""
-#~ "Usa la tecla addicional d'activació sols després d'usar-la per desactivar"
 
 #~ msgid "Use remind"
 #~ msgstr "Recordatori d'ús"

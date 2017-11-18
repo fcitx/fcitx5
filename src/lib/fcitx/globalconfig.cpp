@@ -20,6 +20,7 @@
 #include "globalconfig.h"
 #include "fcitx-config/configuration.h"
 #include "fcitx-config/iniparser.h"
+#include "fcitx-utils/i18n.h"
 
 namespace fcitx {
 
@@ -30,61 +31,64 @@ FCITX_CONFIGURATION(
     Option<KeyList> triggerKeys{
         this,
         "TriggerKeys",
-        "Trigger Input Method",
+        _("Trigger Input Method"),
         {Key("Control+space"), Key("Zenkaku_Hankaku"), Key("Hangul")}};
     Option<KeyList> altTriggerKeys{
         this,
         "AltTriggerKeys",
-        "Trigger Input Method Only after using it to deactivate",
+        _("Trigger Input Method Only after using it to deactivate"),
         {Key("Shift_L")}};
     Option<KeyList> enumerateForwardKeys{this,
                                          "EnumerateForwardKeys",
-                                         "Enumerate Input Method Forward",
+                                         _("Enumerate Input Method Forward"),
                                          {Key("Control+Shift_R")}};
     Option<KeyList> enumerateBackwardKeys{this,
                                           "EnumerateBackwardKeys",
-                                          "Enumerate Input Method Backward",
+                                          _("Enumerate Input Method Backward"),
                                           {Key("Control+Shift_L")}};
     Option<KeyList> enumerateGroupForwardKeys{
         this,
         "EnumerateGroupForwardKeys",
-        "Enumerate Input Method Group Forward",
+        _("Enumerate Input Method Group Forward"),
         {Key("Super+space")}};
     Option<KeyList> enumerateGroupBackwardKeys{
         this,
         "EnumerateGroupBackwardKeys",
-        "Enumerate Input Method Group Backward",
+        _("Enumerate Input Method Group Backward"),
         {Key("Super+Shift+space")}};
     Option<KeyList> activateKeys{this,
                                  "ActivateKeys",
-                                 "ActivateKeys",
+                                 _("Activate Input Method"),
                                  {
                                      Key("Hangul_Hanja"),
                                  }};
-    Option<KeyList> deactivateKeys{
-        this, "DeactivateKeys", "DeactivateKeys", {Key("Hangul_Romaja")}};
+    Option<KeyList> deactivateKeys{this,
+                                   "DeactivateKeys",
+                                   _("Deactivate Input Method"),
+                                   {Key("Hangul_Romaja")}};
     Option<KeyList> defaultPrevPage{
-        this, "PrevPage", "Default Previous page", {Key("Up")}};
+        this, "PrevPage", _("Default Previous page"), {Key("Up")}};
     Option<KeyList> defaultNextPage{
-        this, "NextPage", "Default Next page", {Key("Down")}};);
+        this, "NextPage", _("Default Next page"), {Key("Down")}};);
 
 FCITX_CONFIGURATION(
-    BehaviorConfig,
-    Option<bool> activeByDefault{this, "ActiveByDefault", "Active By Default"};
+    BehaviorConfig, Option<bool> activeByDefault{this, "ActiveByDefault",
+                                                 _("Active By Default")};
     Option<bool> showInputMethodInformation{
         this, "ShowInputMethodInformation",
-        "ShowInputMethodInformation when switch input method", true};
-    Option<int, IntConstrain> defaultPageSize{
-        this, "DefaultPageSize", "Default page size", 5, IntConstrain(1, 10)};
-    Option<std::vector<std::string>> enabledAddons{this, "EnabledAddons",
-                                                   "Force Enabled Addons"};
-    Option<std::vector<std::string>> disabledAddons{this, "DisabledAddons",
-                                                    "Force Disabled Addons"};);
+        _("Show Input Method Information when switch input method"), true};
+    Option<int, IntConstrain> defaultPageSize{this, "DefaultPageSize",
+                                              _("Default page size"), 5,
+                                              IntConstrain(1, 10)};
+    HiddenOption<std::vector<std::string>> enabledAddons{
+        this, "EnabledAddons", "Force Enabled Addons"};
+    HiddenOption<std::vector<std::string>> disabledAddons{
+        this, "DisabledAddons", "Force Disabled Addons"};);
 
 FCITX_CONFIGURATION(GlobalConfig,
-                    Option<HotkeyConfig> hotkey{this, "Hotkey", "Hotkey"};
+                    Option<HotkeyConfig> hotkey{this, "Hotkey", _("Hotkey")};
                     Option<BehaviorConfig> behavior{this, "Behavior",
-                                                    "Behavior"};);
+                                                    _("Behavior")};);
 }
 
 class GlobalConfigPrivate : public impl::GlobalConfig {};
@@ -93,9 +97,9 @@ GlobalConfig::GlobalConfig() : d_ptr(std::make_unique<GlobalConfigPrivate>()) {}
 
 GlobalConfig::~GlobalConfig() {}
 
-void GlobalConfig::load(const RawConfig &config) {
+void GlobalConfig::load(const RawConfig &rawConfig, bool partial) {
     FCITX_D();
-    d->load(config);
+    d->load(rawConfig, partial);
 }
 
 void GlobalConfig::save(RawConfig &config) const {
@@ -186,5 +190,10 @@ void GlobalConfig::setEnabledAddons(const std::vector<std::string> &addons) {
 void GlobalConfig::setDisabledAddons(const std::vector<std::string> &addons) {
     FCITX_D();
     d->behavior.mutableValue()->disabledAddons.setValue(addons);
+}
+
+const Configuration &GlobalConfig::config() const {
+    FCITX_D();
+    return *d;
 }
 }

@@ -20,6 +20,7 @@
 #define _FCITX_GLOBALCONFIG_H_
 
 #include "fcitxcore_export.h"
+#include <fcitx-config/configuration.h>
 #include <fcitx-config/rawconfig.h>
 #include <fcitx-utils/key.h>
 #include <fcitx-utils/macros.h>
@@ -54,9 +55,10 @@ public:
     void setEnabledAddons(const std::vector<std::string> &addons);
     void setDisabledAddons(const std::vector<std::string> &addons);
 
-    void load(const RawConfig &rawConfig);
+    void load(const RawConfig &rawConfig, bool partial = false);
     void save(RawConfig &rawConfig) const;
     bool safeSave(const std::string &path = "config") const;
+    const Configuration &config() const;
 
 private:
     std::unique_ptr<GlobalConfigPrivate> d_ptr;

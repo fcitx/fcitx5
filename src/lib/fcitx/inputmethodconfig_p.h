@@ -44,13 +44,13 @@ FCITX_CONFIGURATION(InputMethodConfig,
                     Option<std::vector<std::string>> groupOrder{
                         this, "GroupOrder", "Group Order"};);
 
-FCITX_CONFIGURATION(InputMethodInfoBase,
-                    Option<I18NString> name{this, "Name", "Name"};
-                    Option<std::string> icon{this, "Icon", "Icon"};
-                    Option<std::string> label{this, "Label", "Label"};
-                    Option<std::string> languageCode{this, "LangCode",
-                                                     "Language Code"};
-                    Option<std::string> addon{this, "Addon", "Addon"};)
+FCITX_CONFIGURATION(
+    InputMethodInfoBase, Option<I18NString> name{this, "Name", "Name"};
+    Option<std::string> icon{this, "Icon", "Icon"};
+    Option<std::string> label{this, "Label", "Label"};
+    Option<std::string> languageCode{this, "LangCode", "Language Code"};
+    Option<std::string> addon{this, "Addon", "Addon"};
+    Option<bool> configurable{this, "Configurable", "Configurable", false};)
 
 FCITX_CONFIGURATION(InputMethodInfo, Option<InputMethodInfoBase> im{
                                          this, "InputMethod", "Input Method"};)

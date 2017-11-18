@@ -4,3 +4,4 @@ Type=SharedLibrary
 Library=spell
 Category=Module
 OnDemand=True
+Configurable=True

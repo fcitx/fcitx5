@@ -83,6 +83,7 @@ public:
     std::string inputMethod(InputContext *ic);
     const InputMethodEntry *inputMethodEntry(InputContext *ic);
     InputMethodEngine *inputMethodEngine(InputContext *ic);
+    InputMethodEngine *inputMethodEngine(const std::string &name);
 
     uint32_t processCompose(InputContext *ic, KeySym keyval);
     void resetCompose(InputContext *ic);

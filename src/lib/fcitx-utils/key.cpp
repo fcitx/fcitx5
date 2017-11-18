@@ -161,6 +161,11 @@ Key Key::normalize() const {
     return key;
 }
 
+bool Key::isValid() const {
+    // Sym is valid, or code is valid.
+    return (sym_ != FcitxKey_None && sym_ != FcitxKey_VoidSymbol) || code_ != 0;
+}
+
 std::string Key::toString() const {
 
     std::string key;

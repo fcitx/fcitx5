@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-09-15 16:52-0700\n"
+"POT-Creation-Date: 2017-11-17 20:15-0800\n"
 "PO-Revision-Date: 2016-12-02 00:55+0000\n"
 "Last-Translator: TotalCaesar659 <x24cm5b8c54q6szxw@yandex.ru>\n"
 "Language-Team: Russian (http://www.transifex.com/fcitx/fcitx/language/ru/)\n"
@@ -20,80 +20,220 @@ msgstr ""
 "%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n"
 "%100>=11 && n%100<=14)? 2 : 3);\n"
 
-#: src/modules/unicode/charselectdata.cpp:214
+#: src/lib/fcitx/instance.cpp:1496
+#, fuzzy
+msgid "(Not available)"
+msgstr "(Недоступный)"
+
+#: src/modules/unicode/charselectdata.cpp:216
 msgid "<Low Surrogate>"
 msgstr "<Низкий заменитель>"
 
-#: src/modules/unicode/charselectdata.cpp:210
+#: src/modules/unicode/charselectdata.cpp:212
 msgid "<Non Private Use High Surrogate>"
 msgstr "<Не лично использовать высокий заменитель>"
 
-#: src/modules/unicode/charselectdata.cpp:212
+#: src/modules/unicode/charselectdata.cpp:214
 msgid "<Private Use High Surrogate>"
 msgstr "<Лично использовать высокий заменитель>"
 
-#: src/modules/unicode/charselectdata.cpp:216
+#: src/modules/unicode/charselectdata.cpp:218
 msgid "<Private Use>"
 msgstr "<Для личного использования>"
 
-#: src/modules/unicode/charselectdata.cpp:246
+#: src/modules/unicode/charselectdata.cpp:248
 msgid "<not assigned>"
 msgstr "<не назначен>"
 
-#: src/modules/clipboard/clipboard.cpp:290
+#: src/lib/fcitx/globalconfig.cpp:61
+#, fuzzy
+msgid "Activate Input Method"
+msgstr "Включить метод ввода"
+
+#: src/lib/fcitx/globalconfig.cpp:76
+msgid "Active By Default"
+msgstr ""
+
+#: src/modules/quickphrase/quickphrase.h:38 src/im/keyboard/keyboard.h:41
+msgid "Alt"
+msgstr "Alt"
+
+#: src/lib/fcitx/globalconfig.cpp:91
+msgid "Behavior"
+msgstr ""
+
+#: src/modules/clipboard/clipboard.cpp:287
 #, fuzzy
 msgid "Clipboard:"
 msgstr "Буфер обмена"
 
-#: src/lib/fcitx/inputmethodmanager.cpp:188
+#: src/modules/notificationitem/dbusmenu.cpp:280
+msgid "Configure"
+msgstr "Настроить"
+
+#: src/modules/notificationitem/dbusmenu.cpp:275
+msgid "Configure Current Input Method"
+msgstr "Настроить текущий метод ввода"
+
+#: src/modules/quickphrase/quickphrase.h:38 src/im/keyboard/keyboard.h:42
+msgid "Control"
+msgstr ""
+
+#: src/modules/spell/spell.h:33
+msgid "Custom"
+msgstr "Пользовательский"
+
+#: src/lib/fcitx/globalconfig.cpp:67
+#, fuzzy
+msgid "Deactivate Input Method"
+msgstr "Включить метод ввода"
+
+#: src/lib/fcitx/inputmethodmanager.cpp:200
+#: src/ui/classic/themes/default/theme.conf.in:3
 msgid "Default"
 msgstr "По умолчанию"
 
-#: src/modules/notifications/notifications.cpp:231
+#: src/lib/fcitx/globalconfig.cpp:72
+#, fuzzy
+msgid "Default Next page"
+msgstr "Следующая страница"
+
+#: src/lib/fcitx/globalconfig.cpp:70
+msgid "Default Previous page"
+msgstr ""
+
+#: src/lib/fcitx/globalconfig.cpp:81
+msgid "Default page size"
+msgstr ""
+
+#: src/modules/notifications/notifications.cpp:226
 msgid "Do not show again"
 msgstr "Больше не показывать"
 
-#: src/im/keyboard/keyboard.cpp:167 src/im/keyboard/keyboard.conf.in:3
-msgid "Keyboard"
-msgstr "Клавиатура"
+#: src/modules/spell/spell.h:34
+#, fuzzy
+msgid "Enchant"
+msgstr "Бинчань (Bingchan)"
 
-#: src/im/keyboard/keyboard.cpp:154
+#: src/lib/fcitx/globalconfig.cpp:47
+#, fuzzy
+msgid "Enumerate Input Method Backward"
+msgstr "Текущее название метода ввода"
+
+#: src/lib/fcitx/globalconfig.cpp:43
+#, fuzzy
+msgid "Enumerate Input Method Forward"
+msgstr "Текущее название метода ввода"
+
+#: src/lib/fcitx/globalconfig.cpp:57
+msgid "Enumerate Input Method Group Backward"
+msgstr ""
+
+#: src/lib/fcitx/globalconfig.cpp:52
+msgid "Enumerate Input Method Group Forward"
+msgstr ""
+
+#: src/modules/notificationitem/dbusmenu.cpp:293
+msgid "Exit"
+msgstr "Выход"
+
+#: src/modules/notificationitem/dbusmenu.cpp:265
+msgid "Group"
+msgstr ""
+
+#: src/lib/fcitx/instance.cpp:1499
+msgid "Group {0}: {1}"
+msgstr ""
+
+#: src/lib/fcitx/globalconfig.cpp:89
+msgid "Hotkey"
+msgstr "Горячая клавиша"
+
+#: src/modules/notificationitem/notificationitem.cpp:102
+#: src/modules/notificationitem/dbusmenu.cpp:259
+msgid "Input Method"
+msgstr "Метод ввода"
+
+#: src/im/keyboard/keyboard.cpp:200
 #, fuzzy
 msgid "Keyboard - {0}"
 msgstr "Клавиатура"
 
-#: src/modules/clipboard/clipboard.cpp:292
+#: src/im/keyboard/keyboard.cpp:213
+#, fuzzy
+msgid "Keyboard - {0} - {1}"
+msgstr "Клавиатура"
+
+#: src/modules/clipboard/clipboard.cpp:289
 #, fuzzy
 msgid "No clipboard history."
 msgstr "Сохранять историю буфера обмена в файл"
+
+#: src/modules/quickphrase/quickphrase.h:37 src/im/keyboard/keyboard.h:41
+msgid "None"
+msgstr "Нет"
+
+#: src/ui/kimpanel/kimpanel.cpp:310
+#, fuzzy
+msgid "Not available"
+msgstr "(Недоступный)"
+
+#: src/modules/spell/spell.h:33
+msgid "Presage"
+msgstr ""
 
 #: src/modules/quickphrase/quickphrase.cpp:283
 msgid "Quick Phrase: "
 msgstr "Быстрая фраза"
 
-#: src/im/keyboard/keyboard.cpp:264
+#: src/modules/notificationitem/dbusmenu.cpp:287
+msgid "Restart"
+msgstr "Перезапустить"
+
+#: src/lib/fcitx/globalconfig.cpp:79
+#, fuzzy
+msgid "Show Input Method Information when switch input method"
+msgstr "Показывать подсказку метода ввода после его изменения"
+
+#: src/im/keyboard/keyboard.cpp:303
 msgid "Spell hint"
 msgstr "Подсказки по написанию"
 
-#: src/im/keyboard/keyboard.cpp:266
+#: src/im/keyboard/keyboard.cpp:305
 msgid "Spell hint is disabled."
 msgstr "Подсказки по написанию отключены."
 
-#: src/im/keyboard/keyboard.cpp:265
+#: src/im/keyboard/keyboard.cpp:304
 msgid "Spell hint is enabled."
 msgstr "Подсказки по написанию включены."
+
+#: src/modules/quickphrase/quickphrase.h:38 src/im/keyboard/keyboard.h:42
+#, fuzzy
+msgid "Super"
+msgstr "Левая клавиша Super"
+
+#: src/lib/fcitx/globalconfig.cpp:34
+msgid "Trigger Input Method"
+msgstr "Активация метода ввода"
+
+#: src/lib/fcitx/globalconfig.cpp:39
+#, fuzzy
+msgid "Trigger Input Method Only after using it to deactivate"
+msgstr ""
+"Использовать дополнительную клавишу для активации метода ввода только после "
+"деактивации ей"
 
 #: src/modules/unicode/unicode.cpp:244
 #, fuzzy
 msgid "Unicode: "
 msgstr "Unicode"
 
-#: src/lib/fcitx/instance.cpp:475
+#: src/lib/fcitx/instance.cpp:1494
 #, fuzzy
 msgid "{0} (Not available)"
 msgstr "(Недоступный)"
 
-#: src/lib/fcitx/instance.cpp:472
+#: src/lib/fcitx/instance.cpp:1491
 msgid "{0} ({1})"
 msgstr ""
 
@@ -103,6 +243,10 @@ msgstr "Подсказки"
 
 #: src/modules/notifications/notifications.conf.in:3
 msgid "notifications"
+msgstr ""
+
+#: src/modules/notificationitem/notificationitem.conf.in:3
+msgid "notificationitem"
 msgstr ""
 
 #: src/modules/dbus/dbus.conf.in:3
@@ -135,6 +279,15 @@ msgstr "Добавляет поддержку набора с помощью с�
 #, fuzzy
 msgid "Quick Phrase"
 msgstr "Быстрая фраза"
+
+#: src/im/keyboard/keyboard.conf.in:3
+msgid "Keyboard"
+msgstr "Клавиатура"
+
+#: src/frontend/ibusfrontend/ibusfrontend.conf.in:3
+#, fuzzy
+msgid "IBus Frontend"
+msgstr "Интерфейс Fcitx DBus"
 
 #: src/frontend/dbusfrontend/dbusfrontend.conf.in:3
 #, fuzzy
@@ -344,9 +497,6 @@ msgstr "Классический"
 #~ msgid "Allow to Override System XKB Settings"
 #~ msgstr "Разрешать перезаписывать системные настройки XKB"
 
-#~ msgid "Alt"
-#~ msgstr "Alt"
-
 #~ msgid "Alternative Next Page Key"
 #~ msgstr "Альтернативная клавиша следующей страницы"
 
@@ -415,9 +565,6 @@ msgstr "Классический"
 
 #~ msgid "Beginner's Guide"
 #~ msgstr "Руководство для начинающих"
-
-#~ msgid "Bingchan"
-#~ msgstr "Бинчань (Bingchan)"
 
 #~ msgid "BottomCenter"
 #~ msgstr "Снизуцентр"
@@ -660,12 +807,6 @@ msgstr "Классический"
 #~ msgid "Configuration:"
 #~ msgstr "Настройка:"
 
-#~ msgid "Configure"
-#~ msgstr "Настроить"
-
-#~ msgid "Configure Current Input Method"
-#~ msgstr "Настроить текущий метод ввода"
-
 #~ msgid "Configure group name error: line %d"
 #~ msgstr "Ошибка в названии группы: строка %d"
 
@@ -696,9 +837,6 @@ msgstr "Классический"
 #~ msgid "Current Enabled Input Method List"
 #~ msgstr "Текущий список включенных методов ввода"
 
-#~ msgid "Current Input Method Name"
-#~ msgstr "Текущее название метода ввода"
-
 #~ msgid "Current fcitx settings directory is ${1} (${2})."
 #~ msgstr "Текущий каталог настроек fcitx — ${1} (${2})."
 
@@ -713,9 +851,6 @@ msgstr "Классический"
 
 #~ msgid "Current value of ${1} is ${2} (${3})."
 #~ msgstr "Текущее значение ${1}: ${2} (${3})."
-
-#~ msgid "Custom"
-#~ msgstr "Пользовательский"
 
 #~ msgid "Custom switch key"
 #~ msgstr "Пользовательская клавиша переключения"
@@ -905,9 +1040,6 @@ msgstr "Классический"
 
 #~ msgid "Exec"
 #~ msgstr "Выполнить"
-
-#~ msgid "Exit"
-#~ msgstr "Выход"
 
 #~ msgid "Extra key for trigger input method"
 #~ msgstr "Дополнительная клавиша для активации метода ввода"
@@ -1179,9 +1311,6 @@ msgstr "Классический"
 #~ msgid "Horizontal"
 #~ msgstr "Горизонтально"
 
-#~ msgid "Hotkey"
-#~ msgstr "Горячая клавиша"
-
 #~ msgid "Hotkey for Inputing Character From Phrase"
 #~ msgstr "Горячая клавиша для ввода симола из фразы"
 
@@ -1242,9 +1371,6 @@ msgstr "Классический"
 #~ msgstr ""
 #~ "Игнорировать некоторую пунктуацию, если пусто, а затем всю пунктуацию"
 
-#~ msgid "Inactivate Input Method"
-#~ msgstr "Включить метод ввода"
-
 #~ msgid "Inactive"
 #~ msgstr "Неактивно"
 
@@ -1271,9 +1397,6 @@ msgstr "Классический"
 
 #~ msgid "Input Message Color"
 #~ msgstr "Цвет сообщения ввода"
-
-#~ msgid "Input Method"
-#~ msgstr "Метод ввода"
 
 #~ msgid "Input Method Disabled"
 #~ msgstr "Метод ввода отключен"
@@ -1386,9 +1509,6 @@ msgstr "Классический"
 
 #~ msgid "Left"
 #~ msgstr "Влево"
-
-#~ msgid "Left Super"
-#~ msgstr "Левая клавиша Super"
 
 #~ msgid ""
 #~ "Left/Right to choose selected character, Press Enter to confirm, Press "
@@ -1543,9 +1663,6 @@ msgstr "Классический"
 #~ msgid "Next Candidate Word"
 #~ msgstr "Следующее слово-кандидат"
 
-#~ msgid "Next Page"
-#~ msgstr "Следующая страница"
-
 #~ msgid "Next Page Icon"
 #~ msgstr "Значок следующей страницы"
 
@@ -1569,9 +1686,6 @@ msgstr "Классический"
 
 #~ msgid "Non-comment doesn't belongs to any group @ %d %s"
 #~ msgstr "Не комментарий не принадлежит ни к какой группе %d %s"
-
-#~ msgid "None"
-#~ msgstr "Нет"
 
 #~ msgid "Not Set"
 #~ msgstr "Не установлено"
@@ -1830,9 +1944,6 @@ msgstr "Классический"
 #~ msgid "Resize Margin Top"
 #~ msgstr "Изменить размер предела сверху"
 
-#~ msgid "Restart"
-#~ msgstr "Перезапустить"
-
 #~ msgid "Right"
 #~ msgstr "Вправо"
 
@@ -1924,9 +2035,6 @@ msgstr "Классический"
 
 #~ msgid "Show"
 #~ msgstr "Показывать"
-
-#~ msgid "Show Input Method Hint After Input method changed"
-#~ msgstr "Показывать подсказку метода ввода после его изменения"
 
 #~ msgid "Show Input Method Hint After Input method changed and Focus in"
 #~ msgstr ""
@@ -2199,9 +2307,6 @@ msgstr "Классический"
 #~ msgid "Treating abbreviated Pinyin as English"
 #~ msgstr "Обрабатывать сокращенный пиньинь как английский"
 
-#~ msgid "Trigger Input Method"
-#~ msgstr "Активация метода ввода"
-
 #~ msgid "Trigger Key for Clipboard History List"
 #~ msgstr "Клавиша переключения для списка историй буфера обмена"
 
@@ -2288,11 +2393,6 @@ msgstr "Классический"
 
 #~ msgid "Use enter to commit the existing string"
 #~ msgstr "Используйте ENTER для ввода существующей строки"
-
-#~ msgid "Use extra trigger key only after using it to inactivate"
-#~ msgstr ""
-#~ "Использовать дополнительную клавишу для активации метода ввода только "
-#~ "после деактивации ей"
 
 #~ msgid "Use remind"
 #~ msgstr "Напоминать"

@@ -47,6 +47,9 @@ void Configuration::dumpDescription(RawConfig &config) const {
         assert(optionIter != d->options_.end());
         auto option = optionIter->second;
         auto descConfigPtr = subRoot->get(option->path(), true);
+        if (option->skipDescription()) {
+            continue;
+        }
         option->dumpDescription(*descConfigPtr);
 
         auto subConfig = (option->subConfigSkeleton());
@@ -85,12 +88,12 @@ void Configuration::copyHelper(const Configuration &other) {
     }
 }
 
-void Configuration::load(const RawConfig &config) {
+void Configuration::load(const RawConfig &config, bool partial) {
     FCITX_D();
     for (const auto &path : d->optionsOrder_) {
         auto subConfigPtr = config.get(path);
         auto option = d->options_[path];
-        if (!subConfigPtr) {
+        if (!subConfigPtr && !partial) {
             option->reset();
             continue;
         }

@@ -28,6 +28,7 @@
 #include <vector>
 
 namespace fcitx {
+
 class RawConfig;
 
 typedef std::shared_ptr<RawConfig> RawConfigPtr;

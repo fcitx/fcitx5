@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-09-15 16:52-0700\n"
+"POT-Creation-Date: 2017-11-17 20:15-0800\n"
 "PO-Revision-Date: 2017-07-28 12:48+0000\n"
 "Last-Translator: mar well <m.wellendorf@gmx.de>\n"
 "Language-Team: German (http://www.transifex.com/fcitx/fcitx/language/de/)\n"
@@ -21,80 +21,220 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: src/modules/unicode/charselectdata.cpp:214
+#: src/lib/fcitx/instance.cpp:1496
+#, fuzzy
+msgid "(Not available)"
+msgstr "(Nicht erreichbar)"
+
+#: src/modules/unicode/charselectdata.cpp:216
 msgid "<Low Surrogate>"
 msgstr "<Low Surrogate>"
 
-#: src/modules/unicode/charselectdata.cpp:210
+#: src/modules/unicode/charselectdata.cpp:212
 msgid "<Non Private Use High Surrogate>"
 msgstr "<Non Private Use High Surrogate>"
 
-#: src/modules/unicode/charselectdata.cpp:212
+#: src/modules/unicode/charselectdata.cpp:214
 msgid "<Private Use High Surrogate>"
 msgstr "<Private Use High Surrogate>"
 
-#: src/modules/unicode/charselectdata.cpp:216
+#: src/modules/unicode/charselectdata.cpp:218
 msgid "<Private Use>"
 msgstr "<Private Use>"
 
-#: src/modules/unicode/charselectdata.cpp:246
+#: src/modules/unicode/charselectdata.cpp:248
 msgid "<not assigned>"
 msgstr "<not assigned>"
 
-#: src/modules/clipboard/clipboard.cpp:290
+#: src/lib/fcitx/globalconfig.cpp:61
+#, fuzzy
+msgid "Activate Input Method"
+msgstr "Eingabemethode deaktivieren"
+
+#: src/lib/fcitx/globalconfig.cpp:76
+msgid "Active By Default"
+msgstr ""
+
+#: src/modules/quickphrase/quickphrase.h:38 src/im/keyboard/keyboard.h:41
+msgid "Alt"
+msgstr "Alt"
+
+#: src/lib/fcitx/globalconfig.cpp:91
+msgid "Behavior"
+msgstr ""
+
+#: src/modules/clipboard/clipboard.cpp:287
 #, fuzzy
 msgid "Clipboard:"
 msgstr "Zwischenablage"
 
-#: src/lib/fcitx/inputmethodmanager.cpp:188
+#: src/modules/notificationitem/dbusmenu.cpp:280
+msgid "Configure"
+msgstr "Konfigurieren"
+
+#: src/modules/notificationitem/dbusmenu.cpp:275
+msgid "Configure Current Input Method"
+msgstr "Aktuelle Eingabemethode konfigurieren"
+
+#: src/modules/quickphrase/quickphrase.h:38 src/im/keyboard/keyboard.h:42
+msgid "Control"
+msgstr ""
+
+#: src/modules/spell/spell.h:33
+msgid "Custom"
+msgstr "Anwenderspezifisch"
+
+#: src/lib/fcitx/globalconfig.cpp:67
+#, fuzzy
+msgid "Deactivate Input Method"
+msgstr "Eingabemethode deaktivieren"
+
+#: src/lib/fcitx/inputmethodmanager.cpp:200
+#: src/ui/classic/themes/default/theme.conf.in:3
 msgid "Default"
 msgstr "Standard"
 
-#: src/modules/notifications/notifications.cpp:231
+#: src/lib/fcitx/globalconfig.cpp:72
+#, fuzzy
+msgid "Default Next page"
+msgstr "Taste für weitere Kanditaten"
+
+#: src/lib/fcitx/globalconfig.cpp:70
+msgid "Default Previous page"
+msgstr ""
+
+#: src/lib/fcitx/globalconfig.cpp:81
+msgid "Default page size"
+msgstr ""
+
+#: src/modules/notifications/notifications.cpp:226
 msgid "Do not show again"
 msgstr "Nicht mehr zeigen"
 
-#: src/im/keyboard/keyboard.cpp:167 src/im/keyboard/keyboard.conf.in:3
-msgid "Keyboard"
-msgstr "Tastatur"
+#: src/modules/spell/spell.h:34
+#, fuzzy
+msgid "Enchant"
+msgstr "Bingchan"
 
-#: src/im/keyboard/keyboard.cpp:154
+#: src/lib/fcitx/globalconfig.cpp:47
+#, fuzzy
+msgid "Enumerate Input Method Backward"
+msgstr "Name der aktivierten Eingabemethode"
+
+#: src/lib/fcitx/globalconfig.cpp:43
+#, fuzzy
+msgid "Enumerate Input Method Forward"
+msgstr "Name der aktivierten Eingabemethode"
+
+#: src/lib/fcitx/globalconfig.cpp:57
+msgid "Enumerate Input Method Group Backward"
+msgstr ""
+
+#: src/lib/fcitx/globalconfig.cpp:52
+msgid "Enumerate Input Method Group Forward"
+msgstr ""
+
+#: src/modules/notificationitem/dbusmenu.cpp:293
+msgid "Exit"
+msgstr "Beenden"
+
+#: src/modules/notificationitem/dbusmenu.cpp:265
+msgid "Group"
+msgstr ""
+
+#: src/lib/fcitx/instance.cpp:1499
+msgid "Group {0}: {1}"
+msgstr ""
+
+#: src/lib/fcitx/globalconfig.cpp:89
+msgid "Hotkey"
+msgstr "Kurzbefehl"
+
+#: src/modules/notificationitem/notificationitem.cpp:102
+#: src/modules/notificationitem/dbusmenu.cpp:259
+msgid "Input Method"
+msgstr "Eingabemethode"
+
+#: src/im/keyboard/keyboard.cpp:200
 #, fuzzy
 msgid "Keyboard - {0}"
 msgstr "Tastatur"
 
-#: src/modules/clipboard/clipboard.cpp:292
+#: src/im/keyboard/keyboard.cpp:213
+#, fuzzy
+msgid "Keyboard - {0} - {1}"
+msgstr "Tastatur"
+
+#: src/modules/clipboard/clipboard.cpp:289
 #, fuzzy
 msgid "No clipboard history."
 msgstr "Zwischenablagenverlauf in Datei sichern"
+
+#: src/modules/quickphrase/quickphrase.h:37 src/im/keyboard/keyboard.h:41
+msgid "None"
+msgstr "Nicht beibehalten"
+
+#: src/ui/kimpanel/kimpanel.cpp:310
+#, fuzzy
+msgid "Not available"
+msgstr "(Nicht erreichbar)"
+
+#: src/modules/spell/spell.h:33
+msgid "Presage"
+msgstr ""
 
 #: src/modules/quickphrase/quickphrase.cpp:283
 msgid "Quick Phrase: "
 msgstr "Quick Phrase: "
 
-#: src/im/keyboard/keyboard.cpp:264
+#: src/modules/notificationitem/dbusmenu.cpp:287
+msgid "Restart"
+msgstr "Neustart"
+
+#: src/lib/fcitx/globalconfig.cpp:79
+#, fuzzy
+msgid "Show Input Method Information when switch input method"
+msgstr "Hinweis zur Eingabemethode zeigen, nachdem sie gewechselt wurde"
+
+#: src/im/keyboard/keyboard.cpp:303
 msgid "Spell hint"
 msgstr "Rechtschreibungshinweis"
 
-#: src/im/keyboard/keyboard.cpp:266
+#: src/im/keyboard/keyboard.cpp:305
 msgid "Spell hint is disabled."
 msgstr "Rechtschreibungshinweis ist deaktiviert."
 
-#: src/im/keyboard/keyboard.cpp:265
+#: src/im/keyboard/keyboard.cpp:304
 msgid "Spell hint is enabled."
 msgstr "Rechtschreibungshinweis ist aktiviert."
+
+#: src/modules/quickphrase/quickphrase.h:38 src/im/keyboard/keyboard.h:42
+#, fuzzy
+msgid "Super"
+msgstr "Linke Super-Taste"
+
+#: src/lib/fcitx/globalconfig.cpp:34
+msgid "Trigger Input Method"
+msgstr "Eingabemethode aktivieren"
+
+#: src/lib/fcitx/globalconfig.cpp:39
+#, fuzzy
+msgid "Trigger Input Method Only after using it to deactivate"
+msgstr ""
+"Extra Triggertaste nur benutzen, wenn sie vorher zum Inaktivieren benutzt "
+"wurde"
 
 #: src/modules/unicode/unicode.cpp:244
 #, fuzzy
 msgid "Unicode: "
 msgstr "Unicode"
 
-#: src/lib/fcitx/instance.cpp:475
+#: src/lib/fcitx/instance.cpp:1494
 #, fuzzy
 msgid "{0} (Not available)"
 msgstr "(Nicht erreichbar)"
 
-#: src/lib/fcitx/instance.cpp:472
+#: src/lib/fcitx/instance.cpp:1491
 msgid "{0} ({1})"
 msgstr ""
 
@@ -104,6 +244,10 @@ msgstr "Rechtschreibung"
 
 #: src/modules/notifications/notifications.conf.in:3
 msgid "notifications"
+msgstr ""
+
+#: src/modules/notificationitem/notificationitem.conf.in:3
+msgid "notificationitem"
 msgstr ""
 
 #: src/modules/dbus/dbus.conf.in:3
@@ -136,6 +280,15 @@ msgstr "Unicode-Unterstützung hinzufügen"
 #, fuzzy
 msgid "Quick Phrase"
 msgstr "QuickPhrase"
+
+#: src/im/keyboard/keyboard.conf.in:3
+msgid "Keyboard"
+msgstr "Tastatur"
+
+#: src/frontend/ibusfrontend/ibusfrontend.conf.in:3
+#, fuzzy
+msgid "IBus Frontend"
+msgstr "Fcitx DBus Schnittstelle"
 
 #: src/frontend/dbusfrontend/dbusfrontend.conf.in:3
 #, fuzzy
@@ -346,9 +499,6 @@ msgstr "CLASSIC (Fcitx Benutzeroberfläche)"
 #~ msgid "Allow to Override System XKB Settings"
 #~ msgstr "Erlaube die XKB-Einstellungen zu ignorieren"
 
-#~ msgid "Alt"
-#~ msgstr "Alt"
-
 #~ msgid "Alternative Next Page Key"
 #~ msgstr "Alternative Taste Nächste Seite"
 
@@ -416,9 +566,6 @@ msgstr "CLASSIC (Fcitx Benutzeroberfläche)"
 
 #~ msgid "Beginner's Guide"
 #~ msgstr "Erste Schritte"
-
-#~ msgid "Bingchan"
-#~ msgstr "Bingchan"
 
 #~ msgid "BottomCenter"
 #~ msgstr "unten mitte"
@@ -644,12 +791,6 @@ msgstr "CLASSIC (Fcitx Benutzeroberfläche)"
 #~ msgid "Configuration:"
 #~ msgstr "Konfiguration:"
 
-#~ msgid "Configure"
-#~ msgstr "Konfigurieren"
-
-#~ msgid "Configure Current Input Method"
-#~ msgstr "Aktuelle Eingabemethode konfigurieren"
-
 #~ msgid "Configure group name error: line %d"
 #~ msgstr "Fehler in der Konfiguration des Gruppennamens: Zeile %d"
 
@@ -680,9 +821,6 @@ msgstr "CLASSIC (Fcitx Benutzeroberfläche)"
 #~ msgid "Current Enabled Input Method List"
 #~ msgstr "Liste der aktivierten Eingabemethoden"
 
-#~ msgid "Current Input Method Name"
-#~ msgstr "Name der aktivierten Eingabemethode"
-
 #~ msgid "Current fcitx settings directory is ${1} (${2})."
 #~ msgstr "Das gegenwärtige Fcitx Konfigurationsverzeichnis ist ${1} (${2})."
 
@@ -697,9 +835,6 @@ msgstr "CLASSIC (Fcitx Benutzeroberfläche)"
 
 #~ msgid "Current value of ${1} is ${2} (${3})."
 #~ msgstr "Die gegenwärtige Einstellung von ${1} ist ${2} (${3})."
-
-#~ msgid "Custom"
-#~ msgstr "Anwenderspezifisch"
 
 #~ msgid "DBus Support"
 #~ msgstr "DBus Unterstützung"
@@ -870,9 +1005,6 @@ msgstr "CLASSIC (Fcitx Benutzeroberfläche)"
 
 #~ msgid "Exec"
 #~ msgstr "Exec"
-
-#~ msgid "Exit"
-#~ msgstr "Beenden"
 
 #~ msgid "Extra key for trigger input method"
 #~ msgstr "Extrataste zum Aktivieren der Eingabemethode"
@@ -1141,9 +1273,6 @@ msgstr "CLASSIC (Fcitx Benutzeroberfläche)"
 #~ msgid "Horizontal"
 #~ msgstr "Horizontal"
 
-#~ msgid "Hotkey"
-#~ msgstr "Kurzbefehl"
-
 #~ msgid "Hotkey for Inputing Character From Phrase"
 #~ msgstr "Hotkey zur Eingabe eines Zeichens aus einer Phrase"
 
@@ -1203,9 +1332,6 @@ msgstr "CLASSIC (Fcitx Benutzeroberfläche)"
 #~ msgstr ""
 #~ "Punktuation ignorieren, wenn dies leer ist, alle Punktuation ignorieren"
 
-#~ msgid "Inactivate Input Method"
-#~ msgstr "Eingabemethode deaktivieren"
-
 #~ msgid "Inactive"
 #~ msgstr "Inaktiv"
 
@@ -1234,9 +1360,6 @@ msgstr "CLASSIC (Fcitx Benutzeroberfläche)"
 
 #~ msgid "Input Message Color"
 #~ msgstr "Farbe der Pinyineingabe"
-
-#~ msgid "Input Method"
-#~ msgstr "Eingabemethode"
 
 #~ msgid "Input Method Disabled"
 #~ msgstr "Eingabemethode deaktiviert"
@@ -1345,9 +1468,6 @@ msgstr "CLASSIC (Fcitx Benutzeroberfläche)"
 
 #~ msgid "Left"
 #~ msgstr "Links"
-
-#~ msgid "Left Super"
-#~ msgstr "Linke Super-Taste"
 
 #~ msgid ""
 #~ "Left/Right to choose selected character, Press Enter to confirm, Press "
@@ -1497,9 +1617,6 @@ msgstr "CLASSIC (Fcitx Benutzeroberfläche)"
 #~ msgid "Next Candidate Word"
 #~ msgstr "Nächster Kandidat (Wort)"
 
-#~ msgid "Next Page"
-#~ msgstr "Taste für weitere Kanditaten"
-
 #~ msgid "Next Page Icon"
 #~ msgstr "Icon für nächste Seite Kandidaten"
 
@@ -1520,9 +1637,6 @@ msgstr "CLASSIC (Fcitx Benutzeroberfläche)"
 
 #~ msgid "No remind"
 #~ msgstr "Nicht erinnern"
-
-#~ msgid "None"
-#~ msgstr "Nicht beibehalten"
 
 #~ msgid "Not Set"
 #~ msgstr "Nicht ausgewählt"
@@ -1769,9 +1883,6 @@ msgstr "CLASSIC (Fcitx Benutzeroberfläche)"
 #~ msgid "Resize Margin Top"
 #~ msgstr "Korrektur Größe Rand oben"
 
-#~ msgid "Restart"
-#~ msgstr "Neustart"
-
 #~ msgid "Right"
 #~ msgstr "Rechts"
 
@@ -1855,9 +1966,6 @@ msgstr "CLASSIC (Fcitx Benutzeroberfläche)"
 
 #~ msgid "Show"
 #~ msgstr "Zeigen"
-
-#~ msgid "Show Input Method Hint After Input method changed"
-#~ msgstr "Hinweis zur Eingabemethode zeigen, nachdem sie gewechselt wurde"
 
 #~ msgid "Show Input Method Hint After Input method changed and Focus in"
 #~ msgstr ""
@@ -2132,9 +2240,6 @@ msgstr "CLASSIC (Fcitx Benutzeroberfläche)"
 #~ msgid "Treating abbreviated Pinyin as English"
 #~ msgstr "Gekürztes Pinyin als Englisch bearbeiten"
 
-#~ msgid "Trigger Input Method"
-#~ msgstr "Eingabemethode aktivieren"
-
 #~ msgid "Trigger Key for Clipboard History List"
 #~ msgstr "Auswahltaste für den Zwischenablageverlauf"
 
@@ -2212,11 +2317,6 @@ msgstr "CLASSIC (Fcitx Benutzeroberfläche)"
 
 #~ msgid "Use enter to commit the existing string"
 #~ msgstr "Benutzte ENTER um den existierenden String zu bestätigen"
-
-#~ msgid "Use extra trigger key only after using it to inactivate"
-#~ msgstr ""
-#~ "Extra Triggertaste nur benutzen, wenn sie vorher zum Inaktivieren benutzt "
-#~ "wurde"
 
 #~ msgid "Use remind"
 #~ msgstr "Erinnern"

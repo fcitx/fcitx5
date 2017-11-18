@@ -18,13 +18,13 @@
  */
 
 #include "inputcontext.h"
+#include "fcitx-utils/event.h"
 #include "focusgroup.h"
 #include "inputcontext_p.h"
 #include "inputcontextmanager.h"
 #include "instance.h"
 #include <cassert>
 #include <exception>
-#include <fcitx-utils/event.h>
 
 namespace fcitx {
 

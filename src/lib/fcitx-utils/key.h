@@ -75,6 +75,8 @@ public:
 
     std::string toString() const;
 
+    bool isValid() const;
+
     inline KeySym sym() const { return sym_; }
     inline KeyStates states() const { return states_; }
     inline int code() const { return code_; }

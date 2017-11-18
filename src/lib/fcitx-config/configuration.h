@@ -64,7 +64,9 @@ public:
     Configuration();
     virtual ~Configuration();
 
-    void load(const RawConfig &config);
+    /// Load configuration from RawConfig. If partial is true, non-exist option
+    /// will be reset to default value, otherwise it will be untouched.
+    void load(const RawConfig &config, bool partial = false);
     void save(RawConfig &config) const;
     void dumpDescription(RawConfig &config) const;
     virtual const char *typeName() const = 0;

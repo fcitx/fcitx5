@@ -26,6 +26,8 @@ FCITX_CONFIGURATION(
     fcitx::Option<I18NString> comment{this, "Comment", "Comment"};
     fcitx::Option<std::string> type{this, "Type", "Addon Type"};
     fcitx::Option<std::string> library{this, "Library", "Addon Library"};
+    fcitx::Option<bool> configurable{this, "Configurable", "Configurable",
+                                     false};
     fcitx::Option<bool> enabled{this, "Enabled", "Enabled", true};
     fcitx::Option<AddonCategory> category{this, "Category", "Category"};
     fcitx::Option<std::vector<std::string>> dependencies{this, "Dependencies",
@@ -130,6 +132,11 @@ bool AddonInfo::isEnabled() const {
 bool AddonInfo::isDefaultEnabled() const {
     FCITX_D();
     return *d->addon->enabled;
+}
+
+bool AddonInfo::isConfigurable() const {
+    FCITX_D();
+    return *d->addon->configurable;
 }
 
 void AddonInfo::setOverrideEnabled(OverrideEnabled overrideEnabled) {

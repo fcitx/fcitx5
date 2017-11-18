@@ -21,6 +21,8 @@
 
 #include "fcitx-config/configuration.h"
 #include "fcitx-config/enum.h"
+#include "fcitx-config/iniparser.h"
+#include "fcitx-utils/i18n.h"
 #include "fcitx-utils/key.h"
 #include "fcitx-utils/standardpath.h"
 #include "fcitx/addonfactory.h"
@@ -33,15 +35,17 @@
 namespace fcitx {
 
 FCITX_CONFIG_ENUM(QuickPhraseChooseModifier, None, Alt, Control, Super);
+FCITX_CONFIG_ENUM_I18N_ANNOTATION(QuickPhraseChooseModifier, N_("None"),
+                                  N_("Alt"), N_("Control"), N_("Super"));
 
-FCITX_CONFIGURATION(QuickPhraseConfig,
-                    Option<KeyList> triggerKey{this,
-                                               "TriggerKey",
-                                               "Trigger Key",
-                                               {Key("Super+grave")}};
-                    fcitx::Option<QuickPhraseChooseModifier> chooseModifier{
-                        this, "Choose Modifier", "Choose key modifier",
-                        QuickPhraseChooseModifier::None};);
+FCITX_CONFIGURATION(
+    QuickPhraseConfig,
+    Option<KeyList> triggerKey{
+        this, "TriggerKey", "Trigger Key", {Key("Super+grave")}};
+    fcitx::OptionWithAnnotation<QuickPhraseChooseModifier,
+                                QuickPhraseChooseModifierI18NAnnoation>
+        chooseModifier{this, "Choose Modifier", "Choose key modifier",
+                       QuickPhraseChooseModifier::None};);
 
 class QuickPhraseState;
 class QuickPhrase final : public AddonInstance {
@@ -51,6 +55,12 @@ public:
 
     const QuickPhraseConfig &config() const { return config_; }
     Instance *instance() { return instance_; }
+
+    const Configuration *getConfig() const override { return &config_; }
+    void setConfig(const RawConfig &config) override {
+        config_.load(config, true);
+        safeSaveAsIni(config_, "conf/quickphrase.conf");
+    }
 
     void reloadConfig() override;
     void load(StandardPathFile &file);

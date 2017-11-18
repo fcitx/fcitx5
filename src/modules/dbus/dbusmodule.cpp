@@ -21,7 +21,9 @@
 #include "fcitx-config/dbushelper.h"
 #include "fcitx-utils/dbus/bus.h"
 #include "fcitx-utils/i18n.h"
+#include "fcitx-utils/stringutils.h"
 #include "fcitx/addonmanager.h"
+#include "fcitx/inputmethodengine.h"
 #include "fcitx/inputmethodentry.h"
 #include "fcitx/inputmethodmanager.h"
 #include "keyboard_public.h"
@@ -37,6 +39,11 @@
 using namespace fcitx::dbus;
 
 namespace fcitx {
+
+namespace {
+constexpr char addonConfigPrefix[] = "fcitx://config/addon/";
+constexpr char imConfigPrefix[] = "fcitx://config/inputmethod/";
+} // namespace
 
 class Controller1 : public ObjectVTable<Controller1> {
 public:
@@ -98,16 +105,17 @@ public:
     }
 
     std::vector<DBusStruct<std::string, std::string, std::string, std::string,
-                           std::string, std::string>>
+                           std::string, std::string, bool>>
     availableInputMethods() {
         std::vector<DBusStruct<std::string, std::string, std::string,
-                               std::string, std::string, std::string>>
+                               std::string, std::string, std::string, bool>>
             entries;
         instance_->inputMethodManager().foreachEntries(
             [&entries](const InputMethodEntry &entry) {
                 entries.emplace_back(std::forward_as_tuple(
                     entry.uniqueName(), entry.name(), entry.nativeName(),
-                    entry.icon(), entry.label(), entry.languageCode()));
+                    entry.icon(), entry.label(), entry.languageCode(),
+                    entry.isConfigurable()));
                 return true;
             });
         return entries;
@@ -177,16 +185,113 @@ public:
     }
 
     std::tuple<dbus::Variant, DBusConfig> getConfig(const std::string &uri) {
-        return {};
+        std::tuple<dbus::Variant, DBusConfig> result;
+        if (uri == "fcitx://config/global") {
+            RawConfig config;
+            instance_->globalConfig().save(config);
+            std::get<0>(result) = rawConfigToVariant(config);
+            std::get<1>(result) =
+                dumpDBusConfigDescription(instance_->globalConfig().config());
+            return result;
+        } else if (stringutils::startsWith(uri, addonConfigPrefix)) {
+            FCITX_INFO() << uri;
+            auto addon = uri.substr(sizeof(addonConfigPrefix) - 1);
+            if (auto addonInfo = instance_->addonManager().addonInfo(addon)) {
+                if (!addonInfo->isConfigurable()) {
+                    throw dbus::MethodCallError(
+                        "org.freedesktop.DBus.Error.InvalidArgs",
+                        "Addon is not configurable.");
+                }
+            } else {
+                throw dbus::MethodCallError(
+                    "org.freedesktop.DBus.Error.InvalidArgs",
+                    "Addon does not exist.");
+            }
+            auto addonInstance = instance_->addonManager().addon(addon, true);
+            const Configuration *config = nullptr;
+            if (addonInstance) {
+                config = addonInstance->getConfig();
+            }
+            if (config) {
+                RawConfig rawConfig;
+                config->save(rawConfig);
+                std::get<0>(result) = rawConfigToVariant(rawConfig);
+                std::get<1>(result) = dumpDBusConfigDescription(*config);
+                return result;
+            } else {
+                throw dbus::MethodCallError("org.freedesktop.DBus.Error.Failed",
+                                            "Failed to get addon config.");
+            }
+        } else if (stringutils::startsWith(uri, imConfigPrefix)) {
+            auto im = uri.substr(sizeof(imConfigPrefix) - 1);
+            auto entry = instance_->inputMethodManager().entry(im);
+            if (entry) {
+                if (!entry->isConfigurable()) {
+                    throw dbus::MethodCallError(
+                        "org.freedesktop.DBus.Error.InvalidArgs",
+                        "Input Method is not configurable.");
+                }
+            } else {
+                throw dbus::MethodCallError(
+                    "org.freedesktop.DBus.Error.InvalidArgs",
+                    "Input Method does not exist.");
+            }
+            auto engine = instance_->inputMethodEngine(im);
+            const Configuration *config = nullptr;
+            if (engine) {
+                config = engine->getConfigForInputMethod(*entry);
+            }
+
+            if (config) {
+                RawConfig rawConfig;
+                config->save(rawConfig);
+                std::get<0>(result) = rawConfigToVariant(rawConfig);
+                std::get<1>(result) = dumpDBusConfigDescription(*config);
+                return result;
+            } else {
+                throw dbus::MethodCallError("org.freedesktop.DBus.Error.Failed",
+                                            "Failed to get input method.");
+            }
+        }
+        throw dbus::MethodCallError("org.freedesktop.DBus.Error.InvalidArgs",
+                                    "Configuration does not exist.");
     }
 
-    void setConfig(const std::string &uri, const dbus::Variant &v) { return; }
+    void setConfig(const std::string &uri, const dbus::Variant &v) {
+        std::tuple<dbus::Variant, DBusConfig> result;
+        RawConfig config = variantToRawConfig(v);
+        if (uri == "fcitx://config/global") {
+            instance_->globalConfig().load(config, true);
+            instance_->globalConfig().safeSave();
+        } else if (stringutils::startsWith(uri, addonConfigPrefix)) {
+            auto addon = uri.substr(sizeof(addonConfigPrefix) - 1);
+            auto addonInstance = instance_->addonManager().addon(addon, true);
+            if (addonInstance) {
+                addonInstance->setConfig(config);
+            } else {
+                throw dbus::MethodCallError("org.freedesktop.DBus.Error.Failed",
+                                            "Failed to get addon.");
+            }
+        } else if (stringutils::startsWith(uri, imConfigPrefix)) {
+            auto im = uri.substr(sizeof(imConfigPrefix) - 1);
+            auto entry = instance_->inputMethodManager().entry(im);
+            auto engine = instance_->inputMethodEngine(im);
+            if (entry && engine) {
+                engine->setConfigForInputMethod(*entry, config);
+            } else {
+                throw dbus::MethodCallError("org.freedesktop.DBus.Error.Failed",
+                                            "Failed to get input method.");
+            }
+        }
+        throw dbus::MethodCallError("org.freedesktop.DBus.Error.InvalidArgs",
+                                    "Configuration does not exist.");
+    }
 
-    std::vector<
-        dbus::DBusStruct<std::string, std::string, std::string, int32_t, bool>>
+    std::vector<dbus::DBusStruct<std::string, std::string, std::string, int32_t,
+                                 bool, bool>>
     getAddons() {
         std::vector<dbus::DBusStruct<std::string, std::string, std::string,
-                                     int32_t, bool>>
+                                     int32_t, bool, bool>>
             result;
         // Track override.
         auto &enabled = instance_->globalConfig().enabledAddons();
@@ -213,7 +318,7 @@ public:
                 result.emplace_back(info->uniqueName(), info->name().match(),
                                     info->comment().match(),
                                     static_cast<int32_t>(info->category()),
-                                    enabled);
+                                    info->isConfigurable(), enabled);
             }
         }
         return result;
@@ -270,7 +375,7 @@ private:
     FCITX_OBJECT_VTABLE_METHOD(removeInputMethodGroup, "RemoveInputMethodGroup",
                                "s", "");
     FCITX_OBJECT_VTABLE_METHOD(availableInputMethods, "AvailableInputMethods",
-                               "", "a(ssssss)");
+                               "", "a(ssssssb)");
     FCITX_OBJECT_VTABLE_METHOD(inputMethodGroupInfo, "InputMethodGroupInfo",
                                "s", "sa(ss)");
     FCITX_OBJECT_VTABLE_METHOD(inputMethodGroups, "InputMethodGroups", "",
@@ -294,7 +399,7 @@ private:
     FCITX_OBJECT_VTABLE_METHOD(getConfig, "GetConfig", "s",
                                "va(sa(sssva{sv}))");
     FCITX_OBJECT_VTABLE_METHOD(setConfig, "SetConfig", "sv", "");
-    FCITX_OBJECT_VTABLE_METHOD(getAddons, "GetAddons", "", "a(sssib)");
+    FCITX_OBJECT_VTABLE_METHOD(getAddons, "GetAddons", "", "a(sssibb)");
     FCITX_OBJECT_VTABLE_METHOD(setAddonsState, "SetAddonsState", "a(sb)", "");
 };
 

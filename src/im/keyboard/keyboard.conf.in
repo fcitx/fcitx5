@@ -3,6 +3,7 @@ Name=Keyboard
 Type=StaticLibrary
 Library=keyboard
 Category=InputMethod
+Configurable=True
 
 [Addon/OptionalDependencies]
 0=xcb

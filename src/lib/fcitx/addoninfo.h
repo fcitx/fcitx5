@@ -53,6 +53,7 @@ public:
     bool isEnabled() const;
     bool isDefaultEnabled() const;
     void setOverrideEnabled(OverrideEnabled overrideEnabled);
+    bool isConfigurable() const;
 
     void load(const RawConfig &config);
 

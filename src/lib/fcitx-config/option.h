@@ -57,6 +57,7 @@ public:
         return !operator==(other);
     }
 
+    virtual bool skipDescription() const = 0;
     virtual void dumpDescription(RawConfig &config) const;
 
 private:
@@ -68,6 +69,16 @@ private:
 template <typename T>
 struct NoConstrain {
     bool check(const T &) const { return true; }
+    void dumpDescription(RawConfig &) const {}
+};
+
+struct NoAnnotation {
+    bool skipDescription() const { return false; }
+    void dumpDescription(RawConfig &) const {}
+};
+
+struct HideInDescription {
+    bool skipDescription() const { return true; }
     void dumpDescription(RawConfig &) const {}
 };
 
@@ -169,7 +180,8 @@ private:
 };
 
 template <typename T, typename Constrain = NoConstrain<T>,
-          typename Marshaller = DefaultMarshaller<T>>
+          typename Marshaller = DefaultMarshaller<T>,
+          typename Annotation = NoAnnotation>
 class Option : public OptionBase {
 public:
     using value_type = T;
@@ -194,6 +206,7 @@ public:
         OptionBase::dumpDescription(config);
         marshaller_.marshall(config["DefaultValue"], defaultValue_);
         constrain_.dumpDescription(config);
+        annotation_.dumpDescription(config);
         using ::fcitx::dumpDescriptionHelper;
         dumpDescriptionHelper(
             config, static_cast<typename RemoveVector<T>::type *>(nullptr));
@@ -204,7 +217,6 @@ public:
     }
 
     virtual bool isDefault() const override { return defaultValue_ == value_; }
-
     virtual void reset() override { value_ = defaultValue_; }
 
     const T &value() const { return value_; }
@@ -248,14 +260,18 @@ public:
         return setValue(tempValue);
     }
 
-    virtual bool equalTo(const OptionBase &other) const override {
+    bool equalTo(const OptionBase &other) const override {
         auto otherP = static_cast<const Option *>(&other);
         return value_ == otherP->value_;
     }
 
-    virtual void copyFrom(const OptionBase &other) override {
+    void copyFrom(const OptionBase &other) override {
         auto otherP = static_cast<const Option *>(&other);
         value_ = otherP->value_;
+    }
+
+    bool skipDescription() const override {
+        return annotation_.skipDescription();
     }
 
 private:
@@ -263,7 +279,15 @@ private:
     T value_;
     Marshaller marshaller_;
     Constrain constrain_;
+    Annotation annotation_;
 };
+
+template <typename T, typename Annotation>
+using OptionWithAnnotation =
+    Option<T, NoConstrain<T>, DefaultMarshaller<T>, Annotation>;
+
+template <typename T>
+using HiddenOption = OptionWithAnnotation<T, HideInDescription>;
 }
 
 #endif // _FCITX_CONFIG_OPTION_H_

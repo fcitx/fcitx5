@@ -1,4 +1,5 @@
 #include "buffer.h"
+#include "fcitx-utils/stringutils.h"
 #include "theme.h"
 #include "wl_buffer.h"
 #include "wl_callback.h"
@@ -7,7 +8,6 @@
 #include "wl_surface.h"
 #include <cairo/cairo.h>
 #include <cassert>
-#include <fcitx-utils/stringutils.h>
 #include <fcntl.h>
 #include <stdexcept>
 #include <stdlib.h>

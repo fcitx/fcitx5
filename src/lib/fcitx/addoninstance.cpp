@@ -28,9 +28,7 @@ public:
 
 AddonInstance::AddonInstance()
     : d_ptr(std::make_unique<AddonInstancePrivate>()) {}
-AddonInstance::~AddonInstance() {}
-void AddonInstance::reloadConfig() {}
-void AddonInstance::save() {}
+AddonInstance::~AddonInstance() = default;
 
 void AddonInstance::registerCallback(const std::string &name,
                                      AddonFunctionAdaptorBase *adaptor) {

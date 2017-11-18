@@ -4,6 +4,7 @@ Type=SharedLibrary
 Library=classicui
 Category=UI
 OnDemand=True
+Configurable=True
 
 [Addon/OptionalDependencies]
 0=xcb
