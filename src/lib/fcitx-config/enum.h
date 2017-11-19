@@ -64,6 +64,7 @@
         static constexpr size_t enumLength =                                   \
             FCITX_ARRAY_SIZE(_##TYPE##_Names2);                                \
         bool skipDescription() const { return false; }                         \
+        bool skipSave() const { return false; }                                \
         void dumpDescription(RawConfig &config) const {                        \
             for (size_t i = 0; i < enumLength; i++) {                          \
                 config.setValueByPath("EnumI18n/" + std::to_string(i),         \

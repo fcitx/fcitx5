@@ -67,7 +67,9 @@ InputMethodEntry toInputMethodEntry(const std::string &uniqueName,
             result.setNativeName(nativeName);
         }
     }
-    result.setIcon(config.im->icon.value()).setLabel(config.im->label.value());
+    result.setIcon(*config.im->icon)
+        .setLabel(*config.im->label)
+        .setConfigurable(*config.im->configurable);
     return result;
 }
 }

@@ -106,9 +106,12 @@ void Configuration::load(const RawConfig &config, bool partial) {
 void Configuration::save(RawConfig &config) const {
     FCITX_D();
     for (const auto &path : d->optionsOrder_) {
-        auto subConfigPtr = config.get(path, true);
         auto iter = d->options_.find(path);
         assert(iter != d->options_.end());
+        if (iter->second->skipSave()) {
+            continue;
+        }
+        auto subConfigPtr = config.get(path, true);
         iter->second->marshall(*subConfigPtr);
         subConfigPtr->setComment(iter->second->description());
     }

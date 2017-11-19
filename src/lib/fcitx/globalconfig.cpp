@@ -33,11 +33,10 @@ FCITX_CONFIGURATION(
         "TriggerKeys",
         _("Trigger Input Method"),
         {Key("Control+space"), Key("Zenkaku_Hankaku"), Key("Hangul")}};
-    Option<KeyList> altTriggerKeys{
-        this,
-        "AltTriggerKeys",
-        _("Trigger Input Method Only after using it to deactivate"),
-        {Key("Shift_L")}};
+    Option<KeyList> altTriggerKeys{this,
+                                   "AltTriggerKeys",
+                                   _("Alternative Trigger Input Method"),
+                                   {Key("Shift_L")}};
     Option<KeyList> enumerateForwardKeys{this,
                                          "EnumerateForwardKeys",
                                          _("Enumerate Input Method Forward"),

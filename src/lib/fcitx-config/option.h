@@ -58,6 +58,7 @@ public:
     }
 
     virtual bool skipDescription() const = 0;
+    virtual bool skipSave() const = 0;
     virtual void dumpDescription(RawConfig &config) const;
 
 private:
@@ -74,11 +75,13 @@ struct NoConstrain {
 
 struct NoAnnotation {
     bool skipDescription() const { return false; }
+    bool skipSave() const { return false; }
     void dumpDescription(RawConfig &) const {}
 };
 
 struct HideInDescription {
     bool skipDescription() const { return true; }
+    bool skipSave() const { return false; }
     void dumpDescription(RawConfig &) const {}
 };
 
@@ -189,9 +192,11 @@ public:
 
     Option(Configuration *parent, std::string path, std::string description,
            const T &defaultValue = T(), Constrain constrain = Constrain(),
-           Marshaller marshaller = Marshaller())
+           Marshaller marshaller = Marshaller(),
+           Annotation annotation = Annotation())
         : OptionBase(parent, path, description), defaultValue_(defaultValue),
-          value_(defaultValue), marshaller_(marshaller), constrain_(constrain) {
+          value_(defaultValue), marshaller_(marshaller), constrain_(constrain),
+          annotation_(annotation) {
         if (!constrain_.check(defaultValue_)) {
             throw std::invalid_argument(
                 "defaultValue doesn't satisfy constrain");
@@ -273,6 +278,8 @@ public:
     bool skipDescription() const override {
         return annotation_.skipDescription();
     }
+
+    bool skipSave() const override { return annotation_.skipSave(); }
 
 private:
     T defaultValue_;
