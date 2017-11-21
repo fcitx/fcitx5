@@ -19,7 +19,6 @@
 #ifndef _FCITX_UTILS_DBUS_MATCHRULE_H_
 #define _FCITX_UTILS_DBUS_MATCHRULE_H_
 
-#include "fcitxutils_export.h"
 #include <fcitx-utils/macros.h>
 #include <memory>
 #include <string>
