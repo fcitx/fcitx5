@@ -21,6 +21,7 @@
 
 #include "fcitx-utils/dbus/message.h"
 #include "fcitx-utils/dbus/objectvtable.h"
+#include "fcitx-utils/dbus/variant.h"
 #include "fcitx-utils/i18n.h"
 #include "fcitx-utils/log.h"
 #include "fcitx/inputcontext.h"

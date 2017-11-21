@@ -70,6 +70,7 @@ int main() {
             [](const std::string &key) {
                 auto result = keys.insert(key);
                 FCITX_ASSERT(result.second);
+                return true;
             },
             [](const std::string &key) {
                 auto result = keys.erase(key);

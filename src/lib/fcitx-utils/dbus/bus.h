@@ -19,6 +19,7 @@
 #ifndef _FCITX_UTILS_DBUS_BUS_H_
 #define _FCITX_UTILS_DBUS_BUS_H_
 
+#include <fcitx-utils/dbus/matchrule.h>
 #include <fcitx-utils/dbus/message.h>
 #include <fcitx-utils/dbus/objectvtable.h>
 #include <fcitx-utils/event.h>
@@ -43,9 +44,6 @@ enum class RequestNameFlag {
 
 class BusPrivate;
 
-typedef std::function<std::vector<std::string>(const std::string &path)>
-    EnumerateObjectCallback;
-
 class FCITXUTILS_EXPORT Bus {
 public:
     Bus(const std::string &address);
@@ -59,13 +57,13 @@ public:
     void attachEventLoop(EventLoop *loop);
     void detachEventLoop();
 
-    Slot *addMatch(const std::string &match, MessageCallback callback);
-    Slot *addFilter(MessageCallback callback);
-    Slot *addObject(const std::string &path, MessageCallback callback);
+    FCITX_NODISCARD std::unique_ptr<Slot> addMatch(MatchRule rule,
+                                                   MessageCallback callback);
+    FCITX_NODISCARD std::unique_ptr<Slot> addFilter(MessageCallback callback);
+    FCITX_NODISCARD std::unique_ptr<Slot> addObject(const std::string &path,
+                                                    MessageCallback callback);
     bool addObjectVTable(const std::string &path, const std::string &interface,
                          ObjectVTableBase &vtable);
-    Slot *addObjectSubTree(const std::string &prefix, MessageCallback callback,
-                           EnumerateObjectCallback enumerator);
 
     Message createSignal(const char *path, const char *interface,
                          const char *member);

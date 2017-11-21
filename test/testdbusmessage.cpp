@@ -17,6 +17,7 @@
  * see <http://www.gnu.org/licenses/>.
  */
 #include "fcitx-utils/dbus/bus.h"
+#include "fcitx-utils/dbus/variant.h"
 #include "fcitx-utils/event.h"
 #include "fcitx-utils/log.h"
 #include "fcitx-utils/metastring.h"
@@ -76,6 +77,15 @@ int main() {
             std::vector<std::string>{"a", "b"});
         msg << data;
         FCITX_ASSERT(msg.signature() == "as");
+        FCITX_INFO() << data;
+    }
+    {
+        auto msg = bus.createSignal("/test", "test.a.b.c", "test");
+        auto data = FCITX_STRING_TO_DBUS_TUPLE("a(ss)")(
+            std::vector<DBusStruct<std::string, std::string>>{{"a", "a"},
+                                                              {"b", "b"}});
+        msg << data;
+        FCITX_ASSERT(msg.signature() == "a(ss)");
         FCITX_INFO() << data;
     }
     {

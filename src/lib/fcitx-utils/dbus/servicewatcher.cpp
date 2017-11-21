@@ -21,16 +21,6 @@
 #include "../trackableobject.h"
 #include <unordered_map>
 
-#define MATCH_PREFIX                                                           \
-    "type='signal',"                                                           \
-    "sender='org.freedesktop.DBus',"                                           \
-    "path='/org/freedesktop/DBus',"                                            \
-    "interface='org.freedesktop.DBus',"                                        \
-    "member='NameOwnerChanged',"                                               \
-    "arg0='"
-
-#define MATCH_SUFFIX "'"
-
 namespace fcitx {
 namespace dbus {
 
@@ -41,7 +31,10 @@ public:
           watcherMap_(
               [this](const std::string &key) {
                   auto slot = bus_->addMatch(
-                      MATCH_PREFIX + key + MATCH_SUFFIX, [this](Message msg) {
+                      MatchRule("org.freedesktop.DBus", "/org/freedesktop/DBus",
+                                "org.freedesktop.DBus", "NameOwnerChanged",
+                                {key}),
+                      [this](Message msg) {
                           std::string name, oldOwner, newOwner;
                           msg >> name >> oldOwner >> newOwner;
                           querySlots_.erase(name);
@@ -50,30 +43,37 @@ public:
                           for (auto &entry : view) {
                               entry(name, oldOwner, newOwner);
                           }
-                          return true;
+                          return false;
                       });
                   auto querySlot =
                       bus_->serviceOwnerAsync(key, 0, [this, key](Message msg) {
+                          // Key itself may be gone later, put it on the stack.
+                          std::string pivotKey = key;
                           auto protector = watch();
                           std::string newName = "";
                           if (msg.type() != dbus::MessageType::Error) {
                               msg >> newName;
                           }
-                          auto view = watcherMap_.view(key);
-                          for (auto &entry : view) {
-                              entry(key, "", newName);
+                          for (auto &entry : watcherMap_.view(pivotKey)) {
+                              entry(pivotKey, "", newName);
                           }
-                          if (protector.isValid()) {
-                              querySlots_.erase(key);
+                          // "this" maybe deleted as well because it's a member
+                          // in lambda.
+                          if (auto that = protector.get()) {
+                              that->querySlots_.erase(pivotKey);
                           }
-                          return true;
+                          return false;
                       });
+                  if (!slot || !querySlot) {
+                      return false;
+                  }
                   slots_.emplace(std::piecewise_construct,
                                  std::forward_as_tuple(key),
                                  std::forward_as_tuple(std::move(slot)));
                   querySlots_.emplace(
                       std::piecewise_construct, std::forward_as_tuple(key),
                       std::forward_as_tuple(std::move(querySlot)));
+                  return true;
               },
               [this](const std::string &key) {
                   slots_.erase(key);

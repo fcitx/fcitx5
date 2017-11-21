@@ -37,7 +37,7 @@ class ObjectVTablePrivate;
 
 typedef std::function<bool(Message)> ObjectMethod;
 typedef std::function<void(Message &)> PropertyGetMethod;
-typedef std::function<bool(Message)> PropertySetMethod;
+typedef std::function<bool(Message &)> PropertySetMethod;
 
 class FCITXUTILS_EXPORT MethodCallError : public std::exception {
 public:
@@ -62,7 +62,7 @@ public:
     const std::string &name() const { return name_; }
     const std::string &signature() const { return signature_; }
     const std::string &ret() const { return ret_; }
-    ObjectMethod handler() { return handler_; }
+    const ObjectMethod &handler() { return handler_; }
     ObjectVTableBase *vtable() const { return vtable_; }
 
 private:
@@ -166,12 +166,14 @@ struct ReturnValueHelper<void> {
             property_type property = method();                                 \
             msg << property;                                                   \
         },                                                                     \
-        [this](::fcitx::dbus::Message msg) {                                   \
+        [this](::fcitx::dbus::Message &msg) {                                  \
             this->setCurrentMessage(&msg);                                     \
             FCITX_STRING_TO_DBUS_TUPLE(SIGNATURE) args;                        \
             msg >> args;                                                       \
             auto method = SETMETHOD;                                           \
             callWithTuple(method, args);                                       \
+            auto reply = msg.createReply();                                    \
+            reply.send();                                                      \
             return true;                                                       \
         }};
 

@@ -1,4 +1,23 @@
+if (ENABLE_LIBDBUS)
+  set(FCITX_UTILS_SOURCES
+      dbus/libdbus/bus.cpp
+      dbus/libdbus/message.cpp
+      dbus/libdbus/objectvtable.cpp
+      dbus/libdbus/servicenamecache.cpp)
+else()
+  set(FCITX_UTILS_SOURCES
+      dbus/sdbus/bus.cpp
+      dbus/sdbus/message.cpp
+      dbus/sdbus/objectvtablewrapper.c
+      dbus/sdbus/objectvtable.cpp)
+endif()
+
+
 set(FCITX_UTILS_SOURCES
+    ${FCITX_UTILS_SOURCES}
+    dbus/servicewatcher.cpp
+    dbus/matchrule.cpp
+    dbus/variant.cpp
     stringutils.cpp
     key.cpp
     cutf8.cpp
@@ -9,11 +28,6 @@ set(FCITX_UTILS_SOURCES
     library.cpp
     fs.cpp
     standardpath.cpp
-    dbus/bus.cpp
-    dbus/message.cpp
-    dbus/objectvtablewrapper.c
-    dbus/objectvtable.cpp
-    dbus/servicewatcher.cpp
     unixfd.cpp
     utf8.cpp
     connectableobject.cpp
@@ -68,6 +82,7 @@ set(FCITX_UTILS_DBUS_HEADERS
     dbus/bus.h
     dbus/message_details.h
     dbus/servicewatcher.h
+    dbus/matchrule.h
     )
 
 add_library(Fcitx5Utils SHARED ${FCITX_UTILS_SOURCES})
@@ -80,6 +95,10 @@ target_include_directories(Fcitx5Utils PUBLIC
     "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/..;${CMAKE_CURRENT_BINARY_DIR}>"
     "$<INSTALL_INTERFACE:${CMAKE_INSTALL_FULL_INCLUDEDIR}>/Fcitx5/Utils")
 target_link_libraries(Fcitx5Utils PRIVATE Systemd::Systemd DL::DL LibIntl::LibIntl Pthread::Pthread)
+
+if (ENABLE_LIBDBUS)
+target_link_libraries(Fcitx5Utils PRIVATE PkgConfig::DBus)
+endif()
 
 configure_file(Fcitx5Utils.pc.in ${CMAKE_CURRENT_BINARY_DIR}/Fcitx5Utils.pc @ONLY)
 

@@ -17,7 +17,7 @@
  * see <http://www.gnu.org/licenses/>.
  */
 
-#include "../log.h"
+#include "../../log.h"
 #include "bus_p.h"
 #include "message_p.h"
 #include "objectvtable_p.h"
@@ -141,7 +141,7 @@ int SDMessageCallback(sd_bus_message *m, void *userdata, sd_bus_error *) {
     }
     try {
         auto result = slot->callback(MessagePrivate::fromSDBusMessage(m));
-        return result ? 0 : 1;
+        return result ? 1 : 0;
     } catch (const std::exception &e) {
         // some abnormal things threw
         FCITX_LOG(Error) << e.what();
@@ -150,57 +150,22 @@ int SDMessageCallback(sd_bus_message *m, void *userdata, sd_bus_error *) {
     return 1;
 }
 
-int SDEnumeratorCallback(sd_bus *, const char *prefix, void *userdata,
-                         char ***ret_nodes, sd_bus_error *) {
-    auto slot = static_cast<SDSubTreeSlot *>(userdata);
-    if (!slot) {
-        return 0;
-    }
-    try {
-        auto result = slot->enumerator(prefix);
-        auto ret =
-            static_cast<char **>(malloc(sizeof(char *) * (result.size() + 1)));
-        if (!ret) {
-            return -ENOMEM;
-        }
-        for (size_t i = 0; i < result.size(); i++) {
-            ret[i] = strdup(result[i].c_str());
-            if (!ret[i]) {
-                int i = 0;
-                while (ret[i]) {
-                    free(ret[i]);
-                    i++;
-                }
-                free(ret);
-                return -ENOMEM;
-            }
-        }
-        ret[result.size()] = nullptr;
-        *ret_nodes = ret;
-    } catch (const std::exception &e) {
-        // some abnormal things threw
-        FCITX_LOG(Error) << e.what();
-        abort();
-    }
-    return 1;
-}
-
-Slot *Bus::addMatch(const std::string &match, MessageCallback callback) {
+std::unique_ptr<Slot> Bus::addMatch(MatchRule rule, MessageCallback callback) {
     FCITX_D();
     auto slot = std::make_unique<SDSlot>(callback);
     sd_bus_slot *sdSlot;
-    int r = sd_bus_add_match(d->bus_, &sdSlot, match.c_str(), SDMessageCallback,
-                             slot.get());
+    int r = sd_bus_add_match(d->bus_, &sdSlot, rule.rule().c_str(),
+                             SDMessageCallback, slot.get());
     if (r < 0) {
         return nullptr;
     }
 
     slot->slot = sdSlot;
 
-    return slot.release();
+    return slot;
 }
 
-Slot *Bus::addFilter(MessageCallback callback) {
+std::unique_ptr<Slot> Bus::addFilter(MessageCallback callback) {
     FCITX_D();
     auto slot = std::make_unique<SDSlot>(callback);
     sd_bus_slot *sdSlot;
@@ -211,10 +176,11 @@ Slot *Bus::addFilter(MessageCallback callback) {
 
     slot->slot = sdSlot;
 
-    return slot.release();
+    return slot;
 }
 
-Slot *Bus::addObject(const std::string &path, MessageCallback callback) {
+std::unique_ptr<Slot> Bus::addObject(const std::string &path,
+                                     MessageCallback callback) {
     FCITX_D();
     auto slot = std::make_unique<SDSlot>(callback);
     sd_bus_slot *sdSlot;
@@ -226,7 +192,7 @@ Slot *Bus::addObject(const std::string &path, MessageCallback callback) {
 
     slot->slot = sdSlot;
 
-    return slot.release();
+    return slot;
 }
 
 bool Bus::addObjectVTable(const std::string &path, const std::string &interface,
@@ -245,28 +211,6 @@ bool Bus::addObjectVTable(const std::string &path, const std::string &interface,
 
     vtable.setSlot(slot.release());
     return true;
-}
-
-Slot *Bus::addObjectSubTree(const std::string &path, MessageCallback callback,
-                            EnumerateObjectCallback enumerator) {
-    FCITX_D();
-    auto slot = std::make_unique<SDSubTreeSlot>(callback, enumerator);
-    sd_bus_slot *sdSlot, *sdEnumSlot;
-    int r = sd_bus_add_node_enumerator(d->bus_, &sdSlot, path.c_str(),
-                                       SDEnumeratorCallback, slot.get());
-    if (r < 0) {
-        return nullptr;
-    }
-    r = sd_bus_add_fallback(d->bus_, &sdEnumSlot, path.c_str(),
-                            SDMessageCallback, slot.get());
-    if (r < 0) {
-        return nullptr;
-    }
-
-    slot->slot = sdSlot;
-    slot->enumSlot = sdEnumSlot;
-
-    return slot.release();
 }
 
 void *Bus::nativeHandle() const {

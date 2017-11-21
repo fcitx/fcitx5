@@ -18,6 +18,7 @@
 */
 
 #include "dbushelper.h"
+#include "fcitx-utils/dbus/variant.h"
 
 namespace fcitx {
 

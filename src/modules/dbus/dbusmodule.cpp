@@ -20,6 +20,7 @@
 #include "dbusmodule.h"
 #include "fcitx-config/dbushelper.h"
 #include "fcitx-utils/dbus/bus.h"
+#include "fcitx-utils/dbus/variant.h"
 #include "fcitx-utils/i18n.h"
 #include "fcitx-utils/stringutils.h"
 #include "fcitx/addonmanager.h"
@@ -259,6 +260,7 @@ public:
 
     void setConfig(const std::string &uri, const dbus::Variant &v) {
         std::tuple<dbus::Variant, DBusConfig> result;
+        FCITX_INFO() << v;
         RawConfig config = variantToRawConfig(v);
         if (uri == "fcitx://config/global") {
             instance_->globalConfig().load(config, true);
@@ -398,7 +400,39 @@ private:
     FCITX_OBJECT_VTABLE_METHOD(setCurrentInputMethod, "SetCurrentIM", "s", "");
     FCITX_OBJECT_VTABLE_METHOD(getConfig, "GetConfig", "s",
                                "va(sa(sssva{sv}))");
-    FCITX_OBJECT_VTABLE_METHOD(setConfig, "SetConfig", "sv", "");
+    // FCITX_OBJECT_VTABLE_METHOD(setConfig, "SetConfig", "sv", "");
+
+    ::fcitx::dbus::ObjectVTableMethod setConfigMethod{
+        this, "SetConfig", "sv", "", [this](::fcitx::dbus::Message msg) {
+            this->setCurrentMessage(&msg);
+            FCITX_STRING_TO_DBUS_TUPLE("sv") args;
+            msg >> args;
+            auto func = [this](auto that, auto &&... args) {
+                return that->setConfig(std::forward<decltype(args)>(args)...);
+            };
+            auto argsWithThis =
+                std::tuple_cat(std::make_tuple(this), std::move(args));
+            typedef decltype(callWithTuple(func, argsWithThis)) ReturnType;
+            ::fcitx::dbus::ReturnValueHelper<ReturnType> helper;
+            auto functor = [&argsWithThis, func]() {
+                return callWithTuple(func, argsWithThis);
+            };
+            try {
+                helper.call(functor);
+                auto reply = msg.createReply();
+                static_assert(std::is_same<FCITX_STRING_TO_DBUS_TYPE(""),
+                                           ReturnType>::value,
+                              "Return type does not match: "
+                              "");
+                reply << helper.ret;
+                reply.send();
+            } catch (const ::fcitx::dbus::MethodCallError &error) {
+                auto reply = msg.createError(error.name(), error.what());
+                reply.send();
+            }
+            return true;
+        }};
+
     FCITX_OBJECT_VTABLE_METHOD(getAddons, "GetAddons", "", "a(sssibb)");
     FCITX_OBJECT_VTABLE_METHOD(setAddonsState, "SetAddonsState", "a(sb)", "");
 };

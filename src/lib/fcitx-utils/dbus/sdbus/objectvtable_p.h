@@ -19,9 +19,9 @@
 #ifndef _FCITX_UTILS_DBUS_OBJECTVTABLE_P_H_
 #define _FCITX_UTILS_DBUS_OBJECTVTABLE_P_H_
 
-#include <fcitx-utils/dbus/message_p.h>
-#include <fcitx-utils/dbus/objectvtable.h>
-#include <fcitx-utils/dbus/objectvtablewrapper_p.h>
+#include "../objectvtable.h"
+#include "message_p.h"
+#include "objectvtablewrapper_p.h"
 #include <map>
 #include <vector>
 

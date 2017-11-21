@@ -63,11 +63,11 @@ class MultiHandlerTable {
         map_type;
 
 public:
-    MultiHandlerTable(std::function<void(const Key &)> addKey = {},
+    MultiHandlerTable(std::function<bool(const Key &)> addKey = {},
                       std::function<void(const Key &)> removeKey = {})
         : addKey_(addKey), removeKey_(removeKey) {}
 
-    FCITX_INLINE_DEFINE_DEFAULT_DTOR_AND_MOVE(MultiHandlerTable)
+    FCITX_INLINE_DEFINE_DEFAULT_DTOR_AND_MOVE_WITHOUT_SPEC(MultiHandlerTable)
 
     template <typename M>
     FCITX_NODISCARD std::unique_ptr<HandlerTableEntry<T>> add(const Key &key,
@@ -75,7 +75,9 @@ public:
         auto iter = keyToHandlers_.find(key);
         if (iter == keyToHandlers_.end()) {
             if (addKey_) {
-                addKey_(key);
+                if (!addKey_(key)) {
+                    return nullptr;
+                }
             }
             iter = keyToHandlers_
                        .emplace(std::piecewise_construct,
@@ -116,7 +118,7 @@ private:
     }
     std::unordered_map<Key, IntrusiveListFor<MultiHandlerTableEntry<Key, T>>>
         keyToHandlers_;
-    std::function<void(const Key &)> addKey_;
+    std::function<bool(const Key &)> addKey_;
     std::function<void(const Key &)> removeKey_;
 };
 }

@@ -94,7 +94,10 @@ private:
     bool hasXFixes_ = false;
     uint8_t xfixesFirstEvent_ = 0;
     MultiHandlerTable<xcb_atom_t, XCBSelectionNotifyCallback> selections_{
-        [this](xcb_atom_t selection) { addSelectionAtom(selection); },
+        [this](xcb_atom_t selection) {
+            addSelectionAtom(selection);
+            return true;
+        },
         [this](xcb_atom_t selection) { removeSelectionAtom(selection); }};
 
     HandlerTable<XCBConvertSelectionRequest> convertSelections_;

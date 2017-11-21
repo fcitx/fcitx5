@@ -178,7 +178,7 @@ LogMessageBuilder::LogMessageBuilder(std::ostream &out, LogLevel l,
     : out_(out) {
     switch (l) {
     case LogLevel::Fatal:
-        out_ << "D";
+        out_ << "F";
         break;
     case LogLevel::Debug:
         out_ << "D";

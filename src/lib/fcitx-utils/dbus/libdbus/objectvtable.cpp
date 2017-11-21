@@ -17,8 +17,10 @@
  * see <http://www.gnu.org/licenses/>.
  */
 
-#include "objectvtable.h"
-#include "../log.h"
+#include "../objectvtable.h"
+#include "../../log.h"
+#include "../../stringutils.h"
+#include "../utils_p.h"
 #include "bus_p.h"
 #include "objectvtable_p.h"
 #include <unordered_set>
@@ -28,136 +30,61 @@ namespace dbus {
 
 class ObjectVTablePrivate {
 public:
-    const std::string &vtableString(const std::string &str) {
-        auto iter = stringPool_.find(str);
-        if (iter == stringPool_.end()) {
-            iter = stringPool_.insert(str).first;
-        }
-        return *iter;
-    }
-
-    bool hasVTable_ = false;
-    std::vector<sd_bus_vtable> vtable_;
-    std::unordered_set<std::string> stringPool_;
+    bool hasXml_ = false;
+    std::string xml_;
 };
-
-int SDMethodCallback(sd_bus_message *m, void *userdata, sd_bus_error *) {
-    auto vtable = static_cast<ObjectVTableBase *>(userdata);
-    if (!vtable) {
-        return 0;
-    }
-    auto method = vtable->findMethod(sd_bus_message_get_member(m));
-    if (!method) {
-        return 0;
-    }
-    try {
-        auto msg = MessagePrivate::fromSDBusMessage(m);
-        auto wathcer = vtable->watch();
-        vtable->setCurrentMessage(&msg);
-        method->handler()(msg);
-        if (wathcer.isValid()) {
-            wathcer.get()->setCurrentMessage(nullptr);
-        }
-        return 1;
-    } catch (const std::exception &e) {
-        // some abnormal things threw
-        FCITX_LOG(Error) << e.what();
-        abort();
-    }
-    return 0;
-}
-
-int SDPropertyGetCallback(sd_bus *, const char *, const char *,
-                          const char *property, sd_bus_message *reply,
-                          void *userdata, sd_bus_error *) {
-    auto vtable = static_cast<ObjectVTableBase *>(userdata);
-    if (!vtable) {
-        return 0;
-    }
-    auto prop = vtable->findProperty(property);
-    if (!prop) {
-        return 0;
-    }
-    try {
-        auto msg = MessagePrivate::fromSDBusMessage(reply);
-        prop->getMethod()(msg);
-        return 1;
-    } catch (const std::exception &e) {
-        // some abnormal things threw
-        FCITX_LOG(Error) << e.what();
-        abort();
-    }
-    return 0;
-}
-
-int SDPropertySetCallback(sd_bus *, const char *, const char *,
-                          const char *property, sd_bus_message *reply,
-                          void *userdata, sd_bus_error *) {
-    auto vtable = static_cast<ObjectVTableBase *>(userdata);
-    if (!vtable) {
-        return 0;
-    }
-    auto prop = vtable->findProperty(property);
-    if (!prop || !prop->writable()) {
-        return 0;
-    }
-    try {
-        auto msg = MessagePrivate::fromSDBusMessage(reply);
-        static_cast<ObjectVTableWritableProperty *>(prop)->setMethod()(msg);
-        return 1;
-    } catch (const std::exception &e) {
-        // some abnormal things threw
-        FCITX_LOG(Error) << e.what();
-        abort();
-    }
-    return 0;
-}
 
 ObjectVTableBasePrivate::~ObjectVTableBasePrivate() {}
 
-const sd_bus_vtable *
-ObjectVTableBasePrivate::toSDBusVTable(ObjectVTableBase *q) {
+const std::string &ObjectVTableBasePrivate::getXml(ObjectVTableBase *q) {
     std::lock_guard<std::mutex> lock(q->privateDataMutexForType());
     auto p = q->privateDataForType();
-    if (!p->hasVTable_) {
-        std::vector<sd_bus_vtable> &result = p->vtable_;
-        result.push_back(vtable_start());
+    if (!p->hasXml_) {
+        p->xml_.clear();
 
         for (const auto &m : methods_) {
             auto method = m.second;
-            result.push_back(vtable_method(
-                p->vtableString(method->name()).c_str(),
-                p->vtableString(method->signature()).c_str(),
-                p->vtableString(method->ret()).c_str(), 0, SDMethodCallback));
+            p->xml_ +=
+                stringutils::concat("<method name=\"", method->name(), "\">");
+            for (auto &type : splitDBusSignature(method->signature())) {
+                p->xml_ += stringutils::concat("<arg direction=\"in\" type=\"",
+                                               type, "\"/>");
+            }
+            for (auto &type : splitDBusSignature(method->ret())) {
+                p->xml_ += stringutils::concat("<arg direction=\"in\" type=\"",
+                                               type, "\"/>");
+            }
+            p->xml_ += "</method>";
         }
 
         for (const auto &s : sigs_) {
             auto sig = s.second;
-            result.push_back(
-                vtable_signal(p->vtableString(sig->name()).c_str(),
-                              p->vtableString(sig->signature()).c_str()));
+            p->xml_ +=
+                stringutils::concat("<signal name=\"", sig->name(), "\">");
+            for (auto &type : splitDBusSignature(sig->signature())) {
+                p->xml_ += stringutils::concat("<arg direction=\"in\" type=\"",
+                                               type, "\"/>");
+            }
+            p->xml_ += "</signal>";
         }
 
         for (const auto &pr : properties_) {
             auto prop = pr.second;
             if (prop->writable()) {
-                result.push_back(vtable_writable_property(
-                    p->vtableString(prop->name()).c_str(),
-                    p->vtableString(prop->signature()).c_str(),
-                    SDPropertyGetCallback, SDPropertySetCallback));
+                p->xml_ += stringutils::concat(
+                    "<property access=\"readwrite\" type=\"", prop->signature(),
+                    "\" name=\"", prop->name(), "\">");
             } else {
-                result.push_back(
-                    vtable_property(p->vtableString(prop->name()).c_str(),
-                                    p->vtableString(prop->signature()).c_str(),
-                                    SDPropertyGetCallback));
+                p->xml_ += stringutils::concat(
+                    "<property access=\"read\" type=\"", prop->signature(),
+                    "\" name=\"", prop->name(), "\">");
             }
+            p->xml_ += "</property>";
         }
-
-        result.push_back(vtable_end());
-        p->hasVTable_ = true;
+        p->hasXml_ = true;
     }
 
-    return p->vtable_.data();
+    return p->xml_;
 }
 
 ObjectVTableMethod::ObjectVTableMethod(ObjectVTableBase *vtable,
@@ -242,17 +169,22 @@ void ObjectVTableBase::releaseSlot() { setSlot(nullptr); }
 
 Bus *ObjectVTableBase::bus() {
     FCITX_D();
-    return d->slot_->bus;
+    if (d->slot_) {
+        if (auto bus = d->slot_->bus_.get()) {
+            return bus->bus_;
+        }
+    }
+    return nullptr;
 }
 
 const std::string &ObjectVTableBase::path() const {
     FCITX_D();
-    return d->slot_->path;
+    return d->slot_->path_;
 }
 
 const std::string &ObjectVTableBase::interface() const {
     FCITX_D();
-    return d->slot_->interface;
+    return d->slot_->interface_;
 }
 
 Message *ObjectVTableBase::currentMessage() const {
@@ -271,7 +203,7 @@ std::shared_ptr<ObjectVTablePrivate> ObjectVTableBase::newSharedPrivateData() {
 
 void ObjectVTableBase::setSlot(Slot *slot) {
     FCITX_D();
-    d->slot_.reset(static_cast<SDVTableSlot *>(slot));
+    d->slot_.reset(static_cast<DBusObjectVTableSlot *>(slot));
 }
 }
 }

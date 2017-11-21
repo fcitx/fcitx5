@@ -19,7 +19,7 @@
 #ifndef _FCITX_UTILS_DBUS_BUS_P_H_
 #define _FCITX_UTILS_DBUS_BUS_P_H_
 
-#include "bus.h"
+#include "../bus.h"
 #include "sd-bus-wrap.h"
 
 namespace fcitx {
@@ -67,21 +67,6 @@ public:
 
     MessageCallback callback;
     sd_bus_slot *slot;
-};
-
-class SDSubTreeSlot : public SDSlot {
-public:
-    SDSubTreeSlot(MessageCallback callback_,
-                  EnumerateObjectCallback enumerator_)
-        : SDSlot(callback_), enumerator(enumerator_), enumSlot(nullptr) {}
-
-    ~SDSubTreeSlot() {
-        sd_bus_slot_set_userdata(slot, nullptr);
-        sd_bus_slot_unref(enumSlot);
-    }
-
-    EnumerateObjectCallback enumerator;
-    sd_bus_slot *enumSlot;
 };
 }
 }

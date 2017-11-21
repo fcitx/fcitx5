@@ -25,11 +25,20 @@ set(DEFAULT_XKB_RULES "evdev" CACHE STRING "Xkb rules name")
 option(ENABLE_ENCHANT "Enable enchant for word predication" On)
 option(ENABLE_PRESAGE "Enable presage for word predication" Off)
 option(ENABLE_DOC "Build doxygen" Off)
+option(USE_LIBDBUS "Use libdbus as dbus implementation." Off)
 
 #######################################################################
 # Find packages
 #######################################################################
 find_package(Systemd REQUIRED)
+
+if (USE_LIBDBUS)
+pkg_check_modules(DBus REQUIRED IMPORTED_TARGET "dbus-1")
+pkg_get_variable(DBUS_SYSTEM_BUS_DEFAULT_ADDRESS "dbus-1" "system_bus_default_address")
+
+set(ENABLE_LIBDBUS 1)
+endif ()
+
 find_package(DL REQUIRED)
 find_package(LibIntl REQUIRED)
 find_package(LibUUID REQUIRED)

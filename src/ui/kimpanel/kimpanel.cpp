@@ -39,20 +39,19 @@ namespace fcitx {
 class KimpanelProxy : public dbus::ObjectVTable<KimpanelProxy> {
 
 public:
-    KimpanelProxy(Kimpanel *parent, dbus::Bus *bus) : bus_(bus) {
-        slot_.reset(bus_->addMatch("type='signal',sender='org.kde.impanel',"
-                                   "interface='org.kde.impanel'",
-                                   [parent](dbus::Message msg) {
-                                       parent->msgV1Handler(msg);
-                                       return true;
-                                   }));
-        slot2_.reset(bus_->addMatch("type='signal',sender='org.kde.impanel',"
-                                    "interface='org.kde.impanel2'",
-                                    [parent](dbus::Message msg) {
-                                        parent->msgV2Handler(msg);
-                                        return true;
-                                    }));
-    }
+    KimpanelProxy(Kimpanel *parent, dbus::Bus *bus)
+        : bus_(bus), slot_(bus_->addMatch(dbus::MatchRule("org.kde.impanel", "",
+                                                          "org.kde.impanel"),
+                                          [parent](dbus::Message msg) {
+                                              parent->msgV1Handler(msg);
+                                              return true;
+                                          })),
+          slot2_(bus_->addMatch(
+              dbus::MatchRule("org.kde.impanel", "", "org.kde.impanel2"),
+              [parent](dbus::Message msg) {
+                  parent->msgV2Handler(msg);
+                  return true;
+              })) {}
 
     void updateCursor(InputContext *inputContext) {
         auto msg = bus_->createMethodCall("org.kde.impanel", "/org/kde/impanel",

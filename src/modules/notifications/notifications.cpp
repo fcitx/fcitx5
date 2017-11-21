@@ -35,17 +35,6 @@
 #define NOTIFICATIONS_SERVICE_NAME "org.freedesktop.Notifications"
 #define NOTIFICATIONS_INTERFACE_NAME "org.freedesktop.Notifications"
 #define NOTIFICATIONS_PATH "/org/freedesktop/Notifications"
-#define NOTIFICATIONS_MATCH_NAMES                                              \
-    "sender='" NOTIFICATIONS_SERVICE_NAME "',"                                 \
-    "interface='" NOTIFICATIONS_INTERFACE_NAME "',"                            \
-    "path='" NOTIFICATIONS_PATH "'"
-#define NOTIFICATIONS_MATCH_SIGNAL "type='signal'," NOTIFICATIONS_MATCH_NAMES
-#define NOTIFICATIONS_MATCH_ACTION                                             \
-    NOTIFICATIONS_MATCH_SIGNAL ","                                             \
-                               "member='ActionInvoked'"
-#define NOTIFICATIONS_MATCH_CLOSED                                             \
-    NOTIFICATIONS_MATCH_SIGNAL ","                                             \
-                               "member='NotificationClosed'"
 
 namespace fcitx {
 
@@ -53,9 +42,10 @@ Notifications::Notifications(Instance *instance)
     : instance_(instance), dbus_(instance_->addonManager().addon("dbus")),
       bus_(dbus_->call<IDBusModule::bus>()), watcher_(*bus_) {
     reloadConfig();
-
-    actionMatch_.reset(bus_->addMatch(
-        NOTIFICATIONS_MATCH_ACTION, [this](dbus::Message message) {
+    actionMatch_ = bus_->addMatch(
+        dbus::MatchRule(NOTIFICATIONS_SERVICE_NAME, NOTIFICATIONS_PATH,
+                        NOTIFICATIONS_INTERFACE_NAME, "ActionInvoked"),
+        [this](dbus::Message message) {
             uint32_t id = 0;
             std::string key;
             if (message >> id >> key) {
@@ -65,9 +55,11 @@ Notifications::Notifications(Instance *instance)
                 }
             }
             return true;
-        }));
-    closedMatch_.reset(bus_->addMatch(
-        NOTIFICATIONS_MATCH_CLOSED, [this](dbus::Message message) {
+        });
+    closedMatch_ = bus_->addMatch(
+        dbus::MatchRule(NOTIFICATIONS_SERVICE_NAME, NOTIFICATIONS_PATH,
+                        NOTIFICATIONS_INTERFACE_NAME, "NotificationClosed"),
+        [this](dbus::Message message) {
             uint32_t id = 0;
             uint32_t reason = 0;
             if (message >> id >> reason) {
@@ -80,7 +72,7 @@ Notifications::Notifications(Instance *instance)
                 }
             }
             return true;
-        }));
+        });
     watcherEntry_ = watcher_.watchService(
         NOTIFICATIONS_SERVICE_NAME,
         [this](const std::string &, const std::string &oldOwner,

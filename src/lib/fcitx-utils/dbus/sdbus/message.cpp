@@ -17,8 +17,9 @@
  * see <http://www.gnu.org/licenses/>.
  */
 
-#include "message.h"
-#include "../unixfd.h"
+#include "../message.h"
+#include "../../unixfd.h"
+#include "../variant.h"
 #include "bus_p.h"
 #include "fcitx/misc_p.h"
 #include "message_p.h"
@@ -30,12 +31,6 @@
 namespace fcitx {
 
 namespace dbus {
-
-class VariantTypeRegistryPrivate {
-public:
-    std::unordered_map<std::string, std::shared_ptr<VariantHelperBase>> types_;
-    mutable std::shared_timed_mutex mutex_;
-};
 
 static char toSDBusType(Container::Type type) {
     char t = '\0';
@@ -219,6 +214,14 @@ void Message::resetError() {
 void Message::rewind() {
     FCITX_D();
     sd_bus_message_rewind(d->msg_, true);
+}
+
+void Message::skip() {
+    FCITX_D();
+    if (!*this) {
+        return;
+    }
+    d->lastError_ = sd_bus_message_skip(d->msg_, nullptr);
 }
 
 std::pair<char, std::string> Message::peekType() {
@@ -467,51 +470,6 @@ Message &Message::operator>>(Variant &variant) {
     }
     d->lastError_ = sd_bus_message_skip(d->msg_, "v");
     return *this;
-}
-
-void Variant::writeToMessage(dbus::Message &msg) const {
-    helper_->serialize(msg, data_.get());
-}
-
-VariantTypeRegistry::VariantTypeRegistry()
-    : d_ptr(std::make_unique<VariantTypeRegistryPrivate>()) {
-    registerType<std::string>();
-    registerType<uint8_t>();
-    registerType<bool>();
-    registerType<int16_t>();
-    registerType<uint16_t>();
-    registerType<int32_t>();
-    registerType<uint32_t>();
-    registerType<int64_t>();
-    registerType<uint64_t>();
-    // registerType<UnixFD>();
-    registerType<FCITX_STRING_TO_DBUS_TYPE("a{sv}")>();
-    registerType<FCITX_STRING_TO_DBUS_TYPE("as")>();
-    registerType<ObjectPath>();
-    registerType<Variant>();
-}
-
-void VariantTypeRegistry::registerTypeImpl(
-    const std::string &signature, std::shared_ptr<VariantHelperBase> helper) {
-    FCITX_D();
-    std::lock_guard<std::shared_timed_mutex> lock(d->mutex_);
-    if (d->types_.count(signature)) {
-        return;
-    }
-    d->types_.emplace(signature, helper);
-}
-
-std::shared_ptr<VariantHelperBase>
-VariantTypeRegistry::lookupType(const std::string &signature) const {
-    FCITX_D();
-    std::shared_lock<std::shared_timed_mutex> lock(d->mutex_);
-    auto v = findValue(d->types_, signature);
-    return v ? *v : nullptr;
-}
-
-VariantTypeRegistry &VariantTypeRegistry::defaultRegistry() {
-    static VariantTypeRegistry registry;
-    return registry;
 }
 }
 }

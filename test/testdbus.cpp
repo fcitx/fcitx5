@@ -17,6 +17,7 @@
  * see <http://www.gnu.org/licenses/>.
  */
 #include "fcitx-utils/dbus/bus.h"
+#include "fcitx-utils/dbus/variant.h"
 #include "fcitx-utils/event.h"
 #include "fcitx-utils/log.h"
 #include <thread>
@@ -31,6 +32,7 @@ class TestObject : public ObjectVTable<TestObject> {
         std::vector<DBusStruct<std::string, int>> data;
         data.emplace_back(std::make_tuple(std::to_string(i), i));
         testSignal(data);
+        FCITX_INFO() << "test3 called";
         return std::make_tuple(i - 1, i + 1);
     }
     bool testError() {
@@ -85,6 +87,20 @@ void client() {
     Bus clientBus(BusType::Session);
     EventLoop loop;
     clientBus.attachEventLoop(&loop);
+    std::unique_ptr<Slot> slot(clientBus.addMatch(
+        MatchRule(TEST_SERVICE, "", TEST_INTERFACE, "testSignal"),
+        [&loop](dbus::Message message) {
+            std::vector<DBusStruct<std::string, int>> data;
+            message >> data;
+            FCITX_ASSERT(data.size() == 1);
+            FCITX_ASSERT(std::get<0>(data[0]) == "2");
+            FCITX_ASSERT(std::get<1>(data[0]) == 2);
+            FCITX_ASSERT(std::get<std::string>(data[0]) == "2");
+            FCITX_ASSERT(std::get<int>(data[0]) == 2);
+            loop.quit();
+            return false;
+        }));
+    FCITX_ASSERT(slot);
     std::unique_ptr<EventSourceTime> s(loop.addTimeEvent(
         CLOCK_MONOTONIC, now(CLOCK_MONOTONIC), 0,
         [&clientBus](EventSource *, uint64_t) {
@@ -189,20 +205,6 @@ void client() {
                               FCITX_ASSERT(ret.dataAs<int32_t>() == 5);
                               return false;
                           }));
-    std::unique_ptr<Slot> slot(clientBus.addMatch(
-        "type='signal',sender='" TEST_SERVICE "',interface='" TEST_INTERFACE
-        "',member='testSignal'",
-        [&loop](dbus::Message message) {
-            std::vector<DBusStruct<std::string, int>> data;
-            message >> data;
-            FCITX_ASSERT(data.size() == 1);
-            FCITX_ASSERT(std::get<0>(data[0]) == "2");
-            FCITX_ASSERT(std::get<1>(data[0]) == 2);
-            FCITX_ASSERT(std::get<std::string>(data[0]) == "2");
-            FCITX_ASSERT(std::get<int>(data[0]) == 2);
-            loop.quit();
-            return false;
-        }));
     loop.exec();
 }
 
