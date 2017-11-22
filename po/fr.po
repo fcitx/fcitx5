@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-11-17 20:15-0800\n"
+"POT-Creation-Date: 2017-11-22 15:08-0800\n"
 "PO-Revision-Date: 2016-11-24 13:04+0000\n"
 "Last-Translator: Riwan BEN EZZEDDINE <riwan.benezzeddine@gmail.com>\n"
 "Language-Team: French (http://www.transifex.com/fcitx/fcitx/language/fr/)\n"
@@ -42,19 +42,23 @@ msgstr ""
 msgid "<not assigned>"
 msgstr ""
 
-#: src/lib/fcitx/globalconfig.cpp:61
+#: src/lib/fcitx/globalconfig.cpp:60
 msgid "Activate Input Method"
 msgstr ""
 
-#: src/lib/fcitx/globalconfig.cpp:76
+#: src/lib/fcitx/globalconfig.cpp:75
 msgid "Active By Default"
 msgstr ""
 
-#: src/modules/quickphrase/quickphrase.h:38 src/im/keyboard/keyboard.h:41
+#: src/modules/quickphrase/quickphrase.h:39 src/im/keyboard/keyboard.h:42
 msgid "Alt"
 msgstr ""
 
-#: src/lib/fcitx/globalconfig.cpp:91
+#: src/lib/fcitx/globalconfig.cpp:38
+msgid "Alternative Trigger Input Method"
+msgstr ""
+
+#: src/lib/fcitx/globalconfig.cpp:90
 msgid "Behavior"
 msgstr ""
 
@@ -70,15 +74,15 @@ msgstr ""
 msgid "Configure Current Input Method"
 msgstr ""
 
-#: src/modules/quickphrase/quickphrase.h:38 src/im/keyboard/keyboard.h:42
+#: src/modules/quickphrase/quickphrase.h:39 src/im/keyboard/keyboard.h:43
 msgid "Control"
 msgstr ""
 
-#: src/modules/spell/spell.h:33
+#: src/modules/spell/spell.h:34
 msgid "Custom"
 msgstr ""
 
-#: src/lib/fcitx/globalconfig.cpp:67
+#: src/lib/fcitx/globalconfig.cpp:66
 msgid "Deactivate Input Method"
 msgstr ""
 
@@ -87,39 +91,39 @@ msgstr ""
 msgid "Default"
 msgstr ""
 
-#: src/lib/fcitx/globalconfig.cpp:72
+#: src/lib/fcitx/globalconfig.cpp:71
 msgid "Default Next page"
 msgstr ""
 
-#: src/lib/fcitx/globalconfig.cpp:70
+#: src/lib/fcitx/globalconfig.cpp:69
 msgid "Default Previous page"
 msgstr ""
 
-#: src/lib/fcitx/globalconfig.cpp:81
+#: src/lib/fcitx/globalconfig.cpp:80
 msgid "Default page size"
 msgstr ""
 
-#: src/modules/notifications/notifications.cpp:226
+#: src/modules/notifications/notifications.cpp:218
 msgid "Do not show again"
 msgstr ""
 
-#: src/modules/spell/spell.h:34
+#: src/modules/spell/spell.h:35
 msgid "Enchant"
 msgstr ""
 
-#: src/lib/fcitx/globalconfig.cpp:47
+#: src/lib/fcitx/globalconfig.cpp:46
 msgid "Enumerate Input Method Backward"
 msgstr ""
 
-#: src/lib/fcitx/globalconfig.cpp:43
+#: src/lib/fcitx/globalconfig.cpp:42
 msgid "Enumerate Input Method Forward"
 msgstr ""
 
-#: src/lib/fcitx/globalconfig.cpp:57
+#: src/lib/fcitx/globalconfig.cpp:56
 msgid "Enumerate Input Method Group Backward"
 msgstr ""
 
-#: src/lib/fcitx/globalconfig.cpp:52
+#: src/lib/fcitx/globalconfig.cpp:51
 msgid "Enumerate Input Method Group Forward"
 msgstr ""
 
@@ -135,7 +139,7 @@ msgstr ""
 msgid "Group {0}: {1}"
 msgstr ""
 
-#: src/lib/fcitx/globalconfig.cpp:89
+#: src/lib/fcitx/globalconfig.cpp:88
 msgid "Hotkey"
 msgstr ""
 
@@ -148,7 +152,7 @@ msgstr ""
 msgid "Keyboard - {0}"
 msgstr ""
 
-#: src/im/keyboard/keyboard.cpp:213
+#: src/im/keyboard/keyboard.cpp:214
 msgid "Keyboard - {0} - {1}"
 msgstr ""
 
@@ -156,15 +160,15 @@ msgstr ""
 msgid "No clipboard history."
 msgstr ""
 
-#: src/modules/quickphrase/quickphrase.h:37 src/im/keyboard/keyboard.h:41
+#: src/modules/quickphrase/quickphrase.h:38 src/im/keyboard/keyboard.h:42
 msgid "None"
 msgstr ""
 
-#: src/ui/kimpanel/kimpanel.cpp:310
+#: src/ui/kimpanel/kimpanel.cpp:309
 msgid "Not available"
 msgstr ""
 
-#: src/modules/spell/spell.h:33
+#: src/modules/spell/spell.h:34
 msgid "Presage"
 msgstr ""
 
@@ -176,32 +180,28 @@ msgstr ""
 msgid "Restart"
 msgstr ""
 
-#: src/lib/fcitx/globalconfig.cpp:79
+#: src/lib/fcitx/globalconfig.cpp:78
 msgid "Show Input Method Information when switch input method"
 msgstr ""
 
-#: src/im/keyboard/keyboard.cpp:303
+#: src/im/keyboard/keyboard.cpp:304
 msgid "Spell hint"
 msgstr ""
 
-#: src/im/keyboard/keyboard.cpp:305
+#: src/im/keyboard/keyboard.cpp:306
 msgid "Spell hint is disabled."
 msgstr ""
 
-#: src/im/keyboard/keyboard.cpp:304
+#: src/im/keyboard/keyboard.cpp:305
 msgid "Spell hint is enabled."
 msgstr ""
 
-#: src/modules/quickphrase/quickphrase.h:38 src/im/keyboard/keyboard.h:42
+#: src/modules/quickphrase/quickphrase.h:39 src/im/keyboard/keyboard.h:43
 msgid "Super"
 msgstr ""
 
 #: src/lib/fcitx/globalconfig.cpp:34
 msgid "Trigger Input Method"
-msgstr ""
-
-#: src/lib/fcitx/globalconfig.cpp:39
-msgid "Trigger Input Method Only after using it to deactivate"
 msgstr ""
 
 #: src/modules/unicode/unicode.cpp:244

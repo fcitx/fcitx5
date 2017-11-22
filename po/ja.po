@@ -21,7 +21,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-11-17 20:15-0800\n"
+"POT-Creation-Date: 2017-11-22 15:08-0800\n"
 "PO-Revision-Date: 2016-04-18 18:04+0000\n"
 "Last-Translator: csslayer <wengxt@gmail.com>\n"
 "Language-Team: Japanese (http://www.transifex.com/fcitx/fcitx/language/ja/)\n"
@@ -56,20 +56,25 @@ msgstr "<プライベート用>"
 msgid "<not assigned>"
 msgstr "<未定義>"
 
-#: src/lib/fcitx/globalconfig.cpp:61
+#: src/lib/fcitx/globalconfig.cpp:60
 #, fuzzy
 msgid "Activate Input Method"
 msgstr "入力メソッドをオフに"
 
-#: src/lib/fcitx/globalconfig.cpp:76
+#: src/lib/fcitx/globalconfig.cpp:75
 msgid "Active By Default"
 msgstr ""
 
-#: src/modules/quickphrase/quickphrase.h:38 src/im/keyboard/keyboard.h:41
+#: src/modules/quickphrase/quickphrase.h:39 src/im/keyboard/keyboard.h:42
 msgid "Alt"
 msgstr "Alt"
 
-#: src/lib/fcitx/globalconfig.cpp:91
+#: src/lib/fcitx/globalconfig.cpp:38
+#, fuzzy
+msgid "Alternative Trigger Input Method"
+msgstr "入力メソッドのオンオフ"
+
+#: src/lib/fcitx/globalconfig.cpp:90
 msgid "Behavior"
 msgstr ""
 
@@ -86,15 +91,15 @@ msgstr "設定"
 msgid "Configure Current Input Method"
 msgstr "現在の入力メソッドの設定"
 
-#: src/modules/quickphrase/quickphrase.h:38 src/im/keyboard/keyboard.h:42
+#: src/modules/quickphrase/quickphrase.h:39 src/im/keyboard/keyboard.h:43
 msgid "Control"
 msgstr ""
 
-#: src/modules/spell/spell.h:33
+#: src/modules/spell/spell.h:34
 msgid "Custom"
 msgstr "カスタム"
 
-#: src/lib/fcitx/globalconfig.cpp:67
+#: src/lib/fcitx/globalconfig.cpp:66
 #, fuzzy
 msgid "Deactivate Input Method"
 msgstr "入力メソッドをオフに"
@@ -104,43 +109,43 @@ msgstr "入力メソッドをオフに"
 msgid "Default"
 msgstr "既定"
 
-#: src/lib/fcitx/globalconfig.cpp:72
+#: src/lib/fcitx/globalconfig.cpp:71
 #, fuzzy
 msgid "Default Next page"
 msgstr "次のページ"
 
-#: src/lib/fcitx/globalconfig.cpp:70
+#: src/lib/fcitx/globalconfig.cpp:69
 msgid "Default Previous page"
 msgstr ""
 
-#: src/lib/fcitx/globalconfig.cpp:81
+#: src/lib/fcitx/globalconfig.cpp:80
 msgid "Default page size"
 msgstr ""
 
-#: src/modules/notifications/notifications.cpp:226
+#: src/modules/notifications/notifications.cpp:218
 msgid "Do not show again"
 msgstr "次回から表示しない"
 
-#: src/modules/spell/spell.h:34
+#: src/modules/spell/spell.h:35
 #, fuzzy
 msgid "Enchant"
 msgstr "Bingchan"
 
-#: src/lib/fcitx/globalconfig.cpp:47
+#: src/lib/fcitx/globalconfig.cpp:46
 #, fuzzy
 msgid "Enumerate Input Method Backward"
 msgstr "現在の入力メソッド名"
 
-#: src/lib/fcitx/globalconfig.cpp:43
+#: src/lib/fcitx/globalconfig.cpp:42
 #, fuzzy
 msgid "Enumerate Input Method Forward"
 msgstr "現在の入力メソッド名"
 
-#: src/lib/fcitx/globalconfig.cpp:57
+#: src/lib/fcitx/globalconfig.cpp:56
 msgid "Enumerate Input Method Group Backward"
 msgstr ""
 
-#: src/lib/fcitx/globalconfig.cpp:52
+#: src/lib/fcitx/globalconfig.cpp:51
 msgid "Enumerate Input Method Group Forward"
 msgstr ""
 
@@ -156,7 +161,7 @@ msgstr ""
 msgid "Group {0}: {1}"
 msgstr ""
 
-#: src/lib/fcitx/globalconfig.cpp:89
+#: src/lib/fcitx/globalconfig.cpp:88
 msgid "Hotkey"
 msgstr "ホットキー"
 
@@ -170,7 +175,7 @@ msgstr "入力メソッド"
 msgid "Keyboard - {0}"
 msgstr "キーボード"
 
-#: src/im/keyboard/keyboard.cpp:213
+#: src/im/keyboard/keyboard.cpp:214
 #, fuzzy
 msgid "Keyboard - {0} - {1}"
 msgstr "キーボード"
@@ -180,16 +185,16 @@ msgstr "キーボード"
 msgid "No clipboard history."
 msgstr "クリップボードの履歴をファイルに保存"
 
-#: src/modules/quickphrase/quickphrase.h:37 src/im/keyboard/keyboard.h:41
+#: src/modules/quickphrase/quickphrase.h:38 src/im/keyboard/keyboard.h:42
 msgid "None"
 msgstr "なし"
 
-#: src/ui/kimpanel/kimpanel.cpp:310
+#: src/ui/kimpanel/kimpanel.cpp:309
 #, fuzzy
 msgid "Not available"
 msgstr "(使えません)"
 
-#: src/modules/spell/spell.h:33
+#: src/modules/spell/spell.h:34
 msgid "Presage"
 msgstr ""
 
@@ -201,24 +206,24 @@ msgstr "クイックフレーズ:"
 msgid "Restart"
 msgstr "再起動"
 
-#: src/lib/fcitx/globalconfig.cpp:79
+#: src/lib/fcitx/globalconfig.cpp:78
 #, fuzzy
 msgid "Show Input Method Information when switch input method"
 msgstr "入力メソッドを切換後に入力メソッドのヒントを表示"
 
-#: src/im/keyboard/keyboard.cpp:303
+#: src/im/keyboard/keyboard.cpp:304
 msgid "Spell hint"
 msgstr "スペルヒント"
 
-#: src/im/keyboard/keyboard.cpp:305
+#: src/im/keyboard/keyboard.cpp:306
 msgid "Spell hint is disabled."
 msgstr "スペルヒントは無効です。"
 
-#: src/im/keyboard/keyboard.cpp:304
+#: src/im/keyboard/keyboard.cpp:305
 msgid "Spell hint is enabled."
 msgstr "スペルヒントは有効です。"
 
-#: src/modules/quickphrase/quickphrase.h:38 src/im/keyboard/keyboard.h:42
+#: src/modules/quickphrase/quickphrase.h:39 src/im/keyboard/keyboard.h:43
 #, fuzzy
 msgid "Super"
 msgstr "左Super"
@@ -226,11 +231,6 @@ msgstr "左Super"
 #: src/lib/fcitx/globalconfig.cpp:34
 msgid "Trigger Input Method"
 msgstr "入力メソッドのオンオフ"
-
-#: src/lib/fcitx/globalconfig.cpp:39
-#, fuzzy
-msgid "Trigger Input Method Only after using it to deactivate"
-msgstr "アクティブでない時だけその他のトリガーキーを使用する"
 
 #: src/modules/unicode/unicode.cpp:244
 #, fuzzy
@@ -326,6 +326,10 @@ msgstr "既定の入力メソッドの状態"
 #, fuzzy
 msgid "classicui"
 msgstr "クラシック"
+
+#, fuzzy
+#~ msgid "Trigger Input Method Only after using it to deactivate"
+#~ msgstr "アクティブでない時だけその他のトリガーキーを使用する"
 
 #~ msgid " Ctrl+Delete To Delete"
 #~ msgstr "Ctrl+Delete で削除"
