@@ -23,21 +23,38 @@
 #include <fcitx-utils/connectableobject.h>
 #include <unordered_set>
 
+/// \addtogroup FcitxUtils
+/// \{
+/// \file
+/// \brief Utility class that provides a hierarchy between multiple objects.
+
 namespace fcitx {
 
 class ElementPrivate;
 
+/// \brief Base class that can be used for UI composition or graph.
 class FCITXUTILS_EXPORT Element : public ConnectableObject {
 public:
     Element();
     ~Element();
 
+    /// \brief Enable query between different elements.
     bool isChild(const Element *element) const;
+
+    /// \brief Enable query between different elements.
     bool isParent(const Element *element) const;
 
 protected:
+    /// \brief List all parents.
+    ///
+    /// For the sake of type safety, list parents are protected by default.
     const std::list<Element *> &parents() const;
+
+    /// \brief List all childs
+    ///
+    /// \see parents
     const std::list<Element *> &childs() const;
+
     // Sub class may use these functions carefully if they intends
     // to have single type of childs.
     void addChild(Element *child);

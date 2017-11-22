@@ -140,7 +140,7 @@ int SDMessageCallback(sd_bus_message *m, void *userdata, sd_bus_error *) {
         return 0;
     }
     try {
-        auto result = slot->callback(MessagePrivate::fromSDBusMessage(m));
+        auto result = slot->callback_(MessagePrivate::fromSDBusMessage(m));
         return result ? 1 : 0;
     } catch (const std::exception &e) {
         // some abnormal things threw
@@ -160,7 +160,7 @@ std::unique_ptr<Slot> Bus::addMatch(MatchRule rule, MessageCallback callback) {
         return nullptr;
     }
 
-    slot->slot = sdSlot;
+    slot->slot_ = sdSlot;
 
     return slot;
 }
@@ -174,7 +174,7 @@ std::unique_ptr<Slot> Bus::addFilter(MessageCallback callback) {
         return nullptr;
     }
 
-    slot->slot = sdSlot;
+    slot->slot_ = sdSlot;
 
     return slot;
 }
@@ -190,7 +190,7 @@ std::unique_ptr<Slot> Bus::addObject(const std::string &path,
         return nullptr;
     }
 
-    slot->slot = sdSlot;
+    slot->slot_ = sdSlot;
 
     return slot;
 }
@@ -207,7 +207,7 @@ bool Bus::addObjectVTable(const std::string &path, const std::string &interface,
         return false;
     }
 
-    slot->slot = sdSlot;
+    slot->slot_ = sdSlot;
 
     vtable.setSlot(slot.release());
     return true;

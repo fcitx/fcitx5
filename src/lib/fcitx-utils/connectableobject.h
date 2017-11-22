@@ -24,15 +24,23 @@
 #include <fcitx-utils/signals.h>
 #include <memory>
 
+/// \addtogroup FcitxUtils
+/// \{
+/// \file
+/// \brief Utilities to enable use object with signal.
+
+/// \brief Declare signal by type.
 #define FCITX_DECLARE_SIGNAL(CLASS_NAME, NAME, ...)                            \
     struct NAME {                                                              \
         using signalType = __VA_ARGS__;                                        \
         using signature = fcitxMakeMetaString(#CLASS_NAME "::" #NAME);         \
     }
 
+/// \brief Declare a signal.
 #define FCITX_DEFINE_SIGNAL(CLASS_NAME, NAME)                                  \
     ::fcitx::SignalAdaptor<CLASS_NAME::NAME> CLASS_NAME##NAME##Adaptor { this }
 
+/// \brief Declare a signal in pimpl class.
 #define FCITX_DEFINE_SIGNAL_PRIVATE(CLASS_NAME, NAME)                          \
     ::fcitx::SignalAdaptor<CLASS_NAME::NAME> CLASS_NAME##NAME##Adaptor { q_ptr }
 
@@ -40,6 +48,7 @@ namespace fcitx {
 
 class ConnectableObject;
 
+/// \brief Helper class to register class.
 template <typename T>
 class SignalAdaptor {
 public:
@@ -52,6 +61,7 @@ private:
 
 class ConnectableObjectPrivate;
 
+/// \brief Base class for all object supports connection.
 class FCITXUTILS_EXPORT ConnectableObject {
     template <typename T>
     friend class SignalAdaptor;
@@ -129,6 +139,7 @@ SignalAdaptor<T>::~SignalAdaptor() {
     self->unregisterSignal<T>();
 }
 
+/// \brief Short hand for destroyed signal.
 using ObjectDestroyed = ConnectableObject::Destroyed;
 }
 

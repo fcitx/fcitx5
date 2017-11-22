@@ -202,7 +202,7 @@ void DBusPendingCallNotifyCallback(DBusPendingCall *reply, void *userdata) {
     }
 
     DBusMessage *msg = dbus_pending_call_steal_reply(reply);
-    slot->callback(
+    slot->callback_(
         MessagePrivate::fromDBusMessage(slot->bus_, msg, false, false));
 }
 

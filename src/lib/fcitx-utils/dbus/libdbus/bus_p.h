@@ -87,7 +87,7 @@ public:
         dbus_connection_unref(conn_);
     }
 
-    bool needWatchService(const MatchRule &rule) const {
+    static bool needWatchService(const MatchRule &rule) {
         // Non bus and non empty.
         return !rule.service().empty() &&
                rule.service() != "org.freedesktop.DBus";
@@ -171,7 +171,8 @@ public:
 
 class DBusAsyncCallSlot : public Slot {
 public:
-    DBusAsyncCallSlot(MessageCallback callback_) : callback(callback_) {}
+    DBusAsyncCallSlot(MessageCallback callback)
+        : callback_(std::move(callback)) {}
 
     ~DBusAsyncCallSlot() {
         if (reply_) {
@@ -179,8 +180,8 @@ public:
         }
     }
 
-    MessageCallback callback;
-    DBusPendingCall *reply_;
+    MessageCallback callback_;
+    DBusPendingCall *reply_ = nullptr;
     TrackableObjectReference<BusPrivate> bus_;
 };
 }

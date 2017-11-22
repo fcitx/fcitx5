@@ -191,7 +191,7 @@ std::unique_ptr<Slot> Message::callAsync(uint64_t timeout,
         return nullptr;
     }
 
-    slot->slot = sdSlot;
+    slot->slot_ = sdSlot;
 
     return slot;
 }

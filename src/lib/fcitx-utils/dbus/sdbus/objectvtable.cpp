@@ -242,17 +242,17 @@ void ObjectVTableBase::releaseSlot() { setSlot(nullptr); }
 
 Bus *ObjectVTableBase::bus() {
     FCITX_D();
-    return d->slot_->bus;
+    return d->slot_->bus_;
 }
 
 const std::string &ObjectVTableBase::path() const {
     FCITX_D();
-    return d->slot_->path;
+    return d->slot_->path_;
 }
 
 const std::string &ObjectVTableBase::interface() const {
     FCITX_D();
-    return d->slot_->interface;
+    return d->slot_->interface_;
 }
 
 Message *ObjectVTableBase::currentMessage() const {

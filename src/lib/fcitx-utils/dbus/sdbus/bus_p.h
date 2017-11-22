@@ -43,30 +43,34 @@ class SDVTableSlot : public Slot {
 public:
     SDVTableSlot(Bus *bus_, const std::string &path_,
                  const std::string &interface_)
-        : slot(nullptr), bus(bus_), path(path_), interface(interface_) {}
+        : slot_(nullptr), bus_(bus_), path_(path_), interface_(interface_) {}
 
     ~SDVTableSlot() {
-        sd_bus_slot_set_userdata(slot, nullptr);
-        sd_bus_slot_unref(slot);
+        if (slot_) {
+            sd_bus_slot_set_userdata(slot_, nullptr);
+            sd_bus_slot_unref(slot_);
+        }
     }
 
-    sd_bus_slot *slot;
-    Bus *bus;
-    std::string path;
-    std::string interface;
+    sd_bus_slot *slot_;
+    Bus *bus_;
+    std::string path_;
+    std::string interface_;
 };
 
 class SDSlot : public Slot {
 public:
-    SDSlot(MessageCallback callback_) : callback(callback_), slot(nullptr) {}
+    SDSlot(MessageCallback callback_) : callback_(callback_), slot_(nullptr) {}
 
     ~SDSlot() {
-        sd_bus_slot_set_userdata(slot, nullptr);
-        sd_bus_slot_unref(slot);
+        if (slot_) {
+            sd_bus_slot_set_userdata(slot_, nullptr);
+            sd_bus_slot_unref(slot_);
+        }
     }
 
-    MessageCallback callback;
-    sd_bus_slot *slot;
+    MessageCallback callback_;
+    sd_bus_slot *slot_;
 };
 }
 }
