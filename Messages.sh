@@ -8,6 +8,11 @@ $XGETTEXT --keyword=_ --keyword=N_ --language=C++ -o ${POT_FILE} $source_files
 desktop_files=$(find . -name \*.conf.in -o -name \*.desktop)
 $XGETTEXT --language=Desktop $desktop_files -j -o ${POT_FILE}
 
+sed -i 's|^"Content-Type: text/plain; charset=CHARSET\\n"|"Content-Type: text/plain; charset=UTF-8\\n"|g' ${POT_FILE}
+
+# Due to transifex problem, delete the date.
+sed -i '/^"PO-Revision-Date/d' ${POT_FILE}
+
 echo > po/LINGUAS
 
 for pofile in $(ls po/*.po | sort); do
