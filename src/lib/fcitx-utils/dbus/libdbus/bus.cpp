@@ -293,7 +293,7 @@ Bus::Bus(const std::string &address)
     if (address.empty()) {
         goto fail;
     }
-
+    d->address_ = address;
     d->conn_ = dbus_connection_open_private(address.c_str(), nullptr);
     if (!d->conn_) {
         goto fail;
