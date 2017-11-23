@@ -197,6 +197,12 @@ public:
         } else if (stringutils::startsWith(uri, addonConfigPrefix)) {
             FCITX_INFO() << uri;
             auto addon = uri.substr(sizeof(addonConfigPrefix) - 1);
+            auto pos = addon.find('/');
+            std::string subPath;
+            if (pos != std::string::npos) {
+                subPath = addon.substr(pos + 1);
+                addon = addon.substr(0, pos);
+            }
             if (auto addonInfo = instance_->addonManager().addonInfo(addon)) {
                 if (!addonInfo->isConfigurable()) {
                     throw dbus::MethodCallError(
@@ -211,7 +217,11 @@ public:
             auto addonInstance = instance_->addonManager().addon(addon, true);
             const Configuration *config = nullptr;
             if (addonInstance) {
-                config = addonInstance->getConfig();
+                if (subPath.empty()) {
+                    config = addonInstance->getConfig();
+                } else {
+                    config = addonInstance->getSubConfig(subPath);
+                }
             }
             if (config) {
                 RawConfig rawConfig;
@@ -267,9 +277,19 @@ public:
             instance_->globalConfig().safeSave();
         } else if (stringutils::startsWith(uri, addonConfigPrefix)) {
             auto addon = uri.substr(sizeof(addonConfigPrefix) - 1);
+            auto pos = addon.find('/');
+            std::string subPath;
+            if (pos != std::string::npos) {
+                subPath = addon.substr(pos + 1);
+                addon = addon.substr(0, pos);
+            }
             auto addonInstance = instance_->addonManager().addon(addon, true);
             if (addonInstance) {
-                addonInstance->setConfig(config);
+                if (subPath.empty()) {
+                    addonInstance->setConfig(config);
+                } else {
+                    addonInstance->setSubConfig(subPath, config);
+                }
             } else {
                 throw dbus::MethodCallError("org.freedesktop.DBus.Error.Failed",
                                             "Failed to get addon.");

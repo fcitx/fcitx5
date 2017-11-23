@@ -62,6 +62,10 @@ public:
     virtual void save() {}
     virtual const Configuration *getConfig() const { return nullptr; }
     virtual void setConfig(const RawConfig &) {}
+    virtual const Configuration *getSubConfig(const std::string &) const {
+        return nullptr;
+    }
+    virtual void setSubConfig(const std::string &, const RawConfig &) {}
 
     template <typename Signature, typename... Args>
     typename std::function<Signature>::result_type

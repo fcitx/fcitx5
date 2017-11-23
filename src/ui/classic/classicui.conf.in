@@ -1,5 +1,5 @@
 [Addon]
-Name=classicui
+Name=Classic User Inteface
 Type=SharedLibrary
 Library=classicui
 Category=UI

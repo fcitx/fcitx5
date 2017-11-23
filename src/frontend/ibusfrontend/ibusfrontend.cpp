@@ -387,7 +387,7 @@ public:
             }
         }
 
-        setCapabilityFlags(CapabilityFlags{cap});
+        setCapabilityFlags(flags);
     }
 
     void setSurroundingText(const std::string &str, uint32_t cursor,
@@ -549,8 +549,9 @@ private:
         };
 
 #define CHECK_HINTS(_HINTS, _CAPABILITY)                                       \
-    if (hints & _HINTS)                                                        \
-        flag |= _CAPABILITY;
+    if (hints & _HINTS) {                                                      \
+        flag |= _CAPABILITY;                                                   \
+    }
 
         CHECK_HINTS(GTK_INPUT_HINT_SPELLCHECK,
                     fcitx::CapabilityFlag::SpellCheck)
