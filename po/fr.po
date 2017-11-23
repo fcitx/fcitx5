@@ -6,9 +6,9 @@
 # Riwan BEN EZZEDDINE <riwan.benezzeddine@gmail.com>, 2016
 msgid ""
 msgstr ""
-"Project-Id-Version: fcitx\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-11-22 15:08-0800\n"
+"Project-Id-Version: fcitx5\n"
+"Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
+"POT-Creation-Date: 2017-11-22 16:08-0800\n"
 "PO-Revision-Date: 2016-11-24 13:04+0000\n"
 "Last-Translator: Riwan BEN EZZEDDINE <riwan.benezzeddine@gmail.com>\n"
 "Language-Team: French (http://www.transifex.com/fcitx/fcitx/language/fr/)\n"
@@ -50,6 +50,10 @@ msgstr ""
 msgid "Active By Default"
 msgstr ""
 
+#: src/modules/unicode/unicode.conf.in:4
+msgid "Add Unicode Typing Support"
+msgstr ""
+
 #: src/modules/quickphrase/quickphrase.h:39 src/im/keyboard/keyboard.h:42
 msgid "Alt"
 msgstr ""
@@ -60,6 +64,10 @@ msgstr ""
 
 #: src/lib/fcitx/globalconfig.cpp:90
 msgid "Behavior"
+msgstr ""
+
+#: src/modules/clipboard/clipboard.conf.in:3
+msgid "Clipboard"
 msgstr ""
 
 #: src/modules/clipboard/clipboard.cpp:287
@@ -80,6 +88,14 @@ msgstr ""
 
 #: src/modules/spell/spell.h:34
 msgid "Custom"
+msgstr ""
+
+#: src/modules/dbus/dbus.conf.in:3
+msgid "DBus"
+msgstr ""
+
+#: src/frontend/dbusfrontend/dbusfrontend.conf.in:3
+msgid "DBus Frontend"
 msgstr ""
 
 #: src/lib/fcitx/globalconfig.cpp:66
@@ -143,9 +159,21 @@ msgstr ""
 msgid "Hotkey"
 msgstr ""
 
+#: src/frontend/ibusfrontend/ibusfrontend.conf.in:3
+msgid "IBus Frontend"
+msgstr ""
+
 #: src/modules/notificationitem/notificationitem.cpp:102
 #: src/modules/notificationitem/dbusmenu.cpp:259
 msgid "Input Method"
+msgstr ""
+
+#: src/ui/kimpanel/kimpanel.conf.in:3
+msgid "KDE Input Method Panel"
+msgstr ""
+
+#: src/im/keyboard/keyboard.conf.in:3
+msgid "Keyboard"
 msgstr ""
 
 #: src/im/keyboard/keyboard.cpp:200
@@ -172,6 +200,10 @@ msgstr ""
 msgid "Presage"
 msgstr ""
 
+#: src/modules/quickphrase/quickphrase.conf.in:3
+msgid "Quick Phrase"
+msgstr ""
+
 #: src/modules/quickphrase/quickphrase.cpp:283
 msgid "Quick Phrase: "
 msgstr ""
@@ -182,6 +214,14 @@ msgstr ""
 
 #: src/lib/fcitx/globalconfig.cpp:78
 msgid "Show Input Method Information when switch input method"
+msgstr ""
+
+#: src/ui/simpleui/simpleui.conf.in:3
+msgid "Simple UI for testing"
+msgstr ""
+
+#: src/modules/spell/spell.conf.in:3
+msgid "Spell"
 msgstr ""
 
 #: src/im/keyboard/keyboard.cpp:304
@@ -204,68 +244,16 @@ msgstr ""
 msgid "Trigger Input Method"
 msgstr ""
 
-#: src/modules/unicode/unicode.cpp:244
-msgid "Unicode: "
-msgstr ""
-
-#: src/lib/fcitx/instance.cpp:1494
-msgid "{0} (Not available)"
-msgstr ""
-
-#: src/lib/fcitx/instance.cpp:1491
-msgid "{0} ({1})"
-msgstr ""
-
-#: src/modules/spell/spell.conf.in:3
-msgid "Spell"
-msgstr ""
-
-#: src/modules/notifications/notifications.conf.in:3
-msgid "notifications"
-msgstr ""
-
-#: src/modules/notificationitem/notificationitem.conf.in:3
-msgid "notificationitem"
-msgstr ""
-
-#: src/modules/dbus/dbus.conf.in:3
-msgid "DBus"
-msgstr ""
-
-#: src/modules/xcb/xcb.conf.in:3
-msgid "XCB"
-msgstr ""
-
-#: src/modules/clipboard/clipboard.conf.in:3
-msgid "Clipboard"
-msgstr ""
-
-#: src/modules/wayland/wayland.conf.in:3
-msgid "Wayland"
-msgstr ""
-
 #: src/modules/unicode/unicode.conf.in:3
 msgid "Unicode"
 msgstr ""
 
-#: src/modules/unicode/unicode.conf.in:4
-msgid "Add Unicode Typing Support"
+#: src/modules/unicode/unicode.cpp:244
+msgid "Unicode: "
 msgstr ""
 
-#: src/modules/quickphrase/quickphrase.conf.in:3
-msgid "Quick Phrase"
-msgstr ""
-
-#: src/im/keyboard/keyboard.conf.in:3
-msgid "Keyboard"
-msgstr ""
-
-#: src/frontend/ibusfrontend/ibusfrontend.conf.in:3
-msgid "IBus Frontend"
-msgstr ""
-
-#: src/frontend/dbusfrontend/dbusfrontend.conf.in:3
-msgid "DBus Frontend"
+#: src/modules/wayland/wayland.conf.in:3
+msgid "Wayland"
 msgstr ""
 
 #: src/frontend/waylandim/waylandim.conf.in:3
@@ -276,16 +264,28 @@ msgstr ""
 msgid "X Input Method Frontend"
 msgstr ""
 
-#: src/ui/simpleui/simpleui.conf.in:3
-msgid "Simple UI for testing"
-msgstr ""
-
-#: src/ui/kimpanel/kimpanel.conf.in:3
-msgid "KDE Input Method Panel"
+#: src/modules/xcb/xcb.conf.in:3
+msgid "XCB"
 msgstr ""
 
 #: src/ui/classic/classicui.conf.in:3
 msgid "classicui"
+msgstr ""
+
+#: src/modules/notificationitem/notificationitem.conf.in:3
+msgid "notificationitem"
+msgstr ""
+
+#: src/modules/notifications/notifications.conf.in:3
+msgid "notifications"
+msgstr ""
+
+#: src/lib/fcitx/instance.cpp:1494
+msgid "{0} (Not available)"
+msgstr ""
+
+#: src/lib/fcitx/instance.cpp:1491
+msgid "{0} ({1})"
 msgstr ""
 
 #~ msgid ""

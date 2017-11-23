@@ -6,9 +6,9 @@
 # scootergrisen, 2017
 msgid ""
 msgstr ""
-"Project-Id-Version: fcitx\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-11-22 15:08-0800\n"
+"Project-Id-Version: fcitx5\n"
+"Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
+"POT-Creation-Date: 2017-11-22 16:08-0800\n"
 "PO-Revision-Date: 2017-09-12 20:30+0000\n"
 "Last-Translator: scootergrisen\n"
 "Language-Team: Danish (http://www.transifex.com/fcitx/fcitx/language/da/)\n"
@@ -52,6 +52,10 @@ msgstr "Start inputmetode"
 msgid "Active By Default"
 msgstr ""
 
+#: src/modules/unicode/unicode.conf.in:4
+msgid "Add Unicode Typing Support"
+msgstr ""
+
 #: src/modules/quickphrase/quickphrase.h:39 src/im/keyboard/keyboard.h:42
 msgid "Alt"
 msgstr "Alt"
@@ -64,6 +68,11 @@ msgstr "InputMetode"
 #: src/lib/fcitx/globalconfig.cpp:90
 msgid "Behavior"
 msgstr ""
+
+#: src/modules/clipboard/clipboard.conf.in:3
+#, fuzzy
+msgid "Clipboard"
+msgstr "Udklipsholder"
 
 #: src/modules/clipboard/clipboard.cpp:287
 #, fuzzy
@@ -86,6 +95,14 @@ msgstr ""
 #: src/modules/spell/spell.h:34
 msgid "Custom"
 msgstr "Tilpasset"
+
+#: src/modules/dbus/dbus.conf.in:3
+msgid "DBus"
+msgstr "DBus"
+
+#: src/frontend/dbusfrontend/dbusfrontend.conf.in:3
+msgid "DBus Frontend"
+msgstr ""
 
 #: src/lib/fcitx/globalconfig.cpp:66
 #, fuzzy
@@ -152,11 +169,25 @@ msgstr ""
 msgid "Hotkey"
 msgstr "Hottast"
 
+#: src/frontend/ibusfrontend/ibusfrontend.conf.in:3
+#, fuzzy
+msgid "IBus Frontend"
+msgstr "Konfiguration af inputmetode"
+
 #: src/modules/notificationitem/notificationitem.cpp:102
 #: src/modules/notificationitem/dbusmenu.cpp:259
 #, fuzzy
 msgid "Input Method"
 msgstr "InputMetode"
+
+#: src/ui/kimpanel/kimpanel.conf.in:3
+#, fuzzy
+msgid "KDE Input Method Panel"
+msgstr "Inputmetode"
+
+#: src/im/keyboard/keyboard.conf.in:3
+msgid "Keyboard"
+msgstr "Tastatur"
 
 #: src/im/keyboard/keyboard.cpp:200
 #, fuzzy
@@ -185,6 +216,10 @@ msgstr "(utilgængelig)"
 msgid "Presage"
 msgstr ""
 
+#: src/modules/quickphrase/quickphrase.conf.in:3
+msgid "Quick Phrase"
+msgstr ""
+
 #: src/modules/quickphrase/quickphrase.cpp:283
 msgid "Quick Phrase: "
 msgstr ""
@@ -196,6 +231,15 @@ msgstr "Genstart"
 #: src/lib/fcitx/globalconfig.cpp:78
 msgid "Show Input Method Information when switch input method"
 msgstr ""
+
+#: src/ui/simpleui/simpleui.conf.in:3
+msgid "Simple UI for testing"
+msgstr ""
+
+#: src/modules/spell/spell.conf.in:3
+#, fuzzy
+msgid "Spell"
+msgstr "Aspell"
 
 #: src/im/keyboard/keyboard.cpp:304
 msgid "Spell hint"
@@ -219,74 +263,18 @@ msgstr "Venstre Super"
 msgid "Trigger Input Method"
 msgstr "InputMetode"
 
-#: src/modules/unicode/unicode.cpp:244
-#, fuzzy
-msgid "Unicode: "
-msgstr "Unicode"
-
-#: src/lib/fcitx/instance.cpp:1494
-#, fuzzy
-msgid "{0} (Not available)"
-msgstr "(utilgængelig)"
-
-#: src/lib/fcitx/instance.cpp:1491
-msgid "{0} ({1})"
-msgstr ""
-
-#: src/modules/spell/spell.conf.in:3
-#, fuzzy
-msgid "Spell"
-msgstr "Aspell"
-
-#: src/modules/notifications/notifications.conf.in:3
-msgid "notifications"
-msgstr ""
-
-#: src/modules/notificationitem/notificationitem.conf.in:3
-msgid "notificationitem"
-msgstr ""
-
-#: src/modules/dbus/dbus.conf.in:3
-msgid "DBus"
-msgstr "DBus"
-
-#: src/modules/xcb/xcb.conf.in:3
-msgid "XCB"
-msgstr ""
-
-#: src/modules/clipboard/clipboard.conf.in:3
-#, fuzzy
-msgid "Clipboard"
-msgstr "Udklipsholder"
-
-#: src/modules/wayland/wayland.conf.in:3
-msgid "Wayland"
-msgstr ""
-
 #: src/modules/unicode/unicode.conf.in:3
 #, fuzzy
 msgid "Unicode"
 msgstr "Unicode"
 
-#: src/modules/unicode/unicode.conf.in:4
-msgid "Add Unicode Typing Support"
-msgstr ""
-
-#: src/modules/quickphrase/quickphrase.conf.in:3
-msgid "Quick Phrase"
-msgstr ""
-
-#: src/im/keyboard/keyboard.conf.in:3
-msgid "Keyboard"
-msgstr "Tastatur"
-
-#: src/frontend/ibusfrontend/ibusfrontend.conf.in:3
+#: src/modules/unicode/unicode.cpp:244
 #, fuzzy
-msgid "IBus Frontend"
-msgstr "Konfiguration af inputmetode"
+msgid "Unicode: "
+msgstr "Unicode"
 
-#: src/frontend/dbusfrontend/dbusfrontend.conf.in:3
-msgid "DBus Frontend"
+#: src/modules/wayland/wayland.conf.in:3
+msgid "Wayland"
 msgstr ""
 
 #: src/frontend/waylandim/waylandim.conf.in:3
@@ -298,19 +286,31 @@ msgstr ""
 msgid "X Input Method Frontend"
 msgstr "Konfiguration af inputmetode"
 
-#: src/ui/simpleui/simpleui.conf.in:3
-msgid "Simple UI for testing"
+#: src/modules/xcb/xcb.conf.in:3
+msgid "XCB"
 msgstr ""
-
-#: src/ui/kimpanel/kimpanel.conf.in:3
-#, fuzzy
-msgid "KDE Input Method Panel"
-msgstr "Inputmetode"
 
 #: src/ui/classic/classicui.conf.in:3
 #, fuzzy
 msgid "classicui"
 msgstr "Klassisk"
+
+#: src/modules/notificationitem/notificationitem.conf.in:3
+msgid "notificationitem"
+msgstr ""
+
+#: src/modules/notifications/notifications.conf.in:3
+msgid "notifications"
+msgstr ""
+
+#: src/lib/fcitx/instance.cpp:1494
+#, fuzzy
+msgid "{0} (Not available)"
+msgstr "(utilgængelig)"
+
+#: src/lib/fcitx/instance.cpp:1491
+msgid "{0} ({1})"
+msgstr ""
 
 #~ msgid " Ctrl+Delete To Delete"
 #~ msgstr " Ctrl+Delete for at slette"

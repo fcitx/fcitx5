@@ -19,9 +19,9 @@
 # yyc1992 <yyc1992@gmail.com>, 2015
 msgid ""
 msgstr ""
-"Project-Id-Version: fcitx\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-11-22 15:08-0800\n"
+"Project-Id-Version: fcitx5\n"
+"Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
+"POT-Creation-Date: 2017-11-22 16:08-0800\n"
 "PO-Revision-Date: 2016-04-18 18:04+0000\n"
 "Last-Translator: csslayer <wengxt@gmail.com>\n"
 "Language-Team: Japanese (http://www.transifex.com/fcitx/fcitx/language/ja/)\n"
@@ -65,6 +65,10 @@ msgstr "入力メソッドをオフに"
 msgid "Active By Default"
 msgstr ""
 
+#: src/modules/unicode/unicode.conf.in:4
+msgid "Add Unicode Typing Support"
+msgstr "ユニコード入力対応を追加します"
+
 #: src/modules/quickphrase/quickphrase.h:39 src/im/keyboard/keyboard.h:42
 msgid "Alt"
 msgstr "Alt"
@@ -77,6 +81,11 @@ msgstr "入力メソッドのオンオフ"
 #: src/lib/fcitx/globalconfig.cpp:90
 msgid "Behavior"
 msgstr ""
+
+#: src/modules/clipboard/clipboard.conf.in:3
+#, fuzzy
+msgid "Clipboard"
+msgstr "クリップボード"
 
 #: src/modules/clipboard/clipboard.cpp:287
 #, fuzzy
@@ -98,6 +107,15 @@ msgstr ""
 #: src/modules/spell/spell.h:34
 msgid "Custom"
 msgstr "カスタム"
+
+#: src/modules/dbus/dbus.conf.in:3
+msgid "DBus"
+msgstr "DBus"
+
+#: src/frontend/dbusfrontend/dbusfrontend.conf.in:3
+#, fuzzy
+msgid "DBus Frontend"
+msgstr "Fcitx DBusフロントエンド"
 
 #: src/lib/fcitx/globalconfig.cpp:66
 #, fuzzy
@@ -165,10 +183,24 @@ msgstr ""
 msgid "Hotkey"
 msgstr "ホットキー"
 
+#: src/frontend/ibusfrontend/ibusfrontend.conf.in:3
+#, fuzzy
+msgid "IBus Frontend"
+msgstr "Fcitx DBusフロントエンド"
+
 #: src/modules/notificationitem/notificationitem.cpp:102
 #: src/modules/notificationitem/dbusmenu.cpp:259
 msgid "Input Method"
 msgstr "入力メソッド"
+
+#: src/ui/kimpanel/kimpanel.conf.in:3
+#, fuzzy
+msgid "KDE Input Method Panel"
+msgstr "既定の入力メソッドの状態"
+
+#: src/im/keyboard/keyboard.conf.in:3
+msgid "Keyboard"
+msgstr "キーボード"
 
 #: src/im/keyboard/keyboard.cpp:200
 #, fuzzy
@@ -198,6 +230,11 @@ msgstr "(使えません)"
 msgid "Presage"
 msgstr ""
 
+#: src/modules/quickphrase/quickphrase.conf.in:3
+#, fuzzy
+msgid "Quick Phrase"
+msgstr "クイックフレーズ"
+
 #: src/modules/quickphrase/quickphrase.cpp:283
 msgid "Quick Phrase: "
 msgstr "クイックフレーズ:"
@@ -210,6 +247,14 @@ msgstr "再起動"
 #, fuzzy
 msgid "Show Input Method Information when switch input method"
 msgstr "入力メソッドを切換後に入力メソッドのヒントを表示"
+
+#: src/ui/simpleui/simpleui.conf.in:3
+msgid "Simple UI for testing"
+msgstr ""
+
+#: src/modules/spell/spell.conf.in:3
+msgid "Spell"
+msgstr "スペル"
 
 #: src/im/keyboard/keyboard.cpp:304
 msgid "Spell hint"
@@ -232,76 +277,19 @@ msgstr "左Super"
 msgid "Trigger Input Method"
 msgstr "入力メソッドのオンオフ"
 
-#: src/modules/unicode/unicode.cpp:244
-#, fuzzy
-msgid "Unicode: "
-msgstr "Unicode"
-
-#: src/lib/fcitx/instance.cpp:1494
-#, fuzzy
-msgid "{0} (Not available)"
-msgstr "(使えません)"
-
-#: src/lib/fcitx/instance.cpp:1491
-msgid "{0} ({1})"
-msgstr ""
-
-#: src/modules/spell/spell.conf.in:3
-msgid "Spell"
-msgstr "スペル"
-
-#: src/modules/notifications/notifications.conf.in:3
-msgid "notifications"
-msgstr ""
-
-#: src/modules/notificationitem/notificationitem.conf.in:3
-msgid "notificationitem"
-msgstr ""
-
-#: src/modules/dbus/dbus.conf.in:3
-msgid "DBus"
-msgstr "DBus"
-
-#: src/modules/xcb/xcb.conf.in:3
-msgid "XCB"
-msgstr ""
-
-#: src/modules/clipboard/clipboard.conf.in:3
-#, fuzzy
-msgid "Clipboard"
-msgstr "クリップボード"
-
-#: src/modules/wayland/wayland.conf.in:3
-msgid "Wayland"
-msgstr ""
-
 #: src/modules/unicode/unicode.conf.in:3
 #, fuzzy
 msgid "Unicode"
 msgstr "Unicode"
 
-#: src/modules/unicode/unicode.conf.in:4
-msgid "Add Unicode Typing Support"
-msgstr "ユニコード入力対応を追加します"
-
-#: src/modules/quickphrase/quickphrase.conf.in:3
+#: src/modules/unicode/unicode.cpp:244
 #, fuzzy
-msgid "Quick Phrase"
-msgstr "クイックフレーズ"
+msgid "Unicode: "
+msgstr "Unicode"
 
-#: src/im/keyboard/keyboard.conf.in:3
-msgid "Keyboard"
-msgstr "キーボード"
-
-#: src/frontend/ibusfrontend/ibusfrontend.conf.in:3
-#, fuzzy
-msgid "IBus Frontend"
-msgstr "Fcitx DBusフロントエンド"
-
-#: src/frontend/dbusfrontend/dbusfrontend.conf.in:3
-#, fuzzy
-msgid "DBus Frontend"
-msgstr "Fcitx DBusフロントエンド"
+#: src/modules/wayland/wayland.conf.in:3
+msgid "Wayland"
+msgstr ""
 
 #: src/frontend/waylandim/waylandim.conf.in:3
 #, fuzzy
@@ -313,19 +301,31 @@ msgstr "Fcitx用のテーブル入力メソッド"
 msgid "X Input Method Frontend"
 msgstr "入力メソッドの設定"
 
-#: src/ui/simpleui/simpleui.conf.in:3
-msgid "Simple UI for testing"
+#: src/modules/xcb/xcb.conf.in:3
+msgid "XCB"
 msgstr ""
-
-#: src/ui/kimpanel/kimpanel.conf.in:3
-#, fuzzy
-msgid "KDE Input Method Panel"
-msgstr "既定の入力メソッドの状態"
 
 #: src/ui/classic/classicui.conf.in:3
 #, fuzzy
 msgid "classicui"
 msgstr "クラシック"
+
+#: src/modules/notificationitem/notificationitem.conf.in:3
+msgid "notificationitem"
+msgstr ""
+
+#: src/modules/notifications/notifications.conf.in:3
+msgid "notifications"
+msgstr ""
+
+#: src/lib/fcitx/instance.cpp:1494
+#, fuzzy
+msgid "{0} (Not available)"
+msgstr "(使えません)"
+
+#: src/lib/fcitx/instance.cpp:1491
+msgid "{0} ({1})"
+msgstr ""
 
 #, fuzzy
 #~ msgid "Trigger Input Method Only after using it to deactivate"
