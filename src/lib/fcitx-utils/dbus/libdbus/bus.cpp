@@ -113,44 +113,56 @@ constexpr const char xmlFooter[] = "</node>";
 
 std::string DBusObjectVTableSlot::getXml() {
     std::string xml;
-    xml += xmlHeader;
-    if (objPriv_->properties_.size()) {
-        xml += xmlProperties;
-    }
-
     xml += stringutils::concat("<interface name=\"", interface_, "\">");
     xml += objPriv_->getXml(obj_);
     xml += xmlInterfaceFooter;
-    xml += xmlFooter;
     return xml;
 }
 
-bool DBusObjectVTableSlot::callback(Message message) {
-    if (message.path() != path_) {
+DBusObjectVTableSlot *BusPrivate::findSlot(const std::string &path,
+                                           const std::string interface) {
+    // Check if interface exists.
+    for (auto &item : objectRegistration_.view(path)) {
+        if (auto slot = item.get()) {
+            if (slot->interface_ == interface) {
+                return slot;
+            }
+        }
+    }
+    return nullptr;
+}
+
+bool BusPrivate::objectVTableCallback(Message message) {
+    if (!objectRegistration_.hasKey(message.path())) {
         return false;
     }
-    if (message.member() == "Introspect" && message.signature() == "" &&
-        message.interface() == "org.freedesktop.DBus.Introspectable") {
+    if (message.interface() == "org.freedesktop.DBus.Introspectable") {
+        if (message.member() != "Introspect" || message.signature() != "") {
+            return false;
+        }
+        std::string xml = xmlHeader;
+        bool hasProperties = false;
+        for (auto &item : objectRegistration_.view(message.path())) {
+            if (auto slot = item.get()) {
+                hasProperties =
+                    hasProperties || slot->objPriv_->properties_.size();
+                xml += slot->xml_;
+            }
+        }
+        if (hasProperties) {
+            xml += xmlProperties;
+        }
+        xml += xmlFooter;
         auto reply = message.createReply();
-        reply << xml_;
+        reply << xml;
         reply.send();
         return true;
-    }
-    if (message.interface() == interface_) {
-        if (auto method = obj_->findMethod(message.member())) {
-            if (method->signature() != message.signature()) {
-                return false;
-            }
-            return method->handler()(message);
-        }
-        return false;
-    }
-    if (message.interface() == "org.freedesktop.DBus.Properties") {
+    } else if (message.interface() == "org.freedesktop.DBus.Properties") {
         if (message.member() == "Get" && message.signature() == "ss") {
             std::string interfaceName, propertyName;
             message >> interfaceName >> propertyName;
-            if (interfaceName == interface_) {
-                auto property = obj_->findProperty(propertyName);
+            if (auto slot = findSlot(message.path(), interfaceName)) {
+                auto property = slot->obj_->findProperty(propertyName);
                 if (property) {
                     auto reply = message.createReply();
                     reply << Container(Container::Type::Variant,
@@ -168,8 +180,8 @@ bool DBusObjectVTableSlot::callback(Message message) {
         } else if (message.member() == "Set" && message.signature() == "ssv") {
             std::string interfaceName, propertyName;
             message >> interfaceName >> propertyName;
-            if (interfaceName == interface_) {
-                auto property = obj_->findProperty(propertyName);
+            if (auto slot = findSlot(message.path(), interfaceName)) {
+                auto property = slot->obj_->findProperty(propertyName);
                 if (property) {
                     if (property->writable()) {
                         message >> Container(Container::Type::Variant,
@@ -198,10 +210,10 @@ bool DBusObjectVTableSlot::callback(Message message) {
         } else if (message.member() == "GetAll" && message.signature() == "s") {
             std::string interfaceName;
             message >> interfaceName;
-            if (interfaceName == interface_) {
+            if (auto slot = findSlot(message.path(), interfaceName)) {
                 auto reply = message.createReply();
                 reply << Container(Container::Type::Array, Signature("{sv}"));
-                for (auto &pair : objPriv_->properties_) {
+                for (auto &pair : slot->objPriv_->properties_) {
                     reply << Container(Container::Type::DictEntry,
                                        Signature("sv"));
                     reply << pair.first;
@@ -214,8 +226,17 @@ bool DBusObjectVTableSlot::callback(Message message) {
                 }
                 reply << ContainerEnd();
                 reply.send();
+                return true;
             }
         }
+    } else if (auto slot = findSlot(message.path(), message.interface())) {
+        if (auto method = slot->obj_->findMethod(message.member())) {
+            if (method->signature() != message.signature()) {
+                return false;
+            }
+            return method->handler()(message);
+        }
+        return false;
     }
     return false;
 }
@@ -569,18 +590,44 @@ std::unique_ptr<Slot> Bus::addObject(const std::string &path,
     return slot;
 }
 
+DBusHandlerResult DBusObjectPathVTableMessageCallback(DBusConnection *,
+                                                      DBusMessage *message,
+                                                      void *userdata) {
+    auto bus = static_cast<BusPrivate *>(userdata);
+    if (!bus) {
+        return DBUS_HANDLER_RESULT_NOT_YET_HANDLED;
+    }
+    auto msg =
+        MessagePrivate::fromDBusMessage(bus->watch(), message, false, true);
+    if (bus->objectVTableCallback(msg)) {
+        return DBUS_HANDLER_RESULT_HANDLED;
+    }
+    return DBUS_HANDLER_RESULT_NOT_YET_HANDLED;
+}
+
 bool Bus::addObjectVTable(const std::string &path, const std::string &interface,
                           ObjectVTableBase &obj) {
     FCITX_D();
+    // Check if interface exists.
+    for (auto &item : d->objectRegistration_.view(path)) {
+        if (auto slot = item.get()) {
+            if (slot->interface_ == interface) {
+                return false;
+            }
+        }
+    }
+
     auto slot = std::make_unique<DBusObjectVTableSlot>(path, interface, &obj,
                                                        obj.d_func());
     DBusObjectPathVTable vtable;
     memset(&vtable, 0, sizeof(vtable));
-    vtable.message_function = DBusObjectPathMessageCallback;
-    if (!dbus_connection_register_object_path(d->conn_, path.c_str(), &vtable,
-                                              slot.get())) {
+
+    auto handler = d->objectRegistration_.add(path, slot->watch());
+    if (!handler) {
         return false;
     }
+
+    slot->handler_ = std::move(handler);
     slot->bus_ = d->watch();
 
     obj.setSlot(slot.release());

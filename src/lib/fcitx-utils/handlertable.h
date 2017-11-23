@@ -99,6 +99,11 @@ public:
         return {iter->second.begin(), iter->second.end()};
     }
 
+    bool hasKey(const Key &key) const {
+        auto iter = keyToHandlers_.find(key);
+        return iter != keyToHandlers_.end();
+    }
+
     IterRange<KeyIterator<typename map_type::const_iterator>> keys() const {
         return {KeyIterator<typename map_type::const_iterator>(
                     keyToHandlers_.begin()),
