@@ -1,20 +1,18 @@
 # SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
-# This file is distributed under the same license as the fcitx5 package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+# This file is distributed under the same license as the PACKAGE package.
 #
-#, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: fcitx5\n"
+"Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2017-11-22 16:09-0800\n"
+"POT-Creation-Date: 2017-11-22 20:23-0800\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
-"Language: \n"
+"Language: LANG\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=CHARSET\n"
+"Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
 #: src/lib/fcitx/instance.cpp:1496
@@ -63,6 +61,10 @@ msgstr ""
 
 #: src/lib/fcitx/globalconfig.cpp:90
 msgid "Behavior"
+msgstr ""
+
+#: src/ui/classic/classicui.conf.in:3
+msgid "Classic User Inteface"
 msgstr ""
 
 #: src/modules/clipboard/clipboard.conf.in:3
@@ -265,10 +267,6 @@ msgstr ""
 
 #: src/modules/xcb/xcb.conf.in:3
 msgid "XCB"
-msgstr ""
-
-#: src/ui/classic/classicui.conf.in:3
-msgid "classicui"
 msgstr ""
 
 #: src/modules/notificationitem/notificationitem.conf.in:3

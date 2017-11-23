@@ -3,15 +3,15 @@
 # This file is distributed under the same license as the PACKAGE package.
 #
 # Translators:
-# Adolfo Jayme Barrientos, 2012
+# csslayer <wengxt@gmail.com>, 2017
 msgid ""
 msgstr ""
-"Project-Id-Version: fcitx5\n"
+"Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2017-11-22 16:08-0800\n"
-"PO-Revision-Date: 2015-12-12 07:18+0000\n"
-"Last-Translator: csslayer <wengxt@gmail.com>\n"
-"Language-Team: Spanish (http://www.transifex.com/fcitx/fcitx/language/es/)\n"
+"POT-Creation-Date: 2017-11-22 20:23-0800\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: csslayer <wengxt@gmail.com>, 2017\n"
+"Language-Team: Spanish (https://www.transifex.com/fcitx/teams/12005/es/)\n"
 "Language: es\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -43,9 +43,8 @@ msgid "<not assigned>"
 msgstr ""
 
 #: src/lib/fcitx/globalconfig.cpp:60
-#, fuzzy
 msgid "Activate Input Method"
-msgstr "Método de entrada desactivado"
+msgstr ""
 
 #: src/lib/fcitx/globalconfig.cpp:75
 msgid "Active By Default"
@@ -56,17 +55,19 @@ msgid "Add Unicode Typing Support"
 msgstr ""
 
 #: src/modules/quickphrase/quickphrase.h:39 src/im/keyboard/keyboard.h:42
-#, fuzzy
 msgid "Alt"
-msgstr "Todo"
+msgstr ""
 
 #: src/lib/fcitx/globalconfig.cpp:38
-#, fuzzy
 msgid "Alternative Trigger Input Method"
-msgstr "Método de entrada desactivado"
+msgstr ""
 
 #: src/lib/fcitx/globalconfig.cpp:90
 msgid "Behavior"
+msgstr ""
+
+#: src/ui/classic/classicui.conf.in:3
+msgid "Classic User Inteface"
 msgstr ""
 
 #: src/modules/clipboard/clipboard.conf.in:3
@@ -82,9 +83,8 @@ msgid "Configure"
 msgstr "Configurar"
 
 #: src/modules/notificationitem/dbusmenu.cpp:275
-#, fuzzy
 msgid "Configure Current Input Method"
-msgstr "Nombre del método de entrada actual"
+msgstr ""
 
 #: src/modules/quickphrase/quickphrase.h:39 src/im/keyboard/keyboard.h:43
 msgid "Control"
@@ -99,14 +99,12 @@ msgid "DBus"
 msgstr ""
 
 #: src/frontend/dbusfrontend/dbusfrontend.conf.in:3
-#, fuzzy
 msgid "DBus Frontend"
-msgstr "Interfaz"
+msgstr ""
 
 #: src/lib/fcitx/globalconfig.cpp:66
-#, fuzzy
 msgid "Deactivate Input Method"
-msgstr "Método de entrada desactivado"
+msgstr ""
 
 #: src/lib/fcitx/inputmethodmanager.cpp:200
 #: src/ui/classic/themes/default/theme.conf.in:3
@@ -134,14 +132,12 @@ msgid "Enchant"
 msgstr ""
 
 #: src/lib/fcitx/globalconfig.cpp:46
-#, fuzzy
 msgid "Enumerate Input Method Backward"
-msgstr "Estado predeterminado del método de entrada"
+msgstr ""
 
 #: src/lib/fcitx/globalconfig.cpp:42
-#, fuzzy
 msgid "Enumerate Input Method Forward"
-msgstr "Método de entrada"
+msgstr ""
 
 #: src/lib/fcitx/globalconfig.cpp:56
 msgid "Enumerate Input Method Group Backward"
@@ -168,20 +164,17 @@ msgid "Hotkey"
 msgstr ""
 
 #: src/frontend/ibusfrontend/ibusfrontend.conf.in:3
-#, fuzzy
 msgid "IBus Frontend"
-msgstr "Interfaz"
+msgstr ""
 
 #: src/modules/notificationitem/notificationitem.cpp:102
 #: src/modules/notificationitem/dbusmenu.cpp:259
-#, fuzzy
 msgid "Input Method"
-msgstr "Método de entrada desactivado"
+msgstr ""
 
 #: src/ui/kimpanel/kimpanel.conf.in:3
-#, fuzzy
 msgid "KDE Input Method Panel"
-msgstr "Estado predeterminado del método de entrada"
+msgstr ""
 
 #: src/im/keyboard/keyboard.conf.in:3
 msgid "Keyboard"
@@ -212,9 +205,8 @@ msgid "Presage"
 msgstr ""
 
 #: src/modules/quickphrase/quickphrase.conf.in:3
-#, fuzzy
 msgid "Quick Phrase"
-msgstr "Lista de frases rápidas"
+msgstr ""
 
 #: src/modules/quickphrase/quickphrase.cpp:283
 msgid "Quick Phrase: "
@@ -253,9 +245,8 @@ msgid "Super"
 msgstr ""
 
 #: src/lib/fcitx/globalconfig.cpp:34
-#, fuzzy
 msgid "Trigger Input Method"
-msgstr "Método de entrada desactivado"
+msgstr ""
 
 #: src/modules/unicode/unicode.conf.in:3
 msgid "Unicode"
@@ -270,21 +261,15 @@ msgid "Wayland"
 msgstr ""
 
 #: src/frontend/waylandim/waylandim.conf.in:3
-#, fuzzy
 msgid "Wayland Input method frontend"
-msgstr "Estado predeterminado del método de entrada"
+msgstr ""
 
 #: src/frontend/xim/xim.conf.in:3
-#, fuzzy
 msgid "X Input Method Frontend"
-msgstr "Método de entrada"
+msgstr ""
 
 #: src/modules/xcb/xcb.conf.in:3
 msgid "XCB"
-msgstr ""
-
-#: src/ui/classic/classicui.conf.in:3
-msgid "classicui"
 msgstr ""
 
 #: src/modules/notificationitem/notificationitem.conf.in:3
@@ -302,208 +287,3 @@ msgstr ""
 #: src/lib/fcitx/instance.cpp:1491
 msgid "{0} ({1})"
 msgstr ""
-
-#~ msgid " Ctrl+Delete To Delete"
-#~ msgstr "Ctrl+Supr para eliminar"
-
-#~ msgid "Appearance"
-#~ msgstr "Apariencia"
-
-#~ msgid "Auto Create Phrase"
-#~ msgstr "Crear frase automáticamente"
-
-#~ msgid "Background Image"
-#~ msgstr "Imagen de fondo"
-
-#~ msgid "Candidate Word Number"
-#~ msgstr "Número de palabra candidata"
-
-#~ msgid "Category"
-#~ msgstr "Categoría"
-
-#~ msgid "Code is "
-#~ msgstr "El código es"
-
-#~ msgid "Color of Cursor"
-#~ msgstr "Color del cursor"
-
-#~ msgid "Comment"
-#~ msgstr "Comentario"
-
-#~ msgid "Convert Simplified Chinese To Traditional Chinese"
-#~ msgstr "Convertir chino simplificado a chino tradicional"
-
-#~ msgid "Copy"
-#~ msgstr "Copiar"
-
-#~ msgid "Current Enabled Input Method List"
-#~ msgstr "Lista de métodos de entrada activados"
-
-#~ msgid "Dependency"
-#~ msgstr "Dependencia"
-
-#~ msgid "Disabled"
-#~ msgstr "Desactivado"
-
-#~ msgid "Do not show input window if there is only preedit string"
-#~ msgstr "No mostrar ventanas de entrada si solo hay una cadena preeditada"
-
-#~ msgid "Enable"
-#~ msgstr "Activar"
-
-#~ msgid "Enabled"
-#~ msgstr "Activado"
-
-#~ msgid "Error: Load fontconfig failed"
-#~ msgstr "Error: Falló la carga de fontconfig"
-
-#~ msgid "Fcitx"
-#~ msgstr "Fcitx"
-
-#~ msgid "Font"
-#~ msgstr "Tipo de letra"
-
-#~ msgid "Hide"
-#~ msgstr "Ocultar"
-
-#~ msgid "Inactive"
-#~ msgstr "Inactivo"
-
-#~ msgid "Input Font Size"
-#~ msgstr "Tamaño de letra de entrada"
-
-#~ msgid "Input Speed: "
-#~ msgstr "Velocidad de entrada"
-
-#~ msgid ""
-#~ "Left/Right to choose selected character, Press Enter to confirm, Press "
-#~ "Escape to Cancel"
-#~ msgstr ""
-#~ "Izq/Der para elegir el carácter seleccionado. Oprima Intro para "
-#~ "confirmar. Oprima Escape para cancelar."
-
-#~ msgid "Library"
-#~ msgstr "Biblioteca"
-
-#~ msgid "MS"
-#~ msgstr "MS"
-
-#~ msgid "Menu Font"
-#~ msgstr "Tipo de letra del menú"
-
-#~ msgid "Menu Font Size"
-#~ msgstr "Tamaño de letra de los menús"
-
-#~ msgid "Migrate the old file path to the new one"
-#~ msgstr "Migrar la ruta de archivo anterior a la nueva"
-
-#~ msgid "Module"
-#~ msgstr "Módulo"
-
-#~ msgid "Name"
-#~ msgstr "Nombre"
-
-#~ msgid "Name that can be display in UI"
-#~ msgstr "Nombre que puede mostrarse en la IU"
-
-#~ msgid "Native"
-#~ msgstr "Nativo"
-
-#~ msgid "No"
-#~ msgstr "No"
-
-#~ msgid "Online Help"
-#~ msgstr "Ayuda en línea"
-
-#~ msgid "OpenCC"
-#~ msgstr "OpenCC"
-
-#~ msgid "Other Color"
-#~ msgstr "Otro color"
-
-#~ msgid "Output"
-#~ msgstr "Salida"
-
-#~ msgid "Parent"
-#~ msgstr "Padre"
-
-#~ msgid "Pinyin"
-#~ msgstr "Pinyin"
-
-#~ msgid "Pinyin: "
-#~ msgstr "Pinyin:"
-
-#~ msgid "Press Enter to input text"
-#~ msgstr "Oprima Intro para introducir texto"
-
-#~ msgid "Priority"
-#~ msgstr "Prioridad"
-
-#~ msgid "Resize"
-#~ msgstr "Redimensionar"
-
-#~ msgid "Save Auto Created Phrase"
-#~ msgstr "Guardar la frase creada automáticamente"
-
-#~ msgid "Show"
-#~ msgstr "Mostrar"
-
-#~ msgid "Show Input Speed"
-#~ msgstr "Mostrar velocidad de entrada"
-
-#~ msgid "Show Version"
-#~ msgstr "Mostrar versión"
-
-#~ msgid "Shuang Pin Schema"
-#~ msgstr "Shuang Pin Schema"
-
-#~ msgid "Shuangpin"
-#~ msgstr "Shuangpin"
-
-#~ msgid "Table"
-#~ msgstr "Tabla"
-
-#~ msgid "Type"
-#~ msgstr "Tipo"
-
-#~ msgid "UI"
-#~ msgstr "IU"
-
-#~ msgid "Unique Name for Table"
-#~ msgstr "Nombre único para la tabla"
-
-#~ msgid "Use Complete Pinyin"
-#~ msgstr "Usar pinyin completo"
-
-#~ msgid "Use Full Width Character"
-#~ msgstr "Usar carácter de anchura completa"
-
-#~ msgid "Use System Tray Icon"
-#~ msgstr "Usar icono en el área de notificación"
-
-#~ msgid "Use Wide Punctuation"
-#~ msgstr "Usar puntuación ancha"
-
-#~ msgid "User Defined"
-#~ msgstr "Definido por el usuario"
-
-#~ msgid "Virtual Keyboard"
-#~ msgstr "Teclado virtual"
-
-#~ msgid "Virtual Keyboard State"
-#~ msgstr "Estado del teclado virtual"
-
-#~ msgid "X11 not initialized"
-#~ msgstr "X11 no inicializado"
-
-#~ msgid "Zhongwenzhixing"
-#~ msgstr "Zhongwenzhixing"
-
-#~ msgid "Ziguang"
-#~ msgstr "Ziguang"
-
-#~ msgid "Ziranma"
-#~ msgstr "Ziranma"
-
-#~ msgid "your current font is: %s"
-#~ msgstr "su tipo de letra actual es: %s"
