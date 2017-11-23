@@ -12,6 +12,8 @@ sed -i 's|^"Content-Type: text/plain; charset=CHARSET\\n"|"Content-Type: text/pl
 
 # Due to transifex problem, delete the date.
 #sed -i '/^"PO-Revision-Date/d' ${POT_FILE}
+#sed -i '/^"PO-Revision-Date/d' ${POT_FILE}
+sed -i '/^"FIRST AUTHOR/d' ${POT_FILE}
 sed -i 's|^"Language: \\n"|"Language: LANG\\n"|g' ${POT_FILE}
 
 echo > po/LINGUAS
