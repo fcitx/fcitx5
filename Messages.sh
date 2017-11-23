@@ -22,7 +22,7 @@ for pofile in $(ls po/*.po | sort); do
   pofilebase=$(basename $pofile)
   pofilebase=${pofilebase/.po/}
   msgmerge -U --backup=none $pofile ${POT_FILE}
-  project_line=$(grep "Project-Id-Version" ${POT_FILE} | head -n 1 | tr --delete '\n' | sed -e 's/[\/&]/\\&/g')
-  sed -i "s|.*Project-Id-Version.*|$project_line|g" $pofile
+  #project_line=$(grep "Project-Id-Version" ${POT_FILE} | head -n 1 | tr --delete '\n' | sed -e 's/[\/&]/\\&/g')
+  #sed -i "s|.*Project-Id-Version.*|$project_line|g" $pofile
   echo $pofilebase >> po/LINGUAS
 done
