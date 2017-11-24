@@ -1,5 +1,6 @@
 [Addon]
-Name=notifications
+Name=Notification
+Comment=Freedesktop.org Notification Support
 Type=SharedLibrary
 Library=notifications
 Category=Module

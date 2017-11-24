@@ -5,7 +5,7 @@ set -x
 XGETTEXT="xgettext --package-name=$DOMAIN --add-comments --sort-output --msgid-bugs-address=fcitx-dev@googlegroups.com"
 source_files=$(find . -name \*.cpp -o -name \*.h)
 $XGETTEXT --keyword=_ --keyword=N_ --language=C++ -o ${POT_FILE} $source_files
-desktop_files=$(find . -name \*.conf.in -o -name \*.conf.in.in -o -name \*.desktop)
+desktop_files=$(find . -name \*.conf.in -o -name \*.conf.in.in -o -name \*.desktop.in)
 $XGETTEXT --language=Desktop $desktop_files -j -o ${POT_FILE}
 
 sed -i 's|^"Content-Type: text/plain; charset=CHARSET\\n"|"Content-Type: text/plain; charset=utf-8\\n"|g' ${POT_FILE}

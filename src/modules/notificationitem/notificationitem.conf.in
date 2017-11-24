@@ -1,5 +1,6 @@
 [Addon]
-Name=notificationitem
+Name=Status Notifier
+Comment=DBus based new Freedesktop.org tray icon
 Type=SharedLibrary
 Library=notificationitem
 Category=Module
