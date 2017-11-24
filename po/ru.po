@@ -1,14 +1,14 @@
 # SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
-# This file is distributed under the same license as the PACKAGE package.
+# This file is distributed under the same license as the fcitx5 package.
 #
 # Translators:
 # csslayer <wengxt@gmail.com>, 2017
 msgid ""
 msgstr ""
-"Project-Id-Version: PACKAGE VERSION\n"
+"Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2017-11-22 20:23-0800\n"
+"POT-Creation-Date: 2017-11-24 10:15-0800\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: csslayer <wengxt@gmail.com>, 2017\n"
 "Language-Team: Russian (https://www.transifex.com/fcitx/teams/12005/ru/)\n"
@@ -56,7 +56,7 @@ msgstr ""
 msgid "Add Unicode Typing Support"
 msgstr "Добавляет поддержку набора с помощью символов Юникод"
 
-#: src/modules/quickphrase/quickphrase.h:39 src/im/keyboard/keyboard.h:42
+#: src/im/keyboard/keyboard.h:42 src/modules/quickphrase/quickphrase.h:39
 msgid "Alt"
 msgstr "Alt"
 
@@ -88,7 +88,7 @@ msgstr "Настроить"
 msgid "Configure Current Input Method"
 msgstr "Настроить текущий метод ввода"
 
-#: src/modules/quickphrase/quickphrase.h:39 src/im/keyboard/keyboard.h:43
+#: src/im/keyboard/keyboard.h:43 src/modules/quickphrase/quickphrase.h:39
 msgid "Control"
 msgstr ""
 
@@ -169,8 +169,8 @@ msgstr "Горячая клавиша"
 msgid "IBus Frontend"
 msgstr ""
 
-#: src/modules/notificationitem/notificationitem.cpp:102
 #: src/modules/notificationitem/dbusmenu.cpp:259
+#: src/modules/notificationitem/notificationitem.cpp:102
 msgid "Input Method"
 msgstr "Метод ввода"
 
@@ -194,7 +194,7 @@ msgstr ""
 msgid "No clipboard history."
 msgstr ""
 
-#: src/modules/quickphrase/quickphrase.h:38 src/im/keyboard/keyboard.h:42
+#: src/im/keyboard/keyboard.h:42 src/modules/quickphrase/quickphrase.h:38
 msgid "None"
 msgstr "Нет"
 
@@ -242,7 +242,7 @@ msgstr "Подсказки по написанию отключены."
 msgid "Spell hint is enabled."
 msgstr "Подсказки по написанию включены."
 
-#: src/modules/quickphrase/quickphrase.h:39 src/im/keyboard/keyboard.h:43
+#: src/im/keyboard/keyboard.h:43 src/modules/quickphrase/quickphrase.h:39
 msgid "Super"
 msgstr ""
 

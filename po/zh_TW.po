@@ -1,16 +1,17 @@
 # SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
-# This file is distributed under the same license as the PACKAGE package.
+# This file is distributed under the same license as the fcitx5 package.
 #
 # Translators:
 # csslayer <wengxt@gmail.com>, 2017
+# Jeff Huang <s8321414@gmail.com>, 2017
 msgid ""
 msgstr ""
-"Project-Id-Version: PACKAGE VERSION\n"
+"Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2017-11-22 20:23-0800\n"
+"POT-Creation-Date: 2017-11-24 10:15-0800\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: csslayer <wengxt@gmail.com>, 2017\n"
+"Last-Translator: Jeff Huang <s8321414@gmail.com>, 2017\n"
 "Language-Team: Chinese (Taiwan) (https://www.transifex.com/fcitx/teams/12005/"
 "zh_TW/)\n"
 "Language: zh_TW\n"
@@ -21,7 +22,7 @@ msgstr ""
 
 #: src/lib/fcitx/instance.cpp:1496
 msgid "(Not available)"
-msgstr ""
+msgstr "（無法使用）"
 
 #: src/modules/unicode/charselectdata.cpp:216
 msgid "<Low Surrogate>"
@@ -45,39 +46,39 @@ msgstr "<未指定>"
 
 #: src/lib/fcitx/globalconfig.cpp:60
 msgid "Activate Input Method"
-msgstr ""
+msgstr "啟用輸入法"
 
 #: src/lib/fcitx/globalconfig.cpp:75
 msgid "Active By Default"
-msgstr ""
+msgstr "預設啟用"
 
 #: src/modules/unicode/unicode.conf.in:4
 msgid "Add Unicode Typing Support"
 msgstr "加入 Unicode 輸入支援"
 
-#: src/modules/quickphrase/quickphrase.h:39 src/im/keyboard/keyboard.h:42
+#: src/im/keyboard/keyboard.h:42 src/modules/quickphrase/quickphrase.h:39
 msgid "Alt"
 msgstr "Alt"
 
 #: src/lib/fcitx/globalconfig.cpp:38
 msgid "Alternative Trigger Input Method"
-msgstr ""
+msgstr "替代切換輸入法"
 
 #: src/lib/fcitx/globalconfig.cpp:90
 msgid "Behavior"
-msgstr ""
+msgstr "行為"
 
 #: src/ui/classic/classicui.conf.in:3
 msgid "Classic User Inteface"
-msgstr ""
+msgstr "經典使用者介面"
 
 #: src/modules/clipboard/clipboard.conf.in:3
 msgid "Clipboard"
-msgstr ""
+msgstr "剪貼簿"
 
 #: src/modules/clipboard/clipboard.cpp:287
 msgid "Clipboard:"
-msgstr ""
+msgstr "剪貼簿："
 
 #: src/modules/notificationitem/dbusmenu.cpp:280
 msgid "Configure"
@@ -87,9 +88,9 @@ msgstr "設定"
 msgid "Configure Current Input Method"
 msgstr "設定目前輸入法"
 
-#: src/modules/quickphrase/quickphrase.h:39 src/im/keyboard/keyboard.h:43
+#: src/im/keyboard/keyboard.h:43 src/modules/quickphrase/quickphrase.h:39
 msgid "Control"
-msgstr ""
+msgstr "控制"
 
 #: src/modules/spell/spell.h:34
 msgid "Custom"
@@ -101,11 +102,11 @@ msgstr "DBus"
 
 #: src/frontend/dbusfrontend/dbusfrontend.conf.in:3
 msgid "DBus Frontend"
-msgstr ""
+msgstr "DBus 前端"
 
 #: src/lib/fcitx/globalconfig.cpp:66
 msgid "Deactivate Input Method"
-msgstr ""
+msgstr "停用輸入法"
 
 #: src/lib/fcitx/inputmethodmanager.cpp:200
 #: src/ui/classic/themes/default/theme.conf.in:3
@@ -114,15 +115,15 @@ msgstr "預設"
 
 #: src/lib/fcitx/globalconfig.cpp:71
 msgid "Default Next page"
-msgstr ""
+msgstr "預設下一頁"
 
 #: src/lib/fcitx/globalconfig.cpp:69
 msgid "Default Previous page"
-msgstr ""
+msgstr "預設上一頁"
 
 #: src/lib/fcitx/globalconfig.cpp:80
 msgid "Default page size"
-msgstr ""
+msgstr "預設頁面大小"
 
 #: src/modules/notifications/notifications.cpp:218
 msgid "Do not show again"
@@ -130,23 +131,23 @@ msgstr "不再顯示"
 
 #: src/modules/spell/spell.h:35
 msgid "Enchant"
-msgstr ""
+msgstr "Enchant"
 
 #: src/lib/fcitx/globalconfig.cpp:46
 msgid "Enumerate Input Method Backward"
-msgstr ""
+msgstr "枚舉輸入法向後"
 
 #: src/lib/fcitx/globalconfig.cpp:42
 msgid "Enumerate Input Method Forward"
-msgstr ""
+msgstr "枚舉輸入法向前"
 
 #: src/lib/fcitx/globalconfig.cpp:56
 msgid "Enumerate Input Method Group Backward"
-msgstr ""
+msgstr "枚舉輸入法群組向後"
 
 #: src/lib/fcitx/globalconfig.cpp:51
 msgid "Enumerate Input Method Group Forward"
-msgstr ""
+msgstr "枚舉輸入法群組向前"
 
 #: src/modules/notificationitem/dbusmenu.cpp:293
 msgid "Exit"
@@ -154,11 +155,11 @@ msgstr "離開"
 
 #: src/modules/notificationitem/dbusmenu.cpp:265
 msgid "Group"
-msgstr ""
+msgstr "群組"
 
 #: src/lib/fcitx/instance.cpp:1499
 msgid "Group {0}: {1}"
-msgstr ""
+msgstr "群組 {0}：{1}"
 
 #: src/lib/fcitx/globalconfig.cpp:88
 msgid "Hotkey"
@@ -166,16 +167,16 @@ msgstr "快捷鍵"
 
 #: src/frontend/ibusfrontend/ibusfrontend.conf.in:3
 msgid "IBus Frontend"
-msgstr ""
+msgstr "IBus 前端"
 
-#: src/modules/notificationitem/notificationitem.cpp:102
 #: src/modules/notificationitem/dbusmenu.cpp:259
+#: src/modules/notificationitem/notificationitem.cpp:102
 msgid "Input Method"
 msgstr "輸入法"
 
 #: src/ui/kimpanel/kimpanel.conf.in:3
 msgid "KDE Input Method Panel"
-msgstr ""
+msgstr "KDE 輸入法面板"
 
 #: src/im/keyboard/keyboard.conf.in:3
 msgid "Keyboard"
@@ -183,31 +184,31 @@ msgstr "鍵盤"
 
 #: src/im/keyboard/keyboard.cpp:200
 msgid "Keyboard - {0}"
-msgstr ""
+msgstr "鍵盤 - {0}"
 
 #: src/im/keyboard/keyboard.cpp:214
 msgid "Keyboard - {0} - {1}"
-msgstr ""
+msgstr "鍵盤 - {0} - {1}"
 
 #: src/modules/clipboard/clipboard.cpp:289
 msgid "No clipboard history."
-msgstr ""
+msgstr "沒有輸入法歷史"
 
-#: src/modules/quickphrase/quickphrase.h:38 src/im/keyboard/keyboard.h:42
+#: src/im/keyboard/keyboard.h:42 src/modules/quickphrase/quickphrase.h:38
 msgid "None"
 msgstr "無"
 
 #: src/ui/kimpanel/kimpanel.cpp:309
 msgid "Not available"
-msgstr ""
+msgstr "無法使用"
 
 #: src/modules/spell/spell.h:34
 msgid "Presage"
-msgstr ""
+msgstr "Presage"
 
 #: src/modules/quickphrase/quickphrase.conf.in:3
 msgid "Quick Phrase"
-msgstr ""
+msgstr "快速片語"
 
 #: src/modules/quickphrase/quickphrase.cpp:283
 msgid "Quick Phrase: "
@@ -219,11 +220,11 @@ msgstr "重新啟動"
 
 #: src/lib/fcitx/globalconfig.cpp:78
 msgid "Show Input Method Information when switch input method"
-msgstr ""
+msgstr "當切換輸入法時顯示輸入法資訊"
 
 #: src/ui/simpleui/simpleui.conf.in:3
 msgid "Simple UI for testing"
-msgstr ""
+msgstr "測試用的簡易使用者介面"
 
 #: src/modules/spell/spell.conf.in:3
 msgid "Spell"
@@ -241,9 +242,9 @@ msgstr "已停用拼字提示。"
 msgid "Spell hint is enabled."
 msgstr "已啟用拼字提示。"
 
-#: src/modules/quickphrase/quickphrase.h:39 src/im/keyboard/keyboard.h:43
+#: src/im/keyboard/keyboard.h:43 src/modules/quickphrase/quickphrase.h:39
 msgid "Super"
-msgstr ""
+msgstr "超級"
 
 #: src/lib/fcitx/globalconfig.cpp:34
 msgid "Trigger Input Method"
@@ -251,40 +252,40 @@ msgstr "切換啟用或非啟用輸入法"
 
 #: src/modules/unicode/unicode.conf.in:3
 msgid "Unicode"
-msgstr ""
+msgstr "Unicode"
 
 #: src/modules/unicode/unicode.cpp:244
 msgid "Unicode: "
-msgstr ""
+msgstr "Unicode："
 
 #: src/modules/wayland/wayland.conf.in:3
 msgid "Wayland"
-msgstr ""
+msgstr "Wayland"
 
 #: src/frontend/waylandim/waylandim.conf.in:3
 msgid "Wayland Input method frontend"
-msgstr ""
+msgstr "Wayland 輸入法前端"
 
 #: src/frontend/xim/xim.conf.in:3
 msgid "X Input Method Frontend"
-msgstr ""
+msgstr "X 輸入法前端"
 
 #: src/modules/xcb/xcb.conf.in:3
 msgid "XCB"
-msgstr ""
+msgstr "XCB"
 
 #: src/modules/notificationitem/notificationitem.conf.in:3
 msgid "notificationitem"
-msgstr ""
+msgstr "通知項目"
 
 #: src/modules/notifications/notifications.conf.in:3
 msgid "notifications"
-msgstr ""
+msgstr "通知"
 
 #: src/lib/fcitx/instance.cpp:1494
 msgid "{0} (Not available)"
-msgstr ""
+msgstr "{0}（不可用）"
 
 #: src/lib/fcitx/instance.cpp:1491
 msgid "{0} ({1})"
-msgstr ""
+msgstr "{0} ({1})"

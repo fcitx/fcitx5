@@ -1,14 +1,14 @@
 # SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
-# This file is distributed under the same license as the PACKAGE package.
+# This file is distributed under the same license as the fcitx5 package.
 #
 # Translators:
 # csslayer <wengxt@gmail.com>, 2017
 msgid ""
 msgstr ""
-"Project-Id-Version: PACKAGE VERSION\n"
+"Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2017-11-22 20:23-0800\n"
+"POT-Creation-Date: 2017-11-24 10:15-0800\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: csslayer <wengxt@gmail.com>, 2017\n"
 "Language-Team: Catalan (https://www.transifex.com/fcitx/teams/12005/ca/)\n"
@@ -54,7 +54,7 @@ msgstr ""
 msgid "Add Unicode Typing Support"
 msgstr "Afegeix suport per a l'escriptura unicode"
 
-#: src/modules/quickphrase/quickphrase.h:39 src/im/keyboard/keyboard.h:42
+#: src/im/keyboard/keyboard.h:42 src/modules/quickphrase/quickphrase.h:39
 msgid "Alt"
 msgstr "Alt"
 
@@ -86,7 +86,7 @@ msgstr "Configura"
 msgid "Configure Current Input Method"
 msgstr "Configura el mètode actual d'entrada"
 
-#: src/modules/quickphrase/quickphrase.h:39 src/im/keyboard/keyboard.h:43
+#: src/im/keyboard/keyboard.h:43 src/modules/quickphrase/quickphrase.h:39
 msgid "Control"
 msgstr ""
 
@@ -167,8 +167,8 @@ msgstr "Drecera de teclat"
 msgid "IBus Frontend"
 msgstr ""
 
-#: src/modules/notificationitem/notificationitem.cpp:102
 #: src/modules/notificationitem/dbusmenu.cpp:259
+#: src/modules/notificationitem/notificationitem.cpp:102
 msgid "Input Method"
 msgstr "Mètode d'entrada"
 
@@ -192,7 +192,7 @@ msgstr ""
 msgid "No clipboard history."
 msgstr ""
 
-#: src/modules/quickphrase/quickphrase.h:38 src/im/keyboard/keyboard.h:42
+#: src/im/keyboard/keyboard.h:42 src/modules/quickphrase/quickphrase.h:38
 msgid "None"
 msgstr "Cap"
 
@@ -240,7 +240,7 @@ msgstr "S'han desactivat les pistes d'ortografia"
 msgid "Spell hint is enabled."
 msgstr "S'han activat les pistes d'ortografia"
 
-#: src/modules/quickphrase/quickphrase.h:39 src/im/keyboard/keyboard.h:43
+#: src/im/keyboard/keyboard.h:43 src/modules/quickphrase/quickphrase.h:39
 msgid "Super"
 msgstr ""
 

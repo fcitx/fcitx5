@@ -1,16 +1,17 @@
 # SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
-# This file is distributed under the same license as the PACKAGE package.
+# This file is distributed under the same license as the fcitx5 package.
 #
 # Translators:
 # csslayer <wengxt@gmail.com>, 2017
+# Bon Keun Seo <scobyseo@gmail.com>, 2017
 msgid ""
 msgstr ""
-"Project-Id-Version: PACKAGE VERSION\n"
+"Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2017-11-22 20:23-0800\n"
+"POT-Creation-Date: 2017-11-24 10:15-0800\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: csslayer <wengxt@gmail.com>, 2017\n"
+"Last-Translator: Bon Keun Seo <scobyseo@gmail.com>, 2017\n"
 "Language-Team: Korean (https://www.transifex.com/fcitx/teams/12005/ko/)\n"
 "Language: ko\n"
 "MIME-Version: 1.0\n"
@@ -20,7 +21,7 @@ msgstr ""
 
 #: src/lib/fcitx/instance.cpp:1496
 msgid "(Not available)"
-msgstr ""
+msgstr "(사용할 수 없음)"
 
 #: src/modules/unicode/charselectdata.cpp:216
 msgid "<Low Surrogate>"
@@ -44,7 +45,7 @@ msgstr "<할당 안됨>"
 
 #: src/lib/fcitx/globalconfig.cpp:60
 msgid "Activate Input Method"
-msgstr "입력 방식 활성화"
+msgstr "입력기 활성화"
 
 #: src/lib/fcitx/globalconfig.cpp:75
 msgid "Active By Default"
@@ -54,7 +55,7 @@ msgstr "디폴트 활성 상태"
 msgid "Add Unicode Typing Support"
 msgstr "유니코드 입력 지원 추가"
 
-#: src/modules/quickphrase/quickphrase.h:39 src/im/keyboard/keyboard.h:42
+#: src/im/keyboard/keyboard.h:42 src/modules/quickphrase/quickphrase.h:39
 msgid "Alt"
 msgstr "Alt"
 
@@ -64,7 +65,7 @@ msgstr "대체 트리거 입력 방법"
 
 #: src/lib/fcitx/globalconfig.cpp:90
 msgid "Behavior"
-msgstr "행동"
+msgstr "동작방식"
 
 #: src/ui/classic/classicui.conf.in:3
 msgid "Classic User Inteface"
@@ -76,7 +77,7 @@ msgstr "클립보드"
 
 #: src/modules/clipboard/clipboard.cpp:287
 msgid "Clipboard:"
-msgstr ""
+msgstr "클립보드:"
 
 #: src/modules/notificationitem/dbusmenu.cpp:280
 msgid "Configure"
@@ -86,9 +87,9 @@ msgstr "설정"
 msgid "Configure Current Input Method"
 msgstr "현재 입력기 설정"
 
-#: src/modules/quickphrase/quickphrase.h:39 src/im/keyboard/keyboard.h:43
+#: src/im/keyboard/keyboard.h:43 src/modules/quickphrase/quickphrase.h:39
 msgid "Control"
-msgstr ""
+msgstr "Control"
 
 #: src/modules/spell/spell.h:34
 msgid "Custom"
@@ -100,11 +101,11 @@ msgstr "DBus"
 
 #: src/frontend/dbusfrontend/dbusfrontend.conf.in:3
 msgid "DBus Frontend"
-msgstr ""
+msgstr "DBus 전처리기"
 
 #: src/lib/fcitx/globalconfig.cpp:66
 msgid "Deactivate Input Method"
-msgstr ""
+msgstr "입력기 비활성화"
 
 #: src/lib/fcitx/inputmethodmanager.cpp:200
 #: src/ui/classic/themes/default/theme.conf.in:3
@@ -113,15 +114,15 @@ msgstr "기본값"
 
 #: src/lib/fcitx/globalconfig.cpp:71
 msgid "Default Next page"
-msgstr ""
+msgstr "기본 다음 페이지"
 
 #: src/lib/fcitx/globalconfig.cpp:69
 msgid "Default Previous page"
-msgstr ""
+msgstr "기본 이전 페이지"
 
 #: src/lib/fcitx/globalconfig.cpp:80
 msgid "Default page size"
-msgstr ""
+msgstr "페이지 크기 기본값"
 
 #: src/modules/notifications/notifications.cpp:218
 msgid "Do not show again"
@@ -129,23 +130,23 @@ msgstr "다시 보이지 않기"
 
 #: src/modules/spell/spell.h:35
 msgid "Enchant"
-msgstr ""
+msgstr "Enchant"
 
 #: src/lib/fcitx/globalconfig.cpp:46
 msgid "Enumerate Input Method Backward"
-msgstr ""
+msgstr "입력기를 역순으로 적용"
 
 #: src/lib/fcitx/globalconfig.cpp:42
 msgid "Enumerate Input Method Forward"
-msgstr ""
+msgstr "입력기를 순차적으로 적용"
 
 #: src/lib/fcitx/globalconfig.cpp:56
 msgid "Enumerate Input Method Group Backward"
-msgstr ""
+msgstr "입력기 그룹을 역순으로 적용"
 
 #: src/lib/fcitx/globalconfig.cpp:51
 msgid "Enumerate Input Method Group Forward"
-msgstr ""
+msgstr "입력기 그룹을 순차적으로 적용"
 
 #: src/modules/notificationitem/dbusmenu.cpp:293
 msgid "Exit"
@@ -153,11 +154,11 @@ msgstr "나가기"
 
 #: src/modules/notificationitem/dbusmenu.cpp:265
 msgid "Group"
-msgstr ""
+msgstr "그룹"
 
 #: src/lib/fcitx/instance.cpp:1499
 msgid "Group {0}: {1}"
-msgstr ""
+msgstr "그룹 {0}: {1}"
 
 #: src/lib/fcitx/globalconfig.cpp:88
 msgid "Hotkey"
@@ -165,16 +166,16 @@ msgstr "단축키"
 
 #: src/frontend/ibusfrontend/ibusfrontend.conf.in:3
 msgid "IBus Frontend"
-msgstr ""
+msgstr "IBus 전처리기"
 
-#: src/modules/notificationitem/notificationitem.cpp:102
 #: src/modules/notificationitem/dbusmenu.cpp:259
+#: src/modules/notificationitem/notificationitem.cpp:102
 msgid "Input Method"
 msgstr "입력기"
 
 #: src/ui/kimpanel/kimpanel.conf.in:3
 msgid "KDE Input Method Panel"
-msgstr ""
+msgstr "KDE 입력기 패널"
 
 #: src/im/keyboard/keyboard.conf.in:3
 msgid "Keyboard"
@@ -182,31 +183,31 @@ msgstr "키보드"
 
 #: src/im/keyboard/keyboard.cpp:200
 msgid "Keyboard - {0}"
-msgstr ""
+msgstr "키보드 - {0}"
 
 #: src/im/keyboard/keyboard.cpp:214
 msgid "Keyboard - {0} - {1}"
-msgstr ""
+msgstr "키보드 - {0} - {1}"
 
 #: src/modules/clipboard/clipboard.cpp:289
 msgid "No clipboard history."
-msgstr ""
+msgstr "클립보드 기록이 없습니다."
 
-#: src/modules/quickphrase/quickphrase.h:38 src/im/keyboard/keyboard.h:42
+#: src/im/keyboard/keyboard.h:42 src/modules/quickphrase/quickphrase.h:38
 msgid "None"
 msgstr "없음"
 
 #: src/ui/kimpanel/kimpanel.cpp:309
 msgid "Not available"
-msgstr ""
+msgstr "사용할 수 없음"
 
 #: src/modules/spell/spell.h:34
 msgid "Presage"
-msgstr ""
+msgstr "Presage"
 
 #: src/modules/quickphrase/quickphrase.conf.in:3
 msgid "Quick Phrase"
-msgstr ""
+msgstr "상용구"
 
 #: src/modules/quickphrase/quickphrase.cpp:283
 msgid "Quick Phrase: "
@@ -218,11 +219,11 @@ msgstr "재시작"
 
 #: src/lib/fcitx/globalconfig.cpp:78
 msgid "Show Input Method Information when switch input method"
-msgstr ""
+msgstr "입력기 변경 시 입력기 정보 보이기"
 
 #: src/ui/simpleui/simpleui.conf.in:3
 msgid "Simple UI for testing"
-msgstr ""
+msgstr "테스트를 위한 단순 UI"
 
 #: src/modules/spell/spell.conf.in:3
 msgid "Spell"
@@ -240,9 +241,9 @@ msgstr "철자 힌트 비활성화됨."
 msgid "Spell hint is enabled."
 msgstr "철자 힌트 활성화됨."
 
-#: src/modules/quickphrase/quickphrase.h:39 src/im/keyboard/keyboard.h:43
+#: src/im/keyboard/keyboard.h:43 src/modules/quickphrase/quickphrase.h:39
 msgid "Super"
-msgstr ""
+msgstr "Super"
 
 #: src/lib/fcitx/globalconfig.cpp:34
 msgid "Trigger Input Method"
@@ -250,40 +251,40 @@ msgstr "입력기 전환"
 
 #: src/modules/unicode/unicode.conf.in:3
 msgid "Unicode"
-msgstr ""
+msgstr "유니코드"
 
 #: src/modules/unicode/unicode.cpp:244
 msgid "Unicode: "
-msgstr ""
+msgstr "유니코드:"
 
 #: src/modules/wayland/wayland.conf.in:3
 msgid "Wayland"
-msgstr ""
+msgstr "Wayland"
 
 #: src/frontend/waylandim/waylandim.conf.in:3
 msgid "Wayland Input method frontend"
-msgstr ""
+msgstr "Wayland 입력기 전처리기"
 
 #: src/frontend/xim/xim.conf.in:3
 msgid "X Input Method Frontend"
-msgstr ""
+msgstr "X 입력기 전처리기"
 
 #: src/modules/xcb/xcb.conf.in:3
 msgid "XCB"
-msgstr ""
+msgstr "XCB"
 
 #: src/modules/notificationitem/notificationitem.conf.in:3
 msgid "notificationitem"
-msgstr ""
+msgstr "notificationitem"
 
 #: src/modules/notifications/notifications.conf.in:3
 msgid "notifications"
-msgstr ""
+msgstr "notifications"
 
 #: src/lib/fcitx/instance.cpp:1494
 msgid "{0} (Not available)"
-msgstr ""
+msgstr "{0} (사용할 수 없음)"
 
 #: src/lib/fcitx/instance.cpp:1491
 msgid "{0} ({1})"
-msgstr ""
+msgstr "{0} ({1})"
