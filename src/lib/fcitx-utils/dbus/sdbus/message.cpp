@@ -55,12 +55,7 @@ static char toSDBusType(Container::Type type) {
 
 Message::Message() : d_ptr(std::make_unique<MessagePrivate>()) {}
 
-Message::~Message() {}
-
-Message::Message(const Message &other)
-    : d_ptr(std::make_unique<MessagePrivate>(*other.d_func())) {}
-
-Message::Message(Message &&other) noexcept : d_ptr(std::move(other.d_ptr)) {}
+FCITX_DEFINE_DPTR_COPY_AND_DEFAULT_DTOR_AND_MOVE(Message)
 
 Message Message::createReply() const {
     FCITX_D();

@@ -410,6 +410,7 @@ private:
     FCITX_OBJECT_VTABLE_METHOD(currentUI, "CurrentUI", "", "s");
     FCITX_OBJECT_VTABLE_METHOD(addonForInputMethod, "AddonForIM", "s", "s");
     FCITX_OBJECT_VTABLE_METHOD(activate, "Activate", "", "");
+    FCITX_OBJECT_VTABLE_METHOD(deactivate, "Deactivate", "", "");
     FCITX_OBJECT_VTABLE_METHOD(toggle, "Toggle", "", "");
     FCITX_OBJECT_VTABLE_METHOD(resetInputMethodList, "ResetIMList", "", "");
     FCITX_OBJECT_VTABLE_METHOD(state, "State", "", "i");
