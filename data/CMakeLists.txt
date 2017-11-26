@@ -1,5 +1,12 @@
-fcitx5_translate_desktop_file(fcitx5-configtool.desktop.in fcitx5-configtool.desktop)
-fcitx5_translate_desktop_file(fcitx5.desktop.in fcitx5.desktop)
+configure_file(${CMAKE_CURRENT_SOURCE_DIR}/fcitx5-configtool.desktop.in.in
+               ${CMAKE_CURRENT_BINARY_DIR}/fcitx5-configtool.desktop.in @ONLY)
+configure_file(${CMAKE_CURRENT_SOURCE_DIR}/fcitx5.desktop.in.in
+               ${CMAKE_CURRENT_BINARY_DIR}/fcitx5.desktop.in @ONLY)
+
+fcitx5_translate_desktop_file(${CMAKE_CURRENT_BINARY_DIR}/fcitx5-configtool.desktop.in
+                              fcitx5-configtool.desktop)
+fcitx5_translate_desktop_file(${CMAKE_CURRENT_BINARY_DIR}/fcitx5.desktop.in
+                              fcitx5.desktop)
 
 install(FILES "${CMAKE_CURRENT_BINARY_DIR}/fcitx5.desktop"
               "${CMAKE_CURRENT_BINARY_DIR}/fcitx5-configtool.desktop"

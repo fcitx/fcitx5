@@ -1,8 +1,8 @@
 [Desktop Entry]
-_Name=Fcitx 5
-_GenericName=Input Method
-_Comment=Start Input Method
-Exec=fcitx5
+Name=Fcitx 5
+GenericName=Input Method
+Comment=Start Input Method
+Exec=@FCITX_INSTALL_BINDIR@/fcitx5
 Icon=fcitx
 Terminal=false
 Type=Application
