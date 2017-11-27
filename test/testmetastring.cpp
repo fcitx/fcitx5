@@ -44,5 +44,33 @@ int main() {
     static_assert(
         std::is_same<StringABCD, fcitxMakeMetaString(StringABCD::str())>::value,
         "");
+
+    static_assert(
+        std::is_same<fcitx::MetaStringBasenameType<fcitxMakeMetaString("/abc")>,
+                     fcitxMakeMetaString("abc")>::value,
+        "");
+
+    static_assert(
+        std::is_same<
+            fcitx::MetaStringBasenameType<fcitxMakeMetaString("abc/def")>,
+            fcitxMakeMetaString("def")>::value,
+        "");
+
+    static_assert(
+        std::is_same<
+            fcitx::MetaStringBasenameType<fcitxMakeMetaString("//abc///def")>,
+            fcitxMakeMetaString("def")>::value,
+        "");
+
+    static_assert(
+        std::is_same<fcitx::MetaStringBasenameType<fcitxMakeMetaString("")>,
+                     fcitxMakeMetaString("")>::value,
+        "");
+
+    static_assert(
+        std::is_same<fcitx::MetaStringBasenameType<fcitxMakeMetaString("1")>,
+                     fcitxMakeMetaString("1")>::value,
+        "");
+
     return 0;
 }

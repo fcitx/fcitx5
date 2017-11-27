@@ -26,7 +26,9 @@
 
 #include "fcitxutils_export.h"
 #include <cstdlib>
+#include <fcitx-utils/fs.h>
 #include <fcitx-utils/key.h>
+#include <fcitx-utils/metastring.h>
 #include <fcitx-utils/tuplehelpers.h>
 #include <iostream>
 #include <memory>
@@ -85,8 +87,8 @@ public:
 
 class FCITXUTILS_EXPORT LogMessageBuilder {
 public:
-    LogMessageBuilder(std::ostream &out, LogLevel l,
-                      const std::string &filename, int lineNumber);
+    LogMessageBuilder(std::ostream &out, LogLevel l, const char *filename,
+                      int lineNumber);
     ~LogMessageBuilder();
 
     LogMessageBuilder &self() { return *this; }
@@ -199,13 +201,20 @@ private:
 };
 }
 
+#ifdef FCITX_USE_NO_METASTRING_FILENAME
+#define FCITX_LOG_FILENAME_WRAP ::fcitx::fs::baseName(__FILE__).data()
+#else
+#define FCITX_LOG_FILENAME_WRAP                                                \
+    fcitx::MetaStringBasenameType<fcitxMakeMetaString(__FILE__)>::data()
+#endif
+
 #define FCITX_LOGC_IF(CATEGORY, LEVEL, CONDITION)                              \
     for (bool fcitxLogEnabled =                                                \
              (CONDITION) && CATEGORY().fatalWrapper(::fcitx::LogLevel::LEVEL); \
          fcitxLogEnabled;                                                      \
          fcitxLogEnabled = CATEGORY().fatalWrapper2(::fcitx::LogLevel::LEVEL)) \
-    ::fcitx::LogMessageBuilder(std::cerr, ::fcitx::LogLevel::LEVEL, __FILE__,  \
-                               __LINE__)                                       \
+    ::fcitx::LogMessageBuilder(std::cerr, ::fcitx::LogLevel::LEVEL,            \
+                               FCITX_LOG_FILENAME_WRAP, __LINE__)              \
         .self()
 
 #define FCITX_LOGC(CATEGORY, LEVEL)                                            \
@@ -213,8 +222,8 @@ private:
              CATEGORY().fatalWrapper(::fcitx::LogLevel::LEVEL);                \
          fcitxLogEnabled;                                                      \
          fcitxLogEnabled = CATEGORY().fatalWrapper2(::fcitx::LogLevel::LEVEL)) \
-    ::fcitx::LogMessageBuilder(std::cerr, ::fcitx::LogLevel::LEVEL, __FILE__,  \
-                               __LINE__)                                       \
+    ::fcitx::LogMessageBuilder(std::cerr, ::fcitx::LogLevel::LEVEL,            \
+                               FCITX_LOG_FILENAME_WRAP, __LINE__)              \
         .self()
 
 #define FCITX_LOG(LEVEL) FCITX_LOGC(::fcitx::Log::defaultCategory, LEVEL)
