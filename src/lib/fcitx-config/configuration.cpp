@@ -93,11 +93,14 @@ void Configuration::load(const RawConfig &config, bool partial) {
     for (const auto &path : d->optionsOrder_) {
         auto subConfigPtr = config.get(path);
         auto option = d->options_[path];
-        if (!subConfigPtr && !partial) {
-            option->reset();
+        if (!subConfigPtr) {
+            if (!partial) {
+                option->reset();
+            }
             continue;
         }
-        if (!option->unmarshall(*subConfigPtr)) {
+        auto subConfig = *subConfigPtr;
+        if (!option->unmarshall(subConfig, partial)) {
             option->reset();
         }
     }

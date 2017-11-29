@@ -47,7 +47,7 @@ public:
     virtual bool isDefault() const = 0;
 
     virtual void marshall(RawConfig &config) const = 0;
-    virtual bool unmarshall(const RawConfig &config) = 0;
+    virtual bool unmarshall(const RawConfig &config, bool partial) = 0;
     virtual std::unique_ptr<Configuration> subConfigSkeleton() const = 0;
 
     virtual bool equalTo(const OptionBase &other) const = 0;
@@ -110,8 +110,9 @@ struct DefaultMarshaller {
     virtual void marshall(RawConfig &config, const T &value) const {
         return marshallOption(config, value);
     }
-    virtual bool unmarshall(T &value, const RawConfig &config) const {
-        return unmarshallOption(value, config);
+    virtual bool unmarshall(T &value, const RawConfig &config,
+                            bool partial) const {
+        return unmarshallOption(value, config, partial);
     }
 };
 
@@ -257,9 +258,12 @@ public:
     void marshall(RawConfig &config) const override {
         return marshaller_.marshall(config, value_);
     }
-    bool unmarshall(const RawConfig &config) override {
+    bool unmarshall(const RawConfig &config, bool partial) override {
         T tempValue{};
-        if (!marshaller_.unmarshall(tempValue, config)) {
+        if (partial) {
+            tempValue = value_;
+        }
+        if (!marshaller_.unmarshall(tempValue, config, partial)) {
             return false;
         }
         return setValue(tempValue);

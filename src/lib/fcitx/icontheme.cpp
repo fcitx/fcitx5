@@ -51,29 +51,29 @@ public:
         }
 
         if (auto subConfig = config.get("Size")) {
-            unmarshallOption(size_, *subConfig);
+            unmarshallOption(size_, *subConfig, false);
         }
         if (size_ <= 0) {
             throw std::invalid_argument("Invalid size");
         }
 
         if (auto subConfig = config.get("Scale")) {
-            unmarshallOption(size_, *subConfig);
+            unmarshallOption(size_, *subConfig, false);
         }
         if (auto subConfig = config.get("Context")) {
-            unmarshallOption(context_, *subConfig);
+            unmarshallOption(context_, *subConfig, false);
         }
         if (auto subConfig = config.get("Type")) {
-            unmarshallOption(type_, *subConfig);
+            unmarshallOption(type_, *subConfig, false);
         }
         if (auto subConfig = config.get("MaxSize")) {
-            unmarshallOption(maxSize_, *subConfig);
+            unmarshallOption(maxSize_, *subConfig, false);
         }
         if (auto subConfig = config.get("MinSize")) {
-            unmarshallOption(minSize_, *subConfig);
+            unmarshallOption(minSize_, *subConfig, false);
         }
         if (auto subConfig = config.get("Threshold")) {
-            unmarshallOption(threshold_, *subConfig);
+            unmarshallOption(threshold_, *subConfig, false);
         }
 
         if (maxSize_ <= 0) {
@@ -367,18 +367,18 @@ public:
         }
 
         if (auto nameSection = section->get("Name")) {
-            unmarshallOption(name_, *nameSection);
+            unmarshallOption(name_, *nameSection, false);
         }
 
         if (auto commentSection = section->get("Comment")) {
-            unmarshallOption(comment_, *commentSection);
+            unmarshallOption(comment_, *commentSection, false);
         }
 
         auto parseDirectory = [this, section](
             const char *name, std::vector<IconThemeDirectory> &dir) {
             if (auto subConfig = section->get(name)) {
                 std::string directories;
-                unmarshallOption(directories, *subConfig);
+                unmarshallOption(directories, *subConfig, false);
                 for (const auto &directory :
                      stringutils::split(directories, ",")) {
                     if (auto directoryConfig = config_.get(directory)) {
@@ -393,14 +393,14 @@ public:
         parseDirectory("Directories", directories_);
         parseDirectory("ScaledDirectories", scaledDirectories_);
         // if (auto subConfig = section->get("Hidden")) {
-        //    unmarshallOption(hidden_, *subConfig);
+        //    unmarshallOption(hidden_, *subConfig, false);
         // }
         if (auto subConfig = section->get("Example")) {
-            unmarshallOption(example_, *subConfig);
+            unmarshallOption(example_, *subConfig, false);
         }
         if (auto subConfig = section->get("Inherits")) {
             std::string inherits;
-            unmarshallOption(inherits, *subConfig);
+            unmarshallOption(inherits, *subConfig, false);
             for (const auto &inherit : stringutils::split(inherits, ",")) {
                 if (!parent) {
                     addInherit(inherit);
