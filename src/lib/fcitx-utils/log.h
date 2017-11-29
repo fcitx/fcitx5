@@ -29,9 +29,12 @@
 #include <fcitx-utils/fs.h>
 #include <fcitx-utils/key.h>
 #include <fcitx-utils/metastring.h>
+#include <fcitx-utils/misc.h>
 #include <fcitx-utils/tuplehelpers.h>
 #include <iostream>
+#include <map>
 #include <memory>
+#include <set>
 #include <string>
 #include <tuple>
 #include <type_traits>
@@ -128,15 +131,7 @@ public:
     template <typename T>
     inline LogMessageBuilder &operator<<(const std::vector<T> &vec) {
         *this << "[";
-        bool first = true;
-        for (auto &item : vec) {
-            if (first) {
-                first = false;
-            } else {
-                *this << ", ";
-            }
-            *this << item;
-        }
+        printRange(vec.begin(), vec.end());
         *this << "]";
         return *this;
     }
@@ -159,15 +154,7 @@ public:
     template <typename K, typename V>
     inline LogMessageBuilder &operator<<(const std::unordered_map<K, V> &vec) {
         *this << "{";
-        bool first = true;
-        for (auto &item : vec) {
-            if (first) {
-                first = false;
-            } else {
-                *this << ", ";
-            }
-            *this << item;
-        }
+        printRange(vec.begin(), vec.end());
         *this << "}";
         return *this;
     }
@@ -175,8 +162,32 @@ public:
     template <typename V>
     inline LogMessageBuilder &operator<<(const std::unordered_set<V> &vec) {
         *this << "{";
+        printRange(vec.begin(), vec.end());
+        *this << "}";
+        return *this;
+    }
+
+    template <typename K, typename V>
+    inline LogMessageBuilder &operator<<(const std::map<K, V> &vec) {
+        *this << "{";
+        printRange(vec.begin(), vec.end());
+        *this << "}";
+        return *this;
+    }
+
+    template <typename V>
+    inline LogMessageBuilder &operator<<(const std::set<V> &vec) {
+        *this << "{";
+        printRange(vec.begin(), vec.end());
+        *this << "}";
+        return *this;
+    }
+
+private:
+    template <typename Iterator>
+    void printRange(Iterator begin, Iterator end) {
         bool first = true;
-        for (auto &item : vec) {
+        for (auto &item : MakeIterRange(begin, end)) {
             if (first) {
                 first = false;
             } else {
@@ -184,11 +195,8 @@ public:
             }
             *this << item;
         }
-        *this << "}";
-        return *this;
     }
 
-private:
     template <typename... Args, int... S>
     void printWithIndices(Sequence<S...>, const std::tuple<Args...> &tuple) {
         using swallow = int[];
