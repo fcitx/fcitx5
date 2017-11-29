@@ -17,6 +17,7 @@
  * see <http://www.gnu.org/licenses/>.
  */
 
+#define _WITH_GETLINE
 #include <stdio.h>
 
 #include "configuration.h"
