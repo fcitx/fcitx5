@@ -42,16 +42,35 @@ int main() {
                          if (flags & IOEventFlag::In) {
                              char buf[20];
                              auto size = read(fd, buf, 20);
-                             FCITX_LOG(Info) << "QUIT" << flags;
-                             FCITX_ASSERT(size == 1);
-                             FCITX_ASSERT(buf[0] == 'a');
+                             if (size == 0) {
+                                 e.quit();
+                             } else {
+                                 FCITX_LOG(Info) << "QUIT" << flags;
+                                 FCITX_ASSERT(size == 1);
+                                 FCITX_ASSERT(buf[0] == 'a');
+                             }
                          }
                          return true;
                      }));
 
+    std::unique_ptr<EventSource> source4(
+            e.addDeferEvent(
+                [&e, pipefd](EventSource *) {
+                       FCITX_LOG(Info) << "DEFER";
+                       return false;
+                       }));
+
+    std::unique_ptr<EventSource> source5(
+            e.addExitEvent(
+                [&e, pipefd](EventSource *) {
+                       FCITX_LOG(Info) << "EXIT";
+                       return false;
+                       }));
+
     std::unique_ptr<EventSource> source2(
         e.addTimeEvent(CLOCK_MONOTONIC, now(CLOCK_MONOTONIC) + 1000000ul, 0,
                        [&e, pipefd](EventSource *, uint64_t) {
+                           FCITX_LOG(Info) << "WRITE";
                            auto r = write(pipefd[1], "a", 1);
                            FCITX_ASSERT(r == 1);
                            return false;
@@ -60,6 +79,7 @@ int main() {
     std::unique_ptr<EventSource> source3(
         e.addTimeEvent(CLOCK_MONOTONIC, now(CLOCK_MONOTONIC) + 2000000ul, 0,
                        [&e, pipefd](EventSource *, uint64_t) {
+                           FCITX_LOG(Info) << "CLOSE";
                            close(pipefd[1]);
                            return false;
                        }));
