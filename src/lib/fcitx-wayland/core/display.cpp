@@ -22,6 +22,7 @@
 #include "wl_registry.h"
 #include <cassert>
 #include <cstring>
+#include <errno.h>
 #include <poll.h>
 
 namespace fcitx {
