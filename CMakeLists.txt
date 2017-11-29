@@ -120,7 +120,6 @@ include_directories(${CMAKE_CURRENT_BINARY_DIR})
 
 add_subdirectory(src)
 add_subdirectory(data)
-add_subdirectory(tools)
 add_subdirectory(po)
 
 #######################################################################

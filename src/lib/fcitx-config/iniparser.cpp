@@ -17,13 +17,14 @@
  * see <http://www.gnu.org/licenses/>.
  */
 
-#include <stdio.h>
+#include "config.h"
 
 #include "configuration.h"
 #include "fcitx-utils/standardpath.h"
 #include "fcitx-utils/stringutils.h"
 #include "fcitx-utils/unixfd.h"
 #include "iniparser.h"
+#include <cstdio>
 #include <fcntl.h>
 
 namespace fcitx {
@@ -246,7 +247,6 @@ bool safeSaveAsIni(const Configuration &configuration,
 
                                      configuration.save(config);
                                      return writeAsIni(config, fd);
-                                     ;
                                  });
 }
 }
