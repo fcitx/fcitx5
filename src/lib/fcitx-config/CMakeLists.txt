@@ -27,8 +27,9 @@ set_target_properties(Fcitx5Config
   EXPORT_NAME Config
   )
 target_include_directories(Fcitx5Config PUBLIC
-    "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/..;${CMAKE_CURRENT_BINARY_DIR}>"
-    "$<INSTALL_INTERFACE:${CMAKE_INSTALL_FULL_INCLUDEDIR}>/Fcitx5/Config")
+    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/..>
+    $<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}>
+    $<INSTALL_INTERFACE:${CMAKE_INSTALL_FULL_INCLUDEDIR}/Fcitx5/Config>)
 target_link_libraries(Fcitx5Config PUBLIC Fcitx5::Utils)
 
 configure_file(Fcitx5Config.pc.in ${CMAKE_CURRENT_BINARY_DIR}/Fcitx5Config.pc @ONLY)
