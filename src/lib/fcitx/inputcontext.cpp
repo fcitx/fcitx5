@@ -34,10 +34,7 @@ InputContext::InputContext(InputContextManager &manager,
     manager.registerInputContext(*this);
 }
 
-InputContext::~InputContext() {
-    FCITX_D();
-    assert(d->destroyed_);
-}
+InputContext::~InputContext() { assert(d_ptr->destroyed_); }
 
 void InputContext::created() {
     FCITX_D();
