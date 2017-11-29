@@ -26,7 +26,6 @@
 #include <algorithm>
 #include <cstdint>
 #include <cstring>
-#include <endian.h>
 #include <fcntl.h>
 #include <sys/stat.h>
 
