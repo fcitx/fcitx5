@@ -29,6 +29,7 @@
 #include <fcitx-utils/macros.h>
 #include <functional>
 #include <memory>
+#include <string>
 
 namespace fcitx {
 

@@ -20,6 +20,8 @@
 #define _FCITX_UTILS_I18NSTRING_H_
 
 #include "fcitxutils_export.h"
+#include <locale>
+#include <string>
 #include <unordered_map>
 
 namespace fcitx {

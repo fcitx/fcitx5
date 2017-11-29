@@ -23,6 +23,7 @@
 #include <fcitx-utils/metastring.h>
 #include <fcitx-utils/signals.h>
 #include <memory>
+#include <string>
 
 /// \addtogroup FcitxUtils
 /// \{

@@ -21,6 +21,8 @@
 
 #include "wl_output.h"
 
+#include <string>
+
 namespace fcitx {
 namespace wayland {
 
