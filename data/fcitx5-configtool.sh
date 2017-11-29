@@ -121,12 +121,14 @@ run_gtk() {
     #if which fcitx-config-gtk > /dev/null 2>&1; then
     #    exec fcitx-config-gtk "$1"
     #fi
+    return 1
 }
 
 run_gtk3() {
     #if which fcitx-config-gtk3 > /dev/null 2>&1; then
     #    exec fcitx-config-gtk3 "$1"
     #fi
+    return 1
 }
 
 run_xdg() {
