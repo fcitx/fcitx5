@@ -24,6 +24,7 @@
 #include <fcitx-utils/flags.h>
 #include <fcitx-utils/macros.h>
 #include <memory>
+#include <string>
 
 namespace fcitx {
 class InputBufferPrivate;

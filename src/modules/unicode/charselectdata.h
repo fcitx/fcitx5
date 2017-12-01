@@ -20,6 +20,8 @@
 #define _FCITX_MODULES_UNICODE_CHARSELECTDATA_H_
 
 #include <set>
+#include <sstream>
+#include <string>
 #include <unordered_map>
 #include <vector>
 
