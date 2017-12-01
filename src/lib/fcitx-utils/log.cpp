@@ -173,8 +173,7 @@ void Log::setLogRule(const std::string &ruleString) {
 }
 
 LogMessageBuilder::LogMessageBuilder(std::ostream &out, LogLevel l,
-                                     const std::string &filename,
-                                     int lineNumber)
+                                     const char *filename, int lineNumber)
     : out_(out) {
     switch (l) {
     case LogLevel::Fatal:
@@ -196,7 +195,7 @@ LogMessageBuilder::LogMessageBuilder(std::ostream &out, LogLevel l,
         break;
     }
     out_ << " ";
-    out_ << fs::baseName(filename) << ":" << lineNumber << "] ";
+    out_ << filename << ":" << lineNumber << "] ";
 }
 
 LogMessageBuilder::~LogMessageBuilder() { out_ << std::endl; }

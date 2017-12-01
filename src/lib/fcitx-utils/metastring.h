@@ -116,6 +116,49 @@ struct RemoveMetaStringTail<MetaString<first>> {
     typedef MetaString<> type;
 };
 
+template <typename... T>
+struct MetaStringBasenameHelper;
+
+template <typename... T>
+using MetaStringBasenameHelperType =
+    typename MetaStringBasenameHelper<T...>::type;
+
+template <>
+struct MetaStringBasenameHelper<> {
+    typedef MetaString<> type;
+};
+
+template <char... c>
+struct MetaStringBasenameHelper<MetaString<c...>> {
+    typedef MetaString<c...> type;
+};
+
+template <char... c>
+struct MetaStringBasenameHelper<MetaString<'/', c...>> {
+    typedef MetaStringBasenameHelperType<MetaString<c...>> type;
+};
+
+template <char... c, char c2, typename... Rem>
+struct MetaStringBasenameHelper<MetaString<c...>, MetaString<c2>, Rem...> {
+    typedef MetaStringBasenameHelperType<MetaString<c..., c2>, Rem...> type;
+};
+
+template <char... c, typename... Rem>
+struct MetaStringBasenameHelper<MetaString<c...>, MetaString<'/'>, Rem...> {
+    typedef MetaStringBasenameHelperType<Rem...> type;
+};
+
+template <typename T>
+struct MetaStringBasename;
+
+template <char... c>
+struct MetaStringBasename<MetaString<c...>> {
+    using type = MetaStringBasenameHelperType<MetaString<c>...>;
+};
+
+template <typename T>
+using MetaStringBasenameType = typename MetaStringBasename<T>::type;
+
 template <char... c>
 struct MetaStringTrim {
     typedef typename MetaStringCombine<MetaString<c>...>::type type;

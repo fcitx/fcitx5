@@ -38,8 +38,8 @@
         config =                                                               \
             _##TYPE##_Names[static_cast<std::underlying_type_t<TYPE>>(value)]; \
     }                                                                          \
-    static inline bool unmarshallOption(TYPE &value,                           \
-                                        const fcitx::RawConfig &config) {      \
+    static inline bool unmarshallOption(                                       \
+        TYPE &value, const fcitx::RawConfig &config, bool) {                   \
         auto size = FCITX_ARRAY_SIZE(_##TYPE##_Names);                         \
         for (decltype(size) i = 0; i < size; i++) {                            \
             if (config.value() == _##TYPE##_Names[i]) {                        \

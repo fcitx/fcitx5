@@ -59,6 +59,9 @@ AddonInstance *SharedLibraryLoader::load(const AddonInfo &info,
 
     try {
         return iter->second->factory()->create(manager);
+    } catch (const std::exception &e) {
+        FCITX_ERROR() << "Failed to create addon: " << info.uniqueName() << " "
+                      << e.what();
     } catch (...) {
         FCITX_ERROR() << "Failed to create addon: " << info.uniqueName();
     }

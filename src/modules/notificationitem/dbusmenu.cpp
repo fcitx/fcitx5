@@ -93,7 +93,7 @@ void DBusMenu::handleEvent(int32_t id) {
             // TODO Configure current.
             break;
         case BII_Configure:
-            // TODO configure
+            parent_->instance()->configure();
             break;
         case BII_Restart:
             parent_->instance()->restart();

@@ -17,6 +17,7 @@
 * see <http://www.gnu.org/licenses/>.
 */
 #include <fcitx-utils/log.h>
+#include <fcitx-utils/metastring.h>
 
 int main() {
     int a = 0;

@@ -26,10 +26,15 @@
 
 #include "fcitxutils_export.h"
 #include <cstdlib>
+#include <fcitx-utils/fs.h>
 #include <fcitx-utils/key.h>
+#include <fcitx-utils/metastring.h>
+#include <fcitx-utils/misc.h>
 #include <fcitx-utils/tuplehelpers.h>
 #include <iostream>
+#include <map>
 #include <memory>
+#include <set>
 #include <string>
 #include <tuple>
 #include <type_traits>
@@ -85,8 +90,8 @@ public:
 
 class FCITXUTILS_EXPORT LogMessageBuilder {
 public:
-    LogMessageBuilder(std::ostream &out, LogLevel l,
-                      const std::string &filename, int lineNumber);
+    LogMessageBuilder(std::ostream &out, LogLevel l, const char *filename,
+                      int lineNumber);
     ~LogMessageBuilder();
 
     LogMessageBuilder &self() { return *this; }
@@ -126,15 +131,7 @@ public:
     template <typename T>
     inline LogMessageBuilder &operator<<(const std::vector<T> &vec) {
         *this << "[";
-        bool first = true;
-        for (auto &item : vec) {
-            if (first) {
-                first = false;
-            } else {
-                *this << ", ";
-            }
-            *this << item;
-        }
+        printRange(vec.begin(), vec.end());
         *this << "]";
         return *this;
     }
@@ -157,15 +154,7 @@ public:
     template <typename K, typename V>
     inline LogMessageBuilder &operator<<(const std::unordered_map<K, V> &vec) {
         *this << "{";
-        bool first = true;
-        for (auto &item : vec) {
-            if (first) {
-                first = false;
-            } else {
-                *this << ", ";
-            }
-            *this << item;
-        }
+        printRange(vec.begin(), vec.end());
         *this << "}";
         return *this;
     }
@@ -173,8 +162,32 @@ public:
     template <typename V>
     inline LogMessageBuilder &operator<<(const std::unordered_set<V> &vec) {
         *this << "{";
+        printRange(vec.begin(), vec.end());
+        *this << "}";
+        return *this;
+    }
+
+    template <typename K, typename V>
+    inline LogMessageBuilder &operator<<(const std::map<K, V> &vec) {
+        *this << "{";
+        printRange(vec.begin(), vec.end());
+        *this << "}";
+        return *this;
+    }
+
+    template <typename V>
+    inline LogMessageBuilder &operator<<(const std::set<V> &vec) {
+        *this << "{";
+        printRange(vec.begin(), vec.end());
+        *this << "}";
+        return *this;
+    }
+
+private:
+    template <typename Iterator>
+    void printRange(Iterator begin, Iterator end) {
         bool first = true;
-        for (auto &item : vec) {
+        for (auto &item : MakeIterRange(begin, end)) {
             if (first) {
                 first = false;
             } else {
@@ -182,11 +195,8 @@ public:
             }
             *this << item;
         }
-        *this << "}";
-        return *this;
     }
 
-private:
     template <typename... Args, int... S>
     void printWithIndices(Sequence<S...>, const std::tuple<Args...> &tuple) {
         using swallow = int[];
@@ -199,13 +209,20 @@ private:
 };
 }
 
+#ifdef FCITX_USE_NO_METASTRING_FILENAME
+#define FCITX_LOG_FILENAME_WRAP ::fcitx::fs::baseName(__FILE__).data()
+#else
+#define FCITX_LOG_FILENAME_WRAP                                                \
+    fcitx::MetaStringBasenameType<fcitxMakeMetaString(__FILE__)>::data()
+#endif
+
 #define FCITX_LOGC_IF(CATEGORY, LEVEL, CONDITION)                              \
     for (bool fcitxLogEnabled =                                                \
              (CONDITION) && CATEGORY().fatalWrapper(::fcitx::LogLevel::LEVEL); \
          fcitxLogEnabled;                                                      \
          fcitxLogEnabled = CATEGORY().fatalWrapper2(::fcitx::LogLevel::LEVEL)) \
-    ::fcitx::LogMessageBuilder(std::cerr, ::fcitx::LogLevel::LEVEL, __FILE__,  \
-                               __LINE__)                                       \
+    ::fcitx::LogMessageBuilder(std::cerr, ::fcitx::LogLevel::LEVEL,            \
+                               FCITX_LOG_FILENAME_WRAP, __LINE__)              \
         .self()
 
 #define FCITX_LOGC(CATEGORY, LEVEL)                                            \
@@ -213,8 +230,8 @@ private:
              CATEGORY().fatalWrapper(::fcitx::LogLevel::LEVEL);                \
          fcitxLogEnabled;                                                      \
          fcitxLogEnabled = CATEGORY().fatalWrapper2(::fcitx::LogLevel::LEVEL)) \
-    ::fcitx::LogMessageBuilder(std::cerr, ::fcitx::LogLevel::LEVEL, __FILE__,  \
-                               __LINE__)                                       \
+    ::fcitx::LogMessageBuilder(std::cerr, ::fcitx::LogLevel::LEVEL,            \
+                               FCITX_LOG_FILENAME_WRAP, __LINE__)              \
         .self()
 
 #define FCITX_LOG(LEVEL) FCITX_LOGC(::fcitx::Log::defaultCategory, LEVEL)

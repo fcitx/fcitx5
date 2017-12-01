@@ -211,10 +211,8 @@ class FCITXUTILS_EXPORT Message {
 
 public:
     Message();
-    virtual ~Message();
 
-    Message(const Message &other);
-    Message(Message &&other) noexcept;
+    FCITX_DECLARE_VIRTUAL_DTOR_COPY_AND_MOVE(Message);
     Message createReply() const;
     Message createError(const char *name, const char *message) const;
 

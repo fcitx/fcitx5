@@ -26,7 +26,7 @@ void marshallOption(RawConfig &config, const bool value) {
     config = value ? "True" : "False";
 }
 
-bool unmarshallOption(bool &value, const RawConfig &config) {
+bool unmarshallOption(bool &value, const RawConfig &config, bool) {
     if (config.value() == "True" || config.value() == "False") {
         value = config.value() == "True";
         return true;
@@ -38,7 +38,7 @@ void marshallOption(RawConfig &config, const int value) {
     config = std::to_string(value);
 }
 
-bool unmarshallOption(int &value, const RawConfig &config) {
+bool unmarshallOption(int &value, const RawConfig &config, bool) {
     try {
         value = std::stoi(config.value());
     } catch (const std::exception &) {
@@ -52,7 +52,7 @@ void marshallOption(RawConfig &config, const std::string &value) {
     config = value;
 }
 
-bool unmarshallOption(std::string &value, const RawConfig &config) {
+bool unmarshallOption(std::string &value, const RawConfig &config, bool) {
     value = config.value();
     return true;
 }
@@ -61,7 +61,7 @@ void marshallOption(RawConfig &config, const Key &value) {
     config = value.toString();
 }
 
-bool unmarshallOption(Key &value, const RawConfig &config) {
+bool unmarshallOption(Key &value, const RawConfig &config, bool) {
     value = Key(config.value());
     return true;
 }
@@ -70,7 +70,7 @@ void marshallOption(RawConfig &config, const Color &value) {
     config = value.toString();
 }
 
-bool unmarshallOption(Color &value, const RawConfig &config) {
+bool unmarshallOption(Color &value, const RawConfig &config, bool) {
     try {
         value = Color(config.value());
     } catch (ColorParseException) {
@@ -87,7 +87,7 @@ void marshallOption(RawConfig &config, const I18NString &value) {
     }
 }
 
-bool unmarshallOption(I18NString &value, const RawConfig &config) {
+bool unmarshallOption(I18NString &value, const RawConfig &config, bool) {
     value.clear();
     value.set(config.value());
     config.parent()->visitSubItems([&value, &config](const RawConfig &config_,
@@ -107,8 +107,9 @@ void marshallOption(RawConfig &config, const Configuration &value) {
     value.save(config);
 }
 
-bool unmarshallOption(Configuration &value, const RawConfig &config) {
-    value.load(config);
+bool unmarshallOption(Configuration &value, const RawConfig &config,
+                      bool partial) {
+    value.load(config, partial);
     return true;
 }
 }

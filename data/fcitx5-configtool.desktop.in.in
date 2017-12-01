@@ -1,0 +1,10 @@
+[Desktop Entry]
+Name=Fcitx 5 Configuration
+GenericName=Input Method Configuration
+Comment=Change Fcitx 5 Configuration
+Exec=@FCITX_INSTALL_BINDIR@/fcitx5-configtool
+Icon=fcitx
+Type=Application
+Categories=Settings;
+X-KDE-StartupNotify=false
+StartupNotify=false

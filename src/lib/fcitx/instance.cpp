@@ -1080,7 +1080,7 @@ void Instance::activate() {
 std::string Instance::addonForInputMethod(const std::string &imName) {
 
     if (auto entry = inputMethodManager().entry(imName)) {
-        return entry->name();
+        return entry->uniqueName();
     }
     return {};
 }

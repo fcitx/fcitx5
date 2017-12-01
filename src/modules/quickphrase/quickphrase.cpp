@@ -16,8 +16,7 @@
  * License along with this library; see the file COPYING. If not,
  * see <http://www.gnu.org/licenses/>.
  */
-#define _WITH_GETLINE
-#include <stdio.h>
+#include "config.h"
 
 #include "quickphrase.h"
 #include "fcitx-config/iniparser.h"
