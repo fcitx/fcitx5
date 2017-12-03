@@ -63,7 +63,11 @@ public:
         return *this;
     }
 
-    int distance(int x, int y) const {
+    bool contains(int x, int y) const noexcept {
+        return (x1_ <= x && x <= x2_) && (y1_ <= y && y <= y2_);
+    }
+
+    int distance(int x, int y) const noexcept {
         int dx = 0;
         int dy = 0;
         if (x < x1_)

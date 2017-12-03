@@ -53,6 +53,7 @@ void XCBModule::openConnection(const std::string &name_) {
 void XCBModule::removeConnection(const std::string &name) {
     auto iter = conns_.find(name);
     if (iter != conns_.end()) {
+        onConnectionClosed(iter->second);
         conns_.erase(iter);
     }
     if (name == mainDisplay_) {

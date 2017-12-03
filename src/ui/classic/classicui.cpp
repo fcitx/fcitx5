@@ -149,6 +149,10 @@ void ClassicUI::resume() {
                 });
         }
         sni->call<INotificationItem::enable>();
+    } else {
+        for (auto &p : uis_) {
+            p.second->setEnableTray(true);
+        }
     }
 
     eventHandlers_.emplace_back(instance_->watchEvent(

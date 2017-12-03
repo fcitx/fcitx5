@@ -312,6 +312,15 @@ void Theme::paint(cairo_t *c, const BackgroundImageConfig &cfg, int width,
     if (resizeWidth <= 0) {
         resizeWidth = 1;
     }
+
+    if (height < 0) {
+        height = resizeHeight;
+    }
+
+    if (width < 0) {
+        width = resizeWidth;
+    }
+
     cairo_save(c);
 
     /*

@@ -99,8 +99,7 @@ void Configuration::load(const RawConfig &config, bool partial) {
             }
             continue;
         }
-        auto subConfig = *subConfigPtr;
-        if (!option->unmarshall(subConfig, partial)) {
+        if (!option->unmarshall(*subConfigPtr, partial)) {
             option->reset();
         }
     }

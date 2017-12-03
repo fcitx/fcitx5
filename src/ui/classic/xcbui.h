@@ -65,6 +65,7 @@ public:
     void setEnableTray(bool) override;
 
     const auto &screenRects() { return rects_; }
+    int dpiByPosition(int x, int y);
     int dpi(int dpi);
     const XCBFontOption &fontOption() const { return fontOption_; }
 

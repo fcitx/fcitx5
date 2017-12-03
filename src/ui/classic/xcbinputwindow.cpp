@@ -88,6 +88,11 @@ XCBInputWindow::XCBInputWindow(XCBUI *ui)
 }
 
 void XCBInputWindow::postCreateWindow() {
+    if (ui_->ewmh()->_NET_WM_WINDOW_TYPE_POPUP_MENU &&
+        ui_->ewmh()->_NET_WM_WINDOW_TYPE) {
+        xcb_ewmh_set_wm_window_type(
+            ui_->ewmh(), wid_, 1, &ui_->ewmh()->_NET_WM_WINDOW_TYPE_POPUP_MENU);
+    }
     addEventMaskToWindow(
         ui_->connection(), wid_,
         XCB_EVENT_MASK_BUTTON_PRESS | XCB_EVENT_MASK_BUTTON_RELEASE |
@@ -156,22 +161,8 @@ void XCBInputWindow::updatePosition(InputContext *inputContext) {
 }
 
 void XCBInputWindow::updateDPI(InputContext *inputContext) {
-    int x, y;
-
-    x = inputContext->cursorRect().left();
-    y = inputContext->cursorRect().top();
-
-    int shortestDistance = INT_MAX;
-    int dpi = -1;
-    for (auto &rect : ui_->screenRects()) {
-        int thisDistance = rect.first.distance(x, y);
-        if (thisDistance < shortestDistance) {
-            shortestDistance = thisDistance;
-            dpi = rect.second;
-        }
-    }
-
-    dpi_ = ui_->dpi(dpi);
+    dpi_ = ui_->dpiByPosition(inputContext->cursorRect().left(),
+                              inputContext->cursorRect().top());
 }
 
 void XCBInputWindow::update(InputContext *inputContext) {

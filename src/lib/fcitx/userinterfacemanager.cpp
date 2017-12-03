@@ -58,6 +58,30 @@ public:
     UserInterfaceManagerPrivate(AddonManager *addonManager)
         : addonManager_(addonManager) {}
 
+    void registerAction(const std::string &name, int id, Action *action) {
+        ScopedConnection conn = action->connect<ObjectDestroyed>(
+            [this, action](void *) { unregisterAction(action); });
+        action->setName(name);
+        action->setId(id);
+        actions_.emplace(name, std::make_pair(action, std::move(conn)));
+        idToAction_.emplace(action->id(), action);
+    }
+
+    void unregisterAction(Action *action) {
+        auto iter = actions_.find(action->name());
+        if (iter == actions_.end()) {
+            return;
+        }
+        if (std::get<0>(iter->second) != action) {
+            return;
+        }
+        actions_.erase(iter);
+        idToAction_.erase(action->id());
+        ids_.returnId(action->id());
+        action->setName(std::string());
+        action->setId(0);
+    }
+
     UserInterface *ui_ = nullptr;
     std::string uiName_;
     std::vector<std::string> uis_;
@@ -109,39 +133,43 @@ void UserInterfaceManager::load(const std::string &uiName) {
     updateAvailability();
 }
 
+bool UserInterfaceManager::registerAction(Action *action) {
+    FCITX_D();
+    auto id = d->ids_.allocId();
+    auto name = stringutils::concat("$", id);
+    auto iter = d->actions_.find(name);
+    // This should never happen.
+    if (iter != d->actions_.end()) {
+        FCITX_ERROR() << "Reserved id is used, how can this be possible?";
+        d->ids_.returnId(id);
+        return false;
+    }
+    d->registerAction(name, id, action);
+    return true;
+}
+
 bool UserInterfaceManager::registerAction(const std::string &name,
                                           Action *action) {
     FCITX_D();
     if (!action->name().empty() || name.empty()) {
         return false;
     }
+    if (stringutils::startsWith(name, "$")) {
+        FCITX_ERROR() << "Action name starts with $ is reserved.";
+        return false;
+    }
     auto iter = d->actions_.find(name);
     if (iter != d->actions_.end()) {
         return false;
     }
-    ScopedConnection conn = action->connect<ObjectDestroyed>(
-        [this, action](void *) { unregisterAction(action); });
-    action->setName(name);
-    action->setId(d->ids_.allocId());
-    d->actions_.emplace(name, std::make_pair(action, std::move(conn)));
-    d->idToAction_.emplace(action->id(), action);
+
+    d->registerAction(name, d->ids_.allocId(), action);
     return true;
 }
 
 void UserInterfaceManager::unregisterAction(Action *action) {
     FCITX_D();
-    auto iter = d->actions_.find(action->name());
-    if (iter == d->actions_.end()) {
-        return;
-    }
-    if (std::get<0>(iter->second) != action) {
-        return;
-    }
-    d->actions_.erase(iter);
-    d->idToAction_.erase(action->id());
-    d->ids_.returnId(action->id());
-    action->setName(std::string());
-    action->setId(0);
+    d->unregisterAction(action);
 }
 
 Action *UserInterfaceManager::lookupAction(const std::string &name) const {

@@ -428,4 +428,16 @@ void RawConfig::visitItemsOnPath(
     const std::string &path) const {
     RawConfigPrivate::getRawConfigHelper(*this, path, callback);
 }
+
+LogMessageBuilder &operator<<(LogMessageBuilder &log, const RawConfig &config) {
+    log << "RawConfig(=" << config.value();
+    config.visitSubItems(
+        [&log](const RawConfig &subConfig, const std::string &path) {
+            log << ", " << path << "=" << subConfig.value();
+            return true;
+        },
+        "", true);
+    log << ")";
+    return log;
+}
 }

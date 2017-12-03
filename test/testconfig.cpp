@@ -49,6 +49,7 @@ int main() {
     config.subConfigValue.mutableValue()->intValue.setValue(5);
     FCITX_ASSERT(*config.subConfigValue->intValue == 5);
 
+    FCITX_INFO() << rawConfig;
     config.load(rawConfig);
     FCITX_ASSERT(config.intValue.value() == 0);
     FCITX_ASSERT(config.enumValue.value() == TestEnum::EnumB);

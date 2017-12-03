@@ -34,6 +34,7 @@ class InputContext;
 
 class FCITXCORE_EXPORT Action : public Element {
     friend class UserInterfaceManager;
+    friend class UserInterfaceManagerPrivate;
 
 public:
     Action();

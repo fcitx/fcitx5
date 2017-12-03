@@ -30,8 +30,8 @@ public:
     Window();
     virtual ~Window() = default;
 
-    unsigned int width() const { return width_; }
-    unsigned int height() const { return height_; }
+    int width() const { return width_; }
+    int height() const { return height_; }
     virtual void resize(unsigned int width, unsigned int height);
 
     virtual cairo_surface_t *prerender() = 0;

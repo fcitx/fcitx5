@@ -47,6 +47,9 @@ public:
     /// \brief Check if the reference is still valid.
     bool isValid() const { return !that_.expired(); }
 
+    /// \brief Check if the reference is not tracking anything.
+    bool isNull() const { return rawThat_ == nullptr; }
+
     /// \brief Get the referenced object. Return nullptr if it is not available.
     T *get() const { return that_.expired() ? nullptr : rawThat_; }
 

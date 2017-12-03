@@ -76,6 +76,24 @@ FCITX_CONFIGURATION(
     Option<Color> highlightBackgroundColor{this, "HighlightBackgroundColor",
                                            "Highlight Background color",
                                            Color("#a5a5a5ff")};);
+FCITX_CONFIGURATION(
+    MenuThemeConfig, Option<std::string> font{this, "Font", "Font", "Sans 9"};
+    Option<BackgroundImageConfig> background{this, "Background", "Background"};
+    Option<BackgroundImageConfig> highlight{this, "Highlight",
+                                            "Highlight Background"};
+    Option<BackgroundImageConfig> separator{this, "Separator",
+                                            "Separator Background"};
+    Option<BackgroundImageConfig> checkBox{this, "CheckBox", ""};
+    Option<BackgroundImageConfig> subMenu{this, "SubMenu", ""};
+    Option<MarginConfig> contentMargin{this, "ContentMargin",
+                                       "Margin around all content"};
+    Option<MarginConfig> textMargin{this, "TextMargin", "Margin around text"};
+    Option<Color> normalColor{this, "NormalColor", "Normal text color",
+                              Color("#000000ff")};
+    Option<Color> highlightTextColor{this, "HighlightCandidateColor",
+                                     "Highlight Candidate Color",
+                                     Color("#ffffffff")};
+    Option<int> spacing{this, "Spacing", "Spacing", 0};);
 
 FCITX_CONFIGURATION(ThemeMetadata,
                     Option<I18NString> name{this, "Name", "Skin Name"};
@@ -94,7 +112,8 @@ FCITX_CONFIGURATION(
     ThemeConfig, Option<ThemeMetadata> metadata{this, "Metadata", "Metadata"};
     Option<ThemeGeneralConfig> config{this, "General", "General"};
     Option<InputPanelThemeConfig> inputPanel{this, "InputPanel",
-                                             "Input Panel Theme"};);
+                                             "Input Panel Theme"};
+    Option<MenuThemeConfig> menu{this, "Menu", "Menu Theme"};);
 
 enum class ImagePurpose { General, Tray };
 
@@ -105,6 +124,18 @@ public:
                const std::string &font, uint32_t size);
 
     operator cairo_surface_t *() const { return image_.get(); }
+    auto height() const {
+        if (image_) {
+            return cairo_image_surface_get_height(image_.get());
+        }
+        return 0;
+    }
+    auto width() const {
+        if (image_) {
+            return cairo_image_surface_get_width(image_.get());
+        }
+        return 0;
+    }
 
     auto size() { return size_; }
 

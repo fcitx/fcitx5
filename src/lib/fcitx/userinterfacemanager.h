@@ -38,6 +38,7 @@ public:
 
     void load(const std::string &ui = {});
     bool registerAction(const std::string &name, Action *action);
+    bool registerAction(Action *action);
     void unregisterAction(Action *action);
     Action *lookupAction(const std::string &name) const;
     Action *lookupActionById(int id) const;

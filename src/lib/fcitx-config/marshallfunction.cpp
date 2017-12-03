@@ -90,6 +90,9 @@ void marshallOption(RawConfig &config, const I18NString &value) {
 bool unmarshallOption(I18NString &value, const RawConfig &config, bool) {
     value.clear();
     value.set(config.value());
+    if (!config.parent()) {
+        return true;
+    }
     config.parent()->visitSubItems([&value, &config](const RawConfig &config_,
                                                      const std::string &path) {
         if (stringutils::startsWith(path, config.name() + "[") &&

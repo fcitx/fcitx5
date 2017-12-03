@@ -19,6 +19,8 @@
 #ifndef _FCITX_UI_CLASSIC_XCBTRAYWINDOW_H_
 #define _FCITX_UI_CLASSIC_XCBTRAYWINDOW_H_
 
+#include "fcitx/menu.h"
+#include "xcbmenu.h"
 #include "xcbwindow.h"
 
 namespace fcitx {
@@ -35,6 +37,10 @@ public:
     void update();
     void postCreateWindow() override;
 
+    void updateMenu();
+    void updateGroupMenu();
+    void updateInputMethodMenu();
+
 private:
     void findDock();
     void sendTrayOpcode(long message, long data1, long data2, long data3);
@@ -47,6 +53,29 @@ private:
         dockCallback_;
 
     xcb_atom_t atoms_[5];
+
+    MenuPool menuPool_;
+
+    Menu menu_;
+    SimpleAction inputMethodAction_;
+    SimpleAction groupAction_;
+    SimpleAction separatorActions_[3];
+    SimpleAction configureCurrentAction_;
+    SimpleAction configureAction_;
+    SimpleAction restartAction_;
+    SimpleAction exitAction_;
+
+    SimpleAction testAction1_;
+    SimpleAction testAction2_;
+    Menu testMenu1_;
+    Menu testMenu2_;
+    SimpleAction testSubAction1_;
+    SimpleAction testSubAction2_;
+
+    Menu groupMenu_;
+    std::list<SimpleAction> groupActions_;
+    Menu inputMethodMenu_;
+    std::list<SimpleAction> inputMethodActions_;
 };
 }
 }

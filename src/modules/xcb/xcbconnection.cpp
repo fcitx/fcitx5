@@ -234,7 +234,8 @@ void XCBConnection::ungrabXKeyboard() {
 }
 
 void XCBConnection::onIOEvent() {
-    if (xcb_connection_has_error(conn_.get())) {
+    if (int err = xcb_connection_has_error(conn_.get())) {
+        FCITX_WARN() << "XCB connection \"" << name_ << "\" got error: " << err;
         return parent_->removeConnection(name_);
     }
 

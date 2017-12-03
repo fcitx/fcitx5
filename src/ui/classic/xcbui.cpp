@@ -358,6 +358,20 @@ void XCBUI::updateCursor(InputContext *inputContext) {
 
 void XCBUI::updateCurrentInputMethod(InputContext *) { trayWindow_->update(); }
 
+int XCBUI::dpiByPosition(int x, int y) {
+    int shortestDistance = INT_MAX;
+    int screenDpi = -1;
+    for (auto &rect : screenRects()) {
+        int thisDistance = rect.first.distance(x, y);
+        if (thisDistance < shortestDistance) {
+            shortestDistance = thisDistance;
+            screenDpi = rect.second;
+        }
+    }
+
+    return dpi(screenDpi);
+}
+
 int XCBUI::dpi(int dpi) {
     if (dpi < 0) {
         return fontOption_.dpi;

@@ -33,7 +33,7 @@ XCBWindow::XCBWindow(XCBUI *ui, int width, int height)
 
 XCBWindow::~XCBWindow() { destroyWindow(); }
 
-void XCBWindow::createWindow(xcb_visualid_t vid) {
+void XCBWindow::createWindow(xcb_visualid_t vid, bool overrideRedirect) {
     auto conn = ui_->connection();
 
     if (wid_) {
@@ -60,17 +60,23 @@ void XCBWindow::createWindow(xcb_visualid_t vid) {
                          XCB_CW_OVERRIDE_REDIRECT | XCB_CW_SAVE_UNDER |
                          XCB_CW_COLORMAP;
 
-    uint32_t values[7] = {0,
-                          0,
-                          XCB_GRAVITY_NORTH_WEST,
-                          XCB_BACKING_STORE_WHEN_MAPPED,
-                          1,
-                          1,
-                          colorMap_ ? colorMap_ : ui_->colorMap()};
+    if (overrideRedirect) {
+        valueMask |= XCB_CW_OVERRIDE_REDIRECT;
+    }
 
-    auto cookie = xcb_create_window_checked(
+    xcb_params_cw_t params;
+    memset(&params, 0, sizeof(params));
+    params.back_pixel = 0;
+    params.border_pixel = 0;
+    params.bit_gravity = XCB_GRAVITY_NORTH_WEST;
+    params.backing_store = XCB_BACKING_STORE_WHEN_MAPPED;
+    params.override_redirect = overrideRedirect ? 1 : 0;
+    params.save_under = 1;
+    params.colormap = colorMap_ ? colorMap_ : ui_->colorMap();
+
+    auto cookie = xcb_aux_create_window_checked(
         conn, depth, wid_, screen->root, 0, 0, width_, height_, 0,
-        XCB_WINDOW_CLASS_INPUT_OUTPUT, vid, valueMask, values);
+        XCB_WINDOW_CLASS_INPUT_OUTPUT, vid, valueMask, &params);
     if (auto error = xcb_request_check(conn, cookie)) {
         CLASSICUI_DEBUG() << static_cast<int>(error->error_code);
         free(error);

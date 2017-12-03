@@ -17,7 +17,13 @@
  * see <http://www.gnu.org/licenses/>.
  */
 #include "xcbtraywindow.h"
+#include "fcitx/inputcontext.h"
 #include "fcitx/inputmethodentry.h"
+#include "fcitx/inputmethodmanager.h"
+#include "fcitx/statusarea.h"
+#include "fcitx/userinterfacemanager.h"
+#include "xcbmenu.h"
+#include <fcitx-utils/i18n.h>
 #include <unistd.h>
 #include <xcb/xcb_aux.h>
 #include <xcb/xcb_icccm.h>
@@ -35,7 +41,61 @@ namespace classicui {
 #define ATOM_ORIENTATION 3
 #define ATOM_VISUAL 4
 
-XCBTrayWindow::XCBTrayWindow(XCBUI *ui) : XCBWindow(ui, 22, 22) {}
+XCBTrayWindow::XCBTrayWindow(XCBUI *ui) : XCBWindow(ui, 22, 22) {
+    for (auto &separator : separatorActions_) {
+        separator.setSeparator(true);
+    }
+    groupAction_.setShortText(_("Group"));
+    groupAction_.setMenu(&groupMenu_);
+    inputMethodAction_.setShortText(_("Input Method"));
+    inputMethodAction_.setMenu(&inputMethodMenu_);
+    configureCurrentAction_.setShortText(_("Configure Current Input Method"));
+    configureAction_.setShortText(_("Configure"));
+    restartAction_.setShortText(_("Restart"));
+    exitAction_.setShortText(_("Exit"));
+    menu_.addAction(&groupAction_);
+    menu_.addAction(&inputMethodAction_);
+    menu_.addAction(&separatorActions_[0]);
+    menu_.addAction(&configureCurrentAction_);
+    menu_.addAction(&configureAction_);
+    menu_.addAction(&separatorActions_[2]);
+    menu_.addAction(&restartAction_);
+    menu_.addAction(&exitAction_);
+
+    configureCurrentAction_.connect<SimpleAction::Activated>(
+        [this](InputContext *) {
+            // TODO
+        });
+    configureAction_.connect<SimpleAction::Activated>(
+        [this](InputContext *) { ui_->parent()->instance()->configure(); });
+    restartAction_.connect<SimpleAction::Activated>(
+        [this](InputContext *) { ui_->parent()->instance()->restart(); });
+    exitAction_.connect<SimpleAction::Activated>(
+        [this](InputContext *) { ui_->parent()->instance()->exit(); });
+
+    auto &uiManager = ui_->parent()->instance()->userInterfaceManager();
+    uiManager.registerAction(&groupAction_);
+    uiManager.registerAction(&inputMethodAction_);
+    uiManager.registerAction(&configureCurrentAction_);
+    uiManager.registerAction(&configureAction_);
+    uiManager.registerAction(&restartAction_);
+    uiManager.registerAction(&exitAction_);
+
+    inputMethodMenu_.addAction(&testAction1_);
+    inputMethodMenu_.addAction(&testAction2_);
+    testAction1_.setMenu(&testMenu1_);
+    testAction2_.setMenu(&testMenu2_);
+    testMenu1_.addAction(&testSubAction1_);
+    testMenu2_.addAction(&testSubAction2_);
+    testAction1_.setShortText("TEST1");
+    testAction2_.setShortText("TEST2");
+    testSubAction1_.setShortText("TESTSUB1");
+    testSubAction2_.setShortText("TESTSUB2");
+    uiManager.registerAction(&testAction1_);
+    uiManager.registerAction(&testAction2_);
+    uiManager.registerAction(&testSubAction1_);
+    uiManager.registerAction(&testSubAction2_);
+}
 
 bool XCBTrayWindow::filterEvent(xcb_generic_event_t *event) {
     uint8_t response_type = event->response_type & ~0x80;
@@ -49,6 +109,20 @@ bool XCBTrayWindow::filterEvent(xcb_generic_event_t *event) {
             dockWindow_ == XCB_WINDOW_NONE) {
             refreshDockWindow();
             return true;
+        }
+        break;
+    }
+
+    case XCB_BUTTON_PRESS: {
+        auto press = reinterpret_cast<xcb_button_press_event_t *>(event);
+        if (press->event == wid_) {
+            if (press->detail == XCB_BUTTON_INDEX_3) {
+                updateMenu();
+                XCBMenu *menu = menuPool_.requestMenu(ui_, &menu_, nullptr);
+                menu->show(Rect()
+                               .setPosition(press->root_x, press->root_y)
+                               .setSize(1, 1));
+            }
         }
         break;
     }
@@ -82,20 +156,6 @@ bool XCBTrayWindow::filterEvent(xcb_generic_event_t *event) {
         }
         break;
     }
-    case XCB_BUTTON_PRESS: {
-        auto button = reinterpret_cast<xcb_button_press_event_t *>(event);
-        if (button->event == wid_) {
-            switch (button->detail) {
-            case XCB_BUTTON_INDEX_1:
-                // TODO
-                break;
-            case XCB_BUTTON_INDEX_3: {
-                // TODO
-            } break;
-            }
-            return true;
-        }
-    } break;
     case XCB_DESTROY_NOTIFY: {
         auto destroywindow =
             reinterpret_cast<xcb_destroy_notify_event_t *>(event);
@@ -286,6 +346,86 @@ void XCBTrayWindow::suspend() {
     }
     dockCallback_.reset();
     destroyWindow();
+}
+
+void XCBTrayWindow::updateMenu() {
+    updateGroupMenu();
+    updateInputMethodMenu();
+
+    auto &imManager = ui_->parent()->instance()->inputMethodManager();
+    if (imManager.groupCount() > 1) {
+        menu_.insertAction(&inputMethodAction_, &groupAction_);
+    } else {
+        menu_.removeAction(&groupAction_);
+    }
+    bool start = false;
+    for (auto action : menu_.actions()) {
+        if (action == &separatorActions_[0]) {
+            start = true;
+        } else if (action == &configureCurrentAction_) {
+            break;
+        } else if (start) {
+            menu_.removeAction(action);
+        }
+    }
+
+    bool hasAction = false;
+    if (auto ic = ui_->parent()->instance()->mostRecentInputContext()) {
+        auto &statusArea = ic->statusArea();
+        for (auto action : statusArea.allActions()) {
+            if (!action->id()) {
+                // Obviously it's not registered with ui manager.
+                continue;
+            }
+            menu_.insertAction(&configureCurrentAction_, action);
+            hasAction = true;
+        }
+    }
+    if (hasAction) {
+        menu_.insertAction(&configureCurrentAction_, &separatorActions_[1]);
+    }
+}
+
+void XCBTrayWindow::updateGroupMenu() {
+    auto &imManager = ui_->parent()->instance()->inputMethodManager();
+    const auto &list = imManager.groups();
+    groupActions_.clear();
+    for (size_t i = 0; i < list.size(); i++) {
+        auto groupName = list[i];
+        groupActions_.emplace_back();
+        auto &groupAction = groupActions_.back();
+        groupAction.setShortText(list[i]);
+        groupAction.connect<SimpleAction::Activated>([&imManager, groupName](
+            InputContext *) { imManager.setCurrentGroup(groupName); });
+
+        auto &uiManager = ui_->parent()->instance()->userInterfaceManager();
+        uiManager.registerAction(&groupAction);
+        groupMenu_.addAction(&groupAction);
+    }
+}
+
+void XCBTrayWindow::updateInputMethodMenu() {
+    auto &imManager = ui_->parent()->instance()->inputMethodManager();
+    const auto &list = imManager.currentGroup().inputMethodList();
+    inputMethodActions_.clear();
+    for (size_t i = 0; i < list.size(); i++) {
+        auto entry = imManager.entry(list[i].name());
+        if (!entry) {
+            return;
+        }
+        inputMethodActions_.emplace_back();
+        auto imName = entry->uniqueName();
+        auto &inputMethodAction = inputMethodActions_.back();
+        inputMethodAction.setShortText(entry->name());
+        inputMethodAction.connect<SimpleAction::Activated>(
+            [this, imName](InputContext *) {
+                ui_->parent()->instance()->setCurrentInputMethod(imName);
+            });
+
+        auto &uiManager = ui_->parent()->instance()->userInterfaceManager();
+        uiManager.registerAction(&inputMethodAction);
+        inputMethodMenu_.addAction(&inputMethodAction);
+    }
 }
 }
 }

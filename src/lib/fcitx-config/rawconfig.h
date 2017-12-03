@@ -21,6 +21,7 @@
 
 #include "fcitxconfig_export.h"
 #include <algorithm>
+#include <fcitx-utils/log.h>
 #include <fcitx-utils/macros.h>
 #include <functional>
 #include <memory>
@@ -117,6 +118,9 @@ private:
     FCITX_DECLARE_PRIVATE(RawConfig);
     std::unique_ptr<RawConfigPrivate> d_ptr;
 };
+
+FCITXUTILS_EXPORT
+LogMessageBuilder &operator<<(LogMessageBuilder &log, const RawConfig &config);
 }
 
 #endif // _FCITX_CONFIG_RAWCONFIG_H_
