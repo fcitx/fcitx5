@@ -69,7 +69,8 @@ void SetMyExceptionHandler(void) {
         }
     }
 
-#if defined(ENABLE_BACKTRACE)
+#if defined(EXECINFO_FOUND)
+    // Call backtrace ahead so we do not need lock in backtrace.
     void *array[BACKTRACE_SIZE] = {
         nullptr,
     };
