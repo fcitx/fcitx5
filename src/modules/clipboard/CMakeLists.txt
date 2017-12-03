@@ -1,5 +1,5 @@
 add_library(clipboard MODULE clipboard.cpp)
-target_link_libraries(clipboard Fcitx5::Core Fcitx5::Module::XCB)
+target_link_libraries(clipboard Fcitx5::Core Fcitx5::Module::XCB XCB::XCB)
 set_target_properties(clipboard PROPERTIES PREFIX "")
 install(TARGETS clipboard DESTINATION "${FCITX_INSTALL_ADDONDIR}")
 fcitx5_translate_desktop_file(clipboard.conf.in clipboard.conf)
