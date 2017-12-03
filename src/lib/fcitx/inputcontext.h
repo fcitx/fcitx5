@@ -36,10 +36,9 @@
 #include <fcitx/userinterface.h>
 #include <memory>
 #include <string>
-#include <uuid/uuid.h>
 
 namespace fcitx {
-typedef std::array<uint8_t, sizeof(uuid_t)> ICUUID;
+typedef std::array<uint8_t, 16> ICUUID;
 
 class InputContextManager;
 class FocusGroup;

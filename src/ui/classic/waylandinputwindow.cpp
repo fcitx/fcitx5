@@ -59,7 +59,7 @@ void fcitx::classicui::WaylandInputWindow::update(fcitx::InputContext *ic) {
         return;
     }
     auto pair = sizeHint();
-    unsigned int width = pair.first, height = pair.second;
+    int width = pair.first, height = pair.second;
 
     if (width != window_->width() || height != window_->height()) {
         window_->resize(width, height);

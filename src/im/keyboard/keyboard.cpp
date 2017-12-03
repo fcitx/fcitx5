@@ -42,7 +42,6 @@
 #include <libintl.h>
 
 const char imNamePrefix[] = "keyboard-";
-const int imNamePrefixLength = sizeof(imNamePrefix) - 1;
 #define FCITX_KEYBOARD_MAX_BUFFER 20
 
 namespace fcitx {
