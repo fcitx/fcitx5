@@ -62,7 +62,7 @@ void ConnectableObject::destroy() {
     if (!d->destroyed_) {
         emit<ConnectableObject::Destroyed>(this);
         disconnectAll<ConnectableObject::Destroyed>();
-        unregisterSignal<ConnectableObject::Destroyed>();
+        d->adaptor_.reset();
         d->destroyed_ = true;
     }
 }
