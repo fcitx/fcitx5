@@ -27,7 +27,7 @@
 #include <fcitx/instance.h>
 #include <fcitx/statusarea.h>
 #include <unordered_map>
-#include <uuid/uuid.h>
+#include <uuid.h>
 
 namespace fcitx {
 
