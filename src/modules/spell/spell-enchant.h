@@ -22,7 +22,7 @@
 #define _FCITX_MODULES_SPELL_SPELL_ENCHANT_H_
 
 #include "spell.h"
-#include <enchant/enchant.h>
+#include <enchant.h>
 
 namespace fcitx {
 
