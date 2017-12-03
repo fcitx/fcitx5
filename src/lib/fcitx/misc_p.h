@@ -19,7 +19,6 @@
 #ifndef _FCITX_MISC_P_H_
 #define _FCITX_MISC_P_H_
 
-#include <libintl.h>
 #include <string>
 #include <type_traits>
 
