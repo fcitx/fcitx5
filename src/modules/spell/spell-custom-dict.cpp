@@ -22,12 +22,14 @@
 #include "spell-custom-dict.h"
 #include "fcitx-utils/fs.h"
 #include "fcitx-utils/standardpath.h"
-#include "fcitx-utils/utf8.h"
-#include <algorithm>
-#include <cstdint>
-#include <cstring>
+#include "fcitx-utils/cutf8.h"
 #include <fcntl.h>
 #include <sys/stat.h>
+#if defined(__linux__) || defined(__GLIBC__)
+#include <endian.h>
+#else
+#include <sys/endian.h>
+#endif
 
 #define case_a_z                                                               \
     case 'a':                                                                  \

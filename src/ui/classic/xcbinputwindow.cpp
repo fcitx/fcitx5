@@ -182,7 +182,7 @@ void XCBInputWindow::update(InputContext *inputContext) {
         return;
     }
     auto pair = sizeHint();
-    unsigned int width = pair.first, height = pair.second;
+    int width = pair.first, height = pair.second;
 
     if (width != this->width() || height != this->height()) {
         resize(width, height);
