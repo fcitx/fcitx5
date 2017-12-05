@@ -148,14 +148,13 @@ public:
     }
 
 protected:
-    virtual void commitStringImpl(const std::string &text) override {
+    void commitStringImpl(const std::string &text) override {
         ic_->commitString(serial_, text.c_str());
     }
-    virtual void deleteSurroundingTextImpl(int offset,
-                                           unsigned int size) override {
+    void deleteSurroundingTextImpl(int offset, unsigned int size) override {
         ic_->deleteSurroundingText(offset, size);
     }
-    virtual void forwardKeyImpl(const ForwardKeyEvent &key) override {
+    void forwardKeyImpl(const ForwardKeyEvent &key) override {
         ic_->keysym(serial_, time_, key.rawKey().sym(),
                     key.isRelease() ? WL_KEYBOARD_KEY_STATE_RELEASED
                                     : WL_KEYBOARD_KEY_STATE_PRESSED,

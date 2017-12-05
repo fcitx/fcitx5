@@ -1,16 +1,28 @@
+//
+// Copyright (C) 2017~2017 by Henry Hu
+// henry.hu.sh@gmail.com
+//
+// This library is free software; you can redistribute it and/or modify
+// it under the terms of the GNU Lesser General Public License as
+// published by the Free Software Foundation; either version 2.1 of the
+// License, or (at your option) any later version.
+//
+// This library is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+// Lesser General Public License for more details.
+//
+// You should have received a copy of the GNU Lesser General Public
+// License along with this library; see the file COPYING. If not,
+// see <http://www.gnu.org/licenses/>.
+//
+
+#include "event.h"
+#include "trackableobject.h"
 #include <event2/event.h>
 #include <exception>
 #include <functional>
 #include <vector>
-
-#if defined(__COVERITY__) && !defined(__INCLUDE_LEVEL__)
-#define __INCLUDE_LEVEL__ 2
-#endif
-#include "event.h"
-
-#ifndef __unused
-#define __unused __attribute__((unused))
-#endif
 
 namespace fcitx {
 
@@ -65,92 +77,83 @@ static void EventTimeToTimeval(uint64_t usec, clockid_t clock,
 void IOEventCallback(evutil_socket_t, short, void *);
 void TimeEventCallback(evutil_socket_t, short, void *);
 
+enum class LibEventSourceEnableState { Disabled = 0, Oneshot = 1, Enabled = 2 };
+
 template <typename Interface>
 struct LibEventSourceBase : public Interface {
 public:
     LibEventSourceBase(event_base *eventBase)
-        : eventBase_(eventBase), event_(nullptr), enabled_(false),
-          oneShot_(false) {}
+        : eventBase_(eventBase), event_(nullptr, &event_free) {}
 
-    ~LibEventSourceBase() {
-        if (event_) {
-            setEnabled(false);
-        }
+    ~LibEventSourceBase() = default;
+
+    bool isEnabled() const override {
+        return state_ != LibEventSourceEnableState::Disabled;
+    }
+    void setEnabled(bool enabled) override {
+        auto newState = enabled ? LibEventSourceEnableState::Enabled
+                                : LibEventSourceEnableState::Disabled;
+        setState(newState);
     }
 
-    virtual bool isEnabled() const override { return enabled_; }
+    virtual void resetEvent() = 0;
 
-    virtual void setEnabled(bool enabled) override {
-        if (enabled_ == enabled)
-            return;
+    void setOneShot() override { setState(LibEventSourceEnableState::Oneshot); }
 
-        int ret;
-        if (enabled) {
-            ret = enableEvent(false);
-        } else {
-            ret = event_del(event_);
-            event_free(event_);
-            event_ = nullptr;
-        }
-        if (ret < 0) {
-            throw EventLoopException(1);
-        }
-        enabled_ = enabled;
+    bool isOneShot() const override {
+        return state_ == LibEventSourceEnableState::Oneshot;
     }
-
-    void reset() {
-        if (enabled_) {
-            setEnabled(false);
-            setEnabled(true);
-        }
-    }
-
-    virtual void setOneShot() override {
-        oneShot_ = true;
-        enableEvent(true);
-    }
-
-    virtual bool isOneShot() const override { return oneShot_; }
-
-    virtual int enableEvent(bool oneShot) = 0;
 
 protected:
     event_base *eventBase_; // not owned
-    event *event_;
-    bool enabled_;
-    bool oneShot_;
+    std::unique_ptr<event, decltype(&event_free)> event_;
+    LibEventSourceEnableState state_ = LibEventSourceEnableState::Disabled;
+
+private:
+    void setState(LibEventSourceEnableState state) {
+        if (state_ != state) {
+            state_ = state;
+            resetEvent();
+        }
+    }
 };
 
-struct LibEventSourceIO : public LibEventSourceBase<EventSourceIO> {
+struct LibEventSourceIO final : public LibEventSourceBase<EventSourceIO> {
     LibEventSourceIO(IOCallback _callback, event_base *eventBase, int fd,
                      IOEventFlags flags)
         : LibEventSourceBase(eventBase), fd_(fd), flags_(flags),
-          callback_(_callback) {}
+          callback_(_callback) {
+        setEnabled(true);
+    }
 
     virtual int fd() const override { return fd_; }
 
     virtual void setFd(int fd) override {
-        fd_ = fd;
-        reset();
+        if (fd_ != fd) {
+            fd_ = fd;
+            resetEvent();
+        }
     }
 
     virtual IOEventFlags events() const override { return flags_; }
 
-    virtual void setEvents(IOEventFlags flags) override {
-        flags_ = flags;
-        reset();
+    void setEvents(IOEventFlags flags) override {
+        if (flags_ != flags) {
+            flags_ = flags;
+            resetEvent();
+        }
     }
 
-    virtual IOEventFlags revents() const override {
+    IOEventFlags revents() const override {
         IOEventFlags revents;
 
         if (flags_ & IOEventFlag::In) {
-            if (event_pending(event_, EV_READ, nullptr)) {
+            if (event_pending(event_.get(), EV_READ, nullptr)) {
                 revents |= IOEventFlag::In;
             }
         }
         if (flags_ & IOEventFlag::Out) {
-            if (event_pending(event_, EV_WRITE, nullptr)) {
+            if (event_pending(event_.get(), EV_WRITE, nullptr)) {
                 revents |= IOEventFlag::Out;
             }
         }
@@ -158,18 +161,30 @@ struct LibEventSourceIO : public LibEventSourceBase<EventSourceIO> {
         return revents;
     }
 
-    virtual int enableEvent(bool oneShot) override {
+    void resetEvent() override {
+        // event_del if event_ is not null, so we can use event_assign later.
+        if (event_) {
+            event_del(event_.get());
+        }
+        if (!isEnabled()) {
+            return;
+        }
         short flags = IOEventFlagsToLibEventFlags(flags_);
-        if (!oneShot) {
+        if (state_ != LibEventSourceEnableState::Oneshot) {
             flags |= EV_PERSIST;
         }
         // flags |= EV_CLOSED;
-        event *event = event_new(eventBase_, fd_, flags, IOEventCallback, this);
-        if (event == nullptr) {
-            throw EventLoopException(ENOMEM);
+        if (!event_) {
+            event_.reset(
+                event_new(eventBase_, fd_, flags, IOEventCallback, this));
+            if (!event_) {
+                throw EventLoopException(ENOMEM);
+            }
+        } else {
+            event_assign(event_.get(), eventBase_, fd_, flags, IOEventCallback,
+                         this);
         }
-        event_ = event;
-        return event_add(event, nullptr);
+        event_add(event_.get(), nullptr);
     }
 
     int fd_;
@@ -177,38 +192,50 @@ struct LibEventSourceIO : public LibEventSourceBase<EventSourceIO> {
     IOCallback callback_;
 };
 
-struct LibEventSourceTime : public LibEventSourceBase<EventSourceTime> {
+struct LibEventSourceTime final : public LibEventSourceBase<EventSourceTime>,
+                                  public TrackableObject<LibEventSourceTime> {
     LibEventSourceTime(TimeCallback _callback, event_base *eventBase,
                        uint64_t time, clockid_t clockid, uint64_t accuracy)
         : LibEventSourceBase(eventBase), time_(time), clock_(clockid),
-          accuracy_(accuracy), callback_(_callback) {}
+          accuracy_(accuracy), callback_(std::move(_callback)) {
+        setOneShot();
+    }
 
     virtual uint64_t time() const override { return time_; }
 
     virtual void setTime(uint64_t time) override {
         time_ = time;
-        reset();
+        resetEvent();
     }
 
     virtual uint64_t accuracy() const override { return accuracy_; }
 
     virtual void setAccuracy(uint64_t time) override { accuracy_ = time; }
 
-    void setClock(clockid_t clockid) { clock_ = clockid; }
+    void setClock(clockid_t clockid) {
+        clock_ = clockid;
+        resetEvent();
+    }
 
     virtual clockid_t clock() const override { return clock_; }
 
-    virtual int enableEvent(bool oneShot __unused) override {
-        // Because time_ is absolute time, I have no idea what a ``repeative
-        // time event'' should be. Thus, ignore ``oneShot'' for now.
-        event *event = event_new(eventBase_, -1, 0, TimeEventCallback, this);
-        if (event == nullptr) {
-            throw EventLoopException(ENOMEM);
+    virtual void resetEvent() override {
+        if (event_) {
+            event_del(event_.get());
         }
-        event_ = event;
+        if (!isEnabled()) {
+            return;
+        }
+        if (!event_) {
+            event_.reset(
+                event_new(eventBase_, -1, EV_TIMEOUT, TimeEventCallback, this));
+            if (!event_) {
+                throw EventLoopException(ENOMEM);
+            }
+        }
         struct timeval tv;
         EventTimeToTimeval(time_, clock_, &tv);
-        return event_add(event, &tv);
+        event_add(event_.get(), &tv);
     }
 
     uint64_t time_;
@@ -217,12 +244,25 @@ struct LibEventSourceTime : public LibEventSourceBase<EventSourceTime> {
     TimeCallback callback_;
 };
 
-struct LibEventSourceExit : public LibEventSourceBase<EventSource> {
-    LibEventSourceExit(EventCallback _callback, event_base *eventBase)
-        : LibEventSourceBase(eventBase), callback_(_callback) {}
+struct LibEventSourceExit final : public EventSource,
+                                  public TrackableObject<LibEventSourceExit> {
+    LibEventSourceExit(EventCallback _callback)
+        : callback_(std::move(_callback)) {}
 
-    virtual int enableEvent(bool oneShot __unused) override { return 0; }
+    bool isOneShot() const override {
+        return state_ == LibEventSourceEnableState::Oneshot;
+    }
+    bool isEnabled() const override {
+        return state_ != LibEventSourceEnableState::Disabled;
+    }
+    void setEnabled(bool enabled) override {
+        state_ = enabled ? LibEventSourceEnableState::Enabled
+                         : LibEventSourceEnableState::Disabled;
+    }
 
+    void setOneShot() override { state_ = LibEventSourceEnableState::Oneshot; }
+
+    LibEventSourceEnableState state_ = LibEventSourceEnableState::Oneshot;
     EventCallback callback_;
 };
 
@@ -245,7 +285,7 @@ public:
     ~EventLoopPrivate() { event_base_free(event_); }
 
     event_base *event_;
-    std::vector<LibEventSourceExit *> exitEvents_;
+    std::vector<TrackableObjectReference<LibEventSourceExit>> exitEvents_;
 };
 
 EventLoop::EventLoop() : d_ptr(std::make_unique<EventLoopPrivate>()) {}
@@ -264,20 +304,35 @@ bool EventLoop::exec() {
 #ifdef EVLOOP_NO_EXIT_ON_EMPTY
     int r = event_base_loop(d->event_, EVLOOP_NO_EXIT_ON_EMPTY);
 #else
-    event *dummy = event_new(d->event_, -1, EV_PERSIST,
-                             [](evutil_socket_t, short, void *) {}, nullptr);
+    std::unique_ptr<event, decltype(&event_free)> dummy(
+        event_new(d->event_, -1, EV_PERSIST,
+                  [](evutil_socket_t, short, void *) {}, nullptr),
+        &event_free);
+    ;
     struct timeval tv;
     tv.tv_sec = 1000000000;
     tv.tv_usec = 0;
-    event_add(dummy, &tv);
+    event_add(dummy.get(), &tv);
     int r = event_base_loop(d->event_, 0);
 #endif
-    for (auto exitEvent : d->exitEvents_) {
-        try {
-            exitEvent->callback_(exitEvent);
-        } catch (const std::exception &e) {
-            // some abnormal things threw
-            abort();
+    for (auto iter = d->exitEvents_.begin(); iter != d->exitEvents_.end();) {
+        if (auto event = iter->get()) {
+            if (event->isEnabled()) {
+                try {
+                    if (event->isOneShot()) {
+                        event->setEnabled(false);
+                    }
+                    event->callback_(event);
+                } catch (const std::exception &e) {
+                    // some abnormal things threw
+                    abort();
+                }
+            }
+        }
+        if (!iter->isValid()) {
+            iter = d->exitEvents_.erase(iter);
+        } else {
+            ++iter;
         }
     }
     return r >= 0;
@@ -291,6 +346,9 @@ void EventLoop::quit() {
 void IOEventCallback(evutil_socket_t fd, short events, void *arg) {
     auto source = static_cast<LibEventSourceIO *>(arg);
     try {
+        if (source->isOneShot()) {
+            source->setEnabled(false);
+        }
         source->callback_(source, fd, LibEventFlagsToIOEventFlags(events));
     } catch (const std::exception &e) {
         // some abnormal things threw
@@ -303,17 +361,22 @@ std::unique_ptr<EventSourceIO> EventLoop::addIOEvent(int fd, IOEventFlags flags,
     FCITX_D();
     auto source =
         std::make_unique<LibEventSourceIO>(callback, d->event_, fd, flags);
-    source->setEnabled(true);
     return source;
 }
 
-void TimeEventCallback(evutil_socket_t fd __unused, short events __unused,
-                       void *arg) {
+void TimeEventCallback(evutil_socket_t, short, void *arg) {
 
     auto source = static_cast<LibEventSourceTime *>(arg);
 
     try {
+        auto sourceRef = source->watch();
+        if (source->isOneShot()) {
+            source->setEnabled(false);
+        }
         source->callback_(source, source->time());
+        if (sourceRef.isValid() && source->isEnabled()) {
+            source->resetEvent();
+        }
     } catch (const std::exception &e) {
         // some abnormal things threw
         abort();
@@ -326,24 +389,23 @@ EventLoop::addTimeEvent(clockid_t clock, uint64_t usec, uint64_t accuracy,
     FCITX_D();
     auto source = std::make_unique<LibEventSourceTime>(callback, d->event_,
                                                        usec, clock, accuracy);
-    source->setEnabled(true);
     return source;
 }
 
 std::unique_ptr<EventSource> EventLoop::addExitEvent(EventCallback callback) {
     FCITX_D();
-    auto source = std::make_unique<LibEventSourceExit>(callback, d->event_);
-    d->exitEvents_.push_back(source.get());
+    auto source = std::make_unique<LibEventSourceExit>(callback);
+    d->exitEvents_.push_back(source->watch());
     return source;
 }
 
-bool DeferEventCallback(EventSourceTime *source, uint64_t usec __unused,
+bool DeferEventCallback(EventSourceTime *source, uint64_t,
                         EventCallback callback) {
     return callback(source);
 }
 
 std::unique_ptr<EventSource> EventLoop::addDeferEvent(EventCallback callback) {
-    return addTimeEvent(CLOCK_MONOTONIC, 0, 1,
+    return addTimeEvent(CLOCK_MONOTONIC, 0, 0,
                         std::bind(DeferEventCallback, std::placeholders::_1,
                                   std::placeholders::_2, callback));
 }

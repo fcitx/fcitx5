@@ -42,7 +42,7 @@
         bool operator==(const NAME &other) const {                             \
             return compareHelper(other);                                       \
         }                                                                      \
-        virtual const char *typeName() const override { return #NAME; }        \
+        const char *typeName() const override { return #NAME; }                \
                                                                                \
     public:                                                                    \
         __VA_ARGS__                                                            \

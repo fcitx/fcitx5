@@ -31,19 +31,20 @@ option(USE_LIBEVENT "Use libevent for event loop." Off)
 #######################################################################
 # Find packages
 #######################################################################
-find_package(Systemd)
+
+find_package(PkgConfig REQUIRED)
 
 if (USE_LIBDBUS)
 pkg_check_modules(DBus REQUIRED IMPORTED_TARGET "dbus-1")
 pkg_get_variable(DBUS_SYSTEM_BUS_DEFAULT_ADDRESS "dbus-1" "system_bus_default_address")
-
-set(ENABLE_LIBDBUS 1)
 endif ()
 
 if (USE_LIBEVENT)
 pkg_check_modules(LibEvent REQUIRED IMPORTED_TARGET "libevent")
+endif()
 
-set(ENABLE_LIBEVENT 1)
+if (NOT USE_LIBDBUS OR NOT USE_LIBEVENT)
+find_package(Systemd REQUIRED)
 endif()
 
 find_package(DL REQUIRED)

@@ -138,7 +138,7 @@ public:
     }
 
 protected:
-    virtual void commitStringImpl(const std::string &text) override {
+    void commitStringImpl(const std::string &text) override {
         size_t compoundTextLength;
         std::unique_ptr<char, decltype(&std::free)> compoundText(
             xcb_utf8_to_compound_text(text.c_str(), text.size(),
@@ -150,8 +150,8 @@ protected:
         xcb_im_commit_string(server_->im(), xic_, XCB_XIM_LOOKUP_CHARS,
                              compoundText.get(), compoundTextLength, 0);
     }
-    virtual void deleteSurroundingTextImpl(int, unsigned int) override {}
-    virtual void forwardKeyImpl(const ForwardKeyEvent &key) override {
+    void deleteSurroundingTextImpl(int, unsigned int) override {}
+    void forwardKeyImpl(const ForwardKeyEvent &key) override {
         xcb_key_press_event_t xcbEvent;
         memset(&xcbEvent, 0, sizeof(xcb_key_press_event_t));
         xcbEvent.time = key.time();
@@ -186,7 +186,7 @@ protected:
         xcbEvent.sequence = 0;
         xcb_im_forward_event(server_->im(), xic_, &xcbEvent);
     }
-    virtual void updatePreeditImpl() override {
+    void updatePreeditImpl() override {
         auto text = server_->instance()->outputFilter(
             this, inputPanel().clientPreedit());
         auto strPreedit = text.toString();

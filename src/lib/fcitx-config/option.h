@@ -204,11 +204,9 @@ public:
         }
     }
 
-    virtual std::string typeString() const override {
-        return OptionTypeName<T>::get();
-    }
+    std::string typeString() const override { return OptionTypeName<T>::get(); }
 
-    virtual void dumpDescription(RawConfig &config) const override {
+    void dumpDescription(RawConfig &config) const override {
         OptionBase::dumpDescription(config);
         marshaller_.marshall(config["DefaultValue"], defaultValue_);
         constrain_.dumpDescription(config);
@@ -218,12 +216,12 @@ public:
             config, static_cast<typename RemoveVector<T>::type *>(nullptr));
     }
 
-    virtual std::unique_ptr<Configuration> subConfigSkeleton() const override {
+    std::unique_ptr<Configuration> subConfigSkeleton() const override {
         return ExtractSubConfig<T>::get();
     }
 
-    virtual bool isDefault() const override { return defaultValue_ == value_; }
-    virtual void reset() override { value_ = defaultValue_; }
+    bool isDefault() const override { return defaultValue_ == value_; }
+    void reset() override { value_ = defaultValue_; }
 
     const T &value() const { return value_; }
 

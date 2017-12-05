@@ -1,4 +1,4 @@
-if (ENABLE_LIBDBUS)
+if (USE_LIBDBUS)
   set(FCITX_UTILS_SOURCES
       dbus/libdbus/bus.cpp
       dbus/libdbus/message.cpp
@@ -12,7 +12,7 @@ else()
       dbus/sdbus/objectvtable.cpp)
 endif()
 
-if (ENABLE_LIBEVENT)
+if (USE_LIBEVENT)
   set(FCITX_UTILS_SOURCES
     ${FCITX_UTILS_SOURCES}
     event_libevent.cpp)
@@ -105,15 +105,15 @@ target_include_directories(Fcitx5Utils PUBLIC
     $<INSTALL_INTERFACE:${CMAKE_INSTALL_FULL_INCLUDEDIR}/Fcitx5/Utils>)
 target_link_libraries(Fcitx5Utils PRIVATE DL::DL LibIntl::LibIntl Pthread::Pthread)
 
-if (ENABLE_LIBDBUS)
+if (USE_LIBDBUS)
 target_link_libraries(Fcitx5Utils PRIVATE PkgConfig::DBus)
 endif()
 
-if (ENABLE_LIBEVENT)
+if (USE_LIBEVENT)
 target_link_libraries(Fcitx5Utils PRIVATE PkgConfig::LibEvent)
 endif()
 
-if (NOT ENABLE_LIBEVENT OR NOT ENABLE_LIBDBUS)
+if (NOT USE_LIBEVENT OR NOT USE_LIBDBUS)
 target_link_libraries(Fcitx5Utils PRIVATE Systemd::Systemd)
 endif()
 

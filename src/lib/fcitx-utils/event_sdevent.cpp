@@ -70,7 +70,7 @@ public:
 
     void setEventSource(sd_event_source *event) { eventSource_ = event; }
 
-    virtual bool isEnabled() const override {
+    bool isEnabled() const override {
         int result = 0, err;
         if ((err = sd_event_source_get_enabled(eventSource_, &result)) < 0) {
             throw EventLoopException(err);
@@ -78,12 +78,12 @@ public:
         return result != SD_EVENT_OFF;
     }
 
-    virtual void setEnabled(bool enabled) override {
+    void setEnabled(bool enabled) override {
         sd_event_source_set_enabled(eventSource_,
                                     enabled ? SD_EVENT_ON : SD_EVENT_OFF);
     }
 
-    virtual bool isOneShot() const override {
+    bool isOneShot() const override {
         int result = 0, err;
         if ((err = sd_event_source_get_enabled(eventSource_, &result)) < 0) {
             throw EventLoopException(err);
@@ -91,7 +91,7 @@ public:
         return result == SD_EVENT_ONESHOT;
     }
 
-    virtual void setOneShot() override {
+    void setOneShot() override {
         sd_event_source_set_enabled(eventSource_, SD_EVENT_ONESHOT);
     }
 
@@ -110,7 +110,7 @@ struct SDEventSourceIO : public SDEventSourceBase<EventSourceIO> {
     SDEventSourceIO(IOCallback _callback)
         : SDEventSourceBase(), callback_(_callback) {}
 
-    virtual int fd() const override {
+    int fd() const override {
         int ret = sd_event_source_get_io_fd(eventSource_);
         if (ret < 0) {
             throw EventLoopException(ret);
@@ -118,14 +118,14 @@ struct SDEventSourceIO : public SDEventSourceBase<EventSourceIO> {
         return ret;
     }
 
-    virtual void setFd(int fd) override {
+    void setFd(int fd) override {
         int ret = sd_event_source_set_io_fd(eventSource_, fd);
         if (ret < 0) {
             throw EventLoopException(ret);
         }
     }
 
-    virtual IOEventFlags events() const override {
+    IOEventFlags events() const override {
         uint32_t events;
         int ret = sd_event_source_get_io_events(eventSource_, &events);
         if (ret < 0) {
@@ -134,7 +134,7 @@ struct SDEventSourceIO : public SDEventSourceBase<EventSourceIO> {
         return EpollFlagsToIOEventFlags(events);
     }
 
-    virtual void setEvents(IOEventFlags flags) override {
+    void setEvents(IOEventFlags flags) override {
         int ret = sd_event_source_set_io_events(
             eventSource_, IOEventFlagsToEpollFlags(flags));
         if (ret < 0) {
@@ -142,7 +142,7 @@ struct SDEventSourceIO : public SDEventSourceBase<EventSourceIO> {
         }
     }
 
-    virtual IOEventFlags revents() const override {
+    IOEventFlags revents() const override {
         uint32_t revents;
         int ret = sd_event_source_get_io_revents(eventSource_, &revents);
         if (ret < 0) {
@@ -158,7 +158,7 @@ struct SDEventSourceTime : public SDEventSourceBase<EventSourceTime> {
     SDEventSourceTime(TimeCallback _callback)
         : SDEventSourceBase(), callback_(_callback) {}
 
-    virtual uint64_t time() const override {
+    uint64_t time() const override {
         uint64_t time;
         int err = sd_event_source_get_time(eventSource_, &time);
         if (err < 0) {
@@ -167,14 +167,14 @@ struct SDEventSourceTime : public SDEventSourceBase<EventSourceTime> {
         return time;
     }
 
-    virtual void setTime(uint64_t time) override {
+    void setTime(uint64_t time) override {
         int ret = sd_event_source_set_time(eventSource_, time);
         if (ret < 0) {
             throw EventLoopException(ret);
         }
     }
 
-    virtual uint64_t accuracy() const override {
+    uint64_t accuracy() const override {
         uint64_t time;
         int err = sd_event_source_get_time_accuracy(eventSource_, &time);
         if (err < 0) {
@@ -183,14 +183,14 @@ struct SDEventSourceTime : public SDEventSourceBase<EventSourceTime> {
         return time;
     }
 
-    virtual void setAccuracy(uint64_t time) override {
+    void setAccuracy(uint64_t time) override {
         int ret = sd_event_source_set_time_accuracy(eventSource_, time);
         if (ret < 0) {
             throw EventLoopException(ret);
         }
     }
 
-    virtual clockid_t clock() const override {
+    clockid_t clock() const override {
         clockid_t clock;
         int err = sd_event_source_get_time_clock(eventSource_, &clock);
         if (err < 0) {
