@@ -41,7 +41,7 @@ namespace classicui {
 #define ATOM_ORIENTATION 3
 #define ATOM_VISUAL 4
 
-XCBTrayWindow::XCBTrayWindow(XCBUI *ui) : XCBWindow(ui, 22, 22) {
+XCBTrayWindow::XCBTrayWindow(XCBUI *ui) : XCBWindow(ui, 48, 48) {
     for (auto &separator : separatorActions_) {
         separator.setSeparator(true);
     }
@@ -306,7 +306,21 @@ void XCBTrayWindow::paint(cairo_t *c) {
                                   ImagePurpose::Tray);
     cairo_save(c);
     cairo_set_operator(c, CAIRO_OPERATOR_SOURCE);
-    cairo_set_source_surface(c, image, 0, 0);
+    double scaleW = 1.0, scaleH = 1.0;
+    if (image.width() != width() || image.height() != height())
+    {
+        scaleW = static_cast<double>(width()) / image.width();
+        scaleH = static_cast<double>(height()) / image.height();
+        if (scaleW > scaleH)
+            scaleH = scaleW;
+        else
+            scaleW = scaleH;
+    }
+    int aw = scaleW * image.width();
+    int ah = scaleH * image.height();
+
+    cairo_scale(c, scaleW, scaleH);
+    cairo_set_source_surface(c, image, (width() - aw) / 2 , (height() - ah) / 2);
     cairo_paint(c);
     cairo_restore(c);
 }
