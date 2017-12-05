@@ -22,6 +22,7 @@
 #include "fcitx/focusgroup.h"
 #include "fcitx/inputcontext.h"
 #include "fcitx/instance.h"
+#include <unistd.h>
 #include <xcb-imdkit/encoding.h>
 #include <xcb/xcb_aux.h>
 #include <xkbcommon/xkbcommon.h>
@@ -82,7 +83,16 @@ public:
                 return xcb_im_filter_event(im_.get(), event);
             });
 
-        xcb_im_open_im(im_.get());
+        auto retry = 3;
+        while (retry) {
+            if (!xcb_im_open_im(im_.get())) {
+                FCITX_ERROR() << "Failed to open xim, retrying.";
+                retry -= 1;
+                sleep(1);
+            } else {
+                break;
+            }
+        }
     }
 
     Instance *instance() { return parent_->instance(); }
@@ -105,7 +115,7 @@ public:
                   const xcb_im_packet_header_fr_t *hdr, void *frame, void *arg);
 
     auto im() { return im_.get(); }
-
+    auto conn() { return conn_; }
     auto root() { return root_; }
     auto focusGroup() { return group_; }
     auto xkbState() {
@@ -135,6 +145,48 @@ public:
     ~XIMInputContext() {
         xcb_im_input_context_set_data(xic_, nullptr, nullptr);
         destroy();
+    }
+
+    void updateCursorLocation() {
+        // kinds of like notification for position moving
+        bool hasSpotLocation =
+            xcb_im_input_context_get_preedit_attr_mask(xic_) &
+            XCB_XIM_XNSpotLocation_MASK;
+        auto p = xcb_im_input_context_get_preedit_attr(xic_)->spot_location;
+        auto w = xcb_im_input_context_get_focus_window(xic_);
+        if (!w) {
+            w = xcb_im_input_context_get_client_window(xic_);
+        }
+        if (!w) {
+            return;
+        }
+        if (hasSpotLocation) {
+            auto trans_cookie = xcb_translate_coordinates(
+                server_->conn(), w, server_->root(), p.x, p.y);
+            auto reply = makeXCBReply(xcb_translate_coordinates_reply(
+                server_->conn(), trans_cookie, nullptr));
+            if (reply) {
+                setCursorRect(Rect()
+                                  .setPosition(reply->dst_x, reply->dst_y)
+                                  .setSize(0, 0));
+            }
+        } else {
+            auto getgeo_cookie = xcb_get_geometry(server_->conn(), w);
+            auto reply = makeXCBReply(xcb_get_geometry_reply(
+                server_->conn(), getgeo_cookie, nullptr));
+            if (!reply) {
+                return;
+            }
+            auto trans_cookie = xcb_translate_coordinates(
+                server_->conn(), w, server_->root(), reply->x, reply->y);
+            auto trans_reply = makeXCBReply(xcb_translate_coordinates_reply(
+                server_->conn(), trans_cookie, nullptr));
+
+            setCursorRect(Rect()
+                              .setPosition(trans_reply->dst_x,
+                                           trans_reply->dst_y + reply->height)
+                              .setSize(0, 0));
+        }
     }
 
 protected:
@@ -304,24 +356,7 @@ void XIMServer::callback(xcb_im_client_t *client, xcb_im_input_context_t *xic,
         delete ic;
         break;
     case XCB_XIM_SET_IC_VALUES: {
-        // kinds of like notification for position moving
-        auto p = xcb_im_input_context_get_preedit_attr(xic)->spot_location;
-        auto w = xcb_im_input_context_get_focus_window(xic);
-        if (!w) {
-            w = xcb_im_input_context_get_client_window(xic);
-        }
-        if (w) {
-            auto trans_cookie =
-                xcb_translate_coordinates(conn_, w, root_, p.x, p.y);
-            auto reply = makeXCBReply(
-                xcb_translate_coordinates_reply(conn_, trans_cookie, nullptr));
-            if (reply) {
-                ic->setCursorRect(Rect()
-                                      .setPosition(reply->dst_x, reply->dst_y)
-                                      .setSize(0, 0));
-            }
-        }
-
+        ic->updateCursorLocation();
         break;
     }
     case XCB_XIM_FORWARD_EVENT: {
@@ -350,6 +385,7 @@ void XIMServer::callback(xcb_im_client_t *client, xcb_im_input_context_t *xic,
         break;
     case XCB_XIM_SET_IC_FOCUS:
         ic->focusIn();
+        ic->updateCursorLocation();
         break;
     case XCB_XIM_UNSET_IC_FOCUS:
         ic->focusOut();

@@ -6,3 +6,8 @@ Category=Frontend
 
 [Addon/Dependencies]
 0=xcb
+
+# This intends to load xim after dbus, so xim is released before dbus.
+# This helps new fcitx server to become xim server property when replacing.
+[Addon/OptionalDependencies]
+0=dbus
