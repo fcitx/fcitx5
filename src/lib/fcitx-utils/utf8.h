@@ -104,14 +104,15 @@ inline bool isValidChar(uint32_t c) {
     return c != INVALID_CHAR && c != NOT_ENOUGH_SPACE;
 }
 
-/// \brief Get next UCS4 char from iter, do not cross end.
+/// \brief Get next UCS4 char from iter, do not cross end. May return
+/// INVALID_CHAR or NOT_ENOUGH_SPACE
 template <typename Iter>
 inline uint32_t getChar(Iter iter, Iter end) {
     const char *c = &(*iter);
     return fcitx_utf8_get_char_validated(c, std::distance(iter, end), nullptr);
 }
 
-/// \brief Get next UCS4 char
+/// \brief Get next UCS4 char, may return INVALID_CHAR or NOT_ENOUGH_SPACE
 template <typename T>
 inline uint32_t getChar(const T &s) {
     return getChar(std::begin(s), std::end(s));
@@ -225,8 +226,8 @@ auto MakeUTF8CharIterator(Iter iter, Iter end) {
 
 template <typename T>
 auto MakeUTF8CharRange(const T &str) {
-    return MakeIterRange(MakeUTF8CharIterator(str.begin(), str.end()),
-                         MakeUTF8CharIterator(str.end(), str.end()));
+    return MakeIterRange(MakeUTF8CharIterator(std::begin(str), std::end(str)),
+                         MakeUTF8CharIterator(std::end(str), std::end(str)));
 }
 }
 }

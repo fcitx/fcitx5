@@ -19,6 +19,7 @@
 
 #include "cutf8.h"
 #include "fcitxutils_export.h"
+#include "utf8.h"
 #include <cstdint>
 #include <cstring>
 
@@ -280,7 +281,7 @@ uint32_t fcitx_utf8_get_char_validated(const char *p, int max_len, int *plen) {
     uint32_t result;
 
     if (max_len == 0)
-        return -2;
+        return fcitx::utf8::NOT_ENOUGH_SPACE;
 
     int len;
     result = fcitx_utf8_get_char_extended(p, max_len, &len);
@@ -288,7 +289,7 @@ uint32_t fcitx_utf8_get_char_validated(const char *p, int max_len, int *plen) {
     if (result & 0x80000000)
         return result;
     else if (!UNICODE_VALID(result))
-        return -1;
+        return fcitx::utf8::INVALID_CHAR;
     else {
         if (plen) {
             *plen = len;
@@ -304,14 +305,15 @@ bool fcitx_utf8_check_string(const char *s) {
 
         int len = 0;
         chr = fcitx_utf8_get_char_validated(s, FCITX_UTF8_MAX_LENGTH, &len);
-        if (chr == (uint32_t)-1 || chr == (uint32_t)-2) {
-            return 0;
+        if (chr == fcitx::utf8::NOT_ENOUGH_SPACE ||
+            chr == fcitx::utf8::INVALID_CHAR) {
+            return false;
         }
 
         s += len;
     }
 
-    return 1;
+    return true;
 }
 
 FCITXUTILS_EXPORT
@@ -344,8 +346,9 @@ size_t fcitx_utf8_strnlen_validated(const char *str, size_t byte) {
         uint32_t chr = fcitx_utf8_get_char_validated(
             str, (byte > FCITX_UTF8_MAX_LENGTH ? FCITX_UTF8_MAX_LENGTH : byte),
             &charLen);
-        if (chr == (uint32_t)-1 || chr == (uint32_t)-2) {
-            return (size_t)-1;
+        if (chr == fcitx::utf8::NOT_ENOUGH_SPACE ||
+            chr == fcitx::utf8::INVALID_CHAR) {
+            return fcitx::utf8::INVALID_LENGTH;
         }
         str += charLen;
         byte -= charLen;
