@@ -125,16 +125,18 @@ public:
 
     operator cairo_surface_t *() const { return image_.get(); }
     auto height() const {
+        int height = 1;
         if (image_) {
-            return cairo_image_surface_get_height(image_.get());
+            height = cairo_image_surface_get_height(image_.get());
         }
-        return 0;
+        return height <= 0 ? 1 : height;
     }
     auto width() const {
+        int width = 1;
         if (image_) {
-            return cairo_image_surface_get_width(image_.get());
+            width = cairo_image_surface_get_width(image_.get());
         }
-        return 0;
+        return width <= 0 ? 1 : width;
     }
 
     auto size() { return size_; }
