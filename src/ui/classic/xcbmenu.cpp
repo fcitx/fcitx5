@@ -134,6 +134,7 @@ bool XCBMenu::filterEvent(xcb_generic_event_t *event) {
             break;
         }
         hideParents();
+        hide();
         xcb_flush(ui_->connection());
         return true;
     }

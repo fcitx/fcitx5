@@ -321,6 +321,8 @@ public:
     std::unordered_map<std::string,
                        std::tuple<std::string, std::string, std::string>>
         xkbParams_;
+
+    bool restart_ = false;
 };
 
 InputState::InputState(InstancePrivate *d, InputContext *ic)
@@ -884,7 +886,17 @@ void Instance::initialize() {
     d->uiManager_.load(d->arg_.uiName);
     d->exitEvent_ = d->eventLoop_.addExitEvent([this](EventSource *) {
         FCITX_LOG(Debug) << "Running save...";
+        FCITX_D();
         save();
+        if (d->restart_) {
+            auto fcitxBinary = StandardPath::fcitxPath("bindir", "fcitx5");
+            std::vector<char> command{fcitxBinary.begin(), fcitxBinary.end()};
+            command.push_back('\0');
+            char *const argv[] = {command.data(), nullptr};
+            execv(argv[0], argv);
+            perror("Restart failed: execvp:");
+            _exit(1);
+        }
         return false;
     });
 }
@@ -1141,13 +1153,9 @@ void Instance::reloadConfig() {
 void Instance::resetInputMethodList() {}
 
 void Instance::restart() {
-    auto fcitxBinary = StandardPath::fcitxPath("bindir", "fcitx5");
-    std::vector<char> command{fcitxBinary.begin(), fcitxBinary.end()};
-    command.push_back('\0');
-    char *const argv[] = {command.data(), nullptr};
-    execv(argv[0], argv);
-    perror("Restart failed: execvp:");
-    _exit(1);
+    FCITX_D();
+    d->restart_ = true;
+    exit();
 }
 
 void Instance::setCurrentInputMethod(const std::string &name) {

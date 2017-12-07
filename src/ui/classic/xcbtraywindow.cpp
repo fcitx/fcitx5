@@ -124,7 +124,10 @@ bool XCBTrayWindow::filterEvent(xcb_generic_event_t *event) {
                 menu->show(Rect()
                                .setPosition(press->root_x, press->root_y)
                                .setSize(1, 1));
+            } else if (press->detail == XCB_BUTTON_INDEX_1) {
+                ui_->parent()->instance()->toggle();
             }
+            return true;
         }
         break;
     }
@@ -152,8 +155,6 @@ bool XCBTrayWindow::filterEvent(xcb_generic_event_t *event) {
                 xcb_icccm_set_wm_normal_hints(ui_->connection(), wid_,
                                               &size_hints);
             }
-
-            // TODO
             return true;
         }
         break;
