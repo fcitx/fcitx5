@@ -23,9 +23,12 @@
 #include <xcb/xcb_aux.h>
 #include <xcb/xcb_keysyms.h>
 
-fcitx::classicui::XCBMenu::XCBMenu(XCBUI *ui, MenuPool *pool, Menu *menu)
-    : fcitx::classicui::XCBWindow(ui), pool_(pool),
-      context_(nullptr, &g_object_unref), menu_(menu) {
+namespace fcitx {
+namespace classicui {
+
+XCBMenu::XCBMenu(XCBUI *ui, MenuPool *pool, Menu *menu)
+    : XCBWindow(ui), pool_(pool), context_(nullptr, &g_object_unref),
+      menu_(menu) {
     auto fontMap = pango_cairo_font_map_get_default();
     context_.reset(pango_font_map_create_context(fontMap));
     if (auto ic = ui_->parent()->instance()->mostRecentInputContext()) {
@@ -34,9 +37,9 @@ fcitx::classicui::XCBMenu::XCBMenu(XCBUI *ui, MenuPool *pool, Menu *menu)
     createWindow();
 }
 
-fcitx::classicui::XCBMenu::~XCBMenu() {}
+XCBMenu::~XCBMenu() {}
 
-bool fcitx::classicui::XCBMenu::filterEvent(xcb_generic_event_t *event) {
+bool XCBMenu::filterEvent(xcb_generic_event_t *event) {
     uint8_t response_type = event->response_type & ~0x80;
     switch (response_type) {
     case XCB_EXPOSE: {
@@ -48,11 +51,28 @@ bool fcitx::classicui::XCBMenu::filterEvent(xcb_generic_event_t *event) {
         }
         break;
     }
+    case XCB_FOCUS_IN: {
+        auto focusIn = reinterpret_cast<xcb_focus_in_event_t *>(event);
+        if (focusIn->event == wid_) {
+            if (focusIn->detail == XCB_NOTIFY_DETAIL_POINTER) {
+                return true;
+            }
+            // FCITX_INFO() << this << " Focus in";
+            return true;
+        }
+        break;
+    }
     case XCB_FOCUS_OUT: {
         auto focusOut = reinterpret_cast<xcb_focus_out_event_t *>(event);
         if (focusOut->event == wid_) {
-            if (!child_.isValid()) {
-                hideParent();
+            if (focusOut->detail == XCB_NOTIFY_DETAIL_POINTER) {
+                return true;
+            }
+            // FCITX_INFO() << this << " Focus out " << subMenuIndex_;
+            if (subMenuIndex_ < 0) {
+                hideChilds();
+                hide();
+                hideParents();
                 xcb_flush(ui_->connection());
             }
             return true;
@@ -65,7 +85,7 @@ bool fcitx::classicui::XCBMenu::filterEvent(xcb_generic_event_t *event) {
             break;
         }
         if (buttonPress->detail != XCB_BUTTON_INDEX_1) {
-            hideParent();
+            hideParents();
             hideChilds();
             xcb_flush(ui_->connection());
             return true;
@@ -97,7 +117,7 @@ bool fcitx::classicui::XCBMenu::filterEvent(xcb_generic_event_t *event) {
                 ui_->parent()->instance()->eventLoop().addTimeEvent(
                     CLOCK_MONOTONIC, now(CLOCK_MONOTONIC) + 30000, 0,
                     [this, icRef, id](EventSourceTime *, uint64_t) {
-                        FCITX_INFO() << "Timer Triggered";
+                        // FCITX_INFO() << "Timer Triggered";
                         if (auto ic = icRef.get()) {
 
                             auto action = ui_->parent()
@@ -113,7 +133,7 @@ bool fcitx::classicui::XCBMenu::filterEvent(xcb_generic_event_t *event) {
                     });
             break;
         }
-        hideParent();
+        hideParents();
         xcb_flush(ui_->connection());
         return true;
     }
@@ -124,7 +144,7 @@ bool fcitx::classicui::XCBMenu::filterEvent(xcb_generic_event_t *event) {
                 if (!items_[i].isSeparator_ &&
                     items_[i].region_.contains(motion->event_x,
                                                motion->event_y)) {
-                    setHighlightIndex(i);
+                    setHoveredIndex(i);
                     break;
                 }
             }
@@ -144,7 +164,7 @@ bool fcitx::classicui::XCBMenu::filterEvent(xcb_generic_event_t *event) {
         auto leave = reinterpret_cast<xcb_leave_notify_event_t *>(event);
         if (leave->event == wid_) {
             hasMouse_ = false;
-            setHighlightIndex(-1);
+            setHoveredIndex(-1);
             return true;
         }
         break;
@@ -160,33 +180,33 @@ bool fcitx::classicui::XCBMenu::filterEvent(xcb_generic_event_t *event) {
     return false;
 }
 
-void fcitx::classicui::XCBMenu::hide() {
+void XCBMenu::hide() {
     if (!visible_) {
         return;
     }
-    FCITX_INFO() << "Hide " << this;
+    // FCITX_INFO() << "Hide " << this;
     visible_ = false;
     setParent(nullptr);
     xcb_unmap_window(ui_->connection(), wid_);
 }
 
-void fcitx::classicui::XCBMenu::hideParent() {
-    FCITX_INFO() << "Hide Parent " << this;
+void XCBMenu::hideParents() {
+    // FCITX_INFO() << "Hide Parent " << this;
     if (auto parent = parent_.get()) {
-        parent->hideParent();
+        parent->hideParents();
+        parent->hide();
     }
-    hide();
 }
 
-void fcitx::classicui::XCBMenu::hideChilds() {
-    FCITX_INFO() << "Hide Childs " << this;
-    hide();
+void XCBMenu::hideChilds() {
+    // FCITX_INFO() << "Hide Childs " << this;
     if (auto child = child_.get()) {
         child->hideChilds();
+        child->hide();
     }
 }
 
-bool fcitx::classicui::XCBMenu::childHasMouse() const {
+bool XCBMenu::childHasMouse() const {
     auto ref = child_;
     while (auto child = ref.get()) {
         if (child->hasMouse_) {
@@ -197,47 +217,101 @@ bool fcitx::classicui::XCBMenu::childHasMouse() const {
     return false;
 }
 
-void fcitx::classicui::XCBMenu::hideTillMenuHasMouseOrTopLevel() {
-    if (auto child = child_.get()) {
-        child->hideChilds();
+void XCBMenu::hideTillMenuHasMouseOrTopLevel() {
+    // Go to the innermost child.
+    auto menu = this;
+    while (auto child = menu->child_.get()) {
+        menu = child;
     }
+
+    menu->hideTillMenuHasMouseOrTopLevelHelper();
+}
+
+void XCBMenu::hideTillMenuHasMouseOrTopLevelHelper() {
     if (parent_.isNull() || hasMouse_) {
-        if (!hasMouse_) {
-            highlightIndex_ = -1;
-            update();
-        }
-        xcb_set_input_focus(ui_->connection(), XCB_INPUT_FOCUS_PARENT, wid_,
-                            XCB_CURRENT_TIME);
+        update();
+        setFocus();
         xcb_flush(ui_->connection());
         return;
     }
-    if (auto parent = parent_.get()) {
-        parent->hideTillMenuHasMouseOrTopLevel();
+    auto parent = parent_.get();
+    hide(); // Hide will reset parent.
+    if (parent) {
+        parent->hideTillMenuHasMouseOrTopLevelHelper();
     }
-    hide();
 }
 
-void fcitx::classicui::XCBMenu::setHighlightIndex(int idx) {
-    if (highlightIndex_ == idx) {
+void XCBMenu::setHoveredIndex(int idx) {
+    if (hoveredIndex_ == idx) {
         return;
     }
-    FCITX_INFO() << this << " setHighlightIndex(): " << idx
-                 << " hasMouse: " << hasMouse_
-                 << " child is valid: " << child_.isValid();
+    // FCITX_INFO() << this << " setHoveredIndex(): " << idx
+    //              << " hasMouse: " << hasMouse_
+    //              << " child is valid: " << child_.isValid();
 
-    if (hasMouse_ || !child_.isValid()) {
-        highlightIndex_ = idx;
-        update();
-    }
-    popupMenuTimer_ = ui_->parent()->instance()->eventLoop().addTimeEvent(
-        CLOCK_MONOTONIC, now(CLOCK_MONOTONIC) + 300000, 0,
-        [this](EventSourceTime *, uint64_t) {
-            popupMenuTimer_.reset();
-            return true;
-        });
+    hoveredIndex_ = idx;
+    update();
+    pool_->setPopupMenuTimer(
+        ui_->parent()->instance()->eventLoop().addTimeEvent(
+            CLOCK_MONOTONIC, now(CLOCK_MONOTONIC) + 300000, 0,
+            [this](EventSourceTime *, uint64_t) {
+                do {
+                    // FCITX_INFO() << this << " in timer";
+                    if (hoveredIndex_ >= 0 && subMenuIndex_ == hoveredIndex_) {
+                        // Mouse is on same menu item.
+                        if (auto child = child_.get()) {
+                            child->hideChilds();
+                            xcb_flush(ui_->connection());
+                        }
+                        break;
+                    }
+
+                    if (hoveredIndex_ >= 0) {
+                        // FCITX_INFO() << this << " in timer branch 1";
+                        // The current subMenu anyway is not the hovered one.
+                        hideChilds();
+                        subMenuIndex_ = -1;
+                        auto item =
+                            actionAt(static_cast<size_t>(hoveredIndex_));
+                        // If we agree on this that current item has subMenu
+                        if (item.first->hasSubMenu_ && item.second->menu()) {
+                            auto newMenu = pool_->requestMenu(
+                                ui_, item.second->menu(), this);
+                            subMenuIndex_ = hoveredIndex_;
+
+                            // FCITX_INFO() << this << " in timer show submenu "
+                            // << newMenu;
+                            newMenu->show(
+                                item.first->region_.translated(x_, y_));
+                        }
+                    } else {
+                        /// FCITX_INFO() << this << " in timer branch 2";
+                        // If we are not display any sub menu, and we don't have
+                        // mouse in the window.
+                        hideTillMenuHasMouseOrTopLevel();
+                    }
+                    update();
+                    xcb_flush(ui_->connection());
+                } while (0);
+                pool_->setPopupMenuTimer(nullptr);
+                return true;
+            }));
 }
 
-void fcitx::classicui::XCBMenu::update() {
+std::pair<MenuItem *, Action *> XCBMenu::actionAt(size_t index) {
+    if (items_.size() <= index) {
+        return {};
+    }
+
+    auto actions = menu_->actions();
+    if (actions.size() <= index || actions.size() != items_.size()) {
+        return {};
+    }
+
+    return {&items_[index], actions[index]};
+}
+
+void XCBMenu::update() {
     auto ic = lastRelevantIc();
     if (!ic) {
         return;
@@ -282,7 +356,8 @@ void fcitx::classicui::XCBMenu::update() {
     // Pass 1: get max size of all items, and set size.
     for (auto action : actions) {
         auto &item = items_[i];
-        item.isHighlight_ = highlightIndex_ == i;
+        item.isHighlight_ =
+            hoveredIndex_ >= 0 ? (hoveredIndex_ == i) : (subMenuIndex_ == i);
         i++;
         item.hasSubMenu_ = action->menu() ? true : false;
         item.isSeparator_ = action->isSeparator();
@@ -344,6 +419,10 @@ void fcitx::classicui::XCBMenu::update() {
         item.checkBoxX_ = width + *textMargin.marginLeft;
         item.checkBoxY_ = height + *textMargin.marginTop +
                           (maxItemHeight - checkBox.height()) / 2.0;
+        item.subMenuX_ = width + maxItemWidth - subMenu.width();
+        item.subMenuY_ = height + *textMargin.marginTop +
+                         (maxItemHeight - subMenu.height()) / 2.0;
+        ;
 
         height +=
             maxItemHeight + *textMargin.marginTop + *textMargin.marginBottom;
@@ -390,6 +469,13 @@ void fcitx::classicui::XCBMenu::update() {
             cairo_restore(c);
         }
 
+        if (item.hasSubMenu_) {
+            cairo_save(c);
+            cairo_translate(c, item.subMenuX_, item.subMenuY_);
+            theme.paint(c, *theme.menu->subMenu, -1, -1);
+            cairo_restore(c);
+        }
+
         cairo_save(c);
         if (item.isHighlight_) {
             cairoSetSourceColor(c, *theme.menu->highlightTextColor);
@@ -405,7 +491,7 @@ void fcitx::classicui::XCBMenu::update() {
     render();
 }
 
-void fcitx::classicui::XCBMenu::postCreateWindow() {
+void XCBMenu::postCreateWindow() {
     if (ui_->ewmh()->_NET_WM_WINDOW_TYPE_MENU &&
         ui_->ewmh()->_NET_WM_WINDOW_TYPE_POPUP_MENU &&
         ui_->ewmh()->_NET_WM_WINDOW_TYPE) {
@@ -421,7 +507,7 @@ void fcitx::classicui::XCBMenu::postCreateWindow() {
             XCB_EVENT_MASK_VISIBILITY_CHANGE | XCB_EVENT_MASK_POINTER_MOTION);
 }
 
-void fcitx::classicui::XCBMenu::setParent(fcitx::classicui::XCBMenu *parent) {
+void XCBMenu::setParent(XCBMenu *parent) {
     if (auto oldParent = parent_.get()) {
         if (parent == oldParent) {
             return;
@@ -439,33 +525,40 @@ void fcitx::classicui::XCBMenu::setParent(fcitx::classicui::XCBMenu *parent) {
     }
 }
 
-void fcitx::classicui::XCBMenu::setChild(fcitx::classicui::XCBMenu *child) {
+void XCBMenu::setChild(XCBMenu *child) {
     if (child) {
         child_ = child->watch();
     } else {
         child_.unwatch();
+        subMenuIndex_ = -1;
+        update();
     }
 }
 
-void fcitx::classicui::XCBMenu::setInputContext(
-    TrackableObjectReference<fcitx::InputContext> ic) {
+void XCBMenu::setInputContext(TrackableObjectReference<InputContext> ic) {
     lastRelevantIc_ = ic;
 }
 
-fcitx::InputContext *fcitx::classicui::XCBMenu::lastRelevantIc() {
+InputContext *XCBMenu::lastRelevantIc() {
     if (auto ic = lastRelevantIc_.get()) {
         return ic;
     }
     return ui_->parent()->instance()->mostRecentInputContext();
 }
 
-void fcitx::classicui::XCBMenu::show(Rect rect) {
-    FCITX_INFO() << this << " show() " << highlightIndex_;
+void XCBMenu::setFocus() {
+    xcb_set_input_focus(ui_->connection(), XCB_INPUT_FOCUS_PARENT, wid_,
+                        XCB_CURRENT_TIME);
+}
+
+void XCBMenu::show(Rect rect) {
+    // FCITX_INFO() << this << " show() " << hoveredIndex_;
     if (visible_) {
         return;
     }
     visible_ = true;
-    highlightIndex_ = -1;
+    hoveredIndex_ = -1;
+    subMenuIndex_ = -1;
     int x = rect.left();
     int y = rect.top();
     dpi_ = ui_->dpiByPosition(x, y);
@@ -518,26 +611,21 @@ void fcitx::classicui::XCBMenu::show(Rect rect) {
                                  XCB_CONFIG_WINDOW_X | XCB_CONFIG_WINDOW_Y,
                              &wc);
 
-    xcb_set_input_focus(ui_->connection(), XCB_INPUT_FOCUS_PARENT, wid_,
-                        XCB_CURRENT_TIME);
-
     xcb_map_window(ui_->connection(), wid_);
+    setFocus();
     xcb_flush(ui_->connection());
     x_ = x;
     y_ = y;
 }
 
-void fcitx::classicui::XCBMenu::raise() {
+void XCBMenu::raise() {
     xcb_params_configure_window_t wc;
     wc.stack_mode = XCB_STACK_MODE_ABOVE;
     xcb_aux_configure_window(ui_->connection(), wid_,
                              XCB_CONFIG_WINDOW_STACK_MODE, &wc);
 }
 
-fcitx::classicui::XCBMenu *
-fcitx::classicui::MenuPool::requestMenu(fcitx::classicui::XCBUI *ui,
-                                        fcitx::Menu *menu,
-                                        fcitx::classicui::XCBMenu *parent) {
+XCBMenu *MenuPool::requestMenu(XCBUI *ui, Menu *menu, XCBMenu *parent) {
     auto xcbMenu = findOrCreateMenu(ui, menu);
     xcbMenu->setParent(parent);
     if (parent) {
@@ -552,9 +640,7 @@ fcitx::classicui::MenuPool::requestMenu(fcitx::classicui::XCBUI *ui,
     return xcbMenu;
 }
 
-fcitx::classicui::XCBMenu *
-fcitx::classicui::MenuPool::findOrCreateMenu(fcitx::classicui::XCBUI *ui,
-                                             fcitx::Menu *menu) {
+XCBMenu *MenuPool::findOrCreateMenu(XCBUI *ui, Menu *menu) {
     auto iter = pool_.find(menu);
     if (iter != pool_.end()) {
         return &iter->second.first;
@@ -573,3 +659,6 @@ fcitx::classicui::MenuPool::findOrCreateMenu(fcitx::classicui::XCBUI *ui,
                               std::forward_as_tuple(std::move(conn))));
     return &result.first->second.first;
 }
+
+} // namespace classicui
+} // namespace fcitx

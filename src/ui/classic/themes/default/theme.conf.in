@@ -35,8 +35,23 @@ Right=5
 Top=5
 Bottom=5
 
+[Menu/Background]
+Image=panel.png
+
+[Menu/Background/Margin]
+Left=2
+Right=2
+Top=2
+Bottom=2
+
+[Menu/ContentMargin]
+Left=2
+Right=2
+Top=2
+Bottom=2
+
 [Menu/Highlight]
-Color=#000000
+Image=highlight.png
 
 [Menu/Highlight/Margin]
 Left=5
@@ -45,7 +60,13 @@ Top=5
 Bottom=5
 
 [Menu/Separator]
-Color=#000000
+Color=#c0c0c0
+
+[Menu/CheckBox]
+Image=radio.png
+
+[Menu/SubMenu]
+Image=arrow.png
 
 [Menu/TextMargin]
 Left=5

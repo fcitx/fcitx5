@@ -81,6 +81,7 @@ XCBTrayWindow::XCBTrayWindow(XCBUI *ui) : XCBWindow(ui, 48, 48) {
     uiManager.registerAction(&restartAction_);
     uiManager.registerAction(&exitAction_);
 
+#if 0
     inputMethodMenu_.addAction(&testAction1_);
     inputMethodMenu_.addAction(&testAction2_);
     testAction1_.setMenu(&testMenu1_);
@@ -95,6 +96,7 @@ XCBTrayWindow::XCBTrayWindow(XCBUI *ui) : XCBWindow(ui, 48, 48) {
     uiManager.registerAction(&testAction2_);
     uiManager.registerAction(&testSubAction1_);
     uiManager.registerAction(&testSubAction2_);
+#endif
 }
 
 bool XCBTrayWindow::filterEvent(xcb_generic_event_t *event) {
@@ -307,8 +309,7 @@ void XCBTrayWindow::paint(cairo_t *c) {
     cairo_save(c);
     cairo_set_operator(c, CAIRO_OPERATOR_SOURCE);
     double scaleW = 1.0, scaleH = 1.0;
-    if (image.width() != width() || image.height() != height())
-    {
+    if (image.width() != width() || image.height() != height()) {
         scaleW = static_cast<double>(width()) / image.width();
         scaleH = static_cast<double>(height()) / image.height();
         if (scaleW > scaleH)
@@ -320,7 +321,7 @@ void XCBTrayWindow::paint(cairo_t *c) {
     int ah = scaleH * image.height();
 
     cairo_scale(c, scaleW, scaleH);
-    cairo_set_source_surface(c, image, (width() - aw) / 2 , (height() - ah) / 2);
+    cairo_set_source_surface(c, image, (width() - aw) / 2, (height() - ah) / 2);
     cairo_paint(c);
     cairo_restore(c);
 }
@@ -411,6 +412,8 @@ void XCBTrayWindow::updateGroupMenu() {
         groupAction.setShortText(list[i]);
         groupAction.connect<SimpleAction::Activated>([&imManager, groupName](
             InputContext *) { imManager.setCurrentGroup(groupName); });
+        groupAction.setCheckable(true);
+        groupAction.setChecked(list[i] == imManager.currentGroup().name());
 
         auto &uiManager = ui_->parent()->instance()->userInterfaceManager();
         uiManager.registerAction(&groupAction);
@@ -422,6 +425,7 @@ void XCBTrayWindow::updateInputMethodMenu() {
     auto &imManager = ui_->parent()->instance()->inputMethodManager();
     const auto &list = imManager.currentGroup().inputMethodList();
     inputMethodActions_.clear();
+    auto ic = ui_->parent()->instance()->mostRecentInputContext();
     for (size_t i = 0; i < list.size(); i++) {
         auto entry = imManager.entry(list[i].name());
         if (!entry) {
@@ -435,6 +439,10 @@ void XCBTrayWindow::updateInputMethodMenu() {
             [this, imName](InputContext *) {
                 ui_->parent()->instance()->setCurrentInputMethod(imName);
             });
+        inputMethodAction.setCheckable(true);
+        inputMethodAction.setChecked(
+            ic ? (ui_->parent()->instance()->inputMethod(ic) == imName)
+               : false);
 
         auto &uiManager = ui_->parent()->instance()->userInterfaceManager();
         uiManager.registerAction(&inputMethodAction);

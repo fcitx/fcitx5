@@ -63,6 +63,13 @@ public:
         return *this;
     }
 
+    // Return a rect with same size, but move by a offset.
+    Rect translated(int offsetX, int offsetY) const {
+        return Rect()
+            .setPosition(x1_ + offsetX, y1_ + offsetY)
+            .setSize(width(), height());
+    }
+
     bool contains(int x, int y) const noexcept {
         return (x1_ <= x && x <= x2_) && (y1_ <= y && y <= y2_);
     }

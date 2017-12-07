@@ -73,6 +73,7 @@ void XCBWindow::createWindow(xcb_visualid_t vid, bool overrideRedirect) {
     params.override_redirect = overrideRedirect ? 1 : 0;
     params.save_under = 1;
     params.colormap = colorMap_ ? colorMap_ : ui_->colorMap();
+    vid_ = vid;
 
     auto cookie = xcb_aux_create_window_checked(
         conn, depth, wid_, screen->root, 0, 0, width_, height_, 0,

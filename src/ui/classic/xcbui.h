@@ -53,6 +53,7 @@ public:
     const std::string &name() const { return name_; }
     xcb_connection_t *connection() const { return conn_; }
     xcb_ewmh_connection_t *ewmh() const { return ewmh_; }
+    xcb_window_t root() const { return root_; }
     int defaultScreen() const { return defaultScreen_; }
     xcb_colormap_t colorMap() const { return colorMap_; }
     xcb_visualid_t visualId() const;
@@ -77,6 +78,7 @@ private:
     ClassicUI *parent_;
     std::string name_;
     xcb_connection_t *conn_;
+    xcb_window_t root_ = XCB_WINDOW_NONE;
     xcb_ewmh_connection_t *ewmh_;
     int defaultScreen_;
     xcb_colormap_t colorMap_;

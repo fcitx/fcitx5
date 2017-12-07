@@ -65,12 +65,14 @@ private:
     SimpleAction restartAction_;
     SimpleAction exitAction_;
 
+#if 0
     SimpleAction testAction1_;
     SimpleAction testAction2_;
     Menu testMenu1_;
     Menu testMenu2_;
     SimpleAction testSubAction1_;
     SimpleAction testSubAction2_;
+#endif
 
     Menu groupMenu_;
     std::list<SimpleAction> groupActions_;

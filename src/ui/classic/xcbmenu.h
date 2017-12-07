@@ -41,6 +41,7 @@ struct MenuItem {
     Rect region_;
     int textWidth_ = 0, textHeight_ = 0;
     int checkBoxX_ = 0, checkBoxY_ = 0;
+    int subMenuX_ = 0, subMenuY_ = 0;
 };
 
 class XCBMenu : public XCBWindow, public TrackableObject<XCBMenu> {
@@ -48,10 +49,20 @@ public:
     XCBMenu(XCBUI *ui, MenuPool *pool, Menu *menu);
     ~XCBMenu();
     void show(Rect rect);
+
+    // Hide menu itself.
     void hide();
-    void hideParent();
+
+    // Hide all of its parent.
+    void hideParents();
+
+    // Hide all menu on the chain until the one has mouse.
     void hideTillMenuHasMouseOrTopLevel();
+
+    // Hide all of its child.
     void hideChilds();
+
+    // Raise the menu.
     void raise();
 
     bool filterEvent(xcb_generic_event_t *event) override;
@@ -66,10 +77,13 @@ public:
     bool childHasMouse() const;
 
 private:
+    void hideTillMenuHasMouseOrTopLevelHelper();
     InputContext *lastRelevantIc();
     void update();
-    void setHighlightIndex(int idx);
+    void setHoveredIndex(int idx);
     void setChild(XCBMenu *child);
+    void setFocus();
+    std::pair<MenuItem *, Action *> actionAt(size_t index);
 
     MenuPool *pool_;
 
@@ -81,13 +95,13 @@ private:
     Menu *menu_;
     TrackableObjectReference<XCBMenu> parent_;
     TrackableObjectReference<XCBMenu> child_;
-    bool visible_ = false;
-    int highlightIndex_ = -1;
     int dpi_ = 96;
     int x_ = 0;
     int y_ = 0;
     bool hasMouse_ = false;
-    std::unique_ptr<EventSourceTime> popupMenuTimer_;
+    bool visible_ = false;
+    int subMenuIndex_ = -1;
+    int hoveredIndex_ = -1;
     std::unique_ptr<EventSourceTime> activateTimer_;
 };
 
@@ -95,10 +109,15 @@ class MenuPool {
 public:
     XCBMenu *requestMenu(XCBUI *ui, Menu *menu, XCBMenu *parent);
 
+    void setPopupMenuTimer(std::unique_ptr<EventSourceTime> popupMenuTimer) {
+        popupMenuTimer_ = std::move(popupMenuTimer);
+    }
+
 private:
     XCBMenu *findOrCreateMenu(XCBUI *ui, Menu *menu);
 
     std::unordered_map<Menu *, std::pair<XCBMenu, ScopedConnection>> pool_;
+    std::unique_ptr<EventSourceTime> popupMenuTimer_;
 };
 
 } // namespace classicui

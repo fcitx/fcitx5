@@ -176,6 +176,7 @@ XCBUI::XCBUI(ClassicUI *parent, const std::string &name, xcb_connection_t *conn,
 
     xcb_screen_t *screen = xcb_aux_get_screen(conn_, defaultScreen_);
     addEventMaskToWindow(conn_, screen->root, XCB_EVENT_MASK_STRUCTURE_NOTIFY);
+    root_ = screen->root;
     fontOption_ = forcedDpi(conn_, screen);
     initScreen();
     refreshCompositeManager();
