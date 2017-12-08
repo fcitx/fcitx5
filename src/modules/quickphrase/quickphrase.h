@@ -43,7 +43,7 @@ FCITX_CONFIGURATION(
     Option<KeyList> triggerKey{
         this, "TriggerKey", "Trigger Key", {Key("Super+grave")}};
     fcitx::OptionWithAnnotation<QuickPhraseChooseModifier,
-                                QuickPhraseChooseModifierI18NAnnoation>
+                                QuickPhraseChooseModifierI18NAnnotation>
         chooseModifier{this, "Choose Modifier", "Choose key modifier",
                        QuickPhraseChooseModifier::None};);
 

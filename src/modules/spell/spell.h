@@ -44,7 +44,7 @@ struct NotEmptyProvider {
 FCITX_CONFIGURATION(SpellConfig,
                     fcitx::Option<std::vector<SpellProvider>, NotEmptyProvider,
                                   DefaultMarshaller<std::vector<SpellProvider>>,
-                                  SpellProviderI18NAnnoation>
+                                  SpellProviderI18NAnnotation>
                         providerOrder{this,
                                       "ProviderOrder",
                                       "Order of providers",

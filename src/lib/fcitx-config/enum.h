@@ -27,8 +27,11 @@
 
 #define FCITX_CONFIG_ENUM(TYPE, ...)                                           \
     enum class TYPE { __VA_ARGS__ };                                           \
-    static constexpr const char *_##TYPE##_Names[] = {                         \
-        FCITX_FOR_EACH(FCITX_ENUM_STRINGIFY, __VA_ARGS__)};                    \
+    FCITX_CONFIG_ENUM_NAME(TYPE,                                               \
+                           FCITX_FOR_EACH(FCITX_ENUM_STRINGIFY, __VA_ARGS__))
+
+#define FCITX_CONFIG_ENUM_NAME(TYPE, ...)                                      \
+    static constexpr const char *_##TYPE##_Names[] = {__VA_ARGS__};            \
     static inline std::string TYPE##ToString(TYPE value) {                     \
         return _##TYPE##_Names[static_cast<std::underlying_type_t<TYPE>>(      \
             value)];                                                           \
@@ -59,7 +62,7 @@
     }
 
 #define FCITX_CONFIG_ENUM_I18N_ANNOTATION(TYPE, ...)                           \
-    struct TYPE##I18NAnnoation {                                               \
+    struct TYPE##I18NAnnotation {                                              \
         static constexpr const char *_##TYPE##_Names2[] = {__VA_ARGS__};       \
         static constexpr size_t enumLength =                                   \
             FCITX_ARRAY_SIZE(_##TYPE##_Names2);                                \
@@ -82,6 +85,6 @@
                           equal(idx + 1));                                     \
         }                                                                      \
     };                                                                         \
-    static_assert(TYPE##I18NAnnoation::equal(0), "Enum mismatch");
+    static_assert(TYPE##I18NAnnotation::equal(0), "Enum mismatch");
 
 #endif // _FCITX_CONFIG_ENUM_H_

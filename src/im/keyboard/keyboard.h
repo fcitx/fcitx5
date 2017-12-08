@@ -50,7 +50,7 @@ FCITX_CONFIGURATION(
         this, "NextCandidate", "Next Candidate", {Key("Tab")}};
     fcitx::Option<KeyList> prevCandidate{
         this, "PrevCandidate", "Prev Candidate", {Key("Shift+Tab")}};
-    fcitx::OptionWithAnnotation<ChooseModifier, ChooseModifierI18NAnnoation>
+    fcitx::OptionWithAnnotation<ChooseModifier, ChooseModifierI18NAnnotation>
         chooseModifier{this, "Choose Modifier", "Choose key modifier",
                        ChooseModifier::Alt};
     fcitx::Option<KeyList> hintTrigger{
