@@ -80,7 +80,7 @@ private:
     void propagateProperty(InputContext &inputContext,
                            InputContextPropertyFactory *factory);
     InputContextProperty *property(InputContext &inputContext,
-                                   InputContextPropertyFactory *factory);
+                                   const InputContextPropertyFactory *factory);
 
     std::unique_ptr<InputContextManagerPrivate> d_ptr;
     FCITX_DECLARE_PRIVATE(InputContextManager);

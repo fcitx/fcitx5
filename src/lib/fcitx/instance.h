@@ -141,12 +141,16 @@ private:
     void save();
 
     bool canTrigger() const;
+    bool canAltTrigger(InputContext *ic) const;
     bool canChangeGroup() const;
     bool trigger(InputContext *ic, bool totallyReleased);
+    bool altTrigger(InputContext *ic);
     bool activate(InputContext *ic);
     bool deactivate(InputContext *ic);
     bool enumerate(InputContext *ic, bool forward);
-    bool toggle(InputContext *ic);
+    bool toggle(
+        InputContext *ic,
+        InputMethodSwitchedReason reason = InputMethodSwitchedReason::Trigger);
 
     void activateInputMethod(InputContextEvent &event);
     void deactivateInputMethod(InputContextEvent &event);

@@ -84,7 +84,7 @@ InputContextProperty *InputContext::property(const std::string &name) {
 }
 
 InputContextProperty *
-InputContext::property(InputContextPropertyFactory *factory) {
+InputContext::property(const InputContextPropertyFactory *factory) {
     FCITX_D();
     return d->manager_.property(*this, factory);
 }

@@ -142,6 +142,8 @@ struct InputState : public InputContextProperty {
     std::unique_ptr<EventSourceTime> imInfoTimer_;
     std::string lastInfo_;
     std::string lastIM_;
+
+    bool lastIMChangeIsAltTrigger_ = false;
 };
 
 class CheckInputMethodChanged {
@@ -442,6 +444,9 @@ Instance::Instance(int argc, char **argv) {
                  [this, ic](bool totallyReleased) {
                      return trigger(ic, totallyReleased);
                  }},
+                {d->globalConfig_.altTriggerKeys(),
+                 [this, ic]() { return canAltTrigger(ic); },
+                 [this, ic](bool) { return altTrigger(ic); }},
                 {d->globalConfig_.activateKeys(),
                  [this]() { return canTrigger(); },
                  [this, ic](bool) { return activate(ic); }},
@@ -708,8 +713,15 @@ Instance::Instance(int argc, char **argv) {
             auto &icEvent =
                 static_cast<InputContextSwitchInputMethodEvent &>(event);
             auto ic = icEvent.inputContext();
-            if (!ic->hasFocus() ||
-                (icEvent.reason() != InputMethodSwitchedReason::Trigger &&
+            if (!ic->hasFocus()) {
+                return;
+            }
+
+            auto inputState = ic->propertyFor(&d->inputStateFactory);
+            inputState->lastIMChangeIsAltTrigger_ =
+                icEvent.reason() == InputMethodSwitchedReason::AltTrigger;
+
+            if ((icEvent.reason() != InputMethodSwitchedReason::Trigger &&
                  icEvent.reason() != InputMethodSwitchedReason::Enumerate &&
                  icEvent.reason() != InputMethodSwitchedReason::Activate &&
                  icEvent.reason() != InputMethodSwitchedReason::Other &&
@@ -1221,12 +1233,24 @@ bool Instance::canTrigger() const {
     return (imManager.currentGroup().inputMethodList().size() > 1);
 }
 
+bool Instance::canAltTrigger(InputContext *ic) const {
+    if (!canTrigger()) {
+        return false;
+    }
+    FCITX_D();
+    auto inputState = ic->propertyFor(&d->inputStateFactory);
+    if (inputState->active_) {
+        return true;
+    }
+    return inputState->lastIMChangeIsAltTrigger_;
+}
+
 bool Instance::canChangeGroup() const {
     auto &imManager = inputMethodManager();
     return (imManager.groupCount() > 1);
 }
 
-bool Instance::toggle(InputContext *ic) {
+bool Instance::toggle(InputContext *ic, InputMethodSwitchedReason reason) {
     FCITX_D();
     auto inputState = ic->propertyFor(&d->inputStateFactory);
     if (!canTrigger()) {
@@ -1234,7 +1258,7 @@ bool Instance::toggle(InputContext *ic) {
     }
     inputState->active_ = !inputState->active_;
     if (inputState->imChanged_) {
-        inputState->imChanged_->setReason(InputMethodSwitchedReason::Trigger);
+        inputState->imChanged_->setReason(reason);
     }
     return true;
 }
@@ -1258,6 +1282,15 @@ bool Instance::trigger(InputContext *ic, bool totallyReleased) {
         }
         inputState->firstTrigger_ = false;
     }
+    return true;
+}
+
+bool Instance::altTrigger(InputContext *ic) {
+    if (!canAltTrigger(ic)) {
+        return false;
+    }
+
+    toggle(ic, InputMethodSwitchedReason::AltTrigger);
     return true;
 }
 

@@ -332,7 +332,7 @@ InputContextManager::factoryForName(const std::string &name) {
 }
 InputContextProperty *
 InputContextManager::property(InputContext &inputContext,
-                              InputContextPropertyFactory *factory) {
+                              const InputContextPropertyFactory *factory) {
     assert(factory->d_func()->manager_ == this);
     return InputContextManagerPrivate::toInputContextPrivate(inputContext)
         ->property(factory->d_func()->slot_);

@@ -85,7 +85,7 @@ public:
                              bool immediate = false);
 
     InputContextProperty *property(const std::string &name);
-    InputContextProperty *property(InputContextPropertyFactory *factory);
+    InputContextProperty *property(const InputContextPropertyFactory *factory);
 
     InputPanel &inputPanel();
     StatusArea &statusArea();
@@ -96,7 +96,7 @@ public:
     }
 
     template <typename T>
-    typename T::PropertyType *propertyFor(T *factory) {
+    typename T::PropertyType *propertyFor(const T *factory) {
         return static_cast<typename T::PropertyType *>(property(factory));
     }
 

@@ -116,6 +116,11 @@ const KeyList &GlobalConfig::triggerKeys() const {
     return *d->hotkey->triggerKeys;
 }
 
+const KeyList &GlobalConfig::altTriggerKeys() const {
+    FCITX_D();
+    return *d->hotkey->altTriggerKeys;
+}
+
 const KeyList &GlobalConfig::activateKeys() const {
     FCITX_D();
     return *d->hotkey->activateKeys;
