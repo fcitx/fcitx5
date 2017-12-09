@@ -236,12 +236,17 @@ void XCBKeyboard::initDefaultLayout() {
     conn_->instance()->setXkbParameters(conn_->focusGroup()->display(),
                                         names[0], names[1], names[4]);
 
+    FCITX_DEBUG() << names[0] << " " << names[1] << " " << names[2] << " "
+                  << names[3] << " " << names[4];
+
     if (!names[0].empty()) {
         xkbRule_ = names[0];
         xkbModel_ = names[1];
         xkbOptions_ = names[4];
-        defaultLayouts_ = stringutils::split(names[2], ",");
-        defaultVariants_ = stringutils::split(names[3], ",");
+        defaultLayouts_ = stringutils::split(
+            names[2], ",", stringutils::SplitBehavior::KeepEmpty);
+        defaultVariants_ = stringutils::split(
+            names[3], ",", stringutils::SplitBehavior::KeepEmpty);
     } else {
         xkbRule_ = DEFAULT_XKB_RULES;
         xkbModel_ = "pc101";
@@ -253,8 +258,11 @@ void XCBKeyboard::initDefaultLayout() {
 
 int XCBKeyboard::findLayoutIndex(const std::string &layout,
                                  const std::string &variant) {
+    FCITX_DEBUG() << "findLayoutIndex layout:" << layout
+                  << " variant:" << variant;
+    FCITX_DEBUG() << "defaultLayouts:" << defaultLayouts_;
+    FCITX_DEBUG() << "defaultVariants:" << defaultVariants_;
     for (size_t i = 0; i < defaultLayouts_.size(); i++) {
-
         if (defaultLayouts_[i] == layout &&
             ((i < defaultVariants_.size() && variant == defaultVariants_[i]) ||
              (i >= defaultVariants_.size() && variant.empty()))) {
@@ -470,10 +478,12 @@ bool XCBKeyboard::setLayoutByName(const std::string &layout,
         return false;
     }
 
+    FCITX_DEBUG() << "Lock group " << index;
     auto addon = conn_->instance()->addonManager().addon("dbus", true);
     if (!addon || !addon->call<IDBusModule::lockGroup>(index)) {
         xcb_xkb_latch_lock_state(connection(), XCB_XKB_ID_USE_CORE_KBD, 0, 0,
                                  true, index, 0, false, 0);
+        xcb_flush(connection());
     }
     return true;
 }

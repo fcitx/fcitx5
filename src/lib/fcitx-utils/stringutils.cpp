@@ -124,20 +124,37 @@ std::string trim(const std::string &str) {
     return std::string(str.begin() + pair.first, str.begin() + pair.second);
 }
 
-std::vector<std::string> split(const std::string &str,
-                               const std::string &delim) {
+std::vector<std::string> split(const std::string &str, const std::string &delim,
+                               SplitBehavior behavior) {
     std::vector<std::string> strings;
 
-    auto lastPos = str.find_first_not_of(delim, 0);
-    auto pos = str.find_first_of(delim, lastPos);
+    std::string::size_type lastPos, pos;
+    if (behavior == SplitBehavior::SkipEmpty) {
+        lastPos = str.find_first_not_of(delim, 0);
+    } else {
+        lastPos = 0;
+    }
+    pos = str.find_first_of(delim, lastPos);
 
     while (std::string::npos != pos || std::string::npos != lastPos) {
         strings.push_back(str.substr(lastPos, pos - lastPos));
-        lastPos = str.find_first_not_of(delim, pos);
+        if (behavior == SplitBehavior::SkipEmpty) {
+            lastPos = str.find_first_not_of(delim, pos);
+        } else {
+            if (pos == std::string::npos) {
+                break;
+            }
+            lastPos = pos + 1;
+        }
         pos = str.find_first_of(delim, lastPos);
     }
 
     return strings;
+}
+
+std::vector<std::string> split(const std::string &str,
+                               const std::string &delim) {
+    return split(str, delim, SplitBehavior::SkipEmpty);
 }
 
 #define MAX_REPLACE_INDICES_NUM 128

@@ -108,5 +108,15 @@ int main() {
     FCITX_ASSERT(stringutils::joinPath("///") == "///");
     FCITX_ASSERT(stringutils::joinPath("abc") == "abc");
 
+    FCITX_ASSERT(stringutils::split(",dvorak", ",",
+                                    stringutils::SplitBehavior::KeepEmpty) ==
+                 (std::vector<std::string>{"", "dvorak"}));
+    FCITX_ASSERT(stringutils::split(",dvorak,,", ",",
+                                    stringutils::SplitBehavior::KeepEmpty) ==
+                 (std::vector<std::string>{"", "dvorak", "", ""}));
+    FCITX_ASSERT(stringutils::split("dvorak", ",",
+                                    stringutils::SplitBehavior::KeepEmpty) ==
+                 (std::vector<std::string>{"dvorak"}));
+
     return 0;
 }

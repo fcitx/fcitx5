@@ -126,17 +126,19 @@ public:
         const std::string &groupName, const std::string &defaultLayout,
         const std::vector<DBusStruct<std::string, std::string>> &entries) {
         auto &imManager = instance_->inputMethodManager();
-        if (imManager.group(groupName)) {
-            InputMethodGroup group(groupName);
-            group.setDefaultLayout(defaultLayout);
-            for (auto &entry : entries) {
-                group.inputMethodList().push_back(
-                    InputMethodGroupItem(std::get<0>(entry))
-                        .setLayout(std::get<1>(entry)));
-            }
-            group.setDefaultInputMethod("");
-            imManager.setGroup(std::move(group));
+        if (!imManager.group(groupName)) {
+            return;
         }
+        InputMethodGroup group(groupName);
+        group.setDefaultLayout(defaultLayout);
+        for (auto &entry : entries) {
+            group.inputMethodList().push_back(
+                InputMethodGroupItem(std::get<0>(entry))
+                    .setLayout(std::get<1>(entry)));
+        }
+        group.setDefaultInputMethod("");
+        imManager.setGroup(std::move(group));
+        imManager.save();
     }
 
     std::vector<DBusStruct<std::string, std::string, std::vector<std::string>,
