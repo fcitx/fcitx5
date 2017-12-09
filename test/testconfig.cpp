@@ -34,6 +34,14 @@ int main() {
     fcitx::RawConfig rawConfig;
     config.save(rawConfig);
 
+    FCITX_ASSERT(*config.intVector == std::vector<int>{0});
+    *config.intVector.mutableValue() = std::vector<int>{1, 2};
+    FCITX_ASSERT((*config.intVector == std::vector<int>{1, 2}));
+    *config.intVector.mutableValue() = std::vector<int>{-1, 2};
+    FCITX_INFO() << *config.intVector;
+    // Invalid value is not set.
+    FCITX_ASSERT((*config.intVector == std::vector<int>{1, 2}));
+
     fcitx::writeAsIni(rawConfig, stdout);
 
     FCITX_ASSERT(*rawConfig.valueByPath("IntOption") == "0");

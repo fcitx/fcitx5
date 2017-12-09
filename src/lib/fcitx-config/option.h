@@ -69,6 +69,7 @@ private:
 
 template <typename T>
 struct NoConstrain {
+    using Type = T;
     bool check(const T &) const { return true; }
     void dumpDescription(RawConfig &) const {}
 };
@@ -85,8 +86,29 @@ struct HideInDescription {
     void dumpDescription(RawConfig &) const {}
 };
 
+template <typename SubConstrain>
+struct ListConstrain {
+    ListConstrain(SubConstrain sub = SubConstrain()) : sub_(std::move(sub)) {}
+
+    using ElementType = typename SubConstrain::Type;
+    using Type = std::vector<ElementType>;
+    bool check(const Type &value) {
+        return std::all_of(
+            value.begin(), value.end(),
+            [this](const ElementType &ele) { return sub_.check(ele); });
+    }
+
+    void dumpDescription(RawConfig &config) const {
+        sub_.dumpDescription(*config.get("ListConstrain", true));
+    }
+
+private:
+    SubConstrain sub_;
+};
+
 class IntConstrain {
 public:
+    using Type = int;
     IntConstrain(int min = std::numeric_limits<int>::min(),
                  int max = std::numeric_limits<int>::max())
         : min_(min), max_(max) {}

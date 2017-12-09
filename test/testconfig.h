@@ -66,6 +66,10 @@ FCITX_CONFIGURATION(
     fcitx::Option<std::vector<std::string>> stringVectorValue{
         this, "StringVectorOption", "String Option",
         std::vector<std::string>({"ABC", "CDE"})};
+    fcitx::Option<std::vector<int>, fcitx::ListConstrain<fcitx::IntConstrain>>
+        intVector{
+            this, "IntVectorOption", "Int Vector", std::vector<int>{0},
+            fcitx::ListConstrain<fcitx::IntConstrain>(fcitx::IntConstrain(0))};
     fcitx::Option<fcitx::I18NString> i18nStringValue{this, "I18NString",
                                                      "I18NString"};
     fcitx::Option<TestSubConfig> subConfigValue{this, "SubConfigOption",
