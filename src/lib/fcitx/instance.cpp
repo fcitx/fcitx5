@@ -45,6 +45,10 @@
 #include <xkbcommon/xkbcommon-compose.h>
 #include <xkbcommon/xkbcommon.h>
 
+FCITX_DEFINE_LOG_CATEGORY(keyTrace, "keyTrace");
+
+#define FCITX_KEYTRACE() FCITX_LOGC(keyTrace, Debug)
+
 namespace {
 
 void initAsDaemon() {
@@ -480,6 +484,11 @@ Instance::Instance(int argc, char **argv) {
             };
 
             auto inputState = ic->propertyFor(&d->inputStateFactory);
+            int keyReleased = inputState->keyReleased_;
+            int keyReleasedIndex = inputState->keyReleasedIndex_;
+            // Keep these two values, and reset them in the state
+            inputState->keyReleased_ = -1;
+            inputState->keyReleasedIndex_ = -2;
             const bool isModifier = keyEvent.origKey().isModifier();
             if (keyEvent.isRelease()) {
                 int idx = 0;
@@ -489,8 +498,8 @@ Instance::Instance(int argc, char **argv) {
                     inputState->totallyReleased_ = true;
                 }
                 for (auto &keyHandler : keyHandlers) {
-                    if (inputState->keyReleased_ == idx &&
-                        inputState->keyReleasedIndex_ ==
+                    if (keyReleased == idx &&
+                        keyReleasedIndex ==
                             keyEvent.origKey().keyListIndex(keyHandler.list) &&
                         keyHandler.check()) {
                         if (isModifier) {
@@ -509,8 +518,6 @@ Instance::Instance(int argc, char **argv) {
 
             if (!keyEvent.filtered() && !keyEvent.isRelease()) {
                 int idx = 0;
-                inputState->keyReleased_ = -1;
-                inputState->keyReleasedIndex_ = -2;
                 for (auto &keyHandler : keyHandlers) {
                     auto keyIdx =
                         keyEvent.origKey().keyListIndex(keyHandler.list);
@@ -540,6 +547,8 @@ Instance::Instance(int argc, char **argv) {
             auto ic = keyEvent.inputContext();
             auto inputState = ic->propertyFor(&d->inputStateFactory);
             auto xkbState = inputState->customXkbState();
+            FCITX_KEYTRACE() << "KeyEvent: " << keyEvent.key()
+                             << " Release:" << keyEvent.isRelease();
             if (xkbState) {
                 if (auto mods = findValue(d->stateMask_, ic->display())) {
                     FCITX_LOG(Debug) << "Update mask to customXkbState";
@@ -722,6 +731,7 @@ Instance::Instance(int argc, char **argv) {
                 icEvent.reason() == InputMethodSwitchedReason::AltTrigger;
 
             if ((icEvent.reason() != InputMethodSwitchedReason::Trigger &&
+                 icEvent.reason() != InputMethodSwitchedReason::AltTrigger &&
                  icEvent.reason() != InputMethodSwitchedReason::Enumerate &&
                  icEvent.reason() != InputMethodSwitchedReason::Activate &&
                  icEvent.reason() != InputMethodSwitchedReason::Other &&
