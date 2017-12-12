@@ -3,12 +3,13 @@
 # This file is distributed under the same license as the fcitx5 package.
 #
 # Translators:
+# Robert Antoni Buj Gelonch <rbuj@fedoraproject.org>, 2017
 # csslayer <wengxt@gmail.com>, 2017
 msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2017-11-24 10:15-0800\n"
+"POT-Creation-Date: 2017-12-12 09:51-0800\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: csslayer <wengxt@gmail.com>, 2017\n"
 "Language-Team: Catalan (https://www.transifex.com/fcitx/teams/12005/ca/)\n"
@@ -18,9 +19,9 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: src/lib/fcitx/instance.cpp:1496
+#: src/lib/fcitx/instance.cpp:1547
 msgid "(Not available)"
-msgstr ""
+msgstr "(no disponible)"
 
 #: src/modules/unicode/charselectdata.cpp:216
 msgid "<Low Surrogate>"
@@ -44,15 +45,15 @@ msgstr "<no assignat>"
 
 #: src/lib/fcitx/globalconfig.cpp:60
 msgid "Activate Input Method"
-msgstr ""
+msgstr "Activa el mètode d'entrada"
 
 #: src/lib/fcitx/globalconfig.cpp:75
 msgid "Active By Default"
-msgstr ""
+msgstr "Activa per defecte"
 
 #: src/modules/unicode/unicode.conf.in:4
 msgid "Add Unicode Typing Support"
-msgstr "Afegeix suport per a l'escriptura unicode"
+msgstr "Afegeix la compatibilitat amb l'escriptura unicode"
 
 #: src/im/keyboard/keyboard.h:42 src/modules/quickphrase/quickphrase.h:39
 msgid "Alt"
@@ -64,31 +65,37 @@ msgstr ""
 
 #: src/lib/fcitx/globalconfig.cpp:90
 msgid "Behavior"
+msgstr "Comportament"
+
+#: data/fcitx5-configtool.desktop.in.in:5
+msgid "Change Fcitx 5 Configuration"
 msgstr ""
 
 #: src/ui/classic/classicui.conf.in:3
 msgid "Classic User Inteface"
-msgstr ""
+msgstr "Interfície d'usuari clàssica"
 
 #: src/modules/clipboard/clipboard.conf.in:3
 msgid "Clipboard"
-msgstr ""
+msgstr "Porta-retalls"
 
 #: src/modules/clipboard/clipboard.cpp:287
 msgid "Clipboard:"
-msgstr ""
+msgstr "Porta-retalls:"
 
+#: src/ui/classic/xcbtraywindow.cpp:53
 #: src/modules/notificationitem/dbusmenu.cpp:280
 msgid "Configure"
 msgstr "Configura"
 
+#: src/ui/classic/xcbtraywindow.cpp:52
 #: src/modules/notificationitem/dbusmenu.cpp:275
 msgid "Configure Current Input Method"
-msgstr "Configura el mètode actual d'entrada"
+msgstr "Configura el mètode d'entrada actual"
 
 #: src/im/keyboard/keyboard.h:43 src/modules/quickphrase/quickphrase.h:39
 msgid "Control"
-msgstr ""
+msgstr "Control"
 
 #: src/modules/spell/spell.h:34
 msgid "Custom"
@@ -100,11 +107,15 @@ msgstr "DBus"
 
 #: src/frontend/dbusfrontend/dbusfrontend.conf.in:3
 msgid "DBus Frontend"
+msgstr "Frontal DBus"
+
+#: src/modules/notificationitem/notificationitem.conf.in:4
+msgid "DBus based new Freedesktop.org tray icon"
 msgstr ""
 
 #: src/lib/fcitx/globalconfig.cpp:66
 msgid "Deactivate Input Method"
-msgstr ""
+msgstr "Desactiva el mètode d'entrada"
 
 #: src/lib/fcitx/inputmethodmanager.cpp:200
 #: src/ui/classic/themes/default/theme.conf.in:3
@@ -113,11 +124,11 @@ msgstr "Per defecte"
 
 #: src/lib/fcitx/globalconfig.cpp:71
 msgid "Default Next page"
-msgstr ""
+msgstr "Av Pàg predeterminat"
 
 #: src/lib/fcitx/globalconfig.cpp:69
 msgid "Default Previous page"
-msgstr ""
+msgstr "Re Pàg predeterminat"
 
 #: src/lib/fcitx/globalconfig.cpp:80
 msgid "Default page size"
@@ -129,7 +140,7 @@ msgstr "No ho mostris un altre cop"
 
 #: src/modules/spell/spell.h:35
 msgid "Enchant"
-msgstr ""
+msgstr "Enchant"
 
 #: src/lib/fcitx/globalconfig.cpp:46
 msgid "Enumerate Input Method Backward"
@@ -147,17 +158,31 @@ msgstr ""
 msgid "Enumerate Input Method Group Forward"
 msgstr ""
 
+#: src/ui/classic/xcbtraywindow.cpp:55
 #: src/modules/notificationitem/dbusmenu.cpp:293
 msgid "Exit"
 msgstr "Surt"
 
-#: src/modules/notificationitem/dbusmenu.cpp:265
-msgid "Group"
+#: data/fcitx5.desktop.in.in:3
+msgid "Fcitx 5"
 msgstr ""
 
-#: src/lib/fcitx/instance.cpp:1499
-msgid "Group {0}: {1}"
+#: data/fcitx5-configtool.desktop.in.in:3
+msgid "Fcitx 5 Configuration"
 msgstr ""
+
+#: src/modules/notifications/notifications.conf.in:4
+msgid "Freedesktop.org Notification Support"
+msgstr ""
+
+#: src/ui/classic/xcbtraywindow.cpp:48
+#: src/modules/notificationitem/dbusmenu.cpp:265
+msgid "Group"
+msgstr "Grup"
+
+#: src/lib/fcitx/instance.cpp:1550
+msgid "Group {0}: {1}"
+msgstr "Grup {0}: {1}"
 
 #: src/lib/fcitx/globalconfig.cpp:88
 msgid "Hotkey"
@@ -165,28 +190,34 @@ msgstr "Drecera de teclat"
 
 #: src/frontend/ibusfrontend/ibusfrontend.conf.in:3
 msgid "IBus Frontend"
-msgstr ""
+msgstr "Frontal DBus"
 
+#: src/ui/classic/xcbtraywindow.cpp:50
 #: src/modules/notificationitem/dbusmenu.cpp:259
 #: src/modules/notificationitem/notificationitem.cpp:102
+#: data/fcitx5.desktop.in.in:4
 msgid "Input Method"
 msgstr "Mètode d'entrada"
 
+#: data/fcitx5-configtool.desktop.in.in:4
+msgid "Input Method Configuration"
+msgstr ""
+
 #: src/ui/kimpanel/kimpanel.conf.in:3
 msgid "KDE Input Method Panel"
-msgstr ""
+msgstr "Tauler del mètode d'entrada de KDE"
 
 #: src/im/keyboard/keyboard.conf.in:3
 msgid "Keyboard"
 msgstr "Teclat"
 
-#: src/im/keyboard/keyboard.cpp:200
+#: src/im/keyboard/keyboard.cpp:199
 msgid "Keyboard - {0}"
-msgstr ""
+msgstr "Teclat - {0}"
 
-#: src/im/keyboard/keyboard.cpp:214
+#: src/im/keyboard/keyboard.cpp:213
 msgid "Keyboard - {0} - {1}"
-msgstr ""
+msgstr "Teclat - {0} - {1}"
 
 #: src/modules/clipboard/clipboard.cpp:289
 msgid "No clipboard history."
@@ -198,6 +229,10 @@ msgstr "Cap"
 
 #: src/ui/kimpanel/kimpanel.cpp:309
 msgid "Not available"
+msgstr "No disponible"
+
+#: src/modules/notifications/notifications.conf.in:3
+msgid "Notification"
 msgstr ""
 
 #: src/modules/spell/spell.h:34
@@ -206,12 +241,13 @@ msgstr ""
 
 #: src/modules/quickphrase/quickphrase.conf.in:3
 msgid "Quick Phrase"
-msgstr ""
+msgstr "Frase ràpida"
 
-#: src/modules/quickphrase/quickphrase.cpp:283
+#: src/modules/quickphrase/quickphrase.cpp:285
 msgid "Quick Phrase: "
 msgstr "Frase ràpida:"
 
+#: src/ui/classic/xcbtraywindow.cpp:54
 #: src/modules/notificationitem/dbusmenu.cpp:287
 msgid "Restart"
 msgstr "Reinicia"
@@ -228,17 +264,25 @@ msgstr ""
 msgid "Spell"
 msgstr "Ortografia"
 
-#: src/im/keyboard/keyboard.cpp:304
+#: src/im/keyboard/keyboard.cpp:303
 msgid "Spell hint"
-msgstr "Pista d'ortografia"
-
-#: src/im/keyboard/keyboard.cpp:306
-msgid "Spell hint is disabled."
-msgstr "S'han desactivat les pistes d'ortografia"
+msgstr "Suggeriment d'escriptura"
 
 #: src/im/keyboard/keyboard.cpp:305
+msgid "Spell hint is disabled."
+msgstr "El suggeriment d'escriptura està inhabilitat."
+
+#: src/im/keyboard/keyboard.cpp:304
 msgid "Spell hint is enabled."
-msgstr "S'han activat les pistes d'ortografia"
+msgstr "El suggeriment d'escriptura està habilitat."
+
+#: data/fcitx5.desktop.in.in:5
+msgid "Start Input Method"
+msgstr ""
+
+#: src/modules/notificationitem/notificationitem.conf.in:3
+msgid "Status Notifier"
+msgstr ""
 
 #: src/im/keyboard/keyboard.h:43 src/modules/quickphrase/quickphrase.h:39
 msgid "Super"
@@ -250,15 +294,15 @@ msgstr "Activa el mètode d'entrada"
 
 #: src/modules/unicode/unicode.conf.in:3
 msgid "Unicode"
-msgstr ""
+msgstr "Unicode"
 
 #: src/modules/unicode/unicode.cpp:244
 msgid "Unicode: "
-msgstr ""
+msgstr "Unicode: "
 
 #: src/modules/wayland/wayland.conf.in:3
 msgid "Wayland"
-msgstr ""
+msgstr "Wayland"
 
 #: src/frontend/waylandim/waylandim.conf.in:3
 msgid "Wayland Input method frontend"
@@ -270,20 +314,30 @@ msgstr ""
 
 #: src/modules/xcb/xcb.conf.in:3
 msgid "XCB"
+msgstr "XCB"
+
+#: data/fcitx5-configtool.sh:140
+msgid ""
+"You're currently running Fcitx with GUI, but fcitx-configtool couldn't be "
+"found, the package name is usually fcitx-config-gtk, fcitx-config-gtk3 or "
+"fcitx-configtool. Now it will open config file with default text editor."
 msgstr ""
 
-#: src/modules/notificationitem/notificationitem.conf.in:3
-msgid "notificationitem"
+#: data/fcitx5-configtool.sh:137
+msgid ""
+"You're currently running KDE, but KCModule for fcitx couldn't be found, the "
+"package name of this KCModule is usually kcm-fcitx or kde-config-fcitx. Now "
+"it will open config file with default text editor."
 msgstr ""
 
-#: src/modules/notifications/notifications.conf.in:3
-msgid "notifications"
+#: data/fcitx5.desktop.in.in:7 data/fcitx5-configtool.desktop.in.in:7
+msgid "fcitx"
 msgstr ""
 
-#: src/lib/fcitx/instance.cpp:1494
+#: src/lib/fcitx/instance.cpp:1545
 msgid "{0} (Not available)"
-msgstr ""
+msgstr "{0} (no disponible)"
 
-#: src/lib/fcitx/instance.cpp:1491
+#: src/lib/fcitx/instance.cpp:1542
 msgid "{0} ({1})"
-msgstr ""
+msgstr "{0} ({1})"

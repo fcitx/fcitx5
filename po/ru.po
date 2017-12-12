@@ -4,13 +4,14 @@
 #
 # Translators:
 # csslayer <wengxt@gmail.com>, 2017
+# TotalCaesar659 <x24cm5b8c54q6szxw@yandex.ru>, 2017
 msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2017-11-24 10:15-0800\n"
+"POT-Creation-Date: 2017-12-12 09:51-0800\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: csslayer <wengxt@gmail.com>, 2017\n"
+"Last-Translator: TotalCaesar659 <x24cm5b8c54q6szxw@yandex.ru>, 2017\n"
 "Language-Team: Russian (https://www.transifex.com/fcitx/teams/12005/ru/)\n"
 "Language: ru\n"
 "MIME-Version: 1.0\n"
@@ -20,9 +21,9 @@ msgstr ""
 "%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n"
 "%100>=11 && n%100<=14)? 2 : 3);\n"
 
-#: src/lib/fcitx/instance.cpp:1496
+#: src/lib/fcitx/instance.cpp:1547
 msgid "(Not available)"
-msgstr ""
+msgstr "(Недоступно)"
 
 #: src/modules/unicode/charselectdata.cpp:216
 msgid "<Low Surrogate>"
@@ -46,11 +47,11 @@ msgstr "<не назначен>"
 
 #: src/lib/fcitx/globalconfig.cpp:60
 msgid "Activate Input Method"
-msgstr ""
+msgstr "Активировать метод ввода"
 
 #: src/lib/fcitx/globalconfig.cpp:75
 msgid "Active By Default"
-msgstr ""
+msgstr "Активен по умолчанию"
 
 #: src/modules/unicode/unicode.conf.in:4
 msgid "Add Unicode Typing Support"
@@ -62,35 +63,41 @@ msgstr "Alt"
 
 #: src/lib/fcitx/globalconfig.cpp:38
 msgid "Alternative Trigger Input Method"
-msgstr ""
+msgstr "Альтернативная активация метода ввода"
 
 #: src/lib/fcitx/globalconfig.cpp:90
 msgid "Behavior"
+msgstr "Поведение"
+
+#: data/fcitx5-configtool.desktop.in.in:5
+msgid "Change Fcitx 5 Configuration"
 msgstr ""
 
 #: src/ui/classic/classicui.conf.in:3
 msgid "Classic User Inteface"
-msgstr ""
+msgstr "Классический интерфейс пользователя"
 
 #: src/modules/clipboard/clipboard.conf.in:3
 msgid "Clipboard"
-msgstr ""
+msgstr "Буфер обмена"
 
 #: src/modules/clipboard/clipboard.cpp:287
 msgid "Clipboard:"
-msgstr ""
+msgstr "Буфер обмена:"
 
+#: src/ui/classic/xcbtraywindow.cpp:53
 #: src/modules/notificationitem/dbusmenu.cpp:280
 msgid "Configure"
 msgstr "Настроить"
 
+#: src/ui/classic/xcbtraywindow.cpp:52
 #: src/modules/notificationitem/dbusmenu.cpp:275
 msgid "Configure Current Input Method"
 msgstr "Настроить текущий метод ввода"
 
 #: src/im/keyboard/keyboard.h:43 src/modules/quickphrase/quickphrase.h:39
 msgid "Control"
-msgstr ""
+msgstr "Управление"
 
 #: src/modules/spell/spell.h:34
 msgid "Custom"
@@ -102,11 +109,15 @@ msgstr "DBus"
 
 #: src/frontend/dbusfrontend/dbusfrontend.conf.in:3
 msgid "DBus Frontend"
+msgstr "Интерфейс DBus"
+
+#: src/modules/notificationitem/notificationitem.conf.in:4
+msgid "DBus based new Freedesktop.org tray icon"
 msgstr ""
 
 #: src/lib/fcitx/globalconfig.cpp:66
 msgid "Deactivate Input Method"
-msgstr ""
+msgstr "Деактивация метода ввода"
 
 #: src/lib/fcitx/inputmethodmanager.cpp:200
 #: src/ui/classic/themes/default/theme.conf.in:3
@@ -115,15 +126,15 @@ msgstr "По умолчанию"
 
 #: src/lib/fcitx/globalconfig.cpp:71
 msgid "Default Next page"
-msgstr ""
+msgstr "Следующая страница по умолчанию"
 
 #: src/lib/fcitx/globalconfig.cpp:69
 msgid "Default Previous page"
-msgstr ""
+msgstr "Предыдущая страница по умолчанию"
 
 #: src/lib/fcitx/globalconfig.cpp:80
 msgid "Default page size"
-msgstr ""
+msgstr "Размер страницы по умолчанию"
 
 #: src/modules/notifications/notifications.cpp:218
 msgid "Do not show again"
@@ -131,35 +142,49 @@ msgstr "Больше не показывать"
 
 #: src/modules/spell/spell.h:35
 msgid "Enchant"
-msgstr ""
+msgstr "Enchant"
 
 #: src/lib/fcitx/globalconfig.cpp:46
 msgid "Enumerate Input Method Backward"
-msgstr ""
+msgstr "Перечислить методы ввода в обратном порядке"
 
 #: src/lib/fcitx/globalconfig.cpp:42
 msgid "Enumerate Input Method Forward"
-msgstr ""
+msgstr "Перечислить методы ввода в прямом порядке"
 
 #: src/lib/fcitx/globalconfig.cpp:56
 msgid "Enumerate Input Method Group Backward"
-msgstr ""
+msgstr "Перечислить группы методов ввода в обратном порядке"
 
 #: src/lib/fcitx/globalconfig.cpp:51
 msgid "Enumerate Input Method Group Forward"
-msgstr ""
+msgstr "Перечислить группы методов ввода в прямом порядке"
 
+#: src/ui/classic/xcbtraywindow.cpp:55
 #: src/modules/notificationitem/dbusmenu.cpp:293
 msgid "Exit"
 msgstr "Выход"
 
-#: src/modules/notificationitem/dbusmenu.cpp:265
-msgid "Group"
+#: data/fcitx5.desktop.in.in:3
+msgid "Fcitx 5"
 msgstr ""
 
-#: src/lib/fcitx/instance.cpp:1499
-msgid "Group {0}: {1}"
+#: data/fcitx5-configtool.desktop.in.in:3
+msgid "Fcitx 5 Configuration"
 msgstr ""
+
+#: src/modules/notifications/notifications.conf.in:4
+msgid "Freedesktop.org Notification Support"
+msgstr ""
+
+#: src/ui/classic/xcbtraywindow.cpp:48
+#: src/modules/notificationitem/dbusmenu.cpp:265
+msgid "Group"
+msgstr "Группа"
+
+#: src/lib/fcitx/instance.cpp:1550
+msgid "Group {0}: {1}"
+msgstr "Группа {0}: {1}"
 
 #: src/lib/fcitx/globalconfig.cpp:88
 msgid "Hotkey"
@@ -167,32 +192,38 @@ msgstr "Горячая клавиша"
 
 #: src/frontend/ibusfrontend/ibusfrontend.conf.in:3
 msgid "IBus Frontend"
-msgstr ""
+msgstr "Интерфейс IBus"
 
+#: src/ui/classic/xcbtraywindow.cpp:50
 #: src/modules/notificationitem/dbusmenu.cpp:259
 #: src/modules/notificationitem/notificationitem.cpp:102
+#: data/fcitx5.desktop.in.in:4
 msgid "Input Method"
 msgstr "Метод ввода"
 
+#: data/fcitx5-configtool.desktop.in.in:4
+msgid "Input Method Configuration"
+msgstr ""
+
 #: src/ui/kimpanel/kimpanel.conf.in:3
 msgid "KDE Input Method Panel"
-msgstr ""
+msgstr "Панель метода ввода KDE"
 
 #: src/im/keyboard/keyboard.conf.in:3
 msgid "Keyboard"
 msgstr "Клавиатура"
 
-#: src/im/keyboard/keyboard.cpp:200
+#: src/im/keyboard/keyboard.cpp:199
 msgid "Keyboard - {0}"
-msgstr ""
+msgstr "Клавиатура - {0}"
 
-#: src/im/keyboard/keyboard.cpp:214
+#: src/im/keyboard/keyboard.cpp:213
 msgid "Keyboard - {0} - {1}"
-msgstr ""
+msgstr "Клавиатура - {0} - {1}"
 
 #: src/modules/clipboard/clipboard.cpp:289
 msgid "No clipboard history."
-msgstr ""
+msgstr "История буфера обмена отсутствует."
 
 #: src/im/keyboard/keyboard.h:42 src/modules/quickphrase/quickphrase.h:38
 msgid "None"
@@ -200,51 +231,64 @@ msgstr "Нет"
 
 #: src/ui/kimpanel/kimpanel.cpp:309
 msgid "Not available"
+msgstr "Недоступно"
+
+#: src/modules/notifications/notifications.conf.in:3
+msgid "Notification"
 msgstr ""
 
 #: src/modules/spell/spell.h:34
 msgid "Presage"
-msgstr ""
+msgstr "Presage"
 
 #: src/modules/quickphrase/quickphrase.conf.in:3
 msgid "Quick Phrase"
-msgstr ""
-
-#: src/modules/quickphrase/quickphrase.cpp:283
-msgid "Quick Phrase: "
 msgstr "Быстрая фраза"
 
+#: src/modules/quickphrase/quickphrase.cpp:285
+msgid "Quick Phrase: "
+msgstr "Быстрая фраза:"
+
+#: src/ui/classic/xcbtraywindow.cpp:54
 #: src/modules/notificationitem/dbusmenu.cpp:287
 msgid "Restart"
 msgstr "Перезапустить"
 
 #: src/lib/fcitx/globalconfig.cpp:78
 msgid "Show Input Method Information when switch input method"
-msgstr ""
+msgstr "Показывать информацию о методе ввода при переключении"
 
 #: src/ui/simpleui/simpleui.conf.in:3
 msgid "Simple UI for testing"
-msgstr ""
+msgstr "Простой графический интерфейс для тестирования"
 
 #: src/modules/spell/spell.conf.in:3
 msgid "Spell"
 msgstr "Подсказки"
 
-#: src/im/keyboard/keyboard.cpp:304
+#: src/im/keyboard/keyboard.cpp:303
 msgid "Spell hint"
 msgstr "Подсказки по написанию"
 
-#: src/im/keyboard/keyboard.cpp:306
+#: src/im/keyboard/keyboard.cpp:305
 msgid "Spell hint is disabled."
 msgstr "Подсказки по написанию отключены."
 
-#: src/im/keyboard/keyboard.cpp:305
+#: src/im/keyboard/keyboard.cpp:304
 msgid "Spell hint is enabled."
 msgstr "Подсказки по написанию включены."
 
+#: data/fcitx5.desktop.in.in:5
+msgid "Start Input Method"
+msgstr ""
+
+#: src/modules/notificationitem/notificationitem.conf.in:3
+msgid "Status Notifier"
+msgstr ""
+
 #: src/im/keyboard/keyboard.h:43 src/modules/quickphrase/quickphrase.h:39
 msgid "Super"
-msgstr ""
+msgstr "Super"
 
 #: src/lib/fcitx/globalconfig.cpp:34
 msgid "Trigger Input Method"
@@ -252,40 +296,50 @@ msgstr "Активация метода ввода"
 
 #: src/modules/unicode/unicode.conf.in:3
 msgid "Unicode"
-msgstr ""
+msgstr "Unicode"
 
 #: src/modules/unicode/unicode.cpp:244
 msgid "Unicode: "
-msgstr ""
+msgstr "Unicode: "
 
 #: src/modules/wayland/wayland.conf.in:3
 msgid "Wayland"
-msgstr ""
+msgstr "Wayland"
 
 #: src/frontend/waylandim/waylandim.conf.in:3
 msgid "Wayland Input method frontend"
-msgstr ""
+msgstr "Интерфейс метода ввода Wayland"
 
 #: src/frontend/xim/xim.conf.in:3
 msgid "X Input Method Frontend"
-msgstr ""
+msgstr "Интерфейс метода ввода X"
 
 #: src/modules/xcb/xcb.conf.in:3
 msgid "XCB"
+msgstr "XCB"
+
+#: data/fcitx5-configtool.sh:140
+msgid ""
+"You're currently running Fcitx with GUI, but fcitx-configtool couldn't be "
+"found, the package name is usually fcitx-config-gtk, fcitx-config-gtk3 or "
+"fcitx-configtool. Now it will open config file with default text editor."
 msgstr ""
 
-#: src/modules/notificationitem/notificationitem.conf.in:3
-msgid "notificationitem"
+#: data/fcitx5-configtool.sh:137
+msgid ""
+"You're currently running KDE, but KCModule for fcitx couldn't be found, the "
+"package name of this KCModule is usually kcm-fcitx or kde-config-fcitx. Now "
+"it will open config file with default text editor."
 msgstr ""
 
-#: src/modules/notifications/notifications.conf.in:3
-msgid "notifications"
+#: data/fcitx5.desktop.in.in:7 data/fcitx5-configtool.desktop.in.in:7
+msgid "fcitx"
 msgstr ""
 
-#: src/lib/fcitx/instance.cpp:1494
+#: src/lib/fcitx/instance.cpp:1545
 msgid "{0} (Not available)"
-msgstr ""
+msgstr "{0} (Недоступно)"
 
-#: src/lib/fcitx/instance.cpp:1491
+#: src/lib/fcitx/instance.cpp:1542
 msgid "{0} ({1})"
-msgstr ""
+msgstr "{0} ({1})"

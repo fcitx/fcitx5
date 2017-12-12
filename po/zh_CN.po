@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2017-11-24 10:15-0800\n"
+"POT-Creation-Date: 2017-12-12 09:51-0800\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: csslayer <wengxt@gmail.com>, 2017\n"
 "Language-Team: Chinese (China) (https://www.transifex.com/fcitx/teams/12005/"
@@ -19,7 +19,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
-#: src/lib/fcitx/instance.cpp:1496
+#: src/lib/fcitx/instance.cpp:1547
 msgid "(Not available)"
 msgstr "(不可用)"
 
@@ -67,6 +67,10 @@ msgstr ""
 msgid "Behavior"
 msgstr "行为"
 
+#: data/fcitx5-configtool.desktop.in.in:5
+msgid "Change Fcitx 5 Configuration"
+msgstr ""
+
 #: src/ui/classic/classicui.conf.in:3
 msgid "Classic User Inteface"
 msgstr "经典用户界面"
@@ -79,10 +83,12 @@ msgstr "剪贴板"
 msgid "Clipboard:"
 msgstr "剪贴板："
 
+#: src/ui/classic/xcbtraywindow.cpp:53
 #: src/modules/notificationitem/dbusmenu.cpp:280
 msgid "Configure"
 msgstr "配置"
 
+#: src/ui/classic/xcbtraywindow.cpp:52
 #: src/modules/notificationitem/dbusmenu.cpp:275
 msgid "Configure Current Input Method"
 msgstr "配置当前输入法"
@@ -102,6 +108,10 @@ msgstr "DBus"
 #: src/frontend/dbusfrontend/dbusfrontend.conf.in:3
 msgid "DBus Frontend"
 msgstr "DBus 前端"
+
+#: src/modules/notificationitem/notificationitem.conf.in:4
+msgid "DBus based new Freedesktop.org tray icon"
+msgstr ""
 
 #: src/lib/fcitx/globalconfig.cpp:66
 msgid "Deactivate Input Method"
@@ -148,15 +158,29 @@ msgstr "向后切换输入法分组"
 msgid "Enumerate Input Method Group Forward"
 msgstr "向前切换输入分组"
 
+#: src/ui/classic/xcbtraywindow.cpp:55
 #: src/modules/notificationitem/dbusmenu.cpp:293
 msgid "Exit"
 msgstr "退出"
 
+#: data/fcitx5.desktop.in.in:3
+msgid "Fcitx 5"
+msgstr ""
+
+#: data/fcitx5-configtool.desktop.in.in:3
+msgid "Fcitx 5 Configuration"
+msgstr ""
+
+#: src/modules/notifications/notifications.conf.in:4
+msgid "Freedesktop.org Notification Support"
+msgstr ""
+
+#: src/ui/classic/xcbtraywindow.cpp:48
 #: src/modules/notificationitem/dbusmenu.cpp:265
 msgid "Group"
 msgstr "分组"
 
-#: src/lib/fcitx/instance.cpp:1499
+#: src/lib/fcitx/instance.cpp:1550
 msgid "Group {0}: {1}"
 msgstr "分组 {0}：{1}"
 
@@ -168,10 +192,16 @@ msgstr "快捷键"
 msgid "IBus Frontend"
 msgstr "IBus 前端"
 
+#: src/ui/classic/xcbtraywindow.cpp:50
 #: src/modules/notificationitem/dbusmenu.cpp:259
 #: src/modules/notificationitem/notificationitem.cpp:102
+#: data/fcitx5.desktop.in.in:4
 msgid "Input Method"
 msgstr "输入法"
+
+#: data/fcitx5-configtool.desktop.in.in:4
+msgid "Input Method Configuration"
+msgstr ""
 
 #: src/ui/kimpanel/kimpanel.conf.in:3
 msgid "KDE Input Method Panel"
@@ -181,11 +211,11 @@ msgstr "KDE 输入法面板"
 msgid "Keyboard"
 msgstr "键盘"
 
-#: src/im/keyboard/keyboard.cpp:200
+#: src/im/keyboard/keyboard.cpp:199
 msgid "Keyboard - {0}"
 msgstr "键盘 - {0}"
 
-#: src/im/keyboard/keyboard.cpp:214
+#: src/im/keyboard/keyboard.cpp:213
 msgid "Keyboard - {0} - {1}"
 msgstr "键盘 - {0} - {1}"
 
@@ -201,6 +231,10 @@ msgstr "无"
 msgid "Not available"
 msgstr "不可用"
 
+#: src/modules/notifications/notifications.conf.in:3
+msgid "Notification"
+msgstr ""
+
 #: src/modules/spell/spell.h:34
 msgid "Presage"
 msgstr "Presage"
@@ -209,10 +243,11 @@ msgstr "Presage"
 msgid "Quick Phrase"
 msgstr "快速输入"
 
-#: src/modules/quickphrase/quickphrase.cpp:283
+#: src/modules/quickphrase/quickphrase.cpp:285
 msgid "Quick Phrase: "
 msgstr "快速输入: "
 
+#: src/ui/classic/xcbtraywindow.cpp:54
 #: src/modules/notificationitem/dbusmenu.cpp:287
 msgid "Restart"
 msgstr "重新启动"
@@ -229,17 +264,25 @@ msgstr "用于测试的简单界面"
 msgid "Spell"
 msgstr "拼写"
 
-#: src/im/keyboard/keyboard.cpp:304
+#: src/im/keyboard/keyboard.cpp:303
 msgid "Spell hint"
 msgstr "拼写提示"
 
-#: src/im/keyboard/keyboard.cpp:306
+#: src/im/keyboard/keyboard.cpp:305
 msgid "Spell hint is disabled."
 msgstr "已禁用拼写提示。"
 
-#: src/im/keyboard/keyboard.cpp:305
+#: src/im/keyboard/keyboard.cpp:304
 msgid "Spell hint is enabled."
 msgstr "已启用拼写提示。"
+
+#: data/fcitx5.desktop.in.in:5
+msgid "Start Input Method"
+msgstr ""
+
+#: src/modules/notificationitem/notificationitem.conf.in:3
+msgid "Status Notifier"
+msgstr ""
 
 #: src/im/keyboard/keyboard.h:43 src/modules/quickphrase/quickphrase.h:39
 msgid "Super"
@@ -273,18 +316,28 @@ msgstr "X 输入法前端"
 msgid "XCB"
 msgstr ""
 
-#: src/modules/notificationitem/notificationitem.conf.in:3
-msgid "notificationitem"
+#: data/fcitx5-configtool.sh:140
+msgid ""
+"You're currently running Fcitx with GUI, but fcitx-configtool couldn't be "
+"found, the package name is usually fcitx-config-gtk, fcitx-config-gtk3 or "
+"fcitx-configtool. Now it will open config file with default text editor."
 msgstr ""
 
-#: src/modules/notifications/notifications.conf.in:3
-msgid "notifications"
+#: data/fcitx5-configtool.sh:137
+msgid ""
+"You're currently running KDE, but KCModule for fcitx couldn't be found, the "
+"package name of this KCModule is usually kcm-fcitx or kde-config-fcitx. Now "
+"it will open config file with default text editor."
 msgstr ""
 
-#: src/lib/fcitx/instance.cpp:1494
+#: data/fcitx5.desktop.in.in:7 data/fcitx5-configtool.desktop.in.in:7
+msgid "fcitx"
+msgstr ""
+
+#: src/lib/fcitx/instance.cpp:1545
 msgid "{0} (Not available)"
 msgstr "{0} (不可用)"
 
-#: src/lib/fcitx/instance.cpp:1491
+#: src/lib/fcitx/instance.cpp:1542
 msgid "{0} ({1})"
 msgstr "{0} ({1})"
