@@ -23,6 +23,7 @@
 #include <fcitx-utils/macros.h>
 #include <memory>
 #include <utility>
+#include <vector>
 
 namespace fcitx {
 
@@ -109,6 +110,9 @@ struct EnumHash {
             static_cast<std::underlying_type_t<T>>(value));
     }
 };
+
+FCITXUTILS_EXPORT void startProcess(const std::vector<std::string> &args,
+                                    const std::string &workingDirectory = {});
 }
 
 #endif // _FCITX_UTILS_MISC_H_

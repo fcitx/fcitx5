@@ -43,6 +43,7 @@ set(FCITX_UTILS_SOURCES
     i18n.cpp
     inputbuffer.cpp
     log.cpp
+    misc.cpp
     )
 
 set(FCITX_UTILS_HEADERS

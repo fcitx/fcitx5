@@ -78,6 +78,10 @@ private:
     std::string xkbOptions_;
     std::vector<std::unique_ptr<HandlerTableEntry<EventHandler>>>
         eventHandlers_;
+
+    std::unique_ptr<EventSourceTime> xmodmapTimer_;
+    int lastSequence_ = 0;
+    bool waitingForRefresh_ = false;
 };
 
 } // namespace fcitx

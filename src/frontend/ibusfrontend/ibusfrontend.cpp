@@ -152,7 +152,7 @@ std::pair<std::string, pid_t> getAddress(const std::string &socketPath) {
     return {};
 }
 
-pid_t startProcess() {
+pid_t runIBusExit() {
     pid_t child_pid;
     if ((child_pid = fork()) == -1) {
         perror("fork");
@@ -635,7 +635,7 @@ void IBusFrontendModule::replaceIBus() {
     auto address = getAddress(socketPath_);
     oldAddress_ = address.first;
     if (!address.first.empty()) {
-        auto pid = startProcess();
+        auto pid = runIBusExit();
         if (pid > 0) {
             FCITX_DEBUG() << "Running ibus exit.";
             timeEvent_ = instance()->eventLoop().addTimeEvent(

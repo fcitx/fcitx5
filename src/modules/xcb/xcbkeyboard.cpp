@@ -120,6 +120,11 @@ XCBKeyboard::XCBKeyboard(XCBConnection *conn) : conn_(conn) {
     hasXKB_ = true;
     updateKeymap();
 
+    // Force refresh so we can apply xmodmap.
+    setRMLVOToServer(xkbRule_, xkbModel_,
+                     stringutils::join(defaultLayouts_, ","),
+                     stringutils::join(defaultVariants_, ","), xkbOptions_);
+
     eventHandlers_.emplace_back(conn_->instance()->watchEvent(
         EventType::InputMethodGroupChanged, EventWatcherPhase::Default,
         [this](Event &) {
@@ -308,7 +313,6 @@ void XCBKeyboard::addNewLayout(const std::string &layout,
             defaultVariants_.pop_back();
         }
         defaultLayouts_.insert(defaultLayouts_.begin(), layout);
-        ;
         defaultVariants_.insert(defaultVariants_.begin(), variant);
     } else {
         while (defaultLayouts_.size() >= 4) {
@@ -316,7 +320,6 @@ void XCBKeyboard::addNewLayout(const std::string &layout,
             defaultVariants_.pop_back();
         }
         defaultLayouts_.push_back(layout);
-        ;
         defaultVariants_.push_back(variant);
     }
 
@@ -468,6 +471,7 @@ void XCBKeyboard::setRMLVOToServer(const std::string &rule,
                             XCB_ATOM_STRING, 8, propData.size(),
                             propData.data());
     }
+    waitingForRefresh_ = true;
 }
 
 bool XCBKeyboard::setLayoutByName(const std::string &layout,
@@ -516,6 +520,32 @@ bool XCBKeyboard::handleEvent(xcb_generic_event_t *event) {
                 &xkbEvent->new_keyboard_notify;
             if (ev->changed & XCB_XKB_NKN_DETAIL_KEYCODES) {
                 updateKeymap();
+            }
+
+            if (ev->sequence != lastSequence_) {
+                lastSequence_ = ev->sequence;
+                xmodmapTimer_ = conn_->instance()->eventLoop().addTimeEvent(
+                    CLOCK_MONOTONIC, now(CLOCK_MONOTONIC) + 10000, 0,
+                    [this](EventSourceTime *, uint64_t) {
+                        FCITX_DEBUG() << "Apply Xmodmap.";
+
+                        if (waitingForRefresh_) {
+                            waitingForRefresh_ = false;
+                            auto home = getenv("HOME");
+                            if (!home) {
+                                return true;
+                            }
+                            auto path = stringutils::joinPath(home, ".Xmodmap");
+                            if (!fs::isreg(path)) {
+                                path = stringutils::joinPath(home, ".xmodmap");
+                            }
+                            if (!fs::isreg(path)) {
+                                return true;
+                            }
+                            startProcess({"xmodmap", path});
+                        }
+                        return true;
+                    });
             }
             break;
         }
