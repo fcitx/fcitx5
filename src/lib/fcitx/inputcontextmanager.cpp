@@ -220,7 +220,7 @@ InputContext *InputContextManager::findByUUID(ICUUID uuid) {
 bool InputContextManager::foreach(const InputContextVisitor &visitor) {
     FCITX_D();
     for (auto &ic : d->inputContexts_) {
-        if (visitor(&ic)) {
+        if (!visitor(&ic)) {
             return false;
         }
     }
@@ -240,7 +240,7 @@ bool InputContextManager::foreachFocused(const InputContextVisitor &visitor) {
 bool InputContextManager::foreachGroup(const FocusGroupVisitor &visitor) {
     FCITX_D();
     for (auto &group : d->groups_) {
-        if (visitor(&group)) {
+        if (!visitor(&group)) {
             return false;
         }
     }

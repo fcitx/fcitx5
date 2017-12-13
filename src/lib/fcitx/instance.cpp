@@ -735,6 +735,7 @@ Instance::Instance(int argc, char **argv) {
                  icEvent.reason() != InputMethodSwitchedReason::Enumerate &&
                  icEvent.reason() != InputMethodSwitchedReason::Activate &&
                  icEvent.reason() != InputMethodSwitchedReason::Other &&
+                 icEvent.reason() != InputMethodSwitchedReason::GroupChange &&
                  icEvent.reason() != InputMethodSwitchedReason::Deactivate)) {
                 return;
             }
@@ -742,7 +743,7 @@ Instance::Instance(int argc, char **argv) {
         }));
     d->eventWatchers_.emplace_back(
         d->watchEvent(EventType::InputMethodGroupChanged,
-                      EventWatcherPhase::ReservedFirst, [this, d](Event &) {
+                      EventWatcherPhase::ReservedLast, [this, d](Event &) {
                           // Use a timer here. so we can get focus back to real
                           // window.
                           d->imGroupInfoTimer_ = d->eventLoop_.addTimeEvent(
