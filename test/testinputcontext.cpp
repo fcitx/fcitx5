@@ -42,6 +42,8 @@ public:
 
     ~TestInputContext() { destroy(); }
 
+    const char *frontend() const override { return "test"; }
+
     void commitStringImpl(const std::string &) override {}
     void deleteSurroundingTextImpl(int, unsigned int) override {}
     void forwardKeyImpl(const ForwardKeyEvent &) override {}

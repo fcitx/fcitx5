@@ -25,6 +25,8 @@
 #include "fcitx-utils/log.h"
 #include "fcitx-utils/metastring.h"
 #include "fcitx/inputcontext.h"
+#include "fcitx/inputmethodentry.h"
+#include "fcitx/inputmethodmanager.h"
 #include "fcitx/instance.h"
 #include "fcitx/misc_p.h"
 
@@ -81,7 +83,14 @@ public:
 
     ~DBusInputContext1() { InputContext::destroy(); }
 
+    const char *frontend() const override { return "dbus"; }
+
     const dbus::ObjectPath path() const { return path_; }
+
+    void updateIM(const InputMethodEntry *entry) {
+        currentIMTo(name_, entry->name(), entry->uniqueName(),
+                    entry->languageCode());
+    }
 
     void commitStringImpl(const std::string &text) override {
         commitStringDBusTo(name_, text);
@@ -240,6 +249,19 @@ DBusFrontendModule::DBusFrontendModule(Instance *instance)
                                          dbus::RequestNameFlag::Queue})) {
         FCITX_LOG(Warn) << "Can not get portal dbus name right now.";
     }
+
+    event_ = instance_->watchEvent(
+        EventType::InputContextInputMethodActivated, EventWatcherPhase::Default,
+        [this](Event &event) {
+            auto &activated = static_cast<InputMethodActivatedEvent &>(event);
+            auto ic = activated.inputContext();
+            if (strcmp(ic->frontend(), "dbus") == 0) {
+                if (auto entry = instance_->inputMethodManager().entry(
+                        activated.name())) {
+                    static_cast<DBusInputContext1 *>(ic)->updateIM(entry);
+                }
+            }
+        });
 }
 
 DBusFrontendModule::~DBusFrontendModule() {

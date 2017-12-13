@@ -272,6 +272,8 @@ public:
 
     ~IBusInputContext() { InputContext::destroy(); }
 
+    const char *frontend() const override { return "ibus"; }
+
     const std::string &name() const { return name_; }
 
     const dbus::ObjectPath path() const { return path_; }

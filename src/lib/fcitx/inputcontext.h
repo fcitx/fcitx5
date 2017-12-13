@@ -56,6 +56,8 @@ public:
     virtual ~InputContext();
     InputContext(InputContext &&other) = delete;
 
+    virtual const char *frontend() const = 0;
+
     const ICUUID &uuid() const;
     const std::string &program() const;
     std::string display() const;

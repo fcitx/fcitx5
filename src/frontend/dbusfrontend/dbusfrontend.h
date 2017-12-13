@@ -48,6 +48,7 @@ private:
     std::unique_ptr<dbus::Bus> portalBus_;
     std::unique_ptr<InputMethod1> inputMethod1_;
     std::unique_ptr<InputMethod1> portalInputMethod1_;
+    std::unique_ptr<HandlerTableEntry<EventHandler>> event_;
 };
 }
 

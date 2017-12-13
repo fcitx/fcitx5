@@ -147,6 +147,8 @@ public:
         destroy();
     }
 
+    const char *frontend() const override { return "xim"; }
+
     void updateCursorLocation() {
         // kinds of like notification for position moving
         bool hasSpotLocation =

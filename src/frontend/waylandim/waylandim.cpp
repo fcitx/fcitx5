@@ -147,6 +147,8 @@ public:
         destroy();
     }
 
+    const char *frontend() const override { return "wayland"; }
+
 protected:
     void commitStringImpl(const std::string &text) override {
         ic_->commitString(serial_, text.c_str());
