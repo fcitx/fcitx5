@@ -295,13 +295,7 @@ void Clipboard::updateUI(InputContext *inputContext) {
     inputContext->updateUserInterface(UserInterfaceComponent::InputPanel);
 }
 
-void Clipboard::reloadConfig() {
-    auto configFile = StandardPath::global().open(
-        StandardPath::Type::PkgConfig, "conf/clipboard.conf", O_RDONLY);
-    RawConfig config;
-    readFromIni(config, configFile.fd());
-    config_.load(config);
-}
+void Clipboard::reloadConfig() { readAsIni(config_, "conf/clipboard.conf"); }
 
 void Clipboard::primaryChanged(const std::string &name) {
     primaryCallback_ = xcb_->call<IXCBModule::convertSelection>(

@@ -20,8 +20,10 @@
 #define _FCITX_MODULES_NOTIFICATIONS_NOTIFICATIONS_H_
 
 #include "fcitx-config/configuration.h"
+#include "fcitx-config/iniparser.h"
 #include "fcitx-utils/dbus/bus.h"
 #include "fcitx-utils/dbus/servicewatcher.h"
+#include "fcitx-utils/i18n.h"
 #include "fcitx/addoninstance.h"
 #include "fcitx/instance.h"
 #include "notifications_public.h"
@@ -32,7 +34,8 @@ namespace fcitx {
 
 FCITX_CONFIGURATION(NotificationsConfig,
                     fcitx::Option<std::vector<std::string>> hiddenNotifications{
-                        this, "HiddenNotifications", "HiddenNotifications"};);
+                        this, "HiddenNotifications",
+                        _("Hidden Notifications")};);
 
 struct NotificationItem {
     NotificationItem(uint64_t internalId,
@@ -54,6 +57,15 @@ public:
     Instance *instance() { return instance_; }
     void reloadConfig() override;
     void save() override;
+
+    const Configuration *getConfig() const override { return &config_; }
+    void setConfig(const RawConfig &config) override {
+        config_.load(config, true);
+        safeSaveAsIni(config_, "conf/notifications.conf");
+        updateConfig();
+    }
+
+    void updateConfig();
 
     uint32_t sendNotification(const std::string &appName, uint32_t replaceId,
                               const std::string &appIcon,

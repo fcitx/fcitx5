@@ -114,8 +114,8 @@ void InputMethodManager::load() {
             continue;
         }
         auto newEntries = engine->listInputMethods();
-        FCITX_LOG(Info) << "Found " << newEntries.size() << " input method(s) "
-                        << "in addon " << addonName;
+        FCITX_INFO() << "Found " << newEntries.size() << " input method(s) "
+                     << "in addon " << addonName;
         for (auto &newEntry : newEntries) {
             // ok we can't let you register something werid.
             if (checkEntry(newEntry, inputMethods) &&
@@ -183,8 +183,8 @@ void InputMethodManager::loadConfig() {
     }
 
     if (d->groups_.size() == 0) {
-        FCITX_LOG(Info) << "No valid input method group in configuration. "
-                        << "Building a default one";
+        FCITX_INFO() << "No valid input method group in configuration. "
+                     << "Building a default one";
         buildDefaultGroup();
     } else {
         if (imConfig.groupOrder.value().size()) {

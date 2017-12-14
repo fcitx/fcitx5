@@ -74,6 +74,7 @@ public:
     Key normalize() const;
 
     std::string toString() const;
+    std::string toDisplayString() const;
 
     bool isValid() const;
 
@@ -84,6 +85,7 @@ public:
     static KeyStates keySymToStates(KeySym sym);
     static KeySym keySymFromString(const std::string &keyString);
     static std::string keySymToString(KeySym sym);
+    static std::string keySymToDisplayString(KeySym sym);
     static KeySym keySymFromUnicode(uint32_t unicode);
     static uint32_t keySymToUnicode(KeySym sym);
     static std::string keySymToUTF8(KeySym sym);

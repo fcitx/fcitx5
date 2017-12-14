@@ -44,17 +44,28 @@ FCITX_CONFIG_ENUM_I18N_ANNOTATION(ChooseModifier, N_("None"), N_("Alt"),
 
 FCITX_CONFIGURATION(
     KeyboardEngineConfig,
-    fcitx::Option<int, IntConstrain> pageSize{this, "PageSize", "Page size", 5,
-                                              IntConstrain(3, 10)};
-    fcitx::Option<KeyList> nextCandidate{
-        this, "NextCandidate", "Next Candidate", {Key("Tab")}};
-    fcitx::Option<KeyList> prevCandidate{
-        this, "PrevCandidate", "Prev Candidate", {Key("Shift+Tab")}};
-    fcitx::OptionWithAnnotation<ChooseModifier, ChooseModifierI18NAnnotation>
-        chooseModifier{this, "Choose Modifier", "Choose key modifier",
+    Option<int, IntConstrain> pageSize{this, "PageSize", _("Page size"), 5,
+                                       IntConstrain(3, 10)};
+    KeyListOption prevCandidate{
+        this,
+        "PrevCandidate",
+        _("Prev Candidate"),
+        {Key("Shift+Tab")},
+        KeyListConstrain(KeyConstrainFlag::AllowModifierLess)};
+    KeyListOption nextCandidate{
+        this,
+        "NextCandidate",
+        _("Next Candidate"),
+        {Key("Tab")},
+        KeyListConstrain(KeyConstrainFlag::AllowModifierLess)};
+    OptionWithAnnotation<ChooseModifier, ChooseModifierI18NAnnotation>
+        chooseModifier{this, "Choose Modifier", _("Choose key modifier"),
                        ChooseModifier::Alt};
-    fcitx::Option<KeyList> hintTrigger{
-        this, "Hint Trigger", "Trigger hint mode", {Key("Control+Alt+H")}};);
+    KeyListOption hintTrigger{this,
+                              "Hint Trigger",
+                              _("Trigger hint mode"),
+                              {Key("Control+Alt+H")},
+                              KeyListConstrain()};);
 
 class KeyboardEngine;
 
@@ -80,6 +91,7 @@ public:
     void setConfig(const RawConfig &config) override {
         config_.load(config, true);
         safeSaveAsIni(config_, "conf/keyboard.conf");
+        reloadConfig();
     }
 
     void reset(const InputMethodEntry &entry,

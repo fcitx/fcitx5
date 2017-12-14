@@ -174,7 +174,7 @@ public:
         if (!addon.instance_) {
             addon.setFailed(true);
         } else {
-            FCITX_LOG(Info) << "Loaded addon " << addon.info().uniqueName();
+            FCITX_INFO() << "Loaded addon " << addon.info().uniqueName();
         }
     }
 
@@ -262,7 +262,7 @@ void AddonManager::unload() {
     // reverse the unload order
     for (auto iter = d->loadOrder_.rbegin(), end = d->loadOrder_.rend();
          iter != end; iter++) {
-        FCITX_LOG(Info) << "Unloading addon " << *iter;
+        FCITX_INFO() << "Unloading addon " << *iter;
         d->addons_.erase(*iter);
     }
     d->loadOrder_.clear();

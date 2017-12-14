@@ -111,13 +111,17 @@ Notifications::Notifications(Instance *instance)
 
 Notifications::~Notifications() {}
 
-void Notifications::reloadConfig() {
-    readAsIni(config_, "conf/notifications.conf");
-
+void Notifications::updateConfig() {
     hiddenNotifications_.clear();
     for (const auto &id : config_.hiddenNotifications.value()) {
         hiddenNotifications_.insert(id);
     }
+}
+
+void Notifications::reloadConfig() {
+    readAsIni(config_, "conf/notifications.conf");
+
+    updateConfig();
 }
 
 void Notifications::save() {
@@ -216,17 +220,19 @@ void Notifications::showTip(const std::string &tipId,
         return;
     }
     std::vector<std::string> actions = {"dont-show", _("Do not show again")};
-    if (capabilities_ & NotificationsCapability::Actions) {
+    if (!capabilities_.test(NotificationsCapability::Actions)) {
         actions.clear();
     }
-    lastTipId_ = sendNotification(appName, lastTipId_, appIcon, summary, body,
-                                  actions, timeout,
-                                  [this, tipId](const std::string &action) {
-                                      if (action == "dont-show") {
-                                          hiddenNotifications_.insert(tipId);
-                                      }
-                                  },
-                                  {});
+    lastTipId_ = sendNotification(
+        appName, lastTipId_, appIcon, summary, body, actions, timeout,
+        [this, tipId](const std::string &action) {
+            if (action == "dont-show") {
+                if (hiddenNotifications_.insert(tipId).second) {
+                    save();
+                }
+            }
+        },
+        {});
 }
 
 class NotificationsModuleFactory : public AddonFactory {

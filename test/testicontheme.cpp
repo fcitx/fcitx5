@@ -23,26 +23,26 @@ using namespace fcitx;
 
 int main() {
     IconTheme theme("breeze");
-    FCITX_LOG(Info) << theme.name().match();
-    FCITX_LOG(Info) << theme.comment().match();
+    FCITX_INFO() << theme.name().match();
+    FCITX_INFO() << theme.comment().match();
 
     for (auto &inheritTheme : theme.inherits()) {
-        FCITX_LOG(Info) << inheritTheme.name().match();
+        FCITX_INFO() << inheritTheme.name().match();
     }
 #if 0
     for (auto &directory : theme.directories()) {
-        FCITX_LOG(Info) << directory.name();
-        FCITX_LOG(Info) << directory.size();
-        FCITX_LOG(Info) << directory.scale();
-        FCITX_LOG(Info) << directory.context();
-        FCITX_LOG(Info) << to_string(directory.type());
-        FCITX_LOG(Info) << directory.maxSize();
-        FCITX_LOG(Info) << directory.minSize();
-        FCITX_LOG(Info) << directory.threshold();
+        FCITX_INFO() << directory.name();
+        FCITX_INFO() << directory.size();
+        FCITX_INFO() << directory.scale();
+        FCITX_INFO() << directory.context();
+        FCITX_INFO() << to_string(directory.type());
+        FCITX_INFO() << directory.maxSize();
+        FCITX_INFO() << directory.minSize();
+        FCITX_INFO() << directory.threshold();
     }
 #endif
 
-    FCITX_LOG(Info) << theme.findIcon("fcitx-pinyin", 32, 1);
+    FCITX_INFO() << theme.findIcon("fcitx-pinyin", 32, 1);
 
     return 0;
 }

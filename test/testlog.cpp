@@ -23,7 +23,7 @@ int main() {
     int a = 0;
     fcitx::Log::setLogRule("*=5");
 
-    FCITX_LOG(Info) << (a = 1);
+    FCITX_INFO() << (a = 1);
     FCITX_ASSERT(a == 1);
 
     fcitx::Log::setLogRule("*=4");

@@ -28,47 +28,76 @@ namespace impl {
 
 FCITX_CONFIGURATION(
     HotkeyConfig,
-    Option<KeyList> triggerKeys{
+    KeyListOption triggerKeys{
         this,
         "TriggerKeys",
         _("Trigger Input Method"),
-        {Key("Control+space"), Key("Zenkaku_Hankaku"), Key("Hangul")}};
-    Option<KeyList> altTriggerKeys{this,
-                                   "AltTriggerKeys",
-                                   _("Alternative Trigger Input Method"),
-                                   {Key("Shift_L")}};
-    Option<KeyList> enumerateForwardKeys{this,
-                                         "EnumerateForwardKeys",
-                                         _("Enumerate Input Method Forward"),
-                                         {Key("Control+Shift_R")}};
-    Option<KeyList> enumerateBackwardKeys{this,
-                                          "EnumerateBackwardKeys",
-                                          _("Enumerate Input Method Backward"),
-                                          {Key("Control+Shift_L")}};
-    Option<KeyList> enumerateGroupForwardKeys{
+        {Key("Control+space"), Key("Zenkaku_Hankaku"), Key("Hangul")},
+        KeyListConstrain({KeyConstrainFlag::AllowModifierLess,
+                          KeyConstrainFlag::AllowModifierOnly})};
+    KeyListOption altTriggerKeys{
+        this,
+        "AltTriggerKeys",
+        _("Alternative Trigger Input Method"),
+        {Key("Shift_L")},
+        KeyListConstrain({KeyConstrainFlag::AllowModifierLess,
+                          KeyConstrainFlag::AllowModifierOnly})};
+    KeyListOption enumerateForwardKeys{
+        this,
+        "EnumerateForwardKeys",
+        _("Enumerate Input Method Forward"),
+        {Key("Control+Shift_R")},
+        KeyListConstrain({KeyConstrainFlag::AllowModifierLess,
+                          KeyConstrainFlag::AllowModifierOnly})};
+    KeyListOption enumerateBackwardKeys{
+        this,
+        "EnumerateBackwardKeys",
+        _("Enumerate Input Method Backward"),
+        {Key("Control+Shift_L")},
+        KeyListConstrain({KeyConstrainFlag::AllowModifierLess,
+                          KeyConstrainFlag::AllowModifierOnly})};
+    KeyListOption enumerateGroupForwardKeys{
         this,
         "EnumerateGroupForwardKeys",
         _("Enumerate Input Method Group Forward"),
-        {Key("Super+space")}};
-    Option<KeyList> enumerateGroupBackwardKeys{
+        {Key("Super+space")},
+        KeyListConstrain({KeyConstrainFlag::AllowModifierLess,
+                          KeyConstrainFlag::AllowModifierOnly})};
+    KeyListOption enumerateGroupBackwardKeys{
         this,
         "EnumerateGroupBackwardKeys",
         _("Enumerate Input Method Group Backward"),
-        {Key("Super+Shift+space")}};
-    Option<KeyList> activateKeys{this,
-                                 "ActivateKeys",
-                                 _("Activate Input Method"),
-                                 {
-                                     Key("Hangul_Hanja"),
-                                 }};
-    Option<KeyList> deactivateKeys{this,
-                                   "DeactivateKeys",
-                                   _("Deactivate Input Method"),
-                                   {Key("Hangul_Romaja")}};
-    Option<KeyList> defaultPrevPage{
-        this, "PrevPage", _("Default Previous page"), {Key("Up")}};
-    Option<KeyList> defaultNextPage{
-        this, "NextPage", _("Default Next page"), {Key("Down")}};);
+        {Key("Super+Shift+space")},
+        KeyListConstrain({KeyConstrainFlag::AllowModifierLess,
+                          KeyConstrainFlag::AllowModifierOnly})};
+    KeyListOption activateKeys{
+        this,
+        "ActivateKeys",
+        _("Activate Input Method"),
+        {
+            Key("Hangul_Hanja"),
+        },
+        KeyListConstrain({KeyConstrainFlag::AllowModifierLess,
+                          KeyConstrainFlag::AllowModifierOnly})};
+    KeyListOption deactivateKeys{
+        this,
+        "DeactivateKeys",
+        _("Deactivate Input Method"),
+        {Key("Hangul_Romaja")},
+        KeyListConstrain({KeyConstrainFlag::AllowModifierLess,
+                          KeyConstrainFlag::AllowModifierOnly})};
+    KeyListOption defaultPrevPage{
+        this,
+        "PrevPage",
+        _("Default Previous page"),
+        {Key("Up")},
+        KeyListConstrain({KeyConstrainFlag::AllowModifierLess})};
+    KeyListOption defaultNextPage{
+        this,
+        "NextPage",
+        _("Default Next page"),
+        {Key("Down")},
+        KeyListConstrain({KeyConstrainFlag::AllowModifierLess})};);
 
 FCITX_CONFIGURATION(
     BehaviorConfig, Option<bool> activeByDefault{this, "ActiveByDefault",

@@ -127,6 +127,42 @@ private:
     int max_;
 };
 
+enum class KeyConstrainFlag { AllowModifierOnly, AllowModifierLess };
+
+using KeyConstrainFlags = Flags<KeyConstrainFlag>;
+
+class KeyConstrain {
+public:
+    using Type = Key;
+    KeyConstrain(KeyConstrainFlags flags) : flags_(flags) {}
+
+    bool check(const Key &key) const {
+        if (!flags_.test(KeyConstrainFlag::AllowModifierLess) &&
+            key.states() == 0) {
+            return false;
+        }
+
+        if (!flags_.test(KeyConstrainFlag::AllowModifierOnly) &&
+            key.isModifier()) {
+            return false;
+        }
+
+        return true;
+    }
+
+    void dumpDescription(RawConfig &config) const {
+        if (flags_.test(KeyConstrainFlag::AllowModifierLess)) {
+            config["AllowModifierLess"] = "True";
+        }
+        if (flags_.test(KeyConstrainFlag::AllowModifierOnly)) {
+            config["AllowModifierOnly"] = "True";
+        }
+    }
+
+private:
+    KeyConstrainFlags flags_;
+};
+
 template <typename T>
 struct DefaultMarshaller {
     virtual void marshall(RawConfig &config, const T &value) const {
@@ -316,6 +352,14 @@ private:
 template <typename T, typename Annotation>
 using OptionWithAnnotation =
     Option<T, NoConstrain<T>, DefaultMarshaller<T>, Annotation>;
+
+using KeyListOption = Option<KeyList, ListConstrain<KeyConstrain>,
+                             DefaultMarshaller<KeyList>, NoAnnotation>;
+
+static inline ListConstrain<KeyConstrain>
+KeyListConstrain(KeyConstrainFlags flags = KeyConstrainFlags()) {
+    return ListConstrain<KeyConstrain>(KeyConstrain(flags));
+}
 
 template <typename T>
 using HiddenOption = OptionWithAnnotation<T, HideInDescription>;

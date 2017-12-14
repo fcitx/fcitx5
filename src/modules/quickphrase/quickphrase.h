@@ -40,8 +40,12 @@ FCITX_CONFIG_ENUM_I18N_ANNOTATION(QuickPhraseChooseModifier, N_("None"),
 
 FCITX_CONFIGURATION(
     QuickPhraseConfig,
-    Option<KeyList> triggerKey{
-        this, "TriggerKey", "Trigger Key", {Key("Super+grave")}};
+    KeyListOption triggerKey{
+        this,
+        "TriggerKey",
+        "Trigger Key",
+        {Key("Super+grave")},
+        KeyListConstrain({KeyConstrainFlag::AllowModifierLess})};
     fcitx::OptionWithAnnotation<QuickPhraseChooseModifier,
                                 QuickPhraseChooseModifierI18NAnnotation>
         chooseModifier{this, "Choose Modifier", "Choose key modifier",

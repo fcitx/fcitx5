@@ -19,6 +19,7 @@
 
 #include "key.h"
 #include "charutils.h"
+#include "i18n.h"
 #include "keydata.h"
 #include "keynametable-compat.h"
 #include "keynametable.h"
@@ -196,6 +197,47 @@ std::string Key::toString() const {
     _APPEND_MODIFIER_STRING("Alt+", Alt)
     _APPEND_MODIFIER_STRING("Shift+", Shift)
     _APPEND_MODIFIER_STRING("Super+", Super)
+
+#undef _APPEND_MODIFIER_STRING
+    str += key;
+
+    return str;
+}
+
+std::string Key::keySymToDisplayString(KeySym sym) {
+    return _(keySymToString(sym));
+}
+
+std::string Key::toDisplayString() const {
+    std::string key;
+    if (code_ && sym_ == FcitxKey_None) {
+        key = "<";
+        key += std::to_string(code_);
+        key += ">";
+    } else {
+        auto sym = sym_;
+        if (sym == FcitxKey_None) {
+            return std::string();
+        }
+
+        if (sym == FcitxKey_ISO_Left_Tab)
+            sym = FcitxKey_Tab;
+        key = keySymToDisplayString(sym);
+    }
+
+    if (key.empty())
+        return std::string();
+
+    std::string str;
+#define _APPEND_MODIFIER_STRING(STR, VALUE)                                    \
+    if (states_ & KeyState::VALUE) {                                           \
+        str += STR;                                                            \
+        str += "+";                                                            \
+    }
+    _APPEND_MODIFIER_STRING(_("Control"), Ctrl)
+    _APPEND_MODIFIER_STRING(_("Alt"), Alt)
+    _APPEND_MODIFIER_STRING(_("Shift"), Shift)
+    _APPEND_MODIFIER_STRING(_("Super"), Super)
 
 #undef _APPEND_MODIFIER_STRING
     str += key;

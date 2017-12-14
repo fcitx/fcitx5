@@ -97,7 +97,7 @@ Kimpanel::Kimpanel(Instance *instance)
     entry_ = watcher_.watchService(
         "org.kde.impanel", [this](const std::string &, const std::string &,
                                   const std::string &newOwner) {
-            FCITX_LOG(Info) << "Kimpanel new owner" << newOwner;
+            FCITX_INFO() << "Kimpanel new owner" << newOwner;
             setAvailable(!newOwner.empty());
         });
 }

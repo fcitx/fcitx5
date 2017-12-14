@@ -5,6 +5,7 @@ Type=SharedLibrary
 Library=notifications
 Category=Module
 OnDemand=True
+Configurable=True
 
 [Addon/Dependencies]
 0=dbus
