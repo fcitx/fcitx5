@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2017-12-12 09:51-0800\n"
+"POT-Creation-Date: 2017-12-14 12:17-0800\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: Bon Keun Seo <scobyseo@gmail.com>, 2017\n"
 "Language-Team: Korean (https://www.transifex.com/fcitx/teams/12005/ko/)\n"
@@ -19,7 +19,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
-#: src/lib/fcitx/instance.cpp:1547
+#: src/lib/fcitx/instance.cpp:1548
 msgid "(Not available)"
 msgstr "(사용할 수 없음)"
 
@@ -43,11 +43,11 @@ msgstr "<개인사용>"
 msgid "<not assigned>"
 msgstr "<할당 안됨>"
 
-#: src/lib/fcitx/globalconfig.cpp:60
+#: src/lib/fcitx/globalconfig.cpp:76
 msgid "Activate Input Method"
 msgstr "입력기 활성화"
 
-#: src/lib/fcitx/globalconfig.cpp:75
+#: src/lib/fcitx/globalconfig.cpp:104
 msgid "Active By Default"
 msgstr "디폴트 활성 상태"
 
@@ -55,20 +55,25 @@ msgstr "디폴트 활성 상태"
 msgid "Add Unicode Typing Support"
 msgstr "유니코드 입력 지원 추가"
 
-#: src/im/keyboard/keyboard.h:42 src/modules/quickphrase/quickphrase.h:39
+#: src/lib/fcitx-utils/key.cpp:238 src/im/keyboard/keyboard.h:42
+#: src/modules/quickphrase/quickphrase.h:39
 msgid "Alt"
 msgstr "Alt"
 
-#: src/lib/fcitx/globalconfig.cpp:38
+#: src/lib/fcitx/globalconfig.cpp:41
 msgid "Alternative Trigger Input Method"
 msgstr "대체 트리거 입력 방법"
 
-#: src/lib/fcitx/globalconfig.cpp:90
+#: src/lib/fcitx/globalconfig.cpp:119
 msgid "Behavior"
 msgstr "동작방식"
 
 #: data/fcitx5-configtool.desktop.in.in:5
 msgid "Change Fcitx 5 Configuration"
+msgstr ""
+
+#: src/im/keyboard/keyboard.h:62
+msgid "Choose key modifier"
 msgstr ""
 
 #: src/ui/classic/classicui.conf.in:3
@@ -93,7 +98,8 @@ msgstr "설정"
 msgid "Configure Current Input Method"
 msgstr "현재 입력기 설정"
 
-#: src/im/keyboard/keyboard.h:43 src/modules/quickphrase/quickphrase.h:39
+#: src/lib/fcitx-utils/key.cpp:237 src/im/keyboard/keyboard.h:43
+#: src/modules/quickphrase/quickphrase.h:39
 msgid "Control"
 msgstr "Control"
 
@@ -113,7 +119,7 @@ msgstr "DBus 전처리기"
 msgid "DBus based new Freedesktop.org tray icon"
 msgstr ""
 
-#: src/lib/fcitx/globalconfig.cpp:66
+#: src/lib/fcitx/globalconfig.cpp:85
 msgid "Deactivate Input Method"
 msgstr "입력기 비활성화"
 
@@ -122,19 +128,19 @@ msgstr "입력기 비활성화"
 msgid "Default"
 msgstr "기본값"
 
-#: src/lib/fcitx/globalconfig.cpp:71
+#: src/lib/fcitx/globalconfig.cpp:98
 msgid "Default Next page"
 msgstr "기본 다음 페이지"
 
-#: src/lib/fcitx/globalconfig.cpp:69
+#: src/lib/fcitx/globalconfig.cpp:92
 msgid "Default Previous page"
 msgstr "기본 이전 페이지"
 
-#: src/lib/fcitx/globalconfig.cpp:80
+#: src/lib/fcitx/globalconfig.cpp:109
 msgid "Default page size"
 msgstr "페이지 크기 기본값"
 
-#: src/modules/notifications/notifications.cpp:218
+#: src/modules/notifications/notifications.cpp:222
 msgid "Do not show again"
 msgstr "다시 보이지 않기"
 
@@ -142,19 +148,19 @@ msgstr "다시 보이지 않기"
 msgid "Enchant"
 msgstr "Enchant"
 
-#: src/lib/fcitx/globalconfig.cpp:46
+#: src/lib/fcitx/globalconfig.cpp:55
 msgid "Enumerate Input Method Backward"
 msgstr "입력기를 역순으로 적용"
 
-#: src/lib/fcitx/globalconfig.cpp:42
+#: src/lib/fcitx/globalconfig.cpp:48
 msgid "Enumerate Input Method Forward"
 msgstr "입력기를 순차적으로 적용"
 
-#: src/lib/fcitx/globalconfig.cpp:56
+#: src/lib/fcitx/globalconfig.cpp:69
 msgid "Enumerate Input Method Group Backward"
 msgstr "입력기 그룹을 역순으로 적용"
 
-#: src/lib/fcitx/globalconfig.cpp:51
+#: src/lib/fcitx/globalconfig.cpp:62
 msgid "Enumerate Input Method Group Forward"
 msgstr "입력기 그룹을 순차적으로 적용"
 
@@ -180,11 +186,15 @@ msgstr ""
 msgid "Group"
 msgstr "그룹"
 
-#: src/lib/fcitx/instance.cpp:1550
+#: src/lib/fcitx/instance.cpp:1551
 msgid "Group {0}: {1}"
 msgstr "그룹 {0}: {1}"
 
-#: src/lib/fcitx/globalconfig.cpp:88
+#: src/modules/notifications/notifications.h:38
+msgid "Hidden Notifications"
+msgstr ""
+
+#: src/lib/fcitx/globalconfig.cpp:117
 msgid "Hotkey"
 msgstr "단축키"
 
@@ -219,6 +229,10 @@ msgstr "키보드 - {0}"
 msgid "Keyboard - {0} - {1}"
 msgstr "키보드 - {0} - {1}"
 
+#: src/im/keyboard/keyboard.h:58
+msgid "Next Candidate"
+msgstr ""
+
 #: src/modules/clipboard/clipboard.cpp:289
 msgid "No clipboard history."
 msgstr "클립보드 기록이 없습니다."
@@ -235,9 +249,17 @@ msgstr "사용할 수 없음"
 msgid "Notification"
 msgstr ""
 
+#: src/im/keyboard/keyboard.h:47
+msgid "Page size"
+msgstr ""
+
 #: src/modules/spell/spell.h:34
 msgid "Presage"
 msgstr "Presage"
+
+#: src/im/keyboard/keyboard.h:52
+msgid "Prev Candidate"
+msgstr ""
 
 #: src/modules/quickphrase/quickphrase.conf.in:3
 msgid "Quick Phrase"
@@ -252,7 +274,11 @@ msgstr "상용구:"
 msgid "Restart"
 msgstr "재시작"
 
-#: src/lib/fcitx/globalconfig.cpp:78
+#: src/lib/fcitx-utils/key.cpp:239
+msgid "Shift"
+msgstr ""
+
+#: src/lib/fcitx/globalconfig.cpp:107
 msgid "Show Input Method Information when switch input method"
 msgstr "입력기 변경 시 입력기 정보 보이기"
 
@@ -284,13 +310,18 @@ msgstr ""
 msgid "Status Notifier"
 msgstr ""
 
-#: src/im/keyboard/keyboard.h:43 src/modules/quickphrase/quickphrase.h:39
+#: src/lib/fcitx-utils/key.cpp:240 src/im/keyboard/keyboard.h:43
+#: src/modules/quickphrase/quickphrase.h:39
 msgid "Super"
 msgstr "Super"
 
 #: src/lib/fcitx/globalconfig.cpp:34
 msgid "Trigger Input Method"
 msgstr "입력기 전환"
+
+#: src/im/keyboard/keyboard.h:66
+msgid "Trigger hint mode"
+msgstr ""
 
 #: src/modules/unicode/unicode.conf.in:3
 msgid "Unicode"
@@ -334,10 +365,10 @@ msgstr ""
 msgid "fcitx"
 msgstr ""
 
-#: src/lib/fcitx/instance.cpp:1545
+#: src/lib/fcitx/instance.cpp:1546
 msgid "{0} (Not available)"
 msgstr "{0} (사용할 수 없음)"
 
-#: src/lib/fcitx/instance.cpp:1542
+#: src/lib/fcitx/instance.cpp:1543
 msgid "{0} ({1})"
 msgstr "{0} ({1})"
