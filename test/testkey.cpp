@@ -100,5 +100,7 @@ int main() {
         fcitx::Key::fromKeyCode(25, fcitx::KeyState::Ctrl).toString() ==
         "Control+<25>");
 
+    FCITX_INFO() << fcitx::Key::keySymToDisplayString(FcitxKey_Insert);
+
     return 0;
 }
