@@ -39,6 +39,14 @@ std::unordered_map<KeySym, const char *, EnumHash> makeLookupKeyNameMap() {
         KeySym key;
         const char name[25];
     } keyname[] = {
+        {FcitxKey_Alt_L, NC_("Key name", "Left Alt")},
+        {FcitxKey_Alt_R, NC_("Key name", "Right Alt")},
+        {FcitxKey_Shift_L, NC_("Key name", "Left Shift")},
+        {FcitxKey_Shift_R, NC_("Key name", "Right Shift")},
+        {FcitxKey_Control_L, NC_("Key name", "Left Control")},
+        {FcitxKey_Control_R, NC_("Key name", "Right Control")},
+        {FcitxKey_Super_L, NC_("Key name", "Left Super")},
+        {FcitxKey_Super_R, NC_("Key name", "Right Super")},
         {FcitxKey_space, NC_("Key name", "Space")},
         {FcitxKey_Tab, NC_("Key name", "Tab")},
         {FcitxKey_BackSpace, NC_("Key name", "Backspace")},
