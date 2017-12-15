@@ -23,10 +23,18 @@
 
 namespace fcitx {
 
-const char *translate(const std::string &s);
+std::string translate(const std::string &s);
 const char *translate(const char *s);
-const char *translateDomain(const char *domain, const std::string &s);
+std::string translateCtx(const char *ctx, const std::string &s);
+const char *translateCtx(const char *ctx, const char *s);
+
+std::string translateDomain(const char *domain, const std::string &s);
 const char *translateDomain(const char *domain, const char *s);
+std::string translateDomainCtx(const char *domain, const char *ctx,
+                               const std::string &s);
+
+const char *translateDomainCtx(const char *domain, const char *ctx,
+                               const char *s);
 void registerDomain(const char *domain, const char *dir);
 }
 
@@ -34,12 +42,15 @@ void registerDomain(const char *domain, const char *dir);
 
 #ifdef FCITX_GETTEXT_DOMAIN
 #define _(x) ::fcitx::translateDomain(FCITX_GETTEXT_DOMAIN, x)
+#define C_(c, x) ::fcitx::translateDomainCtx(FCITX_GETTEXT_DOMAIN, c, x)
 #else
 #define _(x) ::fcitx::translate(x)
+#define C_(c, x) ::fcitx::translateCtx(FCITX_GETTEXT_DOMAIN, c, x)
 #endif
 
 #define D_(d, x) ::fcitx::translateDomain(d, x)
 
+#define NC_(c, x) (x)
 #define N_(x) (x)
 
 #endif

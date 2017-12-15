@@ -34,13 +34,28 @@ private:
 
 static GettextManager gettextManager;
 
-FCITXUTILS_EXPORT const char *translate(const std::string &s) {
-    return ::gettext(s.c_str());
+FCITXUTILS_EXPORT std::string translate(const std::string &s) {
+    return translate(s.c_str());
 }
 
 FCITXUTILS_EXPORT const char *translate(const char *s) { return ::gettext(s); }
 
-FCITXUTILS_EXPORT const char *translateDomain(const char *domain,
+FCITXUTILS_EXPORT std::string translateCtx(const char *ctx,
+                                           const std::string &s) {
+    return translateCtx(ctx, s.c_str());
+}
+
+FCITXUTILS_EXPORT const char *translateCtx(const char *ctx, const char *s) {
+    auto str = stringutils::concat(ctx, "\004", s);
+    auto p = str.c_str();
+    auto result = ::gettext(str.c_str());
+    if (p == result) {
+        return s;
+    }
+    return result;
+}
+
+FCITXUTILS_EXPORT std::string translateDomain(const char *domain,
                                               const std::string &s) {
     return translateDomain(domain, s.c_str());
 }
@@ -50,6 +65,24 @@ FCITXUTILS_EXPORT const char *translateDomain(const char *domain,
     gettextManager.addDomain(domain);
     return ::dgettext(domain, s);
 }
+
+FCITXUTILS_EXPORT std::string
+translateDomainCtx(const char *domain, const char *ctx, const std::string &s) {
+    return translateDomainCtx(domain, ctx, s.c_str());
+}
+
+FCITXUTILS_EXPORT const char *
+translateDomainCtx(const char *domain, const char *ctx, const char *s) {
+    gettextManager.addDomain(domain);
+    auto str = stringutils::concat(ctx, "\004", s);
+    auto p = str.c_str();
+    auto result = ::dgettext(domain, p);
+    if (p == result) {
+        return s;
+    }
+    return result;
+}
+
 FCITXUTILS_EXPORT void registerDomain(const char *domain, const char *dir) {
     gettextManager.addDomain(domain, dir);
 }
