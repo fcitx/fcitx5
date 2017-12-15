@@ -40,6 +40,11 @@ typedef FcitxKeySym KeySym;
 typedef Flags<KeyState> KeyStates;
 typedef std::vector<Key> KeyList;
 
+enum class KeyStringFormat {
+    Portable,
+    Localized,
+};
+
 class FCITXUTILS_EXPORT Key {
 public:
     explicit Key(KeySym sym = FcitxKey_None, KeyStates states = KeyStates(),
@@ -73,8 +78,8 @@ public:
     bool hasModifier() const;
     Key normalize() const;
 
-    std::string toString() const;
-    std::string toDisplayString() const;
+    std::string
+    toString(KeyStringFormat format = KeyStringFormat::Portable) const;
 
     bool isValid() const;
 
@@ -84,14 +89,17 @@ public:
 
     static KeyStates keySymToStates(KeySym sym);
     static KeySym keySymFromString(const std::string &keyString);
-    static std::string keySymToString(KeySym sym);
-    static std::string keySymToDisplayString(KeySym sym);
+    static std::string
+    keySymToString(KeySym sym,
+                   KeyStringFormat format = KeyStringFormat::Portable);
     static KeySym keySymFromUnicode(uint32_t unicode);
     static uint32_t keySymToUnicode(KeySym sym);
     static std::string keySymToUTF8(KeySym sym);
     static KeyList keyListFromString(const std::string &str);
     template <typename Container>
-    static std::string keyListToString(Container container) {
+    static std::string
+    keyListToString(Container container,
+                    KeyStringFormat format = KeyStringFormat::Portable) {
         std::string result;
         bool first = true;
         for (auto k : container) {
@@ -100,7 +108,7 @@ public:
             } else {
                 result += " ";
             }
-            result += k.toString();
+            result += k.toString(format);
         }
         return result;
     }

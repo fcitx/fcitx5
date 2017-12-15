@@ -388,7 +388,7 @@ bool Key::isValid() const {
     return (sym_ != FcitxKey_None && sym_ != FcitxKey_VoidSymbol) || code_ != 0;
 }
 
-std::string Key::toString() const {
+std::string Key::toString(KeyStringFormat format) const {
 
     std::string key;
     if (code_ && sym_ == FcitxKey_None) {
@@ -403,50 +403,7 @@ std::string Key::toString() const {
 
         if (sym == FcitxKey_ISO_Left_Tab)
             sym = FcitxKey_Tab;
-        key = keySymToString(sym);
-    }
-
-    if (key.empty())
-        return std::string();
-
-    std::string str;
-#define _APPEND_MODIFIER_STRING(STR, VALUE)                                    \
-    if (states_ & KeyState::VALUE) {                                           \
-        str += STR;                                                            \
-    }
-    _APPEND_MODIFIER_STRING("Control+", Ctrl)
-    _APPEND_MODIFIER_STRING("Alt+", Alt)
-    _APPEND_MODIFIER_STRING("Shift+", Shift)
-    _APPEND_MODIFIER_STRING("Super+", Super)
-
-#undef _APPEND_MODIFIER_STRING
-    str += key;
-
-    return str;
-}
-
-std::string Key::keySymToDisplayString(KeySym sym) {
-    if (auto name = lookupName(sym)) {
-        return C_("Key name", name);
-    }
-    return keySymToString(sym);
-}
-
-std::string Key::toDisplayString() const {
-    std::string key;
-    if (code_ && sym_ == FcitxKey_None) {
-        key = "<";
-        key += std::to_string(code_);
-        key += ">";
-    } else {
-        auto sym = sym_;
-        if (sym == FcitxKey_None) {
-            return std::string();
-        }
-
-        if (sym == FcitxKey_ISO_Left_Tab)
-            sym = FcitxKey_Tab;
-        key = keySymToDisplayString(sym);
+        key = keySymToString(sym, format);
     }
 
     if (key.empty())
@@ -458,10 +415,17 @@ std::string Key::toDisplayString() const {
         str += STR;                                                            \
         str += "+";                                                            \
     }
-    _APPEND_MODIFIER_STRING(_("Control"), Ctrl)
-    _APPEND_MODIFIER_STRING(_("Alt"), Alt)
-    _APPEND_MODIFIER_STRING(_("Shift"), Shift)
-    _APPEND_MODIFIER_STRING(_("Super"), Super)
+    if (format == KeyStringFormat::Portable) {
+        _APPEND_MODIFIER_STRING("Control", Ctrl)
+        _APPEND_MODIFIER_STRING("Alt", Alt)
+        _APPEND_MODIFIER_STRING("Shift", Shift)
+        _APPEND_MODIFIER_STRING("Super", Super)
+    } else {
+        _APPEND_MODIFIER_STRING(C_("Key name", "Control"), Ctrl)
+        _APPEND_MODIFIER_STRING(C_("Key name", "Alt"), Alt)
+        _APPEND_MODIFIER_STRING(C_("Key name", "Shift"), Shift)
+        _APPEND_MODIFIER_STRING(C_("Key name", "Super"), Super)
+    }
 
 #undef _APPEND_MODIFIER_STRING
     str += key;
@@ -530,7 +494,13 @@ KeySym Key::keySymFromString(const std::string &keyString) {
     return FcitxKey_None;
 }
 
-std::string Key::keySymToString(KeySym sym) {
+std::string Key::keySymToString(KeySym sym, KeyStringFormat format) {
+    if (format == KeyStringFormat::Localized) {
+        if (auto name = lookupName(sym)) {
+            return C_("Key name", name);
+        }
+    }
+
     const KeyNameOffsetByValue *result = std::lower_bound(
         keyNameOffsetByValue,
         keyNameOffsetByValue + FCITX_ARRAY_SIZE(keyNameOffsetByValue), sym,
