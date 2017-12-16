@@ -8,7 +8,7 @@ $XGETTEXT --keyword=_ --keyword=N_ --keyword=C_:1c,2 --keyword=NC_:1c,2 --langua
 sh_files=$(find . -name \*.sh)
 $XGETTEXT --keyword=_ --keyword=N_ --language=Shell -j -o ${POT_FILE} $sh_files
 desktop_files=$(find . -name \*.conf.in -o -name \*.conf.in.in -o -name \*.desktop.in -o -name \*.desktop.in.in)
-$XGETTEXT --language=Desktop $desktop_files -j -o ${POT_FILE}
+$XGETTEXT --language=Desktop -k --keyword=Name --keyword=GenericName --keyword=Comment --keyword=Keywords $desktop_files -j -o ${POT_FILE}
 
 sed -i 's|^"Content-Type: text/plain; charset=CHARSET\\n"|"Content-Type: text/plain; charset=utf-8\\n"|g' ${POT_FILE}
 
