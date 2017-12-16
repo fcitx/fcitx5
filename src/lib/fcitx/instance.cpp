@@ -1560,7 +1560,6 @@ void Instance::setXkbParameters(const std::string &display,
                                 const std::string &options) {
     FCITX_D();
     bool resetState = false;
-    ;
     if (auto param = findValue(d->xkbParams_, display)) {
         if (std::get<0>(*param) != rule || std::get<1>(*param) != model ||
             std::get<2>(*param) != options) {

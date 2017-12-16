@@ -53,6 +53,15 @@ Spell::BackendMap::iterator Spell::findBackend(const std::string &language) {
     return backends_.end();
 }
 
+Spell::BackendMap::iterator Spell::findBackend(const std::string &language,
+                                               SpellProvider provider) {
+    auto iter = backends_.find(provider);
+    if (iter != backends_.end() && iter->second->checkDict(language)) {
+        return iter;
+    }
+    return backends_.end();
+}
+
 bool Spell::checkDict(const std::string &language) {
     auto iter = findBackend(language);
     return iter != backends_.end();
@@ -70,6 +79,18 @@ void Spell::addWord(const std::string &language, const std::string &word) {
 std::vector<std::string> Spell::hint(const std::string &language,
                                      const std::string &word, size_t limit) {
     auto iter = findBackend(language);
+    if (iter == backends_.end()) {
+        return {};
+    }
+
+    return iter->second->hint(language, word, limit);
+}
+
+std::vector<std::string> Spell::hintWithProvider(const std::string &language,
+                                                 SpellProvider provider,
+                                                 const std::string &word,
+                                                 size_t limit) {
+    auto iter = findBackend(language, provider);
     if (iter == backends_.end()) {
         return {};
     }

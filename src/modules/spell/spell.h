@@ -30,7 +30,7 @@
 
 namespace fcitx {
 
-FCITX_CONFIG_ENUM(SpellProvider, Presage, Custom, Enchant)
+FCITX_CONFIG_ENUM_NAME(SpellProvider, "Presage", "Custom", "Enchant")
 FCITX_CONFIG_ENUM_I18N_ANNOTATION(SpellProvider, N_("Presage"), N_("Custom"),
                                   N_("Enchant"));
 
@@ -74,11 +74,16 @@ public:
     void addWord(const std::string &language, const std::string &word);
     std::vector<std::string> hint(const std::string &language,
                                   const std::string &word, size_t limit);
+    std::vector<std::string> hintWithProvider(const std::string &language,
+                                              SpellProvider provider,
+                                              const std::string &word,
+                                              size_t limit);
 
 private:
     FCITX_ADDON_EXPORT_FUNCTION(Spell, checkDict);
     FCITX_ADDON_EXPORT_FUNCTION(Spell, addWord);
     FCITX_ADDON_EXPORT_FUNCTION(Spell, hint);
+    FCITX_ADDON_EXPORT_FUNCTION(Spell, hintWithProvider);
     SpellConfig config_;
     typedef std::unordered_map<SpellProvider, std::unique_ptr<SpellBackend>,
                                EnumHash>
@@ -86,6 +91,8 @@ private:
     BackendMap backends_;
 
     BackendMap::iterator findBackend(const std::string &language);
+    BackendMap::iterator findBackend(const std::string &language,
+                                     SpellProvider provider);
     Instance *instance_;
 };
 
