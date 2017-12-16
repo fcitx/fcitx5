@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2017-12-16 00:00-0800\n"
+"POT-Creation-Date: 2017-12-16 10:32-0800\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: scootergrisen <scootergrisen@gmail.com>, 2017\n"
 "Language-Team: Danish (https://www.transifex.com/fcitx/teams/12005/da/)\n"
@@ -65,7 +65,7 @@ msgctxt "Key name"
 msgid "Adjust Brightness"
 msgstr ""
 
-#: src/im/keyboard/keyboard.h:42 src/modules/quickphrase/quickphrase.h:39
+#: src/modules/quickphrase/quickphrase.h:39 src/im/keyboard/keyboard.h:42
 msgid "Alt"
 msgstr "Alt"
 
@@ -212,17 +212,17 @@ msgctxt "Key name"
 msgid "Community"
 msgstr ""
 
-#: src/ui/classic/xcbtraywindow.cpp:53
 #: src/modules/notificationitem/dbusmenu.cpp:280
+#: src/ui/classic/xcbtraywindow.cpp:53
 msgid "Configure"
 msgstr "Konfigurer"
 
-#: src/ui/classic/xcbtraywindow.cpp:52
 #: src/modules/notificationitem/dbusmenu.cpp:275
+#: src/ui/classic/xcbtraywindow.cpp:52
 msgid "Configure Current Input Method"
 msgstr "Konfigurer nuværende inputmetode"
 
-#: src/im/keyboard/keyboard.h:43 src/modules/quickphrase/quickphrase.h:39
+#: src/modules/quickphrase/quickphrase.h:39 src/im/keyboard/keyboard.h:43
 msgid "Control"
 msgstr "Styring"
 
@@ -357,8 +357,8 @@ msgctxt "Key name"
 msgid "Execute"
 msgstr ""
 
-#: src/ui/classic/xcbtraywindow.cpp:55
 #: src/modules/notificationitem/dbusmenu.cpp:293
+#: src/ui/classic/xcbtraywindow.cpp:55
 msgid "Exit"
 msgstr "Afslut"
 
@@ -409,8 +409,8 @@ msgctxt "Key name"
 msgid "Green"
 msgstr ""
 
-#: src/ui/classic/xcbtraywindow.cpp:48
 #: src/modules/notificationitem/dbusmenu.cpp:265
+#: src/ui/classic/xcbtraywindow.cpp:48
 msgid "Group"
 msgstr "Gruppe"
 
@@ -540,10 +540,9 @@ msgstr "Hottast"
 msgid "IBus Frontend"
 msgstr "IBus-frontend"
 
-#: src/ui/classic/xcbtraywindow.cpp:50
-#: src/modules/notificationitem/dbusmenu.cpp:259
 #: src/modules/notificationitem/notificationitem.cpp:102
-#: data/fcitx5.desktop.in.in:4
+#: src/modules/notificationitem/dbusmenu.cpp:259
+#: src/ui/classic/xcbtraywindow.cpp:50 data/fcitx5.desktop.in.in:4
 msgid "Input Method"
 msgstr "Inputmetode"
 
@@ -860,7 +859,7 @@ msgstr ""
 msgid "No clipboard history."
 msgstr "Ingen udklipsholderhistorik."
 
-#: src/im/keyboard/keyboard.h:42 src/modules/quickphrase/quickphrase.h:38
+#: src/modules/quickphrase/quickphrase.h:38 src/im/keyboard/keyboard.h:42
 msgid "None"
 msgstr "Ingen"
 
@@ -987,8 +986,8 @@ msgctxt "Key name"
 msgid "Reply"
 msgstr ""
 
-#: src/ui/classic/xcbtraywindow.cpp:54
 #: src/modules/notificationitem/dbusmenu.cpp:287
+#: src/ui/classic/xcbtraywindow.cpp:54
 msgid "Restart"
 msgstr "Genstart"
 
@@ -1154,7 +1153,7 @@ msgctxt "Key name"
 msgid "Subtitle"
 msgstr ""
 
-#: src/im/keyboard/keyboard.h:43 src/modules/quickphrase/quickphrase.h:39
+#: src/modules/quickphrase/quickphrase.h:39 src/im/keyboard/keyboard.h:43
 msgid "Super"
 msgstr "Super"
 
@@ -1367,10 +1366,6 @@ msgstr ""
 #: src/lib/fcitx-utils/key.cpp:172
 msgctxt "Key name"
 msgid "Zoom Out"
-msgstr ""
-
-#: data/fcitx5.desktop.in.in:7 data/fcitx5-configtool.desktop.in.in:7
-msgid "fcitx"
 msgstr ""
 
 #: src/lib/fcitx-utils/key.cpp:142
