@@ -87,4 +87,8 @@
     };                                                                         \
     static_assert(TYPE##I18NAnnotation::equal(0), "Enum mismatch");
 
+#define FCITX_CONFIG_ENUM_NAME_WITH_I18N(TYPE, ...)                            \
+    FCITX_CONFIG_ENUM_NAME(TYPE, __VA_ARGS__);                                 \
+    FCITX_CONFIG_ENUM_I18N_ANNOTATION(TYPE, __VA_ARGS__);
+
 #endif // _FCITX_CONFIG_ENUM_H_
