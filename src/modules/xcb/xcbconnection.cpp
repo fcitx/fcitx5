@@ -288,7 +288,7 @@ bool XCBConnection::filterEvent(xcb_connection_t *,
             }
 
             do {
-                constexpr size_t bufLimit = 4096;
+                constexpr size_t bufLimit = 256;
                 xcb_get_property_cookie_t get_prop_cookie = xcb_get_property(
                     conn_.get(), false, serverWindow_,
                     selectionNotify->property, XCB_ATOM_ANY, 0, bufLimit);
