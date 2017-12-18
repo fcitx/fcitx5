@@ -40,62 +40,124 @@ typedef FcitxKeySym KeySym;
 typedef Flags<KeyState> KeyStates;
 typedef std::vector<Key> KeyList;
 
+/// Control the behavior of toString function.
 enum class KeyStringFormat {
+    /// Can be used to parse from a string.
     Portable,
+    /// Return the human readable string in localized format.
     Localized,
 };
 
+/// Describe a Key in fcitx.
 class FCITXUTILS_EXPORT Key {
 public:
     explicit Key(KeySym sym = FcitxKey_None, KeyStates states = KeyStates(),
                  int code = 0)
         : sym_(sym), states_(states), code_(code) {}
 
+    /// Parse a key from string. If string is invalid, it will be set to
+    /// FcitxKey_None
     explicit Key(const char *keyString);
+
+    /// Parse a key from std::string.
+    /// \see fcitx::Key::Key(const char *)
     explicit Key(const std::string &keyString) : Key(keyString.c_str()) {}
 
     FCITX_INLINE_DEFINE_DEFAULT_DTOR_COPY_AND_MOVE(Key)
 
+    /// Create a key code based key with empty key symbol.
     static Key fromKeyCode(int code = 0, KeyStates states = KeyStates()) {
         return Key(FcitxKey_None, states, code);
     }
 
+    /// Check if key is exactly same.
     bool operator==(const Key &key) const {
         return sym_ == key.sym_ && states_ == key.states_ && code_ == key.code_;
     }
 
+    /// Check if current key match the key.
     bool check(const Key &key) const;
+
+    /// Check if current key match the sym and states.
+    /// \see fcitx::Key::check(const Key &key)
     bool check(KeySym sym = FcitxKey_None,
                KeyStates states = KeyStates()) const {
         return check(Key(sym, states));
     }
+
+    /// Check if key is digit key.
     bool isDigit() const;
+
+    /// Check if key is upper case.
     bool isUAZ() const;
+
+    /// Check if key is lower case.
     bool isLAZ() const;
+
+    /// Check if key is in the range of ascii and has no states.
     bool isSimple() const;
+
+    /// Check if the key is a modifier press.
     bool isModifier() const;
+
+    /// Check if this key will cause cursor to move, e.g. arrow key and page up/
+    /// down.
     bool isCursorMove() const;
+
+    /// Check if states has modifier.
     bool hasModifier() const;
+
+    /// \brief Normalize a key, usually used when key is from frontend.
+    ///
+    /// states will be filtered to have only ctrl alt shift and super.
+    /// Shift will be removed if it is key symbol is a-z/A-Z.
+    /// Shift + any other modifier and a-z will be reset to A-Z. So
+    /// key in configuration does not need to bother the case.
     Key normalize() const;
 
+    /// \brief Convert key to a string.
+    ///
+    /// \arg format will control the format of return value.
     std::string
     toString(KeyStringFormat format = KeyStringFormat::Portable) const;
 
+    /// Check if the sym is not FcitxKey_None or FcitxKey_VoidSymbol.
     bool isValid() const;
 
     inline KeySym sym() const { return sym_; }
     inline KeyStates states() const { return states_; }
     inline int code() const { return code_; }
 
+    /// Convert the modifier symbol to its corresponding states.
     static KeyStates keySymToStates(KeySym sym);
+
+    /// Convert a key symbol string to KeySym.
     static KeySym keySymFromString(const std::string &keyString);
+
+    /// \brief Convert keysym to a string.
+    ///
+    /// \arg format will control the format of return value.
     static std::string
     keySymToString(KeySym sym,
                    KeyStringFormat format = KeyStringFormat::Portable);
+
+    /// Convert unicode to key symbol. Useful when you want to create a
+    /// synthetic key event.
     static KeySym keySymFromUnicode(uint32_t unicode);
+
+    /// Convert keysym to a unicode. Will return a valid value UCS-4 value if
+    /// this key may produce a character.
     static uint32_t keySymToUnicode(KeySym sym);
+
+    /// Convert keysym to a unicode string. Will return a non empty value UTF-8
+    /// string if this key may produce a character.
+    /// \see fcitx::Key::keySymToUnicode
     static std::string keySymToUTF8(KeySym sym);
+
+    /// Parse a list of key string into a KeyList.
     static KeyList keyListFromString(const std::string &str);
+
+    /// Convert a key list to string.
     template <typename Container>
     static std::string
     keyListToString(Container container,
@@ -112,6 +174,9 @@ public:
         }
         return result;
     }
+
+    /// Check the current key against a key list.
+    /// \see fcitx::Key::check
     template <typename Container>
     bool checkKeyList(const Container &c) {
         return std::find_if(c.begin(), c.end(), [this](const Key &toCheck) {
@@ -119,6 +184,9 @@ public:
                }) != c.end();
     }
 
+    /// Check the current key against a key list and get the matched key index.
+    /// \return Returns the matched key index or -1 if there is no match.
+    /// \see fcitx::Key::check
     template <typename Container>
     int keyListIndex(const Container &c) {
         size_t idx = 0;
