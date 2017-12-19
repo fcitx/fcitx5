@@ -46,4 +46,29 @@ void OptionBase::dumpDescription(RawConfig &config) const {
     config.setValueByPath("Type", typeString());
     config.setValueByPath("Description", description_);
 }
+
+ExternalOption::ExternalOption(Configuration *parent, std::string path,
+                               std::string description, std::string external)
+    : OptionBase(parent, path, description), externalUri_(external) {}
+
+std::string ExternalOption::typeString() const { return "External"; }
+
+void ExternalOption::reset() {}
+bool ExternalOption::isDefault() const { return false; }
+
+void ExternalOption::marshall(RawConfig &) const {}
+bool ExternalOption::unmarshall(const RawConfig &, bool) {}
+std::unique_ptr<Configuration> ExternalOption::subConfigSkeleton() const {
+    return nullptr;
+}
+
+bool ExternalOption::equalTo(const OptionBase &) const {}
+void ExternalOption::copyFrom(const OptionBase &) {}
+
+bool ExternalOption::skipDescription() const { return false; }
+bool ExternalOption::skipSave() const { return true; }
+void ExternalOption::dumpDescription(RawConfig &config) const {
+    OptionBase::dumpDescription(config);
+    config.setValueByPath("External", externalUri_);
+}
 }

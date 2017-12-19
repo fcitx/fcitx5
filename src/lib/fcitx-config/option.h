@@ -67,6 +67,30 @@ private:
     std::string description_;
 };
 
+class FCITXCONFIG_EXPORT ExternalOption : public OptionBase {
+public:
+    ExternalOption(Configuration *parent, std::string path,
+                   std::string description, std::string uri);
+
+    std::string typeString() const override;
+    void reset() override;
+    bool isDefault() const override;
+
+    void marshall(RawConfig &config) const override;
+    bool unmarshall(const RawConfig &config, bool partial) override;
+    std::unique_ptr<Configuration> subConfigSkeleton() const override;
+
+    bool equalTo(const OptionBase &other) const override;
+    void copyFrom(const OptionBase &other) override;
+
+    bool skipDescription() const override;
+    bool skipSave() const override;
+    void dumpDescription(RawConfig &config) const override;
+
+private:
+    std::string externalUri_;
+};
+
 template <typename T>
 struct NoConstrain {
     using Type = T;
