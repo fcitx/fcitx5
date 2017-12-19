@@ -57,12 +57,16 @@ void ExternalOption::reset() {}
 bool ExternalOption::isDefault() const { return false; }
 
 void ExternalOption::marshall(RawConfig &) const {}
-bool ExternalOption::unmarshall(const RawConfig &, bool) {}
+bool ExternalOption::unmarshall(const RawConfig &, bool) {
+    return true;
+}
 std::unique_ptr<Configuration> ExternalOption::subConfigSkeleton() const {
     return nullptr;
 }
 
-bool ExternalOption::equalTo(const OptionBase &) const {}
+bool ExternalOption::equalTo(const OptionBase &) const {
+    return true;
+}
 void ExternalOption::copyFrom(const OptionBase &) {}
 
 bool ExternalOption::skipDescription() const { return false; }
@@ -70,5 +74,7 @@ bool ExternalOption::skipSave() const { return true; }
 void ExternalOption::dumpDescription(RawConfig &config) const {
     OptionBase::dumpDescription(config);
     config.setValueByPath("External", externalUri_);
+    // This field is required by dbus.
+    config.setValueByPath("DefaultValue", "");
 }
 }

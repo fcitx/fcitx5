@@ -46,10 +46,10 @@ void Configuration::dumpDescription(RawConfig &config) const {
         auto optionIter = d->options_.find(path);
         assert(optionIter != d->options_.end());
         auto option = optionIter->second;
-        auto descConfigPtr = subRoot->get(option->path(), true);
         if (option->skipDescription()) {
             continue;
         }
+        auto descConfigPtr = subRoot->get(option->path(), true);
         option->dumpDescription(*descConfigPtr);
 
         auto subConfig = (option->subConfigSkeleton());

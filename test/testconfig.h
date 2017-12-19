@@ -73,6 +73,8 @@ FCITX_CONFIGURATION(
     fcitx::Option<fcitx::I18NString> i18nStringValue{this, "I18NString",
                                                      "I18NString"};
     fcitx::Option<TestSubConfig> subConfigValue{this, "SubConfigOption",
-                                                "SubConfig Option"};)
+                                                "SubConfig Option"};
+    fcitx::ExternalOption ext{this, "ExternalOption", "ExternalOption",
+                              "gui://ext"};)
 
 #endif // _TEST_TESTCONFIG_H_

@@ -131,28 +131,6 @@ private:
     std::unique_ptr<AddonInstancePrivate> d_ptr;
     FCITX_DECLARE_PRIVATE(AddonInstance);
 };
-
-template <typename Class, typename Ret, typename... Args>
-class AddonFunctionAdaptor : public AddonFunctionAdaptorErasure<Ret(Args...)> {
-public:
-    typedef Ret (Class::*CallbackType)(Args...);
-    typedef Ret Signature(Args...);
-
-    AddonFunctionAdaptor(const std::string &name, Class *addon,
-                         CallbackType pCallback)
-        : AddonFunctionAdaptorErasure<Ret(Args...)>(), addon_(addon),
-          pCallback_(pCallback) {
-        addon->registerCallback(name, this);
-    }
-
-    Ret callback(Args... args) override {
-        return (addon_->*pCallback_)(args...);
-    }
-
-private:
-    Class *addon_;
-    CallbackType pCallback_;
-};
 }
 
 #define FCITX_ADDON_DECLARE_FUNCTION(NAME, FUNCTION, SIGNATURE...)             \
