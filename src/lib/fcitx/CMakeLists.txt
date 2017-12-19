@@ -29,6 +29,7 @@ set(FCITX_CORE_SOURCES
 set(FCITX_CORE_HEADERS
     addoninfo.h
     addoninstance.h
+    addoninstance_details.h
     addonfactory.h
     instance.h
     inputcontextmanager.h
