@@ -57,16 +57,12 @@ void ExternalOption::reset() {}
 bool ExternalOption::isDefault() const { return false; }
 
 void ExternalOption::marshall(RawConfig &) const {}
-bool ExternalOption::unmarshall(const RawConfig &, bool) {
-    return true;
-}
+bool ExternalOption::unmarshall(const RawConfig &, bool) { return true; }
 std::unique_ptr<Configuration> ExternalOption::subConfigSkeleton() const {
     return nullptr;
 }
 
-bool ExternalOption::equalTo(const OptionBase &) const {
-    return true;
-}
+bool ExternalOption::equalTo(const OptionBase &) const { return true; }
 void ExternalOption::copyFrom(const OptionBase &) {}
 
 bool ExternalOption::skipDescription() const { return false; }

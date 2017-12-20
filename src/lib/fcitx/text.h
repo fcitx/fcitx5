@@ -26,8 +26,15 @@
 #include <memory>
 #include <string>
 
+/// \addtogroup FcitxCore
+/// \{
+/// \file
+/// \brief Formatted string commonly used in user interface.
+
 namespace fcitx {
 class TextPrivate;
+
+/// A class represents a formatted string.
 class FCITXCORE_EXPORT Text {
 public:
     Text();

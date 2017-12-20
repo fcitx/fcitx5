@@ -46,10 +46,12 @@ FCITX_CONFIGURATION(
         "Trigger Key",
         {Key("Super+grave")},
         KeyListConstrain({KeyConstrainFlag::AllowModifierLess})};
-    fcitx::OptionWithAnnotation<QuickPhraseChooseModifier,
-                                QuickPhraseChooseModifierI18NAnnotation>
+    OptionWithAnnotation<QuickPhraseChooseModifier,
+                         QuickPhraseChooseModifierI18NAnnotation>
         chooseModifier{this, "Choose Modifier", "Choose key modifier",
-                       QuickPhraseChooseModifier::None};);
+                       QuickPhraseChooseModifier::None};
+    ExternalOption editor{this, "Editor", _("Editor"),
+                          "gui://data/QuickPhrase.mb"};);
 
 class QuickPhraseState;
 class QuickPhrase final : public AddonInstance {

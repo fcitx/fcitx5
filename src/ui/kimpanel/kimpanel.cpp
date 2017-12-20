@@ -373,7 +373,6 @@ void Kimpanel::msgV1Handler(dbus::Message &msg) {
             if (!ic) {
                 return;
             }
-            auto icRef = ic->watch();
             if (auto menu = action->menu()) {
                 std::vector<std::string> menuitems;
                 for (auto menuAction : menu->actions()) {
@@ -385,11 +384,11 @@ void Kimpanel::msgV1Handler(dbus::Message &msg) {
                 // make ic has focus.
                 timeEvent_ = instance_->eventLoop().addTimeEvent(
                     CLOCK_MONOTONIC, now(CLOCK_MONOTONIC) + 30000, 0,
-                    [this, actionName, icRef](EventSourceTime *, uint64_t) {
+                    [this, actionName](EventSourceTime *, uint64_t) {
                         if (auto action =
                                 instance_->userInterfaceManager().lookupAction(
                                     actionName)) {
-                            if (auto ic = icRef.get()) {
+                            if (auto ic = instance_->mostRecentInputContext()) {
                                 action->activate(ic);
                             }
                         }
