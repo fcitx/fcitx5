@@ -6,3 +6,6 @@ Category=Module
 
 [Addon/Dependencies]
 0=keyboard
+
+[Addon/OptionalDependencies]
+0=xcb

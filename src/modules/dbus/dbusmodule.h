@@ -37,6 +37,7 @@ public:
     dbus::Bus *bus();
     bool lockGroup(int group);
     FCITX_ADDON_DEPENDENCY_LOADER(keyboard, instance_->addonManager());
+    FCITX_ADDON_DEPENDENCY_LOADER(xcb, instance_->addonManager());
 
 private:
     FCITX_ADDON_EXPORT_FUNCTION(DBusModule, bus);

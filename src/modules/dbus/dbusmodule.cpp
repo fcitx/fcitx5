@@ -28,6 +28,7 @@
 #include "fcitx/inputmethodentry.h"
 #include "fcitx/inputmethodmanager.h"
 #include "keyboard_public.h"
+#include "xcb_public.h"
 #include <set>
 
 #define FCITX_DBUS_SERVICE "org.fcitx.Fcitx5"
@@ -377,6 +378,16 @@ public:
         instance_->globalConfig().safeSave();
     }
 
+    void openX11Connection(const std::string &name) {
+        if (auto xcb = module_->xcb()) {
+            xcb->call<IXCBModule::openConnection>(name);
+        } else {
+            throw dbus::MethodCallError(
+                "org.freedesktop.DBus.Error.InvalidArgs",
+                "XCB addon is not available.");
+        }
+    }
+
 private:
     DBusModule *module_;
     Instance *instance_;
@@ -425,6 +436,7 @@ private:
 
     FCITX_OBJECT_VTABLE_METHOD(getAddons, "GetAddons", "", "a(sssibb)");
     FCITX_OBJECT_VTABLE_METHOD(setAddonsState, "SetAddonsState", "a(sb)", "");
+    FCITX_OBJECT_VTABLE_METHOD(openX11Connection, "OpenX11Connection", "s", "");
 };
 
 DBusModule::DBusModule(Instance *instance)
