@@ -45,7 +45,7 @@ public:
     InputMethodEntry &setConfigurable(bool configurable);
     void setUserData(std::unique_ptr<InputMethodEntryUserData> userData);
 
-    InputMethodEntryUserData *userData();
+    const InputMethodEntryUserData *userData() const;
 
     const std::string &name() const;
     const std::string &nativeName() const;

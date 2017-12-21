@@ -101,7 +101,7 @@ void InputMethodEntry::setUserData(
     d->userData_ = std::move(userData);
 }
 
-InputMethodEntryUserData *InputMethodEntry::userData() {
+const InputMethodEntryUserData *InputMethodEntry::userData() const {
     FCITX_D();
     return d->userData_.get();
 }
