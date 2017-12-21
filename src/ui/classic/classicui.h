@@ -24,6 +24,7 @@
 #include "fcitx-config/configuration.h"
 #include "fcitx-config/iniparser.h"
 #include "fcitx-utils/event.h"
+#include "fcitx-utils/i18n.h"
 #include "fcitx/addonfactory.h"
 #include "fcitx/addoninstance.h"
 #include "fcitx/addonmanager.h"
@@ -54,12 +55,13 @@ struct NotEmpty {
     void dumpDescription(RawConfig &) const {}
 };
 
-FCITX_CONFIGURATION(ClassicUIConfig,
-                    fcitx::Option<bool> verticalCandidateList{
-                        this, "Vertical Candidate List",
-                        "Vertical Candidate List", false};
-                    fcitx::Option<std::string, NotEmpty> theme{
-                        this, "Theme", "Theme", "default"};);
+FCITX_CONFIGURATION(
+    ClassicUIConfig,
+    Option<bool> verticalCandidateList{this, "Vertical Candidate List",
+                                       _("Vertical Candidate List"), false};
+    Option<bool> perScreenDPI{this, "PerScreenDPI", _("Use Per Screen DPI"),
+                              true};
+    Option<std::string, NotEmpty> theme{this, "Theme", _("Theme"), "default"};);
 
 class ClassicUI : public UserInterface {
 public:

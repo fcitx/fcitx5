@@ -67,7 +67,7 @@ public:
 
     const auto &screenRects() { return rects_; }
     int dpiByPosition(int x, int y);
-    int dpi(int dpi);
+    int scaledDPI(int dpi);
     const XCBFontOption &fontOption() const { return fontOption_; }
 
 private:

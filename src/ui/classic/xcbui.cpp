@@ -370,10 +370,14 @@ int XCBUI::dpiByPosition(int x, int y) {
         }
     }
 
-    return dpi(screenDpi);
+    return scaledDPI(screenDpi);
 }
 
-int XCBUI::dpi(int dpi) {
+int XCBUI::scaledDPI(int dpi) {
+    if (!*parent_->config().perScreenDPI) {
+        // CLASSICUI_DEBUG() << "Use font dpi: " << fontOption_.dpi;
+        return fontOption_.dpi;
+    }
     if (dpi < 0) {
         return fontOption_.dpi;
     }
