@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2017-12-16 10:32-0800\n"
+"POT-Creation-Date: 2017-12-21 00:01-0800\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: csslayer <wengxt@gmail.com>, 2017\n"
 "Language-Team: Spanish (https://www.transifex.com/fcitx/teams/12005/es/)\n"
@@ -64,7 +64,7 @@ msgctxt "Key name"
 msgid "Adjust Brightness"
 msgstr ""
 
-#: src/modules/quickphrase/quickphrase.h:39 src/im/keyboard/keyboard.h:42
+#: src/im/keyboard/keyboard.h:42 src/modules/quickphrase/quickphrase.h:39
 msgid "Alt"
 msgstr ""
 
@@ -211,17 +211,17 @@ msgctxt "Key name"
 msgid "Community"
 msgstr ""
 
-#: src/modules/notificationitem/dbusmenu.cpp:280
 #: src/ui/classic/xcbtraywindow.cpp:53
+#: src/modules/notificationitem/dbusmenu.cpp:280
 msgid "Configure"
 msgstr "Configurar"
 
-#: src/modules/notificationitem/dbusmenu.cpp:275
 #: src/ui/classic/xcbtraywindow.cpp:52
+#: src/modules/notificationitem/dbusmenu.cpp:275
 msgid "Configure Current Input Method"
 msgstr ""
 
-#: src/modules/quickphrase/quickphrase.h:39 src/im/keyboard/keyboard.h:43
+#: src/im/keyboard/keyboard.h:43 src/modules/quickphrase/quickphrase.h:39
 msgid "Control"
 msgstr ""
 
@@ -306,6 +306,10 @@ msgctxt "Key name"
 msgid "Down"
 msgstr ""
 
+#: src/modules/quickphrase/quickphrase.h:53
+msgid "Editor"
+msgstr ""
+
 #: src/lib/fcitx-utils/key.cpp:223
 msgctxt "Key name"
 msgid "Eisu Shift"
@@ -356,8 +360,8 @@ msgctxt "Key name"
 msgid "Execute"
 msgstr ""
 
-#: src/modules/notificationitem/dbusmenu.cpp:293
 #: src/ui/classic/xcbtraywindow.cpp:55
+#: src/modules/notificationitem/dbusmenu.cpp:293
 msgid "Exit"
 msgstr "Salir"
 
@@ -408,8 +412,8 @@ msgctxt "Key name"
 msgid "Green"
 msgstr ""
 
-#: src/modules/notificationitem/dbusmenu.cpp:265
 #: src/ui/classic/xcbtraywindow.cpp:48
+#: src/modules/notificationitem/dbusmenu.cpp:265
 msgid "Group"
 msgstr ""
 
@@ -539,9 +543,10 @@ msgstr ""
 msgid "IBus Frontend"
 msgstr ""
 
-#: src/modules/notificationitem/notificationitem.cpp:102
+#: src/ui/classic/xcbtraywindow.cpp:50
 #: src/modules/notificationitem/dbusmenu.cpp:259
-#: src/ui/classic/xcbtraywindow.cpp:50 data/fcitx5.desktop.in.in:4
+#: src/modules/notificationitem/notificationitem.cpp:102
+#: data/fcitx5.desktop.in.in:4
 msgid "Input Method"
 msgstr ""
 
@@ -858,7 +863,7 @@ msgstr ""
 msgid "No clipboard history."
 msgstr ""
 
-#: src/modules/quickphrase/quickphrase.h:38 src/im/keyboard/keyboard.h:42
+#: src/im/keyboard/keyboard.h:42 src/modules/quickphrase/quickphrase.h:38
 msgid "None"
 msgstr ""
 
@@ -985,8 +990,8 @@ msgctxt "Key name"
 msgid "Reply"
 msgstr ""
 
-#: src/modules/notificationitem/dbusmenu.cpp:287
 #: src/ui/classic/xcbtraywindow.cpp:54
+#: src/modules/notificationitem/dbusmenu.cpp:287
 msgid "Restart"
 msgstr ""
 
@@ -1152,7 +1157,7 @@ msgctxt "Key name"
 msgid "Subtitle"
 msgstr ""
 
-#: src/modules/quickphrase/quickphrase.h:39 src/im/keyboard/keyboard.h:43
+#: src/im/keyboard/keyboard.h:43 src/modules/quickphrase/quickphrase.h:39
 msgid "Super"
 msgstr ""
 
@@ -1189,6 +1194,10 @@ msgstr ""
 #: src/lib/fcitx-utils/key.cpp:165
 msgctxt "Key name"
 msgid "Terminal"
+msgstr ""
+
+#: src/ui/classic/classicui.h:64
+msgid "Theme"
 msgstr ""
 
 #: src/lib/fcitx-utils/key.cpp:187
@@ -1255,6 +1264,14 @@ msgstr ""
 #: src/lib/fcitx-utils/key.cpp:58
 msgctxt "Key name"
 msgid "Up"
+msgstr ""
+
+#: src/ui/classic/classicui.h:62
+msgid "Use Per Screen DPI"
+msgstr ""
+
+#: src/ui/classic/classicui.h:61
+msgid "Vertical Candidate List"
 msgstr ""
 
 #: src/lib/fcitx-utils/key.cpp:168

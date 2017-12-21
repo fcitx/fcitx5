@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2017-12-20 00:00-0800\n"
+"POT-Creation-Date: 2017-12-21 00:01-0800\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: csslayer <wengxt@gmail.com>, 2017\n"
 "Language-Team: Catalan (https://www.transifex.com/fcitx/teams/12005/ca/)\n"
@@ -306,6 +306,10 @@ msgstr "Documents"
 msgctxt "Key name"
 msgid "Down"
 msgstr "Avall"
+
+#: src/modules/quickphrase/quickphrase.h:53
+msgid "Editor"
+msgstr ""
 
 #: src/lib/fcitx-utils/key.cpp:223
 msgctxt "Key name"
@@ -1193,6 +1197,10 @@ msgctxt "Key name"
 msgid "Terminal"
 msgstr "Terminal"
 
+#: src/ui/classic/classicui.h:64
+msgid "Theme"
+msgstr ""
+
 #: src/lib/fcitx-utils/key.cpp:187
 msgctxt "Key name"
 msgid "Time"
@@ -1258,6 +1266,14 @@ msgstr "Unicode: "
 msgctxt "Key name"
 msgid "Up"
 msgstr "Amunt"
+
+#: src/ui/classic/classicui.h:62
+msgid "Use Per Screen DPI"
+msgstr ""
+
+#: src/ui/classic/classicui.h:61
+msgid "Vertical Candidate List"
+msgstr ""
 
 #: src/lib/fcitx-utils/key.cpp:168
 msgctxt "Key name"
