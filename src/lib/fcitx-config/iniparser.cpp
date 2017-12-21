@@ -228,25 +228,32 @@ bool writeAsIni(const RawConfig &root, FILE *fout) {
     return callback(root, "");
 }
 
-void readAsIni(Configuration &configuration, const std::string &path) {
+void readAsIni(RawConfig &rawConfig, const std::string &path) {
     auto &standardPath = StandardPath::global();
     auto file =
         standardPath.open(StandardPath::Type::PkgConfig, path, O_RDONLY);
+    readFromIni(rawConfig, file.fd());
+}
+
+void readAsIni(Configuration &configuration, const std::string &path) {
     RawConfig config;
-    readFromIni(config, file.fd());
+    readAsIni(config, path);
 
     configuration.load(config);
 }
 
+bool safeSaveAsIni(const RawConfig &config, const std::string &path) {
+    auto &standardPath = StandardPath::global();
+    return standardPath.safeSave(
+        StandardPath::Type::PkgConfig, path,
+        [&config](int fd) { return writeAsIni(config, fd); });
+}
+
 bool safeSaveAsIni(const Configuration &configuration,
                    const std::string &path) {
-    auto &standardPath = StandardPath::global();
-    return standardPath.safeSave(StandardPath::Type::PkgConfig, path,
-                                 [&configuration](int fd) {
-                                     RawConfig config;
+    RawConfig config;
 
-                                     configuration.save(config);
-                                     return writeAsIni(config, fd);
-                                 });
+    configuration.save(config);
+    return safeSaveAsIni(config, path);
 }
 }

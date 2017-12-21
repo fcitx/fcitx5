@@ -191,6 +191,7 @@ KeyboardEngine::~KeyboardEngine() {}
 
 std::vector<InputMethodEntry> KeyboardEngine::listInputMethods() {
     std::vector<InputMethodEntry> result;
+    bool usExists;
     for (auto &p : xkbRules_.layoutInfos()) {
         auto &layoutInfo = p.second;
         auto language = findBestLanguage(isoCodes_, layoutInfo.description,
@@ -199,6 +200,9 @@ std::vector<InputMethodEntry> KeyboardEngine::listInputMethods() {
             fmt::format(_("Keyboard - {0}"),
                         D_("xkeyboard-config", layoutInfo.description));
         auto uniqueName = imNamePrefix + layoutInfo.name;
+        if (uniqueName == "keyboard-us") {
+            usExists = true;
+        }
         result.push_back(std::move(
             InputMethodEntry(uniqueName, description, language, "keyboard")
                 .setLabel(layoutInfo.name)
@@ -220,6 +224,52 @@ std::vector<InputMethodEntry> KeyboardEngine::listInputMethods() {
                     .setLabel(layoutInfo.name)
                     .setIcon("input-keyboard")));
         }
+    }
+
+    if (result.empty()) {
+        RawConfig config;
+        readAsIni(config, "conf/cached_layouts");
+        for (auto &uniqueName : config.subItems()) {
+            auto desc = config.valueByPath(
+                stringutils::joinPath(uniqueName, "Description"));
+            auto lang = config.valueByPath(
+                stringutils::joinPath(uniqueName, "Language"));
+            auto label =
+                config.valueByPath(stringutils::joinPath(uniqueName, "Label"));
+            if (desc && lang && label) {
+                if (uniqueName == "keyboard-us") {
+                    usExists = true;
+                }
+                result.push_back(
+                    std::move(InputMethodEntry(
+                                  uniqueName,
+                                  fmt::format(_("{0} (Not Available)"), *desc),
+                                  *lang, "keyboard")
+                                  .setLabel(*label)
+                                  .setIcon("input-keyboard")));
+            }
+        }
+    } else {
+        RawConfig config;
+        for (auto &item : result) {
+            config.setValueByPath(
+                stringutils::joinPath(item.uniqueName(), "Description"),
+                item.name());
+            config.setValueByPath(
+                stringutils::joinPath(item.uniqueName(), "Language"),
+                item.languageCode());
+            config.setValueByPath(
+                stringutils::joinPath(item.uniqueName(), "Label"),
+                item.label());
+        }
+        safeSaveAsIni(config, "conf/cached_layouts");
+    }
+    if (!usExists) {
+        result.push_back(std::move(
+            InputMethodEntry("keyboard-us", _("Keyboard"), "en", "keyboard")
+                .setLabel("us")
+                .setIcon("input-keyboard")
+                .setConfigurable(true)));
     }
     return result;
 }
