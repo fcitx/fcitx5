@@ -45,6 +45,7 @@ public:
     void registerSNI();
     void enable();
     void disable();
+    bool registered() { return registered_; }
     std::unique_ptr<HandlerTableEntry<NotificationItemCallback>>
         watch(NotificationItemCallback);
 
@@ -53,6 +54,7 @@ private:
     FCITX_ADDON_EXPORT_FUNCTION(NotificationItem, enable);
     FCITX_ADDON_EXPORT_FUNCTION(NotificationItem, disable);
     FCITX_ADDON_EXPORT_FUNCTION(NotificationItem, watch);
+    FCITX_ADDON_EXPORT_FUNCTION(NotificationItem, registered);
     Instance *instance_;
     dbus::Bus *bus_;
     std::unique_ptr<dbus::ServiceWatcher> watcher_;

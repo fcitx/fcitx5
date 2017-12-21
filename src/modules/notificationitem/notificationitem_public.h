@@ -33,5 +33,6 @@ FCITX_ADDON_DECLARE_FUNCTION(
     std::unique_ptr<HandlerTableEntry<NotificationItemCallback>>(
         NotificationItemCallback));
 FCITX_ADDON_DECLARE_FUNCTION(NotificationItem, disable, void());
+FCITX_ADDON_DECLARE_FUNCTION(NotificationItem, registered, bool());
 
 #endif // _FCITX_MODULES_NOTIFICATIONITEM_NOTIFICATIONITEM_PUBLIC_H_

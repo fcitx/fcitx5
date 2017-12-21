@@ -149,6 +149,10 @@ void ClassicUI::resume() {
                 });
         }
         sni->call<INotificationItem::enable>();
+        auto registered = sni->call<INotificationItem::registered>();
+        for (auto &p : uis_) {
+            p.second->setEnableTray(!registered);
+        }
     } else {
         for (auto &p : uis_) {
             p.second->setEnableTray(true);
