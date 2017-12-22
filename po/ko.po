@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2017-12-21 00:01-0800\n"
+"POT-Creation-Date: 2017-12-22 00:01-0800\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: Bon Keun Seo <scobyseo@gmail.com>, 2017\n"
 "Language-Team: Korean (https://www.transifex.com/fcitx/teams/12005/ko/)\n"
@@ -64,6 +64,10 @@ msgstr "유니코드 입력 지원 추가"
 msgctxt "Key name"
 msgid "Adjust Brightness"
 msgstr "밝기 조절"
+
+#: src/modules/xcb/xcbmodule.h:42
+msgid "Allow Overriding System XKB Settings"
+msgstr ""
 
 #: src/im/keyboard/keyboard.h:42 src/modules/quickphrase/quickphrase.h:39
 msgid "Alt"
@@ -584,15 +588,15 @@ msgctxt "Key name"
 msgid "Katakana"
 msgstr "가타가나"
 
-#: src/im/keyboard/keyboard.conf.in:3
+#: src/im/keyboard/keyboard.cpp:269 src/im/keyboard/keyboard.conf.in:3
 msgid "Keyboard"
 msgstr "키보드"
 
-#: src/im/keyboard/keyboard.cpp:199
+#: src/im/keyboard/keyboard.cpp:200
 msgid "Keyboard - {0}"
 msgstr "키보드 - {0}"
 
-#: src/im/keyboard/keyboard.cpp:213
+#: src/im/keyboard/keyboard.cpp:217
 msgid "Keyboard - {0} - {1}"
 msgstr "키보드 - {0} - {1}"
 
@@ -1108,15 +1112,15 @@ msgstr "공백"
 msgid "Spell"
 msgstr "철자"
 
-#: src/im/keyboard/keyboard.cpp:303
+#: src/im/keyboard/keyboard.cpp:353
 msgid "Spell hint"
 msgstr "철자 힌트"
 
-#: src/im/keyboard/keyboard.cpp:305
+#: src/im/keyboard/keyboard.cpp:355
 msgid "Spell hint is disabled."
 msgstr "철자 힌트 비활성화됨."
 
-#: src/im/keyboard/keyboard.cpp:304
+#: src/im/keyboard/keyboard.cpp:354
 msgid "Spell hint is enabled."
 msgstr "철자 힌트 활성화됨."
 
@@ -1395,6 +1399,10 @@ msgstr "작게 보기"
 msgctxt "Key name"
 msgid "iTouch"
 msgstr "iTouch"
+
+#: src/im/keyboard/keyboard.cpp:246
+msgid "{0} (Not Available)"
+msgstr ""
 
 #: src/lib/fcitx/instance.cpp:1546
 msgid "{0} (Not available)"

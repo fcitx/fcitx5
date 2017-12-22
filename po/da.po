@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2017-12-21 00:01-0800\n"
+"POT-Creation-Date: 2017-12-22 00:01-0800\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: scootergrisen <scootergrisen@gmail.com>, 2017\n"
 "Language-Team: Danish (https://www.transifex.com/fcitx/teams/12005/da/)\n"
@@ -64,6 +64,10 @@ msgstr "Tilføj understøttelse af unicode-indtastning"
 msgctxt "Key name"
 msgid "Adjust Brightness"
 msgstr "Juster lysstyrke"
+
+#: src/modules/xcb/xcbmodule.h:42
+msgid "Allow Overriding System XKB Settings"
+msgstr ""
 
 #: src/im/keyboard/keyboard.h:42 src/modules/quickphrase/quickphrase.h:39
 msgid "Alt"
@@ -309,7 +313,7 @@ msgstr "Ned"
 
 #: src/modules/quickphrase/quickphrase.h:53
 msgid "Editor"
-msgstr ""
+msgstr "Redigering"
 
 #: src/lib/fcitx-utils/key.cpp:223
 msgctxt "Key name"
@@ -584,15 +588,15 @@ msgctxt "Key name"
 msgid "Katakana"
 msgstr "Katakana"
 
-#: src/im/keyboard/keyboard.conf.in:3
+#: src/im/keyboard/keyboard.cpp:269 src/im/keyboard/keyboard.conf.in:3
 msgid "Keyboard"
 msgstr "Tastatur"
 
-#: src/im/keyboard/keyboard.cpp:199
+#: src/im/keyboard/keyboard.cpp:200
 msgid "Keyboard - {0}"
 msgstr "Tastatur - {0}"
 
-#: src/im/keyboard/keyboard.cpp:213
+#: src/im/keyboard/keyboard.cpp:217
 msgid "Keyboard - {0} - {1}"
 msgstr "Tastatur - {0} - {1}"
 
@@ -1108,15 +1112,15 @@ msgstr "Mellemrum"
 msgid "Spell"
 msgstr "Stav"
 
-#: src/im/keyboard/keyboard.cpp:303
+#: src/im/keyboard/keyboard.cpp:353
 msgid "Spell hint"
 msgstr "Stavetip"
 
-#: src/im/keyboard/keyboard.cpp:305
+#: src/im/keyboard/keyboard.cpp:355
 msgid "Spell hint is disabled."
 msgstr "Stavetip er deaktiveret."
 
-#: src/im/keyboard/keyboard.cpp:304
+#: src/im/keyboard/keyboard.cpp:354
 msgid "Spell hint is enabled."
 msgstr "Stavetip er aktiveret."
 
@@ -1199,7 +1203,7 @@ msgstr "Terminal"
 
 #: src/ui/classic/classicui.h:64
 msgid "Theme"
-msgstr ""
+msgstr "Tema"
 
 #: src/lib/fcitx-utils/key.cpp:187
 msgctxt "Key name"
@@ -1269,11 +1273,11 @@ msgstr "Op"
 
 #: src/ui/classic/classicui.h:62
 msgid "Use Per Screen DPI"
-msgstr ""
+msgstr "Brug pr. skærm DPI"
 
 #: src/ui/classic/classicui.h:61
 msgid "Vertical Candidate List"
-msgstr ""
+msgstr "Lodret kandidatliste"
 
 #: src/lib/fcitx-utils/key.cpp:168
 msgctxt "Key name"
@@ -1396,6 +1400,10 @@ msgstr "Zoom ud"
 msgctxt "Key name"
 msgid "iTouch"
 msgstr "iTouch"
+
+#: src/im/keyboard/keyboard.cpp:246
+msgid "{0} (Not Available)"
+msgstr ""
 
 #: src/lib/fcitx/instance.cpp:1546
 msgid "{0} (Not available)"

@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2017-12-21 00:01-0800\n"
+"POT-Creation-Date: 2017-12-22 00:01-0800\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: csslayer <wengxt@gmail.com>, 2017\n"
 "Language-Team: Catalan (https://www.transifex.com/fcitx/teams/12005/ca/)\n"
@@ -64,6 +64,10 @@ msgstr "Afegeix la compatibilitat amb l'escriptura unicode"
 msgctxt "Key name"
 msgid "Adjust Brightness"
 msgstr "Ajusta la brillantor"
+
+#: src/modules/xcb/xcbmodule.h:42
+msgid "Allow Overriding System XKB Settings"
+msgstr ""
 
 #: src/im/keyboard/keyboard.h:42 src/modules/quickphrase/quickphrase.h:39
 msgid "Alt"
@@ -584,15 +588,15 @@ msgctxt "Key name"
 msgid "Katakana"
 msgstr ""
 
-#: src/im/keyboard/keyboard.conf.in:3
+#: src/im/keyboard/keyboard.cpp:269 src/im/keyboard/keyboard.conf.in:3
 msgid "Keyboard"
 msgstr "Teclat"
 
-#: src/im/keyboard/keyboard.cpp:199
+#: src/im/keyboard/keyboard.cpp:200
 msgid "Keyboard - {0}"
 msgstr "Teclat - {0}"
 
-#: src/im/keyboard/keyboard.cpp:213
+#: src/im/keyboard/keyboard.cpp:217
 msgid "Keyboard - {0} - {1}"
 msgstr "Teclat - {0} - {1}"
 
@@ -1108,15 +1112,15 @@ msgstr "Espai"
 msgid "Spell"
 msgstr "Ortografia"
 
-#: src/im/keyboard/keyboard.cpp:303
+#: src/im/keyboard/keyboard.cpp:353
 msgid "Spell hint"
 msgstr "Suggeriment d'escriptura"
 
-#: src/im/keyboard/keyboard.cpp:305
+#: src/im/keyboard/keyboard.cpp:355
 msgid "Spell hint is disabled."
 msgstr "El suggeriment d'escriptura està inhabilitat."
 
-#: src/im/keyboard/keyboard.cpp:304
+#: src/im/keyboard/keyboard.cpp:354
 msgid "Spell hint is enabled."
 msgstr "El suggeriment d'escriptura està habilitat."
 
@@ -1389,6 +1393,10 @@ msgstr "Redueix el zoom"
 msgctxt "Key name"
 msgid "iTouch"
 msgstr "iTouch"
+
+#: src/im/keyboard/keyboard.cpp:246
+msgid "{0} (Not Available)"
+msgstr ""
 
 #: src/lib/fcitx/instance.cpp:1546
 msgid "{0} (Not available)"
