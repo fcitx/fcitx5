@@ -25,8 +25,11 @@
 namespace fcitx {
 
 XCBModule::XCBModule(Instance *instance) : instance_(instance) {
+    reloadConfig();
     openConnection("");
 }
+
+void XCBModule::reloadConfig() { readAsIni(config_, "conf/xcb.conf"); }
 
 void XCBModule::openConnection(const std::string &name_) {
     std::string name = name_;

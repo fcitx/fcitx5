@@ -19,7 +19,9 @@
 #ifndef _FCITX_MODULES_XCB_XCBMODULE_H_
 #define _FCITX_MODULES_XCB_XCBMODULE_H_
 
+#include "fcitx-config/iniparser.h"
 #include "fcitx-utils/event.h"
+#include "fcitx-utils/i18n.h"
 #include "fcitx-utils/handlertable.h"
 #include "fcitx/addonfactory.h"
 #include "fcitx/addoninstance.h"
@@ -34,6 +36,11 @@
 
 namespace fcitx {
 
+FCITX_CONFIGURATION(
+    XCBConfig,
+    Option<bool> allowOverrideXKB{this, "Allow Overriding System XKB Settings",
+            _("Allow Overriding System XKB Settings"), true};);
+
 class XCBConnection;
 
 class XCBModule : public AddonInstance {
@@ -42,7 +49,15 @@ public:
 
     void openConnection(const std::string &name);
     void removeConnection(const std::string &name);
+    const XCBConfig &config() const { return config_; }
     Instance *instance() { return instance_; }
+
+    const Configuration *getConfig() const override { return &config_; }
+    void setConfig(const RawConfig &config) override {
+        config_.load(config, true);
+        safeSaveAsIni(config_, "conf/xcb.conf");
+    }
+    void reloadConfig() override;
 
     std::unique_ptr<HandlerTableEntry<XCBEventFilter>>
     addEventFilter(const std::string &name, XCBEventFilter filter);
@@ -69,6 +84,7 @@ private:
     void onConnectionClosed(XCBConnection &conn);
 
     Instance *instance_;
+    XCBConfig config_;
     std::unordered_map<std::string, XCBConnection> conns_;
     HandlerTable<XCBConnectionCreated> createdCallbacks_;
     HandlerTable<XCBConnectionClosed> closedCallbacks_;
