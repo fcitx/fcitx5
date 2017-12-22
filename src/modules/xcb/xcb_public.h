@@ -51,7 +51,8 @@ XCBReply<T> makeXCBReply(T *ptr) noexcept {
     return {ptr, &std::free};
 }
 }
-FCITX_ADDON_DECLARE_FUNCTION(XCBModule, openConnection, void(const std::string &));
+FCITX_ADDON_DECLARE_FUNCTION(XCBModule, openConnection,
+                             void(const std::string &));
 FCITX_ADDON_DECLARE_FUNCTION(XCBModule, addEventFilter,
                              std::unique_ptr<HandlerTableEntry<XCBEventFilter>>(
                                  const std::string &, XCBEventFilter));

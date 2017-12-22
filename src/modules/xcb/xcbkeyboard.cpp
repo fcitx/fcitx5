@@ -31,8 +31,8 @@
 #include "fcitx/misc_p.h"
 #include "xcb_public.h"
 #include "xcbconnection.h"
-#include "xcbmodule.h"
 #include "xcbkeyboard.h"
+#include "xcbmodule.h"
 #include <xcb/xcbext.h>
 #include <xkbcommon/xkbcommon-x11.h>
 
@@ -130,7 +130,8 @@ XCBKeyboard::XCBKeyboard(XCBConnection *conn) : conn_(conn) {
     eventHandlers_.emplace_back(conn_->instance()->watchEvent(
         EventType::InputMethodGroupChanged, EventWatcherPhase::Default,
         [this](Event &) {
-            if (!hasXKB_ || !conn_->parent()->config().allowOverrideXKB.value()) {
+            if (!hasXKB_ ||
+                !conn_->parent()->config().allowOverrideXKB.value()) {
                 return;
             }
             auto layoutAndVariant = parseLayout(conn_->instance()
@@ -524,32 +525,34 @@ bool XCBKeyboard::handleEvent(xcb_generic_event_t *event) {
                 updateKeymap();
             }
 
+            if (!*conn_->parent()->config().allowOverrideXKB) {
+                break;
+            }
+
             if (ev->sequence != lastSequence_) {
                 lastSequence_ = ev->sequence;
-                if (conn_->parent()->config().allowOverrideXKB.value()) {
-                    xmodmapTimer_ = conn_->instance()->eventLoop().addTimeEvent(
-                        CLOCK_MONOTONIC, now(CLOCK_MONOTONIC) + 10000, 0,
-                        [this](EventSourceTime *, uint64_t) {
-                            FCITX_DEBUG() << "Apply Xmodmap.";
+                xmodmapTimer_ = conn_->instance()->eventLoop().addTimeEvent(
+                    CLOCK_MONOTONIC, now(CLOCK_MONOTONIC) + 10000, 0,
+                    [this](EventSourceTime *, uint64_t) {
+                        FCITX_DEBUG() << "Apply Xmodmap.";
 
-                            if (waitingForRefresh_) {
-                                waitingForRefresh_ = false;
-                                auto home = getenv("HOME");
-                                if (!home) {
-                                    return true;
-                                }
-                                auto path = stringutils::joinPath(home, ".Xmodmap");
-                                if (!fs::isreg(path)) {
-                                    path = stringutils::joinPath(home, ".xmodmap");
-                                }
-                                if (!fs::isreg(path)) {
-                                    return true;
-                                }
-                                startProcess({"xmodmap", path});
+                        if (waitingForRefresh_) {
+                            waitingForRefresh_ = false;
+                            auto home = getenv("HOME");
+                            if (!home) {
+                                return true;
                             }
-                            return true;
-                        });
-                }
+                            auto path = stringutils::joinPath(home, ".Xmodmap");
+                            if (!fs::isreg(path)) {
+                                path = stringutils::joinPath(home, ".xmodmap");
+                            }
+                            if (!fs::isreg(path)) {
+                                return true;
+                            }
+                            startProcess({"xmodmap", path});
+                        }
+                        return true;
+                    });
             }
             break;
         }

@@ -21,8 +21,8 @@
 
 #include "fcitx-config/iniparser.h"
 #include "fcitx-utils/event.h"
-#include "fcitx-utils/i18n.h"
 #include "fcitx-utils/handlertable.h"
+#include "fcitx-utils/i18n.h"
 #include "fcitx/addonfactory.h"
 #include "fcitx/addoninstance.h"
 #include "fcitx/addonmanager.h"
@@ -36,10 +36,10 @@
 
 namespace fcitx {
 
-FCITX_CONFIGURATION(
-    XCBConfig,
-    Option<bool> allowOverrideXKB{this, "Allow Overriding System XKB Settings",
-            _("Allow Overriding System XKB Settings"), true};);
+FCITX_CONFIGURATION(XCBConfig,
+                    Option<bool> allowOverrideXKB{
+                        this, "Allow Overriding System XKB Settings",
+                        _("Allow Overriding System XKB Settings"), true};);
 
 class XCBConnection;
 
