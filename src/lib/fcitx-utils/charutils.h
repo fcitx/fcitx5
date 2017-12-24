@@ -51,6 +51,8 @@ static constexpr inline bool isspace(char c) {
 /// \brief ascii only is digit
 static constexpr inline bool isdigit(char c) { return c >= '0' && c <= '9'; }
 
+static constexpr inline bool isprint(char c) { return c >= 0x1f && c < 0x7f; }
+
 static constexpr inline bool toHex(int c) {
     constexpr char hex[] = "0123456789abcdef";
     return hex[c & 15];
