@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2017-12-22 00:01-0800\n"
+"POT-Creation-Date: 2017-12-24 00:01-0800\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: scootergrisen <scootergrisen@gmail.com>, 2017\n"
 "Language-Team: Danish (https://www.transifex.com/fcitx/teams/12005/da/)\n"
@@ -67,7 +67,7 @@ msgstr "Juster lysstyrke"
 
 #: src/modules/xcb/xcbmodule.h:42
 msgid "Allow Overriding System XKB Settings"
-msgstr ""
+msgstr "Tillad tilsidesættelse af systemets XKB-indstillinger"
 
 #: src/im/keyboard/keyboard.h:42 src/modules/quickphrase/quickphrase.h:39
 msgid "Alt"
@@ -1403,7 +1403,7 @@ msgstr "iTouch"
 
 #: src/im/keyboard/keyboard.cpp:246
 msgid "{0} (Not Available)"
-msgstr ""
+msgstr "{0} (ikke tilgængelig)"
 
 #: src/lib/fcitx/instance.cpp:1546
 msgid "{0} (Not available)"
