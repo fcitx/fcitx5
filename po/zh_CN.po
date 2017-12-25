@@ -4,13 +4,14 @@
 #
 # Translators:
 # csslayer <wengxt@gmail.com>, 2017
+# wwj402 <wwj402@gmail.com>, 2017
 msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2017-12-23 00:01-0800\n"
+"POT-Creation-Date: 2017-12-25 00:01-0800\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: csslayer <wengxt@gmail.com>, 2017\n"
+"Last-Translator: wwj402 <wwj402@gmail.com>, 2017\n"
 "Language-Team: Chinese (China) (https://www.transifex.com/fcitx/teams/12005/"
 "zh_CN/)\n"
 "Language: zh_CN\n"
@@ -67,7 +68,7 @@ msgstr "调整亮度"
 
 #: src/modules/xcb/xcbmodule.h:42
 msgid "Allow Overriding System XKB Settings"
-msgstr ""
+msgstr "允许重写系统 XKB 设置"
 
 #: src/im/keyboard/keyboard.h:42 src/modules/quickphrase/quickphrase.h:39
 msgid "Alt"
@@ -313,7 +314,7 @@ msgstr "下"
 
 #: src/modules/quickphrase/quickphrase.h:53
 msgid "Editor"
-msgstr ""
+msgstr "编辑器"
 
 #: src/lib/fcitx-utils/key.cpp:223
 msgctxt "Key name"
@@ -1203,7 +1204,7 @@ msgstr "终端"
 
 #: src/ui/classic/classicui.h:64
 msgid "Theme"
-msgstr ""
+msgstr "主题"
 
 #: src/lib/fcitx-utils/key.cpp:187
 msgctxt "Key name"
@@ -1273,11 +1274,11 @@ msgstr "上"
 
 #: src/ui/classic/classicui.h:62
 msgid "Use Per Screen DPI"
-msgstr ""
+msgstr "按屏幕 DPI 使用"
 
 #: src/ui/classic/classicui.h:61
 msgid "Vertical Candidate List"
-msgstr ""
+msgstr "垂直候选列表"
 
 #: src/lib/fcitx-utils/key.cpp:168
 msgctxt "Key name"
@@ -1401,7 +1402,7 @@ msgstr "iTouch"
 
 #: src/im/keyboard/keyboard.cpp:246
 msgid "{0} (Not Available)"
-msgstr ""
+msgstr "{0} (不可用)"
 
 #: src/lib/fcitx/instance.cpp:1546
 msgid "{0} (Not available)"
