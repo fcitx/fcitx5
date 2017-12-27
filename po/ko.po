@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2017-12-22 00:01-0800\n"
+"POT-Creation-Date: 2017-12-27 00:01-0800\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: Bon Keun Seo <scobyseo@gmail.com>, 2017\n"
 "Language-Team: Korean (https://www.transifex.com/fcitx/teams/12005/ko/)\n"
@@ -67,7 +67,7 @@ msgstr "밝기 조절"
 
 #: src/modules/xcb/xcbmodule.h:42
 msgid "Allow Overriding System XKB Settings"
-msgstr ""
+msgstr "시스템 XKB 설정을 덮어쓰도록 허용"
 
 #: src/im/keyboard/keyboard.h:42 src/modules/quickphrase/quickphrase.h:39
 msgid "Alt"
@@ -115,7 +115,7 @@ msgstr "자리비움"
 #: src/lib/fcitx-utils/key.cpp:68
 msgctxt "Key name"
 msgid "Back"
-msgstr ""
+msgstr "뒤로"
 
 #: src/lib/fcitx-utils/key.cpp:125
 msgctxt "Key name"
@@ -309,11 +309,11 @@ msgstr "문서"
 #: src/lib/fcitx-utils/key.cpp:60
 msgctxt "Key name"
 msgid "Down"
-msgstr ""
+msgstr "아래쪽"
 
 #: src/modules/quickphrase/quickphrase.h:53
 msgid "Editor"
-msgstr ""
+msgstr "편집기"
 
 #: src/lib/fcitx-utils/key.cpp:223
 msgctxt "Key name"
@@ -396,7 +396,7 @@ msgstr "찾기"
 #: src/lib/fcitx-utils/key.cpp:69
 msgctxt "Key name"
 msgid "Forward"
-msgstr ""
+msgstr "앞으로"
 
 #: src/modules/notifications/notifications.conf.in:4
 msgid "Freedesktop.org Notification Support"
@@ -937,7 +937,7 @@ msgstr "사진"
 #: src/lib/fcitx-utils/key.cpp:191
 msgctxt "Key name"
 msgid "Power Down"
-msgstr ""
+msgstr "전원 끄기"
 
 #: src/lib/fcitx-utils/key.cpp:110
 msgctxt "Key name"
@@ -1203,7 +1203,7 @@ msgstr "터미널"
 
 #: src/ui/classic/classicui.h:64
 msgid "Theme"
-msgstr ""
+msgstr "테마"
 
 #: src/lib/fcitx-utils/key.cpp:187
 msgctxt "Key name"
@@ -1273,11 +1273,11 @@ msgstr "위쪽"
 
 #: src/ui/classic/classicui.h:62
 msgid "Use Per Screen DPI"
-msgstr ""
+msgstr "화면 해상도 사용하기"
 
 #: src/ui/classic/classicui.h:61
 msgid "Vertical Candidate List"
-msgstr ""
+msgstr "세로 단어 후보 목록"
 
 #: src/lib/fcitx-utils/key.cpp:168
 msgctxt "Key name"
@@ -1402,7 +1402,7 @@ msgstr "iTouch"
 
 #: src/im/keyboard/keyboard.cpp:246
 msgid "{0} (Not Available)"
-msgstr ""
+msgstr "{0} (사용할 수 없음)"
 
 #: src/lib/fcitx/instance.cpp:1546
 msgid "{0} (Not available)"
