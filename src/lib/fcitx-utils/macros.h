@@ -33,6 +33,7 @@
     friend class Class##Private;
 
 #define FCITX_D() auto *const d = d_func()
+#define FCITX_Q() auto *const q = q_func()
 
 #define FCITX_UNUSED(X) ((void)(X))
 
