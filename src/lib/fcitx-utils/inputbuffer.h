@@ -26,39 +26,82 @@
 #include <memory>
 #include <string>
 
+/// \addtogroup FcitxUtils
+/// \{
+/// \file
+/// \brief Generic InputBuffer to be used to handle user's preedit.
+
 namespace fcitx {
 class InputBufferPrivate;
 
-enum class InputBufferOption { None = 0, AsciiOnly = 1, FixedCursor = 1 << 1 };
+enum class InputBufferOption {
+    /// No option.
+    None = 0,
+    /// The input buffer is ascii character only, non ascii char will raise
+    /// exception.
+    AsciiOnly = 1,
+    /// Whether the input buffer only supports cursor at the end of buffer.
+    FixedCursor = 1 << 1
+};
 
 using InputBufferOptions = Flags<InputBufferOption>;
 
+/// A string buffer that come with convinient functions to handle use input.
 class FCITXUTILS_EXPORT InputBuffer {
 public:
+    /// Create a input buffer with options.
+    /// \see InputBufferOption
     InputBuffer(InputBufferOptions options = InputBufferOption::None);
     virtual ~InputBuffer();
 
+    /// Get the buffer option.
     InputBufferOptions options() const;
 
+    /// Type a C-String with length into buffer.
     void type(const char *s, size_t length) { typeImpl(s, length); }
+    /// Type an std::stirng to buffer.
     void type(const std::string &s) { type(s.c_str(), s.size()); }
+    /// Type a C-String to buffer.
     void type(const char *s) { type(s, std::strlen(s)); }
+    /// Type a ucs4 character to buffer.
     void type(uint32_t unicode);
 
+    /// Erase a range of character.
     virtual void erase(size_t from, size_t to);
+    /// Set cursor position, by character.
     virtual void setCursor(size_t cursor);
 
+    /// Get the max size of the buffer.
     size_t maxSize() const;
+
+    /// Set max size of the buffer.
     void setMaxSize(size_t s);
 
+    /// Utf8 string in the buffer.
     const std::string &userInput() const;
+
+    /// Cursor position by utf8 character.
     size_t cursor() const;
+
+    /// Cursor position by char (byte).
     size_t cursorByChar() const;
+
+    /// Size of buffer, by number of utf8 character.
     size_t size() const;
+
+    /// UCS-4 char in the buffer. Will raise exception if i is out of range.
     uint32_t charAt(size_t i) const;
+
+    /// Byte range for character at position i.
     std::pair<size_t, size_t> rangeAt(size_t i) const;
+
+    /// Byte size at position i.
     size_t sizeAt(size_t i) const;
+
+    /// Whether buffer is empty.
     bool empty() const { return size() == 0; }
+
+    /// Helper function to implement "delete" key.
     inline bool del() {
         auto c = cursor();
         if (c < size()) {
@@ -67,6 +110,8 @@ public:
         }
         return false;
     }
+
+    /// Helper function to implement "backspace" key.
     inline bool backspace() {
         auto c = cursor();
         if (c > 0) {
@@ -76,10 +121,15 @@ public:
         return false;
     }
 
+    /// Clear all buffer.
     void clear() { erase(0, size()); }
+
+    /// Save memory by call shrink to fit to internal buffer.
     void shrinkToFit();
 
 protected:
+    /// Type a certain length of utf8 character to the buffer. [s, s+length]
+    /// need to be valid utf8 string.
     virtual void typeImpl(const char *s, size_t length);
 
 private:
