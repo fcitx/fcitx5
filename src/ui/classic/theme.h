@@ -54,7 +54,6 @@ FCITX_CONFIGURATION(
 
 FCITX_CONFIGURATION(
     InputPanelThemeConfig,
-    Option<std::string> font{this, "Font", "Font", "Sans 9"};
     Option<BackgroundImageConfig> background{this, "Background", "Background"};
     Option<BackgroundImageConfig> highlight{this, "Highlight",
                                             "Highlight Background"};

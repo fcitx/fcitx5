@@ -61,6 +61,9 @@ FCITX_CONFIGURATION(
                                        _("Vertical Candidate List"), false};
     Option<bool> perScreenDPI{this, "PerScreenDPI", _("Use Per Screen DPI"),
                               true};
+
+    OptionWithAnnotation<std::string, FontAnnotation> font{this, "Font", "Font",
+                                                           "Sans 9"};
     Option<std::string, NotEmpty> theme{this, "Theme", _("Theme"), "default"};);
 
 class ClassicUI : public UserInterface {

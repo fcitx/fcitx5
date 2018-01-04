@@ -104,6 +104,14 @@ struct NoAnnotation {
     void dumpDescription(RawConfig &) const {}
 };
 
+struct FontAnnotation {
+    bool skipDescription() const { return false; }
+    bool skipSave() const { return false; }
+    void dumpDescription(RawConfig &config) const {
+        config.setValueByPath("Font", "True");
+    }
+};
+
 struct HideInDescription {
     bool skipDescription() const { return true; }
     bool skipSave() const { return false; }

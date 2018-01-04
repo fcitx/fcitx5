@@ -199,6 +199,13 @@ Clipboard::Clipboard(Instance *instance)
                     }
                     return;
                 }
+                if (keyEvent.key().check(FcitxKey_space)) {
+                    keyEvent.accept();
+                    if (candidateList->size() > 0) {
+                        candidateList->candidate(idx)->select(inputContext);
+                    }
+                    return;
+                }
 
                 if (keyEvent.key().checkKeyList(
                         instance_->globalConfig().defaultPrevPage())) {
