@@ -202,7 +202,7 @@ Clipboard::Clipboard(Instance *instance)
                 if (keyEvent.key().check(FcitxKey_space)) {
                     keyEvent.accept();
                     if (candidateList->size() > 0) {
-                        candidateList->candidate(idx)->select(inputContext);
+                        candidateList->candidate(0)->select(inputContext);
                     }
                     return;
                 }
