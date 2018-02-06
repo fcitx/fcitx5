@@ -47,7 +47,7 @@ struct _FcitxUnicodeToKeySym {
 
 static const struct _FcitxKeySymToUnicode gdk_keysym_to_unicode_tab[] = {
     {0x01a1, 0x0104}, /* Aogonek Ą LATIN CAPITAL LETTER A WITH OGONEK */
-{0x01a2, 0x02d8},     /* breve ˘ BREVE */
+    {0x01a2, 0x02d8}, /* breve ˘ BREVE */
     {0x01a3, 0x0141}, /* Lstroke Ł LATIN CAPITAL LETTER L WITH STROKE */
     {0x01a5, 0x013d}, /* Lcaron Ľ LATIN CAPITAL LETTER L WITH CARON */
     {0x01a6, 0x015a}, /* Sacute Ś LATIN CAPITAL LETTER S WITH ACUTE */
@@ -888,27 +888,37 @@ static const struct _FcitxKeySymToUnicode gdk_keysym_to_unicode_tab[] = {
 
     /* A few ASCII control characters */
 
-    {0xFF08 /* Backspace */, '\b'}, {0xFF09 /* Tab */, '\t'},
-    {0xFF0A /* Linefeed */, '\n'}, {0xFF0B /* Vert. Tab */, '\v'},
-    {0xFF0D /* Return */, '\r'}, {0xFF1B /* Escape */, '\033'},
+    {0xFF08 /* Backspace */, '\b'},
+    {0xFF09 /* Tab */, '\t'},
+    {0xFF0A /* Linefeed */, '\n'},
+    {0xFF0B /* Vert. Tab */, '\v'},
+    {0xFF0D /* Return */, '\r'},
+    {0xFF1B /* Escape */, '\033'},
 
     /* Numeric keypad */
 
-    {0xFF80 /* Space */, ' '}, {0xFFAA /* Multiply */, '*'},
-    {0xFFAB /* Add */, '+'}, {0xFFAC /* Separator */, ','},
-    {0xFFAD /* Subtract */, '-'}, {0xFFAE /* Decimal */, '.'},
-    {0xFFAF /* Divide */, '/'}, {0xFFB0 /* 0 */, '0'}, {0xFFB1 /* 1 */, '1'},
-    {0xFFB2 /* 2 */, '2'}, {0xFFB3 /* 3 */, '3'}, {0xFFB4 /* 4 */, '4'},
-    {0xFFB5 /* 5 */, '5'}, {0xFFB6 /* 6 */, '6'}, {0xFFB7 /* 7 */, '7'},
-    {0xFFB8 /* 8 */, '8'}, {0xFFB9 /* 9 */, '9'}, {0xFFBD /* Equal */, '='},
+    {0xFF80 /* Space */, ' '},
+    {0xFFAA /* Multiply */, '*'},
+    {0xFFAB /* Add */, '+'},
+    {0xFFAC /* Separator */, ','},
+    {0xFFAD /* Subtract */, '-'},
+    {0xFFAE /* Decimal */, '.'},
+    {0xFFAF /* Divide */, '/'},
+    {0xFFB0 /* 0 */, '0'},
+    {0xFFB1 /* 1 */, '1'},
+    {0xFFB2 /* 2 */, '2'},
+    {0xFFB3 /* 3 */, '3'},
+    {0xFFB4 /* 4 */, '4'},
+    {0xFFB5 /* 5 */, '5'},
+    {0xFFB6 /* 6 */, '6'},
+    {0xFFB7 /* 7 */, '7'},
+    {0xFFB8 /* 8 */, '8'},
+    {0xFFB9 /* 9 */, '9'},
+    {0xFFBD /* Equal */, '='},
 
-/* End numeric keypad */
+    /* End numeric keypad */
 
-{
-    0xFFFF /* Delete */, '\177'
-}
-}
-;
+    {0xFFFF /* Delete */, '\177'}};
 
 static const struct _FcitxUnicodeToKeySym gdk_unicode_to_keysym_tab[] = {
     {0x0abd, 0x002e}, /* decimalpoint . FULL STOP */

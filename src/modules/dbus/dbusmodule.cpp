@@ -162,10 +162,10 @@ public:
                 std::get<2>(layoutItem) = languages;
                 auto &variants = std::get<3>(layoutItem);
                 module_->keyboard()->call<IKeyboardEngine::foreachVariant>(
-                    layout, [&variants,
-                             this](const std::string &variant,
-                                   const std::string &description,
-                                   const std::vector<std::string> &languages) {
+                    layout,
+                    [&variants](const std::string &variant,
+                                const std::string &description,
+                                const std::vector<std::string> &languages) {
                         variants.emplace_back();
                         auto &variantItem = variants.back();
                         std::get<0>(variantItem) = variant;
@@ -451,6 +451,16 @@ DBusModule::DBusModule(Instance *instance)
                                    RequestNameFlag::ReplaceExisting})) {
         throw std::runtime_error("Unable to request dbus name");
     }
+
+    disconnectedSlot_ = bus_->addMatch(
+        dbus::MatchRule("org.freedesktop.DBus.Local",
+                        "/org/freedesktop/DBus/Local",
+                        "org.freedesktop.DBus.Local", "Disconnected"),
+        [instance](dbus::Message) {
+            FCITX_INFO() << "Disconnected from DBus, exiting...";
+            instance->exit();
+            return true;
+        });
 
     selfWatcher_ = serviceWatcher_->watchService(
         FCITX_DBUS_SERVICE,

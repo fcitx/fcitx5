@@ -44,6 +44,7 @@ private:
     FCITX_ADDON_EXPORT_FUNCTION(DBusModule, lockGroup);
 
     std::unique_ptr<dbus::Bus> bus_;
+    std::unique_ptr<dbus::Slot> disconnectedSlot_;
     std::unique_ptr<dbus::ServiceWatcher> serviceWatcher_;
     std::unique_ptr<HandlerTableEntry<dbus::ServiceWatcherCallback>>
         selfWatcher_;

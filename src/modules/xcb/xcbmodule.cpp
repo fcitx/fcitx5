@@ -55,10 +55,12 @@ void XCBModule::openConnection(const std::string &name_) {
 
 void XCBModule::removeConnection(const std::string &name) {
     auto iter = conns_.find(name);
-    if (iter != conns_.end()) {
-        onConnectionClosed(iter->second);
-        conns_.erase(iter);
+    if (iter == conns_.end()) {
+        return;
     }
+    onConnectionClosed(iter->second);
+    conns_.erase(iter);
+    FCITX_INFO() << "Disconnected from X11 Display " << name;
     if (name == mainDisplay_) {
         mainDisplay_.clear();
         if (instance_->quitWhenMainDisplayDisconnected()) {

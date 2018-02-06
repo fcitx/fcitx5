@@ -102,7 +102,7 @@ struct ReturnValueHelper<void> {
                 this->setCurrentMessage(&msg);                                 \
                 FCITX_STRING_TO_DBUS_TUPLE(SIGNATURE) args;                    \
                 msg >> args;                                                   \
-                auto func = [this](auto that, auto &&... args) {               \
+                auto func = [](auto that, auto &&... args) {                   \
                     return that->FUNCTION(                                     \
                         std::forward<decltype(args)>(args)...);                \
                 };                                                             \

@@ -881,7 +881,7 @@ bool Instance::quitWhenMainDisplayDisconnected() const {
 void Instance::handleSignal() {
     FCITX_D();
     uint8_t signo = 0;
-    while (read(d->signalPipe_, &signo, sizeof(signo)) > 0) {
+    while (fs::safeRead(d->signalPipe_, &signo, sizeof(signo)) > 0) {
         if (signo == SIGINT || signo == SIGTERM || signo == SIGQUIT ||
             signo == SIGXCPU) {
             exit();

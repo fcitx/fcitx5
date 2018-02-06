@@ -116,7 +116,8 @@ std::string Message::member() const {
     if (!d->msg_) {
         return {};
     }
-    return sd_bus_message_get_member(d->msg_);
+    auto member = sd_bus_message_get_member(d->msg_);
+    return member ? member : "";
 }
 
 std::string Message::interface() const {
@@ -124,7 +125,8 @@ std::string Message::interface() const {
     if (!d->msg_) {
         return {};
     }
-    return sd_bus_message_get_interface(d->msg_);
+    auto interface = sd_bus_message_get_interface(d->msg_);
+    return interface ? interface : "";
 }
 
 std::string Message::signature() const {
@@ -134,7 +136,8 @@ std::string Message::signature() const {
 
 std::string Message::path() const {
     FCITX_D();
-    return sd_bus_message_get_path(d->msg_);
+    auto path = sd_bus_message_get_path(d->msg_);
+    return path ? path : "";
 }
 
 std::string Message::errorName() const {
