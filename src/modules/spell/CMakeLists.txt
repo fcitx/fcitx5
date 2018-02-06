@@ -1,6 +1,6 @@
 add_subdirectory(dict)
 add_library(spell MODULE spell.cpp spell-enchant.cpp spell-custom-dict.cpp spell-custom.cpp)
-target_link_libraries(spell Fcitx5::Core Enchant::Enchant)
+target_link_libraries(spell Fcitx5::Core PkgConfig::Enchant)
 set_target_properties(spell PROPERTIES PREFIX "")
 install(TARGETS spell DESTINATION "${FCITX_INSTALL_ADDONDIR}")
 fcitx5_translate_desktop_file(spell.conf.in spell.conf)

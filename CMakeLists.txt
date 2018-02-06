@@ -76,7 +76,10 @@ find_package(WaylandProtocols)
 find_package(EGL)
 
 if(ENABLE_ENCHANT)
-  find_package(Enchant REQUIRED)
+  pkg_check_modules(Enchant IMPORTED_TARGET "enchant-2")
+  if(NOT TARGET PkgConfig::Enchant)
+    pkg_check_modules(Enchant IMPORTED_TARGET "enchant" REQUIRED)
+  endif()
 endif()
 
 if(ENABLE_PRESAGE)
