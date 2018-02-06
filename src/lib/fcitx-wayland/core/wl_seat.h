@@ -36,6 +36,6 @@ private:
 static inline wl_seat *rawPointer(WlSeat *p) {
     return p ? static_cast<wl_seat *>(*p) : nullptr;
 }
-}
-}
+} // namespace wayland
+} // namespace fcitx
 #endif

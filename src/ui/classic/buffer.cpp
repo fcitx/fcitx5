@@ -84,5 +84,5 @@ void Buffer::attachToSurface(WlSurface *surface) {
     surface->commit();
 }
 
-} // namspace wayland
+} // namespace wayland
 } // namespace fcitx

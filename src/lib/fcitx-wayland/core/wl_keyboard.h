@@ -41,6 +41,6 @@ private:
 static inline wl_keyboard *rawPointer(WlKeyboard *p) {
     return p ? static_cast<wl_keyboard *>(*p) : nullptr;
 }
-}
-}
+} // namespace wayland
+} // namespace fcitx
 #endif

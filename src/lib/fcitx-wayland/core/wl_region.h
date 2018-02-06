@@ -28,6 +28,6 @@ private:
 static inline wl_region *rawPointer(WlRegion *p) {
     return p ? static_cast<wl_region *>(*p) : nullptr;
 }
-}
-}
+} // namespace wayland
+} // namespace fcitx
 #endif

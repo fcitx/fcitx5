@@ -72,6 +72,6 @@ struct hash<fcitx::dbus::MatchRule> {
         return std::hash<std::string>()(rule.rule());
     }
 };
-}
+} // namespace std
 
 #endif // _FCITX_UTILS_DBUS_MATCHRULE_H_

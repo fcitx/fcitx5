@@ -78,5 +78,5 @@ void WlDataDevice::startDrag(WlDataSource *source, WlSurface *origin,
 void WlDataDevice::setSelection(WlDataSource *source, uint32_t serial) {
     return wl_data_device_set_selection(*this, rawPointer(source), serial);
 }
-}
-}
+} // namespace wayland
+} // namespace fcitx

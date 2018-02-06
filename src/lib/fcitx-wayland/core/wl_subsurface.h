@@ -32,6 +32,6 @@ private:
 static inline wl_subsurface *rawPointer(WlSubsurface *p) {
     return p ? static_cast<wl_subsurface *>(*p) : nullptr;
 }
-}
-}
+} // namespace wayland
+} // namespace fcitx
 #endif

@@ -1,21 +1,21 @@
-/*
- * Copyright (C) 2016~2016 by CSSlayer
- * wengxt@gmail.com
- *
- * This library is free software; you can redistribute it and/or modify
- * it under the terms of the GNU Lesser General Public License as
- * published by the Free Software Foundation; either version 2.1 of the
- * License, or (at your option) any later version.
- *
- * This library is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
- * Lesser General Public License for more details.
- *
- * You should have received a copy of the GNU Lesser General Public
- * License along with this library; see the file COPYING. If not,
- * see <http://www.gnu.org/licenses/>.
- */
+//
+// Copyright (C) 2016~2016 by CSSlayer
+// wengxt@gmail.com
+//
+// This library is free software; you can redistribute it and/or modify
+// it under the terms of the GNU Lesser General Public License as
+// published by the Free Software Foundation; either version 2.1 of the
+// License, or (at your option) any later version.
+//
+// This library is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+// Lesser General Public License for more details.
+//
+// You should have received a copy of the GNU Lesser General Public
+// License along with this library; see the file COPYING. If not,
+// see <http://www.gnu.org/licenses/>.
+//
 #include "xim.h"
 #include "fcitx-utils/stringutils.h"
 #include "fcitx-utils/utf8.h"
@@ -55,7 +55,7 @@ std::string guess_server_name() {
 
     return "fcitx";
 }
-}
+} // namespace
 
 namespace fcitx {
 
@@ -368,9 +368,10 @@ void XIMServer::callback(xcb_im_client_t *client, xcb_im_input_context_t *xic,
         }
         xcb_key_press_event_t *xevent =
             static_cast<xcb_key_press_event_t *>(arg);
-        KeyEvent event(ic, Key(static_cast<KeySym>(xkb_state_key_get_one_sym(
-                                   state, xevent->detail)),
-                               KeyStates(xevent->state), xevent->detail),
+        KeyEvent event(ic,
+                       Key(static_cast<KeySym>(xkb_state_key_get_one_sym(
+                               state, xevent->detail)),
+                           KeyStates(xevent->state), xevent->detail),
                        (xevent->response_type & ~0x80) == XCB_KEY_RELEASE,
                        xevent->time);
         if (!ic->hasFocus()) {
@@ -424,6 +425,6 @@ public:
         return new XIMModule(manager->instance());
     }
 };
-}
+} // namespace fcitx
 
 FCITX_ADDON_FACTORY(fcitx::XIMModuleFactory);

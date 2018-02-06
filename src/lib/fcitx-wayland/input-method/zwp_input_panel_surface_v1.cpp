@@ -21,5 +21,5 @@ void ZwpInputPanelSurfaceV1::setToplevel(WlOutput *output, uint32_t position) {
 void ZwpInputPanelSurfaceV1::setOverlayPanel() {
     return zwp_input_panel_surface_v1_set_overlay_panel(*this);
 }
-}
-}
+} // namespace wayland
+} // namespace fcitx

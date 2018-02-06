@@ -36,6 +36,6 @@ private:
 static inline wl_registry *rawPointer(WlRegistry *p) {
     return p ? static_cast<wl_registry *>(*p) : nullptr;
 }
-}
-}
+} // namespace wayland
+} // namespace fcitx
 #endif

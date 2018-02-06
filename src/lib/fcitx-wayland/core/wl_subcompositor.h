@@ -29,6 +29,6 @@ private:
 static inline wl_subcompositor *rawPointer(WlSubcompositor *p) {
     return p ? static_cast<wl_subcompositor *>(*p) : nullptr;
 }
-}
-}
+} // namespace wayland
+} // namespace fcitx
 #endif

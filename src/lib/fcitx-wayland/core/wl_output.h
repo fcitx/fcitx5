@@ -37,6 +37,6 @@ private:
 static inline wl_output *rawPointer(WlOutput *p) {
     return p ? static_cast<wl_output *>(*p) : nullptr;
 }
-}
-}
+} // namespace wayland
+} // namespace fcitx
 #endif

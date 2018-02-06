@@ -53,5 +53,5 @@ void WlTouch::destructor(wl_touch *data) {
         return wl_touch_destroy(data);
     }
 }
-}
-}
+} // namespace wayland
+} // namespace fcitx

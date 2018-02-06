@@ -22,5 +22,5 @@ void WlRegion::add(int32_t x, int32_t y, int32_t width, int32_t height) {
 void WlRegion::subtract(int32_t x, int32_t y, int32_t width, int32_t height) {
     return wl_region_subtract(*this, x, y, width, height);
 }
-}
-}
+} // namespace wayland
+} // namespace fcitx

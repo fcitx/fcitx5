@@ -1,21 +1,21 @@
-/*
- * Copyright (C) 2016~2016 by CSSlayer
- * wengxt@gmail.com
- *
- * This library is free software; you can redistribute it and/or modify
- * it under the terms of the GNU Lesser General Public License as
- * published by the Free Software Foundation; either version 2.1 of the
- * License, or (at your option) any later version.
- *
- * This library is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
- * Lesser General Public License for more details.
- *
- * You should have received a copy of the GNU Lesser General Public
- * License along with this library; see the file COPYING. If not,
- * see <http://www.gnu.org/licenses/>.
- */
+//
+// Copyright (C) 2016~2016 by CSSlayer
+// wengxt@gmail.com
+//
+// This library is free software; you can redistribute it and/or modify
+// it under the terms of the GNU Lesser General Public License as
+// published by the Free Software Foundation; either version 2.1 of the
+// License, or (at your option) any later version.
+//
+// This library is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+// Lesser General Public License for more details.
+//
+// You should have received a copy of the GNU Lesser General Public
+// License along with this library; see the file COPYING. If not,
+// see <http://www.gnu.org/licenses/>.
+//
 #include "waylandim.h"
 #include "display.h"
 #include "fcitx-utils/event.h"
@@ -129,12 +129,13 @@ public:
         keyboard_->key().connect(
             [this](uint32_t serial, uint32_t time, uint32_t key,
                    uint32_t state) { keyCallback(serial, time, key, state); });
-        keyboard_->modifiers().connect([this](
-            uint32_t serial, uint32_t mods_depressed, uint32_t mods_latched,
-            uint32_t mods_locked, uint32_t group) {
-            modifiersCallback(serial, mods_depressed, mods_latched, mods_locked,
-                              group);
-        });
+        keyboard_->modifiers().connect(
+            [this](uint32_t serial, uint32_t mods_depressed,
+                   uint32_t mods_latched, uint32_t mods_locked,
+                   uint32_t group) {
+                modifiersCallback(serial, mods_depressed, mods_latched,
+                                  mods_locked, group);
+            });
         keyboard_->repeatInfo().connect([this](int32_t rate, int32_t delay) {
             repeatInfoCallback(rate, delay);
         });
@@ -479,9 +480,10 @@ void WaylandIMInputContextV1::keyCallback(uint32_t serial, uint32_t time,
     // EVDEV OFFSET
     uint32_t code = key + 8;
 
-    KeyEvent event(this, Key(static_cast<KeySym>(xkb_state_key_get_one_sym(
-                                 server_->state_.get(), code)),
-                             server_->modifiers_, code),
+    KeyEvent event(this,
+                   Key(static_cast<KeySym>(xkb_state_key_get_one_sym(
+                           server_->state_.get(), code)),
+                       server_->modifiers_, code),
                    state == WL_KEYBOARD_KEY_STATE_RELEASED, time);
 
     if (state == WL_KEYBOARD_KEY_STATE_RELEASED && key == repeatKey_) {
@@ -551,15 +553,18 @@ void WaylandIMInputContextV1::repeatInfoCallback(int32_t rate, int32_t delay) {
 
 WaylandIMModule::WaylandIMModule(Instance *instance) : instance_(instance) {
     createdCallback_ =
-        wayland()->call<IWaylandModule::addConnectionCreatedCallback>([this](
-            const std::string &name, wl_display *display, FocusGroup *group) {
-            WaylandIMServer *server =
-                new WaylandIMServer(display, group, name, this);
-            servers_[name].reset(server);
-        });
+        wayland()->call<IWaylandModule::addConnectionCreatedCallback>(
+            [this](const std::string &name, wl_display *display,
+                   FocusGroup *group) {
+                WaylandIMServer *server =
+                    new WaylandIMServer(display, group, name, this);
+                servers_[name].reset(server);
+            });
     closedCallback_ =
-        wayland()->call<IWaylandModule::addConnectionClosedCallback>([this](
-            const std::string &name, wl_display *) { servers_.erase(name); });
+        wayland()->call<IWaylandModule::addConnectionClosedCallback>(
+            [this](const std::string &name, wl_display *) {
+                servers_.erase(name);
+            });
 }
 
 AddonInstance *WaylandIMModule::wayland() {
@@ -575,6 +580,6 @@ public:
         return new WaylandIMModule(manager->instance());
     }
 };
-}
+} // namespace fcitx
 
 FCITX_ADDON_FACTORY(fcitx::WaylandIMModuleFactory);

@@ -37,6 +37,6 @@ private:
 static inline wl_data_offer *rawPointer(WlDataOffer *p) {
     return p ? static_cast<wl_data_offer *>(*p) : nullptr;
 }
-}
-}
+} // namespace wayland
+} // namespace fcitx
 #endif

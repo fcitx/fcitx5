@@ -404,33 +404,33 @@ dbus_bool_t DBusAddWatch(DBusWatch *watch, void *data) {
     auto ref = bus->watch();
     try {
         bus->ioWatchers_.emplace(
-            watch,
-            bus->loop_->addIOEvent(fd, flags, [ref, watch](EventSourceIO *, int,
-                                                           IOEventFlags flags) {
-                if (!dbus_watch_get_enabled(watch)) {
-                    return true;
-                }
-                auto refPivot = ref;
-                int dflags = 0;
+            watch, bus->loop_->addIOEvent(
+                       fd, flags,
+                       [ref, watch](EventSourceIO *, int, IOEventFlags flags) {
+                           if (!dbus_watch_get_enabled(watch)) {
+                               return true;
+                           }
+                           auto refPivot = ref;
+                           int dflags = 0;
 
-                if (flags & IOEventFlag::In) {
-                    dflags |= DBUS_WATCH_READABLE;
-                }
-                if (flags & IOEventFlag::Out) {
-                    dflags |= DBUS_WATCH_WRITABLE;
-                }
-                if (flags & IOEventFlag::Err) {
-                    dflags |= DBUS_WATCH_ERROR;
-                }
-                if (flags & IOEventFlag::Hup) {
-                    dflags |= DBUS_WATCH_HANGUP;
-                }
-                dbus_watch_handle(watch, dflags);
-                if (auto bus = refPivot.get()) {
-                    bus->dispatch();
-                }
-                return true;
-            }));
+                           if (flags & IOEventFlag::In) {
+                               dflags |= DBUS_WATCH_READABLE;
+                           }
+                           if (flags & IOEventFlag::Out) {
+                               dflags |= DBUS_WATCH_WRITABLE;
+                           }
+                           if (flags & IOEventFlag::Err) {
+                               dflags |= DBUS_WATCH_ERROR;
+                           }
+                           if (flags & IOEventFlag::Hup) {
+                               dflags |= DBUS_WATCH_HANGUP;
+                           }
+                           dbus_watch_handle(watch, dflags);
+                           if (auto bus = refPivot.get()) {
+                               bus->dispatch();
+                           }
+                           return true;
+                       }));
     } catch (const EventLoopException &e) {
         return false;
     }
@@ -698,5 +698,5 @@ void Bus::flush() {
     FCITX_D();
     dbus_connection_flush(d->conn_);
 }
-}
-}
+} // namespace dbus
+} // namespace fcitx

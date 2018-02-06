@@ -1,37 +1,37 @@
-/* GDK - The GIMP Drawing Kit
-* Copyright (C) 1995-1997 Peter Mattis, Spencer Kimball and Josh MacDonald
-*
-* This library is free software; you can redistribute it and/or
-* modify it under the terms of the GNU Lesser General Public
-* License as published by the Free Software Foundation; either
-* version 2 of the License, or (at your option) any later version.
-*
-* This library is distributed in the hope that it will be useful,
-* but WITHOUT ANY WARRANTY; without even the implied warranty of
-* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
-* Lesser General Public License for more details.
-*
-* You should have received a copy of the GNU Lesser General Public
-* License along with this library; if not, write to the
-* Free Software Foundation, Inc.,
-* 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
-*/
+// GDK - The GIMP Drawing Kit
+// Copyright (C) 1995-1997 Peter Mattis, Spencer Kimball and Josh MacDonald
+//
+// This library is free software; you can redistribute it and/or
+// modify it under the terms of the GNU Lesser General Public
+// License as published by the Free Software Foundation; either
+// version 2 of the License, or (at your option) any later version.
+//
+// This library is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+// Lesser General Public License for more details.
+//
+// You should have received a copy of the GNU Lesser General Public
+// License along with this library; if not, write to the
+// Free Software Foundation, Inc.,
+// 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
+//
 
-/*
-* Modified by the GTK+ Team and others 1997-2000. See the AUTHORS
-* file for a list of people on the GTK+ Team. See the ChangeLog
-* files for a list of changes. These files are distributed with
-* GTK+ at ftp://ftp.gtk.org/pub/gtk/.
-*/
+//
+// Modified by the GTK+ Team and others 1997-2000. See the AUTHORS
+// file for a list of people on the GTK+ Team. See the ChangeLog
+// files for a list of changes. These files are distributed with
+// GTK+ at ftp://ftp.gtk.org/pub/gtk/.
+//
 
-/* Thanks to Markus G. Kuhn <mkuhn@acm.org> for the ksysym<->Unicode
-* mapping functions, from the xterm sources.
-*/
+// Thanks to Markus G. Kuhn <mkuhn@acm.org> for the ksysym<->Unicode
+// mapping functions, from the xterm sources.
+//
 
-/* These tables could be compressed by contiguous ranges, but the benefit of
-* doing so
-* is smallish. It would save about ~1000 bytes total.
-*/
+// These tables could be compressed by contiguous ranges, but the benefit of
+// doing so
+// is smallish. It would save about ~1000 bytes total.
+//
 #ifndef _FCITX_UTILS_KEYDATA_H_
 #define _FCITX_UTILS_KEYDATA_H_
 
@@ -47,7 +47,7 @@ struct _FcitxUnicodeToKeySym {
 
 static const struct _FcitxKeySymToUnicode gdk_keysym_to_unicode_tab[] = {
     {0x01a1, 0x0104}, /* Aogonek Ą LATIN CAPITAL LETTER A WITH OGONEK */
-    {0x01a2, 0x02d8}, /* breve ˘ BREVE */
+{0x01a2, 0x02d8},     /* breve ˘ BREVE */
     {0x01a3, 0x0141}, /* Lstroke Ł LATIN CAPITAL LETTER L WITH STROKE */
     {0x01a5, 0x013d}, /* Lcaron Ľ LATIN CAPITAL LETTER L WITH CARON */
     {0x01a6, 0x015a}, /* Sacute Ś LATIN CAPITAL LETTER S WITH ACUTE */
@@ -390,7 +390,7 @@ static const struct _FcitxKeySymToUnicode gdk_keysym_to_unicode_tab[] = {
      0x0386}, /* Greek_ALPHAaccent Ά GREEK CAPITAL LETTER ALPHA WITH TONOS */
     {0x07a2,
      0x0388}, /* Greek_EPSILONaccent Έ GREEK CAPITAL LETTER EPSILON WITH TONOS
-                 */
+               */
     {0x07a3,
      0x0389}, /* Greek_ETAaccent Ή GREEK CAPITAL LETTER ETA WITH TONOS */
     {0x07a4,
@@ -399,10 +399,10 @@ static const struct _FcitxKeySymToUnicode gdk_keysym_to_unicode_tab[] = {
                          DIALYTIKA */
     {0x07a7,
      0x038c}, /* Greek_OMICRONaccent Ό GREEK CAPITAL LETTER OMICRON WITH TONOS
-                 */
+               */
     {0x07a8,
      0x038e}, /* Greek_UPSILONaccent Ύ GREEK CAPITAL LETTER UPSILON WITH TONOS
-                 */
+               */
     {0x07a9, 0x03ab}, /* Greek_UPSILONdieresis Ϋ GREEK CAPITAL LETTER UPSILON
                          WITH DIALYTIKA */
     {0x07ab,
@@ -888,37 +888,27 @@ static const struct _FcitxKeySymToUnicode gdk_keysym_to_unicode_tab[] = {
 
     /* A few ASCII control characters */
 
-    {0xFF08 /* Backspace */, '\b'},
-    {0xFF09 /* Tab */, '\t'},
-    {0xFF0A /* Linefeed */, '\n'},
-    {0xFF0B /* Vert. Tab */, '\v'},
-    {0xFF0D /* Return */, '\r'},
-    {0xFF1B /* Escape */, '\033'},
+    {0xFF08 /* Backspace */, '\b'}, {0xFF09 /* Tab */, '\t'},
+    {0xFF0A /* Linefeed */, '\n'}, {0xFF0B /* Vert. Tab */, '\v'},
+    {0xFF0D /* Return */, '\r'}, {0xFF1B /* Escape */, '\033'},
 
     /* Numeric keypad */
 
-    {0xFF80 /* Space */, ' '},
-    {0xFFAA /* Multiply */, '*'},
-    {0xFFAB /* Add */, '+'},
-    {0xFFAC /* Separator */, ','},
-    {0xFFAD /* Subtract */, '-'},
-    {0xFFAE /* Decimal */, '.'},
-    {0xFFAF /* Divide */, '/'},
-    {0xFFB0 /* 0 */, '0'},
-    {0xFFB1 /* 1 */, '1'},
-    {0xFFB2 /* 2 */, '2'},
-    {0xFFB3 /* 3 */, '3'},
-    {0xFFB4 /* 4 */, '4'},
-    {0xFFB5 /* 5 */, '5'},
-    {0xFFB6 /* 6 */, '6'},
-    {0xFFB7 /* 7 */, '7'},
-    {0xFFB8 /* 8 */, '8'},
-    {0xFFB9 /* 9 */, '9'},
-    {0xFFBD /* Equal */, '='},
+    {0xFF80 /* Space */, ' '}, {0xFFAA /* Multiply */, '*'},
+    {0xFFAB /* Add */, '+'}, {0xFFAC /* Separator */, ','},
+    {0xFFAD /* Subtract */, '-'}, {0xFFAE /* Decimal */, '.'},
+    {0xFFAF /* Divide */, '/'}, {0xFFB0 /* 0 */, '0'}, {0xFFB1 /* 1 */, '1'},
+    {0xFFB2 /* 2 */, '2'}, {0xFFB3 /* 3 */, '3'}, {0xFFB4 /* 4 */, '4'},
+    {0xFFB5 /* 5 */, '5'}, {0xFFB6 /* 6 */, '6'}, {0xFFB7 /* 7 */, '7'},
+    {0xFFB8 /* 8 */, '8'}, {0xFFB9 /* 9 */, '9'}, {0xFFBD /* Equal */, '='},
 
-    /* End numeric keypad */
+/* End numeric keypad */
 
-    {0xFFFF /* Delete */, '\177'}};
+{
+    0xFFFF /* Delete */, '\177'
+}
+}
+;
 
 static const struct _FcitxUnicodeToKeySym gdk_unicode_to_keysym_tab[] = {
     {0x0abd, 0x002e}, /* decimalpoint . FULL STOP */
@@ -1053,17 +1043,17 @@ static const struct _FcitxUnicodeToKeySym gdk_unicode_to_keysym_tab[] = {
      0x0386}, /* Greek_ALPHAaccent Ά GREEK CAPITAL LETTER ALPHA WITH TONOS */
     {0x07a2,
      0x0388}, /* Greek_EPSILONaccent Έ GREEK CAPITAL LETTER EPSILON WITH TONOS
-                 */
+               */
     {0x07a3,
      0x0389}, /* Greek_ETAaccent Ή GREEK CAPITAL LETTER ETA WITH TONOS */
     {0x07a4,
      0x038a}, /* Greek_IOTAaccent Ί GREEK CAPITAL LETTER IOTA WITH TONOS */
     {0x07a7,
      0x038c}, /* Greek_OMICRONaccent Ό GREEK CAPITAL LETTER OMICRON WITH TONOS
-                 */
+               */
     {0x07a8,
      0x038e}, /* Greek_UPSILONaccent Ύ GREEK CAPITAL LETTER UPSILON WITH TONOS
-                 */
+               */
     {0x07ab,
      0x038f}, /* Greek_OMEGAaccent Ώ GREEK CAPITAL LETTER OMEGA WITH TONOS */
     {0x07b6, 0x0390}, /* Greek_iotaaccentdieresis ΐ GREEK SMALL LETTER IOTA WITH

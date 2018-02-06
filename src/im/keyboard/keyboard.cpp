@@ -1,21 +1,21 @@
-/*
- * Copyright (C) 2016~2016 by CSSlayer
- * wengxt@gmail.com
- *
- * This library is free software; you can redistribute it and/or modify
- * it under the terms of the GNU Lesser General Public License as
- * published by the Free Software Foundation; either version 2.1 of the
- * License, or (at your option) any later version.
- *
- * This library is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
- * Lesser General Public License for more details.
- *
- * You should have received a copy of the GNU Lesser General Public
- * License along with this library; see the file COPYING. If not,
- * see <http://www.gnu.org/licenses/>.
- */
+//
+// Copyright (C) 2016~2016 by CSSlayer
+// wengxt@gmail.com
+//
+// This library is free software; you can redistribute it and/or modify
+// it under the terms of the GNU Lesser General Public License as
+// published by the Free Software Foundation; either version 2.1 of the
+// License, or (at your option) any later version.
+//
+// This library is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+// Lesser General Public License for more details.
+//
+// You should have received a copy of the GNU Lesser General Public
+// License along with this library; see the file COPYING. If not,
+// see <http://www.gnu.org/licenses/>.
+//
 
 #include "keyboard.h"
 #include "chardata.h"
@@ -158,7 +158,7 @@ static std::string findBestLanguage(const IsoCodes &isocodes,
     }
     return {};
 }
-}
+} // namespace
 
 KeyboardEngine::KeyboardEngine(Instance *instance) : instance_(instance) {
     registerDomain("xkeyboard-config", XKEYBOARDCONFIG_DATADIR "/locale");
@@ -403,8 +403,9 @@ void KeyboardEngine::keyEvent(const InputMethodEntry &entry, KeyEvent &event) {
         // check for valid character
         if (validCharacter || event.key().isSimple() || validSym) {
             if (validCharacter || event.key().isLAZ() || event.key().isUAZ() ||
-                validSym || (!buffer.empty() &&
-                             event.key().checkKeyList(FCITX_HYPHEN_APOS))) {
+                validSym ||
+                (!buffer.empty() &&
+                 event.key().checkKeyList(FCITX_HYPHEN_APOS))) {
                 auto preedit = preeditString(inputContext);
                 if (preedit != buffer.userInput()) {
                     buffer.clear();
@@ -567,4 +568,4 @@ bool KeyboardEngine::foreachVariant(
     }
     return true;
 }
-}
+} // namespace fcitx

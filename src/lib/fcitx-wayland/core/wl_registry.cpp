@@ -27,5 +27,5 @@ WlRegistry::WlRegistry(wl_registry *data)
 void WlRegistry::destructor(wl_registry *data) {
     { return wl_registry_destroy(data); }
 }
-}
-}
+} // namespace wayland
+} // namespace fcitx

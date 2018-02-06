@@ -409,4 +409,4 @@ std::unique_ptr<EventSource> EventLoop::addDeferEvent(EventCallback callback) {
                         std::bind(DeferEventCallback, std::placeholders::_1,
                                   std::placeholders::_2, callback));
 }
-}
+} // namespace fcitx

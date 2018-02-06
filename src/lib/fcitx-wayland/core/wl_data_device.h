@@ -47,6 +47,6 @@ private:
 static inline wl_data_device *rawPointer(WlDataDevice *p) {
     return p ? static_cast<wl_data_device *>(*p) : nullptr;
 }
-}
-}
+} // namespace wayland
+} // namespace fcitx
 #endif

@@ -24,5 +24,5 @@ void WlShm::destructor(wl_shm *data) {
 WlShmPool *WlShm::createPool(int32_t fd, int32_t size) {
     return new WlShmPool(wl_shm_create_pool(*this, fd, size));
 }
-}
-}
+} // namespace wayland
+} // namespace fcitx

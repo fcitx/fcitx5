@@ -47,5 +47,5 @@ void WlOutput::destructor(wl_output *data) {
         return wl_output_destroy(data);
     }
 }
-}
-}
+} // namespace wayland
+} // namespace fcitx

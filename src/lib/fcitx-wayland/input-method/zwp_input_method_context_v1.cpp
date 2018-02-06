@@ -110,5 +110,5 @@ void ZwpInputMethodContextV1::textDirection(uint32_t serial,
                                             uint32_t direction) {
     return zwp_input_method_context_v1_text_direction(*this, serial, direction);
 }
-}
-}
+} // namespace wayland
+} // namespace fcitx

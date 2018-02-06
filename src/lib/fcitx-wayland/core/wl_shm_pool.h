@@ -30,6 +30,6 @@ private:
 static inline wl_shm_pool *rawPointer(WlShmPool *p) {
     return p ? static_cast<wl_shm_pool *>(*p) : nullptr;
 }
-}
-}
+} // namespace wayland
+} // namespace fcitx
 #endif

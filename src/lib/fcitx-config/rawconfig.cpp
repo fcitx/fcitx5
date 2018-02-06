@@ -1,21 +1,21 @@
-/*
- * Copyright (C) 2015~2015 by CSSlayer
- * wengxt@gmail.com
- *
- * This library is free software; you can redistribute it and/or modify
- * it under the terms of the GNU Lesser General Public License as
- * published by the Free Software Foundation; either version 2.1 of the
- * License, or (at your option) any later version.
- *
- * This library is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
- * Lesser General Public License for more details.
- *
- * You should have received a copy of the GNU Lesser General Public
- * License along with this library; see the file COPYING. If not,
- * see <http://www.gnu.org/licenses/>.
- */
+//
+// Copyright (C) 2015~2015 by CSSlayer
+// wengxt@gmail.com
+//
+// This library is free software; you can redistribute it and/or modify
+// it under the terms of the GNU Lesser General Public License as
+// published by the Free Software Foundation; either version 2.1 of the
+// License, or (at your option) any later version.
+//
+// This library is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+// Lesser General Public License for more details.
+//
+// You should have received a copy of the GNU Lesser General Public
+// License along with this library; see the file COPYING. If not,
+// see <http://www.gnu.org/licenses/>.
+//
 #include "rawconfig.h"
 #include "fcitx-utils/stringutils.h"
 #include <list>
@@ -212,9 +212,9 @@ public:
              pos != std::string::npos && cur;
              pos = ((std::string::npos == new_pos) ? new_pos : (new_pos + 1)),
                                     new_pos = path.find('/', pos)) {
-            auto key = path.substr(
-                pos,
-                (std::string::npos == new_pos) ? new_pos : (new_pos - pos));
+            auto key = path.substr(pos, (std::string::npos == new_pos)
+                                            ? new_pos
+                                            : (new_pos - pos));
             auto iter = cur->d_func()->subItems_.find(key);
             if (iter == cur->d_func()->subItems_.end()) {
                 result = cur->d_func()->getNonexistentRawConfig(cur, key);
@@ -440,4 +440,4 @@ LogMessageBuilder &operator<<(LogMessageBuilder &log, const RawConfig &config) {
     log << ")";
     return log;
 }
-}
+} // namespace fcitx

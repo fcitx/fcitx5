@@ -1,21 +1,21 @@
-/*
- * Copyright (C) 2015~2015 by CSSlayer
- * wengxt@gmail.com
- *
- * This library is free software; you can redistribute it and/or modify
- * it under the terms of the GNU Lesser General Public License as
- * published by the Free Software Foundation; either version 2.1 of the
- * License, or (at your option) any later version.
- *
- * This library is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
- * Lesser General Public License for more details.
- *
- * You should have received a copy of the GNU Lesser General Public
- * License along with this library; see the file COPYING. If not,
- * see <http://www.gnu.org/licenses/>.
- */
+//
+// Copyright (C) 2015~2015 by CSSlayer
+// wengxt@gmail.com
+//
+// This library is free software; you can redistribute it and/or modify
+// it under the terms of the GNU Lesser General Public License as
+// published by the Free Software Foundation; either version 2.1 of the
+// License, or (at your option) any later version.
+//
+// This library is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+// Lesser General Public License for more details.
+//
+// You should have received a copy of the GNU Lesser General Public
+// License along with this library; see the file COPYING. If not,
+// see <http://www.gnu.org/licenses/>.
+//
 
 #include "key.h"
 #include "charutils.h"
@@ -255,7 +255,7 @@ const char *lookupName(KeySym sym) {
     auto result = findValue(map, sym);
     return result ? *result : nullptr;
 }
-}
+} // namespace
 
 Key::Key(const char *keyString) : Key() {
     KeyStates states;
@@ -548,9 +548,9 @@ KeySym Key::keySymFromUnicode(uint32_t wc) {
     }
 
     /*
-    * No matching keysym value found, return Unicode value plus 0x01000000
-    * (a convention introduced in the UTF-8 work on xterm).
-    */
+     * No matching keysym value found, return Unicode value plus 0x01000000
+     * (a convention introduced in the UTF-8 work on xterm).
+     */
     return static_cast<KeySym>(wc | 0x01000000);
 }
 
@@ -567,7 +567,7 @@ uint32_t Key::keySymToUnicode(KeySym keyval) {
         return keyval;
 
     /* Also check for directly encoded 24-bit UCS characters:
-    */
+     */
     if ((keyval & 0xff000000) == 0x01000000)
         return keyval & 0x00ffffff;
 
@@ -610,4 +610,4 @@ std::vector<Key> Key::keyListFromString(const std::string &keyString) {
 
     return keyList;
 }
-}
+} // namespace fcitx

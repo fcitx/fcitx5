@@ -20,5 +20,5 @@ ZwpInputPanelV1::getInputPanelSurface(WlSurface *surface) {
     return new ZwpInputPanelSurfaceV1(
         zwp_input_panel_v1_get_input_panel_surface(*this, rawPointer(surface)));
 }
-}
-}
+} // namespace wayland
+} // namespace fcitx

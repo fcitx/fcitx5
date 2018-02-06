@@ -24,5 +24,5 @@ void WlBuffer::destructor(wl_buffer *data) {
         return wl_buffer_destroy(data);
     }
 }
-}
-}
+} // namespace wayland
+} // namespace fcitx

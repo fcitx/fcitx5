@@ -71,5 +71,5 @@ void WlShellSurface::setTitle(const char *title) {
 void WlShellSurface::setClass(const char *class_) {
     return wl_shell_surface_set_class(*this, class_);
 }
-}
-}
+} // namespace wayland
+} // namespace fcitx

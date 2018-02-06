@@ -59,6 +59,6 @@ static inline zwp_input_method_context_v1 *
 rawPointer(ZwpInputMethodContextV1 *p) {
     return p ? static_cast<zwp_input_method_context_v1 *>(*p) : nullptr;
 }
-}
-}
+} // namespace wayland
+} // namespace fcitx
 #endif

@@ -28,5 +28,5 @@ void WlSubsurface::placeBelow(WlSurface *sibling) {
 }
 void WlSubsurface::setSync() { return wl_subsurface_set_sync(*this); }
 void WlSubsurface::setDesync() { return wl_subsurface_set_desync(*this); }
-}
-}
+} // namespace wayland
+} // namespace fcitx

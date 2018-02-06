@@ -86,4 +86,4 @@ translateDomainCtx(const char *domain, const char *ctx, const char *s) {
 FCITXUTILS_EXPORT void registerDomain(const char *domain, const char *dir) {
     gettextManager.addDomain(domain, dir);
 }
-}
+} // namespace fcitx

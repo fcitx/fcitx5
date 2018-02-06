@@ -23,5 +23,5 @@ WlSubsurface *WlSubcompositor::getSubsurface(WlSurface *surface,
     return new WlSubsurface(wl_subcompositor_get_subsurface(
         *this, rawPointer(surface), rawPointer(parent)));
 }
-}
-}
+} // namespace wayland
+} // namespace fcitx

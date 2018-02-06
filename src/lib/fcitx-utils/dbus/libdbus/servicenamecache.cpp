@@ -37,10 +37,9 @@ void fcitx::dbus::ServiceNameCache::addWatch(const std::string &name) {
         return;
     }
     watcherMap_.emplace(
-        name,
-        watcher_->watchService(name, [this](const std::string &service,
-                                            const std::string &,
-                                            const std::string &newName) {
+        name, watcher_->watchService(name, [this](const std::string &service,
+                                                  const std::string &,
+                                                  const std::string &newName) {
             if (newName.empty()) {
                 nameMap_.erase(newName);
             } else {

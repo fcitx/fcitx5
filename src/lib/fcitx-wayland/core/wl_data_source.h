@@ -41,6 +41,6 @@ private:
 static inline wl_data_source *rawPointer(WlDataSource *p) {
     return p ? static_cast<wl_data_source *>(*p) : nullptr;
 }
-}
-}
+} // namespace wayland
+} // namespace fcitx
 #endif

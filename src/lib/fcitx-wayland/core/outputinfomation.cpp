@@ -1,21 +1,21 @@
-/*
- * Copyright (C) 2017~2017 by CSSlayer
- * wengxt@gmail.com
- *
- * This library is free software; you can redistribute it and/or modify
- * it under the terms of the GNU Lesser General Public License as
- * published by the Free Software Foundation; either version 2.1 of the
- * License, or (at your option) any later version.
- *
- * This library is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
- * Lesser General Public License for more details.
- *
- * You should have received a copy of the GNU Lesser General Public
- * License along with this library; see the file COPYING. If not,
- * see <http://www.gnu.org/licenses/>.
- */
+//
+// Copyright (C) 2017~2017 by CSSlayer
+// wengxt@gmail.com
+//
+// This library is free software; you can redistribute it and/or modify
+// it under the terms of the GNU Lesser General Public License as
+// published by the Free Software Foundation; either version 2.1 of the
+// License, or (at your option) any later version.
+//
+// This library is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+// Lesser General Public License for more details.
+//
+// You should have received a copy of the GNU Lesser General Public
+// License along with this library; see the file COPYING. If not,
+// see <http://www.gnu.org/licenses/>.
+//
 
 #include "outputinformation.h"
 
@@ -60,17 +60,18 @@ OutputInfomation::OutputInfomation(WlOutput *output)
             d->next_.model_ = model;
             d->next_.transform_ = static_cast<wl_output_transform>(transform);
         });
-    d->modeConnection_ = output->mode().connect([this, output](
-        uint32_t flags, int32_t width, int32_t height, int32_t refresh) {
-        if (!(flags & WL_OUTPUT_MODE_CURRENT)) {
-            return;
-        }
+    d->modeConnection_ =
+        output->mode().connect([this, output](uint32_t flags, int32_t width,
+                                              int32_t height, int32_t refresh) {
+            if (!(flags & WL_OUTPUT_MODE_CURRENT)) {
+                return;
+            }
 
-        FCITX_D();
-        d->next_.width_ = width;
-        d->next_.height_ = height;
-        d->next_.refreshRate_ = refresh;
-    });
+            FCITX_D();
+            d->next_.width_ = width;
+            d->next_.height_ = height;
+            d->next_.refreshRate_ = refresh;
+        });
     d->scaleConnection_ =
         output->scale().connect([this, output](int32_t scale) {
             FCITX_D();
@@ -133,5 +134,5 @@ int32_t OutputInfomation::scale() const {
     FCITX_D();
     return d->current_.scale_;
 }
-}
-}
+} // namespace wayland
+} // namespace fcitx

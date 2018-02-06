@@ -23,5 +23,5 @@ WlDataDevice *WlDataDeviceManager::getDataDevice(WlSeat *seat) {
     return new WlDataDevice(
         wl_data_device_manager_get_data_device(*this, rawPointer(seat)));
 }
-}
-}
+} // namespace wayland
+} // namespace fcitx

@@ -47,6 +47,6 @@ private:
 static inline wl_shell_surface *rawPointer(WlShellSurface *p) {
     return p ? static_cast<wl_shell_surface *>(*p) : nullptr;
 }
-}
-}
+} // namespace wayland
+} // namespace fcitx
 #endif

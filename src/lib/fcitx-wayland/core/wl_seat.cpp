@@ -40,5 +40,5 @@ WlKeyboard *WlSeat::getKeyboard() {
     return new WlKeyboard(wl_seat_get_keyboard(*this));
 }
 WlTouch *WlSeat::getTouch() { return new WlTouch(wl_seat_get_touch(*this)); }
-}
-}
+} // namespace wayland
+} // namespace fcitx

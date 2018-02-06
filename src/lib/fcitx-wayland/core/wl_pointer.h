@@ -49,6 +49,6 @@ private:
 static inline wl_pointer *rawPointer(WlPointer *p) {
     return p ? static_cast<wl_pointer *>(*p) : nullptr;
 }
-}
-}
+} // namespace wayland
+} // namespace fcitx
 #endif

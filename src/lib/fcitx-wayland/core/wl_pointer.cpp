@@ -84,5 +84,5 @@ void WlPointer::setCursor(uint32_t serial, WlSurface *surface, int32_t hotspotX,
     return wl_pointer_set_cursor(*this, serial, rawPointer(surface), hotspotX,
                                  hotspotY);
 }
-}
-}
+} // namespace wayland
+} // namespace fcitx

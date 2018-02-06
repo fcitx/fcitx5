@@ -21,5 +21,5 @@ WlSurface *WlCompositor::createSurface() {
 WlRegion *WlCompositor::createRegion() {
     return new WlRegion(wl_compositor_create_region(*this));
 }
-}
-}
+} // namespace wayland
+} // namespace fcitx

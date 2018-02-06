@@ -18,5 +18,5 @@ WlShellSurface *WlShell::getShellSurface(WlSurface *surface) {
     return new WlShellSurface(
         wl_shell_get_shell_surface(*this, rawPointer(surface)));
 }
-}
-}
+} // namespace wayland
+} // namespace fcitx

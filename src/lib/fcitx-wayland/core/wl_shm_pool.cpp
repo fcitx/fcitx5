@@ -23,5 +23,5 @@ WlBuffer *WlShmPool::createBuffer(int32_t offset, int32_t width, int32_t height,
                                                   stride, format));
 }
 void WlShmPool::resize(int32_t size) { return wl_shm_pool_resize(*this, size); }
-}
-}
+} // namespace wayland
+} // namespace fcitx

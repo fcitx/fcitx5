@@ -41,6 +41,6 @@ private:
 static inline wl_touch *rawPointer(WlTouch *p) {
     return p ? static_cast<wl_touch *>(*p) : nullptr;
 }
-}
-}
+} // namespace wayland
+} // namespace fcitx
 #endif

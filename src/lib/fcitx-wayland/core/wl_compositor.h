@@ -30,6 +30,6 @@ private:
 static inline wl_compositor *rawPointer(WlCompositor *p) {
     return p ? static_cast<wl_compositor *>(*p) : nullptr;
 }
-}
-}
+} // namespace wayland
+} // namespace fcitx
 #endif

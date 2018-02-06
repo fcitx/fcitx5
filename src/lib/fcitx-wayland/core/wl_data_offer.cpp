@@ -44,5 +44,5 @@ void WlDataOffer::finish() { return wl_data_offer_finish(*this); }
 void WlDataOffer::setActions(uint32_t dndActions, uint32_t preferredAction) {
     return wl_data_offer_set_actions(*this, dndActions, preferredAction);
 }
-}
-}
+} // namespace wayland
+} // namespace fcitx

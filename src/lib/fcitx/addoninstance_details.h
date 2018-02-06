@@ -69,7 +69,7 @@ private:
 
 template <typename Class, typename Ret, typename... Args>
 AddonFunctionAdaptor<Class, Ret, Args...>
-MakeAddonFunctionAdaptor(Ret (Class::*pCallback)(Args...));
+    MakeAddonFunctionAdaptor(Ret (Class::*pCallback)(Args...));
 
 } // namespace fcitx
 

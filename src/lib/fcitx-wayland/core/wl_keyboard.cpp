@@ -67,5 +67,5 @@ void WlKeyboard::destructor(wl_keyboard *data) {
         return wl_keyboard_destroy(data);
     }
 }
-}
-}
+} // namespace wayland
+} // namespace fcitx

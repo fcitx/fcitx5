@@ -32,6 +32,6 @@ private:
 static inline wl_data_device_manager *rawPointer(WlDataDeviceManager *p) {
     return p ? static_cast<wl_data_device_manager *>(*p) : nullptr;
 }
-}
-}
+} // namespace wayland
+} // namespace fcitx
 #endif

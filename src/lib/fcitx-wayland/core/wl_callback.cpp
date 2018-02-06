@@ -21,5 +21,5 @@ WlCallback::WlCallback(wl_callback *data)
 void WlCallback::destructor(wl_callback *data) {
     { return wl_callback_destroy(data); }
 }
-}
-}
+} // namespace wayland
+} // namespace fcitx

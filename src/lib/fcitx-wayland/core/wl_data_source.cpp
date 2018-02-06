@@ -55,5 +55,5 @@ void WlDataSource::offer(const char *mimeType) {
 void WlDataSource::setActions(uint32_t dndActions) {
     return wl_data_source_set_actions(*this, dndActions);
 }
-}
-}
+} // namespace wayland
+} // namespace fcitx

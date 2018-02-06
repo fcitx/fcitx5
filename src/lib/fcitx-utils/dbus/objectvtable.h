@@ -1,21 +1,21 @@
-/*
- * Copyright (C) 2016~2016 by CSSlayer
- * wengxt@gmail.com
- *
- * This library is free software; you can redistribute it and/or modify
- * it under the terms of the GNU Lesser General Public License as
- * published by the Free Software Foundation; either version 2.1 of the
- * License, or (at your option) any later version.
- *
- * This library is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
- * Lesser General Public License for more details.
- *
- * You should have received a copy of the GNU Lesser General Public
- * License along with this library; see the file COPYING. If not,
- * see <http://www.gnu.org/licenses/>.
- */
+//
+// Copyright (C) 2016~2016 by CSSlayer
+// wengxt@gmail.com
+//
+// This library is free software; you can redistribute it and/or modify
+// it under the terms of the GNU Lesser General Public License as
+// published by the Free Software Foundation; either version 2.1 of the
+// License, or (at your option) any later version.
+//
+// This library is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+// Lesser General Public License for more details.
+//
+// You should have received a copy of the GNU Lesser General Public
+// License along with this library; see the file COPYING. If not,
+// see <http://www.gnu.org/licenses/>.
+//
 #ifndef _FCITX_UTILS_DBUS_OBJECTVTABLE_H_
 #define _FCITX_UTILS_DBUS_OBJECTVTABLE_H_
 
@@ -97,35 +97,37 @@ struct ReturnValueHelper<void> {
 
 #define FCITX_OBJECT_VTABLE_METHOD(FUNCTION, FUNCTION_NAME, SIGNATURE, RET)    \
     ::fcitx::dbus::ObjectVTableMethod FUNCTION##Method {                       \
-        this, FUNCTION_NAME, SIGNATURE, RET, [this](                           \
-                                                 ::fcitx::dbus::Message msg) { \
-            this->setCurrentMessage(&msg);                                     \
-            FCITX_STRING_TO_DBUS_TUPLE(SIGNATURE) args;                        \
-            msg >> args;                                                       \
-            auto func = [this](auto that, auto &&... args) {                   \
-                return that->FUNCTION(std::forward<decltype(args)>(args)...);  \
-            };                                                                 \
-            auto argsWithThis =                                                \
-                std::tuple_cat(std::make_tuple(this), std::move(args));        \
-            typedef decltype(callWithTuple(func, argsWithThis)) ReturnType;    \
-            ::fcitx::dbus::ReturnValueHelper<ReturnType> helper;               \
-            auto functor = [&argsWithThis, func]() {                           \
-                return callWithTuple(func, argsWithThis);                      \
-            };                                                                 \
-            try {                                                              \
-                helper.call(functor);                                          \
-                auto reply = msg.createReply();                                \
-                static_assert(std::is_same<FCITX_STRING_TO_DBUS_TYPE(RET),     \
-                                           ReturnType>::value,                 \
-                              "Return type does not match: " RET);             \
-                reply << helper.ret;                                           \
-                reply.send();                                                  \
-            } catch (const ::fcitx::dbus::MethodCallError &error) {            \
-                auto reply = msg.createError(error.name(), error.what());      \
-                reply.send();                                                  \
+        this, FUNCTION_NAME, SIGNATURE, RET,                                   \
+            [this](::fcitx::dbus::Message msg) {                               \
+                this->setCurrentMessage(&msg);                                 \
+                FCITX_STRING_TO_DBUS_TUPLE(SIGNATURE) args;                    \
+                msg >> args;                                                   \
+                auto func = [this](auto that, auto &&... args) {               \
+                    return that->FUNCTION(                                     \
+                        std::forward<decltype(args)>(args)...);                \
+                };                                                             \
+                auto argsWithThis =                                            \
+                    std::tuple_cat(std::make_tuple(this), std::move(args));    \
+                typedef decltype(                                              \
+                    callWithTuple(func, argsWithThis)) ReturnType;             \
+                ::fcitx::dbus::ReturnValueHelper<ReturnType> helper;           \
+                auto functor = [&argsWithThis, func]() {                       \
+                    return callWithTuple(func, argsWithThis);                  \
+                };                                                             \
+                try {                                                          \
+                    helper.call(functor);                                      \
+                    auto reply = msg.createReply();                            \
+                    static_assert(std::is_same<FCITX_STRING_TO_DBUS_TYPE(RET), \
+                                               ReturnType>::value,             \
+                                  "Return type does not match: " RET);         \
+                    reply << helper.ret;                                       \
+                    reply.send();                                              \
+                } catch (const ::fcitx::dbus::MethodCallError &error) {        \
+                    auto reply = msg.createError(error.name(), error.what());  \
+                    reply.send();                                              \
+                }                                                              \
+                return true;                                                   \
             }                                                                  \
-            return true;                                                       \
-        }                                                                      \
     }
 
 #define FCITX_OBJECT_VTABLE_SIGNAL(SIGNAL, SIGNAL_NAME, SIGNATURE)             \
@@ -284,7 +286,7 @@ public:
         return d.get();
     }
 };
-}
-}
+} // namespace dbus
+} // namespace fcitx
 
 #endif // _FCITX_UTILS_DBUS_OBJECTVTABLE_H_

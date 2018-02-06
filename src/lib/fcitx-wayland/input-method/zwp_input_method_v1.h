@@ -33,6 +33,6 @@ private:
 static inline zwp_input_method_v1 *rawPointer(ZwpInputMethodV1 *p) {
     return p ? static_cast<zwp_input_method_v1 *>(*p) : nullptr;
 }
-}
-}
+} // namespace wayland
+} // namespace fcitx
 #endif

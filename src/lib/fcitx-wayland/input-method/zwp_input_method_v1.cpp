@@ -36,5 +36,5 @@ ZwpInputMethodV1::ZwpInputMethodV1(zwp_input_method_v1 *data)
 void ZwpInputMethodV1::destructor(zwp_input_method_v1 *data) {
     { return zwp_input_method_v1_destroy(data); }
 }
-}
-}
+} // namespace wayland
+} // namespace fcitx

@@ -219,7 +219,7 @@ public:
     DBusPendingCall *reply_ = nullptr;
     TrackableObjectReference<BusPrivate> bus_;
 };
-}
-}
+} // namespace dbus
+} // namespace fcitx
 
 #endif // _FCITX_UTILS_DBUS_BUS_P_H_
