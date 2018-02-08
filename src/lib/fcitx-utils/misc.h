@@ -22,6 +22,7 @@
 #include <cstdint>
 #include <fcitx-utils/macros.h>
 #include <memory>
+#include <string>
 #include <utility>
 #include <vector>
 
