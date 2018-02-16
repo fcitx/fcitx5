@@ -106,13 +106,11 @@ detectDE() {
 }
 
 run_kde() {
-    if xprop -root KDE_SESSION_VERSION 2>&1 | grep -q "= 5"; then
-        if (kcmshell5 --list 2>/dev/null | grep ^kcm_fcitx > /dev/null 2>&1); then
-            if [ x"$1" != x ]; then
-                exec kcmshell5 fcitx5 --args "$1"
-            else
-                exec kcmshell5 fcitx5
-            fi
+    if (kcmshell5 --list 2>/dev/null | grep ^kcm_fcitx > /dev/null 2>&1); then
+        if [ x"$1" != x ]; then
+            exec kcmshell5 fcitx5 --args "$1"
+        else
+            exec kcmshell5 fcitx5
         fi
     fi
 }
