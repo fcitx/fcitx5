@@ -41,7 +41,8 @@ public:
 private:
     std::unique_ptr<ServiceWatcher> watcher_;
     std::unordered_map<std::string, std::string> nameMap_;
-    std::unordered_map<std::string, std::unique_ptr<HandlerTableEntryBase>>
+    std::unordered_map<std::string,
+                       std::pair<int, std::unique_ptr<HandlerTableEntryBase>>>
         watcherMap_;
 };
 

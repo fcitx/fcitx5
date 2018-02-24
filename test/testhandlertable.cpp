@@ -109,5 +109,31 @@ int main() {
         FCITX_ASSERT(keys == (decltype(keys){"DEF", "EFG"}));
     }
 
+    {
+        MultiHandlerTable<std::string, int> table2(
+            [](const std::string &key) {
+                auto result = keys.insert(key);
+                FCITX_ASSERT(result.second);
+                return true;
+            },
+            [](const std::string &key) {
+                auto result = keys.erase(key);
+                FCITX_ASSERT(result);
+            });
+        auto entry = table2.add("ABC", 1);
+        FCITX_ASSERT(keys == decltype(keys){"ABC"});
+        std::unique_ptr<HandlerTableEntryBase> entries[] = {
+            std::unique_ptr<HandlerTableEntryBase>(table2.add("ABC", 1)),
+            std::unique_ptr<HandlerTableEntryBase>(table2.add("ABC", 1)),
+        };
+        FCITX_ASSERT(keys == decltype(keys){"ABC"});
+
+        // Remove the 2nd and 3rd, there should be some key remaining.
+        for (auto &e : entries) {
+            e.reset(nullptr);
+        }
+        FCITX_ASSERT(keys == (decltype(keys){"ABC"}));
+    }
+
     return 0;
 }

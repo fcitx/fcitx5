@@ -29,6 +29,8 @@
 namespace fcitx {
 namespace dbus {
 
+FCITX_DEFINE_LOG_CATEGORY(libdbus_logcategory, "libdbus");
+
 DBusHandlerResult DBusMessageCallback(DBusConnection *, DBusMessage *message,
                                       void *userdata) {
     auto bus = static_cast<BusPrivate *>(userdata);
@@ -541,7 +543,12 @@ void Bus::detachEventLoop() {
 std::unique_ptr<Slot> Bus::addMatch(MatchRule rule, MessageCallback callback) {
     FCITX_D();
     auto slot = std::make_unique<DBusMatchSlot>();
+
+    FCITX_LIBDBUS_DEBUG() << "Add match for rule " << rule.rule()
+                          << " in rule set " << d->matchRuleSet_.hasKey(rule);
+
     slot->ruleRef_ = d->matchRuleSet_.add(rule, 1);
+
     if (!slot->ruleRef_) {
         return nullptr;
     }

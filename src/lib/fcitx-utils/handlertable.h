@@ -114,7 +114,7 @@ public:
 private:
     void postRemove(const Key &k) {
         auto iter = keyToHandlers_.find(k);
-        if (iter != keyToHandlers_.end()) {
+        if (iter != keyToHandlers_.end() && iter->second.empty()) {
             if (removeKey_) {
                 removeKey_(k);
             }
