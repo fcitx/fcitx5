@@ -451,12 +451,13 @@ dbus_bool_t DBusAddTimeout(DBusTimeout *timeout, void *data) {
         return false;
     }
     int interval = dbus_timeout_get_interval(timeout);
+    FCITX_LIBDBUS_DEBUG() << "DBusAddTimeout: " << interval;
     auto ref = bus->watch();
     try {
         bus->timeWatchers_.emplace(
             timeout,
             bus->loop_->addTimeEvent(
-                CLOCK_MONOTONIC, interval * 1000ull, 0,
+                CLOCK_MONOTONIC, now(CLOCK_MONOTONIC) + interval * 1000ull, 0,
                 [timeout, ref](EventSourceTime *event, uint64_t) {
                     auto refPivot = ref;
                     if (dbus_timeout_get_enabled(timeout)) {

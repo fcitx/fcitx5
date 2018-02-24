@@ -219,7 +219,9 @@ public:
 
     ~DBusAsyncCallSlot() {
         if (reply_) {
+            dbus_pending_call_set_notify(reply_, nullptr, nullptr, nullptr);
             dbus_pending_call_unref(reply_);
+            reply_ = nullptr;
         }
     }
 

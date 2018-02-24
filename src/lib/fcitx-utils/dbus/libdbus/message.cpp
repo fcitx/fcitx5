@@ -170,7 +170,7 @@ int convertTimeout(uint64_t timeout) {
     if (timeout > 0 && milliTimout == 0) {
         milliTimout = 1;
     } else if (timeout == 0) {
-        milliTimout = -1;
+        milliTimout = DBUS_TIMEOUT_USE_DEFAULT;
     }
     return milliTimout;
 }
@@ -210,14 +210,8 @@ std::unique_ptr<Slot> Message::callAsync(uint64_t timeout,
     }
     auto slot = std::make_unique<DBusAsyncCallSlot>(callback);
     DBusPendingCall *call = nullptr;
-    int milliTimout = timeout / 1000;
-    if (timeout > 0 && milliTimout == 0) {
-        milliTimout = 1;
-    } else if (timeout == 0) {
-        milliTimout = -1;
-    }
     if (!dbus_connection_send_with_reply(bus->conn_, d->msg(), &call,
-                                         timeout / 1000)) {
+                                         convertTimeout(timeout))) {
         return nullptr;
     }
 
