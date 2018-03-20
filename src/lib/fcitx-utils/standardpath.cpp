@@ -145,7 +145,7 @@ public:
         if (!dir.empty() && strcmp(env, "XDG_RUNTIME_DIR") == 0) {
             struct stat buf;
             if (stat(dir.c_str(), &buf) != 0 || buf.st_uid != geteuid() ||
-                buf.st_mode != 0700) {
+                (buf.st_mode & 0777) != S_IRWXU) {
                 return {};
             }
         }
