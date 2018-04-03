@@ -45,6 +45,7 @@ namespace fcitx {
 namespace {
 constexpr char addonConfigPrefix[] = "fcitx://config/addon/";
 constexpr char imConfigPrefix[] = "fcitx://config/inputmethod/";
+constexpr char guiConfigPrefix[] = "fcitx://gui/";
 } // namespace
 
 class Controller1 : public ObjectVTable<Controller1> {
@@ -294,6 +295,21 @@ public:
             } else {
                 throw dbus::MethodCallError("org.freedesktop.DBus.Error.Failed",
                                             "Failed to get addon.");
+            }
+        } else if (stringutils::startsWith(uri, guiConfigPrefix)) {
+            auto addon = uri.substr(sizeof(guiConfigPrefix) - 1);
+            auto pos = addon.find('/');
+            std::string subPath;
+            if (pos != std::string::npos) {
+                subPath = addon.substr(pos + 1);
+                addon = addon.substr(0, pos);
+            }
+            auto addonInstance = instance_->addonManager().addon(addon, true);
+            if (addonInstance && !subPath.empty()) {
+                addonInstance->setSubConfig(subPath, config);
+            } else {
+                throw dbus::MethodCallError("org.freedesktop.DBus.Error.Failed",
+                                            "Failed to configure addon.");
             }
         } else if (stringutils::startsWith(uri, imConfigPrefix)) {
             auto im = uri.substr(sizeof(imConfigPrefix) - 1);
