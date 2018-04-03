@@ -191,7 +191,7 @@ KeyboardEngine::~KeyboardEngine() {}
 
 std::vector<InputMethodEntry> KeyboardEngine::listInputMethods() {
     std::vector<InputMethodEntry> result;
-    bool usExists;
+    bool usExists = false;
     for (auto &p : xkbRules_.layoutInfos()) {
         auto &layoutInfo = p.second;
         auto language = findBestLanguage(isoCodes_, layoutInfo.description,
