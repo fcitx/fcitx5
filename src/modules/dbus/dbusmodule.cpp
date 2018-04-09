@@ -296,21 +296,6 @@ public:
                 throw dbus::MethodCallError("org.freedesktop.DBus.Error.Failed",
                                             "Failed to get addon.");
             }
-        } else if (stringutils::startsWith(uri, guiConfigPrefix)) {
-            auto addon = uri.substr(sizeof(guiConfigPrefix) - 1);
-            auto pos = addon.find('/');
-            std::string subPath;
-            if (pos != std::string::npos) {
-                subPath = addon.substr(pos + 1);
-                addon = addon.substr(0, pos);
-            }
-            auto addonInstance = instance_->addonManager().addon(addon, true);
-            if (addonInstance && !subPath.empty()) {
-                addonInstance->setSubConfig(subPath, config);
-            } else {
-                throw dbus::MethodCallError("org.freedesktop.DBus.Error.Failed",
-                                            "Failed to configure addon.");
-            }
         } else if (stringutils::startsWith(uri, imConfigPrefix)) {
             auto im = uri.substr(sizeof(imConfigPrefix) - 1);
             auto entry = instance_->inputMethodManager().entry(im);
