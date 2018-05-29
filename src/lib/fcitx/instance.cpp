@@ -885,8 +885,6 @@ void Instance::handleSignal() {
         if (signo == SIGINT || signo == SIGTERM || signo == SIGQUIT ||
             signo == SIGXCPU) {
             exit();
-        } else if (signo == SIGHUP) {
-            restart();
         } else if (signo == SIGUSR1) {
             reloadConfig();
         }
