@@ -1309,7 +1309,7 @@ bool Instance::activate(InputContext *ic) {
     if (!canTrigger()) {
         return false;
     }
-    if (!inputState->active_) {
+    if (inputState->active_) {
         return true;
     }
     inputState->active_ = true;
