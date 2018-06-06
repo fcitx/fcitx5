@@ -73,7 +73,7 @@ void marshallOption(RawConfig &config, const Color &value) {
 bool unmarshallOption(Color &value, const RawConfig &config, bool) {
     try {
         value = Color(config.value());
-    } catch (ColorParseException) {
+    } catch (const ColorParseException &) {
         return false;
     }
     return true;

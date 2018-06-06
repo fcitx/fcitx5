@@ -60,7 +60,7 @@ ClassicUI::ClassicUI(Instance *instance)
                     try {
                         uis_["wayland:" + name].reset(
                             new WaylandUI(this, name, display));
-                    } catch (std::runtime_error) {
+                    } catch (const std::runtime_error &) {
                     }
                 });
         waylandClosedCallback_ =

@@ -59,7 +59,7 @@ int main() {
     try {
         c2.setFromString("#a");
         FCITX_ASSERT(false);
-    } catch (ColorParseException e) {
+    } catch (const ColorParseException &e) {
         FCITX_INFO() << e.what();
     }
     return 0;
