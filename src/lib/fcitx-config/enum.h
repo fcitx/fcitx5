@@ -74,6 +74,11 @@
                                       _(_##TYPE##_Names[i]));                  \
             }                                                                  \
         }                                                                      \
+        static std::string toString(TYPE value) {                              \
+            return _(                                                          \
+                _##TYPE##_Names[static_cast<std::underlying_type_t<TYPE>>(     \
+                    value)]);                                                  \
+        }                                                                      \
         static_assert(FCITX_ARRAY_SIZE(_##TYPE##_Names2) ==                    \
                           FCITX_ARRAY_SIZE(_##TYPE##_Names),                   \
                       "Enum mismatch");                                        \
