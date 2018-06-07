@@ -56,6 +56,6 @@ struct OptionTypeName<T,
                       typename std::enable_if<std::is_enum<T>::value>::type> {
     static std::string get() { return "Enum"; }
 };
-}
+} // namespace fcitx
 
 #endif // _FCITX_CONFIG_TYPENAME_H_

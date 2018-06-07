@@ -243,5 +243,5 @@ std::unique_ptr<WaylandWindow> WaylandUI::newWindow() {
         return std::make_unique<WaylandShmWindow>(this);
     }
 }
-}
+} // namespace classicui
 } // namespace fcitx

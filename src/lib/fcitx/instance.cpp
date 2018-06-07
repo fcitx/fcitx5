@@ -1589,4 +1589,4 @@ void Instance::updateXkbStateMask(const std::string &display,
     d->stateMask_[display] =
         std::make_tuple(depressed_mods, latched_mods, locked_mods);
 }
-}
+} // namespace fcitx

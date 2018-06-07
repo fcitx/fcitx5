@@ -452,5 +452,5 @@ void XCBTrayWindow::updateInputMethodMenu() {
         inputMethodMenu_.addAction(&inputMethodAction);
     }
 }
-}
+} // namespace classicui
 } // namespace fcitx

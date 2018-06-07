@@ -76,7 +76,6 @@ OutputInfomation::OutputInfomation(WlOutput *output)
         output->scale().connect([this, output](int32_t scale) {
             FCITX_D();
             d->next_.scale_ = scale;
-
         });
     d->doneConnection_ = output->done().connect([this, output]() {
         FCITX_D();

@@ -314,9 +314,8 @@ static const struct _FcitxKeySymToUnicode gdk_keysym_to_unicode_tab[] = {
     {0x06ba, 0x040a}, /* Cyrillic_NJE Њ CYRILLIC CAPITAL LETTER NJE */
     {0x06bb, 0x040b}, /* Serbian_TSHE Ћ CYRILLIC CAPITAL LETTER TSHE */
     {0x06bc, 0x040c}, /* Macedonia_KJE Ќ CYRILLIC CAPITAL LETTER KJE */
-    {0x06bd,
-     0x0490}, /* Ukrainian_GHE_WITH_UPTURN Ґ CYRILLIC CAPITAL LETTER GHE WITH
-                 UPTURN */
+    {0x06bd, 0x0490}, /* Ukrainian_GHE_WITH_UPTURN Ґ CYRILLIC CAPITAL LETTER GHE
+                         WITH UPTURN */
     {0x06be,
      0x040e}, /* Byelorussian_SHORTU Ў CYRILLIC CAPITAL LETTER SHORT U */
     {0x06bf, 0x040f}, /* Cyrillic_DZHE Џ CYRILLIC CAPITAL LETTER DZHE */

@@ -156,7 +156,6 @@ Clipboard::Clipboard(Instance *instance)
                 keyEvent.filterAndAccept();
                 return;
             }
-
         }));
 
     auto reset = [this](Event &event) {

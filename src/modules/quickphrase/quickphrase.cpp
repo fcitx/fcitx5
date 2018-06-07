@@ -83,7 +83,6 @@ QuickPhrase::QuickPhrase(Instance *instance)
                 updateUI(keyEvent.inputContext());
                 return;
             }
-
         }));
 
     auto reset = [this](Event &event) {
