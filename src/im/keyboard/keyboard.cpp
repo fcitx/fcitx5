@@ -162,7 +162,7 @@ static std::string findBestLanguage(const IsoCodes &isocodes,
 
 KeyboardEngine::KeyboardEngine(Instance *instance) : instance_(instance) {
     registerDomain("xkeyboard-config", XKEYBOARDCONFIG_DATADIR "/locale");
-    isoCodes_.read(ISOCODES_ISO639_XML, ISOCODES_ISO3166_XML);
+    isoCodes_.read(ISOCODES_ISO639_JSON, ISOCODES_ISO3166_JSON);
     auto xcb = instance_->addonManager().addon("xcb");
     std::string rule;
     if (xcb) {

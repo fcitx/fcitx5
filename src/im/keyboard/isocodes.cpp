@@ -18,42 +18,94 @@
 //
 
 #include "isocodes.h"
+#include "fcitx-utils/metastring.h"
 #include "xmlparser.h"
 #include <cstring>
+#include <fcitx-utils/log.h>
+#include <json-c/json.h>
+#include <memory>
 
 namespace fcitx {
 
-class IsoCodes639Parser : public XMLParser {
+template <typename RootString>
+class IsoCodesJsonParser {
+public:
+    virtual void handle(json_object *entry) = 0;
+
+    void parse(const std::string &filename) {
+        std::unique_ptr<json_object, decltype(&json_object_put)> obj(
+            nullptr, json_object_put);
+        obj.reset(json_object_from_file(filename.data()));
+        if (!obj) {
+            return;
+        }
+        FCITX_INFO() << RootString::data();
+        json_object *root =
+            json_object_object_get(obj.get(), RootString::data());
+        if (!root || json_object_get_type(root) != json_type_array) {
+            return;
+        }
+
+        for (size_t i = 0, e = json_object_array_length(root); i < e; i++) {
+            json_object *entry = json_object_array_get_idx(root, i);
+            handle(entry);
+        }
+    }
+};
+
+class IsoCodes639Parser
+    : public IsoCodesJsonParser<fcitxMakeMetaString("639-3")> {
 public:
     IsoCodes639Parser(IsoCodes *that) : that_(that) {}
 
-    void startElement(const XML_Char *name, const XML_Char **atts) override {
-        if (strcmp(name, "iso_639_entry") == 0) {
-            IsoCodes639Entry entry;
-            int i = 0;
-            while (atts && atts[i * 2] != 0) {
-                if (strcmp(atts[i * 2], "iso_639_2B_code") == 0)
-                    entry.iso_639_2B_code = atts[i * 2 + 1];
-                else if (strcmp(atts[i * 2], "iso_639_2T_code") == 0)
-                    entry.iso_639_2T_code = atts[i * 2 + 1];
-                else if (strcmp(atts[i * 2], "iso_639_1_code") == 0)
-                    entry.iso_639_1_code = atts[i * 2 + 1];
-                else if (strcmp(atts[i * 2], "name") == 0)
-                    entry.name = atts[i * 2 + 1];
-                i++;
+    void handle(json_object *entry) override {
+        json_object *alpha2 = json_object_object_get(entry, "alpha_2");
+        json_object *alpha3 = json_object_object_get(entry, "alpha_3");
+        json_object *bibliographic =
+            json_object_object_get(entry, "bibliographic");
+        json_object *name = json_object_object_get(entry, "name");
+        if (!name || json_object_get_type(name) != json_type_string) {
+            return;
+        }
+        // there must be alpha3
+        if (!alpha3 || json_object_get_type(alpha3) != json_type_string) {
+            return;
+        }
+
+        // alpha2 is optional
+        if (alpha2 && json_object_get_type(alpha2) != json_type_string) {
+            return;
+        }
+
+        // bibliographic is optional
+        if (bibliographic &&
+            json_object_get_type(bibliographic) != json_type_string) {
+            return;
+        }
+        if (!bibliographic) {
+            bibliographic = alpha3;
+        }
+        IsoCodes639Entry e;
+        e.name.assign(json_object_get_string(name),
+                      json_object_get_string_len(name));
+        if (alpha2) {
+            e.iso_639_1_code.assign(json_object_get_string(alpha2),
+                                    json_object_get_string_len(alpha2));
+        }
+        e.iso_639_2B_code.assign(json_object_get_string(bibliographic),
+                                 json_object_get_string_len(bibliographic));
+        e.iso_639_2T_code.assign(json_object_get_string(alpha3),
+                                 json_object_get_string_len(alpha3));
+        if ((!e.iso_639_2B_code.empty() || !e.iso_639_2T_code.empty()) &&
+            !e.name.empty()) {
+            that_->iso639entires.emplace_back(e);
+            if (!e.iso_639_2B_code.empty()) {
+                that_->iso6392B.emplace(e.iso_639_2B_code,
+                                        that_->iso639entires.size() - 1);
             }
-            if ((!entry.iso_639_2B_code.empty() ||
-                 !entry.iso_639_2T_code.empty()) &&
-                !entry.name.empty()) {
-                that_->iso639entires.emplace_back(entry);
-                if (!entry.iso_639_2B_code.empty()) {
-                    that_->iso6392B.emplace(entry.iso_639_2B_code,
-                                            that_->iso639entires.size() - 1);
-                }
-                if (!entry.iso_639_2T_code.empty()) {
-                    that_->iso6392T.emplace(entry.iso_639_2T_code,
-                                            that_->iso639entires.size() - 1);
-                }
+            if (!e.iso_639_2T_code.empty()) {
+                that_->iso6392T.emplace(e.iso_639_2T_code,
+                                        that_->iso639entires.size() - 1);
             }
         }
     }
@@ -62,24 +114,28 @@ private:
     IsoCodes *that_;
 };
 
-class IsoCodes3166Parser : public XMLParser {
+class IsoCodes3166Parser
+    : public IsoCodesJsonParser<fcitxMakeMetaString("3166-1")> {
 public:
     IsoCodes3166Parser(IsoCodes *that) : that_(that) {}
 
-    void startElement(const XML_Char *name, const XML_Char **atts) override {
-        if (strcmp(name, "iso_3166_entry") == 0) {
-            std::string alpha_2_code, name;
-            int i = 0;
-            while (atts && atts[i * 2] != 0) {
-                if (strcmp(atts[i * 2], "alpha_2_code") == 0)
-                    alpha_2_code = atts[i * 2 + 1];
-                else if (strcmp(atts[i * 2], "name") == 0)
-                    name = atts[i * 2 + 1];
-                i++;
-            }
-            if (!name.empty() && !alpha_2_code.empty()) {
-                that_->iso3166.emplace(alpha_2_code, name);
-            }
+    void handle(json_object *entry) override {
+        json_object *alpha2 = json_object_object_get(entry, "alpha_2");
+        json_object *nameObj = json_object_object_get(entry, "name");
+        if (!nameObj || json_object_get_type(nameObj) != json_type_string) {
+            return;
+        }
+        // there must be alpha3
+        if (!alpha2 || json_object_get_type(alpha2) != json_type_string) {
+            return;
+        }
+        std::string alpha_2_code, name;
+        name.assign(json_object_get_string(nameObj),
+                    json_object_get_string_len(nameObj));
+        alpha_2_code.assign(json_object_get_string(alpha2),
+                            json_object_get_string_len(alpha2));
+        if (!name.empty() && !alpha_2_code.empty()) {
+            that_->iso3166.emplace(alpha_2_code, name);
         }
     }
 
