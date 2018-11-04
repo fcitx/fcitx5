@@ -3,15 +3,17 @@
 # This file is distributed under the same license as the fcitx5 package.
 #
 # Translators:
-# mar well <m.wellendorf@gmx.de>, 2017
 # csslayer <wengxt@gmail.com>, 2017
+# mar well <m.wellendorf@gmx.de>, 2018
+# Tim Hofstede <timhofstede.va@gmail.com>, 2018
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2018-06-20 00:02-0700\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: csslayer <wengxt@gmail.com>, 2017\n"
+"POT-Creation-Date: 2018-11-04 00:01-0700\n"
+"PO-Revision-Date: 2017-11-23 04:14+0000\n"
+"Last-Translator: Tim Hofstede <timhofstede.va@gmail.com>, 2018\n"
 "Language-Team: German (https://www.transifex.com/fcitx/teams/12005/de/)\n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
@@ -85,12 +87,12 @@ msgstr "Alternative Tastenkombination für Eingabemethode"
 #: src/lib/fcitx-utils/key.cpp:126
 msgctxt "Key name"
 msgid "Application Left"
-msgstr ""
+msgstr "Anwendung Links"
 
 #: src/lib/fcitx-utils/key.cpp:127
 msgctxt "Key name"
 msgid "Application Right"
-msgstr ""
+msgstr "Anwendung Rechts"
 
 #: src/lib/fcitx-utils/key.cpp:186
 msgctxt "Key name"
