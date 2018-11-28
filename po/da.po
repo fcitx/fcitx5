@@ -4,14 +4,15 @@
 #
 # Translators:
 # csslayer <wengxt@gmail.com>, 2017
-# scootergrisen <scootergrisen@gmail.com>, 2017
+# scootergrisen, 2017
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2017-12-24 00:01-0800\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: scootergrisen <scootergrisen@gmail.com>, 2017\n"
+"POT-Creation-Date: 2018-11-28 00:01-0800\n"
+"PO-Revision-Date: 2017-11-23 04:14+0000\n"
+"Last-Translator: scootergrisen, 2017\n"
 "Language-Team: Danish (https://www.transifex.com/fcitx/teams/12005/da/)\n"
 "Language: da\n"
 "MIME-Version: 1.0\n"
@@ -19,7 +20,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: src/lib/fcitx/instance.cpp:1548
+#: src/lib/fcitx/instance.cpp:1546
 msgid "(Not available)"
 msgstr "(ikke tilgængelig)"
 
@@ -197,7 +198,7 @@ msgstr "Ryd"
 msgid "Clipboard"
 msgstr "Udklipsholder"
 
-#: src/modules/clipboard/clipboard.cpp:287
+#: src/modules/clipboard/clipboard.cpp:293
 msgid "Clipboard:"
 msgstr "Udklipsholder:"
 
@@ -422,7 +423,7 @@ msgstr "Grøn"
 msgid "Group"
 msgstr "Gruppe"
 
-#: src/lib/fcitx/instance.cpp:1551
+#: src/lib/fcitx/instance.cpp:1549
 msgid "Group {0}: {1}"
 msgstr "Gruppe {0}: {1}"
 
@@ -864,7 +865,7 @@ msgstr "Nyheder"
 msgid "Next Candidate"
 msgstr "Næste kanditat"
 
-#: src/modules/clipboard/clipboard.cpp:289
+#: src/modules/clipboard/clipboard.cpp:295
 msgid "No clipboard history."
 msgstr "Ingen udklipsholderhistorik."
 
@@ -966,9 +967,9 @@ msgstr "Print Screen"
 msgid "Quick Phrase"
 msgstr "Hurtigfrase"
 
-#: src/modules/quickphrase/quickphrase.cpp:285
+#: src/modules/quickphrase/quickphrase.cpp:284
 msgid "Quick Phrase: "
-msgstr "Hurtigfrase:"
+msgstr "Hurtigfrase: "
 
 #: src/lib/fcitx-utils/key.cpp:194
 msgctxt "Key name"
@@ -1201,7 +1202,7 @@ msgctxt "Key name"
 msgid "Terminal"
 msgstr "Terminal"
 
-#: src/ui/classic/classicui.h:64
+#: src/ui/classic/classicui.h:67
 msgid "Theme"
 msgstr "Tema"
 
@@ -1262,7 +1263,7 @@ msgstr "Fortryd"
 msgid "Unicode"
 msgstr "Unicode"
 
-#: src/modules/unicode/unicode.cpp:244
+#: src/modules/unicode/unicode.cpp:243
 msgid "Unicode: "
 msgstr "Unicode: "
 
@@ -1355,7 +1356,7 @@ msgctxt "Key name"
 msgid "Yellow"
 msgstr "Gul"
 
-#: data/fcitx5-configtool.sh:140
+#: data/fcitx5-configtool.sh:138
 msgid ""
 "You're currently running Fcitx with GUI, but fcitx-configtool couldn't be "
 "found, the package name is usually fcitx-config-gtk, fcitx-config-gtk3 or "
@@ -1366,7 +1367,7 @@ msgstr ""
 "eller fcitx-configtool. Den vil nu åbne konfigurationsfilen med "
 "standardtekstredigeringsprogrammet."
 
-#: data/fcitx5-configtool.sh:137
+#: data/fcitx5-configtool.sh:135
 msgid ""
 "You're currently running KDE, but KCModule for fcitx couldn't be found, the "
 "package name of this KCModule is usually kcm-fcitx or kde-config-fcitx. Now "
@@ -1405,10 +1406,10 @@ msgstr "iTouch"
 msgid "{0} (Not Available)"
 msgstr "{0} (ikke tilgængelig)"
 
-#: src/lib/fcitx/instance.cpp:1546
+#: src/lib/fcitx/instance.cpp:1544
 msgid "{0} (Not available)"
 msgstr "{0} (ikke tilgængelig)"
 
-#: src/lib/fcitx/instance.cpp:1543
+#: src/lib/fcitx/instance.cpp:1541
 msgid "{0} ({1})"
 msgstr "{0} ({1})"
