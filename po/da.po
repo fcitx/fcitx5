@@ -4,15 +4,15 @@
 #
 # Translators:
 # csslayer <wengxt@gmail.com>, 2017
-# scootergrisen, 2017
+# scootergrisen, 2019
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2018-11-28 00:01-0800\n"
+"POT-Creation-Date: 2019-07-16 06:33-0700\n"
 "PO-Revision-Date: 2017-11-23 04:14+0000\n"
-"Last-Translator: scootergrisen, 2017\n"
+"Last-Translator: scootergrisen, 2019\n"
 "Language-Team: Danish (https://www.transifex.com/fcitx/teams/12005/da/)\n"
 "Language: da\n"
 "MIME-Version: 1.0\n"
@@ -401,7 +401,7 @@ msgstr "Fremad"
 
 #: src/modules/notifications/notifications.conf.in:4
 msgid "Freedesktop.org Notification Support"
-msgstr "Understøttelse af Freedesktop.org-notifikation"
+msgstr "Understøttelse af Freedesktop.org-underretning"
 
 #: src/lib/fcitx-utils/key.cpp:140
 msgctxt "Key name"
@@ -504,7 +504,7 @@ msgstr "Dvale"
 
 #: src/modules/notifications/notifications.h:38
 msgid "Hidden Notifications"
-msgstr "Skjulte notifikationer"
+msgstr "Skjulte underretninger"
 
 #: src/lib/fcitx-utils/key.cpp:213
 msgctxt "Key name"
@@ -879,7 +879,7 @@ msgstr "Ikke tilgængelig"
 
 #: src/modules/notifications/notifications.conf.in:3
 msgid "Notification"
-msgstr "Notifikation"
+msgstr "Underretning"
 
 #: src/lib/fcitx-utils/key.cpp:64
 msgctxt "Key name"
@@ -1151,7 +1151,7 @@ msgstr "Start inputmetode"
 
 #: src/modules/notificationitem/notificationitem.conf.in:3
 msgid "Status Notifier"
-msgstr "Statusnotifikation"
+msgstr "Statusunderretter"
 
 #: src/lib/fcitx-utils/key.cpp:70
 msgctxt "Key name"
