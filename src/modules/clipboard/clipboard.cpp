@@ -246,6 +246,7 @@ Clipboard::Clipboard(Instance *instance)
 
             updateUI(inputContext);
         }));
+    reloadConfig();
 }
 
 Clipboard::~Clipboard() {}
