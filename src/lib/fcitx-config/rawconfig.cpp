@@ -191,6 +191,17 @@ public:
         }
     }
 
+    RawConfigPrivate &operator=(const RawConfigPrivate &other) {
+        name_ = other.name_;
+        value_ = other.value_;
+        comment_ = other.comment_;
+        lineNumber_ = other.lineNumber_;
+        for (const auto &item : other.subItems_) {
+            subItems_[item.first] = std::make_shared<RawConfig>(*item.second);
+        }
+        return *this;
+    }
+
     std::shared_ptr<RawConfig> getNonexistentRawConfig(RawConfig *q,
                                                        const std::string &key) {
         auto result = subItems_[key] = std::make_shared<RawConfig>(key);
