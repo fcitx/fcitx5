@@ -305,8 +305,9 @@ bool EventLoop::exec() {
     int r = event_base_loop(d->event_, EVLOOP_NO_EXIT_ON_EMPTY);
 #else
     std::unique_ptr<event, decltype(&event_free)> dummy(
-        event_new(d->event_, -1, EV_PERSIST,
-                  [](evutil_socket_t, short, void *) {}, nullptr),
+        event_new(
+            d->event_, -1, EV_PERSIST, [](evutil_socket_t, short, void *) {},
+            nullptr),
         &event_free);
     ;
     struct timeval tv;

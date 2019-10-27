@@ -186,7 +186,7 @@ struct DBusSignatureToType;
 
 template <char... c>
 DBusSignatureToType<c...>
-DBusMetaStringSignatureToTupleHelper(MetaString<c...>);
+    DBusMetaStringSignatureToTupleHelper(MetaString<c...>);
 
 template <typename T>
 using DBusMetaStringSignatureToTuple = typename decltype(
