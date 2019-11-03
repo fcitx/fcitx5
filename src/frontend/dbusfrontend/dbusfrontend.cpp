@@ -40,8 +40,8 @@ public:
     InputMethod1(DBusFrontendModule *module, dbus::Bus *bus)
         : module_(module), instance_(module->instance()), bus_(bus),
           watcher_(std::make_unique<dbus::ServiceWatcher>(*bus_)) {
-        bus_->addObjectVTable("/org/freedesktop/portal/inputmethod", FCITX_INPUTMETHOD_DBUS_INTERFACE,
-                              *this);
+        bus_->addObjectVTable("/org/freedesktop/portal/inputmethod",
+                              FCITX_INPUTMETHOD_DBUS_INTERFACE, *this);
     }
 
     std::tuple<dbus::ObjectPath, std::vector<uint8_t>> createInputContext(
@@ -68,15 +68,15 @@ public:
     DBusInputContext1(int id, InputContextManager &icManager, InputMethod1 *im,
                       const std::string &sender, const std::string &program)
         : InputContext(icManager, program),
-          path_("/org/freedesktop/portal/inputcontext/" + std::to_string(id)), im_(im),
-          handler_(im_->serviceWatcher().watchService(
-              sender,
-              [this](const std::string &, const std::string &,
-                     const std::string &newName) {
-                  if (newName.empty()) {
-                      delete this;
-                  }
-              })),
+          path_("/org/freedesktop/portal/inputcontext/" + std::to_string(id)),
+          im_(im), handler_(im_->serviceWatcher().watchService(
+                       sender,
+                       [this](const std::string &, const std::string &,
+                              const std::string &newName) {
+                           if (newName.empty()) {
+                               delete this;
+                           }
+                       })),
           name_(sender) {
         created();
     }
