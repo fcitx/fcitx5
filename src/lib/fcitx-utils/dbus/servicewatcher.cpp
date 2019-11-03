@@ -34,7 +34,7 @@ public:
                       MatchRule("org.freedesktop.DBus", "/org/freedesktop/DBus",
                                 "org.freedesktop.DBus", "NameOwnerChanged",
                                 {key}),
-                      [this](Message msg) {
+                      [this](Message &msg) {
                           std::string name, oldOwner, newOwner;
                           msg >> name >> oldOwner >> newOwner;
                           querySlots_.erase(name);
@@ -45,8 +45,8 @@ public:
                           }
                           return false;
                       });
-                  auto querySlot =
-                      bus_->serviceOwnerAsync(key, 0, [this, key](Message msg) {
+                  auto querySlot = bus_->serviceOwnerAsync(
+                      key, 0, [this, key](Message &msg) {
                           // Key itself may be gone later, put it on the stack.
                           std::string pivotKey = key;
                           auto protector = watch();

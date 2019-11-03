@@ -45,7 +45,7 @@ Notifications::Notifications(Instance *instance)
     actionMatch_ = bus_->addMatch(
         dbus::MatchRule(NOTIFICATIONS_SERVICE_NAME, NOTIFICATIONS_PATH,
                         NOTIFICATIONS_INTERFACE_NAME, "ActionInvoked"),
-        [this](dbus::Message message) {
+        [this](dbus::Message &message) {
             uint32_t id = 0;
             std::string key;
             if (message >> id >> key) {
@@ -59,7 +59,7 @@ Notifications::Notifications(Instance *instance)
     closedMatch_ = bus_->addMatch(
         dbus::MatchRule(NOTIFICATIONS_SERVICE_NAME, NOTIFICATIONS_PATH,
                         NOTIFICATIONS_INTERFACE_NAME, "NotificationClosed"),
-        [this](dbus::Message message) {
+        [this](dbus::Message &message) {
             uint32_t id = 0;
             uint32_t reason = 0;
             if (message >> id >> reason) {
@@ -89,7 +89,7 @@ Notifications::Notifications(Instance *instance)
                 auto message = bus_->createMethodCall(
                     NOTIFICATIONS_SERVICE_NAME, NOTIFICATIONS_PATH,
                     NOTIFICATIONS_INTERFACE_NAME, "GetCapabilities");
-                call_ = message.callAsync(0, [this](dbus::Message reply) {
+                call_ = message.callAsync(0, [this](dbus::Message &reply) {
                     std::vector<std::string> capabilities;
                     reply >> capabilities;
                     for (auto &capability : capabilities) {
@@ -187,7 +187,7 @@ uint32_t Notifications::sendNotification(
     auto &item = result.first->second;
     item.slot_ =
         message.callAsync(TIMEOUT_REAL_TIME * 1000 / 2,
-                          [this, internalId](dbus::Message message) {
+                          [this, internalId](dbus::Message &message) {
                               auto item = find(internalId);
                               if (item) {
                                   if (!message.isError()) {

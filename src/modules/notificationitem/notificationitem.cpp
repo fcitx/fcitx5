@@ -172,7 +172,7 @@ void NotificationItem::registerSNI() {
         sniWatcherName_.c_str(), NOTIFICATION_WATCHER_DBUS_OBJ,
         NOTIFICATION_WATCHER_DBUS_IFACE, "RegisterStatusNotifierItem");
     call << serviceName_;
-    pendingRegisterCall_ = call.callAsync(0, [this](dbus::Message msg) {
+    pendingRegisterCall_ = call.callAsync(0, [this](dbus::Message &msg) {
         FCITX_DEBUG() << "SNI Register result: " << msg.signature();
         if (msg.signature() == "s") {
             std::string mesg;

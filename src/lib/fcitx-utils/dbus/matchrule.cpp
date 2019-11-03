@@ -155,10 +155,8 @@ const std::string &MatchRule::rule() const noexcept {
     return d->rule_;
 }
 
-bool MatchRule::check(const Message &_message,
-                      const std::string &alterName) const {
+bool MatchRule::check(Message &message, const std::string &alterName) const {
     FCITX_D();
-    Message message = _message;
     auto result = d->check(message, alterName);
     message.rewind();
     return result;

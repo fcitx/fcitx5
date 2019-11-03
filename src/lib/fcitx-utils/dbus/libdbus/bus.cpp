@@ -134,7 +134,7 @@ DBusObjectVTableSlot *BusPrivate::findSlot(const std::string &path,
     return nullptr;
 }
 
-bool BusPrivate::objectVTableCallback(Message message) {
+bool BusPrivate::objectVTableCallback(Message &message) {
     if (!objectRegistration_.hasKey(message.path())) {
         return false;
     }
@@ -236,7 +236,7 @@ bool BusPrivate::objectVTableCallback(Message message) {
             if (method->signature() != message.signature()) {
                 return false;
             }
-            return method->handler()(message);
+            return method->handler()(std::move(message));
         }
         return false;
     }

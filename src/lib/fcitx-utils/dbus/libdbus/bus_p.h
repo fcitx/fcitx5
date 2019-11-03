@@ -158,7 +158,7 @@ public:
 
     DBusObjectVTableSlot *findSlot(const std::string &path,
                                    const std::string interface);
-    bool objectVTableCallback(Message message);
+    bool objectVTableCallback(Message &message);
 
     Bus *bus_;
     std::string address_;

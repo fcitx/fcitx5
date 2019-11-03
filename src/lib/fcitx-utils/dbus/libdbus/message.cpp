@@ -54,7 +54,7 @@ static char toDBusType(Container::Type type) {
 
 Message::Message() : d_ptr(std::make_unique<MessagePrivate>()) {}
 
-FCITX_DEFINE_DPTR_COPY_AND_DEFAULT_DTOR_AND_MOVE(Message)
+FCITX_DEFINE_DEFAULT_DTOR_AND_MOVE(Message)
 
 Message Message::createReply() const {
     FCITX_D();
@@ -196,9 +196,9 @@ void DBusPendingCallNotifyCallback(DBusPendingCall *reply, void *userdata) {
         return;
     }
 
-    DBusMessage *msg = dbus_pending_call_steal_reply(reply);
-    slot->callback_(
-        MessagePrivate::fromDBusMessage(slot->bus_, msg, false, false));
+    auto msg = MessagePrivate::fromDBusMessage(
+        slot->bus_, dbus_pending_call_steal_reply(reply), false, false);
+    slot->callback_(msg);
 }
 
 std::unique_ptr<Slot> Message::callAsync(uint64_t timeout,

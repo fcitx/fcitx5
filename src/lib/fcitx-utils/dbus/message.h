@@ -130,7 +130,7 @@ private:
 };
 
 class Message;
-typedef std::function<bool(Message message)> MessageCallback;
+typedef std::function<bool(Message &message)> MessageCallback;
 class Slot;
 
 enum class MessageType {
@@ -212,7 +212,7 @@ class FCITXUTILS_EXPORT Message {
 public:
     Message();
 
-    FCITX_DECLARE_VIRTUAL_DTOR_COPY_AND_MOVE(Message);
+    FCITX_DECLARE_VIRTUAL_DTOR_MOVE(Message);
     Message createReply() const;
     Message createError(const char *name, const char *message) const;
 

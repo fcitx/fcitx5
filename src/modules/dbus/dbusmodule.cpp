@@ -457,7 +457,7 @@ DBusModule::DBusModule(Instance *instance)
         dbus::MatchRule("org.freedesktop.DBus.Local",
                         "/org/freedesktop/DBus/Local",
                         "org.freedesktop.DBus.Local", "Disconnected"),
-        [instance](dbus::Message) {
+        [instance](dbus::Message &) {
             FCITX_INFO() << "Disconnected from DBus, exiting...";
             instance->exit();
             return true;

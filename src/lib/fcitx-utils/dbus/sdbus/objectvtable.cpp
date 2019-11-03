@@ -51,13 +51,7 @@ int SDMethodCallback(sd_bus_message *m, void *userdata, sd_bus_error *) {
         return 0;
     }
     try {
-        auto msg = MessagePrivate::fromSDBusMessage(m);
-        auto wathcer = vtable->watch();
-        vtable->setCurrentMessage(&msg);
-        method->handler()(msg);
-        if (wathcer.isValid()) {
-            wathcer.get()->setCurrentMessage(nullptr);
-        }
+        method->handler()(MessagePrivate::fromSDBusMessage(m));
         return 1;
     } catch (const std::exception &e) {
         // some abnormal things threw
@@ -79,6 +73,7 @@ int SDPropertyGetCallback(sd_bus *, const char *, const char *,
         return 0;
     }
     try {
+
         auto msg = MessagePrivate::fromSDBusMessage(reply);
         prop->getMethod()(msg);
         return 1;

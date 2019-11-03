@@ -89,7 +89,7 @@ void client() {
     clientBus.attachEventLoop(&loop);
     std::unique_ptr<Slot> slot(clientBus.addMatch(
         MatchRule(TEST_SERVICE, "", TEST_INTERFACE, "testSignal"),
-        [&loop](dbus::Message message) {
+        [&loop](dbus::Message &message) {
             FCITX_INFO() << "testSignal";
             std::vector<DBusStruct<std::string, int>> data;
             message >> data;

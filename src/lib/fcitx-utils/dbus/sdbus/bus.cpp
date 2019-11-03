@@ -141,7 +141,8 @@ int SDMessageCallback(sd_bus_message *m, void *userdata, sd_bus_error *) {
         return 0;
     }
     try {
-        auto result = slot->callback_(MessagePrivate::fromSDBusMessage(m));
+        auto msg = MessagePrivate::fromSDBusMessage(m);
+        auto result = slot->callback_(msg);
         return result ? 1 : 0;
     } catch (const std::exception &e) {
         // some abnormal things threw

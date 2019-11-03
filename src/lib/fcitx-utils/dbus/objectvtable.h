@@ -100,6 +100,7 @@ struct ReturnValueHelper<void> {
         this, FUNCTION_NAME, SIGNATURE, RET,                                   \
             [this](::fcitx::dbus::Message msg) {                               \
                 this->setCurrentMessage(&msg);                                 \
+                auto watcher = static_cast<ObjectVTableBase *>(this)->watch(); \
                 FCITX_STRING_TO_DBUS_TUPLE(SIGNATURE) args;                    \
                 msg >> args;                                                   \
                 auto func = [](auto that, auto &&... args) {                   \
@@ -125,6 +126,9 @@ struct ReturnValueHelper<void> {
                 } catch (const ::fcitx::dbus::MethodCallError &error) {        \
                     auto reply = msg.createError(error.name(), error.what());  \
                     reply.send();                                              \
+                }                                                              \
+                if (watcher.isValid()) {                                       \
+                    watcher.get()->setCurrentMessage(nullptr);                 \
                 }                                                              \
                 return true;                                                   \
             }                                                                  \
@@ -171,12 +175,16 @@ struct ReturnValueHelper<void> {
         },                                                                     \
         [this](::fcitx::dbus::Message &msg) {                                  \
             this->setCurrentMessage(&msg);                                     \
+            auto watcher = static_cast<ObjectVTableBase *>(this)->watch();     \
             FCITX_STRING_TO_DBUS_TUPLE(SIGNATURE) args;                        \
             msg >> args;                                                       \
             auto method = SETMETHOD;                                           \
             callWithTuple(method, args);                                       \
             auto reply = msg.createReply();                                    \
             reply.send();                                                      \
+            if (watcher.isValid()) {                                           \
+                watcher.get()->setCurrentMessage(nullptr);                     \
+            }                                                                  \
             return true;                                                       \
         }};
 

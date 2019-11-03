@@ -28,14 +28,6 @@ namespace dbus {
 class MessagePrivate {
 public:
     MessagePrivate() : type_(MessageType::Invalid), msg_(nullptr) {}
-    MessagePrivate(const MessagePrivate &other)
-        : type_(other.type_), bus_(other.bus_), lastError_(other.lastError_),
-          msg_(other.msg_ ? dbus_message_ref(other.msg_) : nullptr) {
-        if (msg_) {
-            initIterator();
-        }
-    }
-
     ~MessagePrivate() {
         if (msg_) {
             dbus_message_unref(msg_);

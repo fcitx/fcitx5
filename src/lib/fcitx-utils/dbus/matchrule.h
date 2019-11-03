@@ -46,7 +46,7 @@ public:
     const std::string &name() const noexcept;
     const std::vector<std::string> &argumentMatch() const noexcept;
 
-    bool check(const Message &, const std::string &alterName = {}) const;
+    bool check(Message &, const std::string &alterName = {}) const;
 
     bool operator==(const MatchRule &other) const {
         return rule() == other.rule();
