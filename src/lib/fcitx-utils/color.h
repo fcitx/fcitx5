@@ -21,6 +21,7 @@
 #define _FCITX_UTILS_COLOR_H_
 
 #include "fcitxutils_export.h"
+#include <fcitx-utils/macros.h>
 #include <string>
 #include <type_traits>
 
@@ -42,8 +43,7 @@ public:
                    unsigned short alpha = 255);
     explicit inline Color(const char *s) { setFromString(s); }
     explicit inline Color(const std::string &s) : Color(s.c_str()) {}
-    Color(const Color &other)
-        : Color(other.red(), other.green(), other.blue(), other.alpha()) {}
+    FCITX_INLINE_DEFINE_DEFAULT_DTOR_AND_COPY(Color);
 
     /// \brief Get color string in the format of "#rrggbbaa".
     std::string toString() const;
