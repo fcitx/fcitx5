@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2019-07-16 06:33-0700\n"
+"POT-Creation-Date: 2019-11-05 00:01-0800\n"
 "PO-Revision-Date: 2017-11-23 04:14+0000\n"
 "Last-Translator: scootergrisen, 2019\n"
 "Language-Team: Danish (https://www.transifex.com/fcitx/teams/12005/da/)\n"
@@ -198,7 +198,7 @@ msgstr "Ryd"
 msgid "Clipboard"
 msgstr "Udklipsholder"
 
-#: src/modules/clipboard/clipboard.cpp:293
+#: src/modules/clipboard/clipboard.cpp:294
 msgid "Clipboard:"
 msgstr "Udklipsholder:"
 
@@ -863,9 +863,9 @@ msgstr "Nyheder"
 
 #: src/im/keyboard/keyboard.h:58
 msgid "Next Candidate"
-msgstr "Næste kanditat"
+msgstr "Næste kandidat"
 
-#: src/modules/clipboard/clipboard.cpp:295
+#: src/modules/clipboard/clipboard.cpp:296
 msgid "No clipboard history."
 msgstr "Ingen udklipsholderhistorik."
 
