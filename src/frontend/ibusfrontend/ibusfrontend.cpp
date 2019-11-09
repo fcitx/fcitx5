@@ -314,7 +314,12 @@ public:
 
         v.setData(std::move(text));
         uint32_t cursor = preedit.cursor() >= 0 ? preedit.cursor() : 0;
-        updatePreeditTextTo(name_, v, cursor, offset ? true : false);
+        if (clientCommitPreedit_) {
+            updatePreeditTextWithModeTo(name_, v, cursor, offset ? true : false,
+                                        0);
+        } else {
+            updatePreeditTextTo(name_, v, cursor, offset ? true : false);
+        }
     }
 
     void deleteSurroundingTextImpl(int offset, unsigned int size) override {
@@ -454,6 +459,8 @@ private:
     FCITX_OBJECT_VTABLE_SIGNAL(disabled, "Disabled", "");
     FCITX_OBJECT_VTABLE_SIGNAL(forwardKeyEvent, "ForwardKeyEvent", "uuu");
     FCITX_OBJECT_VTABLE_SIGNAL(updatePreeditText, "UpdatePreeditText", "vub");
+    FCITX_OBJECT_VTABLE_SIGNAL(updatePreeditTextWithMode,
+                               "UpdatePreeditTextWithMode", "vubu");
     FCITX_OBJECT_VTABLE_SIGNAL(deleteSurroundingTextDBus,
                                "DeleteSurroundingText", "iu");
     FCITX_OBJECT_VTABLE_SIGNAL(requireSurroundingText, "RequireSurroundingText",
@@ -580,12 +587,23 @@ private:
         }),
         ([this](dbus::DBusStruct<uint32_t, uint32_t> type) {
             setContentType(std::get<0>(type), std::get<1>(type));
-        }));
+        }),
+        dbus::PropertyOption::Hidden);
+    FCITX_OBJECT_VTABLE_WRITABLE_PROPERTY(clientCommitPreedit,
+                                          "ClientCommitPreedit", "(b)",
+                                          ([this]() -> dbus::DBusStruct<bool> {
+                                              return {clientCommitPreedit_};
+                                          }),
+                                          ([this](dbus::DBusStruct<bool> value) {
+                                              clientCommitPreedit_ = std::get<0>(value);
+                                          }),
+                                          dbus::PropertyOption::Hidden);
 
     dbus::ObjectPath path_;
     IBusFrontend *im_;
     std::unique_ptr<HandlerTableEntry<dbus::ServiceWatcherCallback>> handler_;
     std::string name_;
+    bool clientCommitPreedit_ = false;
 
     IBusService service_{this};
 };

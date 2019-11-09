@@ -178,7 +178,7 @@ void client() {
         }));
     std::unique_ptr<EventSourceTime> s6(loop.addTimeEvent(
         CLOCK_MONOTONIC, now(CLOCK_MONOTONIC) + 500000, 0,
-        [&clientBus, &loop](EventSource *, uint64_t) {
+        [&clientBus](EventSource *, uint64_t) {
             FCITX_INFO() << "test3";
             auto msg = clientBus.createMethodCall(TEST_SERVICE, "/test",
                                                   TEST_INTERFACE, "test3");
@@ -195,7 +195,7 @@ void client() {
         }));
     std::unique_ptr<EventSourceTime> s7(
         loop.addTimeEvent(CLOCK_MONOTONIC, now(CLOCK_MONOTONIC) + 400000, 0,
-                          [&clientBus, &loop](EventSource *, uint64_t) {
+                          [&clientBus](EventSource *, uint64_t) {
                               FCITX_INFO() << "testProperty";
                               auto msg = clientBus.createMethodCall(
                                   TEST_SERVICE, "/test",

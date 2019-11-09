@@ -36,15 +36,15 @@ sd_bus_vtable vtable_signal(const char *member, const char *signature)
     return result;
 }
 
-sd_bus_vtable vtable_property(const char *member, const char *signature, sd_bus_property_get_t getter)
+sd_bus_vtable vtable_property(const char *member, const char *signature, sd_bus_property_get_t getter, uint32_t flags)
 {
-    sd_bus_vtable result = SD_BUS_PROPERTY(member, signature, getter, 0, 0);
+    sd_bus_vtable result = SD_BUS_PROPERTY(member, signature, getter, 0, flags);
     return result;
 }
 
-sd_bus_vtable vtable_writable_property(const char *member, const char *signature, sd_bus_property_get_t getter, sd_bus_property_set_t setter)
+sd_bus_vtable vtable_writable_property(const char *member, const char *signature, sd_bus_property_get_t getter, sd_bus_property_set_t setter, uint32_t flags)
 {
-    sd_bus_vtable result = SD_BUS_WRITABLE_PROPERTY(member, signature, getter, setter, 0, 0);
+    sd_bus_vtable result = SD_BUS_WRITABLE_PROPERTY(member, signature, getter, setter, 0, flags);
     return result;
 }
 

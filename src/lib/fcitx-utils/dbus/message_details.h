@@ -29,6 +29,32 @@ namespace fcitx {
 
 namespace dbus {
 
+template <typename T>
+struct MakeTupleIfNeeded {
+    typedef std::tuple<T> type;
+};
+
+template <typename... Args>
+struct MakeTupleIfNeeded<std::tuple<Args...>> {
+    typedef std::tuple<Args...> type;
+};
+
+template <typename T>
+using MakeTupleIfNeededType = typename MakeTupleIfNeeded<T>::type;
+
+template <typename T>
+struct RemoveTupleIfUnnecessary {
+    typedef T type;
+};
+
+template <typename Arg>
+struct RemoveTupleIfUnnecessary<std::tuple<Arg>> {
+    typedef Arg type;
+};
+
+template <typename T>
+using RemoveTupleIfUnnecessaryType = typename RemoveTupleIfUnnecessary<T>::type;
+
 class ObjectPath;
 class Variant;
 
@@ -189,8 +215,8 @@ DBusSignatureToType<c...>
     DBusMetaStringSignatureToTupleHelper(MetaString<c...>);
 
 template <typename T>
-using DBusMetaStringSignatureToTuple = typename decltype(
-    DBusMetaStringSignatureToTupleHelper(std::declval<T>()))::type;
+using DBusMetaStringSignatureToTuple = MakeTupleIfNeededType<typename decltype(
+    DBusMetaStringSignatureToTupleHelper(std::declval<T>()))::type>;
 
 template <typename... Args>
 DBusStruct<Args...> TupleToDBusStructHelper(std::tuple<Args...>);
@@ -247,32 +273,6 @@ struct DBusSignatureGetNextSignature<'{', nextChar...> {
         typename SkipTillNextBrace<1, MetaString<nextChar...>>::type>
         next;
 };
-
-template <typename T>
-struct MakeTupleIfNeeded {
-    typedef std::tuple<T> type;
-};
-
-template <typename... Args>
-struct MakeTupleIfNeeded<std::tuple<Args...>> {
-    typedef std::tuple<Args...> type;
-};
-
-template <typename T>
-using MakeTupleIfNeededType = typename MakeTupleIfNeeded<T>::type;
-
-template <typename T>
-struct RemoveTupleIfUnnecessary {
-    typedef T type;
-};
-
-template <typename Arg>
-struct RemoveTupleIfUnnecessary<std::tuple<Arg>> {
-    typedef Arg type;
-};
-
-template <typename T>
-using RemoveTupleIfUnnecessaryType = typename RemoveTupleIfUnnecessary<T>::type;
 
 template <char... c>
 struct DBusSignatureToType {

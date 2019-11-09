@@ -19,6 +19,7 @@
 #ifndef _FCITX_UTILS_DBUS_OBJECTVTABLE_H_
 #define _FCITX_UTILS_DBUS_OBJECTVTABLE_H_
 
+#include <fcitx-utils/flags.h>
 #include <fcitx-utils/macros.h>
 #include <fcitx-utils/trackableobject.h>
 #include <functional>
@@ -54,24 +55,24 @@ private:
     std::string error_;
 };
 
+class ObjectVTableMethodPrivate;
 class FCITXUTILS_EXPORT ObjectVTableMethod {
 public:
     ObjectVTableMethod(ObjectVTableBase *vtable, const std::string &name,
                        const std::string &signature, const std::string &ret,
                        ObjectMethod handler);
 
-    const std::string &name() const { return name_; }
-    const std::string &signature() const { return signature_; }
-    const std::string &ret() const { return ret_; }
-    const ObjectMethod &handler() { return handler_; }
-    ObjectVTableBase *vtable() const { return vtable_; }
+    virtual ~ObjectVTableMethod();
+
+    const std::string &name() const;
+    const std::string &signature() const;
+    const std::string &ret() const;
+    const ObjectMethod &handler() const;
+    ObjectVTableBase *vtable() const;
 
 private:
-    const std::string name_;
-    const std::string signature_;
-    const std::string ret_;
-    ObjectMethod handler_;
-    ObjectVTableBase *vtable_;
+    std::unique_ptr<ObjectVTableMethodPrivate> d_ptr;
+    FCITX_DECLARE_PRIVATE(ObjectVTableMethod);
 };
 
 template <typename T>
@@ -154,31 +155,33 @@ struct ReturnValueHelper<void> {
         msg.send();                                                            \
     }
 
-#define FCITX_OBJECT_VTABLE_PROPERTY(PROPERTY, NAME, SIGNATURE, GETMETHOD)     \
+#define FCITX_OBJECT_VTABLE_PROPERTY(PROPERTY, NAME, SIGNATURE, GETMETHOD,     \
+                                     ...)                                      \
     ::fcitx::dbus::ObjectVTableProperty PROPERTY##Property{                    \
-        this, NAME, SIGNATURE, [this](::fcitx::dbus::Message &msg) {           \
-            typedef FCITX_STRING_TO_DBUS_TUPLE(SIGNATURE) property_type;       \
-            auto method = GETMETHOD;                                           \
-            property_type property = method();                                 \
-            msg << property;                                                   \
-        }};
-
-#define FCITX_OBJECT_VTABLE_WRITABLE_PROPERTY(PROPERTY, NAME, SIGNATURE,       \
-                                              GETMETHOD, SETMETHOD)            \
-    ::fcitx::dbus::ObjectVTableWritableProperty PROPERTY##Property{            \
         this, NAME, SIGNATURE,                                                 \
-        [this](::fcitx::dbus::Message &msg) {                                  \
+        [method = GETMETHOD](::fcitx::dbus::Message &msg) {                    \
             typedef FCITX_STRING_TO_DBUS_TUPLE(SIGNATURE) property_type;       \
-            auto method = GETMETHOD;                                           \
             property_type property = method();                                 \
             msg << property;                                                   \
         },                                                                     \
-        [this](::fcitx::dbus::Message &msg) {                                  \
+        ::fcitx::dbus::PropertyOptions{__VA_ARGS__}};
+
+#define FCITX_OBJECT_VTABLE_WRITABLE_PROPERTY(PROPERTY, NAME, SIGNATURE,       \
+                                              GETMETHOD, SETMETHOD, ...)       \
+    ::fcitx::dbus::ObjectVTableWritableProperty PROPERTY##Property{            \
+        this,                                                                  \
+        NAME,                                                                  \
+        SIGNATURE,                                                             \
+        [method = GETMETHOD](::fcitx::dbus::Message &msg) {                    \
+            typedef FCITX_STRING_TO_DBUS_TUPLE(SIGNATURE) property_type;       \
+            property_type property = method();                                 \
+            msg << property;                                                   \
+        },                                                                     \
+        [this, method = SETMETHOD](::fcitx::dbus::Message &msg) {              \
             this->setCurrentMessage(&msg);                                     \
             auto watcher = static_cast<ObjectVTableBase *>(this)->watch();     \
             FCITX_STRING_TO_DBUS_TUPLE(SIGNATURE) args;                        \
             msg >> args;                                                       \
-            auto method = SETMETHOD;                                           \
             callWithTuple(method, args);                                       \
             auto reply = msg.createReply();                                    \
             reply.send();                                                      \
@@ -186,42 +189,48 @@ struct ReturnValueHelper<void> {
                 watcher.get()->setCurrentMessage(nullptr);                     \
             }                                                                  \
             return true;                                                       \
-        }};
+        },                                                                     \
+        ::fcitx::dbus::PropertyOptions{__VA_ARGS__}};
 
+class ObjectVTableSignalPrivate;
 class FCITXUTILS_EXPORT ObjectVTableSignal {
 public:
     ObjectVTableSignal(ObjectVTableBase *vtable, const std::string &name,
                        const std::string signature);
+    virtual ~ObjectVTableSignal();
 
     Message createSignal();
-    const std::string &name() const { return name_; }
-    const std::string &signature() const { return signature_; }
+    const std::string &name() const;
+    const std::string &signature() const;
 
 private:
-    const std::string name_;
-    const std::string signature_;
-    ObjectVTableBase *vtable_;
+    std::unique_ptr<ObjectVTableSignalPrivate> d_ptr;
+    FCITX_DECLARE_PRIVATE(ObjectVTableSignal);
 };
 
+enum class PropertyOption : uint32_t { Hidden = (1 << 0) };
+
+using PropertyOptions = Flags<PropertyOption>;
+
+class ObjectVTablePropertyPrivate;
 class FCITXUTILS_EXPORT ObjectVTableProperty {
 public:
     ObjectVTableProperty(ObjectVTableBase *vtable, const std::string &name,
                          const std::string signature,
-                         PropertyGetMethod getMethod);
+                         PropertyGetMethod getMethod, PropertyOptions options);
+    virtual ~ObjectVTableProperty();
 
-    const std::string &name() const { return name_; }
-
-    const std::string &signature() const { return signature_; }
-
-    bool writable() { return writable_; }
-
-    auto getMethod() { return getMethod_; }
+    const std::string &name() const;
+    const std::string &signature() const;
+    bool writable() const;
+    const PropertyGetMethod &getMethod() const;
+    const PropertyOptions &options() const;
 
 protected:
-    const std::string name_;
-    const std::string signature_;
-    PropertyGetMethod getMethod_;
-    bool writable_;
+    ObjectVTableProperty(std::unique_ptr<ObjectVTablePropertyPrivate> d);
+
+    std::unique_ptr<ObjectVTablePropertyPrivate> d_ptr;
+    FCITX_DECLARE_PRIVATE(ObjectVTableProperty);
 };
 
 class FCITXUTILS_EXPORT ObjectVTableWritableProperty
@@ -231,12 +240,10 @@ public:
                                  const std::string &name,
                                  const std::string signature,
                                  PropertyGetMethod getMethod,
-                                 PropertySetMethod setMethod);
+                                 PropertySetMethod setMethod,
+                                 PropertyOptions options);
 
-    auto setMethod() { return setMethod_; }
-
-private:
-    PropertySetMethod setMethod_;
+    const PropertySetMethod &setMethod() const;
 };
 
 class ObjectVTableBasePrivate;

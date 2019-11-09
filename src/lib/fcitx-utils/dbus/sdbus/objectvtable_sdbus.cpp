@@ -17,10 +17,10 @@
 // see <http://www.gnu.org/licenses/>.
 //
 
-#include "../objectvtable.h"
 #include "../../log.h"
+#include "../objectvtable.h"
 #include "bus_p.h"
-#include "objectvtable_p.h"
+#include "objectvtable_p_sdbus.h"
 #include <unordered_set>
 
 namespace fcitx {
@@ -73,7 +73,6 @@ int SDPropertyGetCallback(sd_bus *, const char *, const char *,
         return 0;
     }
     try {
-
         auto msg = MessagePrivate::fromSDBusMessage(reply);
         prop->getMethod()(msg);
         return 1;
@@ -110,6 +109,14 @@ int SDPropertySetCallback(sd_bus *, const char *, const char *,
 
 ObjectVTableBasePrivate::~ObjectVTableBasePrivate() {}
 
+uint32_t PropertyOptionsToSDBusFlags(PropertyOptions options) {
+    uint32_t result = 0;
+    if (options.test(PropertyOption::Hidden)) {
+        result |= SD_BUS_VTABLE_HIDDEN;
+    }
+    return result;
+}
+
 const sd_bus_vtable *
 ObjectVTableBasePrivate::toSDBusVTable(ObjectVTableBase *q) {
     std::lock_guard<std::mutex> lock(q->privateDataMutexForType());
@@ -139,12 +146,14 @@ ObjectVTableBasePrivate::toSDBusVTable(ObjectVTableBase *q) {
                 result.push_back(vtable_writable_property(
                     p->vtableString(prop->name()).c_str(),
                     p->vtableString(prop->signature()).c_str(),
-                    SDPropertyGetCallback, SDPropertySetCallback));
+                    SDPropertyGetCallback, SDPropertySetCallback,
+                    PropertyOptionsToSDBusFlags(prop->options())));
             } else {
-                result.push_back(
-                    vtable_property(p->vtableString(prop->name()).c_str(),
-                                    p->vtableString(prop->signature()).c_str(),
-                                    SDPropertyGetCallback));
+                result.push_back(vtable_property(
+                    p->vtableString(prop->name()).c_str(),
+                    p->vtableString(prop->signature()).c_str(),
+                    SDPropertyGetCallback,
+                    PropertyOptionsToSDBusFlags(prop->options())));
             }
         }
 
@@ -153,46 +162,6 @@ ObjectVTableBasePrivate::toSDBusVTable(ObjectVTableBase *q) {
     }
 
     return p->vtable_.data();
-}
-
-ObjectVTableMethod::ObjectVTableMethod(ObjectVTableBase *vtable,
-                                       const std::string &name,
-                                       const std::string &signature,
-                                       const std::string &ret,
-                                       ObjectMethod handler)
-    : name_(name), signature_(signature), ret_(ret), handler_(handler),
-      vtable_(vtable) {
-    vtable->addMethod(this);
-}
-
-ObjectVTableProperty::ObjectVTableProperty(ObjectVTableBase *vtable,
-                                           const std::string &name,
-                                           const std::string signature,
-                                           PropertyGetMethod getMethod)
-    : name_(name), signature_(signature), getMethod_(getMethod),
-      writable_(false) {
-    vtable->addProperty(this);
-}
-
-ObjectVTableWritableProperty::ObjectVTableWritableProperty(
-    ObjectVTableBase *vtable, const std::string &name,
-    const std::string signature, PropertyGetMethod getMethod,
-    PropertySetMethod setMethod)
-    : ObjectVTableProperty(vtable, name, signature, getMethod),
-      setMethod_(setMethod) {
-    writable_ = true;
-}
-
-ObjectVTableSignal::ObjectVTableSignal(ObjectVTableBase *vtable,
-                                       const std::string &name,
-                                       const std::string signature)
-    : name_(name), signature_(signature), vtable_(vtable) {
-    vtable->addSignal(this);
-}
-
-Message ObjectVTableSignal::createSignal() {
-    return vtable_->bus()->createSignal(
-        vtable_->path().c_str(), vtable_->interface().c_str(), name_.c_str());
 }
 
 ObjectVTableBase::ObjectVTableBase()

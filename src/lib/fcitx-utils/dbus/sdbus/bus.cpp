@@ -20,7 +20,7 @@
 #include "../../log.h"
 #include "bus_p.h"
 #include "message_p.h"
-#include "objectvtable_p.h"
+#include "objectvtable_p_sdbus.h"
 #include <poll.h>
 
 namespace fcitx {

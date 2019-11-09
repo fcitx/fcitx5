@@ -23,7 +23,7 @@
 #include "bus_p.h"
 #include "config.h"
 #include "message_p.h"
-#include "objectvtable_p.h"
+#include "objectvtable_p_libdbus.h"
 #include <unistd.h>
 
 namespace fcitx {
@@ -216,6 +216,9 @@ bool BusPrivate::objectVTableCallback(Message &message) {
                 auto reply = message.createReply();
                 reply << Container(Container::Type::Array, Signature("{sv}"));
                 for (auto &pair : slot->objPriv_->properties_) {
+                    if (pair.second->options().test(PropertyOption::Hidden)) {
+                        continue;
+                    }
                     reply << Container(Container::Type::DictEntry,
                                        Signature("sv"));
                     reply << pair.first;
@@ -627,8 +630,6 @@ bool Bus::addObjectVTable(const std::string &path, const std::string &interface,
 
     auto slot = std::make_unique<DBusObjectVTableSlot>(path, interface, &obj,
                                                        obj.d_func());
-    DBusObjectPathVTable vtable;
-    memset(&vtable, 0, sizeof(vtable));
 
     auto handler = d->objectRegistration_.add(path, slot->watch());
     if (!handler) {

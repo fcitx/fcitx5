@@ -75,6 +75,7 @@ private:
 
 struct FCITXUTILS_EXPORT VariantHelperBase {
 public:
+    virtual ~VariantHelperBase() = default;
     virtual std::shared_ptr<void> copy(const void *) const = 0;
     virtual void serialize(dbus::Message &msg, const void *data) const = 0;
     virtual void print(LogMessageBuilder &builder, const void *data) const = 0;

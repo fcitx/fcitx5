@@ -16,8 +16,8 @@
 // License along with this library; see the file COPYING. If not,
 // see <http://www.gnu.org/licenses/>.
 //
-#ifndef _FCITX_UTILS_DBUS_OBJECTVTABLE_P_H_
-#define _FCITX_UTILS_DBUS_OBJECTVTABLE_P_H_
+#ifndef _FCITX_UTILS_DBUS_OBJECTVTABLE_P_SDBUS_H_
+#define _FCITX_UTILS_DBUS_OBJECTVTABLE_P_SDBUS_H_
 
 #include "../objectvtable.h"
 #include "message_p.h"
@@ -42,7 +42,8 @@ public:
     std::unique_ptr<SDVTableSlot> slot_;
     Message *msg_ = nullptr;
 };
+
 } // namespace dbus
 } // namespace fcitx
 
-#endif // _FCITX_UTILS_DBUS_OBJECTVTABLE_P_H_
+#endif // _FCITX_UTILS_DBUS_OBJECTVTABLE_SDBUS_P_H_

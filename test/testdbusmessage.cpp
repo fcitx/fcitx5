@@ -44,14 +44,19 @@ int main() {
     static_assert(
         std::is_same<
             DBusSignatureToType<'a', 'i', 'a', '(', 'i', 'u', ')'>::type,
-            std::tuple<std::vector<int>,
+            std::tuple<std::vector<int32_t>,
                        std::vector<DBusStruct<int32_t, uint32_t>>>>::value,
         "Type is not same");
     static_assert(
         std::is_same<
             DBusSignatureToType<'a', 'i', '(', 'i', 'u', ')'>::type,
-            std::tuple<std::vector<int>, DBusStruct<int32_t, uint32_t>>>::value,
+            std::tuple<std::vector<int32_t>, DBusStruct<int32_t, uint32_t>>>::value,
         "Type is not same");
+    
+    static_assert(
+        std::is_same<
+        DBusSignatureToType<'(', 'i', 'i', ')'>::type,
+                  dbus::DBusStruct<int32_t, int32_t>>::value, "Type is not same");
 
     // interface name must has dot
     {

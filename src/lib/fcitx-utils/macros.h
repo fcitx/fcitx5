@@ -35,6 +35,8 @@
 #define FCITX_D() auto *const d = d_func()
 #define FCITX_Q() auto *const q = q_func()
 
+#define FCITX_TYPED_D(TYPE) auto *const d = static_cast<TYPE *>(d_func())
+
 #define FCITX_UNUSED(X) ((void)(X))
 
 #ifdef __cplusplus
@@ -171,14 +173,14 @@
 #define FCITX_DEFINE_READ_ONLY_PROPERTY_PRIVATE(THIS, TYPE, GETTER)            \
     std::conditional_t<std::is_class<TYPE>::value, const TYPE &, TYPE>         \
     THIS::GETTER() const {                                                     \
-        FCITX_D();                                                             \
+        FCITX_TYPED_D(const THIS##Private);                                    \
         return d->GETTER##_;                                                   \
     }
 
 #define FCITX_DEFINE_PROPERTY_PRIVATE(THIS, TYPE, GETTER, SETTER)              \
     FCITX_DEFINE_READ_ONLY_PROPERTY_PRIVATE(THIS, TYPE, GETTER)                \
     void THIS::SETTER(TYPE v) {                                                \
-        FCITX_D();                                                             \
+        FCITX_TYPED_D(THIS##Private);                                          \
         d->GETTER##_ = std::move(v);                                           \
     }
 

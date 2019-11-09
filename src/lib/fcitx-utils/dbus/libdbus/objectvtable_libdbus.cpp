@@ -17,12 +17,12 @@
 // see <http://www.gnu.org/licenses/>.
 //
 
-#include "../objectvtable.h"
 #include "../../log.h"
 #include "../../stringutils.h"
+#include "../objectvtable.h"
 #include "../utils_p.h"
 #include "bus_p.h"
-#include "objectvtable_p.h"
+#include "objectvtable_p_libdbus.h"
 #include <unordered_set>
 
 namespace fcitx {
@@ -85,46 +85,6 @@ const std::string &ObjectVTableBasePrivate::getXml(ObjectVTableBase *q) {
     }
 
     return p->xml_;
-}
-
-ObjectVTableMethod::ObjectVTableMethod(ObjectVTableBase *vtable,
-                                       const std::string &name,
-                                       const std::string &signature,
-                                       const std::string &ret,
-                                       ObjectMethod handler)
-    : name_(name), signature_(signature), ret_(ret), handler_(handler),
-      vtable_(vtable) {
-    vtable->addMethod(this);
-}
-
-ObjectVTableProperty::ObjectVTableProperty(ObjectVTableBase *vtable,
-                                           const std::string &name,
-                                           const std::string signature,
-                                           PropertyGetMethod getMethod)
-    : name_(name), signature_(signature), getMethod_(getMethod),
-      writable_(false) {
-    vtable->addProperty(this);
-}
-
-ObjectVTableWritableProperty::ObjectVTableWritableProperty(
-    ObjectVTableBase *vtable, const std::string &name,
-    const std::string signature, PropertyGetMethod getMethod,
-    PropertySetMethod setMethod)
-    : ObjectVTableProperty(vtable, name, signature, getMethod),
-      setMethod_(setMethod) {
-    writable_ = true;
-}
-
-ObjectVTableSignal::ObjectVTableSignal(ObjectVTableBase *vtable,
-                                       const std::string &name,
-                                       const std::string signature)
-    : name_(name), signature_(signature), vtable_(vtable) {
-    vtable->addSignal(this);
-}
-
-Message ObjectVTableSignal::createSignal() {
-    return vtable_->bus()->createSignal(
-        vtable_->path().c_str(), vtable_->interface().c_str(), name_.c_str());
 }
 
 ObjectVTableBase::ObjectVTableBase()

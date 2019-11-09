@@ -2,14 +2,14 @@ if (NOT TARGET Systemd::Systemd)
   set(FCITX_UTILS_SOURCES
       dbus/libdbus/bus.cpp
       dbus/libdbus/message.cpp
-      dbus/libdbus/objectvtable.cpp
+      dbus/libdbus/objectvtable_libdbus.cpp
       dbus/libdbus/servicenamecache.cpp)
 else()
   set(FCITX_UTILS_SOURCES
       dbus/sdbus/bus.cpp
       dbus/sdbus/message.cpp
       dbus/sdbus/objectvtablewrapper.c
-      dbus/sdbus/objectvtable.cpp)
+      dbus/sdbus/objectvtable_sdbus.cpp)
 endif()
 
 if (NOT TARGET Systemd::Systemd)
@@ -27,6 +27,7 @@ set(FCITX_UTILS_SOURCES
     dbus/servicewatcher.cpp
     dbus/matchrule.cpp
     dbus/variant.cpp
+    dbus/objectvtable.cpp
     stringutils.cpp
     key.cpp
     cutf8.cpp
