@@ -75,6 +75,6 @@ FCITX_CONFIGURATION(
     fcitx::Option<TestSubConfig> subConfigValue{this, "SubConfigOption",
                                                 "SubConfig Option"};
     fcitx::ExternalOption ext{this, "ExternalOption", "ExternalOption",
-                              "fcitx://gui/test/ext"};)
+                              "fcitx://config/addon/test/ext"};)
 
 #endif // _TEST_TESTCONFIG_H_

@@ -51,7 +51,7 @@ FCITX_CONFIGURATION(
         chooseModifier{this, "Choose Modifier", "Choose key modifier",
                        QuickPhraseChooseModifier::None};
     ExternalOption editor{this, "Editor", _("Editor"),
-                          "fcitx://gui/quickphrase/editor"};);
+                          "fcitx://config/addon/quickphrase/editor"};);
 
 class QuickPhraseState;
 class QuickPhrase final : public AddonInstance {

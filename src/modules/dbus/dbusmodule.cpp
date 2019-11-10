@@ -43,9 +43,9 @@ using namespace fcitx::dbus;
 namespace fcitx {
 
 namespace {
+constexpr char globalConfigPath[] = "fcitx://config/global";
 constexpr char addonConfigPrefix[] = "fcitx://config/addon/";
 constexpr char imConfigPrefix[] = "fcitx://config/inputmethod/";
-constexpr char guiConfigPrefix[] = "fcitx://gui/";
 } // namespace
 
 class Controller1 : public ObjectVTable<Controller1> {
@@ -191,7 +191,7 @@ public:
 
     std::tuple<dbus::Variant, DBusConfig> getConfig(const std::string &uri) {
         std::tuple<dbus::Variant, DBusConfig> result;
-        if (uri == "fcitx://config/global") {
+        if (uri == globalConfigPath) {
             RawConfig config;
             instance_->globalConfig().save(config);
             std::get<0>(result) = rawConfigToVariant(config);
@@ -274,7 +274,7 @@ public:
     void setConfig(const std::string &uri, const dbus::Variant &v) {
         std::tuple<dbus::Variant, DBusConfig> result;
         RawConfig config = variantToRawConfig(v);
-        if (uri == "fcitx://config/global") {
+        if (uri == globalConfigPath) {
             instance_->globalConfig().load(config, true);
             instance_->globalConfig().safeSave();
         } else if (stringutils::startsWith(uri, addonConfigPrefix)) {
@@ -287,6 +287,7 @@ public:
             }
             auto addonInstance = instance_->addonManager().addon(addon, true);
             if (addonInstance) {
+                FCITX_DEBUG() << "Saving addon config to: " << uri;
                 if (subPath.empty()) {
                     addonInstance->setConfig(config);
                 } else {
@@ -301,6 +302,7 @@ public:
             auto entry = instance_->inputMethodManager().entry(im);
             auto engine = instance_->inputMethodEngine(im);
             if (entry && engine) {
+                FCITX_DEBUG() << "Saving input method config to: " << uri;
                 engine->setConfigForInputMethod(*entry, config);
             } else {
                 throw dbus::MethodCallError("org.freedesktop.DBus.Error.Failed",
