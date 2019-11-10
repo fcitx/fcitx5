@@ -589,15 +589,13 @@ private:
             setContentType(std::get<0>(type), std::get<1>(type));
         }),
         dbus::PropertyOption::Hidden);
-    FCITX_OBJECT_VTABLE_WRITABLE_PROPERTY(clientCommitPreedit,
-                                          "ClientCommitPreedit", "(b)",
-                                          ([this]() -> dbus::DBusStruct<bool> {
-                                              return {clientCommitPreedit_};
-                                          }),
-                                          ([this](dbus::DBusStruct<bool> value) {
-                                              clientCommitPreedit_ = std::get<0>(value);
-                                          }),
-                                          dbus::PropertyOption::Hidden);
+    FCITX_OBJECT_VTABLE_WRITABLE_PROPERTY(
+        clientCommitPreedit, "ClientCommitPreedit", "(b)",
+        ([this]() -> dbus::DBusStruct<bool> { return {clientCommitPreedit_}; }),
+        ([this](dbus::DBusStruct<bool> value) {
+            clientCommitPreedit_ = std::get<0>(value);
+        }),
+        dbus::PropertyOption::Hidden);
 
     dbus::ObjectPath path_;
     IBusFrontend *im_;
