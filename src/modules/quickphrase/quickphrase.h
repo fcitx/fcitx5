@@ -67,6 +67,11 @@ public:
         config_.load(config, true);
         safeSaveAsIni(config_, "conf/quickphrase.conf");
     }
+    void setSubConfig(const std::string & path, const fcitx::RawConfig & ) override {
+        if (path == "editor") {
+            reloadConfig();
+        }
+    }
 
     void reloadConfig() override;
     void load(StandardPathFile &file);
