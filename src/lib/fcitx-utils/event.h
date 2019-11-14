@@ -103,7 +103,7 @@ public:
     addDeferEvent(EventCallback callback);
 
 private:
-    std::unique_ptr<EventLoopPrivate> d_ptr;
+    const std::unique_ptr<EventLoopPrivate> d_ptr;
     FCITX_DECLARE_PRIVATE(EventLoop);
 };
 } // namespace fcitx

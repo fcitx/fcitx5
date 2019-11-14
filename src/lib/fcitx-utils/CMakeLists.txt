@@ -34,6 +34,7 @@ set(FCITX_UTILS_SOURCES
     color.cpp
     i18nstring.cpp
     event_common.cpp
+    eventdispatcher.cpp
     library.cpp
     fs.cpp
     standardpath.cpp
@@ -55,6 +56,7 @@ set(FCITX_UTILS_HEADERS
     color.h
     i18nstring.h
     event.h
+    eventdispatcher.h
     library.h
     cutf8.h
     fs.h

@@ -180,7 +180,7 @@ void OnException(int signo) {
         uint8_t sig = 0;
         if (signo < 0xff)
             sig = (uint8_t)(signo & 0xff);
-        write(selfpipe[1], &sig, 1);
+        fcitx::fs::safeWrite(selfpipe[1], &sig, 1);
         signal(signo, OnException);
     } break;
     }

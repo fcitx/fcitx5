@@ -20,7 +20,8 @@ set(FCITX_UTILS_TEST
     testhandlertable
     testsignals
     testinputbuffer
-    testlog)
+    testlog
+    testeventdispatcher)
 
 set(FCITX_UTILS_DBUS_TEST
     testdbusmessage
@@ -28,6 +29,7 @@ set(FCITX_UTILS_DBUS_TEST
     testservicewatcher)
 
 set(testdbus_LIBS Pthread::Pthread)
+set(testeventdispatcher_LIBS Pthread::Pthread)
 
 add_executable(DBusWrapper IMPORTED)
 set_target_properties(DBusWrapper PROPERTIES IMPORTED_LOCATION "${CMAKE_CURRENT_SOURCE_DIR}/dbus_wrapper.sh")

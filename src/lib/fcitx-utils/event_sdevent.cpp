@@ -19,6 +19,7 @@
 
 #include <exception>
 #include <functional>
+#include <mutex>
 
 #if defined(__COVERITY__) && !defined(__INCLUDE_LEVEL__)
 #define __INCLUDE_LEVEL__ 2
@@ -212,6 +213,7 @@ public:
 
     ~EventLoopPrivate() { sd_event_unref(event_); }
 
+    std::mutex mutex_;
     sd_event *event_;
 };
 
