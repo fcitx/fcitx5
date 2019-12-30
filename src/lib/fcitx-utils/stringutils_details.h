@@ -26,11 +26,8 @@
 #include <cstring>
 #include <iostream>
 #include <string>
+#include <string_view>
 #include <tuple>
-
-#ifdef FCITX_STRINGUTILS_ENABLE_BOOST_STRING_VIEW
-#include <boost/utility/string_view.hpp>
-#endif
 
 namespace fcitx {
 namespace stringutils {
@@ -56,16 +53,12 @@ struct UniversalPieceHelper<T *> {
     }
 };
 
-#ifdef FCITX_STRINGUTILS_ENABLE_BOOST_STRING_VIEW
-
 template <>
-struct UniversalPieceHelper<boost::string_view> {
-    static std::pair<const char *, std::size_t> forward(boost::string_view t) {
+struct UniversalPieceHelper<std::string_view> {
+    static std::pair<const char *, std::size_t> forward(std::string_view t) {
         return {t.data(), t.size()};
     }
 };
-
-#endif
 
 class UniversalPiece {
 public:
