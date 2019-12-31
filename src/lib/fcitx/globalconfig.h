@@ -45,6 +45,7 @@ public:
     const KeyList &enumerateGroupBackwardKeys() const;
     bool activeByDefault() const;
     bool showInputMethodInformation() const;
+    bool showInputMethodInformationWhenFocusIn() const;
 
     const KeyList &defaultPrevPage() const;
     const KeyList &defaultNextPage() const;

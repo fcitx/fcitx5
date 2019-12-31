@@ -318,6 +318,7 @@ public:
 
     std::vector<ScopedConnection> connections_;
     std::unique_ptr<EventSourceTime> imGroupInfoTimer_;
+    std::unique_ptr<EventSourceTime> focusInImInfoTimer_;
 
     std::unordered_map<std::string,
                        std::unordered_map<std::string, xkb_keymap_autoptr>>
@@ -643,9 +644,24 @@ Instance::Instance(int argc, char **argv) {
         }));
     d->eventWatchers_.emplace_back(d->watchEvent(
         EventType::InputContextFocusIn, EventWatcherPhase::ReservedFirst,
-        [this](Event &event) {
+        [this, d](Event &event) {
             auto &icEvent = static_cast<InputContextEvent &>(event);
             activateInputMethod(icEvent);
+            if (!d->globalConfig_.showInputMethodInformationWhenFocusIn()) {
+                return;
+            }
+            // Give some time because the cursor location may need some time
+            // to be updated.
+            d->focusInImInfoTimer_ = d->eventLoop_.addTimeEvent(
+                CLOCK_MONOTONIC, now(CLOCK_MONOTONIC) + 30000, 0,
+                [this, icRef = icEvent.inputContext()->watch()](
+                    EventSourceTime *, uint64_t) {
+                    // Check if ic is still valid and has focus.
+                    if (auto ic = icRef.get(); ic && ic->hasFocus()) {
+                        showInputMethodInformation(ic);
+                    }
+                    return true;
+                });
         }));
     d->eventWatchers_.emplace_back(d->watchEvent(
         EventType::InputContextFocusOut, EventWatcherPhase::ReservedFirst,

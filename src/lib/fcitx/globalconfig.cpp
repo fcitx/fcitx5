@@ -105,6 +105,9 @@ FCITX_CONFIGURATION(
     Option<bool> showInputMethodInformation{
         this, "ShowInputMethodInformation",
         _("Show Input Method Information when switch input method"), true};
+    Option<bool> showInputMethodInformationWhenFocusIn{
+        this, "showInputMethodInformationWhenFocusIn",
+        _("Show Input Method Information when changing focus"), false};
     Option<int, IntConstrain> defaultPageSize{this, "DefaultPageSize",
                                               _("Default page size"), 5,
                                               IntConstrain(1, 10)};
@@ -188,6 +191,11 @@ bool GlobalConfig::activeByDefault() const {
 bool GlobalConfig::showInputMethodInformation() const {
     FCITX_D();
     return d->behavior->showInputMethodInformation.value();
+}
+
+bool GlobalConfig::showInputMethodInformationWhenFocusIn() const {
+    FCITX_D();
+    return d->behavior->showInputMethodInformationWhenFocusIn.value();
 }
 
 const KeyList &GlobalConfig::defaultPrevPage() const {
