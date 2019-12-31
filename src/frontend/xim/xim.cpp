@@ -27,6 +27,10 @@
 #include <xcb/xcb_aux.h>
 #include <xkbcommon/xkbcommon.h>
 
+FCITX_DEFINE_LOG_CATEGORY(xim, "xim")
+
+#define XIM_DEBUG() FCITX_LOGC(xim, Debug)
+
 namespace {
 
 static uint32_t style_array[] = {
@@ -341,6 +345,8 @@ void XIMServer::callback(xcb_im_client_t *client, xcb_im_input_context_t *xic,
         return;
     }
 
+    XIM_DEBUG() << "XIM header opcode: " << static_cast<int>(hdr->major_opcode);
+
     XIMInputContext *ic = nullptr;
     if (hdr->major_opcode != XCB_XIM_CREATE_IC) {
         ic = static_cast<XIMInputContext *>(xcb_im_input_context_get_data(xic));
@@ -374,6 +380,7 @@ void XIMServer::callback(xcb_im_client_t *client, xcb_im_input_context_t *xic,
                            KeyStates(xevent->state), xevent->detail),
                        (xevent->response_type & ~0x80) == XCB_KEY_RELEASE,
                        xevent->time);
+        XIM_DEBUG() << "XIM Key Event: " << event.rawKey().toString();
         if (!ic->hasFocus()) {
             ic->focusIn();
         }
