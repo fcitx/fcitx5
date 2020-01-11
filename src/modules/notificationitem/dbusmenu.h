@@ -22,6 +22,7 @@
 #include "fcitx-utils/dbus/message.h"
 #include "fcitx-utils/dbus/objectvtable.h"
 #include "fcitx-utils/dbus/variant.h"
+#include "fcitx-utils/event.h"
 #include "fcitx-utils/i18n.h"
 #include "fcitx-utils/log.h"
 #include "fcitx/inputcontext.h"
@@ -45,30 +46,10 @@ public:
 private:
     void event(int32_t id, const std::string &type, const dbus::Variant &,
                uint32_t);
-    dbus::Variant getProperty(int32_t, const std::string &) {
-        // TODO implement this, document said this only for debug so we ignore
-        // it for now
-        throw dbus::MethodCallError("org.freedesktop.DBus.Error.NotSupported",
-                                    "NotSupported");
-    }
+    dbus::Variant getProperty(int32_t, const std::string &);
     std::tuple<uint32_t, DBusMenuLayout>
     getLayout(int parentId, int recursionDepth,
-              const std::vector<std::string> &propertyNames) {
-        std::tuple<uint32_t, DBusMenuLayout> result;
-        static_assert(
-            std::is_same<
-                dbus::DBusSignatureToType<'u', '(', 'i', 'a', '{', 's', 'v',
-                                          '}', 'a', 'v', ')'>::type,
-                decltype(result)>::value,
-            "Type not same as signature.");
-
-        std::get<0>(result) = revision_;
-        std::unordered_set<std::string> properties(propertyNames.begin(),
-                                                   propertyNames.end());
-        fillLayoutItem(parentId, recursionDepth, properties,
-                       std::get<1>(result));
-        return result;
-    }
+              const std::vector<std::string> &propertyNames);
 
     void fillLayoutItem(int32_t id, int depth,
                         const std::unordered_set<std::string> &propertyNames,
@@ -120,10 +101,11 @@ private:
     FCITX_OBJECT_VTABLE_METHOD(aboutToShow, "AboutToShow", "i", "b");
 
     constexpr static uint32_t version_ = 2;
-    uint32_t revision_ = 0;
+    constexpr static uint32_t revision_ = 2;
     NotificationItem *parent_;
     std::unique_ptr<EventSourceTime> timeEvent_;
     TrackableObjectReference<InputContext> lastRelevantIc_;
+    std::unordered_set<int32_t> requestedMenus_;
 };
 
 } // namespace fcitx

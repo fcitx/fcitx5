@@ -70,6 +70,7 @@ void DBusMenu::event(int32_t id, const std::string &type, const dbus::Variant &,
     // If top level menu is closed, reset the ic info.
     if (id == 0 && type == "closed") {
         lastRelevantIc_.unwatch();
+        requestedMenus_.clear();
     }
 
     if (type != "clicked") {
@@ -173,6 +174,7 @@ void DBusMenu::fillLayoutItem(
     if (depth == 0) {
         return;
     }
+    requestedMenus_.insert(id);
     auto &imManager = parent_->instance()->inputMethodManager();
     if (id == 0) {
         // Group
@@ -365,6 +367,30 @@ void DBusMenu::fillLayoutProperties(
     }
 }
 
+dbus::Variant DBusMenu::getProperty(int32_t, const std::string &) {
+    // TODO implement this, document said this only for debug so we ignore
+    // it for now
+    throw dbus::MethodCallError("org.freedesktop.DBus.Error.NotSupported",
+                                "NotSupported");
+}
+
+std::tuple<uint32_t, DBusMenu::DBusMenuLayout>
+DBusMenu::getLayout(int parentId, int recursionDepth,
+                    const std::vector<std::string> &propertyNames) {
+    std::tuple<uint32_t, DBusMenuLayout> result;
+    static_assert(
+        std::is_same<dbus::DBusSignatureToType<'u', '(', 'i', 'a', '{', 's',
+                                               'v', '}', 'a', 'v', ')'>::type,
+                     decltype(result)>::value,
+        "Type not same as signature.");
+
+    std::get<0>(result) = revision_;
+    std::unordered_set<std::string> properties(propertyNames.begin(),
+                                               propertyNames.end());
+    fillLayoutItem(parentId, recursionDepth, properties, std::get<1>(result));
+    return result;
+}
+
 InputContext *DBusMenu::lastRelevantIc() {
     if (auto ic = lastRelevantIc_.get()) {
         return ic;
@@ -373,13 +399,15 @@ InputContext *DBusMenu::lastRelevantIc() {
 }
 
 bool DBusMenu::aboutToShow(int32_t id) {
-    // for fcitx, we always return true.
-    revision_++;
-    layoutUpdated(revision_, id);
     if (id == 0) {
         if (auto ic = parent_->instance()->mostRecentInputContext()) {
             lastRelevantIc_ = ic->watch();
         }
+        requestedMenus_.clear();
+        return true;
+    }
+    if (requestedMenus_.count(id)) {
+        return false;
     }
     return true;
 }
