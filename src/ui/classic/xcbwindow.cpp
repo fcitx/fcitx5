@@ -120,7 +120,7 @@ void XCBWindow::resize(unsigned int width, unsigned int height) {
     xcb_flush(ui_->connection());
     cairo_xcb_surface_set_size(surface_.get(), width, height);
     Window::resize(width, height);
-    CLASSICUI_DEBUG() << width << " " << height;
+    CLASSICUI_DEBUG() << "Resize: " << width << " " << height;
 }
 
 cairo_surface_t *XCBWindow::prerender() {
@@ -141,6 +141,7 @@ void XCBWindow::render() {
     cairo_paint(cr);
     cairo_destroy(cr);
     xcb_flush(ui_->connection());
+    CLASSICUI_DEBUG() << "Render";
 }
 } // namespace classicui
 } // namespace fcitx

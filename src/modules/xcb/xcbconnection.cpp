@@ -57,11 +57,11 @@ XCBConnection::XCBConnection(XCBModule *xcb, const std::string &name)
     serverWindow_ = w;
     int fd = xcb_get_file_descriptor(conn_.get());
     auto &eventLoop = parent_->instance()->eventLoop();
-    ioEvent_ = eventLoop.addIOEvent(fd, IOEventFlag::In,
-                                    [this](EventSource *, int, IOEventFlags) {
-                                        onIOEvent();
-                                        return true;
-                                    });
+    ioEvent_ = eventLoop.addIOEvent(
+        fd, IOEventFlag::In, [this](EventSource *, int, IOEventFlags flags) {
+            onIOEvent(flags);
+            return true;
+        });
 
     eventHandlers_.emplace_back(parent_->instance()->watchEvent(
         EventType::InputMethodGroupChanged, EventWatcherPhase::Default,
@@ -233,19 +233,27 @@ void XCBConnection::ungrabXKeyboard() {
     xcb_flush(conn_.get());
 }
 
-void XCBConnection::onIOEvent() {
+auto nextXCBEvent(xcb_connection_t *conn, IOEventFlags flags) {
+    if (flags.test(IOEventFlag::In)) {
+        return makeXCBReply(xcb_poll_for_event(conn));
+    }
+    return makeXCBReply(xcb_poll_for_queued_event(conn));
+}
+
+void XCBConnection::onIOEvent(IOEventFlags flags) {
     if (int err = xcb_connection_has_error(conn_.get())) {
         FCITX_WARN() << "XCB connection \"" << name_ << "\" got error: " << err;
         return parent_->removeConnection(name_);
     }
 
-    while (auto event = makeXCBReply(xcb_poll_for_event(conn_.get()))) {
+    while (auto event = nextXCBEvent(conn_.get(), flags)) {
         for (auto &callback : filters_.view()) {
             if (callback(conn_.get(), event.get())) {
                 break;
             }
         }
     }
+    xcb_flush(conn_.get());
 }
 
 bool XCBConnection::filterEvent(xcb_connection_t *,

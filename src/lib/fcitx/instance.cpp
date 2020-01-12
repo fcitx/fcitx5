@@ -1426,6 +1426,11 @@ InputContext *Instance::mostRecentInputContext() {
     return d->icManager_.mostRecentInputContext();
 }
 
+void Instance::flushUI() {
+    FCITX_D();
+    d->uiManager_.flush();
+}
+
 int scoreForGroup(FocusGroup *group, const std::string &displayHint) {
     // Hardcode wayland over X11.
     if (displayHint.empty()) {

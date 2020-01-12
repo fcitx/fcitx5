@@ -63,7 +63,7 @@ public:
 
 private:
     bool filterEvent(xcb_connection_t *conn, xcb_generic_event_t *event);
-    void onIOEvent();
+    void onIOEvent(IOEventFlags flags);
     void addSelectionAtom(xcb_atom_t atom);
     void removeSelectionAtom(xcb_atom_t atom);
 

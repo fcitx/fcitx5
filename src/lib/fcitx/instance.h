@@ -106,6 +106,7 @@ public:
     InputContext *mostRecentInputContext();
     InputMethodManager &inputMethodManager();
     const InputMethodManager &inputMethodManager() const;
+    void flushUI();
 
     // controller
     void exit();
