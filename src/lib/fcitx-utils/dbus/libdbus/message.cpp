@@ -18,10 +18,10 @@
 //
 
 #include "../message.h"
+#include "../../misc_p.h"
 #include "../../unixfd.h"
 #include "../variant.h"
 #include "bus_p.h"
-#include "fcitx/misc_p.h"
 #include "message_p.h"
 #include <atomic>
 #include <fcntl.h>

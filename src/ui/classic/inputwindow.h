@@ -35,18 +35,23 @@ public:
     InputWindow(ClassicUI *parent);
     void update(InputContext *inputContext);
     std::pair<unsigned int, unsigned int> sizeHint();
-    void paint(cairo_t *cr, unsigned int width, unsigned int height) const;
+    void paint(cairo_t *cr, unsigned int width, unsigned int height);
     void hide();
     bool visible() const { return visible_; }
+    void hover(int x, int y);
+    void click(int x, int y);
 
 protected:
     void resizeCandidates(size_t s);
-    void appendText(std::string &s, PangoAttrList *attrList, const Text &text,
-                    bool candidateHighlight = false);
+    void appendText(std::string &s, PangoAttrList *attrList,
+                    PangoAttrList *highlightAttrList, const Text &text);
+    void insertAttr(PangoAttrList *attrList, TextFormatFlags format, int start,
+                    int end, bool highlight) const;
     void setTextToLayout(
-        PangoLayout *layout,
-        std::initializer_list<std::reference_wrapper<const Text>> texts,
-        bool candidateHighlight = false);
+        PangoLayout *layout, PangoAttrList *attrList,
+        PangoAttrList *highlightAttrList,
+        std::initializer_list<std::reference_wrapper<const Text>> texts);
+    int highlight() const;
 
     ClassicUI *parent_;
     std::unique_ptr<PangoContext, decltype(&g_object_unref)> context_;
@@ -56,6 +61,20 @@ protected:
         labelLayouts_;
     std::vector<std::unique_ptr<PangoLayout, decltype(&g_object_unref)>>
         candidateLayouts_;
+    std::vector<
+        std::unique_ptr<PangoAttrList, decltype(&pango_attr_list_unref)>>
+        labelAttrLists_;
+    std::vector<
+        std::unique_ptr<PangoAttrList, decltype(&pango_attr_list_unref)>>
+        candidateAttrLists_;
+    std::vector<
+        std::unique_ptr<PangoAttrList, decltype(&pango_attr_list_unref)>>
+        highlightLabelAttrLists_;
+    std::vector<
+        std::unique_ptr<PangoAttrList, decltype(&pango_attr_list_unref)>>
+        highlightCandidateAttrLists_;
+    std::vector<Rect> candidateRegions_;
+    TrackableObjectReference<InputContext> inputContext_;
     bool visible_ = false;
     int cursor_ = 0;
     int dpi_ = -1;
@@ -63,6 +82,7 @@ protected:
     int candidateIndex_ = -1;
     CandidateLayoutHint layoutHint_ = CandidateLayoutHint::NotSet;
     size_t candidatesHeight_ = 0;
+    int hoverIndex_ = -1;
 };
 } // namespace classicui
 } // namespace fcitx

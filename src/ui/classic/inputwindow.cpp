@@ -22,6 +22,7 @@
 #include "fcitx-utils/log.h"
 #include "fcitx/inputpanel.h"
 #include "fcitx/instance.h"
+#include "fcitx/misc_p.h"
 #include <functional>
 #include <initializer_list>
 #include <limits>
@@ -41,8 +42,59 @@ InputWindow::InputWindow(ClassicUI *parent)
     lowerLayout_.reset(pango_layout_new(context_.get()));
 }
 
+void InputWindow::insertAttr(PangoAttrList *attrList, TextFormatFlags format,
+                             int start, int end, bool highlight) const {
+    if (format & TextFormatFlag::Underline) {
+        auto attr = pango_attr_underline_new(PANGO_UNDERLINE_SINGLE);
+        attr->start_index = start;
+        attr->end_index = end;
+        pango_attr_list_insert(attrList, attr);
+    }
+    if (format & TextFormatFlag::Italic) {
+        auto attr = pango_attr_style_new(PANGO_STYLE_ITALIC);
+        attr->start_index = start;
+        attr->end_index = end;
+        pango_attr_list_insert(attrList, attr);
+    }
+    if (format & TextFormatFlag::Strike) {
+        auto attr = pango_attr_strikethrough_new(true);
+        attr->start_index = start;
+        attr->end_index = end;
+        pango_attr_list_insert(attrList, attr);
+    }
+    if (format & TextFormatFlag::Bold) {
+        auto attr = pango_attr_weight_new(PANGO_WEIGHT_BOLD);
+        attr->start_index = start;
+        attr->end_index = end;
+        pango_attr_list_insert(attrList, attr);
+    }
+    Color color =
+        (format & TextFormatFlag::HighLight)
+            ? *parent_->theme().inputPanel->highlightColor
+            : (highlight ? *parent_->theme().inputPanel->highlightCandidateColor
+                         : *parent_->theme().inputPanel->normalColor);
+    auto scale = std::numeric_limits<unsigned short>::max();
+    auto attr = pango_attr_foreground_new(
+        color.redF() * scale, color.greenF() * scale, color.blueF() * scale);
+    attr->start_index = start;
+    attr->end_index = end;
+    pango_attr_list_insert(attrList, attr);
+
+    if (format & TextFormatFlag::HighLight) {
+        auto background =
+            *parent_->theme().inputPanel->highlightBackgroundColor;
+        attr = pango_attr_background_new(background.redF() * scale,
+                                         background.greenF() * scale,
+                                         background.blueF() * scale);
+        attr->start_index = start;
+        attr->end_index = end;
+        pango_attr_list_insert(attrList, attr);
+    }
+}
+
 void InputWindow::appendText(std::string &s, PangoAttrList *attrList,
-                             const Text &text, bool candidateHighlight) {
+                             PangoAttrList *highlightAttrList,
+                             const Text &text) {
     for (size_t i = 0, e = text.size(); i < e; i++) {
         auto start = s.size();
         s.append(text.stringAt(i));
@@ -51,53 +103,9 @@ void InputWindow::appendText(std::string &s, PangoAttrList *attrList,
             continue;
         }
         const auto format = text.formatAt(i);
-        if (format & TextFormatFlag::Underline) {
-            auto attr = pango_attr_underline_new(PANGO_UNDERLINE_SINGLE);
-            attr->start_index = start;
-            attr->end_index = end;
-            pango_attr_list_insert(attrList, attr);
-        }
-        if (format & TextFormatFlag::Italic) {
-            auto attr = pango_attr_style_new(PANGO_STYLE_ITALIC);
-            attr->start_index = start;
-            attr->end_index = end;
-            pango_attr_list_insert(attrList, attr);
-        }
-        if (format & TextFormatFlag::Strike) {
-            auto attr = pango_attr_strikethrough_new(true);
-            attr->start_index = start;
-            attr->end_index = end;
-            pango_attr_list_insert(attrList, attr);
-        }
-        if (format & TextFormatFlag::Bold) {
-            auto attr = pango_attr_weight_new(PANGO_WEIGHT_BOLD);
-            attr->start_index = start;
-            attr->end_index = end;
-            pango_attr_list_insert(attrList, attr);
-        }
-        Color color =
-            (format & TextFormatFlag::HighLight)
-                ? *parent_->theme().inputPanel->highlightColor
-                : (candidateHighlight
-                       ? *parent_->theme().inputPanel->highlightCandidateColor
-                       : *parent_->theme().inputPanel->normalColor);
-        auto scale = std::numeric_limits<unsigned short>::max();
-        auto attr = pango_attr_foreground_new(color.redF() * scale,
-                                              color.greenF() * scale,
-                                              color.blueF() * scale);
-        attr->start_index = start;
-        attr->end_index = end;
-        pango_attr_list_insert(attrList, attr);
-
-        if (format & TextFormatFlag::HighLight) {
-            auto background =
-                *parent_->theme().inputPanel->highlightBackgroundColor;
-            attr = pango_attr_background_new(background.redF() * scale,
-                                             background.greenF() * scale,
-                                             background.blueF() * scale);
-            attr->start_index = start;
-            attr->end_index = end;
-            pango_attr_list_insert(attrList, attr);
+        insertAttr(attrList, format, start, end, false);
+        if (highlightAttrList) {
+            insertAttr(highlightAttrList, format, start, end, true);
         }
     }
 }
@@ -111,18 +119,31 @@ void InputWindow::resizeCandidates(size_t n) {
         candidateLayouts_.emplace_back(pango_layout_new(context_.get()),
                                        &g_object_unref);
     }
+    for (auto attrLists :
+         {&labelAttrLists_, &candidateAttrLists_, &highlightLabelAttrLists_,
+          &highlightCandidateAttrLists_}) {
+        while (attrLists->size() < n) {
+            attrLists->emplace_back(pango_attr_list_new(),
+                                    &pango_attr_list_unref);
+        }
+    }
 
     nCandidates_ = n;
 }
 
 void InputWindow::setTextToLayout(
-    PangoLayout *layout,
-    std::initializer_list<std::reference_wrapper<const Text>> texts,
-    bool candidateHighlight) {
-    auto attrList = pango_attr_list_new();
+    PangoLayout *layout, PangoAttrList *attrList,
+    PangoAttrList *highlightAttrList,
+
+    std::initializer_list<std::reference_wrapper<const Text>> texts) {
+    if (attrList) {
+        pango_attr_list_ref(attrList);
+    } else {
+        attrList = pango_attr_list_new();
+    }
     std::string line;
     for (auto &text : texts) {
-        appendText(line, attrList, text, candidateHighlight);
+        appendText(line, attrList, highlightAttrList, text);
     }
 
     pango_layout_set_text(layout, line.c_str(), line.size());
@@ -148,23 +169,25 @@ void InputWindow::update(InputContext *inputContext) {
     // | candidate 3
     auto instance = parent_->instance();
     auto &inputPanel = inputContext->inputPanel();
+    inputContext_ = inputContext->watch();
 
     cursor_ = -1;
     auto preedit = instance->outputFilter(inputContext, inputPanel.preedit());
     auto auxUp = instance->outputFilter(inputContext, inputPanel.auxUp());
     pango_layout_set_single_paragraph_mode(upperLayout_.get(), true);
-    setTextToLayout(upperLayout_.get(), {auxUp, preedit});
+    setTextToLayout(upperLayout_.get(), nullptr, nullptr, {auxUp, preedit});
     if (preedit.cursor() >= 0 &&
         static_cast<size_t>(preedit.cursor()) <= preedit.textLength()) {
         cursor_ = preedit.cursor() + auxUp.toString().size();
     }
 
     auto auxDown = instance->outputFilter(inputContext, inputPanel.auxDown());
-    setTextToLayout(lowerLayout_.get(), {auxDown});
+    setTextToLayout(lowerLayout_.get(), nullptr, nullptr, {auxDown});
 
     if (auto candidateList = inputPanel.candidateList()) {
         // Count non-placeholder candidates.
         int count = 0;
+
         for (int i = 0, e = candidateList->size(); i < e; i++) {
             auto candidate = candidateList->candidate(i);
             if (candidate->isPlaceHolder()) {
@@ -187,12 +210,16 @@ void InputWindow::update(InputContext *inputContext) {
                                  : candidateList->label(i);
 
             labelText = instance->outputFilter(inputContext, labelText);
-            setTextToLayout(labelLayouts_[localIndex].get(), {labelText},
-                            candidateList->cursorIndex() == i);
+            setTextToLayout(labelLayouts_[localIndex].get(),
+                            labelAttrLists_[localIndex].get(),
+                            highlightLabelAttrLists_[localIndex].get(),
+                            {labelText});
             auto candidateText =
                 instance->outputFilter(inputContext, candidate->text());
             setTextToLayout(candidateLayouts_[localIndex].get(),
-                            {candidateText}, candidateList->cursorIndex() == i);
+                            candidateAttrLists_[localIndex].get(),
+                            highlightCandidateAttrLists_[localIndex].get(),
+                            {candidateText});
             localIndex++;
         }
 
@@ -313,8 +340,7 @@ static void renderLayout(cairo_t *cr, PangoLayout *layout) {
     cairo_restore(cr);
 }
 
-void InputWindow::paint(cairo_t *cr, unsigned int width,
-                        unsigned int height) const {
+void InputWindow::paint(cairo_t *cr, unsigned int width, unsigned int height) {
     auto &theme = parent_->theme();
     cairo_set_operator(cr, CAIRO_OPERATOR_SOURCE);
     theme.paint(cr, *theme.inputPanel->background, width, height);
@@ -369,8 +395,6 @@ void InputWindow::paint(cairo_t *cr, unsigned int width,
         currentHeight += h + extraH;
     }
 
-    cairo_move_to(cr, 0, currentHeight);
-
     bool vertical = parent_->config().verticalCandidateList.value();
     if (layoutHint_ == CandidateLayoutHint::Vertical) {
         vertical = true;
@@ -378,6 +402,8 @@ void InputWindow::paint(cairo_t *cr, unsigned int width,
         vertical = false;
     }
 
+    candidateRegions_.clear();
+    candidateRegions_.reserve(nCandidates_);
     size_t wholeW = 0, wholeH = 0;
     for (size_t i = 0; i < nCandidates_; i++) {
         int x, y;
@@ -408,28 +434,47 @@ void InputWindow::paint(cairo_t *cr, unsigned int width,
             wholeW += candidateW + labelW + extraW;
         }
         const auto &highlightMargin = *theme.inputPanel->highlight->margin;
-
-        if (candidateIndex_ >= 0 && i == static_cast<size_t>(candidateIndex_)) {
+        const auto &clickMargin = *theme.inputPanel->highlight->clickMargin;
+        auto highlightWidth = labelW + candidateW;
+        if (*theme.inputPanel->fullWidthHighlight && vertical) {
+            // Last candidate, fill.
+            highlightWidth = width - *margin.marginLeft - *margin.marginRight -
+                             *textMargin.marginRight - *textMargin.marginLeft;
+            CLASSICUI_DEBUG() << width << " "
+                              << highlightWidth + *highlightMargin.marginLeft +
+                                     *highlightMargin.marginRight;
+        }
+        int highlightIndex = (hoverIndex_ > 0) ? hoverIndex_ : candidateIndex_;
+        if (highlightIndex >= 0 && i == static_cast<size_t>(highlightIndex)) {
             cairo_save(cr);
             cairo_translate(cr, x - *highlightMargin.marginLeft,
                             y - *highlightMargin.marginTop);
-            auto highlightWidth = labelW + candidateW;
-            if (*theme.inputPanel->fullWidthHighlight && vertical) {
-                // Last candidate, fill.
-                highlightWidth =
-                    width - x - *margin.marginRight - *textMargin.marginRight;
-                CLASSICUI_DEBUG()
-                    << width << " "
-                    << highlightWidth + *highlightMargin.marginLeft +
-                           *highlightMargin.marginRight;
-            }
             theme.paint(cr, *theme.inputPanel->highlight,
                         highlightWidth + *highlightMargin.marginLeft +
                             *highlightMargin.marginRight,
                         vheight + *highlightMargin.marginTop +
                             *highlightMargin.marginBottom);
             cairo_restore(cr);
+            pango_layout_set_attributes(labelLayouts_[i].get(),
+                                        highlightLabelAttrLists_[i].get());
+            pango_layout_set_attributes(candidateLayouts_[i].get(),
+                                        highlightCandidateAttrLists_[i].get());
+        } else {
+            pango_layout_set_attributes(labelLayouts_[i].get(),
+                                        labelAttrLists_[i].get());
+
+            pango_layout_set_attributes(candidateLayouts_[i].get(),
+                                        candidateAttrLists_[i].get());
         }
+        Rect candidateRegion;
+        candidateRegion
+            .setPosition(x - *highlightMargin.marginLeft,
+                         y - *highlightMargin.marginTop)
+            .setSize(highlightWidth + *highlightMargin.marginLeft +
+                         *highlightMargin.marginRight,
+                     vheight + *highlightMargin.marginTop +
+                         *highlightMargin.marginBottom);
+        candidateRegions_.push_back(candidateRegion);
         if (pango_layout_get_character_count(labelLayouts_[i].get())) {
             cairo_move_to(cr, x, y + (vheight - labelH) / 2.0);
             renderLayout(cr, labelLayouts_[i].get());
@@ -439,7 +484,44 @@ void InputWindow::paint(cairo_t *cr, unsigned int width,
             renderLayout(cr, candidateLayouts_[i].get());
         }
     }
+    FCITX_INFO() << candidateRegions_;
     cairo_restore(cr);
 }
+
+void InputWindow::click(int x, int y) {
+    auto inputContext = inputContext_.get();
+    if (!inputContext) {
+        return;
+    }
+    const auto *candidateList = inputContext->inputPanel().candidateList();
+    if (!candidateList) {
+        return;
+    }
+    for (size_t idx = 0, e = candidateRegions_.size(); idx < e; idx++) {
+        if (candidateRegions_[idx].contains(x, y)) {
+            auto candidate = nthCandidateIgnorePlaceholder(*candidateList, idx);
+            if (candidate) {
+                candidate->select(inputContext);
+            }
+            break;
+        }
+    }
+}
+
+int InputWindow::highlight() const {
+    int highlightIndex = (hoverIndex_ > 0) ? hoverIndex_ : candidateIndex_;
+    return highlightIndex;
+}
+
+void InputWindow::hover(int x, int y) {
+    hoverIndex_ = -1;
+    for (int idx = 0, e = candidateRegions_.size(); idx < e; idx++) {
+        if (candidateRegions_[idx].contains(x, y)) {
+            hoverIndex_ = idx;
+            break;
+        }
+    }
+}
+
 } // namespace classicui
 } // namespace fcitx

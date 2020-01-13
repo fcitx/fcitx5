@@ -23,10 +23,10 @@
 #include "keydata.h"
 #include "keynametable-compat.h"
 #include "keynametable.h"
+#include "misc_p.h"
 #include "stringutils.h"
 #include "utf8.h"
 #include <cstring>
-#include <fcitx/misc_p.h>
 #include <unordered_map>
 
 namespace fcitx {

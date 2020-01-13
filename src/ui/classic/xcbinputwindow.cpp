@@ -206,13 +206,40 @@ bool XCBInputWindow::filterEvent(xcb_generic_event_t *event) {
     case XCB_EXPOSE: {
         auto expose = reinterpret_cast<xcb_expose_event_t *>(event);
         if (expose->window == wid_) {
-            if (visible()) {
-                if (auto surface = prerender()) {
-                    cairo_t *c = cairo_create(surface);
-                    paint(c, width(), height());
-                    cairo_destroy(c);
-                    render();
-                }
+            repaint();
+            return true;
+        }
+        break;
+    }
+    case XCB_BUTTON_PRESS: {
+        auto buttonPress = reinterpret_cast<xcb_button_press_event_t *>(event);
+        if (buttonPress->event != wid_) {
+            break;
+        }
+        if (buttonPress->detail == XCB_BUTTON_INDEX_1) {
+            click(buttonPress->event_x, buttonPress->event_y);
+        }
+        return true;
+    }
+    case XCB_MOTION_NOTIFY: {
+        auto motion = reinterpret_cast<xcb_motion_notify_event_t *>(event);
+        if (motion->event == wid_) {
+            auto oldHighlight = highlight();
+            hover(motion->event_x, motion->event_y);
+            if (oldHighlight != highlight()) {
+                repaint();
+            }
+            return true;
+        }
+        break;
+    }
+    case XCB_LEAVE_NOTIFY: {
+        auto leave = reinterpret_cast<xcb_leave_notify_event_t *>(event);
+        if (leave->event == wid_) {
+            auto oldHighlight = highlight();
+            hoverIndex_ = -1;
+            if (oldHighlight != highlight()) {
+                repaint();
             }
             return true;
         }
@@ -221,5 +248,18 @@ bool XCBInputWindow::filterEvent(xcb_generic_event_t *event) {
     }
     return false;
 }
+
+void XCBInputWindow::repaint() {
+    if (!visible()) {
+        return;
+    }
+    if (auto surface = prerender()) {
+        cairo_t *c = cairo_create(surface);
+        paint(c, width(), height());
+        cairo_destroy(c);
+        render();
+    }
+}
+
 } // namespace classicui
 } // namespace fcitx

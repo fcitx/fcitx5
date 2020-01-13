@@ -19,19 +19,12 @@
 #ifndef _FCITX_MISC_P_H_
 #define _FCITX_MISC_P_H_
 
+#include "fcitx-utils/misc_p.h"
+#include "fcitx/candidatelist.h"
 #include <string>
 #include <type_traits>
 
 namespace fcitx {
-
-template <typename M, typename K>
-decltype(&std::declval<M>().begin()->second) findValue(M &&m, K &&key) {
-    auto iter = m.find(key);
-    if (iter != m.end()) {
-        return &iter->second;
-    }
-    return nullptr;
-}
 
 static inline std::pair<std::string, std::string>
 parseLayout(const std::string &layout) {
@@ -41,6 +34,26 @@ parseLayout(const std::string &layout) {
     }
     return {layout.substr(0, pos), layout.substr(pos + 1)};
 }
+
+static inline std::shared_ptr<const CandidateWord>
+nthCandidateIgnorePlaceholder(const CandidateList &candidateList, int idx) {
+    int total = 0;
+    if (idx < 0 || idx >= candidateList.size()) {
+        return nullptr;
+    }
+    for (int i = 0, e = candidateList.size(); i < e; i++) {
+        auto candidate = candidateList.candidate(i);
+        if (candidate->isPlaceHolder()) {
+            continue;
+        }
+        if (idx == total) {
+            return candidate;
+        }
+        ++total;
+    }
+    return nullptr;
+}
+
 } // namespace fcitx
 
 #endif // _FCITX_MISC_P_H_

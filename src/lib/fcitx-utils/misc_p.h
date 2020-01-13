@@ -1,5 +1,5 @@
 //
-// Copyright (C) 2017~2017 by CSSlayer
+// Copyright (C) 2016~2020 by CSSlayer
 // wengxt@gmail.com
 //
 // This library is free software; you can redistribute it and/or modify
@@ -16,31 +16,23 @@
 // License along with this library; see the file COPYING. If not,
 // see <http://www.gnu.org/licenses/>.
 //
-#ifndef _FCITX_UI_CLASSIC_XCBINPUTWINDOW_H_
-#define _FCITX_UI_CLASSIC_XCBINPUTWINDOW_H_
+#ifndef _FCITX_UTILS_MISC_P_H_
+#define _FCITX_UTILS_MISC_P_H_
 
-#include "inputwindow.h"
-#include "xcbwindow.h"
+#include <string>
+#include <type_traits>
 
 namespace fcitx {
-namespace classicui {
 
-class XCBInputWindow : public XCBWindow, protected InputWindow {
-public:
-    XCBInputWindow(XCBUI *ui);
+template <typename M, typename K>
+decltype(&std::declval<M>().begin()->second) findValue(M &&m, K &&key) {
+    auto iter = m.find(key);
+    if (iter != m.end()) {
+        return &iter->second;
+    }
+    return nullptr;
+}
 
-    void postCreateWindow() override;
-    void update(InputContext *c);
-    void updatePosition(InputContext *c);
-
-    bool filterEvent(xcb_generic_event_t *event) override;
-
-    void updateDPI(InputContext *c);
-
-private:
-    void repaint();
-};
-} // namespace classicui
 } // namespace fcitx
 
-#endif // _FCITX_UI_CLASSIC_XCBINPUTWINDOW_H_
+#endif // _FCITX_UTILS_MISC_P_H_

@@ -25,6 +25,7 @@
 /// \brief Provide utility to handle rectangle.
 
 #include "fcitxutils_export.h"
+#include <ostream>
 
 namespace fcitx {
 class FCITXUTILS_EXPORT Rect {
@@ -108,6 +109,13 @@ public:
 private:
     int x1_, y1_, x2_, y2_;
 };
+
+inline std::ostream &operator<<(std::ostream &os, const Rect &r) {
+    os << "Rect(" << r.left() << "," << r.top() << "+" << r.width() << "x"
+       << r.height() << ")";
+    return os;
+}
+
 }; // namespace fcitx
 
 #endif // _FCITX_UTILS_RECT_H_

@@ -12,10 +12,16 @@ HighlightColor=#ffffff
 Spacing=3
 
 [InputPanel/TextMargin]
-Left=7
-Right=7
-Top=7
-Bottom=7
+Left=5
+Right=5
+Top=5
+Bottom=5
+
+[InputPanel/ContentMargin]
+Left=2
+Right=2
+Top=2
+Bottom=2
 
 [InputPanel/Background]
 Image=panel.png
