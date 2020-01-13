@@ -484,7 +484,6 @@ void InputWindow::paint(cairo_t *cr, unsigned int width, unsigned int height) {
             renderLayout(cr, candidateLayouts_[i].get());
         }
     }
-    FCITX_INFO() << candidateRegions_;
     cairo_restore(cr);
 }
 
