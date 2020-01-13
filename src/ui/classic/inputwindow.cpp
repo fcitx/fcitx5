@@ -468,12 +468,15 @@ void InputWindow::paint(cairo_t *cr, unsigned int width, unsigned int height) {
         }
         Rect candidateRegion;
         candidateRegion
-            .setPosition(x - *highlightMargin.marginLeft,
-                         y - *highlightMargin.marginTop)
+            .setPosition(
+                x - *highlightMargin.marginLeft + *clickMargin.marginLeft,
+                y - *highlightMargin.marginTop + *clickMargin.marginTop)
             .setSize(highlightWidth + *highlightMargin.marginLeft +
-                         *highlightMargin.marginRight,
+                         *highlightMargin.marginRight -
+                         *clickMargin.marginLeft - *clickMargin.marginRight,
                      vheight + *highlightMargin.marginTop +
-                         *highlightMargin.marginBottom);
+                         *highlightMargin.marginBottom -
+                         *clickMargin.marginTop - *clickMargin.marginBottom);
         candidateRegions_.push_back(candidateRegion);
         if (pango_layout_get_character_count(labelLayouts_[i].get())) {
             cairo_move_to(cr, x, y + (vheight - labelH) / 2.0);
