@@ -20,6 +20,7 @@
 #include "waylandui.h"
 #include "waylandwindow.h"
 #include "zwp_input_panel_v1.h"
+#include <linux/input-event-codes.h>
 
 fcitx::classicui::WaylandInputWindow::WaylandInputWindow(WaylandUI *ui)
     : fcitx::classicui::InputWindow(ui->parent()), ui_(ui),
@@ -30,6 +31,19 @@ fcitx::classicui::WaylandInputWindow::WaylandInputWindow(WaylandUI *ui)
             if (ic->hasFocus()) {
                 update(ic);
             }
+        }
+    });
+    window_->click().connect([this](int x, int y, uint32_t button,
+                                    uint32_t state) {
+        if (state == WL_POINTER_BUTTON_STATE_PRESSED && button == BTN_LEFT) {
+            click(x, y);
+        }
+    });
+    window_->hover().connect([this](int x, int y) {
+        auto oldHighlight = highlight();
+        hover(x, y);
+        if (oldHighlight != highlight()) {
+            repaint();
         }
     });
     initPanel();
@@ -72,5 +86,15 @@ void fcitx::classicui::WaylandInputWindow::update(fcitx::InputContext *ic) {
         window_->render();
     } else {
         repaintIC_ = ic->watch();
+    }
+}
+
+void fcitx::classicui::WaylandInputWindow::repaint() {
+
+    if (auto surface = window_->prerender()) {
+        cairo_t *c = cairo_create(surface);
+        paint(c, window_->width(), window_->height());
+        cairo_destroy(c);
+        window_->render();
     }
 }

@@ -20,6 +20,8 @@ public:
     WlShellSurface(WlShellSurface &&other) noexcept = delete;
     WlShellSurface &operator=(WlShellSurface &&other) noexcept = delete;
     auto actualVersion() const { return version_; }
+    void *userData() const { return userData_; }
+    void setUserData(void *userData) { userData_ = userData; }
     void pong(uint32_t serial);
     void move(WlSeat *seat, uint32_t serial);
     void resize(WlSeat *seat, uint32_t serial, uint32_t edges);
@@ -42,6 +44,7 @@ private:
     fcitx::Signal<void(uint32_t, int32_t, int32_t)> configureSignal_;
     fcitx::Signal<void()> popupDoneSignal_;
     uint32_t version_;
+    void *userData_ = nullptr;
     std::unique_ptr<wl_shell_surface, decltype(&destructor)> data_;
 };
 static inline wl_shell_surface *rawPointer(WlShellSurface *p) {

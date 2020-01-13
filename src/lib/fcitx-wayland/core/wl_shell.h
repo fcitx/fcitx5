@@ -19,11 +19,14 @@ public:
     WlShell(WlShell &&other) noexcept = delete;
     WlShell &operator=(WlShell &&other) noexcept = delete;
     auto actualVersion() const { return version_; }
+    void *userData() const { return userData_; }
+    void setUserData(void *userData) { userData_ = userData; }
     WlShellSurface *getShellSurface(WlSurface *surface);
 
 private:
     static void destructor(wl_shell *);
     uint32_t version_;
+    void *userData_ = nullptr;
     std::unique_ptr<wl_shell, decltype(&destructor)> data_;
 };
 static inline wl_shell *rawPointer(WlShell *p) {

@@ -19,11 +19,14 @@ public:
     WlSubcompositor(WlSubcompositor &&other) noexcept = delete;
     WlSubcompositor &operator=(WlSubcompositor &&other) noexcept = delete;
     auto actualVersion() const { return version_; }
+    void *userData() const { return userData_; }
+    void setUserData(void *userData) { userData_ = userData; }
     WlSubsurface *getSubsurface(WlSurface *surface, WlSurface *parent);
 
 private:
     static void destructor(wl_subcompositor *);
     uint32_t version_;
+    void *userData_ = nullptr;
     std::unique_ptr<wl_subcompositor, decltype(&destructor)> data_;
 };
 static inline wl_subcompositor *rawPointer(WlSubcompositor *p) {

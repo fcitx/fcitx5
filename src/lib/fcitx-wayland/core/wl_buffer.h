@@ -17,6 +17,8 @@ public:
     WlBuffer(WlBuffer &&other) noexcept = delete;
     WlBuffer &operator=(WlBuffer &&other) noexcept = delete;
     auto actualVersion() const { return version_; }
+    void *userData() const { return userData_; }
+    void setUserData(void *userData) { userData_ = userData; }
     auto &release() { return releaseSignal_; }
 
 private:
@@ -24,6 +26,7 @@ private:
     static const struct wl_buffer_listener listener;
     fcitx::Signal<void()> releaseSignal_;
     uint32_t version_;
+    void *userData_ = nullptr;
     std::unique_ptr<wl_buffer, decltype(&destructor)> data_;
 };
 static inline wl_buffer *rawPointer(WlBuffer *p) {

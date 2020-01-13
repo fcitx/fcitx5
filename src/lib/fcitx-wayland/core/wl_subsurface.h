@@ -18,6 +18,8 @@ public:
     WlSubsurface(WlSubsurface &&other) noexcept = delete;
     WlSubsurface &operator=(WlSubsurface &&other) noexcept = delete;
     auto actualVersion() const { return version_; }
+    void *userData() const { return userData_; }
+    void setUserData(void *userData) { userData_ = userData; }
     void setPosition(int32_t x, int32_t y);
     void placeAbove(WlSurface *sibling);
     void placeBelow(WlSurface *sibling);
@@ -27,6 +29,7 @@ public:
 private:
     static void destructor(wl_subsurface *);
     uint32_t version_;
+    void *userData_ = nullptr;
     std::unique_ptr<wl_subsurface, decltype(&destructor)> data_;
 };
 static inline wl_subsurface *rawPointer(WlSubsurface *p) {

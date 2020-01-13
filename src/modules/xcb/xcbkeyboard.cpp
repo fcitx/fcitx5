@@ -367,10 +367,10 @@ void XCBKeyboard::setRMLVOToServer(const std::string &rule,
     XkbComponentNamesRec rnames;
     memset(&rdefs, 0, sizeof(XkbRF_VarDefsRec));
     memset(&rnames, 0, sizeof(XkbComponentNamesRec));
-    rdefs.model = model.size() ? strdup(model.data()) : NULL;
-    rdefs.layout = layout.size() ? strdup(layout.data()) : NULL;
-    rdefs.variant = variant.size() ? strdup(variant.data()) : NULL;
-    rdefs.options = options.size() ? strdup(options.data()) : NULL;
+    rdefs.model = model.size() ? strdup(model.data()) : nullptr;
+    rdefs.layout = layout.size() ? strdup(layout.data()) : nullptr;
+    rdefs.variant = variant.size() ? strdup(variant.data()) : nullptr;
+    rdefs.options = options.size() ? strdup(options.data()) : nullptr;
     XkbRF_GetComponents(rules, &rdefs, &rnames);
 
     int keymapLen, keycodesLen, typesLen, compatLen, symbolsLen, geometryLen;

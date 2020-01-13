@@ -35,6 +35,7 @@ public:
     void initPanel();
     void resetPanel();
     void update(InputContext *ic);
+    void repaint();
 
 private:
     WaylandUI *ui_;

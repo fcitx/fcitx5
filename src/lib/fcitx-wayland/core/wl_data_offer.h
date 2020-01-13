@@ -17,6 +17,8 @@ public:
     WlDataOffer(WlDataOffer &&other) noexcept = delete;
     WlDataOffer &operator=(WlDataOffer &&other) noexcept = delete;
     auto actualVersion() const { return version_; }
+    void *userData() const { return userData_; }
+    void setUserData(void *userData) { userData_ = userData; }
     void accept(uint32_t serial, const char *mimeType);
     void receive(const char *mimeType, int32_t fd);
     void finish();
@@ -32,6 +34,7 @@ private:
     fcitx::Signal<void(uint32_t)> sourceActionsSignal_;
     fcitx::Signal<void(uint32_t)> actionSignal_;
     uint32_t version_;
+    void *userData_ = nullptr;
     std::unique_ptr<wl_data_offer, decltype(&destructor)> data_;
 };
 static inline wl_data_offer *rawPointer(WlDataOffer *p) {

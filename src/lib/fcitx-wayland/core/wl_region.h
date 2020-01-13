@@ -17,12 +17,15 @@ public:
     WlRegion(WlRegion &&other) noexcept = delete;
     WlRegion &operator=(WlRegion &&other) noexcept = delete;
     auto actualVersion() const { return version_; }
+    void *userData() const { return userData_; }
+    void setUserData(void *userData) { userData_ = userData; }
     void add(int32_t x, int32_t y, int32_t width, int32_t height);
     void subtract(int32_t x, int32_t y, int32_t width, int32_t height);
 
 private:
     static void destructor(wl_region *);
     uint32_t version_;
+    void *userData_ = nullptr;
     std::unique_ptr<wl_region, decltype(&destructor)> data_;
 };
 static inline wl_region *rawPointer(WlRegion *p) {

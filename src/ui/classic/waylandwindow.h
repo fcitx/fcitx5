@@ -28,7 +28,7 @@
 namespace fcitx {
 namespace classicui {
 
-class WaylandWindow : public Window {
+class WaylandWindow : public Window, public TrackableObject<WaylandWindow> {
 public:
     WaylandWindow(WaylandUI *ui);
     ~WaylandWindow();
@@ -42,12 +42,16 @@ public:
     wayland::WlSurface *surface() { return surface_.get(); }
 
     auto &repaint() { return repaint_; }
+    auto &hover() { return hover_; }
+    auto &click() { return click_; }
 
 protected:
     WaylandUI *ui_;
     std::unique_ptr<wayland::WlSurface> surface_;
     std::list<fcitx::ScopedConnection> conns_;
     Signal<void()> repaint_;
+    Signal<void(int, int)> hover_;
+    Signal<void(int, int, uint32_t, uint32_t)> click_;
 
     Rect serverAllocation_;
     Rect allocation_;

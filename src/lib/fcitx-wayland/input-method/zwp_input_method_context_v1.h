@@ -20,6 +20,8 @@ public:
     ZwpInputMethodContextV1 &
     operator=(ZwpInputMethodContextV1 &&other) noexcept = delete;
     auto actualVersion() const { return version_; }
+    void *userData() const { return userData_; }
+    void setUserData(void *userData) { userData_ = userData; }
     void commitString(uint32_t serial, const char *text);
     void preeditString(uint32_t serial, const char *text, const char *commit);
     void preeditStyling(uint32_t index, uint32_t length, uint32_t style);
@@ -53,6 +55,7 @@ private:
     fcitx::Signal<void(uint32_t)> commitStateSignal_;
     fcitx::Signal<void(const char *)> preferredLanguageSignal_;
     uint32_t version_;
+    void *userData_ = nullptr;
     std::unique_ptr<zwp_input_method_context_v1, decltype(&destructor)> data_;
 };
 static inline zwp_input_method_context_v1 *

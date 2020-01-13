@@ -25,6 +25,7 @@
 #include "waylandinputwindow.h"
 #include "waylandshmwindow.h"
 #include "wl_compositor.h"
+#include "wl_seat.h"
 #include "wl_shell.h"
 #include "wl_shm.h"
 #include "xcbui.h"
@@ -91,6 +92,7 @@ WaylandUI::WaylandUI(ClassicUI *parent, const std::string &name,
     display_->requestGlobals<wayland::WlShm>();
     display_->requestGlobals<wayland::WlShell>();
     display_->requestGlobals<wayland::ZwpInputPanelV1>();
+    display_->requestGlobals<wayland::WlSeat>();
     panelConn_ = display_->globalCreated().connect(
         [this](const std::string &name, std::shared_ptr<void>) {
             if (name == wayland::ZwpInputPanelV1::interface) {
@@ -107,6 +109,10 @@ WaylandUI::WaylandUI(ClassicUI *parent, const std::string &name,
                 }
             }
         });
+    auto seat = display_->getGlobal<wayland::WlSeat>();
+    if (seat) {
+        pointer_ = std::make_unique<WaylandPointer>(seat.get());
+    }
 }
 
 WaylandUI::~WaylandUI() {
@@ -145,7 +151,7 @@ bool WaylandUI::initEGL() {
                                               EGL_OPENGL_BIT,
                                               EGL_NONE};
 
-    EGLint *context_attribs = NULL;
+    EGLint *context_attribs = nullptr;
     EGLint api = EGL_OPENGL_API;
 
     eglDisplay_ = getEGLDisplay(EGL_PLATFORM_WAYLAND_KHR, *display_, nullptr);

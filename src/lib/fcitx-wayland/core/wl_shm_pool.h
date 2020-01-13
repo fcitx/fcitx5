@@ -18,6 +18,8 @@ public:
     WlShmPool(WlShmPool &&other) noexcept = delete;
     WlShmPool &operator=(WlShmPool &&other) noexcept = delete;
     auto actualVersion() const { return version_; }
+    void *userData() const { return userData_; }
+    void setUserData(void *userData) { userData_ = userData; }
     WlBuffer *createBuffer(int32_t offset, int32_t width, int32_t height,
                            int32_t stride, uint32_t format);
     void resize(int32_t size);
@@ -25,6 +27,7 @@ public:
 private:
     static void destructor(wl_shm_pool *);
     uint32_t version_;
+    void *userData_ = nullptr;
     std::unique_ptr<wl_shm_pool, decltype(&destructor)> data_;
 };
 static inline wl_shm_pool *rawPointer(WlShmPool *p) {

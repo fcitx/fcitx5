@@ -35,6 +35,7 @@ void WaylandWindow::createWindow() {
         return;
     }
     surface_.reset(compositor->createSurface());
+    surface_->setUserData(this);
     conns_.emplace_back(
         surface_->enter().connect([this](wayland::WlOutput *output) {
             auto info = ui_->display()->outputInformation(output);

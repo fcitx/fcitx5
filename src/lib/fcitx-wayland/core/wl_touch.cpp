@@ -39,6 +39,17 @@ const struct wl_touch_listener WlTouch::listener = {
         assert(*obj == wldata);
         { return obj->cancel()(); }
     },
+    [](void *data, wl_touch *wldata, int32_t id, wl_fixed_t major,
+       wl_fixed_t minor) {
+        auto obj = static_cast<WlTouch *>(data);
+        assert(*obj == wldata);
+        { return obj->shape()(id, major, minor); }
+    },
+    [](void *data, wl_touch *wldata, int32_t id, wl_fixed_t orientation) {
+        auto obj = static_cast<WlTouch *>(data);
+        assert(*obj == wldata);
+        { return obj->orientation()(id, orientation); }
+    },
 };
 WlTouch::WlTouch(wl_touch *data)
     : version_(wl_touch_get_version(data)), data_(data, &WlTouch::destructor) {

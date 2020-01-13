@@ -1,6 +1,9 @@
 add_subdirectory(themes)
 
-add_library(classicui MODULE classicui.cpp xcbui.cpp xcbwindow.cpp window.cpp theme.cpp waylandui.cpp waylandwindow.cpp waylandeglwindow.cpp waylandshmwindow.cpp buffer.cpp waylandinputwindow.cpp xcbtraywindow.cpp inputwindow.cpp xcbinputwindow.cpp xcbmenu.cpp)
+add_library(classicui MODULE classicui.cpp xcbui.cpp xcbwindow.cpp window.cpp theme.cpp
+waylandui.cpp waylandwindow.cpp waylandeglwindow.cpp waylandshmwindow.cpp
+waylandpointer.cpp
+buffer.cpp waylandinputwindow.cpp xcbtraywindow.cpp inputwindow.cpp xcbinputwindow.cpp xcbmenu.cpp)
 
 if (CAIRO_EGL_FOUND)
 set(CAIRO_EGL_LIBRARY PkgConfig::CairoEGL Wayland::Egl EGL::EGL)

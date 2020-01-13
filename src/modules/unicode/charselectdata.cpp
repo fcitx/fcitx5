@@ -439,8 +439,8 @@ CharSelectData::approximateEquivalents(uint32_t unicode) const {
 }
 
 char *FormatCode(uint32_t code, int length, const char *prefix) {
-    char *s = NULL;
-    char *fmt = NULL;
+    char *s = nullptr;
+    char *fmt = nullptr;
     asprintf(&fmt, "%%s%%0%dX", length);
     asprintf(&s, fmt, prefix, code);
     free(fmt);

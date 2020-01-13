@@ -20,6 +20,8 @@ public:
     WlDataDevice(WlDataDevice &&other) noexcept = delete;
     WlDataDevice &operator=(WlDataDevice &&other) noexcept = delete;
     auto actualVersion() const { return version_; }
+    void *userData() const { return userData_; }
+    void setUserData(void *userData) { userData_ = userData; }
     void startDrag(WlDataSource *source, WlSurface *origin, WlSurface *icon,
                    uint32_t serial);
     void setSelection(WlDataSource *source, uint32_t serial);
@@ -42,6 +44,7 @@ private:
     fcitx::Signal<void()> dropSignal_;
     fcitx::Signal<void(WlDataOffer *)> selectionSignal_;
     uint32_t version_;
+    void *userData_ = nullptr;
     std::unique_ptr<wl_data_device, decltype(&destructor)> data_;
 };
 static inline wl_data_device *rawPointer(WlDataDevice *p) {

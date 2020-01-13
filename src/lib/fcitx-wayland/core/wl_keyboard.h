@@ -11,13 +11,15 @@ public:
     static constexpr const char *interface = "wl_keyboard";
     static constexpr const wl_interface *const wlInterface =
         &wl_keyboard_interface;
-    static constexpr const uint32_t version = 5;
+    static constexpr const uint32_t version = 7;
     typedef wl_keyboard wlType;
     operator wl_keyboard *() { return data_.get(); }
     WlKeyboard(wlType *data);
     WlKeyboard(WlKeyboard &&other) noexcept = delete;
     WlKeyboard &operator=(WlKeyboard &&other) noexcept = delete;
     auto actualVersion() const { return version_; }
+    void *userData() const { return userData_; }
+    void setUserData(void *userData) { userData_ = userData; }
     auto &keymap() { return keymapSignal_; }
     auto &enter() { return enterSignal_; }
     auto &leave() { return leaveSignal_; }
@@ -36,6 +38,7 @@ private:
         modifiersSignal_;
     fcitx::Signal<void(int32_t, int32_t)> repeatInfoSignal_;
     uint32_t version_;
+    void *userData_ = nullptr;
     std::unique_ptr<wl_keyboard, decltype(&destructor)> data_;
 };
 static inline wl_keyboard *rawPointer(WlKeyboard *p) {

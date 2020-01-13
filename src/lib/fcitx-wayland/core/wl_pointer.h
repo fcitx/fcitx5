@@ -11,13 +11,15 @@ public:
     static constexpr const char *interface = "wl_pointer";
     static constexpr const wl_interface *const wlInterface =
         &wl_pointer_interface;
-    static constexpr const uint32_t version = 5;
+    static constexpr const uint32_t version = 7;
     typedef wl_pointer wlType;
     operator wl_pointer *() { return data_.get(); }
     WlPointer(wlType *data);
     WlPointer(WlPointer &&other) noexcept = delete;
     WlPointer &operator=(WlPointer &&other) noexcept = delete;
     auto actualVersion() const { return version_; }
+    void *userData() const { return userData_; }
+    void setUserData(void *userData) { userData_ = userData; }
     void setCursor(uint32_t serial, WlSurface *surface, int32_t hotspotX,
                    int32_t hotspotY);
     auto &enter() { return enterSignal_; }
@@ -44,6 +46,7 @@ private:
     fcitx::Signal<void(uint32_t, uint32_t)> axisStopSignal_;
     fcitx::Signal<void(uint32_t, int32_t)> axisDiscreteSignal_;
     uint32_t version_;
+    void *userData_ = nullptr;
     std::unique_ptr<wl_pointer, decltype(&destructor)> data_;
 };
 static inline wl_pointer *rawPointer(WlPointer *p) {

@@ -17,6 +17,8 @@ public:
     WlRegistry(WlRegistry &&other) noexcept = delete;
     WlRegistry &operator=(WlRegistry &&other) noexcept = delete;
     auto actualVersion() const { return version_; }
+    void *userData() const { return userData_; }
+    void setUserData(void *userData) { userData_ = userData; }
     template <typename T>
     T *bind(uint32_t name, uint32_t requested_version) {
         return new T(static_cast<typename T::wlType *>(
@@ -31,6 +33,7 @@ private:
     fcitx::Signal<void(uint32_t, const char *, uint32_t)> globalSignal_;
     fcitx::Signal<void(uint32_t)> globalRemoveSignal_;
     uint32_t version_;
+    void *userData_ = nullptr;
     std::unique_ptr<wl_registry, decltype(&destructor)> data_;
 };
 static inline wl_registry *rawPointer(WlRegistry *p) {

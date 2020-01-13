@@ -17,6 +17,8 @@ public:
     WlDataSource(WlDataSource &&other) noexcept = delete;
     WlDataSource &operator=(WlDataSource &&other) noexcept = delete;
     auto actualVersion() const { return version_; }
+    void *userData() const { return userData_; }
+    void setUserData(void *userData) { userData_ = userData; }
     void offer(const char *mimeType);
     void setActions(uint32_t dndActions);
     auto &target() { return targetSignal_; }
@@ -36,6 +38,7 @@ private:
     fcitx::Signal<void()> dndFinishedSignal_;
     fcitx::Signal<void(uint32_t)> actionSignal_;
     uint32_t version_;
+    void *userData_ = nullptr;
     std::unique_ptr<wl_data_source, decltype(&destructor)> data_;
 };
 static inline wl_data_source *rawPointer(WlDataSource *p) {

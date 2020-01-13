@@ -17,6 +17,8 @@ public:
     WlOutput(WlOutput &&other) noexcept = delete;
     WlOutput &operator=(WlOutput &&other) noexcept = delete;
     auto actualVersion() const { return version_; }
+    void *userData() const { return userData_; }
+    void setUserData(void *userData) { userData_ = userData; }
     auto &geometry() { return geometrySignal_; }
     auto &mode() { return modeSignal_; }
     auto &done() { return doneSignal_; }
@@ -32,6 +34,7 @@ private:
     fcitx::Signal<void()> doneSignal_;
     fcitx::Signal<void(int32_t)> scaleSignal_;
     uint32_t version_;
+    void *userData_ = nullptr;
     std::unique_ptr<wl_output, decltype(&destructor)> data_;
 };
 static inline wl_output *rawPointer(WlOutput *p) {

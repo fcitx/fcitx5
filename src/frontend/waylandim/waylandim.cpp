@@ -32,6 +32,10 @@
 #include <unistd.h>
 #include <xkbcommon/xkbcommon.h>
 
+FCITX_DEFINE_LOG_CATEGORY(waylandim, "waylandim")
+
+#define WAYLANDIM_DEBUG() FCITX_LOGC(::waylandim, Debug)
+
 namespace fcitx {
 class WaylandIMInputContextV1;
 
@@ -499,6 +503,8 @@ void WaylandIMInputContextV1::keyCallback(uint32_t serial, uint32_t time,
         }
     }
 
+    WAYLANDIM_DEBUG() << event.key().toString()
+                      << " IsRelease=" << event.isRelease();
     if (!keyEvent(event)) {
         ic_->keysym(serial, time, event.rawKey().sym(),
                     event.isRelease() ? WL_KEYBOARD_KEY_STATE_RELEASED

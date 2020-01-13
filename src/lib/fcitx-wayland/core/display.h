@@ -37,6 +37,7 @@ class WlOutput;
 
 class GlobalsFactoryBase {
 public:
+    virtual ~GlobalsFactoryBase() {}
     virtual std::shared_ptr<void> create(WlRegistry &, uint32_t name,
                                          uint32_t version) = 0;
     void erase(uint32_t name) { globals_.erase(name); }

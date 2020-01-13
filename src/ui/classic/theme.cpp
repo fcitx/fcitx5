@@ -214,7 +214,7 @@ ThemeImage::ThemeImage(const std::string &icon, const std::string &label,
         pango_font_description_set_absolute_size(desc, pixelSize * PANGO_SCALE);
         pango_layout_set_font_description(layout.get(), desc);
         pango_font_description_free(desc);
-        pango_layout_get_pixel_extents(layout.get(), &rect, NULL);
+        pango_layout_get_pixel_extents(layout.get(), &rect, nullptr);
         cairo_move_to(cr, (size - rect.width) * 0.5 - rect.x,
                       (size - rect.height) * 0.5 - rect.y);
         pango_cairo_show_layout(cr, layout.get());

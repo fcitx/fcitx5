@@ -21,12 +21,15 @@ public:
     WlDataDeviceManager &
     operator=(WlDataDeviceManager &&other) noexcept = delete;
     auto actualVersion() const { return version_; }
+    void *userData() const { return userData_; }
+    void setUserData(void *userData) { userData_ = userData; }
     WlDataSource *createDataSource();
     WlDataDevice *getDataDevice(WlSeat *seat);
 
 private:
     static void destructor(wl_data_device_manager *);
     uint32_t version_;
+    void *userData_ = nullptr;
     std::unique_ptr<wl_data_device_manager, decltype(&destructor)> data_;
 };
 static inline wl_data_device_manager *rawPointer(WlDataDeviceManager *p) {

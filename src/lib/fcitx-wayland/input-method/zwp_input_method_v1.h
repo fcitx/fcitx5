@@ -19,6 +19,8 @@ public:
     ZwpInputMethodV1(ZwpInputMethodV1 &&other) noexcept = delete;
     ZwpInputMethodV1 &operator=(ZwpInputMethodV1 &&other) noexcept = delete;
     auto actualVersion() const { return version_; }
+    void *userData() const { return userData_; }
+    void setUserData(void *userData) { userData_ = userData; }
     auto &activate() { return activateSignal_; }
     auto &deactivate() { return deactivateSignal_; }
 
@@ -28,6 +30,7 @@ private:
     fcitx::Signal<void(ZwpInputMethodContextV1 *)> activateSignal_;
     fcitx::Signal<void(ZwpInputMethodContextV1 *)> deactivateSignal_;
     uint32_t version_;
+    void *userData_ = nullptr;
     std::unique_ptr<zwp_input_method_v1, decltype(&destructor)> data_;
 };
 static inline zwp_input_method_v1 *rawPointer(ZwpInputMethodV1 *p) {

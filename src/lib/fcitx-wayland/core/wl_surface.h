@@ -21,6 +21,8 @@ public:
     WlSurface(WlSurface &&other) noexcept = delete;
     WlSurface &operator=(WlSurface &&other) noexcept = delete;
     auto actualVersion() const { return version_; }
+    void *userData() const { return userData_; }
+    void setUserData(void *userData) { userData_ = userData; }
     void attach(WlBuffer *buffer, int32_t x, int32_t y);
     void damage(int32_t x, int32_t y, int32_t width, int32_t height);
     WlCallback *frame();
@@ -39,6 +41,7 @@ private:
     fcitx::Signal<void(WlOutput *)> enterSignal_;
     fcitx::Signal<void(WlOutput *)> leaveSignal_;
     uint32_t version_;
+    void *userData_ = nullptr;
     std::unique_ptr<wl_surface, decltype(&destructor)> data_;
 };
 static inline wl_surface *rawPointer(WlSurface *p) {

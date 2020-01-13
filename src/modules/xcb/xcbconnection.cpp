@@ -97,7 +97,7 @@ XCBConnection::XCBConnection(XCBModule *xcb, const std::string &name)
     xcb_intern_atom_cookie_t *cookie = xcb_ewmh_init_atoms(conn_.get(), &ewmh_);
     if (cookie) {
         // They will wipe for us. and cookie will be free'd anyway.
-        if (!xcb_ewmh_init_atoms_replies(&ewmh_, cookie, NULL)) {
+        if (!xcb_ewmh_init_atoms_replies(&ewmh_, cookie, nullptr)) {
             memset(&ewmh_, 0, sizeof(ewmh_));
         }
     }
@@ -212,7 +212,7 @@ bool XCBConnection::grabXKeyboard() {
     auto cookie = xcb_grab_keyboard(conn_.get(), false, root_, XCB_CURRENT_TIME,
                                     XCB_GRAB_MODE_ASYNC, XCB_GRAB_MODE_ASYNC);
     auto reply =
-        makeXCBReply(xcb_grab_keyboard_reply(conn_.get(), cookie, NULL));
+        makeXCBReply(xcb_grab_keyboard_reply(conn_.get(), cookie, nullptr));
 
     if (reply && reply->status == XCB_GRAB_STATUS_SUCCESS) {
         keyboardGrabbed_ = true;
@@ -375,7 +375,8 @@ void XCBConnection::keyRelease(const xcb_key_release_event_t *event) {
         release = true;
     else {
         auto cookie = xcb_get_modifier_mapping(conn_.get());
-        auto reply = xcb_get_modifier_mapping_reply(conn_.get(), cookie, NULL);
+        auto reply =
+            xcb_get_modifier_mapping_reply(conn_.get(), cookie, nullptr);
         if (reply) {
             auto keycodes = xcb_get_modifier_mapping_keycodes(reply);
             for (int i = 0; i < reply->keycodes_per_modifier; i++) {

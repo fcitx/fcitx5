@@ -17,6 +17,8 @@ public:
     WlShm(WlShm &&other) noexcept = delete;
     WlShm &operator=(WlShm &&other) noexcept = delete;
     auto actualVersion() const { return version_; }
+    void *userData() const { return userData_; }
+    void setUserData(void *userData) { userData_ = userData; }
     WlShmPool *createPool(int32_t fd, int32_t size);
     auto &format() { return formatSignal_; }
 
@@ -25,6 +27,7 @@ private:
     static const struct wl_shm_listener listener;
     fcitx::Signal<void(uint32_t)> formatSignal_;
     uint32_t version_;
+    void *userData_ = nullptr;
     std::unique_ptr<wl_shm, decltype(&destructor)> data_;
 };
 static inline wl_shm *rawPointer(WlShm *p) {

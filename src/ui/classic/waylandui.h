@@ -22,6 +22,8 @@
 #include "classicui.h"
 #include "config.h"
 #include "display.h"
+#include "waylandpointer.h"
+#include "wl_pointer.h"
 #include <cairo/cairo.h>
 
 #ifdef CAIRO_EGL_FOUND
@@ -72,6 +74,7 @@ private:
     std::string name_;
     wayland::Display *display_;
     ScopedConnection panelConn_, panelRemovedConn_;
+    std::unique_ptr<WaylandPointer> pointer_;
     std::unique_ptr<WaylandInputWindow> inputWindow_;
 
 #ifdef CAIRO_EGL_FOUND

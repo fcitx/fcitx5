@@ -163,7 +163,7 @@ pid_t runIBusExit() {
     if (child_pid == 0) {
         char arg0[] = "ibus";
         char arg1[] = "exit";
-        char *args[] = {arg0, arg1, NULL};
+        char *args[] = {arg0, arg1, nullptr};
         setpgid(
             child_pid,
             child_pid); // Needed so negative PIDs can kill children of /bin/sh

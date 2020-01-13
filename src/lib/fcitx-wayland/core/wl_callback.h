@@ -17,6 +17,8 @@ public:
     WlCallback(WlCallback &&other) noexcept = delete;
     WlCallback &operator=(WlCallback &&other) noexcept = delete;
     auto actualVersion() const { return version_; }
+    void *userData() const { return userData_; }
+    void setUserData(void *userData) { userData_ = userData; }
     auto &done() { return doneSignal_; }
 
 private:
@@ -24,6 +26,7 @@ private:
     static const struct wl_callback_listener listener;
     fcitx::Signal<void(uint32_t)> doneSignal_;
     uint32_t version_;
+    void *userData_ = nullptr;
     std::unique_ptr<wl_callback, decltype(&destructor)> data_;
 };
 static inline wl_callback *rawPointer(WlCallback *p) {

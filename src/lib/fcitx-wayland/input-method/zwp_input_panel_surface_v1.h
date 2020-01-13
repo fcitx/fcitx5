@@ -20,12 +20,15 @@ public:
     ZwpInputPanelSurfaceV1 &
     operator=(ZwpInputPanelSurfaceV1 &&other) noexcept = delete;
     auto actualVersion() const { return version_; }
+    void *userData() const { return userData_; }
+    void setUserData(void *userData) { userData_ = userData; }
     void setToplevel(WlOutput *output, uint32_t position);
     void setOverlayPanel();
 
 private:
     static void destructor(zwp_input_panel_surface_v1 *);
     uint32_t version_;
+    void *userData_ = nullptr;
     std::unique_ptr<zwp_input_panel_surface_v1, decltype(&destructor)> data_;
 };
 static inline zwp_input_panel_surface_v1 *
