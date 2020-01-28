@@ -89,31 +89,31 @@ public:
     FCITX_OBJECT_VTABLE_SIGNAL(newTitle, "NewTitle", "");
     FCITX_OBJECT_VTABLE_SIGNAL(xayatanaNewLabel, "XAyatanaNewLabel", "ss");
 
-    FCITX_OBJECT_VTABLE_PROPERTY(id, "Id", "s", [this]() { return "Fcitx"; });
+    FCITX_OBJECT_VTABLE_PROPERTY(id, "Id", "s", []() { return "Fcitx"; });
     FCITX_OBJECT_VTABLE_PROPERTY(category, "Category", "s",
-                                 [this]() { return "SystemServices"; });
+                                 []() { return "SystemServices"; });
     FCITX_OBJECT_VTABLE_PROPERTY(status, "Status", "s",
-                                 [this]() { return "Active"; });
+                                 []() { return "Active"; });
     FCITX_OBJECT_VTABLE_PROPERTY(iconName, "IconName", "s",
                                  [this]() { return iconName(); });
     FCITX_OBJECT_VTABLE_PROPERTY(attentionIconName, "AttentionIconName", "s",
-                                 [this]() { return ""; });
+                                 []() { return ""; });
     FCITX_OBJECT_VTABLE_PROPERTY(title, "Title", "s",
-                                 [this]() { return _("Input Method"); });
+                                 []() { return _("Input Method"); });
     FCITX_OBJECT_VTABLE_PROPERTY(tooltip, "ToolTip", "(sa(iiay)ss)",
                                  [this]() { return tooltip(); });
     FCITX_OBJECT_VTABLE_PROPERTY(iconThemePath, "IconThemePath", "s",
-                                 [this]() { return ""; });
-    FCITX_OBJECT_VTABLE_PROPERTY(menu, "Menu", "o", [this]() {
+                                 []() { return ""; });
+    FCITX_OBJECT_VTABLE_PROPERTY(menu, "Menu", "o", []() {
         return dbus::ObjectPath("/MenuBar");
     });
     FCITX_OBJECT_VTABLE_PROPERTY(xayatanaLabel, "XAyatanaLabel", "s",
-                                 [this]() { return ""; });
+                                 []() { return ""; });
     FCITX_OBJECT_VTABLE_PROPERTY(XAyatanaLabelGuide, "XAyatanaLabelGuide", "s",
-                                 [this]() { return ""; });
+                                 []() { return ""; });
     FCITX_OBJECT_VTABLE_PROPERTY(xayatanaLabelOrderingIndex,
                                  "XAyatanaOrderingIndex", "u",
-                                 [this]() { return 0; });
+                                 []() { return 0; });
 
 private:
     NotificationItem *parent_;

@@ -648,7 +648,7 @@ XCBMenu *MenuPool::findOrCreateMenu(XCBUI *ui, Menu *menu) {
     }
 
     ScopedConnection conn =
-        menu->connect<ObjectDestroyed>([this, menu](void *data) {
+        menu->connect<ObjectDestroyed>([this](void *data) {
             Menu *menu = static_cast<Menu *>(data);
             pool_.erase(menu);
         });

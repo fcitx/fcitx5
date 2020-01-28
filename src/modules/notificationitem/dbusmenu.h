@@ -83,9 +83,9 @@ private:
     InputContext *lastRelevantIc();
 
     FCITX_OBJECT_VTABLE_PROPERTY(version, "Version", "u",
-                                 [this]() { return version_; });
+                                 []() { return version_; });
     FCITX_OBJECT_VTABLE_PROPERTY(status, "Status", "s",
-                                 [this]() { return "normal"; });
+                                 []() { return "normal"; });
     // We don't use this.
     FCITX_OBJECT_VTABLE_SIGNAL(itemsPropertiesUpdated, "ItemsPropertiesUpdated",
                                "a(ia{sv})a(ias)");

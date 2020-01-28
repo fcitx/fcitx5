@@ -65,7 +65,7 @@ void StatusArea::addAction(StatusGroup group, Action *action) {
             d->update();
         }));
     d->actions_[action].emplace_back(
-        action->connect<Action::Update>([this, d](InputContext *ic) {
+        action->connect<Action::Update>([d](InputContext *ic) {
             if (ic == d->ic_) {
                 d->update();
             }

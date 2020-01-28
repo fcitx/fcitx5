@@ -147,7 +147,7 @@ private:
     KeyList selectionKeys_;
 
     FactoryFor<KeyboardEngineState> factory_{
-        [this](InputContext &) { return new KeyboardEngineState; }};
+        [](InputContext &) { return new KeyboardEngineState; }};
 };
 
 class KeyboardEngineFactory : public AddonFactory {

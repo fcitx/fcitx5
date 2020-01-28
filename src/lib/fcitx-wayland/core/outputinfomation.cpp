@@ -61,7 +61,7 @@ OutputInfomation::OutputInfomation(WlOutput *output)
             d->next_.transform_ = static_cast<wl_output_transform>(transform);
         });
     d->modeConnection_ =
-        output->mode().connect([this, output](uint32_t flags, int32_t width,
+        output->mode().connect([this](uint32_t flags, int32_t width,
                                               int32_t height, int32_t refresh) {
             if (!(flags & WL_OUTPUT_MODE_CURRENT)) {
                 return;
@@ -73,11 +73,11 @@ OutputInfomation::OutputInfomation(WlOutput *output)
             d->next_.refreshRate_ = refresh;
         });
     d->scaleConnection_ =
-        output->scale().connect([this, output](int32_t scale) {
+        output->scale().connect([this](int32_t scale) {
             FCITX_D();
             d->next_.scale_ = scale;
         });
-    d->doneConnection_ = output->done().connect([this, output]() {
+    d->doneConnection_ = output->done().connect([this]() {
         FCITX_D();
         d->current_ = d->next_;
     });

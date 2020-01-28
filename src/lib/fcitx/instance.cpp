@@ -543,7 +543,7 @@ Instance::Instance(int argc, char **argv) {
         }));
     d->eventWatchers_.emplace_back(d->watchEvent(
         EventType::InputContextKeyEvent, EventWatcherPhase::ReservedFirst,
-        [this, d](Event &event) {
+        [d](Event &event) {
             auto &keyEvent = static_cast<KeyEvent &>(event);
             auto ic = keyEvent.inputContext();
             auto inputState = ic->propertyFor(&d->inputStateFactory);
@@ -597,7 +597,7 @@ Instance::Instance(int argc, char **argv) {
         }));
     d->eventWatchers_.emplace_back(
         watchEvent(EventType::InputContextKeyEvent,
-                   EventWatcherPhase::InputMethod, [this, d](Event &event) {
+                   EventWatcherPhase::InputMethod, [this](Event &event) {
                        auto &keyEvent = static_cast<KeyEvent &>(event);
                        auto ic = keyEvent.inputContext();
                        auto engine = inputMethodEngine(ic);
@@ -684,7 +684,7 @@ Instance::Instance(int argc, char **argv) {
         }));
     d->eventWatchers_.emplace_back(d->watchEvent(
         EventType::InputContextReset, EventWatcherPhase::ReservedFirst,
-        [this, d](Event &event) {
+        [d](Event &event) {
             auto &icEvent = static_cast<InputContextEvent &>(event);
             auto ic = icEvent.inputContext();
             auto inputState = ic->propertyFor(&d->inputStateFactory);
@@ -692,7 +692,7 @@ Instance::Instance(int argc, char **argv) {
         }));
     d->eventWatchers_.emplace_back(
         watchEvent(EventType::InputContextReset, EventWatcherPhase::InputMethod,
-                   [this, d](Event &event) {
+                   [this](Event &event) {
                        auto &icEvent = static_cast<InputContextEvent &>(event);
                        auto ic = icEvent.inputContext();
                        if (!ic->hasFocus()) {
@@ -776,7 +776,7 @@ Instance::Instance(int argc, char **argv) {
 
     d->eventWatchers_.emplace_back(d->watchEvent(
         EventType::InputContextUpdateUI, EventWatcherPhase::ReservedFirst,
-        [this, d](Event &event) {
+        [d](Event &event) {
             auto &icEvent = static_cast<InputContextUpdateUIEvent &>(event);
             if (icEvent.immediate()) {
                 d->uiManager_.update(icEvent.component(),
@@ -790,7 +790,7 @@ Instance::Instance(int argc, char **argv) {
         }));
     d->eventWatchers_.emplace_back(d->watchEvent(
         EventType::InputContextDestroyed, EventWatcherPhase::ReservedFirst,
-        [this, d](Event &event) {
+        [d](Event &event) {
             auto &icEvent = static_cast<InputContextEvent &>(event);
             d->uiManager_.expire(icEvent.inputContext());
         }));
@@ -1593,7 +1593,7 @@ void Instance::setXkbParameters(const std::string &display,
 
     if (resetState) {
         d->keymapCache_[display].clear();
-        d->icManager_.foreach([this, d, &display](InputContext *ic) {
+        d->icManager_.foreach([d, &display](InputContext *ic) {
             if (ic->display() == display) {
                 auto inputState = ic->propertyFor(&d->inputStateFactory);
                 inputState->resetXkbState();

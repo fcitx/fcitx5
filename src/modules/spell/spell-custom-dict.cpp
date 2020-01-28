@@ -244,7 +244,7 @@ std::string SpellCustomDict::locateDictFile(const std::string &lang) {
     std::string path;
     standardPath.scanDirectories(
         StandardPath::Type::PkgData,
-        [&lang, &path, &templatePath](const std::string &dirPath, bool isUser) {
+        [&path, &templatePath](const std::string &dirPath, bool isUser) {
             if (isUser) {
                 return true;
             }
