@@ -83,3 +83,8 @@ target_compile_definitions(testxkbrules PRIVATE "-D_TEST_XKBRULES")
 target_include_directories(testxkbrules PRIVATE ../src)
 target_link_libraries(testxkbrules Fcitx5::Core Expat::Expat)
 add_test(NAME testxkbrules COMMAND testxkbrules)
+
+add_executable(testemoji testemoji.cpp)
+target_link_libraries(testemoji Fcitx5::Core Fcitx5::Module::Emoji)
+add_dependencies(testemoji emoji emoji.conf.in-fmt)
+add_test(NAME testemoji COMMAND testemoji)

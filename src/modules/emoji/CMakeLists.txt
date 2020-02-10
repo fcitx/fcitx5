@@ -1,0 +1,11 @@
+if (NOT IS_DIRECTORY ${CldrEmojiAnnotation_PREFIX}/share/unicode/cldr/common/annotations)
+    return()
+endif()
+
+add_library(emoji MODULE emoji.cpp ../../im/keyboard/xmlparser.cpp)
+target_link_libraries(emoji Fcitx5::Core Expat::Expat)
+set_target_properties(emoji PROPERTIES PREFIX "")
+install(TARGETS emoji DESTINATION "${FCITX_INSTALL_ADDONDIR}")
+fcitx5_translate_desktop_file(emoji.conf.in emoji.conf)
+install(FILES "${CMAKE_CURRENT_BINARY_DIR}/emoji.conf" DESTINATION "${FCITX_INSTALL_PKGDATADIR}/addon")
+fcitx5_export_module(Emoji TARGET emoji BUILD_INCLUDE_DIRECTORIES "${CMAKE_CURRENT_SOURCE_DIR}" HEADERS emoji_public.h INSTALL)

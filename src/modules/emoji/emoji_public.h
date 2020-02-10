@@ -1,5 +1,5 @@
 //
-// Copyright (C) 2017~2017 by CSSlayer
+// Copyright (C) 2020~2020 by CSSlayer
 // wengxt@gmail.com
 //
 // This library is free software; you can redistribute it and/or modify
@@ -16,16 +16,15 @@
 // License along with this library; see the file COPYING. If not,
 // see <http://www.gnu.org/licenses/>.
 //
-#ifndef _FCITX_MODULES_CLIPBOARD_CLIPBOARD_PUBLIC_H_
-#define _FCITX_MODULES_CLIPBOARD_CLIPBOARD_PUBLIC_H_
+#ifndef _FCITX5_MODULES_EMOJI_EMOJI_PUBLIC_H_
+#define _FCITX5_MODULES_EMOJI_EMOJI_PUBLIC_H_
 
 #include <fcitx/addoninstance.h>
-#include <fcitx/inputcontext.h>
 #include <string>
 
-FCITX_ADDON_DECLARE_FUNCTION(Clipboard, primary,
-                             std::string(const fcitx::InputContext *ic));
-FCITX_ADDON_DECLARE_FUNCTION(Clipboard, clipboard,
-                             std::string(const fcitx::InputContext *ic));
+FCITX_ADDON_DECLARE_FUNCTION(Emoji, query,
+                             const std::vector<std::string> &(
+                                 const std::string &language,
+                                 const std::string &key, bool fallbackToEn));
 
-#endif // _FCITX_MODULES_CLIPBOARD_CLIPBOARD_PUBLIC_H_
+#endif // _FCITX5_MODULES_EMOJI_EMOJI_PUBLIC_H_

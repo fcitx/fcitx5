@@ -20,6 +20,7 @@
 #include "keyboard.h"
 #include "chardata.h"
 #include "config.h"
+#include "emoji_public.h"
 #include "fcitx-config/iniparser.h"
 #include "fcitx-utils/charutils.h"
 #include "fcitx-utils/cutf8.h"
@@ -508,6 +509,23 @@ void KeyboardEngine::updateCandidate(const InputMethodEntry &entry,
     auto results = spell()->call<ISpell::hint>(entry.languageCode(),
                                                state->buffer_.userInput(),
                                                config_.pageSize.value());
+    if (config_.enableEmoji.value() && emoji()) {
+        auto emojiResults = emoji()->call<IEmoji::query>(
+            entry.languageCode(), state->buffer_.userInput(), true);
+        // If we have emoji result and spell result is full, pop one from the
+        // original result, because emoji matching is always exact. Which means
+        // the spell is right.
+        if (!emojiResults.empty() &&
+            static_cast<int>(results.size()) == config_.pageSize.value()) {
+            results.pop_back();
+        }
+        size_t i = 0;
+        while (i < emojiResults.size() &&
+               static_cast<int>(results.size()) < config_.pageSize.value()) {
+            results.push_back(emojiResults[i]);
+            i++;
+        }
+    }
 
     auto candidateList = std::make_unique<CommonCandidateList>();
     auto spellType = guessSpellType(state->buffer_.userInput());

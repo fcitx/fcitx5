@@ -1,0 +1,6 @@
+[Addon]
+Name=Emoji
+Type=SharedLibrary
+Library=emoji
+Category=Module
+OnDemand=True

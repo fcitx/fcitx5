@@ -9,3 +9,4 @@ Configurable=True
 0=xcb
 1=spell
 2=notifications
+3=emoji

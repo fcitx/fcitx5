@@ -30,23 +30,23 @@
 namespace fcitx {
 
 struct XkbRulesParseState : public XMLParser {
-    std::vector<std::string> parseStack;
-    XkbRules *rules;
+    std::vector<std::string> parseStack_;
+    XkbRules *rules_;
     std::list<XkbLayoutInfo> layoutInfos_;
     std::list<XkbModelInfo> modelInfos_;
     std::list<XkbOptionGroupInfo> optionGroupInfos_;
     std::string version_;
 
     bool match(const std::initializer_list<const char *> &array) {
-        if (parseStack.size() < array.size()) {
+        if (parseStack_.size() < array.size()) {
             return false;
         }
-        return std::equal(parseStack.end() - array.size(), parseStack.end(),
+        return std::equal(parseStack_.end() - array.size(), parseStack_.end(),
                           array.begin());
     }
 
     void startElement(const XML_Char *name, const XML_Char **attrs) override {
-        parseStack.emplace_back(reinterpret_cast<const char *>(name));
+        parseStack_.emplace_back(reinterpret_cast<const char *>(name));
 
         if (match({"layoutList", "layout", "configItem"})) {
             layoutInfos_.emplace_back();
@@ -82,7 +82,7 @@ struct XkbRulesParseState : public XMLParser {
             }
         }
     }
-    void endElement(const XML_Char *) override { parseStack.pop_back(); }
+    void endElement(const XML_Char *) override { parseStack_.pop_back(); }
     void characterData(const XML_Char *ch, int len) override {
         std::string temp(reinterpret_cast<const char *>(ch), len);
         auto pair = stringutils::trimInplace(temp);
@@ -159,7 +159,7 @@ bool XkbRules::read(const std::string &fileName) {
 
     {
         XkbRulesParseState state;
-        state.rules = this;
+        state.rules_ = this;
         if (!state.parse(fileName)) {
             return false;
         }
@@ -171,7 +171,7 @@ bool XkbRules::read(const std::string &fileName) {
         extraFile += "extras.xml";
         {
             XkbRulesParseState state;
-            state.rules = this;
+            state.rules_ = this;
             if (state.parse(extraFile)) {
                 state.merge(this);
             }

@@ -58,6 +58,8 @@ FCITX_CONFIGURATION(
         _("Next Candidate"),
         {Key("Tab")},
         KeyListConstrain(KeyConstrainFlag::AllowModifierLess)};
+    Option<bool> enableEmoji{this, "EnableEmoji", _("Enable emoji in hint"),
+                             true};
     OptionWithAnnotation<ChooseModifier, ChooseModifierI18NAnnotation>
         chooseModifier{this, "Choose Modifier", _("Choose key modifier"),
                        ChooseModifier::Alt};
@@ -99,20 +101,9 @@ public:
 
     void resetState(InputContext *inputContext);
 
-    AddonInstance *spell() {
-        if (!spell_) {
-            spell_ = instance_->addonManager().addon("spell", true);
-        }
-        return spell_;
-    }
-
-    AddonInstance *notifications() {
-        if (!notifications_) {
-            notifications_ =
-                instance_->addonManager().addon("notifications", true);
-        }
-        return notifications_;
-    }
+    FCITX_ADDON_DEPENDENCY_LOADER(spell, instance_->addonManager());
+    FCITX_ADDON_DEPENDENCY_LOADER(notifications, instance_->addonManager());
+    FCITX_ADDON_DEPENDENCY_LOADER(emoji, instance_->addonManager());
 
     void updateCandidate(const InputMethodEntry &entry,
                          InputContext *inputContext);
