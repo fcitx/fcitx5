@@ -66,7 +66,7 @@ public:
     virtual ~CandidateList();
 
     virtual const Text &label(int idx) const = 0;
-    virtual std::shared_ptr<const CandidateWord> candidate(int idx) const = 0;
+    virtual const CandidateWord &candidate(int idx) const = 0;
     virtual int size() const = 0;
     virtual int cursorIndex() const = 0;
     virtual CandidateLayoutHint layoutHint() const = 0;
@@ -121,12 +121,14 @@ public:
 class FCITXCORE_EXPORT ModifiableCandidateList : public BulkCandidateList {
 public:
     // All index used there are global index
-    virtual void insert(int idx, CandidateWord *word) = 0;
+    virtual void insert(int idx, std::unique_ptr<CandidateWord> word) = 0;
     virtual void remove(int idx) = 0;
-    virtual void replace(int idx, CandidateWord *word) = 0;
+    virtual void replace(int idx, std::unique_ptr<CandidateWord> word) = 0;
     virtual void move(int from, int to) = 0;
 
-    void append(CandidateWord *word) { insert(totalSize(), word); }
+    void append(std::unique_ptr<CandidateWord> word) {
+        insert(totalSize(), std::move(word));
+    }
 };
 
 class DisplayOnlyCandidateListPrivate;
@@ -143,7 +145,7 @@ public:
 
     // CandidateList
     const fcitx::Text &label(int idx) const override;
-    std::shared_ptr<const CandidateWord> candidate(int idx) const override;
+    const CandidateWord &candidate(int idx) const override;
     int cursorIndex() const override;
     int size() const override;
     CandidateLayoutHint layoutHint() const override;
@@ -173,7 +175,7 @@ public:
 
     // CandidateList
     const fcitx::Text &label(int idx) const override;
-    std::shared_ptr<const CandidateWord> candidate(int idx) const override;
+    const CandidateWord &candidate(int idx) const override;
     int cursorIndex() const override;
     int size() const override;
 
@@ -196,9 +198,9 @@ public:
     int totalSize() const override;
 
     // ModifiableCandidateList
-    void insert(int idx, CandidateWord *word) override;
+    void insert(int idx, std::unique_ptr<CandidateWord> word) override;
     void remove(int idx) override;
-    void replace(int idx, CandidateWord *word) override;
+    void replace(int idx, std::unique_ptr<CandidateWord> word) override;
     void move(int from, int to) override;
 
     // CursorMovableCandidateList

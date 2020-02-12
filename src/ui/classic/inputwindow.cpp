@@ -189,8 +189,8 @@ void InputWindow::update(InputContext *inputContext) {
         int count = 0;
 
         for (int i = 0, e = candidateList->size(); i < e; i++) {
-            auto candidate = candidateList->candidate(i);
-            if (candidate->isPlaceHolder()) {
+            auto &candidate = candidateList->candidate(i);
+            if (candidate.isPlaceHolder()) {
                 continue;
             }
             count++;
@@ -199,14 +199,14 @@ void InputWindow::update(InputContext *inputContext) {
 
         int localIndex = 0;
         for (int i = 0, e = candidateList->size(); i < e; i++) {
-            auto candidate = candidateList->candidate(i);
+            auto &candidate = candidateList->candidate(i);
             // Skip placeholder.
-            if (candidate->isPlaceHolder()) {
+            if (candidate.isPlaceHolder()) {
                 continue;
             }
 
-            Text labelText = candidate->hasCustomLabel()
-                                 ? candidate->customLabel()
+            Text labelText = candidate.hasCustomLabel()
+                                 ? candidate.customLabel()
                                  : candidateList->label(i);
 
             labelText = instance->outputFilter(inputContext, labelText);
@@ -215,7 +215,7 @@ void InputWindow::update(InputContext *inputContext) {
                             highlightLabelAttrLists_[localIndex].get(),
                             {labelText});
             auto candidateText =
-                instance->outputFilter(inputContext, candidate->text());
+                instance->outputFilter(inputContext, candidate.text());
             setTextToLayout(candidateLayouts_[localIndex].get(),
                             candidateAttrLists_[localIndex].get(),
                             highlightCandidateAttrLists_[localIndex].get(),

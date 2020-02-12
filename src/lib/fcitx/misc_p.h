@@ -35,19 +35,19 @@ parseLayout(const std::string &layout) {
     return {layout.substr(0, pos), layout.substr(pos + 1)};
 }
 
-static inline std::shared_ptr<const CandidateWord>
+static inline const CandidateWord *
 nthCandidateIgnorePlaceholder(const CandidateList &candidateList, int idx) {
     int total = 0;
     if (idx < 0 || idx >= candidateList.size()) {
         return nullptr;
     }
     for (int i = 0, e = candidateList.size(); i < e; i++) {
-        auto candidate = candidateList.candidate(i);
-        if (candidate->isPlaceHolder()) {
+        auto &candidate = candidateList.candidate(i);
+        if (candidate.isPlaceHolder()) {
             continue;
         }
         if (idx == total) {
-            return candidate;
+            return &candidate;
         }
         ++total;
     }

@@ -121,7 +121,7 @@ QuickPhrase::QuickPhrase(Instance *instance)
                 if (idx >= 0) {
                     keyEvent.accept();
                     if (idx < candidateList->size()) {
-                        candidateList->candidate(idx)->select(inputContext);
+                        candidateList->candidate(idx).select(inputContext);
                     }
                     return;
                 }
@@ -129,7 +129,7 @@ QuickPhrase::QuickPhrase(Instance *instance)
                 if (keyEvent.key().check(FcitxKey_space) &&
                     candidateList->size()) {
                     keyEvent.accept();
-                    candidateList->candidate(0)->select(inputContext);
+                    candidateList->candidate(0).select(inputContext);
                     return;
                 }
 
@@ -265,8 +265,8 @@ void QuickPhrase::updateUI(InputContext *inputContext) {
             text.append(start->second);
             text.append(" ");
             text.append(start->first.substr(state->buffer_.userInput().size()));
-            candidateList->append(
-                new QuickPhraseCandidateWord(this, std::move(text)));
+            candidateList->append(std::make_unique<QuickPhraseCandidateWord>(
+                this, std::move(text)));
         }
         candidateList->setSelectionKey(selectionKeys_);
         inputContext->inputPanel().setCandidateList(std::move(candidateList));

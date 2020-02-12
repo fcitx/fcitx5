@@ -39,12 +39,12 @@ int main() {
         Key::keyListFromString("1 2 3 4 5 6 7 8 9 0"));
     candidatelist.setPageSize(3);
     for (int i = 0; i < 10; i++) {
-        candidatelist.append(new TestCandidateWord(i));
+        candidatelist.append(std::make_unique<TestCandidateWord>(i));
     }
 
     FCITX_ASSERT(candidatelist.size() == 3);
     FCITX_ASSERT(candidatelist.label(0).toString() == "1. ");
-    FCITX_ASSERT(candidatelist.candidate(0)->text().toString() == "0");
+    FCITX_ASSERT(candidatelist.candidate(0).text().toString() == "0");
     FCITX_ASSERT(!candidatelist.hasPrev());
     FCITX_ASSERT(candidatelist.hasNext());
 
@@ -63,7 +63,7 @@ int main() {
 
     FCITX_ASSERT(candidatelist.size() == 3);
     FCITX_ASSERT(candidatelist.label(0).toString() == "1. ");
-    FCITX_ASSERT(candidatelist.candidate(0)->text().toString() == "3");
+    FCITX_ASSERT(candidatelist.candidate(0).text().toString() == "3");
     FCITX_ASSERT(candidatelist.hasPrev());
     FCITX_ASSERT(candidatelist.hasNext());
 
@@ -83,7 +83,7 @@ int main() {
 
     FCITX_ASSERT(candidatelist.size() == 1);
     FCITX_ASSERT(candidatelist.label(0).toString() == "1. ");
-    FCITX_ASSERT(candidatelist.candidate(0)->text().toString() == "9");
+    FCITX_ASSERT(candidatelist.candidate(0).text().toString() == "9");
     FCITX_ASSERT(candidatelist.hasPrev());
     FCITX_ASSERT(!candidatelist.hasNext());
 
@@ -101,7 +101,7 @@ int main() {
     candidatelist.remove(0);
     FCITX_ASSERT(candidatelist.size() == 3);
     FCITX_ASSERT(candidatelist.label(0).toString() == "1. ");
-    FCITX_ASSERT(candidatelist.candidate(0)->text().toString() == "7");
+    FCITX_ASSERT(candidatelist.candidate(0).text().toString() == "7");
     FCITX_ASSERT(candidatelist.hasPrev());
     FCITX_ASSERT(!candidatelist.hasNext());
 

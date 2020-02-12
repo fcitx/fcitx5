@@ -379,7 +379,7 @@ void KeyboardEngine::keyEvent(const InputMethodEntry &entry, KeyEvent &event) {
             int idx = event.key().keyListIndex(selectionKeys_);
             if (idx >= 0 && idx < candList->size()) {
                 event.filterAndAccept();
-                candList->candidate(idx)->select(inputContext);
+                candList->candidate(idx).select(inputContext);
                 return;
             }
 
@@ -483,9 +483,7 @@ std::string KeyboardEngine::preeditString(InputContext *inputContext) {
     auto candidate = inputContext->inputPanel().candidateList();
     std::string preedit;
     if (candidate && candidate->cursorIndex() >= 0) {
-        return candidate->candidate(candidate->cursorIndex())
-            ->text()
-            .toString();
+        return candidate->candidate(candidate->cursorIndex()).text().toString();
     }
     return state->buffer_.userInput();
 }
@@ -530,7 +528,7 @@ void KeyboardEngine::updateCandidate(const InputMethodEntry &entry,
     auto candidateList = std::make_unique<CommonCandidateList>();
     auto spellType = guessSpellType(state->buffer_.userInput());
     for (const auto &result : results) {
-        candidateList->append(new KeyboardCandidateWord(
+        candidateList->append(std::make_unique<KeyboardCandidateWord>(
             this, Text(formatWord(result, spellType))));
     }
     candidateList->setSelectionKey(selectionKeys_);

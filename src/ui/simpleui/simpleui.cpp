@@ -81,7 +81,7 @@ void SimpleUI::printInputPanel(InputContext *inputContext) {
             auto label =
                 instance_->outputFilter(inputContext, candidateList->label(i));
             auto candidate = instance_->outputFilter(
-                inputContext, candidateList->candidate(i)->text());
+                inputContext, candidateList->candidate(i).text());
             std::cerr << label.toString() << " " << candidate.toString()
                       << std::endl;
         }

@@ -475,8 +475,9 @@ public:
     std::string lookupIcon(const std::string &iconname, int size, int scale,
                            const std::vector<std::string> &extensions) const {
 
-        auto checkDirectory = [&extensions, &iconname](const IconThemeDirectory &directory,
-                                     std::string baseDir) -> std::string {
+        auto checkDirectory = [&extensions,
+                               &iconname](const IconThemeDirectory &directory,
+                                          std::string baseDir) -> std::string {
             baseDir = stringutils::joinPath(baseDir, directory.path());
             if (!fs::isdir(baseDir)) {
                 return {};

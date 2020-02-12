@@ -647,11 +647,10 @@ XCBMenu *MenuPool::findOrCreateMenu(XCBUI *ui, Menu *menu) {
         return &iter->second.first;
     }
 
-    ScopedConnection conn =
-        menu->connect<ObjectDestroyed>([this](void *data) {
-            Menu *menu = static_cast<Menu *>(data);
-            pool_.erase(menu);
-        });
+    ScopedConnection conn = menu->connect<ObjectDestroyed>([this](void *data) {
+        Menu *menu = static_cast<Menu *>(data);
+        pool_.erase(menu);
+    });
 
     auto result = pool_.emplace(
         std::piecewise_construct, std::forward_as_tuple(menu),

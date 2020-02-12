@@ -194,14 +194,14 @@ Clipboard::Clipboard(Instance *instance)
                 if (idx >= 0) {
                     keyEvent.accept();
                     if (idx < candidateList->size()) {
-                        candidateList->candidate(idx)->select(inputContext);
+                        candidateList->candidate(idx).select(inputContext);
                     }
                     return;
                 }
                 if (keyEvent.key().check(FcitxKey_space)) {
                     keyEvent.accept();
                     if (candidateList->size() > 0) {
-                        candidateList->candidate(0)->select(inputContext);
+                        candidateList->candidate(0).select(inputContext);
                     }
                     return;
                 }
@@ -265,7 +265,8 @@ void Clipboard::updateUI(InputContext *inputContext) {
     // Append first item from history_.
     auto iter = history_.begin();
     if (iter != history_.end()) {
-        candidateList->append(new ClipboardCandidateWord(this, *iter));
+        candidateList->append(
+            std::make_unique<ClipboardCandidateWord>(this, *iter));
         iter++;
     }
     // Append primary_, but check duplication first.
@@ -278,7 +279,8 @@ void Clipboard::updateUI(InputContext *inputContext) {
             }
         }
         if (!dup) {
-            candidateList->append(new ClipboardCandidateWord(this, primary_));
+            candidateList->append(
+                std::make_unique<ClipboardCandidateWord>(this, primary_));
         }
     }
     // If primary_ is appended, it might squeeze one space out.
@@ -286,7 +288,8 @@ void Clipboard::updateUI(InputContext *inputContext) {
         if (candidateList->totalSize() >= config_.numOfEntries.value()) {
             break;
         }
-        candidateList->append(new ClipboardCandidateWord(this, *iter));
+        candidateList->append(
+            std::make_unique<ClipboardCandidateWord>(this, *iter));
     }
     candidateList->setSelectionKey(selectionKeys_);
     candidateList->setLayoutHint(CandidateLayoutHint::Vertical);

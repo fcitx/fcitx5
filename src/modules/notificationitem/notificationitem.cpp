@@ -104,9 +104,8 @@ public:
                                  [this]() { return tooltip(); });
     FCITX_OBJECT_VTABLE_PROPERTY(iconThemePath, "IconThemePath", "s",
                                  []() { return ""; });
-    FCITX_OBJECT_VTABLE_PROPERTY(menu, "Menu", "o", []() {
-        return dbus::ObjectPath("/MenuBar");
-    });
+    FCITX_OBJECT_VTABLE_PROPERTY(menu, "Menu", "o",
+                                 []() { return dbus::ObjectPath("/MenuBar"); });
     FCITX_OBJECT_VTABLE_PROPERTY(xayatanaLabel, "XAyatanaLabel", "s",
                                  []() { return ""; });
     FCITX_OBJECT_VTABLE_PROPERTY(XAyatanaLabelGuide, "XAyatanaLabelGuide", "s",

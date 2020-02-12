@@ -194,11 +194,10 @@ const Text &DisplayOnlyCandidateList::label(int idx) const {
     return d->emptyText_;
 }
 
-std::shared_ptr<const CandidateWord>
-DisplayOnlyCandidateList::candidate(int idx) const {
+const CandidateWord &DisplayOnlyCandidateList::candidate(int idx) const {
     FCITX_D();
     d->checkIndex(idx);
-    return d->candidateWords_[idx];
+    return *d->candidateWords_[idx];
 }
 
 int DisplayOnlyCandidateList::cursorIndex() const {
@@ -224,7 +223,7 @@ public:
     int pageSize_ = 5;
     std::vector<Text> labels_;
     // use shared_ptr for type erasure
-    std::vector<std::shared_ptr<CandidateWord>> candidateWord_;
+    std::vector<std::unique_ptr<CandidateWord>> candidateWord_;
     CandidateLayoutHint layoutHint_ = CandidateLayoutHint::NotSet;
     bool cursorIncludeUnselected_ = false;
     bool cursorKeepInSamePage_ = false;
@@ -395,12 +394,11 @@ int CommonCandidateList::totalSize() const {
     return d->candidateWord_.size();
 }
 
-std::shared_ptr<const CandidateWord>
-CommonCandidateList::candidate(int idx) const {
+const CandidateWord &CommonCandidateList::candidate(int idx) const {
     FCITX_D();
     d->checkIndex(idx);
     auto globalIndex = d->toGlobalIndex(idx);
-    return d->candidateWord_[globalIndex];
+    return *d->candidateWord_[globalIndex];
 }
 
 const Text &CommonCandidateList::label(int idx) const {
@@ -414,14 +412,13 @@ const Text &CommonCandidateList::label(int idx) const {
     return d->labels_[idx];
 }
 
-void CommonCandidateList::insert(int idx, CandidateWord *word) {
+void CommonCandidateList::insert(int idx, std::unique_ptr<CandidateWord> word) {
     FCITX_D();
     // it's ok to insert at tail
     if (idx != static_cast<int>(d->candidateWord_.size())) {
         d->checkGlobalIndex(idx);
     }
-    d->candidateWord_.insert(d->candidateWord_.begin() + idx,
-                             std::shared_ptr<CandidateWord>(word));
+    d->candidateWord_.insert(d->candidateWord_.begin() + idx, std::move(word));
 }
 
 void CommonCandidateList::remove(int idx) {
@@ -550,9 +547,10 @@ void CommonCandidateList::setPage(int page) {
     }
 }
 
-void CommonCandidateList::replace(int idx, CandidateWord *word) {
+void CommonCandidateList::replace(int idx,
+                                  std::unique_ptr<CandidateWord> word) {
     FCITX_D();
-    d->candidateWord_[idx].reset(word);
+    d->candidateWord_[idx] = std::move(word);
 }
 
 void CommonCandidateList::fixAfterUpdate() {
