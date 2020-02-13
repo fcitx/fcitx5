@@ -39,7 +39,7 @@ int main() {
         Key::keyListFromString("1 2 3 4 5 6 7 8 9 0"));
     candidatelist.setPageSize(3);
     for (int i = 0; i < 10; i++) {
-        candidatelist.append(std::make_unique<TestCandidateWord>(i));
+        candidatelist.append<TestCandidateWord>(i);
     }
 
     FCITX_ASSERT(candidatelist.size() == 3);

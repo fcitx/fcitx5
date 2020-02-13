@@ -265,8 +265,7 @@ void Clipboard::updateUI(InputContext *inputContext) {
     // Append first item from history_.
     auto iter = history_.begin();
     if (iter != history_.end()) {
-        candidateList->append(
-            std::make_unique<ClipboardCandidateWord>(this, *iter));
+        candidateList->append<ClipboardCandidateWord>(this, *iter);
         iter++;
     }
     // Append primary_, but check duplication first.
@@ -279,8 +278,7 @@ void Clipboard::updateUI(InputContext *inputContext) {
             }
         }
         if (!dup) {
-            candidateList->append(
-                std::make_unique<ClipboardCandidateWord>(this, primary_));
+            candidateList->append<ClipboardCandidateWord>(this, primary_);
         }
     }
     // If primary_ is appended, it might squeeze one space out.
@@ -288,8 +286,7 @@ void Clipboard::updateUI(InputContext *inputContext) {
         if (candidateList->totalSize() >= config_.numOfEntries.value()) {
             break;
         }
-        candidateList->append(
-            std::make_unique<ClipboardCandidateWord>(this, *iter));
+        candidateList->append<ClipboardCandidateWord>(this, *iter);
     }
     candidateList->setSelectionKey(selectionKeys_);
     candidateList->setLayoutHint(CandidateLayoutHint::Vertical);

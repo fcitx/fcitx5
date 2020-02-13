@@ -528,8 +528,8 @@ void KeyboardEngine::updateCandidate(const InputMethodEntry &entry,
     auto candidateList = std::make_unique<CommonCandidateList>();
     auto spellType = guessSpellType(state->buffer_.userInput());
     for (const auto &result : results) {
-        candidateList->append(std::make_unique<KeyboardCandidateWord>(
-            this, Text(formatWord(result, spellType))));
+        candidateList->append<KeyboardCandidateWord>(
+            this, Text(formatWord(result, spellType)));
     }
     candidateList->setSelectionKey(selectionKeys_);
     candidateList->setCursorIncludeUnselected(true);

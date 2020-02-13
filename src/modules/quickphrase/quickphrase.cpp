@@ -265,8 +265,8 @@ void QuickPhrase::updateUI(InputContext *inputContext) {
             text.append(start->second);
             text.append(" ");
             text.append(start->first.substr(state->buffer_.userInput().size()));
-            candidateList->append(std::make_unique<QuickPhraseCandidateWord>(
-                this, std::move(text)));
+            candidateList->append<QuickPhraseCandidateWord>(this,
+                                                            std::move(text));
         }
         candidateList->setSelectionKey(selectionKeys_);
         inputContext->inputPanel().setCandidateList(std::move(candidateList));

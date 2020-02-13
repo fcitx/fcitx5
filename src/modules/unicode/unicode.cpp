@@ -227,8 +227,7 @@ void Unicode::updateUI(InputContext *inputContext) {
         candidateList->setPageSize(instance_->globalConfig().defaultPageSize());
         for (auto c : result) {
             if (utf8::UCS4IsValid(c)) {
-                candidateList->append(
-                    std::make_unique<UnicodeCandidateWord>(this, c));
+                candidateList->append<UnicodeCandidateWord>(this, c);
             }
         }
         candidateList->setSelectionKey(selectionKeys_);

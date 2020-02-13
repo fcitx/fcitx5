@@ -129,6 +129,12 @@ public:
     void append(std::unique_ptr<CandidateWord> word) {
         insert(totalSize(), std::move(word));
     }
+
+    template <typename CandidateWordType, typename... Args>
+    void append(Args &&... args) {
+        append(
+            std::make_unique<CandidateWordType>(std::forward<Args>(args)...));
+    }
 };
 
 class DisplayOnlyCandidateListPrivate;
