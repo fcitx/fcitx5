@@ -65,6 +65,8 @@ void StandardPathTempFile::removeTemp() {
 
 void StandardPathTempFile::close() {
     if (fd_.fd() >= 0) {
+        // sync first.
+        fsync(fd_.fd());
         // close it
         fd_.reset();
         if (rename(tempPath_.c_str(), path_.c_str()) < 0) {
