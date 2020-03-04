@@ -20,6 +20,7 @@
 #define _FCITX_SURROUNDINGTEXT_H_
 
 #include "fcitxcore_export.h"
+#include <fcitx-utils/log.h>
 #include <fcitx-utils/macros.h>
 #include <memory>
 #include <string>
@@ -49,6 +50,11 @@ private:
     std::unique_ptr<SurroundingTextPrivate> d_ptr;
     FCITX_DECLARE_PRIVATE(SurroundingText);
 };
+
+FCITXCORE_EXPORT
+LogMessageBuilder &operator<<(LogMessageBuilder &log,
+                              const SurroundingText &surroundingText);
+
 } // namespace fcitx
 
 #endif // _FCITX_SURROUNDINGTEXT_H_

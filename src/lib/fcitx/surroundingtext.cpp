@@ -120,4 +120,14 @@ void SurroundingText::deleteText(int offset, unsigned int size) {
     }
     d->anchor_ = d->cursor_;
 }
+
+LogMessageBuilder &operator<<(LogMessageBuilder &log,
+                              const SurroundingText &surroundingText) {
+    log << "SurroundingText(text=";
+    log << surroundingText.text();
+    log << ",anchor=" << surroundingText.anchor();
+    log << ",cursor=" << surroundingText.cursor();
+    log << ")";
+}
+
 } // namespace fcitx
