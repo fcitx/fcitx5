@@ -128,6 +128,7 @@ LogMessageBuilder &operator<<(LogMessageBuilder &log,
     log << ",anchor=" << surroundingText.anchor();
     log << ",cursor=" << surroundingText.cursor();
     log << ")";
+    return log;
 }
 
 } // namespace fcitx
