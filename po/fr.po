@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2017-12-22 00:00-0800\n"
+"POT-Creation-Date: 2020-03-07 16:17-0800\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Language-Team: French (https://www.transifex.com/fcitx/teams/12005/fr/)\n"
 "Language: fr\n"
@@ -15,7 +15,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
-#: src/lib/fcitx/instance.cpp:1548
+#: src/lib/fcitx/instance.cpp:1567
 msgid "(Not available)"
 msgstr ""
 
@@ -128,7 +128,7 @@ msgctxt "Key name"
 msgid "Battery"
 msgstr ""
 
-#: src/lib/fcitx/globalconfig.cpp:119
+#: src/lib/fcitx/globalconfig.cpp:122
 msgid "Behavior"
 msgstr ""
 
@@ -176,7 +176,7 @@ msgstr ""
 msgid "Change Fcitx 5 Configuration"
 msgstr ""
 
-#: src/im/keyboard/keyboard.h:62
+#: src/im/keyboard/keyboard.h:64
 msgid "Choose key modifier"
 msgstr ""
 
@@ -193,7 +193,7 @@ msgstr ""
 msgid "Clipboard"
 msgstr ""
 
-#: src/modules/clipboard/clipboard.cpp:287
+#: src/modules/clipboard/clipboard.cpp:294
 msgid "Clipboard:"
 msgstr ""
 
@@ -213,12 +213,12 @@ msgid "Community"
 msgstr ""
 
 #: src/ui/classic/xcbtraywindow.cpp:53
-#: src/modules/notificationitem/dbusmenu.cpp:280
+#: src/modules/notificationitem/dbusmenu.cpp:282
 msgid "Configure"
 msgstr ""
 
 #: src/ui/classic/xcbtraywindow.cpp:52
-#: src/modules/notificationitem/dbusmenu.cpp:275
+#: src/modules/notificationitem/dbusmenu.cpp:277
 msgid "Configure Current Input Method"
 msgstr ""
 
@@ -279,7 +279,7 @@ msgstr ""
 msgid "Default Previous page"
 msgstr ""
 
-#: src/lib/fcitx/globalconfig.cpp:109
+#: src/lib/fcitx/globalconfig.cpp:112
 msgid "Default page size"
 msgstr ""
 
@@ -326,6 +326,14 @@ msgctxt "Key name"
 msgid "Eject"
 msgstr ""
 
+#: src/modules/emoji/emoji.conf.in:3
+msgid "Emoji"
+msgstr ""
+
+#: src/im/keyboard/keyboard.h:61
+msgid "Enable emoji in hint"
+msgstr ""
+
 #: src/modules/spell/spell.h:35
 msgid "Enchant"
 msgstr ""
@@ -362,7 +370,7 @@ msgid "Execute"
 msgstr ""
 
 #: src/ui/classic/xcbtraywindow.cpp:55
-#: src/modules/notificationitem/dbusmenu.cpp:293
+#: src/modules/notificationitem/dbusmenu.cpp:295
 msgid "Exit"
 msgstr ""
 
@@ -414,11 +422,11 @@ msgid "Green"
 msgstr ""
 
 #: src/ui/classic/xcbtraywindow.cpp:48
-#: src/modules/notificationitem/dbusmenu.cpp:265
+#: src/modules/notificationitem/dbusmenu.cpp:267
 msgid "Group"
 msgstr ""
 
-#: src/lib/fcitx/instance.cpp:1551
+#: src/lib/fcitx/instance.cpp:1570
 msgid "Group {0}: {1}"
 msgstr ""
 
@@ -536,7 +544,7 @@ msgctxt "Key name"
 msgid "Hot Links"
 msgstr ""
 
-#: src/lib/fcitx/globalconfig.cpp:117
+#: src/lib/fcitx/globalconfig.cpp:120
 msgid "Hotkey"
 msgstr ""
 
@@ -545,7 +553,7 @@ msgid "IBus Frontend"
 msgstr ""
 
 #: src/ui/classic/xcbtraywindow.cpp:50
-#: src/modules/notificationitem/dbusmenu.cpp:259
+#: src/modules/notificationitem/dbusmenu.cpp:261
 #: src/modules/notificationitem/notificationitem.cpp:102
 #: data/fcitx5.desktop.in.in:4
 msgid "Input Method"
@@ -584,15 +592,15 @@ msgctxt "Key name"
 msgid "Katakana"
 msgstr ""
 
-#: src/im/keyboard/keyboard.cpp:269 src/im/keyboard/keyboard.conf.in:3
+#: src/im/keyboard/keyboard.cpp:270 src/im/keyboard/keyboard.conf.in:3
 msgid "Keyboard"
 msgstr ""
 
-#: src/im/keyboard/keyboard.cpp:200
+#: src/im/keyboard/keyboard.cpp:201
 msgid "Keyboard - {0}"
 msgstr ""
 
-#: src/im/keyboard/keyboard.cpp:217
+#: src/im/keyboard/keyboard.cpp:218
 msgid "Keyboard - {0} - {1}"
 msgstr ""
 
@@ -860,7 +868,7 @@ msgstr ""
 msgid "Next Candidate"
 msgstr ""
 
-#: src/modules/clipboard/clipboard.cpp:289
+#: src/modules/clipboard/clipboard.cpp:296
 msgid "No clipboard history."
 msgstr ""
 
@@ -868,7 +876,7 @@ msgstr ""
 msgid "None"
 msgstr ""
 
-#: src/ui/kimpanel/kimpanel.cpp:309
+#: src/ui/kimpanel/kimpanel.cpp:310
 msgid "Not available"
 msgstr ""
 
@@ -962,7 +970,7 @@ msgstr ""
 msgid "Quick Phrase"
 msgstr ""
 
-#: src/modules/quickphrase/quickphrase.cpp:285
+#: src/modules/quickphrase/quickphrase.cpp:284
 msgid "Quick Phrase: "
 msgstr ""
 
@@ -992,7 +1000,7 @@ msgid "Reply"
 msgstr ""
 
 #: src/ui/classic/xcbtraywindow.cpp:54
-#: src/modules/notificationitem/dbusmenu.cpp:287
+#: src/modules/notificationitem/dbusmenu.cpp:289
 msgid "Restart"
 msgstr ""
 
@@ -1086,6 +1094,10 @@ msgctxt "Key name"
 msgid "Shop"
 msgstr ""
 
+#: src/lib/fcitx/globalconfig.cpp:110
+msgid "Show Input Method Information when changing focus"
+msgstr ""
+
 #: src/lib/fcitx/globalconfig.cpp:107
 msgid "Show Input Method Information when switch input method"
 msgstr ""
@@ -1108,15 +1120,15 @@ msgstr ""
 msgid "Spell"
 msgstr ""
 
-#: src/im/keyboard/keyboard.cpp:353
+#: src/im/keyboard/keyboard.cpp:354
 msgid "Spell hint"
 msgstr ""
 
-#: src/im/keyboard/keyboard.cpp:355
+#: src/im/keyboard/keyboard.cpp:356
 msgid "Spell hint is disabled."
 msgstr ""
 
-#: src/im/keyboard/keyboard.cpp:354
+#: src/im/keyboard/keyboard.cpp:355
 msgid "Spell hint is enabled."
 msgstr ""
 
@@ -1197,7 +1209,7 @@ msgctxt "Key name"
 msgid "Terminal"
 msgstr ""
 
-#: src/ui/classic/classicui.h:64
+#: src/ui/classic/classicui.h:67
 msgid "Theme"
 msgstr ""
 
@@ -1245,7 +1257,7 @@ msgstr ""
 msgid "Trigger Input Method"
 msgstr ""
 
-#: src/im/keyboard/keyboard.h:66
+#: src/im/keyboard/keyboard.h:68
 msgid "Trigger hint mode"
 msgstr ""
 
@@ -1258,7 +1270,7 @@ msgstr ""
 msgid "Unicode"
 msgstr ""
 
-#: src/modules/unicode/unicode.cpp:244
+#: src/modules/unicode/unicode.cpp:243
 msgid "Unicode: "
 msgstr ""
 
@@ -1351,14 +1363,14 @@ msgctxt "Key name"
 msgid "Yellow"
 msgstr ""
 
-#: data/fcitx5-configtool.sh:140
+#: data/fcitx5-configtool.sh:138
 msgid ""
 "You're currently running Fcitx with GUI, but fcitx-configtool couldn't be "
 "found, the package name is usually fcitx-config-gtk, fcitx-config-gtk3 or "
 "fcitx-configtool. Now it will open config file with default text editor."
 msgstr ""
 
-#: data/fcitx5-configtool.sh:137
+#: data/fcitx5-configtool.sh:135
 msgid ""
 "You're currently running KDE, but KCModule for fcitx couldn't be found, the "
 "package name of this KCModule is usually kcm-fcitx or kde-config-fcitx. Now "
@@ -1390,14 +1402,14 @@ msgctxt "Key name"
 msgid "iTouch"
 msgstr ""
 
-#: src/im/keyboard/keyboard.cpp:246
+#: src/im/keyboard/keyboard.cpp:247
 msgid "{0} (Not Available)"
 msgstr ""
 
-#: src/lib/fcitx/instance.cpp:1546
+#: src/lib/fcitx/instance.cpp:1565
 msgid "{0} (Not available)"
 msgstr ""
 
-#: src/lib/fcitx/instance.cpp:1543
+#: src/lib/fcitx/instance.cpp:1562
 msgid "{0} ({1})"
 msgstr ""

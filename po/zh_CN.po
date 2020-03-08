@@ -5,12 +5,13 @@
 # Translators:
 # csslayer <wengxt@gmail.com>, 2017
 # wwj402 <wwj402@gmail.com>, 2017
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2017-12-25 00:01-0800\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"POT-Creation-Date: 2020-03-07 16:19-0800\n"
+"PO-Revision-Date: 2017-11-23 04:14+0000\n"
 "Last-Translator: wwj402 <wwj402@gmail.com>, 2017\n"
 "Language-Team: Chinese (China) (https://www.transifex.com/fcitx/teams/12005/"
 "zh_CN/)\n"
@@ -20,7 +21,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
-#: src/lib/fcitx/instance.cpp:1548
+#: src/lib/fcitx/instance.cpp:1567
 msgid "(Not available)"
 msgstr "(不可用)"
 
@@ -133,7 +134,7 @@ msgctxt "Key name"
 msgid "Battery"
 msgstr "电池"
 
-#: src/lib/fcitx/globalconfig.cpp:119
+#: src/lib/fcitx/globalconfig.cpp:122
 msgid "Behavior"
 msgstr "行为"
 
@@ -181,7 +182,7 @@ msgstr "大写锁定"
 msgid "Change Fcitx 5 Configuration"
 msgstr "修改 Fcitx 5 配置"
 
-#: src/im/keyboard/keyboard.h:62
+#: src/im/keyboard/keyboard.h:64
 msgid "Choose key modifier"
 msgstr "选词修饰键"
 
@@ -198,7 +199,7 @@ msgstr "清空"
 msgid "Clipboard"
 msgstr "剪贴板"
 
-#: src/modules/clipboard/clipboard.cpp:287
+#: src/modules/clipboard/clipboard.cpp:294
 msgid "Clipboard:"
 msgstr "剪贴板："
 
@@ -218,12 +219,12 @@ msgid "Community"
 msgstr "社区"
 
 #: src/ui/classic/xcbtraywindow.cpp:53
-#: src/modules/notificationitem/dbusmenu.cpp:280
+#: src/modules/notificationitem/dbusmenu.cpp:282
 msgid "Configure"
 msgstr "配置"
 
 #: src/ui/classic/xcbtraywindow.cpp:52
-#: src/modules/notificationitem/dbusmenu.cpp:275
+#: src/modules/notificationitem/dbusmenu.cpp:277
 msgid "Configure Current Input Method"
 msgstr "配置当前输入法"
 
@@ -284,7 +285,7 @@ msgstr "默认下一页"
 msgid "Default Previous page"
 msgstr "默认上一页"
 
-#: src/lib/fcitx/globalconfig.cpp:109
+#: src/lib/fcitx/globalconfig.cpp:112
 msgid "Default page size"
 msgstr "默认页大小"
 
@@ -331,6 +332,14 @@ msgctxt "Key name"
 msgid "Eject"
 msgstr "弹出"
 
+#: src/modules/emoji/emoji.conf.in:3
+msgid "Emoji"
+msgstr ""
+
+#: src/im/keyboard/keyboard.h:61
+msgid "Enable emoji in hint"
+msgstr ""
+
 #: src/modules/spell/spell.h:35
 msgid "Enchant"
 msgstr "Enchant"
@@ -367,7 +376,7 @@ msgid "Execute"
 msgstr "执行"
 
 #: src/ui/classic/xcbtraywindow.cpp:55
-#: src/modules/notificationitem/dbusmenu.cpp:293
+#: src/modules/notificationitem/dbusmenu.cpp:295
 msgid "Exit"
 msgstr "退出"
 
@@ -419,11 +428,11 @@ msgid "Green"
 msgstr "绿"
 
 #: src/ui/classic/xcbtraywindow.cpp:48
-#: src/modules/notificationitem/dbusmenu.cpp:265
+#: src/modules/notificationitem/dbusmenu.cpp:267
 msgid "Group"
 msgstr "分组"
 
-#: src/lib/fcitx/instance.cpp:1551
+#: src/lib/fcitx/instance.cpp:1570
 msgid "Group {0}: {1}"
 msgstr "分组 {0}：{1}"
 
@@ -541,7 +550,7 @@ msgctxt "Key name"
 msgid "Hot Links"
 msgstr "热门链接"
 
-#: src/lib/fcitx/globalconfig.cpp:117
+#: src/lib/fcitx/globalconfig.cpp:120
 msgid "Hotkey"
 msgstr "快捷键"
 
@@ -550,7 +559,7 @@ msgid "IBus Frontend"
 msgstr "IBus 前端"
 
 #: src/ui/classic/xcbtraywindow.cpp:50
-#: src/modules/notificationitem/dbusmenu.cpp:259
+#: src/modules/notificationitem/dbusmenu.cpp:261
 #: src/modules/notificationitem/notificationitem.cpp:102
 #: data/fcitx5.desktop.in.in:4
 msgid "Input Method"
@@ -589,15 +598,15 @@ msgctxt "Key name"
 msgid "Katakana"
 msgstr "片假名"
 
-#: src/im/keyboard/keyboard.cpp:269 src/im/keyboard/keyboard.conf.in:3
+#: src/im/keyboard/keyboard.cpp:270 src/im/keyboard/keyboard.conf.in:3
 msgid "Keyboard"
 msgstr "键盘"
 
-#: src/im/keyboard/keyboard.cpp:200
+#: src/im/keyboard/keyboard.cpp:201
 msgid "Keyboard - {0}"
 msgstr "键盘 - {0}"
 
-#: src/im/keyboard/keyboard.cpp:217
+#: src/im/keyboard/keyboard.cpp:218
 msgid "Keyboard - {0} - {1}"
 msgstr "键盘 - {0} - {1}"
 
@@ -865,7 +874,7 @@ msgstr "新闻"
 msgid "Next Candidate"
 msgstr "下一个候选词"
 
-#: src/modules/clipboard/clipboard.cpp:289
+#: src/modules/clipboard/clipboard.cpp:296
 msgid "No clipboard history."
 msgstr "无剪贴板历史。"
 
@@ -873,7 +882,7 @@ msgstr "无剪贴板历史。"
 msgid "None"
 msgstr "无"
 
-#: src/ui/kimpanel/kimpanel.cpp:309
+#: src/ui/kimpanel/kimpanel.cpp:310
 msgid "Not available"
 msgstr "不可用"
 
@@ -967,7 +976,7 @@ msgstr "截屏"
 msgid "Quick Phrase"
 msgstr "快速输入"
 
-#: src/modules/quickphrase/quickphrase.cpp:285
+#: src/modules/quickphrase/quickphrase.cpp:284
 msgid "Quick Phrase: "
 msgstr "快速输入: "
 
@@ -997,7 +1006,7 @@ msgid "Reply"
 msgstr "回复"
 
 #: src/ui/classic/xcbtraywindow.cpp:54
-#: src/modules/notificationitem/dbusmenu.cpp:287
+#: src/modules/notificationitem/dbusmenu.cpp:289
 msgid "Restart"
 msgstr "重新启动"
 
@@ -1091,6 +1100,10 @@ msgctxt "Key name"
 msgid "Shop"
 msgstr "购物"
 
+#: src/lib/fcitx/globalconfig.cpp:110
+msgid "Show Input Method Information when changing focus"
+msgstr ""
+
 #: src/lib/fcitx/globalconfig.cpp:107
 msgid "Show Input Method Information when switch input method"
 msgstr "切换输入法时显示输入法信息"
@@ -1113,15 +1126,15 @@ msgstr "空格"
 msgid "Spell"
 msgstr "拼写"
 
-#: src/im/keyboard/keyboard.cpp:353
+#: src/im/keyboard/keyboard.cpp:354
 msgid "Spell hint"
 msgstr "拼写提示"
 
-#: src/im/keyboard/keyboard.cpp:355
+#: src/im/keyboard/keyboard.cpp:356
 msgid "Spell hint is disabled."
 msgstr "已禁用拼写提示。"
 
-#: src/im/keyboard/keyboard.cpp:354
+#: src/im/keyboard/keyboard.cpp:355
 msgid "Spell hint is enabled."
 msgstr "已启用拼写提示。"
 
@@ -1202,7 +1215,7 @@ msgctxt "Key name"
 msgid "Terminal"
 msgstr "终端"
 
-#: src/ui/classic/classicui.h:64
+#: src/ui/classic/classicui.h:67
 msgid "Theme"
 msgstr "主题"
 
@@ -1250,7 +1263,7 @@ msgstr "旅行"
 msgid "Trigger Input Method"
 msgstr "切换启用/禁用输入法"
 
-#: src/im/keyboard/keyboard.h:66
+#: src/im/keyboard/keyboard.h:68
 msgid "Trigger hint mode"
 msgstr "切换提示模式"
 
@@ -1263,7 +1276,7 @@ msgstr "撤销"
 msgid "Unicode"
 msgstr "Unicode"
 
-#: src/modules/unicode/unicode.cpp:244
+#: src/modules/unicode/unicode.cpp:243
 msgid "Unicode: "
 msgstr "Unicode："
 
@@ -1356,7 +1369,7 @@ msgctxt "Key name"
 msgid "Yellow"
 msgstr "黄"
 
-#: data/fcitx5-configtool.sh:140
+#: data/fcitx5-configtool.sh:138
 msgid ""
 "You're currently running Fcitx with GUI, but fcitx-configtool couldn't be "
 "found, the package name is usually fcitx-config-gtk, fcitx-config-gtk3 or "
@@ -1366,7 +1379,7 @@ msgstr ""
 "fcitx-config-gtk，fcitx-config-gtk3，或者 fcitx-configtool。现在将用默认文本"
 "编辑器打开配置文件。"
 
-#: data/fcitx5-configtool.sh:137
+#: data/fcitx5-configtool.sh:135
 msgid ""
 "You're currently running KDE, but KCModule for fcitx couldn't be found, the "
 "package name of this KCModule is usually kcm-fcitx or kde-config-fcitx. Now "
@@ -1400,14 +1413,14 @@ msgctxt "Key name"
 msgid "iTouch"
 msgstr "iTouch"
 
-#: src/im/keyboard/keyboard.cpp:246
+#: src/im/keyboard/keyboard.cpp:247
 msgid "{0} (Not Available)"
 msgstr "{0} (不可用)"
 
-#: src/lib/fcitx/instance.cpp:1546
+#: src/lib/fcitx/instance.cpp:1565
 msgid "{0} (Not available)"
 msgstr "{0} (不可用)"
 
-#: src/lib/fcitx/instance.cpp:1543
+#: src/lib/fcitx/instance.cpp:1562
 msgid "{0} ({1})"
 msgstr "{0} ({1})"

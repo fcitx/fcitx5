@@ -6,13 +6,15 @@
 # csslayer <wengxt@gmail.com>, 2017
 # Bon Keun Seo <scobyseo@gmail.com>, 2017
 # heavyuser <heavyuser73@gmail.com>, 2018
+# 이정희 <daemul72@gmail.com>, 2020
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2018-01-04 00:01-0800\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: heavyuser <heavyuser73@gmail.com>, 2018\n"
+"POT-Creation-Date: 2020-03-07 16:19-0800\n"
+"PO-Revision-Date: 2017-11-23 04:14+0000\n"
+"Last-Translator: 이정희 <daemul72@gmail.com>, 2020\n"
 "Language-Team: Korean (https://www.transifex.com/fcitx/teams/12005/ko/)\n"
 "Language: ko\n"
 "MIME-Version: 1.0\n"
@@ -20,7 +22,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
-#: src/lib/fcitx/instance.cpp:1548
+#: src/lib/fcitx/instance.cpp:1567
 msgid "(Not available)"
 msgstr "(사용할 수 없음)"
 
@@ -133,7 +135,7 @@ msgctxt "Key name"
 msgid "Battery"
 msgstr "배터리"
 
-#: src/lib/fcitx/globalconfig.cpp:119
+#: src/lib/fcitx/globalconfig.cpp:122
 msgid "Behavior"
 msgstr "동작방식"
 
@@ -181,7 +183,7 @@ msgstr "캡스락"
 msgid "Change Fcitx 5 Configuration"
 msgstr "Fcitx 5 설정 변경"
 
-#: src/im/keyboard/keyboard.h:62
+#: src/im/keyboard/keyboard.h:64
 msgid "Choose key modifier"
 msgstr "변환 키 선택"
 
@@ -218,12 +220,12 @@ msgid "Community"
 msgstr "커뮤니티"
 
 #: src/ui/classic/xcbtraywindow.cpp:53
-#: src/modules/notificationitem/dbusmenu.cpp:280
+#: src/modules/notificationitem/dbusmenu.cpp:282
 msgid "Configure"
 msgstr "설정"
 
 #: src/ui/classic/xcbtraywindow.cpp:52
-#: src/modules/notificationitem/dbusmenu.cpp:275
+#: src/modules/notificationitem/dbusmenu.cpp:277
 msgid "Configure Current Input Method"
 msgstr "현재 입력기 설정"
 
@@ -284,7 +286,7 @@ msgstr "기본 다음 페이지"
 msgid "Default Previous page"
 msgstr "기본 이전 페이지"
 
-#: src/lib/fcitx/globalconfig.cpp:109
+#: src/lib/fcitx/globalconfig.cpp:112
 msgid "Default page size"
 msgstr "페이지 크기 기본값"
 
@@ -331,6 +333,14 @@ msgctxt "Key name"
 msgid "Eject"
 msgstr "꺼내기"
 
+#: src/modules/emoji/emoji.conf.in:3
+msgid "Emoji"
+msgstr ""
+
+#: src/im/keyboard/keyboard.h:61
+msgid "Enable emoji in hint"
+msgstr ""
+
 #: src/modules/spell/spell.h:35
 msgid "Enchant"
 msgstr "Enchant"
@@ -367,7 +377,7 @@ msgid "Execute"
 msgstr "실행"
 
 #: src/ui/classic/xcbtraywindow.cpp:55
-#: src/modules/notificationitem/dbusmenu.cpp:293
+#: src/modules/notificationitem/dbusmenu.cpp:295
 msgid "Exit"
 msgstr "나가기"
 
@@ -411,7 +421,7 @@ msgstr "게임"
 #: src/lib/fcitx-utils/key.cpp:141
 msgctxt "Key name"
 msgid "Go"
-msgstr ""
+msgstr "Go"
 
 #: src/lib/fcitx-utils/key.cpp:195
 msgctxt "Key name"
@@ -419,11 +429,11 @@ msgid "Green"
 msgstr "녹색"
 
 #: src/ui/classic/xcbtraywindow.cpp:48
-#: src/modules/notificationitem/dbusmenu.cpp:265
+#: src/modules/notificationitem/dbusmenu.cpp:267
 msgid "Group"
 msgstr "그룹"
 
-#: src/lib/fcitx/instance.cpp:1551
+#: src/lib/fcitx/instance.cpp:1570
 msgid "Group {0}: {1}"
 msgstr "그룹 {0}: {1}"
 
@@ -460,12 +470,12 @@ msgstr "한글 전자"
 #: src/lib/fcitx-utils/key.cpp:237
 msgctxt "Key name"
 msgid "Hangul PostHanja"
-msgstr ""
+msgstr "한글 포스트한자"
 
 #: src/lib/fcitx-utils/key.cpp:236
 msgctxt "Key name"
 msgid "Hangul PreHanja"
-msgstr ""
+msgstr "한글 PreHanja"
 
 #: src/lib/fcitx-utils/key.cpp:233
 msgctxt "Key name"
@@ -495,7 +505,7 @@ msgstr "도움말"
 #: src/lib/fcitx-utils/key.cpp:211
 msgctxt "Key name"
 msgid "Henkan"
-msgstr ""
+msgstr "반환"
 
 #: src/lib/fcitx-utils/key.cpp:188
 msgctxt "Key name"
@@ -541,7 +551,7 @@ msgctxt "Key name"
 msgid "Hot Links"
 msgstr "핫 링크"
 
-#: src/lib/fcitx/globalconfig.cpp:117
+#: src/lib/fcitx/globalconfig.cpp:120
 msgid "Hotkey"
 msgstr "단축키"
 
@@ -550,7 +560,7 @@ msgid "IBus Frontend"
 msgstr "IBus 전처리기"
 
 #: src/ui/classic/xcbtraywindow.cpp:50
-#: src/modules/notificationitem/dbusmenu.cpp:259
+#: src/modules/notificationitem/dbusmenu.cpp:261
 #: src/modules/notificationitem/notificationitem.cpp:102
 #: data/fcitx5.desktop.in.in:4
 msgid "Input Method"
@@ -589,15 +599,15 @@ msgctxt "Key name"
 msgid "Katakana"
 msgstr "가타가나"
 
-#: src/im/keyboard/keyboard.cpp:269 src/im/keyboard/keyboard.conf.in:3
+#: src/im/keyboard/keyboard.cpp:270 src/im/keyboard/keyboard.conf.in:3
 msgid "Keyboard"
 msgstr "키보드"
 
-#: src/im/keyboard/keyboard.cpp:200
+#: src/im/keyboard/keyboard.cpp:201
 msgid "Keyboard - {0}"
 msgstr "키보드 - {0}"
 
-#: src/im/keyboard/keyboard.cpp:217
+#: src/im/keyboard/keyboard.cpp:218
 msgid "Keyboard - {0} - {1}"
 msgstr "키보드 - {0} - {1}"
 
@@ -754,7 +764,7 @@ msgstr "마켓"
 #: src/lib/fcitx-utils/key.cpp:220
 msgctxt "Key name"
 msgid "Massyo"
-msgstr ""
+msgstr "Massyo"
 
 #: src/lib/fcitx-utils/key.cpp:182
 msgctxt "Key name"
@@ -834,7 +844,7 @@ msgstr "모니터 밝기 낮추기"
 #: src/lib/fcitx-utils/key.cpp:210
 msgctxt "Key name"
 msgid "Muhenkan"
-msgstr ""
+msgstr "Muhenkan"
 
 #: src/lib/fcitx-utils/key.cpp:226
 msgctxt "Key name"
@@ -873,7 +883,7 @@ msgstr "클립보드 기록이 없습니다."
 msgid "None"
 msgstr "없음"
 
-#: src/ui/kimpanel/kimpanel.cpp:309
+#: src/ui/kimpanel/kimpanel.cpp:310
 msgid "Not available"
 msgstr "사용할 수 없음"
 
@@ -967,7 +977,7 @@ msgstr "화면 출력"
 msgid "Quick Phrase"
 msgstr "상용구"
 
-#: src/modules/quickphrase/quickphrase.cpp:285
+#: src/modules/quickphrase/quickphrase.cpp:284
 msgid "Quick Phrase: "
 msgstr "상용구:"
 
@@ -997,7 +1007,7 @@ msgid "Reply"
 msgstr "답장"
 
 #: src/ui/classic/xcbtraywindow.cpp:54
-#: src/modules/notificationitem/dbusmenu.cpp:287
+#: src/modules/notificationitem/dbusmenu.cpp:289
 msgid "Restart"
 msgstr "재시작"
 
@@ -1044,12 +1054,12 @@ msgstr "윈도우 회전"
 #: src/lib/fcitx-utils/key.cpp:158
 msgctxt "Key name"
 msgid "Rotation KB"
-msgstr ""
+msgstr "교체 KB"
 
 #: src/lib/fcitx-utils/key.cpp:157
 msgctxt "Key name"
 msgid "Rotation PB"
-msgstr ""
+msgstr "교체 PB"
 
 #: src/lib/fcitx-utils/key.cpp:159
 msgctxt "Key name"
@@ -1091,6 +1101,10 @@ msgctxt "Key name"
 msgid "Shop"
 msgstr "숍"
 
+#: src/lib/fcitx/globalconfig.cpp:110
+msgid "Show Input Method Information when changing focus"
+msgstr ""
+
 #: src/lib/fcitx/globalconfig.cpp:107
 msgid "Show Input Method Information when switch input method"
 msgstr "입력기 변경 시 입력기 정보 보이기"
@@ -1102,7 +1116,7 @@ msgstr "테스트를 위한 단순 UI"
 #: src/lib/fcitx-utils/key.cpp:115
 msgctxt "Key name"
 msgid "Sleep"
-msgstr ""
+msgstr "Sleep"
 
 #: src/lib/fcitx-utils/key.cpp:50
 msgctxt "Key name"
@@ -1113,15 +1127,15 @@ msgstr "공백"
 msgid "Spell"
 msgstr "철자"
 
-#: src/im/keyboard/keyboard.cpp:353
+#: src/im/keyboard/keyboard.cpp:354
 msgid "Spell hint"
 msgstr "철자 힌트"
 
-#: src/im/keyboard/keyboard.cpp:355
+#: src/im/keyboard/keyboard.cpp:356
 msgid "Spell hint is disabled."
 msgstr "철자 힌트 비활성화됨."
 
-#: src/im/keyboard/keyboard.cpp:354
+#: src/im/keyboard/keyboard.cpp:355
 msgid "Spell hint is enabled."
 msgstr "철자 힌트 활성화됨."
 
@@ -1239,7 +1253,7 @@ msgstr "터치패드 전환"
 #: src/lib/fcitx-utils/key.cpp:219
 msgctxt "Key name"
 msgid "Touroku"
-msgstr ""
+msgstr "등록"
 
 #: src/lib/fcitx-utils/key.cpp:167
 msgctxt "Key name"
@@ -1250,7 +1264,7 @@ msgstr "여행"
 msgid "Trigger Input Method"
 msgstr "입력기 전환"
 
-#: src/im/keyboard/keyboard.h:66
+#: src/im/keyboard/keyboard.h:68
 msgid "Trigger hint mode"
 msgstr "힌트 방식 전환"
 
@@ -1263,7 +1277,7 @@ msgstr "되돌리기"
 msgid "Unicode"
 msgstr "유니코드"
 
-#: src/modules/unicode/unicode.cpp:244
+#: src/modules/unicode/unicode.cpp:243
 msgid "Unicode: "
 msgstr "유니코드:"
 
@@ -1356,7 +1370,7 @@ msgctxt "Key name"
 msgid "Yellow"
 msgstr "노랑"
 
-#: data/fcitx5-configtool.sh:140
+#: data/fcitx5-configtool.sh:138
 msgid ""
 "You're currently running Fcitx with GUI, but fcitx-configtool couldn't be "
 "found, the package name is usually fcitx-config-gtk, fcitx-config-gtk3 or "
@@ -1366,7 +1380,7 @@ msgstr ""
 "니다.  패키지 이름은 일반적으로 fcitx-config-gtk, fcitx-config-gtk3 또는 "
 "fcitx-configtool입니다.  지금은 기본 텍스트 편집기로 설정 파일을 엽니다."
 
-#: data/fcitx5-configtool.sh:137
+#: data/fcitx5-configtool.sh:135
 msgid ""
 "You're currently running KDE, but KCModule for fcitx couldn't be found, the "
 "package name of this KCModule is usually kcm-fcitx or kde-config-fcitx. Now "
@@ -1401,14 +1415,14 @@ msgctxt "Key name"
 msgid "iTouch"
 msgstr "iTouch"
 
-#: src/im/keyboard/keyboard.cpp:246
+#: src/im/keyboard/keyboard.cpp:247
 msgid "{0} (Not Available)"
 msgstr "{0} (사용할 수 없음)"
 
-#: src/lib/fcitx/instance.cpp:1546
+#: src/lib/fcitx/instance.cpp:1565
 msgid "{0} (Not available)"
 msgstr "{0} (사용할 수 없음)"
 
-#: src/lib/fcitx/instance.cpp:1543
+#: src/lib/fcitx/instance.cpp:1562
 msgid "{0} ({1})"
 msgstr "{0} ({1})"

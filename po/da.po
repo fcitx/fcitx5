@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2019-11-05 00:01-0800\n"
+"POT-Creation-Date: 2020-03-07 16:19-0800\n"
 "PO-Revision-Date: 2017-11-23 04:14+0000\n"
 "Last-Translator: scootergrisen, 2019\n"
 "Language-Team: Danish (https://www.transifex.com/fcitx/teams/12005/da/)\n"
@@ -20,7 +20,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: src/lib/fcitx/instance.cpp:1546
+#: src/lib/fcitx/instance.cpp:1567
 msgid "(Not available)"
 msgstr "(ikke tilgængelig)"
 
@@ -133,7 +133,7 @@ msgctxt "Key name"
 msgid "Battery"
 msgstr "Batteri"
 
-#: src/lib/fcitx/globalconfig.cpp:119
+#: src/lib/fcitx/globalconfig.cpp:122
 msgid "Behavior"
 msgstr "Opførsel"
 
@@ -181,7 +181,7 @@ msgstr "CapsLock"
 msgid "Change Fcitx 5 Configuration"
 msgstr "Skift Fcitx 5-konfiguration"
 
-#: src/im/keyboard/keyboard.h:62
+#: src/im/keyboard/keyboard.h:64
 msgid "Choose key modifier"
 msgstr "Vælg ændringstast"
 
@@ -218,12 +218,12 @@ msgid "Community"
 msgstr "Fællesskab"
 
 #: src/ui/classic/xcbtraywindow.cpp:53
-#: src/modules/notificationitem/dbusmenu.cpp:280
+#: src/modules/notificationitem/dbusmenu.cpp:282
 msgid "Configure"
 msgstr "Konfigurer"
 
 #: src/ui/classic/xcbtraywindow.cpp:52
-#: src/modules/notificationitem/dbusmenu.cpp:275
+#: src/modules/notificationitem/dbusmenu.cpp:277
 msgid "Configure Current Input Method"
 msgstr "Konfigurer nuværende inputmetode"
 
@@ -284,7 +284,7 @@ msgstr "Standard-næste side"
 msgid "Default Previous page"
 msgstr "Standard-forrige side"
 
-#: src/lib/fcitx/globalconfig.cpp:109
+#: src/lib/fcitx/globalconfig.cpp:112
 msgid "Default page size"
 msgstr "Standardsidestørrelse"
 
@@ -331,6 +331,14 @@ msgctxt "Key name"
 msgid "Eject"
 msgstr "Skub ud"
 
+#: src/modules/emoji/emoji.conf.in:3
+msgid "Emoji"
+msgstr ""
+
+#: src/im/keyboard/keyboard.h:61
+msgid "Enable emoji in hint"
+msgstr ""
+
 #: src/modules/spell/spell.h:35
 msgid "Enchant"
 msgstr "Enchant"
@@ -367,7 +375,7 @@ msgid "Execute"
 msgstr "Udfør"
 
 #: src/ui/classic/xcbtraywindow.cpp:55
-#: src/modules/notificationitem/dbusmenu.cpp:293
+#: src/modules/notificationitem/dbusmenu.cpp:295
 msgid "Exit"
 msgstr "Afslut"
 
@@ -419,11 +427,11 @@ msgid "Green"
 msgstr "Grøn"
 
 #: src/ui/classic/xcbtraywindow.cpp:48
-#: src/modules/notificationitem/dbusmenu.cpp:265
+#: src/modules/notificationitem/dbusmenu.cpp:267
 msgid "Group"
 msgstr "Gruppe"
 
-#: src/lib/fcitx/instance.cpp:1549
+#: src/lib/fcitx/instance.cpp:1570
 msgid "Group {0}: {1}"
 msgstr "Gruppe {0}: {1}"
 
@@ -541,7 +549,7 @@ msgctxt "Key name"
 msgid "Hot Links"
 msgstr "Hotlinks"
 
-#: src/lib/fcitx/globalconfig.cpp:117
+#: src/lib/fcitx/globalconfig.cpp:120
 msgid "Hotkey"
 msgstr "Hottast"
 
@@ -550,7 +558,7 @@ msgid "IBus Frontend"
 msgstr "IBus-frontend"
 
 #: src/ui/classic/xcbtraywindow.cpp:50
-#: src/modules/notificationitem/dbusmenu.cpp:259
+#: src/modules/notificationitem/dbusmenu.cpp:261
 #: src/modules/notificationitem/notificationitem.cpp:102
 #: data/fcitx5.desktop.in.in:4
 msgid "Input Method"
@@ -589,15 +597,15 @@ msgctxt "Key name"
 msgid "Katakana"
 msgstr "Katakana"
 
-#: src/im/keyboard/keyboard.cpp:269 src/im/keyboard/keyboard.conf.in:3
+#: src/im/keyboard/keyboard.cpp:270 src/im/keyboard/keyboard.conf.in:3
 msgid "Keyboard"
 msgstr "Tastatur"
 
-#: src/im/keyboard/keyboard.cpp:200
+#: src/im/keyboard/keyboard.cpp:201
 msgid "Keyboard - {0}"
 msgstr "Tastatur - {0}"
 
-#: src/im/keyboard/keyboard.cpp:217
+#: src/im/keyboard/keyboard.cpp:218
 msgid "Keyboard - {0} - {1}"
 msgstr "Tastatur - {0} - {1}"
 
@@ -873,7 +881,7 @@ msgstr "Ingen udklipsholderhistorik."
 msgid "None"
 msgstr "Ingen"
 
-#: src/ui/kimpanel/kimpanel.cpp:309
+#: src/ui/kimpanel/kimpanel.cpp:310
 msgid "Not available"
 msgstr "Ikke tilgængelig"
 
@@ -997,7 +1005,7 @@ msgid "Reply"
 msgstr "Svar"
 
 #: src/ui/classic/xcbtraywindow.cpp:54
-#: src/modules/notificationitem/dbusmenu.cpp:287
+#: src/modules/notificationitem/dbusmenu.cpp:289
 msgid "Restart"
 msgstr "Genstart"
 
@@ -1091,6 +1099,10 @@ msgctxt "Key name"
 msgid "Shop"
 msgstr "Butik"
 
+#: src/lib/fcitx/globalconfig.cpp:110
+msgid "Show Input Method Information when changing focus"
+msgstr ""
+
 #: src/lib/fcitx/globalconfig.cpp:107
 msgid "Show Input Method Information when switch input method"
 msgstr "Vis inputmetodeinformation når der skiftes inputmetode"
@@ -1113,15 +1125,15 @@ msgstr "Mellemrum"
 msgid "Spell"
 msgstr "Stav"
 
-#: src/im/keyboard/keyboard.cpp:353
+#: src/im/keyboard/keyboard.cpp:354
 msgid "Spell hint"
 msgstr "Stavetip"
 
-#: src/im/keyboard/keyboard.cpp:355
+#: src/im/keyboard/keyboard.cpp:356
 msgid "Spell hint is disabled."
 msgstr "Stavetip er deaktiveret."
 
-#: src/im/keyboard/keyboard.cpp:354
+#: src/im/keyboard/keyboard.cpp:355
 msgid "Spell hint is enabled."
 msgstr "Stavetip er aktiveret."
 
@@ -1250,7 +1262,7 @@ msgstr "Rejse"
 msgid "Trigger Input Method"
 msgstr "Udløs inputmetode"
 
-#: src/im/keyboard/keyboard.h:66
+#: src/im/keyboard/keyboard.h:68
 msgid "Trigger hint mode"
 msgstr "Udløs tipstilstand"
 
@@ -1402,14 +1414,14 @@ msgctxt "Key name"
 msgid "iTouch"
 msgstr "iTouch"
 
-#: src/im/keyboard/keyboard.cpp:246
+#: src/im/keyboard/keyboard.cpp:247
 msgid "{0} (Not Available)"
 msgstr "{0} (ikke tilgængelig)"
 
-#: src/lib/fcitx/instance.cpp:1544
+#: src/lib/fcitx/instance.cpp:1565
 msgid "{0} (Not available)"
 msgstr "{0} (ikke tilgængelig)"
 
-#: src/lib/fcitx/instance.cpp:1541
+#: src/lib/fcitx/instance.cpp:1562
 msgid "{0} ({1})"
 msgstr "{0} ({1})"

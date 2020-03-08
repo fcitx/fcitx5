@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2018-11-04 00:01-0700\n"
+"POT-Creation-Date: 2020-03-07 16:19-0800\n"
 "PO-Revision-Date: 2017-11-23 04:14+0000\n"
 "Last-Translator: Tim Hofstede <timhofstede.va@gmail.com>, 2018\n"
 "Language-Team: German (https://www.transifex.com/fcitx/teams/12005/de/)\n"
@@ -21,7 +21,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: src/lib/fcitx/instance.cpp:1546
+#: src/lib/fcitx/instance.cpp:1567
 msgid "(Not available)"
 msgstr "(nicht vorhanden)"
 
@@ -134,7 +134,7 @@ msgctxt "Key name"
 msgid "Battery"
 msgstr "Batterie"
 
-#: src/lib/fcitx/globalconfig.cpp:119
+#: src/lib/fcitx/globalconfig.cpp:122
 msgid "Behavior"
 msgstr "Verhalten"
 
@@ -182,7 +182,7 @@ msgstr "CapsLock"
 msgid "Change Fcitx 5 Configuration"
 msgstr "Fcitx 5 Konfiguration ändern"
 
-#: src/im/keyboard/keyboard.h:62
+#: src/im/keyboard/keyboard.h:64
 msgid "Choose key modifier"
 msgstr "Funktionstaste wählen"
 
@@ -199,7 +199,7 @@ msgstr "Löschen"
 msgid "Clipboard"
 msgstr "Clipboard"
 
-#: src/modules/clipboard/clipboard.cpp:293
+#: src/modules/clipboard/clipboard.cpp:294
 msgid "Clipboard:"
 msgstr "Clipboard:"
 
@@ -219,12 +219,12 @@ msgid "Community"
 msgstr "Gemeinschaft"
 
 #: src/ui/classic/xcbtraywindow.cpp:53
-#: src/modules/notificationitem/dbusmenu.cpp:280
+#: src/modules/notificationitem/dbusmenu.cpp:282
 msgid "Configure"
 msgstr "Konfigurieren"
 
 #: src/ui/classic/xcbtraywindow.cpp:52
-#: src/modules/notificationitem/dbusmenu.cpp:275
+#: src/modules/notificationitem/dbusmenu.cpp:277
 msgid "Configure Current Input Method"
 msgstr "Aktuelle Eingabemethode konfigurieren"
 
@@ -285,7 +285,7 @@ msgstr "Vorgabe für nächste Seite"
 msgid "Default Previous page"
 msgstr "Vorgabe für vorherige Seite"
 
-#: src/lib/fcitx/globalconfig.cpp:109
+#: src/lib/fcitx/globalconfig.cpp:112
 msgid "Default page size"
 msgstr "Standard Seitengröße"
 
@@ -332,6 +332,14 @@ msgctxt "Key name"
 msgid "Eject"
 msgstr "Auswerfen"
 
+#: src/modules/emoji/emoji.conf.in:3
+msgid "Emoji"
+msgstr ""
+
+#: src/im/keyboard/keyboard.h:61
+msgid "Enable emoji in hint"
+msgstr ""
+
 #: src/modules/spell/spell.h:35
 msgid "Enchant"
 msgstr "Enchant"
@@ -368,7 +376,7 @@ msgid "Execute"
 msgstr "Ausführen"
 
 #: src/ui/classic/xcbtraywindow.cpp:55
-#: src/modules/notificationitem/dbusmenu.cpp:293
+#: src/modules/notificationitem/dbusmenu.cpp:295
 msgid "Exit"
 msgstr "Beenden"
 
@@ -420,11 +428,11 @@ msgid "Green"
 msgstr "Grün"
 
 #: src/ui/classic/xcbtraywindow.cpp:48
-#: src/modules/notificationitem/dbusmenu.cpp:265
+#: src/modules/notificationitem/dbusmenu.cpp:267
 msgid "Group"
 msgstr "Gruppe"
 
-#: src/lib/fcitx/instance.cpp:1549
+#: src/lib/fcitx/instance.cpp:1570
 msgid "Group {0}: {1}"
 msgstr "Gruppe {0}: {1}"
 
@@ -542,7 +550,7 @@ msgctxt "Key name"
 msgid "Hot Links"
 msgstr "Wichtige Links"
 
-#: src/lib/fcitx/globalconfig.cpp:117
+#: src/lib/fcitx/globalconfig.cpp:120
 msgid "Hotkey"
 msgstr "Kurzbefehl"
 
@@ -551,7 +559,7 @@ msgid "IBus Frontend"
 msgstr "IBus Schnittstelle"
 
 #: src/ui/classic/xcbtraywindow.cpp:50
-#: src/modules/notificationitem/dbusmenu.cpp:259
+#: src/modules/notificationitem/dbusmenu.cpp:261
 #: src/modules/notificationitem/notificationitem.cpp:102
 #: data/fcitx5.desktop.in.in:4
 msgid "Input Method"
@@ -590,15 +598,15 @@ msgctxt "Key name"
 msgid "Katakana"
 msgstr "Katakana"
 
-#: src/im/keyboard/keyboard.cpp:269 src/im/keyboard/keyboard.conf.in:3
+#: src/im/keyboard/keyboard.cpp:270 src/im/keyboard/keyboard.conf.in:3
 msgid "Keyboard"
 msgstr "Tastatur"
 
-#: src/im/keyboard/keyboard.cpp:200
+#: src/im/keyboard/keyboard.cpp:201
 msgid "Keyboard - {0}"
 msgstr "Tastatur - {0}"
 
-#: src/im/keyboard/keyboard.cpp:217
+#: src/im/keyboard/keyboard.cpp:218
 msgid "Keyboard - {0} - {1}"
 msgstr "Tastatur - {0} - {1}"
 
@@ -866,7 +874,7 @@ msgstr "Neuigkeiten"
 msgid "Next Candidate"
 msgstr "Nächster Kandidat"
 
-#: src/modules/clipboard/clipboard.cpp:295
+#: src/modules/clipboard/clipboard.cpp:296
 msgid "No clipboard history."
 msgstr "Kein Zwischenablageverlauf"
 
@@ -874,7 +882,7 @@ msgstr "Kein Zwischenablageverlauf"
 msgid "None"
 msgstr "Nicht beibehalten"
 
-#: src/ui/kimpanel/kimpanel.cpp:309
+#: src/ui/kimpanel/kimpanel.cpp:310
 msgid "Not available"
 msgstr "Nicht verfügbar"
 
@@ -998,7 +1006,7 @@ msgid "Reply"
 msgstr "Antworten"
 
 #: src/ui/classic/xcbtraywindow.cpp:54
-#: src/modules/notificationitem/dbusmenu.cpp:287
+#: src/modules/notificationitem/dbusmenu.cpp:289
 msgid "Restart"
 msgstr "Neustart"
 
@@ -1092,6 +1100,10 @@ msgctxt "Key name"
 msgid "Shop"
 msgstr "Shop"
 
+#: src/lib/fcitx/globalconfig.cpp:110
+msgid "Show Input Method Information when changing focus"
+msgstr ""
+
 #: src/lib/fcitx/globalconfig.cpp:107
 msgid "Show Input Method Information when switch input method"
 msgstr "Hinweis zur Eingabemethode zeigen, nachdem sie gewechselt wurde"
@@ -1114,15 +1126,15 @@ msgstr "Leerzeichen"
 msgid "Spell"
 msgstr "Rechtschreibung"
 
-#: src/im/keyboard/keyboard.cpp:353
+#: src/im/keyboard/keyboard.cpp:354
 msgid "Spell hint"
 msgstr "Rechtschreibungshinweis"
 
-#: src/im/keyboard/keyboard.cpp:355
+#: src/im/keyboard/keyboard.cpp:356
 msgid "Spell hint is disabled."
 msgstr "Rechtschreibungshinweise sind deaktiviert."
 
-#: src/im/keyboard/keyboard.cpp:354
+#: src/im/keyboard/keyboard.cpp:355
 msgid "Spell hint is enabled."
 msgstr "Rechtschreibungshinweise sind aktiviert."
 
@@ -1251,7 +1263,7 @@ msgstr "Reisen"
 msgid "Trigger Input Method"
 msgstr "Eingabemethode aktivieren"
 
-#: src/im/keyboard/keyboard.h:66
+#: src/im/keyboard/keyboard.h:68
 msgid "Trigger hint mode"
 msgstr "Hinweismodus anschalten"
 
@@ -1403,14 +1415,14 @@ msgctxt "Key name"
 msgid "iTouch"
 msgstr "iTouch"
 
-#: src/im/keyboard/keyboard.cpp:246
+#: src/im/keyboard/keyboard.cpp:247
 msgid "{0} (Not Available)"
 msgstr "{0} (Nicht verfügbar)"
 
-#: src/lib/fcitx/instance.cpp:1544
+#: src/lib/fcitx/instance.cpp:1565
 msgid "{0} (Not available)"
 msgstr "{0} (Nicht verfügbar)"
 
-#: src/lib/fcitx/instance.cpp:1541
+#: src/lib/fcitx/instance.cpp:1562
 msgid "{0} ({1})"
 msgstr "{0} ({1})"

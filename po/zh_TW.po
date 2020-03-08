@@ -4,14 +4,16 @@
 #
 # Translators:
 # csslayer <wengxt@gmail.com>, 2017
-# Jeff Huang <s8321414@gmail.com>, 2017
+# 黃柏諺 <s8321414@gmail.com>, 2017
+# byStarTW (pan93412) <pan93412@gmail.com>, 2019
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2017-12-22 00:01-0800\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: Jeff Huang <s8321414@gmail.com>, 2017\n"
+"POT-Creation-Date: 2020-03-07 16:19-0800\n"
+"PO-Revision-Date: 2017-11-23 04:14+0000\n"
+"Last-Translator: byStarTW (pan93412) <pan93412@gmail.com>, 2019\n"
 "Language-Team: Chinese (Taiwan) (https://www.transifex.com/fcitx/teams/12005/"
 "zh_TW/)\n"
 "Language: zh_TW\n"
@@ -20,7 +22,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
-#: src/lib/fcitx/instance.cpp:1548
+#: src/lib/fcitx/instance.cpp:1567
 msgid "(Not available)"
 msgstr "（無法使用）"
 
@@ -55,7 +57,7 @@ msgstr "預設啟用"
 #: src/lib/fcitx-utils/key.cpp:119
 msgctxt "Key name"
 msgid "Add Favorite"
-msgstr ""
+msgstr "加入收藏"
 
 #: src/modules/unicode/unicode.conf.in:4
 msgid "Add Unicode Typing Support"
@@ -64,11 +66,11 @@ msgstr "加入 Unicode 輸入支援"
 #: src/lib/fcitx-utils/key.cpp:121
 msgctxt "Key name"
 msgid "Adjust Brightness"
-msgstr ""
+msgstr "調整亮度"
 
 #: src/modules/xcb/xcbmodule.h:42
 msgid "Allow Overriding System XKB Settings"
-msgstr ""
+msgstr "允許覆寫系統 XKB 設定"
 
 #: src/im/keyboard/keyboard.h:42 src/modules/quickphrase/quickphrase.h:39
 msgid "Alt"
@@ -77,7 +79,7 @@ msgstr "Alt"
 #: src/lib/fcitx-utils/key.cpp:433
 msgctxt "Key name"
 msgid "Alt"
-msgstr ""
+msgstr "Alt"
 
 #: src/lib/fcitx/globalconfig.cpp:41
 msgid "Alternative Trigger Input Method"
@@ -86,104 +88,104 @@ msgstr "替代切換輸入法"
 #: src/lib/fcitx-utils/key.cpp:126
 msgctxt "Key name"
 msgid "Application Left"
-msgstr ""
+msgstr "應用程式左"
 
 #: src/lib/fcitx-utils/key.cpp:127
 msgctxt "Key name"
 msgid "Application Right"
-msgstr ""
+msgstr "應用程式右"
 
 #: src/lib/fcitx-utils/key.cpp:186
 msgctxt "Key name"
 msgid "Audio Cycle Track"
-msgstr ""
+msgstr "音訊循環音軌"
 
 #: src/lib/fcitx-utils/key.cpp:184
 msgctxt "Key name"
 msgid "Audio Random Play"
-msgstr ""
+msgstr "音訊隨機播放"
 
 #: src/lib/fcitx-utils/key.cpp:183
 msgctxt "Key name"
 msgid "Audio Repeat"
-msgstr ""
+msgstr "音訊重複"
 
 #: src/lib/fcitx-utils/key.cpp:173
 msgctxt "Key name"
 msgid "Away"
-msgstr ""
+msgstr "離開"
 
 #: src/lib/fcitx-utils/key.cpp:68
 msgctxt "Key name"
 msgid "Back"
-msgstr ""
+msgstr "返回"
 
 #: src/lib/fcitx-utils/key.cpp:125
 msgctxt "Key name"
 msgid "Back Forward"
-msgstr ""
+msgstr "往後"
 
 #: src/lib/fcitx-utils/key.cpp:52
 msgctxt "Key name"
 msgid "Backspace"
-msgstr ""
+msgstr "Backspace"
 
 #: src/lib/fcitx-utils/key.cpp:179
 msgctxt "Key name"
 msgid "Battery"
-msgstr ""
+msgstr "電池"
 
-#: src/lib/fcitx/globalconfig.cpp:119
+#: src/lib/fcitx/globalconfig.cpp:122
 msgid "Behavior"
 msgstr "行為"
 
 #: src/lib/fcitx-utils/key.cpp:197
 msgctxt "Key name"
 msgid "Blue"
-msgstr ""
+msgstr "藍色"
 
 #: src/lib/fcitx-utils/key.cpp:180
 msgctxt "Key name"
 msgid "Bluetooth"
-msgstr ""
+msgstr "藍牙"
 
 #: src/lib/fcitx-utils/key.cpp:128
 msgctxt "Key name"
 msgid "Book"
-msgstr ""
+msgstr "書籍"
 
 #: src/lib/fcitx-utils/key.cpp:139
 msgctxt "Key name"
 msgid "Browser"
-msgstr ""
+msgstr "瀏覽器"
 
 #: src/lib/fcitx-utils/key.cpp:129
 msgctxt "Key name"
 msgid "CD"
-msgstr ""
+msgstr "CD 光碟"
 
 #: src/lib/fcitx-utils/key.cpp:130
 msgctxt "Key name"
 msgid "Calculator"
-msgstr ""
+msgstr "計算機"
 
 #: src/lib/fcitx-utils/key.cpp:239
 msgctxt "Key name"
 msgid "Cancel"
-msgstr ""
+msgstr "取消"
 
 #: src/lib/fcitx-utils/key.cpp:63
 msgctxt "Key name"
 msgid "CapsLock"
-msgstr ""
+msgstr "大寫鎖定 (CapsLock)"
 
 #: data/fcitx5-configtool.desktop.in.in:5
 msgid "Change Fcitx 5 Configuration"
-msgstr ""
+msgstr "變更 Fcitx 5 設定"
 
-#: src/im/keyboard/keyboard.h:62
+#: src/im/keyboard/keyboard.h:64
 msgid "Choose key modifier"
-msgstr ""
+msgstr "選擇輔助按鍵"
 
 #: src/ui/classic/classicui.conf.in:3
 msgid "Classic User Inteface"
@@ -192,38 +194,38 @@ msgstr "經典使用者介面"
 #: src/lib/fcitx-utils/key.cpp:131
 msgctxt "Key name"
 msgid "Clear"
-msgstr ""
+msgstr "清空"
 
 #: src/modules/clipboard/clipboard.conf.in:3
 msgid "Clipboard"
 msgstr "剪貼簿"
 
-#: src/modules/clipboard/clipboard.cpp:287
+#: src/modules/clipboard/clipboard.cpp:294
 msgid "Clipboard:"
 msgstr "剪貼簿："
 
 #: src/lib/fcitx-utils/key.cpp:132
 msgctxt "Key name"
 msgid "Close"
-msgstr ""
+msgstr "關閉"
 
 #: src/lib/fcitx-utils/key.cpp:225
 msgctxt "Key name"
 msgid "Code input"
-msgstr ""
+msgstr "字碼輸入"
 
 #: src/lib/fcitx-utils/key.cpp:123
 msgctxt "Key name"
 msgid "Community"
-msgstr ""
+msgstr "社群"
 
 #: src/ui/classic/xcbtraywindow.cpp:53
-#: src/modules/notificationitem/dbusmenu.cpp:280
+#: src/modules/notificationitem/dbusmenu.cpp:282
 msgid "Configure"
 msgstr "設定"
 
 #: src/ui/classic/xcbtraywindow.cpp:52
-#: src/modules/notificationitem/dbusmenu.cpp:275
+#: src/modules/notificationitem/dbusmenu.cpp:277
 msgid "Configure Current Input Method"
 msgstr "設定目前輸入法"
 
@@ -234,12 +236,12 @@ msgstr "控制"
 #: src/lib/fcitx-utils/key.cpp:432
 msgctxt "Key name"
 msgid "Control"
-msgstr ""
+msgstr "Control 鍵"
 
 #: src/lib/fcitx-utils/key.cpp:133
 msgctxt "Key name"
 msgid "Copy"
-msgstr ""
+msgstr "複製"
 
 #: src/modules/spell/spell.h:34
 msgid "Custom"
@@ -248,7 +250,7 @@ msgstr "自訂"
 #: src/lib/fcitx-utils/key.cpp:134
 msgctxt "Key name"
 msgid "Cut"
-msgstr ""
+msgstr "剪下"
 
 #: src/modules/dbus/dbus.conf.in:3
 msgid "DBus"
@@ -260,12 +262,12 @@ msgstr "DBus 前端"
 
 #: src/modules/notificationitem/notificationitem.conf.in:4
 msgid "DBus based new Freedesktop.org tray icon"
-msgstr ""
+msgstr "基於 DBus 的新 Freedesktop.org 工具列圖示"
 
 #: src/lib/fcitx-utils/key.cpp:136
 msgctxt "Key name"
 msgid "DOS"
-msgstr ""
+msgstr "DOS"
 
 #: src/lib/fcitx/globalconfig.cpp:85
 msgid "Deactivate Input Method"
@@ -284,19 +286,19 @@ msgstr "預設下一頁"
 msgid "Default Previous page"
 msgstr "預設上一頁"
 
-#: src/lib/fcitx/globalconfig.cpp:109
+#: src/lib/fcitx/globalconfig.cpp:112
 msgid "Default page size"
 msgstr "預設頁面大小"
 
 #: src/lib/fcitx-utils/key.cpp:205
 msgctxt "Key name"
 msgid "Delete"
-msgstr ""
+msgstr "刪除"
 
 #: src/lib/fcitx-utils/key.cpp:135
 msgctxt "Key name"
 msgid "Display"
-msgstr ""
+msgstr "顯示"
 
 #: src/modules/notifications/notifications.cpp:222
 msgid "Do not show again"
@@ -305,30 +307,38 @@ msgstr "不再顯示"
 #: src/lib/fcitx-utils/key.cpp:137
 msgctxt "Key name"
 msgid "Documents"
-msgstr ""
+msgstr "文件"
 
 #: src/lib/fcitx-utils/key.cpp:60
 msgctxt "Key name"
 msgid "Down"
-msgstr ""
+msgstr "下"
 
 #: src/modules/quickphrase/quickphrase.h:53
 msgid "Editor"
-msgstr ""
+msgstr "編輯器"
 
 #: src/lib/fcitx-utils/key.cpp:223
 msgctxt "Key name"
 msgid "Eisu Shift"
-msgstr ""
+msgstr "英數 Shift"
 
 #: src/lib/fcitx-utils/key.cpp:224
 msgctxt "Key name"
 msgid "Eisu toggle"
-msgstr ""
+msgstr "英數切換"
 
 #: src/lib/fcitx-utils/key.cpp:112
 msgctxt "Key name"
 msgid "Eject"
+msgstr "退出"
+
+#: src/modules/emoji/emoji.conf.in:3
+msgid "Emoji"
+msgstr ""
+
+#: src/im/keyboard/keyboard.h:61
+msgid "Enable emoji in hint"
 msgstr ""
 
 #: src/modules/spell/spell.h:35
@@ -338,7 +348,7 @@ msgstr "Enchant"
 #: src/lib/fcitx-utils/key.cpp:56
 msgctxt "Key name"
 msgid "End"
-msgstr ""
+msgstr "End 鍵"
 
 #: src/lib/fcitx/globalconfig.cpp:55
 msgid "Enumerate Input Method Backward"
@@ -359,189 +369,189 @@ msgstr "枚舉輸入法群組向前"
 #: src/lib/fcitx-utils/key.cpp:206
 msgctxt "Key name"
 msgid "Escape"
-msgstr ""
+msgstr "Esc 鍵"
 
 #: src/lib/fcitx-utils/key.cpp:240
 msgctxt "Key name"
 msgid "Execute"
-msgstr ""
+msgstr "執行"
 
 #: src/ui/classic/xcbtraywindow.cpp:55
-#: src/modules/notificationitem/dbusmenu.cpp:293
+#: src/modules/notificationitem/dbusmenu.cpp:295
 msgid "Exit"
 msgstr "離開"
 
 #: src/lib/fcitx-utils/key.cpp:82
 msgctxt "Key name"
 msgid "Favorites"
-msgstr ""
+msgstr "收藏"
 
 #: data/fcitx5.desktop.in.in:3
 msgid "Fcitx 5"
-msgstr ""
+msgstr "Fcitx 5"
 
 #: data/fcitx5-configtool.desktop.in.in:3
 msgid "Fcitx 5 Configuration"
-msgstr ""
+msgstr "Fcitx 5 設定"
 
 #: src/lib/fcitx-utils/key.cpp:122
 msgctxt "Key name"
 msgid "Finance"
-msgstr ""
+msgstr "金融"
 
 #: src/lib/fcitx-utils/key.cpp:200
 msgctxt "Key name"
 msgid "Find"
-msgstr ""
+msgstr "尋找"
 
 #: src/lib/fcitx-utils/key.cpp:69
 msgctxt "Key name"
 msgid "Forward"
-msgstr ""
+msgstr "往前"
 
 #: src/modules/notifications/notifications.conf.in:4
 msgid "Freedesktop.org Notification Support"
-msgstr ""
+msgstr "Freedesktop.org 通知支援"
 
 #: src/lib/fcitx-utils/key.cpp:140
 msgctxt "Key name"
 msgid "Game"
-msgstr ""
+msgstr "遊戲"
 
 #: src/lib/fcitx-utils/key.cpp:141
 msgctxt "Key name"
 msgid "Go"
-msgstr ""
+msgstr "前往"
 
 #: src/lib/fcitx-utils/key.cpp:195
 msgctxt "Key name"
 msgid "Green"
-msgstr ""
+msgstr "綠色"
 
 #: src/ui/classic/xcbtraywindow.cpp:48
-#: src/modules/notificationitem/dbusmenu.cpp:265
+#: src/modules/notificationitem/dbusmenu.cpp:267
 msgid "Group"
 msgstr "群組"
 
-#: src/lib/fcitx/instance.cpp:1551
+#: src/lib/fcitx/instance.cpp:1570
 msgid "Group {0}: {1}"
 msgstr "群組 {0}：{1}"
 
 #: src/lib/fcitx-utils/key.cpp:228
 msgctxt "Key name"
 msgid "Hangul"
-msgstr ""
+msgstr "諺文"
 
 #: src/lib/fcitx-utils/key.cpp:235
 msgctxt "Key name"
 msgid "Hangul Banja"
-msgstr ""
+msgstr "諺文半形"
 
 #: src/lib/fcitx-utils/key.cpp:230
 msgctxt "Key name"
 msgid "Hangul End"
-msgstr ""
+msgstr "諺文結束"
 
 #: src/lib/fcitx-utils/key.cpp:231
 msgctxt "Key name"
 msgid "Hangul Hanja"
-msgstr ""
+msgstr "諺文漢字"
 
 #: src/lib/fcitx-utils/key.cpp:232
 msgctxt "Key name"
 msgid "Hangul Jamo"
-msgstr ""
+msgstr "諺文字母"
 
 #: src/lib/fcitx-utils/key.cpp:234
 msgctxt "Key name"
 msgid "Hangul Jeonja"
-msgstr ""
+msgstr "諺文前"
 
 #: src/lib/fcitx-utils/key.cpp:237
 msgctxt "Key name"
 msgid "Hangul PostHanja"
-msgstr ""
+msgstr "諺文後漢字"
 
 #: src/lib/fcitx-utils/key.cpp:236
 msgctxt "Key name"
 msgid "Hangul PreHanja"
-msgstr ""
+msgstr "諺文預先漢字"
 
 #: src/lib/fcitx-utils/key.cpp:233
 msgctxt "Key name"
 msgid "Hangul Romaja"
-msgstr ""
+msgstr "諺文羅馬字"
 
 #: src/lib/fcitx-utils/key.cpp:238
 msgctxt "Key name"
 msgid "Hangul Special"
-msgstr ""
+msgstr "諺文特殊"
 
 #: src/lib/fcitx-utils/key.cpp:229
 msgctxt "Key name"
 msgid "Hangul Start"
-msgstr ""
+msgstr "諺文開始"
 
 #: src/lib/fcitx-utils/key.cpp:217
 msgctxt "Key name"
 msgid "Hankaku"
-msgstr ""
+msgstr "半形"
 
 #: src/lib/fcitx-utils/key.cpp:67
 msgctxt "Key name"
 msgid "Help"
-msgstr ""
+msgstr "說明"
 
 #: src/lib/fcitx-utils/key.cpp:211
 msgctxt "Key name"
 msgid "Henkan"
-msgstr ""
+msgstr "變換"
 
 #: src/lib/fcitx-utils/key.cpp:188
 msgctxt "Key name"
 msgid "Hibernate"
-msgstr ""
+msgstr "休眠"
 
 #: src/modules/notifications/notifications.h:38
 msgid "Hidden Notifications"
-msgstr ""
+msgstr "隱藏通知"
 
 #: src/lib/fcitx-utils/key.cpp:213
 msgctxt "Key name"
 msgid "Hiragana"
-msgstr ""
+msgstr "平假名"
 
 #: src/lib/fcitx-utils/key.cpp:215
 msgctxt "Key name"
 msgid "Hiragana Katakana"
-msgstr ""
+msgstr "平假名片假名"
 
 #: src/lib/fcitx-utils/key.cpp:118
 msgctxt "Key name"
 msgid "History"
-msgstr ""
+msgstr "歷史記錄"
 
 #: src/lib/fcitx-utils/key.cpp:55
 msgctxt "Key name"
 msgid "Home"
-msgstr ""
+msgstr "Home 鍵"
 
 #: src/lib/fcitx-utils/key.cpp:150
 msgctxt "Key name"
 msgid "Home Office"
-msgstr ""
+msgstr "家庭辦公室"
 
 #: src/lib/fcitx-utils/key.cpp:81
 msgctxt "Key name"
 msgid "Home Page"
-msgstr ""
+msgstr "首頁"
 
 #: src/lib/fcitx-utils/key.cpp:120
 msgctxt "Key name"
 msgid "Hot Links"
-msgstr ""
+msgstr "熱門連結"
 
-#: src/lib/fcitx/globalconfig.cpp:117
+#: src/lib/fcitx/globalconfig.cpp:120
 msgid "Hotkey"
 msgstr "快捷鍵"
 
@@ -550,7 +560,7 @@ msgid "IBus Frontend"
 msgstr "IBus 前端"
 
 #: src/ui/classic/xcbtraywindow.cpp:50
-#: src/modules/notificationitem/dbusmenu.cpp:259
+#: src/modules/notificationitem/dbusmenu.cpp:261
 #: src/modules/notificationitem/notificationitem.cpp:102
 #: data/fcitx5.desktop.in.in:4
 msgid "Input Method"
@@ -558,12 +568,12 @@ msgstr "輸入法"
 
 #: data/fcitx5-configtool.desktop.in.in:4
 msgid "Input Method Configuration"
-msgstr ""
+msgstr "輸入法設定"
 
 #: src/lib/fcitx-utils/key.cpp:204
 msgctxt "Key name"
 msgid "Insert"
-msgstr ""
+msgstr "插入"
 
 #: src/ui/kimpanel/kimpanel.conf.in:3
 msgid "KDE Input Method Panel"
@@ -572,300 +582,300 @@ msgstr "KDE 輸入法面板"
 #: src/lib/fcitx-utils/key.cpp:221
 msgctxt "Key name"
 msgid "Kana Lock"
-msgstr ""
+msgstr "假名鎖定"
 
 #: src/lib/fcitx-utils/key.cpp:222
 msgctxt "Key name"
 msgid "Kana Shift"
-msgstr ""
+msgstr "假名 Shift"
 
 #: src/lib/fcitx-utils/key.cpp:209
 msgctxt "Key name"
 msgid "Kanji"
-msgstr ""
+msgstr "漢字"
 
 #: src/lib/fcitx-utils/key.cpp:214
 msgctxt "Key name"
 msgid "Katakana"
-msgstr ""
+msgstr "片假名"
 
-#: src/im/keyboard/keyboard.cpp:269 src/im/keyboard/keyboard.conf.in:3
+#: src/im/keyboard/keyboard.cpp:270 src/im/keyboard/keyboard.conf.in:3
 msgid "Keyboard"
 msgstr "鍵盤"
 
-#: src/im/keyboard/keyboard.cpp:200
+#: src/im/keyboard/keyboard.cpp:201
 msgid "Keyboard - {0}"
 msgstr "鍵盤 - {0}"
 
-#: src/im/keyboard/keyboard.cpp:217
+#: src/im/keyboard/keyboard.cpp:218
 msgid "Keyboard - {0} - {1}"
 msgstr "鍵盤 - {0} - {1}"
 
 #: src/lib/fcitx-utils/key.cpp:109
 msgctxt "Key name"
 msgid "Keyboard Brightness Down"
-msgstr ""
+msgstr "鍵盤亮度降低"
 
 #: src/lib/fcitx-utils/key.cpp:107
 msgctxt "Key name"
 msgid "Keyboard Brightness Up"
-msgstr ""
+msgstr "鍵盤亮度增加"
 
 #: src/lib/fcitx-utils/key.cpp:106
 msgctxt "Key name"
 msgid "Keyboard Light On/Off"
-msgstr ""
+msgstr "鍵盤背光開關"
 
 #: src/lib/fcitx-utils/key.cpp:146
 msgctxt "Key name"
 msgid "Keyboard Menu"
-msgstr ""
+msgstr "鍵盤選單"
 
 #: src/lib/fcitx-utils/key.cpp:87
 msgctxt "Key name"
 msgid "Launch (0)"
-msgstr ""
+msgstr "啟動 (0)"
 
 #: src/lib/fcitx-utils/key.cpp:88
 msgctxt "Key name"
 msgid "Launch (1)"
-msgstr ""
+msgstr "啟動 (1)"
 
 #: src/lib/fcitx-utils/key.cpp:89
 msgctxt "Key name"
 msgid "Launch (2)"
-msgstr ""
+msgstr "啟動 (2)"
 
 #: src/lib/fcitx-utils/key.cpp:90
 msgctxt "Key name"
 msgid "Launch (3)"
-msgstr ""
+msgstr "啟動 (3)"
 
 #: src/lib/fcitx-utils/key.cpp:91
 msgctxt "Key name"
 msgid "Launch (4)"
-msgstr ""
+msgstr "啟動 (4)"
 
 #: src/lib/fcitx-utils/key.cpp:92
 msgctxt "Key name"
 msgid "Launch (5)"
-msgstr ""
+msgstr "啟動 (5)"
 
 #: src/lib/fcitx-utils/key.cpp:93
 msgctxt "Key name"
 msgid "Launch (6)"
-msgstr ""
+msgstr "啟動 (6)"
 
 #: src/lib/fcitx-utils/key.cpp:94
 msgctxt "Key name"
 msgid "Launch (7)"
-msgstr ""
+msgstr "啟動 (7)"
 
 #: src/lib/fcitx-utils/key.cpp:95
 msgctxt "Key name"
 msgid "Launch (8)"
-msgstr ""
+msgstr "啟動 (8)"
 
 #: src/lib/fcitx-utils/key.cpp:96
 msgctxt "Key name"
 msgid "Launch (9)"
-msgstr ""
+msgstr "啟動 (9)"
 
 #: src/lib/fcitx-utils/key.cpp:97
 msgctxt "Key name"
 msgid "Launch (A)"
-msgstr ""
+msgstr "啟動 (A)"
 
 #: src/lib/fcitx-utils/key.cpp:98
 msgctxt "Key name"
 msgid "Launch (B)"
-msgstr ""
+msgstr "啟動 (B)"
 
 #: src/lib/fcitx-utils/key.cpp:99
 msgctxt "Key name"
 msgid "Launch (C)"
-msgstr ""
+msgstr "啟動 (C)"
 
 #: src/lib/fcitx-utils/key.cpp:100
 msgctxt "Key name"
 msgid "Launch (D)"
-msgstr ""
+msgstr "啟動 (D)"
 
 #: src/lib/fcitx-utils/key.cpp:101
 msgctxt "Key name"
 msgid "Launch (E)"
-msgstr ""
+msgstr "啟動 (E)"
 
 #: src/lib/fcitx-utils/key.cpp:102
 msgctxt "Key name"
 msgid "Launch (F)"
-msgstr ""
+msgstr "啟動 (F)"
 
 #: src/lib/fcitx-utils/key.cpp:86
 msgctxt "Key name"
 msgid "Launch Mail"
-msgstr ""
+msgstr "啟動郵件程式"
 
 #: src/lib/fcitx-utils/key.cpp:57
 msgctxt "Key name"
 msgid "Left"
-msgstr ""
+msgstr "左"
 
 #: src/lib/fcitx-utils/key.cpp:42
 msgctxt "Key name"
 msgid "Left Alt"
-msgstr ""
+msgstr "左 Alt 鍵"
 
 #: src/lib/fcitx-utils/key.cpp:46
 msgctxt "Key name"
 msgid "Left Control"
-msgstr ""
+msgstr "左 Control 鍵"
 
 #: src/lib/fcitx-utils/key.cpp:44
 msgctxt "Key name"
 msgid "Left Shift"
-msgstr ""
+msgstr "左 Shift 鍵"
 
 #: src/lib/fcitx-utils/key.cpp:48
 msgctxt "Key name"
 msgid "Left Super"
-msgstr ""
+msgstr "左 Super 鍵"
 
 #: src/lib/fcitx-utils/key.cpp:116
 msgctxt "Key name"
 msgid "LightBulb"
-msgstr ""
+msgstr "燈泡"
 
 #: src/lib/fcitx-utils/key.cpp:143
 msgctxt "Key name"
 msgid "Logoff"
-msgstr ""
+msgstr "登出"
 
 #: src/lib/fcitx-utils/key.cpp:176
 msgctxt "Key name"
 msgid "Mail Forward"
-msgstr ""
+msgstr "轉寄信件"
 
 #: src/lib/fcitx-utils/key.cpp:144
 msgctxt "Key name"
 msgid "Market"
-msgstr ""
+msgstr "市場"
 
 #: src/lib/fcitx-utils/key.cpp:220
 msgctxt "Key name"
 msgid "Massyo"
-msgstr ""
+msgstr "Massyo"
 
 #: src/lib/fcitx-utils/key.cpp:182
 msgctxt "Key name"
 msgid "Media Fast Forward"
-msgstr ""
+msgstr "媒體快轉"
 
 #: src/lib/fcitx-utils/key.cpp:78
 msgctxt "Key name"
 msgid "Media Next"
-msgstr ""
+msgstr "媒體下一首"
 
 #: src/lib/fcitx-utils/key.cpp:80
 msgctxt "Key name"
 msgid "Media Pause"
-msgstr ""
+msgstr "媒體暫停"
 
 #: src/lib/fcitx-utils/key.cpp:75
 msgctxt "Key name"
 msgid "Media Play"
-msgstr ""
+msgstr "媒體播放"
 
 #: src/lib/fcitx-utils/key.cpp:77
 msgctxt "Key name"
 msgid "Media Previous"
-msgstr ""
+msgstr "媒體上一首"
 
 #: src/lib/fcitx-utils/key.cpp:79
 msgctxt "Key name"
 msgid "Media Record"
-msgstr ""
+msgstr "媒體錄影"
 
 #: src/lib/fcitx-utils/key.cpp:124
 msgctxt "Key name"
 msgid "Media Rewind"
-msgstr ""
+msgstr "媒體倒轉"
 
 #: src/lib/fcitx-utils/key.cpp:76
 msgctxt "Key name"
 msgid "Media Stop"
-msgstr ""
+msgstr "媒體停止"
 
 #: src/lib/fcitx-utils/key.cpp:145
 msgctxt "Key name"
 msgid "Meeting"
-msgstr ""
+msgstr "會議"
 
 #: src/lib/fcitx-utils/key.cpp:66
 msgctxt "Key name"
 msgid "Menu"
-msgstr ""
+msgstr "選單"
 
 #: src/lib/fcitx-utils/key.cpp:147
 msgctxt "Key name"
 msgid "Menu PB"
-msgstr ""
+msgstr "選單 PB"
 
 #: src/lib/fcitx-utils/key.cpp:174
 msgctxt "Key name"
 msgid "Messenger"
-msgstr ""
+msgstr "即時通訊工具"
 
 #: src/lib/fcitx-utils/key.cpp:193
 msgctxt "Key name"
 msgid "Microphone Mute"
-msgstr ""
+msgstr "靜音麥克風"
 
 #: src/lib/fcitx-utils/key.cpp:105
 msgctxt "Key name"
 msgid "Monitor Brightness Down"
-msgstr ""
+msgstr "顯示器亮度降低"
 
 #: src/lib/fcitx-utils/key.cpp:103
 msgctxt "Key name"
 msgid "Monitor Brightness Up"
-msgstr ""
+msgstr "顯示器亮度增加"
 
 #: src/lib/fcitx-utils/key.cpp:210
 msgctxt "Key name"
 msgid "Muhenkan"
-msgstr ""
+msgstr "無變換"
 
 #: src/lib/fcitx-utils/key.cpp:226
 msgctxt "Key name"
 msgid "Multiple Candidate"
-msgstr ""
+msgstr "多個候選字"
 
 #: src/lib/fcitx-utils/key.cpp:178
 msgctxt "Key name"
 msgid "Music"
-msgstr ""
+msgstr "音樂"
 
 #: src/lib/fcitx-utils/key.cpp:148
 msgctxt "Key name"
 msgid "My Sites"
-msgstr ""
+msgstr "個人站台"
 
 #: src/lib/fcitx-utils/key.cpp:198
 msgctxt "Key name"
 msgid "New"
-msgstr ""
+msgstr "新增"
 
 #: src/lib/fcitx-utils/key.cpp:149
 msgctxt "Key name"
 msgid "News"
-msgstr ""
+msgstr "新聞"
 
 #: src/im/keyboard/keyboard.h:58
 msgid "Next Candidate"
-msgstr ""
+msgstr "下一個候選字"
 
-#: src/modules/clipboard/clipboard.cpp:289
+#: src/modules/clipboard/clipboard.cpp:296
 msgid "No clipboard history."
 msgstr "沒有輸入法歷史"
 
@@ -873,77 +883,77 @@ msgstr "沒有輸入法歷史"
 msgid "None"
 msgstr "無"
 
-#: src/ui/kimpanel/kimpanel.cpp:309
+#: src/ui/kimpanel/kimpanel.cpp:310
 msgid "Not available"
 msgstr "無法使用"
 
 #: src/modules/notifications/notifications.conf.in:3
 msgid "Notification"
-msgstr ""
+msgstr "通知"
 
 #: src/lib/fcitx-utils/key.cpp:64
 msgctxt "Key name"
 msgid "NumLock"
-msgstr ""
+msgstr "數字鎖定 (NumLock)"
 
 #: src/lib/fcitx-utils/key.cpp:199
 msgctxt "Key name"
 msgid "Open"
-msgstr ""
+msgstr "開啟"
 
 #: src/lib/fcitx-utils/key.cpp:85
 msgctxt "Key name"
 msgid "Open URL"
-msgstr ""
+msgstr "開啟網址"
 
 #: src/lib/fcitx-utils/key.cpp:151
 msgctxt "Key name"
 msgid "Option"
-msgstr ""
+msgstr "選項"
 
 #: src/im/keyboard/keyboard.h:47
 msgid "Page size"
-msgstr ""
+msgstr "頁面大小"
 
 #: src/lib/fcitx-utils/key.cpp:152
 msgctxt "Key name"
 msgid "Paste"
-msgstr ""
+msgstr "貼上"
 
 #: src/lib/fcitx-utils/key.cpp:54
 msgctxt "Key name"
 msgid "Pause"
-msgstr ""
+msgstr "暫停"
 
 #: src/lib/fcitx-utils/key.cpp:62
 msgctxt "Key name"
 msgid "PgDown"
-msgstr ""
+msgstr "PgDown 鍵"
 
 #: src/lib/fcitx-utils/key.cpp:61
 msgctxt "Key name"
 msgid "PgUp"
-msgstr ""
+msgstr "PgUp 鍵"
 
 #: src/lib/fcitx-utils/key.cpp:153
 msgctxt "Key name"
 msgid "Phone"
-msgstr ""
+msgstr "電話"
 
 #: src/lib/fcitx-utils/key.cpp:177
 msgctxt "Key name"
 msgid "Pictures"
-msgstr ""
+msgstr "圖片"
 
 #: src/lib/fcitx-utils/key.cpp:191
 msgctxt "Key name"
 msgid "Power Down"
-msgstr ""
+msgstr "關機"
 
 #: src/lib/fcitx-utils/key.cpp:110
 msgctxt "Key name"
 msgid "Power Off"
-msgstr ""
+msgstr "關機"
 
 #: src/modules/spell/spell.h:34
 msgid "Presage"
@@ -951,144 +961,148 @@ msgstr "Presage"
 
 #: src/im/keyboard/keyboard.h:52
 msgid "Prev Candidate"
-msgstr ""
+msgstr "上一個候選字"
 
 #: src/lib/fcitx-utils/key.cpp:227
 msgctxt "Key name"
 msgid "Previous Candidate"
-msgstr ""
+msgstr "上一個候選字"
 
 #: src/lib/fcitx-utils/key.cpp:203
 msgctxt "Key name"
 msgid "Print Screen"
-msgstr ""
+msgstr "截圖 (PrtSc)"
 
 #: src/modules/quickphrase/quickphrase.conf.in:3
 msgid "Quick Phrase"
 msgstr "快速片語"
 
-#: src/modules/quickphrase/quickphrase.cpp:285
+#: src/modules/quickphrase/quickphrase.cpp:284
 msgid "Quick Phrase: "
 msgstr "快速輸入："
 
 #: src/lib/fcitx-utils/key.cpp:194
 msgctxt "Key name"
 msgid "Red"
-msgstr ""
+msgstr "紅色"
 
 #: src/lib/fcitx-utils/key.cpp:202
 msgctxt "Key name"
 msgid "Redo"
-msgstr ""
+msgstr "重作"
 
 #: src/lib/fcitx-utils/key.cpp:71
 msgctxt "Key name"
 msgid "Refresh"
-msgstr ""
+msgstr "重新整理"
 
 #: src/lib/fcitx-utils/key.cpp:155
 msgctxt "Key name"
 msgid "Reload"
-msgstr ""
+msgstr "重新載入"
 
 #: src/lib/fcitx-utils/key.cpp:154
 msgctxt "Key name"
 msgid "Reply"
-msgstr ""
+msgstr "回覆"
 
 #: src/ui/classic/xcbtraywindow.cpp:54
-#: src/modules/notificationitem/dbusmenu.cpp:287
+#: src/modules/notificationitem/dbusmenu.cpp:289
 msgid "Restart"
 msgstr "重新啟動"
 
 #: src/lib/fcitx-utils/key.cpp:53
 msgctxt "Key name"
 msgid "Return"
-msgstr ""
+msgstr "Return 鍵"
 
 #: src/lib/fcitx-utils/key.cpp:59
 msgctxt "Key name"
 msgid "Right"
-msgstr ""
+msgstr "右"
 
 #: src/lib/fcitx-utils/key.cpp:43
 msgctxt "Key name"
 msgid "Right Alt"
-msgstr ""
+msgstr "右 Alt 鍵"
 
 #: src/lib/fcitx-utils/key.cpp:47
 msgctxt "Key name"
 msgid "Right Control"
-msgstr ""
+msgstr "右 Control 鍵"
 
 #: src/lib/fcitx-utils/key.cpp:45
 msgctxt "Key name"
 msgid "Right Shift"
-msgstr ""
+msgstr "右 Shift 鍵"
 
 #: src/lib/fcitx-utils/key.cpp:49
 msgctxt "Key name"
 msgid "Right Super"
-msgstr ""
+msgstr "右 Super 鍵"
 
 #: src/lib/fcitx-utils/key.cpp:212
 msgctxt "Key name"
 msgid "Romaji"
-msgstr ""
+msgstr "羅馬音"
 
 #: src/lib/fcitx-utils/key.cpp:156
 msgctxt "Key name"
 msgid "Rotate Windows"
-msgstr ""
+msgstr "旋轉視窗"
 
 #: src/lib/fcitx-utils/key.cpp:158
 msgctxt "Key name"
 msgid "Rotation KB"
-msgstr ""
+msgstr "旋轉 KB"
 
 #: src/lib/fcitx-utils/key.cpp:157
 msgctxt "Key name"
 msgid "Rotation PB"
-msgstr ""
+msgstr "旋轉 PB"
 
 #: src/lib/fcitx-utils/key.cpp:159
 msgctxt "Key name"
 msgid "Save"
-msgstr ""
+msgstr "儲存"
 
 #: src/lib/fcitx-utils/key.cpp:113
 msgctxt "Key name"
 msgid "Screensaver"
-msgstr ""
+msgstr "螢幕保護程式"
 
 #: src/lib/fcitx-utils/key.cpp:65
 msgctxt "Key name"
 msgid "ScrollLock"
-msgstr ""
+msgstr "捲動鎖定 (ScrollLock)"
 
 #: src/lib/fcitx-utils/key.cpp:83
 msgctxt "Key name"
 msgid "Search"
-msgstr ""
+msgstr "搜尋"
 
 #: src/lib/fcitx-utils/key.cpp:208
 msgctxt "Key name"
 msgid "Select"
-msgstr ""
+msgstr "選取"
 
 #: src/lib/fcitx-utils/key.cpp:160
 msgctxt "Key name"
 msgid "Send"
-msgstr ""
+msgstr "傳送"
 
 #: src/lib/fcitx-utils/key.cpp:434
 msgctxt "Key name"
 msgid "Shift"
-msgstr ""
+msgstr "Shift 鍵"
 
 #: src/lib/fcitx-utils/key.cpp:117
 msgctxt "Key name"
 msgid "Shop"
+msgstr "商店"
+
+#: src/lib/fcitx/globalconfig.cpp:110
+msgid "Show Input Method Information when changing focus"
 msgstr ""
 
 #: src/lib/fcitx/globalconfig.cpp:107
@@ -1102,66 +1116,66 @@ msgstr "測試用的簡易使用者介面"
 #: src/lib/fcitx-utils/key.cpp:115
 msgctxt "Key name"
 msgid "Sleep"
-msgstr ""
+msgstr "睡眠"
 
 #: src/lib/fcitx-utils/key.cpp:50
 msgctxt "Key name"
 msgid "Space"
-msgstr ""
+msgstr "空格"
 
 #: src/modules/spell/spell.conf.in:3
 msgid "Spell"
 msgstr "拼寫"
 
-#: src/im/keyboard/keyboard.cpp:353
+#: src/im/keyboard/keyboard.cpp:354
 msgid "Spell hint"
 msgstr "拼字提示"
 
-#: src/im/keyboard/keyboard.cpp:355
+#: src/im/keyboard/keyboard.cpp:356
 msgid "Spell hint is disabled."
 msgstr "已停用拼字提示。"
 
-#: src/im/keyboard/keyboard.cpp:354
+#: src/im/keyboard/keyboard.cpp:355
 msgid "Spell hint is enabled."
 msgstr "已啟用拼字提示。"
 
 #: src/lib/fcitx-utils/key.cpp:161
 msgctxt "Key name"
 msgid "Spellchecker"
-msgstr ""
+msgstr "拼字檢查"
 
 #: src/lib/fcitx-utils/key.cpp:162
 msgctxt "Key name"
 msgid "Split Screen"
-msgstr ""
+msgstr "分割螢幕"
 
 #: src/lib/fcitx-utils/key.cpp:138
 msgctxt "Key name"
 msgid "Spreadsheet"
-msgstr ""
+msgstr "試算表"
 
 #: src/lib/fcitx-utils/key.cpp:84
 msgctxt "Key name"
 msgid "Standby"
-msgstr ""
+msgstr "待機"
 
 #: data/fcitx5.desktop.in.in:5
 msgid "Start Input Method"
-msgstr ""
+msgstr "啟動輸入法"
 
 #: src/modules/notificationitem/notificationitem.conf.in:3
 msgid "Status Notifier"
-msgstr ""
+msgstr "狀態指示器"
 
 #: src/lib/fcitx-utils/key.cpp:70
 msgctxt "Key name"
 msgid "Stop"
-msgstr ""
+msgstr "停止"
 
 #: src/lib/fcitx-utils/key.cpp:185
 msgctxt "Key name"
 msgid "Subtitle"
-msgstr ""
+msgstr "副標題"
 
 #: src/im/keyboard/keyboard.h:43 src/modules/quickphrase/quickphrase.h:39
 msgid "Super"
@@ -1170,150 +1184,150 @@ msgstr "超級"
 #: src/lib/fcitx-utils/key.cpp:435
 msgctxt "Key name"
 msgid "Super"
-msgstr ""
+msgstr "Super 鍵"
 
 #: src/lib/fcitx-utils/key.cpp:163
 msgctxt "Key name"
 msgid "Support"
-msgstr ""
+msgstr "支援"
 
 #: src/lib/fcitx-utils/key.cpp:192
 msgctxt "Key name"
 msgid "Suspend"
-msgstr ""
+msgstr "暫停"
 
 #: src/lib/fcitx-utils/key.cpp:207
 msgctxt "Key name"
 msgid "System Request"
-msgstr ""
+msgstr "系統請求"
 
 #: src/lib/fcitx-utils/key.cpp:51
 msgctxt "Key name"
 msgid "Tab"
-msgstr ""
+msgstr "定格鍵 (Tab)"
 
 #: src/lib/fcitx-utils/key.cpp:164
 msgctxt "Key name"
 msgid "Task Panel"
-msgstr ""
+msgstr "工作列"
 
 #: src/lib/fcitx-utils/key.cpp:165
 msgctxt "Key name"
 msgid "Terminal"
-msgstr ""
+msgstr "終端機"
 
-#: src/ui/classic/classicui.h:64
+#: src/ui/classic/classicui.h:67
 msgid "Theme"
-msgstr ""
+msgstr "主題"
 
 #: src/lib/fcitx-utils/key.cpp:187
 msgctxt "Key name"
 msgid "Time"
-msgstr ""
+msgstr "時間"
 
 #: src/lib/fcitx-utils/key.cpp:166
 msgctxt "Key name"
 msgid "Tools"
-msgstr ""
+msgstr "工具"
 
 #: src/lib/fcitx-utils/key.cpp:190
 msgctxt "Key name"
 msgid "Top Menu"
-msgstr ""
+msgstr "頂部選單"
 
 #: src/lib/fcitx-utils/key.cpp:243
 msgctxt "Key name"
 msgid "Touchpad Off"
-msgstr ""
+msgstr "關閉觸控板"
 
 #: src/lib/fcitx-utils/key.cpp:242
 msgctxt "Key name"
 msgid "Touchpad On"
-msgstr ""
+msgstr "啟用觸控板"
 
 #: src/lib/fcitx-utils/key.cpp:241
 msgctxt "Key name"
 msgid "Touchpad Toggle"
-msgstr ""
+msgstr "切換觸控板"
 
 #: src/lib/fcitx-utils/key.cpp:219
 msgctxt "Key name"
 msgid "Touroku"
-msgstr ""
+msgstr "登錄"
 
 #: src/lib/fcitx-utils/key.cpp:167
 msgctxt "Key name"
 msgid "Travel"
-msgstr ""
+msgstr "旅行"
 
 #: src/lib/fcitx/globalconfig.cpp:34
 msgid "Trigger Input Method"
 msgstr "切換啟用或非啟用輸入法"
 
-#: src/im/keyboard/keyboard.h:66
+#: src/im/keyboard/keyboard.h:68
 msgid "Trigger hint mode"
-msgstr ""
+msgstr "切換提示模式"
 
 #: src/lib/fcitx-utils/key.cpp:201
 msgctxt "Key name"
 msgid "Undo"
-msgstr ""
+msgstr "復原"
 
 #: src/modules/unicode/unicode.conf.in:3
 msgid "Unicode"
 msgstr "Unicode"
 
-#: src/modules/unicode/unicode.cpp:244
+#: src/modules/unicode/unicode.cpp:243
 msgid "Unicode: "
 msgstr "Unicode："
 
 #: src/lib/fcitx-utils/key.cpp:58
 msgctxt "Key name"
 msgid "Up"
-msgstr ""
+msgstr "上"
 
 #: src/ui/classic/classicui.h:62
 msgid "Use Per Screen DPI"
-msgstr ""
+msgstr "依每個螢幕的 DPI 使用"
 
 #: src/ui/classic/classicui.h:61
 msgid "Vertical Candidate List"
-msgstr ""
+msgstr "垂直候選字列表"
 
 #: src/lib/fcitx-utils/key.cpp:168
 msgctxt "Key name"
 msgid "Video"
-msgstr ""
+msgstr "影片"
 
 #: src/lib/fcitx-utils/key.cpp:189
 msgctxt "Key name"
 msgid "View"
-msgstr ""
+msgstr "檢視"
 
 #: src/lib/fcitx-utils/key.cpp:72
 msgctxt "Key name"
 msgid "Volume Down"
-msgstr ""
+msgstr "音量降低"
 
 #: src/lib/fcitx-utils/key.cpp:73
 msgctxt "Key name"
 msgid "Volume Mute"
-msgstr ""
+msgstr "靜音"
 
 #: src/lib/fcitx-utils/key.cpp:74
 msgctxt "Key name"
 msgid "Volume Up"
-msgstr ""
+msgstr "音量提高"
 
 #: src/lib/fcitx-utils/key.cpp:114
 msgctxt "Key name"
 msgid "WWW"
-msgstr ""
+msgstr "全球資訊網 (WWW)"
 
 #: src/lib/fcitx-utils/key.cpp:111
 msgctxt "Key name"
 msgid "Wake Up"
-msgstr ""
+msgstr "喚醒"
 
 #: src/modules/wayland/wayland.conf.in:3
 msgid "Wayland"
@@ -1326,17 +1340,17 @@ msgstr "Wayland 輸入法前端"
 #: src/lib/fcitx-utils/key.cpp:175
 msgctxt "Key name"
 msgid "WebCam"
-msgstr ""
+msgstr "網路攝影機"
 
 #: src/lib/fcitx-utils/key.cpp:181
 msgctxt "Key name"
 msgid "Wireless"
-msgstr ""
+msgstr "無線"
 
 #: src/lib/fcitx-utils/key.cpp:169
 msgctxt "Key name"
 msgid "Word Processor"
-msgstr ""
+msgstr "文書處理器"
 
 #: src/frontend/xim/xim.conf.in:3
 msgid "X Input Method Frontend"
@@ -1349,60 +1363,65 @@ msgstr "XCB"
 #: src/lib/fcitx-utils/key.cpp:170
 msgctxt "Key name"
 msgid "XFer"
-msgstr ""
+msgstr "XFer"
 
 #: src/lib/fcitx-utils/key.cpp:196
 msgctxt "Key name"
 msgid "Yellow"
-msgstr ""
+msgstr "黃色"
 
-#: data/fcitx5-configtool.sh:140
+#: data/fcitx5-configtool.sh:138
 msgid ""
 "You're currently running Fcitx with GUI, but fcitx-configtool couldn't be "
 "found, the package name is usually fcitx-config-gtk, fcitx-config-gtk3 or "
 "fcitx-configtool. Now it will open config file with default text editor."
 msgstr ""
+"您正在 GUI 下執行 Fcitx，但找不到 fcitx-configtool，該套件名稱通常為 fcitx-"
+"config-gtx、fcitx-config-gtk3 或 fcitx-configtool。現在將使用預設文字編輯器開"
+"啟設定檔。"
 
-#: data/fcitx5-configtool.sh:137
+#: data/fcitx5-configtool.sh:135
 msgid ""
 "You're currently running KDE, but KCModule for fcitx couldn't be found, the "
 "package name of this KCModule is usually kcm-fcitx or kde-config-fcitx. Now "
 "it will open config file with default text editor."
 msgstr ""
+"您正在執行 KDE，但找不到 fcitx 的 KCModule，此 KCModule 的套件名稱通常為 kcm-"
+"fcitx 或 kde-config-fcitx。現在將使用預設文字編輯器開啟設定檔。"
 
 #: src/lib/fcitx-utils/key.cpp:216
 msgctxt "Key name"
 msgid "Zenkaku"
-msgstr ""
+msgstr "全形"
 
 #: src/lib/fcitx-utils/key.cpp:218
 msgctxt "Key name"
 msgid "Zenkaku Hankaku"
-msgstr ""
+msgstr "全形半形"
 
 #: src/lib/fcitx-utils/key.cpp:171
 msgctxt "Key name"
 msgid "Zoom In"
-msgstr ""
+msgstr "放大"
 
 #: src/lib/fcitx-utils/key.cpp:172
 msgctxt "Key name"
 msgid "Zoom Out"
-msgstr ""
+msgstr "縮小"
 
 #: src/lib/fcitx-utils/key.cpp:142
 msgctxt "Key name"
 msgid "iTouch"
-msgstr ""
+msgstr "iTouch"
 
-#: src/im/keyboard/keyboard.cpp:246
+#: src/im/keyboard/keyboard.cpp:247
 msgid "{0} (Not Available)"
-msgstr ""
+msgstr "{0} (無法使用)"
 
-#: src/lib/fcitx/instance.cpp:1546
+#: src/lib/fcitx/instance.cpp:1565
 msgid "{0} (Not available)"
 msgstr "{0}（不可用）"
 
-#: src/lib/fcitx/instance.cpp:1543
+#: src/lib/fcitx/instance.cpp:1562
 msgid "{0} ({1})"
 msgstr "{0} ({1})"
