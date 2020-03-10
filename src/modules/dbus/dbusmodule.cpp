@@ -308,9 +308,11 @@ public:
                 throw dbus::MethodCallError("org.freedesktop.DBus.Error.Failed",
                                             "Failed to get input method.");
             }
+        } else {
+            throw dbus::MethodCallError(
+                "org.freedesktop.DBus.Error.InvalidArgs",
+                "Configuration does not exist.");
         }
-        throw dbus::MethodCallError("org.freedesktop.DBus.Error.InvalidArgs",
-                                    "Configuration does not exist.");
     }
 
     std::vector<dbus::DBusStruct<std::string, std::string, std::string, int32_t,
