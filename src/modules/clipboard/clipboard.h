@@ -22,6 +22,7 @@
 #include "clipboard_public.h"
 #include "fcitx-config/configuration.h"
 #include "fcitx-config/enum.h"
+#include "fcitx-config/iniparser.h"
 #include "fcitx-utils/key.h"
 #include "fcitx-utils/standardpath.h"
 #include "fcitx/addonfactory.h"
@@ -41,7 +42,7 @@ FCITX_CONFIGURATION(ClipboardConfig,
                                              KeyListConstrain()};
                     Option<int, IntConstrain> numOfEntries{
                         this, "Number of entries", "Number of entries", 5,
-                        IntConstrain(3, 10)};);
+                        IntConstrain(3, 30)};);
 
 class ClipboardState;
 class Clipboard final : public AddonInstance {
@@ -56,6 +57,12 @@ public:
     auto &factory() { return factory_; }
 
     void reloadConfig() override;
+
+    const Configuration *getConfig() const override { return &config_; }
+    void setConfig(const RawConfig &config) override {
+        config_.load(config, true);
+        safeSaveAsIni(config_, "conf/clipboard.conf");
+    }
 
     std::string primary(const InputContext *ic);
     std::string clipboard(const InputContext *ic);

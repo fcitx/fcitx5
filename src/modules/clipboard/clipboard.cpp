@@ -260,7 +260,7 @@ void Clipboard::updateUI(InputContext *inputContext) {
     inputContext->inputPanel().reset();
 
     auto candidateList = std::make_unique<CommonCandidateList>();
-    candidateList->setPageSize(config_.numOfEntries.value());
+    candidateList->setPageSize(instance_->globalConfig().defaultPageSize());
 
     // Append first item from history_.
     auto iter = history_.begin();
