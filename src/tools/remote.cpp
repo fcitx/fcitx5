@@ -40,7 +40,7 @@ void usage(std::ostream &stream) {
               "\t-s <imname>\tswitch to the input method uniquely identified "
               "by <imname>\n"
               "\t[no option]\tdisplay fcitx state, 0 for close, 1 for "
-              "inactive, 2 for acitve\n"
+              "inactive, 2 for active\n"
               "\t-h\t\tdisplay this help and exit\n";
 }
 
