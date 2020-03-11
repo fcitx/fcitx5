@@ -46,7 +46,7 @@ public:
     const Text &clientPreedit() const;
     void setClientPreedit(const Text &clientPreedit);
 
-    CandidateList *candidateList() const;
+    std::shared_ptr<CandidateList> candidateList() const;
     void setCandidateList(std::unique_ptr<CandidateList> candidate);
 
     void reset();

@@ -495,7 +495,7 @@ void InputWindow::click(int x, int y) {
     if (!inputContext) {
         return;
     }
-    const auto *candidateList = inputContext->inputPanel().candidateList();
+    const auto candidateList = inputContext->inputPanel().candidateList();
     if (!candidateList) {
         return;
     }

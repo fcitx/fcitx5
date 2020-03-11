@@ -100,8 +100,8 @@ bool InputPanel::empty() const {
            d->auxUp_.size() == 0 && d->auxDown_.size() == 0;
 }
 
-CandidateList *InputPanel::candidateList() const {
+std::shared_ptr<CandidateList> InputPanel::candidateList() const {
     FCITX_D();
-    return d->candidate_.get();
+    return d->candidate_;
 }
 } // namespace fcitx
