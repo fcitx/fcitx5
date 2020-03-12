@@ -1,5 +1,3 @@
-add_subdirectory(icon)
-
 configure_file(${CMAKE_CURRENT_SOURCE_DIR}/fcitx5-configtool.desktop.in.in
                ${CMAKE_CURRENT_BINARY_DIR}/fcitx5-configtool.desktop.in @ONLY)
 configure_file(${CMAKE_CURRENT_SOURCE_DIR}/fcitx5.desktop.in.in
