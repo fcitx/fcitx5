@@ -202,5 +202,27 @@ ssize_t safeWrite(int fd, const void *data, size_t maxlen) {
     } while (ret == -1 && errno == EINTR);
     return ret;
 }
+
+std::optional<std::string> readlink(const std::string &path) {
+    std::string buffer;
+    buffer.resize(256);
+    ssize_t readSize;
+
+    while (true) {
+        readSize = ::readlink(path.data(), buffer.data(), buffer.size());
+        if (readSize < 0) {
+            return std::nullopt;
+        }
+
+        if (static_cast<size_t>(readSize) < buffer.size()) {
+            buffer.resize(readSize);
+            return buffer;
+        }
+
+        buffer.resize(buffer.size() * 2);
+    }
+    return std::nullopt;
+}
+
 } // namespace fs
 } // namespace fcitx

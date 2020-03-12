@@ -45,7 +45,7 @@
 #include <xkbcommon/xkbcommon-compose.h>
 #include <xkbcommon/xkbcommon.h>
 
-FCITX_DEFINE_LOG_CATEGORY(keyTrace, "keyTrace");
+FCITX_DEFINE_LOG_CATEGORY(keyTrace, "key_trace");
 
 #define FCITX_KEYTRACE() FCITX_LOGC(keyTrace, Debug)
 

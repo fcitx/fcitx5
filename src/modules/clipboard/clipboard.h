@@ -24,6 +24,7 @@
 #include "fcitx-config/enum.h"
 #include "fcitx-config/iniparser.h"
 #include "fcitx-utils/key.h"
+#include "fcitx-utils/misc_p.h"
 #include "fcitx-utils/standardpath.h"
 #include "fcitx/addonfactory.h"
 #include "fcitx/addoninstance.h"
@@ -89,7 +90,7 @@ private:
         selectionCallbacks_;
     std::unique_ptr<HandlerTableEntryBase> primaryCallback_;
     std::unique_ptr<HandlerTableEntryBase> clipboardCallback_;
-    std::list<std::string> history_;
+    OrderedSet<std::string> history_;
     std::string primary_;
 };
 } // namespace fcitx

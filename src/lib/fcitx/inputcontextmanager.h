@@ -32,7 +32,6 @@ class InputContextManagerPrivate;
 class FocusGroup;
 class Instance;
 class InputContextProperty;
-typedef std::function<bool(InputContext *ic)> InputContextVisitor;
 typedef std::function<bool(FocusGroup *ic)> FocusGroupVisitor;
 
 FCITX_CONFIG_ENUM(PropertyPropagatePolicy, All, Program, None);

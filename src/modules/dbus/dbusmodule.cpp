@@ -24,12 +24,15 @@
 #include "fcitx-utils/i18n.h"
 #include "fcitx-utils/stringutils.h"
 #include "fcitx/addonmanager.h"
+#include "fcitx/inputcontextmanager.h"
 #include "fcitx/inputmethodengine.h"
 #include "fcitx/inputmethodentry.h"
 #include "fcitx/inputmethodmanager.h"
 #include "keyboard_public.h"
 #include "xcb_public.h"
+#include <fmt/format.h>
 #include <set>
+#include <sstream>
 
 #define FCITX_DBUS_SERVICE "org.fcitx.Fcitx5"
 #define FCITX_CONTROLLER_DBUS_INTERFACE "org.fcitx.Fcitx.Controller1"
@@ -392,6 +395,26 @@ public:
         }
     }
 
+    std::string debugInfo() {
+        std::stringstream ss;
+        std::map<std::string, int> displayToIc;
+        instance_->inputContextManager().foreachGroup([&ss](FocusGroup *group) {
+            ss << "Group [" << group->display() << "] has " << group->size()
+               << " InputContext(s)" << std::endl;
+            group->foreach([&ss](InputContext *ic) {
+                ss << "  IC [";
+                for (auto v : ic->uuid()) {
+                    ss << fmt::format("{:02x}", static_cast<int>(v));
+                }
+                ss << "] program:" << ic->program()
+                   << " frontend:" << ic->frontend() << std::endl;
+                return true;
+            });
+            return true;
+        });
+        return ss.str();
+    }
+
 private:
     DBusModule *module_;
     Instance *instance_;
@@ -441,6 +464,7 @@ private:
     FCITX_OBJECT_VTABLE_METHOD(getAddons, "GetAddons", "", "a(sssibb)");
     FCITX_OBJECT_VTABLE_METHOD(setAddonsState, "SetAddonsState", "a(sb)", "");
     FCITX_OBJECT_VTABLE_METHOD(openX11Connection, "OpenX11Connection", "s", "");
+    FCITX_OBJECT_VTABLE_METHOD(debugInfo, "DebugInfo", "", "s");
 };
 
 DBusModule::DBusModule(Instance *instance)

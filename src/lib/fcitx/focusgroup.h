@@ -20,6 +20,7 @@
 #define _FCITX_FOCUSGROUP_H_
 
 #include "fcitxcore_export.h"
+#include "inputcontext.h"
 #include "inputpanel.h"
 #include <fcitx-utils/macros.h>
 #include <memory>
@@ -41,8 +42,10 @@ public:
 
     void setFocusedInputContext(InputContext *ic);
     InputContext *focusedInputContext() const;
+    bool foreach(const InputContextVisitor &visitor);
 
     const std::string &display() const;
+    size_t size() const;
 
 protected:
     void addInputContext(InputContext *ic);

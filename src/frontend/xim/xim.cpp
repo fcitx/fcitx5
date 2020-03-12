@@ -93,6 +93,8 @@ public:
                 return result;
             });
 
+        ewmh_ = parent_->xcb()->call<fcitx::IXCBModule::ewmh>(name_);
+
         auto retry = 3;
         while (retry) {
             if (!xcb_im_open_im(im_.get())) {
@@ -127,6 +129,7 @@ public:
     auto im() { return im_.get(); }
     auto conn() { return conn_; }
     auto root() { return root_; }
+    auto ewmh() { return ewmh_; }
     auto focusGroup() { return group_; }
     auto xkbState() {
         return parent_->xcb()->call<IXCBModule::xkbState>(name_);
@@ -140,14 +143,32 @@ private:
     std::unique_ptr<xcb_im_t, decltype(&xcb_im_destroy)> im_;
     xcb_window_t root_;
     xcb_window_t serverWindow_;
+    xcb_ewmh_connection_t *ewmh_;
     std::unique_ptr<HandlerTableEntry<XCBEventFilter>> filter_;
 };
+
+std::string getProgramName(XIMServer *server, xcb_im_input_context_t *ic) {
+    auto w = xcb_im_input_context_get_client_window(ic);
+    if (!w) {
+        w = xcb_im_input_context_get_focus_window(ic);
+    }
+    if (w) {
+        auto cookie = xcb_ewmh_get_wm_pid(server->ewmh(), w);
+        uint32_t pid;
+        if (xcb_ewmh_get_wm_pid_reply(server->ewmh(), cookie, &pid, nullptr) ==
+            1) {
+            return getProcessName(pid);
+        }
+    }
+    return {};
+}
 
 class XIMInputContext : public InputContext {
 public:
     XIMInputContext(InputContextManager &inputContextManager, XIMServer *server,
                     xcb_im_input_context_t *ic)
-        : InputContext(inputContextManager), server_(server), xic_(ic) {
+        : InputContext(inputContextManager, getProgramName(server, ic)),
+          server_(server), xic_(ic) {
         setFocusGroup(server->focusGroup());
         xcb_im_input_context_set_data(xic_, this, nullptr);
         created();

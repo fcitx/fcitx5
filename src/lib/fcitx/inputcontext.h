@@ -46,6 +46,7 @@ class InputContextPrivate;
 class InputContextProperty;
 class InputPanel;
 class StatusArea;
+typedef std::function<bool(InputContext *ic)> InputContextVisitor;
 
 class FCITXCORE_EXPORT InputContext : public TrackableObject<InputContext> {
     friend class InputContextManagerPrivate;

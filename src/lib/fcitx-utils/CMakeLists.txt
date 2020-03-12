@@ -107,7 +107,7 @@ target_include_directories(Fcitx5Utils PUBLIC
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/..>
     $<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}>
     $<INSTALL_INTERFACE:${CMAKE_INSTALL_FULL_INCLUDEDIR}/Fcitx5/Utils>)
-target_link_libraries(Fcitx5Utils PRIVATE DL::DL LibIntl::LibIntl Pthread::Pthread)
+target_link_libraries(Fcitx5Utils PRIVATE DL::DL LibIntl::LibIntl Pthread::Pthread fmt::fmt)
 
 if (NOT TARGET Systemd::Systemd)
 target_link_libraries(Fcitx5Utils PRIVATE PkgConfig::DBus PkgConfig::LibEvent)

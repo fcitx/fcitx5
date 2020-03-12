@@ -23,6 +23,7 @@
 #include "fcitx-utils/i18n.h"
 #include "fcitx-utils/inputbuffer.h"
 #include "fcitx-utils/log.h"
+#include "fcitx-utils/misc_p.h"
 #include "fcitx-utils/utf8.h"
 #include "fcitx/addonmanager.h"
 #include "fcitx/inputcontext.h"
@@ -324,19 +325,12 @@ void Clipboard::clipboardChanged(const std::string &name) {
         [this](xcb_atom_t, const char *data, size_t length) {
             if (data) {
                 std::string str(data, length);
-                history_.push_front(std::move(str));
-                auto iter = history_.begin();
-                ++iter;
-                // Insert and remove duplicates.
-                for (; iter != history_.end(); iter++) {
-                    if (history_.front() == *iter) {
-                        history_.erase(iter);
-                        break;
-                    }
+                if (!history_.insert(str)) {
+                    history_.moveToTop(str);
                 }
                 while (history_.size() && static_cast<int>(history_.size()) >
                                               config_.numOfEntries.value()) {
-                    history_.pop_back();
+                    history_.pop();
                 }
             }
             clipboardCallback_.reset();

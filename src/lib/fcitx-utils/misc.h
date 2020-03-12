@@ -23,6 +23,7 @@
 #include <fcitx-utils/macros.h>
 #include <memory>
 #include <string>
+#include <unistd.h>
 #include <utility>
 #include <vector>
 
@@ -114,6 +115,8 @@ struct EnumHash {
 
 FCITXUTILS_EXPORT void startProcess(const std::vector<std::string> &args,
                                     const std::string &workingDirectory = {});
+
+FCITXUTILS_EXPORT std::string getProcessName(pid_t pid);
 } // namespace fcitx
 
 #endif // _FCITX_UTILS_MISC_H_

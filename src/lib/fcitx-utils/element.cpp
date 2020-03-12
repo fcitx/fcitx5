@@ -18,46 +18,11 @@
 //
 
 #include "element.h"
+#include "misc_p.h"
 #include <algorithm>
 #include <unordered_map>
 
 namespace fcitx {
-
-template <typename T>
-class OrderedSet {
-    typedef std::list<T> OrderList;
-
-public:
-    bool insert(const T &before, const T &v) {
-        if (dict_.count(v)) {
-            return false;
-        }
-        auto iter =
-            std::find_if(order_.begin(), order_.end(),
-                         [before](const auto &t) { return (t == before); });
-        auto newIter = order_.insert(iter, v);
-        dict_.insert(std::make_pair(v, newIter));
-        return true;
-    }
-
-    bool contains(const T &v) const { return !!dict_.count(v); }
-
-    bool remove(const T &v) {
-        auto iter = dict_.find(v);
-        if (iter == dict_.end()) {
-            return false;
-        }
-        order_.erase(iter->second);
-        dict_.erase(iter);
-        return true;
-    }
-
-    const OrderList &order() const { return order_; }
-
-private:
-    std::unordered_map<T, typename OrderList::iterator> dict_;
-    OrderList order_;
-};
 
 class ElementPrivate {
     typedef std::list<Element *> ElementList;

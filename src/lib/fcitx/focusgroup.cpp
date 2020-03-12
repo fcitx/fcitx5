@@ -58,6 +58,16 @@ InputContext *FocusGroup::focusedInputContext() const {
     return d->focus_;
 }
 
+bool FocusGroup::foreach(const InputContextVisitor &visitor) {
+    FCITX_D();
+    for (auto ic : d->ics_) {
+        if (!visitor(ic)) {
+            return false;
+        }
+    }
+    return true;
+}
+
 void FocusGroup::addInputContext(InputContext *ic) {
     FCITX_D();
     auto iter = d->ics_.insert(ic);
@@ -77,5 +87,10 @@ void FocusGroup::removeInputContext(InputContext *ic) {
 const std::string &FocusGroup::display() const {
     FCITX_D();
     return d->display_;
+}
+
+size_t FocusGroup::size() const {
+    FCITX_D();
+    return d->ics_.size();
 }
 } // namespace fcitx

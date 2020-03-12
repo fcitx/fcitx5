@@ -20,6 +20,7 @@
 #define _FCITX_UTILS_FS_H_
 
 #include "fcitxutils_export.h"
+#include <optional>
 #include <string>
 
 /// \addtogroup FcitxUtils
@@ -50,6 +51,8 @@ FCITXUTILS_EXPORT std::string baseName(const std::string &path);
 FCITXUTILS_EXPORT ssize_t safeRead(int fd, void *data, size_t maxlen);
 /// \brief a simple wrapper around write(), ignore EINTR.
 FCITXUTILS_EXPORT ssize_t safeWrite(int fd, const void *data, size_t maxlen);
+/// \brief read symlink.
+FCITXUTILS_EXPORT std::optional<std::string> readlink(const std::string &path);
 } // namespace fs
 } // namespace fcitx
 
