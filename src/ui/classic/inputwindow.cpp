@@ -32,14 +32,22 @@ namespace fcitx {
 
 namespace classicui {
 
+auto newPangoLayout(PangoContext *context) {
+    std::unique_ptr<PangoLayout, decltype(&g_object_unref)> ptr(
+        pango_layout_new(context), &g_object_unref);
+    pango_layout_set_single_paragraph_mode(ptr.get(), true);
+    FCITX_INFO() << pango_layout_get_height(ptr.get());
+    return ptr;
+}
+
 InputWindow::InputWindow(ClassicUI *parent)
     : parent_(parent), context_(nullptr, &g_object_unref),
       upperLayout_(nullptr, &g_object_unref),
       lowerLayout_(nullptr, &g_object_unref) {
     auto fontMap = pango_cairo_font_map_get_default();
     context_.reset(pango_font_map_create_context(fontMap));
-    upperLayout_.reset(pango_layout_new(context_.get()));
-    lowerLayout_.reset(pango_layout_new(context_.get()));
+    upperLayout_ = newPangoLayout(context_.get());
+    lowerLayout_ = newPangoLayout(context_.get());
 }
 
 void InputWindow::insertAttr(PangoAttrList *attrList, TextFormatFlags format,
