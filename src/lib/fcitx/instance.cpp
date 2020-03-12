@@ -289,6 +289,8 @@ public:
     InstanceArgument arg_;
 
     int signalPipe_ = -1;
+    bool exit_ = false;
+    bool running_ = false;
     EventLoop eventLoop_;
     std::unique_ptr<EventSourceIO> signalPipeEvent_;
     std::unique_ptr<EventSource> exitEvent_;
@@ -935,6 +937,11 @@ bool Instance::quitWhenMainDisplayDisconnected() const {
     return d->arg_.quitWhenMainDisplayDisconnected;
 }
 
+bool Instance::exiting() const {
+    FCITX_D();
+    return d->exit_;
+}
+
 void Instance::handleSignal() {
     FCITX_D();
     uint8_t signo = 0;
@@ -960,6 +967,9 @@ void Instance::initialize() {
     FCITX_INFO() << "Override Enabled Addons: " << enabled;
     FCITX_INFO() << "Override Disabled Addons: " << disabled;
     d->addonManager_.load(enabled, disabled);
+    if (d->exit_) {
+        return;
+    }
     d->imManager_.load();
     d->uiManager_.load(d->arg_.uiName);
 
@@ -987,8 +997,14 @@ int Instance::exec() {
     if (d->arg_.quietQuit) {
         return 0;
     }
+    d->exit_ = false;
     initialize();
+    if (d->exit_) {
+        return 1;
+    }
+    d->running_ = true;
     auto r = eventLoop().exec();
+    d->running_ = false;
 
     return r ? 0 : 1;
 }
@@ -1220,7 +1236,13 @@ void Instance::deactivate() {
     }
 }
 
-void Instance::exit() { eventLoop().quit(); }
+void Instance::exit() {
+    FCITX_D();
+    d->exit_ = true;
+    if (d->running_) {
+        d->eventLoop_.quit();
+    }
+}
 
 void Instance::reloadAddonConfig(const std::string &addonName) {
     auto addon = addonManager().addon(addonName);

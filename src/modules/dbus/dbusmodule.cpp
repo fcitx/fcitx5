@@ -473,10 +473,12 @@ DBusModule::DBusModule(Instance *instance)
       instance_(instance) {
     bus_->attachEventLoop(&instance->eventLoop());
     auto uniqueName = bus_->uniqueName();
-    if (!bus_->requestName(
-            FCITX_DBUS_SERVICE,
-            Flags<RequestNameFlag>{RequestNameFlag::AllowReplacement,
-                                   RequestNameFlag::ReplaceExisting})) {
+    Flags<RequestNameFlag> requestFlag = RequestNameFlag::AllowReplacement;
+    if (instance_->willTryReplace()) {
+        requestFlag |= RequestNameFlag::ReplaceExisting;
+    }
+    if (!bus_->requestName(FCITX_DBUS_SERVICE, requestFlag)) {
+        instance_->exit();
         throw std::runtime_error("Unable to request dbus name");
     }
 

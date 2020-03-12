@@ -67,6 +67,7 @@ public:
     int exec();
     bool willTryReplace() const;
     bool quitWhenMainDisplayDisconnected() const;
+    bool exiting() const;
 
     EventLoop &eventLoop();
     AddonManager &addonManager();

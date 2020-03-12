@@ -115,6 +115,9 @@ public:
     }
 
     void loadAddons(AddonManager *q_ptr) {
+        if (instance_ && instance_->exiting()) {
+            return;
+        }
         if (inLoadAddons_) {
             throw std::runtime_error("loadAddons is not reentrant, do not call "
                                      "addon(.., true) in constructor of addon");
@@ -126,6 +129,11 @@ public:
 
             for (auto &item : addons_) {
                 changed |= loadAddon(q_ptr, *item.second.get());
+                // Exit if addon request it.
+                if (instance_ && instance_->exiting()) {
+                    changed = false;
+                    break;
+                }
             }
         } while (changed);
         inLoadAddons_ = false;
