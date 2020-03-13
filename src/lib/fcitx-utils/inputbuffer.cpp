@@ -97,7 +97,7 @@ void InputBuffer::typeImpl(const char *s, size_t length) {
                      s + length);
     if (!d->isAsciiOnly()) {
         auto iter = s;
-        std::function<size_t()> func = [&iter]() {
+        auto func = [&iter]() {
             auto next = fcitx::utf8::nextChar(iter);
             auto diff = std::distance(iter, next);
             iter = next;
