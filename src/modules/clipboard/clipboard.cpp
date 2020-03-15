@@ -325,7 +325,7 @@ void Clipboard::clipboardChanged(const std::string &name) {
         [this](xcb_atom_t, const char *data, size_t length) {
             if (data) {
                 std::string str(data, length);
-                if (!history_.insert(str)) {
+                if (!history_.pushFront(str)) {
                     history_.moveToTop(str);
                 }
                 while (history_.size() && static_cast<int>(history_.size()) >

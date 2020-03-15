@@ -52,12 +52,12 @@ public:
 
     const T &front() const { return order_.front(); }
 
-    bool insert(const T &v) {
+    bool pushFront(const T &v) {
         if (dict_.count(v)) {
             return false;
         }
-        order_.emplace_back(v);
-        dict_.insert(std::make_pair(v, std::prev(order_.end())));
+        order_.emplace_front(v);
+        dict_.insert(std::make_pair(v, order_.begin()));
         return true;
     }
 
@@ -82,9 +82,12 @@ public:
         if (dict_.count(v)) {
             return false;
         }
-        auto iter =
-            std::find_if(order_.begin(), order_.end(),
-                         [before](const auto &t) { return (t == before); });
+        typename OrderList::iterator iter;
+        if (auto dictIter = dict_.find(before); dictIter != dict_.end()) {
+            iter = dictIter->second;
+        } else {
+            iter = order_.end();
+        }
         auto newIter = order_.insert(iter, v);
         dict_.insert(std::make_pair(v, newIter));
         return true;
