@@ -20,6 +20,8 @@
 #include "log.h"
 #include "fs.h"
 #include "stringutils.h"
+#include <chrono>
+#include <fmt/chrono.h>
 #include <mutex>
 #include <type_traits>
 #include <unordered_set>
@@ -194,7 +196,13 @@ LogMessageBuilder::LogMessageBuilder(std::ostream &out, LogLevel l,
     default:
         break;
     }
-    out_ << " ";
+
+    auto now = std::chrono::system_clock::now();
+    auto floor = std::chrono::floor<std::chrono::seconds>(now);
+    auto micro =
+        std::chrono::duration_cast<std::chrono::microseconds>(now - floor);
+    auto t = fmt::localtime(std::chrono::system_clock::to_time_t(now));
+    out_ << fmt::format("{:%F %T}.{:06d}", t, micro.count()) << " ";
     out_ << filename << ":" << lineNumber << "] ";
 }
 
