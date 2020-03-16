@@ -26,6 +26,7 @@
 #include "fcitx/inputmethodmanager.h"
 #include "fcitx/misc_p.h"
 #include "xcbconvertselection.h"
+#include "xcbeventreader.h"
 #include "xcbkeyboard.h"
 #include "xcbmodule.h"
 #include <xcb/xcb_aux.h>
@@ -55,13 +56,6 @@ XCBConnection::XCBConnection(XCBModule *xcb, const std::string &name)
 
     xcb_set_selection_owner(conn_.get(), w, atom_, XCB_CURRENT_TIME);
     serverWindow_ = w;
-    int fd = xcb_get_file_descriptor(conn_.get());
-    auto &eventLoop = parent_->instance()->eventLoop();
-    ioEvent_ = eventLoop.addIOEvent(
-        fd, IOEventFlag::In, [this](EventSource *, int, IOEventFlags flags) {
-            onIOEvent(flags);
-            return true;
-        });
 
     eventHandlers_.emplace_back(parent_->instance()->watchEvent(
         EventType::InputMethodGroupChanged, EventWatcherPhase::Default,
@@ -110,6 +104,7 @@ XCBConnection::XCBConnection(XCBModule *xcb, const std::string &name)
         });
     auto &imManager = parent_->instance()->inputMethodManager();
     setDoGrab(imManager.groupCount() > 1);
+    reader_ = std::make_unique<XCBEventReader>(this);
 }
 
 XCBConnection::~XCBConnection() {
@@ -232,26 +227,16 @@ void XCBConnection::ungrabXKeyboard() {
     xcb_flush(conn_.get());
 }
 
-auto nextXCBEvent(xcb_connection_t *conn, IOEventFlags flags) {
-    if (flags.test(IOEventFlag::In)) {
-        return makeXCBReply(xcb_poll_for_event(conn));
-    }
-    return makeXCBReply(xcb_poll_for_queued_event(conn));
-}
-
-void XCBConnection::onIOEvent(IOEventFlags flags) {
-    if (int err = xcb_connection_has_error(conn_.get())) {
-        FCITX_WARN() << "XCB connection \"" << name_ << "\" got error: " << err;
-        return parent_->removeConnection(name_);
-    }
-
-    while (auto event = nextXCBEvent(conn_.get(), flags)) {
+void XCBConnection::processEvent() {
+    auto events = reader_->events();
+    for (const auto &event : events) {
         for (auto &callback : filters_.view()) {
             if (callback(conn_.get(), event.get())) {
                 break;
             }
         }
     }
+
     xcb_flush(conn_.get());
 }
 

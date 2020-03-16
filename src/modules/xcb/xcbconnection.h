@@ -31,6 +31,7 @@ namespace fcitx {
 class XCBModule;
 class XCBConvertSelectionRequest;
 class XCBKeyboard;
+class XCBEventReader;
 
 class XCBConnection {
 public:
@@ -61,9 +62,10 @@ public:
     xcb_atom_t atom(const std::string &atomName, bool exists);
     xcb_ewmh_connection_t *ewmh();
 
+    void processEvent();
+
 private:
     bool filterEvent(xcb_connection_t *conn, xcb_generic_event_t *event);
-    void onIOEvent(IOEventFlags flags);
     void addSelectionAtom(xcb_atom_t atom);
     void removeSelectionAtom(xcb_atom_t atom);
 
@@ -101,8 +103,6 @@ private:
         [this](xcb_atom_t selection) { removeSelectionAtom(selection); }};
 
     HandlerTable<XCBConvertSelectionRequest> convertSelections_;
-
-    std::unique_ptr<EventSourceIO> ioEvent_;
     std::vector<std::unique_ptr<HandlerTableEntry<EventHandler>>>
         eventHandlers_;
 
@@ -122,6 +122,8 @@ private:
     KeyList forwardGroup_, backwardGroup_;
     bool doGrab_ = false;
     bool keyboardGrabbed_ = false;
+
+    std::unique_ptr<XCBEventReader> reader_;
 };
 
 } // namespace fcitx

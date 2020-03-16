@@ -48,7 +48,7 @@ public:
     XCBModule(Instance *instance);
 
     void openConnection(const std::string &name);
-    void removeConnection(const std::string &name);
+    void removeConnection(std::string name);
     const XCBConfig &config() const { return config_; }
     Instance *instance() { return instance_; }
 
@@ -100,6 +100,11 @@ private:
     FCITX_ADDON_EXPORT_FUNCTION(XCBModule, atom);
     FCITX_ADDON_EXPORT_FUNCTION(XCBModule, ewmh);
 };
+
+FCITX_DECLARE_LOG_CATEGORY(xcb_log);
+
+#define FCITX_XCB_DEBUG() FCITX_LOGC(::fcitx::xcb_log, Debug)
+
 } // namespace fcitx
 
 #endif // _FCITX_MODULES_XCB_XCBMODULE_H_

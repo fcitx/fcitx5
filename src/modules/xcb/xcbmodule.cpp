@@ -24,6 +24,8 @@
 
 namespace fcitx {
 
+FCITX_DEFINE_LOG_CATEGORY(xcb_log, "xcb");
+
 XCBModule::XCBModule(Instance *instance) : instance_(instance) {
     reloadConfig();
     openConnection("");
@@ -53,7 +55,9 @@ void XCBModule::openConnection(const std::string &name_) {
     }
 }
 
-void XCBModule::removeConnection(const std::string &name) {
+void XCBModule::removeConnection(std::string name) {
+    // name might be a reference to the actual XCBConnection member, make a copy
+    // to avoid read invalid value.
     auto iter = conns_.find(name);
     if (iter == conns_.end()) {
         return;
