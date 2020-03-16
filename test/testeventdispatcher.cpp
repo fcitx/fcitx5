@@ -19,16 +19,17 @@
 #include "fcitx-utils/event.h"
 #include "fcitx-utils/eventdispatcher.h"
 #include "fcitx-utils/log.h"
+#include <atomic>
 #include <thread>
 #include <unistd.h>
 
 using namespace fcitx;
 
-volatile int a = 0;
+std::atomic<int> a = 0;
 
 void scheduleEvent(EventDispatcher *dispatcher, EventLoop *loop) {
     for (int i = 0; i < 100; i++) {
-        dispatcher->schedule([]() { a += 1; });
+        dispatcher->schedule([]() { a.fetch_add(1); });
     }
     while (a != 100) {
         usleep(1000);
@@ -39,7 +40,7 @@ void scheduleEvent(EventDispatcher *dispatcher, EventLoop *loop) {
     });
 }
 
-int main() {
+void basicTest() {
     EventLoop loop;
     EventDispatcher dispatcher;
     dispatcher.attach(&loop);
@@ -47,6 +48,31 @@ int main() {
 
     loop.exec();
     thread.join();
+}
 
+void recursiveSchedule() {
+    EventLoop loop;
+    EventDispatcher dispatcher;
+    dispatcher.attach(&loop);
+    int counter = 0;
+    std::function<void()> callback = [&dispatcher, &counter, &loop,
+                                      &callback]() {
+        if (counter == 100) {
+            loop.quit();
+            return;
+        }
+        ++counter;
+        dispatcher.schedule(callback);
+    };
+
+    dispatcher.schedule(callback);
+
+    loop.exec();
+    FCITX_ASSERT(counter == 100);
+}
+
+int main() {
+    basicTest();
+    recursiveSchedule();
     return 0;
 }

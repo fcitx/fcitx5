@@ -31,14 +31,20 @@ public:
         uint8_t dummy;
         while (fs::safeRead(fd_[0].fd(), &dummy, sizeof(dummy)) > 0) {
         }
-        std::lock_guard<std::mutex> lock(mutex_);
-        while (!eventList_.empty()) {
-            auto functor = std::move(eventList_.front());
-            eventList_.pop();
+        std::queue<std::function<void()>> eventList;
+        {
+            std::lock_guard<std::mutex> lock(mutex_);
+            using std::swap;
+            std::swap(eventList, eventList_);
+        }
+        while (!eventList.empty()) {
+            auto functor = std::move(eventList.front());
+            eventList.pop();
             functor();
         }
     }
 
+    // Mutex to be used to protect eventList_.
     std::mutex mutex_;
     std::queue<std::function<void()>> eventList_;
     std::unique_ptr<EventSourceIO> ioEvent_;
@@ -60,6 +66,7 @@ EventDispatcher::~EventDispatcher() {}
 
 void EventDispatcher::attach(EventLoop *loop) {
     FCITX_D();
+    std::lock_guard<std::mutex> lock(d->mutex_);
     d->ioEvent_ = loop->addIOEvent(d->fd_[0].fd(), IOEventFlag::In,
                                    [d](EventSource *, int, IOEventFlags) {
                                        d->dispatchEvent();
@@ -69,16 +76,19 @@ void EventDispatcher::attach(EventLoop *loop) {
 
 void EventDispatcher::detach() {
     FCITX_D();
+    std::lock_guard<std::mutex> lock(d->mutex_);
     d->ioEvent_.reset();
 }
 
 void EventDispatcher::schedule(std::function<void()> functor) {
     FCITX_D();
-    std::lock_guard<std::mutex> lock(d->mutex_);
-    if (!d->ioEvent_) {
-        return;
+    {
+        std::lock_guard<std::mutex> lock(d->mutex_);
+        if (!d->ioEvent_) {
+            return;
+        }
+        d->eventList_.push(std::move(functor));
     }
-    d->eventList_.push(std::move(functor));
     uint8_t dummy = 0;
     fs::safeWrite(d->fd_[1].fd(), &dummy, 1);
 }
