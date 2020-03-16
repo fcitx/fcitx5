@@ -22,6 +22,8 @@
 #include "fcitx/focusgroup.h"
 #include "fcitx/inputcontext.h"
 #include "fcitx/instance.h"
+#include <cstdarg>
+#include <cstdio>
 #include <unistd.h>
 #include <xcb-imdkit/encoding.h>
 #include <xcb/xcb_aux.h>
@@ -65,6 +67,28 @@ std::string guess_server_name() {
 
 namespace fcitx {
 
+namespace {
+
+void XimLogFunc(const char *fmt, ...) {
+    std::va_list argp;
+    va_start(argp, fmt);
+    char onechar[1];
+    int len = std::vsnprintf(onechar, 1, fmt, argp);
+    if (len < 1) {
+        return;
+    }
+    va_end(argp);
+    std::vector<char> buf;
+    buf.resize(len + 1);
+    buf.back() = 0;
+    va_start(argp, fmt);
+    std::vsnprintf(buf.data(), len, fmt, argp);
+    va_end(argp);
+    XIM_DEBUG() << buf.data();
+}
+
+} // namespace
+
 class XIMServer {
 public:
     XIMServer(xcb_connection_t *conn, int defaultScreen, FocusGroup *group,
@@ -83,6 +107,11 @@ public:
             XCB_IM_ALL_LOCALES, &styles, nullptr, nullptr, &encodings,
             XCB_EVENT_MASK_KEY_PRESS | XCB_EVENT_MASK_KEY_RELEASE,
             &XIMServer::callback, this));
+
+        if (::xim().checkLogLevel(LogLevel::Debug)) {
+            xcb_im_set_log_handler(im_.get(), XimLogFunc);
+        }
+        xcb_im_set_use_sync_mode(im_.get(), false);
 
         filter_ = parent_->xcb()->call<fcitx::IXCBModule::addEventFilter>(
             name, [this](xcb_connection_t *, xcb_generic_event_t *event) {
