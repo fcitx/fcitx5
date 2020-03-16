@@ -236,8 +236,8 @@ void XCBConnection::processEvent() {
             }
         }
     }
-
     xcb_flush(conn_.get());
+    reader_->wakeUp();
 }
 
 bool XCBConnection::filterEvent(xcb_connection_t *,

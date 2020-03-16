@@ -42,6 +42,7 @@ public:
         swap(events_, events);
         return events;
     }
+    void wakeUp();
 
 private:
     static void runThread(XCBEventReader *self) { self->run(); }
@@ -52,6 +53,7 @@ private:
     EventDispatcher dispatcherToWorker_;
     bool hadError_ = false;
     std::unique_ptr<EventSource> deferEvent_;
+    std::unique_ptr<EventSource> wakeEvent_;
     std::unique_ptr<std::thread> thread_;
     std::unique_ptr<EventLoop> event_;
     std::mutex mutex_;

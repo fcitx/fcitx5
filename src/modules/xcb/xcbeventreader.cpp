@@ -21,13 +21,12 @@
 #include "xcbmodule.h"
 
 namespace fcitx {
-fcitx::XCBEventReader::XCBEventReader(fcitx::XCBConnection *conn)
-    : conn_(conn) {
+XCBEventReader::XCBEventReader(XCBConnection *conn) : conn_(conn) {
     dispatcherToMain_.attach(&conn->instance()->eventLoop());
     thread_ = std::make_unique<std::thread>(&XCBEventReader::runThread, this);
 }
 
-fcitx::XCBEventReader::~XCBEventReader() {
+XCBEventReader::~XCBEventReader() {
     dispatcherToWorker_.schedule([this]() { event_->quit(); });
     thread_->join();
 }
@@ -39,7 +38,7 @@ auto nextXCBEvent(xcb_connection_t *conn, IOEventFlags flags) {
     return makeXCBReply(xcb_poll_for_queued_event(conn));
 }
 
-bool fcitx::XCBEventReader::onIOEvent(fcitx::IOEventFlags flags) {
+bool XCBEventReader::onIOEvent(IOEventFlags flags) {
     if (hadError_) {
         return false;
     }
@@ -57,20 +56,29 @@ bool fcitx::XCBEventReader::onIOEvent(fcitx::IOEventFlags flags) {
         return false;
     }
 
-    while (auto event = nextXCBEvent(conn_->connection(), flags)) {
-        {
-            std::lock_guard<std::mutex> lock(mutex_);
+    FCITX_XCB_DEBUG() << "onIOEvent" << static_cast<int>(flags);
+    bool hasEvent = false;
+    {
+        std::lock_guard<std::mutex> lock(mutex_);
+        while (auto event = nextXCBEvent(conn_->connection(), flags)) {
             events_.emplace_back(std::move(event));
         }
+        hasEvent = !events_.empty();
     }
-    dispatcherToMain_.schedule([this]() {
-        FCITX_XCB_DEBUG() << "Processing event";
-        conn_->processEvent();
-    });
+    if (hasEvent) {
+        dispatcherToMain_.schedule([this]() {
+            FCITX_XCB_DEBUG() << "Processing event";
+            conn_->processEvent();
+        });
+    }
     return true;
 }
 
-void fcitx::XCBEventReader::run() {
+void XCBEventReader::wakeUp() {
+    dispatcherToWorker_.schedule([this]() { onIOEvent(IOEventFlags{}); });
+}
+
+void XCBEventReader::run() {
     event_ = std::make_unique<EventLoop>();
     dispatcherToWorker_.attach(event_.get());
 
