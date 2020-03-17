@@ -58,13 +58,13 @@ public:
     InputBufferOptions options() const;
 
     /// Type a C-String with length into buffer.
-    void type(const char *s, size_t length) { typeImpl(s, length); }
+    bool type(const char *s, size_t length) { return typeImpl(s, length); }
     /// Type an std::stirng to buffer.
-    void type(const std::string &s) { type(s.c_str(), s.size()); }
+    bool type(const std::string &s) { return type(s.c_str(), s.size()); }
     /// Type a C-String to buffer.
-    void type(const char *s) { type(s, std::strlen(s)); }
+    bool type(const char *s) { return type(s, std::strlen(s)); }
     /// Type a ucs4 character to buffer.
-    void type(uint32_t unicode);
+    bool type(uint32_t unicode);
 
     /// Erase a range of character.
     virtual void erase(size_t from, size_t to);
@@ -130,7 +130,7 @@ public:
 protected:
     /// Type a certain length of utf8 character to the buffer. [s, s+length]
     /// need to be valid utf8 string.
-    virtual void typeImpl(const char *s, size_t length);
+    virtual bool typeImpl(const char *s, size_t length);
 
 private:
     std::unique_ptr<InputBufferPrivate> d_ptr;

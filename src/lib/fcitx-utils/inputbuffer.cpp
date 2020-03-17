@@ -73,14 +73,14 @@ InputBufferOptions InputBuffer::options() const {
     return d->options_;
 }
 
-void InputBuffer::type(uint32_t c) { type(fcitx::utf8::UCS4ToUTF8(c)); }
+bool InputBuffer::type(uint32_t c) { return type(fcitx::utf8::UCS4ToUTF8(c)); }
 
 const std::string &InputBuffer::userInput() const {
     FCITX_D();
     return d->input_;
 }
 
-void InputBuffer::typeImpl(const char *s, size_t length) {
+bool InputBuffer::typeImpl(const char *s, size_t length) {
     FCITX_D();
     auto utf8Length = fcitx::utf8::lengthValidated(s, s + length);
     if (utf8Length == fcitx::utf8::INVALID_LENGTH) {
@@ -91,7 +91,7 @@ void InputBuffer::typeImpl(const char *s, size_t length) {
             "ascii only buffer only accept ascii only string");
     }
     if (d->maxSize_ && (utf8Length + size() > d->maxSize_)) {
-        return;
+        return false;
     }
     d->input_.insert(std::next(d->input_.begin(), cursorByChar()), s,
                      s + length);
@@ -116,6 +116,7 @@ void InputBuffer::typeImpl(const char *s, size_t length) {
         }
     }
     d->cursor_ += utf8Length;
+    return true;
 }
 
 size_t InputBuffer::cursorByChar() const {
