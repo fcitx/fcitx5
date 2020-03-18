@@ -111,7 +111,7 @@ public:
         if (::xim().checkLogLevel(LogLevel::Debug)) {
             xcb_im_set_log_handler(im_.get(), XimLogFunc);
         }
-        xcb_im_set_use_sync_mode(im_.get(), true);
+        xcb_im_set_use_sync_mode(im_.get(), false);
 
         filter_ = parent_->xcb()->call<fcitx::IXCBModule::addEventFilter>(
             name, [this](xcb_connection_t *, xcb_generic_event_t *event) {
