@@ -47,8 +47,6 @@
 
 FCITX_DEFINE_LOG_CATEGORY(keyTrace, "key_trace");
 
-#define FCITX_KEYTRACE() FCITX_LOGC(keyTrace, Debug)
-
 namespace {
 
 void initAsDaemon() {

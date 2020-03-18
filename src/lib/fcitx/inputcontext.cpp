@@ -23,7 +23,9 @@
 #include "inputcontext_p.h"
 #include "inputcontextmanager.h"
 #include "instance.h"
+#include "misc_p.h"
 #include <cassert>
+#include <chrono>
 #include <exception>
 
 namespace fcitx {
@@ -184,7 +186,14 @@ void InputContext::setHasFocus(bool hasFocus) {
 
 bool InputContext::keyEvent(KeyEvent &event) {
     FCITX_D();
-    return d->postEvent(event);
+    auto start = std::chrono::steady_clock::now();
+    auto result = d->postEvent(event);
+    FCITX_KEYTRACE() << "KeyEvent handling time: "
+                     << std::chrono::duration_cast<std::chrono::milliseconds>(
+                            std::chrono::steady_clock::now() - start)
+                            .count()
+                     << "ms";
+    return result;
 }
 
 void InputContext::reset(ResetReason reason) {

@@ -19,6 +19,7 @@
 #ifndef _FCITX_MISC_P_H_
 #define _FCITX_MISC_P_H_
 
+#include "fcitx-utils/log.h"
 #include "fcitx-utils/misc_p.h"
 #include "fcitx/candidatelist.h"
 #include <string>
@@ -55,5 +56,9 @@ nthCandidateIgnorePlaceholder(const CandidateList &candidateList, int idx) {
 }
 
 } // namespace fcitx
+
+FCITX_DECLARE_LOG_CATEGORY(keyTrace);
+
+#define FCITX_KEYTRACE() FCITX_LOGC(::keyTrace, Debug)
 
 #endif // _FCITX_MISC_P_H_
