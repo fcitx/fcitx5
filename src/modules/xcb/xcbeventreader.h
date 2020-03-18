@@ -35,9 +35,9 @@ public:
     XCBEventReader(XCBConnection *conn);
     ~XCBEventReader();
 
-    std::vector<XCBReply<xcb_generic_event_t>> events() {
+    auto events() {
         std::lock_guard<std::mutex> lock(mutex_);
-        std::vector<XCBReply<xcb_generic_event_t>> events;
+        std::list<XCBReply<xcb_generic_event_t>> events;
         using std::swap;
         swap(events_, events);
         return events;
@@ -57,7 +57,7 @@ private:
     std::unique_ptr<std::thread> thread_;
     std::unique_ptr<EventLoop> event_;
     std::mutex mutex_;
-    std::vector<XCBReply<xcb_generic_event_t>> events_;
+    std::list<XCBReply<xcb_generic_event_t>> events_;
 };
 
 } // namespace fcitx

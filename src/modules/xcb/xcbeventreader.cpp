@@ -58,11 +58,13 @@ bool XCBEventReader::onIOEvent(IOEventFlags flags) {
 
     FCITX_XCB_DEBUG() << "onIOEvent" << static_cast<int>(flags);
     bool hasEvent = false;
+    std::list<XCBReply<xcb_generic_event_t>> events;
+    while (auto event = nextXCBEvent(conn_->connection(), flags)) {
+        events.emplace_back(std::move(event));
+    }
     {
         std::lock_guard<std::mutex> lock(mutex_);
-        while (auto event = nextXCBEvent(conn_->connection(), flags)) {
-            events_.emplace_back(std::move(event));
-        }
+        events_.splice(events_.end(), events);
         hasEvent = !events_.empty();
     }
     if (hasEvent) {
