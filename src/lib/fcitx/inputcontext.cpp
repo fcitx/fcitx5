@@ -186,7 +186,11 @@ void InputContext::setHasFocus(bool hasFocus) {
 
 bool InputContext::keyEvent(KeyEvent &event) {
     FCITX_D();
-    auto start = std::chrono::steady_clock::now();
+    decltype(std::chrono::steady_clock::now()) start;
+    // Don't query time if we don't want log.
+    if (::keyTrace().checkLogLevel(LogLevel::Debug)) {
+        start = std::chrono::steady_clock::now();
+    }
     auto result = d->postEvent(event);
     FCITX_KEYTRACE() << "KeyEvent handling time: "
                      << std::chrono::duration_cast<std::chrono::milliseconds>(
