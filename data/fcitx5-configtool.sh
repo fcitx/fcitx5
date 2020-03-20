@@ -106,7 +106,7 @@ detectDE() {
 }
 
 run_kde() {
-    if (kcmshell5 --list 2>/dev/null | grep ^kcm_fcitx > /dev/null 2>&1); then
+    if (kcmshell5 --list 2>/dev/null | grep ^kcm_fcitx5 > /dev/null 2>&1); then
         if [ x"$1" != x ]; then
             exec kcmshell5 fcitx5 --args "$1"
         else
@@ -115,17 +115,10 @@ run_kde() {
     fi
 }
 
-run_gtk() {
-    #if which fcitx-config-gtk > /dev/null 2>&1; then
-    #    exec fcitx-config-gtk "$1"
-    #fi
-    return 1
-}
-
-run_gtk3() {
-    #if which fcitx-config-gtk3 > /dev/null 2>&1; then
-    #    exec fcitx-config-gtk3 "$1"
-    #fi
+run_qt() {
+    if which fcitx5-config-qt > /dev/null 2>&1; then
+        exec fcitx5-config-qt "$1"
+    fi
     return 1
 }
 
@@ -135,7 +128,7 @@ run_xdg() {
             message "$(_ "You're currently running KDE, but KCModule for fcitx couldn't be found, the package name of this KCModule is usually kcm-fcitx or kde-config-fcitx. Now it will open config file with default text editor.")"
             ;;
         *)
-            message "$(_ "You're currently running Fcitx with GUI, but fcitx-configtool couldn't be found, the package name is usually fcitx-config-gtk, fcitx-config-gtk3 or fcitx-configtool. Now it will open config file with default text editor.")"
+            message "$(_ "You're currently running Fcitx with GUI, but fcitx5-config-qt couldn't be found. Now it will open config file with default text editor.")"
             ;;
     esac
 
@@ -167,7 +160,7 @@ detect_im_addon() {
         fi
     fi
 
-    if [ ! -f "$HOME/.config/fcitx/conf/$filename.config" ]; then
+    if [ ! -f "$HOME/.config/fcitx5/conf/$filename.config" ]; then
         filename=
     fi
 }
@@ -198,10 +191,10 @@ detectDE
 # xdg/editor is never a preferred solution
 case "$DE" in
     kde)
-        order="kde gtk3 gtk xdg editor"
+        order="kde qt xdg editor"
         ;;
     *)
-        order="gtk3 gtk kde xdg editor"
+        order="qt kde xdg editor"
         ;;
 esac
 
