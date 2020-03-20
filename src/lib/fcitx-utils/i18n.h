@@ -45,7 +45,7 @@ void registerDomain(const char *domain, const char *dir);
 #define C_(c, x) ::fcitx::translateDomainCtx(FCITX_GETTEXT_DOMAIN, c, x)
 #else
 #define _(x) ::fcitx::translate(x)
-#define C_(c, x) ::fcitx::translateCtx(FCITX_GETTEXT_DOMAIN, c, x)
+#define C_(c, x) ::fcitx::translateCtx(c, x)
 #endif
 
 #define D_(d, x) ::fcitx::translateDomain(d, x)
