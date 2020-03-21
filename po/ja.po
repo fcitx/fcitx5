@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2020-03-07 16:19-0800\n"
+"POT-Creation-Date: 2020-03-21 00:01-0700\n"
 "PO-Revision-Date: 2017-11-23 04:14+0000\n"
 "Last-Translator: ABE Tsunehiko, 2017\n"
 "Language-Team: Japanese (https://www.transifex.com/fcitx/teams/12005/ja/)\n"
@@ -20,7 +20,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
-#: src/lib/fcitx/instance.cpp:1567
+#: src/lib/fcitx/instance.cpp:1641
 msgid "(Not available)"
 msgstr "(使用不可)"
 
@@ -198,7 +198,7 @@ msgstr ""
 msgid "Clipboard"
 msgstr "クリップボード"
 
-#: src/modules/clipboard/clipboard.cpp:294
+#: src/modules/clipboard/clipboard.cpp:295
 msgid "Clipboard:"
 msgstr "クリップボード:"
 
@@ -217,12 +217,12 @@ msgctxt "Key name"
 msgid "Community"
 msgstr ""
 
-#: src/ui/classic/xcbtraywindow.cpp:53
+#: src/ui/classic/xcbtraywindow.cpp:54
 #: src/modules/notificationitem/dbusmenu.cpp:282
 msgid "Configure"
 msgstr "設定"
 
-#: src/ui/classic/xcbtraywindow.cpp:52
+#: src/ui/classic/xcbtraywindow.cpp:53
 #: src/modules/notificationitem/dbusmenu.cpp:277
 msgid "Configure Current Input Method"
 msgstr "現在の入力メソッドの設定"
@@ -271,7 +271,7 @@ msgstr ""
 msgid "Deactivate Input Method"
 msgstr "入力メソッドをオフにする"
 
-#: src/lib/fcitx/inputmethodmanager.cpp:200
+#: src/lib/fcitx/inputmethodmanager.cpp:199
 #: src/ui/classic/themes/default/theme.conf.in:3
 msgid "Default"
 msgstr "既定"
@@ -374,7 +374,7 @@ msgctxt "Key name"
 msgid "Execute"
 msgstr ""
 
-#: src/ui/classic/xcbtraywindow.cpp:55
+#: src/ui/classic/xcbtraywindow.cpp:56
 #: src/modules/notificationitem/dbusmenu.cpp:295
 msgid "Exit"
 msgstr "閉じる"
@@ -426,12 +426,12 @@ msgctxt "Key name"
 msgid "Green"
 msgstr ""
 
-#: src/ui/classic/xcbtraywindow.cpp:48
+#: src/ui/classic/xcbtraywindow.cpp:49
 #: src/modules/notificationitem/dbusmenu.cpp:267
 msgid "Group"
 msgstr "グループ"
 
-#: src/lib/fcitx/instance.cpp:1570
+#: src/lib/fcitx/instance.cpp:1644
 msgid "Group {0}: {1}"
 msgstr "グループ {0}: {1}"
 
@@ -557,7 +557,7 @@ msgstr "ホットキー"
 msgid "IBus Frontend"
 msgstr "IBus フロントエンド"
 
-#: src/ui/classic/xcbtraywindow.cpp:50
+#: src/ui/classic/xcbtraywindow.cpp:51
 #: src/modules/notificationitem/dbusmenu.cpp:261
 #: src/modules/notificationitem/notificationitem.cpp:102
 #: data/fcitx5.desktop.in.in:4
@@ -873,7 +873,7 @@ msgstr ""
 msgid "Next Candidate"
 msgstr ""
 
-#: src/modules/clipboard/clipboard.cpp:296
+#: src/modules/clipboard/clipboard.cpp:297
 msgid "No clipboard history."
 msgstr "クリップボード履歴がありません。"
 
@@ -1004,7 +1004,7 @@ msgctxt "Key name"
 msgid "Reply"
 msgstr ""
 
-#: src/ui/classic/xcbtraywindow.cpp:54
+#: src/ui/classic/xcbtraywindow.cpp:55
 #: src/modules/notificationitem/dbusmenu.cpp:289
 msgid "Restart"
 msgstr "再起動"
@@ -1368,14 +1368,13 @@ msgctxt "Key name"
 msgid "Yellow"
 msgstr ""
 
-#: data/fcitx5-configtool.sh:138
+#: data/fcitx5-configtool.sh:131
 msgid ""
-"You're currently running Fcitx with GUI, but fcitx-configtool couldn't be "
-"found, the package name is usually fcitx-config-gtk, fcitx-config-gtk3 or "
-"fcitx-configtool. Now it will open config file with default text editor."
+"You're currently running Fcitx with GUI, but fcitx5-config-qt couldn't be "
+"found. Now it will open config file with default text editor."
 msgstr ""
 
-#: data/fcitx5-configtool.sh:135
+#: data/fcitx5-configtool.sh:128
 msgid ""
 "You're currently running KDE, but KCModule for fcitx couldn't be found, the "
 "package name of this KCModule is usually kcm-fcitx or kde-config-fcitx. Now "
@@ -1411,10 +1410,10 @@ msgstr ""
 msgid "{0} (Not Available)"
 msgstr ""
 
-#: src/lib/fcitx/instance.cpp:1565
+#: src/lib/fcitx/instance.cpp:1639
 msgid "{0} (Not available)"
 msgstr "{0} (使用不可)"
 
-#: src/lib/fcitx/instance.cpp:1562
+#: src/lib/fcitx/instance.cpp:1636
 msgid "{0} ({1})"
 msgstr "{0} ({1})"

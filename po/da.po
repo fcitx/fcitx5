@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2020-03-20 00:01-0700\n"
+"POT-Creation-Date: 2020-03-21 00:01-0700\n"
 "PO-Revision-Date: 2017-11-23 04:14+0000\n"
 "Last-Translator: scootergrisen, 2020\n"
 "Language-Team: Danish (https://www.transifex.com/fcitx/teams/12005/da/)\n"
@@ -1368,18 +1368,13 @@ msgctxt "Key name"
 msgid "Yellow"
 msgstr "Gul"
 
-#: data/fcitx5-configtool.sh:138
+#: data/fcitx5-configtool.sh:131
 msgid ""
-"You're currently running Fcitx with GUI, but fcitx-configtool couldn't be "
-"found, the package name is usually fcitx-config-gtk, fcitx-config-gtk3 or "
-"fcitx-configtool. Now it will open config file with default text editor."
+"You're currently running Fcitx with GUI, but fcitx5-config-qt couldn't be "
+"found. Now it will open config file with default text editor."
 msgstr ""
-"Du kører i øjeblikket Fcitx med grafisk brugerflade, men fcitx-configtool "
-"blev ikke fundet, pakkenavnet er typisk fcitx-config-gtk, fcitx-config-gtk3 "
-"eller fcitx-configtool. Den vil nu åbne konfigurationsfilen med "
-"standardtekstredigeringsprogrammet."
 
-#: data/fcitx5-configtool.sh:135
+#: data/fcitx5-configtool.sh:128
 msgid ""
 "You're currently running KDE, but KCModule for fcitx couldn't be found, the "
 "package name of this KCModule is usually kcm-fcitx or kde-config-fcitx. Now "

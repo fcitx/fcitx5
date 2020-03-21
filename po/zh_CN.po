@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2020-03-07 16:19-0800\n"
+"POT-Creation-Date: 2020-03-21 00:01-0700\n"
 "PO-Revision-Date: 2017-11-23 04:14+0000\n"
 "Last-Translator: wwj402 <wwj402@gmail.com>, 2017\n"
 "Language-Team: Chinese (China) (https://www.transifex.com/fcitx/teams/12005/"
@@ -21,7 +21,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
-#: src/lib/fcitx/instance.cpp:1567
+#: src/lib/fcitx/instance.cpp:1641
 msgid "(Not available)"
 msgstr "(不可用)"
 
@@ -199,7 +199,7 @@ msgstr "清空"
 msgid "Clipboard"
 msgstr "剪贴板"
 
-#: src/modules/clipboard/clipboard.cpp:294
+#: src/modules/clipboard/clipboard.cpp:295
 msgid "Clipboard:"
 msgstr "剪贴板："
 
@@ -218,12 +218,12 @@ msgctxt "Key name"
 msgid "Community"
 msgstr "社区"
 
-#: src/ui/classic/xcbtraywindow.cpp:53
+#: src/ui/classic/xcbtraywindow.cpp:54
 #: src/modules/notificationitem/dbusmenu.cpp:282
 msgid "Configure"
 msgstr "配置"
 
-#: src/ui/classic/xcbtraywindow.cpp:52
+#: src/ui/classic/xcbtraywindow.cpp:53
 #: src/modules/notificationitem/dbusmenu.cpp:277
 msgid "Configure Current Input Method"
 msgstr "配置当前输入法"
@@ -272,7 +272,7 @@ msgstr "DOS"
 msgid "Deactivate Input Method"
 msgstr "取消激活输入法"
 
-#: src/lib/fcitx/inputmethodmanager.cpp:200
+#: src/lib/fcitx/inputmethodmanager.cpp:199
 #: src/ui/classic/themes/default/theme.conf.in:3
 msgid "Default"
 msgstr "默认"
@@ -375,7 +375,7 @@ msgctxt "Key name"
 msgid "Execute"
 msgstr "执行"
 
-#: src/ui/classic/xcbtraywindow.cpp:55
+#: src/ui/classic/xcbtraywindow.cpp:56
 #: src/modules/notificationitem/dbusmenu.cpp:295
 msgid "Exit"
 msgstr "退出"
@@ -427,12 +427,12 @@ msgctxt "Key name"
 msgid "Green"
 msgstr "绿"
 
-#: src/ui/classic/xcbtraywindow.cpp:48
+#: src/ui/classic/xcbtraywindow.cpp:49
 #: src/modules/notificationitem/dbusmenu.cpp:267
 msgid "Group"
 msgstr "分组"
 
-#: src/lib/fcitx/instance.cpp:1570
+#: src/lib/fcitx/instance.cpp:1644
 msgid "Group {0}: {1}"
 msgstr "分组 {0}：{1}"
 
@@ -558,7 +558,7 @@ msgstr "快捷键"
 msgid "IBus Frontend"
 msgstr "IBus 前端"
 
-#: src/ui/classic/xcbtraywindow.cpp:50
+#: src/ui/classic/xcbtraywindow.cpp:51
 #: src/modules/notificationitem/dbusmenu.cpp:261
 #: src/modules/notificationitem/notificationitem.cpp:102
 #: data/fcitx5.desktop.in.in:4
@@ -874,7 +874,7 @@ msgstr "新闻"
 msgid "Next Candidate"
 msgstr "下一个候选词"
 
-#: src/modules/clipboard/clipboard.cpp:296
+#: src/modules/clipboard/clipboard.cpp:297
 msgid "No clipboard history."
 msgstr "无剪贴板历史。"
 
@@ -1005,7 +1005,7 @@ msgctxt "Key name"
 msgid "Reply"
 msgstr "回复"
 
-#: src/ui/classic/xcbtraywindow.cpp:54
+#: src/ui/classic/xcbtraywindow.cpp:55
 #: src/modules/notificationitem/dbusmenu.cpp:289
 msgid "Restart"
 msgstr "重新启动"
@@ -1369,17 +1369,13 @@ msgctxt "Key name"
 msgid "Yellow"
 msgstr "黄"
 
-#: data/fcitx5-configtool.sh:138
+#: data/fcitx5-configtool.sh:131
 msgid ""
-"You're currently running Fcitx with GUI, but fcitx-configtool couldn't be "
-"found, the package name is usually fcitx-config-gtk, fcitx-config-gtk3 or "
-"fcitx-configtool. Now it will open config file with default text editor."
+"You're currently running Fcitx with GUI, but fcitx5-config-qt couldn't be "
+"found. Now it will open config file with default text editor."
 msgstr ""
-"您正在图形界面下运行 fcitx，但是 fcitx-configtool 未被找到，软件包名通常为 "
-"fcitx-config-gtk，fcitx-config-gtk3，或者 fcitx-configtool。现在将用默认文本"
-"编辑器打开配置文件。"
 
-#: data/fcitx5-configtool.sh:135
+#: data/fcitx5-configtool.sh:128
 msgid ""
 "You're currently running KDE, but KCModule for fcitx couldn't be found, the "
 "package name of this KCModule is usually kcm-fcitx or kde-config-fcitx. Now "
@@ -1417,10 +1413,10 @@ msgstr "iTouch"
 msgid "{0} (Not Available)"
 msgstr "{0} (不可用)"
 
-#: src/lib/fcitx/instance.cpp:1565
+#: src/lib/fcitx/instance.cpp:1639
 msgid "{0} (Not available)"
 msgstr "{0} (不可用)"
 
-#: src/lib/fcitx/instance.cpp:1562
+#: src/lib/fcitx/instance.cpp:1636
 msgid "{0} ({1})"
 msgstr "{0} ({1})"

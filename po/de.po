@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2020-03-07 16:19-0800\n"
+"POT-Creation-Date: 2020-03-21 00:01-0700\n"
 "PO-Revision-Date: 2017-11-23 04:14+0000\n"
 "Last-Translator: Tim Hofstede <timhofstede.va@gmail.com>, 2018\n"
 "Language-Team: German (https://www.transifex.com/fcitx/teams/12005/de/)\n"
@@ -21,7 +21,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: src/lib/fcitx/instance.cpp:1567
+#: src/lib/fcitx/instance.cpp:1641
 msgid "(Not available)"
 msgstr "(nicht vorhanden)"
 
@@ -199,7 +199,7 @@ msgstr "Löschen"
 msgid "Clipboard"
 msgstr "Clipboard"
 
-#: src/modules/clipboard/clipboard.cpp:294
+#: src/modules/clipboard/clipboard.cpp:295
 msgid "Clipboard:"
 msgstr "Clipboard:"
 
@@ -218,12 +218,12 @@ msgctxt "Key name"
 msgid "Community"
 msgstr "Gemeinschaft"
 
-#: src/ui/classic/xcbtraywindow.cpp:53
+#: src/ui/classic/xcbtraywindow.cpp:54
 #: src/modules/notificationitem/dbusmenu.cpp:282
 msgid "Configure"
 msgstr "Konfigurieren"
 
-#: src/ui/classic/xcbtraywindow.cpp:52
+#: src/ui/classic/xcbtraywindow.cpp:53
 #: src/modules/notificationitem/dbusmenu.cpp:277
 msgid "Configure Current Input Method"
 msgstr "Aktuelle Eingabemethode konfigurieren"
@@ -272,7 +272,7 @@ msgstr "DOS"
 msgid "Deactivate Input Method"
 msgstr "Eingabemethode deaktivieren"
 
-#: src/lib/fcitx/inputmethodmanager.cpp:200
+#: src/lib/fcitx/inputmethodmanager.cpp:199
 #: src/ui/classic/themes/default/theme.conf.in:3
 msgid "Default"
 msgstr "Standard"
@@ -375,7 +375,7 @@ msgctxt "Key name"
 msgid "Execute"
 msgstr "Ausführen"
 
-#: src/ui/classic/xcbtraywindow.cpp:55
+#: src/ui/classic/xcbtraywindow.cpp:56
 #: src/modules/notificationitem/dbusmenu.cpp:295
 msgid "Exit"
 msgstr "Beenden"
@@ -427,12 +427,12 @@ msgctxt "Key name"
 msgid "Green"
 msgstr "Grün"
 
-#: src/ui/classic/xcbtraywindow.cpp:48
+#: src/ui/classic/xcbtraywindow.cpp:49
 #: src/modules/notificationitem/dbusmenu.cpp:267
 msgid "Group"
 msgstr "Gruppe"
 
-#: src/lib/fcitx/instance.cpp:1570
+#: src/lib/fcitx/instance.cpp:1644
 msgid "Group {0}: {1}"
 msgstr "Gruppe {0}: {1}"
 
@@ -558,7 +558,7 @@ msgstr "Kurzbefehl"
 msgid "IBus Frontend"
 msgstr "IBus Schnittstelle"
 
-#: src/ui/classic/xcbtraywindow.cpp:50
+#: src/ui/classic/xcbtraywindow.cpp:51
 #: src/modules/notificationitem/dbusmenu.cpp:261
 #: src/modules/notificationitem/notificationitem.cpp:102
 #: data/fcitx5.desktop.in.in:4
@@ -874,7 +874,7 @@ msgstr "Neuigkeiten"
 msgid "Next Candidate"
 msgstr "Nächster Kandidat"
 
-#: src/modules/clipboard/clipboard.cpp:296
+#: src/modules/clipboard/clipboard.cpp:297
 msgid "No clipboard history."
 msgstr "Kein Zwischenablageverlauf"
 
@@ -1005,7 +1005,7 @@ msgctxt "Key name"
 msgid "Reply"
 msgstr "Antworten"
 
-#: src/ui/classic/xcbtraywindow.cpp:54
+#: src/ui/classic/xcbtraywindow.cpp:55
 #: src/modules/notificationitem/dbusmenu.cpp:289
 msgid "Restart"
 msgstr "Neustart"
@@ -1369,18 +1369,13 @@ msgctxt "Key name"
 msgid "Yellow"
 msgstr "Gelb"
 
-#: data/fcitx5-configtool.sh:138
+#: data/fcitx5-configtool.sh:131
 msgid ""
-"You're currently running Fcitx with GUI, but fcitx-configtool couldn't be "
-"found, the package name is usually fcitx-config-gtk, fcitx-config-gtk3 or "
-"fcitx-configtool. Now it will open config file with default text editor."
+"You're currently running Fcitx with GUI, but fcitx5-config-qt couldn't be "
+"found. Now it will open config file with default text editor."
 msgstr ""
-"Sie benutzen Fcitx mit Benutzeroberfläche, aber das fcitx-configtool konnte "
-"nicht gefunden werden. Der Paketname ist normalerweise fcitx-config-gtk, "
-"fcitx-config-gtk3 oder fcitx-configtool. Fcitx wird die Konfiguration nun "
-"mit dem Standard-Texteditor öffnen."
 
-#: data/fcitx5-configtool.sh:135
+#: data/fcitx5-configtool.sh:128
 msgid ""
 "You're currently running KDE, but KCModule for fcitx couldn't be found, the "
 "package name of this KCModule is usually kcm-fcitx or kde-config-fcitx. Now "
@@ -1419,10 +1414,10 @@ msgstr "iTouch"
 msgid "{0} (Not Available)"
 msgstr "{0} (Nicht verfügbar)"
 
-#: src/lib/fcitx/instance.cpp:1565
+#: src/lib/fcitx/instance.cpp:1639
 msgid "{0} (Not available)"
 msgstr "{0} (Nicht verfügbar)"
 
-#: src/lib/fcitx/instance.cpp:1562
+#: src/lib/fcitx/instance.cpp:1636
 msgid "{0} ({1})"
 msgstr "{0} ({1})"

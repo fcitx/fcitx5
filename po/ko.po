@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2020-03-07 16:19-0800\n"
+"POT-Creation-Date: 2020-03-21 00:01-0700\n"
 "PO-Revision-Date: 2017-11-23 04:14+0000\n"
 "Last-Translator: 이정희 <daemul72@gmail.com>, 2020\n"
 "Language-Team: Korean (https://www.transifex.com/fcitx/teams/12005/ko/)\n"
@@ -22,7 +22,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
-#: src/lib/fcitx/instance.cpp:1567
+#: src/lib/fcitx/instance.cpp:1641
 msgid "(Not available)"
 msgstr "(사용할 수 없음)"
 
@@ -200,7 +200,7 @@ msgstr "지우기"
 msgid "Clipboard"
 msgstr "클립보드"
 
-#: src/modules/clipboard/clipboard.cpp:294
+#: src/modules/clipboard/clipboard.cpp:295
 msgid "Clipboard:"
 msgstr "클립보드:"
 
@@ -219,12 +219,12 @@ msgctxt "Key name"
 msgid "Community"
 msgstr "커뮤니티"
 
-#: src/ui/classic/xcbtraywindow.cpp:53
+#: src/ui/classic/xcbtraywindow.cpp:54
 #: src/modules/notificationitem/dbusmenu.cpp:282
 msgid "Configure"
 msgstr "설정"
 
-#: src/ui/classic/xcbtraywindow.cpp:52
+#: src/ui/classic/xcbtraywindow.cpp:53
 #: src/modules/notificationitem/dbusmenu.cpp:277
 msgid "Configure Current Input Method"
 msgstr "현재 입력기 설정"
@@ -273,7 +273,7 @@ msgstr "DOS"
 msgid "Deactivate Input Method"
 msgstr "입력기 비활성화"
 
-#: src/lib/fcitx/inputmethodmanager.cpp:200
+#: src/lib/fcitx/inputmethodmanager.cpp:199
 #: src/ui/classic/themes/default/theme.conf.in:3
 msgid "Default"
 msgstr "기본값"
@@ -376,7 +376,7 @@ msgctxt "Key name"
 msgid "Execute"
 msgstr "실행"
 
-#: src/ui/classic/xcbtraywindow.cpp:55
+#: src/ui/classic/xcbtraywindow.cpp:56
 #: src/modules/notificationitem/dbusmenu.cpp:295
 msgid "Exit"
 msgstr "나가기"
@@ -428,12 +428,12 @@ msgctxt "Key name"
 msgid "Green"
 msgstr "녹색"
 
-#: src/ui/classic/xcbtraywindow.cpp:48
+#: src/ui/classic/xcbtraywindow.cpp:49
 #: src/modules/notificationitem/dbusmenu.cpp:267
 msgid "Group"
 msgstr "그룹"
 
-#: src/lib/fcitx/instance.cpp:1570
+#: src/lib/fcitx/instance.cpp:1644
 msgid "Group {0}: {1}"
 msgstr "그룹 {0}: {1}"
 
@@ -559,7 +559,7 @@ msgstr "단축키"
 msgid "IBus Frontend"
 msgstr "IBus 전처리기"
 
-#: src/ui/classic/xcbtraywindow.cpp:50
+#: src/ui/classic/xcbtraywindow.cpp:51
 #: src/modules/notificationitem/dbusmenu.cpp:261
 #: src/modules/notificationitem/notificationitem.cpp:102
 #: data/fcitx5.desktop.in.in:4
@@ -875,7 +875,7 @@ msgstr "뉴스"
 msgid "Next Candidate"
 msgstr "다음 후보"
 
-#: src/modules/clipboard/clipboard.cpp:296
+#: src/modules/clipboard/clipboard.cpp:297
 msgid "No clipboard history."
 msgstr "클립보드 기록이 없습니다."
 
@@ -1006,7 +1006,7 @@ msgctxt "Key name"
 msgid "Reply"
 msgstr "답장"
 
-#: src/ui/classic/xcbtraywindow.cpp:54
+#: src/ui/classic/xcbtraywindow.cpp:55
 #: src/modules/notificationitem/dbusmenu.cpp:289
 msgid "Restart"
 msgstr "재시작"
@@ -1370,17 +1370,13 @@ msgctxt "Key name"
 msgid "Yellow"
 msgstr "노랑"
 
-#: data/fcitx5-configtool.sh:138
+#: data/fcitx5-configtool.sh:131
 msgid ""
-"You're currently running Fcitx with GUI, but fcitx-configtool couldn't be "
-"found, the package name is usually fcitx-config-gtk, fcitx-config-gtk3 or "
-"fcitx-configtool. Now it will open config file with default text editor."
+"You're currently running Fcitx with GUI, but fcitx5-config-qt couldn't be "
+"found. Now it will open config file with default text editor."
 msgstr ""
-"당신은 GUI 환경에서 Fcitx을 실행하고 있지만,  fcitx-configtool을 찾을 수 없습"
-"니다.  패키지 이름은 일반적으로 fcitx-config-gtk, fcitx-config-gtk3 또는 "
-"fcitx-configtool입니다.  지금은 기본 텍스트 편집기로 설정 파일을 엽니다."
 
-#: data/fcitx5-configtool.sh:135
+#: data/fcitx5-configtool.sh:128
 msgid ""
 "You're currently running KDE, but KCModule for fcitx couldn't be found, the "
 "package name of this KCModule is usually kcm-fcitx or kde-config-fcitx. Now "
@@ -1419,10 +1415,10 @@ msgstr "iTouch"
 msgid "{0} (Not Available)"
 msgstr "{0} (사용할 수 없음)"
 
-#: src/lib/fcitx/instance.cpp:1565
+#: src/lib/fcitx/instance.cpp:1639
 msgid "{0} (Not available)"
 msgstr "{0} (사용할 수 없음)"
 
-#: src/lib/fcitx/instance.cpp:1562
+#: src/lib/fcitx/instance.cpp:1636
 msgid "{0} ({1})"
 msgstr "{0} ({1})"
