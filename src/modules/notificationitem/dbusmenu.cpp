@@ -44,9 +44,7 @@ enum BuiltInIndex {
     BII_InputMethod,
     BII_Separator1,
     BII_Separator2,
-    BII_ConfigureCurrent,
     BII_Configure,
-    BII_Separator3,
     BII_Restart,
     BII_Exit,
     BII_NormalEnd = 99,
@@ -90,9 +88,6 @@ void DBusMenu::handleEvent(int32_t id) {
     auto &imManager = parent_->instance()->inputMethodManager();
     if (id <= BII_NormalEnd) {
         switch (id) {
-        case BII_ConfigureCurrent:
-            // TODO Configure current.
-            break;
         case BII_Configure:
             parent_->instance()->configure();
             break;
@@ -202,10 +197,7 @@ void DBusMenu::fillLayoutItem(
         if (hasAction) {
             appendSubItem(subLayoutItems, BII_Separator2, depth, propertyNames);
         }
-        appendSubItem(subLayoutItems, BII_ConfigureCurrent, depth,
-                      propertyNames);
         appendSubItem(subLayoutItems, BII_Configure, depth, propertyNames);
-        appendSubItem(subLayoutItems, BII_Separator3, depth, propertyNames);
         appendSubItem(subLayoutItems, BII_Restart, depth, propertyNames);
         appendSubItem(subLayoutItems, BII_Exit, depth, propertyNames);
     } else if (id == BII_InputMethodGroup) {
@@ -268,13 +260,8 @@ void DBusMenu::fillLayoutProperties(
             break;
         case BII_Separator1:
         case BII_Separator2:
-        case BII_Separator3:
             appendProperty(properties, propertyNames, "type",
                            dbus::Variant("separator"));
-            break;
-        case BII_ConfigureCurrent:
-            appendProperty(properties, propertyNames, "label",
-                           dbus::Variant(_("Configure Current Input Method")));
             break;
         case BII_Configure:
             /* this icon sucks on KDE, why configure doesn't have "configure" */

@@ -59,8 +59,7 @@ private:
     Menu menu_;
     SimpleAction inputMethodAction_;
     SimpleAction groupAction_;
-    SimpleAction separatorActions_[3];
-    SimpleAction configureCurrentAction_;
+    SimpleAction separatorActions_[2];
     SimpleAction configureAction_;
     SimpleAction restartAction_;
     SimpleAction exitAction_;

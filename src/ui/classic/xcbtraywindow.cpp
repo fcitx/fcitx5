@@ -50,23 +50,16 @@ XCBTrayWindow::XCBTrayWindow(XCBUI *ui) : XCBWindow(ui, 48, 48) {
     groupAction_.setMenu(&groupMenu_);
     inputMethodAction_.setShortText(_("Input Method"));
     inputMethodAction_.setMenu(&inputMethodMenu_);
-    configureCurrentAction_.setShortText(_("Configure Current Input Method"));
     configureAction_.setShortText(_("Configure"));
     restartAction_.setShortText(_("Restart"));
     exitAction_.setShortText(_("Exit"));
     menu_.addAction(&groupAction_);
     menu_.addAction(&inputMethodAction_);
     menu_.addAction(&separatorActions_[0]);
-    menu_.addAction(&configureCurrentAction_);
     menu_.addAction(&configureAction_);
-    menu_.addAction(&separatorActions_[2]);
     menu_.addAction(&restartAction_);
     menu_.addAction(&exitAction_);
 
-    configureCurrentAction_.connect<SimpleAction::Activated>(
-        [](InputContext *) {
-            // TODO
-        });
     configureAction_.connect<SimpleAction::Activated>(
         [this](InputContext *) { ui_->parent()->instance()->configure(); });
     restartAction_.connect<SimpleAction::Activated>(
@@ -77,7 +70,6 @@ XCBTrayWindow::XCBTrayWindow(XCBUI *ui) : XCBWindow(ui, 48, 48) {
     auto &uiManager = ui_->parent()->instance()->userInterfaceManager();
     uiManager.registerAction(&groupAction_);
     uiManager.registerAction(&inputMethodAction_);
-    uiManager.registerAction(&configureCurrentAction_);
     uiManager.registerAction(&configureAction_);
     uiManager.registerAction(&restartAction_);
     uiManager.registerAction(&exitAction_);
@@ -379,7 +371,7 @@ void XCBTrayWindow::updateMenu() {
     for (auto action : menu_.actions()) {
         if (action == &separatorActions_[0]) {
             start = true;
-        } else if (action == &configureCurrentAction_) {
+        } else if (action == &configureAction_) {
             break;
         } else if (start) {
             menu_.removeAction(action);
@@ -394,12 +386,12 @@ void XCBTrayWindow::updateMenu() {
                 // Obviously it's not registered with ui manager.
                 continue;
             }
-            menu_.insertAction(&configureCurrentAction_, action);
+            menu_.insertAction(&configureAction_, action);
             hasAction = true;
         }
     }
     if (hasAction) {
-        menu_.insertAction(&configureCurrentAction_, &separatorActions_[1]);
+        menu_.insertAction(&configureAction_, &separatorActions_[1]);
     }
 }
 

@@ -912,6 +912,9 @@ void InstanceArgument::parseOption(int argc, char **argv) {
             quietQuit = true;
             printUsage();
         }
+        if (quietQuit) {
+            break;
+        }
     }
 }
 
@@ -1202,7 +1205,10 @@ std::string Instance::addonForInputMethod(const std::string &imName) {
     return {};
 }
 
-void Instance::configure() {}
+void Instance::configure() {
+    startProcess(
+        {StandardPath::global().fcitxPath("bindir", "fcitx5-configtool")});
+}
 
 void Instance::configureAddon(const std::string &) {}
 
