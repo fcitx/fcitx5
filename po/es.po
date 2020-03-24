@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2020-03-21 00:00-0700\n"
+"POT-Creation-Date: 2020-03-24 00:00-0700\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: csslayer <wengxt@gmail.com>, 2017\n"
 "Language-Team: Spanish (https://www.transifex.com/fcitx/teams/12005/es/)\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: src/lib/fcitx/instance.cpp:1641
+#: src/lib/fcitx/instance.cpp:1647
 msgid "(Not available)"
 msgstr ""
 
@@ -215,15 +215,10 @@ msgctxt "Key name"
 msgid "Community"
 msgstr ""
 
-#: src/ui/classic/xcbtraywindow.cpp:54
-#: src/modules/notificationitem/dbusmenu.cpp:282
+#: src/ui/classic/xcbtraywindow.cpp:53
+#: src/modules/notificationitem/dbusmenu.cpp:269
 msgid "Configure"
 msgstr "Configurar"
-
-#: src/ui/classic/xcbtraywindow.cpp:53
-#: src/modules/notificationitem/dbusmenu.cpp:277
-msgid "Configure Current Input Method"
-msgstr ""
 
 #: src/im/keyboard/keyboard.h:43 src/modules/quickphrase/quickphrase.h:39
 msgid "Control"
@@ -372,8 +367,8 @@ msgctxt "Key name"
 msgid "Execute"
 msgstr ""
 
-#: src/ui/classic/xcbtraywindow.cpp:56
-#: src/modules/notificationitem/dbusmenu.cpp:295
+#: src/ui/classic/xcbtraywindow.cpp:55
+#: src/modules/notificationitem/dbusmenu.cpp:282
 msgid "Exit"
 msgstr "Salir"
 
@@ -425,11 +420,11 @@ msgid "Green"
 msgstr ""
 
 #: src/ui/classic/xcbtraywindow.cpp:49
-#: src/modules/notificationitem/dbusmenu.cpp:267
+#: src/modules/notificationitem/dbusmenu.cpp:259
 msgid "Group"
 msgstr ""
 
-#: src/lib/fcitx/instance.cpp:1644
+#: src/lib/fcitx/instance.cpp:1650
 msgid "Group {0}: {1}"
 msgstr ""
 
@@ -556,7 +551,7 @@ msgid "IBus Frontend"
 msgstr ""
 
 #: src/ui/classic/xcbtraywindow.cpp:51
-#: src/modules/notificationitem/dbusmenu.cpp:261
+#: src/modules/notificationitem/dbusmenu.cpp:253
 #: src/modules/notificationitem/notificationitem.cpp:102
 #: data/fcitx5.desktop.in.in:4
 msgid "Input Method"
@@ -1002,8 +997,8 @@ msgctxt "Key name"
 msgid "Reply"
 msgstr ""
 
-#: src/ui/classic/xcbtraywindow.cpp:55
-#: src/modules/notificationitem/dbusmenu.cpp:289
+#: src/ui/classic/xcbtraywindow.cpp:54
+#: src/modules/notificationitem/dbusmenu.cpp:276
 msgid "Restart"
 msgstr ""
 
@@ -1408,10 +1403,10 @@ msgstr ""
 msgid "{0} (Not Available)"
 msgstr ""
 
-#: src/lib/fcitx/instance.cpp:1639
+#: src/lib/fcitx/instance.cpp:1645
 msgid "{0} (Not available)"
 msgstr ""
 
-#: src/lib/fcitx/instance.cpp:1636
+#: src/lib/fcitx/instance.cpp:1642
 msgid "{0} ({1})"
 msgstr ""

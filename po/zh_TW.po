@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2020-03-21 00:01-0700\n"
+"POT-Creation-Date: 2020-03-24 00:01-0700\n"
 "PO-Revision-Date: 2017-11-23 04:14+0000\n"
 "Last-Translator: byStarTW (pan93412) <pan93412@gmail.com>, 2019\n"
 "Language-Team: Chinese (Taiwan) (https://www.transifex.com/fcitx/teams/12005/"
@@ -22,7 +22,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
-#: src/lib/fcitx/instance.cpp:1641
+#: src/lib/fcitx/instance.cpp:1647
 msgid "(Not available)"
 msgstr "（無法使用）"
 
@@ -219,15 +219,10 @@ msgctxt "Key name"
 msgid "Community"
 msgstr "社群"
 
-#: src/ui/classic/xcbtraywindow.cpp:54
-#: src/modules/notificationitem/dbusmenu.cpp:282
+#: src/ui/classic/xcbtraywindow.cpp:53
+#: src/modules/notificationitem/dbusmenu.cpp:269
 msgid "Configure"
 msgstr "設定"
-
-#: src/ui/classic/xcbtraywindow.cpp:53
-#: src/modules/notificationitem/dbusmenu.cpp:277
-msgid "Configure Current Input Method"
-msgstr "設定目前輸入法"
 
 #: src/im/keyboard/keyboard.h:43 src/modules/quickphrase/quickphrase.h:39
 msgid "Control"
@@ -376,8 +371,8 @@ msgctxt "Key name"
 msgid "Execute"
 msgstr "執行"
 
-#: src/ui/classic/xcbtraywindow.cpp:56
-#: src/modules/notificationitem/dbusmenu.cpp:295
+#: src/ui/classic/xcbtraywindow.cpp:55
+#: src/modules/notificationitem/dbusmenu.cpp:282
 msgid "Exit"
 msgstr "離開"
 
@@ -429,11 +424,11 @@ msgid "Green"
 msgstr "綠色"
 
 #: src/ui/classic/xcbtraywindow.cpp:49
-#: src/modules/notificationitem/dbusmenu.cpp:267
+#: src/modules/notificationitem/dbusmenu.cpp:259
 msgid "Group"
 msgstr "群組"
 
-#: src/lib/fcitx/instance.cpp:1644
+#: src/lib/fcitx/instance.cpp:1650
 msgid "Group {0}: {1}"
 msgstr "群組 {0}：{1}"
 
@@ -560,7 +555,7 @@ msgid "IBus Frontend"
 msgstr "IBus 前端"
 
 #: src/ui/classic/xcbtraywindow.cpp:51
-#: src/modules/notificationitem/dbusmenu.cpp:261
+#: src/modules/notificationitem/dbusmenu.cpp:253
 #: src/modules/notificationitem/notificationitem.cpp:102
 #: data/fcitx5.desktop.in.in:4
 msgid "Input Method"
@@ -1006,8 +1001,8 @@ msgctxt "Key name"
 msgid "Reply"
 msgstr "回覆"
 
-#: src/ui/classic/xcbtraywindow.cpp:55
-#: src/modules/notificationitem/dbusmenu.cpp:289
+#: src/ui/classic/xcbtraywindow.cpp:54
+#: src/modules/notificationitem/dbusmenu.cpp:276
 msgid "Restart"
 msgstr "重新啟動"
 
@@ -1414,10 +1409,10 @@ msgstr "iTouch"
 msgid "{0} (Not Available)"
 msgstr "{0} (無法使用)"
 
-#: src/lib/fcitx/instance.cpp:1639
+#: src/lib/fcitx/instance.cpp:1645
 msgid "{0} (Not available)"
 msgstr "{0}（不可用）"
 
-#: src/lib/fcitx/instance.cpp:1636
+#: src/lib/fcitx/instance.cpp:1642
 msgid "{0} ({1})"
 msgstr "{0} ({1})"
