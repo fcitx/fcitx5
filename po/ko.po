@@ -6,15 +6,15 @@
 # csslayer <wengxt@gmail.com>, 2017
 # Bon Keun Seo <scobyseo@gmail.com>, 2017
 # heavyuser <heavyuser73@gmail.com>, 2018
-# 이정희 <daemul72@gmail.com>, 2020
+# MarongHappy <daemul72@gmail.com>, 2020
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2020-03-24 00:01-0700\n"
+"POT-Creation-Date: 2020-03-25 00:01-0700\n"
 "PO-Revision-Date: 2017-11-23 04:14+0000\n"
-"Last-Translator: 이정희 <daemul72@gmail.com>, 2020\n"
+"Last-Translator: MarongHappy <daemul72@gmail.com>, 2020\n"
 "Language-Team: Korean (https://www.transifex.com/fcitx/teams/12005/ko/)\n"
 "Language: ko\n"
 "MIME-Version: 1.0\n"
@@ -83,7 +83,7 @@ msgstr "Alt"
 
 #: src/lib/fcitx/globalconfig.cpp:41
 msgid "Alternative Trigger Input Method"
-msgstr "대체 트리거 입력 방법"
+msgstr "대체 트리거 입력기"
 
 #: src/lib/fcitx-utils/key.cpp:126
 msgctxt "Key name"
@@ -181,7 +181,7 @@ msgstr "캡스락"
 
 #: data/fcitx5-configtool.desktop.in.in:5
 msgid "Change Fcitx 5 Configuration"
-msgstr "Fcitx 5 설정 변경"
+msgstr "Fcitx 5 환경설정 변경"
 
 #: src/im/keyboard/keyboard.h:64
 msgid "Choose key modifier"
@@ -297,7 +297,7 @@ msgstr "표시"
 
 #: src/modules/notifications/notifications.cpp:222
 msgid "Do not show again"
-msgstr "다시 보이지 않기"
+msgstr "다시 표시 안함"
 
 #: src/lib/fcitx-utils/key.cpp:137
 msgctxt "Key name"
@@ -330,11 +330,11 @@ msgstr "꺼내기"
 
 #: src/modules/emoji/emoji.conf.in:3
 msgid "Emoji"
-msgstr ""
+msgstr "그림문자"
 
 #: src/im/keyboard/keyboard.h:61
 msgid "Enable emoji in hint"
-msgstr ""
+msgstr "힌트로 그림문자 활성화"
 
 #: src/modules/spell/spell.h:35
 msgid "Enchant"
@@ -387,7 +387,7 @@ msgstr "Fcitx 5"
 
 #: data/fcitx5-configtool.desktop.in.in:3
 msgid "Fcitx 5 Configuration"
-msgstr "Fcitx 5 설정"
+msgstr "Fcitx 5 환경설정"
 
 #: src/lib/fcitx-utils/key.cpp:122
 msgctxt "Key name"
@@ -563,7 +563,7 @@ msgstr "입력기"
 
 #: data/fcitx5-configtool.desktop.in.in:4
 msgid "Input Method Configuration"
-msgstr "입력기 설정"
+msgstr "입력기 환경설정"
 
 #: src/lib/fcitx-utils/key.cpp:204
 msgctxt "Key name"
@@ -1044,7 +1044,7 @@ msgstr "로마자"
 #: src/lib/fcitx-utils/key.cpp:156
 msgctxt "Key name"
 msgid "Rotate Windows"
-msgstr "윈도우 회전"
+msgstr "창 회전"
 
 #: src/lib/fcitx-utils/key.cpp:158
 msgctxt "Key name"
@@ -1098,11 +1098,11 @@ msgstr "숍"
 
 #: src/lib/fcitx/globalconfig.cpp:110
 msgid "Show Input Method Information when changing focus"
-msgstr ""
+msgstr "포커스를 변경할 때 입력기 정보 표시"
 
 #: src/lib/fcitx/globalconfig.cpp:107
 msgid "Show Input Method Information when switch input method"
-msgstr "입력기 변경 시 입력기 정보 보이기"
+msgstr "입력기 변경시 입력기 정보 표시"
 
 #: src/ui/simpleui/simpleui.conf.in:3
 msgid "Simple UI for testing"
@@ -1132,7 +1132,7 @@ msgstr "철자 힌트 비활성화됨."
 
 #: src/im/keyboard/keyboard.cpp:355
 msgid "Spell hint is enabled."
-msgstr "철자 힌트 활성화됨."
+msgstr "철자 힌트가 활성화되었습니다."
 
 #: src/lib/fcitx-utils/key.cpp:161
 msgctxt "Key name"
@@ -1370,6 +1370,8 @@ msgid ""
 "You're currently running Fcitx with GUI, but fcitx5-config-qt couldn't be "
 "found. Now it will open config file with default text editor."
 msgstr ""
+"현재 GUI로 Fcitx를 실행중이지만, fcitx5-config-qt를 찾을 수 없습니다. 이제 기"
+"본 텍스트 편집기와 함께 구성 파일을 엽니다."
 
 #: data/fcitx5-configtool.sh:128
 msgid ""
