@@ -16,18 +16,18 @@
 // License along with this library; see the file COPYING. If not,
 // see <http://www.gnu.org/licenses/>.
 //
-#ifndef _FCITX_UI_SIMPLE_SIMPLEUI_H_
-#define _FCITX_UI_SIMPLE_SIMPLEUI_H_
+#ifndef _FCITX_UI_TEST_TESTUI_H_
+#define _FCITX_UI_TEST_TESTUI_H_
 
 #include "fcitx/instance.h"
 #include "fcitx/userinterface.h"
 
 namespace fcitx {
 
-class SimpleUI : public UserInterface {
+class TestUI : public UserInterface {
 public:
-    SimpleUI(Instance *instance);
-    ~SimpleUI();
+    TestUI(Instance *instance);
+    ~TestUI();
 
     Instance *instance() { return instance_; }
     void suspend() override;
@@ -45,4 +45,4 @@ private:
 };
 } // namespace fcitx
 
-#endif // _FCITX_UI_SIMPLE_SIMPLEUI_H_
+#endif // _FCITX_UI_TEST_TESTUI_H_

@@ -17,7 +17,7 @@
 // see <http://www.gnu.org/licenses/>.
 //
 
-#include "simpleui.h"
+#include "testui.h"
 #include "fcitx/action.h"
 #include "fcitx/addonfactory.h"
 #include "fcitx/addonmanager.h"
@@ -29,16 +29,16 @@
 
 namespace fcitx {
 
-SimpleUI::SimpleUI(Instance *instance) : instance_(instance) {}
+TestUI::TestUI(Instance *instance) : instance_(instance) {}
 
-SimpleUI::~SimpleUI() {}
+TestUI::~TestUI() {}
 
-void SimpleUI::resume() { suspended_ = false; }
+void TestUI::resume() { suspended_ = false; }
 
-void SimpleUI::suspend() { suspended_ = true; }
+void TestUI::suspend() { suspended_ = true; }
 
-void SimpleUI::update(UserInterfaceComponent component,
-                      InputContext *inputContext) {
+void TestUI::update(UserInterfaceComponent component,
+                    InputContext *inputContext) {
     switch (component) {
     case UserInterfaceComponent::StatusArea:
         printStatusArea(inputContext);
@@ -49,7 +49,7 @@ void SimpleUI::update(UserInterfaceComponent component,
     }
 }
 
-void SimpleUI::printStatusArea(InputContext *inputContext) {
+void TestUI::printStatusArea(InputContext *inputContext) {
     auto &statusArea = inputContext->statusArea();
     for (auto group : {StatusGroup::BeforeInputMethod, StatusGroup::InputMethod,
                        StatusGroup::AfterInputMethod}) {
@@ -62,7 +62,7 @@ void SimpleUI::printStatusArea(InputContext *inputContext) {
     }
 }
 
-void SimpleUI::printInputPanel(InputContext *inputContext) {
+void TestUI::printInputPanel(InputContext *inputContext) {
     auto &inputPanel = inputContext->inputPanel();
     auto preedit = instance_->outputFilter(inputContext, inputPanel.preedit());
     auto preeditString = preedit.toString();
@@ -88,12 +88,12 @@ void SimpleUI::printInputPanel(InputContext *inputContext) {
     }
 }
 
-class SimpleUIFactory : public AddonFactory {
+class TestUIFactory : public AddonFactory {
 public:
     AddonInstance *create(AddonManager *manager) override {
-        return new SimpleUI(manager->instance());
+        return new TestUI(manager->instance());
     }
 };
 } // namespace fcitx
 
-FCITX_ADDON_FACTORY(fcitx::SimpleUIFactory);
+FCITX_ADDON_FACTORY(fcitx::TestUIFactory);

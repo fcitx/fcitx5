@@ -242,7 +242,14 @@ StandardPath::StandardPath(bool skipFcitxPath)
 StandardPath::~StandardPath() {}
 
 const StandardPath &StandardPath::global() {
-    static StandardPath globalPath;
+    const char *skip = getenv("SKIP_FCITX_PATH");
+    bool skipFcitx = false;
+    if (skip && skip[0] &&
+        (strcmp(skip, "True") == 0 || strcmp(skip, "true") == 0 ||
+         strcmp(skip, "1") == 0)) {
+        skipFcitx = true;
+    }
+    static StandardPath globalPath(skipFcitx);
     return globalPath;
 }
 
