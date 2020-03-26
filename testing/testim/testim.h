@@ -21,6 +21,8 @@
 
 #include "fcitx/inputmethodengine.h"
 #include "fcitx/instance.h"
+#include "testim_public.h"
+#include <functional>
 
 namespace fcitx {
 
@@ -36,12 +38,23 @@ public:
         result.push_back(InputMethodEntry("keyboard-us", "Test IM keyboard",
                                           "en", "testim"));
         result.push_back(InputMethodEntry("testim", "Test IM", "en", "testim"));
+        result.push_back(
+            InputMethodEntry("testim2", "Test IM", "en", "testim"));
         return result;
     }
     void keyEvent(const InputMethodEntry &entry, KeyEvent &keyEvent) override;
 
 private:
+    void setHandler(
+        std::function<void(const InputMethodEntry &entry, KeyEvent &keyEvent)>
+            handler) {
+        handler_ = std::move(handler);
+    }
+
+    FCITX_ADDON_EXPORT_FUNCTION(TestIM, setHandler);
     Instance *instance_;
+    std::function<void(const InputMethodEntry &entry, KeyEvent &keyEvent)>
+        handler_;
 };
 } // namespace fcitx
 
