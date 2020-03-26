@@ -21,6 +21,7 @@
 
 #include <fcitx/addoninstance.h>
 #include <fcitx/inputcontext.h>
+#include <fcitx/inputmethodentry.h>
 #include <string>
 
 FCITX_ADDON_DECLARE_FUNCTION(

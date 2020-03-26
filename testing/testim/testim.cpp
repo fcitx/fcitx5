@@ -30,6 +30,9 @@ void TestIM::keyEvent(const InputMethodEntry &entry, KeyEvent &keyEvent) {
     FCITX_INFO() << "IM " << entry.uniqueName()
                  << " received event: " << keyEvent.key().toString()
                  << keyEvent.isRelease();
+    if (handler_) {
+        handler_(entry, keyEvent);
+    }
 }
 
 class TestIMFactory : public AddonFactory {
