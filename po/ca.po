@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2020-03-24 00:01-0700\n"
+"POT-Creation-Date: 2020-03-26 00:01-0700\n"
 "PO-Revision-Date: 2017-11-23 04:14+0000\n"
 "Last-Translator: Robert Antoni Buj Gelonch <rbuj@fedoraproject.org>, 2017\n"
 "Language-Team: Catalan (https://www.transifex.com/fcitx/teams/12005/ca/)\n"
@@ -1100,10 +1100,6 @@ msgstr ""
 
 #: src/lib/fcitx/globalconfig.cpp:107
 msgid "Show Input Method Information when switch input method"
-msgstr ""
-
-#: src/ui/simpleui/simpleui.conf.in:3
-msgid "Simple UI for testing"
 msgstr ""
 
 #: src/lib/fcitx-utils/key.cpp:115
