@@ -152,10 +152,11 @@ public:
             return false;
         }
         auto result = checkDependencies(addon);
-        FCITX_LOG(Debug) << "Call loadAddon() with "
-                         << addon.info().uniqueName()
-                         << " checkDependencies() returns "
-                         << static_cast<int>(result);
+        FCITX_DEBUG() << "Call loadAddon() with " << addon.info().uniqueName()
+                      << " checkDependencies() returns "
+                      << static_cast<int>(result)
+                      << " Dep: " << addon.info().dependencies()
+                      << " OptDep: " << addon.info().optionalDependencies();
         if (result == DependencyCheckStatus::Failed) {
             addon.setFailed();
         } else if (result == DependencyCheckStatus::Satisfied) {
@@ -178,6 +179,9 @@ public:
 
         if (auto loader = findValue(loaders_, addon.info().type())) {
             addon.instance_.reset((*loader)->load(addon.info(), q_ptr));
+        } else {
+            FCITX_ERROR() << "Failed to find addon loader for: "
+                          << addon.info().type();
         }
         if (!addon.instance_) {
             addon.setFailed(true);

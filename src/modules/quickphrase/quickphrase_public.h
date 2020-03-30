@@ -23,12 +23,37 @@
 #include <fcitx-utils/metastring.h>
 #include <fcitx/addoninstance.h>
 #include <fcitx/inputcontext.h>
+#include <functional>
 #include <string>
 
+namespace fcitx {
+
+enum class QuickPhraseAction {
+    Commit,
+    TypeToBuffer,
+    DigitSelection,
+    AlphaSelection,
+    NoneSelection
+};
+
+using QuickPhraseAddCandidateCallback = std::function<void(
+    const std::string &, const std::string &, QuickPhraseAction action)>;
+using QuickPhraseProviderCallback =
+    std::function<bool(const std::string &, QuickPhraseAddCandidateCallback)>;
+
+} // namespace fcitx
+
+/// Trigger quickphrase, with following format:
+/// description_text prefix_text
+FCITX_ADDON_DECLARE_FUNCTION(QuickPhrase, trigger,
+                             void(InputContext *ic, const std::string &text,
+                                  const std::string &prefix,
+                                  const std::string &str,
+                                  const std::string &alt, const Key &key));
+
 FCITX_ADDON_DECLARE_FUNCTION(
-    QuickPhrase, trigger,
-    void(fcitx::InputContext *ic, const std::string &text,
-         const std::string &prefix, const std::string &str,
-         const std::string &alt, const fcitx::Key &key));
+    QuickPhrase, addProvider,
+    std::unique_ptr<HandlerTableEntry<QuickPhraseProviderCallback>>(
+        QuickPhraseProviderCallback));
 
 #endif // _FCITX_MODULES_QUICKPHRASE_QUICKPHRASE_PUBLIC_H_

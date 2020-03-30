@@ -289,6 +289,9 @@ CommonCandidateList::~CommonCandidateList() {}
 
 std::string keyToLabel(const Key &key) {
     std::string result;
+    if (key.sym() == FcitxKey_None) {
+        return result;
+    }
 
 #define _APPEND_MODIFIER_STRING(STR, VALUE)                                    \
     if (key.states() & KeyState::VALUE) {                                      \

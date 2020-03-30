@@ -119,11 +119,11 @@ QuickPhrase::QuickPhrase(Instance *instance)
             if (candidateList) {
                 int idx = keyEvent.key().keyListIndex(selectionKeys_);
                 if (idx >= 0) {
-                    keyEvent.accept();
                     if (idx < candidateList->size()) {
+                        keyEvent.accept();
                         candidateList->candidate(idx).select(inputContext);
+                        return;
                     }
-                    return;
                 }
 
                 if (keyEvent.key().check(FcitxKey_space) &&
@@ -231,43 +231,110 @@ QuickPhrase::~QuickPhrase() {}
 
 class QuickPhraseCandidateWord : public CandidateWord {
 public:
-    QuickPhraseCandidateWord(QuickPhrase *q, Text text)
-        : CandidateWord(std::move(text)), q_(q) {}
+    QuickPhraseCandidateWord(QuickPhrase *q, std::string commit,
+                             std::string display, QuickPhraseAction action)
+        : CandidateWord(Text(std::move(display))), q_(q),
+          commit_(std::move(commit)), action_(action) {}
 
     void select(InputContext *inputContext) const override {
-        auto commit = text().stringAt(0);
         auto state = inputContext->propertyFor(&q_->factory());
-        state->reset(inputContext);
-        inputContext->inputPanel().reset();
-        inputContext->updatePreedit();
-        inputContext->updateUserInterface(UserInterfaceComponent::InputPanel,
-                                          true);
-        inputContext->commitString(commit);
+        if (action_ == QuickPhraseAction::TypeToBuffer) {
+            state->buffer_.type(commit_);
+            state->typed_ = true;
+
+            q_->updateUI(inputContext);
+        } else if (action_ == QuickPhraseAction::Commit) {
+            state->reset(inputContext);
+            inputContext->inputPanel().reset();
+            inputContext->updatePreedit();
+            inputContext->updateUserInterface(
+                UserInterfaceComponent::InputPanel, true);
+            inputContext->commitString(commit_);
+        }
     }
 
     QuickPhrase *q_;
+    std::string commit_;
+    QuickPhraseAction action_;
 };
+
+void QuickPhrase::setSelectionKeys(QuickPhraseAction action) {
+    std::array<KeySym, 10> syms;
+    switch (action) {
+    case QuickPhraseAction::AlphaSelection:
+        syms = {
+            FcitxKey_a, FcitxKey_b, FcitxKey_c, FcitxKey_e, FcitxKey_f,
+            FcitxKey_g, FcitxKey_h, FcitxKey_i, FcitxKey_j, FcitxKey_k,
+        };
+        break;
+    case QuickPhraseAction::NoneSelection:
+        syms = {
+            FcitxKey_None, FcitxKey_None, FcitxKey_None, FcitxKey_None,
+            FcitxKey_None, FcitxKey_None, FcitxKey_None, FcitxKey_None,
+            FcitxKey_None, FcitxKey_None,
+        };
+        break;
+    default:
+        syms = {
+            FcitxKey_1, FcitxKey_2, FcitxKey_3, FcitxKey_4, FcitxKey_5,
+            FcitxKey_6, FcitxKey_7, FcitxKey_8, FcitxKey_9, FcitxKey_0,
+        };
+        break;
+    }
+
+    selectionKeys_.clear();
+
+    KeyStates states;
+    switch (config_.chooseModifier.value()) {
+    case QuickPhraseChooseModifier::Alt:
+        states = KeyState::Alt;
+        break;
+    case QuickPhraseChooseModifier::Control:
+        states = KeyState::Ctrl;
+        break;
+    case QuickPhraseChooseModifier::Super:
+        states = KeyState::Super;
+        break;
+    default:
+        break;
+    }
+
+    for (auto sym : syms) {
+        selectionKeys_.emplace_back(sym, states);
+    }
+}
 
 void QuickPhrase::updateUI(InputContext *inputContext) {
     auto state = inputContext->propertyFor(&factory_);
     inputContext->inputPanel().reset();
     if (!state->buffer_.empty()) {
-        auto start = map_.lower_bound(state->buffer_.userInput());
-        auto end = map_.end();
         auto candidateList = std::make_unique<CommonCandidateList>();
         candidateList->setPageSize(instance_->globalConfig().defaultPageSize());
-        for (; start != end; start++) {
-            if (!stringutils::startsWith(start->first,
-                                         state->buffer_.userInput())) {
+        QuickPhraseProvider *providers[] = {&callbackProvider_,
+                                            &builtinProvider_};
+        QuickPhraseAction selectionKeyAction =
+            QuickPhraseAction::DigitSelection;
+        for (auto provider : providers) {
+            if (!provider->populate(
+                    state->buffer_.userInput(),
+                    [this, &candidateList, &selectionKeyAction](
+                        const std::string &word, const std::string &aux,
+                        QuickPhraseAction action) {
+                        if (!word.empty()) {
+                            candidateList->append<QuickPhraseCandidateWord>(
+                                this, word, aux, action);
+                        } else {
+                            if (action == QuickPhraseAction::DigitSelection ||
+                                action == QuickPhraseAction::AlphaSelection ||
+                                action == QuickPhraseAction::NoneSelection) {
+                                selectionKeyAction = action;
+                            }
+                        }
+                    })) {
                 break;
             }
-            Text text;
-            text.append(start->second);
-            text.append(" ");
-            text.append(start->first.substr(state->buffer_.userInput().size()));
-            candidateList->append<QuickPhraseCandidateWord>(this,
-                                                            std::move(text));
         }
+        setSelectionKeys(selectionKeyAction);
         candidateList->setSelectionKey(selectionKeys_);
         inputContext->inputPanel().setCandidateList(std::move(candidateList));
     }
@@ -293,150 +360,12 @@ void QuickPhrase::updateUI(InputContext *inputContext) {
 }
 
 void QuickPhrase::reloadConfig() {
-    map_.clear();
-    auto file = StandardPath::global().open(StandardPath::Type::PkgData,
-                                            "data/QuickPhrase.mb", O_RDONLY);
-    auto files = StandardPath::global().multiOpen(
-        StandardPath::Type::PkgData, "data/quickphrase.d/", O_RDONLY,
-        filter::Suffix(".mb"));
-    auto disableFiles = StandardPath::global().multiOpen(
-        StandardPath::Type::PkgData, "quickphrase.d/", O_RDONLY,
-        filter::Suffix(".mb.disable"));
-    if (file.fd() >= 0) {
-        load(file);
-    }
-
-    for (auto &p : files) {
-        if (disableFiles.count(p.first)) {
-            continue;
-        }
-        load(p.second);
-    }
+    builtinProvider_.reloadConfig();
     readAsIni(config_, "conf/quickphrase.conf");
-
-    selectionKeys_.clear();
-    KeySym syms[] = {
-        FcitxKey_1, FcitxKey_2, FcitxKey_3, FcitxKey_4, FcitxKey_5,
-        FcitxKey_6, FcitxKey_7, FcitxKey_8, FcitxKey_9, FcitxKey_0,
-    };
-
-    KeyStates states;
-    switch (config_.chooseModifier.value()) {
-    case QuickPhraseChooseModifier::Alt:
-        states = KeyState::Alt;
-        break;
-    case QuickPhraseChooseModifier::Control:
-        states = KeyState::Ctrl;
-        break;
-    case QuickPhraseChooseModifier::Super:
-        states = KeyState::Super;
-        break;
-    default:
-        break;
-    }
-
-    for (auto sym : syms) {
-        selectionKeys_.emplace_back(sym, states);
-    }
 }
-
-enum class UnescapeState { NORMAL, ESCAPE };
-
-bool _unescape_string(std::string &str, bool unescapeQuote) {
-    if (str.empty()) {
-        return true;
-    }
-
-    size_t i = 0;
-    size_t j = 0;
-    UnescapeState state = UnescapeState::NORMAL;
-    do {
-        switch (state) {
-        case UnescapeState::NORMAL:
-            if (str[i] == '\\') {
-                state = UnescapeState::ESCAPE;
-            } else {
-                str[j] = str[i];
-                j++;
-            }
-            break;
-        case UnescapeState::ESCAPE:
-            if (str[i] == '\\') {
-                str[j] = '\\';
-                j++;
-            } else if (str[i] == 'n') {
-                str[j] = '\n';
-                j++;
-            } else if (str[i] == '\"' && unescapeQuote) {
-                str[j] = '\"';
-                j++;
-            } else {
-                return false;
-            }
-            state = UnescapeState::NORMAL;
-            break;
-        }
-    } while (str[i++]);
-    str.resize(j - 1);
-    return true;
-}
-
-typedef std::unique_ptr<FILE, decltype(&fclose)> ScopedFILE;
-void QuickPhrase::load(StandardPathFile &file) {
-    FILE *f = fdopen(file.fd(), "rb");
-    if (!f) {
-        return;
-    }
-    ScopedFILE fp{f, fclose};
-    file.release();
-
-    char *buf = nullptr;
-    size_t len = 0;
-    while (getline(&buf, &len, fp.get()) != -1) {
-        std::string strBuf(buf);
-
-        auto pair = stringutils::trimInplace(strBuf);
-        std::string::size_type start = pair.first, end = pair.second;
-        if (start == end) {
-            continue;
-        }
-        std::string text(strBuf.begin() + start, strBuf.begin() + end);
-        if (!utf8::validate(text)) {
-            continue;
-        }
-
-        auto pos = text.find_first_of(FCITX_WHITESPACE);
-        if (pos == std::string::npos) {
-            continue;
-        }
-
-        auto word = text.find_first_not_of(FCITX_WHITESPACE, pos);
-        if (word == std::string::npos) {
-            continue;
-        }
-
-        if (text.back() == '\"' &&
-            (text[word] != '\"' || word + 1 != text.size())) {
-            continue;
-        }
-
-        std::string key(text.begin(), text.begin() + pos);
-        std::string wordString;
-
-        bool escapeQuote;
-        if (text.back() == '\"' && text[word] == '\"') {
-            wordString = text.substr(word + 1, text.size() - word - 1);
-            escapeQuote = true;
-        } else {
-            wordString = text.substr(word);
-            escapeQuote = false;
-        }
-        _unescape_string(wordString, escapeQuote);
-
-        map_.emplace(std::move(key), std::move(wordString));
-    }
-
-    free(buf);
+std::unique_ptr<HandlerTableEntry<QuickPhraseProviderCallback>>
+QuickPhrase::addProvider(QuickPhraseProviderCallback callback) {
+    return callbackProvider_.addCallback(callback);
 }
 
 void QuickPhrase::trigger(InputContext *ic, const std::string &text,

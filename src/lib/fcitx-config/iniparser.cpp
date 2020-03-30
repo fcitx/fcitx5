@@ -28,46 +28,6 @@
 #include <fcntl.h>
 
 namespace fcitx {
-enum class UnescapeState { NORMAL, ESCAPE };
-
-bool _unescape_string(std::string &str, bool unescapeQuote) {
-    if (str.empty()) {
-        return true;
-    }
-
-    size_t i = 0;
-    size_t j = 0;
-    UnescapeState state = UnescapeState::NORMAL;
-    do {
-        switch (state) {
-        case UnescapeState::NORMAL:
-            if (str[i] == '\\') {
-                state = UnescapeState::ESCAPE;
-            } else {
-                str[j] = str[i];
-                j++;
-            }
-            break;
-        case UnescapeState::ESCAPE:
-            if (str[i] == '\\') {
-                str[j] = '\\';
-                j++;
-            } else if (str[i] == 'n') {
-                str[j] = '\n';
-                j++;
-            } else if (str[i] == '\"' && unescapeQuote) {
-                str[j] = '\"';
-                j++;
-            } else {
-                return false;
-            }
-            state = UnescapeState::NORMAL;
-            break;
-        }
-    } while (str[i++]);
-    str.resize(j - 1);
-    return true;
-}
 
 typedef std::unique_ptr<FILE, decltype(&fclose)> ScopedFILE;
 
@@ -144,7 +104,7 @@ void readFromIni(RawConfig &config, FILE *fin) {
             }
 
             auto value = lineBuf.substr(valueStart);
-            if (!_unescape_string(value, unescapeQuote)) {
+            if (!stringutils::unescape(value, unescapeQuote)) {
                 continue;
             }
 

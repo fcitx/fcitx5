@@ -289,5 +289,46 @@ size_t backwardSearch(const std::string &haystack, const std::string &needle,
     }
     return std::string::npos;
 }
+
+enum class UnescapeState { NORMAL, ESCAPE };
+
+bool unescape(std::string &str, bool unescapeQuote) {
+    if (str.empty()) {
+        return true;
+    }
+
+    size_t i = 0;
+    size_t j = 0;
+    UnescapeState state = UnescapeState::NORMAL;
+    do {
+        switch (state) {
+        case UnescapeState::NORMAL:
+            if (str[i] == '\\') {
+                state = UnescapeState::ESCAPE;
+            } else {
+                str[j] = str[i];
+                j++;
+            }
+            break;
+        case UnescapeState::ESCAPE:
+            if (str[i] == '\\') {
+                str[j] = '\\';
+                j++;
+            } else if (str[i] == 'n') {
+                str[j] = '\n';
+                j++;
+            } else if (str[i] == '\"' && unescapeQuote) {
+                str[j] = '\"';
+                j++;
+            } else {
+                return false;
+            }
+            state = UnescapeState::NORMAL;
+            break;
+        }
+    } while (str[i++]);
+    str.resize(j - 1);
+    return true;
+}
 } // namespace stringutils
 } // namespace fcitx

@@ -30,6 +30,7 @@
 #include "fcitx/inputcontextproperty.h"
 #include "fcitx/instance.h"
 #include "quickphrase_public.h"
+#include "quickphraseprovider.h"
 #include <map>
 
 namespace fcitx {
@@ -75,7 +76,6 @@ public:
     }
 
     void reloadConfig() override;
-    void load(StandardPathFile &file);
     void updateUI(InputContext *inputContext);
     auto &factory() { return factory_; }
 
@@ -83,15 +83,22 @@ public:
                  const std::string &prefix, const std::string &str,
                  const std::string &alt, const Key &key);
 
+    std::unique_ptr<HandlerTableEntry<QuickPhraseProviderCallback>>
+        addProvider(QuickPhraseProviderCallback);
+
 private:
     FCITX_ADDON_EXPORT_FUNCTION(QuickPhrase, trigger);
+    FCITX_ADDON_EXPORT_FUNCTION(QuickPhrase, addProvider);
 
-    std::multimap<std::string, std::string> map_;
+    void setSelectionKeys(QuickPhraseAction action);
+
     QuickPhraseConfig config_;
     Instance *instance_;
     std::vector<std::unique_ptr<fcitx::HandlerTableEntry<fcitx::EventHandler>>>
         eventHandlers_;
     KeyList selectionKeys_;
+    CallbackQuickPhraseProvider callbackProvider_;
+    BuiltInQuickPhraseProvider builtinProvider_;
     FactoryFor<QuickPhraseState> factory_;
 };
 } // namespace fcitx
