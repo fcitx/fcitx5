@@ -199,7 +199,7 @@ struct InstanceArgument {
     bool tryReplace = false;
     bool quietQuit = false;
     bool runAsDaemon = false;
-    bool quitWhenMainDisplayDisconnected = true;
+    bool exitWhenMainDisplayDisconnected = true;
     std::string uiName;
     std::vector<std::string> enableList;
     std::vector<std::string> disableList;
@@ -895,7 +895,7 @@ void InstanceArgument::parseOption(int argc, char **argv) {
             runAsDaemon = false;
             break;
         case 'k':
-            quitWhenMainDisplayDisconnected = false;
+            exitWhenMainDisplayDisconnected = false;
             break;
         case 's':
             overrideDelay = std::atoi(optarg);
@@ -933,9 +933,9 @@ bool Instance::willTryReplace() const {
     return d->arg_.tryReplace;
 }
 
-bool Instance::quitWhenMainDisplayDisconnected() const {
+bool Instance::exitWhenMainDisplayDisconnected() const {
     FCITX_D();
-    return d->arg_.quitWhenMainDisplayDisconnected;
+    return d->arg_.exitWhenMainDisplayDisconnected;
 }
 
 bool Instance::exiting() const {
@@ -1244,7 +1244,7 @@ void Instance::exit() {
     FCITX_D();
     d->exit_ = true;
     if (d->running_) {
-        d->eventLoop_.quit();
+        d->eventLoop_.exit();
     }
 }
 
@@ -1690,4 +1690,7 @@ void Instance::updateXkbStateMask(const std::string &display,
     d->stateMask_[display] =
         std::make_tuple(depressed_mods, latched_mods, locked_mods);
 }
+
+const char *Instance::version() { return FCITX_VERSION_STRING; }
+
 } // namespace fcitx

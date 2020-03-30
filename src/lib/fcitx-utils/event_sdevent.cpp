@@ -234,7 +234,7 @@ bool EventLoop::exec() {
     return r >= 0;
 }
 
-void EventLoop::quit() {
+void EventLoop::exit() {
     FCITX_D();
     sd_event_exit(d->event_, 0);
 }

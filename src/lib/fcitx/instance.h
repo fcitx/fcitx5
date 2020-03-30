@@ -66,7 +66,7 @@ public:
     void setSignalPipe(int fd);
     int exec();
     bool willTryReplace() const;
-    bool quitWhenMainDisplayDisconnected() const;
+    bool exitWhenMainDisplayDisconnected() const;
     bool exiting() const;
 
     EventLoop &eventLoop();
@@ -136,6 +136,8 @@ public:
     void updateXkbStateMask(const std::string &display, uint32_t depressed_mods,
                             uint32_t latched_mods, uint32_t locked_mods);
     void showInputMethodInformation(InputContext *ic);
+
+    static const char *version();
 
 private:
     void initialize();

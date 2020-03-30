@@ -36,14 +36,14 @@ int main() {
                      [&e, pipefd](EventSource *, int fd, IOEventFlags flags) {
                          FCITX_ASSERT(pipefd[0] == fd);
                          if (flags & IOEventFlag::Hup) {
-                             e.quit();
+                             e.exit();
                          }
 
                          if (flags & IOEventFlag::In) {
                              char buf[20];
                              auto size = read(fd, buf, 20);
                              if (size == 0) {
-                                 e.quit();
+                                 e.exit();
                              } else {
                                  FCITX_INFO() << "QUIT" << flags;
                                  FCITX_ASSERT(size == 1);

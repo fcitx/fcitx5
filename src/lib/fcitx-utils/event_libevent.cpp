@@ -338,7 +338,7 @@ bool EventLoop::exec() {
     return r >= 0;
 }
 
-void EventLoop::quit() {
+void EventLoop::exit() {
     FCITX_D();
     event_base_loopexit(d->event_, nullptr);
 }

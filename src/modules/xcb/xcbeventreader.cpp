@@ -27,7 +27,7 @@ XCBEventReader::XCBEventReader(XCBConnection *conn) : conn_(conn) {
 }
 
 XCBEventReader::~XCBEventReader() {
-    dispatcherToWorker_.schedule([this]() { event_->quit(); });
+    dispatcherToWorker_.schedule([this]() { event_->exit(); });
     thread_->join();
 }
 

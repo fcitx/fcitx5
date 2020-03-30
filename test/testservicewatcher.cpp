@@ -49,7 +49,7 @@ int main() {
         TEST_SERVICE, [&loop](const std::string &name, const std::string &,
                               const std::string &) {
             FCITX_ASSERT(name == TEST_SERVICE);
-            loop.quit();
+            loop.exit();
         });
 
     FCITX_ASSERT(bus.releaseName(TEST_SERVICE));

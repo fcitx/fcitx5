@@ -93,7 +93,7 @@ void WaylandModule::removeDisplay(const std::string &name) {
         onConnectionClosed(iter->second);
         conns_.erase(iter);
     }
-    if (name.empty() && instance_->quitWhenMainDisplayDisconnected()) {
+    if (name.empty() && instance_->exitWhenMainDisplayDisconnected()) {
         instance_->exit();
     }
 }

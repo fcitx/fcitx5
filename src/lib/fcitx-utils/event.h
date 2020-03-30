@@ -87,7 +87,7 @@ public:
     EventLoop();
     virtual ~EventLoop();
     bool exec();
-    void quit();
+    void exit();
 
     const char *impl();
     void *nativeHandle();

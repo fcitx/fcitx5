@@ -98,7 +98,7 @@ void client() {
             FCITX_ASSERT(std::get<1>(data[0]) == 2);
             FCITX_ASSERT(std::get<std::string>(data[0]) == "2");
             FCITX_ASSERT(std::get<int>(data[0]) == 2);
-            loop.quit();
+            loop.exit();
             return false;
         }));
     FCITX_ASSERT(slot);
@@ -235,7 +235,7 @@ int main() {
             auto reply = msg.call(0);
             std::string s;
             reply >> s;
-            loop.quit();
+            loop.exit();
             return false;
         }));
 

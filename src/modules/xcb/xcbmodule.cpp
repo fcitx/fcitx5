@@ -67,7 +67,7 @@ void XCBModule::removeConnection(std::string name) {
     FCITX_INFO() << "Disconnected from X11 Display " << name;
     if (name == mainDisplay_) {
         mainDisplay_.clear();
-        if (instance_->quitWhenMainDisplayDisconnected()) {
+        if (instance_->exitWhenMainDisplayDisconnected()) {
             instance_->exit();
         }
     }

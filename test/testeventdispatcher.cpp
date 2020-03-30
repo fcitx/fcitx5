@@ -35,7 +35,7 @@ void scheduleEvent(EventDispatcher *dispatcher, EventLoop *loop) {
         usleep(1000);
     }
     dispatcher->schedule([loop, dispatcher]() {
-        loop->quit();
+        loop->exit();
         dispatcher->detach();
     });
 }
@@ -58,7 +58,7 @@ void recursiveSchedule() {
     std::function<void()> callback = [&dispatcher, &counter, &loop,
                                       &callback]() {
         if (counter == 100) {
-            loop.quit();
+            loop.exit();
             return;
         }
         ++counter;
