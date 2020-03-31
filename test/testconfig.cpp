@@ -26,6 +26,16 @@
 
 using namespace fcitx;
 
+void validate(const RawConfig &config) {
+    for (const auto &item : config.subItems()) {
+        auto subConfig = config.get(item);
+        FCITX_ASSERT(subConfig->name() == item);
+        FCITX_ASSERT(subConfig);
+        FCITX_ASSERT(subConfig->parent() == &config);
+        validate(*subConfig);
+    }
+}
+
 void testBasics() {
     TestConfig config;
 
@@ -76,6 +86,9 @@ void testBasics() {
     FCITX_ASSERT(intOption->value() == "0");
     FCITX_ASSERT(!rawConfig.get("IntOption"));
     FCITX_ASSERT(!intOption->parent());
+
+    validate(rawConfig);
+    validate(rawDescConfig);
 }
 
 void testMove() {
@@ -85,6 +98,8 @@ void testMove() {
     sub.setValue("C");
     FCITX_ASSERT(sub.parent() == &config);
 
+    validate(config);
+
     auto newConfig = std::move(config);
     FCITX_ASSERT(newConfig.value() == "A");
     FCITX_ASSERT(newConfig.subItems() == std::vector<std::string>{"B"});
@@ -93,10 +108,65 @@ void testMove() {
     auto copySub = newSub;
     FCITX_ASSERT(copySub == sub);
     FCITX_ASSERT(copySub == newSub);
+    validate(newConfig);
+}
+
+void testAssign() {
+    RawConfig config;
+    config["A"]["B"].setValue("1");
+    config["A"]["C"].setValue("2");
+    FCITX_INFO() << config;
+
+    RawConfig newConfig;
+    newConfig = config["A"];
+    RawConfig newConfig2(config["A"]);
+    FCITX_ASSERT(newConfig2.name().empty());
+
+    RawConfig expect;
+    expect["B"].setValue("1");
+    expect["C"].setValue("2");
+
+    FCITX_INFO() << newConfig;
+    FCITX_INFO() << newConfig2;
+    FCITX_ASSERT(newConfig == expect);
+    FCITX_ASSERT(newConfig2 == expect);
+    validate(newConfig);
+    validate(newConfig2);
+    validate(expect);
+
+    config["A"]["B"] = expect;
+    FCITX_ASSERT(config["A"]["B"] == expect);
+
+    RawConfig expect2;
+    expect2["A"]["B"]["B"].setValue("1");
+    expect2["A"]["B"]["C"].setValue("2");
+    expect2["A"]["C"].setValue("2");
+    FCITX_INFO() << config;
+    FCITX_ASSERT(config == expect2);
+    validate(config);
+}
+
+void testRecursiveAssign() {
+    {
+        RawConfig config;
+        config["A"]["B"]["C"] = "DEF";
+        config["A"] = config["A"]["B"]["C"];
+        FCITX_INFO() << config;
+        validate(config);
+    }
+    {
+        RawConfig config;
+        config["A"]["B"]["C"] = "DEF";
+        config["A"]["B"]["C"] = config["A"];
+        FCITX_INFO() << config;
+        validate(config);
+    }
 }
 
 int main() {
     testBasics();
     testMove();
+    testAssign();
+    testRecursiveAssign();
     return 0;
 }

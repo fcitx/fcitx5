@@ -180,32 +180,38 @@ private:
     }
 };
 
-class RawConfigPrivate {
+class RawConfigPrivate : public QPtrHolder<RawConfig> {
 public:
-    RawConfigPrivate(std::string _name) : name_(_name), lineNumber_(0) {}
-    RawConfigPrivate(const RawConfigPrivate &other)
-        : name_(other.name_), value_(other.value_), comment_(other.comment_),
-          lineNumber_(other.lineNumber_) {
-        for (const auto &item : other.subItems_) {
-            subItems_[item.first] = std::make_shared<RawConfig>(*item.second);
-        }
-    }
+    RawConfigPrivate(RawConfig *q, std::string _name)
+        : QPtrHolder(q), name_(_name), lineNumber_(0) {}
+    RawConfigPrivate(RawConfig *q, const RawConfigPrivate &other)
+        : QPtrHolder(q), value_(other.value_), comment_(other.comment_),
+          lineNumber_(other.lineNumber_) {}
 
     RawConfigPrivate &operator=(const RawConfigPrivate &other) {
-        name_ = other.name_;
-        value_ = other.value_;
-        comment_ = other.comment_;
-        lineNumber_ = other.lineNumber_;
+        // There is no need to copy "name_", because name refers to its parent.
+        // Make a copy of value, comment, and lineNumber, because this "other"
+        // might be our parent.
+        auto value = other.value_;
+        auto comment = other.comment_;
+        auto lineNumber = other.lineNumber_;
+        OrderedMap<std::string, std::shared_ptr<RawConfig>> newSubItems;
         for (const auto &item : other.subItems_) {
-            subItems_[item.first] = std::make_shared<RawConfig>(*item.second);
+            auto result = newSubItems[item.first] =
+                q_func()->createSub(item.second->name());
+            *result = *item.second;
         }
+        value_ = std::move(value);
+        comment_ = std::move(comment);
+        lineNumber_ = lineNumber;
+        detachSubItems();
+        subItems_ = std::move(newSubItems);
         return *this;
     }
 
     std::shared_ptr<RawConfig> getNonexistentRawConfig(RawConfig *q,
                                                        const std::string &key) {
-        auto result = subItems_[key] = std::make_shared<RawConfig>(key);
-        result->d_func()->parent_ = q;
+        auto result = subItems_[key] = q->createSub(key);
         return result;
     }
 
@@ -264,27 +270,40 @@ public:
         return true;
     }
 
+    void detachSubItems() {
+        for (const auto pair : subItems_) {
+            pair.second->d_func()->parent_ = nullptr;
+        }
+    }
+
     RawConfig *parent_ = nullptr;
-    std::string name_;
+    const std::string name_;
     std::string value_;
     std::string comment_;
     OrderedMap<std::string, std::shared_ptr<RawConfig>> subItems_;
     unsigned int lineNumber_;
 };
 
-RawConfig::RawConfig(std::string name, std::string value)
-    : d_ptr(std::make_unique<RawConfigPrivate>(name)) {
-    setValue(std::move(value));
-}
+RawConfig::RawConfig() : RawConfig("") {}
+
+RawConfig::RawConfig(std::string name)
+    : d_ptr(std::make_unique<RawConfigPrivate>(this, name)) {}
 
 RawConfig::~RawConfig() {
     FCITX_D();
-    for (const auto pair : d->subItems_) {
-        pair.second->d_func()->parent_ = nullptr;
-    }
+    d->detachSubItems();
 }
 
-FCITX_DEFINE_DPTR_COPY(RawConfig);
+RawConfig::RawConfig(const RawConfig &other)
+    : d_ptr(std::make_unique<RawConfigPrivate>(this, *other.d_ptr)) {
+    for (const auto &item : other.d_func()->subItems_) {
+        *get(item.first, true) = *item.second;
+    }
+}
+RawConfig &RawConfig::operator=(const RawConfig &other) {
+    *d_ptr = *other.d_ptr;
+    return *this;
+}
 
 std::shared_ptr<RawConfig> RawConfig::get(const std::string &path,
                                           bool create) {
@@ -438,6 +457,17 @@ void RawConfig::visitItemsOnPath(
     std::function<void(const RawConfig &, const std::string &path)> callback,
     const std::string &path) const {
     RawConfigPrivate::getRawConfigHelper(*this, path, callback);
+}
+
+std::shared_ptr<RawConfig> RawConfig::createSub(std::string name) {
+    struct RawSubConfig : public RawConfig {
+        RawSubConfig(RawConfig *parent, std::string name)
+            : RawConfig(std::move(name)) {
+            FCITX_D();
+            d->parent_ = parent;
+        }
+    };
+    return std::make_shared<RawSubConfig>(this, std::move(name));
 }
 
 LogMessageBuilder &operator<<(LogMessageBuilder &log, const RawConfig &config) {

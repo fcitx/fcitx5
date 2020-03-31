@@ -37,7 +37,7 @@ typedef std::shared_ptr<RawConfig> RawConfigPtr;
 class RawConfigPrivate;
 class FCITXCONFIG_EXPORT RawConfig {
 public:
-    explicit RawConfig(std::string name = "", std::string value = "");
+    RawConfig();
     FCITX_DECLARE_VIRTUAL_DTOR_COPY(RawConfig)
 
     std::shared_ptr<RawConfig> get(const std::string &path,
@@ -115,6 +115,9 @@ public:
         const std::string &path) const;
 
 private:
+    friend class RawConfigPrivate;
+    RawConfig(std::string name);
+    std::shared_ptr<RawConfig> createSub(std::string name);
     FCITX_DECLARE_PRIVATE(RawConfig);
     std::unique_ptr<RawConfigPrivate> d_ptr;
 };
