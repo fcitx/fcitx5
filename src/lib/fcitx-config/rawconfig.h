@@ -38,7 +38,7 @@ class RawConfigPrivate;
 class FCITXCONFIG_EXPORT RawConfig {
 public:
     explicit RawConfig(std::string name = "", std::string value = "");
-    FCITX_DECLARE_VIRTUAL_DTOR_COPY_AND_MOVE(RawConfig)
+    FCITX_DECLARE_VIRTUAL_DTOR_COPY(RawConfig)
 
     std::shared_ptr<RawConfig> get(const std::string &path,
                                    bool create = false);

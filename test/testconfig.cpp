@@ -24,14 +24,16 @@
 #include <fcitx-config/iniparser.h>
 #include <vector>
 
-int main() {
+using namespace fcitx;
+
+void testBasics() {
     TestConfig config;
 
-    fcitx::I18NString str;
+    I18NString str;
     str.set("A", "zh_CN");
     str.set("ABCD");
     config.i18nStringValue.setValue(str);
-    fcitx::RawConfig rawConfig;
+    RawConfig rawConfig;
     config.save(rawConfig);
 
     FCITX_ASSERT(*config.intVector == std::vector<int>{0});
@@ -42,7 +44,7 @@ int main() {
     // Invalid value is not set.
     FCITX_ASSERT((*config.intVector == std::vector<int>{1, 2}));
 
-    fcitx::writeAsIni(rawConfig, stdout);
+    writeAsIni(rawConfig, stdout);
 
     FCITX_ASSERT(*rawConfig.valueByPath("IntOption") == "0");
 
@@ -65,15 +67,36 @@ int main() {
     FCITX_ASSERT(config.i18nStringValue.value().match("") == "ABCD");
     FCITX_ASSERT(config.i18nStringValue.value().match("zh_CN") == "A");
 
-    fcitx::RawConfig rawDescConfig;
+    RawConfig rawDescConfig;
     config.dumpDescription(rawDescConfig);
-    fcitx::writeAsIni(rawDescConfig, stdout);
+    writeAsIni(rawDescConfig, stdout);
 
     auto intOption = rawConfig.get("IntOption")->detach();
     FCITX_ASSERT(intOption);
     FCITX_ASSERT(intOption->value() == "0");
     FCITX_ASSERT(!rawConfig.get("IntOption"));
     FCITX_ASSERT(!intOption->parent());
+}
 
+void testMove() {
+    RawConfig config;
+    config.setValue("A");
+    auto &sub = config["B"];
+    sub.setValue("C");
+    FCITX_ASSERT(sub.parent() == &config);
+
+    auto newConfig = std::move(config);
+    FCITX_ASSERT(newConfig.value() == "A");
+    FCITX_ASSERT(newConfig.subItems() == std::vector<std::string>{"B"});
+    auto &newSub = newConfig["B"];
+    FCITX_ASSERT(newSub == sub);
+    auto copySub = newSub;
+    FCITX_ASSERT(copySub == sub);
+    FCITX_ASSERT(copySub == newSub);
+}
+
+int main() {
+    testBasics();
+    testMove();
     return 0;
 }

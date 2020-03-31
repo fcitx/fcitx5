@@ -284,7 +284,7 @@ RawConfig::~RawConfig() {
     }
 }
 
-FCITX_DEFINE_DPTR_COPY_AND_DEFAULT_MOVE(RawConfig)
+FCITX_DEFINE_DPTR_COPY(RawConfig);
 
 std::shared_ptr<RawConfig> RawConfig::get(const std::string &path,
                                           bool create) {
