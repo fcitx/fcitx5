@@ -40,9 +40,32 @@ fcitx::classicui::WaylandInputWindow::WaylandInputWindow(WaylandUI *ui)
         }
     });
     window_->hover().connect([this](int x, int y) {
-        auto oldHighlight = highlight();
-        hover(x, y);
-        if (oldHighlight != highlight()) {
+        if (hover(x, y)) {
+            repaint();
+        }
+    });
+    window_->leave().connect([this]() {
+        if (hover(-1, -1)) {
+            repaint();
+        }
+    });
+    window_->axis().connect([this](int, int, uint32_t axis, wl_fixed_t value) {
+        if (axis != WL_POINTER_AXIS_VERTICAL_SCROLL) {
+            return;
+        }
+        scroll_ += value;
+        bool triggered = false;
+        while (scroll_ >= 2560) {
+            scroll_ -= 2560;
+            wheel(/*up=*/false);
+            triggered = true;
+        }
+        while (scroll_ <= -2560) {
+            scroll_ += 2560;
+            wheel(/*up=*/true);
+            triggered = true;
+        }
+        if (triggered) {
             repaint();
         }
     });

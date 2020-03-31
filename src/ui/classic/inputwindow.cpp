@@ -32,6 +32,20 @@ namespace fcitx {
 
 namespace classicui {
 
+void shrink(Rect &rect, const MarginConfig &margin) {
+    int newWidth = rect.width() - *margin.marginLeft - *margin.marginRight;
+    int newHeight = rect.height() - *margin.marginTop - *margin.marginBottom;
+    if (newWidth < 0) {
+        newWidth = 0;
+    }
+    if (newHeight < 0) {
+        newHeight = 0;
+    }
+    rect.setPosition(rect.left() + *margin.marginLeft,
+                     rect.top() + *margin.marginTop);
+    rect.setSize(newWidth, newHeight);
+}
+
 auto newPangoLayout(PangoContext *context) {
     GObjectUniquePtr<PangoLayout> ptr(pango_layout_new(context),
                                       &g_object_unref);
@@ -234,9 +248,18 @@ void InputWindow::update(InputContext *inputContext) {
 
         layoutHint_ = candidateList->layoutHint();
         candidateIndex_ = candidateList->cursorIndex();
+        if (auto pageable = candidateList->toPageable()) {
+            hasPrev_ = pageable->hasPrev();
+            hasNext_ = pageable->hasNext();
+        } else {
+            hasPrev_ = false;
+            hasNext_ = false;
+        }
     } else {
         nCandidates_ = 0;
         candidateIndex_ = -1;
+        hasPrev_ = false;
+        hasNext_ = false;
     }
 
     visible_ = nCandidates_ ||
@@ -245,6 +268,7 @@ void InputWindow::update(InputContext *inputContext) {
 }
 
 std::pair<unsigned int, unsigned int> InputWindow::sizeHint() {
+    auto &theme = parent_->theme();
     auto fontDesc =
         pango_font_description_from_string(parent_->config().font->c_str());
     pango_context_set_font_description(context_.get(), fontDesc);
@@ -272,7 +296,7 @@ std::pair<unsigned int, unsigned int> InputWindow::sizeHint() {
     };
     int w, h;
 
-    const auto &textMargin = *parent_->theme().inputPanel->textMargin;
+    const auto &textMargin = *theme.inputPanel->textMargin;
     auto extraW = *textMargin.marginLeft + *textMargin.marginRight;
     auto extraH = *textMargin.marginTop + *textMargin.marginBottom;
     if (pango_layout_get_character_count(upperLayout_.get())) {
@@ -320,9 +344,18 @@ std::pair<unsigned int, unsigned int> InputWindow::sizeHint() {
     updateIfLarger(width, wholeW);
     candidatesHeight_ = wholeH;
     height += wholeH;
-    const auto &margin = *parent_->theme().inputPanel->contentMargin;
+    const auto &margin = *theme.inputPanel->contentMargin;
     width += *margin.marginLeft + *margin.marginRight;
     height += *margin.marginTop + *margin.marginBottom;
+
+    if (nCandidates_ && (hasPrev_ || hasNext_)) {
+        auto &prev = theme.loadBackground(*theme.inputPanel->prev);
+        auto &next = theme.loadBackground(*theme.inputPanel->next);
+        if (prev.valid() && next.valid()) {
+            width += prev.width() + next.width();
+        }
+    }
+
     return {width, height};
 }
 
@@ -355,10 +388,50 @@ void InputWindow::paint(cairo_t *cr, unsigned int width, unsigned int height) {
     theme.paint(cr, *theme.inputPanel->background, width, height);
     const auto &margin = *theme.inputPanel->contentMargin;
     const auto &textMargin = *theme.inputPanel->textMargin;
+    cairo_set_operator(cr, CAIRO_OPERATOR_OVER);
+    cairo_save(cr);
+
+    prevRegion_ = Rect();
+    nextRegion_ = Rect();
+    if (nCandidates_ && (hasPrev_ || hasNext_)) {
+        auto &prev = theme.loadBackground(*theme.inputPanel->prev);
+        auto &next = theme.loadBackground(*theme.inputPanel->next);
+        if (prev.valid() && next.valid()) {
+            cairo_save(cr);
+            nextRegion_.setPosition(width - *margin.marginRight - next.width(),
+                                    height - *margin.marginBottom -
+                                        next.height());
+            nextRegion_.setSize(next.width(), next.height());
+            cairo_translate(cr, nextRegion_.left(), nextRegion_.top());
+            shrink(nextRegion_, *theme.inputPanel->next->clickMargin);
+            double alpha = 1.0;
+            if (!hasNext_) {
+                alpha = 0.3;
+            } else if (nextHovered_) {
+                alpha = 0.7;
+            }
+            theme.paint(cr, *theme.inputPanel->next, -1, -1, alpha);
+            cairo_restore(cr);
+            cairo_save(cr);
+            prevRegion_.setPosition(
+                width - *margin.marginRight - next.width() - prev.width(),
+                height - *margin.marginBottom - prev.height());
+            prevRegion_.setSize(prev.width(), prev.height());
+            cairo_translate(cr, prevRegion_.left(), prevRegion_.top());
+            shrink(prevRegion_, *theme.inputPanel->prev->clickMargin);
+            alpha = 1.0;
+            if (!hasPrev_) {
+                alpha = 0.3;
+            } else if (prevHovered_) {
+                alpha = 0.7;
+            }
+            theme.paint(cr, *theme.inputPanel->prev, -1, -1, alpha);
+            cairo_restore(cr);
+        }
+    }
 
     // Move position to the right place.
     cairo_translate(cr, *margin.marginLeft, *margin.marginTop);
-    cairo_set_operator(cr, CAIRO_OPERATOR_OVER);
 
     cairo_save(cr);
     cairoSetSourceColor(cr, *theme.inputPanel->normalColor);
@@ -517,6 +590,48 @@ void InputWindow::click(int x, int y) {
             break;
         }
     }
+    if (auto pageable = candidateList->toPageable()) {
+        if (pageable->hasPrev() && prevRegion_.contains(x, y)) {
+            pageable->prev();
+            inputContext->updateUserInterface(
+                UserInterfaceComponent::InputPanel);
+            return;
+        }
+        if (pageable->hasNext() && nextRegion_.contains(x, y)) {
+            pageable->next();
+            inputContext->updateUserInterface(
+                UserInterfaceComponent::InputPanel);
+        }
+    }
+}
+
+void InputWindow::wheel(bool up) {
+    if (!*parent_->config().useWheelForPaging) {
+        return;
+    }
+    auto inputContext = inputContext_.get();
+    if (!inputContext) {
+        return;
+    }
+    const auto candidateList = inputContext->inputPanel().candidateList();
+    if (!candidateList) {
+        return;
+    }
+    if (auto pageable = candidateList->toPageable()) {
+        if (up) {
+            if (pageable->hasPrev()) {
+                pageable->prev();
+                inputContext->updateUserInterface(
+                    UserInterfaceComponent::InputPanel);
+            }
+        } else {
+            if (pageable->hasNext()) {
+                pageable->next();
+                inputContext->updateUserInterface(
+                    UserInterfaceComponent::InputPanel);
+            }
+        }
+    }
 }
 
 int InputWindow::highlight() const {
@@ -524,7 +639,9 @@ int InputWindow::highlight() const {
     return highlightIndex;
 }
 
-void InputWindow::hover(int x, int y) {
+bool InputWindow::hover(int x, int y) {
+    bool needRepaint = false;
+    auto oldHighlight = highlight();
     hoverIndex_ = -1;
     for (int idx = 0, e = candidateRegions_.size(); idx < e; idx++) {
         if (candidateRegions_[idx].contains(x, y)) {
@@ -532,6 +649,16 @@ void InputWindow::hover(int x, int y) {
             break;
         }
     }
+
+    needRepaint = needRepaint || oldHighlight != highlight();
+
+    auto prevHovered = prevRegion_.contains(x, y);
+    auto nextHovered = nextRegion_.contains(x, y);
+    needRepaint = needRepaint || prevHovered_ != prevHovered;
+    needRepaint = needRepaint || nextHovered_ != nextHovered;
+    prevHovered_ = prevHovered;
+    nextHovered_ = nextHovered;
+    return needRepaint;
 }
 
 } // namespace classicui

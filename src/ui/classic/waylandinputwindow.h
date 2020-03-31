@@ -39,6 +39,7 @@ public:
 
 private:
     WaylandUI *ui_;
+    wl_fixed_t scroll_ = 0;
     std::unique_ptr<wayland::ZwpInputPanelSurfaceV1> panelSurface_;
     std::unique_ptr<WaylandWindow> window_;
     TrackableObjectReference<InputContext> repaintIC_;

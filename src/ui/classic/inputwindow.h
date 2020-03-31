@@ -42,8 +42,9 @@ public:
     void paint(cairo_t *cr, unsigned int width, unsigned int height);
     void hide();
     bool visible() const { return visible_; }
-    void hover(int x, int y);
+    bool hover(int x, int y);
     void click(int x, int y);
+    void wheel(bool up);
 
 protected:
     void resizeCandidates(size_t s);
@@ -73,6 +74,12 @@ protected:
     int cursor_ = 0;
     int dpi_ = -1;
     size_t nCandidates_ = 0;
+    bool hasPrev_ = false;
+    bool hasNext_ = false;
+    Rect prevRegion_;
+    Rect nextRegion_;
+    bool prevHovered_ = false;
+    bool nextHovered_ = false;
     int candidateIndex_ = -1;
     CandidateLayoutHint layoutHint_ = CandidateLayoutHint::NotSet;
     size_t candidatesHeight_ = 0;

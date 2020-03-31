@@ -61,6 +61,9 @@ FCITX_CONFIGURATION(
                                        _("Vertical Candidate List"), false};
     Option<bool> perScreenDPI{this, "PerScreenDPI", _("Use Per Screen DPI"),
                               true};
+    Option<bool> useWheelForPaging{
+        this, "WheelForPaging", _("Use mouse wheel to go to prev or next page"),
+        true};
 
     OptionWithAnnotation<std::string, FontAnnotation> font{this, "Font", "Font",
                                                            "Sans 9"};

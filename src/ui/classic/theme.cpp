@@ -234,6 +234,7 @@ ThemeImage::ThemeImage(const std::string &name,
             cairo_surface_status(image_.get()) != CAIRO_STATUS_SUCCESS) {
             image_.reset();
         }
+        valid_ = image_ != nullptr;
     }
 
     if (!image_) {
@@ -293,7 +294,7 @@ const ThemeImage &Theme::loadImage(const std::string &icon,
 }
 
 void Theme::paint(cairo_t *c, const BackgroundImageConfig &cfg, int width,
-                  int height) {
+                  int height, double alpha) {
     const ThemeImage &image = loadBackground(cfg);
     auto marginTop = *cfg.margin->marginTop;
     auto marginBottom = *cfg.margin->marginBottom;
@@ -335,7 +336,7 @@ void Theme::paint(cairo_t *c, const BackgroundImageConfig &cfg, int width,
         cairo_set_source_surface(c, image, 0, -marginTop - resizeHeight);
         cairo_rectangle(c, 0, 0, marginLeft, marginBottom);
         cairo_clip(c);
-        cairo_paint(c);
+        cairo_paint_with_alpha(c, alpha);
         cairo_restore(c);
     }
 
@@ -347,7 +348,7 @@ void Theme::paint(cairo_t *c, const BackgroundImageConfig &cfg, int width,
                                  -marginTop - resizeHeight);
         cairo_rectangle(c, 0, 0, marginRight, marginBottom);
         cairo_clip(c);
-        cairo_paint(c);
+        cairo_paint_with_alpha(c, alpha);
         cairo_restore(c);
     }
 
@@ -357,7 +358,7 @@ void Theme::paint(cairo_t *c, const BackgroundImageConfig &cfg, int width,
         cairo_set_source_surface(c, image, 0, 0);
         cairo_rectangle(c, 0, 0, marginLeft, marginTop);
         cairo_clip(c);
-        cairo_paint(c);
+        cairo_paint_with_alpha(c, alpha);
         cairo_restore(c);
     }
 
@@ -368,7 +369,7 @@ void Theme::paint(cairo_t *c, const BackgroundImageConfig &cfg, int width,
         cairo_set_source_surface(c, image, -marginLeft - resizeWidth, 0);
         cairo_rectangle(c, 0, 0, marginRight, marginTop);
         cairo_clip(c);
-        cairo_paint(c);
+        cairo_paint_with_alpha(c, alpha);
         cairo_restore(c);
     }
 
@@ -382,7 +383,7 @@ void Theme::paint(cairo_t *c, const BackgroundImageConfig &cfg, int width,
         cairo_set_source_surface(c, image, -marginLeft, 0);
         cairo_rectangle(c, 0, 0, resizeWidth, marginTop);
         cairo_clip(c);
-        cairo_paint(c);
+        cairo_paint_with_alpha(c, alpha);
         cairo_restore(c);
     }
 
@@ -396,7 +397,7 @@ void Theme::paint(cairo_t *c, const BackgroundImageConfig &cfg, int width,
                                  -marginTop - resizeHeight);
         cairo_rectangle(c, 0, 0, resizeWidth, marginBottom);
         cairo_clip(c);
-        cairo_paint(c);
+        cairo_paint_with_alpha(c, alpha);
         cairo_restore(c);
     }
 
@@ -410,7 +411,7 @@ void Theme::paint(cairo_t *c, const BackgroundImageConfig &cfg, int width,
         cairo_set_source_surface(c, image, 0, -marginTop);
         cairo_rectangle(c, 0, 0, marginLeft, resizeHeight);
         cairo_clip(c);
-        cairo_paint(c);
+        cairo_paint_with_alpha(c, alpha);
         cairo_restore(c);
     }
 
@@ -424,7 +425,7 @@ void Theme::paint(cairo_t *c, const BackgroundImageConfig &cfg, int width,
                                  -marginTop);
         cairo_rectangle(c, 0, 0, marginRight, resizeHeight);
         cairo_clip(c);
-        cairo_paint(c);
+        cairo_paint_with_alpha(c, alpha);
         cairo_restore(c);
     }
 
@@ -455,7 +456,7 @@ void Theme::paint(cairo_t *c, const BackgroundImageConfig &cfg, int width,
 
                 cairo_rectangle(c, 0, 0, w, h);
                 cairo_clip(c);
-                cairo_paint(c);
+                cairo_paint_with_alpha(c, alpha);
                 cairo_restore(c);
             }
         }

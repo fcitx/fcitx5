@@ -65,6 +65,8 @@ FCITX_CONFIGURATION(
     Option<Color> highlightCandidateColor{this, "HighlightCandidateColor",
                                           "Highlight Candidate Color",
                                           Color("#ffffffff")};
+    Option<BackgroundImageConfig> prev{this, "PrevPage", ""};
+    Option<BackgroundImageConfig> next{this, "NextPage", ""};
     Option<int> spacing{this, "Spacing", "Spacing", 0};
     Option<bool> fullWidthHighlight{
         this, "FullWidthHighlight",
@@ -138,9 +140,12 @@ public:
         return width <= 0 ? 1 : width;
     }
 
-    auto size() { return size_; }
+    auto size() const { return size_; }
+
+    bool valid() const { return valid_; }
 
 private:
+    bool valid_ = false;
     std::string currentText_;
     uint32_t size_ = 0;
     std::unique_ptr<cairo_surface_t, decltype(&cairo_surface_destroy)> image_;
@@ -158,7 +163,7 @@ public:
     const ThemeImage &loadBackground(const BackgroundImageConfig &cfg);
 
     void paint(cairo_t *c, const BackgroundImageConfig &cfg, int width,
-               int height);
+               int height, double alpha = 1.0);
 
 private:
     std::unordered_map<const BackgroundImageConfig *, ThemeImage>

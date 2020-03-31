@@ -51,6 +51,7 @@ void WaylandPointer::initPointer() {
         if (auto window = focus_.get()) {
             if (window->surface() == surface) {
                 focus_.unwatch();
+                window->leave()();
             }
         }
     });
@@ -67,6 +68,11 @@ void WaylandPointer::initPointer() {
                 window->click()(focusX_, focusY_, button, state);
             }
         });
+    pointer_->axis().connect([this](uint32_t, uint32_t axis, wl_fixed_t value) {
+        if (auto window = focus_.get()) {
+            window->axis()(focusX_, focusY_, axis, value);
+        }
+    });
 }
 
 } // namespace classicui

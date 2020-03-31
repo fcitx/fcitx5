@@ -218,15 +218,17 @@ bool XCBInputWindow::filterEvent(xcb_generic_event_t *event) {
         }
         if (buttonPress->detail == XCB_BUTTON_INDEX_1) {
             click(buttonPress->event_x, buttonPress->event_y);
+        } else if (buttonPress->detail == XCB_BUTTON_INDEX_4) {
+            wheel(/*up=*/true);
+        } else if (buttonPress->detail == XCB_BUTTON_INDEX_5) {
+            wheel(/*up=*/false);
         }
         return true;
     }
     case XCB_MOTION_NOTIFY: {
         auto motion = reinterpret_cast<xcb_motion_notify_event_t *>(event);
         if (motion->event == wid_) {
-            auto oldHighlight = highlight();
-            hover(motion->event_x, motion->event_y);
-            if (oldHighlight != highlight()) {
+            if (hover(motion->event_x, motion->event_y)) {
                 repaint();
             }
             return true;
@@ -236,9 +238,7 @@ bool XCBInputWindow::filterEvent(xcb_generic_event_t *event) {
     case XCB_LEAVE_NOTIFY: {
         auto leave = reinterpret_cast<xcb_leave_notify_event_t *>(event);
         if (leave->event == wid_) {
-            auto oldHighlight = highlight();
-            hoverIndex_ = -1;
-            if (oldHighlight != highlight()) {
+            if (hover(-1, -1)) {
                 repaint();
             }
             return true;

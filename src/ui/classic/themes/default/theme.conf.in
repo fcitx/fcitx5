@@ -41,6 +41,24 @@ Right=5
 Top=5
 Bottom=5
 
+[InputPanel/PrevPage]
+Image=prev.png
+
+[InputPanel/PrevPage/ClickMargin]
+Left=5
+Right=5
+Top=4
+Bottom=4
+
+[InputPanel/NextPage]
+Image=next.png
+
+[InputPanel/NextPage/ClickMargin]
+Left=5
+Right=5
+Top=4
+Bottom=4
+
 [Menu/Background]
 Image=panel.png
 
@@ -55,6 +73,12 @@ Left=2
 Right=2
 Top=2
 Bottom=2
+
+[Menu/CheckBox]
+Image=radio.png
+
+[Menu/SubMenu]
+Image=arrow.png
 
 [Menu/Highlight]
 Image=highlight.png

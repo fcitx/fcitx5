@@ -44,6 +44,8 @@ public:
     auto &repaint() { return repaint_; }
     auto &hover() { return hover_; }
     auto &click() { return click_; }
+    auto &axis() { return axis_; }
+    auto &leave() { return leave_; }
 
 protected:
     WaylandUI *ui_;
@@ -52,6 +54,8 @@ protected:
     Signal<void()> repaint_;
     Signal<void(int, int)> hover_;
     Signal<void(int, int, uint32_t, uint32_t)> click_;
+    Signal<void(int, int, uint32_t, wl_fixed_t)> axis_;
+    Signal<void()> leave_;
 
     Rect serverAllocation_;
     Rect allocation_;
