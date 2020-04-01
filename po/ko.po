@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2020-03-26 00:01-0700\n"
+"POT-Creation-Date: 2020-04-01 00:01-0700\n"
 "PO-Revision-Date: 2017-11-23 04:14+0000\n"
 "Last-Translator: MarongHappy <daemul72@gmail.com>, 2020\n"
 "Language-Team: Korean (https://www.transifex.com/fcitx/teams/12005/ko/)\n"
@@ -72,7 +72,7 @@ msgstr "밝기 조절"
 msgid "Allow Overriding System XKB Settings"
 msgstr "시스템 XKB 설정을 덮어쓰도록 허용"
 
-#: src/im/keyboard/keyboard.h:42 src/modules/quickphrase/quickphrase.h:39
+#: src/im/keyboard/keyboard.h:42 src/modules/quickphrase/quickphrase.h:40
 msgid "Alt"
 msgstr "Alt"
 
@@ -224,7 +224,7 @@ msgstr "커뮤니티"
 msgid "Configure"
 msgstr "설정"
 
-#: src/im/keyboard/keyboard.h:43 src/modules/quickphrase/quickphrase.h:39
+#: src/im/keyboard/keyboard.h:43 src/modules/quickphrase/quickphrase.h:40
 msgid "Control"
 msgstr "Control"
 
@@ -309,7 +309,7 @@ msgctxt "Key name"
 msgid "Down"
 msgstr "아래쪽"
 
-#: src/modules/quickphrase/quickphrase.h:53
+#: src/modules/quickphrase/quickphrase.h:54
 msgid "Editor"
 msgstr "편집기"
 
@@ -874,7 +874,7 @@ msgstr "다음 후보"
 msgid "No clipboard history."
 msgstr "클립보드 기록이 없습니다."
 
-#: src/im/keyboard/keyboard.h:42 src/modules/quickphrase/quickphrase.h:38
+#: src/im/keyboard/keyboard.h:42 src/modules/quickphrase/quickphrase.h:39
 msgid "None"
 msgstr "없음"
 
@@ -972,7 +972,7 @@ msgstr "화면 출력"
 msgid "Quick Phrase"
 msgstr "상용구"
 
-#: src/modules/quickphrase/quickphrase.cpp:284
+#: src/modules/quickphrase/quickphrase.cpp:351
 msgid "Quick Phrase: "
 msgstr "상용구:"
 
@@ -1168,7 +1168,7 @@ msgctxt "Key name"
 msgid "Subtitle"
 msgstr "부제"
 
-#: src/im/keyboard/keyboard.h:43 src/modules/quickphrase/quickphrase.h:39
+#: src/im/keyboard/keyboard.h:43 src/modules/quickphrase/quickphrase.h:40
 msgid "Super"
 msgstr "Super"
 
@@ -1207,7 +1207,7 @@ msgctxt "Key name"
 msgid "Terminal"
 msgstr "터미널"
 
-#: src/ui/classic/classicui.h:67
+#: src/ui/classic/classicui.h:70
 msgid "Theme"
 msgstr "테마"
 
@@ -1280,6 +1280,10 @@ msgstr "위쪽"
 #: src/ui/classic/classicui.h:62
 msgid "Use Per Screen DPI"
 msgstr "화면 해상도 사용하기"
+
+#: src/ui/classic/classicui.h:65
+msgid "Use mouse wheel to go to prev or next page"
+msgstr ""
 
 #: src/ui/classic/classicui.h:61
 msgid "Vertical Candidate List"

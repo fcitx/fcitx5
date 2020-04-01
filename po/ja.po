@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2020-03-26 00:01-0700\n"
+"POT-Creation-Date: 2020-04-01 00:01-0700\n"
 "PO-Revision-Date: 2017-11-23 04:14+0000\n"
 "Last-Translator: ABE Tsunehiko, 2017\n"
 "Language-Team: Japanese (https://www.transifex.com/fcitx/teams/12005/ja/)\n"
@@ -70,7 +70,7 @@ msgstr ""
 msgid "Allow Overriding System XKB Settings"
 msgstr ""
 
-#: src/im/keyboard/keyboard.h:42 src/modules/quickphrase/quickphrase.h:39
+#: src/im/keyboard/keyboard.h:42 src/modules/quickphrase/quickphrase.h:40
 msgid "Alt"
 msgstr "Alt"
 
@@ -222,7 +222,7 @@ msgstr ""
 msgid "Configure"
 msgstr "設定"
 
-#: src/im/keyboard/keyboard.h:43 src/modules/quickphrase/quickphrase.h:39
+#: src/im/keyboard/keyboard.h:43 src/modules/quickphrase/quickphrase.h:40
 msgid "Control"
 msgstr ""
 
@@ -307,7 +307,7 @@ msgctxt "Key name"
 msgid "Down"
 msgstr ""
 
-#: src/modules/quickphrase/quickphrase.h:53
+#: src/modules/quickphrase/quickphrase.h:54
 msgid "Editor"
 msgstr ""
 
@@ -872,7 +872,7 @@ msgstr ""
 msgid "No clipboard history."
 msgstr "クリップボード履歴がありません。"
 
-#: src/im/keyboard/keyboard.h:42 src/modules/quickphrase/quickphrase.h:38
+#: src/im/keyboard/keyboard.h:42 src/modules/quickphrase/quickphrase.h:39
 msgid "None"
 msgstr "なし"
 
@@ -970,7 +970,7 @@ msgstr ""
 msgid "Quick Phrase"
 msgstr "クイックフレーズ"
 
-#: src/modules/quickphrase/quickphrase.cpp:284
+#: src/modules/quickphrase/quickphrase.cpp:351
 msgid "Quick Phrase: "
 msgstr "クイックフレーズ:"
 
@@ -1166,7 +1166,7 @@ msgctxt "Key name"
 msgid "Subtitle"
 msgstr ""
 
-#: src/im/keyboard/keyboard.h:43 src/modules/quickphrase/quickphrase.h:39
+#: src/im/keyboard/keyboard.h:43 src/modules/quickphrase/quickphrase.h:40
 msgid "Super"
 msgstr ""
 
@@ -1205,7 +1205,7 @@ msgctxt "Key name"
 msgid "Terminal"
 msgstr ""
 
-#: src/ui/classic/classicui.h:67
+#: src/ui/classic/classicui.h:70
 msgid "Theme"
 msgstr ""
 
@@ -1277,6 +1277,10 @@ msgstr ""
 
 #: src/ui/classic/classicui.h:62
 msgid "Use Per Screen DPI"
+msgstr ""
+
+#: src/ui/classic/classicui.h:65
+msgid "Use mouse wheel to go to prev or next page"
 msgstr ""
 
 #: src/ui/classic/classicui.h:61

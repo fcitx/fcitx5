@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2020-03-26 00:01-0700\n"
+"POT-Creation-Date: 2020-04-01 00:01-0700\n"
 "PO-Revision-Date: 2017-11-23 04:14+0000\n"
 "Last-Translator: wwj402 <wwj402@gmail.com>, 2017\n"
 "Language-Team: Chinese (China) (https://www.transifex.com/fcitx/teams/12005/"
@@ -71,7 +71,7 @@ msgstr "调整亮度"
 msgid "Allow Overriding System XKB Settings"
 msgstr "允许重写系统 XKB 设置"
 
-#: src/im/keyboard/keyboard.h:42 src/modules/quickphrase/quickphrase.h:39
+#: src/im/keyboard/keyboard.h:42 src/modules/quickphrase/quickphrase.h:40
 msgid "Alt"
 msgstr "Alt"
 
@@ -223,7 +223,7 @@ msgstr "社区"
 msgid "Configure"
 msgstr "配置"
 
-#: src/im/keyboard/keyboard.h:43 src/modules/quickphrase/quickphrase.h:39
+#: src/im/keyboard/keyboard.h:43 src/modules/quickphrase/quickphrase.h:40
 msgid "Control"
 msgstr "Control"
 
@@ -308,7 +308,7 @@ msgctxt "Key name"
 msgid "Down"
 msgstr "下"
 
-#: src/modules/quickphrase/quickphrase.h:53
+#: src/modules/quickphrase/quickphrase.h:54
 msgid "Editor"
 msgstr "编辑器"
 
@@ -873,7 +873,7 @@ msgstr "下一个候选词"
 msgid "No clipboard history."
 msgstr "无剪贴板历史。"
 
-#: src/im/keyboard/keyboard.h:42 src/modules/quickphrase/quickphrase.h:38
+#: src/im/keyboard/keyboard.h:42 src/modules/quickphrase/quickphrase.h:39
 msgid "None"
 msgstr "无"
 
@@ -971,7 +971,7 @@ msgstr "截屏"
 msgid "Quick Phrase"
 msgstr "快速输入"
 
-#: src/modules/quickphrase/quickphrase.cpp:284
+#: src/modules/quickphrase/quickphrase.cpp:351
 msgid "Quick Phrase: "
 msgstr "快速输入: "
 
@@ -1167,7 +1167,7 @@ msgctxt "Key name"
 msgid "Subtitle"
 msgstr "副标题"
 
-#: src/im/keyboard/keyboard.h:43 src/modules/quickphrase/quickphrase.h:39
+#: src/im/keyboard/keyboard.h:43 src/modules/quickphrase/quickphrase.h:40
 msgid "Super"
 msgstr "Super"
 
@@ -1206,7 +1206,7 @@ msgctxt "Key name"
 msgid "Terminal"
 msgstr "终端"
 
-#: src/ui/classic/classicui.h:67
+#: src/ui/classic/classicui.h:70
 msgid "Theme"
 msgstr "主题"
 
@@ -1279,6 +1279,10 @@ msgstr "上"
 #: src/ui/classic/classicui.h:62
 msgid "Use Per Screen DPI"
 msgstr "按屏幕 DPI 使用"
+
+#: src/ui/classic/classicui.h:65
+msgid "Use mouse wheel to go to prev or next page"
+msgstr ""
 
 #: src/ui/classic/classicui.h:61
 msgid "Vertical Candidate List"
