@@ -124,7 +124,9 @@ public:
 
     EventType type() const { return type_; }
     void accept() { accepted_ = true; }
+    // A value to be passed to postEvent.
     bool accepted() const { return accepted_; }
+    // If event is filtered, it will not send to another handler.
     virtual bool filtered() const { return false; }
 
     bool isInputContextEvent() const {

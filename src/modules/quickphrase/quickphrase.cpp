@@ -316,7 +316,7 @@ void QuickPhrase::updateUI(InputContext *inputContext) {
             QuickPhraseAction::DigitSelection;
         for (auto provider : providers) {
             if (!provider->populate(
-                    state->buffer_.userInput(),
+                    inputContext, state->buffer_.userInput(),
                     [this, &candidateList, &selectionKeyAction](
                         const std::string &word, const std::string &aux,
                         QuickPhraseAction action) {

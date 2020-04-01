@@ -38,8 +38,8 @@ enum class QuickPhraseAction {
 
 using QuickPhraseAddCandidateCallback = std::function<void(
     const std::string &, const std::string &, QuickPhraseAction action)>;
-using QuickPhraseProviderCallback =
-    std::function<bool(const std::string &, QuickPhraseAddCandidateCallback)>;
+using QuickPhraseProviderCallback = std::function<bool(
+    InputContext *ic, const std::string &, QuickPhraseAddCandidateCallback)>;
 
 } // namespace fcitx
 

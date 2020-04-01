@@ -25,7 +25,7 @@
 namespace fcitx {
 
 bool BuiltInQuickPhraseProvider::populate(
-    const std::string &userInput,
+    InputContext *, const std::string &userInput,
     QuickPhraseAddCandidateCallback addCandidate) {
     auto start = map_.lower_bound(userInput);
     auto end = map_.end();
@@ -123,10 +123,10 @@ void BuiltInQuickPhraseProvider::load(StandardPathFile &file) {
 }
 
 bool CallbackQuickPhraseProvider::populate(
-    const std::string &userInput,
+    InputContext *ic, const std::string &userInput,
     QuickPhraseAddCandidateCallback addCandidate) {
     for (auto callback : callback_.view()) {
-        if (!callback(userInput, addCandidate)) {
+        if (!callback(ic, userInput, addCandidate)) {
             return false;
         }
     }
