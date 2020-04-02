@@ -247,6 +247,9 @@ void InputContext::forwardKey(const Key &rawKey, bool isRelease, int time) {
 
 void InputContext::updatePreedit() {
     FCITX_D();
+    if (!d->capabilityFlags_.test(CapabilityFlag::Preedit)) {
+        return;
+    }
     if (!d->emplaceEvent<UpdatePreeditEvent>(this)) {
         updatePreeditImpl();
     }
