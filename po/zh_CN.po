@@ -3,16 +3,16 @@
 # This file is distributed under the same license as the fcitx5 package.
 #
 # Translators:
-# csslayer <wengxt@gmail.com>, 2017
 # wwj402 <wwj402@gmail.com>, 2017
+# csslayer <wengxt@gmail.com>, 2020
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2020-04-01 00:01-0700\n"
+"POT-Creation-Date: 2020-04-02 00:01-0700\n"
 "PO-Revision-Date: 2017-11-23 04:14+0000\n"
-"Last-Translator: wwj402 <wwj402@gmail.com>, 2017\n"
+"Last-Translator: csslayer <wengxt@gmail.com>, 2020\n"
 "Language-Team: Chinese (China) (https://www.transifex.com/fcitx/teams/12005/"
 "zh_CN/)\n"
 "Language: zh_CN\n"
@@ -329,11 +329,11 @@ msgstr "弹出"
 
 #: src/modules/emoji/emoji.conf.in:3
 msgid "Emoji"
-msgstr ""
+msgstr "颜文字"
 
 #: src/im/keyboard/keyboard.h:61
 msgid "Enable emoji in hint"
-msgstr ""
+msgstr "在输入提示中启用 Emoji"
 
 #: src/modules/spell/spell.h:35
 msgid "Enchant"
@@ -1097,7 +1097,7 @@ msgstr "购物"
 
 #: src/lib/fcitx/globalconfig.cpp:110
 msgid "Show Input Method Information when changing focus"
-msgstr ""
+msgstr "在焦点更改时显示输入法信息"
 
 #: src/lib/fcitx/globalconfig.cpp:107
 msgid "Show Input Method Information when switch input method"
@@ -1282,7 +1282,7 @@ msgstr "按屏幕 DPI 使用"
 
 #: src/ui/classic/classicui.h:65
 msgid "Use mouse wheel to go to prev or next page"
-msgstr ""
+msgstr "使用鼠标滚轮翻页"
 
 #: src/ui/classic/classicui.h:61
 msgid "Vertical Candidate List"
@@ -1369,6 +1369,8 @@ msgid ""
 "You're currently running Fcitx with GUI, but fcitx5-config-qt couldn't be "
 "found. Now it will open config file with default text editor."
 msgstr ""
+"您当前正在使用图形界面运行 Fcitx，但是无法找到 fcitx5-config-qt。现在将用默认"
+"文本编辑其打开配置文件。"
 
 #: data/fcitx5-configtool.sh:128
 msgid ""
