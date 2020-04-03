@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2020-04-01 00:01-0700\n"
+"POT-Creation-Date: 2020-04-03 00:01-0700\n"
 "PO-Revision-Date: 2017-11-23 04:14+0000\n"
 "Last-Translator: MarongHappy <daemul72@gmail.com>, 2020\n"
 "Language-Team: Korean (https://www.transifex.com/fcitx/teams/12005/ko/)\n"
@@ -1283,7 +1283,7 @@ msgstr "화면 해상도 사용하기"
 
 #: src/ui/classic/classicui.h:65
 msgid "Use mouse wheel to go to prev or next page"
-msgstr ""
+msgstr "마우스 휠을 사용하여 이전 또는 다음 페이지로 이동"
 
 #: src/ui/classic/classicui.h:61
 msgid "Vertical Candidate List"
