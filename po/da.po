@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2020-04-01 00:01-0700\n"
+"POT-Creation-Date: 2020-04-05 00:01-0700\n"
 "PO-Revision-Date: 2017-11-23 04:14+0000\n"
 "Last-Translator: scootergrisen, 2020\n"
 "Language-Team: Danish (https://www.transifex.com/fcitx/teams/12005/da/)\n"
@@ -1281,7 +1281,7 @@ msgstr "Brug pr. skærm DPI"
 
 #: src/ui/classic/classicui.h:65
 msgid "Use mouse wheel to go to prev or next page"
-msgstr ""
+msgstr "Brug musehjulet for at gå til forrige eller næste side"
 
 #: src/ui/classic/classicui.h:61
 msgid "Vertical Candidate List"
