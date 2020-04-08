@@ -33,7 +33,8 @@ enum class QuickPhraseAction {
     TypeToBuffer,
     DigitSelection,
     AlphaSelection,
-    NoneSelection
+    NoneSelection,
+    DoNothing
 };
 
 using QuickPhraseAddCandidateCallback = std::function<void(

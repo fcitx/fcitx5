@@ -251,6 +251,7 @@ public:
                 UserInterfaceComponent::InputPanel, true);
             inputContext->commitString(commit_);
         }
+        // DoNothing and other values are also handled here.
     }
 
     QuickPhrase *q_;
