@@ -159,7 +159,10 @@ private:
     int max_;
 };
 
-enum class KeyConstrainFlag { AllowModifierOnly, AllowModifierLess };
+enum class KeyConstrainFlag {
+    AllowModifierOnly = (1 << 0),
+    AllowModifierLess = (1 << 1),
+};
 
 using KeyConstrainFlags = Flags<KeyConstrainFlag>;
 
