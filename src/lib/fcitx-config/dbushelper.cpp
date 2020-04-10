@@ -86,7 +86,7 @@ DBusConfig dumpDBusConfigDescription(const RawConfig &config) {
             auto typeField = optionConfig->get("Type");
             auto descField = optionConfig->get("Description");
             auto defaultValueField = optionConfig->get("DefaultValue");
-            if (!typeField || !descField || !defaultValueField) {
+            if (!typeField || !descField) {
                 continue;
             }
             dbusOptions.emplace_back();
@@ -94,7 +94,8 @@ DBusConfig dumpDBusConfigDescription(const RawConfig &config) {
             std::get<0>(dbusOption) = option;
             std::get<1>(dbusOption) = typeField->value();
             std::get<2>(dbusOption) = descField->value();
-            std::get<3>(dbusOption) = rawConfigToVariant(*defaultValueField);
+            std::get<3>(dbusOption) = rawConfigToVariant(
+                defaultValueField ? *defaultValueField : RawConfig());
             optionConfig->visitSubItems([&dbusOption](const RawConfig &config,
                                                       const std::string &path) {
                 // skip field that already handled.

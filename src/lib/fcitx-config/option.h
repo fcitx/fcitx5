@@ -301,7 +301,9 @@ public:
 
     void dumpDescription(RawConfig &config) const override {
         OptionBase::dumpDescription(config);
-        marshaller_.marshall(config["DefaultValue"], defaultValue_);
+        if constexpr (not std::is_base_of_v<Configuration, T>) {
+            marshaller_.marshall(config["DefaultValue"], defaultValue_);
+        }
         constrain_.dumpDescription(config);
         annotation_.dumpDescription(config);
         using ::fcitx::dumpDescriptionHelper;
