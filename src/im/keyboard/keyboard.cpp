@@ -531,6 +531,7 @@ void KeyboardEngine::updateCandidate(const InputMethodEntry &entry,
         candidateList->append<KeyboardCandidateWord>(
             this, Text(formatWord(result, spellType)));
     }
+    candidateList->setPageSize(*config_.pageSize);
     candidateList->setSelectionKey(selectionKeys_);
     candidateList->setCursorIncludeUnselected(true);
     inputContext->inputPanel().setCandidateList(std::move(candidateList));
