@@ -25,6 +25,7 @@
 #include <fcitx-utils/macros.h>
 #include <functional>
 #include <memory>
+#include <stdexcept>
 #include <time.h>
 
 namespace fcitx {

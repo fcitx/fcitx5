@@ -27,6 +27,7 @@
 #include "fcitxutils_export.h"
 #include <fcitx-utils/cutf8.h>
 #include <fcitx-utils/misc.h>
+#include <stdexcept>
 #include <string>
 
 namespace fcitx {
