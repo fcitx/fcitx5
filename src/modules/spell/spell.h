@@ -47,7 +47,7 @@ FCITX_CONFIGURATION(SpellConfig,
                                   SpellProviderI18NAnnotation>
                         providerOrder{this,
                                       "ProviderOrder",
-                                      "Order of providers",
+                                      _("Order of providers"),
                                       {SpellProvider::Presage,
                                        SpellProvider::Custom,
                                        SpellProvider::Enchant}};);

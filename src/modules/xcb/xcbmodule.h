@@ -43,7 +43,7 @@ FCITX_CONFIGURATION(XCBConfig,
 
 class XCBConnection;
 
-class XCBModule : public AddonInstance {
+class XCBModule final : public AddonInstance {
 public:
     XCBModule(Instance *instance);
 

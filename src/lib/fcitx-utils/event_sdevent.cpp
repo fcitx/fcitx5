@@ -63,7 +63,7 @@ struct SDEventSourceBase : public Interface {
 public:
     ~SDEventSourceBase() {
         if (eventSource_) {
-            setEnabled(false);
+            sd_event_source_set_enabled(eventSource_, SD_EVENT_OFF);
             sd_event_source_set_userdata(eventSource_, nullptr);
             sd_event_source_unref(eventSource_);
         }

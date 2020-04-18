@@ -174,6 +174,7 @@ void XCBInputWindow::update(InputContext *inputContext) {
         updateDPI(inputContext);
     }
     InputWindow::update(inputContext);
+    assert(!visible() || inputContext != nullptr);
     if (!visible()) {
         if (oldVisible) {
             xcb_unmap_window(ui_->connection(), wid_);

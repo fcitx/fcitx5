@@ -275,6 +275,9 @@ void XCBMenu::setHoveredIndex(int idx) {
                         subMenuIndex_ = -1;
                         auto item =
                             actionAt(static_cast<size_t>(hoveredIndex_));
+                        if (!item.first || !item.second) {
+                            break;
+                        }
                         // If we agree on this that current item has subMenu
                         if (item.first->hasSubMenu_ && item.second->menu()) {
                             auto newMenu = pool_->requestMenu(

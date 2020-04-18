@@ -69,7 +69,7 @@ FCITX_CONFIGURATION(
                                                            "Sans 9"};
     Option<std::string, NotEmpty> theme{this, "Theme", _("Theme"), "default"};);
 
-class ClassicUI : public UserInterface {
+class ClassicUI final : public UserInterface {
 public:
     ClassicUI(Instance *instance);
     ~ClassicUI();

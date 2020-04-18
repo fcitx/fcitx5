@@ -74,10 +74,10 @@ void XimLogFunc(const char *fmt, ...) {
     va_start(argp, fmt);
     char onechar[1];
     int len = std::vsnprintf(onechar, 1, fmt, argp);
+    va_end(argp);
     if (len < 1) {
         return;
     }
-    va_end(argp);
     std::vector<char> buf;
     buf.resize(len + 1);
     buf.back() = 0;
