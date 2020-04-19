@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2020-04-05 00:01-0700\n"
+"POT-Creation-Date: 2020-04-19 00:01-0700\n"
 "PO-Revision-Date: 2017-11-23 04:14+0000\n"
 "Last-Translator: scootergrisen, 2020\n"
 "Language-Team: Danish (https://www.transifex.com/fcitx/teams/12005/da/)\n"
@@ -904,6 +904,10 @@ msgctxt "Key name"
 msgid "Option"
 msgstr "Valgmulighed"
 
+#: src/modules/spell/spell.h:50
+msgid "Order of providers"
+msgstr ""
+
 #: src/im/keyboard/keyboard.h:47
 msgid "Page size"
 msgstr "Sidestørrelse"
@@ -970,7 +974,7 @@ msgstr "Print Screen"
 msgid "Quick Phrase"
 msgstr "Hurtigfrase"
 
-#: src/modules/quickphrase/quickphrase.cpp:351
+#: src/modules/quickphrase/quickphrase.cpp:352
 msgid "Quick Phrase: "
 msgstr "Hurtigfrase: "
 
@@ -1205,7 +1209,7 @@ msgctxt "Key name"
 msgid "Terminal"
 msgstr "Terminal"
 
-#: src/ui/classic/classicui.h:70
+#: src/ui/classic/classicui.h:91
 msgid "Theme"
 msgstr "Tema"
 
@@ -1275,15 +1279,15 @@ msgctxt "Key name"
 msgid "Up"
 msgstr "Op"
 
-#: src/ui/classic/classicui.h:62
+#: src/ui/classic/classicui.h:82
 msgid "Use Per Screen DPI"
 msgstr "Brug pr. skærm DPI"
 
-#: src/ui/classic/classicui.h:65
+#: src/ui/classic/classicui.h:85
 msgid "Use mouse wheel to go to prev or next page"
 msgstr "Brug musehjulet for at gå til forrige eller næste side"
 
-#: src/ui/classic/classicui.h:61
+#: src/ui/classic/classicui.h:80
 msgid "Vertical Candidate List"
 msgstr "Lodret kandidatliste"
 

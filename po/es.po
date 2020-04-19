@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2020-04-01 00:00-0700\n"
+"POT-Creation-Date: 2020-04-19 00:00-0700\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: csslayer <wengxt@gmail.com>, 2017\n"
 "Language-Team: Spanish (https://www.transifex.com/fcitx/teams/12005/es/)\n"
@@ -902,6 +902,10 @@ msgctxt "Key name"
 msgid "Option"
 msgstr ""
 
+#: src/modules/spell/spell.h:50
+msgid "Order of providers"
+msgstr ""
+
 #: src/im/keyboard/keyboard.h:47
 msgid "Page size"
 msgstr ""
@@ -968,7 +972,7 @@ msgstr ""
 msgid "Quick Phrase"
 msgstr ""
 
-#: src/modules/quickphrase/quickphrase.cpp:351
+#: src/modules/quickphrase/quickphrase.cpp:352
 msgid "Quick Phrase: "
 msgstr ""
 
@@ -1203,7 +1207,7 @@ msgctxt "Key name"
 msgid "Terminal"
 msgstr ""
 
-#: src/ui/classic/classicui.h:70
+#: src/ui/classic/classicui.h:91
 msgid "Theme"
 msgstr ""
 
@@ -1273,15 +1277,15 @@ msgctxt "Key name"
 msgid "Up"
 msgstr ""
 
-#: src/ui/classic/classicui.h:62
+#: src/ui/classic/classicui.h:82
 msgid "Use Per Screen DPI"
 msgstr ""
 
-#: src/ui/classic/classicui.h:65
+#: src/ui/classic/classicui.h:85
 msgid "Use mouse wheel to go to prev or next page"
 msgstr ""
 
-#: src/ui/classic/classicui.h:61
+#: src/ui/classic/classicui.h:80
 msgid "Vertical Candidate List"
 msgstr ""
 

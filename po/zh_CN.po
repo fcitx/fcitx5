@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2020-04-02 00:01-0700\n"
+"POT-Creation-Date: 2020-04-19 00:01-0700\n"
 "PO-Revision-Date: 2017-11-23 04:14+0000\n"
 "Last-Translator: csslayer <wengxt@gmail.com>, 2020\n"
 "Language-Team: Chinese (China) (https://www.transifex.com/fcitx/teams/12005/"
@@ -905,6 +905,10 @@ msgctxt "Key name"
 msgid "Option"
 msgstr "选项"
 
+#: src/modules/spell/spell.h:50
+msgid "Order of providers"
+msgstr ""
+
 #: src/im/keyboard/keyboard.h:47
 msgid "Page size"
 msgstr "页大小"
@@ -971,7 +975,7 @@ msgstr "截屏"
 msgid "Quick Phrase"
 msgstr "快速输入"
 
-#: src/modules/quickphrase/quickphrase.cpp:351
+#: src/modules/quickphrase/quickphrase.cpp:352
 msgid "Quick Phrase: "
 msgstr "快速输入: "
 
@@ -1206,7 +1210,7 @@ msgctxt "Key name"
 msgid "Terminal"
 msgstr "终端"
 
-#: src/ui/classic/classicui.h:70
+#: src/ui/classic/classicui.h:91
 msgid "Theme"
 msgstr "主题"
 
@@ -1276,15 +1280,15 @@ msgctxt "Key name"
 msgid "Up"
 msgstr "上"
 
-#: src/ui/classic/classicui.h:62
+#: src/ui/classic/classicui.h:82
 msgid "Use Per Screen DPI"
 msgstr "按屏幕 DPI 使用"
 
-#: src/ui/classic/classicui.h:65
+#: src/ui/classic/classicui.h:85
 msgid "Use mouse wheel to go to prev or next page"
 msgstr "使用鼠标滚轮翻页"
 
-#: src/ui/classic/classicui.h:61
+#: src/ui/classic/classicui.h:80
 msgid "Vertical Candidate List"
 msgstr "垂直候选列表"
 

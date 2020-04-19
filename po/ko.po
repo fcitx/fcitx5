@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2020-04-04 00:01-0700\n"
+"POT-Creation-Date: 2020-04-19 00:01-0700\n"
 "PO-Revision-Date: 2017-11-23 04:14+0000\n"
 "Last-Translator: MarongHappy <daemul72@gmail.com>, 2020\n"
 "Language-Team: Korean (https://www.transifex.com/fcitx/teams/12005/ko/)\n"
@@ -470,7 +470,7 @@ msgstr "한글 포스트한자"
 #: src/lib/fcitx-utils/key.cpp:236
 msgctxt "Key name"
 msgid "Hangul PreHanja"
-msgstr "한글 PreHanja"
+msgstr "한글 예약한자"
 
 #: src/lib/fcitx-utils/key.cpp:233
 msgctxt "Key name"
@@ -509,7 +509,7 @@ msgstr "하이버네이트"
 
 #: src/modules/notifications/notifications.h:38
 msgid "Hidden Notifications"
-msgstr "감춰진 알림"
+msgstr "숨은 알림"
 
 #: src/lib/fcitx-utils/key.cpp:213
 msgctxt "Key name"
@@ -906,6 +906,10 @@ msgctxt "Key name"
 msgid "Option"
 msgstr "선택사항"
 
+#: src/modules/spell/spell.h:50
+msgid "Order of providers"
+msgstr ""
+
 #: src/im/keyboard/keyboard.h:47
 msgid "Page size"
 msgstr "페이지 크기"
@@ -972,7 +976,7 @@ msgstr "화면 출력"
 msgid "Quick Phrase"
 msgstr "상용구"
 
-#: src/modules/quickphrase/quickphrase.cpp:351
+#: src/modules/quickphrase/quickphrase.cpp:352
 msgid "Quick Phrase: "
 msgstr "상용구:"
 
@@ -1207,7 +1211,7 @@ msgctxt "Key name"
 msgid "Terminal"
 msgstr "터미널"
 
-#: src/ui/classic/classicui.h:70
+#: src/ui/classic/classicui.h:91
 msgid "Theme"
 msgstr "테마"
 
@@ -1277,15 +1281,15 @@ msgctxt "Key name"
 msgid "Up"
 msgstr "위쪽"
 
-#: src/ui/classic/classicui.h:62
+#: src/ui/classic/classicui.h:82
 msgid "Use Per Screen DPI"
 msgstr "화면 해상도 사용하기"
 
-#: src/ui/classic/classicui.h:65
+#: src/ui/classic/classicui.h:85
 msgid "Use mouse wheel to go to prev or next page"
 msgstr "마우스 휠을 사용하여 이전 또는 다음 페이지로 이동"
 
-#: src/ui/classic/classicui.h:61
+#: src/ui/classic/classicui.h:80
 msgid "Vertical Candidate List"
 msgstr "세로 단어 후보 목록"
 
