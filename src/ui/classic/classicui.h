@@ -25,6 +25,7 @@
 #include "fcitx-config/iniparser.h"
 #include "fcitx-utils/event.h"
 #include "fcitx-utils/i18n.h"
+#include "fcitx-utils/log.h"
 #include "fcitx/addonfactory.h"
 #include "fcitx/addoninstance.h"
 #include "fcitx/addonmanager.h"
@@ -55,19 +56,39 @@ struct NotEmpty {
     void dumpDescription(RawConfig &) const {}
 };
 
-FCITX_CONFIGURATION(
-    ClassicUIConfig,
-    Option<bool> verticalCandidateList{this, "Vertical Candidate List",
-                                       _("Vertical Candidate List"), false};
-    Option<bool> perScreenDPI{this, "PerScreenDPI", _("Use Per Screen DPI"),
-                              true};
-    Option<bool> useWheelForPaging{
-        this, "WheelForPaging", _("Use mouse wheel to go to prev or next page"),
-        true};
+struct ThemeAnnotation : public EnumAnnotation {
+    void setThemes(std::vector<std::pair<std::string, std::string>> themes) {
+        themes_ = std::move(themes);
+    }
+    void dumpDescription(RawConfig &config) const {
+        EnumAnnotation::dumpDescription(config);
+        for (size_t i = 0; i < themes_.size(); i++) {
+            config.setValueByPath("Enum/" + std::to_string(i),
+                                  themes_[i].first);
+            config.setValueByPath("EnumI18n/" + std::to_string(i),
+                                  themes_[i].second);
+        }
+    }
 
-    OptionWithAnnotation<std::string, FontAnnotation> font{this, "Font", "Font",
-                                                           "Sans 9"};
-    Option<std::string, NotEmpty> theme{this, "Theme", _("Theme"), "default"};);
+private:
+    std::vector<std::pair<std::string, std::string>> themes_;
+};
+
+FCITX_CONFIGURATION(ClassicUIConfig,
+                    Option<bool> verticalCandidateList{
+                        this, "Vertical Candidate List",
+                        _("Vertical Candidate List"), false};
+                    Option<bool> perScreenDPI{this, "PerScreenDPI",
+                                              _("Use Per Screen DPI"), true};
+                    Option<bool> useWheelForPaging{
+                        this, "WheelForPaging",
+                        _("Use mouse wheel to go to prev or next page"), true};
+
+                    OptionWithAnnotation<std::string, FontAnnotation> font{
+                        this, "Font", "Font", "Sans 9"};
+                    Option<std::string, NotEmpty,
+                           DefaultMarshaller<std::string>, ThemeAnnotation>
+                        theme{this, "Theme", _("Theme"), "default"};);
 
 class ClassicUI final : public UserInterface {
 public:
@@ -77,10 +98,11 @@ public:
     AddonInstance *xcb();
     AddonInstance *wayland();
     Instance *instance() { return instance_; }
-    const Configuration *getConfig() const override { return &config_; }
+    const Configuration *getConfig() const override;
     void setConfig(const RawConfig &config) override {
         config_.load(config, true);
         safeSaveAsIni(config_, "conf/classicui.conf");
+        reloadTheme();
     }
     auto &config() { return config_; }
     Theme &theme() { return theme_; }
@@ -97,6 +119,7 @@ private:
 
     UIInterface *uiForEvent(Event &event);
     UIInterface *uiForInputContext(InputContext *inputContext);
+    void reloadTheme();
 
     std::unique_ptr<HandlerTableEntry<XCBConnectionCreated>>
         xcbCreatedCallback_;

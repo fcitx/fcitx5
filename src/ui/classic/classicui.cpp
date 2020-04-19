@@ -77,6 +77,10 @@ ClassicUI::~ClassicUI() {}
 
 void ClassicUI::reloadConfig() {
     readAsIni(config_, "conf/classicui.conf");
+    reloadTheme();
+}
+
+void ClassicUI::reloadTheme() {
 
     auto themeConfigFile = StandardPath::global().open(
         StandardPath::Type::PkgData,
@@ -107,6 +111,41 @@ void ClassicUI::suspend() {
         sni->call<INotificationItem::disable>();
     }
     eventHandlers_.clear();
+}
+
+const Configuration *ClassicUI::getConfig() const {
+    std::set<std::string> themeDirs;
+    StandardPath::global().scanFiles(
+        StandardPath::Type::PkgData, "themes",
+        [&themeDirs](const std::string &path, const std::string &dir, bool) {
+            if (fs::isdir(stringutils::joinPath(dir, path))) {
+                themeDirs.insert(path);
+            }
+            return true;
+        });
+    std::map<std::string, std::string> themes;
+    for (const auto &themeName : themeDirs) {
+        auto file = StandardPath::global().open(
+            StandardPath::Type::PkgData,
+            stringutils::joinPath("themes", themeName, "theme.conf"), O_RDONLY);
+        if (file.fd() < 0) {
+            continue;
+        }
+        RawConfig config;
+        readFromIni(config, file.fd());
+
+        ThemeConfig themeConfig;
+        themeConfig.load(config);
+        if (!themeConfig.metadata.value()
+                 .name.value()
+                 .defaultString()
+                 .empty()) {
+            themes[themeName] =
+                themeConfig.metadata.value().name.value().match();
+        }
+    }
+    config_.theme.annotation().setThemes({themes.begin(), themes.end()});
+    return &config_;
 }
 
 UIInterface *ClassicUI::uiForEvent(Event &event) {

@@ -104,11 +104,24 @@ struct NoAnnotation {
     void dumpDescription(RawConfig &) const {}
 };
 
+// Annotation to be used against String type.
 struct FontAnnotation {
     bool skipDescription() const { return false; }
     bool skipSave() const { return false; }
     void dumpDescription(RawConfig &config) const {
         config.setValueByPath("Font", "True");
+    }
+};
+
+// Annotation to be used against String type, for those type of string
+// that should shown as a combobox, but the value is run time based.
+// User of this annotation should take a sub class of it and set
+// Enum/n, and EnumI18n/n correspondingly.
+struct EnumAnnotation {
+    bool skipDescription() const { return false; }
+    bool skipSave() const { return false; }
+    void dumpDescription(RawConfig &config) const {
+        config.setValueByPath("IsEnum", "True");
     }
 };
 
@@ -378,12 +391,14 @@ public:
 
     bool skipSave() const override { return annotation_.skipSave(); }
 
+    auto &annotation() const { return annotation_; }
+
 private:
     T defaultValue_;
     T value_;
     Marshaller marshaller_;
     Constrain constrain_;
-    Annotation annotation_;
+    mutable Annotation annotation_;
 };
 
 template <typename T, typename Annotation>
