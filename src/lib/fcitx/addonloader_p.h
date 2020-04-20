@@ -25,7 +25,7 @@
 #include "addonloader.h"
 #include "fcitx-utils/library.h"
 #include "fcitx-utils/standardpath.h"
-#include <exception>
+#include <stdexcept>
 
 namespace fcitx {
 

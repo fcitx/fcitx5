@@ -22,6 +22,7 @@
 #include <fcntl.h>
 #include <mutex>
 #include <queue>
+#include <stdexcept>
 #include <unistd.h>
 
 namespace fcitx {

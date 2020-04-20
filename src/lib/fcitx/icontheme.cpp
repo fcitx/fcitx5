@@ -23,6 +23,7 @@
 #include "fcitx-utils/log.h"
 #include <fcntl.h>
 #include <fstream>
+#include <stdexcept>
 #include <sys/mman.h>
 #include <sys/stat.h>
 #include <unordered_set>

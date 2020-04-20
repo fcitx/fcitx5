@@ -40,6 +40,7 @@
 #include <fmt/format.h>
 #include <getopt.h>
 #include <signal.h>
+#include <stdexcept>
 #include <sys/wait.h>
 #include <unistd.h>
 #include <xkbcommon/xkbcommon-compose.h>

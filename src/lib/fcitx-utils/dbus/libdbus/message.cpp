@@ -25,6 +25,7 @@
 #include "message_p.h"
 #include <atomic>
 #include <fcntl.h>
+#include <stdexcept>
 #include <unistd.h>
 
 namespace fcitx {

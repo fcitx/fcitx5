@@ -20,6 +20,7 @@
 #include "unixfd.h"
 #include <errno.h>
 #include <fcntl.h>
+#include <stdexcept>
 #include <unistd.h>
 
 namespace fcitx {

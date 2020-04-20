@@ -18,6 +18,7 @@
 //
 
 #include "candidatelist.h"
+#include <stdexcept>
 
 namespace fcitx {
 

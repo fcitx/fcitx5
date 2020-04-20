@@ -19,6 +19,7 @@
 
 #include "option.h"
 #include "configuration.h"
+#include <stdexcept>
 
 namespace fcitx {
 OptionBase::OptionBase(Configuration *parent, std::string path,

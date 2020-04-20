@@ -17,14 +17,14 @@
 // see <http://www.gnu.org/licenses/>.
 //
 
+#include "configuration.h"
+#include "fcitx-utils/standardpath.h"
 #include <cassert>
 #include <exception>
 #include <list>
 #include <memory>
+#include <stdexcept>
 #include <unordered_map>
-
-#include "configuration.h"
-#include "fcitx-utils/standardpath.h"
 
 namespace fcitx {
 class ConfigurationPrivate {

@@ -24,6 +24,7 @@
 // original file is licensed under LGPLv2+
 //
 
+#include "charselectdata.h"
 #include "fcitx-utils/charutils.h"
 #include "fcitx-utils/fs.h"
 #include "fcitx-utils/i18n.h"
@@ -32,7 +33,10 @@
 #include <algorithm>
 #include <cstring>
 #include <fcntl.h>
+#include <iomanip>
+#include <iostream>
 #include <set>
+#include <stdexcept>
 #include <strings.h>
 #include <sys/stat.h>
 #if defined(__linux__) || defined(__GLIBC__)
@@ -40,9 +44,6 @@
 #else
 #include <sys/endian.h>
 #endif
-#include "charselectdata.h"
-#include <iomanip>
-#include <iostream>
 
 using namespace fcitx;
 

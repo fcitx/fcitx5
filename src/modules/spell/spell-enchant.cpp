@@ -26,6 +26,7 @@
 #include "spell-enchant.h"
 #include <dlfcn.h>
 #include <enchant.h>
+#include <stdexcept>
 
 namespace fcitx {
 

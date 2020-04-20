@@ -24,7 +24,7 @@
 /// \file
 /// \brief Static string based on template argument.
 
-#include <exception>
+#include <cstddef>
 
 namespace fcitx {
 

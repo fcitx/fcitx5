@@ -24,6 +24,7 @@
 #include "fcitx-utils/fs.h"
 #include "fcitx-utils/standardpath.h"
 #include <fcntl.h>
+#include <stdexcept>
 #include <sys/stat.h>
 #if defined(__linux__) || defined(__GLIBC__)
 #include <endian.h>

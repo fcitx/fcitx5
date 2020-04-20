@@ -26,6 +26,7 @@
 #include <atomic>
 #include <fcntl.h>
 #include <shared_mutex>
+#include <stdexcept>
 #include <unistd.h>
 
 namespace fcitx {

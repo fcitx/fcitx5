@@ -21,6 +21,7 @@
 #include <exception>
 #include <functional>
 #include <numeric>
+#include <stdexcept>
 #include <vector>
 
 namespace fcitx {

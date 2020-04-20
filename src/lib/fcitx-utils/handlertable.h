@@ -19,7 +19,6 @@
 #ifndef _FCITX_UTILS_HANDLERTABLE_H_
 #define _FCITX_UTILS_HANDLERTABLE_H_
 
-#include <exception>
 #include <fcitx-utils/handlertable_details.h>
 #include <fcitx-utils/intrusivelist.h>
 #include <functional>

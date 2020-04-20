@@ -29,6 +29,7 @@
 #include "xcbeventreader.h"
 #include "xcbkeyboard.h"
 #include "xcbmodule.h"
+#include <stdexcept>
 #include <xcb/xcb_aux.h>
 #include <xcb/xfixes.h>
 

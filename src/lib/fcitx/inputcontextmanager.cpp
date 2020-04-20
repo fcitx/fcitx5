@@ -25,6 +25,7 @@
 #include "inputcontext_p.h"
 #include "inputcontextproperty_p.h"
 #include <cassert>
+#include <stdexcept>
 #include <unordered_map>
 
 namespace {

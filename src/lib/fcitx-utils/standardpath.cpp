@@ -24,6 +24,7 @@
 #include <algorithm>
 #include <dirent.h>
 #include <fcntl.h>
+#include <stdexcept>
 #include <string.h>
 #include <sys/stat.h>
 #include <unistd.h>

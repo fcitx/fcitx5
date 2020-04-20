@@ -20,6 +20,7 @@
 #include "fcitx-utils/dbus/variant.h"
 #include "fcitx-utils/event.h"
 #include "fcitx-utils/log.h"
+#include <stdexcept>
 #include <thread>
 
 using namespace fcitx::dbus;

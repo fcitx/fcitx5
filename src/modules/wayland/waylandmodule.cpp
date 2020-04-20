@@ -20,6 +20,7 @@
 #include "waylandmodule.h"
 #include "fcitx-utils/log.h"
 #include "fcitx/instance.h"
+#include <stdexcept>
 #include <wayland-client.h>
 
 namespace fcitx {
