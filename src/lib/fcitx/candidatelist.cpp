@@ -147,7 +147,8 @@ public:
 
     void checkIndex(int idx) const {
         if (idx < 0 || static_cast<size_t>(idx) >= candidateWords_.size()) {
-            throw std::invalid_argument("invalid index");
+            throw std::invalid_argument(
+                "DisplayOnlyCandidateList: invalid index");
         }
     }
 };
@@ -244,13 +245,14 @@ public:
 
     void checkIndex(int idx) const {
         if (idx < 0 || idx >= size()) {
-            throw std::invalid_argument("invalid index");
+            throw std::invalid_argument("CommonCandidateList: invalid index");
         }
     }
 
     void checkGlobalIndex(int idx) const {
         if (idx < 0 || static_cast<size_t>(idx) >= candidateWord_.size()) {
-            throw std::invalid_argument("invalid index");
+            throw std::invalid_argument(
+                "CommonCandidateList: invalid global index");
         }
     }
 
@@ -382,7 +384,7 @@ bool CommonCandidateList::usedNextBefore() const {
 void CommonCandidateList::setPageSize(int size) {
     FCITX_D();
     if (size < 1) {
-        throw std::invalid_argument("invalid page size");
+        throw std::invalid_argument("CommonCandidateList: invalid page size");
     }
     d->pageSize_ = size;
     d->currentPage_ = 0;
@@ -410,7 +412,7 @@ const Text &CommonCandidateList::label(int idx) const {
     d->checkIndex(idx);
     if (idx < 0 || idx >= size() ||
         static_cast<size_t>(idx) >= d->labels_.size()) {
-        throw std::invalid_argument("invalid idx");
+        throw std::invalid_argument("CommonCandidateList: invalid label idx");
     }
 
     return d->labels_[idx];
