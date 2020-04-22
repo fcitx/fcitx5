@@ -45,15 +45,27 @@ static uint32_t style_array[] = {
     XCB_IM_PreeditNothing | XCB_IM_StatusNone,     // Root
 };
 
+static uint32_t onthespot_style_array[] = {
+    XCB_IM_PreeditPosition | XCB_IM_StatusNothing,
+    XCB_IM_PreeditCallbacks | XCB_IM_StatusNothing,
+    XCB_IM_PreeditNothing | XCB_IM_StatusNothing,
+    XCB_IM_PreeditPosition | XCB_IM_StatusCallbacks,
+    XCB_IM_PreeditCallbacks | XCB_IM_StatusCallbacks,
+    XCB_IM_PreeditNothing | XCB_IM_StatusCallbacks,
+};
+
 static char COMPOUND_TEXT[] = "COMPOUND_TEXT";
 
 static char *encoding_array[] = {
     COMPOUND_TEXT,
 };
 
-static xcb_im_encodings_t encodings = {1, encoding_array};
+static xcb_im_encodings_t encodings = {FCITX_ARRAY_SIZE(encoding_array),
+                                       encoding_array};
 
-static xcb_im_styles_t styles = {5, style_array};
+static xcb_im_styles_t styles = {FCITX_ARRAY_SIZE(style_array), style_array};
+static xcb_im_styles_t onthespot_styles = {
+    FCITX_ARRAY_SIZE(onthespot_style_array), onthespot_style_array};
 
 std::string guess_server_name() {
     char *env = getenv("XMODIFIERS");
@@ -104,7 +116,9 @@ public:
 
         im_.reset(xcb_im_create(
             conn, defaultScreen, serverWindow_, guess_server_name().c_str(),
-            XCB_IM_ALL_LOCALES, &styles, nullptr, nullptr, &encodings,
+            XCB_IM_ALL_LOCALES,
+            (*parent_->config().useOnTheSpot ? &onthespot_styles : &styles),
+            nullptr, nullptr, &encodings,
             XCB_EVENT_MASK_KEY_PRESS | XCB_EVENT_MASK_KEY_RELEASE,
             &XIMServer::callback, this));
 
@@ -192,7 +206,7 @@ std::string getProgramName(XIMServer *server, xcb_im_input_context_t *ic) {
     return {};
 }
 
-class XIMInputContext : public InputContext {
+class XIMInputContext final : public InputContext {
 public:
     XIMInputContext(InputContextManager &inputContextManager, XIMServer *server,
                     xcb_im_input_context_t *ic)
@@ -200,7 +214,13 @@ public:
           server_(server), xic_(ic) {
         setFocusGroup(server->focusGroup());
         xcb_im_input_context_set_data(xic_, this, nullptr);
+        auto style = xcb_im_input_context_get_input_style(ic);
         created();
+        FCITX_INFO() << style << " " << XCB_IM_PreeditCallbacks;
+        if (style & XCB_IM_PreeditCallbacks) {
+            setCapabilityFlags(
+                {CapabilityFlag::Preedit, CapabilityFlag::FormattedPreedit});
+        }
     }
     ~XIMInputContext() {
         xcb_im_input_context_set_data(xic_, nullptr, nullptr);
@@ -312,7 +332,7 @@ protected:
             memset(&frame, 0, sizeof(xcb_im_preedit_draw_fr_t));
             frame.caret = 0;
             frame.chg_first = 0;
-            frame.chg_length = lastPreeditLength;
+            frame.chg_length = lastPreeditLength_;
             frame.length_of_preedit_string = 0;
             frame.preedit_string = nullptr;
             frame.feedback_array.size = 0;
@@ -321,6 +341,7 @@ protected:
             xcb_im_preedit_draw_callback(server_->im(), xic_, &frame);
             xcb_im_preedit_done_callback(server_->im(), xic_);
             preeditStarted = false;
+            lastPreeditLength_ = 0;
         }
 
         if (!strPreedit.empty() && !preeditStarted) {
@@ -332,7 +353,7 @@ protected:
             if (utf8Length == utf8::INVALID_LENGTH) {
                 return;
             }
-            feedbackBuffer.clear();
+            feedbackBuffer_.clear();
 
             for (size_t i = 0, offset = 0; i < text.size(); i++) {
                 auto format = text.formatAt(i);
@@ -346,13 +367,11 @@ protected:
                 }
                 unsigned int strLen = utf8::length(str);
                 for (size_t j = 0; j < strLen; j++) {
-                    feedbackBuffer.push_back(feedback);
+                    feedbackBuffer_.push_back(feedback);
                     offset++;
                 }
             }
-            while (!feedbackBuffer.empty() && feedbackBuffer.back() == 0) {
-                feedbackBuffer.pop_back();
-            }
+            feedbackBuffer_.push_back(0);
 
             xcb_im_preedit_draw_fr_t frame;
             memset(&frame, 0, sizeof(xcb_im_preedit_draw_fr_t));
@@ -363,7 +382,7 @@ protected:
                                  std::next(strPreedit.begin(), text.cursor()));
             }
             frame.chg_first = 0;
-            frame.chg_length = lastPreeditLength;
+            frame.chg_length = lastPreeditLength_;
             size_t compoundTextLength;
             std::unique_ptr<char, decltype(&std::free)> compoundText(
                 xcb_utf8_to_compound_text(strPreedit.c_str(), strPreedit.size(),
@@ -375,10 +394,10 @@ protected:
             frame.length_of_preedit_string = compoundTextLength;
             frame.preedit_string =
                 reinterpret_cast<uint8_t *>(compoundText.get());
-            frame.feedback_array.size = feedbackBuffer.size();
-            frame.feedback_array.items = feedbackBuffer.data();
+            frame.feedback_array.size = feedbackBuffer_.size();
+            frame.feedback_array.items = feedbackBuffer_.data();
             frame.status = frame.feedback_array.size ? 0 : 2;
-            lastPreeditLength = utf8Length;
+            lastPreeditLength_ = utf8Length;
             xcb_im_preedit_draw_callback(server_->im(), xic_, &frame);
         }
     }
@@ -387,8 +406,8 @@ private:
     XIMServer *server_;
     xcb_im_input_context_t *xic_;
     bool preeditStarted = false;
-    int lastPreeditLength = 0;
-    std::vector<uint32_t> feedbackBuffer;
+    int lastPreeditLength_ = 0;
+    std::vector<uint32_t> feedbackBuffer_;
 };
 
 void XIMServer::callback(xcb_im_client_t *client, xcb_im_input_context_t *xic,
@@ -465,28 +484,25 @@ void XIMServer::callback(xcb_im_client_t *client, xcb_im_input_context_t *xic,
     }
 }
 
-XIMModule::XIMModule(Instance *instance)
-    : instance_(instance),
-      createdCallback_(xcb()->call<IXCBModule::addConnectionCreatedCallback>(
-          [this](const std::string &name, xcb_connection_t *conn,
-                 int defaultScreen, FocusGroup *group) {
-              XIMServer *server =
-                  new XIMServer(conn, defaultScreen, group, name, this);
-              servers_[name].reset(server);
-          })),
-      closedCallback_(xcb()->call<IXCBModule::addConnectionClosedCallback>(
-          [this](const std::string &name, xcb_connection_t *) {
-              servers_.erase(name);
-          })) {
+XIMModule::XIMModule(Instance *instance) : instance_(instance) {
     xcb_compound_text_init();
-}
-
-AddonInstance *XIMModule::xcb() {
-    auto &addonManager = instance_->addonManager();
-    return addonManager.addon("xcb");
+    reloadConfig();
+    createdCallback_ = xcb()->call<IXCBModule::addConnectionCreatedCallback>(
+        [this](const std::string &name, xcb_connection_t *conn,
+               int defaultScreen, FocusGroup *group) {
+            XIMServer *server =
+                new XIMServer(conn, defaultScreen, group, name, this);
+            servers_[name].reset(server);
+        });
+    closedCallback_ = xcb()->call<IXCBModule::addConnectionClosedCallback>(
+        [this](const std::string &name, xcb_connection_t *) {
+            servers_.erase(name);
+        });
 }
 
 XIMModule::~XIMModule() {}
+
+void XIMModule::reloadConfig() { readAsIni(config_, "conf/xim.conf"); }
 
 class XIMModuleFactory : public AddonFactory {
 public:

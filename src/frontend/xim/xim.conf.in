@@ -3,6 +3,7 @@ Name=X Input Method Frontend
 Type=SharedLibrary
 Library=xim
 Category=Frontend
+Configurable=True
 
 [Addon/Dependencies]
 0=xcb
