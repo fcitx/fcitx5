@@ -17,6 +17,7 @@
 // see <http://www.gnu.org/licenses/>.
 //
 
+#include <stdexcept>
 #include "fcitx-utils/log.h"
 #include "fcitx/candidatelist.h"
 
@@ -134,6 +135,24 @@ int main() {
                      std::to_string(expect2[i]));
     }
     FCITX_ASSERT(candidatelist.totalSize() == 9);
+
+    bool hitException = false;
+    try {
+        candidatelist.insert(10, std::make_unique<TestCandidateWord>(10));
+    } catch (const std::invalid_argument &e) {
+        hitException = true;
+    }
+    FCITX_ASSERT(hitException);
+
+    candidatelist.insert(0, std::make_unique<TestCandidateWord>(10));
+    candidatelist.insert(10, std::make_unique<TestCandidateWord>(11));
+    candidatelist.insert(5, std::make_unique<TestCandidateWord>(12));
+    int expect3[] = {10, 2, 3, 4, 9, 12, 5, 1, 6, 7, 8, 11};
+    for (int i = 0; i < 12; i++) {
+        FCITX_ASSERT(candidatelist.candidateFromAll(i).text().toString() ==
+                     std::to_string(expect3[i]));
+    }
+    FCITX_ASSERT(candidatelist.totalSize() == 12);
 
     return 0;
 }
