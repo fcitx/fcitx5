@@ -216,7 +216,6 @@ public:
         xcb_im_input_context_set_data(xic_, this, nullptr);
         auto style = xcb_im_input_context_get_input_style(ic);
         created();
-        FCITX_INFO() << style << " " << XCB_IM_PreeditCallbacks;
         if (style & XCB_IM_PreeditCallbacks) {
             setCapabilityFlags(
                 {CapabilityFlag::Preedit, CapabilityFlag::FormattedPreedit});
