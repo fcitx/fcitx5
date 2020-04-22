@@ -18,16 +18,16 @@
 //
 
 #include "../message.h"
+#include <fcntl.h>
+#include <unistd.h>
+#include <atomic>
+#include <shared_mutex>
+#include <stdexcept>
 #include "../../misc_p.h"
 #include "../../unixfd.h"
 #include "../variant.h"
 #include "bus_p.h"
 #include "message_p.h"
-#include <atomic>
-#include <fcntl.h>
-#include <shared_mutex>
-#include <stdexcept>
-#include <unistd.h>
 
 namespace fcitx {
 

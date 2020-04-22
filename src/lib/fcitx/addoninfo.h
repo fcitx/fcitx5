@@ -19,12 +19,12 @@
 #ifndef _FCITX_ADDON_H_
 #define _FCITX_ADDON_H_
 
-#include "fcitxcore_export.h"
+#include <memory>
+#include <vector>
 #include <fcitx-config/enum.h>
 #include <fcitx-utils/i18nstring.h>
 #include <fcitx-utils/macros.h>
-#include <memory>
-#include <vector>
+#include "fcitxcore_export.h"
 
 namespace fcitx {
 

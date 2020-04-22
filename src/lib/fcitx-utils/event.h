@@ -19,14 +19,14 @@
 #ifndef _FCITX_UTILS_EVENT_H_
 #define _FCITX_UTILS_EVENT_H_
 
-#include "fcitxutils_export.h"
+#include <time.h>
 #include <cstring>
-#include <fcitx-utils/flags.h>
-#include <fcitx-utils/macros.h>
 #include <functional>
 #include <memory>
 #include <stdexcept>
-#include <time.h>
+#include <fcitx-utils/flags.h>
+#include <fcitx-utils/macros.h>
+#include "fcitxutils_export.h"
 
 namespace fcitx {
 

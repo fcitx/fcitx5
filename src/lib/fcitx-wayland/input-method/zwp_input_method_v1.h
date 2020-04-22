@@ -1,9 +1,9 @@
 #ifndef ZWP_INPUT_METHOD_V1
 #define ZWP_INPUT_METHOD_V1
-#include "fcitx-utils/signals.h"
-#include "wayland-input-method-unstable-v1-client-protocol.h"
 #include <memory>
 #include <wayland-client.h>
+#include "fcitx-utils/signals.h"
+#include "wayland-input-method-unstable-v1-client-protocol.h"
 namespace fcitx {
 namespace wayland {
 class ZwpInputMethodContextV1;

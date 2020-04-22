@@ -1,6 +1,6 @@
 #include "wl_touch.h"
-#include "wl_surface.h"
 #include <cassert>
+#include "wl_surface.h"
 namespace fcitx {
 namespace wayland {
 constexpr const char *WlTouch::interface;

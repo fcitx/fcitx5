@@ -19,12 +19,12 @@
 #ifndef _FCITX_MODULES_XCB_XCBKEYBOARD_H_
 #define _FCITX_MODULES_XCB_XCBKEYBOARD_H_
 
-#include "xcb_public.h"
 #include <memory>
 #include <string>
 #include <vector>
 #include <xcb/xcb.h>
 #include <xkbcommon/xkbcommon.h>
+#include "xcb_public.h"
 
 namespace fcitx {
 

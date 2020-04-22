@@ -16,12 +16,12 @@
 // License along with this library; see the  file COPYING. If not,
 // see <http://www.gnu.org/licenses/>.
 //
+#include <unistd.h>
 #include "fcitx-utils/dbus/bus.h"
 #include "fcitx-utils/dbus/variant.h"
 #include "fcitx-utils/event.h"
 #include "fcitx-utils/log.h"
 #include "fcitx-utils/metastring.h"
-#include <unistd.h>
 
 using namespace fcitx::dbus;
 using namespace fcitx;

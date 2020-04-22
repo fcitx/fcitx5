@@ -19,8 +19,8 @@
 #ifndef _FCITX_INPUTCONTEXTPROPERTY_P_H_
 #define _FCITX_INPUTCONTEXTPROPERTY_P_H_
 
-#include "inputcontextproperty.h"
 #include <string>
+#include "inputcontextproperty.h"
 
 namespace fcitx {
 class InputContextManagerPrivate;

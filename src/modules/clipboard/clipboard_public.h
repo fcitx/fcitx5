@@ -19,9 +19,9 @@
 #ifndef _FCITX_MODULES_CLIPBOARD_CLIPBOARD_PUBLIC_H_
 #define _FCITX_MODULES_CLIPBOARD_CLIPBOARD_PUBLIC_H_
 
+#include <string>
 #include <fcitx/addoninstance.h>
 #include <fcitx/inputcontext.h>
-#include <string>
 
 FCITX_ADDON_DECLARE_FUNCTION(Clipboard, primary,
                              std::string(const fcitx::InputContext *ic));

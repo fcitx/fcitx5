@@ -18,9 +18,10 @@
 //
 
 #include "keyboard.h"
-#include "chardata.h"
-#include "config.h"
-#include "emoji_public.h"
+#include <fcntl.h>
+#include <cstring>
+#include <fmt/format.h>
+#include <libintl.h>
 #include "fcitx-config/iniparser.h"
 #include "fcitx-utils/charutils.h"
 #include "fcitx-utils/cutf8.h"
@@ -34,13 +35,12 @@
 #include "fcitx/inputcontextproperty.h"
 #include "fcitx/inputpanel.h"
 #include "fcitx/instance.h"
+#include "chardata.h"
+#include "config.h"
+#include "emoji_public.h"
 #include "notifications_public.h"
 #include "spell_public.h"
 #include "xcb_public.h"
-#include <cstring>
-#include <fcntl.h>
-#include <fmt/format.h>
-#include <libintl.h>
 
 const char imNamePrefix[] = "keyboard-";
 #define FCITX_KEYBOARD_MAX_BUFFER 20

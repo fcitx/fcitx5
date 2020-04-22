@@ -19,6 +19,7 @@
 #ifndef _FCITX_INPUTCONTEXT_P_H_
 #define _FCITX_INPUTCONTEXT_P_H_
 
+#include <unordered_map>
 #include <fcitx-utils/intrusivelist.h>
 #include <fcitx/inputcontext.h>
 #include <fcitx/inputcontextmanager.h>
@@ -26,7 +27,6 @@
 #include <fcitx/inputpanel.h>
 #include <fcitx/instance.h>
 #include <fcitx/statusarea.h>
-#include <unordered_map>
 #include <uuid.h>
 
 namespace fcitx {

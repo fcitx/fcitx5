@@ -19,8 +19,8 @@
 #ifndef _FCITX_CONFIG_INIPARSER_H_
 #define _FCITX_CONFIG_INIPARSER_H_
 
-#include "fcitxconfig_export.h"
 #include <fcitx-config/rawconfig.h>
+#include "fcitxconfig_export.h"
 
 namespace fcitx {
 class Configuration;

@@ -19,12 +19,12 @@
 #ifndef _FCITX_MODULES_QUICKPHRASE_QUICKPHRASE_PUBLIC_H_
 #define _FCITX_MODULES_QUICKPHRASE_QUICKPHRASE_PUBLIC_H_
 
+#include <functional>
+#include <string>
 #include <fcitx-utils/key.h>
 #include <fcitx-utils/metastring.h>
 #include <fcitx/addoninstance.h>
 #include <fcitx/inputcontext.h>
-#include <functional>
-#include <string>
 
 namespace fcitx {
 

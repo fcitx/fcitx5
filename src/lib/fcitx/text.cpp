@@ -18,10 +18,10 @@
 //
 
 #include "text.h"
-#include "fcitx-utils/utf8.h"
 #include <stdexcept>
 #include <tuple>
 #include <vector>
+#include "fcitx-utils/utf8.h"
 namespace fcitx {
 
 class TextPrivate {

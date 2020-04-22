@@ -19,7 +19,7 @@
 #ifndef _FCITX_MODULES_UNICODE_UNICODE_H_
 #define _FCITX_MODULES_UNICODE_UNICODE_H_
 
-#include "charselectdata.h"
+#include <map>
 #include "fcitx-config/configuration.h"
 #include "fcitx-config/enum.h"
 #include "fcitx-utils/key.h"
@@ -28,7 +28,7 @@
 #include "fcitx/addoninstance.h"
 #include "fcitx/inputcontextproperty.h"
 #include "fcitx/instance.h"
-#include <map>
+#include "charselectdata.h"
 
 namespace fcitx {
 

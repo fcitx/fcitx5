@@ -18,6 +18,8 @@
 //
 
 #include "key.h"
+#include <cstring>
+#include <unordered_map>
 #include "charutils.h"
 #include "i18n.h"
 #include "keydata.h"
@@ -26,8 +28,6 @@
 #include "misc_p.h"
 #include "stringutils.h"
 #include "utf8.h"
-#include <cstring>
-#include <unordered_map>
 
 namespace fcitx {
 

@@ -25,14 +25,14 @@
 /// \file
 /// \brief Class to represent a key.
 
-#include "fcitxutils_export.h"
 #include <algorithm>
 #include <cstddef>
 #include <cstdint>
-#include <fcitx-utils/flags.h>
-#include <fcitx-utils/keysym.h>
 #include <string>
 #include <vector>
+#include <fcitx-utils/flags.h>
+#include <fcitx-utils/keysym.h>
+#include "fcitxutils_export.h"
 
 namespace fcitx {
 class Key;

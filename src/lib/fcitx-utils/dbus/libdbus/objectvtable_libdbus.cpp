@@ -17,13 +17,13 @@
 // see <http://www.gnu.org/licenses/>.
 //
 
+#include <unordered_set>
 #include "../../log.h"
 #include "../../stringutils.h"
 #include "../objectvtable.h"
 #include "../utils_p.h"
 #include "bus_p.h"
 #include "objectvtable_p_libdbus.h"
-#include <unordered_set>
 
 namespace fcitx {
 namespace dbus {

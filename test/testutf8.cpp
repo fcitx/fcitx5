@@ -1,8 +1,8 @@
+#include <cstdio>
+#include <cstring>
 #include "fcitx-utils/cutf8.h"
 #include "fcitx-utils/log.h"
 #include "fcitx-utils/utf8.h"
-#include <cstdio>
-#include <cstring>
 
 #define BUF_SIZE 9
 

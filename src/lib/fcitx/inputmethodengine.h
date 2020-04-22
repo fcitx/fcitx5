@@ -19,10 +19,10 @@
 #ifndef _FCITX_INPUTMETHODENGINE_H_
 #define _FCITX_INPUTMETHODENGINE_H_
 
-#include "fcitxcore_export.h"
 #include <fcitx/addoninstance.h>
 #include <fcitx/event.h>
 #include <fcitx/inputmethodentry.h>
+#include "fcitxcore_export.h"
 
 namespace fcitx {
 

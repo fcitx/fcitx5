@@ -19,11 +19,11 @@
 #ifndef _FCITX_SURROUNDINGTEXT_H_
 #define _FCITX_SURROUNDINGTEXT_H_
 
-#include "fcitxcore_export.h"
-#include <fcitx-utils/log.h>
-#include <fcitx-utils/macros.h>
 #include <memory>
 #include <string>
+#include <fcitx-utils/log.h>
+#include <fcitx-utils/macros.h>
+#include "fcitxcore_export.h"
 
 namespace fcitx {
 

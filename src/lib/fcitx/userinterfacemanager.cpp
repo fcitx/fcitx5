@@ -18,10 +18,10 @@
 //
 
 #include "userinterfacemanager.h"
+#include <set>
 #include "action.h"
 #include "inputcontext.h"
 #include "userinterface.h"
-#include <set>
 
 namespace fcitx {
 

@@ -18,11 +18,11 @@
 //
 
 #include "event.h"
-#include "trackableobject.h"
-#include <event2/event.h>
 #include <exception>
 #include <functional>
 #include <vector>
+#include <event2/event.h>
+#include "trackableobject.h"
 
 namespace fcitx {
 

@@ -17,8 +17,8 @@
 // see <http://www.gnu.org/licenses/>.
 //
 #include "variant.h"
-#include "fcitx-utils/misc_p.h"
 #include <shared_mutex>
+#include "fcitx-utils/misc_p.h"
 
 namespace fcitx {
 namespace dbus {

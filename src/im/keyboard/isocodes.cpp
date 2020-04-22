@@ -18,12 +18,12 @@
 //
 
 #include "isocodes.h"
-#include "fcitx-utils/metastring.h"
-#include "xmlparser.h"
 #include <cstring>
+#include <memory>
 #include <fcitx-utils/log.h>
 #include <json-c/json.h>
-#include <memory>
+#include "fcitx-utils/metastring.h"
+#include "xmlparser.h"
 
 namespace fcitx {
 

@@ -19,6 +19,9 @@
 #ifndef _FCITX_MODULES_XCB_XCBMODULE_H_
 #define _FCITX_MODULES_XCB_XCBMODULE_H_
 
+#include <list>
+#include <unordered_map>
+#include <vector>
 #include "fcitx-config/iniparser.h"
 #include "fcitx-utils/event.h"
 #include "fcitx-utils/handlertable.h"
@@ -30,9 +33,6 @@
 #include "fcitx/instance.h"
 #include "xcb_public.h"
 #include "xcbconnection.h"
-#include <list>
-#include <unordered_map>
-#include <vector>
 
 namespace fcitx {
 

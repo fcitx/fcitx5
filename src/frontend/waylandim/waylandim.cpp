@@ -17,20 +17,20 @@
 // see <http://www.gnu.org/licenses/>.
 //
 #include "waylandim.h"
-#include "display.h"
+#include <sys/mman.h>
+#include <unistd.h>
+#include <algorithm>
+#include <cassert>
+#include <cstring>
+#include <xkbcommon/xkbcommon.h>
 #include "fcitx-utils/event.h"
 #include "fcitx-utils/utf8.h"
 #include "fcitx/inputcontext.h"
+#include "display.h"
 #include "wayland-text-input-unstable-v1-client-protocol.h"
 #include "wl_keyboard.h"
 #include "zwp_input_method_context_v1.h"
 #include "zwp_input_method_v1.h"
-#include <algorithm>
-#include <cassert>
-#include <cstring>
-#include <sys/mman.h>
-#include <unistd.h>
-#include <xkbcommon/xkbcommon.h>
 
 FCITX_DEFINE_LOG_CATEGORY(waylandim, "waylandim")
 

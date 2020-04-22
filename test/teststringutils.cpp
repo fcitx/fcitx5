@@ -17,11 +17,11 @@
 // see <http://www.gnu.org/licenses/>.
 //
 
+#include <tuple>
 #include "fcitx-utils/charutils.h"
 #include "fcitx-utils/log.h"
 #include "fcitx-utils/macros.h"
 #include "fcitx-utils/stringutils.h"
-#include <tuple>
 
 using namespace fcitx;
 

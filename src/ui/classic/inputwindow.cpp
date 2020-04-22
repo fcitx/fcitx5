@@ -17,16 +17,16 @@
 // see <http://www.gnu.org/licenses/>.
 //
 #include "inputwindow.h"
-#include "classicui.h"
+#include <functional>
+#include <initializer_list>
+#include <limits>
+#include <pango/pangocairo.h>
 #include "fcitx-utils/color.h"
 #include "fcitx-utils/log.h"
 #include "fcitx/inputpanel.h"
 #include "fcitx/instance.h"
 #include "fcitx/misc_p.h"
-#include <functional>
-#include <initializer_list>
-#include <limits>
-#include <pango/pangocairo.h>
+#include "classicui.h"
 
 namespace fcitx {
 

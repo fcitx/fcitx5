@@ -20,9 +20,10 @@
 #ifndef _FCITX_INPUTCONTEXT_H_
 #define _FCITX_INPUTCONTEXT_H_
 
-#include "fcitxcore_export.h"
 #include <array>
 #include <cstdint>
+#include <memory>
+#include <string>
 #include <fcitx-utils/capabilityflags.h>
 #include <fcitx-utils/flags.h>
 #include <fcitx-utils/key.h>
@@ -34,8 +35,7 @@
 #include <fcitx/surroundingtext.h>
 #include <fcitx/text.h>
 #include <fcitx/userinterface.h>
-#include <memory>
-#include <string>
+#include "fcitxcore_export.h"
 
 namespace fcitx {
 typedef std::array<uint8_t, 16> ICUUID;

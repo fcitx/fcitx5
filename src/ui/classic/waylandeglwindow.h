@@ -23,10 +23,10 @@
 
 #ifdef CAIRO_EGL_FOUND
 
-#include "waylandui.h"
-#include "waylandwindow.h"
 #include <cairo/cairo.h>
 #include <wayland-egl.h>
+#include "waylandui.h"
+#include "waylandwindow.h"
 
 namespace fcitx {
 namespace classicui {

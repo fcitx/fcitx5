@@ -31,16 +31,16 @@
 /// \endcode
 /// Open all files under $XDG_CONFIG_{HOME,DIRS}/fcitx5/inputmethod/*.conf.
 
-#include "fcitxutils_export.h"
-#include <fcitx-utils/flags.h>
-#include <fcitx-utils/macros.h>
-#include <fcitx-utils/stringutils.h>
-#include <fcitx-utils/unixfd.h>
 #include <functional>
 #include <map>
 #include <memory>
 #include <string>
 #include <vector>
+#include <fcitx-utils/flags.h>
+#include <fcitx-utils/macros.h>
+#include <fcitx-utils/stringutils.h>
+#include <fcitx-utils/unixfd.h>
+#include "fcitxutils_export.h"
 
 namespace fcitx {
 

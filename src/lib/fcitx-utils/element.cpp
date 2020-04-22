@@ -18,9 +18,9 @@
 //
 
 #include "element.h"
-#include "misc_p.h"
 #include <algorithm>
 #include <unordered_map>
+#include "misc_p.h"
 
 namespace fcitx {
 

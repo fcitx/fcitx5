@@ -20,10 +20,10 @@
 
 #ifdef CAIRO_EGL_FOUND
 
-#include "waylandeglwindow.h"
-#include "wl_callback.h"
 #include <cairo/cairo-gl.h>
 #include <wayland-egl.h>
+#include "waylandeglwindow.h"
+#include "wl_callback.h"
 
 namespace fcitx {
 namespace classicui {

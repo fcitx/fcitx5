@@ -18,7 +18,8 @@
 //
 
 #include "notificationitem.h"
-#include "dbusmenu.h"
+#include <unistd.h>
+#include <fmt/format.h>
 #include "fcitx-utils/charutils.h"
 #include "fcitx-utils/dbus/message.h"
 #include "fcitx-utils/dbus/objectvtable.h"
@@ -26,8 +27,7 @@
 #include "fcitx/addonfactory.h"
 #include "fcitx/addonmanager.h"
 #include "fcitx/inputmethodentry.h"
-#include <fmt/format.h>
-#include <unistd.h>
+#include "dbusmenu.h"
 
 #define NOTIFICATION_ITEM_DBUS_IFACE "org.kde.StatusNotifierItem"
 #define NOTIFICATION_ITEM_DEFAULT_OBJ "/StatusNotifierItem"

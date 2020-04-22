@@ -19,12 +19,12 @@
 #ifndef _FCITX_TEXT_H_
 #define _FCITX_TEXT_H_
 
-#include "fcitxcore_export.h"
+#include <memory>
+#include <string>
 #include <fcitx-utils/flags.h>
 #include <fcitx-utils/macros.h>
 #include <fcitx-utils/textformatflags.h>
-#include <memory>
-#include <string>
+#include "fcitxcore_export.h"
 
 /// \addtogroup FcitxCore
 /// \{

@@ -18,7 +18,6 @@
 //
 
 #include "dbusfrontend.h"
-#include "dbus_public.h"
 #include "fcitx-utils/dbus/message.h"
 #include "fcitx-utils/dbus/objectvtable.h"
 #include "fcitx-utils/dbus/servicewatcher.h"
@@ -29,6 +28,7 @@
 #include "fcitx/inputmethodmanager.h"
 #include "fcitx/instance.h"
 #include "fcitx/misc_p.h"
+#include "dbus_public.h"
 
 #define FCITX_INPUTMETHOD_DBUS_INTERFACE "org.fcitx.Fcitx.InputMethod1"
 #define FCITX_INPUTCONTEXT_DBUS_INTERFACE "org.fcitx.Fcitx.InputContext1"

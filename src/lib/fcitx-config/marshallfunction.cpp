@@ -18,8 +18,8 @@
 //
 
 #include "marshallfunction.h"
-#include "configuration.h"
 #include "fcitx-utils/stringutils.h"
+#include "configuration.h"
 
 namespace fcitx {
 void marshallOption(RawConfig &config, const bool value) {

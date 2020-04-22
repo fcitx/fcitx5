@@ -24,11 +24,11 @@
 /// \file
 /// \brief C++ Utility functions for handling utf8 strings.
 
-#include "fcitxutils_export.h"
-#include <fcitx-utils/cutf8.h>
-#include <fcitx-utils/misc.h>
 #include <stdexcept>
 #include <string>
+#include <fcitx-utils/cutf8.h>
+#include <fcitx-utils/misc.h>
+#include "fcitxutils_export.h"
 
 namespace fcitx {
 namespace utf8 {

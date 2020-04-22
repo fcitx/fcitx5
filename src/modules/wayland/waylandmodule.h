@@ -19,13 +19,13 @@
 #ifndef _FCITX_MODULES_WAYLAND_WAYLANDMODULE_H_
 #define _FCITX_MODULES_WAYLAND_WAYLANDMODULE_H_
 
-#include "display.h"
 #include "fcitx-utils/event.h"
 #include "fcitx/addonfactory.h"
 #include "fcitx/addoninstance.h"
 #include "fcitx/addonmanager.h"
 #include "fcitx/focusgroup.h"
 #include "fcitx/instance.h"
+#include "display.h"
 #include "wayland_public.h"
 
 namespace fcitx {

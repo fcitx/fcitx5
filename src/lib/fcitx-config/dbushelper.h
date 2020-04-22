@@ -19,11 +19,11 @@
 #ifndef _FCITX_CONFIG_DBUSHELPER_H_
 #define _FCITX_CONFIG_DBUSHELPER_H_
 
-#include "fcitxconfig_export.h"
+#include <vector>
 #include <fcitx-config/configuration.h>
 #include <fcitx-config/rawconfig.h>
 #include <fcitx-utils/dbus/message.h>
-#include <vector>
+#include "fcitxconfig_export.h"
 
 namespace fcitx {
 

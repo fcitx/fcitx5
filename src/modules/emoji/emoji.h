@@ -19,10 +19,10 @@
 #ifndef _FCITX5_MODULES_EMOJI_EMOJI_H_
 #define _FCITX5_MODULES_EMOJI_EMOJI_H_
 
-#include "emoji_public.h"
-#include "fcitx/addoninstance.h"
 #include <unordered_map>
 #include <vector>
+#include "fcitx/addoninstance.h"
+#include "emoji_public.h"
 
 namespace fcitx {
 using EmojiMap = std::unordered_map<std::string, std::vector<std::string>>;

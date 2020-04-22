@@ -19,11 +19,11 @@
 #ifndef _FCITX_EVENT_H_
 #define _FCITX_EVENT_H_
 
-#include "fcitxcore_export.h"
+#include <stdint.h>
 #include <fcitx-utils/capabilityflags.h>
 #include <fcitx-utils/key.h>
 #include <fcitx/userinterface.h>
-#include <stdint.h>
+#include "fcitxcore_export.h"
 
 namespace fcitx {
 

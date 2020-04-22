@@ -24,8 +24,8 @@
 /// \file
 /// \brief Provide utility to handle rectangle.
 
-#include "fcitxutils_export.h"
 #include <ostream>
+#include "fcitxutils_export.h"
 
 namespace fcitx {
 class FCITXUTILS_EXPORT Rect {

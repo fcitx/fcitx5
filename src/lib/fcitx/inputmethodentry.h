@@ -19,10 +19,10 @@
 #ifndef _FCITX_INPUTMETHODENTRY_H_
 #define _FCITX_INPUTMETHODENTRY_H_
 
-#include "fcitxcore_export.h"
-#include <fcitx-utils/macros.h>
 #include <memory>
 #include <string>
+#include <fcitx-utils/macros.h>
+#include "fcitxcore_export.h"
 
 namespace fcitx {
 

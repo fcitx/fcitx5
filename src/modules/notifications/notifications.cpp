@@ -20,13 +20,13 @@
 //
 
 #include "notifications.h"
-#include "dbus_public.h"
+#include <fcntl.h>
 #include "fcitx-config/iniparser.h"
 #include "fcitx-utils/i18n.h"
 #include "fcitx-utils/standardpath.h"
 #include "fcitx/addonfactory.h"
 #include "fcitx/addonmanager.h"
-#include <fcntl.h>
+#include "dbus_public.h"
 
 #ifndef DBUS_TIMEOUT_USE_DEFAULT
 #define DBUS_TIMEOUT_USE_DEFAULT (-1)

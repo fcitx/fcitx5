@@ -19,12 +19,12 @@
 #ifndef _FCITX5_MODULES_XCB_XCBEVENTREADER_H_
 #define _FCITX5_MODULES_XCB_XCBEVENTREADER_H_
 
-#include "xcb_public.h"
-#include <fcitx-utils/event.h>
-#include <fcitx-utils/eventdispatcher.h>
 #include <mutex>
 #include <thread>
+#include <fcitx-utils/event.h>
+#include <fcitx-utils/eventdispatcher.h>
 #include <xcb/xcb.h>
+#include "xcb_public.h"
 
 namespace fcitx {
 

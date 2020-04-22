@@ -18,9 +18,9 @@
 //
 
 #include "xcbinputwindow.h"
-#include "fcitx-utils/rect.h"
 #include <pango/pangocairo.h>
 #include <xcb/xcb_aux.h>
+#include "fcitx-utils/rect.h"
 
 namespace fcitx {
 namespace classicui {

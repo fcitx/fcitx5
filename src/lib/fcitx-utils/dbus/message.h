@@ -20,18 +20,18 @@
 #define _FCITX_UTILS_DBUS_MESSAGE_H_
 
 #include <cassert>
-#include <fcitx-utils/dbus/message_details.h>
-#include <fcitx-utils/log.h>
-#include <fcitx-utils/macros.h>
-#include <fcitx-utils/metastring.h>
-#include <fcitx-utils/tuplehelpers.h>
-#include <fcitx-utils/unixfd.h>
 #include <functional>
 #include <memory>
 #include <string>
 #include <tuple>
 #include <type_traits>
 #include <vector>
+#include <fcitx-utils/dbus/message_details.h>
+#include <fcitx-utils/log.h>
+#include <fcitx-utils/macros.h>
+#include <fcitx-utils/metastring.h>
+#include <fcitx-utils/tuplehelpers.h>
+#include <fcitx-utils/unixfd.h>
 
 namespace fcitx {
 

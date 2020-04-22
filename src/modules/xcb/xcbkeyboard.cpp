@@ -22,19 +22,19 @@
 #include <xcb/xkb.h>
 #undef explicit
 
-#include "config.h"
-#include "dbus_public.h"
+#include <xcb/xcbext.h>
+#include <xkbcommon/xkbcommon-x11.h>
 #include "fcitx-utils/log.h"
 #include "fcitx-utils/stringutils.h"
 #include "fcitx/addonmanager.h"
 #include "fcitx/inputmethodmanager.h"
 #include "fcitx/misc_p.h"
+#include "config.h"
+#include "dbus_public.h"
 #include "xcb_public.h"
 #include "xcbconnection.h"
 #include "xcbkeyboard.h"
 #include "xcbmodule.h"
-#include <xcb/xcbext.h>
-#include <xkbcommon/xkbcommon-x11.h>
 
 // Hack the files so we don't need to include libx11 files.
 

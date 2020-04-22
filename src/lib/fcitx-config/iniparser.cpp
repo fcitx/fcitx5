@@ -19,13 +19,13 @@
 
 #include "config.h"
 
-#include "configuration.h"
+#include <fcntl.h>
+#include <cstdio>
 #include "fcitx-utils/standardpath.h"
 #include "fcitx-utils/stringutils.h"
 #include "fcitx-utils/unixfd.h"
+#include "configuration.h"
 #include "iniparser.h"
-#include <cstdio>
-#include <fcntl.h>
 
 namespace fcitx {
 

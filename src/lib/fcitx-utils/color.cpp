@@ -18,12 +18,12 @@
 //
 
 #include "color.h"
-#include "charutils.h"
-#include "stringutils.h"
 #include <array>
 #include <climits>
 #include <cmath>
 #include <cstdio>
+#include "charutils.h"
+#include "stringutils.h"
 
 namespace fcitx {
 static unsigned short roundColor(unsigned short c) {

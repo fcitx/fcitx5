@@ -24,13 +24,7 @@
 /// \file
 /// \brief Log utilities.
 
-#include "fcitxutils_export.h"
 #include <cstdlib>
-#include <fcitx-utils/fs.h>
-#include <fcitx-utils/key.h>
-#include <fcitx-utils/metastring.h>
-#include <fcitx-utils/misc.h>
-#include <fcitx-utils/tuplehelpers.h>
 #include <iostream>
 #include <map>
 #include <memory>
@@ -40,6 +34,12 @@
 #include <type_traits>
 #include <unordered_map>
 #include <unordered_set>
+#include <fcitx-utils/fs.h>
+#include <fcitx-utils/key.h>
+#include <fcitx-utils/metastring.h>
+#include <fcitx-utils/misc.h>
+#include <fcitx-utils/tuplehelpers.h>
+#include "fcitxutils_export.h"
 
 namespace fcitx {
 

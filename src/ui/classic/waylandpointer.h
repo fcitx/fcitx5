@@ -19,9 +19,9 @@
 #ifndef _FCITX_UI_CLASSIC_WAYLANDPOINTER_H_
 #define _FCITX_UI_CLASSIC_WAYLANDPOINTER_H_
 
+#include <memory>
 #include "wl_pointer.h"
 #include "wl_seat.h"
-#include <memory>
 
 namespace fcitx {
 namespace classicui {

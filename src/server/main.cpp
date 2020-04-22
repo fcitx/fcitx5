@@ -17,19 +17,19 @@
 // see <http://www.gnu.org/licenses/>.
 //
 
-#include "errorhandler.h"
+#include <fcntl.h>
+#include <locale.h>
+#include <unistd.h>
+#include <exception>
+#include <iostream>
+#include <libintl.h>
 #include "fcitx-utils/fs.h"
 #include "fcitx-utils/standardpath.h"
 #include "fcitx/addonfactory.h"
 #include "fcitx/addonmanager.h"
 #include "fcitx/instance.h"
+#include "errorhandler.h"
 #include "keyboard.h"
-#include <exception>
-#include <fcntl.h>
-#include <iostream>
-#include <libintl.h>
-#include <locale.h>
-#include <unistd.h>
 
 using namespace fcitx;
 int selfpipe[2];

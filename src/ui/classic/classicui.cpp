@@ -18,6 +18,7 @@
 //
 
 #include "classicui.h"
+#include <fcntl.h>
 #include "fcitx-config/iniparser.h"
 #include "fcitx-utils/standardpath.h"
 #include "fcitx-utils/utf8.h"
@@ -28,7 +29,6 @@
 #include "notificationitem_public.h"
 #include "waylandui.h"
 #include "xcbui.h"
-#include <fcntl.h>
 
 namespace fcitx {
 namespace classicui {

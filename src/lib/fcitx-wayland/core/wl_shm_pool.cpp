@@ -1,6 +1,6 @@
 #include "wl_shm_pool.h"
-#include "wl_buffer.h"
 #include <cassert>
+#include "wl_buffer.h"
 namespace fcitx {
 namespace wayland {
 constexpr const char *WlShmPool::interface;

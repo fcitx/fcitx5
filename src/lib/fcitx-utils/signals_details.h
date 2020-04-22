@@ -19,13 +19,13 @@
 #ifndef _FCITX_UTILS_SIGNAL_DETAILS_H_
 #define _FCITX_UTILS_SIGNAL_DETAILS_H_
 
+#include <functional>
+#include <iterator>
+#include <tuple>
 #include <fcitx-utils/handlertable.h>
 #include <fcitx-utils/intrusivelist.h>
 #include <fcitx-utils/trackableobject.h>
 #include <fcitx-utils/tuplehelpers.h>
-#include <functional>
-#include <iterator>
-#include <tuple>
 
 namespace fcitx {
 

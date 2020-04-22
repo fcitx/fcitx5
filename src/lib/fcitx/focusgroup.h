@@ -19,11 +19,11 @@
 #ifndef _FCITX_FOCUSGROUP_H_
 #define _FCITX_FOCUSGROUP_H_
 
+#include <memory>
+#include <fcitx-utils/macros.h>
 #include "fcitxcore_export.h"
 #include "inputcontext.h"
 #include "inputpanel.h"
-#include <fcitx-utils/macros.h>
-#include <memory>
 
 namespace fcitx {
 

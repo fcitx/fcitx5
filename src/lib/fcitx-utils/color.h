@@ -20,10 +20,10 @@
 #ifndef _FCITX_UTILS_COLOR_H_
 #define _FCITX_UTILS_COLOR_H_
 
-#include "fcitxutils_export.h"
-#include <fcitx-utils/macros.h>
 #include <string>
 #include <type_traits>
+#include <fcitx-utils/macros.h>
+#include "fcitxutils_export.h"
 
 /// \addtogroup FcitxUtils
 /// \{

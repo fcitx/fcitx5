@@ -19,11 +19,11 @@
 #ifndef _FCITX_UTILS_DBUS_MESSAGE_DETAILS_H_
 #define _FCITX_UTILS_DBUS_MESSAGE_DETAILS_H_
 
+#include <tuple>
+#include <vector>
 #include <fcitx-utils/metastring.h>
 #include <fcitx-utils/tuplehelpers.h>
 #include <fcitx-utils/unixfd.h>
-#include <tuple>
-#include <vector>
 
 namespace fcitx {
 

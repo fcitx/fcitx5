@@ -19,10 +19,10 @@
 #ifndef _FCITX_UI_CLASSIC_XCBWINDOW_H_
 #define _FCITX_UI_CLASSIC_XCBWINDOW_H_
 
-#include "window.h"
-#include "xcbui.h"
 #include <cairo/cairo.h>
 #include <xcb/xcb.h>
+#include "window.h"
+#include "xcbui.h"
 
 namespace fcitx {
 namespace classicui {

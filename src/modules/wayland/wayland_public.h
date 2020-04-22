@@ -19,12 +19,12 @@
 #ifndef _FCITX_MODULES_WAYLAND_WAYLAND_PUBLIC_H_
 #define _FCITX_MODULES_WAYLAND_WAYLAND_PUBLIC_H_
 
+#include <functional>
+#include <memory>
 #include <fcitx-utils/handlertable.h>
 #include <fcitx-utils/metastring.h>
 #include <fcitx/addoninstance.h>
 #include <fcitx/focusgroup.h>
-#include <functional>
-#include <memory>
 #include <wayland-client.h>
 
 namespace fcitx {

@@ -17,10 +17,10 @@
 // see <http://www.gnu.org/licenses/>.
 //
 
-#include "fcitx-utils/handlertable.h"
-#include "fcitx-utils/log.h"
 #include <memory>
 #include <unordered_set>
+#include "fcitx-utils/handlertable.h"
+#include "fcitx-utils/log.h"
 
 typedef std::function<void()> Callback;
 using namespace fcitx;

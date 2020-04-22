@@ -18,17 +18,17 @@
 //
 
 #include "theme.h"
-#include "common.h"
-#include "fcitx-utils/fs.h"
-#include "fcitx-utils/log.h"
-#include "fcitx-utils/standardpath.h"
-#include "fcitx/misc_p.h"
-#include <cassert>
 #include <fcntl.h>
+#include <cassert>
 #include <fmt/format.h>
 #include <gdk-pixbuf/gdk-pixbuf.h>
 #include <gio/gunixinputstream.h>
 #include <pango/pangocairo.h>
+#include "fcitx-utils/fs.h"
+#include "fcitx-utils/log.h"
+#include "fcitx-utils/standardpath.h"
+#include "fcitx/misc_p.h"
+#include "common.h"
 
 namespace fcitx {
 namespace classicui {

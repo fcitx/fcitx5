@@ -19,11 +19,11 @@
 #ifndef _FCITX_UI_CLASSIC_THEME_H_
 #define _FCITX_UI_CLASSIC_THEME_H_
 
+#include <cairo/cairo.h>
 #include "fcitx-config/configuration.h"
 #include "fcitx-config/enum.h"
 #include "fcitx-utils/log.h"
 #include "fcitx/icontheme.h"
-#include <cairo/cairo.h>
 
 namespace fcitx {
 namespace classicui {

@@ -18,15 +18,15 @@
 //
 
 #include "inputcontext.h"
+#include <cassert>
+#include <chrono>
+#include <exception>
 #include "fcitx-utils/event.h"
 #include "focusgroup.h"
 #include "inputcontext_p.h"
 #include "inputcontextmanager.h"
 #include "instance.h"
 #include "misc_p.h"
-#include <cassert>
-#include <chrono>
-#include <exception>
 
 namespace fcitx {
 

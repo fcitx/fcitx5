@@ -19,11 +19,11 @@
 #ifndef _FCITX_UTILS_HANDLERTABLE_DETAILS_H_
 #define _FCITX_UTILS_HANDLERTABLE_DETAILS_H_
 
-#include "fcitxutils_export.h"
-#include <fcitx-utils/intrusivelist.h>
 #include <list>
 #include <memory>
 #include <vector>
+#include <fcitx-utils/intrusivelist.h>
+#include "fcitxutils_export.h"
 
 namespace fcitx {
 

@@ -17,16 +17,16 @@
 // see <http://www.gnu.org/licenses/>.
 //
 #include "icontheme.h"
+#include <fcntl.h>
+#include <sys/mman.h>
+#include <sys/stat.h>
+#include <fstream>
+#include <stdexcept>
+#include <unordered_set>
 #include "fcitx-config/iniparser.h"
 #include "fcitx-config/marshallfunction.h"
 #include "fcitx-utils/fs.h"
 #include "fcitx-utils/log.h"
-#include <fcntl.h>
-#include <fstream>
-#include <stdexcept>
-#include <sys/mman.h>
-#include <sys/stat.h>
-#include <unordered_set>
 
 namespace fcitx {
 

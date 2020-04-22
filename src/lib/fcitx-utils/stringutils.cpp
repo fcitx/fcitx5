@@ -17,10 +17,10 @@
 // see <http://www.gnu.org/licenses/>.
 //
 #include "stringutils.h"
+#include <string.h>
+#include <climits>
 #include "charutils.h"
 #include "macros.h"
-#include <climits>
-#include <string.h>
 
 namespace fcitx {
 namespace stringutils {

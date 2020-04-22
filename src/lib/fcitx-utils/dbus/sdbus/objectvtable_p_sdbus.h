@@ -19,11 +19,11 @@
 #ifndef _FCITX_UTILS_DBUS_OBJECTVTABLE_P_SDBUS_H_
 #define _FCITX_UTILS_DBUS_OBJECTVTABLE_P_SDBUS_H_
 
+#include <map>
+#include <vector>
 #include "../objectvtable.h"
 #include "message_p.h"
 #include "objectvtablewrapper_p.h"
-#include <map>
-#include <vector>
 
 namespace fcitx {
 namespace dbus {

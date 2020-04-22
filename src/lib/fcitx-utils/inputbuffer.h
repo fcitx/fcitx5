@@ -19,12 +19,12 @@
 #ifndef _FCITX_UTILS_INPUTBUFFER_H_
 #define _FCITX_UTILS_INPUTBUFFER_H_
 
-#include "fcitxutils_export.h"
 #include <cstring>
-#include <fcitx-utils/flags.h>
-#include <fcitx-utils/macros.h>
 #include <memory>
 #include <string>
+#include <fcitx-utils/flags.h>
+#include <fcitx-utils/macros.h>
+#include "fcitxutils_export.h"
 
 /// \addtogroup FcitxUtils
 /// \{

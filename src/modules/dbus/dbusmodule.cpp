@@ -18,6 +18,9 @@
 //
 
 #include "dbusmodule.h"
+#include <set>
+#include <sstream>
+#include <fmt/format.h>
 #include "fcitx-config/dbushelper.h"
 #include "fcitx-utils/dbus/bus.h"
 #include "fcitx-utils/dbus/variant.h"
@@ -30,9 +33,6 @@
 #include "fcitx/inputmethodmanager.h"
 #include "keyboard_public.h"
 #include "xcb_public.h"
-#include <fmt/format.h>
-#include <set>
-#include <sstream>
 
 #define FCITX_DBUS_SERVICE "org.fcitx.Fcitx5"
 #define FCITX_CONTROLLER_DBUS_INTERFACE "org.fcitx.Fcitx.Controller1"

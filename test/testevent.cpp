@@ -17,10 +17,10 @@
 // see <http://www.gnu.org/licenses/>.
 //
 
-#include "fcitx-utils/log.h"
-#include <fcitx-utils/event.h>
 #include <fcntl.h>
 #include <unistd.h>
+#include <fcitx-utils/event.h>
+#include "fcitx-utils/log.h"
 
 using namespace fcitx;
 

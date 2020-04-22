@@ -19,9 +19,6 @@
 #ifndef _FCITX_WAYLAND_CORE_DISPLAY_H_
 #define _FCITX_WAYLAND_CORE_DISPLAY_H_
 
-#include "fcitx-utils/signals.h"
-#include "outputinformation.h"
-#include "wl_registry.h"
 #include <list>
 #include <memory>
 #include <set>
@@ -29,6 +26,9 @@
 #include <tuple>
 #include <unordered_map>
 #include <wayland-client.h>
+#include "fcitx-utils/signals.h"
+#include "outputinformation.h"
+#include "wl_registry.h"
 
 namespace fcitx {
 namespace wayland {

@@ -19,22 +19,22 @@
 // see <http://www.gnu.org/licenses/>.
 //
 
-#include <cstdint>
-#include <cstdio>
-#include <cstdlib>
 #include <fcntl.h>
 #include <sys/mman.h>
 #include <sys/stat.h>
 #include <unistd.h>
+#include <cstdint>
+#include <cstdio>
+#include <cstdlib>
 #if defined(__linux__) || defined(__GLIBC__)
 #include <endian.h>
 #else
 #include <sys/endian.h>
 #endif
-#include "fcitx-utils/fs.h"
-#include "fcitx-utils/unixfd.h"
 #include <cstring>
 #include <functional>
+#include "fcitx-utils/fs.h"
+#include "fcitx-utils/unixfd.h"
 
 using namespace fcitx;
 

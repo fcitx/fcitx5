@@ -1,6 +1,6 @@
 #include "zwp_input_panel_surface_v1.h"
-#include "wl_output.h"
 #include <cassert>
+#include "wl_output.h"
 namespace fcitx {
 namespace wayland {
 constexpr const char *ZwpInputPanelSurfaceV1::interface;

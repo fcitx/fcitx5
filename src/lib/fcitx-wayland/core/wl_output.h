@@ -1,8 +1,8 @@
 #ifndef WL_OUTPUT
 #define WL_OUTPUT
-#include "fcitx-utils/signals.h"
 #include <memory>
 #include <wayland-client.h>
+#include "fcitx-utils/signals.h"
 namespace fcitx {
 namespace wayland {
 class WlOutput final {

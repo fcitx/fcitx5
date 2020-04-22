@@ -18,7 +18,12 @@
 //
 
 #include "ibusfrontend.h"
-#include "dbus_public.h"
+#include <fcntl.h>
+#include <signal.h>
+#include <sys/wait.h>
+#include <unistd.h>
+#include <fstream>
+#include <mutex>
 #include "fcitx-config/iniparser.h"
 #include "fcitx-utils/dbus/message.h"
 #include "fcitx-utils/dbus/objectvtable.h"
@@ -32,12 +37,7 @@
 #include "fcitx/inputcontext.h"
 #include "fcitx/instance.h"
 #include "fcitx/misc_p.h"
-#include <fcntl.h>
-#include <fstream>
-#include <mutex>
-#include <signal.h>
-#include <sys/wait.h>
-#include <unistd.h>
+#include "dbus_public.h"
 
 #define IBUS_INPUTMETHOD_DBUS_INTERFACE "org.freedesktop.IBus"
 #define IBUS_INPUTCONTEXT_DBUS_INTERFACE "org.freedesktop.IBus.InputContext"

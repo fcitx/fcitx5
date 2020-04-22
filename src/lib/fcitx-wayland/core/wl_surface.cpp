@@ -1,9 +1,9 @@
 #include "wl_surface.h"
+#include <cassert>
 #include "wl_buffer.h"
 #include "wl_callback.h"
 #include "wl_output.h"
 #include "wl_region.h"
-#include <cassert>
 namespace fcitx {
 namespace wayland {
 constexpr const char *WlSurface::interface;

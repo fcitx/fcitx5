@@ -19,12 +19,12 @@
 #ifndef _FCITX_MODULES_XCB_XCBCONNECTION_H_
 #define _FCITX_MODULES_XCB_XCBCONNECTION_H_
 
+#include <string>
+#include <fcitx/instance.h>
+#include <xcb/xcb_keysyms.h>
 #include "fcitx-utils/event.h"
 #include "fcitx-utils/handlertable.h"
 #include "xcb_public.h"
-#include <fcitx/instance.h>
-#include <string>
-#include <xcb/xcb_keysyms.h>
 
 namespace fcitx {
 

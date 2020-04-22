@@ -17,12 +17,12 @@
 // see <http://www.gnu.org/licenses/>.
 //
 #include "inputbuffer.h"
-#include "fcitx-utils/utf8.h"
 #include <exception>
 #include <functional>
 #include <numeric>
 #include <stdexcept>
 #include <vector>
+#include "fcitx-utils/utf8.h"
 
 namespace fcitx {
 

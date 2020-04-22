@@ -19,11 +19,11 @@
 #ifndef _FCITX_UTILS_DBUS_SERVICEWATCHER_H_
 #define _FCITX_UTILS_DBUS_SERVICEWATCHER_H_
 
+#include <memory>
+#include <string>
 #include <fcitx-utils/dbus/bus.h>
 #include <fcitx-utils/handlertable.h>
 #include <fcitx-utils/macros.h>
-#include <memory>
-#include <string>
 
 namespace fcitx {
 namespace dbus {

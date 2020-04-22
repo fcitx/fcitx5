@@ -19,9 +19,9 @@
 #ifndef _FCITX_UTILS_FS_H_
 #define _FCITX_UTILS_FS_H_
 
-#include "fcitxutils_export.h"
 #include <optional>
 #include <string>
+#include "fcitxutils_export.h"
 
 /// \addtogroup FcitxUtils
 /// \{

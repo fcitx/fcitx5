@@ -18,7 +18,6 @@
 //
 #include <fcntl.h>
 
-#include "clipboard.h"
 #include "fcitx-config/iniparser.h"
 #include "fcitx-utils/i18n.h"
 #include "fcitx-utils/inputbuffer.h"
@@ -29,6 +28,7 @@
 #include "fcitx/inputcontext.h"
 #include "fcitx/inputcontextmanager.h"
 #include "fcitx/inputpanel.h"
+#include "clipboard.h"
 
 namespace fcitx {
 

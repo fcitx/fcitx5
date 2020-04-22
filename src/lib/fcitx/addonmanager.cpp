@@ -18,16 +18,16 @@
 //
 
 #include "addonmanager.h"
-#include "addonloader.h"
-#include "addonloader_p.h"
-#include "fcitx-config/iniparser.h"
-#include "fcitx-utils/log.h"
-#include "instance.h"
-#include "misc_p.h"
 #include <fcntl.h>
 #include <unistd.h>
 #include <unordered_map>
 #include <unordered_set>
+#include "fcitx-config/iniparser.h"
+#include "fcitx-utils/log.h"
+#include "addonloader.h"
+#include "addonloader_p.h"
+#include "instance.h"
+#include "misc_p.h"
 
 namespace fcitx {
 

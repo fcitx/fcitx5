@@ -19,11 +19,11 @@
 #ifndef _FCITX_UTILS_INSTRUSIVELIST_H_
 #define _FCITX_UTILS_INSTRUSIVELIST_H_
 
-#include "misc.h"
 #include <array>
 #include <cassert>
 #include <iterator>
 #include <type_traits>
+#include "misc.h"
 
 namespace fcitx {
 

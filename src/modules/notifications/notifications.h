@@ -19,6 +19,8 @@
 #ifndef _FCITX_MODULES_NOTIFICATIONS_NOTIFICATIONS_H_
 #define _FCITX_MODULES_NOTIFICATIONS_NOTIFICATIONS_H_
 
+#include <functional>
+#include <unordered_set>
 #include "fcitx-config/configuration.h"
 #include "fcitx-config/iniparser.h"
 #include "fcitx-utils/dbus/bus.h"
@@ -27,8 +29,6 @@
 #include "fcitx/addoninstance.h"
 #include "fcitx/instance.h"
 #include "notifications_public.h"
-#include <functional>
-#include <unordered_set>
 
 namespace fcitx {
 

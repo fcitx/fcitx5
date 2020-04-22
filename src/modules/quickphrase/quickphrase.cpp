@@ -18,6 +18,7 @@
 //
 #include "config.h"
 
+#include <fcntl.h>
 #include "fcitx-config/iniparser.h"
 #include "fcitx-utils/charutils.h"
 #include "fcitx-utils/i18n.h"
@@ -29,7 +30,6 @@
 #include "fcitx/inputcontextmanager.h"
 #include "fcitx/inputpanel.h"
 #include "quickphrase.h"
-#include <fcntl.h>
 
 namespace fcitx {
 

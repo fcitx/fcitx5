@@ -1,8 +1,8 @@
 #ifndef WL_SHM
 #define WL_SHM
-#include "fcitx-utils/signals.h"
 #include <memory>
 #include <wayland-client.h>
+#include "fcitx-utils/signals.h"
 namespace fcitx {
 namespace wayland {
 class WlShmPool;

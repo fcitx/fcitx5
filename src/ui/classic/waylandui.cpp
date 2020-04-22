@@ -18,10 +18,11 @@
 //
 
 #include "waylandui.h"
-#include "config.h"
-#include "display.h"
+#include <algorithm>
 #include "fcitx-utils/charutils.h"
 #include "fcitx-utils/stringutils.h"
+#include "config.h"
+#include "display.h"
 #include "waylandinputwindow.h"
 #include "waylandshmwindow.h"
 #include "wl_compositor.h"
@@ -30,14 +31,13 @@
 #include "wl_shm.h"
 #include "xcbui.h"
 #include "zwp_input_panel_v1.h"
-#include <algorithm>
 
 #ifdef CAIRO_EGL_FOUND
 
-#include "waylandeglwindow.h"
 #include <EGL/egl.h>
 #include <EGL/eglext.h>
 #include <cairo/cairo-gl.h>
+#include "waylandeglwindow.h"
 
 #endif
 

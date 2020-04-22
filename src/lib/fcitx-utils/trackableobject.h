@@ -24,9 +24,9 @@
 /// \file
 /// \brief Utitliy classes for statically tracking the life of a object.
 
+#include <memory>
 #include <fcitx-utils/handlertable.h>
 #include <fcitx-utils/macros.h>
-#include <memory>
 
 namespace fcitx {
 

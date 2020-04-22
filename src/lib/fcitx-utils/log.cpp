@@ -18,13 +18,13 @@
 //
 
 #include "log.h"
-#include "fs.h"
-#include "stringutils.h"
 #include <chrono>
-#include <fmt/chrono.h>
 #include <mutex>
 #include <type_traits>
 #include <unordered_set>
+#include <fmt/chrono.h>
+#include "fs.h"
+#include "stringutils.h"
 
 namespace fcitx {
 

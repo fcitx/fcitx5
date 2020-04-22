@@ -19,6 +19,8 @@
 #ifndef _FCITX_IM_KEYBOARD_KEYBOARD_H_
 #define _FCITX_IM_KEYBOARD_KEYBOARD_H_
 
+#include <xkbcommon/xkbcommon-compose.h>
+#include <xkbcommon/xkbcommon.h>
 #include "fcitx-config/configuration.h"
 #include "fcitx-config/iniparser.h"
 #include "fcitx-utils/i18n.h"
@@ -31,8 +33,6 @@
 #include "isocodes.h"
 #include "keyboard_public.h"
 #include "xkbrules.h"
-#include <xkbcommon/xkbcommon-compose.h>
-#include <xkbcommon/xkbcommon.h>
 
 namespace fcitx {
 

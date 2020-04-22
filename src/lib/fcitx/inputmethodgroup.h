@@ -19,12 +19,12 @@
 #ifndef _FCITX_INPUTMETHODGROUP_H_
 #define _FCITX_INPUTMETHODGROUP_H_
 
-#include "fcitxcore_export.h"
-#include <fcitx-utils/macros.h>
 #include <list>
 #include <memory>
 #include <string>
 #include <vector>
+#include <fcitx-utils/macros.h>
+#include "fcitxcore_export.h"
 
 namespace fcitx {
 

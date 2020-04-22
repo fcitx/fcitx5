@@ -19,9 +19,9 @@
 #ifndef _FCITX_USERINTERFACE_H_
 #define _FCITX_USERINTERFACE_H_
 
+#include <memory>
 #include <fcitx-utils/macros.h>
 #include <fcitx/addoninstance.h>
-#include <memory>
 
 namespace fcitx {
 

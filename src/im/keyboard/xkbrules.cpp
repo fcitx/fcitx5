@@ -18,10 +18,10 @@
 //
 
 #include "xkbrules.h"
-#include "fcitx-utils/stringutils.h"
-#include "xmlparser.h"
 #include <cstring>
 #include <list>
+#include "fcitx-utils/stringutils.h"
+#include "xmlparser.h"
 
 #ifdef _TEST_XKBRULES
 #include <iostream>

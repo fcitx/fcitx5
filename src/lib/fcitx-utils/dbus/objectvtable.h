@@ -19,15 +19,15 @@
 #ifndef _FCITX_UTILS_DBUS_OBJECTVTABLE_H_
 #define _FCITX_UTILS_DBUS_OBJECTVTABLE_H_
 
-#include <fcitx-utils/flags.h>
-#include <fcitx-utils/macros.h>
-#include <fcitx-utils/trackableobject.h>
 #include <functional>
 #include <memory>
 #include <mutex>
 #include <stdexcept>
 #include <string>
 #include <type_traits>
+#include <fcitx-utils/flags.h>
+#include <fcitx-utils/macros.h>
+#include <fcitx-utils/trackableobject.h>
 
 namespace fcitx {
 namespace dbus {

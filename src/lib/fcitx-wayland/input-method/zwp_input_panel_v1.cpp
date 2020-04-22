@@ -1,7 +1,7 @@
 #include "zwp_input_panel_v1.h"
+#include <cassert>
 #include "wl_surface.h"
 #include "zwp_input_panel_surface_v1.h"
-#include <cassert>
 namespace fcitx {
 namespace wayland {
 constexpr const char *ZwpInputPanelV1::interface;

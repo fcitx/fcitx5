@@ -17,10 +17,10 @@
 // see <http://www.gnu.org/licenses/>.
 //
 #include "quickphraseprovider.h"
+#include <fcntl.h>
+#include <fcitx-utils/utf8.h>
 #include "fcitx-utils/standardpath.h"
 #include "fcitx-utils/stringutils.h"
-#include <fcitx-utils/utf8.h>
-#include <fcntl.h>
 
 namespace fcitx {
 

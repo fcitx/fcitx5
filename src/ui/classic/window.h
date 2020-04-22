@@ -19,8 +19,8 @@
 #ifndef _FCITX_UI_CLASSIC_WINDOW_H_
 #define _FCITX_UI_CLASSIC_WINDOW_H_
 
-#include "fcitx/userinterface.h"
 #include <cairo/cairo.h>
+#include "fcitx/userinterface.h"
 
 namespace fcitx {
 namespace classicui {

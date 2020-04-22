@@ -17,11 +17,11 @@
 // see <http://www.gnu.org/licenses/>.
 //
 
-#include "addon/dummyaddon_public.h"
 #include "fcitx-utils/log.h"
 #include "fcitx-utils/metastring.h"
 #include "fcitx/addoninstance.h"
 #include "fcitx/addonmanager.h"
+#include "addon/dummyaddon_public.h"
 #include "testdir.h"
 
 double f(int) { return 0; }

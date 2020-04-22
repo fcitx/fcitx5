@@ -19,11 +19,11 @@
 #ifndef _FCITX_ACTION_H_
 #define _FCITX_ACTION_H_
 
-#include "fcitxcore_export.h"
+#include <memory>
 #include <fcitx-utils/element.h>
 #include <fcitx-utils/macros.h>
 #include <fcitx-utils/signals.h>
-#include <memory>
+#include "fcitxcore_export.h"
 
 namespace fcitx {
 class ActionPrivate;

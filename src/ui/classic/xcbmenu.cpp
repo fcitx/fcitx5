@@ -17,12 +17,12 @@
 // see <http://www.gnu.org/licenses/>.
 //
 #include "xcbmenu.h"
-#include "common.h"
-#include "fcitx/inputcontext.h"
-#include "fcitx/userinterfacemanager.h"
 #include <pango/pangocairo.h>
 #include <xcb/xcb_aux.h>
 #include <xcb/xcb_keysyms.h>
+#include "fcitx/inputcontext.h"
+#include "fcitx/userinterfacemanager.h"
+#include "common.h"
 
 namespace fcitx {
 namespace classicui {

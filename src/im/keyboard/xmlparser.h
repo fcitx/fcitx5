@@ -19,8 +19,8 @@
 #ifndef _FCITX_IM_KEYBOARD_XMLPARSER_H_
 #define _FCITX_IM_KEYBOARD_XMLPARSER_H_
 
-#include <expat.h>
 #include <string>
+#include <expat.h>
 
 namespace fcitx {
 

@@ -19,11 +19,11 @@
 #ifndef _FCITX_MENU_H_
 #define _FCITX_MENU_H_
 
-#include "fcitxcore_export.h"
+#include <memory>
 #include <fcitx-utils/element.h>
 #include <fcitx-utils/macros.h>
 #include <fcitx/action.h>
-#include <memory>
+#include "fcitxcore_export.h"
 
 namespace fcitx {
 

@@ -19,9 +19,9 @@
 #ifndef _FCITX_UI_CLASSIC_XCBMENU_H_
 #define _FCITX_UI_CLASSIC_XCBMENU_H_
 
+#include <pango/pango.h>
 #include "fcitx/menu.h"
 #include "xcbwindow.h"
-#include <pango/pango.h>
 
 namespace fcitx {
 namespace classicui {

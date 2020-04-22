@@ -19,8 +19,8 @@
 #ifndef _FCITX_UI_CLASSIC_XCBUI_H_
 #define _FCITX_UI_CLASSIC_XCBUI_H_
 
-#include "classicui.h"
 #include "fcitx-utils/rect.h"
+#include "classicui.h"
 
 #undef None
 

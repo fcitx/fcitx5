@@ -18,21 +18,21 @@
 //
 
 #include "inputmethodmanager.h"
-#include "addonmanager.h"
+#include <fcntl.h>
+#include <unistd.h>
+#include <cassert>
+#include <list>
+#include <unordered_map>
 #include "fcitx-config/iniparser.h"
 #include "fcitx-config/rawconfig.h"
 #include "fcitx-utils/i18n.h"
 #include "fcitx-utils/log.h"
 #include "fcitx-utils/standardpath.h"
+#include "addonmanager.h"
 #include "inputmethodconfig_p.h"
 #include "inputmethodengine.h"
 #include "instance.h"
 #include "misc_p.h"
-#include <cassert>
-#include <fcntl.h>
-#include <list>
-#include <unistd.h>
-#include <unordered_map>
 
 namespace fcitx {
 

@@ -27,9 +27,9 @@
 #include <time.h>
 #include <unistd.h>
 
-#include "errorhandler.h"
 #include "fcitx-utils/fs.h"
 #include "fcitx/instance.h"
+#include "errorhandler.h"
 
 #if defined(EXECINFO_FOUND)
 #include <execinfo.h>

@@ -19,9 +19,9 @@
 #ifndef _FCITX_CONFIG_CONFIGURATION_H_
 #define _FCITX_CONFIG_CONFIGURATION_H_
 
-#include "fcitxconfig_export.h"
 #include <fcitx-config/option.h>
 #include <fcitx-utils/macros.h>
+#include "fcitxconfig_export.h"
 
 #include <memory>
 

@@ -24,14 +24,14 @@
 /// \file
 /// \brief String handle utilities.
 
-#include "fcitxutils_export.h"
-#include "stringutils_details.h"
 #include <cstddef>
 #include <initializer_list>
 #include <iterator>
 #include <string>
 #include <utility>
 #include <vector>
+#include "fcitxutils_export.h"
+#include "stringutils_details.h"
 
 namespace fcitx {
 namespace stringutils {

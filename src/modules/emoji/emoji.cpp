@@ -17,13 +17,13 @@
 // see <http://www.gnu.org/licenses/>.
 //
 #include "emoji.h"
-#include "../../im/keyboard/xmlparser.h"
-#include "config.h"
 #include "fcitx-utils/charutils.h"
 #include "fcitx-utils/misc_p.h"
 #include "fcitx-utils/stringutils.h"
 #include "fcitx-utils/utf8.h"
 #include "fcitx/addonfactory.h"
+#include "../../im/keyboard/xmlparser.h"
+#include "config.h"
 
 namespace fcitx {
 class EmojiParser : public XMLParser {

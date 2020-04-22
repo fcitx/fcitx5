@@ -18,8 +18,8 @@
 //
 
 #include "servicewatcher.h"
-#include "../trackableobject.h"
 #include <unordered_map>
+#include "../trackableobject.h"
 
 namespace fcitx {
 namespace dbus {

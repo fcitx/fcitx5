@@ -19,14 +19,14 @@
 #ifndef _FCITX_UTILS_ICONTHEME_H_
 #define _FCITX_UTILS_ICONTHEME_H_
 
-#include "fcitxcore_export.h"
 #include <cstdlib>
+#include <memory>
 #include <fcitx-config/enum.h>
 #include <fcitx-config/rawconfig.h>
 #include <fcitx-utils/i18nstring.h>
 #include <fcitx-utils/macros.h>
 #include <fcitx-utils/standardpath.h>
-#include <memory>
+#include "fcitxcore_export.h"
 
 /// \addtogroup FcitxUtils
 /// \{

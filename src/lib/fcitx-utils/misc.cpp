@@ -17,10 +17,10 @@
 // see <http://www.gnu.org/licenses/>.
 //
 #include "misc.h"
-#include "log.h"
-#include <fmt/format.h>
 #include <sys/wait.h>
 #include <unistd.h>
+#include <fmt/format.h>
+#include "log.h"
 
 namespace fcitx {
 

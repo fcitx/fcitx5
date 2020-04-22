@@ -19,8 +19,8 @@
 #ifndef _FCITX_UTILS_DBUS_MESSAGE_P_H_
 #define _FCITX_UTILS_DBUS_MESSAGE_P_H_
 
-#include "../message.h"
 #include <dbus/dbus.h>
+#include "../message.h"
 
 namespace fcitx {
 namespace dbus {

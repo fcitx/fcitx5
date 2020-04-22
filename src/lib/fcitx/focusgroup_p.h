@@ -19,9 +19,9 @@
 #ifndef _FCITX_FOCUSGROUP_P_H_
 #define _FCITX_FOCUSGROUP_P_H_
 
+#include <unordered_set>
 #include "fcitx-utils/intrusivelist.h"
 #include "focusgroup.h"
-#include <unordered_set>
 
 namespace fcitx {
 

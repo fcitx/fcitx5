@@ -19,14 +19,14 @@
 #ifndef _FCITX_INSTANCE_H_
 #define _FCITX_INSTANCE_H_
 
-#include "fcitxcore_export.h"
+#include <memory>
 #include <fcitx-utils/connectableobject.h>
 #include <fcitx-utils/handlertable.h>
 #include <fcitx-utils/macros.h>
 #include <fcitx/event.h>
 #include <fcitx/globalconfig.h>
 #include <fcitx/text.h>
-#include <memory>
+#include "fcitxcore_export.h"
 
 #define FCITX_INVALID_COMPOSE_RESULT 0xffffffff
 

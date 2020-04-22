@@ -19,10 +19,10 @@
 #ifndef _FCITX_UTILS_DBUS_BUS_P_H_
 #define _FCITX_UTILS_DBUS_BUS_P_H_
 
+#include <dbus/dbus.h>
 #include "../../log.h"
 #include "../bus.h"
 #include "servicenamecache.h"
-#include <dbus/dbus.h>
 
 namespace fcitx {
 namespace dbus {

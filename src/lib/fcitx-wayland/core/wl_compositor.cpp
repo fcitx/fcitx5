@@ -1,7 +1,7 @@
 #include "wl_compositor.h"
+#include <cassert>
 #include "wl_region.h"
 #include "wl_surface.h"
-#include <cassert>
 namespace fcitx {
 namespace wayland {
 constexpr const char *WlCompositor::interface;

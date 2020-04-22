@@ -21,8 +21,8 @@
 #ifndef _FCITX_MODULES_SPELL_SPELL_ENCHANT_H_
 #define _FCITX_MODULES_SPELL_SPELL_ENCHANT_H_
 
-#include "spell.h"
 #include <enchant.h>
+#include "spell.h"
 
 namespace fcitx {
 

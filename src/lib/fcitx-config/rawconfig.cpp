@@ -17,9 +17,9 @@
 // see <http://www.gnu.org/licenses/>.
 //
 #include "rawconfig.h"
-#include "fcitx-utils/stringutils.h"
 #include <list>
 #include <unordered_map>
+#include "fcitx-utils/stringutils.h"
 
 namespace fcitx {
 

@@ -19,9 +19,9 @@
 #ifndef _FCITX5_UI_CLASSIC_COMMON_H_
 #define _FCITX5_UI_CLASSIC_COMMON_H_
 
-#include "fcitx-utils/log.h"
-#include <glib-object.h>
 #include <memory>
+#include <glib-object.h>
+#include "fcitx-utils/log.h"
 
 namespace fcitx {
 namespace classicui {

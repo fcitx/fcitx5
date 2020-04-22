@@ -1,8 +1,8 @@
 #ifndef WL_SUBCOMPOSITOR
 #define WL_SUBCOMPOSITOR
-#include "fcitx-utils/signals.h"
 #include <memory>
 #include <wayland-client.h>
+#include "fcitx-utils/signals.h"
 namespace fcitx {
 namespace wayland {
 class WlSubsurface;

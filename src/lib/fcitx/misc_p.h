@@ -19,11 +19,11 @@
 #ifndef _FCITX_MISC_P_H_
 #define _FCITX_MISC_P_H_
 
+#include <string>
+#include <type_traits>
 #include "fcitx-utils/log.h"
 #include "fcitx-utils/misc_p.h"
 #include "fcitx/candidatelist.h"
-#include <string>
-#include <type_traits>
 
 namespace fcitx {
 

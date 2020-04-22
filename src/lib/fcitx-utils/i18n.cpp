@@ -1,12 +1,12 @@
 
 #include "i18n.h"
-#include "fcitxutils_export.h"
-#include "log.h"
-#include "standardpath.h"
-#include <libintl.h>
 #include <mutex>
 #include <string>
 #include <unordered_set>
+#include <libintl.h>
+#include "fcitxutils_export.h"
+#include "log.h"
+#include "standardpath.h"
 
 namespace fcitx {
 

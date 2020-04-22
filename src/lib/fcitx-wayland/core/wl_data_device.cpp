@@ -1,8 +1,8 @@
 #include "wl_data_device.h"
+#include <cassert>
 #include "wl_data_offer.h"
 #include "wl_data_source.h"
 #include "wl_surface.h"
-#include <cassert>
 namespace fcitx {
 namespace wayland {
 constexpr const char *WlDataDevice::interface;

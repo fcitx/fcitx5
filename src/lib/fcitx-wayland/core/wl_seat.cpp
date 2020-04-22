@@ -1,8 +1,8 @@
 #include "wl_seat.h"
+#include <cassert>
 #include "wl_keyboard.h"
 #include "wl_pointer.h"
 #include "wl_touch.h"
-#include <cassert>
 namespace fcitx {
 namespace wayland {
 constexpr const char *WlSeat::interface;

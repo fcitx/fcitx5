@@ -24,12 +24,12 @@
 /// \file
 /// \brief Class to handler dynamic library.
 
-#include "fcitxutils_export.h"
-#include <fcitx-utils/flags.h>
-#include <fcitx-utils/macros.h>
 #include <functional>
 #include <memory>
 #include <string>
+#include <fcitx-utils/flags.h>
+#include <fcitx-utils/macros.h>
+#include "fcitxutils_export.h"
 
 namespace fcitx {
 

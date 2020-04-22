@@ -19,12 +19,12 @@
 #ifndef _FCITX_UTILS_DBUS_BUS_H_
 #define _FCITX_UTILS_DBUS_BUS_H_
 
+#include <string>
+#include <vector>
 #include <fcitx-utils/dbus/matchrule.h>
 #include <fcitx-utils/dbus/message.h>
 #include <fcitx-utils/dbus/objectvtable.h>
 #include <fcitx-utils/event.h>
-#include <string>
-#include <vector>
 
 namespace fcitx {
 

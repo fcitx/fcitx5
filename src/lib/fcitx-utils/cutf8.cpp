@@ -18,10 +18,10 @@
 //
 
 #include "cutf8.h"
-#include "fcitxutils_export.h"
-#include "utf8.h"
 #include <cstdint>
 #include <cstring>
+#include "fcitxutils_export.h"
+#include "utf8.h"
 
 /** check utf8 character */
 #define FCITX_ISUTF8_CB(c) (((c)&0xc0) == 0x80)

@@ -17,17 +17,17 @@
 // see <http://www.gnu.org/licenses/>.
 //
 #include "xim.h"
+#include <unistd.h>
+#include <cstdarg>
+#include <cstdio>
+#include <xcb-imdkit/encoding.h>
+#include <xcb/xcb_aux.h>
+#include <xkbcommon/xkbcommon.h>
 #include "fcitx-utils/stringutils.h"
 #include "fcitx-utils/utf8.h"
 #include "fcitx/focusgroup.h"
 #include "fcitx/inputcontext.h"
 #include "fcitx/instance.h"
-#include <cstdarg>
-#include <cstdio>
-#include <unistd.h>
-#include <xcb-imdkit/encoding.h>
-#include <xcb/xcb_aux.h>
-#include <xkbcommon/xkbcommon.h>
 
 FCITX_DEFINE_LOG_CATEGORY(xim, "xim")
 FCITX_DEFINE_LOG_CATEGORY(xim_key, "xim_key")

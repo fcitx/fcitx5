@@ -19,12 +19,12 @@
 #ifndef _FCITX_UI_CLASSIC_WAYLANDSHMWINDOW_H_
 #define _FCITX_UI_CLASSIC_WAYLANDSHMWINDOW_H_
 
+#include <cairo/cairo.h>
 #include "buffer.h"
 #include "waylandui.h"
 #include "waylandwindow.h"
 #include "wl_callback.h"
 #include "wl_shm.h"
-#include <cairo/cairo.h>
 
 namespace fcitx {
 namespace classicui {

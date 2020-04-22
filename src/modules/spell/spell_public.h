@@ -19,8 +19,8 @@
 #ifndef _FCITX_MODULES_SPELL_SPELL_PUBLIC_H_
 #define _FCITX_MODULES_SPELL_SPELL_PUBLIC_H_
 
-#include <fcitx/addoninstance.h>
 #include <vector>
+#include <fcitx/addoninstance.h>
 
 namespace fcitx {
 enum class SpellProvider { Presage, Custom, Enchant };

@@ -19,10 +19,10 @@
 #ifndef _FCITX_UTILS_DBUS_MATCHRULE_H_
 #define _FCITX_UTILS_DBUS_MATCHRULE_H_
 
-#include <fcitx-utils/macros.h>
 #include <memory>
 #include <string>
 #include <vector>
+#include <fcitx-utils/macros.h>
 
 namespace fcitx {
 namespace dbus {

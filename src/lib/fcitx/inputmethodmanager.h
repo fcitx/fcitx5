@@ -19,14 +19,14 @@
 #ifndef _FCITX_INPUTMETHODMANAGER_H_
 #define _FCITX_INPUTMETHODMANAGER_H_
 
-#include "fcitxcore_export.h"
-#include <fcitx-utils/connectableobject.h>
-#include <fcitx-utils/macros.h>
-#include <fcitx/inputmethodgroup.h>
 #include <functional>
 #include <memory>
 #include <string>
 #include <vector>
+#include <fcitx-utils/connectableobject.h>
+#include <fcitx-utils/macros.h>
+#include <fcitx/inputmethodgroup.h>
+#include "fcitxcore_export.h"
 
 namespace fcitx {
 

@@ -19,13 +19,13 @@
 #ifndef _FCITX_ADDONMANAGER_H_
 #define _FCITX_ADDONMANAGER_H_
 
-#include "fcitxcore_export.h"
-#include <fcitx-utils/macros.h>
-#include <fcitx/addoninfo.h>
-#include <fcitx/addonloader.h>
 #include <memory>
 #include <string>
 #include <unordered_set>
+#include <fcitx-utils/macros.h>
+#include <fcitx/addoninfo.h>
+#include <fcitx/addonloader.h>
+#include "fcitxcore_export.h"
 
 namespace fcitx {
 

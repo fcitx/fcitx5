@@ -19,9 +19,9 @@
 #ifndef _TESTFRONTEND_TESTFRONTEND_PUBLIC_H_
 #define _TESTFRONTEND_TESTFRONTEND_PUBLIC_H_
 
+#include <string>
 #include <fcitx/addoninstance.h>
 #include <fcitx/inputcontext.h>
-#include <string>
 
 FCITX_ADDON_DECLARE_FUNCTION(TestFrontend, createInputContext,
                              ICUUID(const std::string &));

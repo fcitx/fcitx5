@@ -19,10 +19,10 @@
 #ifndef _FCITX_UTILS_DBUS_VARIANT_H_
 #define _FCITX_UTILS_DBUS_VARIANT_H_
 
-#include "fcitxutils_export.h"
-#include "message.h"
 #include <memory>
 #include <string>
+#include "fcitxutils_export.h"
+#include "message.h"
 
 namespace fcitx {
 namespace dbus {

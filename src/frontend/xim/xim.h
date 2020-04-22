@@ -21,6 +21,9 @@
 
 #include <xcb-imdkit/imdkit.h>
 
+#include <list>
+#include <unordered_map>
+#include <vector>
 #include "fcitx-config/iniparser.h"
 #include "fcitx-utils/event.h"
 #include "fcitx-utils/i18n.h"
@@ -30,9 +33,6 @@
 #include "fcitx/focusgroup.h"
 #include "fcitx/instance.h"
 #include "xcb_public.h"
-#include <list>
-#include <unordered_map>
-#include <vector>
 
 namespace fcitx {
 

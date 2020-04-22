@@ -19,12 +19,12 @@
 #ifndef _FCITX_UI_CLASSIC_WAYLANDUI_H_
 #define _FCITX_UI_CLASSIC_WAYLANDUI_H_
 
+#include <cairo/cairo.h>
 #include "classicui.h"
 #include "config.h"
 #include "display.h"
 #include "waylandpointer.h"
 #include "wl_pointer.h"
-#include <cairo/cairo.h>
 
 #ifdef CAIRO_EGL_FOUND
 

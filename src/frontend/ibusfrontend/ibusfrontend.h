@@ -19,6 +19,7 @@
 #ifndef _FCITX_FRONTEND_IBUSFRONTEND_IBUSFRONTEND_H_
 #define _FCITX_FRONTEND_IBUSFRONTEND_IBUSFRONTEND_H_
 
+#include <unistd.h>
 #include "fcitx-utils/dbus/servicewatcher.h"
 #include "fcitx-utils/event.h"
 #include "fcitx/addonfactory.h"
@@ -26,7 +27,6 @@
 #include "fcitx/addonmanager.h"
 #include "fcitx/focusgroup.h"
 #include "fcitx/instance.h"
-#include <unistd.h>
 
 namespace fcitx {
 

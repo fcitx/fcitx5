@@ -19,12 +19,12 @@
 #ifndef _FCITX5_MODULES_QUICKPHRASE_QUICKPHRASEPROVIDER_H_
 #define _FCITX5_MODULES_QUICKPHRASE_QUICKPHRASEPROVIDER_H_
 
-#include "fcitx-utils/connectableobject.h"
-#include "fcitx-utils/standardpath.h"
-#include "quickphrase_public.h"
 #include <functional>
 #include <map>
 #include <string>
+#include "fcitx-utils/connectableobject.h"
+#include "fcitx-utils/standardpath.h"
+#include "quickphrase_public.h"
 
 namespace fcitx {
 

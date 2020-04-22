@@ -17,11 +17,11 @@
 // see <http://www.gnu.org/licenses/>.
 //
 
+#include <unistd.h>
 #include "fcitx-config/dbushelper.h"
 #include "fcitx-config/iniparser.h"
 #include "fcitx-utils/dbus/variant.h"
 #include "testconfig.h"
-#include <unistd.h>
 
 using namespace fcitx;
 

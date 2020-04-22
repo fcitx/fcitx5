@@ -19,7 +19,7 @@
 #ifndef _FCITX_MODULES_CLIPBOARD_CLIPBOARD_H_
 #define _FCITX_MODULES_CLIPBOARD_CLIPBOARD_H_
 
-#include "clipboard_public.h"
+#include <map>
 #include "fcitx-config/configuration.h"
 #include "fcitx-config/enum.h"
 #include "fcitx-config/iniparser.h"
@@ -30,8 +30,8 @@
 #include "fcitx/addoninstance.h"
 #include "fcitx/inputcontextproperty.h"
 #include "fcitx/instance.h"
+#include "clipboard_public.h"
 #include "xcb_public.h"
-#include <map>
 
 namespace fcitx {
 

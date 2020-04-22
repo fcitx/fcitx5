@@ -17,10 +17,10 @@
 // see <http://www.gnu.org/licenses/>.
 //
 
-#include "fcitx-utils/log.h"
-#include "fcitx-utils/metastring.h"
 #include <string>
 #include <type_traits>
+#include "fcitx-utils/log.h"
+#include "fcitx-utils/metastring.h"
 
 int main() {
     ::fcitx::MetaStringTrim<'A', 'B'>::type a;

@@ -17,6 +17,16 @@
 // see <http://www.gnu.org/licenses/>.
 //
 #include "buffer.h"
+#include <fcntl.h>
+#include <stdlib.h>
+#include <string.h>
+#include <sys/mman.h>
+#include <unistd.h>
+#include <cassert>
+#include <stdexcept>
+#include <vector>
+#include <cairo/cairo.h>
+#include <wayland-client.h>
 #include "fcitx-utils/stringutils.h"
 #include "theme.h"
 #include "wl_buffer.h"
@@ -24,16 +34,6 @@
 #include "wl_shm.h"
 #include "wl_shm_pool.h"
 #include "wl_surface.h"
-#include <cairo/cairo.h>
-#include <cassert>
-#include <fcntl.h>
-#include <stdexcept>
-#include <stdlib.h>
-#include <string.h>
-#include <sys/mman.h>
-#include <unistd.h>
-#include <vector>
-#include <wayland-client.h>
 
 namespace fcitx {
 namespace wayland {

@@ -19,10 +19,10 @@
 #ifndef _FCITX_MODULES_NOTIFICATIONS_NOTIFICATIONS_PUBLIC_H_
 #define _FCITX_MODULES_NOTIFICATIONS_NOTIFICATIONS_PUBLIC_H_
 
-#include <fcitx/addoninstance.h>
 #include <functional>
 #include <string>
 #include <vector>
+#include <fcitx/addoninstance.h>
 
 namespace fcitx {
 

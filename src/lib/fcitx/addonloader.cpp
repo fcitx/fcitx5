@@ -17,10 +17,10 @@
 // see <http://www.gnu.org/licenses/>.
 //
 
-#include "addonloader_p.h"
-#include "config.h"
 #include "fcitx-utils/library.h"
 #include "fcitx-utils/log.h"
+#include "addonloader_p.h"
+#include "config.h"
 
 namespace fcitx {
 

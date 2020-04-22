@@ -1,10 +1,10 @@
+#include <cstdio>
+#include <cstdlib>
+#include <cstring>
 #include "fcitx-utils/key.h"
 #include "fcitx-utils/keynametable-compat.h"
 #include "fcitx-utils/keynametable.h"
 #include "fcitx-utils/log.h"
-#include <cstdio>
-#include <cstdlib>
-#include <cstring>
 
 #define CHECK_ARRAY_ORDER(ARRAY, COMPARE_FUNC)                                 \
     for (size_t i = 0; i < FCITX_ARRAY_SIZE(ARRAY) - 1; i++) {                 \

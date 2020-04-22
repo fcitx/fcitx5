@@ -1,6 +1,6 @@
 #include "zwp_input_method_context_v1.h"
-#include "wl_keyboard.h"
 #include <cassert>
+#include "wl_keyboard.h"
 namespace fcitx {
 namespace wayland {
 constexpr const char *ZwpInputMethodContextV1::interface;

@@ -19,8 +19,8 @@
 #ifndef _FCITX5_MODULES_EMOJI_EMOJI_PUBLIC_H_
 #define _FCITX5_MODULES_EMOJI_EMOJI_PUBLIC_H_
 
-#include <fcitx/addoninstance.h>
 #include <string>
+#include <fcitx/addoninstance.h>
 
 FCITX_ADDON_DECLARE_FUNCTION(Emoji, query,
                              const std::vector<std::string> &(

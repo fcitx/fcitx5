@@ -19,10 +19,10 @@
 #ifndef _FCITX_WAYLAND_CORE_BUFFER_H_
 #define _FCITX_WAYLAND_CORE_BUFFER_H_
 
-#include "fcitx-utils/signals.h"
-#include <cairo/cairo.h>
 #include <memory>
+#include <cairo/cairo.h>
 #include <wayland-client.h>
+#include "fcitx-utils/signals.h"
 
 namespace fcitx {
 namespace wayland {

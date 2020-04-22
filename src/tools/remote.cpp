@@ -19,11 +19,11 @@
 
 #include "config.h"
 
-#include "fcitx-utils/dbus/bus.h"
-#include "fcitx-utils/utf8.h"
+#include <unistd.h>
 #include <iostream>
 #include <sys/signal.h>
-#include <unistd.h>
+#include "fcitx-utils/dbus/bus.h"
+#include "fcitx-utils/utf8.h"
 
 using namespace fcitx;
 using namespace fcitx::dbus;

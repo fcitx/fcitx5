@@ -16,11 +16,11 @@
 // License along with this library; see the file COPYING. If not,
 // see <http://www.gnu.org/licenses/>.
 //
-#include "emoji_public.h"
-#include "testdir.h"
+#include <iostream>
 #include <fcitx-utils/log.h>
 #include <fcitx/addonmanager.h>
-#include <iostream>
+#include "emoji_public.h"
+#include "testdir.h"
 
 int main() {
     setenv("FCITX_ADDON_DIRS", FCITX5_BINARY_DIR "/src/modules/emoji", 1);

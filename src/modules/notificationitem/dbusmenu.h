@@ -19,6 +19,7 @@
 #ifndef _FCITX_MODULES_NOTIFICATIONITEM_DBUSMENU_H_
 #define _FCITX_MODULES_NOTIFICATIONITEM_DBUSMENU_H_
 
+#include <unordered_set>
 #include "fcitx-utils/dbus/message.h"
 #include "fcitx-utils/dbus/objectvtable.h"
 #include "fcitx-utils/dbus/variant.h"
@@ -26,7 +27,6 @@
 #include "fcitx-utils/i18n.h"
 #include "fcitx-utils/log.h"
 #include "fcitx/inputcontext.h"
-#include <unordered_set>
 
 namespace fcitx {
 

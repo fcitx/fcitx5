@@ -23,10 +23,10 @@
 #include <sys/stat.h>
 #include <time.h>
 
-#include "spell-enchant.h"
 #include <dlfcn.h>
-#include <enchant.h>
 #include <stdexcept>
+#include <enchant.h>
+#include "spell-enchant.h"
 
 namespace fcitx {
 

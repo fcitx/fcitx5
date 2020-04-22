@@ -18,8 +18,15 @@
 //
 
 #include "instance.h"
-#include "addonmanager.h"
-#include "config.h"
+#include <fcntl.h>
+#include <signal.h>
+#include <sys/wait.h>
+#include <unistd.h>
+#include <stdexcept>
+#include <fmt/format.h>
+#include <getopt.h>
+#include <xkbcommon/xkbcommon-compose.h>
+#include <xkbcommon/xkbcommon.h>
 #include "fcitx-config/iniparser.h"
 #include "fcitx-utils/event.h"
 #include "fcitx-utils/i18n.h"
@@ -27,6 +34,8 @@
 #include "fcitx-utils/standardpath.h"
 #include "fcitx-utils/stringutils.h"
 #include "fcitx-utils/utf8.h"
+#include "addonmanager.h"
+#include "config.h"
 #include "focusgroup.h"
 #include "globalconfig.h"
 #include "inputcontextmanager.h"
@@ -36,15 +45,6 @@
 #include "inputmethodmanager.h"
 #include "misc_p.h"
 #include "userinterfacemanager.h"
-#include <fcntl.h>
-#include <fmt/format.h>
-#include <getopt.h>
-#include <signal.h>
-#include <stdexcept>
-#include <sys/wait.h>
-#include <unistd.h>
-#include <xkbcommon/xkbcommon-compose.h>
-#include <xkbcommon/xkbcommon.h>
 
 FCITX_DEFINE_LOG_CATEGORY(keyTrace, "key_trace");
 

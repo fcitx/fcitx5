@@ -19,9 +19,9 @@
 #ifndef _FCITX_ADDONFACTORY_H_
 #define _FCITX_ADDONFACTORY_H_
 
-#include "fcitxcore_export.h"
-#include <fcitx/addoninstance.h>
 #include <string>
+#include <fcitx/addoninstance.h>
+#include "fcitxcore_export.h"
 
 namespace fcitx {
 

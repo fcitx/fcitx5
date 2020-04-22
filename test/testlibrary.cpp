@@ -17,10 +17,10 @@
 // see <http://www.gnu.org/licenses/>.
 //
 
+#include <string.h>
 #include "fcitx-utils/library.h"
 #include "fcitx-utils/log.h"
 #include "fcitxutils_export.h"
-#include <string.h>
 
 #define DATA "AAAAAAAAA"
 #define MAGIC "MAGIC_TEST_DATA"

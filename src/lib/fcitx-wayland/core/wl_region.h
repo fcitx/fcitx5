@@ -1,8 +1,8 @@
 #ifndef WL_REGION
 #define WL_REGION
-#include "fcitx-utils/signals.h"
 #include <memory>
 #include <wayland-client.h>
+#include "fcitx-utils/signals.h"
 namespace fcitx {
 namespace wayland {
 class WlRegion final {

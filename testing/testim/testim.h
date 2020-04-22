@@ -19,10 +19,10 @@
 #ifndef _TESTIM_TESTIM_H_
 #define _TESTIM_TESTIM_H_
 
+#include <functional>
 #include "fcitx/inputmethodengine.h"
 #include "fcitx/instance.h"
 #include "testim_public.h"
-#include <functional>
 
 namespace fcitx {
 

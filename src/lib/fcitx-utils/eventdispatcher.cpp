@@ -17,13 +17,13 @@
 // see <http://www.gnu.org/licenses/>.
 //
 #include "eventdispatcher.h"
-#include "event.h"
-#include "unixfd.h"
 #include <fcntl.h>
+#include <unistd.h>
 #include <mutex>
 #include <queue>
 #include <stdexcept>
-#include <unistd.h>
+#include "event.h"
+#include "unixfd.h"
 
 namespace fcitx {
 class EventDispatcherPrivate {

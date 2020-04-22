@@ -19,10 +19,10 @@
 #ifndef _FCITX_INPUTCONTEXTPROPERTY_H_
 #define _FCITX_INPUTCONTEXTPROPERTY_H_
 
-#include "fcitxcore_export.h"
+#include <memory>
 #include <fcitx-utils/macros.h>
 #include <fcitx-utils/trackableobject.h>
-#include <memory>
+#include "fcitxcore_export.h"
 
 namespace fcitx {
 

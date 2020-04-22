@@ -19,11 +19,11 @@
 #ifndef _FCITX_FRONTEND_WAYLANDIM_WAYLANDIM_H_
 #define _FCITX_FRONTEND_WAYLANDIM_WAYLANDIM_H_
 
-#include "wayland_public.h"
 #include <fcitx/addonfactory.h>
 #include <fcitx/addoninstance.h>
 #include <fcitx/addonmanager.h>
 #include <fcitx/instance.h>
+#include "wayland_public.h"
 
 namespace fcitx {
 

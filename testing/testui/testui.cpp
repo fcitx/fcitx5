@@ -18,6 +18,7 @@
 //
 
 #include "testui.h"
+#include <iostream>
 #include "fcitx/action.h"
 #include "fcitx/addonfactory.h"
 #include "fcitx/addonmanager.h"
@@ -25,7 +26,6 @@
 #include "fcitx/inputcontext.h"
 #include "fcitx/inputpanel.h"
 #include "fcitx/statusarea.h"
-#include <iostream>
 
 namespace fcitx {
 

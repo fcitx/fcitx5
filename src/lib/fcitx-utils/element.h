@@ -19,9 +19,9 @@
 #ifndef _FCITX_UTILS_ELEMENT_H_
 #define _FCITX_UTILS_ELEMENT_H_
 
-#include "fcitxutils_export.h"
-#include <fcitx-utils/connectableobject.h>
 #include <unordered_set>
+#include <fcitx-utils/connectableobject.h>
+#include "fcitxutils_export.h"
 
 /// \addtogroup FcitxUtils
 /// \{

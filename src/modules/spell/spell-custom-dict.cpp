@@ -20,12 +20,12 @@
 //
 
 #include "spell-custom-dict.h"
+#include <fcntl.h>
+#include <sys/stat.h>
+#include <stdexcept>
 #include "fcitx-utils/cutf8.h"
 #include "fcitx-utils/fs.h"
 #include "fcitx-utils/standardpath.h"
-#include <fcntl.h>
-#include <stdexcept>
-#include <sys/stat.h>
 #if defined(__linux__) || defined(__GLIBC__)
 #include <endian.h>
 #else

@@ -19,8 +19,8 @@
 #ifndef _FCITX_IM_KEYBOARD_KEYBOARD_PUBLIC_H_
 #define _FCITX_IM_KEYBOARD_KEYBOARD_PUBLIC_H_
 
-#include <fcitx/addoninstance.h>
 #include <functional>
+#include <fcitx/addoninstance.h>
 
 FCITX_ADDON_DECLARE_FUNCTION(
     KeyboardEngine, foreachLayout,

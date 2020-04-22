@@ -19,15 +19,15 @@
 #ifndef _FCITX_ADDONINSTANCE_H_
 #define _FCITX_ADDONINSTANCE_H_
 
-#include "fcitxcore_export.h"
-#include <fcitx-config/configuration.h>
-#include <fcitx-utils/library.h>
-#include <fcitx-utils/metastring.h>
-#include <fcitx/addoninstance_details.h>
 #include <functional>
 #include <memory>
 #include <type_traits>
 #include <unordered_map>
+#include <fcitx-config/configuration.h>
+#include <fcitx-utils/library.h>
+#include <fcitx-utils/metastring.h>
+#include <fcitx/addoninstance_details.h>
+#include "fcitxcore_export.h"
 
 /// \addtogroup FcitxCore
 /// \{

@@ -18,11 +18,11 @@
 //
 
 #include "testconfig.h"
-#include "fcitx-utils/log.h"
+#include <vector>
 #include <fcitx-config/configuration.h>
 #include <fcitx-config/enum.h>
 #include <fcitx-config/iniparser.h>
-#include <vector>
+#include "fcitx-utils/log.h"
 
 using namespace fcitx;
 

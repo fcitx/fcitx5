@@ -19,13 +19,13 @@
 #ifndef _FCITX_USERINTERFACEMANAGER_H_
 #define _FCITX_USERINTERFACEMANAGER_H_
 
-#include "fcitxcore_export.h"
+#include <memory>
 #include <fcitx-utils/macros.h>
 #include <fcitx/addonmanager.h>
 #include <fcitx/inputpanel.h>
 #include <fcitx/statusarea.h>
 #include <fcitx/userinterface.h>
-#include <memory>
+#include "fcitxcore_export.h"
 
 namespace fcitx {
 

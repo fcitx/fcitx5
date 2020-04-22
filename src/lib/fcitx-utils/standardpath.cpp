@@ -18,19 +18,19 @@
 //
 
 #include "standardpath.h"
-#include "config.h"
-#include "fs.h"
-#include "stringutils.h"
-#include <algorithm>
 #include <dirent.h>
 #include <fcntl.h>
-#include <stdexcept>
 #include <string.h>
 #include <sys/stat.h>
 #include <unistd.h>
+#include <algorithm>
+#include <stdexcept>
 #include <unordered_map>
 #include <unordered_set>
 #include <vector>
+#include "config.h"
+#include "fs.h"
+#include "stringutils.h"
 
 namespace fcitx {
 

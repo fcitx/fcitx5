@@ -18,7 +18,6 @@
 //
 
 #include "kimpanel.h"
-#include "dbus_public.h"
 #include "fcitx-utils/dbus/objectvtable.h"
 #include "fcitx-utils/dbus/servicewatcher.h"
 #include "fcitx-utils/i18n.h"
@@ -34,6 +33,7 @@
 #include "fcitx/menu.h"
 #include "fcitx/misc_p.h"
 #include "fcitx/userinterfacemanager.h"
+#include "dbus_public.h"
 
 namespace fcitx {
 

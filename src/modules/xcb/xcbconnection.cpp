@@ -18,20 +18,20 @@
 //
 
 #include "xcbconnection.h"
-#include "config.h"
+#include <stdexcept>
+#include <xcb/xcb_aux.h>
+#include <xcb/xfixes.h>
 #include "fcitx-utils/log.h"
 #include "fcitx-utils/stringutils.h"
 #include "fcitx/inputcontext.h"
 #include "fcitx/inputcontextmanager.h"
 #include "fcitx/inputmethodmanager.h"
 #include "fcitx/misc_p.h"
+#include "config.h"
 #include "xcbconvertselection.h"
 #include "xcbeventreader.h"
 #include "xcbkeyboard.h"
 #include "xcbmodule.h"
-#include <stdexcept>
-#include <xcb/xcb_aux.h>
-#include <xcb/xfixes.h>
 
 namespace fcitx {
 

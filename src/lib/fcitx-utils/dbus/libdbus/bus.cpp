@@ -17,6 +17,7 @@
 // see <http://www.gnu.org/licenses/>.
 //
 
+#include <unistd.h>
 #include "../../charutils.h"
 #include "../../log.h"
 #include "../../stringutils.h"
@@ -24,7 +25,6 @@
 #include "config.h"
 #include "message_p.h"
 #include "objectvtable_p_libdbus.h"
-#include <unistd.h>
 
 namespace fcitx {
 namespace dbus {

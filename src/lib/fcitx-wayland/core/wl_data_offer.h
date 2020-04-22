@@ -1,8 +1,8 @@
 #ifndef WL_DATA_OFFER
 #define WL_DATA_OFFER
-#include "fcitx-utils/signals.h"
 #include <memory>
 #include <wayland-client.h>
+#include "fcitx-utils/signals.h"
 namespace fcitx {
 namespace wayland {
 class WlDataOffer final {

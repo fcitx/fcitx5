@@ -18,12 +18,12 @@
 //
 
 #include "display.h"
-#include "wl_output.h"
-#include "wl_registry.h"
-#include <cassert>
-#include <cstring>
 #include <errno.h>
 #include <poll.h>
+#include <cassert>
+#include <cstring>
+#include "wl_output.h"
+#include "wl_registry.h"
 
 namespace fcitx {
 namespace wayland {

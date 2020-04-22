@@ -19,12 +19,12 @@
 #ifndef _FCITX_UI_CLASSIC_INPUTWINDOW_H_
 #define _FCITX_UI_CLASSIC_INPUTWINDOW_H_
 
-#include "common.h"
-#include "fcitx/candidatelist.h"
-#include "fcitx/inputcontext.h"
+#include <utility>
 #include <cairo/cairo.h>
 #include <pango/pango.h>
-#include <utility>
+#include "fcitx/candidatelist.h"
+#include "fcitx/inputcontext.h"
+#include "common.h"
 
 namespace fcitx {
 namespace classicui {

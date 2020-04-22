@@ -19,10 +19,10 @@
 #ifndef _TESTIM_TESTIM_PUBLIC_H_
 #define _TESTIM_TESTIM_PUBLIC_H_
 
+#include <string>
 #include <fcitx/addoninstance.h>
 #include <fcitx/inputcontext.h>
 #include <fcitx/inputmethodentry.h>
-#include <string>
 
 FCITX_ADDON_DECLARE_FUNCTION(
     TestIM, setHandler,

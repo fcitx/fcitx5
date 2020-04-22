@@ -20,10 +20,10 @@
 #ifndef _FCITX_UTILS_EVENTDISPATCHER_H_
 #define _FCITX_UTILS_EVENTDISPATCHER_H_
 
-#include "fcitxutils_export.h"
-#include <fcitx-utils/macros.h>
 #include <functional>
 #include <memory>
+#include <fcitx-utils/macros.h>
+#include "fcitxutils_export.h"
 
 namespace fcitx {
 

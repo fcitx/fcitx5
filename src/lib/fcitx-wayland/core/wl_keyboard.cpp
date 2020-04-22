@@ -1,6 +1,6 @@
 #include "wl_keyboard.h"
-#include "wl_surface.h"
 #include <cassert>
+#include "wl_surface.h"
 namespace fcitx {
 namespace wayland {
 constexpr const char *WlKeyboard::interface;

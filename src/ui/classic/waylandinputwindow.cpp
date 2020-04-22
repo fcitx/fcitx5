@@ -17,10 +17,10 @@
 // see <http://www.gnu.org/licenses/>.
 //
 #include "waylandinputwindow.h"
+#include <linux/input-event-codes.h>
 #include "waylandui.h"
 #include "waylandwindow.h"
 #include "zwp_input_panel_v1.h"
-#include <linux/input-event-codes.h>
 
 fcitx::classicui::WaylandInputWindow::WaylandInputWindow(WaylandUI *ui)
     : fcitx::classicui::InputWindow(ui->parent()), ui_(ui),

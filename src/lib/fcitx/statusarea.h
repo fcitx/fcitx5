@@ -19,11 +19,11 @@
 #ifndef _FCITX_STATUSAREA_H_
 #define _FCITX_STATUSAREA_H_
 
-#include "fcitxcore_export.h"
-#include <fcitx-utils/element.h>
-#include <fcitx-utils/macros.h>
 #include <memory>
 #include <vector>
+#include <fcitx-utils/element.h>
+#include <fcitx-utils/macros.h>
+#include "fcitxcore_export.h"
 
 namespace fcitx {
 

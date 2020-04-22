@@ -18,8 +18,8 @@
 // see <http://www.gnu.org/licenses/>.
 //
 
-#include "event.h"
 #include <cstring>
+#include "event.h"
 
 #define USEC_INFINITY ((uint64_t)-1)
 #define USEC_PER_SEC ((uint64_t)1000000ULL)

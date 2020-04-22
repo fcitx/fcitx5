@@ -1,7 +1,7 @@
 #include "wl_shell.h"
+#include <cassert>
 #include "wl_shell_surface.h"
 #include "wl_surface.h"
-#include <cassert>
 namespace fcitx {
 namespace wayland {
 constexpr const char *WlShell::interface;

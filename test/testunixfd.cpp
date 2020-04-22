@@ -16,11 +16,11 @@
 // License along with this library; see the file COPYING. If not,
 // see <http://www.gnu.org/licenses/>.
 //
-#include "fcitx-utils/log.h"
-#include "fcitx-utils/unixfd.h"
 #include <fcntl.h>
 #include <sys/stat.h>
 #include <unistd.h>
+#include "fcitx-utils/log.h"
+#include "fcitx-utils/unixfd.h"
 
 using namespace fcitx;
 

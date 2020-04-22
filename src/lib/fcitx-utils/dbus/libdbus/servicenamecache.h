@@ -19,10 +19,10 @@
 #ifndef _FCITX_UTILS_DBUS_LIBDBUS_SERVICENAMECACHE_P_H_
 #define _FCITX_UTILS_DBUS_LIBDBUS_SERVICENAMECACHE_P_H_
 
-#include "../../handlertable.h"
 #include <memory>
 #include <string>
 #include <unordered_map>
+#include "../../handlertable.h"
 
 namespace fcitx {
 namespace dbus {

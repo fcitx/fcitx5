@@ -19,13 +19,13 @@
 #ifndef _FCITX_UTILS_MISC_H_
 #define _FCITX_UTILS_MISC_H_
 
+#include <unistd.h>
 #include <cstdint>
-#include <fcitx-utils/macros.h>
 #include <memory>
 #include <string>
-#include <unistd.h>
 #include <utility>
 #include <vector>
+#include <fcitx-utils/macros.h>
 
 namespace fcitx {
 

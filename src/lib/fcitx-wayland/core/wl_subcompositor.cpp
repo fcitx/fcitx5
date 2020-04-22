@@ -1,7 +1,7 @@
 #include "wl_subcompositor.h"
+#include <cassert>
 #include "wl_subsurface.h"
 #include "wl_surface.h"
-#include <cassert>
 namespace fcitx {
 namespace wayland {
 constexpr const char *WlSubcompositor::interface;

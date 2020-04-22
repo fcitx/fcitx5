@@ -25,20 +25,20 @@
 //
 
 #include "charselectdata.h"
+#include <fcntl.h>
+#include <strings.h>
+#include <sys/stat.h>
+#include <algorithm>
+#include <cstring>
+#include <iomanip>
+#include <iostream>
+#include <set>
+#include <stdexcept>
 #include "fcitx-utils/charutils.h"
 #include "fcitx-utils/fs.h"
 #include "fcitx-utils/i18n.h"
 #include "fcitx-utils/standardpath.h"
 #include "fcitx-utils/stringutils.h"
-#include <algorithm>
-#include <cstring>
-#include <fcntl.h>
-#include <iomanip>
-#include <iostream>
-#include <set>
-#include <stdexcept>
-#include <strings.h>
-#include <sys/stat.h>
 #if defined(__linux__) || defined(__GLIBC__)
 #include <endian.h>
 #else

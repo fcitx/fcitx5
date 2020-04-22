@@ -16,9 +16,9 @@
 // License along with this library; see the file COPYING. If not,
 // see <http://www.gnu.org/licenses/>.
 //
+#include <cmath>
 #include "fcitx-utils/color.h"
 #include "fcitx-utils/log.h"
-#include <cmath>
 
 using namespace fcitx;
 

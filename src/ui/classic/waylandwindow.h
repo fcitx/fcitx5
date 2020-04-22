@@ -19,11 +19,11 @@
 #ifndef _FCITX_UI_CLASSIC_WAYLANDWINDOW_H_
 #define _FCITX_UI_CLASSIC_WAYLANDWINDOW_H_
 
+#include <cairo/cairo.h>
 #include "fcitx-utils/rect.h"
 #include "waylandui.h"
 #include "window.h"
 #include "wl_surface.h"
-#include <cairo/cairo.h>
 
 namespace fcitx {
 namespace classicui {

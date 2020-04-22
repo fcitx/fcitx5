@@ -17,11 +17,11 @@
 // see <http://www.gnu.org/licenses/>.
 //
 
-#include "fcitx-utils/fs.h"
-#include "fcitx-utils/log.h"
 #include <libgen.h>
 #include <sys/stat.h>
 #include <unistd.h>
+#include "fcitx-utils/fs.h"
+#include "fcitx-utils/log.h"
 
 using namespace fcitx::fs;
 
