@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2020-04-19 00:01-0700\n"
+"POT-Creation-Date: 2020-04-22 00:02-0700\n"
 "PO-Revision-Date: 2017-11-23 04:14+0000\n"
 "Last-Translator: Tim Hofstede <timhofstede.va@gmail.com>, 2018\n"
 "Language-Team: German (https://www.transifex.com/fcitx/teams/12005/de/)\n"
@@ -21,27 +21,27 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: src/lib/fcitx/instance.cpp:1647
+#: src/lib/fcitx/instance.cpp:1648
 msgid "(Not available)"
 msgstr "(nicht vorhanden)"
 
-#: src/modules/unicode/charselectdata.cpp:216
+#: src/modules/unicode/charselectdata.cpp:217
 msgid "<Low Surrogate>"
 msgstr "<Low Surrogate>"
 
-#: src/modules/unicode/charselectdata.cpp:212
+#: src/modules/unicode/charselectdata.cpp:213
 msgid "<Non Private Use High Surrogate>"
 msgstr "<Non Private Use High Surrogate>"
 
-#: src/modules/unicode/charselectdata.cpp:214
+#: src/modules/unicode/charselectdata.cpp:215
 msgid "<Private Use High Surrogate>"
 msgstr "<Private Use High Surrogate>"
 
-#: src/modules/unicode/charselectdata.cpp:218
+#: src/modules/unicode/charselectdata.cpp:219
 msgid "<Private Use>"
 msgstr "<Private Use>"
 
-#: src/modules/unicode/charselectdata.cpp:248
+#: src/modules/unicode/charselectdata.cpp:249
 msgid "<not assigned>"
 msgstr "<not assigned>"
 
@@ -427,7 +427,7 @@ msgstr "Grün"
 msgid "Group"
 msgstr "Gruppe"
 
-#: src/lib/fcitx/instance.cpp:1650
+#: src/lib/fcitx/instance.cpp:1651
 msgid "Group {0}: {1}"
 msgstr "Gruppe {0}: {1}"
 
@@ -1280,6 +1280,10 @@ msgctxt "Key name"
 msgid "Up"
 msgstr "Hoch"
 
+#: src/frontend/xim/xim.h:45
+msgid "Use On The Spot Style (Needs restarting)"
+msgstr ""
+
 #: src/ui/classic/classicui.h:82
 msgid "Use Per Screen DPI"
 msgstr "DPI je Bildschirm verwenden"
@@ -1413,10 +1417,10 @@ msgstr "iTouch"
 msgid "{0} (Not Available)"
 msgstr "{0} (Nicht verfügbar)"
 
-#: src/lib/fcitx/instance.cpp:1645
+#: src/lib/fcitx/instance.cpp:1646
 msgid "{0} (Not available)"
 msgstr "{0} (Nicht verfügbar)"
 
-#: src/lib/fcitx/instance.cpp:1642
+#: src/lib/fcitx/instance.cpp:1643
 msgid "{0} ({1})"
 msgstr "{0} ({1})"

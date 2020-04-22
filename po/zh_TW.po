@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2020-04-19 00:01-0700\n"
+"POT-Creation-Date: 2020-04-22 00:02-0700\n"
 "PO-Revision-Date: 2017-11-23 04:14+0000\n"
 "Last-Translator: byStarTW (pan93412) <pan93412@gmail.com>, 2019\n"
 "Language-Team: Chinese (Taiwan) (https://www.transifex.com/fcitx/teams/12005/"
@@ -22,27 +22,27 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
-#: src/lib/fcitx/instance.cpp:1647
+#: src/lib/fcitx/instance.cpp:1648
 msgid "(Not available)"
 msgstr "（無法使用）"
 
-#: src/modules/unicode/charselectdata.cpp:216
+#: src/modules/unicode/charselectdata.cpp:217
 msgid "<Low Surrogate>"
 msgstr "<低半代理區>"
 
-#: src/modules/unicode/charselectdata.cpp:212
+#: src/modules/unicode/charselectdata.cpp:213
 msgid "<Non Private Use High Surrogate>"
 msgstr "<非專用高半代理區>"
 
-#: src/modules/unicode/charselectdata.cpp:214
+#: src/modules/unicode/charselectdata.cpp:215
 msgid "<Private Use High Surrogate>"
 msgstr "<專用高半代理區>"
 
-#: src/modules/unicode/charselectdata.cpp:218
+#: src/modules/unicode/charselectdata.cpp:219
 msgid "<Private Use>"
 msgstr "<專用區>"
 
-#: src/modules/unicode/charselectdata.cpp:248
+#: src/modules/unicode/charselectdata.cpp:249
 msgid "<not assigned>"
 msgstr "<未指定>"
 
@@ -428,7 +428,7 @@ msgstr "綠色"
 msgid "Group"
 msgstr "群組"
 
-#: src/lib/fcitx/instance.cpp:1650
+#: src/lib/fcitx/instance.cpp:1651
 msgid "Group {0}: {1}"
 msgstr "群組 {0}：{1}"
 
@@ -1281,6 +1281,10 @@ msgctxt "Key name"
 msgid "Up"
 msgstr "上"
 
+#: src/frontend/xim/xim.h:45
+msgid "Use On The Spot Style (Needs restarting)"
+msgstr ""
+
 #: src/ui/classic/classicui.h:82
 msgid "Use Per Screen DPI"
 msgstr "依每個螢幕的 DPI 使用"
@@ -1413,10 +1417,10 @@ msgstr "iTouch"
 msgid "{0} (Not Available)"
 msgstr "{0} (無法使用)"
 
-#: src/lib/fcitx/instance.cpp:1645
+#: src/lib/fcitx/instance.cpp:1646
 msgid "{0} (Not available)"
 msgstr "{0}（不可用）"
 
-#: src/lib/fcitx/instance.cpp:1642
+#: src/lib/fcitx/instance.cpp:1643
 msgid "{0} ({1})"
 msgstr "{0} ({1})"

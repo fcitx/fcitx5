@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2020-04-19 00:00-0700\n"
+"POT-Creation-Date: 2020-04-22 00:00-0700\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Language-Team: French (https://www.transifex.com/fcitx/teams/12005/fr/)\n"
 "Language: fr\n"
@@ -15,27 +15,27 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
-#: src/lib/fcitx/instance.cpp:1647
+#: src/lib/fcitx/instance.cpp:1648
 msgid "(Not available)"
 msgstr ""
 
-#: src/modules/unicode/charselectdata.cpp:216
+#: src/modules/unicode/charselectdata.cpp:217
 msgid "<Low Surrogate>"
 msgstr ""
 
-#: src/modules/unicode/charselectdata.cpp:212
+#: src/modules/unicode/charselectdata.cpp:213
 msgid "<Non Private Use High Surrogate>"
 msgstr ""
 
-#: src/modules/unicode/charselectdata.cpp:214
+#: src/modules/unicode/charselectdata.cpp:215
 msgid "<Private Use High Surrogate>"
 msgstr ""
 
-#: src/modules/unicode/charselectdata.cpp:218
+#: src/modules/unicode/charselectdata.cpp:219
 msgid "<Private Use>"
 msgstr ""
 
-#: src/modules/unicode/charselectdata.cpp:248
+#: src/modules/unicode/charselectdata.cpp:249
 msgid "<not assigned>"
 msgstr ""
 
@@ -421,7 +421,7 @@ msgstr ""
 msgid "Group"
 msgstr ""
 
-#: src/lib/fcitx/instance.cpp:1650
+#: src/lib/fcitx/instance.cpp:1651
 msgid "Group {0}: {1}"
 msgstr ""
 
@@ -1274,6 +1274,10 @@ msgctxt "Key name"
 msgid "Up"
 msgstr ""
 
+#: src/frontend/xim/xim.h:45
+msgid "Use On The Spot Style (Needs restarting)"
+msgstr ""
+
 #: src/ui/classic/classicui.h:82
 msgid "Use Per Screen DPI"
 msgstr ""
@@ -1404,10 +1408,10 @@ msgstr ""
 msgid "{0} (Not Available)"
 msgstr ""
 
-#: src/lib/fcitx/instance.cpp:1645
+#: src/lib/fcitx/instance.cpp:1646
 msgid "{0} (Not available)"
 msgstr ""
 
-#: src/lib/fcitx/instance.cpp:1642
+#: src/lib/fcitx/instance.cpp:1643
 msgid "{0} ({1})"
 msgstr ""
