@@ -340,7 +340,7 @@ InputContextManager::property(InputContext &inputContext,
 }
 
 void InputContextManager::propagateProperty(
-    InputContext &inputContext, InputContextPropertyFactory *factory) {
+    InputContext &inputContext, const InputContextPropertyFactory *factory) {
     FCITX_D();
     assert(factory->d_func()->manager_ == this);
     if (d->propertyPropagatePolicy_ == PropertyPropagatePolicy::None ||

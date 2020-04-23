@@ -77,7 +77,7 @@ private:
 
     InputContextPropertyFactory *factoryForName(const std::string &name);
     void propagateProperty(InputContext &inputContext,
-                           InputContextPropertyFactory *factory);
+                           const InputContextPropertyFactory *factory);
     InputContextProperty *property(InputContext &inputContext,
                                    const InputContextPropertyFactory *factory);
 

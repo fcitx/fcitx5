@@ -104,6 +104,7 @@ public:
     }
 
     void updateProperty(const std::string &name);
+    void updateProperty(const InputContextPropertyFactory *factory);
 
 protected:
     virtual void commitStringImpl(const std::string &text) = 0;

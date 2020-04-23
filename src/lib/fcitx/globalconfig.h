@@ -25,6 +25,7 @@
 #include <fcitx-config/rawconfig.h>
 #include <fcitx-utils/key.h>
 #include <fcitx-utils/macros.h>
+#include <fcitx/inputcontextmanager.h>
 #include "fcitxcore_export.h"
 
 namespace fcitx {
@@ -46,6 +47,7 @@ public:
     bool activeByDefault() const;
     bool showInputMethodInformation() const;
     bool showInputMethodInformationWhenFocusIn() const;
+    PropertyPropagatePolicy shareInputState() const;
 
     const KeyList &defaultPrevPage() const;
     const KeyList &defaultNextPage() const;

@@ -122,7 +122,9 @@ public:
     void toggle();
     void resetInputMethodList();
     int state();
+    /// Reload global config.
     void reloadConfig();
+    /// Reload certain addon config.
     void reloadAddonConfig(const std::string &addonName);
     std::string currentInputMethod();
     void setCurrentInputMethod(const std::string &imName);

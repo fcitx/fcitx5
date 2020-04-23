@@ -97,6 +97,11 @@ void InputContext::updateProperty(const std::string &name) {
     if (!factory) {
         return;
     }
+    updateProperty(factory);
+}
+
+void InputContext::updateProperty(const InputContextPropertyFactory *factory) {
+    FCITX_D();
     auto property = d->manager_.property(*this, factory);
     if (!property->needCopy()) {
         return;

@@ -38,7 +38,7 @@ class TrackableObject;
 /// Not thread-safe.
 template <typename T>
 class TrackableObjectReference final {
-    friend class TrackableObject<T>;
+    friend class TrackableObject<std::remove_const_t<T>>;
 
 public:
     TrackableObjectReference() : rawThat_(nullptr) {}
@@ -87,6 +87,11 @@ public:
 
     TrackableObjectReference<T> watch() {
         return TrackableObjectReference<T>(*self_, static_cast<T *>(this));
+    }
+
+    TrackableObjectReference<const T> watch() const {
+        return TrackableObjectReference<const T>(*self_,
+                                                 static_cast<const T *>(this));
     }
 
 private:

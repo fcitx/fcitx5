@@ -278,7 +278,9 @@ public:
         RawConfig config = variantToRawConfig(v);
         if (uri == globalConfigPath) {
             instance_->globalConfig().load(config, true);
-            instance_->globalConfig().safeSave();
+            if (instance_->globalConfig().safeSave()) {
+                instance_->reloadConfig();
+            }
         } else if (stringutils::startsWith(uri, addonConfigPrefix)) {
             auto addon = uri.substr(sizeof(addonConfigPrefix) - 1);
             auto pos = addon.find('/');

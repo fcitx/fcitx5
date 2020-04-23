@@ -21,6 +21,7 @@
 #include "fcitx-config/configuration.h"
 #include "fcitx-config/iniparser.h"
 #include "fcitx-utils/i18n.h"
+#include "inputcontextmanager.h"
 
 namespace fcitx {
 
@@ -102,6 +103,9 @@ FCITX_CONFIGURATION(
 FCITX_CONFIGURATION(
     BehaviorConfig, Option<bool> activeByDefault{this, "ActiveByDefault",
                                                  _("Active By Default")};
+    Option<PropertyPropagatePolicy> shareState{this, "ShareInputState",
+                                               _("Share Input State"),
+                                               PropertyPropagatePolicy::None};
     Option<bool> showInputMethodInformation{
         this, "ShowInputMethodInformation",
         _("Show Input Method Information when switch input method"), true};
@@ -196,6 +200,11 @@ bool GlobalConfig::showInputMethodInformation() const {
 bool GlobalConfig::showInputMethodInformationWhenFocusIn() const {
     FCITX_D();
     return d->behavior->showInputMethodInformationWhenFocusIn.value();
+}
+
+PropertyPropagatePolicy GlobalConfig::shareInputState() const {
+    FCITX_D();
+    return d->behavior->shareState.value();
 }
 
 const KeyList &GlobalConfig::defaultPrevPage() const {
