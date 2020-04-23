@@ -223,6 +223,11 @@ void AddonManager::registerLoader(std::unique_ptr<AddonLoader> loader) {
     d->loaders_.emplace(loader->type(), std::move(loader));
 }
 
+void AddonManager::unregisterLoader(const std::string &name) {
+    FCITX_D();
+    d->loaders_.erase(name);
+}
+
 void AddonManager::registerDefaultLoader(StaticAddonRegistry *registry) {
     registerLoader(std::make_unique<SharedLibraryLoader>());
     if (registry) {
@@ -237,6 +242,8 @@ void AddonManager::load(const std::unordered_set<std::string> &enabled,
     auto fileMap =
         path.multiOpenAll(StandardPath::Type::PkgData, d->addonConfigDir_,
                           O_RDONLY, filter::Suffix(".conf"));
+    bool enableAll = enabled.count("all");
+    bool disableAll = disabled.count("all");
     for (const auto &file : fileMap) {
         auto &files = file.second;
         RawConfig config;
@@ -250,13 +257,12 @@ void AddonManager::load(const std::unordered_set<std::string> &enabled,
         // remove .conf
         auto name = file.first.substr(0, file.first.size() - 5);
         // override configuration
-
         auto addon = std::make_unique<Addon>(name, config);
         if (addon->isValid()) {
-            if (disabled.count(name)) {
-                addon->setOverrideEnabled(OverrideEnabled::Disabled);
-            } else if (enabled.count(name)) {
+            if (enableAll || enabled.count(name)) {
                 addon->setOverrideEnabled(OverrideEnabled::Enabled);
+            } else if (disableAll || disabled.count(name)) {
+                addon->setOverrideEnabled(OverrideEnabled::Disabled);
             }
             d->addons_[addon->info().uniqueName()] = std::move(addon);
         }
