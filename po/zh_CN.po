@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2020-04-22 00:02-0700\n"
+"POT-Creation-Date: 2020-04-24 00:01-0700\n"
 "PO-Revision-Date: 2017-11-23 04:14+0000\n"
 "Last-Translator: csslayer <wengxt@gmail.com>, 2020\n"
 "Language-Team: Chinese (China) (https://www.transifex.com/fcitx/teams/12005/"
@@ -21,7 +21,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
-#: src/lib/fcitx/instance.cpp:1648
+#: src/lib/fcitx/instance.cpp:1696
 msgid "(Not available)"
 msgstr "(不可用)"
 
@@ -45,11 +45,11 @@ msgstr "<专用区>"
 msgid "<not assigned>"
 msgstr "<未指派>"
 
-#: src/lib/fcitx/globalconfig.cpp:76
+#: src/lib/fcitx/globalconfig.cpp:77
 msgid "Activate Input Method"
 msgstr "激活输入法"
 
-#: src/lib/fcitx/globalconfig.cpp:104
+#: src/lib/fcitx/globalconfig.cpp:105
 msgid "Active By Default"
 msgstr "默认状态为激活"
 
@@ -80,7 +80,7 @@ msgctxt "Key name"
 msgid "Alt"
 msgstr "Alt"
 
-#: src/lib/fcitx/globalconfig.cpp:41
+#: src/lib/fcitx/globalconfig.cpp:42
 msgid "Alternative Trigger Input Method"
 msgstr "额外切换输入法"
 
@@ -134,7 +134,7 @@ msgctxt "Key name"
 msgid "Battery"
 msgstr "电池"
 
-#: src/lib/fcitx/globalconfig.cpp:122
+#: src/lib/fcitx/globalconfig.cpp:126
 msgid "Behavior"
 msgstr "行为"
 
@@ -263,7 +263,7 @@ msgctxt "Key name"
 msgid "DOS"
 msgstr "DOS"
 
-#: src/lib/fcitx/globalconfig.cpp:85
+#: src/lib/fcitx/globalconfig.cpp:86
 msgid "Deactivate Input Method"
 msgstr "取消激活输入法"
 
@@ -272,15 +272,15 @@ msgstr "取消激活输入法"
 msgid "Default"
 msgstr "默认"
 
-#: src/lib/fcitx/globalconfig.cpp:98
+#: src/lib/fcitx/globalconfig.cpp:99
 msgid "Default Next page"
 msgstr "默认下一页"
 
-#: src/lib/fcitx/globalconfig.cpp:92
+#: src/lib/fcitx/globalconfig.cpp:93
 msgid "Default Previous page"
 msgstr "默认上一页"
 
-#: src/lib/fcitx/globalconfig.cpp:112
+#: src/lib/fcitx/globalconfig.cpp:116
 msgid "Default page size"
 msgstr "默认页大小"
 
@@ -344,19 +344,19 @@ msgctxt "Key name"
 msgid "End"
 msgstr "行尾"
 
-#: src/lib/fcitx/globalconfig.cpp:55
+#: src/lib/fcitx/globalconfig.cpp:56
 msgid "Enumerate Input Method Backward"
 msgstr "向后切换输入法"
 
-#: src/lib/fcitx/globalconfig.cpp:48
+#: src/lib/fcitx/globalconfig.cpp:49
 msgid "Enumerate Input Method Forward"
 msgstr "向前切换输入法"
 
-#: src/lib/fcitx/globalconfig.cpp:69
+#: src/lib/fcitx/globalconfig.cpp:70
 msgid "Enumerate Input Method Group Backward"
 msgstr "向后切换输入法分组"
 
-#: src/lib/fcitx/globalconfig.cpp:62
+#: src/lib/fcitx/globalconfig.cpp:63
 msgid "Enumerate Input Method Group Forward"
 msgstr "向前切换输入分组"
 
@@ -427,7 +427,7 @@ msgstr "绿"
 msgid "Group"
 msgstr "分组"
 
-#: src/lib/fcitx/instance.cpp:1651
+#: src/lib/fcitx/instance.cpp:1699
 msgid "Group {0}: {1}"
 msgstr "分组 {0}：{1}"
 
@@ -545,7 +545,7 @@ msgctxt "Key name"
 msgid "Hot Links"
 msgstr "热门链接"
 
-#: src/lib/fcitx/globalconfig.cpp:120
+#: src/lib/fcitx/globalconfig.cpp:124
 msgid "Hotkey"
 msgstr "快捷键"
 
@@ -905,10 +905,6 @@ msgctxt "Key name"
 msgid "Option"
 msgstr "选项"
 
-#: src/modules/spell/spell.h:50
-msgid "Order of providers"
-msgstr ""
-
 #: src/im/keyboard/keyboard.h:47
 msgid "Page size"
 msgstr "页大小"
@@ -970,6 +966,10 @@ msgstr "上一个候选词"
 msgctxt "Key name"
 msgid "Print Screen"
 msgstr "截屏"
+
+#: src/modules/spell/spell.h:50
+msgid "Providers"
+msgstr ""
 
 #: src/modules/quickphrase/quickphrase.conf.in:3
 msgid "Quick Phrase"
@@ -1089,6 +1089,10 @@ msgctxt "Key name"
 msgid "Send"
 msgstr "发送"
 
+#: src/lib/fcitx/globalconfig.cpp:107
+msgid "Share Input State"
+msgstr ""
+
 #: src/lib/fcitx-utils/key.cpp:434
 msgctxt "Key name"
 msgid "Shift"
@@ -1099,11 +1103,11 @@ msgctxt "Key name"
 msgid "Shop"
 msgstr "购物"
 
-#: src/lib/fcitx/globalconfig.cpp:110
+#: src/lib/fcitx/globalconfig.cpp:114
 msgid "Show Input Method Information when changing focus"
 msgstr "在焦点更改时显示输入法信息"
 
-#: src/lib/fcitx/globalconfig.cpp:107
+#: src/lib/fcitx/globalconfig.cpp:111
 msgid "Show Input Method Information when switch input method"
 msgstr "切换输入法时显示输入法信息"
 
@@ -1254,7 +1258,7 @@ msgctxt "Key name"
 msgid "Travel"
 msgstr "旅行"
 
-#: src/lib/fcitx/globalconfig.cpp:34
+#: src/lib/fcitx/globalconfig.cpp:35
 msgid "Trigger Input Method"
 msgstr "切换启用/禁用输入法"
 
@@ -1418,10 +1422,10 @@ msgstr "iTouch"
 msgid "{0} (Not Available)"
 msgstr "{0} (不可用)"
 
-#: src/lib/fcitx/instance.cpp:1646
+#: src/lib/fcitx/instance.cpp:1694
 msgid "{0} (Not available)"
 msgstr "{0} (不可用)"
 
-#: src/lib/fcitx/instance.cpp:1643
+#: src/lib/fcitx/instance.cpp:1691
 msgid "{0} ({1})"
 msgstr "{0} ({1})"

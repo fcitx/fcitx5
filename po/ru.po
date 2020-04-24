@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2020-04-22 00:02-0700\n"
+"POT-Creation-Date: 2020-04-24 00:01-0700\n"
 "PO-Revision-Date: 2017-11-23 04:14+0000\n"
 "Last-Translator: TotalCaesar659 <x24cm5b8c54q6szxw@yandex.ru>, 2017\n"
 "Language-Team: Russian (https://www.transifex.com/fcitx/teams/12005/ru/)\n"
@@ -22,7 +22,7 @@ msgstr ""
 "%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n"
 "%100>=11 && n%100<=14)? 2 : 3);\n"
 
-#: src/lib/fcitx/instance.cpp:1648
+#: src/lib/fcitx/instance.cpp:1696
 msgid "(Not available)"
 msgstr "(Недоступно)"
 
@@ -46,11 +46,11 @@ msgstr "<Для личного использования>"
 msgid "<not assigned>"
 msgstr "<не назначен>"
 
-#: src/lib/fcitx/globalconfig.cpp:76
+#: src/lib/fcitx/globalconfig.cpp:77
 msgid "Activate Input Method"
 msgstr "Активировать метод ввода"
 
-#: src/lib/fcitx/globalconfig.cpp:104
+#: src/lib/fcitx/globalconfig.cpp:105
 msgid "Active By Default"
 msgstr "Активен по умолчанию"
 
@@ -81,7 +81,7 @@ msgctxt "Key name"
 msgid "Alt"
 msgstr ""
 
-#: src/lib/fcitx/globalconfig.cpp:41
+#: src/lib/fcitx/globalconfig.cpp:42
 msgid "Alternative Trigger Input Method"
 msgstr "Альтернативная активация метода ввода"
 
@@ -135,7 +135,7 @@ msgctxt "Key name"
 msgid "Battery"
 msgstr ""
 
-#: src/lib/fcitx/globalconfig.cpp:122
+#: src/lib/fcitx/globalconfig.cpp:126
 msgid "Behavior"
 msgstr "Поведение"
 
@@ -264,7 +264,7 @@ msgctxt "Key name"
 msgid "DOS"
 msgstr ""
 
-#: src/lib/fcitx/globalconfig.cpp:85
+#: src/lib/fcitx/globalconfig.cpp:86
 msgid "Deactivate Input Method"
 msgstr "Деактивация метода ввода"
 
@@ -273,15 +273,15 @@ msgstr "Деактивация метода ввода"
 msgid "Default"
 msgstr "По умолчанию"
 
-#: src/lib/fcitx/globalconfig.cpp:98
+#: src/lib/fcitx/globalconfig.cpp:99
 msgid "Default Next page"
 msgstr "Следующая страница по умолчанию"
 
-#: src/lib/fcitx/globalconfig.cpp:92
+#: src/lib/fcitx/globalconfig.cpp:93
 msgid "Default Previous page"
 msgstr "Предыдущая страница по умолчанию"
 
-#: src/lib/fcitx/globalconfig.cpp:112
+#: src/lib/fcitx/globalconfig.cpp:116
 msgid "Default page size"
 msgstr "Размер страницы по умолчанию"
 
@@ -345,19 +345,19 @@ msgctxt "Key name"
 msgid "End"
 msgstr ""
 
-#: src/lib/fcitx/globalconfig.cpp:55
+#: src/lib/fcitx/globalconfig.cpp:56
 msgid "Enumerate Input Method Backward"
 msgstr "Перечислить методы ввода в обратном порядке"
 
-#: src/lib/fcitx/globalconfig.cpp:48
+#: src/lib/fcitx/globalconfig.cpp:49
 msgid "Enumerate Input Method Forward"
 msgstr "Перечислить методы ввода в прямом порядке"
 
-#: src/lib/fcitx/globalconfig.cpp:69
+#: src/lib/fcitx/globalconfig.cpp:70
 msgid "Enumerate Input Method Group Backward"
 msgstr "Перечислить группы методов ввода в обратном порядке"
 
-#: src/lib/fcitx/globalconfig.cpp:62
+#: src/lib/fcitx/globalconfig.cpp:63
 msgid "Enumerate Input Method Group Forward"
 msgstr "Перечислить группы методов ввода в прямом порядке"
 
@@ -428,7 +428,7 @@ msgstr ""
 msgid "Group"
 msgstr "Группа"
 
-#: src/lib/fcitx/instance.cpp:1651
+#: src/lib/fcitx/instance.cpp:1699
 msgid "Group {0}: {1}"
 msgstr "Группа {0}: {1}"
 
@@ -546,7 +546,7 @@ msgctxt "Key name"
 msgid "Hot Links"
 msgstr ""
 
-#: src/lib/fcitx/globalconfig.cpp:120
+#: src/lib/fcitx/globalconfig.cpp:124
 msgid "Hotkey"
 msgstr "Горячая клавиша"
 
@@ -906,10 +906,6 @@ msgctxt "Key name"
 msgid "Option"
 msgstr ""
 
-#: src/modules/spell/spell.h:50
-msgid "Order of providers"
-msgstr ""
-
 #: src/im/keyboard/keyboard.h:47
 msgid "Page size"
 msgstr ""
@@ -970,6 +966,10 @@ msgstr ""
 #: src/lib/fcitx-utils/key.cpp:203
 msgctxt "Key name"
 msgid "Print Screen"
+msgstr ""
+
+#: src/modules/spell/spell.h:50
+msgid "Providers"
 msgstr ""
 
 #: src/modules/quickphrase/quickphrase.conf.in:3
@@ -1090,6 +1090,10 @@ msgctxt "Key name"
 msgid "Send"
 msgstr ""
 
+#: src/lib/fcitx/globalconfig.cpp:107
+msgid "Share Input State"
+msgstr ""
+
 #: src/lib/fcitx-utils/key.cpp:434
 msgctxt "Key name"
 msgid "Shift"
@@ -1100,11 +1104,11 @@ msgctxt "Key name"
 msgid "Shop"
 msgstr ""
 
-#: src/lib/fcitx/globalconfig.cpp:110
+#: src/lib/fcitx/globalconfig.cpp:114
 msgid "Show Input Method Information when changing focus"
 msgstr ""
 
-#: src/lib/fcitx/globalconfig.cpp:107
+#: src/lib/fcitx/globalconfig.cpp:111
 msgid "Show Input Method Information when switch input method"
 msgstr "Показывать информацию о методе ввода при переключении"
 
@@ -1255,7 +1259,7 @@ msgctxt "Key name"
 msgid "Travel"
 msgstr ""
 
-#: src/lib/fcitx/globalconfig.cpp:34
+#: src/lib/fcitx/globalconfig.cpp:35
 msgid "Trigger Input Method"
 msgstr "Активация метода ввода"
 
@@ -1415,10 +1419,10 @@ msgstr ""
 msgid "{0} (Not Available)"
 msgstr ""
 
-#: src/lib/fcitx/instance.cpp:1646
+#: src/lib/fcitx/instance.cpp:1694
 msgid "{0} (Not available)"
 msgstr "{0} (Недоступно)"
 
-#: src/lib/fcitx/instance.cpp:1643
+#: src/lib/fcitx/instance.cpp:1691
 msgid "{0} ({1})"
 msgstr "{0} ({1})"

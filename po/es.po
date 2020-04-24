@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2020-04-22 00:00-0700\n"
+"POT-Creation-Date: 2020-04-24 00:00-0700\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: csslayer <wengxt@gmail.com>, 2017\n"
 "Language-Team: Spanish (https://www.transifex.com/fcitx/teams/12005/es/)\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: src/lib/fcitx/instance.cpp:1648
+#: src/lib/fcitx/instance.cpp:1696
 msgid "(Not available)"
 msgstr ""
 
@@ -42,11 +42,11 @@ msgstr ""
 msgid "<not assigned>"
 msgstr ""
 
-#: src/lib/fcitx/globalconfig.cpp:76
+#: src/lib/fcitx/globalconfig.cpp:77
 msgid "Activate Input Method"
 msgstr ""
 
-#: src/lib/fcitx/globalconfig.cpp:104
+#: src/lib/fcitx/globalconfig.cpp:105
 msgid "Active By Default"
 msgstr ""
 
@@ -77,7 +77,7 @@ msgctxt "Key name"
 msgid "Alt"
 msgstr ""
 
-#: src/lib/fcitx/globalconfig.cpp:41
+#: src/lib/fcitx/globalconfig.cpp:42
 msgid "Alternative Trigger Input Method"
 msgstr ""
 
@@ -131,7 +131,7 @@ msgctxt "Key name"
 msgid "Battery"
 msgstr ""
 
-#: src/lib/fcitx/globalconfig.cpp:122
+#: src/lib/fcitx/globalconfig.cpp:126
 msgid "Behavior"
 msgstr ""
 
@@ -260,7 +260,7 @@ msgctxt "Key name"
 msgid "DOS"
 msgstr ""
 
-#: src/lib/fcitx/globalconfig.cpp:85
+#: src/lib/fcitx/globalconfig.cpp:86
 msgid "Deactivate Input Method"
 msgstr ""
 
@@ -269,15 +269,15 @@ msgstr ""
 msgid "Default"
 msgstr ""
 
-#: src/lib/fcitx/globalconfig.cpp:98
+#: src/lib/fcitx/globalconfig.cpp:99
 msgid "Default Next page"
 msgstr ""
 
-#: src/lib/fcitx/globalconfig.cpp:92
+#: src/lib/fcitx/globalconfig.cpp:93
 msgid "Default Previous page"
 msgstr ""
 
-#: src/lib/fcitx/globalconfig.cpp:112
+#: src/lib/fcitx/globalconfig.cpp:116
 msgid "Default page size"
 msgstr ""
 
@@ -341,19 +341,19 @@ msgctxt "Key name"
 msgid "End"
 msgstr ""
 
-#: src/lib/fcitx/globalconfig.cpp:55
+#: src/lib/fcitx/globalconfig.cpp:56
 msgid "Enumerate Input Method Backward"
 msgstr ""
 
-#: src/lib/fcitx/globalconfig.cpp:48
+#: src/lib/fcitx/globalconfig.cpp:49
 msgid "Enumerate Input Method Forward"
 msgstr ""
 
-#: src/lib/fcitx/globalconfig.cpp:69
+#: src/lib/fcitx/globalconfig.cpp:70
 msgid "Enumerate Input Method Group Backward"
 msgstr ""
 
-#: src/lib/fcitx/globalconfig.cpp:62
+#: src/lib/fcitx/globalconfig.cpp:63
 msgid "Enumerate Input Method Group Forward"
 msgstr ""
 
@@ -424,7 +424,7 @@ msgstr ""
 msgid "Group"
 msgstr ""
 
-#: src/lib/fcitx/instance.cpp:1651
+#: src/lib/fcitx/instance.cpp:1699
 msgid "Group {0}: {1}"
 msgstr ""
 
@@ -542,7 +542,7 @@ msgctxt "Key name"
 msgid "Hot Links"
 msgstr ""
 
-#: src/lib/fcitx/globalconfig.cpp:120
+#: src/lib/fcitx/globalconfig.cpp:124
 msgid "Hotkey"
 msgstr ""
 
@@ -902,10 +902,6 @@ msgctxt "Key name"
 msgid "Option"
 msgstr ""
 
-#: src/modules/spell/spell.h:50
-msgid "Order of providers"
-msgstr ""
-
 #: src/im/keyboard/keyboard.h:47
 msgid "Page size"
 msgstr ""
@@ -966,6 +962,10 @@ msgstr ""
 #: src/lib/fcitx-utils/key.cpp:203
 msgctxt "Key name"
 msgid "Print Screen"
+msgstr ""
+
+#: src/modules/spell/spell.h:50
+msgid "Providers"
 msgstr ""
 
 #: src/modules/quickphrase/quickphrase.conf.in:3
@@ -1086,6 +1086,10 @@ msgctxt "Key name"
 msgid "Send"
 msgstr ""
 
+#: src/lib/fcitx/globalconfig.cpp:107
+msgid "Share Input State"
+msgstr ""
+
 #: src/lib/fcitx-utils/key.cpp:434
 msgctxt "Key name"
 msgid "Shift"
@@ -1096,11 +1100,11 @@ msgctxt "Key name"
 msgid "Shop"
 msgstr ""
 
-#: src/lib/fcitx/globalconfig.cpp:110
+#: src/lib/fcitx/globalconfig.cpp:114
 msgid "Show Input Method Information when changing focus"
 msgstr ""
 
-#: src/lib/fcitx/globalconfig.cpp:107
+#: src/lib/fcitx/globalconfig.cpp:111
 msgid "Show Input Method Information when switch input method"
 msgstr ""
 
@@ -1251,7 +1255,7 @@ msgctxt "Key name"
 msgid "Travel"
 msgstr ""
 
-#: src/lib/fcitx/globalconfig.cpp:34
+#: src/lib/fcitx/globalconfig.cpp:35
 msgid "Trigger Input Method"
 msgstr ""
 
@@ -1411,10 +1415,10 @@ msgstr ""
 msgid "{0} (Not Available)"
 msgstr ""
 
-#: src/lib/fcitx/instance.cpp:1646
+#: src/lib/fcitx/instance.cpp:1694
 msgid "{0} (Not available)"
 msgstr ""
 
-#: src/lib/fcitx/instance.cpp:1643
+#: src/lib/fcitx/instance.cpp:1691
 msgid "{0} ({1})"
 msgstr ""
