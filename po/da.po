@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2020-04-24 00:01-0700\n"
+"POT-Creation-Date: 2020-04-28 00:01-0700\n"
 "PO-Revision-Date: 2017-11-23 04:14+0000\n"
 "Last-Translator: scootergrisen, 2020\n"
 "Language-Team: Danish (https://www.transifex.com/fcitx/teams/12005/da/)\n"
@@ -968,7 +968,7 @@ msgstr "Print Screen"
 
 #: src/modules/spell/spell.h:50
 msgid "Providers"
-msgstr ""
+msgstr "Udbydere"
 
 #: src/modules/quickphrase/quickphrase.conf.in:3
 msgid "Quick Phrase"
@@ -1090,7 +1090,7 @@ msgstr "Send"
 
 #: src/lib/fcitx/globalconfig.cpp:107
 msgid "Share Input State"
-msgstr ""
+msgstr "Del inputtilstand"
 
 #: src/lib/fcitx-utils/key.cpp:434
 msgctxt "Key name"
@@ -1285,7 +1285,7 @@ msgstr "Op"
 
 #: src/frontend/xim/xim.h:45
 msgid "Use On The Spot Style (Needs restarting)"
-msgstr ""
+msgstr "Brug her-og-nu-stil (kræver genstart)"
 
 #: src/ui/classic/classicui.h:82
 msgid "Use Per Screen DPI"
