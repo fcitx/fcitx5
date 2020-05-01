@@ -30,6 +30,11 @@
 #include <fcitx-utils/macros.h>
 
 namespace fcitx {
+
+#ifdef None
+#undef None
+#endif
+
 /// \brief KeyState to represent modifier keys.
 enum class KeyState : uint32_t {
     None = 0,
