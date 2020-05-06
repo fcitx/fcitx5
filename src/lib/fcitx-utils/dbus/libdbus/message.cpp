@@ -184,7 +184,7 @@ Message Message::call(uint64_t timeout) {
         return Message();
     }
     DBusMessage *reply = dbus_connection_send_with_reply_and_block(
-        bus->conn_, d->msg(), convertTimeout(timeout), &error.error());
+        bus->conn_.get(), d->msg(), convertTimeout(timeout), &error.error());
     if (!reply) {
         return MessagePrivate::fromDBusError(error.error());
     }
@@ -211,7 +211,7 @@ std::unique_ptr<Slot> Message::callAsync(uint64_t timeout,
     }
     auto slot = std::make_unique<DBusAsyncCallSlot>(callback);
     DBusPendingCall *call = nullptr;
-    if (!dbus_connection_send_with_reply(bus->conn_, d->msg(), &call,
+    if (!dbus_connection_send_with_reply(bus->conn_.get(), d->msg(), &call,
                                          convertTimeout(timeout))) {
         return nullptr;
     }
@@ -270,7 +270,7 @@ bool Message::send() {
     FCITX_D();
     auto bus = d->bus_.get();
     if (bus) {
-        if (dbus_connection_send(bus->conn_, d->msg(), nullptr)) {
+        if (dbus_connection_send(bus->conn_.get(), d->msg(), nullptr)) {
             return true;
         }
     }

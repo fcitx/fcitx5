@@ -18,6 +18,7 @@
 //
 
 #include <unistd.h>
+#include <stdexcept>
 #include "../../charutils.h"
 #include "../../log.h"
 #include "../../stringutils.h"
@@ -320,26 +321,24 @@ Bus::Bus(const std::string &address)
         goto fail;
     }
     d->address_ = address;
-    d->conn_ = dbus_connection_open_private(address.c_str(), nullptr);
+    d->conn_.reset(dbus_connection_open_private(address.c_str(), nullptr));
     if (!d->conn_) {
         goto fail;
     }
 
-    if (!dbus_bus_register(d->conn_, nullptr)) {
+    dbus_connection_set_exit_on_disconnect(d->conn_.get(), false);
+
+    if (!dbus_bus_register(d->conn_.get(), nullptr)) {
         goto fail;
     }
-    if (!dbus_connection_add_filter(d->conn_, DBusMessageCallback, d,
+    if (!dbus_connection_add_filter(d->conn_.get(), DBusMessageCallback, d,
                                     nullptr)) {
         goto fail;
     }
     return;
 
 fail:
-    if (d->conn_) {
-        dbus_connection_close(d->conn_);
-        dbus_connection_unref(d->conn_);
-    }
-    d->conn_ = nullptr;
+    throw std::runtime_error("Failed to create dbus connection");
 }
 
 Bus::~Bus() {
@@ -353,7 +352,7 @@ Bus::Bus(Bus &&other) noexcept : d_ptr(std::move(other.d_ptr)) {}
 
 bool Bus::isOpen() const {
     FCITX_D();
-    return d->conn_ && dbus_connection_get_is_connected(d->conn_);
+    return d->conn_ && dbus_connection_get_is_connected(d->conn_.get());
 }
 
 Message Bus::createMethodCall(const char *destination, const char *path,
@@ -505,14 +504,14 @@ void Bus::attachEventLoop(EventLoop *loop) {
     }
     d->loop_ = loop;
     do {
-        if (!dbus_connection_set_watch_functions(d->conn_, DBusAddWatch,
+        if (!dbus_connection_set_watch_functions(d->conn_.get(), DBusAddWatch,
                                                  DBusRemoveWatch,
                                                  DBusToggleWatch, d, nullptr)) {
             break;
         }
         if (!dbus_connection_set_timeout_functions(
-                d->conn_, DBusAddTimeout, DBusRemoveTimeout, DBusToggleTimeout,
-                d, nullptr)) {
+                d->conn_.get(), DBusAddTimeout, DBusRemoveTimeout,
+                DBusToggleTimeout, d, nullptr)) {
             break;
         }
         if (!d->deferEvent_) {
@@ -523,7 +522,7 @@ void Bus::attachEventLoop(EventLoop *loop) {
             d->deferEvent_->setOneShot();
         }
         dbus_connection_set_dispatch_status_function(
-            d->conn_, DBusDispatchStatusCallback, d, nullptr);
+            d->conn_.get(), DBusDispatchStatusCallback, d, nullptr);
         d->attached_ = true;
         return;
     } while (0);
@@ -533,12 +532,12 @@ void Bus::attachEventLoop(EventLoop *loop) {
 
 void Bus::detachEventLoop() {
     FCITX_D();
-    dbus_connection_set_watch_functions(d->conn_, nullptr, nullptr, nullptr,
-                                        nullptr, nullptr);
-    dbus_connection_set_timeout_functions(d->conn_, nullptr, nullptr, nullptr,
-                                          nullptr, nullptr);
-    dbus_connection_set_dispatch_status_function(d->conn_, nullptr, nullptr,
-                                                 nullptr);
+    dbus_connection_set_watch_functions(d->conn_.get(), nullptr, nullptr,
+                                        nullptr, nullptr, nullptr);
+    dbus_connection_set_timeout_functions(d->conn_.get(), nullptr, nullptr,
+                                          nullptr, nullptr, nullptr);
+    dbus_connection_set_dispatch_status_function(d->conn_.get(), nullptr,
+                                                 nullptr, nullptr);
     d->deferEvent_.reset();
     d->loop_ = nullptr;
     d->attached_ = false;
@@ -592,8 +591,8 @@ std::unique_ptr<Slot> Bus::addObject(const std::string &path,
     DBusObjectPathVTable vtable;
     memset(&vtable, 0, sizeof(vtable));
     vtable.message_function = DBusObjectPathMessageCallback;
-    if (dbus_connection_register_object_path(d->conn_, path.c_str(), &vtable,
-                                             slot.get())) {
+    if (dbus_connection_register_object_path(d->conn_.get(), path.c_str(),
+                                             &vtable, slot.get())) {
         return nullptr;
     }
 
@@ -645,7 +644,7 @@ bool Bus::addObjectVTable(const std::string &path, const std::string &interface,
 
 void *Bus::nativeHandle() const {
     FCITX_D();
-    return d->conn_;
+    return d->conn_.get();
 }
 
 bool Bus::requestName(const std::string &name, Flags<RequestNameFlag> flags) {
@@ -658,12 +657,13 @@ bool Bus::requestName(const std::string &name, Flags<RequestNameFlag> flags) {
              ? DBUS_NAME_FLAG_ALLOW_REPLACEMENT
              : 0) |
         ((flags & RequestNameFlag::Queue) ? 0 : DBUS_NAME_FLAG_DO_NOT_QUEUE);
-    return dbus_bus_request_name(d->conn_, name.c_str(), d_flags, nullptr);
+    return dbus_bus_request_name(d->conn_.get(), name.c_str(), d_flags,
+                                 nullptr);
 }
 
 bool Bus::releaseName(const std::string &name) {
     FCITX_D();
-    return dbus_bus_release_name(d->conn_, name.c_str(), nullptr);
+    return dbus_bus_release_name(d->conn_.get(), name.c_str(), nullptr);
 }
 
 std::string Bus::serviceOwner(const std::string &name, uint64_t usec) {
@@ -691,7 +691,7 @@ std::unique_ptr<Slot> Bus::serviceOwnerAsync(const std::string &name,
 
 std::string Bus::uniqueName() {
     FCITX_D();
-    const char *name = dbus_bus_get_unique_name(d->conn_);
+    const char *name = dbus_bus_get_unique_name(d->conn_.get());
     if (!name) {
         return {};
     }
@@ -705,7 +705,7 @@ std::string Bus::address() {
 
 void Bus::flush() {
     FCITX_D();
-    dbus_connection_flush(d->conn_);
+    dbus_connection_flush(d->conn_.get());
 }
 } // namespace dbus
 } // namespace fcitx

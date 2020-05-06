@@ -72,7 +72,7 @@ public:
 class BusPrivate : public TrackableObject<BusPrivate> {
 public:
     BusPrivate(Bus *bus)
-        : bus_(bus), conn_(nullptr),
+        : bus_(bus), conn_(nullptr, &DBusConnectionCloser),
           matchRuleSet_(
               [this](const MatchRule &rule) {
                   if (!conn_) {
@@ -83,7 +83,7 @@ public:
                       nameCache()->addWatch(rule.service());
                   }
                   FCITX_LIBDBUS_DEBUG() << "Add dbus match: " << rule.rule();
-                  dbus_bus_add_match(conn_, rule.rule().c_str(),
+                  dbus_bus_add_match(conn_.get(), rule.rule().c_str(),
                                      &error.error());
                   bool isError = dbus_error_is_set(&error.error());
                   if (!isError) {
@@ -99,7 +99,8 @@ public:
                       nameCache()->removeWatch(rule.service());
                   }
                   FCITX_LIBDBUS_DEBUG() << "Remove dbus match: " << rule.rule();
-                  dbus_bus_remove_match(conn_, rule.rule().c_str(), nullptr);
+                  dbus_bus_remove_match(conn_.get(), rule.rule().c_str(),
+                                        nullptr);
               }),
           objectRegistration_(
               [this](const std::string &path) {
@@ -110,8 +111,8 @@ public:
                   memset(&vtable, 0, sizeof(vtable));
 
                   vtable.message_function = DBusObjectPathVTableMessageCallback;
-                  if (!dbus_connection_register_object_path(conn_, path.c_str(),
-                                                            &vtable, this)) {
+                  if (!dbus_connection_register_object_path(
+                          conn_.get(), path.c_str(), &vtable, this)) {
                       return false;
                   }
                   return true;
@@ -121,26 +122,25 @@ public:
                       return;
                   }
 
-                  dbus_connection_unregister_object_path(conn_, path.c_str());
+                  dbus_connection_unregister_object_path(conn_.get(),
+                                                         path.c_str());
               }) {}
 
     ~BusPrivate() {
         if (conn_) {
-            dbus_connection_flush(conn_);
-            dbus_connection_close(conn_);
-            dbus_connection_unref(conn_);
+            dbus_connection_flush(conn_.get());
         }
-        conn_ = nullptr;
     }
 
     void dispatch() {
         if (!conn_) {
             return;
         }
-        dbus_connection_ref(conn_);
-        while (dbus_connection_dispatch(conn_) == DBUS_DISPATCH_DATA_REMAINS) {
+        dbus_connection_ref(conn_.get());
+        while (dbus_connection_dispatch(conn_.get()) ==
+               DBUS_DISPATCH_DATA_REMAINS) {
         }
-        dbus_connection_unref(conn_);
+        dbus_connection_unref(conn_.get());
     }
 
     static bool needWatchService(const MatchRule &rule) {
@@ -160,9 +160,16 @@ public:
                                    const std::string interface);
     bool objectVTableCallback(Message &message);
 
+    static void DBusConnectionCloser(DBusConnection *conn) {
+        if (conn) {
+            dbus_connection_close(conn);
+            dbus_connection_unref(conn);
+        }
+    }
+
     Bus *bus_;
     std::string address_;
-    DBusConnection *conn_;
+    std::unique_ptr<DBusConnection, decltype(&DBusConnectionCloser)> conn_;
     MultiHandlerTable<MatchRule, int> matchRuleSet_;
     HandlerTable<std::pair<MatchRule, MessageCallback>> matchHandlers_;
     HandlerTable<MessageCallback> filterHandlers_;
@@ -191,7 +198,7 @@ public:
 
     DBusConnection *connection() {
         if (auto bus = bus_.get()) {
-            return bus->conn_;
+            return bus->conn_.get();
         }
         return nullptr;
     }

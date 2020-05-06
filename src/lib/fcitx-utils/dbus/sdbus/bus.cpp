@@ -17,6 +17,7 @@
 // see <http://www.gnu.org/licenses/>.
 //
 
+#include <stdexcept>
 #include "../../log.h"
 #include "bus_p.h"
 #include "message_p.h"
@@ -51,7 +52,11 @@ Bus::Bus(BusType type) : d_ptr(std::make_unique<BusPrivate>()) {
         func = sd_bus_open;
         break;
     }
-    func(&d_ptr->bus_);
+    if (func(&d_ptr->bus_) < 0) {
+        sd_bus_unref(d_ptr->bus_);
+        d_ptr->bus_ = nullptr;
+    }
+    throw std::runtime_error("Failed to create dbus connection");
 }
 
 Bus::Bus(const std::string &address) : d_ptr(std::make_unique<BusPrivate>()) {
@@ -75,6 +80,7 @@ Bus::Bus(const std::string &address) : d_ptr(std::make_unique<BusPrivate>()) {
 fail:
     sd_bus_unref(d_ptr->bus_);
     d_ptr->bus_ = nullptr;
+    throw std::runtime_error("Failed to create dbus connection");
 }
 
 Bus::~Bus() {
