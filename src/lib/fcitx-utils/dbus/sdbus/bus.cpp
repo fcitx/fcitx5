@@ -55,8 +55,8 @@ Bus::Bus(BusType type) : d_ptr(std::make_unique<BusPrivate>()) {
     if (func(&d_ptr->bus_) < 0) {
         sd_bus_unref(d_ptr->bus_);
         d_ptr->bus_ = nullptr;
+        throw std::runtime_error("Failed to create dbus connection");
     }
-    throw std::runtime_error("Failed to create dbus connection");
 }
 
 Bus::Bus(const std::string &address) : d_ptr(std::make_unique<BusPrivate>()) {
