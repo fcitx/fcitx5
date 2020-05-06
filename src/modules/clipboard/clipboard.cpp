@@ -323,15 +323,19 @@ void Clipboard::clipboardChanged(const std::string &name) {
     clipboardCallback_ = xcb_->call<IXCBModule::convertSelection>(
         name, "CLIPBOARD", "",
         [this](xcb_atom_t, const char *data, size_t length) {
-            if (data) {
-                std::string str(data, length);
-                if (!history_.pushFront(str)) {
-                    history_.moveToTop(str);
-                }
-                while (history_.size() && static_cast<int>(history_.size()) >
-                                              config_.numOfEntries.value()) {
-                    history_.pop();
-                }
+            if (!data || !length) {
+                return;
+            }
+            std::string str(data, length);
+            if (!utf8::validate(str)) {
+                return;
+            }
+            if (!history_.pushFront(str)) {
+                history_.moveToTop(str);
+            }
+            while (history_.size() && static_cast<int>(history_.size()) >
+                                          config_.numOfEntries.value()) {
+                history_.pop();
             }
             clipboardCallback_.reset();
         });
