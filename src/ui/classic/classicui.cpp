@@ -27,8 +27,10 @@
 #include "fcitx/instance.h"
 #include "fcitx/userinterfacemanager.h"
 #include "notificationitem_public.h"
-#include "waylandui.h"
 #include "xcbui.h"
+#ifdef WAYLAND_FOUND
+#include "waylandui.h"
+#endif
 
 namespace fcitx {
 namespace classicui {
@@ -54,6 +56,7 @@ ClassicUI::ClassicUI(Instance *instance)
                 });
     }
 
+#ifdef WAYLAND_FOUND
     if (auto waylandAddon = wayland()) {
         waylandCreatedCallback_ =
             waylandAddon->call<IWaylandModule::addConnectionCreatedCallback>(
@@ -71,6 +74,7 @@ ClassicUI::ClassicUI(Instance *instance)
                     uis_.erase("wayland:" + name);
                 });
     }
+#endif
 }
 
 ClassicUI::~ClassicUI() {}

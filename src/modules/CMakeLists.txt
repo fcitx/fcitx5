@@ -1,6 +1,11 @@
 add_subdirectory(xcb)
 add_subdirectory(dbus)
+
+if (WAYLAND_FOUND)
+
 add_subdirectory(wayland)
+endif()
+
 add_subdirectory(spell)
 add_subdirectory(notifications)
 add_subdirectory(notificationitem)

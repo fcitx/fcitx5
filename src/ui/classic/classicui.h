@@ -33,8 +33,10 @@
 #include "fcitx/instance.h"
 #include "fcitx/userinterface.h"
 #include "theme.h"
-#include "wayland_public.h"
 #include "xcb_public.h"
+#ifdef WAYLAND_FOUND
+#include "wayland_public.h"
+#endif
 
 namespace fcitx {
 namespace classicui {
@@ -125,10 +127,12 @@ private:
         xcbCreatedCallback_;
     std::unique_ptr<HandlerTableEntry<XCBConnectionClosed>> xcbClosedCallback_;
 
+#ifdef WAYLAND_FOUND
     std::unique_ptr<HandlerTableEntry<WaylandConnectionCreated>>
         waylandCreatedCallback_;
     std::unique_ptr<HandlerTableEntry<WaylandConnectionClosed>>
         waylandClosedCallback_;
+#endif
 
     std::vector<std::unique_ptr<HandlerTableEntry<EventHandler>>>
         eventHandlers_;
