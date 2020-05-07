@@ -264,6 +264,7 @@ public:
     void releaseSlot();
 
     Bus *bus();
+    bool isRegistered() const;
     const std::string &path() const;
     const std::string &interface() const;
     Message *currentMessage() const;

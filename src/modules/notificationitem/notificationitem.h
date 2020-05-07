@@ -48,6 +48,7 @@ public:
     bool registered() { return registered_; }
     std::unique_ptr<HandlerTableEntry<NotificationItemCallback>>
         watch(NotificationItemCallback);
+    void newIcon();
 
 private:
     FCITX_ADDON_DEPENDENCY_LOADER(dbus, instance_->addonManager());

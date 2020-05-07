@@ -128,16 +128,6 @@ NotificationItem::NotificationItem(Instance *instance)
         NOTIFICATION_WATCHER_DBUS_ADDR,
         [this](const std::string &, const std::string &,
                const std::string &newName) { setSerivceName(newName); });
-
-    eventHandlers_.emplace_back(instance_->watchEvent(
-        EventType::InputContextFocusIn, EventWatcherPhase::Default,
-        [this](Event &) { sni_->newIcon(); }));
-    eventHandlers_.emplace_back(instance_->watchEvent(
-        EventType::InputContextSwitchInputMethod, EventWatcherPhase::Default,
-        [this](Event &) { sni_->newIcon(); }));
-    eventHandlers_.emplace_back(instance_->watchEvent(
-        EventType::InputMethodGroupChanged, EventWatcherPhase::Default,
-        [this](Event &) { sni_->newIcon(); }));
 }
 
 NotificationItem::~NotificationItem() = default;
@@ -198,6 +188,14 @@ void NotificationItem::enable() {
     }
     enabled_ = true;
     registerSNI();
+
+    auto updateIcon = [this](Event &) { newIcon(); };
+    for (auto type : {EventType::InputContextFocusIn,
+                      EventType::InputContextSwitchInputMethod,
+                      EventType::InputMethodGroupChanged}) {
+        eventHandlers_.emplace_back(instance_->watchEvent(
+            type, EventWatcherPhase::Default, updateIcon));
+    }
 }
 
 void NotificationItem::disable() {
@@ -209,11 +207,20 @@ void NotificationItem::disable() {
     sni_->releaseSlot();
 
     enabled_ = false;
+    eventHandlers_.clear();
 }
 
 std::unique_ptr<HandlerTableEntry<NotificationItemCallback>>
 NotificationItem::watch(NotificationItemCallback callback) {
     return handlers_.add(callback);
+}
+
+void NotificationItem::newIcon() {
+    // Make sure we only call it when it is registered.
+    if (!sni_->isRegistered()) {
+        return;
+    }
+    sni_->newIcon();
 }
 
 class NotificationItemFactory : public AddonFactory {

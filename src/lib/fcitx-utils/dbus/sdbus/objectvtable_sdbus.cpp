@@ -209,6 +209,11 @@ Bus *ObjectVTableBase::bus() {
     return d->slot_->bus_;
 }
 
+bool ObjectVTableBase::isRegistered() const {
+    FCITX_D();
+    return !!d->slot_;
+}
+
 const std::string &ObjectVTableBase::path() const {
     FCITX_D();
     return d->slot_->path_;
