@@ -124,8 +124,6 @@ NotificationItem::NotificationItem(Instance *instance)
       watcher_(std::make_unique<dbus::ServiceWatcher>(*bus_)),
       sni_(std::make_unique<StatusNotifierItem>(this)),
       menu_(std::make_unique<DBusMenu>(this)) {
-    bus_->addObjectVTable(NOTIFICATION_ITEM_DEFAULT_OBJ,
-                          NOTIFICATION_ITEM_DBUS_IFACE, *sni_);
     watcherEntry_ = watcher_->watchService(
         NOTIFICATION_WATCHER_DBUS_ADDR,
         [this](const std::string &, const std::string &,
@@ -188,6 +186,10 @@ void NotificationItem::enable() {
     if (enabled_) {
         return;
     }
+    // Ensure we are released.
+    sni_->releaseSlot();
+    bus_->addObjectVTable(NOTIFICATION_ITEM_DEFAULT_OBJ,
+                          NOTIFICATION_ITEM_DBUS_IFACE, *sni_);
 
     serviceName_ =
         fmt::format("org.kde.StatusNotifierItem-{0}-{1}", getpid(), ++index_);
@@ -204,6 +206,7 @@ void NotificationItem::disable() {
     }
 
     bus_->releaseName(serviceName_);
+    sni_->releaseSlot();
 
     enabled_ = false;
 }
