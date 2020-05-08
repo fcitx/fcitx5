@@ -39,7 +39,6 @@ public:
         if (!obj) {
             return;
         }
-        FCITX_INFO() << RootString::data();
         json_object *root =
             json_object_object_get(obj.get(), RootString::data());
         if (!root || json_object_get_type(root) != json_type_array) {

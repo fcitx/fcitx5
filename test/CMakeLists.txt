@@ -84,6 +84,12 @@ target_include_directories(testxkbrules PRIVATE ../src)
 target_link_libraries(testxkbrules Fcitx5::Core Expat::Expat)
 add_test(NAME testxkbrules COMMAND testxkbrules)
 
+add_executable(testisocodes testisocodes.cpp ../src/im/keyboard/isocodes.cpp)
+target_compile_definitions(testisocodes PRIVATE "-D_TEST_XKBRULES")
+target_include_directories(testisocodes PRIVATE ../src)
+target_link_libraries(testisocodes Fcitx5::Core PkgConfig::JsonC)
+add_test(NAME testisocodes COMMAND testisocodes)
+
 add_executable(testemoji testemoji.cpp)
 target_link_libraries(testemoji Fcitx5::Core Fcitx5::Module::Emoji)
 add_dependencies(testemoji emoji emoji.conf.in-fmt)
