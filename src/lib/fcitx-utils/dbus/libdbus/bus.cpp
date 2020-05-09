@@ -57,7 +57,7 @@ DBusHandlerResult DBusMessageCallback(DBusConnection *, DBusMessage *message,
         }
     } catch (const std::exception &e) {
         // some abnormal things threw
-        FCITX_LOG(Error) << e.what();
+        FCITX_ERROR() << e.what();
         abort();
     }
     return DBUS_HANDLER_RESULT_NOT_YET_HANDLED;

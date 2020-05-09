@@ -30,14 +30,14 @@ void XCBWindow::createWindow(xcb_visualid_t vid, bool overrideRedirect) {
     }
     xcb_screen_t *screen = xcb_aux_get_screen(conn, ui_->defaultScreen());
 
-    if (!vid) {
-        vid = ui_->visualId();
+    if (vid == ui_->visualId()) {
+        colorMap_ = ui_->colorMap();
+    } else if (vid) {
+        colorMap_ = xcb_generate_id(conn);
+        xcb_create_colormap(conn, XCB_COLORMAP_ALLOC_NONE, colorMap_,
+                            screen->root, vid);
     } else {
-        if (vid != ui_->visualId()) {
-            colorMap_ = xcb_generate_id(conn);
-            xcb_create_colormap(conn, XCB_COLORMAP_ALLOC_NONE, colorMap_,
-                                screen->root, vid);
-        }
+        colorMap_ = XCB_COPY_FROM_PARENT;
     }
 
     wid_ = xcb_generate_id(conn);
@@ -61,7 +61,7 @@ void XCBWindow::createWindow(xcb_visualid_t vid, bool overrideRedirect) {
     params.backing_store = XCB_BACKING_STORE_WHEN_MAPPED;
     params.override_redirect = overrideRedirect ? 1 : 0;
     params.save_under = 1;
-    params.colormap = colorMap_ ? colorMap_ : ui_->colorMap();
+    params.colormap = colorMap_;
     vid_ = vid;
 
     auto cookie = xcb_aux_create_window_checked(
@@ -80,7 +80,10 @@ void XCBWindow::createWindow(xcb_visualid_t vid, bool overrideRedirect) {
         });
 
     surface_.reset(cairo_xcb_surface_create(
-        conn, wid_, xcb_aux_find_visual_by_id(screen, vid), width_, height_));
+        conn, wid_,
+        vid ? xcb_aux_find_visual_by_id(screen, vid)
+            : xcb_aux_find_visual_by_id(screen, screen->root_visual),
+        width_, height_));
     contentSurface_.reset();
 
     postCreateWindow();

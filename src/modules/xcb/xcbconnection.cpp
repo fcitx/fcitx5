@@ -122,16 +122,16 @@ void XCBConnection::grabKey(const Key &key) {
     std::unique_ptr<xcb_keycode_t, decltype(&std::free)> keycode(
         xcb_key_symbols_get_keycode(syms_.get(), sym), &std::free);
     if (!keycode) {
-        FCITX_LOG(Warn) << "Can not convert keyval=" << sym << " to keycode!";
+        FCITX_XCB_WARN() << "Can not convert keyval=" << sym << " to keycode!";
     } else {
-        FCITX_LOG(Debug) << "grab keycode " << static_cast<int>(*keycode)
-                         << " modifiers " << modifiers;
+        FCITX_XCB_DEBUG() << "grab keycode " << static_cast<int>(*keycode)
+                          << " modifiers " << modifiers;
         auto cookie =
             xcb_grab_key_checked(conn_.get(), true, root_, modifiers, *keycode,
                                  XCB_GRAB_MODE_ASYNC, XCB_GRAB_MODE_ASYNC);
         xcb_generic_error_t *error = xcb_request_check(conn_.get(), cookie);
         if (error) {
-            FCITX_LOG(Debug)
+            FCITX_XCB_DEBUG()
                 << "grab key error " << static_cast<int>(error->error_code)
                 << " " << root_;
         }

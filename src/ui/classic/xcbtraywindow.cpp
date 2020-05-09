@@ -153,7 +153,7 @@ bool XCBTrayWindow::filterEvent(xcb_generic_event_t *event) {
         auto property = reinterpret_cast<xcb_property_notify_event_t *>(event);
         if (property->atom == atoms_[ATOM_VISUAL] &&
             property->window == dockWindow_) {
-            createWindow(trayVisual());
+            createTrayWindow();
             findDock();
             return true;
         }
@@ -190,7 +190,7 @@ void XCBTrayWindow::refreshDockWindow() {
         CLASSICUI_DEBUG() << "Found dock window";
         addEventMaskToWindow(ui_->connection(), dockWindow_,
                              XCB_EVENT_MASK_STRUCTURE_NOTIFY);
-        createWindow(trayVisual());
+        createTrayWindow();
         findDock();
     } else {
         destroyWindow();
@@ -206,6 +206,11 @@ void XCBTrayWindow::findDock() {
         CLASSICUI_DEBUG() << "Send op code to tray";
         sendTrayOpcode(SYSTEM_TRAY_REQUEST_DOCK, wid_, 0, 0);
     }
+}
+
+void XCBTrayWindow::createTrayWindow() {
+    trayVid_ = trayVisual();
+    createWindow(trayVid_);
 }
 
 void XCBTrayWindow::sendTrayOpcode(long message, long data1, long data2,
@@ -269,6 +274,21 @@ void XCBTrayWindow::postCreateWindow() {
             XCB_EVENT_MASK_BUTTON_RELEASE | XCB_EVENT_MASK_STRUCTURE_NOTIFY |
             XCB_EVENT_MASK_ENTER_WINDOW | XCB_EVENT_MASK_LEAVE_WINDOW |
             XCB_EVENT_MASK_VISIBILITY_CHANGE | XCB_EVENT_MASK_POINTER_MOTION);
+
+    if (!trayVid_) {
+        // Change window attr.
+        xcb_change_window_attributes_value_list_t list;
+        list.background_pixmap = XCB_BACK_PIXMAP_PARENT_RELATIVE;
+        xcb_screen_t *screen =
+            xcb_aux_get_screen(ui_->connection(), ui_->defaultScreen());
+        list.background_pixel = screen->white_pixel;
+        list.border_pixel = screen->black_pixel;
+        xcb_change_window_attributes_aux(
+            ui_->connection(), wid_,
+            XCB_CW_BACKING_PIXEL | XCB_CW_BORDER_PIXEL | XCB_CW_BACK_PIXMAP,
+            &list);
+        xcb_flush(ui_->connection());
+    }
 }
 
 void XCBTrayWindow::paint(cairo_t *c) {
@@ -288,6 +308,7 @@ void XCBTrayWindow::paint(cairo_t *c) {
 
     auto &image = theme.loadImage(icon, label, std::min(height(), width()),
                                   ImagePurpose::Tray);
+
     cairo_save(c);
     cairo_set_operator(c, CAIRO_OPERATOR_SOURCE);
     double scaleW = 1.0, scaleH = 1.0;
@@ -319,6 +340,25 @@ void XCBTrayWindow::update() {
         cairo_destroy(c);
         render();
     }
+}
+
+void XCBTrayWindow::render() {
+    if (!trayVid_) {
+        xcb_clear_area(ui_->connection(), false, wid_, 0, 0, width(), height());
+    }
+    auto cr = cairo_create(surface_.get());
+    if (trayVid_) {
+        cairo_set_source_rgba(cr, 0, 0, 0, 0);
+        cairo_set_operator(cr, CAIRO_OPERATOR_SOURCE);
+        cairo_paint(cr);
+    }
+    cairo_set_operator(cr, CAIRO_OPERATOR_OVER);
+    cairo_set_source_surface(cr, contentSurface_.get(), 0, 0);
+    cairo_paint(cr);
+    cairo_destroy(cr);
+    cairo_surface_flush(surface_.get());
+    xcb_flush(ui_->connection());
+    CLASSICUI_DEBUG() << "Render";
 }
 
 void XCBTrayWindow::resume() {

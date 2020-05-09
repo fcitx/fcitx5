@@ -235,7 +235,7 @@ DBusFrontendModule::DBusFrontendModule(Instance *instance)
             FCITX_PORTAL_DBUS_SERVICE,
             Flags<dbus::RequestNameFlag>{dbus::RequestNameFlag::ReplaceExisting,
                                          dbus::RequestNameFlag::Queue})) {
-        FCITX_LOG(Warn) << "Can not get portal dbus name right now.";
+        FCITX_WARN() << "Can not get portal dbus name right now.";
     }
 
     event_ = instance_->watchEvent(

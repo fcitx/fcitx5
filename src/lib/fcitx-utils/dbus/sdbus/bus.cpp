@@ -139,7 +139,7 @@ int SDMessageCallback(sd_bus_message *m, void *userdata, sd_bus_error *) {
         return result ? 1 : 0;
     } catch (const std::exception &e) {
         // some abnormal things threw
-        FCITX_LOG(Error) << e.what();
+        FCITX_ERROR() << e.what();
         abort();
     }
     return 1;

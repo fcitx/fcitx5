@@ -23,7 +23,7 @@ XCBMenu::XCBMenu(XCBUI *ui, MenuPool *pool, Menu *menu)
     if (auto ic = ui_->parent()->instance()->mostRecentInputContext()) {
         lastRelevantIc_ = ic->watch();
     }
-    createWindow();
+    createWindow(ui_->visualId());
 }
 
 XCBMenu::~XCBMenu() {}

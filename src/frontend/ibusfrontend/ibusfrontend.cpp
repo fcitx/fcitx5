@@ -736,7 +736,7 @@ void IBusFrontendModule::becomeIBus() {
             IBUS_PORTAL_DBUS_SERVICE,
             Flags<dbus::RequestNameFlag>{dbus::RequestNameFlag::ReplaceExisting,
                                          dbus::RequestNameFlag::Queue})) {
-        FCITX_LOG(Warn) << "Can not get portal ibus name right now.";
+        FCITX_WARN() << "Can not get portal ibus name right now.";
     }
 }
 

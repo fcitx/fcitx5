@@ -20,7 +20,7 @@ public:
     XCBWindow(XCBUI *ui, int width = 1, int height = 1);
     ~XCBWindow();
 
-    void createWindow(xcb_visualid_t vid = 0, bool overrideRedirect = true);
+    void createWindow(xcb_visualid_t vid, bool overrideRedirect = true);
     virtual void postCreateWindow() {}
     void destroyWindow();
     void resize(unsigned int width, unsigned int height) override;

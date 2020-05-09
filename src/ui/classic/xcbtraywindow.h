@@ -29,12 +29,15 @@ public:
     void updateGroupMenu();
     void updateInputMethodMenu();
 
+    void render() override;
+
 private:
     void findDock();
     void sendTrayOpcode(long message, long data1, long data2, long data3);
     void refreshDockWindow();
     xcb_visualid_t trayVisual();
     void paint(cairo_t *cr);
+    void createTrayWindow();
 
     xcb_window_t dockWindow_ = XCB_WINDOW_NONE;
     std::unique_ptr<HandlerTableEntry<XCBSelectionNotifyCallback>>
@@ -61,6 +64,7 @@ private:
     SimpleAction testSubAction2_;
 #endif
 
+    xcb_visualid_t trayVid_ = 0;
     Menu groupMenu_;
     std::list<SimpleAction> groupActions_;
     Menu inputMethodMenu_;

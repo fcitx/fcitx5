@@ -92,6 +92,7 @@ private:
 FCITX_DECLARE_LOG_CATEGORY(xcb_log);
 
 #define FCITX_XCB_DEBUG() FCITX_LOGC(::fcitx::xcb_log, Debug)
+#define FCITX_XCB_WARN() FCITX_LOGC(::fcitx::xcb_log, Debug)
 
 } // namespace fcitx
 

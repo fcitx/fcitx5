@@ -43,7 +43,7 @@ int SDMethodCallback(sd_bus_message *m, void *userdata, sd_bus_error *) {
         return 1;
     } catch (const std::exception &e) {
         // some abnormal things threw
-        FCITX_LOG(Error) << e.what();
+        FCITX_ERROR() << e.what();
         abort();
     }
     return 0;
@@ -66,7 +66,7 @@ int SDPropertyGetCallback(sd_bus *, const char *, const char *,
         return 1;
     } catch (const std::exception &e) {
         // some abnormal things threw
-        FCITX_LOG(Error) << e.what();
+        FCITX_ERROR() << e.what();
         abort();
     }
     return 0;
@@ -89,7 +89,7 @@ int SDPropertySetCallback(sd_bus *, const char *, const char *,
         return 1;
     } catch (const std::exception &e) {
         // some abnormal things threw
-        FCITX_LOG(Error) << e.what();
+        FCITX_ERROR() << e.what();
         abort();
     }
     return 0;

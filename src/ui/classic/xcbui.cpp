@@ -322,7 +322,7 @@ void XCBUI::refreshCompositeManager() {
     } else {
         colorMap_ = screen->default_colormap;
     }
-    inputWindow_->createWindow();
+    inputWindow_->createWindow(visualId());
     // mainWindow_->createWindow();
 }
 
