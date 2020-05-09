@@ -8,6 +8,7 @@
 #define _FCITX_CONFIG_INIPARSER_H_
 
 #include <fcitx-config/rawconfig.h>
+#include <fcitx-utils/standardpath.h>
 #include "fcitxconfig_export.h"
 
 namespace fcitx {
@@ -21,6 +22,12 @@ FCITXCONFIG_EXPORT void readAsIni(RawConfig &, const std::string &name);
 FCITXCONFIG_EXPORT bool safeSaveAsIni(const Configuration &,
                                       const std::string &name);
 FCITXCONFIG_EXPORT bool safeSaveAsIni(const RawConfig &,
+                                      const std::string &name);
+FCITXCONFIG_EXPORT bool safeSaveAsIni(const Configuration &,
+                                      StandardPath::Type type,
+                                      const std::string &name);
+FCITXCONFIG_EXPORT bool safeSaveAsIni(const RawConfig &,
+                                      StandardPath::Type type,
                                       const std::string &name);
 } // namespace fcitx
 

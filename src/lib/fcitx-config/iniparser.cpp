@@ -190,17 +190,26 @@ void readAsIni(Configuration &configuration, const std::string &path) {
 }
 
 bool safeSaveAsIni(const RawConfig &config, const std::string &path) {
-    auto &standardPath = StandardPath::global();
-    return standardPath.safeSave(
-        StandardPath::Type::PkgConfig, path,
-        [&config](int fd) { return writeAsIni(config, fd); });
+    return safeSaveAsIni(config, StandardPath::Type::PkgConfig, path);
 }
 
 bool safeSaveAsIni(const Configuration &configuration,
                    const std::string &path) {
+    return safeSaveAsIni(configuration, StandardPath::Type::PkgConfig, path);
+}
+
+bool safeSaveAsIni(const RawConfig &config, StandardPath::Type type,
+                   const std::string &path) {
+    auto &standardPath = StandardPath::global();
+    return standardPath.safeSave(
+        type, path, [&config](int fd) { return writeAsIni(config, fd); });
+}
+
+bool safeSaveAsIni(const Configuration &configuration, StandardPath::Type type,
+                   const std::string &path) {
     RawConfig config;
 
     configuration.save(config);
-    return safeSaveAsIni(config, path);
+    return safeSaveAsIni(config, type, path);
 }
 } // namespace fcitx
