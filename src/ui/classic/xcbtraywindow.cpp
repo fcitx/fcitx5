@@ -236,20 +236,29 @@ void XCBTrayWindow::sendTrayOpcode(long message, long data1, long data2,
 xcb_visualid_t XCBTrayWindow::trayVisual() {
     xcb_visualid_t vid = 0;
     if (dockWindow_ != XCB_WINDOW_NONE) {
-        auto cookie =
-            xcb_get_property(ui_->connection(), false, dockWindow_,
-                             atoms_[ATOM_VISUAL], XCB_ATOM_VISUALID, 0, 1);
-        auto reply = makeXCBReply(
-            xcb_get_property_reply(ui_->connection(), cookie, nullptr));
-        if (reply && reply->type == XCB_ATOM_VISUALID && reply->format == 32 &&
-            reply->bytes_after == 0) {
-            auto data =
-                static_cast<char *>(xcb_get_property_value(reply.get()));
-            int length = xcb_get_property_value_length(reply.get());
-            if (length == 32 / 8) {
-                vid = *reinterpret_cast<xcb_visualid_t *>(data);
-            }
-        }
+        return 0;
+    }
+    auto cookie =
+        xcb_get_property(ui_->connection(), false, dockWindow_,
+                         atoms_[ATOM_VISUAL], XCB_ATOM_VISUALID, 0, 1);
+    auto reply = makeXCBReply(
+        xcb_get_property_reply(ui_->connection(), cookie, nullptr));
+    if (!reply || reply->type != XCB_ATOM_VISUALID || reply->format != 32 ||
+        reply->bytes_after != 0) {
+        return 0;
+    }
+    auto data = static_cast<char *>(xcb_get_property_value(reply.get()));
+    int length = xcb_get_property_value_length(reply.get());
+    if (length != 32 / 8) {
+        return 0;
+    }
+    vid = *reinterpret_cast<xcb_visualid_t *>(data);
+
+    xcb_screen_t *screen =
+        xcb_aux_get_screen(ui_->connection(), ui_->defaultScreen());
+    auto depth = xcb_aux_get_depth_of_visual(screen, vid);
+    if (depth != 32) {
+        return 0;
     }
     return vid;
 }
