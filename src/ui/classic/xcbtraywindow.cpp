@@ -284,7 +284,7 @@ void XCBTrayWindow::postCreateWindow() {
             XCB_EVENT_MASK_ENTER_WINDOW | XCB_EVENT_MASK_LEAVE_WINDOW |
             XCB_EVENT_MASK_VISIBILITY_CHANGE | XCB_EVENT_MASK_POINTER_MOTION);
 
-    if (!trayVid_) {
+    if (trayDepth_ != 32) {
         // Change window attr.
         xcb_change_window_attributes_value_list_t list;
         list.background_pixmap = XCB_BACK_PIXMAP_PARENT_RELATIVE;
