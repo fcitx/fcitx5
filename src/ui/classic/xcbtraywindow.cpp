@@ -210,6 +210,13 @@ void XCBTrayWindow::findDock() {
 
 void XCBTrayWindow::createTrayWindow() {
     trayVid_ = trayVisual();
+    if (trayVid_) {
+        xcb_screen_t *screen =
+            xcb_aux_get_screen(ui_->connection(), ui_->defaultScreen());
+        trayDepth_ = xcb_aux_get_depth_of_visual(screen, trayVid_);
+    } else {
+        trayDepth_ = 0;
+    }
     createWindow(trayVid_);
 }
 
@@ -235,7 +242,7 @@ void XCBTrayWindow::sendTrayOpcode(long message, long data1, long data2,
 
 xcb_visualid_t XCBTrayWindow::trayVisual() {
     xcb_visualid_t vid = 0;
-    if (dockWindow_ != XCB_WINDOW_NONE) {
+    if (dockWindow_ == XCB_WINDOW_NONE) {
         return 0;
     }
     auto cookie =
@@ -253,13 +260,6 @@ xcb_visualid_t XCBTrayWindow::trayVisual() {
         return 0;
     }
     vid = *reinterpret_cast<xcb_visualid_t *>(data);
-
-    xcb_screen_t *screen =
-        xcb_aux_get_screen(ui_->connection(), ui_->defaultScreen());
-    auto depth = xcb_aux_get_depth_of_visual(screen, vid);
-    if (depth != 32) {
-        return 0;
-    }
     return vid;
 }
 
@@ -352,11 +352,11 @@ void XCBTrayWindow::update() {
 }
 
 void XCBTrayWindow::render() {
-    if (!trayVid_) {
+    if (trayDepth_ != 32) {
         xcb_clear_area(ui_->connection(), false, wid_, 0, 0, width(), height());
     }
     auto cr = cairo_create(surface_.get());
-    if (trayVid_) {
+    if (trayDepth_ == 32) {
         cairo_set_source_rgba(cr, 0, 0, 0, 0);
         cairo_set_operator(cr, CAIRO_OPERATOR_SOURCE);
         cairo_paint(cr);

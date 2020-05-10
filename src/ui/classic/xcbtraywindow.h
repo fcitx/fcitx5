@@ -65,6 +65,7 @@ private:
 #endif
 
     xcb_visualid_t trayVid_ = 0;
+    int trayDepth_ = 0;
     Menu groupMenu_;
     std::list<SimpleAction> groupActions_;
     Menu inputMethodMenu_;
