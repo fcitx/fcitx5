@@ -60,6 +60,8 @@ public:
 
 private:
     void refreshCompositeManager();
+    void refreshManager();
+    void readXSettings();
     void initScreen();
     void updateTray();
 
@@ -74,9 +76,16 @@ private:
     std::unique_ptr<XCBTrayWindow> trayWindow_;
     bool enableTray_ = false;
 
+    std::string iconThemeName_;
+
     std::string compMgrAtomString_;
     xcb_atom_t compMgrAtom_ = XCB_ATOM_NONE;
     xcb_window_t compMgrWindow_ = XCB_WINDOW_NONE;
+
+    xcb_atom_t managerAtom_ = XCB_ATOM_NONE;
+    xcb_atom_t xsettingsSelectionAtom_ = XCB_ATOM_NONE;
+    xcb_atom_t xsettingsWindow_ = XCB_WINDOW_NONE;
+    xcb_atom_t xsettingsAtom_ = XCB_ATOM_NONE;
 
     XCBFontOption fontOption_;
     int maxDpi_ = -1;

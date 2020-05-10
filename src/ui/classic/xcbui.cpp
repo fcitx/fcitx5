@@ -124,6 +124,15 @@ XCBUI::XCBUI(ClassicUI *parent, const std::string &name, xcb_connection_t *conn,
     compMgrAtom_ = parent_->xcb()->call<IXCBModule::atom>(
         name_, compMgrAtomString_, false);
 
+    auto xsettingsSelectionString =
+        "_XSETTINGS_S" + std::to_string(defaultScreen_);
+    managerAtom_ =
+        parent_->xcb()->call<IXCBModule::atom>(name_, "MANAGER", false);
+    xsettingsSelectionAtom_ = parent_->xcb()->call<IXCBModule::atom>(
+        name_, xsettingsSelectionString, false);
+    xsettingsAtom_ = parent_->xcb()->call<IXCBModule::atom>(
+        name_, "_XSETTINGS_SETTINGS", false);
+
     eventHandlers_.emplace_back(parent_->xcb()->call<IXCBModule::addSelection>(
         name, compMgrAtomString_,
         [this](xcb_atom_t) { refreshCompositeManager(); }));
@@ -138,6 +147,28 @@ XCBUI::XCBUI(ClassicUI *parent, const std::string &name, xcb_connection_t *conn,
                         reinterpret_cast<xcb_client_message_event_t *>(event);
                     if (client_message->data.data32[1] == compMgrAtom_) {
                         refreshCompositeManager();
+                    } else if (client_message->type == managerAtom_ &&
+                               client_message->data.data32[1] ==
+                                   xsettingsSelectionAtom_) {
+                        CLASSICUI_DEBUG() << "Refresh manager";
+                        refreshManager();
+                    }
+                    break;
+                }
+                case XCB_DESTROY_NOTIFY: {
+                    auto destroy =
+                        reinterpret_cast<xcb_destroy_notify_event_t *>(event);
+                    if (destroy->window == xsettingsWindow_) {
+                        refreshManager();
+                    }
+                    break;
+                }
+                case XCB_PROPERTY_NOTIFY: {
+                    auto property =
+                        reinterpret_cast<xcb_property_notify_event_t *>(event);
+                    if (xsettingsWindow_ &&
+                        property->window == xsettingsWindow_) {
+                        readXSettings();
                     }
                     break;
                 }
@@ -169,6 +200,7 @@ XCBUI::XCBUI(ClassicUI *parent, const std::string &name, xcb_connection_t *conn,
     initScreen();
     refreshCompositeManager();
     trayWindow_->initTray();
+    refreshManager();
 }
 
 XCBUI::~XCBUI() {}
@@ -324,6 +356,205 @@ void XCBUI::refreshCompositeManager() {
     }
     inputWindow_->createWindow(visualId());
     // mainWindow_->createWindow();
+}
+
+void XCBUI::refreshManager() {
+    xcb_grab_server(conn_);
+    auto cookie = xcb_get_selection_owner(conn_, xsettingsSelectionAtom_);
+    auto reply =
+        makeXCBReply(xcb_get_selection_owner_reply(conn_, cookie, nullptr));
+    if (reply) {
+        xsettingsWindow_ = reply->owner;
+    }
+    if (xsettingsWindow_) {
+        addEventMaskToWindow(conn_, xsettingsWindow_,
+                             XCB_EVENT_MASK_STRUCTURE_NOTIFY |
+                                 XCB_EVENT_MASK_PROPERTY_CHANGE);
+    }
+    xcb_ungrab_server(conn_);
+    xcb_flush(conn_);
+
+    readXSettings();
+}
+
+void XCBUI::readXSettings() {
+    if (!xsettingsWindow_) {
+        return;
+    }
+
+    xcb_grab_server(conn_);
+    int offset = 0;
+    std::vector<char> data;
+    bool more = true;
+    bool error = false;
+    do {
+        auto cookie =
+            xcb_get_property(conn_, false, xsettingsWindow_, xsettingsAtom_,
+                             xsettingsAtom_, offset / 4, 10);
+        auto reply =
+            makeXCBReply(xcb_get_property_reply(conn_, cookie, nullptr));
+        more = false;
+        if (reply && reply->format == 8 && reply->type == xsettingsAtom_) {
+            auto start =
+                static_cast<const char *>(xcb_get_property_value(reply.get()));
+            auto end = start + xcb_get_property_value_length(reply.get());
+            data.insert(data.end(), start, end);
+            offset += xcb_get_property_value_length(reply.get());
+            more = reply->bytes_after != 0;
+        }
+        if (!reply) {
+            error = true;
+        }
+    } while (more);
+    xcb_ungrab_server(conn_);
+    xcb_flush(conn_);
+
+    if (error || data.empty()) {
+        return;
+    }
+    enum { BYTE_ORDER_MSB_FIRST = 1, BYTE_ORDER_LSB_FIRST = 0 };
+    const uint16_t endian = 1;
+    uint8_t byteOrder = 0;
+    if (*reinterpret_cast<const char *>(&endian)) {
+        byteOrder = BYTE_ORDER_LSB_FIRST;
+    } else {
+        byteOrder = BYTE_ORDER_MSB_FIRST;
+    }
+    if (data[0] != BYTE_ORDER_LSB_FIRST && data[0] != BYTE_ORDER_MSB_FIRST) {
+        return;
+    }
+
+    bool needSwap = byteOrder != data[0];
+    auto iter = data.cbegin();
+    auto readCard32 = [needSwap, &data, &iter](uint32_t *result) {
+        if (std::distance(iter, data.cend()) <
+            static_cast<ssize_t>(sizeof(uint32_t))) {
+            return false;
+        }
+        uint32_t x = *reinterpret_cast<const uint32_t *>(&(*iter));
+
+        if (needSwap) {
+            *result = (x << 24) | ((x & 0xff00) << 8) | ((x & 0xff0000) >> 8) |
+                      (x >> 24);
+        } else {
+            *result = x;
+        }
+        iter += sizeof(uint32_t);
+        return true;
+    };
+    auto readCard16 = [needSwap, &data, &iter](uint16_t *result) {
+        if (std::distance(iter, data.cend()) <
+            static_cast<ssize_t>(sizeof(uint16_t))) {
+            return false;
+        }
+        uint16_t x = *reinterpret_cast<const uint16_t *>(&(*iter));
+
+        if (needSwap) {
+            *result = (x << 8) | (x >> 8);
+        } else {
+            *result = x;
+        }
+        iter += sizeof(uint16_t);
+        return true;
+    };
+    auto readCard8 = [&data, &iter](uint8_t *result) {
+        if (std::distance(iter, data.cend()) <
+            static_cast<ssize_t>(sizeof(uint8_t))) {
+            return false;
+        }
+        uint8_t x = *reinterpret_cast<const uint8_t *>(&(*iter));
+        *result = x;
+        iter += sizeof(uint8_t);
+        return true;
+    };
+    // 1      CARD8    byte-order
+    // 3               unused
+    // 4      CARD32   SERIAL
+    // 4      CARD32   N_SETTINGS
+    uint32_t dummy;
+    if (!readCard32(&dummy)) {
+        return;
+    }
+    // SERIAL
+    if (!readCard32(&dummy)) {
+        return;
+    }
+
+    uint32_t nSettings;
+    if (!readCard32(&nSettings)) {
+        return;
+    }
+    for (uint32_t i = 0; i < nSettings; i++) {
+        // 1      SETTING_TYPE  type
+        // 1                    unused
+        // 2      n             name-len
+        // n      STRING8       name
+        // P                    unused, p=pad(n)
+        // 4      CARD32        last-change-serial
+        uint8_t type;
+        if (!readCard8(&type)) {
+            return;
+        }
+        // Valid types are 0,1,2.
+        if (type > 2) {
+            return;
+        }
+        // Unused
+        uint8_t dummy8;
+        if (!readCard8(&dummy8)) {
+            return;
+        }
+        uint16_t nameLen;
+        if (!readCard16(&nameLen)) {
+            return;
+        }
+#define XSETTINGS_PAD(n, m) ((n + m - 1) & (~(m - 1)))
+        uint32_t namePad = XSETTINGS_PAD(nameLen, 4);
+        if (std::distance(iter, data.cend()) < namePad) {
+            return;
+        }
+        std::string_view name(&(*iter), nameLen);
+        iter += namePad;
+        if (!readCard32(&dummy)) {
+            return;
+        }
+        switch (type) {
+        case 0: // Integer
+            if (!readCard32(&dummy)) {
+                return;
+            }
+            break;
+        case 1: {
+            // String
+            uint32_t len;
+            if (!readCard32(&len)) {
+                return;
+            }
+            uint32_t lenPad = XSETTINGS_PAD(len, 4);
+            if (std::distance(iter, data.cend()) < lenPad) {
+                return;
+            }
+            std::string_view value(&(*iter), len);
+            iter += lenPad;
+            if (name == "Net/IconThemeName" && !value.empty()) {
+                iconThemeName_ = value;
+                if (parent()->theme().setIconTheme(iconThemeName_)) {
+                    trayWindow_->update();
+                }
+            }
+            break;
+        }
+        case 2: // Color
+            // 4 card 16, just do it with 2 card32
+            if (!readCard32(&dummy)) {
+                return;
+            }
+            if (!readCard32(&dummy)) {
+                return;
+            }
+            break;
+        }
+    }
 }
 
 xcb_visualid_t XCBUI::visualId() const {

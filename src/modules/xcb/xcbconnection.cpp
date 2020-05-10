@@ -139,17 +139,6 @@ void XCBConnection::grabKey(const Key &key) {
     }
 }
 
-void addEventMaskToWindow(xcb_connection_t *conn, xcb_window_t wid,
-                          uint32_t mask) {
-    auto get_attr_cookie = xcb_get_window_attributes(conn, wid);
-    auto get_attr_reply = makeXCBReply(
-        xcb_get_window_attributes_reply(conn, get_attr_cookie, nullptr));
-    if (get_attr_reply && (get_attr_reply->your_event_mask & mask) != mask) {
-        const uint32_t newMask = get_attr_reply->your_event_mask | mask;
-        xcb_change_window_attributes(conn, wid, XCB_CW_EVENT_MASK, &newMask);
-    }
-}
-
 void XCBConnection::ungrabKey(const Key &key) {
     xcb_keysym_t sym = static_cast<xcb_keysym_t>(key.sym());
     uint modifiers = key.states();

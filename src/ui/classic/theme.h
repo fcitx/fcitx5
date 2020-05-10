@@ -153,6 +153,8 @@ public:
     void paint(cairo_t *c, const BackgroundImageConfig &cfg, int width,
                int height, double alpha = 1.0);
 
+    bool setIconTheme(const std::string &name);
+
 private:
     std::unordered_map<const BackgroundImageConfig *, ThemeImage>
         backgroundImageTable_;

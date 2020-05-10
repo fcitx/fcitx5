@@ -459,5 +459,15 @@ void Theme::load(const std::string &name, const RawConfig &rawConfig) {
     Configuration::load(rawConfig);
     name_ = name;
 }
+
+bool Theme::setIconTheme(const std::string &name) {
+    if (iconTheme_.internalName() != name) {
+        FCITX_INFO() << "New Icon theme: " << name;
+        iconTheme_ = IconTheme(name);
+        trayImageTable_.clear();
+        return true;
+    }
+    return false;
+}
 } // namespace classicui
 } // namespace fcitx
