@@ -373,6 +373,7 @@ public:
                          .unset(CapabilityFlag::FormattedPreedit)
                          .unset(CapabilityFlag::SurroundingText);
         if (cap & IBUS_CAP_PREEDIT_TEXT) {
+            flags |= CapabilityFlag::Preedit;
             flags |= CapabilityFlag::FormattedPreedit;
         }
         if (cap & IBUS_CAP_SURROUNDING_TEXT) {
