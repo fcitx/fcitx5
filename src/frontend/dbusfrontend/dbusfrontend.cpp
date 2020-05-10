@@ -25,11 +25,10 @@ namespace fcitx {
 
 class InputMethod1 : public dbus::ObjectVTable<InputMethod1> {
 public:
-    InputMethod1(DBusFrontendModule *module, dbus::Bus *bus)
+    InputMethod1(DBusFrontendModule *module, dbus::Bus *bus, const char *path)
         : module_(module), instance_(module->instance()), bus_(bus),
           watcher_(std::make_unique<dbus::ServiceWatcher>(*bus_)) {
-        bus_->addObjectVTable("/org/freedesktop/portal/inputmethod",
-                              FCITX_INPUTMETHOD_DBUS_INTERFACE, *this);
+        bus_->addObjectVTable(path, FCITX_INPUTMETHOD_DBUS_INTERFACE, *this);
     }
 
     std::tuple<dbus::ObjectPath, std::vector<uint8_t>> createInputContext(
@@ -45,7 +44,6 @@ private:
 
     DBusFrontendModule *module_;
     Instance *instance_;
-    int icIdx = 0;
     dbus::Bus *bus_;
     std::unique_ptr<dbus::ServiceWatcher> watcher_;
 };
@@ -211,8 +209,9 @@ InputMethod1::createInputContext(
     std::string *display = findValue(strMap, "display");
 
     auto sender = currentMessage()->sender();
-    auto ic = new DBusInputContext1(icIdx++, instance_->inputContextManager(),
-                                    this, sender, program);
+    auto ic = new DBusInputContext1(module_->nextIcIdx(),
+                                    instance_->inputContextManager(), this,
+                                    sender, program);
     ic->setFocusGroup(instance_->defaultFocusGroup(display ? *display : ""));
 
     bus_->addObjectVTable(ic->path().path(), FCITX_INPUTCONTEXT_DBUS_INTERFACE,
@@ -226,9 +225,12 @@ InputMethod1::createInputContext(
 DBusFrontendModule::DBusFrontendModule(Instance *instance)
     : instance_(instance),
       portalBus_(std::make_unique<dbus::Bus>(dbus::BusType::Session)),
-      inputMethod1_(std::make_unique<InputMethod1>(this, bus())),
-      portalInputMethod1_(
-          std::make_unique<InputMethod1>(this, portalBus_.get())) {
+      inputMethod1_(std::make_unique<InputMethod1>(
+          this, bus(), "/org/freedesktop/portal/inputmethod")),
+      inputMethod1Compatible_(std::make_unique<InputMethod1>(
+          this, portalBus_.get(), "/inputmethod")),
+      portalInputMethod1_(std::make_unique<InputMethod1>(
+          this, portalBus_.get(), "/org/freedesktop/portal/inputmethod")) {
 
     portalBus_->attachEventLoop(&instance->eventLoop());
     if (!portalBus_->requestName(
