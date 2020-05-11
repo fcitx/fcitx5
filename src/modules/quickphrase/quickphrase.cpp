@@ -117,7 +117,10 @@ QuickPhrase::QuickPhrase(Instance *instance)
                 if (keyEvent.key().check(FcitxKey_space) &&
                     candidateList->size()) {
                     keyEvent.accept();
-                    candidateList->candidate(0).select(inputContext);
+                    if (candidateList->cursorIndex() >= 0) {
+                        candidateList->candidate(candidateList->cursorIndex())
+                            .select(inputContext);
+                    }
                     return;
                 }
 
@@ -142,6 +145,26 @@ QuickPhrase::QuickPhrase(Instance *instance)
                         instance_->globalConfig().defaultNextPage())) {
                     keyEvent.filterAndAccept();
                     candidateList->toPageable()->next();
+                    inputContext->updateUserInterface(
+                        UserInterfaceComponent::InputPanel);
+                    return;
+                }
+
+                if (candidateList->size() &&
+                    keyEvent.key().checkKeyList(
+                        instance_->globalConfig().defaultPrevCandidate())) {
+                    keyEvent.filterAndAccept();
+                    candidateList->toCursorMovable()->prevCandidate();
+                    inputContext->updateUserInterface(
+                        UserInterfaceComponent::InputPanel);
+                    return;
+                }
+
+                if (candidateList->size() &&
+                    keyEvent.key().checkKeyList(
+                        instance_->globalConfig().defaultNextCandidate())) {
+                    keyEvent.filterAndAccept();
+                    candidateList->toCursorMovable()->nextCandidate();
                     inputContext->updateUserInterface(
                         UserInterfaceComponent::InputPanel);
                     return;
@@ -325,6 +348,9 @@ void QuickPhrase::updateUI(InputContext *inputContext) {
         }
         setSelectionKeys(selectionKeyAction);
         candidateList->setSelectionKey(selectionKeys_);
+        if (candidateList->size()) {
+            candidateList->setGlobalCursorIndex(0);
+        }
         inputContext->inputPanel().setCandidateList(std::move(candidateList));
     }
     Text preedit;
