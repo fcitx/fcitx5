@@ -187,10 +187,13 @@ Clipboard::Clipboard(Instance *instance)
                     }
                     return;
                 }
-                if (keyEvent.key().check(FcitxKey_space)) {
+                if (keyEvent.key().check(FcitxKey_space) ||
+                    keyEvent.key().check(FcitxKey_Return)) {
                     keyEvent.accept();
-                    if (candidateList->size() > 0) {
-                        candidateList->candidate(0).select(inputContext);
+                    if (candidateList->size() > 0 &&
+                        candidateList->cursorIndex() >= 0) {
+                        candidateList->candidate(candidateList->cursorIndex())
+                            .select(inputContext);
                     }
                     return;
                 }
@@ -216,6 +219,24 @@ Clipboard::Clipboard(Instance *instance)
                         instance_->globalConfig().defaultNextPage())) {
                     keyEvent.filterAndAccept();
                     candidateList->toPageable()->next();
+                    inputContext->updateUserInterface(
+                        UserInterfaceComponent::InputPanel);
+                    return;
+                }
+
+                if (keyEvent.key().checkKeyList(
+                        instance_->globalConfig().defaultPrevCandidate())) {
+                    keyEvent.filterAndAccept();
+                    candidateList->toCursorMovable()->prevCandidate();
+                    inputContext->updateUserInterface(
+                        UserInterfaceComponent::InputPanel);
+                    return;
+                }
+
+                if (keyEvent.key().checkKeyList(
+                        instance_->globalConfig().defaultNextCandidate())) {
+                    keyEvent.filterAndAccept();
+                    candidateList->toCursorMovable()->nextCandidate();
                     inputContext->updateUserInterface(
                         UserInterfaceComponent::InputPanel);
                     return;
@@ -284,6 +305,8 @@ void Clipboard::updateUI(InputContext *inputContext) {
     if (!candidateList->totalSize()) {
         Text auxDown(_("No clipboard history."));
         inputContext->inputPanel().setAuxDown(auxDown);
+    } else {
+        candidateList->setGlobalCursorIndex(0);
     }
     inputContext->inputPanel().setCandidateList(std::move(candidateList));
     inputContext->inputPanel().setAuxUp(auxUp);

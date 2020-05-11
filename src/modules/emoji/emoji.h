@@ -21,12 +21,14 @@ public:
     Emoji();
     ~Emoji();
 
+    bool check(const std::string &language, bool fallbackToEn);
     const std::vector<std::string> &query(const std::string &language,
                                           const std::string &key,
                                           bool fallbackToEn);
 
 private:
     FCITX_ADDON_EXPORT_FUNCTION(Emoji, query);
+    FCITX_ADDON_EXPORT_FUNCTION(Emoji, check);
 
     const EmojiMap *loadEmoji(const std::string &language, bool fallbackToEn);
     std::unordered_map<std::string, EmojiMap> langToEmojiMap_;

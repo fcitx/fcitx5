@@ -332,16 +332,16 @@ void KeyboardEngine::keyEvent(const InputMethodEntry &entry, KeyEvent &event) {
     }
 
     // check the spell trigger key
-    if (event.key().checkKeyList(config_.hintTrigger.value()) && spell() &&
-        spell()->call<ISpell::checkDict>(entry.languageCode())) {
+    if (event.key().checkKeyList(config_.hintTrigger.value()) &&
+        supportHint(entry.languageCode())) {
         state->enableWordHint_ = !state->enableWordHint_;
         commitBuffer(inputContext);
         if (notifications()) {
             notifications()->call<INotifications::showTip>(
                 "fcitx-keyboard-hint", "fcitx", "tools-check-spelling",
-                _("Spell hint"),
-                state->enableWordHint_ ? _("Spell hint is enabled.")
-                                       : _("Spell hint is disabled."),
+                _("Completion"),
+                state->enableWordHint_ ? _("Completion is enabled.")
+                                       : _("Completion is disabled."),
                 -1);
         }
         return event.filterAndAccept();
@@ -356,9 +356,8 @@ void KeyboardEngine::keyEvent(const InputMethodEntry &entry, KeyEvent &event) {
                                             CapabilityFlag::NoSpellCheck,
                                             CapabilityFlag::Sensitive};
         // no supported dictionary
-        if (!spell() ||
-            !spell()->call<ISpell::checkDict>(entry.languageCode()) ||
-            inputContext->capabilityFlags().testAny(noPredictFlag)) {
+        if (inputContext->capabilityFlags().testAny(noPredictFlag) ||
+            !supportHint(entry.languageCode())) {
             break;
         }
 
@@ -466,6 +465,14 @@ private:
     KeyboardEngine *engine_;
 };
 
+bool KeyboardEngine::supportHint(const std::string &language) {
+    bool hasSpell = spell() && spell()->call<ISpell::checkDict>(language);
+
+    bool hasEmoji = *config_.enableEmoji && emoji() &&
+                    emoji()->call<IEmoji::check>(language, true);
+    return hasSpell || hasEmoji;
+}
+
 std::string KeyboardEngine::preeditString(InputContext *inputContext) {
     auto state = inputContext->propertyFor(&factory_);
     auto candidate = inputContext->inputPanel().candidateList();
@@ -492,9 +499,12 @@ void KeyboardEngine::updateUI(InputContext *inputContext) {
 void KeyboardEngine::updateCandidate(const InputMethodEntry &entry,
                                      InputContext *inputContext) {
     auto state = inputContext->propertyFor(&factory_);
-    auto results = spell()->call<ISpell::hint>(entry.languageCode(),
-                                               state->buffer_.userInput(),
-                                               config_.pageSize.value());
+    std::vector<std::string> results;
+    if (spell()) {
+        results = spell()->call<ISpell::hint>(entry.languageCode(),
+                                              state->buffer_.userInput(),
+                                              config_.pageSize.value());
+    }
     if (config_.enableEmoji.value() && emoji()) {
         auto emojiResults = emoji()->call<IEmoji::query>(
             entry.languageCode(), state->buffer_.userInput(), true);

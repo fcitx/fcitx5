@@ -39,6 +39,9 @@ public:
 
     const KeyList &defaultPrevPage() const;
     const KeyList &defaultNextPage() const;
+
+    const KeyList &defaultPrevCandidate() const;
+    const KeyList &defaultNextCandidate() const;
     int defaultPageSize() const;
 
     const std::vector<std::string> &enabledAddons() const;

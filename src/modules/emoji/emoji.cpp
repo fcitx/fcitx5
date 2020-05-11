@@ -73,6 +73,11 @@ Emoji::Emoji() {}
 
 Emoji::~Emoji() {}
 
+bool Emoji::check(const std::string &language, bool fallbackToEn) {
+    const EmojiMap *emojiMap = loadEmoji(language, fallbackToEn);
+    return emojiMap;
+}
+
 const std::vector<std::string> &Emoji::query(const std::string &language,
                                              const std::string &key,
                                              bool fallbackToEn) {

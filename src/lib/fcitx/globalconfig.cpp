@@ -86,6 +86,18 @@ FCITX_CONFIGURATION(
         "NextPage",
         _("Default Next page"),
         {Key("Down")},
+        KeyListConstrain({KeyConstrainFlag::AllowModifierLess})};
+    KeyListOption defaultPrevCandidate{
+        this,
+        "PrevCandidate",
+        _("Default Previous Candidate"),
+        {Key("Shift+Tab")},
+        KeyListConstrain({KeyConstrainFlag::AllowModifierLess})};
+    KeyListOption defaultNextCandidate{
+        this,
+        "NextCandidate",
+        _("Default Next Candidate"),
+        {Key("Tab")},
         KeyListConstrain({KeyConstrainFlag::AllowModifierLess})};);
 
 FCITX_CONFIGURATION(
@@ -203,6 +215,16 @@ const KeyList &GlobalConfig::defaultPrevPage() const {
 const KeyList &GlobalConfig::defaultNextPage() const {
     FCITX_D();
     return d->hotkey->defaultNextPage.value();
+}
+
+const KeyList &GlobalConfig::defaultPrevCandidate() const {
+    FCITX_D();
+    return d->hotkey->defaultPrevCandidate.value();
+}
+
+const KeyList &GlobalConfig::defaultNextCandidate() const {
+    FCITX_D();
+    return d->hotkey->defaultNextCandidate.value();
 }
 
 int GlobalConfig::defaultPageSize() const {

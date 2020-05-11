@@ -10,6 +10,10 @@
 #include <string>
 #include <fcitx/addoninstance.h>
 
+FCITX_ADDON_DECLARE_FUNCTION(Emoji, check,
+                             bool(const std::string &language,
+                                  bool fallbackToEn));
+
 FCITX_ADDON_DECLARE_FUNCTION(Emoji, query,
                              const std::vector<std::string> &(
                                  const std::string &language,

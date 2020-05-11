@@ -112,6 +112,7 @@ private:
     FCITX_ADDON_EXPORT_FUNCTION(KeyboardEngine, foreachLayout);
     FCITX_ADDON_EXPORT_FUNCTION(KeyboardEngine, foreachVariant);
 
+    bool supportHint(const std::string &language);
     std::string preeditString(InputContext *inputContext);
     void commitBuffer(InputContext *inputContext);
     void updateUI(InputContext *inputContext);

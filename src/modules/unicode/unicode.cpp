@@ -149,6 +149,24 @@ Unicode::Unicode(Instance *instance)
                         UserInterfaceComponent::InputPanel);
                     return;
                 }
+
+                if (keyEvent.key().checkKeyList(
+                        instance_->globalConfig().defaultPrevCandidate())) {
+                    keyEvent.filterAndAccept();
+                    candidateList->toCursorMovable()->prevCandidate();
+                    inputContext->updateUserInterface(
+                        UserInterfaceComponent::InputPanel);
+                    return;
+                }
+
+                if (keyEvent.key().checkKeyList(
+                        instance_->globalConfig().defaultNextCandidate())) {
+                    keyEvent.filterAndAccept();
+                    candidateList->toCursorMovable()->nextCandidate();
+                    inputContext->updateUserInterface(
+                        UserInterfaceComponent::InputPanel);
+                    return;
+                }
             }
 
             // and by pass all modifier
@@ -161,7 +179,11 @@ Unicode::Unicode(Instance *instance)
                 return;
             } else if (keyEvent.key().check(FcitxKey_Return)) {
                 keyEvent.accept();
-                state->reset(inputContext);
+                if (candidateList->size() > 0 &&
+                    candidateList->cursorIndex() >= 0) {
+                    candidateList->candidate(candidateList->cursorIndex())
+                        .select(inputContext);
+                }
                 return;
             } else if (keyEvent.key().check(FcitxKey_BackSpace)) {
                 if (state->buffer_.empty()) {
@@ -217,6 +239,9 @@ void Unicode::updateUI(InputContext *inputContext) {
             if (utf8::UCS4IsValid(c)) {
                 candidateList->append<UnicodeCandidateWord>(this, c);
             }
+        }
+        if (candidateList->size()) {
+            candidateList->setGlobalCursorIndex(0);
         }
         candidateList->setSelectionKey(selectionKeys_);
         candidateList->setLayoutHint(CandidateLayoutHint::Vertical);
