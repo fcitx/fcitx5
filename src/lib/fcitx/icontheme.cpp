@@ -574,23 +574,25 @@ public:
         return {};
     }
 
-    void prepare() {
-        auto path = stringutils::joinPath(home_, ".icons", internalName_);
-        if (fs::isdir(path)) {
-            baseDirs_.emplace_back(std::piecewise_construct,
-                                   std::forward_as_tuple(path),
-                                   std::forward_as_tuple(stringutils::joinPath(
-                                       path, "icon-theme.cache")));
+    void addBaseDir(const std::string &path) {
+        if (!fs::isdir(path)) {
+            return;
         }
+        baseDirs_.emplace_back(std::piecewise_construct,
+                               std::forward_as_tuple(path),
+                               std::forward_as_tuple(stringutils::joinPath(
+                                   path, "icon-theme.cache")));
+    }
+
+    void prepare() {
+        addBaseDir(stringutils::joinPath(home_, ".icons", internalName_));
+        addBaseDir(stringutils::joinPath(
+            standardPath_.userDirectory(StandardPath::Type::Data), "icons",
+            internalName_));
+
         for (auto &dataDir :
              standardPath_.directories(StandardPath::Type::Data)) {
-            auto path = stringutils::joinPath(dataDir, "icons", internalName_);
-            if (fs::isdir(path)) {
-                baseDirs_.emplace_back(
-                    std::piecewise_construct, std::forward_as_tuple(path),
-                    std::forward_as_tuple(
-                        stringutils::joinPath(path, "icon-theme.cache")));
-            }
+            addBaseDir(stringutils::joinPath(dataDir, "icons", internalName_));
         }
     }
 
