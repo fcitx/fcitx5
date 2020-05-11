@@ -27,6 +27,7 @@
 #include "config.h"
 #include "emoji_public.h"
 #include "notifications_public.h"
+#include "quickphrase_public.h"
 #include "spell_public.h"
 #include "xcb_public.h"
 
@@ -174,6 +175,12 @@ KeyboardEngine::KeyboardEngine(Instance *instance) : instance_(instance) {
     instance_->inputContextManager().registerProperty("keyboardState",
                                                       &factory_);
     reloadConfig();
+
+    deferEvent_ = instance_->eventLoop().addDeferEvent([this](EventSource *) {
+        initQuickPhrase();
+        deferEvent_.reset();
+        return true;
+    });
 }
 
 KeyboardEngine::~KeyboardEngine() {}
@@ -583,4 +590,26 @@ bool KeyboardEngine::foreachVariant(
     }
     return true;
 }
+
+void KeyboardEngine::initQuickPhrase() {
+    auto qp = quickphrase();
+    if (!qp) {
+        return;
+    }
+    quickphraseHandler_ = qp->call<IQuickPhrase::addProvider>(
+        [this](InputContext *ic, const std::string &input,
+               QuickPhraseAddCandidateCallback callback) {
+            auto im = instance_->inputMethodEntry(ic);
+            if (!im || !im->isKeyboard() || !*config_.enableEmoji || !emoji()) {
+                return true;
+            }
+            auto result =
+                emoji()->call<IEmoji::query>(im->languageCode(), input, true);
+            for (const auto &str : result) {
+                callback(str, str, QuickPhraseAction::Commit);
+            }
+            return true;
+        });
+}
+
 } // namespace fcitx

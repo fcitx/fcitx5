@@ -44,6 +44,13 @@ public:
     const std::string &label() const;
     bool isConfigurable() const;
 
+    /**
+     * Helper function to check if this is a keyboard input method.
+     *
+     * @return is keyboard or not.
+     */
+    bool isKeyboard() const;
+
 private:
     std::unique_ptr<InputMethodEntryPrivate> d_ptr;
     FCITX_DECLARE_PRIVATE(InputMethodEntry);

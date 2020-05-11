@@ -11,6 +11,7 @@
 #include <xkbcommon/xkbcommon.h>
 #include "fcitx-config/configuration.h"
 #include "fcitx-config/iniparser.h"
+#include "fcitx-utils/event.h"
 #include "fcitx-utils/i18n.h"
 #include "fcitx-utils/inputbuffer.h"
 #include "fcitx/addonfactory.h"
@@ -20,6 +21,7 @@
 #include "fcitx/instance.h"
 #include "isocodes.h"
 #include "keyboard_public.h"
+#include "quickphrase_public.h"
 #include "xkbrules.h"
 
 namespace fcitx {
@@ -92,6 +94,7 @@ public:
     FCITX_ADDON_DEPENDENCY_LOADER(spell, instance_->addonManager());
     FCITX_ADDON_DEPENDENCY_LOADER(notifications, instance_->addonManager());
     FCITX_ADDON_DEPENDENCY_LOADER(emoji, instance_->addonManager());
+    FCITX_ADDON_DEPENDENCY_LOADER(quickphrase, instance_->addonManager());
 
     void updateCandidate(const InputMethodEntry &entry,
                          InputContext *inputContext);
@@ -116,6 +119,7 @@ private:
     std::string preeditString(InputContext *inputContext);
     void commitBuffer(InputContext *inputContext);
     void updateUI(InputContext *inputContext);
+    void initQuickPhrase();
 
     Instance *instance_;
     AddonInstance *spell_ = nullptr;
@@ -125,6 +129,9 @@ private:
     XkbRules xkbRules_;
     std::string ruleName_;
     KeyList selectionKeys_;
+    std::unique_ptr<EventSource> deferEvent_;
+    std::unique_ptr<HandlerTableEntry<QuickPhraseProviderCallback>>
+        quickphraseHandler_;
 
     FactoryFor<KeyboardEngineState> factory_{
         [](InputContext &) { return new KeyboardEngineState; }};
