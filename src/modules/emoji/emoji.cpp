@@ -164,6 +164,10 @@ const EmojiMap *Emoji::loadEmoji(const std::string &language,
             if (!fallbackToEn) {
                 return nullptr;
             } else {
+                // Check if en is already loaded.
+                if (auto emojiMap = findValue(langToEmojiMap_, "en")) {
+                    return emojiMap;
+                }
                 filter = findValue(filterMap, "en");
                 lang = "en";
             }

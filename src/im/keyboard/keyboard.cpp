@@ -344,11 +344,21 @@ void KeyboardEngine::keyEvent(const InputMethodEntry &entry, KeyEvent &event) {
         state->enableWordHint_ = !state->enableWordHint_;
         commitBuffer(inputContext);
         if (notifications()) {
+            bool hasSpell = spell() && spell()->call<ISpell::checkDict>(
+                                           entry.languageCode());
+            std::string extra;
+            if (!hasSpell) {
+                extra += " ";
+                extra += _("Only emoji support is found. To enable spell "
+                           "checking, you may need to install spell check data "
+                           "for the language.");
+            }
             notifications()->call<INotifications::showTip>(
                 "fcitx-keyboard-hint", "fcitx", "tools-check-spelling",
                 _("Completion"),
-                state->enableWordHint_ ? _("Completion is enabled.")
-                                       : _("Completion is disabled."),
+                state->enableWordHint_
+                    ? stringutils::concat(_("Completion is enabled."), extra)
+                    : _("Completion is disabled."),
                 -1);
         }
         return event.filterAndAccept();
@@ -600,7 +610,8 @@ void KeyboardEngine::initQuickPhrase() {
         [this](InputContext *ic, const std::string &input,
                QuickPhraseAddCandidateCallback callback) {
             auto im = instance_->inputMethodEntry(ic);
-            if (!im || !im->isKeyboard() || !*config_.enableEmoji || !emoji()) {
+            if (!im || !im->isKeyboard() || !*config_.enableQuickphraseEmoji ||
+                !emoji()) {
                 return true;
             }
             std::set<std::string> result;

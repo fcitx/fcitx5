@@ -50,6 +50,8 @@ FCITX_CONFIGURATION(
         KeyListConstrain(KeyConstrainFlag::AllowModifierLess)};
     Option<bool> enableEmoji{this, "EnableEmoji", _("Enable emoji in hint"),
                              true};
+    Option<bool> enableQuickphraseEmoji{this, "EnableQuickPhraseEmoji",
+                                        _("Enable emoji in quickphrase"), true};
     OptionWithAnnotation<ChooseModifier, ChooseModifierI18NAnnotation>
         chooseModifier{this, "Choose Modifier", _("Choose key modifier"),
                        ChooseModifier::Alt};
