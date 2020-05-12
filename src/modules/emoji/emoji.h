@@ -7,13 +7,14 @@
 #ifndef _FCITX5_MODULES_EMOJI_EMOJI_H_
 #define _FCITX5_MODULES_EMOJI_EMOJI_H_
 
-#include <unordered_map>
+#include <map>
+#include <set>
 #include <vector>
 #include "fcitx/addoninstance.h"
 #include "emoji_public.h"
 
 namespace fcitx {
-using EmojiMap = std::unordered_map<std::string, std::vector<std::string>>;
+using EmojiMap = std::map<std::string, std::vector<std::string>>;
 
 class Emoji final : public AddonInstance {
 
@@ -25,10 +26,15 @@ public:
     const std::vector<std::string> &query(const std::string &language,
                                           const std::string &key,
                                           bool fallbackToEn);
+    void prefix(const std::string &language, const std::string &key,
+                bool fallbackToEn,
+                std::function<bool(const std::string &,
+                                   const std::vector<std::string> &)>);
 
 private:
     FCITX_ADDON_EXPORT_FUNCTION(Emoji, query);
     FCITX_ADDON_EXPORT_FUNCTION(Emoji, check);
+    FCITX_ADDON_EXPORT_FUNCTION(Emoji, prefix);
 
     const EmojiMap *loadEmoji(const std::string &language, bool fallbackToEn);
     std::unordered_map<std::string, EmojiMap> langToEmojiMap_;

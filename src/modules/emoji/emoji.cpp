@@ -94,6 +94,27 @@ const std::vector<std::string> &Emoji::query(const std::string &language,
     return emptyEmoji;
 }
 
+void Emoji::prefix(
+    const std::string &language, const std::string &key, bool fallbackToEn,
+    std::function<bool(const std::string &, const std::vector<std::string> &)>
+        collector) {
+    const EmojiMap *emojiMap = loadEmoji(language, fallbackToEn);
+
+    if (!emojiMap) {
+        return;
+    }
+    auto start = emojiMap->lower_bound(key);
+    auto end = emojiMap->end();
+    for (; start != end; start++) {
+        if (!stringutils::startsWith(start->first, key)) {
+            break;
+        }
+        if (!collector(start->first, start->second)) {
+            break;
+        }
+    }
+}
+
 namespace {
 bool noSpace(const std::string &str) {
     return std::any_of(str.begin(), str.end(), charutils::isspace);

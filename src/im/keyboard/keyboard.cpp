@@ -603,8 +603,18 @@ void KeyboardEngine::initQuickPhrase() {
             if (!im || !im->isKeyboard() || !*config_.enableEmoji || !emoji()) {
                 return true;
             }
-            auto result =
-                emoji()->call<IEmoji::query>(im->languageCode(), input, true);
+            std::set<std::string> result;
+            emoji()->call<IEmoji::prefix>(
+                im->languageCode(), input, true,
+                [&result, inputSize = input.size()](
+                    const std::string &key,
+                    const std::vector<std::string> &values) {
+                    if (inputSize + 1 < key.size()) {
+                        return true;
+                    }
+                    result.insert(values.begin(), values.end());
+                    return true;
+                });
             for (const auto &str : result) {
                 callback(str, str, QuickPhraseAction::Commit);
             }
