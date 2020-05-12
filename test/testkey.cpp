@@ -58,6 +58,7 @@ int main() {
                      .check(fcitx::Key("Alt+Shift+exclam").normalize()));
     FCITX_ASSERT(fcitx::Key("").sym() == FcitxKey_None);
     FCITX_ASSERT(fcitx::Key("-").sym() == FcitxKey_minus);
+    FCITX_ASSERT(fcitx::Key("`").sym() == FcitxKey_grave);
 
     // Test complex parse
     auto keyList = fcitx::Key::keyListFromString(
