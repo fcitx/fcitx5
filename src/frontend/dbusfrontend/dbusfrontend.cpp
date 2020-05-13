@@ -64,6 +64,11 @@ public:
                            }
                        })),
           name_(sender) {
+        processKeyEventMethod.setClosureFunction(
+            [this](dbus::Message message, const dbus::ObjectMethod &method) {
+                InputContextEventBlocker blocker(this);
+                return method(std::move(message));
+            });
         created();
     }
 

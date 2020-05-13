@@ -50,6 +50,21 @@ public:
         return false;
     }
 
+    template <typename E, typename... Args>
+    void pushEvent(Args &&... args) {
+        if (destroyed_) {
+            return;
+        }
+
+        if (blockEventToClient_) {
+            blockedEvents_.push_back(
+                std::make_unique<E>(std::forward<Args>(args)...));
+        } else {
+            E event(std::forward<Args>(args)...);
+            deliverEvent(event);
+        }
+    }
+
     void registerProperty(int slot, InputContextProperty *property) {
         if (slot < 0) {
             return;
@@ -63,6 +78,43 @@ public:
     void unregisterProperty(int slot) {
         properties_[slot] = std::move(properties_.back());
         properties_.pop_back();
+    }
+
+    void deliverEvent(InputContextEvent &icEvent) {
+        FCITX_Q();
+        if (destroyed_) {
+            return;
+        }
+        switch (icEvent.type()) {
+        case EventType::InputContextCommitString: {
+            auto &event = static_cast<CommitStringEvent &>(icEvent);
+            if (!postEvent(event)) {
+                if (auto instance = manager_.instance()) {
+                    auto newString = instance->commitFilter(q, event.text());
+                    q->commitStringImpl(newString);
+                } else {
+                    q->commitStringImpl(event.text());
+                }
+            }
+            break;
+        }
+        case EventType::InputContextForwardKey: {
+            auto &event = static_cast<ForwardKeyEvent &>(icEvent);
+            if (!postEvent(event)) {
+                q->forwardKeyImpl(event);
+            }
+            break;
+        }
+        default:
+            break;
+        }
+    }
+
+    void deliverBlockedEvents() {
+        for (const auto &event : blockedEvents_) {
+            deliverEvent(*event);
+        }
+        blockedEvents_.clear();
     }
 
     InputContextProperty *property(int slot) { return properties_[slot].get(); }
@@ -82,6 +134,9 @@ public:
     ICUUID uuid_;
     std::vector<std::unique_ptr<InputContextProperty>> properties_;
     bool destroyed_ = false;
+
+    std::list<std::unique_ptr<InputContextEvent>> blockedEvents_;
+    bool blockEventToClient_ = false;
 };
 } // namespace fcitx
 

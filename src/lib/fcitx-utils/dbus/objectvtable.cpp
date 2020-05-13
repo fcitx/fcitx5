@@ -26,10 +26,27 @@ FCITX_DEFINE_READ_ONLY_PROPERTY_PRIVATE(ObjectVTableMethod, std::string, name);
 FCITX_DEFINE_READ_ONLY_PROPERTY_PRIVATE(ObjectVTableMethod, std::string,
                                         signature);
 FCITX_DEFINE_READ_ONLY_PROPERTY_PRIVATE(ObjectVTableMethod, std::string, ret);
-FCITX_DEFINE_READ_ONLY_PROPERTY_PRIVATE(ObjectVTableMethod, ObjectMethod,
-                                        handler);
 FCITX_DEFINE_READ_ONLY_PROPERTY_PRIVATE(ObjectVTableMethod, ObjectVTableBase *,
                                         vtable);
+
+const ObjectMethod &ObjectVTableMethod::handler() const {
+    FCITX_D();
+    if (d->closureHandler_) {
+        return d->closureHandler_;
+    }
+    return d->internalHandler_;
+}
+
+void ObjectVTableMethod::setClosureFunction(ObjectMethodClosure closure) {
+    FCITX_D();
+    if (!closure) {
+        return;
+    }
+
+    d->closureHandler_ = [d, closure = std::move(closure)](Message message) {
+        return closure(std::move(message), d->internalHandler_);
+    };
+}
 
 ObjectVTableSignal::ObjectVTableSignal(ObjectVTableBase *vtable,
                                        const std::string &name,

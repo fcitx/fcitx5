@@ -17,13 +17,14 @@ public:
     ObjectVTableMethodPrivate(ObjectVTableBase *vtable, const std::string &name,
                               const std::string &signature,
                               const std::string &ret, ObjectMethod handler)
-        : name_(name), signature_(signature), ret_(ret), handler_(handler),
-          vtable_(vtable) {}
+        : name_(name), signature_(signature), ret_(ret),
+          internalHandler_(handler), vtable_(vtable) {}
 
     const std::string name_;
     const std::string signature_;
     const std::string ret_;
-    ObjectMethod handler_;
+    ObjectMethod internalHandler_;
+    ObjectMethod closureHandler_;
     ObjectVTableBase *vtable_;
 };
 

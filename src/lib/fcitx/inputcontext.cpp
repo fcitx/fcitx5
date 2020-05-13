@@ -213,17 +213,27 @@ void InputContext::updateSurroundingText() {
     d->emplaceEvent<SurroundingTextUpdatedEvent>(this);
 }
 
+void InputContext::setBlockEventToClient(bool block) {
+    FCITX_D();
+    if (d->blockEventToClient_ == block) {
+        throw std::invalid_argument(
+            "setBlockEventToClient has invalid argument. Probably a bug in the "
+            "implementation.");
+    }
+    d->blockEventToClient_ = block;
+    if (!block) {
+        d->deliverBlockedEvents();
+    }
+}
+
+bool InputContext::hasPendingEvents() const {
+    FCITX_D();
+    return !d->blockedEvents_.empty();
+}
+
 void InputContext::commitString(const std::string &text) {
     FCITX_D();
-    CommitStringEvent event(text, this);
-    if (!d->postEvent(event)) {
-        if (auto instance = d->manager_.instance()) {
-            auto newString = instance->commitFilter(this, event.text());
-            commitStringImpl(newString);
-        } else {
-            commitStringImpl(event.text());
-        }
-    }
+    d->pushEvent<CommitStringEvent>(text, this);
 }
 
 void InputContext::deleteSurroundingText(int offset, unsigned int size) {
@@ -232,10 +242,7 @@ void InputContext::deleteSurroundingText(int offset, unsigned int size) {
 
 void InputContext::forwardKey(const Key &rawKey, bool isRelease, int time) {
     FCITX_D();
-    ForwardKeyEvent event(this, rawKey, isRelease, time);
-    if (!d->postEvent(event)) {
-        forwardKeyImpl(event);
-    }
+    d->pushEvent<ForwardKeyEvent>(this, rawKey, isRelease, time);
 }
 
 void InputContext::updatePreedit() {
@@ -263,4 +270,16 @@ StatusArea &InputContext::statusArea() {
     FCITX_D();
     return d->statusArea_;
 }
+
+InputContextEventBlocker::InputContextEventBlocker(InputContext *inputContext)
+    : inputContext_(inputContext->watch()) {
+    inputContext->setBlockEventToClient(true);
+}
+
+InputContextEventBlocker::~InputContextEventBlocker() {
+    if (auto ic = inputContext_.get()) {
+        ic->setBlockEventToClient(false);
+    }
+}
+
 } // namespace fcitx

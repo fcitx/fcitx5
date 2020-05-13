@@ -26,6 +26,7 @@ class Bus;
 class ObjectVTablePrivate;
 
 typedef std::function<bool(Message)> ObjectMethod;
+typedef std::function<bool(Message, const ObjectMethod &)> ObjectMethodClosure;
 typedef std::function<void(Message &)> PropertyGetMethod;
 typedef std::function<bool(Message &)> PropertySetMethod;
 
@@ -57,6 +58,16 @@ public:
     const std::string &ret() const;
     const ObjectMethod &handler() const;
     ObjectVTableBase *vtable() const;
+
+    /**
+     * Set a closure function to call the handler with in it.
+     *
+     * This is useful when you want to do something before and after the dbus
+     * message delivery.
+     *
+     * @param wrapper wrapper function.
+     */
+    void setClosureFunction(ObjectMethodClosure closure);
 
 private:
     std::unique_ptr<ObjectVTableMethodPrivate> d_ptr;

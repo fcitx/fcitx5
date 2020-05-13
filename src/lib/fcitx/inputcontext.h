@@ -75,6 +75,19 @@ public:
     void updateUserInterface(UserInterfaceComponent componet,
                              bool immediate = false);
 
+    /**
+     * Prevent event deliver to input context, and re-send the event later.
+     *
+     * This should be only used by frontend to make sync and async event handled
+     * in the same order.
+     *
+     * @param block block state of input context.
+     *
+     * @see InputContextEventBlocker
+     */
+    void setBlockEventToClient(bool block);
+    bool hasPendingEvents() const;
+
     InputContextProperty *property(const std::string &name);
     InputContextProperty *property(const InputContextPropertyFactory *factory);
 
@@ -108,6 +121,16 @@ private:
     std::unique_ptr<InputContextPrivate> d_ptr;
     FCITX_DECLARE_PRIVATE(InputContext);
 };
+
+class FCITXCORE_EXPORT InputContextEventBlocker {
+public:
+    InputContextEventBlocker(InputContext *inputContext);
+    ~InputContextEventBlocker();
+
+private:
+    TrackableObjectReference<InputContext> inputContext_;
+};
+
 } // namespace fcitx
 
 #endif // _FCITX_INPUTCONTEXT_H_

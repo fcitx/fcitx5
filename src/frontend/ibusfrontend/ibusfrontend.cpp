@@ -250,7 +250,11 @@ public:
                            }
                        })),
           name_(sender) {
-
+        processKeyEventMethod.setClosureFunction(
+            [this](dbus::Message message, const dbus::ObjectMethod &method) {
+                InputContextEventBlocker blocker(this);
+                return method(std::move(message));
+            });
         im->bus()->addObjectVTable(path().path(),
                                    IBUS_INPUTCONTEXT_DBUS_INTERFACE, *this);
         im->bus()->addObjectVTable(path().path(), IBUS_SERVICE_DBUS_INTERFACE,
@@ -399,6 +403,7 @@ public:
                        Key(static_cast<KeySym>(keyval),
                            KeyStates(state & (~releaseMask)), keycode),
                        state & releaseMask, 0);
+        FCITX_INFO() << keyval;
         // Force focus if there's keyevent.
         if (!hasFocus()) {
             focusIn();
