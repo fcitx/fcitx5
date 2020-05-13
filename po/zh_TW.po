@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2020-05-11 00:01-0700\n"
+"POT-Creation-Date: 2020-05-13 00:01-0700\n"
 "PO-Revision-Date: 2017-11-23 04:14+0000\n"
 "Last-Translator: byStarTW (pan93412) <pan93412@gmail.com>, 2019\n"
 "Language-Team: Chinese (Taiwan) (https://www.transifex.com/fcitx/teams/12005/"
@@ -72,7 +72,7 @@ msgstr "調整亮度"
 msgid "Allow Overriding System XKB Settings"
 msgstr "允許覆寫系統 XKB 設定"
 
-#: src/im/keyboard/keyboard.h:30 src/modules/quickphrase/quickphrase.h:28
+#: src/im/keyboard/keyboard.h:32 src/modules/quickphrase/quickphrase.h:28
 msgid "Alt"
 msgstr "Alt"
 
@@ -183,7 +183,7 @@ msgstr "大寫鎖定 (CapsLock)"
 msgid "Change Fcitx 5 Configuration"
 msgstr "變更 Fcitx 5 設定"
 
-#: src/im/keyboard/keyboard.h:52
+#: src/im/keyboard/keyboard.h:56
 msgid "Choose key modifier"
 msgstr "選擇輔助按鍵"
 
@@ -219,15 +219,15 @@ msgctxt "Key name"
 msgid "Community"
 msgstr "社群"
 
-#: src/im/keyboard/keyboard.cpp:342
+#: src/im/keyboard/keyboard.cpp:358
 msgid "Completion"
 msgstr ""
 
-#: src/im/keyboard/keyboard.cpp:344
+#: src/im/keyboard/keyboard.cpp:361
 msgid "Completion is disabled."
 msgstr ""
 
-#: src/im/keyboard/keyboard.cpp:343
+#: src/im/keyboard/keyboard.cpp:360
 msgid "Completion is enabled."
 msgstr ""
 
@@ -236,7 +236,7 @@ msgstr ""
 msgid "Configure"
 msgstr "設定"
 
-#: src/im/keyboard/keyboard.h:31 src/modules/quickphrase/quickphrase.h:28
+#: src/im/keyboard/keyboard.h:33 src/modules/quickphrase/quickphrase.h:28
 msgid "Control"
 msgstr "控制"
 
@@ -352,8 +352,12 @@ msgstr "退出"
 msgid "Emoji"
 msgstr ""
 
-#: src/im/keyboard/keyboard.h:49
+#: src/im/keyboard/keyboard.h:51
 msgid "Enable emoji in hint"
+msgstr ""
+
+#: src/im/keyboard/keyboard.h:54
+msgid "Enable emoji in quickphrase"
 msgstr ""
 
 #: src/modules/spell/spell.h:23
@@ -614,15 +618,15 @@ msgctxt "Key name"
 msgid "Katakana"
 msgstr "片假名"
 
-#: src/im/keyboard/keyboard.cpp:258 src/im/keyboard/keyboard.conf.in:3
+#: src/im/keyboard/keyboard.cpp:265 src/im/keyboard/keyboard.conf.in:3
 msgid "Keyboard"
 msgstr "鍵盤"
 
-#: src/im/keyboard/keyboard.cpp:189
+#: src/im/keyboard/keyboard.cpp:196
 msgid "Keyboard - {0}"
 msgstr "鍵盤 - {0}"
 
-#: src/im/keyboard/keyboard.cpp:206
+#: src/im/keyboard/keyboard.cpp:213
 msgid "Keyboard - {0} - {1}"
 msgstr "鍵盤 - {0} - {1}"
 
@@ -886,7 +890,7 @@ msgctxt "Key name"
 msgid "News"
 msgstr "新聞"
 
-#: src/im/keyboard/keyboard.h:46
+#: src/im/keyboard/keyboard.h:48
 msgid "Next Candidate"
 msgstr "下一個候選字"
 
@@ -894,7 +898,7 @@ msgstr "下一個候選字"
 msgid "No clipboard history."
 msgstr "沒有輸入法歷史"
 
-#: src/im/keyboard/keyboard.h:30 src/modules/quickphrase/quickphrase.h:27
+#: src/im/keyboard/keyboard.h:32 src/modules/quickphrase/quickphrase.h:27
 msgid "None"
 msgstr "無"
 
@@ -911,6 +915,12 @@ msgctxt "Key name"
 msgid "NumLock"
 msgstr "數字鎖定 (NumLock)"
 
+#: src/im/keyboard/keyboard.cpp:352
+msgid ""
+"Only emoji support is found. To enable spell checking, you may need to "
+"install spell check data for the language."
+msgstr ""
+
 #: src/lib/fcitx-utils/key.cpp:187
 msgctxt "Key name"
 msgid "Open"
@@ -926,7 +936,7 @@ msgctxt "Key name"
 msgid "Option"
 msgstr "選項"
 
-#: src/im/keyboard/keyboard.h:35
+#: src/im/keyboard/keyboard.h:37
 msgid "Page size"
 msgstr "頁面大小"
 
@@ -974,7 +984,7 @@ msgstr "關機"
 msgid "Presage"
 msgstr "Presage"
 
-#: src/im/keyboard/keyboard.h:40
+#: src/im/keyboard/keyboard.h:42
 msgid "Prev Candidate"
 msgstr "上一個候選字"
 
@@ -996,7 +1006,7 @@ msgstr ""
 msgid "Quick Phrase"
 msgstr "快速片語"
 
-#: src/modules/quickphrase/quickphrase.cpp:340
+#: src/modules/quickphrase/quickphrase.cpp:364
 msgid "Quick Phrase: "
 msgstr "快速輸入："
 
@@ -1184,7 +1194,7 @@ msgctxt "Key name"
 msgid "Subtitle"
 msgstr "副標題"
 
-#: src/im/keyboard/keyboard.h:31 src/modules/quickphrase/quickphrase.h:28
+#: src/im/keyboard/keyboard.h:33 src/modules/quickphrase/quickphrase.h:28
 msgid "Super"
 msgstr "超級"
 
@@ -1271,7 +1281,7 @@ msgstr "旅行"
 msgid "Trigger Input Method"
 msgstr "切換啟用或非啟用輸入法"
 
-#: src/im/keyboard/keyboard.h:56
+#: src/im/keyboard/keyboard.h:60
 msgid "Trigger hint mode"
 msgstr "切換提示模式"
 
@@ -1425,7 +1435,7 @@ msgctxt "Key name"
 msgid "iTouch"
 msgstr "iTouch"
 
-#: src/im/keyboard/keyboard.cpp:235
+#: src/im/keyboard/keyboard.cpp:242
 msgid "{0} (Not Available)"
 msgstr "{0} (無法使用)"
 
