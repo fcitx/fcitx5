@@ -85,9 +85,7 @@ std::string getSocketPath(void) {
             for (; *p != '.' && *p != '\0'; p++)
                 ;
 
-            if (*p == '.') {
-                displaynumber = std::string(displaynumberStart, p);
-            }
+            displaynumber = std::string(displaynumberStart, p);
         } else {
             hostname = display;
         }
