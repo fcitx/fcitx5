@@ -4,8 +4,7 @@
  * SPDX-License-Identifier: LGPL-2.1-or-later
  *
  */
-#include "config.h"
-
+#include "quickphrase.h"
 #include <fcntl.h>
 #include "fcitx-config/iniparser.h"
 #include "fcitx-utils/charutils.h"
@@ -17,7 +16,6 @@
 #include "fcitx/candidatelist.h"
 #include "fcitx/inputcontextmanager.h"
 #include "fcitx/inputpanel.h"
-#include "quickphrase.h"
 
 namespace fcitx {
 

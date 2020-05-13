@@ -4,6 +4,7 @@
  * SPDX-License-Identifier: LGPL-2.1-or-later
  *
  */
+#include "config.h"
 
 #include <unistd.h>
 #include <stdexcept>
@@ -11,7 +12,6 @@
 #include "../../log.h"
 #include "../../stringutils.h"
 #include "bus_p.h"
-#include "config.h"
 #include "message_p.h"
 #include "objectvtable_p_libdbus.h"
 

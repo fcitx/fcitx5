@@ -4,16 +4,13 @@
  * SPDX-License-Identifier: LGPL-2.1-or-later
  *
  */
-
-#include "config.h"
-
+#include "iniparser.h"
 #include <fcntl.h>
 #include <cstdio>
 #include "fcitx-utils/standardpath.h"
 #include "fcitx-utils/stringutils.h"
 #include "fcitx-utils/unixfd.h"
 #include "configuration.h"
-#include "iniparser.h"
 
 namespace fcitx {
 

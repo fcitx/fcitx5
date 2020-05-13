@@ -15,7 +15,6 @@
 #include "fcitx/inputcontextmanager.h"
 #include "fcitx/inputmethodmanager.h"
 #include "fcitx/misc_p.h"
-#include "config.h"
 #include "xcbconvertselection.h"
 #include "xcbeventreader.h"
 #include "xcbkeyboard.h"

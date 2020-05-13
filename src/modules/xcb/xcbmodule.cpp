@@ -8,7 +8,6 @@
 #include "xcbmodule.h"
 #include "fcitx/instance.h"
 #include "fcitx/misc_p.h"
-#include "config.h"
 
 namespace fcitx {
 

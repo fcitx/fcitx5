@@ -4,8 +4,8 @@
  * SPDX-License-Identifier: LGPL-2.1-or-later
  *
  */
+#include "config.h"
 
-#include "instance.h"
 #include <fcntl.h>
 #include <signal.h>
 #include <sys/wait.h>
@@ -23,7 +23,6 @@
 #include "fcitx-utils/stringutils.h"
 #include "fcitx-utils/utf8.h"
 #include "addonmanager.h"
-#include "config.h"
 #include "focusgroup.h"
 #include "globalconfig.h"
 #include "inputcontextmanager.h"
@@ -31,6 +30,7 @@
 #include "inputmethodengine.h"
 #include "inputmethodentry.h"
 #include "inputmethodmanager.h"
+#include "instance.h"
 #include "misc_p.h"
 #include "userinterfacemanager.h"
 

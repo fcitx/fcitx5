@@ -4,6 +4,7 @@
  * SPDX-License-Identifier: LGPL-2.1-or-later
  *
  */
+#include "config.h"
 
 // workaround xkb.h using explicit keyword problem
 #define explicit no_cxx_explicit
@@ -17,7 +18,6 @@
 #include "fcitx/addonmanager.h"
 #include "fcitx/inputmethodmanager.h"
 #include "fcitx/misc_p.h"
-#include "config.h"
 #include "dbus_public.h"
 #include "xcb_public.h"
 #include "xcbconnection.h"
