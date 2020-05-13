@@ -279,6 +279,7 @@ public:
         // variant : -> s, a{sv} sv
         // v -> s a? av
         dbus::Variant v;
+        const auto preeditString = preedit.toString();
         IBusText text = makeSimpleIBusText(preedit.toString());
 
         IBusAttrList attrList = makeIBusAttrList();
@@ -303,7 +304,9 @@ public:
         std::get<3>(text).setData(std::move(attrList));
 
         v.setData(std::move(text));
-        uint32_t cursor = preedit.cursor() >= 0 ? preedit.cursor() : 0;
+        uint32_t cursor = preedit.cursor() >= 0
+                              ? utf8::length(preeditString, 0, preedit.cursor())
+                              : 0;
         if (clientCommitPreedit_) {
             updatePreeditTextWithModeTo(name_, v, cursor, offset ? true : false,
                                         0);
