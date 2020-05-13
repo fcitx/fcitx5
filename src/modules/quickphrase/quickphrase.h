@@ -33,7 +33,7 @@ FCITX_CONFIGURATION(
         this,
         "TriggerKey",
         "Trigger Key",
-        {Key("Super+grave")},
+        {Key("Super+grave"), Key("Super+semicolon")},
         KeyListConstrain({KeyConstrainFlag::AllowModifierLess})};
     OptionWithAnnotation<QuickPhraseChooseModifier,
                          QuickPhraseChooseModifierI18NAnnotation>
