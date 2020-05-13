@@ -250,9 +250,7 @@ void InputContext::updatePreedit() {
     if (!d->capabilityFlags_.test(CapabilityFlag::Preedit)) {
         return;
     }
-    if (!d->emplaceEvent<UpdatePreeditEvent>(this)) {
-        updatePreeditImpl();
-    }
+    d->pushEvent<UpdatePreeditEvent>(this);
 }
 
 void InputContext::updateUserInterface(UserInterfaceComponent component,

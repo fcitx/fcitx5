@@ -105,6 +105,13 @@ public:
             }
             break;
         }
+        case EventType::InputContextUpdatePreedit: {
+            auto &event = static_cast<UpdatePreeditEvent &>(icEvent);
+            if (!postEvent(event)) {
+                q->updatePreeditImpl();
+            }
+            break;
+        }
         default:
             break;
         }
