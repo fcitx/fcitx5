@@ -401,7 +401,6 @@ public:
                        Key(static_cast<KeySym>(keyval),
                            KeyStates(state & (~releaseMask)), keycode),
                        state & releaseMask, 0);
-        FCITX_INFO() << keyval;
         // Force focus if there's keyevent.
         if (!hasFocus()) {
             focusIn();
