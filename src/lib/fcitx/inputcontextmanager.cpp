@@ -172,7 +172,7 @@ public:
     std::unordered_map<std::string, std::unordered_set<InputContext *>>
         programMap_;
     PropertyPropagatePolicy propertyPropagatePolicy_ =
-        PropertyPropagatePolicy::None;
+        PropertyPropagatePolicy::No;
     bool finalized_ = false;
 };
 
@@ -331,7 +331,7 @@ void InputContextManager::propagateProperty(
     InputContext &inputContext, const InputContextPropertyFactory *factory) {
     FCITX_D();
     assert(factory->d_func()->manager_ == this);
-    if (d->propertyPropagatePolicy_ == PropertyPropagatePolicy::None ||
+    if (d->propertyPropagatePolicy_ == PropertyPropagatePolicy::No ||
         (inputContext.program().empty() &&
          d->propertyPropagatePolicy_ == PropertyPropagatePolicy::Program)) {
         return;

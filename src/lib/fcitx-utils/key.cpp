@@ -338,7 +338,7 @@ bool Key::isCursorMove() const {
              sym_ == FcitxKey_Page_Up || sym_ == FcitxKey_Page_Down ||
              sym_ == FcitxKey_Home || sym_ == FcitxKey_End) &&
             (states_ == KeyState::Ctrl || states_ == KeyState::Ctrl_Shift ||
-             states_ == KeyState::Shift || states_ == KeyState::None));
+             states_ == KeyState::Shift || states_ == KeyState::NoState));
 }
 
 bool Key::hasModifier() const { return !!(states_ & KeyState::SimpleMask); }

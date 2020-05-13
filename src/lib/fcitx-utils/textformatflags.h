@@ -24,7 +24,7 @@ enum class TextFormatFlag : int {
     Bold = (1 << 6),
     Strike = (1 << 7),
     Italic = (1 << 8),
-    None = 0,
+    NoFlag = 0,
 };
 
 typedef Flags<TextFormatFlag> TextFormatFlags;

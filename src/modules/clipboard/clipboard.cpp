@@ -128,7 +128,7 @@ Clipboard::Clipboard(Instance *instance)
         FcitxKey_6, FcitxKey_7, FcitxKey_8, FcitxKey_9, FcitxKey_0,
     };
 
-    KeyStates states = KeyState::None;
+    KeyStates states = KeyState::NoState;
 
     for (auto sym : syms) {
         selectionKeys_.emplace_back(sym, states);

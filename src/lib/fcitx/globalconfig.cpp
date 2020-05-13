@@ -105,7 +105,7 @@ FCITX_CONFIGURATION(
                                                  _("Active By Default")};
     Option<PropertyPropagatePolicy> shareState{this, "ShareInputState",
                                                _("Share Input State"),
-                                               PropertyPropagatePolicy::None};
+                                               PropertyPropagatePolicy::No};
     Option<bool> showInputMethodInformation{
         this, "ShowInputMethodInformation",
         _("Show Input Method Information when switch input method"), true};

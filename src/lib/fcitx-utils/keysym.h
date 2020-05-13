@@ -20,7 +20,7 @@
 namespace fcitx {
 /// \brief KeyState to represent modifier keys.
 enum class KeyState : uint32_t {
-    None = 0,
+    NoState = 0,
     Shift = 1 << 0,
     CapsLock = 1 << 1,
     Ctrl = 1 << 2,

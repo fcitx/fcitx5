@@ -10,8 +10,6 @@
 #include "fcitx-utils/rect.h"
 #include "classicui.h"
 
-#undef None
-
 namespace fcitx {
 namespace classicui {
 
@@ -20,9 +18,9 @@ class XCBTrayWindow;
 
 enum class MultiScreenExtension { Randr, Xinerama, EXTNone };
 
-enum class XCBHintStyle { Default, None, Medium, Slight, Full };
+enum class XCBHintStyle { Default, NoHint, Medium, Slight, Full };
 
-enum class XCBRGBA { Default, None, RGB, BGR, VRGB, VBGR };
+enum class XCBRGBA { Default, NoRGBA, RGB, BGR, VRGB, VBGR };
 
 struct XCBFontOption {
     int dpi = -1;

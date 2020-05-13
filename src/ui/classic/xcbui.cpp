@@ -88,7 +88,7 @@ XCBFontOption forcedDpi(xcb_connection_t *conn, xcb_screen_t *screen) {
         if (value == "hintfull") {
             option.hint = XCBHintStyle::Full;
         } else if (value == "hintnone") {
-            option.hint = XCBHintStyle::None;
+            option.hint = XCBHintStyle::NoHint;
         } else if (value == "hintmedium") {
             option.hint = XCBHintStyle::Medium;
         } else if (value == "hintslight") {
@@ -98,7 +98,7 @@ XCBFontOption forcedDpi(xcb_connection_t *conn, xcb_screen_t *screen) {
     });
     parse(resources, "Xft.rgba:\t", [&option](const std::string &value) {
         if (value == "none") {
-            option.rgba = XCBRGBA::None;
+            option.rgba = XCBRGBA::NoRGBA;
         } else if (value == "hintnone") {
             option.rgba = XCBRGBA::RGB;
         } else if (value == "hintmedium") {

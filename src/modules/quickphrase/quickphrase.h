@@ -23,9 +23,9 @@
 
 namespace fcitx {
 
-FCITX_CONFIG_ENUM(QuickPhraseChooseModifier, None, Alt, Control, Super);
-FCITX_CONFIG_ENUM_I18N_ANNOTATION(QuickPhraseChooseModifier, N_("None"),
-                                  N_("Alt"), N_("Control"), N_("Super"));
+enum class QuickPhraseChooseModifier { NoModifier, Alt, Control, Super };
+FCITX_CONFIG_ENUM_NAME_WITH_I18N(QuickPhraseChooseModifier, N_("None"),
+                                 N_("Alt"), N_("Control"), N_("Super"));
 
 FCITX_CONFIGURATION(
     QuickPhraseConfig,
@@ -38,7 +38,7 @@ FCITX_CONFIGURATION(
     OptionWithAnnotation<QuickPhraseChooseModifier,
                          QuickPhraseChooseModifierI18NAnnotation>
         chooseModifier{this, "Choose Modifier", "Choose key modifier",
-                       QuickPhraseChooseModifier::None};
+                       QuickPhraseChooseModifier::NoModifier};
     ExternalOption editor{this, "Editor", _("Editor"),
                           "fcitx://config/addon/quickphrase/editor"};);
 

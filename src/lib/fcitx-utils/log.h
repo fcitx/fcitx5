@@ -33,7 +33,7 @@ namespace fcitx {
 
 /// \brief LogLevel from high to low.
 enum LogLevel : int {
-    None = 0,
+    NoLog = 0,
     /// Fatal will always abort regardless of log or not.
     Fatal = 1,
     Error = 2,

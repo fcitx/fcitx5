@@ -19,7 +19,7 @@ XCBInputWindow::XCBInputWindow(XCBUI *ui)
     cairo_antialias_t aa = CAIRO_ANTIALIAS_DEFAULT;
     cairo_subpixel_order_t subpixel = CAIRO_SUBPIXEL_ORDER_DEFAULT;
     switch (ui->fontOption().hint) {
-    case XCBHintStyle::None:
+    case XCBHintStyle::NoHint:
         hint = CAIRO_HINT_STYLE_NONE;
         break;
     case XCBHintStyle::Slight:
@@ -36,7 +36,7 @@ XCBInputWindow::XCBInputWindow(XCBUI *ui)
         break;
     }
     switch (ui->fontOption().rgba) {
-    case XCBRGBA::None:
+    case XCBRGBA::NoRGBA:
         subpixel = CAIRO_SUBPIXEL_ORDER_DEFAULT;
         break;
     case XCBRGBA::RGB:

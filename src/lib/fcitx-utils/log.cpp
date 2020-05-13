@@ -109,7 +109,7 @@ LogCategory::~LogCategory() {
 
 bool LogCategory::checkLogLevel(LogLevel l) const {
     FCITX_D();
-    return l != LogLevel::None &&
+    return l != LogLevel::NoLog &&
            static_cast<std::underlying_type_t<LogLevel>>(l) <=
                static_cast<std::underlying_type_t<LogLevel>>(d->level_);
 }

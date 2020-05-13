@@ -24,7 +24,7 @@ class InputBufferPrivate;
 
 enum class InputBufferOption {
     /// No option.
-    None = 0,
+    NoOption = 0,
     /// The input buffer is ascii character only, non ascii char will raise
     /// exception.
     AsciiOnly = 1,
@@ -39,7 +39,7 @@ class FCITXUTILS_EXPORT InputBuffer {
 public:
     /// Create a input buffer with options.
     /// \see InputBufferOption
-    InputBuffer(InputBufferOptions options = InputBufferOption::None);
+    InputBuffer(InputBufferOptions options = InputBufferOption::NoOption);
     virtual ~InputBuffer();
 
     /// Get the buffer option.

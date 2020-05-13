@@ -28,9 +28,9 @@ namespace fcitx {
 
 class Instance;
 
-FCITX_CONFIG_ENUM(ChooseModifier, None, Alt, Control, Super);
-FCITX_CONFIG_ENUM_I18N_ANNOTATION(ChooseModifier, N_("None"), N_("Alt"),
-                                  N_("Control"), N_("Super"));
+enum class ChooseModifier { NoModifier, Alt, Control, Super };
+FCITX_CONFIG_ENUM_NAME_WITH_I18N(ChooseModifier, N_("None"), N_("Alt"),
+                                 N_("Control"), N_("Super"));
 
 FCITX_CONFIGURATION(
     KeyboardEngineConfig,
