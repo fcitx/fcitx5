@@ -53,6 +53,7 @@ private:
     std::vector<std::unique_ptr<HandlerTableEntry<EventHandler>>>
         eventHandlers_;
     TrackableObjectReference<InputContext> lastInputContext_;
+    bool auxDownIsEmpty_ = true;
     std::unique_ptr<EventSourceTime> timeEvent_;
     bool available_ = false;
 };

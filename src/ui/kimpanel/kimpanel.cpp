@@ -250,6 +250,7 @@ void Kimpanel::updateInputPanel(InputContext *inputContext) {
             texts.push_back(auxDownString);
             attrs.emplace_back("");
         }
+        auxDownIsEmpty_ = auxDownString.empty();
         if (candidateList) {
             for (int i = 0, e = candidateList->size(); i < e; i++) {
                 auto &candidate = candidateList->candidate(i);
@@ -415,6 +416,9 @@ void Kimpanel::msgV1Handler(dbus::Message &msg) {
     } else if (msg.member() == "SelectCandidate" && msg.signature() == "i") {
         int idx;
         msg >> idx;
+        if (!auxDownIsEmpty_) {
+            idx -= 1;
+        }
         if (auto inputContext = lastInputContext_.get()) {
             if (auto candidateList =
                     inputContext->inputPanel().candidateList()) {
