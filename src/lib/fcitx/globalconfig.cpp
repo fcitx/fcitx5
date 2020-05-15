@@ -27,7 +27,7 @@ FCITX_CONFIGURATION(
     KeyListOption altTriggerKeys{
         this,
         "AltTriggerKeys",
-        _("Alternative Trigger Input Method"),
+        _("Temporally switch between first and current Input Method"),
         {Key("Shift_L")},
         KeyListConstrain({KeyConstrainFlag::AllowModifierLess,
                           KeyConstrainFlag::AllowModifierOnly})};
