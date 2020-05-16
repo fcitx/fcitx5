@@ -14,6 +14,7 @@
 
 #include <cstdlib>
 #include <iostream>
+#include <list>
 #include <map>
 #include <memory>
 #include <set>
@@ -121,6 +122,14 @@ public:
     inline LogMessageBuilder &operator<<(const std::vector<T> &vec) {
         *this << "[";
         printRange(vec.begin(), vec.end());
+        *this << "]";
+        return *this;
+    }
+
+    template <typename T>
+    inline LogMessageBuilder &operator<<(const std::list<T> &lst) {
+        *this << "list[";
+        printRange(lst.begin(), lst.end());
         *this << "]";
         return *this;
     }

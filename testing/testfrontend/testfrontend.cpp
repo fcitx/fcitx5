@@ -14,9 +14,10 @@ namespace fcitx {
 
 class TestInputContext : public InputContext {
 public:
-    TestInputContext(InputContextManager &inputContextManager,
+    TestInputContext(TestFrontend *frontend,
+                     InputContextManager &inputContextManager,
                      const std::string &program)
-        : InputContext(inputContextManager, program) {
+        : InputContext(inputContextManager, program), frontend_(frontend) {
         created();
     }
     ~TestInputContext() { destroy(); }
@@ -25,6 +26,7 @@ public:
 
     void commitStringImpl(const std::string &text) override {
         FCITX_INFO() << "Commit: " << text;
+        frontend_->commitString(text);
     }
     void forwardKeyImpl(const ForwardKeyEvent &key) override {
         FCITX_INFO() << "ForwardKey: " << key.key();
@@ -37,15 +39,21 @@ public:
         FCITX_INFO() << "Update preedit: "
                      << inputPanel().clientPreedit().toString();
     }
+
+private:
+    TestFrontend *frontend_;
 };
 
 TestFrontend::TestFrontend(Instance *instance) : instance_(instance) {}
 
-TestFrontend::~TestFrontend() {}
+TestFrontend::~TestFrontend() {
+    FCITX_ASSERT(commitExpectation_.empty()) << commitExpectation_;
+}
 
 ICUUID
 TestFrontend::createInputContext(const std::string &program) {
-    auto ic = new TestInputContext(instance_->inputContextManager(), program);
+    auto ic =
+        new TestInputContext(this, instance_->inputContextManager(), program);
     return ic->uuid();
 }
 
@@ -63,6 +71,21 @@ void TestFrontend::keyEvent(ICUUID uuid, const Key &key, bool isRelease) {
     FCITX_INFO() << "KeyEvent key: " << key.toString()
                  << " isRelease: " << isRelease
                  << " accepted: " << keyEvent.accepted();
+}
+
+void TestFrontend::commitString(const std::string &expect) {
+    if (!checkExpectation_) {
+        return;
+    }
+    FCITX_ASSERT(!commitExpectation_.empty() &&
+                 expect == commitExpectation_.front())
+        << "commitString: " << expect;
+    commitExpectation_.pop_front();
+}
+
+void TestFrontend::pushCommitExpectation(std::string expect) {
+    checkExpectation_ = true;
+    commitExpectation_.push_back(expect);
 }
 
 class TestFrontendFactory : public AddonFactory {

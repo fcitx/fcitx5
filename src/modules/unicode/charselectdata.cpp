@@ -77,7 +77,7 @@ uint16_t FromLittleEndian16(const char *d) {
 
 CharSelectData::CharSelectData() {
     auto file = StandardPath::global().open(StandardPath::Type::PkgData,
-                                            "data/charselectdata", O_RDONLY);
+                                            "unicode/charselectdata", O_RDONLY);
     if (file.fd() < 0) {
         throw std::runtime_error("Failed to open unicode data");
     }

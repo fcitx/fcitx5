@@ -29,6 +29,7 @@ set(FCITX_UTILS_SOURCES
     dbus/variant.cpp
     dbus/objectvtable.cpp
     stringutils.cpp
+    testing.cpp
     key.cpp
     cutf8.cpp
     color.cpp
