@@ -105,6 +105,48 @@ public:
         deleteSurroundingTextDBusTo(name_, offset, size);
     }
 
+    void updateClientSideUIImpl() override {
+        auto preedit =
+            im_->instance()->outputFilter(this, inputPanel().clientPreedit());
+        auto auxUp = im_->instance()->outputFilter(this, inputPanel().auxUp());
+        auto auxDown =
+            im_->instance()->outputFilter(this, inputPanel().auxDown());
+        auto candidateList = inputPanel().candidateList();
+        std::vector<dbus::DBusStruct<std::string, int>> preeditStrings,
+            auxUpStrings, auxDownStrings;
+        std::vector<dbus::DBusStruct<std::string, std::string>> candidates;
+
+        for (int i = 0, e = preedit.size(); i < e; i++) {
+            preeditStrings.emplace_back(std::make_tuple(
+                preedit.stringAt(i), static_cast<int>(preedit.formatAt(i))));
+        }
+        for (int i = 0, e = auxUp.size(); i < e; i++) {
+            auxUpStrings.emplace_back(std::make_tuple(
+                auxUp.stringAt(i), static_cast<int>(auxUp.formatAt(i))));
+        }
+        for (int i = 0, e = auxDown.size(); i < e; i++) {
+            auxDownStrings.emplace_back(std::make_tuple(
+                auxDown.stringAt(i), static_cast<int>(auxDown.formatAt(i))));
+        }
+        for (int i = 0, e = candidateList->size(); i < e; i++) {
+            auto &candidate = candidateList->candidate(i);
+            if (candidate.isPlaceHolder()) {
+                continue;
+            }
+            Text labelText = candidate.hasCustomLabel()
+                                 ? candidate.customLabel()
+                                 : candidateList->label(i);
+            labelText = im_->instance()->outputFilter(this, labelText);
+            Text candidateText =
+                im_->instance()->outputFilter(this, candidate.text());
+            candidates.emplace_back(std::make_tuple(labelText.toString(),
+                                                    candidateText.toString()));
+        }
+        updateClientSideUITo(name_, preeditStrings, preedit.cursor(),
+                             auxUpStrings, auxDownStrings, candidates,
+                             candidateList->cursorIndex());
+    }
+
     void forwardKeyImpl(const ForwardKeyEvent &key) override {
         forwardKeyDBusTo(name_, static_cast<uint32_t>(key.rawKey().sym()),
                          static_cast<uint32_t>(key.rawKey().states()),
@@ -191,7 +233,8 @@ private:
                                "a(si)i");
     FCITX_OBJECT_VTABLE_SIGNAL(deleteSurroundingTextDBus,
                                "DeleteSurroundingText", "iu");
-    // TODO UpdateClientSideUI
+    FCITX_OBJECT_VTABLE_SIGNAL(updateClientSideUI, "UpdateClientSideUI",
+                               "a(si)ia(si)a(si)a(ss)i");
     FCITX_OBJECT_VTABLE_SIGNAL(forwardKeyDBus, "ForwardKey", "uub");
 
     dbus::ObjectPath path_;

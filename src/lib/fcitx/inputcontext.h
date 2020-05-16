@@ -112,6 +112,7 @@ protected:
     virtual void deleteSurroundingTextImpl(int offset, unsigned int size) = 0;
     virtual void forwardKeyImpl(const ForwardKeyEvent &key) = 0;
     virtual void updatePreeditImpl() = 0;
+    virtual void updateClientSideUIImpl() = 0;
     void destroy();
     void created();
 
