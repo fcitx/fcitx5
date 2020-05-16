@@ -83,6 +83,8 @@ void XCBEventReader::run() {
             return true;
         });
     event_->exec();
+    ioEvent.reset();
+    dispatcherToWorker_.detach();
 
     FCITX_XCB_DEBUG() << "End XCBEventReader thread";
     event_.reset();
