@@ -256,7 +256,11 @@ void InputContext::updatePreedit() {
 void InputContext::updateUserInterface(UserInterfaceComponent component,
                                        bool immediate) {
     FCITX_D();
-    d->emplaceEvent<InputContextUpdateUIEvent>(component, this, immediate);
+    if (d->capabilityFlags_.test(CapabilityFlag::ClientSideUI)) {
+        updateClientSideUIImpl();
+    } else {
+        d->emplaceEvent<InputContextUpdateUIEvent>(component, this, immediate);
+    }
 }
 
 InputPanel &InputContext::inputPanel() {
