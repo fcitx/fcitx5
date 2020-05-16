@@ -24,7 +24,7 @@ AddonInstance *SharedLibraryLoader::load(const AddonInfo &info,
             StandardPath::Type::Addon, info.library() + FCITX_LIBRARY_SUFFIX);
         for (const auto &libraryPath : libs) {
             Library lib(libraryPath);
-            if (!lib.load()) {
+            if (!lib.load(LibraryLoadHint::ExportExternalSymbolsHint)) {
                 FCITX_ERROR()
                     << "Failed to load library for addon " << info.uniqueName()
                     << " on " << libraryPath << ". Error: " << lib.error();
