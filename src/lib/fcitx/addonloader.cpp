@@ -20,11 +20,17 @@ AddonInstance *SharedLibraryLoader::load(const AddonInfo &info,
                                          AddonManager *manager) {
     auto iter = registry_.find(info.uniqueName());
     if (iter == registry_.end()) {
-        auto libs = standardPath_.locateAll(
-            StandardPath::Type::Addon, info.library() + FCITX_LIBRARY_SUFFIX);
+        std::string libname = info.library();
+        Flags<LibraryLoadHint> flag = LibraryLoadHint::DefaultHint;
+        if (stringutils::startsWith(libname, "export:")) {
+            libname = libname.substr(7);
+            flag |= LibraryLoadHint::ExportExternalSymbolsHint;
+        }
+        auto libs = standardPath_.locateAll(StandardPath::Type::Addon,
+                                            libname + FCITX_LIBRARY_SUFFIX);
         for (const auto &libraryPath : libs) {
             Library lib(libraryPath);
-            if (!lib.load(LibraryLoadHint::ExportExternalSymbolsHint)) {
+            if (!lib.load(flag)) {
                 FCITX_ERROR()
                     << "Failed to load library for addon " << info.uniqueName()
                     << " on " << libraryPath << ". Error: " << lib.error();
