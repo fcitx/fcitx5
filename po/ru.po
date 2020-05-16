@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2020-05-13 00:01-0700\n"
+"POT-Creation-Date: 2020-05-16 00:02-0700\n"
 "PO-Revision-Date: 2017-11-23 04:14+0000\n"
 "Last-Translator: TotalCaesar659 <x24cm5b8c54q6szxw@yandex.ru>, 2017\n"
 "Language-Team: Russian (https://www.transifex.com/fcitx/teams/12005/ru/)\n"
@@ -80,10 +80,6 @@ msgstr "Alt"
 msgctxt "Key name"
 msgid "Alt"
 msgstr ""
-
-#: src/lib/fcitx/globalconfig.cpp:30
-msgid "Alternative Trigger Input Method"
-msgstr "Альтернативная активация метода ввода"
 
 #: src/lib/fcitx-utils/key.cpp:114
 msgctxt "Key name"
@@ -902,7 +898,7 @@ msgstr "История буфера обмена отсутствует."
 msgid "None"
 msgstr "Нет"
 
-#: src/ui/kimpanel/kimpanel.cpp:298
+#: src/ui/kimpanel/kimpanel.cpp:299
 msgid "Not available"
 msgstr "Недоступно"
 
@@ -1226,6 +1222,10 @@ msgstr ""
 #: src/lib/fcitx-utils/key.cpp:152
 msgctxt "Key name"
 msgid "Task Panel"
+msgstr ""
+
+#: src/lib/fcitx/globalconfig.cpp:30
+msgid "Temporally switch between first and current Input Method"
 msgstr ""
 
 #: src/lib/fcitx-utils/key.cpp:153

@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2020-05-13 00:00-0700\n"
+"POT-Creation-Date: 2020-05-16 00:00-0700\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Language-Team: French (https://www.transifex.com/fcitx/teams/12005/fr/)\n"
 "Language: fr\n"
@@ -72,10 +72,6 @@ msgstr ""
 #: src/lib/fcitx-utils/key.cpp:421
 msgctxt "Key name"
 msgid "Alt"
-msgstr ""
-
-#: src/lib/fcitx/globalconfig.cpp:30
-msgid "Alternative Trigger Input Method"
 msgstr ""
 
 #: src/lib/fcitx-utils/key.cpp:114
@@ -895,7 +891,7 @@ msgstr ""
 msgid "None"
 msgstr ""
 
-#: src/ui/kimpanel/kimpanel.cpp:298
+#: src/ui/kimpanel/kimpanel.cpp:299
 msgid "Not available"
 msgstr ""
 
@@ -1219,6 +1215,10 @@ msgstr ""
 #: src/lib/fcitx-utils/key.cpp:152
 msgctxt "Key name"
 msgid "Task Panel"
+msgstr ""
+
+#: src/lib/fcitx/globalconfig.cpp:30
+msgid "Temporally switch between first and current Input Method"
 msgstr ""
 
 #: src/lib/fcitx-utils/key.cpp:153
