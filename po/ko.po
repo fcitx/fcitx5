@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2020-05-16 00:02-0700\n"
+"POT-Creation-Date: 2020-05-20 00:01-0700\n"
 "PO-Revision-Date: 2017-11-23 04:14+0000\n"
 "Last-Translator: MarongHappy <daemul72@gmail.com>, 2020\n"
 "Language-Team: Korean (https://www.transifex.com/fcitx/teams/12005/ko/)\n"
@@ -217,15 +217,15 @@ msgstr "커뮤니티"
 
 #: src/im/keyboard/keyboard.cpp:358
 msgid "Completion"
-msgstr ""
+msgstr "완성"
 
 #: src/im/keyboard/keyboard.cpp:361
 msgid "Completion is disabled."
-msgstr ""
+msgstr "완성이 비활성화되었습니다."
 
 #: src/im/keyboard/keyboard.cpp:360
 msgid "Completion is enabled."
-msgstr ""
+msgstr "완성이 활성화되었습니다."
 
 #: src/ui/classic/xcbtraywindow.cpp:41
 #: src/modules/notificationitem/dbusmenu.cpp:257
@@ -283,7 +283,7 @@ msgstr "기본값"
 
 #: src/lib/fcitx/globalconfig.cpp:99
 msgid "Default Next Candidate"
-msgstr ""
+msgstr "기본 다음 후보"
 
 #: src/lib/fcitx/globalconfig.cpp:87
 msgid "Default Next page"
@@ -291,7 +291,7 @@ msgstr "기본 다음 페이지"
 
 #: src/lib/fcitx/globalconfig.cpp:93
 msgid "Default Previous Candidate"
-msgstr ""
+msgstr "기본 이전 후보"
 
 #: src/lib/fcitx/globalconfig.cpp:81
 msgid "Default Previous page"
@@ -354,7 +354,7 @@ msgstr "힌트로 그림문자 활성화"
 
 #: src/im/keyboard/keyboard.h:54
 msgid "Enable emoji in quickphrase"
-msgstr ""
+msgstr "빠른 표현으로 그림문자 사용"
 
 #: src/modules/spell/spell.h:23
 msgid "Enchant"
@@ -916,6 +916,8 @@ msgid ""
 "Only emoji support is found. To enable spell checking, you may need to "
 "install spell check data for the language."
 msgstr ""
+"그림문자 지원만 있습니다. 철자 검사를 사용하려면 언어에 대한 철자 검사 데이터"
+"를 설치해야 할 수 있습니다."
 
 #: src/lib/fcitx-utils/key.cpp:187
 msgctxt "Key name"
@@ -996,7 +998,7 @@ msgstr "화면 출력"
 
 #: src/modules/spell/spell.h:38
 msgid "Providers"
-msgstr ""
+msgstr "제공도구"
 
 #: src/modules/quickphrase/quickphrase.conf.in:3
 msgid "Quick Phrase"
@@ -1118,7 +1120,7 @@ msgstr "보내기"
 
 #: src/lib/fcitx/globalconfig.cpp:107
 msgid "Share Input State"
-msgstr ""
+msgstr "입력 상태 공유"
 
 #: src/lib/fcitx-utils/key.cpp:422
 msgctxt "Key name"
@@ -1226,7 +1228,7 @@ msgstr "작업 패널"
 
 #: src/lib/fcitx/globalconfig.cpp:30
 msgid "Temporally switch between first and current Input Method"
-msgstr ""
+msgstr "첫 번째 입력 방법과 현재 입력 방법 사이의 임시 전환"
 
 #: src/lib/fcitx-utils/key.cpp:153
 msgctxt "Key name"
