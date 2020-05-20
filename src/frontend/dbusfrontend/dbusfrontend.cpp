@@ -107,7 +107,7 @@ public:
 
     void updateClientSideUIImpl() override {
         auto preedit =
-            im_->instance()->outputFilter(this, inputPanel().clientPreedit());
+            im_->instance()->outputFilter(this, inputPanel().preedit());
         auto auxUp = im_->instance()->outputFilter(this, inputPanel().auxUp());
         auto auxDown =
             im_->instance()->outputFilter(this, inputPanel().auxDown());
