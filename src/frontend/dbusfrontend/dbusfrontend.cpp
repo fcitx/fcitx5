@@ -23,6 +23,17 @@
 
 namespace fcitx {
 
+namespace {
+
+void buildFormattedTextVector(
+    const Text &text, std::vector<dbus::DBusStruct<std::string, int>> &vector) {
+    for (int i = 0, e = text.size(); i < e; i++) {
+        vector.emplace_back(std::make_tuple(
+            text.stringAt(i), static_cast<int>(text.formatAt(i))));
+    }
+}
+}; // namespace
+
 class InputMethod1 : public dbus::ObjectVTable<InputMethod1> {
 public:
     InputMethod1(DBusFrontendModule *module, dbus::Bus *bus, const char *path)
@@ -94,10 +105,7 @@ public:
         auto preedit =
             im_->instance()->outputFilter(this, inputPanel().clientPreedit());
         std::vector<dbus::DBusStruct<std::string, int>> strs;
-        for (int i = 0, e = preedit.size(); i < e; i++) {
-            strs.emplace_back(std::make_tuple(
-                preedit.stringAt(i), static_cast<int>(preedit.formatAt(i))));
-        }
+        buildFormattedTextVector(preedit, strs);
         updateFormattedPreeditTo(name_, strs, preedit.cursor());
     }
 
@@ -116,18 +124,9 @@ public:
             auxUpStrings, auxDownStrings;
         std::vector<dbus::DBusStruct<std::string, std::string>> candidates;
 
-        for (int i = 0, e = preedit.size(); i < e; i++) {
-            preeditStrings.emplace_back(std::make_tuple(
-                preedit.stringAt(i), static_cast<int>(preedit.formatAt(i))));
-        }
-        for (int i = 0, e = auxUp.size(); i < e; i++) {
-            auxUpStrings.emplace_back(std::make_tuple(
-                auxUp.stringAt(i), static_cast<int>(auxUp.formatAt(i))));
-        }
-        for (int i = 0, e = auxDown.size(); i < e; i++) {
-            auxDownStrings.emplace_back(std::make_tuple(
-                auxDown.stringAt(i), static_cast<int>(auxDown.formatAt(i))));
-        }
+        buildFormattedTextVector(preedit, preeditStrings);
+        buildFormattedTextVector(auxUp, auxUpStrings);
+        buildFormattedTextVector(auxDown, auxDownStrings);
         for (int i = 0, e = candidateList->size(); i < e; i++) {
             auto &candidate = candidateList->candidate(i);
             if (candidate.isPlaceHolder()) {
