@@ -4,6 +4,7 @@
 # DL_LIBRARY - libraries needed to use dlopen
 
 include(CheckFunctionExists)
+include(CheckSymbolExists)
 
 find_path(DL_INCLUDE_DIR NAMES dlfcn.h)
 find_library(DL_LIBRARY NAMES dl)
@@ -15,6 +16,16 @@ else(DL_LIBRARY)
   # of libc, so don't need to link extra libs.
   set(DL_LIBRARY "")
 endif(DL_LIBRARY)
+
+if (DL_FOUND)
+  set(CMAKE_REQUIRED_DEFINITIONS -D_GNU_SOURCE)
+  set(CMAKE_REQUIRED_LIBRARIES ${DL_LIBRARY})
+  set(CMAKE_REQUIRED_INCLUDES ${DL_INCLUDE_DIR})
+  check_symbol_exists(dlmopen "dlfcn.h" HAS_DLMOPEN)
+  unset(CMAKE_REQUIRED_DEFINITIONS)
+  unset(CMAKE_REQUIRED_LIBRARIES)
+  unset(CMAKE_REQUIRED_INCLUDES)
+endif()
 
 include(FindPackageHandleStandardArgs)
 find_package_handle_standard_args(DL

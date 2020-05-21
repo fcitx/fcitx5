@@ -26,6 +26,7 @@ enum class LibraryLoadHint {
     ResolveAllSymbolsHint = 0x1,
     PreventUnloadHint = 0x2,
     ExportExternalSymbolsHint = 0x4,
+    NewNameSpace = 0x8,
     DefaultHint = PreventUnloadHint,
 };
 
@@ -48,6 +49,8 @@ public:
     static auto toFunction(void *ptr) {
         return reinterpret_cast<Func *>(ptr);
     }
+
+    static bool isNewNamespaceSupported();
 
 private:
     std::unique_ptr<LibraryPrivate> d_ptr;

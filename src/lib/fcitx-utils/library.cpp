@@ -13,6 +13,7 @@
 #include <sys/stat.h>
 #include <unistd.h>
 #include <cstring>
+#include "config.h"
 #include "stringutils.h"
 
 namespace fcitx {
@@ -62,8 +63,17 @@ bool Library::load(Flags<fcitx::LibraryLoadHint> hint) {
         flag |= RTLD_GLOBAL;
     }
 
-    // allow dlopen self
-    d->handle_ = dlopen(!d->path_.empty() ? d->path_.c_str() : nullptr, flag);
+#ifdef HAS_DLMOPEN
+    if (hint & LibraryLoadHint::NewNameSpace) {
+        // allow dlopen self
+        d->handle_ = dlmopen(
+            LM_ID_NEWLM, !d->path_.empty() ? d->path_.c_str() : nullptr, flag);
+    } else
+#endif
+    {
+        d->handle_ =
+            dlopen(!d->path_.empty() ? d->path_.c_str() : nullptr, flag);
+    }
     if (!d->handle_) {
         d->error_ = dlerror();
         return false;
@@ -160,5 +170,13 @@ bool Library::findData(const char *slug, const char *magic, size_t lenOfMagic,
 std::string Library::error() {
     FCITX_D();
     return d->error_;
+}
+
+bool Library::isNewNamespaceSupported() {
+#ifdef HAS_DLMOPEN
+    return true;
+#else
+    return false;
+#endif
 }
 } // namespace fcitx
