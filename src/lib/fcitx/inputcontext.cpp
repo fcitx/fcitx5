@@ -273,6 +273,8 @@ StatusArea &InputContext::statusArea() {
     return d->statusArea_;
 }
 
+void InputContext::updateClientSideUIImpl() {}
+
 InputContextEventBlocker::InputContextEventBlocker(InputContext *inputContext)
     : inputContext_(inputContext->watch()) {
     inputContext->setBlockEventToClient(true);
