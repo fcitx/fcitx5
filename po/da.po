@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2020-05-16 00:02-0700\n"
+"POT-Creation-Date: 2020-05-22 00:01-0700\n"
 "PO-Revision-Date: 2017-11-23 04:14+0000\n"
 "Last-Translator: scootergrisen, 2020\n"
 "Language-Team: Danish (https://www.transifex.com/fcitx/teams/12005/da/)\n"
@@ -215,15 +215,15 @@ msgstr "Fællesskab"
 
 #: src/im/keyboard/keyboard.cpp:358
 msgid "Completion"
-msgstr ""
+msgstr "Fuldførsel"
 
 #: src/im/keyboard/keyboard.cpp:361
 msgid "Completion is disabled."
-msgstr ""
+msgstr "Fuldførsel er deaktiveret."
 
 #: src/im/keyboard/keyboard.cpp:360
 msgid "Completion is enabled."
-msgstr ""
+msgstr "Fuldførsel er aktiveret."
 
 #: src/ui/classic/xcbtraywindow.cpp:41
 #: src/modules/notificationitem/dbusmenu.cpp:257
@@ -281,7 +281,7 @@ msgstr "Standard"
 
 #: src/lib/fcitx/globalconfig.cpp:99
 msgid "Default Next Candidate"
-msgstr ""
+msgstr "Standard næste kandidat"
 
 #: src/lib/fcitx/globalconfig.cpp:87
 msgid "Default Next page"
@@ -289,7 +289,7 @@ msgstr "Standard-næste side"
 
 #: src/lib/fcitx/globalconfig.cpp:93
 msgid "Default Previous Candidate"
-msgstr ""
+msgstr "Standard forrige kandidat"
 
 #: src/lib/fcitx/globalconfig.cpp:81
 msgid "Default Previous page"
@@ -352,7 +352,7 @@ msgstr "Aktivér emoji i tip"
 
 #: src/im/keyboard/keyboard.h:54
 msgid "Enable emoji in quickphrase"
-msgstr ""
+msgstr "Aktivér emoji i hurtigfrase"
 
 #: src/modules/spell/spell.h:23
 msgid "Enchant"
@@ -914,6 +914,8 @@ msgid ""
 "Only emoji support is found. To enable spell checking, you may need to "
 "install spell check data for the language."
 msgstr ""
+"Fandt kun understøttelse af emoji. For at aktivere stavekontrol skal du "
+"installere stavekontroldata til sproget."
 
 #: src/lib/fcitx-utils/key.cpp:187
 msgctxt "Key name"
@@ -1224,7 +1226,7 @@ msgstr "Opgavepanel"
 
 #: src/lib/fcitx/globalconfig.cpp:30
 msgid "Temporally switch between first and current Input Method"
-msgstr ""
+msgstr "Skift midlertidigt mellem første og nuværende inputmetode"
 
 #: src/lib/fcitx-utils/key.cpp:153
 msgctxt "Key name"
