@@ -447,6 +447,7 @@ void InputWindow::paint(cairo_t *cr, unsigned int width, unsigned int height) {
 
             cairo_save(cr);
             cairo_set_line_width(cr, 2);
+            auto offsetX = pango_units_to_double(pos.x);
             cairo_move_to(cr, *textMargin.marginLeft + offsetX + 1,
                           *textMargin.marginTop);
             cairo_line_to(cr, *textMargin.marginLeft + offsetX + 1,
