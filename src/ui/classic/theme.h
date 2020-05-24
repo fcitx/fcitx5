@@ -165,7 +165,7 @@ private:
 };
 
 inline void cairoSetSourceColor(cairo_t *cr, const Color &color) {
-    cairo_set_source_rgba(cr, color.redF(), color.blueF(), color.greenF(),
+    cairo_set_source_rgba(cr, color.redF(), color.greenF(), color.blueF(),
                           color.alphaF());
 }
 } // namespace classicui
