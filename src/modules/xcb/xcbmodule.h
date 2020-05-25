@@ -67,6 +67,8 @@ public:
                     bool exists);
     xcb_ewmh_connection_t *ewmh(const std::string &name);
 
+    FCITX_ADDON_DEPENDENCY_LOADER(notifications, instance_->addonManager());
+
 private:
     void onConnectionCreated(XCBConnection &conn);
     void onConnectionClosed(XCBConnection &conn);

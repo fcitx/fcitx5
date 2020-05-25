@@ -7,6 +7,7 @@
 
 #include "xcbconnection.h"
 #include <stdexcept>
+#include <fmt/format.h>
 #include <xcb/xcb_aux.h>
 #include <xcb/xfixes.h>
 #include "fcitx-utils/log.h"
@@ -15,6 +16,7 @@
 #include "fcitx/inputcontextmanager.h"
 #include "fcitx/inputmethodmanager.h"
 #include "fcitx/misc_p.h"
+#include "notifications_public.h"
 #include "xcbconvertselection.h"
 #include "xcbeventreader.h"
 #include "xcbkeyboard.h"
@@ -379,6 +381,14 @@ void XCBConnection::navigateGroup(bool forward) {
     groupIndex_ = (groupIndex_ + (forward ? 1 : imManager.groupCount() - 1)) %
                   imManager.groupCount();
     FCITX_LOG(Debug) << "Switch to group " << groupIndex_;
+
+    if (parent_->notifications()) {
+        parent_->notifications()->call<INotifications::showTip>(
+            "enumerate-group", "fcitx", "input-keyboard", _("Group changed"),
+            fmt::format(_("Switch group to {0}"),
+                        imManager.groups()[groupIndex_]),
+            3000);
+    }
 }
 
 std::unique_ptr<HandlerTableEntry<XCBEventFilter>>

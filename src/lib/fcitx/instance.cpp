@@ -22,6 +22,7 @@
 #include "fcitx-utils/standardpath.h"
 #include "fcitx-utils/stringutils.h"
 #include "fcitx-utils/utf8.h"
+#include "../../modules/notifications/notifications_public.h"
 #include "addonmanager.h"
 #include "focusgroup.h"
 #include "globalconfig.h"
@@ -147,7 +148,6 @@ private:
     std::unique_ptr<EventSourceTime> imInfoTimer_;
     std::string lastInfo_;
 
-private:
     bool active_;
 };
 
@@ -311,6 +311,8 @@ public:
         xkbParams_;
 
     bool restart_ = false;
+
+    AddonInstance *notifications_ = nullptr;
 };
 
 InputState::InputState(InstancePrivate *d, InputContext *ic)
@@ -458,6 +460,14 @@ Instance::Instance(int argc, char **argv) {
                     return true;
                 });
                 postEvent(InputMethodGroupChangedEvent());
+                if (d->notifications_ && d->imManager_.groupCount() > 1) {
+                    d->notifications_->call<INotifications::showTip>(
+                        "enumerate-group", "fcitx", "input-keyboard",
+                        _("Group changed"),
+                        fmt::format(_("Switched group to {0}"),
+                                    d->imManager_.currentGroup().name()),
+                        3000);
+                }
             }));
 
     d->icManager_.registerProperty("inputState", &d->inputStateFactory_);
@@ -876,6 +886,7 @@ Instance::~Instance() {
     FCITX_D();
     d->icManager_.finalize();
     d->addonManager_.unload();
+    d->notifications_ = nullptr;
     d->icManager_.setInstance(nullptr);
 }
 
@@ -1021,6 +1032,7 @@ void Instance::initialize() {
         }
         return false;
     });
+    d->notifications_ = d->addonManager_.addon("notifications", true);
 }
 
 int Instance::exec() {
