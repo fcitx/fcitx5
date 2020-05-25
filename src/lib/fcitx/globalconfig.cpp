@@ -24,6 +24,9 @@ FCITX_CONFIGURATION(
         {Key("Control+space"), Key("Zenkaku_Hankaku"), Key("Hangul")},
         KeyListConstrain({KeyConstrainFlag::AllowModifierLess,
                           KeyConstrainFlag::AllowModifierOnly})};
+    Option<bool> enumerateWithTriggerKeys{
+        this, "EnumerateWithTriggerKeys",
+        _("Enumerate when press trigger key repeatedly"), true};
     KeyListOption altTriggerKeys{
         this,
         "AltTriggerKeys",
@@ -150,6 +153,11 @@ bool GlobalConfig::safeSave(const std::string &path) const {
 const KeyList &GlobalConfig::triggerKeys() const {
     FCITX_D();
     return *d->hotkey->triggerKeys;
+}
+
+bool GlobalConfig::enumerateWithTriggerKeys() const {
+    FCITX_D();
+    return *d->hotkey->enumerateWithTriggerKeys;
 }
 
 const KeyList &GlobalConfig::altTriggerKeys() const {

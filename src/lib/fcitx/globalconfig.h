@@ -25,6 +25,7 @@ public:
     GlobalConfig();
     virtual ~GlobalConfig();
     const KeyList &triggerKeys() const;
+    bool enumerateWithTriggerKeys() const;
     const KeyList &altTriggerKeys() const;
     const KeyList &activateKeys() const;
     const KeyList &deactivateKeys() const;

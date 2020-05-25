@@ -1417,7 +1417,8 @@ bool Instance::trigger(InputContext *ic, bool totallyReleased) {
         toggle(ic);
         inputState->firstTrigger_ = true;
     } else {
-        if (inputState->firstTrigger_ && inputState->isActive()) {
+        if (!d->globalConfig_.enumerateWithTriggerKeys() ||
+            (inputState->firstTrigger_ && inputState->isActive())) {
             toggle(ic);
         } else {
             enumerate(ic, true);
