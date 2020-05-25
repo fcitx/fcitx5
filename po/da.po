@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2020-05-22 00:01-0700\n"
+"POT-Creation-Date: 2020-05-25 00:01-0700\n"
 "PO-Revision-Date: 2017-11-23 04:14+0000\n"
 "Last-Translator: scootergrisen, 2020\n"
 "Language-Team: Danish (https://www.transifex.com/fcitx/teams/12005/da/)\n"
@@ -20,7 +20,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: src/lib/fcitx/instance.cpp:1684
+#: src/lib/fcitx/instance.cpp:1685
 msgid "(Not available)"
 msgstr "(ikke tilgængelig)"
 
@@ -44,11 +44,11 @@ msgstr "<Private Use>"
 msgid "<not assigned>"
 msgstr "<not assigned>"
 
-#: src/lib/fcitx/globalconfig.cpp:65
+#: src/lib/fcitx/globalconfig.cpp:68
 msgid "Activate Input Method"
 msgstr "Aktivér inputmetode"
 
-#: src/lib/fcitx/globalconfig.cpp:105
+#: src/lib/fcitx/globalconfig.cpp:108
 msgid "Active By Default"
 msgstr "Aktivér som standard"
 
@@ -129,7 +129,7 @@ msgctxt "Key name"
 msgid "Battery"
 msgstr "Batteri"
 
-#: src/lib/fcitx/globalconfig.cpp:126
+#: src/lib/fcitx/globalconfig.cpp:129
 msgid "Behavior"
 msgstr "Opførsel"
 
@@ -270,7 +270,7 @@ msgctxt "Key name"
 msgid "DOS"
 msgstr "DOS"
 
-#: src/lib/fcitx/globalconfig.cpp:74
+#: src/lib/fcitx/globalconfig.cpp:77
 msgid "Deactivate Input Method"
 msgstr "Deaktivér inputmetode"
 
@@ -279,23 +279,23 @@ msgstr "Deaktivér inputmetode"
 msgid "Default"
 msgstr "Standard"
 
-#: src/lib/fcitx/globalconfig.cpp:99
+#: src/lib/fcitx/globalconfig.cpp:102
 msgid "Default Next Candidate"
 msgstr "Standard næste kandidat"
 
-#: src/lib/fcitx/globalconfig.cpp:87
+#: src/lib/fcitx/globalconfig.cpp:90
 msgid "Default Next page"
 msgstr "Standard-næste side"
 
-#: src/lib/fcitx/globalconfig.cpp:93
+#: src/lib/fcitx/globalconfig.cpp:96
 msgid "Default Previous Candidate"
 msgstr "Standard forrige kandidat"
 
-#: src/lib/fcitx/globalconfig.cpp:81
+#: src/lib/fcitx/globalconfig.cpp:84
 msgid "Default Previous page"
 msgstr "Standard-forrige side"
 
-#: src/lib/fcitx/globalconfig.cpp:116
+#: src/lib/fcitx/globalconfig.cpp:119
 msgid "Default page size"
 msgstr "Standardsidestørrelse"
 
@@ -363,21 +363,25 @@ msgctxt "Key name"
 msgid "End"
 msgstr "End"
 
-#: src/lib/fcitx/globalconfig.cpp:44
+#: src/lib/fcitx/globalconfig.cpp:47
 msgid "Enumerate Input Method Backward"
 msgstr "Gennemløb inputmetode baglæns"
 
-#: src/lib/fcitx/globalconfig.cpp:37
+#: src/lib/fcitx/globalconfig.cpp:40
 msgid "Enumerate Input Method Forward"
 msgstr "Gennemløb inputmetode forlæns"
 
-#: src/lib/fcitx/globalconfig.cpp:58
+#: src/lib/fcitx/globalconfig.cpp:61
 msgid "Enumerate Input Method Group Backward"
 msgstr "Gennemløb inputmetode-gruppe baglæns"
 
-#: src/lib/fcitx/globalconfig.cpp:51
+#: src/lib/fcitx/globalconfig.cpp:54
 msgid "Enumerate Input Method Group Forward"
 msgstr "Gennemløb inputmetode-gruppe forlæns"
+
+#: src/lib/fcitx/globalconfig.cpp:29
+msgid "Enumerate when press trigger key repeatedly"
+msgstr ""
 
 #: src/lib/fcitx-utils/key.cpp:194
 msgctxt "Key name"
@@ -446,7 +450,7 @@ msgstr "Grøn"
 msgid "Group"
 msgstr "Gruppe"
 
-#: src/lib/fcitx/instance.cpp:1687
+#: src/lib/fcitx/instance.cpp:1688
 msgid "Group {0}: {1}"
 msgstr "Gruppe {0}: {1}"
 
@@ -564,7 +568,7 @@ msgctxt "Key name"
 msgid "Hot Links"
 msgstr "Hotlinks"
 
-#: src/lib/fcitx/globalconfig.cpp:124
+#: src/lib/fcitx/globalconfig.cpp:127
 msgid "Hotkey"
 msgstr "Hottast"
 
@@ -1116,7 +1120,7 @@ msgctxt "Key name"
 msgid "Send"
 msgstr "Send"
 
-#: src/lib/fcitx/globalconfig.cpp:107
+#: src/lib/fcitx/globalconfig.cpp:110
 msgid "Share Input State"
 msgstr "Del inputtilstand"
 
@@ -1130,11 +1134,11 @@ msgctxt "Key name"
 msgid "Shop"
 msgstr "Butik"
 
-#: src/lib/fcitx/globalconfig.cpp:114
+#: src/lib/fcitx/globalconfig.cpp:117
 msgid "Show Input Method Information when changing focus"
 msgstr "Vis inputmetodeinformation når der skiftes fokus"
 
-#: src/lib/fcitx/globalconfig.cpp:111
+#: src/lib/fcitx/globalconfig.cpp:114
 msgid "Show Input Method Information when switch input method"
 msgstr "Vis inputmetodeinformation når der skiftes inputmetode"
 
@@ -1224,7 +1228,7 @@ msgctxt "Key name"
 msgid "Task Panel"
 msgstr "Opgavepanel"
 
-#: src/lib/fcitx/globalconfig.cpp:30
+#: src/lib/fcitx/globalconfig.cpp:33
 msgid "Temporally switch between first and current Input Method"
 msgstr "Skift midlertidigt mellem første og nuværende inputmetode"
 
@@ -1443,10 +1447,10 @@ msgstr "iTouch"
 msgid "{0} (Not Available)"
 msgstr "{0} (ikke tilgængelig)"
 
-#: src/lib/fcitx/instance.cpp:1682
+#: src/lib/fcitx/instance.cpp:1683
 msgid "{0} (Not available)"
 msgstr "{0} (ikke tilgængelig)"
 
-#: src/lib/fcitx/instance.cpp:1679
+#: src/lib/fcitx/instance.cpp:1680
 msgid "{0} ({1})"
 msgstr "{0} ({1})"

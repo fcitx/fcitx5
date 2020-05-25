@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2020-05-20 00:01-0700\n"
+"POT-Creation-Date: 2020-05-25 00:01-0700\n"
 "PO-Revision-Date: 2017-11-23 04:14+0000\n"
 "Last-Translator: MarongHappy <daemul72@gmail.com>, 2020\n"
 "Language-Team: Korean (https://www.transifex.com/fcitx/teams/12005/ko/)\n"
@@ -22,7 +22,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
-#: src/lib/fcitx/instance.cpp:1684
+#: src/lib/fcitx/instance.cpp:1685
 msgid "(Not available)"
 msgstr "(사용할 수 없음)"
 
@@ -46,11 +46,11 @@ msgstr "<개인사용>"
 msgid "<not assigned>"
 msgstr "<할당 안됨>"
 
-#: src/lib/fcitx/globalconfig.cpp:65
+#: src/lib/fcitx/globalconfig.cpp:68
 msgid "Activate Input Method"
 msgstr "입력기 활성화"
 
-#: src/lib/fcitx/globalconfig.cpp:105
+#: src/lib/fcitx/globalconfig.cpp:108
 msgid "Active By Default"
 msgstr "디폴트 활성 상태"
 
@@ -131,7 +131,7 @@ msgctxt "Key name"
 msgid "Battery"
 msgstr "배터리"
 
-#: src/lib/fcitx/globalconfig.cpp:126
+#: src/lib/fcitx/globalconfig.cpp:129
 msgid "Behavior"
 msgstr "동작방식"
 
@@ -272,7 +272,7 @@ msgctxt "Key name"
 msgid "DOS"
 msgstr "DOS"
 
-#: src/lib/fcitx/globalconfig.cpp:74
+#: src/lib/fcitx/globalconfig.cpp:77
 msgid "Deactivate Input Method"
 msgstr "입력기 비활성화"
 
@@ -281,23 +281,23 @@ msgstr "입력기 비활성화"
 msgid "Default"
 msgstr "기본값"
 
-#: src/lib/fcitx/globalconfig.cpp:99
+#: src/lib/fcitx/globalconfig.cpp:102
 msgid "Default Next Candidate"
 msgstr "기본 다음 후보"
 
-#: src/lib/fcitx/globalconfig.cpp:87
+#: src/lib/fcitx/globalconfig.cpp:90
 msgid "Default Next page"
 msgstr "기본 다음 페이지"
 
-#: src/lib/fcitx/globalconfig.cpp:93
+#: src/lib/fcitx/globalconfig.cpp:96
 msgid "Default Previous Candidate"
 msgstr "기본 이전 후보"
 
-#: src/lib/fcitx/globalconfig.cpp:81
+#: src/lib/fcitx/globalconfig.cpp:84
 msgid "Default Previous page"
 msgstr "기본 이전 페이지"
 
-#: src/lib/fcitx/globalconfig.cpp:116
+#: src/lib/fcitx/globalconfig.cpp:119
 msgid "Default page size"
 msgstr "페이지 크기 기본값"
 
@@ -365,21 +365,25 @@ msgctxt "Key name"
 msgid "End"
 msgstr "종료"
 
-#: src/lib/fcitx/globalconfig.cpp:44
+#: src/lib/fcitx/globalconfig.cpp:47
 msgid "Enumerate Input Method Backward"
 msgstr "입력기를 역순으로 적용"
 
-#: src/lib/fcitx/globalconfig.cpp:37
+#: src/lib/fcitx/globalconfig.cpp:40
 msgid "Enumerate Input Method Forward"
 msgstr "입력기를 순차적으로 적용"
 
-#: src/lib/fcitx/globalconfig.cpp:58
+#: src/lib/fcitx/globalconfig.cpp:61
 msgid "Enumerate Input Method Group Backward"
 msgstr "입력기 그룹을 역순으로 적용"
 
-#: src/lib/fcitx/globalconfig.cpp:51
+#: src/lib/fcitx/globalconfig.cpp:54
 msgid "Enumerate Input Method Group Forward"
 msgstr "입력기 그룹을 순차적으로 적용"
+
+#: src/lib/fcitx/globalconfig.cpp:29
+msgid "Enumerate when press trigger key repeatedly"
+msgstr ""
 
 #: src/lib/fcitx-utils/key.cpp:194
 msgctxt "Key name"
@@ -448,7 +452,7 @@ msgstr "녹색"
 msgid "Group"
 msgstr "그룹"
 
-#: src/lib/fcitx/instance.cpp:1687
+#: src/lib/fcitx/instance.cpp:1688
 msgid "Group {0}: {1}"
 msgstr "그룹 {0}: {1}"
 
@@ -566,7 +570,7 @@ msgctxt "Key name"
 msgid "Hot Links"
 msgstr "핫 링크"
 
-#: src/lib/fcitx/globalconfig.cpp:124
+#: src/lib/fcitx/globalconfig.cpp:127
 msgid "Hotkey"
 msgstr "단축키"
 
@@ -1118,7 +1122,7 @@ msgctxt "Key name"
 msgid "Send"
 msgstr "보내기"
 
-#: src/lib/fcitx/globalconfig.cpp:107
+#: src/lib/fcitx/globalconfig.cpp:110
 msgid "Share Input State"
 msgstr "입력 상태 공유"
 
@@ -1132,11 +1136,11 @@ msgctxt "Key name"
 msgid "Shop"
 msgstr "숍"
 
-#: src/lib/fcitx/globalconfig.cpp:114
+#: src/lib/fcitx/globalconfig.cpp:117
 msgid "Show Input Method Information when changing focus"
 msgstr "포커스를 변경할 때 입력기 정보 표시"
 
-#: src/lib/fcitx/globalconfig.cpp:111
+#: src/lib/fcitx/globalconfig.cpp:114
 msgid "Show Input Method Information when switch input method"
 msgstr "입력기 변경시 입력기 정보 표시"
 
@@ -1226,7 +1230,7 @@ msgctxt "Key name"
 msgid "Task Panel"
 msgstr "작업 패널"
 
-#: src/lib/fcitx/globalconfig.cpp:30
+#: src/lib/fcitx/globalconfig.cpp:33
 msgid "Temporally switch between first and current Input Method"
 msgstr "첫 번째 입력 방법과 현재 입력 방법 사이의 임시 전환"
 
@@ -1444,10 +1448,10 @@ msgstr "iTouch"
 msgid "{0} (Not Available)"
 msgstr "{0} (사용할 수 없음)"
 
-#: src/lib/fcitx/instance.cpp:1682
+#: src/lib/fcitx/instance.cpp:1683
 msgid "{0} (Not available)"
 msgstr "{0} (사용할 수 없음)"
 
-#: src/lib/fcitx/instance.cpp:1679
+#: src/lib/fcitx/instance.cpp:1680
 msgid "{0} ({1})"
 msgstr "{0} ({1})"

@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2020-05-16 00:02-0700\n"
+"POT-Creation-Date: 2020-05-25 00:01-0700\n"
 "PO-Revision-Date: 2017-11-23 04:14+0000\n"
 "Last-Translator: csslayer <wengxt@gmail.com>, 2020\n"
 "Language-Team: Chinese (China) (https://www.transifex.com/fcitx/teams/12005/"
@@ -21,7 +21,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
-#: src/lib/fcitx/instance.cpp:1684
+#: src/lib/fcitx/instance.cpp:1685
 msgid "(Not available)"
 msgstr "(不可用)"
 
@@ -45,11 +45,11 @@ msgstr "<专用区>"
 msgid "<not assigned>"
 msgstr "<未指派>"
 
-#: src/lib/fcitx/globalconfig.cpp:65
+#: src/lib/fcitx/globalconfig.cpp:68
 msgid "Activate Input Method"
 msgstr "激活输入法"
 
-#: src/lib/fcitx/globalconfig.cpp:105
+#: src/lib/fcitx/globalconfig.cpp:108
 msgid "Active By Default"
 msgstr "默认状态为激活"
 
@@ -130,7 +130,7 @@ msgctxt "Key name"
 msgid "Battery"
 msgstr "电池"
 
-#: src/lib/fcitx/globalconfig.cpp:126
+#: src/lib/fcitx/globalconfig.cpp:129
 msgid "Behavior"
 msgstr "行为"
 
@@ -271,7 +271,7 @@ msgctxt "Key name"
 msgid "DOS"
 msgstr "DOS"
 
-#: src/lib/fcitx/globalconfig.cpp:74
+#: src/lib/fcitx/globalconfig.cpp:77
 msgid "Deactivate Input Method"
 msgstr "取消激活输入法"
 
@@ -280,23 +280,23 @@ msgstr "取消激活输入法"
 msgid "Default"
 msgstr "默认"
 
-#: src/lib/fcitx/globalconfig.cpp:99
+#: src/lib/fcitx/globalconfig.cpp:102
 msgid "Default Next Candidate"
 msgstr ""
 
-#: src/lib/fcitx/globalconfig.cpp:87
+#: src/lib/fcitx/globalconfig.cpp:90
 msgid "Default Next page"
 msgstr "默认下一页"
 
-#: src/lib/fcitx/globalconfig.cpp:93
+#: src/lib/fcitx/globalconfig.cpp:96
 msgid "Default Previous Candidate"
 msgstr ""
 
-#: src/lib/fcitx/globalconfig.cpp:81
+#: src/lib/fcitx/globalconfig.cpp:84
 msgid "Default Previous page"
 msgstr "默认上一页"
 
-#: src/lib/fcitx/globalconfig.cpp:116
+#: src/lib/fcitx/globalconfig.cpp:119
 msgid "Default page size"
 msgstr "默认页大小"
 
@@ -364,21 +364,25 @@ msgctxt "Key name"
 msgid "End"
 msgstr "行尾"
 
-#: src/lib/fcitx/globalconfig.cpp:44
+#: src/lib/fcitx/globalconfig.cpp:47
 msgid "Enumerate Input Method Backward"
 msgstr "向后切换输入法"
 
-#: src/lib/fcitx/globalconfig.cpp:37
+#: src/lib/fcitx/globalconfig.cpp:40
 msgid "Enumerate Input Method Forward"
 msgstr "向前切换输入法"
 
-#: src/lib/fcitx/globalconfig.cpp:58
+#: src/lib/fcitx/globalconfig.cpp:61
 msgid "Enumerate Input Method Group Backward"
 msgstr "向后切换输入法分组"
 
-#: src/lib/fcitx/globalconfig.cpp:51
+#: src/lib/fcitx/globalconfig.cpp:54
 msgid "Enumerate Input Method Group Forward"
 msgstr "向前切换输入分组"
+
+#: src/lib/fcitx/globalconfig.cpp:29
+msgid "Enumerate when press trigger key repeatedly"
+msgstr ""
 
 #: src/lib/fcitx-utils/key.cpp:194
 msgctxt "Key name"
@@ -447,7 +451,7 @@ msgstr "绿"
 msgid "Group"
 msgstr "分组"
 
-#: src/lib/fcitx/instance.cpp:1687
+#: src/lib/fcitx/instance.cpp:1688
 msgid "Group {0}: {1}"
 msgstr "分组 {0}：{1}"
 
@@ -565,7 +569,7 @@ msgctxt "Key name"
 msgid "Hot Links"
 msgstr "热门链接"
 
-#: src/lib/fcitx/globalconfig.cpp:124
+#: src/lib/fcitx/globalconfig.cpp:127
 msgid "Hotkey"
 msgstr "快捷键"
 
@@ -1115,7 +1119,7 @@ msgctxt "Key name"
 msgid "Send"
 msgstr "发送"
 
-#: src/lib/fcitx/globalconfig.cpp:107
+#: src/lib/fcitx/globalconfig.cpp:110
 msgid "Share Input State"
 msgstr ""
 
@@ -1129,11 +1133,11 @@ msgctxt "Key name"
 msgid "Shop"
 msgstr "购物"
 
-#: src/lib/fcitx/globalconfig.cpp:114
+#: src/lib/fcitx/globalconfig.cpp:117
 msgid "Show Input Method Information when changing focus"
 msgstr "在焦点更改时显示输入法信息"
 
-#: src/lib/fcitx/globalconfig.cpp:111
+#: src/lib/fcitx/globalconfig.cpp:114
 msgid "Show Input Method Information when switch input method"
 msgstr "切换输入法时显示输入法信息"
 
@@ -1223,7 +1227,7 @@ msgctxt "Key name"
 msgid "Task Panel"
 msgstr "任务栏"
 
-#: src/lib/fcitx/globalconfig.cpp:30
+#: src/lib/fcitx/globalconfig.cpp:33
 msgid "Temporally switch between first and current Input Method"
 msgstr ""
 
@@ -1440,10 +1444,10 @@ msgstr "iTouch"
 msgid "{0} (Not Available)"
 msgstr "{0} (不可用)"
 
-#: src/lib/fcitx/instance.cpp:1682
+#: src/lib/fcitx/instance.cpp:1683
 msgid "{0} (Not available)"
 msgstr "{0} (不可用)"
 
-#: src/lib/fcitx/instance.cpp:1679
+#: src/lib/fcitx/instance.cpp:1680
 msgid "{0} ({1})"
 msgstr "{0} ({1})"
