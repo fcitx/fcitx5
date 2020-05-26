@@ -183,6 +183,13 @@ void Kimpanel::resume() {
             auto &icEvent = static_cast<InputContextEvent &>(event);
             updateCurrentInputMethod(icEvent.inputContext());
         }));
+    eventHandlers_.emplace_back(
+        instance_->watchEvent(EventType::InputContextFocusOut,
+                              EventWatcherPhase::Default, [this](Event &) {
+                                  if (!instance_->lastFocusedInputContext()) {
+                                      proxy_->enable(false);
+                                  }
+                              }));
 }
 
 void Kimpanel::update(UserInterfaceComponent component,
@@ -315,6 +322,7 @@ void Kimpanel::updateCurrentInputMethod(InputContext *ic) {
         return;
     }
     proxy_->updateProperty(inputMethodStatus(ic));
+    proxy_->enable(true);
 }
 
 void Kimpanel::msgV1Handler(dbus::Message &msg) {
