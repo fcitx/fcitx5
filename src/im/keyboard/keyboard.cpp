@@ -443,7 +443,9 @@ void KeyboardEngine::keyEvent(const InputMethodEntry &entry, KeyEvent &event) {
         // if we reach here, just commit and discard buffer.
         if (!state->buffer_.empty()) {
             commitBuffer(inputContext);
-            if (!event.filtered()) {
+            if (inputContext->capabilityFlags().test(
+                    CapabilityFlag::KeyEventOrderFix) &&
+                !event.filtered()) {
                 // Re-forward the event to ensure we got delivered later than
                 // commit.
                 event.filterAndAccept();

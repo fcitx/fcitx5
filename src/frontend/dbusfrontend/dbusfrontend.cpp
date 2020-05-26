@@ -66,8 +66,12 @@ public:
           name_(sender) {
         processKeyEventMethod.setClosureFunction(
             [this](dbus::Message message, const dbus::ObjectMethod &method) {
-                InputContextEventBlocker blocker(this);
-                return method(std::move(message));
+                if (capabilityFlags().test(CapabilityFlag::KeyEventOrderFix)) {
+                    InputContextEventBlocker blocker(this);
+                    return method(std::move(message));
+                } else {
+                    return method(std::move(message));
+                }
             });
         created();
     }

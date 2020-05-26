@@ -53,6 +53,7 @@ enum class CapabilityFlag : uint64_t {
     Time = (1ull << 34),
     Multiline = (1ull << 35),
     Sensitive = (1ull << 36),
+    KeyEventOrderFix = (1ull << 37),
 
     PasswordOrSensitive = Password | Sensitive
 };
