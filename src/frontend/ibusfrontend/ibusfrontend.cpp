@@ -12,6 +12,8 @@
 #include <unistd.h>
 #include <fstream>
 #include <mutex>
+#include <fmt/format.h>
+#include <uuid/uuid.h>
 #include "fcitx-config/iniparser.h"
 #include "fcitx-utils/dbus/message.h"
 #include "fcitx-utils/dbus/objectvtable.h"
@@ -711,11 +713,18 @@ void IBusFrontendModule::becomeIBus() {
     // Otherwise it won't retry connection since we always use session bus
     // instead of start our own one.
     // https://dbus.freedesktop.org/doc/dbus-specification.html#addresses
-    // DBus address may use ; to add multiple fallback addresses.
-    // Adding a semicolon at the end of the address won't change the behavior.
-    if (oldAddress_.find(';') == std::string::npos) {
-        address += ";";
+    // We just try to append a custom argument. And dbus will simply ignore
+    // unrecognized such field.
+    while (stringutils::endsWith(address, ";")) {
+        address.pop_back();
     }
+    address.append(",fcitx_random_string=");
+    ICUUID uuid;
+    uuid_generate(uuid.data());
+    for (auto v : uuid) {
+        address.append(fmt::format("{:02x}", static_cast<int>(v)));
+    }
+    FCITX_DEBUG() << "IBus address is written with: " << address;
     config.setValueByPath("IBUS_ADDRESS", address);
     config.setValueByPath("IBUS_DAEMON_PID", std::to_string(getpid()));
 
