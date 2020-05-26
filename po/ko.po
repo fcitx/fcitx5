@@ -5,16 +5,16 @@
 # Translators:
 # csslayer <wengxt@gmail.com>, 2017
 # Bon Keun Seo <scobyseo@gmail.com>, 2017
-# heavyuser <heavyuser73@gmail.com>, 2018
 # MarongHappy <daemul72@gmail.com>, 2020
+# heavyuser <heavyuser73@gmail.com>, 2020
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2020-05-25 00:01-0700\n"
+"POT-Creation-Date: 2020-05-26 00:01-0700\n"
 "PO-Revision-Date: 2017-11-23 04:14+0000\n"
-"Last-Translator: MarongHappy <daemul72@gmail.com>, 2020\n"
+"Last-Translator: heavyuser <heavyuser73@gmail.com>, 2020\n"
 "Language-Team: Korean (https://www.transifex.com/fcitx/teams/12005/ko/)\n"
 "Language: ko\n"
 "MIME-Version: 1.0\n"
@@ -383,7 +383,7 @@ msgstr "입력기 그룹을 순차적으로 적용"
 
 #: src/lib/fcitx/globalconfig.cpp:29
 msgid "Enumerate when press trigger key repeatedly"
-msgstr ""
+msgstr "트리거 키를 반복해서 누를 때 보이기"
 
 #: src/lib/fcitx-utils/key.cpp:194
 msgctxt "Key name"
