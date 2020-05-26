@@ -42,9 +42,11 @@ public:
                   return true;
               })) {}
 
-    void updateCursor(InputContext *inputContext) {
-        auto msg = bus_->createMethodCall("org.kde.impanel", "/org/kde/impanel",
-                                          "org.kde.impanel2", "SetSpotRect");
+    void updateCursor(InputContext *inputContext, bool useRelative) {
+
+        auto msg = bus_->createMethodCall(
+            "org.kde.impanel", "/org/kde/impanel", "org.kde.impanel2",
+            useRelative ? "SetRelativeSpotRect" : "SetSpotRect");
 
         int32_t x = inputContext->cursorRect().left(),
                 y = inputContext->cursorRect().top(),
@@ -97,6 +99,7 @@ void Kimpanel::suspend() {
     eventHandlers_.clear();
     proxy_.reset();
     bus_->releaseName("org.kde.kimpanel.inputmethod");
+    hasRelative_ = false;
 }
 
 void Kimpanel::registerAllProperties(InputContext *ic) {
@@ -147,6 +150,19 @@ void Kimpanel::resume() {
     bus_->flush();
     if (available_) {
         registerAllProperties();
+
+        auto msg = bus_->createMethodCall("org.kde.impanel", "/org/kde/impanel",
+                                          "org.freedesktop.DBus.Introspectable",
+                                          "Introspect");
+        relativeQuery_ = msg.callAsync(0, [this](dbus::Message &reply) {
+            std::string s;
+            if (reply >> s) {
+                if (s.find("SetRelativeSpotRect") != std::string::npos) {
+                    hasRelative_ = true;
+                }
+            }
+            return true;
+        });
     }
 
     auto check = [this](Event &event) {
@@ -156,7 +172,10 @@ void Kimpanel::resume() {
         auto &icEvent = static_cast<InputContextEvent &>(event);
         auto inputContext = icEvent.inputContext();
         if (inputContext->hasFocus()) {
-            proxy_->updateCursor(inputContext);
+            bool useRelative =
+                hasRelative_ && inputContext->capabilityFlags().test(
+                                    CapabilityFlag::RelativeRect);
+            proxy_->updateCursor(inputContext, useRelative);
         }
     };
     eventHandlers_.emplace_back(

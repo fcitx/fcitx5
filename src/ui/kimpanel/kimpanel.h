@@ -56,6 +56,8 @@ private:
     bool auxDownIsEmpty_ = true;
     std::unique_ptr<EventSourceTime> timeEvent_;
     bool available_ = false;
+    std::unique_ptr<dbus::Slot> relativeQuery_;
+    bool hasRelative_ = false;
 };
 } // namespace fcitx
 
