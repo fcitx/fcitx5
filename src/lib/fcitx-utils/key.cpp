@@ -495,6 +495,14 @@ std::string Key::keySymToString(KeySym sym, KeyStringFormat format) {
         if (auto name = lookupName(sym)) {
             return C_("Key name", name);
         }
+        auto code = keySymToUnicode(sym);
+        if (code < 0x7f) {
+            if (charutils::isprint(code)) {
+                return utf8::UCS4ToUTF8(code);
+            }
+        } else {
+            return utf8::UCS4ToUTF8(code);
+        }
     }
 
     const KeyNameOffsetByValue *result = std::lower_bound(
