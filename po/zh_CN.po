@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2020-05-25 00:01-0700\n"
+"POT-Creation-Date: 2020-05-27 00:01-0700\n"
 "PO-Revision-Date: 2017-11-23 04:14+0000\n"
 "Last-Translator: csslayer <wengxt@gmail.com>, 2020\n"
 "Language-Team: Chinese (China) (https://www.transifex.com/fcitx/teams/12005/"
@@ -21,7 +21,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
-#: src/lib/fcitx/instance.cpp:1685
+#: src/lib/fcitx/instance.cpp:1697
 msgid "(Not available)"
 msgstr "(不可用)"
 
@@ -216,15 +216,15 @@ msgstr "社区"
 
 #: src/im/keyboard/keyboard.cpp:358
 msgid "Completion"
-msgstr ""
+msgstr "补全"
 
 #: src/im/keyboard/keyboard.cpp:361
 msgid "Completion is disabled."
-msgstr ""
+msgstr "补全已禁用。"
 
 #: src/im/keyboard/keyboard.cpp:360
 msgid "Completion is enabled."
-msgstr ""
+msgstr "补全已启用。"
 
 #: src/ui/classic/xcbtraywindow.cpp:41
 #: src/modules/notificationitem/dbusmenu.cpp:257
@@ -282,7 +282,7 @@ msgstr "默认"
 
 #: src/lib/fcitx/globalconfig.cpp:102
 msgid "Default Next Candidate"
-msgstr ""
+msgstr "默认跳转下一个候选词"
 
 #: src/lib/fcitx/globalconfig.cpp:90
 msgid "Default Next page"
@@ -290,7 +290,7 @@ msgstr "默认下一页"
 
 #: src/lib/fcitx/globalconfig.cpp:96
 msgid "Default Previous Candidate"
-msgstr ""
+msgstr "默认跳转前一个候选词"
 
 #: src/lib/fcitx/globalconfig.cpp:84
 msgid "Default Previous page"
@@ -353,7 +353,7 @@ msgstr "在输入提示中启用 Emoji"
 
 #: src/im/keyboard/keyboard.h:54
 msgid "Enable emoji in quickphrase"
-msgstr ""
+msgstr "在快速输入中启用颜文字"
 
 #: src/modules/spell/spell.h:23
 msgid "Enchant"
@@ -382,7 +382,7 @@ msgstr "向前切换输入分组"
 
 #: src/lib/fcitx/globalconfig.cpp:29
 msgid "Enumerate when press trigger key repeatedly"
-msgstr ""
+msgstr "反复按切换键时进行轮换"
 
 #: src/lib/fcitx-utils/key.cpp:194
 msgctxt "Key name"
@@ -451,7 +451,11 @@ msgstr "绿"
 msgid "Group"
 msgstr "分组"
 
-#: src/lib/fcitx/instance.cpp:1688
+#: src/lib/fcitx/instance.cpp:466 src/modules/xcb/xcbconnection.cpp:387
+msgid "Group changed"
+msgstr ""
+
+#: src/lib/fcitx/instance.cpp:1700
 msgid "Group {0}: {1}"
 msgstr "分组 {0}：{1}"
 
@@ -901,7 +905,7 @@ msgstr "无剪贴板历史。"
 msgid "None"
 msgstr "无"
 
-#: src/ui/kimpanel/kimpanel.cpp:299
+#: src/ui/kimpanel/kimpanel.cpp:325
 msgid "Not available"
 msgstr "不可用"
 
@@ -919,6 +923,7 @@ msgid ""
 "Only emoji support is found. To enable spell checking, you may need to "
 "install spell check data for the language."
 msgstr ""
+"只找到了颜文字支持。想要启用拼写检查，您需要安装语言对应的拼写检查数据。"
 
 #: src/lib/fcitx-utils/key.cpp:187
 msgctxt "Key name"
@@ -999,7 +1004,7 @@ msgstr "截屏"
 
 #: src/modules/spell/spell.h:38
 msgid "Providers"
-msgstr ""
+msgstr "提供者"
 
 #: src/modules/quickphrase/quickphrase.conf.in:3
 msgid "Quick Phrase"
@@ -1121,7 +1126,7 @@ msgstr "发送"
 
 #: src/lib/fcitx/globalconfig.cpp:110
 msgid "Share Input State"
-msgstr ""
+msgstr "共享输入状态"
 
 #: src/lib/fcitx-utils/key.cpp:422
 msgctxt "Key name"
@@ -1212,6 +1217,14 @@ msgctxt "Key name"
 msgid "Suspend"
 msgstr "睡眠"
 
+#: src/modules/xcb/xcbconnection.cpp:388
+msgid "Switch group to {0}"
+msgstr ""
+
+#: src/lib/fcitx/instance.cpp:467
+msgid "Switched group to {0}"
+msgstr ""
+
 #: src/lib/fcitx-utils/key.cpp:195
 msgctxt "Key name"
 msgid "System Request"
@@ -1229,7 +1242,7 @@ msgstr "任务栏"
 
 #: src/lib/fcitx/globalconfig.cpp:33
 msgid "Temporally switch between first and current Input Method"
-msgstr ""
+msgstr "临时在当前和第一个输入法之间切换"
 
 #: src/lib/fcitx-utils/key.cpp:153
 msgctxt "Key name"
@@ -1308,7 +1321,7 @@ msgstr "上"
 
 #: src/frontend/xim/xim.h:33
 msgid "Use On The Spot Style (Needs restarting)"
-msgstr ""
+msgstr "使用 On The Spot 风格 (需要重启)"
 
 #: src/ui/classic/classicui.h:72
 msgid "Use Per Screen DPI"
@@ -1444,10 +1457,10 @@ msgstr "iTouch"
 msgid "{0} (Not Available)"
 msgstr "{0} (不可用)"
 
-#: src/lib/fcitx/instance.cpp:1683
+#: src/lib/fcitx/instance.cpp:1695
 msgid "{0} (Not available)"
 msgstr "{0} (不可用)"
 
-#: src/lib/fcitx/instance.cpp:1680
+#: src/lib/fcitx/instance.cpp:1692
 msgid "{0} ({1})"
 msgstr "{0} ({1})"

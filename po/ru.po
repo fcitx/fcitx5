@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2020-05-25 00:01-0700\n"
+"POT-Creation-Date: 2020-05-27 00:01-0700\n"
 "PO-Revision-Date: 2017-11-23 04:14+0000\n"
 "Last-Translator: TotalCaesar659 <x24cm5b8c54q6szxw@yandex.ru>, 2017\n"
 "Language-Team: Russian (https://www.transifex.com/fcitx/teams/12005/ru/)\n"
@@ -22,7 +22,7 @@ msgstr ""
 "%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n"
 "%100>=11 && n%100<=14)? 2 : 3);\n"
 
-#: src/lib/fcitx/instance.cpp:1685
+#: src/lib/fcitx/instance.cpp:1697
 msgid "(Not available)"
 msgstr "(Недоступно)"
 
@@ -452,7 +452,11 @@ msgstr ""
 msgid "Group"
 msgstr "Группа"
 
-#: src/lib/fcitx/instance.cpp:1688
+#: src/lib/fcitx/instance.cpp:466 src/modules/xcb/xcbconnection.cpp:387
+msgid "Group changed"
+msgstr ""
+
+#: src/lib/fcitx/instance.cpp:1700
 msgid "Group {0}: {1}"
 msgstr "Группа {0}: {1}"
 
@@ -902,7 +906,7 @@ msgstr "История буфера обмена отсутствует."
 msgid "None"
 msgstr "Нет"
 
-#: src/ui/kimpanel/kimpanel.cpp:299
+#: src/ui/kimpanel/kimpanel.cpp:325
 msgid "Not available"
 msgstr "Недоступно"
 
@@ -1213,6 +1217,14 @@ msgctxt "Key name"
 msgid "Suspend"
 msgstr ""
 
+#: src/modules/xcb/xcbconnection.cpp:388
+msgid "Switch group to {0}"
+msgstr ""
+
+#: src/lib/fcitx/instance.cpp:467
+msgid "Switched group to {0}"
+msgstr ""
+
 #: src/lib/fcitx-utils/key.cpp:195
 msgctxt "Key name"
 msgid "System Request"
@@ -1441,10 +1453,10 @@ msgstr ""
 msgid "{0} (Not Available)"
 msgstr ""
 
-#: src/lib/fcitx/instance.cpp:1683
+#: src/lib/fcitx/instance.cpp:1695
 msgid "{0} (Not available)"
 msgstr "{0} (Недоступно)"
 
-#: src/lib/fcitx/instance.cpp:1680
+#: src/lib/fcitx/instance.cpp:1692
 msgid "{0} ({1})"
 msgstr "{0} ({1})"

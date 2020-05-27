@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2020-05-26 00:01-0700\n"
+"POT-Creation-Date: 2020-05-27 00:01-0700\n"
 "PO-Revision-Date: 2017-11-23 04:14+0000\n"
 "Last-Translator: heavyuser <heavyuser73@gmail.com>, 2020\n"
 "Language-Team: Korean (https://www.transifex.com/fcitx/teams/12005/ko/)\n"
@@ -22,7 +22,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
-#: src/lib/fcitx/instance.cpp:1685
+#: src/lib/fcitx/instance.cpp:1697
 msgid "(Not available)"
 msgstr "(사용할 수 없음)"
 
@@ -452,7 +452,11 @@ msgstr "녹색"
 msgid "Group"
 msgstr "그룹"
 
-#: src/lib/fcitx/instance.cpp:1688
+#: src/lib/fcitx/instance.cpp:466 src/modules/xcb/xcbconnection.cpp:387
+msgid "Group changed"
+msgstr ""
+
+#: src/lib/fcitx/instance.cpp:1700
 msgid "Group {0}: {1}"
 msgstr "그룹 {0}: {1}"
 
@@ -902,7 +906,7 @@ msgstr "클립보드 기록이 없습니다."
 msgid "None"
 msgstr "없음"
 
-#: src/ui/kimpanel/kimpanel.cpp:299
+#: src/ui/kimpanel/kimpanel.cpp:325
 msgid "Not available"
 msgstr "사용할 수 없음"
 
@@ -1215,6 +1219,14 @@ msgctxt "Key name"
 msgid "Suspend"
 msgstr "중단"
 
+#: src/modules/xcb/xcbconnection.cpp:388
+msgid "Switch group to {0}"
+msgstr ""
+
+#: src/lib/fcitx/instance.cpp:467
+msgid "Switched group to {0}"
+msgstr ""
+
 #: src/lib/fcitx-utils/key.cpp:195
 msgctxt "Key name"
 msgid "System Request"
@@ -1448,10 +1460,10 @@ msgstr "iTouch"
 msgid "{0} (Not Available)"
 msgstr "{0} (사용할 수 없음)"
 
-#: src/lib/fcitx/instance.cpp:1683
+#: src/lib/fcitx/instance.cpp:1695
 msgid "{0} (Not available)"
 msgstr "{0} (사용할 수 없음)"
 
-#: src/lib/fcitx/instance.cpp:1680
+#: src/lib/fcitx/instance.cpp:1692
 msgid "{0} ({1})"
 msgstr "{0} ({1})"

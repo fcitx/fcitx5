@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2020-05-25 00:01-0700\n"
+"POT-Creation-Date: 2020-05-27 00:01-0700\n"
 "PO-Revision-Date: 2017-11-23 04:14+0000\n"
 "Last-Translator: byStarTW (pan93412) <pan93412@gmail.com>, 2019\n"
 "Language-Team: Chinese (Taiwan) (https://www.transifex.com/fcitx/teams/12005/"
@@ -22,7 +22,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
-#: src/lib/fcitx/instance.cpp:1685
+#: src/lib/fcitx/instance.cpp:1697
 msgid "(Not available)"
 msgstr "（無法使用）"
 
@@ -452,7 +452,11 @@ msgstr "綠色"
 msgid "Group"
 msgstr "群組"
 
-#: src/lib/fcitx/instance.cpp:1688
+#: src/lib/fcitx/instance.cpp:466 src/modules/xcb/xcbconnection.cpp:387
+msgid "Group changed"
+msgstr ""
+
+#: src/lib/fcitx/instance.cpp:1700
 msgid "Group {0}: {1}"
 msgstr "群組 {0}：{1}"
 
@@ -902,7 +906,7 @@ msgstr "沒有輸入法歷史"
 msgid "None"
 msgstr "無"
 
-#: src/ui/kimpanel/kimpanel.cpp:299
+#: src/ui/kimpanel/kimpanel.cpp:325
 msgid "Not available"
 msgstr "無法使用"
 
@@ -1213,6 +1217,14 @@ msgctxt "Key name"
 msgid "Suspend"
 msgstr "暫停"
 
+#: src/modules/xcb/xcbconnection.cpp:388
+msgid "Switch group to {0}"
+msgstr ""
+
+#: src/lib/fcitx/instance.cpp:467
+msgid "Switched group to {0}"
+msgstr ""
+
 #: src/lib/fcitx-utils/key.cpp:195
 msgctxt "Key name"
 msgid "System Request"
@@ -1443,10 +1455,10 @@ msgstr "iTouch"
 msgid "{0} (Not Available)"
 msgstr "{0} (無法使用)"
 
-#: src/lib/fcitx/instance.cpp:1683
+#: src/lib/fcitx/instance.cpp:1695
 msgid "{0} (Not available)"
 msgstr "{0}（不可用）"
 
-#: src/lib/fcitx/instance.cpp:1680
+#: src/lib/fcitx/instance.cpp:1692
 msgid "{0} ({1})"
 msgstr "{0} ({1})"

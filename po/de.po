@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2020-05-25 00:01-0700\n"
+"POT-Creation-Date: 2020-05-27 00:01-0700\n"
 "PO-Revision-Date: 2017-11-23 04:14+0000\n"
 "Last-Translator: Tim Hofstede <timhofstede.va@gmail.com>, 2018\n"
 "Language-Team: German (https://www.transifex.com/fcitx/teams/12005/de/)\n"
@@ -21,7 +21,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: src/lib/fcitx/instance.cpp:1685
+#: src/lib/fcitx/instance.cpp:1697
 msgid "(Not available)"
 msgstr "(nicht vorhanden)"
 
@@ -451,7 +451,11 @@ msgstr "Grün"
 msgid "Group"
 msgstr "Gruppe"
 
-#: src/lib/fcitx/instance.cpp:1688
+#: src/lib/fcitx/instance.cpp:466 src/modules/xcb/xcbconnection.cpp:387
+msgid "Group changed"
+msgstr ""
+
+#: src/lib/fcitx/instance.cpp:1700
 msgid "Group {0}: {1}"
 msgstr "Gruppe {0}: {1}"
 
@@ -901,7 +905,7 @@ msgstr "Kein Zwischenablageverlauf"
 msgid "None"
 msgstr "Nicht beibehalten"
 
-#: src/ui/kimpanel/kimpanel.cpp:299
+#: src/ui/kimpanel/kimpanel.cpp:325
 msgid "Not available"
 msgstr "Nicht verfügbar"
 
@@ -1212,6 +1216,14 @@ msgctxt "Key name"
 msgid "Suspend"
 msgstr "Suspend"
 
+#: src/modules/xcb/xcbconnection.cpp:388
+msgid "Switch group to {0}"
+msgstr ""
+
+#: src/lib/fcitx/instance.cpp:467
+msgid "Switched group to {0}"
+msgstr ""
+
 #: src/lib/fcitx-utils/key.cpp:195
 msgctxt "Key name"
 msgid "System Request"
@@ -1443,10 +1455,10 @@ msgstr "iTouch"
 msgid "{0} (Not Available)"
 msgstr "{0} (Nicht verfügbar)"
 
-#: src/lib/fcitx/instance.cpp:1683
+#: src/lib/fcitx/instance.cpp:1695
 msgid "{0} (Not available)"
 msgstr "{0} (Nicht verfügbar)"
 
-#: src/lib/fcitx/instance.cpp:1680
+#: src/lib/fcitx/instance.cpp:1692
 msgid "{0} ({1})"
 msgstr "{0} ({1})"
