@@ -92,6 +92,9 @@ public:
     /// down.
     bool isCursorMove() const;
 
+    /// Check if this key is a key pad key.
+    bool isKeyPad() const;
+
     /// Check if states has modifier.
     bool hasModifier() const;
 

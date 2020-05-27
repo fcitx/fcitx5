@@ -341,6 +341,13 @@ bool Key::isCursorMove() const {
              states_ == KeyState::Shift || states_ == KeyState::NoState));
 }
 
+bool Key::isKeyPad() const {
+    return ((sym_ >= FcitxKey_KP_Multiply && sym_ <= FcitxKey_KP_9) ||
+            (sym_ >= FcitxKey_KP_F1 && sym_ <= FcitxKey_KP_Delete) ||
+            sym_ == FcitxKey_KP_Space || sym_ == FcitxKey_KP_Tab ||
+            sym_ == FcitxKey_KP_Enter || sym_ == FcitxKey_KP_Equal);
+}
+
 bool Key::hasModifier() const { return !!(states_ & KeyState::SimpleMask); }
 
 Key Key::normalize() const {
