@@ -1018,7 +1018,7 @@ void Instance::initialize() {
     auto entry = d->imManager_.entry("keyboard-us");
     FCITX_LOG_IF(Error, !entry) << "Couldn't find keyboard-us";
     d->exitEvent_ = d->eventLoop_.addExitEvent([this](EventSource *) {
-        FCITX_LOG(Debug) << "Running save...";
+        FCITX_DEBUG() << "Running save...";
         FCITX_D();
         save();
         if (d->restart_) {
