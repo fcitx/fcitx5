@@ -106,6 +106,7 @@ static bool isFirstCapital(const std::string &str) {
     default:
         return false;
     }
+    ++iter;
     for (; iter != str.end(); iter++) {
         switch (*iter) {
         case_A_Z:
