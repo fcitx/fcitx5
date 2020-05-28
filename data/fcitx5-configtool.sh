@@ -125,20 +125,15 @@ run_qt() {
 run_xdg() {
     case "$DE" in
         kde)
-            message "$(_ "You're currently running KDE, but KCModule for fcitx couldn't be found, the package name of this KCModule is usually kcm-fcitx or kde-config-fcitx. Now it will open config file with default text editor.")"
+            message "$(_ "You're currently running KDE, but KCModule for fcitx couldn't be found, the package name of this KCModule is usually kcm-fcitx or kde-config-fcitx. Now it will open config directory.")"
             ;;
         *)
-            message "$(_ "You're currently running Fcitx with GUI, but fcitx5-config-qt couldn't be found. Now it will open config file with default text editor.")"
+            message "$(_ "You're currently running Fcitx with GUI, but fcitx5-config-qt couldn't be found. Now it will open config directory.")"
             ;;
     esac
 
     if command="$(which xdg-open 2>/dev/null)"; then
-        detect_im_addon $1
-        if [ x"$filename" != x ]; then
-            exec $command "$HOME/.config/fcitx5/conf/$filename.config"
-        else
-            exec "$command" "$HOME/.config/fcitx5/config"
-        fi
+        exec "$command" "$HOME/.config/fcitx5"
     fi
 }
 
@@ -148,38 +143,8 @@ _which_cmdline() {
     echo "$cmd $*"
 }
 
-detect_im_addon() {
-    filename=$1
-    addonname=
-    if [ x"$filename" != x ]; then
-        addonname=$(fcitx5-remote -m $1 2>/dev/null)
-        if [ "$?" != "0" ]; then
-            filename=
-        elif [ x"$addonname" != x ]; then
-            filename=$addonname
-        fi
-    fi
-
-    if [ ! -f "$HOME/.config/fcitx5/conf/$filename.config" ]; then
-        filename=
-    fi
-}
-
-run_editor() {
-    if command="$(_which_cmdline ${EDITOR} 2>/dev/null)" ||
-        command="$(_which_cmdline ${VISUAL} 2>/dev/null)"; then
-        detect_im_addon $1
-        if [ x"$filename" != x ]; then
-            exec $command "$HOME/.config/fcitx5/conf/$filename.config"
-        else
-            exec $command "$HOME/.config/fcitx5/config"
-        fi
-    fi
-}
-
 if [ ! -n "$DISPLAY" ] && [ ! -n "$WAYLAND_DISPLAY" ]; then
-    run_editor "$1"
-    echo 'Please run it under X, or set $EDITOR or $VISUAL' >&2
+    echo 'Please run it under desktop.' >&2
     exit 0
 fi
 
@@ -191,10 +156,10 @@ detectDE
 # xdg/editor is never a preferred solution
 case "$DE" in
     kde)
-        order="kde qt xdg editor"
+        order="kde qt xdg"
         ;;
     *)
-        order="qt kde xdg editor"
+        order="qt kde xdg"
         ;;
 esac
 
