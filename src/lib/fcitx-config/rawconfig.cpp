@@ -259,7 +259,7 @@ public:
     }
 
     void detachSubItems() {
-        for (const auto pair : subItems_) {
+        for (const auto &pair : subItems_) {
             pair.second->d_func()->parent_ = nullptr;
         }
     }
