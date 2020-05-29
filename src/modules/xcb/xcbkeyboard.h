@@ -45,6 +45,7 @@ public:
     }
 
 private:
+    xcb_atom_t xkbRulesNamesAtom();
     XCBConnection *conn_;
     uint8_t xkbFirstEvent_ = 0;
     uint8_t xkbMajorOpCode_ = 0;
@@ -67,6 +68,7 @@ private:
     std::vector<std::unique_ptr<HandlerTableEntry<EventHandler>>>
         eventHandlers_;
 
+    std::unique_ptr<EventSourceTime> updateKeymapEvent_;
     std::unique_ptr<EventSourceTime> xmodmapTimer_;
     int lastSequence_ = 0;
     bool waitingForRefresh_ = false;

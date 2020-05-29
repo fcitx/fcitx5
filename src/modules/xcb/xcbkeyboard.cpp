@@ -62,6 +62,17 @@ union _xkb_event {
     xcb_xkb_state_notify_event_t state_notify;
 };
 
+void addEventMaskToWindow(xcb_connection_t *conn, xcb_window_t wid,
+                          uint32_t mask) {
+    auto get_attr_cookie = xcb_get_window_attributes(conn, wid);
+    auto get_attr_reply = makeXCBReply(
+        xcb_get_window_attributes_reply(conn, get_attr_cookie, nullptr));
+    if (get_attr_reply && (get_attr_reply->your_event_mask & mask) != mask) {
+        const uint32_t newMask = get_attr_reply->your_event_mask | mask;
+        xcb_change_window_attributes(conn, wid, XCB_CW_EVENT_MASK, &newMask);
+    }
+}
+
 XCBKeyboard::XCBKeyboard(XCBConnection *conn) : conn_(conn) {
     // init xkb, query if extension exists.
     const xcb_query_extension_reply_t *reply =
@@ -108,6 +119,8 @@ XCBKeyboard::XCBKeyboard(XCBConnection *conn) : conn_(conn) {
     }
     hasXKB_ = true;
     updateKeymap();
+    addEventMaskToWindow(connection(), conn_->root(),
+                         XCB_EVENT_MASK_PROPERTY_CHANGE);
 
     // Force refresh so we can apply xmodmap.
     if (conn_->parent()->config().allowOverrideXKB.value())
@@ -126,6 +139,7 @@ XCBKeyboard::XCBKeyboard(XCBConnection *conn) : conn_(conn) {
                                                     ->inputMethodManager()
                                                     .currentGroup()
                                                     .defaultLayout());
+            FCITX_XCB_DEBUG() << layoutAndVariant;
             setLayoutByName(layoutAndVariant.first, layoutAndVariant.second,
                             true);
         }));
@@ -140,6 +154,7 @@ void XCBKeyboard::updateKeymap() {
     if (!context_) {
         return;
     }
+    xcb_flush(connection());
     initDefaultLayout();
 
     keymap_.reset(nullptr);
@@ -186,18 +201,21 @@ void XCBKeyboard::updateKeymap() {
     state_.reset(new_state);
 }
 
-XkbRulesNames XCBKeyboard::xkbRulesNames() {
+xcb_atom_t XCBKeyboard::xkbRulesNamesAtom() {
     if (!xkbRulesNamesAtom_) {
         xkbRulesNamesAtom_ = conn_->atom(_XKB_RF_NAMES_PROP_ATOM, true);
     }
+    return xkbRulesNamesAtom_;
+}
 
-    if (!xkbRulesNamesAtom_) {
+XkbRulesNames XCBKeyboard::xkbRulesNames() {
+    if (!xkbRulesNamesAtom()) {
         return {};
     }
 
     xcb_get_property_cookie_t get_prop_cookie =
-        xcb_get_property(connection(), false, conn_->root(), xkbRulesNamesAtom_,
-                         XCB_ATOM_STRING, 0, 1024);
+        xcb_get_property(connection(), false, conn_->root(),
+                         xkbRulesNamesAtom(), XCB_ATOM_STRING, 0, 1024);
     auto reply = makeXCBReply(
         xcb_get_property_reply(connection(), get_prop_cookie, nullptr));
 
@@ -232,8 +250,8 @@ void XCBKeyboard::initDefaultLayout() {
     conn_->instance()->setXkbParameters(conn_->focusGroup()->display(),
                                         names[0], names[1], names[4]);
 
-    FCITX_DEBUG() << names[0] << " " << names[1] << " " << names[2] << " "
-                  << names[3] << " " << names[4];
+    FCITX_XCB_DEBUG() << names[0] << " " << names[1] << " " << names[2] << " "
+                      << names[3] << " " << names[4];
 
     if (!names[0].empty()) {
         xkbRule_ = names[0];
@@ -254,10 +272,10 @@ void XCBKeyboard::initDefaultLayout() {
 
 int XCBKeyboard::findLayoutIndex(const std::string &layout,
                                  const std::string &variant) {
-    FCITX_DEBUG() << "findLayoutIndex layout:" << layout
-                  << " variant:" << variant;
-    FCITX_DEBUG() << "defaultLayouts:" << defaultLayouts_;
-    FCITX_DEBUG() << "defaultVariants:" << defaultVariants_;
+    FCITX_XCB_DEBUG() << "findLayoutIndex layout:" << layout
+                      << " variant:" << variant;
+    FCITX_XCB_DEBUG() << "defaultLayouts:" << defaultLayouts_;
+    FCITX_XCB_DEBUG() << "defaultVariants:" << defaultVariants_;
     for (size_t i = 0; i < defaultLayouts_.size(); i++) {
         if (defaultLayouts_[i] == layout &&
             ((i < defaultVariants_.size() && variant == defaultVariants_[i]) ||
@@ -473,7 +491,7 @@ bool XCBKeyboard::setLayoutByName(const std::string &layout,
         return false;
     }
 
-    FCITX_DEBUG() << "Lock group " << index;
+    FCITX_XCB_DEBUG() << "Lock group " << index;
     auto addon = conn_->instance()->addonManager().addon("dbus", true);
     if (!addon || !addon->call<IDBusModule::lockGroup>(index)) {
         xcb_xkb_latch_lock_state(connection(), XCB_XKB_ID_USE_CORE_KBD, 0, 0,
@@ -485,7 +503,20 @@ bool XCBKeyboard::setLayoutByName(const std::string &layout,
 
 bool XCBKeyboard::handleEvent(xcb_generic_event_t *event) {
     uint8_t response_type = event->response_type & ~0x80;
-    if (!hasXKB_ || response_type != xkbFirstEvent_) {
+    if (!hasXKB_) {
+        return false;
+    }
+
+    if (response_type == XCB_PROPERTY_NOTIFY) {
+        auto property = reinterpret_cast<xcb_property_notify_event_t *>(event);
+        if (property->window == conn_->root() &&
+            property->atom == xkbRulesNamesAtom()) {
+            updateKeymap();
+        }
+        return false;
+    }
+
+    if (response_type != xkbFirstEvent_) {
         return false;
     }
     _xkb_event *xkbEvent = (_xkb_event *)event;
@@ -503,14 +534,22 @@ bool XCBKeyboard::handleEvent(xcb_generic_event_t *event) {
             return true;
         }
         case XCB_XKB_MAP_NOTIFY: {
+            FCITX_XCB_DEBUG() << "XCB_XKB_MAP_NOTIFY";
             updateKeymap();
             return true;
         }
         case XCB_XKB_NEW_KEYBOARD_NOTIFY: {
             xcb_xkb_new_keyboard_notify_event_t *ev =
                 &xkbEvent->new_keyboard_notify;
+            FCITX_XCB_DEBUG() << "XCB_XKB_NEW_KEYBOARD_NOTIFY";
             if (ev->changed & XCB_XKB_NKN_DETAIL_KEYCODES) {
-                updateKeymap();
+                updateKeymapEvent_ =
+                    conn_->instance()->eventLoop().addTimeEvent(
+                        CLOCK_MONOTONIC, now(CLOCK_MONOTONIC) + 10000, 0,
+                        [this](EventSourceTime *, uint64_t) {
+                            updateKeymap();
+                            return true;
+                        });
             }
 
             if (!*conn_->parent()->config().allowOverrideXKB) {
@@ -520,9 +559,9 @@ bool XCBKeyboard::handleEvent(xcb_generic_event_t *event) {
             if (ev->sequence != lastSequence_) {
                 lastSequence_ = ev->sequence;
                 xmodmapTimer_ = conn_->instance()->eventLoop().addTimeEvent(
-                    CLOCK_MONOTONIC, now(CLOCK_MONOTONIC) + 10000, 0,
+                    CLOCK_MONOTONIC, now(CLOCK_MONOTONIC) + 15000, 0,
                     [this](EventSourceTime *, uint64_t) {
-                        FCITX_DEBUG() << "Apply Xmodmap.";
+                        FCITX_XCB_DEBUG() << "Apply Xmodmap.";
 
                         if (waitingForRefresh_) {
                             waitingForRefresh_ = false;

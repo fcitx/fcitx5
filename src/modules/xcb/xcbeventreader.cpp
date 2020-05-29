@@ -44,7 +44,6 @@ bool XCBEventReader::onIOEvent(IOEventFlags flags) {
         return false;
     }
 
-    FCITX_XCB_DEBUG() << "onIOEvent" << static_cast<int>(flags);
     bool hasEvent = false;
     std::list<XCBReply<xcb_generic_event_t>> events;
     while (auto event = nextXCBEvent(conn_->connection(), flags)) {
@@ -56,10 +55,7 @@ bool XCBEventReader::onIOEvent(IOEventFlags flags) {
         hasEvent = !events_.empty();
     }
     if (hasEvent) {
-        dispatcherToMain_.schedule([this]() {
-            FCITX_XCB_DEBUG() << "Processing event";
-            conn_->processEvent();
-        });
+        dispatcherToMain_.schedule([this]() { conn_->processEvent(); });
     }
     return true;
 }
