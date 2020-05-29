@@ -125,6 +125,13 @@ public:
     }
 };
 
+class FCITXCORE_EXPORT DisplayOnlyCandidateWord : public CandidateWord {
+public:
+    DisplayOnlyCandidateWord(Text text) : CandidateWord(std::move(text)) {}
+
+    void select(InputContext *) const override {}
+};
+
 class DisplayOnlyCandidateListPrivate;
 
 class FCITXCORE_EXPORT DisplayOnlyCandidateList : public CandidateList {

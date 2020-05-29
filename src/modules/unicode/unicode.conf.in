@@ -5,3 +5,6 @@ Type=SharedLibrary
 Library=unicode
 Category=Module
 OnDemand=False
+
+[Addon/OptionalDependencies]
+0=clipboard

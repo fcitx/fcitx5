@@ -5,6 +5,7 @@
  *
  */
 #include "unicode.h"
+#include <fmt/format.h>
 #include "fcitx-utils/i18n.h"
 #include "fcitx-utils/inputbuffer.h"
 #include "fcitx-utils/utf8.h"
@@ -226,9 +227,9 @@ Unicode::~Unicode() {}
 void Unicode::trigger(InputContext *inputContext) {
     auto state = inputContext->propertyFor(&factory_);
     state->enabled_ = true;
-    updateUI(inputContext);
+    updateUI(inputContext, true);
 }
-void Unicode::updateUI(InputContext *inputContext) {
+void Unicode::updateUI(InputContext *inputContext, bool trigger) {
     auto state = inputContext->propertyFor(&factory_);
     inputContext->inputPanel().reset();
     if (!state->buffer_.empty()) {
@@ -246,6 +247,69 @@ void Unicode::updateUI(InputContext *inputContext) {
         candidateList->setSelectionKey(selectionKeys_);
         candidateList->setLayoutHint(CandidateLayoutHint::Vertical);
         inputContext->inputPanel().setCandidateList(std::move(candidateList));
+    } else if (trigger) {
+        auto candidateList = std::make_unique<CommonCandidateList>();
+
+        std::vector<std::string> selectedTexts;
+        if (inputContext->capabilityFlags().test(
+                CapabilityFlag::SurroundingText)) {
+            if (auto selected = inputContext->surroundingText().selectedText();
+                !selected.empty()) {
+                selectedTexts.push_back(std::move(selected));
+            }
+        }
+        if (clipboard()) {
+            if (selectedTexts.empty()) {
+                auto primary =
+                    clipboard()->call<IClipboard::primary>(inputContext);
+                if (std::find(selectedTexts.begin(), selectedTexts.end(),
+                              primary) == selectedTexts.end()) {
+                    selectedTexts.push_back(std::move(primary));
+                }
+            }
+            auto clip = clipboard()->call<IClipboard::clipboard>(inputContext);
+            if (std::find(selectedTexts.begin(), selectedTexts.end(), clip) ==
+                selectedTexts.end()) {
+                selectedTexts.push_back(std::move(clip));
+            }
+        }
+        std::unordered_set<uint32_t> seenChar;
+        for (const auto &str : selectedTexts) {
+            if (!utf8::validate(str)) {
+                continue;
+            }
+            // Hard limit to prevent do too much lookup.
+            constexpr int limit = 20;
+            int counter = 0;
+            for (auto c : utf8::MakeUTF8CharRange(str)) {
+                if (!seenChar.insert(c).second) {
+                    continue;
+                }
+                auto name = data_.name(c);
+                std::string display;
+                if (!name.empty()) {
+                    display = fmt::format("{0} U+{1:04x} {2}",
+                                          utf8::UCS4ToUTF8(c), c, name);
+                } else {
+                    display =
+                        fmt::format("{0} U+{1:04x}", utf8::UCS4ToUTF8(c), c);
+                }
+                candidateList->append<DisplayOnlyCandidateWord>(
+                    Text(std::move(display)));
+                if (counter >= limit) {
+                    break;
+                }
+                counter += 1;
+            }
+        }
+        candidateList->setSelectionKey(KeyList(10));
+        candidateList->setPageSize(instance_->globalConfig().defaultPageSize());
+        if (candidateList->size()) {
+            candidateList->setGlobalCursorIndex(0);
+        }
+
+        candidateList->setLayoutHint(CandidateLayoutHint::Vertical);
+        inputContext->inputPanel().setCandidateList(std::move(candidateList));
     }
     Text preedit;
     preedit.append(state->buffer_.userInput());
@@ -254,6 +318,9 @@ void Unicode::updateUI(InputContext *inputContext) {
     }
 
     Text auxUp(_("Unicode: "));
+    if (trigger) {
+        auxUp.append(_("(Type to search unicode by code or description)"));
+    }
     // inputContext->inputPanel().setClientPreedit(preedit);
     inputContext->inputPanel().setAuxUp(auxUp);
     inputContext->inputPanel().setPreedit(preedit);

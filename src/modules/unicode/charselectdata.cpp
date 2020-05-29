@@ -22,11 +22,13 @@
 #include <iostream>
 #include <set>
 #include <stdexcept>
+#include <fmt/format.h>
 #include "fcitx-utils/charutils.h"
 #include "fcitx-utils/fs.h"
 #include "fcitx-utils/i18n.h"
 #include "fcitx-utils/standardpath.h"
 #include "fcitx-utils/stringutils.h"
+
 #if defined(__linux__) || defined(__GLIBC__)
 #include <endian.h>
 #else
@@ -59,7 +61,7 @@ static const char JAMO_T_TABLE[][4] = {"",   "G",  "GG", "GS", "N",  "NJ", "NH",
                                        "LP", "LH", "M",  "B",  "BS", "S",  "SS",
                                        "NG", "J",  "C",  "K",  "T",  "P",  "H"};
 
-char *FormatCode(uint32_t code, int length, const char *prefix);
+std::string FormatCode(uint32_t code, int length, const char *prefix);
 
 uint32_t FromLittleEndian32(const char *d) {
     const uint8_t *data = (const uint8_t *)d;
@@ -427,16 +429,11 @@ CharSelectData::approximateEquivalents(uint32_t unicode) const {
     return findStringResult(unicode, 18, 14);
 }
 
-char *FormatCode(uint32_t code, int length, const char *prefix) {
-    char *s = nullptr;
-    char *fmt = nullptr;
-    asprintf(&fmt, "%%s%%0%dX", length);
-    asprintf(&s, fmt, prefix, code);
-    free(fmt);
-    return s;
+std::string FormatCode(uint32_t code, int length, const char *prefix) {
+    return fmt::format("{0}{1:0{2}x}", prefix, code, length);
 }
 
-void CharSelectData::appendToIndex(uint32_t unicode, const char *str) {
+void CharSelectData::appendToIndex(uint32_t unicode, const std::string &str) {
     auto strings = stringutils::split(str, FCITX_WHITESPACE);
     for (auto &s : strings) {
         auto iter = index_.find(s);
@@ -527,9 +524,8 @@ void CharSelectData::createIndex() {
 
         for (j = 0; j < seeAlsoCount; j++) {
             uint32_t seeAlso = FromLittleEndian16(data + seeAlsoOffset);
-            char *code = FormatCode(seeAlso, 4, "");
-            appendToIndex(unicode, code);
-            free(code);
+            auto code = FormatCode(seeAlso, 4, "");
+            appendToIndex(unicode, code.data());
             equivOffset += strlen(data + equivOffset) + 1;
         }
     }

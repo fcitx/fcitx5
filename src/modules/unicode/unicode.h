@@ -14,9 +14,11 @@
 #include "fcitx-utils/standardpath.h"
 #include "fcitx/addonfactory.h"
 #include "fcitx/addoninstance.h"
+#include "fcitx/addonmanager.h"
 #include "fcitx/inputcontextproperty.h"
 #include "fcitx/instance.h"
 #include "charselectdata.h"
+#include "clipboard_public.h"
 
 namespace fcitx {
 
@@ -29,10 +31,12 @@ public:
     Instance *instance() { return instance_; }
 
     void trigger(InputContext *inputContext);
-    void updateUI(InputContext *inputContext);
+    void updateUI(InputContext *inputContext, bool trigger = false);
     auto &factory() { return factory_; }
 
     const CharSelectData &data() const { return data_; }
+
+    FCITX_ADDON_DEPENDENCY_LOADER(clipboard, instance_->addonManager());
 
 private:
     Instance *instance_;

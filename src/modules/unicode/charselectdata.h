@@ -23,7 +23,7 @@ public:
 
 private:
     void createIndex();
-    void appendToIndex(uint32_t unicode, const char *str);
+    void appendToIndex(uint32_t unicode, const std::string &str);
     uint32_t findDetailIndex(uint32_t unicode) const;
 
     std::vector<std::string> findStringResult(uint32_t unicode,

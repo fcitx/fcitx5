@@ -119,13 +119,6 @@ void CandidateWord::setCustomLabel(Text text) {
     d->hasCustomLabel_ = true;
 }
 
-class DisplayOnlyCandidateWord : public CandidateWord {
-public:
-    DisplayOnlyCandidateWord(Text text) : CandidateWord(std::move(text)) {}
-
-    void select(InputContext *) const override{};
-};
-
 class DisplayOnlyCandidateListPrivate {
 public:
     Text emptyText_;
