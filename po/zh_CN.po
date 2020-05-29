@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2020-05-27 00:01-0700\n"
+"POT-Creation-Date: 2020-05-29 00:01-0700\n"
 "PO-Revision-Date: 2017-11-23 04:14+0000\n"
 "Last-Translator: csslayer <wengxt@gmail.com>, 2020\n"
 "Language-Team: Chinese (China) (https://www.transifex.com/fcitx/teams/12005/"
@@ -75,7 +75,7 @@ msgstr "允许重写系统 XKB 设置"
 msgid "Alt"
 msgstr "Alt"
 
-#: src/lib/fcitx-utils/key.cpp:421
+#: src/lib/fcitx-utils/key.cpp:428
 msgctxt "Key name"
 msgid "Alt"
 msgstr "Alt"
@@ -235,7 +235,7 @@ msgstr "配置"
 msgid "Control"
 msgstr "Control"
 
-#: src/lib/fcitx-utils/key.cpp:420
+#: src/lib/fcitx-utils/key.cpp:427
 msgctxt "Key name"
 msgid "Control"
 msgstr "Control"
@@ -1128,7 +1128,7 @@ msgstr "发送"
 msgid "Share Input State"
 msgstr "共享输入状态"
 
-#: src/lib/fcitx-utils/key.cpp:422
+#: src/lib/fcitx-utils/key.cpp:429
 msgctxt "Key name"
 msgid "Shift"
 msgstr "Shift"
@@ -1202,7 +1202,7 @@ msgstr "副标题"
 msgid "Super"
 msgstr "Super"
 
-#: src/lib/fcitx-utils/key.cpp:423
+#: src/lib/fcitx-utils/key.cpp:430
 msgctxt "Key name"
 msgid "Super"
 msgstr "Super"
@@ -1414,19 +1414,15 @@ msgstr "黄"
 #: data/fcitx5-configtool.sh:131
 msgid ""
 "You're currently running Fcitx with GUI, but fcitx5-config-qt couldn't be "
-"found. Now it will open config file with default text editor."
+"found. Now it will open config directory."
 msgstr ""
-"您当前正在使用图形界面运行 Fcitx，但是无法找到 fcitx5-config-qt。现在将用默认"
-"文本编辑其打开配置文件。"
 
 #: data/fcitx5-configtool.sh:128
 msgid ""
 "You're currently running KDE, but KCModule for fcitx couldn't be found, the "
 "package name of this KCModule is usually kcm-fcitx or kde-config-fcitx. Now "
-"it will open config file with default text editor."
+"it will open config directory."
 msgstr ""
-"您正在运行 KDE，但是 fcitx 的 KCModule 未被找到，此 KCModule 的软件包名通常"
-"为 kcm-fcitx 或 kde-config-fcitx。现在将用默认文本编辑器打开配置文件。"
 
 #: src/lib/fcitx-utils/key.cpp:204
 msgctxt "Key name"

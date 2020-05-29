@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2020-05-27 00:01-0700\n"
+"POT-Creation-Date: 2020-05-29 00:01-0700\n"
 "PO-Revision-Date: 2017-11-23 04:14+0000\n"
 "Last-Translator: Tim Hofstede <timhofstede.va@gmail.com>, 2018\n"
 "Language-Team: German (https://www.transifex.com/fcitx/teams/12005/de/)\n"
@@ -75,7 +75,7 @@ msgstr "Erlauben, die XKB-Einstellungen außer Kraft zu setzen"
 msgid "Alt"
 msgstr "Alt"
 
-#: src/lib/fcitx-utils/key.cpp:421
+#: src/lib/fcitx-utils/key.cpp:428
 msgctxt "Key name"
 msgid "Alt"
 msgstr "Alt"
@@ -235,7 +235,7 @@ msgstr "Konfigurieren"
 msgid "Control"
 msgstr "Kontrolle"
 
-#: src/lib/fcitx-utils/key.cpp:420
+#: src/lib/fcitx-utils/key.cpp:427
 msgctxt "Key name"
 msgid "Control"
 msgstr "Kontrolle"
@@ -1127,7 +1127,7 @@ msgstr "Senden"
 msgid "Share Input State"
 msgstr ""
 
-#: src/lib/fcitx-utils/key.cpp:422
+#: src/lib/fcitx-utils/key.cpp:429
 msgctxt "Key name"
 msgid "Shift"
 msgstr "Shift"
@@ -1201,7 +1201,7 @@ msgstr "Untertitel"
 msgid "Super"
 msgstr "Super"
 
-#: src/lib/fcitx-utils/key.cpp:423
+#: src/lib/fcitx-utils/key.cpp:430
 msgctxt "Key name"
 msgid "Super"
 msgstr "Super"
@@ -1413,18 +1413,15 @@ msgstr "Gelb"
 #: data/fcitx5-configtool.sh:131
 msgid ""
 "You're currently running Fcitx with GUI, but fcitx5-config-qt couldn't be "
-"found. Now it will open config file with default text editor."
+"found. Now it will open config directory."
 msgstr ""
 
 #: data/fcitx5-configtool.sh:128
 msgid ""
 "You're currently running KDE, but KCModule for fcitx couldn't be found, the "
 "package name of this KCModule is usually kcm-fcitx or kde-config-fcitx. Now "
-"it will open config file with default text editor."
+"it will open config directory."
 msgstr ""
-"Sie benutzen gegenwärtig KDE, aber das Kontrollmodul für Fcitx kann nicht "
-"gefunden werden. Der Paketname ist normalerweise kcm-fcitx oder kde-config-"
-"fcitx. Die Konfigurationsdatei wird nun mit dem Standard-Texteditor geöffnet."
 
 #: src/lib/fcitx-utils/key.cpp:204
 msgctxt "Key name"

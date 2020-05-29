@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2020-05-27 00:01-0700\n"
+"POT-Creation-Date: 2020-05-29 00:01-0700\n"
 "PO-Revision-Date: 2017-11-23 04:14+0000\n"
 "Last-Translator: heavyuser <heavyuser73@gmail.com>, 2020\n"
 "Language-Team: Korean (https://www.transifex.com/fcitx/teams/12005/ko/)\n"
@@ -76,7 +76,7 @@ msgstr "시스템 XKB 설정을 덮어쓰도록 허용"
 msgid "Alt"
 msgstr "Alt"
 
-#: src/lib/fcitx-utils/key.cpp:421
+#: src/lib/fcitx-utils/key.cpp:428
 msgctxt "Key name"
 msgid "Alt"
 msgstr "Alt"
@@ -236,7 +236,7 @@ msgstr "설정"
 msgid "Control"
 msgstr "Control"
 
-#: src/lib/fcitx-utils/key.cpp:420
+#: src/lib/fcitx-utils/key.cpp:427
 msgctxt "Key name"
 msgid "Control"
 msgstr "Control"
@@ -1130,7 +1130,7 @@ msgstr "보내기"
 msgid "Share Input State"
 msgstr "입력 상태 공유"
 
-#: src/lib/fcitx-utils/key.cpp:422
+#: src/lib/fcitx-utils/key.cpp:429
 msgctxt "Key name"
 msgid "Shift"
 msgstr "Shift"
@@ -1204,7 +1204,7 @@ msgstr "부제"
 msgid "Super"
 msgstr "Super"
 
-#: src/lib/fcitx-utils/key.cpp:423
+#: src/lib/fcitx-utils/key.cpp:430
 msgctxt "Key name"
 msgid "Super"
 msgstr "Super"
@@ -1416,20 +1416,15 @@ msgstr "노랑"
 #: data/fcitx5-configtool.sh:131
 msgid ""
 "You're currently running Fcitx with GUI, but fcitx5-config-qt couldn't be "
-"found. Now it will open config file with default text editor."
+"found. Now it will open config directory."
 msgstr ""
-"현재 GUI로 Fcitx를 실행중이지만, fcitx5-config-qt를 찾을 수 없습니다. 이제 기"
-"본 텍스트 편집기와 함께 구성 파일을 엽니다."
 
 #: data/fcitx5-configtool.sh:128
 msgid ""
 "You're currently running KDE, but KCModule for fcitx couldn't be found, the "
 "package name of this KCModule is usually kcm-fcitx or kde-config-fcitx. Now "
-"it will open config file with default text editor."
+"it will open config directory."
 msgstr ""
-"당신은 KDE에서 실행 중이지만, fcitx 실행에 필요한 KCModule을 찾을 수 없습니"
-"다.  이 KCModule의 패키지 이름은 일반적으로 kcm-fcitx 또는 kde-config-fcitx입"
-"니다.  지금은 기본 텍스트 편집기로 설정 파일을 엽니다."
 
 #: src/lib/fcitx-utils/key.cpp:204
 msgctxt "Key name"

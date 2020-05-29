@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2020-05-27 00:01-0700\n"
+"POT-Creation-Date: 2020-05-29 00:01-0700\n"
 "PO-Revision-Date: 2017-11-23 04:14+0000\n"
 "Last-Translator: scootergrisen, 2020\n"
 "Language-Team: Danish (https://www.transifex.com/fcitx/teams/12005/da/)\n"
@@ -74,7 +74,7 @@ msgstr "Tillad tilsidesættelse af systemets XKB-indstillinger"
 msgid "Alt"
 msgstr "Alt"
 
-#: src/lib/fcitx-utils/key.cpp:421
+#: src/lib/fcitx-utils/key.cpp:428
 msgctxt "Key name"
 msgid "Alt"
 msgstr "Alt"
@@ -234,7 +234,7 @@ msgstr "Konfigurer"
 msgid "Control"
 msgstr "Styring"
 
-#: src/lib/fcitx-utils/key.cpp:420
+#: src/lib/fcitx-utils/key.cpp:427
 msgctxt "Key name"
 msgid "Control"
 msgstr "Styring"
@@ -1128,7 +1128,7 @@ msgstr "Send"
 msgid "Share Input State"
 msgstr "Del inputtilstand"
 
-#: src/lib/fcitx-utils/key.cpp:422
+#: src/lib/fcitx-utils/key.cpp:429
 msgctxt "Key name"
 msgid "Shift"
 msgstr "Skift"
@@ -1202,7 +1202,7 @@ msgstr "Undertekst"
 msgid "Super"
 msgstr "Super"
 
-#: src/lib/fcitx-utils/key.cpp:423
+#: src/lib/fcitx-utils/key.cpp:430
 msgctxt "Key name"
 msgid "Super"
 msgstr "Super"
@@ -1414,21 +1414,15 @@ msgstr "Gul"
 #: data/fcitx5-configtool.sh:131
 msgid ""
 "You're currently running Fcitx with GUI, but fcitx5-config-qt couldn't be "
-"found. Now it will open config file with default text editor."
+"found. Now it will open config directory."
 msgstr ""
-"Du kører i øjeblikket Fcitx med grafisk brugerflade, men fcitx5-config-qt  "
-"blev ikke fundet. Den vil nu åbne konfigurationsfilen med "
-"standardtekstredigeringsprogrammet."
 
 #: data/fcitx5-configtool.sh:128
 msgid ""
 "You're currently running KDE, but KCModule for fcitx couldn't be found, the "
 "package name of this KCModule is usually kcm-fcitx or kde-config-fcitx. Now "
-"it will open config file with default text editor."
+"it will open config directory."
 msgstr ""
-"Du kører i øjeblikket KDE, men KCModule til fcitx blev ikke fundet, "
-"pakkenavnet for KCModule er typisk kcm-fcitx eller kde-config-fcitx. Den vil "
-"nu åbne konfigurationsfilen med standardtekstredigeringsprogrammet."
 
 #: src/lib/fcitx-utils/key.cpp:204
 msgctxt "Key name"
