@@ -25,6 +25,7 @@ public:
 
 protected:
     void loadDict(const std::string &lang);
+    void loadDictImpl(int fd);
     int getDistance(const char *word, int utf8Len, const char *dict);
     virtual bool wordCompare(unsigned int c1, unsigned int c2) = 0;
     virtual int wordCheck(const std::string &word) = 0;

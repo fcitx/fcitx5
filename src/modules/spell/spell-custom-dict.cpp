@@ -248,8 +248,20 @@ std::string SpellCustomDict::locateDictFile(const std::string &lang) {
 }
 
 void SpellCustomDict::loadDict(const std::string &lang) {
-    auto file = locateDictFile(lang);
-    auto fd = UnixFD::own(open(file.c_str(), O_RDONLY));
+    auto defaultDict = locateDictFile(lang);
+    loadDictImpl(open(defaultDict.c_str(), O_RDONLY));
+
+    auto &standardPath = StandardPath::global();
+    auto extraDicts =
+        standardPath.multiOpen(StandardPath::Type::PkgData, "spell/" + lang,
+                               O_RDONLY, filter::Suffix(".fscd"));
+    for (const auto &dict : extraDicts) {
+        loadDictImpl(dict.second.fd());
+    }
+}
+
+void SpellCustomDict::loadDictImpl(int _fd) {
+    auto fd = UnixFD::own(_fd);
 
     if (!fd.isValid()) {
         throw std::runtime_error("failed to open dict file");
@@ -279,12 +291,13 @@ void SpellCustomDict::loadDict(const std::string &lang) {
         }
         data_[total_len] = '\0';
 
+        auto old_size = words_.size();
         auto lcount = load_le32(data_.data());
-        words_.resize(lcount);
+        words_.resize(lcount + old_size );
 
         /* save words offset's. */
         size_t i, j;
-        for (i = sizeof(uint32_t), j = 0; i < total_len && j < lcount; i += 1) {
+        for (i = sizeof(uint32_t), j = old_size; i < total_len && j < lcount; i += 1) {
             i += sizeof(uint16_t);
             int l = strlen(data_.data() + i);
             if (!l) {
