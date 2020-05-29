@@ -187,7 +187,6 @@ public:
             return pkgdataHome_;
         case StandardPath::Type::Cache:
             return cacheHome_;
-            break;
         case StandardPath::Type::Runtime:
             return runtimeDir_;
         default:
