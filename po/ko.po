@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2020-05-29 00:01-0700\n"
+"POT-Creation-Date: 2020-05-30 00:01-0700\n"
 "PO-Revision-Date: 2017-11-23 04:14+0000\n"
 "Last-Translator: heavyuser <heavyuser73@gmail.com>, 2020\n"
 "Language-Team: Korean (https://www.transifex.com/fcitx/teams/12005/ko/)\n"
@@ -26,23 +26,27 @@ msgstr ""
 msgid "(Not available)"
 msgstr "(사용할 수 없음)"
 
-#: src/modules/unicode/charselectdata.cpp:205
+#: src/modules/unicode/unicode.cpp:322
+msgid "(Type to search unicode by code or description)"
+msgstr ""
+
+#: src/modules/unicode/charselectdata.cpp:207
 msgid "<Low Surrogate>"
 msgstr "<하위 확장코드>"
 
-#: src/modules/unicode/charselectdata.cpp:201
+#: src/modules/unicode/charselectdata.cpp:203
 msgid "<Non Private Use High Surrogate>"
 msgstr "<비 개인용 상위 확장코드>"
 
-#: src/modules/unicode/charselectdata.cpp:203
+#: src/modules/unicode/charselectdata.cpp:205
 msgid "<Private Use High Surrogate>"
 msgstr "<개인용 상위 확장코드>"
 
-#: src/modules/unicode/charselectdata.cpp:207
+#: src/modules/unicode/charselectdata.cpp:209
 msgid "<Private Use>"
 msgstr "<개인사용>"
 
-#: src/modules/unicode/charselectdata.cpp:237
+#: src/modules/unicode/charselectdata.cpp:239
 msgid "<not assigned>"
 msgstr "<할당 안됨>"
 
@@ -1312,7 +1316,7 @@ msgstr "되돌리기"
 msgid "Unicode"
 msgstr "유니코드"
 
-#: src/modules/unicode/unicode.cpp:256
+#: src/modules/unicode/unicode.cpp:320
 msgid "Unicode: "
 msgstr "유니코드:"
 

@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2020-05-29 00:01-0700\n"
+"POT-Creation-Date: 2020-05-30 00:01-0700\n"
 "PO-Revision-Date: 2017-11-23 04:14+0000\n"
 "Last-Translator: scootergrisen, 2020\n"
 "Language-Team: Danish (https://www.transifex.com/fcitx/teams/12005/da/)\n"
@@ -24,23 +24,27 @@ msgstr ""
 msgid "(Not available)"
 msgstr "(ikke tilgængelig)"
 
-#: src/modules/unicode/charselectdata.cpp:205
+#: src/modules/unicode/unicode.cpp:322
+msgid "(Type to search unicode by code or description)"
+msgstr ""
+
+#: src/modules/unicode/charselectdata.cpp:207
 msgid "<Low Surrogate>"
 msgstr "<Low Surrogate>"
 
-#: src/modules/unicode/charselectdata.cpp:201
+#: src/modules/unicode/charselectdata.cpp:203
 msgid "<Non Private Use High Surrogate>"
 msgstr "<Non Private Use High Surrogate>"
 
-#: src/modules/unicode/charselectdata.cpp:203
+#: src/modules/unicode/charselectdata.cpp:205
 msgid "<Private Use High Surrogate>"
 msgstr "<Private Use High Surrogate>"
 
-#: src/modules/unicode/charselectdata.cpp:207
+#: src/modules/unicode/charselectdata.cpp:209
 msgid "<Private Use>"
 msgstr "<Private Use>"
 
-#: src/modules/unicode/charselectdata.cpp:237
+#: src/modules/unicode/charselectdata.cpp:239
 msgid "<not assigned>"
 msgstr "<not assigned>"
 
@@ -381,7 +385,7 @@ msgstr "Gennemløb inputmetode-gruppe forlæns"
 
 #: src/lib/fcitx/globalconfig.cpp:29
 msgid "Enumerate when press trigger key repeatedly"
-msgstr ""
+msgstr "Gennemløb når der trykkes på udløsertast gentagne gange"
 
 #: src/lib/fcitx-utils/key.cpp:194
 msgctxt "Key name"
@@ -452,7 +456,7 @@ msgstr "Gruppe"
 
 #: src/lib/fcitx/instance.cpp:466 src/modules/xcb/xcbconnection.cpp:387
 msgid "Group changed"
-msgstr ""
+msgstr "Gruppe ændret"
 
 #: src/lib/fcitx/instance.cpp:1700
 msgid "Group {0}: {1}"
@@ -1219,11 +1223,11 @@ msgstr "Hvile"
 
 #: src/modules/xcb/xcbconnection.cpp:388
 msgid "Switch group to {0}"
-msgstr ""
+msgstr "Skift gruppe til {0}"
 
 #: src/lib/fcitx/instance.cpp:467
 msgid "Switched group to {0}"
-msgstr ""
+msgstr "Skiftede gruppe til {0}"
 
 #: src/lib/fcitx-utils/key.cpp:195
 msgctxt "Key name"
@@ -1310,7 +1314,7 @@ msgstr "Fortryd"
 msgid "Unicode"
 msgstr "Unicode"
 
-#: src/modules/unicode/unicode.cpp:256
+#: src/modules/unicode/unicode.cpp:320
 msgid "Unicode: "
 msgstr "Unicode: "
 
@@ -1416,6 +1420,8 @@ msgid ""
 "You're currently running Fcitx with GUI, but fcitx5-config-qt couldn't be "
 "found. Now it will open config directory."
 msgstr ""
+"Du kører i øjeblikket Fcitx med grafisk brugerflade, men fcitx5-config-qt  "
+"blev ikke fundet. Den vil nu åbne konfigurationsmappen."
 
 #: data/fcitx5-configtool.sh:128
 msgid ""
@@ -1423,6 +1429,9 @@ msgid ""
 "package name of this KCModule is usually kcm-fcitx or kde-config-fcitx. Now "
 "it will open config directory."
 msgstr ""
+"Du kører i øjeblikket KDE, men KCModule til fcitx blev ikke fundet, "
+"pakkenavnet for KCModule er typisk kcm-fcitx eller kde-config-fcitx. Den vil "
+"nu åbne konfigurationsmappen."
 
 #: src/lib/fcitx-utils/key.cpp:204
 msgctxt "Key name"

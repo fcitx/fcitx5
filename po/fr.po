@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2020-05-29 00:00-0700\n"
+"POT-Creation-Date: 2020-05-30 00:00-0700\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Language-Team: French (https://www.transifex.com/fcitx/teams/12005/fr/)\n"
 "Language: fr\n"
@@ -19,23 +19,27 @@ msgstr ""
 msgid "(Not available)"
 msgstr ""
 
-#: src/modules/unicode/charselectdata.cpp:205
-msgid "<Low Surrogate>"
-msgstr ""
-
-#: src/modules/unicode/charselectdata.cpp:201
-msgid "<Non Private Use High Surrogate>"
-msgstr ""
-
-#: src/modules/unicode/charselectdata.cpp:203
-msgid "<Private Use High Surrogate>"
+#: src/modules/unicode/unicode.cpp:322
+msgid "(Type to search unicode by code or description)"
 msgstr ""
 
 #: src/modules/unicode/charselectdata.cpp:207
+msgid "<Low Surrogate>"
+msgstr ""
+
+#: src/modules/unicode/charselectdata.cpp:203
+msgid "<Non Private Use High Surrogate>"
+msgstr ""
+
+#: src/modules/unicode/charselectdata.cpp:205
+msgid "<Private Use High Surrogate>"
+msgstr ""
+
+#: src/modules/unicode/charselectdata.cpp:209
 msgid "<Private Use>"
 msgstr ""
 
-#: src/modules/unicode/charselectdata.cpp:237
+#: src/modules/unicode/charselectdata.cpp:239
 msgid "<not assigned>"
 msgstr ""
 
@@ -1303,7 +1307,7 @@ msgstr ""
 msgid "Unicode"
 msgstr ""
 
-#: src/modules/unicode/unicode.cpp:256
+#: src/modules/unicode/unicode.cpp:320
 msgid "Unicode: "
 msgstr ""
 
