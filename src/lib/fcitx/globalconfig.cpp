@@ -38,14 +38,14 @@ FCITX_CONFIGURATION(
         this,
         "EnumerateForwardKeys",
         _("Enumerate Input Method Forward"),
-        {Key("Control+Shift_R")},
+        {Key("Control+Shift_L")},
         KeyListConstrain({KeyConstrainFlag::AllowModifierLess,
                           KeyConstrainFlag::AllowModifierOnly})};
     KeyListOption enumerateBackwardKeys{
         this,
         "EnumerateBackwardKeys",
         _("Enumerate Input Method Backward"),
-        {Key("Control+Shift_L")},
+        {Key("Control+Shift_R")},
         KeyListConstrain({KeyConstrainFlag::AllowModifierLess,
                           KeyConstrainFlag::AllowModifierOnly})};
     KeyListOption enumerateGroupForwardKeys{
