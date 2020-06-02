@@ -413,8 +413,13 @@ std::string Key::toString(KeyStringFormat format) const {
         return std::string();
 
     std::string str;
+    auto states = states_;
+    if (format == KeyStringFormat::Localized && isModifier()) {
+        states &= (~keySymToStates(sym_));
+    }
+
 #define _APPEND_MODIFIER_STRING(STR, VALUE)                                    \
-    if (states_ & KeyState::VALUE) {                                           \
+    if (states & KeyState::VALUE) {                                            \
         str += STR;                                                            \
         str += "+";                                                            \
     }
