@@ -722,6 +722,15 @@ Instance::Instance(int argc, char **argv) {
                     }
                 }
             }
+            if (ic->hasPendingEvents() &&
+                ic->capabilityFlags().test(CapabilityFlag::KeyEventOrderFix) &&
+                !keyEvent.accepted()) {
+                // Re-forward the event to ensure we got delivered later than
+                // commit.
+                keyEvent.filterAndAccept();
+                ic->forwardKey(keyEvent.rawKey(), keyEvent.isRelease(),
+                               keyEvent.time());
+            }
         }));
     d->eventWatchers_.emplace_back(d->watchEvent(
         EventType::InputContextFocusIn, EventWatcherPhase::ReservedFirst,

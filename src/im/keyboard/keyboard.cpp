@@ -443,15 +443,6 @@ void KeyboardEngine::keyEvent(const InputMethodEntry &entry, KeyEvent &event) {
         // if we reach here, just commit and discard buffer.
         if (!state->buffer_.empty()) {
             commitBuffer(inputContext);
-            if (inputContext->capabilityFlags().test(
-                    CapabilityFlag::KeyEventOrderFix) &&
-                !event.accepted()) {
-                // Re-forward the event to ensure we got delivered later than
-                // commit.
-                event.filterAndAccept();
-                inputContext->forwardKey(event.rawKey(), event.isRelease(),
-                                         event.time());
-            }
         }
     } while (0);
 

@@ -105,18 +105,45 @@ enum class EventType : uint32_t {
     InputMethodGroupAboutToChange = InstanceEventFlag | 0x2,
 };
 
+/**
+ * Base class for fcitx event.
+ */
 class FCITXCORE_EXPORT Event {
 public:
     Event(EventType type) : type_(type) {}
     virtual ~Event();
 
+    /**
+     * Type of event, can be used to decide event class.
+     *
+     * @return fcitx::EventType
+     */
     EventType type() const { return type_; }
+
     void accept() { accepted_ = true; }
-    // A value to be passed to postEvent.
+    /**
+     * Return value used by Instance::postEvent.
+     *
+     * @see Instance::postEvent
+     * @return bool
+     */
     bool accepted() const { return accepted_; }
-    // If event is filtered, it will not send to another handler.
+
+    /**
+     * Whether a event is filtered by handler.
+     *
+     * If event is filtered, it will not send to another handler.
+     * For now only keyevent from input context can be filtered.
+     *
+     * @return bool
+     */
     virtual bool filtered() const { return false; }
 
+    /**
+     * A helper function to check if a event is input context event.
+     *
+     * @return bool
+     */
     bool isInputContextEvent() const {
         auto flag = static_cast<uint32_t>(EventType::InputContextEventFlag);
         return (static_cast<uint32_t>(type_) & flag) == flag;
@@ -146,11 +173,23 @@ public:
           origKey_(key_), rawKey_(rawKey), isRelease_(isRelease), time_(time) {}
     KeyEventBase(const KeyEventBase &) = default;
 
+    /**
+     * Normalized key event.
+     *
+     * @return fcitx::Key
+     */
     Key key() const { return key_; }
+
     void setKey(const Key &key) {
         key_ = key;
         forward_ = true;
     }
+
+    /**
+     * Key event regardless of keyboard layout conversion.
+     *
+     * @return fcitx::Key
+     */
     Key origKey() const { return origKey_; }
     Key rawKey() const { return rawKey_; }
     bool isRelease() const { return isRelease_; }
