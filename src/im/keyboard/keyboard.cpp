@@ -445,7 +445,7 @@ void KeyboardEngine::keyEvent(const InputMethodEntry &entry, KeyEvent &event) {
             commitBuffer(inputContext);
             if (inputContext->capabilityFlags().test(
                     CapabilityFlag::KeyEventOrderFix) &&
-                !event.filtered()) {
+                !event.accepted()) {
                 // Re-forward the event to ensure we got delivered later than
                 // commit.
                 event.filterAndAccept();
