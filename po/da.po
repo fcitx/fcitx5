@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2020-05-30 00:01-0700\n"
+"POT-Creation-Date: 2020-06-06 00:01-0700\n"
 "PO-Revision-Date: 2017-11-23 04:14+0000\n"
 "Last-Translator: scootergrisen, 2020\n"
 "Language-Team: Danish (https://www.transifex.com/fcitx/teams/12005/da/)\n"
@@ -20,13 +20,13 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: src/lib/fcitx/instance.cpp:1697
+#: src/lib/fcitx/instance.cpp:1706
 msgid "(Not available)"
 msgstr "(ikke tilgængelig)"
 
 #: src/modules/unicode/unicode.cpp:322
 msgid "(Type to search unicode by code or description)"
-msgstr ""
+msgstr "(skriv for at søge i unicode efter kode eller beskrivelse)"
 
 #: src/modules/unicode/charselectdata.cpp:207
 msgid "<Low Surrogate>"
@@ -78,7 +78,7 @@ msgstr "Tillad tilsidesættelse af systemets XKB-indstillinger"
 msgid "Alt"
 msgstr "Alt"
 
-#: src/lib/fcitx-utils/key.cpp:428
+#: src/lib/fcitx-utils/key.cpp:433
 msgctxt "Key name"
 msgid "Alt"
 msgstr "Alt"
@@ -238,7 +238,7 @@ msgstr "Konfigurer"
 msgid "Control"
 msgstr "Styring"
 
-#: src/lib/fcitx-utils/key.cpp:427
+#: src/lib/fcitx-utils/key.cpp:432
 msgctxt "Key name"
 msgid "Control"
 msgstr "Styring"
@@ -458,7 +458,7 @@ msgstr "Gruppe"
 msgid "Group changed"
 msgstr "Gruppe ændret"
 
-#: src/lib/fcitx/instance.cpp:1700
+#: src/lib/fcitx/instance.cpp:1709
 msgid "Group {0}: {1}"
 msgstr "Gruppe {0}: {1}"
 
@@ -1132,7 +1132,7 @@ msgstr "Send"
 msgid "Share Input State"
 msgstr "Del inputtilstand"
 
-#: src/lib/fcitx-utils/key.cpp:429
+#: src/lib/fcitx-utils/key.cpp:434
 msgctxt "Key name"
 msgid "Shift"
 msgstr "Skift"
@@ -1206,7 +1206,7 @@ msgstr "Undertekst"
 msgid "Super"
 msgstr "Super"
 
-#: src/lib/fcitx-utils/key.cpp:430
+#: src/lib/fcitx-utils/key.cpp:435
 msgctxt "Key name"
 msgid "Super"
 msgstr "Super"
@@ -1462,10 +1462,10 @@ msgstr "iTouch"
 msgid "{0} (Not Available)"
 msgstr "{0} (ikke tilgængelig)"
 
-#: src/lib/fcitx/instance.cpp:1695
+#: src/lib/fcitx/instance.cpp:1704
 msgid "{0} (Not available)"
 msgstr "{0} (ikke tilgængelig)"
 
-#: src/lib/fcitx/instance.cpp:1692
+#: src/lib/fcitx/instance.cpp:1701
 msgid "{0} ({1})"
 msgstr "{0} ({1})"
