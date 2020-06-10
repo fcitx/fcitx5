@@ -313,6 +313,8 @@ public:
     bool restart_ = false;
 
     AddonInstance *notifications_ = nullptr;
+
+    std::string lastGroup_;
 };
 
 InputState::InputState(InstancePrivate *d, InputContext *ic)
@@ -439,7 +441,7 @@ Instance::Instance(int argc, char **argv) {
     d->icManager_.setInstance(this);
     d->connections_.emplace_back(
         d->imManager_.connect<InputMethodManager::CurrentGroupAboutToChange>(
-            [this, d](const std::string &) {
+            [this, d](const std::string &lastGroup) {
                 d->icManager_.foreachFocused([this](InputContext *ic) {
                     assert(ic->hasFocus());
                     InputContextSwitchInputMethodEvent event(
@@ -447,11 +449,12 @@ Instance::Instance(int argc, char **argv) {
                     deactivateInputMethod(event);
                     return true;
                 });
+                d->lastGroup_ = lastGroup;
                 postEvent(InputMethodGroupAboutToChangeEvent());
             }));
     d->connections_.emplace_back(
         d->imManager_.connect<InputMethodManager::CurrentGroupChanged>(
-            [this, d](const std::string &) {
+            [this, d](const std::string &newGroup) {
                 d->icManager_.foreachFocused([this](InputContext *ic) {
                     assert(ic->hasFocus());
                     InputContextSwitchInputMethodEvent event(
@@ -460,14 +463,17 @@ Instance::Instance(int argc, char **argv) {
                     return true;
                 });
                 postEvent(InputMethodGroupChangedEvent());
-                if (d->notifications_ && d->imManager_.groupCount() > 1) {
+                if (!d->lastGroup_.empty() && !newGroup.empty() &&
+                    d->lastGroup_ != newGroup && d->notifications_ &&
+                    d->imManager_.groupCount() > 1) {
                     d->notifications_->call<INotifications::showTip>(
-                        "enumerate-group", "fcitx", "input-keyboard",
-                        _("Group changed"),
+                        "enumerate-group", _("Input Method"), "input-keyboard",
+                        _("Switch group"),
                         fmt::format(_("Switched group to {0}"),
                                     d->imManager_.currentGroup().name()),
                         3000);
                 }
+                d->lastGroup_ = newGroup;
             }));
 
     d->icManager_.registerProperty("inputState", &d->inputStateFactory_);

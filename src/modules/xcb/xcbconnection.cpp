@@ -384,7 +384,8 @@ void XCBConnection::navigateGroup(bool forward) {
 
     if (parent_->notifications()) {
         parent_->notifications()->call<INotifications::showTip>(
-            "enumerate-group", "fcitx", "input-keyboard", _("Group changed"),
+            "enumerate-group", _("Input Method"), "input-keyboard",
+            _("Switch group"),
             fmt::format(_("Switch group to {0}"),
                         imManager.groups()[groupIndex_]),
             3000);

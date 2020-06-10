@@ -354,8 +354,8 @@ void KeyboardEngine::keyEvent(const InputMethodEntry &entry, KeyEvent &event) {
                            "for the language.");
             }
             notifications()->call<INotifications::showTip>(
-                "fcitx-keyboard-hint", "fcitx", "tools-check-spelling",
-                _("Completion"),
+                "fcitx-keyboard-hint", _("Input Method"),
+                "tools-check-spelling", _("Completion"),
                 state->enableWordHint_
                     ? stringutils::concat(_("Completion is enabled."), extra)
                     : _("Completion is disabled."),
