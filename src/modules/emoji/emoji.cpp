@@ -47,7 +47,10 @@ public:
         std::transform(tokens.begin(), tokens.end(), tokens.begin(),
                        stringutils::trim);
         for (auto token : tokens) {
-            if (token.empty() || filter_(token)) {
+            if (token.empty()) {
+                continue;
+            }
+            if (filter_ && filter_(token)) {
                 continue;
             }
             auto &emojis = emojiMap_[token];
@@ -123,12 +126,21 @@ bool noSpace(const std::string &str) {
 
 const EmojiMap *Emoji::loadEmoji(const std::string &language,
                                  bool fallbackToEn) {
-    std::string lang = language;
+    // This is to match the file in cldr-emoji-annotation.
+    static const std::unordered_map<std::string, std::string> languageMap = {
+        {"zh_TW", "zh_Hant"}, {"zh_CN", "zh"}, {"zh_HK", "zh_Hant_HK"}};
+
+    std::string lang;
+    if (auto mapped = findValue(languageMap, language)) {
+        lang = *mapped;
+    } else {
+        lang = language;
+    }
     auto emojiMap = findValue(langToEmojiMap_, lang);
     if (!emojiMap) {
+        // These are having aspell/hunspell/ispell available.
         static const std::unordered_map<
             std::string, std::function<bool(const std::string &)>>
-            // These are having aspell/hunspell/ispell available.
             filterMap = {{"en", noSpace},
                          {"de", noSpace},
                          {"es", noSpace},
@@ -160,27 +172,25 @@ const EmojiMap *Emoji::loadEmoji(const std::string &language,
                               return utf8::lengthValidated(str) > 2;
                           }}};
         auto filter = findValue(filterMap, lang);
-        if (!filter) {
-            if (!fallbackToEn) {
-                return nullptr;
-            } else {
-                // Check if en is already loaded.
-                if (auto emojiMap = findValue(langToEmojiMap_, "en")) {
-                    return emojiMap;
-                }
-                filter = findValue(filterMap, "en");
-                lang = "en";
-            }
-        }
         const auto file =
             stringutils::joinPath(CLDR_EMOJI_ANNOTATION_PREFIX,
                                   "/share/unicode/cldr/common/annotations",
                                   stringutils::concat(lang, ".xml"));
-        EmojiParser parser(*filter);
-        parser.parse(file);
-        emojiMap = &(langToEmojiMap_[lang] = std::move(parser.emojiMap_));
-        FCITX_INFO() << "Trying to load emoji for " << lang << " from " << file
-                     << ": " << emojiMap->size() << " entry(s) loaded.";
+        EmojiParser parser(filter ? *filter : nullptr);
+        if (parser.parse(file)) {
+            emojiMap = &(langToEmojiMap_[lang] = std::move(parser.emojiMap_));
+            FCITX_INFO() << "Trying to load emoji for " << lang << " from "
+                         << file << ": " << emojiMap->size()
+                         << " entry(s) loaded.";
+        } else {
+            if (!fallbackToEn) {
+                return nullptr;
+            }
+            auto enMap = loadEmoji("en", false);
+            if (enMap) {
+                emojiMap = &(langToEmojiMap_[lang] = *enMap);
+            }
+        }
     }
 
     return emojiMap;
