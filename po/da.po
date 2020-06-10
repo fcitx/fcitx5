@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2020-06-06 00:01-0700\n"
+"POT-Creation-Date: 2020-06-10 00:01-0700\n"
 "PO-Revision-Date: 2017-11-23 04:14+0000\n"
 "Last-Translator: scootergrisen, 2020\n"
 "Language-Team: Danish (https://www.transifex.com/fcitx/teams/12005/da/)\n"
@@ -20,7 +20,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: src/lib/fcitx/instance.cpp:1706
+#: src/lib/fcitx/instance.cpp:1712
 msgid "(Not available)"
 msgstr "(ikke tilgængelig)"
 
@@ -454,11 +454,7 @@ msgstr "Grøn"
 msgid "Group"
 msgstr "Gruppe"
 
-#: src/lib/fcitx/instance.cpp:466 src/modules/xcb/xcbconnection.cpp:387
-msgid "Group changed"
-msgstr "Gruppe ændret"
-
-#: src/lib/fcitx/instance.cpp:1709
+#: src/lib/fcitx/instance.cpp:1715
 msgid "Group {0}: {1}"
 msgstr "Gruppe {0}: {1}"
 
@@ -584,7 +580,8 @@ msgstr "Hottast"
 msgid "IBus Frontend"
 msgstr "IBus-frontend"
 
-#: src/ui/classic/xcbtraywindow.cpp:39
+#: src/lib/fcitx/instance.cpp:470 src/im/keyboard/keyboard.cpp:357
+#: src/ui/classic/xcbtraywindow.cpp:39 src/modules/xcb/xcbconnection.cpp:387
 #: src/modules/notificationitem/dbusmenu.cpp:241
 #: src/modules/notificationitem/notificationitem.cpp:90
 #: data/fcitx5.desktop.in.in:4
@@ -1221,11 +1218,15 @@ msgctxt "Key name"
 msgid "Suspend"
 msgstr "Hvile"
 
-#: src/modules/xcb/xcbconnection.cpp:388
+#: src/lib/fcitx/instance.cpp:471 src/modules/xcb/xcbconnection.cpp:388
+msgid "Switch group"
+msgstr ""
+
+#: src/modules/xcb/xcbconnection.cpp:389
 msgid "Switch group to {0}"
 msgstr "Skift gruppe til {0}"
 
-#: src/lib/fcitx/instance.cpp:467
+#: src/lib/fcitx/instance.cpp:472
 msgid "Switched group to {0}"
 msgstr "Skiftede gruppe til {0}"
 
@@ -1462,10 +1463,10 @@ msgstr "iTouch"
 msgid "{0} (Not Available)"
 msgstr "{0} (ikke tilgængelig)"
 
-#: src/lib/fcitx/instance.cpp:1704
+#: src/lib/fcitx/instance.cpp:1710
 msgid "{0} (Not available)"
 msgstr "{0} (ikke tilgængelig)"
 
-#: src/lib/fcitx/instance.cpp:1701
+#: src/lib/fcitx/instance.cpp:1707
 msgid "{0} ({1})"
 msgstr "{0} ({1})"

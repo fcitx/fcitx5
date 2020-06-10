@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2020-05-30 00:01-0700\n"
+"POT-Creation-Date: 2020-06-10 00:01-0700\n"
 "PO-Revision-Date: 2017-11-23 04:14+0000\n"
 "Last-Translator: csslayer <wengxt@gmail.com>, 2020\n"
 "Language-Team: Chinese (China) (https://www.transifex.com/fcitx/teams/12005/"
@@ -21,7 +21,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
-#: src/lib/fcitx/instance.cpp:1697
+#: src/lib/fcitx/instance.cpp:1712
 msgid "(Not available)"
 msgstr "(不可用)"
 
@@ -79,7 +79,7 @@ msgstr "允许重写系统 XKB 设置"
 msgid "Alt"
 msgstr "Alt"
 
-#: src/lib/fcitx-utils/key.cpp:428
+#: src/lib/fcitx-utils/key.cpp:433
 msgctxt "Key name"
 msgid "Alt"
 msgstr "Alt"
@@ -239,7 +239,7 @@ msgstr "配置"
 msgid "Control"
 msgstr "Control"
 
-#: src/lib/fcitx-utils/key.cpp:427
+#: src/lib/fcitx-utils/key.cpp:432
 msgctxt "Key name"
 msgid "Control"
 msgstr "Control"
@@ -455,11 +455,7 @@ msgstr "绿"
 msgid "Group"
 msgstr "分组"
 
-#: src/lib/fcitx/instance.cpp:466 src/modules/xcb/xcbconnection.cpp:387
-msgid "Group changed"
-msgstr ""
-
-#: src/lib/fcitx/instance.cpp:1700
+#: src/lib/fcitx/instance.cpp:1715
 msgid "Group {0}: {1}"
 msgstr "分组 {0}：{1}"
 
@@ -585,7 +581,8 @@ msgstr "快捷键"
 msgid "IBus Frontend"
 msgstr "IBus 前端"
 
-#: src/ui/classic/xcbtraywindow.cpp:39
+#: src/lib/fcitx/instance.cpp:470 src/im/keyboard/keyboard.cpp:357
+#: src/ui/classic/xcbtraywindow.cpp:39 src/modules/xcb/xcbconnection.cpp:387
 #: src/modules/notificationitem/dbusmenu.cpp:241
 #: src/modules/notificationitem/notificationitem.cpp:90
 #: data/fcitx5.desktop.in.in:4
@@ -1132,7 +1129,7 @@ msgstr "发送"
 msgid "Share Input State"
 msgstr "共享输入状态"
 
-#: src/lib/fcitx-utils/key.cpp:429
+#: src/lib/fcitx-utils/key.cpp:434
 msgctxt "Key name"
 msgid "Shift"
 msgstr "Shift"
@@ -1206,7 +1203,7 @@ msgstr "副标题"
 msgid "Super"
 msgstr "Super"
 
-#: src/lib/fcitx-utils/key.cpp:430
+#: src/lib/fcitx-utils/key.cpp:435
 msgctxt "Key name"
 msgid "Super"
 msgstr "Super"
@@ -1221,11 +1218,15 @@ msgctxt "Key name"
 msgid "Suspend"
 msgstr "睡眠"
 
-#: src/modules/xcb/xcbconnection.cpp:388
+#: src/lib/fcitx/instance.cpp:471 src/modules/xcb/xcbconnection.cpp:388
+msgid "Switch group"
+msgstr ""
+
+#: src/modules/xcb/xcbconnection.cpp:389
 msgid "Switch group to {0}"
 msgstr ""
 
-#: src/lib/fcitx/instance.cpp:467
+#: src/lib/fcitx/instance.cpp:472
 msgid "Switched group to {0}"
 msgstr ""
 
@@ -1457,10 +1458,10 @@ msgstr "iTouch"
 msgid "{0} (Not Available)"
 msgstr "{0} (不可用)"
 
-#: src/lib/fcitx/instance.cpp:1695
+#: src/lib/fcitx/instance.cpp:1710
 msgid "{0} (Not available)"
 msgstr "{0} (不可用)"
 
-#: src/lib/fcitx/instance.cpp:1692
+#: src/lib/fcitx/instance.cpp:1707
 msgid "{0} ({1})"
 msgstr "{0} ({1})"

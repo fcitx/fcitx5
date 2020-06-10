@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2020-05-30 00:01-0700\n"
+"POT-Creation-Date: 2020-06-10 00:01-0700\n"
 "PO-Revision-Date: 2017-11-23 04:14+0000\n"
 "Last-Translator: Tim Hofstede <timhofstede.va@gmail.com>, 2018\n"
 "Language-Team: German (https://www.transifex.com/fcitx/teams/12005/de/)\n"
@@ -21,7 +21,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: src/lib/fcitx/instance.cpp:1697
+#: src/lib/fcitx/instance.cpp:1712
 msgid "(Not available)"
 msgstr "(nicht vorhanden)"
 
@@ -79,7 +79,7 @@ msgstr "Erlauben, die XKB-Einstellungen außer Kraft zu setzen"
 msgid "Alt"
 msgstr "Alt"
 
-#: src/lib/fcitx-utils/key.cpp:428
+#: src/lib/fcitx-utils/key.cpp:433
 msgctxt "Key name"
 msgid "Alt"
 msgstr "Alt"
@@ -239,7 +239,7 @@ msgstr "Konfigurieren"
 msgid "Control"
 msgstr "Kontrolle"
 
-#: src/lib/fcitx-utils/key.cpp:427
+#: src/lib/fcitx-utils/key.cpp:432
 msgctxt "Key name"
 msgid "Control"
 msgstr "Kontrolle"
@@ -455,11 +455,7 @@ msgstr "Grün"
 msgid "Group"
 msgstr "Gruppe"
 
-#: src/lib/fcitx/instance.cpp:466 src/modules/xcb/xcbconnection.cpp:387
-msgid "Group changed"
-msgstr ""
-
-#: src/lib/fcitx/instance.cpp:1700
+#: src/lib/fcitx/instance.cpp:1715
 msgid "Group {0}: {1}"
 msgstr "Gruppe {0}: {1}"
 
@@ -585,7 +581,8 @@ msgstr "Kurzbefehl"
 msgid "IBus Frontend"
 msgstr "IBus Schnittstelle"
 
-#: src/ui/classic/xcbtraywindow.cpp:39
+#: src/lib/fcitx/instance.cpp:470 src/im/keyboard/keyboard.cpp:357
+#: src/ui/classic/xcbtraywindow.cpp:39 src/modules/xcb/xcbconnection.cpp:387
 #: src/modules/notificationitem/dbusmenu.cpp:241
 #: src/modules/notificationitem/notificationitem.cpp:90
 #: data/fcitx5.desktop.in.in:4
@@ -1131,7 +1128,7 @@ msgstr "Senden"
 msgid "Share Input State"
 msgstr ""
 
-#: src/lib/fcitx-utils/key.cpp:429
+#: src/lib/fcitx-utils/key.cpp:434
 msgctxt "Key name"
 msgid "Shift"
 msgstr "Shift"
@@ -1205,7 +1202,7 @@ msgstr "Untertitel"
 msgid "Super"
 msgstr "Super"
 
-#: src/lib/fcitx-utils/key.cpp:430
+#: src/lib/fcitx-utils/key.cpp:435
 msgctxt "Key name"
 msgid "Super"
 msgstr "Super"
@@ -1220,11 +1217,15 @@ msgctxt "Key name"
 msgid "Suspend"
 msgstr "Suspend"
 
-#: src/modules/xcb/xcbconnection.cpp:388
+#: src/lib/fcitx/instance.cpp:471 src/modules/xcb/xcbconnection.cpp:388
+msgid "Switch group"
+msgstr ""
+
+#: src/modules/xcb/xcbconnection.cpp:389
 msgid "Switch group to {0}"
 msgstr ""
 
-#: src/lib/fcitx/instance.cpp:467
+#: src/lib/fcitx/instance.cpp:472
 msgid "Switched group to {0}"
 msgstr ""
 
@@ -1456,10 +1457,10 @@ msgstr "iTouch"
 msgid "{0} (Not Available)"
 msgstr "{0} (Nicht verfügbar)"
 
-#: src/lib/fcitx/instance.cpp:1695
+#: src/lib/fcitx/instance.cpp:1710
 msgid "{0} (Not available)"
 msgstr "{0} (Nicht verfügbar)"
 
-#: src/lib/fcitx/instance.cpp:1692
+#: src/lib/fcitx/instance.cpp:1707
 msgid "{0} ({1})"
 msgstr "{0} ({1})"
