@@ -5,16 +5,16 @@
 # Translators:
 # csslayer <wengxt@gmail.com>, 2017
 # Bon Keun Seo <scobyseo@gmail.com>, 2017
-# MarongHappy <daemul72@gmail.com>, 2020
 # heavyuser <heavyuser73@gmail.com>, 2020
+# MarongHappy <daemul72@gmail.com>, 2020
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2020-06-10 00:01-0700\n"
+"POT-Creation-Date: 2020-06-15 00:01-0700\n"
 "PO-Revision-Date: 2017-11-23 04:14+0000\n"
-"Last-Translator: heavyuser <heavyuser73@gmail.com>, 2020\n"
+"Last-Translator: MarongHappy <daemul72@gmail.com>, 2020\n"
 "Language-Team: Korean (https://www.transifex.com/fcitx/teams/12005/ko/)\n"
 "Language: ko\n"
 "MIME-Version: 1.0\n"
@@ -28,7 +28,7 @@ msgstr "(사용할 수 없음)"
 
 #: src/modules/unicode/unicode.cpp:322
 msgid "(Type to search unicode by code or description)"
-msgstr ""
+msgstr "(코드 또는 설명으로 유니코드를 검색하는 유형)"
 
 #: src/modules/unicode/charselectdata.cpp:207
 msgid "<Low Surrogate>"
@@ -1222,15 +1222,15 @@ msgstr "중단"
 
 #: src/lib/fcitx/instance.cpp:471 src/modules/xcb/xcbconnection.cpp:388
 msgid "Switch group"
-msgstr ""
+msgstr "그룹 전환"
 
 #: src/modules/xcb/xcbconnection.cpp:389
 msgid "Switch group to {0}"
-msgstr ""
+msgstr "{0}(으)로 그룹 전환"
 
 #: src/lib/fcitx/instance.cpp:472
 msgid "Switched group to {0}"
-msgstr ""
+msgstr "{0}(으)로 그룹 전환됨"
 
 #: src/lib/fcitx-utils/key.cpp:195
 msgctxt "Key name"
@@ -1423,6 +1423,8 @@ msgid ""
 "You're currently running Fcitx with GUI, but fcitx5-config-qt couldn't be "
 "found. Now it will open config directory."
 msgstr ""
+"현재 Fcitx를 GUI로 실행하고 있지만 fcitx5-config-qt를 찾을 수 없습니다. 이제 "
+"구성 디렉토리가 열립니다."
 
 #: data/fcitx5-configtool.sh:128
 msgid ""
@@ -1430,6 +1432,9 @@ msgid ""
 "package name of this KCModule is usually kcm-fcitx or kde-config-fcitx. Now "
 "it will open config directory."
 msgstr ""
+"현재 KDE를 실행하고 있지만 fcitx용 KCModule을 찾을 수 없습니다. 이 KCModule"
+"의 패키지 이름은 일반적으로 kcm-fcitx 또는 kde-config-fcitx입니다. 이제 구성 "
+"디렉토리가 열립니다."
 
 #: src/lib/fcitx-utils/key.cpp:204
 msgctxt "Key name"
