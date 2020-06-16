@@ -51,10 +51,23 @@ int main() {
     FCITX_ASSERT(fcitx::utf8::validate(str));
     FCITX_ASSERT(fcitx::utf8::lengthValidated(str) == 7);
     uint32_t expect[] = {0x4f60, 0x597d, 0x5417, 0x61, 0x62, 0x63, 0x0a};
+    uint32_t expectLength[] = {3, 3, 3, 1, 1, 1, 1};
+    std::string expectCharStr[] = {
+        "\xe4\xbd\xa0", "\xe5\xa5\xbd", "\xe5\x90\x97", "\x61",
+        "\x62",         "\x63",         "\x0a"};
     int counter = 0;
     for (auto c : fcitx::utf8::MakeUTF8CharRange(str)) {
         FCITX_ASSERT(expect[counter] == c);
         counter++;
+    }
+
+    auto range = fcitx::utf8::MakeUTF8CharRange(str);
+    int i = 0;
+    for (auto iter = std::begin(range), end = std::end(range); iter != end;
+         ++iter, ++i) {
+        FCITX_ASSERT(iter.charLength() == iter.view().length());
+        FCITX_ASSERT(iter.charLength() == expectLength[i]);
+        FCITX_ASSERT(iter.view() == expectCharStr[i]);
     }
 
     FCITX_ASSERT(fcitx::utf8::getLastChar(str) == 0xa);

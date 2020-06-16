@@ -174,6 +174,12 @@ public:
 
     std::pair<Iter, Iter> charRange() const { return {iter_, next_}; }
 
+    size_t charLength() const { return std::distance(iter_, next_); }
+
+    std::string_view view() const {
+        return std::string_view{&*iter_, charLength()};
+    }
+
     UTF8CharIterator &operator++() {
         iter_ = next_;
         update();
