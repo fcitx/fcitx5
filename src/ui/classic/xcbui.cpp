@@ -603,10 +603,18 @@ int XCBUI::scaledDPI(int dpi) {
     if (dpi < 0) {
         return fontOption_.dpi;
     }
+
+    double targetDPI;
     if (fontOption_.dpi < 0) {
-        return dpi;
+        targetDPI = dpi;
+    } else {
+    	targetDPI = (static_cast<double>(dpi) / maxDpi_) * fontOption_.dpi;
     }
-    return (static_cast<double>(dpi) / maxDpi_) * fontOption_.dpi;
+    double scale = targetDPI / 96;
+    if (scale < 1) {
+	targetDPI = 96;
+    }
+    return targetDPI;
 }
 
 void XCBUI::resume() { updateTray(); }
