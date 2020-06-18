@@ -334,6 +334,8 @@ void XCBUI::initScreen() {
         rects_.emplace_back(
             Rect(0, 0, screen->width_in_pixels, screen->height_in_pixels), -1);
     }
+
+    CLASSICUI_DEBUG() << "Screen rects are: " << rects_;
 }
 
 void XCBUI::refreshCompositeManager() {
