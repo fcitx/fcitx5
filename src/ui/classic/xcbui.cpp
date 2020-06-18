@@ -197,6 +197,7 @@ XCBUI::XCBUI(ClassicUI *parent, const std::string &name, xcb_connection_t *conn,
     addEventMaskToWindow(conn_, screen->root, XCB_EVENT_MASK_STRUCTURE_NOTIFY);
     root_ = screen->root;
     fontOption_ = forcedDpi(conn_, screen);
+    CLASSICUI_DEBUG() << "Xft.dpi: " << fontOption_.dpi;
     initScreen();
     refreshCompositeManager();
     trayWindow_->initTray();
