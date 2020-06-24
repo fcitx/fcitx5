@@ -20,6 +20,7 @@ XCBMenu::XCBMenu(XCBUI *ui, MenuPool *pool, Menu *menu)
       menu_(menu) {
     auto fontMap = pango_cairo_font_map_get_default();
     context_.reset(pango_font_map_create_context(fontMap));
+    ui->fontOption().setupPangoContext(context_.get());
     if (auto ic = ui_->parent()->instance()->mostRecentInputContext()) {
         lastRelevantIc_ = ic->watch();
     }

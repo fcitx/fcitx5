@@ -113,6 +113,67 @@ XCBFontOption forcedDpi(xcb_connection_t *conn, xcb_screen_t *screen) {
     return option;
 }
 
+void XCBFontOption::setupPangoContext(PangoContext *context) const {
+    cairo_hint_style_t hint = CAIRO_HINT_STYLE_DEFAULT;
+    cairo_antialias_t aa = CAIRO_ANTIALIAS_DEFAULT;
+    cairo_subpixel_order_t subpixel = CAIRO_SUBPIXEL_ORDER_DEFAULT;
+    switch (this->hint) {
+    case XCBHintStyle::NoHint:
+        hint = CAIRO_HINT_STYLE_NONE;
+        break;
+    case XCBHintStyle::Slight:
+        hint = CAIRO_HINT_STYLE_SLIGHT;
+        break;
+    case XCBHintStyle::Medium:
+        hint = CAIRO_HINT_STYLE_MEDIUM;
+        break;
+    case XCBHintStyle::Full:
+        hint = CAIRO_HINT_STYLE_FULL;
+        break;
+    default:
+        hint = CAIRO_HINT_STYLE_DEFAULT;
+        break;
+    }
+    switch (rgba) {
+    case XCBRGBA::NoRGBA:
+        subpixel = CAIRO_SUBPIXEL_ORDER_DEFAULT;
+        break;
+    case XCBRGBA::RGB:
+        subpixel = CAIRO_SUBPIXEL_ORDER_RGB;
+        break;
+    case XCBRGBA::BGR:
+        subpixel = CAIRO_SUBPIXEL_ORDER_BGR;
+        break;
+    case XCBRGBA::VRGB:
+        subpixel = CAIRO_SUBPIXEL_ORDER_VRGB;
+        break;
+    case XCBRGBA::VBGR:
+        subpixel = CAIRO_SUBPIXEL_ORDER_VBGR;
+        break;
+    default:
+        subpixel = CAIRO_SUBPIXEL_ORDER_DEFAULT;
+        break;
+    }
+
+    if (antialias) {
+        if (subpixel != CAIRO_SUBPIXEL_ORDER_DEFAULT) {
+            aa = CAIRO_ANTIALIAS_SUBPIXEL;
+        } else {
+            aa = CAIRO_ANTIALIAS_GRAY;
+        }
+    } else {
+        aa = CAIRO_ANTIALIAS_NONE;
+    }
+
+    auto options = cairo_font_options_create();
+    cairo_font_options_set_hint_style(options, hint);
+    cairo_font_options_set_subpixel_order(options, subpixel);
+    cairo_font_options_set_antialias(options, aa);
+    cairo_font_options_set_hint_metrics(options, CAIRO_HINT_METRICS_ON);
+    pango_cairo_context_set_font_options(context, options);
+    cairo_font_options_destroy(options);
+}
+
 XCBUI::XCBUI(ClassicUI *parent, const std::string &name, xcb_connection_t *conn,
              int defaultScreen)
     : parent_(parent), name_(name), conn_(conn), defaultScreen_(defaultScreen) {

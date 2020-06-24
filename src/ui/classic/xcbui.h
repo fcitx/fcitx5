@@ -7,6 +7,7 @@
 #ifndef _FCITX_UI_CLASSIC_XCBUI_H_
 #define _FCITX_UI_CLASSIC_XCBUI_H_
 
+#include <pango/pangocairo.h>
 #include "fcitx-utils/rect.h"
 #include "classicui.h"
 
@@ -27,6 +28,8 @@ struct XCBFontOption {
     bool antialias = true;
     XCBHintStyle hint = XCBHintStyle::Default;
     XCBRGBA rgba = XCBRGBA::Default;
+
+    void setupPangoContext(PangoContext *context) const;
 };
 
 class XCBUI : public UIInterface {
