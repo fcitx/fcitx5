@@ -669,11 +669,11 @@ int XCBUI::scaledDPI(int dpi) {
     if (fontOption_.dpi < 0) {
         targetDPI = dpi;
     } else {
-    	targetDPI = (static_cast<double>(dpi) / maxDpi_) * fontOption_.dpi;
+        targetDPI = (static_cast<double>(dpi) / maxDpi_) * fontOption_.dpi;
     }
     double scale = targetDPI / 96;
     if (scale < 1) {
-	targetDPI = 96;
+        targetDPI = 96;
     }
     return targetDPI;
 }
