@@ -47,6 +47,8 @@ public:
         : name_(name), signature_(signature), getMethod_(getMethod),
           writable_(false), options_(options) {}
 
+    virtual ~ObjectVTablePropertyPrivate() = default;
+
     const std::string name_;
     const std::string signature_;
     PropertyGetMethod getMethod_;
