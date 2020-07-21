@@ -11,8 +11,8 @@ msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
 "POT-Creation-Date: 2020-06-10 00:01-0700\n"
-"PO-Revision-Date: 2017-11-23 04:14+0000\n"
-"Last-Translator: csslayer <wengxt@gmail.com>, 2020\n"
+"PO-Revision-Date: 2020-07-21 17:15+0800\n"
+"Last-Translator: WhiredPlanck <fungdaat31@outlook.com>\n"
 "Language-Team: Chinese (China) (https://www.transifex.com/fcitx/teams/12005/"
 "zh_CN/)\n"
 "Language: zh_CN\n"
@@ -20,6 +20,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
+"X-Generator: Poedit 2.3.1\n"
 
 #: src/lib/fcitx/instance.cpp:1712
 msgid "(Not available)"
@@ -27,7 +28,7 @@ msgstr "(不可用)"
 
 #: src/modules/unicode/unicode.cpp:322
 msgid "(Type to search unicode by code or description)"
-msgstr ""
+msgstr "(键入以通过代码或描述搜索 Unicode)"
 
 #: src/modules/unicode/charselectdata.cpp:207
 msgid "<Low Surrogate>"
@@ -1220,15 +1221,15 @@ msgstr "睡眠"
 
 #: src/lib/fcitx/instance.cpp:471 src/modules/xcb/xcbconnection.cpp:388
 msgid "Switch group"
-msgstr ""
+msgstr "切换分组"
 
 #: src/modules/xcb/xcbconnection.cpp:389
 msgid "Switch group to {0}"
-msgstr ""
+msgstr "切换分组到 {0}"
 
 #: src/lib/fcitx/instance.cpp:472
 msgid "Switched group to {0}"
-msgstr ""
+msgstr "已切换分组到 {0}"
 
 #: src/lib/fcitx-utils/key.cpp:195
 msgctxt "Key name"
@@ -1317,7 +1318,7 @@ msgstr "Unicode"
 
 #: src/modules/unicode/unicode.cpp:320
 msgid "Unicode: "
-msgstr "Unicode："
+msgstr "Unicode： "
 
 #: src/lib/fcitx-utils/key.cpp:46
 msgctxt "Key name"
@@ -1421,6 +1422,8 @@ msgid ""
 "You're currently running Fcitx with GUI, but fcitx5-config-qt couldn't be "
 "found. Now it will open config directory."
 msgstr ""
+"当前正在使用 GUI 运行 Fcitx，但找不到 fcitx5-config-qt。现在程序将打开配置目"
+"录。"
 
 #: data/fcitx5-configtool.sh:128
 msgid ""
@@ -1428,6 +1431,8 @@ msgid ""
 "package name of this KCModule is usually kcm-fcitx or kde-config-fcitx. Now "
 "it will open config directory."
 msgstr ""
+"当前正在运行 KDE，但找不到用于 fcitx 的 KCModule，此 KCModule 的程序包名称通"
+"常为 kcm-fcitx 或 kde-config-fcitx。"
 
 #: src/lib/fcitx-utils/key.cpp:204
 msgctxt "Key name"
