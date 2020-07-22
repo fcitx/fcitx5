@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2020-06-10 00:01-0700\n"
+"POT-Creation-Date: 2020-07-22 00:01-0700\n"
 "PO-Revision-Date: 2017-11-23 04:14+0000\n"
 "Last-Translator: csslayer <wengxt@gmail.com>, 2020\n"
 "Language-Team: Chinese (China) (https://www.transifex.com/fcitx/teams/12005/"
@@ -27,7 +27,7 @@ msgstr "(不可用)"
 
 #: src/modules/unicode/unicode.cpp:322
 msgid "(Type to search unicode by code or description)"
-msgstr ""
+msgstr "(输入编码或者描述来搜索 Unicode 字符)"
 
 #: src/modules/unicode/charselectdata.cpp:207
 msgid "<Low Surrogate>"
@@ -1220,15 +1220,15 @@ msgstr "睡眠"
 
 #: src/lib/fcitx/instance.cpp:471 src/modules/xcb/xcbconnection.cpp:388
 msgid "Switch group"
-msgstr ""
+msgstr "切换分组"
 
 #: src/modules/xcb/xcbconnection.cpp:389
 msgid "Switch group to {0}"
-msgstr ""
+msgstr "切换到分组 {0}"
 
 #: src/lib/fcitx/instance.cpp:472
 msgid "Switched group to {0}"
-msgstr ""
+msgstr "已切换到分组 {0}"
 
 #: src/lib/fcitx-utils/key.cpp:195
 msgctxt "Key name"
@@ -1421,6 +1421,8 @@ msgid ""
 "You're currently running Fcitx with GUI, but fcitx5-config-qt couldn't be "
 "found. Now it will open config directory."
 msgstr ""
+"您当前正在使用图形界面运行 Fcitx，但是无法找到 fcitx5-config-qt。现在将打开配"
+"置目录。"
 
 #: data/fcitx5-configtool.sh:128
 msgid ""
@@ -1428,6 +1430,8 @@ msgid ""
 "package name of this KCModule is usually kcm-fcitx or kde-config-fcitx. Now "
 "it will open config directory."
 msgstr ""
+"您正在运行 KDE，但是 fcitx 的 KCModule 未被找到，此 KCModule 的软件包名通常"
+"为 kcm-fcitx 或 kde-config-fcitx。现在将打开配置目录。"
 
 #: src/lib/fcitx-utils/key.cpp:204
 msgctxt "Key name"
