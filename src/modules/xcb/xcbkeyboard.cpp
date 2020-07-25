@@ -65,7 +65,7 @@ union _xkb_event {
 void addEventMaskToWindow(xcb_connection_t *conn, xcb_window_t wid,
                           uint32_t mask) {
     auto get_attr_cookie = xcb_get_window_attributes(conn, wid);
-    auto get_attr_reply = makeXCBReply(
+    auto get_attr_reply = makeUniqueCPtr(
         xcb_get_window_attributes_reply(conn, get_attr_cookie, nullptr));
     if (get_attr_reply && (get_attr_reply->your_event_mask & mask) != mask) {
         const uint32_t newMask = get_attr_reply->your_event_mask | mask;
@@ -88,9 +88,8 @@ XCBKeyboard::XCBKeyboard(XCBConnection *conn) : conn_(conn) {
     xkb_query_cookie =
         xcb_xkb_use_extension(connection(), XKB_X11_MIN_MAJOR_XKB_VERSION,
                               XKB_X11_MIN_MINOR_XKB_VERSION);
-    XCBReply<xcb_xkb_use_extension_reply_t> xkb_query{
-        xcb_xkb_use_extension_reply(connection(), xkb_query_cookie, nullptr),
-        std::free};
+    auto xkb_query = makeUniqueCPtr(
+        xcb_xkb_use_extension_reply(connection(), xkb_query_cookie, nullptr));
 
     if (!xkb_query || !xkb_query->supported) {
         return;
@@ -112,8 +111,7 @@ XCBKeyboard::XCBKeyboard(XCBConnection *conn) : conn_(conn) {
     xcb_void_cookie_t select = xcb_xkb_select_events_checked(
         connection(), XCB_XKB_ID_USE_CORE_KBD, required_events, 0,
         required_events, required_map_parts, required_map_parts, 0);
-    XCBReply<xcb_generic_error_t> error(xcb_request_check(connection(), select),
-                                        std::free);
+    auto error = makeUniqueCPtr(xcb_request_check(connection(), select));
     if (error) {
         return;
     }
@@ -123,10 +121,11 @@ XCBKeyboard::XCBKeyboard(XCBConnection *conn) : conn_(conn) {
                          XCB_EVENT_MASK_PROPERTY_CHANGE);
 
     // Force refresh so we can apply xmodmap.
-    if (conn_->parent()->config().allowOverrideXKB.value())
+    if (conn_->parent()->config().allowOverrideXKB.value()) {
         setRMLVOToServer(xkbRule_, xkbModel_,
                          stringutils::join(defaultLayouts_, ","),
                          stringutils::join(defaultVariants_, ","), xkbOptions_);
+    }
 
     eventHandlers_.emplace_back(conn_->instance()->watchEvent(
         EventType::InputMethodGroupChanged, EventWatcherPhase::Default,
@@ -216,7 +215,7 @@ XkbRulesNames XCBKeyboard::xkbRulesNames() {
     xcb_get_property_cookie_t get_prop_cookie =
         xcb_get_property(connection(), false, conn_->root(),
                          xkbRulesNamesAtom(), XCB_ATOM_STRING, 0, 1024);
-    auto reply = makeXCBReply(
+    auto reply = makeUniqueCPtr(
         xcb_get_property_reply(connection(), get_prop_cookie, nullptr));
 
     if (!reply || reply->type != XCB_ATOM_STRING || reply->bytes_after > 0 ||
@@ -300,7 +299,7 @@ int XCBKeyboard::findOrAddLayout(const std::string &layout,
 void XCBKeyboard::addNewLayout(const std::string &layout,
                                const std::string &variant, int index,
                                bool toDefault) {
-    FCITX_LOG(Debug) << "addNewLayout " << layout << " " << variant;
+    FCITX_DEBUG() << "addNewLayout " << layout << " " << variant;
     while (defaultVariants_.size() < defaultLayouts_.size()) {
         defaultVariants_.emplace_back();
     }
@@ -342,8 +341,8 @@ void XCBKeyboard::setRMLVOToServer(const std::string &rule,
                                    const std::string &layout,
                                    const std::string &variant,
                                    const std::string &options) {
-    FCITX_LOG(Debug) << "RMLVO tuple: " << rule << " " << model << " " << layout
-                     << " " << variant;
+    FCITX_DEBUG() << "RMLVO tuple: " << rule << " " << model << " " << layout
+                  << " " << variant;
     // xcb_xkb_get_kbd_by_name() doesn't fill the buffer for us, need to it
     // ourselves.
     char locale[] = "C";
@@ -365,7 +364,7 @@ void XCBKeyboard::setRMLVOToServer(const std::string &rule,
     }
 
     if (!rules) {
-        FCITX_LOG(Warn) << "Could not load XKB rules";
+        FCITX_WARN() << "Could not load XKB rules";
         return;
     }
 
@@ -447,7 +446,7 @@ void XCBKeyboard::setRMLVOToServer(const std::string &rule,
 
     xcb_ret.sequence = xcb_send_request(connection(), XCB_REQUEST_CHECKED,
                                         xcb_parts + 2, &xcb_req);
-    auto reply = makeXCBReply(
+    auto reply = makeUniqueCPtr(
         xcb_xkb_get_kbd_by_name_reply(connection(), xcb_ret, nullptr));
 
     XkbRF_Free(rules, true);

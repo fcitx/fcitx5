@@ -61,10 +61,10 @@ void BuiltInQuickPhraseProvider::load(StandardPathFile &file) {
     ScopedFILE fp{f, fclose};
     file.release();
 
-    char *buf = nullptr;
+    UniqueCPtr<char> buf;
     size_t len = 0;
-    while (getline(&buf, &len, fp.get()) != -1) {
-        std::string strBuf(buf);
+    while (getline(buf, &len, fp.get()) != -1) {
+        std::string strBuf(buf.get());
 
         auto pair = stringutils::trimInplace(strBuf);
         std::string::size_type start = pair.first, end = pair.second;
@@ -106,8 +106,6 @@ void BuiltInQuickPhraseProvider::load(StandardPathFile &file) {
 
         map_.emplace(std::move(key), std::move(wordString));
     }
-
-    free(buf);
 }
 
 bool CallbackQuickPhraseProvider::populate(

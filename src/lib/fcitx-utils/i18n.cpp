@@ -29,7 +29,7 @@ public:
         bindtextdomain(domain, dir);
         bind_textdomain_codeset(domain, "UTF-8");
         domains_.insert(domain);
-        FCITX_LOG(Debug) << "Add gettext domain " << domain << " at " << dir;
+        FCITX_DEBUG() << "Add gettext domain " << domain << " at " << dir;
     }
 
 private:

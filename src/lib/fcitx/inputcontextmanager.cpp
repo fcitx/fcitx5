@@ -302,7 +302,7 @@ void InputContextManager::unregisterInputContext(InputContext &inputContext) {
 
 void InputContextManager::registerFocusGroup(FocusGroup &group) {
     FCITX_D();
-    FCITX_LOG(Debug) << "Register focus group for display: " << group.display();
+    FCITX_DEBUG() << "Register focus group for display: " << group.display();
     d->groups_.push_back(group);
 }
 

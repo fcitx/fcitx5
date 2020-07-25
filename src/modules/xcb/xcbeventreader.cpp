@@ -21,9 +21,9 @@ XCBEventReader::~XCBEventReader() {
 
 auto nextXCBEvent(xcb_connection_t *conn, IOEventFlags flags) {
     if (flags.test(IOEventFlag::In)) {
-        return makeXCBReply(xcb_poll_for_event(conn));
+        return makeUniqueCPtr(xcb_poll_for_event(conn));
     }
-    return makeXCBReply(xcb_poll_for_queued_event(conn));
+    return makeUniqueCPtr(xcb_poll_for_queued_event(conn));
 }
 
 bool XCBEventReader::onIOEvent(IOEventFlags flags) {
@@ -45,7 +45,7 @@ bool XCBEventReader::onIOEvent(IOEventFlags flags) {
     }
 
     bool hasEvent = false;
-    std::list<XCBReply<xcb_generic_event_t>> events;
+    std::list<UniqueCPtr<xcb_generic_event_t>> events;
     while (auto event = nextXCBEvent(conn_->connection(), flags)) {
         events.emplace_back(std::move(event));
     }

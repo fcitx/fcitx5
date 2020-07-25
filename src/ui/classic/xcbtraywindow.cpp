@@ -180,7 +180,7 @@ void XCBTrayWindow::initTray() {
 
 void XCBTrayWindow::refreshDockWindow() {
     auto cookie = xcb_get_selection_owner(ui_->connection(), atoms_[0]);
-    auto reply = makeXCBReply(
+    auto reply = makeUniqueCPtr(
         xcb_get_selection_owner_reply(ui_->connection(), cookie, nullptr));
     if (reply) {
         dockWindow_ = reply->owner;
@@ -248,7 +248,7 @@ xcb_visualid_t XCBTrayWindow::trayVisual() {
     auto cookie =
         xcb_get_property(ui_->connection(), false, dockWindow_,
                          atoms_[ATOM_VISUAL], XCB_ATOM_VISUALID, 0, 1);
-    auto reply = makeXCBReply(
+    auto reply = makeUniqueCPtr(
         xcb_get_property_reply(ui_->connection(), cookie, nullptr));
     if (!reply || reply->type != XCB_ATOM_VISUALID || reply->format != 32 ||
         reply->bytes_after != 0) {

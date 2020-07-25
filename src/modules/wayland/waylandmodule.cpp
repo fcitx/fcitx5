@@ -76,7 +76,7 @@ void WaylandModule::openDisplay(const std::string &name) {
 }
 
 void WaylandModule::removeDisplay(const std::string &name) {
-    FCITX_LOG(Debug) << "Display removed " << name;
+    FCITX_DEBUG() << "Display removed " << name;
     auto iter = conns_.find(name);
     if (iter != conns_.end()) {
         onConnectionClosed(iter->second);

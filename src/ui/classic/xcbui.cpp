@@ -19,7 +19,7 @@ namespace classicui {
 void addEventMaskToWindow(xcb_connection_t *conn, xcb_window_t wid,
                           uint32_t mask) {
     auto get_attr_cookie = xcb_get_window_attributes(conn, wid);
-    auto get_attr_reply = makeXCBReply(
+    auto get_attr_reply = makeUniqueCPtr(
         xcb_get_window_attributes_reply(conn, get_attr_cookie, nullptr));
     if (get_attr_reply && (get_attr_reply->your_event_mask & mask) != mask) {
         const uint32_t newMask = get_attr_reply->your_event_mask | mask;
@@ -44,7 +44,7 @@ XCBFontOption forcedDpi(xcb_connection_t *conn, xcb_screen_t *screen) {
                                        XCB_ATOM_RESOURCE_MANAGER,
                                        XCB_ATOM_STRING, offset / 4, 8192);
         auto reply =
-            makeXCBReply(xcb_get_property_reply(conn, cookie, nullptr));
+            makeUniqueCPtr(xcb_get_property_reply(conn, cookie, nullptr));
         more = false;
         if (reply && reply->format == 8 && reply->type == XCB_ATOM_STRING) {
             auto start =
@@ -291,8 +291,9 @@ void XCBUI::initScreen() {
     if (multiScreen_ == MultiScreenExtension::Randr) {
         auto cookie =
             xcb_randr_get_screen_resources_current(conn_, screen->root);
-        auto reply = makeXCBReply(xcb_randr_get_screen_resources_current_reply(
-            conn_, cookie, nullptr));
+        auto reply =
+            makeUniqueCPtr(xcb_randr_get_screen_resources_current_reply(
+                conn_, cookie, nullptr));
         if (reply) {
             xcb_timestamp_t timestamp = 0;
             xcb_randr_output_t *outputs = nullptr;
@@ -300,9 +301,6 @@ void XCBUI::initScreen() {
                 xcb_randr_get_screen_resources_current_outputs_length(
                     reply.get());
 
-            std::unique_ptr<xcb_randr_get_screen_resources_reply_t,
-                            decltype(&std::free)>
-                resourcesReply(nullptr, &std::free);
             if (outputCount) {
                 timestamp = reply->config_timestamp;
                 outputs =
@@ -310,8 +308,8 @@ void XCBUI::initScreen() {
             } else {
                 auto resourcesCookie =
                     xcb_randr_get_screen_resources(conn_, screen->root);
-                resourcesReply =
-                    makeXCBReply(xcb_randr_get_screen_resources_reply(
+                auto resourcesReply =
+                    makeUniqueCPtr(xcb_randr_get_screen_resources_reply(
                         conn_, resourcesCookie, nullptr));
                 if (resourcesReply) {
                     timestamp = resourcesReply->config_timestamp;
@@ -325,14 +323,15 @@ void XCBUI::initScreen() {
             if (outputCount) {
                 auto primaryCookie =
                     xcb_randr_get_output_primary(conn_, screen->root);
-                auto primary = makeXCBReply(xcb_randr_get_output_primary_reply(
-                    conn_, primaryCookie, nullptr));
+                auto primary =
+                    makeUniqueCPtr(xcb_randr_get_output_primary_reply(
+                        conn_, primaryCookie, nullptr));
                 if (primary) {
                     for (int i = 0; i < outputCount; i++) {
                         auto outputInfoCookie = xcb_randr_get_output_info(
                             conn_, outputs[i], timestamp);
                         auto output =
-                            makeXCBReply(xcb_randr_get_output_info_reply(
+                            makeUniqueCPtr(xcb_randr_get_output_info_reply(
                                 conn_, outputInfoCookie, nullptr));
                         // Invalid, disconnected or disabled output
                         if (!output)
@@ -349,8 +348,9 @@ void XCBUI::initScreen() {
 
                         auto crtcCookie = xcb_randr_get_crtc_info(
                             conn_, output->crtc, output->timestamp);
-                        auto crtc = makeXCBReply(xcb_randr_get_crtc_info_reply(
-                            conn_, crtcCookie, nullptr));
+                        auto crtc =
+                            makeUniqueCPtr(xcb_randr_get_crtc_info_reply(
+                                conn_, crtcCookie, nullptr));
                         if (crtc) {
                             Rect rect;
                             rect.setPosition(crtc->x, crtc->y);
@@ -376,7 +376,7 @@ void XCBUI::initScreen() {
 
     } else if (multiScreen_ == MultiScreenExtension::Xinerama) {
         auto cookie = xcb_xinerama_query_screens(conn_);
-        if (auto reply = makeXCBReply(
+        if (auto reply = makeUniqueCPtr(
                 xcb_xinerama_query_screens_reply(conn_, cookie, nullptr))) {
             xcb_xinerama_screen_info_iterator_t iter;
             for (iter = xcb_xinerama_query_screens_screen_info_iterator(
@@ -403,7 +403,7 @@ void XCBUI::initScreen() {
 void XCBUI::refreshCompositeManager() {
     auto cookie = xcb_get_selection_owner(conn_, compMgrAtom_);
     auto reply =
-        makeXCBReply(xcb_get_selection_owner_reply(conn_, cookie, nullptr));
+        makeUniqueCPtr(xcb_get_selection_owner_reply(conn_, cookie, nullptr));
     if (reply) {
         compMgrWindow_ = reply->owner;
     }
@@ -426,7 +426,7 @@ void XCBUI::refreshManager() {
     xcb_grab_server(conn_);
     auto cookie = xcb_get_selection_owner(conn_, xsettingsSelectionAtom_);
     auto reply =
-        makeXCBReply(xcb_get_selection_owner_reply(conn_, cookie, nullptr));
+        makeUniqueCPtr(xcb_get_selection_owner_reply(conn_, cookie, nullptr));
     if (reply) {
         xsettingsWindow_ = reply->owner;
     }
@@ -456,7 +456,7 @@ void XCBUI::readXSettings() {
             xcb_get_property(conn_, false, xsettingsWindow_, xsettingsAtom_,
                              xsettingsAtom_, offset / 4, 10);
         auto reply =
-            makeXCBReply(xcb_get_property_reply(conn_, cookie, nullptr));
+            makeUniqueCPtr(xcb_get_property_reply(conn_, cookie, nullptr));
         more = false;
         if (reply && reply->format == 8 && reply->type == xsettingsAtom_) {
             auto start =

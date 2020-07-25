@@ -639,7 +639,7 @@ Instance::Instance(int argc, char **argv) {
                              << " Release:" << keyEvent.isRelease();
             if (xkbState) {
                 if (auto mods = findValue(d->stateMask_, ic->display())) {
-                    FCITX_LOG(Debug) << "Update mask to customXkbState";
+                    FCITX_DEBUG() << "Update mask to customXkbState";
                     // Keep depressed, but propagate latched and locked.
                     auto depressed = xkb_state_serialize_mods(
                         xkbState, XKB_STATE_MODS_DEPRESSED);
@@ -649,12 +649,12 @@ Instance::Instance(int argc, char **argv) {
                     // set modifiers in depressed if they don't appear in any of
                     // the final masks
                     // depressed |= ~(depressed | latched | locked);
-                    FCITX_LOG(Debug)
+                    FCITX_DEBUG()
                         << depressed << " " << latched << " " << locked;
                     xkb_state_update_mask(xkbState, depressed, latched, locked,
                                           0, 0, 0);
                 }
-                FCITX_LOG(Debug) << "XkbState update key";
+                FCITX_DEBUG() << "XkbState update key";
                 xkb_state_update_key(xkbState, keyEvent.rawKey().code(),
                                      keyEvent.isRelease() ? XKB_KEY_UP
                                                           : XKB_KEY_DOWN);
@@ -665,14 +665,14 @@ Instance::Instance(int argc, char **argv) {
                     xkb_state_serialize_mods(xkbState, XKB_STATE_MODS_LATCHED);
                 const uint32_t modsLocked =
                     xkb_state_serialize_mods(xkbState, XKB_STATE_MODS_LOCKED);
-                FCITX_LOG(Debug) << "Current mods" << modsDepressed
-                                 << modsLatched << modsLocked;
+                FCITX_DEBUG() << "Current mods" << modsDepressed << modsLatched
+                              << modsLocked;
                 auto newSym = xkb_state_key_get_one_sym(
                     xkbState, keyEvent.rawKey().code());
                 auto newModifier = keyEvent.rawKey().states();
                 auto newCode = keyEvent.rawKey().code();
                 Key key(static_cast<KeySym>(newSym), newModifier, newCode);
-                FCITX_LOG(Debug)
+                FCITX_DEBUG()
                     << "Custom Xkb translated Key: " << key.toString();
                 keyEvent.setKey(key.normalize());
             }
@@ -721,7 +721,7 @@ Instance::Instance(int argc, char **argv) {
                             return;
                         }
                         if (!keyEvent.isRelease()) {
-                            FCITX_LOG(Debug) << "Will commit char: " << utf32;
+                            FCITX_DEBUG() << "Will commit char: " << utf32;
                             ic->commitString(utf8::UCS4ToUTF8(utf32));
                         }
                         keyEvent.filterAndAccept();
@@ -812,9 +812,9 @@ Instance::Instance(int argc, char **argv) {
             }
             if (auto oldEntry = d->imManager_.entry(icEvent.oldInputMethod())) {
                 auto inputState = ic->propertyFor(&d->inputStateFactory_);
-                FCITX_LOG(Debug) << "Deactivate: "
-                                 << "[Last]:" << inputState->lastIM_
-                                 << " [Activating]:" << oldEntry->uniqueName();
+                FCITX_DEBUG() << "Deactivate: "
+                              << "[Last]:" << inputState->lastIM_
+                              << " [Activating]:" << oldEntry->uniqueName();
                 assert(inputState->lastIM_ == oldEntry->uniqueName());
                 inputState->lastIM_.clear();
                 auto oldEngine = static_cast<InputMethodEngine *>(
@@ -1323,8 +1323,8 @@ void Instance::reloadConfig() {
     RawConfig config;
     readFromIni(config, file.fd());
     d->globalConfig_.load(config);
-    FCITX_LOG(Debug) << "Trigger Key: "
-                     << Key::keyListToString(d->globalConfig_.triggerKeys());
+    FCITX_DEBUG() << "Trigger Key: "
+                  << Key::keyListToString(d->globalConfig_.triggerKeys());
     d->icManager_.setPropertyPropagatePolicy(
         d->globalConfig_.shareInputState());
 }
@@ -1626,9 +1626,9 @@ void Instance::activateInputMethod(InputContextEvent &event) {
     auto inputState = ic->propertyFor(&d->inputStateFactory_);
     auto entry = inputMethodEntry(ic);
     if (entry) {
-        FCITX_LOG(Debug) << "Activate: "
-                         << "[Last]:" << inputState->lastIM_
-                         << " [Activating]:" << entry->uniqueName();
+        FCITX_DEBUG() << "Activate: "
+                      << "[Last]:" << inputState->lastIM_
+                      << " [Activating]:" << entry->uniqueName();
         assert(inputState->lastIM_.empty());
         inputState->lastIM_ = entry->uniqueName();
     }
@@ -1638,7 +1638,7 @@ void Instance::activateInputMethod(InputContextEvent &event) {
     }
     if (auto xkbState = inputState->customXkbState(true)) {
         if (auto mods = findValue(d->stateMask_, ic->display())) {
-            FCITX_LOG(Debug) << "Update mask to customXkbState";
+            FCITX_DEBUG() << "Update mask to customXkbState";
             auto depressed = std::get<0>(*mods);
             auto latched = std::get<1>(*mods);
             auto locked = std::get<2>(*mods);
@@ -1646,7 +1646,7 @@ void Instance::activateInputMethod(InputContextEvent &event) {
             // set modifiers in depressed if they don't appear in any of the
             // final masks
             // depressed |= ~(depressed | latched | locked);
-            FCITX_LOG(Debug) << depressed << " " << latched << " " << locked;
+            FCITX_DEBUG() << depressed << " " << latched << " " << locked;
             xkb_state_update_mask(xkbState, 0, latched, locked, 0, 0, 0);
         }
     }
@@ -1660,9 +1660,9 @@ void Instance::deactivateInputMethod(InputContextEvent &event) {
     auto inputState = ic->propertyFor(&d->inputStateFactory_);
     auto entry = inputMethodEntry(ic);
     if (entry) {
-        FCITX_LOG(Debug) << "Deactivate: "
-                         << "[Last]:" << inputState->lastIM_
-                         << " [Deactivating]:" << entry->uniqueName();
+        FCITX_DEBUG() << "Deactivate: "
+                      << "[Last]:" << inputState->lastIM_
+                      << " [Deactivating]:" << entry->uniqueName();
         assert(entry->uniqueName() == inputState->lastIM_);
     }
     inputState->lastIM_.clear();
@@ -1689,7 +1689,7 @@ bool Instance::enumerateGroup(bool forward) {
 }
 
 void Instance::showInputMethodInformation(InputContext *ic) {
-    FCITX_LOG(Debug) << "Input method switched";
+    FCITX_DEBUG() << "Input method switched";
     FCITX_D();
     if (!d->globalConfig_.showInputMethodInformation()) {
         return;

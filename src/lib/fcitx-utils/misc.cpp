@@ -107,4 +107,11 @@ std::string getProcessName(pid_t pid) {
 #endif
 }
 
+ssize_t getline(UniqueCPtr<char> &lineptr, size_t *n, std::FILE *stream) {
+    auto lineRawPtr = lineptr.release();
+    auto ret = getline(&lineRawPtr, n, stream);
+    lineptr.reset(lineRawPtr);
+    return ret;
+}
+
 } // namespace fcitx

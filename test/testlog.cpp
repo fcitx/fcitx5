@@ -15,7 +15,7 @@ int main() {
     FCITX_ASSERT(a == 1);
 
     fcitx::Log::setLogRule("*=4");
-    FCITX_LOG(Debug) << (a = 2);
+    FCITX_DEBUG() << (a = 2);
     FCITX_ASSERT(a == 1);
 
     std::vector<int> vec{1, 2, 3};

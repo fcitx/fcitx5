@@ -68,7 +68,7 @@ XCBConnection::XCBConnection(XCBModule *xcb, const std::string &name)
             xcb_xfixes_query_version_cookie_t xfixes_query_cookie =
                 xcb_xfixes_query_version(conn_.get(), XCB_XFIXES_MAJOR_VERSION,
                                          XCB_XFIXES_MINOR_VERSION);
-            auto xfixes_query = makeXCBReply(xcb_xfixes_query_version_reply(
+            auto xfixes_query = makeUniqueCPtr(xcb_xfixes_query_version_reply(
                 conn_.get(), xfixes_query_cookie, nullptr));
             if (xfixes_query && xfixes_query->major_version >= 2) {
                 hasXFixes_ = true;
@@ -120,8 +120,8 @@ void XCBConnection::setDoGrab(bool doGrab) {
 void XCBConnection::grabKey(const Key &key) {
     xcb_keysym_t sym = static_cast<xcb_keysym_t>(key.sym());
     uint modifiers = key.states();
-    std::unique_ptr<xcb_keycode_t, decltype(&std::free)> keycode(
-        xcb_key_symbols_get_keycode(syms_.get(), sym), &std::free);
+    UniqueCPtr<xcb_keycode_t> keycode(
+        xcb_key_symbols_get_keycode(syms_.get(), sym));
     if (!keycode) {
         FCITX_XCB_WARN() << "Can not convert keyval=" << sym << " to keycode!";
     } else {
@@ -130,23 +130,23 @@ void XCBConnection::grabKey(const Key &key) {
         auto cookie =
             xcb_grab_key_checked(conn_.get(), true, root_, modifiers, *keycode,
                                  XCB_GRAB_MODE_ASYNC, XCB_GRAB_MODE_ASYNC);
-        xcb_generic_error_t *error = xcb_request_check(conn_.get(), cookie);
+        UniqueCPtr<xcb_generic_error_t> error(
+            xcb_request_check(conn_.get(), cookie));
         if (error) {
             FCITX_XCB_DEBUG()
                 << "grab key error " << static_cast<int>(error->error_code)
                 << " " << root_;
         }
-        free(error);
     }
 }
 
 void XCBConnection::ungrabKey(const Key &key) {
     xcb_keysym_t sym = static_cast<xcb_keysym_t>(key.sym());
     uint modifiers = key.states();
-    std::unique_ptr<xcb_keycode_t, decltype(&std::free)> keycode(
-        xcb_key_symbols_get_keycode(syms_.get(), sym), &std::free);
+    UniqueCPtr<xcb_keycode_t> keycode(
+        xcb_key_symbols_get_keycode(syms_.get(), sym));
     if (!keycode) {
-        FCITX_LOG(Warn) << "Can not convert keyval=" << sym << " to keycode!";
+        FCITX_WARN() << "Can not convert keyval=" << sym << " to keycode!";
     } else {
         xcb_ungrab_key(conn_.get(), *keycode, root_, modifiers);
     }
@@ -154,7 +154,7 @@ void XCBConnection::ungrabKey(const Key &key) {
 }
 
 void XCBConnection::grabKey() {
-    FCITX_LOG(Debug) << "Grab key for X11 display: " << name_;
+    FCITX_DEBUG() << "Grab key for X11 display: " << name_;
     auto &globalConfig = parent_->instance()->globalConfig();
     forwardGroup_ = globalConfig.enumerateGroupForwardKeys();
     backwardGroup_ = globalConfig.enumerateGroupBackwardKeys();
@@ -181,11 +181,11 @@ void XCBConnection::ungrabKey() {
 bool XCBConnection::grabXKeyboard() {
     if (keyboardGrabbed_)
         return false;
-    FCITX_LOG(Debug) << "Grab keyboard for display: " << name_;
+    FCITX_DEBUG() << "Grab keyboard for display: " << name_;
     auto cookie = xcb_grab_keyboard(conn_.get(), false, root_, XCB_CURRENT_TIME,
                                     XCB_GRAB_MODE_ASYNC, XCB_GRAB_MODE_ASYNC);
     auto reply =
-        makeXCBReply(xcb_grab_keyboard_reply(conn_.get(), cookie, nullptr));
+        makeUniqueCPtr(xcb_grab_keyboard_reply(conn_.get(), cookie, nullptr));
 
     if (reply && reply->status == XCB_GRAB_STATUS_SUCCESS) {
         keyboardGrabbed_ = true;
@@ -197,10 +197,9 @@ void XCBConnection::ungrabXKeyboard() {
     if (!keyboardGrabbed_) {
         // grabXKeyboard() may fail sometimes, so don't fail, but at least warn
         // anyway
-        FCITX_LOG(Debug)
-            << "ungrabXKeyboard() called but keyboard not grabbed!";
+        FCITX_DEBUG() << "ungrabXKeyboard() called but keyboard not grabbed!";
     }
-    FCITX_LOG(Debug) << "Ungrab keyboard for display: " << name_;
+    FCITX_DEBUG() << "Ungrab keyboard for display: " << name_;
     keyboardGrabbed_ = false;
     xcb_ungrab_keyboard(conn_.get(), XCB_CURRENT_TIME);
     xcb_flush(conn_.get());
@@ -263,7 +262,7 @@ bool XCBConnection::filterEvent(xcb_connection_t *,
                     conn_.get(), false, serverWindow_,
                     selectionNotify->property, XCB_ATOM_ANY, 0, bufLimit);
 
-                auto reply = makeXCBReply(xcb_get_property_reply(
+                auto reply = makeUniqueCPtr(xcb_get_property_reply(
                     conn_.get(), get_prop_cookie, nullptr));
                 const char *data = nullptr;
                 int length = 0;
@@ -285,7 +284,7 @@ bool XCBConnection::filterEvent(xcb_connection_t *,
 
         auto keypress = reinterpret_cast<xcb_key_press_event_t *>(event);
         if (keypress->event == root_) {
-            FCITX_LOG(Debug) << "Received key event from root";
+            FCITX_DEBUG() << "Received key event from root";
             auto sym = xcb_key_press_lookup_keysym(syms_.get(), keypress, 0);
             auto state = keypress->state;
             bool forward;
@@ -338,10 +337,10 @@ void XCBConnection::keyRelease(const xcb_key_release_event_t *event) {
         release = true;
     else {
         auto cookie = xcb_get_modifier_mapping(conn_.get());
-        auto reply =
-            xcb_get_modifier_mapping_reply(conn_.get(), cookie, nullptr);
+        auto reply = makeUniqueCPtr(
+            xcb_get_modifier_mapping_reply(conn_.get(), cookie, nullptr));
         if (reply) {
-            auto keycodes = xcb_get_modifier_mapping_keycodes(reply);
+            auto keycodes = xcb_get_modifier_mapping_keycodes(reply.get());
             for (int i = 0; i < reply->keycodes_per_modifier; i++) {
                 if (keycodes[reply->keycodes_per_modifier * mod_index + i] ==
                     event->detail) {
@@ -349,7 +348,6 @@ void XCBConnection::keyRelease(const xcb_key_release_event_t *event) {
                 }
             }
         }
-        free(reply);
     }
     if (!release) {
         return;
@@ -360,7 +358,7 @@ void XCBConnection::keyRelease(const xcb_key_release_event_t *event) {
 }
 
 void XCBConnection::acceptGroupChange() {
-    FCITX_LOG(Debug) << "Accept group change";
+    FCITX_DEBUG() << "Accept group change";
     if (keyboardGrabbed_) {
         ungrabXKeyboard();
     }
@@ -380,7 +378,7 @@ void XCBConnection::navigateGroup(bool forward) {
     }
     groupIndex_ = (groupIndex_ + (forward ? 1 : imManager.groupCount() - 1)) %
                   imManager.groupCount();
-    FCITX_LOG(Debug) << "Switch to group " << groupIndex_;
+    FCITX_DEBUG() << "Switch to group " << groupIndex_;
 
     if (parent_->notifications()) {
         parent_->notifications()->call<INotifications::showTip>(
@@ -418,7 +416,7 @@ xcb_atom_t XCBConnection::atom(const std::string &atomName, bool exists) {
     xcb_intern_atom_cookie_t cookie =
         xcb_intern_atom(conn_.get(), exists, atomName.size(), atomName.c_str());
     auto reply =
-        makeXCBReply(xcb_intern_atom_reply(conn_.get(), cookie, nullptr));
+        makeUniqueCPtr(xcb_intern_atom_reply(conn_.get(), cookie, nullptr));
     xcb_atom_t result = XCB_ATOM_NONE;
     if (reply) {
         result = reply->atom;

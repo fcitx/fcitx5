@@ -238,7 +238,7 @@ int IOEventCallback(sd_event_source *, int fd, uint32_t revents,
             source->callback_(source, fd, EpollFlagsToIOEventFlags(revents));
         return result ? 0 : -1;
     } catch (const std::exception &e) {
-        FCITX_LOG(Fatal) << e.what();
+        FCITX_FATAL() << e.what();
     }
     return -1;
 }

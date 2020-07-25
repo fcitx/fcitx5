@@ -25,7 +25,7 @@ public:
 
     auto events() {
         std::lock_guard<std::mutex> lock(mutex_);
-        std::list<XCBReply<xcb_generic_event_t>> events;
+        std::list<UniqueCPtr<xcb_generic_event_t>> events;
         using std::swap;
         swap(events_, events);
         return events;
@@ -45,7 +45,7 @@ private:
     std::unique_ptr<std::thread> thread_;
     std::unique_ptr<EventLoop> event_;
     std::mutex mutex_;
-    std::list<XCBReply<xcb_generic_event_t>> events_;
+    std::list<UniqueCPtr<xcb_generic_event_t>> events_;
 };
 
 } // namespace fcitx

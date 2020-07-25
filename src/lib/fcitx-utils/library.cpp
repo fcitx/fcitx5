@@ -14,6 +14,7 @@
 #include <unistd.h>
 #include <cstring>
 #include "config.h"
+#include "misc.h"
 #include "stringutils.h"
 
 namespace fcitx {
@@ -125,7 +126,7 @@ bool Library::findData(const char *slug, const char *magic, size_t lenOfMagic,
         return false;
     }
 
-    void *needfree = nullptr;
+    UniqueCPtr<void> needfree;
     bool result = false;
     do {
         struct stat statbuf;
@@ -139,7 +140,7 @@ bool Library::findData(const char *slug, const char *magic, size_t lenOfMagic,
             mmap(0, statbuf.st_size, PROT_READ, MAP_PRIVATE, fd, 0);
         if (!data) {
             data = malloc(statbuf.st_size);
-            needfree = data;
+            needfree.reset(data);
             if (!data) {
                 break;
             }
@@ -162,7 +163,6 @@ bool Library::findData(const char *slug, const char *magic, size_t lenOfMagic,
     } while (0);
 
     close(fd);
-    free(needfree);
 
     return result;
 }

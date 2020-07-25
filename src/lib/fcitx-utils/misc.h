@@ -9,6 +9,8 @@
 
 #include <unistd.h>
 #include <cstdint>
+#include <cstdio>
+#include <cstdlib>
 #include <memory>
 #include <string>
 #include <utility>
@@ -105,6 +107,26 @@ FCITXUTILS_EXPORT void startProcess(const std::vector<std::string> &args,
                                     const std::string &workingDirectory = {});
 
 FCITXUTILS_EXPORT std::string getProcessName(pid_t pid);
+
+struct StdCFreeDeleter {
+    template <typename T>
+    void operator()(T *p) const {
+        ::std::free(const_cast<std::remove_const_t<T> *>(p));
+    }
+};
+template <typename T>
+using UniqueCPtr = std::unique_ptr<T, StdCFreeDeleter>;
+static_assert(sizeof(char *) == sizeof(UniqueCPtr<char>),
+              ""); // ensure no overhead
+
+template <typename T>
+inline auto makeUniqueCPtr(T *ptr) {
+    return UniqueCPtr<T>(ptr);
+}
+
+FCITXUTILS_EXPORT ssize_t getline(UniqueCPtr<char> &lineptr, size_t *n,
+                                  std::FILE *stream);
+
 } // namespace fcitx
 
 #endif // _FCITX_UTILS_MISC_H_

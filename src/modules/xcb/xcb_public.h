@@ -30,14 +30,6 @@ typedef std::function<void(const std::string &name, xcb_connection_t *conn)>
 typedef std::function<void(xcb_atom_t selection)> XCBSelectionNotifyCallback;
 typedef std::function<void(xcb_atom_t, const char *, size_t)>
     XCBConvertSelectionCallback;
-
-template <typename T>
-using XCBReply = std::unique_ptr<T, decltype(&std::free)>;
-
-template <typename T>
-static XCBReply<T> makeXCBReply(T *ptr) noexcept {
-    return {ptr, &std::free};
-}
 } // namespace fcitx
 FCITX_ADDON_DECLARE_FUNCTION(XCBModule, openConnection,
                              void(const std::string &));

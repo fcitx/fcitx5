@@ -48,12 +48,12 @@ bool writeAsIni(const RawConfig &config, int fd) {
 void readFromIni(RawConfig &config, FILE *fin) {
     std::string lineBuf, currentGroup;
 
-    char *clineBuf = nullptr;
+    UniqueCPtr<char> clineBuf;
     size_t bufSize = 0;
     unsigned int line = 0;
-    while (getline(&clineBuf, &bufSize, fin) >= 0) {
+    while (getline(clineBuf, &bufSize, fin) >= 0) {
         line++;
-        lineBuf = clineBuf;
+        lineBuf = clineBuf.get();
         auto pair = stringutils::trimInplace(lineBuf);
         std::string::size_type start = pair.first, end = pair.second;
         if (start == end || lineBuf[start] == '#') {
@@ -106,8 +106,6 @@ void readFromIni(RawConfig &config, FILE *fin) {
             subConfig->setLineNumber(line);
         }
     }
-
-    free(clineBuf);
 }
 
 bool writeAsIni(const RawConfig &root, FILE *fout) {

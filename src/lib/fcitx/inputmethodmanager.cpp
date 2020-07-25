@@ -96,8 +96,7 @@ void InputMethodManager::load() {
         auto engine = static_cast<InputMethodEngine *>(
             d->addonManager_->addon(addonName));
         if (!engine) {
-            FCITX_LOG(Warn)
-                << "Failed to load input method addon: " << addonName;
+            FCITX_WARN() << "Failed to load input method addon: " << addonName;
             continue;
         }
         auto newEntries = engine->listInputMethods();

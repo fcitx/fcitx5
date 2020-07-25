@@ -232,7 +232,7 @@ public:
         if (hasSpotLocation) {
             auto trans_cookie = xcb_translate_coordinates(
                 server_->conn(), w, server_->root(), p.x, p.y);
-            auto reply = makeXCBReply(xcb_translate_coordinates_reply(
+            auto reply = makeUniqueCPtr(xcb_translate_coordinates_reply(
                 server_->conn(), trans_cookie, nullptr));
             if (reply) {
                 setCursorRect(Rect()
@@ -241,14 +241,14 @@ public:
             }
         } else {
             auto getgeo_cookie = xcb_get_geometry(server_->conn(), w);
-            auto reply = makeXCBReply(xcb_get_geometry_reply(
+            auto reply = makeUniqueCPtr(xcb_get_geometry_reply(
                 server_->conn(), getgeo_cookie, nullptr));
             if (!reply) {
                 return;
             }
             auto trans_cookie = xcb_translate_coordinates(
                 server_->conn(), w, server_->root(), reply->x, reply->y);
-            auto trans_reply = makeXCBReply(xcb_translate_coordinates_reply(
+            auto trans_reply = makeUniqueCPtr(xcb_translate_coordinates_reply(
                 server_->conn(), trans_cookie, nullptr));
 
             setCursorRect(Rect()

@@ -482,8 +482,7 @@ StandardPath::openUserTemp(Type type, const std::string &pathOrig) const {
         fullPathOrig = constructPath(dirPath, pathOrig);
     }
     if (fs::makePath(fs::dirName(fullPath))) {
-        std::unique_ptr<char, decltype(&std::free)> cPath(
-            strdup(fullPath.c_str()), &std::free);
+        auto cPath = makeUniqueCPtr(strdup(fullPath.c_str()));
         int fd = mkstemp(cPath.get());
         if (fd >= 0) {
             return {fd, fullPathOrig, cPath.get()};

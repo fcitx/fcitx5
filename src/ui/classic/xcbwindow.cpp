@@ -67,9 +67,8 @@ void XCBWindow::createWindow(xcb_visualid_t vid, bool overrideRedirect) {
     auto cookie = xcb_aux_create_window_checked(
         conn, depth, wid_, screen->root, 0, 0, width_, height_, 0,
         XCB_WINDOW_CLASS_INPUT_OUTPUT, vid, valueMask, &params);
-    if (auto error = xcb_request_check(conn, cookie)) {
+    if (auto error = makeUniqueCPtr(xcb_request_check(conn, cookie))) {
         CLASSICUI_DEBUG() << static_cast<int>(error->error_code);
-        free(error);
     } else {
         CLASSICUI_DEBUG() << "Window created id: " << wid_;
     }
