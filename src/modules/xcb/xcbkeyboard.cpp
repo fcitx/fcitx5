@@ -352,9 +352,7 @@ void XCBKeyboard::setRMLVOToServer(const std::string &rule,
         if (rule[0] != '/') {
             ruleFile =
                 stringutils::joinPath(XKEYBOARDCONFIG_XKBBASE, "rules", rule);
-            std::unique_ptr<char, decltype(&std::free)> ruleName(
-                strdup(ruleFile.data()), std::free);
-            rules = XkbRF_Load(ruleName.get(), locale, true, true);
+            rules = XkbRF_Load(ruleFile.data(), locale, true, true);
         }
     }
     if (!rules) {
@@ -401,10 +399,9 @@ void XCBKeyboard::setRMLVOToServer(const std::string &rule,
                geometryLen + 6;
 #define XkbPaddedSize(n) ((((unsigned int)(n) + 3) >> 2) << 2)
     len = XkbPaddedSize(len);
-    std::unique_ptr<xcb_xkb_get_kbd_by_name_request_t, decltype(&std::free)>
-        request(nullptr, std::free);
-    request.reset(static_cast<xcb_xkb_get_kbd_by_name_request_t *>(
-        calloc(1, sizeof(xcb_xkb_get_kbd_by_name_request_t) + len)));
+    UniqueCPtr<xcb_xkb_get_kbd_by_name_request_t> request(
+        (static_cast<xcb_xkb_get_kbd_by_name_request_t *>(
+            calloc(1, sizeof(xcb_xkb_get_kbd_by_name_request_t) + len))));
     auto data = reinterpret_cast<char *>(request.get() + 1);
 
     request->major_opcode = xkbMajorOpCode_;

@@ -16,8 +16,7 @@ namespace fcitx {
 namespace classicui {
 
 XCBMenu::XCBMenu(XCBUI *ui, MenuPool *pool, Menu *menu)
-    : XCBWindow(ui), pool_(pool), context_(nullptr, &g_object_unref),
-      menu_(menu) {
+    : XCBWindow(ui), pool_(pool), menu_(menu) {
     auto fontMap = pango_cairo_font_map_get_default();
     context_.reset(pango_font_map_create_context(fontMap));
     ui->fontOption().setupPangoContext(context_.get());

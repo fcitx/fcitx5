@@ -14,9 +14,7 @@
 namespace fcitx {
 namespace classicui {
 
-XCBWindow::XCBWindow(XCBUI *ui, int width, int height)
-    : Window(), ui_(ui), surface_(nullptr, &cairo_surface_destroy),
-      contentSurface_(nullptr, &cairo_surface_destroy) {
+XCBWindow::XCBWindow(XCBUI *ui, int width, int height) : Window(), ui_(ui) {
     Window::resize(width, height);
 }
 

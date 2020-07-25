@@ -73,8 +73,7 @@ private:
 
     XCBModule *parent_;
     std::string name_;
-    std::unique_ptr<xcb_connection_t, decltype(&xcb_disconnect)> conn_{
-        nullptr, &xcb_disconnect};
+    UniqueCPtr<xcb_connection_t, xcb_disconnect> conn_;
     int screen_ = 0;
     xcb_atom_t atom_ = XCB_ATOM_NONE;
     xcb_window_t serverWindow_ = XCB_WINDOW_NONE;
@@ -104,8 +103,7 @@ private:
 
     std::unique_ptr<XCBKeyboard> keyboard_;
 
-    std::unique_ptr<xcb_key_symbols_t, decltype(&xcb_key_symbols_free)> syms_{
-        nullptr, &xcb_key_symbols_free};
+    UniqueCPtr<xcb_key_symbols_t, xcb_key_symbols_free> syms_;
     size_t groupIndex_ = 0;
     KeyList forwardGroup_, backwardGroup_;
     bool doGrab_ = false;

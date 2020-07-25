@@ -136,7 +136,7 @@ private:
         globalRemovedSignal_;
     std::unordered_map<std::string, std::unique_ptr<GlobalsFactoryBase>>
         requestedGlobals_;
-    std::unique_ptr<wl_display, decltype(&wl_display_disconnect)> display_;
+    UniqueCPtr<wl_display, wl_display_disconnect> display_;
     std::unique_ptr<WlRegistry> registry_;
     std::unordered_map<uint32_t, std::tuple<std::string, uint32_t, uint32_t,
                                             std::shared_ptr<void>>>

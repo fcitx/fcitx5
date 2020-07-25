@@ -240,7 +240,7 @@ void Message::skip() {
 std::pair<char, std::string> Message::peekType() {
     FCITX_D();
 
-    std::unique_ptr<char, decltype(&dbus_free)> content(nullptr, &dbus_free);
+    UniqueCPtr<char, dbus_free> content;
     auto container = dbus_message_iter_get_arg_type(d->iterator());
     if (container == DBUS_TYPE_ARRAY || container == DBUS_TYPE_STRUCT ||
         container == DBUS_TYPE_VARIANT) {
@@ -453,8 +453,8 @@ Message &Message::operator>>(const Container &c) {
         // these two type doesn't support such check.
         if (c.type() != Container::Type::DictEntry &&
             c.type() != Container::Type::Struct) {
-            std::unique_ptr<char, decltype(&dbus_free)> content(
-                dbus_message_iter_get_signature(subIter), &dbus_free);
+            UniqueCPtr<char, dbus_free> content(
+                dbus_message_iter_get_signature(subIter));
             if (!content || content.get() != c.content().sig()) {
                 d->lastError_ = -EINVAL;
             }

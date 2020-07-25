@@ -71,8 +71,7 @@ enum class LibEventSourceEnableState { Disabled = 0, Oneshot = 1, Enabled = 2 };
 template <typename Interface>
 struct LibEventSourceBase : public Interface {
 public:
-    LibEventSourceBase(event_base *eventBase)
-        : eventBase_(eventBase), event_(nullptr, &event_free) {}
+    LibEventSourceBase(event_base *eventBase) : eventBase_(eventBase) {}
 
     ~LibEventSourceBase() = default;
 
@@ -95,7 +94,7 @@ public:
 
 protected:
     event_base *eventBase_; // not owned
-    std::unique_ptr<event, decltype(&event_free)> event_;
+    UniqueCPtr<event, event_free> event_;
     LibEventSourceEnableState state_ = LibEventSourceEnableState::Disabled;
 
 private:
@@ -293,11 +292,9 @@ bool EventLoop::exec() {
 #ifdef EVLOOP_NO_EXIT_ON_EMPTY
     int r = event_base_loop(d->event_, EVLOOP_NO_EXIT_ON_EMPTY);
 #else
-    std::unique_ptr<event, decltype(&event_free)> dummy(
-        event_new(
-            d->event_, -1, EV_PERSIST, [](evutil_socket_t, short, void *) {},
-            nullptr),
-        &event_free);
+    UniqueCPtr<event, event_free> dummy(event_new(
+        d->event_, -1, EV_PERSIST, [](evutil_socket_t, short, void *) {},
+        nullptr));
     struct timeval tv;
     tv.tv_sec = 1000000000;
     tv.tv_usec = 0;

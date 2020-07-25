@@ -28,8 +28,7 @@ namespace wayland {
 
 Buffer::Buffer(WlShm *shm, uint32_t width, uint32_t height,
                wl_shm_format format)
-    : surface_(nullptr, &cairo_surface_destroy), width_(width),
-      height_(height) {
+    : width_(width), height_(height) {
     const char *path = getenv("XDG_RUNTIME_DIR");
     if (!path) {
         throw std::runtime_error("XDG_RUNTIME_DIR is not set");

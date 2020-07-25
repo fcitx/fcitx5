@@ -136,7 +136,7 @@ private:
     bool valid_ = false;
     std::string currentText_;
     uint32_t size_ = 0;
-    std::unique_ptr<cairo_surface_t, decltype(&cairo_surface_destroy)> image_;
+    UniqueCPtr<cairo_surface_t, cairo_surface_destroy> image_;
 };
 
 class Theme : public ThemeConfig {

@@ -14,19 +14,16 @@
 
 namespace fcitx {
 
-typedef std::unique_ptr<FILE, decltype(&fclose)> ScopedFILE;
-
 void readFromIni(RawConfig &config, int fd) {
     if (fd < 0) {
         return;
     }
     // dup it
     UnixFD unixFD(fd);
-    FILE *f = fdopen(unixFD.fd(), "rb");
-    if (!f) {
+    UniqueFilePtr fp{fdopen(unixFD.fd(), "rb")};
+    if (!fp) {
         return;
     }
-    ScopedFILE fp{f, fclose};
     unixFD.release();
     readFromIni(config, fp.get());
 }
@@ -37,11 +34,10 @@ bool writeAsIni(const RawConfig &config, int fd) {
     }
     // dup it
     UnixFD unixFD(fd);
-    FILE *f = fdopen(unixFD.release(), "wb");
-    if (!f) {
+    UniqueFilePtr fp{fdopen(unixFD.release(), "wb")};
+    if (!fp) {
         return false;
     }
-    ScopedFILE fp{f, fclose};
     return writeAsIni(config, fp.get());
 }
 

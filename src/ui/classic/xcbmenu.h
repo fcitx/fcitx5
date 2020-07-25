@@ -9,6 +9,7 @@
 
 #include <pango/pango.h>
 #include "fcitx/menu.h"
+#include "common.h"
 #include "xcbwindow.h"
 
 namespace fcitx {
@@ -17,14 +18,13 @@ namespace classicui {
 class MenuPool;
 
 struct MenuItem {
-    MenuItem(PangoContext *context)
-        : layout_(pango_layout_new(context), &g_object_unref) {}
+    MenuItem(PangoContext *context) : layout_(pango_layout_new(context)) {}
 
     bool hasSubMenu_ = false;
     bool isHighlight_ = false;
     bool isSeparator_ = false;
     bool isChecked_ = false;
-    std::unique_ptr<PangoLayout, decltype(&g_object_unref)> layout_;
+    GObjectUniquePtr<PangoLayout> layout_;
     int layoutX_ = 0, layoutY_ = 0;
     Rect region_;
     int textWidth_ = 0, textHeight_ = 0;
@@ -75,7 +75,7 @@ private:
 
     MenuPool *pool_;
 
-    std::unique_ptr<PangoContext, decltype(&g_object_unref)> context_;
+    GObjectUniquePtr<PangoContext> context_;
     std::vector<MenuItem> items_;
 
     ScopedConnection destroyed_;

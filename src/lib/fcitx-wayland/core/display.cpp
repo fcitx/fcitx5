@@ -26,8 +26,7 @@ void Display::createGlobalHelper(
                          std::get<std::shared_ptr<void>>(globalsPair.second));
 }
 
-Display::Display(wl_display *display)
-    : display_(display, &wl_display_disconnect) {
+Display::Display(wl_display *display) : display_(display) {
     wl_display_set_user_data(display, this);
     auto reg = registry();
     reg->global().connect(

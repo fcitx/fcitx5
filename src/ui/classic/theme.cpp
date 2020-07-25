@@ -166,7 +166,7 @@ cairo_surface_t *loadImage(StandardPathFile &file) {
 
 ThemeImage::ThemeImage(const std::string &icon, const std::string &label,
                        const std::string &font, uint32_t size)
-    : size_(size), image_(nullptr, &cairo_surface_destroy) {
+    : size_(size) {
     if (!icon.empty()) {
         auto fd = open(icon.c_str(), O_RDONLY);
         StandardPathFile file(fd, icon);
@@ -190,9 +190,8 @@ ThemeImage::ThemeImage(const std::string &icon, const std::string &label,
         cairoSetSourceColor(cr, color);
         auto fontMap = pango_cairo_font_map_get_default();
         GObjectUniquePtr<PangoContext> context(
-            pango_font_map_create_context(fontMap), &g_object_unref);
-        GObjectUniquePtr<PangoLayout> layout(pango_layout_new(context.get()),
-                                             &g_object_unref);
+            pango_font_map_create_context(fontMap));
+        GObjectUniquePtr<PangoLayout> layout(pango_layout_new(context.get()));
         pango_layout_set_single_paragraph_mode(layout.get(), true);
         pango_layout_set_text(layout.get(), label.c_str(), label.size());
         PangoRectangle rect;
@@ -211,8 +210,7 @@ ThemeImage::ThemeImage(const std::string &icon, const std::string &label,
 }
 
 ThemeImage::ThemeImage(const std::string &name,
-                       const BackgroundImageConfig &cfg)
-    : image_(nullptr, &cairo_surface_destroy) {
+                       const BackgroundImageConfig &cfg) {
     if (!cfg.image->empty()) {
         auto imageFile = StandardPath::global().open(
             StandardPath::Type::PkgData,

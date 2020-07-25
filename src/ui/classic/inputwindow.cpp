@@ -35,16 +35,12 @@ void shrink(Rect &rect, const MarginConfig &margin) {
 }
 
 auto newPangoLayout(PangoContext *context) {
-    GObjectUniquePtr<PangoLayout> ptr(pango_layout_new(context),
-                                      &g_object_unref);
+    GObjectUniquePtr<PangoLayout> ptr(pango_layout_new(context));
     pango_layout_set_single_paragraph_mode(ptr.get(), true);
     return ptr;
 }
 
-InputWindow::InputWindow(ClassicUI *parent)
-    : parent_(parent), context_(nullptr, &g_object_unref),
-      upperLayout_(nullptr, &g_object_unref),
-      lowerLayout_(nullptr, &g_object_unref) {
+InputWindow::InputWindow(ClassicUI *parent) : parent_(parent) {
     auto fontMap = pango_cairo_font_map_get_default();
     context_.reset(pango_font_map_create_context(fontMap));
     upperLayout_ = newPangoLayout(context_.get());
@@ -130,8 +126,7 @@ void InputWindow::resizeCandidates(size_t n) {
          {&labelAttrLists_, &candidateAttrLists_, &highlightLabelAttrLists_,
           &highlightCandidateAttrLists_}) {
         while (attrLists->size() < n) {
-            attrLists->emplace_back(pango_attr_list_new(),
-                                    &pango_attr_list_unref);
+            attrLists->emplace_back(pango_attr_list_new());
         }
     }
 

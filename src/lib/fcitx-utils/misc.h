@@ -108,16 +108,21 @@ FCITXUTILS_EXPORT void startProcess(const std::vector<std::string> &args,
 
 FCITXUTILS_EXPORT std::string getProcessName(pid_t pid);
 
-struct StdCFreeDeleter {
+template <auto FreeFunction>
+struct FunctionDeleter {
     template <typename T>
     void operator()(T *p) const {
-        ::std::free(const_cast<std::remove_const_t<T> *>(p));
+        if (p) {
+            FreeFunction(const_cast<std::remove_const_t<T> *>(p));
+        }
     }
 };
-template <typename T>
-using UniqueCPtr = std::unique_ptr<T, StdCFreeDeleter>;
+template <typename T, auto FreeFunction = std::free>
+using UniqueCPtr = std::unique_ptr<T, FunctionDeleter<FreeFunction>>;
 static_assert(sizeof(char *) == sizeof(UniqueCPtr<char>),
               ""); // ensure no overhead
+
+using UniqueFilePtr = std::unique_ptr<FILE, FunctionDeleter<std::fclose>>;
 
 template <typename T>
 inline auto makeUniqueCPtr(T *ptr) {

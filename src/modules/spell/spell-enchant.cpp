@@ -18,7 +18,7 @@
 namespace fcitx {
 
 SpellEnchant::SpellEnchant(Spell *spell)
-    : SpellBackend(spell), broker_(enchant_broker_init(), &enchant_broker_free),
+    : SpellBackend(spell), broker_(enchant_broker_init()),
       dict_(nullptr, [this](EnchantDict *dict) {
           enchant_broker_free_dict(broker_.get(), dict);
       }) {

@@ -275,12 +275,6 @@ std::string StandardPath::fcitxPath(const char *path, const char *subPath) {
     return stringutils::joinPath(fcitxPath(path), subPath);
 }
 
-void closedir0(DIR *dir) {
-    if (dir) {
-        closedir(dir);
-    }
-}
-
 std::string StandardPath::userDirectory(Type type) const {
     FCITX_D();
     return d->userPath(type);
@@ -326,8 +320,7 @@ void StandardPath::scanFiles(
                        bool user)>
         scanner) const {
     auto scanDir = [scanner](const std::string &fullPath, bool isUser) {
-        std::unique_ptr<DIR, decltype(closedir0) *> scopedDir{
-            opendir(fullPath.c_str()), closedir0};
+        UniqueCPtr<DIR, closedir> scopedDir{opendir(fullPath.c_str())};
         if (scopedDir) {
             auto dir = scopedDir.get();
             struct dirent *drt;

@@ -26,7 +26,7 @@ public:
 
 private:
     bool loadDict(const std::string &language);
-    std::unique_ptr<EnchantBroker, decltype(&enchant_broker_free)> broker_;
+    UniqueCPtr<EnchantBroker, enchant_broker_free> broker_;
     std::unique_ptr<EnchantDict, std::function<void(EnchantDict *)>> dict_;
     std::string language_;
 };

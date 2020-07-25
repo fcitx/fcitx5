@@ -52,13 +52,11 @@ void BuiltInQuickPhraseProvider::reloadConfig() {
     }
 }
 
-typedef std::unique_ptr<FILE, decltype(&fclose)> ScopedFILE;
 void BuiltInQuickPhraseProvider::load(StandardPathFile &file) {
-    FILE *f = fdopen(file.fd(), "rb");
-    if (!f) {
+    UniqueFilePtr fp{fdopen(file.fd(), "rb")};
+    if (!fp) {
         return;
     }
-    ScopedFILE fp{f, fclose};
     file.release();
 
     UniqueCPtr<char> buf;

@@ -94,7 +94,7 @@ public:
     XIMServer(xcb_connection_t *conn, int defaultScreen, FocusGroup *group,
               const std::string &name, XIMModule *xim)
         : conn_(conn), group_(group), name_(name), parent_(xim),
-          im_(nullptr, xcb_im_destroy), serverWindow_(0) {
+          serverWindow_(0) {
         xcb_screen_t *screen = xcb_aux_get_screen(conn, defaultScreen);
         root_ = screen->root;
         serverWindow_ = xcb_generate_id(conn);
@@ -171,7 +171,7 @@ private:
     FocusGroup *group_;
     std::string name_;
     XIMModule *parent_;
-    std::unique_ptr<xcb_im_t, decltype(&xcb_im_destroy)> im_;
+    UniqueCPtr<xcb_im_t, xcb_im_destroy> im_;
     xcb_window_t root_;
     xcb_window_t serverWindow_;
     xcb_ewmh_connection_t *ewmh_;
@@ -261,10 +261,8 @@ public:
 protected:
     void commitStringImpl(const std::string &text) override {
         size_t compoundTextLength;
-        std::unique_ptr<char, decltype(&std::free)> compoundText(
-            xcb_utf8_to_compound_text(text.c_str(), text.size(),
-                                      &compoundTextLength),
-            std::free);
+        UniqueCPtr<char> compoundText(xcb_utf8_to_compound_text(
+            text.c_str(), text.size(), &compoundTextLength));
         if (!compoundText) {
             return;
         }
@@ -371,10 +369,8 @@ protected:
             frame.chg_first = 0;
             frame.chg_length = lastPreeditLength_;
             size_t compoundTextLength;
-            std::unique_ptr<char, decltype(&std::free)> compoundText(
-                xcb_utf8_to_compound_text(strPreedit.c_str(), strPreedit.size(),
-                                          &compoundTextLength),
-                std::free);
+            UniqueCPtr<char> compoundText(xcb_utf8_to_compound_text(
+                strPreedit.c_str(), strPreedit.size(), &compoundTextLength));
             if (!compoundText) {
                 return;
             }

@@ -54,9 +54,9 @@ private:
     WaylandIMModule *parent_;
     std::shared_ptr<wayland::ZwpInputMethodV1> inputMethodV1_;
 
-    std::unique_ptr<struct xkb_context, decltype(&xkb_context_unref)> context_;
-    std::unique_ptr<struct xkb_keymap, decltype(&xkb_keymap_unref)> keymap_;
-    std::unique_ptr<struct xkb_state, decltype(&xkb_state_unref)> state_;
+    UniqueCPtr<struct xkb_context, xkb_context_unref> context_;
+    UniqueCPtr<struct xkb_keymap, xkb_keymap_unref> keymap_;
+    UniqueCPtr<struct xkb_state, xkb_state_unref> state_;
 
     wayland::Display *display_;
     ScopedConnection globalConn_;
@@ -230,8 +230,6 @@ WaylandIMServer::WaylandIMServer(wl_display *display, FocusGroup *group,
                                  const std::string &name,
                                  WaylandIMModule *waylandim)
     : group_(group), name_(name), parent_(waylandim), inputMethodV1_(nullptr),
-      context_(nullptr, &xkb_context_unref),
-      keymap_(nullptr, &xkb_keymap_unref), state_(nullptr, &xkb_state_unref),
       display_(
           static_cast<wayland::Display *>(wl_display_get_user_data(display))) {
     display_->requestGlobals<wayland::ZwpInputMethodV1>();

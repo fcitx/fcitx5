@@ -53,12 +53,9 @@ private:
     bool hasXKB_ = false;
     xcb_atom_t xkbRulesNamesAtom_ = XCB_ATOM_NONE;
 
-    std::unique_ptr<struct xkb_context, decltype(&xkb_context_unref)> context_{
-        nullptr, &xkb_context_unref};
-    std::unique_ptr<struct xkb_keymap, decltype(&xkb_keymap_unref)> keymap_{
-        nullptr, &xkb_keymap_unref};
-    std::unique_ptr<struct xkb_state, decltype(&xkb_state_unref)> state_{
-        nullptr, &xkb_state_unref};
+    UniqueCPtr<struct xkb_context, xkb_context_unref> context_;
+    UniqueCPtr<struct xkb_keymap, xkb_keymap_unref> keymap_;
+    UniqueCPtr<struct xkb_state, xkb_state_unref> state_;
 
     std::vector<std::string> defaultLayouts_;
     std::vector<std::string> defaultVariants_;

@@ -7,13 +7,13 @@
 
 #include "xmlparser.h"
 #include <memory>
+#include "fcitx-utils/misc.h"
 #define XML_BUFFER_SIZE 4096
 
 bool fcitx::XMLParser::parse(const std::string &name) {
-    std::unique_ptr<XML_ParserStruct, decltype(&XML_ParserFree)> parser(
-        XML_ParserCreate(nullptr), XML_ParserFree);
-    std::unique_ptr<std::FILE, decltype(&std::fclose)> input(
-        std::fopen(name.c_str(), "r"), &std::fclose);
+    UniqueCPtr<XML_ParserStruct, XML_ParserFree> parser(
+        XML_ParserCreate(nullptr));
+    UniqueFilePtr input(std::fopen(name.c_str(), "r"));
     if (!input) {
         return false;
     }

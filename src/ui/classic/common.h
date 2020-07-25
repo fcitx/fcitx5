@@ -15,11 +15,11 @@ namespace fcitx {
 namespace classicui {
 
 template <typename T>
-using GObjectUniquePtr = std::unique_ptr<T, decltype(&g_object_unref)>;
+using GObjectUniquePtr = UniqueCPtr<T, g_object_unref>;
 
 template <typename T>
 GObjectUniquePtr<T> makeGObjectUnique(T *p) {
-    return {p, &g_object_unref};
+    return {p};
 }
 
 FCITX_DECLARE_LOG_CATEGORY(classicui_logcategory);

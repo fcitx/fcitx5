@@ -118,8 +118,7 @@ std::pair<std::string, pid_t> getAddress(const std::string &socketPath) {
     }
 
     /* read address from ~/.config/ibus/bus/soketfile */
-    std::unique_ptr<std::FILE, decltype(&std::fclose)> file(
-        fopen(socketPath.c_str(), "rb"), &std::fclose);
+    UniqueFilePtr file(fopen(socketPath.c_str(), "rb"));
     if (!file) {
         return {};
     }

@@ -19,8 +19,7 @@ namespace classicui {
 
 class ClassicUI;
 
-using PangoAttrListUniquePtr =
-    std::unique_ptr<PangoAttrList, decltype(&pango_attr_list_unref)>;
+using PangoAttrListUniquePtr = UniqueCPtr<PangoAttrList, pango_attr_list_unref>;
 
 class InputWindow {
 public:

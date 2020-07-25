@@ -21,8 +21,7 @@ public:
     virtual void handle(json_object *entry) = 0;
 
     void parse(const std::string &filename) {
-        std::unique_ptr<json_object, decltype(&json_object_put)> obj(
-            nullptr, json_object_put);
+        UniqueCPtr<json_object, json_object_put> obj;
         obj.reset(json_object_from_file(filename.data()));
         if (!obj) {
             return;

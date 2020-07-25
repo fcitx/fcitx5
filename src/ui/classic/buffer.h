@@ -41,7 +41,7 @@ private:
     std::unique_ptr<WlShmPool> pool_;
     std::unique_ptr<WlBuffer> buffer_;
     std::unique_ptr<WlCallback> callback_;
-    std::unique_ptr<cairo_surface_t, decltype(&cairo_surface_destroy)> surface_;
+    UniqueCPtr<cairo_surface_t, cairo_surface_destroy> surface_;
     bool busy_ = false;
     uint32_t width_, height_;
 };
