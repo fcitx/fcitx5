@@ -56,8 +56,7 @@ const struct wl_data_device_listener WlDataDevice::listener = {
     },
 };
 WlDataDevice::WlDataDevice(wl_data_device *data)
-    : version_(wl_data_device_get_version(data)),
-      data_(data, &WlDataDevice::destructor) {
+    : version_(wl_data_device_get_version(data)), data_(data) {
     wl_data_device_set_user_data(*this, this);
     wl_data_device_add_listener(*this, &WlDataDevice::listener, this);
 }

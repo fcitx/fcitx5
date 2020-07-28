@@ -52,7 +52,7 @@ const struct wl_touch_listener WlTouch::listener = {
     },
 };
 WlTouch::WlTouch(wl_touch *data)
-    : version_(wl_touch_get_version(data)), data_(data, &WlTouch::destructor) {
+    : version_(wl_touch_get_version(data)), data_(data) {
     wl_touch_set_user_data(*this, this);
     wl_touch_add_listener(*this, &WlTouch::listener, this);
 }

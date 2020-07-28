@@ -56,7 +56,7 @@ private:
     fcitx::Signal<void(const char *)> preferredLanguageSignal_;
     uint32_t version_;
     void *userData_ = nullptr;
-    std::unique_ptr<zwp_input_method_context_v1, decltype(&destructor)> data_;
+    UniqueCPtr<zwp_input_method_context_v1, &destructor> data_;
 };
 static inline zwp_input_method_context_v1 *
 rawPointer(ZwpInputMethodContextV1 *p) {

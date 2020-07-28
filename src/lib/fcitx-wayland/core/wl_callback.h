@@ -27,7 +27,7 @@ private:
     fcitx::Signal<void(uint32_t)> doneSignal_;
     uint32_t version_;
     void *userData_ = nullptr;
-    std::unique_ptr<wl_callback, decltype(&destructor)> data_;
+    UniqueCPtr<wl_callback, &destructor> data_;
 };
 static inline wl_callback *rawPointer(WlCallback *p) {
     return p ? static_cast<wl_callback *>(*p) : nullptr;

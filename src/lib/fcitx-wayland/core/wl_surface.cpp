@@ -30,8 +30,7 @@ const struct wl_surface_listener WlSurface::listener = {
     },
 };
 WlSurface::WlSurface(wl_surface *data)
-    : version_(wl_surface_get_version(data)),
-      data_(data, &WlSurface::destructor) {
+    : version_(wl_surface_get_version(data)), data_(data) {
     wl_surface_set_user_data(*this, this);
     wl_surface_add_listener(*this, &WlSurface::listener, this);
 }

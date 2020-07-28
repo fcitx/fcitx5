@@ -31,7 +31,7 @@ private:
     fcitx::Signal<void(ZwpInputMethodContextV1 *)> deactivateSignal_;
     uint32_t version_;
     void *userData_ = nullptr;
-    std::unique_ptr<zwp_input_method_v1, decltype(&destructor)> data_;
+    UniqueCPtr<zwp_input_method_v1, &destructor> data_;
 };
 static inline zwp_input_method_v1 *rawPointer(ZwpInputMethodV1 *p) {
     return p ? static_cast<zwp_input_method_v1 *>(*p) : nullptr;

@@ -47,7 +47,7 @@ private:
     fcitx::Signal<void(uint32_t, int32_t)> axisDiscreteSignal_;
     uint32_t version_;
     void *userData_ = nullptr;
-    std::unique_ptr<wl_pointer, decltype(&destructor)> data_;
+    UniqueCPtr<wl_pointer, &destructor> data_;
 };
 static inline wl_pointer *rawPointer(WlPointer *p) {
     return p ? static_cast<wl_pointer *>(*p) : nullptr;

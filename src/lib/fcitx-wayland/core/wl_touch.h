@@ -43,7 +43,7 @@ private:
     fcitx::Signal<void(int32_t, wl_fixed_t)> orientationSignal_;
     uint32_t version_;
     void *userData_ = nullptr;
-    std::unique_ptr<wl_touch, decltype(&destructor)> data_;
+    UniqueCPtr<wl_touch, &destructor> data_;
 };
 static inline wl_touch *rawPointer(WlTouch *p) {
     return p ? static_cast<wl_touch *>(*p) : nullptr;

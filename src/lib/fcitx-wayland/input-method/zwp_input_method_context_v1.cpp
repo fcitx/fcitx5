@@ -45,8 +45,7 @@ const struct zwp_input_method_context_v1_listener
 };
 ZwpInputMethodContextV1::ZwpInputMethodContextV1(
     zwp_input_method_context_v1 *data)
-    : version_(zwp_input_method_context_v1_get_version(data)),
-      data_(data, &ZwpInputMethodContextV1::destructor) {
+    : version_(zwp_input_method_context_v1_get_version(data)), data_(data) {
     zwp_input_method_context_v1_set_user_data(*this, this);
     zwp_input_method_context_v1_add_listener(
         *this, &ZwpInputMethodContextV1::listener, this);

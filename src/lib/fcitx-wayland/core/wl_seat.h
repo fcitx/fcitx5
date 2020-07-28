@@ -34,7 +34,7 @@ private:
     fcitx::Signal<void(const char *)> nameSignal_;
     uint32_t version_;
     void *userData_ = nullptr;
-    std::unique_ptr<wl_seat, decltype(&destructor)> data_;
+    UniqueCPtr<wl_seat, &destructor> data_;
 };
 static inline wl_seat *rawPointer(WlSeat *p) {
     return p ? static_cast<wl_seat *>(*p) : nullptr;

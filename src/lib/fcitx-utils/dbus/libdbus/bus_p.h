@@ -60,7 +60,7 @@ public:
 class BusPrivate : public TrackableObject<BusPrivate> {
 public:
     BusPrivate(Bus *bus)
-        : bus_(bus), conn_(nullptr, &DBusConnectionCloser),
+        : bus_(bus),
           matchRuleSet_(
               [this](const MatchRule &rule) {
                   if (!conn_) {
@@ -157,7 +157,7 @@ public:
 
     Bus *bus_;
     std::string address_;
-    std::unique_ptr<DBusConnection, decltype(&DBusConnectionCloser)> conn_;
+    UniqueCPtr<DBusConnection, DBusConnectionCloser> conn_;
     MultiHandlerTable<MatchRule, int> matchRuleSet_;
     HandlerTable<std::pair<MatchRule, MessageCallback>> matchHandlers_;
     HandlerTable<MessageCallback> filterHandlers_;

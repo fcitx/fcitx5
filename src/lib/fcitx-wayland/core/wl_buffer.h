@@ -27,7 +27,7 @@ private:
     fcitx::Signal<void()> releaseSignal_;
     uint32_t version_;
     void *userData_ = nullptr;
-    std::unique_ptr<wl_buffer, decltype(&destructor)> data_;
+    UniqueCPtr<wl_buffer, &destructor> data_;
 };
 static inline wl_buffer *rawPointer(WlBuffer *p) {
     return p ? static_cast<wl_buffer *>(*p) : nullptr;

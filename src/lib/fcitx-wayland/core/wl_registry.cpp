@@ -19,8 +19,7 @@ const struct wl_registry_listener WlRegistry::listener = {
     },
 };
 WlRegistry::WlRegistry(wl_registry *data)
-    : version_(wl_registry_get_version(data)),
-      data_(data, &WlRegistry::destructor) {
+    : version_(wl_registry_get_version(data)), data_(data) {
     wl_registry_set_user_data(*this, this);
     wl_registry_add_listener(*this, &WlRegistry::listener, this);
 }

@@ -27,7 +27,7 @@ private:
     static void destructor(wl_shell *);
     uint32_t version_;
     void *userData_ = nullptr;
-    std::unique_ptr<wl_shell, decltype(&destructor)> data_;
+    UniqueCPtr<wl_shell, &destructor> data_;
 };
 static inline wl_shell *rawPointer(WlShell *p) {
     return p ? static_cast<wl_shell *>(*p) : nullptr;

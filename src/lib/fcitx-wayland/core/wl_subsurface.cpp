@@ -7,8 +7,7 @@ constexpr const char *WlSubsurface::interface;
 constexpr const wl_interface *const WlSubsurface::wlInterface;
 const uint32_t WlSubsurface::version;
 WlSubsurface::WlSubsurface(wl_subsurface *data)
-    : version_(wl_subsurface_get_version(data)),
-      data_(data, &WlSubsurface::destructor) {
+    : version_(wl_subsurface_get_version(data)), data_(data) {
     wl_subsurface_set_user_data(*this, this);
 }
 void WlSubsurface::destructor(wl_subsurface *data) {

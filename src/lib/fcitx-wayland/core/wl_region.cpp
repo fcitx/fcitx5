@@ -6,8 +6,7 @@ constexpr const char *WlRegion::interface;
 constexpr const wl_interface *const WlRegion::wlInterface;
 const uint32_t WlRegion::version;
 WlRegion::WlRegion(wl_region *data)
-    : version_(wl_region_get_version(data)),
-      data_(data, &WlRegion::destructor) {
+    : version_(wl_region_get_version(data)), data_(data) {
     wl_region_set_user_data(*this, this);
 }
 void WlRegion::destructor(wl_region *data) {

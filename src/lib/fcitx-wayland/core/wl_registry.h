@@ -34,7 +34,7 @@ private:
     fcitx::Signal<void(uint32_t)> globalRemoveSignal_;
     uint32_t version_;
     void *userData_ = nullptr;
-    std::unique_ptr<wl_registry, decltype(&destructor)> data_;
+    UniqueCPtr<wl_registry, &destructor> data_;
 };
 static inline wl_registry *rawPointer(WlRegistry *p) {
     return p ? static_cast<wl_registry *>(*p) : nullptr;

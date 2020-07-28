@@ -8,8 +8,7 @@ constexpr const char *WlSubcompositor::interface;
 constexpr const wl_interface *const WlSubcompositor::wlInterface;
 const uint32_t WlSubcompositor::version;
 WlSubcompositor::WlSubcompositor(wl_subcompositor *data)
-    : version_(wl_subcompositor_get_version(data)),
-      data_(data, &WlSubcompositor::destructor) {
+    : version_(wl_subcompositor_get_version(data)), data_(data) {
     wl_subcompositor_set_user_data(*this, this);
 }
 void WlSubcompositor::destructor(wl_subcompositor *data) {

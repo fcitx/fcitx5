@@ -35,7 +35,7 @@ private:
     fcitx::Signal<void(uint32_t)> actionSignal_;
     uint32_t version_;
     void *userData_ = nullptr;
-    std::unique_ptr<wl_data_offer, decltype(&destructor)> data_;
+    UniqueCPtr<wl_data_offer, &destructor> data_;
 };
 static inline wl_data_offer *rawPointer(WlDataOffer *p) {
     return p ? static_cast<wl_data_offer *>(*p) : nullptr;

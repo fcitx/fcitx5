@@ -38,8 +38,7 @@ const struct wl_data_source_listener WlDataSource::listener = {
     },
 };
 WlDataSource::WlDataSource(wl_data_source *data)
-    : version_(wl_data_source_get_version(data)),
-      data_(data, &WlDataSource::destructor) {
+    : version_(wl_data_source_get_version(data)), data_(data) {
     wl_data_source_set_user_data(*this, this);
     wl_data_source_add_listener(*this, &WlDataSource::listener, this);
 }

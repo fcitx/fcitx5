@@ -28,7 +28,7 @@ private:
     static void destructor(wl_shm_pool *);
     uint32_t version_;
     void *userData_ = nullptr;
-    std::unique_ptr<wl_shm_pool, decltype(&destructor)> data_;
+    UniqueCPtr<wl_shm_pool, &destructor> data_;
 };
 static inline wl_shm_pool *rawPointer(WlShmPool *p) {
     return p ? static_cast<wl_shm_pool *>(*p) : nullptr;

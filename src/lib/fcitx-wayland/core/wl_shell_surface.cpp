@@ -27,8 +27,7 @@ const struct wl_shell_surface_listener WlShellSurface::listener = {
     },
 };
 WlShellSurface::WlShellSurface(wl_shell_surface *data)
-    : version_(wl_shell_surface_get_version(data)),
-      data_(data, &WlShellSurface::destructor) {
+    : version_(wl_shell_surface_get_version(data)), data_(data) {
     wl_shell_surface_set_user_data(*this, this);
     wl_shell_surface_add_listener(*this, &WlShellSurface::listener, this);
 }

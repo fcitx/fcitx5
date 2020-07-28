@@ -30,7 +30,7 @@ private:
     static void destructor(wl_data_device_manager *);
     uint32_t version_;
     void *userData_ = nullptr;
-    std::unique_ptr<wl_data_device_manager, decltype(&destructor)> data_;
+    UniqueCPtr<wl_data_device_manager, &destructor> data_;
 };
 static inline wl_data_device_manager *rawPointer(WlDataDeviceManager *p) {
     return p ? static_cast<wl_data_device_manager *>(*p) : nullptr;

@@ -39,7 +39,7 @@ private:
     fcitx::Signal<void(uint32_t)> actionSignal_;
     uint32_t version_;
     void *userData_ = nullptr;
-    std::unique_ptr<wl_data_source, decltype(&destructor)> data_;
+    UniqueCPtr<wl_data_source, &destructor> data_;
 };
 static inline wl_data_source *rawPointer(WlDataSource *p) {
     return p ? static_cast<wl_data_source *>(*p) : nullptr;

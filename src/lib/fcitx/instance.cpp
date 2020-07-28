@@ -70,15 +70,6 @@ void initAsDaemon() {
 
 namespace fcitx {
 
-#define FCITX_DEFINE_XKB_AUTOPTR(TYPE)                                         \
-    using TYPE##_autoptr = std::unique_ptr<struct TYPE, decltype(&TYPE##_unref)>
-
-FCITX_DEFINE_XKB_AUTOPTR(xkb_context);
-FCITX_DEFINE_XKB_AUTOPTR(xkb_compose_table);
-FCITX_DEFINE_XKB_AUTOPTR(xkb_compose_state);
-FCITX_DEFINE_XKB_AUTOPTR(xkb_state);
-FCITX_DEFINE_XKB_AUTOPTR(xkb_keymap);
-
 class CheckInputMethodChanged;
 
 struct InputState : public InputContextProperty {
@@ -141,8 +132,8 @@ private:
     InstancePrivate *d_ptr;
     InputContext *ic_;
 
-    xkb_compose_state_autoptr xkbComposeState_;
-    xkb_state_autoptr xkbState_;
+    UniqueCPtr<xkb_compose_state, xkb_compose_state_unref> xkbComposeState_;
+    UniqueCPtr<xkb_state, xkb_state_unref> xkbState_;
     std::string lastXkbLayout_;
 
     std::unique_ptr<EventSourceTime> imInfoTimer_;
@@ -188,9 +179,7 @@ struct InstanceArgument {
 
 class InstancePrivate : public QPtrHolder<Instance> {
 public:
-    InstancePrivate(Instance *q)
-        : QPtrHolder<Instance>(q), xkbContext_(nullptr, &xkb_context_unref),
-          xkbComposeTable_(nullptr, &xkb_compose_table_unref) {
+    InstancePrivate(Instance *q) : QPtrHolder<Instance>(q) {
         const char *locale = getenv("LC_ALL");
         if (!locale) {
             locale = getenv("LC_CTYPE");
@@ -234,10 +223,9 @@ public:
         names.rules = std::get<0>(xkbParam).c_str();
         names.model = std::get<1>(xkbParam).c_str();
         names.options = std::get<2>(xkbParam).c_str();
-        xkb_keymap_autoptr keymap(
+        UniqueCPtr<xkb_keymap, xkb_keymap_unref> keymap(
             xkb_keymap_new_from_names(xkbContext_.get(), &names,
-                                      XKB_KEYMAP_COMPILE_NO_FLAGS),
-            &xkb_keymap_unref);
+                                      XKB_KEYMAP_COMPILE_NO_FLAGS));
         auto result =
             keymapCache_[display].emplace(layoutAndVariant, std::move(keymap));
         assert(result.second);
@@ -294,15 +282,16 @@ public:
     FactoryFor<InputState> inputStateFactory_{
         [this](InputContext &ic) { return new InputState(this, &ic); }};
 
-    xkb_context_autoptr xkbContext_;
-    xkb_compose_table_autoptr xkbComposeTable_;
+    UniqueCPtr<xkb_context, xkb_context_unref> xkbContext_;
+    UniqueCPtr<xkb_compose_table, xkb_compose_table_unref> xkbComposeTable_;
 
     std::vector<ScopedConnection> connections_;
     std::unique_ptr<EventSourceTime> imGroupInfoTimer_;
     std::unique_ptr<EventSourceTime> focusInImInfoTimer_;
 
-    std::unordered_map<std::string,
-                       std::unordered_map<std::string, xkb_keymap_autoptr>>
+    std::unordered_map<
+        std::string, std::unordered_map<
+                         std::string, UniqueCPtr<xkb_keymap, xkb_keymap_unref>>>
         keymapCache_;
     std::unordered_map<std::string, std::tuple<uint32_t, uint32_t, uint32_t>>
         stateMask_;
@@ -318,8 +307,7 @@ public:
 };
 
 InputState::InputState(InstancePrivate *d, InputContext *ic)
-    : d_ptr(d), ic_(ic), xkbComposeState_(nullptr, &xkb_compose_state_unref),
-      xkbState_(nullptr, &xkb_state_unref) {
+    : d_ptr(d), ic_(ic) {
     active_ = d->globalConfig_.activeByDefault();
     if (d->xkbComposeTable_) {
         xkbComposeState_.reset(xkb_compose_state_new(

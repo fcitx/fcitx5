@@ -35,7 +35,7 @@ private:
     fcitx::Signal<void(int32_t)> scaleSignal_;
     uint32_t version_;
     void *userData_ = nullptr;
-    std::unique_ptr<wl_output, decltype(&destructor)> data_;
+    UniqueCPtr<wl_output, &destructor> data_;
 };
 static inline wl_output *rawPointer(WlOutput *p) {
     return p ? static_cast<wl_output *>(*p) : nullptr;

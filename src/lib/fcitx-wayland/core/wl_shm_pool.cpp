@@ -7,8 +7,7 @@ constexpr const char *WlShmPool::interface;
 constexpr const wl_interface *const WlShmPool::wlInterface;
 const uint32_t WlShmPool::version;
 WlShmPool::WlShmPool(wl_shm_pool *data)
-    : version_(wl_shm_pool_get_version(data)),
-      data_(data, &WlShmPool::destructor) {
+    : version_(wl_shm_pool_get_version(data)), data_(data) {
     wl_shm_pool_set_user_data(*this, this);
 }
 void WlShmPool::destructor(wl_shm_pool *data) {

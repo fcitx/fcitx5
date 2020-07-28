@@ -21,7 +21,7 @@ const struct wl_seat_listener WlSeat::listener = {
     },
 };
 WlSeat::WlSeat(wl_seat *data)
-    : version_(wl_seat_get_version(data)), data_(data, &WlSeat::destructor) {
+    : version_(wl_seat_get_version(data)), data_(data) {
     wl_seat_set_user_data(*this, this);
     wl_seat_add_listener(*this, &WlSeat::listener, this);
 }

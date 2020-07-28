@@ -66,8 +66,7 @@ const struct wl_pointer_listener WlPointer::listener = {
     },
 };
 WlPointer::WlPointer(wl_pointer *data)
-    : version_(wl_pointer_get_version(data)),
-      data_(data, &WlPointer::destructor) {
+    : version_(wl_pointer_get_version(data)), data_(data) {
     wl_pointer_set_user_data(*this, this);
     wl_pointer_add_listener(*this, &WlPointer::listener, this);
 }

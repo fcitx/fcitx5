@@ -42,7 +42,7 @@ private:
     fcitx::Signal<void(WlOutput *)> leaveSignal_;
     uint32_t version_;
     void *userData_ = nullptr;
-    std::unique_ptr<wl_surface, decltype(&destructor)> data_;
+    UniqueCPtr<wl_surface, &destructor> data_;
 };
 static inline wl_surface *rawPointer(WlSurface *p) {
     return p ? static_cast<wl_surface *>(*p) : nullptr;

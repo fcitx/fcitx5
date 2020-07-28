@@ -13,8 +13,7 @@ const struct wl_shm_listener WlShm::listener = {
         { return obj->format()(format); }
     },
 };
-WlShm::WlShm(wl_shm *data)
-    : version_(wl_shm_get_version(data)), data_(data, &WlShm::destructor) {
+WlShm::WlShm(wl_shm *data) : version_(wl_shm_get_version(data)), data_(data) {
     wl_shm_set_user_data(*this, this);
     wl_shm_add_listener(*this, &WlShm::listener, this);
 }

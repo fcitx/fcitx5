@@ -27,7 +27,7 @@ private:
     static void destructor(wl_subcompositor *);
     uint32_t version_;
     void *userData_ = nullptr;
-    std::unique_ptr<wl_subcompositor, decltype(&destructor)> data_;
+    UniqueCPtr<wl_subcompositor, &destructor> data_;
 };
 static inline wl_subcompositor *rawPointer(WlSubcompositor *p) {
     return p ? static_cast<wl_subcompositor *>(*p) : nullptr;

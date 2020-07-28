@@ -54,8 +54,7 @@ const struct wl_keyboard_listener WlKeyboard::listener = {
     },
 };
 WlKeyboard::WlKeyboard(wl_keyboard *data)
-    : version_(wl_keyboard_get_version(data)),
-      data_(data, &WlKeyboard::destructor) {
+    : version_(wl_keyboard_get_version(data)), data_(data) {
     wl_keyboard_set_user_data(*this, this);
     wl_keyboard_add_listener(*this, &WlKeyboard::listener, this);
 }

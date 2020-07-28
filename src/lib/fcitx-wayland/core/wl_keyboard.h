@@ -39,7 +39,7 @@ private:
     fcitx::Signal<void(int32_t, int32_t)> repeatInfoSignal_;
     uint32_t version_;
     void *userData_ = nullptr;
-    std::unique_ptr<wl_keyboard, decltype(&destructor)> data_;
+    UniqueCPtr<wl_keyboard, &destructor> data_;
 };
 static inline wl_keyboard *rawPointer(WlKeyboard *p) {
     return p ? static_cast<wl_keyboard *>(*p) : nullptr;

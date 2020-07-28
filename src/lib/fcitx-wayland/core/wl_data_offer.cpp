@@ -23,8 +23,7 @@ const struct wl_data_offer_listener WlDataOffer::listener = {
     },
 };
 WlDataOffer::WlDataOffer(wl_data_offer *data)
-    : version_(wl_data_offer_get_version(data)),
-      data_(data, &WlDataOffer::destructor) {
+    : version_(wl_data_offer_get_version(data)), data_(data) {
     wl_data_offer_set_user_data(*this, this);
     wl_data_offer_add_listener(*this, &WlDataOffer::listener, this);
 }

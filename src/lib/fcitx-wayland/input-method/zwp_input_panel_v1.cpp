@@ -8,8 +8,7 @@ constexpr const char *ZwpInputPanelV1::interface;
 constexpr const wl_interface *const ZwpInputPanelV1::wlInterface;
 const uint32_t ZwpInputPanelV1::version;
 ZwpInputPanelV1::ZwpInputPanelV1(zwp_input_panel_v1 *data)
-    : version_(zwp_input_panel_v1_get_version(data)),
-      data_(data, &ZwpInputPanelV1::destructor) {
+    : version_(zwp_input_panel_v1_get_version(data)), data_(data) {
     zwp_input_panel_v1_set_user_data(*this, this);
 }
 void ZwpInputPanelV1::destructor(zwp_input_panel_v1 *data) {

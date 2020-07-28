@@ -8,8 +8,7 @@ constexpr const char *WlCompositor::interface;
 constexpr const wl_interface *const WlCompositor::wlInterface;
 const uint32_t WlCompositor::version;
 WlCompositor::WlCompositor(wl_compositor *data)
-    : version_(wl_compositor_get_version(data)),
-      data_(data, &WlCompositor::destructor) {
+    : version_(wl_compositor_get_version(data)), data_(data) {
     wl_compositor_set_user_data(*this, this);
 }
 void WlCompositor::destructor(wl_compositor *data) {

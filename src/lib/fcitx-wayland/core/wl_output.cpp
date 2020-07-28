@@ -34,8 +34,7 @@ const struct wl_output_listener WlOutput::listener = {
     },
 };
 WlOutput::WlOutput(wl_output *data)
-    : version_(wl_output_get_version(data)),
-      data_(data, &WlOutput::destructor) {
+    : version_(wl_output_get_version(data)), data_(data) {
     wl_output_set_user_data(*this, this);
     wl_output_add_listener(*this, &WlOutput::listener, this);
 }

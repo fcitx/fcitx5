@@ -30,7 +30,7 @@ private:
     static void destructor(wl_subsurface *);
     uint32_t version_;
     void *userData_ = nullptr;
-    std::unique_ptr<wl_subsurface, decltype(&destructor)> data_;
+    UniqueCPtr<wl_subsurface, &destructor> data_;
 };
 static inline wl_subsurface *rawPointer(WlSubsurface *p) {
     return p ? static_cast<wl_subsurface *>(*p) : nullptr;
