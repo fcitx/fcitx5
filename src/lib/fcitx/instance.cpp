@@ -1040,8 +1040,7 @@ void Instance::initialize() {
             }
             return true;
         };
-        if (guessLayout(defaultGroup)) {
-            ;
+        if (!defaultGroup || guessLayout(defaultGroup)) {
             d->icManager_.foreachGroup(
                 [defaultGroup, &guessLayout](FocusGroup *focusGroup) {
                     if (defaultGroup == focusGroup) {
