@@ -29,6 +29,8 @@ public:
     virtual ~InputMethodManager();
 
     void load();
+    void load(const std::function<void(InputMethodGroup &)>
+                  &buildDefaultGroupCallback);
     void save();
 
     std::vector<std::string> groups() const;
@@ -51,10 +53,6 @@ public:
                          void(const std::string &group));
 
 private:
-    void loadConfig();
-    void buildDefaultGroup();
-    void setGroupOrder(const std::vector<std::string> &groups);
-
     std::unique_ptr<InputMethodManagerPrivate> d_ptr;
     FCITX_DECLARE_PRIVATE(InputMethodManager);
 };

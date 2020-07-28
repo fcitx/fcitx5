@@ -30,6 +30,12 @@ public:
                               InputMethodManager *q)
         : QPtrHolder(q), addonManager_(addonManager_) {}
 
+    void loadConfig(const std::function<void(InputMethodGroup &)>
+                        &buildDefaultGroupCallback);
+    void buildDefaultGroup(const std::function<void(InputMethodGroup &)>
+                               &buildDefaultGroupCallback);
+    void setGroupOrder(const std::vector<std::string> &groups);
+
     FCITX_DEFINE_SIGNAL_PRIVATE(InputMethodManager, CurrentGroupAboutToChange);
     FCITX_DEFINE_SIGNAL_PRIVATE(InputMethodManager, CurrentGroupChanged);
 
@@ -49,12 +55,95 @@ bool checkEntry(const InputMethodEntry &entry,
                : true;
 }
 
+void InputMethodManagerPrivate::loadConfig(
+    const std::function<void(InputMethodGroup &)> &buildDefaultGroupCallback) {
+    auto &path = StandardPath::global();
+    auto file = path.open(StandardPath::Type::PkgConfig, "profile", O_RDONLY);
+    RawConfig config;
+    if (file.fd() >= 0) {
+        readFromIni(config, file.fd());
+    }
+    InputMethodConfig imConfig;
+    imConfig.load(config);
+
+    groups_.clear();
+    std::vector<std::string> tempOrder;
+    if (imConfig.groups.value().size()) {
+        auto &groupsConfig = imConfig.groups.value();
+        for (auto &groupConfig : groupsConfig) {
+            // group must have a name
+            if (groupConfig.name.value().empty() ||
+                groupConfig.defaultLayout.value().empty()) {
+                continue;
+            }
+            auto result =
+                groups_.emplace(groupConfig.name.value(),
+                                InputMethodGroup(groupConfig.name.value()));
+            tempOrder.push_back(groupConfig.name.value());
+            auto &group = result.first->second;
+            group.setDefaultLayout(groupConfig.defaultLayout.value());
+            auto &items = groupConfig.items.value();
+            for (auto &item : items) {
+                if (!entries_.count(item.name.value())) {
+                    FCITX_WARN() << "Group Item " << item.name.value()
+                                 << " in group " << groupConfig.name.value()
+                                 << " is not valid. Removed.";
+                    continue;
+                }
+                group.inputMethodList().emplace_back(
+                    std::move(InputMethodGroupItem(item.name.value())
+                                  .setLayout(item.layout.value())));
+            }
+
+            if (!group.inputMethodList().size()) {
+                FCITX_WARN() << "Group " << groupConfig.name.value()
+                             << " is empty. Removed.";
+                groups_.erase(groupConfig.name.value());
+                continue;
+            }
+            group.setDefaultInputMethod(groupConfig.defaultInputMethod.value());
+        }
+    }
+
+    if (groups_.size() == 0) {
+        FCITX_INFO() << "No valid input method group in configuration. "
+                     << "Building a default one";
+        groups_.clear();
+        buildDefaultGroup(buildDefaultGroupCallback);
+    } else {
+        if (imConfig.groupOrder.value().size()) {
+            setGroupOrder(imConfig.groupOrder.value());
+        } else {
+            setGroupOrder(tempOrder);
+        }
+    }
+}
+
+void InputMethodManagerPrivate::buildDefaultGroup(
+    const std::function<void(InputMethodGroup &)> &buildDefaultGroupCallback) {
+    std::string name = _("Default");
+    auto result = groups_.emplace(name, InputMethodGroup(name));
+    auto &group = result.first->second;
+    if (buildDefaultGroupCallback) {
+        buildDefaultGroupCallback(group);
+    } else {
+        group.inputMethodList().emplace_back(
+            InputMethodGroupItem("keyboard-us"));
+        group.setDefaultInputMethod("");
+        group.setDefaultLayout("us");
+    }
+    setGroupOrder({name});
+}
+
 InputMethodManager::InputMethodManager(AddonManager *addonManager)
     : d_ptr(std::make_unique<InputMethodManagerPrivate>(addonManager, this)) {}
 
 InputMethodManager::~InputMethodManager() {}
 
-void InputMethodManager::load() {
+void InputMethodManager::load() { load({}); }
+
+void InputMethodManager::load(
+    const std::function<void(InputMethodGroup &)> &buildDefaultGroupCallback) {
     FCITX_D();
     emit<InputMethodManager::CurrentGroupAboutToChange>(
         d->groupOrder_.empty() ? "" : d->groupOrder_.front());
@@ -113,84 +202,9 @@ void InputMethodManager::load() {
         }
     }
 
-    loadConfig();
+    d->loadConfig(buildDefaultGroupCallback);
     // groupOrder guarantee to be non-empty at this point.
     emit<InputMethodManager::CurrentGroupChanged>(d->groupOrder_.front());
-}
-
-void InputMethodManager::loadConfig() {
-    FCITX_D();
-    auto &path = StandardPath::global();
-    auto file = path.open(StandardPath::Type::PkgConfig, "profile", O_RDONLY);
-    RawConfig config;
-    if (file.fd() >= 0) {
-        readFromIni(config, file.fd());
-    }
-    InputMethodConfig imConfig;
-    imConfig.load(config);
-
-    d->groups_.clear();
-    std::vector<std::string> tempOrder;
-    if (imConfig.groups.value().size()) {
-        auto &groupsConfig = imConfig.groups.value();
-        for (auto &groupConfig : groupsConfig) {
-            // group must have a name
-            if (groupConfig.name.value().empty() ||
-                groupConfig.defaultLayout.value().empty()) {
-                continue;
-            }
-            auto result =
-                d->groups_.emplace(groupConfig.name.value(),
-                                   InputMethodGroup(groupConfig.name.value()));
-            tempOrder.push_back(groupConfig.name.value());
-            auto &group = result.first->second;
-            group.setDefaultLayout(groupConfig.defaultLayout.value());
-            auto &items = groupConfig.items.value();
-            for (auto &item : items) {
-                if (!d->entries_.count(item.name.value())) {
-                    FCITX_LOG(Warn) << "Group Item " << item.name.value()
-                                    << " in group " << groupConfig.name.value()
-                                    << " is not valid. Removed.";
-                    continue;
-                }
-                group.inputMethodList().emplace_back(
-                    std::move(InputMethodGroupItem(item.name.value())
-                                  .setLayout(item.layout.value())));
-            }
-
-            if (!group.inputMethodList().size()) {
-                FCITX_LOG(Warn) << "Group " << groupConfig.name.value()
-                                << " is empty. Removed.";
-                d->groups_.erase(groupConfig.name.value());
-                continue;
-            }
-            group.setDefaultInputMethod(groupConfig.defaultInputMethod.value());
-        }
-    }
-
-    if (d->groups_.size() == 0) {
-        FCITX_INFO() << "No valid input method group in configuration. "
-                     << "Building a default one";
-        buildDefaultGroup();
-    } else {
-        if (imConfig.groupOrder.value().size()) {
-            setGroupOrder(imConfig.groupOrder.value());
-        } else {
-            setGroupOrder(tempOrder);
-        }
-    }
-}
-
-void InputMethodManager::buildDefaultGroup() {
-    FCITX_D();
-    std::string name = _("Default");
-    auto result = d->groups_.emplace(name, InputMethodGroup(name));
-    auto &group = result.first->second;
-    // FIXME
-    group.inputMethodList().emplace_back(InputMethodGroupItem("keyboard-us"));
-    group.setDefaultInputMethod("");
-    group.setDefaultLayout("us");
-    setGroupOrder({name});
 }
 
 std::vector<std::string> InputMethodManager::groups() const {
@@ -258,23 +272,22 @@ void InputMethodManager::setGroup(InputMethodGroup newGroup) {
     }
 }
 
-void InputMethodManager::setGroupOrder(
+void InputMethodManagerPrivate::setGroupOrder(
     const std::vector<std::string> &groupOrder) {
-    FCITX_D();
-    d->groupOrder_.clear();
+    groupOrder_.clear();
     std::unordered_set<std::string> added;
     for (auto &groupName : groupOrder) {
-        if (d->groups_.count(groupName)) {
-            d->groupOrder_.push_back(groupName);
+        if (groups_.count(groupName)) {
+            groupOrder_.push_back(groupName);
             added.insert(groupName);
         }
     }
-    for (auto &p : d->groups_) {
+    for (auto &p : groups_) {
         if (!added.count(p.first)) {
-            d->groupOrder_.push_back(p.first);
+            groupOrder_.push_back(p.first);
         }
     }
-    assert(d->groupOrder_.size() == d->groups_.size());
+    assert(groupOrder_.size() == groups_.size());
 }
 
 void InputMethodManager::addEmptyGroup(const std::string &name) {

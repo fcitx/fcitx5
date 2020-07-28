@@ -11,6 +11,7 @@
 #include <sys/wait.h>
 #include <unistd.h>
 #include <stdexcept>
+#include <../modules/xcb/xcb_public.h>
 #include <fmt/format.h>
 #include <getopt.h>
 #include <xkbcommon/xkbcommon-compose.h>
@@ -1015,7 +1016,78 @@ void Instance::initialize() {
     if (d->exit_) {
         return;
     }
-    d->imManager_.load();
+    d->imManager_.load([this, d](InputMethodGroup &group) {
+        auto defaultGroup = defaultFocusGroup();
+        bool infoFound = false;
+        std::string layouts, variants;
+        auto guessLayout = [d, &layouts, &variants,
+                            &infoFound](FocusGroup *focusGroup) {
+            // For now we can only do this on X11.
+            if (!stringutils::startsWith(focusGroup->display(), "x11:")) {
+                return true;
+            }
+            std::string rule;
+            auto xcb = d->addonManager_.addon("xcb");
+            auto x11Name = focusGroup->display().substr(4);
+            if (xcb) {
+                auto rules = xcb->call<IXCBModule::xkbRulesNames>(x11Name);
+                if (!rules[2].empty()) {
+                    layouts = rules[2];
+                    variants = rules[3];
+                    infoFound = true;
+                    return false;
+                }
+            }
+            return true;
+        };
+        if (guessLayout(defaultGroup)) {
+            ;
+            d->icManager_.foreachGroup(
+                [defaultGroup, &guessLayout](FocusGroup *focusGroup) {
+                    if (defaultGroup == focusGroup) {
+                        return true;
+                    }
+                    return guessLayout(focusGroup);
+                });
+        }
+        if (!infoFound) {
+            layouts = "us";
+            variants = "";
+        }
+        constexpr char imNamePrefix[] = "keyboard-";
+        auto layoutTokens = stringutils::split(
+            layouts, ",", stringutils::SplitBehavior::KeepEmpty);
+        auto variantTokens = stringutils::split(
+            variants, ",", stringutils::SplitBehavior::KeepEmpty);
+        auto size = std::max(layoutTokens.size(), variantTokens.size());
+        layoutTokens.resize(size);
+        variantTokens.resize(size);
+        for (decltype(size) i = 0; i < size; i++) {
+            if (layoutTokens[i].empty()) {
+                continue;
+            }
+            std::string imName =
+                stringutils::concat(imNamePrefix, layoutTokens[i]);
+            if (!variantTokens[i].empty()) {
+                imName = stringutils::concat(imName, "-", variantTokens[i]);
+            }
+            auto entry = d->imManager_.entry(imName);
+            if (entry) {
+                group.inputMethodList().emplace_back(
+                    InputMethodGroupItem(imName));
+                FCITX_INFO() << "Default group item: " << imName;
+            }
+        }
+
+        if (group.inputMethodList().empty()) {
+            group.inputMethodList().emplace_back(
+                InputMethodGroupItem("keyboard-us"));
+            FCITX_INFO() << "Default group item: "
+                         << "keyboard-us";
+        }
+        group.setDefaultInputMethod("");
+        group.setDefaultLayout(group.inputMethodList()[0].name().substr(9));
+    });
     d->uiManager_.load(d->arg_.uiName);
 
     auto entry = d->imManager_.entry("keyboard-us");
