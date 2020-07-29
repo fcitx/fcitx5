@@ -5,7 +5,9 @@ if (WAYLAND_FOUND)
     set(CLASSICUI_WAYLAND_SRCS 
         waylandui.cpp waylandwindow.cpp waylandeglwindow.cpp waylandshmwindow.cpp
         waylandpointer.cpp buffer.cpp waylandinputwindow.cpp)
-    set(CLASSICUI_WAYLAND_LIBS Fcitx5::Module::Wayland Wayland::Client Fcitx5::Wayland::Core Fcitx5::Wayland::InputMethod)
+    set(CLASSICUI_WAYLAND_LIBS
+        Fcitx5::Module::Wayland Fcitx5::Module::WaylandIM Wayland::Client Fcitx5::Wayland::Core
+        Fcitx5::Wayland::InputMethod Fcitx5::Wayland::InputMethodV2)
 else()
     set(CLASSICUI_WAYLAND_SRCS)
     set(CLASSICUI_WAYLAND_LIBS)

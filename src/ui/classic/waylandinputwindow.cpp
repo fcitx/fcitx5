@@ -6,13 +6,17 @@
  */
 #include "waylandinputwindow.h"
 #include <linux/input-event-codes.h>
+#include "waylandim_public.h"
 #include "waylandui.h"
 #include "waylandwindow.h"
 #include "zwp_input_panel_v1.h"
+#include "zwp_input_popup_surface_v2.h"
 
-fcitx::classicui::WaylandInputWindow::WaylandInputWindow(WaylandUI *ui)
-    : fcitx::classicui::InputWindow(ui->parent()), ui_(ui),
-      window_(ui->newWindow()) {
+namespace fcitx {
+namespace classicui {
+
+WaylandInputWindow::WaylandInputWindow(WaylandUI *ui)
+    : InputWindow(ui->parent()), ui_(ui), window_(ui->newWindow()) {
     window_->createWindow();
     window_->repaint().connect([this]() {
         if (auto ic = repaintIC_.get()) {
@@ -60,7 +64,7 @@ fcitx::classicui::WaylandInputWindow::WaylandInputWindow(WaylandUI *ui)
     initPanel();
 }
 
-void fcitx::classicui::WaylandInputWindow::initPanel() {
+void WaylandInputWindow::initPanel() {
     if (panelSurface_) {
         return;
     }
@@ -73,12 +77,19 @@ void fcitx::classicui::WaylandInputWindow::initPanel() {
     panelSurface_->setOverlayPanel();
 }
 
-void fcitx::classicui::WaylandInputWindow::resetPanel() {
-    panelSurface_.reset();
-}
+void WaylandInputWindow::resetPanel() { panelSurface_.reset(); }
 
-void fcitx::classicui::WaylandInputWindow::update(fcitx::InputContext *ic) {
+void WaylandInputWindow::update(fcitx::InputContext *ic) {
     InputWindow::update(ic);
+    if (ic->frontend() == std::string_view("wayland_v2")) {
+        if (ic != v2IC_.get()) {
+            v2IC_ = ic->watch();
+            auto im = ui_->parent()
+                          ->waylandim()
+                          ->call<IWaylandIMModule::getInputMethodV2>(ic);
+            panelSurfaceV2_.reset(im->getInputPopupSurface(window_->surface()));
+        }
+    }
     if (!visible()) {
         window_->hide();
         return;
@@ -100,7 +111,7 @@ void fcitx::classicui::WaylandInputWindow::update(fcitx::InputContext *ic) {
     }
 }
 
-void fcitx::classicui::WaylandInputWindow::repaint() {
+void WaylandInputWindow::repaint() {
 
     if (auto surface = window_->prerender()) {
         cairo_t *c = cairo_create(surface);
@@ -109,3 +120,6 @@ void fcitx::classicui::WaylandInputWindow::repaint() {
         window_->render();
     }
 }
+
+} // namespace classicui
+} // namespace fcitx

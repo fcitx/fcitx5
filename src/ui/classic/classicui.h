@@ -85,8 +85,9 @@ public:
     ClassicUI(Instance *instance);
     ~ClassicUI();
 
-    AddonInstance *xcb();
-    AddonInstance *wayland();
+    FCITX_ADDON_DEPENDENCY_LOADER(xcb, instance_->addonManager());
+    FCITX_ADDON_DEPENDENCY_LOADER(wayland, instance_->addonManager());
+    FCITX_ADDON_DEPENDENCY_LOADER(waylandim, instance_->addonManager());
     Instance *instance() { return instance_; }
     const Configuration *getConfig() const override;
     void setConfig(const RawConfig &config) override {

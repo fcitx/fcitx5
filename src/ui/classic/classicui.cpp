@@ -17,6 +17,7 @@
 #include "notificationitem_public.h"
 #include "xcbui.h"
 #ifdef WAYLAND_FOUND
+#include <fcitx-utils/misc_p.h>
 #include "waylandui.h"
 #endif
 
@@ -81,16 +82,6 @@ void ClassicUI::reloadTheme() {
     RawConfig themeConfig;
     readFromIni(themeConfig, themeConfigFile.fd());
     theme_.load(*config_.theme, themeConfig);
-}
-
-AddonInstance *ClassicUI::xcb() {
-    auto &addonManager = instance_->addonManager();
-    return addonManager.addon("xcb");
-}
-
-AddonInstance *ClassicUI::wayland() {
-    auto &addonManager = instance_->addonManager();
-    return addonManager.addon("wayland");
 }
 
 void ClassicUI::suspend() {
@@ -233,12 +224,28 @@ void ClassicUI::resume() {
 
 void ClassicUI::update(UserInterfaceComponent component,
                        InputContext *inputContext) {
-    auto iter = uis_.find(inputContext->display());
-    if (iter == uis_.end()) {
-        return;
+    UIInterface *ui = nullptr;
+    if (stringutils::startsWith(inputContext->display(), "wayland:") &&
+        !stringutils::startsWith(inputContext->frontend(), "wayland")) {
+        // If display is wayland, but frontend is not, then we can only do X11
+        // for now, though position is wrong. We don't know which is xwayland
+        // unfortunately, hopefully main display is X wayland.
+        // The position will be wrong anyway.
+        auto mainX11Display = xcb()->call<IXCBModule::mainDisplay>();
+        if (!mainX11Display.empty()) {
+            if (auto uiPtr = findValue(uis_, "x11:" + mainX11Display)) {
+                ui = uiPtr->get();
+            }
+        }
+    } else {
+        if (auto uiPtr = findValue(uis_, inputContext->display())) {
+            ui = uiPtr->get();
+        }
     }
-    auto ui = iter->second.get();
-    ui->update(component, inputContext);
+
+    if (ui) {
+        ui->update(component, inputContext);
+    }
 }
 
 class ClassicUIFactory : public AddonFactory {

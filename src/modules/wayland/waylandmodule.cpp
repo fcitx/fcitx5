@@ -46,14 +46,14 @@ void WaylandConnection::onIOEvent(IOEventFlags flags) {
         wl_display_read_events(*display_);
     }
 
-    if (wl_display_dispatch_pending(*display_) < 0) {
+    if (wl_display_dispatch(*display_) < 0) {
         error_ = wl_display_get_error(*display_);
+        FCITX_LOG_IF(Error, error_ != 0)
+            << "Wayland connection got error: " << error_;
         if (error_ != 0) {
             return finish();
         }
     }
-
-    display_->flush();
 }
 
 WaylandModule::WaylandModule(fcitx::Instance *instance) : instance_(instance) {

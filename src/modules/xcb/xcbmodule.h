@@ -37,6 +37,7 @@ public:
 
     void openConnection(const std::string &name);
     void removeConnection(std::string name);
+    std::string mainDisplay() { return mainDisplay_; }
     const XCBConfig &config() const { return config_; }
     Instance *instance() { return instance_; }
 
@@ -89,6 +90,7 @@ private:
     FCITX_ADDON_EXPORT_FUNCTION(XCBModule, convertSelection);
     FCITX_ADDON_EXPORT_FUNCTION(XCBModule, atom);
     FCITX_ADDON_EXPORT_FUNCTION(XCBModule, ewmh);
+    FCITX_ADDON_EXPORT_FUNCTION(XCBModule, mainDisplay);
 };
 
 FCITX_DECLARE_LOG_CATEGORY(xcb_log);
