@@ -1061,6 +1061,8 @@ void Instance::initialize() {
         auto size = std::max(layoutTokens.size(), variantTokens.size());
         layoutTokens.resize(size);
         variantTokens.resize(size);
+
+        std::unordered_set<std::string> added;
         for (decltype(size) i = 0; i < size; i++) {
             if (layoutTokens[i].empty()) {
                 continue;
@@ -1070,6 +1072,12 @@ void Instance::initialize() {
             if (!variantTokens[i].empty()) {
                 imName = stringutils::concat(imName, "-", variantTokens[i]);
             }
+
+            // Avoid add duplicate entry. layout might have weird duplicate.
+            if (added.count(imName)) {
+                continue;
+            }
+            added.insert(imName);
             auto entry = d->imManager_.entry(imName);
             if (entry) {
                 group.inputMethodList().emplace_back(
