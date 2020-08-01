@@ -38,7 +38,15 @@
 
 FCITX_DEFINE_LOG_CATEGORY(keyTrace, "key_trace");
 
+namespace fcitx {
+
 namespace {
+
+FCITX_CONFIGURATION(DefaultInputMethod,
+                    Option<std::vector<std::string>> defaultInputMethods{
+                        this, "DefaultInputMethod", "DefaultInputMethod"};
+                    Option<std::vector<std::string>> extraLayouts{
+                        this, "ExtraLayout", "ExtraLayout"};);
 
 void initAsDaemon() {
     pid_t pid;
@@ -67,9 +75,30 @@ void initAsDaemon() {
     signal(SIGTTIN, oldttin);
     signal(SIGCHLD, oldchld);
 }
-} // namespace
 
-namespace fcitx {
+std::string getCurrentLanguage() {
+    for (const char *vars : {"LC_ALL", "LC_MESSAGES", "LANG"}) {
+        auto lang = getenv(vars);
+        if (lang && lang[0]) {
+            return lang;
+        }
+    }
+    return "";
+}
+
+std::string stripLanguage(const std::string &lc) {
+    auto lang = stringutils::trim(lc);
+    auto idx = lang.find(".");
+    lang = lang.substr(0, idx);
+    idx = lc.find("@");
+    lang = lang.substr(0, idx);
+    if (lang.empty()) {
+        return "C";
+    }
+    return lang;
+}
+
+} // namespace
 
 class CheckInputMethodChanged;
 
@@ -254,6 +283,8 @@ public:
         return {enabled, disabled};
     }
 
+    void buildDefaultGroup();
+
     InstanceArgument arg_;
 
     int signalPipe_ = -1;
@@ -405,6 +436,134 @@ CheckInputMethodChanged::~CheckInputMethodChanged() {
         instance_->postEvent(
             InputContextSwitchInputMethodEvent(reason_, inputMethod_, ic));
     }
+}
+
+void InstancePrivate::buildDefaultGroup() {
+    /// Figure out XKB layout information from system.
+    auto defaultGroup = q_func()->defaultFocusGroup();
+    bool infoFound = false;
+    std::string layouts, variants;
+    auto guessLayout = [this, &layouts, &variants,
+                        &infoFound](FocusGroup *focusGroup) {
+        // For now we can only do this on X11.
+        if (!stringutils::startsWith(focusGroup->display(), "x11:")) {
+            return true;
+        }
+        std::string rule;
+        auto xcb = addonManager_.addon("xcb");
+        auto x11Name = focusGroup->display().substr(4);
+        if (xcb) {
+            auto rules = xcb->call<IXCBModule::xkbRulesNames>(x11Name);
+            if (!rules[2].empty()) {
+                layouts = rules[2];
+                variants = rules[3];
+                infoFound = true;
+                return false;
+            }
+        }
+        return true;
+    };
+    if (!defaultGroup || guessLayout(defaultGroup)) {
+        icManager_.foreachGroup(
+            [defaultGroup, &guessLayout](FocusGroup *focusGroup) {
+                if (defaultGroup == focusGroup) {
+                    return true;
+                }
+                return guessLayout(focusGroup);
+            });
+    }
+    if (!infoFound) {
+        layouts = "us";
+        variants = "";
+    }
+
+    // layouts and variants are comma separated list for layout information.
+    constexpr char imNamePrefix[] = "keyboard-";
+    auto layoutTokens =
+        stringutils::split(layouts, ",", stringutils::SplitBehavior::KeepEmpty);
+    auto variantTokens = stringutils::split(
+        variants, ",", stringutils::SplitBehavior::KeepEmpty);
+    auto size = std::max(layoutTokens.size(), variantTokens.size());
+    // Make sure we have token to be the same size.
+    layoutTokens.resize(size);
+    variantTokens.resize(size);
+
+    OrderedSet<std::string> imLayouts;
+    for (decltype(size) i = 0; i < size; i++) {
+        if (layoutTokens[i].empty()) {
+            continue;
+        }
+        std::string layoutName = layoutTokens[i];
+        if (!variantTokens[i].empty()) {
+            layoutName = stringutils::concat(layoutName, "-", variantTokens[i]);
+        }
+
+        // Skip the layout if we don't have it.
+        if (!imManager_.entry(stringutils::concat(imNamePrefix, layoutName))) {
+            continue;
+        }
+        // Avoid add duplicate entry. layout might have weird duplicate.
+        imLayouts.pushBack(layoutName);
+    }
+
+    // Load the default profile.
+    auto lang = stripLanguage(getCurrentLanguage());
+    auto defaultProfile = StandardPath::global().open(
+        StandardPath::Type::PkgData, stringutils::joinPath("default", lang),
+        O_RDONLY);
+
+    RawConfig config;
+    DefaultInputMethod defaultIMConfig;
+    readFromIni(config, defaultProfile.fd());
+    defaultIMConfig.load(config);
+
+    // Add extra layout from profile.
+    for (const auto &extraLayout : defaultIMConfig.extraLayouts.value()) {
+        if (!imManager_.entry(stringutils::concat(imNamePrefix, extraLayout))) {
+            continue;
+        }
+        imLayouts.pushBack(extraLayout);
+    }
+
+    // Make sure imLayouts is not empty.
+    if (imLayouts.empty()) {
+        imLayouts.pushBack("us");
+    }
+
+    // Figure out the first available default input method.
+    std::string defaultIM;
+    for (const auto &im : defaultIMConfig.defaultInputMethods.value()) {
+        if (imManager_.entry(im)) {
+            defaultIM = im;
+            break;
+        }
+    }
+
+    // Create a group for each layout.
+    std::vector<std::string> groupOrders;
+    for (const auto &imLayout : imLayouts) {
+        std::string groupName;
+        if (imLayouts.size() == 1) {
+            groupName = _("Default");
+        } else {
+            groupName = fmt::format(_("Group {}"), imManager_.groupCount() + 1);
+        }
+        imManager_.addEmptyGroup(groupName);
+        groupOrders.push_back(groupName);
+        InputMethodGroup group(groupName);
+        group.inputMethodList().emplace_back(
+            InputMethodGroupItem(stringutils::concat(imNamePrefix, imLayout)));
+        if (!defaultIM.empty()) {
+            group.inputMethodList().emplace_back(
+                InputMethodGroupItem(defaultIM));
+        }
+        FCITX_INFO() << "Items in " << groupName << ": "
+                     << group.inputMethodList();
+        group.setDefaultLayout(imLayout);
+        imManager_.setGroup(std::move(group));
+    }
+    FCITX_INFO() << "Generated groups: " << groupOrders;
+    imManager_.setGroupOrder(groupOrders);
 }
 
 Instance::Instance(int argc, char **argv) {
@@ -1016,85 +1175,7 @@ void Instance::initialize() {
     if (d->exit_) {
         return;
     }
-    d->imManager_.load([this, d](InputMethodGroup &group) {
-        auto defaultGroup = defaultFocusGroup();
-        bool infoFound = false;
-        std::string layouts, variants;
-        auto guessLayout = [d, &layouts, &variants,
-                            &infoFound](FocusGroup *focusGroup) {
-            // For now we can only do this on X11.
-            if (!stringutils::startsWith(focusGroup->display(), "x11:")) {
-                return true;
-            }
-            std::string rule;
-            auto xcb = d->addonManager_.addon("xcb");
-            auto x11Name = focusGroup->display().substr(4);
-            if (xcb) {
-                auto rules = xcb->call<IXCBModule::xkbRulesNames>(x11Name);
-                if (!rules[2].empty()) {
-                    layouts = rules[2];
-                    variants = rules[3];
-                    infoFound = true;
-                    return false;
-                }
-            }
-            return true;
-        };
-        if (!defaultGroup || guessLayout(defaultGroup)) {
-            d->icManager_.foreachGroup(
-                [defaultGroup, &guessLayout](FocusGroup *focusGroup) {
-                    if (defaultGroup == focusGroup) {
-                        return true;
-                    }
-                    return guessLayout(focusGroup);
-                });
-        }
-        if (!infoFound) {
-            layouts = "us";
-            variants = "";
-        }
-        constexpr char imNamePrefix[] = "keyboard-";
-        auto layoutTokens = stringutils::split(
-            layouts, ",", stringutils::SplitBehavior::KeepEmpty);
-        auto variantTokens = stringutils::split(
-            variants, ",", stringutils::SplitBehavior::KeepEmpty);
-        auto size = std::max(layoutTokens.size(), variantTokens.size());
-        layoutTokens.resize(size);
-        variantTokens.resize(size);
-
-        std::unordered_set<std::string> added;
-        for (decltype(size) i = 0; i < size; i++) {
-            if (layoutTokens[i].empty()) {
-                continue;
-            }
-            std::string imName =
-                stringutils::concat(imNamePrefix, layoutTokens[i]);
-            if (!variantTokens[i].empty()) {
-                imName = stringutils::concat(imName, "-", variantTokens[i]);
-            }
-
-            // Avoid add duplicate entry. layout might have weird duplicate.
-            if (added.count(imName)) {
-                continue;
-            }
-            added.insert(imName);
-            auto entry = d->imManager_.entry(imName);
-            if (entry) {
-                group.inputMethodList().emplace_back(
-                    InputMethodGroupItem(imName));
-                FCITX_INFO() << "Default group item: " << imName;
-            }
-        }
-
-        if (group.inputMethodList().empty()) {
-            group.inputMethodList().emplace_back(
-                InputMethodGroupItem("keyboard-us"));
-            FCITX_INFO() << "Default group item: "
-                         << "keyboard-us";
-        }
-        group.setDefaultInputMethod("");
-        group.setDefaultLayout(group.inputMethodList()[0].name().substr(9));
-    });
+    d->imManager_.load([d](InputMethodManager &) { d->buildDefaultGroup(); });
     d->uiManager_.load(d->arg_.uiName);
 
     auto entry = d->imManager_.entry("keyboard-us");
@@ -1396,7 +1477,10 @@ void Instance::reloadConfig() {
         d->globalConfig_.shareInputState());
 }
 
-void Instance::resetInputMethodList() {}
+void Instance::resetInputMethodList() {
+    FCITX_D();
+    d->imManager_.reset([d](InputMethodManager &) { d->buildDefaultGroup(); });
+}
 
 void Instance::restart() {
     FCITX_D();

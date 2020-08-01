@@ -29,8 +29,10 @@ public:
     virtual ~InputMethodManager();
 
     void load();
-    void load(const std::function<void(InputMethodGroup &)>
+    void load(const std::function<void(InputMethodManager &)>
                   &buildDefaultGroupCallback);
+    void reset(const std::function<void(InputMethodManager &)>
+                   &buildDefaultGroupCallback);
     void save();
 
     std::vector<std::string> groups() const;
@@ -42,6 +44,8 @@ public:
     void setGroup(InputMethodGroup newGroup);
     void addEmptyGroup(const std::string &name);
     void removeGroup(const std::string &name);
+
+    void setGroupOrder(const std::vector<std::string> &groups);
 
     const InputMethodEntry *entry(const std::string &name) const;
     bool foreachEntries(

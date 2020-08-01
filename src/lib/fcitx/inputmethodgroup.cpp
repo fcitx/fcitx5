@@ -49,6 +49,13 @@ const std::string &InputMethodGroupItem::layout() const {
     return d->layout_;
 }
 
+LogMessageBuilder &operator<<(LogMessageBuilder &builder,
+                              const InputMethodGroupItem &groupItem) {
+    builder << "InputMethodGroupItem(" << groupItem.name()
+            << ",layout=" << groupItem.layout() << ")";
+    return builder;
+}
+
 InputMethodGroupItem &
 InputMethodGroupItem::setLayout(const std::string &layout) {
     FCITX_D();

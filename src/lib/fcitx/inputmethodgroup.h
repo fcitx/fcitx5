@@ -11,6 +11,7 @@
 #include <memory>
 #include <string>
 #include <vector>
+#include <fcitx-utils/log.h>
 #include <fcitx-utils/macros.h>
 #include "fcitxcore_export.h"
 
@@ -31,6 +32,9 @@ public:
     std::unique_ptr<InputMethodGroupItemPrivate> d_ptr;
     FCITX_DECLARE_PRIVATE(InputMethodGroupItem);
 };
+
+LogMessageBuilder &operator<<(LogMessageBuilder &builder,
+                              const InputMethodGroupItem &groupItem);
 
 class FCITXCORE_EXPORT InputMethodGroup {
 public:

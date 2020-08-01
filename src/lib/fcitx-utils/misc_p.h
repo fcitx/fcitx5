@@ -49,6 +49,15 @@ public:
         return true;
     }
 
+    bool pushBack(const T &v) {
+        if (dict_.count(v)) {
+            return false;
+        }
+        order_.emplace_back(v);
+        dict_.insert(std::make_pair(v, std::prev(order_.end())));
+        return true;
+    }
+
     void moveToTop(const T &v) {
         auto iter = dict_.find(v);
         if (iter == dict_.end()) {
