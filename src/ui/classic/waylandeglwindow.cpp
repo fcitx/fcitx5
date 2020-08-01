@@ -16,8 +16,7 @@
 namespace fcitx {
 namespace classicui {
 WaylandEGLWindow::WaylandEGLWindow(WaylandUI *ui)
-    : WaylandWindow(ui), window_(nullptr, &wl_egl_window_destroy),
-      cairoSurface_(nullptr, &cairo_surface_destroy) {}
+    : WaylandWindow(ui), window_(nullptr), cairoSurface_(nullptr) {}
 
 WaylandEGLWindow::~WaylandEGLWindow() { destroyWindow(); }
 
