@@ -6,15 +6,15 @@
 # csslayer <wengxt@gmail.com>, 2017
 # Bon Keun Seo <scobyseo@gmail.com>, 2017
 # heavyuser <heavyuser73@gmail.com>, 2020
-# MarongHappy <daemul72@gmail.com>, 2020
+# JungHee Lee <daemul72@gmail.com>, 2020
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2020-06-15 00:01-0700\n"
+"POT-Creation-Date: 2020-07-31 22:54-0700\n"
 "PO-Revision-Date: 2017-11-23 04:14+0000\n"
-"Last-Translator: MarongHappy <daemul72@gmail.com>, 2020\n"
+"Last-Translator: JungHee Lee <daemul72@gmail.com>, 2020\n"
 "Language-Team: Korean (https://www.transifex.com/fcitx/teams/12005/ko/)\n"
 "Language: ko\n"
 "MIME-Version: 1.0\n"
@@ -22,7 +22,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
-#: src/lib/fcitx/instance.cpp:1712
+#: src/lib/fcitx/instance.cpp:1863
 msgid "(Not available)"
 msgstr "(사용할 수 없음)"
 
@@ -280,7 +280,7 @@ msgstr "DOS"
 msgid "Deactivate Input Method"
 msgstr "입력기 비활성화"
 
-#: src/lib/fcitx/inputmethodmanager.cpp:187
+#: src/lib/fcitx/instance.cpp:547 src/lib/fcitx/inputmethodmanager.cpp:132
 #: src/ui/classic/themes/default/theme.conf.in:3
 msgid "Default"
 msgstr "기본값"
@@ -456,9 +456,13 @@ msgstr "녹색"
 msgid "Group"
 msgstr "그룹"
 
-#: src/lib/fcitx/instance.cpp:1715
+#: src/lib/fcitx/instance.cpp:1866
 msgid "Group {0}: {1}"
 msgstr "그룹 {0}: {1}"
+
+#: src/lib/fcitx/instance.cpp:549
+msgid "Group {}"
+msgstr ""
 
 #: src/lib/fcitx-utils/key.cpp:216
 msgctxt "Key name"
@@ -582,10 +586,10 @@ msgstr "단축키"
 msgid "IBus Frontend"
 msgstr "IBus 전처리기"
 
-#: src/lib/fcitx/instance.cpp:470 src/im/keyboard/keyboard.cpp:357
-#: src/ui/classic/xcbtraywindow.cpp:39 src/modules/xcb/xcbconnection.cpp:387
+#: src/ui/classic/xcbtraywindow.cpp:39 src/im/keyboard/keyboard.cpp:357
 #: src/modules/notificationitem/dbusmenu.cpp:241
 #: src/modules/notificationitem/notificationitem.cpp:90
+#: src/modules/xcb/xcbconnection.cpp:385 src/lib/fcitx/instance.cpp:618
 #: data/fcitx5.desktop.in.in:4
 msgid "Input Method"
 msgstr "입력기"
@@ -1220,15 +1224,15 @@ msgctxt "Key name"
 msgid "Suspend"
 msgstr "중단"
 
-#: src/lib/fcitx/instance.cpp:471 src/modules/xcb/xcbconnection.cpp:388
+#: src/modules/xcb/xcbconnection.cpp:386 src/lib/fcitx/instance.cpp:619
 msgid "Switch group"
 msgstr "그룹 전환"
 
-#: src/modules/xcb/xcbconnection.cpp:389
+#: src/modules/xcb/xcbconnection.cpp:387
 msgid "Switch group to {0}"
 msgstr "{0}(으)로 그룹 전환"
 
-#: src/lib/fcitx/instance.cpp:472
+#: src/lib/fcitx/instance.cpp:620
 msgid "Switched group to {0}"
 msgstr "{0}(으)로 그룹 전환됨"
 
@@ -1465,10 +1469,10 @@ msgstr "iTouch"
 msgid "{0} (Not Available)"
 msgstr "{0} (사용할 수 없음)"
 
-#: src/lib/fcitx/instance.cpp:1710
+#: src/lib/fcitx/instance.cpp:1861
 msgid "{0} (Not available)"
 msgstr "{0} (사용할 수 없음)"
 
-#: src/lib/fcitx/instance.cpp:1707
+#: src/lib/fcitx/instance.cpp:1858
 msgid "{0} ({1})"
 msgstr "{0} ({1})"

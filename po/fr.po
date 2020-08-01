@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2020-06-10 00:00-0700\n"
+"POT-Creation-Date: 2020-07-31 22:50-0700\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Language-Team: French (https://www.transifex.com/fcitx/teams/12005/fr/)\n"
 "Language: fr\n"
@@ -15,7 +15,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
-#: src/lib/fcitx/instance.cpp:1712
+#: src/lib/fcitx/instance.cpp:1863
 msgid "(Not available)"
 msgstr ""
 
@@ -273,7 +273,7 @@ msgstr ""
 msgid "Deactivate Input Method"
 msgstr ""
 
-#: src/lib/fcitx/inputmethodmanager.cpp:187
+#: src/lib/fcitx/instance.cpp:547 src/lib/fcitx/inputmethodmanager.cpp:132
 #: src/ui/classic/themes/default/theme.conf.in:3
 msgid "Default"
 msgstr ""
@@ -449,8 +449,12 @@ msgstr ""
 msgid "Group"
 msgstr ""
 
-#: src/lib/fcitx/instance.cpp:1715
+#: src/lib/fcitx/instance.cpp:1866
 msgid "Group {0}: {1}"
+msgstr ""
+
+#: src/lib/fcitx/instance.cpp:549
+msgid "Group {}"
 msgstr ""
 
 #: src/lib/fcitx-utils/key.cpp:216
@@ -575,10 +579,10 @@ msgstr ""
 msgid "IBus Frontend"
 msgstr ""
 
-#: src/lib/fcitx/instance.cpp:470 src/im/keyboard/keyboard.cpp:357
-#: src/ui/classic/xcbtraywindow.cpp:39 src/modules/xcb/xcbconnection.cpp:387
+#: src/ui/classic/xcbtraywindow.cpp:39 src/im/keyboard/keyboard.cpp:357
 #: src/modules/notificationitem/dbusmenu.cpp:241
 #: src/modules/notificationitem/notificationitem.cpp:90
+#: src/modules/xcb/xcbconnection.cpp:385 src/lib/fcitx/instance.cpp:618
 #: data/fcitx5.desktop.in.in:4
 msgid "Input Method"
 msgstr ""
@@ -1211,15 +1215,15 @@ msgctxt "Key name"
 msgid "Suspend"
 msgstr ""
 
-#: src/lib/fcitx/instance.cpp:471 src/modules/xcb/xcbconnection.cpp:388
+#: src/modules/xcb/xcbconnection.cpp:386 src/lib/fcitx/instance.cpp:619
 msgid "Switch group"
 msgstr ""
 
-#: src/modules/xcb/xcbconnection.cpp:389
+#: src/modules/xcb/xcbconnection.cpp:387
 msgid "Switch group to {0}"
 msgstr ""
 
-#: src/lib/fcitx/instance.cpp:472
+#: src/lib/fcitx/instance.cpp:620
 msgid "Switched group to {0}"
 msgstr ""
 
@@ -1451,10 +1455,10 @@ msgstr ""
 msgid "{0} (Not Available)"
 msgstr ""
 
-#: src/lib/fcitx/instance.cpp:1710
+#: src/lib/fcitx/instance.cpp:1861
 msgid "{0} (Not available)"
 msgstr ""
 
-#: src/lib/fcitx/instance.cpp:1707
+#: src/lib/fcitx/instance.cpp:1858
 msgid "{0} ({1})"
 msgstr ""

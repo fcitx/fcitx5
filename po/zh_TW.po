@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2020-06-10 00:01-0700\n"
+"POT-Creation-Date: 2020-07-31 22:54-0700\n"
 "PO-Revision-Date: 2017-11-23 04:14+0000\n"
 "Last-Translator: byStarTW (pan93412) <pan93412@gmail.com>, 2019\n"
 "Language-Team: Chinese (Taiwan) (https://www.transifex.com/fcitx/teams/12005/"
@@ -22,7 +22,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
-#: src/lib/fcitx/instance.cpp:1712
+#: src/lib/fcitx/instance.cpp:1863
 msgid "(Not available)"
 msgstr "（無法使用）"
 
@@ -280,7 +280,7 @@ msgstr "DOS"
 msgid "Deactivate Input Method"
 msgstr "停用輸入法"
 
-#: src/lib/fcitx/inputmethodmanager.cpp:187
+#: src/lib/fcitx/instance.cpp:547 src/lib/fcitx/inputmethodmanager.cpp:132
 #: src/ui/classic/themes/default/theme.conf.in:3
 msgid "Default"
 msgstr "預設"
@@ -456,9 +456,13 @@ msgstr "綠色"
 msgid "Group"
 msgstr "群組"
 
-#: src/lib/fcitx/instance.cpp:1715
+#: src/lib/fcitx/instance.cpp:1866
 msgid "Group {0}: {1}"
 msgstr "群組 {0}：{1}"
+
+#: src/lib/fcitx/instance.cpp:549
+msgid "Group {}"
+msgstr ""
 
 #: src/lib/fcitx-utils/key.cpp:216
 msgctxt "Key name"
@@ -582,10 +586,10 @@ msgstr "快捷鍵"
 msgid "IBus Frontend"
 msgstr "IBus 前端"
 
-#: src/lib/fcitx/instance.cpp:470 src/im/keyboard/keyboard.cpp:357
-#: src/ui/classic/xcbtraywindow.cpp:39 src/modules/xcb/xcbconnection.cpp:387
+#: src/ui/classic/xcbtraywindow.cpp:39 src/im/keyboard/keyboard.cpp:357
 #: src/modules/notificationitem/dbusmenu.cpp:241
 #: src/modules/notificationitem/notificationitem.cpp:90
+#: src/modules/xcb/xcbconnection.cpp:385 src/lib/fcitx/instance.cpp:618
 #: data/fcitx5.desktop.in.in:4
 msgid "Input Method"
 msgstr "輸入法"
@@ -1218,15 +1222,15 @@ msgctxt "Key name"
 msgid "Suspend"
 msgstr "暫停"
 
-#: src/lib/fcitx/instance.cpp:471 src/modules/xcb/xcbconnection.cpp:388
+#: src/modules/xcb/xcbconnection.cpp:386 src/lib/fcitx/instance.cpp:619
 msgid "Switch group"
 msgstr ""
 
-#: src/modules/xcb/xcbconnection.cpp:389
+#: src/modules/xcb/xcbconnection.cpp:387
 msgid "Switch group to {0}"
 msgstr ""
 
-#: src/lib/fcitx/instance.cpp:472
+#: src/lib/fcitx/instance.cpp:620
 msgid "Switched group to {0}"
 msgstr ""
 
@@ -1458,10 +1462,10 @@ msgstr "iTouch"
 msgid "{0} (Not Available)"
 msgstr "{0} (無法使用)"
 
-#: src/lib/fcitx/instance.cpp:1710
+#: src/lib/fcitx/instance.cpp:1861
 msgid "{0} (Not available)"
 msgstr "{0}（不可用）"
 
-#: src/lib/fcitx/instance.cpp:1707
+#: src/lib/fcitx/instance.cpp:1858
 msgid "{0} ({1})"
 msgstr "{0} ({1})"
