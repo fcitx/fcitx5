@@ -116,10 +116,10 @@ function(fcitx5_translate_desktop_file SRC DEST)
   get_filename_component(SRC_BASE ${SRC} NAME)
 
   set(KEYWORD_ARGS)
-  if (NOT PO_DIRECTORY)
-    set(PO_DIRECTORY "${PROJECT_SOURCE_DIR}/po")
+  if (NOT FCITX5_TRANSLATE_PO_DIRECTORY)
+    set(FCITX5_TRANSLATE_PO_DIRECTORY "${PROJECT_SOURCE_DIR}/po")
   endif()
-  file(GLOB PO_FILES "${PO_DIRECTORY}/*.po")
+  file(GLOB PO_FILES "${FCITX5_TRANSLATE_PO_DIRECTORY}/*.po")
 
   if (FCITX5_TRANSLATE_KEYWORDS)
     list(APPEND KEYWORD_ARGS "--keyword=")
@@ -129,7 +129,7 @@ function(fcitx5_translate_desktop_file SRC DEST)
   endif()
 
   add_custom_command(OUTPUT "${DEST}"
-    COMMAND "${GETTEXT_MSGFMT_EXECUTABLE}" --desktop -d ${PO_DIRECTORY}
+    COMMAND "${GETTEXT_MSGFMT_EXECUTABLE}" --desktop -d ${FCITX5_TRANSLATE_PO_DIRECTORY}
             ${KEYWORD_ARGS} --template "${SRC}" -o "${DEST}"
     DEPENDS "${SRC}" ${PO_FILES})
   _fcitx5_get_unique_target_name("${SRC_BASE}-fmt" uniqueTargetName)
