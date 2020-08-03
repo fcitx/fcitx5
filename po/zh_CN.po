@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2020-07-31 22:54-0700\n"
+"POT-Creation-Date: 2020-08-03 00:01-0700\n"
 "PO-Revision-Date: 2017-11-23 04:14+0000\n"
 "Last-Translator: csslayer <wengxt@gmail.com>, 2020\n"
 "Language-Team: Chinese (China) (https://www.transifex.com/fcitx/teams/12005/"
@@ -461,7 +461,7 @@ msgstr "分组 {0}：{1}"
 
 #: src/lib/fcitx/instance.cpp:549
 msgid "Group {}"
-msgstr ""
+msgstr "分组 {}"
 
 #: src/lib/fcitx-utils/key.cpp:216
 msgctxt "Key name"
@@ -585,10 +585,10 @@ msgstr "快捷键"
 msgid "IBus Frontend"
 msgstr "IBus 前端"
 
-#: src/ui/classic/xcbtraywindow.cpp:39 src/im/keyboard/keyboard.cpp:357
+#: src/lib/fcitx/instance.cpp:618 src/im/keyboard/keyboard.cpp:357
+#: src/ui/classic/xcbtraywindow.cpp:39 src/modules/xcb/xcbconnection.cpp:385
 #: src/modules/notificationitem/dbusmenu.cpp:241
 #: src/modules/notificationitem/notificationitem.cpp:90
-#: src/modules/xcb/xcbconnection.cpp:385 src/lib/fcitx/instance.cpp:618
 #: data/fcitx5.desktop.in.in:4
 msgid "Input Method"
 msgstr "输入法"
@@ -1222,7 +1222,7 @@ msgctxt "Key name"
 msgid "Suspend"
 msgstr "睡眠"
 
-#: src/modules/xcb/xcbconnection.cpp:386 src/lib/fcitx/instance.cpp:619
+#: src/lib/fcitx/instance.cpp:619 src/modules/xcb/xcbconnection.cpp:386
 msgid "Switch group"
 msgstr "切换分组"
 
