@@ -360,7 +360,7 @@ Key Key::normalize() const {
             key.sym_ = static_cast<KeySym>(key.sym_ + FcitxKey_A - FcitxKey_a);
         }
         /*
-         * alt shift 1 shoud be alt + !
+         * alt shift 1 should be alt + !
          * shift+s should be S
          */
 
