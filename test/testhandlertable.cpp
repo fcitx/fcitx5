@@ -21,7 +21,7 @@ int main() {
         entry = table.add([]() {});
         FCITX_ASSERT(table.size() == 1);
         entry.reset();
-        FCITX_ASSERT(table.size() == 0);
+        FCITX_ASSERT(table.empty());
 
         entry = table.add([]() {});
         std::unique_ptr<HandlerTableEntry<Callback>> entries[] = {
@@ -29,7 +29,7 @@ int main() {
                 table.add([&entries]() {
                     // entries is member of lambda, and it will be gone if it's
                     // deleted
-                    auto e = entries;
+                    auto *e = entries;
                     for (int i = 0; i < 5; i++) {
                         e[i].reset(nullptr);
                     }
@@ -67,7 +67,7 @@ int main() {
         entry = table2.add("ABC", []() {});
         FCITX_ASSERT(keys == decltype(keys){"ABC"});
         entry.reset();
-        FCITX_ASSERT(keys == decltype(keys){});
+        FCITX_ASSERT(keys.empty());
         std::unique_ptr<HandlerTableEntry<Callback>> entries[] = {
             std::unique_ptr<HandlerTableEntry<Callback>>(
                 table2.add("ABC", []() {})),

@@ -7,6 +7,7 @@
 #include "rawconfig.h"
 #include <list>
 #include <unordered_map>
+#include <utility>
 #include "fcitx-utils/stringutils.h"
 
 namespace fcitx {
@@ -38,7 +39,7 @@ public:
     OrderedMap(const OrderedMap &other) : order_(other.order_) { fillMap(); }
 
     /// Move constructor.
-    OrderedMap(OrderedMap &&other) { operator=(std::move(other)); }
+    OrderedMap(OrderedMap &&other) noexcept { operator=(std::move(other)); }
 
     OrderedMap(std::initializer_list<value_type> l) : order_(l) { fillMap(); }
 
@@ -55,7 +56,7 @@ public:
     }
 
     /// Move assignment operator.
-    OrderedMap &operator=(OrderedMap &&other) {
+    OrderedMap &operator=(OrderedMap &&other) noexcept {
         using std::swap;
         swap(order_, other.order_);
         swap(map_, other.map_);
@@ -87,11 +88,10 @@ public:
         auto mapResult = map_.emplace(iter->first, iter);
         if (mapResult.second) {
             return {iter, true};
-        } else {
-            order_.erase(iter);
-            iter = mapResult.first->second;
-            return {iter, false};
         }
+        order_.erase(iter);
+        iter = mapResult.first->second;
+        return {iter, false};
     }
 
     std::pair<iterator, bool> insert(const value_type &v) { return emplace(v); }
@@ -143,20 +143,18 @@ public:
         auto iter = find(k);
         if (iter != end()) {
             return iter->second;
-        } else {
-            auto result = emplace(k, mapped_type());
-            return result.first->second;
         }
+        auto result = emplace(k, mapped_type());
+        return result.first->second;
     }
 
     mapped_type &operator[](key_type &&k) {
         auto iter = find(k);
         if (iter != end()) {
             return iter->second;
-        } else {
-            auto result = emplace(std::move(k), value_type());
-            return result.first->second;
         }
+        auto result = emplace(std::move(k), value_type());
+        return result.first->second;
     }
 
 private:
@@ -171,12 +169,15 @@ private:
 class RawConfigPrivate : public QPtrHolder<RawConfig> {
 public:
     RawConfigPrivate(RawConfig *q, std::string _name)
-        : QPtrHolder(q), name_(_name), lineNumber_(0) {}
+        : QPtrHolder(q), name_(std::move(_name)), lineNumber_(0) {}
     RawConfigPrivate(RawConfig *q, const RawConfigPrivate &other)
         : QPtrHolder(q), value_(other.value_), comment_(other.comment_),
           lineNumber_(other.lineNumber_) {}
 
     RawConfigPrivate &operator=(const RawConfigPrivate &other) {
+        if (&other == this) {
+            return *this;
+        }
         // There is no need to copy "name_", because name refers to its parent.
         // Make a copy of value, comment, and lineNumber, because this "other"
         // might be our parent.
@@ -203,15 +204,15 @@ public:
         return result;
     }
 
-    std::shared_ptr<const RawConfig>
-    getNonexistentRawConfig(const RawConfig *, const std::string &) const {
+    static std::shared_ptr<const RawConfig>
+    getNonexistentRawConfig(const RawConfig *, const std::string &) {
         return nullptr;
     }
 
     template <typename T, typename U>
-    static std::shared_ptr<T> getRawConfigHelper(T &that, std::string path,
-                                                 U callback) {
-        auto cur = &that;
+    static std::shared_ptr<T>
+    getRawConfigHelper(T &that, const std::string &path, U callback) {
+        auto *cur = &that;
         std::shared_ptr<T> result;
         for (std::string::size_type pos = 0, new_pos = path.find('/', pos);
              pos != std::string::npos && cur;
@@ -241,7 +242,7 @@ public:
                 std::function<bool(T &, const std::string &path)> callback,
                 bool recursive, const std::string &pathPrefix) {
         auto d = that.d_func();
-        for (const auto pair : d->subItems_) {
+        for (const auto &pair : d->subItems_) {
             std::shared_ptr<T> item = pair.second;
             auto newPathPrefix = pathPrefix.empty()
                                      ? item->name()
@@ -275,7 +276,7 @@ public:
 RawConfig::RawConfig() : RawConfig("") {}
 
 RawConfig::RawConfig(std::string name)
-    : d_ptr(std::make_unique<RawConfigPrivate>(this, name)) {}
+    : d_ptr(std::make_unique<RawConfigPrivate>(this, std::move(name))) {}
 
 RawConfig::~RawConfig() {
     FCITX_D();
@@ -298,11 +299,10 @@ std::shared_ptr<RawConfig> RawConfig::get(const std::string &path,
     auto dummy = [](const RawConfig &, const std::string &) {};
     if (create) {
         return RawConfigPrivate::getRawConfigHelper(*this, path, dummy);
-    } else {
-        return std::const_pointer_cast<RawConfig>(
-            RawConfigPrivate::getRawConfigHelper<const RawConfig>(*this, path,
-                                                                  dummy));
     }
+    return std::const_pointer_cast<RawConfig>(
+        RawConfigPrivate::getRawConfigHelper<const RawConfig>(*this, path,
+                                                              dummy));
 }
 
 std::shared_ptr<const RawConfig> RawConfig::get(const std::string &path) const {
@@ -312,7 +312,7 @@ std::shared_ptr<const RawConfig> RawConfig::get(const std::string &path) const {
 
 bool RawConfig::remove(const std::string &path) {
     auto pos = path.rfind('/');
-    auto root = this;
+    auto *root = this;
     if (pos == 0 || pos + 1 == path.size()) {
         return false;
     }
@@ -330,12 +330,12 @@ void RawConfig::removeAll() {
 
 void RawConfig::setValue(std::string value) {
     FCITX_D();
-    d->value_ = value;
+    d->value_ = std::move(value);
 }
 
 void RawConfig::setComment(std::string comment) {
     FCITX_D();
-    d->comment_ = comment;
+    d->comment_ = std::move(comment);
 }
 
 void RawConfig::setLineNumber(unsigned int lineNumber) {
@@ -377,7 +377,7 @@ std::vector<std::string> RawConfig::subItems() const {
     FCITX_D();
     std::vector<std::string> result;
     result.reserve(d->subItems_.size());
-    for (auto &pair : d->subItems_) {
+    for (const auto &pair : d->subItems_) {
         result.push_back(pair.first);
     }
     return result;
@@ -402,7 +402,7 @@ std::shared_ptr<RawConfig> RawConfig::detach() {
 bool RawConfig::visitSubItems(
     std::function<bool(RawConfig &, const std::string &path)> callback,
     const std::string &path, bool recursive, const std::string &pathPrefix) {
-    auto root = this;
+    auto *root = this;
     std::shared_ptr<RawConfig> subItem;
     if (!path.empty()) {
         subItem = get(path);
@@ -413,7 +413,7 @@ bool RawConfig::visitSubItems(
         return true;
     }
 
-    return RawConfigPrivate::visitHelper(*root, callback, recursive,
+    return RawConfigPrivate::visitHelper(*root, std::move(callback), recursive,
                                          pathPrefix);
 }
 
@@ -421,7 +421,7 @@ bool RawConfig::visitSubItems(
     std::function<bool(const RawConfig &, const std::string &path)> callback,
     const std::string &path, bool recursive,
     const std::string &pathPrefix) const {
-    auto root = this;
+    const auto *root = this;
     std::shared_ptr<const RawConfig> subItem;
     if (!path.empty()) {
         subItem = get(path);
@@ -432,19 +432,19 @@ bool RawConfig::visitSubItems(
         return true;
     }
 
-    return RawConfigPrivate::visitHelper(*root, callback, recursive,
+    return RawConfigPrivate::visitHelper(*root, std::move(callback), recursive,
                                          pathPrefix);
 }
 
 void RawConfig::visitItemsOnPath(
     std::function<void(RawConfig &, const std::string &path)> callback,
     const std::string &path) {
-    RawConfigPrivate::getRawConfigHelper(*this, path, callback);
+    RawConfigPrivate::getRawConfigHelper(*this, path, std::move(callback));
 }
 void RawConfig::visitItemsOnPath(
     std::function<void(const RawConfig &, const std::string &path)> callback,
     const std::string &path) const {
-    RawConfigPrivate::getRawConfigHelper(*this, path, callback);
+    RawConfigPrivate::getRawConfigHelper(*this, path, std::move(callback));
 }
 
 std::shared_ptr<RawConfig> RawConfig::createSub(std::string name) {

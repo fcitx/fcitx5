@@ -194,8 +194,8 @@ struct ReturnValueHelper<void> {
 class ObjectVTableSignalPrivate;
 class FCITXUTILS_EXPORT ObjectVTableSignal {
 public:
-    ObjectVTableSignal(ObjectVTableBase *vtable, const std::string &name,
-                       const std::string signature);
+    ObjectVTableSignal(ObjectVTableBase *vtable, std::string name,
+                       std::string signature);
     virtual ~ObjectVTableSignal();
 
     Message createSignal();
@@ -214,9 +214,9 @@ using PropertyOptions = Flags<PropertyOption>;
 class ObjectVTablePropertyPrivate;
 class FCITXUTILS_EXPORT ObjectVTableProperty {
 public:
-    ObjectVTableProperty(ObjectVTableBase *vtable, const std::string &name,
-                         const std::string signature,
-                         PropertyGetMethod getMethod, PropertyOptions options);
+    ObjectVTableProperty(ObjectVTableBase *vtable, std::string name,
+                         std::string signature, PropertyGetMethod getMethod,
+                         PropertyOptions options);
     virtual ~ObjectVTableProperty();
 
     const std::string &name() const;
@@ -235,9 +235,8 @@ protected:
 class FCITXUTILS_EXPORT ObjectVTableWritableProperty
     : public ObjectVTableProperty {
 public:
-    ObjectVTableWritableProperty(ObjectVTableBase *vtable,
-                                 const std::string &name,
-                                 const std::string signature,
+    ObjectVTableWritableProperty(ObjectVTableBase *vtable, std::string name,
+                                 std::string signature,
                                  PropertyGetMethod getMethod,
                                  PropertySetMethod setMethod,
                                  PropertyOptions options);

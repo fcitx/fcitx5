@@ -31,7 +31,7 @@ nthCandidateIgnorePlaceholder(const CandidateList &candidateList, int idx) {
         return nullptr;
     }
     for (int i = 0, e = candidateList.size(); i < e; i++) {
-        auto &candidate = candidateList.candidate(i);
+        const auto &candidate = candidateList.candidate(i);
         if (candidate.isPlaceHolder()) {
             continue;
         }

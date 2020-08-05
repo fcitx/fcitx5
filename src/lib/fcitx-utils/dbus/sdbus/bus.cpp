@@ -11,9 +11,7 @@
 #include "message_p.h"
 #include "objectvtable_p_sdbus.h"
 
-namespace fcitx {
-
-namespace dbus {
+namespace fcitx::dbus {
 
 Slot::~Slot() {}
 
@@ -89,7 +87,7 @@ Message Bus::createMethodCall(const char *destination, const char *path,
                               const char *interface, const char *member) {
     FCITX_D();
     Message msg;
-    auto msgD = msg.d_func();
+    auto *msgD = msg.d_func();
     if (sd_bus_message_new_method_call(d->bus_, &msgD->msg_, destination, path,
                                        interface, member) < 0) {
         msgD->type_ = MessageType::Invalid;
@@ -103,7 +101,7 @@ Message Bus::createSignal(const char *path, const char *interface,
                           const char *member) {
     FCITX_D();
     Message msg;
-    auto msgD = msg.d_func();
+    auto *msgD = msg.d_func();
     int r = sd_bus_message_new_signal(d->bus_, &msgD->msg_, path, interface,
                                       member);
     if (r < 0) {
@@ -129,7 +127,7 @@ void Bus::detachEventLoop() {
 }
 
 int SDMessageCallback(sd_bus_message *m, void *userdata, sd_bus_error *) {
-    auto slot = static_cast<SDSlot *>(userdata);
+    auto *slot = static_cast<SDSlot *>(userdata);
     if (!slot) {
         return 0;
     }
@@ -145,9 +143,10 @@ int SDMessageCallback(sd_bus_message *m, void *userdata, sd_bus_error *) {
     return 1;
 }
 
-std::unique_ptr<Slot> Bus::addMatch(MatchRule rule, MessageCallback callback) {
+std::unique_ptr<Slot> Bus::addMatch(const MatchRule &rule,
+                                    MessageCallback callback) {
     FCITX_D();
-    auto slot = std::make_unique<SDSlot>(callback);
+    auto slot = std::make_unique<SDSlot>(std::move(callback));
     sd_bus_slot *sdSlot;
     int r = sd_bus_add_match(d->bus_, &sdSlot, rule.rule().c_str(),
                              SDMessageCallback, slot.get());
@@ -162,7 +161,7 @@ std::unique_ptr<Slot> Bus::addMatch(MatchRule rule, MessageCallback callback) {
 
 std::unique_ptr<Slot> Bus::addFilter(MessageCallback callback) {
     FCITX_D();
-    auto slot = std::make_unique<SDSlot>(callback);
+    auto slot = std::make_unique<SDSlot>(std::move(callback));
     sd_bus_slot *sdSlot;
     int r = sd_bus_add_filter(d->bus_, &sdSlot, SDMessageCallback, slot.get());
     if (r < 0) {
@@ -177,7 +176,7 @@ std::unique_ptr<Slot> Bus::addFilter(MessageCallback callback) {
 std::unique_ptr<Slot> Bus::addObject(const std::string &path,
                                      MessageCallback callback) {
     FCITX_D();
-    auto slot = std::make_unique<SDSlot>(callback);
+    auto slot = std::make_unique<SDSlot>(std::move(callback));
     sd_bus_slot *sdSlot;
     int r = sd_bus_add_object(d->bus_, &sdSlot, path.c_str(), SDMessageCallback,
                               slot.get());
@@ -251,7 +250,7 @@ std::unique_ptr<Slot> Bus::serviceOwnerAsync(const std::string &name,
     auto msg = createMethodCall("org.freedesktop.DBus", "/org/freedesktop/DBus",
                                 "org.freedesktop.DBus", "GetNameOwner");
     msg << name;
-    return msg.callAsync(usec, callback);
+    return msg.callAsync(usec, std::move(callback));
 }
 
 std::string Bus::uniqueName() {
@@ -276,5 +275,4 @@ void Bus::flush() {
     FCITX_D();
     sd_bus_flush(d->bus_);
 }
-} // namespace dbus
-} // namespace fcitx
+} // namespace fcitx::dbus

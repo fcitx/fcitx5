@@ -2,11 +2,7 @@
 #include <cassert>
 #include "wl_subsurface.h"
 #include "wl_surface.h"
-namespace fcitx {
-namespace wayland {
-constexpr const char *WlSubcompositor::interface;
-constexpr const wl_interface *const WlSubcompositor::wlInterface;
-const uint32_t WlSubcompositor::version;
+namespace fcitx::wayland {
 WlSubcompositor::WlSubcompositor(wl_subcompositor *data)
     : version_(wl_subcompositor_get_version(data)), data_(data) {
     wl_subcompositor_set_user_data(*this, this);
@@ -22,5 +18,4 @@ WlSubsurface *WlSubcompositor::getSubsurface(WlSurface *surface,
     return new WlSubsurface(wl_subcompositor_get_subsurface(
         *this, rawPointer(surface), rawPointer(parent)));
 }
-} // namespace wayland
-} // namespace fcitx
+} // namespace fcitx::wayland

@@ -12,14 +12,13 @@
 #include "zwp_input_panel_v1.h"
 #include "zwp_input_popup_surface_v2.h"
 
-namespace fcitx {
-namespace classicui {
+namespace fcitx::classicui {
 
 WaylandInputWindow::WaylandInputWindow(WaylandUI *ui)
     : InputWindow(ui->parent()), ui_(ui), window_(ui->newWindow()) {
     window_->createWindow();
     window_->repaint().connect([this]() {
-        if (auto ic = repaintIC_.get()) {
+        if (auto *ic = repaintIC_.get()) {
             if (ic->hasFocus()) {
                 update(ic);
             }
@@ -84,9 +83,9 @@ void WaylandInputWindow::update(fcitx::InputContext *ic) {
     if (ic->frontend() == std::string_view("wayland_v2")) {
         if (ic != v2IC_.get()) {
             v2IC_ = ic->watch();
-            auto im = ui_->parent()
-                          ->waylandim()
-                          ->call<IWaylandIMModule::getInputMethodV2>(ic);
+            auto *im = ui_->parent()
+                           ->waylandim()
+                           ->call<IWaylandIMModule::getInputMethodV2>(ic);
             panelSurfaceV2_.reset(im->getInputPopupSurface(window_->surface()));
         }
     }
@@ -101,7 +100,7 @@ void WaylandInputWindow::update(fcitx::InputContext *ic) {
         window_->resize(width, height);
     }
 
-    if (auto surface = window_->prerender()) {
+    if (auto *surface = window_->prerender()) {
         cairo_t *c = cairo_create(surface);
         paint(c, width, height);
         cairo_destroy(c);
@@ -113,7 +112,7 @@ void WaylandInputWindow::update(fcitx::InputContext *ic) {
 
 void WaylandInputWindow::repaint() {
 
-    if (auto surface = window_->prerender()) {
+    if (auto *surface = window_->prerender()) {
         cairo_t *c = cairo_create(surface);
         paint(c, window_->width(), window_->height());
         cairo_destroy(c);
@@ -121,5 +120,4 @@ void WaylandInputWindow::repaint() {
     }
 }
 
-} // namespace classicui
-} // namespace fcitx
+} // namespace fcitx::classicui

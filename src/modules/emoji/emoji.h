@@ -28,8 +28,8 @@ public:
                                           bool fallbackToEn);
     void prefix(const std::string &language, const std::string &key,
                 bool fallbackToEn,
-                std::function<bool(const std::string &,
-                                   const std::vector<std::string> &)>);
+                const std::function<bool(const std::string &,
+                                         const std::vector<std::string> &)> &);
 
 private:
     FCITX_ADDON_EXPORT_FUNCTION(Emoji, query);

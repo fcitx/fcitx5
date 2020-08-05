@@ -7,8 +7,7 @@
 
 #include "outputinformation.h"
 
-namespace fcitx {
-namespace wayland {
+namespace fcitx::wayland {
 
 class OutputInfomationData {
 public:
@@ -119,5 +118,4 @@ int32_t OutputInfomation::scale() const {
     FCITX_D();
     return d->current_.scale_;
 }
-} // namespace wayland
-} // namespace fcitx
+} // namespace fcitx::wayland

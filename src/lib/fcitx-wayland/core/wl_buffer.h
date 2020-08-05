@@ -3,8 +3,7 @@
 #include <memory>
 #include <wayland-client.h>
 #include "fcitx-utils/signals.h"
-namespace fcitx {
-namespace wayland {
+namespace fcitx::wayland {
 class WlBuffer final {
 public:
     static constexpr const char *interface = "wl_buffer";
@@ -32,6 +31,5 @@ private:
 static inline wl_buffer *rawPointer(WlBuffer *p) {
     return p ? static_cast<wl_buffer *>(*p) : nullptr;
 }
-} // namespace wayland
-} // namespace fcitx
+} // namespace fcitx::wayland
 #endif

@@ -33,8 +33,12 @@ template <typename Signature>
 using AddonFunctionSignatureType =
     typename AddonFunctionSignature<Signature>::type;
 
+template <typename CallbackType>
+class AddonFunctionAdaptor;
+
 template <typename Class, typename Ret, typename... Args>
-class AddonFunctionAdaptor : public AddonFunctionAdaptorErasure<Ret(Args...)> {
+class AddonFunctionAdaptor<Ret (Class::*)(Args...)>
+    : public AddonFunctionAdaptorErasure<Ret(Args...)> {
 public:
     typedef Ret (Class::*CallbackType)(Args...);
     typedef Ret Signature(Args...);
@@ -56,8 +60,31 @@ private:
 };
 
 template <typename Class, typename Ret, typename... Args>
-AddonFunctionAdaptor<Class, Ret, Args...>
-    MakeAddonFunctionAdaptor(Ret (Class::*pCallback)(Args...));
+class AddonFunctionAdaptor<Ret (Class::*)(Args...) const>
+    : public AddonFunctionAdaptorErasure<Ret(Args...)> {
+public:
+    typedef Ret (Class::*CallbackType)(Args...) const;
+    typedef Ret Signature(Args...);
+
+    AddonFunctionAdaptor(const std::string &name, Class *addon,
+                         CallbackType pCallback)
+        : AddonFunctionAdaptorErasure<Ret(Args...)>(), addon_(addon),
+          pCallback_(pCallback) {
+        addon->registerCallback(name, this);
+    }
+
+    Ret callback(Args... args) override {
+        return (addon_->*pCallback_)(args...);
+    }
+
+private:
+    Class *addon_;
+    CallbackType pCallback_;
+};
+
+template <typename CallbackType>
+AddonFunctionAdaptor<CallbackType>
+MakeAddonFunctionAdaptor(CallbackType pCallback);
 
 } // namespace fcitx
 

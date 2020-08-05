@@ -65,7 +65,7 @@ public:
 
     // Helper function
     bool fatalWrapper(LogLevel l) const;
-    bool fatalWrapper2(LogLevel l) const;
+    static bool fatalWrapper2(LogLevel l);
 
 private:
     FCITX_DECLARE_PRIVATE(LogCategory);

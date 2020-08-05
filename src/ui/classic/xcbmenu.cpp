@@ -8,19 +8,20 @@
 #include <pango/pangocairo.h>
 #include <xcb/xcb_aux.h>
 #include <xcb/xcb_keysyms.h>
+
+#include <utility>
 #include "fcitx/inputcontext.h"
 #include "fcitx/userinterfacemanager.h"
 #include "common.h"
 
-namespace fcitx {
-namespace classicui {
+namespace fcitx::classicui {
 
 XCBMenu::XCBMenu(XCBUI *ui, MenuPool *pool, Menu *menu)
     : XCBWindow(ui), pool_(pool), menu_(menu) {
-    auto fontMap = pango_cairo_font_map_get_default();
+    auto *fontMap = pango_cairo_font_map_get_default();
     context_.reset(pango_font_map_create_context(fontMap));
     ui->fontOption().setupPangoContext(context_.get());
-    if (auto ic = ui_->parent()->instance()->mostRecentInputContext()) {
+    if (auto *ic = ui_->parent()->instance()->mostRecentInputContext()) {
         lastRelevantIc_ = ic->watch();
     }
     createWindow(ui_->visualId());
@@ -32,7 +33,7 @@ bool XCBMenu::filterEvent(xcb_generic_event_t *event) {
     uint8_t response_type = event->response_type & ~0x80;
     switch (response_type) {
     case XCB_EXPOSE: {
-        auto expose = reinterpret_cast<xcb_expose_event_t *>(event);
+        auto *expose = reinterpret_cast<xcb_expose_event_t *>(event);
         if (expose->window == wid_) {
             CLASSICUI_DEBUG() << "Menu recevied expose event";
             update();
@@ -41,7 +42,7 @@ bool XCBMenu::filterEvent(xcb_generic_event_t *event) {
         break;
     }
     case XCB_FOCUS_IN: {
-        auto focusIn = reinterpret_cast<xcb_focus_in_event_t *>(event);
+        auto *focusIn = reinterpret_cast<xcb_focus_in_event_t *>(event);
         if (focusIn->event == wid_) {
             if (focusIn->detail == XCB_NOTIFY_DETAIL_POINTER) {
                 return true;
@@ -52,7 +53,7 @@ bool XCBMenu::filterEvent(xcb_generic_event_t *event) {
         break;
     }
     case XCB_FOCUS_OUT: {
-        auto focusOut = reinterpret_cast<xcb_focus_out_event_t *>(event);
+        auto *focusOut = reinterpret_cast<xcb_focus_out_event_t *>(event);
         if (focusOut->event == wid_) {
             if (focusOut->detail == XCB_NOTIFY_DETAIL_POINTER) {
                 return true;
@@ -69,7 +70,7 @@ bool XCBMenu::filterEvent(xcb_generic_event_t *event) {
         break;
     }
     case XCB_BUTTON_PRESS: {
-        auto buttonPress = reinterpret_cast<xcb_button_press_event_t *>(event);
+        auto *buttonPress = reinterpret_cast<xcb_button_press_event_t *>(event);
         if (buttonPress->event != wid_) {
             break;
         }
@@ -93,7 +94,7 @@ bool XCBMenu::filterEvent(xcb_generic_event_t *event) {
             if (i >= actions.size()) {
                 break;
             }
-            auto ic = lastRelevantIc();
+            auto *ic = lastRelevantIc();
             if (!ic) {
                 break;
             }
@@ -107,12 +108,12 @@ bool XCBMenu::filterEvent(xcb_generic_event_t *event) {
                     CLOCK_MONOTONIC, now(CLOCK_MONOTONIC) + 30000, 0,
                     [this, icRef, id](EventSourceTime *, uint64_t) {
                         // FCITX_INFO() << "Timer Triggered";
-                        if (auto ic = icRef.get()) {
+                        if (auto *ic = icRef.get()) {
 
-                            auto action = ui_->parent()
-                                              ->instance()
-                                              ->userInterfaceManager()
-                                              .lookupActionById(id);
+                            auto *action = ui_->parent()
+                                               ->instance()
+                                               ->userInterfaceManager()
+                                               .lookupActionById(id);
                             if (action) {
                                 action->activate(ic);
                             }
@@ -128,7 +129,7 @@ bool XCBMenu::filterEvent(xcb_generic_event_t *event) {
         return true;
     }
     case XCB_MOTION_NOTIFY: {
-        auto motion = reinterpret_cast<xcb_motion_notify_event_t *>(event);
+        auto *motion = reinterpret_cast<xcb_motion_notify_event_t *>(event);
         if (motion->event == wid_) {
             for (size_t i = 0; i < items_.size(); i++) {
                 if (!items_[i].isSeparator_ &&
@@ -143,7 +144,7 @@ bool XCBMenu::filterEvent(xcb_generic_event_t *event) {
         break;
     }
     case XCB_ENTER_NOTIFY: {
-        auto enter = reinterpret_cast<xcb_enter_notify_event_t *>(event);
+        auto *enter = reinterpret_cast<xcb_enter_notify_event_t *>(event);
         if (enter->event == wid_) {
             hasMouse_ = true;
             return true;
@@ -151,7 +152,7 @@ bool XCBMenu::filterEvent(xcb_generic_event_t *event) {
         break;
     }
     case XCB_LEAVE_NOTIFY: {
-        auto leave = reinterpret_cast<xcb_leave_notify_event_t *>(event);
+        auto *leave = reinterpret_cast<xcb_leave_notify_event_t *>(event);
         if (leave->event == wid_) {
             hasMouse_ = false;
             setHoveredIndex(-1);
@@ -160,7 +161,7 @@ bool XCBMenu::filterEvent(xcb_generic_event_t *event) {
         break;
     }
     case XCB_KEY_PRESS: {
-        auto key = reinterpret_cast<xcb_key_press_event_t *>(event);
+        auto *key = reinterpret_cast<xcb_key_press_event_t *>(event);
         if (key->event == wid_) {
             return true;
         }
@@ -182,7 +183,7 @@ void XCBMenu::hide() {
 
 void XCBMenu::hideParents() {
     // FCITX_INFO() << "Hide Parent " << this;
-    if (auto parent = parent_.get()) {
+    if (auto *parent = parent_.get()) {
         parent->hideParents();
         parent->hide();
     }
@@ -190,7 +191,7 @@ void XCBMenu::hideParents() {
 
 void XCBMenu::hideChilds() {
     // FCITX_INFO() << "Hide Childs " << this;
-    if (auto child = child_.get()) {
+    if (auto *child = child_.get()) {
         child->hideChilds();
         child->hide();
     }
@@ -198,7 +199,7 @@ void XCBMenu::hideChilds() {
 
 bool XCBMenu::childHasMouse() const {
     auto ref = child_;
-    while (auto child = ref.get()) {
+    while (auto *child = ref.get()) {
         if (child->hasMouse_) {
             return true;
         }
@@ -209,8 +210,8 @@ bool XCBMenu::childHasMouse() const {
 
 void XCBMenu::hideTillMenuHasMouseOrTopLevel() {
     // Go to the innermost child.
-    auto menu = this;
-    while (auto child = menu->child_.get()) {
+    auto *menu = this;
+    while (auto *child = menu->child_.get()) {
         menu = child;
     }
 
@@ -224,7 +225,7 @@ void XCBMenu::hideTillMenuHasMouseOrTopLevelHelper() {
         xcb_flush(ui_->connection());
         return;
     }
-    auto parent = parent_.get();
+    auto *parent = parent_.get();
     hide(); // Hide will reset parent.
     if (parent) {
         parent->hideTillMenuHasMouseOrTopLevelHelper();
@@ -249,7 +250,7 @@ void XCBMenu::setHoveredIndex(int idx) {
                     // FCITX_INFO() << this << " in timer";
                     if (hoveredIndex_ >= 0 && subMenuIndex_ == hoveredIndex_) {
                         // Mouse is on same menu item.
-                        if (auto child = child_.get()) {
+                        if (auto *child = child_.get()) {
                             child->hideChilds();
                             xcb_flush(ui_->connection());
                         }
@@ -268,7 +269,7 @@ void XCBMenu::setHoveredIndex(int idx) {
                         }
                         // If we agree on this that current item has subMenu
                         if (item.first->hasSubMenu_ && item.second->menu()) {
-                            auto newMenu = pool_->requestMenu(
+                            auto *newMenu = pool_->requestMenu(
                                 ui_, item.second->menu(), this);
                             subMenuIndex_ = hoveredIndex_;
 
@@ -305,7 +306,7 @@ std::pair<MenuItem *, Action *> XCBMenu::actionAt(size_t index) {
 }
 
 void XCBMenu::update() {
-    auto ic = lastRelevantIc();
+    auto *ic = lastRelevantIc();
     if (!ic) {
         return;
     }
@@ -326,7 +327,7 @@ void XCBMenu::update() {
     }
     items_.erase(items_.begin() + actions.size(), items_.end());
     auto &theme = ui_->parent()->theme();
-    auto fontDesc =
+    auto *fontDesc =
         pango_font_description_from_string(theme.menu->font->c_str());
     pango_context_set_font_description(context_.get(), fontDesc);
     pango_cairo_context_set_resolution(context_.get(), dpi_);
@@ -334,9 +335,9 @@ void XCBMenu::update() {
 
     const auto &textMargin = *theme.menu->textMargin;
     int i = 0;
-    auto &separator = theme.loadBackground(*theme.menu->separator);
-    auto &checkBox = theme.loadBackground(*theme.menu->checkBox);
-    auto &subMenu = theme.loadBackground(*theme.menu->subMenu);
+    const auto &separator = theme.loadBackground(*theme.menu->separator);
+    const auto &checkBox = theme.loadBackground(*theme.menu->checkBox);
+    const auto &subMenu = theme.loadBackground(*theme.menu->subMenu);
     const auto &highlightMargin = *theme.menu->highlight->margin;
     size_t maxItemWidth = 0;
     size_t maxItemHeight = 0;
@@ -347,12 +348,12 @@ void XCBMenu::update() {
         });
     // We need multiple pass to get the size and location right.
     // Pass 1: get max size of all items, and set size.
-    for (auto action : actions) {
+    for (auto *action : actions) {
         auto &item = items_[i];
         item.isHighlight_ =
             hoveredIndex_ >= 0 ? (hoveredIndex_ == i) : (subMenuIndex_ == i);
         i++;
-        item.hasSubMenu_ = action->menu() ? true : false;
+        item.hasSubMenu_ = action->menu() != nullptr;
         item.isSeparator_ = action->isSeparator();
         if (action->isSeparator()) {
             continue;
@@ -500,7 +501,7 @@ void XCBMenu::postCreateWindow() {
 }
 
 void XCBMenu::setParent(XCBMenu *parent) {
-    if (auto oldParent = parent_.get()) {
+    if (auto *oldParent = parent_.get()) {
         if (parent == oldParent) {
             return;
         }
@@ -528,11 +529,11 @@ void XCBMenu::setChild(XCBMenu *child) {
 }
 
 void XCBMenu::setInputContext(TrackableObjectReference<InputContext> ic) {
-    lastRelevantIc_ = ic;
+    lastRelevantIc_ = std::move(ic);
 }
 
 InputContext *XCBMenu::lastRelevantIc() {
-    if (auto ic = lastRelevantIc_.get()) {
+    if (auto *ic = lastRelevantIc_.get()) {
         return ic;
     }
     return ui_->parent()->instance()->mostRecentInputContext();
@@ -557,7 +558,7 @@ void XCBMenu::show(Rect rect) {
     update();
     const Rect *closestScreen = nullptr;
     int shortestDistance = INT_MAX;
-    for (auto &rect : ui_->screenRects()) {
+    for (const auto &rect : ui_->screenRects()) {
         int thisDistance = rect.first.distance(x, y);
         if (thisDistance < shortestDistance) {
             shortestDistance = thisDistance;
@@ -583,9 +584,9 @@ void XCBMenu::show(Rect rect) {
         }
 
         if (newY + height() > closestScreen->bottom()) {
-            if (newY > closestScreen->bottom())
+            if (newY > closestScreen->bottom()) {
                 newY = closestScreen->bottom() - height();
-            else { /* better position the window */
+            } else { /* better position the window */
                 newY = newY - height();
             }
         }
@@ -617,12 +618,12 @@ void XCBMenu::raise() {
 }
 
 XCBMenu *MenuPool::requestMenu(XCBUI *ui, Menu *menu, XCBMenu *parent) {
-    auto xcbMenu = findOrCreateMenu(ui, menu);
+    auto *xcbMenu = findOrCreateMenu(ui, menu);
     xcbMenu->setParent(parent);
     if (parent) {
         xcbMenu->setInputContext(parent->inputContext());
     } else {
-        if (auto ic = ui->parent()->instance()->mostRecentInputContext()) {
+        if (auto *ic = ui->parent()->instance()->mostRecentInputContext()) {
             xcbMenu->setInputContext(ic->watch());
         } else {
             xcbMenu->setInputContext({});
@@ -650,5 +651,4 @@ XCBMenu *MenuPool::findOrCreateMenu(XCBUI *ui, Menu *menu) {
     return &result.first->second.first;
 }
 
-} // namespace classicui
-} // namespace fcitx
+} // namespace fcitx::classicui

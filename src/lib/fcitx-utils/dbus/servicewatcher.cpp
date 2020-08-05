@@ -9,8 +9,7 @@
 #include <unordered_map>
 #include "../trackableobject.h"
 
-namespace fcitx {
-namespace dbus {
+namespace fcitx::dbus {
 
 class ServiceWatcherPrivate : public TrackableObject<ServiceWatcherPrivate> {
 public:
@@ -36,9 +35,9 @@ public:
                   auto querySlot = bus_->serviceOwnerAsync(
                       key, 0, [this, key](Message &msg) {
                           // Key itself may be gone later, put it on the stack.
-                          std::string pivotKey = key;
+                          const std::string &pivotKey = key;
                           auto protector = watch();
-                          std::string newName = "";
+                          std::string newName;
                           if (msg.type() != dbus::MessageType::Error) {
                               msg >> newName;
                           }
@@ -47,7 +46,7 @@ public:
                           }
                           // "this" maybe deleted as well because it's a member
                           // in lambda.
-                          if (auto that = protector.get()) {
+                          if (auto *that = protector.get()) {
                               that->querySlots_.erase(pivotKey);
                           }
                           return false;
@@ -81,9 +80,8 @@ std::unique_ptr<HandlerTableEntry<ServiceWatcherCallback>>
 ServiceWatcher::watchService(const std::string &name,
                              ServiceWatcherCallback callback) {
     FCITX_D();
-    return d->watcherMap_.add(name, callback);
+    return d->watcherMap_.add(name, std::move(callback));
 }
 
 ServiceWatcher::~ServiceWatcher() {}
-} // namespace dbus
-} // namespace fcitx
+} // namespace fcitx::dbus

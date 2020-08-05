@@ -34,14 +34,14 @@ public:
     void update(UserInterfaceComponent component,
                 InputContext *inputContext) override;
     void updateInputPanel(InputContext *inputContext);
-    void updateCurrentInputMethod(InputContext *inputContext);
+    void updateCurrentInputMethod(InputContext *ic);
 
     void msgV1Handler(dbus::Message &msg);
     void msgV2Handler(dbus::Message &msg);
 
     void registerAllProperties(InputContext *ic = nullptr);
     std::string inputMethodStatus(InputContext *ic);
-    std::string actionToStatus(Action *action, InputContext *ic);
+    static std::string actionToStatus(Action *action, InputContext *ic);
 
 private:
     void setAvailable(bool available);

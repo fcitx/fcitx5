@@ -60,7 +60,7 @@ public:
     void setCapabilityFlags(CapabilityFlags flags);
     CapabilityFlags capabilityFlags() const;
     void setCursorRect(Rect rect);
-    bool keyEvent(KeyEvent &key);
+    bool keyEvent(KeyEvent &event);
 
     bool hasFocus() const;
 
@@ -72,7 +72,7 @@ public:
     void deleteSurroundingText(int offset, unsigned int size);
     void forwardKey(const Key &rawKey, bool isRelease = false, int time = 0);
     void updatePreedit();
-    void updateUserInterface(UserInterfaceComponent componet,
+    void updateUserInterface(UserInterfaceComponent component,
                              bool immediate = false);
 
     /**

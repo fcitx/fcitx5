@@ -7,6 +7,7 @@
 
 #include "candidatelist.h"
 #include <stdexcept>
+#include <fcitx-utils/utf8.h>
 
 namespace fcitx {
 
@@ -139,7 +140,8 @@ DisplayOnlyCandidateList::DisplayOnlyCandidateList()
 
 DisplayOnlyCandidateList::~DisplayOnlyCandidateList() = default;
 
-void DisplayOnlyCandidateList::setContent(std::vector<std::string> content) {
+void DisplayOnlyCandidateList::setContent(
+    const std::vector<std::string> &content) {
     std::vector<Text> text_content;
     for (const auto &str : content) {
         text_content.emplace_back();
@@ -288,7 +290,7 @@ std::string keyToLabel(const Key &key) {
 
 #undef _APPEND_MODIFIER_STRING
 
-    result += Key::keySymToUnicode(key.sym());
+    result += utf8::UCS4ToUTF8(Key::keySymToUnicode(key.sym()));
     // add a dot as separator
     result += ". ";
 
@@ -299,7 +301,7 @@ void CommonCandidateList::setSelectionKey(const KeyList &keyList) {
     FCITX_D();
     d->labels_.clear();
     d->labels_.reserve(keyList.size());
-    for (auto &key : keyList) {
+    for (const auto &key : keyList) {
         d->labels_.emplace_back(keyToLabel(key));
     }
 }

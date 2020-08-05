@@ -9,8 +9,7 @@
 #include "waylandwindow.h"
 #include "wl_surface.h"
 
-namespace fcitx {
-namespace classicui {
+namespace fcitx::classicui {
 
 WaylandPointer::WaylandPointer(wayland::WlSeat *seat) {
     capConn_ = seat->capabilities().connect([this, seat](uint32_t caps) {
@@ -26,7 +25,7 @@ WaylandPointer::WaylandPointer(wayland::WlSeat *seat) {
 void WaylandPointer::initPointer() {
     pointer_->enter().connect([this](uint32_t, wayland::WlSurface *surface,
                                      wl_fixed_t sx, wl_fixed_t sy) {
-        auto window = static_cast<WaylandWindow *>(surface->userData());
+        auto *window = static_cast<WaylandWindow *>(surface->userData());
         if (!window) {
             return;
         }
@@ -36,7 +35,7 @@ void WaylandPointer::initPointer() {
         window->hover()(focusX_, focusY_);
     });
     pointer_->leave().connect([this](uint32_t, wayland::WlSurface *surface) {
-        if (auto window = focus_.get()) {
+        if (auto *window = focus_.get()) {
             if (window->surface() == surface) {
                 focus_.unwatch();
                 window->leave()();
@@ -44,7 +43,7 @@ void WaylandPointer::initPointer() {
         }
     });
     pointer_->motion().connect([this](uint32_t, wl_fixed_t sx, wl_fixed_t sy) {
-        if (auto window = focus_.get()) {
+        if (auto *window = focus_.get()) {
             focusX_ = wl_fixed_to_int(sx);
             focusY_ = wl_fixed_to_int(sy);
             window->hover()(focusX_, focusY_);
@@ -52,16 +51,15 @@ void WaylandPointer::initPointer() {
     });
     pointer_->button().connect(
         [this](uint32_t, uint32_t, uint32_t button, uint32_t state) {
-            if (auto window = focus_.get()) {
+            if (auto *window = focus_.get()) {
                 window->click()(focusX_, focusY_, button, state);
             }
         });
     pointer_->axis().connect([this](uint32_t, uint32_t axis, wl_fixed_t value) {
-        if (auto window = focus_.get()) {
+        if (auto *window = focus_.get()) {
             window->axis()(focusX_, focusY_, axis, value);
         }
     });
 }
 
-} // namespace classicui
-} // namespace fcitx
+} // namespace fcitx::classicui

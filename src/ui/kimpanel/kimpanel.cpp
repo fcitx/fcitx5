@@ -57,7 +57,6 @@ public:
         msg.send();
     }
 
-public:
     FCITX_OBJECT_VTABLE_SIGNAL(execDialog, "ExecDialog", "s");
     FCITX_OBJECT_VTABLE_SIGNAL(execMenu, "ExecMenu", "as");
     FCITX_OBJECT_VTABLE_SIGNAL(registerProperties, "RegisterProperties", "as");
@@ -82,7 +81,7 @@ private:
 };
 
 Kimpanel::Kimpanel(Instance *instance)
-    : UserInterface(), instance_(instance),
+    : instance_(instance),
       bus_(instance_->addonManager().addon("dbus")->call<IDBusModule::bus>()),
       watcher_(*bus_) {
     entry_ = watcher_.watchService(
@@ -108,7 +107,7 @@ void Kimpanel::registerAllProperties(InputContext *ic) {
         ic = instance_->lastFocusedInputContext();
     }
     if (ic) {
-        for (auto action :
+        for (auto *action :
              ic->statusArea().actions(StatusGroup::BeforeInputMethod)) {
             props.push_back(actionToStatus(action, ic));
         }
@@ -118,7 +117,7 @@ void Kimpanel::registerAllProperties(InputContext *ic) {
     if (ic) {
         for (auto group :
              {StatusGroup::InputMethod, StatusGroup::AfterInputMethod}) {
-            for (auto action : ic->statusArea().actions(group)) {
+            for (auto *action : ic->statusArea().actions(group)) {
                 props.push_back(actionToStatus(action, ic));
             }
         }
@@ -170,7 +169,7 @@ void Kimpanel::resume() {
             return;
         }
         auto &icEvent = static_cast<InputContextEvent &>(event);
-        auto inputContext = icEvent.inputContext();
+        auto *inputContext = icEvent.inputContext();
         if (inputContext->hasFocus()) {
             bool useRelative =
                 hasRelative_ && inputContext->capabilityFlags().test(
@@ -192,7 +191,7 @@ void Kimpanel::resume() {
     eventHandlers_.emplace_back(instance_->watchEvent(
         EventType::InputMethodGroupChanged, EventWatcherPhase::Default,
         [this](Event &) {
-            if (auto ic = instance_->lastFocusedInputContext()) {
+            if (auto *ic = instance_->lastFocusedInputContext()) {
                 updateCurrentInputMethod(ic);
             }
         }));
@@ -222,14 +221,14 @@ void Kimpanel::update(UserInterfaceComponent component,
 
 void Kimpanel::updateInputPanel(InputContext *inputContext) {
     lastInputContext_ = inputContext->watch();
-    auto instance = this->instance();
+    auto *instance = this->instance();
     auto &inputPanel = inputContext->inputPanel();
 
     auto preedit = instance->outputFilter(inputContext, inputPanel.preedit());
     auto auxUp = instance->outputFilter(inputContext, inputPanel.auxUp());
     auto preeditString = preedit.toString();
     auto auxUpString = auxUp.toString();
-    if (preeditString.size() || auxUpString.size()) {
+    if (!preeditString.empty() || !auxUpString.empty()) {
         auto text = auxUpString + preeditString;
         if (preedit.cursor() >= 0 &&
             static_cast<size_t>(preedit.cursor()) <= preeditString.size()) {
@@ -263,7 +262,7 @@ void Kimpanel::updateInputPanel(InputContext *inputContext) {
     auto msg = bus_->createMethodCall("org.kde.impanel", "/org/kde/impanel",
                                       "org.kde.impanel2", "SetLookupTable");
     auto visible =
-        auxDownString.size() || (candidateList && candidateList->size());
+        !auxDownString.empty() || (candidateList && candidateList->size());
     if (visible) {
         std::vector<std::string> labels;
         std::vector<std::string> texts;
@@ -271,7 +270,7 @@ void Kimpanel::updateInputPanel(InputContext *inputContext) {
         bool hasPrev = false, hasNext = false;
         int pos = -1;
         int layout = static_cast<int>(CandidateLayoutHint::NotSet);
-        if (auxDownString.size()) {
+        if (!auxDownString.empty()) {
             labels.emplace_back("");
             texts.push_back(auxDownString);
             attrs.emplace_back("");
@@ -279,7 +278,7 @@ void Kimpanel::updateInputPanel(InputContext *inputContext) {
         auxDownIsEmpty_ = auxDownString.empty();
         if (candidateList) {
             for (int i = 0, e = candidateList->size(); i < e; i++) {
-                auto &candidate = candidateList->candidate(i);
+                const auto &candidate = candidateList->candidate(i);
                 if (candidate.isPlaceHolder()) {
                     continue;
                 }
@@ -294,7 +293,7 @@ void Kimpanel::updateInputPanel(InputContext *inputContext) {
                 texts.push_back(candidateText.toString());
                 attrs.emplace_back("");
             }
-            if (auto pageable = candidateList->toPageable()) {
+            if (auto *pageable = candidateList->toPageable()) {
                 hasPrev = pageable->hasPrev();
                 hasNext = pageable->hasNext();
             }
@@ -321,10 +320,10 @@ void Kimpanel::updateInputPanel(InputContext *inputContext) {
 
 std::string Kimpanel::inputMethodStatus(InputContext *ic) {
     std::string icon = "input-keyboard";
-    std::string label = "";
+    std::string label;
     std::string description = _("Not available");
     if (ic) {
-        auto entry = instance_->inputMethodEntry(ic);
+        const auto *entry = instance_->inputMethodEntry(ic);
         if (entry) {
             icon = entry->icon();
             label = entry->label();
@@ -361,7 +360,7 @@ void Kimpanel::msgV1Handler(dbus::Message &msg) {
             std::vector<std::string> menuitems;
             for (const auto &item :
                  imManager.currentGroup().inputMethodList()) {
-                auto entry = imManager.entry(item.name());
+                const auto *entry = imManager.entry(item.name());
                 if (!entry) {
                     continue;
                 }
@@ -381,18 +380,18 @@ void Kimpanel::msgV1Handler(dbus::Message &msg) {
                 });
         } else if (stringutils::startsWith(property, "/Fcitx/")) {
             auto actionName = property.substr(7);
-            auto action =
+            auto *action =
                 instance_->userInterfaceManager().lookupAction(actionName);
             if (!action) {
                 return;
             }
-            auto ic = instance_->mostRecentInputContext();
+            auto *ic = instance_->mostRecentInputContext();
             if (!ic) {
                 return;
             }
-            if (auto menu = action->menu()) {
+            if (auto *menu = action->menu()) {
                 std::vector<std::string> menuitems;
-                for (auto menuAction : menu->actions()) {
+                for (auto *menuAction : menu->actions()) {
                     menuitems.push_back(actionToStatus(menuAction, ic));
                 }
                 proxy_->execMenu(menuitems);
@@ -402,10 +401,11 @@ void Kimpanel::msgV1Handler(dbus::Message &msg) {
                 timeEvent_ = instance_->eventLoop().addTimeEvent(
                     CLOCK_MONOTONIC, now(CLOCK_MONOTONIC) + 30000, 0,
                     [this, actionName](EventSourceTime *, uint64_t) {
-                        if (auto action =
+                        if (auto *action =
                                 instance_->userInterfaceManager().lookupAction(
                                     actionName)) {
-                            if (auto ic = instance_->mostRecentInputContext()) {
+                            if (auto *ic =
+                                    instance_->mostRecentInputContext()) {
                                 action->activate(ic);
                             }
                         }
@@ -415,10 +415,10 @@ void Kimpanel::msgV1Handler(dbus::Message &msg) {
             }
         }
     } else if (msg.member() == "LookupTablePageUp") {
-        if (auto inputContext = lastInputContext_.get()) {
+        if (auto *inputContext = lastInputContext_.get()) {
             if (auto candidateList =
                     inputContext->inputPanel().candidateList()) {
-                if (auto pageable = candidateList->toPageable()) {
+                if (auto *pageable = candidateList->toPageable()) {
                     if (pageable->hasPrev()) {
                         pageable->prev();
                         inputContext->updateUserInterface(
@@ -428,10 +428,10 @@ void Kimpanel::msgV1Handler(dbus::Message &msg) {
             }
         }
     } else if (msg.member() == "LookupTablePageDown") {
-        if (auto inputContext = lastInputContext_.get()) {
+        if (auto *inputContext = lastInputContext_.get()) {
             if (auto candidateList =
                     inputContext->inputPanel().candidateList()) {
-                if (auto pageable = candidateList->toPageable()) {
+                if (auto *pageable = candidateList->toPageable()) {
                     if (pageable->hasNext()) {
                         pageable->next();
                         inputContext->updateUserInterface(
@@ -446,10 +446,10 @@ void Kimpanel::msgV1Handler(dbus::Message &msg) {
         if (!auxDownIsEmpty_) {
             idx -= 1;
         }
-        if (auto inputContext = lastInputContext_.get()) {
+        if (auto *inputContext = lastInputContext_.get()) {
             if (auto candidateList =
                     inputContext->inputPanel().candidateList()) {
-                auto candidate =
+                const auto *candidate =
                     nthCandidateIgnorePlaceholder(*candidateList, idx);
                 if (candidate) {
                     candidate->select(inputContext);

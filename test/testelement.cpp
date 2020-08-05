@@ -29,8 +29,8 @@ int main() {
         Element e, e2;
         e.addParent(&e2);
         FCITX_ASSERT(e.parents().size() == 1);
-        FCITX_ASSERT(e.childs().size() == 0);
-        FCITX_ASSERT(e2.parents().size() == 0);
+        FCITX_ASSERT(e.childs().empty());
+        FCITX_ASSERT(e2.parents().empty());
         FCITX_ASSERT(e2.childs().size() == 1);
     }
     {
@@ -46,13 +46,13 @@ int main() {
         Element e, *e2 = new Element;
         e.addParent(e2);
         FCITX_ASSERT(e.parents().size() == 1);
-        FCITX_ASSERT(e.childs().size() == 0);
-        FCITX_ASSERT(e2->parents().size() == 0);
+        FCITX_ASSERT(e.childs().empty());
+        FCITX_ASSERT(e2->parents().empty());
         FCITX_ASSERT(e2->childs().size() == 1);
         delete e2;
 
-        FCITX_ASSERT(e.parents().size() == 0);
-        FCITX_ASSERT(e.childs().size() == 0);
+        FCITX_ASSERT(e.parents().empty());
+        FCITX_ASSERT(e.childs().empty());
     }
     {
         Element e, e2, e3;

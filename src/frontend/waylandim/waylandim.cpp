@@ -47,7 +47,7 @@ wayland::ZwpInputMethodV2 *WaylandIMModule::getInputMethodV2(InputContext *ic) {
         return nullptr;
     }
 
-    auto v2IC = static_cast<WaylandIMInputContextV2 *>(ic);
+    auto *v2IC = static_cast<WaylandIMInputContextV2 *>(ic);
     return v2IC->inputMethodV2();
 }
 

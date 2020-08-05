@@ -13,8 +13,7 @@
 #include "bus_p.h"
 #include "objectvtable_p_libdbus.h"
 
-namespace fcitx {
-namespace dbus {
+namespace fcitx::dbus {
 
 class ObjectVTablePrivate {
 public:
@@ -26,12 +25,12 @@ ObjectVTableBasePrivate::~ObjectVTableBasePrivate() {}
 
 const std::string &ObjectVTableBasePrivate::getXml(ObjectVTableBase *q) {
     std::lock_guard<std::mutex> lock(q->privateDataMutexForType());
-    auto p = q->privateDataForType();
+    auto *p = q->privateDataForType();
     if (!p->hasXml_) {
         p->xml_.clear();
 
         for (const auto &m : methods_) {
-            auto method = m.second;
+            auto *method = m.second;
             p->xml_ +=
                 stringutils::concat("<method name=\"", method->name(), "\">");
             for (auto &type : splitDBusSignature(method->signature())) {
@@ -46,7 +45,7 @@ const std::string &ObjectVTableBasePrivate::getXml(ObjectVTableBase *q) {
         }
 
         for (const auto &s : sigs_) {
-            auto sig = s.second;
+            auto *sig = s.second;
             p->xml_ +=
                 stringutils::concat("<signal name=\"", sig->name(), "\">");
             for (auto &type : splitDBusSignature(sig->signature())) {
@@ -57,7 +56,7 @@ const std::string &ObjectVTableBasePrivate::getXml(ObjectVTableBase *q) {
         }
 
         for (const auto &pr : properties_) {
-            auto prop = pr.second;
+            auto *prop = pr.second;
             if (prop->writable()) {
                 p->xml_ += stringutils::concat(
                     "<property access=\"readwrite\" type=\"", prop->signature(),
@@ -118,7 +117,7 @@ void ObjectVTableBase::releaseSlot() { setSlot(nullptr); }
 Bus *ObjectVTableBase::bus() {
     FCITX_D();
     if (d->slot_) {
-        if (auto bus = d->slot_->bus_.get()) {
+        if (auto *bus = d->slot_->bus_.get()) {
             return bus->bus_;
         }
     }
@@ -145,9 +144,9 @@ Message *ObjectVTableBase::currentMessage() const {
     return d->msg_;
 }
 
-void ObjectVTableBase::setCurrentMessage(Message *msg) {
+void ObjectVTableBase::setCurrentMessage(Message *message) {
     FCITX_D();
-    d->msg_ = msg;
+    d->msg_ = message;
 }
 
 std::shared_ptr<ObjectVTablePrivate> ObjectVTableBase::newSharedPrivateData() {
@@ -158,5 +157,4 @@ void ObjectVTableBase::setSlot(Slot *slot) {
     FCITX_D();
     d->slot_.reset(static_cast<DBusObjectVTableSlot *>(slot));
 }
-} // namespace dbus
-} // namespace fcitx
+} // namespace fcitx::dbus

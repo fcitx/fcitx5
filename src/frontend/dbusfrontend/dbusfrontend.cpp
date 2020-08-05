@@ -69,9 +69,8 @@ public:
                 if (capabilityFlags().test(CapabilityFlag::KeyEventOrderFix)) {
                     InputContextEventBlocker blocker(this);
                     return method(std::move(message));
-                } else {
-                    return method(std::move(message));
                 }
+                return method(std::move(message));
             });
         created();
     }
@@ -80,7 +79,7 @@ public:
 
     const char *frontend() const override { return "dbus"; }
 
-    const dbus::ObjectPath path() const { return path_; }
+    const dbus::ObjectPath &path() const { return path_; }
 
     void updateIM(const InputMethodEntry *entry) {
         currentIMTo(name_, entry->name(), entry->uniqueName(),
@@ -205,8 +204,8 @@ std::tuple<dbus::ObjectPath, std::vector<uint8_t>>
 InputMethod1::createInputContext(
     const std::vector<dbus::DBusStruct<std::string, std::string>> &args) {
     std::unordered_map<std::string, std::string> strMap;
-    for (auto &p : args) {
-        std::string key = std::get<0>(p.data()), value = std::get<1>(p.data());
+    for (const auto &p : args) {
+        const auto &[key, value] = p.data();
         strMap[key] = value;
     }
     std::string program;
@@ -218,9 +217,9 @@ InputMethod1::createInputContext(
     std::string *display = findValue(strMap, "display");
 
     auto sender = currentMessage()->sender();
-    auto ic = new DBusInputContext1(module_->nextIcIdx(),
-                                    instance_->inputContextManager(), this,
-                                    sender, program);
+    auto *ic = new DBusInputContext1(module_->nextIcIdx(),
+                                     instance_->inputContextManager(), this,
+                                     sender, program);
     ic->setFocusGroup(instance_->defaultFocusGroup(display ? *display : ""));
 
     bus_->addObjectVTable(ic->path().path(), FCITX_INPUTCONTEXT_DBUS_INTERFACE,
@@ -253,9 +252,9 @@ DBusFrontendModule::DBusFrontendModule(Instance *instance)
         EventType::InputContextInputMethodActivated, EventWatcherPhase::Default,
         [this](Event &event) {
             auto &activated = static_cast<InputMethodActivatedEvent &>(event);
-            auto ic = activated.inputContext();
+            auto *ic = activated.inputContext();
             if (strcmp(ic->frontend(), "dbus") == 0) {
-                if (auto entry = instance_->inputMethodManager().entry(
+                if (const auto *entry = instance_->inputMethodManager().entry(
                         activated.name())) {
                     static_cast<DBusInputContext1 *>(ic)->updateIM(entry);
                 }

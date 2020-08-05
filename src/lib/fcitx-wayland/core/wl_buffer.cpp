@@ -1,13 +1,9 @@
 #include "wl_buffer.h"
 #include <cassert>
-namespace fcitx {
-namespace wayland {
-constexpr const char *WlBuffer::interface;
-constexpr const wl_interface *const WlBuffer::wlInterface;
-const uint32_t WlBuffer::version;
+namespace fcitx::wayland {
 const struct wl_buffer_listener WlBuffer::listener = {
     [](void *data, wl_buffer *wldata) {
-        auto obj = static_cast<WlBuffer *>(data);
+        auto *obj = static_cast<WlBuffer *>(data);
         assert(*obj == wldata);
         { return obj->release()(); }
     },
@@ -23,5 +19,4 @@ void WlBuffer::destructor(wl_buffer *data) {
         return wl_buffer_destroy(data);
     }
 }
-} // namespace wayland
-} // namespace fcitx
+} // namespace fcitx::wayland

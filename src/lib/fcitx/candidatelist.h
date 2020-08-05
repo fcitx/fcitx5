@@ -139,7 +139,7 @@ public:
     DisplayOnlyCandidateList();
     ~DisplayOnlyCandidateList();
 
-    void setContent(std::vector<std::string> content);
+    void setContent(const std::vector<std::string> &content);
     void setContent(std::vector<Text> content);
     void setLayoutHint(CandidateLayoutHint hint);
     void setCursorIndex(int index);

@@ -10,8 +10,7 @@
 #include <xcb/xcb_aux.h>
 #include "fcitx-utils/rect.h"
 
-namespace fcitx {
-namespace classicui {
+namespace fcitx::classicui {
 
 XCBInputWindow::XCBInputWindow(XCBUI *ui)
     : XCBWindow(ui), InputWindow(ui->parent()) {
@@ -43,7 +42,7 @@ void XCBInputWindow::updatePosition(InputContext *inputContext) {
 
     const Rect *closestScreen = nullptr;
     int shortestDistance = INT_MAX;
-    for (auto &rect : ui_->screenRects()) {
+    for (const auto &rect : ui_->screenRects()) {
         int thisDistance = rect.first.distance(x, y);
         if (thisDistance < shortestDistance) {
             shortestDistance = thisDistance;
@@ -66,13 +65,14 @@ void XCBInputWindow::updatePosition(InputContext *inputContext) {
             newY = y + (h ? h : (10 * ((dpi_ < 0 ? 96.0 : dpi_) / 96.0)));
         }
 
-        if ((newX + static_cast<int>(width())) > closestScreen->right())
+        if ((newX + static_cast<int>(width())) > closestScreen->right()) {
             newX = closestScreen->right() - width();
+        }
 
         if ((newY + static_cast<int>(height())) > closestScreen->bottom()) {
-            if (newY > closestScreen->bottom())
+            if (newY > closestScreen->bottom()) {
                 newY = closestScreen->bottom() - height() - 40;
-            else { /* better position the window */
+            } else { /* better position the window */
                 newY = newY - height() - ((h == 0) ? 40 : h);
             }
         }
@@ -136,7 +136,7 @@ bool XCBInputWindow::filterEvent(xcb_generic_event_t *event) {
     switch (response_type) {
 
     case XCB_EXPOSE: {
-        auto expose = reinterpret_cast<xcb_expose_event_t *>(event);
+        auto *expose = reinterpret_cast<xcb_expose_event_t *>(event);
         if (expose->window == wid_) {
             repaint();
             return true;
@@ -144,7 +144,7 @@ bool XCBInputWindow::filterEvent(xcb_generic_event_t *event) {
         break;
     }
     case XCB_BUTTON_PRESS: {
-        auto buttonPress = reinterpret_cast<xcb_button_press_event_t *>(event);
+        auto *buttonPress = reinterpret_cast<xcb_button_press_event_t *>(event);
         if (buttonPress->event != wid_) {
             break;
         }
@@ -158,7 +158,7 @@ bool XCBInputWindow::filterEvent(xcb_generic_event_t *event) {
         return true;
     }
     case XCB_MOTION_NOTIFY: {
-        auto motion = reinterpret_cast<xcb_motion_notify_event_t *>(event);
+        auto *motion = reinterpret_cast<xcb_motion_notify_event_t *>(event);
         if (motion->event == wid_) {
             if (hover(motion->event_x, motion->event_y)) {
                 repaint();
@@ -168,7 +168,7 @@ bool XCBInputWindow::filterEvent(xcb_generic_event_t *event) {
         break;
     }
     case XCB_LEAVE_NOTIFY: {
-        auto leave = reinterpret_cast<xcb_leave_notify_event_t *>(event);
+        auto *leave = reinterpret_cast<xcb_leave_notify_event_t *>(event);
         if (leave->event == wid_) {
             if (hover(-1, -1)) {
                 repaint();
@@ -185,7 +185,7 @@ void XCBInputWindow::repaint() {
     if (!visible()) {
         return;
     }
-    if (auto surface = prerender()) {
+    if (auto *surface = prerender()) {
         cairo_t *c = cairo_create(surface);
         paint(c, width(), height());
         cairo_destroy(c);
@@ -193,5 +193,4 @@ void XCBInputWindow::repaint() {
     }
 }
 
-} // namespace classicui
-} // namespace fcitx
+} // namespace fcitx::classicui

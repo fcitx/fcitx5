@@ -33,7 +33,7 @@ public:
         if (destroyed_) {
             return true;
         }
-        if (auto instance = manager_.instance()) {
+        if (auto *instance = manager_.instance()) {
             return instance->postEvent(event);
         }
         return false;
@@ -44,7 +44,7 @@ public:
         if (destroyed_) {
             return true;
         }
-        if (auto instance = manager_.instance()) {
+        if (auto *instance = manager_.instance()) {
             return instance->postEvent(E(std::forward<Args>(args)...));
         }
         return false;
@@ -89,7 +89,7 @@ public:
         case EventType::InputContextCommitString: {
             auto &event = static_cast<CommitStringEvent &>(icEvent);
             if (!postEvent(event)) {
-                if (auto instance = manager_.instance()) {
+                if (auto *instance = manager_.instance()) {
                     auto newString = instance->commitFilter(q, event.text());
                     q->commitStringImpl(newString);
                 } else {

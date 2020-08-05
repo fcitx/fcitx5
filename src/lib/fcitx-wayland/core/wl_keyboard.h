@@ -3,8 +3,7 @@
 #include <memory>
 #include <wayland-client.h>
 #include "fcitx-utils/signals.h"
-namespace fcitx {
-namespace wayland {
+namespace fcitx::wayland {
 class WlSurface;
 class WlKeyboard final {
 public:
@@ -44,6 +43,5 @@ private:
 static inline wl_keyboard *rawPointer(WlKeyboard *p) {
     return p ? static_cast<wl_keyboard *>(*p) : nullptr;
 }
-} // namespace wayland
-} // namespace fcitx
+} // namespace fcitx::wayland
 #endif

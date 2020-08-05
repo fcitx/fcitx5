@@ -37,23 +37,23 @@ struct container_hasher {
 namespace fcitx {
 
 struct InputContextListHelper {
-    static IntrusiveListNode &toNode(InputContext &ic) noexcept;
+    static IntrusiveListNode &toNode(InputContext &value) noexcept;
     static InputContext &toValue(IntrusiveListNode &node) noexcept;
-    static const IntrusiveListNode &toNode(const InputContext &ic) noexcept;
+    static const IntrusiveListNode &toNode(const InputContext &value) noexcept;
     static const InputContext &toValue(const IntrusiveListNode &node) noexcept;
 };
 
 struct InputContextFocusedListHelper {
-    static IntrusiveListNode &toNode(InputContext &ic) noexcept;
+    static IntrusiveListNode &toNode(InputContext &value) noexcept;
     static InputContext &toValue(IntrusiveListNode &node) noexcept;
-    static const IntrusiveListNode &toNode(const InputContext &ic) noexcept;
+    static const IntrusiveListNode &toNode(const InputContext &value) noexcept;
     static const InputContext &toValue(const IntrusiveListNode &node) noexcept;
 };
 
 struct FocusGroupListHelper {
-    static IntrusiveListNode &toNode(FocusGroup &group) noexcept;
+    static IntrusiveListNode &toNode(FocusGroup &value) noexcept;
     static FocusGroup &toValue(IntrusiveListNode &node) noexcept;
-    static const IntrusiveListNode &toNode(const FocusGroup &group) noexcept;
+    static const IntrusiveListNode &toNode(const FocusGroup &value) noexcept;
     static const FocusGroup &toValue(const IntrusiveListNode &node) noexcept;
 };
 
@@ -101,7 +101,7 @@ public:
         if (iter == propertyFactories_.end()) {
             return;
         }
-        auto factory = iter->second;
+        auto *factory = iter->second;
         auto slot = factory->slot_;
         // move slot, logic need to be same as inputContext
         propertyFactoriesSlots_[slot] = propertyFactoriesSlots_.back();
@@ -125,7 +125,7 @@ public:
             programMap_[inputContext.program()].insert(&inputContext);
         }
         for (auto &p : propertyFactories_) {
-            auto property = p.second->q_func()->create(inputContext);
+            auto *property = p.second->q_func()->create(inputContext);
             inputContext.d_func()->registerProperty(p.second->slot_, property);
             if (property->needCopy() &&
                 (propertyPropagatePolicy_ == PropertyPropagatePolicy::All ||
@@ -177,14 +177,14 @@ public:
 };
 
 #define DEFINE_LIST_HELPERS(HELPERTYPE, TYPE, MEMBER)                          \
-    IntrusiveListNode &HELPERTYPE::toNode(TYPE &ic) noexcept {                 \
-        return InputContextManagerPrivate::to##TYPE##Private(ic)->MEMBER;      \
+    IntrusiveListNode &HELPERTYPE::toNode(TYPE &value) noexcept {              \
+        return InputContextManagerPrivate::to##TYPE##Private(value)->MEMBER;   \
     }                                                                          \
     TYPE &HELPERTYPE::toValue(IntrusiveListNode &node) noexcept {              \
         return *parentFromMember(&node, &TYPE##Private::MEMBER)->q_func();     \
     }                                                                          \
-    const IntrusiveListNode &HELPERTYPE::toNode(const TYPE &ic) noexcept {     \
-        return InputContextManagerPrivate::to##TYPE##Private(ic)->MEMBER;      \
+    const IntrusiveListNode &HELPERTYPE::toNode(const TYPE &value) noexcept {  \
+        return InputContextManagerPrivate::to##TYPE##Private(value)->MEMBER;   \
     }                                                                          \
     const TYPE &HELPERTYPE::toValue(const IntrusiveListNode &node) noexcept {  \
         return *parentFromMember(&node, &TYPE##Private::MEMBER)->q_func();     \
@@ -256,7 +256,7 @@ void InputContextManager::setPropertyPropagatePolicy(
 void InputContextManager::finalize() {
     FCITX_D();
     d->finalized_ = true;
-    while (d->inputContexts_.size()) {
+    while (!d->inputContexts_.empty()) {
         delete &d->inputContexts_.front();
     }
 }
@@ -337,12 +337,12 @@ void InputContextManager::propagateProperty(
         return;
     }
 
-    auto property = this->property(inputContext, factory);
+    auto *property = this->property(inputContext, factory);
     auto factoryRef = factory->watch();
     auto copyProperty = [this, &factoryRef, &inputContext,
                          &property](auto &container) {
         for (auto &dstInputContext_ : container) {
-            if (auto factory = factoryRef.get()) {
+            if (const auto *factory = factoryRef.get()) {
                 auto dstInputContext = toInputContextPointer(dstInputContext_);
                 if (dstInputContext != &inputContext) {
                     property->copyTo(this->property(*dstInputContext, factory));
@@ -361,26 +361,27 @@ void InputContextManager::propagateProperty(
     }
 }
 
-void InputContextManager::notifyFocus(InputContext &ic, bool hasFocus) {
+void InputContextManager::notifyFocus(InputContext &inputContext,
+                                      bool hasFocus) {
     FCITX_D();
     if (hasFocus) {
-        if (d->focusedInputContexts_.isInList(ic)) {
-            if (&d->focusedInputContexts_.front() == &ic) {
+        if (d->focusedInputContexts_.isInList(inputContext)) {
+            if (&d->focusedInputContexts_.front() == &inputContext) {
                 return;
             }
-            auto iter = d->focusedInputContexts_.iterator_to(ic);
+            auto iter = d->focusedInputContexts_.iterator_to(inputContext);
             d->focusedInputContexts_.erase(iter);
         }
-        d->focusedInputContexts_.push_front(ic);
+        d->focusedInputContexts_.push_front(inputContext);
         d->mostRecentInputContext_.unwatch();
     } else {
-        if (d->focusedInputContexts_.isInList(ic)) {
-            auto iter = d->focusedInputContexts_.iterator_to(ic);
+        if (d->focusedInputContexts_.isInList(inputContext)) {
+            auto iter = d->focusedInputContexts_.iterator_to(inputContext);
             d->focusedInputContexts_.erase(iter);
         }
         // If this is the last ic. watch it.
         if (d->focusedInputContexts_.empty()) {
-            d->mostRecentInputContext_ = ic.watch();
+            d->mostRecentInputContext_ = inputContext.watch();
         }
     }
 }
@@ -393,7 +394,7 @@ InputContext *InputContextManager::lastFocusedInputContext() {
 
 InputContext *InputContextManager::mostRecentInputContext() {
     FCITX_D();
-    auto ic = lastFocusedInputContext();
+    auto *ic = lastFocusedInputContext();
     if (ic) {
         return ic;
     }

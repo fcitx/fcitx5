@@ -47,7 +47,7 @@ public:
     WaylandModule(Instance *instance);
     Instance *instance() { return instance_; }
 
-    void openDisplay(const std::string &display);
+    void openDisplay(const std::string &name);
     void removeDisplay(const std::string &name);
 
     std::unique_ptr<HandlerTableEntry<WaylandConnectionCreated>>

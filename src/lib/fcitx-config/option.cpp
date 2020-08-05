@@ -12,13 +12,14 @@
 namespace fcitx {
 OptionBase::OptionBase(Configuration *parent, std::string path,
                        std::string description)
-    : parent_(parent), path_(path), description_(description) {
+    : parent_(parent), path_(std::move(path)),
+      description_(std::move(description)) {
 
     // Force the rule of "/" not allowed in option, so our live of GUI would be
     // easier.
-    if (path.find('/') != std::string::npos) {
+    if (path_.find('/') != std::string::npos) {
         throw std::invalid_argument(
-            "/ is not allowed in option, option path is " + path);
+            "/ is not allowed in option, option path is " + path_);
     }
     parent_->addOption(this);
 }
@@ -37,8 +38,9 @@ void OptionBase::dumpDescription(RawConfig &config) const {
 }
 
 ExternalOption::ExternalOption(Configuration *parent, std::string path,
-                               std::string description, std::string external)
-    : OptionBase(parent, path, description), externalUri_(external) {}
+                               std::string description, std::string uri)
+    : OptionBase(parent, std::move(path), std::move(description)),
+      externalUri_(std::move(uri)) {}
 
 std::string ExternalOption::typeString() const { return "External"; }
 

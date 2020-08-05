@@ -23,6 +23,7 @@ public:
 
     static constexpr std::size_t size() { return size_; }
     static constexpr const char *data() { return str_; }
+    static constexpr bool empty() { return size_ == 0; }
 
     static constexpr array_type str() { return str_; }
 
@@ -31,15 +32,10 @@ private:
     static const std::size_t size_ = sizeof...(c);
 };
 
-template <char... c>
-constexpr const char MetaString<c...>::str_[sizeof...(c) + 1];
-
 template <int N, int M>
 constexpr char __getChar(char const (&str)[M]) noexcept {
-    // hack to avoid warning.
-    int n = N < M ? N : 0;
     if (N < M) {
-        return str[n];
+        return str[N];
     }
     return '\0';
 }

@@ -23,7 +23,7 @@ FCITX_CONFIG_ENUM_I18N_ANNOTATION(SpellProvider, N_("Presage"), N_("Custom"),
                                   N_("Enchant"));
 
 struct NotEmptyProvider {
-    bool check(const std::vector<SpellProvider> &providers) const {
+    bool check(const std::vector<SpellProvider> &providers) {
         return !providers.empty();
     }
     void dumpDescription(RawConfig &) const {}

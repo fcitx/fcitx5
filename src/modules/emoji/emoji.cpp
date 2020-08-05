@@ -46,7 +46,7 @@ public:
         auto tokens = stringutils::split(temp, "|");
         std::transform(tokens.begin(), tokens.end(), tokens.begin(),
                        stringutils::trim);
-        for (auto token : tokens) {
+        for (const auto &token : tokens) {
             if (token.empty()) {
                 continue;
             }
@@ -56,7 +56,7 @@ public:
             auto &emojis = emojiMap_[token];
             // Certain word has a very general meaning and has tons of matches,
             // keep only 1 or 2 for specific.
-            if (emojis.size() == 0 ||
+            if (emojis.empty() ||
                 (emojis.size() == 1 && emojis[0] != currentEmoji_)) {
                 emojis.push_back(currentEmoji_);
             }
@@ -90,7 +90,7 @@ const std::vector<std::string> &Emoji::query(const std::string &language,
         return emptyEmoji;
     }
 
-    if (auto result = findValue(*emojiMap, key)) {
+    if (const auto *result = findValue(*emojiMap, key)) {
         return *result;
     }
 
@@ -99,8 +99,8 @@ const std::vector<std::string> &Emoji::query(const std::string &language,
 
 void Emoji::prefix(
     const std::string &language, const std::string &key, bool fallbackToEn,
-    std::function<bool(const std::string &, const std::vector<std::string> &)>
-        collector) {
+    const std::function<bool(const std::string &,
+                             const std::vector<std::string> &)> &collector) {
     const EmojiMap *emojiMap = loadEmoji(language, fallbackToEn);
 
     if (!emojiMap) {
@@ -131,12 +131,12 @@ const EmojiMap *Emoji::loadEmoji(const std::string &language,
         {"zh_TW", "zh_Hant"}, {"zh_CN", "zh"}, {"zh_HK", "zh_Hant_HK"}};
 
     std::string lang;
-    if (auto mapped = findValue(languageMap, language)) {
+    if (const auto *mapped = findValue(languageMap, language)) {
         lang = *mapped;
     } else {
         lang = language;
     }
-    auto emojiMap = findValue(langToEmojiMap_, lang);
+    auto *emojiMap = findValue(langToEmojiMap_, lang);
     if (!emojiMap) {
         // These are having aspell/hunspell/ispell available.
         static const std::unordered_map<
@@ -171,7 +171,7 @@ const EmojiMap *Emoji::loadEmoji(const std::string &language,
                          {"zh_Hant", [](const std::string &str) {
                               return utf8::lengthValidated(str) > 2;
                           }}};
-        auto filter = findValue(filterMap, lang);
+        const auto *filter = findValue(filterMap, lang);
         const auto file =
             stringutils::joinPath(CLDR_EMOJI_ANNOTATION_PREFIX,
                                   "/share/unicode/cldr/common/annotations",
@@ -186,7 +186,7 @@ const EmojiMap *Emoji::loadEmoji(const std::string &language,
             if (!fallbackToEn) {
                 return nullptr;
             }
-            auto enMap = loadEmoji("en", false);
+            const auto *enMap = loadEmoji("en", false);
             if (enMap) {
                 emojiMap = &(langToEmojiMap_[lang] = *enMap);
             }

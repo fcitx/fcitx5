@@ -11,8 +11,7 @@
 #include "bus_p.h"
 #include "objectvtable_p_sdbus.h"
 
-namespace fcitx {
-namespace dbus {
+namespace fcitx::dbus {
 
 class ObjectVTablePrivate {
 public:
@@ -30,11 +29,11 @@ public:
 };
 
 int SDMethodCallback(sd_bus_message *m, void *userdata, sd_bus_error *) {
-    auto vtable = static_cast<ObjectVTableBase *>(userdata);
+    auto *vtable = static_cast<ObjectVTableBase *>(userdata);
     if (!vtable) {
         return 0;
     }
-    auto method = vtable->findMethod(sd_bus_message_get_member(m));
+    auto *method = vtable->findMethod(sd_bus_message_get_member(m));
     if (!method) {
         return 0;
     }
@@ -52,11 +51,11 @@ int SDMethodCallback(sd_bus_message *m, void *userdata, sd_bus_error *) {
 int SDPropertyGetCallback(sd_bus *, const char *, const char *,
                           const char *property, sd_bus_message *reply,
                           void *userdata, sd_bus_error *) {
-    auto vtable = static_cast<ObjectVTableBase *>(userdata);
+    auto *vtable = static_cast<ObjectVTableBase *>(userdata);
     if (!vtable) {
         return 0;
     }
-    auto prop = vtable->findProperty(property);
+    auto *prop = vtable->findProperty(property);
     if (!prop) {
         return 0;
     }
@@ -75,11 +74,11 @@ int SDPropertyGetCallback(sd_bus *, const char *, const char *,
 int SDPropertySetCallback(sd_bus *, const char *, const char *,
                           const char *property, sd_bus_message *value,
                           void *userdata, sd_bus_error *) {
-    auto vtable = static_cast<ObjectVTableBase *>(userdata);
+    auto *vtable = static_cast<ObjectVTableBase *>(userdata);
     if (!vtable) {
         return 0;
     }
-    auto prop = vtable->findProperty(property);
+    auto *prop = vtable->findProperty(property);
     if (!prop || !prop->writable()) {
         return 0;
     }
@@ -108,13 +107,13 @@ uint32_t PropertyOptionsToSDBusFlags(PropertyOptions options) {
 const sd_bus_vtable *
 ObjectVTableBasePrivate::toSDBusVTable(ObjectVTableBase *q) {
     std::lock_guard<std::mutex> lock(q->privateDataMutexForType());
-    auto p = q->privateDataForType();
+    auto *p = q->privateDataForType();
     if (!p->hasVTable_) {
         std::vector<sd_bus_vtable> &result = p->vtable_;
         result.push_back(vtable_start());
 
         for (const auto &m : methods_) {
-            auto method = m.second;
+            auto *method = m.second;
             result.push_back(vtable_method(
                 p->vtableString(method->name()).c_str(),
                 p->vtableString(method->signature()).c_str(),
@@ -122,14 +121,14 @@ ObjectVTableBasePrivate::toSDBusVTable(ObjectVTableBase *q) {
         }
 
         for (const auto &s : sigs_) {
-            auto sig = s.second;
+            auto *sig = s.second;
             result.push_back(
                 vtable_signal(p->vtableString(sig->name()).c_str(),
                               p->vtableString(sig->signature()).c_str()));
         }
 
         for (const auto &pr : properties_) {
-            auto prop = pr.second;
+            auto *prop = pr.second;
             if (prop->writable()) {
                 result.push_back(vtable_writable_property(
                     p->vtableString(prop->name()).c_str(),
@@ -217,9 +216,9 @@ Message *ObjectVTableBase::currentMessage() const {
     return d->msg_;
 }
 
-void ObjectVTableBase::setCurrentMessage(Message *msg) {
+void ObjectVTableBase::setCurrentMessage(Message *message) {
     FCITX_D();
-    d->msg_ = msg;
+    d->msg_ = message;
 }
 
 std::shared_ptr<ObjectVTablePrivate> ObjectVTableBase::newSharedPrivateData() {
@@ -230,5 +229,4 @@ void ObjectVTableBase::setSlot(Slot *slot) {
     FCITX_D();
     d->slot_.reset(static_cast<SDVTableSlot *>(slot));
 }
-} // namespace dbus
-} // namespace fcitx
+} // namespace fcitx::dbus

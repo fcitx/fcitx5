@@ -8,8 +8,7 @@
 #include <shared_mutex>
 #include "fcitx-utils/misc_p.h"
 
-namespace fcitx {
-namespace dbus {
+namespace fcitx::dbus {
 
 class VariantTypeRegistryPrivate {
 public:
@@ -42,14 +41,14 @@ void VariantTypeRegistry::registerTypeImpl(
     if (d->types_.count(signature)) {
         return;
     }
-    d->types_.emplace(signature, helper);
+    d->types_.emplace(signature, std::move(helper));
 }
 
 std::shared_ptr<VariantHelperBase>
 VariantTypeRegistry::lookupType(const std::string &signature) const {
     FCITX_D();
     std::shared_lock<std::shared_timed_mutex> lock(d->mutex_);
-    auto v = findValue(d->types_, signature);
+    const auto *v = findValue(d->types_, signature);
     return v ? *v : nullptr;
 }
 
@@ -62,5 +61,4 @@ void Variant::writeToMessage(dbus::Message &msg) const {
     helper_->serialize(msg, data_.get());
 }
 
-} // namespace dbus
-} // namespace fcitx
+} // namespace fcitx::dbus

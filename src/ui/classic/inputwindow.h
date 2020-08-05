@@ -34,7 +34,7 @@ public:
     void wheel(bool up);
 
 protected:
-    void resizeCandidates(size_t s);
+    void resizeCandidates(size_t n);
     void appendText(std::string &s, PangoAttrList *attrList,
                     PangoAttrList *highlightAttrList, const Text &text);
     void insertAttr(PangoAttrList *attrList, TextFormatFlags format, int start,

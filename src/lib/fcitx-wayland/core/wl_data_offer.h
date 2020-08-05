@@ -3,8 +3,7 @@
 #include <memory>
 #include <wayland-client.h>
 #include "fcitx-utils/signals.h"
-namespace fcitx {
-namespace wayland {
+namespace fcitx::wayland {
 class WlDataOffer final {
 public:
     static constexpr const char *interface = "wl_data_offer";
@@ -40,6 +39,5 @@ private:
 static inline wl_data_offer *rawPointer(WlDataOffer *p) {
     return p ? static_cast<wl_data_offer *>(*p) : nullptr;
 }
-} // namespace wayland
-} // namespace fcitx
+} // namespace fcitx::wayland
 #endif

@@ -18,7 +18,7 @@ public:
                               const std::string &signature,
                               const std::string &ret, ObjectMethod handler)
         : name_(name), signature_(signature), ret_(ret),
-          internalHandler_(handler), vtable_(vtable) {}
+          internalHandler_(std::move(handler)), vtable_(vtable) {}
 
     const std::string name_;
     const std::string signature_;
@@ -30,9 +30,10 @@ public:
 
 class ObjectVTableSignalPrivate {
 public:
-    ObjectVTableSignalPrivate(ObjectVTableBase *vtable, const std::string &name,
-                              const std::string signature)
-        : name_(name), signature_(signature), vtable_(vtable) {}
+    ObjectVTableSignalPrivate(ObjectVTableBase *vtable, std::string name,
+                              std::string signature)
+        : name_(std::move(name)), signature_(std::move(signature)),
+          vtable_(vtable) {}
     const std::string name_;
     const std::string signature_;
     ObjectVTableBase *vtable_;
@@ -40,12 +41,12 @@ public:
 
 class ObjectVTablePropertyPrivate {
 public:
-    ObjectVTablePropertyPrivate(const std::string &name,
-                                const std::string signature,
+    ObjectVTablePropertyPrivate(std::string name, std::string signature,
                                 PropertyGetMethod getMethod,
                                 PropertyOptions options)
-        : name_(name), signature_(signature), getMethod_(getMethod),
-          writable_(false), options_(options) {}
+        : name_(std::move(name)), signature_(std::move(signature)),
+          getMethod_(std::move(getMethod)), writable_(false),
+          options_(options) {}
 
     virtual ~ObjectVTablePropertyPrivate() = default;
 
@@ -58,13 +59,13 @@ public:
 
 class ObjectVTableWritablePropertyPrivate : public ObjectVTablePropertyPrivate {
 public:
-    ObjectVTableWritablePropertyPrivate(const std::string &name,
-                                        const std::string signature,
+    ObjectVTableWritablePropertyPrivate(std::string name, std::string signature,
                                         PropertyGetMethod getMethod,
                                         PropertySetMethod setMethod,
                                         PropertyOptions options)
-        : ObjectVTablePropertyPrivate(name, signature, getMethod, options),
-          setMethod_(setMethod) {
+        : ObjectVTablePropertyPrivate(std::move(name), std::move(signature),
+                                      std::move(getMethod), options),
+          setMethod_(std::move(setMethod)) {
         writable_ = true;
     }
 

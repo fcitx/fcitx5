@@ -3,19 +3,15 @@
 #include "wl_keyboard.h"
 #include "wl_pointer.h"
 #include "wl_touch.h"
-namespace fcitx {
-namespace wayland {
-constexpr const char *WlSeat::interface;
-constexpr const wl_interface *const WlSeat::wlInterface;
-const uint32_t WlSeat::version;
+namespace fcitx::wayland {
 const struct wl_seat_listener WlSeat::listener = {
     [](void *data, wl_seat *wldata, uint32_t capabilities) {
-        auto obj = static_cast<WlSeat *>(data);
+        auto *obj = static_cast<WlSeat *>(data);
         assert(*obj == wldata);
         { return obj->capabilities()(capabilities); }
     },
     [](void *data, wl_seat *wldata, const char *name) {
-        auto obj = static_cast<WlSeat *>(data);
+        auto *obj = static_cast<WlSeat *>(data);
         assert(*obj == wldata);
         { return obj->name()(name); }
     },
@@ -40,5 +36,4 @@ WlKeyboard *WlSeat::getKeyboard() {
     return new WlKeyboard(wl_seat_get_keyboard(*this));
 }
 WlTouch *WlSeat::getTouch() { return new WlTouch(wl_seat_get_touch(*this)); }
-} // namespace wayland
-} // namespace fcitx
+} // namespace fcitx::wayland

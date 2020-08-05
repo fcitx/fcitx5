@@ -42,7 +42,7 @@ public:
 
     std::unique_ptr<HandlerTableEntry<QuickPhraseProviderCallback>>
     addCallback(QuickPhraseProviderCallback callback) {
-        return callback_.add(callback);
+        return callback_.add(std::move(callback));
     }
 
 private:

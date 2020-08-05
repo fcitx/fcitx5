@@ -36,7 +36,7 @@ public:
     XCBModule(Instance *instance);
 
     void openConnection(const std::string &name);
-    void removeConnection(std::string name);
+    void removeConnection(const std::string &name);
     std::string mainDisplay() { return mainDisplay_; }
     const XCBConfig &config() const { return config_; }
     Instance *instance() { return instance_; }

@@ -42,7 +42,7 @@ public:
 };
 
 struct NotEmpty {
-    bool check(const std::string &value) const { return !value.empty(); }
+    bool check(const std::string &value) { return !value.empty(); }
     void dumpDescription(RawConfig &) const {}
 };
 

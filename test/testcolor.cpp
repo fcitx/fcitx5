@@ -17,10 +17,10 @@ int main() {
     FCITX_ASSERT(c.green() == 101);
     FCITX_ASSERT(c.blue() == 102);
     FCITX_ASSERT(c.alpha() == 255);
-    FCITX_ASSERT(ceil(c.redF() * 255) == 100);
-    FCITX_ASSERT(ceil(c.greenF() * 255) == 101);
-    FCITX_ASSERT(ceil(c.blueF() * 255) == 102);
-    FCITX_ASSERT(ceil(c.alphaF() * 255) == 255);
+    FCITX_ASSERT(std::ceil(c.redF() * 255) == 100);
+    FCITX_ASSERT(std::ceil(c.greenF() * 255) == 101);
+    FCITX_ASSERT(std::ceil(c.blueF() * 255) == 102);
+    FCITX_ASSERT(std::ceil(c.alphaF() * 255) == 255);
     c.setRed(50);
     FCITX_ASSERT(c.red() == 50);
     c.setGreen(51);

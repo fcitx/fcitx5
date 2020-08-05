@@ -34,7 +34,7 @@ public:
 private:
     void event(int32_t id, const std::string &type, const dbus::Variant &,
                uint32_t);
-    dbus::Variant getProperty(int32_t, const std::string &);
+    static dbus::Variant getProperty(int32_t, const std::string &);
     std::tuple<uint32_t, DBusMenuLayout>
     getLayout(int parentId, int recursionDepth,
               const std::vector<std::string> &propertyNames);
@@ -45,9 +45,10 @@ private:
     void appendSubItem(std::vector<dbus::Variant> &, int32_t id, int depth,
                        const std::unordered_set<std::string> &propertyNames);
     void handleEvent(int32_t id);
-    void appendProperty(DBusMenuProperties &properties,
-                        const std::unordered_set<std::string> &propertyNames,
-                        const std::string &name, dbus::Variant variant);
+    static void
+    appendProperty(DBusMenuProperties &properties,
+                   const std::unordered_set<std::string> &propertyNames,
+                   const std::string &name, dbus::Variant variant);
     void
     fillLayoutProperties(int32_t id,
                          const std::unordered_set<std::string> &propertyNames,

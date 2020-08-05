@@ -9,6 +9,7 @@
 
 #include <functional>
 #include <unordered_set>
+#include <utility>
 #include "fcitx-config/configuration.h"
 #include "fcitx-config/iniparser.h"
 #include "fcitx-utils/dbus/bus.h"
@@ -29,8 +30,8 @@ struct NotificationItem {
     NotificationItem(uint64_t internalId,
                      NotificationActionCallback actionCallback,
                      NotificationClosedCallback closedCallback)
-        : internalId_(internalId), actionCallback_(actionCallback),
-          closedCallback_(closedCallback) {}
+        : internalId_(internalId), actionCallback_(std::move(actionCallback)),
+          closedCallback_(std::move(closedCallback)) {}
     uint32_t globalId_ = 0;
     uint64_t internalId_;
     NotificationActionCallback actionCallback_;

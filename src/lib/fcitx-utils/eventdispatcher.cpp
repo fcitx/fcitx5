@@ -53,14 +53,14 @@ EventDispatcher::EventDispatcher()
 
 EventDispatcher::~EventDispatcher() {}
 
-void EventDispatcher::attach(EventLoop *loop) {
+void EventDispatcher::attach(EventLoop *event) {
     FCITX_D();
     std::lock_guard<std::mutex> lock(d->mutex_);
-    d->ioEvent_ = loop->addIOEvent(d->fd_[0].fd(), IOEventFlag::In,
-                                   [d](EventSource *, int, IOEventFlags) {
-                                       d->dispatchEvent();
-                                       return true;
-                                   });
+    d->ioEvent_ = event->addIOEvent(d->fd_[0].fd(), IOEventFlag::In,
+                                    [d](EventSource *, int, IOEventFlags) {
+                                        d->dispatchEvent();
+                                        return true;
+                                    });
 }
 
 void EventDispatcher::detach() {

@@ -95,7 +95,7 @@ bool Library::unload() {
 
 void *Library::resolve(const char *name) {
     FCITX_D();
-    auto result = dlsym(d->handle_, name);
+    auto *result = dlsym(d->handle_, name);
     if (!result) {
         d->error_ = dlerror();
     }
@@ -103,7 +103,7 @@ void *Library::resolve(const char *name) {
 }
 
 bool Library::findData(const char *slug, const char *magic, size_t lenOfMagic,
-                       std::function<void(const char *data)> parser) {
+                       const std::function<void(const char *data)> &parser) {
     FCITX_D();
     if (d->handle_) {
         void *data = dlsym(d->handle_, slug);

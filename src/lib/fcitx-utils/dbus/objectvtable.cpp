@@ -7,16 +7,15 @@
 #include "bus.h"
 #include "objectvtable_p.h"
 
-namespace fcitx {
-namespace dbus {
+namespace fcitx::dbus {
 
 ObjectVTableMethod::ObjectVTableMethod(ObjectVTableBase *vtable,
                                        const std::string &name,
                                        const std::string &signature,
                                        const std::string &ret,
                                        ObjectMethod handler)
-    : d_ptr(std::make_unique<ObjectVTableMethodPrivate>(vtable, name, signature,
-                                                        ret, handler)) {
+    : d_ptr(std::make_unique<ObjectVTableMethodPrivate>(
+          vtable, name, signature, ret, std::move(handler))) {
     vtable->addMethod(this);
 }
 
@@ -49,10 +48,9 @@ void ObjectVTableMethod::setClosureFunction(ObjectMethodClosure closure) {
 }
 
 ObjectVTableSignal::ObjectVTableSignal(ObjectVTableBase *vtable,
-                                       const std::string &name,
-                                       const std::string signature)
-    : d_ptr(std::make_unique<ObjectVTableSignalPrivate>(vtable, name,
-                                                        signature)) {
+                                       std::string name, std::string signature)
+    : d_ptr(std::make_unique<ObjectVTableSignalPrivate>(vtable, std::move(name),
+                                                        std::move(signature))) {
     vtable->addSignal(this);
 }
 
@@ -70,12 +68,13 @@ FCITX_DEFINE_READ_ONLY_PROPERTY_PRIVATE(ObjectVTableSignal, std::string,
                                         signature);
 
 ObjectVTableProperty::ObjectVTableProperty(ObjectVTableBase *vtable,
-                                           const std::string &name,
-                                           const std::string signature,
+                                           std::string name,
+                                           std::string signature,
                                            PropertyGetMethod getMethod,
                                            PropertyOptions options)
-    : d_ptr(std::make_unique<ObjectVTablePropertyPrivate>(name, signature,
-                                                          getMethod, options)) {
+    : d_ptr(std::make_unique<ObjectVTablePropertyPrivate>(
+          std::move(name), std::move(signature), std::move(getMethod),
+          options)) {
     vtable->addProperty(this);
 }
 
@@ -96,17 +95,17 @@ FCITX_DEFINE_READ_ONLY_PROPERTY_PRIVATE(ObjectVTableProperty, PropertyOptions,
                                         options);
 
 ObjectVTableWritableProperty::ObjectVTableWritableProperty(
-    ObjectVTableBase *vtable, const std::string &name,
-    const std::string signature, PropertyGetMethod getMethod,
-    PropertySetMethod setMethod, PropertyOptions options)
+    ObjectVTableBase *vtable, std::string name, std::string signature,
+    PropertyGetMethod getMethod, PropertySetMethod setMethod,
+    PropertyOptions options)
     : ObjectVTableProperty(
           std::make_unique<ObjectVTableWritablePropertyPrivate>(
-              name, signature, getMethod, setMethod, options)) {
+              std::move(name), std::move(signature), std::move(getMethod),
+              std::move(setMethod), options)) {
     vtable->addProperty(this);
 }
 
 FCITX_DEFINE_READ_ONLY_PROPERTY_PRIVATE(ObjectVTableWritableProperty,
                                         PropertySetMethod, setMethod);
 
-} // namespace dbus
-} // namespace fcitx
+} // namespace fcitx::dbus

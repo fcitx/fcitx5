@@ -68,10 +68,15 @@ size_t Text::size() const {
     return d->texts_.size();
 }
 
+bool Text::empty() const {
+    FCITX_D();
+    return d->texts_.empty();
+}
+
 std::string Text::toString() const {
     FCITX_D();
     std::string result;
-    for (auto &p : d->texts_) {
+    for (const auto &p : d->texts_) {
         result += std::get<std::string>(p);
     }
 
@@ -81,7 +86,7 @@ std::string Text::toString() const {
 size_t Text::textLength() const {
     FCITX_D();
     size_t length = 0;
-    for (auto &p : d->texts_) {
+    for (const auto &p : d->texts_) {
         length += std::get<std::string>(p).size();
     }
 
@@ -91,7 +96,7 @@ size_t Text::textLength() const {
 std::string Text::toStringForCommit() const {
     FCITX_D();
     std::string result;
-    for (auto &p : d->texts_) {
+    for (const auto &p : d->texts_) {
         if (!(std::get<TextFormatFlags>(p) & TextFormatFlag::DontCommit)) {
             result += std::get<std::string>(p);
         }

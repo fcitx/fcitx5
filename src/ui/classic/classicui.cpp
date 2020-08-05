@@ -21,16 +21,14 @@
 #include "waylandui.h"
 #endif
 
-namespace fcitx {
-namespace classicui {
+namespace fcitx::classicui {
 
 FCITX_DEFINE_LOG_CATEGORY(classicui_logcategory, "classicui");
 
-ClassicUI::ClassicUI(Instance *instance)
-    : UserInterface(), instance_(instance) {
+ClassicUI::ClassicUI(Instance *instance) : instance_(instance) {
     reloadConfig();
 
-    if (auto xcbAddon = xcb()) {
+    if (auto *xcbAddon = xcb()) {
         xcbCreatedCallback_ =
             xcbAddon->call<IXCBModule::addConnectionCreatedCallback>(
                 [this](const std::string &name, xcb_connection_t *conn,
@@ -46,7 +44,7 @@ ClassicUI::ClassicUI(Instance *instance)
     }
 
 #ifdef WAYLAND_FOUND
-    if (auto waylandAddon = wayland()) {
+    if (auto *waylandAddon = wayland()) {
         waylandCreatedCallback_ =
             waylandAddon->call<IWaylandModule::addConnectionCreatedCallback>(
                 [this](const std::string &name, wl_display *display,
@@ -90,7 +88,7 @@ void ClassicUI::suspend() {
         p.second->suspend();
     }
 
-    if (auto sni = notificationitem()) {
+    if (auto *sni = notificationitem()) {
         sni->call<INotificationItem::disable>();
     }
     eventHandlers_.clear();
@@ -164,7 +162,7 @@ void ClassicUI::resume() {
         p.second->resume();
     }
 
-    if (auto sni = notificationitem()) {
+    if (auto *sni = notificationitem()) {
         if (!sniHandler_) {
             sniHandler_ =
                 sni->call<INotificationItem::watch>([this](bool enable) {
@@ -187,7 +185,7 @@ void ClassicUI::resume() {
     eventHandlers_.emplace_back(instance_->watchEvent(
         EventType::InputContextCursorRectChanged, EventWatcherPhase::Default,
         [this](Event &event) {
-            if (auto ui = uiForEvent(event)) {
+            if (auto *ui = uiForEvent(event)) {
                 auto &icEvent = static_cast<InputContextEvent &>(event);
                 ui->updateCursor(icEvent.inputContext());
             }
@@ -195,7 +193,7 @@ void ClassicUI::resume() {
     eventHandlers_.emplace_back(instance_->watchEvent(
         EventType::InputContextFocusIn, EventWatcherPhase::Default,
         [this](Event &event) {
-            if (auto ui = uiForEvent(event)) {
+            if (auto *ui = uiForEvent(event)) {
                 auto &icEvent = static_cast<InputContextEvent &>(event);
                 ui->updateCursor(icEvent.inputContext());
                 ui->updateCurrentInputMethod(icEvent.inputContext());
@@ -204,7 +202,7 @@ void ClassicUI::resume() {
     eventHandlers_.emplace_back(instance_->watchEvent(
         EventType::InputContextSwitchInputMethod, EventWatcherPhase::Default,
         [this](Event &event) {
-            if (auto ui = uiForEvent(event)) {
+            if (auto *ui = uiForEvent(event)) {
                 auto &icEvent = static_cast<InputContextEvent &>(event);
                 ui->updateCurrentInputMethod(icEvent.inputContext());
             }
@@ -214,7 +212,7 @@ void ClassicUI::resume() {
         [this](Event &) {
             instance_->inputContextManager().foreachFocused(
                 [this](InputContext *ic) {
-                    if (auto ui = uiForInputContext(ic)) {
+                    if (auto *ui = uiForInputContext(ic)) {
                         ui->updateCurrentInputMethod(ic);
                     }
                     return true;
@@ -233,12 +231,12 @@ void ClassicUI::update(UserInterfaceComponent component,
         // The position will be wrong anyway.
         auto mainX11Display = xcb()->call<IXCBModule::mainDisplay>();
         if (!mainX11Display.empty()) {
-            if (auto uiPtr = findValue(uis_, "x11:" + mainX11Display)) {
+            if (auto *uiPtr = findValue(uis_, "x11:" + mainX11Display)) {
                 ui = uiPtr->get();
             }
         }
     } else {
-        if (auto uiPtr = findValue(uis_, inputContext->display())) {
+        if (auto *uiPtr = findValue(uis_, inputContext->display())) {
             ui = uiPtr->get();
         }
     }
@@ -254,7 +252,6 @@ public:
         return new ClassicUI(manager->instance());
     }
 };
-} // namespace classicui
-} // namespace fcitx
+} // namespace fcitx::classicui
 
 FCITX_ADDON_FACTORY(fcitx::classicui::ClassicUIFactory);

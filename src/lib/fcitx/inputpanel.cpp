@@ -83,9 +83,9 @@ void InputPanel::reset() {
 
 bool InputPanel::empty() const {
     FCITX_D();
-    return d->preedit_.size() == 0 && d->clientPreedit_.size() == 0 &&
+    return d->preedit_.empty() && d->clientPreedit_.empty() &&
            (!d->candidate_ || d->candidate_->size() == 0) &&
-           d->auxUp_.size() == 0 && d->auxDown_.size() == 0;
+           d->auxUp_.empty() && d->auxDown_.empty();
 }
 
 std::shared_ptr<CandidateList> InputPanel::candidateList() const {

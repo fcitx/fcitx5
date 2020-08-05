@@ -59,7 +59,7 @@ protected:
         // clear current one.
         removeAll();
         while (other.size_) {
-            auto node = other.root_.prev_;
+            auto *node = other.root_.prev_;
             // pop_back
             other.remove(other.root_.prev_);
             // push_front
@@ -90,8 +90,8 @@ protected:
     }
 
     void remove(IntrusiveListNode *pos) noexcept {
-        auto next_ = pos->next_;
-        auto prev_ = pos->prev_;
+        auto *next_ = pos->next_;
+        auto *prev_ = pos->prev_;
         prev_->next_ = next_;
         next_->prev_ = prev_;
 
@@ -207,7 +207,7 @@ public:
     }
 
     IntrusiveListIterator operator++(int) {
-        auto old = node;
+        auto *old = node;
         ++(*this);
         return {old, *nodeGetter};
     }

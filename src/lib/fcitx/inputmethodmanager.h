@@ -49,7 +49,7 @@ public:
 
     const InputMethodEntry *entry(const std::string &name) const;
     bool foreachEntries(
-        const std::function<bool(const InputMethodEntry &entry)> callback);
+        const std::function<bool(const InputMethodEntry &entry)> &callback);
 
     FCITX_DECLARE_SIGNAL(InputMethodManager, CurrentGroupAboutToChange,
                          void(const std::string &group));

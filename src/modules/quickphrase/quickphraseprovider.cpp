@@ -109,7 +109,7 @@ void BuiltInQuickPhraseProvider::load(StandardPathFile &file) {
 bool CallbackQuickPhraseProvider::populate(
     InputContext *ic, const std::string &userInput,
     QuickPhraseAddCandidateCallback addCandidate) {
-    for (auto callback : callback_.view()) {
+    for (const auto &callback : callback_.view()) {
         if (!callback(ic, userInput, addCandidate)) {
             return false;
         }

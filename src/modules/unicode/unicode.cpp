@@ -36,7 +36,7 @@ public:
 
 class UnicodeCandidateWord : public CandidateWord {
 public:
-    UnicodeCandidateWord(Unicode *q, int c) : CandidateWord(), q_(q) {
+    UnicodeCandidateWord(Unicode *q, int c) : q_(q) {
         Text text;
         text.append(utf8::UCS4ToUTF8(c));
         text.append(" ");
@@ -46,7 +46,7 @@ public:
 
     void select(InputContext *inputContext) const override {
         auto commit = text().stringAt(0);
-        auto state = inputContext->propertyFor(&q_->factory());
+        auto *state = inputContext->propertyFor(&q_->factory());
         state->reset(inputContext);
         inputContext->commitString(commit);
     }
@@ -86,7 +86,7 @@ Unicode::Unicode(Instance *instance)
 
     auto reset = [this](Event &event) {
         auto &icEvent = static_cast<InputContextEvent &>(event);
-        auto state = icEvent.inputContext()->propertyFor(&factory_);
+        auto *state = icEvent.inputContext()->propertyFor(&factory_);
         if (state->enabled_) {
             state->reset(icEvent.inputContext());
         }
@@ -102,8 +102,8 @@ Unicode::Unicode(Instance *instance)
         EventType::InputContextKeyEvent, EventWatcherPhase::PreInputMethod,
         [this](Event &event) {
             auto &keyEvent = static_cast<KeyEvent &>(event);
-            auto inputContext = keyEvent.inputContext();
-            auto state = inputContext->propertyFor(&factory_);
+            auto *inputContext = keyEvent.inputContext();
+            auto *state = inputContext->propertyFor(&factory_);
             if (!state->enabled_) {
                 return;
             }
@@ -127,7 +127,7 @@ Unicode::Unicode(Instance *instance)
 
                 if (keyEvent.key().checkKeyList(
                         instance_->globalConfig().defaultPrevPage())) {
-                    auto pageable = candidateList->toPageable();
+                    auto *pageable = candidateList->toPageable();
                     if (!pageable->hasPrev()) {
                         if (pageable->usedNextBefore()) {
                             event.accept();
@@ -178,7 +178,8 @@ Unicode::Unicode(Instance *instance)
                 keyEvent.accept();
                 state->reset(inputContext);
                 return;
-            } else if (keyEvent.key().check(FcitxKey_Return)) {
+            }
+            if (keyEvent.key().check(FcitxKey_Return)) {
                 keyEvent.accept();
                 if (candidateList->size() > 0 &&
                     candidateList->cursorIndex() >= 0) {
@@ -186,7 +187,8 @@ Unicode::Unicode(Instance *instance)
                         .select(inputContext);
                 }
                 return;
-            } else if (keyEvent.key().check(FcitxKey_BackSpace)) {
+            }
+            if (keyEvent.key().check(FcitxKey_BackSpace)) {
                 if (state->buffer_.empty()) {
                     state->reset(inputContext);
                 } else {
@@ -225,12 +227,12 @@ Unicode::Unicode(Instance *instance)
 Unicode::~Unicode() {}
 
 void Unicode::trigger(InputContext *inputContext) {
-    auto state = inputContext->propertyFor(&factory_);
+    auto *state = inputContext->propertyFor(&factory_);
     state->enabled_ = true;
     updateUI(inputContext, true);
 }
 void Unicode::updateUI(InputContext *inputContext, bool trigger) {
-    auto state = inputContext->propertyFor(&factory_);
+    auto *state = inputContext->propertyFor(&factory_);
     inputContext->inputPanel().reset();
     if (!state->buffer_.empty()) {
         auto result = data_.find(state->buffer_.userInput());
@@ -294,8 +296,7 @@ void Unicode::updateUI(InputContext *inputContext, bool trigger) {
                     display =
                         fmt::format("{0} U+{1:04x}", utf8::UCS4ToUTF8(c), c);
                 }
-                candidateList->append<DisplayOnlyCandidateWord>(
-                    Text(std::move(display)));
+                candidateList->append<DisplayOnlyCandidateWord>(Text(display));
                 if (counter >= limit) {
                     break;
                 }
@@ -313,7 +314,7 @@ void Unicode::updateUI(InputContext *inputContext, bool trigger) {
     }
     Text preedit;
     preedit.append(state->buffer_.userInput());
-    if (state->buffer_.size()) {
+    if (!state->buffer_.empty()) {
         preedit.setCursor(state->buffer_.cursorByChar());
     }
 

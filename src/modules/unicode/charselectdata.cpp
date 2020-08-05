@@ -112,11 +112,11 @@ std::vector<std::string> CharSelectData::unihanInfo(uint32_t unicode) {
         mid = (min + max) / 2;
         const uint32_t midUnicode =
             FromLittleEndian16(data + offsetBegin + mid * 32);
-        if (unicode > midUnicode)
+        if (unicode > midUnicode) {
             min = mid + 1;
-        else if (unicode < midUnicode)
+        } else if (unicode < midUnicode) {
             max = mid - 1;
-        else {
+        } else {
             int i;
             for (i = 0; i < 7; i++) {
                 uint32_t offset = FromLittleEndian32(data + offsetBegin +
@@ -149,8 +149,9 @@ uint32_t CharSelectData::findDetailIndex(uint32_t unicode) const {
     static uint32_t most_recent_searched;
     static uint32_t most_recent_result;
 
-    if (unicode == most_recent_searched)
+    if (unicode == most_recent_searched) {
         return most_recent_result;
+    }
 
     most_recent_searched = unicode;
 
@@ -158,11 +159,11 @@ uint32_t CharSelectData::findDetailIndex(uint32_t unicode) const {
         mid = (min + max) / 2;
         const uint32_t midUnicode =
             FromLittleEndian16(data + offsetBegin + mid * 29);
-        if (unicode > midUnicode)
+        if (unicode > midUnicode) {
             min = mid + 1;
-        else if (unicode < midUnicode)
+        } else if (unicode < midUnicode) {
             max = mid - 1;
-        else {
+        } else {
             most_recent_result = offsetBegin + mid * 29;
 
             return most_recent_result;
@@ -199,15 +200,15 @@ std::string CharSelectData::name(uint32_t unicode) const {
             result += JAMO_L_TABLE[LIndex];
             result += JAMO_V_TABLE[VIndex];
             result += JAMO_T_TABLE[TIndex];
-        } else if (unicode >= 0xD800 && unicode <= 0xDB7F)
+        } else if (unicode >= 0xD800 && unicode <= 0xDB7F) {
             result = _("<Non Private Use High Surrogate>");
-        else if (unicode >= 0xDB80 && unicode <= 0xDBFF)
+        } else if (unicode >= 0xDB80 && unicode <= 0xDBFF) {
             result = _("<Private Use High Surrogate>");
-        else if (unicode >= 0xDC00 && unicode <= 0xDFFF)
+        } else if (unicode >= 0xDC00 && unicode <= 0xDFFF) {
             result = _("<Low Surrogate>");
-        else if (unicode >= 0xE000 && unicode <= 0xF8FF)
+        } else if (unicode >= 0xE000 && unicode <= 0xF8FF) {
             result = _("<Private Use>");
-        else {
+        } else {
 
             const char *data = data_.data();
             const uint32_t offsetBegin = FromLittleEndian32(data + 4);
@@ -221,11 +222,11 @@ std::string CharSelectData::name(uint32_t unicode) const {
                 mid = (min + max) / 2;
                 const uint32_t midUnicode =
                     FromLittleEndian32(data + offsetBegin + mid * 8);
-                if (unicode > midUnicode)
+                if (unicode > midUnicode) {
                     min = mid + 1;
-                else if (unicode < midUnicode)
+                } else if (unicode < midUnicode) {
                     max = mid - 1;
-                else {
+                } else {
                     uint32_t offset =
                         FromLittleEndian32(data + offsetBegin + mid * 8 + 4);
                     result = (data_.data() + offset + 1);
@@ -267,8 +268,9 @@ std::string Simplified(const std::string &src) {
 }
 
 bool IsHexString(const std::string &s) {
-    if (s.size() < 6)
+    if (s.size() < 6) {
         return false;
+    }
     if (!((s[0] == '0' && s[1] == 'x') || (s[0] == '0' && s[1] == 'X') ||
           (s[0] == 'u' && s[1] == '+') || (s[0] == 'U' && s[1] == '+'))) {
         return false;
@@ -276,8 +278,9 @@ bool IsHexString(const std::string &s) {
 
     auto i = s.begin() + 2;
     while (i != s.end()) {
-        if (!isxdigit(*i))
+        if (!isxdigit(*i)) {
             return 0;
+        }
         i++;
     }
     return 1;
@@ -296,7 +299,7 @@ std::vector<uint32_t> CharSelectData::find(const std::string &needle) const {
         searchStrings.push_back(format);
     }
 
-    if (searchStrings.size() == 0) {
+    if (searchStrings.empty()) {
         return returnRes;
     }
 
@@ -525,7 +528,7 @@ void CharSelectData::createIndex() {
         for (j = 0; j < seeAlsoCount; j++) {
             uint32_t seeAlso = FromLittleEndian16(data + seeAlsoOffset);
             auto code = FormatCode(seeAlso, 4, "");
-            appendToIndex(unicode, code.data());
+            appendToIndex(unicode, code);
             equivOffset += strlen(data + equivOffset) + 1;
         }
     }

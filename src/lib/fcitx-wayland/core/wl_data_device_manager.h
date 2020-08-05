@@ -3,8 +3,7 @@
 #include <memory>
 #include <wayland-client.h>
 #include "fcitx-utils/signals.h"
-namespace fcitx {
-namespace wayland {
+namespace fcitx::wayland {
 class WlDataDevice;
 class WlDataSource;
 class WlSeat;
@@ -35,6 +34,5 @@ private:
 static inline wl_data_device_manager *rawPointer(WlDataDeviceManager *p) {
     return p ? static_cast<wl_data_device_manager *>(*p) : nullptr;
 }
-} // namespace wayland
-} // namespace fcitx
+} // namespace fcitx::wayland
 #endif

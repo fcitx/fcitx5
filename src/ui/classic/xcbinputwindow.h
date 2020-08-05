@@ -18,12 +18,12 @@ public:
     XCBInputWindow(XCBUI *ui);
 
     void postCreateWindow() override;
-    void update(InputContext *c);
-    void updatePosition(InputContext *c);
+    void update(InputContext *inputContext);
+    void updatePosition(InputContext *inputContext);
 
     bool filterEvent(xcb_generic_event_t *event) override;
 
-    void updateDPI(InputContext *c);
+    void updateDPI(InputContext *inputContext);
 
 private:
     void repaint();

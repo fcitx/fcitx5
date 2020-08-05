@@ -40,6 +40,7 @@ public:
     const std::string &stringAt(int idx) const;
     TextFormatFlags formatAt(int idx) const;
     size_t size() const;
+    bool empty() const;
     size_t textLength() const;
     std::string toString() const;
     std::string toStringForCommit() const;

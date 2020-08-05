@@ -47,7 +47,7 @@ public:
 
     static Message fromSDError(const sd_bus_error &error) {
         Message msg;
-        auto msgD = msg.d_func();
+        auto *msgD = msg.d_func();
         msgD->type_ = MessageType::Error;
         msgD->error_ = error.name;
         msgD->message_ = error.message;

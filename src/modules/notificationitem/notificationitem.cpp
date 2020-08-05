@@ -49,15 +49,15 @@ public:
     void activate(int, int) { parent_->instance()->toggle(); }
     void secondaryActivate(int, int) {}
     std::string iconName() {
-        if (auto ic = parent_->instance()->lastFocusedInputContext()) {
-            if (auto entry = parent_->instance()->inputMethodEntry(ic)) {
+        if (auto *ic = parent_->instance()->lastFocusedInputContext()) {
+            if (const auto *entry = parent_->instance()->inputMethodEntry(ic)) {
                 return entry->icon();
             }
         }
         return "input-keyboard";
     }
 
-    dbus::DBusStruct<
+    static dbus::DBusStruct<
         std::string,
         std::vector<dbus::DBusStruct<int32_t, int32_t, std::vector<uint8_t>>>,
         std::string, std::string>
@@ -89,7 +89,7 @@ public:
     FCITX_OBJECT_VTABLE_PROPERTY(title, "Title", "s",
                                  []() { return _("Input Method"); });
     FCITX_OBJECT_VTABLE_PROPERTY(tooltip, "ToolTip", "(sa(iiay)ss)",
-                                 [this]() { return tooltip(); });
+                                 []() { return tooltip(); });
     FCITX_OBJECT_VTABLE_PROPERTY(iconThemePath, "IconThemePath", "s",
                                  []() { return ""; });
     FCITX_OBJECT_VTABLE_PROPERTY(menu, "Menu", "o",
@@ -200,7 +200,7 @@ void NotificationItem::disable() {
 
 std::unique_ptr<HandlerTableEntry<NotificationItemCallback>>
 NotificationItem::watch(NotificationItemCallback callback) {
-    return handlers_.add(callback);
+    return handlers_.add(std::move(callback));
 }
 
 void NotificationItem::newIcon() {

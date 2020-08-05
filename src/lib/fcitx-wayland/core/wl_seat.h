@@ -3,8 +3,7 @@
 #include <memory>
 #include <wayland-client.h>
 #include "fcitx-utils/signals.h"
-namespace fcitx {
-namespace wayland {
+namespace fcitx::wayland {
 class WlKeyboard;
 class WlPointer;
 class WlTouch;
@@ -39,6 +38,5 @@ private:
 static inline wl_seat *rawPointer(WlSeat *p) {
     return p ? static_cast<wl_seat *>(*p) : nullptr;
 }
-} // namespace wayland
-} // namespace fcitx
+} // namespace fcitx::wayland
 #endif

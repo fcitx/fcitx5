@@ -39,8 +39,9 @@ std::vector<std::string> SpellEnchant::hint(const std::string &language,
     size_t number;
     char **suggestions =
         enchant_dict_suggest(dict_.get(), word.c_str(), word.size(), &number);
-    if (!suggestions)
+    if (!suggestions) {
         return {};
+    }
 
     std::vector<std::string> result;
     number = number > limit ? limit : number;
@@ -58,7 +59,7 @@ bool SpellEnchant::loadDict(const std::string &language) {
         return true;
     }
 
-    auto dict = enchant_broker_request_dict(broker_.get(), language.c_str());
+    auto *dict = enchant_broker_request_dict(broker_.get(), language.c_str());
     if (dict) {
         language_ = language;
         dict_.reset(dict);

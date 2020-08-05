@@ -38,13 +38,13 @@ void Element::addParent(Element *parent) {
     addEdge(parent, this, nullptr, nullptr);
 }
 
-bool Element::isChild(const Element *child) const {
+bool Element::isChild(const Element *element) const {
     FCITX_D();
-    return d->childs_.contains(const_cast<Element *>(child));
+    return d->childs_.contains(const_cast<Element *>(element));
 }
-bool Element::isParent(const Element *parent) const {
+bool Element::isParent(const Element *element) const {
     FCITX_D();
-    return d->parents_.contains(const_cast<Element *>(parent));
+    return d->parents_.contains(const_cast<Element *>(element));
 }
 
 const std::list<Element *> &Element::parents() const {
@@ -81,13 +81,13 @@ void Element::removeEdge(Element *parent, Element *child) {
 }
 
 void Element::removeAllParent() {
-    while (parents().size()) {
+    while (!parents().empty()) {
         removeParent(parents().front());
     }
 }
 
 void Element::removeAllChild() {
-    while (childs().size()) {
+    while (!childs().empty()) {
         childs().front()->removeParent(this);
     }
 }

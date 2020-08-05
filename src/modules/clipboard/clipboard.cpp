@@ -80,8 +80,8 @@ std::string ClipboardSelectionStrip(const std::string &text) {
 
 class ClipboardCandidateWord : public CandidateWord {
 public:
-    ClipboardCandidateWord(Clipboard *q, const std::string str)
-        : CandidateWord(), q_(q), str_(str) {
+    ClipboardCandidateWord(Clipboard *q, const std::string &str)
+        : q_(q), str_(str) {
         Text text;
         text.append(ClipboardSelectionStrip(str));
         setText(std::move(text));
@@ -89,7 +89,7 @@ public:
 
     void select(InputContext *inputContext) const override {
         auto commit = str_;
-        auto state = inputContext->propertyFor(&q_->factory());
+        auto *state = inputContext->propertyFor(&q_->factory());
         state->reset(inputContext);
         inputContext->commitString(commit);
     }
@@ -149,7 +149,7 @@ Clipboard::Clipboard(Instance *instance)
 
     auto reset = [this](Event &event) {
         auto &icEvent = static_cast<InputContextEvent &>(event);
-        auto state = icEvent.inputContext()->propertyFor(&factory_);
+        auto *state = icEvent.inputContext()->propertyFor(&factory_);
         if (state->enabled_) {
             state->reset(icEvent.inputContext());
         }
@@ -165,8 +165,8 @@ Clipboard::Clipboard(Instance *instance)
         EventType::InputContextKeyEvent, EventWatcherPhase::PreInputMethod,
         [this](Event &event) {
             auto &keyEvent = static_cast<KeyEvent &>(event);
-            auto inputContext = keyEvent.inputContext();
-            auto state = inputContext->propertyFor(&factory_);
+            auto *inputContext = keyEvent.inputContext();
+            auto *state = inputContext->propertyFor(&factory_);
             if (!state->enabled_) {
                 return;
             }
@@ -200,7 +200,7 @@ Clipboard::Clipboard(Instance *instance)
 
                 if (keyEvent.key().checkKeyList(
                         instance_->globalConfig().defaultPrevPage())) {
-                    auto pageable = candidateList->toPageable();
+                    auto *pageable = candidateList->toPageable();
                     if (!pageable->hasPrev()) {
                         if (pageable->usedNextBefore()) {
                             event.accept();
@@ -262,7 +262,7 @@ Clipboard::Clipboard(Instance *instance)
 Clipboard::~Clipboard() {}
 
 void Clipboard::trigger(InputContext *inputContext) {
-    auto state = inputContext->propertyFor(&factory_);
+    auto *state = inputContext->propertyFor(&factory_);
     state->enabled_ = true;
     updateUI(inputContext);
 }
@@ -344,8 +344,8 @@ void Clipboard::clipboardChanged(const std::string &name) {
             if (!history_.pushFront(str)) {
                 history_.moveToTop(str);
             }
-            while (history_.size() && static_cast<int>(history_.size()) >
-                                          config_.numOfEntries.value()) {
+            while (!history_.empty() && static_cast<int>(history_.size()) >
+                                            config_.numOfEntries.value()) {
                 history_.pop();
             }
             clipboardCallback_.reset();

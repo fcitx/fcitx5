@@ -17,9 +17,7 @@
 #include <tuple>
 #include "fcitxutils_export.h"
 
-namespace fcitx {
-namespace stringutils {
-namespace details {
+namespace fcitx::stringutils::details {
 
 template <typename T>
 struct UniversalPieceHelper {
@@ -88,7 +86,7 @@ public:
 
     std::pair<const char *, std::size_t>
     toPathPair(const bool removePrefixSlash = true) const {
-        auto piece = piece_;
+        const auto *piece = piece_;
         auto size = size_;
         // Consume prefix and suffix slash.
         if (removePrefixSlash) {
@@ -110,9 +108,10 @@ public:
     }
 
 private:
+    static constexpr int IntegerBufferSize = 30;
     const char *piece_;
     std::size_t size_;
-    char buffer_[30];
+    char buffer_[IntegerBufferSize];
 };
 
 FCITXUTILS_EXPORT std::string
@@ -121,30 +120,6 @@ concatPieces(std::initializer_list<std::pair<const char *, std::size_t>> list);
 FCITXUTILS_EXPORT std::string concatPathPieces(
     std::initializer_list<std::pair<const char *, std::size_t>> list);
 
-} // namespace details
-
-template <typename... Args>
-std::string concat(const Args &... args) {
-    using namespace ::fcitx::stringutils::details;
-    return concatPieces({static_cast<const UniversalPiece &>(
-                             details::UniversalPieceHelper<Args>::forward(args))
-                             .toPair()...});
-}
-
-template <typename FirstArg, typename... Args>
-std::string joinPath(const FirstArg &firstArg, const Args &... args) {
-    using namespace ::fcitx::stringutils::details;
-    return concatPathPieces(
-        {static_cast<const UniversalPiece &>(
-             UniversalPieceHelper<FirstArg>::forward(firstArg))
-             .toPathPair(false),
-         static_cast<const UniversalPiece &>(
-             UniversalPieceHelper<Args>::forward(args))
-             .toPathPair()...});
-}
-
-} // namespace stringutils
-
-} // namespace fcitx
+} // namespace fcitx::stringutils::details
 
 #endif // _FCITX_UTILS_STRINGUTILS_DETAIL_H_

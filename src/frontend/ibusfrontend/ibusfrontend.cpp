@@ -68,24 +68,26 @@ std::string getLocalMachineId(void) {
 }
 
 std::string getSocketPath(void) {
-    auto path = getenv("IBUS_ADDRESS_FILE");
+    auto *path = getenv("IBUS_ADDRESS_FILE");
     if (path) {
         return path;
     }
     std::string hostname = "unix";
     std::string displaynumber = "0";
-    if (auto display = getenv("DISPLAY")) {
-        auto p = display;
-        for (; *p != ':' && *p != '\0'; p++)
+    if (auto *display = getenv("DISPLAY")) {
+        auto *p = display;
+        for (; *p != ':' && *p != '\0'; p++) {
             ;
+        }
 
         char *displaynumberStart = nullptr;
         if (*p == ':') {
             hostname = std::string(display, p);
             displaynumberStart = p + 1;
 
-            for (; *p != '.' && *p != '\0'; p++)
+            for (; *p != '.' && *p != '\0'; p++) {
                 ;
+            }
 
             displaynumber = std::string(displaynumberStart, p);
         } else {
@@ -112,7 +114,7 @@ std::pair<std::string, pid_t> getAddress(const std::string &socketPath) {
     pid_t pid = -1;
 
     /* get address from env variable */
-    auto address = getenv("IBUS_ADDRESS");
+    auto *address = getenv("IBUS_ADDRESS");
     if (address) {
         return {address, -1};
     }
@@ -124,8 +126,8 @@ std::pair<std::string, pid_t> getAddress(const std::string &socketPath) {
     }
     RawConfig config;
     readFromIni(config, file.get());
-    if (auto value = config.valueByPath("IBUS_ADDRESS")) {
-        if (auto pidValue = config.valueByPath("IBUS_DAEMON_PID")) {
+    if (const auto *value = config.valueByPath("IBUS_ADDRESS")) {
+        if (const auto *pidValue = config.valueByPath("IBUS_DAEMON_PID")) {
             try {
                 pid = std::stoi(*pidValue);
                 if (kill(pid, 0) == 0 && pid != getpid()) {
@@ -174,7 +176,9 @@ public:
                  const std::string &interface)
         : module_(module), instance_(module->instance()), bus_(bus),
           watcher_(std::make_unique<dbus::ServiceWatcher>(*bus_)) {
-        bus_->addObjectVTable("/org/freedesktop/IBus", interface, *this);
+        if (watcher_) {
+            bus_->addObjectVTable("/org/freedesktop/IBus", interface, *this);
+        }
     }
 
     dbus::ObjectPath createInputContext(const std::string &args);
@@ -267,7 +271,7 @@ public:
 
     const std::string &name() const { return name_; }
 
-    const dbus::ObjectPath path() const { return path_; }
+    dbus::ObjectPath path() const { return path_; }
 
     void commitStringImpl(const std::string &str) override {
         IBusText text = makeSimpleIBusText(str);
@@ -309,10 +313,9 @@ public:
                               ? utf8::length(preeditString, 0, preedit.cursor())
                               : 0;
         if (clientCommitPreedit_) {
-            updatePreeditTextWithModeTo(name_, v, cursor, offset ? true : false,
-                                        0);
+            updatePreeditTextWithModeTo(name_, v, cursor, offset != 0, 0);
         } else {
-            updatePreeditTextTo(name_, v, cursor, offset ? true : false);
+            updatePreeditTextTo(name_, v, cursor, offset != 0);
         }
     }
 
@@ -415,16 +418,16 @@ public:
 
     void enable() {}
     void disable() {}
-    bool isEnabled() { return true; }
+    static bool isEnabled() { return true; }
     void propertyActivate(const std::string &, int32_t) {}
     void setEngine(const std::string &) {}
-    dbus::Variant getEngine() { return dbus::Variant(0); }
+    static dbus::Variant getEngine() { return dbus::Variant(0); }
     void setSurroundingText(const dbus::Variant &text, uint32_t cursor,
                             uint32_t anchor) {
         if (text.signature() != "(sa{sv}sv)") {
             return;
         }
-        auto &s = text.dataAs<IBusText>();
+        const auto &s = text.dataAs<IBusText>();
         surroundingText().setText(std::get<2>(s), cursor, anchor);
         updateSurroundingText();
     }
@@ -480,7 +483,7 @@ private:
     FCITX_OBJECT_VTABLE_SIGNAL(updateProperty, "UpdateProperty", "v");
 
     // We dont tell others anything.
-    std::tuple<uint32_t, uint32_t> contentType() { return {0, 0}; }
+    static std::tuple<uint32_t, uint32_t> contentType() { return {0, 0}; }
     void setContentType(uint32_t hints, uint32_t purpose) {
 
         static const CapabilityFlags purpose_related_capability = {
@@ -611,8 +614,8 @@ void IBusService::destroyDBus() {
 dbus::ObjectPath
 IBusFrontend::createInputContext(const std::string & /* unused */) {
     auto sender = currentMessage()->sender();
-    auto ic = new IBusInputContext(icIdx++, instance_->inputContextManager(),
-                                   this, sender, "");
+    auto *ic = new IBusInputContext(icIdx++, instance_->inputContextManager(),
+                                    this, sender, "");
     ic->setFocusGroup(instance_->defaultFocusGroup());
     return ic->path();
 }

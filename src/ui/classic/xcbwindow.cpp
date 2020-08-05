@@ -11,17 +11,16 @@
 #include <xcb/xcb_aux.h>
 #include "common.h"
 
-namespace fcitx {
-namespace classicui {
+namespace fcitx::classicui {
 
-XCBWindow::XCBWindow(XCBUI *ui, int width, int height) : Window(), ui_(ui) {
+XCBWindow::XCBWindow(XCBUI *ui, int width, int height) : ui_(ui) {
     Window::resize(width, height);
 }
 
 XCBWindow::~XCBWindow() { destroyWindow(); }
 
 void XCBWindow::createWindow(xcb_visualid_t vid, bool overrideRedirect) {
-    auto conn = ui_->connection();
+    auto *conn = ui_->connection();
 
     if (wid_) {
         destroyWindow();
@@ -88,7 +87,7 @@ void XCBWindow::createWindow(xcb_visualid_t vid, bool overrideRedirect) {
 }
 
 void XCBWindow::destroyWindow() {
-    auto conn = ui_->connection();
+    auto *conn = ui_->connection();
     eventFilter_.reset();
     if (wid_) {
         xcb_destroy_window(conn, wid_);
@@ -124,7 +123,7 @@ cairo_surface_t *XCBWindow::prerender() {
 }
 
 void XCBWindow::render() {
-    auto cr = cairo_create(surface_.get());
+    auto *cr = cairo_create(surface_.get());
     cairo_set_operator(cr, CAIRO_OPERATOR_SOURCE);
     cairo_set_source_surface(cr, contentSurface_.get(), 0, 0);
     cairo_paint(cr);
@@ -132,5 +131,4 @@ void XCBWindow::render() {
     xcb_flush(ui_->connection());
     CLASSICUI_DEBUG() << "Render";
 }
-} // namespace classicui
-} // namespace fcitx
+} // namespace fcitx::classicui

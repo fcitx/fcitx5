@@ -18,11 +18,11 @@ namespace fcitx {
 
 class Configuration;
 
-FCITXCONFIG_EXPORT void marshallOption(RawConfig &config, const bool value);
+FCITXCONFIG_EXPORT void marshallOption(RawConfig &config, bool value);
 FCITXCONFIG_EXPORT bool unmarshallOption(bool &value, const RawConfig &config,
                                          bool partial);
 
-FCITXCONFIG_EXPORT void marshallOption(RawConfig &config, const int value);
+FCITXCONFIG_EXPORT void marshallOption(RawConfig &config, int value);
 FCITXCONFIG_EXPORT bool unmarshallOption(int &value, const RawConfig &config,
                                          bool partial);
 

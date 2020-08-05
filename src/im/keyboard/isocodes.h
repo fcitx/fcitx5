@@ -32,7 +32,7 @@ public:
     void read(const std::string &iso639, const std::string &iso3166);
 
     const IsoCodes639Entry *entry(const std::string &name) const {
-        auto entry = findValue(iso6392B, name);
+        const auto *entry = findValue(iso6392B, name);
         if (!entry) {
             entry = findValue(iso6392T, name);
         }

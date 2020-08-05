@@ -10,10 +10,9 @@
 #include "wl_output.h"
 #include "wl_surface.h"
 
-namespace fcitx {
-namespace classicui {
+namespace fcitx::classicui {
 
-WaylandWindow::WaylandWindow(WaylandUI *ui) : Window(), ui_(ui) {}
+WaylandWindow::WaylandWindow(WaylandUI *ui) : ui_(ui) {}
 
 WaylandWindow::~WaylandWindow() {}
 
@@ -26,7 +25,7 @@ void WaylandWindow::createWindow() {
     surface_->setUserData(this);
     conns_.emplace_back(
         surface_->enter().connect([this](wayland::WlOutput *output) {
-            auto info = ui_->display()->outputInformation(output);
+            const auto *info = ui_->display()->outputInformation(output);
             if (!info) {
                 return;
             }
@@ -58,5 +57,4 @@ void bufferToSurfaceSize(enum wl_output_transform buffer_transform,
     *width /= buffer_scale;
     *height /= buffer_scale;
 }
-} // namespace classicui
-} // namespace fcitx
+} // namespace fcitx::classicui

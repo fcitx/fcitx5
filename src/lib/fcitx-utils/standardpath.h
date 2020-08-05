@@ -95,7 +95,7 @@ struct FCITXUTILS_EXPORT User {
 struct FCITXUTILS_EXPORT Prefix {
     Prefix(const std::string &prefix_) : prefix(prefix_) {}
 
-    bool operator()(const std::string &path, const std::string &, bool) {
+    bool operator()(const std::string &path, const std::string &, bool) const {
         return stringutils::startsWith(path, prefix);
     }
 
@@ -106,7 +106,7 @@ struct FCITXUTILS_EXPORT Prefix {
 struct FCITXUTILS_EXPORT Suffix {
     Suffix(const std::string &suffix_) : suffix(suffix_) {}
 
-    bool operator()(const std::string &path, const std::string &, bool) {
+    bool operator()(const std::string &path, const std::string &, bool) const {
         return stringutils::endsWith(path, suffix);
     }
 
@@ -194,16 +194,16 @@ public:
     /// \brief Scan the directories of given type.
     ///
     /// Callback returns true to continue the scan.
-    void scanDirectories(
-        Type type,
-        std::function<bool(const std::string &path, bool user)> scanner) const;
+    void scanDirectories(Type type,
+                         const std::function<bool(const std::string &path,
+                                                  bool user)> &scanner) const;
 
     /// \brief Scan files scan file under [directory]/[path]
     /// \param path sub directory name.
     void scanFiles(Type type, const std::string &path,
-                   std::function<bool(const std::string &path,
-                                      const std::string &dir, bool user)>
-                       scanner) const;
+                   const std::function<bool(const std::string &path,
+                                            const std::string &dir, bool user)>
+                       &scanner) const;
 
     /// \brief Get user writable directory for given type.
     std::string userDirectory(Type type) const;
@@ -238,7 +238,7 @@ public:
     /// \param callback Callback function that accept a file descriptor and
     /// return whether the save if success or not.
     bool safeSave(Type type, const std::string &pathOrig,
-                  std::function<bool(int)> callback) const;
+                  const std::function<bool(int)> &callback) const;
 
     /// \brief Open all files match the first [directory]/[path].
     std::vector<StandardPathFile> openAll(Type type, const std::string &path,

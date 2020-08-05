@@ -66,7 +66,7 @@ public:
     bool connected() { return body_.isValid(); }
 
     void disconnect() {
-        auto body = body_.get();
+        auto *body = body_.get();
         // delete nullptr is no-op;
         delete body;
     }
@@ -85,14 +85,17 @@ class ScopedConnection : public Connection {
 public:
     // You must create two Connection if you really want two ScopedConnection
     // for same actual connection
-    ScopedConnection(ScopedConnection &&other) : Connection(std::move(other)) {}
-    ScopedConnection(Connection &&other) : Connection(std::move(other)) {}
+    ScopedConnection(ScopedConnection &&other) noexcept
+        : Connection(std::move(other)) {}
+    ScopedConnection(Connection &&other) noexcept
+        : Connection(std::move(other)) {}
     ScopedConnection(const ScopedConnection &) = delete;
     ScopedConnection() {}
 
-    ScopedConnection &operator=(ScopedConnection &&other) {
-        if (&other == this)
+    ScopedConnection &operator=(ScopedConnection &&other) noexcept {
+        if (&other == this) {
             return *this;
+        }
         disconnect();
         Connection::operator=(std::move(other));
         return *this;
@@ -155,7 +158,7 @@ public:
 
     template <typename Func>
     Connection connect(Func &&func) {
-        auto body =
+        auto *body =
             new ConnectionBody(d_ptr->table_.add(std::forward<Func>(func)));
         d_ptr->connections_.push_back(*body);
         return Connection{body->watch()};

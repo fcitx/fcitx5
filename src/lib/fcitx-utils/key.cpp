@@ -238,9 +238,9 @@ std::unordered_map<KeySym, const char *, EnumHash> makeLookupKeyNameMap() {
 }
 
 const char *lookupName(KeySym sym) {
-    static std::unordered_map<KeySym, const char *, EnumHash> map =
+    static const std::unordered_map<KeySym, const char *, EnumHash> map =
         makeLookupKeyNameMap();
-    auto result = findValue(map, sym);
+    const auto *result = findValue(map, sym);
     return result ? *result : nullptr;
 }
 } // namespace
@@ -404,13 +404,15 @@ std::string Key::toString(KeyStringFormat format) const {
             return std::string();
         }
 
-        if (sym == FcitxKey_ISO_Left_Tab)
+        if (sym == FcitxKey_ISO_Left_Tab) {
             sym = FcitxKey_Tab;
+        }
         key = keySymToString(sym, format);
     }
 
-    if (key.empty())
+    if (key.empty()) {
         return std::string();
+    }
 
     std::string str;
     auto states = states_;
@@ -464,7 +466,7 @@ KeyStates Key::keySymToStates(KeySym sym) {
 }
 
 KeySym Key::keySymFromString(const std::string &keyString) {
-    auto value = std::lower_bound(
+    const auto *value = std::lower_bound(
         keyValueByNameOffset,
         keyValueByNameOffset + FCITX_ARRAY_SIZE(keyValueByNameOffset),
         keyString, [](const uint32_t &idx, const std::string &str) {
@@ -477,7 +479,7 @@ KeySym Key::keySymFromString(const std::string &keyString) {
         return static_cast<KeySym>(*value);
     }
 
-    auto compat = std::lower_bound(
+    const auto *compat = std::lower_bound(
         keyNameListCompat,
         keyNameListCompat + FCITX_ARRAY_SIZE(keyNameListCompat), keyString,
         [](const KeyNameListCompat &c, const std::string &str) {
@@ -493,9 +495,8 @@ KeySym Key::keySymFromString(const std::string &keyString) {
         if (chr > 0) {
             if (fcitx::utf8::ncharByteLength(keyString.begin(), 1) == 1) {
                 return static_cast<KeySym>(keyString[0]);
-            } else {
-                return keySymFromUnicode(chr);
             }
+            return keySymFromUnicode(chr);
         }
     }
 
@@ -504,7 +505,7 @@ KeySym Key::keySymFromString(const std::string &keyString) {
 
 std::string Key::keySymToString(KeySym sym, KeyStringFormat format) {
     if (format == KeyStringFormat::Localized) {
-        if (auto name = lookupName(sym)) {
+        if (const auto *name = lookupName(sym)) {
             return C_("Key name", name);
         }
         auto code = keySymToUnicode(sym);
@@ -531,7 +532,7 @@ std::string Key::keySymToString(KeySym sym, KeyStringFormat format) {
     return std::string();
 }
 
-KeySym Key::keySymFromUnicode(uint32_t wc) {
+KeySym Key::keySymFromUnicode(uint32_t unicode) {
     int min = 0;
     int max = sizeof(gdk_unicode_to_keysym_tab) /
                   sizeof(gdk_unicode_to_keysym_tab[0]) -
@@ -539,17 +540,19 @@ KeySym Key::keySymFromUnicode(uint32_t wc) {
     int mid;
 
     /* First check for Latin-1 characters (1:1 mapping) */
-    if ((wc >= 0x0020 && wc <= 0x007e) || (wc >= 0x00a0 && wc <= 0x00ff))
-        return static_cast<KeySym>(wc);
+    if ((unicode >= 0x0020 && unicode <= 0x007e) ||
+        (unicode >= 0x00a0 && unicode <= 0x00ff)) {
+        return static_cast<KeySym>(unicode);
+    }
 
     /* Binary search in table */
     while (max >= min) {
         mid = (min + max) / 2;
-        if (gdk_unicode_to_keysym_tab[mid].ucs < wc)
+        if (gdk_unicode_to_keysym_tab[mid].ucs < unicode) {
             min = mid + 1;
-        else if (gdk_unicode_to_keysym_tab[mid].ucs > wc)
+        } else if (gdk_unicode_to_keysym_tab[mid].ucs > unicode) {
             max = mid - 1;
-        else {
+        } else {
             /* found it */
             return static_cast<KeySym>(gdk_unicode_to_keysym_tab[mid].keysym);
         }
@@ -559,10 +562,10 @@ KeySym Key::keySymFromUnicode(uint32_t wc) {
      * No matching keysym value found, return Unicode value plus 0x01000000
      * (a convention introduced in the UTF-8 work on xterm).
      */
-    return static_cast<KeySym>(wc | 0x01000000);
+    return static_cast<KeySym>(unicode | 0x01000000);
 }
 
-uint32_t Key::keySymToUnicode(KeySym keyval) {
+uint32_t Key::keySymToUnicode(KeySym sym) {
     int min = 0;
     int max = sizeof(gdk_keysym_to_unicode_tab) /
                   sizeof(gdk_keysym_to_unicode_tab[0]) -
@@ -570,23 +573,24 @@ uint32_t Key::keySymToUnicode(KeySym keyval) {
     int mid;
 
     /* First check for Latin-1 characters (1:1 mapping) */
-    if ((keyval >= 0x0020 && keyval <= 0x007e) ||
-        (keyval >= 0x00a0 && keyval <= 0x00ff))
-        return keyval;
+    if ((sym >= 0x0020 && sym <= 0x007e) || (sym >= 0x00a0 && sym <= 0x00ff)) {
+        return sym;
+    }
 
     /* Also check for directly encoded 24-bit UCS characters:
      */
-    if ((keyval & 0xff000000) == 0x01000000)
-        return keyval & 0x00ffffff;
+    if ((sym & 0xff000000) == 0x01000000) {
+        return sym & 0x00ffffff;
+    }
 
     /* binary search in table */
     while (max >= min) {
         mid = (min + max) / 2;
-        if (gdk_keysym_to_unicode_tab[mid].keysym < keyval)
+        if (gdk_keysym_to_unicode_tab[mid].keysym < sym) {
             min = mid + 1;
-        else if (gdk_keysym_to_unicode_tab[mid].keysym > keyval)
+        } else if (gdk_keysym_to_unicode_tab[mid].keysym > sym) {
             max = mid - 1;
-        else {
+        } else {
             /* found it */
             return gdk_keysym_to_unicode_tab[mid].ucs;
         }
@@ -596,24 +600,24 @@ uint32_t Key::keySymToUnicode(KeySym keyval) {
     return 0;
 }
 
-std::string Key::keySymToUTF8(KeySym keyval) {
-    return utf8::UCS4ToUTF8(keySymToUnicode(keyval));
+std::string Key::keySymToUTF8(KeySym sym) {
+    return utf8::UCS4ToUTF8(keySymToUnicode(sym));
 }
 
-std::vector<Key> Key::keyListFromString(const std::string &keyString) {
+std::vector<Key> Key::keyListFromString(const std::string &str) {
     std::vector<Key> keyList;
 
-    auto lastPos = keyString.find_first_not_of(FCITX_WHITESPACE, 0);
-    auto pos = keyString.find_first_of(FCITX_WHITESPACE, lastPos);
+    auto lastPos = str.find_first_not_of(FCITX_WHITESPACE, 0);
+    auto pos = str.find_first_of(FCITX_WHITESPACE, lastPos);
 
     while (std::string::npos != pos || std::string::npos != lastPos) {
-        Key key(keyString.substr(lastPos, pos - lastPos));
+        Key key(str.substr(lastPos, pos - lastPos));
 
         if (key.sym() != FcitxKey_None) {
             keyList.push_back(key);
         }
-        lastPos = keyString.find_first_not_of(FCITX_WHITESPACE, pos);
-        pos = keyString.find_first_of(FCITX_WHITESPACE, lastPos);
+        lastPos = str.find_first_not_of(FCITX_WHITESPACE, pos);
+        pos = str.find_first_of(FCITX_WHITESPACE, lastPos);
     }
 
     return keyList;

@@ -34,7 +34,7 @@ public:
                         &buildDefaultGroupCallback);
     void buildDefaultGroup(const std::function<void(InputMethodManager &)>
                                &buildDefaultGroupCallback);
-    void setGroupOrder(const std::vector<std::string> &groups);
+    void setGroupOrder(const std::vector<std::string> &groupOrder);
 
     FCITX_DEFINE_SIGNAL_PRIVATE(InputMethodManager, CurrentGroupAboutToChange);
     FCITX_DEFINE_SIGNAL_PRIVATE(InputMethodManager, CurrentGroupChanged);
@@ -50,16 +50,14 @@ public:
 
 bool checkEntry(const InputMethodEntry &entry,
                 const std::unordered_set<std::string> &inputMethods) {
-    return (entry.name().empty() || entry.uniqueName().empty() ||
-            entry.addon().empty() || inputMethods.count(entry.addon()) == 0)
-               ? false
-               : true;
+    return !(entry.name().empty() || entry.uniqueName().empty() ||
+             entry.addon().empty() || inputMethods.count(entry.addon()) == 0);
 }
 
 void InputMethodManagerPrivate::loadConfig(
     const std::function<void(InputMethodManager &)>
         &buildDefaultGroupCallback) {
-    auto &path = StandardPath::global();
+    const auto &path = StandardPath::global();
     auto file = path.open(StandardPath::Type::PkgConfig, "profile", O_RDONLY);
     RawConfig config;
     if (file.fd() >= 0) {
@@ -70,9 +68,9 @@ void InputMethodManagerPrivate::loadConfig(
 
     groups_.clear();
     std::vector<std::string> tempOrder;
-    if (imConfig.groups.value().size()) {
-        auto &groupsConfig = imConfig.groups.value();
-        for (auto &groupConfig : groupsConfig) {
+    if (!imConfig.groups.value().empty()) {
+        const auto &groupsConfig = imConfig.groups.value();
+        for (const auto &groupConfig : groupsConfig) {
             // group must have a name
             if (groupConfig.name.value().empty() ||
                 groupConfig.defaultLayout.value().empty()) {
@@ -84,8 +82,8 @@ void InputMethodManagerPrivate::loadConfig(
             tempOrder.push_back(groupConfig.name.value());
             auto &group = result.first->second;
             group.setDefaultLayout(groupConfig.defaultLayout.value());
-            auto &items = groupConfig.items.value();
-            for (auto &item : items) {
+            const auto &items = groupConfig.items.value();
+            for (const auto &item : items) {
                 if (!entries_.count(item.name.value())) {
                     FCITX_WARN() << "Group Item " << item.name.value()
                                  << " in group " << groupConfig.name.value()
@@ -97,7 +95,7 @@ void InputMethodManagerPrivate::loadConfig(
                                   .setLayout(item.layout.value())));
             }
 
-            if (!group.inputMethodList().size()) {
+            if (group.inputMethodList().empty()) {
                 FCITX_WARN() << "Group " << groupConfig.name.value()
                              << " is empty. Removed.";
                 groups_.erase(groupConfig.name.value());
@@ -107,13 +105,13 @@ void InputMethodManagerPrivate::loadConfig(
         }
     }
 
-    if (groups_.size() == 0) {
+    if (groups_.empty()) {
         FCITX_INFO() << "No valid input method group in configuration. "
                      << "Building a default one";
         groups_.clear();
         buildDefaultGroup(buildDefaultGroupCallback);
     } else {
-        if (imConfig.groupOrder.value().size()) {
+        if (!imConfig.groupOrder.value().empty()) {
             setGroupOrder(imConfig.groupOrder.value());
         } else {
             setGroupOrder(tempOrder);
@@ -155,12 +153,12 @@ void InputMethodManager::load(const std::function<void(InputMethodManager &)>
 
     auto inputMethods =
         d->addonManager_->addonNames(AddonCategory::InputMethod);
-    auto &path = StandardPath::global();
+    const auto &path = StandardPath::global();
     auto filesMap =
         path.multiOpenAll(StandardPath::Type::PkgData, "inputmethod", O_RDONLY,
                           filter::Suffix(".conf"));
     for (const auto &file : filesMap) {
-        auto &files = file.second;
+        const auto &files = file.second;
         RawConfig config;
         // reverse the order, so we end up parse user file at last.
         for (auto iter = files.rbegin(), end = files.rend(); iter != end;
@@ -182,12 +180,12 @@ void InputMethodManager::load(const std::function<void(InputMethodManager &)>
         }
     }
     for (const auto &addonName : inputMethods) {
-        auto addonInfo = d->addonManager_->addonInfo(addonName);
+        const auto *addonInfo = d->addonManager_->addonInfo(addonName);
         // on request input method should always provides entry with config file
         if (!addonInfo || addonInfo->onDemand()) {
             continue;
         }
-        auto engine = static_cast<InputMethodEngine *>(
+        auto *engine = static_cast<InputMethodEngine *>(
             d->addonManager_->addon(addonName));
         if (!engine) {
             FCITX_WARN() << "Failed to load input method addon: " << addonName;
@@ -266,7 +264,7 @@ InputMethodManager::group(const std::string &name) const {
 
 void InputMethodManager::setGroup(InputMethodGroup newGroup) {
     FCITX_D();
-    auto group = findValue(d->groups_, newGroup.name());
+    auto *group = findValue(d->groups_, newGroup.name());
     if (group) {
         bool isCurrent = false;
         if (!d->buildingGroup_) {
@@ -295,7 +293,7 @@ void InputMethodManagerPrivate::setGroupOrder(
     const std::vector<std::string> &groupOrder) {
     groupOrder_.clear();
     std::unordered_set<std::string> added;
-    for (auto &groupName : groupOrder) {
+    for (const auto &groupName : groupOrder) {
         if (groups_.count(groupName)) {
             groupOrder_.push_back(groupName);
             added.insert(groupName);
@@ -382,7 +380,7 @@ InputMethodManager::entry(const std::string &name) const {
     return findValue(d->entries_, name);
 }
 bool InputMethodManager::foreachEntries(
-    const std::function<bool(const InputMethodEntry &entry)> callback) {
+    const std::function<bool(const InputMethodEntry &entry)> &callback) {
     FCITX_D();
     for (auto &p : d->entries_) {
         if (!callback(p.second)) {

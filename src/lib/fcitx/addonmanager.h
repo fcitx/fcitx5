@@ -50,9 +50,9 @@ public:
     /**
      * Unregister addon loader.
      *
-     * @param type name of addon type.
+     * @param name name of addon type.
      */
-    void unregisterLoader(const std::string &type);
+    void unregisterLoader(const std::string &name);
     /**
      * Load addon based on given parameter.
      *

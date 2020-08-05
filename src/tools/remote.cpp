@@ -124,10 +124,10 @@ int main(int argc, char *argv[]) {
         CASE(SET_CURRENT_IM, SetCurrentIM);
 
     default:
-        goto some_error;
+        return ret;
     };
     if (!message) {
-        goto some_error;
+        return ret;
     }
 
     if (messageType == FCITX_DBUS_GET_CURRENT_STATE) {
@@ -137,11 +137,11 @@ int main(int argc, char *argv[]) {
             reply >> result;
             std::cout << result << std::endl;
             return 0;
-        } else {
-            std::cerr << "Failed to get reply." << std::endl;
-            return 1;
         }
-    } else if (messageType == FCITX_DBUS_GET_IM_ADDON) {
+        std::cerr << "Failed to get reply." << std::endl;
+        return 1;
+    }
+    if (messageType == FCITX_DBUS_GET_IM_ADDON) {
         message << imname;
         auto reply = message.call(defaultTimeout);
         if (!reply.isError()) {
@@ -149,19 +149,16 @@ int main(int argc, char *argv[]) {
             reply >> result;
             std::cout << result << std::endl;
             return 0;
-        } else {
-            std::cerr << "Failed to get reply." << std::endl;
-            return 1;
         }
-    } else if (messageType == FCITX_DBUS_SET_CURRENT_IM) {
+        std::cerr << "Failed to get reply." << std::endl;
+        return 1;
+    }
+    if (messageType == FCITX_DBUS_SET_CURRENT_IM) {
         message << imname;
-        auto reply = message.call(defaultTimeout);
-        return reply.isError() ? 1 : 0;
-    } else {
         auto reply = message.call(defaultTimeout);
         return reply.isError() ? 1 : 0;
     }
 
-some_error:
-    return ret;
+    auto reply = message.call(defaultTimeout);
+    return reply.isError() ? 1 : 0;
 }

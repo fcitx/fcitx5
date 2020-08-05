@@ -1,15 +1,12 @@
 #include "zwp_input_popup_surface_v2.h"
 #include <cassert>
-namespace fcitx {
-namespace wayland {
-constexpr const char *ZwpInputPopupSurfaceV2::interface;
-constexpr const wl_interface *const ZwpInputPopupSurfaceV2::wlInterface;
-const uint32_t ZwpInputPopupSurfaceV2::version;
+namespace fcitx::wayland {
+
 const struct zwp_input_popup_surface_v2_listener
     ZwpInputPopupSurfaceV2::listener = {
         [](void *data, zwp_input_popup_surface_v2 *wldata, int32_t x, int32_t y,
            int32_t width, int32_t height) {
-            auto obj = static_cast<ZwpInputPopupSurfaceV2 *>(data);
+            auto *obj = static_cast<ZwpInputPopupSurfaceV2 *>(data);
             assert(*obj == wldata);
             { return obj->textInputRectangle()(x, y, width, height); }
         },
@@ -26,5 +23,4 @@ void ZwpInputPopupSurfaceV2::destructor(zwp_input_popup_surface_v2 *data) {
         return zwp_input_popup_surface_v2_destroy(data);
     }
 }
-} // namespace wayland
-} // namespace fcitx
+} // namespace fcitx::wayland

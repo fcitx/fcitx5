@@ -1,19 +1,15 @@
 #include "wl_registry.h"
 #include <cassert>
-namespace fcitx {
-namespace wayland {
-constexpr const char *WlRegistry::interface;
-constexpr const wl_interface *const WlRegistry::wlInterface;
-const uint32_t WlRegistry::version;
+namespace fcitx::wayland {
 const struct wl_registry_listener WlRegistry::listener = {
     [](void *data, wl_registry *wldata, uint32_t name, const char *interface,
        uint32_t version) {
-        auto obj = static_cast<WlRegistry *>(data);
+        auto *obj = static_cast<WlRegistry *>(data);
         assert(*obj == wldata);
         { return obj->global()(name, interface, version); }
     },
     [](void *data, wl_registry *wldata, uint32_t name) {
-        auto obj = static_cast<WlRegistry *>(data);
+        auto *obj = static_cast<WlRegistry *>(data);
         assert(*obj == wldata);
         { return obj->globalRemove()(name); }
     },
@@ -26,5 +22,4 @@ WlRegistry::WlRegistry(wl_registry *data)
 void WlRegistry::destructor(wl_registry *data) {
     { return wl_registry_destroy(data); }
 }
-} // namespace wayland
-} // namespace fcitx
+} // namespace fcitx::wayland

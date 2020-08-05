@@ -36,9 +36,11 @@ consumeSingle(std::string::const_iterator start,
               std::string::const_iterator end) {
     if (*start == '(') {
         return findMatched(start + 1, end, '(', ')');
-    } else if (*start == '{') {
+    }
+    if (*start == '{') {
         return findMatched(start + 1, end, '{', '}');
-    } else if (*start == 'a') {
+    }
+    if (*start == 'a') {
         return consumeSingle(start + 1, end);
     }
     return start + 1;

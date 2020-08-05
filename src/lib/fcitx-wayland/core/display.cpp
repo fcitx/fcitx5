@@ -13,8 +13,7 @@
 #include "wl_output.h"
 #include "wl_registry.h"
 
-namespace fcitx {
-namespace wayland {
+namespace fcitx::wayland {
 
 void Display::createGlobalHelper(
     GlobalsFactoryBase *factory,
@@ -28,7 +27,7 @@ void Display::createGlobalHelper(
 
 Display::Display(wl_display *display) : display_(display) {
     wl_display_set_user_data(display, this);
-    auto reg = registry();
+    auto *reg = registry();
     reg->global().connect(
         [this](uint32_t name, const char *interface, uint32_t version) {
             auto result = globals_.emplace(std::make_pair(
@@ -48,22 +47,22 @@ Display::Display(wl_display *display) : display_(display) {
     });
 
     requestGlobals<wayland::WlOutput>();
-    globalCreatedSignal_.connect(
-        [this](const std::string &interface, std::shared_ptr<void> data) {
-            if (interface != wayland::WlOutput::interface) {
-                return;
-            }
-            auto output = static_cast<wayland::WlOutput *>(data.get());
-            addOutput(output);
-        });
-    globalRemovedSignal_.connect(
-        [this](const std::string &interface, std::shared_ptr<void> data) {
-            if (interface != wayland::WlOutput::interface) {
-                return;
-            }
-            auto output = static_cast<wayland::WlOutput *>(data.get());
-            removeOutput(output);
-        });
+    globalCreatedSignal_.connect([this](const std::string &interface,
+                                        const std::shared_ptr<void> &data) {
+        if (interface != wayland::WlOutput::interface) {
+            return;
+        }
+        auto *output = static_cast<wayland::WlOutput *>(data.get());
+        addOutput(output);
+    });
+    globalRemovedSignal_.connect([this](const std::string &interface,
+                                        const std::shared_ptr<void> &data) {
+        if (interface != wayland::WlOutput::interface) {
+            return;
+        }
+        auto *output = static_cast<wayland::WlOutput *>(data.get());
+        removeOutput(output);
+    });
 
     wl_display_roundtrip(*this);
 }
@@ -136,5 +135,4 @@ void Display::addOutput(wayland::WlOutput *output) {
 void Display::removeOutput(wayland::WlOutput *output) {
     outputInfo_.erase(output);
 }
-} // namespace wayland
-} // namespace fcitx
+} // namespace fcitx::wayland

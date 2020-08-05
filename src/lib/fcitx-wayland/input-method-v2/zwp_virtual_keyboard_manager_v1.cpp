@@ -2,11 +2,8 @@
 #include <cassert>
 #include "wl_seat.h"
 #include "zwp_virtual_keyboard_v1.h"
-namespace fcitx {
-namespace wayland {
-constexpr const char *ZwpVirtualKeyboardManagerV1::interface;
-constexpr const wl_interface *const ZwpVirtualKeyboardManagerV1::wlInterface;
-const uint32_t ZwpVirtualKeyboardManagerV1::version;
+namespace fcitx::wayland {
+
 ZwpVirtualKeyboardManagerV1::ZwpVirtualKeyboardManagerV1(
     zwp_virtual_keyboard_manager_v1 *data)
     : version_(zwp_virtual_keyboard_manager_v1_get_version(data)), data_(data) {
@@ -22,5 +19,4 @@ ZwpVirtualKeyboardManagerV1::createVirtualKeyboard(WlSeat *seat) {
         zwp_virtual_keyboard_manager_v1_create_virtual_keyboard(
             *this, rawPointer(seat)));
 }
-} // namespace wayland
-} // namespace fcitx
+} // namespace fcitx::wayland

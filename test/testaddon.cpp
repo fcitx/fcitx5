@@ -20,7 +20,7 @@ int main() {
     fcitx::AddonManager manager;
     manager.registerDefaultLoader(nullptr);
     manager.load();
-    auto addon = manager.addon("dummyaddon");
+    auto *addon = manager.addon("dummyaddon");
     FCITX_ASSERT(addon);
     FCITX_ASSERT(6 ==
                  addon->callWithSignature<int(int)>("DummyAddon::addOne", 5));

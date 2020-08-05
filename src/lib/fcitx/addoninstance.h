@@ -92,7 +92,7 @@ public:
     template <typename Signature, typename... Args>
     typename std::function<Signature>::result_type
     callWithSignature(const std::string &name, Args &&... args) {
-        auto adaptor = findCall(name);
+        auto *adaptor = findCall(name);
         auto erasureAdaptor =
             static_cast<AddonFunctionAdaptorErasure<Signature> *>(adaptor);
         return erasureAdaptor->callback(std::forward<Args>(args)...);

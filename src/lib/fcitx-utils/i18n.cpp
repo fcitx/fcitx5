@@ -22,7 +22,7 @@ public:
         if (domains_.count(domain)) {
             return;
         }
-        auto localedir = StandardPath::fcitxPath("localedir");
+        const auto *localedir = StandardPath::fcitxPath("localedir");
         if (!dir) {
             dir = localedir;
         }
@@ -52,8 +52,8 @@ FCITXUTILS_EXPORT std::string translateCtx(const char *ctx,
 
 FCITXUTILS_EXPORT const char *translateCtx(const char *ctx, const char *s) {
     auto str = stringutils::concat(ctx, "\004", s);
-    auto p = str.c_str();
-    auto result = ::gettext(str.c_str());
+    const auto *p = str.c_str();
+    const auto *result = ::gettext(str.c_str());
     if (p == result) {
         return s;
     }
@@ -80,8 +80,8 @@ FCITXUTILS_EXPORT const char *
 translateDomainCtx(const char *domain, const char *ctx, const char *s) {
     gettextManager.addDomain(domain);
     auto str = stringutils::concat(ctx, "\004", s);
-    auto p = str.c_str();
-    auto result = ::dgettext(domain, p);
+    const auto *p = str.c_str();
+    const auto *result = ::dgettext(domain, p);
     if (p == result) {
         return s;
     }

@@ -18,7 +18,7 @@ int main() {
             menu->addAction(&a);
             FCITX_ASSERT(menu->actions().size() == 1);
         }
-        FCITX_ASSERT(menu->actions().size() == 0);
+        FCITX_ASSERT(menu->actions().empty());
         SimpleAction a2;
         menu->addAction(&a2);
         FCITX_ASSERT(menu->actions().size() == 1);

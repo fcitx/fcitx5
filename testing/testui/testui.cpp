@@ -41,7 +41,7 @@ void TestUI::printStatusArea(InputContext *inputContext) {
     auto &statusArea = inputContext->statusArea();
     for (auto group : {StatusGroup::BeforeInputMethod, StatusGroup::InputMethod,
                        StatusGroup::AfterInputMethod}) {
-        for (auto action : statusArea.actions(group)) {
+        for (auto *action : statusArea.actions(group)) {
             std::cout << "Action: " << action->name() << std::endl;
             std::cout << "Text: " << action->shortText(inputContext)
                       << std::endl;

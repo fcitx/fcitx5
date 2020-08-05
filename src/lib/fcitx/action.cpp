@@ -68,7 +68,7 @@ bool Action::isCheckable() const {
 }
 
 void Action::setMenu(Menu *menu) {
-    auto oldMenu = this->menu();
+    auto *oldMenu = this->menu();
     if (oldMenu) {
         oldMenu->removeParent(this);
     }
@@ -79,7 +79,7 @@ void Action::setMenu(Menu *menu) {
 
 Menu *Action::menu() {
     auto childList = childs();
-    if (childList.size()) {
+    if (!childList.empty()) {
         return static_cast<Menu *>(childList.front());
     }
     return nullptr;

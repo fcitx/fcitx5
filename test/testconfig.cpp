@@ -88,7 +88,7 @@ void testMove() {
 
     validate(config);
 
-    auto newConfig = std::move(config);
+    auto newConfig = config;
     FCITX_ASSERT(newConfig.value() == "A");
     FCITX_ASSERT(newConfig.subItems() == std::vector<std::string>{"B"});
     auto &newSub = newConfig["B"];

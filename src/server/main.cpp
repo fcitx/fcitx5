@@ -33,7 +33,7 @@ int main(int argc, char *argv[]) {
         return 1;
     }
 
-    auto home = getenv("HOME");
+    auto *home = getenv("HOME");
     if (!home || home[0] == '\0') {
         fprintf(stderr, "Please set HOME.\n");
         return 1;

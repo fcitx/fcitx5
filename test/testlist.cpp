@@ -90,7 +90,7 @@ void test_move() {
         IntrusiveList<Foo> list;
         IntrusiveList<Foo> list2;
         list2 = std::move(list);
-        FCITX_ASSERT(list2.size() == 0);
+        FCITX_ASSERT(list2.empty());
     }
     {
         // something to empty
@@ -129,7 +129,7 @@ void test_move() {
         FCITX_ASSERT(!b.isInList());
         FCITX_ASSERT(!c.isInList());
         FCITX_ASSERT(!d.isInList());
-        FCITX_ASSERT(list2.size() == 0);
+        FCITX_ASSERT(list2.empty());
     }
 }
 

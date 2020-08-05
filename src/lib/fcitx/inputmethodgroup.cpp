@@ -11,7 +11,7 @@
 namespace fcitx {
 
 namespace {
-static const std::string emptyString;
+const std::string emptyString;
 }
 
 class InputMethodGroupItemPrivate {
@@ -123,9 +123,9 @@ const std::string &InputMethodGroup::defaultInputMethod() const {
     return d->defaultInputMethod_;
 }
 
-void InputMethodGroup::setDefaultLayout(const std::string &im) {
+void InputMethodGroup::setDefaultLayout(const std::string &layout) {
     FCITX_D();
-    d->defaultLayout_ = im;
+    d->defaultLayout_ = layout;
 }
 
 const std::string &InputMethodGroup::defaultLayout() const {

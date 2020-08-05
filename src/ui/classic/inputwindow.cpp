@@ -16,9 +16,7 @@
 #include "fcitx/misc_p.h"
 #include "classicui.h"
 
-namespace fcitx {
-
-namespace classicui {
+namespace fcitx::classicui {
 
 void shrink(Rect &rect, const MarginConfig &margin) {
     int newWidth = rect.width() - *margin.marginLeft - *margin.marginRight;
@@ -41,7 +39,7 @@ auto newPangoLayout(PangoContext *context) {
 }
 
 InputWindow::InputWindow(ClassicUI *parent) : parent_(parent) {
-    auto fontMap = pango_cairo_font_map_get_default();
+    auto *fontMap = pango_cairo_font_map_get_default();
     context_.reset(pango_font_map_create_context(fontMap));
     upperLayout_ = newPangoLayout(context_.get());
     lowerLayout_ = newPangoLayout(context_.get());
@@ -50,25 +48,25 @@ InputWindow::InputWindow(ClassicUI *parent) : parent_(parent) {
 void InputWindow::insertAttr(PangoAttrList *attrList, TextFormatFlags format,
                              int start, int end, bool highlight) const {
     if (format & TextFormatFlag::Underline) {
-        auto attr = pango_attr_underline_new(PANGO_UNDERLINE_SINGLE);
+        auto *attr = pango_attr_underline_new(PANGO_UNDERLINE_SINGLE);
         attr->start_index = start;
         attr->end_index = end;
         pango_attr_list_insert(attrList, attr);
     }
     if (format & TextFormatFlag::Italic) {
-        auto attr = pango_attr_style_new(PANGO_STYLE_ITALIC);
+        auto *attr = pango_attr_style_new(PANGO_STYLE_ITALIC);
         attr->start_index = start;
         attr->end_index = end;
         pango_attr_list_insert(attrList, attr);
     }
     if (format & TextFormatFlag::Strike) {
-        auto attr = pango_attr_strikethrough_new(true);
+        auto *attr = pango_attr_strikethrough_new(true);
         attr->start_index = start;
         attr->end_index = end;
         pango_attr_list_insert(attrList, attr);
     }
     if (format & TextFormatFlag::Bold) {
-        auto attr = pango_attr_weight_new(PANGO_WEIGHT_BOLD);
+        auto *attr = pango_attr_weight_new(PANGO_WEIGHT_BOLD);
         attr->start_index = start;
         attr->end_index = end;
         pango_attr_list_insert(attrList, attr);
@@ -79,7 +77,7 @@ void InputWindow::insertAttr(PangoAttrList *attrList, TextFormatFlags format,
             : (highlight ? *parent_->theme().inputPanel->highlightCandidateColor
                          : *parent_->theme().inputPanel->normalColor);
     auto scale = std::numeric_limits<unsigned short>::max();
-    auto attr = pango_attr_foreground_new(
+    auto *attr = pango_attr_foreground_new(
         color.redF() * scale, color.greenF() * scale, color.blueF() * scale);
     attr->start_index = start;
     attr->end_index = end;
@@ -122,7 +120,7 @@ void InputWindow::resizeCandidates(size_t n) {
     while (candidateLayouts_.size() < n) {
         candidateLayouts_.emplace_back(newPangoLayout(context_.get()));
     }
-    for (auto attrLists :
+    for (auto *attrLists :
          {&labelAttrLists_, &candidateAttrLists_, &highlightLabelAttrLists_,
           &highlightCandidateAttrLists_}) {
         while (attrLists->size() < n) {
@@ -138,7 +136,7 @@ void InputWindow::setTextToLayout(
     PangoAttrListUniquePtr *highlightAttrList,
 
     std::initializer_list<std::reference_wrapper<const Text>> texts) {
-    auto newAttrList = pango_attr_list_new();
+    auto *newAttrList = pango_attr_list_new();
     if (attrList) {
         // PangoAttrList does not have "clear()". So when we set new text,
         // we need to create a new one and get rid of old one.
@@ -151,7 +149,7 @@ void InputWindow::setTextToLayout(
         highlightAttrList->reset(newHighlightAttrList);
     }
     std::string line;
-    for (auto &text : texts) {
+    for (const auto &text : texts) {
         appendText(line, newAttrList, newHighlightAttrList, text);
     }
 
@@ -174,7 +172,7 @@ void InputWindow::update(InputContext *inputContext) {
     // | candidate 1
     // | candidate 2
     // | candidate 3
-    auto instance = parent_->instance();
+    auto *instance = parent_->instance();
     auto &inputPanel = inputContext->inputPanel();
     inputContext_ = inputContext->watch();
 
@@ -196,7 +194,7 @@ void InputWindow::update(InputContext *inputContext) {
         int count = 0;
 
         for (int i = 0, e = candidateList->size(); i < e; i++) {
-            auto &candidate = candidateList->candidate(i);
+            const auto &candidate = candidateList->candidate(i);
             if (candidate.isPlaceHolder()) {
                 continue;
             }
@@ -206,7 +204,7 @@ void InputWindow::update(InputContext *inputContext) {
 
         int localIndex = 0;
         for (int i = 0, e = candidateList->size(); i < e; i++) {
-            auto &candidate = candidateList->candidate(i);
+            const auto &candidate = candidateList->candidate(i);
             // Skip placeholder.
             if (candidate.isPlaceHolder()) {
                 continue;
@@ -231,7 +229,7 @@ void InputWindow::update(InputContext *inputContext) {
 
         layoutHint_ = candidateList->layoutHint();
         candidateIndex_ = candidateList->cursorIndex();
-        if (auto pageable = candidateList->toPageable()) {
+        if (auto *pageable = candidateList->toPageable()) {
             hasPrev_ = pageable->hasPrev();
             hasNext_ = pageable->hasNext();
         } else {
@@ -252,7 +250,7 @@ void InputWindow::update(InputContext *inputContext) {
 
 std::pair<unsigned int, unsigned int> InputWindow::sizeHint() {
     auto &theme = parent_->theme();
-    auto fontDesc =
+    auto *fontDesc =
         pango_font_description_from_string(parent_->config().font->c_str());
     pango_context_set_font_description(context_.get(), fontDesc);
     pango_cairo_context_set_resolution(context_.get(), dpi_);
@@ -263,7 +261,7 @@ std::pair<unsigned int, unsigned int> InputWindow::sizeHint() {
         pango_layout_context_changed(labelLayouts_[i].get());
         pango_layout_context_changed(candidateLayouts_[i].get());
     }
-    auto metrics = pango_context_get_metrics(
+    auto *metrics = pango_context_get_metrics(
         context_.get(), pango_context_get_font_description(context_.get()),
         pango_context_get_language(context_.get()));
     auto minH = pango_font_metrics_get_ascent(metrics) +
@@ -332,8 +330,8 @@ std::pair<unsigned int, unsigned int> InputWindow::sizeHint() {
     height += *margin.marginTop + *margin.marginBottom;
 
     if (nCandidates_ && (hasPrev_ || hasNext_)) {
-        auto &prev = theme.loadBackground(*theme.inputPanel->prev);
-        auto &next = theme.loadBackground(*theme.inputPanel->next);
+        const auto &prev = theme.loadBackground(*theme.inputPanel->prev);
+        const auto &next = theme.loadBackground(*theme.inputPanel->next);
         if (prev.valid() && next.valid()) {
             width += prev.width() + next.width();
         }
@@ -377,8 +375,8 @@ void InputWindow::paint(cairo_t *cr, unsigned int width, unsigned int height) {
     prevRegion_ = Rect();
     nextRegion_ = Rect();
     if (nCandidates_ && (hasPrev_ || hasNext_)) {
-        auto &prev = theme.loadBackground(*theme.inputPanel->prev);
-        auto &next = theme.loadBackground(*theme.inputPanel->next);
+        const auto &prev = theme.loadBackground(*theme.inputPanel->prev);
+        const auto &next = theme.loadBackground(*theme.inputPanel->next);
         if (prev.valid() && next.valid()) {
             cairo_save(cr);
             nextRegion_.setPosition(width - *margin.marginRight - next.width(),
@@ -419,7 +417,7 @@ void InputWindow::paint(cairo_t *cr, unsigned int width, unsigned int height) {
     cairo_save(cr);
     cairoSetSourceColor(cr, *theme.inputPanel->normalColor);
     // CLASSICUI_DEBUG() << theme.inputPanel->normalColor->toString();
-    auto metrics = pango_context_get_metrics(
+    auto *metrics = pango_context_get_metrics(
         context_.get(), pango_context_get_font_description(context_.get()),
         pango_context_get_language(context_.get()));
     auto minH = pango_font_metrics_get_ascent(metrics) +
@@ -556,7 +554,7 @@ void InputWindow::paint(cairo_t *cr, unsigned int width, unsigned int height) {
 }
 
 void InputWindow::click(int x, int y) {
-    auto inputContext = inputContext_.get();
+    auto *inputContext = inputContext_.get();
     if (!inputContext) {
         return;
     }
@@ -566,14 +564,15 @@ void InputWindow::click(int x, int y) {
     }
     for (size_t idx = 0, e = candidateRegions_.size(); idx < e; idx++) {
         if (candidateRegions_[idx].contains(x, y)) {
-            auto candidate = nthCandidateIgnorePlaceholder(*candidateList, idx);
+            const auto *candidate =
+                nthCandidateIgnorePlaceholder(*candidateList, idx);
             if (candidate) {
                 candidate->select(inputContext);
             }
             break;
         }
     }
-    if (auto pageable = candidateList->toPageable()) {
+    if (auto *pageable = candidateList->toPageable()) {
         if (pageable->hasPrev() && prevRegion_.contains(x, y)) {
             pageable->prev();
             inputContext->updateUserInterface(
@@ -592,7 +591,7 @@ void InputWindow::wheel(bool up) {
     if (!*parent_->config().useWheelForPaging) {
         return;
     }
-    auto inputContext = inputContext_.get();
+    auto *inputContext = inputContext_.get();
     if (!inputContext) {
         return;
     }
@@ -600,7 +599,7 @@ void InputWindow::wheel(bool up) {
     if (!candidateList) {
         return;
     }
-    if (auto pageable = candidateList->toPageable()) {
+    if (auto *pageable = candidateList->toPageable()) {
         if (up) {
             if (pageable->hasPrev()) {
                 pageable->prev();
@@ -644,5 +643,4 @@ bool InputWindow::hover(int x, int y) {
     return needRepaint;
 }
 
-} // namespace classicui
-} // namespace fcitx
+} // namespace fcitx::classicui

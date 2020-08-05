@@ -66,7 +66,7 @@ const Rect &InputContext::cursorRect() const {
 
 InputContextProperty *InputContext::property(const std::string &name) {
     FCITX_D();
-    auto factory = d->manager_.factoryForName(name);
+    auto *factory = d->manager_.factoryForName(name);
     if (!factory) {
         return nullptr;
     }
@@ -81,7 +81,7 @@ InputContext::property(const InputContextPropertyFactory *factory) {
 
 void InputContext::updateProperty(const std::string &name) {
     FCITX_D();
-    auto factory = d->manager_.factoryForName(name);
+    auto *factory = d->manager_.factoryForName(name);
     if (!factory) {
         return;
     }
@@ -90,7 +90,7 @@ void InputContext::updateProperty(const std::string &name) {
 
 void InputContext::updateProperty(const InputContextPropertyFactory *factory) {
     FCITX_D();
-    auto property = d->manager_.property(*this, factory);
+    auto *property = d->manager_.property(*this, factory);
     if (!property->needCopy()) {
         return;
     }
@@ -275,7 +275,7 @@ InputContextEventBlocker::InputContextEventBlocker(InputContext *inputContext)
 }
 
 InputContextEventBlocker::~InputContextEventBlocker() {
-    if (auto ic = inputContext_.get()) {
+    if (auto *ic = inputContext_.get()) {
         ic->setBlockEventToClient(false);
     }
 }

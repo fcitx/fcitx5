@@ -1,10 +1,7 @@
 #include "zwp_virtual_keyboard_v1.h"
 #include <cassert>
-namespace fcitx {
-namespace wayland {
-constexpr const char *ZwpVirtualKeyboardV1::interface;
-constexpr const wl_interface *const ZwpVirtualKeyboardV1::wlInterface;
-const uint32_t ZwpVirtualKeyboardV1::version;
+namespace fcitx::wayland {
+
 ZwpVirtualKeyboardV1::ZwpVirtualKeyboardV1(zwp_virtual_keyboard_v1 *data)
     : version_(zwp_virtual_keyboard_v1_get_version(data)), data_(data) {
     zwp_virtual_keyboard_v1_set_user_data(*this, this);
@@ -27,5 +24,4 @@ void ZwpVirtualKeyboardV1::modifiers(uint32_t modsDepressed,
     return zwp_virtual_keyboard_v1_modifiers(*this, modsDepressed, modsLatched,
                                              modsLocked, group);
 }
-} // namespace wayland
-} // namespace fcitx
+} // namespace fcitx::wayland

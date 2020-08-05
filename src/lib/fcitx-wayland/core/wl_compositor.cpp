@@ -2,11 +2,7 @@
 #include <cassert>
 #include "wl_region.h"
 #include "wl_surface.h"
-namespace fcitx {
-namespace wayland {
-constexpr const char *WlCompositor::interface;
-constexpr const wl_interface *const WlCompositor::wlInterface;
-const uint32_t WlCompositor::version;
+namespace fcitx::wayland {
 WlCompositor::WlCompositor(wl_compositor *data)
     : version_(wl_compositor_get_version(data)), data_(data) {
     wl_compositor_set_user_data(*this, this);
@@ -20,5 +16,4 @@ WlSurface *WlCompositor::createSurface() {
 WlRegion *WlCompositor::createRegion() {
     return new WlRegion(wl_compositor_create_region(*this));
 }
-} // namespace wayland
-} // namespace fcitx
+} // namespace fcitx::wayland

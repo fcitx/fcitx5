@@ -3,46 +3,43 @@
 #include "wl_surface.h"
 #include "zwp_input_method_keyboard_grab_v2.h"
 #include "zwp_input_popup_surface_v2.h"
-namespace fcitx {
-namespace wayland {
-constexpr const char *ZwpInputMethodV2::interface;
-constexpr const wl_interface *const ZwpInputMethodV2::wlInterface;
-const uint32_t ZwpInputMethodV2::version;
+namespace fcitx::wayland {
+
 const struct zwp_input_method_v2_listener ZwpInputMethodV2::listener = {
     [](void *data, zwp_input_method_v2 *wldata) {
-        auto obj = static_cast<ZwpInputMethodV2 *>(data);
+        auto *obj = static_cast<ZwpInputMethodV2 *>(data);
         assert(*obj == wldata);
         { return obj->activate()(); }
     },
     [](void *data, zwp_input_method_v2 *wldata) {
-        auto obj = static_cast<ZwpInputMethodV2 *>(data);
+        auto *obj = static_cast<ZwpInputMethodV2 *>(data);
         assert(*obj == wldata);
         { return obj->deactivate()(); }
     },
     [](void *data, zwp_input_method_v2 *wldata, const char *text,
        uint32_t cursor, uint32_t anchor) {
-        auto obj = static_cast<ZwpInputMethodV2 *>(data);
+        auto *obj = static_cast<ZwpInputMethodV2 *>(data);
         assert(*obj == wldata);
         { return obj->surroundingText()(text, cursor, anchor); }
     },
     [](void *data, zwp_input_method_v2 *wldata, uint32_t cause) {
-        auto obj = static_cast<ZwpInputMethodV2 *>(data);
+        auto *obj = static_cast<ZwpInputMethodV2 *>(data);
         assert(*obj == wldata);
         { return obj->textChangeCause()(cause); }
     },
     [](void *data, zwp_input_method_v2 *wldata, uint32_t hint,
        uint32_t purpose) {
-        auto obj = static_cast<ZwpInputMethodV2 *>(data);
+        auto *obj = static_cast<ZwpInputMethodV2 *>(data);
         assert(*obj == wldata);
         { return obj->contentType()(hint, purpose); }
     },
     [](void *data, zwp_input_method_v2 *wldata) {
-        auto obj = static_cast<ZwpInputMethodV2 *>(data);
+        auto *obj = static_cast<ZwpInputMethodV2 *>(data);
         assert(*obj == wldata);
         { return obj->done()(); }
     },
     [](void *data, zwp_input_method_v2 *wldata) {
-        auto obj = static_cast<ZwpInputMethodV2 *>(data);
+        auto *obj = static_cast<ZwpInputMethodV2 *>(data);
         assert(*obj == wldata);
         { return obj->unavailable()(); }
     },
@@ -84,5 +81,4 @@ ZwpInputMethodKeyboardGrabV2 *ZwpInputMethodV2::grabKeyboard() {
     return new ZwpInputMethodKeyboardGrabV2(
         zwp_input_method_v2_grab_keyboard(*this));
 }
-} // namespace wayland
-} // namespace fcitx
+} // namespace fcitx::wayland

@@ -42,7 +42,7 @@ public:
     bool unload();
     void *resolve(const char *name);
     bool findData(const char *slug, const char *magic, size_t lenOfMagic,
-                  std::function<void(const char *data)> library);
+                  const std::function<void(const char *data)> &parser);
     std::string error();
 
     template <typename Func>

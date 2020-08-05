@@ -3,8 +3,7 @@
 #include <memory>
 #include <wayland-client.h>
 #include "fcitx-utils/signals.h"
-namespace fcitx {
-namespace wayland {
+namespace fcitx::wayland {
 class WlDataSource final {
 public:
     static constexpr const char *interface = "wl_data_source";
@@ -44,6 +43,5 @@ private:
 static inline wl_data_source *rawPointer(WlDataSource *p) {
     return p ? static_cast<wl_data_source *>(*p) : nullptr;
 }
-} // namespace wayland
-} // namespace fcitx
+} // namespace fcitx::wayland
 #endif

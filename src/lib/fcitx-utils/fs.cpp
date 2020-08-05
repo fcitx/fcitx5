@@ -11,8 +11,7 @@
 #include <unistd.h>
 #include <algorithm>
 
-namespace fcitx {
-namespace fs {
+namespace fcitx::fs {
 
 bool isdir(const std::string &path) {
     struct stat stats;
@@ -98,10 +97,11 @@ std::string cleanPath(const std::string &path) {
 }
 
 bool makePath(const std::string &path) {
-    if (isdir(path))
+    if (isdir(path)) {
         return true;
+    }
     auto opath = cleanPath(path);
-    while (opath.size() && opath.back() == '/') {
+    while (!opath.empty() && opath.back() == '/') {
         opath.pop_back();
     }
 
@@ -120,7 +120,7 @@ bool makePath(const std::string &path) {
 
             if (mkdir(curpath.c_str(), S_IRWXU) != 0) {
                 if (errno == EEXIST) {
-                    if (!isdir(curpath.c_str())) {
+                    if (!isdir(curpath)) {
                         return false;
                     }
                 }
@@ -129,9 +129,8 @@ bool makePath(const std::string &path) {
 
         if (iter == opath.end()) {
             break;
-        } else {
-            iter++;
         }
+        iter++;
     }
     return true;
 }
@@ -212,5 +211,4 @@ std::optional<std::string> readlink(const std::string &path) {
     return std::nullopt;
 }
 
-} // namespace fs
-} // namespace fcitx
+} // namespace fcitx::fs

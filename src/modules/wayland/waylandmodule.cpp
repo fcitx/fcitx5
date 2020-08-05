@@ -15,7 +15,7 @@ namespace fcitx {
 
 WaylandConnection::WaylandConnection(WaylandModule *wayland, const char *name)
     : parent_(wayland), name_(name ? name : "") {
-    auto display = wl_display_connect(name);
+    auto *display = wl_display_connect(name);
     if (!display) {
         throw std::runtime_error("Failed to open wayland connection");
     }
@@ -89,18 +89,18 @@ void WaylandModule::removeDisplay(const std::string &name) {
 
 std::unique_ptr<HandlerTableEntry<WaylandConnectionCreated>>
 WaylandModule::addConnectionCreatedCallback(WaylandConnectionCreated callback) {
-    auto result = createdCallbacks_.add(callback);
+    auto result = createdCallbacks_.add(std::move(callback));
 
     for (auto &p : conns_) {
         auto &conn = p.second;
-        callback(conn.name(), *conn.display(), conn.focusGroup());
+        (**result->handler())(conn.name(), *conn.display(), conn.focusGroup());
     }
     return result;
 }
 
 std::unique_ptr<HandlerTableEntry<WaylandConnectionClosed>>
 WaylandModule::addConnectionClosedCallback(WaylandConnectionClosed callback) {
-    return closedCallbacks_.add(callback);
+    return closedCallbacks_.add(std::move(callback));
 }
 
 void WaylandModule::onConnectionCreated(WaylandConnection &conn) {

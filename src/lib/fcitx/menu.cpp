@@ -27,7 +27,7 @@ void Menu::insertAction(Action *before, Action *action) {
     FCITX_D();
     insertChild(before, action);
     ScopedConnection conn = action->connect<ObjectDestroyed>([this](void *p) {
-        auto action = static_cast<Action *>(p);
+        auto *action = static_cast<Action *>(p);
         removeAction(action);
     });
     d->actions_.emplace(std::make_pair(action, std::move(conn)));

@@ -48,7 +48,8 @@ public:
 
 class SDSlot : public Slot {
 public:
-    SDSlot(MessageCallback callback_) : callback_(callback_), slot_(nullptr) {}
+    SDSlot(MessageCallback callback_)
+        : callback_(std::move(callback_)), slot_(nullptr) {}
 
     ~SDSlot() {
         if (slot_) {

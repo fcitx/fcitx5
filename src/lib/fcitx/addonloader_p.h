@@ -20,7 +20,7 @@ namespace fcitx {
 class SharedLibraryFactory {
 public:
     SharedLibraryFactory(Library lib) : library_(std::move(lib)) {
-        auto funcPtr = library_.resolve("fcitx_addon_factory_instance");
+        auto *funcPtr = library_.resolve("fcitx_addon_factory_instance");
         if (!funcPtr) {
             throw std::runtime_error(library_.error());
         }

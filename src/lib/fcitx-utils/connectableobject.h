@@ -87,7 +87,6 @@ protected:
     /// still the original type.
     void destroy();
 
-protected:
     template <typename SignalType, typename... Args>
     auto emit(Args &&... args) {
         auto signal = findSignal(SignalType::signature::data());
@@ -95,7 +94,6 @@ protected:
             signal))(std::forward<Args>(args)...);
     }
 
-protected:
     template <typename SignalType>
     void registerSignal() {
         _registerSignal(
@@ -113,7 +111,6 @@ private:
     void _unregisterSignal(const std::string &name);
     SignalBase *findSignal(const std::string &name);
 
-private:
     std::unique_ptr<ConnectableObjectPrivate> d_ptr;
     FCITX_DECLARE_PRIVATE(ConnectableObject);
 };

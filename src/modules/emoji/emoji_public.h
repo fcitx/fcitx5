@@ -24,7 +24,7 @@ FCITX_ADDON_DECLARE_FUNCTION(Emoji, query,
 FCITX_ADDON_DECLARE_FUNCTION(
     Emoji, prefix,
     void(const std::string &language, const std::string &key, bool fallbackToEn,
-         std::function<bool(const std::string &,
-                            const std::vector<std::string> &)>));
+         const std::function<bool(const std::string &,
+                                  const std::vector<std::string> &)> &));
 
 #endif // _FCITX5_MODULES_EMOJI_EMOJI_PUBLIC_H_

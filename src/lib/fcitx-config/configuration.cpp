@@ -33,7 +33,7 @@ void Configuration::dumpDescription(RawConfig &config) const {
     for (const auto &path : d->optionsOrder_) {
         auto optionIter = d->options_.find(path);
         assert(optionIter != d->options_.end());
-        auto option = optionIter->second;
+        auto *option = optionIter->second;
         if (option->skipDescription()) {
             continue;
         }
@@ -80,7 +80,7 @@ void Configuration::load(const RawConfig &config, bool partial) {
     FCITX_D();
     for (const auto &path : d->optionsOrder_) {
         auto subConfigPtr = config.get(path);
-        auto option = d->options_[path];
+        auto *option = d->options_[path];
         if (!subConfigPtr) {
             if (!partial) {
                 option->reset();

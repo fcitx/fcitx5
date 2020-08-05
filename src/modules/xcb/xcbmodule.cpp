@@ -6,6 +6,8 @@
  */
 
 #include "xcbmodule.h"
+
+#include <utility>
 #include "fcitx/instance.h"
 #include "fcitx/misc_p.h"
 
@@ -23,7 +25,7 @@ void XCBModule::reloadConfig() { readAsIni(config_, "conf/xcb.conf"); }
 void XCBModule::openConnection(const std::string &name_) {
     std::string name = name_;
     if (name.empty()) {
-        auto env = getenv("DISPLAY");
+        auto *env = getenv("DISPLAY");
         if (env) {
             name = env;
             mainDisplay_ = name;
@@ -42,7 +44,7 @@ void XCBModule::openConnection(const std::string &name_) {
     }
 }
 
-void XCBModule::removeConnection(std::string name) {
+void XCBModule::removeConnection(const std::string &name) {
     // name might be a reference to the actual XCBConnection member, make a copy
     // to avoid read invalid value.
     auto iter = conns_.find(name);
@@ -66,24 +68,24 @@ XCBModule::addEventFilter(const std::string &name, XCBEventFilter filter) {
     if (iter == conns_.end()) {
         return nullptr;
     }
-    return iter->second.addEventFilter(filter);
+    return iter->second.addEventFilter(std::move(filter));
 }
 
 std::unique_ptr<HandlerTableEntry<XCBConnectionCreated>>
 XCBModule::addConnectionCreatedCallback(XCBConnectionCreated callback) {
-    auto result = createdCallbacks_.add(callback);
+    auto result = createdCallbacks_.add(std::move(callback));
 
     for (auto &p : conns_) {
         auto &conn = p.second;
-        callback(conn.name(), conn.connection(), conn.screen(),
-                 conn.focusGroup());
+        (**result->handler())(conn.name(), conn.connection(), conn.screen(),
+                              conn.focusGroup());
     }
     return result;
 }
 
 std::unique_ptr<HandlerTableEntry<XCBConnectionClosed>>
 XCBModule::addConnectionClosedCallback(XCBConnectionClosed callback) {
-    return closedCallbacks_.add(callback);
+    return closedCallbacks_.add(std::move(callback));
 }
 
 xkb_state *XCBModule::xkbState(const std::string &name) {
@@ -109,7 +111,7 @@ XCBModule::addSelection(const std::string &name, const std::string &atom,
     if (iter == conns_.end()) {
         return nullptr;
     }
-    return iter->second.addSelection(atom, callback);
+    return iter->second.addSelection(atom, std::move(callback));
 }
 
 std::unique_ptr<HandlerTableEntryBase>
@@ -121,7 +123,7 @@ XCBModule::convertSelection(const std::string &name, const std::string &atom,
     if (iter == conns_.end()) {
         return nullptr;
     }
-    return iter->second.convertSelection(atom, type, callback);
+    return iter->second.convertSelection(atom, type, std::move(callback));
 }
 
 void XCBModule::onConnectionCreated(XCBConnection &conn) {

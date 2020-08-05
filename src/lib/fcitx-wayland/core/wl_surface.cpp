@@ -4,26 +4,22 @@
 #include "wl_callback.h"
 #include "wl_output.h"
 #include "wl_region.h"
-namespace fcitx {
-namespace wayland {
-constexpr const char *WlSurface::interface;
-constexpr const wl_interface *const WlSurface::wlInterface;
-const uint32_t WlSurface::version;
+namespace fcitx::wayland {
 const struct wl_surface_listener WlSurface::listener = {
     [](void *data, wl_surface *wldata, wl_output *output) {
-        auto obj = static_cast<WlSurface *>(data);
+        auto *obj = static_cast<WlSurface *>(data);
         assert(*obj == wldata);
         {
-            auto output_ =
+            auto *output_ =
                 static_cast<WlOutput *>(wl_output_get_user_data(output));
             return obj->enter()(output_);
         }
     },
     [](void *data, wl_surface *wldata, wl_output *output) {
-        auto obj = static_cast<WlSurface *>(data);
+        auto *obj = static_cast<WlSurface *>(data);
         assert(*obj == wldata);
         {
-            auto output_ =
+            auto *output_ =
                 static_cast<WlOutput *>(wl_output_get_user_data(output));
             return obj->leave()(output_);
         }
@@ -66,5 +62,4 @@ void WlSurface::damageBuffer(int32_t x, int32_t y, int32_t width,
                              int32_t height) {
     return wl_surface_damage_buffer(*this, x, y, width, height);
 }
-} // namespace wayland
-} // namespace fcitx
+} // namespace fcitx::wayland

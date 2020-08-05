@@ -81,7 +81,7 @@ const std::string &I18NString::match(const std::string &locale_) const {
         territoryLength = languageLength = 0;
     }
 
-    if (normalizedLocale.size() == 0) {
+    if (normalizedLocale.empty()) {
         return default_;
     }
     auto iter = map_.find(normalizedLocale);

@@ -36,7 +36,7 @@ Notifications::Notifications(Instance *instance)
             uint32_t id = 0;
             std::string key;
             if (message >> id >> key) {
-                auto item = findByGlobalId(id);
+                auto *item = findByGlobalId(id);
                 if (item && item->actionCallback_) {
                     item->actionCallback_(key);
                 }
@@ -50,7 +50,7 @@ Notifications::Notifications(Instance *instance)
             uint32_t id = 0;
             uint32_t reason = 0;
             if (message >> id >> reason) {
-                auto item = findByGlobalId(id);
+                auto *item = findByGlobalId(id);
                 if (item) {
                     if (item->closedCallback_) {
                         item->closedCallback_(reason);
@@ -122,7 +122,7 @@ void Notifications::save() {
 }
 
 void Notifications::closeNotification(uint64_t internalId) {
-    auto item = find(internalId);
+    auto *item = find(internalId);
     if (item) {
         if (item->globalId_) {
             auto message = bus_->createMethodCall(
@@ -175,7 +175,7 @@ uint32_t Notifications::sendNotification(
     item.slot_ =
         message.callAsync(TIMEOUT_REAL_TIME * 1000 / 2,
                           [this, internalId](dbus::Message &message) {
-                              auto item = find(internalId);
+                              auto *item = find(internalId);
                               if (item) {
                                   if (!message.isError()) {
                                       uint32_t globalId;

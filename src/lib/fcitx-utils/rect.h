@@ -66,14 +66,16 @@ public:
     int distance(int x, int y) const noexcept {
         int dx = 0;
         int dy = 0;
-        if (x < x1_)
+        if (x < x1_) {
             dx = x1_ - x;
-        else if (x > x2_)
+        } else if (x > x2_) {
             dx = x - x2_;
-        if (y < y1_)
+        }
+        if (y < y1_) {
             dy = y1_ - y;
-        else if (y > y2_)
+        } else if (y > y2_) {
             dy = y - y2_;
+        }
         return dx + dy;
     }
 

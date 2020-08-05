@@ -18,7 +18,7 @@ int main() {
     fcitx::AddonManager manager(FCITX5_BINARY_DIR "/src/modules/emoji");
     manager.registerDefaultLoader(nullptr);
     manager.load();
-    auto emoji = manager.addon("emoji", true);
+    auto *emoji = manager.addon("emoji", true);
     FCITX_ASSERT(emoji);
     auto emojis = emoji->call<fcitx::IEmoji::query>("zh", "大笑", false);
     FCITX_ASSERT(std::find(emojis.begin(), emojis.end(), "\xf0\x9f\x98\x84") !=

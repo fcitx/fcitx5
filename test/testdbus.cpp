@@ -31,7 +31,7 @@ class TestObject : public ObjectVTable<TestObject> {
     }
     Variant test4(const Variant &v) {
         Variant result;
-        auto msg = currentMessage();
+        auto *msg = currentMessage();
         FCITX_INFO() << v;
         msg->rewind();
         auto type = msg->peekType();
@@ -46,7 +46,7 @@ class TestObject : public ObjectVTable<TestObject> {
     }
     std::string
     test5(const std::vector<DictEntry<std::string, std::string>> &entries) {
-        for (auto &entry : entries) {
+        for (const auto &entry : entries) {
             if (entry.key() == "a") {
                 return entry.value();
             }

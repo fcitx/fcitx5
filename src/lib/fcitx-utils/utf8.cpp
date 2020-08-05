@@ -8,8 +8,7 @@
 #include "utf8.h"
 #include "cutf8.h"
 
-namespace fcitx {
-namespace utf8 {
+namespace fcitx::utf8 {
 
 bool UCS4IsValid(uint32_t code) {
     return ((code) < 0x110000 && (((code)&0xFFFFF800) != 0xD800) &&
@@ -24,5 +23,4 @@ std::string UCS4ToUTF8(uint32_t code) {
     auto length = fcitx_ucs4_to_utf8(code, buf);
     return {buf, buf + length};
 }
-} // namespace utf8
-} // namespace fcitx
+} // namespace fcitx::utf8

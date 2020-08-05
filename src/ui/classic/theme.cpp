@@ -18,8 +18,7 @@
 #include "fcitx/misc_p.h"
 #include "common.h"
 
-namespace fcitx {
-namespace classicui {
+namespace fcitx::classicui {
 
 cairo_status_t readFromFd(void *closure, unsigned char *data,
                           unsigned int length) {
@@ -40,10 +39,11 @@ cairo_surface_t *pixBufToCairoSurface(GdkPixbuf *image) {
     cairo_format_t format;
     cairo_surface_t *surface;
 
-    if (gdk_pixbuf_get_n_channels(image) == 3)
+    if (gdk_pixbuf_get_n_channels(image) == 3) {
         format = CAIRO_FORMAT_RGB24;
-    else
+    } else {
         format = CAIRO_FORMAT_ARGB32;
+    }
 
     surface = cairo_image_surface_create(format, gdk_pixbuf_get_width(image),
                                          gdk_pixbuf_get_height(image));
@@ -136,7 +136,7 @@ cairo_surface_t *loadImage(StandardPathFile &file) {
     }
     if (stringutils::endsWith(file.path(), ".png")) {
         int fd = file.fd();
-        auto surface =
+        auto *surface =
             cairo_image_surface_create_from_png_stream(readFromFd, &fd);
         if (!surface) {
             return nullptr;
@@ -146,22 +146,21 @@ cairo_surface_t *loadImage(StandardPathFile &file) {
             return nullptr;
         }
         return surface;
-    } else {
-        auto *stream = g_unix_input_stream_new(file.fd(), false);
-        auto image = gdk_pixbuf_new_from_stream(stream, nullptr, nullptr);
-        if (!image) {
-            return nullptr;
-        }
-
-        auto surface = pixBufToCairoSurface(image);
-
-        g_input_stream_close(stream, nullptr, nullptr);
-        g_object_unref(stream);
-        g_object_unref(image);
-
-        return surface;
     }
-    return nullptr;
+
+    auto *stream = g_unix_input_stream_new(file.fd(), false);
+    auto *image = gdk_pixbuf_new_from_stream(stream, nullptr, nullptr);
+    if (!image) {
+        return nullptr;
+    }
+
+    auto *surface = pixBufToCairoSurface(image);
+
+    g_input_stream_close(stream, nullptr, nullptr);
+    g_object_unref(stream);
+    g_object_unref(image);
+
+    return surface;
 }
 
 ThemeImage::ThemeImage(const std::string &icon, const std::string &label,
@@ -179,7 +178,7 @@ ThemeImage::ThemeImage(const std::string &icon, const std::string &label,
     if (!image_) {
         image_.reset(
             cairo_image_surface_create(CAIRO_FORMAT_ARGB32, size, size));
-        auto cr = cairo_create(image_.get());
+        auto *cr = cairo_create(image_.get());
         cairo_set_operator(cr, CAIRO_OPERATOR_SOURCE);
         cairoSetSourceColor(cr, Color("#00000000"));
         cairo_paint(cr);
@@ -188,7 +187,7 @@ ThemeImage::ThemeImage(const std::string &icon, const std::string &label,
         // FIXME use a color from config.
         Color color("#ffffffff");
         cairoSetSourceColor(cr, color);
-        auto fontMap = pango_cairo_font_map_get_default();
+        auto *fontMap = pango_cairo_font_map_get_default();
         GObjectUniquePtr<PangoContext> context(
             pango_font_map_create_context(fontMap));
         GObjectUniquePtr<PangoLayout> layout(pango_layout_new(context.get()));
@@ -230,7 +229,7 @@ ThemeImage::ThemeImage(const std::string &name,
         CLASSICUI_DEBUG() << "height" << height << "width" << width;
         image_.reset(
             cairo_image_surface_create(CAIRO_FORMAT_ARGB32, width, height));
-        auto cr = cairo_create(image_.get());
+        auto *cr = cairo_create(image_.get());
         cairo_set_operator(cr, CAIRO_OPERATOR_SOURCE);
         cairoSetSourceColor(cr, *cfg.color);
         cairo_paint(cr);
@@ -243,7 +242,7 @@ Theme::Theme() : iconTheme_(IconTheme::defaultIconThemeName()) {}
 Theme::~Theme() {}
 
 const ThemeImage &Theme::loadBackground(const BackgroundImageConfig &cfg) {
-    if (auto image = findValue(backgroundImageTable_, &cfg)) {
+    if (auto *image = findValue(backgroundImageTable_, &cfg)) {
         return *image;
     }
 
@@ -260,7 +259,7 @@ const ThemeImage &Theme::loadImage(const std::string &icon,
     auto &map =
         purpose == ImagePurpose::General ? imageTable_ : trayImageTable_;
     auto name = stringutils::concat("icon:", icon, "label:", label);
-    if (auto image = findValue(map, name)) {
+    if (auto *image = findValue(map, name)) {
         if (image->size() == size) {
             return *image;
         }
@@ -467,5 +466,4 @@ bool Theme::setIconTheme(const std::string &name) {
     }
     return false;
 }
-} // namespace classicui
-} // namespace fcitx
+} // namespace fcitx::classicui

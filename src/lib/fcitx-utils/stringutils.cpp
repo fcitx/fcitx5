@@ -5,22 +5,16 @@
  *
  */
 #include "stringutils.h"
-#include <string.h>
 #include <climits>
+#include <cstring>
 #include "charutils.h"
 #include "macros.h"
 
-namespace fcitx {
-namespace stringutils {
-
+namespace fcitx::stringutils {
 namespace details {
 
 std::string
 concatPieces(std::initializer_list<std::pair<const char *, std::size_t>> list) {
-    if (!list.size()) {
-        return {};
-    }
-
     std::size_t size = 0;
     for (auto pair : list) {
         size += pair.second;
@@ -101,8 +95,9 @@ trimInplace(const std::string &str) {
     }
 
     auto end = str.size();
-    while (end > start && charutils::isspace(str[end - 1]))
+    while (end > start && charutils::isspace(str[end - 1])) {
         --end;
+    }
 
     return {start, end};
 }
@@ -115,7 +110,6 @@ std::string trim(const std::string &str) {
 std::vector<std::string> split(const std::string &str, const std::string &delim,
                                SplitBehavior behavior) {
     std::vector<std::string> strings;
-
     std::string::size_type lastPos, pos;
     if (behavior == SplitBehavior::SkipEmpty) {
         lastPos = str.find_first_not_of(delim, 0);
@@ -149,7 +143,7 @@ std::vector<std::string> split(const std::string &str,
 
 std::string replaceAll(std::string str, const std::string &before,
                        const std::string &after) {
-    if (before.size() == 0) {
+    if (before.empty()) {
         return str;
     }
 
@@ -215,10 +209,10 @@ std::string replaceAll(std::string str, const std::string &before,
 
     if (!lastLen) {
         return str;
-    } else {
-        _COPY_AND_MOVE_ON(str, oldStringPos, str.size() - oldStringPos);
-        newString.resize(newStringPos);
     }
+
+    _COPY_AND_MOVE_ON(str, oldStringPos, str.size() - oldStringPos);
+    newString.resize(newStringPos);
 
     return newString;
 }
@@ -234,10 +228,12 @@ const char *backwardSearch(const char *haystack, size_t l, const char *needle,
         return nullptr;
     }
     size_t delta = l - ol;
-    if (from > l)
+    if (from > l) {
         return nullptr;
-    if (from > delta)
+    }
+    if (from > delta) {
         from = delta;
+    }
 
     const char *end = haystack;
     haystack += from;
@@ -253,8 +249,9 @@ const char *backwardSearch(const char *haystack, size_t l, const char *needle,
     hashHaystack -= *haystack;
     while (haystack >= end) {
         hashHaystack += *haystack;
-        if (hashHaystack == hashNeedle && memcmp(needle, haystack, ol) == 0)
+        if (hashHaystack == hashNeedle && memcmp(needle, haystack, ol) == 0) {
             return haystack;
+        }
         --haystack;
         REHASH(*(haystack + ol));
     }
@@ -269,9 +266,9 @@ char *backwardSearch(char *haystack, size_t l, const char *needle, size_t ol,
 
 size_t backwardSearch(const std::string &haystack, const std::string &needle,
                       size_t from) {
-    auto cstr = haystack.c_str();
-    auto result = backwardSearch(cstr, haystack.size(), needle.c_str(),
-                                 needle.size(), from);
+    const auto *cstr = haystack.c_str();
+    const auto *result = backwardSearch(cstr, haystack.size(), needle.c_str(),
+                                        needle.size(), from);
     if (result) {
         return result - cstr;
     }
@@ -318,5 +315,4 @@ bool unescape(std::string &str, bool unescapeQuote) {
     str.resize(j - 1);
     return true;
 }
-} // namespace stringutils
-} // namespace fcitx
+} // namespace fcitx::stringutils

@@ -1,66 +1,62 @@
 #include "wl_pointer.h"
 #include <cassert>
 #include "wl_surface.h"
-namespace fcitx {
-namespace wayland {
-constexpr const char *WlPointer::interface;
-constexpr const wl_interface *const WlPointer::wlInterface;
-const uint32_t WlPointer::version;
+namespace fcitx::wayland {
 const struct wl_pointer_listener WlPointer::listener = {
     [](void *data, wl_pointer *wldata, uint32_t serial, wl_surface *surface,
        wl_fixed_t surfaceX, wl_fixed_t surfaceY) {
-        auto obj = static_cast<WlPointer *>(data);
+        auto *obj = static_cast<WlPointer *>(data);
         assert(*obj == wldata);
         {
-            auto surface_ =
+            auto *surface_ =
                 static_cast<WlSurface *>(wl_surface_get_user_data(surface));
             return obj->enter()(serial, surface_, surfaceX, surfaceY);
         }
     },
     [](void *data, wl_pointer *wldata, uint32_t serial, wl_surface *surface) {
-        auto obj = static_cast<WlPointer *>(data);
+        auto *obj = static_cast<WlPointer *>(data);
         assert(*obj == wldata);
         {
-            auto surface_ =
+            auto *surface_ =
                 static_cast<WlSurface *>(wl_surface_get_user_data(surface));
             return obj->leave()(serial, surface_);
         }
     },
     [](void *data, wl_pointer *wldata, uint32_t time, wl_fixed_t surfaceX,
        wl_fixed_t surfaceY) {
-        auto obj = static_cast<WlPointer *>(data);
+        auto *obj = static_cast<WlPointer *>(data);
         assert(*obj == wldata);
         { return obj->motion()(time, surfaceX, surfaceY); }
     },
     [](void *data, wl_pointer *wldata, uint32_t serial, uint32_t time,
        uint32_t button, uint32_t state) {
-        auto obj = static_cast<WlPointer *>(data);
+        auto *obj = static_cast<WlPointer *>(data);
         assert(*obj == wldata);
         { return obj->button()(serial, time, button, state); }
     },
     [](void *data, wl_pointer *wldata, uint32_t time, uint32_t axis,
        wl_fixed_t value) {
-        auto obj = static_cast<WlPointer *>(data);
+        auto *obj = static_cast<WlPointer *>(data);
         assert(*obj == wldata);
         { return obj->axis()(time, axis, value); }
     },
     [](void *data, wl_pointer *wldata) {
-        auto obj = static_cast<WlPointer *>(data);
+        auto *obj = static_cast<WlPointer *>(data);
         assert(*obj == wldata);
         { return obj->frame()(); }
     },
     [](void *data, wl_pointer *wldata, uint32_t axisSource) {
-        auto obj = static_cast<WlPointer *>(data);
+        auto *obj = static_cast<WlPointer *>(data);
         assert(*obj == wldata);
         { return obj->axisSource()(axisSource); }
     },
     [](void *data, wl_pointer *wldata, uint32_t time, uint32_t axis) {
-        auto obj = static_cast<WlPointer *>(data);
+        auto *obj = static_cast<WlPointer *>(data);
         assert(*obj == wldata);
         { return obj->axisStop()(time, axis); }
     },
     [](void *data, wl_pointer *wldata, uint32_t axis, int32_t discrete) {
-        auto obj = static_cast<WlPointer *>(data);
+        auto *obj = static_cast<WlPointer *>(data);
         assert(*obj == wldata);
         { return obj->axisDiscrete()(axis, discrete); }
     },
@@ -83,5 +79,4 @@ void WlPointer::setCursor(uint32_t serial, WlSurface *surface, int32_t hotspotX,
     return wl_pointer_set_cursor(*this, serial, rawPointer(surface), hotspotX,
                                  hotspotY);
 }
-} // namespace wayland
-} // namespace fcitx
+} // namespace fcitx::wayland

@@ -16,9 +16,7 @@
 #include "bus_p.h"
 #include "message_p.h"
 
-namespace fcitx {
-
-namespace dbus {
+namespace fcitx::dbus {
 
 static char toDBusType(Container::Type type) {
     char t = '\0';
@@ -47,7 +45,7 @@ FCITX_DEFINE_DEFAULT_DTOR_AND_MOVE(Message)
 
 Message Message::createReply() const {
     FCITX_D();
-    auto dmsg = dbus_message_new_method_return(d->msg());
+    auto *dmsg = dbus_message_new_method_return(d->msg());
     if (!dmsg) {
         return {};
     }
@@ -56,7 +54,7 @@ Message Message::createReply() const {
 
 Message Message::createError(const char *name, const char *message) const {
     FCITX_D();
-    auto dmsg = dbus_message_new_error(d->msg(), name, message);
+    auto *dmsg = dbus_message_new_error(d->msg(), name, message);
     if (!dmsg) {
         return {};
     }
@@ -88,7 +86,7 @@ std::string Message::sender() const {
     if (!d->msg()) {
         return {};
     }
-    auto sender = dbus_message_get_sender(d->msg());
+    const auto *sender = dbus_message_get_sender(d->msg());
     return sender ? sender : "";
 }
 
@@ -97,7 +95,7 @@ std::string Message::member() const {
     if (!d->msg()) {
         return {};
     }
-    auto member = dbus_message_get_member(d->msg());
+    const auto *member = dbus_message_get_member(d->msg());
     return member ? member : "";
 }
 
@@ -106,7 +104,7 @@ std::string Message::interface() const {
     if (!d->msg()) {
         return {};
     }
-    auto interface = dbus_message_get_interface(d->msg());
+    const auto *interface = dbus_message_get_interface(d->msg());
     return interface ? interface : "";
 }
 
@@ -115,24 +113,23 @@ std::string Message::signature() const {
     if (!d->msg()) {
         return {};
     }
-    auto signature = dbus_message_get_signature(d->msg());
+    const auto *signature = dbus_message_get_signature(d->msg());
     return signature ? signature : "";
 }
 
 std::string Message::path() const {
     FCITX_D();
-    auto path = dbus_message_get_path(d->msg());
+    const auto *path = dbus_message_get_path(d->msg());
     return path ? path : "";
 }
 
 std::string Message::errorName() const {
     FCITX_D();
     if (d->msg()) {
-        auto err = dbus_message_get_error_name(d->msg());
+        const auto *err = dbus_message_get_error_name(d->msg());
         return err ? err : "";
-    } else {
-        return d->error_;
     }
+    return d->error_;
 }
 
 std::string Message::errorMessage() const {
@@ -144,9 +141,8 @@ std::string Message::errorMessage() const {
             return message;
         }
         return "";
-    } else {
-        return d->message_;
     }
+    return d->message_;
 }
 
 void *Message::nativeHandle() const {
@@ -164,15 +160,15 @@ int convertTimeout(uint64_t timeout) {
     return milliTimout;
 }
 
-Message Message::call(uint64_t timeout) {
+Message Message::call(uint64_t usec) {
     FCITX_D();
     ScopedDBusError error;
-    auto bus = d->bus_.get();
+    auto *bus = d->bus_.get();
     if (!bus) {
         return Message();
     }
     DBusMessage *reply = dbus_connection_send_with_reply_and_block(
-        bus->conn_.get(), d->msg(), convertTimeout(timeout), &error.error());
+        bus->conn_.get(), d->msg(), convertTimeout(usec), &error.error());
     if (!reply) {
         return MessagePrivate::fromDBusError(error.error());
     }
@@ -180,7 +176,7 @@ Message Message::call(uint64_t timeout) {
 }
 
 void DBusPendingCallNotifyCallback(DBusPendingCall *reply, void *userdata) {
-    auto slot = static_cast<DBusAsyncCallSlot *>(userdata);
+    auto *slot = static_cast<DBusAsyncCallSlot *>(userdata);
     if (!slot) {
         return;
     }
@@ -190,17 +186,17 @@ void DBusPendingCallNotifyCallback(DBusPendingCall *reply, void *userdata) {
     slot->callback_(msg);
 }
 
-std::unique_ptr<Slot> Message::callAsync(uint64_t timeout,
+std::unique_ptr<Slot> Message::callAsync(uint64_t usec,
                                          MessageCallback callback) {
     FCITX_D();
-    auto bus = d->bus_.get();
+    auto *bus = d->bus_.get();
     if (!bus) {
         return nullptr;
     }
-    auto slot = std::make_unique<DBusAsyncCallSlot>(callback);
+    auto slot = std::make_unique<DBusAsyncCallSlot>(std::move(callback));
     DBusPendingCall *call = nullptr;
     if (!dbus_connection_send_with_reply(bus->conn_.get(), d->msg(), &call,
-                                         convertTimeout(timeout))) {
+                                         convertTimeout(usec))) {
         return nullptr;
     }
 
@@ -244,7 +240,7 @@ std::pair<char, std::string> Message::peekType() {
     auto container = dbus_message_iter_get_arg_type(d->iterator());
     if (container == DBUS_TYPE_ARRAY || container == DBUS_TYPE_STRUCT ||
         container == DBUS_TYPE_VARIANT) {
-        auto subIter = d->pushReadIterator();
+        auto *subIter = d->pushReadIterator();
         content.reset(dbus_message_iter_get_signature(subIter));
         d->pop();
     }
@@ -256,7 +252,7 @@ std::pair<char, std::string> Message::peekType() {
 
 bool Message::send() {
     FCITX_D();
-    auto bus = d->bus_.get();
+    auto *bus = d->bus_.get();
     if (bus) {
         if (dbus_connection_send(bus->conn_.get(), d->msg(), nullptr)) {
             return true;
@@ -278,7 +274,7 @@ Message &Message::operator>>(bool &b) {
     dbus_bool_t i = 0;
     if (dbus_message_iter_get_arg_type(d->iterator()) == DBUS_TYPE_BOOLEAN) {
         dbus_message_iter_get_basic(d->iterator(), &i);
-        b = i ? true : false;
+        b = i != 0;
         dbus_message_iter_next(d->iterator());
     }
     return *this;
@@ -528,5 +524,4 @@ Message &Message::operator>>(Variant &variant) {
     }
     return *this;
 }
-} // namespace dbus
-} // namespace fcitx
+} // namespace fcitx::dbus

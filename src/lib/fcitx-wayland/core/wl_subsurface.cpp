@@ -1,11 +1,7 @@
 #include "wl_subsurface.h"
 #include <cassert>
 #include "wl_surface.h"
-namespace fcitx {
-namespace wayland {
-constexpr const char *WlSubsurface::interface;
-constexpr const wl_interface *const WlSubsurface::wlInterface;
-const uint32_t WlSubsurface::version;
+namespace fcitx::wayland {
 WlSubsurface::WlSubsurface(wl_subsurface *data)
     : version_(wl_subsurface_get_version(data)), data_(data) {
     wl_subsurface_set_user_data(*this, this);
@@ -27,5 +23,4 @@ void WlSubsurface::placeBelow(WlSurface *sibling) {
 }
 void WlSubsurface::setSync() { return wl_subsurface_set_sync(*this); }
 void WlSubsurface::setDesync() { return wl_subsurface_set_desync(*this); }
-} // namespace wayland
-} // namespace fcitx
+} // namespace fcitx::wayland

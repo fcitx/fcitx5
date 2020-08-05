@@ -6,6 +6,8 @@
  */
 #include "quickphrase.h"
 #include <fcntl.h>
+
+#include <utility>
 #include "fcitx-config/iniparser.h"
 #include "fcitx-utils/charutils.h"
 #include "fcitx-utils/i18n.h"
@@ -73,7 +75,7 @@ QuickPhrase::QuickPhrase(Instance *instance)
 
     auto reset = [this](Event &event) {
         auto &icEvent = static_cast<InputContextEvent &>(event);
-        auto state = icEvent.inputContext()->propertyFor(&factory_);
+        auto *state = icEvent.inputContext()->propertyFor(&factory_);
         if (state->enabled_) {
             state->reset(icEvent.inputContext());
         }
@@ -89,8 +91,8 @@ QuickPhrase::QuickPhrase(Instance *instance)
         EventType::InputContextKeyEvent, EventWatcherPhase::PreInputMethod,
         [this](Event &event) {
             auto &keyEvent = static_cast<KeyEvent &>(event);
-            auto inputContext = keyEvent.inputContext();
-            auto state = inputContext->propertyFor(&factory_);
+            auto *inputContext = keyEvent.inputContext();
+            auto *state = inputContext->propertyFor(&factory_);
             if (!state->enabled_) {
                 return;
             }
@@ -124,7 +126,7 @@ QuickPhrase::QuickPhrase(Instance *instance)
 
                 if (keyEvent.key().checkKeyList(
                         instance_->globalConfig().defaultPrevPage())) {
-                    auto pageable = candidateList->toPageable();
+                    auto *pageable = candidateList->toPageable();
                     if (!pageable->hasPrev()) {
                         if (pageable->usedNextBefore()) {
                             event.accept();
@@ -177,10 +179,11 @@ QuickPhrase::QuickPhrase(Instance *instance)
                 keyEvent.accept();
                 state->reset(inputContext);
                 return;
-            } else if (keyEvent.key().check(FcitxKey_Return)) {
+            }
+            if (keyEvent.key().check(FcitxKey_Return)) {
                 keyEvent.accept();
                 if (!state->typed_ && state->buffer_.empty() &&
-                    state->str_.size() && state->alt_.size()) {
+                    !state->str_.empty() && !state->alt_.empty()) {
                     inputContext->commitString(state->alt_);
                 } else {
                     if (state->buffer_.size() + state->prefix_.size()) {
@@ -190,7 +193,8 @@ QuickPhrase::QuickPhrase(Instance *instance)
                 }
                 state->reset(inputContext);
                 return;
-            } else if (keyEvent.key().check(FcitxKey_BackSpace)) {
+            }
+            if (keyEvent.key().check(FcitxKey_BackSpace)) {
                 if (state->buffer_.empty()) {
                     state->reset(inputContext);
                 } else {
@@ -204,9 +208,9 @@ QuickPhrase::QuickPhrase(Instance *instance)
                 }
                 keyEvent.accept();
                 return;
-            } else if (!state->typed_ && state->str_.size() &&
-                       state->buffer_.empty() &&
-                       keyEvent.key().check(state->key_)) {
+            }
+            if (!state->typed_ && !state->str_.empty() &&
+                state->buffer_.empty() && keyEvent.key().check(state->key_)) {
                 keyEvent.accept();
                 inputContext->commitString(state->str_);
                 state->reset(inputContext);
@@ -241,12 +245,13 @@ QuickPhrase::~QuickPhrase() {}
 class QuickPhraseCandidateWord : public CandidateWord {
 public:
     QuickPhraseCandidateWord(QuickPhrase *q, std::string commit,
-                             std::string display, QuickPhraseAction action)
-        : CandidateWord(Text(std::move(display))), q_(q),
-          commit_(std::move(commit)), action_(action) {}
+                             const std::string &display,
+                             QuickPhraseAction action)
+        : CandidateWord(Text(display)), q_(q), commit_(std::move(commit)),
+          action_(action) {}
 
     void select(InputContext *inputContext) const override {
-        auto state = inputContext->propertyFor(&q_->factory());
+        auto *state = inputContext->propertyFor(&q_->factory());
         if (action_ == QuickPhraseAction::TypeToBuffer) {
             state->buffer_.type(commit_);
             state->typed_ = true;
@@ -315,7 +320,7 @@ void QuickPhrase::setSelectionKeys(QuickPhraseAction action) {
 }
 
 void QuickPhrase::updateUI(InputContext *inputContext) {
-    auto state = inputContext->propertyFor(&factory_);
+    auto *state = inputContext->propertyFor(&factory_);
     inputContext->inputPanel().reset();
     if (!state->buffer_.empty()) {
         auto candidateList = std::make_unique<CommonCandidateList>();
@@ -324,7 +329,7 @@ void QuickPhrase::updateUI(InputContext *inputContext) {
                                             &builtinProvider_};
         QuickPhraseAction selectionKeyAction =
             QuickPhraseAction::DigitSelection;
-        for (auto provider : providers) {
+        for (auto *provider : providers) {
             if (!provider->populate(
                     inputContext, state->buffer_.userInput(),
                     [this, &candidateList, &selectionKeyAction](
@@ -352,11 +357,11 @@ void QuickPhrase::updateUI(InputContext *inputContext) {
         inputContext->inputPanel().setCandidateList(std::move(candidateList));
     }
     Text preedit;
-    if (state->prefix_.size()) {
+    if (!state->prefix_.empty()) {
         preedit.append(state->prefix_);
     }
     preedit.append(state->buffer_.userInput());
-    if (state->buffer_.size()) {
+    if (!state->buffer_.empty()) {
         preedit.setCursor(state->prefix_.size() +
                           state->buffer_.cursorByChar());
     }
@@ -378,13 +383,13 @@ void QuickPhrase::reloadConfig() {
 }
 std::unique_ptr<HandlerTableEntry<QuickPhraseProviderCallback>>
 QuickPhrase::addProvider(QuickPhraseProviderCallback callback) {
-    return callbackProvider_.addCallback(callback);
+    return callbackProvider_.addCallback(std::move(callback));
 }
 
 void QuickPhrase::trigger(InputContext *ic, const std::string &text,
                           const std::string &prefix, const std::string &str,
                           const std::string &alt, const Key &key) {
-    auto state = ic->propertyFor(&factory_);
+    auto *state = ic->propertyFor(&factory_);
     state->typed_ = false;
     state->enabled_ = true;
     state->text_ = text;

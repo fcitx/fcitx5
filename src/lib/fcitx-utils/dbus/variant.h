@@ -47,7 +47,12 @@ private:
 class FCITXUTILS_EXPORT Variant {
 public:
     Variant() = default;
-    template <typename Value>
+    template <
+        typename Value,
+        typename Dummy = std::enable_if_t<
+            !std::is_same_v<std::remove_cv_t<std::remove_reference_t<Value>>,
+                            Variant>,
+            void>>
     explicit Variant(Value &&value) {
         setData(std::forward<Value>(value));
     }
@@ -60,6 +65,9 @@ public:
 
     Variant(Variant &&v) = default;
     Variant &operator=(const Variant &v) {
+        if (&v == this) {
+            return *this;
+        }
         signature_ = v.signature_;
         helper_ = v.helper_;
         if (helper_) {
@@ -83,10 +91,10 @@ public:
 
     void setRawData(std::shared_ptr<void> data,
                     std::shared_ptr<VariantHelperBase> helper) {
-        data_ = data;
-        helper_ = helper;
+        data_ = std::move(data);
+        helper_ = std::move(helper);
         if (helper_) {
-            signature_ = helper->signature();
+            signature_ = helper_->signature();
         }
     }
 

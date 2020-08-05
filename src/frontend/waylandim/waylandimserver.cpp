@@ -47,7 +47,7 @@ WaylandIMServer::WaylandIMServer(wl_display *display, FocusGroup *group,
 
 WaylandIMServer::~WaylandIMServer() {
     // Delete all input context when server goes away.
-    while (icMap_.size()) {
+    while (!icMap_.empty()) {
         delete icMap_.begin()->second;
     }
 }
@@ -70,7 +70,7 @@ void WaylandIMServer::init() {
 }
 
 void WaylandIMServer::activate(wayland::ZwpInputMethodContextV1 *id) {
-    auto ic = new WaylandIMInputContextV1(
+    auto *ic = new WaylandIMInputContextV1(
         parent_->instance()->inputContextManager(), this, id);
     ic->setFocusGroup(group_);
     ic->focusIn();
@@ -106,13 +106,13 @@ WaylandIMInputContextV1::WaylandIMInputContextV1(
     ic_->contentType().connect([this](uint32_t hint, uint32_t purpose) {
         contentTypeCallback(hint, purpose);
     });
-    ic_->invokeAction().connect([this](uint32_t button, uint32_t index) {
+    ic_->invokeAction().connect([](uint32_t button, uint32_t index) {
         invokeActionCallback(button, index);
     });
     ic_->commitState().connect(
         [this](uint32_t serial) { commitStateCallback(serial); });
     ic_->preferredLanguage().connect(
-        [this](const char *language) { preferredLanguageCallback(language); });
+        [](const char *language) { preferredLanguageCallback(language); });
     timeEvent_ = server_->instance()->eventLoop().addTimeEvent(
         CLOCK_MONOTONIC, now(CLOCK_MONOTONIC), 0,
         [this](EventSourceTime *, uint64_t) {
@@ -276,7 +276,7 @@ void WaylandIMInputContextV1::keymapCallback(uint32_t format, int32_t fd,
         server_->keymap_.reset();
     }
 
-    auto mapStr = mmap(nullptr, size, PROT_READ, MAP_SHARED, fd, 0);
+    auto *mapStr = mmap(nullptr, size, PROT_READ, MAP_SHARED, fd, 0);
     if (mapStr == MAP_FAILED) {
         close(fd);
         return;
@@ -382,20 +382,27 @@ void WaylandIMInputContextV1::modifiersCallback(uint32_t serial,
                                    XKB_STATE_DEPRESSED | XKB_STATE_LATCHED));
 
     server_->modifiers_ = 0;
-    if (mask & server_->stateMask_.shift_mask)
+    if (mask & server_->stateMask_.shift_mask) {
         server_->modifiers_ |= KeyState::Shift;
-    if (mask & server_->stateMask_.lock_mask)
+    }
+    if (mask & server_->stateMask_.lock_mask) {
         server_->modifiers_ |= KeyState::CapsLock;
-    if (mask & server_->stateMask_.control_mask)
+    }
+    if (mask & server_->stateMask_.control_mask) {
         server_->modifiers_ |= KeyState::Ctrl;
-    if (mask & server_->stateMask_.mod1_mask)
+    }
+    if (mask & server_->stateMask_.mod1_mask) {
         server_->modifiers_ |= KeyState::Alt;
-    if (mask & server_->stateMask_.super_mask)
+    }
+    if (mask & server_->stateMask_.super_mask) {
         server_->modifiers_ |= KeyState::Super;
-    if (mask & server_->stateMask_.hyper_mask)
+    }
+    if (mask & server_->stateMask_.hyper_mask) {
         server_->modifiers_ |= KeyState::Hyper;
-    if (mask & server_->stateMask_.meta_mask)
+    }
+    if (mask & server_->stateMask_.meta_mask) {
         server_->modifiers_ |= KeyState::Meta;
+    }
 
     ic_->modifiers(serial, mods_depressed, mods_depressed, mods_latched, group);
 }

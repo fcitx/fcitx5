@@ -104,7 +104,7 @@ public:
     FCITX_INLINE_DEFINE_DEFAULT_DTOR_AND_COPY(StandardPathPrivate)
 
     // http://standards.freedesktop.org/basedir-spec/basedir-spec-latest.html
-    std::string defaultPath(const char *env, const char *defaultPath) {
+    static std::string defaultPath(const char *env, const char *defaultPath) {
         char *cdir = getenv(env);
         std::string dir;
         if (cdir && cdir[0]) {
@@ -143,9 +143,9 @@ public:
         return dir;
     }
 
-    std::vector<std::string> defaultPaths(const char *env,
-                                          const char *defaultPath,
-                                          const char *fcitxPath) {
+    static std::vector<std::string> defaultPaths(const char *env,
+                                                 const char *defaultPath,
+                                                 const char *fcitxPath) {
         std::vector<std::string> dirs;
 
         const char *dir = getenv(env);
@@ -287,7 +287,8 @@ std::vector<std::string> StandardPath::directories(Type type) const {
 
 void StandardPath::scanDirectories(
     Type type,
-    std::function<bool(const std::string &path, bool user)> scanner) const {
+    const std::function<bool(const std::string &path, bool user)> &scanner)
+    const {
     FCITX_D();
     std::string userDir = d->userPath(type);
     std::vector<std::string> list = d->directories(type);
@@ -295,7 +296,7 @@ void StandardPath::scanDirectories(
         return;
     }
 
-    size_t len = (!userDir.empty() ? 1 : 0) + (list.size() ? list.size() : 0);
+    size_t len = (!userDir.empty() ? 1 : 0) + list.size();
 
     for (size_t i = 0; i < len; i++) {
         bool isUser = false;
@@ -316,13 +317,12 @@ void StandardPath::scanDirectories(
 
 void StandardPath::scanFiles(
     Type type, const std::string &path,
-    std::function<bool(const std::string &fileName, const std::string &dir,
-                       bool user)>
-        scanner) const {
+    const std::function<bool(const std::string &fileName,
+                             const std::string &dir, bool user)> &scanner)
+    const {
     auto scanDir = [scanner](const std::string &fullPath, bool isUser) {
         UniqueCPtr<DIR, closedir> scopedDir{opendir(fullPath.c_str())};
-        if (scopedDir) {
-            auto dir = scopedDir.get();
+        if (auto *dir = scopedDir.get()) {
             struct dirent *drt;
             while ((drt = readdir(dir)) != nullptr) {
                 if (strcmp(drt->d_name, ".") == 0 ||
@@ -485,9 +485,8 @@ StandardPath::openUserTemp(Type type, const std::string &pathOrig) const {
 }
 
 bool StandardPath::safeSave(Type type, const std::string &pathOrig,
-                            std::function<bool(int)> callback) const {
-    auto &standardPath = StandardPath::global();
-    auto file = standardPath.openUserTemp(type, pathOrig);
+                            const std::function<bool(int)> &callback) const {
+    auto file = openUserTemp(type, pathOrig);
     if (file.fd() < 0) {
         return false;
     }
@@ -507,7 +506,7 @@ StandardPathFileMap StandardPath::multiOpenFilter(
     StandardPathFileMap result;
     scanFiles(type, path,
               [&result, flags, &filter](const std::string &path,
-                                        const std::string dir, bool isUser) {
+                                        const std::string &dir, bool isUser) {
                   if (!result.count(path) && filter(path, dir, isUser)) {
                       auto fullPath = constructPath(dir, path);
                       int fd = ::open(fullPath.c_str(), flags);
@@ -531,7 +530,7 @@ StandardPathFilesMap StandardPath::multiOpenAllFilter(
     StandardPathFilesMap result;
     scanFiles(type, path,
               [&result, flags, &filter](const std::string &path,
-                                        const std::string dir, bool isUser) {
+                                        const std::string &dir, bool isUser) {
                   if (filter(path, dir, isUser)) {
                       auto fullPath = constructPath(dir, path);
                       int fd = ::open(fullPath.c_str(), flags);

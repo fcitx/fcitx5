@@ -52,17 +52,17 @@ TestFrontend::~TestFrontend() {
 
 ICUUID
 TestFrontend::createInputContext(const std::string &program) {
-    auto ic =
+    auto *ic =
         new TestInputContext(this, instance_->inputContextManager(), program);
     return ic->uuid();
 }
 
 void TestFrontend::destroyInputContext(ICUUID uuid) {
-    auto ic = instance_->inputContextManager().findByUUID(uuid);
+    auto *ic = instance_->inputContextManager().findByUUID(uuid);
     delete ic;
 }
 void TestFrontend::keyEvent(ICUUID uuid, const Key &key, bool isRelease) {
-    auto ic = instance_->inputContextManager().findByUUID(uuid);
+    auto *ic = instance_->inputContextManager().findByUUID(uuid);
     if (!ic) {
         return;
     }
@@ -85,7 +85,7 @@ void TestFrontend::commitString(const std::string &expect) {
 
 void TestFrontend::pushCommitExpectation(std::string expect) {
     checkExpectation_ = true;
-    commitExpectation_.push_back(expect);
+    commitExpectation_.push_back(std::move(expect));
 }
 
 class TestFrontendFactory : public AddonFactory {

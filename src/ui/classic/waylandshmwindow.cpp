@@ -56,7 +56,7 @@ cairo_surface_t *fcitx::classicui::WaylandShmWindow::prerender() {
 
     if (iter == buffers_.end() && buffers_.size() < 2) {
         newBuffer();
-        if (buffers_.size()) {
+        if (!buffers_.empty()) {
             iter = std::prev(buffers_.end());
         }
     }
@@ -67,12 +67,11 @@ cairo_surface_t *fcitx::classicui::WaylandShmWindow::prerender() {
         // All buffers are busy.
         buffer_ = nullptr;
         return nullptr;
-    } else {
-        pending_ = false;
-        buffer_ = iter->get();
     }
+    pending_ = false;
+    buffer_ = iter->get();
 
-    auto cairoSurface = buffer_->cairoSurface();
+    auto *cairoSurface = buffer_->cairoSurface();
     if (!cairoSurface) {
         buffer_ = nullptr;
         return nullptr;

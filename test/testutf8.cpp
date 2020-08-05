@@ -75,7 +75,7 @@ int main() {
     std::string invalidStr = "\xe4\xff";
     FCITX_ASSERT(fcitx::utf8::getLastChar(invalidStr) ==
                  fcitx::utf8::INVALID_CHAR);
-    std::string empty = "";
+    std::string empty;
     FCITX_ASSERT(fcitx::utf8::getLastChar(empty) ==
                  fcitx::utf8::NOT_ENOUGH_SPACE);
     FCITX_ASSERT(fcitx::utf8::length(empty) == 0);

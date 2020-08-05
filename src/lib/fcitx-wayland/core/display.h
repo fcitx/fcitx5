@@ -85,11 +85,10 @@ public:
     template <typename T>
     std::shared_ptr<T> getGlobal() {
         auto globals = getGlobals<T>();
-        if (globals.size()) {
+        if (!globals.empty()) {
             return globals[0];
-        } else {
-            return {};
         }
+        return {};
     }
 
     template <typename T>

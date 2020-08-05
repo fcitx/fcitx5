@@ -45,13 +45,13 @@ public:
     void attachEventLoop(EventLoop *loop);
     void detachEventLoop();
 
-    FCITX_NODISCARD std::unique_ptr<Slot> addMatch(MatchRule rule,
+    FCITX_NODISCARD std::unique_ptr<Slot> addMatch(const MatchRule &rule,
                                                    MessageCallback callback);
     FCITX_NODISCARD std::unique_ptr<Slot> addFilter(MessageCallback callback);
     FCITX_NODISCARD std::unique_ptr<Slot> addObject(const std::string &path,
                                                     MessageCallback callback);
     bool addObjectVTable(const std::string &path, const std::string &interface,
-                         ObjectVTableBase &vtable);
+                         ObjectVTableBase &obj);
 
     Message createSignal(const char *path, const char *interface,
                          const char *member);

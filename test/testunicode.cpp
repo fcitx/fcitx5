@@ -17,11 +17,11 @@ using namespace fcitx;
 
 void scheduleEvent(EventDispatcher *dispatcher, Instance *instance) {
     dispatcher->schedule([instance]() {
-        auto unicode = instance->addonManager().addon("unicode", true);
+        auto *unicode = instance->addonManager().addon("unicode", true);
         FCITX_ASSERT(unicode);
     });
     dispatcher->schedule([dispatcher, instance]() {
-        auto testfrontend = instance->addonManager().addon("testfrontend");
+        auto *testfrontend = instance->addonManager().addon("testfrontend");
         testfrontend->call<ITestFrontend::pushCommitExpectation>("🍏");
         auto uuid =
             testfrontend->call<ITestFrontend::createInputContext>("testapp");

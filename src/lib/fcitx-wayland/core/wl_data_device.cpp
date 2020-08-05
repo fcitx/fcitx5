@@ -3,53 +3,49 @@
 #include "wl_data_offer.h"
 #include "wl_data_source.h"
 #include "wl_surface.h"
-namespace fcitx {
-namespace wayland {
-constexpr const char *WlDataDevice::interface;
-constexpr const wl_interface *const WlDataDevice::wlInterface;
-const uint32_t WlDataDevice::version;
+namespace fcitx::wayland {
 const struct wl_data_device_listener WlDataDevice::listener = {
     [](void *data, wl_data_device *wldata, wl_data_offer *id) {
-        auto obj = static_cast<WlDataDevice *>(data);
+        auto *obj = static_cast<WlDataDevice *>(data);
         assert(*obj == wldata);
         {
-            auto id_ = new WlDataOffer(id);
+            auto *id_ = new WlDataOffer(id);
             return obj->dataOffer()(id_);
         }
     },
     [](void *data, wl_data_device *wldata, uint32_t serial, wl_surface *surface,
        wl_fixed_t x, wl_fixed_t y, wl_data_offer *id) {
-        auto obj = static_cast<WlDataDevice *>(data);
+        auto *obj = static_cast<WlDataDevice *>(data);
         assert(*obj == wldata);
         {
-            auto surface_ =
+            auto *surface_ =
                 static_cast<WlSurface *>(wl_surface_get_user_data(surface));
-            auto id_ =
+            auto *id_ =
                 static_cast<WlDataOffer *>(wl_data_offer_get_user_data(id));
             return obj->enter()(serial, surface_, x, y, id_);
         }
     },
     [](void *data, wl_data_device *wldata) {
-        auto obj = static_cast<WlDataDevice *>(data);
+        auto *obj = static_cast<WlDataDevice *>(data);
         assert(*obj == wldata);
         { return obj->leave()(); }
     },
     [](void *data, wl_data_device *wldata, uint32_t time, wl_fixed_t x,
        wl_fixed_t y) {
-        auto obj = static_cast<WlDataDevice *>(data);
+        auto *obj = static_cast<WlDataDevice *>(data);
         assert(*obj == wldata);
         { return obj->motion()(time, x, y); }
     },
     [](void *data, wl_data_device *wldata) {
-        auto obj = static_cast<WlDataDevice *>(data);
+        auto *obj = static_cast<WlDataDevice *>(data);
         assert(*obj == wldata);
         { return obj->drop()(); }
     },
     [](void *data, wl_data_device *wldata, wl_data_offer *id) {
-        auto obj = static_cast<WlDataDevice *>(data);
+        auto *obj = static_cast<WlDataDevice *>(data);
         assert(*obj == wldata);
         {
-            auto id_ =
+            auto *id_ =
                 static_cast<WlDataOffer *>(wl_data_offer_get_user_data(id));
             return obj->selection()(id_);
         }
@@ -77,5 +73,4 @@ void WlDataDevice::startDrag(WlDataSource *source, WlSurface *origin,
 void WlDataDevice::setSelection(WlDataSource *source, uint32_t serial) {
     return wl_data_device_set_selection(*this, rawPointer(source), serial);
 }
-} // namespace wayland
-} // namespace fcitx
+} // namespace fcitx::wayland

@@ -1,44 +1,41 @@
 #include "zwp_input_method_context_v1.h"
 #include <cassert>
 #include "wl_keyboard.h"
-namespace fcitx {
-namespace wayland {
-constexpr const char *ZwpInputMethodContextV1::interface;
-constexpr const wl_interface *const ZwpInputMethodContextV1::wlInterface;
-const uint32_t ZwpInputMethodContextV1::version;
+namespace fcitx::wayland {
+
 const struct zwp_input_method_context_v1_listener
     ZwpInputMethodContextV1::listener = {
         [](void *data, zwp_input_method_context_v1 *wldata, const char *text,
            uint32_t cursor, uint32_t anchor) {
-            auto obj = static_cast<ZwpInputMethodContextV1 *>(data);
+            auto *obj = static_cast<ZwpInputMethodContextV1 *>(data);
             assert(*obj == wldata);
             { return obj->surroundingText()(text, cursor, anchor); }
         },
         [](void *data, zwp_input_method_context_v1 *wldata) {
-            auto obj = static_cast<ZwpInputMethodContextV1 *>(data);
+            auto *obj = static_cast<ZwpInputMethodContextV1 *>(data);
             assert(*obj == wldata);
             { return obj->reset()(); }
         },
         [](void *data, zwp_input_method_context_v1 *wldata, uint32_t hint,
            uint32_t purpose) {
-            auto obj = static_cast<ZwpInputMethodContextV1 *>(data);
+            auto *obj = static_cast<ZwpInputMethodContextV1 *>(data);
             assert(*obj == wldata);
             { return obj->contentType()(hint, purpose); }
         },
         [](void *data, zwp_input_method_context_v1 *wldata, uint32_t button,
            uint32_t index) {
-            auto obj = static_cast<ZwpInputMethodContextV1 *>(data);
+            auto *obj = static_cast<ZwpInputMethodContextV1 *>(data);
             assert(*obj == wldata);
             { return obj->invokeAction()(button, index); }
         },
         [](void *data, zwp_input_method_context_v1 *wldata, uint32_t serial) {
-            auto obj = static_cast<ZwpInputMethodContextV1 *>(data);
+            auto *obj = static_cast<ZwpInputMethodContextV1 *>(data);
             assert(*obj == wldata);
             { return obj->commitState()(serial); }
         },
         [](void *data, zwp_input_method_context_v1 *wldata,
            const char *language) {
-            auto obj = static_cast<ZwpInputMethodContextV1 *>(data);
+            auto *obj = static_cast<ZwpInputMethodContextV1 *>(data);
             assert(*obj == wldata);
             { return obj->preferredLanguage()(language); }
         },
@@ -109,5 +106,4 @@ void ZwpInputMethodContextV1::textDirection(uint32_t serial,
                                             uint32_t direction) {
     return zwp_input_method_context_v1_text_direction(*this, serial, direction);
 }
-} // namespace wayland
-} // namespace fcitx
+} // namespace fcitx::wayland

@@ -3,8 +3,7 @@
 #include <memory>
 #include <wayland-client.h>
 #include "fcitx-utils/signals.h"
-namespace fcitx {
-namespace wayland {
+namespace fcitx::wayland {
 class WlSubsurface;
 class WlSurface;
 class WlSubcompositor final {
@@ -32,6 +31,5 @@ private:
 static inline wl_subcompositor *rawPointer(WlSubcompositor *p) {
     return p ? static_cast<wl_subcompositor *>(*p) : nullptr;
 }
-} // namespace wayland
-} // namespace fcitx
+} // namespace fcitx::wayland
 #endif

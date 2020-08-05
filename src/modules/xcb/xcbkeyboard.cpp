@@ -223,7 +223,7 @@ XkbRulesNames XCBKeyboard::xkbRulesNames() {
         return {};
     }
 
-    auto data = static_cast<char *>(xcb_get_property_value(reply.get()));
+    auto *data = static_cast<char *>(xcb_get_property_value(reply.get()));
     int length = xcb_get_property_value_length(reply.get());
 
     XkbRulesNames names;
@@ -370,10 +370,10 @@ void XCBKeyboard::setRMLVOToServer(const std::string &rule,
     XkbComponentNamesRec rnames;
     memset(&rdefs, 0, sizeof(XkbRF_VarDefsRec));
     memset(&rnames, 0, sizeof(XkbComponentNamesRec));
-    rdefs.model = model.size() ? strdup(model.data()) : nullptr;
-    rdefs.layout = layout.size() ? strdup(layout.data()) : nullptr;
-    rdefs.variant = variant.size() ? strdup(variant.data()) : nullptr;
-    rdefs.options = options.size() ? strdup(options.data()) : nullptr;
+    rdefs.model = !model.empty() ? strdup(model.data()) : nullptr;
+    rdefs.layout = !layout.empty() ? strdup(layout.data()) : nullptr;
+    rdefs.variant = !variant.empty() ? strdup(variant.data()) : nullptr;
+    rdefs.options = !options.empty() ? strdup(options.data()) : nullptr;
     XkbRF_GetComponents(rules, &rdefs, &rnames);
 
     int keymapLen, keycodesLen, typesLen, compatLen, symbolsLen, geometryLen;
@@ -402,7 +402,7 @@ void XCBKeyboard::setRMLVOToServer(const std::string &rule,
     UniqueCPtr<xcb_xkb_get_kbd_by_name_request_t> request(
         (static_cast<xcb_xkb_get_kbd_by_name_request_t *>(
             calloc(1, sizeof(xcb_xkb_get_kbd_by_name_request_t) + len))));
-    auto data = reinterpret_cast<char *>(request.get() + 1);
+    auto *data = reinterpret_cast<char *>(request.get() + 1);
 
     request->major_opcode = xkbMajorOpCode_;
     request->minor_opcode = XCB_XKB_GET_KBD_BY_NAME;
@@ -488,7 +488,7 @@ bool XCBKeyboard::setLayoutByName(const std::string &layout,
     }
 
     FCITX_XCB_DEBUG() << "Lock group " << index;
-    auto addon = conn_->instance()->addonManager().addon("dbus", true);
+    auto *addon = conn_->instance()->addonManager().addon("dbus", true);
     if (!addon || !addon->call<IDBusModule::lockGroup>(index)) {
         xcb_xkb_latch_lock_state(connection(), XCB_XKB_ID_USE_CORE_KBD, 0, 0,
                                  true, index, 0, false, 0);
@@ -504,7 +504,7 @@ bool XCBKeyboard::handleEvent(xcb_generic_event_t *event) {
     }
 
     if (response_type == XCB_PROPERTY_NOTIFY) {
-        auto property = reinterpret_cast<xcb_property_notify_event_t *>(event);
+        auto *property = reinterpret_cast<xcb_property_notify_event_t *>(event);
         if (property->window == conn_->root() &&
             property->atom == xkbRulesNamesAtom()) {
             updateKeymap();
@@ -561,7 +561,7 @@ bool XCBKeyboard::handleEvent(xcb_generic_event_t *event) {
 
                         if (waitingForRefresh_) {
                             waitingForRefresh_ = false;
-                            auto home = getenv("HOME");
+                            auto *home = getenv("HOME");
                             if (!home) {
                                 return true;
                             }

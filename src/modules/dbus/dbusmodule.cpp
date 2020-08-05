@@ -47,7 +47,7 @@ public:
     void exit() { instance_->exit(); }
 
     void restart() {
-        auto instance = instance_;
+        auto *instance = instance_;
         deferEvent_ = instance_->eventLoop().addDeferEvent(
             [this, instance](EventSource *) {
                 instance->restart();
@@ -86,10 +86,10 @@ public:
 
     std::tuple<std::string, std::vector<DBusStruct<std::string, std::string>>>
     inputMethodGroupInfo(const std::string &groupName) {
-        auto group = instance_->inputMethodManager().group(groupName);
+        const auto *group = instance_->inputMethodManager().group(groupName);
         if (group) {
             std::vector<DBusStruct<std::string, std::string>> vec;
-            for (auto &item : group->inputMethodList()) {
+            for (const auto &item : group->inputMethodList()) {
                 vec.emplace_back(
                     std::forward_as_tuple(item.name(), item.layout()));
             }
@@ -124,7 +124,7 @@ public:
         }
         InputMethodGroup group(groupName);
         group.setDefaultLayout(defaultLayout);
-        for (auto &entry : entries) {
+        for (const auto &entry : entries) {
             group.inputMethodList().push_back(
                 InputMethodGroupItem(std::get<0>(entry))
                     .setLayout(std::get<1>(entry)));
@@ -188,7 +188,8 @@ public:
             std::get<1>(result) =
                 dumpDBusConfigDescription(instance_->globalConfig().config());
             return result;
-        } else if (stringutils::startsWith(uri, addonConfigPrefix)) {
+        }
+        if (stringutils::startsWith(uri, addonConfigPrefix)) {
             auto addon = uri.substr(sizeof(addonConfigPrefix) - 1);
             auto pos = addon.find('/');
             std::string subPath;
@@ -196,7 +197,8 @@ public:
                 subPath = addon.substr(pos + 1);
                 addon = addon.substr(0, pos);
             }
-            if (auto addonInfo = instance_->addonManager().addonInfo(addon)) {
+            if (const auto *addonInfo =
+                    instance_->addonManager().addonInfo(addon)) {
                 if (!addonInfo->isConfigurable()) {
                     throw dbus::MethodCallError(
                         "org.freedesktop.DBus.Error.InvalidArgs",
@@ -207,7 +209,7 @@ public:
                     "org.freedesktop.DBus.Error.InvalidArgs",
                     "Addon does not exist.");
             }
-            auto addonInstance = instance_->addonManager().addon(addon, true);
+            auto *addonInstance = instance_->addonManager().addon(addon, true);
             const Configuration *config = nullptr;
             if (addonInstance) {
                 if (subPath.empty()) {
@@ -222,13 +224,13 @@ public:
                 std::get<0>(result) = rawConfigToVariant(rawConfig);
                 std::get<1>(result) = dumpDBusConfigDescription(*config);
                 return result;
-            } else {
-                throw dbus::MethodCallError("org.freedesktop.DBus.Error.Failed",
-                                            "Failed to get addon config.");
             }
-        } else if (stringutils::startsWith(uri, imConfigPrefix)) {
+            throw dbus::MethodCallError("org.freedesktop.DBus.Error.Failed",
+                                        "Failed to get addon config.");
+        }
+        if (stringutils::startsWith(uri, imConfigPrefix)) {
             auto im = uri.substr(sizeof(imConfigPrefix) - 1);
-            auto entry = instance_->inputMethodManager().entry(im);
+            const auto *entry = instance_->inputMethodManager().entry(im);
             if (entry) {
                 if (!entry->isConfigurable()) {
                     throw dbus::MethodCallError(
@@ -240,7 +242,7 @@ public:
                     "org.freedesktop.DBus.Error.InvalidArgs",
                     "Input Method does not exist.");
             }
-            auto engine = instance_->inputMethodEngine(im);
+            auto *engine = instance_->inputMethodEngine(im);
             const Configuration *config = nullptr;
             if (engine) {
                 config = engine->getConfigForInputMethod(*entry);
@@ -252,10 +254,10 @@ public:
                 std::get<0>(result) = rawConfigToVariant(rawConfig);
                 std::get<1>(result) = dumpDBusConfigDescription(*config);
                 return result;
-            } else {
-                throw dbus::MethodCallError("org.freedesktop.DBus.Error.Failed",
-                                            "Failed to get input method.");
             }
+
+            throw dbus::MethodCallError("org.freedesktop.DBus.Error.Failed",
+                                        "Failed to get input method.");
         }
         throw dbus::MethodCallError("org.freedesktop.DBus.Error.InvalidArgs",
                                     "Configuration does not exist.");
@@ -277,7 +279,7 @@ public:
                 subPath = addon.substr(pos + 1);
                 addon = addon.substr(0, pos);
             }
-            auto addonInstance = instance_->addonManager().addon(addon, true);
+            auto *addonInstance = instance_->addonManager().addon(addon, true);
             if (addonInstance) {
                 FCITX_DEBUG() << "Saving addon config to: " << uri;
                 if (subPath.empty()) {
@@ -291,8 +293,8 @@ public:
             }
         } else if (stringutils::startsWith(uri, imConfigPrefix)) {
             auto im = uri.substr(sizeof(imConfigPrefix) - 1);
-            auto entry = instance_->inputMethodManager().entry(im);
-            auto engine = instance_->inputMethodEngine(im);
+            const auto *entry = instance_->inputMethodManager().entry(im);
+            auto *engine = instance_->inputMethodEngine(im);
             if (entry && engine) {
                 FCITX_DEBUG() << "Saving input method config to: " << uri;
                 engine->setConfigForInputMethod(*entry, config);
@@ -314,10 +316,10 @@ public:
                                      int32_t, bool, bool>>
             result;
         // Track override.
-        auto &enabled = instance_->globalConfig().enabledAddons();
+        const auto &enabled = instance_->globalConfig().enabledAddons();
         std::unordered_set<std::string> enabledSet(enabled.begin(),
                                                    enabled.end());
-        auto &disabled = instance_->globalConfig().disabledAddons();
+        const auto &disabled = instance_->globalConfig().disabledAddons();
         std::unordered_set<std::string> disabledSet(disabled.begin(),
                                                     disabled.end());
         for (auto category : {AddonCategory::InputMethod,
@@ -325,7 +327,7 @@ public:
                               AddonCategory::Module, AddonCategory::UI}) {
             auto names = instance_->addonManager().addonNames(category);
             for (const auto &name : names) {
-                auto info = instance_->addonManager().addonInfo(name);
+                const auto *info = instance_->addonManager().addonInfo(name);
                 if (!info) {
                     continue;
                 }
@@ -346,13 +348,14 @@ public:
 
     void setAddonsState(
         const std::vector<dbus::DBusStruct<std::string, bool>> &addons) {
-        auto &enabled = instance_->globalConfig().enabledAddons();
+        const auto &enabled = instance_->globalConfig().enabledAddons();
         std::set<std::string> enabledSet(enabled.begin(), enabled.end());
 
-        auto &disabled = instance_->globalConfig().disabledAddons();
+        const auto &disabled = instance_->globalConfig().disabledAddons();
         std::set<std::string> disabledSet(disabled.begin(), disabled.end());
-        for (auto &item : addons) {
-            auto info = instance_->addonManager().addonInfo(std::get<0>(item));
+        for (const auto &item : addons) {
+            const auto *info =
+                instance_->addonManager().addonInfo(std::get<0>(item));
             if (!info) {
                 continue;
             }
@@ -376,7 +379,7 @@ public:
     }
 
     void openX11Connection(const std::string &name) {
-        if (auto xcb = module_->xcb()) {
+        if (auto *xcb = module_->xcb()) {
             xcb->call<IXCBModule::openConnection>(name);
         } else {
             throw dbus::MethodCallError(
@@ -410,7 +413,6 @@ private:
     Instance *instance_;
     std::unique_ptr<EventSource> deferEvent_;
 
-private:
     FCITX_OBJECT_VTABLE_SIGNAL(inputMethodGroupChanged,
                                "InputMethodGroupsChanged", "");
 

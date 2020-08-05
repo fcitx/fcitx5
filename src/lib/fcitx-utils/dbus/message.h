@@ -21,9 +21,7 @@
 #include <fcitx-utils/tuplehelpers.h>
 #include <fcitx-utils/unixfd.h>
 
-namespace fcitx {
-
-namespace dbus {
+namespace fcitx::dbus {
 
 class Message;
 class Variant;
@@ -75,21 +73,21 @@ template <typename Value>
 class FCITXUTILS_EXPORT VariantHelper : public VariantHelperBase {
     std::shared_ptr<void> copy(const void *src) const override {
         if (src) {
-            auto s = static_cast<const Value *>(src);
+            auto *s = static_cast<const Value *>(src);
             return std::make_shared<Value>(*s);
         }
         return std::make_shared<Value>();
     }
     void serialize(dbus::Message &msg, const void *data) const override {
-        auto s = static_cast<const Value *>(data);
+        auto *s = static_cast<const Value *>(data);
         msg << *s;
     }
     void deserialize(dbus::Message &msg, void *data) const override {
-        auto s = static_cast<Value *>(data);
+        auto *s = static_cast<Value *>(data);
         msg >> *s;
     }
     void print(LogMessageBuilder &builder, const void *data) const override {
-        auto s = static_cast<const Value *>(data);
+        auto *s = static_cast<const Value *>(data);
         builder << *s;
     }
     std::string signature() const override {
@@ -102,9 +100,9 @@ class DictEntry {
 public:
     DictEntry() = default;
     DictEntry(const DictEntry &) = default;
-    DictEntry(DictEntry &&) = default;
+    DictEntry(DictEntry &&) noexcept = default;
     DictEntry &operator=(const DictEntry &other) = default;
-    DictEntry &operator=(DictEntry &&other) = default;
+    DictEntry &operator=(DictEntry &&other) noexcept = default;
 
     DictEntry(const Key &key, const Value &value) : key_(key), value_(value) {}
 
@@ -233,15 +231,15 @@ public:
     void skip();
     std::pair<char, std::string> peekType();
 
-    Message &operator<<(uint8_t i);
+    Message &operator<<(uint8_t v);
     Message &operator<<(bool b);
-    Message &operator<<(int16_t i);
-    Message &operator<<(uint16_t i);
-    Message &operator<<(int32_t i);
-    Message &operator<<(uint32_t i);
-    Message &operator<<(int64_t i);
-    Message &operator<<(uint64_t i);
-    Message &operator<<(double d);
+    Message &operator<<(int16_t v);
+    Message &operator<<(uint16_t v);
+    Message &operator<<(int32_t v);
+    Message &operator<<(uint32_t v);
+    Message &operator<<(int64_t v);
+    Message &operator<<(uint64_t v);
+    Message &operator<<(double v);
     Message &operator<<(const std::string &s);
     Message &operator<<(const char *s);
 
@@ -324,22 +322,22 @@ public:
         return *this;
     }
 
-    Message &operator>>(uint8_t &i);
+    Message &operator>>(uint8_t &v);
     Message &operator>>(bool &b);
-    Message &operator>>(int16_t &i);
-    Message &operator>>(uint16_t &i);
-    Message &operator>>(int32_t &i);
-    Message &operator>>(uint32_t &i);
-    Message &operator>>(int64_t &i);
-    Message &operator>>(uint64_t &i);
-    Message &operator>>(double &d);
+    Message &operator>>(int16_t &v);
+    Message &operator>>(uint16_t &v);
+    Message &operator>>(int32_t &v);
+    Message &operator>>(uint32_t &v);
+    Message &operator>>(int64_t &v);
+    Message &operator>>(uint64_t &v);
+    Message &operator>>(double &v);
     Message &operator>>(std::string &s);
     Message &operator>>(ObjectPath &o);
     Message &operator>>(Signature &s);
     Message &operator>>(UnixFD &fd);
     Message &operator>>(const Container &c);
     Message &operator>>(const ContainerEnd &c);
-    Message &operator>>(Variant &c);
+    Message &operator>>(Variant &variant);
 
     template <typename K, typename V>
     Message &operator>>(std::pair<K, V> &t) {
@@ -446,8 +444,7 @@ static inline LogMessageBuilder &operator<<(LogMessageBuilder &builder,
     return builder;
 }
 
-} // namespace dbus
-} // namespace fcitx
+} // namespace fcitx::dbus
 
 namespace std {
 

@@ -3,8 +3,7 @@
 #include <memory>
 #include <wayland-client.h>
 #include "fcitx-utils/signals.h"
-namespace fcitx {
-namespace wayland {
+namespace fcitx::wayland {
 class WlShmPool;
 class WlShm final {
 public:
@@ -33,6 +32,5 @@ private:
 static inline wl_shm *rawPointer(WlShm *p) {
     return p ? static_cast<wl_shm *>(*p) : nullptr;
 }
-} // namespace wayland
-} // namespace fcitx
+} // namespace fcitx::wayland
 #endif

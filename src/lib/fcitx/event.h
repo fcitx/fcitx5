@@ -235,7 +235,7 @@ public:
         : InputContextEvent(context, EventType::InputContextCommitString),
           text_(text) {}
 
-    const std::string text() const { return text_; }
+    const std::string &text() const { return text_; }
 
 protected:
     std::string text_;

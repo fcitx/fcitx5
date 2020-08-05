@@ -26,11 +26,10 @@ public:
         if (freeList_.empty()) {
             ++maxId_;
             return maxId_;
-        } else {
-            auto value = *freeList_.begin();
-            freeList_.erase(freeList_.begin());
-            return value;
         }
+        auto value = *freeList_.begin();
+        freeList_.erase(freeList_.begin());
+        return value;
     }
     void returnId(int id) {
         assert(id <= maxId_ && freeList_.count(id) == 0);
@@ -99,7 +98,7 @@ void UserInterfaceManager::load(const std::string &uiName) {
 
     d->uis_.clear();
     if (names.count(uiName)) {
-        auto ui = d->addonManager_->addon(uiName, true);
+        auto *ui = d->addonManager_->addon(uiName, true);
         if (ui) {
             d->uis_.push_back(uiName);
         }
@@ -113,9 +112,8 @@ void UserInterfaceManager::load(const std::string &uiName) {
                       auto rp = d->addonManager_->addonInfo(rhs)->uiPriority();
                       if (lp == rp) {
                           return lhs > rhs;
-                      } else {
-                          return lp > rp;
                       }
+                      return lp > rp;
                   });
     }
     updateAvailability();
@@ -219,11 +217,11 @@ void UserInterfaceManager::flush() {
 }
 void UserInterfaceManager::updateAvailability() {
     FCITX_D();
-    auto oldUI = d->ui_;
+    auto *oldUI = d->ui_;
     UserInterface *newUI = nullptr;
     std::string newUIName;
     for (auto &name : d->uis_) {
-        auto ui =
+        auto *ui =
             static_cast<UserInterface *>(d->addonManager_->addon(name, true));
         if (ui && ui->available()) {
             newUI = static_cast<UserInterface *>(ui);

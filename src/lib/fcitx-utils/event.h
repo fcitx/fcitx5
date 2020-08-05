@@ -78,7 +78,7 @@ public:
     bool exec();
     void exit();
 
-    const char *impl();
+    static const char *impl();
     void *nativeHandle();
 
     FCITX_NODISCARD std::unique_ptr<EventSourceIO>

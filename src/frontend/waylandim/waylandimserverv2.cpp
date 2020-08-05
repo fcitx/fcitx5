@@ -53,7 +53,7 @@ WaylandIMServerV2::WaylandIMServerV2(wl_display *display, FocusGroup *group,
 
 WaylandIMServerV2::~WaylandIMServerV2() {
     // Delete all input context when server goes away.
-    while (icMap_.size()) {
+    while (!icMap_.empty()) {
         delete icMap_.begin()->second;
     }
 }
@@ -75,7 +75,7 @@ void WaylandIMServerV2::init() {
     WAYLANDIM_DEBUG() << "INIT IM V2";
     auto seats = display_->getGlobals<wayland::WlSeat>();
     for (const auto &seat : seats) {
-        auto ic = new WaylandIMInputContextV2(
+        auto *ic = new WaylandIMInputContextV2(
             inputContextManager(), this,
             inputMethodManagerV2_->getInputMethod(seat.get()),
             virtualKeyboardManagerV1_->createVirtualKeyboard(seat.get()));
@@ -296,7 +296,7 @@ void WaylandIMInputContextV2::keymapCallback(uint32_t format, int32_t fd,
         server_->keymap_.reset();
     }
 
-    auto mapStr = mmap(nullptr, size, PROT_READ, MAP_SHARED, fd, 0);
+    auto *mapStr = mmap(nullptr, size, PROT_READ, MAP_SHARED, fd, 0);
     if (mapStr == MAP_FAILED) {
         return;
     }
@@ -402,20 +402,27 @@ void WaylandIMInputContextV2::modifiersCallback(uint32_t,
                                    XKB_STATE_DEPRESSED | XKB_STATE_LATCHED));
 
     server_->modifiers_ = 0;
-    if (mask & server_->stateMask_.shift_mask)
+    if (mask & server_->stateMask_.shift_mask) {
         server_->modifiers_ |= KeyState::Shift;
-    if (mask & server_->stateMask_.lock_mask)
+    }
+    if (mask & server_->stateMask_.lock_mask) {
         server_->modifiers_ |= KeyState::CapsLock;
-    if (mask & server_->stateMask_.control_mask)
+    }
+    if (mask & server_->stateMask_.control_mask) {
         server_->modifiers_ |= KeyState::Ctrl;
-    if (mask & server_->stateMask_.mod1_mask)
+    }
+    if (mask & server_->stateMask_.mod1_mask) {
         server_->modifiers_ |= KeyState::Alt;
-    if (mask & server_->stateMask_.super_mask)
+    }
+    if (mask & server_->stateMask_.super_mask) {
         server_->modifiers_ |= KeyState::Super;
-    if (mask & server_->stateMask_.hyper_mask)
+    }
+    if (mask & server_->stateMask_.hyper_mask) {
         server_->modifiers_ |= KeyState::Hyper;
-    if (mask & server_->stateMask_.meta_mask)
+    }
+    if (mask & server_->stateMask_.meta_mask) {
         server_->modifiers_ |= KeyState::Meta;
+    }
 
     vk_->modifiers(mods_depressed, mods_depressed, mods_latched, group);
 }

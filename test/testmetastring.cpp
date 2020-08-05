@@ -11,12 +11,12 @@
 #include "fcitx-utils/metastring.h"
 
 int main() {
-    ::fcitx::MetaStringTrim<'A', 'B'>::type a;
-    static_assert(a.size() == 2, "");
-    ::fcitx::MetaStringTrim<'A', 'B', '\0', 'C'>::type b;
-    static_assert(b.size() == 2, "");
-    ::fcitx::MetaStringTrim<'\0'>::type c;
-    static_assert(c.size() == 0, "");
+    using a = ::fcitx::MetaStringTrim<'A', 'B'>::type;
+    static_assert(a::size() == 2, "");
+    using b = ::fcitx::MetaStringTrim<'A', 'B', '\0', 'C'>::type;
+    static_assert(b::size() == 2, "");
+    using c = ::fcitx::MetaStringTrim<'\0'>::type;
+    static_assert(c::empty(), "");
     static_assert(std::is_same<::fcitx::MetaStringTrim<'A'>::type,
                                fcitx::MetaString<'A'>>::value,
                   "");

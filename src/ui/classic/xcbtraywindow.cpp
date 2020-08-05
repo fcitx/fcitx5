@@ -17,8 +17,7 @@
 #include "common.h"
 #include "xcbmenu.h"
 
-namespace fcitx {
-namespace classicui {
+namespace fcitx::classicui {
 
 #define SYSTEM_TRAY_REQUEST_DOCK 0
 #define SYSTEM_TRAY_BEGIN_MESSAGE 1
@@ -84,7 +83,7 @@ bool XCBTrayWindow::filterEvent(xcb_generic_event_t *event) {
     uint8_t response_type = event->response_type & ~0x80;
     switch (response_type) {
     case XCB_CLIENT_MESSAGE: {
-        auto client_message =
+        auto *client_message =
             reinterpret_cast<xcb_client_message_event_t *>(event);
         if (client_message->type == atoms_[ATOM_MANAGER] &&
             client_message->format == 32 &&
@@ -97,7 +96,7 @@ bool XCBTrayWindow::filterEvent(xcb_generic_event_t *event) {
     }
 
     case XCB_BUTTON_PRESS: {
-        auto press = reinterpret_cast<xcb_button_press_event_t *>(event);
+        auto *press = reinterpret_cast<xcb_button_press_event_t *>(event);
         if (press->event == wid_) {
             if (press->detail == XCB_BUTTON_INDEX_3) {
                 updateMenu();
@@ -114,7 +113,7 @@ bool XCBTrayWindow::filterEvent(xcb_generic_event_t *event) {
     }
 
     case XCB_EXPOSE: {
-        auto expose = reinterpret_cast<xcb_expose_event_t *>(event);
+        auto *expose = reinterpret_cast<xcb_expose_event_t *>(event);
         if (expose->window == wid_) {
             CLASSICUI_DEBUG() << "Tray recevied expose event";
             update();
@@ -122,7 +121,7 @@ bool XCBTrayWindow::filterEvent(xcb_generic_event_t *event) {
         break;
     }
     case XCB_CONFIGURE_NOTIFY: {
-        auto configure =
+        auto *configure =
             reinterpret_cast<xcb_configure_notify_event_t *>(event);
         if (wid_ == configure->event) {
             CLASSICUI_DEBUG() << "Tray recevied configure event";
@@ -141,7 +140,7 @@ bool XCBTrayWindow::filterEvent(xcb_generic_event_t *event) {
         break;
     }
     case XCB_DESTROY_NOTIFY: {
-        auto destroywindow =
+        auto *destroywindow =
             reinterpret_cast<xcb_destroy_notify_event_t *>(event);
         if (destroywindow->event == dockWindow_) {
             refreshDockWindow();
@@ -150,7 +149,7 @@ bool XCBTrayWindow::filterEvent(xcb_generic_event_t *event) {
         break;
     }
     case XCB_PROPERTY_NOTIFY: {
-        auto property = reinterpret_cast<xcb_property_notify_event_t *>(event);
+        auto *property = reinterpret_cast<xcb_property_notify_event_t *>(event);
         if (property->atom == atoms_[ATOM_VISUAL] &&
             property->window == dockWindow_) {
             createTrayWindow();
@@ -171,7 +170,7 @@ void XCBTrayWindow::initTray() {
 
     sprintf(trayAtomNameBuf, "_NET_SYSTEM_TRAY_S%d", ui_->defaultScreen());
     size_t i = 0;
-    for (auto name : atom_names) {
+    for (const auto *name : atom_names) {
         atoms_[i] = ui_->parent()->xcb()->call<IXCBModule::atom>(ui_->name(),
                                                                  name, false);
         i++;
@@ -254,7 +253,7 @@ xcb_visualid_t XCBTrayWindow::trayVisual() {
         reply->bytes_after != 0) {
         return 0;
     }
-    auto data = static_cast<char *>(xcb_get_property_value(reply.get()));
+    auto *data = static_cast<char *>(xcb_get_property_value(reply.get()));
     int length = xcb_get_property_value_length(reply.get());
     if (length != 32 / 8) {
         return 0;
@@ -302,10 +301,10 @@ void XCBTrayWindow::postCreateWindow() {
 
 void XCBTrayWindow::paint(cairo_t *c) {
     auto &theme = ui_->parent()->theme();
-    auto instance = ui_->parent()->instance();
-    auto ic = ui_->parent()->instance()->lastFocusedInputContext();
+    auto *instance = ui_->parent()->instance();
+    auto *ic = ui_->parent()->instance()->lastFocusedInputContext();
     std::string icon = "input-keyboard";
-    std::string label = "";
+    std::string label;
     const InputMethodEntry *entry = nullptr;
     if (ic) {
         entry = instance->inputMethodEntry(ic);
@@ -315,8 +314,8 @@ void XCBTrayWindow::paint(cairo_t *c) {
         label = entry->label();
     }
 
-    auto &image = theme.loadImage(icon, label, std::min(height(), width()),
-                                  ImagePurpose::Tray);
+    const auto &image = theme.loadImage(
+        icon, label, std::min(height(), width()), ImagePurpose::Tray);
 
     cairo_save(c);
     cairo_set_operator(c, CAIRO_OPERATOR_SOURCE);
@@ -324,10 +323,11 @@ void XCBTrayWindow::paint(cairo_t *c) {
     if (image.width() != width() || image.height() != height()) {
         scaleW = static_cast<double>(width()) / image.width();
         scaleH = static_cast<double>(height()) / image.height();
-        if (scaleW > scaleH)
+        if (scaleW > scaleH) {
             scaleH = scaleW;
-        else
+        } else {
             scaleW = scaleH;
+        }
     }
     int aw = scaleW * image.width();
     int ah = scaleH * image.height();
@@ -343,7 +343,7 @@ void XCBTrayWindow::update() {
         return;
     }
 
-    if (auto surface = prerender()) {
+    if (auto *surface = prerender()) {
         cairo_t *c = cairo_create(surface);
         paint(c);
         cairo_destroy(c);
@@ -355,7 +355,7 @@ void XCBTrayWindow::render() {
     if (trayDepth_ != 32) {
         xcb_clear_area(ui_->connection(), false, wid_, 0, 0, width(), height());
     }
-    auto cr = cairo_create(surface_.get());
+    auto *cr = cairo_create(surface_.get());
     if (trayDepth_ == 32) {
         cairo_set_source_rgba(cr, 0, 0, 0, 0);
         cairo_set_operator(cr, CAIRO_OPERATOR_SOURCE);
@@ -405,7 +405,7 @@ void XCBTrayWindow::updateMenu() {
         menu_.removeAction(&groupAction_);
     }
     bool start = false;
-    for (auto action : menu_.actions()) {
+    for (auto *action : menu_.actions()) {
         if (action == &separatorActions_[0]) {
             start = true;
         } else if (action == &configureAction_) {
@@ -416,9 +416,9 @@ void XCBTrayWindow::updateMenu() {
     }
 
     bool hasAction = false;
-    if (auto ic = ui_->parent()->instance()->mostRecentInputContext()) {
+    if (auto *ic = ui_->parent()->instance()->mostRecentInputContext()) {
         auto &statusArea = ic->statusArea();
-        for (auto action : statusArea.allActions()) {
+        for (auto *action : statusArea.allActions()) {
             if (!action->id()) {
                 // Obviously it's not registered with ui manager.
                 continue;
@@ -458,9 +458,9 @@ void XCBTrayWindow::updateInputMethodMenu() {
     auto &imManager = ui_->parent()->instance()->inputMethodManager();
     const auto &list = imManager.currentGroup().inputMethodList();
     inputMethodActions_.clear();
-    auto ic = ui_->parent()->instance()->mostRecentInputContext();
+    auto *ic = ui_->parent()->instance()->mostRecentInputContext();
     for (size_t i = 0; i < list.size(); i++) {
-        auto entry = imManager.entry(list[i].name());
+        const auto *entry = imManager.entry(list[i].name());
         if (!entry) {
             return;
         }
@@ -482,5 +482,4 @@ void XCBTrayWindow::updateInputMethodMenu() {
         inputMethodMenu_.addAction(&inputMethodAction);
     }
 }
-} // namespace classicui
-} // namespace fcitx
+} // namespace fcitx::classicui

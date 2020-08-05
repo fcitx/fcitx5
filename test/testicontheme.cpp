@@ -14,7 +14,7 @@ int main() {
     FCITX_INFO() << theme.name().match();
     FCITX_INFO() << theme.comment().match();
 
-    for (auto &inheritTheme : theme.inherits()) {
+    for (const auto &inheritTheme : theme.inherits()) {
         FCITX_INFO() << inheritTheme.name().match();
     }
 #if 0

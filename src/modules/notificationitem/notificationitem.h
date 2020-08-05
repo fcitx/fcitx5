@@ -33,9 +33,9 @@ public:
     void registerSNI();
     void enable();
     void disable();
-    bool registered() { return registered_; }
+    bool registered() const { return registered_; }
     std::unique_ptr<HandlerTableEntry<NotificationItemCallback>>
-        watch(NotificationItemCallback);
+    watch(NotificationItemCallback callback);
     void newIcon();
 
 private:

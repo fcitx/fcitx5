@@ -16,7 +16,7 @@ void fcitx::setupTestingEnvironment(const std::string &testBinaryDir,
     setenv("SKIP_FCITX_PATH", "1", 1);
     // Path to addon library
     std::vector<std::string> fullAddonDirs;
-    for (auto &addonDir : addonDirs) {
+    for (const auto &addonDir : addonDirs) {
         if (addonDir.empty()) {
             continue;
         }
@@ -37,7 +37,7 @@ void fcitx::setupTestingEnvironment(const std::string &testBinaryDir,
     // Make sure we can find addon files.
     // Path to addon library
     std::vector<std::string> fullDataDirs;
-    for (auto &dataDir : dataDirs) {
+    for (const auto &dataDir : dataDirs) {
         if (dataDir.empty()) {
             continue;
         }

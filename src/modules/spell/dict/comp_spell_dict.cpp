@@ -33,8 +33,9 @@ static int compile_dict(int ifd, int ofd) {
     uint32_t wcount = 0;
     char *p;
     char *ifend;
-    if (fstat(ifd, &istat_buf) == -1)
+    if (fstat(ifd, &istat_buf) == -1) {
         return 1;
+    }
 
     auto unmap = [&istat_buf](void *p) {
         if (p && p != MAP_FAILED) {
@@ -59,8 +60,9 @@ static int compile_dict(int ifd, int ofd) {
         long int ceff;
         uint16_t ceff_buff;
         ceff = strtol(p, &p, 10);
-        if (*p != ' ')
+        if (*p != ' ') {
             return 1;
+        }
         ceff_buff = htole16(ceff > UINT16_MAX ? UINT16_MAX : ceff);
         fs::safeWrite(ofd, &ceff_buff, sizeof(uint16_t));
         start = ++p;

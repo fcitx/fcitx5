@@ -20,7 +20,7 @@ FocusGroup::FocusGroup(const std::string &display, InputContextManager &manager)
 FocusGroup::~FocusGroup() {
     FCITX_D();
     while (!d->ics_.empty()) {
-        auto ic = *d->ics_.begin();
+        auto *ic = *d->ics_.begin();
         ic->setFocusGroup(nullptr);
     }
     d->manager_.unregisterFocusGroup(*this);
@@ -48,7 +48,7 @@ InputContext *FocusGroup::focusedInputContext() const {
 
 bool FocusGroup::foreach(const InputContextVisitor &visitor) {
     FCITX_D();
-    for (auto ic : d->ics_) {
+    for (auto *ic : d->ics_) {
         if (!visitor(ic)) {
             return false;
         }

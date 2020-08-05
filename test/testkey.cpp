@@ -90,7 +90,7 @@ int main() {
 
     keyList.clear();
     keyString = fcitx::Key::keyListToString(keyList);
-    FCITX_ASSERT(keyString == "");
+    FCITX_ASSERT(keyString.empty());
 
     fcitx::Key modifier = fcitx::Key("Control_L").normalize();
     FCITX_ASSERT(modifier.check(fcitx::Key("Control+Control_L")));

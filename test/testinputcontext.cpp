@@ -51,7 +51,7 @@ class TestSharedProperty : public TestProperty {
 public:
     bool needCopy() const override { return true; }
     void copyTo(InputContextProperty *other_) override {
-        auto other = static_cast<TestSharedProperty *>(other_);
+        auto *other = static_cast<TestSharedProperty *>(other_);
         other->num_ = num_;
     }
 };
@@ -61,9 +61,9 @@ void test_simple() {
 
     {
         std::vector<std::unique_ptr<InputContext>> ic;
-
+        ic.reserve(8);
         for (int i = 0; i < 8; i++) {
-            ic.emplace_back(new TestInputContext(manager));
+            ic.emplace_back(std::make_unique<TestInputContext>(manager));
         }
 
         ic.pop_back();
@@ -116,7 +116,7 @@ void test_simple() {
         std::array<const char *, 2> slot{{"shared", "property"}};
         auto check = [&ic, &slot](auto expect) {
             int idx = 0;
-            for (auto s : slot) {
+            for (const auto *s : slot) {
                 int idx2 = 0;
                 for (auto &context : ic) {
                     FCITX_ASSERT(context->propertyAs<TestProperty>(s)->num() ==
@@ -189,14 +189,14 @@ void test_property() {
     manager.registerProperty("test", &testFactory);
     std::vector<std::unique_ptr<InputContext>> ic;
     ic.emplace_back(new TestInputContext(manager, "Firefox"));
-    auto testProperty = ic[0]->propertyFor(&testFactory);
+    auto *testProperty = ic[0]->propertyFor(&testFactory);
     FCITX_ASSERT(testProperty->num() == 0);
     FCITX_ASSERT(testFactory.registered());
     testFactory.unregister();
     FCITX_ASSERT(!testFactory.registered());
 
     manager.registerProperty("test", &testFactory);
-    auto testProperty2 = ic[0]->propertyFor(&testFactory);
+    auto *testProperty2 = ic[0]->propertyFor(&testFactory);
     FCITX_ASSERT(testProperty2->num() == 0);
 }
 

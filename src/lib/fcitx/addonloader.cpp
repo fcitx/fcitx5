@@ -63,7 +63,7 @@ AddonInstance *SharedLibraryLoader::load(const AddonInfo &info,
 }
 
 StaticLibraryLoader::StaticLibraryLoader(StaticAddonRegistry *registry_)
-    : AddonLoader(), registry(registry_) {}
+    : registry(registry_) {}
 
 AddonInstance *StaticLibraryLoader::load(const AddonInfo &info,
                                          AddonManager *manager) {

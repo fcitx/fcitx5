@@ -7,8 +7,7 @@
 
 #include "window.h"
 
-namespace fcitx {
-namespace classicui {
+namespace fcitx::classicui {
 
 Window::Window() {}
 
@@ -16,5 +15,4 @@ void Window::resize(unsigned int width, unsigned int height) {
     width_ = width;
     height_ = height;
 }
-} // namespace classicui
-} // namespace fcitx
+} // namespace fcitx::classicui

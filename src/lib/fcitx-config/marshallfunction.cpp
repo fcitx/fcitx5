@@ -10,7 +10,7 @@
 #include "configuration.h"
 
 namespace fcitx {
-void marshallOption(RawConfig &config, const bool value) {
+void marshallOption(RawConfig &config, bool value) {
     config = value ? "True" : "False";
 }
 
@@ -22,7 +22,7 @@ bool unmarshallOption(bool &value, const RawConfig &config, bool) {
 
     return false;
 }
-void marshallOption(RawConfig &config, const int value) {
+void marshallOption(RawConfig &config, int value) {
     config = std::to_string(value);
 }
 
@@ -69,7 +69,7 @@ bool unmarshallOption(Color &value, const RawConfig &config, bool) {
 
 void marshallOption(RawConfig &config, const I18NString &value) {
     config = value.defaultString();
-    for (auto &p : value.localizedStrings()) {
+    for (const auto &p : value.localizedStrings()) {
         (*config.parent())[stringutils::concat(config.name(), "[", p.first,
                                                "]")] = p.second;
     }

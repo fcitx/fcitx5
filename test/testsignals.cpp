@@ -13,10 +13,7 @@
 void test_simple_signal() {
     bool called = false;
     fcitx::Signal<void()> signal1;
-    auto connection = signal1.connect([&called]() {
-        called = true;
-        return;
-    });
+    auto connection = signal1.connect([&called]() { called = true; });
     FCITX_ASSERT(connection.connected());
     FCITX_ASSERT(!called);
     signal1();
@@ -134,10 +131,7 @@ void test_reference() {
 void test_move() {
     bool called = false;
     fcitx::Signal<void()> signal1;
-    auto connection = signal1.connect([&called]() {
-        called = true;
-        return;
-    });
+    auto connection = signal1.connect([&called]() { called = true; });
     FCITX_ASSERT(connection.connected());
     FCITX_ASSERT(!called);
     signal1();

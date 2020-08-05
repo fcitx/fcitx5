@@ -34,7 +34,7 @@ public:
     bool remove(const std::string &path);
     void removeAll();
     void setValue(std::string value);
-    void setComment(std::string value);
+    void setComment(std::string comment);
     void setLineNumber(unsigned int lineNumber);
     const std::string &name() const;
     const std::string &comment() const;
@@ -44,7 +44,7 @@ public:
     size_t subItemsSize() const;
     std::vector<std::string> subItems() const;
     void setValueByPath(const std::string &path, std::string value) {
-        (*this)[path] = value;
+        (*this)[path] = std::move(value);
     }
 
     const std::string *valueByPath(const std::string &path) const {
@@ -71,10 +71,7 @@ public:
         return visitSubItems(
             [&other](const RawConfig &subConfig, const std::string &path) {
                 auto otherSubConfig = other.get(path);
-                if (!otherSubConfig || *otherSubConfig != subConfig) {
-                    return false;
-                }
-                return true;
+                return (otherSubConfig && *otherSubConfig == subConfig);
             });
     }
 

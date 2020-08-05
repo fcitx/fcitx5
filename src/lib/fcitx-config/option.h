@@ -87,16 +87,16 @@ struct NoConstrain {
 };
 
 struct NoAnnotation {
-    bool skipDescription() const { return false; }
-    bool skipSave() const { return false; }
+    bool skipDescription() { return false; }
+    bool skipSave() { return false; }
     void dumpDescription(RawConfig &) const {}
 };
 
 // Annotation to be used against String type.
 struct FontAnnotation {
-    bool skipDescription() const { return false; }
-    bool skipSave() const { return false; }
-    void dumpDescription(RawConfig &config) const {
+    bool skipDescription() { return false; }
+    bool skipSave() { return false; }
+    void dumpDescription(RawConfig &config) {
         config.setValueByPath("Font", "True");
     }
 };
@@ -106,16 +106,16 @@ struct FontAnnotation {
 // User of this annotation should take a sub class of it and set
 // Enum/n, and EnumI18n/n correspondingly.
 struct EnumAnnotation {
-    bool skipDescription() const { return false; }
-    bool skipSave() const { return false; }
+    bool skipDescription() { return false; }
+    bool skipSave() { return false; }
     void dumpDescription(RawConfig &config) const {
         config.setValueByPath("IsEnum", "True");
     }
 };
 
 struct HideInDescription {
-    bool skipDescription() const { return true; }
-    bool skipSave() const { return false; }
+    bool skipDescription() { return true; }
+    bool skipSave() { return false; }
     void dumpDescription(RawConfig &) const {}
 };
 
@@ -258,12 +258,12 @@ public:
         }
     }
 
-    MutableOption(MutableOption &&other)
+    MutableOption(MutableOption &&other) noexcept
         : option_(other.option_), value_(std::move(other.value_)) {
         other.option_ = nullptr;
     }
 
-    MutableOption &operator=(MutableOption &&other) {
+    MutableOption &operator=(MutableOption &&other) noexcept {
         option_ = other.option_;
         value_ = std::move(other.value_);
         other.option_ = nullptr;
@@ -289,8 +289,9 @@ public:
            const T &defaultValue = T(), Constrain constrain = Constrain(),
            Marshaller marshaller = Marshaller(),
            Annotation annotation = Annotation())
-        : OptionBase(parent, path, description), defaultValue_(defaultValue),
-          value_(defaultValue), marshaller_(marshaller), constrain_(constrain),
+        : OptionBase(parent, std::move(path), std::move(description)),
+          defaultValue_(defaultValue), value_(defaultValue),
+          marshaller_(marshaller), constrain_(constrain),
           annotation_(annotation) {
         if (!constrain_.check(defaultValue_)) {
             throw std::invalid_argument(

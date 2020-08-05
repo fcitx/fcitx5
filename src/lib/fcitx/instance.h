@@ -74,8 +74,8 @@ public:
     InputMethodEngine *inputMethodEngine(InputContext *ic);
     InputMethodEngine *inputMethodEngine(const std::string &name);
 
-    uint32_t processCompose(InputContext *ic, KeySym keyval);
-    void resetCompose(InputContext *ic);
+    uint32_t processCompose(InputContext *ic, KeySym keysym);
+    void resetCompose(InputContext *inputContext);
 
     std::string commitFilter(InputContext *inputContext,
                              const std::string &orig);

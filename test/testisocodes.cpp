@@ -12,7 +12,7 @@ using namespace fcitx;
 int main() {
     IsoCodes isocodes;
     isocodes.read(ISOCODES_ISO639_JSON, ISOCODES_ISO3166_JSON);
-    auto entry = isocodes.entry("eng");
+    const auto *entry = isocodes.entry("eng");
     FCITX_ASSERT(entry);
     FCITX_ASSERT(entry->iso_639_1_code == "en");
     return 0;

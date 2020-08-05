@@ -107,6 +107,8 @@ int main() {
         dbus::Variant var;
         var.setData("abcd");
         dbus::Variant var2(var);
+        FCITX_INFO() << var;
+        FCITX_INFO() << var2;
     }
 
 #if 0

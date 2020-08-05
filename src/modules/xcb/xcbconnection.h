@@ -29,11 +29,12 @@ public:
     std::unique_ptr<HandlerTableEntry<XCBEventFilter>>
     addEventFilter(XCBEventFilter filter);
     std::unique_ptr<HandlerTableEntry<XCBSelectionNotifyCallback>>
-    addSelection(const std::string &name, XCBSelectionNotifyCallback callback);
+    addSelection(const std::string &selection,
+                 XCBSelectionNotifyCallback callback);
 
     std::unique_ptr<HandlerTableEntryBase>
     convertSelection(const std::string &selection, const std::string &type,
-                     XCBConvertSelectionCallback);
+                     XCBConvertSelectionCallback callback);
 
     XCBModule *parent() { return parent_; }
     Instance *instance();

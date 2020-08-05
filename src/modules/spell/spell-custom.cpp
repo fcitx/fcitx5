@@ -28,7 +28,7 @@ bool fcitx::SpellCustom::loadDict(const std::string &language) {
         return true;
     }
 
-    auto dict = SpellCustomDict::requestDict(language);
+    auto *dict = SpellCustomDict::requestDict(language);
     if (dict) {
         language_ = language;
         dict_.reset(dict);

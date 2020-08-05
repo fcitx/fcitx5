@@ -29,7 +29,7 @@ class WaylandInputWindow;
 
 class WaylandUI : public UIInterface {
 public:
-    WaylandUI(ClassicUI *parent, const std::string &name, wl_display *conn);
+    WaylandUI(ClassicUI *parent, const std::string &name, wl_display *display);
     ~WaylandUI();
 
 #ifdef CAIRO_EGL_FOUND

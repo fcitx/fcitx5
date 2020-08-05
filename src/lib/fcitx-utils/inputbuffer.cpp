@@ -62,7 +62,9 @@ InputBufferOptions InputBuffer::options() const {
     return d->options_;
 }
 
-bool InputBuffer::type(uint32_t c) { return type(fcitx::utf8::UCS4ToUTF8(c)); }
+bool InputBuffer::type(uint32_t unicode) {
+    return type(fcitx::utf8::UCS4ToUTF8(unicode));
+}
 
 const std::string &InputBuffer::userInput() const {
     FCITX_D();
@@ -85,9 +87,9 @@ bool InputBuffer::typeImpl(const char *s, size_t length) {
     d->input_.insert(std::next(d->input_.begin(), cursorByChar()), s,
                      s + length);
     if (!d->isAsciiOnly()) {
-        auto iter = s;
+        const auto *iter = s;
         auto func = [&iter]() {
-            auto next = fcitx::utf8::nextChar(iter);
+            const auto *next = fcitx::utf8::nextChar(iter);
             auto diff = std::distance(iter, next);
             iter = next;
             return diff;
@@ -194,10 +196,9 @@ std::pair<size_t, size_t> InputBuffer::rangeAt(size_t i) const {
     }
     if (d->isAsciiOnly()) {
         return {i, i + 1};
-    } else {
-        d->ensureAccTill(i);
-        return {d->acc_[i], d->acc_[i] + d->sz_[i]};
     }
+    d->ensureAccTill(i);
+    return {d->acc_[i], d->acc_[i] + d->sz_[i]};
 }
 
 uint32_t InputBuffer::charAt(size_t i) const {
@@ -207,20 +208,18 @@ uint32_t InputBuffer::charAt(size_t i) const {
     }
     if (d->isAsciiOnly()) {
         return d->input_[i];
-    } else {
-        d->ensureAccTill(i);
-        return utf8::getChar(d->input_.begin() + d->acc_[i],
-                             d->input_.begin() + d->sz_[i]);
     }
+    d->ensureAccTill(i);
+    return utf8::getChar(d->input_.begin() + d->acc_[i],
+                         d->input_.begin() + d->sz_[i]);
 }
 
 size_t InputBuffer::sizeAt(size_t i) const {
     FCITX_D();
     if (d->isAsciiOnly()) {
         return 1;
-    } else {
-        return d->sz_[i];
     }
+    return d->sz_[i];
 }
 
 void InputBuffer::shrinkToFit() {

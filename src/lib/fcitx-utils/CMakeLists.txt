@@ -100,8 +100,8 @@ set(FCITX_UTILS_DBUS_HEADERS
 
 add_library(Fcitx5Utils SHARED ${FCITX_UTILS_SOURCES})
 set_target_properties(Fcitx5Utils
-  PROPERTIES VERSION 1.0
-  SOVERSION 1
+  PROPERTIES VERSION 5.0
+  SOVERSION 2
   EXPORT_NAME Utils
   )
 target_include_directories(Fcitx5Utils PUBLIC
@@ -128,7 +128,7 @@ add_library(Fcitx5::Utils ALIAS Fcitx5Utils)
 
 ecm_setup_version(PROJECT
                   PACKAGE_VERSION_FILE "${CMAKE_CURRENT_BINARY_DIR}/Fcitx5UtilsConfigVersion.cmake"
-                  SOVERSION 1)
+                  SOVERSION 2)
 
 configure_package_config_file("${CMAKE_CURRENT_SOURCE_DIR}/Fcitx5UtilsConfig.cmake.in"
                               "${CMAKE_CURRENT_BINARY_DIR}/Fcitx5UtilsConfig.cmake"

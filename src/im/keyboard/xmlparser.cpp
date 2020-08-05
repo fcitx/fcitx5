@@ -23,16 +23,16 @@ bool fcitx::XMLParser::parse(const std::string &name) {
     XML_SetElementHandler(
         parser.get(),
         [](void *data, const char *element_name, const char **atts) {
-            auto ctx = static_cast<XMLParser *>(data);
+            auto *ctx = static_cast<XMLParser *>(data);
             ctx->startElement(element_name, atts);
         },
         [](void *data, const XML_Char *name) {
-            auto ctx = static_cast<XMLParser *>(data);
+            auto *ctx = static_cast<XMLParser *>(data);
             ctx->endElement(name);
         });
     XML_SetCharacterDataHandler(parser.get(),
                                 [](void *data, const XML_Char *s, int len) {
-                                    auto ctx = static_cast<XMLParser *>(data);
+                                    auto *ctx = static_cast<XMLParser *>(data);
                                     ctx->characterData(s, len);
                                 });
     int len;

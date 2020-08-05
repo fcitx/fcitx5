@@ -67,7 +67,7 @@ public:
             }
         }
 
-        for (auto category : categories_) {
+        for (auto *category : categories_) {
             applyRule(category);
         }
     }
@@ -149,7 +149,7 @@ bool LogCategory::fatalWrapper(LogLevel level) const {
     return needLog;
 }
 
-bool LogCategory::fatalWrapper2(LogLevel level) const {
+bool LogCategory::fatalWrapper2(LogLevel level) {
     if (level == LogLevel::Fatal) {
         std::abort();
     }

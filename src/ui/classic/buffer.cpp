@@ -23,8 +23,7 @@
 #include "wl_shm_pool.h"
 #include "wl_surface.h"
 
-namespace fcitx {
-namespace wayland {
+namespace fcitx::wayland {
 
 Buffer::Buffer(WlShm *shm, uint32_t width, uint32_t height,
                wl_shm_format format)
@@ -89,5 +88,4 @@ void Buffer::attachToSurface(WlSurface *surface) {
     surface->commit();
 }
 
-} // namespace wayland
-} // namespace fcitx
+} // namespace fcitx::wayland

@@ -11,7 +11,7 @@ void test_basic(bool ascii) {
     using namespace fcitx;
     InputBuffer buffer(InputBufferOptions(ascii ? InputBufferOption::AsciiOnly
                                                 : InputBufferOption::NoOption));
-    FCITX_ASSERT(buffer.size() == 0);
+    FCITX_ASSERT(buffer.empty());
     FCITX_ASSERT(buffer.cursor() == 0);
     FCITX_ASSERT(buffer.cursorByChar() == 0);
     buffer.type('a');
@@ -66,7 +66,7 @@ void test_utf8() {
     buffer.clear();
     FCITX_ASSERT(buffer.cursorByChar() == 0);
     FCITX_ASSERT(buffer.cursor() == 0);
-    FCITX_ASSERT(buffer.size() == 0);
+    FCITX_ASSERT(buffer.empty());
 
     buffer.type('a');
     FCITX_ASSERT(buffer.userInput() == "a");
@@ -95,7 +95,7 @@ void test_utf8() {
     buffer.backspace();
     FCITX_ASSERT(buffer.userInput() == "a");
     buffer.backspace();
-    FCITX_ASSERT(buffer.userInput() == "");
+    FCITX_ASSERT(buffer.userInput().empty());
 }
 
 int main() {

@@ -10,8 +10,7 @@
 #include "message.h"
 #include "utils_p.h"
 
-namespace fcitx {
-namespace dbus {
+namespace fcitx::dbus {
 
 static const char nullArray[] = {'\0', '\0'};
 
@@ -150,5 +149,4 @@ bool MatchRule::check(Message &message, const std::string &alterName) const {
     return result;
 }
 
-} // namespace dbus
-} // namespace fcitx
+} // namespace fcitx::dbus

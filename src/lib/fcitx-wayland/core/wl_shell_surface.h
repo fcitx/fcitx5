@@ -3,8 +3,7 @@
 #include <memory>
 #include <wayland-client.h>
 #include "fcitx-utils/signals.h"
-namespace fcitx {
-namespace wayland {
+namespace fcitx::wayland {
 class WlOutput;
 class WlSeat;
 class WlSurface;
@@ -50,6 +49,5 @@ private:
 static inline wl_shell_surface *rawPointer(WlShellSurface *p) {
     return p ? static_cast<wl_shell_surface *>(*p) : nullptr;
 }
-} // namespace wayland
-} // namespace fcitx
+} // namespace fcitx::wayland
 #endif

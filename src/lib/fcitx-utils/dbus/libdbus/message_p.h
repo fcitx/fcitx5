@@ -8,6 +8,8 @@
 #define _FCITX_UTILS_DBUS_MESSAGE_P_H_
 
 #include <dbus/dbus.h>
+
+#include <utility>
 #include "../message.h"
 
 namespace fcitx {
@@ -25,7 +27,7 @@ public:
     static Message fromDBusMessage(TrackableObjectReference<BusPrivate> bus,
                                    DBusMessage *dmsg, bool write, bool ref) {
         Message message;
-        message.d_ptr->bus_ = bus;
+        message.d_ptr->bus_ = std::move(bus);
         message.d_ptr->msg_ = ref ? dbus_message_ref(dmsg) : dmsg;
         message.d_ptr->write_ = write;
         message.d_ptr->initIterator();
@@ -54,7 +56,7 @@ public:
 
     static Message fromDBusError(const DBusError &error) {
         Message msg;
-        auto msgD = msg.d_func();
+        auto *msgD = msg.d_func();
         msgD->type_ = MessageType::Error;
         msgD->error_ = error.name;
         msgD->message_ = error.message;
@@ -86,7 +88,7 @@ public:
     DBusMessageIter *pushReadIterator() {
         DBusMessageIter *iter = iterator();
         iterators_.emplace_back();
-        auto subIter = iterator();
+        auto *subIter = iterator();
         dbus_message_iter_recurse(iter, subIter);
         return subIter;
     }
@@ -94,7 +96,7 @@ public:
     DBusMessageIter *pushWriteIterator(int type, const std::string &subType) {
         DBusMessageIter *iter = iterator();
         iterators_.emplace_back();
-        auto subIter = iterator();
+        auto *subIter = iterator();
         dbus_message_iter_open_container(
             iter, type,
             ((type == DBUS_TYPE_STRUCT || type == DBUS_TYPE_DICT_ENTRY)

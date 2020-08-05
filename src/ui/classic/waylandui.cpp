@@ -30,8 +30,7 @@
 
 #endif
 
-namespace fcitx {
-namespace classicui {
+namespace fcitx::classicui {
 
 #ifdef CAIRO_EGL_FOUND
 
@@ -83,7 +82,7 @@ WaylandUI::WaylandUI(ClassicUI *parent, const std::string &name,
     display_->requestGlobals<wayland::ZwpInputPanelV1>();
     display_->requestGlobals<wayland::WlSeat>();
     panelConn_ = display_->globalCreated().connect(
-        [this](const std::string &name, std::shared_ptr<void>) {
+        [this](const std::string &name, const std::shared_ptr<void> &) {
             if (name == wayland::ZwpInputPanelV1::interface) {
                 if (inputWindow_) {
                     inputWindow_->initPanel();
@@ -91,7 +90,7 @@ WaylandUI::WaylandUI(ClassicUI *parent, const std::string &name,
             }
         });
     panelRemovedConn_ = display_->globalRemoved().connect(
-        [this](const std::string &name, std::shared_ptr<void>) {
+        [this](const std::string &name, const std::shared_ptr<void> &) {
             if (name == wayland::ZwpInputPanelV1::interface) {
                 if (inputWindow_) {
                     inputWindow_->resetPanel();
@@ -219,10 +218,7 @@ void WaylandUI::update(UserInterfaceComponent component,
     }
 }
 
-void WaylandUI::suspend() {
-    inputWindow_.reset();
-    return;
-}
+void WaylandUI::suspend() { inputWindow_.reset(); }
 
 void WaylandUI::resume() {
     inputWindow_ = std::make_unique<WaylandInputWindow>(this);
@@ -238,5 +234,4 @@ std::unique_ptr<WaylandWindow> WaylandUI::newWindow() {
         return std::make_unique<WaylandShmWindow>(this);
     }
 }
-} // namespace classicui
-} // namespace fcitx
+} // namespace fcitx::classicui

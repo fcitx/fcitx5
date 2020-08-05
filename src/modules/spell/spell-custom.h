@@ -22,7 +22,7 @@ public:
     bool checkDict(const std::string &language) override;
     void addWord(const std::string &language, const std::string &word) override;
     std::vector<std::string> hint(const std::string &language,
-                                  const std::string &word,
+                                  const std::string &str,
                                   size_t limit) override;
 
 private:

@@ -19,7 +19,7 @@ public:
     virtual ~I18NString() {}
 
     void set(const std::string &str, const std::string &locale = "") {
-        if (locale.size()) {
+        if (!locale.empty()) {
             map_[locale] = str;
         } else {
             default_ = str;

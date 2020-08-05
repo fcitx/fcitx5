@@ -13,8 +13,7 @@
 #include "xcbinputwindow.h"
 #include "xcbtraywindow.h"
 
-namespace fcitx {
-namespace classicui {
+namespace fcitx::classicui {
 
 void addEventMaskToWindow(xcb_connection_t *conn, xcb_window_t wid,
                           uint32_t mask) {
@@ -28,7 +27,7 @@ void addEventMaskToWindow(xcb_connection_t *conn, xcb_window_t wid,
 }
 
 xcb_visualid_t findVisual(xcb_screen_t *screen) {
-    auto visual = xcb_aux_find_visual_by_attrs(screen, -1, 32);
+    auto *visual = xcb_aux_find_visual_by_attrs(screen, -1, 32);
     if (!visual) {
         return screen->root_visual;
     }
@@ -47,9 +46,10 @@ XCBFontOption forcedDpi(xcb_connection_t *conn, xcb_screen_t *screen) {
             makeUniqueCPtr(xcb_get_property_reply(conn, cookie, nullptr));
         more = false;
         if (reply && reply->format == 8 && reply->type == XCB_ATOM_STRING) {
-            auto start =
+            const auto *start =
                 static_cast<const char *>(xcb_get_property_value(reply.get()));
-            auto end = start + xcb_get_property_value_length(reply.get());
+            const auto *end =
+                start + xcb_get_property_value_length(reply.get());
             resources.insert(resources.end(), start, end);
             offset += xcb_get_property_value_length(reply.get());
             more = reply->bytes_after != 0;
@@ -57,7 +57,7 @@ XCBFontOption forcedDpi(xcb_connection_t *conn, xcb_screen_t *screen) {
     } while (more);
 
     XCBFontOption option;
-    auto parse = [](const std::vector<char> resources, const char *item,
+    auto parse = [](const std::vector<char> &resources, const char *item,
                     auto callback) {
         auto iter = resources.begin();
         auto end = resources.end();
@@ -165,7 +165,7 @@ void XCBFontOption::setupPangoContext(PangoContext *context) const {
         aa = CAIRO_ANTIALIAS_NONE;
     }
 
-    auto options = cairo_font_options_create();
+    auto *options = cairo_font_options_create();
     cairo_font_options_set_hint_style(options, hint);
     cairo_font_options_set_subpixel_order(options, subpixel);
     cairo_font_options_set_antialias(options, aa);
@@ -204,7 +204,7 @@ XCBUI::XCBUI(ClassicUI *parent, const std::string &name, xcb_connection_t *conn,
                 uint8_t response_type = event->response_type & ~0x80;
                 switch (response_type) {
                 case XCB_CLIENT_MESSAGE: {
-                    auto client_message =
+                    auto *client_message =
                         reinterpret_cast<xcb_client_message_event_t *>(event);
                     if (client_message->data.data32[1] == compMgrAtom_) {
                         refreshCompositeManager();
@@ -217,7 +217,7 @@ XCBUI::XCBUI(ClassicUI *parent, const std::string &name, xcb_connection_t *conn,
                     break;
                 }
                 case XCB_DESTROY_NOTIFY: {
-                    auto destroy =
+                    auto *destroy =
                         reinterpret_cast<xcb_destroy_notify_event_t *>(event);
                     if (destroy->window == xsettingsWindow_) {
                         refreshManager();
@@ -225,7 +225,7 @@ XCBUI::XCBUI(ClassicUI *parent, const std::string &name, xcb_connection_t *conn,
                     break;
                 }
                 case XCB_PROPERTY_NOTIFY: {
-                    auto property =
+                    auto *property =
                         reinterpret_cast<xcb_property_notify_event_t *>(event);
                     if (xsettingsWindow_ &&
                         property->window == xsettingsWindow_) {
@@ -234,9 +234,9 @@ XCBUI::XCBUI(ClassicUI *parent, const std::string &name, xcb_connection_t *conn,
                     break;
                 }
                 case XCB_CONFIGURE_NOTIFY: {
-                    auto configure =
+                    auto *configure =
                         reinterpret_cast<xcb_configure_notify_event_t *>(event);
-                    auto screen = xcb_aux_get_screen(conn_, defaultScreen_);
+                    auto *screen = xcb_aux_get_screen(conn_, defaultScreen_);
                     if (configure->window == screen->root) {
                         initScreen();
                     }
@@ -245,7 +245,7 @@ XCBUI::XCBUI(ClassicUI *parent, const std::string &name, xcb_connection_t *conn,
                 }
                 if (multiScreen_ == MultiScreenExtension::Randr &&
                     xrandrFirstEvent_ == XCB_RANDR_NOTIFY) {
-                    auto randr =
+                    auto *randr =
                         reinterpret_cast<xcb_randr_notify_event_t *>(event);
                     if (randr->subCode == XCB_RANDR_NOTIFY_CRTC_CHANGE) {
                         initScreen();
@@ -268,7 +268,7 @@ XCBUI::XCBUI(ClassicUI *parent, const std::string &name, xcb_connection_t *conn,
 XCBUI::~XCBUI() {}
 
 void XCBUI::initScreen() {
-    auto screen = xcb_aux_get_screen(conn_, defaultScreen_);
+    auto *screen = xcb_aux_get_screen(conn_, defaultScreen_);
     int newScreenCount = xcb_setup_roots_length(xcb_get_setup(conn_));
     if (newScreenCount == 1) {
         const xcb_query_extension_reply_t *reply =
@@ -334,8 +334,9 @@ void XCBUI::initScreen() {
                             makeUniqueCPtr(xcb_randr_get_output_info_reply(
                                 conn_, outputInfoCookie, nullptr));
                         // Invalid, disconnected or disabled output
-                        if (!output)
+                        if (!output) {
                             continue;
+                        }
 
                         if (output->connection !=
                             XCB_RANDR_CONNECTION_CONNECTED) {
@@ -382,7 +383,7 @@ void XCBUI::initScreen() {
             for (iter = xcb_xinerama_query_screens_screen_info_iterator(
                      reply.get());
                  iter.rem; xcb_xinerama_screen_info_next(&iter)) {
-                auto info = iter.data;
+                auto *info = iter.data;
                 auto x = info->x_org;
                 auto y = info->y_org;
                 auto w = info->width;
@@ -392,7 +393,7 @@ void XCBUI::initScreen() {
         }
     }
 
-    if (!rects_.size()) {
+    if (rects_.empty()) {
         rects_.emplace_back(
             Rect(0, 0, screen->width_in_pixels, screen->height_in_pixels), -1);
     }
@@ -459,9 +460,10 @@ void XCBUI::readXSettings() {
             makeUniqueCPtr(xcb_get_property_reply(conn_, cookie, nullptr));
         more = false;
         if (reply && reply->format == 8 && reply->type == xsettingsAtom_) {
-            auto start =
+            const auto *start =
                 static_cast<const char *>(xcb_get_property_value(reply.get()));
-            auto end = start + xcb_get_property_value_length(reply.get());
+            const auto *end =
+                start + xcb_get_property_value_length(reply.get());
             data.insert(data.end(), start, end);
             offset += xcb_get_property_value_length(reply.get());
             more = reply->bytes_after != 0;
@@ -645,7 +647,7 @@ void XCBUI::updateCurrentInputMethod(InputContext *) { trayWindow_->update(); }
 int XCBUI::dpiByPosition(int x, int y) {
     int shortestDistance = INT_MAX;
     int screenDpi = -1;
-    for (auto &rect : screenRects()) {
+    for (const auto &rect : screenRects()) {
         int thisDistance = rect.first.distance(x, y);
         if (thisDistance < shortestDistance) {
             shortestDistance = thisDistance;
@@ -700,5 +702,4 @@ void XCBUI::setEnableTray(bool enable) {
         updateTray();
     }
 }
-} // namespace classicui
-} // namespace fcitx
+} // namespace fcitx::classicui

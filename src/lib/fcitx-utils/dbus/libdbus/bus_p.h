@@ -46,7 +46,7 @@ public:
 
     ~DBusObjectVTableSlot() {}
 
-    std::string getXml();
+    std::string getXml() const;
 
     std::string path_;
     std::string interface_;
@@ -74,10 +74,7 @@ public:
                   dbus_bus_add_match(conn_.get(), rule.rule().c_str(),
                                      &error.error());
                   bool isError = dbus_error_is_set(&error.error());
-                  if (!isError) {
-                      return true;
-                  }
-                  return false;
+                  return !isError;
               },
               [this](const MatchRule &rule) {
                   if (!conn_) {
@@ -99,11 +96,8 @@ public:
                   memset(&vtable, 0, sizeof(vtable));
 
                   vtable.message_function = DBusObjectPathVTableMessageCallback;
-                  if (!dbus_connection_register_object_path(
-                          conn_.get(), path.c_str(), &vtable, this)) {
-                      return false;
-                  }
-                  return true;
+                  return dbus_connection_register_object_path(
+                             conn_.get(), path.c_str(), &vtable, this) != 0;
               },
               [this](const std::string &path) {
                   if (!conn_) {
@@ -120,7 +114,7 @@ public:
         }
     }
 
-    void dispatch() {
+    void dispatch() const {
         if (!conn_) {
             return;
         }
@@ -145,7 +139,7 @@ public:
     }
 
     DBusObjectVTableSlot *findSlot(const std::string &path,
-                                   const std::string interface);
+                                   const std::string &interface);
     bool objectVTableCallback(Message &message);
 
     static void DBusConnectionCloser(DBusConnection *conn) {
@@ -179,13 +173,13 @@ public:
         : path_(path), callback_(std::move(callback)) {}
 
     ~DBusObjectSlot() {
-        if (auto conn = connection()) {
+        if (auto *conn = connection()) {
             dbus_connection_unregister_object_path(conn, path_.data());
         }
     }
 
-    DBusConnection *connection() {
-        if (auto bus = bus_.get()) {
+    DBusConnection *connection() const {
+        if (auto *bus = bus_.get()) {
             return bus->conn_.get();
         }
         return nullptr;

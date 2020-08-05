@@ -3,8 +3,7 @@
 #include <memory>
 #include <wayland-client.h>
 #include "fcitx-utils/signals.h"
-namespace fcitx {
-namespace wayland {
+namespace fcitx::wayland {
 class WlCallback final {
 public:
     static constexpr const char *interface = "wl_callback";
@@ -32,6 +31,5 @@ private:
 static inline wl_callback *rawPointer(WlCallback *p) {
     return p ? static_cast<wl_callback *>(*p) : nullptr;
 }
-} // namespace wayland
-} // namespace fcitx
+} // namespace fcitx::wayland
 #endif

@@ -47,29 +47,35 @@ size_t fcitx_utf8_strlen(const char *s) {
 
 FCITXUTILS_EXPORT
 unsigned int fcitx_utf8_char_len(const char *in) {
-    if (!(in[0] & 0x80))
+    if (!(in[0] & 0x80)) {
         return 1;
+    }
 
     /* 2-byte, 0x80-0x7ff */
-    if ((in[0] & 0xe0) == 0xc0 && CONT(1))
+    if ((in[0] & 0xe0) == 0xc0 && CONT(1)) {
         return 2;
+    }
 
     /* 3-byte, 0x800-0xffff */
-    if ((in[0] & 0xf0) == 0xe0 && CONT(1) && CONT(2))
+    if ((in[0] & 0xf0) == 0xe0 && CONT(1) && CONT(2)) {
         return 3;
+    }
 
     /* 4-byte, 0x10000-0x1FFFFF */
-    if ((in[0] & 0xf8) == 0xf0 && CONT(1) && CONT(2) && CONT(3))
+    if ((in[0] & 0xf8) == 0xf0 && CONT(1) && CONT(2) && CONT(3)) {
         return 4;
+    }
 
     /* 5-byte, 0x200000-0x3FFFFFF */
-    if ((in[0] & 0xfc) == 0xf8 && CONT(1) && CONT(2) && CONT(3) && CONT(4))
+    if ((in[0] & 0xfc) == 0xf8 && CONT(1) && CONT(2) && CONT(3) && CONT(4)) {
         return 5;
+    }
 
     /* 6-byte, 0x400000-0x7FFFFFF */
     if ((in[0] & 0xfe) == 0xfc && CONT(1) && CONT(2) && CONT(3) && CONT(4) &&
-        CONT(5))
+        CONT(5)) {
         return 6;
+    }
 
     return 1;
 }
@@ -78,18 +84,21 @@ FCITXUTILS_EXPORT
 int fcitx_ucs4_char_len(uint32_t c) {
     if (c < 0x00080) {
         return 1;
-    } else if (c < 0x00800) {
+    }
+    if (c < 0x00800) {
         return 2;
-    } else if (c < 0x10000) {
+    }
+    if (c < 0x10000) {
         return 3;
-    } else if (c < 0x200000) {
+    }
+    if (c < 0x200000) {
         return 4;
         // below is not in UCS4 but in 32bit int.
-    } else if (c < 0x8000000) {
-        return 5;
-    } else {
-        return 6;
     }
+    if (c < 0x8000000) {
+        return 5;
+    }
+    return 6;
 }
 
 FCITXUTILS_EXPORT
@@ -98,18 +107,21 @@ int fcitx_ucs4_to_utf8(uint32_t c, char *output) {
         output[0] = (char)(c & 0xFF);
         output[1] = '\0';
         return 1;
-    } else if (c < 0x00800) {
+    }
+    if (c < 0x00800) {
         output[0] = (char)(0xC0 + ((c >> 6) & 0x1F));
         output[1] = (char)(0x80 + (c & 0x3F));
         output[2] = '\0';
         return 2;
-    } else if (c < 0x10000) {
+    }
+    if (c < 0x10000) {
         output[0] = (char)(0xE0 + ((c >> 12) & 0x0F));
         output[1] = (char)(0x80 + ((c >> 6) & 0x3F));
         output[2] = (char)(0x80 + (c & 0x3F));
         output[3] = '\0';
         return 3;
-    } else if (c < 0x200000) {
+    }
+    if (c < 0x200000) {
         output[0] = (char)(0xF0 + ((c >> 18) & 0x07));
         output[1] = (char)(0x80 + ((c >> 12) & 0x3F));
         output[2] = (char)(0x80 + ((c >> 6) & 0x3F));
@@ -117,7 +129,8 @@ int fcitx_ucs4_to_utf8(uint32_t c, char *output) {
         output[4] = '\0';
         return 4;
         // below is not in UCS4 but in 32bit int.
-    } else if (c < 0x8000000) {
+    }
+    if (c < 0x8000000) {
         output[0] = (char)(0xF8 + ((c >> 24) & 0x03));
         output[1] = (char)(0x80 + ((c >> 18) & 0x3F));
         output[2] = (char)(0x80 + ((c >> 12) & 0x3F));
@@ -125,16 +138,14 @@ int fcitx_ucs4_to_utf8(uint32_t c, char *output) {
         output[4] = (char)(0x80 + (c & 0x3F));
         output[5] = '\0';
         return 5;
-    } else {
-        output[0] = (char)(0xFC + ((c >> 30) & 0x01));
-        output[1] = (char)(0x80 + ((c >> 24) & 0x3F));
-        output[2] = (char)(0x80 + ((c >> 18) & 0x3F));
-        output[3] = (char)(0x80 + ((c >> 12) & 0x3F));
-        output[4] = (char)(0x80 + ((c >> 6) & 0x3F));
-        output[5] = (char)(0x80 + (c & 0x3F));
-        output[6] = '\0';
-        return 6;
     }
+    output[0] = (char)(0xFC + ((c >> 30) & 0x01));
+    output[1] = (char)(0x80 + ((c >> 24) & 0x3F));
+    output[2] = (char)(0x80 + ((c >> 18) & 0x3F));
+    output[3] = (char)(0x80 + ((c >> 12) & 0x3F));
+    output[4] = (char)(0x80 + ((c >> 6) & 0x3F));
+    output[5] = (char)(0x80 + (c & 0x3F));
+    output[6] = '\0';
     return 6;
 }
 
@@ -209,9 +220,11 @@ static uint32_t fcitx_utf8_get_char_extended(const char *s, int max_len,
             *plen = 1;
         }
         return wc;
-    } else if (wc < 0xc0) {
+    }
+    if (wc < 0xc0) {
         return (uint32_t)-1;
-    } else if (wc < 0xe0) {
+    }
+    if (wc < 0xe0) {
         len = 2;
         wc &= 0x1f;
     } else if (wc < 0xf0) {
@@ -232,8 +245,9 @@ static uint32_t fcitx_utf8_get_char_extended(const char *s, int max_len,
 
     if (max_len >= 0 && len > max_len) {
         for (i = 1; i < max_len; i++) {
-            if ((((unsigned char *)p)[i] & 0xc0) != 0x80)
+            if ((((unsigned char *)p)[i] & 0xc0) != 0x80) {
                 return (uint32_t)-1;
+            }
         }
 
         return (uint32_t)-2;
@@ -243,10 +257,10 @@ static uint32_t fcitx_utf8_get_char_extended(const char *s, int max_len,
         uint32_t ch = ((unsigned char *)p)[i];
 
         if ((ch & 0xc0) != 0x80) {
-            if (ch)
+            if (ch) {
                 return (uint32_t)-1;
-            else
-                return (uint32_t)-2;
+            }
+            return (uint32_t)-2;
         }
 
         wc <<= 6;
@@ -254,8 +268,9 @@ static uint32_t fcitx_utf8_get_char_extended(const char *s, int max_len,
         wc |= (ch & 0x3f);
     }
 
-    if (UTF8_LENGTH(wc) != len)
+    if (UTF8_LENGTH(wc) != len) {
         return (uint32_t)-1;
+    }
 
     if (plen) {
         *plen = len;
@@ -268,22 +283,24 @@ FCITXUTILS_EXPORT
 uint32_t fcitx_utf8_get_char_validated(const char *p, int max_len, int *plen) {
     uint32_t result;
 
-    if (max_len == 0)
+    if (max_len == 0) {
         return fcitx::utf8::NOT_ENOUGH_SPACE;
+    }
 
     int len;
     result = fcitx_utf8_get_char_extended(p, max_len, &len);
 
-    if (result & 0x80000000)
-        return result;
-    else if (!UNICODE_VALID(result))
-        return fcitx::utf8::INVALID_CHAR;
-    else {
-        if (plen) {
-            *plen = len;
-        }
+    if (result & 0x80000000) {
         return result;
     }
+    if (!UNICODE_VALID(result)) {
+        return fcitx::utf8::INVALID_CHAR;
+    }
+
+    if (plen) {
+        *plen = len;
+    }
+    return result;
 }
 
 FCITXUTILS_EXPORT
@@ -311,8 +328,9 @@ void fcitx_utf8_strncpy(char *str, const char *s, size_t byte) {
 
         const char *next = fcitx_utf8_get_char(s, &chr);
         size_t diff = next - s;
-        if (byte < diff)
+        if (byte < diff) {
             break;
+        }
 
         memcpy(str, s, diff);
         str += diff;
@@ -354,8 +372,9 @@ size_t fcitx_utf8_strnlen(const char *str, size_t byte) {
 
         const char *next = fcitx_utf8_get_char(str, &chr);
         size_t diff = next - str;
-        if (byte < diff)
+        if (byte < diff) {
             break;
+        }
 
         byte -= diff;
         str = next;

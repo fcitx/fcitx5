@@ -70,8 +70,8 @@ public:
     }
 
     DependencyCheckStatus checkDependencies(const Addon &a) {
-        auto &dependencies = a.info().dependencies();
-        for (auto &dependency : dependencies) {
+        const auto &dependencies = a.info().dependencies();
+        for (const auto &dependency : dependencies) {
             Addon *dep = addon(dependency);
             if (!dep || !dep->isLoadable()) {
                 return DependencyCheckStatus::Failed;
@@ -85,8 +85,8 @@ public:
                 return DependencyCheckStatus::Pending;
             }
         }
-        auto &optionalDependencies = a.info().optionalDependencies();
-        for (auto &dependency : optionalDependencies) {
+        const auto &optionalDependencies = a.info().optionalDependencies();
+        for (const auto &dependency : optionalDependencies) {
             Addon *dep = addon(dependency);
             // if not available, don't bother load it
             if (!dep || !dep->isLoadable()) {
@@ -116,7 +116,7 @@ public:
             changed = false;
 
             for (auto &item : addons_) {
-                changed |= loadAddon(q_ptr, *item.second.get());
+                changed |= loadAddon(q_ptr, *item.second);
                 // Exit if addon request it.
                 if (instance_ && instance_->exiting()) {
                     changed = false;
@@ -165,7 +165,7 @@ public:
             return;
         }
 
-        if (auto loader = findValue(loaders_, addon.info().type())) {
+        if (auto *loader = findValue(loaders_, addon.info().type())) {
             addon.instance_.reset((*loader)->load(addon.info(), q_ptr));
         } else {
             FCITX_ERROR() << "Failed to find addon loader for: "
@@ -226,14 +226,14 @@ void AddonManager::registerDefaultLoader(StaticAddonRegistry *registry) {
 void AddonManager::load(const std::unordered_set<std::string> &enabled,
                         const std::unordered_set<std::string> &disabled) {
     FCITX_D();
-    auto &path = StandardPath::global();
+    const auto &path = StandardPath::global();
     auto fileMap =
         path.multiOpenAll(StandardPath::Type::PkgData, d->addonConfigDir_,
                           O_RDONLY, filter::Suffix(".conf"));
     bool enableAll = enabled.count("all");
     bool disableAll = disabled.count("all");
     for (const auto &file : fileMap) {
-        auto &files = file.second;
+        const auto &files = file.second;
         RawConfig config;
         // reverse the order, so we end up parse user file at last.
         for (auto iter = files.rbegin(), end = files.rend(); iter != end;
@@ -284,7 +284,7 @@ void AddonManager::saveAll() {
     // reverse the unload order
     for (auto iter = d->loadOrder_.rbegin(), end = d->loadOrder_.rend();
          iter != end; iter++) {
-        if (auto addonInst = addon(*iter)) {
+        if (auto *addonInst = addon(*iter)) {
             addonInst->save();
         }
     }
@@ -292,7 +292,7 @@ void AddonManager::saveAll() {
 
 AddonInstance *AddonManager::addon(const std::string &name, bool load) {
     FCITX_D();
-    auto addon = d->addon(name);
+    auto *addon = d->addon(name);
     if (!addon) {
         return nullptr;
     }
@@ -306,7 +306,7 @@ AddonInstance *AddonManager::addon(const std::string &name, bool load) {
 
 const AddonInfo *AddonManager::addonInfo(const std::string &name) const {
     FCITX_D();
-    auto addon = d->addon(name);
+    auto *addon = d->addon(name);
     if (addon && addon->isValid()) {
         return &addon->info();
     }

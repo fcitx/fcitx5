@@ -3,8 +3,7 @@
 #include <memory>
 #include <wayland-client.h>
 #include "fcitx-utils/signals.h"
-namespace fcitx {
-namespace wayland {
+namespace fcitx::wayland {
 class WlRegion final {
 public:
     static constexpr const char *interface = "wl_region";
@@ -31,6 +30,5 @@ private:
 static inline wl_region *rawPointer(WlRegion *p) {
     return p ? static_cast<wl_region *>(*p) : nullptr;
 }
-} // namespace wayland
-} // namespace fcitx
+} // namespace fcitx::wayland
 #endif

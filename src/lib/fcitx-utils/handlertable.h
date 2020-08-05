@@ -37,6 +37,7 @@ public:
     HandlerTableView<T> view() { return {handlers_.begin(), handlers_.end()}; }
 
     size_t size() const { return handlers_.size(); }
+    bool empty() const { return size() == 0; }
 
 private:
     IntrusiveListFor<ListHandlerTableEntry<T>> handlers_;
@@ -54,7 +55,7 @@ public:
                       std::function<void(const Key &)> removeKey = {})
         : addKey_(addKey), removeKey_(removeKey) {}
 
-    FCITX_INLINE_DEFINE_DEFAULT_DTOR_AND_MOVE_WITHOUT_SPEC(MultiHandlerTable)
+    FCITX_INLINE_DEFINE_DEFAULT_DTOR_AND_MOVE(MultiHandlerTable)
 
     template <typename M>
     FCITX_NODISCARD std::unique_ptr<HandlerTableEntry<T>> add(const Key &key,

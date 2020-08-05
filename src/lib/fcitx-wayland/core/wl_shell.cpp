@@ -2,11 +2,7 @@
 #include <cassert>
 #include "wl_shell_surface.h"
 #include "wl_surface.h"
-namespace fcitx {
-namespace wayland {
-constexpr const char *WlShell::interface;
-constexpr const wl_interface *const WlShell::wlInterface;
-const uint32_t WlShell::version;
+namespace fcitx::wayland {
 WlShell::WlShell(wl_shell *data)
     : version_(wl_shell_get_version(data)), data_(data) {
     wl_shell_set_user_data(*this, this);
@@ -18,5 +14,4 @@ WlShellSurface *WlShell::getShellSurface(WlSurface *surface) {
     return new WlShellSurface(
         wl_shell_get_shell_surface(*this, rawPointer(surface)));
 }
-} // namespace wayland
-} // namespace fcitx
+} // namespace fcitx::wayland

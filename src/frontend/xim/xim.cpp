@@ -25,7 +25,7 @@ FCITX_DEFINE_LOG_CATEGORY(xim_key, "xim_key")
 
 namespace {
 
-static uint32_t style_array[] = {
+uint32_t style_array[] = {
     XCB_IM_PreeditPosition | XCB_IM_StatusArea,    // OverTheSpot
     XCB_IM_PreeditPosition | XCB_IM_StatusNothing, // OverTheSpot
     XCB_IM_PreeditPosition | XCB_IM_StatusNone,    // OverTheSpot
@@ -33,7 +33,7 @@ static uint32_t style_array[] = {
     XCB_IM_PreeditNothing | XCB_IM_StatusNone,     // Root
 };
 
-static uint32_t onthespot_style_array[] = {
+uint32_t onthespot_style_array[] = {
     XCB_IM_PreeditPosition | XCB_IM_StatusNothing,
     XCB_IM_PreeditCallbacks | XCB_IM_StatusNothing,
     XCB_IM_PreeditNothing | XCB_IM_StatusNothing,
@@ -42,18 +42,18 @@ static uint32_t onthespot_style_array[] = {
     XCB_IM_PreeditNothing | XCB_IM_StatusCallbacks,
 };
 
-static char COMPOUND_TEXT[] = "COMPOUND_TEXT";
+char COMPOUND_TEXT[] = "COMPOUND_TEXT";
 
-static char *encoding_array[] = {
+char *encoding_array[] = {
     COMPOUND_TEXT,
 };
 
-static xcb_im_encodings_t encodings = {FCITX_ARRAY_SIZE(encoding_array),
-                                       encoding_array};
+xcb_im_encodings_t encodings = {FCITX_ARRAY_SIZE(encoding_array),
+                                encoding_array};
 
-static xcb_im_styles_t styles = {FCITX_ARRAY_SIZE(style_array), style_array};
-static xcb_im_styles_t onthespot_styles = {
-    FCITX_ARRAY_SIZE(onthespot_style_array), onthespot_style_array};
+xcb_im_styles_t styles = {FCITX_ARRAY_SIZE(style_array), style_array};
+xcb_im_styles_t onthespot_styles = {FCITX_ARRAY_SIZE(onthespot_style_array),
+                                    onthespot_style_array};
 
 std::string guess_server_name() {
     char *env = getenv("XMODIFIERS");
@@ -159,7 +159,7 @@ public:
 
     auto im() { return im_.get(); }
     auto conn() { return conn_; }
-    auto root() { return root_; }
+    auto root() const { return root_; }
     auto ewmh() { return ewmh_; }
     auto focusGroup() { return group_; }
     auto xkbState() {
@@ -284,7 +284,7 @@ protected:
         } else {
             xkb_state *xkbState = server_->xkbState();
             if (xkbState) {
-                auto map = xkb_state_get_keymap(xkbState);
+                auto *map = xkb_state_get_keymap(xkbState);
                 auto min = xkb_keymap_min_keycode(map),
                      max = xkb_keymap_max_keycode(map);
                 for (auto keyCode = min; keyCode < max; keyCode++) {
@@ -342,7 +342,7 @@ protected:
 
             for (size_t i = 0, offset = 0; i < text.size(); i++) {
                 auto format = text.formatAt(i);
-                auto &str = text.stringAt(i);
+                const auto &str = text.stringAt(i);
                 uint32_t feedback = 0;
                 if (format & TextFormatFlag::Underline) {
                     feedback |= XCB_XIM_UNDERLINE;

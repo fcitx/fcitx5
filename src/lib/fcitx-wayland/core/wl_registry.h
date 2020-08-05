@@ -3,8 +3,7 @@
 #include <memory>
 #include <wayland-client.h>
 #include "fcitx-utils/signals.h"
-namespace fcitx {
-namespace wayland {
+namespace fcitx::wayland {
 class WlRegistry final {
 public:
     static constexpr const char *interface = "wl_registry";
@@ -39,6 +38,5 @@ private:
 static inline wl_registry *rawPointer(WlRegistry *p) {
     return p ? static_cast<wl_registry *>(*p) : nullptr;
 }
-} // namespace wayland
-} // namespace fcitx
+} // namespace fcitx::wayland
 #endif

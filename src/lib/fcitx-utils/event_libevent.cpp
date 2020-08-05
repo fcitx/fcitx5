@@ -110,7 +110,7 @@ struct LibEventSourceIO final : public LibEventSourceBase<EventSourceIO> {
     LibEventSourceIO(IOCallback _callback, event_base *eventBase, int fd,
                      IOEventFlags flags)
         : LibEventSourceBase(eventBase), fd_(fd), flags_(flags),
-          callback_(_callback) {
+          callback_(std::move(_callback)) {
         setEnabled(true);
     }
 
@@ -302,7 +302,7 @@ bool EventLoop::exec() {
     int r = event_base_loop(d->event_, 0);
 #endif
     for (auto iter = d->exitEvents_.begin(); iter != d->exitEvents_.end();) {
-        if (auto event = iter->get()) {
+        if (auto *event = iter->get()) {
             if (event->isEnabled()) {
                 try {
                     if (event->isOneShot()) {
@@ -330,7 +330,7 @@ void EventLoop::exit() {
 }
 
 void IOEventCallback(evutil_socket_t fd, short events, void *arg) {
-    auto source = static_cast<LibEventSourceIO *>(arg);
+    auto *source = static_cast<LibEventSourceIO *>(arg);
     try {
         if (source->isOneShot()) {
             source->setEnabled(false);
@@ -345,14 +345,14 @@ void IOEventCallback(evutil_socket_t fd, short events, void *arg) {
 std::unique_ptr<EventSourceIO> EventLoop::addIOEvent(int fd, IOEventFlags flags,
                                                      IOCallback callback) {
     FCITX_D();
-    auto source =
-        std::make_unique<LibEventSourceIO>(callback, d->event_, fd, flags);
+    auto source = std::make_unique<LibEventSourceIO>(std::move(callback),
+                                                     d->event_, fd, flags);
     return source;
 }
 
 void TimeEventCallback(evutil_socket_t, short, void *arg) {
 
-    auto source = static_cast<LibEventSourceTime *>(arg);
+    auto *source = static_cast<LibEventSourceTime *>(arg);
 
     try {
         auto sourceRef = source->watch();
@@ -373,26 +373,23 @@ std::unique_ptr<EventSourceTime>
 EventLoop::addTimeEvent(clockid_t clock, uint64_t usec, uint64_t accuracy,
                         TimeCallback callback) {
     FCITX_D();
-    auto source = std::make_unique<LibEventSourceTime>(callback, d->event_,
-                                                       usec, clock, accuracy);
+    auto source = std::make_unique<LibEventSourceTime>(
+        std::move(callback), d->event_, usec, clock, accuracy);
     return source;
 }
 
 std::unique_ptr<EventSource> EventLoop::addExitEvent(EventCallback callback) {
     FCITX_D();
-    auto source = std::make_unique<LibEventSourceExit>(callback);
+    auto source = std::make_unique<LibEventSourceExit>(std::move(callback));
     d->exitEvents_.push_back(source->watch());
     return source;
 }
 
-bool DeferEventCallback(EventSourceTime *source, uint64_t,
-                        EventCallback callback) {
-    return callback(source);
-}
-
 std::unique_ptr<EventSource> EventLoop::addDeferEvent(EventCallback callback) {
-    return addTimeEvent(CLOCK_MONOTONIC, 0, 0,
-                        std::bind(DeferEventCallback, std::placeholders::_1,
-                                  std::placeholders::_2, callback));
+    return addTimeEvent(
+        CLOCK_MONOTONIC, 0, 0,
+        [callback = std::move(callback)](EventSourceTime *source, uint64_t) {
+            return callback(source);
+        });
 }
 } // namespace fcitx
