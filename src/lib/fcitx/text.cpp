@@ -23,8 +23,8 @@ public:
 
 Text::Text() : d_ptr(std::make_unique<TextPrivate>()) {}
 
-Text::Text(const std::string &text, TextFormatFlags flag) : Text() {
-    append(text, flag);
+Text::Text(std::string text, TextFormatFlags flag) : Text() {
+    append(std::move(text), flag);
 }
 
 FCITX_DEFINE_DPTR_COPY_AND_DEFAULT_DTOR_AND_MOVE(Text)
@@ -45,12 +45,12 @@ void Text::setCursor(int pos) {
     d->cursor_ = pos;
 }
 
-void Text::append(const std::string &str, TextFormatFlags flag) {
+void Text::append(std::string str, TextFormatFlags flag) {
     FCITX_D();
     if (!utf8::validate(str)) {
         throw std::invalid_argument("Invalid utf8 string");
     }
-    d->texts_.emplace_back(str, flag);
+    d->texts_.emplace_back(std::move(str), flag);
 }
 
 const std::string &Text::stringAt(int idx) const {

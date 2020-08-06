@@ -19,14 +19,15 @@ namespace fcitx {
 class QuickPhraseProvider {
 public:
     virtual ~QuickPhraseProvider() = default;
-    virtual bool populate(InputContext *ic, const std::string &userInput,
-                          QuickPhraseAddCandidateCallback addCandidate) = 0;
+    virtual bool
+    populate(InputContext *ic, const std::string &userInput,
+             const QuickPhraseAddCandidateCallback &addCandidate) = 0;
 };
 
 class BuiltInQuickPhraseProvider : public QuickPhraseProvider {
 public:
     bool populate(InputContext *ic, const std::string &userInput,
-                  QuickPhraseAddCandidateCallback addCandidate) override;
+                  const QuickPhraseAddCandidateCallback &addCandidate) override;
     void reloadConfig();
 
 private:
@@ -38,7 +39,7 @@ class CallbackQuickPhraseProvider : public QuickPhraseProvider,
                                     public ConnectableObject {
 public:
     bool populate(InputContext *ic, const std::string &userInput,
-                  QuickPhraseAddCandidateCallback addCandidate) override;
+                  const QuickPhraseAddCandidateCallback &addCandidate) override;
 
     std::unique_ptr<HandlerTableEntry<QuickPhraseProviderCallback>>
     addCallback(QuickPhraseProviderCallback callback) {

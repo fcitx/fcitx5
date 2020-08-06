@@ -26,7 +26,7 @@ class TextPrivate;
 class FCITXCORE_EXPORT Text {
 public:
     Text();
-    explicit Text(const std::string &text,
+    explicit Text(std::string text,
                   TextFormatFlags flag = TextFormatFlag::NoFlag);
     FCITX_DECLARE_VIRTUAL_DTOR_COPY_AND_MOVE(Text);
 
@@ -35,8 +35,7 @@ public:
     /// Set cursor by byte.
     void setCursor(int pos = -1);
     void clear();
-    void append(const std::string &str,
-                TextFormatFlags flag = TextFormatFlag::NoFlag);
+    void append(std::string str, TextFormatFlags flag = TextFormatFlag::NoFlag);
     const std::string &stringAt(int idx) const;
     TextFormatFlags formatAt(int idx) const;
     size_t size() const;

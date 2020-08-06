@@ -48,7 +48,7 @@ private:
     static void
     appendProperty(DBusMenuProperties &properties,
                    const std::unordered_set<std::string> &propertyNames,
-                   const std::string &name, dbus::Variant variant);
+                   const std::string &name, const dbus::Variant &variant);
     void
     fillLayoutProperties(int32_t id,
                          const std::unordered_set<std::string> &propertyNames,
