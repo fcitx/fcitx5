@@ -215,7 +215,8 @@ std::vector<InputMethodEntry> KeyboardEngine::listInputMethods() {
             result.push_back(std::move(
                 InputMethodEntry(uniqueName, description, language, "keyboard")
                     .setLabel(layoutInfo.name)
-                    .setIcon("input-keyboard")));
+                    .setIcon("input-keyboard")
+                    .setConfigurable(true)));
         }
     }
 
