@@ -38,14 +38,14 @@ void BuiltInQuickPhraseProvider::reloadConfig() {
         StandardPath::Type::PkgData, "data/quickphrase.d/", O_RDONLY,
         filter::Suffix(".mb"));
     auto disableFiles = StandardPath::global().multiOpen(
-        StandardPath::Type::PkgData, "quickphrase.d/", O_RDONLY,
+        StandardPath::Type::PkgData, "data/quickphrase.d/", O_RDONLY,
         filter::Suffix(".mb.disable"));
     if (file.fd() >= 0) {
         load(file);
     }
 
     for (auto &p : files) {
-        if (disableFiles.count(p.first)) {
+        if (disableFiles.count(stringutils::concat(p.first, ".disable"))) {
             continue;
         }
         load(p.second);

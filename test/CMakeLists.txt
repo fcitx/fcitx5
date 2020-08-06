@@ -99,3 +99,8 @@ add_executable(testunicode testunicode.cpp)
 target_link_libraries(testunicode Fcitx5::Core Fcitx5::Module::TestFrontend Fcitx5::Module::TestIM Pthread::Pthread)
 add_dependencies(testunicode copy-addon unicode)
 add_test(NAME testunicode COMMAND testunicode)
+
+add_executable(testquickphrase testquickphrase.cpp)
+target_link_libraries(testquickphrase Fcitx5::Core Fcitx5::Module::QuickPhrase Fcitx5::Module::TestFrontend Fcitx5::Module::TestIM Pthread::Pthread)
+add_dependencies(testquickphrase copy-addon quickphrase)
+add_test(NAME testquickphrase COMMAND testquickphrase)

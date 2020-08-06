@@ -281,6 +281,14 @@ private:
     std::unique_ptr<StandardPathPrivate> d_ptr;
     FCITX_DECLARE_PRIVATE(StandardPath);
 };
+
+static inline LogMessageBuilder &operator<<(LogMessageBuilder &builder,
+                                            const StandardPathFile &file) {
+    builder << "StandardPathFile(fd=" << file.fd() << ",path=" << file.path()
+            << ")";
+    return builder;
+}
+
 } // namespace fcitx
 
 #endif // _FCITX_UTILS_STANDARDPATH_H_
