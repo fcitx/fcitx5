@@ -10,7 +10,10 @@ function finish()
 }
 
 trap finish EXIT
-dbus-daemon --fork --session --print-address=3 --print-pid=4 \
+DBUS_DAEMON=$1
+shift
+
+"$DBUS_DAEMON" --fork --session --print-address=3 --print-pid=4 \
   3> dbus-session-bus-address 4> dbus-session-bus-pid
 
 if [ $? != 0 ]; then

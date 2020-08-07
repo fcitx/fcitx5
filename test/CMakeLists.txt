@@ -31,14 +31,23 @@ set(FCITX_UTILS_DBUS_TEST
 set(testdbus_LIBS Pthread::Pthread)
 set(testeventdispatcher_LIBS Pthread::Pthread)
 
+find_program(DBUS_DAEMON_BIN dbus-daemon)
+find_program(XVFB_BIN Xvfb)
+
 add_executable(DBusWrapper IMPORTED)
 set_target_properties(DBusWrapper PROPERTIES IMPORTED_LOCATION "${CMAKE_CURRENT_SOURCE_DIR}/dbus_wrapper.sh")
+
+add_executable(XvfbWrapper IMPORTED)
+set_target_properties(XvfbWrapper PROPERTIES IMPORTED_LOCATION "${CMAKE_CURRENT_SOURCE_DIR}/xvfb_wrapper.sh")
 
 foreach(TESTCASE ${FCITX_UTILS_DBUS_TEST})
     add_executable(${TESTCASE} ${TESTCASE}.cpp)
     target_link_libraries(${TESTCASE} Fcitx5::Utils ${${TESTCASE}_LIBS})
-    add_test(NAME ${TESTCASE}
-             COMMAND DBusWrapper "${CMAKE_CURRENT_BINARY_DIR}/${TESTCASE}" ${${TESTCASE}_ARGS})
+
+    if (DBUS_DAEMON_BIN)
+        add_test(NAME ${TESTCASE}
+                COMMAND DBusWrapper "${DBUS_DAEMON_BIN}" "${CMAKE_CURRENT_BINARY_DIR}/${TESTCASE}" ${${TESTCASE}_ARGS})
+    endif()
 endforeach()
 
 foreach(TESTCASE ${FCITX_UTILS_TEST})
@@ -104,3 +113,11 @@ add_executable(testquickphrase testquickphrase.cpp)
 target_link_libraries(testquickphrase Fcitx5::Core Fcitx5::Module::QuickPhrase Fcitx5::Module::TestFrontend Fcitx5::Module::TestIM Pthread::Pthread)
 add_dependencies(testquickphrase copy-addon quickphrase)
 add_test(NAME testquickphrase COMMAND testquickphrase)
+
+add_executable(testxim testxim.cpp)
+target_link_libraries(testxim Fcitx5::Core Fcitx5::Module::TestIM Pthread::Pthread XCB::XCB XCB::AUX XCBImdkit::XCBImdkit)
+add_dependencies(testxim copy-addon xim)
+
+if (XVFB_BIN)
+    add_test(NAME testxim COMMAND XvfbWrapper "${XVFB_BIN}" "${CMAKE_CURRENT_BINARY_DIR}/testxim")
+endif()
