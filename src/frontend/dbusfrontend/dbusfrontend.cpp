@@ -120,6 +120,8 @@ public:
         auto auxDown =
             im_->instance()->outputFilter(this, inputPanel().auxDown());
         auto candidateList = inputPanel().candidateList();
+        int cursorIndex = 0;
+
         std::vector<dbus::DBusStruct<std::string, int>> preeditStrings,
             auxUpStrings, auxDownStrings;
         std::vector<dbus::DBusStruct<std::string, std::string>> candidates;
@@ -127,23 +129,26 @@ public:
         buildFormattedTextVector(preedit, preeditStrings);
         buildFormattedTextVector(auxUp, auxUpStrings);
         buildFormattedTextVector(auxDown, auxDownStrings);
-        for (int i = 0, e = candidateList->size(); i < e; i++) {
-            auto &candidate = candidateList->candidate(i);
-            if (candidate.isPlaceHolder()) {
-                continue;
-            }
-            Text labelText = candidate.hasCustomLabel()
+        if (candidateList != nullptr) {
+            for (int i = 0, e = candidateList->size(); i < e; i++) {
+                auto &candidate = candidateList->candidate(i);
+                if (candidate.isPlaceHolder()) {
+                    continue;
+                }
+                Text labelText = candidate.hasCustomLabel()
                                  ? candidate.customLabel()
                                  : candidateList->label(i);
-            labelText = im_->instance()->outputFilter(this, labelText);
-            Text candidateText =
-                im_->instance()->outputFilter(this, candidate.text());
-            candidates.emplace_back(std::make_tuple(labelText.toString(),
-                                                    candidateText.toString()));
+                labelText = im_->instance()->outputFilter(this, labelText);
+                Text candidateText =
+                    im_->instance()->outputFilter(this, candidate.text());
+                candidates.emplace_back(std::make_tuple(labelText.toString(),
+                                                        candidateText.toString()));
+            }
+            cursorIndex = candidateList->cursorIndex();
         }
         updateClientSideUITo(name_, preeditStrings, preedit.cursor(),
                              auxUpStrings, auxDownStrings, candidates,
-                             candidateList->cursorIndex());
+                             cursorIndex);
     }
 
     void forwardKeyImpl(const ForwardKeyEvent &key) override {
