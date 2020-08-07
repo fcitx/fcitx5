@@ -155,7 +155,12 @@ int main() {
         {"src/modules/quickphrase", "testing/testfrontend", "testing/testui",
          "testing/testim"},
         {"test", "src/modules", FCITX5_SOURCE_DIR "/test/addon/fcitx5"});
-    Instance instance(0, nullptr);
+
+    char arg0[] = "testquickphrase";
+    char arg1[] = "--disable=all";
+    char arg2[] = "--enable=testim,testfrontend,quickphrase,testui";
+    char *argv[] = {arg0, arg1, arg2};
+    Instance instance(FCITX_ARRAY_SIZE(argv), argv);
     instance.addonManager().registerDefaultLoader(nullptr);
     EventDispatcher dispatcher;
     dispatcher.attach(&instance.eventLoop());
