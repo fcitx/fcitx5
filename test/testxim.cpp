@@ -7,12 +7,13 @@
  */
 #include <atomic>
 #include <condition_variable>
+#include <cstdarg>
 #include <future>
 #include <mutex>
-#include <fcitx-utils/event.h>
 #include <xcb-imdkit/encoding.h>
 #include <xcb-imdkit/imclient.h>
 #include <xcb/xcb_aux.h>
+#include "fcitx-utils/event.h"
 #include "fcitx-utils/eventdispatcher.h"
 #include "fcitx-utils/testing.h"
 #include "fcitx/addonmanager.h"
@@ -118,6 +119,8 @@ public:
         im.reset(
             xcb_xim_create(connection.get(), screen_default_nbr, xmodifiers));
 
+        xcb_xim_im_callback callback{};
+        callback.commit_string = commit_string_callback;
         xcb_xim_set_im_callback(im.get(), &callback, this);
         xcb_xim_set_log_handler(im.get(), logger);
         assert(xcb_xim_open(im.get(), open_callback, true, this));
@@ -147,9 +150,6 @@ private:
     std::mutex mtx;
     bool end = false;
     bool started = false;
-
-    static constexpr xcb_xim_im_callback callback = {
-        .commit_string = commit_string_callback};
 };
 
 int main() {
