@@ -20,6 +20,22 @@ function finish()
 
 trap finish EXIT
 
+if which xprop >/dev/null 2>&1; then
+    for((i=1;i<=5;i++)); do
+        if xprop -root >/dev/null 2>&1; then
+            break
+        else
+            echo "Can't connect to Xvfb, retrying..."
+            sleep $i
+        fi
+    done
+    if [[ $i == 6 ]]; then
+        exit 1
+    fi
+else
+    sleep 1
+fi
+
 "$@"
 RET=$?
 exit $RET
