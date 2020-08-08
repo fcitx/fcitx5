@@ -35,6 +35,8 @@ std::unordered_map<KeySym, const char *, EnumHash> makeLookupKeyNameMap() {
         {FcitxKey_Control_R, NC_("Key name", "Right Control")},
         {FcitxKey_Super_L, NC_("Key name", "Left Super")},
         {FcitxKey_Super_R, NC_("Key name", "Right Super")},
+        {FcitxKey_Hyper_L, NC_("Key name", "Left Hyper")},
+        {FcitxKey_Hyper_R, NC_("Key name", "Right Hyper")},
         {FcitxKey_space, NC_("Key name", "Space")},
         {FcitxKey_Tab, NC_("Key name", "Tab")},
         {FcitxKey_BackSpace, NC_("Key name", "Backspace")},
@@ -268,6 +270,8 @@ Key::Key(const char *keyString) : Key() {
     _CHECK_MODIFIER("Shift+", Shift)
     _CHECK_MODIFIER("SUPER_", Super)
     _CHECK_MODIFIER("Super+", Super)
+    _CHECK_MODIFIER("HYPER_", Mod3)
+    _CHECK_MODIFIER("Hyper+", Mod3)
 
 #undef _CHECK_MODIFIER
 
@@ -286,8 +290,8 @@ Key::Key(const char *keyString) : Key() {
 }
 
 bool Key::check(const Key &key) const {
-    auto states =
-        states_ & KeyStates({KeyState::Ctrl_Alt_Shift, KeyState::Super});
+    auto states = states_ & KeyStates({KeyState::Ctrl_Alt_Shift,
+                                       KeyState::Super, KeyState::Mod3});
 
     // key is keycode based, do key code based check.
     if (key.code()) {
@@ -353,8 +357,8 @@ bool Key::hasModifier() const { return !!(states_ & KeyState::SimpleMask); }
 Key Key::normalize() const {
     Key key(*this);
     /* key state != 0 */
-    key.states_ =
-        key.states_ & KeyStates({KeyState::Ctrl_Alt_Shift, KeyState::Super});
+    key.states_ = key.states_ & KeyStates({KeyState::Ctrl_Alt_Shift,
+                                           KeyState::Super, KeyState::Mod3});
     if (key.states_) {
         if (key.states_ != KeyState::Shift && Key(key.sym_).isLAZ()) {
             key.sym_ = static_cast<KeySym>(key.sym_ + FcitxKey_A - FcitxKey_a);
@@ -430,11 +434,13 @@ std::string Key::toString(KeyStringFormat format) const {
         _APPEND_MODIFIER_STRING("Alt", Alt)
         _APPEND_MODIFIER_STRING("Shift", Shift)
         _APPEND_MODIFIER_STRING("Super", Super)
+        _APPEND_MODIFIER_STRING("Hyper", Mod3)
     } else {
         _APPEND_MODIFIER_STRING(C_("Key name", "Control"), Ctrl)
         _APPEND_MODIFIER_STRING(C_("Key name", "Alt"), Alt)
         _APPEND_MODIFIER_STRING(C_("Key name", "Shift"), Shift)
         _APPEND_MODIFIER_STRING(C_("Key name", "Super"), Super)
+        _APPEND_MODIFIER_STRING(C_("Key name", "Hyper"), Mod3)
     }
 
 #undef _APPEND_MODIFIER_STRING
@@ -459,7 +465,7 @@ KeyStates Key::keySymToStates(KeySym sym) {
         return KeyState::Super;
     case FcitxKey_Hyper_L:
     case FcitxKey_Hyper_R:
-        return KeyState::Hyper;
+        return KeyState::Mod3;
     default:
         return KeyStates();
     }

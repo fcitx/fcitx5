@@ -785,6 +785,8 @@ Instance::Instance(int argc, char **argv) {
             auto *inputState = ic->propertyFor(&d->inputStateFactory_);
             auto *xkbState = inputState->customXkbState();
             FCITX_KEYTRACE() << "KeyEvent: " << keyEvent.key()
+                             << " rawKey: " << keyEvent.rawKey()
+                             << " origKey: " << keyEvent.origKey()
                              << " Release:" << keyEvent.isRelease();
             if (xkbState) {
                 if (auto *mods = findValue(d->stateMask_, ic->display())) {

@@ -107,6 +107,10 @@ int main() {
         fcitx::Key::fromKeyCode(25, fcitx::KeyState::Ctrl).toString() ==
         "Control+<25>");
 
+    FCITX_ASSERT(fcitx::Key("Hyper+a").toString() == "Hyper+a");
+    FCITX_ASSERT(fcitx::Key("Hyper+space")
+                     .check(FcitxKey_space, fcitx::KeyState::Hyper));
+
     FCITX_INFO() << fcitx::Key::keySymToString(
         FcitxKey_Insert, fcitx::KeyStringFormat::Localized);
 
