@@ -25,7 +25,8 @@ namespace fcitx {
 
 namespace {
 
-std::vector<dbus::DBusStruct<std::string, int>> buildFormattedTextVector(const Text &text) {
+std::vector<dbus::DBusStruct<std::string, int>>
+buildFormattedTextVector(const Text &text) {
     std::vector<dbus::DBusStruct<std::string, int>> vector;
     for (int i = 0, e = text.size(); i < e; i++) {
         vector.emplace_back(std::make_tuple(
@@ -33,7 +34,7 @@ std::vector<dbus::DBusStruct<std::string, int>> buildFormattedTextVector(const T
     }
     return vector;
 }
-}; // namespace
+} // namespace
 
 class InputMethod1 : public dbus::ObjectVTable<InputMethod1> {
 public:
@@ -105,7 +106,8 @@ public:
     void updatePreeditImpl() override {
         auto preedit =
             im_->instance()->outputFilter(this, inputPanel().clientPreedit());
-        std::vector<dbus::DBusStruct<std::string, int>> strs = buildFormattedTextVector(preedit);
+        std::vector<dbus::DBusStruct<std::string, int>> strs =
+            buildFormattedTextVector(preedit);
         updateFormattedPreeditTo(name_, strs, preedit.cursor());
     }
 
@@ -129,19 +131,20 @@ public:
         preeditStrings = buildFormattedTextVector(preedit);
         auxUpStrings = buildFormattedTextVector(auxUp);
         auxDownStrings = buildFormattedTextVector(auxDown);
-        for (int i = 0, e = candidateList->size(); i < e; i++) {
-            auto &candidate = candidateList->candidate(i);
-            if (candidate.isPlaceHolder()) {
-                continue;
-            }
-            Text labelText = candidate.hasCustomLabel()
-                                 ? candidate.customLabel()
-                                 : candidateList->label(i);
+        if (candidateList) {
+            for (int i = 0, e = candidateList->size(); i < e; i++) {
+                auto &candidate = candidateList->candidate(i);
+                if (candidate.isPlaceHolder()) {
+                    continue;
+                }
+                Text labelText = candidate.hasCustomLabel()
+                                     ? candidate.customLabel()
+                                     : candidateList->label(i);
                 labelText = im_->instance()->outputFilter(this, labelText);
                 Text candidateText =
                     im_->instance()->outputFilter(this, candidate.text());
-                candidates.emplace_back(std::make_tuple(labelText.toString(),
-                                                        candidateText.toString()));
+                candidates.emplace_back(std::make_tuple(
+                    labelText.toString(), candidateText.toString()));
             }
             cursorIndex = candidateList->cursorIndex();
         }

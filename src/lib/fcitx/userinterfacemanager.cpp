@@ -208,8 +208,7 @@ void UserInterfaceManager::flush() {
         for (auto comp : p.second) {
             if (p.first->capabilityFlags().test(CapabilityFlag::ClientSideUI)) {
                 p.first->updateClientSideUIImpl();
-            }
-            else if (d->ui_) {
+            } else if (d->ui_) {
                 d->ui_->update(comp, p.first);
             }
         }
