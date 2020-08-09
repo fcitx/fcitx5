@@ -25,12 +25,13 @@ namespace fcitx {
 
 namespace {
 
-void buildFormattedTextVector(
-    const Text &text, std::vector<dbus::DBusStruct<std::string, int>> &vector) {
+std::vector<dbus::DBusStruct<std::string, int>> buildFormattedTextVector(const Text &text) {
+    std::vector<dbus::DBusStruct<std::string, int>> vector;
     for (int i = 0, e = text.size(); i < e; i++) {
         vector.emplace_back(std::make_tuple(
             text.stringAt(i), static_cast<int>(text.formatAt(i))));
     }
+    return vector;
 }
 }; // namespace
 
@@ -104,8 +105,7 @@ public:
     void updatePreeditImpl() override {
         auto preedit =
             im_->instance()->outputFilter(this, inputPanel().clientPreedit());
-        std::vector<dbus::DBusStruct<std::string, int>> strs;
-        buildFormattedTextVector(preedit, strs);
+        std::vector<dbus::DBusStruct<std::string, int>> strs = buildFormattedTextVector(preedit);
         updateFormattedPreeditTo(name_, strs, preedit.cursor());
     }
 
@@ -126,16 +126,15 @@ public:
             auxUpStrings, auxDownStrings;
         std::vector<dbus::DBusStruct<std::string, std::string>> candidates;
 
-        buildFormattedTextVector(preedit, preeditStrings);
-        buildFormattedTextVector(auxUp, auxUpStrings);
-        buildFormattedTextVector(auxDown, auxDownStrings);
-        if (candidateList != nullptr) {
-            for (int i = 0, e = candidateList->size(); i < e; i++) {
-                auto &candidate = candidateList->candidate(i);
-                if (candidate.isPlaceHolder()) {
-                    continue;
-                }
-                Text labelText = candidate.hasCustomLabel()
+        preeditStrings = buildFormattedTextVector(preedit);
+        auxUpStrings = buildFormattedTextVector(auxUp);
+        auxDownStrings = buildFormattedTextVector(auxDown);
+        for (int i = 0, e = candidateList->size(); i < e; i++) {
+            auto &candidate = candidateList->candidate(i);
+            if (candidate.isPlaceHolder()) {
+                continue;
+            }
+            Text labelText = candidate.hasCustomLabel()
                                  ? candidate.customLabel()
                                  : candidateList->label(i);
                 labelText = im_->instance()->outputFilter(this, labelText);
