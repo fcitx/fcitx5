@@ -204,17 +204,20 @@ void UserInterfaceManager::expire(InputContext *inputContext) {
 
 void UserInterfaceManager::flush() {
     FCITX_D();
-    if (!d->ui_) {
-        return;
-    }
     for (auto &p : d->updateList_) {
         for (auto comp : p.second) {
-            d->ui_->update(comp, p.first);
+            if (p.first->capabilityFlags().test(CapabilityFlag::ClientSideUI)) {
+                p.first->updateClientSideUIImpl();
+            }
+            else if (d->ui_) {
+                d->ui_->update(comp, p.first);
+            }
         }
     }
     d->updateIndex_.clear();
     d->updateList_.clear();
 }
+
 void UserInterfaceManager::updateAvailability() {
     FCITX_D();
     auto *oldUI = d->ui_;

@@ -39,6 +39,7 @@ typedef std::function<bool(InputContext *ic)> InputContextVisitor;
 class FCITXCORE_EXPORT InputContext : public TrackableObject<InputContext> {
     friend class InputContextManagerPrivate;
     friend class FocusGroup;
+    friend class UserInterfaceManager;
 
 public:
     InputContext(InputContextManager &manager, const std::string &program = {});
