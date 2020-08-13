@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2020-08-09 00:01-0700\n"
+"POT-Creation-Date: 2020-08-13 00:01-0700\n"
 "PO-Revision-Date: 2017-11-23 04:14+0000\n"
 "Last-Translator: csslayer <wengxt@gmail.com>, 2020\n"
 "Language-Team: Chinese (China) (https://www.transifex.com/fcitx/teams/12005/"
@@ -584,7 +584,7 @@ msgstr "快捷键"
 #: src/lib/fcitx-utils/key.cpp:443
 msgctxt "Key name"
 msgid "Hyper"
-msgstr ""
+msgstr "Hyper"
 
 #: src/frontend/ibusfrontend/ibusfrontend.conf.in:3
 msgid "IBus Frontend"
@@ -766,7 +766,7 @@ msgstr "左 Control"
 #: src/lib/fcitx-utils/key.cpp:38
 msgctxt "Key name"
 msgid "Left Hyper"
-msgstr ""
+msgstr "左 Hyper"
 
 #: src/lib/fcitx-utils/key.cpp:32
 msgctxt "Key name"
@@ -1082,7 +1082,7 @@ msgstr "右 Control"
 #: src/lib/fcitx-utils/key.cpp:39
 msgctxt "Key name"
 msgid "Right Hyper"
-msgstr ""
+msgstr "右 Hyper"
 
 #: src/lib/fcitx-utils/key.cpp:33
 msgctxt "Key name"
