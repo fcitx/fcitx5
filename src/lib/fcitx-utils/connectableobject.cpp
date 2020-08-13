@@ -37,6 +37,10 @@ void ConnectableObject::_unregisterSignal(const std::string &name) {
 }
 
 SignalBase *ConnectableObject::findSignal(const std::string &name) {
+    return std::as_const(*this).findSignal(name);
+}
+
+SignalBase *ConnectableObject::findSignal(const std::string &name) const {
     FCITX_D();
     auto iter = d->signals_.find(name);
     if (iter != d->signals_.end()) {

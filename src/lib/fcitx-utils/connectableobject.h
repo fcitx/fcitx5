@@ -9,6 +9,7 @@
 
 #include <memory>
 #include <string>
+#include <utility>
 #include <fcitx-utils/metastring.h>
 #include <fcitx-utils/signals.h>
 #include "fcitxutils_export.h"
@@ -89,6 +90,12 @@ protected:
 
     template <typename SignalType, typename... Args>
     auto emit(Args &&... args) {
+        return std::as_const(*this).emit<SignalType>(
+            std::forward<Args>(args)...);
+    }
+
+    template <typename SignalType, typename... Args>
+    auto emit(Args &&... args) const {
         auto signal = findSignal(SignalType::signature::data());
         return (*static_cast<Signal<typename SignalType::signalType> *>(
             signal))(std::forward<Args>(args)...);
@@ -109,7 +116,9 @@ protected:
 private:
     void _registerSignal(std::string name, std::unique_ptr<SignalBase> signal);
     void _unregisterSignal(const std::string &name);
+    // FIXME: remove non-const variant when we can break ABI.
     SignalBase *findSignal(const std::string &name);
+    SignalBase *findSignal(const std::string &name) const;
 
     std::unique_ptr<ConnectableObjectPrivate> d_ptr;
     FCITX_DECLARE_PRIVATE(ConnectableObject);
