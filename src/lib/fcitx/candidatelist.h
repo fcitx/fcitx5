@@ -158,7 +158,7 @@ private:
 
 class CommonCandidateListPrivate;
 
-enum CursorPositionAfterPaging { SameAsLast, DonotChange, ResetToFirst };
+enum class CursorPositionAfterPaging { SameAsLast, DonotChange, ResetToFirst };
 
 class FCITXCORE_EXPORT CommonCandidateList : public CandidateList,
                                              public PageableCandidateList,
