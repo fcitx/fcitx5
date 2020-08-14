@@ -171,6 +171,7 @@ public:
     void clear();
     void setSelectionKey(const KeyList &keyList);
     void setPageSize(int size);
+    int pageSize() const;
     void setLayoutHint(CandidateLayoutHint hint);
     void setGlobalCursorIndex(int index);
 

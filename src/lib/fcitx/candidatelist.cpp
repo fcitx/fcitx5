@@ -343,9 +343,7 @@ void CommonCandidateList::prev() {
     if (!hasPrev()) {
         return;
     }
-    auto oldIndex = cursorIndex();
-    d->currentPage_--;
-    d->fixCursorAfterPaging(oldIndex);
+    setPage(d->currentPage_ - 1);
 }
 
 void CommonCandidateList::next() {
@@ -353,9 +351,7 @@ void CommonCandidateList::next() {
     if (!hasNext()) {
         return;
     }
-    auto oldIndex = cursorIndex();
-    d->currentPage_++;
-    d->fixCursorAfterPaging(oldIndex);
+    setPage(d->currentPage_ + 1);
     d->usedNextBefore_ = true;
 }
 
@@ -371,6 +367,11 @@ void CommonCandidateList::setPageSize(int size) {
     }
     d->pageSize_ = size;
     d->currentPage_ = 0;
+}
+
+int CommonCandidateList::pageSize() const {
+    FCITX_D();
+    return d->pageSize_;
 }
 
 int CommonCandidateList::size() const {
@@ -530,7 +531,11 @@ void CommonCandidateList::setPage(int page) {
     FCITX_D();
     auto totalPage = totalPages();
     if (page >= 0 && page < totalPage) {
-        d->currentPage_ = page;
+        if (d->currentPage_ != page) {
+            auto oldIndex = cursorIndex();
+            d->currentPage_ = page;
+            d->fixCursorAfterPaging(oldIndex);
+        }
     } else {
         throw std::invalid_argument("invalid page");
     }

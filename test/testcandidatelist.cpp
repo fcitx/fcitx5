@@ -142,5 +142,49 @@ int main() {
     }
     FCITX_ASSERT(candidatelist.totalSize() == 12);
 
+    candidatelist.setCursorKeepInSamePage(true);
+    candidatelist.setGlobalCursorIndex(0);
+    candidatelist.setPage(0);
+    candidatelist.prevCandidate();
+    FCITX_ASSERT(candidatelist.cursorIndex() == candidatelist.pageSize() - 1)
+        << candidatelist.cursorIndex();
+    FCITX_ASSERT(candidatelist.currentPage() == 0)
+        << candidatelist.currentPage();
+
+    candidatelist.setCursorKeepInSamePage(false);
+    candidatelist.nextCandidate();
+    FCITX_ASSERT(candidatelist.cursorIndex() == 0)
+        << candidatelist.cursorIndex();
+    FCITX_ASSERT(candidatelist.currentPage() == 1)
+        << candidatelist.currentPage();
+
+    candidatelist.setCursorPositionAfterPaging(
+        CursorPositionAfterPaging::DonotChange);
+    candidatelist.setPage(2);
+    FCITX_ASSERT(candidatelist.cursorIndex() == -1)
+        << candidatelist.cursorIndex();
+    FCITX_ASSERT(candidatelist.currentPage() == 2)
+        << candidatelist.currentPage();
+
+    candidatelist.setCursorPositionAfterPaging(
+        CursorPositionAfterPaging::ResetToFirst);
+    candidatelist.setPage(1);
+    FCITX_ASSERT(candidatelist.cursorIndex() == 0)
+        << candidatelist.cursorIndex();
+    FCITX_ASSERT(candidatelist.currentPage() == 1)
+        << candidatelist.currentPage();
+
+    candidatelist.nextCandidate();
+    FCITX_ASSERT(candidatelist.cursorIndex() == 1)
+        << candidatelist.cursorIndex();
+
+    candidatelist.setCursorPositionAfterPaging(
+        CursorPositionAfterPaging::SameAsLast);
+    candidatelist.setPage(0);
+    FCITX_ASSERT(candidatelist.cursorIndex() == 1)
+        << candidatelist.cursorIndex();
+    FCITX_ASSERT(candidatelist.currentPage() == 0)
+        << candidatelist.currentPage();
+
     return 0;
 }
