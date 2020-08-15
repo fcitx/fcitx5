@@ -148,6 +148,8 @@ public:
     StandardPathFile(StandardPathFile &&other) = default;
     virtual ~StandardPathFile();
 
+    StandardPathFile &operator=(StandardPathFile &&other) = default;
+
     int fd() const { return fd_.fd(); }
 
     const std::string &path() const { return path_; }
