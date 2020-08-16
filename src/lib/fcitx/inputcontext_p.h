@@ -89,12 +89,7 @@ public:
         case EventType::InputContextCommitString: {
             auto &event = static_cast<CommitStringEvent &>(icEvent);
             if (!postEvent(event)) {
-                if (auto *instance = manager_.instance()) {
-                    auto newString = instance->commitFilter(q, event.text());
-                    q->commitStringImpl(newString);
-                } else {
-                    q->commitStringImpl(event.text());
-                }
+                q->commitStringImpl(event.text());
             }
             break;
         }

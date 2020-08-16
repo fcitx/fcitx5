@@ -233,7 +233,12 @@ bool InputContext::hasPendingEvents() const {
 
 void InputContext::commitString(const std::string &text) {
     FCITX_D();
-    d->pushEvent<CommitStringEvent>(text, this);
+    if (auto *instance = d->manager_.instance()) {
+        auto newString = instance->commitFilter(this, text);
+        d->pushEvent<CommitStringEvent>(std::move(newString), this);
+    } else {
+        d->pushEvent<CommitStringEvent>(text, this);
+    }
 }
 
 void InputContext::deleteSurroundingText(int offset, unsigned int size) {
