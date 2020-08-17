@@ -159,6 +159,8 @@ struct InputState : public InputContextProperty {
 
     bool lastIMChangeIsAltTrigger_ = false;
 
+    std::string overrideDeactivateIM_;
+
 private:
     InstancePrivate *d_ptr;
     InputContext *ic_;
@@ -954,30 +956,14 @@ Instance::Instance(int argc, char **argv) {
                    }));
     d->eventWatchers_.emplace_back(d->watchEvent(
         EventType::InputContextSwitchInputMethod,
-        EventWatcherPhase::ReservedFirst, [this, d](Event &event) {
+        EventWatcherPhase::ReservedFirst, [this](Event &event) {
             auto &icEvent =
                 static_cast<InputContextSwitchInputMethodEvent &>(event);
             auto *ic = icEvent.inputContext();
             if (!ic->hasFocus()) {
                 return;
             }
-            if (const auto *oldEntry =
-                    d->imManager_.entry(icEvent.oldInputMethod())) {
-                auto *inputState = ic->propertyFor(&d->inputStateFactory_);
-                FCITX_DEBUG() << "Deactivate: "
-                              << "[Last]:" << inputState->lastIM_
-                              << " [Activating]:" << oldEntry->uniqueName();
-                assert(inputState->lastIM_ == oldEntry->uniqueName());
-                inputState->lastIM_.clear();
-                auto *oldEngine = static_cast<InputMethodEngine *>(
-                    d->addonManager_.addon(oldEntry->addon()));
-                if (oldEngine) {
-                    oldEngine->deactivate(*oldEntry, icEvent);
-                    postEvent(InputMethodDeactivatedEvent(
-                        oldEntry->uniqueName(), ic));
-                }
-            }
-
+            deactivateInputMethod(icEvent);
             activateInputMethod(icEvent);
         }));
     d->eventWatchers_.emplace_back(d->watchEvent(
@@ -1292,6 +1278,13 @@ Instance::watchEvent(EventType type, EventWatcherPhase phase,
 
 std::string Instance::inputMethod(InputContext *ic) {
     FCITX_D();
+    auto *inputState = ic->propertyFor(&d->inputStateFactory_);
+    // Small hack to make sure when InputMethodEngine::deactivate is called,
+    // current im is the right one.
+    if (!inputState->overrideDeactivateIM_.empty()) {
+        return inputState->overrideDeactivateIM_;
+    }
+
     auto &group = d->imManager_.currentGroup();
     if (ic->capabilityFlags().test(CapabilityFlag::Password)) {
         auto defaultLayout = group.defaultLayout();
@@ -1303,7 +1296,6 @@ std::string Instance::inputMethod(InputContext *ic) {
         return entry ? entry->uniqueName() : "";
     }
 
-    auto *inputState = ic->propertyFor(&d->inputStateFactory_);
     if (group.inputMethodList().empty()) {
         return "";
     }
@@ -1814,19 +1806,31 @@ void Instance::deactivateInputMethod(InputContextEvent &event) {
     FCITX_D();
     InputContext *ic = event.inputContext();
     auto *inputState = ic->propertyFor(&d->inputStateFactory_);
-    const auto *entry = inputMethodEntry(ic);
+    const InputMethodEntry *entry = nullptr;
+    InputMethodEngine *engine = nullptr;
+
+    if (event.type() == EventType::InputContextSwitchInputMethod) {
+        auto &icEvent =
+            static_cast<InputContextSwitchInputMethodEvent &>(event);
+        entry = d->imManager_.entry(icEvent.oldInputMethod());
+    } else {
+        entry = inputMethodEntry(ic);
+    }
     if (entry) {
         FCITX_DEBUG() << "Deactivate: "
                       << "[Last]:" << inputState->lastIM_
                       << " [Deactivating]:" << entry->uniqueName();
         assert(entry->uniqueName() == inputState->lastIM_);
+        engine = static_cast<InputMethodEngine *>(
+            d->addonManager_.addon(entry->addon()));
     }
     inputState->lastIM_.clear();
-    auto *engine = inputMethodEngine(ic);
     if (!engine || !entry) {
         return;
     }
+    inputState->overrideDeactivateIM_ = entry->uniqueName();
     engine->deactivate(*entry, event);
+    inputState->overrideDeactivateIM_.clear();
     postEvent(InputMethodDeactivatedEvent(entry->uniqueName(), ic));
 }
 
