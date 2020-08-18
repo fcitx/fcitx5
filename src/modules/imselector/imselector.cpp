@@ -23,6 +23,7 @@ public:
         auto *state = ic->propertyFor(&q_->factory());
         q_->instance()->setCurrentInputMethod(ic, uniqueName_, local_);
         state->reset(ic);
+        q_->instance()->showInputMethodInformation(ic);
     }
 
     IMSelector *q_;
@@ -212,6 +213,9 @@ bool IMSelector::trigger(InputContext *inputContext, bool local) {
             candidateList->setGlobalCursorIndex(idx);
             candidateList->setPage(idx / candidateList->pageSize());
         }
+        inputContext->inputPanel().setAuxUp(
+            Text(local ? _("Select local input method:")
+                       : _("Select input method:")));
     }
     inputContext->inputPanel().setCandidateList(std::move(candidateList));
     inputContext->updatePreedit();
