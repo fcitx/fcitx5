@@ -12,9 +12,13 @@
 #include <string>
 #include "fcitx-utils/connectableobject.h"
 #include "fcitx-utils/standardpath.h"
+#include "fcitx/addonmanager.h"
+#include "fcitx/instance.h"
 #include "quickphrase_public.h"
 
 namespace fcitx {
+
+class QuickPhrase;
 
 class QuickPhraseProvider {
 public:
@@ -33,6 +37,19 @@ public:
 private:
     void load(StandardPathFile &file);
     std::multimap<std::string, std::string> map_;
+};
+
+class SpellQuickPhraseProvider : public QuickPhraseProvider {
+public:
+    SpellQuickPhraseProvider(QuickPhrase *parent);
+    FCITX_ADDON_DEPENDENCY_LOADER(spell, instance_->addonManager());
+
+    bool populate(InputContext *ic, const std::string &userInput,
+                  const QuickPhraseAddCandidateCallback &addCandidate) override;
+
+private:
+    QuickPhrase *parent_;
+    Instance *instance_;
 };
 
 class CallbackQuickPhraseProvider : public QuickPhraseProvider,

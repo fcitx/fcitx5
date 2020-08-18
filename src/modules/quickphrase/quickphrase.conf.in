@@ -6,3 +6,5 @@ Category=Module
 OnDemand=False
 Configurable=True
 
+[Optional/Dependencies]
+0=spell

@@ -53,7 +53,7 @@ public:
 };
 
 QuickPhrase::QuickPhrase(Instance *instance)
-    : instance_(instance),
+    : instance_(instance), spellProvider_(this),
       factory_([this](InputContext &) { return new QuickPhraseState(this); }) {
     instance_->inputContextManager().registerProperty("quickphraseState",
                                                       &factory_);
@@ -326,7 +326,7 @@ void QuickPhrase::updateUI(InputContext *inputContext) {
         auto candidateList = std::make_unique<CommonCandidateList>();
         candidateList->setPageSize(instance_->globalConfig().defaultPageSize());
         QuickPhraseProvider *providers[] = {&callbackProvider_,
-                                            &builtinProvider_};
+                                            &builtinProvider_, &spellProvider_};
         QuickPhraseAction selectionKeyAction =
             QuickPhraseAction::DigitSelection;
         for (auto *provider : providers) {

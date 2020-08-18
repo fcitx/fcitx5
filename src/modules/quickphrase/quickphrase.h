@@ -16,6 +16,7 @@
 #include "fcitx-utils/standardpath.h"
 #include "fcitx/addonfactory.h"
 #include "fcitx/addoninstance.h"
+#include "fcitx/addonmanager.h"
 #include "fcitx/inputcontextproperty.h"
 #include "fcitx/instance.h"
 #include "quickphrase_public.h"
@@ -39,6 +40,10 @@ FCITX_CONFIGURATION(
                          QuickPhraseChooseModifierI18NAnnotation>
         chooseModifier{this, "Choose Modifier", "Choose key modifier",
                        QuickPhraseChooseModifier::NoModifier};
+    Option<bool> enableSpell{this, "Spell", _("Enable Spell check"), true};
+    Option<std::string> fallbackSpellLanguage{
+        this, "FallbackSpellLanguage", _("Fallback Spell check language"),
+        "en"};
     ExternalOption editor{this, "Editor", _("Editor"),
                           "fcitx://config/addon/quickphrase/editor"};);
 
@@ -87,6 +92,7 @@ private:
     KeyList selectionKeys_;
     CallbackQuickPhraseProvider callbackProvider_;
     BuiltInQuickPhraseProvider builtinProvider_;
+    SpellQuickPhraseProvider spellProvider_;
     FactoryFor<QuickPhraseState> factory_;
 };
 } // namespace fcitx

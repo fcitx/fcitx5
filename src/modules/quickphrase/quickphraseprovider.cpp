@@ -7,8 +7,11 @@
 #include "quickphraseprovider.h"
 #include <fcntl.h>
 #include <fcitx-utils/utf8.h>
+#include <fcitx/inputmethodentry.h>
 #include "fcitx-utils/standardpath.h"
 #include "fcitx-utils/stringutils.h"
+#include "quickphrase.h"
+#include "spell_public.h"
 
 namespace fcitx {
 
@@ -104,6 +107,35 @@ void BuiltInQuickPhraseProvider::load(StandardPathFile &file) {
 
         map_.emplace(std::move(key), std::move(wordString));
     }
+}
+
+SpellQuickPhraseProvider::SpellQuickPhraseProvider(QuickPhrase *quickPhrase)
+    : parent_(quickPhrase), instance_(parent_->instance()) {}
+
+bool SpellQuickPhraseProvider::populate(
+    InputContext *ic, const std::string &userInput,
+    const QuickPhraseAddCandidateCallback &addCandidate) {
+    if (!*parent_->config().enableSpell) {
+        return true;
+    }
+    auto spell = this->spell();
+    if (!spell) {
+        return true;
+    }
+    std::string lang = *parent_->config().fallbackSpellLanguage;
+    if (auto entry = instance_->inputMethodEntry(ic)) {
+        if (spell->call<ISpell::checkDict>(entry->languageCode())) {
+            lang = entry->languageCode();
+        } else if (!spell->call<ISpell::checkDict>(lang)) {
+            return true;
+        }
+    }
+    const auto result = spell->call<ISpell::hint>(
+        lang, userInput, instance_->globalConfig().defaultPageSize());
+    for (const auto &word : result) {
+        addCandidate(word, word, QuickPhraseAction::Commit);
+    }
+    return true;
 }
 
 bool CallbackQuickPhraseProvider::populate(
