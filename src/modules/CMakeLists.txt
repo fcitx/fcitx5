@@ -13,6 +13,7 @@ add_subdirectory(quickphrase)
 add_subdirectory(unicode)
 add_subdirectory(clipboard)
 add_subdirectory(emoji)
+add_subdirectory(imselector)
 
 write_basic_package_version_file("${CMAKE_CURRENT_BINARY_DIR}/Fcitx5ModuleConfigVersion.cmake" VERSION @FCITX_VERSION@ COMPATIBILITY AnyNewerVersion)
 

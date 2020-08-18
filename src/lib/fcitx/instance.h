@@ -116,6 +116,8 @@ public:
     void reloadAddonConfig(const std::string &addonName);
     std::string currentInputMethod();
     void setCurrentInputMethod(const std::string &imName);
+    void setCurrentInputMethod(InputContext *ic, const std::string &imName,
+                               bool local);
     bool enumerateGroup(bool forward);
     void enumerate(bool forward);
 

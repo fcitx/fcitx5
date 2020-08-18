@@ -59,6 +59,8 @@ public:
     virtual int cursorIndex() const = 0;
     virtual CandidateLayoutHint layoutHint() const = 0;
 
+    bool empty() const;
+
     PageableCandidateList *toPageable() const;
     BulkCandidateList *toBulk() const;
     ModifiableCandidateList *toModifiable() const;

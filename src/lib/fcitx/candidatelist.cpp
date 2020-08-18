@@ -24,6 +24,8 @@ CandidateList::CandidateList()
 
 CandidateList::~CandidateList() {}
 
+bool CandidateList::empty() const { return size() == 0; }
+
 BulkCandidateList *CandidateList::toBulk() const {
     FCITX_D();
     return d->bulk_;

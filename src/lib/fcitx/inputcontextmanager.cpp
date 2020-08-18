@@ -219,7 +219,7 @@ bool InputContextManager::foreach(const InputContextVisitor &visitor) {
 bool InputContextManager::foreachFocused(const InputContextVisitor &visitor) {
     FCITX_D();
     for (auto &ic : d->focusedInputContexts_) {
-        if (visitor(&ic)) {
+        if (!visitor(&ic)) {
             return false;
         }
     }
