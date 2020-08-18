@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2020-08-09 00:01-0700\n"
+"POT-Creation-Date: 2020-08-18 00:01-0700\n"
 "PO-Revision-Date: 2017-11-23 04:14+0000\n"
 "Last-Translator: scootergrisen, 2020\n"
 "Language-Team: Danish (https://www.transifex.com/fcitx/teams/12005/da/)\n"
@@ -20,7 +20,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: src/lib/fcitx/instance.cpp:1868
+#: src/lib/fcitx/instance.cpp:1872
 msgid "(Not available)"
 msgstr "(ikke tilgængelig)"
 
@@ -74,7 +74,7 @@ msgstr "Juster lysstyrke"
 msgid "Allow Overriding System XKB Settings"
 msgstr "Tillad tilsidesættelse af systemets XKB-indstillinger"
 
-#: src/im/keyboard/keyboard.h:32 src/modules/quickphrase/quickphrase.h:28
+#: src/im/keyboard/keyboard.h:32 src/modules/quickphrase/quickphrase.h:29
 msgid "Alt"
 msgstr "Alt"
 
@@ -234,7 +234,7 @@ msgstr "Fuldførsel er aktiveret."
 msgid "Configure"
 msgstr "Konfigurer"
 
-#: src/im/keyboard/keyboard.h:33 src/modules/quickphrase/quickphrase.h:28
+#: src/im/keyboard/keyboard.h:33 src/modules/quickphrase/quickphrase.h:29
 msgid "Control"
 msgstr "Styring"
 
@@ -278,7 +278,7 @@ msgstr "DOS"
 msgid "Deactivate Input Method"
 msgstr "Deaktivér inputmetode"
 
-#: src/lib/fcitx/instance.cpp:550 src/lib/fcitx/inputmethodmanager.cpp:130
+#: src/lib/fcitx/instance.cpp:552 src/lib/fcitx/inputmethodmanager.cpp:130
 #: src/ui/classic/themes/default/theme.conf.in:3
 msgid "Default"
 msgstr "Standard"
@@ -327,7 +327,7 @@ msgctxt "Key name"
 msgid "Down"
 msgstr "Ned"
 
-#: src/modules/quickphrase/quickphrase.h:42
+#: src/modules/quickphrase/quickphrase.h:47
 msgid "Editor"
 msgstr "Redigering"
 
@@ -349,6 +349,10 @@ msgstr "Skub ud"
 #: src/modules/emoji/emoji.conf.in:3
 msgid "Emoji"
 msgstr "Emoji"
+
+#: src/modules/quickphrase/quickphrase.h:43
+msgid "Enable Spell check"
+msgstr ""
 
 #: src/im/keyboard/keyboard.h:51
 msgid "Enable emoji in hint"
@@ -402,6 +406,10 @@ msgstr "Udfør"
 msgid "Exit"
 msgstr "Afslut"
 
+#: src/modules/quickphrase/quickphrase.h:45
+msgid "Fallback Spell check language"
+msgstr ""
+
 #: src/lib/fcitx-utils/key.cpp:72
 msgctxt "Key name"
 msgid "Favorites"
@@ -454,11 +462,11 @@ msgstr "Grøn"
 msgid "Group"
 msgstr "Gruppe"
 
-#: src/lib/fcitx/instance.cpp:1871
+#: src/lib/fcitx/instance.cpp:1875
 msgid "Group {0}: {1}"
 msgstr "Gruppe {0}: {1}"
 
-#: src/lib/fcitx/instance.cpp:552
+#: src/lib/fcitx/instance.cpp:554
 msgid "Group {}"
 msgstr "Gruppe {}"
 
@@ -589,7 +597,7 @@ msgstr ""
 msgid "IBus Frontend"
 msgstr "IBus-frontend"
 
-#: src/lib/fcitx/instance.cpp:621 src/im/keyboard/keyboard.cpp:357
+#: src/lib/fcitx/instance.cpp:623 src/im/keyboard/keyboard.cpp:357
 #: src/ui/classic/xcbtraywindow.cpp:38 src/modules/xcb/xcbconnection.cpp:388
 #: src/modules/notificationitem/dbusmenu.cpp:241
 #: src/modules/notificationitem/notificationitem.cpp:90
@@ -915,7 +923,7 @@ msgstr "Næste kandidat"
 msgid "No clipboard history."
 msgstr "Ingen udklipsholderhistorik."
 
-#: src/im/keyboard/keyboard.h:32 src/modules/quickphrase/quickphrase.h:27
+#: src/im/keyboard/keyboard.h:32 src/modules/quickphrase/quickphrase.h:28
 msgid "None"
 msgstr "Ingen"
 
@@ -1218,7 +1226,7 @@ msgctxt "Key name"
 msgid "Subtitle"
 msgstr "Undertekst"
 
-#: src/im/keyboard/keyboard.h:33 src/modules/quickphrase/quickphrase.h:28
+#: src/im/keyboard/keyboard.h:33 src/modules/quickphrase/quickphrase.h:29
 msgid "Super"
 msgstr "Super"
 
@@ -1237,7 +1245,7 @@ msgctxt "Key name"
 msgid "Suspend"
 msgstr "Hvile"
 
-#: src/lib/fcitx/instance.cpp:622 src/modules/xcb/xcbconnection.cpp:389
+#: src/lib/fcitx/instance.cpp:624 src/modules/xcb/xcbconnection.cpp:389
 msgid "Switch group"
 msgstr "Skift gruppe"
 
@@ -1245,7 +1253,7 @@ msgstr "Skift gruppe"
 msgid "Switch group to {0}"
 msgstr "Skift gruppe til {0}"
 
-#: src/lib/fcitx/instance.cpp:623
+#: src/lib/fcitx/instance.cpp:625
 msgid "Switched group to {0}"
 msgstr "Skiftede gruppe til {0}"
 
@@ -1482,10 +1490,10 @@ msgstr "iTouch"
 msgid "{0} (Not Available)"
 msgstr "{0} (ikke tilgængelig)"
 
-#: src/lib/fcitx/instance.cpp:1866
+#: src/lib/fcitx/instance.cpp:1870
 msgid "{0} (Not available)"
 msgstr "{0} (ikke tilgængelig)"
 
-#: src/lib/fcitx/instance.cpp:1863
+#: src/lib/fcitx/instance.cpp:1867
 msgid "{0} ({1})"
 msgstr "{0} ({1})"

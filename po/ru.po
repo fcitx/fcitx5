@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2020-08-09 00:01-0700\n"
+"POT-Creation-Date: 2020-08-18 00:01-0700\n"
 "PO-Revision-Date: 2017-11-23 04:14+0000\n"
 "Last-Translator: TotalCaesar659 <x24cm5b8c54q6szxw@yandex.ru>, 2017\n"
 "Language-Team: Russian (https://www.transifex.com/fcitx/teams/12005/ru/)\n"
@@ -22,7 +22,7 @@ msgstr ""
 "%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n"
 "%100>=11 && n%100<=14)? 2 : 3);\n"
 
-#: src/lib/fcitx/instance.cpp:1868
+#: src/lib/fcitx/instance.cpp:1872
 msgid "(Not available)"
 msgstr "(Недоступно)"
 
@@ -76,7 +76,7 @@ msgstr ""
 msgid "Allow Overriding System XKB Settings"
 msgstr ""
 
-#: src/im/keyboard/keyboard.h:32 src/modules/quickphrase/quickphrase.h:28
+#: src/im/keyboard/keyboard.h:32 src/modules/quickphrase/quickphrase.h:29
 msgid "Alt"
 msgstr "Alt"
 
@@ -236,7 +236,7 @@ msgstr ""
 msgid "Configure"
 msgstr "Настроить"
 
-#: src/im/keyboard/keyboard.h:33 src/modules/quickphrase/quickphrase.h:28
+#: src/im/keyboard/keyboard.h:33 src/modules/quickphrase/quickphrase.h:29
 msgid "Control"
 msgstr "Управление"
 
@@ -280,7 +280,7 @@ msgstr ""
 msgid "Deactivate Input Method"
 msgstr "Деактивация метода ввода"
 
-#: src/lib/fcitx/instance.cpp:550 src/lib/fcitx/inputmethodmanager.cpp:130
+#: src/lib/fcitx/instance.cpp:552 src/lib/fcitx/inputmethodmanager.cpp:130
 #: src/ui/classic/themes/default/theme.conf.in:3
 msgid "Default"
 msgstr "По умолчанию"
@@ -329,7 +329,7 @@ msgctxt "Key name"
 msgid "Down"
 msgstr ""
 
-#: src/modules/quickphrase/quickphrase.h:42
+#: src/modules/quickphrase/quickphrase.h:47
 msgid "Editor"
 msgstr ""
 
@@ -350,6 +350,10 @@ msgstr ""
 
 #: src/modules/emoji/emoji.conf.in:3
 msgid "Emoji"
+msgstr ""
+
+#: src/modules/quickphrase/quickphrase.h:43
+msgid "Enable Spell check"
 msgstr ""
 
 #: src/im/keyboard/keyboard.h:51
@@ -404,6 +408,10 @@ msgstr ""
 msgid "Exit"
 msgstr "Выход"
 
+#: src/modules/quickphrase/quickphrase.h:45
+msgid "Fallback Spell check language"
+msgstr ""
+
 #: src/lib/fcitx-utils/key.cpp:72
 msgctxt "Key name"
 msgid "Favorites"
@@ -456,11 +464,11 @@ msgstr ""
 msgid "Group"
 msgstr "Группа"
 
-#: src/lib/fcitx/instance.cpp:1871
+#: src/lib/fcitx/instance.cpp:1875
 msgid "Group {0}: {1}"
 msgstr "Группа {0}: {1}"
 
-#: src/lib/fcitx/instance.cpp:552
+#: src/lib/fcitx/instance.cpp:554
 msgid "Group {}"
 msgstr ""
 
@@ -591,7 +599,7 @@ msgstr ""
 msgid "IBus Frontend"
 msgstr "Интерфейс IBus"
 
-#: src/lib/fcitx/instance.cpp:621 src/im/keyboard/keyboard.cpp:357
+#: src/lib/fcitx/instance.cpp:623 src/im/keyboard/keyboard.cpp:357
 #: src/ui/classic/xcbtraywindow.cpp:38 src/modules/xcb/xcbconnection.cpp:388
 #: src/modules/notificationitem/dbusmenu.cpp:241
 #: src/modules/notificationitem/notificationitem.cpp:90
@@ -917,7 +925,7 @@ msgstr ""
 msgid "No clipboard history."
 msgstr "История буфера обмена отсутствует."
 
-#: src/im/keyboard/keyboard.h:32 src/modules/quickphrase/quickphrase.h:27
+#: src/im/keyboard/keyboard.h:32 src/modules/quickphrase/quickphrase.h:28
 msgid "None"
 msgstr "Нет"
 
@@ -1218,7 +1226,7 @@ msgctxt "Key name"
 msgid "Subtitle"
 msgstr ""
 
-#: src/im/keyboard/keyboard.h:33 src/modules/quickphrase/quickphrase.h:28
+#: src/im/keyboard/keyboard.h:33 src/modules/quickphrase/quickphrase.h:29
 msgid "Super"
 msgstr "Super"
 
@@ -1237,7 +1245,7 @@ msgctxt "Key name"
 msgid "Suspend"
 msgstr ""
 
-#: src/lib/fcitx/instance.cpp:622 src/modules/xcb/xcbconnection.cpp:389
+#: src/lib/fcitx/instance.cpp:624 src/modules/xcb/xcbconnection.cpp:389
 msgid "Switch group"
 msgstr ""
 
@@ -1245,7 +1253,7 @@ msgstr ""
 msgid "Switch group to {0}"
 msgstr ""
 
-#: src/lib/fcitx/instance.cpp:623
+#: src/lib/fcitx/instance.cpp:625
 msgid "Switched group to {0}"
 msgstr ""
 
@@ -1477,10 +1485,10 @@ msgstr ""
 msgid "{0} (Not Available)"
 msgstr ""
 
-#: src/lib/fcitx/instance.cpp:1866
+#: src/lib/fcitx/instance.cpp:1870
 msgid "{0} (Not available)"
 msgstr "{0} (Недоступно)"
 
-#: src/lib/fcitx/instance.cpp:1863
+#: src/lib/fcitx/instance.cpp:1867
 msgid "{0} ({1})"
 msgstr "{0} ({1})"

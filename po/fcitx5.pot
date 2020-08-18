@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2020-08-09 00:01-0700\n"
+"POT-Creation-Date: 2020-08-18 00:01-0700\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -15,7 +15,7 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: src/lib/fcitx/instance.cpp:1868
+#: src/lib/fcitx/instance.cpp:1872
 msgid "(Not available)"
 msgstr ""
 
@@ -69,7 +69,7 @@ msgstr ""
 msgid "Allow Overriding System XKB Settings"
 msgstr ""
 
-#: src/im/keyboard/keyboard.h:32 src/modules/quickphrase/quickphrase.h:28
+#: src/im/keyboard/keyboard.h:32 src/modules/quickphrase/quickphrase.h:29
 msgid "Alt"
 msgstr ""
 
@@ -229,7 +229,7 @@ msgstr ""
 msgid "Configure"
 msgstr ""
 
-#: src/im/keyboard/keyboard.h:33 src/modules/quickphrase/quickphrase.h:28
+#: src/im/keyboard/keyboard.h:33 src/modules/quickphrase/quickphrase.h:29
 msgid "Control"
 msgstr ""
 
@@ -273,7 +273,7 @@ msgstr ""
 msgid "Deactivate Input Method"
 msgstr ""
 
-#: src/lib/fcitx/instance.cpp:550 src/lib/fcitx/inputmethodmanager.cpp:130
+#: src/lib/fcitx/instance.cpp:552 src/lib/fcitx/inputmethodmanager.cpp:130
 #: src/ui/classic/themes/default/theme.conf.in:3
 msgid "Default"
 msgstr ""
@@ -322,7 +322,7 @@ msgctxt "Key name"
 msgid "Down"
 msgstr ""
 
-#: src/modules/quickphrase/quickphrase.h:42
+#: src/modules/quickphrase/quickphrase.h:47
 msgid "Editor"
 msgstr ""
 
@@ -343,6 +343,10 @@ msgstr ""
 
 #: src/modules/emoji/emoji.conf.in:3
 msgid "Emoji"
+msgstr ""
+
+#: src/modules/quickphrase/quickphrase.h:43
+msgid "Enable Spell check"
 msgstr ""
 
 #: src/im/keyboard/keyboard.h:51
@@ -397,6 +401,10 @@ msgstr ""
 msgid "Exit"
 msgstr ""
 
+#: src/modules/quickphrase/quickphrase.h:45
+msgid "Fallback Spell check language"
+msgstr ""
+
 #: src/lib/fcitx-utils/key.cpp:72
 msgctxt "Key name"
 msgid "Favorites"
@@ -449,11 +457,11 @@ msgstr ""
 msgid "Group"
 msgstr ""
 
-#: src/lib/fcitx/instance.cpp:1871
+#: src/lib/fcitx/instance.cpp:1875
 msgid "Group {0}: {1}"
 msgstr ""
 
-#: src/lib/fcitx/instance.cpp:552
+#: src/lib/fcitx/instance.cpp:554
 msgid "Group {}"
 msgstr ""
 
@@ -584,7 +592,7 @@ msgstr ""
 msgid "IBus Frontend"
 msgstr ""
 
-#: src/lib/fcitx/instance.cpp:621 src/im/keyboard/keyboard.cpp:357
+#: src/lib/fcitx/instance.cpp:623 src/im/keyboard/keyboard.cpp:357
 #: src/ui/classic/xcbtraywindow.cpp:38 src/modules/xcb/xcbconnection.cpp:388
 #: src/modules/notificationitem/dbusmenu.cpp:241
 #: src/modules/notificationitem/notificationitem.cpp:90
@@ -910,7 +918,7 @@ msgstr ""
 msgid "No clipboard history."
 msgstr ""
 
-#: src/im/keyboard/keyboard.h:32 src/modules/quickphrase/quickphrase.h:27
+#: src/im/keyboard/keyboard.h:32 src/modules/quickphrase/quickphrase.h:28
 msgid "None"
 msgstr ""
 
@@ -1211,7 +1219,7 @@ msgctxt "Key name"
 msgid "Subtitle"
 msgstr ""
 
-#: src/im/keyboard/keyboard.h:33 src/modules/quickphrase/quickphrase.h:28
+#: src/im/keyboard/keyboard.h:33 src/modules/quickphrase/quickphrase.h:29
 msgid "Super"
 msgstr ""
 
@@ -1230,7 +1238,7 @@ msgctxt "Key name"
 msgid "Suspend"
 msgstr ""
 
-#: src/lib/fcitx/instance.cpp:622 src/modules/xcb/xcbconnection.cpp:389
+#: src/lib/fcitx/instance.cpp:624 src/modules/xcb/xcbconnection.cpp:389
 msgid "Switch group"
 msgstr ""
 
@@ -1238,7 +1246,7 @@ msgstr ""
 msgid "Switch group to {0}"
 msgstr ""
 
-#: src/lib/fcitx/instance.cpp:623
+#: src/lib/fcitx/instance.cpp:625
 msgid "Switched group to {0}"
 msgstr ""
 
@@ -1470,10 +1478,10 @@ msgstr ""
 msgid "{0} (Not Available)"
 msgstr ""
 
-#: src/lib/fcitx/instance.cpp:1866
+#: src/lib/fcitx/instance.cpp:1870
 msgid "{0} (Not available)"
 msgstr ""
 
-#: src/lib/fcitx/instance.cpp:1863
+#: src/lib/fcitx/instance.cpp:1867
 msgid "{0} ({1})"
 msgstr ""
