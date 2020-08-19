@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2020-08-18 00:01-0700\n"
+"POT-Creation-Date: 2020-08-19 00:01-0700\n"
 "PO-Revision-Date: 2017-11-23 04:14+0000\n"
 "Last-Translator: Robert Antoni Buj Gelonch <rbuj@fedoraproject.org>, 2020\n"
 "Language-Team: Catalan (https://www.transifex.com/fcitx/teams/12005/ca/)\n"
@@ -20,7 +20,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: src/lib/fcitx/instance.cpp:1872
+#: src/lib/fcitx/instance.cpp:1926
 msgid "(Not available)"
 msgstr "(no disponible)"
 
@@ -278,7 +278,7 @@ msgstr "DOS"
 msgid "Deactivate Input Method"
 msgstr "Desactiva el mètode d'entrada"
 
-#: src/lib/fcitx/instance.cpp:552 src/lib/fcitx/inputmethodmanager.cpp:130
+#: src/lib/fcitx/instance.cpp:564 src/lib/fcitx/inputmethodmanager.cpp:130
 #: src/ui/classic/themes/default/theme.conf.in:3
 msgid "Default"
 msgstr "Per defecte"
@@ -462,11 +462,11 @@ msgstr "Verd"
 msgid "Group"
 msgstr "Grup"
 
-#: src/lib/fcitx/instance.cpp:1875
+#: src/lib/fcitx/instance.cpp:1929
 msgid "Group {0}: {1}"
 msgstr "Grup {0}: {1}"
 
-#: src/lib/fcitx/instance.cpp:554
+#: src/lib/fcitx/instance.cpp:566
 msgid "Group {}"
 msgstr ""
 
@@ -597,7 +597,7 @@ msgstr ""
 msgid "IBus Frontend"
 msgstr "Frontal DBus"
 
-#: src/lib/fcitx/instance.cpp:623 src/im/keyboard/keyboard.cpp:357
+#: src/lib/fcitx/instance.cpp:635 src/im/keyboard/keyboard.cpp:357
 #: src/ui/classic/xcbtraywindow.cpp:38 src/modules/xcb/xcbconnection.cpp:388
 #: src/modules/notificationitem/dbusmenu.cpp:241
 #: src/modules/notificationitem/notificationitem.cpp:90
@@ -607,6 +607,10 @@ msgstr "Mètode d'entrada"
 
 #: data/fcitx5-configtool.desktop.in.in:4
 msgid "Input Method Configuration"
+msgstr ""
+
+#: src/modules/imselector/imselector.conf.in:3
+msgid "Input method selector"
 msgstr ""
 
 #: src/lib/fcitx-utils/key.cpp:194
@@ -1145,6 +1149,18 @@ msgctxt "Key name"
 msgid "Select"
 msgstr "Selecciona"
 
+#: src/modules/imselector/imselector.cpp:218
+msgid "Select input method:"
+msgstr ""
+
+#: src/modules/imselector/imselector.cpp:217
+msgid "Select local input method:"
+msgstr ""
+
+#: src/modules/imselector/imselector.conf.in:4
+msgid "Select specific input method via keyboard"
+msgstr ""
+
 #: src/lib/fcitx-utils/key.cpp:150
 msgctxt "Key name"
 msgid "Send"
@@ -1243,7 +1259,7 @@ msgctxt "Key name"
 msgid "Suspend"
 msgstr "Suspèn"
 
-#: src/lib/fcitx/instance.cpp:624 src/modules/xcb/xcbconnection.cpp:389
+#: src/lib/fcitx/instance.cpp:636 src/modules/xcb/xcbconnection.cpp:389
 msgid "Switch group"
 msgstr ""
 
@@ -1251,7 +1267,7 @@ msgstr ""
 msgid "Switch group to {0}"
 msgstr ""
 
-#: src/lib/fcitx/instance.cpp:625
+#: src/lib/fcitx/instance.cpp:637
 msgid "Switched group to {0}"
 msgstr ""
 
@@ -1326,6 +1342,14 @@ msgstr ""
 #: src/lib/fcitx/globalconfig.cpp:23
 msgid "Trigger Input Method"
 msgstr "Activa el mètode d'entrada"
+
+#: src/modules/imselector/imselector.h:22
+msgid "Trigger Key"
+msgstr ""
+
+#: src/modules/imselector/imselector.h:26
+msgid "Trigger Key for only current input context"
+msgstr ""
 
 #: src/im/keyboard/keyboard.h:60
 msgid "Trigger hint mode"
@@ -1483,10 +1507,10 @@ msgstr "iTouch"
 msgid "{0} (Not Available)"
 msgstr ""
 
-#: src/lib/fcitx/instance.cpp:1870
+#: src/lib/fcitx/instance.cpp:1924
 msgid "{0} (Not available)"
 msgstr "{0} (no disponible)"
 
-#: src/lib/fcitx/instance.cpp:1867
+#: src/lib/fcitx/instance.cpp:1921
 msgid "{0} ({1})"
 msgstr "{0} ({1})"
