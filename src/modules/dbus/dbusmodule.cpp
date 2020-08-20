@@ -347,11 +347,11 @@ public:
     }
 
     std::vector<dbus::DBusStruct<std::string, std::string, std::string, int32_t,
-                                 bool, bool, std::vector<std::string>,
+                                 bool, bool, bool, std::vector<std::string>,
                                  std::vector<std::string>>>
     getAddonsV2() {
         std::vector<dbus::DBusStruct<
-            std::string, std::string, std::string, int32_t, bool, bool,
+            std::string, std::string, std::string, int32_t, bool, bool, bool,
             std::vector<std::string>, std::vector<std::string>>>
             result;
         // Track override.
@@ -380,7 +380,7 @@ public:
                                     info->comment().match(),
                                     static_cast<int32_t>(info->category()),
                                     info->isConfigurable(), enabled,
-                                    info->dependencies(),
+                                    info->onDemand(), info->dependencies(),
                                     info->optionalDependencies());
             }
         }
@@ -509,7 +509,8 @@ private:
     FCITX_OBJECT_VTABLE_METHOD(setConfig, "SetConfig", "sv", "");
 
     FCITX_OBJECT_VTABLE_METHOD(getAddons, "GetAddons", "", "a(sssibb)");
-    FCITX_OBJECT_VTABLE_METHOD(getAddonsV2, "GetAddonsV2", "", "a(sssibbasas)");
+    FCITX_OBJECT_VTABLE_METHOD(getAddonsV2, "GetAddonsV2", "",
+                               "a(sssibbbasas)");
     FCITX_OBJECT_VTABLE_METHOD(setAddonsState, "SetAddonsState", "a(sb)", "");
     FCITX_OBJECT_VTABLE_METHOD(openX11Connection, "OpenX11Connection", "s", "");
     FCITX_OBJECT_VTABLE_METHOD(debugInfo, "DebugInfo", "", "s");
