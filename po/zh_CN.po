@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2020-08-19 00:01-0700\n"
+"POT-Creation-Date: 2020-08-20 00:01-0700\n"
 "PO-Revision-Date: 2017-11-23 04:14+0000\n"
 "Last-Translator: csslayer <wengxt@gmail.com>, 2020\n"
 "Language-Team: Chinese (China) (https://www.transifex.com/fcitx/teams/12005/"
@@ -353,7 +353,7 @@ msgstr "颜文字"
 
 #: src/modules/quickphrase/quickphrase.h:43
 msgid "Enable Spell check"
-msgstr ""
+msgstr "启用拼写检查"
 
 #: src/im/keyboard/keyboard.h:51
 msgid "Enable emoji in hint"
@@ -409,7 +409,7 @@ msgstr "退出"
 
 #: src/modules/quickphrase/quickphrase.h:45
 msgid "Fallback Spell check language"
-msgstr ""
+msgstr "备选拼写检查语言"
 
 #: src/lib/fcitx-utils/key.cpp:72
 msgctxt "Key name"
@@ -612,7 +612,7 @@ msgstr "输入法配置"
 
 #: src/modules/imselector/imselector.conf.in:3
 msgid "Input method selector"
-msgstr ""
+msgstr "输入法选择器"
 
 #: src/lib/fcitx-utils/key.cpp:194
 msgctxt "Key name"
@@ -1153,15 +1153,15 @@ msgstr "选择"
 
 #: src/modules/imselector/imselector.cpp:218
 msgid "Select input method:"
-msgstr ""
+msgstr "选择输入法："
 
 #: src/modules/imselector/imselector.cpp:217
 msgid "Select local input method:"
-msgstr ""
+msgstr "选择局部输入法："
 
 #: src/modules/imselector/imselector.conf.in:4
 msgid "Select specific input method via keyboard"
-msgstr ""
+msgstr "通过键盘选择特定的输入法"
 
 #: src/lib/fcitx-utils/key.cpp:150
 msgctxt "Key name"
@@ -1347,11 +1347,11 @@ msgstr "切换启用/禁用输入法"
 
 #: src/modules/imselector/imselector.h:22
 msgid "Trigger Key"
-msgstr ""
+msgstr "触发键"
 
 #: src/modules/imselector/imselector.h:26
 msgid "Trigger Key for only current input context"
-msgstr ""
+msgstr "当前输入上下文的触发键"
 
 #: src/im/keyboard/keyboard.h:60
 msgid "Trigger hint mode"
