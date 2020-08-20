@@ -346,6 +346,47 @@ public:
         return result;
     }
 
+    std::vector<dbus::DBusStruct<std::string, std::string, std::string, int32_t,
+                                 bool, bool, std::vector<std::string>,
+                                 std::vector<std::string>>>
+    getAddonsV2() {
+        std::vector<dbus::DBusStruct<
+            std::string, std::string, std::string, int32_t, bool, bool,
+            std::vector<std::string>, std::vector<std::string>>>
+            result;
+        // Track override.
+        const auto &enabled = instance_->globalConfig().enabledAddons();
+        std::unordered_set<std::string> enabledSet(enabled.begin(),
+                                                   enabled.end());
+        const auto &disabled = instance_->globalConfig().disabledAddons();
+        std::unordered_set<std::string> disabledSet(disabled.begin(),
+                                                    disabled.end());
+        for (auto category : {AddonCategory::InputMethod,
+                              AddonCategory::Frontend, AddonCategory::Loader,
+                              AddonCategory::Module, AddonCategory::UI}) {
+            auto names = instance_->addonManager().addonNames(category);
+            for (const auto &name : names) {
+                const auto *info = instance_->addonManager().addonInfo(name);
+                if (!info) {
+                    continue;
+                }
+                bool enabled = info->isDefaultEnabled();
+                if (disabledSet.count(info->uniqueName())) {
+                    enabled = false;
+                } else if (enabledSet.count(info->uniqueName())) {
+                    enabled = true;
+                }
+                result.emplace_back(info->uniqueName(), info->name().match(),
+                                    info->comment().match(),
+                                    static_cast<int32_t>(info->category()),
+                                    info->isConfigurable(), enabled,
+                                    info->dependencies(),
+                                    info->optionalDependencies());
+            }
+        }
+        return result;
+    }
+
     void setAddonsState(
         const std::vector<dbus::DBusStruct<std::string, bool>> &addons) {
         const auto &enabled = instance_->globalConfig().enabledAddons();
@@ -390,7 +431,6 @@ public:
 
     std::string debugInfo() {
         std::stringstream ss;
-        std::map<std::string, int> displayToIc;
         instance_->inputContextManager().foreachGroup([&ss](FocusGroup *group) {
             ss << "Group [" << group->display() << "] has " << group->size()
                << " InputContext(s)" << std::endl;
@@ -400,9 +440,24 @@ public:
                     ss << fmt::format("{:02x}", static_cast<int>(v));
                 }
                 ss << "] program:" << ic->program()
-                   << " frontend:" << ic->frontend() << std::endl;
+                   << " frontend:" << ic->frontend()
+                   << " focus:" << ic->hasFocus() << std::endl;
                 return true;
             });
+            return true;
+        });
+        ss << "Input Context without group" << std::endl;
+        instance_->inputContextManager().foreach([&ss](InputContext *ic) {
+            if (ic->focusGroup()) {
+                return true;
+            }
+            ss << "  IC [";
+            for (auto v : ic->uuid()) {
+                ss << fmt::format("{:02x}", static_cast<int>(v));
+            }
+            ss << "] program:" << ic->program()
+               << " frontend:" << ic->frontend() << " focus:" << ic->hasFocus()
+               << std::endl;
             return true;
         });
         return ss.str();
@@ -454,6 +509,7 @@ private:
     FCITX_OBJECT_VTABLE_METHOD(setConfig, "SetConfig", "sv", "");
 
     FCITX_OBJECT_VTABLE_METHOD(getAddons, "GetAddons", "", "a(sssibb)");
+    FCITX_OBJECT_VTABLE_METHOD(getAddonsV2, "GetAddonsV2", "", "a(sssibbasas)");
     FCITX_OBJECT_VTABLE_METHOD(setAddonsState, "SetAddonsState", "a(sb)", "");
     FCITX_OBJECT_VTABLE_METHOD(openX11Connection, "OpenX11Connection", "s", "");
     FCITX_OBJECT_VTABLE_METHOD(debugInfo, "DebugInfo", "", "s");
