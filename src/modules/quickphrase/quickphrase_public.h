@@ -22,7 +22,8 @@ enum class QuickPhraseAction {
     DigitSelection,
     AlphaSelection,
     NoneSelection,
-    DoNothing
+    DoNothing,
+    AutoCommit,
 };
 
 using QuickPhraseAddCandidateCallback = std::function<void(
