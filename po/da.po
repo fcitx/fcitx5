@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2020-08-19 00:01-0700\n"
+"POT-Creation-Date: 2020-08-21 00:01-0700\n"
 "PO-Revision-Date: 2017-11-23 04:14+0000\n"
 "Last-Translator: scootergrisen, 2020\n"
 "Language-Team: Danish (https://www.transifex.com/fcitx/teams/12005/da/)\n"
@@ -352,7 +352,7 @@ msgstr "Emoji"
 
 #: src/modules/quickphrase/quickphrase.h:43
 msgid "Enable Spell check"
-msgstr ""
+msgstr "Aktivér stavekontrol"
 
 #: src/im/keyboard/keyboard.h:51
 msgid "Enable emoji in hint"
@@ -591,7 +591,7 @@ msgstr "Hottast"
 #: src/lib/fcitx-utils/key.cpp:443
 msgctxt "Key name"
 msgid "Hyper"
-msgstr ""
+msgstr "Hyper"
 
 #: src/frontend/ibusfrontend/ibusfrontend.conf.in:3
 msgid "IBus Frontend"
@@ -777,7 +777,7 @@ msgstr "Venstre Control"
 #: src/lib/fcitx-utils/key.cpp:38
 msgctxt "Key name"
 msgid "Left Hyper"
-msgstr ""
+msgstr "Venstre Hyper"
 
 #: src/lib/fcitx-utils/key.cpp:32
 msgctxt "Key name"
@@ -1037,7 +1037,7 @@ msgstr "Udbydere"
 msgid "Quick Phrase"
 msgstr "Hurtigfrase"
 
-#: src/modules/quickphrase/quickphrase.cpp:369
+#: src/modules/quickphrase/quickphrase.cpp:390
 msgid "Quick Phrase: "
 msgstr "Hurtigfrase: "
 
@@ -1094,7 +1094,7 @@ msgstr "Højre Control"
 #: src/lib/fcitx-utils/key.cpp:39
 msgctxt "Key name"
 msgid "Right Hyper"
-msgstr ""
+msgstr "Højre Hyper"
 
 #: src/lib/fcitx-utils/key.cpp:33
 msgctxt "Key name"
@@ -1153,7 +1153,7 @@ msgstr "Vælg"
 
 #: src/modules/imselector/imselector.cpp:218
 msgid "Select input method:"
-msgstr ""
+msgstr "Vælg inputmetode:"
 
 #: src/modules/imselector/imselector.cpp:217
 msgid "Select local input method:"
@@ -1347,7 +1347,7 @@ msgstr "Udløs inputmetode"
 
 #: src/modules/imselector/imselector.h:22
 msgid "Trigger Key"
-msgstr ""
+msgstr "Tast til at udløse"
 
 #: src/modules/imselector/imselector.h:26
 msgid "Trigger Key for only current input context"
