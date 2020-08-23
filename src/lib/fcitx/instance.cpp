@@ -760,7 +760,6 @@ Instance::Instance(int argc, char **argv) {
                             if (keyEvent.origKey().hasModifier()) {
                                 inputState->totallyReleased_ = false;
                             }
-                            return keyEvent.filterAndAccept();
                         }
                         return keyEvent.filter();
                     }
