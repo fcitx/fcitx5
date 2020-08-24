@@ -106,17 +106,17 @@ add_test(NAME testemoji COMMAND testemoji)
 
 add_executable(testunicode testunicode.cpp)
 target_link_libraries(testunicode Fcitx5::Core Fcitx5::Module::TestFrontend Fcitx5::Module::TestIM Pthread::Pthread)
-add_dependencies(testunicode copy-addon unicode)
+add_dependencies(testunicode copy-addon unicode testui testfrontend testim)
 add_test(NAME testunicode COMMAND testunicode)
 
 add_executable(testquickphrase testquickphrase.cpp)
 target_link_libraries(testquickphrase Fcitx5::Core Fcitx5::Module::QuickPhrase Fcitx5::Module::TestFrontend Fcitx5::Module::TestIM Pthread::Pthread)
-add_dependencies(testquickphrase copy-addon quickphrase)
+add_dependencies(testquickphrase copy-addon quickphrase testui testfrontend testim)
 add_test(NAME testquickphrase COMMAND testquickphrase)
 
 add_executable(testxim testxim.cpp)
 target_link_libraries(testxim Fcitx5::Core Fcitx5::Module::TestIM Pthread::Pthread XCB::XCB XCB::AUX XCBImdkit::XCBImdkit)
-add_dependencies(testxim copy-addon xim)
+add_dependencies(testxim copy-addon xim testui testfrontend testim)
 
 if (XVFB_BIN)
     add_test(NAME testxim COMMAND XvfbWrapper "${XVFB_BIN}" "${CMAKE_CURRENT_BINARY_DIR}/testxim")
