@@ -22,7 +22,19 @@ private:
     int number_;
 };
 
-int main() {
+class PlaceHolderCandidateWord : public CandidateWord {
+public:
+    PlaceHolderCandidateWord(int number)
+        : CandidateWord(Text(std::to_string(number))), number_(number) {
+        setPlaceHolder(true);
+    }
+    void select(InputContext *) const override { selected = number_; }
+
+private:
+    int number_;
+};
+
+void test_basic() {
     CommonCandidateList candidatelist;
     candidatelist.setSelectionKey(
         Key::keyListFromString("1 2 3 4 5 6 7 8 9 0"));
@@ -185,6 +197,89 @@ int main() {
         << candidatelist.cursorIndex();
     FCITX_ASSERT(candidatelist.currentPage() == 0)
         << candidatelist.currentPage();
+}
 
+void test_faulty_placeholder() {
+    CommonCandidateList candidatelist;
+    candidatelist.setSelectionKey(
+        Key::keyListFromString("1 2 3 4 5 6 7 8 9 0"));
+    candidatelist.setPageSize(3);
+    candidatelist.append<PlaceHolderCandidateWord>(3);
+    FCITX_ASSERT(candidatelist.cursorIndex() == -1)
+        << candidatelist.cursorIndex();
+
+    candidatelist.prevCandidate();
+    FCITX_ASSERT(candidatelist.cursorIndex() == -1)
+        << candidatelist.cursorIndex();
+
+    candidatelist.nextCandidate();
+    FCITX_ASSERT(candidatelist.cursorIndex() == -1)
+        << candidatelist.cursorIndex();
+    candidatelist.append<TestCandidateWord>(3);
+
+    candidatelist.prevCandidate();
+    FCITX_ASSERT(candidatelist.cursorIndex() == 1)
+        << candidatelist.cursorIndex();
+
+    candidatelist.setGlobalCursorIndex(-1);
+    FCITX_ASSERT(candidatelist.cursorIndex() == -1)
+        << candidatelist.cursorIndex();
+
+    candidatelist.nextCandidate();
+    FCITX_ASSERT(candidatelist.cursorIndex() == 1)
+        << candidatelist.cursorIndex();
+
+    candidatelist.append<TestCandidateWord>(3);
+    candidatelist.append<PlaceHolderCandidateWord>(3);
+    candidatelist.append<PlaceHolderCandidateWord>(3);
+    candidatelist.append<PlaceHolderCandidateWord>(3);
+    // Two page, second page is empty.
+
+    candidatelist.nextCandidate();
+    FCITX_ASSERT(candidatelist.cursorIndex() == 2)
+        << candidatelist.cursorIndex();
+
+    candidatelist.setCursorIncludeUnselected(true);
+
+    candidatelist.nextCandidate();
+    FCITX_ASSERT(candidatelist.cursorIndex() == -1)
+        << candidatelist.cursorIndex();
+
+    candidatelist.setGlobalCursorIndex(4);
+    candidatelist.setPage(1);
+
+    candidatelist.nextCandidate();
+    FCITX_ASSERT(candidatelist.cursorIndex() == -1)
+        << candidatelist.cursorIndex();
+    candidatelist.append<TestCandidateWord>(3);
+    candidatelist.setPage(0);
+    candidatelist.prevCandidate();
+    FCITX_ASSERT(candidatelist.cursorIndex() == 2)
+        << candidatelist.cursorIndex();
+    candidatelist.prevCandidate();
+    FCITX_ASSERT(candidatelist.cursorIndex() == 1)
+        << candidatelist.cursorIndex();
+    candidatelist.nextCandidate();
+    FCITX_ASSERT(candidatelist.cursorIndex() == 2)
+        << candidatelist.cursorIndex();
+    candidatelist.nextCandidate();
+    FCITX_ASSERT(candidatelist.cursorIndex() == 0)
+        << candidatelist.cursorIndex();
+    FCITX_ASSERT(candidatelist.currentPage() == 2)
+        << candidatelist.currentPage();
+    candidatelist.nextCandidate();
+    FCITX_ASSERT(candidatelist.cursorIndex() == -1)
+        << candidatelist.cursorIndex();
+    FCITX_INFO() << candidatelist.currentPage();
+    candidatelist.setPage(2);
+    FCITX_INFO() << candidatelist.currentPage();
+    candidatelist.nextCandidate();
+    FCITX_ASSERT(candidatelist.cursorIndex() == 0)
+        << candidatelist.cursorIndex();
+}
+
+int main() {
+    test_basic();
+    test_faulty_placeholder();
     return 0;
 }
