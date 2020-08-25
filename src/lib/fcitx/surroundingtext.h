@@ -13,6 +13,11 @@
 #include <fcitx-utils/macros.h>
 #include "fcitxcore_export.h"
 
+/// \addtogroup FcitxCore
+/// \{
+/// \file
+/// \brief Local cache for surrounding text
+
 namespace fcitx {
 
 class SurroundingTextPrivate;

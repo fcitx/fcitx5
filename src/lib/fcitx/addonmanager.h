@@ -15,6 +15,11 @@
 #include <fcitx/addonloader.h>
 #include "fcitxcore_export.h"
 
+/// \addtogroup FcitxCore
+/// \{
+/// \file
+/// \brief Addon Manager class
+
 namespace fcitx {
 
 class Instance;
@@ -24,7 +29,20 @@ class FCITXCORE_EXPORT AddonManager {
     friend class Instance;
 
 public:
+    /// Construct an addon manager.
     AddonManager();
+
+    /**
+     * Create addon manager with given addon config dir.
+     *
+     * By default, addonConfigDir is set to "addon".
+     * It can be a relative path to PkgData, or an absolute path.
+     * This function is only used by test.
+     *
+     * @param addonConfigDir directory name.
+     *
+     * @see StandardPath
+     */
     AddonManager(const std::string &addonConfigDir);
 
     /**
@@ -35,6 +53,9 @@ public:
 
     /**
      * Register addon loader, including static and shared library loader.
+     *
+     * This function usually need to be called before any other function call to
+     * adddon manager.
      *
      * @param registry static addon registry that can be used to set a list of
      * built-in addons.

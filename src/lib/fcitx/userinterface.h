@@ -11,15 +11,32 @@
 #include <fcitx-utils/macros.h>
 #include <fcitx/addoninstance.h>
 
+/// \addtogroup FcitxCore
+/// \{
+/// \file
+/// \brief Base class for User Interface addon.
+
 namespace fcitx {
 
 class InputContext;
 
 enum class UserInterfaceComponent {
+    /**
+     * Input Panel component
+     * @see InputPanel
+     */
     InputPanel,
+    /**
+     * Status Area component
+     * @see StatusArea
+     */
     StatusArea,
 };
 
+/**
+ * @brief ...
+ *
+ */
 class FCITXCORE_EXPORT UserInterface : public AddonInstance {
 public:
     virtual ~UserInterface();

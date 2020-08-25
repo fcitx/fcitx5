@@ -11,13 +11,28 @@
 #include <fcitx/addoninstance.h>
 #include "fcitxcore_export.h"
 
+/// \addtogroup FcitxCore
+/// \{
+/// \file
+/// \brief Addon Factory class
+
 namespace fcitx {
 
 class AddonManager;
 
+/// Base class for addon factory.
 class FCITXCORE_EXPORT AddonFactory {
 public:
     virtual ~AddonFactory();
+    /**
+     * Create a addon instance for given addon manager.
+     *
+     * This function is called by AddonManager
+     *
+     * @return a created addon isntance.
+     *
+     * @see AddonManager
+     */
     virtual AddonInstance *create(AddonManager *manager) = 0;
 };
 } // namespace fcitx
