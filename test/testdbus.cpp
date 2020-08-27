@@ -67,7 +67,7 @@ private:
                                  []() { return 5; });
     FCITX_OBJECT_VTABLE_WRITABLE_PROPERTY(
         testProperty2, "testProperty2", "i", [this]() { return prop2; },
-        [this](int32_t v) { prop2 = v; });
+        [&](int32_t v) { prop2 = v; });
 };
 
 #define TEST_SERVICE "org.fcitx.Fcitx.TestDBus"

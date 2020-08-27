@@ -583,14 +583,14 @@ private:
         ([]() -> dbus::DBusStruct<uint32_t, uint32_t> {
             return {0, 0};
         }),
-        ([this](dbus::DBusStruct<uint32_t, uint32_t> type) {
+        ([&](dbus::DBusStruct<uint32_t, uint32_t> type) {
             setContentType(std::get<0>(type), std::get<1>(type));
         }),
         dbus::PropertyOption::Hidden);
     FCITX_OBJECT_VTABLE_WRITABLE_PROPERTY(
         clientCommitPreedit, "ClientCommitPreedit", "(b)",
         ([this]() -> dbus::DBusStruct<bool> { return {clientCommitPreedit_}; }),
-        ([this](dbus::DBusStruct<bool> value) {
+        ([&](dbus::DBusStruct<bool> value) {
             clientCommitPreedit_ = std::get<0>(value);
         }),
         dbus::PropertyOption::Hidden);
