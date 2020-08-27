@@ -111,6 +111,12 @@ public:
      */
     CapabilityFlags capabilityFlags() const;
 
+    /// Override the preedit hint from client.
+    void setEnablePreedit(bool enable);
+
+    /// Check if preedit is manually disalbed.
+    bool isPreeditEnabled() const;
+
     /// Update the current cursor rect of the input context.
     void setCursorRect(Rect rect);
 

@@ -790,6 +790,26 @@ Instance::Instance(int argc, char **argv) {
                 }
             }
         }));
+    d->eventWatchers_.emplace_back(watchEvent(
+        EventType::InputContextKeyEvent, EventWatcherPhase::PreInputMethod,
+        [d](Event &event) {
+            auto &keyEvent = static_cast<KeyEvent &>(event);
+            auto *ic = keyEvent.inputContext();
+            if (!keyEvent.isRelease() &&
+                keyEvent.key().checkKeyList(
+                    d->globalConfig_.togglePreeditKeys())) {
+                ic->setEnablePreedit(!ic->isPreeditEnabled());
+                FCITX_INFO() << ic->capabilityFlags();
+                if (d->notifications_) {
+                    d->notifications_->call<INotifications::showTip>(
+                        "toggle-preedit", _("Input Method"), "", _("Preedit"),
+                        ic->isPreeditEnabled() ? _("Enabled Preedit")
+                                               : _("Disabled Preedit"),
+                        3000);
+                }
+                keyEvent.filterAndAccept();
+            }
+        }));
     d->eventWatchers_.emplace_back(d->watchEvent(
         EventType::InputContextKeyEvent, EventWatcherPhase::ReservedFirst,
         [d](Event &event) {
