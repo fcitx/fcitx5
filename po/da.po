@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2020-08-21 00:01-0700\n"
+"POT-Creation-Date: 2020-08-27 00:01-0700\n"
 "PO-Revision-Date: 2017-11-23 04:14+0000\n"
 "Last-Translator: scootergrisen, 2020\n"
 "Language-Team: Danish (https://www.transifex.com/fcitx/teams/12005/da/)\n"
@@ -20,7 +20,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: src/lib/fcitx/instance.cpp:1926
+#: src/lib/fcitx/instance.cpp:1925
 msgid "(Not available)"
 msgstr "(ikke tilgængelig)"
 
@@ -408,7 +408,7 @@ msgstr "Afslut"
 
 #: src/modules/quickphrase/quickphrase.h:45
 msgid "Fallback Spell check language"
-msgstr ""
+msgstr "Reserve sprog for stavekontrol"
 
 #: src/lib/fcitx-utils/key.cpp:72
 msgctxt "Key name"
@@ -462,7 +462,7 @@ msgstr "Grøn"
 msgid "Group"
 msgstr "Gruppe"
 
-#: src/lib/fcitx/instance.cpp:1929
+#: src/lib/fcitx/instance.cpp:1928
 msgid "Group {0}: {1}"
 msgstr "Gruppe {0}: {1}"
 
@@ -611,7 +611,7 @@ msgstr "Konfiguration af inputmetode"
 
 #: src/modules/imselector/imselector.conf.in:3
 msgid "Input method selector"
-msgstr ""
+msgstr "Valg af inputmetode"
 
 #: src/lib/fcitx-utils/key.cpp:194
 msgctxt "Key name"
@@ -1157,11 +1157,11 @@ msgstr "Vælg inputmetode:"
 
 #: src/modules/imselector/imselector.cpp:217
 msgid "Select local input method:"
-msgstr ""
+msgstr "Vælg lokal inputmetode:"
 
 #: src/modules/imselector/imselector.conf.in:4
 msgid "Select specific input method via keyboard"
-msgstr ""
+msgstr "Vælg bestemt inputmetode via tastatur"
 
 #: src/lib/fcitx-utils/key.cpp:150
 msgctxt "Key name"
@@ -1351,7 +1351,7 @@ msgstr "Tast til at udløse"
 
 #: src/modules/imselector/imselector.h:26
 msgid "Trigger Key for only current input context"
-msgstr ""
+msgstr "Udløsertast kun til nuværende inputkontekst"
 
 #: src/im/keyboard/keyboard.h:60
 msgid "Trigger hint mode"
@@ -1514,10 +1514,10 @@ msgstr "iTouch"
 msgid "{0} (Not Available)"
 msgstr "{0} (ikke tilgængelig)"
 
-#: src/lib/fcitx/instance.cpp:1924
+#: src/lib/fcitx/instance.cpp:1923
 msgid "{0} (Not available)"
 msgstr "{0} (ikke tilgængelig)"
 
-#: src/lib/fcitx/instance.cpp:1921
+#: src/lib/fcitx/instance.cpp:1920
 msgid "{0} ({1})"
 msgstr "{0} ({1})"
