@@ -10,7 +10,10 @@
 #include <mutex>
 #include <type_traits>
 #include <unordered_set>
+#include <fmt/format.h>
+#if FMT_VERSION >= 50300
 #include <fmt/chrono.h>
+#endif
 #include "fs.h"
 #include "stringutils.h"
 
@@ -185,12 +188,14 @@ LogMessageBuilder::LogMessageBuilder(std::ostream &out, LogLevel l,
         break;
     }
 
+#if FMT_VERSION >= 50300
     auto now = std::chrono::system_clock::now();
     auto floor = std::chrono::floor<std::chrono::seconds>(now);
     auto micro =
         std::chrono::duration_cast<std::chrono::microseconds>(now - floor);
     auto t = fmt::localtime(std::chrono::system_clock::to_time_t(now));
     out_ << fmt::format("{:%F %T}.{:06d}", t, micro.count()) << " ";
+#endif
     out_ << filename << ":" << lineNumber << "] ";
 }
 
