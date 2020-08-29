@@ -125,6 +125,7 @@ public:
     virtual ~StandardPathTempFile();
 
     int fd() const { return fd_.fd(); }
+    bool isValid() const { return fd_.isValid(); }
 
     const std::string &path() const { return path_; }
     const std::string &tempPath() const { return tempPath_; }
@@ -151,6 +152,7 @@ public:
     StandardPathFile &operator=(StandardPathFile &&other) = default;
 
     int fd() const { return fd_.fd(); }
+    bool isValid() const { return fd_.isValid(); }
 
     const std::string &path() const { return path_; }
 
