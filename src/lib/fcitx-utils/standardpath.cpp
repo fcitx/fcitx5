@@ -487,15 +487,17 @@ StandardPath::openUserTemp(Type type, const std::string &pathOrig) const {
 bool StandardPath::safeSave(Type type, const std::string &pathOrig,
                             const std::function<bool(int)> &callback) const {
     auto file = openUserTemp(type, pathOrig);
-    if (file.fd() < 0) {
+    if (!file.isValid()) {
         return false;
     }
     try {
-        return callback(file.fd());
+        if (callback(file.fd())) {
+            return true;
+        }
     } catch (const std::exception &) {
-        file.removeTemp();
-        return false;
     }
+    file.removeTemp();
+    return false;
 }
 
 StandardPathFileMap StandardPath::multiOpenFilter(
