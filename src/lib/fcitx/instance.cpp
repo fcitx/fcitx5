@@ -912,15 +912,6 @@ Instance::Instance(int argc, char **argv) {
                     }
                 }
             }
-            if (ic->hasPendingEvents() &&
-                ic->capabilityFlags().test(CapabilityFlag::KeyEventOrderFix) &&
-                !keyEvent.accepted()) {
-                // Re-forward the event to ensure we got delivered later than
-                // commit.
-                keyEvent.filterAndAccept();
-                ic->forwardKey(keyEvent.rawKey(), keyEvent.isRelease(),
-                               keyEvent.time());
-            }
         }));
     d->eventWatchers_.emplace_back(d->watchEvent(
         EventType::InputContextFocusIn, EventWatcherPhase::ReservedFirst,
@@ -1282,14 +1273,32 @@ bool Instance::postEvent(Event &event) {
             EventWatcherPhase::ReservedLast};
 
         for (auto phase : phaseOrder) {
-            auto iter2 = handlers.find(phase);
-            if (iter2 != handlers.end()) {
+            if (auto iter2 = handlers.find(phase); iter2 != handlers.end()) {
                 for (auto &handler : iter2->second.view()) {
                     handler(event);
                     if (event.filtered()) {
-                        return event.accepted();
+                        break;
                     }
                 }
+            }
+            if (event.filtered()) {
+                break;
+            }
+        }
+
+        // Make sure this part of fix is always executed regardless of the
+        // filter.
+        if (event.type() == EventType::InputContextKeyEvent) {
+            auto &keyEvent = static_cast<KeyEvent &>(event);
+            auto *ic = keyEvent.inputContext();
+            if (ic->hasPendingEvents() &&
+                ic->capabilityFlags().test(CapabilityFlag::KeyEventOrderFix) &&
+                !keyEvent.accepted()) {
+                // Re-forward the event to ensure we got delivered later than
+                // commit.
+                keyEvent.filterAndAccept();
+                ic->forwardKey(keyEvent.rawKey(), keyEvent.isRelease(),
+                               keyEvent.time());
             }
         }
     }
