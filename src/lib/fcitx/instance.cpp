@@ -803,8 +803,8 @@ Instance::Instance(int argc, char **argv) {
                 if (d->notifications_) {
                     d->notifications_->call<INotifications::showTip>(
                         "toggle-preedit", _("Input Method"), "", _("Preedit"),
-                        ic->isPreeditEnabled() ? _("Enabled Preedit")
-                                               : _("Disabled Preedit"),
+                        ic->isPreeditEnabled() ? _("Preedit enabled")
+                                               : _("Preedit disabled"),
                         3000);
                 }
                 keyEvent.filterAndAccept();
