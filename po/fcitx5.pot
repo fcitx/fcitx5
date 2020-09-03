@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2020-08-30 00:01-0700\n"
+"POT-Creation-Date: 2020-09-03 00:01-0700\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -15,7 +15,7 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: src/lib/fcitx/instance.cpp:1945
+#: src/lib/fcitx/instance.cpp:1954
 msgid "(Not available)"
 msgstr ""
 
@@ -303,10 +303,6 @@ msgctxt "Key name"
 msgid "Delete"
 msgstr ""
 
-#: src/lib/fcitx/instance.cpp:807
-msgid "Disabled Preedit"
-msgstr ""
-
 #: src/lib/fcitx-utils/key.cpp:125
 msgctxt "Key name"
 msgid "Display"
@@ -359,10 +355,6 @@ msgstr ""
 
 #: src/im/keyboard/keyboard.h:54
 msgid "Enable emoji in quickphrase"
-msgstr ""
-
-#: src/lib/fcitx/instance.cpp:806
-msgid "Enabled Preedit"
 msgstr ""
 
 #: src/modules/spell/spell.h:23
@@ -465,7 +457,7 @@ msgstr ""
 msgid "Group"
 msgstr ""
 
-#: src/lib/fcitx/instance.cpp:1948
+#: src/lib/fcitx/instance.cpp:1957
 msgid "Group {0}: {1}"
 msgstr ""
 
@@ -1017,6 +1009,14 @@ msgstr ""
 msgid "Preedit"
 msgstr ""
 
+#: src/lib/fcitx/instance.cpp:807
+msgid "Preedit disabled"
+msgstr ""
+
+#: src/lib/fcitx/instance.cpp:806
+msgid "Preedit enabled"
+msgstr ""
+
 #: src/modules/spell/spell.h:22
 msgid "Presage"
 msgstr ""
@@ -1519,10 +1519,10 @@ msgstr ""
 msgid "{0} (Not Available)"
 msgstr ""
 
-#: src/lib/fcitx/instance.cpp:1943
+#: src/lib/fcitx/instance.cpp:1952
 msgid "{0} (Not available)"
 msgstr ""
 
-#: src/lib/fcitx/instance.cpp:1940
+#: src/lib/fcitx/instance.cpp:1949
 msgid "{0} ({1})"
 msgstr ""

@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2020-08-30 00:01-0700\n"
+"POT-Creation-Date: 2020-09-03 00:01-0700\n"
 "PO-Revision-Date: 2017-11-23 04:14+0000\n"
 "Last-Translator: Robert Antoni Buj Gelonch <rbuj@fedoraproject.org>, 2020\n"
 "Language-Team: Catalan (https://www.transifex.com/fcitx/teams/12005/ca/)\n"
@@ -20,7 +20,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: src/lib/fcitx/instance.cpp:1945
+#: src/lib/fcitx/instance.cpp:1954
 msgid "(Not available)"
 msgstr "(no disponible)"
 
@@ -308,10 +308,6 @@ msgctxt "Key name"
 msgid "Delete"
 msgstr ""
 
-#: src/lib/fcitx/instance.cpp:807
-msgid "Disabled Preedit"
-msgstr ""
-
 #: src/lib/fcitx-utils/key.cpp:125
 msgctxt "Key name"
 msgid "Display"
@@ -364,10 +360,6 @@ msgstr ""
 
 #: src/im/keyboard/keyboard.h:54
 msgid "Enable emoji in quickphrase"
-msgstr ""
-
-#: src/lib/fcitx/instance.cpp:806
-msgid "Enabled Preedit"
 msgstr ""
 
 #: src/modules/spell/spell.h:23
@@ -470,7 +462,7 @@ msgstr "Verd"
 msgid "Group"
 msgstr "Grup"
 
-#: src/lib/fcitx/instance.cpp:1948
+#: src/lib/fcitx/instance.cpp:1957
 msgid "Group {0}: {1}"
 msgstr "Grup {0}: {1}"
 
@@ -1022,6 +1014,14 @@ msgstr "Apaga"
 msgid "Preedit"
 msgstr ""
 
+#: src/lib/fcitx/instance.cpp:807
+msgid "Preedit disabled"
+msgstr ""
+
+#: src/lib/fcitx/instance.cpp:806
+msgid "Preedit enabled"
+msgstr ""
+
 #: src/modules/spell/spell.h:22
 msgid "Presage"
 msgstr ""
@@ -1524,10 +1524,10 @@ msgstr "iTouch"
 msgid "{0} (Not Available)"
 msgstr ""
 
-#: src/lib/fcitx/instance.cpp:1943
+#: src/lib/fcitx/instance.cpp:1952
 msgid "{0} (Not available)"
 msgstr "{0} (no disponible)"
 
-#: src/lib/fcitx/instance.cpp:1940
+#: src/lib/fcitx/instance.cpp:1949
 msgid "{0} ({1})"
 msgstr "{0} ({1})"

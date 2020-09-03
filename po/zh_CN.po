@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2020-08-30 00:01-0700\n"
+"POT-Creation-Date: 2020-09-03 00:01-0700\n"
 "PO-Revision-Date: 2017-11-23 04:14+0000\n"
 "Last-Translator: csslayer <wengxt@gmail.com>, 2020\n"
 "Language-Team: Chinese (China) (https://www.transifex.com/fcitx/teams/12005/"
@@ -21,7 +21,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
-#: src/lib/fcitx/instance.cpp:1945
+#: src/lib/fcitx/instance.cpp:1954
 msgid "(Not available)"
 msgstr "(不可用)"
 
@@ -309,10 +309,6 @@ msgctxt "Key name"
 msgid "Delete"
 msgstr "删除"
 
-#: src/lib/fcitx/instance.cpp:807
-msgid "Disabled Preedit"
-msgstr ""
-
 #: src/lib/fcitx-utils/key.cpp:125
 msgctxt "Key name"
 msgid "Display"
@@ -366,10 +362,6 @@ msgstr "在输入提示中启用 Emoji"
 #: src/im/keyboard/keyboard.h:54
 msgid "Enable emoji in quickphrase"
 msgstr "在快速输入中启用颜文字"
-
-#: src/lib/fcitx/instance.cpp:806
-msgid "Enabled Preedit"
-msgstr ""
 
 #: src/modules/spell/spell.h:23
 msgid "Enchant"
@@ -471,7 +463,7 @@ msgstr "绿"
 msgid "Group"
 msgstr "分组"
 
-#: src/lib/fcitx/instance.cpp:1948
+#: src/lib/fcitx/instance.cpp:1957
 msgid "Group {0}: {1}"
 msgstr "分组 {0}：{1}"
 
@@ -1022,6 +1014,14 @@ msgstr "关机"
 
 #: src/lib/fcitx/instance.cpp:805
 msgid "Preedit"
+msgstr "预编辑"
+
+#: src/lib/fcitx/instance.cpp:807
+msgid "Preedit disabled"
+msgstr ""
+
+#: src/lib/fcitx/instance.cpp:806
+msgid "Preedit enabled"
 msgstr ""
 
 #: src/modules/spell/spell.h:22
@@ -1321,7 +1321,7 @@ msgstr "时间"
 
 #: src/lib/fcitx/globalconfig.cpp:107
 msgid "Toggle embedded preedit"
-msgstr ""
+msgstr "切换是否使用嵌入预编辑"
 
 #: src/lib/fcitx-utils/key.cpp:156
 msgctxt "Key name"
@@ -1530,10 +1530,10 @@ msgstr "iTouch"
 msgid "{0} (Not Available)"
 msgstr "{0} (不可用)"
 
-#: src/lib/fcitx/instance.cpp:1943
+#: src/lib/fcitx/instance.cpp:1952
 msgid "{0} (Not available)"
 msgstr "{0} (不可用)"
 
-#: src/lib/fcitx/instance.cpp:1940
+#: src/lib/fcitx/instance.cpp:1949
 msgid "{0} ({1})"
 msgstr "{0} ({1})"

@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2020-08-30 00:01-0700\n"
+"POT-Creation-Date: 2020-09-03 00:01-0700\n"
 "PO-Revision-Date: 2017-11-23 04:14+0000\n"
 "Last-Translator: TotalCaesar659 <x24cm5b8c54q6szxw@yandex.ru>, 2017\n"
 "Language-Team: Russian (https://www.transifex.com/fcitx/teams/12005/ru/)\n"
@@ -22,7 +22,7 @@ msgstr ""
 "%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n"
 "%100>=11 && n%100<=14)? 2 : 3);\n"
 
-#: src/lib/fcitx/instance.cpp:1945
+#: src/lib/fcitx/instance.cpp:1954
 msgid "(Not available)"
 msgstr "(Недоступно)"
 
@@ -310,10 +310,6 @@ msgctxt "Key name"
 msgid "Delete"
 msgstr ""
 
-#: src/lib/fcitx/instance.cpp:807
-msgid "Disabled Preedit"
-msgstr ""
-
 #: src/lib/fcitx-utils/key.cpp:125
 msgctxt "Key name"
 msgid "Display"
@@ -366,10 +362,6 @@ msgstr ""
 
 #: src/im/keyboard/keyboard.h:54
 msgid "Enable emoji in quickphrase"
-msgstr ""
-
-#: src/lib/fcitx/instance.cpp:806
-msgid "Enabled Preedit"
 msgstr ""
 
 #: src/modules/spell/spell.h:23
@@ -472,7 +464,7 @@ msgstr ""
 msgid "Group"
 msgstr "Группа"
 
-#: src/lib/fcitx/instance.cpp:1948
+#: src/lib/fcitx/instance.cpp:1957
 msgid "Group {0}: {1}"
 msgstr "Группа {0}: {1}"
 
@@ -1024,6 +1016,14 @@ msgstr ""
 msgid "Preedit"
 msgstr ""
 
+#: src/lib/fcitx/instance.cpp:807
+msgid "Preedit disabled"
+msgstr ""
+
+#: src/lib/fcitx/instance.cpp:806
+msgid "Preedit enabled"
+msgstr ""
+
 #: src/modules/spell/spell.h:22
 msgid "Presage"
 msgstr "Presage"
@@ -1526,10 +1526,10 @@ msgstr ""
 msgid "{0} (Not Available)"
 msgstr ""
 
-#: src/lib/fcitx/instance.cpp:1943
+#: src/lib/fcitx/instance.cpp:1952
 msgid "{0} (Not available)"
 msgstr "{0} (Недоступно)"
 
-#: src/lib/fcitx/instance.cpp:1940
+#: src/lib/fcitx/instance.cpp:1949
 msgid "{0} ({1})"
 msgstr "{0} ({1})"

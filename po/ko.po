@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2020-08-30 00:01-0700\n"
+"POT-Creation-Date: 2020-09-03 00:01-0700\n"
 "PO-Revision-Date: 2017-11-23 04:14+0000\n"
 "Last-Translator: JungHee Lee <daemul72@gmail.com>, 2020\n"
 "Language-Team: Korean (https://www.transifex.com/fcitx/teams/12005/ko/)\n"
@@ -22,7 +22,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
-#: src/lib/fcitx/instance.cpp:1945
+#: src/lib/fcitx/instance.cpp:1954
 msgid "(Not available)"
 msgstr "(사용할 수 없음)"
 
@@ -310,10 +310,6 @@ msgctxt "Key name"
 msgid "Delete"
 msgstr "삭제"
 
-#: src/lib/fcitx/instance.cpp:807
-msgid "Disabled Preedit"
-msgstr ""
-
 #: src/lib/fcitx-utils/key.cpp:125
 msgctxt "Key name"
 msgid "Display"
@@ -367,10 +363,6 @@ msgstr "힌트로 그림문자 활성화"
 #: src/im/keyboard/keyboard.h:54
 msgid "Enable emoji in quickphrase"
 msgstr "빠른 표현으로 그림문자 사용"
-
-#: src/lib/fcitx/instance.cpp:806
-msgid "Enabled Preedit"
-msgstr ""
 
 #: src/modules/spell/spell.h:23
 msgid "Enchant"
@@ -472,7 +464,7 @@ msgstr "녹색"
 msgid "Group"
 msgstr "그룹"
 
-#: src/lib/fcitx/instance.cpp:1948
+#: src/lib/fcitx/instance.cpp:1957
 msgid "Group {0}: {1}"
 msgstr "그룹 {0}: {1}"
 
@@ -1026,6 +1018,14 @@ msgstr "전원 끄기"
 msgid "Preedit"
 msgstr ""
 
+#: src/lib/fcitx/instance.cpp:807
+msgid "Preedit disabled"
+msgstr ""
+
+#: src/lib/fcitx/instance.cpp:806
+msgid "Preedit enabled"
+msgstr ""
+
 #: src/modules/spell/spell.h:22
 msgid "Presage"
 msgstr "사전 설정"
@@ -1533,10 +1533,10 @@ msgstr "iTouch"
 msgid "{0} (Not Available)"
 msgstr "{0} (사용할 수 없음)"
 
-#: src/lib/fcitx/instance.cpp:1943
+#: src/lib/fcitx/instance.cpp:1952
 msgid "{0} (Not available)"
 msgstr "{0} (사용할 수 없음)"
 
-#: src/lib/fcitx/instance.cpp:1940
+#: src/lib/fcitx/instance.cpp:1949
 msgid "{0} ({1})"
 msgstr "{0} ({1})"
