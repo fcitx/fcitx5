@@ -13,10 +13,21 @@
 #include <fcitx/action.h>
 #include "fcitxcore_export.h"
 
+/// \addtogroup FcitxCore
+/// \{
+/// \file
+/// \brief Class for menu in UI.
+
 namespace fcitx {
 
 class MenuPrivate;
 
+/**
+ * Menu that contains a list of actions.
+ *
+ * The user interface may only support one-level of menu, so you
+ * may want to avoid multiple level of menu if possible.
+ */
 class FCITXCORE_EXPORT Menu : public Element {
 public:
     friend class Action;

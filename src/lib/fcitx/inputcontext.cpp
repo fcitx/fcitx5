@@ -99,17 +99,57 @@ void InputContext::updateProperty(const InputContextPropertyFactory *factory) {
 
 void InputContext::setCapabilityFlags(CapabilityFlags flags) {
     FCITX_D();
+    const auto oldFlags = capabilityFlags();
+    auto newFlags = flags;
+    if (!d->isPreeditEnabled_) {
+        newFlags = newFlags.unset(CapabilityFlag::Preedit)
+                       .unset(CapabilityFlag::FormattedPreedit);
+    }
     if (d->capabilityFlags_ != flags) {
-        auto oldFlags = d->capabilityFlags_;
-        d->emplaceEvent<CapabilityAboutToChangeEvent>(this, oldFlags, flags);
+        if (oldFlags != newFlags) {
+            d->emplaceEvent<CapabilityAboutToChangeEvent>(this, oldFlags,
+                                                          flags);
+        }
         d->capabilityFlags_ = flags;
-        d->emplaceEvent<CapabilityChangedEvent>(this, oldFlags, flags);
+        if (oldFlags != newFlags) {
+            d->emplaceEvent<CapabilityChangedEvent>(this, oldFlags, flags);
+        }
     }
 }
 
 CapabilityFlags InputContext::capabilityFlags() const {
     FCITX_D();
-    return d->capabilityFlags_;
+    auto flags = d->capabilityFlags_;
+    if (!d->isPreeditEnabled_) {
+        flags = flags.unset(CapabilityFlag::Preedit)
+                    .unset(CapabilityFlag::FormattedPreedit);
+    }
+    return flags;
+}
+
+void InputContext::setEnablePreedit(bool enable) {
+    FCITX_D();
+    const auto oldFlags = capabilityFlags();
+    auto newFlags = d->capabilityFlags_;
+    if (!enable) {
+        newFlags = newFlags.unset(CapabilityFlag::Preedit)
+                       .unset(CapabilityFlag::FormattedPreedit);
+    }
+    if (enable != d->isPreeditEnabled_) {
+        if (oldFlags != newFlags) {
+            d->emplaceEvent<CapabilityAboutToChangeEvent>(this, oldFlags,
+                                                          newFlags);
+        }
+        d->isPreeditEnabled_ = enable;
+        if (oldFlags != newFlags) {
+            d->emplaceEvent<CapabilityChangedEvent>(this, oldFlags, newFlags);
+        }
+    }
+}
+
+bool InputContext::isPreeditEnabled() const {
+    FCITX_D();
+    return d->isPreeditEnabled_;
 }
 
 void InputContext::setCursorRect(Rect rect) {
@@ -252,7 +292,7 @@ void InputContext::forwardKey(const Key &rawKey, bool isRelease, int time) {
 
 void InputContext::updatePreedit() {
     FCITX_D();
-    if (!d->capabilityFlags_.test(CapabilityFlag::Preedit)) {
+    if (!capabilityFlags().test(CapabilityFlag::Preedit)) {
         return;
     }
     d->pushEvent<UpdatePreeditEvent>(this);

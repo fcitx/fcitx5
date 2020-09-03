@@ -125,6 +125,7 @@ public:
     virtual ~StandardPathTempFile();
 
     int fd() const { return fd_.fd(); }
+    bool isValid() const { return fd_.isValid(); }
 
     const std::string &path() const { return path_; }
     const std::string &tempPath() const { return tempPath_; }
@@ -151,6 +152,7 @@ public:
     StandardPathFile &operator=(StandardPathFile &&other) = default;
 
     int fd() const { return fd_.fd(); }
+    bool isValid() const { return fd_.isValid(); }
 
     const std::string &path() const { return path_; }
 
@@ -171,7 +173,22 @@ typedef std::map<std::string, std::vector<StandardPathFile>>
 class FCITXUTILS_EXPORT StandardPath {
 public:
     /// \brief Enum for location type.
-    enum class Type { Config, PkgConfig, Data, Cache, Runtime, Addon, PkgData };
+    enum class Type {
+        /// Xdg Config dir
+        Config,
+        /// Xdg Config dir/fcitx5
+        PkgConfig,
+        /// Xdg data dir
+        Data,
+        /// Xdg cache dir
+        Cache,
+        /// Xdg runtime dir
+        Runtime,
+        /// addon shared library dir.
+        Addon,
+        /// Xdg data dir/fcitx5
+        PkgData
+    };
 
     StandardPath(bool skipFcitxPath = false);
     virtual ~StandardPath();

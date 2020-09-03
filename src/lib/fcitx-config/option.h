@@ -92,6 +92,19 @@ struct NoAnnotation {
     void dumpDescription(RawConfig &) const {}
 };
 
+struct ToolTipAnnotation {
+    ToolTipAnnotation(std::string tooltip) : tooltip_(std::move(tooltip)) {}
+
+    bool skipDescription() { return false; }
+    bool skipSave() { return false; }
+    void dumpDescription(RawConfig &config) const {
+        config.setValueByPath("Tooltip", tooltip_);
+    }
+
+private:
+    std::string tooltip_;
+};
+
 // Annotation to be used against String type.
 struct FontAnnotation {
     bool skipDescription() { return false; }

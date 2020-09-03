@@ -7,6 +7,7 @@
 
 #include "candidatelist.h"
 #include <stdexcept>
+#include <unordered_set>
 #include <fcitx-utils/utf8.h>
 
 namespace fcitx {
@@ -478,34 +479,45 @@ void CommonCandidateList::moveCursor(bool prev) {
         return;
     }
 
-    auto pageBegin = d->pageSize_ * d->currentPage_;
-    if (cursorIndex() < 0) {
-        setGlobalCursorIndex(pageBegin + (prev ? size() - 1 : 0));
-    } else {
-        int rotationBase;
-        int rotationSize;
-        if (d->cursorKeepInSamePage_) {
-            rotationBase = pageBegin;
-            rotationSize = size();
+    int startCursor = d->cursorIndex_;
+    int startPage = d->currentPage_;
+    std::unordered_set<int> deadloopDetect;
+    do {
+        deadloopDetect.insert(d->cursorIndex_);
+        auto pageBegin = d->pageSize_ * d->currentPage_;
+        if (cursorIndex() < 0) {
+            setGlobalCursorIndex(pageBegin + (prev ? size() - 1 : 0));
         } else {
-            rotationBase = 0;
-            rotationSize = totalSize();
-        }
-        auto newGlobalIndex = d->cursorIndex_ + (prev ? -1 : 1);
-        if (newGlobalIndex < rotationBase ||
-            newGlobalIndex >= rotationBase + rotationSize) {
-            if (d->cursorIncludeUnselected_) {
-                d->cursorIndex_ = -1;
+            int rotationBase;
+            int rotationSize;
+            if (d->cursorKeepInSamePage_) {
+                rotationBase = pageBegin;
+                rotationSize = size();
             } else {
-                d->cursorIndex_ =
-                    prev ? (rotationBase + rotationSize - 1) : rotationBase;
+                rotationBase = 0;
+                rotationSize = totalSize();
             }
-        } else {
-            d->cursorIndex_ = newGlobalIndex;
+            auto newGlobalIndex = d->cursorIndex_ + (prev ? -1 : 1);
+            if (newGlobalIndex < rotationBase ||
+                newGlobalIndex >= rotationBase + rotationSize) {
+                if (d->cursorIncludeUnselected_) {
+                    d->cursorIndex_ = -1;
+                } else {
+                    d->cursorIndex_ =
+                        prev ? (rotationBase + rotationSize - 1) : rotationBase;
+                }
+            } else {
+                d->cursorIndex_ = newGlobalIndex;
+            }
+            if (!d->cursorKeepInSamePage_) {
+                setPage(d->cursorIndex_ / d->pageSize_);
+            }
         }
-        if (!d->cursorKeepInSamePage_) {
-            setPage(d->cursorIndex_ / d->pageSize_);
-        }
+    } while (!deadloopDetect.count(d->cursorIndex_) && d->cursorIndex_ >= 0 &&
+             candidateFromAll(d->cursorIndex_).isPlaceHolder());
+    if (deadloopDetect.count(d->cursorIndex_)) {
+        d->cursorIndex_ = startCursor;
+        d->currentPage_ = startPage;
     }
 }
 

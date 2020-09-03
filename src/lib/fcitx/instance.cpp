@@ -760,7 +760,6 @@ Instance::Instance(int argc, char **argv) {
                             if (keyEvent.origKey().hasModifier()) {
                                 inputState->totallyReleased_ = false;
                             }
-                            return keyEvent.filterAndAccept();
                         }
                         return keyEvent.filter();
                     }
@@ -789,6 +788,26 @@ Instance::Instance(int argc, char **argv) {
                     }
                     idx++;
                 }
+            }
+        }));
+    d->eventWatchers_.emplace_back(watchEvent(
+        EventType::InputContextKeyEvent, EventWatcherPhase::PreInputMethod,
+        [d](Event &event) {
+            auto &keyEvent = static_cast<KeyEvent &>(event);
+            auto *ic = keyEvent.inputContext();
+            if (!keyEvent.isRelease() &&
+                keyEvent.key().checkKeyList(
+                    d->globalConfig_.togglePreeditKeys())) {
+                ic->setEnablePreedit(!ic->isPreeditEnabled());
+                FCITX_INFO() << ic->capabilityFlags();
+                if (d->notifications_) {
+                    d->notifications_->call<INotifications::showTip>(
+                        "toggle-preedit", _("Input Method"), "", _("Preedit"),
+                        ic->isPreeditEnabled() ? _("Preedit enabled")
+                                               : _("Preedit disabled"),
+                        3000);
+                }
+                keyEvent.filterAndAccept();
             }
         }));
     d->eventWatchers_.emplace_back(d->watchEvent(
@@ -892,15 +911,6 @@ Instance::Instance(int argc, char **argv) {
                         keyEvent.filterAndAccept();
                     }
                 }
-            }
-            if (ic->hasPendingEvents() &&
-                ic->capabilityFlags().test(CapabilityFlag::KeyEventOrderFix) &&
-                !keyEvent.accepted()) {
-                // Re-forward the event to ensure we got delivered later than
-                // commit.
-                keyEvent.filterAndAccept();
-                ic->forwardKey(keyEvent.rawKey(), keyEvent.isRelease(),
-                               keyEvent.time());
             }
         }));
     d->eventWatchers_.emplace_back(d->watchEvent(
@@ -1263,14 +1273,32 @@ bool Instance::postEvent(Event &event) {
             EventWatcherPhase::ReservedLast};
 
         for (auto phase : phaseOrder) {
-            auto iter2 = handlers.find(phase);
-            if (iter2 != handlers.end()) {
+            if (auto iter2 = handlers.find(phase); iter2 != handlers.end()) {
                 for (auto &handler : iter2->second.view()) {
                     handler(event);
                     if (event.filtered()) {
-                        return event.accepted();
+                        break;
                     }
                 }
+            }
+            if (event.filtered()) {
+                break;
+            }
+        }
+
+        // Make sure this part of fix is always executed regardless of the
+        // filter.
+        if (event.type() == EventType::InputContextKeyEvent) {
+            auto &keyEvent = static_cast<KeyEvent &>(event);
+            auto *ic = keyEvent.inputContext();
+            if (ic->hasPendingEvents() &&
+                ic->capabilityFlags().test(CapabilityFlag::KeyEventOrderFix) &&
+                !keyEvent.accepted()) {
+                // Re-forward the event to ensure we got delivered later than
+                // commit.
+                keyEvent.filterAndAccept();
+                ic->forwardKey(keyEvent.rawKey(), keyEvent.isRelease(),
+                               keyEvent.time());
             }
         }
     }

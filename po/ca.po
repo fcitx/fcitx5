@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2020-08-19 00:01-0700\n"
+"POT-Creation-Date: 2020-08-30 00:01-0700\n"
 "PO-Revision-Date: 2017-11-23 04:14+0000\n"
 "Last-Translator: Robert Antoni Buj Gelonch <rbuj@fedoraproject.org>, 2020\n"
 "Language-Team: Catalan (https://www.transifex.com/fcitx/teams/12005/ca/)\n"
@@ -20,7 +20,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: src/lib/fcitx/instance.cpp:1926
+#: src/lib/fcitx/instance.cpp:1945
 msgid "(Not available)"
 msgstr "(no disponible)"
 
@@ -52,7 +52,7 @@ msgstr "<no assignat>"
 msgid "Activate Input Method"
 msgstr "Activa el mètode d'entrada"
 
-#: src/lib/fcitx/globalconfig.cpp:108
+#: src/lib/fcitx/globalconfig.cpp:113
 msgid "Active By Default"
 msgstr "Activa per defecte"
 
@@ -133,7 +133,7 @@ msgctxt "Key name"
 msgid "Battery"
 msgstr "Bateria"
 
-#: src/lib/fcitx/globalconfig.cpp:129
+#: src/lib/fcitx/globalconfig.cpp:134
 msgid "Behavior"
 msgstr "Comportament"
 
@@ -299,13 +299,17 @@ msgstr ""
 msgid "Default Previous page"
 msgstr "Re Pàg predeterminat"
 
-#: src/lib/fcitx/globalconfig.cpp:119
+#: src/lib/fcitx/globalconfig.cpp:124
 msgid "Default page size"
 msgstr "Mida de pàgina predeterminada"
 
 #: src/lib/fcitx-utils/key.cpp:195
 msgctxt "Key name"
 msgid "Delete"
+msgstr ""
+
+#: src/lib/fcitx/instance.cpp:807
+msgid "Disabled Preedit"
 msgstr ""
 
 #: src/lib/fcitx-utils/key.cpp:125
@@ -360,6 +364,10 @@ msgstr ""
 
 #: src/im/keyboard/keyboard.h:54
 msgid "Enable emoji in quickphrase"
+msgstr ""
+
+#: src/lib/fcitx/instance.cpp:806
+msgid "Enabled Preedit"
 msgstr ""
 
 #: src/modules/spell/spell.h:23
@@ -462,7 +470,7 @@ msgstr "Verd"
 msgid "Group"
 msgstr "Grup"
 
-#: src/lib/fcitx/instance.cpp:1929
+#: src/lib/fcitx/instance.cpp:1948
 msgid "Group {0}: {1}"
 msgstr "Grup {0}: {1}"
 
@@ -584,7 +592,7 @@ msgctxt "Key name"
 msgid "Hot Links"
 msgstr ""
 
-#: src/lib/fcitx/globalconfig.cpp:127
+#: src/lib/fcitx/globalconfig.cpp:132
 msgid "Hotkey"
 msgstr "Drecera de teclat"
 
@@ -597,8 +605,9 @@ msgstr ""
 msgid "IBus Frontend"
 msgstr "Frontal DBus"
 
-#: src/lib/fcitx/instance.cpp:635 src/im/keyboard/keyboard.cpp:357
-#: src/ui/classic/xcbtraywindow.cpp:38 src/modules/xcb/xcbconnection.cpp:388
+#: src/lib/fcitx/instance.cpp:635 src/lib/fcitx/instance.cpp:805
+#: src/im/keyboard/keyboard.cpp:357 src/ui/classic/xcbtraywindow.cpp:38
+#: src/modules/xcb/xcbconnection.cpp:388
 #: src/modules/notificationitem/dbusmenu.cpp:241
 #: src/modules/notificationitem/notificationitem.cpp:90
 #: data/fcitx5.desktop.in.in:4
@@ -1009,6 +1018,10 @@ msgctxt "Key name"
 msgid "Power Off"
 msgstr "Apaga"
 
+#: src/lib/fcitx/instance.cpp:805
+msgid "Preedit"
+msgstr ""
+
 #: src/modules/spell/spell.h:22
 msgid "Presage"
 msgstr ""
@@ -1035,7 +1048,7 @@ msgstr ""
 msgid "Quick Phrase"
 msgstr "Frase ràpida"
 
-#: src/modules/quickphrase/quickphrase.cpp:369
+#: src/modules/quickphrase/quickphrase.cpp:390
 msgid "Quick Phrase: "
 msgstr "Frase ràpida:"
 
@@ -1166,7 +1179,7 @@ msgctxt "Key name"
 msgid "Send"
 msgstr "Envia"
 
-#: src/lib/fcitx/globalconfig.cpp:110
+#: src/lib/fcitx/globalconfig.cpp:115
 msgid "Share Input State"
 msgstr ""
 
@@ -1180,11 +1193,11 @@ msgctxt "Key name"
 msgid "Shop"
 msgstr ""
 
-#: src/lib/fcitx/globalconfig.cpp:117
+#: src/lib/fcitx/globalconfig.cpp:122
 msgid "Show Input Method Information when changing focus"
 msgstr ""
 
-#: src/lib/fcitx/globalconfig.cpp:114
+#: src/lib/fcitx/globalconfig.cpp:119
 msgid "Show Input Method Information when switch input method"
 msgstr ""
 
@@ -1303,6 +1316,10 @@ msgstr ""
 msgctxt "Key name"
 msgid "Time"
 msgstr "Hora"
+
+#: src/lib/fcitx/globalconfig.cpp:107
+msgid "Toggle embedded preedit"
+msgstr ""
 
 #: src/lib/fcitx-utils/key.cpp:156
 msgctxt "Key name"
@@ -1507,10 +1524,10 @@ msgstr "iTouch"
 msgid "{0} (Not Available)"
 msgstr ""
 
-#: src/lib/fcitx/instance.cpp:1924
+#: src/lib/fcitx/instance.cpp:1943
 msgid "{0} (Not available)"
 msgstr "{0} (no disponible)"
 
-#: src/lib/fcitx/instance.cpp:1921
+#: src/lib/fcitx/instance.cpp:1940
 msgid "{0} ({1})"
 msgstr "{0} ({1})"

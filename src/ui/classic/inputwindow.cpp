@@ -202,12 +202,17 @@ void InputWindow::update(InputContext *inputContext) {
         }
         resizeCandidates(count);
 
+        candidateIndex_ = -1;
         int localIndex = 0;
         for (int i = 0, e = candidateList->size(); i < e; i++) {
             const auto &candidate = candidateList->candidate(i);
             // Skip placeholder.
             if (candidate.isPlaceHolder()) {
                 continue;
+            }
+
+            if (i == candidateList->cursorIndex()) {
+                candidateIndex_ = localIndex;
             }
 
             Text labelText = candidate.hasCustomLabel()
@@ -228,7 +233,6 @@ void InputWindow::update(InputContext *inputContext) {
         }
 
         layoutHint_ = candidateList->layoutHint();
-        candidateIndex_ = candidateList->cursorIndex();
         if (auto *pageable = candidateList->toPageable()) {
             hasPrev_ = pageable->hasPrev();
             hasNext_ = pageable->hasNext();

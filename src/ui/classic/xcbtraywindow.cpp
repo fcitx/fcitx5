@@ -275,6 +275,8 @@ void XCBTrayWindow::postCreateWindow() {
     const char name[] = "Fcitx5 Tray Window";
     xcb_icccm_set_wm_name(ui_->connection(), wid_, XCB_ATOM_STRING, 8,
                           sizeof(name) - 1, name);
+    const char klass[] = "fcitx\0fcitx";
+    xcb_icccm_set_wm_class(ui_->connection(), wid_, sizeof(klass) - 1, klass);
 
     addEventMaskToWindow(
         ui_->connection(), wid_,
