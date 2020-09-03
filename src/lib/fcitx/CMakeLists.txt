@@ -57,11 +57,15 @@ set(FCITX_CORE_HEADERS
     ${CMAKE_CURRENT_BINARY_DIR}/fcitxcore_export.h
     )
 
+ecm_setup_version(PROJECT
+                  VARIABLE_PREFIX Fcitx5Core
+                  PACKAGE_VERSION_FILE "${CMAKE_CURRENT_BINARY_DIR}/Fcitx5CoreConfigVersion.cmake"
+                  SOVERSION 7)
 
 add_library(Fcitx5Core SHARED ${FCITX_CORE_SOURCES})
 set_target_properties(Fcitx5Core
-  PROPERTIES VERSION 5.0
-  SOVERSION 7
+  PROPERTIES VERSION ${Fcitx5Core_VERSION}
+  SOVERSION ${Fcitx5Core_SOVERSION}
   EXPORT_NAME Core
   )
 target_include_directories(Fcitx5Core PUBLIC
@@ -80,9 +84,6 @@ install(FILES ${FCITX_CORE_HEADERS} DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}/Fci
 add_library(Fcitx5::Core ALIAS Fcitx5Core)
 
 generate_export_header(Fcitx5Core BASE_NAME FcitxCore)
-ecm_setup_version(PROJECT
-                  PACKAGE_VERSION_FILE "${CMAKE_CURRENT_BINARY_DIR}/Fcitx5CoreConfigVersion.cmake"
-                  SOVERSION 6)
 
 configure_package_config_file("${CMAKE_CURRENT_SOURCE_DIR}/Fcitx5CoreConfig.cmake.in"
                               "${CMAKE_CURRENT_BINARY_DIR}/Fcitx5CoreConfig.cmake"

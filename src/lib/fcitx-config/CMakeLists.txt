@@ -19,11 +19,15 @@ set(FCITX_CONFIG_HEADERS
     ${CMAKE_CURRENT_BINARY_DIR}/fcitxconfig_export.h
     )
 
+ecm_setup_version(PROJECT
+                  VARIABLE_PREFIX Fcitx5Config
+                  PACKAGE_VERSION_FILE "${CMAKE_CURRENT_BINARY_DIR}/Fcitx5ConfigConfigVersion.cmake"
+                  SOVERSION 6)
 
 add_library(Fcitx5Config SHARED ${FCITX_CONFIG_SOURCES})
 set_target_properties(Fcitx5Config
-  PROPERTIES VERSION 5.0
-  SOVERSION 6
+  PROPERTIES VERSION ${Fcitx5Config_VERSION}
+  SOVERSION ${Fcitx5Config_SOVERSION}
   EXPORT_NAME Config
   )
 target_include_directories(Fcitx5Config PUBLIC
@@ -42,9 +46,6 @@ install(FILES ${FCITX_CONFIG_HEADERS} DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}/F
 add_library(Fcitx5::Config ALIAS Fcitx5Config)
 
 generate_export_header(Fcitx5Config BASE_NAME FcitxConfig)
-ecm_setup_version(PROJECT
-                  PACKAGE_VERSION_FILE "${CMAKE_CURRENT_BINARY_DIR}/Fcitx5ConfigConfigVersion.cmake"
-                  SOVERSION 6)
 
 configure_package_config_file("${CMAKE_CURRENT_SOURCE_DIR}/Fcitx5ConfigConfig.cmake.in"
                               "${CMAKE_CURRENT_BINARY_DIR}/Fcitx5ConfigConfig.cmake"
