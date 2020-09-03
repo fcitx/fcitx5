@@ -1583,7 +1583,7 @@ void Instance::setCurrentInputMethod(InputContext *ic, const std::string &name,
                         std::make_unique<CheckInputMethodChanged>(ic, d));
                     return true;
                 });
-            imManager.currentGroup().setDefaultInputMethod(name);
+            imManager.setDefaultInputMethod(name);
         }
         inputState->setActive(true);
     } else {
@@ -1748,7 +1748,7 @@ bool Instance::enumerate(InputContext *ic, bool forward) {
                 std::make_unique<CheckInputMethodChanged>(ic, d));
             return true;
         });
-        imManager.currentGroup().setDefaultInputMethod(imList[idx].name());
+        imManager.setDefaultInputMethod(imList[idx].name());
         inputState->setActive(true);
         inputState->setLocalIM({});
     } else {

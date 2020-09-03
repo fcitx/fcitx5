@@ -251,9 +251,10 @@ const InputMethodGroup &InputMethodManager::currentGroup() const {
     return d->groups_.find(d->groupOrder_.front())->second;
 }
 
-InputMethodGroup &InputMethodManager::currentGroup() {
+void InputMethodManager::setDefaultInputMethod(const std::string &name) {
     FCITX_D();
-    return d->groups_.find(d->groupOrder_.front())->second;
+    auto &currentGroup = d->groups_.find(d->groupOrder_.front())->second;
+    currentGroup.setDefaultInputMethod(name);
 }
 
 const InputMethodGroup *
@@ -262,9 +263,9 @@ InputMethodManager::group(const std::string &name) const {
     return findValue(d->groups_, name);
 }
 
-void InputMethodManager::setGroup(InputMethodGroup newGroup) {
+void InputMethodManager::setGroup(InputMethodGroup newGroupInfo) {
     FCITX_D();
-    auto *group = findValue(d->groups_, newGroup.name());
+    auto *group = findValue(d->groups_, newGroupInfo.name());
     if (group) {
         bool isCurrent = false;
         if (!d->buildingGroup_) {
@@ -274,14 +275,14 @@ void InputMethodManager::setGroup(InputMethodGroup newGroup) {
                     d->groupOrder_.front());
             }
         }
-        auto &list = newGroup.inputMethodList();
+        auto &list = newGroupInfo.inputMethodList();
         auto iter = std::remove_if(list.begin(), list.end(),
                                    [d](const InputMethodGroupItem &item) {
                                        return !d->entries_.count(item.name());
                                    });
         list.erase(iter, list.end());
-        newGroup.setDefaultInputMethod(newGroup.defaultInputMethod());
-        *group = std::move(newGroup);
+        newGroupInfo.setDefaultInputMethod(newGroupInfo.defaultInputMethod());
+        *group = std::move(newGroupInfo);
         if (!d->buildingGroup_ && isCurrent) {
             emit<InputMethodManager::CurrentGroupChanged>(
                 d->groupOrder_.front());
@@ -392,6 +393,9 @@ bool InputMethodManager::foreachEntries(
 
 void InputMethodManager::setGroupOrder(const std::vector<std::string> &groups) {
     FCITX_D();
+    if (d->buildingGroup_) {
+        throw std::runtime_error("Called not within building group");
+    }
     d->setGroupOrder(groups);
 }
 
