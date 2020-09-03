@@ -393,7 +393,7 @@ bool InputMethodManager::foreachEntries(
 
 void InputMethodManager::setGroupOrder(const std::vector<std::string> &groups) {
     FCITX_D();
-    if (d->buildingGroup_) {
+    if (!d->buildingGroup_) {
         throw std::runtime_error("Called not within building group");
     }
     d->setGroupOrder(groups);
