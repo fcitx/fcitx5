@@ -143,8 +143,6 @@ InputMethodManager::InputMethodManager(AddonManager *addonManager)
 
 InputMethodManager::~InputMethodManager() {}
 
-void InputMethodManager::load() { load({}); }
-
 void InputMethodManager::load(const std::function<void(InputMethodManager &)>
                                   &buildDefaultGroupCallback) {
     FCITX_D();

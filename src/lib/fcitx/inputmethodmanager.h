@@ -44,16 +44,13 @@ public:
     InputMethodManager(AddonManager *addonManager_);
     virtual ~InputMethodManager();
 
-    /// Load the input method information from disk.
-    void load();
-
     /**
      * Load the input method information from disk.
      *
      * If it does not exist, use the callback to create the default setup.
      */
     void load(const std::function<void(InputMethodManager &)>
-                  &buildDefaultGroupCallback);
+                  &buildDefaultGroupCallback = {});
 
     /// Reset all the group information to initial state.
     void reset(const std::function<void(InputMethodManager &)>
