@@ -13,48 +13,14 @@
 #include <limits>
 #include <string>
 #include <type_traits>
-
 #include <fcitx-config/marshallfunction.h>
+#include <fcitx-config/option_details.h>
 #include <fcitx-config/optiontypename.h>
 #include <fcitx-config/rawconfig.h>
 
 namespace fcitx {
 
-class Configuration;
-
-class FCITXCONFIG_EXPORT OptionBase {
-public:
-    OptionBase(Configuration *parent, std::string path,
-               std::string description);
-    virtual ~OptionBase();
-
-    const std::string &path() const;
-    const std::string &description() const;
-    virtual std::string typeString() const = 0;
-    virtual void reset() = 0;
-    virtual bool isDefault() const = 0;
-
-    virtual void marshall(RawConfig &config) const = 0;
-    virtual bool unmarshall(const RawConfig &config, bool partial) = 0;
-    virtual std::unique_ptr<Configuration> subConfigSkeleton() const = 0;
-
-    virtual bool equalTo(const OptionBase &other) const = 0;
-    virtual void copyFrom(const OptionBase &other) = 0;
-    bool operator==(const OptionBase &other) const { return equalTo(other); }
-    bool operator!=(const OptionBase &other) const {
-        return !operator==(other);
-    }
-
-    virtual bool skipDescription() const = 0;
-    virtual bool skipSave() const = 0;
-    virtual void dumpDescription(RawConfig &config) const;
-
-private:
-    Configuration *parent_;
-    std::string path_;
-    std::string description_;
-};
-
+/// An option that launches external tool.
 class FCITXCONFIG_EXPORT ExternalOption : public OptionBase {
 public:
     ExternalOption(Configuration *parent, std::string path,
@@ -79,6 +45,7 @@ private:
     std::string externalUri_;
 };
 
+/// Default Constrain with no actual constrain.
 template <typename T>
 struct NoConstrain {
     using Type = T;
@@ -86,12 +53,14 @@ struct NoConstrain {
     void dumpDescription(RawConfig &) const {}
 };
 
+/// Default Annotation with no options.
 struct NoAnnotation {
     bool skipDescription() { return false; }
     bool skipSave() { return false; }
     void dumpDescription(RawConfig &) const {}
 };
 
+/// Annotation to display a tooltip in configtool.
 struct ToolTipAnnotation {
     ToolTipAnnotation(std::string tooltip) : tooltip_(std::move(tooltip)) {}
 
@@ -105,7 +74,9 @@ private:
     std::string tooltip_;
 };
 
-// Annotation to be used against String type.
+/**
+ * Annotation to be used against String type to indicate this is a Font.
+ */
 struct FontAnnotation {
     bool skipDescription() { return false; }
     bool skipSave() { return false; }
@@ -114,10 +85,12 @@ struct FontAnnotation {
     }
 };
 
-// Annotation to be used against String type, for those type of string
-// that should shown as a combobox, but the value is run time based.
-// User of this annotation should take a sub class of it and set
-// Enum/n, and EnumI18n/n correspondingly.
+/**
+ * Annotation to be used against String type, for those type of string
+ * that should shown as a combobox, but the value is run time based.
+ * User of this annotation should take a sub class of it and set
+ * Enum/n, and EnumI18n/n correspondingly.
+ */
 struct EnumAnnotation {
     bool skipDescription() { return false; }
     bool skipSave() { return false; }
@@ -126,12 +99,22 @@ struct EnumAnnotation {
     }
 };
 
+/**
+ * Option that will not shown in UI.
+ *
+ * You may want to use HiddenOption instead.
+ *
+ * @see HiddenOption
+ */
 struct HideInDescription {
     bool skipDescription() { return true; }
     bool skipSave() { return false; }
     void dumpDescription(RawConfig &) const {}
 };
 
+/**
+ * List Constrain that applies the constrain to all element.
+ */
 template <typename SubConstrain>
 struct ListConstrain {
     ListConstrain(SubConstrain sub = SubConstrain()) : sub_(std::move(sub)) {}
@@ -152,6 +135,7 @@ private:
     SubConstrain sub_;
 };
 
+/// Integer type constrain with a lower and a upper bound.
 class IntConstrain {
 public:
     using Type = int;
@@ -173,13 +157,17 @@ private:
     int max_;
 };
 
+/// Key option constrain flag.
 enum class KeyConstrainFlag {
+    /// The key can be modifier only, like Control_L.
     AllowModifierOnly = (1 << 0),
+    /// The key can be modifier less (Key that usually produce character).
     AllowModifierLess = (1 << 1),
 };
 
 using KeyConstrainFlags = Flags<KeyConstrainFlag>;
 
+/// Key option constrain.
 class KeyConstrain {
 public:
     using Type = Key;
@@ -212,6 +200,7 @@ private:
     KeyConstrainFlags flags_;
 };
 
+/// Default marshaller that write the config RawConfig.
 template <typename T>
 struct DefaultMarshaller {
     virtual void marshall(RawConfig &config, const T &value) const {
@@ -223,40 +212,7 @@ struct DefaultMarshaller {
     }
 };
 
-template <typename T>
-struct RemoveVector {
-    typedef T type;
-};
-
-template <typename T>
-struct RemoveVector<std::vector<T>> {
-    typedef typename RemoveVector<T>::type type;
-};
-
-template <typename T, typename = void>
-struct ExtractSubConfig {
-    static std::unique_ptr<Configuration> get() { return nullptr; }
-};
-
-template <typename T>
-struct ExtractSubConfig<std::vector<T>> {
-    static std::unique_ptr<Configuration> get() {
-        return ExtractSubConfig<T>::get();
-    }
-};
-
-template <typename T>
-struct ExtractSubConfig<
-    T,
-    typename std::enable_if<std::is_base_of<Configuration, T>::value>::type> {
-    static std::unique_ptr<Configuration> get() {
-        return std::make_unique<T>();
-    }
-};
-
-template <typename T>
-void dumpDescriptionHelper(RawConfig &, T *) {}
-
+/// A helper class provide writing ability to option value.
 template <typename OptionType>
 class MutableOption {
 public:
@@ -290,10 +246,14 @@ private:
     value_type value_;
 };
 
+/**
+ * Represent a Configuration option.
+ *
+ */
 template <typename T, typename Constrain = NoConstrain<T>,
           typename Marshaller = DefaultMarshaller<T>,
           typename Annotation = NoAnnotation>
-class Option : public OptionBase {
+class Option : public OptionBaseV2 {
 public:
     using value_type = T;
     using constrain_type = Constrain;
@@ -302,7 +262,7 @@ public:
            const T &defaultValue = T(), Constrain constrain = Constrain(),
            Marshaller marshaller = Marshaller(),
            Annotation annotation = Annotation())
-        : OptionBase(parent, std::move(path), std::move(description)),
+        : OptionBaseV2(parent, std::move(path), std::move(description)),
           defaultValue_(defaultValue), value_(defaultValue),
           marshaller_(marshaller), constrain_(constrain),
           annotation_(annotation) {
@@ -327,7 +287,17 @@ public:
     }
 
     std::unique_ptr<Configuration> subConfigSkeleton() const override {
-        return ExtractSubConfig<T>::get();
+        if constexpr (std::is_base_of_v<Configuration, T>) {
+            auto skeleton = std::make_unique<T>(defaultValue_);
+            skeleton->syncDefaultValueToCurrent();
+            return skeleton;
+        }
+        if constexpr (std::is_base_of_v<Configuration,
+                                        typename RemoveVector<T>::type>) {
+            return std::make_unique<typename RemoveVector<T>::type>();
+        }
+
+        return nullptr;
     }
 
     bool isDefault() const override { return defaultValue_ == value_; }
@@ -393,6 +363,14 @@ public:
 
     bool skipSave() const override { return annotation_.skipSave(); }
 
+    void syncDefaultValueToCurrent() override {
+        defaultValue_ = value_;
+        if constexpr (std::is_base_of_v<Configuration, T>) {
+            value_.syncDefaultValueToCurrent();
+            defaultValue_.syncDefaultValueToCurrent();
+        }
+    }
+
     auto &annotation() const { return annotation_; }
 
 private:
@@ -403,18 +381,22 @@ private:
     mutable Annotation annotation_;
 };
 
+/// Shorthand if you want a option type with only custom annotation.
 template <typename T, typename Annotation>
 using OptionWithAnnotation =
     Option<T, NoConstrain<T>, DefaultMarshaller<T>, Annotation>;
 
+/// Shorthand for KeyList option with constrain.
 using KeyListOption = Option<KeyList, ListConstrain<KeyConstrain>,
                              DefaultMarshaller<KeyList>, NoAnnotation>;
 
+/// Shorthand for create a key list constrain.
 static inline ListConstrain<KeyConstrain>
 KeyListConstrain(KeyConstrainFlags flags = KeyConstrainFlags()) {
     return ListConstrain<KeyConstrain>(KeyConstrain(flags));
 }
 
+/// Shorthand for option that will not show in UI.
 template <typename T>
 using HiddenOption = OptionWithAnnotation<T, HideInDescription>;
 } // namespace fcitx

@@ -10,6 +10,7 @@
 #include "configuration.h"
 
 namespace fcitx {
+
 OptionBase::OptionBase(Configuration *parent, std::string path,
                        std::string description)
     : parent_(parent), path_(std::move(path)),

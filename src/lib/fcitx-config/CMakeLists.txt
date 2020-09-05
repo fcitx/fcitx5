@@ -10,6 +10,7 @@ set(FCITX_CONFIG_SOURCES
 set(FCITX_CONFIG_HEADERS
     rawconfig.h
     option.h
+    option_details.h
     configuration.h
     marshallfunction.h
     iniparser.h
