@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2020-09-03 00:01-0700\n"
+"POT-Creation-Date: 2020-09-06 00:01-0700\n"
 "PO-Revision-Date: 2017-11-23 04:14+0000\n"
 "Last-Translator: csslayer <wengxt@gmail.com>, 2020\n"
 "Language-Team: Chinese (China) (https://www.transifex.com/fcitx/teams/12005/"
@@ -21,6 +21,34 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
+#: data/fcitx5-diagnose.sh:865
+msgid "${1} Environment Variables:"
+msgstr ""
+
+#: data/fcitx5-diagnose.sh:851
+msgid "${1} Settings Directory:"
+msgstr ""
+
+#: data/fcitx5-diagnose.sh:925
+msgid "${1} is not running."
+msgstr ""
+
+#: data/fcitx5-diagnose.sh:874
+msgid "${1} is not set."
+msgstr ""
+
+#: data/fcitx5-diagnose.sh:871
+msgid "${1} is set to ${2}."
+msgstr ""
+
+#: data/fcitx5-diagnose.sh:533
+msgid "${1} not found."
+msgstr ""
+
+#: data/fcitx5-diagnose.sh:942
+msgid "${1} works properly."
+msgstr ""
+
 #: src/lib/fcitx/instance.cpp:1954
 msgid "(Not available)"
 msgstr "(不可用)"
@@ -28,6 +56,26 @@ msgstr "(不可用)"
 #: src/modules/unicode/unicode.cpp:323
 msgid "(Type to search unicode by code or description)"
 msgstr "(输入编码或者描述来搜索 Unicode 字符)"
+
+#: data/fcitx5-diagnose.sh:675
+msgid "/Beginner%27s_Guide"
+msgstr ""
+
+#: data/fcitx5-diagnose.sh:722
+msgid "/Hall_of_Shame_for_Linux_IME_Support"
+msgstr ""
+
+#: data/fcitx5-diagnose.sh:686
+msgid "/Input_method_related_environment_variables"
+msgstr ""
+
+#: data/fcitx5-diagnose.sh:702
+msgid "/Note_for_GNOME_Later_than_3.6"
+msgstr ""
+
+#: data/fcitx5-diagnose.sh:726
+msgid "/XIM"
+msgstr ""
 
 #: src/modules/unicode/charselectdata.cpp:208
 msgid "<Low Surrogate>"
@@ -66,10 +114,34 @@ msgstr "添加收藏"
 msgid "Add Unicode Typing Support"
 msgstr "添加 Unicode 输入支持"
 
+#: data/fcitx5-diagnose.sh:1473
+msgid "Addon Config Dir:"
+msgstr ""
+
+#: data/fcitx5-diagnose.sh:1541
+msgid "Addon Libraries:"
+msgstr ""
+
+#: data/fcitx5-diagnose.sh:1497
+msgid "Addon List:"
+msgstr ""
+
 #: src/lib/fcitx-utils/key.cpp:111
 msgctxt "Key name"
 msgid "Adjust Brightness"
 msgstr "调整亮度"
+
+#: data/fcitx5-diagnose.sh:1291
+msgid "All found Gtk ${1} immodule files exist."
+msgstr ""
+
+#: data/fcitx5-diagnose.sh:1567
+msgid "All libraries for all addons are found."
+msgstr ""
+
+#: data/fcitx5-diagnose.sh:819
+msgid "All locale:"
+msgstr ""
 
 #: src/modules/xcb/xcbmodule.h:30
 msgid "Allow Overriding System XKB Settings"
@@ -129,10 +201,18 @@ msgctxt "Key name"
 msgid "Backspace"
 msgstr "退格"
 
+#: data/fcitx5-diagnose.sh:793
+msgid "Bash Version:"
+msgstr ""
+
 #: src/lib/fcitx-utils/key.cpp:169
 msgctxt "Key name"
 msgid "Battery"
 msgstr "电池"
+
+#: data/fcitx5-diagnose.sh:674
+msgid "Beginner's Guide"
+msgstr ""
 
 #: src/lib/fcitx/globalconfig.cpp:134
 msgid "Behavior"
@@ -172,6 +252,83 @@ msgstr "计算器"
 msgctxt "Key name"
 msgid "Cancel"
 msgstr "取消"
+
+#: data/fcitx5-diagnose.sh:940
+msgid "Cannot connect to ${1} correctly."
+msgstr ""
+
+#: data/fcitx5-diagnose.sh:788
+msgid "Cannot determine desktop environment."
+msgstr ""
+
+#: data/fcitx5-diagnose.sh:1475
+msgid "Cannot find ${1} addon config directory."
+msgstr ""
+
+#: data/fcitx5-diagnose.sh:1060
+msgid "Cannot find ${1} executable!"
+msgstr ""
+
+#: data/fcitx5-diagnose.sh:1440
+msgid "Cannot find ${1} im module for gtk ${2} in cache."
+msgstr ""
+
+#: data/fcitx5-diagnose.sh:1358
+msgid "Cannot find ${1} im module for gtk ${2}."
+msgstr ""
+
+#: data/fcitx5-diagnose.sh:1232 data/fcitx5-diagnose.sh:1237
+msgid "Cannot find ${1} input method module for ${2}."
+msgstr ""
+
+#: data/fcitx5-diagnose.sh:1352
+msgid "Cannot find ${2} for gtk ${1}"
+msgstr ""
+
+#: data/fcitx5-diagnose.sh:960
+msgid "Cannot find DBus name ${1} owner."
+msgstr ""
+
+#: data/fcitx5-diagnose.sh:1070
+msgid "Cannot find a GUI config tool, please install one of ${1}, or ${2}."
+msgstr ""
+
+#: data/fcitx5-diagnose.sh:1570
+msgid "Cannot find enabled ${1} user interface!"
+msgstr ""
+
+#: data/fcitx5-diagnose.sh:903
+msgid "Cannot find fcitx5 executable!"
+msgstr ""
+
+#: data/fcitx5-diagnose.sh:1549
+msgid "Cannot find file ${1} of addon ${2}."
+msgstr ""
+
+#: data/fcitx5-diagnose.sh:1559
+msgid "Cannot find following required libraries for ${1} of addon ${2}."
+msgstr ""
+
+#: data/fcitx5-diagnose.sh:1435
+msgid "Cannot find immodules cache for gtk ${1}"
+msgstr ""
+
+#: data/fcitx5-diagnose.sh:1589
+msgid ""
+"Cannot find kimpanel dbus interface or enabled non-kimpanel user interface."
+msgstr ""
+
+#: data/fcitx5-diagnose.sh:968
+msgid "Cannot find pid of DBus name ${1} owner."
+msgstr ""
+
+#: data/fcitx5-diagnose.sh:1136
+msgid "Cannot find xim_server on root window."
+msgstr ""
+
+#: data/fcitx5-diagnose.sh:1110
+msgid "Cannot interpret XMODIFIERS: ${1}."
+msgstr ""
 
 #: src/lib/fcitx-utils/key.cpp:53
 msgctxt "Key name"
@@ -230,6 +387,34 @@ msgstr "补全已禁用。"
 msgid "Completion is enabled."
 msgstr "补全已启用。"
 
+#: data/fcitx5-diagnose.sh:1012
+msgid "Config GUI for gtk${1} not found."
+msgstr ""
+
+#: data/fcitx5-diagnose.sh:1008
+msgid "Config GUI for gtk${1}:"
+msgstr ""
+
+#: data/fcitx5-diagnose.sh:1042
+msgid "Config GUI for kde:"
+msgstr ""
+
+#: data/fcitx5-diagnose.sh:1031
+msgid "Config GUI for qt not found."
+msgstr ""
+
+#: data/fcitx5-diagnose.sh:1029
+msgid "Config GUI for qt:"
+msgstr ""
+
+#: data/fcitx5-diagnose.sh:1058
+msgid "Config Tool Wrapper:"
+msgstr ""
+
+#: data/fcitx5-diagnose.sh:1731
+msgid "Configuration:"
+msgstr ""
+
 #: src/ui/classic/xcbtraywindow.cpp:40
 #: src/modules/notificationitem/dbusmenu.cpp:257
 msgid "Configure"
@@ -248,6 +433,22 @@ msgstr "Control"
 msgctxt "Key name"
 msgid "Copy"
 msgstr "复制"
+
+#: data/fcitx5-diagnose.sh:853
+msgid "Current ${1} settings directory is ${2} (${3})."
+msgstr ""
+
+#: data/fcitx5-diagnose.sh:821
+msgid "Current locale:"
+msgstr ""
+
+#: data/fcitx5-diagnose.sh:859
+msgid "Current user:"
+msgstr ""
+
+#: data/fcitx5-diagnose.sh:847
+msgid "Current value of ${1} is ${2} (${3})."
+msgstr ""
 
 #: src/modules/spell/spell.h:22
 msgid "Custom"
@@ -269,6 +470,10 @@ msgstr "DBus 前端"
 #: src/modules/notificationitem/notificationitem.conf.in:4
 msgid "DBus based new Freedesktop.org tray icon"
 msgstr "基于 DBus 的新 Freedesktop.org 托盘图标"
+
+#: data/fcitx5-diagnose.sh:948
+msgid "DBus interface:"
+msgstr ""
 
 #: src/lib/fcitx-utils/key.cpp:126
 msgctxt "Key name"
@@ -308,6 +513,18 @@ msgstr "默认页大小"
 msgctxt "Key name"
 msgid "Delete"
 msgstr "删除"
+
+#: data/fcitx5-diagnose.sh:785
+msgid "Desktop Environment:"
+msgstr ""
+
+#: data/fcitx5-diagnose.sh:790
+msgid "Desktop environment is ${1}."
+msgstr ""
+
+#: data/fcitx5-diagnose.sh:833
+msgid "Directories:"
+msgstr ""
 
 #: src/lib/fcitx-utils/key.cpp:125
 msgctxt "Key name"
@@ -392,6 +609,32 @@ msgstr "向前切换输入分组"
 msgid "Enumerate when press trigger key repeatedly"
 msgstr "反复按切换键时进行轮换"
 
+#: data/fcitx5-diagnose.sh:1088
+msgid ""
+"Environment variable ${1} is \"${2}\" instead of \"${3}\". Please check if "
+"you have exported it incorrectly in any of your init files."
+msgstr ""
+
+#: data/fcitx5-diagnose.sh:839
+msgid "Environment variable ${1} is not set."
+msgstr ""
+
+#: data/fcitx5-diagnose.sh:1082
+msgid "Environment variable ${1} is set to \"${2}\" correctly."
+msgstr ""
+
+#: data/fcitx5-diagnose.sh:843
+msgid "Environment variable ${1} is set to ${2}."
+msgstr ""
+
+#: data/fcitx5-diagnose.sh:798
+msgid "Environment:"
+msgstr ""
+
+#: data/fcitx5-diagnose.sh:825
+msgid "Error occurs when running ${1}. Please check your locale settings."
+msgstr ""
+
 #: src/lib/fcitx-utils/key.cpp:196
 msgctxt "Key name"
 msgid "Escape"
@@ -406,6 +649,14 @@ msgstr "执行"
 #: src/modules/notificationitem/dbusmenu.cpp:270
 msgid "Exit"
 msgstr "退出"
+
+#: data/fcitx5-diagnose.sh:1429
+msgid "Failed to find ${1} in immodule cache at ${2}"
+msgstr ""
+
+#: data/fcitx5-diagnose.sh:1346
+msgid "Failed to find ${1} in the output of ${2}"
+msgstr ""
 
 #: src/modules/quickphrase/quickphrase.h:45
 msgid "Fallback Spell check language"
@@ -424,6 +675,22 @@ msgstr "Fcitx 5"
 msgid "Fcitx 5 Configuration"
 msgstr "Fcitx 5 配置"
 
+#: data/fcitx5-diagnose.sh:1472
+msgid "Fcitx Addons:"
+msgstr ""
+
+#: data/fcitx5-diagnose.sh:1057
+msgid "Fcitx Configure UI:"
+msgstr ""
+
+#: data/fcitx5-diagnose.sh:900
+msgid "Fcitx State:"
+msgstr ""
+
+#: data/fcitx5-diagnose.sh:914
+msgid "Fcitx version: ${1}"
+msgstr ""
+
 #: src/lib/fcitx-utils/key.cpp:112
 msgctxt "Key name"
 msgid "Finance"
@@ -439,9 +706,78 @@ msgctxt "Key name"
 msgid "Forward"
 msgstr "向前"
 
+#: data/fcitx5-diagnose.sh:1218 data/fcitx5-diagnose.sh:1221
+msgid "Found ${1} ${2} module: ${3}."
+msgstr ""
+
+#: data/fcitx5-diagnose.sh:934
+msgid "Found ${1} ${2} process:"
+msgstr ""
+
+#: data/fcitx5-diagnose.sh:932
+msgid "Found ${1} ${2} processes:"
+msgstr ""
+
+#: data/fcitx5-diagnose.sh:1491
+msgid "Found ${1} addon config directory: ${2}."
+msgstr ""
+
+#: data/fcitx5-diagnose.sh:909 data/fcitx5-diagnose.sh:1021
+#: data/fcitx5-diagnose.sh:1034 data/fcitx5-diagnose.sh:1062
+msgid "Found ${1} at ${2}."
+msgstr ""
+
+#: data/fcitx5-diagnose.sh:1535
+msgid "Found ${1} disabled addons:"
+msgstr ""
+
+#: data/fcitx5-diagnose.sh:1530
+msgid "Found ${1} enabled addons:"
+msgstr ""
+
+#: data/fcitx5-diagnose.sh:1572
+msgid "Found ${1} enabled user interface addons:"
+msgstr ""
+
+#: data/fcitx5-diagnose.sh:1340 data/fcitx5-diagnose.sh:1423
+msgid "Found ${1} im modules for gtk ${2}."
+msgstr ""
+
+#: data/fcitx5-diagnose.sh:1048
+msgid "Found ${1} kcm module."
+msgstr ""
+
+#: data/fcitx5-diagnose.sh:1332
+msgid "Found ${2} for unknown gtk version at ${1}."
+msgstr ""
+
+#: data/fcitx5-diagnose.sh:1324
+msgid "Found ${3} for gtk ${1} at ${2}."
+msgstr ""
+
+#: data/fcitx5-diagnose.sh:1209 data/fcitx5-diagnose.sh:1214
+msgid "Found ${3} im module for ${2}: ${1}."
+msgstr ""
+
+#: data/fcitx5-diagnose.sh:1416
+msgid "Found immodule cache for unknown gtk version at ${1}."
+msgstr ""
+
+#: data/fcitx5-diagnose.sh:1408
+msgid "Found immodules cache for gtk ${1} at ${2}."
+msgstr ""
+
+#: data/fcitx5-diagnose.sh:1224
+msgid "Found unknown ${1} qt module: ${2}."
+msgstr ""
+
 #: src/modules/notifications/notifications.conf.in:4
 msgid "Freedesktop.org Notification Support"
 msgstr "Freedesktop.org 桌面提示支持"
+
+#: data/fcitx5-diagnose.sh:1724
+msgid "Frontends setup:"
+msgstr ""
 
 #: src/lib/fcitx-utils/key.cpp:130
 msgctxt "Key name"
@@ -470,6 +806,22 @@ msgstr "分组 {0}：{1}"
 #: src/lib/fcitx/instance.cpp:566
 msgid "Group {}"
 msgstr "分组 {}"
+
+#: data/fcitx5-diagnose.sh:1285
+msgid "Gtk ${1} immodule file ${2} does not exist."
+msgstr ""
+
+#: data/fcitx5-diagnose.sh:1453
+msgid "Gtk IM module cache:"
+msgstr ""
+
+#: data/fcitx5-diagnose.sh:1458
+msgid "Gtk IM module files:"
+msgstr ""
+
+#: data/fcitx5-diagnose.sh:721
+msgid "Hall of Shame for Linux IME Support"
+msgstr ""
 
 #: src/lib/fcitx-utils/key.cpp:218
 msgctxt "Key name"
@@ -580,6 +932,10 @@ msgctxt "Key name"
 msgid "Home Page"
 msgstr "主页"
 
+#: data/fcitx5-diagnose.sh:835
+msgid "Home:"
+msgstr ""
+
 #: src/lib/fcitx-utils/key.cpp:110
 msgctxt "Key name"
 msgid "Hot Links"
@@ -598,6 +954,20 @@ msgstr "Hyper"
 msgid "IBus Frontend"
 msgstr "IBus 前端"
 
+#: data/fcitx5-diagnose.sh:710
+msgid ""
+"If you are using ${1}, you may want to uninstall ${2} or remove ${3} in "
+"order to use any input method other than ${2}. See ${link} for more detail "
+"as well as alternative solutions."
+msgstr ""
+
+#: data/fcitx5-diagnose.sh:708
+msgid ""
+"If you are using ${1}, you may want to uninstall ${2}, remove ${3} or use "
+"the command ${g36_disable_ibus} to disable IBus integration in order to use "
+"any input method other than ${2}. See ${link} for more detail."
+msgstr ""
+
 #: src/lib/fcitx/instance.cpp:635 src/lib/fcitx/instance.cpp:805
 #: src/im/keyboard/keyboard.cpp:357 src/ui/classic/xcbtraywindow.cpp:38
 #: src/modules/xcb/xcbconnection.cpp:388
@@ -611,6 +981,10 @@ msgstr "输入法"
 msgid "Input Method Configuration"
 msgstr "输入法配置"
 
+#: data/fcitx5-diagnose.sh:685
+msgid "Input Method Related Environment Variables: "
+msgstr ""
+
 #: src/modules/imselector/imselector.conf.in:3
 msgid "Input method selector"
 msgstr "输入法选择器"
@@ -619,6 +993,10 @@ msgstr "输入法选择器"
 msgctxt "Key name"
 msgid "Insert"
 msgstr "插入"
+
+#: data/fcitx5-diagnose.sh:1503
+msgid "Invalid addon config file ${1}."
+msgstr ""
 
 #: src/ui/kimpanel/kimpanel.conf.in:3
 msgid "KDE Input Method Panel"
@@ -666,6 +1044,10 @@ msgctxt "Key name"
 msgid "Keyboard Brightness Up"
 msgstr "增加键盘背光亮度"
 
+#: data/fcitx5-diagnose.sh:801
+msgid "Keyboard Layout:"
+msgstr ""
+
 #: src/lib/fcitx-utils/key.cpp:96
 msgctxt "Key name"
 msgid "Keyboard Light On/Off"
@@ -675,6 +1057,10 @@ msgstr "键盘背光开关"
 msgctxt "Key name"
 msgid "Keyboard Menu"
 msgstr "键盘菜单"
+
+#: data/fcitx5-diagnose.sh:1581
+msgid "Kimpanel process:"
+msgstr ""
 
 #: src/lib/fcitx-utils/key.cpp:77
 msgctxt "Key name"
@@ -795,6 +1181,14 @@ msgstr "左 Super"
 msgctxt "Key name"
 msgid "LightBulb"
 msgstr "灯泡"
+
+#: data/fcitx5-diagnose.sh:816
+msgid "Locale:"
+msgstr ""
+
+#: data/fcitx5-diagnose.sh:1737
+msgid "Log:"
+msgstr ""
 
 #: src/lib/fcitx-utils/key.cpp:133
 msgctxt "Key name"
@@ -937,6 +1331,10 @@ msgstr "无"
 msgid "Not available"
 msgstr "不可用"
 
+#: data/fcitx5-diagnose.sh:701
+msgid "Note for GNOME Later than 3.6"
+msgstr ""
+
 #: src/modules/notifications/notifications.conf.in:3
 msgid "Notification"
 msgstr "提示"
@@ -967,6 +1365,14 @@ msgstr "打开 URL"
 msgctxt "Key name"
 msgid "Option"
 msgstr "选项"
+
+#: data/fcitx5-diagnose.sh:956
+msgid "Owner of DBus name ${1} is ${2}."
+msgstr ""
+
+#: data/fcitx5-diagnose.sh:964
+msgid "PID of DBus name ${1} owner is ${2}."
+msgstr ""
 
 #: src/im/keyboard/keyboard.h:37
 msgid "Page size"
@@ -1001,6 +1407,22 @@ msgstr "电话"
 msgctxt "Key name"
 msgid "Pictures"
 msgstr "图片"
+
+#: data/fcitx5-diagnose.sh:905
+msgid "Please check ${1} for how to install fcitx5."
+msgstr ""
+
+#: data/fcitx5-diagnose.sh:927
+msgid ""
+"Please check the Configure link of your distribution in ${1} for how to "
+"setup ${2} autostart."
+msgstr ""
+
+#: data/fcitx5-diagnose.sh:682
+msgid ""
+"Please set environment variable ${env_name} to \"${value}\" using the tool "
+"your distribution provides or add ${1} to your ${2}. See ${link}."
+msgstr ""
 
 #: src/lib/fcitx-utils/key.cpp:181
 msgctxt "Key name"
@@ -1045,6 +1467,10 @@ msgstr "截屏"
 #: src/modules/spell/spell.h:38
 msgid "Providers"
 msgstr "提供者"
+
+#: data/fcitx5-diagnose.sh:1202
+msgid "Qt IM module files:"
+msgstr ""
 
 #: src/modules/quickphrase/quickphrase.conf.in:3
 msgid "Quick Phrase"
@@ -1138,6 +1564,10 @@ msgstr "Rotation KB"
 msgctxt "Key name"
 msgid "Rotation PB"
 msgstr "Rotation PB"
+
+#: data/fcitx5-diagnose.sh:881
+msgid "Running as root:"
+msgstr ""
 
 #: src/lib/fcitx-utils/key.cpp:149
 msgctxt "Key name"
@@ -1286,6 +1716,10 @@ msgstr "切换到分组 {0}"
 msgid "Switched group to {0}"
 msgstr "已切换到分组 {0}"
 
+#: data/fcitx5-diagnose.sh:757
+msgid "System Info:"
+msgstr ""
+
 #: src/lib/fcitx-utils/key.cpp:197
 msgctxt "Key name"
 msgid "System Request"
@@ -1310,6 +1744,10 @@ msgctxt "Key name"
 msgid "Terminal"
 msgstr "终端"
 
+#: data/fcitx5-diagnose.sh:860
+msgid "The script is run as ${1} (${2})."
+msgstr ""
+
 #: src/ui/classic/classicui.h:81
 msgid "Theme"
 msgstr "主题"
@@ -1318,6 +1756,14 @@ msgstr "主题"
 msgctxt "Key name"
 msgid "Time"
 msgstr "时间"
+
+#: data/fcitx5-diagnose.sh:718
+#, sh-format
+msgid ""
+"To see some application specific problems you may have when using xim, check "
+"${link1}. For other more general problems of using XIM including application "
+"freezing, see ${link2}."
+msgstr ""
 
 #: src/lib/fcitx/globalconfig.cpp:107
 msgid "Toggle embedded preedit"
@@ -1374,6 +1820,10 @@ msgstr "当前输入上下文的触发键"
 msgid "Trigger hint mode"
 msgstr "切换提示模式"
 
+#: data/fcitx5-diagnose.sh:972
+msgid "Unable to find a program to check dbus."
+msgstr ""
+
 #: src/lib/fcitx-utils/key.cpp:191
 msgctxt "Key name"
 msgid "Undo"
@@ -1403,6 +1853,18 @@ msgstr "按屏幕 DPI 使用"
 #: src/ui/classic/classicui.h:75
 msgid "Use mouse wheel to go to prev or next page"
 msgstr "使用鼠标滚轮翻页"
+
+#: data/fcitx5-diagnose.sh:1568
+msgid "User Interface:"
+msgstr ""
+
+#: data/fcitx5-diagnose.sh:951
+msgid "Using ${1} to check dbus."
+msgstr ""
+
+#: data/fcitx5-diagnose.sh:1329 data/fcitx5-diagnose.sh:1412
+msgid "Version Line:"
+msgstr ""
 
 #: src/ui/classic/classicui.h:70
 msgid "Vertical Candidate List"
@@ -1456,6 +1918,10 @@ msgctxt "Key name"
 msgid "WebCam"
 msgstr "摄像头"
 
+#: data/fcitx5-diagnose.sh:891
+msgid "Why is it bad to run as root"
+msgstr ""
+
 #: src/lib/fcitx-utils/key.cpp:171
 msgctxt "Key name"
 msgid "Wireless"
@@ -1479,10 +1945,61 @@ msgctxt "Key name"
 msgid "XFer"
 msgstr "XFer"
 
+#: data/fcitx5-diagnose.sh:1149
+msgid "XIM encoding:"
+msgstr ""
+
+#: data/fcitx5-diagnose.sh:1144
+msgid "XIM for Emacs:"
+msgstr ""
+
+#: data/fcitx5-diagnose.sh:1120
+msgid "XIM_SERVERS on root window:"
+msgstr ""
+
+#: data/fcitx5-diagnose.sh:1097
+msgid "XMODIFIERS is not set"
+msgstr ""
+
+#: data/fcitx5-diagnose.sh:1118
+msgid "Xim Server Name from Environment variable is ${1}."
+msgstr ""
+
+#: data/fcitx5-diagnose.sh:1130
+msgid "Xim server name is the same with that set in the environment variable."
+msgstr ""
+
+#: data/fcitx5-diagnose.sh:1132
+msgid ""
+"Xim server name: \"${1}\" is different from that set in the environment "
+"variable: \"${2}\"."
+msgstr ""
+
 #: src/lib/fcitx-utils/key.cpp:186
 msgctxt "Key name"
 msgid "Yellow"
 msgstr "黄"
+
+#: data/fcitx5-diagnose.sh:889
+msgid ""
+"You are probably logging in as ${1} or using ${2} to run this script. This "
+"either means you have security problems or the result of this script may not "
+"be accurate. See ${3} or ${4} for more information."
+msgstr ""
+
+#: data/fcitx5-diagnose.sh:884
+msgid ""
+"You are probably using ${1} to run this script. This means the result of "
+"this script may not be accurate. See ${2} for more information."
+msgstr ""
+
+#: data/fcitx5-diagnose.sh:1171
+msgid "You are using xim in ${1} programs."
+msgstr ""
+
+#: data/fcitx5-diagnose.sh:1176
+msgid "You may have trouble using fcitx in ${1} programs."
+msgstr ""
 
 #: data/fcitx5-configtool.sh:131
 msgid ""
@@ -1500,6 +2017,19 @@ msgid ""
 msgstr ""
 "您正在运行 KDE，但是 fcitx 的 KCModule 未被找到，此 KCModule 的软件包名通常"
 "为 kcm-fcitx 或 kde-config-fcitx。现在将打开配置目录。"
+
+#: data/fcitx5-diagnose.sh:1146
+msgid ""
+"Your LC_CTYPE is set to ${1} instead of one of zh, ja, ko. You may not be "
+"able to use input method in emacs because of an really old emacs bug that "
+"upstream refuse to fix for years."
+msgstr ""
+
+#: data/fcitx5-diagnose.sh:1151
+msgid ""
+"Your LC_CTYPE is set to ${1} whose encoding is not UTF-8. You may have "
+"trouble committing strings using XIM."
+msgstr ""
 
 #: src/lib/fcitx-utils/key.cpp:206
 msgctxt "Key name"
@@ -1521,10 +2051,30 @@ msgctxt "Key name"
 msgid "Zoom Out"
 msgstr "缩小"
 
+#: data/fcitx5-diagnose.sh:901
+msgid "executable:"
+msgstr ""
+
+#: data/fcitx5-diagnose.sh:725
+msgid "here"
+msgstr ""
+
 #: src/lib/fcitx-utils/key.cpp:132
 msgctxt "Key name"
 msgid "iTouch"
 msgstr "iTouch"
+
+#: data/fcitx5-diagnose.sh:915
+msgid "process:"
+msgstr ""
+
+#: data/fcitx5-diagnose.sh:886 data/fcitx5-diagnose.sh:892
+msgid "sudo environment variables"
+msgstr ""
+
+#: data/fcitx5-diagnose.sh:911
+msgid "version:"
+msgstr ""
 
 #: src/im/keyboard/keyboard.cpp:240
 msgid "{0} (Not Available)"
