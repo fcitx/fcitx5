@@ -73,6 +73,22 @@ public:
         return check(Key(sym, states));
     }
 
+    /**
+     * Check if current key is a key release of given modifier only key.
+     *
+     * This is a very specialized check for modifier release case.
+     * And it's designed to handle modifier only key.
+     *
+     * For example, if Alt+Shift_L is pressed, then the following release key of
+     * this event can be either: Alt+Shift+Shift_L, or Alt+Shift+Meta_{L,R}.
+     * This is because: Alt -> Meta_{L,R}, if alt is released first, then it
+     * will produce Alt+Shift+Meta_{L,R}. If shift is released first, then it
+     * will produce Alt+Shift+Shift_L.
+     *
+     * Return false if key is not a modifier.
+     */
+    bool isReleaseOfModifier(const Key &key) const;
+
     /// Check if key is digit key.
     bool isDigit() const;
 
@@ -169,7 +185,7 @@ public:
     /// Check the current key against a key list.
     /// \see fcitx::Key::check
     template <typename Container>
-    bool checkKeyList(const Container &c) {
+    bool checkKeyList(const Container &c) const {
         return std::find_if(c.begin(), c.end(), [this](const Key &toCheck) {
                    return check(toCheck);
                }) != c.end();
@@ -179,7 +195,7 @@ public:
     /// \return Returns the matched key index or -1 if there is no match.
     /// \see fcitx::Key::check
     template <typename Container>
-    int keyListIndex(const Container &c) {
+    int keyListIndex(const Container &c) const {
         size_t idx = 0;
         for (auto &toCheck : c) {
             if (check(toCheck)) {

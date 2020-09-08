@@ -59,6 +59,14 @@ int main() {
     FCITX_ASSERT(fcitx::Key("").sym() == FcitxKey_None);
     FCITX_ASSERT(fcitx::Key("-").sym() == FcitxKey_minus);
     FCITX_ASSERT(fcitx::Key("`").sym() == FcitxKey_grave);
+    FCITX_ASSERT(fcitx::Key("Alt+Shift+Shift_L")
+                     .isReleaseOfModifier(fcitx::Key("Alt+Shift_L")));
+    FCITX_ASSERT(fcitx::Key("Alt+Shift+Meta_L")
+                     .isReleaseOfModifier(fcitx::Key("Alt+Shift_L")));
+    FCITX_ASSERT(fcitx::Key("Alt+Shift+Meta_R")
+                     .isReleaseOfModifier(fcitx::Key("Alt+Shift_L")));
+    FCITX_ASSERT(!fcitx::Key("Shift+Shift_L")
+                      .isReleaseOfModifier(fcitx::Key("Alt+Shift_L")));
 
     // Test complex parse
     auto keyList = fcitx::Key::keyListFromString(

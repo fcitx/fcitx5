@@ -115,7 +115,7 @@ struct InputState : public InputContextProperty {
             xkb_compose_state_reset(xkbComposeState_.get());
         }
         keyReleased_ = -1;
-        keyReleasedIndex_ = -2;
+        lastKeyPressed_ = Key();
         totallyReleased_ = true;
     }
 
@@ -151,8 +151,7 @@ struct InputState : public InputContextProperty {
     void setLocalIM(const std::string &localIM);
 
     int keyReleased_ = -1;
-    // We use -2 to make sure -2 != -1 (From keyListIndex)
-    int keyReleasedIndex_ = -2;
+    Key lastKeyPressed_;
     bool totallyReleased_ = true;
     bool firstTrigger_ = false;
 
@@ -738,10 +737,10 @@ Instance::Instance(int argc, char **argv) {
 
             auto *inputState = ic->propertyFor(&d->inputStateFactory_);
             int keyReleased = inputState->keyReleased_;
-            int keyReleasedIndex = inputState->keyReleasedIndex_;
+            Key lastKeyPressed = inputState->lastKeyPressed_;
             // Keep these two values, and reset them in the state
             inputState->keyReleased_ = -1;
-            inputState->keyReleasedIndex_ = -2;
+            inputState->lastKeyPressed_ = Key();
             const bool isModifier = keyEvent.origKey().isModifier();
             if (keyEvent.isRelease()) {
                 int idx = 0;
@@ -752,8 +751,8 @@ Instance::Instance(int argc, char **argv) {
                 }
                 for (auto &keyHandler : keyHandlers) {
                     if (keyReleased == idx &&
-                        keyReleasedIndex ==
-                            keyEvent.origKey().keyListIndex(keyHandler.list) &&
+                        keyEvent.origKey().isReleaseOfModifier(
+                            lastKeyPressed) &&
                         keyHandler.check()) {
                         if (isModifier) {
                             keyHandler.trigger(inputState->totallyReleased_);
@@ -774,7 +773,7 @@ Instance::Instance(int argc, char **argv) {
                         keyEvent.origKey().keyListIndex(keyHandler.list);
                     if (keyIdx >= 0 && keyHandler.check()) {
                         inputState->keyReleased_ = idx;
-                        inputState->keyReleasedIndex_ = keyIdx;
+                        inputState->lastKeyPressed_ = keyEvent.origKey();
                         if (isModifier) {
                             // don't forward to input method, but make it pass
                             // through to client.
