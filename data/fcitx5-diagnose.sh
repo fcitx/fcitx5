@@ -1592,6 +1592,7 @@ check_modules() {
 }
 
 check_input_methods() {
+    return
     # TODO
     # write_title 2 "$(_ 'Input Methods:')"
     # local IFS=','
