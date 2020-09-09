@@ -1647,6 +1647,7 @@ check_input_methods() {
     #         fi
     #         ;;
     # esac
+    true
 }
 
 
