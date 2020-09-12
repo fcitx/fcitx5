@@ -161,11 +161,12 @@ void InputContext::setCursorRect(Rect rect) { setCursorRect(rect, 1.0); }
 
 void InputContext::setCursorRect(Rect rect, double scale) {
     FCITX_D();
-    if (d->cursorRect_ != rect && d->scale_ != scale) {
-        d->cursorRect_ = rect;
-        d->scale_ = scale;
-        d->emplaceEvent<CursorRectChangedEvent>(this);
+    if (d->cursorRect_ == rect && d->scale_ == scale) {
+        return;
     }
+    d->cursorRect_ = rect;
+    d->scale_ = scale;
+    d->emplaceEvent<CursorRectChangedEvent>(this);
 }
 
 void InputContext::setFocusGroup(FocusGroup *group) {

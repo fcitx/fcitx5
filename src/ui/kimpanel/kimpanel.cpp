@@ -26,7 +26,7 @@
 namespace fcitx {
 
 enum class CursorRectMethod {
-    SetCursorRect,
+    SetSpotRect,
     SetRelativeSpotRect,
     SetRelativeSpotRectV2
 };
@@ -51,8 +51,8 @@ public:
     void updateCursor(InputContext *inputContext, CursorRectMethod method) {
         const char *name = nullptr;
         switch (method) {
-        case CursorRectMethod::SetCursorRect:
-            name = "SetCursorRect";
+        case CursorRectMethod::SetSpotRect:
+            name = "SetSpotRect";
             break;
         case CursorRectMethod::SetRelativeSpotRect:
             name = "SetRelativeSpotRect";
@@ -64,7 +64,6 @@ public:
         if (!name) {
             return;
         }
-
         auto msg = bus_->createMethodCall("org.kde.impanel", "/org/kde/impanel",
                                           "org.kde.impanel2", name);
 
@@ -198,7 +197,7 @@ void Kimpanel::resume() {
         auto &icEvent = static_cast<InputContextEvent &>(event);
         auto *inputContext = icEvent.inputContext();
         if (inputContext->hasFocus()) {
-            CursorRectMethod method = CursorRectMethod::SetCursorRect;
+            CursorRectMethod method = CursorRectMethod::SetSpotRect;
             if (inputContext->capabilityFlags().test(
                     CapabilityFlag::RelativeRect)) {
                 if (hasRelativeV2_) {
