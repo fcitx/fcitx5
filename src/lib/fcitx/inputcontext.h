@@ -73,6 +73,9 @@ public:
     /// Returns the cursor position of the client.
     const Rect &cursorRect() const;
 
+    /// Return the client scale factor.
+    double scaleFactor() const;
+
     // Following functions should only be called by Frontend.
     // Calling following most of folloing functions will generate a
     // corresponding InputContextEvent.
@@ -119,6 +122,9 @@ public:
 
     /// Update the current cursor rect of the input context.
     void setCursorRect(Rect rect);
+
+    /// Update the client rect with scale factor.
+    void setCursorRect(Rect rect, double scale);
 
     /// Send a key event to current input context.
     bool keyEvent(KeyEvent &event);

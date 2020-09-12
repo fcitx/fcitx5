@@ -64,6 +64,11 @@ const Rect &InputContext::cursorRect() const {
     return d->cursorRect_;
 }
 
+double InputContext::scaleFactor() const {
+    FCITX_D();
+    return d->scale_;
+}
+
 InputContextProperty *InputContext::property(const std::string &name) {
     FCITX_D();
     auto *factory = d->manager_.factoryForName(name);
@@ -152,10 +157,13 @@ bool InputContext::isPreeditEnabled() const {
     return d->isPreeditEnabled_;
 }
 
-void InputContext::setCursorRect(Rect rect) {
+void InputContext::setCursorRect(Rect rect) { setCursorRect(rect, 1.0); }
+
+void InputContext::setCursorRect(Rect rect, double scale) {
     FCITX_D();
-    if (d->cursorRect_ != rect) {
+    if (d->cursorRect_ != rect && d->scale_ != scale) {
         d->cursorRect_ = rect;
+        d->scale_ = scale;
         d->emplaceEvent<CursorRectChangedEvent>(this);
     }
 }

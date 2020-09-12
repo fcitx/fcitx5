@@ -25,6 +25,12 @@
 
 namespace fcitx {
 
+enum class CursorRectMethod {
+    SetCursorRect,
+    SetRelativeSpotRect,
+    SetRelativeSpotRectV2
+};
+
 class KimpanelProxy : public dbus::ObjectVTable<KimpanelProxy> {
 
 public:
@@ -42,11 +48,25 @@ public:
                   return true;
               })) {}
 
-    void updateCursor(InputContext *inputContext, bool useRelative) {
+    void updateCursor(InputContext *inputContext, CursorRectMethod method) {
+        const char *name = nullptr;
+        switch (method) {
+        case CursorRectMethod::SetCursorRect:
+            name = "SetCursorRect";
+            break;
+        case CursorRectMethod::SetRelativeSpotRect:
+            name = "SetRelativeSpotRect";
+            break;
+        case CursorRectMethod::SetRelativeSpotRectV2:
+            name = "SetRelativeSpotRectV2";
+            break;
+        }
+        if (!name) {
+            return;
+        }
 
-        auto msg = bus_->createMethodCall(
-            "org.kde.impanel", "/org/kde/impanel", "org.kde.impanel2",
-            useRelative ? "SetRelativeSpotRect" : "SetSpotRect");
+        auto msg = bus_->createMethodCall("org.kde.impanel", "/org/kde/impanel",
+                                          "org.kde.impanel2", name);
 
         int32_t x = inputContext->cursorRect().left(),
                 y = inputContext->cursorRect().top(),
@@ -54,6 +74,9 @@ public:
                 h = inputContext->cursorRect().height();
 
         msg << x << y << w << h;
+        if (method == CursorRectMethod::SetRelativeSpotRectV2) {
+            msg << inputContext->scaleFactor();
+        }
         msg.send();
     }
 
@@ -99,6 +122,7 @@ void Kimpanel::suspend() {
     proxy_.reset();
     bus_->releaseName("org.kde.kimpanel.inputmethod");
     hasRelative_ = false;
+    hasRelativeV2_ = false;
 }
 
 void Kimpanel::registerAllProperties(InputContext *ic) {
@@ -159,6 +183,9 @@ void Kimpanel::resume() {
                 if (s.find("SetRelativeSpotRect") != std::string::npos) {
                     hasRelative_ = true;
                 }
+                if (s.find("SetRelativeSpotRectV2") != std::string::npos) {
+                    hasRelativeV2_ = true;
+                }
             }
             return true;
         });
@@ -171,10 +198,16 @@ void Kimpanel::resume() {
         auto &icEvent = static_cast<InputContextEvent &>(event);
         auto *inputContext = icEvent.inputContext();
         if (inputContext->hasFocus()) {
-            bool useRelative =
-                hasRelative_ && inputContext->capabilityFlags().test(
-                                    CapabilityFlag::RelativeRect);
-            proxy_->updateCursor(inputContext, useRelative);
+            CursorRectMethod method = CursorRectMethod::SetCursorRect;
+            if (inputContext->capabilityFlags().test(
+                    CapabilityFlag::RelativeRect)) {
+                if (hasRelativeV2_) {
+                    method = CursorRectMethod::SetRelativeSpotRectV2;
+                } else if (hasRelative_) {
+                    method = CursorRectMethod::SetRelativeSpotRect;
+                }
+            }
+            proxy_->updateCursor(inputContext, method);
         }
     };
     eventHandlers_.emplace_back(
