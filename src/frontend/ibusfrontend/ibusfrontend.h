@@ -43,7 +43,7 @@ private:
     std::unique_ptr<IBusFrontend> portalIBusFrontend_;
     std::unique_ptr<EventSourceTime> timeEvent_;
 
-    std::string socketPath_;
+    std::vector<std::string> socketPaths_;
     std::string addressWrote_;
     pid_t pidWrote_;
 };
