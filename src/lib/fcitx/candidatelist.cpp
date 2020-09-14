@@ -293,7 +293,12 @@ std::string keyToLabel(const Key &key) {
 
 #undef _APPEND_MODIFIER_STRING
 
-    result += utf8::UCS4ToUTF8(Key::keySymToUnicode(key.sym()));
+    auto chr = Key::keySymToUnicode(key.sym());
+    if (chr) {
+        result += utf8::UCS4ToUTF8(chr);
+    } else {
+        result = Key::keySymToString(key.sym(), KeyStringFormat::Localized);
+    }
     // add a dot as separator
     result += ". ";
 
