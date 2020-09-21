@@ -369,6 +369,10 @@ void XCBUI::initScreen() {
                             if (maxDpi_ < rects_.back().second) {
                                 maxDpi_ = rects_.back().second;
                             }
+
+                            if (outputs[i] == primary->output) {
+                                primaryDpi_ = rects_.back().second;
+                            }
                         }
                     }
                 }
@@ -398,7 +402,8 @@ void XCBUI::initScreen() {
             Rect(0, 0, screen->width_in_pixels, screen->height_in_pixels), -1);
     }
 
-    CLASSICUI_DEBUG() << "Screen rects are: " << rects_;
+    CLASSICUI_DEBUG() << "Screen rects are: " << rects_
+                      << " Primary DPI: " << primaryDpi_;
 }
 
 void XCBUI::refreshCompositeManager() {
@@ -671,7 +676,8 @@ int XCBUI::scaledDPI(int dpi) {
     if (fontOption_.dpi < 0) {
         targetDPI = dpi;
     } else {
-        targetDPI = (static_cast<double>(dpi) / maxDpi_) * fontOption_.dpi;
+        auto baseDPI = primaryDpi_ > 0 ? primaryDpi_ : maxDpi_;
+        targetDPI = (static_cast<double>(dpi) / baseDPI) * fontOption_.dpi;
     }
     double scale = targetDPI / 96;
     if (scale < 1) {

@@ -107,7 +107,7 @@ void InputMethodGroup::setDefaultInputMethod(const std::string &im) {
     }
 }
 
-const std::string &InputMethodGroup::layoutFor(const std::string &im) {
+const std::string &InputMethodGroup::layoutFor(const std::string &im) const {
     FCITX_D();
     auto iter = std::find_if(
         d->inputMethodList_.begin(), d->inputMethodList_.end(),

@@ -48,6 +48,25 @@ typedef struct _XDisplay Display;
 
 namespace fcitx {
 
+namespace {
+
+std::string xmodmapFile() {
+    auto *home = getenv("HOME");
+    if (!home) {
+        return {};
+    }
+    auto path = stringutils::joinPath(home, ".Xmodmap");
+    if (!fs::isreg(path)) {
+        path = stringutils::joinPath(home, ".xmodmap");
+    }
+    if (!fs::isreg(path)) {
+        return {};
+    }
+    return path;
+}
+
+} // namespace
+
 union _xkb_event {
     /* All XKB events share these fields. */
     struct {
@@ -121,7 +140,8 @@ XCBKeyboard::XCBKeyboard(XCBConnection *conn) : conn_(conn) {
                          XCB_EVENT_MASK_PROPERTY_CHANGE);
 
     // Force refresh so we can apply xmodmap.
-    if (conn_->parent()->config().allowOverrideXKB.value()) {
+    if (conn_->parent()->config().allowOverrideXKB.value() &&
+        !xmodmapFile().empty()) {
         setRMLVOToServer(xkbRule_, xkbModel_,
                          stringutils::join(defaultLayouts_, ","),
                          stringutils::join(defaultVariants_, ","), xkbOptions_);
@@ -299,7 +319,7 @@ int XCBKeyboard::findOrAddLayout(const std::string &layout,
 void XCBKeyboard::addNewLayout(const std::string &layout,
                                const std::string &variant, int index,
                                bool toDefault) {
-    FCITX_DEBUG() << "addNewLayout " << layout << " " << variant;
+    FCITX_XCB_DEBUG() << "addNewLayout " << layout << " " << variant;
     while (defaultVariants_.size() < defaultLayouts_.size()) {
         defaultVariants_.emplace_back();
     }
@@ -341,8 +361,8 @@ void XCBKeyboard::setRMLVOToServer(const std::string &rule,
                                    const std::string &layout,
                                    const std::string &variant,
                                    const std::string &options) {
-    FCITX_DEBUG() << "RMLVO tuple: " << rule << " " << model << " " << layout
-                  << " " << variant;
+    FCITX_XCB_DEBUG() << "RMLVO tuple: " << rule << " " << model << " "
+                      << layout << " " << variant;
     // xcb_xkb_get_kbd_by_name() doesn't fill the buffer for us, need to it
     // ourselves.
     char locale[] = "C";
@@ -561,18 +581,9 @@ bool XCBKeyboard::handleEvent(xcb_generic_event_t *event) {
 
                         if (waitingForRefresh_) {
                             waitingForRefresh_ = false;
-                            auto *home = getenv("HOME");
-                            if (!home) {
-                                return true;
+                            if (auto path = xmodmapFile(); !path.empty()) {
+                                startProcess({"xmodmap", path});
                             }
-                            auto path = stringutils::joinPath(home, ".Xmodmap");
-                            if (!fs::isreg(path)) {
-                                path = stringutils::joinPath(home, ".xmodmap");
-                            }
-                            if (!fs::isreg(path)) {
-                                return true;
-                            }
-                            startProcess({"xmodmap", path});
                         }
                         return true;
                     });

@@ -151,10 +151,39 @@ void testRecursiveAssign() {
     }
 }
 
+void testSyncDefaultToCurrent() {
+    TestConfig config;
+    RawConfig raw;
+    config.dumpDescription(raw);
+
+    FCITX_ASSERT(*raw.valueByPath("TestConfig/IntOption/DefaultValue") == "0");
+
+    raw.removeAll();
+    *config.intValue.mutableValue() = 3;
+    config.syncDefaultValueToCurrent();
+    config.dumpDescription(raw);
+    FCITX_ASSERT(*raw.valueByPath("TestConfig/IntOption/DefaultValue") == "3");
+
+    raw.removeAll();
+    *config.subConfigValue.mutableValue()->intValue.mutableValue() = 10;
+    FCITX_ASSERT(*config.subConfigValue->intValue == 10);
+    config.syncDefaultValueToCurrent();
+    config.dumpDescription(raw);
+    FCITX_ASSERT(*raw.valueByPath("TestSubConfig/IntOption/DefaultValue") ==
+                 "10");
+
+    raw.removeAll();
+    config.subConfigValue->dumpDescription(raw);
+    config.dumpDescription(raw);
+    FCITX_ASSERT(*raw.valueByPath("TestSubConfig/IntOption/DefaultValue") ==
+                 "10");
+}
+
 int main() {
     testBasics();
     testMove();
     testAssign();
     testRecursiveAssign();
+    testSyncDefaultToCurrent();
     return 0;
 }

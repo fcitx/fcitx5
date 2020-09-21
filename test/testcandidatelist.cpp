@@ -22,7 +22,19 @@ private:
     int number_;
 };
 
-int main() {
+class PlaceHolderCandidateWord : public CandidateWord {
+public:
+    PlaceHolderCandidateWord(int number)
+        : CandidateWord(Text(std::to_string(number))), number_(number) {
+        setPlaceHolder(true);
+    }
+    void select(InputContext *) const override { selected = number_; }
+
+private:
+    int number_;
+};
+
+void test_basic() {
     CommonCandidateList candidatelist;
     candidatelist.setSelectionKey(
         Key::keyListFromString("1 2 3 4 5 6 7 8 9 0"));
@@ -185,6 +197,115 @@ int main() {
         << candidatelist.cursorIndex();
     FCITX_ASSERT(candidatelist.currentPage() == 0)
         << candidatelist.currentPage();
+}
 
+void test_faulty_placeholder() {
+    CommonCandidateList candidatelist;
+    candidatelist.setSelectionKey(
+        Key::keyListFromString("1 2 3 4 5 6 7 8 9 0"));
+    candidatelist.setPageSize(3);
+    candidatelist.append<PlaceHolderCandidateWord>(3);
+    FCITX_ASSERT(candidatelist.cursorIndex() == -1)
+        << candidatelist.cursorIndex();
+
+    candidatelist.prevCandidate();
+    FCITX_ASSERT(candidatelist.cursorIndex() == -1)
+        << candidatelist.cursorIndex();
+
+    candidatelist.nextCandidate();
+    FCITX_ASSERT(candidatelist.cursorIndex() == -1)
+        << candidatelist.cursorIndex();
+    candidatelist.append<TestCandidateWord>(3);
+
+    candidatelist.prevCandidate();
+    FCITX_ASSERT(candidatelist.cursorIndex() == 1)
+        << candidatelist.cursorIndex();
+
+    candidatelist.setGlobalCursorIndex(-1);
+    FCITX_ASSERT(candidatelist.cursorIndex() == -1)
+        << candidatelist.cursorIndex();
+
+    candidatelist.nextCandidate();
+    FCITX_ASSERT(candidatelist.cursorIndex() == 1)
+        << candidatelist.cursorIndex();
+
+    candidatelist.append<TestCandidateWord>(3);
+    candidatelist.append<PlaceHolderCandidateWord>(3);
+    candidatelist.append<PlaceHolderCandidateWord>(3);
+    candidatelist.append<PlaceHolderCandidateWord>(3);
+    // Two page, second page is empty.
+
+    candidatelist.nextCandidate();
+    FCITX_ASSERT(candidatelist.cursorIndex() == 2)
+        << candidatelist.cursorIndex();
+
+    candidatelist.setCursorIncludeUnselected(true);
+
+    candidatelist.nextCandidate();
+    FCITX_ASSERT(candidatelist.cursorIndex() == -1)
+        << candidatelist.cursorIndex();
+
+    candidatelist.setGlobalCursorIndex(4);
+    candidatelist.setPage(1);
+
+    candidatelist.nextCandidate();
+    FCITX_ASSERT(candidatelist.cursorIndex() == -1)
+        << candidatelist.cursorIndex();
+    candidatelist.append<TestCandidateWord>(3);
+    candidatelist.setPage(0);
+    candidatelist.prevCandidate();
+    FCITX_ASSERT(candidatelist.cursorIndex() == 2)
+        << candidatelist.cursorIndex();
+    candidatelist.prevCandidate();
+    FCITX_ASSERT(candidatelist.cursorIndex() == 1)
+        << candidatelist.cursorIndex();
+    candidatelist.nextCandidate();
+    FCITX_ASSERT(candidatelist.cursorIndex() == 2)
+        << candidatelist.cursorIndex();
+    candidatelist.nextCandidate();
+    FCITX_ASSERT(candidatelist.cursorIndex() == 0)
+        << candidatelist.cursorIndex();
+    FCITX_ASSERT(candidatelist.currentPage() == 2)
+        << candidatelist.currentPage();
+    candidatelist.nextCandidate();
+    FCITX_ASSERT(candidatelist.cursorIndex() == -1)
+        << candidatelist.cursorIndex();
+    FCITX_INFO() << candidatelist.currentPage();
+    candidatelist.setPage(2);
+    FCITX_INFO() << candidatelist.currentPage();
+    candidatelist.nextCandidate();
+    FCITX_ASSERT(candidatelist.cursorIndex() == 0)
+        << candidatelist.cursorIndex();
+}
+
+void test_label() {
+    CommonCandidateList candidatelist;
+    candidatelist.setPageSize(10);
+    candidatelist.setSelectionKey(
+        Key::keyListFromString("1 2 3 4 5 6 7 8 9 0"));
+    for (int i = 0; i < 10; i++) {
+        candidatelist.append<TestCandidateWord>(i);
+    }
+
+    FCITX_ASSERT(candidatelist.label(0).toString() == "1. ")
+        << candidatelist.label(0).toString();
+    FCITX_ASSERT(candidatelist.label(5).toString() == "6. ");
+    FCITX_ASSERT(candidatelist.label(9).toString() == "0. ");
+    candidatelist.setSelectionKey(
+        Key::keyListFromString("F1 F2 F3 F4 F5 F6 F7 F8 F9 F10"));
+    FCITX_ASSERT(candidatelist.label(5).toString() == "F6. ");
+    candidatelist.setSelectionKey(Key::keyListFromString(
+        "a Control+a Control+Shift+A F4 F5 Page_Up F7 F8 F9 comma"));
+    FCITX_ASSERT(candidatelist.label(0).toString() == "a. ");
+    FCITX_ASSERT(candidatelist.label(1).toString() == "C-a. ");
+    FCITX_ASSERT(candidatelist.label(2).toString() == "C-S-A. ");
+    FCITX_ASSERT(candidatelist.label(5).toString() == "PgUp. ");
+    FCITX_ASSERT(candidatelist.label(9).toString() == ",. ");
+}
+
+int main() {
+    test_basic();
+    test_faulty_placeholder();
+    test_label();
     return 0;
 }

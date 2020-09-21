@@ -289,6 +289,41 @@ Key::Key(const char *keyString) : Key() {
     states_ = states;
 }
 
+bool Key::isReleaseOfModifier(const Key &key) const {
+    if (!key.isModifier()) {
+        return false;
+    }
+    auto states = keySymToStates(key.sym()) | key.states();
+    // Now we need reverse of keySymToStates.
+
+    std::vector<Key> keys;
+    keys.emplace_back(key.sym(), states);
+    if (key.states() & KeyState::Ctrl) {
+        keys.emplace_back(FcitxKey_Control_L, states);
+        keys.emplace_back(FcitxKey_Control_R, states);
+    }
+    if (key.states() & KeyState::Alt) {
+        keys.emplace_back(FcitxKey_Alt_L, states);
+        keys.emplace_back(FcitxKey_Alt_R, states);
+        keys.emplace_back(FcitxKey_Meta_L, states);
+        keys.emplace_back(FcitxKey_Meta_R, states);
+    }
+    if (key.states() & KeyState::Shift) {
+        keys.emplace_back(FcitxKey_Shift_L, states);
+        keys.emplace_back(FcitxKey_Shift_R, states);
+    }
+    if (key.states() & KeyState::Super) {
+        keys.emplace_back(FcitxKey_Super_L, states);
+        keys.emplace_back(FcitxKey_Super_R, states);
+    }
+    if (key.states() & KeyState::Mod3) {
+        keys.emplace_back(FcitxKey_Hyper_L, states);
+        keys.emplace_back(FcitxKey_Hyper_R, states);
+    }
+
+    return checkKeyList(keys);
+}
+
 bool Key::check(const Key &key) const {
     auto states = states_ & KeyStates({KeyState::Ctrl_Alt_Shift,
                                        KeyState::Super, KeyState::Mod3});
@@ -330,6 +365,7 @@ bool Key::isSimple() const {
 
 bool Key::isModifier() const {
     return (sym_ == FcitxKey_Control_L || sym_ == FcitxKey_Control_R ||
+            sym_ == FcitxKey_Meta_L || sym_ == FcitxKey_Meta_R ||
             sym_ == FcitxKey_Alt_L || sym_ == FcitxKey_Alt_R ||
             sym_ == FcitxKey_Super_L || sym_ == FcitxKey_Super_R ||
             sym_ == FcitxKey_Hyper_L || sym_ == FcitxKey_Hyper_R ||
@@ -456,6 +492,8 @@ KeyStates Key::keySymToStates(KeySym sym) {
         return KeyState::Ctrl;
     case FcitxKey_Alt_L:
     case FcitxKey_Alt_R:
+    case FcitxKey_Meta_L:
+    case FcitxKey_Meta_R:
         return KeyState::Alt;
     case FcitxKey_Shift_L:
     case FcitxKey_Shift_R:

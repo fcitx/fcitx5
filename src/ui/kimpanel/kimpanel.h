@@ -58,6 +58,7 @@ private:
     bool available_ = false;
     std::unique_ptr<dbus::Slot> relativeQuery_;
     bool hasRelative_ = false;
+    bool hasRelativeV2_ = false;
 };
 } // namespace fcitx
 

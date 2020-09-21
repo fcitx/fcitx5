@@ -329,12 +329,24 @@ void QuickPhrase::updateUI(InputContext *inputContext) {
                                             &builtinProvider_, &spellProvider_};
         QuickPhraseAction selectionKeyAction =
             QuickPhraseAction::DigitSelection;
+        std::string autoCommit;
+        bool autoCommitSet = false;
         for (auto *provider : providers) {
             if (!provider->populate(
                     inputContext, state->buffer_.userInput(),
-                    [this, &candidateList, &selectionKeyAction](
-                        const std::string &word, const std::string &aux,
-                        QuickPhraseAction action) {
+                    [this, &candidateList, &selectionKeyAction, &autoCommit,
+                     &autoCommitSet](const std::string &word,
+                                     const std::string &aux,
+                                     QuickPhraseAction action) {
+                        if (!autoCommitSet &&
+                            action == QuickPhraseAction::AutoCommit) {
+                            autoCommit = word;
+                            autoCommitSet = true;
+                        }
+
+                        if (autoCommitSet) {
+                            return;
+                        }
                         if (!word.empty()) {
                             candidateList->append<QuickPhraseCandidateWord>(
                                 this, word, aux, action);
@@ -349,6 +361,15 @@ void QuickPhrase::updateUI(InputContext *inputContext) {
                 break;
             }
         }
+
+        if (autoCommitSet) {
+            if (!autoCommit.empty()) {
+                inputContext->commitString(autoCommit);
+            }
+            state->reset(inputContext);
+            return;
+        }
+
         setSelectionKeys(selectionKeyAction);
         candidateList->setSelectionKey(selectionKeys_);
         if (candidateList->size()) {

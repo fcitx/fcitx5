@@ -101,7 +101,12 @@ FCITX_CONFIGURATION(
         "NextCandidate",
         _("Default Next Candidate"),
         {Key("Tab")},
-        KeyListConstrain({KeyConstrainFlag::AllowModifierLess})};);
+        KeyListConstrain({KeyConstrainFlag::AllowModifierLess})};
+    KeyListOption togglePreedit{this,
+                                "TogglePreedit",
+                                _("Toggle embedded preedit"),
+                                {Key("Control+Alt+P")},
+                                KeyListConstrain()};);
 
 FCITX_CONFIGURATION(
     BehaviorConfig, Option<bool> activeByDefault{this, "ActiveByDefault",
@@ -193,6 +198,11 @@ const KeyList &GlobalConfig::enumerateGroupForwardKeys() const {
 const KeyList &GlobalConfig::enumerateGroupBackwardKeys() const {
     FCITX_D();
     return *d->hotkey->enumerateGroupBackwardKeys;
+}
+
+const KeyList &GlobalConfig::togglePreeditKeys() const {
+    FCITX_D();
+    return *d->hotkey->togglePreedit;
 }
 
 bool GlobalConfig::activeByDefault() const {

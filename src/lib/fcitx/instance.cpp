@@ -115,7 +115,7 @@ struct InputState : public InputContextProperty {
             xkb_compose_state_reset(xkbComposeState_.get());
         }
         keyReleased_ = -1;
-        keyReleasedIndex_ = -2;
+        lastKeyPressed_ = Key();
         totallyReleased_ = true;
     }
 
@@ -151,8 +151,7 @@ struct InputState : public InputContextProperty {
     void setLocalIM(const std::string &localIM);
 
     int keyReleased_ = -1;
-    // We use -2 to make sure -2 != -1 (From keyListIndex)
-    int keyReleasedIndex_ = -2;
+    Key lastKeyPressed_;
     bool totallyReleased_ = true;
     bool firstTrigger_ = false;
 
@@ -738,10 +737,10 @@ Instance::Instance(int argc, char **argv) {
 
             auto *inputState = ic->propertyFor(&d->inputStateFactory_);
             int keyReleased = inputState->keyReleased_;
-            int keyReleasedIndex = inputState->keyReleasedIndex_;
+            Key lastKeyPressed = inputState->lastKeyPressed_;
             // Keep these two values, and reset them in the state
             inputState->keyReleased_ = -1;
-            inputState->keyReleasedIndex_ = -2;
+            inputState->lastKeyPressed_ = Key();
             const bool isModifier = keyEvent.origKey().isModifier();
             if (keyEvent.isRelease()) {
                 int idx = 0;
@@ -752,15 +751,14 @@ Instance::Instance(int argc, char **argv) {
                 }
                 for (auto &keyHandler : keyHandlers) {
                     if (keyReleased == idx &&
-                        keyReleasedIndex ==
-                            keyEvent.origKey().keyListIndex(keyHandler.list) &&
+                        keyEvent.origKey().isReleaseOfModifier(
+                            lastKeyPressed) &&
                         keyHandler.check()) {
                         if (isModifier) {
                             keyHandler.trigger(inputState->totallyReleased_);
                             if (keyEvent.origKey().hasModifier()) {
                                 inputState->totallyReleased_ = false;
                             }
-                            return keyEvent.filterAndAccept();
                         }
                         return keyEvent.filter();
                     }
@@ -775,7 +773,7 @@ Instance::Instance(int argc, char **argv) {
                         keyEvent.origKey().keyListIndex(keyHandler.list);
                     if (keyIdx >= 0 && keyHandler.check()) {
                         inputState->keyReleased_ = idx;
-                        inputState->keyReleasedIndex_ = keyIdx;
+                        inputState->lastKeyPressed_ = keyEvent.origKey();
                         if (isModifier) {
                             // don't forward to input method, but make it pass
                             // through to client.
@@ -789,6 +787,26 @@ Instance::Instance(int argc, char **argv) {
                     }
                     idx++;
                 }
+            }
+        }));
+    d->eventWatchers_.emplace_back(watchEvent(
+        EventType::InputContextKeyEvent, EventWatcherPhase::PreInputMethod,
+        [d](Event &event) {
+            auto &keyEvent = static_cast<KeyEvent &>(event);
+            auto *ic = keyEvent.inputContext();
+            if (!keyEvent.isRelease() &&
+                keyEvent.key().checkKeyList(
+                    d->globalConfig_.togglePreeditKeys())) {
+                ic->setEnablePreedit(!ic->isPreeditEnabled());
+                FCITX_INFO() << ic->capabilityFlags();
+                if (d->notifications_) {
+                    d->notifications_->call<INotifications::showTip>(
+                        "toggle-preedit", _("Input Method"), "", _("Preedit"),
+                        ic->isPreeditEnabled() ? _("Preedit enabled")
+                                               : _("Preedit disabled"),
+                        3000);
+                }
+                keyEvent.filterAndAccept();
             }
         }));
     d->eventWatchers_.emplace_back(d->watchEvent(
@@ -892,15 +910,6 @@ Instance::Instance(int argc, char **argv) {
                         keyEvent.filterAndAccept();
                     }
                 }
-            }
-            if (ic->hasPendingEvents() &&
-                ic->capabilityFlags().test(CapabilityFlag::KeyEventOrderFix) &&
-                !keyEvent.accepted()) {
-                // Re-forward the event to ensure we got delivered later than
-                // commit.
-                keyEvent.filterAndAccept();
-                ic->forwardKey(keyEvent.rawKey(), keyEvent.isRelease(),
-                               keyEvent.time());
             }
         }));
     d->eventWatchers_.emplace_back(d->watchEvent(
@@ -1263,14 +1272,32 @@ bool Instance::postEvent(Event &event) {
             EventWatcherPhase::ReservedLast};
 
         for (auto phase : phaseOrder) {
-            auto iter2 = handlers.find(phase);
-            if (iter2 != handlers.end()) {
+            if (auto iter2 = handlers.find(phase); iter2 != handlers.end()) {
                 for (auto &handler : iter2->second.view()) {
                     handler(event);
                     if (event.filtered()) {
-                        return event.accepted();
+                        break;
                     }
                 }
+            }
+            if (event.filtered()) {
+                break;
+            }
+        }
+
+        // Make sure this part of fix is always executed regardless of the
+        // filter.
+        if (event.type() == EventType::InputContextKeyEvent) {
+            auto &keyEvent = static_cast<KeyEvent &>(event);
+            auto *ic = keyEvent.inputContext();
+            if (ic->hasPendingEvents() &&
+                ic->capabilityFlags().test(CapabilityFlag::KeyEventOrderFix) &&
+                !keyEvent.accepted()) {
+                // Re-forward the event to ensure we got delivered later than
+                // commit.
+                keyEvent.filterAndAccept();
+                ic->forwardKey(keyEvent.rawKey(), keyEvent.isRelease(),
+                               keyEvent.time());
             }
         }
     }
@@ -1555,7 +1582,7 @@ void Instance::setCurrentInputMethod(InputContext *ic, const std::string &name,
                         std::make_unique<CheckInputMethodChanged>(ic, d));
                     return true;
                 });
-            imManager.currentGroup().setDefaultInputMethod(name);
+            imManager.setDefaultInputMethod(name);
         }
         inputState->setActive(true);
     } else {
@@ -1720,7 +1747,7 @@ bool Instance::enumerate(InputContext *ic, bool forward) {
                 std::make_unique<CheckInputMethodChanged>(ic, d));
             return true;
         });
-        imManager.currentGroup().setDefaultInputMethod(imList[idx].name());
+        imManager.setDefaultInputMethod(imList[idx].name());
         inputState->setActive(true);
         inputState->setLocalIM({});
     } else {

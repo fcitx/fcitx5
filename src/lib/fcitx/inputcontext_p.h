@@ -128,8 +128,10 @@ public:
     bool hasFocus_ = false;
     std::string program_;
     CapabilityFlags capabilityFlags_;
+    bool isPreeditEnabled_ = true;
     SurroundingText surroundingText_;
     Rect cursorRect_;
+    double scale_;
 
     IntrusiveListNode listNode_;
     IntrusiveListNode focusedListNode_;

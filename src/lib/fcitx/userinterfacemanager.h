@@ -15,6 +15,11 @@
 #include <fcitx/userinterface.h>
 #include "fcitxcore_export.h"
 
+/// \addtogroup FcitxCore
+/// \{
+/// \file
+/// \brief Manager class for user interface.
+
 namespace fcitx {
 
 class UserInterfaceManagerPrivate;

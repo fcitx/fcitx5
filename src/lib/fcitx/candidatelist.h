@@ -25,13 +25,25 @@ enum class CandidateLayoutHint { NotSet, Vertical, Horizontal };
 
 class CandidateWordPrivate;
 
+/// Base class of candidate word.
 class FCITXCORE_EXPORT CandidateWord {
 public:
     CandidateWord(Text text = {});
     virtual ~CandidateWord();
+    /**
+     * Called when candidate is selected by user.
+     *
+     * @param inputContext the associated input context for the candidate.
+     */
     virtual void select(InputContext *inputContext) const = 0;
 
     const Text &text() const;
+    /**
+     * Whether the candidate is only a place holder.
+     *
+     * If candidate is a place holder, it will not be displayed by UI, but it
+     * will still take one place in the candidate list.
+     */
     bool isPlaceHolder() const;
     bool hasCustomLabel() const;
     const Text &customLabel() const;

@@ -35,8 +35,9 @@ void scheduleEvent(EventDispatcher *dispatcher, Instance *instance) {
     });
     dispatcher->schedule([dispatcher, instance]() {
         auto *testfrontend = instance->addonManager().addon("testfrontend");
-        for (const auto *expectation : {"TEST", "abc", "abcd", "DEF", "abcd",
-                                        "DEF1", "test1", "CALLBACK"}) {
+        for (const auto *expectation :
+             {"TEST", "abc", "abcd", "DEF", "abcd", "DEF1", "test1", "CALLBACK",
+              "AUTOCOMMIT"}) {
             testfrontend->call<ITestFrontend::pushCommitExpectation>(
                 expectation);
         }
@@ -125,6 +126,10 @@ void scheduleEvent(EventDispatcher *dispatcher, Instance *instance) {
                     callback("CALLBACK", "DISPLAY3", QuickPhraseAction::Commit);
                     return false;
                 }
+                if (text == "auto") {
+                    callback("AUTOCOMMIT", "", QuickPhraseAction::AutoCommit);
+                    return false;
+                }
                 return true;
             });
 
@@ -140,6 +145,13 @@ void scheduleEvent(EventDispatcher *dispatcher, Instance *instance) {
         testfrontend->call<ITestFrontend::keyEvent>(uuid, Key("c"), false);
         // Alpha Selection: a
         testfrontend->call<ITestFrontend::keyEvent>(uuid, Key("a"), false);
+
+        testfrontend->call<ITestFrontend::keyEvent>(uuid, Key("Super+grave"),
+                                                    false);
+        testfrontend->call<ITestFrontend::keyEvent>(uuid, Key("a"), false);
+        testfrontend->call<ITestFrontend::keyEvent>(uuid, Key("u"), false);
+        testfrontend->call<ITestFrontend::keyEvent>(uuid, Key("t"), false);
+        testfrontend->call<ITestFrontend::keyEvent>(uuid, Key("o"), false);
 
         dispatcher->schedule([dispatcher, instance]() {
             handle.reset();

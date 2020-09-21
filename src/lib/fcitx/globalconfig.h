@@ -33,6 +33,8 @@ public:
     const KeyList &enumerateBackwardKeys() const;
     const KeyList &enumerateGroupForwardKeys() const;
     const KeyList &enumerateGroupBackwardKeys() const;
+    const KeyList &togglePreeditKeys() const;
+
     bool activeByDefault() const;
     bool showInputMethodInformation() const;
     bool showInputMethodInformationWhenFocusIn() const;

@@ -1,9 +1,9 @@
 cmake_minimum_required(VERSION 3.6.0)
-set(FCITX_VERSION 4.99.0)
+set(FCITX_VERSION 5.0)
 project(fcitx VERSION ${FCITX_VERSION})
 
 find_package(ECM REQUIRED 1.0.0)
-set(CMAKE_MODULE_PATH ${ECM_MODULE_PATH} "${CMAKE_CURRENT_SOURCE_DIR}/cmake" ${CMAKE_MODULE_PATH})
+set(CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake" ${ECM_MODULE_PATH} ${CMAKE_MODULE_PATH})
 
 #######################################################################
 # CMake macros

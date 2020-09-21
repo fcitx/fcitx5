@@ -10,6 +10,7 @@
 #include <xcb/xcb_keysyms.h>
 
 #include <utility>
+#include <xcb/xcb_icccm.h>
 #include "fcitx/inputcontext.h"
 #include "fcitx/userinterfacemanager.h"
 #include "common.h"
@@ -492,6 +493,16 @@ void XCBMenu::postCreateWindow() {
                             ui_->ewmh()->_NET_WM_WINDOW_TYPE_POPUP_MENU};
         xcb_ewmh_set_wm_window_type(ui_->ewmh(), wid_, 1, types);
     }
+
+    if (ui_->ewmh()->_NET_WM_PID) {
+        xcb_ewmh_set_wm_pid(ui_->ewmh(), wid_, getpid());
+    }
+
+    const char name[] = "Fcitx5 Menu Window";
+    xcb_icccm_set_wm_name(ui_->connection(), wid_, XCB_ATOM_STRING, 8,
+                          sizeof(name) - 1, name);
+    const char klass[] = "fcitx\0fcitx";
+    xcb_icccm_set_wm_class(ui_->connection(), wid_, sizeof(klass) - 1, klass);
     addEventMaskToWindow(
         ui_->connection(), wid_,
         XCB_EVENT_MASK_EXPOSURE | XCB_EVENT_MASK_BUTTON_PRESS |
