@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2020-09-13 00:01-0700\n"
+"POT-Creation-Date: 2020-09-21 00:02-0700\n"
 "PO-Revision-Date: 2017-11-23 04:14+0000\n"
 "Last-Translator: scootergrisen, 2020\n"
 "Language-Team: Danish (https://www.transifex.com/fcitx/teams/12005/da/)\n"
@@ -26,11 +26,11 @@ msgstr "${1} miljøvariabler:"
 
 #: data/fcitx5-diagnose.sh:851
 msgid "${1} Settings Directory:"
-msgstr ""
+msgstr "${1}-indstillingsmappe:"
 
 #: data/fcitx5-diagnose.sh:925
 msgid "${1} is not running."
-msgstr ""
+msgstr "${1} kører ikke."
 
 #: data/fcitx5-diagnose.sh:874
 msgid "${1} is not set."
@@ -202,7 +202,7 @@ msgstr "Backspace"
 
 #: data/fcitx5-diagnose.sh:793
 msgid "Bash Version:"
-msgstr ""
+msgstr "Bash-version:"
 
 #: src/lib/fcitx-utils/key.cpp:169
 msgctxt "Key name"
@@ -211,7 +211,7 @@ msgstr "Batteri"
 
 #: data/fcitx5-diagnose.sh:674
 msgid "Beginner's Guide"
-msgstr ""
+msgstr "Begyndervejledning"
 
 #: src/lib/fcitx/globalconfig.cpp:134
 msgid "Behavior"
@@ -254,51 +254,53 @@ msgstr "Annuller"
 
 #: data/fcitx5-diagnose.sh:940
 msgid "Cannot connect to ${1} correctly."
-msgstr ""
+msgstr "Kan ikke oprette forbindelse til ${1} korrekt."
 
 #: data/fcitx5-diagnose.sh:788
 msgid "Cannot determine desktop environment."
-msgstr ""
+msgstr "Kan ikke bestemme skrivebordsmiljø."
 
 #: data/fcitx5-diagnose.sh:1475
 msgid "Cannot find ${1} addon config directory."
-msgstr ""
+msgstr "Kan ikke finde ${1}-tilføjelseskonfigurationsmappe."
 
 #: data/fcitx5-diagnose.sh:1060
 msgid "Cannot find ${1} executable!"
-msgstr ""
+msgstr "Kan ikke finde ${1}-eksekverbar!"
 
 #: data/fcitx5-diagnose.sh:1440
 msgid "Cannot find ${1} im module for gtk ${2} in cache."
-msgstr ""
+msgstr "Kan ikke finde ${1}-im-modul til gtk ${2} i mellemlager."
 
 #: data/fcitx5-diagnose.sh:1358
 msgid "Cannot find ${1} im module for gtk ${2}."
-msgstr ""
+msgstr "Kan ikke finde ${1}-im-modul til gtk ${2}."
 
 #: data/fcitx5-diagnose.sh:1232 data/fcitx5-diagnose.sh:1237
 msgid "Cannot find ${1} input method module for ${2}."
-msgstr ""
+msgstr "Kan ikke finde ${1}-inputmetode-modul til ${2}."
 
 #: data/fcitx5-diagnose.sh:1352
 msgid "Cannot find ${2} for gtk ${1}"
-msgstr ""
+msgstr "Kan ikke finde ${2} til gtk ${1}"
 
 #: data/fcitx5-diagnose.sh:960
 msgid "Cannot find DBus name ${1} owner."
-msgstr ""
+msgstr "Kan ikke finde ejer af DBus-navnet ${1}."
 
 #: data/fcitx5-diagnose.sh:1070
 msgid "Cannot find a GUI config tool, please install one of ${1}, or ${2}."
 msgstr ""
+"Kan ikke finde et konfigurationsværktøj med grafisk brugerflade, installer "
+"venligst ${1} eller ${2}."
 
 #: data/fcitx5-diagnose.sh:1570
 msgid "Cannot find enabled ${1} user interface!"
-msgstr ""
+msgstr "Kan ikke finde aktiveret ${1}-brugerflade!"
 
 #: data/fcitx5-diagnose.sh:903
 msgid "Cannot find fcitx5 executable!"
-msgstr ""
+msgstr "Kan ikke finde fcitx5-eksekverbar!"
 
 #: data/fcitx5-diagnose.sh:1549
 msgid "Cannot find file ${1} of addon ${2}."
@@ -971,7 +973,7 @@ msgstr ""
 #: src/im/keyboard/keyboard.cpp:357 src/ui/classic/xcbtraywindow.cpp:38
 #: src/modules/xcb/xcbconnection.cpp:388
 #: src/modules/notificationitem/dbusmenu.cpp:241
-#: src/modules/notificationitem/notificationitem.cpp:90
+#: src/modules/notificationitem/notificationitem.cpp:101
 #: data/fcitx5.desktop.in.in:4
 msgid "Input Method"
 msgstr "Inputmetode"
@@ -1410,7 +1412,7 @@ msgstr "Billeder"
 
 #: data/fcitx5-diagnose.sh:905
 msgid "Please check ${1} for how to install fcitx5."
-msgstr ""
+msgstr "Tjek venligst ${1} for hvordan fcitx5 installeres."
 
 #: data/fcitx5-diagnose.sh:927
 msgid ""
