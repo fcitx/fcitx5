@@ -49,12 +49,16 @@ public:
     void activate(int, int) { parent_->instance()->toggle(); }
     void secondaryActivate(int, int) {}
     std::string iconName() {
+        std::string icon = "input-keyboard-symbolic";
         if (auto *ic = parent_->instance()->lastFocusedInputContext()) {
             if (const auto *entry = parent_->instance()->inputMethodEntry(ic)) {
-                return entry->icon();
+                icon = entry->icon();
             }
         }
-        return "input-keyboard-symbolic";
+        if (icon == "input-keyboard") {
+            return "input-keyboard-symbolic";
+        }
+        return icon;
     }
 
     std::string label() {
