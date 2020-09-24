@@ -278,8 +278,34 @@ void test_faulty_placeholder() {
         << candidatelist.cursorIndex();
 }
 
+void test_label() {
+    CommonCandidateList candidatelist;
+    candidatelist.setPageSize(10);
+    candidatelist.setSelectionKey(
+        Key::keyListFromString("1 2 3 4 5 6 7 8 9 0"));
+    for (int i = 0; i < 10; i++) {
+        candidatelist.append<TestCandidateWord>(i);
+    }
+
+    FCITX_ASSERT(candidatelist.label(0).toString() == "1. ")
+        << candidatelist.label(0).toString();
+    FCITX_ASSERT(candidatelist.label(5).toString() == "6. ");
+    FCITX_ASSERT(candidatelist.label(9).toString() == "0. ");
+    candidatelist.setSelectionKey(
+        Key::keyListFromString("F1 F2 F3 F4 F5 F6 F7 F8 F9 F10"));
+    FCITX_ASSERT(candidatelist.label(5).toString() == "F6. ");
+    candidatelist.setSelectionKey(Key::keyListFromString(
+        "a Control+a Control+Shift+A F4 F5 Page_Up F7 F8 F9 comma"));
+    FCITX_ASSERT(candidatelist.label(0).toString() == "a. ");
+    FCITX_ASSERT(candidatelist.label(1).toString() == "C-a. ");
+    FCITX_ASSERT(candidatelist.label(2).toString() == "C-S-A. ");
+    FCITX_ASSERT(candidatelist.label(5).toString() == "PgUp. ");
+    FCITX_ASSERT(candidatelist.label(9).toString() == ",. ");
+}
+
 int main() {
     test_basic();
     test_faulty_placeholder();
+    test_label();
     return 0;
 }

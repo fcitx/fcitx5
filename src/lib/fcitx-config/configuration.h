@@ -59,6 +59,14 @@ public:
     void dumpDescription(RawConfig &config) const;
     virtual const char *typeName() const = 0;
 
+    /**
+     * Set default value to current value.
+     *
+     * Sometimes, we need to customize the default value for the same type. This
+     * function will set the default value to current value.
+     */
+    void syncDefaultValueToCurrent();
+
 protected:
     bool compareHelper(const Configuration &other) const;
     void copyHelper(const Configuration &other);

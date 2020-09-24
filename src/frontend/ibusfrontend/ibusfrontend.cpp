@@ -67,14 +67,19 @@ std::string getLocalMachineId(void) {
     return content;
 }
 
-std::string getSocketPath(void) {
+std::string getSocketPath(bool isWayland) {
     auto *path = getenv("IBUS_ADDRESS_FILE");
     if (path) {
         return path;
     }
     std::string hostname = "unix";
     std::string displaynumber = "0";
-    if (auto *display = getenv("DISPLAY")) {
+    if (isWayland) {
+        displaynumber = "wayland-0";
+        if (auto *display = getenv("WAYLAND_DISPLAY")) {
+            displaynumber = display;
+        }
+    } else if (auto *display = getenv("DISPLAY")) {
         auto *p = display;
         for (; *p != ':' && *p != '\0'; p++) {
             ;
@@ -104,10 +109,10 @@ std::string getSocketPath(void) {
                                         displaynumber));
 }
 
-std::string getFullSocketPath(void) {
+std::string getFullSocketPath(bool isWayland) {
     return stringutils::joinPath(
         StandardPath::global().userDirectory(StandardPath::Type::Config),
-        getSocketPath());
+        getSocketPath(isWayland));
 }
 
 std::pair<std::string, pid_t> getAddress(const std::string &socketPath) {
@@ -624,7 +629,8 @@ IBusFrontend::createInputContext(const std::string & /* unused */) {
 #define IBUS_PORTAL_DBUS_INTERFACE "org.freedesktop.IBus.Portal"
 
 IBusFrontendModule::IBusFrontendModule(Instance *instance)
-    : instance_(instance), socketPath_(getFullSocketPath()) {
+    : instance_(instance), socketPaths_{getFullSocketPath(true),
+                                        getFullSocketPath(false)} {
     dbus::VariantTypeRegistry::defaultRegistry().registerType<IBusText>();
     dbus::VariantTypeRegistry::defaultRegistry().registerType<IBusAttribute>();
     dbus::VariantTypeRegistry::defaultRegistry().registerType<IBusAttrList>();
@@ -637,9 +643,11 @@ IBusFrontendModule::~IBusFrontendModule() {
     }
 
     if (!addressWrote_.empty()) {
-        auto address = getAddress(socketPath_);
-        if (address.first == addressWrote_ && address.second == pidWrote_) {
-            unlink(socketPath_.c_str());
+        for (const auto &path : socketPaths_) {
+            auto address = getAddress(path);
+            if (address.first == addressWrote_ && address.second == pidWrote_) {
+                unlink(path.c_str());
+            }
         }
     }
 }
@@ -649,9 +657,15 @@ dbus::Bus *IBusFrontendModule::bus() {
 }
 
 void IBusFrontendModule::replaceIBus() {
-    auto address = getAddress(socketPath_);
+    std::pair<std::string, pid_t> address;
+    for (const auto &path : socketPaths_) {
+        address = getAddress(path);
+        if (!address.first.empty()) {
+            break;
+        }
+    }
     oldAddress_ = address.first;
-    if (!address.first.empty()) {
+    if (!oldAddress_.empty()) {
         auto pid = runIBusExit();
         if (pid > 0) {
             FCITX_DEBUG() << "Running ibus exit.";
@@ -731,10 +745,12 @@ void IBusFrontendModule::becomeIBus() {
     config.setValueByPath("IBUS_DAEMON_PID", std::to_string(getpid()));
 
     FCITX_DEBUG() << "Writing ibus daemon info.";
-    if (!StandardPath::global().safeSave(
-            StandardPath::Type::Config, getSocketPath(),
-            [&config](int fd) { return writeAsIni(config, fd); })) {
-        return;
+    for (const auto &path : socketPaths_) {
+        if (!StandardPath::global().safeSave(
+                StandardPath::Type::Config, path,
+                [&config](int fd) { return writeAsIni(config, fd); })) {
+            return;
+        }
     }
 
     addressWrote_ = address;

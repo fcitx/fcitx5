@@ -8,6 +8,7 @@
 #include "classicui.h"
 #include <fcntl.h>
 #include "fcitx-config/iniparser.h"
+#include "fcitx-utils/misc_p.h"
 #include "fcitx-utils/standardpath.h"
 #include "fcitx-utils/utf8.h"
 #include "fcitx/inputcontext.h"
@@ -17,7 +18,6 @@
 #include "notificationitem_public.h"
 #include "xcbui.h"
 #ifdef WAYLAND_FOUND
-#include <fcitx-utils/misc_p.h>
 #include "waylandui.h"
 #endif
 

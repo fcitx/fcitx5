@@ -54,7 +54,18 @@ public:
                 return entry->icon();
             }
         }
-        return "input-keyboard";
+        return "input-keyboard-symbolic";
+    }
+
+    std::string label() {
+        if (auto *ic = parent_->instance()->lastFocusedInputContext()) {
+            if (const auto *entry = parent_->instance()->inputMethodEntry(ic)) {
+                if (entry->isKeyboard() || entry->icon().empty()) {
+                    return entry->label();
+                }
+            }
+        }
+        return "";
     }
 
     static dbus::DBusStruct<
@@ -95,9 +106,9 @@ public:
     FCITX_OBJECT_VTABLE_PROPERTY(menu, "Menu", "o",
                                  []() { return dbus::ObjectPath("/MenuBar"); });
     FCITX_OBJECT_VTABLE_PROPERTY(xayatanaLabel, "XAyatanaLabel", "s",
-                                 []() { return ""; });
+                                 [this]() { return label(); });
     FCITX_OBJECT_VTABLE_PROPERTY(XAyatanaLabelGuide, "XAyatanaLabelGuide", "s",
-                                 []() { return ""; });
+                                 [this]() { return label(); });
     FCITX_OBJECT_VTABLE_PROPERTY(xayatanaLabelOrderingIndex,
                                  "XAyatanaOrderingIndex", "u",
                                  []() { return 0; });
@@ -209,6 +220,7 @@ void NotificationItem::newIcon() {
         return;
     }
     sni_->newIcon();
+    sni_->xayatanaNewLabel(sni_->label(), sni_->label());
 }
 
 class NotificationItemFactory : public AddonFactory {

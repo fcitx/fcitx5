@@ -99,10 +99,15 @@ set(FCITX_UTILS_DBUS_HEADERS
     dbus/matchrule.h
     )
 
+ecm_setup_version(PROJECT
+                  VARIABLE_PREFIX Fcitx5Utils
+                  PACKAGE_VERSION_FILE "${CMAKE_CURRENT_BINARY_DIR}/Fcitx5UtilsConfigVersion.cmake"
+                  SOVERSION 2)
+
 add_library(Fcitx5Utils SHARED ${FCITX_UTILS_SOURCES})
 set_target_properties(Fcitx5Utils
-  PROPERTIES VERSION 5.0
-  SOVERSION 2
+  PROPERTIES VERSION ${Fcitx5Utils_VERSION}
+  SOVERSION ${Fcitx5Utils_SOVERSION}
   EXPORT_NAME Utils
   )
 target_include_directories(Fcitx5Utils PUBLIC
@@ -126,10 +131,6 @@ install(FILES ${FCITX_UTILS_HEADERS} DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}/Fc
 install(FILES ${FCITX_UTILS_DBUS_HEADERS} DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}/Fcitx5/Utils/fcitx-utils/dbus")
 
 add_library(Fcitx5::Utils ALIAS Fcitx5Utils)
-
-ecm_setup_version(PROJECT
-                  PACKAGE_VERSION_FILE "${CMAKE_CURRENT_BINARY_DIR}/Fcitx5UtilsConfigVersion.cmake"
-                  SOVERSION 2)
 
 configure_package_config_file("${CMAKE_CURRENT_SOURCE_DIR}/Fcitx5UtilsConfig.cmake.in"
                               "${CMAKE_CURRENT_BINARY_DIR}/Fcitx5UtilsConfig.cmake"

@@ -116,4 +116,16 @@ void Configuration::addOption(OptionBase *option) {
     d->optionsOrder_.push_back(option->path());
     d->options_[option->path()] = option;
 }
+
+void Configuration::syncDefaultValueToCurrent() {
+    FCITX_D();
+    for (const auto &path : d->optionsOrder_) {
+        auto iter = d->options_.find(path);
+        assert(iter != d->options_.end());
+        if (auto optionV2 = dynamic_cast<OptionBaseV2 *>(iter->second)) {
+            optionV2->syncDefaultValueToCurrent();
+        }
+    }
+}
+
 } // namespace fcitx

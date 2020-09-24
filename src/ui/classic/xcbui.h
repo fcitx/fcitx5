@@ -90,6 +90,7 @@ private:
 
     XCBFontOption fontOption_;
     int maxDpi_ = -1;
+    int primaryDpi_ = -1;
     MultiScreenExtension multiScreen_ = MultiScreenExtension::EXTNone;
     int xrandrFirstEvent_ = 0;
 
