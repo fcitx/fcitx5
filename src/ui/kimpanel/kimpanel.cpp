@@ -25,6 +25,15 @@
 
 namespace fcitx {
 
+bool isKDE() {
+    std::string desktop;
+    auto *desktopEnv = getenv("XDG_CURRENT_DESKTOP");
+    if (desktopEnv) {
+        desktop = desktopEnv;
+    }
+    return desktop == "KDE";
+}
+
 enum class CursorRectMethod {
     SetSpotRect,
     SetRelativeSpotRect,
@@ -362,6 +371,12 @@ std::string Kimpanel::inputMethodStatus(InputContext *ic) {
             description = entry->name();
         }
     }
+
+    static const bool preferSymbolic = !isKDE();
+    if (preferSymbolic && icon == "input-keyboard") {
+        icon = "input-keyboard-symbolic";
+    }
+
     return stringutils::concat(
         "/Fcitx/im:", label.empty() ? description : label, ":", icon, ":",
         label.empty() ? "" : description, ":menu");

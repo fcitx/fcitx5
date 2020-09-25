@@ -677,7 +677,7 @@ void IBusFrontendModule::replaceIBus() {
                     while ((ret = waitpid(pid, &stat, WNOHANG)) <= 0) {
                         if (ret == 0) {
                             FCITX_DEBUG()
-                                << "ibus exit have ended yet, kill it.";
+                                << "ibus exit haven't ended yet, kill it.";
                             kill(pid, SIGKILL);
                             waitpid(pid, &stat, WNOHANG);
                             break;
