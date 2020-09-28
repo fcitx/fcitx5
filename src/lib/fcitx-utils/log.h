@@ -181,6 +181,40 @@ public:
         return *this;
     }
 
+    template <typename K, typename V>
+    inline LogMessageBuilder &operator<<(const std::multimap<K, V> &vec) {
+        *this << "{";
+        printRange(vec.begin(), vec.end());
+        *this << "}";
+        return *this;
+    }
+
+    template <typename V>
+    inline LogMessageBuilder &operator<<(const std::multiset<V> &vec) {
+        *this << "{";
+        printRange(vec.begin(), vec.end());
+        *this << "}";
+        return *this;
+    }
+
+    template <typename K, typename V>
+    inline LogMessageBuilder &
+    operator<<(const std::unordered_multimap<K, V> &vec) {
+        *this << "{";
+        printRange(vec.begin(), vec.end());
+        *this << "}";
+        return *this;
+    }
+
+    template <typename V>
+    inline LogMessageBuilder &
+    operator<<(const std::unordered_multiset<V> &vec) {
+        *this << "{";
+        printRange(vec.begin(), vec.end());
+        *this << "}";
+        return *this;
+    }
+
 private:
     template <typename Iterator>
     void printRange(Iterator begin, Iterator end) {
