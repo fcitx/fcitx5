@@ -53,6 +53,8 @@ public:
     void setEnabledAddons(const std::vector<std::string> &addons);
     void setDisabledAddons(const std::vector<std::string> &addons);
 
+    bool preloadInputMethod() const;
+
     void load(const RawConfig &rawConfig, bool partial = false);
     void save(RawConfig &rawConfig) const;
     bool safeSave(const std::string &path = "config") const;

@@ -126,7 +126,10 @@ FCITX_CONFIGURATION(
     HiddenOption<std::vector<std::string>> enabledAddons{
         this, "EnabledAddons", "Force Enabled Addons"};
     HiddenOption<std::vector<std::string>> disabledAddons{
-        this, "DisabledAddons", "Force Disabled Addons"};);
+        this, "DisabledAddons", "Force Disabled Addons"};
+    HiddenOption<bool> preloadInputMethod{
+        this, "PreloadInputMethod",
+        "Preload input method to be used by default", true};);
 
 FCITX_CONFIGURATION(GlobalConfig,
                     Option<HotkeyConfig> hotkey{this, "Hotkey", _("Hotkey")};
@@ -268,6 +271,11 @@ void GlobalConfig::setEnabledAddons(const std::vector<std::string> &addons) {
 void GlobalConfig::setDisabledAddons(const std::vector<std::string> &addons) {
     FCITX_D();
     d->behavior.mutableValue()->disabledAddons.setValue(addons);
+}
+
+bool GlobalConfig::preloadInputMethod() const {
+    FCITX_D();
+    return *d->behavior->preloadInputMethod;
 }
 
 const Configuration &GlobalConfig::config() const {
