@@ -47,7 +47,8 @@ static inline unsigned short to_hex_digit(char hi, char lo) {
     return dhi * 16 + dlo;
 }
 
-Color::Color(ushort r, ushort g, ushort b, ushort alpha)
+Color::Color(unsigned short r, unsigned short g, unsigned short b,
+             unsigned short alpha)
     : red_(extendColor(r)), green_(extendColor(g)), blue_(extendColor(b)),
       alpha_(extendColor(alpha)) {}
 
