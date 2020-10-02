@@ -264,7 +264,7 @@ public:
         }
         return memory_[offset + 1] | memory_[offset] << 8;
     }
-    uint32_t readDoubleWord(uint offset) const {
+    uint32_t readDoubleWord(unsigned int offset) const {
         if (offset > size_ - 4 || (offset % 4)) {
             isValid_ = false;
             return 0;
@@ -672,7 +672,7 @@ FCITX_DEFINE_READ_ONLY_PROPERTY_PRIVATE(IconTheme,
                                         scaledDirectories);
 FCITX_DEFINE_READ_ONLY_PROPERTY_PRIVATE(IconTheme, std::string, example);
 
-std::string IconTheme::findIcon(const std::string &iconName, uint desiredSize,
+std::string IconTheme::findIcon(const std::string &iconName, unsigned int desiredSize,
                                 int scale,
                                 const std::vector<std::string> &extensions) {
     FCITX_D();
