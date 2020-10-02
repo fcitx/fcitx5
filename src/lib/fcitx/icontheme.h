@@ -63,7 +63,7 @@ public:
     IconTheme(const StandardPath &standardPath = StandardPath::global());
     FCITX_DECLARE_VIRTUAL_DTOR_MOVE(IconTheme);
 
-    std::string findIcon(const std::string &iconName, uint desiredSize,
+    std::string findIcon(const std::string &iconName, unsigned int desiredSize,
                          int scale = 1,
                          const std::vector<std::string> &extensions = {
                              ".svg", ".png", ".xpm"});
