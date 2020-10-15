@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2020-09-26 00:01-0700\n"
+"POT-Creation-Date: 2020-10-15 00:02-0700\n"
 "PO-Revision-Date: 2017-11-23 04:14+0000\n"
 "Last-Translator: scootergrisen, 2020\n"
 "Language-Team: Danish (https://www.transifex.com/fcitx/teams/12005/da/)\n"
@@ -48,7 +48,7 @@ msgstr "${1} ikke fundet."
 msgid "${1} works properly."
 msgstr "${1} virker korrekt."
 
-#: src/lib/fcitx/instance.cpp:1953
+#: src/lib/fcitx/instance.cpp:1977
 msgid "(Not available)"
 msgstr "(ikke tilgængelig)"
 
@@ -78,23 +78,23 @@ msgstr "/XIM"
 
 #: src/modules/unicode/charselectdata.cpp:208
 msgid "<Low Surrogate>"
-msgstr "<Low Surrogate>"
+msgstr "<Lav surrogat>"
 
 #: src/modules/unicode/charselectdata.cpp:204
 msgid "<Non Private Use High Surrogate>"
-msgstr "<Non Private Use High Surrogate>"
+msgstr "<Høj surrogat for ikke privat brug>"
 
 #: src/modules/unicode/charselectdata.cpp:206
 msgid "<Private Use High Surrogate>"
-msgstr "<Private Use High Surrogate>"
+msgstr "<Høj surrogat for privat brug>"
 
 #: src/modules/unicode/charselectdata.cpp:210
 msgid "<Private Use>"
-msgstr "<Private Use>"
+msgstr "<Privat brug>"
 
 #: src/modules/unicode/charselectdata.cpp:240
 msgid "<not assigned>"
-msgstr "<not assigned>"
+msgstr "<ikke tildelt>"
 
 #: src/lib/fcitx/globalconfig.cpp:68
 msgid "Activate Input Method"
@@ -213,7 +213,7 @@ msgstr "Batteri"
 msgid "Beginner's Guide"
 msgstr "Begyndervejledning"
 
-#: src/lib/fcitx/globalconfig.cpp:134
+#: src/lib/fcitx/globalconfig.cpp:137
 msgid "Behavior"
 msgstr "Opførsel"
 
@@ -488,7 +488,7 @@ msgstr "DOS"
 msgid "Deactivate Input Method"
 msgstr "Deaktivér inputmetode"
 
-#: src/lib/fcitx/instance.cpp:563 src/lib/fcitx/inputmethodmanager.cpp:130
+#: src/lib/fcitx/instance.cpp:564 src/lib/fcitx/inputmethodmanager.cpp:130
 #: src/ui/classic/themes/default/theme.conf.in:3
 msgid "Default"
 msgstr "Standard"
@@ -807,11 +807,11 @@ msgstr "Grøn"
 msgid "Group"
 msgstr "Gruppe"
 
-#: src/lib/fcitx/instance.cpp:1956
+#: src/lib/fcitx/instance.cpp:1980
 msgid "Group {0}: {1}"
 msgstr "Gruppe {0}: {1}"
 
-#: src/lib/fcitx/instance.cpp:565
+#: src/lib/fcitx/instance.cpp:566
 msgid "Group {}"
 msgstr "Gruppe {}"
 
@@ -949,7 +949,7 @@ msgctxt "Key name"
 msgid "Hot Links"
 msgstr "Hotlinks"
 
-#: src/lib/fcitx/globalconfig.cpp:132
+#: src/lib/fcitx/globalconfig.cpp:135
 msgid "Hotkey"
 msgstr "Hottast"
 
@@ -982,7 +982,7 @@ msgstr ""
 "bruger kommandoen ${g36_disable_ibus} til at deaktivere IBus-integration for "
 "at kunne bruge andre inputmetoder end ${2}. Se ${link} for flere detaljer."
 
-#: src/lib/fcitx/instance.cpp:634 src/lib/fcitx/instance.cpp:804
+#: src/lib/fcitx/instance.cpp:635 src/lib/fcitx/instance.cpp:805
 #: src/im/keyboard/keyboard.cpp:357 src/ui/classic/xcbtraywindow.cpp:38
 #: src/modules/xcb/xcbconnection.cpp:388
 #: src/modules/notificationitem/dbusmenu.cpp:241
@@ -1454,15 +1454,15 @@ msgctxt "Key name"
 msgid "Power Off"
 msgstr "Sluk"
 
-#: src/lib/fcitx/instance.cpp:804
+#: src/lib/fcitx/instance.cpp:805
 msgid "Preedit"
 msgstr "Preedit"
 
-#: src/lib/fcitx/instance.cpp:806
+#: src/lib/fcitx/instance.cpp:807
 msgid "Preedit disabled"
 msgstr "Preedit deaktiveret"
 
-#: src/lib/fcitx/instance.cpp:805
+#: src/lib/fcitx/instance.cpp:806
 msgid "Preedit enabled"
 msgstr "Preedit aktiveret"
 
@@ -1724,7 +1724,7 @@ msgctxt "Key name"
 msgid "Suspend"
 msgstr "Hvile"
 
-#: src/lib/fcitx/instance.cpp:635 src/modules/xcb/xcbconnection.cpp:389
+#: src/lib/fcitx/instance.cpp:636 src/modules/xcb/xcbconnection.cpp:389
 msgid "Switch group"
 msgstr "Skift gruppe"
 
@@ -1732,7 +1732,7 @@ msgstr "Skift gruppe"
 msgid "Switch group to {0}"
 msgstr "Skift gruppe til {0}"
 
-#: src/lib/fcitx/instance.cpp:636
+#: src/lib/fcitx/instance.cpp:637
 msgid "Switched group to {0}"
 msgstr "Skiftede gruppe til {0}"
 
@@ -2117,10 +2117,10 @@ msgstr "version:"
 msgid "{0} (Not Available)"
 msgstr "{0} (ikke tilgængelig)"
 
-#: src/lib/fcitx/instance.cpp:1951
+#: src/lib/fcitx/instance.cpp:1975
 msgid "{0} (Not available)"
 msgstr "{0} (ikke tilgængelig)"
 
-#: src/lib/fcitx/instance.cpp:1948
+#: src/lib/fcitx/instance.cpp:1972
 msgid "{0} ({1})"
 msgstr "{0} ({1})"
