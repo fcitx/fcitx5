@@ -138,6 +138,7 @@ private:
 
     bool canTrigger() const;
     bool canAltTrigger(InputContext *ic) const;
+    bool canEnumerate(InputContext *ic) const;
     bool canChangeGroup() const;
     bool trigger(InputContext *ic, bool totallyReleased);
     bool altTrigger(InputContext *ic);

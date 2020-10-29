@@ -711,10 +711,10 @@ Instance::Instance(int argc, char **argv) {
                  [this]() { return canTrigger(); },
                  [this, ic](bool) { return deactivate(ic); }},
                 {d->globalConfig_.enumerateForwardKeys(),
-                 [this]() { return canTrigger(); },
+                 [this, ic]() { return canEnumerate(ic); },
                  [this, ic](bool) { return enumerate(ic, true); }},
                 {d->globalConfig_.enumerateBackwardKeys(),
-                 [this]() { return canTrigger(); },
+                 [this, ic]() { return canEnumerate(ic); },
                  [this, ic](bool) { return enumerate(ic, false); }},
                 {d->globalConfig_.enumerateGroupForwardKeys(),
                  [this]() { return canChangeGroup(); },
@@ -1659,6 +1659,23 @@ bool Instance::canAltTrigger(InputContext *ic) const {
     return inputState->lastIMChangeIsAltTrigger_;
 }
 
+bool Instance::canEnumerate(InputContext *ic) const {
+    FCITX_D();
+    if (!canTrigger()) {
+        return false;
+    }
+
+    if (d->globalConfig_.enumerateSkipFirst()) {
+        auto *inputState = ic->propertyFor(&d->inputStateFactory_);
+        if (!inputState->isActive()) {
+            return false;
+        }
+        return d->imManager_.currentGroup().inputMethodList().size() > 2;
+    }
+
+    return true;
+}
+
 bool Instance::canChangeGroup() const {
     const auto &imManager = inputMethodManager();
     return (imManager.groupCount() > 1);
@@ -1690,7 +1707,9 @@ bool Instance::trigger(InputContext *ic, bool totallyReleased) {
         inputState->firstTrigger_ = true;
     } else {
         if (!d->globalConfig_.enumerateWithTriggerKeys() ||
-            (inputState->firstTrigger_ && inputState->isActive())) {
+            (inputState->firstTrigger_ && inputState->isActive()) ||
+            (d->globalConfig_.enumerateSkipFirst() &&
+             d->imManager_.currentGroup().inputMethodList().size() <= 2)) {
             toggle(ic);
         } else {
             enumerate(ic, true);
@@ -1751,6 +1770,10 @@ bool Instance::enumerate(InputContext *ic, bool forward) {
         return false;
     }
 
+    if (d->globalConfig_.enumerateSkipFirst() && imList.size() <= 2) {
+        return false;
+    }
+
     auto currentIM = inputMethod(ic);
 
     auto iter = std::find_if(imList.begin(), imList.end(),
@@ -1760,9 +1783,16 @@ bool Instance::enumerate(InputContext *ic, bool forward) {
     if (iter == imList.end()) {
         return false;
     }
-    auto idx = std::distance(imList.begin(), iter);
-    // be careful not to use negative to avoid overflow.
-    idx = (idx + (forward ? 1 : (imList.size() - 1))) % imList.size();
+    int idx = std::distance(imList.begin(), iter);
+    auto nextIdx = [forward, &imList](int idx) {
+        // be careful not to use negative to avoid overflow.
+        return (idx + (forward ? 1 : (imList.size() - 1))) % imList.size();
+    };
+
+    idx = nextIdx(idx);
+    if (d->globalConfig_.enumerateSkipFirst() && idx == 0) {
+        idx = nextIdx(idx);
+    }
     if (idx != 0) {
         std::vector<std::unique_ptr<CheckInputMethodChanged>> groupRAIICheck;
         d->icManager_.foreachFocused([d, &groupRAIICheck](InputContext *ic) {

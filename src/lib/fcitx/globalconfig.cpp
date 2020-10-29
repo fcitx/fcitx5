@@ -48,6 +48,9 @@ FCITX_CONFIGURATION(
         {Key("Control+Shift_R")},
         KeyListConstrain({KeyConstrainFlag::AllowModifierLess,
                           KeyConstrainFlag::AllowModifierOnly})};
+    Option<bool> enumerateSkipFirst{
+        this, "EnumerateSkipFirst",
+        _("Skip first input method while enumerating"), false};
     KeyListOption enumerateGroupForwardKeys{
         this,
         "EnumerateGroupForwardKeys",
@@ -191,6 +194,11 @@ const KeyList &GlobalConfig::enumerateForwardKeys() const {
 const KeyList &GlobalConfig::enumerateBackwardKeys() const {
     FCITX_D();
     return d->hotkey->enumerateBackwardKeys.value();
+}
+
+bool GlobalConfig::enumerateSkipFirst() const {
+    FCITX_D();
+    return *d->hotkey->enumerateSkipFirst;
 }
 
 const KeyList &GlobalConfig::enumerateGroupForwardKeys() const {

@@ -31,6 +31,7 @@ public:
     const KeyList &deactivateKeys() const;
     const KeyList &enumerateForwardKeys() const;
     const KeyList &enumerateBackwardKeys() const;
+    bool enumerateSkipFirst() const;
     const KeyList &enumerateGroupForwardKeys() const;
     const KeyList &enumerateGroupBackwardKeys() const;
     const KeyList &togglePreeditKeys() const;
