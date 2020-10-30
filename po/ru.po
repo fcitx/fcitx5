@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2020-09-06 00:01-0700\n"
+"POT-Creation-Date: 2020-10-30 00:02-0700\n"
 "PO-Revision-Date: 2017-11-23 04:14+0000\n"
 "Last-Translator: TotalCaesar659 <x24cm5b8c54q6szxw@yandex.ru>, 2017\n"
 "Language-Team: Russian (https://www.transifex.com/fcitx/teams/12005/ru/)\n"
@@ -50,7 +50,7 @@ msgstr ""
 msgid "${1} works properly."
 msgstr ""
 
-#: src/lib/fcitx/instance.cpp:1954
+#: src/lib/fcitx/instance.cpp:2007
 msgid "(Not available)"
 msgstr "(Недоступно)"
 
@@ -98,11 +98,11 @@ msgstr "<Для личного использования>"
 msgid "<not assigned>"
 msgstr "<не назначен>"
 
-#: src/lib/fcitx/globalconfig.cpp:68
+#: src/lib/fcitx/globalconfig.cpp:71
 msgid "Activate Input Method"
 msgstr "Активировать метод ввода"
 
-#: src/lib/fcitx/globalconfig.cpp:113
+#: src/lib/fcitx/globalconfig.cpp:116
 msgid "Active By Default"
 msgstr "Активен по умолчанию"
 
@@ -152,7 +152,7 @@ msgstr ""
 msgid "Alt"
 msgstr "Alt"
 
-#: src/lib/fcitx-utils/key.cpp:440
+#: src/lib/fcitx-utils/key.cpp:476
 msgctxt "Key name"
 msgid "Alt"
 msgstr ""
@@ -215,7 +215,7 @@ msgstr ""
 msgid "Beginner's Guide"
 msgstr ""
 
-#: src/lib/fcitx/globalconfig.cpp:134
+#: src/lib/fcitx/globalconfig.cpp:140
 msgid "Behavior"
 msgstr "Поведение"
 
@@ -412,7 +412,7 @@ msgstr ""
 msgid "Config Tool Wrapper:"
 msgstr ""
 
-#: data/fcitx5-diagnose.sh:1731
+#: data/fcitx5-diagnose.sh:1732
 msgid "Configuration:"
 msgstr ""
 
@@ -425,7 +425,7 @@ msgstr "Настроить"
 msgid "Control"
 msgstr "Управление"
 
-#: src/lib/fcitx-utils/key.cpp:439
+#: src/lib/fcitx-utils/key.cpp:475
 msgctxt "Key name"
 msgid "Control"
 msgstr ""
@@ -481,7 +481,7 @@ msgctxt "Key name"
 msgid "DOS"
 msgstr ""
 
-#: src/lib/fcitx/globalconfig.cpp:77
+#: src/lib/fcitx/globalconfig.cpp:80
 msgid "Deactivate Input Method"
 msgstr "Деактивация метода ввода"
 
@@ -490,23 +490,23 @@ msgstr "Деактивация метода ввода"
 msgid "Default"
 msgstr "По умолчанию"
 
-#: src/lib/fcitx/globalconfig.cpp:102
+#: src/lib/fcitx/globalconfig.cpp:105
 msgid "Default Next Candidate"
 msgstr ""
 
-#: src/lib/fcitx/globalconfig.cpp:90
+#: src/lib/fcitx/globalconfig.cpp:93
 msgid "Default Next page"
 msgstr "Следующая страница по умолчанию"
 
-#: src/lib/fcitx/globalconfig.cpp:96
+#: src/lib/fcitx/globalconfig.cpp:99
 msgid "Default Previous Candidate"
 msgstr ""
 
-#: src/lib/fcitx/globalconfig.cpp:84
+#: src/lib/fcitx/globalconfig.cpp:87
 msgid "Default Previous page"
 msgstr "Предыдущая страница по умолчанию"
 
-#: src/lib/fcitx/globalconfig.cpp:124
+#: src/lib/fcitx/globalconfig.cpp:127
 msgid "Default page size"
 msgstr "Размер страницы по умолчанию"
 
@@ -598,11 +598,11 @@ msgstr "Перечислить методы ввода в обратном по�
 msgid "Enumerate Input Method Forward"
 msgstr "Перечислить методы ввода в прямом порядке"
 
-#: src/lib/fcitx/globalconfig.cpp:61
+#: src/lib/fcitx/globalconfig.cpp:64
 msgid "Enumerate Input Method Group Backward"
 msgstr "Перечислить группы методов ввода в обратном порядке"
 
-#: src/lib/fcitx/globalconfig.cpp:54
+#: src/lib/fcitx/globalconfig.cpp:57
 msgid "Enumerate Input Method Group Forward"
 msgstr "Перечислить группы методов ввода в прямом порядке"
 
@@ -776,7 +776,7 @@ msgstr ""
 msgid "Freedesktop.org Notification Support"
 msgstr ""
 
-#: data/fcitx5-diagnose.sh:1724
+#: data/fcitx5-diagnose.sh:1725
 msgid "Frontends setup:"
 msgstr ""
 
@@ -800,7 +800,7 @@ msgstr ""
 msgid "Group"
 msgstr "Группа"
 
-#: src/lib/fcitx/instance.cpp:1957
+#: src/lib/fcitx/instance.cpp:2010
 msgid "Group {0}: {1}"
 msgstr "Группа {0}: {1}"
 
@@ -942,11 +942,11 @@ msgctxt "Key name"
 msgid "Hot Links"
 msgstr ""
 
-#: src/lib/fcitx/globalconfig.cpp:132
+#: src/lib/fcitx/globalconfig.cpp:138
 msgid "Hotkey"
 msgstr "Горячая клавиша"
 
-#: src/lib/fcitx-utils/key.cpp:443
+#: src/lib/fcitx-utils/key.cpp:479
 msgctxt "Key name"
 msgid "Hyper"
 msgstr ""
@@ -973,7 +973,7 @@ msgstr ""
 #: src/im/keyboard/keyboard.cpp:357 src/ui/classic/xcbtraywindow.cpp:38
 #: src/modules/xcb/xcbconnection.cpp:388
 #: src/modules/notificationitem/dbusmenu.cpp:241
-#: src/modules/notificationitem/notificationitem.cpp:90
+#: src/modules/notificationitem/notificationitem.cpp:105
 #: data/fcitx5.desktop.in.in:4
 msgid "Input Method"
 msgstr "Метод ввода"
@@ -1187,7 +1187,7 @@ msgstr ""
 msgid "Locale:"
 msgstr ""
 
-#: data/fcitx5-diagnose.sh:1737
+#: data/fcitx5-diagnose.sh:1738
 msgid "Log:"
 msgstr ""
 
@@ -1328,7 +1328,7 @@ msgstr "История буфера обмена отсутствует."
 msgid "None"
 msgstr "Нет"
 
-#: src/ui/kimpanel/kimpanel.cpp:324
+#: src/ui/kimpanel/kimpanel.cpp:365
 msgid "Not available"
 msgstr "Недоступно"
 
@@ -1611,11 +1611,11 @@ msgctxt "Key name"
 msgid "Send"
 msgstr ""
 
-#: src/lib/fcitx/globalconfig.cpp:115
+#: src/lib/fcitx/globalconfig.cpp:118
 msgid "Share Input State"
 msgstr ""
 
-#: src/lib/fcitx-utils/key.cpp:441
+#: src/lib/fcitx-utils/key.cpp:477
 msgctxt "Key name"
 msgid "Shift"
 msgstr ""
@@ -1625,13 +1625,17 @@ msgctxt "Key name"
 msgid "Shop"
 msgstr ""
 
-#: src/lib/fcitx/globalconfig.cpp:122
+#: src/lib/fcitx/globalconfig.cpp:125
 msgid "Show Input Method Information when changing focus"
 msgstr ""
 
-#: src/lib/fcitx/globalconfig.cpp:119
+#: src/lib/fcitx/globalconfig.cpp:122
 msgid "Show Input Method Information when switch input method"
 msgstr "Показывать информацию о методе ввода при переключении"
+
+#: src/lib/fcitx/globalconfig.cpp:53
+msgid "Skip first input method while enumerating"
+msgstr ""
 
 #: src/lib/fcitx-utils/key.cpp:105
 msgctxt "Key name"
@@ -1689,7 +1693,7 @@ msgstr ""
 msgid "Super"
 msgstr "Super"
 
-#: src/lib/fcitx-utils/key.cpp:442
+#: src/lib/fcitx-utils/key.cpp:478
 msgctxt "Key name"
 msgid "Super"
 msgstr ""
@@ -1765,7 +1769,7 @@ msgid ""
 "freezing, see ${link2}."
 msgstr ""
 
-#: src/lib/fcitx/globalconfig.cpp:107
+#: src/lib/fcitx/globalconfig.cpp:110
 msgid "Toggle embedded preedit"
 msgstr ""
 
@@ -2076,10 +2080,10 @@ msgstr ""
 msgid "{0} (Not Available)"
 msgstr ""
 
-#: src/lib/fcitx/instance.cpp:1952
+#: src/lib/fcitx/instance.cpp:2005
 msgid "{0} (Not available)"
 msgstr "{0} (Недоступно)"
 
-#: src/lib/fcitx/instance.cpp:1949
+#: src/lib/fcitx/instance.cpp:2002
 msgid "{0} ({1})"
 msgstr "{0} ({1})"

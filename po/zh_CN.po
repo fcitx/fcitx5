@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2020-09-13 00:01-0700\n"
+"POT-Creation-Date: 2020-10-30 00:02-0700\n"
 "PO-Revision-Date: 2017-11-23 04:14+0000\n"
 "Last-Translator: csslayer <wengxt@gmail.com>, 2020\n"
 "Language-Team: Chinese (China) (https://www.transifex.com/fcitx/teams/12005/"
@@ -49,7 +49,7 @@ msgstr "${1} 未找到."
 msgid "${1} works properly."
 msgstr "${1} 工作正常。"
 
-#: src/lib/fcitx/instance.cpp:1953
+#: src/lib/fcitx/instance.cpp:2007
 msgid "(Not available)"
 msgstr "(不可用)"
 
@@ -97,11 +97,11 @@ msgstr "<专用区>"
 msgid "<not assigned>"
 msgstr "<未指派>"
 
-#: src/lib/fcitx/globalconfig.cpp:68
+#: src/lib/fcitx/globalconfig.cpp:71
 msgid "Activate Input Method"
 msgstr "激活输入法"
 
-#: src/lib/fcitx/globalconfig.cpp:113
+#: src/lib/fcitx/globalconfig.cpp:116
 msgid "Active By Default"
 msgstr "默认状态为激活"
 
@@ -214,7 +214,7 @@ msgstr "电池"
 msgid "Beginner's Guide"
 msgstr "入门指南"
 
-#: src/lib/fcitx/globalconfig.cpp:134
+#: src/lib/fcitx/globalconfig.cpp:140
 msgid "Behavior"
 msgstr "行为"
 
@@ -480,32 +480,32 @@ msgctxt "Key name"
 msgid "DOS"
 msgstr "DOS"
 
-#: src/lib/fcitx/globalconfig.cpp:77
+#: src/lib/fcitx/globalconfig.cpp:80
 msgid "Deactivate Input Method"
 msgstr "取消激活输入法"
 
-#: src/lib/fcitx/instance.cpp:563 src/lib/fcitx/inputmethodmanager.cpp:130
+#: src/lib/fcitx/instance.cpp:564 src/lib/fcitx/inputmethodmanager.cpp:130
 #: src/ui/classic/themes/default/theme.conf.in:3
 msgid "Default"
 msgstr "默认"
 
-#: src/lib/fcitx/globalconfig.cpp:102
+#: src/lib/fcitx/globalconfig.cpp:105
 msgid "Default Next Candidate"
 msgstr "默认跳转下一个候选词"
 
-#: src/lib/fcitx/globalconfig.cpp:90
+#: src/lib/fcitx/globalconfig.cpp:93
 msgid "Default Next page"
 msgstr "默认下一页"
 
-#: src/lib/fcitx/globalconfig.cpp:96
+#: src/lib/fcitx/globalconfig.cpp:99
 msgid "Default Previous Candidate"
 msgstr "默认跳转前一个候选词"
 
-#: src/lib/fcitx/globalconfig.cpp:84
+#: src/lib/fcitx/globalconfig.cpp:87
 msgid "Default Previous page"
 msgstr "默认上一页"
 
-#: src/lib/fcitx/globalconfig.cpp:124
+#: src/lib/fcitx/globalconfig.cpp:127
 msgid "Default page size"
 msgstr "默认页大小"
 
@@ -597,11 +597,11 @@ msgstr "向后切换输入法"
 msgid "Enumerate Input Method Forward"
 msgstr "向前切换输入法"
 
-#: src/lib/fcitx/globalconfig.cpp:61
+#: src/lib/fcitx/globalconfig.cpp:64
 msgid "Enumerate Input Method Group Backward"
 msgstr "向后切换输入法分组"
 
-#: src/lib/fcitx/globalconfig.cpp:54
+#: src/lib/fcitx/globalconfig.cpp:57
 msgid "Enumerate Input Method Group Forward"
 msgstr "向前切换输入分组"
 
@@ -801,11 +801,11 @@ msgstr "绿"
 msgid "Group"
 msgstr "分组"
 
-#: src/lib/fcitx/instance.cpp:1956
+#: src/lib/fcitx/instance.cpp:2010
 msgid "Group {0}: {1}"
 msgstr "分组 {0}：{1}"
 
-#: src/lib/fcitx/instance.cpp:565
+#: src/lib/fcitx/instance.cpp:566
 msgid "Group {}"
 msgstr "分组 {}"
 
@@ -943,7 +943,7 @@ msgctxt "Key name"
 msgid "Hot Links"
 msgstr "热门链接"
 
-#: src/lib/fcitx/globalconfig.cpp:132
+#: src/lib/fcitx/globalconfig.cpp:138
 msgid "Hotkey"
 msgstr "快捷键"
 
@@ -975,11 +975,11 @@ msgstr ""
 "${g36_disable_ibus} 禁用 IBus 集成已使用除 ${2} 之外的任何输入法. 更多细节参"
 "见 ${link}。"
 
-#: src/lib/fcitx/instance.cpp:634 src/lib/fcitx/instance.cpp:804
+#: src/lib/fcitx/instance.cpp:635 src/lib/fcitx/instance.cpp:805
 #: src/im/keyboard/keyboard.cpp:357 src/ui/classic/xcbtraywindow.cpp:38
 #: src/modules/xcb/xcbconnection.cpp:388
 #: src/modules/notificationitem/dbusmenu.cpp:241
-#: src/modules/notificationitem/notificationitem.cpp:90
+#: src/modules/notificationitem/notificationitem.cpp:105
 #: data/fcitx5.desktop.in.in:4
 msgid "Input Method"
 msgstr "输入法"
@@ -1334,7 +1334,7 @@ msgstr "无剪贴板历史。"
 msgid "None"
 msgstr "无"
 
-#: src/ui/kimpanel/kimpanel.cpp:356
+#: src/ui/kimpanel/kimpanel.cpp:365
 msgid "Not available"
 msgstr "不可用"
 
@@ -1443,15 +1443,15 @@ msgctxt "Key name"
 msgid "Power Off"
 msgstr "关机"
 
-#: src/lib/fcitx/instance.cpp:804
+#: src/lib/fcitx/instance.cpp:805
 msgid "Preedit"
 msgstr "预编辑"
 
-#: src/lib/fcitx/instance.cpp:806
+#: src/lib/fcitx/instance.cpp:807
 msgid "Preedit disabled"
 msgstr "预编辑已禁用"
 
-#: src/lib/fcitx/instance.cpp:805
+#: src/lib/fcitx/instance.cpp:806
 msgid "Preedit enabled"
 msgstr "预编辑已启用"
 
@@ -1620,7 +1620,7 @@ msgctxt "Key name"
 msgid "Send"
 msgstr "发送"
 
-#: src/lib/fcitx/globalconfig.cpp:115
+#: src/lib/fcitx/globalconfig.cpp:118
 msgid "Share Input State"
 msgstr "共享输入状态"
 
@@ -1634,13 +1634,17 @@ msgctxt "Key name"
 msgid "Shop"
 msgstr "购物"
 
-#: src/lib/fcitx/globalconfig.cpp:122
+#: src/lib/fcitx/globalconfig.cpp:125
 msgid "Show Input Method Information when changing focus"
 msgstr "在焦点更改时显示输入法信息"
 
-#: src/lib/fcitx/globalconfig.cpp:119
+#: src/lib/fcitx/globalconfig.cpp:122
 msgid "Show Input Method Information when switch input method"
 msgstr "切换输入法时显示输入法信息"
+
+#: src/lib/fcitx/globalconfig.cpp:53
+msgid "Skip first input method while enumerating"
+msgstr ""
 
 #: src/lib/fcitx-utils/key.cpp:105
 msgctxt "Key name"
@@ -1713,7 +1717,7 @@ msgctxt "Key name"
 msgid "Suspend"
 msgstr "睡眠"
 
-#: src/lib/fcitx/instance.cpp:635 src/modules/xcb/xcbconnection.cpp:389
+#: src/lib/fcitx/instance.cpp:636 src/modules/xcb/xcbconnection.cpp:389
 msgid "Switch group"
 msgstr "切换分组"
 
@@ -1721,7 +1725,7 @@ msgstr "切换分组"
 msgid "Switch group to {0}"
 msgstr "切换到分组 {0}"
 
-#: src/lib/fcitx/instance.cpp:636
+#: src/lib/fcitx/instance.cpp:637
 msgid "Switched group to {0}"
 msgstr "已切换到分组 {0}"
 
@@ -1776,7 +1780,7 @@ msgstr ""
 "您可以在 ${link1} 找到一些会在使用 xim 时出现问题的应用程序。包括应用程序卡死"
 "在内的更多使用 xim 可能出现的普遍问题请参见 ${link2}。"
 
-#: src/lib/fcitx/globalconfig.cpp:107
+#: src/lib/fcitx/globalconfig.cpp:110
 msgid "Toggle embedded preedit"
 msgstr "切换是否使用嵌入预编辑"
 
@@ -2099,10 +2103,10 @@ msgstr "版本："
 msgid "{0} (Not Available)"
 msgstr "{0} (不可用)"
 
-#: src/lib/fcitx/instance.cpp:1951
+#: src/lib/fcitx/instance.cpp:2005
 msgid "{0} (Not available)"
 msgstr "{0} (不可用)"
 
-#: src/lib/fcitx/instance.cpp:1948
+#: src/lib/fcitx/instance.cpp:2002
 msgid "{0} ({1})"
 msgstr "{0} ({1})"
