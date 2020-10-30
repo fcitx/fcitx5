@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2020-10-30 00:02-0700\n"
+"POT-Creation-Date: 2020-10-30 15:59-0700\n"
 "PO-Revision-Date: 2017-11-23 04:14+0000\n"
 "Last-Translator: csslayer <wengxt@gmail.com>, 2020\n"
 "Language-Team: Chinese (China) (https://www.transifex.com/fcitx/teams/12005/"
@@ -1644,7 +1644,7 @@ msgstr "切换输入法时显示输入法信息"
 
 #: src/lib/fcitx/globalconfig.cpp:53
 msgid "Skip first input method while enumerating"
-msgstr ""
+msgstr "轮换输入法时跳过第一个输入法"
 
 #: src/lib/fcitx-utils/key.cpp:105
 msgctxt "Key name"
