@@ -1,0 +1,4 @@
+[D-BUS Service]
+Name=org.fcitx.Fcitx5
+Exec=@FCITX_INSTALL_BINDIR@/fcitx5
+

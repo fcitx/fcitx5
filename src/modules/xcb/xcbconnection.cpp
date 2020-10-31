@@ -119,7 +119,7 @@ void XCBConnection::setDoGrab(bool doGrab) {
 
 void XCBConnection::grabKey(const Key &key) {
     xcb_keysym_t sym = static_cast<xcb_keysym_t>(key.sym());
-    uint modifiers = key.states();
+    uint32_t modifiers = key.states();
     UniqueCPtr<xcb_keycode_t> keycode(
         xcb_key_symbols_get_keycode(syms_.get(), sym));
     if (!keycode) {
@@ -142,7 +142,7 @@ void XCBConnection::grabKey(const Key &key) {
 
 void XCBConnection::ungrabKey(const Key &key) {
     xcb_keysym_t sym = static_cast<xcb_keysym_t>(key.sym());
-    uint modifiers = key.states();
+    uint32_t modifiers = key.states();
     UniqueCPtr<xcb_keycode_t> keycode(
         xcb_key_symbols_get_keycode(syms_.get(), sym));
     if (!keycode) {

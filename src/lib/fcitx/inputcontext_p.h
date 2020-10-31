@@ -61,7 +61,7 @@ public:
                 std::make_unique<E>(std::forward<Args>(args)...));
         } else {
             E event(std::forward<Args>(args)...);
-            deliverEvent(event);
+            deliverEvent(event, nullptr);
         }
     }
 
@@ -80,16 +80,26 @@ public:
         properties_.pop_back();
     }
 
-    void deliverEvent(InputContextEvent &icEvent) {
+    void deliverEvent(InputContextEvent &icEvent, std::string *commitBuffer) {
         FCITX_Q();
         if (destroyed_) {
             return;
         }
+        if (commitBuffer && !commitBuffer->empty() &&
+            icEvent.type() == EventType::InputContextForwardKey) {
+            q->commitStringImpl(*commitBuffer);
+            commitBuffer->clear();
+        }
+
         switch (icEvent.type()) {
         case EventType::InputContextCommitString: {
             auto &event = static_cast<CommitStringEvent &>(icEvent);
             if (!postEvent(event)) {
-                q->commitStringImpl(event.text());
+                if (commitBuffer) {
+                    *commitBuffer += event.text();
+                } else {
+                    q->commitStringImpl(event.text());
+                }
             }
             break;
         }
@@ -113,8 +123,13 @@ public:
     }
 
     void deliverBlockedEvents() {
+        FCITX_Q();
+        std::string commitBuffer;
         for (const auto &event : blockedEvents_) {
-            deliverEvent(*event);
+            deliverEvent(*event, &commitBuffer);
+        }
+        if (!commitBuffer.empty()) {
+            q->commitStringImpl(commitBuffer);
         }
         blockedEvents_.clear();
     }

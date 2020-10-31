@@ -31,6 +31,7 @@ public:
     const KeyList &deactivateKeys() const;
     const KeyList &enumerateForwardKeys() const;
     const KeyList &enumerateBackwardKeys() const;
+    bool enumerateSkipFirst() const;
     const KeyList &enumerateGroupForwardKeys() const;
     const KeyList &enumerateGroupBackwardKeys() const;
     const KeyList &togglePreeditKeys() const;
@@ -52,6 +53,8 @@ public:
 
     void setEnabledAddons(const std::vector<std::string> &addons);
     void setDisabledAddons(const std::vector<std::string> &addons);
+
+    bool preloadInputMethod() const;
 
     void load(const RawConfig &rawConfig, bool partial = false);
     void save(RawConfig &rawConfig) const;

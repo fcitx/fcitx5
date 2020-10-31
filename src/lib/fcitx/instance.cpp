@@ -299,6 +299,7 @@ public:
     bool running_ = false;
     EventLoop eventLoop_;
     std::unique_ptr<EventSourceIO> signalPipeEvent_;
+    std::unique_ptr<EventSource> preloadInputMethodEvent_;
     std::unique_ptr<EventSource> exitEvent_;
     InputContextManager icManager_;
     AddonManager addonManager_;
@@ -710,10 +711,10 @@ Instance::Instance(int argc, char **argv) {
                  [this]() { return canTrigger(); },
                  [this, ic](bool) { return deactivate(ic); }},
                 {d->globalConfig_.enumerateForwardKeys(),
-                 [this]() { return canTrigger(); },
+                 [this, ic]() { return canEnumerate(ic); },
                  [this, ic](bool) { return enumerate(ic, true); }},
                 {d->globalConfig_.enumerateBackwardKeys(),
-                 [this]() { return canTrigger(); },
+                 [this, ic]() { return canEnumerate(ic); },
                  [this, ic](bool) { return enumerate(ic, false); }},
                 {d->globalConfig_.enumerateGroupForwardKeys(),
                  [this]() { return canChangeGroup(); },
@@ -1191,6 +1192,29 @@ void Instance::initialize() {
 
     const auto *entry = d->imManager_.entry("keyboard-us");
     FCITX_LOG_IF(Error, !entry) << "Couldn't find keyboard-us";
+    d->preloadInputMethodEvent_ = d->eventLoop_.addDeferEvent([this](EventSource
+                                                                         *) {
+        FCITX_D();
+        if (d->exit_ || !d->globalConfig_.preloadInputMethod()) {
+            return false;
+        }
+        // Preload first input method.
+        if (!d->imManager_.currentGroup().inputMethodList().empty()) {
+            if (auto entry = d->imManager_.entry(
+                    d->imManager_.currentGroup().inputMethodList()[0].name())) {
+                d->addonManager_.addon(entry->addon(), true);
+            }
+        }
+        // Preload default input method.
+        if (!d->imManager_.currentGroup().defaultInputMethod().empty()) {
+            if (auto entry = d->imManager_.entry(
+                    d->imManager_.currentGroup().defaultInputMethod())) {
+                d->addonManager_.addon(entry->addon(), true);
+            }
+        }
+        return false;
+    });
+
     d->exitEvent_ = d->eventLoop_.addExitEvent([this](EventSource *) {
         FCITX_DEBUG() << "Running save...";
         FCITX_D();
@@ -1635,6 +1659,23 @@ bool Instance::canAltTrigger(InputContext *ic) const {
     return inputState->lastIMChangeIsAltTrigger_;
 }
 
+bool Instance::canEnumerate(InputContext *ic) const {
+    FCITX_D();
+    if (!canTrigger()) {
+        return false;
+    }
+
+    if (d->globalConfig_.enumerateSkipFirst()) {
+        auto *inputState = ic->propertyFor(&d->inputStateFactory_);
+        if (!inputState->isActive()) {
+            return false;
+        }
+        return d->imManager_.currentGroup().inputMethodList().size() > 2;
+    }
+
+    return true;
+}
+
 bool Instance::canChangeGroup() const {
     const auto &imManager = inputMethodManager();
     return (imManager.groupCount() > 1);
@@ -1666,7 +1707,9 @@ bool Instance::trigger(InputContext *ic, bool totallyReleased) {
         inputState->firstTrigger_ = true;
     } else {
         if (!d->globalConfig_.enumerateWithTriggerKeys() ||
-            (inputState->firstTrigger_ && inputState->isActive())) {
+            (inputState->firstTrigger_ && inputState->isActive()) ||
+            (d->globalConfig_.enumerateSkipFirst() &&
+             d->imManager_.currentGroup().inputMethodList().size() <= 2)) {
             toggle(ic);
         } else {
             enumerate(ic, true);
@@ -1727,6 +1770,10 @@ bool Instance::enumerate(InputContext *ic, bool forward) {
         return false;
     }
 
+    if (d->globalConfig_.enumerateSkipFirst() && imList.size() <= 2) {
+        return false;
+    }
+
     auto currentIM = inputMethod(ic);
 
     auto iter = std::find_if(imList.begin(), imList.end(),
@@ -1736,9 +1783,16 @@ bool Instance::enumerate(InputContext *ic, bool forward) {
     if (iter == imList.end()) {
         return false;
     }
-    auto idx = std::distance(imList.begin(), iter);
-    // be careful not to use negative to avoid overflow.
-    idx = (idx + (forward ? 1 : (imList.size() - 1))) % imList.size();
+    int idx = std::distance(imList.begin(), iter);
+    auto nextIdx = [forward, &imList](int idx) {
+        // be careful not to use negative to avoid overflow.
+        return (idx + (forward ? 1 : (imList.size() - 1))) % imList.size();
+    };
+
+    idx = nextIdx(idx);
+    if (d->globalConfig_.enumerateSkipFirst() && idx == 0) {
+        idx = nextIdx(idx);
+    }
     if (idx != 0) {
         std::vector<std::unique_ptr<CheckInputMethodChanged>> groupRAIICheck;
         d->icManager_.foreachFocused([d, &groupRAIICheck](InputContext *ic) {
