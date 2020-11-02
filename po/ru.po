@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2020-10-30 00:02-0700\n"
+"POT-Creation-Date: 2020-11-02 11:58-0800\n"
 "PO-Revision-Date: 2017-11-23 04:14+0000\n"
 "Last-Translator: TotalCaesar659 <x24cm5b8c54q6szxw@yandex.ru>, 2017\n"
 "Language-Team: Russian (https://www.transifex.com/fcitx/teams/12005/ru/)\n"
@@ -668,7 +668,8 @@ msgctxt "Key name"
 msgid "Favorites"
 msgstr ""
 
-#: data/fcitx5.desktop.in.in:3
+#: data/org.fcitx.Fcitx5.desktop.in.in:3
+#: data/org.fcitx.Fcitx5.metainfo.xml.in:6
 msgid "Fcitx 5"
 msgstr ""
 
@@ -686,6 +687,13 @@ msgstr ""
 
 #: data/fcitx5-diagnose.sh:900
 msgid "Fcitx State:"
+msgstr ""
+
+#: data/org.fcitx.Fcitx5.metainfo.xml.in:9
+msgid ""
+"Fcitx is an input method framework. It can help you to type your own "
+"language. It also features variant choice of addons that improve your typing "
+"experience."
 msgstr ""
 
 #: data/fcitx5-diagnose.sh:914
@@ -969,12 +977,12 @@ msgid ""
 "any input method other than ${2}. See ${link} for more detail."
 msgstr ""
 
-#: src/lib/fcitx/instance.cpp:635 src/lib/fcitx/instance.cpp:805
-#: src/im/keyboard/keyboard.cpp:357 src/ui/classic/xcbtraywindow.cpp:38
-#: src/modules/xcb/xcbconnection.cpp:388
+#: src/ui/classic/xcbtraywindow.cpp:38 src/im/keyboard/keyboard.cpp:357
 #: src/modules/notificationitem/dbusmenu.cpp:241
 #: src/modules/notificationitem/notificationitem.cpp:105
-#: data/fcitx5.desktop.in.in:4
+#: src/modules/xcb/xcbconnection.cpp:388 src/lib/fcitx/instance.cpp:635
+#: src/lib/fcitx/instance.cpp:805 data/org.fcitx.Fcitx5.desktop.in.in:4
+#: data/org.fcitx.Fcitx5.metainfo.xml.in:7
 msgid "Input Method"
 msgstr "Метод ввода"
 
@@ -1671,7 +1679,7 @@ msgctxt "Key name"
 msgid "Standby"
 msgstr ""
 
-#: data/fcitx5.desktop.in.in:5
+#: data/org.fcitx.Fcitx5.desktop.in.in:5
 msgid "Start Input Method"
 msgstr ""
 
@@ -1708,7 +1716,7 @@ msgctxt "Key name"
 msgid "Suspend"
 msgstr ""
 
-#: src/lib/fcitx/instance.cpp:636 src/modules/xcb/xcbconnection.cpp:389
+#: src/modules/xcb/xcbconnection.cpp:389 src/lib/fcitx/instance.cpp:636
 msgid "Switch group"
 msgstr ""
 
@@ -1822,6 +1830,10 @@ msgstr ""
 
 #: src/im/keyboard/keyboard.h:60
 msgid "Trigger hint mode"
+msgstr ""
+
+#: data/org.fcitx.Fcitx5.metainfo.xml.in:19
+msgid "Typing with Fcitx and Kimpanel"
 msgstr ""
 
 #: data/fcitx5-diagnose.sh:972

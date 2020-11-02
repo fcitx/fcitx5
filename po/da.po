@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2020-10-30 00:02-0700\n"
+"POT-Creation-Date: 2020-11-02 11:58-0800\n"
 "PO-Revision-Date: 2017-11-23 04:14+0000\n"
 "Last-Translator: scootergrisen, 2020\n"
 "Language-Team: Danish (https://www.transifex.com/fcitx/teams/12005/da/)\n"
@@ -675,7 +675,8 @@ msgctxt "Key name"
 msgid "Favorites"
 msgstr "Favoritter"
 
-#: data/fcitx5.desktop.in.in:3
+#: data/org.fcitx.Fcitx5.desktop.in.in:3
+#: data/org.fcitx.Fcitx5.metainfo.xml.in:6
 msgid "Fcitx 5"
 msgstr "Fcitx 5"
 
@@ -694,6 +695,13 @@ msgstr "Fcitx-konfiguration med brugerflade:"
 #: data/fcitx5-diagnose.sh:900
 msgid "Fcitx State:"
 msgstr "Fcitx-tilstand:"
+
+#: data/org.fcitx.Fcitx5.metainfo.xml.in:9
+msgid ""
+"Fcitx is an input method framework. It can help you to type your own "
+"language. It also features variant choice of addons that improve your typing "
+"experience."
+msgstr ""
 
 #: data/fcitx5-diagnose.sh:914
 msgid "Fcitx version: ${1}"
@@ -982,12 +990,12 @@ msgstr ""
 "bruger kommandoen ${g36_disable_ibus} til at deaktivere IBus-integration for "
 "at kunne bruge andre inputmetoder end ${2}. Se ${link} for flere detaljer."
 
-#: src/lib/fcitx/instance.cpp:635 src/lib/fcitx/instance.cpp:805
-#: src/im/keyboard/keyboard.cpp:357 src/ui/classic/xcbtraywindow.cpp:38
-#: src/modules/xcb/xcbconnection.cpp:388
+#: src/ui/classic/xcbtraywindow.cpp:38 src/im/keyboard/keyboard.cpp:357
 #: src/modules/notificationitem/dbusmenu.cpp:241
 #: src/modules/notificationitem/notificationitem.cpp:105
-#: data/fcitx5.desktop.in.in:4
+#: src/modules/xcb/xcbconnection.cpp:388 src/lib/fcitx/instance.cpp:635
+#: src/lib/fcitx/instance.cpp:805 data/org.fcitx.Fcitx5.desktop.in.in:4
+#: data/org.fcitx.Fcitx5.metainfo.xml.in:7
 msgid "Input Method"
 msgstr "Inputmetode"
 
@@ -1691,7 +1699,7 @@ msgctxt "Key name"
 msgid "Standby"
 msgstr "Standby"
 
-#: data/fcitx5.desktop.in.in:5
+#: data/org.fcitx.Fcitx5.desktop.in.in:5
 msgid "Start Input Method"
 msgstr "Start inputmetode"
 
@@ -1728,7 +1736,7 @@ msgctxt "Key name"
 msgid "Suspend"
 msgstr "Hvile"
 
-#: src/lib/fcitx/instance.cpp:636 src/modules/xcb/xcbconnection.cpp:389
+#: src/modules/xcb/xcbconnection.cpp:389 src/lib/fcitx/instance.cpp:636
 msgid "Switch group"
 msgstr "Skift gruppe"
 
@@ -1846,6 +1854,10 @@ msgstr "Udløsertast kun til nuværende inputkontekst"
 #: src/im/keyboard/keyboard.h:60
 msgid "Trigger hint mode"
 msgstr "Udløs tipstilstand"
+
+#: data/org.fcitx.Fcitx5.metainfo.xml.in:19
+msgid "Typing with Fcitx and Kimpanel"
+msgstr ""
 
 #: data/fcitx5-diagnose.sh:972
 msgid "Unable to find a program to check dbus."

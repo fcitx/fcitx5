@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2020-10-30 15:59-0700\n"
+"POT-Creation-Date: 2020-11-02 11:58-0800\n"
 "PO-Revision-Date: 2017-11-23 04:14+0000\n"
 "Last-Translator: csslayer <wengxt@gmail.com>, 2020\n"
 "Language-Team: Chinese (China) (https://www.transifex.com/fcitx/teams/12005/"
@@ -669,7 +669,8 @@ msgctxt "Key name"
 msgid "Favorites"
 msgstr "收藏"
 
-#: data/fcitx5.desktop.in.in:3
+#: data/org.fcitx.Fcitx5.desktop.in.in:3
+#: data/org.fcitx.Fcitx5.metainfo.xml.in:6
 msgid "Fcitx 5"
 msgstr "Fcitx 5"
 
@@ -688,6 +689,13 @@ msgstr "Fcitx 配置界面："
 #: data/fcitx5-diagnose.sh:900
 msgid "Fcitx State:"
 msgstr "Fcitx 状态:"
+
+#: data/org.fcitx.Fcitx5.metainfo.xml.in:9
+msgid ""
+"Fcitx is an input method framework. It can help you to type your own "
+"language. It also features variant choice of addons that improve your typing "
+"experience."
+msgstr ""
 
 #: data/fcitx5-diagnose.sh:914
 msgid "Fcitx version: ${1}"
@@ -975,12 +983,12 @@ msgstr ""
 "${g36_disable_ibus} 禁用 IBus 集成已使用除 ${2} 之外的任何输入法. 更多细节参"
 "见 ${link}。"
 
-#: src/lib/fcitx/instance.cpp:635 src/lib/fcitx/instance.cpp:805
-#: src/im/keyboard/keyboard.cpp:357 src/ui/classic/xcbtraywindow.cpp:38
-#: src/modules/xcb/xcbconnection.cpp:388
+#: src/ui/classic/xcbtraywindow.cpp:38 src/im/keyboard/keyboard.cpp:357
 #: src/modules/notificationitem/dbusmenu.cpp:241
 #: src/modules/notificationitem/notificationitem.cpp:105
-#: data/fcitx5.desktop.in.in:4
+#: src/modules/xcb/xcbconnection.cpp:388 src/lib/fcitx/instance.cpp:635
+#: src/lib/fcitx/instance.cpp:805 data/org.fcitx.Fcitx5.desktop.in.in:4
+#: data/org.fcitx.Fcitx5.metainfo.xml.in:7
 msgid "Input Method"
 msgstr "输入法"
 
@@ -1680,7 +1688,7 @@ msgctxt "Key name"
 msgid "Standby"
 msgstr "待机"
 
-#: data/fcitx5.desktop.in.in:5
+#: data/org.fcitx.Fcitx5.desktop.in.in:5
 msgid "Start Input Method"
 msgstr "启动输入法"
 
@@ -1717,7 +1725,7 @@ msgctxt "Key name"
 msgid "Suspend"
 msgstr "睡眠"
 
-#: src/lib/fcitx/instance.cpp:636 src/modules/xcb/xcbconnection.cpp:389
+#: src/modules/xcb/xcbconnection.cpp:389 src/lib/fcitx/instance.cpp:636
 msgid "Switch group"
 msgstr "切换分组"
 
@@ -1834,6 +1842,10 @@ msgstr "当前输入上下文的触发键"
 #: src/im/keyboard/keyboard.h:60
 msgid "Trigger hint mode"
 msgstr "切换提示模式"
+
+#: data/org.fcitx.Fcitx5.metainfo.xml.in:19
+msgid "Typing with Fcitx and Kimpanel"
+msgstr ""
 
 #: data/fcitx5-diagnose.sh:972
 msgid "Unable to find a program to check dbus."
