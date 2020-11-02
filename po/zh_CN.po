@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2020-11-02 11:58-0800\n"
+"POT-Creation-Date: 2020-11-02 12:15-0800\n"
 "PO-Revision-Date: 2017-11-23 04:14+0000\n"
 "Last-Translator: csslayer <wengxt@gmail.com>, 2020\n"
 "Language-Team: Chinese (China) (https://www.transifex.com/fcitx/teams/12005/"
@@ -696,6 +696,8 @@ msgid ""
 "language. It also features variant choice of addons that improve your typing "
 "experience."
 msgstr ""
+"Fcitx 是一个输入法框架。它可以帮助您输入您需要的语言。它也支持许多不同的附加"
+"组件来改善输入体验。"
 
 #: data/fcitx5-diagnose.sh:914
 msgid "Fcitx version: ${1}"
@@ -1845,7 +1847,7 @@ msgstr "切换提示模式"
 
 #: data/org.fcitx.Fcitx5.metainfo.xml.in:19
 msgid "Typing with Fcitx and Kimpanel"
-msgstr ""
+msgstr "用 Fcitx 和 Kimpanel 输入"
 
 #: data/fcitx5-diagnose.sh:972
 msgid "Unable to find a program to check dbus."
