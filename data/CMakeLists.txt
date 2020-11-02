@@ -7,7 +7,7 @@ configure_file(${CMAKE_CURRENT_SOURCE_DIR}/org.fcitx.Fcitx5.desktop.in.in
 
 fcitx5_translate_desktop_file(${CMAKE_CURRENT_BINARY_DIR}/fcitx5-configtool.desktop.in
                               fcitx5-configtool.desktop)
-fcitx5_translate_desktop_file(${CMAKE_CURRENT_BINARY_DIR}/fcitx5.desktop.in
+fcitx5_translate_desktop_file(${CMAKE_CURRENT_BINARY_DIR}/org.fcitx.Fcitx5.desktop.in
                               org.fcitx.Fcitx5.desktop)
 fcitx5_translate_desktop_file(org.fcitx.Fcitx5.metainfo.xml.in
                               org.fcitx.Fcitx5.metainfo.xml XML)
