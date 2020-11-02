@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<component type="desktop">
+  <id>org.fcitx.Fcitx5.desktop</id>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>LGPL-2.0+</project_license>
+  <name>Fcitx 5</name>
+  <summary>Input Method</summary>
+  <description>
+    <p>
+      Fcitx is an input method framework.
+      It can help you to type your own language. It also features variant choice of addons that improve your typing experience.
+    </p>
+  </description>
+  <url type="homepage">https://fcitx-im.org/</url>
+  <url type="bugtracker">https://github.com/fcitx/fcitx5</url>
+  <url type="help">https://fcitx-im.org/wiki/Fcitx</url>
+  <screenshots>
+    <screenshot type="default">
+      <caption>Typing with Fcitx and Kimpanel</caption>
+      <image>https://fcitx-im.org/images/8/80/Fcitx-Keyboard.png</image>
+    </screenshot>
+  </screenshots>
+  <provides>
+    <binary>fcitx5</binary>
+  </provides>
+  <releases>
+    <release version="5.0.0" date="2020-10-30"/>
+  </releases>
+</component>

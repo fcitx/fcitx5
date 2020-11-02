@@ -27,6 +27,7 @@ option(ENABLE_PRESAGE "Enable presage for word predication" Off)
 option(ENABLE_WAYLAND "Enable wayland support" On)
 option(ENABLE_DOC "Build doxygen" Off)
 option(USE_SYSTEMD "Use systemd for event loop and dbus, will fallback to libevent/libdbus if not found." On)
+option(ENABLE_XDGAUTOSTART "Enable xdg autostart desktop file installation" On)
 
 #######################################################################
 # Find packages
