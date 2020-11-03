@@ -17,7 +17,7 @@ install(FILES "${CMAKE_CURRENT_BINARY_DIR}/org.fcitx.Fcitx5.desktop"
         DESTINATION "${FCITX_INSTALL_DATADIR}/applications")
 
 if (ENABLE_XDGAUTOSTART)
-    install(FILES "${CMAKE_CURRENT_BINARY_DIR}/org.fcitx.Fcitx5.desktop" DESTINATION ${CMAKE_INSTALL_SYSCONFDIR}/xdg)
+    install(FILES "${CMAKE_CURRENT_BINARY_DIR}/org.fcitx.Fcitx5.desktop" DESTINATION ${CMAKE_INSTALL_SYSCONFDIR}/xdg/autostart)
 endif()
 
 install(FILES "${CMAKE_CURRENT_BINARY_DIR}/org.fcitx.Fcitx5.metainfo.xml" DESTINATION ${CMAKE_INSTALL_DATADIR}/metainfo)
