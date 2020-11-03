@@ -12,13 +12,15 @@
 
 namespace fcitx {
 
-bool selectInputMethod(InputContext *ic, IMSelector *imSelector,
+namespace {
+
+void selectInputMethod(InputContext *ic, IMSelector *imSelector,
                        const std::string &uniqueName, bool local) {
+    auto instance = imSelector->instance();
     auto *state = ic->propertyFor(&imSelector->factory());
-    imSelector->instance()->setCurrentInputMethod(ic, uniqueName, local);
+    instance->setCurrentInputMethod(ic, uniqueName, local);
     state->reset(ic);
-    imSelector->instance()->showInputMethodInformation(ic);
-    return true;
+    instance->showInputMethodInformation(ic);
 }
 
 bool selectInputMethod(InputContext *ic, IMSelector *imSelector, size_t index,
@@ -28,10 +30,13 @@ bool selectInputMethod(InputContext *ic, IMSelector *imSelector, size_t index,
     if (index >= list.size()) {
         return false;
     }
-    return selectInputMethod(
+    selectInputMethod(
         ic, imSelector,
         inputMethodManager.entry(list[index].name())->uniqueName(), local);
+    return true;
 }
+
+} // namespace
 
 class IMSelectorCandidateWord : public CandidateWord {
 public:
