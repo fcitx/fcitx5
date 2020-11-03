@@ -275,7 +275,6 @@ public:
 
     const_reference back() const {
         return *const_iterator{root_.prev(), nodeGetter};
-        ;
     }
 
     iterator iterator_to(reference value) {

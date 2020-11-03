@@ -192,8 +192,8 @@ uint32_t Notifications::sendNotification(
                               if (item) {
                                   if (!message.isError()) {
                                       uint32_t globalId;
-                                      if (message >> globalId) {
-                                          ;
+                                      if (!(message >> globalId)) {
+                                          return true;
                                       }
                                       if (item) {
                                           item->globalId_ = globalId;

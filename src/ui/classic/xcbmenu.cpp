@@ -423,7 +423,6 @@ void XCBMenu::update() {
         item.subMenuX_ = width + maxItemWidth - subMenu.width();
         item.subMenuY_ = height + *textMargin.marginTop +
                          (maxItemHeight - subMenu.height()) / 2.0;
-        ;
 
         height +=
             maxItemHeight + *textMargin.marginTop + *textMargin.marginBottom;
@@ -581,7 +580,6 @@ void XCBMenu::show(Rect rect) {
 
         if (x + width() > closestScreen->right()) {
             newX = rect.left() - width();
-            ;
         } else {
             newX = x;
         }

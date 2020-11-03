@@ -290,7 +290,6 @@ public:
             signature;
         if (*this << Container(Container::Type::Struct,
                                Signature(signature::data()))) {
-            ;
             TupleMarshaller<typename value_type::tuple_type,
                             sizeof...(Args)>::marshall(*this, t.data());
             if (*this) {
@@ -329,7 +328,6 @@ public:
             signature;
         if (*this << Container(Container::Type::Array,
                                Signature(signature::data()))) {
-            ;
             for (auto &v : t) {
                 *this << v;
             }
@@ -420,7 +418,6 @@ public:
             signature;
         if (*this >>
             Container(Container::Type::Array, Signature(signature::data()))) {
-            ;
             T temp;
             while (!end() && *this >> temp) {
                 t.push_back(temp);

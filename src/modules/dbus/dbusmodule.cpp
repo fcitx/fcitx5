@@ -172,7 +172,6 @@ public:
                         std::get<0>(variantItem) = variant;
                         std::get<1>(variantItem) =
                             D_("xkeyboard-config", description);
-                        ;
                         std::get<2>(variantItem) = languages;
                         return true;
                     });

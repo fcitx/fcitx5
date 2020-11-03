@@ -309,7 +309,6 @@ bool EventLoop::exec() {
             d->event_, -1, EV_PERSIST, [](evutil_socket_t, short, void *) {},
             nullptr),
         &event_free);
-    ;
     struct timeval tv;
     tv.tv_sec = 1000000000;
     tv.tv_usec = 0;

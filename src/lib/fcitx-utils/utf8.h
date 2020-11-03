@@ -72,7 +72,6 @@ inline size_t lengthValidated(Iter start, Iter end) {
 template <typename T>
 inline size_t lengthValidated(const T &s) {
     return lengthValidated(std::begin(s), std::end(s));
-    ;
 }
 
 /// \brief Check if the string iterator range is valid utf8 string

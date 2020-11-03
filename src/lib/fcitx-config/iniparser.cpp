@@ -135,7 +135,6 @@ void readFromIni(RawConfig &config, FILE *fin) {
             auto valueEnd = lineBuf.size();
 
             bool unescapeQuote = false;
-            ;
             // having quote at beginning and end, escape
             if (valueEnd - valueStart >= 2 && lineBuf[valueStart] == '"' &&
                 lineBuf[valueEnd - 1] == '"') {

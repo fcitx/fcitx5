@@ -123,7 +123,6 @@ XCBConnection::~XCBConnection() {
 
 void XCBConnection::setDoGrab(bool doGrab) {
     if (doGrab_ != doGrab) {
-        ;
         if (doGrab) {
             grabKey();
         } else {
