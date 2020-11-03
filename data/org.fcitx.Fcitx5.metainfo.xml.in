@@ -2,7 +2,7 @@
 <component type="inputmethod">
   <id>org.fcitx.Fcitx5.desktop</id>
   <metadata_license>CC0-1.0</metadata_license>
-  <project_license>LGPL-2.0+</project_license>
+  <project_license>LGPL-2.1+</project_license>
   <name>Fcitx 5</name>
   <summary>Input Method</summary>
   <description>
