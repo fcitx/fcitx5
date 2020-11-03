@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2020-11-02 20:34-0800\n"
+"POT-Creation-Date: 2020-11-03 00:02-0800\n"
 "PO-Revision-Date: 2017-11-23 04:14+0000\n"
 "Last-Translator: scootergrisen, 2020\n"
 "Language-Team: Danish (https://www.transifex.com/fcitx/teams/12005/da/)\n"
@@ -702,6 +702,9 @@ msgid ""
 "language. It also features variant choice of addons that improve your typing "
 "experience."
 msgstr ""
+"Fcitx er et inputmetode-framework. Det kan hjælpe dig med at skrive på de "
+"sprog du kender. Det har også en vifte af tilføjelser som forbedre din "
+"skriveoplevelse."
 
 #: data/fcitx5-diagnose.sh:914
 msgid "Fcitx version: ${1}"
@@ -963,12 +966,14 @@ msgstr "Hottast"
 
 #: src/modules/imselector/imselector.h:35
 msgid "Hotkey for switching to the N-th input method"
-msgstr ""
+msgstr "Hottast til at skifte til den niende inputmetode"
 
 #: src/modules/imselector/imselector.h:44
 msgid ""
 "Hotkey for switching to the N-th input method for only current input context"
 msgstr ""
+"Hottast til at skifte til den niende inputmetode kun til nuværende "
+"inputkontekst"
 
 #: src/lib/fcitx-utils/key.cpp:479
 msgctxt "Key name"
@@ -1673,7 +1678,7 @@ msgstr "Vis inputmetodeinformation når der skiftes inputmetode"
 
 #: src/lib/fcitx/globalconfig.cpp:53
 msgid "Skip first input method while enumerating"
-msgstr ""
+msgstr "Spring over først inputmetode under gennemløb"
 
 #: src/lib/fcitx-utils/key.cpp:105
 msgctxt "Key name"
@@ -1789,7 +1794,7 @@ msgstr "Terminal"
 #: src/modules/imselector/imselector.h:40
 #: src/modules/imselector/imselector.h:50
 msgid "The n-th hotkey in the list selects the n-th input method."
-msgstr ""
+msgstr "Den niende hottast i listen vælger den niende inputmetode."
 
 #: data/fcitx5-diagnose.sh:860
 msgid "The script is run as ${1} (${2})."
@@ -1872,7 +1877,7 @@ msgstr "Udløs tipstilstand"
 
 #: data/org.fcitx.Fcitx5.metainfo.xml.in:19
 msgid "Typing with Fcitx and Kimpanel"
-msgstr ""
+msgstr "Skriver med Fcitx og Kimpanel"
 
 #: data/fcitx5-diagnose.sh:972
 msgid "Unable to find a program to check dbus."
