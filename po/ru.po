@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2020-11-02 11:58-0800\n"
+"POT-Creation-Date: 2020-11-02 20:34-0800\n"
 "PO-Revision-Date: 2017-11-23 04:14+0000\n"
 "Last-Translator: TotalCaesar659 <x24cm5b8c54q6szxw@yandex.ru>, 2017\n"
 "Language-Team: Russian (https://www.transifex.com/fcitx/teams/12005/ru/)\n"
@@ -954,6 +954,15 @@ msgstr ""
 msgid "Hotkey"
 msgstr "Горячая клавиша"
 
+#: src/modules/imselector/imselector.h:35
+msgid "Hotkey for switching to the N-th input method"
+msgstr ""
+
+#: src/modules/imselector/imselector.h:44
+msgid ""
+"Hotkey for switching to the N-th input method for only current input context"
+msgstr ""
+
 #: src/lib/fcitx-utils/key.cpp:479
 msgctxt "Key name"
 msgid "Hyper"
@@ -977,11 +986,12 @@ msgid ""
 "any input method other than ${2}. See ${link} for more detail."
 msgstr ""
 
-#: src/ui/classic/xcbtraywindow.cpp:38 src/im/keyboard/keyboard.cpp:357
+#: src/lib/fcitx/instance.cpp:635 src/lib/fcitx/instance.cpp:805
+#: src/im/keyboard/keyboard.cpp:357 src/ui/classic/xcbtraywindow.cpp:38
+#: src/modules/xcb/xcbconnection.cpp:388
 #: src/modules/notificationitem/dbusmenu.cpp:241
 #: src/modules/notificationitem/notificationitem.cpp:105
-#: src/modules/xcb/xcbconnection.cpp:388 src/lib/fcitx/instance.cpp:635
-#: src/lib/fcitx/instance.cpp:805 data/org.fcitx.Fcitx5.desktop.in.in:4
+#: data/org.fcitx.Fcitx5.desktop.in.in:4
 #: data/org.fcitx.Fcitx5.metainfo.xml.in:7
 msgid "Input Method"
 msgstr "Метод ввода"
@@ -1602,11 +1612,11 @@ msgctxt "Key name"
 msgid "Select"
 msgstr ""
 
-#: src/modules/imselector/imselector.cpp:218
+#: src/modules/imselector/imselector.cpp:263
 msgid "Select input method:"
 msgstr ""
 
-#: src/modules/imselector/imselector.cpp:217
+#: src/modules/imselector/imselector.cpp:262
 msgid "Select local input method:"
 msgstr ""
 
@@ -1716,7 +1726,7 @@ msgctxt "Key name"
 msgid "Suspend"
 msgstr ""
 
-#: src/modules/xcb/xcbconnection.cpp:389 src/lib/fcitx/instance.cpp:636
+#: src/lib/fcitx/instance.cpp:636 src/modules/xcb/xcbconnection.cpp:389
 msgid "Switch group"
 msgstr ""
 
@@ -1754,6 +1764,11 @@ msgstr ""
 #: src/lib/fcitx-utils/key.cpp:155
 msgctxt "Key name"
 msgid "Terminal"
+msgstr ""
+
+#: src/modules/imselector/imselector.h:40
+#: src/modules/imselector/imselector.h:50
+msgid "The n-th hotkey in the list selects the n-th input method."
 msgstr ""
 
 #: data/fcitx5-diagnose.sh:860
@@ -1820,11 +1835,11 @@ msgstr ""
 msgid "Trigger Input Method"
 msgstr "Активация метода ввода"
 
-#: src/modules/imselector/imselector.h:22
+#: src/modules/imselector/imselector.h:25
 msgid "Trigger Key"
 msgstr ""
 
-#: src/modules/imselector/imselector.h:26
+#: src/modules/imselector/imselector.h:29
 msgid "Trigger Key for only current input context"
 msgstr ""
 

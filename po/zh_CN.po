@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2020-11-02 12:15-0800\n"
+"POT-Creation-Date: 2020-11-02 20:34-0800\n"
 "PO-Revision-Date: 2017-11-23 04:14+0000\n"
 "Last-Translator: csslayer <wengxt@gmail.com>, 2020\n"
 "Language-Team: Chinese (China) (https://www.transifex.com/fcitx/teams/12005/"
@@ -957,6 +957,15 @@ msgstr "热门链接"
 msgid "Hotkey"
 msgstr "快捷键"
 
+#: src/modules/imselector/imselector.h:35
+msgid "Hotkey for switching to the N-th input method"
+msgstr ""
+
+#: src/modules/imselector/imselector.h:44
+msgid ""
+"Hotkey for switching to the N-th input method for only current input context"
+msgstr ""
+
 #: src/lib/fcitx-utils/key.cpp:479
 msgctxt "Key name"
 msgid "Hyper"
@@ -985,11 +994,12 @@ msgstr ""
 "${g36_disable_ibus} 禁用 IBus 集成已使用除 ${2} 之外的任何输入法. 更多细节参"
 "见 ${link}。"
 
-#: src/ui/classic/xcbtraywindow.cpp:38 src/im/keyboard/keyboard.cpp:357
+#: src/lib/fcitx/instance.cpp:635 src/lib/fcitx/instance.cpp:805
+#: src/im/keyboard/keyboard.cpp:357 src/ui/classic/xcbtraywindow.cpp:38
+#: src/modules/xcb/xcbconnection.cpp:388
 #: src/modules/notificationitem/dbusmenu.cpp:241
 #: src/modules/notificationitem/notificationitem.cpp:105
-#: src/modules/xcb/xcbconnection.cpp:388 src/lib/fcitx/instance.cpp:635
-#: src/lib/fcitx/instance.cpp:805 data/org.fcitx.Fcitx5.desktop.in.in:4
+#: data/org.fcitx.Fcitx5.desktop.in.in:4
 #: data/org.fcitx.Fcitx5.metainfo.xml.in:7
 msgid "Input Method"
 msgstr "输入法"
@@ -1613,11 +1623,11 @@ msgctxt "Key name"
 msgid "Select"
 msgstr "选择"
 
-#: src/modules/imselector/imselector.cpp:218
+#: src/modules/imselector/imselector.cpp:263
 msgid "Select input method:"
 msgstr "选择输入法："
 
-#: src/modules/imselector/imselector.cpp:217
+#: src/modules/imselector/imselector.cpp:262
 msgid "Select local input method:"
 msgstr "选择局部输入法："
 
@@ -1727,7 +1737,7 @@ msgctxt "Key name"
 msgid "Suspend"
 msgstr "睡眠"
 
-#: src/modules/xcb/xcbconnection.cpp:389 src/lib/fcitx/instance.cpp:636
+#: src/lib/fcitx/instance.cpp:636 src/modules/xcb/xcbconnection.cpp:389
 msgid "Switch group"
 msgstr "切换分组"
 
@@ -1766,6 +1776,11 @@ msgstr "临时在当前和第一个输入法之间切换"
 msgctxt "Key name"
 msgid "Terminal"
 msgstr "终端"
+
+#: src/modules/imselector/imselector.h:40
+#: src/modules/imselector/imselector.h:50
+msgid "The n-th hotkey in the list selects the n-th input method."
+msgstr ""
 
 #: data/fcitx5-diagnose.sh:860
 msgid "The script is run as ${1} (${2})."
@@ -1833,11 +1848,11 @@ msgstr "旅行"
 msgid "Trigger Input Method"
 msgstr "切换启用/禁用输入法"
 
-#: src/modules/imselector/imselector.h:22
+#: src/modules/imselector/imselector.h:25
 msgid "Trigger Key"
 msgstr "触发键"
 
-#: src/modules/imselector/imselector.h:26
+#: src/modules/imselector/imselector.h:29
 msgid "Trigger Key for only current input context"
 msgstr "当前输入上下文的触发键"
 
