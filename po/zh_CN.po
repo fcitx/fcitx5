@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2020-11-02 20:34-0800\n"
+"POT-Creation-Date: 2020-11-02 20:39-0800\n"
 "PO-Revision-Date: 2017-11-23 04:14+0000\n"
 "Last-Translator: csslayer <wengxt@gmail.com>, 2020\n"
 "Language-Team: Chinese (China) (https://www.transifex.com/fcitx/teams/12005/"
@@ -959,12 +959,12 @@ msgstr "快捷键"
 
 #: src/modules/imselector/imselector.h:35
 msgid "Hotkey for switching to the N-th input method"
-msgstr ""
+msgstr "切换到当前输入法到第...个输入法的按键"
 
 #: src/modules/imselector/imselector.h:44
 msgid ""
 "Hotkey for switching to the N-th input method for only current input context"
-msgstr ""
+msgstr "切换到当前局部输入法到第...个输入法的按键"
 
 #: src/lib/fcitx-utils/key.cpp:479
 msgctxt "Key name"
@@ -1780,7 +1780,7 @@ msgstr "终端"
 #: src/modules/imselector/imselector.h:40
 #: src/modules/imselector/imselector.h:50
 msgid "The n-th hotkey in the list selects the n-th input method."
-msgstr ""
+msgstr "列表中第 n 个按键选择第 n 个对应输入法。"
 
 #: data/fcitx5-diagnose.sh:860
 msgid "The script is run as ${1} (${2})."
