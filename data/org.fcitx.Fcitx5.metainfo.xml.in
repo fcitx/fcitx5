@@ -25,5 +25,6 @@
   </provides>
   <releases>
     <release version="5.0.0" date="2020-10-30"/>
+    <release version="5.0.1" date="2020-11-03"/>
   </releases>
 </component>
