@@ -42,8 +42,7 @@ public:
                               InputMethodManager *q)
         : QPtrHolder(q), addonManager_(addonManager_) {}
 
-    FCITX_DEFINE_SIGNAL_PRIVATE(InputMethodManager,
-                                CurrentGroupAboutToBeChanged);
+    FCITX_DEFINE_SIGNAL_PRIVATE(InputMethodManager, CurrentGroupAboutToChange);
     FCITX_DEFINE_SIGNAL_PRIVATE(InputMethodManager, CurrentGroupChanged);
 
     AddonManager *addonManager_;
@@ -69,7 +68,7 @@ InputMethodManager::~InputMethodManager() {}
 
 void InputMethodManager::load() {
     FCITX_D();
-    emit<InputMethodManager::CurrentGroupAboutToBeChanged>(
+    emit<InputMethodManager::CurrentGroupAboutToChange>(
         d->groupOrder_.empty() ? "" : d->groupOrder_.front());
 
     auto inputMethods =
@@ -225,7 +224,7 @@ void InputMethodManager::setCurrentGroup(const std::string &groupName) {
     auto iter =
         std::find(d->groupOrder_.begin(), d->groupOrder_.end(), groupName);
     if (iter != d->groupOrder_.end()) {
-        emit<InputMethodManager::CurrentGroupAboutToBeChanged>(
+        emit<InputMethodManager::CurrentGroupAboutToChange>(
             d->groupOrder_.front());
         d->groupOrder_.splice(d->groupOrder_.begin(), d->groupOrder_, iter);
         emit<InputMethodManager::CurrentGroupChanged>(groupName);
@@ -254,7 +253,7 @@ void InputMethodManager::setGroup(InputMethodGroup newGroup) {
     if (group) {
         bool isCurrent = (group == &currentGroup());
         if (isCurrent) {
-            emit<InputMethodManager::CurrentGroupAboutToBeChanged>(
+            emit<InputMethodManager::CurrentGroupAboutToChange>(
                 d->groupOrder_.front());
         }
         auto &list = newGroup.inputMethodList();
@@ -314,7 +313,7 @@ void InputMethodManager::removeGroup(const std::string &name) {
     auto iter = d->groups_.find(name);
     if (iter != d->groups_.end()) {
         if (isCurrent) {
-            emit<InputMethodManager::CurrentGroupAboutToBeChanged>(
+            emit<InputMethodManager::CurrentGroupAboutToChange>(
                 d->groupOrder_.front());
         }
         d->groups_.erase(iter);

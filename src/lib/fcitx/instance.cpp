@@ -406,7 +406,7 @@ Instance::Instance(int argc, char **argv) {
     d->addonManager_.setInstance(this);
     d->icManager_.setInstance(this);
     d->connections_.emplace_back(
-        d->imManager_.connect<InputMethodManager::CurrentGroupAboutToBeChanged>(
+        d->imManager_.connect<InputMethodManager::CurrentGroupAboutToChange>(
             [this, d](const std::string &) {
                 d->icManager_.foreachFocused([this](InputContext *ic) {
                     assert(ic->hasFocus());
@@ -431,6 +431,47 @@ Instance::Instance(int argc, char **argv) {
             }));
 
     d->icManager_.registerProperty("inputState", &d->inputStateFactory);
+    d->eventWatchers_.emplace_back(d->watchEvent(
+        EventType::InputContextCapabilityAboutToChange,
+        EventWatcherPhase::ReservedFirst, [this](Event &event) {
+            auto &capChanged =
+                static_cast<CapabilityAboutToChangeEvent &>(event);
+            if (!capChanged.inputContext()->hasFocus()) {
+                return;
+            }
+            // Change ::inputMethod when this changes.
+            bool oldPassword =
+                capChanged.oldFlags().test(CapabilityFlag::Password);
+            bool newPassword =
+                capChanged.newFlags().test(CapabilityFlag::Password);
+            if (oldPassword == newPassword) {
+                return;
+            }
+            InputContextSwitchInputMethodEvent switchIM(
+                InputMethodSwitchedReason::CapabilityChanged, "",
+                capChanged.inputContext());
+            deactivateInputMethod(switchIM);
+        }));
+    d->eventWatchers_.emplace_back(d->watchEvent(
+        EventType::InputContextCapabilityChanged,
+        EventWatcherPhase::ReservedFirst, [this](Event &event) {
+            auto &capChanged = static_cast<CapabilityChangedEvent &>(event);
+            if (!capChanged.inputContext()->hasFocus()) {
+                return;
+            }
+            // Change ::inputMethod when this changes.
+            bool oldPassword =
+                capChanged.oldFlags().test(CapabilityFlag::Password);
+            bool newPassword =
+                capChanged.newFlags().test(CapabilityFlag::Password);
+            if (oldPassword == newPassword) {
+                return;
+            }
+            InputContextSwitchInputMethodEvent switchIM(
+                InputMethodSwitchedReason::CapabilityChanged, "",
+                capChanged.inputContext());
+            activateInputMethod(switchIM);
+        }));
 
     d->eventWatchers_.emplace_back(watchEvent(
         EventType::InputContextKeyEvent, EventWatcherPhase::PreInputMethod,
@@ -921,6 +962,9 @@ void Instance::initialize() {
     d->addonManager_.load(enabled, disabled);
     d->imManager_.load();
     d->uiManager_.load(d->arg_.uiName);
+
+    auto entry = d->imManager_.entry("keyboard-us");
+    FCITX_LOG_IF(Error, !entry) << "Couldn't find keyboard-us";
     d->exitEvent_ = d->eventLoop_.addExitEvent([this](EventSource *) {
         FCITX_LOG(Debug) << "Running save...";
         FCITX_D();
@@ -1023,6 +1067,16 @@ Instance::watchEvent(EventType type, EventWatcherPhase phase,
 std::string Instance::inputMethod(InputContext *ic) {
     FCITX_D();
     auto &group = d->imManager_.currentGroup();
+    if (ic->capabilityFlags().test(CapabilityFlag::Password)) {
+        auto defaultLayout = group.defaultLayout();
+        auto passwordIM = fmt::format("keyboard-{}", defaultLayout);
+        auto entry = d->imManager_.entry(passwordIM);
+        if (!entry) {
+            entry = d->imManager_.entry("keyboard-us");
+        }
+        return entry ? entry->uniqueName() : "";
+    }
+
     auto inputState = ic->propertyFor(&d->inputStateFactory);
     if (group.inputMethodList().empty()) {
         return "";

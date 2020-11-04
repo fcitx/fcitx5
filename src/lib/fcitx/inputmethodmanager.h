@@ -57,7 +57,7 @@ public:
     bool foreachEntries(
         const std::function<bool(const InputMethodEntry &entry)> callback);
 
-    FCITX_DECLARE_SIGNAL(InputMethodManager, CurrentGroupAboutToBeChanged,
+    FCITX_DECLARE_SIGNAL(InputMethodManager, CurrentGroupAboutToChange,
                          void(const std::string &group));
     FCITX_DECLARE_SIGNAL(InputMethodManager, CurrentGroupChanged,
                          void(const std::string &group));

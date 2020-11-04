@@ -20,6 +20,7 @@
 #define _FCITX_EVENT_H_
 
 #include "fcitxcore_export.h"
+#include <fcitx-utils/capabilityflags.h>
 #include <fcitx-utils/key.h>
 #include <fcitx/userinterface.h>
 #include <stdint.h>
@@ -47,6 +48,7 @@ enum class InputMethodSwitchedReason {
     Activate,
     Enumerate,
     GroupChange,
+    CapabilityChanged,
     Other,
 };
 
@@ -83,6 +85,7 @@ enum class EventType : uint32_t {
     InputContextSurroundingTextUpdated = InputContextEventFlag | 0x7,
     InputContextCapabilityChanged = InputContextEventFlag | 0x8,
     InputContextCursorRectChanged = InputContextEventFlag | 0x9,
+    InputContextCapabilityAboutToChange = InputContextEventFlag | 0xD,
     /**
      * when user switch to a different input method by hand
      * such as ctrl+shift by default, or by ui,
@@ -293,20 +296,50 @@ FCITX_DEFINE_SIMPLE_EVENT(FocusIn, InputContextFocusIn);
 FCITX_DEFINE_SIMPLE_EVENT(FocusOut, InputContextFocusOut);
 FCITX_DEFINE_SIMPLE_EVENT(SurroundingTextUpdated,
                           InputContextSurroundingTextUpdated);
-FCITX_DEFINE_SIMPLE_EVENT(CapabilityChanged, InputContextCapabilityChanged);
 FCITX_DEFINE_SIMPLE_EVENT(CursorRectChanged, InputContextCursorRectChanged);
 FCITX_DEFINE_SIMPLE_EVENT(UpdatePreedit, InputContextUpdatePreedit);
 
-class InputMethodGroupChangedEvent : public Event {
+class FCITXCORE_EXPORT InputMethodGroupChangedEvent : public Event {
 public:
     InputMethodGroupChangedEvent()
         : Event(EventType::InputMethodGroupChanged) {}
 };
 
-class InputMethodGroupAboutToChangeEvent : public Event {
+class FCITXCORE_EXPORT InputMethodGroupAboutToChangeEvent : public Event {
 public:
     InputMethodGroupAboutToChangeEvent()
         : Event(EventType::InputMethodGroupAboutToChange) {}
+};
+
+class FCITXCORE_EXPORT CapabilityEvent : public InputContextEvent {
+public:
+    CapabilityEvent(InputContext *ic, EventType type, CapabilityFlags oldFlags,
+                    CapabilityFlags newFlags)
+        : InputContextEvent(ic, type), oldFlags_(oldFlags),
+          newFlags_(newFlags) {}
+
+    auto oldFlags() const { return oldFlags_; }
+    auto newFlags() const { return newFlags_; }
+
+protected:
+    const CapabilityFlags oldFlags_;
+    const CapabilityFlags newFlags_;
+};
+
+class FCITXCORE_EXPORT CapabilityChangedEvent : public CapabilityEvent {
+public:
+    CapabilityChangedEvent(InputContext *ic, CapabilityFlags oldFlags,
+                           CapabilityFlags newFlags)
+        : CapabilityEvent(ic, EventType::InputContextCapabilityChanged,
+                          oldFlags, newFlags) {}
+};
+
+class FCITXCORE_EXPORT CapabilityAboutToChangeEvent : public CapabilityEvent {
+public:
+    CapabilityAboutToChangeEvent(InputContext *ic, CapabilityFlags oldFlags,
+                                 CapabilityFlags newFlags)
+        : CapabilityEvent(ic, EventType::InputContextCapabilityAboutToChange,
+                          oldFlags, newFlags) {}
 };
 } // namespace fcitx
 

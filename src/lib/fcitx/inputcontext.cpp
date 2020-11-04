@@ -105,9 +105,10 @@ void InputContext::updateProperty(const std::string &name) {
 void InputContext::setCapabilityFlags(CapabilityFlags flags) {
     FCITX_D();
     if (d->capabilityFlags_ != flags) {
+        auto oldFlags = d->capabilityFlags_;
+        d->emplaceEvent<CapabilityAboutToChangeEvent>(this, oldFlags, flags);
         d->capabilityFlags_ = flags;
-
-        d->emplaceEvent<CapabilityChangedEvent>(this);
+        d->emplaceEvent<CapabilityChangedEvent>(this, oldFlags, flags);
     }
 }
 
