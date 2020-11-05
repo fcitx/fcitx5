@@ -222,6 +222,17 @@ ThemeImage::ThemeImage(const std::string &name,
         valid_ = image_ != nullptr;
     }
 
+    if (!cfg.overlay->empty()) {
+        auto imageFile = StandardPath::global().open(
+            StandardPath::Type::PkgData,
+            fmt::format("themes/{0}/{1}", name, *cfg.overlay), O_RDONLY);
+        overlay_.reset(loadImage(imageFile));
+        if (overlay_ &&
+            cairo_surface_status(overlay_.get()) != CAIRO_STATUS_SUCCESS) {
+            overlay_.reset();
+        }
+    }
+
     if (!image_) {
         auto width = *cfg.margin->marginLeft + *cfg.margin->marginRight + 1;
         auto height = *cfg.margin->marginTop + *cfg.margin->marginBottom + 1;
@@ -446,6 +457,53 @@ void Theme::paint(cairo_t *c, const BackgroundImageConfig &cfg, int width,
             }
         }
     }
+    cairo_restore(c);
+
+    if (!image.overlay()) {
+        return;
+    }
+    cairo_save(c);
+    cairo_set_operator(c, CAIRO_OPERATOR_OVER);
+    int x = 0, y = 0;
+    switch (*cfg.gravity) {
+    case Gravity::TopLeft:
+    case Gravity::CenterLeft:
+    case Gravity::BottomLeft:
+        x = *cfg.overlayOffsetX;
+        break;
+    case Gravity::TopCenter:
+    case Gravity::Center:
+    case Gravity::BottomCenter:
+        x = (width - image.overlayWidth()) / 2 + *cfg.overlayOffsetX;
+        break;
+    case Gravity::TopRight:
+    case Gravity::CenterRight:
+    case Gravity::BottomRight:
+        x = width - image.overlayWidth() - *cfg.overlayOffsetY;
+        break;
+    }
+    switch (*cfg.gravity) {
+    case Gravity::TopLeft:
+    case Gravity::TopCenter:
+    case Gravity::TopRight:
+        y = *cfg.overlayOffsetY;
+        break;
+    case Gravity::CenterLeft:
+    case Gravity::Center:
+    case Gravity::CenterRight:
+        y = (height - image.overlayHeight()) / 2 + *cfg.overlayOffsetY;
+        break;
+    case Gravity::BottomLeft:
+    case Gravity::BottomCenter:
+    case Gravity::BottomRight:
+        y = height - image.overlayHeight() - *cfg.overlayOffsetY;
+        break;
+    }
+    cairo_translate(c, x, y);
+    cairo_set_source_surface(c, image.overlay(), 0, 0);
+    cairo_rectangle(c, 0, 0, image.overlayWidth(), image.overlayHeight());
+    cairo_clip(c);
+    cairo_paint_with_alpha(c, alpha);
     cairo_restore(c);
 }
 

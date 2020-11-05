@@ -131,12 +131,28 @@ public:
     auto size() const { return size_; }
 
     bool valid() const { return valid_; }
+    cairo_surface_t *overlay() const { return overlay_.get(); }
+    auto overlayWidth() const {
+        int width = 1;
+        if (overlay_) {
+            width = cairo_image_surface_get_width(overlay_.get());
+        }
+        return width <= 0 ? 1 : width;
+    }
+    auto overlayHeight() const {
+        int height = 1;
+        if (overlay_) {
+            height = cairo_image_surface_get_height(overlay_.get());
+        }
+        return height <= 0 ? 1 : height;
+    }
 
 private:
     bool valid_ = false;
     std::string currentText_;
     uint32_t size_ = 0;
     UniqueCPtr<cairo_surface_t, cairo_surface_destroy> image_;
+    UniqueCPtr<cairo_surface_t, cairo_surface_destroy> overlay_;
 };
 
 class Theme : public ThemeConfig {
