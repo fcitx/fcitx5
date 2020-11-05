@@ -38,7 +38,12 @@ FCITX_CONFIGURATION(
     Option<std::string> overlay{this, "Overlay", "Overlay Image"};
     Option<Gravity> gravity{this, "Gravity", "Overlay position"};
     Option<int> overlayOffsetX{this, "OverlayOffsetX", "Overlay X offset"};
-    Option<int> overlayOffsetY{this, "OverlayOffsetY", "Overlay Y offset"};)
+    Option<int> overlayOffsetY{this, "OverlayOffsetY", "Overlay Y offset"};
+    Option<MarginConfig> overlayClipMargin{this, "OverlayClipMargin",
+                                           "Overlay Clip Margin"};
+    Option<bool> hideOverlayIfOversize{this, "HideOverlayIfOversize",
+                                       "Hide overlay if size does not fit",
+                                       false};)
 
 FCITX_CONFIGURATION(
     InputPanelThemeConfig,

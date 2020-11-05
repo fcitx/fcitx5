@@ -8,6 +8,7 @@
 #include "theme.h"
 #include <fcntl.h>
 #include <cassert>
+#include <fcitx-utils/rect.h>
 #include <fmt/format.h>
 #include <gdk-pixbuf/gdk-pixbuf.h>
 #include <gio/gunixinputstream.h>
@@ -462,8 +463,20 @@ void Theme::paint(cairo_t *c, const BackgroundImageConfig &cfg, int width,
     if (!image.overlay()) {
         return;
     }
-    cairo_save(c);
-    cairo_set_operator(c, CAIRO_OPERATOR_OVER);
+
+    Rect clipRect;
+    auto clipWidth = width - *cfg.overlayClipMargin->marginLeft -
+                     *cfg.overlayClipMargin->marginRight;
+    auto clipHeight = height - *cfg.overlayClipMargin->marginTop -
+                      *cfg.overlayClipMargin->marginBottom;
+    if (clipWidth <= 0 || clipHeight <= 0) {
+        return;
+    }
+    clipRect
+        .setPosition(*cfg.overlayClipMargin->marginLeft,
+                     *cfg.overlayClipMargin->marginTop)
+        .setSize(clipWidth, clipHeight);
+
     int x = 0, y = 0;
     switch (*cfg.gravity) {
     case Gravity::TopLeft:
@@ -499,9 +512,23 @@ void Theme::paint(cairo_t *c, const BackgroundImageConfig &cfg, int width,
         y = height - image.overlayHeight() - *cfg.overlayOffsetY;
         break;
     }
-    cairo_translate(c, x, y);
-    cairo_set_source_surface(c, image.overlay(), 0, 0);
-    cairo_rectangle(c, 0, 0, image.overlayWidth(), image.overlayHeight());
+    Rect rect;
+    rect.setPosition(x, y).setSize(image.overlayWidth(), image.overlayHeight());
+    Rect finalRect = rect.intersected(clipRect);
+    if (finalRect.isEmpty()) {
+        return;
+    }
+
+    if (*cfg.hideOverlayIfOversize && !clipRect.contains(rect)) {
+        return;
+    }
+
+    cairo_save(c);
+    cairo_set_operator(c, CAIRO_OPERATOR_OVER);
+    cairo_translate(c, finalRect.left(), finalRect.top());
+    cairo_set_source_surface(c, image.overlay(), x - finalRect.left(),
+                             y - finalRect.top());
+    cairo_rectangle(c, 0, 0, finalRect.width(), finalRect.height());
     cairo_clip(c);
     cairo_paint_with_alpha(c, alpha);
     cairo_restore(c);
