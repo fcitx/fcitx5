@@ -292,6 +292,32 @@ public:
 
     void buildDefaultGroup();
 
+    void showInputMethodInformation(InputContext *ic) {
+        FCITX_Q();
+        auto *inputState = ic->propertyFor(&inputStateFactory_);
+        auto *engine = q->inputMethodEngine(ic);
+        const auto *entry = q->inputMethodEntry(ic);
+        auto &imManager = q->inputMethodManager();
+        std::string display;
+        if (engine) {
+            auto subMode = engine->subMode(*entry, *ic);
+            if (subMode.empty()) {
+                display = entry->name();
+            } else {
+                display = fmt::format(_("{0} ({1})"), entry->name(), subMode);
+            }
+        } else if (entry) {
+            display = fmt::format(_("{0} (Not available)"), entry->name());
+        } else {
+            display = _("(Not available)");
+        }
+        if (imManager.groupCount() > 1) {
+            display = fmt::format(_("Group {0}: {1}"),
+                                  imManager.currentGroup().name(), display);
+        }
+        inputState->showInputMethodInformation(display);
+    }
+
     InstanceArgument arg_;
 
     int signalPipe_ = -1;
@@ -929,7 +955,7 @@ Instance::Instance(int argc, char **argv) {
                     EventSourceTime *, uint64_t) {
                     // Check if ic is still valid and has focus.
                     if (auto *ic = icRef.get(); ic && ic->hasFocus()) {
-                        showInputMethodInformation(ic);
+                        d->showInputMethodInformation(ic);
                     }
                     return true;
                 });
@@ -1989,28 +2015,7 @@ void Instance::showInputMethodInformation(InputContext *ic) {
     if (!d->globalConfig_.showInputMethodInformation()) {
         return;
     }
-    auto *inputState = ic->propertyFor(&d->inputStateFactory_);
-    auto *engine = inputMethodEngine(ic);
-    const auto *entry = inputMethodEntry(ic);
-    auto &imManager = inputMethodManager();
-    std::string display;
-    if (engine) {
-        auto subMode = engine->subMode(*entry, *ic);
-        if (subMode.empty()) {
-            display = entry->name();
-        } else {
-            display = fmt::format(_("{0} ({1})"), entry->name(), subMode);
-        }
-    } else if (entry) {
-        display = fmt::format(_("{0} (Not available)"), entry->name());
-    } else {
-        display = _("(Not available)");
-    }
-    if (imManager.groupCount() > 1) {
-        display = fmt::format(_("Group {0}: {1}"),
-                              imManager.currentGroup().name(), display);
-    }
-    inputState->showInputMethodInformation(display);
+    d->showInputMethodInformation(ic);
 }
 
 void Instance::setXkbParameters(const std::string &display,
