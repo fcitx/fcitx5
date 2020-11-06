@@ -951,8 +951,8 @@ Instance::Instance(int argc, char **argv) {
             // to be updated.
             d->focusInImInfoTimer_ = d->eventLoop_.addTimeEvent(
                 CLOCK_MONOTONIC, now(CLOCK_MONOTONIC) + 30000, 0,
-                [this, icRef = icEvent.inputContext()->watch()](
-                    EventSourceTime *, uint64_t) {
+                [d, icRef = icEvent.inputContext()->watch()](EventSourceTime *,
+                                                             uint64_t) {
                     // Check if ic is still valid and has focus.
                     if (auto *ic = icRef.get(); ic && ic->hasFocus()) {
                         d->showInputMethodInformation(ic);
