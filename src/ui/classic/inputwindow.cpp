@@ -321,8 +321,8 @@ std::pair<unsigned int, unsigned int> InputWindow::sizeHint() {
     height += *margin.marginTop + *margin.marginBottom;
 
     if (nCandidates_ && (hasPrev_ || hasNext_)) {
-        const auto &prev = theme.loadBackground(*theme.inputPanel->prev);
-        const auto &next = theme.loadBackground(*theme.inputPanel->next);
+        const auto &prev = theme.loadAction(*theme.inputPanel->prev);
+        const auto &next = theme.loadAction(*theme.inputPanel->next);
         if (prev.valid() && next.valid()) {
             width += prev.width() + next.width();
         }
@@ -376,8 +376,8 @@ void InputWindow::paint(cairo_t *cr, unsigned int width, unsigned int height) {
     prevRegion_ = Rect();
     nextRegion_ = Rect();
     if (nCandidates_ && (hasPrev_ || hasNext_)) {
-        const auto &prev = theme.loadBackground(*theme.inputPanel->prev);
-        const auto &next = theme.loadBackground(*theme.inputPanel->next);
+        const auto &prev = theme.loadAction(*theme.inputPanel->prev);
+        const auto &next = theme.loadAction(*theme.inputPanel->next);
         if (prev.valid() && next.valid()) {
             cairo_save(cr);
             nextRegion_.setPosition(width - *margin.marginRight - next.width(),
@@ -392,7 +392,7 @@ void InputWindow::paint(cairo_t *cr, unsigned int width, unsigned int height) {
             } else if (nextHovered_) {
                 alpha = 0.7;
             }
-            theme.paint(cr, *theme.inputPanel->next, -1, -1, alpha);
+            theme.paint(cr, *theme.inputPanel->next, alpha);
             cairo_restore(cr);
             cairo_save(cr);
             prevRegion_.setPosition(
@@ -407,7 +407,7 @@ void InputWindow::paint(cairo_t *cr, unsigned int width, unsigned int height) {
             } else if (prevHovered_) {
                 alpha = 0.7;
             }
-            theme.paint(cr, *theme.inputPanel->prev, -1, -1, alpha);
+            theme.paint(cr, *theme.inputPanel->prev, alpha);
             cairo_restore(cr);
         }
     }
@@ -497,7 +497,7 @@ void InputWindow::paint(cairo_t *cr, unsigned int width, unsigned int height) {
             wholeW += candidateW + labelW + extraW;
         }
         const auto &highlightMargin = *theme.inputPanel->highlight->margin;
-        const auto &clickMargin = *theme.inputPanel->highlight->clickMargin;
+        const auto &clickMargin = *theme.inputPanel->clickMargin;
         auto highlightWidth = labelW + candidateW;
         if (*theme.inputPanel->fullWidthHighlight && vertical) {
             // Last candidate, fill.

@@ -48,36 +48,32 @@ FCITX_CONFIGURATION(
     BackgroundImageConfig,
     Option<std::string> image{this, "Image", _("Background Image")};
     Option<Color> color{this, "Color", "Color", Color("#ffffff")};
-    Option<MarginConfig> margin{this, "Margin", _("Margin")};
-    Option<MarginConfig> clickMargin{this, "ClickMargin", _("Click Margin")};
     Option<std::string> overlay{this, "Overlay", _("Overlay Image")};
     Option<Gravity> gravity{this, "Gravity", _("Overlay position")};
     Option<int> overlayOffsetX{this, "OverlayOffsetX", _("Overlay X offset")};
     Option<int> overlayOffsetY{this, "OverlayOffsetY", _("Overlay Y offset")};
-    Option<MarginConfig> overlayClipMargin{this, "OverlayClipMargin",
-                                           _("Overlay Clip Margin")};
     Option<bool> hideOverlayIfOversize{this, "HideOverlayIfOversize",
                                        _("Hide overlay if size does not fit"),
-                                       false};)
+                                       false};
+    Option<MarginConfig> margin{this, "Margin", _("Margin")};
+    Option<MarginConfig> overlayClipMargin{this, "OverlayClipMargin",
+                                           _("Overlay Clip Margin")};)
+
+FCITX_CONFIGURATION(ActionImageConfig,
+                    Option<std::string> image{this, "Image", _("Image")};
+                    Option<MarginConfig> clickMargin{this, "ClickMargin",
+                                                     _("Click Margin")};)
 
 FCITX_CONFIGURATION(
     InputPanelThemeConfig,
-    Option<BackgroundImageConfig> background{this, "Background",
-                                             _("Background")};
-    Option<BackgroundImageConfig> highlight{this, "Highlight",
-                                            _("Highlight Background")};
-    Option<MarginConfig> contentMargin{this, "ContentMargin",
-                                       _("Margin around all content")};
-    Option<MarginConfig> textMargin{this, "TextMargin",
-                                    _("Margin around text")};
     Option<Color> normalColor{this, "NormalColor", _("Normal text color"),
                               Color("#000000ff")};
     Option<Color> highlightCandidateColor{this, "HighlightCandidateColor",
                                           _("Highlight Candidate Color"),
                                           Color("#ffffffff")};
-    Option<BackgroundImageConfig> prev{this, "PrevPage", _("Prev Page Button")};
-    Option<BackgroundImageConfig> next{this, "NextPage", _("Next Page Button")};
     Option<int> spacing{this, "Spacing", _("Spacing"), 0};
+    Option<bool> enableBlur{this, "EnableBlur", _("Enable Blur on KWin"),
+                            false};
     Option<bool> fullWidthHighlight{
         this, "FullWidthHighlight",
         _("Use all horizontal space for highlight when it is vertical list"),
@@ -87,11 +83,27 @@ FCITX_CONFIGURATION(
     Option<Color> highlightBackgroundColor{this, "HighlightBackgroundColor",
                                            _("Highlight Background color"),
                                            Color("#a5a5a5ff")};
-    Option<bool> enableBlur{this, "EnableBlur", _("Enable Blur on KWin."),
-                            false};
+    Option<BackgroundImageConfig> background{this, "Background",
+                                             _("Background")};
+    Option<BackgroundImageConfig> highlight{this, "Highlight",
+                                            _("Highlight Background")};
+    Option<MarginConfig> clickMargin{this, "HighlightClickMargin",
+                                     _("Highligh Click Margin")};
+    Option<MarginConfig> contentMargin{this, "ContentMargin",
+                                       _("Margin around all content")};
+    Option<MarginConfig> textMargin{this, "TextMargin",
+                                    _("Margin around text")};
+    Option<ActionImageConfig> prev{this, "PrevPage", _("Prev Page Button")};
+    Option<ActionImageConfig> next{this, "NextPage", _("Next Page Button")};
     Option<MarginConfig> blurMargin{this, "BlurMargin", _("Blur Margin")};);
 FCITX_CONFIGURATION(
     MenuThemeConfig, Option<std::string> font{this, "Font", "Font", "Sans 9"};
+    Option<Color> normalColor{this, "NormalColor", _("Normal text color"),
+                              Color("#000000ff")};
+    Option<Color> highlightTextColor{this, "HighlightCandidateColor",
+                                     _("Highlight Candidate Color"),
+                                     Color("#ffffffff")};
+    Option<int> spacing{this, "Spacing", _("Spacing"), 0};
     Option<BackgroundImageConfig> background{this, "Background",
                                              _("Background")};
     Option<BackgroundImageConfig> highlight{this, "Highlight",
@@ -103,28 +115,22 @@ FCITX_CONFIGURATION(
     Option<MarginConfig> contentMargin{this, "ContentMargin",
                                        _("Margin around all content")};
     Option<MarginConfig> textMargin{this, "TextMargin",
-                                    _("Margin around text")};
-    Option<Color> normalColor{this, "NormalColor", _("Normal text color"),
-                              Color("#000000ff")};
-    Option<Color> highlightTextColor{this, "HighlightCandidateColor",
-                                     _("Highlight Candidate Color"),
-                                     Color("#ffffffff")};
-    Option<int> spacing{this, "Spacing", _("Spacing"), 0};);
+                                    _("Margin around text")};);
 
 FCITX_CONFIGURATION(ThemeMetadata,
                     Option<I18NString> name{this, "Name", _("Name")};
                     Option<int> version{this, "Version", _("Version"), 1};
                     Option<std::string> author{this, "Author", _("Author")};
-                    Option<std::string> description{this, "Description",
-                                                    _("Description")};)
+                    Option<I18NString> description{this, "Description",
+                                                   _("Description")};)
 
 FCITX_CONFIGURATION(ThemeGeneralConfig,
                     Option<std::string> trayFont{this, "TrayFont",
                                                  _("Tray Font"), "Sans 9"};);
 
 FCITX_CONFIGURATION(ThemeConfig,
-                    Option<ThemeMetadata> metadata{this, "Metadata",
-                                                   _("Metadata")};
+                    HiddenOption<ThemeMetadata> metadata{this, "Metadata",
+                                                         _("Metadata")};
                     Option<ThemeGeneralConfig> config{this, "General",
                                                       _("General")};
                     Option<InputPanelThemeConfig> inputPanel{this, "InputPanel",
@@ -136,6 +142,7 @@ enum class ImagePurpose { General, Tray };
 class ThemeImage {
 public:
     ThemeImage(const std::string &name, const BackgroundImageConfig &cfg);
+    ThemeImage(const std::string &name, const ActionImageConfig &cfg);
     ThemeImage(const std::string &icon, const std::string &label,
                const std::string &font, uint32_t size);
 
@@ -192,15 +199,19 @@ public:
                                 const std::string &label, uint32_t size,
                                 ImagePurpose purpose = ImagePurpose::General);
     const ThemeImage &loadBackground(const BackgroundImageConfig &cfg);
+    const ThemeImage &loadAction(const ActionImageConfig &cfg);
 
     void paint(cairo_t *c, const BackgroundImageConfig &cfg, int width,
                int height, double alpha = 1.0);
+
+    void paint(cairo_t *c, const ActionImageConfig &cfg, double alpha = 1.0);
 
     bool setIconTheme(const std::string &name);
 
 private:
     std::unordered_map<const BackgroundImageConfig *, ThemeImage>
         backgroundImageTable_;
+    std::unordered_map<const ActionImageConfig *, ThemeImage> actionImageTable_;
     std::unordered_map<std::string, ThemeImage> imageTable_;
     std::unordered_map<std::string, ThemeImage> trayImageTable_;
     IconTheme iconTheme_;

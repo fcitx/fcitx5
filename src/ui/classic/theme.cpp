@@ -249,6 +249,20 @@ ThemeImage::ThemeImage(const std::string &name,
     }
 }
 
+ThemeImage::ThemeImage(const std::string &name, const ActionImageConfig &cfg) {
+    if (!cfg.image->empty()) {
+        auto imageFile = StandardPath::global().open(
+            StandardPath::Type::PkgData,
+            fmt::format("themes/{0}/{1}", name, *cfg.image), O_RDONLY);
+        image_.reset(loadImage(imageFile));
+        if (image_ &&
+            cairo_surface_status(image_.get()) != CAIRO_STATUS_SUCCESS) {
+            image_.reset();
+        }
+        valid_ = image_ != nullptr;
+    }
+}
+
 Theme::Theme() : iconTheme_(IconTheme::defaultIconThemeName()) {}
 
 Theme::~Theme() {}
@@ -261,6 +275,18 @@ const ThemeImage &Theme::loadBackground(const BackgroundImageConfig &cfg) {
     auto result = backgroundImageTable_.emplace(
         std::piecewise_construct, std::forward_as_tuple(&cfg),
         std::forward_as_tuple(name_, cfg));
+    assert(result.second);
+    return result.first->second;
+}
+
+const ThemeImage &Theme::loadAction(const ActionImageConfig &cfg) {
+    if (auto *image = findValue(actionImageTable_, &cfg)) {
+        return *image;
+    }
+
+    auto result = actionImageTable_.emplace(std::piecewise_construct,
+                                            std::forward_as_tuple(&cfg),
+                                            std::forward_as_tuple(name_, cfg));
     assert(result.second);
     return result.first->second;
 }
@@ -534,11 +560,25 @@ void Theme::paint(cairo_t *c, const BackgroundImageConfig &cfg, int width,
     cairo_restore(c);
 }
 
+void Theme::paint(cairo_t *c, const ActionImageConfig &cfg, double alpha) {
+    const ThemeImage &image = loadAction(cfg);
+    int height = cairo_image_surface_get_height(image);
+    int width = cairo_image_surface_get_width(image);
+
+    cairo_save(c);
+    cairo_set_source_surface(c, image, 0, 0);
+    cairo_rectangle(c, 0, 0, width, height);
+    cairo_clip(c);
+    cairo_paint_with_alpha(c, alpha);
+    cairo_restore(c);
+}
+
 void Theme::load(const std::string &name, const RawConfig &rawConfig) {
     imageTable_.clear();
     trayImageTable_.clear();
     backgroundImageTable_.clear();
-    Configuration::load(rawConfig);
+    actionImageTable_.clear();
+    Configuration::load(rawConfig, true);
     name_ = name;
 }
 

@@ -41,7 +41,6 @@ void Configuration::dumpDescription(RawConfig &config) const {
         option->dumpDescription(*descConfigPtr);
 
         auto subConfig = (option->subConfigSkeleton());
-
         if (subConfig) {
             subConfigs.emplace_back(std::move(subConfig));
         }
