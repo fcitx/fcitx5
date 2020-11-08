@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2020-11-02 20:34-0800\n"
+"POT-Creation-Date: 2020-11-08 00:02-0800\n"
 "PO-Revision-Date: 2017-11-23 04:14+0000\n"
 "Last-Translator: TotalCaesar659 <x24cm5b8c54q6szxw@yandex.ru>, 2017\n"
 "Language-Team: Russian (https://www.transifex.com/fcitx/teams/12005/ru/)\n"
@@ -50,7 +50,7 @@ msgstr ""
 msgid "${1} works properly."
 msgstr ""
 
-#: src/lib/fcitx/instance.cpp:2007
+#: src/lib/fcitx/instance.cpp:312
 msgid "(Not available)"
 msgstr "(Недоступно)"
 
@@ -182,6 +182,10 @@ msgctxt "Key name"
 msgid "Audio Repeat"
 msgstr ""
 
+#: src/ui/classic/theme.h:117
+msgid "Author"
+msgstr ""
+
 #: src/lib/fcitx-utils/key.cpp:163
 msgctxt "Key name"
 msgid "Away"
@@ -195,6 +199,14 @@ msgstr ""
 #: src/lib/fcitx-utils/key.cpp:115
 msgctxt "Key name"
 msgid "Back Forward"
+msgstr ""
+
+#: src/ui/classic/theme.h:66 src/ui/classic/theme.h:96
+msgid "Background"
+msgstr ""
+
+#: src/ui/classic/theme.h:49
+msgid "Background Image"
 msgstr ""
 
 #: src/lib/fcitx-utils/key.cpp:42
@@ -229,9 +241,25 @@ msgctxt "Key name"
 msgid "Bluetooth"
 msgstr ""
 
+#: src/ui/classic/theme.h:92
+msgid "Blur Margin"
+msgstr ""
+
 #: src/lib/fcitx-utils/key.cpp:118
 msgctxt "Key name"
 msgid "Book"
+msgstr ""
+
+#: src/ui/classic/theme.h:33
+msgid "Bottom Center"
+msgstr ""
+
+#: src/ui/classic/theme.h:33
+msgid "Bottom Left"
+msgstr ""
+
+#: src/ui/classic/theme.h:34
+msgid "Bottom Right"
 msgstr ""
 
 #: src/lib/fcitx-utils/key.cpp:129
@@ -336,8 +364,24 @@ msgctxt "Key name"
 msgid "CapsLock"
 msgstr ""
 
+#: src/ui/classic/theme.h:32
+msgid "Center"
+msgstr ""
+
+#: src/ui/classic/theme.h:31
+msgid "Center Left"
+msgstr ""
+
+#: src/ui/classic/theme.h:32
+msgid "Center Right"
+msgstr ""
+
 #: data/fcitx5-configtool.desktop.in.in:5
 msgid "Change Fcitx 5 Configuration"
+msgstr ""
+
+#: src/ui/classic/theme.h:101
+msgid "Check box"
 msgstr ""
 
 #: src/im/keyboard/keyboard.h:56
@@ -351,6 +395,10 @@ msgstr "Классический интерфейс пользователя"
 #: src/lib/fcitx-utils/key.cpp:121
 msgctxt "Key name"
 msgid "Clear"
+msgstr ""
+
+#: src/ui/classic/theme.h:52
+msgid "Click Margin"
 msgstr ""
 
 #: src/modules/clipboard/clipboard.conf.in:3
@@ -485,7 +533,7 @@ msgstr ""
 msgid "Deactivate Input Method"
 msgstr "Деактивация метода ввода"
 
-#: src/lib/fcitx/instance.cpp:564 src/lib/fcitx/inputmethodmanager.cpp:130
+#: src/lib/fcitx/instance.cpp:590 src/lib/fcitx/inputmethodmanager.cpp:130
 #: src/ui/classic/themes/default/theme.conf.in:3
 msgid "Default"
 msgstr "По умолчанию"
@@ -513,6 +561,10 @@ msgstr "Размер страницы по умолчанию"
 #: src/lib/fcitx-utils/key.cpp:195
 msgctxt "Key name"
 msgid "Delete"
+msgstr ""
+
+#: src/ui/classic/theme.h:119
+msgid "Description"
 msgstr ""
 
 #: data/fcitx5-diagnose.sh:785
@@ -567,6 +619,10 @@ msgstr ""
 
 #: src/modules/emoji/emoji.conf.in:3
 msgid "Emoji"
+msgstr ""
+
+#: src/ui/classic/theme.h:90
+msgid "Enable Blur on KWin."
 msgstr ""
 
 #: src/modules/quickphrase/quickphrase.h:43
@@ -793,6 +849,10 @@ msgctxt "Key name"
 msgid "Game"
 msgstr ""
 
+#: src/ui/classic/theme.h:129
+msgid "General"
+msgstr ""
+
 #: src/lib/fcitx-utils/key.cpp:131
 msgctxt "Key name"
 msgid "Go"
@@ -808,11 +868,11 @@ msgstr ""
 msgid "Group"
 msgstr "Группа"
 
-#: src/lib/fcitx/instance.cpp:2010
+#: src/lib/fcitx/instance.cpp:315
 msgid "Group {0}: {1}"
 msgstr "Группа {0}: {1}"
 
-#: src/lib/fcitx/instance.cpp:566
+#: src/lib/fcitx/instance.cpp:592
 msgid "Group {}"
 msgstr ""
 
@@ -911,6 +971,26 @@ msgstr ""
 msgid "Hidden Notifications"
 msgstr ""
 
+#: src/ui/classic/theme.h:60
+msgid "Hide overlay if size does not fit"
+msgstr ""
+
+#: src/ui/classic/theme.h:68 src/ui/classic/theme.h:98
+msgid "Highlight Background"
+msgstr ""
+
+#: src/ui/classic/theme.h:88
+msgid "Highlight Background color"
+msgstr ""
+
+#: src/ui/classic/theme.h:76 src/ui/classic/theme.h:110
+msgid "Highlight Candidate Color"
+msgstr ""
+
+#: src/ui/classic/theme.h:86
+msgid "Highlight text color"
+msgstr ""
+
 #: src/lib/fcitx-utils/key.cpp:203
 msgctxt "Key name"
 msgid "Hiragana"
@@ -986,7 +1066,7 @@ msgid ""
 "any input method other than ${2}. See ${link} for more detail."
 msgstr ""
 
-#: src/lib/fcitx/instance.cpp:635 src/lib/fcitx/instance.cpp:805
+#: src/lib/fcitx/instance.cpp:661 src/lib/fcitx/instance.cpp:831
 #: src/im/keyboard/keyboard.cpp:357 src/ui/classic/xcbtraywindow.cpp:38
 #: src/modules/xcb/xcbconnection.cpp:388
 #: src/modules/notificationitem/dbusmenu.cpp:241
@@ -1002,6 +1082,10 @@ msgstr ""
 
 #: data/fcitx5-diagnose.sh:685
 msgid "Input Method Related Environment Variables: "
+msgstr ""
+
+#: src/ui/classic/theme.h:131
+msgid "Input Panel"
 msgstr ""
 
 #: src/modules/imselector/imselector.conf.in:3
@@ -1219,6 +1303,34 @@ msgctxt "Key name"
 msgid "Mail Forward"
 msgstr ""
 
+#: src/ui/classic/theme.h:51
+msgid "Margin"
+msgstr ""
+
+#: src/ui/classic/theme.h:44
+msgid "Margin Bottom"
+msgstr ""
+
+#: src/ui/classic/theme.h:38
+msgid "Margin Left"
+msgstr ""
+
+#: src/ui/classic/theme.h:40
+msgid "Margin Right"
+msgstr ""
+
+#: src/ui/classic/theme.h:42
+msgid "Margin Top"
+msgstr ""
+
+#: src/ui/classic/theme.h:70 src/ui/classic/theme.h:104
+msgid "Margin around all content"
+msgstr ""
+
+#: src/ui/classic/theme.h:72 src/ui/classic/theme.h:106
+msgid "Margin around text"
+msgstr ""
+
 #: src/lib/fcitx-utils/key.cpp:134
 msgctxt "Key name"
 msgid "Market"
@@ -1274,6 +1386,10 @@ msgctxt "Key name"
 msgid "Meeting"
 msgstr ""
 
+#: src/ui/classic/theme.h:132
+msgid "Menu"
+msgstr ""
+
 #: src/lib/fcitx-utils/key.cpp:56
 msgctxt "Key name"
 msgid "Menu"
@@ -1287,6 +1403,10 @@ msgstr ""
 #: src/lib/fcitx-utils/key.cpp:164
 msgctxt "Key name"
 msgid "Messenger"
+msgstr ""
+
+#: src/ui/classic/theme.h:127
+msgid "Metadata"
 msgstr ""
 
 #: src/lib/fcitx-utils/key.cpp:183
@@ -1324,6 +1444,10 @@ msgctxt "Key name"
 msgid "My Sites"
 msgstr ""
 
+#: src/ui/classic/theme.h:115
+msgid "Name"
+msgstr ""
+
 #: src/lib/fcitx-utils/key.cpp:188
 msgctxt "Key name"
 msgid "New"
@@ -1338,6 +1462,10 @@ msgstr ""
 msgid "Next Candidate"
 msgstr ""
 
+#: src/ui/classic/theme.h:79
+msgid "Next Page Button"
+msgstr ""
+
 #: src/modules/clipboard/clipboard.cpp:306
 msgid "No clipboard history."
 msgstr "История буфера обмена отсутствует."
@@ -1345,6 +1473,10 @@ msgstr "История буфера обмена отсутствует."
 #: src/im/keyboard/keyboard.h:32 src/modules/quickphrase/quickphrase.h:28
 msgid "None"
 msgstr "Нет"
+
+#: src/ui/classic/theme.h:73 src/ui/classic/theme.h:107
+msgid "Normal text color"
+msgstr ""
 
 #: src/ui/kimpanel/kimpanel.cpp:365
 msgid "Not available"
@@ -1382,6 +1514,26 @@ msgstr ""
 #: src/lib/fcitx-utils/key.cpp:141
 msgctxt "Key name"
 msgid "Option"
+msgstr ""
+
+#: src/ui/classic/theme.h:58
+msgid "Overlay Clip Margin"
+msgstr ""
+
+#: src/ui/classic/theme.h:53
+msgid "Overlay Image"
+msgstr ""
+
+#: src/ui/classic/theme.h:55
+msgid "Overlay X offset"
+msgstr ""
+
+#: src/ui/classic/theme.h:56
+msgid "Overlay Y offset"
+msgstr ""
+
+#: src/ui/classic/theme.h:54
+msgid "Overlay position"
 msgstr ""
 
 #: data/fcitx5-diagnose.sh:956
@@ -1452,15 +1604,15 @@ msgctxt "Key name"
 msgid "Power Off"
 msgstr ""
 
-#: src/lib/fcitx/instance.cpp:805
+#: src/lib/fcitx/instance.cpp:831
 msgid "Preedit"
 msgstr ""
 
-#: src/lib/fcitx/instance.cpp:807
+#: src/lib/fcitx/instance.cpp:833
 msgid "Preedit disabled"
 msgstr ""
 
-#: src/lib/fcitx/instance.cpp:806
+#: src/lib/fcitx/instance.cpp:832
 msgid "Preedit enabled"
 msgstr ""
 
@@ -1470,6 +1622,10 @@ msgstr "Presage"
 
 #: src/im/keyboard/keyboard.h:42
 msgid "Prev Candidate"
+msgstr ""
+
+#: src/ui/classic/theme.h:78
+msgid "Prev Page Button"
 msgstr ""
 
 #: src/lib/fcitx-utils/key.cpp:217
@@ -1629,6 +1785,10 @@ msgctxt "Key name"
 msgid "Send"
 msgstr ""
 
+#: src/ui/classic/theme.h:100
+msgid "Separator Background"
+msgstr ""
+
 #: src/lib/fcitx/globalconfig.cpp:118
 msgid "Share Input State"
 msgstr ""
@@ -1663,6 +1823,10 @@ msgstr ""
 #: src/lib/fcitx-utils/key.cpp:40
 msgctxt "Key name"
 msgid "Space"
+msgstr ""
+
+#: src/ui/classic/theme.h:80 src/ui/classic/theme.h:112
+msgid "Spacing"
 msgstr ""
 
 #: src/modules/spell/spell.conf.in:3
@@ -1702,6 +1866,10 @@ msgctxt "Key name"
 msgid "Stop"
 msgstr ""
 
+#: src/ui/classic/theme.h:102
+msgid "Sub Menu"
+msgstr ""
+
 #: src/lib/fcitx-utils/key.cpp:175
 msgctxt "Key name"
 msgid "Subtitle"
@@ -1726,7 +1894,7 @@ msgctxt "Key name"
 msgid "Suspend"
 msgstr ""
 
-#: src/lib/fcitx/instance.cpp:636 src/modules/xcb/xcbconnection.cpp:389
+#: src/lib/fcitx/instance.cpp:662 src/modules/xcb/xcbconnection.cpp:389
 msgid "Switch group"
 msgstr ""
 
@@ -1734,7 +1902,7 @@ msgstr ""
 msgid "Switch group to {0}"
 msgstr ""
 
-#: src/lib/fcitx/instance.cpp:637
+#: src/lib/fcitx/instance.cpp:663
 msgid "Switched group to {0}"
 msgstr ""
 
@@ -1801,9 +1969,21 @@ msgctxt "Key name"
 msgid "Tools"
 msgstr ""
 
+#: src/ui/classic/theme.h:30
+msgid "Top Center"
+msgstr ""
+
+#: src/ui/classic/theme.h:30
+msgid "Top Left"
+msgstr ""
+
 #: src/lib/fcitx-utils/key.cpp:180
 msgctxt "Key name"
 msgid "Top Menu"
+msgstr ""
+
+#: src/ui/classic/theme.h:31
+msgid "Top Right"
 msgstr ""
 
 #: src/lib/fcitx-utils/key.cpp:233
@@ -1829,6 +2009,10 @@ msgstr ""
 #: src/lib/fcitx-utils/key.cpp:157
 msgctxt "Key name"
 msgid "Travel"
+msgstr ""
+
+#: src/ui/classic/theme.h:123
+msgid "Tray Font"
 msgstr ""
 
 #: src/lib/fcitx/globalconfig.cpp:23
@@ -1881,6 +2065,10 @@ msgstr ""
 msgid "Use Per Screen DPI"
 msgstr ""
 
+#: src/ui/classic/theme.h:83
+msgid "Use all horizontal space for highlight when it is vertical list"
+msgstr ""
+
 #: src/ui/classic/classicui.h:75
 msgid "Use mouse wheel to go to prev or next page"
 msgstr ""
@@ -1891,6 +2079,10 @@ msgstr ""
 
 #: data/fcitx5-diagnose.sh:951
 msgid "Using ${1} to check dbus."
+msgstr ""
+
+#: src/ui/classic/theme.h:116
+msgid "Version"
 msgstr ""
 
 #: data/fcitx5-diagnose.sh:1329 data/fcitx5-diagnose.sh:1412
@@ -2107,10 +2299,10 @@ msgstr ""
 msgid "{0} (Not Available)"
 msgstr ""
 
-#: src/lib/fcitx/instance.cpp:2005
+#: src/lib/fcitx/instance.cpp:310
 msgid "{0} (Not available)"
 msgstr "{0} (Недоступно)"
 
-#: src/lib/fcitx/instance.cpp:2002
+#: src/lib/fcitx/instance.cpp:307
 msgid "{0} ({1})"
 msgstr "{0} ({1})"

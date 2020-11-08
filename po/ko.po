@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2020-11-02 20:34-0800\n"
+"POT-Creation-Date: 2020-11-08 00:02-0800\n"
 "PO-Revision-Date: 2017-11-23 04:14+0000\n"
 "Last-Translator: JungHee Lee <daemul72@gmail.com>, 2020\n"
 "Language-Team: Korean (https://www.transifex.com/fcitx/teams/12005/ko/)\n"
@@ -50,7 +50,7 @@ msgstr ""
 msgid "${1} works properly."
 msgstr ""
 
-#: src/lib/fcitx/instance.cpp:2007
+#: src/lib/fcitx/instance.cpp:312
 msgid "(Not available)"
 msgstr "(사용할 수 없음)"
 
@@ -182,6 +182,10 @@ msgctxt "Key name"
 msgid "Audio Repeat"
 msgstr "음원 반복 듣기"
 
+#: src/ui/classic/theme.h:117
+msgid "Author"
+msgstr ""
+
 #: src/lib/fcitx-utils/key.cpp:163
 msgctxt "Key name"
 msgid "Away"
@@ -196,6 +200,14 @@ msgstr "뒤로"
 msgctxt "Key name"
 msgid "Back Forward"
 msgstr "뒤로 앞으로"
+
+#: src/ui/classic/theme.h:66 src/ui/classic/theme.h:96
+msgid "Background"
+msgstr ""
+
+#: src/ui/classic/theme.h:49
+msgid "Background Image"
+msgstr ""
 
 #: src/lib/fcitx-utils/key.cpp:42
 msgctxt "Key name"
@@ -229,10 +241,26 @@ msgctxt "Key name"
 msgid "Bluetooth"
 msgstr "블루투스"
 
+#: src/ui/classic/theme.h:92
+msgid "Blur Margin"
+msgstr ""
+
 #: src/lib/fcitx-utils/key.cpp:118
 msgctxt "Key name"
 msgid "Book"
 msgstr "책"
+
+#: src/ui/classic/theme.h:33
+msgid "Bottom Center"
+msgstr ""
+
+#: src/ui/classic/theme.h:33
+msgid "Bottom Left"
+msgstr ""
+
+#: src/ui/classic/theme.h:34
+msgid "Bottom Right"
+msgstr ""
 
 #: src/lib/fcitx-utils/key.cpp:129
 msgctxt "Key name"
@@ -336,9 +364,25 @@ msgctxt "Key name"
 msgid "CapsLock"
 msgstr "캡스락"
 
+#: src/ui/classic/theme.h:32
+msgid "Center"
+msgstr ""
+
+#: src/ui/classic/theme.h:31
+msgid "Center Left"
+msgstr ""
+
+#: src/ui/classic/theme.h:32
+msgid "Center Right"
+msgstr ""
+
 #: data/fcitx5-configtool.desktop.in.in:5
 msgid "Change Fcitx 5 Configuration"
 msgstr "Fcitx 5 환경설정 변경"
+
+#: src/ui/classic/theme.h:101
+msgid "Check box"
+msgstr ""
 
 #: src/im/keyboard/keyboard.h:56
 msgid "Choose key modifier"
@@ -352,6 +396,10 @@ msgstr "클래식 사용자 인터페이스"
 msgctxt "Key name"
 msgid "Clear"
 msgstr "지우기"
+
+#: src/ui/classic/theme.h:52
+msgid "Click Margin"
+msgstr ""
 
 #: src/modules/clipboard/clipboard.conf.in:3
 msgid "Clipboard"
@@ -485,7 +533,7 @@ msgstr "DOS"
 msgid "Deactivate Input Method"
 msgstr "입력기 비활성화"
 
-#: src/lib/fcitx/instance.cpp:564 src/lib/fcitx/inputmethodmanager.cpp:130
+#: src/lib/fcitx/instance.cpp:590 src/lib/fcitx/inputmethodmanager.cpp:130
 #: src/ui/classic/themes/default/theme.conf.in:3
 msgid "Default"
 msgstr "기본값"
@@ -514,6 +562,10 @@ msgstr "페이지 크기 기본값"
 msgctxt "Key name"
 msgid "Delete"
 msgstr "삭제"
+
+#: src/ui/classic/theme.h:119
+msgid "Description"
+msgstr ""
 
 #: data/fcitx5-diagnose.sh:785
 msgid "Desktop Environment:"
@@ -568,6 +620,10 @@ msgstr "꺼내기"
 #: src/modules/emoji/emoji.conf.in:3
 msgid "Emoji"
 msgstr "그림문자"
+
+#: src/ui/classic/theme.h:90
+msgid "Enable Blur on KWin."
+msgstr ""
 
 #: src/modules/quickphrase/quickphrase.h:43
 msgid "Enable Spell check"
@@ -793,6 +849,10 @@ msgctxt "Key name"
 msgid "Game"
 msgstr "게임"
 
+#: src/ui/classic/theme.h:129
+msgid "General"
+msgstr ""
+
 #: src/lib/fcitx-utils/key.cpp:131
 msgctxt "Key name"
 msgid "Go"
@@ -808,11 +868,11 @@ msgstr "녹색"
 msgid "Group"
 msgstr "그룹"
 
-#: src/lib/fcitx/instance.cpp:2010
+#: src/lib/fcitx/instance.cpp:315
 msgid "Group {0}: {1}"
 msgstr "그룹 {0}: {1}"
 
-#: src/lib/fcitx/instance.cpp:566
+#: src/lib/fcitx/instance.cpp:592
 msgid "Group {}"
 msgstr "그룹 {}"
 
@@ -911,6 +971,26 @@ msgstr "하이버네이트"
 msgid "Hidden Notifications"
 msgstr "숨은 알림"
 
+#: src/ui/classic/theme.h:60
+msgid "Hide overlay if size does not fit"
+msgstr ""
+
+#: src/ui/classic/theme.h:68 src/ui/classic/theme.h:98
+msgid "Highlight Background"
+msgstr ""
+
+#: src/ui/classic/theme.h:88
+msgid "Highlight Background color"
+msgstr ""
+
+#: src/ui/classic/theme.h:76 src/ui/classic/theme.h:110
+msgid "Highlight Candidate Color"
+msgstr ""
+
+#: src/ui/classic/theme.h:86
+msgid "Highlight text color"
+msgstr ""
+
 #: src/lib/fcitx-utils/key.cpp:203
 msgctxt "Key name"
 msgid "Hiragana"
@@ -986,7 +1066,7 @@ msgid ""
 "any input method other than ${2}. See ${link} for more detail."
 msgstr ""
 
-#: src/lib/fcitx/instance.cpp:635 src/lib/fcitx/instance.cpp:805
+#: src/lib/fcitx/instance.cpp:661 src/lib/fcitx/instance.cpp:831
 #: src/im/keyboard/keyboard.cpp:357 src/ui/classic/xcbtraywindow.cpp:38
 #: src/modules/xcb/xcbconnection.cpp:388
 #: src/modules/notificationitem/dbusmenu.cpp:241
@@ -1002,6 +1082,10 @@ msgstr "입력기 환경설정"
 
 #: data/fcitx5-diagnose.sh:685
 msgid "Input Method Related Environment Variables: "
+msgstr ""
+
+#: src/ui/classic/theme.h:131
+msgid "Input Panel"
 msgstr ""
 
 #: src/modules/imselector/imselector.conf.in:3
@@ -1219,6 +1303,34 @@ msgctxt "Key name"
 msgid "Mail Forward"
 msgstr "이메일 전달"
 
+#: src/ui/classic/theme.h:51
+msgid "Margin"
+msgstr ""
+
+#: src/ui/classic/theme.h:44
+msgid "Margin Bottom"
+msgstr ""
+
+#: src/ui/classic/theme.h:38
+msgid "Margin Left"
+msgstr ""
+
+#: src/ui/classic/theme.h:40
+msgid "Margin Right"
+msgstr ""
+
+#: src/ui/classic/theme.h:42
+msgid "Margin Top"
+msgstr ""
+
+#: src/ui/classic/theme.h:70 src/ui/classic/theme.h:104
+msgid "Margin around all content"
+msgstr ""
+
+#: src/ui/classic/theme.h:72 src/ui/classic/theme.h:106
+msgid "Margin around text"
+msgstr ""
+
 #: src/lib/fcitx-utils/key.cpp:134
 msgctxt "Key name"
 msgid "Market"
@@ -1274,6 +1386,10 @@ msgctxt "Key name"
 msgid "Meeting"
 msgstr "미팅"
 
+#: src/ui/classic/theme.h:132
+msgid "Menu"
+msgstr ""
+
 #: src/lib/fcitx-utils/key.cpp:56
 msgctxt "Key name"
 msgid "Menu"
@@ -1288,6 +1404,10 @@ msgstr "메뉴 PB"
 msgctxt "Key name"
 msgid "Messenger"
 msgstr "메신저"
+
+#: src/ui/classic/theme.h:127
+msgid "Metadata"
+msgstr ""
 
 #: src/lib/fcitx-utils/key.cpp:183
 msgctxt "Key name"
@@ -1324,6 +1444,10 @@ msgctxt "Key name"
 msgid "My Sites"
 msgstr "내 사이트"
 
+#: src/ui/classic/theme.h:115
+msgid "Name"
+msgstr ""
+
 #: src/lib/fcitx-utils/key.cpp:188
 msgctxt "Key name"
 msgid "New"
@@ -1338,6 +1462,10 @@ msgstr "뉴스"
 msgid "Next Candidate"
 msgstr "다음 후보"
 
+#: src/ui/classic/theme.h:79
+msgid "Next Page Button"
+msgstr ""
+
 #: src/modules/clipboard/clipboard.cpp:306
 msgid "No clipboard history."
 msgstr "클립보드 기록이 없습니다."
@@ -1345,6 +1473,10 @@ msgstr "클립보드 기록이 없습니다."
 #: src/im/keyboard/keyboard.h:32 src/modules/quickphrase/quickphrase.h:28
 msgid "None"
 msgstr "없음"
+
+#: src/ui/classic/theme.h:73 src/ui/classic/theme.h:107
+msgid "Normal text color"
+msgstr ""
 
 #: src/ui/kimpanel/kimpanel.cpp:365
 msgid "Not available"
@@ -1385,6 +1517,26 @@ msgstr "URL 열기"
 msgctxt "Key name"
 msgid "Option"
 msgstr "선택사항"
+
+#: src/ui/classic/theme.h:58
+msgid "Overlay Clip Margin"
+msgstr ""
+
+#: src/ui/classic/theme.h:53
+msgid "Overlay Image"
+msgstr ""
+
+#: src/ui/classic/theme.h:55
+msgid "Overlay X offset"
+msgstr ""
+
+#: src/ui/classic/theme.h:56
+msgid "Overlay Y offset"
+msgstr ""
+
+#: src/ui/classic/theme.h:54
+msgid "Overlay position"
+msgstr ""
 
 #: data/fcitx5-diagnose.sh:956
 msgid "Owner of DBus name ${1} is ${2}."
@@ -1454,15 +1606,15 @@ msgctxt "Key name"
 msgid "Power Off"
 msgstr "전원 끄기"
 
-#: src/lib/fcitx/instance.cpp:805
+#: src/lib/fcitx/instance.cpp:831
 msgid "Preedit"
 msgstr "사전편집"
 
-#: src/lib/fcitx/instance.cpp:807
+#: src/lib/fcitx/instance.cpp:833
 msgid "Preedit disabled"
 msgstr "사전편집 비활성화"
 
-#: src/lib/fcitx/instance.cpp:806
+#: src/lib/fcitx/instance.cpp:832
 msgid "Preedit enabled"
 msgstr "사전편집 활성화"
 
@@ -1473,6 +1625,10 @@ msgstr "사전 설정"
 #: src/im/keyboard/keyboard.h:42
 msgid "Prev Candidate"
 msgstr "이전 후보"
+
+#: src/ui/classic/theme.h:78
+msgid "Prev Page Button"
+msgstr ""
 
 #: src/lib/fcitx-utils/key.cpp:217
 msgctxt "Key name"
@@ -1631,6 +1787,10 @@ msgctxt "Key name"
 msgid "Send"
 msgstr "보내기"
 
+#: src/ui/classic/theme.h:100
+msgid "Separator Background"
+msgstr ""
+
 #: src/lib/fcitx/globalconfig.cpp:118
 msgid "Share Input State"
 msgstr "입력 상태 공유"
@@ -1666,6 +1826,10 @@ msgstr "Sleep"
 msgctxt "Key name"
 msgid "Space"
 msgstr "공백"
+
+#: src/ui/classic/theme.h:80 src/ui/classic/theme.h:112
+msgid "Spacing"
+msgstr ""
 
 #: src/modules/spell/spell.conf.in:3
 msgid "Spell"
@@ -1704,6 +1868,10 @@ msgctxt "Key name"
 msgid "Stop"
 msgstr "중지"
 
+#: src/ui/classic/theme.h:102
+msgid "Sub Menu"
+msgstr ""
+
 #: src/lib/fcitx-utils/key.cpp:175
 msgctxt "Key name"
 msgid "Subtitle"
@@ -1728,7 +1896,7 @@ msgctxt "Key name"
 msgid "Suspend"
 msgstr "중단"
 
-#: src/lib/fcitx/instance.cpp:636 src/modules/xcb/xcbconnection.cpp:389
+#: src/lib/fcitx/instance.cpp:662 src/modules/xcb/xcbconnection.cpp:389
 msgid "Switch group"
 msgstr "그룹 전환"
 
@@ -1736,7 +1904,7 @@ msgstr "그룹 전환"
 msgid "Switch group to {0}"
 msgstr "{0}(으)로 그룹 전환"
 
-#: src/lib/fcitx/instance.cpp:637
+#: src/lib/fcitx/instance.cpp:663
 msgid "Switched group to {0}"
 msgstr "{0}(으)로 그룹 전환됨"
 
@@ -1803,10 +1971,22 @@ msgctxt "Key name"
 msgid "Tools"
 msgstr "도구"
 
+#: src/ui/classic/theme.h:30
+msgid "Top Center"
+msgstr ""
+
+#: src/ui/classic/theme.h:30
+msgid "Top Left"
+msgstr ""
+
 #: src/lib/fcitx-utils/key.cpp:180
 msgctxt "Key name"
 msgid "Top Menu"
 msgstr "최상위 메뉴"
+
+#: src/ui/classic/theme.h:31
+msgid "Top Right"
+msgstr ""
 
 #: src/lib/fcitx-utils/key.cpp:233
 msgctxt "Key name"
@@ -1832,6 +2012,10 @@ msgstr "등록"
 msgctxt "Key name"
 msgid "Travel"
 msgstr "여행"
+
+#: src/ui/classic/theme.h:123
+msgid "Tray Font"
+msgstr ""
 
 #: src/lib/fcitx/globalconfig.cpp:23
 msgid "Trigger Input Method"
@@ -1883,6 +2067,10 @@ msgstr "스팟 스타일에서 사용(다시 시작 필요)"
 msgid "Use Per Screen DPI"
 msgstr "화면 해상도 사용하기"
 
+#: src/ui/classic/theme.h:83
+msgid "Use all horizontal space for highlight when it is vertical list"
+msgstr ""
+
 #: src/ui/classic/classicui.h:75
 msgid "Use mouse wheel to go to prev or next page"
 msgstr "마우스 휠을 사용하여 이전 또는 다음 페이지로 이동"
@@ -1893,6 +2081,10 @@ msgstr "사용자 인터페이스:"
 
 #: data/fcitx5-diagnose.sh:951
 msgid "Using ${1} to check dbus."
+msgstr ""
+
+#: src/ui/classic/theme.h:116
+msgid "Version"
 msgstr ""
 
 #: data/fcitx5-diagnose.sh:1329 data/fcitx5-diagnose.sh:1412
@@ -2114,10 +2306,10 @@ msgstr "버전:"
 msgid "{0} (Not Available)"
 msgstr "{0} (사용할 수 없음)"
 
-#: src/lib/fcitx/instance.cpp:2005
+#: src/lib/fcitx/instance.cpp:310
 msgid "{0} (Not available)"
 msgstr "{0} (사용할 수 없음)"
 
-#: src/lib/fcitx/instance.cpp:2002
+#: src/lib/fcitx/instance.cpp:307
 msgid "{0} ({1})"
 msgstr "{0} ({1})"
