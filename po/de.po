@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2020-11-08 00:02-0800\n"
+"POT-Creation-Date: 2020-11-08 13:34-0800\n"
 "PO-Revision-Date: 2017-11-23 04:14+0000\n"
 "Last-Translator: Tim Hofstede <timhofstede.va@gmail.com>, 2018\n"
 "Language-Team: German (https://www.transifex.com/fcitx/teams/12005/de/)\n"
@@ -181,7 +181,7 @@ msgctxt "Key name"
 msgid "Audio Repeat"
 msgstr "Audio Wiederhohlung"
 
-#: src/ui/classic/theme.h:117
+#: src/ui/classic/theme.h:127
 msgid "Author"
 msgstr ""
 
@@ -200,7 +200,7 @@ msgctxt "Key name"
 msgid "Back Forward"
 msgstr "Zurück vorwärts"
 
-#: src/ui/classic/theme.h:66 src/ui/classic/theme.h:96
+#: src/ui/classic/theme.h:93 src/ui/classic/theme.h:112
 msgid "Background"
 msgstr ""
 
@@ -240,7 +240,7 @@ msgctxt "Key name"
 msgid "Bluetooth"
 msgstr "Bluetooth"
 
-#: src/ui/classic/theme.h:92
+#: src/ui/classic/theme.h:102
 msgid "Blur Margin"
 msgstr ""
 
@@ -379,7 +379,7 @@ msgstr ""
 msgid "Change Fcitx 5 Configuration"
 msgstr "Fcitx 5 Konfiguration ändern"
 
-#: src/ui/classic/theme.h:101
+#: src/ui/classic/theme.h:117
 msgid "Check box"
 msgstr ""
 
@@ -396,7 +396,7 @@ msgctxt "Key name"
 msgid "Clear"
 msgstr "Löschen"
 
-#: src/ui/classic/theme.h:52
+#: src/ui/classic/theme.h:71
 msgid "Click Margin"
 msgstr ""
 
@@ -562,7 +562,7 @@ msgctxt "Key name"
 msgid "Delete"
 msgstr "Löschen"
 
-#: src/ui/classic/theme.h:119
+#: src/ui/classic/theme.h:129
 msgid "Description"
 msgstr ""
 
@@ -620,8 +620,8 @@ msgstr "Auswerfen"
 msgid "Emoji"
 msgstr ""
 
-#: src/ui/classic/theme.h:90
-msgid "Enable Blur on KWin."
+#: src/ui/classic/theme.h:81
+msgid "Enable Blur on KWin"
 msgstr ""
 
 #: src/modules/quickphrase/quickphrase.h:43
@@ -848,7 +848,7 @@ msgctxt "Key name"
 msgid "Game"
 msgstr "Spiel"
 
-#: src/ui/classic/theme.h:129
+#: src/ui/classic/theme.h:139
 msgid "General"
 msgstr ""
 
@@ -970,23 +970,27 @@ msgstr "Hibernate"
 msgid "Hidden Notifications"
 msgstr "Verborgene Hinweise"
 
-#: src/ui/classic/theme.h:60
+#: src/ui/classic/theme.h:56
 msgid "Hide overlay if size does not fit"
 msgstr ""
 
-#: src/ui/classic/theme.h:68 src/ui/classic/theme.h:98
+#: src/ui/classic/theme.h:66
+msgid "Highligh Click Margin"
+msgstr ""
+
+#: src/ui/classic/theme.h:95 src/ui/classic/theme.h:114
 msgid "Highlight Background"
 msgstr ""
 
-#: src/ui/classic/theme.h:88
+#: src/ui/classic/theme.h:90
 msgid "Highlight Background color"
 msgstr ""
 
-#: src/ui/classic/theme.h:76 src/ui/classic/theme.h:110
+#: src/ui/classic/theme.h:78 src/ui/classic/theme.h:108
 msgid "Highlight Candidate Color"
 msgstr ""
 
-#: src/ui/classic/theme.h:86
+#: src/ui/classic/theme.h:88
 msgid "Highlight text color"
 msgstr ""
 
@@ -1065,6 +1069,10 @@ msgid ""
 "any input method other than ${2}. See ${link} for more detail."
 msgstr ""
 
+#: src/ui/classic/theme.h:69
+msgid "Image"
+msgstr ""
+
 #: src/lib/fcitx/instance.cpp:661 src/lib/fcitx/instance.cpp:831
 #: src/im/keyboard/keyboard.cpp:357 src/ui/classic/xcbtraywindow.cpp:38
 #: src/modules/xcb/xcbconnection.cpp:388
@@ -1083,7 +1091,7 @@ msgstr "Konfiguration Eingabemethode"
 msgid "Input Method Related Environment Variables: "
 msgstr ""
 
-#: src/ui/classic/theme.h:131
+#: src/ui/classic/theme.h:141
 msgid "Input Panel"
 msgstr ""
 
@@ -1302,7 +1310,7 @@ msgctxt "Key name"
 msgid "Mail Forward"
 msgstr "Mail weiterleiten"
 
-#: src/ui/classic/theme.h:51
+#: src/ui/classic/theme.h:58
 msgid "Margin"
 msgstr ""
 
@@ -1322,11 +1330,11 @@ msgstr ""
 msgid "Margin Top"
 msgstr ""
 
-#: src/ui/classic/theme.h:70 src/ui/classic/theme.h:104
+#: src/ui/classic/theme.h:97 src/ui/classic/theme.h:120
 msgid "Margin around all content"
 msgstr ""
 
-#: src/ui/classic/theme.h:72 src/ui/classic/theme.h:106
+#: src/ui/classic/theme.h:99 src/ui/classic/theme.h:122
 msgid "Margin around text"
 msgstr ""
 
@@ -1385,7 +1393,7 @@ msgctxt "Key name"
 msgid "Meeting"
 msgstr "Treffen"
 
-#: src/ui/classic/theme.h:132
+#: src/ui/classic/theme.h:142
 msgid "Menu"
 msgstr ""
 
@@ -1404,7 +1412,7 @@ msgctxt "Key name"
 msgid "Messenger"
 msgstr "Messenger"
 
-#: src/ui/classic/theme.h:127
+#: src/ui/classic/theme.h:137
 msgid "Metadata"
 msgstr ""
 
@@ -1443,7 +1451,7 @@ msgctxt "Key name"
 msgid "My Sites"
 msgstr "Meine Seiten"
 
-#: src/ui/classic/theme.h:115
+#: src/ui/classic/theme.h:125
 msgid "Name"
 msgstr ""
 
@@ -1461,7 +1469,7 @@ msgstr "Neuigkeiten"
 msgid "Next Candidate"
 msgstr "Nächster Kandidat"
 
-#: src/ui/classic/theme.h:79
+#: src/ui/classic/theme.h:101
 msgid "Next Page Button"
 msgstr ""
 
@@ -1473,7 +1481,7 @@ msgstr "Kein Zwischenablageverlauf"
 msgid "None"
 msgstr "Nicht beibehalten"
 
-#: src/ui/classic/theme.h:73 src/ui/classic/theme.h:107
+#: src/ui/classic/theme.h:75 src/ui/classic/theme.h:105
 msgid "Normal text color"
 msgstr ""
 
@@ -1515,23 +1523,23 @@ msgctxt "Key name"
 msgid "Option"
 msgstr "Option"
 
-#: src/ui/classic/theme.h:58
+#: src/ui/classic/theme.h:60
 msgid "Overlay Clip Margin"
 msgstr ""
 
-#: src/ui/classic/theme.h:53
+#: src/ui/classic/theme.h:51
 msgid "Overlay Image"
 msgstr ""
 
-#: src/ui/classic/theme.h:55
+#: src/ui/classic/theme.h:53
 msgid "Overlay X offset"
 msgstr ""
 
-#: src/ui/classic/theme.h:56
+#: src/ui/classic/theme.h:54
 msgid "Overlay Y offset"
 msgstr ""
 
-#: src/ui/classic/theme.h:54
+#: src/ui/classic/theme.h:52
 msgid "Overlay position"
 msgstr ""
 
@@ -1623,7 +1631,7 @@ msgstr "Vorhersage"
 msgid "Prev Candidate"
 msgstr "Vorheriger Kandidat"
 
-#: src/ui/classic/theme.h:78
+#: src/ui/classic/theme.h:100
 msgid "Prev Page Button"
 msgstr ""
 
@@ -1784,7 +1792,7 @@ msgctxt "Key name"
 msgid "Send"
 msgstr "Senden"
 
-#: src/ui/classic/theme.h:100
+#: src/ui/classic/theme.h:116
 msgid "Separator Background"
 msgstr ""
 
@@ -1824,7 +1832,7 @@ msgctxt "Key name"
 msgid "Space"
 msgstr "Leerzeichen"
 
-#: src/ui/classic/theme.h:80 src/ui/classic/theme.h:112
+#: src/ui/classic/theme.h:80 src/ui/classic/theme.h:110
 msgid "Spacing"
 msgstr ""
 
@@ -1865,7 +1873,7 @@ msgctxt "Key name"
 msgid "Stop"
 msgstr "Stop"
 
-#: src/ui/classic/theme.h:102
+#: src/ui/classic/theme.h:118
 msgid "Sub Menu"
 msgstr ""
 
@@ -1942,7 +1950,7 @@ msgstr ""
 msgid "The script is run as ${1} (${2})."
 msgstr ""
 
-#: src/ui/classic/classicui.h:81
+#: src/ui/classic/classicui.h:86
 msgid "Theme"
 msgstr "Theme"
 
@@ -2010,7 +2018,7 @@ msgctxt "Key name"
 msgid "Travel"
 msgstr "Reisen"
 
-#: src/ui/classic/theme.h:123
+#: src/ui/classic/theme.h:133
 msgid "Tray Font"
 msgstr ""
 
@@ -2060,15 +2068,15 @@ msgstr "Hoch"
 msgid "Use On The Spot Style (Needs restarting)"
 msgstr ""
 
-#: src/ui/classic/classicui.h:72
+#: src/ui/classic/classicui.h:77
 msgid "Use Per Screen DPI"
 msgstr "DPI je Bildschirm verwenden"
 
-#: src/ui/classic/theme.h:83
+#: src/ui/classic/theme.h:85
 msgid "Use all horizontal space for highlight when it is vertical list"
 msgstr ""
 
-#: src/ui/classic/classicui.h:75
+#: src/ui/classic/classicui.h:80
 msgid "Use mouse wheel to go to prev or next page"
 msgstr ""
 
@@ -2080,7 +2088,7 @@ msgstr ""
 msgid "Using ${1} to check dbus."
 msgstr ""
 
-#: src/ui/classic/theme.h:116
+#: src/ui/classic/theme.h:126
 msgid "Version"
 msgstr ""
 
@@ -2088,7 +2096,7 @@ msgstr ""
 msgid "Version Line:"
 msgstr ""
 
-#: src/ui/classic/classicui.h:70
+#: src/ui/classic/classicui.h:75
 msgid "Vertical Candidate List"
 msgstr "Senkrechte Kandidatenliste"
 

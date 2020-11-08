@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2020-11-08 00:02-0800\n"
+"POT-Creation-Date: 2020-11-08 13:34-0800\n"
 "PO-Revision-Date: 2017-11-23 04:14+0000\n"
 "Last-Translator: csslayer <wengxt@gmail.com>, 2020\n"
 "Language-Team: Chinese (China) (https://www.transifex.com/fcitx/teams/12005/"
@@ -181,7 +181,7 @@ msgctxt "Key name"
 msgid "Audio Repeat"
 msgstr "音频重复"
 
-#: src/ui/classic/theme.h:117
+#: src/ui/classic/theme.h:127
 msgid "Author"
 msgstr ""
 
@@ -200,7 +200,7 @@ msgctxt "Key name"
 msgid "Back Forward"
 msgstr "向后"
 
-#: src/ui/classic/theme.h:66 src/ui/classic/theme.h:96
+#: src/ui/classic/theme.h:93 src/ui/classic/theme.h:112
 msgid "Background"
 msgstr ""
 
@@ -240,7 +240,7 @@ msgctxt "Key name"
 msgid "Bluetooth"
 msgstr "蓝牙"
 
-#: src/ui/classic/theme.h:92
+#: src/ui/classic/theme.h:102
 msgid "Blur Margin"
 msgstr ""
 
@@ -379,7 +379,7 @@ msgstr ""
 msgid "Change Fcitx 5 Configuration"
 msgstr "修改 Fcitx 5 配置"
 
-#: src/ui/classic/theme.h:101
+#: src/ui/classic/theme.h:117
 msgid "Check box"
 msgstr ""
 
@@ -396,7 +396,7 @@ msgctxt "Key name"
 msgid "Clear"
 msgstr "清空"
 
-#: src/ui/classic/theme.h:52
+#: src/ui/classic/theme.h:71
 msgid "Click Margin"
 msgstr ""
 
@@ -562,7 +562,7 @@ msgctxt "Key name"
 msgid "Delete"
 msgstr "删除"
 
-#: src/ui/classic/theme.h:119
+#: src/ui/classic/theme.h:129
 msgid "Description"
 msgstr ""
 
@@ -620,8 +620,8 @@ msgstr "弹出"
 msgid "Emoji"
 msgstr "颜文字"
 
-#: src/ui/classic/theme.h:90
-msgid "Enable Blur on KWin."
+#: src/ui/classic/theme.h:81
+msgid "Enable Blur on KWin"
 msgstr ""
 
 #: src/modules/quickphrase/quickphrase.h:43
@@ -852,7 +852,7 @@ msgctxt "Key name"
 msgid "Game"
 msgstr "游戏"
 
-#: src/ui/classic/theme.h:129
+#: src/ui/classic/theme.h:139
 msgid "General"
 msgstr ""
 
@@ -974,23 +974,27 @@ msgstr "休眠"
 msgid "Hidden Notifications"
 msgstr "隐藏提示"
 
-#: src/ui/classic/theme.h:60
+#: src/ui/classic/theme.h:56
 msgid "Hide overlay if size does not fit"
 msgstr ""
 
-#: src/ui/classic/theme.h:68 src/ui/classic/theme.h:98
+#: src/ui/classic/theme.h:66
+msgid "Highligh Click Margin"
+msgstr ""
+
+#: src/ui/classic/theme.h:95 src/ui/classic/theme.h:114
 msgid "Highlight Background"
 msgstr ""
 
-#: src/ui/classic/theme.h:88
+#: src/ui/classic/theme.h:90
 msgid "Highlight Background color"
 msgstr ""
 
-#: src/ui/classic/theme.h:76 src/ui/classic/theme.h:110
+#: src/ui/classic/theme.h:78 src/ui/classic/theme.h:108
 msgid "Highlight Candidate Color"
 msgstr ""
 
-#: src/ui/classic/theme.h:86
+#: src/ui/classic/theme.h:88
 msgid "Highlight text color"
 msgstr ""
 
@@ -1074,6 +1078,10 @@ msgstr ""
 "${g36_disable_ibus} 禁用 IBus 集成已使用除 ${2} 之外的任何输入法. 更多细节参"
 "见 ${link}。"
 
+#: src/ui/classic/theme.h:69
+msgid "Image"
+msgstr ""
+
 #: src/lib/fcitx/instance.cpp:661 src/lib/fcitx/instance.cpp:831
 #: src/im/keyboard/keyboard.cpp:357 src/ui/classic/xcbtraywindow.cpp:38
 #: src/modules/xcb/xcbconnection.cpp:388
@@ -1092,7 +1100,7 @@ msgstr "输入法配置"
 msgid "Input Method Related Environment Variables: "
 msgstr "输入法相关的环境变量："
 
-#: src/ui/classic/theme.h:131
+#: src/ui/classic/theme.h:141
 msgid "Input Panel"
 msgstr ""
 
@@ -1311,7 +1319,7 @@ msgctxt "Key name"
 msgid "Mail Forward"
 msgstr "转发邮件"
 
-#: src/ui/classic/theme.h:51
+#: src/ui/classic/theme.h:58
 msgid "Margin"
 msgstr ""
 
@@ -1331,11 +1339,11 @@ msgstr ""
 msgid "Margin Top"
 msgstr ""
 
-#: src/ui/classic/theme.h:70 src/ui/classic/theme.h:104
+#: src/ui/classic/theme.h:97 src/ui/classic/theme.h:120
 msgid "Margin around all content"
 msgstr ""
 
-#: src/ui/classic/theme.h:72 src/ui/classic/theme.h:106
+#: src/ui/classic/theme.h:99 src/ui/classic/theme.h:122
 msgid "Margin around text"
 msgstr ""
 
@@ -1394,7 +1402,7 @@ msgctxt "Key name"
 msgid "Meeting"
 msgstr "会议"
 
-#: src/ui/classic/theme.h:132
+#: src/ui/classic/theme.h:142
 msgid "Menu"
 msgstr ""
 
@@ -1413,7 +1421,7 @@ msgctxt "Key name"
 msgid "Messenger"
 msgstr "即时通信"
 
-#: src/ui/classic/theme.h:127
+#: src/ui/classic/theme.h:137
 msgid "Metadata"
 msgstr ""
 
@@ -1452,7 +1460,7 @@ msgctxt "Key name"
 msgid "My Sites"
 msgstr "我的站点"
 
-#: src/ui/classic/theme.h:115
+#: src/ui/classic/theme.h:125
 msgid "Name"
 msgstr ""
 
@@ -1470,7 +1478,7 @@ msgstr "新闻"
 msgid "Next Candidate"
 msgstr "下一个候选词"
 
-#: src/ui/classic/theme.h:79
+#: src/ui/classic/theme.h:101
 msgid "Next Page Button"
 msgstr ""
 
@@ -1482,7 +1490,7 @@ msgstr "无剪贴板历史。"
 msgid "None"
 msgstr "无"
 
-#: src/ui/classic/theme.h:73 src/ui/classic/theme.h:107
+#: src/ui/classic/theme.h:75 src/ui/classic/theme.h:105
 msgid "Normal text color"
 msgstr ""
 
@@ -1525,23 +1533,23 @@ msgctxt "Key name"
 msgid "Option"
 msgstr "选项"
 
-#: src/ui/classic/theme.h:58
+#: src/ui/classic/theme.h:60
 msgid "Overlay Clip Margin"
 msgstr ""
 
-#: src/ui/classic/theme.h:53
+#: src/ui/classic/theme.h:51
 msgid "Overlay Image"
 msgstr ""
 
-#: src/ui/classic/theme.h:55
+#: src/ui/classic/theme.h:53
 msgid "Overlay X offset"
 msgstr ""
 
-#: src/ui/classic/theme.h:56
+#: src/ui/classic/theme.h:54
 msgid "Overlay Y offset"
 msgstr ""
 
-#: src/ui/classic/theme.h:54
+#: src/ui/classic/theme.h:52
 msgid "Overlay position"
 msgstr ""
 
@@ -1635,7 +1643,7 @@ msgstr "Presage"
 msgid "Prev Candidate"
 msgstr "上一个候选词"
 
-#: src/ui/classic/theme.h:78
+#: src/ui/classic/theme.h:100
 msgid "Prev Page Button"
 msgstr ""
 
@@ -1796,7 +1804,7 @@ msgctxt "Key name"
 msgid "Send"
 msgstr "发送"
 
-#: src/ui/classic/theme.h:100
+#: src/ui/classic/theme.h:116
 msgid "Separator Background"
 msgstr ""
 
@@ -1836,7 +1844,7 @@ msgctxt "Key name"
 msgid "Space"
 msgstr "空格"
 
-#: src/ui/classic/theme.h:80 src/ui/classic/theme.h:112
+#: src/ui/classic/theme.h:80 src/ui/classic/theme.h:110
 msgid "Spacing"
 msgstr ""
 
@@ -1877,7 +1885,7 @@ msgctxt "Key name"
 msgid "Stop"
 msgstr "停止"
 
-#: src/ui/classic/theme.h:102
+#: src/ui/classic/theme.h:118
 msgid "Sub Menu"
 msgstr ""
 
@@ -1954,7 +1962,7 @@ msgstr "列表中第 n 个按键选择第 n 个对应输入法。"
 msgid "The script is run as ${1} (${2})."
 msgstr "脚本作为 ${1} (${2}) 运行。"
 
-#: src/ui/classic/classicui.h:81
+#: src/ui/classic/classicui.h:86
 msgid "Theme"
 msgstr "主题"
 
@@ -2024,7 +2032,7 @@ msgctxt "Key name"
 msgid "Travel"
 msgstr "旅行"
 
-#: src/ui/classic/theme.h:123
+#: src/ui/classic/theme.h:133
 msgid "Tray Font"
 msgstr ""
 
@@ -2074,15 +2082,15 @@ msgstr "上"
 msgid "Use On The Spot Style (Needs restarting)"
 msgstr "使用 On The Spot 风格 (需要重启)"
 
-#: src/ui/classic/classicui.h:72
+#: src/ui/classic/classicui.h:77
 msgid "Use Per Screen DPI"
 msgstr "按屏幕 DPI 使用"
 
-#: src/ui/classic/theme.h:83
+#: src/ui/classic/theme.h:85
 msgid "Use all horizontal space for highlight when it is vertical list"
 msgstr ""
 
-#: src/ui/classic/classicui.h:75
+#: src/ui/classic/classicui.h:80
 msgid "Use mouse wheel to go to prev or next page"
 msgstr "使用鼠标滚轮翻页"
 
@@ -2094,7 +2102,7 @@ msgstr "用户界面："
 msgid "Using ${1} to check dbus."
 msgstr "使用 ${1} 来检查 dbus。"
 
-#: src/ui/classic/theme.h:116
+#: src/ui/classic/theme.h:126
 msgid "Version"
 msgstr ""
 
@@ -2102,7 +2110,7 @@ msgstr ""
 msgid "Version Line:"
 msgstr "版本行："
 
-#: src/ui/classic/classicui.h:70
+#: src/ui/classic/classicui.h:75
 msgid "Vertical Candidate List"
 msgstr "垂直候选列表"
 
