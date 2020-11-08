@@ -67,5 +67,12 @@ int main() {
             << rect.intersected(other);
         FCITX_ASSERT(other.intersected(rect) == expect);
     }
+
+    FCITX_ASSERT(rect.contains(0, 0));
+    FCITX_ASSERT(rect.contains(-1, -2));
+    FCITX_ASSERT(rect.contains(9, -2));
+    FCITX_ASSERT(!rect.contains(10, -2));
+    FCITX_ASSERT(rect.contains(8, -2));
+
     return 0;
 }
