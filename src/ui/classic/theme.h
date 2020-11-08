@@ -10,104 +10,126 @@
 #include <cairo/cairo.h>
 #include "fcitx-config/configuration.h"
 #include "fcitx-config/enum.h"
+#include "fcitx-utils/i18n.h"
 #include "fcitx-utils/log.h"
+#include "fcitx-utils/rect.h"
 #include "fcitx/icontheme.h"
 
-namespace fcitx {
-namespace classicui {
-FCITX_CONFIG_ENUM(Gravity, TopLeft, TopCenter, TopRight, CenterLeft, Center,
-                  CenterRight, BottomLeft, BottomCenter, BottomRight)
+namespace fcitx::classicui {
+enum class Gravity {
+    TopLeft,
+    TopCenter,
+    TopRight,
+    CenterLeft,
+    Center,
+    CenterRight,
+    BottomLeft,
+    BottomCenter,
+    BottomRight
+};
+FCITX_CONFIG_ENUM_NAME_WITH_I18N(Gravity, N_("Top Left"), N_("Top Center"),
+                                 N_("Top Right"), N_("Center Left"),
+                                 N_("Center"), N_("Center Right"),
+                                 N_("Bottom Left"), N_("Bottom Center"),
+                                 N_("Bottom Right"));
 
-FCITX_CONFIGURATION(MarginConfig,
-                    Option<int, IntConstrain> marginLeft{
-                        this, "Left", "Margin Left", 0, IntConstrain(0)};
-                    Option<int, IntConstrain> marginRight{this, "Right",
-                                                          "Margin Right", 0,
-                                                          IntConstrain(0)};
-                    Option<int, IntConstrain> marginTop{
-                        this, "Top", "Margin Top", 0, IntConstrain(0)};
-                    Option<int, IntConstrain> marginBottom{
-                        this, "Bottom", "Margin Bottom", 0, IntConstrain(0)};)
+FCITX_CONFIGURATION(
+    MarginConfig,
+    Option<int, IntConstrain> marginLeft{this, "Left", _("Margin Left"), 0,
+                                         IntConstrain(0)};
+    Option<int, IntConstrain> marginRight{this, "Right", _("Margin Right"), 0,
+                                          IntConstrain(0)};
+    Option<int, IntConstrain> marginTop{this, "Top", _("Margin Top"), 0,
+                                        IntConstrain(0)};
+    Option<int, IntConstrain> marginBottom{this, "Bottom", _("Margin Bottom"),
+                                           0, IntConstrain(0)};)
 
 FCITX_CONFIGURATION(
     BackgroundImageConfig,
-    Option<std::string> image{this, "Image", "Background Image"};
+    Option<std::string> image{this, "Image", _("Background Image")};
     Option<Color> color{this, "Color", "Color", Color("#ffffff")};
-    Option<MarginConfig> margin{this, "Margin", "Margin"};
-    Option<MarginConfig> clickMargin{this, "ClickMargin", "Click Margin"};
-    Option<std::string> overlay{this, "Overlay", "Overlay Image"};
-    Option<Gravity> gravity{this, "Gravity", "Overlay position"};
-    Option<int> overlayOffsetX{this, "OverlayOffsetX", "Overlay X offset"};
-    Option<int> overlayOffsetY{this, "OverlayOffsetY", "Overlay Y offset"};
+    Option<MarginConfig> margin{this, "Margin", _("Margin")};
+    Option<MarginConfig> clickMargin{this, "ClickMargin", _("Click Margin")};
+    Option<std::string> overlay{this, "Overlay", _("Overlay Image")};
+    Option<Gravity> gravity{this, "Gravity", _("Overlay position")};
+    Option<int> overlayOffsetX{this, "OverlayOffsetX", _("Overlay X offset")};
+    Option<int> overlayOffsetY{this, "OverlayOffsetY", _("Overlay Y offset")};
     Option<MarginConfig> overlayClipMargin{this, "OverlayClipMargin",
-                                           "Overlay Clip Margin"};
+                                           _("Overlay Clip Margin")};
     Option<bool> hideOverlayIfOversize{this, "HideOverlayIfOversize",
-                                       "Hide overlay if size does not fit",
+                                       _("Hide overlay if size does not fit"),
                                        false};)
 
 FCITX_CONFIGURATION(
     InputPanelThemeConfig,
-    Option<BackgroundImageConfig> background{this, "Background", "Background"};
+    Option<BackgroundImageConfig> background{this, "Background",
+                                             _("Background")};
     Option<BackgroundImageConfig> highlight{this, "Highlight",
-                                            "Highlight Background"};
+                                            _("Highlight Background")};
     Option<MarginConfig> contentMargin{this, "ContentMargin",
-                                       "Margin around all content"};
-    Option<MarginConfig> textMargin{this, "TextMargin", "Margin around text"};
-    Option<Color> normalColor{this, "NormalColor", "Normal text color",
+                                       _("Margin around all content")};
+    Option<MarginConfig> textMargin{this, "TextMargin",
+                                    _("Margin around text")};
+    Option<Color> normalColor{this, "NormalColor", _("Normal text color"),
                               Color("#000000ff")};
     Option<Color> highlightCandidateColor{this, "HighlightCandidateColor",
-                                          "Highlight Candidate Color",
+                                          _("Highlight Candidate Color"),
                                           Color("#ffffffff")};
-    Option<BackgroundImageConfig> prev{this, "PrevPage", ""};
-    Option<BackgroundImageConfig> next{this, "NextPage", ""};
-    Option<int> spacing{this, "Spacing", "Spacing", 0};
+    Option<BackgroundImageConfig> prev{this, "PrevPage", _("Prev Page Button")};
+    Option<BackgroundImageConfig> next{this, "NextPage", _("Next Page Button")};
+    Option<int> spacing{this, "Spacing", _("Spacing"), 0};
     Option<bool> fullWidthHighlight{
         this, "FullWidthHighlight",
-        "Use all horizontal space for highlight when it is vertical list",
+        _("Use all horizontal space for highlight when it is vertical list"),
         true};
-    Option<Color> highlightColor{this, "HighlightColor", "Highlight text color",
-                                 Color("#ffffffff")};
+    Option<Color> highlightColor{this, "HighlightColor",
+                                 _("Highlight text color"), Color("#ffffffff")};
     Option<Color> highlightBackgroundColor{this, "HighlightBackgroundColor",
-                                           "Highlight Background color",
-                                           Color("#a5a5a5ff")};);
+                                           _("Highlight Background color"),
+                                           Color("#a5a5a5ff")};
+    Option<bool> enableBlur{this, "EnableBlur", _("Enable Blur on KWin."),
+                            false};
+    Option<MarginConfig> blurMargin{this, "BlurMargin", _("Blur Margin")};);
 FCITX_CONFIGURATION(
     MenuThemeConfig, Option<std::string> font{this, "Font", "Font", "Sans 9"};
-    Option<BackgroundImageConfig> background{this, "Background", "Background"};
+    Option<BackgroundImageConfig> background{this, "Background",
+                                             _("Background")};
     Option<BackgroundImageConfig> highlight{this, "Highlight",
-                                            "Highlight Background"};
+                                            _("Highlight Background")};
     Option<BackgroundImageConfig> separator{this, "Separator",
-                                            "Separator Background"};
-    Option<BackgroundImageConfig> checkBox{this, "CheckBox", ""};
-    Option<BackgroundImageConfig> subMenu{this, "SubMenu", ""};
+                                            _("Separator Background")};
+    Option<BackgroundImageConfig> checkBox{this, "CheckBox", _("Check box")};
+    Option<BackgroundImageConfig> subMenu{this, "SubMenu", _("Sub Menu")};
     Option<MarginConfig> contentMargin{this, "ContentMargin",
-                                       "Margin around all content"};
-    Option<MarginConfig> textMargin{this, "TextMargin", "Margin around text"};
-    Option<Color> normalColor{this, "NormalColor", "Normal text color",
+                                       _("Margin around all content")};
+    Option<MarginConfig> textMargin{this, "TextMargin",
+                                    _("Margin around text")};
+    Option<Color> normalColor{this, "NormalColor", _("Normal text color"),
                               Color("#000000ff")};
     Option<Color> highlightTextColor{this, "HighlightCandidateColor",
-                                     "Highlight Candidate Color",
+                                     _("Highlight Candidate Color"),
                                      Color("#ffffffff")};
-    Option<int> spacing{this, "Spacing", "Spacing", 0};);
+    Option<int> spacing{this, "Spacing", _("Spacing"), 0};);
 
 FCITX_CONFIGURATION(ThemeMetadata,
-                    Option<I18NString> name{this, "Name", "Skin Name"};
-                    Option<int> version{this, "Version", "Version", 1};
-                    Option<std::string> author{this, "Author", "Author"};
+                    Option<I18NString> name{this, "Name", _("Name")};
+                    Option<int> version{this, "Version", _("Version"), 1};
+                    Option<std::string> author{this, "Author", _("Author")};
                     Option<std::string> description{this, "Description",
-                                                    "Description"};)
+                                                    _("Description")};)
 
 FCITX_CONFIGURATION(ThemeGeneralConfig,
-                    Option<std::string> trayFont{this, "TrayFont", "Tray Font",
-                                                 "Sans 9"};
-                    Option<bool> scaleWithDPI{this, "ScaleWithDPI",
-                                              "Scale with DPI"};);
+                    Option<std::string> trayFont{this, "TrayFont",
+                                                 _("Tray Font"), "Sans 9"};);
 
-FCITX_CONFIGURATION(
-    ThemeConfig, Option<ThemeMetadata> metadata{this, "Metadata", "Metadata"};
-    Option<ThemeGeneralConfig> config{this, "General", "General"};
-    Option<InputPanelThemeConfig> inputPanel{this, "InputPanel",
-                                             "Input Panel Theme"};
-    Option<MenuThemeConfig> menu{this, "Menu", "Menu Theme"};);
+FCITX_CONFIGURATION(ThemeConfig,
+                    Option<ThemeMetadata> metadata{this, "Metadata",
+                                                   _("Metadata")};
+                    Option<ThemeGeneralConfig> config{this, "General",
+                                                      _("General")};
+                    Option<InputPanelThemeConfig> inputPanel{this, "InputPanel",
+                                                             _("Input Panel")};
+                    Option<MenuThemeConfig> menu{this, "Menu", _("Menu")};);
 
 enum class ImagePurpose { General, Tray };
 
@@ -189,7 +211,21 @@ inline void cairoSetSourceColor(cairo_t *cr, const Color &color) {
     cairo_set_source_rgba(cr, color.redF(), color.greenF(), color.blueF(),
                           color.alphaF());
 }
-} // namespace classicui
-} // namespace fcitx
+
+inline void shrink(Rect &rect, const MarginConfig &margin) {
+    int newWidth = rect.width() - *margin.marginLeft - *margin.marginRight;
+    int newHeight = rect.height() - *margin.marginTop - *margin.marginBottom;
+    if (newWidth < 0) {
+        newWidth = 0;
+    }
+    if (newHeight < 0) {
+        newHeight = 0;
+    }
+    rect.setPosition(rect.left() + *margin.marginLeft,
+                     rect.top() + *margin.marginTop);
+    rect.setSize(newWidth, newHeight);
+}
+
+} // namespace fcitx::classicui
 
 #endif // _FCITX_UI_CLASSIC_THEME_H_

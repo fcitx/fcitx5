@@ -18,20 +18,6 @@
 
 namespace fcitx::classicui {
 
-void shrink(Rect &rect, const MarginConfig &margin) {
-    int newWidth = rect.width() - *margin.marginLeft - *margin.marginRight;
-    int newHeight = rect.height() - *margin.marginTop - *margin.marginBottom;
-    if (newWidth < 0) {
-        newWidth = 0;
-    }
-    if (newHeight < 0) {
-        newHeight = 0;
-    }
-    rect.setPosition(rect.left() + *margin.marginLeft,
-                     rect.top() + *margin.marginTop);
-    rect.setSize(newWidth, newHeight);
-}
-
 auto newPangoLayout(PangoContext *context) {
     GObjectUniquePtr<PangoLayout> ptr(pango_layout_new(context));
     pango_layout_set_single_paragraph_mode(ptr.get(), true);

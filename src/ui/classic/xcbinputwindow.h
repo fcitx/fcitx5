@@ -27,6 +27,7 @@ public:
 
 private:
     void repaint();
+    xcb_atom_t atomBlur_;
 };
 } // namespace classicui
 } // namespace fcitx

@@ -17,11 +17,6 @@ namespace classicui {
 template <typename T>
 using GObjectUniquePtr = UniqueCPtr<T, g_object_unref>;
 
-template <typename T>
-GObjectUniquePtr<T> makeGObjectUnique(T *p) {
-    return {p};
-}
-
 FCITX_DECLARE_LOG_CATEGORY(classicui_logcategory);
 #define CLASSICUI_DEBUG()                                                      \
     FCITX_LOGC(::fcitx::classicui::classicui_logcategory, Debug)

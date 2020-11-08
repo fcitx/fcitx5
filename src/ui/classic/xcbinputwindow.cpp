@@ -14,7 +14,9 @@
 namespace fcitx::classicui {
 
 XCBInputWindow::XCBInputWindow(XCBUI *ui)
-    : XCBWindow(ui), InputWindow(ui->parent()) {
+    : XCBWindow(ui), InputWindow(ui->parent()),
+      atomBlur_(ui_->parent()->xcb()->call<IXCBModule::atom>(
+          ui_->name(), "_KDE_NET_WM_BLUR_BEHIND_REGION", false)) {
     ui->fontOption().setupPangoContext(context_.get());
 }
 
@@ -129,6 +131,23 @@ void XCBInputWindow::update(InputContext *inputContext) {
 
     if (width != this->width() || height != this->height()) {
         resize(width, height);
+        if (atomBlur_) {
+            Rect rect(0, 0, width, height);
+            shrink(rect, *ui_->parent()->theme().inputPanel->blurMargin);
+            if (!*ui_->parent()->theme().inputPanel->enableBlur ||
+                rect.isEmpty()) {
+                xcb_delete_property(ui_->connection(), wid_, atomBlur_);
+            } else {
+                std::vector<uint32_t> data;
+                data.push_back(rect.left());
+                data.push_back(rect.top());
+                data.push_back(rect.width());
+                data.push_back(rect.height());
+                xcb_change_property(ui_->connection(), XCB_PROP_MODE_REPLACE,
+                                    wid_, atomBlur_, XCB_ATOM_CARDINAL, 32,
+                                    data.size(), data.data());
+            }
+        }
     }
 
     cairo_t *c = cairo_create(prerender());
