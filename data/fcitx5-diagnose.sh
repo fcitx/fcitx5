@@ -139,19 +139,6 @@ __conf_dir_init() {
 }
 __conf_dir_init
 
-get_config_dir() {
-    local default_name="$2"
-    local path
-    for path in "/usr/share/fcitx5/${default_name}" \
-        "/usr/local/share/fcitx5/${default_name}"; do
-        [ ! -z "${path}" ] && [ -d "${path}" ] && {
-            echo "${path}"
-            return 0
-        }
-    done 2> /dev/null
-    return 1
-}
-
 get_from_config_file() {
     local file="$1"
     local key="$2"
@@ -745,7 +732,7 @@ fcitx_lib_path=()
 init_fcitx_lib_path() {
     local path
     local __fcitx_lib_path
-    fcitx_lib_path=(/usr/lib/fcitx5/ /usr/local/lib/fcitx5/)
+    fcitx_lib_path=(/usr/lib/fcitx5/ /usr/local/lib/fcitx5/ '@FCITX_INSTALL_ADDONDIR@')
 }
 init_fcitx_lib_path
 
@@ -1468,13 +1455,9 @@ check_gtk() {
 #############################
 
 check_modules() {
-    local addon_conf_dir
     write_title 2 "$(_ 'Fcitx Addons:')"
     write_order_list "$(_ 'Addon Config Dir:')"
-    addon_conf_dir="$(get_config_dir addonconfigdir addon)" || {
-        write_error "$(_ 'Cannot find ${1} addon config directory.')" fcitx5
-        return
-    }
+    local addon_conf_dir='@FCITX_INSTALL_PKGDATADIR@/addon'
     local enabled_addon=()
     local disabled_addon=()
     local enabled_ui_name=()
@@ -1488,6 +1471,10 @@ check_modules() {
     local addon_name
     declare -A addon_file
     declare -A disabled_addon_config
+    if [ ! -d "${addon_conf_dir}" ]; then
+      write_error_eval "$(_ 'Cannot find ${1} addon config directory.')" fcitx5
+      return
+    fi
     write_eval "$(_ 'Found ${1} addon config directory: ${2}.')" \
                fcitx5 "$(code_inline "${addon_conf_dir}")"
     if [[ -f "${fx_conf_home}/config" ]]; then
