@@ -497,7 +497,7 @@ void InputWindow::paint(cairo_t *cr, unsigned int width, unsigned int height) {
             wholeW += candidateW + labelW + extraW;
         }
         const auto &highlightMargin = *theme.inputPanel->highlight->margin;
-        const auto &clickMargin = *theme.inputPanel->clickMargin;
+        const auto &clickMargin = *theme.inputPanel->highlight->clickMargin;
         auto highlightWidth = labelW + candidateW;
         if (*theme.inputPanel->fullWidthHighlight && vertical) {
             // Last candidate, fill.

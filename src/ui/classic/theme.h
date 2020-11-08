@@ -59,6 +59,12 @@ FCITX_CONFIGURATION(
     Option<MarginConfig> overlayClipMargin{this, "OverlayClipMargin",
                                            _("Overlay Clip Margin")};)
 
+FCITX_CONFIGURATION_EXTEND(HighlightBackgroundImageConfig,
+                           BackgroundImageConfig,
+                           Option<MarginConfig> clickMargin{
+                               this, "HighlightClickMargin",
+                               _("Highligh Click Margin")};);
+
 FCITX_CONFIGURATION(ActionImageConfig,
                     Option<std::string> image{this, "Image", _("Image")};
                     Option<MarginConfig> clickMargin{this, "ClickMargin",
@@ -85,10 +91,8 @@ FCITX_CONFIGURATION(
                                            Color("#a5a5a5ff")};
     Option<BackgroundImageConfig> background{this, "Background",
                                              _("Background")};
-    Option<BackgroundImageConfig> highlight{this, "Highlight",
-                                            _("Highlight Background")};
-    Option<MarginConfig> clickMargin{this, "HighlightClickMargin",
-                                     _("Highligh Click Margin")};
+    Option<HighlightBackgroundImageConfig> highlight{this, "Highlight",
+                                                     _("Highlight Background")};
     Option<MarginConfig> contentMargin{this, "ContentMargin",
                                        _("Margin around all content")};
     Option<MarginConfig> textMargin{this, "TextMargin",

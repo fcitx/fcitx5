@@ -15,10 +15,12 @@ FCITX_CONFIG_ENUM(TestEnum, EnumA, EnumB)
 namespace my {
 FCITX_CONFIG_ENUM(TestEnum, EnumA, EnumB, EnumC)
 
-FCITX_CONFIGURATION(
-    TestSubSubConfig, FCITX_OPTION(intValue, int, "IntOption", "Int Option", 1);
-    FCITX_OPTION(keyValue, fcitx::Key, "KeyOption", "Key Option",
-                 fcitx::Key(FcitxKey_A, fcitx::KeyState::Ctrl)););
+FCITX_CONFIGURATION(TestSubSubConfig,
+                    fcitx::Option<int> intValue{this, "IntOption", "Int Option",
+                                                1};
+                    fcitx::Option<fcitx::Key> keyValue{
+                        this, "KeyOption", "Key Option",
+                        fcitx::Key(FcitxKey_A, fcitx::KeyState::Ctrl)};);
 } // namespace my
 
 FCITX_CONFIGURATION(
@@ -64,5 +66,10 @@ FCITX_CONFIGURATION(
                                                 "SubConfig Option"};
     fcitx::ExternalOption ext{this, "ExternalOption", "ExternalOption",
                               "fcitx://config/addon/test/ext"};)
+
+FCITX_CONFIGURATION_EXTEND(TestConfigExt, TestConfig,
+                           fcitx::Option<std::vector<std::string>> newOption{
+                               this, "NewOption", "String Option",
+                               std::vector<std::string>({"ABC", "CDE"})};);
 
 #endif // _TEST_TESTCONFIG_H_
