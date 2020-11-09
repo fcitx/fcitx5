@@ -69,6 +69,14 @@ void InputWindow::insertAttr(PangoAttrList *attrList, TextFormatFlags format,
     attr->end_index = end;
     pango_attr_list_insert(attrList, attr);
 
+    if (color.alpha() != 255) {
+        auto *alphaAttr =
+            pango_attr_foreground_alpha_new(color.alphaF() * scale);
+        alphaAttr->start_index = start;
+        alphaAttr->end_index = end;
+        pango_attr_list_insert(attrList, alphaAttr);
+    }
+
     if (format & TextFormatFlag::HighLight) {
         auto background =
             *parent_->theme().inputPanel->highlightBackgroundColor;
@@ -78,6 +86,14 @@ void InputWindow::insertAttr(PangoAttrList *attrList, TextFormatFlags format,
         attr->start_index = start;
         attr->end_index = end;
         pango_attr_list_insert(attrList, attr);
+
+        if (background.alpha() != 255) {
+            auto *alphaAttr =
+                pango_attr_foreground_alpha_new(color.alphaF() * scale);
+            alphaAttr->start_index = start;
+            alphaAttr->end_index = end;
+            pango_attr_list_insert(attrList, alphaAttr);
+        }
     }
 }
 
