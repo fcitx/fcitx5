@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2020-11-08 13:34-0800\n"
+"POT-Creation-Date: 2020-11-09 00:03-0800\n"
 "PO-Revision-Date: 2017-11-23 04:14+0000\n"
 "Last-Translator: csslayer <wengxt@gmail.com>, 2020\n"
 "Language-Team: Chinese (China) (https://www.transifex.com/fcitx/teams/12005/"
@@ -183,7 +183,7 @@ msgstr "音频重复"
 
 #: src/ui/classic/theme.h:127
 msgid "Author"
-msgstr ""
+msgstr "作者"
 
 #: src/lib/fcitx-utils/key.cpp:163
 msgctxt "Key name"
@@ -202,11 +202,11 @@ msgstr "向后"
 
 #: src/ui/classic/theme.h:93 src/ui/classic/theme.h:112
 msgid "Background"
-msgstr ""
+msgstr "背景"
 
 #: src/ui/classic/theme.h:49
 msgid "Background Image"
-msgstr ""
+msgstr "背景图片"
 
 #: src/lib/fcitx-utils/key.cpp:42
 msgctxt "Key name"
@@ -242,7 +242,7 @@ msgstr "蓝牙"
 
 #: src/ui/classic/theme.h:102
 msgid "Blur Margin"
-msgstr ""
+msgstr "模糊区域边距"
 
 #: src/lib/fcitx-utils/key.cpp:118
 msgctxt "Key name"
@@ -251,15 +251,15 @@ msgstr "书"
 
 #: src/ui/classic/theme.h:33
 msgid "Bottom Center"
-msgstr ""
+msgstr "底部居中"
 
 #: src/ui/classic/theme.h:33
 msgid "Bottom Left"
-msgstr ""
+msgstr "左下"
 
 #: src/ui/classic/theme.h:34
 msgid "Bottom Right"
-msgstr ""
+msgstr "右下"
 
 #: src/lib/fcitx-utils/key.cpp:129
 msgctxt "Key name"
@@ -365,15 +365,15 @@ msgstr "大写锁定"
 
 #: src/ui/classic/theme.h:32
 msgid "Center"
-msgstr ""
+msgstr "居中"
 
 #: src/ui/classic/theme.h:31
 msgid "Center Left"
-msgstr ""
+msgstr "左侧居中"
 
 #: src/ui/classic/theme.h:32
 msgid "Center Right"
-msgstr ""
+msgstr "右侧居中"
 
 #: data/fcitx5-configtool.desktop.in.in:5
 msgid "Change Fcitx 5 Configuration"
@@ -381,7 +381,7 @@ msgstr "修改 Fcitx 5 配置"
 
 #: src/ui/classic/theme.h:117
 msgid "Check box"
-msgstr ""
+msgstr "复选框"
 
 #: src/im/keyboard/keyboard.h:56
 msgid "Choose key modifier"
@@ -398,7 +398,7 @@ msgstr "清空"
 
 #: src/ui/classic/theme.h:71
 msgid "Click Margin"
-msgstr ""
+msgstr "点击区域边距"
 
 #: src/modules/clipboard/clipboard.conf.in:3
 msgid "Clipboard"
@@ -564,7 +564,7 @@ msgstr "删除"
 
 #: src/ui/classic/theme.h:129
 msgid "Description"
-msgstr ""
+msgstr "描述"
 
 #: data/fcitx5-diagnose.sh:785
 msgid "Desktop Environment:"
@@ -622,7 +622,7 @@ msgstr "颜文字"
 
 #: src/ui/classic/theme.h:81
 msgid "Enable Blur on KWin"
-msgstr ""
+msgstr "KWin 下启用模糊"
 
 #: src/modules/quickphrase/quickphrase.h:43
 msgid "Enable Spell check"
@@ -854,7 +854,7 @@ msgstr "游戏"
 
 #: src/ui/classic/theme.h:139
 msgid "General"
-msgstr ""
+msgstr "常规"
 
 #: src/lib/fcitx-utils/key.cpp:131
 msgctxt "Key name"
@@ -976,27 +976,27 @@ msgstr "隐藏提示"
 
 #: src/ui/classic/theme.h:56
 msgid "Hide overlay if size does not fit"
-msgstr ""
+msgstr "显示区域不足时隐藏覆盖图片"
 
 #: src/ui/classic/theme.h:66
 msgid "Highligh Click Margin"
-msgstr ""
+msgstr "高亮点击边距"
 
 #: src/ui/classic/theme.h:95 src/ui/classic/theme.h:114
 msgid "Highlight Background"
-msgstr ""
+msgstr "高亮背景"
 
 #: src/ui/classic/theme.h:90
 msgid "Highlight Background color"
-msgstr ""
+msgstr "高亮背景颜色"
 
 #: src/ui/classic/theme.h:78 src/ui/classic/theme.h:108
 msgid "Highlight Candidate Color"
-msgstr ""
+msgstr "高亮候选词颜色"
 
 #: src/ui/classic/theme.h:88
 msgid "Highlight text color"
-msgstr ""
+msgstr "高亮文字颜色"
 
 #: src/lib/fcitx-utils/key.cpp:203
 msgctxt "Key name"
@@ -1080,7 +1080,7 @@ msgstr ""
 
 #: src/ui/classic/theme.h:69
 msgid "Image"
-msgstr ""
+msgstr "图片"
 
 #: src/lib/fcitx/instance.cpp:661 src/lib/fcitx/instance.cpp:831
 #: src/im/keyboard/keyboard.cpp:357 src/ui/classic/xcbtraywindow.cpp:38
@@ -1102,7 +1102,7 @@ msgstr "输入法相关的环境变量："
 
 #: src/ui/classic/theme.h:141
 msgid "Input Panel"
-msgstr ""
+msgstr "输入面板"
 
 #: src/modules/imselector/imselector.conf.in:3
 msgid "Input method selector"
@@ -1321,31 +1321,31 @@ msgstr "转发邮件"
 
 #: src/ui/classic/theme.h:58
 msgid "Margin"
-msgstr ""
+msgstr "边距"
 
 #: src/ui/classic/theme.h:44
 msgid "Margin Bottom"
-msgstr ""
+msgstr "底部边距"
 
 #: src/ui/classic/theme.h:38
 msgid "Margin Left"
-msgstr ""
+msgstr "左边距"
 
 #: src/ui/classic/theme.h:40
 msgid "Margin Right"
-msgstr ""
+msgstr "右侧边距"
 
 #: src/ui/classic/theme.h:42
 msgid "Margin Top"
-msgstr ""
+msgstr "顶部边距"
 
 #: src/ui/classic/theme.h:97 src/ui/classic/theme.h:120
 msgid "Margin around all content"
-msgstr ""
+msgstr "内容周围边界"
 
 #: src/ui/classic/theme.h:99 src/ui/classic/theme.h:122
 msgid "Margin around text"
-msgstr ""
+msgstr "文本周围边距"
 
 #: src/lib/fcitx-utils/key.cpp:134
 msgctxt "Key name"
@@ -1404,7 +1404,7 @@ msgstr "会议"
 
 #: src/ui/classic/theme.h:142
 msgid "Menu"
-msgstr ""
+msgstr "菜单"
 
 #: src/lib/fcitx-utils/key.cpp:56
 msgctxt "Key name"
@@ -1423,7 +1423,7 @@ msgstr "即时通信"
 
 #: src/ui/classic/theme.h:137
 msgid "Metadata"
-msgstr ""
+msgstr "元数据"
 
 #: src/lib/fcitx-utils/key.cpp:183
 msgctxt "Key name"
@@ -1462,7 +1462,7 @@ msgstr "我的站点"
 
 #: src/ui/classic/theme.h:125
 msgid "Name"
-msgstr ""
+msgstr "名称"
 
 #: src/lib/fcitx-utils/key.cpp:188
 msgctxt "Key name"
@@ -1480,7 +1480,7 @@ msgstr "下一个候选词"
 
 #: src/ui/classic/theme.h:101
 msgid "Next Page Button"
-msgstr ""
+msgstr "下一页按钮"
 
 #: src/modules/clipboard/clipboard.cpp:306
 msgid "No clipboard history."
@@ -1492,7 +1492,7 @@ msgstr "无"
 
 #: src/ui/classic/theme.h:75 src/ui/classic/theme.h:105
 msgid "Normal text color"
-msgstr ""
+msgstr "一般文字颜色"
 
 #: src/ui/kimpanel/kimpanel.cpp:365
 msgid "Not available"
@@ -1535,23 +1535,23 @@ msgstr "选项"
 
 #: src/ui/classic/theme.h:60
 msgid "Overlay Clip Margin"
-msgstr ""
+msgstr "覆盖图片裁剪边界"
 
 #: src/ui/classic/theme.h:51
 msgid "Overlay Image"
-msgstr ""
+msgstr "覆盖图片"
 
 #: src/ui/classic/theme.h:53
 msgid "Overlay X offset"
-msgstr ""
+msgstr "覆盖图片 X 偏移"
 
 #: src/ui/classic/theme.h:54
 msgid "Overlay Y offset"
-msgstr ""
+msgstr "覆盖图片 Y 偏移"
 
 #: src/ui/classic/theme.h:52
 msgid "Overlay position"
-msgstr ""
+msgstr "覆盖图片位置"
 
 #: data/fcitx5-diagnose.sh:956
 msgid "Owner of DBus name ${1} is ${2}."
@@ -1645,7 +1645,7 @@ msgstr "上一个候选词"
 
 #: src/ui/classic/theme.h:100
 msgid "Prev Page Button"
-msgstr ""
+msgstr "上一页按钮"
 
 #: src/lib/fcitx-utils/key.cpp:217
 msgctxt "Key name"
@@ -1806,7 +1806,7 @@ msgstr "发送"
 
 #: src/ui/classic/theme.h:116
 msgid "Separator Background"
-msgstr ""
+msgstr "分隔符背景"
 
 #: src/lib/fcitx/globalconfig.cpp:118
 msgid "Share Input State"
@@ -1846,7 +1846,7 @@ msgstr "空格"
 
 #: src/ui/classic/theme.h:80 src/ui/classic/theme.h:110
 msgid "Spacing"
-msgstr ""
+msgstr "间隔"
 
 #: src/modules/spell/spell.conf.in:3
 msgid "Spell"
@@ -1887,7 +1887,7 @@ msgstr "停止"
 
 #: src/ui/classic/theme.h:118
 msgid "Sub Menu"
-msgstr ""
+msgstr "子菜单"
 
 #: src/lib/fcitx-utils/key.cpp:175
 msgctxt "Key name"
@@ -1992,11 +1992,11 @@ msgstr "工具"
 
 #: src/ui/classic/theme.h:30
 msgid "Top Center"
-msgstr ""
+msgstr "顶部居中"
 
 #: src/ui/classic/theme.h:30
 msgid "Top Left"
-msgstr ""
+msgstr "左上"
 
 #: src/lib/fcitx-utils/key.cpp:180
 msgctxt "Key name"
@@ -2005,7 +2005,7 @@ msgstr "顶部菜单"
 
 #: src/ui/classic/theme.h:31
 msgid "Top Right"
-msgstr ""
+msgstr "右上"
 
 #: src/lib/fcitx-utils/key.cpp:233
 msgctxt "Key name"
@@ -2034,7 +2034,7 @@ msgstr "旅行"
 
 #: src/ui/classic/theme.h:133
 msgid "Tray Font"
-msgstr ""
+msgstr "托盘字体"
 
 #: src/lib/fcitx/globalconfig.cpp:23
 msgid "Trigger Input Method"
@@ -2088,7 +2088,7 @@ msgstr "按屏幕 DPI 使用"
 
 #: src/ui/classic/theme.h:85
 msgid "Use all horizontal space for highlight when it is vertical list"
-msgstr ""
+msgstr "竖排列表时使用所有横向空间高亮"
 
 #: src/ui/classic/classicui.h:80
 msgid "Use mouse wheel to go to prev or next page"
@@ -2104,7 +2104,7 @@ msgstr "使用 ${1} 来检查 dbus。"
 
 #: src/ui/classic/theme.h:126
 msgid "Version"
-msgstr ""
+msgstr "版本"
 
 #: data/fcitx5-diagnose.sh:1329 data/fcitx5-diagnose.sh:1412
 msgid "Version Line:"
