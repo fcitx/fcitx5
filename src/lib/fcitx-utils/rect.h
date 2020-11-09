@@ -12,6 +12,7 @@
 /// \file
 /// \brief Provide utility to handle rectangle.
 
+#include <algorithm>
 #include <ostream>
 #include "fcitxutils_export.h"
 
@@ -30,8 +31,8 @@ public:
     }
 
     inline Rect &setSize(int width, int height) noexcept {
-        x2_ = width + x1_ - 1;
-        y2_ = height + y1_ - 1;
+        x2_ = width + x1_;
+        y2_ = height + y1_;
         return *this;
     }
 
@@ -52,6 +53,18 @@ public:
         return *this;
     }
 
+    inline Rect intersected(const Rect &rect) noexcept {
+        Rect tmp;
+        tmp.x1_ = std::max(x1_, rect.x1_);
+        tmp.x2_ = std::min(x2_, rect.x2_);
+        tmp.y1_ = std::max(y1_, rect.y1_);
+        tmp.y2_ = std::min(y2_, rect.y2_);
+        if (tmp.x1_ < tmp.x2_ && tmp.y1_ < tmp.y2_) {
+            return tmp;
+        }
+        return Rect();
+    }
+
     // Return a rect with same size, but move by a offset.
     Rect translated(int offsetX, int offsetY) const {
         return Rect()
@@ -61,6 +74,10 @@ public:
 
     bool contains(int x, int y) const noexcept {
         return (x1_ <= x && x <= x2_) && (y1_ <= y && y <= y2_);
+    }
+
+    bool contains(const Rect &other) const noexcept {
+        return contains(other.x1_, other.y1_) && contains(other.x2_, other.y2_);
     }
 
     int distance(int x, int y) const noexcept {
@@ -84,8 +101,8 @@ public:
     inline int right() const noexcept { return x2_; }
     inline int bottom() const noexcept { return y2_; }
 
-    inline int width() const noexcept { return x2_ - x1_ + 1; }
-    inline int height() const noexcept { return y2_ - y1_ + 1; }
+    inline int width() const noexcept { return x2_ - x1_; }
+    inline int height() const noexcept { return y2_ - y1_; }
 
     inline bool operator==(const Rect &other) const {
         return x1_ == other.x1_ && x2_ == other.x2_ && y1_ == other.y1_ &&
@@ -95,6 +112,8 @@ public:
     inline bool operator!=(const Rect &other) const {
         return !operator==(other);
     }
+
+    inline bool isEmpty() const { return width() <= 0 || height() <= 0; }
 
 private:
     int x1_, y1_, x2_, y2_;

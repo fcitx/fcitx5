@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.6.0)
-set(FCITX_VERSION 5.0)
+set(FCITX_VERSION 5.0.1)
 project(fcitx VERSION ${FCITX_VERSION})
 
 find_package(ECM REQUIRED 1.0.0)
@@ -27,6 +27,7 @@ option(ENABLE_PRESAGE "Enable presage for word predication" Off)
 option(ENABLE_WAYLAND "Enable wayland support" On)
 option(ENABLE_DOC "Build doxygen" Off)
 option(USE_SYSTEMD "Use systemd for event loop and dbus, will fallback to libevent/libdbus if not found." On)
+option(ENABLE_XDGAUTOSTART "Enable xdg autostart desktop file installation" On)
 
 #######################################################################
 # Find packages

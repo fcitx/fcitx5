@@ -52,11 +52,16 @@ struct ThemeAnnotation : public EnumAnnotation {
     }
     void dumpDescription(RawConfig &config) const {
         EnumAnnotation::dumpDescription(config);
+        config.setValueByPath("LaunchSubConfig", "True");
         for (size_t i = 0; i < themes_.size(); i++) {
             config.setValueByPath("Enum/" + std::to_string(i),
                                   themes_[i].first);
             config.setValueByPath("EnumI18n/" + std::to_string(i),
                                   themes_[i].second);
+            config.setValueByPath(
+                "SubConfigPath/" + std::to_string(i),
+                stringutils::concat("fcitx://config/addon/classicui/theme/",
+                                    themes_[i].first));
         }
     }
 
@@ -95,6 +100,9 @@ public:
         safeSaveAsIni(config_, "conf/classicui.conf");
         reloadTheme();
     }
+    const Configuration *getSubConfig(const std::string &path) const override;
+    void setSubConfig(const std::string &path,
+                      const RawConfig &config) override;
     auto &config() { return config_; }
     Theme &theme() { return theme_; }
     void suspend() override;
@@ -132,6 +140,7 @@ private:
     Instance *instance_;
     ClassicUIConfig config_;
     Theme theme_;
+    mutable Theme subconfigTheme_;
     bool suspended_ = true;
 };
 } // namespace classicui

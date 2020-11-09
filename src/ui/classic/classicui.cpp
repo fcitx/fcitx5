@@ -72,7 +72,6 @@ void ClassicUI::reloadConfig() {
 }
 
 void ClassicUI::reloadTheme() {
-
     auto themeConfigFile = StandardPath::global().open(
         StandardPath::Type::PkgData,
         stringutils::joinPath("themes", *config_.theme, "theme.conf"),
@@ -253,5 +252,49 @@ public:
     }
 };
 } // namespace fcitx::classicui
+
+const fcitx::Configuration *
+fcitx::classicui::ClassicUI::getSubConfig(const std::string &path) const {
+    if (!stringutils::startsWith(path, "theme/")) {
+        return nullptr;
+    }
+
+    auto name = path.substr(6);
+    if (name.empty()) {
+        return nullptr;
+    }
+
+    if (name == *config_.theme) {
+        return &theme_;
+    }
+
+    auto themeConfigFile = StandardPath::global().open(
+        StandardPath::Type::PkgData,
+        stringutils::joinPath("themes", name, "theme.conf"), O_RDONLY);
+    RawConfig themeConfig;
+    readFromIni(themeConfig, themeConfigFile.fd());
+    subconfigTheme_.load(name, themeConfig);
+    return &subconfigTheme_;
+}
+
+void fcitx::classicui::ClassicUI::setSubConfig(const std::string &path,
+                                               const fcitx::RawConfig &config) {
+    if (!stringutils::startsWith(path, "theme/")) {
+        return;
+    }
+    auto name = path.substr(6);
+    if (name.empty()) {
+        return;
+    }
+
+    auto &theme = name == *config_.theme ? theme_ : subconfigTheme_;
+    if (&theme == &subconfigTheme_) {
+        // Fill the old value, this help with Name field..
+        getSubConfig(path);
+    }
+    theme.load(name, config);
+    safeSaveAsIni(theme, StandardPath::Type::PkgData,
+                  stringutils::joinPath("themes", name, "theme.conf"));
+}
 
 FCITX_ADDON_FACTORY(fcitx::classicui::ClassicUIFactory);

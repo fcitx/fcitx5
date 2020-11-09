@@ -101,7 +101,7 @@ function(_fcitx5_get_unique_target_name _name _unique_name)
 endfunction()
 
 function(fcitx5_translate_desktop_file SRC DEST)
-  set(options)
+  set(options XML)
   set(one_value_args PO_DIRECTORY)
   set(multi_value_args KEYWORDS)
   cmake_parse_arguments(FCITX5_TRANSLATE
@@ -128,8 +128,14 @@ function(fcitx5_translate_desktop_file SRC DEST)
     endforeach()
   endif()
 
+  if (FCITX5_TRANSLATE_XML)
+    set(TYPE_ARG "--xml")
+  else()
+    set(TYPE_ARG "--desktop")
+  endif()
+
   add_custom_command(OUTPUT "${DEST}"
-    COMMAND "${GETTEXT_MSGFMT_EXECUTABLE}" --desktop -d ${FCITX5_TRANSLATE_PO_DIRECTORY}
+    COMMAND "${GETTEXT_MSGFMT_EXECUTABLE}" "${TYPE_ARG}" -d ${FCITX5_TRANSLATE_PO_DIRECTORY}
             ${KEYWORD_ARGS} --template "${SRC}" -o "${DEST}"
     DEPENDS "${SRC}" ${PO_FILES})
   _fcitx5_get_unique_target_name("${SRC_BASE}-fmt" uniqueTargetName)

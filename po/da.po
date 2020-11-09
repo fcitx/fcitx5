@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2020-10-30 00:02-0700\n"
+"POT-Creation-Date: 2020-11-08 13:34-0800\n"
 "PO-Revision-Date: 2017-11-23 04:14+0000\n"
 "Last-Translator: scootergrisen, 2020\n"
 "Language-Team: Danish (https://www.transifex.com/fcitx/teams/12005/da/)\n"
@@ -48,7 +48,7 @@ msgstr "${1} ikke fundet."
 msgid "${1} works properly."
 msgstr "${1} virker korrekt."
 
-#: src/lib/fcitx/instance.cpp:2007
+#: src/lib/fcitx/instance.cpp:312
 msgid "(Not available)"
 msgstr "(ikke tilgængelig)"
 
@@ -180,6 +180,10 @@ msgctxt "Key name"
 msgid "Audio Repeat"
 msgstr "Lyd gentag"
 
+#: src/ui/classic/theme.h:127
+msgid "Author"
+msgstr ""
+
 #: src/lib/fcitx-utils/key.cpp:163
 msgctxt "Key name"
 msgid "Away"
@@ -194,6 +198,14 @@ msgstr "Tilbage"
 msgctxt "Key name"
 msgid "Back Forward"
 msgstr "Tilbage fremad"
+
+#: src/ui/classic/theme.h:93 src/ui/classic/theme.h:112
+msgid "Background"
+msgstr ""
+
+#: src/ui/classic/theme.h:49
+msgid "Background Image"
+msgstr ""
 
 #: src/lib/fcitx-utils/key.cpp:42
 msgctxt "Key name"
@@ -227,10 +239,26 @@ msgctxt "Key name"
 msgid "Bluetooth"
 msgstr "Bluetooth"
 
+#: src/ui/classic/theme.h:102
+msgid "Blur Margin"
+msgstr ""
+
 #: src/lib/fcitx-utils/key.cpp:118
 msgctxt "Key name"
 msgid "Book"
 msgstr "Bog"
+
+#: src/ui/classic/theme.h:33
+msgid "Bottom Center"
+msgstr ""
+
+#: src/ui/classic/theme.h:33
+msgid "Bottom Left"
+msgstr ""
+
+#: src/ui/classic/theme.h:34
+msgid "Bottom Right"
+msgstr ""
 
 #: src/lib/fcitx-utils/key.cpp:129
 msgctxt "Key name"
@@ -339,9 +367,25 @@ msgctxt "Key name"
 msgid "CapsLock"
 msgstr "CapsLock"
 
+#: src/ui/classic/theme.h:32
+msgid "Center"
+msgstr ""
+
+#: src/ui/classic/theme.h:31
+msgid "Center Left"
+msgstr ""
+
+#: src/ui/classic/theme.h:32
+msgid "Center Right"
+msgstr ""
+
 #: data/fcitx5-configtool.desktop.in.in:5
 msgid "Change Fcitx 5 Configuration"
 msgstr "Skift Fcitx 5-konfiguration"
+
+#: src/ui/classic/theme.h:117
+msgid "Check box"
+msgstr ""
 
 #: src/im/keyboard/keyboard.h:56
 msgid "Choose key modifier"
@@ -355,6 +399,10 @@ msgstr "Klassisk brugerflade"
 msgctxt "Key name"
 msgid "Clear"
 msgstr "Ryd"
+
+#: src/ui/classic/theme.h:71
+msgid "Click Margin"
+msgstr ""
 
 #: src/modules/clipboard/clipboard.conf.in:3
 msgid "Clipboard"
@@ -488,7 +536,7 @@ msgstr "DOS"
 msgid "Deactivate Input Method"
 msgstr "Deaktivér inputmetode"
 
-#: src/lib/fcitx/instance.cpp:564 src/lib/fcitx/inputmethodmanager.cpp:130
+#: src/lib/fcitx/instance.cpp:590 src/lib/fcitx/inputmethodmanager.cpp:130
 #: src/ui/classic/themes/default/theme.conf.in:3
 msgid "Default"
 msgstr "Standard"
@@ -517,6 +565,10 @@ msgstr "Standardsidestørrelse"
 msgctxt "Key name"
 msgid "Delete"
 msgstr "Slet"
+
+#: src/ui/classic/theme.h:129
+msgid "Description"
+msgstr ""
 
 #: data/fcitx5-diagnose.sh:785
 msgid "Desktop Environment:"
@@ -571,6 +623,10 @@ msgstr "Skub ud"
 #: src/modules/emoji/emoji.conf.in:3
 msgid "Emoji"
 msgstr "Emoji"
+
+#: src/ui/classic/theme.h:81
+msgid "Enable Blur on KWin"
+msgstr ""
 
 #: src/modules/quickphrase/quickphrase.h:43
 msgid "Enable Spell check"
@@ -675,7 +731,8 @@ msgctxt "Key name"
 msgid "Favorites"
 msgstr "Favoritter"
 
-#: data/fcitx5.desktop.in.in:3
+#: data/org.fcitx.Fcitx5.desktop.in.in:3
+#: data/org.fcitx.Fcitx5.metainfo.xml.in:6
 msgid "Fcitx 5"
 msgstr "Fcitx 5"
 
@@ -694,6 +751,16 @@ msgstr "Fcitx-konfiguration med brugerflade:"
 #: data/fcitx5-diagnose.sh:900
 msgid "Fcitx State:"
 msgstr "Fcitx-tilstand:"
+
+#: data/org.fcitx.Fcitx5.metainfo.xml.in:9
+msgid ""
+"Fcitx is an input method framework. It can help you to type your own "
+"language. It also features variant choice of addons that improve your typing "
+"experience."
+msgstr ""
+"Fcitx er et inputmetode-framework. Det kan hjælpe dig med at skrive på de "
+"sprog du kender. Det har også en vifte af tilføjelser som forbedre din "
+"skriveoplevelse."
 
 #: data/fcitx5-diagnose.sh:914
 msgid "Fcitx version: ${1}"
@@ -792,6 +859,10 @@ msgctxt "Key name"
 msgid "Game"
 msgstr "Spil"
 
+#: src/ui/classic/theme.h:139
+msgid "General"
+msgstr ""
+
 #: src/lib/fcitx-utils/key.cpp:131
 msgctxt "Key name"
 msgid "Go"
@@ -807,11 +878,11 @@ msgstr "Grøn"
 msgid "Group"
 msgstr "Gruppe"
 
-#: src/lib/fcitx/instance.cpp:2010
+#: src/lib/fcitx/instance.cpp:315
 msgid "Group {0}: {1}"
 msgstr "Gruppe {0}: {1}"
 
-#: src/lib/fcitx/instance.cpp:566
+#: src/lib/fcitx/instance.cpp:592
 msgid "Group {}"
 msgstr "Gruppe {}"
 
@@ -910,6 +981,30 @@ msgstr "Dvale"
 msgid "Hidden Notifications"
 msgstr "Skjulte underretninger"
 
+#: src/ui/classic/theme.h:56
+msgid "Hide overlay if size does not fit"
+msgstr ""
+
+#: src/ui/classic/theme.h:66
+msgid "Highligh Click Margin"
+msgstr ""
+
+#: src/ui/classic/theme.h:95 src/ui/classic/theme.h:114
+msgid "Highlight Background"
+msgstr ""
+
+#: src/ui/classic/theme.h:90
+msgid "Highlight Background color"
+msgstr ""
+
+#: src/ui/classic/theme.h:78 src/ui/classic/theme.h:108
+msgid "Highlight Candidate Color"
+msgstr ""
+
+#: src/ui/classic/theme.h:88
+msgid "Highlight text color"
+msgstr ""
+
 #: src/lib/fcitx-utils/key.cpp:203
 msgctxt "Key name"
 msgid "Hiragana"
@@ -953,6 +1048,17 @@ msgstr "Hotlinks"
 msgid "Hotkey"
 msgstr "Hottast"
 
+#: src/modules/imselector/imselector.h:35
+msgid "Hotkey for switching to the N-th input method"
+msgstr "Hottast til at skifte til den niende inputmetode"
+
+#: src/modules/imselector/imselector.h:44
+msgid ""
+"Hotkey for switching to the N-th input method for only current input context"
+msgstr ""
+"Hottast til at skifte til den niende inputmetode kun til nuværende "
+"inputkontekst"
+
 #: src/lib/fcitx-utils/key.cpp:479
 msgctxt "Key name"
 msgid "Hyper"
@@ -982,12 +1088,17 @@ msgstr ""
 "bruger kommandoen ${g36_disable_ibus} til at deaktivere IBus-integration for "
 "at kunne bruge andre inputmetoder end ${2}. Se ${link} for flere detaljer."
 
-#: src/lib/fcitx/instance.cpp:635 src/lib/fcitx/instance.cpp:805
+#: src/ui/classic/theme.h:69
+msgid "Image"
+msgstr ""
+
+#: src/lib/fcitx/instance.cpp:661 src/lib/fcitx/instance.cpp:831
 #: src/im/keyboard/keyboard.cpp:357 src/ui/classic/xcbtraywindow.cpp:38
 #: src/modules/xcb/xcbconnection.cpp:388
 #: src/modules/notificationitem/dbusmenu.cpp:241
 #: src/modules/notificationitem/notificationitem.cpp:105
-#: data/fcitx5.desktop.in.in:4
+#: data/org.fcitx.Fcitx5.desktop.in.in:4
+#: data/org.fcitx.Fcitx5.metainfo.xml.in:7
 msgid "Input Method"
 msgstr "Inputmetode"
 
@@ -998,6 +1109,10 @@ msgstr "Konfiguration af inputmetode"
 #: data/fcitx5-diagnose.sh:685
 msgid "Input Method Related Environment Variables: "
 msgstr "Inputmetode med relation til miljøvariabler: "
+
+#: src/ui/classic/theme.h:141
+msgid "Input Panel"
+msgstr ""
 
 #: src/modules/imselector/imselector.conf.in:3
 msgid "Input method selector"
@@ -1214,6 +1329,34 @@ msgctxt "Key name"
 msgid "Mail Forward"
 msgstr "Mail videresend"
 
+#: src/ui/classic/theme.h:58
+msgid "Margin"
+msgstr ""
+
+#: src/ui/classic/theme.h:44
+msgid "Margin Bottom"
+msgstr ""
+
+#: src/ui/classic/theme.h:38
+msgid "Margin Left"
+msgstr ""
+
+#: src/ui/classic/theme.h:40
+msgid "Margin Right"
+msgstr ""
+
+#: src/ui/classic/theme.h:42
+msgid "Margin Top"
+msgstr ""
+
+#: src/ui/classic/theme.h:97 src/ui/classic/theme.h:120
+msgid "Margin around all content"
+msgstr ""
+
+#: src/ui/classic/theme.h:99 src/ui/classic/theme.h:122
+msgid "Margin around text"
+msgstr ""
+
 #: src/lib/fcitx-utils/key.cpp:134
 msgctxt "Key name"
 msgid "Market"
@@ -1269,6 +1412,10 @@ msgctxt "Key name"
 msgid "Meeting"
 msgstr "Møde"
 
+#: src/ui/classic/theme.h:142
+msgid "Menu"
+msgstr ""
+
 #: src/lib/fcitx-utils/key.cpp:56
 msgctxt "Key name"
 msgid "Menu"
@@ -1283,6 +1430,10 @@ msgstr "Menu-PB"
 msgctxt "Key name"
 msgid "Messenger"
 msgstr "Messenger"
+
+#: src/ui/classic/theme.h:137
+msgid "Metadata"
+msgstr ""
 
 #: src/lib/fcitx-utils/key.cpp:183
 msgctxt "Key name"
@@ -1319,6 +1470,10 @@ msgctxt "Key name"
 msgid "My Sites"
 msgstr "Mine steder"
 
+#: src/ui/classic/theme.h:125
+msgid "Name"
+msgstr ""
+
 #: src/lib/fcitx-utils/key.cpp:188
 msgctxt "Key name"
 msgid "New"
@@ -1333,6 +1488,10 @@ msgstr "Nyheder"
 msgid "Next Candidate"
 msgstr "Næste kandidat"
 
+#: src/ui/classic/theme.h:101
+msgid "Next Page Button"
+msgstr ""
+
 #: src/modules/clipboard/clipboard.cpp:306
 msgid "No clipboard history."
 msgstr "Ingen udklipsholderhistorik."
@@ -1340,6 +1499,10 @@ msgstr "Ingen udklipsholderhistorik."
 #: src/im/keyboard/keyboard.h:32 src/modules/quickphrase/quickphrase.h:28
 msgid "None"
 msgstr "Ingen"
+
+#: src/ui/classic/theme.h:75 src/ui/classic/theme.h:105
+msgid "Normal text color"
+msgstr ""
 
 #: src/ui/kimpanel/kimpanel.cpp:365
 msgid "Not available"
@@ -1380,6 +1543,26 @@ msgstr "Åbn URL"
 msgctxt "Key name"
 msgid "Option"
 msgstr "Valgmulighed"
+
+#: src/ui/classic/theme.h:60
+msgid "Overlay Clip Margin"
+msgstr ""
+
+#: src/ui/classic/theme.h:51
+msgid "Overlay Image"
+msgstr ""
+
+#: src/ui/classic/theme.h:53
+msgid "Overlay X offset"
+msgstr ""
+
+#: src/ui/classic/theme.h:54
+msgid "Overlay Y offset"
+msgstr ""
+
+#: src/ui/classic/theme.h:52
+msgid "Overlay position"
+msgstr ""
 
 #: data/fcitx5-diagnose.sh:956
 msgid "Owner of DBus name ${1} is ${2}."
@@ -1454,15 +1637,15 @@ msgctxt "Key name"
 msgid "Power Off"
 msgstr "Sluk"
 
-#: src/lib/fcitx/instance.cpp:805
+#: src/lib/fcitx/instance.cpp:831
 msgid "Preedit"
 msgstr "Preedit"
 
-#: src/lib/fcitx/instance.cpp:807
+#: src/lib/fcitx/instance.cpp:833
 msgid "Preedit disabled"
 msgstr "Preedit deaktiveret"
 
-#: src/lib/fcitx/instance.cpp:806
+#: src/lib/fcitx/instance.cpp:832
 msgid "Preedit enabled"
 msgstr "Preedit aktiveret"
 
@@ -1473,6 +1656,10 @@ msgstr "Varsel"
 #: src/im/keyboard/keyboard.h:42
 msgid "Prev Candidate"
 msgstr "Forrige kandidat"
+
+#: src/ui/classic/theme.h:100
+msgid "Prev Page Button"
+msgstr ""
 
 #: src/lib/fcitx-utils/key.cpp:217
 msgctxt "Key name"
@@ -1614,11 +1801,11 @@ msgctxt "Key name"
 msgid "Select"
 msgstr "Vælg"
 
-#: src/modules/imselector/imselector.cpp:218
+#: src/modules/imselector/imselector.cpp:263
 msgid "Select input method:"
 msgstr "Vælg inputmetode:"
 
-#: src/modules/imselector/imselector.cpp:217
+#: src/modules/imselector/imselector.cpp:262
 msgid "Select local input method:"
 msgstr "Vælg lokal inputmetode:"
 
@@ -1630,6 +1817,10 @@ msgstr "Vælg bestemt inputmetode via tastatur"
 msgctxt "Key name"
 msgid "Send"
 msgstr "Send"
+
+#: src/ui/classic/theme.h:116
+msgid "Separator Background"
+msgstr ""
 
 #: src/lib/fcitx/globalconfig.cpp:118
 msgid "Share Input State"
@@ -1655,7 +1846,7 @@ msgstr "Vis inputmetodeinformation når der skiftes inputmetode"
 
 #: src/lib/fcitx/globalconfig.cpp:53
 msgid "Skip first input method while enumerating"
-msgstr ""
+msgstr "Spring over først inputmetode under gennemløb"
 
 #: src/lib/fcitx-utils/key.cpp:105
 msgctxt "Key name"
@@ -1666,6 +1857,10 @@ msgstr "Sov"
 msgctxt "Key name"
 msgid "Space"
 msgstr "Mellemrum"
+
+#: src/ui/classic/theme.h:80 src/ui/classic/theme.h:110
+msgid "Spacing"
+msgstr ""
 
 #: src/modules/spell/spell.conf.in:3
 msgid "Spell"
@@ -1691,7 +1886,7 @@ msgctxt "Key name"
 msgid "Standby"
 msgstr "Standby"
 
-#: data/fcitx5.desktop.in.in:5
+#: data/org.fcitx.Fcitx5.desktop.in.in:5
 msgid "Start Input Method"
 msgstr "Start inputmetode"
 
@@ -1703,6 +1898,10 @@ msgstr "Statusunderretter"
 msgctxt "Key name"
 msgid "Stop"
 msgstr "Stop"
+
+#: src/ui/classic/theme.h:118
+msgid "Sub Menu"
+msgstr ""
 
 #: src/lib/fcitx-utils/key.cpp:175
 msgctxt "Key name"
@@ -1728,7 +1927,7 @@ msgctxt "Key name"
 msgid "Suspend"
 msgstr "Hvile"
 
-#: src/lib/fcitx/instance.cpp:636 src/modules/xcb/xcbconnection.cpp:389
+#: src/lib/fcitx/instance.cpp:662 src/modules/xcb/xcbconnection.cpp:389
 msgid "Switch group"
 msgstr "Skift gruppe"
 
@@ -1736,7 +1935,7 @@ msgstr "Skift gruppe"
 msgid "Switch group to {0}"
 msgstr "Skift gruppe til {0}"
 
-#: src/lib/fcitx/instance.cpp:637
+#: src/lib/fcitx/instance.cpp:663
 msgid "Switched group to {0}"
 msgstr "Skiftede gruppe til {0}"
 
@@ -1768,11 +1967,16 @@ msgctxt "Key name"
 msgid "Terminal"
 msgstr "Terminal"
 
+#: src/modules/imselector/imselector.h:40
+#: src/modules/imselector/imselector.h:50
+msgid "The n-th hotkey in the list selects the n-th input method."
+msgstr "Den niende hottast i listen vælger den niende inputmetode."
+
 #: data/fcitx5-diagnose.sh:860
 msgid "The script is run as ${1} (${2})."
 msgstr "Scriptet køres som ${1} (${2})."
 
-#: src/ui/classic/classicui.h:81
+#: src/ui/classic/classicui.h:86
 msgid "Theme"
 msgstr "Tema"
 
@@ -1801,10 +2005,22 @@ msgctxt "Key name"
 msgid "Tools"
 msgstr "Værktøjer"
 
+#: src/ui/classic/theme.h:30
+msgid "Top Center"
+msgstr ""
+
+#: src/ui/classic/theme.h:30
+msgid "Top Left"
+msgstr ""
+
 #: src/lib/fcitx-utils/key.cpp:180
 msgctxt "Key name"
 msgid "Top Menu"
 msgstr "Topmenu"
+
+#: src/ui/classic/theme.h:31
+msgid "Top Right"
+msgstr ""
 
 #: src/lib/fcitx-utils/key.cpp:233
 msgctxt "Key name"
@@ -1831,21 +2047,29 @@ msgctxt "Key name"
 msgid "Travel"
 msgstr "Rejse"
 
+#: src/ui/classic/theme.h:133
+msgid "Tray Font"
+msgstr ""
+
 #: src/lib/fcitx/globalconfig.cpp:23
 msgid "Trigger Input Method"
 msgstr "Udløs inputmetode"
 
-#: src/modules/imselector/imselector.h:22
+#: src/modules/imselector/imselector.h:25
 msgid "Trigger Key"
 msgstr "Tast til at udløse"
 
-#: src/modules/imselector/imselector.h:26
+#: src/modules/imselector/imselector.h:29
 msgid "Trigger Key for only current input context"
 msgstr "Udløsertast kun til nuværende inputkontekst"
 
 #: src/im/keyboard/keyboard.h:60
 msgid "Trigger hint mode"
 msgstr "Udløs tipstilstand"
+
+#: data/org.fcitx.Fcitx5.metainfo.xml.in:19
+msgid "Typing with Fcitx and Kimpanel"
+msgstr "Skriver med Fcitx og Kimpanel"
 
 #: data/fcitx5-diagnose.sh:972
 msgid "Unable to find a program to check dbus."
@@ -1873,11 +2097,15 @@ msgstr "Op"
 msgid "Use On The Spot Style (Needs restarting)"
 msgstr "Brug her-og-nu-stil (kræver genstart)"
 
-#: src/ui/classic/classicui.h:72
+#: src/ui/classic/classicui.h:77
 msgid "Use Per Screen DPI"
 msgstr "Brug pr. skærm DPI"
 
-#: src/ui/classic/classicui.h:75
+#: src/ui/classic/theme.h:85
+msgid "Use all horizontal space for highlight when it is vertical list"
+msgstr ""
+
+#: src/ui/classic/classicui.h:80
 msgid "Use mouse wheel to go to prev or next page"
 msgstr "Brug musehjulet for at gå til forrige eller næste side"
 
@@ -1889,11 +2117,15 @@ msgstr "Brugerflade:"
 msgid "Using ${1} to check dbus."
 msgstr "Bruger ${1} til at tjekke dbus."
 
+#: src/ui/classic/theme.h:126
+msgid "Version"
+msgstr ""
+
 #: data/fcitx5-diagnose.sh:1329 data/fcitx5-diagnose.sh:1412
 msgid "Version Line:"
 msgstr "Versionslinje:"
 
-#: src/ui/classic/classicui.h:70
+#: src/ui/classic/classicui.h:75
 msgid "Vertical Candidate List"
 msgstr "Lodret kandidatliste"
 
@@ -2121,10 +2353,10 @@ msgstr "version:"
 msgid "{0} (Not Available)"
 msgstr "{0} (ikke tilgængelig)"
 
-#: src/lib/fcitx/instance.cpp:2005
+#: src/lib/fcitx/instance.cpp:310
 msgid "{0} (Not available)"
 msgstr "{0} (ikke tilgængelig)"
 
-#: src/lib/fcitx/instance.cpp:2002
+#: src/lib/fcitx/instance.cpp:307
 msgid "{0} ({1})"
 msgstr "{0} ({1})"

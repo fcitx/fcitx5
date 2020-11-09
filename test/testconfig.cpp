@@ -179,11 +179,24 @@ void testSyncDefaultToCurrent() {
                  "10");
 }
 
+void testExtend() {
+    TestConfigExt ext;
+    *ext.intValue.mutableValue() = 4;
+    *ext.newOption.mutableValue() = {"BCD", "DEF"};
+
+    TestConfigExt ext2;
+    ext2 = ext;
+    std::vector<std::string> expect = {"BCD", "DEF"};
+    FCITX_ASSERT(*ext.intValue == 4);
+    FCITX_ASSERT(*ext.newOption == expect);
+}
+
 int main() {
     testBasics();
     testMove();
     testAssign();
     testRecursiveAssign();
     testSyncDefaultToCurrent();
+    testExtend();
     return 0;
 }

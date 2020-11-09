@@ -13,13 +13,16 @@
 
 #include <memory>
 
-#define FCITX_CONFIGURATION(NAME, ...)                                         \
+#define FCITX_CONFIGURATION_EXTEND(NAME, SUBCLASS, ...)                        \
     class NAME;                                                                \
     FCITX_SPECIALIZE_TYPENAME(NAME, #NAME)                                     \
-    FCITX_CONFIGURATION_CLASS(NAME, __VA_ARGS__)
+    FCITX_CONFIGURATION_CLASS_EXTEND(NAME, SUBCLASS, __VA_ARGS__)
 
-#define FCITX_CONFIGURATION_CLASS(NAME, ...)                                   \
-    class NAME : public ::fcitx::Configuration {                               \
+#define FCITX_CONFIGURATION(NAME, ...)                                         \
+    FCITX_CONFIGURATION_EXTEND(NAME, ::fcitx::Configuration, __VA_ARGS__)
+
+#define FCITX_CONFIGURATION_CLASS_EXTEND(NAME, SUBCLASS, ...)                  \
+    class NAME : public SUBCLASS {                                             \
     public:                                                                    \
         NAME() {}                                                              \
         NAME(const NAME &other) : NAME() { copyHelper(other); }                \
@@ -36,11 +39,9 @@
         __VA_ARGS__                                                            \
     };
 
-#define FCITX_OPTION(name, type, path, description, default, ...)              \
-    ::fcitx::Option<type> name {                                               \
-        this, std::string(path), std::string(description), (default),          \
-            __VA_ARGS__                                                        \
-    }
+#define FCITX_CONFIGURATION_CLASS(NAME, ...)                                   \
+    FCITX_CONFIGURATION_CLASS_EXTEND(NAME, ::fcitx::Configuration, __VA_ARGS__)
+
 namespace fcitx {
 
 class ConfigurationPrivate;

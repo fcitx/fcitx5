@@ -12,6 +12,32 @@
 
 namespace fcitx {
 
+namespace {
+
+void selectInputMethod(InputContext *ic, IMSelector *imSelector,
+                       const std::string &uniqueName, bool local) {
+    auto instance = imSelector->instance();
+    auto *state = ic->propertyFor(&imSelector->factory());
+    instance->setCurrentInputMethod(ic, uniqueName, local);
+    state->reset(ic);
+    instance->showInputMethodInformation(ic);
+}
+
+bool selectInputMethod(InputContext *ic, IMSelector *imSelector, size_t index,
+                       bool local) {
+    auto &inputMethodManager = imSelector->instance()->inputMethodManager();
+    auto &list = inputMethodManager.currentGroup().inputMethodList();
+    if (index >= list.size()) {
+        return false;
+    }
+    selectInputMethod(
+        ic, imSelector,
+        inputMethodManager.entry(list[index].name())->uniqueName(), local);
+    return true;
+}
+
+} // namespace
+
 class IMSelectorCandidateWord : public CandidateWord {
 public:
     IMSelectorCandidateWord(IMSelector *q, const InputMethodEntry *entry,
@@ -20,10 +46,7 @@ public:
           uniqueName_(entry->uniqueName()), local_(local) {}
 
     void select(InputContext *ic) const override {
-        auto *state = ic->propertyFor(&q_->factory());
-        q_->instance()->setCurrentInputMethod(ic, uniqueName_, local_);
-        state->reset(ic);
-        q_->instance()->showInputMethodInformation(ic);
+        selectInputMethod(ic, q_, uniqueName_, local_);
     }
 
     IMSelector *q_;
@@ -48,6 +71,28 @@ IMSelector::IMSelector(Instance *instance)
             }
             if (keyEvent.key().checkKeyList(config_.triggerKeyLocal.value()) &&
                 trigger(keyEvent.inputContext(), true)) {
+                keyEvent.filterAndAccept();
+                return;
+            }
+        }));
+
+    // Select input method via hotkey.
+    eventHandlers_.emplace_back(instance_->watchEvent(
+        EventType::InputContextKeyEvent, EventWatcherPhase::PreInputMethod,
+        [this](Event &event) {
+            auto &keyEvent = static_cast<KeyEvent &>(event);
+            auto *inputContext = keyEvent.inputContext();
+            if (int index =
+                    keyEvent.key().keyListIndex(config_.switchKey.value());
+                index >= 0 &&
+                selectInputMethod(inputContext, this, index, /*local=*/false)) {
+                keyEvent.filterAndAccept();
+                return;
+            }
+            if (int index =
+                    keyEvent.key().keyListIndex(config_.switchKeyLocal.value());
+                index >= 0 &&
+                selectInputMethod(inputContext, this, index, /*local=*/true)) {
                 keyEvent.filterAndAccept();
                 return;
             }
