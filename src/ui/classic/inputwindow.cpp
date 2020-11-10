@@ -62,7 +62,7 @@ void InputWindow::insertAttr(PangoAttrList *attrList, TextFormatFlags format,
             ? *parent_->theme().inputPanel->highlightColor
             : (highlight ? *parent_->theme().inputPanel->highlightCandidateColor
                          : *parent_->theme().inputPanel->normalColor);
-    auto scale = std::numeric_limits<unsigned short>::max();
+    const auto scale = std::numeric_limits<uint16_t>::max();
     auto *attr = pango_attr_foreground_new(
         color.redF() * scale, color.greenF() * scale, color.blueF() * scale);
     attr->start_index = start;
@@ -77,9 +77,8 @@ void InputWindow::insertAttr(PangoAttrList *attrList, TextFormatFlags format,
         pango_attr_list_insert(attrList, alphaAttr);
     }
 
-    if (format & TextFormatFlag::HighLight) {
-        auto background =
-            *parent_->theme().inputPanel->highlightBackgroundColor;
+    auto background = *parent_->theme().inputPanel->highlightBackgroundColor;
+    if (format.test(TextFormatFlag::HighLight) && background.alpha() > 0) {
         attr = pango_attr_background_new(background.redF() * scale,
                                          background.greenF() * scale,
                                          background.blueF() * scale);
@@ -89,7 +88,7 @@ void InputWindow::insertAttr(PangoAttrList *attrList, TextFormatFlags format,
 
         if (background.alpha() != 255) {
             auto *alphaAttr =
-                pango_attr_foreground_alpha_new(color.alphaF() * scale);
+                pango_attr_background_alpha_new(background.alphaF() * scale);
             alphaAttr->start_index = start;
             alphaAttr->end_index = end;
             pango_attr_list_insert(attrList, alphaAttr);
