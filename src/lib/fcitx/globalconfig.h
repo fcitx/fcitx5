@@ -37,7 +37,7 @@ public:
     const KeyList &togglePreeditKeys() const;
 
     bool activeByDefault() const;
-    bool showInputMethodInformationWhenSwitchIM() const;
+    bool showInputMethodInformation() const;
     bool showInputMethodInformationWhenFocusIn() const;
     PropertyPropagatePolicy shareInputState() const;
 

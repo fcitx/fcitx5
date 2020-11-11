@@ -2012,8 +2012,8 @@ bool Instance::enumerateGroup(bool forward) {
 void Instance::showInputMethodInformation(InputContext *ic) {
     FCITX_DEBUG() << "Input method switched";
     FCITX_D();
-    if (!d->globalConfig_.showInputMethodInformationWhenSwitchIM() &&
-		!d->globalConfig_.showInputMethodInformationWhenFocusIn()) {
+    if (!d->globalConfig_.showInputMethodInformation() &&
+        !d->globalConfig_.showInputMethodInformationWhenFocusIn()) {
         return;
     }
     d->showInputMethodInformation(ic);
