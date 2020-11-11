@@ -62,6 +62,9 @@ public:
     }
 
     std::string label() {
+        if (!parent_->config().showLabel.value()) {
+            return "";
+        }
         if (auto *ic = parent_->instance()->lastFocusedInputContext()) {
             if (const auto *entry = parent_->instance()->inputMethodEntry(ic)) {
                 if (entry->isKeyboard() || entry->icon().empty()) {
@@ -127,6 +130,7 @@ NotificationItem::NotificationItem(Instance *instance)
       watcher_(std::make_unique<dbus::ServiceWatcher>(*bus_)),
       sni_(std::make_unique<StatusNotifierItem>(this)),
       menu_(std::make_unique<DBusMenu>(this)) {
+    reloadConfig();
     watcherEntry_ = watcher_->watchService(
         NOTIFICATION_WATCHER_DBUS_ADDR,
         [this](const std::string &, const std::string &,
@@ -136,6 +140,10 @@ NotificationItem::NotificationItem(Instance *instance)
 NotificationItem::~NotificationItem() = default;
 
 dbus::Bus *NotificationItem::bus() { return dbus()->call<IDBusModule::bus>(); }
+
+void NotificationItem::reloadConfig() {
+    readAsIni(config_, "conf/notificationitem.conf");
+}
 
 void NotificationItem::setSerivceName(const std::string &newName) {
     sniWatcherName_ = newName;
