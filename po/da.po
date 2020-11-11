@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2020-11-10 00:02-0800\n"
+"POT-Creation-Date: 2020-11-11 00:02-0800\n"
 "PO-Revision-Date: 2017-11-23 04:14+0000\n"
 "Last-Translator: scootergrisen, 2020\n"
 "Language-Team: Danish (https://www.transifex.com/fcitx/teams/12005/da/)\n"
@@ -182,7 +182,7 @@ msgstr "Lyd gentag"
 
 #: src/ui/classic/theme.h:127
 msgid "Author"
-msgstr ""
+msgstr "Forfatter"
 
 #: src/lib/fcitx-utils/key.cpp:163
 msgctxt "Key name"
@@ -201,11 +201,11 @@ msgstr "Tilbage fremad"
 
 #: src/ui/classic/theme.h:93 src/ui/classic/theme.h:112
 msgid "Background"
-msgstr ""
+msgstr "Baggrund"
 
 #: src/ui/classic/theme.h:49
 msgid "Background Image"
-msgstr ""
+msgstr "Baggrundsbillede"
 
 #: src/lib/fcitx-utils/key.cpp:42
 msgctxt "Key name"
@@ -250,15 +250,15 @@ msgstr "Bog"
 
 #: src/ui/classic/theme.h:33
 msgid "Bottom Center"
-msgstr ""
+msgstr "Nederst i midten"
 
 #: src/ui/classic/theme.h:33
 msgid "Bottom Left"
-msgstr ""
+msgstr "Nederst til venstre"
 
 #: src/ui/classic/theme.h:34
 msgid "Bottom Right"
-msgstr ""
+msgstr "Nederst til højre"
 
 #: src/lib/fcitx-utils/key.cpp:129
 msgctxt "Key name"
@@ -369,15 +369,15 @@ msgstr "CapsLock"
 
 #: src/ui/classic/theme.h:32
 msgid "Center"
-msgstr ""
+msgstr "I midten"
 
 #: src/ui/classic/theme.h:31
 msgid "Center Left"
-msgstr ""
+msgstr "I midten til venstre"
 
 #: src/ui/classic/theme.h:32
 msgid "Center Right"
-msgstr ""
+msgstr "I midten til højre"
 
 #: data/fcitx5-configtool.desktop.in.in:5
 msgid "Change Fcitx 5 Configuration"
@@ -385,7 +385,7 @@ msgstr "Skift Fcitx 5-konfiguration"
 
 #: src/ui/classic/theme.h:117
 msgid "Check box"
-msgstr ""
+msgstr "Afkrydsningsboks"
 
 #: src/im/keyboard/keyboard.h:56
 msgid "Choose key modifier"
@@ -402,7 +402,7 @@ msgstr "Ryd"
 
 #: src/ui/classic/theme.h:71
 msgid "Click Margin"
-msgstr ""
+msgstr "Klikmargen"
 
 #: src/modules/clipboard/clipboard.conf.in:3
 msgid "Clipboard"
@@ -568,7 +568,7 @@ msgstr "Slet"
 
 #: src/ui/classic/theme.h:129
 msgid "Description"
-msgstr ""
+msgstr "Beskrivelse"
 
 #: data/fcitx5-diagnose.sh:785
 msgid "Desktop Environment:"
@@ -861,7 +861,7 @@ msgstr "Spil"
 
 #: src/ui/classic/theme.h:139
 msgid "General"
-msgstr ""
+msgstr "Generelt"
 
 #: src/lib/fcitx-utils/key.cpp:131
 msgctxt "Key name"
@@ -1090,7 +1090,7 @@ msgstr ""
 
 #: src/ui/classic/theme.h:69
 msgid "Image"
-msgstr ""
+msgstr "Billede"
 
 #: src/lib/fcitx/instance.cpp:661 src/lib/fcitx/instance.cpp:831
 #: src/im/keyboard/keyboard.cpp:357 src/ui/classic/xcbtraywindow.cpp:38
@@ -1112,7 +1112,7 @@ msgstr "Inputmetode med relation til miljøvariabler: "
 
 #: src/ui/classic/theme.h:141
 msgid "Input Panel"
-msgstr ""
+msgstr "Inputpanel"
 
 #: src/modules/imselector/imselector.conf.in:3
 msgid "Input method selector"
@@ -1331,27 +1331,27 @@ msgstr "Mail videresend"
 
 #: src/ui/classic/theme.h:58
 msgid "Margin"
-msgstr ""
+msgstr "Margen"
 
 #: src/ui/classic/theme.h:44
 msgid "Margin Bottom"
-msgstr ""
+msgstr "Margen nederst"
 
 #: src/ui/classic/theme.h:38
 msgid "Margin Left"
-msgstr ""
+msgstr "Margen til venstre"
 
 #: src/ui/classic/theme.h:40
 msgid "Margin Right"
-msgstr ""
+msgstr "Margen til højre"
 
 #: src/ui/classic/theme.h:42
 msgid "Margin Top"
-msgstr ""
+msgstr "Margen øverst"
 
 #: src/ui/classic/theme.h:97 src/ui/classic/theme.h:120
 msgid "Margin around all content"
-msgstr ""
+msgstr "Margen omkring al indholdet"
 
 #: src/ui/classic/theme.h:99 src/ui/classic/theme.h:122
 msgid "Margin around text"
@@ -1414,7 +1414,7 @@ msgstr "Møde"
 
 #: src/ui/classic/theme.h:142
 msgid "Menu"
-msgstr ""
+msgstr "Menu"
 
 #: src/lib/fcitx-utils/key.cpp:56
 msgctxt "Key name"
@@ -1433,7 +1433,7 @@ msgstr "Messenger"
 
 #: src/ui/classic/theme.h:137
 msgid "Metadata"
-msgstr ""
+msgstr "Metadata"
 
 #: src/lib/fcitx-utils/key.cpp:183
 msgctxt "Key name"
@@ -1472,7 +1472,7 @@ msgstr "Mine steder"
 
 #: src/ui/classic/theme.h:125
 msgid "Name"
-msgstr ""
+msgstr "Navn"
 
 #: src/lib/fcitx-utils/key.cpp:188
 msgctxt "Key name"
@@ -1905,7 +1905,7 @@ msgstr "Stop"
 
 #: src/ui/classic/theme.h:118
 msgid "Sub Menu"
-msgstr ""
+msgstr "Undermenu"
 
 #: src/lib/fcitx-utils/key.cpp:175
 msgctxt "Key name"
@@ -2011,11 +2011,11 @@ msgstr "Værktøjer"
 
 #: src/ui/classic/theme.h:30
 msgid "Top Center"
-msgstr ""
+msgstr "Øverst i midten"
 
 #: src/ui/classic/theme.h:30
 msgid "Top Left"
-msgstr ""
+msgstr "Øverst til venstre"
 
 #: src/lib/fcitx-utils/key.cpp:180
 msgctxt "Key name"
@@ -2024,7 +2024,7 @@ msgstr "Topmenu"
 
 #: src/ui/classic/theme.h:31
 msgid "Top Right"
-msgstr ""
+msgstr "Øverst til højre"
 
 #: src/lib/fcitx-utils/key.cpp:233
 msgctxt "Key name"
@@ -2123,7 +2123,7 @@ msgstr "Bruger ${1} til at tjekke dbus."
 
 #: src/ui/classic/theme.h:126
 msgid "Version"
-msgstr ""
+msgstr "Version"
 
 #: data/fcitx5-diagnose.sh:1329 data/fcitx5-diagnose.sh:1412
 msgid "Version Line:"
