@@ -1574,6 +1574,15 @@ void Instance::reloadConfig() {
                   << Key::keyListToString(d->globalConfig_.triggerKeys());
     d->icManager_.setPropertyPropagatePolicy(
         d->globalConfig_.shareInputState());
+    if (d->globalConfig_.preeditEnabledByDefault() !=
+        d->icManager_.isPreeditEnabledByDefault()) {
+        d->icManager_.setPreeditEnabledByDefault(
+            d->globalConfig_.preeditEnabledByDefault());
+        d->icManager_.foreach([d](InputContext *ic) {
+            ic->setEnablePreedit(d->globalConfig_.preeditEnabledByDefault());
+            return true;
+        });
+    }
 }
 
 void Instance::resetInputMethodList() {

@@ -24,7 +24,8 @@ public:
     InputContextPrivate(InputContext *q, InputContextManager &manager,
                         const std::string &program)
         : QPtrHolder(q), manager_(manager), group_(nullptr), inputPanel_(q),
-          statusArea_(q), hasFocus_(false), program_(program) {
+          statusArea_(q), program_(program),
+          isPreeditEnabled_(manager.isPreeditEnabledByDefault()) {
         uuid_generate(uuid_.data());
     }
 

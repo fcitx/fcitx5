@@ -200,9 +200,26 @@ void test_property() {
     FCITX_ASSERT(testProperty2->num() == 0);
 }
 
+void test_preedit_override() {
+    InputContextManager manager;
+    auto ic = std::make_unique<TestInputContext>(manager, "Firefox");
+    ic->setCapabilityFlags(CapabilityFlag::Preedit);
+    FCITX_ASSERT(ic->capabilityFlags().test(CapabilityFlag::Preedit));
+    ic->setEnablePreedit(false);
+    FCITX_ASSERT(!ic->capabilityFlags().test(CapabilityFlag::Preedit));
+    manager.setPreeditEnabledByDefault(false);
+    ic = std::make_unique<TestInputContext>(manager, "Firefox");
+    FCITX_ASSERT(!ic->capabilityFlags().test(CapabilityFlag::Preedit));
+    ic->setCapabilityFlags(CapabilityFlag::Preedit);
+    FCITX_ASSERT(!ic->capabilityFlags().test(CapabilityFlag::Preedit));
+    ic->setEnablePreedit(true);
+    FCITX_ASSERT(ic->capabilityFlags().test(CapabilityFlag::Preedit));
+}
+
 int main() {
     test_simple();
     test_property();
+    test_preedit_override();
 
     return 0;
 }

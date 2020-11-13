@@ -117,6 +117,9 @@ FCITX_CONFIGURATION(
     Option<PropertyPropagatePolicy> shareState{this, "ShareInputState",
                                                _("Share Input State"),
                                                PropertyPropagatePolicy::No};
+    Option<bool> preeditEnabledByDefault{this, "PreeditEnabledByDefault",
+                                         _("Show preedit in application"),
+                                         true};
     Option<bool> showInputMethodInformation{
         this, "ShowInputMethodInformation",
         _("Show Input Method Information when switch input method"), true};
@@ -234,6 +237,11 @@ bool GlobalConfig::showInputMethodInformationWhenFocusIn() const {
 PropertyPropagatePolicy GlobalConfig::shareInputState() const {
     FCITX_D();
     return d->behavior->shareState.value();
+}
+
+bool GlobalConfig::preeditEnabledByDefault() const {
+    FCITX_D();
+    return d->behavior->preeditEnabledByDefault.value();
 }
 
 const KeyList &GlobalConfig::defaultPrevPage() const {
