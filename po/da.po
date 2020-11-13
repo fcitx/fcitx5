@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2020-11-11 00:02-0800\n"
+"POT-Creation-Date: 2020-11-13 00:02-0800\n"
 "PO-Revision-Date: 2017-11-23 04:14+0000\n"
 "Last-Translator: scootergrisen, 2020\n"
 "Language-Team: Danish (https://www.transifex.com/fcitx/teams/12005/da/)\n"
@@ -241,7 +241,7 @@ msgstr "Bluetooth"
 
 #: src/ui/classic/theme.h:102
 msgid "Blur Margin"
-msgstr ""
+msgstr "Sløringsmargen"
 
 #: src/lib/fcitx-utils/key.cpp:118
 msgctxt "Key name"
@@ -626,7 +626,7 @@ msgstr "Emoji"
 
 #: src/ui/classic/theme.h:81
 msgid "Enable Blur on KWin"
-msgstr ""
+msgstr "Aktivér sløring i KWin"
 
 #: src/modules/quickphrase/quickphrase.h:43
 msgid "Enable Spell check"
@@ -983,27 +983,27 @@ msgstr "Skjulte underretninger"
 
 #: src/ui/classic/theme.h:56
 msgid "Hide overlay if size does not fit"
-msgstr ""
+msgstr "Skjul overlægningen hvis størrelsen ikke passer"
 
 #: src/ui/classic/theme.h:66
 msgid "Highligh Click Margin"
-msgstr ""
+msgstr "Fremhæv klikmargen"
 
 #: src/ui/classic/theme.h:95 src/ui/classic/theme.h:114
 msgid "Highlight Background"
-msgstr ""
+msgstr "Baggrund for fremhævning"
 
 #: src/ui/classic/theme.h:90
 msgid "Highlight Background color"
-msgstr ""
+msgstr "Baggrundsfarve for fremhævning"
 
 #: src/ui/classic/theme.h:78 src/ui/classic/theme.h:108
 msgid "Highlight Candidate Color"
-msgstr ""
+msgstr "Kandidatfarve for fremhævning"
 
 #: src/ui/classic/theme.h:88
 msgid "Highlight text color"
-msgstr ""
+msgstr "Tekstfarve for fremhævning"
 
 #: src/lib/fcitx-utils/key.cpp:203
 msgctxt "Key name"
@@ -1355,7 +1355,7 @@ msgstr "Margen omkring al indholdet"
 
 #: src/ui/classic/theme.h:99 src/ui/classic/theme.h:122
 msgid "Margin around text"
-msgstr ""
+msgstr "Margen omkring tekst"
 
 #: src/lib/fcitx-utils/key.cpp:134
 msgctxt "Key name"
@@ -1490,7 +1490,7 @@ msgstr "Næste kandidat"
 
 #: src/ui/classic/theme.h:101
 msgid "Next Page Button"
-msgstr ""
+msgstr "Knap for næste side"
 
 #: src/modules/clipboard/clipboard.cpp:306
 msgid "No clipboard history."
@@ -1502,7 +1502,7 @@ msgstr "Ingen"
 
 #: src/ui/classic/theme.h:75 src/ui/classic/theme.h:105
 msgid "Normal text color"
-msgstr ""
+msgstr "Normal tekstfarve"
 
 #: src/ui/kimpanel/kimpanel.cpp:365
 msgid "Not available"
@@ -1546,23 +1546,23 @@ msgstr "Valgmulighed"
 
 #: src/ui/classic/theme.h:60
 msgid "Overlay Clip Margin"
-msgstr ""
+msgstr "Klikmargen for overlægning"
 
 #: src/ui/classic/theme.h:51
 msgid "Overlay Image"
-msgstr ""
+msgstr "Billede for overlægning"
 
 #: src/ui/classic/theme.h:53
 msgid "Overlay X offset"
-msgstr ""
+msgstr "X-forskydning for overlægning"
 
 #: src/ui/classic/theme.h:54
 msgid "Overlay Y offset"
-msgstr ""
+msgstr "Y-forskydning for overlægning"
 
 #: src/ui/classic/theme.h:52
 msgid "Overlay position"
-msgstr ""
+msgstr "Placering for overlægning"
 
 #: data/fcitx5-diagnose.sh:956
 msgid "Owner of DBus name ${1} is ${2}."
@@ -1659,7 +1659,7 @@ msgstr "Forrige kandidat"
 
 #: src/ui/classic/theme.h:100
 msgid "Prev Page Button"
-msgstr ""
+msgstr "Knap for forrige knap"
 
 #: src/lib/fcitx-utils/key.cpp:217
 msgctxt "Key name"
@@ -1820,7 +1820,7 @@ msgstr "Send"
 
 #: src/ui/classic/theme.h:116
 msgid "Separator Background"
-msgstr ""
+msgstr "Baggrund for separator"
 
 #: src/lib/fcitx/globalconfig.cpp:118
 msgid "Share Input State"
@@ -1846,7 +1846,7 @@ msgstr "Vis inputmetodeinformation når der skiftes inputmetode"
 
 #: src/modules/notificationitem/notificationitem.h:26
 msgid "Show label when using keyboard or icon unavailable"
-msgstr ""
+msgstr "Vis etiket når tastaturet er i brug eller ikon er utilgængeligt"
 
 #: src/lib/fcitx/globalconfig.cpp:53
 msgid "Skip first input method while enumerating"
@@ -1864,7 +1864,7 @@ msgstr "Mellemrum"
 
 #: src/ui/classic/theme.h:80 src/ui/classic/theme.h:110
 msgid "Spacing"
-msgstr ""
+msgstr "Afstand"
 
 #: src/modules/spell/spell.conf.in:3
 msgid "Spell"
@@ -2053,7 +2053,7 @@ msgstr "Rejse"
 
 #: src/ui/classic/theme.h:133
 msgid "Tray Font"
-msgstr ""
+msgstr "Skrifttype for bakke"
 
 #: src/lib/fcitx/globalconfig.cpp:23
 msgid "Trigger Input Method"
@@ -2107,7 +2107,7 @@ msgstr "Brug pr. skærm DPI"
 
 #: src/ui/classic/theme.h:85
 msgid "Use all horizontal space for highlight when it is vertical list"
-msgstr ""
+msgstr "Brug al vandret plads til fremhævning når det er en lodret liste"
 
 #: src/ui/classic/classicui.h:80
 msgid "Use mouse wheel to go to prev or next page"
