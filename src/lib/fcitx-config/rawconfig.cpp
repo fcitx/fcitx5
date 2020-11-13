@@ -82,7 +82,7 @@ public:
     const_iterator cend() const noexcept { return order_.end(); }
 
     template <typename... _Args>
-    std::pair<iterator, bool> emplace(_Args &&... __args) {
+    std::pair<iterator, bool> emplace(_Args &&...__args) {
         order_.emplace_back(std::forward<_Args>(__args)...);
         auto iter = std::prev(order_.end());
         auto mapResult = map_.emplace(iter->first, iter);

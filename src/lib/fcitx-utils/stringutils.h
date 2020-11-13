@@ -130,7 +130,7 @@ inline std::string join(std::initializer_list<C> &&container, T &&delim) {
 }
 
 template <typename... Args>
-std::string concat(const Args &... args) {
+std::string concat(const Args &...args) {
     using namespace ::fcitx::stringutils::details;
     return concatPieces({static_cast<const UniversalPiece &>(
                              details::UniversalPieceHelper<Args>::forward(args))
@@ -138,7 +138,7 @@ std::string concat(const Args &... args) {
 }
 
 template <typename FirstArg, typename... Args>
-std::string joinPath(const FirstArg &firstArg, const Args &... args) {
+std::string joinPath(const FirstArg &firstArg, const Args &...args) {
     using namespace ::fcitx::stringutils::details;
     return concatPathPieces(
         {static_cast<const UniversalPiece &>(

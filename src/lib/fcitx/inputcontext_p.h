@@ -40,7 +40,7 @@ public:
     }
 
     template <typename E, typename... Args>
-    bool emplaceEvent(Args &&... args) {
+    bool emplaceEvent(Args &&...args) {
         if (destroyed_) {
             return true;
         }
@@ -51,7 +51,7 @@ public:
     }
 
     template <typename E, typename... Args>
-    void pushEvent(Args &&... args) {
+    void pushEvent(Args &&...args) {
         if (destroyed_) {
             return;
         }

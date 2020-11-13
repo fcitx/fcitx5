@@ -27,7 +27,7 @@ public:
     FCITX_INLINE_DEFINE_DEFAULT_DTOR_AND_MOVE(HandlerTable)
 
     template <typename... Args>
-    FCITX_NODISCARD std::unique_ptr<HandlerTableEntry<T>> add(Args &&... args) {
+    FCITX_NODISCARD std::unique_ptr<HandlerTableEntry<T>> add(Args &&...args) {
         auto result = std::make_unique<ListHandlerTableEntry<T>>(
             std::forward<Args>(args)...);
         handlers_.push_back(*result);

@@ -37,7 +37,7 @@ struct DBusStruct {
         typename = typename std::enable_if_t<
             sizeof...(Elements) != 0 ||
             !std::is_same<typename std::decay_t<Element>, DBusStruct>::value>>
-    DBusStruct(Element &&ele, Elements &&... elements)
+    DBusStruct(Element &&ele, Elements &&...elements)
         : data_(std::forward<Element>(ele),
                 std::forward<Elements>(elements)...) {}
 
