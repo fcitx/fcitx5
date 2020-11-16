@@ -711,7 +711,7 @@ Instance::Instance(int argc, char **argv) {
         }));
 
     d->eventWatchers_.emplace_back(watchEvent(
-        EventType::InputContextKeyEvent, EventWatcherPhase::PreInputMethod,
+        EventType::InputContextKeyEvent, EventWatcherPhase::InputMethod,
         [this, d](Event &event) {
             auto &keyEvent = static_cast<KeyEvent &>(event);
             auto *ic = keyEvent.inputContext();
