@@ -1510,7 +1510,8 @@ check_modules() {
         fi
         type=$(get_from_config_file "${file}" Type)
         if [[ -z $type ]] || [[ $type = SharedLibrary ]]; then
-            addon_file["${name}"]="$(get_from_config_file "${file}" Library)"
+            addon_file_name="$(get_from_config_file "${file}" Library)"
+            addon_file["${name}"]="${addon_file_name/export:/}"
         fi
     done
     increase_cur_level 1
