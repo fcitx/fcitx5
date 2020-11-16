@@ -1191,25 +1191,31 @@ check_qt() {
     for file in "${qt_modules[@]}"; do
         basename=$(basename "${file}")
         __need_blank_line=0
+        qt_version=qt
+        if [[ $file =~ qt5 ]]; then
+            qt_version=qt5
+        elif [[ $file =~ qt6 ]]; then
+            qt_version=qt6
+        fi
+
         if [[ ${basename} =~ im-fcitx5 ]] &&
             [[ ${file} =~ plugins/inputmethods ]]; then
             write_eval "$(_ 'Found ${3} im module for ${2}: ${1}.')" \
-                "$(code_inline "${file}")" Qt4 fcitx5
+                "$(code_inline "${file}")" qt4 fcitx5
             qt4_module_found=1
         elif [[ ${basename} =~ fcitx5platforminputcontextplugin ]] &&
             [[ ${file} =~ plugins/platforminputcontexts ]]; then
             write_eval "$(_ 'Found ${3} im module for ${2}: ${1}.')" \
-                "$(code_inline "${file}")" Qt5 fcitx5
-            qt5_module_found=1
-        elif [[ ${file} =~ /fcitx5/qt/ ]]; then
+                "$(code_inline "${file}")" ${qt_version} fcitx5
+            if [[ ${qt_version} != "qt6" ]]; then
+                qt5_module_found=1
+            fi
+        elif [[ ${file} =~ /fcitx5/qt ]]; then
             write_eval "$(_ 'Found ${1} ${2} module: ${3}.')" \
-                        fcitx5 qt4 "$(code_inline "${file}")"
-        elif [[ ${file} =~ /fcitx5/qt5/ ]]; then
-            write_eval "$(_ 'Found ${1} ${2} module: ${3}.')" \
-                        fcitx5 qt5 "$(code_inline "${file}")"
+                        fcitx5 ${qt_version} "$(code_inline "${file}")"
         else
             write_eval "$(_ 'Found unknown ${1} qt module: ${2}.')" \
-                       fcitx5 \
+                       fcitx \
                        "$(code_inline "${file}")"
         fi
     done
