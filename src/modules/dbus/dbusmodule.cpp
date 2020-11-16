@@ -179,6 +179,14 @@ public:
         instance_->inputMethodManager().removeGroup(group);
     }
 
+    void switchInputMethodGroup(const std::string &group) {
+        instance_->inputMethodManager().setCurrentGroup(group);
+    }
+
+    std::string currentInputMethodGroup() {
+        return instance_->inputMethodManager().currentGroup().name();
+    }
+
     std::tuple<dbus::Variant, DBusConfig> getConfig(const std::string &uri) {
         std::tuple<dbus::Variant, DBusConfig> result;
         if (uri == globalConfigPath) {
@@ -481,6 +489,10 @@ private:
                                "");
     FCITX_OBJECT_VTABLE_METHOD(removeInputMethodGroup, "RemoveInputMethodGroup",
                                "s", "");
+    FCITX_OBJECT_VTABLE_METHOD(switchInputMethodGroup, "SwitchInputMethodGroup",
+                               "s", "");
+    FCITX_OBJECT_VTABLE_METHOD(currentInputMethodGroup,
+                               "CurrentInputMethodGroup", "", "s");
     FCITX_OBJECT_VTABLE_METHOD(availableInputMethods, "AvailableInputMethods",
                                "", "a(ssssssb)");
     FCITX_OBJECT_VTABLE_METHOD(inputMethodGroupInfo, "InputMethodGroupInfo",
