@@ -202,7 +202,31 @@ struct InstanceArgument {
     static void printVersion() {
         std::cout << FCITX_VERSION_STRING << std::endl;
     }
-    void printUsage() {}
+    void printUsage() {
+        std::cout
+            << "Usage: " << argv0 << " [Option]\n"
+            << "  --disable <addon names>\tA comma separated list of addons to "
+               "be disabled.\n"
+            << "\t\t\t\t\"all\" can be used to disable all addons.\n"
+            << "  --enable <addon names>\tA comma separated list of addons to "
+               "be enabled.\n"
+            << "\t\t\t\t\"all\" can be used to enable all addons.\n"
+            << "\t\t\t\tThis value will override the value in the flag "
+               "--disable.\n"
+            << "  --verbose <logging rule>\tSet the logging rule for "
+               "displaying message.\n"
+            << "\t\t\t\tE.g. category1=level1,category2=level2\n"
+            << "\t\t\t\t\"*\" may be used to represent all logging category.\n"
+            << "  -u, --ui <addon name>\t\tSet the UI addon to be used.\n"
+            << "  -d\t\t\t\tRun as a daemon.\n"
+            << "  -D\t\t\t\tDo not run as a daemon (default).\n"
+            << "  -s <seconds>\t\t\tNumber of seconds to wait before start.\n"
+            << "  -k, --keep\t\t\tKeep running even the main display is "
+               "disconnected.\n"
+            << "  -r, --replace\t\t\tReplace the existing instance.\n"
+            << "  -v, --version\t\t\tShow version and quit.\n"
+            << "  -h, --help\t\t\tShow this help message and quit.\n";
+    }
 
     int overrideDelay = -1;
     bool tryReplace = false;
@@ -212,6 +236,7 @@ struct InstanceArgument {
     std::string uiName;
     std::vector<std::string> enableList;
     std::vector<std::string> disableList;
+    std::string argv0;
 };
 
 class InstancePrivate : public QPtrHolder<Instance> {
@@ -1092,6 +1117,11 @@ Instance::~Instance() {
 }
 
 void InstanceArgument::parseOption(int argc, char **argv) {
+    if (argc >= 1) {
+        argv0 = argv[0];
+    } else {
+        argv0 = "fcitx5";
+    }
     struct option longOptions[] = {{"enable", required_argument, nullptr, 0},
                                    {"disable", required_argument, nullptr, 0},
                                    {"verbose", required_argument, nullptr, 0},

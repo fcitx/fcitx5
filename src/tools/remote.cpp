@@ -15,7 +15,7 @@ using namespace fcitx;
 using namespace fcitx::dbus;
 
 void usage(std::ostream &stream) {
-    stream << "Usage: fcitx-remote [OPTION]\n"
+    stream << "Usage: fcitx5-remote [OPTION]\n"
               "\t-c\t\tinactivate input method\n"
               "\t-o\t\tactivate input method\n"
               "\t-r\t\treload fcitx config\n"
