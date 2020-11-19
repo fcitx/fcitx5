@@ -21,6 +21,7 @@ include(src/lib/fcitx-utils/Fcitx5Macros.cmake)
 #######################################################################
 option(ENABLE_TEST "Build Test" On)
 option(ENABLE_COVERAGE "Build the project with gcov support (Need ENABLE_TEST=On)" Off)
+set(GCOV_TOOL "gcov" CACHE STRING "Path to gcov tool used by coverage.")
 set(DEFAULT_XKB_RULES "evdev" CACHE STRING "Xkb rules name")
 option(ENABLE_ENCHANT "Enable enchant for word predication" On)
 option(ENABLE_PRESAGE "Enable presage for word predication" Off)
@@ -153,7 +154,7 @@ if (ENABLE_TEST)
     if (ENABLE_COVERAGE)
         add_custom_target(coverage
                         COMMAND "${CMAKE_CTEST_COMMAND}"
-                        COMMAND lcov --no-external --capture --directory ./ -b "${CMAKE_CURRENT_SOURCE_DIR}" --output-file coverage.info
+                        COMMAND lcov --gcov-tool "${GCOV_TOOL}" --no-external --capture --directory ./ -b "${CMAKE_CURRENT_SOURCE_DIR}" --output-file coverage.info
                         COMMAND genhtml coverage.info --output-directory "coverage_pages"
                         WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR})
     endif()
