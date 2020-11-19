@@ -24,7 +24,7 @@ private:
     void initPointer();
     std::unique_ptr<wayland::WlPointer> pointer_;
     TrackableObjectReference<WaylandWindow> focus_;
-    int focusX_, focusY_;
+    int focusX_ = 0, focusY_ = 0;
     ScopedConnection capConn_;
 };
 
