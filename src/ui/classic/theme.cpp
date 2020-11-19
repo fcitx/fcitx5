@@ -518,7 +518,7 @@ void Theme::paint(cairo_t *c, const BackgroundImageConfig &cfg, int width,
     case Gravity::TopRight:
     case Gravity::CenterRight:
     case Gravity::BottomRight:
-        x = width - image.overlayWidth() - *cfg.overlayOffsetY;
+        x = width - image.overlayWidth() - *cfg.overlayOffsetX;
         break;
     }
     switch (*cfg.gravity) {
