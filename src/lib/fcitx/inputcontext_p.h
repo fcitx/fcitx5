@@ -147,7 +147,7 @@ public:
     bool isPreeditEnabled_ = true;
     SurroundingText surroundingText_;
     Rect cursorRect_;
-    double scale_;
+    double scale_ = 1.0;
 
     IntrusiveListNode listNode_;
     IntrusiveListNode focusedListNode_;
