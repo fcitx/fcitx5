@@ -6,7 +6,7 @@ if (TARGET PkgConfig::Enchant)
 endif()
 
 add_subdirectory(dict)
-add_library(spell MODULE spell.cpp spell-enchant.cpp spell-custom-dict.cpp spell-custom.cpp)
+add_library(spell MODULE ${SPELL_SOURCES})
 target_link_libraries(spell Fcitx5::Core)
 if (TARGET PkgConfig::Enchant)
     target_link_libraries(spell PkgConfig::Enchant)
