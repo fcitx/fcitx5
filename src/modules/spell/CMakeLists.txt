@@ -1,3 +1,10 @@
+set(SPELL_SOURCES
+    spell.cpp spell-custom-dict.cpp spell-custom.cpp)
+
+if (TARGET PkgConfig::Enchant)
+    set(SPELL_SOURCES ${SPELL_SOURCES} spell-enchant.cpp)
+endif()
+
 add_subdirectory(dict)
 add_library(spell MODULE spell.cpp spell-enchant.cpp spell-custom-dict.cpp spell-custom.cpp)
 target_link_libraries(spell Fcitx5::Core)
