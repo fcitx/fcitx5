@@ -133,7 +133,7 @@ public:
     }
 
     template <typename CandidateWordType, typename... Args>
-    void append(Args &&... args) {
+    void append(Args &&...args) {
         append(
             std::make_unique<CandidateWordType>(std::forward<Args>(args)...));
     }

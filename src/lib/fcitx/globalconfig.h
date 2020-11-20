@@ -40,6 +40,7 @@ public:
     bool showInputMethodInformation() const;
     bool showInputMethodInformationWhenFocusIn() const;
     PropertyPropagatePolicy shareInputState() const;
+    bool preeditEnabledByDefault() const;
 
     const KeyList &defaultPrevPage() const;
     const KeyList &defaultNextPage() const;

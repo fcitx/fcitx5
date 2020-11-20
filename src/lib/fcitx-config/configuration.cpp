@@ -70,7 +70,7 @@ void Configuration::copyHelper(const Configuration &other) {
         auto optionIter = d->options_.find(path);
         assert(optionIter != d->options_.end());
         auto otherOptionIter = other.d_func()->options_.find(path);
-        assert(otherOptionIter != d->options_.end());
+        assert(otherOptionIter != other.d_func()->options_.end());
         optionIter->second->copyFrom(*otherOptionIter->second);
     }
 }

@@ -20,7 +20,7 @@ namespace fcitx {
 template <typename Ret, typename... Args>
 class Invoker {
 public:
-    Invoker(Args &... args) : args_(args...) {}
+    Invoker(Args &...args) : args_(args...) {}
 
     template <typename Func>
     Ret operator()(Func &func) {

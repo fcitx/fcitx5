@@ -103,7 +103,7 @@ struct ReturnValueHelper<void> {
                 auto watcher = static_cast<ObjectVTableBase *>(this)->watch(); \
                 FCITX_STRING_TO_DBUS_TUPLE(SIGNATURE) args;                    \
                 msg >> args;                                                   \
-                auto func = [](auto that, auto &&... args) {                   \
+                auto func = [](auto that, auto &&...args) {                    \
                     return that->FUNCTION(                                     \
                         std::forward<decltype(args)>(args)...);                \
                 };                                                             \
@@ -139,14 +139,14 @@ struct ReturnValueHelper<void> {
                                                      SIGNATURE};               \
     typedef FCITX_STRING_TO_DBUS_TUPLE(SIGNATURE) SIGNAL##ArgType;             \
     template <typename... Args>                                                \
-    void SIGNAL(Args &&... args) {                                             \
+    void SIGNAL(Args &&...args) {                                              \
         auto msg = SIGNAL##Signal.createSignal();                              \
         SIGNAL##ArgType tupleArg{std::forward<Args>(args)...};                 \
         msg << tupleArg;                                                       \
         msg.send();                                                            \
     }                                                                          \
     template <typename... Args>                                                \
-    void SIGNAL##To(const std::string &dest, Args &&... args) {                \
+    void SIGNAL##To(const std::string &dest, Args &&...args) {                 \
         auto msg = SIGNAL##Signal.createSignal();                              \
         msg.setDestination(dest);                                              \
         SIGNAL##ArgType tupleArg{std::forward<Args>(args)...};                 \

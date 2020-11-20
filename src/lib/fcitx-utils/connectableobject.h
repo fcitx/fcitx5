@@ -89,13 +89,13 @@ protected:
     void destroy();
 
     template <typename SignalType, typename... Args>
-    auto emit(Args &&... args) {
+    auto emit(Args &&...args) {
         return std::as_const(*this).emit<SignalType>(
             std::forward<Args>(args)...);
     }
 
     template <typename SignalType, typename... Args>
-    auto emit(Args &&... args) const {
+    auto emit(Args &&...args) const {
         auto signal = findSignal(SignalType::signature::data());
         return (*static_cast<Signal<typename SignalType::signalType> *>(
             signal))(std::forward<Args>(args)...);

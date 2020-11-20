@@ -50,6 +50,9 @@ public:
     InputContext *lastFocusedInputContext();
     InputContext *mostRecentInputContext();
 
+    void setPreeditEnabledByDefault(bool enable);
+    bool isPreeditEnabledByDefault() const;
+
 private:
     void finalize();
 

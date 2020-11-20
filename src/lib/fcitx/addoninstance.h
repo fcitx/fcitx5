@@ -91,14 +91,14 @@ public:
 
     template <typename Signature, typename... Args>
     typename std::function<Signature>::result_type
-    callWithSignature(const std::string &name, Args &&... args) {
+    callWithSignature(const std::string &name, Args &&...args) {
         auto *adaptor = findCall(name);
         auto erasureAdaptor =
             static_cast<AddonFunctionAdaptorErasure<Signature> *>(adaptor);
         return erasureAdaptor->callback(std::forward<Args>(args)...);
     }
     template <typename MetaSignatureString, typename... Args>
-    auto callWithMetaString(Args &&... args) {
+    auto callWithMetaString(Args &&...args) {
         return callWithSignature<
             AddonFunctionSignatureType<MetaSignatureString>>(
             MetaSignatureString::data(), std::forward<Args>(args)...);
@@ -106,7 +106,7 @@ public:
 
     /// Call an exported function for this addon.
     template <typename MetaType, typename... Args>
-    auto call(Args &&... args) {
+    auto call(Args &&...args) {
         return callWithSignature<typename MetaType::Signature>(
             MetaType::Name::data(), std::forward<Args>(args)...);
     }

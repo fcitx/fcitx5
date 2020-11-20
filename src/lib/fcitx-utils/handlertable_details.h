@@ -31,7 +31,7 @@ class HandlerTableEntry : public HandlerTableEntryBase {
 
 public:
     template <typename... Args>
-    HandlerTableEntry(Args &&... args)
+    HandlerTableEntry(Args &&...args)
         : handler_(std::make_shared<std::unique_ptr<T>>(
               std::make_unique<T>(std::forward<Args>(args)...))) {}
     virtual ~HandlerTableEntry() { handler_->reset(); }
@@ -54,7 +54,7 @@ public:
         node_getter_type;
 
     template <typename... Args>
-    ListHandlerTableEntry(Args &&... args)
+    ListHandlerTableEntry(Args &&...args)
         : HandlerTableEntry<T>(std::forward<Args>(args)...) {}
     virtual ~ListHandlerTableEntry() { node_.remove(); }
 };

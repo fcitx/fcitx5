@@ -24,7 +24,8 @@ public:
     InputContextPrivate(InputContext *q, InputContextManager &manager,
                         const std::string &program)
         : QPtrHolder(q), manager_(manager), group_(nullptr), inputPanel_(q),
-          statusArea_(q), hasFocus_(false), program_(program) {
+          statusArea_(q), program_(program),
+          isPreeditEnabled_(manager.isPreeditEnabledByDefault()) {
         uuid_generate(uuid_.data());
     }
 
@@ -40,7 +41,7 @@ public:
     }
 
     template <typename E, typename... Args>
-    bool emplaceEvent(Args &&... args) {
+    bool emplaceEvent(Args &&...args) {
         if (destroyed_) {
             return true;
         }
@@ -51,7 +52,7 @@ public:
     }
 
     template <typename E, typename... Args>
-    void pushEvent(Args &&... args) {
+    void pushEvent(Args &&...args) {
         if (destroyed_) {
             return;
         }
@@ -146,7 +147,7 @@ public:
     bool isPreeditEnabled_ = true;
     SurroundingText surroundingText_;
     Rect cursorRect_;
-    double scale_;
+    double scale_ = 1.0;
 
     IntrusiveListNode listNode_;
     IntrusiveListNode focusedListNode_;

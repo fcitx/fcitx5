@@ -139,19 +139,6 @@ __conf_dir_init() {
 }
 __conf_dir_init
 
-get_config_dir() {
-    local default_name="$2"
-    local path
-    for path in "/usr/share/fcitx5/${default_name}" \
-        "/usr/local/share/fcitx5/${default_name}"; do
-        [ ! -z "${path}" ] && [ -d "${path}" ] && {
-            echo "${path}"
-            return 0
-        }
-    done 2> /dev/null
-    return 1
-}
-
 get_from_config_file() {
     local file="$1"
     local key="$2"
@@ -745,7 +732,7 @@ fcitx_lib_path=()
 init_fcitx_lib_path() {
     local path
     local __fcitx_lib_path
-    fcitx_lib_path=(/usr/lib/fcitx5/ /usr/local/lib/fcitx5/)
+    fcitx_lib_path=(/usr/lib/fcitx5/ /usr/local/lib/fcitx5/ '@FCITX_INSTALL_ADDONDIR@')
 }
 init_fcitx_lib_path
 
@@ -1204,25 +1191,31 @@ check_qt() {
     for file in "${qt_modules[@]}"; do
         basename=$(basename "${file}")
         __need_blank_line=0
+        qt_version=qt
+        if [[ $file =~ qt5 ]]; then
+            qt_version=qt5
+        elif [[ $file =~ qt6 ]]; then
+            qt_version=qt6
+        fi
+
         if [[ ${basename} =~ im-fcitx5 ]] &&
             [[ ${file} =~ plugins/inputmethods ]]; then
             write_eval "$(_ 'Found ${3} im module for ${2}: ${1}.')" \
-                "$(code_inline "${file}")" Qt4 fcitx5
+                "$(code_inline "${file}")" qt4 fcitx5
             qt4_module_found=1
         elif [[ ${basename} =~ fcitx5platforminputcontextplugin ]] &&
             [[ ${file} =~ plugins/platforminputcontexts ]]; then
             write_eval "$(_ 'Found ${3} im module for ${2}: ${1}.')" \
-                "$(code_inline "${file}")" Qt5 fcitx5
-            qt5_module_found=1
-        elif [[ ${file} =~ /fcitx5/qt/ ]]; then
+                "$(code_inline "${file}")" ${qt_version} fcitx5
+            if [[ ${qt_version} != "qt6" ]]; then
+                qt5_module_found=1
+            fi
+        elif [[ ${file} =~ /fcitx5/qt ]]; then
             write_eval "$(_ 'Found ${1} ${2} module: ${3}.')" \
-                        fcitx5 qt4 "$(code_inline "${file}")"
-        elif [[ ${file} =~ /fcitx5/qt5/ ]]; then
-            write_eval "$(_ 'Found ${1} ${2} module: ${3}.')" \
-                        fcitx5 qt5 "$(code_inline "${file}")"
+                        fcitx5 ${qt_version} "$(code_inline "${file}")"
         else
             write_eval "$(_ 'Found unknown ${1} qt module: ${2}.')" \
-                       fcitx5 \
+                       fcitx \
                        "$(code_inline "${file}")"
         fi
     done
@@ -1468,13 +1461,9 @@ check_gtk() {
 #############################
 
 check_modules() {
-    local addon_conf_dir
     write_title 2 "$(_ 'Fcitx Addons:')"
     write_order_list "$(_ 'Addon Config Dir:')"
-    addon_conf_dir="$(get_config_dir addonconfigdir addon)" || {
-        write_error "$(_ 'Cannot find ${1} addon config directory.')" fcitx5
-        return
-    }
+    local addon_conf_dir='@FCITX_INSTALL_PKGDATADIR@/addon'
     local enabled_addon=()
     local disabled_addon=()
     local enabled_ui_name=()
@@ -1488,6 +1477,10 @@ check_modules() {
     local addon_name
     declare -A addon_file
     declare -A disabled_addon_config
+    if [ ! -d "${addon_conf_dir}" ]; then
+      write_error_eval "$(_ 'Cannot find ${1} addon config directory.')" fcitx5
+      return
+    fi
     write_eval "$(_ 'Found ${1} addon config directory: ${2}.')" \
                fcitx5 "$(code_inline "${addon_conf_dir}")"
     if [[ -f "${fx_conf_home}/config" ]]; then
@@ -1523,7 +1516,8 @@ check_modules() {
         fi
         type=$(get_from_config_file "${file}" Type)
         if [[ -z $type ]] || [[ $type = SharedLibrary ]]; then
-            addon_file["${name}"]="$(get_from_config_file "${file}" Library)"
+            addon_file_name="$(get_from_config_file "${file}" Library)"
+            addon_file["${name}"]="${addon_file_name/export:/}"
         fi
     done
     increase_cur_level 1

@@ -174,6 +174,7 @@ public:
     PropertyPropagatePolicy propertyPropagatePolicy_ =
         PropertyPropagatePolicy::No;
     bool finalized_ = false;
+    bool preeditEnabledByDefault_ = true;
 };
 
 #define DEFINE_LIST_HELPERS(HELPERTYPE, TYPE, MEMBER)                          \
@@ -399,5 +400,15 @@ InputContext *InputContextManager::mostRecentInputContext() {
         return ic;
     }
     return d->mostRecentInputContext_.get();
+}
+
+void InputContextManager::setPreeditEnabledByDefault(bool enable) {
+    FCITX_D();
+    d->preeditEnabledByDefault_ = enable;
+}
+
+bool InputContextManager::isPreeditEnabledByDefault() const {
+    FCITX_D();
+    return d->preeditEnabledByDefault_;
 }
 } // namespace fcitx
