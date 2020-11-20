@@ -35,7 +35,7 @@ public:
     int error() const { return errno_; }
 
 private:
-    int errno_;
+    int errno_ = 0;
 };
 
 struct FCITXUTILS_EXPORT EventSource {
