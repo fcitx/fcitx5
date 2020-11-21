@@ -12,7 +12,9 @@
 #include "fcitx/addonmanager.h"
 #include "config.h"
 #include "spell-custom.h"
+#ifdef ENABLE_ENCHANT
 #include "spell-enchant.h"
+#endif
 
 namespace fcitx {
 
