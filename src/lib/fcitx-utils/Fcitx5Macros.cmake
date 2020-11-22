@@ -158,7 +158,7 @@ function(fcitx5_install_translation domain)
         DEPENDS ${ABS_PO_FILE}
     )
 
-    install(FILES ${MO_FILE} RENAME ${domain}.mo DESTINATION share/locale/${PO_LANG}/LC_MESSAGES)
+    install(FILES ${MO_FILE} RENAME ${domain}.mo DESTINATION ${FCITX_INSTALL_LOCALEDIR}/${PO_LANG}/LC_MESSAGES)
     set(MO_FILES ${MO_FILES} ${MO_FILE})
   endforeach ()
   add_custom_target("${domain}-translation" ALL DEPENDS ${MO_FILES})
