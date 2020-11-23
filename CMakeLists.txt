@@ -29,6 +29,19 @@ option(ENABLE_WAYLAND "Enable wayland support" On)
 option(ENABLE_DOC "Build doxygen" Off)
 option(USE_SYSTEMD "Use systemd for event loop and dbus, will fallback to libevent/libdbus if not found." On)
 option(ENABLE_XDGAUTOSTART "Enable xdg autostart desktop file installation" On)
+set(CLDR_DIR "" CACHE STRING "Unicode CLDR (Common Locale Data Repository) directory")
+
+if (CLDR_DIR STREQUAL "")
+    if (IS_DIRECTORY "${CMAKE_INSTALL_FULL_DATADIR}/unicode/cldr")
+        set(CLDR_DIR "${CMAKE_INSTALL_FULL_DATADIR}/unicode/cldr")
+    else(IS_DIRECTORY "/usr/share/unicode/cldr")
+        set(CLDR_DIR "/usr/share/unicode/cldr")
+    endif()
+endif()
+
+if (NOT IS_DIRECTORY "${CLDR_DIR}")
+    message(FATAL_ERROR "Could not find Unicode CLDR directory")
+endif()
 
 #######################################################################
 # Find packages
@@ -73,7 +86,6 @@ pkg_check_modules(CairoXCB IMPORTED_TARGET cairo-xcb)
 pkg_check_modules(Pango IMPORTED_TARGET pango pangocairo)
 pkg_check_modules(GdkPixbuf IMPORTED_TARGET gdk-pixbuf-2.0)
 pkg_check_modules(GioUnix IMPORTED_TARGET gio-unix-2.0)
-pkg_check_modules(CldrEmojiAnnotation REQUIRED IMPORTED_TARGET cldr-emoji-annotation)
 
 if (ENABLE_WAYLAND)
     find_package(Wayland REQUIRED COMPONENTS Client Egl)
@@ -106,10 +118,14 @@ else()
     set(WAYLAND_FOUND FALSE)
 endif()
 
+if (NOT EXISTS "${CLDR_DIR}")
+  message(FATAL_ERROR "Could not find Unicode CLDR directory: ${CLDR_DIR}")
+endif()
+
 set(DEFAULT_XKB_RULES_FILES "${XKEYBOARDCONFIG_XKBBASE}/rules/${DEFAULT_XKB_RULES}.xml")
 if (NOT EXISTS "${DEFAULT_XKB_RULES_FILES}")
-message(FATAL_ERROR "Could not find default xkb rules file: ${DEFAULT_XKB_RULES_FILES}")
-endif ()
+  message(FATAL_ERROR "Could not find default xkb rules file: ${DEFAULT_XKB_RULES_FILES}")
+endif()
 
 # directory needed by bsd
 if(NOT CMAKE_INSTALL_LIBDATADIR)

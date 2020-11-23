@@ -126,7 +126,7 @@ bool noSpace(const std::string &str) {
 
 const EmojiMap *Emoji::loadEmoji(const std::string &language,
                                  bool fallbackToEn) {
-    // This is to match the file in cldr-emoji-annotation.
+    // This is to match the file in CLDR.
     static const std::unordered_map<std::string, std::string> languageMap = {
         {"zh_TW", "zh_Hant"}, {"zh_CN", "zh"}, {"zh_HK", "zh_Hant_HK"}};
 
@@ -172,10 +172,8 @@ const EmojiMap *Emoji::loadEmoji(const std::string &language,
                               return utf8::lengthValidated(str) > 2;
                           }}};
         const auto *filter = findValue(filterMap, lang);
-        const auto file =
-            stringutils::joinPath(CLDR_EMOJI_ANNOTATION_PREFIX,
-                                  "/share/unicode/cldr/common/annotations",
-                                  stringutils::concat(lang, ".xml"));
+        const auto file = stringutils::joinPath(
+            CLDR_DIR, "/common/annotations", stringutils::concat(lang, ".xml"));
         EmojiParser parser(filter ? *filter : nullptr);
         if (parser.parse(file)) {
             emojiMap = &(langToEmojiMap_[lang] = std::move(parser.emojiMap_));
