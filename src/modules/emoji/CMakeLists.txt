@@ -1,4 +1,4 @@
-if (NOT IS_DIRECTORY ${CldrEmojiAnnotation_PREFIX}/share/unicode/cldr/common/annotations)
+if ("${CLDR_DIR}" STREQUAL "" OR NOT IS_DIRECTORY "${CLDR_DIR}/common/annotations")
     return()
 endif()
 

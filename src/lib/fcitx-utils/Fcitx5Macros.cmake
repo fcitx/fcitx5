@@ -158,9 +158,33 @@ function(fcitx5_install_translation domain)
         DEPENDS ${ABS_PO_FILE}
     )
 
-    install(FILES ${MO_FILE} RENAME ${domain}.mo DESTINATION share/locale/${PO_LANG}/LC_MESSAGES)
+    install(FILES ${MO_FILE} RENAME ${domain}.mo DESTINATION ${FCITX_INSTALL_LOCALEDIR}/${PO_LANG}/LC_MESSAGES)
     set(MO_FILES ${MO_FILES} ${MO_FILE})
   endforeach ()
   add_custom_target("${domain}-translation" ALL DEPENDS ${MO_FILES})
 
+endfunction()
+
+function(fcitx5_add_i18n_definition)
+  set(options)
+  set(one_value_args LOCALE_INSTALL_DIR)
+  set(multi_value_args TARGETS)
+  cmake_parse_arguments(FCITX5_AID
+    "${options}" "${one_value_args}" "${multi_value_args}" ${ARGN})
+
+  if (FCITX5_AID_LOCALE_INSTALL_DIR)
+    set(_LOCALE_DIR "${FCITX5_AID_LOCALE_INSTALL_DIR}")
+  else()
+    set(_LOCALE_DIR "${FCITX_INSTALL_LOCALEDIR}")
+  endif()
+  string(CONFIGURE ${_LOCALE_DIR} LOCALE_DIR ESCAPE_QUOTES)
+
+  if(FCITX5_AID_TARGETS)
+    message(${FCITX5_AID_TARGETS})
+    foreach(TARGET_NAME IN LISTS FCITX5_AID_TARGETS)
+        target_compile_definitions(${TARGET_NAME} PRIVATE -DFCITX_INSTALL_LOCALEDIR=\"${LOCALE_DIR}\")
+    endforeach()
+  else()
+    add_definitions(-DFCITX_INSTALL_LOCALEDIR=\"${LOCALE_DIR}\")
+  endif()
 endfunction()
