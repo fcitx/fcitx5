@@ -1,4 +1,4 @@
-if ("${CLDR_DIR}" STREQUAL "" OR NOT IS_DIRECTORY "${CLDR_DIR}/common/annotations")
+if (NOT ENABLE_EMOJI)
     return()
 endif()
 
