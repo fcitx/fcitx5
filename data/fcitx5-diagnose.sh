@@ -1148,11 +1148,11 @@ _check_toolkit_env() {
         [ -z "${!env_name}" ] || break
     done
     if [ -z "${!env_name}" ]; then
-        set_env_link "${env_name}" 'fcitx'
-    elif [ "${!env_name}" = 'fcitx' ]; then
-        _env_correct "${env_name}" 'fcitx'
+        set_env_link "${env_name}" 'fcitx5'
+    elif [ "${!env_name}" = 'fcitx5' ]; then
+        _env_correct "${env_name}" 'fcitx5'
     else
-        _env_incorrect "${env_name}" 'fcitx' "${!env_name}"
+        _env_incorrect "${env_name}" 'fcitx5' "${!env_name}"
         __need_blank_line=0
         if [ "${!env_name}" = 'xim' ]; then
             write_error_eval "$(_ 'You are using xim in ${1} programs.')" \
@@ -1167,7 +1167,7 @@ _check_toolkit_env() {
                 gnome_36_link || __need_blank_line=1
             fi
         fi
-        set_env_link "${env_name}" 'fcitx'
+        set_env_link "${env_name}" 'fcitx5'
     fi
 }
 
