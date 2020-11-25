@@ -244,13 +244,6 @@ void Kimpanel::resume() {
             registerAllProperties(icEvent.inputContext());
             updateCurrentInputMethod(icEvent.inputContext());
         }));
-    eventHandlers_.emplace_back(
-        instance_->watchEvent(EventType::InputContextFocusOut,
-                              EventWatcherPhase::Default, [this](Event &) {
-                                  if (!instance_->lastFocusedInputContext()) {
-                                      proxy_->enable(false);
-                                  }
-                              }));
 }
 
 void Kimpanel::update(UserInterfaceComponent component,
