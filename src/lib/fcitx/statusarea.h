@@ -28,6 +28,8 @@ enum class StatusGroup {
     /// Action shown before input method group.
     BeforeInputMethod,
     /// Group should be solely used by input method engine.
+    /// It will be cleared automatically before InputMethodEngine::activate.
+    /// @see InputMethodEngine::activate
     InputMethod,
     /// Action shown after input method group.
     AfterInputMethod,

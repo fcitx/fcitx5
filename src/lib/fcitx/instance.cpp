@@ -1998,6 +1998,7 @@ void Instance::activateInputMethod(InputContextEvent &event) {
             xkb_state_update_mask(xkbState, 0, latched, locked, 0, 0, 0);
         }
     }
+    ic->statusArea().clearGroup(StatusGroup::InputMethod);
     engine->activate(*entry, event);
     postEvent(InputMethodActivatedEvent(entry->uniqueName(), ic));
 }
