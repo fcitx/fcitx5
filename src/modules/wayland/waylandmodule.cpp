@@ -13,6 +13,15 @@
 
 namespace fcitx {
 
+// Return false if XDG_SESSION_TYPE is set and is not wayland.
+bool isWaylandSession() {
+    const char *sessionType = getenv("XDG_SESSION_TYPE");
+    if (sessionType && std::string_view(sessionType) != "wayland") {
+        return false;
+    }
+    return true;
+}
+
 WaylandConnection::WaylandConnection(WaylandModule *wayland, const char *name)
     : parent_(wayland), name_(name ? name : "") {
     auto *display = wl_display_connect(name);
@@ -82,7 +91,8 @@ void WaylandModule::removeDisplay(const std::string &name) {
         onConnectionClosed(iter->second);
         conns_.erase(iter);
     }
-    if (name.empty() && instance_->exitWhenMainDisplayDisconnected()) {
+    if (name.empty() && instance_->exitWhenMainDisplayDisconnected() &&
+        isWaylandSession()) {
         instance_->exit();
     }
 }
