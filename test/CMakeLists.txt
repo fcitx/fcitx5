@@ -100,10 +100,12 @@ target_include_directories(testisocodes PRIVATE ../src)
 target_link_libraries(testisocodes Fcitx5::Core PkgConfig::JsonC)
 add_test(NAME testisocodes COMMAND testisocodes)
 
+if (TARGET Fcitx5::Module::Emoji)
 add_executable(testemoji testemoji.cpp)
 target_link_libraries(testemoji Fcitx5::Core Fcitx5::Module::Emoji)
 add_dependencies(testemoji emoji emoji.conf.in-fmt)
 add_test(NAME testemoji COMMAND testemoji)
+endif()
 
 add_executable(testunicode testunicode.cpp)
 target_link_libraries(testunicode Fcitx5::Core Fcitx5::Module::TestFrontend Fcitx5::Module::TestIM Pthread::Pthread)

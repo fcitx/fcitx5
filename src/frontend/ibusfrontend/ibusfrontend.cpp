@@ -135,7 +135,8 @@ std::pair<std::string, pid_t> getAddress(const std::string &socketPath) {
         if (const auto *pidValue = config.valueByPath("IBUS_DAEMON_PID")) {
             try {
                 pid = std::stoi(*pidValue);
-                if (kill(pid, 0) == 0 && pid != getpid()) {
+                // Check if PID exists.
+                if (pid == getpid() || kill(pid, 0) == 0) {
                     return {*value, pid};
                 }
             } catch (...) {
@@ -642,12 +643,19 @@ IBusFrontendModule::~IBusFrontendModule() {
         portalBus_->releaseName(IBUS_PORTAL_DBUS_SERVICE);
     }
 
-    if (!addressWrote_.empty()) {
-        for (const auto &path : socketPaths_) {
-            auto address = getAddress(path);
-            if (address.first == addressWrote_ && address.second == pidWrote_) {
-                unlink(path.c_str());
-            }
+    if (addressWrote_.empty()) {
+        return;
+    }
+    for (const auto &path : socketPaths_) {
+        auto address = getAddress(path);
+        if (address.first == addressWrote_ && address.second == pidWrote_) {
+            // Writeback an empty invalid address file.
+            RawConfig config;
+            config.setValueByPath("IBUS_ADDRESS", "");
+            config.setValueByPath("IBUS_DAEMON_PID", "");
+            StandardPath::global().safeSave(
+                StandardPath::Type::Config, path,
+                [&config](int fd) { return writeAsIni(config, fd); });
         }
     }
 }
@@ -660,7 +668,7 @@ void IBusFrontendModule::replaceIBus() {
     std::pair<std::string, pid_t> address;
     for (const auto &path : socketPaths_) {
         address = getAddress(path);
-        if (!address.first.empty()) {
+        if (!address.first.empty() && address.second != getpid()) {
             break;
         }
     }

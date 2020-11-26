@@ -25,11 +25,14 @@
 #include "fcitx/instance.h"
 #include "chardata.h"
 #include "config.h"
-#include "emoji_public.h"
 #include "notifications_public.h"
 #include "quickphrase_public.h"
 #include "spell_public.h"
 #include "xcb_public.h"
+
+#ifdef ENABLE_EMOJI
+#include "emoji_public.h"
+#endif
 
 const char imNamePrefix[] = "keyboard-";
 #define FCITX_KEYBOARD_MAX_BUFFER 20
@@ -486,10 +489,13 @@ private:
 };
 
 bool KeyboardEngine::supportHint(const std::string &language) {
-    bool hasSpell = spell() && spell()->call<ISpell::checkDict>(language);
-
-    bool hasEmoji = *config_.enableEmoji && emoji() &&
-                    emoji()->call<IEmoji::check>(language, true);
+    const bool hasSpell = spell() && spell()->call<ISpell::checkDict>(language);
+#ifdef ENABLE_EMOJI
+    const bool hasEmoji = *config_.enableEmoji && emoji() &&
+                          emoji()->call<IEmoji::check>(language, true);
+#else
+    const bool hasEmoji = false;
+#endif
     return hasSpell || hasEmoji;
 }
 
@@ -525,6 +531,7 @@ void KeyboardEngine::updateCandidate(const InputMethodEntry &entry,
                                               state->buffer_.userInput(),
                                               config_.pageSize.value());
     }
+#ifdef ENABLE_EMOJI
     if (config_.enableEmoji.value() && emoji()) {
         auto emojiResults = emoji()->call<IEmoji::query>(
             entry.languageCode(), state->buffer_.userInput(), true);
@@ -542,6 +549,7 @@ void KeyboardEngine::updateCandidate(const InputMethodEntry &entry,
             i++;
         }
     }
+#endif
 
     auto candidateList = std::make_unique<CommonCandidateList>();
     auto spellType = guessSpellType(state->buffer_.userInput());
@@ -605,6 +613,7 @@ bool KeyboardEngine::foreachVariant(
 }
 
 void KeyboardEngine::initQuickPhrase() {
+#ifdef ENABLE_EMOJI
     auto *qp = quickphrase();
     if (!qp) {
         return;
@@ -634,6 +643,7 @@ void KeyboardEngine::initQuickPhrase() {
             }
             return true;
         });
+#endif
 }
 
 } // namespace fcitx

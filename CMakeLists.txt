@@ -39,9 +39,13 @@ if (CLDR_DIR STREQUAL "")
     endif()
 endif()
 
-if (NOT IS_DIRECTORY "${CLDR_DIR}")
-    message(FATAL_ERROR "Could not find Unicode CLDR directory")
+if (CLDR_DIR STREQUAL "" OR NOT IS_DIRECTORY "${CLDR_DIR}/common/annotations/")
+    message(WARNING "Could not find Unicode CLDR Annotation directory")
+    set(ENABLE_EMOJI FALSE)
+else()
+    set(ENABLE_EMOJI TRUE)
 endif()
+
 
 #######################################################################
 # Find packages
@@ -116,10 +120,6 @@ if (TARGET Wayland::Client AND ENABLE_WAYLAND)
     set(WAYLAND_FOUND TRUE)
 else()
     set(WAYLAND_FOUND FALSE)
-endif()
-
-if (NOT EXISTS "${CLDR_DIR}")
-  message(FATAL_ERROR "Could not find Unicode CLDR directory: ${CLDR_DIR}")
 endif()
 
 set(DEFAULT_XKB_RULES_FILES "${XKEYBOARDCONFIG_XKBBASE}/rules/${DEFAULT_XKB_RULES}.xml")
