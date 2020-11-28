@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2020-11-18 00:12-0800\n"
+"POT-Creation-Date: 2020-11-29 00:02+0100\n"
 "PO-Revision-Date: 2017-11-23 04:14+0000\n"
 "Last-Translator: csslayer <wengxt@gmail.com>, 2020\n"
 "Language-Team: Chinese (China) (https://www.transifex.com/fcitx/teams/12005/"
@@ -423,15 +423,15 @@ msgctxt "Key name"
 msgid "Community"
 msgstr "社区"
 
-#: src/im/keyboard/keyboard.cpp:358
+#: src/im/keyboard/keyboard.cpp:361
 msgid "Completion"
 msgstr "补全"
 
-#: src/im/keyboard/keyboard.cpp:361
+#: src/im/keyboard/keyboard.cpp:364
 msgid "Completion is disabled."
 msgstr "补全已禁用。"
 
-#: src/im/keyboard/keyboard.cpp:360
+#: src/im/keyboard/keyboard.cpp:363
 msgid "Completion is enabled."
 msgstr "补全已启用。"
 
@@ -532,7 +532,7 @@ msgstr "DOS"
 msgid "Deactivate Input Method"
 msgstr "取消激活输入法"
 
-#: src/lib/fcitx/instance.cpp:615 src/lib/fcitx/inputmethodmanager.cpp:130
+#: src/lib/fcitx/inputmethodmanager.cpp:130 src/lib/fcitx/instance.cpp:615
 #: src/ui/classic/themes/default/theme.conf.in:3
 msgid "Default"
 msgstr "默认"
@@ -583,7 +583,7 @@ msgctxt "Key name"
 msgid "Display"
 msgstr "显示"
 
-#: src/modules/notifications/notifications.cpp:209
+#: src/modules/notifications/notifications.cpp:201
 msgid "Do not show again"
 msgstr "不要再显示"
 
@@ -978,10 +978,6 @@ msgstr "隐藏提示"
 msgid "Hide overlay if size does not fit"
 msgstr "显示区域不足时隐藏覆盖图片"
 
-#: src/ui/classic/theme.h:66
-msgid "Highligh Click Margin"
-msgstr "高亮点击边距"
-
 #: src/ui/classic/theme.h:95 src/ui/classic/theme.h:114
 msgid "Highlight Background"
 msgstr "高亮背景"
@@ -993,6 +989,10 @@ msgstr "高亮背景颜色"
 #: src/ui/classic/theme.h:78 src/ui/classic/theme.h:108
 msgid "Highlight Candidate Color"
 msgstr "高亮候选词颜色"
+
+#: src/ui/classic/theme.h:66
+msgid "Highlight Click Margin"
+msgstr ""
 
 #: src/ui/classic/theme.h:88
 msgid "Highlight text color"
@@ -1082,12 +1082,11 @@ msgstr ""
 msgid "Image"
 msgstr "图片"
 
+#: src/im/keyboard/keyboard.cpp:360 src/ui/classic/xcbtraywindow.cpp:38
 #: src/lib/fcitx/instance.cpp:686 src/lib/fcitx/instance.cpp:856
-#: src/im/keyboard/keyboard.cpp:357 src/ui/classic/xcbtraywindow.cpp:38
-#: src/modules/xcb/xcbconnection.cpp:388
 #: src/modules/notificationitem/dbusmenu.cpp:241
 #: src/modules/notificationitem/notificationitem.cpp:108
-#: data/org.fcitx.Fcitx5.desktop.in.in:4
+#: src/modules/xcb/xcbconnection.cpp:388 data/org.fcitx.Fcitx5.desktop.in.in:4
 #: data/org.fcitx.Fcitx5.metainfo.xml.in:7
 msgid "Input Method"
 msgstr "输入法"
@@ -1141,15 +1140,15 @@ msgctxt "Key name"
 msgid "Katakana"
 msgstr "片假名"
 
-#: src/im/keyboard/keyboard.cpp:263 src/im/keyboard/keyboard.conf.in:3
+#: src/im/keyboard/keyboard.cpp:266 src/im/keyboard/keyboard.conf.in:3
 msgid "Keyboard"
 msgstr "键盘"
 
-#: src/im/keyboard/keyboard.cpp:193
+#: src/im/keyboard/keyboard.cpp:196
 msgid "Keyboard - {0}"
 msgstr "键盘 - {0}"
 
-#: src/im/keyboard/keyboard.cpp:210
+#: src/im/keyboard/keyboard.cpp:213
 msgid "Keyboard - {0} - {1}"
 msgstr "键盘 - {0} - {1}"
 
@@ -1494,7 +1493,7 @@ msgstr "无"
 msgid "Normal text color"
 msgstr "一般文字颜色"
 
-#: src/ui/kimpanel/kimpanel.cpp:365
+#: src/ui/kimpanel/kimpanel.cpp:360
 msgid "Not available"
 msgstr "不可用"
 
@@ -1511,7 +1510,7 @@ msgctxt "Key name"
 msgid "NumLock"
 msgstr "数字锁定"
 
-#: src/im/keyboard/keyboard.cpp:352
+#: src/im/keyboard/keyboard.cpp:355
 msgid ""
 "Only emoji support is found. To enable spell checking, you may need to "
 "install spell check data for the language."
@@ -2060,7 +2059,7 @@ msgstr "当前输入上下文的触发键"
 msgid "Trigger hint mode"
 msgstr "切换提示模式"
 
-#: data/org.fcitx.Fcitx5.metainfo.xml.in:19
+#: data/org.fcitx.Fcitx5.metainfo.xml.in:20
 msgid "Typing with Fcitx and Kimpanel"
 msgstr "用 Fcitx 和 Kimpanel 输入"
 
@@ -2336,7 +2335,7 @@ msgstr "sudo 的环境变量"
 msgid "version:"
 msgstr "版本："
 
-#: src/im/keyboard/keyboard.cpp:240
+#: src/im/keyboard/keyboard.cpp:243
 msgid "{0} (Not Available)"
 msgstr "{0} (不可用)"
 

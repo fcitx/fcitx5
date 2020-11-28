@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2020-11-14 00:02-0800\n"
+"POT-Creation-Date: 2020-11-29 00:02+0100\n"
 "PO-Revision-Date: 2017-11-23 04:14+0000\n"
 "Last-Translator: scootergrisen, 2020\n"
 "Language-Team: Danish (https://www.transifex.com/fcitx/teams/12005/da/)\n"
@@ -48,7 +48,7 @@ msgstr "${1} ikke fundet."
 msgid "${1} works properly."
 msgstr "${1} virker korrekt."
 
-#: src/lib/fcitx/instance.cpp:312
+#: src/lib/fcitx/instance.cpp:337
 msgid "(Not available)"
 msgstr "(ikke tilgængelig)"
 
@@ -113,15 +113,15 @@ msgstr "Tilføj favorit"
 msgid "Add Unicode Typing Support"
 msgstr "Tilføj understøttelse af unicode-indtastning"
 
-#: data/fcitx5-diagnose.sh:1459
+#: data/fcitx5-diagnose.sh:1465
 msgid "Addon Config Dir:"
 msgstr "Tilføjelseskonfigurationsmappe:"
 
-#: data/fcitx5-diagnose.sh:1528
+#: data/fcitx5-diagnose.sh:1535
 msgid "Addon Libraries:"
 msgstr "Tilføjelsesbiblioteker:"
 
-#: data/fcitx5-diagnose.sh:1484
+#: data/fcitx5-diagnose.sh:1490
 msgid "Addon List:"
 msgstr "Tilføjelsesliste:"
 
@@ -130,11 +130,11 @@ msgctxt "Key name"
 msgid "Adjust Brightness"
 msgstr "Juster lysstyrke"
 
-#: data/fcitx5-diagnose.sh:1278
+#: data/fcitx5-diagnose.sh:1284
 msgid "All found Gtk ${1} immodule files exist."
 msgstr "Alle fundne Gtk ${1} im-modul-filer findes."
 
-#: data/fcitx5-diagnose.sh:1554
+#: data/fcitx5-diagnose.sh:1561
 msgid "All libraries for all addons are found."
 msgstr "Alle biblioteker til alle tilføjelse er fundet."
 
@@ -288,7 +288,7 @@ msgstr "Kan ikke oprette forbindelse til ${1} korrekt."
 msgid "Cannot determine desktop environment."
 msgstr "Kan ikke bestemme skrivebordsmiljø."
 
-#: data/fcitx5-diagnose.sh:1475
+#: data/fcitx5-diagnose.sh:1481
 msgid "Cannot find ${1} addon config directory."
 msgstr "Kan ikke finde ${1}-tilføjelseskonfigurationsmappe."
 
@@ -296,19 +296,19 @@ msgstr "Kan ikke finde ${1}-tilføjelseskonfigurationsmappe."
 msgid "Cannot find ${1} executable!"
 msgstr "Kan ikke finde ${1}-eksekverbar!"
 
-#: data/fcitx5-diagnose.sh:1427
+#: data/fcitx5-diagnose.sh:1433
 msgid "Cannot find ${1} im module for gtk ${2} in cache."
 msgstr "Kan ikke finde ${1}-im-modul til gtk ${2} i mellemlager."
 
-#: data/fcitx5-diagnose.sh:1345
+#: data/fcitx5-diagnose.sh:1351
 msgid "Cannot find ${1} im module for gtk ${2}."
 msgstr "Kan ikke finde ${1}-im-modul til gtk ${2}."
 
-#: data/fcitx5-diagnose.sh:1219 data/fcitx5-diagnose.sh:1224
+#: data/fcitx5-diagnose.sh:1225 data/fcitx5-diagnose.sh:1230
 msgid "Cannot find ${1} input method module for ${2}."
 msgstr "Kan ikke finde ${1}-inputmetode-modul til ${2}."
 
-#: data/fcitx5-diagnose.sh:1339
+#: data/fcitx5-diagnose.sh:1345
 msgid "Cannot find ${2} for gtk ${1}"
 msgstr "Kan ikke finde ${2} til gtk ${1}"
 
@@ -322,7 +322,7 @@ msgstr ""
 "Kan ikke finde et konfigurationsværktøj med grafisk brugerflade, installer "
 "venligst ${1} eller ${2}."
 
-#: data/fcitx5-diagnose.sh:1557
+#: data/fcitx5-diagnose.sh:1564
 msgid "Cannot find enabled ${1} user interface!"
 msgstr "Kan ikke finde aktiveret ${1}-brugerflade!"
 
@@ -330,20 +330,20 @@ msgstr "Kan ikke finde aktiveret ${1}-brugerflade!"
 msgid "Cannot find fcitx5 executable!"
 msgstr "Kan ikke finde fcitx5-eksekverbar!"
 
-#: data/fcitx5-diagnose.sh:1536
+#: data/fcitx5-diagnose.sh:1543
 msgid "Cannot find file ${1} of addon ${2}."
 msgstr "Kan ikke filen ${1} af tilføjelsen ${2}."
 
-#: data/fcitx5-diagnose.sh:1546
+#: data/fcitx5-diagnose.sh:1553
 msgid "Cannot find following required libraries for ${1} of addon ${2}."
 msgstr ""
 "Kan ikke finde følgende krævede biblioteker for ${1} af tilføjelsen ${2}."
 
-#: data/fcitx5-diagnose.sh:1422
+#: data/fcitx5-diagnose.sh:1428
 msgid "Cannot find immodules cache for gtk ${1}"
 msgstr "Kan ikke finde im-modul mellemlager til gtk ${1}"
 
-#: data/fcitx5-diagnose.sh:1576
+#: data/fcitx5-diagnose.sh:1583
 msgid ""
 "Cannot find kimpanel dbus interface or enabled non-kimpanel user interface."
 msgstr ""
@@ -427,15 +427,15 @@ msgctxt "Key name"
 msgid "Community"
 msgstr "Fællesskab"
 
-#: src/im/keyboard/keyboard.cpp:358
+#: src/im/keyboard/keyboard.cpp:361
 msgid "Completion"
 msgstr "Fuldførsel"
 
-#: src/im/keyboard/keyboard.cpp:361
+#: src/im/keyboard/keyboard.cpp:364
 msgid "Completion is disabled."
 msgstr "Fuldførsel er deaktiveret."
 
-#: src/im/keyboard/keyboard.cpp:360
+#: src/im/keyboard/keyboard.cpp:363
 msgid "Completion is enabled."
 msgstr "Fuldførsel er aktiveret."
 
@@ -463,7 +463,7 @@ msgstr "Konfiguration med grafisk brugerflade til qt:"
 msgid "Config Tool Wrapper:"
 msgstr "Konfigurationsværktøjs-wrapper:"
 
-#: data/fcitx5-diagnose.sh:1719
+#: data/fcitx5-diagnose.sh:1726
 msgid "Configuration:"
 msgstr "Konfiguration:"
 
@@ -536,7 +536,7 @@ msgstr "DOS"
 msgid "Deactivate Input Method"
 msgstr "Deaktivér inputmetode"
 
-#: src/lib/fcitx/instance.cpp:590 src/lib/fcitx/inputmethodmanager.cpp:130
+#: src/lib/fcitx/inputmethodmanager.cpp:130 src/lib/fcitx/instance.cpp:615
 #: src/ui/classic/themes/default/theme.conf.in:3
 msgid "Default"
 msgstr "Standard"
@@ -587,7 +587,7 @@ msgctxt "Key name"
 msgid "Display"
 msgstr "Vis"
 
-#: src/modules/notifications/notifications.cpp:209
+#: src/modules/notifications/notifications.cpp:201
 msgid "Do not show again"
 msgstr "Vis ikke igen"
 
@@ -714,11 +714,11 @@ msgstr "Udfør"
 msgid "Exit"
 msgstr "Afslut"
 
-#: data/fcitx5-diagnose.sh:1416
+#: data/fcitx5-diagnose.sh:1422
 msgid "Failed to find ${1} in immodule cache at ${2}"
 msgstr "Kunne ikke finde ${1} i im-modul mellemlager ved ${2}"
 
-#: data/fcitx5-diagnose.sh:1333
+#: data/fcitx5-diagnose.sh:1339
 msgid "Failed to find ${1} in the output of ${2}"
 msgstr "Kunne ikke finde ${1} i outputtet af ${2}"
 
@@ -740,7 +740,7 @@ msgstr "Fcitx 5"
 msgid "Fcitx 5 Configuration"
 msgstr "Fcitx 5-konfiguration"
 
-#: data/fcitx5-diagnose.sh:1458
+#: data/fcitx5-diagnose.sh:1464
 msgid "Fcitx Addons:"
 msgstr "Fcitx-tilføjelser:"
 
@@ -781,7 +781,7 @@ msgctxt "Key name"
 msgid "Forward"
 msgstr "Fremad"
 
-#: data/fcitx5-diagnose.sh:1205 data/fcitx5-diagnose.sh:1208
+#: data/fcitx5-diagnose.sh:1214
 msgid "Found ${1} ${2} module: ${3}."
 msgstr "Fandt ${1} ${2}-modul: ${3}."
 
@@ -793,7 +793,7 @@ msgstr "Fandt ${1} ${2}-proces:"
 msgid "Found ${1} ${2} processes:"
 msgstr "Fandt ${1} ${2}-processer:"
 
-#: data/fcitx5-diagnose.sh:1478
+#: data/fcitx5-diagnose.sh:1484
 msgid "Found ${1} addon config directory: ${2}."
 msgstr "Fandt ${1}-tilføjelseskonfigurationsmappe: ${2}."
 
@@ -802,19 +802,19 @@ msgstr "Fandt ${1}-tilføjelseskonfigurationsmappe: ${2}."
 msgid "Found ${1} at ${2}."
 msgstr "Fandt ${1} ved ${2}."
 
-#: data/fcitx5-diagnose.sh:1522
+#: data/fcitx5-diagnose.sh:1529
 msgid "Found ${1} disabled addons:"
 msgstr "Fandt ${1} deaktiverede tilføjelser:"
 
-#: data/fcitx5-diagnose.sh:1517
+#: data/fcitx5-diagnose.sh:1524
 msgid "Found ${1} enabled addons:"
 msgstr "Fandt ${1} aktiverede tilføjelser:"
 
-#: data/fcitx5-diagnose.sh:1559
+#: data/fcitx5-diagnose.sh:1566
 msgid "Found ${1} enabled user interface addons:"
 msgstr "Fandt ${1} aktiverede brugergrænsefladetilføjelser:"
 
-#: data/fcitx5-diagnose.sh:1327 data/fcitx5-diagnose.sh:1410
+#: data/fcitx5-diagnose.sh:1333 data/fcitx5-diagnose.sh:1416
 msgid "Found ${1} im modules for gtk ${2}."
 msgstr "Fandt ${1} im-moduler til gtk ${2}."
 
@@ -822,27 +822,27 @@ msgstr "Fandt ${1} im-moduler til gtk ${2}."
 msgid "Found ${1} kcm module."
 msgstr "Fandt ${1} kcm-modul."
 
-#: data/fcitx5-diagnose.sh:1319
+#: data/fcitx5-diagnose.sh:1325
 msgid "Found ${2} for unknown gtk version at ${1}."
 msgstr "Fandt ${2} til ukendt gtk-version ved ${1}."
 
-#: data/fcitx5-diagnose.sh:1311
+#: data/fcitx5-diagnose.sh:1317
 msgid "Found ${3} for gtk ${1} at ${2}."
 msgstr "Fandt ${3} til gtk ${1} ved ${2}."
 
-#: data/fcitx5-diagnose.sh:1196 data/fcitx5-diagnose.sh:1201
+#: data/fcitx5-diagnose.sh:1203 data/fcitx5-diagnose.sh:1208
 msgid "Found ${3} im module for ${2}: ${1}."
 msgstr "Fandt ${3} im-modul til ${2}: ${1}."
 
-#: data/fcitx5-diagnose.sh:1403
+#: data/fcitx5-diagnose.sh:1409
 msgid "Found immodule cache for unknown gtk version at ${1}."
 msgstr "Fandt im-modul mellemlager for ukendt gtk-version ved ${1}."
 
-#: data/fcitx5-diagnose.sh:1395
+#: data/fcitx5-diagnose.sh:1401
 msgid "Found immodules cache for gtk ${1} at ${2}."
 msgstr "Fandt im-modulers mellemlager til gtk ${1} ved ${2}."
 
-#: data/fcitx5-diagnose.sh:1211
+#: data/fcitx5-diagnose.sh:1217
 msgid "Found unknown ${1} qt module: ${2}."
 msgstr "Fandt ukendt ${1} qt-modul: ${2}."
 
@@ -850,7 +850,7 @@ msgstr "Fandt ukendt ${1} qt-modul: ${2}."
 msgid "Freedesktop.org Notification Support"
 msgstr "Understøttelse af Freedesktop.org-underretning"
 
-#: data/fcitx5-diagnose.sh:1712
+#: data/fcitx5-diagnose.sh:1719
 msgid "Frontends setup:"
 msgstr "Frontendens opsætning:"
 
@@ -878,23 +878,23 @@ msgstr "Grøn"
 msgid "Group"
 msgstr "Gruppe"
 
-#: src/lib/fcitx/instance.cpp:315
+#: src/lib/fcitx/instance.cpp:340
 msgid "Group {0}: {1}"
 msgstr "Gruppe {0}: {1}"
 
-#: src/lib/fcitx/instance.cpp:592
+#: src/lib/fcitx/instance.cpp:617
 msgid "Group {}"
 msgstr "Gruppe {}"
 
-#: data/fcitx5-diagnose.sh:1272
+#: data/fcitx5-diagnose.sh:1278
 msgid "Gtk ${1} immodule file ${2} does not exist."
 msgstr "Gtk ${1} im-modul-filen ${2} findes ikke."
 
-#: data/fcitx5-diagnose.sh:1440
+#: data/fcitx5-diagnose.sh:1446
 msgid "Gtk IM module cache:"
 msgstr "Mellemlager for Gtk IM-modul:"
 
-#: data/fcitx5-diagnose.sh:1445
+#: data/fcitx5-diagnose.sh:1451
 msgid "Gtk IM module files:"
 msgstr "Filer for Gtk IM-modul:"
 
@@ -985,10 +985,6 @@ msgstr "Skjulte underretninger"
 msgid "Hide overlay if size does not fit"
 msgstr "Skjul overlægningen hvis størrelsen ikke passer"
 
-#: src/ui/classic/theme.h:66
-msgid "Highligh Click Margin"
-msgstr "Fremhæv klikmargen"
-
 #: src/ui/classic/theme.h:95 src/ui/classic/theme.h:114
 msgid "Highlight Background"
 msgstr "Baggrund for fremhævning"
@@ -1000,6 +996,10 @@ msgstr "Baggrundsfarve for fremhævning"
 #: src/ui/classic/theme.h:78 src/ui/classic/theme.h:108
 msgid "Highlight Candidate Color"
 msgstr "Kandidatfarve for fremhævning"
+
+#: src/ui/classic/theme.h:66
+msgid "Highlight Click Margin"
+msgstr ""
 
 #: src/ui/classic/theme.h:88
 msgid "Highlight text color"
@@ -1092,12 +1092,11 @@ msgstr ""
 msgid "Image"
 msgstr "Billede"
 
-#: src/lib/fcitx/instance.cpp:661 src/lib/fcitx/instance.cpp:831
-#: src/im/keyboard/keyboard.cpp:357 src/ui/classic/xcbtraywindow.cpp:38
-#: src/modules/xcb/xcbconnection.cpp:388
+#: src/im/keyboard/keyboard.cpp:360 src/ui/classic/xcbtraywindow.cpp:38
+#: src/lib/fcitx/instance.cpp:686 src/lib/fcitx/instance.cpp:856
 #: src/modules/notificationitem/dbusmenu.cpp:241
 #: src/modules/notificationitem/notificationitem.cpp:108
-#: data/org.fcitx.Fcitx5.desktop.in.in:4
+#: src/modules/xcb/xcbconnection.cpp:388 data/org.fcitx.Fcitx5.desktop.in.in:4
 #: data/org.fcitx.Fcitx5.metainfo.xml.in:7
 msgid "Input Method"
 msgstr "Inputmetode"
@@ -1123,7 +1122,7 @@ msgctxt "Key name"
 msgid "Insert"
 msgstr "Indsæt"
 
-#: data/fcitx5-diagnose.sh:1490
+#: data/fcitx5-diagnose.sh:1496
 msgid "Invalid addon config file ${1}."
 msgstr "Ugyldig tilføjelseskonfigurationsfil ${1}."
 
@@ -1151,15 +1150,15 @@ msgctxt "Key name"
 msgid "Katakana"
 msgstr "Katakana"
 
-#: src/im/keyboard/keyboard.cpp:263 src/im/keyboard/keyboard.conf.in:3
+#: src/im/keyboard/keyboard.cpp:266 src/im/keyboard/keyboard.conf.in:3
 msgid "Keyboard"
 msgstr "Tastatur"
 
-#: src/im/keyboard/keyboard.cpp:193
+#: src/im/keyboard/keyboard.cpp:196
 msgid "Keyboard - {0}"
 msgstr "Tastatur - {0}"
 
-#: src/im/keyboard/keyboard.cpp:210
+#: src/im/keyboard/keyboard.cpp:213
 msgid "Keyboard - {0} - {1}"
 msgstr "Tastatur - {0} - {1}"
 
@@ -1187,7 +1186,7 @@ msgctxt "Key name"
 msgid "Keyboard Menu"
 msgstr "Tastaturmenu"
 
-#: data/fcitx5-diagnose.sh:1568
+#: data/fcitx5-diagnose.sh:1575
 msgid "Kimpanel process:"
 msgstr "Kimpanel-proces:"
 
@@ -1315,7 +1314,7 @@ msgstr "Pære"
 msgid "Locale:"
 msgstr "Sprog:"
 
-#: data/fcitx5-diagnose.sh:1725
+#: data/fcitx5-diagnose.sh:1732
 msgid "Log:"
 msgstr "Log:"
 
@@ -1504,7 +1503,7 @@ msgstr "Ingen"
 msgid "Normal text color"
 msgstr "Normal tekstfarve"
 
-#: src/ui/kimpanel/kimpanel.cpp:365
+#: src/ui/kimpanel/kimpanel.cpp:360
 msgid "Not available"
 msgstr "Ikke tilgængelig"
 
@@ -1521,7 +1520,7 @@ msgctxt "Key name"
 msgid "NumLock"
 msgstr "NumLock"
 
-#: src/im/keyboard/keyboard.cpp:352
+#: src/im/keyboard/keyboard.cpp:355
 msgid ""
 "Only emoji support is found. To enable spell checking, you may need to "
 "install spell check data for the language."
@@ -1637,15 +1636,15 @@ msgctxt "Key name"
 msgid "Power Off"
 msgstr "Sluk"
 
-#: src/lib/fcitx/instance.cpp:831
+#: src/lib/fcitx/instance.cpp:856
 msgid "Preedit"
 msgstr "Preedit"
 
-#: src/lib/fcitx/instance.cpp:833
+#: src/lib/fcitx/instance.cpp:858
 msgid "Preedit disabled"
 msgstr "Preedit deaktiveret"
 
-#: src/lib/fcitx/instance.cpp:832
+#: src/lib/fcitx/instance.cpp:857
 msgid "Preedit enabled"
 msgstr "Preedit aktiveret"
 
@@ -1935,7 +1934,7 @@ msgctxt "Key name"
 msgid "Suspend"
 msgstr "Hvile"
 
-#: src/lib/fcitx/instance.cpp:662 src/modules/xcb/xcbconnection.cpp:389
+#: src/lib/fcitx/instance.cpp:687 src/modules/xcb/xcbconnection.cpp:389
 msgid "Switch group"
 msgstr "Skift gruppe"
 
@@ -1943,7 +1942,7 @@ msgstr "Skift gruppe"
 msgid "Switch group to {0}"
 msgstr "Skift gruppe til {0}"
 
-#: src/lib/fcitx/instance.cpp:663
+#: src/lib/fcitx/instance.cpp:688
 msgid "Switched group to {0}"
 msgstr "Skiftede gruppe til {0}"
 
@@ -2075,7 +2074,7 @@ msgstr "Udløsertast kun til nuværende inputkontekst"
 msgid "Trigger hint mode"
 msgstr "Udløs tipstilstand"
 
-#: data/org.fcitx.Fcitx5.metainfo.xml.in:19
+#: data/org.fcitx.Fcitx5.metainfo.xml.in:20
 msgid "Typing with Fcitx and Kimpanel"
 msgstr "Skriver med Fcitx og Kimpanel"
 
@@ -2117,7 +2116,7 @@ msgstr "Brug al vandret plads til fremhævning når det er en lodret liste"
 msgid "Use mouse wheel to go to prev or next page"
 msgstr "Brug musehjulet for at gå til forrige eller næste side"
 
-#: data/fcitx5-diagnose.sh:1555
+#: data/fcitx5-diagnose.sh:1562
 msgid "User Interface:"
 msgstr "Brugerflade:"
 
@@ -2129,7 +2128,7 @@ msgstr "Bruger ${1} til at tjekke dbus."
 msgid "Version"
 msgstr "Version"
 
-#: data/fcitx5-diagnose.sh:1316 data/fcitx5-diagnose.sh:1399
+#: data/fcitx5-diagnose.sh:1322 data/fcitx5-diagnose.sh:1405
 msgid "Version Line:"
 msgstr "Versionslinje:"
 
@@ -2357,14 +2356,14 @@ msgstr "sudo-miljøvariabler"
 msgid "version:"
 msgstr "version:"
 
-#: src/im/keyboard/keyboard.cpp:240
+#: src/im/keyboard/keyboard.cpp:243
 msgid "{0} (Not Available)"
 msgstr "{0} (ikke tilgængelig)"
 
-#: src/lib/fcitx/instance.cpp:310
+#: src/lib/fcitx/instance.cpp:335
 msgid "{0} (Not available)"
 msgstr "{0} (ikke tilgængelig)"
 
-#: src/lib/fcitx/instance.cpp:307
+#: src/lib/fcitx/instance.cpp:332
 msgid "{0} ({1})"
 msgstr "{0} ({1})"
