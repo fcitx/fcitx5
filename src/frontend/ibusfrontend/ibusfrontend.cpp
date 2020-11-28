@@ -335,8 +335,13 @@ public:
             state |= releaseMask;
         }
 
+        auto code = key.rawKey().code();
+        if (code) {
+            code -= 8;
+        }
+
         forwardKeyEventTo(name_, static_cast<uint32_t>(key.rawKey().sym()),
-                          static_cast<uint32_t>(key.rawKey().code()), state);
+                          static_cast<uint32_t>(code), state);
         bus()->flush();
     }
 #define CHECK_SENDER_OR_RETURN                                                 \
@@ -412,7 +417,7 @@ public:
         CHECK_SENDER_OR_RETURN false;
         KeyEvent event(this,
                        Key(static_cast<KeySym>(keyval),
-                           KeyStates(state & (~releaseMask)), keycode),
+                           KeyStates(state & (~releaseMask)), keycode + 8),
                        state & releaseMask, 0);
         // Force focus if there's keyevent.
         if (!hasFocus()) {
