@@ -1087,6 +1087,10 @@ check_xim() {
     elif [ "${XMODIFIERS}" = '@im=fcitx' ]; then
         _env_correct 'XMODIFIERS' '@im=fcitx'
         __need_blank_line=0
+    elif [ "${XMODIFIERS}" = '@im=fcitx5' ]; then
+        _env_correct 'XMODIFIERS' '@im=fcitx5'
+        __need_blank_line=0
+        xim_name=fcitx5
     else
         _env_incorrect 'XMODIFIERS' '@im=fcitx' "${XMODIFIERS}"
         set_env_link XMODIFIERS '@im=fcitx'
@@ -1151,6 +1155,8 @@ _check_toolkit_env() {
         set_env_link "${env_name}" 'fcitx'
     elif [ "${!env_name}" = 'fcitx' ]; then
         _env_correct "${env_name}" 'fcitx'
+    elif [ "${!env_name}" = 'fcitx5' ]; then
+        _env_correct "${env_name}" 'fcitx5'
     else
         _env_incorrect "${env_name}" 'fcitx' "${!env_name}"
         __need_blank_line=0
