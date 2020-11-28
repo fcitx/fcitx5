@@ -11,8 +11,9 @@
       It can help you to type your own language. It also features variant choice of addons that improve your typing experience.
     </p>
   </description>
+  <project_group>Fcitx</project_group>
   <url type="homepage">https://fcitx-im.org/</url>
-  <url type="bugtracker">https://github.com/fcitx/fcitx5</url>
+  <url type="bugtracker">https://github.com/fcitx/fcitx5/issues</url>
   <url type="help">https://fcitx-im.org/wiki/Fcitx</url>
   <screenshots>
     <screenshot type="default">
