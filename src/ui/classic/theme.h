@@ -63,7 +63,7 @@ FCITX_CONFIGURATION_EXTEND(HighlightBackgroundImageConfig,
                            BackgroundImageConfig,
                            Option<MarginConfig> clickMargin{
                                this, "HighlightClickMargin",
-                               _("Highligh Click Margin")};);
+                               _("Highlight Click Margin")};);
 
 FCITX_CONFIGURATION(ActionImageConfig,
                     Option<std::string> image{this, "Image", _("Image")};
