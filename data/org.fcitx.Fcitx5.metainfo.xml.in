@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <component type="inputmethod">
-  <id>org.fcitx.Fcitx5.desktop</id>
+  <id>org.fcitx.Fcitx5</id>
   <metadata_license>CC0-1.0</metadata_license>
   <project_license>LGPL-2.1+</project_license>
   <name>Fcitx 5</name>
@@ -11,8 +11,9 @@
       It can help you to type your own language. It also features variant choice of addons that improve your typing experience.
     </p>
   </description>
+  <project_group>Fcitx</project_group>
   <url type="homepage">https://fcitx-im.org/</url>
-  <url type="bugtracker">https://github.com/fcitx/fcitx5</url>
+  <url type="bugtracker">https://github.com/fcitx/fcitx5/issues</url>
   <url type="help">https://fcitx-im.org/wiki/Fcitx</url>
   <screenshots>
     <screenshot type="default">
@@ -27,4 +28,5 @@
     <release version="5.0.1" date="2020-11-03"/>
     <release version="5.0.0" date="2020-10-30"/>
   </releases>
+  <launchable type="desktop-id">org.fcitx.Fcitx5.desktop</launchable>
 </component>
