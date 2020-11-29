@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2020-11-29 00:02+0100\n"
+"POT-Creation-Date: 2020-11-30 00:02+0100\n"
 "PO-Revision-Date: 2017-11-23 04:14+0000\n"
 "Last-Translator: bruh, 2020\n"
 "Language-Team: Chinese (Taiwan) (https://www.transifex.com/fcitx/teams/12005/"
@@ -61,23 +61,23 @@ msgstr "(輸入編碼或者描述來搜尋 Unicode 字元)"
 
 #: data/fcitx5-diagnose.sh:662
 msgid "/Beginner%27s_Guide"
-msgstr ""
+msgstr "/Beginner%27s_Guide"
 
 #: data/fcitx5-diagnose.sh:709
 msgid "/Hall_of_Shame_for_Linux_IME_Support"
-msgstr ""
+msgstr "/Hall_of_Shame_for_Linux_IME_Support"
 
 #: data/fcitx5-diagnose.sh:673
 msgid "/Input_method_related_environment_variables"
-msgstr ""
+msgstr "/Input_method_related_environment_variables"
 
 #: data/fcitx5-diagnose.sh:689
 msgid "/Note_for_GNOME_Later_than_3.6"
-msgstr ""
+msgstr "/Note_for_GNOME_Later_than_3.6"
 
 #: data/fcitx5-diagnose.sh:713
 msgid "/XIM"
-msgstr ""
+msgstr "/XIM"
 
 #: src/modules/unicode/charselectdata.cpp:208
 msgid "<Low Surrogate>"
@@ -665,7 +665,7 @@ msgstr "枚舉輸入法群組向前"
 
 #: src/lib/fcitx/globalconfig.cpp:29
 msgid "Enumerate when press trigger key repeatedly"
-msgstr ""
+msgstr "重複觸發鍵時枚舉輸入法"
 
 #: data/fcitx5-diagnose.sh:1075
 msgid ""
@@ -720,7 +720,7 @@ msgstr "無法在 ${2} 的輸出中找到 ${1}。"
 
 #: src/modules/quickphrase/quickphrase.h:45
 msgid "Fallback Spell check language"
-msgstr ""
+msgstr "備用拼字檢查語言"
 
 #: src/lib/fcitx-utils/key.cpp:72
 msgctxt "Key name"
@@ -776,68 +776,68 @@ msgstr "往前"
 
 #: data/fcitx5-diagnose.sh:1214
 msgid "Found ${1} ${2} module: ${3}."
-msgstr ""
+msgstr "找到了 ${1} 的 ${2} 模組：${3}。"
 
 #: data/fcitx5-diagnose.sh:921
 msgid "Found ${1} ${2} process:"
-msgstr ""
+msgstr "找到 ${1} 個 ${2} 程序："
 
 #: data/fcitx5-diagnose.sh:919
 msgid "Found ${1} ${2} processes:"
-msgstr ""
+msgstr "找到 ${1} 個 ${2} 程序："
 
 #: data/fcitx5-diagnose.sh:1484
 msgid "Found ${1} addon config directory: ${2}."
-msgstr ""
+msgstr "找到 ${1} 附加元件設定目錄：${2}。"
 
 #: data/fcitx5-diagnose.sh:896 data/fcitx5-diagnose.sh:1008
 #: data/fcitx5-diagnose.sh:1021 data/fcitx5-diagnose.sh:1049
 msgid "Found ${1} at ${2}."
-msgstr ""
+msgstr "在 ${2} 找到了 ${1}。"
 
 #: data/fcitx5-diagnose.sh:1529
 msgid "Found ${1} disabled addons:"
-msgstr ""
+msgstr "找到 ${1} 個停用的附加元件："
 
 #: data/fcitx5-diagnose.sh:1524
 msgid "Found ${1} enabled addons:"
-msgstr ""
+msgstr "找到 ${1} 個啟用的附加元件："
 
 #: data/fcitx5-diagnose.sh:1566
 msgid "Found ${1} enabled user interface addons:"
-msgstr ""
+msgstr "找到 ${1} 個啟用的使用者介面附加元件："
 
 #: data/fcitx5-diagnose.sh:1333 data/fcitx5-diagnose.sh:1416
 msgid "Found ${1} im modules for gtk ${2}."
-msgstr ""
+msgstr "找到了 gtk ${2} 的 ${1} 輸入法模組。"
 
 #: data/fcitx5-diagnose.sh:1035
 msgid "Found ${1} kcm module."
-msgstr ""
+msgstr "找到了 ${1} 的 kcm 模組。"
 
 #: data/fcitx5-diagnose.sh:1325
 msgid "Found ${2} for unknown gtk version at ${1}."
-msgstr ""
+msgstr "在 ${1} 找到未知 gtk 版本的 ${2}。"
 
 #: data/fcitx5-diagnose.sh:1317
 msgid "Found ${3} for gtk ${1} at ${2}."
-msgstr ""
+msgstr "在 ${2} 找到 gtk ${1} 的 ${3}。"
 
 #: data/fcitx5-diagnose.sh:1203 data/fcitx5-diagnose.sh:1208
 msgid "Found ${3} im module for ${2}: ${1}."
-msgstr ""
+msgstr "找到了 ${2} 的 ${3} 輸入法模組：${1}。"
 
 #: data/fcitx5-diagnose.sh:1409
 msgid "Found immodule cache for unknown gtk version at ${1}."
-msgstr ""
+msgstr "在 ${1} 找到未知 gtk 版本的輸入法模組快取。"
 
 #: data/fcitx5-diagnose.sh:1401
 msgid "Found immodules cache for gtk ${1} at ${2}."
-msgstr ""
+msgstr "在 ${2} 找到 gtk ${1} 的輸入法模組快取。"
 
 #: data/fcitx5-diagnose.sh:1217
 msgid "Found unknown ${1} qt module: ${2}."
-msgstr ""
+msgstr "找到未知的 ${1} qt 模組：${2}。"
 
 #: src/modules/notifications/notifications.conf.in:4
 msgid "Freedesktop.org Notification Support"
@@ -845,7 +845,7 @@ msgstr "Freedesktop.org 通知支援"
 
 #: data/fcitx5-diagnose.sh:1719
 msgid "Frontends setup:"
-msgstr ""
+msgstr "前端設定："
 
 #: src/lib/fcitx-utils/key.cpp:130
 msgctxt "Key name"
@@ -854,7 +854,7 @@ msgstr "遊戲"
 
 #: src/ui/classic/theme.h:139
 msgid "General"
-msgstr ""
+msgstr "一般"
 
 #: src/lib/fcitx-utils/key.cpp:131
 msgctxt "Key name"
@@ -877,23 +877,23 @@ msgstr "群組 {0}：{1}"
 
 #: src/lib/fcitx/instance.cpp:617
 msgid "Group {}"
-msgstr ""
+msgstr "群組 {}"
 
 #: data/fcitx5-diagnose.sh:1278
 msgid "Gtk ${1} immodule file ${2} does not exist."
-msgstr ""
+msgstr "Gtk ${1} 輸入法模組檔案 ${2} 不存在。"
 
 #: data/fcitx5-diagnose.sh:1446
 msgid "Gtk IM module cache:"
-msgstr ""
+msgstr "Gtk 輸入法模組快取："
 
 #: data/fcitx5-diagnose.sh:1451
 msgid "Gtk IM module files:"
-msgstr ""
+msgstr "Gtk 輸入法模組檔案："
 
 #: data/fcitx5-diagnose.sh:708
 msgid "Hall of Shame for Linux IME Support"
-msgstr ""
+msgstr "Linux 程式的輸入法支援問題"
 
 #: src/lib/fcitx-utils/key.cpp:218
 msgctxt "Key name"
@@ -1030,7 +1030,7 @@ msgstr "首頁"
 
 #: data/fcitx5-diagnose.sh:822
 msgid "Home:"
-msgstr ""
+msgstr "家目錄："
 
 #: src/lib/fcitx-utils/key.cpp:110
 msgctxt "Key name"
@@ -1053,7 +1053,7 @@ msgstr ""
 #: src/lib/fcitx-utils/key.cpp:479
 msgctxt "Key name"
 msgid "Hyper"
-msgstr ""
+msgstr "Hyper 鍵"
 
 #: src/frontend/ibusfrontend/ibusfrontend.conf.in:3
 msgid "IBus Frontend"
@@ -1065,6 +1065,8 @@ msgid ""
 "order to use any input method other than ${2}. See ${link} for more detail "
 "as well as alternative solutions."
 msgstr ""
+"如果您正在使用 ${1}，您可能需要反安裝 ${2} 或者移除 ${3} 以使用 ${2} 以外的任"
+"何輸入法。更多細節和其它的解決方法參見 ${link}。"
 
 #: data/fcitx5-diagnose.sh:695
 msgid ""
@@ -1072,6 +1074,9 @@ msgid ""
 "the command ${g36_disable_ibus} to disable IBus integration in order to use "
 "any input method other than ${2}. See ${link} for more detail."
 msgstr ""
+"如果您正在使用 ${1}，您可能需要反安裝 ${2}、移除 ${3} 或使用 "
+"${g36_disable_ibus} 指令停用 IBus 整合以使用 ${2} 以外的任何輸入法。更多細節"
+"參見 ${link}。"
 
 #: src/ui/classic/theme.h:69
 msgid "Image"
@@ -1092,7 +1097,7 @@ msgstr "輸入法設定"
 
 #: data/fcitx5-diagnose.sh:672
 msgid "Input Method Related Environment Variables: "
-msgstr ""
+msgstr "輸入法相關環境變數："
 
 #: src/ui/classic/theme.h:141
 msgid "Input Panel"
@@ -1100,7 +1105,7 @@ msgstr ""
 
 #: src/modules/imselector/imselector.conf.in:3
 msgid "Input method selector"
-msgstr ""
+msgstr "輸入法選擇器"
 
 #: src/lib/fcitx-utils/key.cpp:194
 msgctxt "Key name"
@@ -1109,7 +1114,7 @@ msgstr "插入"
 
 #: data/fcitx5-diagnose.sh:1496
 msgid "Invalid addon config file ${1}."
-msgstr ""
+msgstr "不正確的附加元件設定檔：${1}。"
 
 #: src/ui/kimpanel/kimpanel.conf.in:3
 msgid "KDE Input Method Panel"
@@ -1159,7 +1164,7 @@ msgstr "鍵盤亮度增加"
 
 #: data/fcitx5-diagnose.sh:788
 msgid "Keyboard Layout:"
-msgstr ""
+msgstr "鍵盤配置："
 
 #: src/lib/fcitx-utils/key.cpp:96
 msgctxt "Key name"
@@ -1173,7 +1178,7 @@ msgstr "鍵盤選單"
 
 #: data/fcitx5-diagnose.sh:1575
 msgid "Kimpanel process:"
-msgstr ""
+msgstr "Kimpanel 程序："
 
 #: src/lib/fcitx-utils/key.cpp:77
 msgctxt "Key name"
@@ -1278,7 +1283,7 @@ msgstr "左 Control 鍵"
 #: src/lib/fcitx-utils/key.cpp:38
 msgctxt "Key name"
 msgid "Left Hyper"
-msgstr ""
+msgstr "左 Hyper 鍵"
 
 #: src/lib/fcitx-utils/key.cpp:32
 msgctxt "Key name"
@@ -1297,11 +1302,11 @@ msgstr "燈泡"
 
 #: data/fcitx5-diagnose.sh:803
 msgid "Locale:"
-msgstr ""
+msgstr "地區設定："
 
 #: data/fcitx5-diagnose.sh:1732
 msgid "Log:"
-msgstr ""
+msgstr "日誌："
 
 #: src/lib/fcitx-utils/key.cpp:133
 msgctxt "Key name"
@@ -1398,7 +1403,7 @@ msgstr "會議"
 
 #: src/ui/classic/theme.h:142
 msgid "Menu"
-msgstr ""
+msgstr "選單"
 
 #: src/lib/fcitx-utils/key.cpp:56
 msgctxt "Key name"
@@ -1456,7 +1461,7 @@ msgstr "個人站台"
 
 #: src/ui/classic/theme.h:125
 msgid "Name"
-msgstr ""
+msgstr "名稱"
 
 #: src/lib/fcitx-utils/key.cpp:188
 msgctxt "Key name"
@@ -1494,7 +1499,7 @@ msgstr "無法使用"
 
 #: data/fcitx5-diagnose.sh:688
 msgid "Note for GNOME Later than 3.6"
-msgstr ""
+msgstr "給 GNOME 3.6 以上版本的註記"
 
 #: src/modules/notifications/notifications.conf.in:3
 msgid "Notification"
@@ -1801,7 +1806,7 @@ msgstr ""
 
 #: src/lib/fcitx/globalconfig.cpp:118
 msgid "Share Input State"
-msgstr ""
+msgstr "共享輸入法狀態"
 
 #: src/lib/fcitx-utils/key.cpp:477
 msgctxt "Key name"
@@ -1815,7 +1820,7 @@ msgstr "商店"
 
 #: src/lib/fcitx/globalconfig.cpp:128
 msgid "Show Input Method Information when changing focus"
-msgstr ""
+msgstr "當切換輸入焦點時顯示輸入法資訊"
 
 #: src/lib/fcitx/globalconfig.cpp:125
 msgid "Show Input Method Information when switch input method"
@@ -1831,7 +1836,7 @@ msgstr ""
 
 #: src/lib/fcitx/globalconfig.cpp:53
 msgid "Skip first input method while enumerating"
-msgstr ""
+msgstr "枚舉時略過第一個輸入法"
 
 #: src/lib/fcitx-utils/key.cpp:105
 msgctxt "Key name"
@@ -1945,7 +1950,7 @@ msgstr "工作列"
 
 #: src/lib/fcitx/globalconfig.cpp:33
 msgid "Temporally switch between first and current Input Method"
-msgstr ""
+msgstr "臨時在第一個與當前輸入法中切換"
 
 #: src/lib/fcitx-utils/key.cpp:155
 msgctxt "Key name"
@@ -1980,7 +1985,7 @@ msgstr ""
 
 #: src/lib/fcitx/globalconfig.cpp:110
 msgid "Toggle embedded preedit"
-msgstr ""
+msgstr "切換內嵌預編輯區域"
 
 #: src/lib/fcitx-utils/key.cpp:156
 msgctxt "Key name"
