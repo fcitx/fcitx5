@@ -10,10 +10,12 @@
 #include "fcitx-utils/dbus/bus.h"
 #include "fcitx-utils/dbus/servicewatcher.h"
 #include "fcitx-utils/event.h"
+#include "fcitx-utils/fs.h"
 #include "fcitx/addonfactory.h"
 #include "fcitx/addoninstance.h"
 #include "fcitx/addonmanager.h"
 #include "fcitx/focusgroup.h"
+#include "fcitx/icontheme.h"
 #include "fcitx/instance.h"
 #include "fcitx/userinterface.h"
 
@@ -41,10 +43,15 @@ public:
 
     void registerAllProperties(InputContext *ic = nullptr);
     std::string inputMethodStatus(InputContext *ic);
-    static std::string actionToStatus(Action *action, InputContext *ic);
+    std::string actionToStatus(Action *action, InputContext *ic);
 
 private:
     void setAvailable(bool available);
+
+    std::string iconName(const std::string &icon) {
+        return IconTheme::iconName(icon, inFlatpak_);
+    }
+
     Instance *instance_;
     dbus::Bus *bus_;
     dbus::ServiceWatcher watcher_;
@@ -59,6 +66,7 @@ private:
     std::unique_ptr<dbus::Slot> relativeQuery_;
     bool hasRelative_ = false;
     bool hasRelativeV2_ = false;
+    const bool inFlatpak_ = fs::isreg("/.flatpak-info");
 };
 } // namespace fcitx
 

@@ -79,6 +79,9 @@ public:
                                      scaledDirectories);
     FCITX_DECLARE_READ_ONLY_PROPERTY(std::string, example);
 
+    /// Rename fcitx-* icon to org.fcitx.Fcitx5.fcitx-* if in flatpak
+    static std::string iconName(const std::string &icon, bool inFlatpak);
+
 private:
     IconTheme(const std::string &name, IconTheme *parent,
               const StandardPath &standardPath);

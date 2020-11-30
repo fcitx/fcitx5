@@ -11,6 +11,7 @@
 #include "fcitx-utils/charutils.h"
 #include "fcitx-utils/dbus/message.h"
 #include "fcitx-utils/dbus/objectvtable.h"
+#include "fcitx-utils/fs.h"
 #include "fcitx-utils/i18n.h"
 #include "fcitx/addonfactory.h"
 #include "fcitx/addonmanager.h"
@@ -58,7 +59,7 @@ public:
         if (icon == "input-keyboard") {
             return "input-keyboard-symbolic";
         }
-        return icon;
+        return IconTheme::iconName(icon, inFlatpak_);
     }
 
     std::string label() {
@@ -123,6 +124,7 @@ public:
 private:
     NotificationItem *parent_;
     int deltaAcc_ = 0;
+    const bool inFlatpak_ = fs::isreg("/.flatpak-info");
 };
 
 NotificationItem::NotificationItem(Instance *instance)

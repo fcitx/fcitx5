@@ -13,6 +13,7 @@
 #include "fcitx-utils/standardpath.h"
 #include "fcitx/addonfactory.h"
 #include "fcitx/addonmanager.h"
+#include "fcitx/icontheme.h"
 #include "dbus_public.h"
 
 #define NOTIFICATIONS_SERVICE_NAME "org.freedesktop.Notifications"
@@ -150,7 +151,8 @@ uint32_t Notifications::sendNotification(
         removeItem(*replaceItem);
     }
 
-    message << appName << replaceId << appIcon << summary << body;
+    message << appName << replaceId << IconTheme::iconName(appIcon, inFlatpak_)
+            << summary << body;
     message << actions;
     message << dbus::Container(dbus::Container::Type::Array,
                                dbus::Signature("{sv}"));

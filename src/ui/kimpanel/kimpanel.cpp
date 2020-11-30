@@ -166,9 +166,9 @@ std::string Kimpanel::actionToStatus(Action *action, InputContext *ic) {
     if (action->menu()) {
         type = "menu";
     }
-    return stringutils::concat("/Fcitx/", action->name(), ":",
-                               action->shortText(ic), ":", action->icon(ic),
-                               ":", action->longText(ic), ":", type);
+    return stringutils::concat(
+        "/Fcitx/", action->name(), ":", action->shortText(ic), ":",
+        iconName(action->icon(ic)), ":", action->longText(ic), ":", type);
 }
 
 void Kimpanel::resume() {
@@ -373,8 +373,8 @@ std::string Kimpanel::inputMethodStatus(InputContext *ic) {
     }
 
     return stringutils::concat(
-        "/Fcitx/im:", label.empty() ? description : label, ":", icon, ":",
-        label.empty() ? "" : description, ":menu");
+        "/Fcitx/im:", label.empty() ? description : label, ":", iconName(icon),
+        ":", label.empty() ? "" : description, ":menu");
 }
 
 void Kimpanel::updateCurrentInputMethod(InputContext *ic) {
@@ -408,7 +408,7 @@ void Kimpanel::msgV1Handler(dbus::Message &msg) {
                 }
                 menuitems.push_back(stringutils::concat(
                     "/Fcitx/im/", entry->uniqueName(), ":", entry->name(), ":",
-                    entry->icon(), "::"));
+                    iconName(entry->icon()), "::"));
             }
             proxy_->execMenu(menuitems);
         } else if (stringutils::startsWith(property, "/Fcitx/im/")) {

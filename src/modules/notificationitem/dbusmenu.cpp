@@ -286,7 +286,7 @@ void DBusMenu::fillLayoutProperties(
                        dbus::Variant(entry->name()));
         if (!entry->icon().empty()) {
             appendProperty(properties, propertyNames, "icon-name",
-                           dbus::Variant(entry->icon()));
+                           dbus::Variant(iconName(entry->icon())));
         }
 
         if (auto *ic = lastRelevantIc()) {
@@ -323,7 +323,7 @@ void DBusMenu::fillLayoutProperties(
                 appendProperty(properties, propertyNames, "label",
                                dbus::Variant(action->shortText(ic)));
                 appendProperty(properties, propertyNames, "icon-name",
-                               dbus::Variant(action->icon(ic)));
+                               dbus::Variant(iconName(action->icon(ic))));
                 if (action->isCheckable()) {
                     appendProperty(properties, propertyNames, "toggle-type",
                                    dbus::Variant("radio"));

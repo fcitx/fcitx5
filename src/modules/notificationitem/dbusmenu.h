@@ -8,12 +8,15 @@
 #define _FCITX_MODULES_NOTIFICATIONITEM_DBUSMENU_H_
 
 #include <unordered_set>
+#include <fcitx-utils/stringutils.h>
 #include "fcitx-utils/dbus/message.h"
 #include "fcitx-utils/dbus/objectvtable.h"
 #include "fcitx-utils/dbus/variant.h"
 #include "fcitx-utils/event.h"
+#include "fcitx-utils/fs.h"
 #include "fcitx-utils/i18n.h"
 #include "fcitx-utils/log.h"
+#include "fcitx/icontheme.h"
 #include "fcitx/inputcontext.h"
 
 namespace fcitx {
@@ -69,6 +72,10 @@ private:
     }
     bool aboutToShow(int32_t id);
 
+    std::string iconName(const std::string &icon) {
+        return IconTheme::iconName(icon, inFlatpak_);
+    }
+
     InputContext *lastRelevantIc();
 
     FCITX_OBJECT_VTABLE_PROPERTY(version, "Version", "u",
@@ -95,6 +102,8 @@ private:
     std::unique_ptr<EventSourceTime> timeEvent_;
     TrackableObjectReference<InputContext> lastRelevantIc_;
     std::unordered_set<int32_t> requestedMenus_;
+
+    const bool inFlatpak_ = fs::isreg("/.flatpak-info");
 };
 
 } // namespace fcitx

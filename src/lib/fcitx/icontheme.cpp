@@ -842,4 +842,12 @@ std::string IconTheme::defaultIconThemeName() {
 
     return "Tango";
 }
+
+/// Rename fcitx-* icon to org.fcitx.Fcitx5.fcitx-* if in flatpak
+std::string IconTheme::iconName(const std::string &icon, bool inFlatpak) {
+    if (inFlatpak && stringutils::startsWith(icon, "fcitx-")) {
+        return stringutils::concat("org.fcitx.Fcitx5.", icon);
+    }
+    return icon;
+}
 } // namespace fcitx
