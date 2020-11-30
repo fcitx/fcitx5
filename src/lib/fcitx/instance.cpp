@@ -343,6 +343,24 @@ public:
         inputState->showInputMethodInformation(display);
     }
 
+    bool canActivate(InputContext *ic) {
+        FCITX_Q();
+        if (!q->canTrigger()) {
+            return false;
+        }
+        auto *inputState = ic->propertyFor(&inputStateFactory_);
+        return !inputState->isActive();
+    }
+
+    bool canDeactivate(InputContext *ic) {
+        FCITX_Q();
+        if (!q->canTrigger()) {
+            return false;
+        }
+        auto *inputState = ic->propertyFor(&inputStateFactory_);
+        return inputState->isActive();
+    }
+
     InstanceArgument arg_;
 
     int signalPipe_ = -1;
@@ -756,10 +774,10 @@ Instance::Instance(int argc, char **argv) {
                  [this, ic]() { return canAltTrigger(ic); },
                  [this, ic](bool) { return altTrigger(ic); }},
                 {d->globalConfig_.activateKeys(),
-                 [this]() { return canTrigger(); },
+                 [ic, d]() { return d->canActivate(ic); },
                  [this, ic](bool) { return activate(ic); }},
                 {d->globalConfig_.deactivateKeys(),
-                 [this]() { return canTrigger(); },
+                 [ic, d]() { return d->canDeactivate(ic); },
                  [this, ic](bool) { return deactivate(ic); }},
                 {d->globalConfig_.enumerateForwardKeys(),
                  [this, ic]() { return canEnumerate(ic); },
