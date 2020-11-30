@@ -10,6 +10,7 @@
 #include <sys/stat.h>
 #include <unistd.h>
 #include <algorithm>
+#include "stringutils.h"
 
 namespace fcitx::fs {
 
@@ -42,12 +43,18 @@ std::string cleanPath(const std::string &path) {
         buf.push_back(path[i]);
         i++;
     }
+    const size_t leading = i;
 
     int levels = 0;
     while (true) {
         size_t dotcount = 0;
-        size_t last = buf.size();
-        size_t lasti = i;
+        const size_t last = buf.size();
+        const size_t lasti = i;
+        // We have something already in the path, push a new slash.
+        if (last > leading) {
+            buf.push_back('/');
+        }
+        // Find still next '/' and count '.'
         while (i < path.size() && path[i] != '/') {
             if (path[i] == '.') {
                 dotcount++;
@@ -58,21 +65,25 @@ std::string cleanPath(const std::string &path) {
             i++;
         }
 
-        bool eaten = false;
         // everything is a dot
         if (dotcount == i - lasti) {
             if (dotcount == 1) {
                 buf.erase(last);
-                eaten = true;
             } else if (dotcount == 2) {
-                if (levels > 0) {
-                    for (int k = last - 2; k >= 0; k--) {
-                        if (buf[k] == '/') {
-                            buf.erase(k + 1);
-                            eaten = true;
+                // If we already at the beginning, don't go up.
+                if (levels > 0 && last != leading) {
+                    size_t k;
+                    for (k = last; k > leading; k--) {
+                        if (buf[k - 1] == '/') {
                             break;
                         }
                     }
+                    if (k == leading) {
+                        buf.erase(k);
+                    } else if (buf[k - 1] == '/') {
+                        buf.erase(k - 1);
+                    }
+                    levels--;
                 }
             } else {
                 levels++;
@@ -81,17 +92,16 @@ std::string cleanPath(const std::string &path) {
             levels++;
         }
 
-        if (i >= path.size()) {
-            break;
-        }
-
-        while (path[i] == '/') {
+        while (i < path.size() && path[i] == '/') {
             i++;
         }
 
-        if (!eaten) {
-            buf.push_back('/');
+        if (i >= path.size()) {
+            break;
         }
+    }
+    if (stringutils::startsWith(buf, "./")) {
+        return buf.substr(2);
     }
     return buf;
 }
