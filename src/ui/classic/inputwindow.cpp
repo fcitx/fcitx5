@@ -20,7 +20,7 @@ namespace fcitx::classicui {
 
 auto newPangoLayout(PangoContext *context) {
     GObjectUniquePtr<PangoLayout> ptr(pango_layout_new(context));
-    pango_layout_set_single_paragraph_mode(ptr.get(), true);
+    pango_layout_set_single_paragraph_mode(ptr.get(), false);
     return ptr;
 }
 
@@ -281,19 +281,19 @@ std::pair<unsigned int, unsigned int> InputWindow::sizeHint() {
             m = n;
         }
     };
-    int w;
+    int w, h;
 
     const auto &textMargin = *theme.inputPanel->textMargin;
     auto extraW = *textMargin.marginLeft + *textMargin.marginRight;
     auto extraH = *textMargin.marginTop + *textMargin.marginBottom;
     if (pango_layout_get_character_count(upperLayout_.get())) {
-        pango_layout_get_pixel_size(upperLayout_.get(), &w, nullptr);
-        height += minH + extraH;
+        pango_layout_get_pixel_size(upperLayout_.get(), &w, &h);
+        height += std::max(minH, h) + extraH;
         updateIfLarger(width, w + extraW);
     }
     if (pango_layout_get_character_count(lowerLayout_.get())) {
-        pango_layout_get_pixel_size(lowerLayout_.get(), &w, nullptr);
-        height += minH + extraH;
+        pango_layout_get_pixel_size(lowerLayout_.get(), &w, &h);
+        height += std::max(minH, h) + extraH;
         updateIfLarger(width, w + extraW);
     }
 
@@ -308,15 +308,14 @@ std::pair<unsigned int, unsigned int> InputWindow::sizeHint() {
     for (size_t i = 0; i < nCandidates_; i++) {
         size_t candidateW = 0, candidateH = 0;
         if (pango_layout_get_character_count(labelLayouts_[i].get())) {
-            pango_layout_get_pixel_size(labelLayouts_[i].get(), &w, nullptr);
+            pango_layout_get_pixel_size(labelLayouts_[i].get(), &w, &h);
             candidateW += w;
-            updateIfLarger(candidateH, minH + extraH);
+            updateIfLarger(candidateH, std::max(minH, h) + extraH);
         }
         if (pango_layout_get_character_count(candidateLayouts_[i].get())) {
-            pango_layout_get_pixel_size(candidateLayouts_[i].get(), &w,
-                                        nullptr);
+            pango_layout_get_pixel_size(candidateLayouts_[i].get(), &w, &h);
             candidateW += w;
-            updateIfLarger(candidateH, minH + extraH);
+            updateIfLarger(candidateH, std::max(minH, h) + extraH);
         }
         candidateW += extraW;
 
@@ -442,13 +441,13 @@ void InputWindow::paint(cairo_t *cr, unsigned int width, unsigned int height) {
     minH = PANGO_PIXELS(minH);
 
     size_t currentHeight = 0;
-    int w;
+    int w, h;
     auto extraW = *textMargin.marginLeft + *textMargin.marginRight;
     auto extraH = *textMargin.marginTop + *textMargin.marginBottom;
     if (pango_layout_get_character_count(upperLayout_.get())) {
         renderLayout(cr, upperLayout_.get(), *textMargin.marginLeft,
                      *textMargin.marginTop);
-        pango_layout_get_pixel_size(upperLayout_.get(), &w, nullptr);
+        pango_layout_get_pixel_size(upperLayout_.get(), &w, &h);
         PangoRectangle pos;
         if (cursor_ >= 0) {
             pango_layout_get_cursor_pos(upperLayout_.get(), cursor_, &pos,
@@ -464,13 +463,13 @@ void InputWindow::paint(cairo_t *cr, unsigned int width, unsigned int height) {
             cairo_stroke(cr);
             cairo_restore(cr);
         }
-        currentHeight += minH + extraH;
+        currentHeight += std::max(minH, h) + extraH;
     }
     if (pango_layout_get_character_count(lowerLayout_.get())) {
         renderLayout(cr, lowerLayout_.get(), *textMargin.marginLeft,
                      *textMargin.marginTop + currentHeight);
         pango_layout_get_pixel_size(lowerLayout_.get(), &w, nullptr);
-        currentHeight += minH + extraH;
+        currentHeight += std::max(minH, h) + extraH;
     }
 
     bool vertical = parent_->config().verticalCandidateList.value();
@@ -494,18 +493,18 @@ void InputWindow::paint(cairo_t *cr, unsigned int width, unsigned int height) {
         }
         x += *textMargin.marginLeft;
         y += *textMargin.marginTop;
-        int labelW = 0, candidateW = 0;
+        int labelW = 0, labelH = 0, candidateW = 0, candidateH = 0;
         if (pango_layout_get_character_count(labelLayouts_[i].get())) {
             pango_layout_get_pixel_size(labelLayouts_[i].get(), &labelW,
-                                        nullptr);
+                                        &labelH);
         }
         if (pango_layout_get_character_count(candidateLayouts_[i].get())) {
             pango_layout_get_pixel_size(candidateLayouts_[i].get(), &candidateW,
-                                        nullptr);
+                                        &candidateH);
         }
         int vheight;
         if (vertical) {
-            vheight = minH;
+            vheight = std::max({minH, labelH, candidateH});
             wholeH += vheight + extraH;
         } else {
             vheight = candidatesHeight_ - extraH;
