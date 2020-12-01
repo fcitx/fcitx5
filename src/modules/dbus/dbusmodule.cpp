@@ -15,12 +15,15 @@
 #include "fcitx-utils/i18n.h"
 #include "fcitx-utils/stringutils.h"
 #include "fcitx/addonmanager.h"
+#include "fcitx/focusgroup.h"
 #include "fcitx/inputcontextmanager.h"
 #include "fcitx/inputmethodengine.h"
 #include "fcitx/inputmethodentry.h"
 #include "fcitx/inputmethodmanager.h"
 #include "keyboard_public.h"
+#ifdef ENABLE_X11
 #include "xcb_public.h"
+#endif
 
 #define FCITX_DBUS_SERVICE "org.fcitx.Fcitx5"
 #define FCITX_CONTROLLER_DBUS_INTERFACE "org.fcitx.Fcitx.Controller1"
@@ -428,13 +431,16 @@ public:
     }
 
     void openX11Connection(const std::string &name) {
+#ifdef ENABLE_X11
         if (auto *xcb = module_->xcb()) {
             xcb->call<IXCBModule::openConnection>(name);
-        } else {
-            throw dbus::MethodCallError(
-                "org.freedesktop.DBus.Error.InvalidArgs",
-                "XCB addon is not available.");
+            return;
         }
+#else
+        FCITX_UNUSED(name);
+#endif
+        throw dbus::MethodCallError("org.freedesktop.DBus.Error.InvalidArgs",
+                                    "XCB addon is not available.");
     }
 
     std::string debugInfo() {

@@ -12,7 +12,6 @@
 #include <unistd.h>
 #include <stdexcept>
 #include <utility>
-#include <../modules/xcb/xcb_public.h>
 #include <fmt/format.h>
 #include <getopt.h>
 #include <xkbcommon/xkbcommon-compose.h>
@@ -36,6 +35,10 @@
 #include "instance.h"
 #include "misc_p.h"
 #include "userinterfacemanager.h"
+
+#ifdef ENABLE_X11
+#include <../modules/xcb/xcb_public.h>
+#endif
 
 FCITX_DEFINE_LOG_CATEGORY(keyTrace, "key_trace");
 
@@ -535,7 +538,7 @@ void InstancePrivate::buildDefaultGroup() {
         if (!stringutils::startsWith(focusGroup->display(), "x11:")) {
             return true;
         }
-        std::string rule;
+#ifdef ENABLE_X11
         auto *xcb = addonManager_.addon("xcb");
         auto x11Name = focusGroup->display().substr(4);
         if (xcb) {
@@ -547,6 +550,12 @@ void InstancePrivate::buildDefaultGroup() {
                 return false;
             }
         }
+#else
+        FCITX_UNUSED(this);
+        FCITX_UNUSED(layouts);
+        FCITX_UNUSED(variants);
+        FCITX_UNUSED(infoFound);
+#endif
         return true;
     };
     if (!defaultGroup || guessLayout(defaultGroup)) {

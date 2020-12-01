@@ -28,7 +28,10 @@
 #include "notifications_public.h"
 #include "quickphrase_public.h"
 #include "spell_public.h"
+
+#ifdef ENABLE_X11
 #include "xcb_public.h"
+#endif
 
 #ifdef ENABLE_EMOJI
 #include "emoji_public.h"
@@ -153,8 +156,9 @@ std::string findBestLanguage(const IsoCodes &isocodes, const std::string &hint,
 KeyboardEngine::KeyboardEngine(Instance *instance) : instance_(instance) {
     registerDomain("xkeyboard-config", XKEYBOARDCONFIG_DATADIR "/locale");
     isoCodes_.read(ISOCODES_ISO639_JSON, ISOCODES_ISO3166_JSON);
-    auto *xcb = instance_->addonManager().addon("xcb");
     std::string rule;
+#ifdef ENABLE_X11
+    auto *xcb = instance_->addonManager().addon("xcb");
     if (xcb) {
         auto rules = xcb->call<IXCBModule::xkbRulesNames>("");
         if (!rules[0].empty()) {
@@ -166,6 +170,7 @@ KeyboardEngine::KeyboardEngine(Instance *instance) : instance_(instance) {
             ruleName_ = rule;
         }
     }
+#endif
     if (rule.empty() || !xkbRules_.read(rule)) {
         rule = XKEYBOARDCONFIG_XKBBASE "/rules/" DEFAULT_XKB_RULES ".xml";
         xkbRules_.read(rule);

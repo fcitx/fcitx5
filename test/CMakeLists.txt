@@ -117,10 +117,12 @@ target_link_libraries(testquickphrase Fcitx5::Core Fcitx5::Module::QuickPhrase F
 add_dependencies(testquickphrase copy-addon quickphrase testui testfrontend testim)
 add_test(NAME testquickphrase COMMAND testquickphrase)
 
+if (ENABLE_X11)
 add_executable(testxim testxim.cpp)
 target_link_libraries(testxim Fcitx5::Core Fcitx5::Module::TestIM Pthread::Pthread XCB::XCB XCB::AUX XCBImdkit::XCBImdkit)
 add_dependencies(testxim copy-addon xim testui testfrontend testim)
 
 if (XVFB_BIN)
     add_test(NAME testxim COMMAND XvfbWrapper "${XVFB_BIN}" "${CMAKE_CURRENT_BINARY_DIR}/testxim")
+endif()
 endif()

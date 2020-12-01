@@ -1,8 +1,8 @@
 add_subdirectory(xcb)
+
 add_subdirectory(dbus)
 
 if (WAYLAND_FOUND)
-
 add_subdirectory(wayland)
 endif()
 

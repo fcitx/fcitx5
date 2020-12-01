@@ -21,7 +21,9 @@
 #include "fcitx/instance.h"
 #include "fcitx/userinterface.h"
 #include "theme.h"
+#ifdef ENABLE_X11
 #include "xcb_public.h"
+#endif
 #ifdef WAYLAND_FOUND
 #include "wayland_public.h"
 #endif
@@ -120,9 +122,11 @@ private:
     UIInterface *uiForInputContext(InputContext *inputContext);
     void reloadTheme();
 
+#ifdef ENABLE_X11
     std::unique_ptr<HandlerTableEntry<XCBConnectionCreated>>
         xcbCreatedCallback_;
     std::unique_ptr<HandlerTableEntry<XCBConnectionClosed>> xcbClosedCallback_;
+#endif
 
 #ifdef WAYLAND_FOUND
     std::unique_ptr<HandlerTableEntry<WaylandConnectionCreated>>

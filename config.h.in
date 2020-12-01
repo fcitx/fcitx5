@@ -31,6 +31,7 @@
 #cmakedefine ENABLE_PRESAGE
 
 #cmakedefine CAIRO_EGL_FOUND
+#cmakedefine ENABLE_X11
 #cmakedefine WAYLAND_FOUND
 #cmakedefine HAS_DLMOPEN
 #cmakedefine USE_FLATPAK_ICON

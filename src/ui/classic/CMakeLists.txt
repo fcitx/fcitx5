@@ -1,22 +1,26 @@
 add_subdirectory(themes)
 
+set(CLASSICUI_WAYLAND_SRCS)
+set(CLASSICUI_WAYLAND_LIBS)
 if (WAYLAND_FOUND)
-
-    set(CLASSICUI_WAYLAND_SRCS 
+    set(CLASSICUI_WAYLAND_SRCS ${CLASSICUI_WAYLAND_SRCS}
         waylandui.cpp waylandwindow.cpp waylandeglwindow.cpp waylandshmwindow.cpp
         waylandpointer.cpp buffer.cpp waylandinputwindow.cpp)
-    set(CLASSICUI_WAYLAND_LIBS
+    set(CLASSICUI_WAYLAND_LIBS ${CLASSICUI_WAYLAND_LIBS}
         Fcitx5::Module::Wayland Fcitx5::Module::WaylandIM Wayland::Client Fcitx5::Wayland::Core
         Fcitx5::Wayland::InputMethod Fcitx5::Wayland::InputMethodV2)
 else()
-    set(CLASSICUI_WAYLAND_SRCS)
-    set(CLASSICUI_WAYLAND_LIBS)
+endif()
+
+if (ENABLE_X11)
+    set(CLASSICUI_WAYLAND_SRCS ${CLASSICUI_WAYLAND_SRCS}
+        xcbui.cpp xcbwindow.cpp xcbtraywindow.cpp xcbinputwindow.cpp xcbmenu.cpp)
+    set(CLASSICUI_WAYLAND_LIBS ${CLASSICUI_WAYLAND_LIBS} PkgConfig::CairoXCB Fcitx5::Module::XCB
+        XCB::AUX XCB::ICCCM XCB::XINERAMA XCB::RANDR XCB::EWMH)
 endif()
 
 add_library(classicui MODULE
-    classicui.cpp xcbui.cpp xcbwindow.cpp window.cpp theme.cpp
-    xcbtraywindow.cpp inputwindow.cpp xcbinputwindow.cpp xcbmenu.cpp
-    ${CLASSICUI_WAYLAND_SRCS}
+    classicui.cpp window.cpp theme.cpp inputwindow.cpp  ${CLASSICUI_WAYLAND_SRCS}
     )
 
 if (CAIRO_EGL_FOUND)
@@ -27,10 +31,9 @@ endif()
 
 target_link_libraries(classicui
     Fcitx5::Core
-    PkgConfig::Cairo PkgConfig::CairoXCB PkgConfig::Pango
+    PkgConfig::Cairo PkgConfig::Pango
     PkgConfig::GdkPixbuf PkgConfig::GioUnix
-    Fcitx5::Module::XCB Fcitx5::Module::NotificationItem
-    XCB::AUX XCB::ICCCM XCB::XINERAMA XCB::RANDR XCB::EWMH
+    Fcitx5::Module::NotificationItem
     ${CAIRO_EGL_LIBRARY}
     ${CLASSICUI_WAYLAND_LIBS}
     ${FMT_TARGET})

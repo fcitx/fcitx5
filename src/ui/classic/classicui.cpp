@@ -16,7 +16,9 @@
 #include "fcitx/instance.h"
 #include "fcitx/userinterfacemanager.h"
 #include "notificationitem_public.h"
+#ifdef ENABLE_X11
 #include "xcbui.h"
+#endif
 #ifdef WAYLAND_FOUND
 #include "waylandui.h"
 #endif
@@ -28,6 +30,7 @@ FCITX_DEFINE_LOG_CATEGORY(classicui_logcategory, "classicui");
 ClassicUI::ClassicUI(Instance *instance) : instance_(instance) {
     reloadConfig();
 
+#ifdef ENABLE_X11
     if (auto *xcbAddon = xcb()) {
         xcbCreatedCallback_ =
             xcbAddon->call<IXCBModule::addConnectionCreatedCallback>(
@@ -42,6 +45,7 @@ ClassicUI::ClassicUI(Instance *instance) : instance_(instance) {
                     uis_.erase("x11:" + name);
                 });
     }
+#endif
 
 #ifdef WAYLAND_FOUND
     if (auto *waylandAddon = wayland()) {
@@ -228,12 +232,14 @@ void ClassicUI::update(UserInterfaceComponent component,
         // for now, though position is wrong. We don't know which is xwayland
         // unfortunately, hopefully main display is X wayland.
         // The position will be wrong anyway.
+#ifdef ENABLE_X11
         auto mainX11Display = xcb()->call<IXCBModule::mainDisplay>();
         if (!mainX11Display.empty()) {
             if (auto *uiPtr = findValue(uis_, "x11:" + mainX11Display)) {
                 ui = uiPtr->get();
             }
         }
+#endif
     } else {
         if (auto *uiPtr = findValue(uis_, inputContext->display())) {
             ui = uiPtr->get();

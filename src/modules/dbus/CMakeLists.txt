@@ -1,5 +1,11 @@
+if (ENABLE_X11)
+    set(FCITX_DBUS_X11_LIBRARIES Fcitx5::Module::XCB XCB::XCB)
+else()
+    set(FCITX_DBUS_X11_LIBRARIES)
+endif()
+
 add_library(dbus MODULE dbusmodule.cpp)
-target_link_libraries(dbus Fcitx5::Core Fcitx5::Module::Keyboard Fcitx5::Module::XCB XCB::XCB ${FMT_TARGET})
+target_link_libraries(dbus Fcitx5::Core Fcitx5::Module::Keyboard ${FCITX_DBUS_X11_LIBRARIES} ${FMT_TARGET})
 set_target_properties(dbus PROPERTIES PREFIX "")
 install(TARGETS dbus DESTINATION "${FCITX_INSTALL_ADDONDIR}")
 fcitx5_translate_desktop_file(dbus.conf.in dbus.conf)
