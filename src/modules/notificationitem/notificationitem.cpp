@@ -28,7 +28,9 @@ namespace fcitx {
 
 class StatusNotifierItem : public dbus::ObjectVTable<StatusNotifierItem> {
 public:
-    StatusNotifierItem(NotificationItem *parent) : parent_(parent) {}
+    StatusNotifierItem(NotificationItem *parent) : parent_(parent) {
+        FCITX_LOG_IF(Info, inFlatpak_) << "Running inside flatpak.";
+    }
 
     void scroll(int delta, const std::string &_orientation) {
         std::string orientation = _orientation;
