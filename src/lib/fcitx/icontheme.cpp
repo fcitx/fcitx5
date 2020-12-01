@@ -15,6 +15,7 @@
 #include "fcitx-config/marshallfunction.h"
 #include "fcitx-utils/fs.h"
 #include "fcitx-utils/log.h"
+#include "config.h"
 
 namespace fcitx {
 
