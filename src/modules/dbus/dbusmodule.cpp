@@ -455,6 +455,7 @@ public:
                 }
                 ss << "] program:" << ic->program()
                    << " frontend:" << ic->frontend()
+                   << " cap:" << fmt::format("{:x}", ic->capabilityFlags())
                    << " focus:" << ic->hasFocus() << std::endl;
                 return true;
             });
