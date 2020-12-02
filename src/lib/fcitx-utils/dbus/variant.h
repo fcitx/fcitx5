@@ -12,6 +12,11 @@
 #include "fcitxutils_export.h"
 #include "message.h"
 
+/// \addtogroup FcitxUtils
+/// \{
+/// \file
+/// \brief API for dbus variant type.
+
 namespace fcitx {
 namespace dbus {
 
@@ -44,9 +49,13 @@ private:
     FCITX_DECLARE_PRIVATE(VariantTypeRegistry);
 };
 
+/// Variant type to be used to box or unbox the dbus variant type.
 class FCITXUTILS_EXPORT Variant {
 public:
+    /// Construct an empty variant.
     Variant() = default;
+
+    /// Construct a variant from some existing data.
     template <
         typename Value,
         typename Dummy = std::enable_if_t<
@@ -57,12 +66,14 @@ public:
         setData(std::forward<Value>(value));
     }
 
+    /// Copy Construct a variant from another variant.
     Variant(const Variant &v) : signature_(v.signature_), helper_(v.helper_) {
         if (helper_) {
             data_ = helper_->copy(v.data_.get());
         }
     }
 
+    /// Copy another variant data to current.
     Variant(Variant &&v) = default;
     Variant &operator=(const Variant &v) {
         if (&v == this) {
@@ -77,16 +88,20 @@ public:
     }
     Variant &operator=(Variant &&v) = default;
 
+    /// Set variant data from some existing data.
     template <typename Value,
               typename = std::enable_if_t<!std::is_same<
                   std::remove_cv_t<std::remove_reference_t<Value>>,
                   dbus::Variant>::value>>
     void setData(Value &&value);
 
+    /// Copy variant data from another variant.
     void setData(const Variant &v) { *this = v; }
 
+    /// Set variant data from anthoer variant.
     void setData(Variant &&v) { *this = std::move(v); }
 
+    /// Set variant data with a C-string.
     void setData(const char *str) { setData(std::string(str)); }
 
     void setRawData(std::shared_ptr<void> data,
@@ -98,6 +113,8 @@ public:
         }
     }
 
+    /// Return data as given type. You need to make sure that signature matches
+    /// before using it.
     template <typename Value>
     const Value &dataAs() const {
         assert(signature() == DBusSignatureTraits<Value>::signature::data());
@@ -106,8 +123,10 @@ public:
 
     void writeToMessage(dbus::Message &msg) const;
 
+    /// Return the signature of the data.
     const std::string &signature() const { return signature_; }
 
+    /// Print the variant data to log.
     void printData(LogMessageBuilder &builder) const {
         if (helper_) {
             helper_->print(builder, data_.get());

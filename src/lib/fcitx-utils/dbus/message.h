@@ -21,11 +21,21 @@
 #include <fcitx-utils/tuplehelpers.h>
 #include <fcitx-utils/unixfd.h>
 
+/// \addtogroup FcitxUtils
+/// \{
+/// \file
+/// \brief API for DBus message.
+
 namespace fcitx::dbus {
 
 class Message;
 class Variant;
 
+/**
+ * A type to represent DBus struct.
+ *
+ * It is used for message serialization.
+ */
 template <typename... Args>
 struct DBusStruct {
     typedef std::tuple<Args...> tuple_type;
@@ -95,6 +105,11 @@ class FCITXUTILS_EXPORT VariantHelper : public VariantHelperBase {
     }
 };
 
+/**
+ * A type to represent DBus dict entry.
+ *
+ * It is used for message serialization for type like a{sv}.
+ */
 template <typename Key, typename Value>
 class DictEntry {
 public:
@@ -128,6 +143,9 @@ enum class MessageType {
     Error,
 };
 
+/**
+ * String like type object path 'o'
+ */
 class FCITXUTILS_EXPORT ObjectPath {
 public:
     ObjectPath(const std::string &path = {}) : path_(path) {}
@@ -138,6 +156,9 @@ private:
     std::string path_;
 };
 
+/**
+ * String like type object signature 'g'
+ */
 class FCITXUTILS_EXPORT Signature {
 public:
     Signature(const std::string &sig = {}) : sig_(sig) {}
@@ -148,6 +169,7 @@ private:
     std::string sig_;
 };
 
+/// Helper type for serialization, should not be used directly.
 class FCITXUTILS_EXPORT Container {
 public:
     enum class Type { Array, DictEntry, Struct, Variant };
@@ -163,6 +185,7 @@ private:
     Signature content_;
 };
 
+/// Helper type for serialization, should not be used directly.
 class FCITXUTILS_EXPORT ContainerEnd {};
 
 class MessagePrivate;
@@ -193,6 +216,9 @@ struct TupleMarshaller<Tuple, 0> {
     static void unmarshall(Message &, Tuple &) {}
 };
 
+/**
+ * Basic DBus type of a DBus message.
+ */
 class FCITXUTILS_EXPORT Message {
     friend class Bus;
 
@@ -200,35 +226,101 @@ public:
     Message();
 
     FCITX_DECLARE_VIRTUAL_DTOR_MOVE(Message);
+    /// Create a reply to this message.
     Message createReply() const;
+    /// Create a error reply to this message.
     Message createError(const char *name, const char *message) const;
 
+    /// Return the message type.
     MessageType type() const;
+
+    /// Check if the message is error.
     inline bool isError() const { return type() == MessageType::Error; }
 
+    /// Return the destination of the message.
     std::string destination() const;
+
+    /**
+     * Set the destination of the message.
+     *
+     * Should only be used on message to send.
+     *
+     * @param dest destination
+     */
     void setDestination(const std::string &dest);
 
+    /// Return the sender of the message.
     std::string sender() const;
+
+    /// Return the member of the message.
     std::string member() const;
+
+    /// Return the interface of the message.
     std::string interface() const;
+
+    /// Return the signature of the message
     std::string signature() const;
+
+    /**
+     * Return the error name of the message.
+     *
+     * Should only be used when message is a received error.
+     *
+     * @return DBus Error type
+     */
     std::string errorName() const;
+
+    /**
+     * Return the error message of the message.
+     *
+     * Should only be used when message is a received error.
+     *
+     * @return DBus Error type
+     */
     std::string errorMessage() const;
+
+    /// Return the path of the message.
     std::string path() const;
 
+    /**
+     * Return the low level internal pointer of the message.
+     *
+     * @see dbus::Bus::impl
+     *
+     * @return internal pointer
+     */
     void *nativeHandle() const;
 
+    /// Synchronously call a dbus method with a timeout in microseconds.
     Message call(uint64_t usec);
+
+    /**
+     * Asynchronously call a dbus method with a timeout in microseconds.
+     *
+     * @param usec timeout
+     * @param callback Callback function if anything happens.
+     */
     std::unique_ptr<Slot> callAsync(uint64_t usec, MessageCallback callback);
+
+    /// Send this message.
     bool send();
 
+    /// Check if message is not empty and has no serialization error.
     operator bool() const;
+
+    /// Check if message reaches end.
     bool end() const;
 
+    /// Clear serialization error.
     void resetError();
+
+    /// Rewind the message to the beginning.
     void rewind();
+
+    /// Skip the next data.
     void skip();
+
+    /// Check the next type of data in the message
     std::pair<char, std::string> peekType();
 
     Message &operator<<(uint8_t v);

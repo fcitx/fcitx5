@@ -17,6 +17,11 @@
 #include <fcitx-utils/macros.h>
 #include <fcitx-utils/trackableobject.h>
 
+/// \addtogroup FcitxUtils
+/// \{
+/// \file
+/// \brief High level API for dbus objects.
+
 namespace fcitx {
 namespace dbus {
 class Message;
@@ -30,6 +35,17 @@ typedef std::function<bool(Message, const ObjectMethod &)> ObjectMethodClosure;
 typedef std::function<void(Message &)> PropertyGetMethod;
 typedef std::function<bool(Message &)> PropertySetMethod;
 
+/**
+ * An exception if you want message to return a DBus error.
+ *
+ * In the registered property or method, you may throw this exception if a DBus
+ * error happens.
+ *
+ * E.g.
+ * @code
+ * throw dbus::MethodCallError("org.freedesktop.DBus.Error.InvalidArgs", ...);
+ * @endcode
+ */
 class FCITXUTILS_EXPORT MethodCallError : public std::exception {
 public:
     MethodCallError(const char *name, const char *error)
@@ -45,6 +61,14 @@ private:
 };
 
 class ObjectVTableMethodPrivate;
+
+/**
+ * Register a DBus method to current DBus VTable.
+ *
+ * Usually this class should not be used directory in the code.
+ *
+ * @see FCITX_OBJECT_VTABLE_METHOD
+ */
 class FCITXUTILS_EXPORT ObjectVTableMethod {
 public:
     ObjectVTableMethod(ObjectVTableBase *vtable, const std::string &name,
@@ -95,6 +119,18 @@ struct ReturnValueHelper<void> {
     }
 };
 
+/**
+ * Register a class member function as a DBus method.
+ *
+ * It will also check if the dbus signature matches the function type.
+ *
+ * @param FUNCTION a member function of the class
+ * @param FUNCTION_NAME a string of DBus method name
+ * @param SIGNATURE The dbus signature of arguments.
+ * @param RET The dbus signature of the return value.
+ *
+ * @see https://dbus.freedesktop.org/doc/dbus-specification.html#type-system
+ */
 #define FCITX_OBJECT_VTABLE_METHOD(FUNCTION, FUNCTION_NAME, SIGNATURE, RET)    \
     ::fcitx::dbus::ObjectVTableMethod FUNCTION##Method {                       \
         this, FUNCTION_NAME, SIGNATURE, RET,                                   \
@@ -134,6 +170,19 @@ struct ReturnValueHelper<void> {
             }                                                                  \
     }
 
+/**
+ * Register a new DBus signal.
+ *
+ * This macro will define two new function, SIGNAL and SIGNALTo.
+ *
+ * The latter one will only be send to one DBus destination.
+ *
+ * @param SIGNAL will be used to define two member functions.
+ * @param SIGNAL_NAME a string of DBus signal name
+ * @param SIGNATURE The dbus signature of the signal.
+ *
+ * @see https://dbus.freedesktop.org/doc/dbus-specification.html#type-system
+ */
 #define FCITX_OBJECT_VTABLE_SIGNAL(SIGNAL, SIGNAL_NAME, SIGNATURE)             \
     ::fcitx::dbus::ObjectVTableSignal SIGNAL##Signal{this, SIGNAL_NAME,        \
                                                      SIGNATURE};               \
@@ -154,6 +203,16 @@ struct ReturnValueHelper<void> {
         msg.send();                                                            \
     }
 
+/**
+ * Register a new DBus read-only property.
+ *
+ * @param PROPERTY will be used to define class member.
+ * @param NAME a string of DBus property name
+ * @param SIGNATURE The dbus signature of the property.
+ * @param GETMETHOD The method used to return the value of the property
+ *
+ * @see https://dbus.freedesktop.org/doc/dbus-specification.html#type-system
+ */
 #define FCITX_OBJECT_VTABLE_PROPERTY(PROPERTY, NAME, SIGNATURE, GETMETHOD,     \
                                      ...)                                      \
     ::fcitx::dbus::ObjectVTableProperty PROPERTY##Property{                    \
@@ -165,6 +224,17 @@ struct ReturnValueHelper<void> {
         },                                                                     \
         ::fcitx::dbus::PropertyOptions{__VA_ARGS__}};
 
+/**
+ * Register a new DBus read-only property.
+ *
+ * @param PROPERTY will be used to define class member.
+ * @param NAME a string of DBus property name
+ * @param SIGNATURE The dbus signature of the property.
+ * @param GETMETHOD The method used to return the value of the property
+ * @param SETMETHOD The method used to update the value of the property
+ *
+ * @see https://dbus.freedesktop.org/doc/dbus-specification.html#type-system
+ */
 #define FCITX_OBJECT_VTABLE_WRITABLE_PROPERTY(PROPERTY, NAME, SIGNATURE,       \
                                               GETMETHOD, SETMETHOD, ...)       \
     ::fcitx::dbus::ObjectVTableWritableProperty PROPERTY##Property{            \
@@ -192,6 +262,14 @@ struct ReturnValueHelper<void> {
         ::fcitx::dbus::PropertyOptions{__VA_ARGS__}};
 
 class ObjectVTableSignalPrivate;
+
+/**
+ * Register a DBus signal to current DBus VTable.
+ *
+ * Usually this class should not be used directory in the code.
+ *
+ * @see FCITX_OBJECT_VTABLE_SIGNAL
+ */
 class FCITXUTILS_EXPORT ObjectVTableSignal {
 public:
     ObjectVTableSignal(ObjectVTableBase *vtable, std::string name,
@@ -212,6 +290,14 @@ enum class PropertyOption : uint32_t { Hidden = (1 << 0) };
 using PropertyOptions = Flags<PropertyOption>;
 
 class ObjectVTablePropertyPrivate;
+
+/**
+ * Register a DBus read-only property to current DBus VTable.
+ *
+ * Usually this class should not be used directory in the code.
+ *
+ * @see FCITX_OBJECT_VTABLE_PROPERTY
+ */
 class FCITXUTILS_EXPORT ObjectVTableProperty {
 public:
     ObjectVTableProperty(ObjectVTableBase *vtable, std::string name,
@@ -232,6 +318,13 @@ protected:
     FCITX_DECLARE_PRIVATE(ObjectVTableProperty);
 };
 
+/**
+ * Register a DBus property to current DBus VTable.
+ *
+ * Usually this class should not be used directory in the code.
+ *
+ * @see FCITX_OBJECT_VTABLE_WRITABLE_PROPERTY
+ */
 class FCITXUTILS_EXPORT ObjectVTableWritableProperty
     : public ObjectVTableProperty {
 public:
@@ -259,14 +352,42 @@ public:
     void addMethod(ObjectVTableMethod *method);
     void addSignal(ObjectVTableSignal *sig);
     void addProperty(ObjectVTableProperty *property);
+
+    /**
+     * Unregister the dbus object from the bus.
+     *
+     * The object will automatically unregister itself upon destruction. So this
+     * method should only be used if you want to temporarily remove a object
+     * from dbus.
+     */
     void releaseSlot();
 
+    /// Return the bus that the object is registered to.
     Bus *bus();
+    /// Return whether this object is registered to a bus.
     bool isRegistered() const;
+    /// Return the registered dbus object path of the object.
     const std::string &path() const;
+    /// Return the registered dbus interface of the object.
     const std::string &interface() const;
+
+    /**
+     * Return the current dbus message for current method.
+     *
+     * This should only be used with in a registered callback.
+     *
+     * @return DBus message
+     */
     Message *currentMessage() const;
 
+    /**
+     * Set the current dbus message.
+     *
+     * This is only used by internal dbus class and not supposed to be used
+     * anywhere else.
+     *
+     * @param message current message.
+     */
     void setCurrentMessage(Message *message);
 
     ObjectVTableMethod *findMethod(const std::string &name);
@@ -284,6 +405,18 @@ private:
     FCITX_DECLARE_PRIVATE(ObjectVTableBase);
 };
 
+/**
+ * Base class of any DBus object.
+ *
+ * This should be used with curiously recurring template pattern. Like:
+ *
+ * @code
+ * class Object : public ObjectVTable<OBject> {};
+ * @endcode
+ *
+ * It will instantiate the related shared data for this type.
+ *
+ */
 template <typename T>
 class ObjectVTable : public ObjectVTableBase {
 public:

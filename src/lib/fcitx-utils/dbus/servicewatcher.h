@@ -13,6 +13,11 @@
 #include <fcitx-utils/handlertable.h>
 #include <fcitx-utils/macros.h>
 
+/// \addtogroup FcitxUtils
+/// \{
+/// \file
+/// \brief API for service monitoring.
+
 namespace fcitx {
 namespace dbus {
 
@@ -24,6 +29,9 @@ typedef HandlerTableEntry<ServiceWatcherCallback> ServiceWatcherEntry;
 
 class ServiceWatcherPrivate;
 
+/**
+ * A class to be used to monitor the services registered on the Bus.
+ */
 class FCITXUTILS_EXPORT ServiceWatcher {
 public:
     ServiceWatcher(Bus &bus);

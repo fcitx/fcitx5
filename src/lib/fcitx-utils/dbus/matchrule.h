@@ -12,12 +12,24 @@
 #include <vector>
 #include <fcitx-utils/macros.h>
 
+/// \addtogroup FcitxUtils
+/// \{
+/// \file
+/// \brief API for DBus matching rule.
+
 namespace fcitx {
 namespace dbus {
 
 class MatchRulePrivate;
 class Message;
 
+/**
+ * A dbus matching rull to be used with add match.
+ *
+ * Usually it is used to monitor certain signals on the bus.
+ *
+ * @see dbus::Bus::addMatch
+ */
 struct FCITXUTILS_EXPORT MatchRule {
 public:
     explicit MatchRule(std::string service, std::string path = "",

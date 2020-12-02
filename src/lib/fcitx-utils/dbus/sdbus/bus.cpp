@@ -207,6 +207,8 @@ bool Bus::addObjectVTable(const std::string &path, const std::string &interface,
     return true;
 }
 
+const char *Bus::impl() { return "sdbus"; }
+
 void *Bus::nativeHandle() const {
     FCITX_D();
     return d->bus_;
