@@ -1,0 +1,9 @@
+[Addon]
+Name=Fcitx4 Frontend
+Type=SharedLibrary
+Library=fcitx4frontend
+Category=Frontend
+
+[Addon/Dependencies]
+0=dbus
+
