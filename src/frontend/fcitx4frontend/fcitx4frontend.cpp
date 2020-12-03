@@ -44,16 +44,15 @@ public:
         bus_->addObjectVTable(path, FCITX_INPUTMETHOD_DBUS_INTERFACE, *this);
     }
 
-    std::tuple<dbus::ObjectPath, std::vector<uint8_t>> createInputContext(
-        const std::vector<dbus::DBusStruct<std::string, std::string>> &args);
+    std::tuple<int, bool, uint32_t, uint32_t, uint32_t, uint32_t>
+    createICv3(const std::string &appname, int pid);
 
     dbus::ServiceWatcher &serviceWatcher() { return *watcher_; }
     dbus::Bus *bus() { return bus_; }
     Instance *instance() { return module_->instance(); }
 
 private:
-    FCITX_OBJECT_VTABLE_METHOD(createInputContext, "CreateInputContext",
-                               "a(ss)", "oay");
+    FCITX_OBJECT_VTABLE_METHOD(createICv3, "CreateICv3", "si", "ibuuuu");
 
     Fcitx4FrontendModule *module_;
     Instance *instance_;
@@ -259,32 +258,15 @@ private:
     std::string name_;
 };
 
-std::tuple<dbus::ObjectPath, std::vector<uint8_t>>
-InputMethod1::createInputContext(
-    const std::vector<dbus::DBusStruct<std::string, std::string>> &args) {
-    std::unordered_map<std::string, std::string> strMap;
-    for (const auto &p : args) {
-        const auto &[key, value] = p.data();
-        strMap[key] = value;
-    }
-    std::string program;
-    auto iter = strMap.find("program");
-    if (iter != strMap.end()) {
-        program = iter->second;
-    }
-
-    std::string *display = findValue(strMap, "display");
-
+std::tuple<int, bool, uint32_t, uint32_t, uint32_t, uint32_t>
+InputMethod1::createICv3(const std::string &appname, int pid) {
+    int icid = 0;
     auto sender = currentMessage()->sender();
     auto *ic = new DBusInputContext1(module_->nextIcIdx(),
                                      instance_->inputContextManager(), this,
-                                     sender, program);
-    ic->setFocusGroup(instance_->defaultFocusGroup(display ? *display : ""));
+                                     sender, appname);
 
-    bus_->addObjectVTable(ic->path().path(), FCITX_INPUTCONTEXT_DBUS_INTERFACE,
-                          *ic);
-    return std::make_tuple(
-        ic->path(), std::vector<uint8_t>(ic->uuid().begin(), ic->uuid().end()));
+    return std::make_tuple(icid, false, 1, 1, 1, 1);
 }
 
 #define FCITX_PORTAL_DBUS_SERVICE "org.freedesktop.portal.Fcitx"
