@@ -1,5 +1,5 @@
 add_library(keyboard STATIC keyboard.cpp isocodes.cpp xkbrules.cpp xmlparser.cpp)
-target_link_libraries(keyboard Fcitx5::Core Expat::Expat LibIntl::LibIntl XKBCommon::XKBCommon Fcitx5::Module::XCB Fcitx5::Module::Spell Fcitx5::Module::Notifications  Fcitx5::Module::QuickPhrase PkgConfig::JsonC ${FMT_TARGET})
+target_link_libraries(keyboard Fcitx5::Core Expat::Expat LibIntl::LibIntl XKBCommon::XKBCommon Fcitx5::Module::Spell Fcitx5::Module::Notifications  Fcitx5::Module::QuickPhrase PkgConfig::JsonC ${FMT_TARGET})
 if (ENABLE_X11)
     target_link_libraries(keyboard Fcitx5::Module::XCB)
 endif()
