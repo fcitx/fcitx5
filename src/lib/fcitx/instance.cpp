@@ -1029,7 +1029,6 @@ Instance::Instance(int argc, char **argv) {
                 }
             }
             deactivateInputMethod(icEvent);
-            ic->statusArea().clear();
         }));
     d->eventWatchers_.emplace_back(d->watchEvent(
         EventType::InputContextReset, EventWatcherPhase::ReservedFirst,
