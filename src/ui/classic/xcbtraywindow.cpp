@@ -17,13 +17,14 @@
 // see <http://www.gnu.org/licenses/>.
 //
 #include "xcbtraywindow.h"
+#include "common.h"
+#include "fcitx-utils/i18n.h"
 #include "fcitx/inputcontext.h"
 #include "fcitx/inputmethodentry.h"
 #include "fcitx/inputmethodmanager.h"
 #include "fcitx/statusarea.h"
 #include "fcitx/userinterfacemanager.h"
 #include "xcbmenu.h"
-#include <fcitx-utils/i18n.h>
 #include <unistd.h>
 #include <xcb/xcb_aux.h>
 #include <xcb/xcb_icccm.h>

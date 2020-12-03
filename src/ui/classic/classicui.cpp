@@ -33,6 +33,8 @@
 namespace fcitx {
 namespace classicui {
 
+FCITX_DEFINE_LOG_CATEGORY(classicui_logcategory, "classicui");
+
 ClassicUI::ClassicUI(Instance *instance)
     : UserInterface(), instance_(instance) {
     reloadConfig();

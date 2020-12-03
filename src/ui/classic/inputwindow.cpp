@@ -33,10 +33,9 @@ namespace fcitx {
 namespace classicui {
 
 auto newPangoLayout(PangoContext *context) {
-    std::unique_ptr<PangoLayout, decltype(&g_object_unref)> ptr(
-        pango_layout_new(context), &g_object_unref);
+    GObjectUniquePtr<PangoLayout> ptr(pango_layout_new(context),
+                                      &g_object_unref);
     pango_layout_set_single_paragraph_mode(ptr.get(), true);
-    FCITX_INFO() << pango_layout_get_height(ptr.get());
     return ptr;
 }
 
@@ -120,12 +119,10 @@ void InputWindow::appendText(std::string &s, PangoAttrList *attrList,
 
 void InputWindow::resizeCandidates(size_t n) {
     while (labelLayouts_.size() < n) {
-        labelLayouts_.emplace_back(pango_layout_new(context_.get()),
-                                   &g_object_unref);
+        labelLayouts_.emplace_back(newPangoLayout(context_.get()));
     }
     while (candidateLayouts_.size() < n) {
-        candidateLayouts_.emplace_back(pango_layout_new(context_.get()),
-                                       &g_object_unref);
+        candidateLayouts_.emplace_back(newPangoLayout(context_.get()));
     }
     for (auto attrLists :
          {&labelAttrLists_, &candidateAttrLists_, &highlightLabelAttrLists_,
@@ -140,25 +137,30 @@ void InputWindow::resizeCandidates(size_t n) {
 }
 
 void InputWindow::setTextToLayout(
-    PangoLayout *layout, PangoAttrList *attrList,
-    PangoAttrList *highlightAttrList,
+    PangoLayout *layout, PangoAttrListUniquePtr *attrList,
+    PangoAttrListUniquePtr *highlightAttrList,
 
     std::initializer_list<std::reference_wrapper<const Text>> texts) {
+    auto newAttrList = pango_attr_list_new();
     if (attrList) {
-        pango_attr_list_ref(attrList);
-    } else {
-        attrList = pango_attr_list_new();
+        // PangoAttrList does not have "clear()". So when we set new text,
+        // we need to create a new one and get rid of old one.
+        // We keep a ref to the attrList.
+        attrList->reset(pango_attr_list_ref(newAttrList));
+    }
+    PangoAttrList *newHighlightAttrList = nullptr;
+    if (highlightAttrList) {
+        newHighlightAttrList = pango_attr_list_new();
+        highlightAttrList->reset(newHighlightAttrList);
     }
     std::string line;
     for (auto &text : texts) {
-        appendText(line, attrList, highlightAttrList, text);
+        appendText(line, newAttrList, newHighlightAttrList, text);
     }
 
     pango_layout_set_text(layout, line.c_str(), line.size());
-    pango_layout_set_attributes(layout, attrList);
-    pango_layout_set_height(layout, -(2 << 20));
-
-    pango_attr_list_unref(attrList);
+    pango_layout_set_attributes(layout, newAttrList);
+    pango_attr_list_unref(newAttrList);
 }
 
 void InputWindow::update(InputContext *inputContext) {
@@ -219,14 +221,13 @@ void InputWindow::update(InputContext *inputContext) {
 
             labelText = instance->outputFilter(inputContext, labelText);
             setTextToLayout(labelLayouts_[localIndex].get(),
-                            labelAttrLists_[localIndex].get(),
-                            highlightLabelAttrLists_[localIndex].get(),
-                            {labelText});
+                            &labelAttrLists_[localIndex],
+                            &highlightLabelAttrLists_[localIndex], {labelText});
             auto candidateText =
                 instance->outputFilter(inputContext, candidate.text());
             setTextToLayout(candidateLayouts_[localIndex].get(),
-                            candidateAttrLists_[localIndex].get(),
-                            highlightCandidateAttrLists_[localIndex].get(),
+                            &candidateAttrLists_[localIndex],
+                            &highlightCandidateAttrLists_[localIndex],
                             {candidateText});
             localIndex++;
         }

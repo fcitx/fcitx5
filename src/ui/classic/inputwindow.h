@@ -19,6 +19,7 @@
 #ifndef _FCITX_UI_CLASSIC_INPUTWINDOW_H_
 #define _FCITX_UI_CLASSIC_INPUTWINDOW_H_
 
+#include "common.h"
 #include "fcitx/candidatelist.h"
 #include "fcitx/inputcontext.h"
 #include <cairo/cairo.h>
@@ -29,6 +30,9 @@ namespace fcitx {
 namespace classicui {
 
 class ClassicUI;
+
+using PangoAttrListUniquePtr =
+    std::unique_ptr<PangoAttrList, decltype(&pango_attr_list_unref)>;
 
 class InputWindow {
 public:
@@ -48,31 +52,21 @@ protected:
     void insertAttr(PangoAttrList *attrList, TextFormatFlags format, int start,
                     int end, bool highlight) const;
     void setTextToLayout(
-        PangoLayout *layout, PangoAttrList *attrList,
-        PangoAttrList *highlightAttrList,
+        PangoLayout *layout, PangoAttrListUniquePtr *attrList,
+        PangoAttrListUniquePtr *highlightAttrList,
         std::initializer_list<std::reference_wrapper<const Text>> texts);
     int highlight() const;
 
     ClassicUI *parent_;
-    std::unique_ptr<PangoContext, decltype(&g_object_unref)> context_;
-    std::unique_ptr<PangoLayout, decltype(&g_object_unref)> upperLayout_;
-    std::unique_ptr<PangoLayout, decltype(&g_object_unref)> lowerLayout_;
-    std::vector<std::unique_ptr<PangoLayout, decltype(&g_object_unref)>>
-        labelLayouts_;
-    std::vector<std::unique_ptr<PangoLayout, decltype(&g_object_unref)>>
-        candidateLayouts_;
-    std::vector<
-        std::unique_ptr<PangoAttrList, decltype(&pango_attr_list_unref)>>
-        labelAttrLists_;
-    std::vector<
-        std::unique_ptr<PangoAttrList, decltype(&pango_attr_list_unref)>>
-        candidateAttrLists_;
-    std::vector<
-        std::unique_ptr<PangoAttrList, decltype(&pango_attr_list_unref)>>
-        highlightLabelAttrLists_;
-    std::vector<
-        std::unique_ptr<PangoAttrList, decltype(&pango_attr_list_unref)>>
-        highlightCandidateAttrLists_;
+    GObjectUniquePtr<PangoContext> context_;
+    GObjectUniquePtr<PangoLayout> upperLayout_;
+    GObjectUniquePtr<PangoLayout> lowerLayout_;
+    std::vector<GObjectUniquePtr<PangoLayout>> labelLayouts_;
+    std::vector<GObjectUniquePtr<PangoLayout>> candidateLayouts_;
+    std::vector<PangoAttrListUniquePtr> labelAttrLists_;
+    std::vector<PangoAttrListUniquePtr> candidateAttrLists_;
+    std::vector<PangoAttrListUniquePtr> highlightLabelAttrLists_;
+    std::vector<PangoAttrListUniquePtr> highlightCandidateAttrLists_;
     std::vector<Rect> candidateRegions_;
     TrackableObjectReference<InputContext> inputContext_;
     bool visible_ = false;

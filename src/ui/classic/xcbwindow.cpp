@@ -18,6 +18,7 @@
 //
 
 #include "xcbwindow.h"
+#include "common.h"
 #include <cairo/cairo-xcb.h>
 #include <xcb/xcb.h>
 #include <xcb/xcb_aux.h>

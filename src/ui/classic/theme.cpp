@@ -18,6 +18,7 @@
 //
 
 #include "theme.h"
+#include "common.h"
 #include "fcitx-utils/fs.h"
 #include "fcitx-utils/log.h"
 #include "fcitx-utils/standardpath.h"
@@ -30,8 +31,7 @@
 #include <pango/pangocairo.h>
 
 namespace fcitx {
-
-FCITX_DEFINE_LOG_CATEGORY(classicui_logcategory, "classicui");
+namespace classicui {
 
 cairo_status_t readFromFd(void *closure, unsigned char *data,
                           unsigned int length) {
@@ -201,13 +201,12 @@ ThemeImage::ThemeImage(const std::string &icon, const std::string &label,
         Color color("#ffffffff");
         cairoSetSourceColor(cr, color);
         auto fontMap = pango_cairo_font_map_get_default();
-        std::unique_ptr<PangoContext, decltype(&g_object_unref)> context(
+        GObjectUniquePtr<PangoContext> context(
             pango_font_map_create_context(fontMap), &g_object_unref);
-        std::unique_ptr<PangoLayout, decltype(&g_object_unref)> layout(
-            pango_layout_new(context.get()), &g_object_unref);
+        GObjectUniquePtr<PangoLayout> layout(pango_layout_new(context.get()),
+                                             &g_object_unref);
         pango_layout_set_single_paragraph_mode(layout.get(), true);
         pango_layout_set_text(layout.get(), label.c_str(), label.size());
-        pango_layout_set_height(layout.get(), -(2 << 20));
         PangoRectangle rect;
         PangoFontDescription *desc =
             pango_font_description_from_string(font.c_str());
@@ -471,4 +470,5 @@ void Theme::load(const std::string &name, const RawConfig &rawConfig) {
     Configuration::load(rawConfig);
     name_ = name;
 }
+} // namespace classicui
 } // namespace fcitx

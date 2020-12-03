@@ -17,8 +17,9 @@
 // see <http://www.gnu.org/licenses/>.
 //
 #include "xcbmenu.h"
+#include "common.h"
+#include "fcitx/inputcontext.h"
 #include "fcitx/userinterfacemanager.h"
-#include <fcitx/inputcontext.h>
 #include <pango/pangocairo.h>
 #include <xcb/xcb_aux.h>
 #include <xcb/xcb_keysyms.h>

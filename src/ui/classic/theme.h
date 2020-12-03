@@ -26,7 +26,7 @@
 #include <cairo/cairo.h>
 
 namespace fcitx {
-
+namespace classicui {
 FCITX_CONFIG_ENUM(Gravity, TopLeft, TopCenter, TopRight, CenterLeft, Center,
                   CenterRight, BottomLeft, BottomCenter, BottomRight)
 
@@ -173,9 +173,7 @@ inline void cairoSetSourceColor(cairo_t *cr, const Color &color) {
     cairo_set_source_rgba(cr, color.redF(), color.blueF(), color.greenF(),
                           color.alphaF());
 }
-
-FCITX_DECLARE_LOG_CATEGORY(classicui_logcategory);
-#define CLASSICUI_DEBUG() FCITX_LOGC(::fcitx::classicui_logcategory, Debug)
+} // namespace classicui
 } // namespace fcitx
 
 #endif // _FCITX_UI_CLASSIC_THEME_H_

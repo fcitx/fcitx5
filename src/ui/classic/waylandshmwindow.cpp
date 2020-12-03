@@ -18,6 +18,7 @@
 //
 
 #include "waylandshmwindow.h"
+#include "common.h"
 
 fcitx::classicui::WaylandShmWindow::WaylandShmWindow(
     fcitx::classicui::WaylandUI *ui)
