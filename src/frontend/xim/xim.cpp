@@ -447,11 +447,13 @@ void XIMServer::callback(xcb_im_client_t *client, xcb_im_input_context_t *xic,
             ic->focusIn();
         }
 
+        bool result;
         {
             InputContextEventBlocker blocker(ic);
-            if (!ic->keyEvent(event)) {
-                xcb_im_forward_event(im(), xic, xevent);
-            }
+            result = ic->keyEvent(event);
+        }
+        if (!result) {
+            xcb_im_forward_event(im(), xic, xevent);
         }
         // Make sure xcb ui can be updated.
         instance()->flushUI();
