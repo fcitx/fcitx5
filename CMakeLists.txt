@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.6.0)
-set(FCITX_VERSION 5.0.2)
-project(fcitx VERSION ${FCITX_VERSION})
+project(fcitx VERSION 5.0.2)
+set(FCITX_VERSION ${PROJECT_VERSION})
 
 find_package(ECM REQUIRED 1.0.0)
 set(CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake" ${ECM_MODULE_PATH} ${CMAKE_MODULE_PATH})
