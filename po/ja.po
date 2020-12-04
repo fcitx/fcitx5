@@ -5,16 +5,16 @@
 # Translators:
 # csslayer <wengxt@gmail.com>, 2017
 # ABE Tsunehiko, 2017
-# Takuro Onoue <kusanaginoturugi@gmail.com>, 2020
 # UTUMI Hirosi <utuhiro78@yahoo.co.jp>, 2020
+# Takuro Onoue <kusanaginoturugi@gmail.com>, 2020
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2020-12-04 00:02+0100\n"
+"POT-Creation-Date: 2020-12-05 00:02+0100\n"
 "PO-Revision-Date: 2017-11-23 04:14+0000\n"
-"Last-Translator: UTUMI Hirosi <utuhiro78@yahoo.co.jp>, 2020\n"
+"Last-Translator: Takuro Onoue <kusanaginoturugi@gmail.com>, 2020\n"
 "Language-Team: Japanese (https://www.transifex.com/fcitx/teams/12005/ja/)\n"
 "Language: ja\n"
 "MIME-Version: 1.0\n"
@@ -321,6 +321,7 @@ msgstr "DBus 名 ${1} の所有者が見つかりません。"
 #: data/fcitx5-diagnose.sh:1057
 msgid "Cannot find a GUI config tool, please install one of ${1}, or ${2}."
 msgstr ""
+"GUI設定ツールが見つかりません。{1} または {2} をインストールしてください。"
 
 #: data/fcitx5-diagnose.sh:1564
 msgid "Cannot find enabled ${1} user interface!"
@@ -440,11 +441,11 @@ msgstr "補完は有効です。"
 
 #: data/fcitx5-diagnose.sh:999
 msgid "Config GUI for gtk${1} not found."
-msgstr ""
+msgstr "gtk${1} のGUI設定が見つかりません。"
 
 #: data/fcitx5-diagnose.sh:995
 msgid "Config GUI for gtk${1}:"
-msgstr ""
+msgstr "gtk${1} のGUIを設定:"
 
 #: data/fcitx5-diagnose.sh:1029
 msgid "Config GUI for kde:"
@@ -598,7 +599,7 @@ msgstr "ドキュメント"
 #: src/lib/fcitx-utils/key.cpp:50
 msgctxt "Key name"
 msgid "Down"
-msgstr "Down"
+msgstr "下"
 
 #: src/modules/quickphrase/quickphrase.h:47
 msgid "Editor"
@@ -621,7 +622,7 @@ msgstr "Eject"
 
 #: src/modules/emoji/emoji.conf.in:3
 msgid "Emoji"
-msgstr "Emoji"
+msgstr "絵文字"
 
 #: src/ui/classic/theme.h:81
 msgid "Enable Blur on KWin"
@@ -633,11 +634,11 @@ msgstr "スペルチェックを有効"
 
 #: src/im/keyboard/keyboard.h:51
 msgid "Enable emoji in hint"
-msgstr "Emoji のヒントを有効にする"
+msgstr "絵文字のヒントを有効にする"
 
 #: src/im/keyboard/keyboard.h:54
 msgid "Enable emoji in quickphrase"
-msgstr "Emoji のクイックフレーズを有効にする"
+msgstr "絵文字のクイックフレーズを有効にする"
 
 #: src/modules/spell/spell.h:23
 msgid "Enchant"
@@ -886,7 +887,7 @@ msgstr ""
 
 #: data/fcitx5-diagnose.sh:1446
 msgid "Gtk IM module cache:"
-msgstr ""
+msgstr "Gtk IM moduleキャッシュ:"
 
 #: data/fcitx5-diagnose.sh:1451
 msgid "Gtk IM module files:"
@@ -904,52 +905,52 @@ msgstr "ハングル"
 #: src/lib/fcitx-utils/key.cpp:225
 msgctxt "Key name"
 msgid "Hangul Banja"
-msgstr ""
+msgstr "ハングルBanja"
 
 #: src/lib/fcitx-utils/key.cpp:220
 msgctxt "Key name"
 msgid "Hangul End"
-msgstr ""
+msgstr "ハングルEnd"
 
 #: src/lib/fcitx-utils/key.cpp:221
 msgctxt "Key name"
 msgid "Hangul Hanja"
-msgstr ""
+msgstr "ハングルHanja"
 
 #: src/lib/fcitx-utils/key.cpp:222
 msgctxt "Key name"
 msgid "Hangul Jamo"
-msgstr ""
+msgstr "ハングルJamo"
 
 #: src/lib/fcitx-utils/key.cpp:224
 msgctxt "Key name"
 msgid "Hangul Jeonja"
-msgstr ""
+msgstr "ハングルJeonja"
 
 #: src/lib/fcitx-utils/key.cpp:227
 msgctxt "Key name"
 msgid "Hangul PostHanja"
-msgstr ""
+msgstr "ハングルPostHanja"
 
 #: src/lib/fcitx-utils/key.cpp:226
 msgctxt "Key name"
 msgid "Hangul PreHanja"
-msgstr ""
+msgstr "ハングルPreHanja"
 
 #: src/lib/fcitx-utils/key.cpp:223
 msgctxt "Key name"
 msgid "Hangul Romaja"
-msgstr ""
+msgstr "ハングルRomaja"
 
 #: src/lib/fcitx-utils/key.cpp:228
 msgctxt "Key name"
 msgid "Hangul Special"
-msgstr ""
+msgstr "ハングルSpecial"
 
 #: src/lib/fcitx-utils/key.cpp:219
 msgctxt "Key name"
 msgid "Hangul Start"
-msgstr ""
+msgstr "ハングルStart"
 
 #: src/lib/fcitx-utils/key.cpp:207
 msgctxt "Key name"
@@ -977,27 +978,27 @@ msgstr "隠された通知"
 
 #: src/ui/classic/theme.h:56
 msgid "Hide overlay if size does not fit"
-msgstr ""
+msgstr "サイズが合わない場合はオーバーレイを非表示にする"
 
 #: src/ui/classic/theme.h:95 src/ui/classic/theme.h:114
 msgid "Highlight Background"
-msgstr ""
+msgstr "ハイライト背景"
 
 #: src/ui/classic/theme.h:90
 msgid "Highlight Background color"
-msgstr ""
+msgstr "ハイライト背景色"
 
 #: src/ui/classic/theme.h:78 src/ui/classic/theme.h:108
 msgid "Highlight Candidate Color"
-msgstr ""
+msgstr "ハイライト候補色"
 
 #: src/ui/classic/theme.h:66
 msgid "Highlight Click Margin"
-msgstr ""
+msgstr "ハイライトクリックマージン"
 
 #: src/ui/classic/theme.h:88
 msgid "Highlight text color"
-msgstr ""
+msgstr "ハイライトテキスト色"
 
 #: src/lib/fcitx-utils/key.cpp:203
 msgctxt "Key name"
@@ -1031,12 +1032,12 @@ msgstr "ホームページ"
 
 #: data/fcitx5-diagnose.sh:822
 msgid "Home:"
-msgstr ""
+msgstr "ホーム:"
 
 #: src/lib/fcitx-utils/key.cpp:110
 msgctxt "Key name"
 msgid "Hot Links"
-msgstr ""
+msgstr "ホットリンク"
 
 #: src/lib/fcitx/globalconfig.cpp:141
 msgid "Hotkey"
@@ -1083,7 +1084,7 @@ msgstr ""
 
 #: src/ui/classic/theme.h:69
 msgid "Image"
-msgstr ""
+msgstr "画像"
 
 #: src/im/keyboard/keyboard.cpp:365 src/ui/classic/xcbtraywindow.cpp:38
 #: src/lib/fcitx/instance.cpp:713 src/lib/fcitx/instance.cpp:883
@@ -1117,7 +1118,7 @@ msgstr "Insert"
 
 #: data/fcitx5-diagnose.sh:1496
 msgid "Invalid addon config file ${1}."
-msgstr ""
+msgstr "不正なアドオン設定ファイル ${1} です。"
 
 #: src/ui/kimpanel/kimpanel.conf.in:3
 msgid "KDE Input Method Panel"
@@ -1158,12 +1159,12 @@ msgstr "キーボード - {0} - {1}"
 #: src/lib/fcitx-utils/key.cpp:99
 msgctxt "Key name"
 msgid "Keyboard Brightness Down"
-msgstr ""
+msgstr "キーボードの輝度を下げる"
 
 #: src/lib/fcitx-utils/key.cpp:97
 msgctxt "Key name"
 msgid "Keyboard Brightness Up"
-msgstr ""
+msgstr "キーボードの輝度を上げる"
 
 #: data/fcitx5-diagnose.sh:788
 msgid "Keyboard Layout:"
@@ -1177,11 +1178,11 @@ msgstr "キーボードライトのオン/オフ"
 #: src/lib/fcitx-utils/key.cpp:136
 msgctxt "Key name"
 msgid "Keyboard Menu"
-msgstr ""
+msgstr "キーボードメニュー"
 
 #: data/fcitx5-diagnose.sh:1575
 msgid "Kimpanel process:"
-msgstr ""
+msgstr "Kimpanel のプロセス:"
 
 #: src/lib/fcitx-utils/key.cpp:77
 msgctxt "Key name"
@@ -1271,7 +1272,7 @@ msgstr "メールの起動"
 #: src/lib/fcitx-utils/key.cpp:47
 msgctxt "Key name"
 msgid "Left"
-msgstr ""
+msgstr "左"
 
 #: src/lib/fcitx-utils/key.cpp:30
 msgctxt "Key name"
@@ -1291,12 +1292,12 @@ msgstr "左Hyper"
 #: src/lib/fcitx-utils/key.cpp:32
 msgctxt "Key name"
 msgid "Left Shift"
-msgstr ""
+msgstr "左Shift"
 
 #: src/lib/fcitx-utils/key.cpp:36
 msgctxt "Key name"
 msgid "Left Super"
-msgstr ""
+msgstr "左Super"
 
 #: src/lib/fcitx-utils/key.cpp:106
 msgctxt "Key name"
@@ -1319,7 +1320,7 @@ msgstr "ログオフ"
 #: src/lib/fcitx-utils/key.cpp:166
 msgctxt "Key name"
 msgid "Mail Forward"
-msgstr ""
+msgstr "メール転送"
 
 #: src/ui/classic/theme.h:58
 msgid "Margin"
@@ -1518,6 +1519,8 @@ msgid ""
 "Only emoji support is found. To enable spell checking, you may need to "
 "install spell check data for the language."
 msgstr ""
+"絵文字のサポートのみが見つかりました。スペルチェックを有効にするには、その言"
+"語のスペルチェックデータをインストールする必要があります。"
 
 #: src/lib/fcitx-utils/key.cpp:189
 msgctxt "Key name"
@@ -1710,32 +1713,32 @@ msgstr ""
 #: src/lib/fcitx-utils/key.cpp:49
 msgctxt "Key name"
 msgid "Right"
-msgstr ""
+msgstr "右"
 
 #: src/lib/fcitx-utils/key.cpp:31
 msgctxt "Key name"
 msgid "Right Alt"
-msgstr ""
+msgstr "右Alt"
 
 #: src/lib/fcitx-utils/key.cpp:35
 msgctxt "Key name"
 msgid "Right Control"
-msgstr ""
+msgstr "右Control"
 
 #: src/lib/fcitx-utils/key.cpp:39
 msgctxt "Key name"
 msgid "Right Hyper"
-msgstr ""
+msgstr "右Hyper"
 
 #: src/lib/fcitx-utils/key.cpp:33
 msgctxt "Key name"
 msgid "Right Shift"
-msgstr ""
+msgstr "右Shift"
 
 #: src/lib/fcitx-utils/key.cpp:37
 msgctxt "Key name"
 msgid "Right Super"
-msgstr ""
+msgstr "右Super"
 
 #: src/lib/fcitx-utils/key.cpp:202
 msgctxt "Key name"
@@ -1814,7 +1817,7 @@ msgstr "入力状態を共有する"
 #: src/lib/fcitx-utils/key.cpp:477
 msgctxt "Key name"
 msgid "Shift"
-msgstr ""
+msgstr "Shift"
 
 #: src/lib/fcitx-utils/key.cpp:107
 msgctxt "Key name"
@@ -1849,7 +1852,7 @@ msgstr ""
 #: src/lib/fcitx-utils/key.cpp:40
 msgctxt "Key name"
 msgid "Space"
-msgstr ""
+msgstr "スペース"
 
 #: src/ui/classic/theme.h:80 src/ui/classic/theme.h:110
 msgid "Spacing"
@@ -1903,12 +1906,12 @@ msgstr ""
 
 #: src/im/keyboard/keyboard.h:33 src/modules/quickphrase/quickphrase.h:29
 msgid "Super"
-msgstr ""
+msgstr "Super"
 
 #: src/lib/fcitx-utils/key.cpp:478
 msgctxt "Key name"
 msgid "Super"
-msgstr ""
+msgstr "Super"
 
 #: src/lib/fcitx-utils/key.cpp:153
 msgctxt "Key name"
@@ -2084,7 +2087,7 @@ msgstr "Unicode:"
 #: src/lib/fcitx-utils/key.cpp:48
 msgctxt "Key name"
 msgid "Up"
-msgstr ""
+msgstr "上"
 
 #: src/frontend/xim/xim.h:33
 msgid "Use On The Spot Style (Needs restarting)"
@@ -2096,11 +2099,11 @@ msgstr "スクリーン毎のDPIを使用する"
 
 #: src/ui/classic/theme.h:85
 msgid "Use all horizontal space for highlight when it is vertical list"
-msgstr ""
+msgstr "候補リストが縦の場合は、ハイライト時にすべての水平スペースを使用します"
 
 #: src/ui/classic/classicui.h:82
 msgid "Use mouse wheel to go to prev or next page"
-msgstr ""
+msgstr "マウスホイールを使用して前または次のページに移動する"
 
 #: data/fcitx5-diagnose.sh:1562
 msgid "User Interface:"
