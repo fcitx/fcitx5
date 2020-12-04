@@ -529,6 +529,7 @@ void KeyboardEngine::updateUI(InputContext *inputContext) {
 
 void KeyboardEngine::updateCandidate(const InputMethodEntry &entry,
                                      InputContext *inputContext) {
+    inputContext->inputPanel().reset();
     auto *state = inputContext->propertyFor(&factory_);
     std::vector<std::string> results;
     if (spell()) {
