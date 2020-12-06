@@ -5,16 +5,16 @@
 # Translators:
 # csslayer <wengxt@gmail.com>, 2017
 # ABE Tsunehiko, 2017
-# UTUMI Hirosi <utuhiro78@yahoo.co.jp>, 2020
 # Takuro Onoue <kusanaginoturugi@gmail.com>, 2020
+# UTUMI Hirosi <utuhiro78@yahoo.co.jp>, 2020
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2020-12-05 00:02+0100\n"
+"POT-Creation-Date: 2020-12-07 00:02+0100\n"
 "PO-Revision-Date: 2017-11-23 04:14+0000\n"
-"Last-Translator: Takuro Onoue <kusanaginoturugi@gmail.com>, 2020\n"
+"Last-Translator: UTUMI Hirosi <utuhiro78@yahoo.co.jp>, 2020\n"
 "Language-Team: Japanese (https://www.transifex.com/fcitx/teams/12005/ja/)\n"
 "Language: ja\n"
 "MIME-Version: 1.0\n"
@@ -300,11 +300,11 @@ msgstr "実行可能な ${1} が見つかりません。"
 
 #: data/fcitx5-diagnose.sh:1433
 msgid "Cannot find ${1} im module for gtk ${2} in cache."
-msgstr ""
+msgstr "キャッシュに gtk ${2} の ${1} 入力メソッドモジュールが見つかりません。"
 
 #: data/fcitx5-diagnose.sh:1351
 msgid "Cannot find ${1} im module for gtk ${2}."
-msgstr ""
+msgstr "gtk ${2} の ${1} 入力メソッドモジュールが見つかりません。"
 
 #: data/fcitx5-diagnose.sh:1225 data/fcitx5-diagnose.sh:1230
 msgid "Cannot find ${1} input method module for ${2}."
@@ -312,7 +312,7 @@ msgstr "${2} の ${1} 入力メソッドモジュールが見つかりません�
 
 #: data/fcitx5-diagnose.sh:1345
 msgid "Cannot find ${2} for gtk ${1}"
-msgstr ""
+msgstr "gtk ${1} の ${2} が見つかりません"
 
 #: data/fcitx5-diagnose.sh:947
 msgid "Cannot find DBus name ${1} owner."
@@ -325,7 +325,7 @@ msgstr ""
 
 #: data/fcitx5-diagnose.sh:1564
 msgid "Cannot find enabled ${1} user interface!"
-msgstr ""
+msgstr "有効な ${1} ユーザーインターフェイスが見つかりません！"
 
 #: data/fcitx5-diagnose.sh:890
 msgid "Cannot find fcitx5 executable!"
@@ -333,15 +333,15 @@ msgstr "fcitx5 を実行できません！"
 
 #: data/fcitx5-diagnose.sh:1543
 msgid "Cannot find file ${1} of addon ${2}."
-msgstr ""
+msgstr "アドオン ${2} のファイル ${1} が見つかりません。"
 
 #: data/fcitx5-diagnose.sh:1553
 msgid "Cannot find following required libraries for ${1} of addon ${2}."
-msgstr ""
+msgstr "アドオン ${2} の ${1} に必要な次のライブラリが見つかりません。"
 
 #: data/fcitx5-diagnose.sh:1428
 msgid "Cannot find immodules cache for gtk ${1}"
-msgstr ""
+msgstr "gtk ${1} の immodules キャッシュが見つかりません"
 
 #: data/fcitx5-diagnose.sh:1583
 msgid ""
@@ -352,15 +352,15 @@ msgstr ""
 
 #: data/fcitx5-diagnose.sh:955
 msgid "Cannot find pid of DBus name ${1} owner."
-msgstr ""
+msgstr "DBus名 ${1} の所有者の pid が見つかりません。"
 
 #: data/fcitx5-diagnose.sh:1123
 msgid "Cannot find xim_server on root window."
-msgstr ""
+msgstr "root ウィンドウに xim_server が見つかりません。"
 
 #: data/fcitx5-diagnose.sh:1097
 msgid "Cannot interpret XMODIFIERS: ${1}."
-msgstr ""
+msgstr "XMODIFIERS を解釈できません: ${1}。"
 
 #: src/lib/fcitx-utils/key.cpp:53
 msgctxt "Key name"
@@ -393,7 +393,7 @@ msgstr "キーモディファイアーを選択"
 
 #: src/ui/classic/classicui.conf.in:3
 msgid "Classic User Inteface"
-msgstr "以前のユーザーインターフェース"
+msgstr "クラシックユーザーインターフェース"
 
 #: src/lib/fcitx-utils/key.cpp:121
 msgctxt "Key name"
@@ -674,10 +674,12 @@ msgid ""
 "Environment variable ${1} is \"${2}\" instead of \"${3}\". Please check if "
 "you have exported it incorrectly in any of your init files."
 msgstr ""
+"環境変数 ${1} は、${3} ではなく ${2} です。いずれかのinitファイルで誤ってエク"
+"スポートしていないか確認してください。"
 
 #: data/fcitx5-diagnose.sh:826
 msgid "Environment variable ${1} is not set."
-msgstr ""
+msgstr "環境変数 ${1} が設定されていません。"
 
 #: data/fcitx5-diagnose.sh:1069
 msgid "Environment variable ${1} is set to \"${2}\" correctly."
@@ -807,7 +809,7 @@ msgstr ""
 
 #: data/fcitx5-diagnose.sh:1566
 msgid "Found ${1} enabled user interface addons:"
-msgstr ""
+msgstr "${1} が有効なユーザーインターフェイスアドオンが見つかりました:"
 
 #: data/fcitx5-diagnose.sh:1333 data/fcitx5-diagnose.sh:1416
 msgid "Found ${1} im modules for gtk ${2}."
@@ -1777,7 +1779,7 @@ msgstr ""
 #: src/lib/fcitx-utils/key.cpp:55
 msgctxt "Key name"
 msgid "ScrollLock"
-msgstr ""
+msgstr "ScrollLock"
 
 #: src/lib/fcitx-utils/key.cpp:73
 msgctxt "Key name"
@@ -2057,11 +2059,11 @@ msgstr "トリガーキー"
 
 #: src/modules/imselector/imselector.h:29
 msgid "Trigger Key for only current input context"
-msgstr "現在の入力コンテキストのためのトリガーキー"
+msgstr "現在の入力コンテキストのみのトリガーキー"
 
 #: src/im/keyboard/keyboard.h:60
 msgid "Trigger hint mode"
-msgstr "トリガーヒントモード"
+msgstr "ヒントモードのオンオフ"
 
 #: data/org.fcitx.Fcitx5.metainfo.xml.in:20
 msgid "Typing with Fcitx and Kimpanel"
