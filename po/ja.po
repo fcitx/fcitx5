@@ -5,16 +5,16 @@
 # Translators:
 # csslayer <wengxt@gmail.com>, 2017
 # ABE Tsunehiko, 2017
-# Takuro Onoue <kusanaginoturugi@gmail.com>, 2020
 # UTUMI Hirosi <utuhiro78@yahoo.co.jp>, 2020
+# Takuro Onoue <kusanaginoturugi@gmail.com>, 2020
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2020-12-07 00:02+0100\n"
+"POT-Creation-Date: 2020-12-08 00:02+0100\n"
 "PO-Revision-Date: 2017-11-23 04:14+0000\n"
-"Last-Translator: UTUMI Hirosi <utuhiro78@yahoo.co.jp>, 2020\n"
+"Last-Translator: Takuro Onoue <kusanaginoturugi@gmail.com>, 2020\n"
 "Language-Team: Japanese (https://www.transifex.com/fcitx/teams/12005/ja/)\n"
 "Language: ja\n"
 "MIME-Version: 1.0\n"
@@ -170,7 +170,7 @@ msgstr "右側のアプリケーション"
 #: src/lib/fcitx-utils/key.cpp:176
 msgctxt "Key name"
 msgid "Audio Cycle Track"
-msgstr ""
+msgstr "オーディオサイクルトラック"
 
 #: src/lib/fcitx-utils/key.cpp:174
 msgctxt "Key name"
@@ -180,7 +180,7 @@ msgstr "オーディオランダム再生"
 #: src/lib/fcitx-utils/key.cpp:173
 msgctxt "Key name"
 msgid "Audio Repeat"
-msgstr ""
+msgstr "オーディオリピート"
 
 #: src/ui/classic/theme.h:127
 msgid "Author"
@@ -189,17 +189,17 @@ msgstr "作者"
 #: src/lib/fcitx-utils/key.cpp:163
 msgctxt "Key name"
 msgid "Away"
-msgstr ""
+msgstr "Away"
 
 #: src/lib/fcitx-utils/key.cpp:58
 msgctxt "Key name"
 msgid "Back"
-msgstr ""
+msgstr "Back"
 
 #: src/lib/fcitx-utils/key.cpp:115
 msgctxt "Key name"
 msgid "Back Forward"
-msgstr ""
+msgstr "Back Forward"
 
 #: src/ui/classic/theme.h:93 src/ui/classic/theme.h:112
 msgid "Background"
@@ -626,7 +626,7 @@ msgstr "絵文字"
 
 #: src/ui/classic/theme.h:81
 msgid "Enable Blur on KWin"
-msgstr ""
+msgstr "KWinで Blur を有効にする"
 
 #: src/modules/quickphrase/quickphrase.h:43
 msgid "Enable Spell check"
@@ -683,11 +683,11 @@ msgstr "環境変数 ${1} が設定されていません。"
 
 #: data/fcitx5-diagnose.sh:1069
 msgid "Environment variable ${1} is set to \"${2}\" correctly."
-msgstr ""
+msgstr "環境変数 ${1} は \"${2}\" に正しく設定されています。"
 
 #: data/fcitx5-diagnose.sh:830
 msgid "Environment variable ${1} is set to ${2}."
-msgstr ""
+msgstr "環境変数 ${1} に ${2} を設定しました。"
 
 #: data/fcitx5-diagnose.sh:785
 msgid "Environment:"
@@ -695,7 +695,7 @@ msgstr "環境:"
 
 #: data/fcitx5-diagnose.sh:812
 msgid "Error occurs when running ${1}. Please check your locale settings."
-msgstr ""
+msgstr "${1} の実行中にエラーが起きました。ロケール設定を確認してください。"
 
 #: src/lib/fcitx-utils/key.cpp:196
 msgctxt "Key name"
@@ -714,11 +714,11 @@ msgstr "閉じる"
 
 #: data/fcitx5-diagnose.sh:1422
 msgid "Failed to find ${1} in immodule cache at ${2}"
-msgstr ""
+msgstr "${1} の immodule キャッシュに ${2} が見つかりません。"
 
 #: data/fcitx5-diagnose.sh:1339
 msgid "Failed to find ${1} in the output of ${2}"
-msgstr ""
+msgstr "${1} の出力に ${2} が見つかりません。"
 
 #: src/modules/quickphrase/quickphrase.h:45
 msgid "Fallback Spell check language"
@@ -780,32 +780,32 @@ msgstr "Forward"
 
 #: data/fcitx5-diagnose.sh:1214
 msgid "Found ${1} ${2} module: ${3}."
-msgstr ""
+msgstr "${1} ${2} モジュールが見つかりました: ${3}。"
 
 #: data/fcitx5-diagnose.sh:921
 msgid "Found ${1} ${2} process:"
-msgstr ""
+msgstr "${1} ${2} プロセスが見つかりました:"
 
 #: data/fcitx5-diagnose.sh:919
 msgid "Found ${1} ${2} processes:"
-msgstr ""
+msgstr "${1} ${2} プロセスが見つかりました:"
 
 #: data/fcitx5-diagnose.sh:1484
 msgid "Found ${1} addon config directory: ${2}."
-msgstr ""
+msgstr "${1} アドオンの設定ディレクトリを見つけました: ${2}。"
 
 #: data/fcitx5-diagnose.sh:896 data/fcitx5-diagnose.sh:1008
 #: data/fcitx5-diagnose.sh:1021 data/fcitx5-diagnose.sh:1049
 msgid "Found ${1} at ${2}."
-msgstr ""
+msgstr "${1} を ${2} で見つけました。"
 
 #: data/fcitx5-diagnose.sh:1529
 msgid "Found ${1} disabled addons:"
-msgstr ""
+msgstr "${1} 個の無効なアドオンが見つかりました:"
 
 #: data/fcitx5-diagnose.sh:1524
 msgid "Found ${1} enabled addons:"
-msgstr ""
+msgstr "${1} 個の有効なアドオンが見つかりました:"
 
 #: data/fcitx5-diagnose.sh:1566
 msgid "Found ${1} enabled user interface addons:"
@@ -813,35 +813,35 @@ msgstr "${1} が有効なユーザーインターフェイスアドオンが見�
 
 #: data/fcitx5-diagnose.sh:1333 data/fcitx5-diagnose.sh:1416
 msgid "Found ${1} im modules for gtk ${2}."
-msgstr ""
+msgstr "gtk ${2} 用の ${1} 入力メソッドモジュールが見つかりました。"
 
 #: data/fcitx5-diagnose.sh:1035
 msgid "Found ${1} kcm module."
-msgstr ""
+msgstr "${1} kcm モジュールを見つけました。"
 
 #: data/fcitx5-diagnose.sh:1325
 msgid "Found ${2} for unknown gtk version at ${1}."
-msgstr ""
+msgstr "未知のバージョンのgtk用の ${2} を ${1} に見つけました。"
 
 #: data/fcitx5-diagnose.sh:1317
 msgid "Found ${3} for gtk ${1} at ${2}."
-msgstr ""
+msgstr "gtk ${1} 用の ${3} を ${2} に見つけました。"
 
 #: data/fcitx5-diagnose.sh:1203 data/fcitx5-diagnose.sh:1208
 msgid "Found ${3} im module for ${2}: ${1}."
-msgstr ""
+msgstr "${2}の $3{3} im モジュールが見つかりました: ${1}"
 
 #: data/fcitx5-diagnose.sh:1409
 msgid "Found immodule cache for unknown gtk version at ${1}."
-msgstr ""
+msgstr "未知の gtk 用の immodules キャッシュを ${1} に見つけました。"
 
 #: data/fcitx5-diagnose.sh:1401
 msgid "Found immodules cache for gtk ${1} at ${2}."
-msgstr ""
+msgstr "gtk ${1} の immodule cache を ${2} に見つけました。"
 
 #: data/fcitx5-diagnose.sh:1217
 msgid "Found unknown ${1} qt module: ${2}."
-msgstr ""
+msgstr "不明な ${1} qt モジュールが見つかりました: ${2}。"
 
 #: src/modules/notifications/notifications.conf.in:4
 msgid "Freedesktop.org Notification Support"
@@ -885,7 +885,7 @@ msgstr "グループ {}"
 
 #: data/fcitx5-diagnose.sh:1278
 msgid "Gtk ${1} immodule file ${2} does not exist."
-msgstr ""
+msgstr "Gtk ${1} IMモジュールファイル ${2} がありません。"
 
 #: data/fcitx5-diagnose.sh:1446
 msgid "Gtk IM module cache:"
@@ -976,7 +976,7 @@ msgstr "ハイバネート"
 
 #: src/modules/notifications/notifications.h:28
 msgid "Hidden Notifications"
-msgstr "隠された通知"
+msgstr "隠す通知"
 
 #: src/ui/classic/theme.h:56
 msgid "Hide overlay if size does not fit"
@@ -1020,7 +1020,7 @@ msgstr "ヒストリ"
 #: src/lib/fcitx-utils/key.cpp:45
 msgctxt "Key name"
 msgid "Home"
-msgstr "ホーム"
+msgstr "Home"
 
 #: src/lib/fcitx-utils/key.cpp:140
 msgctxt "Key name"
@@ -1189,82 +1189,82 @@ msgstr "Kimpanel のプロセス:"
 #: src/lib/fcitx-utils/key.cpp:77
 msgctxt "Key name"
 msgid "Launch (0)"
-msgstr ""
+msgstr "起動 (0)"
 
 #: src/lib/fcitx-utils/key.cpp:78
 msgctxt "Key name"
 msgid "Launch (1)"
-msgstr ""
+msgstr "起動 (1)"
 
 #: src/lib/fcitx-utils/key.cpp:79
 msgctxt "Key name"
 msgid "Launch (2)"
-msgstr ""
+msgstr "起動 (2)"
 
 #: src/lib/fcitx-utils/key.cpp:80
 msgctxt "Key name"
 msgid "Launch (3)"
-msgstr ""
+msgstr "起動 (3)"
 
 #: src/lib/fcitx-utils/key.cpp:81
 msgctxt "Key name"
 msgid "Launch (4)"
-msgstr ""
+msgstr "起動 (4)"
 
 #: src/lib/fcitx-utils/key.cpp:82
 msgctxt "Key name"
 msgid "Launch (5)"
-msgstr ""
+msgstr "起動 (5)"
 
 #: src/lib/fcitx-utils/key.cpp:83
 msgctxt "Key name"
 msgid "Launch (6)"
-msgstr ""
+msgstr "起動 (6)"
 
 #: src/lib/fcitx-utils/key.cpp:84
 msgctxt "Key name"
 msgid "Launch (7)"
-msgstr ""
+msgstr "起動 (7)"
 
 #: src/lib/fcitx-utils/key.cpp:85
 msgctxt "Key name"
 msgid "Launch (8)"
-msgstr ""
+msgstr "起動 (8)"
 
 #: src/lib/fcitx-utils/key.cpp:86
 msgctxt "Key name"
 msgid "Launch (9)"
-msgstr ""
+msgstr "起動 (9)"
 
 #: src/lib/fcitx-utils/key.cpp:87
 msgctxt "Key name"
 msgid "Launch (A)"
-msgstr ""
+msgstr "起動 (A)"
 
 #: src/lib/fcitx-utils/key.cpp:88
 msgctxt "Key name"
 msgid "Launch (B)"
-msgstr ""
+msgstr "起動 (B)"
 
 #: src/lib/fcitx-utils/key.cpp:89
 msgctxt "Key name"
 msgid "Launch (C)"
-msgstr ""
+msgstr "起動 (C)"
 
 #: src/lib/fcitx-utils/key.cpp:90
 msgctxt "Key name"
 msgid "Launch (D)"
-msgstr ""
+msgstr "起動 (D)"
 
 #: src/lib/fcitx-utils/key.cpp:91
 msgctxt "Key name"
 msgid "Launch (E)"
-msgstr ""
+msgstr "起動 (E)"
 
 #: src/lib/fcitx-utils/key.cpp:92
 msgctxt "Key name"
 msgid "Launch (F)"
-msgstr ""
+msgstr "起動 (F)"
 
 #: src/lib/fcitx-utils/key.cpp:76
 msgctxt "Key name"
@@ -1304,7 +1304,7 @@ msgstr "左Super"
 #: src/lib/fcitx-utils/key.cpp:106
 msgctxt "Key name"
 msgid "LightBulb"
-msgstr ""
+msgstr "LightBulb"
 
 #: data/fcitx5-diagnose.sh:803
 msgid "Locale:"
@@ -1360,47 +1360,47 @@ msgstr "マーケット"
 #: src/lib/fcitx-utils/key.cpp:210
 msgctxt "Key name"
 msgid "Massyo"
-msgstr ""
+msgstr "Massyo"
 
 #: src/lib/fcitx-utils/key.cpp:172
 msgctxt "Key name"
 msgid "Media Fast Forward"
-msgstr ""
+msgstr "メディア早送り"
 
 #: src/lib/fcitx-utils/key.cpp:68
 msgctxt "Key name"
 msgid "Media Next"
-msgstr ""
+msgstr "次のメディア"
 
 #: src/lib/fcitx-utils/key.cpp:70
 msgctxt "Key name"
 msgid "Media Pause"
-msgstr ""
+msgstr "メディア一時停止"
 
 #: src/lib/fcitx-utils/key.cpp:65
 msgctxt "Key name"
 msgid "Media Play"
-msgstr ""
+msgstr "メディア再生"
 
 #: src/lib/fcitx-utils/key.cpp:67
 msgctxt "Key name"
 msgid "Media Previous"
-msgstr ""
+msgstr "前のメディア"
 
 #: src/lib/fcitx-utils/key.cpp:69
 msgctxt "Key name"
 msgid "Media Record"
-msgstr ""
+msgstr "メディア記録"
 
 #: src/lib/fcitx-utils/key.cpp:114
 msgctxt "Key name"
 msgid "Media Rewind"
-msgstr ""
+msgstr "メディア巻き戻し"
 
 #: src/lib/fcitx-utils/key.cpp:66
 msgctxt "Key name"
 msgid "Media Stop"
-msgstr ""
+msgstr "メディア停止"
 
 #: src/lib/fcitx-utils/key.cpp:135
 msgctxt "Key name"
@@ -1438,12 +1438,12 @@ msgstr "マイクミュート"
 #: src/lib/fcitx-utils/key.cpp:95
 msgctxt "Key name"
 msgid "Monitor Brightness Down"
-msgstr ""
+msgstr "モニターの明るさをダウン"
 
 #: src/lib/fcitx-utils/key.cpp:93
 msgctxt "Key name"
 msgid "Monitor Brightness Up"
-msgstr ""
+msgstr "モニターの明るさをアップ"
 
 #: src/lib/fcitx-utils/key.cpp:200
 msgctxt "Key name"
@@ -1463,11 +1463,11 @@ msgstr "音楽"
 #: src/lib/fcitx-utils/key.cpp:138
 msgctxt "Key name"
 msgid "My Sites"
-msgstr ""
+msgstr "個人用サイト"
 
 #: src/ui/classic/theme.h:125
 msgid "Name"
-msgstr ""
+msgstr "名前"
 
 #: src/lib/fcitx-utils/key.cpp:188
 msgctxt "Key name"
@@ -1545,7 +1545,7 @@ msgstr "クリップマージンの上書き"
 
 #: src/ui/classic/theme.h:51
 msgid "Overlay Image"
-msgstr ""
+msgstr "オーバーレイ画像"
 
 #: src/ui/classic/theme.h:53
 msgid "Overlay X offset"
@@ -1579,7 +1579,7 @@ msgstr "Paste"
 #: src/lib/fcitx-utils/key.cpp:44
 msgctxt "Key name"
 msgid "Pause"
-msgstr ""
+msgstr "一時停止"
 
 #: src/lib/fcitx-utils/key.cpp:52
 msgctxt "Key name"
@@ -1594,12 +1594,12 @@ msgstr "PgUp"
 #: src/lib/fcitx-utils/key.cpp:143
 msgctxt "Key name"
 msgid "Phone"
-msgstr ""
+msgstr "電話"
 
 #: src/lib/fcitx-utils/key.cpp:167
 msgctxt "Key name"
 msgid "Pictures"
-msgstr ""
+msgstr "ピクチャー"
 
 #: data/fcitx5-diagnose.sh:892
 msgid "Please check ${1} for how to install fcitx5."
@@ -1610,22 +1610,27 @@ msgid ""
 "Please check the Configure link of your distribution in ${1} for how to "
 "setup ${2} autostart."
 msgstr ""
+"${2} 自動スタートの設定方法については、${1} のあなたのディストリビューション"
+"の設定リンクを参照してください。"
 
 #: data/fcitx5-diagnose.sh:669
 msgid ""
 "Please set environment variable ${env_name} to \"${value}\" using the tool "
 "your distribution provides or add ${1} to your ${2}. See ${link}."
 msgstr ""
+"お使いのディストリビューションが用意しているツールで環境変数 ${env_name} に "
+"'${value}' を設定するか、直接${2} に ${1} を書き加えてください。詳しくは "
+"${link} を参照してください"
 
 #: src/lib/fcitx-utils/key.cpp:181
 msgctxt "Key name"
 msgid "Power Down"
-msgstr ""
+msgstr "パワーダウン"
 
 #: src/lib/fcitx-utils/key.cpp:100
 msgctxt "Key name"
 msgid "Power Off"
-msgstr ""
+msgstr "電源オフ"
 
 #: src/lib/fcitx/instance.cpp:883
 msgid "Preedit"
@@ -1641,7 +1646,7 @@ msgstr "プリエディット有効"
 
 #: src/modules/spell/spell.h:22
 msgid "Presage"
-msgstr ""
+msgstr "Presage"
 
 #: src/im/keyboard/keyboard.h:42
 msgid "Prev Candidate"
@@ -1649,7 +1654,7 @@ msgstr "前の候補"
 
 #: src/ui/classic/theme.h:100
 msgid "Prev Page Button"
-msgstr ""
+msgstr "前のページボタン"
 
 #: src/lib/fcitx-utils/key.cpp:217
 msgctxt "Key name"
@@ -1663,11 +1668,11 @@ msgstr "Print Screen"
 
 #: src/modules/spell/spell.h:38
 msgid "Providers"
-msgstr ""
+msgstr "プロバイダー"
 
 #: data/fcitx5-diagnose.sh:1189
 msgid "Qt IM module files:"
-msgstr ""
+msgstr "Qt IM module ファイル:"
 
 #: src/modules/quickphrase/quickphrase.conf.in:3
 msgid "Quick Phrase"
@@ -1680,27 +1685,27 @@ msgstr "クイックフレーズ:"
 #: src/lib/fcitx-utils/key.cpp:184
 msgctxt "Key name"
 msgid "Red"
-msgstr ""
+msgstr "赤"
 
 #: src/lib/fcitx-utils/key.cpp:192
 msgctxt "Key name"
 msgid "Redo"
-msgstr ""
+msgstr "やり直す"
 
 #: src/lib/fcitx-utils/key.cpp:61
 msgctxt "Key name"
 msgid "Refresh"
-msgstr ""
+msgstr "更新"
 
 #: src/lib/fcitx-utils/key.cpp:145
 msgctxt "Key name"
 msgid "Reload"
-msgstr ""
+msgstr "リロード"
 
 #: src/lib/fcitx-utils/key.cpp:144
 msgctxt "Key name"
 msgid "Reply"
-msgstr ""
+msgstr "リプライ"
 
 #: src/ui/classic/xcbtraywindow.cpp:41
 #: src/modules/notificationitem/dbusmenu.cpp:264
@@ -1710,7 +1715,7 @@ msgstr "再起動"
 #: src/lib/fcitx-utils/key.cpp:43
 msgctxt "Key name"
 msgid "Return"
-msgstr ""
+msgstr "Return"
 
 #: src/lib/fcitx-utils/key.cpp:49
 msgctxt "Key name"
@@ -1745,26 +1750,26 @@ msgstr "右Super"
 #: src/lib/fcitx-utils/key.cpp:202
 msgctxt "Key name"
 msgid "Romaji"
-msgstr ""
+msgstr "ローマ字"
 
 #: src/lib/fcitx-utils/key.cpp:146
 msgctxt "Key name"
 msgid "Rotate Windows"
-msgstr ""
+msgstr "ウィンドウ回転"
 
 #: src/lib/fcitx-utils/key.cpp:148
 msgctxt "Key name"
 msgid "Rotation KB"
-msgstr ""
+msgstr "ローテーション KB"
 
 #: src/lib/fcitx-utils/key.cpp:147
 msgctxt "Key name"
 msgid "Rotation PB"
-msgstr ""
+msgstr "ローテーション PB"
 
 #: data/fcitx5-diagnose.sh:868
 msgid "Running as root:"
-msgstr ""
+msgstr "root として実行:"
 
 #: src/lib/fcitx-utils/key.cpp:149
 msgctxt "Key name"
@@ -1774,7 +1779,7 @@ msgstr "保存"
 #: src/lib/fcitx-utils/key.cpp:103
 msgctxt "Key name"
 msgid "Screensaver"
-msgstr ""
+msgstr "スクリーンセーバー"
 
 #: src/lib/fcitx-utils/key.cpp:55
 msgctxt "Key name"
@@ -1806,11 +1811,11 @@ msgstr "キーボードで指定の入力メソッドを選択"
 #: src/lib/fcitx-utils/key.cpp:150
 msgctxt "Key name"
 msgid "Send"
-msgstr ""
+msgstr "送信"
 
 #: src/ui/classic/theme.h:116
 msgid "Separator Background"
-msgstr ""
+msgstr "セパレーターの背景"
 
 #: src/lib/fcitx/globalconfig.cpp:118
 msgid "Share Input State"
@@ -1824,7 +1829,7 @@ msgstr "Shift"
 #: src/lib/fcitx-utils/key.cpp:107
 msgctxt "Key name"
 msgid "Shop"
-msgstr ""
+msgstr "ショップ"
 
 #: src/lib/fcitx/globalconfig.cpp:128
 msgid "Show Input Method Information when changing focus"
@@ -1836,7 +1841,7 @@ msgstr "入力メソッドを切り替える際に入力メソッドの情報を
 
 #: src/modules/notificationitem/notificationitem.h:26
 msgid "Show label when using keyboard or icon unavailable"
-msgstr ""
+msgstr "キーボードまたはアイコンを利用できないときにラベルを表示する"
 
 #: src/lib/fcitx/globalconfig.cpp:121
 msgid "Show preedit in application"
@@ -1849,7 +1854,7 @@ msgstr "切り替え時は第1入力メソッドをスキップする"
 #: src/lib/fcitx-utils/key.cpp:105
 msgctxt "Key name"
 msgid "Sleep"
-msgstr ""
+msgstr "スリープ"
 
 #: src/lib/fcitx-utils/key.cpp:40
 msgctxt "Key name"
@@ -1858,7 +1863,7 @@ msgstr "スペース"
 
 #: src/ui/classic/theme.h:80 src/ui/classic/theme.h:110
 msgid "Spacing"
-msgstr ""
+msgstr "間隔"
 
 #: src/modules/spell/spell.conf.in:3
 msgid "Spell"
@@ -1872,7 +1877,7 @@ msgstr "スペルチェッカー"
 #: src/lib/fcitx-utils/key.cpp:152
 msgctxt "Key name"
 msgid "Split Screen"
-msgstr ""
+msgstr "画面分割"
 
 #: src/lib/fcitx-utils/key.cpp:128
 msgctxt "Key name"
@@ -1895,16 +1900,16 @@ msgstr "ステータス通知"
 #: src/lib/fcitx-utils/key.cpp:60
 msgctxt "Key name"
 msgid "Stop"
-msgstr ""
+msgstr "停止"
 
 #: src/ui/classic/theme.h:118
 msgid "Sub Menu"
-msgstr ""
+msgstr "サブメニュー"
 
 #: src/lib/fcitx-utils/key.cpp:175
 msgctxt "Key name"
 msgid "Subtitle"
-msgstr ""
+msgstr "サブタイトル"
 
 #: src/im/keyboard/keyboard.h:33 src/modules/quickphrase/quickphrase.h:29
 msgid "Super"
@@ -1918,12 +1923,12 @@ msgstr "Super"
 #: src/lib/fcitx-utils/key.cpp:153
 msgctxt "Key name"
 msgid "Support"
-msgstr ""
+msgstr "サポート"
 
 #: src/lib/fcitx-utils/key.cpp:182
 msgctxt "Key name"
 msgid "Suspend"
-msgstr ""
+msgstr "サスペンド"
 
 #: src/lib/fcitx/instance.cpp:714 src/modules/xcb/xcbconnection.cpp:389
 msgid "Switch group"
@@ -1968,7 +1973,7 @@ msgstr "ターミナル"
 #: src/modules/imselector/imselector.h:40
 #: src/modules/imselector/imselector.h:50
 msgid "The n-th hotkey in the list selects the n-th input method."
-msgstr ""
+msgstr "N番目のホットキーでN番目の入力メソッドに切り替える。"
 
 #: data/fcitx5-diagnose.sh:847
 msgid "The script is run as ${1} (${2})."
@@ -1981,7 +1986,7 @@ msgstr "テーマ"
 #: src/lib/fcitx-utils/key.cpp:177
 msgctxt "Key name"
 msgid "Time"
-msgstr ""
+msgstr "タイム"
 
 #: data/fcitx5-diagnose.sh:705
 #, sh-format
@@ -2067,7 +2072,7 @@ msgstr "ヒントモードのオンオフ"
 
 #: data/org.fcitx.Fcitx5.metainfo.xml.in:20
 msgid "Typing with Fcitx and Kimpanel"
-msgstr ""
+msgstr "FcitxとKimpanelで入力する"
 
 #: data/fcitx5-diagnose.sh:959
 msgid "Unable to find a program to check dbus."
@@ -2135,22 +2140,22 @@ msgstr "ビデオ"
 #: src/lib/fcitx-utils/key.cpp:179
 msgctxt "Key name"
 msgid "View"
-msgstr ""
+msgstr "ビュー"
 
 #: src/lib/fcitx-utils/key.cpp:62
 msgctxt "Key name"
 msgid "Volume Down"
-msgstr ""
+msgstr "音量ダウン"
 
 #: src/lib/fcitx-utils/key.cpp:63
 msgctxt "Key name"
 msgid "Volume Mute"
-msgstr ""
+msgstr "音量ミュート"
 
 #: src/lib/fcitx-utils/key.cpp:64
 msgctxt "Key name"
 msgid "Volume Up"
-msgstr ""
+msgstr "音量アップ"
 
 #: src/lib/fcitx-utils/key.cpp:104
 msgctxt "Key name"
@@ -2160,7 +2165,7 @@ msgstr "WWW"
 #: src/lib/fcitx-utils/key.cpp:101
 msgctxt "Key name"
 msgid "Wake Up"
-msgstr ""
+msgstr "Wake Up"
 
 #: src/modules/wayland/wayland.conf.in:3
 msgid "Wayland"
@@ -2212,7 +2217,7 @@ msgstr "XIM for Emacs:"
 
 #: data/fcitx5-diagnose.sh:1107
 msgid "XIM_SERVERS on root window:"
-msgstr ""
+msgstr "ルートウィンドウでの XIM_SERVERS :"
 
 #: data/fcitx5-diagnose.sh:1084
 msgid "XMODIFIERS is not set"
@@ -2235,7 +2240,7 @@ msgstr "XIM サーバー名: \"${1}\" は環境変数で設定された \"${2} �
 #: src/lib/fcitx-utils/key.cpp:186
 msgctxt "Key name"
 msgid "Yellow"
-msgstr ""
+msgstr "黄"
 
 #: data/fcitx5-diagnose.sh:876
 msgid ""
