@@ -11,6 +11,7 @@
 #include <fstream>
 #include <stdexcept>
 #include <unordered_set>
+#include <limits>
 #include "fcitx-config/iniparser.h"
 #include "fcitx-config/marshallfunction.h"
 #include "fcitx-utils/fs.h"
