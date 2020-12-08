@@ -63,6 +63,9 @@ public:
         return sym_ == key.sym_ && states_ == key.states_ && code_ == key.code_;
     }
 
+    /// Check if key is not same;
+    bool operator!=(const Key &key) const { return !operator==(key); }
+
     /// Check if current key match the key.
     bool check(const Key &key) const;
 
