@@ -43,6 +43,12 @@ enum class KeyState : uint32_t {
     Super2 = 1 << 26, // Gtk virtual Super
     Hyper2 = 1 << 27, // Gtk virtual Hyper
     Meta = 1 << 28,
+    /**
+     * Whether a Key Press is from key repetition.
+     *
+     * @since 5.0.4
+     */
+    Repeat = 1u << 31,
     UsedMask = 0x5c001fff,
     SimpleMask = Ctrl_Alt_Shift | Super | Super2 | Hyper | Meta,
 };

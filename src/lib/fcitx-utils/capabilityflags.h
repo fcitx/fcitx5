@@ -54,6 +54,13 @@ enum class CapabilityFlag : uint64_t {
     Multiline = (1ull << 35),
     Sensitive = (1ull << 36),
     KeyEventOrderFix = (1ull << 37),
+    /**
+     * Whether client will set KeyState::Repeat on the key event.
+     *
+     * @see KeyState::Repeat
+     * @since 5.0.4
+     */
+    ReportKeyRepeat = (1ull << 38),
 
     PasswordOrSensitive = Password | Sensitive
 };
