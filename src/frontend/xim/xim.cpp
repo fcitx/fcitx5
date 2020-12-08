@@ -204,10 +204,12 @@ public:
         xcb_im_input_context_set_data(xic_, this, nullptr);
         auto style = xcb_im_input_context_get_input_style(ic);
         created();
+        CapabilityFlags flags = CapabilityFlag::ReportKeyRepeat;
         if (style & XCB_IM_PreeditCallbacks) {
-            setCapabilityFlags(
-                {CapabilityFlag::Preedit, CapabilityFlag::FormattedPreedit});
+            flags = flags | CapabilityFlag::Preedit;
+            flags = flags | CapabilityFlag::FormattedPreedit;
         }
+        setCapabilityFlags(flags);
     }
     ~XIMInputContext() {
         xcb_im_input_context_set_data(xic_, nullptr, nullptr);
@@ -256,6 +258,46 @@ public:
                                            trans_reply->dst_y + reply->height)
                               .setSize(0, 0));
         }
+    }
+
+    KeyStates updateAutoRepeatState(xcb_key_press_event_t *xevent) {
+        // Client may or may not call XkbSetDetectableAutoRepeat, so we must
+        // handle both cases.
+        bool isAutoRepeat = false;
+        bool isRelease = (xevent->response_type & ~0x80) == XCB_KEY_RELEASE;
+        if (isRelease) {
+            // Always mark key release as non auto repeat, because we don't know
+            // if it is real release.
+            isAutoRepeat = false;
+        } else {
+            // If timestamp is same as last release
+            if (lastIsRelease_) {
+                if (lastTime_ && lastTime_ == xevent->time &&
+                    lastKeyCode_ == xevent->detail) {
+                    isAutoRepeat = true;
+                }
+            } else {
+                if (lastKeyCode_ == xevent->detail) {
+                    isAutoRepeat = true;
+                }
+            }
+        }
+
+        lastKeyCode_ = xevent->detail;
+        lastIsRelease_ = isRelease;
+        lastTime_ = xevent->time;
+        KeyStates states(xevent->state);
+        if (isAutoRepeat) {
+            // KeyState::Repeat
+            states = states | KeyState::Repeat;
+        }
+        return states;
+    }
+
+    void resetAutoRepeatState() {
+        lastKeyCode_ = 0;
+        lastIsRelease_ = false;
+        lastTime_ = 0;
     }
 
 protected:
@@ -391,6 +433,9 @@ private:
     bool preeditStarted = false;
     int lastPreeditLength_ = 0;
     std::vector<uint32_t> feedbackBuffer_;
+    bool lastIsRelease_ = false;
+    unsigned int lastTime_ = 0;
+    unsigned int lastKeyCode_ = 0;
 };
 
 void XIMServer::callback(xcb_im_client_t *client, xcb_im_input_context_t *xic,
@@ -437,7 +482,7 @@ void XIMServer::callback(xcb_im_client_t *client, xcb_im_input_context_t *xic,
         KeyEvent event(ic,
                        Key(static_cast<KeySym>(xkb_state_key_get_one_sym(
                                state, xevent->detail)),
-                           KeyStates(xevent->state), xevent->detail),
+                           ic->updateAutoRepeatState(xevent), xevent->detail),
                        (xevent->response_type & ~0x80) == XCB_KEY_RELEASE,
                        xevent->time);
         XIM_KEY_DEBUG() << "XIM Key Event: "
@@ -467,6 +512,7 @@ void XIMServer::callback(xcb_im_client_t *client, xcb_im_input_context_t *xic,
         ic->updateCursorLocation();
         break;
     case XCB_XIM_UNSET_IC_FOCUS:
+        ic->resetAutoRepeatState();
         ic->focusOut();
         break;
     }
