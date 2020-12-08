@@ -206,7 +206,9 @@ std::vector<InputMethodEntry> KeyboardEngine::listInputMethods() {
         }
         result.push_back(std::move(
             InputMethodEntry(uniqueName, description, language, "keyboard")
-                .setLabel(layoutInfo.name)
+                .setLabel(layoutInfo.shortDescription.empty()
+                              ? layoutInfo.name
+                              : layoutInfo.shortDescription)
                 .setIcon("input-keyboard")
                 .setConfigurable(true)));
         for (const auto &variantInfo : layoutInfo.variantInfos) {
@@ -222,7 +224,9 @@ std::vector<InputMethodEntry> KeyboardEngine::listInputMethods() {
                                                   "-", variantInfo.name);
             result.push_back(std::move(
                 InputMethodEntry(uniqueName, description, language, "keyboard")
-                    .setLabel(layoutInfo.name)
+                    .setLabel(variantInfo.shortDescription.empty()
+                                  ? layoutInfo.name
+                                  : variantInfo.shortDescription)
                     .setIcon("input-keyboard")
                     .setConfigurable(true)));
         }

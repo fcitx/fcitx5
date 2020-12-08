@@ -17,6 +17,7 @@ namespace fcitx {
 struct XkbVariantInfo {
     std::string name;
     std::string description;
+    std::string shortDescription;
     std::vector<std::string> languages;
 };
 
@@ -24,6 +25,7 @@ struct XkbLayoutInfo {
     std::vector<XkbVariantInfo> variantInfos;
     std::string name;
     std::string description;
+    std::string shortDescription;
     std::vector<std::string> languages;
 };
 

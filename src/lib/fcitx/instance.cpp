@@ -329,17 +329,21 @@ public:
         std::string display;
         if (engine) {
             auto subMode = engine->subMode(*entry, *ic);
+            auto name = globalConfig_.compactInputMethodInformation()
+                            ? entry->label()
+                            : entry->name();
             if (subMode.empty()) {
-                display = entry->name();
+                display = name;
             } else {
-                display = fmt::format(_("{0} ({1})"), entry->name(), subMode);
+                display = fmt::format(_("{0} ({1})"), name, subMode);
             }
         } else if (entry) {
             display = fmt::format(_("{0} (Not available)"), entry->name());
         } else {
             display = _("(Not available)");
         }
-        if (imManager.groupCount() > 1) {
+        if (!globalConfig_.compactInputMethodInformation() &&
+            imManager.groupCount() > 1) {
             display = fmt::format(_("Group {0}: {1}"),
                                   imManager.currentGroup().name(), display);
         }

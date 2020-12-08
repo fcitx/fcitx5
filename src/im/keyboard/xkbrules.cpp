@@ -83,6 +83,9 @@ struct XkbRulesParseState : public XMLParser {
                               "description"})) {
                 layoutInfos_.back().description = text;
             } else if (match({"layoutList", "layout", "configItem",
+                              "shortDescription"})) {
+                layoutInfos_.back().shortDescription = text;
+            } else if (match({"layoutList", "layout", "configItem",
                               "languageList", "iso639Id"})) {
                 layoutInfos_.back().languages.push_back(text);
             } else if (match({"layoutList", "layout", "variantList", "variant",
@@ -91,6 +94,9 @@ struct XkbRulesParseState : public XMLParser {
             } else if (match({"layoutList", "layout", "variantList", "variant",
                               "configItem", "description"})) {
                 layoutInfos_.back().variantInfos.back().description = text;
+            } else if (match({"layoutList", "layout", "variantList", "variant",
+                              "configItem", "shortDescription"})) {
+                layoutInfos_.back().variantInfos.back().shortDescription = text;
             } else if (match({"layoutList", "layout", "variantList", "variant",
                               "configItem", "languageList", "iso639Id"})) {
                 layoutInfos_.back().variantInfos.back().languages.push_back(
