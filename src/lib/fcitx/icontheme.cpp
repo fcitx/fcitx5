@@ -9,9 +9,9 @@
 #include <sys/mman.h>
 #include <sys/stat.h>
 #include <fstream>
+#include <limits>
 #include <stdexcept>
 #include <unordered_set>
-#include <limits>
 #include "fcitx-config/iniparser.h"
 #include "fcitx-config/marshallfunction.h"
 #include "fcitx-utils/fs.h"
@@ -786,7 +786,7 @@ std::string IconTheme::defaultIconThemeName() {
             }
         }
 
-        return "oxygen";
+        return "breeze";
     }
     case DesktopType::KDE4: {
         const char *home = getenv("HOME");
@@ -803,13 +803,9 @@ std::string IconTheme::defaultIconThemeName() {
                 }
             }
         }
-        return "breeze";
+        return "oxygen";
     }
-    case DesktopType::GNOME:
-    case DesktopType::Cinnamon:
-    case DesktopType::LXDE:
-    case DesktopType::MATE:
-    case DesktopType::XFCE: {
+    default: {
         auto files = StandardPath::global().openAll(
             StandardPath::Type::Config, "gtk-3.0/settings.ini", O_RDONLY);
         for (auto &file : files) {
@@ -835,14 +831,15 @@ std::string IconTheme::defaultIconThemeName() {
                 }
             }
         }
-
-        return "gnome";
-    }
-    default:
-        break;
+    } break;
     }
 
-    return "Tango";
+    if (desktopType == DesktopType::Unknown) {
+        return "Tango";
+    } else if (desktopType == DesktopType::GNOME) {
+        return "Adwaita";
+    }
+    return "gnome";
 }
 
 /// Rename fcitx-* icon to org.fcitx.Fcitx5.fcitx-* if in flatpak
