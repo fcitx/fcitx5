@@ -116,8 +116,7 @@ target_include_directories(Fcitx5Utils PUBLIC
     $<INSTALL_INTERFACE:${CMAKE_INSTALL_FULL_INCLUDEDIR}/Fcitx5/Utils>)
 target_link_libraries(Fcitx5Utils PRIVATE DL::DL LibIntl::LibIntl Pthread::Pthread ${FMT_TARGET})
 if(LIBKVM_FOUND)
-    target_include_directories(Fcitx5Utils PUBLIC ${LIBKVM_INCLUDE_DIR})
-    target_link_libraries(Fcitx5Utils PRIVATE ${LIBKVM_LIBRARIES})
+    target_link_libraries(Fcitx5Utils PRIVATE LibKVM::LibKVM)
 endif()
 
 if (NOT TARGET Systemd::Systemd)
