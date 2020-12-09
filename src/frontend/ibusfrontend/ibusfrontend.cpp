@@ -634,12 +634,48 @@ IBusFrontend::createInputContext(const std::string & /* unused */) {
 #define IBUS_PORTAL_DBUS_SERVICE "org.freedesktop.portal.IBus"
 #define IBUS_PORTAL_DBUS_INTERFACE "org.freedesktop.IBus.Portal"
 
+std::set<std::string> allSocketPaths() {
+    std::set<std::string> paths;
+    if (fs::isreg("/.flatpak-info")) {
+        // Flatpak always use DISPLAY=:99, which means we will need to guess
+        // what files are available.
+        auto map = StandardPath::global().multiOpenFilter(
+            StandardPath::Type::Config, "ibus/bus", O_RDONLY,
+            [](const std::string &path, const std::string &, bool user) {
+                if (!user) {
+                    return false;
+                }
+                return stringutils::startsWith(path, getLocalMachineId());
+            });
+
+        for (const auto &item : map) {
+            paths.insert(item.second.path());
+        }
+
+        // Make the guess that display is 0, it is the most common value that
+        // people would have.
+        if (paths.empty()) {
+            paths.insert(stringutils::joinPath(
+                StandardPath::global().userDirectory(
+                    StandardPath::Type::Config),
+                "ibus/bus",
+                stringutils::concat(getLocalMachineId(), "-unix-", 0)));
+        }
+    } else {
+        paths.insert(getFullSocketPath(false));
+    }
+
+    // Also add wayland.
+    paths.insert(getFullSocketPath(true));
+    return paths;
+}
+
 IBusFrontendModule::IBusFrontendModule(Instance *instance)
-    : instance_(instance), socketPaths_{getFullSocketPath(true),
-                                        getFullSocketPath(false)} {
+    : instance_(instance), socketPaths_(allSocketPaths()) {
     dbus::VariantTypeRegistry::defaultRegistry().registerType<IBusText>();
     dbus::VariantTypeRegistry::defaultRegistry().registerType<IBusAttribute>();
     dbus::VariantTypeRegistry::defaultRegistry().registerType<IBusAttrList>();
+    FCITX_DEBUG() << socketPaths_;
     replaceIBus();
 }
 
@@ -673,51 +709,71 @@ void IBusFrontendModule::replaceIBus() {
     std::pair<std::string, pid_t> address;
     for (const auto &path : socketPaths_) {
         address = getAddress(path);
-        if (!address.first.empty() && address.second != getpid()) {
+        if (!address.first.empty() &&
+            address.first.find("fcitx_random_string") == std::string::npos &&
+            address.second != getpid()) {
             break;
         }
     }
-    oldAddress_ = address.first;
-    if (!oldAddress_.empty()) {
-        auto pid = runIBusExit();
-        if (pid > 0) {
-            FCITX_DEBUG() << "Running ibus exit.";
-            timeEvent_ = instance()->eventLoop().addTimeEvent(
-                CLOCK_MONOTONIC, now(CLOCK_MONOTONIC) + 1000000, 0,
-                [this, pid, address](EventSourceTime *, uint64_t) {
-                    int stat = -1;
-                    pid_t ret;
-                    while ((ret = waitpid(pid, &stat, WNOHANG)) <= 0) {
-                        if (ret == 0) {
-                            FCITX_DEBUG()
-                                << "ibus exit haven't ended yet, kill it.";
-                            kill(pid, SIGKILL);
-                            waitpid(pid, &stat, WNOHANG);
-                            break;
-                        }
+    const auto &oldAddress = address.first;
+    if (!oldAddress.empty()) {
+        if (fs::isreg("/.flatpak-info")) {
+            // When running inside flatpak, ibus command won't be available.
+            // sd-bus does not connect to IBus's dbus, probably due to different
+            // implemenation on dbus protocol. sd-bus has bug on xdg-dbus-proxy
+            // anyway, so luckily, in the flatpak we are forced to used libdbus
+            // which works for bus of ibus.
+            dbus::Bus bus(oldAddress);
+            if (bus.isOpen()) {
+                auto call = bus.createMethodCall(
+                    "org.freedesktop.IBus", "/org/freedesktop/IBus",
+                    "org.freedesktop.IBus", "Exit");
+                call << false;
+                call.call(1000000);
+            }
+        } else {
+            // If ibus command is not available, then ibus is probably not
+            // installed anyway, so there is nothing to worry about.
+            auto pid = runIBusExit();
+            if (pid > 0) {
+                FCITX_DEBUG() << "Running ibus exit.";
+                timeEvent_ = instance()->eventLoop().addTimeEvent(
+                    CLOCK_MONOTONIC, now(CLOCK_MONOTONIC) + 1000000, 0,
+                    [this, pid, address](EventSourceTime *, uint64_t) {
+                        int stat = -1;
+                        pid_t ret;
+                        while ((ret = waitpid(pid, &stat, WNOHANG)) <= 0) {
+                            if (ret == 0) {
+                                FCITX_DEBUG()
+                                    << "ibus exit haven't ended yet, kill it.";
+                                kill(pid, SIGKILL);
+                                waitpid(pid, &stat, WNOHANG);
+                                break;
+                            }
 
-                        if (errno != EINTR) {
-                            stat = -1;
-                            break;
-                        }
-                    }
-
-                    FCITX_DEBUG() << "ibus exit returns with " << stat;
-                    if (stat != 0) {
-                        auto cmd = readFileContent(stringutils::joinPath(
-                            "/proc", address.second, "cmdline"));
-                        if (cmd.find("ibus-daemon") != std::string::npos) {
-                            FCITX_DEBUG() << "try to kill ibus-daemon.";
-                            // Well we can't kill it so better not to replace
-                            // it.
-                            if (kill(address.second, SIGKILL) != 0) {
-                                return true;
+                            if (errno != EINTR) {
+                                stat = -1;
+                                break;
                             }
                         }
-                    }
-                    becomeIBus();
-                    return true;
-                });
+
+                        FCITX_DEBUG() << "ibus exit returns with " << stat;
+                        if (stat != 0) {
+                            auto cmd = readFileContent(stringutils::joinPath(
+                                "/proc", address.second, "cmdline"));
+                            if (cmd.find("ibus-daemon") != std::string::npos) {
+                                FCITX_DEBUG() << "try to kill ibus-daemon.";
+                                // Well we can't kill it so better not to
+                                // replace it.
+                                if (kill(address.second, SIGKILL) != 0) {
+                                    return true;
+                                }
+                            }
+                        }
+                        becomeIBus();
+                        return true;
+                    });
+            }
         }
     }
 

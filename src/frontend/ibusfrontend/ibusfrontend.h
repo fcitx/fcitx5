@@ -37,13 +37,12 @@ private:
     void becomeIBus();
 
     Instance *instance_;
-    std::string oldAddress_;
     std::unique_ptr<dbus::Bus> portalBus_;
     std::unique_ptr<IBusFrontend> inputMethod1_;
     std::unique_ptr<IBusFrontend> portalIBusFrontend_;
     std::unique_ptr<EventSourceTime> timeEvent_;
 
-    std::vector<std::string> socketPaths_;
+    std::set<std::string> socketPaths_;
     std::string addressWrote_;
     pid_t pidWrote_;
 };
