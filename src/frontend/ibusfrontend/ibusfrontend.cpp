@@ -814,7 +814,7 @@ void IBusFrontendModule::becomeIBus() {
     config.setValueByPath("IBUS_ADDRESS", address);
     // im module use kill(pid, 0) to check, since we're using different pid
     // namespace, write with a pid make this call return 0.
-    pid_t pidToWrite = fs::isreg("/.flatpak-info") 0 : getpid();
+    pid_t pidToWrite = fs::isreg("/.flatpak-info") ? 0 : getpid();
     config.setValueByPath("IBUS_DAEMON_PID", std::to_string(pidToWrite));
 
     FCITX_DEBUG() << "Writing ibus daemon info.";
