@@ -812,13 +812,10 @@ void IBusFrontendModule::becomeIBus() {
     }
     FCITX_DEBUG() << "IBus address is written with: " << address;
     config.setValueByPath("IBUS_ADDRESS", address);
-    if (fs::isreg("/.flatpak-info")) {
-        // im module use kill(pid, 0) to check, since we're using different pid
-        // namespace, write with a pid make this call return 0.
-        config.setValueByPath("IBUS_DAEMON_PID", std::to_string(0));
-    } else {
-        config.setValueByPath("IBUS_DAEMON_PID", std::to_string(getpid()));
-    }
+    // im module use kill(pid, 0) to check, since we're using different pid
+    // namespace, write with a pid make this call return 0.
+    pid_t pidToWrite = fs::isreg("/.flatpak-info") 0 : getpid();
+    config.setValueByPath("IBUS_DAEMON_PID", std::to_string(pidToWrite));
 
     FCITX_DEBUG() << "Writing ibus daemon info.";
     for (const auto &path : socketPaths_) {
@@ -830,7 +827,7 @@ void IBusFrontendModule::becomeIBus() {
     }
 
     addressWrote_ = address;
-    pidWrote_ = getpid();
+    pidWrote_ = pidToWrite;
 
     bus()->requestName(
         IBUS_PANEL_SERVICE_NAME,
