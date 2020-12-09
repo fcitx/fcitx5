@@ -715,11 +715,12 @@ void IBusFrontendModule::replaceIBus() {
         address = getAddress(path);
         if (!address.first.empty() &&
             address.first.find("fcitx_random_string") == std::string::npos &&
-            address.second != getpid()) {
+            address.second != getpid() && address.second) {
             break;
         }
     }
     const auto &oldAddress = address.first;
+    FCITX_IBUS_DEBUG() << "Old ibus address is: " << oldAddress;
     if (!oldAddress.empty()) {
         if (fs::isreg("/.flatpak-info")) {
             // When running inside flatpak, ibus command won't be available.
