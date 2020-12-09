@@ -723,6 +723,7 @@ void IBusFrontendModule::replaceIBus() {
             // implemenation on dbus protocol. sd-bus has bug on xdg-dbus-proxy
             // anyway, so luckily, in the flatpak we are forced to used libdbus
             // which works for bus of ibus.
+            FCITX_DEBUG() << "Connecting to ibus address: " << oldAddress;
             dbus::Bus bus(oldAddress);
             if (bus.isOpen()) {
                 auto call = bus.createMethodCall(
