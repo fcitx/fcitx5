@@ -29,6 +29,10 @@
 #include "fcitx/misc_p.h"
 #include "dbus_public.h"
 
+FCITX_DEFINE_LOG_CATEGORY(ibus, "ibus")
+#define FCITX_IBUS_DEBUG() FCITX_LOGC(::ibus, Debug)
+#define FCITX_IBUS_WARN() FCITX_LOGC(::ibus, Warn)
+
 #define IBUS_INPUTMETHOD_DBUS_INTERFACE "org.freedesktop.IBus"
 #define IBUS_INPUTCONTEXT_DBUS_INTERFACE "org.freedesktop.IBus.InputContext"
 #define IBUS_SERVICE_DBUS_INTERFACE "org.freedesktop.IBus.Service"
@@ -675,7 +679,7 @@ IBusFrontendModule::IBusFrontendModule(Instance *instance)
     dbus::VariantTypeRegistry::defaultRegistry().registerType<IBusText>();
     dbus::VariantTypeRegistry::defaultRegistry().registerType<IBusAttribute>();
     dbus::VariantTypeRegistry::defaultRegistry().registerType<IBusAttrList>();
-    FCITX_DEBUG() << socketPaths_;
+    FCITX_IBUS_DEBUG() << socketPaths_;
     replaceIBus();
 }
 
@@ -723,7 +727,7 @@ void IBusFrontendModule::replaceIBus() {
             // implemenation on dbus protocol. sd-bus has bug on xdg-dbus-proxy
             // anyway, so luckily, in the flatpak we are forced to used libdbus
             // which works for bus of ibus.
-            FCITX_DEBUG() << "Connecting to ibus address: " << oldAddress;
+            FCITX_IBUS_DEBUG() << "Connecting to ibus address: " << oldAddress;
             dbus::Bus bus(oldAddress);
             if (bus.isOpen()) {
                 auto call = bus.createMethodCall(
@@ -737,7 +741,7 @@ void IBusFrontendModule::replaceIBus() {
             // installed anyway, so there is nothing to worry about.
             auto pid = runIBusExit();
             if (pid > 0) {
-                FCITX_DEBUG() << "Running ibus exit.";
+                FCITX_IBUS_DEBUG() << "Running ibus exit.";
                 timeEvent_ = instance()->eventLoop().addTimeEvent(
                     CLOCK_MONOTONIC, now(CLOCK_MONOTONIC) + 1000000, 0,
                     [this, pid, address](EventSourceTime *, uint64_t) {
@@ -745,7 +749,7 @@ void IBusFrontendModule::replaceIBus() {
                         pid_t ret;
                         while ((ret = waitpid(pid, &stat, WNOHANG)) <= 0) {
                             if (ret == 0) {
-                                FCITX_DEBUG()
+                                FCITX_IBUS_DEBUG()
                                     << "ibus exit haven't ended yet, kill it.";
                                 kill(pid, SIGKILL);
                                 waitpid(pid, &stat, WNOHANG);
@@ -758,12 +762,13 @@ void IBusFrontendModule::replaceIBus() {
                             }
                         }
 
-                        FCITX_DEBUG() << "ibus exit returns with " << stat;
+                        FCITX_IBUS_DEBUG() << "ibus exit returns with " << stat;
                         if (stat != 0) {
                             auto cmd = readFileContent(stringutils::joinPath(
                                 "/proc", address.second, "cmdline"));
                             if (cmd.find("ibus-daemon") != std::string::npos) {
-                                FCITX_DEBUG() << "try to kill ibus-daemon.";
+                                FCITX_IBUS_DEBUG()
+                                    << "try to kill ibus-daemon.";
                                 // Well we can't kill it so better not to
                                 // replace it.
                                 if (kill(address.second, SIGKILL) != 0) {
@@ -785,9 +790,10 @@ void IBusFrontendModule::replaceIBus() {
 
 void IBusFrontendModule::becomeIBus() {
     // ibusBus_.reset();
-    FCITX_DEBUG() << "Requesting IBus service name.";
+    FCITX_IBUS_DEBUG() << "Requesting IBus service name.";
     if (!bus()->requestName("org.freedesktop.IBus",
                             dbus::RequestNameFlag::ReplaceExisting)) {
+        FCITX_IBUS_DEBUG() << "Failed to request IBus service name.";
         return;
     }
 
@@ -810,14 +816,14 @@ void IBusFrontendModule::becomeIBus() {
     for (auto v : uuid) {
         address.append(fmt::format("{:02x}", static_cast<int>(v)));
     }
-    FCITX_DEBUG() << "IBus address is written with: " << address;
+    FCITX_IBUS_DEBUG() << "IBus address is written with: " << address;
     config.setValueByPath("IBUS_ADDRESS", address);
     // im module use kill(pid, 0) to check, since we're using different pid
     // namespace, write with a pid make this call return 0.
     pid_t pidToWrite = fs::isreg("/.flatpak-info") ? 0 : getpid();
     config.setValueByPath("IBUS_DAEMON_PID", std::to_string(pidToWrite));
 
-    FCITX_DEBUG() << "Writing ibus daemon info.";
+    FCITX_IBUS_DEBUG() << "Writing ibus daemon info.";
     for (const auto &path : socketPaths_) {
         if (!StandardPath::global().safeSave(
                 StandardPath::Type::Config, path,
@@ -842,7 +848,7 @@ void IBusFrontendModule::becomeIBus() {
             IBUS_PORTAL_DBUS_SERVICE,
             Flags<dbus::RequestNameFlag>{dbus::RequestNameFlag::ReplaceExisting,
                                          dbus::RequestNameFlag::Queue})) {
-        FCITX_WARN() << "Can not get portal ibus name right now.";
+        FCITX_IBUS_WARN() << "Can not get portal ibus name right now.";
     }
 }
 
