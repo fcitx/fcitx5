@@ -757,6 +757,13 @@ void IBusFrontendModule::replaceIBus() {
                     "org.freedesktop.IBus", "Exit");
                 call << false;
                 call.call(1000000);
+                // Wait 1 second to become ibus.
+                timeEvent_ = instance()->eventLoop().addTimeEvent(
+                    CLOCK_MONOTONIC, now(CLOCK_MONOTONIC) + 1000000, 0,
+                    [this](EventSourceTime *, uint64_t) {
+                        becomeIBus();
+                        return true;
+                    });
             }
         } else {
             // If ibus command is not available, then ibus is probably not
@@ -813,8 +820,10 @@ void IBusFrontendModule::replaceIBus() {
 void IBusFrontendModule::becomeIBus() {
     // ibusBus_.reset();
     FCITX_IBUS_DEBUG() << "Requesting IBus service name.";
-    if (!bus()->requestName("org.freedesktop.IBus",
-                            dbus::RequestNameFlag::ReplaceExisting)) {
+    if (!bus()->requestName(
+            "org.freedesktop.IBus",
+            Flags<dbus::RequestNameFlag>{dbus::RequestNameFlag::ReplaceExisting,
+                                         dbus::RequestNameFlag::Queue})) {
         FCITX_IBUS_DEBUG() << "Failed to request IBus service name.";
         return;
     }
