@@ -87,7 +87,7 @@ public:
             return;
         }
         if (commitBuffer && !commitBuffer->empty() &&
-            icEvent.type() == EventType::InputContextForwardKey) {
+            (icEvent.type() != EventType::InputContextCommitString)) {
             q->commitStringImpl(*commitBuffer);
             commitBuffer->clear();
         }
