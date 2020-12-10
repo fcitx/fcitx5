@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2020-11-29 00:02+0100\n"
+"POT-Creation-Date: 2020-12-10 01:10+0000\n"
 "PO-Revision-Date: 2017-11-23 04:14+0000\n"
 "Last-Translator: TotalCaesar659 <x24cm5b8c54q6szxw@yandex.ru>, 2017\n"
 "Language-Team: Russian (https://www.transifex.com/fcitx/teams/12005/ru/)\n"
@@ -50,7 +50,7 @@ msgstr ""
 msgid "${1} works properly."
 msgstr ""
 
-#: src/lib/fcitx/instance.cpp:337
+#: src/lib/fcitx/instance.cpp:343
 msgid "(Not available)"
 msgstr "(Недоступно)"
 
@@ -227,7 +227,7 @@ msgstr ""
 msgid "Beginner's Guide"
 msgstr ""
 
-#: src/lib/fcitx/globalconfig.cpp:143
+#: src/lib/fcitx/globalconfig.cpp:146
 msgid "Behavior"
 msgstr "Поведение"
 
@@ -424,15 +424,15 @@ msgctxt "Key name"
 msgid "Community"
 msgstr ""
 
-#: src/im/keyboard/keyboard.cpp:361
+#: src/im/keyboard/keyboard.cpp:370
 msgid "Completion"
 msgstr ""
 
-#: src/im/keyboard/keyboard.cpp:364
+#: src/im/keyboard/keyboard.cpp:373
 msgid "Completion is disabled."
 msgstr ""
 
-#: src/im/keyboard/keyboard.cpp:363
+#: src/im/keyboard/keyboard.cpp:372
 msgid "Completion is enabled."
 msgstr ""
 
@@ -533,7 +533,7 @@ msgstr ""
 msgid "Deactivate Input Method"
 msgstr "Деактивация метода ввода"
 
-#: src/lib/fcitx/inputmethodmanager.cpp:130 src/lib/fcitx/instance.cpp:615
+#: src/lib/fcitx/inputmethodmanager.cpp:130 src/lib/fcitx/instance.cpp:646
 #: src/ui/classic/themes/default/theme.conf.in:3
 msgid "Default"
 msgstr "По умолчанию"
@@ -554,7 +554,7 @@ msgstr ""
 msgid "Default Previous page"
 msgstr "Предыдущая страница по умолчанию"
 
-#: src/lib/fcitx/globalconfig.cpp:130
+#: src/lib/fcitx/globalconfig.cpp:133
 msgid "Default page size"
 msgstr "Размер страницы по умолчанию"
 
@@ -584,7 +584,7 @@ msgctxt "Key name"
 msgid "Display"
 msgstr ""
 
-#: src/modules/notifications/notifications.cpp:201
+#: src/modules/notifications/notifications.cpp:203
 msgid "Do not show again"
 msgstr "Больше не показывать"
 
@@ -868,11 +868,11 @@ msgstr ""
 msgid "Group"
 msgstr "Группа"
 
-#: src/lib/fcitx/instance.cpp:340
+#: src/lib/fcitx/instance.cpp:347
 msgid "Group {0}: {1}"
 msgstr "Группа {0}: {1}"
 
-#: src/lib/fcitx/instance.cpp:617
+#: src/lib/fcitx/instance.cpp:648
 msgid "Group {}"
 msgstr ""
 
@@ -967,7 +967,7 @@ msgctxt "Key name"
 msgid "Hibernate"
 msgstr ""
 
-#: src/modules/notifications/notifications.h:27
+#: src/modules/notifications/notifications.h:28
 msgid "Hidden Notifications"
 msgstr ""
 
@@ -1034,7 +1034,7 @@ msgctxt "Key name"
 msgid "Hot Links"
 msgstr ""
 
-#: src/lib/fcitx/globalconfig.cpp:141
+#: src/lib/fcitx/globalconfig.cpp:144
 msgid "Hotkey"
 msgstr "Горячая клавиша"
 
@@ -1074,10 +1074,10 @@ msgstr ""
 msgid "Image"
 msgstr ""
 
-#: src/im/keyboard/keyboard.cpp:360 src/ui/classic/xcbtraywindow.cpp:38
-#: src/lib/fcitx/instance.cpp:686 src/lib/fcitx/instance.cpp:856
+#: src/im/keyboard/keyboard.cpp:369 src/ui/classic/xcbtraywindow.cpp:38
+#: src/lib/fcitx/instance.cpp:717 src/lib/fcitx/instance.cpp:887
 #: src/modules/notificationitem/dbusmenu.cpp:241
-#: src/modules/notificationitem/notificationitem.cpp:108
+#: src/modules/notificationitem/notificationitem.cpp:111
 #: src/modules/xcb/xcbconnection.cpp:388 data/org.fcitx.Fcitx5.desktop.in.in:4
 #: data/org.fcitx.Fcitx5.metainfo.xml.in:7
 msgid "Input Method"
@@ -1132,15 +1132,15 @@ msgctxt "Key name"
 msgid "Katakana"
 msgstr ""
 
-#: src/im/keyboard/keyboard.cpp:266 src/im/keyboard/keyboard.conf.in:3
+#: src/im/keyboard/keyboard.cpp:275 src/im/keyboard/keyboard.conf.in:3
 msgid "Keyboard"
 msgstr "Клавиатура"
 
-#: src/im/keyboard/keyboard.cpp:196
+#: src/im/keyboard/keyboard.cpp:201
 msgid "Keyboard - {0}"
 msgstr "Клавиатура - {0}"
 
-#: src/im/keyboard/keyboard.cpp:213
+#: src/im/keyboard/keyboard.cpp:220
 msgid "Keyboard - {0} - {1}"
 msgstr "Клавиатура - {0} - {1}"
 
@@ -1502,7 +1502,7 @@ msgctxt "Key name"
 msgid "NumLock"
 msgstr ""
 
-#: src/im/keyboard/keyboard.cpp:355
+#: src/im/keyboard/keyboard.cpp:364
 msgid ""
 "Only emoji support is found. To enable spell checking, you may need to "
 "install spell check data for the language."
@@ -1611,15 +1611,15 @@ msgctxt "Key name"
 msgid "Power Off"
 msgstr ""
 
-#: src/lib/fcitx/instance.cpp:856
+#: src/lib/fcitx/instance.cpp:887
 msgid "Preedit"
 msgstr ""
 
-#: src/lib/fcitx/instance.cpp:858
+#: src/lib/fcitx/instance.cpp:889
 msgid "Preedit disabled"
 msgstr ""
 
-#: src/lib/fcitx/instance.cpp:857
+#: src/lib/fcitx/instance.cpp:888
 msgid "Preedit enabled"
 msgstr ""
 
@@ -1818,6 +1818,10 @@ msgstr ""
 msgid "Show Input Method Information when switch input method"
 msgstr "Показывать информацию о методе ввода при переключении"
 
+#: src/lib/fcitx/globalconfig.cpp:131
+msgid "Show compact input method information"
+msgstr ""
+
 #: src/modules/notificationitem/notificationitem.h:26
 msgid "Show label when using keyboard or icon unavailable"
 msgstr ""
@@ -1909,7 +1913,7 @@ msgctxt "Key name"
 msgid "Suspend"
 msgstr ""
 
-#: src/lib/fcitx/instance.cpp:687 src/modules/xcb/xcbconnection.cpp:389
+#: src/lib/fcitx/instance.cpp:718 src/modules/xcb/xcbconnection.cpp:389
 msgid "Switch group"
 msgstr ""
 
@@ -1917,7 +1921,7 @@ msgstr ""
 msgid "Switch group to {0}"
 msgstr ""
 
-#: src/lib/fcitx/instance.cpp:688
+#: src/lib/fcitx/instance.cpp:719
 msgid "Switched group to {0}"
 msgstr ""
 
@@ -1958,7 +1962,7 @@ msgstr ""
 msgid "The script is run as ${1} (${2})."
 msgstr ""
 
-#: src/ui/classic/classicui.h:86
+#: src/ui/classic/classicui.h:88
 msgid "Theme"
 msgstr ""
 
@@ -2076,7 +2080,7 @@ msgstr ""
 msgid "Use On The Spot Style (Needs restarting)"
 msgstr ""
 
-#: src/ui/classic/classicui.h:77
+#: src/ui/classic/classicui.h:79
 msgid "Use Per Screen DPI"
 msgstr ""
 
@@ -2084,7 +2088,7 @@ msgstr ""
 msgid "Use all horizontal space for highlight when it is vertical list"
 msgstr ""
 
-#: src/ui/classic/classicui.h:80
+#: src/ui/classic/classicui.h:82
 msgid "Use mouse wheel to go to prev or next page"
 msgstr ""
 
@@ -2104,7 +2108,7 @@ msgstr ""
 msgid "Version Line:"
 msgstr ""
 
-#: src/ui/classic/classicui.h:75
+#: src/ui/classic/classicui.h:77
 msgid "Vertical Candidate List"
 msgstr ""
 
@@ -2310,14 +2314,14 @@ msgstr ""
 msgid "version:"
 msgstr ""
 
-#: src/im/keyboard/keyboard.cpp:243
+#: src/im/keyboard/keyboard.cpp:252
 msgid "{0} (Not Available)"
 msgstr ""
 
-#: src/lib/fcitx/instance.cpp:335
+#: src/lib/fcitx/instance.cpp:341
 msgid "{0} (Not available)"
 msgstr "{0} (Недоступно)"
 
-#: src/lib/fcitx/instance.cpp:332
+#: src/lib/fcitx/instance.cpp:338
 msgid "{0} ({1})"
 msgstr "{0} ({1})"

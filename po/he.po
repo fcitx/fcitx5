@@ -3,20 +3,22 @@
 # This file is distributed under the same license as the fcitx5 package.
 #
 # Translators:
-# csslayer <wengxt@gmail.com>, 2017
+# Omer I.S. <omeritzicschwartz@gmail.com>, 2020
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2020-12-10 01:08+0000\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: csslayer <wengxt@gmail.com>, 2017\n"
-"Language-Team: Spanish (https://www.transifex.com/fcitx/teams/12005/es/)\n"
-"Language: es\n"
+"POT-Creation-Date: 2020-12-10 01:10+0000\n"
+"PO-Revision-Date: 2017-11-23 04:14+0000\n"
+"Last-Translator: Omer I.S. <omeritzicschwartz@gmail.com>, 2020\n"
+"Language-Team: Hebrew (https://www.transifex.com/fcitx/teams/12005/he/)\n"
+"Language: he\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Plural-Forms: nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n == 2 && n % "
+"1 == 0) ? 1: (n % 10 == 0 && n % 1 == 0 && n > 10) ? 2 : 3;\n"
 
 #: data/fcitx5-diagnose.sh:852
 msgid "${1} Environment Variables:"
@@ -151,7 +153,7 @@ msgstr ""
 #: src/lib/fcitx-utils/key.cpp:476
 msgctxt "Key name"
 msgid "Alt"
-msgstr ""
+msgstr "Alt"
 
 #: src/lib/fcitx-utils/key.cpp:116
 msgctxt "Key name"
@@ -271,12 +273,12 @@ msgstr ""
 #: src/lib/fcitx-utils/key.cpp:120
 msgctxt "Key name"
 msgid "Calculator"
-msgstr ""
+msgstr "מחשבון"
 
 #: src/lib/fcitx-utils/key.cpp:229
 msgctxt "Key name"
 msgid "Cancel"
-msgstr ""
+msgstr "ביטול"
 
 #: data/fcitx5-diagnose.sh:927
 msgid "Cannot connect to ${1} correctly."
@@ -408,7 +410,7 @@ msgstr ""
 #: src/lib/fcitx-utils/key.cpp:122
 msgctxt "Key name"
 msgid "Close"
-msgstr ""
+msgstr "סגירה"
 
 #: src/lib/fcitx-utils/key.cpp:215
 msgctxt "Key name"
@@ -457,14 +459,13 @@ msgid "Config Tool Wrapper:"
 msgstr ""
 
 #: data/fcitx5-diagnose.sh:1726
-#, fuzzy
 msgid "Configuration:"
-msgstr "Configurar"
+msgstr ""
 
 #: src/ui/classic/xcbtraywindow.cpp:40
 #: src/modules/notificationitem/dbusmenu.cpp:257
 msgid "Configure"
-msgstr "Configurar"
+msgstr "הגדרה"
 
 #: src/im/keyboard/keyboard.h:33 src/modules/quickphrase/quickphrase.h:29
 msgid "Control"
@@ -503,7 +504,7 @@ msgstr ""
 #: src/lib/fcitx-utils/key.cpp:124
 msgctxt "Key name"
 msgid "Cut"
-msgstr ""
+msgstr "גזירה"
 
 #: src/modules/dbus/dbus.conf.in:3
 msgid "DBus"
@@ -702,7 +703,7 @@ msgstr ""
 #: src/ui/classic/xcbtraywindow.cpp:42
 #: src/modules/notificationitem/dbusmenu.cpp:270
 msgid "Exit"
-msgstr "Salir"
+msgstr "יציאה"
 
 #: data/fcitx5-diagnose.sh:1422
 msgid "Failed to find ${1} in immodule cache at ${2}"
@@ -719,7 +720,7 @@ msgstr ""
 #: src/lib/fcitx-utils/key.cpp:72
 msgctxt "Key name"
 msgid "Favorites"
-msgstr ""
+msgstr "מועדפים"
 
 #: data/org.fcitx.Fcitx5.desktop.in.in:3
 #: data/org.fcitx.Fcitx5.metainfo.xml.in:6
@@ -735,9 +736,8 @@ msgid "Fcitx Addons:"
 msgstr ""
 
 #: data/fcitx5-diagnose.sh:1044
-#, fuzzy
 msgid "Fcitx Configure UI:"
-msgstr "Configurar"
+msgstr ""
 
 #: data/fcitx5-diagnose.sh:887
 msgid "Fcitx State:"
@@ -845,7 +845,7 @@ msgstr ""
 #: src/lib/fcitx-utils/key.cpp:130
 msgctxt "Key name"
 msgid "Game"
-msgstr ""
+msgstr "משחק"
 
 #: src/ui/classic/theme.h:139
 msgid "General"
@@ -953,7 +953,7 @@ msgstr ""
 #: src/lib/fcitx-utils/key.cpp:57
 msgctxt "Key name"
 msgid "Help"
-msgstr ""
+msgstr "עזרה"
 
 #: src/lib/fcitx-utils/key.cpp:201
 msgctxt "Key name"
@@ -1442,7 +1442,7 @@ msgstr ""
 #: src/lib/fcitx-utils/key.cpp:168
 msgctxt "Key name"
 msgid "Music"
-msgstr ""
+msgstr "מוזיקה"
 
 #: src/lib/fcitx-utils/key.cpp:138
 msgctxt "Key name"
@@ -1456,7 +1456,7 @@ msgstr ""
 #: src/lib/fcitx-utils/key.cpp:188
 msgctxt "Key name"
 msgid "New"
-msgstr ""
+msgstr "חדש"
 
 #: src/lib/fcitx-utils/key.cpp:139
 msgctxt "Key name"
@@ -1581,7 +1581,7 @@ msgstr ""
 #: src/lib/fcitx-utils/key.cpp:167
 msgctxt "Key name"
 msgid "Pictures"
-msgstr ""
+msgstr "תמונות"
 
 #: data/fcitx5-diagnose.sh:892
 msgid "Please check ${1} for how to install fcitx5."
@@ -1662,7 +1662,7 @@ msgstr ""
 #: src/lib/fcitx-utils/key.cpp:184
 msgctxt "Key name"
 msgid "Red"
-msgstr ""
+msgstr "אדום"
 
 #: src/lib/fcitx-utils/key.cpp:192
 msgctxt "Key name"
@@ -1756,7 +1756,7 @@ msgstr ""
 #: src/lib/fcitx-utils/key.cpp:103
 msgctxt "Key name"
 msgid "Screensaver"
-msgstr ""
+msgstr "שומר מסך"
 
 #: src/lib/fcitx-utils/key.cpp:55
 msgctxt "Key name"
@@ -1766,12 +1766,12 @@ msgstr ""
 #: src/lib/fcitx-utils/key.cpp:73
 msgctxt "Key name"
 msgid "Search"
-msgstr ""
+msgstr "חיפוש"
 
 #: src/lib/fcitx-utils/key.cpp:198
 msgctxt "Key name"
 msgid "Select"
-msgstr ""
+msgstr "בחירה"
 
 #: src/modules/imselector/imselector.cpp:263
 msgid "Select input method:"
@@ -1788,7 +1788,7 @@ msgstr ""
 #: src/lib/fcitx-utils/key.cpp:150
 msgctxt "Key name"
 msgid "Send"
-msgstr ""
+msgstr "שליחה"
 
 #: src/ui/classic/theme.h:116
 msgid "Separator Background"
@@ -1984,7 +1984,7 @@ msgstr ""
 #: src/lib/fcitx-utils/key.cpp:156
 msgctxt "Key name"
 msgid "Tools"
-msgstr ""
+msgstr "כלים"
 
 #: src/ui/classic/theme.h:30
 msgid "Top Center"
@@ -2026,7 +2026,7 @@ msgstr ""
 #: src/lib/fcitx-utils/key.cpp:157
 msgctxt "Key name"
 msgid "Travel"
-msgstr ""
+msgstr "מסע"
 
 #: src/ui/classic/theme.h:133
 msgid "Tray Font"
@@ -2218,7 +2218,7 @@ msgstr ""
 #: src/lib/fcitx-utils/key.cpp:186
 msgctxt "Key name"
 msgid "Yellow"
-msgstr ""
+msgstr "צהוב"
 
 #: data/fcitx5-diagnose.sh:876
 msgid ""

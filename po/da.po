@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2020-12-05 00:02+0100\n"
+"POT-Creation-Date: 2020-12-10 01:10+0000\n"
 "PO-Revision-Date: 2017-11-23 04:14+0000\n"
 "Last-Translator: scootergrisen, 2020\n"
 "Language-Team: Danish (https://www.transifex.com/fcitx/teams/12005/da/)\n"
@@ -48,7 +48,7 @@ msgstr "${1} ikke fundet."
 msgid "${1} works properly."
 msgstr "${1} virker korrekt."
 
-#: src/lib/fcitx/instance.cpp:340
+#: src/lib/fcitx/instance.cpp:343
 msgid "(Not available)"
 msgstr "(ikke tilgængelig)"
 
@@ -225,7 +225,7 @@ msgstr "Batteri"
 msgid "Beginner's Guide"
 msgstr "Begyndervejledning"
 
-#: src/lib/fcitx/globalconfig.cpp:143
+#: src/lib/fcitx/globalconfig.cpp:146
 msgid "Behavior"
 msgstr "Opførsel"
 
@@ -427,15 +427,15 @@ msgctxt "Key name"
 msgid "Community"
 msgstr "Fællesskab"
 
-#: src/im/keyboard/keyboard.cpp:366
+#: src/im/keyboard/keyboard.cpp:370
 msgid "Completion"
 msgstr "Fuldførsel"
 
-#: src/im/keyboard/keyboard.cpp:369
+#: src/im/keyboard/keyboard.cpp:373
 msgid "Completion is disabled."
 msgstr "Fuldførsel er deaktiveret."
 
-#: src/im/keyboard/keyboard.cpp:368
+#: src/im/keyboard/keyboard.cpp:372
 msgid "Completion is enabled."
 msgstr "Fuldførsel er aktiveret."
 
@@ -536,7 +536,7 @@ msgstr "DOS"
 msgid "Deactivate Input Method"
 msgstr "Deaktivér inputmetode"
 
-#: src/lib/fcitx/inputmethodmanager.cpp:130 src/lib/fcitx/instance.cpp:642
+#: src/lib/fcitx/inputmethodmanager.cpp:130 src/lib/fcitx/instance.cpp:646
 #: src/ui/classic/themes/default/theme.conf.in:3
 msgid "Default"
 msgstr "Standard"
@@ -557,7 +557,7 @@ msgstr "Standard forrige kandidat"
 msgid "Default Previous page"
 msgstr "Standard-forrige side"
 
-#: src/lib/fcitx/globalconfig.cpp:130
+#: src/lib/fcitx/globalconfig.cpp:133
 msgid "Default page size"
 msgstr "Standardsidestørrelse"
 
@@ -878,11 +878,11 @@ msgstr "Grøn"
 msgid "Group"
 msgstr "Gruppe"
 
-#: src/lib/fcitx/instance.cpp:343
+#: src/lib/fcitx/instance.cpp:347
 msgid "Group {0}: {1}"
 msgstr "Gruppe {0}: {1}"
 
-#: src/lib/fcitx/instance.cpp:644
+#: src/lib/fcitx/instance.cpp:648
 msgid "Group {}"
 msgstr "Gruppe {}"
 
@@ -1044,7 +1044,7 @@ msgctxt "Key name"
 msgid "Hot Links"
 msgstr "Hotlinks"
 
-#: src/lib/fcitx/globalconfig.cpp:141
+#: src/lib/fcitx/globalconfig.cpp:144
 msgid "Hotkey"
 msgstr "Hottast"
 
@@ -1092,8 +1092,8 @@ msgstr ""
 msgid "Image"
 msgstr "Billede"
 
-#: src/im/keyboard/keyboard.cpp:365 src/ui/classic/xcbtraywindow.cpp:38
-#: src/lib/fcitx/instance.cpp:713 src/lib/fcitx/instance.cpp:883
+#: src/im/keyboard/keyboard.cpp:369 src/ui/classic/xcbtraywindow.cpp:38
+#: src/lib/fcitx/instance.cpp:717 src/lib/fcitx/instance.cpp:887
 #: src/modules/notificationitem/dbusmenu.cpp:241
 #: src/modules/notificationitem/notificationitem.cpp:111
 #: src/modules/xcb/xcbconnection.cpp:388 data/org.fcitx.Fcitx5.desktop.in.in:4
@@ -1150,7 +1150,7 @@ msgctxt "Key name"
 msgid "Katakana"
 msgstr "Katakana"
 
-#: src/im/keyboard/keyboard.cpp:271 src/im/keyboard/keyboard.conf.in:3
+#: src/im/keyboard/keyboard.cpp:275 src/im/keyboard/keyboard.conf.in:3
 msgid "Keyboard"
 msgstr "Tastatur"
 
@@ -1158,7 +1158,7 @@ msgstr "Tastatur"
 msgid "Keyboard - {0}"
 msgstr "Tastatur - {0}"
 
-#: src/im/keyboard/keyboard.cpp:218
+#: src/im/keyboard/keyboard.cpp:220
 msgid "Keyboard - {0} - {1}"
 msgstr "Tastatur - {0} - {1}"
 
@@ -1520,7 +1520,7 @@ msgctxt "Key name"
 msgid "NumLock"
 msgstr "NumLock"
 
-#: src/im/keyboard/keyboard.cpp:360
+#: src/im/keyboard/keyboard.cpp:364
 msgid ""
 "Only emoji support is found. To enable spell checking, you may need to "
 "install spell check data for the language."
@@ -1636,15 +1636,15 @@ msgctxt "Key name"
 msgid "Power Off"
 msgstr "Sluk"
 
-#: src/lib/fcitx/instance.cpp:883
+#: src/lib/fcitx/instance.cpp:887
 msgid "Preedit"
 msgstr "Preedit"
 
-#: src/lib/fcitx/instance.cpp:885
+#: src/lib/fcitx/instance.cpp:889
 msgid "Preedit disabled"
 msgstr "Preedit deaktiveret"
 
-#: src/lib/fcitx/instance.cpp:884
+#: src/lib/fcitx/instance.cpp:888
 msgid "Preedit enabled"
 msgstr "Preedit aktiveret"
 
@@ -1843,6 +1843,10 @@ msgstr "Vis inputmetodeinformation når der skiftes fokus"
 msgid "Show Input Method Information when switch input method"
 msgstr "Vis inputmetodeinformation når der skiftes inputmetode"
 
+#: src/lib/fcitx/globalconfig.cpp:131
+msgid "Show compact input method information"
+msgstr ""
+
 #: src/modules/notificationitem/notificationitem.h:26
 msgid "Show label when using keyboard or icon unavailable"
 msgstr "Vis etiket når tastaturet er i brug eller ikon er utilgængeligt"
@@ -1934,7 +1938,7 @@ msgctxt "Key name"
 msgid "Suspend"
 msgstr "Hvile"
 
-#: src/lib/fcitx/instance.cpp:714 src/modules/xcb/xcbconnection.cpp:389
+#: src/lib/fcitx/instance.cpp:718 src/modules/xcb/xcbconnection.cpp:389
 msgid "Switch group"
 msgstr "Skift gruppe"
 
@@ -1942,7 +1946,7 @@ msgstr "Skift gruppe"
 msgid "Switch group to {0}"
 msgstr "Skift gruppe til {0}"
 
-#: src/lib/fcitx/instance.cpp:715
+#: src/lib/fcitx/instance.cpp:719
 msgid "Switched group to {0}"
 msgstr "Skiftede gruppe til {0}"
 
@@ -2356,14 +2360,14 @@ msgstr "sudo-miljøvariabler"
 msgid "version:"
 msgstr "version:"
 
-#: src/im/keyboard/keyboard.cpp:248
+#: src/im/keyboard/keyboard.cpp:252
 msgid "{0} (Not Available)"
 msgstr "{0} (ikke tilgængelig)"
 
-#: src/lib/fcitx/instance.cpp:338
+#: src/lib/fcitx/instance.cpp:341
 msgid "{0} (Not available)"
 msgstr "{0} (ikke tilgængelig)"
 
-#: src/lib/fcitx/instance.cpp:335
+#: src/lib/fcitx/instance.cpp:338
 msgid "{0} ({1})"
 msgstr "{0} ({1})"
