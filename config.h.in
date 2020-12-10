@@ -29,6 +29,7 @@
 #cmakedefine ENABLE_ENCHANT
 #cmakedefine PRESAGE_FOUND
 #cmakedefine ENABLE_PRESAGE
+#cmakedefine LIBKVM_FOUND
 
 #cmakedefine CAIRO_EGL_FOUND
 #cmakedefine ENABLE_X11

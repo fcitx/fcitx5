@@ -9,6 +9,15 @@
 #include <unistd.h>
 #include <fmt/format.h>
 #include "log.h"
+#include "config.h"
+
+#if defined(LIBKVM_FOUND)
+#include <kvm.h>
+#include <fcntl.h>
+#include <sys/param.h>
+#include <sys/sysctl.h>
+#include <sys/user.h>
+#endif
 
 namespace fcitx {
 

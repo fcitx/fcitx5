@@ -71,6 +71,9 @@ pkg_get_variable(DBUS_SYSTEM_BUS_DEFAULT_ADDRESS "dbus-1" "system_bus_default_ad
 pkg_check_modules(LibEvent REQUIRED IMPORTED_TARGET "libevent")
 endif()
 
+if(${CMAKE_SYSTEM_NAME} MATCHES "BSD")
+    find_package(LibKVM REQUIRED)
+endif()
 find_package(DL REQUIRED)
 find_package(LibIntl REQUIRED)
 find_package(LibUUID REQUIRED)
