@@ -42,6 +42,11 @@ namespace fcitx {
 
 namespace {
 
+bool isInFlatpak() {
+    static bool inFlatpak = fs::isreg("/.flatpak-info");
+    return inFlatpak;
+}
+
 std::string readFileContent(const std::string &file) {
     std::ifstream fin(file, std::ios::binary | std::ios::in);
     std::vector<char> buffer;
@@ -135,16 +140,18 @@ std::pair<std::string, pid_t> getAddress(const std::string &socketPath) {
     }
     RawConfig config;
     readFromIni(config, file.get());
-    if (const auto *value = config.valueByPath("IBUS_ADDRESS")) {
-        if (const auto *pidValue = config.valueByPath("IBUS_DAEMON_PID")) {
-            try {
-                pid = std::stoi(*pidValue);
-                // Check if PID exists.
-                if (pid == getpid() || kill(pid, 0) == 0) {
-                    return {*value, pid};
-                }
-            } catch (...) {
+    const auto *value = config.valueByPath("IBUS_ADDRESS");
+    const auto *pidValue = config.valueByPath("IBUS_DAEMON_PID");
+
+    if (value && pidValue) {
+        try {
+            pid = std::stoi(*pidValue);
+            // Check if we are in flatpak, or pid is same with ourselves, or
+            // another running process.
+            if (isInFlatpak() || pid == getpid() || kill(pid, 0) == 0) {
+                return {*value, pid};
             }
+        } catch (...) {
         }
     }
 
@@ -640,7 +647,7 @@ IBusFrontend::createInputContext(const std::string & /* unused */) {
 
 std::set<std::string> allSocketPaths() {
     std::set<std::string> paths;
-    if (fs::isreg("/.flatpak-info")) {
+    if (isInFlatpak()) {
         // Flatpak always use DISPLAY=:99, which means we will need to guess
         // what files are available.
         auto map = StandardPath::global().multiOpenFilter(
@@ -679,7 +686,6 @@ IBusFrontendModule::IBusFrontendModule(Instance *instance)
     dbus::VariantTypeRegistry::defaultRegistry().registerType<IBusText>();
     dbus::VariantTypeRegistry::defaultRegistry().registerType<IBusAttribute>();
     dbus::VariantTypeRegistry::defaultRegistry().registerType<IBusAttrList>();
-    FCITX_IBUS_DEBUG() << socketPaths_;
     replaceIBus();
 }
 
@@ -710,19 +716,34 @@ dbus::Bus *IBusFrontendModule::bus() {
 }
 
 void IBusFrontendModule::replaceIBus() {
+    FCITX_IBUS_DEBUG() << "Found ibus socket files: " << socketPaths_;
     std::pair<std::string, pid_t> address;
     for (const auto &path : socketPaths_) {
         address = getAddress(path);
+
+        FCITX_IBUS_DEBUG() << "Found ibus address from file " << path << ": "
+                           << address;
+
+        if (isInFlatpak()) {
+            // Check the in flatpak special pid value.
+            if (address.second == 0) {
+                continue;
+            }
+        } else {
+            // It's not meaningful to compare pid from different pid namespace.
+            if (address.second == getpid()) {
+                continue;
+            }
+        }
         if (!address.first.empty() &&
-            address.first.find("fcitx_random_string") == std::string::npos &&
-            address.second != getpid() && address.second) {
+            address.first.find("fcitx_random_string") == std::string::npos) {
             break;
         }
     }
     const auto &oldAddress = address.first;
     FCITX_IBUS_DEBUG() << "Old ibus address is: " << oldAddress;
     if (!oldAddress.empty()) {
-        if (fs::isreg("/.flatpak-info")) {
+        if (isInFlatpak()) {
             // When running inside flatpak, ibus command won't be available.
             // sd-bus does not connect to IBus's dbus, probably due to different
             // implemenation on dbus protocol. sd-bus has bug on xdg-dbus-proxy
@@ -821,7 +842,7 @@ void IBusFrontendModule::becomeIBus() {
     config.setValueByPath("IBUS_ADDRESS", address);
     // im module use kill(pid, 0) to check, since we're using different pid
     // namespace, write with a pid make this call return 0.
-    pid_t pidToWrite = fs::isreg("/.flatpak-info") ? 0 : getpid();
+    pid_t pidToWrite = isInFlatpak() ? 0 : getpid();
     config.setValueByPath("IBUS_DAEMON_PID", std::to_string(pidToWrite));
 
     FCITX_IBUS_DEBUG() << "Writing ibus daemon info.";
