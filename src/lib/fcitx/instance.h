@@ -42,7 +42,7 @@ enum class EventWatcherPhase {
     Default = PostInputMethod
 };
 
-struct InstanceQuietQuit : public std::exception {};
+struct FCITXCORE_EXPORT InstanceQuietQuit : public std::exception {};
 
 class FCITXCORE_EXPORT Instance : public ConnectableObject {
 public:
