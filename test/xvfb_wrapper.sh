@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 XVFB_DISPLAY=:9345
 
@@ -10,7 +10,7 @@ shift
 XVFB_PID=$!
 export DISPLAY=$XVFB_DISPLAY
 
-function finish()
+finish()
 {
     if [ -n "$XVFB_PID" ]; then
         kill $XVFB_PID >/dev/null 2>&1
@@ -21,15 +21,17 @@ function finish()
 trap finish EXIT
 
 if which xprop >/dev/null 2>&1; then
-    for((i=1;i<=5;i++)); do
+    i=1
+    while [ "$i" -lt 5 ]; do
         if xprop -root >/dev/null 2>&1; then
             break
         else
             echo "Can't connect to Xvfb, retrying..."
-            sleep $i
+            sleep "$i"
         fi
+        i=$((i + 1))
     done
-    if [[ $i == 6 ]]; then
+    if [ "$i" -eq 6 ]; then
         exit 1
     fi
 else
