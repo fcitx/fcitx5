@@ -5,12 +5,19 @@
  *
  */
 #include "waylandinputwindow.h"
-#include <linux/input-event-codes.h>
 #include "waylandim_public.h"
 #include "waylandui.h"
 #include "waylandwindow.h"
 #include "zwp_input_panel_v1.h"
 #include "zwp_input_popup_surface_v2.h"
+
+#ifdef __linux__
+#include <linux/input-event-codes.h>
+#elif __FreeBSD__
+#include <dev/evdev/input-event-codes.h>
+#else
+#define BTN_LEFT 0x110
+#endif
 
 namespace fcitx::classicui {
 

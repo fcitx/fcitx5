@@ -8,12 +8,12 @@
 #include <sys/wait.h>
 #include <unistd.h>
 #include <fmt/format.h>
-#include "log.h"
 #include "config.h"
+#include "log.h"
 
 #if defined(LIBKVM_FOUND)
-#include <kvm.h>
 #include <fcntl.h>
+#include <kvm.h>
 #include <sys/param.h>
 #include <sys/sysctl.h>
 #include <sys/user.h>
