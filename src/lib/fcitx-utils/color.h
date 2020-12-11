@@ -19,7 +19,7 @@
 /// \brief Simple color class that represent a 64bit color.
 
 namespace fcitx {
-struct ColorParseException : public std::exception {
+struct FCITXUTILS_EXPORT ColorParseException : public std::exception {
     virtual const char *what() const noexcept { return "Color parse error"; }
 };
 
