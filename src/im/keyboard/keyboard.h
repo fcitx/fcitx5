@@ -66,7 +66,7 @@ FCITX_CONFIGURATION(
     Option<std::vector<std::string>> blocklistApplicationForLongPress{
         this,
         "LongPressBlocklist",
-        _("Blocklist application for long press"),
+        _("Applications disabled for long press"),
         {"konsole"}};);
 
 class KeyboardEngine;
