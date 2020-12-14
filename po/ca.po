@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2020-12-10 01:10+0000\n"
+"POT-Creation-Date: 2020-12-14 20:24+0000\n"
 "PO-Revision-Date: 2017-11-23 04:14+0000\n"
 "Last-Translator: Robert Antoni Buj Gelonch <rbuj@fedoraproject.org>, 2020\n"
 "Language-Team: Catalan (https://www.transifex.com/fcitx/teams/12005/ca/)\n"
@@ -163,6 +163,10 @@ msgstr ""
 #: src/lib/fcitx-utils/key.cpp:117
 msgctxt "Key name"
 msgid "Application Right"
+msgstr ""
+
+#: src/im/keyboard/keyboard.h:69
+msgid "Applications disabled for long press"
 msgstr ""
 
 #: src/lib/fcitx-utils/key.cpp:176
@@ -422,15 +426,15 @@ msgctxt "Key name"
 msgid "Community"
 msgstr "Comunitat"
 
-#: src/im/keyboard/keyboard.cpp:370
+#: src/im/keyboard/keyboard.cpp:502
 msgid "Completion"
 msgstr ""
 
-#: src/im/keyboard/keyboard.cpp:373
+#: src/im/keyboard/keyboard.cpp:505
 msgid "Completion is disabled."
 msgstr ""
 
-#: src/im/keyboard/keyboard.cpp:372
+#: src/im/keyboard/keyboard.cpp:504
 msgid "Completion is enabled."
 msgstr ""
 
@@ -1072,7 +1076,7 @@ msgstr ""
 msgid "Image"
 msgstr ""
 
-#: src/im/keyboard/keyboard.cpp:369 src/ui/classic/xcbtraywindow.cpp:38
+#: src/im/keyboard/keyboard.cpp:501 src/ui/classic/xcbtraywindow.cpp:38
 #: src/lib/fcitx/instance.cpp:717 src/lib/fcitx/instance.cpp:887
 #: src/modules/notificationitem/dbusmenu.cpp:241
 #: src/modules/notificationitem/notificationitem.cpp:111
@@ -1130,15 +1134,15 @@ msgctxt "Key name"
 msgid "Katakana"
 msgstr ""
 
-#: src/im/keyboard/keyboard.cpp:275 src/im/keyboard/keyboard.conf.in:3
+#: src/im/keyboard/keyboard.cpp:321 src/im/keyboard/keyboard.conf.in:3
 msgid "Keyboard"
 msgstr "Teclat"
 
-#: src/im/keyboard/keyboard.cpp:201
+#: src/im/keyboard/keyboard.cpp:247
 msgid "Keyboard - {0}"
 msgstr "Teclat - {0}"
 
-#: src/im/keyboard/keyboard.cpp:220
+#: src/im/keyboard/keyboard.cpp:266
 msgid "Keyboard - {0} - {1}"
 msgstr "Teclat - {0} - {1}"
 
@@ -1500,7 +1504,7 @@ msgctxt "Key name"
 msgid "NumLock"
 msgstr "Bloq Núm"
 
-#: src/im/keyboard/keyboard.cpp:364
+#: src/im/keyboard/keyboard.cpp:496
 msgid ""
 "Only emoji support is found. To enable spell checking, you may need to "
 "install spell check data for the language."
@@ -2048,6 +2052,10 @@ msgstr ""
 msgid "Trigger hint mode"
 msgstr ""
 
+#: src/im/keyboard/keyboard.h:64
+msgid "Type special characters with long press"
+msgstr ""
+
 #: data/org.fcitx.Fcitx5.metainfo.xml.in:20
 msgid "Typing with Fcitx and Kimpanel"
 msgstr ""
@@ -2312,7 +2320,7 @@ msgstr ""
 msgid "version:"
 msgstr ""
 
-#: src/im/keyboard/keyboard.cpp:252
+#: src/im/keyboard/keyboard.cpp:298
 msgid "{0} (Not Available)"
 msgstr ""
 
