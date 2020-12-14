@@ -34,7 +34,7 @@ private:
 
 template <int N, int M>
 constexpr char __getChar(char const (&str)[M]) noexcept {
-    if (N < M) {
+    if constexpr (N < M) {
         return str[N];
     }
     return '\0';
