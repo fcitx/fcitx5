@@ -59,15 +59,33 @@ FCITX_CONFIGURATION(
                               "Hint Trigger",
                               _("Trigger hint mode"),
                               {Key("Control+Alt+H")},
-                              KeyListConstrain()};);
+                              KeyListConstrain()};
+    Option<bool> enableLongPress{this, "EnableLongPress",
+                                 _("Type special characters with long press"),
+                                 false};
+    Option<std::vector<std::string>> blocklistApplicationForLongPress{
+        this,
+        "LongPressBlocklist",
+        _("Blocklist application for long press"),
+        {"konsole"}};);
 
 class KeyboardEngine;
+
+enum class CandidateMode { Hint, LongPress };
 
 struct KeyboardEngineState : public InputContextProperty {
     bool enableWordHint_ = false;
     InputBuffer buffer_;
+    CandidateMode mode_ = CandidateMode::Hint;
+    std::string origKeyString_;
+    bool repeatStarted_ = false;
 
-    void reset() { buffer_.clear(); }
+    void reset() {
+        origKeyString_.clear();
+        buffer_.clear();
+        mode_ = CandidateMode::Hint;
+        repeatStarted_ = false;
+    }
 };
 
 class KeyboardEnginePrivate;
@@ -100,8 +118,10 @@ public:
 
     void updateCandidate(const InputMethodEntry &entry,
                          InputContext *inputContext);
+    // Update preedit and send ui update.
+    void updateUI(InputContext *inputContext);
 
-    auto state() { return &factory_; }
+    auto factory() { return &factory_; }
 
     bool
     foreachLayout(const std::function<bool(
@@ -113,14 +133,21 @@ public:
             bool(const std::string &variant, const std::string &description,
                  const std::vector<std::string> &languages)> &callback);
 
+    // Return true if chr is pushed to buffer.
+    // Return false if chr will be skipped by buffer, usually this means caller
+    // need to call commit buffer and forward chr manually.
+    bool updateBuffer(InputContext *inputContext, const std::string &chr);
+
+    // Commit current buffer, also reset the state.
+    // See also preeditString().
+    void commitBuffer(InputContext *inputContext);
+
 private:
     FCITX_ADDON_EXPORT_FUNCTION(KeyboardEngine, foreachLayout);
     FCITX_ADDON_EXPORT_FUNCTION(KeyboardEngine, foreachVariant);
 
     bool supportHint(const std::string &language);
     std::string preeditString(InputContext *inputContext);
-    void commitBuffer(InputContext *inputContext);
-    void updateUI(InputContext *inputContext);
     void initQuickPhrase();
 
     Instance *instance_;
@@ -137,6 +164,11 @@ private:
 
     FactoryFor<KeyboardEngineState> factory_{
         [](InputContext &) { return new KeyboardEngineState; }};
+
+    std::unordered_set<std::string> longPressBlocklistSet_;
+
+public:
+    std::unique_ptr<EventSourceTime> cancelLastEvent_;
 };
 
 class KeyboardEngineFactory : public AddonFactory {
