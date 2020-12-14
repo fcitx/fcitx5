@@ -12,6 +12,25 @@
 
 namespace fcitx {
 
+namespace {
+
+constexpr size_t regularLabelSize = 10;
+
+template <typename Container, typename Transformer>
+void fillLabels(std::vector<Text> &labels, const Container &container,
+                const Transformer &trans) {
+    labels.clear();
+    labels.reserve(std::max(std::size(container), regularLabelSize));
+    for (const auto &item : container) {
+        labels.emplace_back(trans(item));
+    }
+    while (labels.size() < regularLabelSize) {
+        labels.emplace_back();
+    }
+}
+
+} // namespace
+
 class CandidateListPrivate {
 public:
     BulkCandidateList *bulk_ = nullptr;
@@ -272,6 +291,8 @@ CommonCandidateList::CommonCandidateList()
     setModifiable(this);
     setBulk(this);
     setCursorMovable(this);
+
+    setLabels();
 }
 
 CommonCandidateList::~CommonCandidateList() {}
@@ -305,13 +326,17 @@ std::string keyToLabel(const Key &key) {
     return result;
 }
 
+void CommonCandidateList::setLabels(const std::vector<std::string> &labels) {
+    FCITX_D();
+    fillLabels(
+        d->labels_, labels,
+        [](const std::string &str) -> const std::string & { return str; });
+}
+
 void CommonCandidateList::setSelectionKey(const KeyList &keyList) {
     FCITX_D();
-    d->labels_.clear();
-    d->labels_.reserve(keyList.size());
-    for (const auto &key : keyList) {
-        d->labels_.emplace_back(keyToLabel(key));
-    }
+    fillLabels(d->labels_, keyList,
+               [](const Key &str) -> std::string { return keyToLabel(str); });
 }
 
 void CommonCandidateList::clear() {

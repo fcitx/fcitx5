@@ -174,6 +174,9 @@ class CommonCandidateListPrivate;
 
 enum class CursorPositionAfterPaging { SameAsLast, DonotChange, ResetToFirst };
 
+/**
+ * A common simple candidate list that serves most of the purpose.
+ */
 class FCITXCORE_EXPORT CommonCandidateList : public CandidateList,
                                              public PageableCandidateList,
                                              public ModifiableCandidateList,
@@ -183,7 +186,26 @@ public:
     ~CommonCandidateList();
 
     void clear();
+
+    /**
+     * Set the label of candidate list.
+     *
+     * The labels less than 10 will be automatically filled with to empty ones
+     * up to 10 to be more error prone.
+     *
+     * @param labels list of labels.
+     *
+     * @since 5.0.4
+     */
+    void setLabels(const std::vector<std::string> &labels = {});
+
+    /**
+     * Set the label of candidate list by key.
+     *
+     * @param keyList list of selection key
+     */
     void setSelectionKey(const KeyList &keyList);
+
     void setPageSize(int size);
     int pageSize() const;
     void setLayoutHint(CandidateLayoutHint hint);
