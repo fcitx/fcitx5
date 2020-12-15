@@ -5,16 +5,16 @@
 # Translators:
 # csslayer <wengxt@gmail.com>, 2017
 # ABE Tsunehiko, 2017
-# UTUMI Hirosi <utuhiro78@yahoo.co.jp>, 2020
 # Takuro Onoue <kusanaginoturugi@gmail.com>, 2020
+# UTUMI Hirosi <utuhiro78@yahoo.co.jp>, 2020
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2020-12-14 20:24+0000\n"
+"POT-Creation-Date: 2020-12-15 20:24+0000\n"
 "PO-Revision-Date: 2017-11-23 04:14+0000\n"
-"Last-Translator: Takuro Onoue <kusanaginoturugi@gmail.com>, 2020\n"
+"Last-Translator: UTUMI Hirosi <utuhiro78@yahoo.co.jp>, 2020\n"
 "Language-Team: Japanese (https://www.transifex.com/fcitx/teams/12005/ja/)\n"
 "Language: ja\n"
 "MIME-Version: 1.0\n"
@@ -169,7 +169,7 @@ msgstr "右側のアプリケーション"
 
 #: src/im/keyboard/keyboard.h:69
 msgid "Applications disabled for long press"
-msgstr ""
+msgstr "長押しを無効にするアプリケーション"
 
 #: src/lib/fcitx-utils/key.cpp:176
 msgctxt "Key name"
@@ -2080,7 +2080,7 @@ msgstr "ヒントモードのオンオフ"
 
 #: src/im/keyboard/keyboard.h:64
 msgid "Type special characters with long press"
-msgstr ""
+msgstr "長押しで特殊文字を入力する"
 
 #: data/org.fcitx.Fcitx5.metainfo.xml.in:20
 msgid "Typing with Fcitx and Kimpanel"
