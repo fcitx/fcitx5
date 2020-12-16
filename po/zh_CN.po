@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2020-12-14 20:24+0000\n"
+"POT-Creation-Date: 2020-12-16 20:24+0000\n"
 "PO-Revision-Date: 2017-11-23 04:14+0000\n"
 "Last-Translator: csslayer <wengxt@gmail.com>, 2020\n"
 "Language-Team: Chinese (China) (https://www.transifex.com/fcitx/teams/12005/"
@@ -168,7 +168,7 @@ msgstr "应用程序右"
 
 #: src/im/keyboard/keyboard.h:69
 msgid "Applications disabled for long press"
-msgstr ""
+msgstr "禁用长按的程序"
 
 #: src/lib/fcitx-utils/key.cpp:176
 msgctxt "Key name"
@@ -1835,7 +1835,7 @@ msgstr "切换输入法时显示输入法信息"
 
 #: src/lib/fcitx/globalconfig.cpp:131
 msgid "Show compact input method information"
-msgstr ""
+msgstr "显示紧凑的输入法信息"
 
 #: src/modules/notificationitem/notificationitem.h:26
 msgid "Show label when using keyboard or icon unavailable"
@@ -2069,7 +2069,7 @@ msgstr "切换提示模式"
 
 #: src/im/keyboard/keyboard.h:64
 msgid "Type special characters with long press"
-msgstr ""
+msgstr "用长按来输入特殊字符"
 
 #: data/org.fcitx.Fcitx5.metainfo.xml.in:20
 msgid "Typing with Fcitx and Kimpanel"
