@@ -180,10 +180,37 @@ public:
      */
     Key key() const { return key_; }
 
+    /**
+     * It will automatically be called if input method layout does not match the
+     * system keyboard layout.
+     *
+     * @param key p_key:...
+     */
     void setKey(const Key &key) {
         key_ = key;
         forward_ = true;
     }
+
+    /**
+     * It is designed for faking the key event. Normally should not be used.
+     *
+     * @param key key event to override.
+     * @since 5.0.4
+     */
+    void setRawKey(const Key &key) {
+        rawKey_ = key;
+        key_ = key.normalize();
+        forward_ = true;
+    }
+
+    /**
+     * It is designed for overriding the key forward option. Normally should not
+     * be used.
+     *
+     * @param forward
+     * @since 5.0.4
+     */
+    void setForward(bool forward) { forward_ = forward; }
 
     /**
      * Key event regardless of keyboard layout conversion.
@@ -194,6 +221,14 @@ public:
     Key rawKey() const { return rawKey_; }
     bool isRelease() const { return isRelease_; }
     int time() const { return time_; }
+
+    /**
+     * If true, the key that produce character will commit a string.
+     *
+     * This is currently used by internal keyboard layout translation.
+     *
+     * @return bool
+     */
     bool forward() const { return forward_; }
 
 protected:
