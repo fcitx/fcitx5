@@ -81,18 +81,29 @@ FCITX_CONFIGURATION(
         {Key("Hangul_Romaja")},
         KeyListConstrain({KeyConstrainFlag::AllowModifierLess,
                           KeyConstrainFlag::AllowModifierOnly})};
-    KeyListOption defaultPrevPage{
-        this,
-        "PrevPage",
-        _("Default Previous page"),
-        {Key("Up")},
-        KeyListConstrain({KeyConstrainFlag::AllowModifierLess})};
-    KeyListOption defaultNextPage{
-        this,
-        "NextPage",
-        _("Default Next page"),
-        {Key("Down")},
-        KeyListConstrain({KeyConstrainFlag::AllowModifierLess})};
+    Option<KeyList, ListConstrain<KeyConstrain>, DefaultMarshaller<KeyList>,
+           ToolTipAnnotation>
+        defaultPrevPage{this,
+                        "PrevPage",
+                        _("Default Previous page"),
+                        {Key("Up")},
+                        KeyListConstrain({KeyConstrainFlag::AllowModifierLess}),
+                        {},
+                        {_("Input methods may have different setup in their "
+                           "own configuration. This is commonly used by "
+                           "modules like clipboard or quickphrase.")}};
+
+    Option<KeyList, ListConstrain<KeyConstrain>, DefaultMarshaller<KeyList>,
+           ToolTipAnnotation>
+        defaultNextPage{this,
+                        "NextPage",
+                        _("Default Next page"),
+                        {Key("Down")},
+                        KeyListConstrain({KeyConstrainFlag::AllowModifierLess}),
+                        {},
+                        {_("Input methods may have different setup in their "
+                           "own configuration. This is commonly used by "
+                           "modules like clipboard or quickphrase.")}};
     KeyListOption defaultPrevCandidate{
         this,
         "PrevCandidate",
