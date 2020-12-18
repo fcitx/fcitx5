@@ -328,8 +328,8 @@ void XCBMenu::update() {
     }
     items_.erase(items_.begin() + actions.size(), items_.end());
     auto &theme = ui_->parent()->theme();
-    auto *fontDesc =
-        pango_font_description_from_string(theme.menu->font->c_str());
+    auto *fontDesc = pango_font_description_from_string(
+        ui_->parent()->config().menuFont->c_str());
     pango_context_set_font_description(context_.get(), fontDesc);
     pango_cairo_context_set_resolution(context_.get(), dpi_);
     pango_font_description_free(fontDesc);

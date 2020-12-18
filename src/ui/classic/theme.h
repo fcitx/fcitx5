@@ -101,7 +101,7 @@ FCITX_CONFIGURATION(
     Option<ActionImageConfig> next{this, "NextPage", _("Next Page Button")};
     Option<MarginConfig> blurMargin{this, "BlurMargin", _("Blur Margin")};);
 FCITX_CONFIGURATION(
-    MenuThemeConfig, Option<std::string> font{this, "Font", "Font", "Sans 9"};
+    MenuThemeConfig,
     Option<Color> normalColor{this, "NormalColor", _("Normal text color"),
                               Color("#000000ff")};
     Option<Color> highlightTextColor{this, "HighlightCandidateColor",

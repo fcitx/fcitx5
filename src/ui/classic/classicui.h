@@ -71,21 +71,36 @@ private:
     std::vector<std::pair<std::string, std::string>> themes_;
 };
 
-FCITX_CONFIGURATION(ClassicUIConfig,
-                    Option<bool> verticalCandidateList{
-                        this, "Vertical Candidate List",
-                        _("Vertical Candidate List"), false};
-                    Option<bool> perScreenDPI{this, "PerScreenDPI",
-                                              _("Use Per Screen DPI"), true};
-                    Option<bool> useWheelForPaging{
-                        this, "WheelForPaging",
-                        _("Use mouse wheel to go to prev or next page"), true};
+struct MenuFontAnnotation : private FontAnnotation, private ToolTipAnnotation {
+    MenuFontAnnotation()
+        : ToolTipAnnotation(
+              _("This is only effective when the tray icon is xembed.")) {}
 
-                    OptionWithAnnotation<std::string, FontAnnotation> font{
-                        this, "Font", "Font", "Sans 9"};
-                    Option<std::string, NotEmpty,
-                           DefaultMarshaller<std::string>, ThemeAnnotation>
-                        theme{this, "Theme", _("Theme"), "default"};);
+    bool skipDescription() { return false; }
+    bool skipSave() { return false; }
+    void dumpDescription(RawConfig &config) {
+        FontAnnotation::dumpDescription(config);
+        ToolTipAnnotation::dumpDescription(config);
+    }
+};
+
+FCITX_CONFIGURATION(
+    ClassicUIConfig,
+    Option<bool> verticalCandidateList{this, "Vertical Candidate List",
+                                       _("Vertical Candidate List"), false};
+    Option<bool> perScreenDPI{this, "PerScreenDPI", _("Use Per Screen DPI"),
+                              true};
+    Option<bool> useWheelForPaging{
+        this, "WheelForPaging", _("Use mouse wheel to go to prev or next page"),
+        true};
+
+    OptionWithAnnotation<std::string, FontAnnotation> font{
+        this, "Font", _("Font"), "Sans 10"};
+    OptionWithAnnotation<std::string, MenuFontAnnotation> menuFont{
+        this, "MenuFont", _("Menu Font"), "Sans 10"};
+    Option<std::string, NotEmpty, DefaultMarshaller<std::string>,
+           ThemeAnnotation>
+        theme{this, "Theme", _("Theme"), "default"};);
 
 class ClassicUI final : public UserInterface {
 public:
