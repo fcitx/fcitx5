@@ -326,6 +326,12 @@ public:
         auto *engine = q->inputMethodEngine(ic);
         const auto *entry = q->inputMethodEntry(ic);
         auto &imManager = q->inputMethodManager();
+
+        if (!inputState->isActive() &&
+            !globalConfig_.showFirstInputMethodInformation()) {
+            return;
+        }
+
         std::string display;
         if (engine) {
             auto subMode = engine->subMode(*entry, *ic);

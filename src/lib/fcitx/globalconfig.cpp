@@ -129,6 +129,9 @@ FCITX_CONFIGURATION(
     Option<bool> compactInputMethodInformation{
         this, "CompactInputMethodInformation",
         _("Show compact input method information"), true};
+    Option<bool> showFirstInputMethodInformation{
+        this, "ShowFirstInputMethodInformation",
+        _("Show first input method information"), true};
     Option<int, IntConstrain> defaultPageSize{this, "DefaultPageSize",
                                               _("Default page size"), 5,
                                               IntConstrain(1, 10)};
@@ -240,6 +243,11 @@ bool GlobalConfig::showInputMethodInformationWhenFocusIn() const {
 bool GlobalConfig::compactInputMethodInformation() const {
     FCITX_D();
     return d->behavior->compactInputMethodInformation.value();
+}
+
+bool GlobalConfig::showFirstInputMethodInformation() const {
+    FCITX_D();
+    return d->behavior->showFirstInputMethodInformation.value();
 }
 
 PropertyPropagatePolicy GlobalConfig::shareInputState() const {

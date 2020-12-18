@@ -40,6 +40,7 @@ public:
     bool showInputMethodInformation() const;
     bool showInputMethodInformationWhenFocusIn() const;
     bool compactInputMethodInformation() const;
+    bool showFirstInputMethodInformation() const;
     PropertyPropagatePolicy shareInputState() const;
     bool preeditEnabledByDefault() const;
 
