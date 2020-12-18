@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2020-12-16 20:24+0000\n"
+"POT-Creation-Date: 2020-12-18 20:24+0000\n"
 "PO-Revision-Date: 2017-11-23 04:14+0000\n"
 "Last-Translator: Omer I.S. <omeritzicschwartz@gmail.com>, 2020\n"
 "Language-Team: Hebrew (https://www.transifex.com/fcitx/teams/12005/he/)\n"
@@ -48,7 +48,7 @@ msgstr ""
 msgid "${1} works properly."
 msgstr ""
 
-#: src/lib/fcitx/instance.cpp:343
+#: src/lib/fcitx/instance.cpp:349
 msgid "(Not available)"
 msgstr ""
 
@@ -100,7 +100,7 @@ msgstr ""
 msgid "Activate Input Method"
 msgstr ""
 
-#: src/lib/fcitx/globalconfig.cpp:116
+#: src/lib/fcitx/globalconfig.cpp:127
 msgid "Active By Default"
 msgstr ""
 
@@ -229,7 +229,7 @@ msgstr ""
 msgid "Beginner's Guide"
 msgstr ""
 
-#: src/lib/fcitx/globalconfig.cpp:146
+#: src/lib/fcitx/globalconfig.cpp:160
 msgid "Behavior"
 msgstr ""
 
@@ -535,28 +535,28 @@ msgstr ""
 msgid "Deactivate Input Method"
 msgstr ""
 
-#: src/lib/fcitx/inputmethodmanager.cpp:130 src/lib/fcitx/instance.cpp:646
+#: src/lib/fcitx/inputmethodmanager.cpp:130 src/lib/fcitx/instance.cpp:652
 #: src/ui/classic/themes/default/theme.conf.in:3
 msgid "Default"
 msgstr ""
 
-#: src/lib/fcitx/globalconfig.cpp:105
+#: src/lib/fcitx/globalconfig.cpp:116
 msgid "Default Next Candidate"
 msgstr ""
 
-#: src/lib/fcitx/globalconfig.cpp:93
+#: src/lib/fcitx/globalconfig.cpp:100
 msgid "Default Next page"
 msgstr ""
 
-#: src/lib/fcitx/globalconfig.cpp:99
+#: src/lib/fcitx/globalconfig.cpp:110
 msgid "Default Previous Candidate"
 msgstr ""
 
-#: src/lib/fcitx/globalconfig.cpp:87
+#: src/lib/fcitx/globalconfig.cpp:88
 msgid "Default Previous page"
 msgstr ""
 
-#: src/lib/fcitx/globalconfig.cpp:133
+#: src/lib/fcitx/globalconfig.cpp:147
 msgid "Default page size"
 msgstr ""
 
@@ -768,6 +768,10 @@ msgctxt "Key name"
 msgid "Find"
 msgstr ""
 
+#: src/ui/classic/classicui.h:98
+msgid "Font"
+msgstr ""
+
 #: src/lib/fcitx-utils/key.cpp:59
 msgctxt "Key name"
 msgid "Forward"
@@ -870,11 +874,11 @@ msgstr ""
 msgid "Group"
 msgstr ""
 
-#: src/lib/fcitx/instance.cpp:347
+#: src/lib/fcitx/instance.cpp:353
 msgid "Group {0}: {1}"
 msgstr ""
 
-#: src/lib/fcitx/instance.cpp:648
+#: src/lib/fcitx/instance.cpp:654
 msgid "Group {}"
 msgstr ""
 
@@ -1036,7 +1040,7 @@ msgctxt "Key name"
 msgid "Hot Links"
 msgstr ""
 
-#: src/lib/fcitx/globalconfig.cpp:144
+#: src/lib/fcitx/globalconfig.cpp:158
 msgid "Hotkey"
 msgstr ""
 
@@ -1077,7 +1081,7 @@ msgid "Image"
 msgstr ""
 
 #: src/im/keyboard/keyboard.cpp:501 src/ui/classic/xcbtraywindow.cpp:38
-#: src/lib/fcitx/instance.cpp:717 src/lib/fcitx/instance.cpp:887
+#: src/lib/fcitx/instance.cpp:723 src/lib/fcitx/instance.cpp:893
 #: src/modules/notificationitem/dbusmenu.cpp:241
 #: src/modules/notificationitem/notificationitem.cpp:111
 #: src/modules/xcb/xcbconnection.cpp:388 data/org.fcitx.Fcitx5.desktop.in.in:4
@@ -1099,6 +1103,12 @@ msgstr ""
 
 #: src/modules/imselector/imselector.conf.in:3
 msgid "Input method selector"
+msgstr ""
+
+#: src/lib/fcitx/globalconfig.cpp:92 src/lib/fcitx/globalconfig.cpp:104
+msgid ""
+"Input methods may have different setup in their own configuration. This is "
+"commonly used by modules like clipboard or quickphrase."
 msgstr ""
 
 #: src/lib/fcitx-utils/key.cpp:194
@@ -1404,6 +1414,10 @@ msgctxt "Key name"
 msgid "Menu"
 msgstr ""
 
+#: src/ui/classic/classicui.h:100
+msgid "Menu Font"
+msgstr ""
+
 #: src/lib/fcitx-utils/key.cpp:137
 msgctxt "Key name"
 msgid "Menu PB"
@@ -1613,15 +1627,15 @@ msgctxt "Key name"
 msgid "Power Off"
 msgstr ""
 
-#: src/lib/fcitx/instance.cpp:887
+#: src/lib/fcitx/instance.cpp:893
 msgid "Preedit"
 msgstr ""
 
-#: src/lib/fcitx/instance.cpp:889
+#: src/lib/fcitx/instance.cpp:895
 msgid "Preedit disabled"
 msgstr ""
 
-#: src/lib/fcitx/instance.cpp:888
+#: src/lib/fcitx/instance.cpp:894
 msgid "Preedit enabled"
 msgstr ""
 
@@ -1798,7 +1812,7 @@ msgstr "שליחה"
 msgid "Separator Background"
 msgstr ""
 
-#: src/lib/fcitx/globalconfig.cpp:118
+#: src/lib/fcitx/globalconfig.cpp:129
 msgid "Share Input State"
 msgstr ""
 
@@ -1812,23 +1826,27 @@ msgctxt "Key name"
 msgid "Shop"
 msgstr ""
 
-#: src/lib/fcitx/globalconfig.cpp:128
+#: src/lib/fcitx/globalconfig.cpp:139
 msgid "Show Input Method Information when changing focus"
 msgstr ""
 
-#: src/lib/fcitx/globalconfig.cpp:125
+#: src/lib/fcitx/globalconfig.cpp:136
 msgid "Show Input Method Information when switch input method"
 msgstr ""
 
-#: src/lib/fcitx/globalconfig.cpp:131
+#: src/lib/fcitx/globalconfig.cpp:142
 msgid "Show compact input method information"
+msgstr ""
+
+#: src/lib/fcitx/globalconfig.cpp:145
+msgid "Show first input method information"
 msgstr ""
 
 #: src/modules/notificationitem/notificationitem.h:26
 msgid "Show label when using keyboard or icon unavailable"
 msgstr ""
 
-#: src/lib/fcitx/globalconfig.cpp:121
+#: src/lib/fcitx/globalconfig.cpp:132
 msgid "Show preedit in application"
 msgstr ""
 
@@ -1915,7 +1933,7 @@ msgctxt "Key name"
 msgid "Suspend"
 msgstr "השהיה"
 
-#: src/lib/fcitx/instance.cpp:718 src/modules/xcb/xcbconnection.cpp:389
+#: src/lib/fcitx/instance.cpp:724 src/modules/xcb/xcbconnection.cpp:389
 msgid "Switch group"
 msgstr ""
 
@@ -1923,7 +1941,7 @@ msgstr ""
 msgid "Switch group to {0}"
 msgstr ""
 
-#: src/lib/fcitx/instance.cpp:719
+#: src/lib/fcitx/instance.cpp:725
 msgid "Switched group to {0}"
 msgstr ""
 
@@ -1964,8 +1982,12 @@ msgstr ""
 msgid "The script is run as ${1} (${2})."
 msgstr ""
 
-#: src/ui/classic/classicui.h:88
+#: src/ui/classic/classicui.h:103
 msgid "Theme"
+msgstr ""
+
+#: src/ui/classic/classicui.h:77
+msgid "This is only effective when the tray icon is xembed."
 msgstr ""
 
 #: src/lib/fcitx-utils/key.cpp:177
@@ -1981,7 +2003,7 @@ msgid ""
 "freezing, see ${link2}."
 msgstr ""
 
-#: src/lib/fcitx/globalconfig.cpp:110
+#: src/lib/fcitx/globalconfig.cpp:121
 msgid "Toggle embedded preedit"
 msgstr ""
 
@@ -2086,7 +2108,7 @@ msgstr ""
 msgid "Use On The Spot Style (Needs restarting)"
 msgstr ""
 
-#: src/ui/classic/classicui.h:79
+#: src/ui/classic/classicui.h:91
 msgid "Use Per Screen DPI"
 msgstr ""
 
@@ -2094,7 +2116,7 @@ msgstr ""
 msgid "Use all horizontal space for highlight when it is vertical list"
 msgstr ""
 
-#: src/ui/classic/classicui.h:82
+#: src/ui/classic/classicui.h:94
 msgid "Use mouse wheel to go to prev or next page"
 msgstr ""
 
@@ -2114,7 +2136,7 @@ msgstr ""
 msgid "Version Line:"
 msgstr ""
 
-#: src/ui/classic/classicui.h:77
+#: src/ui/classic/classicui.h:90
 msgid "Vertical Candidate List"
 msgstr ""
 
@@ -2324,10 +2346,10 @@ msgstr ""
 msgid "{0} (Not Available)"
 msgstr ""
 
-#: src/lib/fcitx/instance.cpp:341
+#: src/lib/fcitx/instance.cpp:347
 msgid "{0} (Not available)"
 msgstr ""
 
-#: src/lib/fcitx/instance.cpp:338
+#: src/lib/fcitx/instance.cpp:344
 msgid "{0} ({1})"
 msgstr ""
