@@ -7,11 +7,14 @@
 #ifndef _FCITX_UTILS_MISC_P_H_
 #define _FCITX_UTILS_MISC_P_H_
 
+#include <fcntl.h>
+#include <unistd.h>
 #include <algorithm>
 #include <list>
 #include <string>
 #include <type_traits>
 #include <unordered_map>
+#include <config.h>
 
 namespace fcitx {
 
@@ -108,6 +111,21 @@ private:
     std::unordered_map<T, typename OrderList::iterator> dict_;
     OrderList order_;
 };
+
+static inline int safePipe(int pipefd[2]) {
+#ifdef HAVE_PIPE2
+    return ::pipe2(pipefd, O_NONBLOCK | O_CLOEXEC);
+#else
+    int ret = ::pipe(pipefd);
+    if (ret == -1)
+        return -1;
+    ::fcntl(pipefd[0], F_SETFD, FD_CLOEXEC);
+    ::fcntl(pipefd[1], F_SETFD, FD_CLOEXEC);
+    ::fcntl(pipefd[0], F_SETFL, ::fcntl(pipefd[0], F_GETFL) | O_NONBLOCK);
+    ::fcntl(pipefd[1], F_SETFL, ::fcntl(pipefd[1], F_GETFL) | O_NONBLOCK);
+    return 0;
+#endif
+}
 
 } // namespace fcitx
 

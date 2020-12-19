@@ -40,6 +40,8 @@
 #define DBUS_SYSTEM_BUS_DEFAULT_ADDRESS "@DBUS_SYSTEM_BUS_DEFAULT_ADDRESS@"
 #define CLDR_DIR "@CLDR_DIR@"
 
+#cmakedefine HAVE_PIPE2
+
 #ifndef _GNU_SOURCE
 #define _GNU_SOURCE
 #endif

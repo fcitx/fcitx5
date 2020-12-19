@@ -8,6 +8,7 @@
 #include <fcntl.h>
 #include <sys/mman.h>
 #include <sys/stat.h>
+#include <ctime>
 #include <fstream>
 #include <limits>
 #include <stdexcept>
@@ -19,6 +20,37 @@
 #include "config.h"
 
 namespace fcitx {
+
+namespace {
+template <typename T>
+inline std::enable_if_t<(&T::st_mtim, true), std::timespec>
+modifiedTime(const T &p) {
+    std::timespec t;
+    t.tv_sec = p.st_mtim.tv_sec;
+    t.tv_nsec = p.st_mtim.tv_nsec;
+    return t;
+}
+template <typename T>
+inline std::enable_if_t<(&T::st_mtimespec), std::timespec>
+modifiedTime(const T &p) {
+    std::timespec t;
+    t.tv_sec = p.st_mtimespec.tv_sec;
+    t.tv_nsec = p.st_mtimensec.tv_nsec;
+    return t;
+}
+
+#if !defined(st_mtimespec)
+template <typename T>
+inline std::enable_if_t<(&T::st_mtimensec, true), std::timespec>
+modifiedTime(const T &p) {
+    std::timespec t;
+    t.tv_sec = p.st_mtime;
+    t.tv_nsec = p.st_mtimensec;
+    return t;
+}
+#endif
+
+} // namespace
 
 std::string pathToRoot(const RawConfig &config) {
     std::string path;
@@ -159,7 +191,7 @@ FCITX_DEFINE_READ_ONLY_PROPERTY_PRIVATE(IconThemeDirectory, int, maxSize);
 FCITX_DEFINE_READ_ONLY_PROPERTY_PRIVATE(IconThemeDirectory, int, minSize);
 FCITX_DEFINE_READ_ONLY_PROPERTY_PRIVATE(IconThemeDirectory, int, threshold);
 
-bool timespecLess(const timespec &lhs, const timespec &rhs) {
+bool timespecLess(const std::timespec &lhs, const std::timespec &rhs) {
     if (lhs.tv_sec != rhs.tv_sec) {
         return lhs.tv_sec < rhs.tv_sec;
     }
@@ -190,7 +222,7 @@ public:
         if (stat(dirName.c_str(), &dirSt) != 0) {
             return;
         }
-        if (timespecLess(st.st_mtim, dirSt.st_mtim)) {
+        if (timespecLess(modifiedTime(st), modifiedTime(dirSt))) {
             return;
         }
 

@@ -15,6 +15,7 @@ include(GenerateExportHeader)
 include(WriteBasicConfigVersionFile)
 include(ECMUninstallTarget)
 include(src/lib/fcitx-utils/Fcitx5Macros.cmake)
+include(CheckSymbolExists)
 
 #######################################################################
 # Options
@@ -167,6 +168,8 @@ set(FCITX_INSTALL_CMAKECONFIG_DIR "${CMAKE_INSTALL_FULL_LIBDIR}/cmake")
 set(FCITX_INSTALL_MODULE_HEADER_DIR "${CMAKE_INSTALL_FULL_INCLUDEDIR}/Fcitx5/Module/fcitx-module")
 # TODO mac/win
 set(FCITX_LIBRARY_SUFFIX ".so")
+
+check_function_exists(pipe2 HAVE_PIPE2)
 
 configure_file(${CMAKE_CURRENT_SOURCE_DIR}/config.h.in ${CMAKE_CURRENT_BINARY_DIR}/config.h)
 include_directories(${CMAKE_CURRENT_BINARY_DIR})

@@ -11,6 +11,7 @@
 #include <queue>
 #include <stdexcept>
 #include "event.h"
+#include "misc_p.h"
 #include "unixfd.h"
 
 namespace fcitx {
@@ -44,7 +45,7 @@ EventDispatcher::EventDispatcher()
     : d_ptr(std::make_unique<EventDispatcherPrivate>()) {
     FCITX_D();
     int selfpipe[2];
-    if (pipe2(selfpipe, O_CLOEXEC | O_NONBLOCK) < 0) {
+    if (safePipe(selfpipe)) {
         throw std::runtime_error("Failed to create pipe");
     }
     d->fd_[0].give(selfpipe[0]);
