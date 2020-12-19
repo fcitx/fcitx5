@@ -26,6 +26,17 @@
 
 namespace fcitx {
 
+namespace {
+bool isKDE() {
+    std::string_view desktop;
+    auto *desktopEnv = getenv("XDG_CURRENT_DESKTOP");
+    if (desktopEnv) {
+        desktop = desktopEnv;
+    }
+    return (desktop == "KDE");
+}
+} // namespace
+
 class StatusNotifierItem : public dbus::ObjectVTable<StatusNotifierItem> {
 public:
     StatusNotifierItem(NotificationItem *parent) : parent_(parent) {
@@ -52,13 +63,19 @@ public:
     void activate(int, int) { parent_->instance()->toggle(); }
     void secondaryActivate(int, int) {}
     std::string iconName() {
-        std::string icon = "input-keyboard-symbolic";
+        static bool preferSymbolic = !isKDE();
+        std::string icon;
+        if (preferSymbolic) {
+            icon = "input-keyboard-symbolic";
+        } else {
+            icon = "input-keyboard";
+        }
         if (auto *ic = parent_->instance()->lastFocusedInputContext()) {
             if (const auto *entry = parent_->instance()->inputMethodEntry(ic)) {
                 icon = entry->icon();
             }
         }
-        if (icon == "input-keyboard") {
+        if (icon == "input-keyboard" && preferSymbolic) {
             return "input-keyboard-symbolic";
         }
         return IconTheme::iconName(icon, inFlatpak_);
