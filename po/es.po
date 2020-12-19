@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2020-12-18 20:22+0000\n"
+"POT-Creation-Date: 2020-12-19 20:22+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: csslayer <wengxt@gmail.com>, 2017\n"
 "Language-Team: Spanish (https://www.transifex.com/fcitx/teams/12005/es/)\n"
@@ -74,23 +74,23 @@ msgstr ""
 msgid "/XIM"
 msgstr ""
 
-#: src/modules/unicode/charselectdata.cpp:208
+#: src/modules/unicode/charselectdata.cpp:203
 msgid "<Low Surrogate>"
 msgstr ""
 
-#: src/modules/unicode/charselectdata.cpp:204
+#: src/modules/unicode/charselectdata.cpp:199
 msgid "<Non Private Use High Surrogate>"
 msgstr ""
 
-#: src/modules/unicode/charselectdata.cpp:206
+#: src/modules/unicode/charselectdata.cpp:201
 msgid "<Private Use High Surrogate>"
 msgstr ""
 
-#: src/modules/unicode/charselectdata.cpp:210
+#: src/modules/unicode/charselectdata.cpp:205
 msgid "<Private Use>"
 msgstr ""
 
-#: src/modules/unicode/charselectdata.cpp:240
+#: src/modules/unicode/charselectdata.cpp:235
 msgid "<not assigned>"
 msgstr ""
 
@@ -384,7 +384,7 @@ msgstr ""
 msgid "Check box"
 msgstr ""
 
-#: src/im/keyboard/keyboard.h:56
+#: src/im/keyboard/keyboard.h:56 src/modules/quickphrase/quickphrase.h:41
 msgid "Choose key modifier"
 msgstr ""
 
@@ -405,7 +405,7 @@ msgstr ""
 msgid "Clipboard"
 msgstr ""
 
-#: src/modules/clipboard/clipboard.cpp:304
+#: src/modules/clipboard/clipboard.cpp:310
 msgid "Clipboard:"
 msgstr ""
 
@@ -1083,7 +1083,7 @@ msgstr ""
 #: src/im/keyboard/keyboard.cpp:501 src/ui/classic/xcbtraywindow.cpp:38
 #: src/lib/fcitx/instance.cpp:723 src/lib/fcitx/instance.cpp:893
 #: src/modules/notificationitem/dbusmenu.cpp:241
-#: src/modules/notificationitem/notificationitem.cpp:111
+#: src/modules/notificationitem/notificationitem.cpp:128
 #: src/modules/xcb/xcbconnection.cpp:388 data/org.fcitx.Fcitx5.desktop.in.in:4
 #: data/org.fcitx.Fcitx5.metainfo.xml.in:7
 msgid "Input Method"
@@ -1489,7 +1489,7 @@ msgstr ""
 msgid "Next Page Button"
 msgstr ""
 
-#: src/modules/clipboard/clipboard.cpp:306
+#: src/modules/clipboard/clipboard.cpp:312
 msgid "No clipboard history."
 msgstr ""
 
@@ -1516,6 +1516,10 @@ msgstr ""
 #: src/lib/fcitx-utils/key.cpp:54
 msgctxt "Key name"
 msgid "NumLock"
+msgstr ""
+
+#: src/modules/clipboard/clipboard.h:35
+msgid "Number of entries"
 msgstr ""
 
 #: src/im/keyboard/keyboard.cpp:496
@@ -1574,6 +1578,10 @@ msgstr ""
 #: src/lib/fcitx-utils/key.cpp:142
 msgctxt "Key name"
 msgid "Paste"
+msgstr ""
+
+#: src/modules/clipboard/clipboard.h:33
+msgid "Paste Primary"
 msgstr ""
 
 #: src/lib/fcitx-utils/key.cpp:44
@@ -2063,6 +2071,8 @@ msgid "Trigger Input Method"
 msgstr ""
 
 #: src/modules/imselector/imselector.h:25
+#: src/modules/quickphrase/quickphrase.h:36
+#: src/modules/clipboard/clipboard.h:29
 msgid "Trigger Key"
 msgstr ""
 

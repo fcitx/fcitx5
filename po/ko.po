@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2020-12-18 20:24+0000\n"
+"POT-Creation-Date: 2020-12-19 20:24+0000\n"
 "PO-Revision-Date: 2017-11-23 04:14+0000\n"
 "Last-Translator: JungHee Lee <daemul72@gmail.com>, 2020\n"
 "Language-Team: Korean (https://www.transifex.com/fcitx/teams/12005/ko/)\n"
@@ -78,23 +78,23 @@ msgstr ""
 msgid "/XIM"
 msgstr "/XIM"
 
-#: src/modules/unicode/charselectdata.cpp:208
+#: src/modules/unicode/charselectdata.cpp:203
 msgid "<Low Surrogate>"
 msgstr "<하위 확장코드>"
 
-#: src/modules/unicode/charselectdata.cpp:204
+#: src/modules/unicode/charselectdata.cpp:199
 msgid "<Non Private Use High Surrogate>"
 msgstr "<비 개인용 상위 확장코드>"
 
-#: src/modules/unicode/charselectdata.cpp:206
+#: src/modules/unicode/charselectdata.cpp:201
 msgid "<Private Use High Surrogate>"
 msgstr "<개인용 상위 확장코드>"
 
-#: src/modules/unicode/charselectdata.cpp:210
+#: src/modules/unicode/charselectdata.cpp:205
 msgid "<Private Use>"
 msgstr "<개인사용>"
 
-#: src/modules/unicode/charselectdata.cpp:240
+#: src/modules/unicode/charselectdata.cpp:235
 msgid "<not assigned>"
 msgstr "<할당 안됨>"
 
@@ -388,7 +388,7 @@ msgstr "Fcitx 5 환경설정 변경"
 msgid "Check box"
 msgstr ""
 
-#: src/im/keyboard/keyboard.h:56
+#: src/im/keyboard/keyboard.h:56 src/modules/quickphrase/quickphrase.h:41
 msgid "Choose key modifier"
 msgstr "변환 키 선택"
 
@@ -409,7 +409,7 @@ msgstr ""
 msgid "Clipboard"
 msgstr "클립보드"
 
-#: src/modules/clipboard/clipboard.cpp:304
+#: src/modules/clipboard/clipboard.cpp:310
 msgid "Clipboard:"
 msgstr "클립보드:"
 
@@ -1085,7 +1085,7 @@ msgstr ""
 #: src/im/keyboard/keyboard.cpp:501 src/ui/classic/xcbtraywindow.cpp:38
 #: src/lib/fcitx/instance.cpp:723 src/lib/fcitx/instance.cpp:893
 #: src/modules/notificationitem/dbusmenu.cpp:241
-#: src/modules/notificationitem/notificationitem.cpp:111
+#: src/modules/notificationitem/notificationitem.cpp:128
 #: src/modules/xcb/xcbconnection.cpp:388 data/org.fcitx.Fcitx5.desktop.in.in:4
 #: data/org.fcitx.Fcitx5.metainfo.xml.in:7
 msgid "Input Method"
@@ -1491,7 +1491,7 @@ msgstr "다음 후보"
 msgid "Next Page Button"
 msgstr ""
 
-#: src/modules/clipboard/clipboard.cpp:306
+#: src/modules/clipboard/clipboard.cpp:312
 msgid "No clipboard history."
 msgstr "클립보드 기록이 없습니다."
 
@@ -1519,6 +1519,10 @@ msgstr "알림"
 msgctxt "Key name"
 msgid "NumLock"
 msgstr "NumLock"
+
+#: src/modules/clipboard/clipboard.h:35
+msgid "Number of entries"
+msgstr ""
 
 #: src/im/keyboard/keyboard.cpp:496
 msgid ""
@@ -1579,6 +1583,10 @@ msgstr "페이지 크기"
 msgctxt "Key name"
 msgid "Paste"
 msgstr "붙이기"
+
+#: src/modules/clipboard/clipboard.h:33
+msgid "Paste Primary"
+msgstr ""
 
 #: src/lib/fcitx-utils/key.cpp:44
 msgctxt "Key name"
@@ -2067,6 +2075,8 @@ msgid "Trigger Input Method"
 msgstr "입력기 전환"
 
 #: src/modules/imselector/imselector.h:25
+#: src/modules/quickphrase/quickphrase.h:36
+#: src/modules/clipboard/clipboard.h:29
 msgid "Trigger Key"
 msgstr ""
 

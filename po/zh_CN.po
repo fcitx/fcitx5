@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2020-12-18 20:24+0000\n"
+"POT-Creation-Date: 2020-12-19 20:24+0000\n"
 "PO-Revision-Date: 2017-11-23 04:14+0000\n"
 "Last-Translator: csslayer <wengxt@gmail.com>, 2020\n"
 "Language-Team: Chinese (China) (https://www.transifex.com/fcitx/teams/12005/"
@@ -77,23 +77,23 @@ msgstr "/Note_for_GNOME_Later_than_3.6"
 msgid "/XIM"
 msgstr "/XIM/zh-cn"
 
-#: src/modules/unicode/charselectdata.cpp:208
+#: src/modules/unicode/charselectdata.cpp:203
 msgid "<Low Surrogate>"
 msgstr "<低半代理区>"
 
-#: src/modules/unicode/charselectdata.cpp:204
+#: src/modules/unicode/charselectdata.cpp:199
 msgid "<Non Private Use High Surrogate>"
 msgstr "<非专用高半代理区>"
 
-#: src/modules/unicode/charselectdata.cpp:206
+#: src/modules/unicode/charselectdata.cpp:201
 msgid "<Private Use High Surrogate>"
 msgstr "<专用高半代理区>"
 
-#: src/modules/unicode/charselectdata.cpp:210
+#: src/modules/unicode/charselectdata.cpp:205
 msgid "<Private Use>"
 msgstr "<专用区>"
 
-#: src/modules/unicode/charselectdata.cpp:240
+#: src/modules/unicode/charselectdata.cpp:235
 msgid "<not assigned>"
 msgstr "<未指派>"
 
@@ -387,7 +387,7 @@ msgstr "修改 Fcitx 5 配置"
 msgid "Check box"
 msgstr "复选框"
 
-#: src/im/keyboard/keyboard.h:56
+#: src/im/keyboard/keyboard.h:56 src/modules/quickphrase/quickphrase.h:41
 msgid "Choose key modifier"
 msgstr "选词修饰键"
 
@@ -408,7 +408,7 @@ msgstr "点击区域边距"
 msgid "Clipboard"
 msgstr "剪贴板"
 
-#: src/modules/clipboard/clipboard.cpp:304
+#: src/modules/clipboard/clipboard.cpp:310
 msgid "Clipboard:"
 msgstr "剪贴板："
 
@@ -775,7 +775,7 @@ msgstr "查找"
 
 #: src/ui/classic/classicui.h:98
 msgid "Font"
-msgstr ""
+msgstr "字体"
 
 #: src/lib/fcitx-utils/key.cpp:59
 msgctxt "Key name"
@@ -1093,7 +1093,7 @@ msgstr "图片"
 #: src/im/keyboard/keyboard.cpp:501 src/ui/classic/xcbtraywindow.cpp:38
 #: src/lib/fcitx/instance.cpp:723 src/lib/fcitx/instance.cpp:893
 #: src/modules/notificationitem/dbusmenu.cpp:241
-#: src/modules/notificationitem/notificationitem.cpp:111
+#: src/modules/notificationitem/notificationitem.cpp:128
 #: src/modules/xcb/xcbconnection.cpp:388 data/org.fcitx.Fcitx5.desktop.in.in:4
 #: data/org.fcitx.Fcitx5.metainfo.xml.in:7
 msgid "Input Method"
@@ -1120,6 +1120,8 @@ msgid ""
 "Input methods may have different setup in their own configuration. This is "
 "commonly used by modules like clipboard or quickphrase."
 msgstr ""
+"输入法也许在自身配置中有不同的设置。 这个选项主要用于模块例如剪贴板和快速输"
+"入。"
 
 #: src/lib/fcitx-utils/key.cpp:194
 msgctxt "Key name"
@@ -1426,7 +1428,7 @@ msgstr "菜单"
 
 #: src/ui/classic/classicui.h:100
 msgid "Menu Font"
-msgstr ""
+msgstr "菜单字体"
 
 #: src/lib/fcitx-utils/key.cpp:137
 msgctxt "Key name"
@@ -1499,7 +1501,7 @@ msgstr "下一个候选词"
 msgid "Next Page Button"
 msgstr "下一页按钮"
 
-#: src/modules/clipboard/clipboard.cpp:306
+#: src/modules/clipboard/clipboard.cpp:312
 msgid "No clipboard history."
 msgstr "无剪贴板历史。"
 
@@ -1527,6 +1529,10 @@ msgstr "提示"
 msgctxt "Key name"
 msgid "NumLock"
 msgstr "数字锁定"
+
+#: src/modules/clipboard/clipboard.h:35
+msgid "Number of entries"
+msgstr ""
 
 #: src/im/keyboard/keyboard.cpp:496
 msgid ""
@@ -1586,6 +1592,10 @@ msgstr "页大小"
 msgctxt "Key name"
 msgid "Paste"
 msgstr "粘贴"
+
+#: src/modules/clipboard/clipboard.h:33
+msgid "Paste Primary"
+msgstr ""
 
 #: src/lib/fcitx-utils/key.cpp:44
 msgctxt "Key name"
@@ -1853,7 +1863,7 @@ msgstr "显示紧凑的输入法信息"
 
 #: src/lib/fcitx/globalconfig.cpp:145
 msgid "Show first input method information"
-msgstr ""
+msgstr "显示第一个输入法的信息"
 
 #: src/modules/notificationitem/notificationitem.h:26
 msgid "Show label when using keyboard or icon unavailable"
@@ -2001,7 +2011,7 @@ msgstr "主题"
 
 #: src/ui/classic/classicui.h:77
 msgid "This is only effective when the tray icon is xembed."
-msgstr ""
+msgstr "这只在托盘为 xembed 时有效。"
 
 #: src/lib/fcitx-utils/key.cpp:177
 msgctxt "Key name"
@@ -2078,6 +2088,8 @@ msgid "Trigger Input Method"
 msgstr "切换启用/禁用输入法"
 
 #: src/modules/imselector/imselector.h:25
+#: src/modules/quickphrase/quickphrase.h:36
+#: src/modules/clipboard/clipboard.h:29
 msgid "Trigger Key"
 msgstr "触发键"
 
