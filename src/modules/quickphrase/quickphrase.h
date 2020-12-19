@@ -33,12 +33,12 @@ FCITX_CONFIGURATION(
     KeyListOption triggerKey{
         this,
         "TriggerKey",
-        "Trigger Key",
+        _("Trigger Key"),
         {Key("Super+grave"), Key("Super+semicolon")},
         KeyListConstrain({KeyConstrainFlag::AllowModifierLess})};
     OptionWithAnnotation<QuickPhraseChooseModifier,
                          QuickPhraseChooseModifierI18NAnnotation>
-        chooseModifier{this, "Choose Modifier", "Choose key modifier",
+        chooseModifier{this, "Choose Modifier", _("Choose key modifier"),
                        QuickPhraseChooseModifier::NoModifier};
     Option<bool> enableSpell{this, "Spell", _("Enable Spell check"), true};
     Option<std::string> fallbackSpellLanguage{

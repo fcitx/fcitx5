@@ -145,6 +145,12 @@ Clipboard::Clipboard(Instance *instance)
                 keyEvent.filterAndAccept();
                 return;
             }
+            if (keyEvent.key().checkKeyList(config_.pastePrimaryKey.value())) {
+                keyEvent.inputContext()->commitString(
+                    primary(keyEvent.inputContext()));
+                keyEvent.filterAndAccept();
+                return;
+            }
         }));
 
     auto reset = [this](Event &event) {

@@ -23,15 +23,17 @@
 
 namespace fcitx {
 
-FCITX_CONFIGURATION(ClipboardConfig,
-                    KeyListOption triggerKey{this,
-                                             "TriggerKey",
-                                             "Trigger Key",
-                                             {Key("Control+semicolon")},
-                                             KeyListConstrain()};
-                    Option<int, IntConstrain> numOfEntries{
-                        this, "Number of entries", "Number of entries", 5,
-                        IntConstrain(3, 30)};);
+FCITX_CONFIGURATION(
+    ClipboardConfig, KeyListOption triggerKey{this,
+                                              "TriggerKey",
+                                              _("Trigger Key"),
+                                              {Key("Control+semicolon")},
+                                              KeyListConstrain()};
+    KeyListOption pastePrimaryKey{
+        this, "PastePrimaryKey", _("Paste Primary"), {}, KeyListConstrain()};
+    Option<int, IntConstrain> numOfEntries{this, "Number of entries",
+                                           _("Number of entries"), 5,
+                                           IntConstrain(3, 30)};);
 
 class ClipboardState;
 class Clipboard final : public AddonInstance {
