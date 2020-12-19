@@ -13,13 +13,9 @@
 #include <cstdint>
 #include <cstdio>
 #include <cstdlib>
-#if defined(__linux__) || defined(__GLIBC__)
-#include <endian.h>
-#else
-#include <sys/endian.h>
-#endif
 #include <cstring>
 #include <functional>
+#include "fcitx-utils/endian_p.h"
 #include "fcitx-utils/fs.h"
 #include "fcitx-utils/unixfd.h"
 

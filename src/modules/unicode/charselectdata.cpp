@@ -24,16 +24,11 @@
 #include <stdexcept>
 #include <fmt/format.h>
 #include "fcitx-utils/charutils.h"
+#include "fcitx-utils/endian_p.h"
 #include "fcitx-utils/fs.h"
 #include "fcitx-utils/i18n.h"
 #include "fcitx-utils/standardpath.h"
 #include "fcitx-utils/stringutils.h"
-
-#if defined(__linux__) || defined(__GLIBC__)
-#include <endian.h>
-#else
-#include <sys/endian.h>
-#endif
 
 using namespace fcitx;
 

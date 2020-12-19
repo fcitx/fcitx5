@@ -11,13 +11,9 @@
 #include <sys/stat.h>
 #include <stdexcept>
 #include "fcitx-utils/cutf8.h"
+#include "fcitx-utils/endian_p.h"
 #include "fcitx-utils/fs.h"
 #include "fcitx-utils/standardpath.h"
-#if defined(__linux__) || defined(__GLIBC__)
-#include <endian.h>
-#else
-#include <sys/endian.h>
-#endif
 
 #define case_a_z                                                               \
     case 'a':                                                                  \
