@@ -83,6 +83,7 @@ public:
 private:
     FCITX_ADDON_EXPORT_FUNCTION(QuickPhrase, trigger);
     FCITX_ADDON_EXPORT_FUNCTION(QuickPhrase, addProvider);
+    FCITX_ADDON_EXPORT_FUNCTION(QuickPhrase, setBuffer);
 
     void setSelectionKeys(QuickPhraseAction action);
 
