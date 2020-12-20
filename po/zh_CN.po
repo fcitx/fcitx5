@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2020-12-19 20:24+0000\n"
+"POT-Creation-Date: 2020-12-20 20:24+0000\n"
 "PO-Revision-Date: 2017-11-23 04:14+0000\n"
 "Last-Translator: csslayer <wengxt@gmail.com>, 2020\n"
 "Language-Team: Chinese (China) (https://www.transifex.com/fcitx/teams/12005/"
@@ -1532,7 +1532,7 @@ msgstr "数字锁定"
 
 #: src/modules/clipboard/clipboard.h:35
 msgid "Number of entries"
-msgstr ""
+msgstr "项目个数"
 
 #: src/im/keyboard/keyboard.cpp:496
 msgid ""
@@ -1595,7 +1595,7 @@ msgstr "粘贴"
 
 #: src/modules/clipboard/clipboard.h:33
 msgid "Paste Primary"
-msgstr ""
+msgstr "粘贴主选区"
 
 #: src/lib/fcitx-utils/key.cpp:44
 msgctxt "Key name"
