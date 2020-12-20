@@ -418,6 +418,17 @@ void QuickPhrase::trigger(InputContext *ic, const std::string &text,
     state->str_ = str;
     state->alt_ = alt;
     state->key_ = key;
+    state->buffer_.clear();
+    updateUI(ic);
+}
+
+void QuickPhrase::setBuffer(InputContext *ic, const std::string &text) {
+    auto *state = ic->propertyFor(&factory_);
+    if (!state->enabled_) {
+        return;
+    }
+    state->buffer_.clear();
+    state->buffer_.type(text);
     updateUI(ic);
 }
 

@@ -75,6 +75,7 @@ public:
     void trigger(InputContext *ic, const std::string &text,
                  const std::string &prefix, const std::string &str,
                  const std::string &alt, const Key &key);
+    void setBuffer(InputContext *ic, const std::string &text);
 
     std::unique_ptr<HandlerTableEntry<QuickPhraseProviderCallback>>
         addProvider(QuickPhraseProviderCallback);

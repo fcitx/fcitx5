@@ -41,6 +41,8 @@ FCITX_ADDON_DECLARE_FUNCTION(QuickPhrase, trigger,
                                   const std::string &prefix,
                                   const std::string &str,
                                   const std::string &alt, const Key &key));
+FCITX_ADDON_DECLARE_FUNCTION(QuickPhrase, setBuffer,
+                             void(InputContext *ic, const std::string &text));
 
 FCITX_ADDON_DECLARE_FUNCTION(
     QuickPhrase, addProvider,
