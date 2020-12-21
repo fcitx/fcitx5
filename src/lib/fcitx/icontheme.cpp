@@ -19,6 +19,13 @@
 #include "fcitx-utils/log.h"
 #include "config.h"
 
+#ifdef __APPLE__
+// Apple SDKs don't define ::timespec_get and ::timespec unconditionally in C++ mode.
+namespace std {
+    using ::timespec;
+};
+#endif
+
 namespace fcitx {
 
 namespace {
@@ -31,11 +38,11 @@ modifiedTime(const T &p) {
     return t;
 }
 template <typename T>
-inline std::enable_if_t<(&T::st_mtimespec), std::timespec>
+inline std::enable_if_t<(&T::st_mtimespec, true), std::timespec>
 modifiedTime(const T &p) {
     std::timespec t;
     t.tv_sec = p.st_mtimespec.tv_sec;
-    t.tv_nsec = p.st_mtimensec.tv_nsec;
+    t.tv_nsec = p.st_mtimespec.tv_nsec;
     return t;
 }
 
@@ -261,7 +268,7 @@ public:
                 isValid_ = false;
                 return;
             }
-            if (timespecLess(st.st_mtim, subDirSt.st_mtim)) {
+            if (timespecLess(modifiedTime(st), modifiedTime(subDirSt))) {
                 isValid_ = false;
                 return;
             }
