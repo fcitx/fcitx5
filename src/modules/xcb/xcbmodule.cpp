@@ -51,10 +51,12 @@ void XCBModule::removeConnection(const std::string &name) {
     if (iter == conns_.end()) {
         return;
     }
+    // Make a copy of name.
+    std::string localName = name;
     onConnectionClosed(iter->second);
     conns_.erase(iter);
-    FCITX_INFO() << "Disconnected from X11 Display " << name;
-    if (name == mainDisplay_) {
+    FCITX_INFO() << "Disconnected from X11 Display " << localName;
+    if (localName == mainDisplay_) {
         mainDisplay_.clear();
         if (instance_->exitWhenMainDisplayDisconnected()) {
             instance_->exit();
