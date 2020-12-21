@@ -5,9 +5,7 @@
  *
  */
 
-#include <unistd.h>
 #include <iostream>
-#include <sys/signal.h>
 #include "fcitx-utils/dbus/bus.h"
 #include "fcitx-utils/utf8.h"
 
