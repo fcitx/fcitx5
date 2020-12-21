@@ -261,6 +261,8 @@ const char *StandardPath::fcitxPath(const char *path) {
                                                  FCITX_INSTALL_ADDONDIR),
         std::make_pair<std::string, std::string>("libdatadir",
                                                  FCITX_INSTALL_LIBDATADIR),
+        std::make_pair<std::string, std::string>("libexecdir",
+                                                 FCITX_INSTALL_LIBEXECDIR),
     };
 
     auto iter = pathMap.find(path);
