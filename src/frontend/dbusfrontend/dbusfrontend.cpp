@@ -288,7 +288,7 @@ InputMethod1::createInputContext(
 
 DBusFrontendModule::DBusFrontendModule(Instance *instance)
     : instance_(instance),
-      portalBus_(std::make_unique<dbus::Bus>(dbus::BusType::Session)),
+      portalBus_(std::make_unique<dbus::Bus>(bus()->address())),
       inputMethod1_(std::make_unique<InputMethod1>(
           this, bus(), "/org/freedesktop/portal/inputmethod")),
       inputMethod1Compatible_(std::make_unique<InputMethod1>(

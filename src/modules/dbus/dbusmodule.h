@@ -31,6 +31,9 @@ private:
     FCITX_ADDON_EXPORT_FUNCTION(DBusModule, bus);
     FCITX_ADDON_EXPORT_FUNCTION(DBusModule, lockGroup);
 
+    std::unique_ptr<dbus::Bus> connectToSessionBus();
+
+    Instance *instance_;
     std::unique_ptr<dbus::Bus> bus_;
     std::unique_ptr<dbus::Slot> disconnectedSlot_;
     std::unique_ptr<dbus::ServiceWatcher> serviceWatcher_;
@@ -40,7 +43,6 @@ private:
         xkbWatcher_;
     std::string xkbHelperName_;
     std::unique_ptr<Controller1> controller_;
-    Instance *instance_;
 };
 } // namespace fcitx
 

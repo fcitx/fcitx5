@@ -5,7 +5,11 @@
  *
  */
 
-#include "dbusmodule.h"
+#include "config.h"
+
+#include <pwd.h>
+#include <sys/types.h>
+#include <fstream>
 #include <set>
 #include <sstream>
 #include <fmt/format.h>
@@ -20,6 +24,7 @@
 #include "fcitx/inputmethodengine.h"
 #include "fcitx/inputmethodentry.h"
 #include "fcitx/inputmethodmanager.h"
+#include "dbusmodule.h"
 #include "keyboard_public.h"
 #ifdef ENABLE_X11
 #include "xcb_public.h"
@@ -40,6 +45,105 @@ namespace {
 constexpr char globalConfigPath[] = "fcitx://config/global";
 constexpr char addonConfigPrefix[] = "fcitx://config/addon/";
 constexpr char imConfigPrefix[] = "fcitx://config/inputmethod/";
+
+std::string readFileContent(const std::string &file) {
+    std::ifstream fin(file, std::ios::binary | std::ios::in);
+    std::vector<char> buffer;
+    constexpr auto chunkSize = 4096;
+    do {
+        auto curSize = buffer.size();
+        buffer.resize(curSize + chunkSize);
+        if (!fin.read(buffer.data() + curSize, chunkSize)) {
+            buffer.resize(curSize + fin.gcount());
+            break;
+        }
+    } while (0);
+    std::string str{buffer.begin(), buffer.end()};
+    return stringutils::trim(str);
+}
+
+std::string getLocalMachineId(void) {
+    auto content = readFileContent("/var/lib/dbus/machine-id");
+    if (content.empty()) {
+        content = readFileContent("/etc/machine-id");
+    }
+
+    return content;
+}
+
+std::string X11GetAddress(AddonInstance *xcb, const std::string &display,
+                          xcb_connection_t *conn) {
+    static const char selection_prefix[] = "_DBUS_SESSION_BUS_SELECTION_";
+    static const char address_prefix[] = "_DBUS_SESSION_BUS_ADDRESS";
+    static const char pid_prefix[] = "_DBUS_SESSION_BUS_PID";
+    struct passwd *user;
+
+    auto machine = getLocalMachineId();
+    if (machine.empty()) {
+        return {};
+    }
+
+    user = getpwuid(getuid());
+    if (!user) {
+        return {};
+    }
+    std::string user_name = user->pw_name;
+
+    auto atom_name =
+        stringutils::concat(selection_prefix, user_name, "_", machine);
+    auto selectionAtom =
+        xcb->call<fcitx::IXCBModule::atom>(display, atom_name, false);
+    auto addressAtom =
+        xcb->call<fcitx::IXCBModule::atom>(display, address_prefix, false);
+    auto pidAtom =
+        xcb->call<fcitx::IXCBModule::atom>(display, pid_prefix, false);
+
+    xcb_window_t wid = XCB_WINDOW_NONE;
+    {
+        auto cookie = xcb_get_selection_owner(conn, selectionAtom);
+        auto reply = makeUniqueCPtr(
+            xcb_get_selection_owner_reply(conn, cookie, nullptr));
+        if (!reply || !reply->owner) {
+            return {};
+        }
+        wid = reply->owner;
+    }
+
+    std::string address;
+    {
+        xcb_get_property_cookie_t get_prop_cookie = xcb_get_property(
+            conn, false, wid, addressAtom, XCB_ATOM_STRING, 0, 1024);
+        auto reply = makeUniqueCPtr(
+            xcb_get_property_reply(conn, get_prop_cookie, nullptr));
+
+        if (!reply || reply->type != XCB_ATOM_STRING ||
+            reply->bytes_after > 0 || reply->format != 8) {
+            return {};
+        }
+        auto *data = static_cast<char *>(xcb_get_property_value(reply.get()));
+        int length = xcb_get_property_value_length(reply.get());
+        auto len = strnlen(&(*data), length);
+        address = std::string(&(*data), len);
+    }
+
+    if (address.empty()) {
+        return {};
+    }
+    {
+        xcb_get_property_cookie_t get_prop_cookie = xcb_get_property(
+            conn, false, wid, pidAtom, XCB_ATOM_CARDINAL, 0, sizeof(pid_t));
+        auto reply = makeUniqueCPtr(
+            xcb_get_property_reply(conn, get_prop_cookie, nullptr));
+
+        if (!reply || reply->type != XCB_ATOM_CARDINAL ||
+            reply->bytes_after > 0 || reply->format != 32) {
+            return {};
+        }
+    }
+
+    return address;
+}
+
 } // namespace
 
 class Controller1 : public ObjectVTable<Controller1> {
@@ -536,9 +640,8 @@ private:
 };
 
 DBusModule::DBusModule(Instance *instance)
-    : bus_(std::make_unique<dbus::Bus>(dbus::BusType::Session)),
-      serviceWatcher_(std::make_unique<dbus::ServiceWatcher>(*bus_)),
-      instance_(instance) {
+    : instance_(instance), bus_(connectToSessionBus()),
+      serviceWatcher_(std::make_unique<dbus::ServiceWatcher>(*bus_)) {
     bus_->attachEventLoop(&instance->eventLoop());
     auto uniqueName = bus_->uniqueName();
     Flags<RequestNameFlag> requestFlag = RequestNameFlag::AllowReplacement;
@@ -580,6 +683,32 @@ DBusModule::DBusModule(Instance *instance)
 }
 
 DBusModule::~DBusModule() {}
+
+std::unique_ptr<dbus::Bus> DBusModule::connectToSessionBus() {
+    try {
+        auto bus = std::make_unique<dbus::Bus>(dbus::BusType::Session);
+        return bus;
+    } catch (...) {
+    }
+    if (auto *xcbAddon = xcb()) {
+        std::string address;
+        auto callback =
+            xcbAddon->call<IXCBModule::addConnectionCreatedCallback>(
+                [xcbAddon, &address](const std::string &name,
+                                     xcb_connection_t *conn, int,
+                                     FocusGroup *) {
+                    if (!address.empty()) {
+                        return;
+                    }
+                    address = X11GetAddress(xcbAddon, name, conn);
+                });
+        FCITX_DEBUG() << "DBus address from X11: " << address;
+        if (!address.empty()) {
+            return std::make_unique<dbus::Bus>(address);
+        }
+    }
+    throw std::runtime_error("Failed to connect to session dbus");
+}
 
 dbus::Bus *DBusModule::bus() { return bus_.get(); }
 

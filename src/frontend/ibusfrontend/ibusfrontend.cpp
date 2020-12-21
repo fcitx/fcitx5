@@ -871,7 +871,7 @@ void IBusFrontendModule::becomeIBus() {
         Flags<dbus::RequestNameFlag>{dbus::RequestNameFlag::ReplaceExisting,
                                      dbus::RequestNameFlag::Queue});
 
-    portalBus_ = std::make_unique<dbus::Bus>(dbus::BusType::Session);
+    portalBus_ = std::make_unique<dbus::Bus>(bus()->address());
     portalIBusFrontend_ = std::make_unique<IBusFrontend>(
         this, portalBus_.get(), IBUS_PORTAL_DBUS_INTERFACE);
     portalBus_->attachEventLoop(&instance()->eventLoop());
