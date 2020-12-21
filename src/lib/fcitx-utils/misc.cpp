@@ -17,6 +17,8 @@
 #include <sys/param.h>
 #include <sys/sysctl.h>
 #include <sys/user.h>
+#elif defined(__APPLE__)
+#include <libproc.h>
 #endif
 
 namespace fcitx {
@@ -110,6 +112,14 @@ std::string getProcessName(pid_t pid) {
         }
     } while (0);
     kvm_close(vm);
+    return result;
+#elif defined(__APPLE__)
+    std::string result;
+    result.reserve(2 * MAXCOMLEN);
+
+    if (proc_name(pid, result.data(), 2 * MAXCOMLEN)) {
+        return {};
+    }
     return result;
 #else
     return result;
