@@ -210,6 +210,15 @@ public:
     int pageSize() const;
     void setLayoutHint(CandidateLayoutHint hint);
     void setGlobalCursorIndex(int index);
+    /**
+     * Return Global cursor index.
+     *
+     * -1 means it is not selected.
+     *
+     * @return cursor index.
+     * @since 5.0.4
+     */
+    int globalCursorIndex() const;
 
     // CandidateList
     const fcitx::Text &label(int idx) const override;

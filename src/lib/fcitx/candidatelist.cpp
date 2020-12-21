@@ -471,6 +471,11 @@ void CommonCandidateList::setGlobalCursorIndex(int index) {
     }
 }
 
+int CommonCandidateList::globalCursorIndex() const {
+    FCITX_D();
+    return d->cursorIndex_;
+}
+
 CandidateLayoutHint CommonCandidateList::layoutHint() const {
     FCITX_D();
     return d->layoutHint_;
