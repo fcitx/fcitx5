@@ -335,7 +335,8 @@ public:
         std::string display;
         if (engine) {
             auto subMode = engine->subMode(*entry, *ic);
-            auto name = globalConfig_.compactInputMethodInformation()
+            auto name = globalConfig_.compactInputMethodInformation() &&
+                                !entry->label().empty()
                             ? entry->label()
                             : entry->name();
             if (subMode.empty()) {
