@@ -19,7 +19,7 @@ namespace fcitx {
 
 class AddonInstance;
 class Instance;
-class InputMethod1;
+class InputMethod2;
 
 class Fcitx4FrontendModule : public AddonInstance {
 public:
@@ -35,9 +35,9 @@ private:
 
     Instance *instance_;
     std::unique_ptr<dbus::Bus> portalBus_;
-    std::unique_ptr<InputMethod1> inputMethod1_;
-    std::unique_ptr<InputMethod1> inputMethod1Compatible_;
-    std::unique_ptr<InputMethod1> portalInputMethod1_;
+    std::unique_ptr<InputMethod2> InputMethod2_;
+    std::unique_ptr<InputMethod2> InputMethod2Compatible_;
+    std::unique_ptr<InputMethod2> portalInputMethod2_;
     std::unique_ptr<HandlerTableEntry<EventHandler>> event_;
     int icIdx_ = 0;
 };

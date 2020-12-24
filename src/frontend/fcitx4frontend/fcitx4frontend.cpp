@@ -18,8 +18,8 @@
 #include "fcitx/misc_p.h"
 #include "dbus_public.h"
 
-#define FCITX_INPUTMETHOD_DBUS_INTERFACE "org.fcitx.Fcitx.InputMethod1"
-#define FCITX_INPUTCONTEXT_DBUS_INTERFACE "org.fcitx.Fcitx.InputContext1"
+#define FCITX_INPUTMETHOD_DBUS_INTERFACE "org.fcitx.Fcitx.InputMethod2"
+#define FCITX_INPUTCONTEXT_DBUS_INTERFACE "org.fcitx.Fcitx.InputContext2"
 
 namespace fcitx {
 
@@ -36,9 +36,9 @@ buildFormattedTextVector(const Text &text) {
 }
 } // namespace
 
-class InputMethod1 : public dbus::ObjectVTable<InputMethod1> {
+class InputMethod2 : public dbus::ObjectVTable<InputMethod2> {
 public:
-    InputMethod1(Fcitx4FrontendModule *module, dbus::Bus *bus, const char *path)
+    InputMethod2(Fcitx4FrontendModule *module, dbus::Bus *bus, const char *path)
         : module_(module), instance_(module->instance()), bus_(bus),
           watcher_(std::make_unique<dbus::ServiceWatcher>(*bus_)) {
         bus_->addObjectVTable(path, FCITX_INPUTMETHOD_DBUS_INTERFACE, *this);
@@ -60,10 +60,10 @@ private:
     std::unique_ptr<dbus::ServiceWatcher> watcher_;
 };
 
-class DBusInputContext1 : public InputContext,
-                          public dbus::ObjectVTable<DBusInputContext1> {
+class DBusInputContext2 : public InputContext,
+                          public dbus::ObjectVTable<DBusInputContext2> {
 public:
-    DBusInputContext1(int id, InputContextManager &icManager, InputMethod1 *im,
+    DBusInputContext2(int id, InputContextManager &icManager, InputMethod2 *im,
                       const std::string &sender, const std::string &program)
         : InputContext(icManager, program),
           path_("/org/freedesktop/portal/inputcontext/" + std::to_string(id)),
@@ -87,7 +87,7 @@ public:
         created();
     }
 
-    ~DBusInputContext1() { InputContext::destroy(); }
+    ~DBusInputContext2() { InputContext::destroy(); }
 
     const char *frontend() const override { return "dbus"; }
 
@@ -253,16 +253,16 @@ private:
     FCITX_OBJECT_VTABLE_SIGNAL(forwardKeyDBus, "ForwardKey", "uub");
 
     dbus::ObjectPath path_;
-    InputMethod1 *im_;
+    InputMethod2 *im_;
     std::unique_ptr<HandlerTableEntry<dbus::ServiceWatcherCallback>> handler_;
     std::string name_;
 };
 
 std::tuple<int, bool, uint32_t, uint32_t, uint32_t, uint32_t>
-InputMethod1::createICv3(const std::string &appname, int pid) {
+InputMethod2::createICv3(const std::string &appname, int pid) {
     int icid = 0;
     auto sender = currentMessage()->sender();
-    auto *ic = new DBusInputContext1(module_->nextIcIdx(),
+    auto *ic = new DBusInputContext2(module_->nextIcIdx(),
                                      instance_->inputContextManager(), this,
                                      sender, appname);
 
@@ -274,11 +274,11 @@ InputMethod1::createICv3(const std::string &appname, int pid) {
 Fcitx4FrontendModule::Fcitx4FrontendModule(Instance *instance)
     : instance_(instance),
       portalBus_(std::make_unique<dbus::Bus>(dbus::BusType::Session)),
-      inputMethod1_(std::make_unique<InputMethod1>(
+      InputMethod2_(std::make_unique<InputMethod2>(
           this, bus(), "/org/freedesktop/portal/inputmethod")),
-      inputMethod1Compatible_(std::make_unique<InputMethod1>(
+      InputMethod2Compatible_(std::make_unique<InputMethod2>(
           this, portalBus_.get(), "/inputmethod")),
-      portalInputMethod1_(std::make_unique<InputMethod1>(
+      portalInputMethod2_(std::make_unique<InputMethod2>(
           this, portalBus_.get(), "/org/freedesktop/portal/inputmethod")) {
 
     portalBus_->attachEventLoop(&instance->eventLoop());
@@ -297,7 +297,7 @@ Fcitx4FrontendModule::Fcitx4FrontendModule(Instance *instance)
             if (strcmp(ic->frontend(), "dbus") == 0) {
                 if (const auto *entry = instance_->inputMethodManager().entry(
                         activated.name())) {
-                    static_cast<DBusInputContext1 *>(ic)->updateIM(entry);
+                    static_cast<DBusInputContext2 *>(ic)->updateIM(entry);
                 }
             }
         });
