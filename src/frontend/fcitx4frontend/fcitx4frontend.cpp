@@ -58,6 +58,7 @@ private:
     Instance *instance_;
     dbus::Bus *bus_;
     std::unique_ptr<dbus::ServiceWatcher> watcher_;
+    int icid_ = 0;
 };
 
 class DBusInputContext2 : public InputContext,
@@ -260,13 +261,12 @@ private:
 
 std::tuple<int, bool, uint32_t, uint32_t, uint32_t, uint32_t>
 InputMethod2::createICv3(const std::string &appname, int pid) {
-    int icid = 0;
     auto sender = currentMessage()->sender();
     auto *ic = new DBusInputContext2(module_->nextIcIdx(),
                                      instance_->inputContextManager(), this,
                                      sender, appname);
 
-    return std::make_tuple(icid, false, 1, 1, 1, 1);
+    return std::make_tuple(icid_++, false, 1, 1, 1, 1);
 }
 
 #define FCITX_PORTAL_DBUS_SERVICE "org.freedesktop.portal.Fcitx"
