@@ -33,11 +33,16 @@ inline std::enable_if_t<(&T::st_mtim, true), Timespec>
 modifiedTime(const T &p) {
     return {p.st_mtim.tv_sec, p.st_mtim.tv_nsec};
 }
+
+// This check is necessary because on FreeBSD st_mtimespec is defined as
+// st_mtim. This would cause a redefinition.
+#if !defined(st_mtimespec)
 template <typename T>
 inline std::enable_if_t<(&T::st_mtimespec, true), Timespec>
 modifiedTime(const T &p) {
     return {p.st_mtimespec.tv_sec, p.st_mtimespec.tv_nsec};
 }
+#endif
 
 #if !defined(st_mtimensec)
 template <typename T>
