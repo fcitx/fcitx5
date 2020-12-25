@@ -19,41 +19,31 @@
 #include "fcitx-utils/log.h"
 #include "config.h"
 
-#ifdef __APPLE__
-// Apple SDKs don't define ::timespec_get and ::timespec unconditionally in C++ mode.
-namespace std {
-    using ::timespec;
-};
-#endif
-
 namespace fcitx {
 
 namespace {
+
+struct Timespec {
+    int64_t sec;
+    int64_t nsec;
+};
+
 template <typename T>
-inline std::enable_if_t<(&T::st_mtim, true), std::timespec>
+inline std::enable_if_t<(&T::st_mtim, true), Timespec>
 modifiedTime(const T &p) {
-    std::timespec t;
-    t.tv_sec = p.st_mtim.tv_sec;
-    t.tv_nsec = p.st_mtim.tv_nsec;
-    return t;
+    return {p.st_mtim.tv_sec, p.st_mtim.tv_nsec};
 }
 template <typename T>
-inline std::enable_if_t<(&T::st_mtimespec, true), std::timespec>
+inline std::enable_if_t<(&T::st_mtimespec, true), Timespec>
 modifiedTime(const T &p) {
-    std::timespec t;
-    t.tv_sec = p.st_mtimespec.tv_sec;
-    t.tv_nsec = p.st_mtimespec.tv_nsec;
-    return t;
+    return {p.st_mtimespec.tv_sec, p.st_mtimespec.tv_nsec};
 }
 
-#if !defined(st_mtimespec)
+#if !defined(st_mtimensec)
 template <typename T>
-inline std::enable_if_t<(&T::st_mtimensec, true), std::timespec>
+inline std::enable_if_t<(&T::st_mtimensec, true), Timespec>
 modifiedTime(const T &p) {
-    std::timespec t;
-    t.tv_sec = p.st_mtime;
-    t.tv_nsec = p.st_mtimensec;
-    return t;
+    return {p.st_mtime, p.st_mtimensec};
 }
 #endif
 
@@ -198,11 +188,11 @@ FCITX_DEFINE_READ_ONLY_PROPERTY_PRIVATE(IconThemeDirectory, int, maxSize);
 FCITX_DEFINE_READ_ONLY_PROPERTY_PRIVATE(IconThemeDirectory, int, minSize);
 FCITX_DEFINE_READ_ONLY_PROPERTY_PRIVATE(IconThemeDirectory, int, threshold);
 
-bool timespecLess(const std::timespec &lhs, const std::timespec &rhs) {
-    if (lhs.tv_sec != rhs.tv_sec) {
-        return lhs.tv_sec < rhs.tv_sec;
+bool timespecLess(const Timespec &lhs, const Timespec &rhs) {
+    if (lhs.sec != rhs.sec) {
+        return lhs.sec < rhs.sec;
     }
-    return lhs.tv_nsec < rhs.tv_nsec;
+    return lhs.nsec < rhs.nsec;
 }
 
 static uint32_t iconNameHash(const char *p) {
