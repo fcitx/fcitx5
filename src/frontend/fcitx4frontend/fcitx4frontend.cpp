@@ -265,6 +265,8 @@ InputMethod2::createICv3(const std::string &appname, int pid) {
     auto *ic = new DBusInputContext2(module_->nextIcIdx(),
                                      instance_->inputContextManager(), this,
                                      sender, appname);
+    bus_->addObjectVTable(ic->path().path(), FCITX_INPUTCONTEXT_DBUS_INTERFACE,
+                          *ic);
 
     return std::make_tuple(icid_++, false, 1, 1, 1, 1);
 }
