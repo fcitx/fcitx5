@@ -143,6 +143,16 @@ int main(int argc, char *argv[]) {
         return ret;
     }
 
+    // We need to have some special code for this, this is because we don't want
+    // to trigger dbus activation for it.
+    if (messageType == FCITX_DBUS_EXIT) {
+        auto owner = bus.serviceOwner(serviceName, defaultTimeout);
+        // Either failed or not present, it will be return empty.
+        if (owner.empty()) {
+            return 0;
+        }
+    }
+
     if (messageType == FCITX_DBUS_GET_CURRENT_STATE) {
         auto reply = message.call(defaultTimeout);
         if (!reply.isError()) {
