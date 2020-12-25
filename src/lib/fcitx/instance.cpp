@@ -46,6 +46,9 @@ namespace fcitx {
 
 namespace {
 
+constexpr uint64_t AutoSavePeriod = 1800ull * 1000000ull; // 30 minutes
+constexpr uint64_t AutoSaveIdleTime = 60ull * 1000000ull; // 1 minutes
+
 FCITX_CONFIGURATION(DefaultInputMethod,
                     Option<std::vector<std::string>> defaultInputMethods{
                         this, "DefaultInputMethod", "DefaultInputMethod"};
@@ -397,6 +400,9 @@ public:
     std::vector<std::unique_ptr<HandlerTableEntry<EventHandler>>>
         eventWatchers_;
     std::unique_ptr<EventSource> uiUpdateEvent_;
+
+    uint64_t idleStartTimestamp_ = now(CLOCK_MONOTONIC);
+    std::unique_ptr<EventSourceTime> periodicalSave_;
 
     FCITX_DEFINE_SIGNAL_PRIVATE(Instance, CommitFilter);
     FCITX_DEFINE_SIGNAL_PRIVATE(Instance, OutputFilter);
@@ -1143,6 +1149,30 @@ Instance::Instance(int argc, char **argv) {
         return true;
     });
     d->uiUpdateEvent_->setEnabled(false);
+    d->periodicalSave_ = d->eventLoop_.addTimeEvent(
+        CLOCK_MONOTONIC, now(CLOCK_MONOTONIC) + AutoSavePeriod, 0,
+        [this, d](EventSourceTime *time, uint64_t) {
+            if (exiting()) {
+                return true;
+            }
+
+            // Check if the idle time is long enough.
+            auto currentTime = now(CLOCK_MONOTONIC);
+            if (currentTime <= d->idleStartTimestamp_ ||
+                currentTime - d->idleStartTimestamp_ < AutoSaveIdleTime) {
+                // IF not idle, shorten the next checking period.
+                time->setNextInterval(2 * AutoSaveIdleTime);
+                time->setOneShot();
+                return true;
+            }
+
+            FCITX_INFO() << "Running autosave...";
+            save();
+            FCITX_INFO() << "End autosave";
+            time->setNextInterval(AutoSavePeriod);
+            time->setOneShot();
+            return true;
+        });
 }
 
 Instance::~Instance() {
@@ -1405,6 +1435,8 @@ bool Instance::postEvent(Event &event) {
         // Make sure this part of fix is always executed regardless of the
         // filter.
         if (event.type() == EventType::InputContextKeyEvent) {
+            // Update auto save.
+            d->idleStartTimestamp_ = now(CLOCK_MONOTONIC);
             auto &keyEvent = static_cast<KeyEvent &>(event);
             auto *ic = keyEvent.inputContext();
             if (ic->hasPendingEvents() &&
@@ -1559,6 +1591,8 @@ void Instance::resetCompose(InputContext *inputContext) {
 
 void Instance::save() {
     FCITX_D();
+    // Refresh timestamp for next auto save.
+    d->idleStartTimestamp_ = now(CLOCK_MONOTONIC);
     d->imManager_.save();
     d->addonManager_.saveAll();
 }
