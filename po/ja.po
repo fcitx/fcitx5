@@ -5,16 +5,16 @@
 # Translators:
 # csslayer <wengxt@gmail.com>, 2017
 # ABE Tsunehiko, 2017
-# Takuro Onoue <kusanaginoturugi@gmail.com>, 2020
 # UTUMI Hirosi <utuhiro78@yahoo.co.jp>, 2020
+# Takuro Onoue <kusanaginoturugi@gmail.com>, 2020
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2020-12-20 20:24+0000\n"
+"POT-Creation-Date: 2020-12-25 20:26+0000\n"
 "PO-Revision-Date: 2017-11-23 04:14+0000\n"
-"Last-Translator: UTUMI Hirosi <utuhiro78@yahoo.co.jp>, 2020\n"
+"Last-Translator: Takuro Onoue <kusanaginoturugi@gmail.com>, 2020\n"
 "Language-Team: Japanese (https://www.transifex.com/fcitx/teams/12005/ja/)\n"
 "Language: ja\n"
 "MIME-Version: 1.0\n"
@@ -50,7 +50,7 @@ msgstr "${1} は見つかりません"
 msgid "${1} works properly."
 msgstr "${1} は正常に動作しています。"
 
-#: src/lib/fcitx/instance.cpp:349
+#: src/lib/fcitx/instance.cpp:353
 msgid "(Not available)"
 msgstr "(使用不可)"
 
@@ -540,7 +540,7 @@ msgstr "DOS"
 msgid "Deactivate Input Method"
 msgstr "入力メソッドをオフにする"
 
-#: src/lib/fcitx/inputmethodmanager.cpp:130 src/lib/fcitx/instance.cpp:652
+#: src/lib/fcitx/inputmethodmanager.cpp:130 src/lib/fcitx/instance.cpp:659
 #: src/ui/classic/themes/default/theme.conf.in:3
 msgid "Default"
 msgstr "デフォルト"
@@ -883,11 +883,11 @@ msgstr "Green"
 msgid "Group"
 msgstr "グループ"
 
-#: src/lib/fcitx/instance.cpp:353
+#: src/lib/fcitx/instance.cpp:357
 msgid "Group {0}: {1}"
 msgstr "グループ {0}: {1}"
 
-#: src/lib/fcitx/instance.cpp:654
+#: src/lib/fcitx/instance.cpp:661
 msgid "Group {}"
 msgstr "グループ {}"
 
@@ -1097,7 +1097,7 @@ msgid "Image"
 msgstr "画像"
 
 #: src/im/keyboard/keyboard.cpp:501 src/ui/classic/xcbtraywindow.cpp:38
-#: src/lib/fcitx/instance.cpp:723 src/lib/fcitx/instance.cpp:893
+#: src/lib/fcitx/instance.cpp:730 src/lib/fcitx/instance.cpp:900
 #: src/modules/notificationitem/dbusmenu.cpp:241
 #: src/modules/notificationitem/notificationitem.cpp:128
 #: src/modules/xcb/xcbconnection.cpp:388 data/org.fcitx.Fcitx5.desktop.in.in:4
@@ -1660,15 +1660,15 @@ msgctxt "Key name"
 msgid "Power Off"
 msgstr "電源オフ"
 
-#: src/lib/fcitx/instance.cpp:893
+#: src/lib/fcitx/instance.cpp:900
 msgid "Preedit"
 msgstr "プリエディット"
 
-#: src/lib/fcitx/instance.cpp:895
+#: src/lib/fcitx/instance.cpp:902
 msgid "Preedit disabled"
 msgstr "プリエディット無効"
 
-#: src/lib/fcitx/instance.cpp:894
+#: src/lib/fcitx/instance.cpp:901
 msgid "Preedit enabled"
 msgstr "プリエディット有効"
 
@@ -1966,7 +1966,7 @@ msgctxt "Key name"
 msgid "Suspend"
 msgstr "サスペンド"
 
-#: src/lib/fcitx/instance.cpp:724 src/modules/xcb/xcbconnection.cpp:389
+#: src/lib/fcitx/instance.cpp:731 src/modules/xcb/xcbconnection.cpp:389
 msgid "Switch group"
 msgstr "グループの切り替え"
 
@@ -1974,7 +1974,7 @@ msgstr "グループの切り替え"
 msgid "Switch group to {0}"
 msgstr "{0} にグループを切り替える"
 
-#: src/lib/fcitx/instance.cpp:725
+#: src/lib/fcitx/instance.cpp:732
 msgid "Switched group to {0}"
 msgstr "{0} にグループを切り替えました"
 
@@ -1999,7 +1999,7 @@ msgstr "タスクパネル"
 
 #: src/lib/fcitx/globalconfig.cpp:33
 msgid "Temporally switch between first and current Input Method"
-msgstr "第1入力メソッドと現在の入力メソッドを一時的に切り替える"
+msgstr "一時的に第一入力メソッドに切り替える"
 
 #: src/lib/fcitx-utils/key.cpp:155
 msgctxt "Key name"
@@ -2399,10 +2399,10 @@ msgstr "バージョン:"
 msgid "{0} (Not Available)"
 msgstr "{0} (利用できません)"
 
-#: src/lib/fcitx/instance.cpp:347
+#: src/lib/fcitx/instance.cpp:351
 msgid "{0} (Not available)"
 msgstr "{0} (使用不可)"
 
-#: src/lib/fcitx/instance.cpp:344
+#: src/lib/fcitx/instance.cpp:348
 msgid "{0} ({1})"
 msgstr "{0} ({1})"
