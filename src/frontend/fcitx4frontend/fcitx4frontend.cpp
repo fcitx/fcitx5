@@ -164,6 +164,14 @@ public:
     if (currentMessage()->sender() != name_)                                   \
     return
 
+    void enableInputContext() {}
+
+    void closeInputContext() {}
+
+    void commitPreedit() {}
+
+    void mouseEvent(int x) {}
+
     void focusInDBus() {
         CHECK_SENDER_OR_RETURN;
         focusIn();
@@ -222,9 +230,13 @@ public:
     }
 
 private:
+    FCITX_OBJECT_VTABLE_METHOD(enableInputContext, "EnableIC", "", "");
+    FCITX_OBJECT_VTABLE_METHOD(closeInputContext, "CloseIC", "", "");
     FCITX_OBJECT_VTABLE_METHOD(focusInDBus, "FocusIn", "", "");
     FCITX_OBJECT_VTABLE_METHOD(focusOutDBus, "FocusOut", "", "");
     FCITX_OBJECT_VTABLE_METHOD(resetDBus, "Reset", "", "");
+    FCITX_OBJECT_VTABLE_METHOD(commitPreedit, "CommitPreedit", "", "");
+    FCITX_OBJECT_VTABLE_METHOD(mouseEvent, "MouseEvent", "i", "");
     FCITX_OBJECT_VTABLE_METHOD(setCursorRectDBus, "SetCursorRect", "iiii", "");
     FCITX_OBJECT_VTABLE_METHOD(setCapability, "SetCapability", "t", "");
     FCITX_OBJECT_VTABLE_METHOD(setSurroundingText, "SetSurroundingText", "suu",
@@ -234,6 +246,7 @@ private:
     FCITX_OBJECT_VTABLE_METHOD(destroyDBus, "DestroyIC", "", "");
     FCITX_OBJECT_VTABLE_METHOD(processKeyEvent, "ProcessKeyEvent", "uuubu",
                                "b");
+
     FCITX_OBJECT_VTABLE_SIGNAL(commitStringDBus, "CommitString", "s");
     FCITX_OBJECT_VTABLE_SIGNAL(currentIM, "CurrentIM", "sss");
     FCITX_OBJECT_VTABLE_SIGNAL(updateFormattedPreedit, "UpdateFormattedPreedit",
