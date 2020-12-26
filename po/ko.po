@@ -5,14 +5,14 @@
 # Translators:
 # csslayer <wengxt@gmail.com>, 2017
 # Bon Keun Seo <scobyseo@gmail.com>, 2017
-# heavyuser <heavyuser73@gmail.com>, 2020
+# heavyuser <heavyuser73@gmail.com>, 2018
 # JungHee Lee <daemul72@gmail.com>, 2020
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2020-12-19 20:24+0000\n"
+"POT-Creation-Date: 2020-12-26 20:24+0000\n"
 "PO-Revision-Date: 2017-11-23 04:14+0000\n"
 "Last-Translator: JungHee Lee <daemul72@gmail.com>, 2020\n"
 "Language-Team: Korean (https://www.transifex.com/fcitx/teams/12005/ko/)\n"
@@ -50,7 +50,7 @@ msgstr ""
 msgid "${1} works properly."
 msgstr ""
 
-#: src/lib/fcitx/instance.cpp:349
+#: src/lib/fcitx/instance.cpp:353
 msgid "(Not available)"
 msgstr "(사용할 수 없음)"
 
@@ -458,7 +458,7 @@ msgstr ""
 
 #: data/fcitx5-diagnose.sh:1016
 msgid "Config GUI for qt:"
-msgstr ""
+msgstr "qt용 GUI 구성하기:"
 
 #: data/fcitx5-diagnose.sh:1045
 msgid "Config Tool Wrapper:"
@@ -537,7 +537,7 @@ msgstr "DOS"
 msgid "Deactivate Input Method"
 msgstr "입력기 비활성화"
 
-#: src/lib/fcitx/inputmethodmanager.cpp:130 src/lib/fcitx/instance.cpp:652
+#: src/lib/fcitx/inputmethodmanager.cpp:130 src/lib/fcitx/instance.cpp:659
 #: src/ui/classic/themes/default/theme.conf.in:3
 msgid "Default"
 msgstr "기본값"
@@ -631,7 +631,7 @@ msgstr ""
 
 #: src/modules/quickphrase/quickphrase.h:43
 msgid "Enable Spell check"
-msgstr ""
+msgstr "철자 검사 활성화"
 
 #: src/im/keyboard/keyboard.h:51
 msgid "Enable emoji in hint"
@@ -668,7 +668,7 @@ msgstr "입력기 그룹을 순차적으로 적용"
 
 #: src/lib/fcitx/globalconfig.cpp:29
 msgid "Enumerate when press trigger key repeatedly"
-msgstr "트리거 키를 반복해서 누를 때 보이기"
+msgstr "전환 키를 반복해서 누를 때 보이기"
 
 #: data/fcitx5-diagnose.sh:1075
 msgid ""
@@ -876,11 +876,11 @@ msgstr "녹색"
 msgid "Group"
 msgstr "그룹"
 
-#: src/lib/fcitx/instance.cpp:353
+#: src/lib/fcitx/instance.cpp:357
 msgid "Group {0}: {1}"
 msgstr "그룹 {0}: {1}"
 
-#: src/lib/fcitx/instance.cpp:654
+#: src/lib/fcitx/instance.cpp:661
 msgid "Group {}"
 msgstr "그룹 {}"
 
@@ -993,7 +993,7 @@ msgstr ""
 
 #: src/ui/classic/theme.h:78 src/ui/classic/theme.h:108
 msgid "Highlight Candidate Color"
-msgstr ""
+msgstr "강조 후보 색상"
 
 #: src/ui/classic/theme.h:66
 msgid "Highlight Click Margin"
@@ -1083,7 +1083,7 @@ msgid "Image"
 msgstr ""
 
 #: src/im/keyboard/keyboard.cpp:501 src/ui/classic/xcbtraywindow.cpp:38
-#: src/lib/fcitx/instance.cpp:723 src/lib/fcitx/instance.cpp:893
+#: src/lib/fcitx/instance.cpp:730 src/lib/fcitx/instance.cpp:900
 #: src/modules/notificationitem/dbusmenu.cpp:241
 #: src/modules/notificationitem/notificationitem.cpp:128
 #: src/modules/xcb/xcbconnection.cpp:388 data/org.fcitx.Fcitx5.desktop.in.in:4
@@ -1639,15 +1639,15 @@ msgctxt "Key name"
 msgid "Power Off"
 msgstr "전원 끄기"
 
-#: src/lib/fcitx/instance.cpp:893
+#: src/lib/fcitx/instance.cpp:900
 msgid "Preedit"
 msgstr "사전편집"
 
-#: src/lib/fcitx/instance.cpp:895
+#: src/lib/fcitx/instance.cpp:902
 msgid "Preedit disabled"
 msgstr "사전편집 비활성화"
 
-#: src/lib/fcitx/instance.cpp:894
+#: src/lib/fcitx/instance.cpp:901
 msgid "Preedit enabled"
 msgstr "사전편집 활성화"
 
@@ -1685,7 +1685,7 @@ msgstr "Qt IM 모듈 파일:"
 msgid "Quick Phrase"
 msgstr "상용구"
 
-#: src/modules/quickphrase/quickphrase.cpp:390
+#: src/modules/quickphrase/quickphrase.cpp:394
 msgid "Quick Phrase: "
 msgstr "상용구:"
 
@@ -1945,7 +1945,7 @@ msgctxt "Key name"
 msgid "Suspend"
 msgstr "중단"
 
-#: src/lib/fcitx/instance.cpp:724 src/modules/xcb/xcbconnection.cpp:389
+#: src/lib/fcitx/instance.cpp:731 src/modules/xcb/xcbconnection.cpp:389
 msgid "Switch group"
 msgstr "그룹 전환"
 
@@ -1953,7 +1953,7 @@ msgstr "그룹 전환"
 msgid "Switch group to {0}"
 msgstr "{0}(으)로 그룹 전환"
 
-#: src/lib/fcitx/instance.cpp:725
+#: src/lib/fcitx/instance.cpp:732
 msgid "Switched group to {0}"
 msgstr "{0}(으)로 그룹 전환됨"
 
@@ -2078,11 +2078,11 @@ msgstr "입력기 전환"
 #: src/modules/quickphrase/quickphrase.h:36
 #: src/modules/clipboard/clipboard.h:29
 msgid "Trigger Key"
-msgstr ""
+msgstr "전환 키"
 
 #: src/modules/imselector/imselector.h:29
 msgid "Trigger Key for only current input context"
-msgstr ""
+msgstr "현재 입력 컨텍스트에 대한 전환 키"
 
 #: src/im/keyboard/keyboard.h:60
 msgid "Trigger hint mode"
@@ -2365,10 +2365,10 @@ msgstr "버전:"
 msgid "{0} (Not Available)"
 msgstr "{0} (사용할 수 없음)"
 
-#: src/lib/fcitx/instance.cpp:347
+#: src/lib/fcitx/instance.cpp:351
 msgid "{0} (Not available)"
 msgstr "{0} (사용할 수 없음)"
 
-#: src/lib/fcitx/instance.cpp:344
+#: src/lib/fcitx/instance.cpp:348
 msgid "{0} ({1})"
 msgstr "{0} ({1})"
