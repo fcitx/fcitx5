@@ -212,8 +212,6 @@ public:
         delete this;
     }
 
-    void createICv3() { CHECK_SENDER_OR_RETURN; }
-
     bool processKeyEvent(uint32_t keyval, uint32_t keycode, uint32_t state,
                          bool isRelease, uint32_t time) {
         CHECK_SENDER_OR_RETURN false;
@@ -241,7 +239,6 @@ private:
     FCITX_OBJECT_VTABLE_METHOD(setSurroundingTextPosition,
                                "SetSurroundingTextPosition", "uu", "");
     FCITX_OBJECT_VTABLE_METHOD(destroyDBus, "DestroyIC", "", "");
-    FCITX_OBJECT_VTABLE_METHOD(createICv3, "CreateICv3", "", "");
     FCITX_OBJECT_VTABLE_METHOD(processKeyEvent, "ProcessKeyEvent", "uuubu",
                                "b");
     FCITX_OBJECT_VTABLE_SIGNAL(commitStringDBus, "CommitString", "s");
