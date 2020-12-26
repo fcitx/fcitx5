@@ -275,12 +275,10 @@ Fcitx4InputMethod::createICv3(const std::string &appname, int pid) {
 Fcitx4FrontendModule::Fcitx4FrontendModule(Instance *instance)
     : instance_(instance),
       portalBus_(std::make_unique<dbus::Bus>(dbus::BusType::Session)),
-      InputMethod2_(std::make_unique<Fcitx4InputMethod>(
+      Fcitx4InputMethod_(std::make_unique<Fcitx4InputMethod>(
           this, bus(), "/org/freedesktop/portal/inputmethod")),
-      InputMethod2Compatible_(std::make_unique<Fcitx4InputMethod>(
-          this, portalBus_.get(), "/inputmethod")),
-      portalInputMethod2_(std::make_unique<Fcitx4InputMethod>(
-          this, portalBus_.get(), "/org/freedesktop/portal/inputmethod")) {
+      Fcitx4InputMethodCompatible_(std::make_unique<Fcitx4InputMethod>(
+          this, portalBus_.get(), "/inputmethod")) {
     event_ = instance_->watchEvent(
         EventType::InputContextInputMethodActivated, EventWatcherPhase::Default,
         [this](Event &event) {

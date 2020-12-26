@@ -35,9 +35,8 @@ private:
 
     Instance *instance_;
     std::unique_ptr<dbus::Bus> portalBus_;
-    std::unique_ptr<Fcitx4InputMethod> InputMethod2_;
-    std::unique_ptr<Fcitx4InputMethod> InputMethod2Compatible_;
-    std::unique_ptr<Fcitx4InputMethod> portalInputMethod2_;
+    std::unique_ptr<Fcitx4InputMethod> Fcitx4InputMethod_;
+    std::unique_ptr<Fcitx4InputMethod> Fcitx4InputMethodCompatible_;
     std::unique_ptr<HandlerTableEntry<EventHandler>> event_;
     int icIdx_ = 0;
 };
