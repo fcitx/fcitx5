@@ -381,7 +381,11 @@ void QuickPhrase::updateUI(InputContext *inputContext) {
     if (!state->prefix_.empty()) {
         preedit.append(state->prefix_);
     }
-    preedit.append(state->buffer_.userInput());
+    const bool useClientPreedit =
+        inputContext->capabilityFlags().test(CapabilityFlag::Preedit);
+    TextFormatFlags format{useClientPreedit ? TextFormatFlag::Underline
+                                            : TextFormatFlag::NoFlag};
+    preedit.append(state->buffer_.userInput(), format);
     if (!state->buffer_.empty()) {
         preedit.setCursor(state->prefix_.size() +
                           state->buffer_.cursorByChar());
@@ -391,9 +395,13 @@ void QuickPhrase::updateUI(InputContext *inputContext) {
     if (!state->typed_) {
         auxUp.append(state->text_);
     }
-    // inputContext->inputPanel().setClientPreedit(preedit);
     inputContext->inputPanel().setAuxUp(auxUp);
-    inputContext->inputPanel().setPreedit(preedit);
+    if (useClientPreedit) {
+        preedit.setCursor(0);
+        inputContext->inputPanel().setClientPreedit(preedit);
+    } else {
+        inputContext->inputPanel().setPreedit(preedit);
+    }
     inputContext->updatePreedit();
     inputContext->updateUserInterface(UserInterfaceComponent::InputPanel);
 }
