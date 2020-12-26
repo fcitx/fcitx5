@@ -184,11 +184,6 @@ public:
         setCursorRect(Rect{x, y, x + w, y + h});
     }
 
-    void setCursorRectV2DBus(int x, int y, int w, int h, double scale) {
-        CHECK_SENDER_OR_RETURN;
-        setCursorRect(Rect{x, y, x + w, y + h}, scale);
-    }
-
     void setCapability(uint64_t cap) {
         CHECK_SENDER_OR_RETURN;
         setCapabilityFlags(CapabilityFlags{cap});
@@ -231,8 +226,6 @@ private:
     FCITX_OBJECT_VTABLE_METHOD(focusOutDBus, "FocusOut", "", "");
     FCITX_OBJECT_VTABLE_METHOD(resetDBus, "Reset", "", "");
     FCITX_OBJECT_VTABLE_METHOD(setCursorRectDBus, "SetCursorRect", "iiii", "");
-    FCITX_OBJECT_VTABLE_METHOD(setCursorRectV2DBus, "SetCursorRectV2", "iiiid",
-                               "");
     FCITX_OBJECT_VTABLE_METHOD(setCapability, "SetCapability", "t", "");
     FCITX_OBJECT_VTABLE_METHOD(setSurroundingText, "SetSurroundingText", "suu",
                                "");
