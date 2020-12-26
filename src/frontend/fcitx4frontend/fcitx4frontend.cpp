@@ -18,8 +18,8 @@
 #include "fcitx/misc_p.h"
 #include "dbus_public.h"
 
-#define FCITX_INPUTMETHOD_DBUS_INTERFACE "org.fcitx.Fcitx.InputMethod2"
-#define FCITX_INPUTCONTEXT_DBUS_INTERFACE "org.fcitx.Fcitx.InputContext2"
+#define FCITX_INPUTMETHOD_DBUS_INTERFACE "org.fcitx.Fcitx.InputMethod"
+#define FCITX_INPUTCONTEXT_DBUS_INTERFACE "org.fcitx.Fcitx.InputContext"
 
 namespace fcitx {
 
@@ -36,9 +36,10 @@ buildFormattedTextVector(const Text &text) {
 }
 } // namespace
 
-class InputMethod2 : public dbus::ObjectVTable<InputMethod2> {
+class Fcitx4InputMethod : public dbus::ObjectVTable<Fcitx4InputMethod> {
 public:
-    InputMethod2(Fcitx4FrontendModule *module, dbus::Bus *bus, const char *path)
+    Fcitx4InputMethod(Fcitx4FrontendModule *module, dbus::Bus *bus,
+                      const char *path)
         : module_(module), instance_(module->instance()), bus_(bus),
           watcher_(std::make_unique<dbus::ServiceWatcher>(*bus_)) {
         bus_->addObjectVTable(path, FCITX_INPUTMETHOD_DBUS_INTERFACE, *this);
@@ -58,14 +59,14 @@ private:
     Instance *instance_;
     dbus::Bus *bus_;
     std::unique_ptr<dbus::ServiceWatcher> watcher_;
-    int icid_ = 0;
 };
 
 class DBusInputContext2 : public InputContext,
                           public dbus::ObjectVTable<DBusInputContext2> {
 public:
-    DBusInputContext2(int id, InputContextManager &icManager, InputMethod2 *im,
-                      const std::string &sender, const std::string &program)
+    DBusInputContext2(int id, InputContextManager &icManager,
+                      Fcitx4InputMethod *im, const std::string &sender,
+                      const std::string &program)
         : InputContext(icManager, program),
           path_("/org/freedesktop/portal/inputcontext/" + std::to_string(id)),
           im_(im), handler_(im_->serviceWatcher().watchService(
@@ -254,43 +255,32 @@ private:
     FCITX_OBJECT_VTABLE_SIGNAL(forwardKeyDBus, "ForwardKey", "uub");
 
     dbus::ObjectPath path_;
-    InputMethod2 *im_;
+    Fcitx4InputMethod *im_;
     std::unique_ptr<HandlerTableEntry<dbus::ServiceWatcherCallback>> handler_;
     std::string name_;
 };
 
 std::tuple<int, bool, uint32_t, uint32_t, uint32_t, uint32_t>
-InputMethod2::createICv3(const std::string &appname, int pid) {
+Fcitx4InputMethod::createICv3(const std::string &appname, int pid) {
     auto sender = currentMessage()->sender();
-    auto *ic = new DBusInputContext2(module_->nextIcIdx(),
-                                     instance_->inputContextManager(), this,
-                                     sender, appname);
+    int icid = module_->nextIcIdx();
+    auto *ic = new DBusInputContext2(icid, instance_->inputContextManager(),
+                                     this, sender, appname);
     bus_->addObjectVTable(ic->path().path(), FCITX_INPUTCONTEXT_DBUS_INTERFACE,
                           *ic);
 
-    return std::make_tuple(icid_++, false, 1, 1, 1, 1);
+    return std::make_tuple(icid, false, 1, 1, 1, 1);
 }
-
-#define FCITX_PORTAL_DBUS_SERVICE "org.freedesktop.portal.Fcitx"
 
 Fcitx4FrontendModule::Fcitx4FrontendModule(Instance *instance)
     : instance_(instance),
       portalBus_(std::make_unique<dbus::Bus>(dbus::BusType::Session)),
-      InputMethod2_(std::make_unique<InputMethod2>(
+      InputMethod2_(std::make_unique<Fcitx4InputMethod>(
           this, bus(), "/org/freedesktop/portal/inputmethod")),
-      InputMethod2Compatible_(std::make_unique<InputMethod2>(
+      InputMethod2Compatible_(std::make_unique<Fcitx4InputMethod>(
           this, portalBus_.get(), "/inputmethod")),
-      portalInputMethod2_(std::make_unique<InputMethod2>(
+      portalInputMethod2_(std::make_unique<Fcitx4InputMethod>(
           this, portalBus_.get(), "/org/freedesktop/portal/inputmethod")) {
-
-    portalBus_->attachEventLoop(&instance->eventLoop());
-    if (!portalBus_->requestName(
-            FCITX_PORTAL_DBUS_SERVICE,
-            Flags<dbus::RequestNameFlag>{dbus::RequestNameFlag::ReplaceExisting,
-                                         dbus::RequestNameFlag::Queue})) {
-        FCITX_WARN() << "Can not get portal dbus name right now.";
-    }
-
     event_ = instance_->watchEvent(
         EventType::InputContextInputMethodActivated, EventWatcherPhase::Default,
         [this](Event &event) {
@@ -305,9 +295,7 @@ Fcitx4FrontendModule::Fcitx4FrontendModule(Instance *instance)
         });
 }
 
-Fcitx4FrontendModule::~Fcitx4FrontendModule() {
-    portalBus_->releaseName(FCITX_PORTAL_DBUS_SERVICE);
-}
+Fcitx4FrontendModule::~Fcitx4FrontendModule() {}
 
 dbus::Bus *Fcitx4FrontendModule::bus() {
     return dbus()->call<IDBusModule::bus>();
