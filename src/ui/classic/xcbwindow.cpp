@@ -69,6 +69,13 @@ void XCBWindow::createWindow(xcb_visualid_t vid, bool overrideRedirect) {
     } else {
         CLASSICUI_DEBUG() << "Window created id: " << wid_;
     }
+    constexpr uint32_t XEMBED_VERSION = 0;
+    constexpr uint32_t XEMBED_MAPPED = (1 << 0);
+    uint32_t data[] = {XEMBED_VERSION, XEMBED_MAPPED};
+    xcb_atom_t _XEMBED_INFO = ui_->parent()->xcb()->call<IXCBModule::atom>(
+        ui_->name(), "_XEMBED_INFO", false);
+    xcb_change_property(conn, XCB_PROP_MODE_REPLACE, wid_, _XEMBED_INFO,
+                        _XEMBED_INFO, 32, 2, data);
 
     eventFilter_ = ui_->parent()->xcb()->call<IXCBModule::addEventFilter>(
         ui_->name(), [this](xcb_connection_t *, xcb_generic_event_t *event) {
