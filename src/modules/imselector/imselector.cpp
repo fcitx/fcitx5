@@ -140,7 +140,8 @@ IMSelector::IMSelector(Instance *instance)
                 }
 
                 if (keyEvent.key().check(FcitxKey_space) ||
-                    keyEvent.key().check(FcitxKey_Return)) {
+                    keyEvent.key().check(FcitxKey_Return) ||
+                    keyEvent.key().check(FcitxKey_KP_Enter)) {
                     keyEvent.accept();
                     if (candidateList->cursorIndex() >= 0) {
                         candidateList->candidate(candidateList->cursorIndex())
