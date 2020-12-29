@@ -71,6 +71,7 @@ std::string getLocalMachineId(void) {
     return content;
 }
 
+#ifdef ENABLE_X11
 std::string X11GetAddress(AddonInstance *xcb, const std::string &display,
                           xcb_connection_t *conn) {
     static const char selection_prefix[] = "_DBUS_SESSION_BUS_SELECTION_";
@@ -143,6 +144,7 @@ std::string X11GetAddress(AddonInstance *xcb, const std::string &display,
 
     return address;
 }
+#endif
 
 } // namespace
 
@@ -690,8 +692,11 @@ std::unique_ptr<dbus::Bus> DBusModule::connectToSessionBus() {
         return bus;
     } catch (...) {
     }
+#ifdef ENABLE_X11
     if (auto *xcbAddon = xcb()) {
         std::string address;
+        // This callback should be called immediately for all existing X11
+        // connection.
         auto callback =
             xcbAddon->call<IXCBModule::addConnectionCreatedCallback>(
                 [xcbAddon, &address](const std::string &name,
@@ -707,6 +712,7 @@ std::unique_ptr<dbus::Bus> DBusModule::connectToSessionBus() {
             return std::make_unique<dbus::Bus>(address);
         }
     }
+#endif
     throw std::runtime_error("Failed to connect to session dbus");
 }
 
