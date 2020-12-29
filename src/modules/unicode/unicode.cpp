@@ -179,7 +179,8 @@ Unicode::Unicode(Instance *instance)
                 state->reset(inputContext);
                 return;
             }
-            if (keyEvent.key().check(FcitxKey_Return)) {
+            if (keyEvent.key().check(FcitxKey_Return) ||
+                keyEvent.key().check(FcitxKey_KP_Enter)) {
                 keyEvent.accept();
                 if (candidateList->size() > 0 &&
                     candidateList->cursorIndex() >= 0) {

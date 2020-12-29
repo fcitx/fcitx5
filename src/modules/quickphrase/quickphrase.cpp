@@ -180,7 +180,8 @@ QuickPhrase::QuickPhrase(Instance *instance)
                 state->reset(inputContext);
                 return;
             }
-            if (keyEvent.key().check(FcitxKey_Return)) {
+            if (keyEvent.key().check(FcitxKey_Return) ||
+                keyEvent.key().check(FcitxKey_KP_Enter)) {
                 keyEvent.accept();
                 if (!state->typed_ && state->buffer_.empty() &&
                     !state->str_.empty() && !state->alt_.empty()) {
