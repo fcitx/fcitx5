@@ -222,7 +222,7 @@ public:
     ///
     /// Callback returns true to continue the scan.
     /// @since 5.0.4
-    static void scanDirectories(
+    void scanDirectories(
         const std::string &userDir, const std::vector<std::string> &directories,
         const std::function<bool(const std::string &path, bool user)> &scanner)
         const;
