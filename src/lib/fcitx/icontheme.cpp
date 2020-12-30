@@ -638,10 +638,14 @@ public:
     }
 
     void prepare() {
-        addBaseDir(stringutils::joinPath(home_, ".icons", internalName_));
-        addBaseDir(stringutils::joinPath(
-            standardPath_.userDirectory(StandardPath::Type::Data), "icons",
-            internalName_));
+        if (!home_.empty()) {
+            addBaseDir(stringutils::joinPath(home_, ".icons", internalName_));
+        }
+        if (auto userDir =
+                standardPath_.userDirectory(StandardPath::Type::Data);
+            !userDir.empty()) {
+            addBaseDir(stringutils::joinPath(userDir, "icons", internalName_));
+        }
 
         for (auto &dataDir :
              standardPath_.directories(StandardPath::Type::Data)) {

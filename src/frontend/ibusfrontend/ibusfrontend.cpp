@@ -666,18 +666,24 @@ std::set<std::string> allSocketPaths() {
         // Make the guess that display is 0, it is the most common value that
         // people would have.
         if (paths.empty()) {
-            paths.insert(stringutils::joinPath(
-                StandardPath::global().userDirectory(
-                    StandardPath::Type::Config),
-                "ibus/bus",
-                stringutils::concat(getLocalMachineId(), "-unix-", 0)));
+            auto configHome = StandardPath::global().userDirectory(
+                StandardPath::Type::Config);
+            if (!configHome.empty()) {
+                paths.insert(stringutils::joinPath(
+                    configHome, "ibus/bus",
+                    stringutils::concat(getLocalMachineId(), "-unix-", 0)));
+            }
         }
     } else {
-        paths.insert(getFullSocketPath(false));
+        if (auto path = getFullSocketPath(false); !path.empty()) {
+            paths.insert(std::move(path));
+        }
     }
 
     // Also add wayland.
-    paths.insert(getFullSocketPath(true));
+    if (auto path = getFullSocketPath(true); !path.empty()) {
+        paths.insert(std::move(path));
+    }
     return paths;
 }
 

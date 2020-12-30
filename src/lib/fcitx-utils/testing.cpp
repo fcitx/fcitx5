@@ -14,6 +14,7 @@ void fcitx::setupTestingEnvironment(const std::string &testBinaryDir,
                                     const std::vector<std::string> &dataDirs) {
     // Skip resolution with fcitxPath
     setenv("SKIP_FCITX_PATH", "1", 1);
+    setenv("SKIP_FCITX_USER_PATH", "1", 1);
     // Path to addon library
     std::vector<std::string> fullAddonDirs;
     for (const auto &addonDir : addonDirs) {

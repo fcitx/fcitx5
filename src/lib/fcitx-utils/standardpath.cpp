@@ -34,6 +34,18 @@ std::string constructPath(const std::string &basepath,
     }
     return fs::cleanPath(stringutils::joinPath(basepath, path));
 }
+
+bool checkBoolEnvVar(const char *name) {
+    const char *var = getenv(name);
+    bool value = false;
+    if (var && var[0] &&
+        (strcmp(var, "True") == 0 || strcmp(var, "true") == 0 ||
+         strcmp(var, "1") == 0)) {
+        value = true;
+    }
+    return value;
+}
+
 } // namespace
 
 StandardPathFile::~StandardPathFile() {}
@@ -66,7 +78,8 @@ void StandardPathTempFile::close() {
 
 class StandardPathPrivate {
 public:
-    StandardPathPrivate(bool skipFcitxPath) {
+    StandardPathPrivate(bool skipFcitxPath, bool skipUserPath)
+        : skipUserPath_(skipUserPath) {
         // initialize user directory
         configHome_ = defaultPath("XDG_CONFIG_HOME", ".config");
         pkgconfigHome_ = defaultPath(
@@ -103,6 +116,48 @@ public:
 
     FCITX_INLINE_DEFINE_DEFAULT_DTOR_AND_COPY(StandardPathPrivate)
 
+    std::string userPath(StandardPath::Type type) const {
+        if (skipUserPath_) {
+            return {};
+        }
+        switch (type) {
+        case StandardPath::Type::Config:
+            return configHome_;
+        case StandardPath::Type::PkgConfig:
+            return pkgconfigHome_;
+        case StandardPath::Type::Data:
+            return dataHome_;
+        case StandardPath::Type::PkgData:
+            return pkgdataHome_;
+        case StandardPath::Type::Cache:
+            return cacheHome_;
+        case StandardPath::Type::Runtime:
+            return runtimeDir_;
+        default:
+            return {};
+        }
+    }
+
+    std::vector<std::string> directories(StandardPath::Type type) const {
+        switch (type) {
+        case StandardPath::Type::Config:
+            return configDirs_;
+        case StandardPath::Type::PkgConfig:
+            return pkgconfigDirs_;
+        case StandardPath::Type::Data:
+            return dataDirs_;
+        case StandardPath::Type::PkgData:
+            return pkgdataDirs_;
+        case StandardPath::Type::Addon:
+            return addonDirs_;
+        default:
+            return {};
+        }
+    }
+
+    bool skipUser() const { return skipUserPath_; }
+
+private:
     // http://standards.freedesktop.org/basedir-spec/basedir-spec-latest.html
     static std::string defaultPath(const char *env, const char *defaultPath) {
         char *cdir = getenv(env);
@@ -175,42 +230,7 @@ public:
         return dirs;
     }
 
-    std::string userPath(StandardPath::Type type) const {
-        switch (type) {
-        case StandardPath::Type::Config:
-            return configHome_;
-        case StandardPath::Type::PkgConfig:
-            return pkgconfigHome_;
-        case StandardPath::Type::Data:
-            return dataHome_;
-        case StandardPath::Type::PkgData:
-            return pkgdataHome_;
-        case StandardPath::Type::Cache:
-            return cacheHome_;
-        case StandardPath::Type::Runtime:
-            return runtimeDir_;
-        default:
-            return {};
-        }
-    }
-
-    std::vector<std::string> directories(StandardPath::Type type) const {
-        switch (type) {
-        case StandardPath::Type::Config:
-            return configDirs_;
-        case StandardPath::Type::PkgConfig:
-            return pkgconfigDirs_;
-        case StandardPath::Type::Data:
-            return dataDirs_;
-        case StandardPath::Type::PkgData:
-            return pkgdataDirs_;
-        case StandardPath::Type::Addon:
-            return addonDirs_;
-        default:
-            return {};
-        }
-    }
-
+    bool skipUserPath_;
     std::string configHome_;
     std::vector<std::string> configDirs_;
     std::string pkgconfigHome_;
@@ -224,20 +244,19 @@ public:
     std::vector<std::string> addonDirs_;
 };
 
+StandardPath::StandardPath(bool skipFcitxPath, bool skipUserPath)
+    : d_ptr(
+          std::make_unique<StandardPathPrivate>(skipFcitxPath, skipUserPath)) {}
+
 StandardPath::StandardPath(bool skipFcitxPath)
-    : d_ptr(std::make_unique<StandardPathPrivate>(skipFcitxPath)) {}
+    : StandardPath(skipFcitxPath, false) {}
 
 StandardPath::~StandardPath() {}
 
 const StandardPath &StandardPath::global() {
-    const char *skip = getenv("SKIP_FCITX_PATH");
-    bool skipFcitx = false;
-    if (skip && skip[0] &&
-        (strcmp(skip, "True") == 0 || strcmp(skip, "true") == 0 ||
-         strcmp(skip, "1") == 0)) {
-        skipFcitx = true;
-    }
-    static StandardPath globalPath(skipFcitx);
+    bool skipFcitx = checkBoolEnvVar("SKIP_FCITX_PATH");
+    bool skipUser = checkBoolEnvVar("SKIP_FCITX_USER_PATH");
+    static StandardPath globalPath(skipFcitx, skipUser);
     return globalPath;
 }
 
@@ -297,17 +316,33 @@ void StandardPath::scanDirectories(
     if (userDir.empty() && list.empty()) {
         return;
     }
+    scanDirectories(userDir, list, scanner);
+}
 
-    size_t len = (!userDir.empty() ? 1 : 0) + list.size();
+void StandardPath::scanDirectories(
+    const std::string &userDir, const std::vector<std::string> &directories,
+    const std::function<bool(const std::string &path, bool user)> &scanner)
+    const {
+    std::string_view userDirView(userDir);
+    FCITX_D();
+    if (d->skipUser()) {
+        userDirView = "";
+    }
+
+    if (userDirView.empty() && directories.empty()) {
+        return;
+    }
+
+    size_t len = (!userDirView.empty() ? 1 : 0) + directories.size();
 
     for (size_t i = 0; i < len; i++) {
         bool isUser = false;
         std::string dirBasePath;
-        if (!userDir.empty()) {
+        if (!userDirView.empty()) {
             isUser = (i == 0);
-            dirBasePath = isUser ? userDir : list[i - 1];
+            dirBasePath = isUser ? userDirView : directories[i - 1];
         } else {
-            dirBasePath = list[i];
+            dirBasePath = directories[i];
         }
 
         dirBasePath = fs::cleanPath(dirBasePath);
