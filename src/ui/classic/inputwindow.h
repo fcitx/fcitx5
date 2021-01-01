@@ -40,7 +40,8 @@ protected:
     void insertAttr(PangoAttrList *attrList, TextFormatFlags format, int start,
                     int end, bool highlight) const;
     void setTextToLayout(
-        PangoLayout *layout, PangoAttrListUniquePtr *attrList,
+        InputContext *inputContext, PangoLayout *layout,
+        PangoAttrListUniquePtr *attrList,
         PangoAttrListUniquePtr *highlightAttrList,
         std::initializer_list<std::reference_wrapper<const Text>> texts);
     int highlight() const;

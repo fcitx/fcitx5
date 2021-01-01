@@ -11,6 +11,7 @@
 #include <pango/pangocairo.h>
 #include "fcitx-utils/color.h"
 #include "fcitx-utils/log.h"
+#include "fcitx/inputmethodentry.h"
 #include "fcitx/inputpanel.h"
 #include "fcitx/instance.h"
 #include "fcitx/misc_p.h"
@@ -133,9 +134,8 @@ void InputWindow::resizeCandidates(size_t n) {
 }
 
 void InputWindow::setTextToLayout(
-    PangoLayout *layout, PangoAttrListUniquePtr *attrList,
-    PangoAttrListUniquePtr *highlightAttrList,
-
+    InputContext *inputContext, PangoLayout *layout,
+    PangoAttrListUniquePtr *attrList, PangoAttrListUniquePtr *highlightAttrList,
     std::initializer_list<std::reference_wrapper<const Text>> texts) {
     auto *newAttrList = pango_attr_list_new();
     if (attrList) {
@@ -152,6 +152,25 @@ void InputWindow::setTextToLayout(
     std::string line;
     for (const auto &text : texts) {
         appendText(line, newAttrList, newHighlightAttrList, text);
+    }
+
+    auto entry = parent_->instance()->inputMethodEntry(inputContext);
+    if (entry && !entry->languageCode().empty()) {
+        if (auto language =
+                pango_language_from_string(entry->languageCode().c_str())) {
+            if (newAttrList) {
+                auto attr = pango_attr_language_new(language);
+                attr->start_index = 0;
+                attr->end_index = line.size();
+                pango_attr_list_insert(newAttrList, attr);
+            }
+            if (newHighlightAttrList) {
+                auto attr = pango_attr_language_new(language);
+                attr->start_index = 0;
+                attr->end_index = line.size();
+                pango_attr_list_insert(newHighlightAttrList, attr);
+            }
+        }
     }
 
     pango_layout_set_text(layout, line.c_str(), line.size());
@@ -181,14 +200,16 @@ void InputWindow::update(InputContext *inputContext) {
     auto preedit = instance->outputFilter(inputContext, inputPanel.preedit());
     auto auxUp = instance->outputFilter(inputContext, inputPanel.auxUp());
     pango_layout_set_single_paragraph_mode(upperLayout_.get(), true);
-    setTextToLayout(upperLayout_.get(), nullptr, nullptr, {auxUp, preedit});
+    setTextToLayout(inputContext, upperLayout_.get(), nullptr, nullptr,
+                    {auxUp, preedit});
     if (preedit.cursor() >= 0 &&
         static_cast<size_t>(preedit.cursor()) <= preedit.textLength()) {
         cursor_ = preedit.cursor() + auxUp.toString().size();
     }
 
     auto auxDown = instance->outputFilter(inputContext, inputPanel.auxDown());
-    setTextToLayout(lowerLayout_.get(), nullptr, nullptr, {auxDown});
+    setTextToLayout(inputContext, lowerLayout_.get(), nullptr, nullptr,
+                    {auxDown});
 
     if (auto candidateList = inputPanel.candidateList()) {
         // Count non-placeholder candidates.
@@ -221,12 +242,12 @@ void InputWindow::update(InputContext *inputContext) {
                                  : candidateList->label(i);
 
             labelText = instance->outputFilter(inputContext, labelText);
-            setTextToLayout(labelLayouts_[localIndex].get(),
+            setTextToLayout(inputContext, labelLayouts_[localIndex].get(),
                             &labelAttrLists_[localIndex],
                             &highlightLabelAttrLists_[localIndex], {labelText});
             auto candidateText =
                 instance->outputFilter(inputContext, candidate.text());
-            setTextToLayout(candidateLayouts_[localIndex].get(),
+            setTextToLayout(inputContext, candidateLayouts_[localIndex].get(),
                             &candidateAttrLists_[localIndex],
                             &highlightCandidateAttrLists_[localIndex],
                             {candidateText});
