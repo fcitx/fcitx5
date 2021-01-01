@@ -155,7 +155,8 @@ void InputWindow::setTextToLayout(
     }
 
     auto entry = parent_->instance()->inputMethodEntry(inputContext);
-    if (entry && !entry->languageCode().empty()) {
+    if (*parent_->config().useInputMethodLanguageToDisplayText && entry &&
+        !entry->languageCode().empty()) {
         if (auto language =
                 pango_language_from_string(entry->languageCode().c_str())) {
             if (newAttrList) {

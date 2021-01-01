@@ -98,6 +98,17 @@ FCITX_CONFIGURATION(
         this, "Font", _("Font"), "Sans 10"};
     OptionWithAnnotation<std::string, MenuFontAnnotation> menuFont{
         this, "MenuFont", _("Menu Font"), "Sans 10"};
+    OptionWithAnnotation<bool, ToolTipAnnotation>
+        useInputMethodLanguageToDisplayText{
+            this,
+            "UseInputMethodLangaugeToDisplayText",
+            _("Use input method langauge to display text"),
+            true,
+            {},
+            {},
+            {_("For example, display character with Chinese variant when using "
+               "Pinyin and Japanese variant when using Anthy. The font "
+               "configuration needs to support this to use this feature.")}};
     Option<std::string, NotEmpty, DefaultMarshaller<std::string>,
            ThemeAnnotation>
         theme{this, "Theme", _("Theme"), "default"};);
