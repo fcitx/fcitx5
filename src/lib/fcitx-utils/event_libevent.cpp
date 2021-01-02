@@ -11,6 +11,7 @@
 #include <functional>
 #include <vector>
 #include <event2/event.h>
+#include "log.h"
 #include "trackableobject.h"
 
 namespace fcitx {
@@ -337,8 +338,8 @@ void IOEventCallback(evutil_socket_t fd, short events, void *arg) {
         }
         source->callback_(source, fd, LibEventFlagsToIOEventFlags(events));
     } catch (const std::exception &e) {
-        // some abnormal things threw
-        abort();
+        // some abnormal things threw{
+        FCITX_FATAL() << e.what();
     }
 }
 
