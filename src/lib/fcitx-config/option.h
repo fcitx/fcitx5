@@ -45,6 +45,13 @@ private:
     std::string externalUri_;
 };
 
+/// An option that launches external tool.
+class FCITXCONFIG_EXPORT SubConfigOption : public ExternalOption {
+public:
+    using ExternalOption::ExternalOption;
+    void dumpDescription(RawConfig &config) const override;
+};
+
 /// Default Constrain with no actual constrain.
 template <typename T>
 struct NoConstrain {
@@ -72,6 +79,21 @@ struct ToolTipAnnotation {
 
 private:
     std::string tooltip_;
+};
+
+/// For a list of sub config, the field that should be used for display.
+struct ListDisplayOptionAnnotation {
+    ListDisplayOptionAnnotation(std::string option)
+        : option_(std::move(option)) {}
+
+    bool skipDescription() { return false; }
+    bool skipSave() { return false; }
+    void dumpDescription(RawConfig &config) const {
+        config.setValueByPath("ListDisplayOption", option_);
+    }
+
+private:
+    std::string option_;
 };
 
 /**

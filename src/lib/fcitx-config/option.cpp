@@ -65,4 +65,9 @@ void ExternalOption::dumpDescription(RawConfig &config) const {
     // This field is required by dbus.
     config.setValueByPath("DefaultValue", "");
 }
+
+void SubConfigOption::dumpDescription(RawConfig &config) const {
+    ExternalOption::dumpDescription(config);
+    config.setValueByPath("LaunchSubConfig", "True");
+}
 } // namespace fcitx
