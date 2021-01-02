@@ -150,8 +150,10 @@ WaylandIMInputContextV1::~WaylandIMInputContextV1() {
 }
 
 void WaylandIMInputContextV1::repeat() {
-    KeyEvent event(this, Key(repeatSym_, server_->modifiers_, repeatKey_ + 8),
-                   false, repeatTime_);
+    KeyEvent event(
+        this,
+        Key(repeatSym_, server_->modifiers_ | KeyState::Repeat, repeatKey_ + 8),
+        false, repeatTime_);
     if (!keyEvent(event)) {
         ic_->keysym(serial_, repeatTime_, event.rawKey().sym(),
                     event.isRelease() ? WL_KEYBOARD_KEY_STATE_RELEASED
