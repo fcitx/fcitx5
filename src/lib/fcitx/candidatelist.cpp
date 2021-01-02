@@ -544,7 +544,7 @@ void CommonCandidateList::moveCursor(bool prev) {
             } else {
                 d->cursorIndex_ = newGlobalIndex;
             }
-            if (!d->cursorKeepInSamePage_) {
+            if (!d->cursorKeepInSamePage_ && d->cursorIndex_ >= 0) {
                 setPage(d->cursorIndex_ / d->pageSize_);
             }
         }
