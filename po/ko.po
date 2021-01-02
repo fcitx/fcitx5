@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2020-12-26 20:24+0000\n"
+"POT-Creation-Date: 2021-01-02 20:24+0000\n"
 "PO-Revision-Date: 2017-11-23 04:14+0000\n"
 "Last-Translator: JungHee Lee <daemul72@gmail.com>, 2020\n"
 "Language-Team: Korean (https://www.transifex.com/fcitx/teams/12005/ko/)\n"
@@ -54,7 +54,7 @@ msgstr ""
 msgid "(Not available)"
 msgstr "(사용할 수 없음)"
 
-#: src/modules/unicode/unicode.cpp:323
+#: src/modules/unicode/unicode.cpp:324
 msgid "(Type to search unicode by code or description)"
 msgstr "(코드 또는 설명으로 유니코드를 검색하는 유형)"
 
@@ -115,15 +115,15 @@ msgstr "즐겨찾기 추가"
 msgid "Add Unicode Typing Support"
 msgstr "유니코드 입력 지원 추가"
 
-#: data/fcitx5-diagnose.sh:1465
+#: data/fcitx5-diagnose.sh:1533
 msgid "Addon Config Dir:"
 msgstr ""
 
-#: data/fcitx5-diagnose.sh:1535
+#: data/fcitx5-diagnose.sh:1603
 msgid "Addon Libraries:"
 msgstr ""
 
-#: data/fcitx5-diagnose.sh:1490
+#: data/fcitx5-diagnose.sh:1558
 msgid "Addon List:"
 msgstr ""
 
@@ -132,11 +132,11 @@ msgctxt "Key name"
 msgid "Adjust Brightness"
 msgstr "밝기 조절"
 
-#: data/fcitx5-diagnose.sh:1284
+#: data/fcitx5-diagnose.sh:1298
 msgid "All found Gtk ${1} immodule files exist."
 msgstr ""
 
-#: data/fcitx5-diagnose.sh:1561
+#: data/fcitx5-diagnose.sh:1629
 msgid "All libraries for all addons are found."
 msgstr ""
 
@@ -294,7 +294,7 @@ msgstr ""
 msgid "Cannot determine desktop environment."
 msgstr ""
 
-#: data/fcitx5-diagnose.sh:1481
+#: data/fcitx5-diagnose.sh:1549
 msgid "Cannot find ${1} addon config directory."
 msgstr ""
 
@@ -302,11 +302,11 @@ msgstr ""
 msgid "Cannot find ${1} executable!"
 msgstr ""
 
-#: data/fcitx5-diagnose.sh:1433
+#: data/fcitx5-diagnose.sh:1447 data/fcitx5-diagnose.sh:1499
 msgid "Cannot find ${1} im module for gtk ${2} in cache."
 msgstr ""
 
-#: data/fcitx5-diagnose.sh:1351
+#: data/fcitx5-diagnose.sh:1365
 msgid "Cannot find ${1} im module for gtk ${2}."
 msgstr ""
 
@@ -314,7 +314,7 @@ msgstr ""
 msgid "Cannot find ${1} input method module for ${2}."
 msgstr ""
 
-#: data/fcitx5-diagnose.sh:1345
+#: data/fcitx5-diagnose.sh:1359
 msgid "Cannot find ${2} for gtk ${1}"
 msgstr ""
 
@@ -326,7 +326,7 @@ msgstr ""
 msgid "Cannot find a GUI config tool, please install one of ${1}, or ${2}."
 msgstr ""
 
-#: data/fcitx5-diagnose.sh:1564
+#: data/fcitx5-diagnose.sh:1632
 msgid "Cannot find enabled ${1} user interface!"
 msgstr ""
 
@@ -334,19 +334,19 @@ msgstr ""
 msgid "Cannot find fcitx5 executable!"
 msgstr ""
 
-#: data/fcitx5-diagnose.sh:1543
+#: data/fcitx5-diagnose.sh:1611
 msgid "Cannot find file ${1} of addon ${2}."
 msgstr ""
 
-#: data/fcitx5-diagnose.sh:1553
+#: data/fcitx5-diagnose.sh:1621
 msgid "Cannot find following required libraries for ${1} of addon ${2}."
 msgstr ""
 
-#: data/fcitx5-diagnose.sh:1428
+#: data/fcitx5-diagnose.sh:1442 data/fcitx5-diagnose.sh:1494
 msgid "Cannot find immodules cache for gtk ${1}"
 msgstr ""
 
-#: data/fcitx5-diagnose.sh:1583
+#: data/fcitx5-diagnose.sh:1651
 msgid ""
 "Cannot find kimpanel dbus interface or enabled non-kimpanel user interface."
 msgstr ""
@@ -409,7 +409,7 @@ msgstr ""
 msgid "Clipboard"
 msgstr "클립보드"
 
-#: src/modules/clipboard/clipboard.cpp:310
+#: src/modules/clipboard/clipboard.cpp:311
 msgid "Clipboard:"
 msgstr "클립보드:"
 
@@ -464,7 +464,7 @@ msgstr "qt용 GUI 구성하기:"
 msgid "Config Tool Wrapper:"
 msgstr ""
 
-#: data/fcitx5-diagnose.sh:1726
+#: data/fcitx5-diagnose.sh:1794
 msgid "Configuration:"
 msgstr ""
 
@@ -711,11 +711,11 @@ msgstr "실행"
 msgid "Exit"
 msgstr "나가기"
 
-#: data/fcitx5-diagnose.sh:1422
+#: data/fcitx5-diagnose.sh:1436 data/fcitx5-diagnose.sh:1488
 msgid "Failed to find ${1} in immodule cache at ${2}"
 msgstr ""
 
-#: data/fcitx5-diagnose.sh:1339
+#: data/fcitx5-diagnose.sh:1353
 msgid "Failed to find ${1} in the output of ${2}"
 msgstr ""
 
@@ -737,7 +737,7 @@ msgstr "Fcitx 5"
 msgid "Fcitx 5 Configuration"
 msgstr "Fcitx 5 환경설정"
 
-#: data/fcitx5-diagnose.sh:1464
+#: data/fcitx5-diagnose.sh:1532
 msgid "Fcitx Addons:"
 msgstr "Fcitx 애드온:"
 
@@ -774,6 +774,13 @@ msgstr "찾기"
 msgid "Font"
 msgstr ""
 
+#: src/ui/classic/classicui.h:109
+msgid ""
+"For example, display character with Chinese variant when using Pinyin and "
+"Japanese variant when using Anthy. The font configuration needs to support "
+"this to use this feature."
+msgstr ""
+
 #: src/lib/fcitx-utils/key.cpp:59
 msgctxt "Key name"
 msgid "Forward"
@@ -791,7 +798,7 @@ msgstr ""
 msgid "Found ${1} ${2} processes:"
 msgstr ""
 
-#: data/fcitx5-diagnose.sh:1484
+#: data/fcitx5-diagnose.sh:1552
 msgid "Found ${1} addon config directory: ${2}."
 msgstr ""
 
@@ -800,19 +807,20 @@ msgstr ""
 msgid "Found ${1} at ${2}."
 msgstr ""
 
-#: data/fcitx5-diagnose.sh:1529
+#: data/fcitx5-diagnose.sh:1597
 msgid "Found ${1} disabled addons:"
 msgstr ""
 
-#: data/fcitx5-diagnose.sh:1524
+#: data/fcitx5-diagnose.sh:1592
 msgid "Found ${1} enabled addons:"
 msgstr ""
 
-#: data/fcitx5-diagnose.sh:1566
+#: data/fcitx5-diagnose.sh:1634
 msgid "Found ${1} enabled user interface addons:"
 msgstr ""
 
-#: data/fcitx5-diagnose.sh:1333 data/fcitx5-diagnose.sh:1416
+#: data/fcitx5-diagnose.sh:1347 data/fcitx5-diagnose.sh:1430
+#: data/fcitx5-diagnose.sh:1482
 msgid "Found ${1} im modules for gtk ${2}."
 msgstr ""
 
@@ -820,11 +828,11 @@ msgstr ""
 msgid "Found ${1} kcm module."
 msgstr ""
 
-#: data/fcitx5-diagnose.sh:1325
+#: data/fcitx5-diagnose.sh:1339
 msgid "Found ${2} for unknown gtk version at ${1}."
 msgstr ""
 
-#: data/fcitx5-diagnose.sh:1317
+#: data/fcitx5-diagnose.sh:1331
 msgid "Found ${3} for gtk ${1} at ${2}."
 msgstr ""
 
@@ -832,11 +840,11 @@ msgstr ""
 msgid "Found ${3} im module for ${2}: ${1}."
 msgstr ""
 
-#: data/fcitx5-diagnose.sh:1409
+#: data/fcitx5-diagnose.sh:1423
 msgid "Found immodule cache for unknown gtk version at ${1}."
 msgstr ""
 
-#: data/fcitx5-diagnose.sh:1401
+#: data/fcitx5-diagnose.sh:1415 data/fcitx5-diagnose.sh:1475
 msgid "Found immodules cache for gtk ${1} at ${2}."
 msgstr ""
 
@@ -848,7 +856,7 @@ msgstr ""
 msgid "Freedesktop.org Notification Support"
 msgstr "Freedesktop.org 알림 지원"
 
-#: data/fcitx5-diagnose.sh:1719
+#: data/fcitx5-diagnose.sh:1787
 msgid "Frontends setup:"
 msgstr ""
 
@@ -884,15 +892,15 @@ msgstr "그룹 {0}: {1}"
 msgid "Group {}"
 msgstr "그룹 {}"
 
-#: data/fcitx5-diagnose.sh:1278
+#: data/fcitx5-diagnose.sh:1292
 msgid "Gtk ${1} immodule file ${2} does not exist."
 msgstr ""
 
-#: data/fcitx5-diagnose.sh:1446
+#: data/fcitx5-diagnose.sh:1512
 msgid "Gtk IM module cache:"
 msgstr "Gtk IM 모듈 캐시:"
 
-#: data/fcitx5-diagnose.sh:1451
+#: data/fcitx5-diagnose.sh:1518
 msgid "Gtk IM module files:"
 msgstr "Gtk IM 모듈 파일:"
 
@@ -1118,7 +1126,7 @@ msgctxt "Key name"
 msgid "Insert"
 msgstr "삽입"
 
-#: data/fcitx5-diagnose.sh:1496
+#: data/fcitx5-diagnose.sh:1564
 msgid "Invalid addon config file ${1}."
 msgstr ""
 
@@ -1182,7 +1190,7 @@ msgctxt "Key name"
 msgid "Keyboard Menu"
 msgstr "키보드 메뉴"
 
-#: data/fcitx5-diagnose.sh:1575
+#: data/fcitx5-diagnose.sh:1643
 msgid "Kimpanel process:"
 msgstr ""
 
@@ -1310,7 +1318,7 @@ msgstr "전구"
 msgid "Locale:"
 msgstr "로케일:"
 
-#: data/fcitx5-diagnose.sh:1732
+#: data/fcitx5-diagnose.sh:1800
 msgid "Log:"
 msgstr "로그:"
 
@@ -1491,7 +1499,7 @@ msgstr "다음 후보"
 msgid "Next Page Button"
 msgstr ""
 
-#: src/modules/clipboard/clipboard.cpp:312
+#: src/modules/clipboard/clipboard.cpp:313
 msgid "No clipboard history."
 msgstr "클립보드 기록이 없습니다."
 
@@ -1685,7 +1693,7 @@ msgstr "Qt IM 모듈 파일:"
 msgid "Quick Phrase"
 msgstr "상용구"
 
-#: src/modules/quickphrase/quickphrase.cpp:394
+#: src/modules/quickphrase/quickphrase.cpp:395
 msgid "Quick Phrase: "
 msgstr "상용구:"
 
@@ -1803,11 +1811,11 @@ msgctxt "Key name"
 msgid "Select"
 msgstr "선택"
 
-#: src/modules/imselector/imselector.cpp:263
+#: src/modules/imselector/imselector.cpp:264
 msgid "Select input method:"
 msgstr "입력기 선택:"
 
-#: src/modules/imselector/imselector.cpp:262
+#: src/modules/imselector/imselector.cpp:263
 msgid "Select local input method:"
 msgstr ""
 
@@ -1994,7 +2002,7 @@ msgstr ""
 msgid "The script is run as ${1} (${2})."
 msgstr ""
 
-#: src/ui/classic/classicui.h:103
+#: src/ui/classic/classicui.h:114
 msgid "Theme"
 msgstr "테마"
 
@@ -2109,7 +2117,7 @@ msgstr "되돌리기"
 msgid "Unicode"
 msgstr "유니코드"
 
-#: src/modules/unicode/unicode.cpp:321
+#: src/modules/unicode/unicode.cpp:322
 msgid "Unicode: "
 msgstr "유니코드:"
 
@@ -2130,11 +2138,15 @@ msgstr "화면 해상도 사용하기"
 msgid "Use all horizontal space for highlight when it is vertical list"
 msgstr ""
 
+#: src/ui/classic/classicui.h:105
+msgid "Use input method langauge to display text"
+msgstr ""
+
 #: src/ui/classic/classicui.h:94
 msgid "Use mouse wheel to go to prev or next page"
 msgstr "마우스 휠을 사용하여 이전 또는 다음 페이지로 이동"
 
-#: data/fcitx5-diagnose.sh:1562
+#: data/fcitx5-diagnose.sh:1630
 msgid "User Interface:"
 msgstr "사용자 인터페이스:"
 
@@ -2146,7 +2158,7 @@ msgstr ""
 msgid "Version"
 msgstr ""
 
-#: data/fcitx5-diagnose.sh:1322 data/fcitx5-diagnose.sh:1405
+#: data/fcitx5-diagnose.sh:1336 data/fcitx5-diagnose.sh:1419
 msgid "Version Line:"
 msgstr ""
 

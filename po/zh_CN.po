@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2020-12-20 20:24+0000\n"
+"POT-Creation-Date: 2021-01-02 20:24+0000\n"
 "PO-Revision-Date: 2017-11-23 04:14+0000\n"
 "Last-Translator: csslayer <wengxt@gmail.com>, 2020\n"
 "Language-Team: Chinese (China) (https://www.transifex.com/fcitx/teams/12005/"
@@ -49,11 +49,11 @@ msgstr "${1} 未找到."
 msgid "${1} works properly."
 msgstr "${1} 工作正常。"
 
-#: src/lib/fcitx/instance.cpp:349
+#: src/lib/fcitx/instance.cpp:353
 msgid "(Not available)"
 msgstr "(不可用)"
 
-#: src/modules/unicode/unicode.cpp:323
+#: src/modules/unicode/unicode.cpp:324
 msgid "(Type to search unicode by code or description)"
 msgstr "(输入编码或者描述来搜索 Unicode 字符)"
 
@@ -114,15 +114,15 @@ msgstr "添加收藏"
 msgid "Add Unicode Typing Support"
 msgstr "添加 Unicode 输入支持"
 
-#: data/fcitx5-diagnose.sh:1465
+#: data/fcitx5-diagnose.sh:1533
 msgid "Addon Config Dir:"
 msgstr "插件配置文件目录："
 
-#: data/fcitx5-diagnose.sh:1535
+#: data/fcitx5-diagnose.sh:1603
 msgid "Addon Libraries:"
 msgstr "插件库: "
 
-#: data/fcitx5-diagnose.sh:1490
+#: data/fcitx5-diagnose.sh:1558
 msgid "Addon List:"
 msgstr "插件列表："
 
@@ -131,11 +131,11 @@ msgctxt "Key name"
 msgid "Adjust Brightness"
 msgstr "调整亮度"
 
-#: data/fcitx5-diagnose.sh:1284
+#: data/fcitx5-diagnose.sh:1298
 msgid "All found Gtk ${1} immodule files exist."
 msgstr "找到的全部 Gtk ${1} 输入法模块文件均存在。"
 
-#: data/fcitx5-diagnose.sh:1561
+#: data/fcitx5-diagnose.sh:1629
 msgid "All libraries for all addons are found."
 msgstr "所有插件所需的库都被找到。"
 
@@ -293,7 +293,7 @@ msgstr "无法连接到 ${1}。"
 msgid "Cannot determine desktop environment."
 msgstr "无法确定桌面环境。"
 
-#: data/fcitx5-diagnose.sh:1481
+#: data/fcitx5-diagnose.sh:1549
 msgid "Cannot find ${1} addon config directory."
 msgstr "无法找到 ${1} 的插件配置目录。"
 
@@ -301,11 +301,11 @@ msgstr "无法找到 ${1} 的插件配置目录。"
 msgid "Cannot find ${1} executable!"
 msgstr "无法找到 ${1} 的可执行文件！"
 
-#: data/fcitx5-diagnose.sh:1433
+#: data/fcitx5-diagnose.sh:1447 data/fcitx5-diagnose.sh:1499
 msgid "Cannot find ${1} im module for gtk ${2} in cache."
 msgstr "无法在缓存中找到 gtk ${2} 的 ${1} 输入法模块。"
 
-#: data/fcitx5-diagnose.sh:1351
+#: data/fcitx5-diagnose.sh:1365
 msgid "Cannot find ${1} im module for gtk ${2}."
 msgstr "无法找到 gtk ${2} 的 ${1} 输入法模块。"
 
@@ -313,7 +313,7 @@ msgstr "无法找到 gtk ${2} 的 ${1} 输入法模块。"
 msgid "Cannot find ${1} input method module for ${2}."
 msgstr "无法找到 ${2} 的 ${1} 输入法模块。"
 
-#: data/fcitx5-diagnose.sh:1345
+#: data/fcitx5-diagnose.sh:1359
 msgid "Cannot find ${2} for gtk ${1}"
 msgstr "无法找到 gtk ${1} 的 ${2}。"
 
@@ -325,7 +325,7 @@ msgstr "找不到 DBus 名称 ${1} 的所有者。"
 msgid "Cannot find a GUI config tool, please install one of ${1}, or ${2}."
 msgstr "无法找到一个图形界面的配置工具，请安装 ${1} 或 ${2}。"
 
-#: data/fcitx5-diagnose.sh:1564
+#: data/fcitx5-diagnose.sh:1632
 msgid "Cannot find enabled ${1} user interface!"
 msgstr "无法找到启用的 ${1} 用户界面！"
 
@@ -333,19 +333,19 @@ msgstr "无法找到启用的 ${1} 用户界面！"
 msgid "Cannot find fcitx5 executable!"
 msgstr "无法找到 fcitx5 可执行文件!"
 
-#: data/fcitx5-diagnose.sh:1543
+#: data/fcitx5-diagnose.sh:1611
 msgid "Cannot find file ${1} of addon ${2}."
 msgstr "无法找到插件 ${2} 的文件 ${1}。"
 
-#: data/fcitx5-diagnose.sh:1553
+#: data/fcitx5-diagnose.sh:1621
 msgid "Cannot find following required libraries for ${1} of addon ${2}."
 msgstr "无法找到插件 ${2} 所需的库 ${1}。"
 
-#: data/fcitx5-diagnose.sh:1428
+#: data/fcitx5-diagnose.sh:1442 data/fcitx5-diagnose.sh:1494
 msgid "Cannot find immodules cache for gtk ${1}"
 msgstr "无法找到 gtk ${1} 的输入法模块缓存"
 
-#: data/fcitx5-diagnose.sh:1583
+#: data/fcitx5-diagnose.sh:1651
 msgid ""
 "Cannot find kimpanel dbus interface or enabled non-kimpanel user interface."
 msgstr "无法找到 kimpanel dbus 接口或非 kimpanel 用户界面."
@@ -408,7 +408,7 @@ msgstr "点击区域边距"
 msgid "Clipboard"
 msgstr "剪贴板"
 
-#: src/modules/clipboard/clipboard.cpp:310
+#: src/modules/clipboard/clipboard.cpp:311
 msgid "Clipboard:"
 msgstr "剪贴板："
 
@@ -463,7 +463,7 @@ msgstr "Qt 的配置界面："
 msgid "Config Tool Wrapper:"
 msgstr "配置工具封装："
 
-#: data/fcitx5-diagnose.sh:1726
+#: data/fcitx5-diagnose.sh:1794
 msgid "Configuration:"
 msgstr "配置:"
 
@@ -536,7 +536,7 @@ msgstr "DOS"
 msgid "Deactivate Input Method"
 msgstr "取消激活输入法"
 
-#: src/lib/fcitx/inputmethodmanager.cpp:130 src/lib/fcitx/instance.cpp:652
+#: src/lib/fcitx/inputmethodmanager.cpp:130 src/lib/fcitx/instance.cpp:659
 #: src/ui/classic/themes/default/theme.conf.in:3
 msgid "Default"
 msgstr "默认"
@@ -712,11 +712,11 @@ msgstr "执行"
 msgid "Exit"
 msgstr "退出"
 
-#: data/fcitx5-diagnose.sh:1422
+#: data/fcitx5-diagnose.sh:1436 data/fcitx5-diagnose.sh:1488
 msgid "Failed to find ${1} in immodule cache at ${2}"
 msgstr "无法输入法模块缓存 ${2} 中找到 ${1}"
 
-#: data/fcitx5-diagnose.sh:1339
+#: data/fcitx5-diagnose.sh:1353
 msgid "Failed to find ${1} in the output of ${2}"
 msgstr "无法在 ${2} 的输出中找到 ${1}。"
 
@@ -738,7 +738,7 @@ msgstr "Fcitx 5"
 msgid "Fcitx 5 Configuration"
 msgstr "Fcitx 5 配置"
 
-#: data/fcitx5-diagnose.sh:1464
+#: data/fcitx5-diagnose.sh:1532
 msgid "Fcitx Addons:"
 msgstr "Fcitx 插件："
 
@@ -777,6 +777,13 @@ msgstr "查找"
 msgid "Font"
 msgstr "字体"
 
+#: src/ui/classic/classicui.h:109
+msgid ""
+"For example, display character with Chinese variant when using Pinyin and "
+"Japanese variant when using Anthy. The font configuration needs to support "
+"this to use this feature."
+msgstr ""
+
 #: src/lib/fcitx-utils/key.cpp:59
 msgctxt "Key name"
 msgid "Forward"
@@ -794,7 +801,7 @@ msgstr "找到了 ${1} 个 ${2} 进程："
 msgid "Found ${1} ${2} processes:"
 msgstr "找到了 ${1} 个 ${2} 进程："
 
-#: data/fcitx5-diagnose.sh:1484
+#: data/fcitx5-diagnose.sh:1552
 msgid "Found ${1} addon config directory: ${2}."
 msgstr "找到了 ${1} 的插件配置目录：${2}。"
 
@@ -803,19 +810,20 @@ msgstr "找到了 ${1} 的插件配置目录：${2}。"
 msgid "Found ${1} at ${2}."
 msgstr "在 ${2} 找到了 ${1}。"
 
-#: data/fcitx5-diagnose.sh:1529
+#: data/fcitx5-diagnose.sh:1597
 msgid "Found ${1} disabled addons:"
 msgstr "找到了 ${1} 个被禁用的插件："
 
-#: data/fcitx5-diagnose.sh:1524
+#: data/fcitx5-diagnose.sh:1592
 msgid "Found ${1} enabled addons:"
 msgstr "找到了 ${1} 个已启用的插件："
 
-#: data/fcitx5-diagnose.sh:1566
+#: data/fcitx5-diagnose.sh:1634
 msgid "Found ${1} enabled user interface addons:"
 msgstr "找到了 ${1} 个已启用的用户界面插件："
 
-#: data/fcitx5-diagnose.sh:1333 data/fcitx5-diagnose.sh:1416
+#: data/fcitx5-diagnose.sh:1347 data/fcitx5-diagnose.sh:1430
+#: data/fcitx5-diagnose.sh:1482
 msgid "Found ${1} im modules for gtk ${2}."
 msgstr "已找到 gtk ${2} 的 ${1} 输入法模块。"
 
@@ -823,11 +831,11 @@ msgstr "已找到 gtk ${2} 的 ${1} 输入法模块。"
 msgid "Found ${1} kcm module."
 msgstr "找到了 ${1} 的 kcm 模块。"
 
-#: data/fcitx5-diagnose.sh:1325
+#: data/fcitx5-diagnose.sh:1339
 msgid "Found ${2} for unknown gtk version at ${1}."
 msgstr "在 ${1} 找到了未知 gtk 版本的 ${2}。"
 
-#: data/fcitx5-diagnose.sh:1317
+#: data/fcitx5-diagnose.sh:1331
 msgid "Found ${3} for gtk ${1} at ${2}."
 msgstr "在 ${2} 找到了 gtk ${1} 的 ${3}。"
 
@@ -835,11 +843,11 @@ msgstr "在 ${2} 找到了 gtk ${1} 的 ${3}。"
 msgid "Found ${3} im module for ${2}: ${1}."
 msgstr "找到了 ${3} 的 ${2} 输入法模块：${1}。"
 
-#: data/fcitx5-diagnose.sh:1409
+#: data/fcitx5-diagnose.sh:1423
 msgid "Found immodule cache for unknown gtk version at ${1}."
 msgstr "在 ${1} 找到了未知 gtk 版本的输入法模块缓存."
 
-#: data/fcitx5-diagnose.sh:1401
+#: data/fcitx5-diagnose.sh:1415 data/fcitx5-diagnose.sh:1475
 msgid "Found immodules cache for gtk ${1} at ${2}."
 msgstr "在 ${2} 找到了 gtk ${1} 的输入法模块缓存。"
 
@@ -851,7 +859,7 @@ msgstr "找到了未知的 ${1} qt 模块：${2}。"
 msgid "Freedesktop.org Notification Support"
 msgstr "Freedesktop.org 桌面提示支持"
 
-#: data/fcitx5-diagnose.sh:1719
+#: data/fcitx5-diagnose.sh:1787
 msgid "Frontends setup:"
 msgstr "前端设置："
 
@@ -879,23 +887,23 @@ msgstr "绿"
 msgid "Group"
 msgstr "分组"
 
-#: src/lib/fcitx/instance.cpp:353
+#: src/lib/fcitx/instance.cpp:357
 msgid "Group {0}: {1}"
 msgstr "分组 {0}：{1}"
 
-#: src/lib/fcitx/instance.cpp:654
+#: src/lib/fcitx/instance.cpp:661
 msgid "Group {}"
 msgstr "分组 {}"
 
-#: data/fcitx5-diagnose.sh:1278
+#: data/fcitx5-diagnose.sh:1292
 msgid "Gtk ${1} immodule file ${2} does not exist."
 msgstr "Gtk ${1} 输入法模块文件 ${2} 不存在。"
 
-#: data/fcitx5-diagnose.sh:1446
+#: data/fcitx5-diagnose.sh:1512
 msgid "Gtk IM module cache:"
 msgstr "Gtk 输入法模块缓存："
 
-#: data/fcitx5-diagnose.sh:1451
+#: data/fcitx5-diagnose.sh:1518
 msgid "Gtk IM module files:"
 msgstr "Gtk 输入法模块文件："
 
@@ -1091,7 +1099,7 @@ msgid "Image"
 msgstr "图片"
 
 #: src/im/keyboard/keyboard.cpp:501 src/ui/classic/xcbtraywindow.cpp:38
-#: src/lib/fcitx/instance.cpp:723 src/lib/fcitx/instance.cpp:893
+#: src/lib/fcitx/instance.cpp:730 src/lib/fcitx/instance.cpp:900
 #: src/modules/notificationitem/dbusmenu.cpp:241
 #: src/modules/notificationitem/notificationitem.cpp:128
 #: src/modules/xcb/xcbconnection.cpp:388 data/org.fcitx.Fcitx5.desktop.in.in:4
@@ -1128,7 +1136,7 @@ msgctxt "Key name"
 msgid "Insert"
 msgstr "插入"
 
-#: data/fcitx5-diagnose.sh:1496
+#: data/fcitx5-diagnose.sh:1564
 msgid "Invalid addon config file ${1}."
 msgstr "无效的插件配置文件: ${1}。"
 
@@ -1192,7 +1200,7 @@ msgctxt "Key name"
 msgid "Keyboard Menu"
 msgstr "键盘菜单"
 
-#: data/fcitx5-diagnose.sh:1575
+#: data/fcitx5-diagnose.sh:1643
 msgid "Kimpanel process:"
 msgstr "Kimpanel 进程:"
 
@@ -1320,7 +1328,7 @@ msgstr "灯泡"
 msgid "Locale:"
 msgstr "Locale："
 
-#: data/fcitx5-diagnose.sh:1732
+#: data/fcitx5-diagnose.sh:1800
 msgid "Log:"
 msgstr "日志："
 
@@ -1501,7 +1509,7 @@ msgstr "下一个候选词"
 msgid "Next Page Button"
 msgstr "下一页按钮"
 
-#: src/modules/clipboard/clipboard.cpp:312
+#: src/modules/clipboard/clipboard.cpp:313
 msgid "No clipboard history."
 msgstr "无剪贴板历史。"
 
@@ -1650,15 +1658,15 @@ msgctxt "Key name"
 msgid "Power Off"
 msgstr "关机"
 
-#: src/lib/fcitx/instance.cpp:893
+#: src/lib/fcitx/instance.cpp:900
 msgid "Preedit"
 msgstr "预编辑"
 
-#: src/lib/fcitx/instance.cpp:895
+#: src/lib/fcitx/instance.cpp:902
 msgid "Preedit disabled"
 msgstr "预编辑已禁用"
 
-#: src/lib/fcitx/instance.cpp:894
+#: src/lib/fcitx/instance.cpp:901
 msgid "Preedit enabled"
 msgstr "预编辑已启用"
 
@@ -1696,7 +1704,7 @@ msgstr "Qt 输入法模块文件："
 msgid "Quick Phrase"
 msgstr "快速输入"
 
-#: src/modules/quickphrase/quickphrase.cpp:390
+#: src/modules/quickphrase/quickphrase.cpp:395
 msgid "Quick Phrase: "
 msgstr "快速输入: "
 
@@ -1814,11 +1822,11 @@ msgctxt "Key name"
 msgid "Select"
 msgstr "选择"
 
-#: src/modules/imselector/imselector.cpp:263
+#: src/modules/imselector/imselector.cpp:264
 msgid "Select input method:"
 msgstr "选择输入法："
 
-#: src/modules/imselector/imselector.cpp:262
+#: src/modules/imselector/imselector.cpp:263
 msgid "Select local input method:"
 msgstr "选择局部输入法："
 
@@ -1956,7 +1964,7 @@ msgctxt "Key name"
 msgid "Suspend"
 msgstr "睡眠"
 
-#: src/lib/fcitx/instance.cpp:724 src/modules/xcb/xcbconnection.cpp:389
+#: src/lib/fcitx/instance.cpp:731 src/modules/xcb/xcbconnection.cpp:389
 msgid "Switch group"
 msgstr "切换分组"
 
@@ -1964,7 +1972,7 @@ msgstr "切换分组"
 msgid "Switch group to {0}"
 msgstr "切换到分组 {0}"
 
-#: src/lib/fcitx/instance.cpp:725
+#: src/lib/fcitx/instance.cpp:732
 msgid "Switched group to {0}"
 msgstr "已切换到分组 {0}"
 
@@ -2005,7 +2013,7 @@ msgstr "列表中第 n 个按键选择第 n 个对应输入法。"
 msgid "The script is run as ${1} (${2})."
 msgstr "脚本作为 ${1} (${2}) 运行。"
 
-#: src/ui/classic/classicui.h:103
+#: src/ui/classic/classicui.h:114
 msgid "Theme"
 msgstr "主题"
 
@@ -2122,7 +2130,7 @@ msgstr "撤销"
 msgid "Unicode"
 msgstr "Unicode"
 
-#: src/modules/unicode/unicode.cpp:321
+#: src/modules/unicode/unicode.cpp:322
 msgid "Unicode: "
 msgstr "Unicode："
 
@@ -2143,11 +2151,15 @@ msgstr "按屏幕 DPI 使用"
 msgid "Use all horizontal space for highlight when it is vertical list"
 msgstr "竖排列表时使用所有横向空间高亮"
 
+#: src/ui/classic/classicui.h:105
+msgid "Use input method langauge to display text"
+msgstr ""
+
 #: src/ui/classic/classicui.h:94
 msgid "Use mouse wheel to go to prev or next page"
 msgstr "使用鼠标滚轮翻页"
 
-#: data/fcitx5-diagnose.sh:1562
+#: data/fcitx5-diagnose.sh:1630
 msgid "User Interface:"
 msgstr "用户界面："
 
@@ -2159,7 +2171,7 @@ msgstr "使用 ${1} 来检查 dbus。"
 msgid "Version"
 msgstr "版本"
 
-#: data/fcitx5-diagnose.sh:1322 data/fcitx5-diagnose.sh:1405
+#: data/fcitx5-diagnose.sh:1336 data/fcitx5-diagnose.sh:1419
 msgid "Version Line:"
 msgstr "版本行："
 
@@ -2385,10 +2397,10 @@ msgstr "版本："
 msgid "{0} (Not Available)"
 msgstr "{0} (不可用)"
 
-#: src/lib/fcitx/instance.cpp:347
+#: src/lib/fcitx/instance.cpp:351
 msgid "{0} (Not available)"
 msgstr "{0} (不可用)"
 
-#: src/lib/fcitx/instance.cpp:344
+#: src/lib/fcitx/instance.cpp:348
 msgid "{0} ({1})"
 msgstr "{0} ({1})"

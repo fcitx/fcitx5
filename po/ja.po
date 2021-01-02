@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2020-12-25 20:26+0000\n"
+"POT-Creation-Date: 2021-01-02 20:24+0000\n"
 "PO-Revision-Date: 2017-11-23 04:14+0000\n"
 "Last-Translator: Takuro Onoue <kusanaginoturugi@gmail.com>, 2020\n"
 "Language-Team: Japanese (https://www.transifex.com/fcitx/teams/12005/ja/)\n"
@@ -54,7 +54,7 @@ msgstr "${1} は正常に動作しています。"
 msgid "(Not available)"
 msgstr "(使用不可)"
 
-#: src/modules/unicode/unicode.cpp:323
+#: src/modules/unicode/unicode.cpp:324
 msgid "(Type to search unicode by code or description)"
 msgstr "(コードまたは説明からUnicodeを検索する）"
 
@@ -115,15 +115,15 @@ msgstr "お気に入りに追加する"
 msgid "Add Unicode Typing Support"
 msgstr "ユニコード入力対応を追加します"
 
-#: data/fcitx5-diagnose.sh:1465
+#: data/fcitx5-diagnose.sh:1533
 msgid "Addon Config Dir:"
 msgstr "アドオン設定ディレクトリ:"
 
-#: data/fcitx5-diagnose.sh:1535
+#: data/fcitx5-diagnose.sh:1603
 msgid "Addon Libraries:"
 msgstr "アドオンライブラリ:"
 
-#: data/fcitx5-diagnose.sh:1490
+#: data/fcitx5-diagnose.sh:1558
 msgid "Addon List:"
 msgstr "アドオン一覧:"
 
@@ -132,11 +132,11 @@ msgctxt "Key name"
 msgid "Adjust Brightness"
 msgstr "明るさ調整"
 
-#: data/fcitx5-diagnose.sh:1284
+#: data/fcitx5-diagnose.sh:1298
 msgid "All found Gtk ${1} immodule files exist."
 msgstr "見つかった Gtk ${1} IMモジュールファイルはすべて存在します。"
 
-#: data/fcitx5-diagnose.sh:1561
+#: data/fcitx5-diagnose.sh:1629
 msgid "All libraries for all addons are found."
 msgstr "全てのアドオン用ライブラリが見つかりました。"
 
@@ -294,7 +294,7 @@ msgstr "正しく ${1} に接続できません。"
 msgid "Cannot determine desktop environment."
 msgstr "デスクトップ環境を決定できません。"
 
-#: data/fcitx5-diagnose.sh:1481
+#: data/fcitx5-diagnose.sh:1549
 msgid "Cannot find ${1} addon config directory."
 msgstr "${1} アドオンの設定ディレクトリが見つかりません。"
 
@@ -302,11 +302,11 @@ msgstr "${1} アドオンの設定ディレクトリが見つかりません。"
 msgid "Cannot find ${1} executable!"
 msgstr "実行可能な ${1} が見つかりません。"
 
-#: data/fcitx5-diagnose.sh:1433
+#: data/fcitx5-diagnose.sh:1447 data/fcitx5-diagnose.sh:1499
 msgid "Cannot find ${1} im module for gtk ${2} in cache."
 msgstr "キャッシュに gtk ${2} の ${1} 入力メソッドモジュールが見つかりません。"
 
-#: data/fcitx5-diagnose.sh:1351
+#: data/fcitx5-diagnose.sh:1365
 msgid "Cannot find ${1} im module for gtk ${2}."
 msgstr "gtk ${2} の ${1} 入力メソッドモジュールが見つかりません。"
 
@@ -314,7 +314,7 @@ msgstr "gtk ${2} の ${1} 入力メソッドモジュールが見つかりませ
 msgid "Cannot find ${1} input method module for ${2}."
 msgstr "${2} の ${1} 入力メソッドモジュールが見つかりません。"
 
-#: data/fcitx5-diagnose.sh:1345
+#: data/fcitx5-diagnose.sh:1359
 msgid "Cannot find ${2} for gtk ${1}"
 msgstr "gtk ${1} の ${2} が見つかりません"
 
@@ -327,7 +327,7 @@ msgid "Cannot find a GUI config tool, please install one of ${1}, or ${2}."
 msgstr ""
 "GUI設定ツールが見つかりません。{1} または {2} をインストールしてください。"
 
-#: data/fcitx5-diagnose.sh:1564
+#: data/fcitx5-diagnose.sh:1632
 msgid "Cannot find enabled ${1} user interface!"
 msgstr "有効な ${1} ユーザーインターフェイスが見つかりません！"
 
@@ -335,19 +335,19 @@ msgstr "有効な ${1} ユーザーインターフェイスが見つかりませ
 msgid "Cannot find fcitx5 executable!"
 msgstr "fcitx5 を実行できません！"
 
-#: data/fcitx5-diagnose.sh:1543
+#: data/fcitx5-diagnose.sh:1611
 msgid "Cannot find file ${1} of addon ${2}."
 msgstr "アドオン ${2} のファイル ${1} が見つかりません。"
 
-#: data/fcitx5-diagnose.sh:1553
+#: data/fcitx5-diagnose.sh:1621
 msgid "Cannot find following required libraries for ${1} of addon ${2}."
 msgstr "アドオン ${2} の ${1} に必要な次のライブラリが見つかりません。"
 
-#: data/fcitx5-diagnose.sh:1428
+#: data/fcitx5-diagnose.sh:1442 data/fcitx5-diagnose.sh:1494
 msgid "Cannot find immodules cache for gtk ${1}"
 msgstr "gtk ${1} の immodules キャッシュが見つかりません"
 
-#: data/fcitx5-diagnose.sh:1583
+#: data/fcitx5-diagnose.sh:1651
 msgid ""
 "Cannot find kimpanel dbus interface or enabled non-kimpanel user interface."
 msgstr ""
@@ -412,7 +412,7 @@ msgstr "クリックマージン"
 msgid "Clipboard"
 msgstr "クリップボード"
 
-#: src/modules/clipboard/clipboard.cpp:310
+#: src/modules/clipboard/clipboard.cpp:311
 msgid "Clipboard:"
 msgstr "クリップボード:"
 
@@ -467,7 +467,7 @@ msgstr "qt向け設定GUI:"
 msgid "Config Tool Wrapper:"
 msgstr "設定ツールラッパー:"
 
-#: data/fcitx5-diagnose.sh:1726
+#: data/fcitx5-diagnose.sh:1794
 msgid "Configuration:"
 msgstr "設定:"
 
@@ -716,11 +716,11 @@ msgstr "実行"
 msgid "Exit"
 msgstr "閉じる"
 
-#: data/fcitx5-diagnose.sh:1422
+#: data/fcitx5-diagnose.sh:1436 data/fcitx5-diagnose.sh:1488
 msgid "Failed to find ${1} in immodule cache at ${2}"
 msgstr "${1} の immodule キャッシュに ${2} が見つかりません。"
 
-#: data/fcitx5-diagnose.sh:1339
+#: data/fcitx5-diagnose.sh:1353
 msgid "Failed to find ${1} in the output of ${2}"
 msgstr "${1} の出力に ${2} が見つかりません。"
 
@@ -742,7 +742,7 @@ msgstr "Fcitx 5"
 msgid "Fcitx 5 Configuration"
 msgstr "Fcitx5 設定"
 
-#: data/fcitx5-diagnose.sh:1464
+#: data/fcitx5-diagnose.sh:1532
 msgid "Fcitx Addons:"
 msgstr "Fcitxアドオン:"
 
@@ -781,6 +781,13 @@ msgstr "Find"
 msgid "Font"
 msgstr "フォント"
 
+#: src/ui/classic/classicui.h:109
+msgid ""
+"For example, display character with Chinese variant when using Pinyin and "
+"Japanese variant when using Anthy. The font configuration needs to support "
+"this to use this feature."
+msgstr ""
+
 #: src/lib/fcitx-utils/key.cpp:59
 msgctxt "Key name"
 msgid "Forward"
@@ -798,7 +805,7 @@ msgstr "${1} ${2} プロセスが見つかりました:"
 msgid "Found ${1} ${2} processes:"
 msgstr "${1} ${2} プロセスが見つかりました:"
 
-#: data/fcitx5-diagnose.sh:1484
+#: data/fcitx5-diagnose.sh:1552
 msgid "Found ${1} addon config directory: ${2}."
 msgstr "${1} アドオンの設定ディレクトリを見つけました: ${2}。"
 
@@ -807,19 +814,20 @@ msgstr "${1} アドオンの設定ディレクトリを見つけました: ${2}�
 msgid "Found ${1} at ${2}."
 msgstr "${1} を ${2} で見つけました。"
 
-#: data/fcitx5-diagnose.sh:1529
+#: data/fcitx5-diagnose.sh:1597
 msgid "Found ${1} disabled addons:"
 msgstr "${1} 個の無効なアドオンが見つかりました:"
 
-#: data/fcitx5-diagnose.sh:1524
+#: data/fcitx5-diagnose.sh:1592
 msgid "Found ${1} enabled addons:"
 msgstr "${1} 個の有効なアドオンが見つかりました:"
 
-#: data/fcitx5-diagnose.sh:1566
+#: data/fcitx5-diagnose.sh:1634
 msgid "Found ${1} enabled user interface addons:"
 msgstr "${1} が有効なユーザーインターフェイスアドオンが見つかりました:"
 
-#: data/fcitx5-diagnose.sh:1333 data/fcitx5-diagnose.sh:1416
+#: data/fcitx5-diagnose.sh:1347 data/fcitx5-diagnose.sh:1430
+#: data/fcitx5-diagnose.sh:1482
 msgid "Found ${1} im modules for gtk ${2}."
 msgstr "gtk ${2} 用の ${1} 入力メソッドモジュールが見つかりました。"
 
@@ -827,11 +835,11 @@ msgstr "gtk ${2} 用の ${1} 入力メソッドモジュールが見つかりま
 msgid "Found ${1} kcm module."
 msgstr "${1} kcm モジュールを見つけました。"
 
-#: data/fcitx5-diagnose.sh:1325
+#: data/fcitx5-diagnose.sh:1339
 msgid "Found ${2} for unknown gtk version at ${1}."
 msgstr "未知のバージョンのgtk用の ${2} を ${1} に見つけました。"
 
-#: data/fcitx5-diagnose.sh:1317
+#: data/fcitx5-diagnose.sh:1331
 msgid "Found ${3} for gtk ${1} at ${2}."
 msgstr "gtk ${1} 用の ${3} を ${2} に見つけました。"
 
@@ -839,11 +847,11 @@ msgstr "gtk ${1} 用の ${3} を ${2} に見つけました。"
 msgid "Found ${3} im module for ${2}: ${1}."
 msgstr "${2}の $3{3} im モジュールが見つかりました: ${1}"
 
-#: data/fcitx5-diagnose.sh:1409
+#: data/fcitx5-diagnose.sh:1423
 msgid "Found immodule cache for unknown gtk version at ${1}."
 msgstr "未知の gtk 用の immodules キャッシュを ${1} に見つけました。"
 
-#: data/fcitx5-diagnose.sh:1401
+#: data/fcitx5-diagnose.sh:1415 data/fcitx5-diagnose.sh:1475
 msgid "Found immodules cache for gtk ${1} at ${2}."
 msgstr "gtk ${1} の immodule cache を ${2} に見つけました。"
 
@@ -855,7 +863,7 @@ msgstr "不明な ${1} qt モジュールが見つかりました: ${2}。"
 msgid "Freedesktop.org Notification Support"
 msgstr "Freedesktop.org通知サポート"
 
-#: data/fcitx5-diagnose.sh:1719
+#: data/fcitx5-diagnose.sh:1787
 msgid "Frontends setup:"
 msgstr "フロントエンド設定:"
 
@@ -891,15 +899,15 @@ msgstr "グループ {0}: {1}"
 msgid "Group {}"
 msgstr "グループ {}"
 
-#: data/fcitx5-diagnose.sh:1278
+#: data/fcitx5-diagnose.sh:1292
 msgid "Gtk ${1} immodule file ${2} does not exist."
 msgstr "Gtk ${1} IMモジュールファイル ${2} がありません。"
 
-#: data/fcitx5-diagnose.sh:1446
+#: data/fcitx5-diagnose.sh:1512
 msgid "Gtk IM module cache:"
 msgstr "Gtk IM moduleキャッシュ:"
 
-#: data/fcitx5-diagnose.sh:1451
+#: data/fcitx5-diagnose.sh:1518
 msgid "Gtk IM module files:"
 msgstr "Gtk IM モジュールファイル:"
 
@@ -1134,7 +1142,7 @@ msgctxt "Key name"
 msgid "Insert"
 msgstr "Insert"
 
-#: data/fcitx5-diagnose.sh:1496
+#: data/fcitx5-diagnose.sh:1564
 msgid "Invalid addon config file ${1}."
 msgstr "不正なアドオン設定ファイル ${1} です。"
 
@@ -1198,7 +1206,7 @@ msgctxt "Key name"
 msgid "Keyboard Menu"
 msgstr "キーボードメニュー"
 
-#: data/fcitx5-diagnose.sh:1575
+#: data/fcitx5-diagnose.sh:1643
 msgid "Kimpanel process:"
 msgstr "Kimpanel のプロセス:"
 
@@ -1326,7 +1334,7 @@ msgstr "LightBulb"
 msgid "Locale:"
 msgstr "ロケール:"
 
-#: data/fcitx5-diagnose.sh:1732
+#: data/fcitx5-diagnose.sh:1800
 msgid "Log:"
 msgstr "ログ:"
 
@@ -1507,7 +1515,7 @@ msgstr "次の候補"
 msgid "Next Page Button"
 msgstr "次ページボタン"
 
-#: src/modules/clipboard/clipboard.cpp:312
+#: src/modules/clipboard/clipboard.cpp:313
 msgid "No clipboard history."
 msgstr "クリップボード履歴がありません。"
 
@@ -1706,7 +1714,7 @@ msgstr "Qt IM module ファイル:"
 msgid "Quick Phrase"
 msgstr "クイックフレーズ"
 
-#: src/modules/quickphrase/quickphrase.cpp:390
+#: src/modules/quickphrase/quickphrase.cpp:395
 msgid "Quick Phrase: "
 msgstr "クイックフレーズ:"
 
@@ -1824,11 +1832,11 @@ msgctxt "Key name"
 msgid "Select"
 msgstr "選択"
 
-#: src/modules/imselector/imselector.cpp:263
+#: src/modules/imselector/imselector.cpp:264
 msgid "Select input method:"
 msgstr "入力メソッドを選択:"
 
-#: src/modules/imselector/imselector.cpp:262
+#: src/modules/imselector/imselector.cpp:263
 msgid "Select local input method:"
 msgstr "ローカル入力メソッドを選択:"
 
@@ -2015,7 +2023,7 @@ msgstr "N番目のホットキーでN番目の入力メソッドに切り替え�
 msgid "The script is run as ${1} (${2})."
 msgstr "${1} (${2})としてスクリプトを実行"
 
-#: src/ui/classic/classicui.h:103
+#: src/ui/classic/classicui.h:114
 msgid "Theme"
 msgstr "テーマ"
 
@@ -2133,7 +2141,7 @@ msgstr "Undo"
 msgid "Unicode"
 msgstr "Unicode"
 
-#: src/modules/unicode/unicode.cpp:321
+#: src/modules/unicode/unicode.cpp:322
 msgid "Unicode: "
 msgstr "Unicode:"
 
@@ -2154,11 +2162,15 @@ msgstr "スクリーンごとのDPIを使用する"
 msgid "Use all horizontal space for highlight when it is vertical list"
 msgstr "候補リストが縦の場合は、ハイライト時にすべての水平スペースを使用します"
 
+#: src/ui/classic/classicui.h:105
+msgid "Use input method langauge to display text"
+msgstr ""
+
 #: src/ui/classic/classicui.h:94
 msgid "Use mouse wheel to go to prev or next page"
 msgstr "マウスホイールを使用して前または次のページに移動する"
 
-#: data/fcitx5-diagnose.sh:1562
+#: data/fcitx5-diagnose.sh:1630
 msgid "User Interface:"
 msgstr "ユーザーインターフェイス:"
 
@@ -2170,7 +2182,7 @@ msgstr "DBus をチェックするために ${1} を使用します。"
 msgid "Version"
 msgstr "バージョン"
 
-#: data/fcitx5-diagnose.sh:1322 data/fcitx5-diagnose.sh:1405
+#: data/fcitx5-diagnose.sh:1336 data/fcitx5-diagnose.sh:1419
 msgid "Version Line:"
 msgstr "バージョンライン:"
 

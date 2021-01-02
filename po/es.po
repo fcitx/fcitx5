@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2020-12-19 20:22+0000\n"
+"POT-Creation-Date: 2021-01-02 20:22+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: csslayer <wengxt@gmail.com>, 2017\n"
 "Language-Team: Spanish (https://www.transifex.com/fcitx/teams/12005/es/)\n"
@@ -46,11 +46,11 @@ msgstr ""
 msgid "${1} works properly."
 msgstr ""
 
-#: src/lib/fcitx/instance.cpp:349
+#: src/lib/fcitx/instance.cpp:353
 msgid "(Not available)"
 msgstr ""
 
-#: src/modules/unicode/unicode.cpp:323
+#: src/modules/unicode/unicode.cpp:324
 msgid "(Type to search unicode by code or description)"
 msgstr ""
 
@@ -111,15 +111,15 @@ msgstr ""
 msgid "Add Unicode Typing Support"
 msgstr ""
 
-#: data/fcitx5-diagnose.sh:1465
+#: data/fcitx5-diagnose.sh:1533
 msgid "Addon Config Dir:"
 msgstr ""
 
-#: data/fcitx5-diagnose.sh:1535
+#: data/fcitx5-diagnose.sh:1603
 msgid "Addon Libraries:"
 msgstr ""
 
-#: data/fcitx5-diagnose.sh:1490
+#: data/fcitx5-diagnose.sh:1558
 msgid "Addon List:"
 msgstr ""
 
@@ -128,11 +128,11 @@ msgctxt "Key name"
 msgid "Adjust Brightness"
 msgstr ""
 
-#: data/fcitx5-diagnose.sh:1284
+#: data/fcitx5-diagnose.sh:1298
 msgid "All found Gtk ${1} immodule files exist."
 msgstr ""
 
-#: data/fcitx5-diagnose.sh:1561
+#: data/fcitx5-diagnose.sh:1629
 msgid "All libraries for all addons are found."
 msgstr ""
 
@@ -290,7 +290,7 @@ msgstr ""
 msgid "Cannot determine desktop environment."
 msgstr ""
 
-#: data/fcitx5-diagnose.sh:1481
+#: data/fcitx5-diagnose.sh:1549
 msgid "Cannot find ${1} addon config directory."
 msgstr ""
 
@@ -298,11 +298,11 @@ msgstr ""
 msgid "Cannot find ${1} executable!"
 msgstr ""
 
-#: data/fcitx5-diagnose.sh:1433
+#: data/fcitx5-diagnose.sh:1447 data/fcitx5-diagnose.sh:1499
 msgid "Cannot find ${1} im module for gtk ${2} in cache."
 msgstr ""
 
-#: data/fcitx5-diagnose.sh:1351
+#: data/fcitx5-diagnose.sh:1365
 msgid "Cannot find ${1} im module for gtk ${2}."
 msgstr ""
 
@@ -310,7 +310,7 @@ msgstr ""
 msgid "Cannot find ${1} input method module for ${2}."
 msgstr ""
 
-#: data/fcitx5-diagnose.sh:1345
+#: data/fcitx5-diagnose.sh:1359
 msgid "Cannot find ${2} for gtk ${1}"
 msgstr ""
 
@@ -322,7 +322,7 @@ msgstr ""
 msgid "Cannot find a GUI config tool, please install one of ${1}, or ${2}."
 msgstr ""
 
-#: data/fcitx5-diagnose.sh:1564
+#: data/fcitx5-diagnose.sh:1632
 msgid "Cannot find enabled ${1} user interface!"
 msgstr ""
 
@@ -330,19 +330,19 @@ msgstr ""
 msgid "Cannot find fcitx5 executable!"
 msgstr ""
 
-#: data/fcitx5-diagnose.sh:1543
+#: data/fcitx5-diagnose.sh:1611
 msgid "Cannot find file ${1} of addon ${2}."
 msgstr ""
 
-#: data/fcitx5-diagnose.sh:1553
+#: data/fcitx5-diagnose.sh:1621
 msgid "Cannot find following required libraries for ${1} of addon ${2}."
 msgstr ""
 
-#: data/fcitx5-diagnose.sh:1428
+#: data/fcitx5-diagnose.sh:1442 data/fcitx5-diagnose.sh:1494
 msgid "Cannot find immodules cache for gtk ${1}"
 msgstr ""
 
-#: data/fcitx5-diagnose.sh:1583
+#: data/fcitx5-diagnose.sh:1651
 msgid ""
 "Cannot find kimpanel dbus interface or enabled non-kimpanel user interface."
 msgstr ""
@@ -405,7 +405,7 @@ msgstr ""
 msgid "Clipboard"
 msgstr ""
 
-#: src/modules/clipboard/clipboard.cpp:310
+#: src/modules/clipboard/clipboard.cpp:311
 msgid "Clipboard:"
 msgstr ""
 
@@ -460,7 +460,7 @@ msgstr ""
 msgid "Config Tool Wrapper:"
 msgstr ""
 
-#: data/fcitx5-diagnose.sh:1726
+#: data/fcitx5-diagnose.sh:1794
 #, fuzzy
 msgid "Configuration:"
 msgstr "Configurar"
@@ -534,7 +534,7 @@ msgstr ""
 msgid "Deactivate Input Method"
 msgstr ""
 
-#: src/lib/fcitx/inputmethodmanager.cpp:130 src/lib/fcitx/instance.cpp:652
+#: src/lib/fcitx/inputmethodmanager.cpp:130 src/lib/fcitx/instance.cpp:659
 #: src/ui/classic/themes/default/theme.conf.in:3
 msgid "Default"
 msgstr ""
@@ -708,11 +708,11 @@ msgstr ""
 msgid "Exit"
 msgstr "Salir"
 
-#: data/fcitx5-diagnose.sh:1422
+#: data/fcitx5-diagnose.sh:1436 data/fcitx5-diagnose.sh:1488
 msgid "Failed to find ${1} in immodule cache at ${2}"
 msgstr ""
 
-#: data/fcitx5-diagnose.sh:1339
+#: data/fcitx5-diagnose.sh:1353
 msgid "Failed to find ${1} in the output of ${2}"
 msgstr ""
 
@@ -734,7 +734,7 @@ msgstr ""
 msgid "Fcitx 5 Configuration"
 msgstr ""
 
-#: data/fcitx5-diagnose.sh:1464
+#: data/fcitx5-diagnose.sh:1532
 msgid "Fcitx Addons:"
 msgstr ""
 
@@ -772,6 +772,13 @@ msgstr ""
 msgid "Font"
 msgstr ""
 
+#: src/ui/classic/classicui.h:109
+msgid ""
+"For example, display character with Chinese variant when using Pinyin and "
+"Japanese variant when using Anthy. The font configuration needs to support "
+"this to use this feature."
+msgstr ""
+
 #: src/lib/fcitx-utils/key.cpp:59
 msgctxt "Key name"
 msgid "Forward"
@@ -789,7 +796,7 @@ msgstr ""
 msgid "Found ${1} ${2} processes:"
 msgstr ""
 
-#: data/fcitx5-diagnose.sh:1484
+#: data/fcitx5-diagnose.sh:1552
 msgid "Found ${1} addon config directory: ${2}."
 msgstr ""
 
@@ -798,19 +805,20 @@ msgstr ""
 msgid "Found ${1} at ${2}."
 msgstr ""
 
-#: data/fcitx5-diagnose.sh:1529
+#: data/fcitx5-diagnose.sh:1597
 msgid "Found ${1} disabled addons:"
 msgstr ""
 
-#: data/fcitx5-diagnose.sh:1524
+#: data/fcitx5-diagnose.sh:1592
 msgid "Found ${1} enabled addons:"
 msgstr ""
 
-#: data/fcitx5-diagnose.sh:1566
+#: data/fcitx5-diagnose.sh:1634
 msgid "Found ${1} enabled user interface addons:"
 msgstr ""
 
-#: data/fcitx5-diagnose.sh:1333 data/fcitx5-diagnose.sh:1416
+#: data/fcitx5-diagnose.sh:1347 data/fcitx5-diagnose.sh:1430
+#: data/fcitx5-diagnose.sh:1482
 msgid "Found ${1} im modules for gtk ${2}."
 msgstr ""
 
@@ -818,11 +826,11 @@ msgstr ""
 msgid "Found ${1} kcm module."
 msgstr ""
 
-#: data/fcitx5-diagnose.sh:1325
+#: data/fcitx5-diagnose.sh:1339
 msgid "Found ${2} for unknown gtk version at ${1}."
 msgstr ""
 
-#: data/fcitx5-diagnose.sh:1317
+#: data/fcitx5-diagnose.sh:1331
 msgid "Found ${3} for gtk ${1} at ${2}."
 msgstr ""
 
@@ -830,11 +838,11 @@ msgstr ""
 msgid "Found ${3} im module for ${2}: ${1}."
 msgstr ""
 
-#: data/fcitx5-diagnose.sh:1409
+#: data/fcitx5-diagnose.sh:1423
 msgid "Found immodule cache for unknown gtk version at ${1}."
 msgstr ""
 
-#: data/fcitx5-diagnose.sh:1401
+#: data/fcitx5-diagnose.sh:1415 data/fcitx5-diagnose.sh:1475
 msgid "Found immodules cache for gtk ${1} at ${2}."
 msgstr ""
 
@@ -846,7 +854,7 @@ msgstr ""
 msgid "Freedesktop.org Notification Support"
 msgstr ""
 
-#: data/fcitx5-diagnose.sh:1719
+#: data/fcitx5-diagnose.sh:1787
 msgid "Frontends setup:"
 msgstr ""
 
@@ -874,23 +882,23 @@ msgstr ""
 msgid "Group"
 msgstr ""
 
-#: src/lib/fcitx/instance.cpp:353
+#: src/lib/fcitx/instance.cpp:357
 msgid "Group {0}: {1}"
 msgstr ""
 
-#: src/lib/fcitx/instance.cpp:654
+#: src/lib/fcitx/instance.cpp:661
 msgid "Group {}"
 msgstr ""
 
-#: data/fcitx5-diagnose.sh:1278
+#: data/fcitx5-diagnose.sh:1292
 msgid "Gtk ${1} immodule file ${2} does not exist."
 msgstr ""
 
-#: data/fcitx5-diagnose.sh:1446
+#: data/fcitx5-diagnose.sh:1512
 msgid "Gtk IM module cache:"
 msgstr ""
 
-#: data/fcitx5-diagnose.sh:1451
+#: data/fcitx5-diagnose.sh:1518
 msgid "Gtk IM module files:"
 msgstr ""
 
@@ -1081,7 +1089,7 @@ msgid "Image"
 msgstr ""
 
 #: src/im/keyboard/keyboard.cpp:501 src/ui/classic/xcbtraywindow.cpp:38
-#: src/lib/fcitx/instance.cpp:723 src/lib/fcitx/instance.cpp:893
+#: src/lib/fcitx/instance.cpp:730 src/lib/fcitx/instance.cpp:900
 #: src/modules/notificationitem/dbusmenu.cpp:241
 #: src/modules/notificationitem/notificationitem.cpp:128
 #: src/modules/xcb/xcbconnection.cpp:388 data/org.fcitx.Fcitx5.desktop.in.in:4
@@ -1116,7 +1124,7 @@ msgctxt "Key name"
 msgid "Insert"
 msgstr ""
 
-#: data/fcitx5-diagnose.sh:1496
+#: data/fcitx5-diagnose.sh:1564
 msgid "Invalid addon config file ${1}."
 msgstr ""
 
@@ -1180,7 +1188,7 @@ msgctxt "Key name"
 msgid "Keyboard Menu"
 msgstr ""
 
-#: data/fcitx5-diagnose.sh:1575
+#: data/fcitx5-diagnose.sh:1643
 msgid "Kimpanel process:"
 msgstr ""
 
@@ -1308,7 +1316,7 @@ msgstr ""
 msgid "Locale:"
 msgstr ""
 
-#: data/fcitx5-diagnose.sh:1732
+#: data/fcitx5-diagnose.sh:1800
 msgid "Log:"
 msgstr ""
 
@@ -1489,7 +1497,7 @@ msgstr ""
 msgid "Next Page Button"
 msgstr ""
 
-#: src/modules/clipboard/clipboard.cpp:312
+#: src/modules/clipboard/clipboard.cpp:313
 msgid "No clipboard history."
 msgstr ""
 
@@ -1635,15 +1643,15 @@ msgctxt "Key name"
 msgid "Power Off"
 msgstr ""
 
-#: src/lib/fcitx/instance.cpp:893
+#: src/lib/fcitx/instance.cpp:900
 msgid "Preedit"
 msgstr ""
 
-#: src/lib/fcitx/instance.cpp:895
+#: src/lib/fcitx/instance.cpp:902
 msgid "Preedit disabled"
 msgstr ""
 
-#: src/lib/fcitx/instance.cpp:894
+#: src/lib/fcitx/instance.cpp:901
 msgid "Preedit enabled"
 msgstr ""
 
@@ -1681,7 +1689,7 @@ msgstr ""
 msgid "Quick Phrase"
 msgstr ""
 
-#: src/modules/quickphrase/quickphrase.cpp:390
+#: src/modules/quickphrase/quickphrase.cpp:395
 msgid "Quick Phrase: "
 msgstr ""
 
@@ -1799,11 +1807,11 @@ msgctxt "Key name"
 msgid "Select"
 msgstr ""
 
-#: src/modules/imselector/imselector.cpp:263
+#: src/modules/imselector/imselector.cpp:264
 msgid "Select input method:"
 msgstr ""
 
-#: src/modules/imselector/imselector.cpp:262
+#: src/modules/imselector/imselector.cpp:263
 msgid "Select local input method:"
 msgstr ""
 
@@ -1941,7 +1949,7 @@ msgctxt "Key name"
 msgid "Suspend"
 msgstr ""
 
-#: src/lib/fcitx/instance.cpp:724 src/modules/xcb/xcbconnection.cpp:389
+#: src/lib/fcitx/instance.cpp:731 src/modules/xcb/xcbconnection.cpp:389
 msgid "Switch group"
 msgstr ""
 
@@ -1949,7 +1957,7 @@ msgstr ""
 msgid "Switch group to {0}"
 msgstr ""
 
-#: src/lib/fcitx/instance.cpp:725
+#: src/lib/fcitx/instance.cpp:732
 msgid "Switched group to {0}"
 msgstr ""
 
@@ -1990,7 +1998,7 @@ msgstr ""
 msgid "The script is run as ${1} (${2})."
 msgstr ""
 
-#: src/ui/classic/classicui.h:103
+#: src/ui/classic/classicui.h:114
 msgid "Theme"
 msgstr ""
 
@@ -2105,7 +2113,7 @@ msgstr ""
 msgid "Unicode"
 msgstr ""
 
-#: src/modules/unicode/unicode.cpp:321
+#: src/modules/unicode/unicode.cpp:322
 msgid "Unicode: "
 msgstr ""
 
@@ -2126,11 +2134,15 @@ msgstr ""
 msgid "Use all horizontal space for highlight when it is vertical list"
 msgstr ""
 
+#: src/ui/classic/classicui.h:105
+msgid "Use input method langauge to display text"
+msgstr ""
+
 #: src/ui/classic/classicui.h:94
 msgid "Use mouse wheel to go to prev or next page"
 msgstr ""
 
-#: data/fcitx5-diagnose.sh:1562
+#: data/fcitx5-diagnose.sh:1630
 msgid "User Interface:"
 msgstr ""
 
@@ -2142,7 +2154,7 @@ msgstr ""
 msgid "Version"
 msgstr ""
 
-#: data/fcitx5-diagnose.sh:1322 data/fcitx5-diagnose.sh:1405
+#: data/fcitx5-diagnose.sh:1336 data/fcitx5-diagnose.sh:1419
 msgid "Version Line:"
 msgstr ""
 
@@ -2356,10 +2368,10 @@ msgstr ""
 msgid "{0} (Not Available)"
 msgstr ""
 
-#: src/lib/fcitx/instance.cpp:347
+#: src/lib/fcitx/instance.cpp:351
 msgid "{0} (Not available)"
 msgstr ""
 
-#: src/lib/fcitx/instance.cpp:344
+#: src/lib/fcitx/instance.cpp:348
 msgid "{0} ({1})"
 msgstr ""
