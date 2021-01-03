@@ -5,16 +5,16 @@
 # Translators:
 # csslayer <wengxt@gmail.com>, 2017
 # ABE Tsunehiko, 2017
-# UTUMI Hirosi <utuhiro78@yahoo.co.jp>, 2020
 # Takuro Onoue <kusanaginoturugi@gmail.com>, 2020
+# UTUMI Hirosi <utuhiro78@yahoo.co.jp>, 2021
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2021-01-02 20:24+0000\n"
+"POT-Creation-Date: 2021-01-03 20:24+0000\n"
 "PO-Revision-Date: 2017-11-23 04:14+0000\n"
-"Last-Translator: Takuro Onoue <kusanaginoturugi@gmail.com>, 2020\n"
+"Last-Translator: UTUMI Hirosi <utuhiro78@yahoo.co.jp>, 2021\n"
 "Language-Team: Japanese (https://www.transifex.com/fcitx/teams/12005/ja/)\n"
 "Language: ja\n"
 "MIME-Version: 1.0\n"
@@ -787,6 +787,9 @@ msgid ""
 "Japanese variant when using Anthy. The font configuration needs to support "
 "this to use this feature."
 msgstr ""
+"例えば Pinyin を使用している場合は中国語の書体で文字を表示し、Anthy を使用し"
+"ている場合は日本語の書体で文字を表示します。この機能を使用するには多言語フォ"
+"ントを指定する必要があります。"
 
 #: src/lib/fcitx-utils/key.cpp:59
 msgctxt "Key name"
@@ -2164,7 +2167,7 @@ msgstr "候補リストが縦の場合は、ハイライト時にすべての水
 
 #: src/ui/classic/classicui.h:105
 msgid "Use input method langauge to display text"
-msgstr ""
+msgstr "テキストを表示する際に入力メソッドの言語を使用する"
 
 #: src/ui/classic/classicui.h:94
 msgid "Use mouse wheel to go to prev or next page"
