@@ -1,19 +1,18 @@
 /*
- * SPDX-FileCopyrightText: 2020~2020 CSSlayer <wengxt@gmail.com>
+ * SPDX-FileCopyrightText: 2021~2021 CSSlayer <wengxt@gmail.com>
  * SPDX-FileCopyrightText: 2020~2020 Carson Black <uhhadd@gmail.com>
  *
  * SPDX-License-Identifier: LGPL-2.1-or-later
  *
  */
-#ifndef _FCITX5_IM_KEYBOARD_LONGPRESSDATA_H_
-#define _FCITX5_IM_KEYBOARD_LONGPRESSDATA_H_
+#include "longpress.h"
 
-#include <string>
-#include <unordered_map>
-#include <vector>
+namespace fcitx {
 
-const auto &getLongPressData() {
-    static const std::unordered_map<std::string, std::vector<std::string>>
+// The data is too complex to use default construction, so we use
+// syncDefaultValueToCurrent instead.
+void setupDefaultLongPressConfig(LongPressConfig &config) {
+    static const std::list<std::pair<std::string, std::vector<std::string>>>
         data = {
             //
             // Latin
@@ -108,8 +107,28 @@ const auto &getLongPressData() {
             //
             {"$", {"¢", "€", "£", "¥", "₹", "₽", "₺", "₩", "₱", "₿"}},
         };
-
-    return data;
+    {
+        auto value = config.entries.mutableValue();
+        for (const auto &[key, candidates] : data) {
+            LongPressEntryConfig entry;
+            entry.key.setValue(key);
+            entry.candidates.setValue(candidates);
+            value->emplace_back(std::move(entry));
+        }
+    }
+    config.syncDefaultValueToCurrent();
 }
 
-#endif // _FCITX5_IM_KEYBOARD_LONGPRESSDATA_H_
+std::unordered_map<std::string, std::vector<std::string>>
+longPressData(const LongPressConfig &config) {
+    std::unordered_map<std::string, std::vector<std::string>> result;
+    for (const auto &entry : *config.entries) {
+        if (!*entry.enable || entry.candidates->empty()) {
+            continue;
+        }
+        result[*entry.key] = *entry.candidates;
+    }
+    return result;
+}
+
+} // namespace fcitx

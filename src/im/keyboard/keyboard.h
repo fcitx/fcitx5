@@ -21,6 +21,7 @@
 #include "fcitx/instance.h"
 #include "isocodes.h"
 #include "keyboard_public.h"
+#include "longpress.h"
 #include "quickphrase_public.h"
 #include "xkbrules.h"
 
@@ -67,7 +68,9 @@ FCITX_CONFIGURATION(
         this,
         "LongPressBlocklist",
         _("Applications disabled for long press"),
-        {"konsole"}};);
+        {"konsole"}};
+    SubConfigOption longPress{this, "LongPress", _("Long Press behavior"),
+                              "fcitx://config/addon/keyboard/longpress"};);
 
 class KeyboardEngine;
 
@@ -105,6 +108,10 @@ public:
         safeSaveAsIni(config_, "conf/keyboard.conf");
         reloadConfig();
     }
+
+    const Configuration *getSubConfig(const std::string &path) const override;
+
+    void setSubConfig(const std::string &, const fcitx::RawConfig &) override;
 
     void reset(const InputMethodEntry &entry,
                InputContextEvent &event) override;
@@ -154,6 +161,8 @@ private:
     AddonInstance *spell_ = nullptr;
     AddonInstance *notifications_ = nullptr;
     KeyboardEngineConfig config_;
+    LongPressConfig longPressConfig_;
+    std::unordered_map<std::string, std::vector<std::string>> longPressData_;
     IsoCodes isoCodes_;
     XkbRules xkbRules_;
     std::string ruleName_;
@@ -167,7 +176,6 @@ private:
 
     std::unordered_set<std::string> longPressBlocklistSet_;
 
-public:
     std::unique_ptr<EventSourceTime> cancelLastEvent_;
 };
 

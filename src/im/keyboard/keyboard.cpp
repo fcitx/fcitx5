@@ -25,7 +25,7 @@
 #include "fcitx/instance.h"
 #include "chardata.h"
 #include "config.h"
-#include "longpressdata.h"
+#include "longpress.h"
 #include "notifications_public.h"
 #include "quickphrase_public.h"
 #include "spell_public.h"
@@ -200,6 +200,7 @@ private:
 } // namespace
 
 KeyboardEngine::KeyboardEngine(Instance *instance) : instance_(instance) {
+    setupDefaultLongPressConfig(longPressConfig_);
     registerDomain("xkeyboard-config", XKEYBOARDCONFIG_DATADIR "/locale");
     isoCodes_.read(ISOCODES_ISO639_JSON, ISOCODES_ISO3166_JSON);
     std::string rule;
@@ -355,6 +356,9 @@ void KeyboardEngine::reloadConfig() {
     longPressBlocklistSet_ = decltype(longPressBlocklistSet_)(
         config_.blocklistApplicationForLongPress->begin(),
         config_.blocklistApplicationForLongPress->end());
+
+    readAsIni(longPressConfig_, "conf/keyboard-longpress.conf");
+    longPressData_ = longPressData(longPressConfig_);
 }
 
 static inline bool isValidSym(const Key &key) {
@@ -432,13 +436,12 @@ void KeyboardEngine::keyEvent(const InputMethodEntry &entry, KeyEvent &event) {
     }
 
     auto &buffer = state->buffer_;
-    const auto &data = getLongPressData();
     auto keystr = Key::keySymToUTF8(event.key().sym());
     if (!event.key().states() &&
         event.rawKey().states().test(KeyState::Repeat) &&
         *config_.enableLongPress &&
         !longPressBlocklistSet_.count(inputContext->program())) {
-        if (auto results = findValue(data, keystr)) {
+        if (auto results = findValue(longPressData_, keystr)) {
             if (state->repeatStarted_) {
                 return event.filterAndAccept();
             }
@@ -754,3 +757,21 @@ void KeyboardEngine::initQuickPhrase() {
 }
 
 } // namespace fcitx
+
+const fcitx::Configuration *
+fcitx::KeyboardEngine::getSubConfig(const std::string &path) const {
+    if (path == "longpress") {
+        return &longPressConfig_;
+    }
+    return nullptr;
+}
+
+void fcitx::KeyboardEngine::setSubConfig(const std::string &path,
+                                         const fcitx::RawConfig &config) {
+
+    if (path == "longpress") {
+        longPressConfig_.load(config, true);
+        safeSaveAsIni(longPressConfig_, "conf/keyboard-longpress.conf");
+        reloadConfig();
+    }
+}
