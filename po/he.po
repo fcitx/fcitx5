@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2021-01-02 20:24+0000\n"
+"POT-Creation-Date: 2021-01-04 20:24+0000\n"
 "PO-Revision-Date: 2017-11-23 04:14+0000\n"
 "Last-Translator: Omer I.S. <omeritzicschwartz@gmail.com>, 2020\n"
 "Language-Team: Hebrew (https://www.transifex.com/fcitx/teams/12005/he/)\n"
@@ -146,7 +146,7 @@ msgstr ""
 msgid "Allow Overriding System XKB Settings"
 msgstr ""
 
-#: src/im/keyboard/keyboard.h:32 src/modules/quickphrase/quickphrase.h:29
+#: src/im/keyboard/keyboard.h:33 src/modules/quickphrase/quickphrase.h:29
 msgid "Alt"
 msgstr ""
 
@@ -165,7 +165,7 @@ msgctxt "Key name"
 msgid "Application Right"
 msgstr ""
 
-#: src/im/keyboard/keyboard.h:69
+#: src/im/keyboard/keyboard.h:70
 msgid "Applications disabled for long press"
 msgstr ""
 
@@ -284,6 +284,10 @@ msgctxt "Key name"
 msgid "Cancel"
 msgstr "ביטול"
 
+#: src/im/keyboard/longpress.h:19
+msgid "Candidates"
+msgstr ""
+
 #: data/fcitx5-diagnose.sh:927
 msgid "Cannot connect to ${1} correctly."
 msgstr ""
@@ -386,7 +390,7 @@ msgstr ""
 msgid "Check box"
 msgstr ""
 
-#: src/im/keyboard/keyboard.h:56 src/modules/quickphrase/quickphrase.h:41
+#: src/im/keyboard/keyboard.h:57 src/modules/quickphrase/quickphrase.h:41
 msgid "Choose key modifier"
 msgstr ""
 
@@ -426,15 +430,15 @@ msgctxt "Key name"
 msgid "Community"
 msgstr ""
 
-#: src/im/keyboard/keyboard.cpp:502
+#: src/im/keyboard/keyboard.cpp:505
 msgid "Completion"
 msgstr ""
 
-#: src/im/keyboard/keyboard.cpp:505
+#: src/im/keyboard/keyboard.cpp:508
 msgid "Completion is disabled."
 msgstr ""
 
-#: src/im/keyboard/keyboard.cpp:504
+#: src/im/keyboard/keyboard.cpp:507
 msgid "Completion is enabled."
 msgstr ""
 
@@ -471,7 +475,7 @@ msgstr ""
 msgid "Configure"
 msgstr "הגדרה"
 
-#: src/im/keyboard/keyboard.h:33 src/modules/quickphrase/quickphrase.h:29
+#: src/im/keyboard/keyboard.h:34 src/modules/quickphrase/quickphrase.h:29
 msgid "Control"
 msgstr ""
 
@@ -623,6 +627,10 @@ msgstr ""
 msgid "Emoji"
 msgstr ""
 
+#: src/im/keyboard/longpress.h:17
+msgid "Enable"
+msgstr ""
+
 #: src/ui/classic/theme.h:81
 msgid "Enable Blur on KWin"
 msgstr ""
@@ -631,11 +639,11 @@ msgstr ""
 msgid "Enable Spell check"
 msgstr ""
 
-#: src/im/keyboard/keyboard.h:51
+#: src/im/keyboard/keyboard.h:52
 msgid "Enable emoji in hint"
 msgstr ""
 
-#: src/im/keyboard/keyboard.h:54
+#: src/im/keyboard/keyboard.h:55
 msgid "Enable emoji in quickphrase"
 msgstr ""
 
@@ -646,6 +654,10 @@ msgstr ""
 #: src/lib/fcitx-utils/key.cpp:46
 msgctxt "Key name"
 msgid "End"
+msgstr ""
+
+#: src/im/keyboard/longpress.h:26
+msgid "Entries"
 msgstr ""
 
 #: src/lib/fcitx/globalconfig.cpp:47
@@ -1088,7 +1100,7 @@ msgstr ""
 msgid "Image"
 msgstr ""
 
-#: src/im/keyboard/keyboard.cpp:501 src/ui/classic/xcbtraywindow.cpp:38
+#: src/im/keyboard/keyboard.cpp:504 src/ui/classic/xcbtraywindow.cpp:38
 #: src/lib/fcitx/instance.cpp:730 src/lib/fcitx/instance.cpp:900
 #: src/modules/notificationitem/dbusmenu.cpp:241
 #: src/modules/notificationitem/notificationitem.cpp:128
@@ -1152,15 +1164,19 @@ msgctxt "Key name"
 msgid "Katakana"
 msgstr ""
 
-#: src/im/keyboard/keyboard.cpp:321 src/im/keyboard/keyboard.conf.in:3
+#: src/im/keyboard/longpress.h:16
+msgid "Key"
+msgstr ""
+
+#: src/im/keyboard/keyboard.cpp:322 src/im/keyboard/keyboard.conf.in:3
 msgid "Keyboard"
 msgstr ""
 
-#: src/im/keyboard/keyboard.cpp:247
+#: src/im/keyboard/keyboard.cpp:248
 msgid "Keyboard - {0}"
 msgstr ""
 
-#: src/im/keyboard/keyboard.cpp:266
+#: src/im/keyboard/keyboard.cpp:267
 msgid "Keyboard - {0} - {1}"
 msgstr ""
 
@@ -1323,6 +1339,10 @@ msgstr ""
 #: src/lib/fcitx-utils/key.cpp:133
 msgctxt "Key name"
 msgid "Logoff"
+msgstr ""
+
+#: src/im/keyboard/keyboard.h:72
+msgid "Long Press behavior"
 msgstr ""
 
 #: src/lib/fcitx-utils/key.cpp:166
@@ -1489,7 +1509,7 @@ msgctxt "Key name"
 msgid "News"
 msgstr ""
 
-#: src/im/keyboard/keyboard.h:48
+#: src/im/keyboard/keyboard.h:49
 msgid "Next Candidate"
 msgstr ""
 
@@ -1501,7 +1521,7 @@ msgstr ""
 msgid "No clipboard history."
 msgstr ""
 
-#: src/im/keyboard/keyboard.h:32 src/modules/quickphrase/quickphrase.h:28
+#: src/im/keyboard/keyboard.h:33 src/modules/quickphrase/quickphrase.h:28
 msgid "None"
 msgstr ""
 
@@ -1530,7 +1550,7 @@ msgstr ""
 msgid "Number of entries"
 msgstr ""
 
-#: src/im/keyboard/keyboard.cpp:496
+#: src/im/keyboard/keyboard.cpp:499
 msgid ""
 "Only emoji support is found. To enable spell checking, you may need to "
 "install spell check data for the language."
@@ -1579,7 +1599,7 @@ msgstr ""
 msgid "PID of DBus name ${1} owner is ${2}."
 msgstr ""
 
-#: src/im/keyboard/keyboard.h:37
+#: src/im/keyboard/keyboard.h:38
 msgid "Page size"
 msgstr ""
 
@@ -1659,7 +1679,7 @@ msgstr ""
 msgid "Presage"
 msgstr ""
 
-#: src/im/keyboard/keyboard.h:42
+#: src/im/keyboard/keyboard.h:43
 msgid "Prev Candidate"
 msgstr ""
 
@@ -1930,7 +1950,7 @@ msgctxt "Key name"
 msgid "Subtitle"
 msgstr ""
 
-#: src/im/keyboard/keyboard.h:33 src/modules/quickphrase/quickphrase.h:29
+#: src/im/keyboard/keyboard.h:34 src/modules/quickphrase/quickphrase.h:29
 msgid "Super"
 msgstr ""
 
@@ -2088,11 +2108,11 @@ msgstr ""
 msgid "Trigger Key for only current input context"
 msgstr ""
 
-#: src/im/keyboard/keyboard.h:60
+#: src/im/keyboard/keyboard.h:61
 msgid "Trigger hint mode"
 msgstr ""
 
-#: src/im/keyboard/keyboard.h:64
+#: src/im/keyboard/keyboard.h:65
 msgid "Type special characters with long press"
 msgstr ""
 
@@ -2364,7 +2384,7 @@ msgstr ""
 msgid "version:"
 msgstr ""
 
-#: src/im/keyboard/keyboard.cpp:298
+#: src/im/keyboard/keyboard.cpp:299
 msgid "{0} (Not Available)"
 msgstr ""
 
