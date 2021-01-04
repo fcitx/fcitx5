@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2020-2020 Vifly <viflythink@gmail.com>
+ * SPDX-FileCopyrightText: 2020-2021 Vifly <viflythink@gmail.com>
  *
  * SPDX-License-Identifier: LGPL-2.1-or-later
  *
@@ -20,6 +20,7 @@
 
 #define FCITX_INPUTMETHOD_DBUS_INTERFACE "org.fcitx.Fcitx.InputMethod"
 #define FCITX_INPUTCONTEXT_DBUS_INTERFACE "org.fcitx.Fcitx.InputContext"
+#define FCITX_DBUS_SERVICE "org.fcitx.Fcitx"
 
 namespace fcitx {
 
@@ -282,6 +283,15 @@ Fcitx4FrontendModule::Fcitx4FrontendModule(Instance *instance)
           this, bus(), "/org/freedesktop/portal/inputmethod")),
       Fcitx4InputMethodCompatible_(std::make_unique<Fcitx4InputMethod>(
           this, portalBus_.get(), "/inputmethod")) {
+    Flags<dbus::RequestNameFlag> requestFlag =
+        dbus::RequestNameFlag::AllowReplacement;
+    this->bus()->requestName(FCITX_DBUS_SERVICE, requestFlag);
+    // getenv("DISPLAY") output is like ":0", so + 1 to remove ":"
+    auto *display = getenv("DISPLAY") + 1;
+    const std::string dbusServiceName =
+        std::string(FCITX_DBUS_SERVICE) + "-" + display;
+    this->bus()->requestName(dbusServiceName, requestFlag);
+
     event_ = instance_->watchEvent(
         EventType::InputContextInputMethodActivated, EventWatcherPhase::Default,
         [this](Event &event) {
