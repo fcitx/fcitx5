@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2021-01-04 20:24+0000\n"
+"POT-Creation-Date: 2021-01-05 20:24+0000\n"
 "PO-Revision-Date: 2017-11-23 04:14+0000\n"
 "Last-Translator: UTUMI Hirosi <utuhiro78@yahoo.co.jp>, 2021\n"
 "Language-Team: Japanese (https://www.transifex.com/fcitx/teams/12005/ja/)\n"
@@ -233,7 +233,7 @@ msgstr "ビギナーズガイド"
 
 #: src/lib/fcitx/globalconfig.cpp:160
 msgid "Behavior"
-msgstr "挙動"
+msgstr "動作"
 
 #: src/lib/fcitx-utils/key.cpp:187
 msgctxt "Key name"
@@ -288,7 +288,7 @@ msgstr "キャンセル"
 
 #: src/im/keyboard/longpress.h:19
 msgid "Candidates"
-msgstr ""
+msgstr "候補"
 
 #: data/fcitx5-diagnose.sh:927
 msgid "Cannot connect to ${1} correctly."
@@ -634,7 +634,7 @@ msgstr "絵文字"
 
 #: src/im/keyboard/longpress.h:17
 msgid "Enable"
-msgstr ""
+msgstr "有効"
 
 #: src/ui/classic/theme.h:81
 msgid "Enable Blur on KWin"
@@ -663,7 +663,7 @@ msgstr "End"
 
 #: src/im/keyboard/longpress.h:26
 msgid "Entries"
-msgstr ""
+msgstr "エントリー"
 
 #: src/lib/fcitx/globalconfig.cpp:47
 msgid "Enumerate Input Method Backward"
@@ -1187,7 +1187,7 @@ msgstr "カタカナ"
 
 #: src/im/keyboard/longpress.h:16
 msgid "Key"
-msgstr ""
+msgstr "キー"
 
 #: src/im/keyboard/keyboard.cpp:322 src/im/keyboard/keyboard.conf.in:3
 msgid "Keyboard"
@@ -1364,7 +1364,7 @@ msgstr "ログオフ"
 
 #: src/im/keyboard/keyboard.h:72
 msgid "Long Press behavior"
-msgstr ""
+msgstr "長押し時の動作"
 
 #: src/lib/fcitx-utils/key.cpp:166
 msgctxt "Key name"
