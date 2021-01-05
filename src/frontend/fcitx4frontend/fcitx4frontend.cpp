@@ -69,15 +69,15 @@ public:
                       Fcitx4InputMethod *im, const std::string &sender,
                       const std::string &program)
         : InputContext(icManager, program),
-          path_("/org/freedesktop/portal/inputcontext/" + std::to_string(id)),
-          im_(im), handler_(im_->serviceWatcher().watchService(
-                       sender,
-                       [this](const std::string &, const std::string &,
-                              const std::string &newName) {
-                           if (newName.empty()) {
-                               delete this;
-                           }
-                       })),
+          path_("/inputcontext_" + std::to_string(id)), im_(im),
+          handler_(im_->serviceWatcher().watchService(
+              sender,
+              [this](const std::string &, const std::string &,
+                     const std::string &newName) {
+                  if (newName.empty()) {
+                      delete this;
+                  }
+              })),
           name_(sender) {
         processKeyEventMethod.setClosureFunction(
             [this](dbus::Message message, const dbus::ObjectMethod &method) {
@@ -279,8 +279,8 @@ Fcitx4InputMethod::createICv3(const std::string &appname, int pid) {
 Fcitx4FrontendModule::Fcitx4FrontendModule(Instance *instance)
     : instance_(instance),
       portalBus_(std::make_unique<dbus::Bus>(dbus::BusType::Session)),
-      Fcitx4InputMethod_(std::make_unique<Fcitx4InputMethod>(
-          this, bus(), "/org/freedesktop/portal/inputmethod")),
+      Fcitx4InputMethod_(
+          std::make_unique<Fcitx4InputMethod>(this, bus(), "/inputmethod")),
       Fcitx4InputMethodCompatible_(std::make_unique<Fcitx4InputMethod>(
           this, portalBus_.get(), "/inputmethod")) {
     Flags<dbus::RequestNameFlag> requestFlag =
