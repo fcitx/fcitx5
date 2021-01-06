@@ -74,7 +74,35 @@ public:
     InputMethodEngine *inputMethodEngine(InputContext *ic);
     InputMethodEngine *inputMethodEngine(const std::string &name);
 
-    uint32_t processCompose(InputContext *ic, KeySym keysym);
+    /**
+     * Handle current XCompose state.
+     *
+     * @param ic input context.
+     * @param keysym key symbol.
+     *
+     * @return unicode
+     *
+     * @see processComposeString
+     */
+    FCITXCORE_DEPRECATED uint32_t processCompose(InputContext *ic,
+                                                 KeySym keysym);
+
+    /**
+     * Handle current XCompose state.
+     *
+     * @param ic input context.
+     * @param keysym key symbol.
+     *
+     * @return the composed string, if it returns nullopt, it means compose is
+     * invalid.
+     *
+     * @see processComposeString
+     * @since 5.0.4
+     */
+    std::optional<std::string> processComposeString(InputContext *ic,
+                                                    KeySym keysym);
+
+    /// Reset the compose state.
     void resetCompose(InputContext *inputContext);
 
     std::string commitFilter(InputContext *inputContext,

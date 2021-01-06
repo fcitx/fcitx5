@@ -1579,6 +1579,53 @@ uint32_t Instance::processCompose(InputContext *ic, KeySym keysym) {
     return FCITX_INVALID_COMPOSE_RESULT;
 }
 
+std::optional<std::string> Instance::processComposeString(InputContext *ic,
+                                                          KeySym keysym) {
+    FCITX_D();
+    auto *state = ic->propertyFor(&d->inputStateFactory_);
+
+    auto *xkbComposeState = state->xkbComposeState();
+    if (!xkbComposeState) {
+        return std::string();
+    }
+
+    auto keyval = static_cast<xkb_keysym_t>(keysym);
+
+    enum xkb_compose_feed_result result =
+        xkb_compose_state_feed(xkbComposeState, keyval);
+    if (result == XKB_COMPOSE_FEED_IGNORED) {
+        return std::string();
+    }
+
+    enum xkb_compose_status status =
+        xkb_compose_state_get_status(xkbComposeState);
+    if (status == XKB_COMPOSE_NOTHING) {
+        return std::string();
+    }
+    if (status == XKB_COMPOSE_COMPOSED) {
+        // This may not be NUL-terminiated.
+        std::array<char, 256> buffer;
+        auto length = xkb_compose_state_get_utf8(xkbComposeState, buffer.data(),
+                                                 buffer.size());
+        xkb_compose_state_reset(xkbComposeState);
+        if (length == 0) {
+            return std::nullopt;
+        }
+
+        const auto bufferBegin = buffer.begin();
+        const auto bufferEnd = std::next(bufferBegin, length);
+        if (utf8::validate(bufferBegin, bufferEnd)) {
+            return std::string(bufferBegin, bufferEnd);
+        }
+        return std::nullopt;
+    }
+    if (status == XKB_COMPOSE_CANCELLED) {
+        xkb_compose_state_reset(xkbComposeState);
+    }
+
+    return std::nullopt;
+}
+
 void Instance::resetCompose(InputContext *inputContext) {
     FCITX_D();
     auto *state = inputContext->propertyFor(&d->inputStateFactory_);

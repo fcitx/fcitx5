@@ -369,12 +369,15 @@ static inline bool isValidSym(const Key &key) {
     return validSyms.count(key.sym());
 }
 
-static inline bool isValidCharacter(uint32_t c) {
-    if (c == 0 || c == FCITX_INVALID_COMPOSE_RESULT) {
+static inline bool isValidCharacter(const std::string &c) {
+    if (c.empty()) {
         return false;
     }
 
-    return validChars.count(c);
+    uint32_t code;
+    auto iter = utf8::getNextChar(c.begin(), c.end(), &code);
+
+    return iter == c.end() && validChars.count(code);
 }
 
 static KeyList FCITX_HYPHEN_APOS = Key::keyListFromString("minus apostrophe");
@@ -478,12 +481,15 @@ void KeyboardEngine::keyEvent(const InputMethodEntry &entry, KeyEvent &event) {
     }
 
     // check compose first.
-    auto compose = instance_->processCompose(inputContext, event.key().sym());
+    auto composeResult =
+        instance_->processComposeString(inputContext, event.key().sym());
 
     // compose is invalid, ignore it.
-    if (compose == FCITX_INVALID_COMPOSE_RESULT) {
+    if (!composeResult) {
         return event.filterAndAccept();
     }
+
+    auto compose = *composeResult;
 
     // check the spell trigger key
     if (event.key().checkKeyList(config_.hintTrigger.value()) &&
@@ -543,9 +549,9 @@ void KeyboardEngine::keyEvent(const InputMethodEntry &entry, KeyEvent &event) {
         if (validCharacter || event.key().isLAZ() || event.key().isUAZ() ||
             validSym ||
             (!buffer.empty() && event.key().checkKeyList(FCITX_HYPHEN_APOS))) {
-            uint32_t chr =
-                compose ? compose : Key::keySymToUnicode(event.key().sym());
-            if (updateBuffer(inputContext, utf8::UCS4ToUTF8(chr))) {
+            auto text = !compose.empty() ? compose
+                                         : Key::keySymToUTF8(event.key().sym());
+            if (updateBuffer(inputContext, text)) {
                 return event.filterAndAccept();
             }
         }
@@ -559,10 +565,9 @@ void KeyboardEngine::keyEvent(const InputMethodEntry &entry, KeyEvent &event) {
     // if we reach here, just commit and discard buffer.
     commitBuffer(inputContext);
     // and now we want to forward key.
-    if (compose) {
-        auto composeString = utf8::UCS4ToUTF8(compose);
+    if (!compose.empty()) {
         event.filterAndAccept();
-        inputContext->commitString(composeString);
+        inputContext->commitString(compose);
     }
 }
 
