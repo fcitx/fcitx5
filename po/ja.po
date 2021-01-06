@@ -5,16 +5,16 @@
 # Translators:
 # csslayer <wengxt@gmail.com>, 2017
 # ABE Tsunehiko, 2017
-# Takuro Onoue <kusanaginoturugi@gmail.com>, 2020
 # UTUMI Hirosi <utuhiro78@yahoo.co.jp>, 2021
+# Takuro Onoue <kusanaginoturugi@gmail.com>, 2021
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2021-01-05 20:24+0000\n"
+"POT-Creation-Date: 2021-01-06 20:24+0000\n"
 "PO-Revision-Date: 2017-11-23 04:14+0000\n"
-"Last-Translator: UTUMI Hirosi <utuhiro78@yahoo.co.jp>, 2021\n"
+"Last-Translator: Takuro Onoue <kusanaginoturugi@gmail.com>, 2021\n"
 "Language-Team: Japanese (https://www.transifex.com/fcitx/teams/12005/ja/)\n"
 "Language: ja\n"
 "MIME-Version: 1.0\n"
@@ -92,19 +92,19 @@ msgstr "<Private Use High Surrogate>"
 
 #: src/modules/unicode/charselectdata.cpp:205
 msgid "<Private Use>"
-msgstr "<プライベート用>"
+msgstr "<Private Use>"
 
 #: src/modules/unicode/charselectdata.cpp:235
 msgid "<not assigned>"
-msgstr "<未定義>"
+msgstr "<not assigned>"
 
 #: src/lib/fcitx/globalconfig.cpp:71
 msgid "Activate Input Method"
-msgstr "入力メソッドをオンにする"
+msgstr "入力メソッドを有効にする"
 
 #: src/lib/fcitx/globalconfig.cpp:127
 msgid "Active By Default"
-msgstr "デフォルトでオンにする"
+msgstr "デフォルトで有効にする"
 
 #: src/lib/fcitx-utils/key.cpp:109
 msgctxt "Key name"
@@ -435,15 +435,15 @@ msgctxt "Key name"
 msgid "Community"
 msgstr "コミュニティ"
 
-#: src/im/keyboard/keyboard.cpp:505
+#: src/im/keyboard/keyboard.cpp:511
 msgid "Completion"
 msgstr "補完"
 
-#: src/im/keyboard/keyboard.cpp:508
+#: src/im/keyboard/keyboard.cpp:514
 msgid "Completion is disabled."
 msgstr "補完は無効です。"
 
-#: src/im/keyboard/keyboard.cpp:507
+#: src/im/keyboard/keyboard.cpp:513
 msgid "Completion is enabled."
 msgstr "補完は有効です。"
 
@@ -465,7 +465,7 @@ msgstr "qt に対する設定のGUIが見つかりません。"
 
 #: data/fcitx5-diagnose.sh:1016
 msgid "Config GUI for qt:"
-msgstr "qt向け設定GUI:"
+msgstr "qt 向け設定 GUI:"
 
 #: data/fcitx5-diagnose.sh:1045
 msgid "Config Tool Wrapper:"
@@ -756,11 +756,11 @@ msgstr "Fcitx5 設定"
 
 #: data/fcitx5-diagnose.sh:1532
 msgid "Fcitx Addons:"
-msgstr "Fcitxアドオン:"
+msgstr "Fcitx アドオン:"
 
 #: data/fcitx5-diagnose.sh:1044
 msgid "Fcitx Configure UI:"
-msgstr "Fcitx設定UI:"
+msgstr "Fcitx 設定 UI:"
 
 #: data/fcitx5-diagnose.sh:887
 msgid "Fcitx State:"
@@ -772,8 +772,8 @@ msgid ""
 "language. It also features variant choice of addons that improve your typing "
 "experience."
 msgstr ""
-"Fcitxは入力メソッドフレームワークです。自分の言語を入力するのに役立ちます。ま"
-"た、タイピング体験を向上させるさまざまなアドオンの選択肢も備えています。"
+"Fcitx は入力メソッドフレームワークです。自分の言語を入力するのに役立ちます。"
+"また、タイピング体験を向上させるさまざまなアドオンの選択肢も備えています。"
 
 #: data/fcitx5-diagnose.sh:901
 msgid "Fcitx version: ${1}"
@@ -852,7 +852,7 @@ msgstr "${1} kcm モジュールを見つけました。"
 
 #: data/fcitx5-diagnose.sh:1339
 msgid "Found ${2} for unknown gtk version at ${1}."
-msgstr "未知のバージョンのgtk用の ${2} を ${1} に見つけました。"
+msgstr "未知のバージョンの gtk 用の ${2} を ${1} に見つけました。"
 
 #: data/fcitx5-diagnose.sh:1331
 msgid "Found ${3} for gtk ${1} at ${2}."
@@ -938,52 +938,52 @@ msgstr "ハングル"
 #: src/lib/fcitx-utils/key.cpp:225
 msgctxt "Key name"
 msgid "Hangul Banja"
-msgstr "ハングルBanja"
+msgstr "ハングル Banja"
 
 #: src/lib/fcitx-utils/key.cpp:220
 msgctxt "Key name"
 msgid "Hangul End"
-msgstr "ハングルEnd"
+msgstr "ハングル End"
 
 #: src/lib/fcitx-utils/key.cpp:221
 msgctxt "Key name"
 msgid "Hangul Hanja"
-msgstr "ハングルHanja"
+msgstr "ハングル Hanja"
 
 #: src/lib/fcitx-utils/key.cpp:222
 msgctxt "Key name"
 msgid "Hangul Jamo"
-msgstr "ハングルJamo"
+msgstr "ハングル Jamo"
 
 #: src/lib/fcitx-utils/key.cpp:224
 msgctxt "Key name"
 msgid "Hangul Jeonja"
-msgstr "ハングルJeonja"
+msgstr "ハングル Jeonja"
 
 #: src/lib/fcitx-utils/key.cpp:227
 msgctxt "Key name"
 msgid "Hangul PostHanja"
-msgstr "ハングルPostHanja"
+msgstr "ハングル PostHanja"
 
 #: src/lib/fcitx-utils/key.cpp:226
 msgctxt "Key name"
 msgid "Hangul PreHanja"
-msgstr "ハングルPreHanja"
+msgstr "ハングル PreHanja"
 
 #: src/lib/fcitx-utils/key.cpp:223
 msgctxt "Key name"
 msgid "Hangul Romaja"
-msgstr "ハングルRomaja"
+msgstr "ハングル Romaja"
 
 #: src/lib/fcitx-utils/key.cpp:228
 msgctxt "Key name"
 msgid "Hangul Special"
-msgstr "ハングルSpecial"
+msgstr "ハングル Special"
 
 #: src/lib/fcitx-utils/key.cpp:219
 msgctxt "Key name"
 msgid "Hangul Start"
-msgstr "ハングルStart"
+msgstr "ハングル Start"
 
 #: src/lib/fcitx-utils/key.cpp:207
 msgctxt "Key name"
@@ -1051,7 +1051,7 @@ msgstr "ヒストリ"
 #: src/lib/fcitx-utils/key.cpp:45
 msgctxt "Key name"
 msgid "Home"
-msgstr "Home"
+msgstr "ホーム"
 
 #: src/lib/fcitx-utils/key.cpp:140
 msgctxt "Key name"
@@ -1119,7 +1119,7 @@ msgstr ""
 msgid "Image"
 msgstr "画像"
 
-#: src/im/keyboard/keyboard.cpp:504 src/ui/classic/xcbtraywindow.cpp:38
+#: src/im/keyboard/keyboard.cpp:510 src/ui/classic/xcbtraywindow.cpp:38
 #: src/lib/fcitx/instance.cpp:730 src/lib/fcitx/instance.cpp:900
 #: src/modules/notificationitem/dbusmenu.cpp:241
 #: src/modules/notificationitem/notificationitem.cpp:128
@@ -1155,7 +1155,7 @@ msgstr ""
 #: src/lib/fcitx-utils/key.cpp:194
 msgctxt "Key name"
 msgid "Insert"
-msgstr "Insert"
+msgstr "挿入"
 
 #: data/fcitx5-diagnose.sh:1564
 msgid "Invalid addon config file ${1}."
@@ -1322,27 +1322,27 @@ msgstr "左"
 #: src/lib/fcitx-utils/key.cpp:30
 msgctxt "Key name"
 msgid "Left Alt"
-msgstr "左Alt"
+msgstr "左 Alt"
 
 #: src/lib/fcitx-utils/key.cpp:34
 msgctxt "Key name"
 msgid "Left Control"
-msgstr "左Control"
+msgstr "左 Control"
 
 #: src/lib/fcitx-utils/key.cpp:38
 msgctxt "Key name"
 msgid "Left Hyper"
-msgstr "左Hyper"
+msgstr "左 Hyper"
 
 #: src/lib/fcitx-utils/key.cpp:32
 msgctxt "Key name"
 msgid "Left Shift"
-msgstr "左Shift"
+msgstr "左 Shift"
 
 #: src/lib/fcitx-utils/key.cpp:36
 msgctxt "Key name"
 msgid "Left Super"
-msgstr "左Super"
+msgstr "左 Super"
 
 #: src/lib/fcitx-utils/key.cpp:106
 msgctxt "Key name"
@@ -1571,7 +1571,7 @@ msgstr "NumLock"
 msgid "Number of entries"
 msgstr "エントリー数"
 
-#: src/im/keyboard/keyboard.cpp:499
+#: src/im/keyboard/keyboard.cpp:505
 msgid ""
 "Only emoji support is found. To enable spell checking, you may need to "
 "install spell check data for the language."
@@ -1723,7 +1723,7 @@ msgstr "前の候補"
 #: src/lib/fcitx-utils/key.cpp:193
 msgctxt "Key name"
 msgid "Print Screen"
-msgstr "Print Screen"
+msgstr "プリントスクリーン"
 
 #: src/modules/spell/spell.h:38
 msgid "Providers"
@@ -1774,7 +1774,7 @@ msgstr "再起動"
 #: src/lib/fcitx-utils/key.cpp:43
 msgctxt "Key name"
 msgid "Return"
-msgstr "Return"
+msgstr "改行"
 
 #: src/lib/fcitx-utils/key.cpp:49
 msgctxt "Key name"
@@ -1784,27 +1784,27 @@ msgstr "右"
 #: src/lib/fcitx-utils/key.cpp:31
 msgctxt "Key name"
 msgid "Right Alt"
-msgstr "右Alt"
+msgstr "右 Alt"
 
 #: src/lib/fcitx-utils/key.cpp:35
 msgctxt "Key name"
 msgid "Right Control"
-msgstr "右Control"
+msgstr "右 Control"
 
 #: src/lib/fcitx-utils/key.cpp:39
 msgctxt "Key name"
 msgid "Right Hyper"
-msgstr "右Hyper"
+msgstr "右 Hyper"
 
 #: src/lib/fcitx-utils/key.cpp:33
 msgctxt "Key name"
 msgid "Right Shift"
-msgstr "右Shift"
+msgstr "右 Shift"
 
 #: src/lib/fcitx-utils/key.cpp:37
 msgctxt "Key name"
 msgid "Right Super"
-msgstr "右Super"
+msgstr "右 Super"
 
 #: src/lib/fcitx-utils/key.cpp:202
 msgctxt "Key name"
@@ -1883,7 +1883,7 @@ msgstr "入力状態を共有する"
 #: src/lib/fcitx-utils/key.cpp:477
 msgctxt "Key name"
 msgid "Shift"
-msgstr "Shift"
+msgstr "シフト"
 
 #: src/lib/fcitx-utils/key.cpp:107
 msgctxt "Key name"
@@ -2021,7 +2021,7 @@ msgstr "システムリクエスト"
 #: src/lib/fcitx-utils/key.cpp:41
 msgctxt "Key name"
 msgid "Tab"
-msgstr "Tab"
+msgstr "タブ"
 
 #: src/lib/fcitx-utils/key.cpp:154
 msgctxt "Key name"
@@ -2175,7 +2175,7 @@ msgstr "上"
 
 #: src/frontend/xim/xim.h:33
 msgid "Use On The Spot Style (Needs restarting)"
-msgstr "XIMで On The Spot スタイルを使う(再起動が必要)"
+msgstr "XIM で On The Spot スタイルを使う(再起動が必要)"
 
 #: src/ui/classic/classicui.h:91
 msgid "Use Per Screen DPI"
@@ -2373,9 +2373,9 @@ msgid ""
 "able to use input method in emacs because of an really old emacs bug that "
 "upstream refuse to fix for years."
 msgstr ""
-"LC_CTYPEがzh、ja、koのどれかではなく ${1} に設定されています。修正が何年も無"
-"視されているとても古いemacsのバグにより、emacs中で入力メソッドを使用できない"
-"かもしれません。 "
+"LC_CTYPE が zh,ja,ko のどれかではなく ${1} に設定されています。修正が何年も無"
+"視されている、とても古い emacs のバグにより、emacs 中で入力メソッドを使用でき"
+"ないかもしれません。 "
 
 #: data/fcitx5-diagnose.sh:1138
 msgid ""
@@ -2424,7 +2424,7 @@ msgstr "プロセス:"
 
 #: data/fcitx5-diagnose.sh:873 data/fcitx5-diagnose.sh:879
 msgid "sudo environment variables"
-msgstr "sudoの環境変数"
+msgstr "sudo の環境変数"
 
 #: data/fcitx5-diagnose.sh:898
 msgid "version:"
