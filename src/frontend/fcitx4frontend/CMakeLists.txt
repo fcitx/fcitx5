@@ -1,4 +1,4 @@
-add_library(fcitx4frontend MODULE fcitx4frontend.cpp)
+add_library(fcitx4frontend MODULE fcitx4frontend.cpp fcitx4utils.cpp)
 target_link_libraries(fcitx4frontend Fcitx5::Core Fcitx5::Module::DBus)
 set_target_properties(fcitx4frontend PROPERTIES PREFIX "")
 install(TARGETS fcitx4frontend DESTINATION "${FCITX_INSTALL_ADDONDIR}")

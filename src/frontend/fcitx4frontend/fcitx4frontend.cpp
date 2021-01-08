@@ -6,6 +6,7 @@
  */
 
 #include "fcitx4frontend.h"
+#include "fcitx4utils.h"
 #include "fcitx-utils/dbus/message.h"
 #include "fcitx-utils/dbus/objectvtable.h"
 #include "fcitx-utils/dbus/servicewatcher.h"
@@ -317,6 +318,17 @@ Fcitx4FrontendModule::Fcitx4FrontendModule(Instance *instance)
     auto dbusServiceName =
         stringutils::concat(FCITX_DBUS_SERVICE, "-", display);
     this->bus()->requestName(dbusServiceName, requestFlag);
+
+    char *addressFile = nullptr;
+    FILE *fp =
+        Fcitx4XDGGetFileUserWithPrefix("dbus", addressFile, "w", nullptr);
+    free(addressFile);
+    fprintf(fp, "%s", this->bus()->address().c_str());
+    fwrite("\0", sizeof(char), 1, fp);
+    //    pid_t curPid = getpid();
+    //    fwrite(&dbusmodule->daemon.pid, sizeof(pid_t), 1, fp);
+    //    fwrite(&curPid, sizeof(pid_t), 1, fp);
+    fclose(fp);
 
     event_ = instance_->watchEvent(
         EventType::InputContextInputMethodActivated, EventWatcherPhase::Default,
