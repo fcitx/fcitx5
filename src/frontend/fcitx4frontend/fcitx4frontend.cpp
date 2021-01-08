@@ -92,7 +92,7 @@ public:
 
     ~DBusInputContext2() { InputContext::destroy(); }
 
-    const char *frontend() const override { return "dbus"; }
+    const char *frontend() const override { return "fcitx4frontend"; }
 
     const dbus::ObjectPath &path() const { return path_; }
 
@@ -193,7 +193,7 @@ public:
         setCursorRect(Rect{x, y, x + w, y + h});
     }
 
-    void setCapability(uint64_t cap) {
+    void setCapability(uint32_t cap) {
         CHECK_SENDER_OR_RETURN;
         setCapabilityFlags(CapabilityFlags{cap});
     }
@@ -239,7 +239,7 @@ private:
     FCITX_OBJECT_VTABLE_METHOD(commitPreedit, "CommitPreedit", "", "");
     FCITX_OBJECT_VTABLE_METHOD(mouseEvent, "MouseEvent", "i", "");
     FCITX_OBJECT_VTABLE_METHOD(setCursorRectDBus, "SetCursorRect", "iiii", "");
-    FCITX_OBJECT_VTABLE_METHOD(setCapability, "SetCapability", "t", "");
+    FCITX_OBJECT_VTABLE_METHOD(setCapability, "SetCapacity", "u", "");
     FCITX_OBJECT_VTABLE_METHOD(setSurroundingText, "SetSurroundingText", "suu",
                                "");
     FCITX_OBJECT_VTABLE_METHOD(setSurroundingTextPosition,
@@ -273,7 +273,34 @@ Fcitx4InputMethod::createICv3(const std::string &appname, int pid) {
     bus_->addObjectVTable(ic->path().path(), FCITX_INPUTCONTEXT_DBUS_INTERFACE,
                           *ic);
 
-    return std::make_tuple(icid, false, 1, 1, 1, 1);
+    return std::make_tuple(icid, false, 0, 0, 0, 0);
+}
+
+char *setStrWithLen(char *res, const char *str, size_t len) {
+    if (res) {
+        res = static_cast<char *>(realloc(res, len + 1));
+    } else {
+        res = static_cast<char *>(malloc(len + 1));
+    }
+    memcpy(res, str, len);
+    res[len] = '\0';
+    return res;
+}
+
+int getDisplayNumber() {
+    const char *display = getenv("DISPLAY");
+    if (!display)
+        return 0;
+    size_t len;
+    const char *p = display + strcspn(display, ":");
+    if (*p != ':')
+        return 0;
+    p++;
+    len = strcspn(p, ".");
+    char *str_disp_num = setStrWithLen(nullptr, p, len);
+    int displayNumber = atoi(str_disp_num);
+    free(str_disp_num);
+    return displayNumber;
 }
 
 Fcitx4FrontendModule::Fcitx4FrontendModule(Instance *instance)
@@ -284,12 +311,11 @@ Fcitx4FrontendModule::Fcitx4FrontendModule(Instance *instance)
       Fcitx4InputMethodCompatible_(std::make_unique<Fcitx4InputMethod>(
           this, portalBus_.get(), "/inputmethod")) {
     Flags<dbus::RequestNameFlag> requestFlag =
-        dbus::RequestNameFlag::AllowReplacement;
+        dbus::RequestNameFlag::ReplaceExisting;
     this->bus()->requestName(FCITX_DBUS_SERVICE, requestFlag);
-    // getenv("DISPLAY") output is like ":0", so + 1 to remove ":"
-    auto *display = getenv("DISPLAY") + 1;
-    const std::string dbusServiceName =
-        std::string(FCITX_DBUS_SERVICE) + "-" + display;
+    auto display = getDisplayNumber();
+    auto dbusServiceName =
+        stringutils::concat(FCITX_DBUS_SERVICE, "-", display);
     this->bus()->requestName(dbusServiceName, requestFlag);
 
     event_ = instance_->watchEvent(
@@ -297,7 +323,7 @@ Fcitx4FrontendModule::Fcitx4FrontendModule(Instance *instance)
         [this](Event &event) {
             auto &activated = static_cast<InputMethodActivatedEvent &>(event);
             auto *ic = activated.inputContext();
-            if (strcmp(ic->frontend(), "dbus") == 0) {
+            if (strcmp(ic->frontend(), "fcitx4frontend") == 0) {
                 if (const auto *entry = instance_->inputMethodManager().entry(
                         activated.name())) {
                     static_cast<DBusInputContext2 *>(ic)->updateIM(entry);
