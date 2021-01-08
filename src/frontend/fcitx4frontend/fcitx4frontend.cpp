@@ -6,7 +6,7 @@
  */
 
 #include "fcitx4frontend.h"
-#include "fcitx4utils.h"
+#include <fstream>
 #include "fcitx-utils/dbus/message.h"
 #include "fcitx-utils/dbus/objectvtable.h"
 #include "fcitx-utils/dbus/servicewatcher.h"
@@ -17,6 +17,7 @@
 #include "fcitx/inputmethodmanager.h"
 #include "fcitx/instance.h"
 #include "fcitx/misc_p.h"
+#include "fcitx4utils.h"
 #include "dbus_public.h"
 
 #define FCITX_INPUTMETHOD_DBUS_INTERFACE "org.fcitx.Fcitx.InputMethod"
@@ -304,6 +305,35 @@ int getDisplayNumber() {
     return displayNumber;
 }
 
+std::string readFileContent(const std::string &file) {
+    std::ifstream fin(file, std::ios::binary | std::ios::in);
+    std::vector<char> buffer;
+    constexpr auto chunkSize = 4096;
+    do {
+        auto curSize = buffer.size();
+        buffer.resize(curSize + chunkSize);
+        if (!fin.read(buffer.data() + curSize, chunkSize)) {
+            buffer.resize(curSize + fin.gcount());
+            break;
+        }
+    } while (0);
+    std::string str{buffer.begin(), buffer.end()};
+    return stringutils::trim(str);
+}
+
+std::string getLocalMachineId() {
+    auto content = readFileContent("/var/lib/dbus/machine-id");
+    if (content.empty()) {
+        content = readFileContent("/etc/machine-id");
+    }
+
+    if (content.empty()) {
+        content = "machine-id";
+    }
+
+    return content;
+}
+
 Fcitx4FrontendModule::Fcitx4FrontendModule(Instance *instance)
     : instance_(instance),
       portalBus_(std::make_unique<dbus::Bus>(dbus::BusType::Session)),
@@ -320,6 +350,8 @@ Fcitx4FrontendModule::Fcitx4FrontendModule(Instance *instance)
     this->bus()->requestName(dbusServiceName, requestFlag);
 
     char *addressFile = nullptr;
+    auto localMachineId = getLocalMachineId();
+    asprintf(&addressFile, "%s-%d", localMachineId.c_str(), getDisplayNumber());
     FILE *fp =
         Fcitx4XDGGetFileUserWithPrefix("dbus", addressFile, "w", nullptr);
     free(addressFile);
