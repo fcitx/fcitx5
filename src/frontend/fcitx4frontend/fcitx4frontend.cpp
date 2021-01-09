@@ -12,12 +12,12 @@
 #include "fcitx-utils/dbus/servicewatcher.h"
 #include "fcitx-utils/log.h"
 #include "fcitx-utils/metastring.h"
+#include "fcitx-utils/standardpath.h"
 #include "fcitx/inputcontext.h"
 #include "fcitx/inputmethodentry.h"
 #include "fcitx/inputmethodmanager.h"
 #include "fcitx/instance.h"
 #include "fcitx/misc_p.h"
-#include "fcitx4utils.h"
 #include "dbus_public.h"
 
 #define FCITX_INPUTMETHOD_DBUS_INTERFACE "org.fcitx.Fcitx.InputMethod"
@@ -312,12 +312,11 @@ Fcitx4FrontendModule::Fcitx4FrontendModule(Instance *instance)
         stringutils::concat(FCITX_DBUS_SERVICE, "-", display);
     this->bus()->requestName(dbusServiceName, requestFlag);
 
-    char *addressFile = nullptr;
     auto localMachineId = getLocalMachineId();
-    asprintf(&addressFile, "%s-%d", localMachineId.c_str(), getDisplayNumber());
-    FILE *fp =
-        Fcitx4XDGGetFileUserWithPrefix("dbus", addressFile, "w", nullptr);
-    free(addressFile);
+    auto path = stringutils::joinPath(
+        StandardPath().userDirectory(StandardPath::Type::Config), "fcitx",
+        "dbus", stringutils::concat(localMachineId, "-", display));
+    auto *fp = fopen(path.c_str(), "w");
     fprintf(fp, "%s", this->bus()->address().c_str());
     fwrite("\0", sizeof(char), 1, fp);
     // Because fcitx5 don't launch dbus by itself, write current PID instead of
