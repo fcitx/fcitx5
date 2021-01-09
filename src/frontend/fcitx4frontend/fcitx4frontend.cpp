@@ -64,12 +64,12 @@ private:
     std::unique_ptr<dbus::ServiceWatcher> watcher_;
 };
 
-class DBusInputContext2 : public InputContext,
-                          public dbus::ObjectVTable<DBusInputContext2> {
+class Fcitx4InputContext : public InputContext,
+                           public dbus::ObjectVTable<Fcitx4InputContext> {
 public:
-    DBusInputContext2(int id, InputContextManager &icManager,
-                      Fcitx4InputMethod *im, const std::string &sender,
-                      const std::string &program)
+    Fcitx4InputContext(int id, InputContextManager &icManager,
+                       Fcitx4InputMethod *im, const std::string &sender,
+                       const std::string &program)
         : InputContext(icManager, program),
           path_("/inputcontext_" + std::to_string(id)), im_(im),
           handler_(im_->serviceWatcher().watchService(
@@ -92,7 +92,7 @@ public:
         created();
     }
 
-    ~DBusInputContext2() { InputContext::destroy(); }
+    ~Fcitx4InputContext() { InputContext::destroy(); }
 
     const char *frontend() const override { return "fcitx4frontend"; }
 
@@ -119,44 +119,6 @@ public:
         deleteSurroundingTextDBusTo(name_, offset, size);
     }
 
-    void updateClientSideUIImpl() override {
-        auto preedit =
-            im_->instance()->outputFilter(this, inputPanel().preedit());
-        auto auxUp = im_->instance()->outputFilter(this, inputPanel().auxUp());
-        auto auxDown =
-            im_->instance()->outputFilter(this, inputPanel().auxDown());
-        auto candidateList = inputPanel().candidateList();
-        int cursorIndex = 0;
-
-        std::vector<dbus::DBusStruct<std::string, int>> preeditStrings,
-            auxUpStrings, auxDownStrings;
-        std::vector<dbus::DBusStruct<std::string, std::string>> candidates;
-
-        preeditStrings = buildFormattedTextVector(preedit);
-        auxUpStrings = buildFormattedTextVector(auxUp);
-        auxDownStrings = buildFormattedTextVector(auxDown);
-        if (candidateList) {
-            for (int i = 0, e = candidateList->size(); i < e; i++) {
-                auto &candidate = candidateList->candidate(i);
-                if (candidate.isPlaceHolder()) {
-                    continue;
-                }
-                Text labelText = candidate.hasCustomLabel()
-                                     ? candidate.customLabel()
-                                     : candidateList->label(i);
-                labelText = im_->instance()->outputFilter(this, labelText);
-                Text candidateText =
-                    im_->instance()->outputFilter(this, candidate.text());
-                candidates.emplace_back(std::make_tuple(
-                    labelText.toString(), candidateText.toString()));
-            }
-            cursorIndex = candidateList->cursorIndex();
-        }
-        updateClientSideUITo(name_, preeditStrings, preedit.cursor(),
-                             auxUpStrings, auxDownStrings, candidates,
-                             cursorIndex);
-    }
-
     void forwardKeyImpl(const ForwardKeyEvent &key) override {
         forwardKeyDBusTo(name_, static_cast<uint32_t>(key.rawKey().sym()),
                          static_cast<uint32_t>(key.rawKey().states()),
@@ -171,9 +133,9 @@ public:
 
     void closeInputContext() {}
 
-    void commitPreedit() {}
-
     void mouseEvent(int x) {}
+
+    void setCursorLocation(int x, int y) {}
 
     void focusInDBus() {
         CHECK_SENDER_OR_RETURN;
@@ -218,8 +180,8 @@ public:
         delete this;
     }
 
-    bool processKeyEvent(uint32_t keyval, uint32_t keycode, uint32_t state,
-                         bool isRelease, uint32_t time) {
+    int processKeyEvent(uint32_t keyval, uint32_t keycode, uint32_t state,
+                        int isRelease, uint32_t time) {
         CHECK_SENDER_OR_RETURN false;
         KeyEvent event(
             this, Key(static_cast<KeySym>(keyval), KeyStates(state), keycode),
@@ -233,13 +195,16 @@ public:
     }
 
 private:
+    // Because there is no application to use, don't impl CommitPreedit and
+    // UpdateClientSideUI.
     FCITX_OBJECT_VTABLE_METHOD(enableInputContext, "EnableIC", "", "");
     FCITX_OBJECT_VTABLE_METHOD(closeInputContext, "CloseIC", "", "");
     FCITX_OBJECT_VTABLE_METHOD(focusInDBus, "FocusIn", "", "");
     FCITX_OBJECT_VTABLE_METHOD(focusOutDBus, "FocusOut", "", "");
     FCITX_OBJECT_VTABLE_METHOD(resetDBus, "Reset", "", "");
-    FCITX_OBJECT_VTABLE_METHOD(commitPreedit, "CommitPreedit", "", "");
     FCITX_OBJECT_VTABLE_METHOD(mouseEvent, "MouseEvent", "i", "");
+    FCITX_OBJECT_VTABLE_METHOD(setCursorLocation, "SetCursorLocation", "ii",
+                               "");
     FCITX_OBJECT_VTABLE_METHOD(setCursorRectDBus, "SetCursorRect", "iiii", "");
     FCITX_OBJECT_VTABLE_METHOD(setCapability, "SetCapacity", "u", "");
     FCITX_OBJECT_VTABLE_METHOD(setSurroundingText, "SetSurroundingText", "suu",
@@ -247,8 +212,8 @@ private:
     FCITX_OBJECT_VTABLE_METHOD(setSurroundingTextPosition,
                                "SetSurroundingTextPosition", "uu", "");
     FCITX_OBJECT_VTABLE_METHOD(destroyDBus, "DestroyIC", "", "");
-    FCITX_OBJECT_VTABLE_METHOD(processKeyEvent, "ProcessKeyEvent", "uuubu",
-                               "b");
+    FCITX_OBJECT_VTABLE_METHOD(processKeyEvent, "ProcessKeyEvent", "uuuiu",
+                               "i");
 
     FCITX_OBJECT_VTABLE_SIGNAL(commitStringDBus, "CommitString", "s");
     FCITX_OBJECT_VTABLE_SIGNAL(currentIM, "CurrentIM", "sss");
@@ -256,9 +221,7 @@ private:
                                "a(si)i");
     FCITX_OBJECT_VTABLE_SIGNAL(deleteSurroundingTextDBus,
                                "DeleteSurroundingText", "iu");
-    FCITX_OBJECT_VTABLE_SIGNAL(updateClientSideUI, "UpdateClientSideUI",
-                               "a(si)ia(si)a(si)a(ss)i");
-    FCITX_OBJECT_VTABLE_SIGNAL(forwardKeyDBus, "ForwardKey", "uub");
+    FCITX_OBJECT_VTABLE_SIGNAL(forwardKeyDBus, "ForwardKey", "uui");
 
     dbus::ObjectPath path_;
     Fcitx4InputMethod *im_;
@@ -270,8 +233,8 @@ std::tuple<int, bool, uint32_t, uint32_t, uint32_t, uint32_t>
 Fcitx4InputMethod::createICv3(const std::string &appname, int pid) {
     auto sender = currentMessage()->sender();
     int icid = module_->nextIcIdx();
-    auto *ic = new DBusInputContext2(icid, instance_->inputContextManager(),
-                                     this, sender, appname);
+    auto *ic = new Fcitx4InputContext(icid, instance_->inputContextManager(),
+                                      this, sender, appname);
     bus_->addObjectVTable(ic->path().path(), FCITX_INPUTCONTEXT_DBUS_INTERFACE,
                           *ic);
 
@@ -357,9 +320,11 @@ Fcitx4FrontendModule::Fcitx4FrontendModule(Instance *instance)
     free(addressFile);
     fprintf(fp, "%s", this->bus()->address().c_str());
     fwrite("\0", sizeof(char), 1, fp);
-    //    pid_t curPid = getpid();
-    //    fwrite(&dbusmodule->daemon.pid, sizeof(pid_t), 1, fp);
-    //    fwrite(&curPid, sizeof(pid_t), 1, fp);
+    // Because fcitx5 don't launch dbus by itself, write current PID instead of
+    // dbus daemon PID.
+    pid_t curPid = getpid();
+    fwrite(&curPid, sizeof(pid_t), 1, fp);
+    fwrite(&curPid, sizeof(pid_t), 1, fp);
     fclose(fp);
 
     event_ = instance_->watchEvent(
@@ -370,7 +335,7 @@ Fcitx4FrontendModule::Fcitx4FrontendModule(Instance *instance)
             if (strcmp(ic->frontend(), "fcitx4frontend") == 0) {
                 if (const auto *entry = instance_->inputMethodManager().entry(
                         activated.name())) {
-                    static_cast<DBusInputContext2 *>(ic)->updateIM(entry);
+                    static_cast<Fcitx4InputContext *>(ic)->updateIM(entry);
                 }
             }
         });
