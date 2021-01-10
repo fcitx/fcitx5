@@ -122,7 +122,7 @@ public:
     void forwardKeyImpl(const ForwardKeyEvent &key) override {
         forwardKeyDBusTo(name_, static_cast<uint32_t>(key.rawKey().sym()),
                          static_cast<uint32_t>(key.rawKey().states()),
-                         key.isRelease());
+                         key.isRelease() ? 1 : 0);
         bus()->flush();
     }
 #define CHECK_SENDER_OR_RETURN                                                 \
@@ -191,7 +191,7 @@ public:
             focusIn();
         }
 
-        return keyEvent(event);
+        return keyEvent(event) ? 1 : 0;
     }
 
 private:
