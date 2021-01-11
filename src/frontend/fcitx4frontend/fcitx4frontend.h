@@ -37,6 +37,7 @@ private:
     std::unique_ptr<Fcitx4InputMethod> fcitx4InputMethod_;
     std::unique_ptr<HandlerTableEntry<EventHandler>> event_;
     int icIdx_ = 0;
+    std::string pathWrote_;
 };
 } // namespace fcitx
 
