@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2021-01-04 20:24+0000\n"
+"POT-Creation-Date: 2021-01-11 20:28+0000\n"
 "PO-Revision-Date: 2017-11-23 04:14+0000\n"
 "Last-Translator: Tim Hofstede <timhofstede.va@gmail.com>, 2018\n"
 "Language-Team: German (https://www.transifex.com/fcitx/teams/12005/de/)\n"
@@ -431,15 +431,15 @@ msgctxt "Key name"
 msgid "Community"
 msgstr "Gemeinschaft"
 
-#: src/im/keyboard/keyboard.cpp:505
+#: src/im/keyboard/keyboard.cpp:511
 msgid "Completion"
 msgstr ""
 
-#: src/im/keyboard/keyboard.cpp:508
+#: src/im/keyboard/keyboard.cpp:514
 msgid "Completion is disabled."
 msgstr ""
 
-#: src/im/keyboard/keyboard.cpp:507
+#: src/im/keyboard/keyboard.cpp:513
 msgid "Completion is enabled."
 msgstr ""
 
@@ -769,6 +769,10 @@ msgstr ""
 
 #: data/fcitx5-diagnose.sh:901
 msgid "Fcitx version: ${1}"
+msgstr ""
+
+#: src/frontend/fcitx4frontend/fcitx4frontend.conf.in:3
+msgid "Fcitx4 Frontend"
 msgstr ""
 
 #: src/lib/fcitx-utils/key.cpp:112
@@ -1101,7 +1105,7 @@ msgstr ""
 msgid "Image"
 msgstr ""
 
-#: src/im/keyboard/keyboard.cpp:504 src/ui/classic/xcbtraywindow.cpp:38
+#: src/im/keyboard/keyboard.cpp:510 src/ui/classic/xcbtraywindow.cpp:38
 #: src/lib/fcitx/instance.cpp:730 src/lib/fcitx/instance.cpp:900
 #: src/modules/notificationitem/dbusmenu.cpp:241
 #: src/modules/notificationitem/notificationitem.cpp:128
@@ -1551,7 +1555,7 @@ msgstr "NumLock"
 msgid "Number of entries"
 msgstr ""
 
-#: src/im/keyboard/keyboard.cpp:499
+#: src/im/keyboard/keyboard.cpp:505
 msgid ""
 "Only emoji support is found. To enable spell checking, you may need to "
 "install spell check data for the language."

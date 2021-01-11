@@ -6,15 +6,15 @@
 # csslayer <wengxt@gmail.com>, 2017
 # Bon Keun Seo <scobyseo@gmail.com>, 2017
 # heavyuser <heavyuser73@gmail.com>, 2018
-# JungHee Lee <daemul72@gmail.com>, 2020
+# Bruce Lee <daemul72@gmail.com>, 2020
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2021-01-04 20:24+0000\n"
+"POT-Creation-Date: 2021-01-11 20:28+0000\n"
 "PO-Revision-Date: 2017-11-23 04:14+0000\n"
-"Last-Translator: JungHee Lee <daemul72@gmail.com>, 2020\n"
+"Last-Translator: Bruce Lee <daemul72@gmail.com>, 2020\n"
 "Language-Team: Korean (https://www.transifex.com/fcitx/teams/12005/ko/)\n"
 "Language: ko\n"
 "MIME-Version: 1.0\n"
@@ -432,15 +432,15 @@ msgctxt "Key name"
 msgid "Community"
 msgstr "커뮤니티"
 
-#: src/im/keyboard/keyboard.cpp:505
+#: src/im/keyboard/keyboard.cpp:511
 msgid "Completion"
 msgstr "완성"
 
-#: src/im/keyboard/keyboard.cpp:508
+#: src/im/keyboard/keyboard.cpp:514
 msgid "Completion is disabled."
 msgstr "완성이 비활성화되었습니다."
 
-#: src/im/keyboard/keyboard.cpp:507
+#: src/im/keyboard/keyboard.cpp:513
 msgid "Completion is enabled."
 msgstr "완성이 활성화되었습니다."
 
@@ -772,6 +772,10 @@ msgstr ""
 msgid "Fcitx version: ${1}"
 msgstr "Fcitx 버전: ${1}"
 
+#: src/frontend/fcitx4frontend/fcitx4frontend.conf.in:3
+msgid "Fcitx4 Frontend"
+msgstr ""
+
 #: src/lib/fcitx-utils/key.cpp:112
 msgctxt "Key name"
 msgid "Finance"
@@ -1102,7 +1106,7 @@ msgstr ""
 msgid "Image"
 msgstr ""
 
-#: src/im/keyboard/keyboard.cpp:504 src/ui/classic/xcbtraywindow.cpp:38
+#: src/im/keyboard/keyboard.cpp:510 src/ui/classic/xcbtraywindow.cpp:38
 #: src/lib/fcitx/instance.cpp:730 src/lib/fcitx/instance.cpp:900
 #: src/modules/notificationitem/dbusmenu.cpp:241
 #: src/modules/notificationitem/notificationitem.cpp:128
@@ -1552,7 +1556,7 @@ msgstr "NumLock"
 msgid "Number of entries"
 msgstr ""
 
-#: src/im/keyboard/keyboard.cpp:499
+#: src/im/keyboard/keyboard.cpp:505
 msgid ""
 "Only emoji support is found. To enable spell checking, you may need to "
 "install spell check data for the language."

@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2021-01-06 20:24+0000\n"
+"POT-Creation-Date: 2021-01-11 20:28+0000\n"
 "PO-Revision-Date: 2017-11-23 04:14+0000\n"
 "Last-Translator: Takuro Onoue <kusanaginoturugi@gmail.com>, 2021\n"
 "Language-Team: Japanese (https://www.transifex.com/fcitx/teams/12005/ja/)\n"
@@ -778,6 +778,10 @@ msgstr ""
 #: data/fcitx5-diagnose.sh:901
 msgid "Fcitx version: ${1}"
 msgstr "Fcitx のバージョン: ${1}"
+
+#: src/frontend/fcitx4frontend/fcitx4frontend.conf.in:3
+msgid "Fcitx4 Frontend"
+msgstr ""
 
 #: src/lib/fcitx-utils/key.cpp:112
 msgctxt "Key name"
