@@ -7,3 +7,6 @@ Category=Frontend
 [Addon/Dependencies]
 0=dbus
 
+[Addon/OptionalDependencies]
+0=xcb
+

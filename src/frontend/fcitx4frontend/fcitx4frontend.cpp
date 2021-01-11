@@ -40,31 +40,121 @@ buildFormattedTextVector(const Text &text) {
     }
     return vector;
 }
+
+int getDisplayNumber(const std::string &var) {
+    auto pos = var.find(':');
+    if (pos == std::string::npos) {
+        return 0;
+    }
+    // skip :
+    pos += 1;
+    // Handle address like :0.0
+    auto period = var.find(pos, '.');
+    if (period != std::string::npos) {
+        period -= pos;
+    }
+
+    try {
+        std::string num(var.substr(pos, period));
+        int displayNumber = std::stoi(num);
+        return displayNumber;
+    } catch (...) {
+    }
+    return 0;
+}
+
+std::string readFileContent(const std::string &file) {
+    std::ifstream fin(file, std::ios::binary | std::ios::in);
+    std::vector<char> buffer;
+    constexpr auto chunkSize = 4096;
+    do {
+        auto curSize = buffer.size();
+        buffer.resize(curSize + chunkSize);
+        if (!fin.read(buffer.data() + curSize, chunkSize)) {
+            buffer.resize(curSize + fin.gcount());
+            break;
+        }
+    } while (0);
+    std::string str{buffer.begin(), buffer.end()};
+    return stringutils::trim(str);
+}
+
+std::string getLocalMachineId() {
+    auto content = readFileContent("/var/lib/dbus/machine-id");
+    if (content.empty()) {
+        content = readFileContent("/etc/machine-id");
+    }
+
+    if (content.empty()) {
+        content = "machine-id";
+    }
+
+    return content;
+}
 } // namespace
 
 class Fcitx4InputMethod : public dbus::ObjectVTable<Fcitx4InputMethod> {
 public:
-    Fcitx4InputMethod(Fcitx4FrontendModule *module, dbus::Bus *bus,
-                      const char *path)
-        : module_(module), instance_(module->instance()), bus_(bus),
+    Fcitx4InputMethod(int display, Fcitx4FrontendModule *module, dbus::Bus *bus)
+        : display_(display), module_(module), instance_(module->instance()),
+          bus_(std::make_unique<dbus::Bus>(bus->address())),
           watcher_(std::make_unique<dbus::ServiceWatcher>(*bus_)) {
-        bus_->addObjectVTable(path, FCITX_INPUTMETHOD_DBUS_INTERFACE, *this);
+        bus_->attachEventLoop(&instance_->eventLoop());
+        bus_->addObjectVTable("/inputmethod", FCITX_INPUTMETHOD_DBUS_INTERFACE,
+                              *this);
+        Flags<dbus::RequestNameFlag> requestFlag =
+            dbus::RequestNameFlag::ReplaceExisting;
+        auto dbusServiceName =
+            stringutils::concat(FCITX_DBUS_SERVICE, "-", display);
+        bus_->requestName(dbusServiceName, requestFlag);
+
+        auto localMachineId = getLocalMachineId();
+        auto path = stringutils::joinPath(
+            "fcitx", "dbus", stringutils::concat(localMachineId, "-", display));
+        bool res = StandardPath::global().safeSave(
+            StandardPath::Type::Config, path, [this](int fd) {
+                auto address = bus_->address();
+                fs::safeWrite(fd, address.c_str(), address.size() + 1);
+                // Because fcitx5 don't launch dbus by itself, we write 0
+                // on purpose to make address resolve fail, except WPS.
+                pid_t pid = 0;
+                fs::safeWrite(fd, &pid, sizeof(pid_t));
+                fs::safeWrite(fd, &pid, sizeof(pid_t));
+                return true;
+            });
+        if (res) {
+            // Failed to write address file does not matter if we could use
+            // regular dbus.
+            pathWrote_ =
+                stringutils::joinPath(StandardPath::global().userDirectory(
+                                          StandardPath::Type::Config),
+                                      path);
+        }
+    }
+
+    ~Fcitx4InputMethod() {
+        if (!pathWrote_.empty()) {
+            unlink(pathWrote_.data());
+        }
     }
 
     std::tuple<int, bool, uint32_t, uint32_t, uint32_t, uint32_t>
     createICv3(const std::string &appname, int pid);
 
     dbus::ServiceWatcher &serviceWatcher() { return *watcher_; }
-    dbus::Bus *bus() { return bus_; }
+    dbus::Bus *bus() { return bus_.get(); }
     Instance *instance() { return module_->instance(); }
 
 private:
+    // V1 and V2 are too old, so we just ignore them.
     FCITX_OBJECT_VTABLE_METHOD(createICv3, "CreateICv3", "si", "ibuuuu");
 
+    int display_;
     Fcitx4FrontendModule *module_;
     Instance *instance_;
-    dbus::Bus *bus_;
+    std::unique_ptr<dbus::Bus> bus_;
     std::unique_ptr<dbus::ServiceWatcher> watcher_;
+    std::string pathWrote_;
 };
 
 class Fcitx4InputContext : public InputContext,
@@ -233,111 +323,42 @@ Fcitx4InputMethod::createICv3(const std::string &appname, int /*pid*/) {
     int icid = module_->nextIcIdx();
     auto *ic = new Fcitx4InputContext(icid, instance_->inputContextManager(),
                                       this, sender, appname);
-    ic->setFocusGroup(instance_->defaultFocusGroup());
+    ic->setFocusGroup(
+        instance_->defaultFocusGroup(stringutils::concat("x11::", display_)));
     bus_->addObjectVTable(ic->path().path(), FCITX_INPUTCONTEXT_DBUS_INTERFACE,
                           *ic);
 
     return std::make_tuple(icid, true, 0, 0, 0, 0);
 }
 
-int getDisplayNumber() {
-    const char *display = getenv("DISPLAY");
-    if (!display) {
-        return 0;
-    }
-
-    std::string_view var(display);
-    auto pos = var.find(':');
-    if (pos == std::string::npos) {
-        return 0;
-    }
-    // skip :
-    pos += 1;
-    // Handle address like :0.0
-    auto period = var.find(pos, '.');
-    if (period != std::string::npos) {
-        period -= pos;
-    }
-
-    try {
-        std::string num(var.substr(pos, period));
-        int displayNumber = std::stoi(num);
-        return displayNumber;
-    } catch (...) {
-    }
-    return 0;
-}
-
-std::string readFileContent(const std::string &file) {
-    std::ifstream fin(file, std::ios::binary | std::ios::in);
-    std::vector<char> buffer;
-    constexpr auto chunkSize = 4096;
-    do {
-        auto curSize = buffer.size();
-        buffer.resize(curSize + chunkSize);
-        if (!fin.read(buffer.data() + curSize, chunkSize)) {
-            buffer.resize(curSize + fin.gcount());
-            break;
-        }
-    } while (0);
-    std::string str{buffer.begin(), buffer.end()};
-    return stringutils::trim(str);
-}
-
-std::string getLocalMachineId() {
-    auto content = readFileContent("/var/lib/dbus/machine-id");
-    if (content.empty()) {
-        content = readFileContent("/etc/machine-id");
-    }
-
-    if (content.empty()) {
-        content = "machine-id";
-    }
-
-    return content;
-}
-
-bool writeFcitx4DbusInfo(const std::string &address, int fd) {
-    fs::safeWrite(fd, address.c_str(), address.size() + 1);
-    // Because fcitx5 don't launch dbus by itself, write current PID instead of
-    // dbus daemon PID.
-    pid_t curPid = getpid();
-    fs::safeWrite(fd, &curPid, sizeof(pid_t));
-    fs::safeWrite(fd, &curPid, sizeof(pid_t));
-    return true;
-}
-
 Fcitx4FrontendModule::Fcitx4FrontendModule(Instance *instance)
     : instance_(instance),
-      fcitx4InputMethod_(
-          std::make_unique<Fcitx4InputMethod>(this, bus(), "/inputmethod")) {
-    Flags<dbus::RequestNameFlag> requestFlag =
-        dbus::RequestNameFlag::ReplaceExisting;
-    bus()->requestName(FCITX_DBUS_SERVICE, requestFlag);
-    auto display = getDisplayNumber();
-    auto dbusServiceName =
-        stringutils::concat(FCITX_DBUS_SERVICE, "-", display);
-    bus()->requestName(dbusServiceName, requestFlag);
-
-    auto localMachineId = getLocalMachineId();
-    auto path = stringutils::joinPath(
-        "fcitx", "dbus", stringutils::concat(localMachineId, "-", display));
-    bool res = StandardPath::global().safeSave(
-        StandardPath::Type::Config, path, [this](int fd) {
-            auto address = bus()->address();
-            fs::safeWrite(fd, address.c_str(), address.size() + 1);
-            // Because fcitx5 don't launch dbus by itself, we write 0 on purpose
-            // to make address resolve fail, except WPS.
-            pid_t pid = 0;
-            fs::safeWrite(fd, &pid, sizeof(pid_t));
-            fs::safeWrite(fd, &pid, sizeof(pid_t));
-            return true;
-        });
-    if (!res) {
-        throw std::runtime_error("fcitx4 frontend cannot write address file.");
+      table_(
+          [this](int display) {
+              try {
+                  fcitx4InputMethod_.emplace(
+                      display, std::make_unique<Fcitx4InputMethod>(
+                                   display, this, bus()));
+                  return true;
+              } catch (...) {
+              }
+              return false;
+          },
+          [this](int display) { fcitx4InputMethod_.erase(display); }) {
+#ifdef ENABLE_X11
+    if (xcb()) {
+        createdCallback_ =
+            xcb()->call<IXCBModule::addConnectionCreatedCallback>(
+                [this](const std::string &name, xcb_connection_t *, int,
+                       FocusGroup *) { addDisplay(name); });
+        closedCallback_ = xcb()->call<IXCBModule::addConnectionClosedCallback>(
+            [this](const std::string &name, xcb_connection_t *) {
+                removeDisplay(name);
+            });
     }
-    pathWrote_ = stringutils::joinPath(
-        StandardPath::global().userDirectory(StandardPath::Type::Config), path);
+#endif
+    // Always create display number zero.
+    addDisplay("");
 
     event_ = instance_->watchEvent(
         EventType::InputContextInputMethodActivated, EventWatcherPhase::Default,
@@ -353,10 +374,16 @@ Fcitx4FrontendModule::Fcitx4FrontendModule(Instance *instance)
         });
 }
 
-Fcitx4FrontendModule::~Fcitx4FrontendModule() { unlink(pathWrote_.data()); }
-
 dbus::Bus *Fcitx4FrontendModule::bus() {
     return dbus()->call<IDBusModule::bus>();
+}
+
+void Fcitx4FrontendModule::addDisplay(const std::string &name) {
+    displayToHandle_.emplace(name, table_.add(getDisplayNumber(name), name));
+}
+
+void Fcitx4FrontendModule::removeDisplay(const std::string &name) {
+    displayToHandle_.erase(name);
 }
 
 class Fcitx4FrontendModuleFactory : public AddonFactory {
