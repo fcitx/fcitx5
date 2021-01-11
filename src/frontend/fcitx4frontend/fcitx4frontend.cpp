@@ -331,6 +331,7 @@ Fcitx4FrontendModule::Fcitx4FrontendModule(Instance *instance)
     bool res = StandardPath::global().safeSave(
         StandardPath::Type::Config, path,
         [address](int fd) { return writeFcitx4DbusInfo(*address, fd); });
+    delete address;
     if (!res) {
         FCITX_ERROR() << "Fcitx4 frontend can't write conf";
         return;
