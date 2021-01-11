@@ -34,9 +34,7 @@ private:
     FCITX_ADDON_DEPENDENCY_LOADER(dbus, instance_->addonManager());
 
     Instance *instance_;
-    std::unique_ptr<dbus::Bus> portalBus_;
-    std::unique_ptr<Fcitx4InputMethod> Fcitx4InputMethod_;
-    std::unique_ptr<Fcitx4InputMethod> Fcitx4InputMethodCompatible_;
+    std::unique_ptr<Fcitx4InputMethod> fcitx4InputMethod_;
     std::unique_ptr<HandlerTableEntry<EventHandler>> event_;
     int icIdx_ = 0;
 };

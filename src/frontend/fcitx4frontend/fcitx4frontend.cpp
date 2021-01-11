@@ -23,6 +23,8 @@
 #define FCITX_INPUTMETHOD_DBUS_INTERFACE "org.fcitx.Fcitx.InputMethod"
 #define FCITX_INPUTCONTEXT_DBUS_INTERFACE "org.fcitx.Fcitx.InputContext"
 #define FCITX_DBUS_SERVICE "org.fcitx.Fcitx"
+// in fcitx4's /src/lib/fcitx/ui.h
+#define MSG_NOUNDERLINE (1 << 3)
 
 namespace fcitx {
 
@@ -32,8 +34,8 @@ std::vector<dbus::DBusStruct<std::string, int>>
 buildFormattedTextVector(const Text &text) {
     std::vector<dbus::DBusStruct<std::string, int>> vector;
     for (int i = 0, e = text.size(); i < e; i++) {
-        vector.emplace_back(std::make_tuple(
-            text.stringAt(i), static_cast<int>(text.formatAt(i))));
+        const int flag = static_cast<int>(text.formatAt(i)) ^ MSG_NOUNDERLINE;
+        vector.emplace_back(std::make_tuple(text.stringAt(i), flag));
     }
     return vector;
 }
@@ -83,10 +85,6 @@ public:
           name_(sender) {
         processKeyEventMethod.setClosureFunction(
             [this](dbus::Message message, const dbus::ObjectMethod &method) {
-                if (capabilityFlags().test(CapabilityFlag::KeyEventOrderFix)) {
-                    InputContextEventBlocker blocker(this);
-                    return method(std::move(message));
-                }
                 return method(std::move(message));
             });
         created();
@@ -94,7 +92,7 @@ public:
 
     ~Fcitx4InputContext() { InputContext::destroy(); }
 
-    const char *frontend() const override { return "fcitx4frontend"; }
+    const char *frontend() const override { return "fcitx4"; }
 
     const dbus::ObjectPath &path() const { return path_; }
 
@@ -298,13 +296,26 @@ std::string getLocalMachineId() {
     return content;
 }
 
+bool writeFcitx4DbusInfo(const std::basic_string<char> &address, int fd) {
+    if (fd < 0) {
+        return false;
+    }
+
+    write(fd, address.c_str(), address.size() + 1);
+    write(fd, "\0", sizeof(char));
+    // Because fcitx5 don't launch dbus by itself, write current PID instead of
+    // dbus daemon PID.
+    pid_t curPid = getpid();
+    write(fd, &curPid, sizeof(pid_t));
+    write(fd, &curPid, sizeof(pid_t));
+    close(fd);
+    return true;
+}
+
 Fcitx4FrontendModule::Fcitx4FrontendModule(Instance *instance)
     : instance_(instance),
-      portalBus_(std::make_unique<dbus::Bus>(dbus::BusType::Session)),
-      Fcitx4InputMethod_(
-          std::make_unique<Fcitx4InputMethod>(this, bus(), "/inputmethod")),
-      Fcitx4InputMethodCompatible_(std::make_unique<Fcitx4InputMethod>(
-          this, portalBus_.get(), "/inputmethod")) {
+      fcitx4InputMethod_(
+          std::make_unique<Fcitx4InputMethod>(this, bus(), "/inputmethod")) {
     Flags<dbus::RequestNameFlag> requestFlag =
         dbus::RequestNameFlag::ReplaceExisting;
     this->bus()->requestName(FCITX_DBUS_SERVICE, requestFlag);
@@ -314,25 +325,23 @@ Fcitx4FrontendModule::Fcitx4FrontendModule(Instance *instance)
     this->bus()->requestName(dbusServiceName, requestFlag);
 
     auto localMachineId = getLocalMachineId();
+    auto address = new std::string(this->bus()->address());
     auto path = stringutils::joinPath(
-        StandardPath().userDirectory(StandardPath::Type::Config), "fcitx",
-        "dbus", stringutils::concat(localMachineId, "-", display));
-    auto *fp = fopen(path.c_str(), "w");
-    fprintf(fp, "%s", this->bus()->address().c_str());
-    fwrite("\0", sizeof(char), 1, fp);
-    // Because fcitx5 don't launch dbus by itself, write current PID instead of
-    // dbus daemon PID.
-    pid_t curPid = getpid();
-    fwrite(&curPid, sizeof(pid_t), 1, fp);
-    fwrite(&curPid, sizeof(pid_t), 1, fp);
-    fclose(fp);
+        "fcitx", "dbus", stringutils::concat(localMachineId, "-", display));
+    bool res = StandardPath::global().safeSave(
+        StandardPath::Type::Config, path,
+        [address](int fd) { return writeFcitx4DbusInfo(*address, fd); });
+    if (!res) {
+        FCITX_ERROR() << "Fcitx4 frontend can't write conf";
+        return;
+    }
 
     event_ = instance_->watchEvent(
         EventType::InputContextInputMethodActivated, EventWatcherPhase::Default,
         [this](Event &event) {
             auto &activated = static_cast<InputMethodActivatedEvent &>(event);
             auto *ic = activated.inputContext();
-            if (strcmp(ic->frontend(), "fcitx4frontend") == 0) {
+            if (strcmp(ic->frontend(), "fcitx4") == 0) {
                 if (const auto *entry = instance_->inputMethodManager().entry(
                         activated.name())) {
                     static_cast<Fcitx4InputContext *>(ic)->updateIM(entry);
