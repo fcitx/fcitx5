@@ -201,8 +201,8 @@ public:
     }
 
     void setSurroundingTextPosition(uint32_t cursor, uint32_t anchor) {
-        surroundingText().setCursor(cursor, anchor);
         CHECK_SENDER_OR_RETURN;
+        surroundingText().setCursor(cursor, anchor);
         updateSurroundingText();
     }
 
