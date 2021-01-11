@@ -24,6 +24,7 @@
 #include "fcitx/inputmethodengine.h"
 #include "fcitx/inputmethodentry.h"
 #include "fcitx/inputmethodmanager.h"
+#include "fcitx/misc_p.h"
 #include "dbusmodule.h"
 #include "keyboard_public.h"
 #ifdef ENABLE_X11
@@ -45,31 +46,6 @@ namespace {
 constexpr char globalConfigPath[] = "fcitx://config/global";
 constexpr char addonConfigPrefix[] = "fcitx://config/addon/";
 constexpr char imConfigPrefix[] = "fcitx://config/inputmethod/";
-
-std::string readFileContent(const std::string &file) {
-    std::ifstream fin(file, std::ios::binary | std::ios::in);
-    std::vector<char> buffer;
-    constexpr auto chunkSize = 4096;
-    do {
-        auto curSize = buffer.size();
-        buffer.resize(curSize + chunkSize);
-        if (!fin.read(buffer.data() + curSize, chunkSize)) {
-            buffer.resize(curSize + fin.gcount());
-            break;
-        }
-    } while (0);
-    std::string str{buffer.begin(), buffer.end()};
-    return stringutils::trim(str);
-}
-
-std::string getLocalMachineId(void) {
-    auto content = readFileContent("/var/lib/dbus/machine-id");
-    if (content.empty()) {
-        content = readFileContent("/etc/machine-id");
-    }
-
-    return content;
-}
 
 #ifdef ENABLE_X11
 std::string X11GetAddress(AddonInstance *xcb, const std::string &display,

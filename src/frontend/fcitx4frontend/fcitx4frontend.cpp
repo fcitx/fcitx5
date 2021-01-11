@@ -62,35 +62,6 @@ int getDisplayNumber(const std::string &var) {
     }
     return 0;
 }
-
-std::string readFileContent(const std::string &file) {
-    std::ifstream fin(file, std::ios::binary | std::ios::in);
-    std::vector<char> buffer;
-    constexpr auto chunkSize = 4096;
-    do {
-        auto curSize = buffer.size();
-        buffer.resize(curSize + chunkSize);
-        if (!fin.read(buffer.data() + curSize, chunkSize)) {
-            buffer.resize(curSize + fin.gcount());
-            break;
-        }
-    } while (0);
-    std::string str{buffer.begin(), buffer.end()};
-    return stringutils::trim(str);
-}
-
-std::string getLocalMachineId() {
-    auto content = readFileContent("/var/lib/dbus/machine-id");
-    if (content.empty()) {
-        content = readFileContent("/etc/machine-id");
-    }
-
-    if (content.empty()) {
-        content = "machine-id";
-    }
-
-    return content;
-}
 } // namespace
 
 class Fcitx4InputMethod : public dbus::ObjectVTable<Fcitx4InputMethod> {
@@ -108,7 +79,7 @@ public:
             stringutils::concat(FCITX_DBUS_SERVICE, "-", display);
         bus_->requestName(dbusServiceName, requestFlag);
 
-        auto localMachineId = getLocalMachineId();
+        auto localMachineId = getLocalMachineId(/*fallback=*/"machine-id");
         auto path = stringutils::joinPath(
             "fcitx", "dbus", stringutils::concat(localMachineId, "-", display));
         bool res = StandardPath::global().safeSave(

@@ -7,12 +7,16 @@
 #ifndef _FCITX_MISC_P_H_
 #define _FCITX_MISC_P_H_
 
+#include <fstream>
 #include <string>
 #include <type_traits>
 #include "fcitx-utils/log.h"
 #include "fcitx-utils/misc_p.h"
+#include "fcitx-utils/stringutils.h"
 #include "fcitx/candidatelist.h"
 
+// This ia a file for random private util functions that we'd like to share
+// among different modules.
 namespace fcitx {
 
 static inline std::pair<std::string, std::string>
@@ -41,6 +45,31 @@ nthCandidateIgnorePlaceholder(const CandidateList &candidateList, int idx) {
         ++total;
     }
     return nullptr;
+}
+
+static inline std::string readFileContent(const std::string &file) {
+    std::ifstream fin(file, std::ios::binary | std::ios::in);
+    std::vector<char> buffer;
+    constexpr auto chunkSize = 4096;
+    do {
+        auto curSize = buffer.size();
+        buffer.resize(curSize + chunkSize);
+        if (!fin.read(buffer.data() + curSize, chunkSize)) {
+            buffer.resize(curSize + fin.gcount());
+            break;
+        }
+    } while (0);
+    std::string str{buffer.begin(), buffer.end()};
+    return stringutils::trim(str);
+}
+
+static inline std::string getLocalMachineId(const std::string &fallback = {}) {
+    auto content = readFileContent("/var/lib/dbus/machine-id");
+    if (content.empty()) {
+        content = readFileContent("/etc/machine-id");
+    }
+
+    return content.empty() ? fallback : content;
 }
 
 } // namespace fcitx

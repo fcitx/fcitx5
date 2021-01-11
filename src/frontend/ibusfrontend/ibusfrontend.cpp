@@ -47,35 +47,6 @@ bool isInFlatpak() {
     return inFlatpak;
 }
 
-std::string readFileContent(const std::string &file) {
-    std::ifstream fin(file, std::ios::binary | std::ios::in);
-    std::vector<char> buffer;
-    constexpr auto chunkSize = 4096;
-    do {
-        auto curSize = buffer.size();
-        buffer.resize(curSize + chunkSize);
-        if (!fin.read(buffer.data() + curSize, chunkSize)) {
-            buffer.resize(curSize + fin.gcount());
-            break;
-        }
-    } while (0);
-    std::string str{buffer.begin(), buffer.end()};
-    return stringutils::trim(str);
-}
-
-std::string getLocalMachineId(void) {
-    auto content = readFileContent("/var/lib/dbus/machine-id");
-    if (content.empty()) {
-        content = readFileContent("/etc/machine-id");
-    }
-
-    if (content.empty()) {
-        content = "machine-id";
-    }
-
-    return content;
-}
-
 std::string getSocketPath(bool isWayland) {
     auto *path = getenv("IBUS_ADDRESS_FILE");
     if (path) {
@@ -114,8 +85,9 @@ std::string getSocketPath(bool isWayland) {
     }
 
     return stringutils::joinPath(
-        "ibus/bus", stringutils::concat(getLocalMachineId(), "-", hostname, "-",
-                                        displaynumber));
+        "ibus/bus",
+        stringutils::concat(getLocalMachineId(/*fallback=*/"machine-id"), "-",
+                            hostname, "-", displaynumber));
 }
 
 std::string getFullSocketPath(bool isWayland) {
