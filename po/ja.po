@@ -5,16 +5,16 @@
 # Translators:
 # csslayer <wengxt@gmail.com>, 2017
 # ABE Tsunehiko, 2017
-# UTUMI Hirosi <utuhiro78@yahoo.co.jp>, 2021
 # Takuro Onoue <kusanaginoturugi@gmail.com>, 2021
+# UTUMI Hirosi <utuhiro78@yahoo.co.jp>, 2021
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2021-01-11 20:28+0000\n"
+"POT-Creation-Date: 2021-01-12 20:24+0000\n"
 "PO-Revision-Date: 2017-11-23 04:14+0000\n"
-"Last-Translator: Takuro Onoue <kusanaginoturugi@gmail.com>, 2021\n"
+"Last-Translator: UTUMI Hirosi <utuhiro78@yahoo.co.jp>, 2021\n"
 "Language-Team: Japanese (https://www.transifex.com/fcitx/teams/12005/ja/)\n"
 "Language: ja\n"
 "MIME-Version: 1.0\n"
@@ -781,7 +781,7 @@ msgstr "Fcitx のバージョン: ${1}"
 
 #: src/frontend/fcitx4frontend/fcitx4frontend.conf.in:3
 msgid "Fcitx4 Frontend"
-msgstr ""
+msgstr "Fcitx4 フロントエンド"
 
 #: src/lib/fcitx-utils/key.cpp:112
 msgctxt "Key name"

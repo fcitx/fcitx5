@@ -4,15 +4,15 @@
 #
 # Translators:
 # csslayer <wengxt@gmail.com>, 2017
-# scootergrisen, 2020
+# scootergrisen, 2021
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2021-01-11 20:28+0000\n"
+"POT-Creation-Date: 2021-01-12 20:24+0000\n"
 "PO-Revision-Date: 2017-11-23 04:14+0000\n"
-"Last-Translator: scootergrisen, 2020\n"
+"Last-Translator: scootergrisen, 2021\n"
 "Language-Team: Danish (https://www.transifex.com/fcitx/teams/12005/da/)\n"
 "Language: da\n"
 "MIME-Version: 1.0\n"
@@ -286,7 +286,7 @@ msgstr "Annuller"
 
 #: src/im/keyboard/longpress.h:19
 msgid "Candidates"
-msgstr ""
+msgstr "Kandidater"
 
 #: data/fcitx5-diagnose.sh:927
 msgid "Cannot connect to ${1} correctly."
@@ -634,7 +634,7 @@ msgstr "Emoji"
 
 #: src/im/keyboard/longpress.h:17
 msgid "Enable"
-msgstr ""
+msgstr "Aktivér"
 
 #: src/ui/classic/theme.h:81
 msgid "Enable Blur on KWin"
@@ -784,7 +784,7 @@ msgstr "Fcitx-version: ${1}"
 
 #: src/frontend/fcitx4frontend/fcitx4frontend.conf.in:3
 msgid "Fcitx4 Frontend"
-msgstr ""
+msgstr "Fcitx4-frontend"
 
 #: src/lib/fcitx-utils/key.cpp:112
 msgctxt "Key name"
@@ -798,7 +798,7 @@ msgstr "Find"
 
 #: src/ui/classic/classicui.h:98
 msgid "Font"
-msgstr ""
+msgstr "Skrifttype"
 
 #: src/ui/classic/classicui.h:109
 msgid ""
@@ -1190,7 +1190,7 @@ msgstr "Katakana"
 
 #: src/im/keyboard/longpress.h:16
 msgid "Key"
-msgstr ""
+msgstr "Tast"
 
 #: src/im/keyboard/keyboard.cpp:322 src/im/keyboard/keyboard.conf.in:3
 msgid "Keyboard"
@@ -1367,7 +1367,7 @@ msgstr "Log ud"
 
 #: src/im/keyboard/keyboard.h:72
 msgid "Long Press behavior"
-msgstr ""
+msgstr "Opførsel for langt tryk"
 
 #: src/lib/fcitx-utils/key.cpp:166
 msgctxt "Key name"
@@ -1468,7 +1468,7 @@ msgstr "Menu"
 
 #: src/ui/classic/classicui.h:100
 msgid "Menu Font"
-msgstr ""
+msgstr "Menuens skrifttype"
 
 #: src/lib/fcitx-utils/key.cpp:137
 msgctxt "Key name"
@@ -2148,7 +2148,7 @@ msgstr "Udløs tipstilstand"
 
 #: src/im/keyboard/keyboard.h:65
 msgid "Type special characters with long press"
-msgstr ""
+msgstr "Skriv specialtegn med langt tryk"
 
 #: data/org.fcitx.Fcitx5.metainfo.xml.in:20
 msgid "Typing with Fcitx and Kimpanel"
