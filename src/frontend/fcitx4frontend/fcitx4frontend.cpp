@@ -294,8 +294,12 @@ Fcitx4InputMethod::createICv3(const std::string &appname, int /*pid*/) {
     int icid = module_->nextIcIdx();
     auto *ic = new Fcitx4InputContext(icid, instance_->inputContextManager(),
                                       this, sender, appname);
-    ic->setFocusGroup(
-        instance_->defaultFocusGroup(stringutils::concat("x11::", display_)));
+    auto group =
+        instance_->defaultFocusGroup(stringutils::concat("x11::", display_));
+    if (!group) {
+        group = instance_->defaultFocusGroup("x11:");
+    }
+    ic->setFocusGroup(group);
     bus_->addObjectVTable(ic->path().path(), FCITX_INPUTCONTEXT_DBUS_INTERFACE,
                           *ic);
 
