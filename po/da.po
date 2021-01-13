@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2021-01-12 20:24+0000\n"
+"POT-Creation-Date: 2021-01-13 20:24+0000\n"
 "PO-Revision-Date: 2017-11-23 04:14+0000\n"
 "Last-Translator: scootergrisen, 2021\n"
 "Language-Team: Danish (https://www.transifex.com/fcitx/teams/12005/da/)\n"
@@ -167,7 +167,7 @@ msgstr "Program højre"
 
 #: src/im/keyboard/keyboard.h:70
 msgid "Applications disabled for long press"
-msgstr ""
+msgstr "Programmer deaktiveret for langt tryk"
 
 #: src/lib/fcitx-utils/key.cpp:176
 msgctxt "Key name"
@@ -663,7 +663,7 @@ msgstr "End"
 
 #: src/im/keyboard/longpress.h:26
 msgid "Entries"
-msgstr ""
+msgstr "Poster"
 
 #: src/lib/fcitx/globalconfig.cpp:47
 msgid "Enumerate Input Method Backward"
@@ -1572,7 +1572,7 @@ msgstr "NumLock"
 
 #: src/modules/clipboard/clipboard.h:35
 msgid "Number of entries"
-msgstr ""
+msgstr "Antal poster"
 
 #: src/im/keyboard/keyboard.cpp:505
 msgid ""
@@ -1636,7 +1636,7 @@ msgstr "Indsæt"
 
 #: src/modules/clipboard/clipboard.h:33
 msgid "Paste Primary"
-msgstr ""
+msgstr "Indsæt primære"
 
 #: src/lib/fcitx-utils/key.cpp:44
 msgctxt "Key name"
@@ -1895,19 +1895,19 @@ msgstr "Butik"
 
 #: src/lib/fcitx/globalconfig.cpp:139
 msgid "Show Input Method Information when changing focus"
-msgstr "Vis inputmetodeinformation når der skiftes fokus"
+msgstr "Vis information om inputmetode når der skiftes fokus"
 
 #: src/lib/fcitx/globalconfig.cpp:136
 msgid "Show Input Method Information when switch input method"
-msgstr "Vis inputmetodeinformation når der skiftes inputmetode"
+msgstr "Vis information om inputmetode når der skiftes inputmetode"
 
 #: src/lib/fcitx/globalconfig.cpp:142
 msgid "Show compact input method information"
-msgstr ""
+msgstr "Vis kompakt information om inputmetode"
 
 #: src/lib/fcitx/globalconfig.cpp:145
 msgid "Show first input method information"
-msgstr ""
+msgstr "Vis første information om inputmetode"
 
 #: src/modules/notificationitem/notificationitem.h:26
 msgid "Show label when using keyboard or icon unavailable"
@@ -2055,7 +2055,7 @@ msgstr "Tema"
 
 #: src/ui/classic/classicui.h:77
 msgid "This is only effective when the tray icon is xembed."
-msgstr ""
+msgstr "Anvendes kun når bakkeikonet er xembed."
 
 #: src/lib/fcitx-utils/key.cpp:177
 msgctxt "Key name"
@@ -2190,7 +2190,7 @@ msgstr "Brug al vandret plads til fremhævning når det er en lodret liste"
 
 #: src/ui/classic/classicui.h:105
 msgid "Use input method langauge to display text"
-msgstr ""
+msgstr "Brug sprog for inputmetode til at vise tekst"
 
 #: src/ui/classic/classicui.h:94
 msgid "Use mouse wheel to go to prev or next page"
