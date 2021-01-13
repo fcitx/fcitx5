@@ -213,8 +213,8 @@ void NotificationItem::enable() {
     bus_->addObjectVTable(NOTIFICATION_ITEM_DEFAULT_OBJ,
                           NOTIFICATION_ITEM_DBUS_IFACE, *sni_);
 
-    serviceName_ =
-        fmt::format("org.kde.StatusNotifierItem-{0}-{1}", getpid(), ++index_);
+    serviceName_ = fmt::format("org.fcitx.Fcitx5.StatusNotifierItem-{0}-{1}",
+                               getpid(), ++index_);
     if (!bus_->requestName(serviceName_, Flags<dbus::RequestNameFlag>(0))) {
         return;
     }
