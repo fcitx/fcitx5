@@ -174,7 +174,7 @@ class LongPressCandidateWord : public CandidateWord {
 public:
     LongPressCandidateWord(KeyboardEngine *engine, const std::string &text,
                            int index)
-        : CandidateWord(Text(text + "\n" + std::to_string(index))),
+        : CandidateWord(Text(stringutils::concat(text, "\n", index))),
           engine_(engine), text_(text) {}
 
     const std::string &str() const { return text_; }

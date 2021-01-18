@@ -504,6 +504,11 @@ void InputWindow::paint(cairo_t *cr, unsigned int width, unsigned int height) {
     candidateRegions_.clear();
     candidateRegions_.reserve(nCandidates_);
     size_t wholeW = 0, wholeH = 0;
+
+    // size of text = textMargin + actual text size.
+    // HighLight = HighLight margin + TEXT.
+    // Click region = HighLight - click
+
     for (size_t i = 0; i < nCandidates_; i++) {
         int x, y;
         if (vertical) {
@@ -543,7 +548,7 @@ void InputWindow::paint(cairo_t *cr, unsigned int width, unsigned int height) {
                               << highlightWidth + *highlightMargin.marginLeft +
                                      *highlightMargin.marginRight;
         }
-        int highlightIndex = (hoverIndex_ > 0) ? hoverIndex_ : candidateIndex_;
+        const int highlightIndex = highlight();
         if (highlightIndex >= 0 && i == static_cast<size_t>(highlightIndex)) {
             cairo_save(cr);
             cairo_translate(cr, x - *highlightMargin.marginLeft,
@@ -567,9 +572,10 @@ void InputWindow::paint(cairo_t *cr, unsigned int width, unsigned int height) {
         }
         Rect candidateRegion;
         candidateRegion
-            .setPosition(
-                x - *highlightMargin.marginLeft + *clickMargin.marginLeft,
-                y - *highlightMargin.marginTop + *clickMargin.marginTop)
+            .setPosition(*margin.marginLeft + x - *highlightMargin.marginLeft +
+                             *clickMargin.marginLeft,
+                         *margin.marginTop + y - *highlightMargin.marginTop +
+                             *clickMargin.marginTop)
             .setSize(highlightWidth + *highlightMargin.marginLeft +
                          *highlightMargin.marginRight -
                          *clickMargin.marginLeft - *clickMargin.marginRight,
@@ -651,7 +657,7 @@ void InputWindow::wheel(bool up) {
 }
 
 int InputWindow::highlight() const {
-    int highlightIndex = (hoverIndex_ > 0) ? hoverIndex_ : candidateIndex_;
+    int highlightIndex = (hoverIndex_ >= 0) ? hoverIndex_ : candidateIndex_;
     return highlightIndex;
 }
 
