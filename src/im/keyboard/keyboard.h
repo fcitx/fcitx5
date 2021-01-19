@@ -176,7 +176,6 @@ private:
     KeyboardEngineConfig config_;
     LongPressConfig longPressConfig_;
     std::unordered_map<std::string, std::vector<std::string>> longPressData_;
-    IsoCodes isoCodes_;
     XkbRules xkbRules_;
     std::string ruleName_;
     KeyList selectionKeys_;

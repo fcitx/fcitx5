@@ -202,7 +202,6 @@ private:
 KeyboardEngine::KeyboardEngine(Instance *instance) : instance_(instance) {
     setupDefaultLongPressConfig(longPressConfig_);
     registerDomain("xkeyboard-config", XKEYBOARDCONFIG_DATADIR "/locale");
-    isoCodes_.read(ISOCODES_ISO639_JSON, ISOCODES_ISO3166_JSON);
     std::string rule;
 #ifdef ENABLE_X11
     auto *xcb = instance_->addonManager().addon("xcb");
@@ -238,11 +237,14 @@ KeyboardEngine::KeyboardEngine(Instance *instance) : instance_(instance) {
 KeyboardEngine::~KeyboardEngine() {}
 
 std::vector<InputMethodEntry> KeyboardEngine::listInputMethods() {
+    IsoCodes isoCodes;
+    isoCodes.read(ISOCODES_ISO639_JSON, ISOCODES_ISO3166_JSON);
+
     std::vector<InputMethodEntry> result;
     bool usExists = false;
     for (const auto &p : xkbRules_.layoutInfos()) {
         const auto &layoutInfo = p.second;
-        auto language = findBestLanguage(isoCodes_, layoutInfo.description,
+        auto language = findBestLanguage(isoCodes, layoutInfo.description,
                                          layoutInfo.languages);
         auto description =
             fmt::format(_("Keyboard - {0}"),
@@ -259,7 +261,7 @@ std::vector<InputMethodEntry> KeyboardEngine::listInputMethods() {
                 .setIcon("input-keyboard")
                 .setConfigurable(true)));
         for (const auto &variantInfo : layoutInfo.variantInfos) {
-            auto language = findBestLanguage(isoCodes_, variantInfo.description,
+            auto language = findBestLanguage(isoCodes, variantInfo.description,
                                              !variantInfo.languages.empty()
                                                  ? variantInfo.languages
                                                  : layoutInfo.languages);
