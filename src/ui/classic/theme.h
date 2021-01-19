@@ -49,7 +49,8 @@ FCITX_CONFIGURATION(
     Option<std::string> image{this, "Image", _("Background Image")};
     Option<Color> color{this, "Color", "Color", Color("#ffffff")};
     Option<std::string> overlay{this, "Overlay", _("Overlay Image")};
-    Option<Gravity> gravity{this, "Gravity", _("Overlay position")};
+    OptionWithAnnotation<Gravity, GravityI18NAnnotation> gravity{
+        this, "Gravity", _("Overlay position")};
     Option<int> overlayOffsetX{this, "OverlayOffsetX", _("Overlay X offset")};
     Option<int> overlayOffsetY{this, "OverlayOffsetY", _("Overlay Y offset")};
     Option<bool> hideOverlayIfOversize{this, "HideOverlayIfOversize",
@@ -129,8 +130,8 @@ FCITX_CONFIGURATION(ThemeMetadata,
                                                    _("Description")};)
 
 FCITX_CONFIGURATION(ThemeGeneralConfig,
-                    Option<std::string> trayFont{this, "TrayFont",
-                                                 _("Tray Font"), "Sans 9"};);
+                    OptionWithAnnotation<std::string, FontAnnotation> trayFont{
+                        this, "TrayFont", _("Tray Font"), "Sans 9"};);
 
 FCITX_CONFIGURATION(ThemeConfig,
                     HiddenOption<ThemeMetadata> metadata{this, "Metadata",
