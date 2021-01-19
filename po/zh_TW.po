@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2021-01-11 20:28+0000\n"
+"POT-Creation-Date: 2021-01-19 20:26+0000\n"
 "PO-Revision-Date: 2017-11-23 04:14+0000\n"
 "Last-Translator: bruh, 2020\n"
 "Language-Team: Chinese (Taiwan) (https://www.transifex.com/fcitx/teams/12005/"
@@ -79,23 +79,23 @@ msgstr "/Note_for_GNOME_Later_than_3.6"
 msgid "/XIM"
 msgstr "/XIM"
 
-#: src/modules/unicode/charselectdata.cpp:203
+#: src/modules/unicode/charselectdata.cpp:220
 msgid "<Low Surrogate>"
 msgstr "<低半代理區>"
 
-#: src/modules/unicode/charselectdata.cpp:199
+#: src/modules/unicode/charselectdata.cpp:216
 msgid "<Non Private Use High Surrogate>"
 msgstr "<非專用高半代理區>"
 
-#: src/modules/unicode/charselectdata.cpp:201
+#: src/modules/unicode/charselectdata.cpp:218
 msgid "<Private Use High Surrogate>"
 msgstr "<專用高半代理區>"
 
-#: src/modules/unicode/charselectdata.cpp:205
+#: src/modules/unicode/charselectdata.cpp:222
 msgid "<Private Use>"
 msgstr "<專用區>"
 
-#: src/modules/unicode/charselectdata.cpp:235
+#: src/modules/unicode/charselectdata.cpp:252
 msgid "<not assigned>"
 msgstr "<未指定>"
 
@@ -168,7 +168,7 @@ msgctxt "Key name"
 msgid "Application Right"
 msgstr "應用程式右"
 
-#: src/im/keyboard/keyboard.h:70
+#: src/im/keyboard/keyboard.h:75
 msgid "Applications disabled for long press"
 msgstr ""
 
@@ -187,7 +187,7 @@ msgctxt "Key name"
 msgid "Audio Repeat"
 msgstr "音訊重複"
 
-#: src/ui/classic/theme.h:127
+#: src/ui/classic/theme.h:128
 msgid "Author"
 msgstr "作者"
 
@@ -206,7 +206,7 @@ msgctxt "Key name"
 msgid "Back Forward"
 msgstr "往後"
 
-#: src/ui/classic/theme.h:93 src/ui/classic/theme.h:112
+#: src/ui/classic/theme.h:94 src/ui/classic/theme.h:113
 msgid "Background"
 msgstr "背景"
 
@@ -246,7 +246,7 @@ msgctxt "Key name"
 msgid "Bluetooth"
 msgstr "藍牙"
 
-#: src/ui/classic/theme.h:102
+#: src/ui/classic/theme.h:103
 msgid "Blur Margin"
 msgstr ""
 
@@ -389,7 +389,7 @@ msgstr ""
 msgid "Change Fcitx 5 Configuration"
 msgstr "變更 Fcitx 5 設定"
 
-#: src/ui/classic/theme.h:117
+#: src/ui/classic/theme.h:118
 msgid "Check box"
 msgstr ""
 
@@ -406,7 +406,7 @@ msgctxt "Key name"
 msgid "Clear"
 msgstr "清空"
 
-#: src/ui/classic/theme.h:71
+#: src/ui/classic/theme.h:72
 msgid "Click Margin"
 msgstr ""
 
@@ -433,15 +433,19 @@ msgctxt "Key name"
 msgid "Community"
 msgstr "社群"
 
-#: src/im/keyboard/keyboard.cpp:511
+#: src/im/keyboard/keyboard.cpp:791
 msgid "Completion"
 msgstr ""
 
-#: src/im/keyboard/keyboard.cpp:514
+#: src/im/keyboard/keyboard.cpp:782
 msgid "Completion is disabled."
 msgstr ""
 
-#: src/im/keyboard/keyboard.cpp:513
+#: src/im/keyboard/keyboard.cpp:785
+msgid "Completion is enabled temporarily."
+msgstr ""
+
+#: src/im/keyboard/keyboard.cpp:787
 msgid "Completion is enabled."
 msgstr ""
 
@@ -572,7 +576,7 @@ msgctxt "Key name"
 msgid "Delete"
 msgstr "刪除"
 
-#: src/ui/classic/theme.h:129
+#: src/ui/classic/theme.h:130
 msgid "Description"
 msgstr "說明"
 
@@ -634,7 +638,7 @@ msgstr "顏文字"
 msgid "Enable"
 msgstr ""
 
-#: src/ui/classic/theme.h:81
+#: src/ui/classic/theme.h:82
 msgid "Enable Blur on KWin"
 msgstr ""
 
@@ -884,7 +888,7 @@ msgctxt "Key name"
 msgid "Game"
 msgstr "遊戲"
 
-#: src/ui/classic/theme.h:139
+#: src/ui/classic/theme.h:140
 msgid "General"
 msgstr "一般"
 
@@ -1006,27 +1010,27 @@ msgstr "休眠"
 msgid "Hidden Notifications"
 msgstr "隱藏通知"
 
-#: src/ui/classic/theme.h:56
+#: src/ui/classic/theme.h:57
 msgid "Hide overlay if size does not fit"
 msgstr ""
 
-#: src/ui/classic/theme.h:95 src/ui/classic/theme.h:114
+#: src/ui/classic/theme.h:96 src/ui/classic/theme.h:115
 msgid "Highlight Background"
 msgstr ""
 
-#: src/ui/classic/theme.h:90
+#: src/ui/classic/theme.h:91
 msgid "Highlight Background color"
 msgstr ""
 
-#: src/ui/classic/theme.h:78 src/ui/classic/theme.h:108
+#: src/ui/classic/theme.h:79 src/ui/classic/theme.h:109
 msgid "Highlight Candidate Color"
 msgstr ""
 
-#: src/ui/classic/theme.h:66
+#: src/ui/classic/theme.h:67
 msgid "Highlight Click Margin"
 msgstr ""
 
-#: src/ui/classic/theme.h:88
+#: src/ui/classic/theme.h:89
 msgid "Highlight text color"
 msgstr ""
 
@@ -1110,11 +1114,11 @@ msgstr ""
 "${g36_disable_ibus} 指令停用 IBus 整合以使用 ${2} 以外的任何輸入法。更多細節"
 "參見 ${link}。"
 
-#: src/ui/classic/theme.h:69
+#: src/ui/classic/theme.h:70
 msgid "Image"
 msgstr ""
 
-#: src/im/keyboard/keyboard.cpp:510 src/ui/classic/xcbtraywindow.cpp:38
+#: src/im/keyboard/keyboard.cpp:790 src/ui/classic/xcbtraywindow.cpp:38
 #: src/lib/fcitx/instance.cpp:730 src/lib/fcitx/instance.cpp:900
 #: src/modules/notificationitem/dbusmenu.cpp:241
 #: src/modules/notificationitem/notificationitem.cpp:128
@@ -1131,7 +1135,7 @@ msgstr "輸入法設定"
 msgid "Input Method Related Environment Variables: "
 msgstr "輸入法相關環境變數："
 
-#: src/ui/classic/theme.h:141
+#: src/ui/classic/theme.h:142
 msgid "Input Panel"
 msgstr ""
 
@@ -1182,15 +1186,15 @@ msgstr "片假名"
 msgid "Key"
 msgstr ""
 
-#: src/im/keyboard/keyboard.cpp:322 src/im/keyboard/keyboard.conf.in:3
+#: src/im/keyboard/keyboard.cpp:324 src/im/keyboard/keyboard.conf.in:3
 msgid "Keyboard"
 msgstr "鍵盤"
 
-#: src/im/keyboard/keyboard.cpp:248
+#: src/im/keyboard/keyboard.cpp:250
 msgid "Keyboard - {0}"
 msgstr "鍵盤 - {0}"
 
-#: src/im/keyboard/keyboard.cpp:267
+#: src/im/keyboard/keyboard.cpp:269
 msgid "Keyboard - {0} - {1}"
 msgstr "鍵盤 - {0} - {1}"
 
@@ -1355,7 +1359,7 @@ msgctxt "Key name"
 msgid "Logoff"
 msgstr "登出"
 
-#: src/im/keyboard/keyboard.h:72
+#: src/im/keyboard/keyboard.h:77
 msgid "Long Press behavior"
 msgstr ""
 
@@ -1364,7 +1368,7 @@ msgctxt "Key name"
 msgid "Mail Forward"
 msgstr "轉寄信件"
 
-#: src/ui/classic/theme.h:58
+#: src/ui/classic/theme.h:59
 msgid "Margin"
 msgstr ""
 
@@ -1384,11 +1388,11 @@ msgstr ""
 msgid "Margin Top"
 msgstr ""
 
-#: src/ui/classic/theme.h:97 src/ui/classic/theme.h:120
+#: src/ui/classic/theme.h:98 src/ui/classic/theme.h:121
 msgid "Margin around all content"
 msgstr ""
 
-#: src/ui/classic/theme.h:99 src/ui/classic/theme.h:122
+#: src/ui/classic/theme.h:100 src/ui/classic/theme.h:123
 msgid "Margin around text"
 msgstr ""
 
@@ -1447,7 +1451,7 @@ msgctxt "Key name"
 msgid "Meeting"
 msgstr "會議"
 
-#: src/ui/classic/theme.h:142
+#: src/ui/classic/theme.h:143
 msgid "Menu"
 msgstr "選單"
 
@@ -1470,7 +1474,7 @@ msgctxt "Key name"
 msgid "Messenger"
 msgstr "即時通訊工具"
 
-#: src/ui/classic/theme.h:137
+#: src/ui/classic/theme.h:138
 msgid "Metadata"
 msgstr ""
 
@@ -1509,7 +1513,7 @@ msgctxt "Key name"
 msgid "My Sites"
 msgstr "個人站台"
 
-#: src/ui/classic/theme.h:125
+#: src/ui/classic/theme.h:126
 msgid "Name"
 msgstr "名稱"
 
@@ -1527,7 +1531,7 @@ msgstr "新聞"
 msgid "Next Candidate"
 msgstr "下一個候選字"
 
-#: src/ui/classic/theme.h:101
+#: src/ui/classic/theme.h:102
 msgid "Next Page Button"
 msgstr ""
 
@@ -1539,7 +1543,7 @@ msgstr "沒有輸入法歷史"
 msgid "None"
 msgstr "無"
 
-#: src/ui/classic/theme.h:75 src/ui/classic/theme.h:105
+#: src/ui/classic/theme.h:76 src/ui/classic/theme.h:106
 msgid "Normal text color"
 msgstr ""
 
@@ -1564,7 +1568,7 @@ msgstr "數字鎖定 (NumLock)"
 msgid "Number of entries"
 msgstr ""
 
-#: src/im/keyboard/keyboard.cpp:505
+#: src/im/keyboard/keyboard.cpp:776
 msgid ""
 "Only emoji support is found. To enable spell checking, you may need to "
 "install spell check data for the language."
@@ -1585,7 +1589,7 @@ msgctxt "Key name"
 msgid "Option"
 msgstr "選項"
 
-#: src/ui/classic/theme.h:60
+#: src/ui/classic/theme.h:61
 msgid "Overlay Clip Margin"
 msgstr ""
 
@@ -1593,15 +1597,15 @@ msgstr ""
 msgid "Overlay Image"
 msgstr ""
 
-#: src/ui/classic/theme.h:53
+#: src/ui/classic/theme.h:54
 msgid "Overlay X offset"
 msgstr ""
 
-#: src/ui/classic/theme.h:54
+#: src/ui/classic/theme.h:55
 msgid "Overlay Y offset"
 msgstr ""
 
-#: src/ui/classic/theme.h:52
+#: src/ui/classic/theme.h:53
 msgid "Overlay position"
 msgstr ""
 
@@ -1697,7 +1701,7 @@ msgstr "Presage"
 msgid "Prev Candidate"
 msgstr "上一個候選字"
 
-#: src/ui/classic/theme.h:100
+#: src/ui/classic/theme.h:101
 msgid "Prev Page Button"
 msgstr ""
 
@@ -1858,7 +1862,7 @@ msgctxt "Key name"
 msgid "Send"
 msgstr "傳送"
 
-#: src/ui/classic/theme.h:116
+#: src/ui/classic/theme.h:117
 msgid "Separator Background"
 msgstr ""
 
@@ -1914,7 +1918,7 @@ msgctxt "Key name"
 msgid "Space"
 msgstr "空格"
 
-#: src/ui/classic/theme.h:80 src/ui/classic/theme.h:110
+#: src/ui/classic/theme.h:81 src/ui/classic/theme.h:111
 msgid "Spacing"
 msgstr ""
 
@@ -1955,7 +1959,7 @@ msgctxt "Key name"
 msgid "Stop"
 msgstr "停止"
 
-#: src/ui/classic/theme.h:118
+#: src/ui/classic/theme.h:119
 msgid "Sub Menu"
 msgstr ""
 
@@ -2104,7 +2108,7 @@ msgctxt "Key name"
 msgid "Travel"
 msgstr "旅行"
 
-#: src/ui/classic/theme.h:133
+#: src/ui/classic/theme.h:134
 msgid "Tray Font"
 msgstr ""
 
@@ -2126,7 +2130,11 @@ msgstr ""
 msgid "Trigger hint mode"
 msgstr "切換提示模式"
 
-#: src/im/keyboard/keyboard.h:65
+#: src/im/keyboard/keyboard.h:66
+msgid "Trigger hint mode for one time"
+msgstr ""
+
+#: src/im/keyboard/keyboard.h:70
 msgid "Type special characters with long press"
 msgstr ""
 
@@ -2164,7 +2172,7 @@ msgstr ""
 msgid "Use Per Screen DPI"
 msgstr "依每個螢幕的 DPI 使用"
 
-#: src/ui/classic/theme.h:85
+#: src/ui/classic/theme.h:86
 msgid "Use all horizontal space for highlight when it is vertical list"
 msgstr ""
 
@@ -2184,7 +2192,7 @@ msgstr ""
 msgid "Using ${1} to check dbus."
 msgstr ""
 
-#: src/ui/classic/theme.h:126
+#: src/ui/classic/theme.h:127
 msgid "Version"
 msgstr ""
 
@@ -2398,7 +2406,7 @@ msgstr ""
 msgid "version:"
 msgstr ""
 
-#: src/im/keyboard/keyboard.cpp:299
+#: src/im/keyboard/keyboard.cpp:301
 msgid "{0} (Not Available)"
 msgstr "{0} (無法使用)"
 

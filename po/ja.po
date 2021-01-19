@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2021-01-17 20:24+0000\n"
+"POT-Creation-Date: 2021-01-19 20:26+0000\n"
 "PO-Revision-Date: 2017-11-23 04:14+0000\n"
 "Last-Translator: UTUMI Hirosi <utuhiro78@yahoo.co.jp>, 2021\n"
 "Language-Team: Japanese (https://www.transifex.com/fcitx/teams/12005/ja/)\n"
@@ -78,23 +78,23 @@ msgstr "/Note_for_GNOME_Later_than_3.6"
 msgid "/XIM"
 msgstr "/XIM"
 
-#: src/modules/unicode/charselectdata.cpp:203
+#: src/modules/unicode/charselectdata.cpp:220
 msgid "<Low Surrogate>"
 msgstr "<Low Surrogate>"
 
-#: src/modules/unicode/charselectdata.cpp:199
+#: src/modules/unicode/charselectdata.cpp:216
 msgid "<Non Private Use High Surrogate>"
 msgstr "<Non Private Use High Surrogate>"
 
-#: src/modules/unicode/charselectdata.cpp:201
+#: src/modules/unicode/charselectdata.cpp:218
 msgid "<Private Use High Surrogate>"
 msgstr "<Private Use High Surrogate>"
 
-#: src/modules/unicode/charselectdata.cpp:205
+#: src/modules/unicode/charselectdata.cpp:222
 msgid "<Private Use>"
 msgstr "<Private Use>"
 
-#: src/modules/unicode/charselectdata.cpp:235
+#: src/modules/unicode/charselectdata.cpp:252
 msgid "<not assigned>"
 msgstr "<not assigned>"
 
@@ -167,7 +167,7 @@ msgctxt "Key name"
 msgid "Application Right"
 msgstr "右側のアプリケーション"
 
-#: src/im/keyboard/keyboard.h:70
+#: src/im/keyboard/keyboard.h:75
 msgid "Applications disabled for long press"
 msgstr "長押しを無効にするアプリケーション"
 
@@ -186,7 +186,7 @@ msgctxt "Key name"
 msgid "Audio Repeat"
 msgstr "オーディオリピート"
 
-#: src/ui/classic/theme.h:127
+#: src/ui/classic/theme.h:128
 msgid "Author"
 msgstr "作者"
 
@@ -205,7 +205,7 @@ msgctxt "Key name"
 msgid "Back Forward"
 msgstr "Back Forward"
 
-#: src/ui/classic/theme.h:93 src/ui/classic/theme.h:112
+#: src/ui/classic/theme.h:94 src/ui/classic/theme.h:113
 msgid "Background"
 msgstr "背景"
 
@@ -245,7 +245,7 @@ msgctxt "Key name"
 msgid "Bluetooth"
 msgstr "Bluetooth"
 
-#: src/ui/classic/theme.h:102
+#: src/ui/classic/theme.h:103
 msgid "Blur Margin"
 msgstr "ブラーぼかしのマージン"
 
@@ -391,7 +391,7 @@ msgstr "中央右"
 msgid "Change Fcitx 5 Configuration"
 msgstr "Fcitx5 設定を変更"
 
-#: src/ui/classic/theme.h:117
+#: src/ui/classic/theme.h:118
 msgid "Check box"
 msgstr "チェックボックス"
 
@@ -408,7 +408,7 @@ msgctxt "Key name"
 msgid "Clear"
 msgstr "クリア"
 
-#: src/ui/classic/theme.h:71
+#: src/ui/classic/theme.h:72
 msgid "Click Margin"
 msgstr "クリックマージン"
 
@@ -435,15 +435,19 @@ msgctxt "Key name"
 msgid "Community"
 msgstr "コミュニティ"
 
-#: src/im/keyboard/keyboard.cpp:511
+#: src/im/keyboard/keyboard.cpp:791
 msgid "Completion"
 msgstr "補完"
 
-#: src/im/keyboard/keyboard.cpp:514
+#: src/im/keyboard/keyboard.cpp:782
 msgid "Completion is disabled."
 msgstr "補完は無効です。"
 
-#: src/im/keyboard/keyboard.cpp:513
+#: src/im/keyboard/keyboard.cpp:785
+msgid "Completion is enabled temporarily."
+msgstr ""
+
+#: src/im/keyboard/keyboard.cpp:787
 msgid "Completion is enabled."
 msgstr "補完は有効です。"
 
@@ -574,7 +578,7 @@ msgctxt "Key name"
 msgid "Delete"
 msgstr "削除"
 
-#: src/ui/classic/theme.h:129
+#: src/ui/classic/theme.h:130
 msgid "Description"
 msgstr "詳細"
 
@@ -636,7 +640,7 @@ msgstr "絵文字"
 msgid "Enable"
 msgstr "有効"
 
-#: src/ui/classic/theme.h:81
+#: src/ui/classic/theme.h:82
 msgid "Enable Blur on KWin"
 msgstr "KWin でブラーを有効にする"
 
@@ -891,7 +895,7 @@ msgctxt "Key name"
 msgid "Game"
 msgstr "ゲーム"
 
-#: src/ui/classic/theme.h:139
+#: src/ui/classic/theme.h:140
 msgid "General"
 msgstr "全般"
 
@@ -1013,27 +1017,27 @@ msgstr "ハイバネート"
 msgid "Hidden Notifications"
 msgstr "隠す通知"
 
-#: src/ui/classic/theme.h:56
+#: src/ui/classic/theme.h:57
 msgid "Hide overlay if size does not fit"
 msgstr "サイズが合わない場合はオーバーレイを非表示にする"
 
-#: src/ui/classic/theme.h:95 src/ui/classic/theme.h:114
+#: src/ui/classic/theme.h:96 src/ui/classic/theme.h:115
 msgid "Highlight Background"
 msgstr "ハイライト背景"
 
-#: src/ui/classic/theme.h:90
+#: src/ui/classic/theme.h:91
 msgid "Highlight Background color"
 msgstr "ハイライト背景色"
 
-#: src/ui/classic/theme.h:78 src/ui/classic/theme.h:108
+#: src/ui/classic/theme.h:79 src/ui/classic/theme.h:109
 msgid "Highlight Candidate Color"
 msgstr "ハイライト候補色"
 
-#: src/ui/classic/theme.h:66
+#: src/ui/classic/theme.h:67
 msgid "Highlight Click Margin"
 msgstr "ハイライトクリックマージン"
 
-#: src/ui/classic/theme.h:88
+#: src/ui/classic/theme.h:89
 msgid "Highlight text color"
 msgstr "ハイライトテキスト色"
 
@@ -1119,11 +1123,11 @@ msgstr ""
 "${g36_disable_ibus} コマンドを実行してください。詳細は ${link} で確認してくだ"
 "さい。"
 
-#: src/ui/classic/theme.h:69
+#: src/ui/classic/theme.h:70
 msgid "Image"
 msgstr "画像"
 
-#: src/im/keyboard/keyboard.cpp:510 src/ui/classic/xcbtraywindow.cpp:38
+#: src/im/keyboard/keyboard.cpp:790 src/ui/classic/xcbtraywindow.cpp:38
 #: src/lib/fcitx/instance.cpp:730 src/lib/fcitx/instance.cpp:900
 #: src/modules/notificationitem/dbusmenu.cpp:241
 #: src/modules/notificationitem/notificationitem.cpp:128
@@ -1140,7 +1144,7 @@ msgstr "入力メソッドの設定"
 msgid "Input Method Related Environment Variables: "
 msgstr "入力メソッド関連の環境変数:"
 
-#: src/ui/classic/theme.h:141
+#: src/ui/classic/theme.h:142
 msgid "Input Panel"
 msgstr "入力パネル"
 
@@ -1193,15 +1197,15 @@ msgstr "カタカナ"
 msgid "Key"
 msgstr "キー"
 
-#: src/im/keyboard/keyboard.cpp:322 src/im/keyboard/keyboard.conf.in:3
+#: src/im/keyboard/keyboard.cpp:324 src/im/keyboard/keyboard.conf.in:3
 msgid "Keyboard"
 msgstr "キーボード"
 
-#: src/im/keyboard/keyboard.cpp:248
+#: src/im/keyboard/keyboard.cpp:250
 msgid "Keyboard - {0}"
 msgstr "キーボード - {0}"
 
-#: src/im/keyboard/keyboard.cpp:267
+#: src/im/keyboard/keyboard.cpp:269
 msgid "Keyboard - {0} - {1}"
 msgstr "キーボード - {0} - {1}"
 
@@ -1366,7 +1370,7 @@ msgctxt "Key name"
 msgid "Logoff"
 msgstr "ログオフ"
 
-#: src/im/keyboard/keyboard.h:72
+#: src/im/keyboard/keyboard.h:77
 msgid "Long Press behavior"
 msgstr "長押し時の動作"
 
@@ -1375,7 +1379,7 @@ msgctxt "Key name"
 msgid "Mail Forward"
 msgstr "メール転送"
 
-#: src/ui/classic/theme.h:58
+#: src/ui/classic/theme.h:59
 msgid "Margin"
 msgstr "マージン "
 
@@ -1395,11 +1399,11 @@ msgstr "右マージン"
 msgid "Margin Top"
 msgstr "上マージン"
 
-#: src/ui/classic/theme.h:97 src/ui/classic/theme.h:120
+#: src/ui/classic/theme.h:98 src/ui/classic/theme.h:121
 msgid "Margin around all content"
 msgstr "全コンテンツの周りのマージン"
 
-#: src/ui/classic/theme.h:99 src/ui/classic/theme.h:122
+#: src/ui/classic/theme.h:100 src/ui/classic/theme.h:123
 msgid "Margin around text"
 msgstr "テキストの周りのマージン"
 
@@ -1458,7 +1462,7 @@ msgctxt "Key name"
 msgid "Meeting"
 msgstr "ミーティング"
 
-#: src/ui/classic/theme.h:142
+#: src/ui/classic/theme.h:143
 msgid "Menu"
 msgstr "メニュー"
 
@@ -1481,7 +1485,7 @@ msgctxt "Key name"
 msgid "Messenger"
 msgstr "Messenger"
 
-#: src/ui/classic/theme.h:137
+#: src/ui/classic/theme.h:138
 msgid "Metadata"
 msgstr "メタデータ"
 
@@ -1520,7 +1524,7 @@ msgctxt "Key name"
 msgid "My Sites"
 msgstr "個人用サイト"
 
-#: src/ui/classic/theme.h:125
+#: src/ui/classic/theme.h:126
 msgid "Name"
 msgstr "名前"
 
@@ -1538,7 +1542,7 @@ msgstr "ニュース"
 msgid "Next Candidate"
 msgstr "次の候補"
 
-#: src/ui/classic/theme.h:101
+#: src/ui/classic/theme.h:102
 msgid "Next Page Button"
 msgstr "次ページボタン"
 
@@ -1550,7 +1554,7 @@ msgstr "クリップボード履歴がありません。"
 msgid "None"
 msgstr "なし"
 
-#: src/ui/classic/theme.h:75 src/ui/classic/theme.h:105
+#: src/ui/classic/theme.h:76 src/ui/classic/theme.h:106
 msgid "Normal text color"
 msgstr "ノーマルテキスト色"
 
@@ -1575,7 +1579,7 @@ msgstr "NumLock"
 msgid "Number of entries"
 msgstr "エントリー数"
 
-#: src/im/keyboard/keyboard.cpp:505
+#: src/im/keyboard/keyboard.cpp:776
 msgid ""
 "Only emoji support is found. To enable spell checking, you may need to "
 "install spell check data for the language."
@@ -1598,7 +1602,7 @@ msgctxt "Key name"
 msgid "Option"
 msgstr "オプション"
 
-#: src/ui/classic/theme.h:60
+#: src/ui/classic/theme.h:61
 msgid "Overlay Clip Margin"
 msgstr "クリップマージンのオーバーレイ"
 
@@ -1606,15 +1610,15 @@ msgstr "クリップマージンのオーバーレイ"
 msgid "Overlay Image"
 msgstr "オーバーレイ画像"
 
-#: src/ui/classic/theme.h:53
+#: src/ui/classic/theme.h:54
 msgid "Overlay X offset"
 msgstr "Xオフセットのオーバーレイ"
 
-#: src/ui/classic/theme.h:54
+#: src/ui/classic/theme.h:55
 msgid "Overlay Y offset"
 msgstr "Yオフセットのオーバーレイ"
 
-#: src/ui/classic/theme.h:52
+#: src/ui/classic/theme.h:53
 msgid "Overlay position"
 msgstr "オーバーレイの位置"
 
@@ -1715,7 +1719,7 @@ msgstr "Presage"
 msgid "Prev Candidate"
 msgstr "前の候補"
 
-#: src/ui/classic/theme.h:100
+#: src/ui/classic/theme.h:101
 msgid "Prev Page Button"
 msgstr "前ページのボタン"
 
@@ -1876,7 +1880,7 @@ msgctxt "Key name"
 msgid "Send"
 msgstr "送信"
 
-#: src/ui/classic/theme.h:116
+#: src/ui/classic/theme.h:117
 msgid "Separator Background"
 msgstr "セパレーターの背景"
 
@@ -1932,7 +1936,7 @@ msgctxt "Key name"
 msgid "Space"
 msgstr "スペース"
 
-#: src/ui/classic/theme.h:80 src/ui/classic/theme.h:110
+#: src/ui/classic/theme.h:81 src/ui/classic/theme.h:111
 msgid "Spacing"
 msgstr "間隔"
 
@@ -1973,7 +1977,7 @@ msgctxt "Key name"
 msgid "Stop"
 msgstr "停止"
 
-#: src/ui/classic/theme.h:118
+#: src/ui/classic/theme.h:119
 msgid "Sub Menu"
 msgstr "サブメニュー"
 
@@ -2125,7 +2129,7 @@ msgctxt "Key name"
 msgid "Travel"
 msgstr "トラベル"
 
-#: src/ui/classic/theme.h:133
+#: src/ui/classic/theme.h:134
 msgid "Tray Font"
 msgstr "トレイフォント"
 
@@ -2147,7 +2151,11 @@ msgstr "現在の入力コンテキストのみのトリガーキー"
 msgid "Trigger hint mode"
 msgstr "ヒントモードのオンオフ"
 
-#: src/im/keyboard/keyboard.h:65
+#: src/im/keyboard/keyboard.h:66
+msgid "Trigger hint mode for one time"
+msgstr ""
+
+#: src/im/keyboard/keyboard.h:70
 msgid "Type special characters with long press"
 msgstr "長押しで特殊文字を入力する"
 
@@ -2185,7 +2193,7 @@ msgstr "XIM で On The Spot スタイルを使う(再起動が必要)"
 msgid "Use Per Screen DPI"
 msgstr "スクリーンごとのDPIを使用する"
 
-#: src/ui/classic/theme.h:85
+#: src/ui/classic/theme.h:86
 msgid "Use all horizontal space for highlight when it is vertical list"
 msgstr "候補リストが縦の場合は、ハイライト時にすべての水平スペースを使用します"
 
@@ -2205,7 +2213,7 @@ msgstr "ユーザーインターフェイス:"
 msgid "Using ${1} to check dbus."
 msgstr "DBus をチェックするために ${1} を使用します。"
 
-#: src/ui/classic/theme.h:126
+#: src/ui/classic/theme.h:127
 msgid "Version"
 msgstr "バージョン"
 
@@ -2434,7 +2442,7 @@ msgstr "sudo の環境変数"
 msgid "version:"
 msgstr "バージョン:"
 
-#: src/im/keyboard/keyboard.cpp:299
+#: src/im/keyboard/keyboard.cpp:301
 msgid "{0} (Not Available)"
 msgstr "{0} (利用できません)"
 

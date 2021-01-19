@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2021-01-11 20:28+0000\n"
+"POT-Creation-Date: 2021-01-19 20:26+0000\n"
 "PO-Revision-Date: 2017-11-23 04:14+0000\n"
 "Last-Translator: Tim Hofstede <timhofstede.va@gmail.com>, 2018\n"
 "Language-Team: German (https://www.transifex.com/fcitx/teams/12005/de/)\n"
@@ -77,23 +77,23 @@ msgstr ""
 msgid "/XIM"
 msgstr ""
 
-#: src/modules/unicode/charselectdata.cpp:203
+#: src/modules/unicode/charselectdata.cpp:220
 msgid "<Low Surrogate>"
 msgstr "<Low Surrogate>"
 
-#: src/modules/unicode/charselectdata.cpp:199
+#: src/modules/unicode/charselectdata.cpp:216
 msgid "<Non Private Use High Surrogate>"
 msgstr "<Non Private Use High Surrogate>"
 
-#: src/modules/unicode/charselectdata.cpp:201
+#: src/modules/unicode/charselectdata.cpp:218
 msgid "<Private Use High Surrogate>"
 msgstr "<Private Use High Surrogate>"
 
-#: src/modules/unicode/charselectdata.cpp:205
+#: src/modules/unicode/charselectdata.cpp:222
 msgid "<Private Use>"
 msgstr "<Private Use>"
 
-#: src/modules/unicode/charselectdata.cpp:235
+#: src/modules/unicode/charselectdata.cpp:252
 msgid "<not assigned>"
 msgstr "<not assigned>"
 
@@ -166,7 +166,7 @@ msgctxt "Key name"
 msgid "Application Right"
 msgstr "Anwendung Rechts"
 
-#: src/im/keyboard/keyboard.h:70
+#: src/im/keyboard/keyboard.h:75
 msgid "Applications disabled for long press"
 msgstr ""
 
@@ -185,7 +185,7 @@ msgctxt "Key name"
 msgid "Audio Repeat"
 msgstr "Audio Wiederhohlung"
 
-#: src/ui/classic/theme.h:127
+#: src/ui/classic/theme.h:128
 msgid "Author"
 msgstr ""
 
@@ -204,7 +204,7 @@ msgctxt "Key name"
 msgid "Back Forward"
 msgstr "Zurück vorwärts"
 
-#: src/ui/classic/theme.h:93 src/ui/classic/theme.h:112
+#: src/ui/classic/theme.h:94 src/ui/classic/theme.h:113
 msgid "Background"
 msgstr ""
 
@@ -244,7 +244,7 @@ msgctxt "Key name"
 msgid "Bluetooth"
 msgstr "Bluetooth"
 
-#: src/ui/classic/theme.h:102
+#: src/ui/classic/theme.h:103
 msgid "Blur Margin"
 msgstr ""
 
@@ -387,7 +387,7 @@ msgstr ""
 msgid "Change Fcitx 5 Configuration"
 msgstr "Fcitx 5 Konfiguration ändern"
 
-#: src/ui/classic/theme.h:117
+#: src/ui/classic/theme.h:118
 msgid "Check box"
 msgstr ""
 
@@ -404,7 +404,7 @@ msgctxt "Key name"
 msgid "Clear"
 msgstr "Löschen"
 
-#: src/ui/classic/theme.h:71
+#: src/ui/classic/theme.h:72
 msgid "Click Margin"
 msgstr ""
 
@@ -431,15 +431,19 @@ msgctxt "Key name"
 msgid "Community"
 msgstr "Gemeinschaft"
 
-#: src/im/keyboard/keyboard.cpp:511
+#: src/im/keyboard/keyboard.cpp:791
 msgid "Completion"
 msgstr ""
 
-#: src/im/keyboard/keyboard.cpp:514
+#: src/im/keyboard/keyboard.cpp:782
 msgid "Completion is disabled."
 msgstr ""
 
-#: src/im/keyboard/keyboard.cpp:513
+#: src/im/keyboard/keyboard.cpp:785
+msgid "Completion is enabled temporarily."
+msgstr ""
+
+#: src/im/keyboard/keyboard.cpp:787
 msgid "Completion is enabled."
 msgstr ""
 
@@ -570,7 +574,7 @@ msgctxt "Key name"
 msgid "Delete"
 msgstr "Löschen"
 
-#: src/ui/classic/theme.h:129
+#: src/ui/classic/theme.h:130
 msgid "Description"
 msgstr ""
 
@@ -632,7 +636,7 @@ msgstr ""
 msgid "Enable"
 msgstr ""
 
-#: src/ui/classic/theme.h:81
+#: src/ui/classic/theme.h:82
 msgid "Enable Blur on KWin"
 msgstr ""
 
@@ -880,7 +884,7 @@ msgctxt "Key name"
 msgid "Game"
 msgstr "Spiel"
 
-#: src/ui/classic/theme.h:139
+#: src/ui/classic/theme.h:140
 msgid "General"
 msgstr ""
 
@@ -1002,27 +1006,27 @@ msgstr "Hibernate"
 msgid "Hidden Notifications"
 msgstr "Verborgene Hinweise"
 
-#: src/ui/classic/theme.h:56
+#: src/ui/classic/theme.h:57
 msgid "Hide overlay if size does not fit"
 msgstr ""
 
-#: src/ui/classic/theme.h:95 src/ui/classic/theme.h:114
+#: src/ui/classic/theme.h:96 src/ui/classic/theme.h:115
 msgid "Highlight Background"
 msgstr ""
 
-#: src/ui/classic/theme.h:90
+#: src/ui/classic/theme.h:91
 msgid "Highlight Background color"
 msgstr ""
 
-#: src/ui/classic/theme.h:78 src/ui/classic/theme.h:108
+#: src/ui/classic/theme.h:79 src/ui/classic/theme.h:109
 msgid "Highlight Candidate Color"
 msgstr ""
 
-#: src/ui/classic/theme.h:66
+#: src/ui/classic/theme.h:67
 msgid "Highlight Click Margin"
 msgstr ""
 
-#: src/ui/classic/theme.h:88
+#: src/ui/classic/theme.h:89
 msgid "Highlight text color"
 msgstr ""
 
@@ -1101,11 +1105,11 @@ msgid ""
 "any input method other than ${2}. See ${link} for more detail."
 msgstr ""
 
-#: src/ui/classic/theme.h:69
+#: src/ui/classic/theme.h:70
 msgid "Image"
 msgstr ""
 
-#: src/im/keyboard/keyboard.cpp:510 src/ui/classic/xcbtraywindow.cpp:38
+#: src/im/keyboard/keyboard.cpp:790 src/ui/classic/xcbtraywindow.cpp:38
 #: src/lib/fcitx/instance.cpp:730 src/lib/fcitx/instance.cpp:900
 #: src/modules/notificationitem/dbusmenu.cpp:241
 #: src/modules/notificationitem/notificationitem.cpp:128
@@ -1122,7 +1126,7 @@ msgstr "Konfiguration Eingabemethode"
 msgid "Input Method Related Environment Variables: "
 msgstr ""
 
-#: src/ui/classic/theme.h:141
+#: src/ui/classic/theme.h:142
 msgid "Input Panel"
 msgstr ""
 
@@ -1173,15 +1177,15 @@ msgstr "Katakana"
 msgid "Key"
 msgstr ""
 
-#: src/im/keyboard/keyboard.cpp:322 src/im/keyboard/keyboard.conf.in:3
+#: src/im/keyboard/keyboard.cpp:324 src/im/keyboard/keyboard.conf.in:3
 msgid "Keyboard"
 msgstr "Tastatur"
 
-#: src/im/keyboard/keyboard.cpp:248
+#: src/im/keyboard/keyboard.cpp:250
 msgid "Keyboard - {0}"
 msgstr "Tastatur - {0}"
 
-#: src/im/keyboard/keyboard.cpp:267
+#: src/im/keyboard/keyboard.cpp:269
 msgid "Keyboard - {0} - {1}"
 msgstr "Tastatur - {0} - {1}"
 
@@ -1346,7 +1350,7 @@ msgctxt "Key name"
 msgid "Logoff"
 msgstr "Ausloggen"
 
-#: src/im/keyboard/keyboard.h:72
+#: src/im/keyboard/keyboard.h:77
 msgid "Long Press behavior"
 msgstr ""
 
@@ -1355,7 +1359,7 @@ msgctxt "Key name"
 msgid "Mail Forward"
 msgstr "Mail weiterleiten"
 
-#: src/ui/classic/theme.h:58
+#: src/ui/classic/theme.h:59
 msgid "Margin"
 msgstr ""
 
@@ -1375,11 +1379,11 @@ msgstr ""
 msgid "Margin Top"
 msgstr ""
 
-#: src/ui/classic/theme.h:97 src/ui/classic/theme.h:120
+#: src/ui/classic/theme.h:98 src/ui/classic/theme.h:121
 msgid "Margin around all content"
 msgstr ""
 
-#: src/ui/classic/theme.h:99 src/ui/classic/theme.h:122
+#: src/ui/classic/theme.h:100 src/ui/classic/theme.h:123
 msgid "Margin around text"
 msgstr ""
 
@@ -1438,7 +1442,7 @@ msgctxt "Key name"
 msgid "Meeting"
 msgstr "Treffen"
 
-#: src/ui/classic/theme.h:142
+#: src/ui/classic/theme.h:143
 msgid "Menu"
 msgstr ""
 
@@ -1461,7 +1465,7 @@ msgctxt "Key name"
 msgid "Messenger"
 msgstr "Messenger"
 
-#: src/ui/classic/theme.h:137
+#: src/ui/classic/theme.h:138
 msgid "Metadata"
 msgstr ""
 
@@ -1500,7 +1504,7 @@ msgctxt "Key name"
 msgid "My Sites"
 msgstr "Meine Seiten"
 
-#: src/ui/classic/theme.h:125
+#: src/ui/classic/theme.h:126
 msgid "Name"
 msgstr ""
 
@@ -1518,7 +1522,7 @@ msgstr "Neuigkeiten"
 msgid "Next Candidate"
 msgstr "Nächster Kandidat"
 
-#: src/ui/classic/theme.h:101
+#: src/ui/classic/theme.h:102
 msgid "Next Page Button"
 msgstr ""
 
@@ -1530,7 +1534,7 @@ msgstr "Kein Zwischenablageverlauf"
 msgid "None"
 msgstr "Nicht beibehalten"
 
-#: src/ui/classic/theme.h:75 src/ui/classic/theme.h:105
+#: src/ui/classic/theme.h:76 src/ui/classic/theme.h:106
 msgid "Normal text color"
 msgstr ""
 
@@ -1555,7 +1559,7 @@ msgstr "NumLock"
 msgid "Number of entries"
 msgstr ""
 
-#: src/im/keyboard/keyboard.cpp:505
+#: src/im/keyboard/keyboard.cpp:776
 msgid ""
 "Only emoji support is found. To enable spell checking, you may need to "
 "install spell check data for the language."
@@ -1576,7 +1580,7 @@ msgctxt "Key name"
 msgid "Option"
 msgstr "Option"
 
-#: src/ui/classic/theme.h:60
+#: src/ui/classic/theme.h:61
 msgid "Overlay Clip Margin"
 msgstr ""
 
@@ -1584,15 +1588,15 @@ msgstr ""
 msgid "Overlay Image"
 msgstr ""
 
-#: src/ui/classic/theme.h:53
+#: src/ui/classic/theme.h:54
 msgid "Overlay X offset"
 msgstr ""
 
-#: src/ui/classic/theme.h:54
+#: src/ui/classic/theme.h:55
 msgid "Overlay Y offset"
 msgstr ""
 
-#: src/ui/classic/theme.h:52
+#: src/ui/classic/theme.h:53
 msgid "Overlay position"
 msgstr ""
 
@@ -1688,7 +1692,7 @@ msgstr "Vorhersage"
 msgid "Prev Candidate"
 msgstr "Vorheriger Kandidat"
 
-#: src/ui/classic/theme.h:100
+#: src/ui/classic/theme.h:101
 msgid "Prev Page Button"
 msgstr ""
 
@@ -1849,7 +1853,7 @@ msgctxt "Key name"
 msgid "Send"
 msgstr "Senden"
 
-#: src/ui/classic/theme.h:116
+#: src/ui/classic/theme.h:117
 msgid "Separator Background"
 msgstr ""
 
@@ -1905,7 +1909,7 @@ msgctxt "Key name"
 msgid "Space"
 msgstr "Leerzeichen"
 
-#: src/ui/classic/theme.h:80 src/ui/classic/theme.h:110
+#: src/ui/classic/theme.h:81 src/ui/classic/theme.h:111
 msgid "Spacing"
 msgstr ""
 
@@ -1946,7 +1950,7 @@ msgctxt "Key name"
 msgid "Stop"
 msgstr "Stop"
 
-#: src/ui/classic/theme.h:118
+#: src/ui/classic/theme.h:119
 msgid "Sub Menu"
 msgstr ""
 
@@ -2095,7 +2099,7 @@ msgctxt "Key name"
 msgid "Travel"
 msgstr "Reisen"
 
-#: src/ui/classic/theme.h:133
+#: src/ui/classic/theme.h:134
 msgid "Tray Font"
 msgstr ""
 
@@ -2117,7 +2121,11 @@ msgstr ""
 msgid "Trigger hint mode"
 msgstr "Hinweismodus anschalten"
 
-#: src/im/keyboard/keyboard.h:65
+#: src/im/keyboard/keyboard.h:66
+msgid "Trigger hint mode for one time"
+msgstr ""
+
+#: src/im/keyboard/keyboard.h:70
 msgid "Type special characters with long press"
 msgstr ""
 
@@ -2155,7 +2163,7 @@ msgstr ""
 msgid "Use Per Screen DPI"
 msgstr "DPI je Bildschirm verwenden"
 
-#: src/ui/classic/theme.h:85
+#: src/ui/classic/theme.h:86
 msgid "Use all horizontal space for highlight when it is vertical list"
 msgstr ""
 
@@ -2175,7 +2183,7 @@ msgstr ""
 msgid "Using ${1} to check dbus."
 msgstr ""
 
-#: src/ui/classic/theme.h:126
+#: src/ui/classic/theme.h:127
 msgid "Version"
 msgstr ""
 
@@ -2389,7 +2397,7 @@ msgstr ""
 msgid "version:"
 msgstr ""
 
-#: src/im/keyboard/keyboard.cpp:299
+#: src/im/keyboard/keyboard.cpp:301
 msgid "{0} (Not Available)"
 msgstr "{0} (Nicht verfügbar)"
 

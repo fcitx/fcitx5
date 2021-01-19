@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2021-01-11 20:28+0000\n"
+"POT-Creation-Date: 2021-01-19 20:26+0000\n"
 "PO-Revision-Date: 2017-11-23 04:14+0000\n"
 "Last-Translator: Bruce Lee <daemul72@gmail.com>, 2020\n"
 "Language-Team: Korean (https://www.transifex.com/fcitx/teams/12005/ko/)\n"
@@ -78,23 +78,23 @@ msgstr ""
 msgid "/XIM"
 msgstr "/XIM"
 
-#: src/modules/unicode/charselectdata.cpp:203
+#: src/modules/unicode/charselectdata.cpp:220
 msgid "<Low Surrogate>"
 msgstr "<하위 확장코드>"
 
-#: src/modules/unicode/charselectdata.cpp:199
+#: src/modules/unicode/charselectdata.cpp:216
 msgid "<Non Private Use High Surrogate>"
 msgstr "<비 개인용 상위 확장코드>"
 
-#: src/modules/unicode/charselectdata.cpp:201
+#: src/modules/unicode/charselectdata.cpp:218
 msgid "<Private Use High Surrogate>"
 msgstr "<개인용 상위 확장코드>"
 
-#: src/modules/unicode/charselectdata.cpp:205
+#: src/modules/unicode/charselectdata.cpp:222
 msgid "<Private Use>"
 msgstr "<개인사용>"
 
-#: src/modules/unicode/charselectdata.cpp:235
+#: src/modules/unicode/charselectdata.cpp:252
 msgid "<not assigned>"
 msgstr "<할당 안됨>"
 
@@ -167,7 +167,7 @@ msgctxt "Key name"
 msgid "Application Right"
 msgstr "오른쪽 응용 프로그램"
 
-#: src/im/keyboard/keyboard.h:70
+#: src/im/keyboard/keyboard.h:75
 msgid "Applications disabled for long press"
 msgstr ""
 
@@ -186,7 +186,7 @@ msgctxt "Key name"
 msgid "Audio Repeat"
 msgstr "음원 반복 듣기"
 
-#: src/ui/classic/theme.h:127
+#: src/ui/classic/theme.h:128
 msgid "Author"
 msgstr ""
 
@@ -205,7 +205,7 @@ msgctxt "Key name"
 msgid "Back Forward"
 msgstr "뒤로 앞으로"
 
-#: src/ui/classic/theme.h:93 src/ui/classic/theme.h:112
+#: src/ui/classic/theme.h:94 src/ui/classic/theme.h:113
 msgid "Background"
 msgstr ""
 
@@ -245,7 +245,7 @@ msgctxt "Key name"
 msgid "Bluetooth"
 msgstr "블루투스"
 
-#: src/ui/classic/theme.h:102
+#: src/ui/classic/theme.h:103
 msgid "Blur Margin"
 msgstr ""
 
@@ -388,7 +388,7 @@ msgstr ""
 msgid "Change Fcitx 5 Configuration"
 msgstr "Fcitx 5 환경설정 변경"
 
-#: src/ui/classic/theme.h:117
+#: src/ui/classic/theme.h:118
 msgid "Check box"
 msgstr ""
 
@@ -405,7 +405,7 @@ msgctxt "Key name"
 msgid "Clear"
 msgstr "지우기"
 
-#: src/ui/classic/theme.h:71
+#: src/ui/classic/theme.h:72
 msgid "Click Margin"
 msgstr ""
 
@@ -432,15 +432,19 @@ msgctxt "Key name"
 msgid "Community"
 msgstr "커뮤니티"
 
-#: src/im/keyboard/keyboard.cpp:511
+#: src/im/keyboard/keyboard.cpp:791
 msgid "Completion"
 msgstr "완성"
 
-#: src/im/keyboard/keyboard.cpp:514
+#: src/im/keyboard/keyboard.cpp:782
 msgid "Completion is disabled."
 msgstr "완성이 비활성화되었습니다."
 
-#: src/im/keyboard/keyboard.cpp:513
+#: src/im/keyboard/keyboard.cpp:785
+msgid "Completion is enabled temporarily."
+msgstr ""
+
+#: src/im/keyboard/keyboard.cpp:787
 msgid "Completion is enabled."
 msgstr "완성이 활성화되었습니다."
 
@@ -571,7 +575,7 @@ msgctxt "Key name"
 msgid "Delete"
 msgstr "삭제"
 
-#: src/ui/classic/theme.h:129
+#: src/ui/classic/theme.h:130
 msgid "Description"
 msgstr ""
 
@@ -633,7 +637,7 @@ msgstr "그림문자"
 msgid "Enable"
 msgstr ""
 
-#: src/ui/classic/theme.h:81
+#: src/ui/classic/theme.h:82
 msgid "Enable Blur on KWin"
 msgstr ""
 
@@ -881,7 +885,7 @@ msgctxt "Key name"
 msgid "Game"
 msgstr "게임"
 
-#: src/ui/classic/theme.h:139
+#: src/ui/classic/theme.h:140
 msgid "General"
 msgstr ""
 
@@ -1003,27 +1007,27 @@ msgstr "하이버네이트"
 msgid "Hidden Notifications"
 msgstr "숨은 알림"
 
-#: src/ui/classic/theme.h:56
+#: src/ui/classic/theme.h:57
 msgid "Hide overlay if size does not fit"
 msgstr ""
 
-#: src/ui/classic/theme.h:95 src/ui/classic/theme.h:114
+#: src/ui/classic/theme.h:96 src/ui/classic/theme.h:115
 msgid "Highlight Background"
 msgstr ""
 
-#: src/ui/classic/theme.h:90
+#: src/ui/classic/theme.h:91
 msgid "Highlight Background color"
 msgstr ""
 
-#: src/ui/classic/theme.h:78 src/ui/classic/theme.h:108
+#: src/ui/classic/theme.h:79 src/ui/classic/theme.h:109
 msgid "Highlight Candidate Color"
 msgstr "강조 후보 색상"
 
-#: src/ui/classic/theme.h:66
+#: src/ui/classic/theme.h:67
 msgid "Highlight Click Margin"
 msgstr ""
 
-#: src/ui/classic/theme.h:88
+#: src/ui/classic/theme.h:89
 msgid "Highlight text color"
 msgstr ""
 
@@ -1102,11 +1106,11 @@ msgid ""
 "any input method other than ${2}. See ${link} for more detail."
 msgstr ""
 
-#: src/ui/classic/theme.h:69
+#: src/ui/classic/theme.h:70
 msgid "Image"
 msgstr ""
 
-#: src/im/keyboard/keyboard.cpp:510 src/ui/classic/xcbtraywindow.cpp:38
+#: src/im/keyboard/keyboard.cpp:790 src/ui/classic/xcbtraywindow.cpp:38
 #: src/lib/fcitx/instance.cpp:730 src/lib/fcitx/instance.cpp:900
 #: src/modules/notificationitem/dbusmenu.cpp:241
 #: src/modules/notificationitem/notificationitem.cpp:128
@@ -1123,7 +1127,7 @@ msgstr "입력기 환경설정"
 msgid "Input Method Related Environment Variables: "
 msgstr ""
 
-#: src/ui/classic/theme.h:141
+#: src/ui/classic/theme.h:142
 msgid "Input Panel"
 msgstr ""
 
@@ -1174,15 +1178,15 @@ msgstr "가타가나"
 msgid "Key"
 msgstr ""
 
-#: src/im/keyboard/keyboard.cpp:322 src/im/keyboard/keyboard.conf.in:3
+#: src/im/keyboard/keyboard.cpp:324 src/im/keyboard/keyboard.conf.in:3
 msgid "Keyboard"
 msgstr "키보드"
 
-#: src/im/keyboard/keyboard.cpp:248
+#: src/im/keyboard/keyboard.cpp:250
 msgid "Keyboard - {0}"
 msgstr "키보드 - {0}"
 
-#: src/im/keyboard/keyboard.cpp:267
+#: src/im/keyboard/keyboard.cpp:269
 msgid "Keyboard - {0} - {1}"
 msgstr "키보드 - {0} - {1}"
 
@@ -1347,7 +1351,7 @@ msgctxt "Key name"
 msgid "Logoff"
 msgstr "로그오프"
 
-#: src/im/keyboard/keyboard.h:72
+#: src/im/keyboard/keyboard.h:77
 msgid "Long Press behavior"
 msgstr ""
 
@@ -1356,7 +1360,7 @@ msgctxt "Key name"
 msgid "Mail Forward"
 msgstr "이메일 전달"
 
-#: src/ui/classic/theme.h:58
+#: src/ui/classic/theme.h:59
 msgid "Margin"
 msgstr ""
 
@@ -1376,11 +1380,11 @@ msgstr ""
 msgid "Margin Top"
 msgstr ""
 
-#: src/ui/classic/theme.h:97 src/ui/classic/theme.h:120
+#: src/ui/classic/theme.h:98 src/ui/classic/theme.h:121
 msgid "Margin around all content"
 msgstr ""
 
-#: src/ui/classic/theme.h:99 src/ui/classic/theme.h:122
+#: src/ui/classic/theme.h:100 src/ui/classic/theme.h:123
 msgid "Margin around text"
 msgstr ""
 
@@ -1439,7 +1443,7 @@ msgctxt "Key name"
 msgid "Meeting"
 msgstr "미팅"
 
-#: src/ui/classic/theme.h:142
+#: src/ui/classic/theme.h:143
 msgid "Menu"
 msgstr ""
 
@@ -1462,7 +1466,7 @@ msgctxt "Key name"
 msgid "Messenger"
 msgstr "메신저"
 
-#: src/ui/classic/theme.h:137
+#: src/ui/classic/theme.h:138
 msgid "Metadata"
 msgstr ""
 
@@ -1501,7 +1505,7 @@ msgctxt "Key name"
 msgid "My Sites"
 msgstr "내 사이트"
 
-#: src/ui/classic/theme.h:125
+#: src/ui/classic/theme.h:126
 msgid "Name"
 msgstr ""
 
@@ -1519,7 +1523,7 @@ msgstr "뉴스"
 msgid "Next Candidate"
 msgstr "다음 후보"
 
-#: src/ui/classic/theme.h:101
+#: src/ui/classic/theme.h:102
 msgid "Next Page Button"
 msgstr ""
 
@@ -1531,7 +1535,7 @@ msgstr "클립보드 기록이 없습니다."
 msgid "None"
 msgstr "없음"
 
-#: src/ui/classic/theme.h:75 src/ui/classic/theme.h:105
+#: src/ui/classic/theme.h:76 src/ui/classic/theme.h:106
 msgid "Normal text color"
 msgstr ""
 
@@ -1556,7 +1560,7 @@ msgstr "NumLock"
 msgid "Number of entries"
 msgstr ""
 
-#: src/im/keyboard/keyboard.cpp:505
+#: src/im/keyboard/keyboard.cpp:776
 msgid ""
 "Only emoji support is found. To enable spell checking, you may need to "
 "install spell check data for the language."
@@ -1579,7 +1583,7 @@ msgctxt "Key name"
 msgid "Option"
 msgstr "선택사항"
 
-#: src/ui/classic/theme.h:60
+#: src/ui/classic/theme.h:61
 msgid "Overlay Clip Margin"
 msgstr ""
 
@@ -1587,15 +1591,15 @@ msgstr ""
 msgid "Overlay Image"
 msgstr ""
 
-#: src/ui/classic/theme.h:53
+#: src/ui/classic/theme.h:54
 msgid "Overlay X offset"
 msgstr ""
 
-#: src/ui/classic/theme.h:54
+#: src/ui/classic/theme.h:55
 msgid "Overlay Y offset"
 msgstr ""
 
-#: src/ui/classic/theme.h:52
+#: src/ui/classic/theme.h:53
 msgid "Overlay position"
 msgstr ""
 
@@ -1691,7 +1695,7 @@ msgstr "사전 설정"
 msgid "Prev Candidate"
 msgstr "이전 후보"
 
-#: src/ui/classic/theme.h:100
+#: src/ui/classic/theme.h:101
 msgid "Prev Page Button"
 msgstr ""
 
@@ -1852,7 +1856,7 @@ msgctxt "Key name"
 msgid "Send"
 msgstr "보내기"
 
-#: src/ui/classic/theme.h:116
+#: src/ui/classic/theme.h:117
 msgid "Separator Background"
 msgstr ""
 
@@ -1908,7 +1912,7 @@ msgctxt "Key name"
 msgid "Space"
 msgstr "공백"
 
-#: src/ui/classic/theme.h:80 src/ui/classic/theme.h:110
+#: src/ui/classic/theme.h:81 src/ui/classic/theme.h:111
 msgid "Spacing"
 msgstr ""
 
@@ -1949,7 +1953,7 @@ msgctxt "Key name"
 msgid "Stop"
 msgstr "중지"
 
-#: src/ui/classic/theme.h:118
+#: src/ui/classic/theme.h:119
 msgid "Sub Menu"
 msgstr ""
 
@@ -2098,7 +2102,7 @@ msgctxt "Key name"
 msgid "Travel"
 msgstr "여행"
 
-#: src/ui/classic/theme.h:133
+#: src/ui/classic/theme.h:134
 msgid "Tray Font"
 msgstr ""
 
@@ -2120,7 +2124,11 @@ msgstr "현재 입력 컨텍스트에 대한 전환 키"
 msgid "Trigger hint mode"
 msgstr "힌트 방식 전환"
 
-#: src/im/keyboard/keyboard.h:65
+#: src/im/keyboard/keyboard.h:66
+msgid "Trigger hint mode for one time"
+msgstr ""
+
+#: src/im/keyboard/keyboard.h:70
 msgid "Type special characters with long press"
 msgstr ""
 
@@ -2158,7 +2166,7 @@ msgstr "스팟 스타일에서 사용(다시 시작 필요)"
 msgid "Use Per Screen DPI"
 msgstr "화면 해상도 사용하기"
 
-#: src/ui/classic/theme.h:85
+#: src/ui/classic/theme.h:86
 msgid "Use all horizontal space for highlight when it is vertical list"
 msgstr ""
 
@@ -2178,7 +2186,7 @@ msgstr "사용자 인터페이스:"
 msgid "Using ${1} to check dbus."
 msgstr ""
 
-#: src/ui/classic/theme.h:126
+#: src/ui/classic/theme.h:127
 msgid "Version"
 msgstr ""
 
@@ -2397,7 +2405,7 @@ msgstr ""
 msgid "version:"
 msgstr "버전:"
 
-#: src/im/keyboard/keyboard.cpp:299
+#: src/im/keyboard/keyboard.cpp:301
 msgid "{0} (Not Available)"
 msgstr "{0} (사용할 수 없음)"
 
