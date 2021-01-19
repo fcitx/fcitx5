@@ -61,6 +61,11 @@ FCITX_CONFIGURATION(
                               _("Trigger hint mode"),
                               {Key("Control+Alt+H")},
                               KeyListConstrain()};
+    KeyListOption oneTimeHintTrigger{this,
+                                     "One Time Hint Trigger",
+                                     _("Trigger hint mode for one time"),
+                                     {Key("Control+Alt+J")},
+                                     KeyListConstrain()};
     Option<bool> enableLongPress{this, "EnableLongPress",
                                  _("Type special characters with long press"),
                                  false};
@@ -78,16 +83,22 @@ enum class CandidateMode { Hint, LongPress };
 
 struct KeyboardEngineState : public InputContextProperty {
     bool enableWordHint_ = false;
+    bool oneTimeEnableWordHint_ = false;
     InputBuffer buffer_;
     CandidateMode mode_ = CandidateMode::Hint;
     std::string origKeyString_;
     bool repeatStarted_ = false;
+
+    bool hintEnabled() const {
+        return enableWordHint_ || oneTimeEnableWordHint_;
+    }
 
     void reset() {
         origKeyString_.clear();
         buffer_.clear();
         mode_ = CandidateMode::Hint;
         repeatStarted_ = false;
+        oneTimeEnableWordHint_ = false;
     }
 };
 
@@ -156,6 +167,8 @@ private:
     bool supportHint(const std::string &language);
     std::string preeditString(InputContext *inputContext);
     void initQuickPhrase();
+    void showHintNotification(const InputMethodEntry &entry,
+                              KeyboardEngineState *state);
 
     Instance *instance_;
     AddonInstance *spell_ = nullptr;

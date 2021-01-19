@@ -394,7 +394,7 @@ bool KeyboardEngine::updateBuffer(InputContext *inputContext,
                                         CapabilityFlag::NoSpellCheck,
                                         CapabilityFlag::Sensitive};
     // no spell hint enabled or no supported dictionary
-    if (!state->enableWordHint_ ||
+    if (!state->hintEnabled() ||
         inputContext->capabilityFlags().testAny(noPredictFlag) ||
         !supportHint(entry->languageCode())) {
         return false;
@@ -495,25 +495,21 @@ void KeyboardEngine::keyEvent(const InputMethodEntry &entry, KeyEvent &event) {
     if (event.key().checkKeyList(config_.hintTrigger.value()) &&
         supportHint(entry.languageCode())) {
         state->enableWordHint_ = !state->enableWordHint_;
+        state->oneTimeEnableWordHint_ = false;
         commitBuffer(inputContext);
-        if (notifications()) {
-            bool hasSpell = spell() && spell()->call<ISpell::checkDict>(
-                                           entry.languageCode());
-            std::string extra;
-            if (!hasSpell) {
-                extra += " ";
-                extra += _("Only emoji support is found. To enable spell "
-                           "checking, you may need to install spell check data "
-                           "for the language.");
-            }
-            notifications()->call<INotifications::showTip>(
-                "fcitx-keyboard-hint", _("Input Method"),
-                "tools-check-spelling", _("Completion"),
-                state->enableWordHint_
-                    ? stringutils::concat(_("Completion is enabled."), extra)
-                    : _("Completion is disabled."),
-                -1);
-        }
+        showHintNotification(entry, state);
+        return event.filterAndAccept();
+    }
+
+    // check the spell trigger key
+    if (event.key().checkKeyList(config_.oneTimeHintTrigger.value()) &&
+        supportHint(entry.languageCode())) {
+        bool oldOneTime = state->oneTimeEnableWordHint_;
+        state->enableWordHint_ = false;
+        commitBuffer(inputContext);
+        // This need to be set after commit buffer.
+        state->oneTimeEnableWordHint_ = !oldOneTime;
+        showHintNotification(entry, state);
         return event.filterAndAccept();
     }
 
@@ -558,7 +554,11 @@ void KeyboardEngine::keyEvent(const InputMethodEntry &entry, KeyEvent &event) {
     } else if (event.key().check(FcitxKey_BackSpace)) {
         if (buffer.backspace()) {
             event.filterAndAccept();
-            return updateCandidate(entry, inputContext);
+            if (buffer.empty()) {
+                resetState(inputContext);
+            } else {
+                return updateCandidate(entry, inputContext);
+            }
         }
     }
 
@@ -761,18 +761,44 @@ void KeyboardEngine::initQuickPhrase() {
 #endif
 }
 
-} // namespace fcitx
+void KeyboardEngine::showHintNotification(const InputMethodEntry &entry,
+                                          KeyboardEngineState *state) {
+    if (!notifications()) {
+        return;
+    }
+    bool hasSpell =
+        spell() && spell()->call<ISpell::checkDict>(entry.languageCode());
+    std::string extra;
+    if (!hasSpell) {
+        extra += " ";
+        extra += _("Only emoji support is found. To enable spell "
+                   "checking, you may need to install spell check data "
+                   "for the language.");
+    }
+    std::string message;
+    if (!state->hintEnabled()) {
+        message = _("Completion is disabled.");
+    } else if (state->oneTimeEnableWordHint_) {
+        message =
+            stringutils::concat(_("Completion is enabled temporarily."), extra);
+    } else {
+        message = stringutils::concat(_("Completion is enabled."), extra);
+    }
+    notifications()->call<INotifications::showTip>(
+        "fcitx-keyboard-hint", _("Input Method"), "tools-check-spelling",
+        _("Completion"), message, -1);
+}
 
-const fcitx::Configuration *
-fcitx::KeyboardEngine::getSubConfig(const std::string &path) const {
+const Configuration *
+KeyboardEngine::getSubConfig(const std::string &path) const {
     if (path == "longpress") {
         return &longPressConfig_;
     }
     return nullptr;
 }
 
-void fcitx::KeyboardEngine::setSubConfig(const std::string &path,
-                                         const fcitx::RawConfig &config) {
+void KeyboardEngine::setSubConfig(const std::string &path,
+                                  const RawConfig &config) {
 
     if (path == "longpress") {
         longPressConfig_.load(config, true);
@@ -780,3 +806,5 @@ void fcitx::KeyboardEngine::setSubConfig(const std::string &path,
         reloadConfig();
     }
 }
+
+} // namespace fcitx
