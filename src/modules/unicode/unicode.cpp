@@ -77,7 +77,7 @@ Unicode::Unicode(Instance *instance)
             if (keyEvent.isRelease()) {
                 return;
             }
-            if (keyEvent.key().check(toggleKey_)) {
+            if (keyEvent.key().check(toggleKey_) && data_.load()) {
                 trigger(keyEvent.inputContext());
                 keyEvent.filterAndAccept();
                 return;

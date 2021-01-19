@@ -17,9 +17,11 @@ class CharSelectData {
 public:
     CharSelectData();
 
-    std::vector<std::string> unihanInfo(uint32_t unicode);
     std::string name(uint32_t unicode) const;
+    std::vector<std::string> unihanInfo(uint32_t unicode) const;
     std::vector<uint32_t> find(const std::string &needle) const;
+
+    bool load();
 
 private:
     void createIndex();
@@ -38,6 +40,8 @@ private:
 
     std::set<uint32_t> matchingChars(const std::string &s) const;
 
+    bool loaded_ = false;
+    bool loadResult_ = false;
     std::vector<char> data_;
     std::unordered_map<std::string, std::vector<uint32_t>> index_;
     std::vector<const decltype(index_)::value_type *> indexList_;

@@ -72,27 +72,40 @@ uint16_t FromLittleEndian16(const char *d) {
     return le16toh(t);
 }
 
-CharSelectData::CharSelectData() {
+CharSelectData::CharSelectData() {}
+
+bool CharSelectData::load() {
+    if (loaded_) {
+        return loadResult_;
+    }
+    loaded_ = true;
     auto file = StandardPath::global().open(StandardPath::Type::PkgData,
                                             "unicode/charselectdata", O_RDONLY);
     if (file.fd() < 0) {
-        throw std::runtime_error("Failed to open unicode data");
+        return false;
     }
 
     struct stat s;
     if (fstat(file.fd(), &s) < 0) {
-        throw std::runtime_error("Failed to fstat the unicode data");
+        return false;
     }
     auto size = s.st_size;
     data_.resize(size);
     if (size != fs::safeRead(file.fd(), data_.data(), size)) {
-        throw std::runtime_error("Failed to read all data");
+        return false;
     };
 
     createIndex();
+
+    loadResult_ = true;
+    return true;
 }
 
-std::vector<std::string> CharSelectData::unihanInfo(uint32_t unicode) {
+std::vector<std::string> CharSelectData::unihanInfo(uint32_t unicode) const {
+    if (!loadResult_) {
+        return {};
+    }
+
     std::vector<std::string> res;
 
     const char *data = data_.data();
@@ -170,6 +183,10 @@ uint32_t CharSelectData::findDetailIndex(uint32_t unicode) const {
 }
 
 std::string CharSelectData::name(uint32_t unicode) const {
+    if (!loadResult_) {
+        return {};
+    }
+
     std::string result;
     do {
         if ((unicode >= 0x3400 && unicode <= 0x4DB5) ||
@@ -282,6 +299,10 @@ bool IsHexString(const std::string &s) {
 }
 
 std::vector<uint32_t> CharSelectData::find(const std::string &needle) const {
+    if (!loadResult_) {
+        return {};
+    }
+
     std::set<uint32_t> result;
     std::vector<uint32_t> returnRes;
 
