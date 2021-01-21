@@ -9,6 +9,7 @@
 #include <set>
 #include "action.h"
 #include "inputcontext.h"
+#include "instance.h"
 #include "userinterface.h"
 
 namespace fcitx {
@@ -241,6 +242,9 @@ void UserInterfaceManager::updateAvailability() {
         }
         d->ui_ = newUI;
         d->uiName_ = newUIName;
+        if (d->addonManager_->instance()) {
+            d->addonManager_->instance()->postEvent(UIChangedEvent());
+        }
     }
 }
 

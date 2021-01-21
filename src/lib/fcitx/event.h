@@ -103,6 +103,7 @@ enum class EventType : uint32_t {
      */
     InputMethodGroupChanged = InstanceEventFlag | 0x1,
     InputMethodGroupAboutToChange = InstanceEventFlag | 0x2,
+    UIChanged = InstanceEventFlag | 0x3,
 };
 
 /**
@@ -373,6 +374,11 @@ class FCITXCORE_EXPORT InputMethodGroupAboutToChangeEvent : public Event {
 public:
     InputMethodGroupAboutToChangeEvent()
         : Event(EventType::InputMethodGroupAboutToChange) {}
+};
+
+class FCITXCORE_EXPORT UIChangedEvent : public Event {
+public:
+    UIChangedEvent() : Event(EventType::UIChanged) {}
 };
 
 class FCITXCORE_EXPORT CapabilityEvent : public InputContextEvent {

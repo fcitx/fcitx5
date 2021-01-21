@@ -16,6 +16,7 @@
 #include "fcitx/inputmethodmanager.h"
 #include "fcitx/instance.h"
 #include "fcitx/misc_p.h"
+#include "fcitx/userinterfacemanager.h"
 #include "dbus_public.h"
 
 #define FCITX_INPUTMETHOD_DBUS_INTERFACE "org.fcitx.Fcitx.InputMethod1"
@@ -24,6 +25,21 @@
 namespace fcitx {
 
 namespace {
+
+bool useClientSideUI(Instance *instance) {
+    if (instance->userInterfaceManager().currentUI() != "kimpanel") {
+        return true;
+    }
+    std::string desktop;
+    auto *desktopEnv = getenv("XDG_CURRENT_DESKTOP");
+    if (desktopEnv) {
+        desktop = desktopEnv;
+    }
+    if (desktop == "GNOME") {
+        return false;
+    }
+    return true;
+}
 
 std::vector<dbus::DBusStruct<std::string, int>>
 buildFormattedTextVector(const Text &text) {
@@ -197,7 +213,8 @@ public:
 
     void setCapability(uint64_t cap) {
         CHECK_SENDER_OR_RETURN;
-        setCapabilityFlags(CapabilityFlags{cap});
+        rawCapabilityFlags_ = CapabilityFlags(cap);
+        updateCapability();
     }
 
     void setSurroundingText(const std::string &str, uint32_t cursor,
@@ -267,6 +284,18 @@ public:
         }
     }
 
+    void updateCapability() {
+        CapabilityFlags flags = rawCapabilityFlags_;
+        if (stringutils::startsWith(display(), "x11:")) {
+            flags = flags.unset(CapabilityFlag::ClientSideUI);
+        } else if (stringutils::startsWith(display(), "wayland:")) {
+            if (!useClientSideUI(im_->instance())) {
+                flags = flags.unset(CapabilityFlag::ClientSideUI);
+            }
+        }
+        setCapabilityFlags(flags);
+    }
+
 private:
     FCITX_OBJECT_VTABLE_METHOD(focusInDBus, "FocusIn", "", "");
     FCITX_OBJECT_VTABLE_METHOD(focusOutDBus, "FocusOut", "", "");
@@ -309,6 +338,7 @@ private:
     InputMethod1 *im_;
     std::unique_ptr<HandlerTableEntry<dbus::ServiceWatcherCallback>> handler_;
     std::string name_;
+    CapabilityFlags rawCapabilityFlags_;
 };
 
 std::tuple<dbus::ObjectPath, std::vector<uint8_t>>
@@ -370,6 +400,15 @@ DBusFrontendModule::DBusFrontendModule(Instance *instance)
                     static_cast<DBusInputContext1 *>(ic)->updateIM(entry);
                 }
             }
+        });
+    event_ = instance_->watchEvent(
+        EventType::UIChanged, EventWatcherPhase::Default, [this](Event &) {
+            instance_->inputContextManager().foreach([](InputContext *ic) {
+                if (strcmp(ic->frontend(), "dbus") == 0) {
+                    static_cast<DBusInputContext1 *>(ic)->updateCapability();
+                }
+                return true;
+            });
         });
 }
 
