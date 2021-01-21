@@ -78,7 +78,6 @@ FCITX_CONFIGURATION(
     Option<Color> highlightCandidateColor{this, "HighlightCandidateColor",
                                           _("Highlight Candidate Color"),
                                           Color("#ffffffff")};
-    Option<int> spacing{this, "Spacing", _("Spacing"), 0};
     Option<bool> enableBlur{this, "EnableBlur", _("Enable Blur on KWin"),
                             false};
     Option<bool> fullWidthHighlight{

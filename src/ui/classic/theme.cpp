@@ -454,35 +454,24 @@ void Theme::paint(cairo_t *c, const BackgroundImageConfig &cfg, int width,
 
     /* part 5 */
     {
-        int repaintH = 0, repaintV = 0;
         double scaleX = 1.0, scaleY = 1.0;
-
-        repaintH = 1;
         scaleX =
             (double)(width - marginLeft - marginRight) / (double)resizeWidth;
 
-        repaintV = 1;
         scaleY =
             (double)(height - marginTop - marginBottom) / (double)resizeHeight;
 
-        int i, j;
-        for (i = 0; i < repaintH; i++) {
-            for (j = 0; j < repaintV; j++) {
-                cairo_save(c);
-                cairo_translate(c, marginLeft + i * resizeWidth,
-                                marginTop + j * resizeHeight);
-                cairo_scale(c, scaleX, scaleY);
-                cairo_set_source_surface(c, image, -marginLeft, -marginTop);
-                cairo_pattern_set_filter(cairo_get_source(c),
-                                         CAIRO_FILTER_NEAREST);
-                int w = resizeWidth, h = resizeHeight;
+        cairo_save(c);
+        cairo_translate(c, marginLeft, marginTop);
+        cairo_scale(c, scaleX, scaleY);
+        cairo_set_source_surface(c, image, -marginLeft, -marginTop);
+        cairo_pattern_set_filter(cairo_get_source(c), CAIRO_FILTER_NEAREST);
+        int w = resizeWidth, h = resizeHeight;
 
-                cairo_rectangle(c, 0, 0, w, h);
-                cairo_clip(c);
-                cairo_paint_with_alpha(c, alpha);
-                cairo_restore(c);
-            }
-        }
+        cairo_rectangle(c, 0, 0, w, h);
+        cairo_clip(c);
+        cairo_paint_with_alpha(c, alpha);
+        cairo_restore(c);
     }
     cairo_restore(c);
 
