@@ -206,7 +206,8 @@ void UserInterfaceManager::flush() {
     FCITX_D();
     for (auto &p : d->updateList_) {
         for (auto comp : p.second) {
-            if (p.first->capabilityFlags().test(CapabilityFlag::ClientSideUI)) {
+            if (comp == UserInterfaceComponent::InputPanel &&
+                p.first->capabilityFlags().test(CapabilityFlag::ClientSideUI)) {
                 p.first->updateClientSideUIImpl();
             } else if (d->ui_) {
                 d->ui_->update(comp, p.first);
