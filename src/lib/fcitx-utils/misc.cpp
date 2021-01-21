@@ -67,13 +67,7 @@ void startProcess(const std::vector<std::string> &args,
 }
 
 std::string getProcessName(pid_t pid) {
-#if defined(__linux__)
-    auto path = fmt::format("/proc/{}/exe", pid);
-    if (auto link = fs::readlink(path)) {
-        return fs::baseName(*link);
-    }
-    return {};
-#elif defined(LIBKVM_FOUND)
+#if defined(LIBKVM_FOUND)
 #if defined(__NetBSD__) || defined(__OpenBSD__)
     kvm_t *vm = kvm_open(nullptr, nullptr, nullptr, KVM_NO_FILES, nullptr);
 #else
@@ -122,7 +116,11 @@ std::string getProcessName(pid_t pid) {
     }
     return result;
 #else
-    return result;
+    auto path = fmt::format("/proc/{}/exe", pid);
+    if (auto link = fs::readlink(path)) {
+        return fs::baseName(*link);
+    }
+    return {};
 #endif
 }
 
