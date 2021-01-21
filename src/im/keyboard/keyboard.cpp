@@ -557,10 +557,9 @@ void KeyboardEngine::keyEvent(const InputMethodEntry &entry, KeyEvent &event) {
         if (buffer.backspace()) {
             event.filterAndAccept();
             if (buffer.empty()) {
-                resetState(inputContext);
-            } else {
-                return updateCandidate(entry, inputContext);
+                return reset(entry, event);
             }
+            return updateCandidate(entry, inputContext);
         }
     }
 
