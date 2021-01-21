@@ -44,7 +44,7 @@ modifiedTime(const T &p) {
 }
 #endif
 
-#if !defined(st_mtimensec)
+#if !defined(st_mtimensec) && !defined(__alpha__)
 template <typename T>
 inline std::enable_if_t<(&T::st_mtimensec, true), Timespec>
 modifiedTime(const T &p) {
