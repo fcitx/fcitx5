@@ -131,6 +131,8 @@ public:
         preeditStrings = buildFormattedTextVector(preedit);
         auxUpStrings = buildFormattedTextVector(auxUp);
         auxDownStrings = buildFormattedTextVector(auxDown);
+        bool hasPrev = false, hasNext = false;
+        int layoutHint = 0;
         if (candidateList) {
             for (int i = 0, e = candidateList->size(); i < e; i++) {
                 auto &candidate = candidateList->candidate(i);
@@ -147,10 +149,15 @@ public:
                     labelText.toString(), candidateText.toString()));
             }
             cursorIndex = candidateList->cursorIndex();
+            if (auto *pageable = candidateList->toPageable()) {
+                hasPrev = pageable->hasPrev();
+                hasNext = pageable->hasNext();
+            }
+            layoutHint = static_cast<int>(candidateList->layoutHint());
         }
         updateClientSideUITo(name_, preeditStrings, preedit.cursor(),
                              auxUpStrings, auxDownStrings, candidates,
-                             cursorIndex);
+                             cursorIndex, layoutHint, hasPrev, hasNext);
     }
 
     void forwardKeyImpl(const ForwardKeyEvent &key) override {
@@ -225,6 +232,41 @@ public:
         return keyEvent(event);
     }
 
+    void prevPage() {
+        CHECK_SENDER_OR_RETURN;
+        if (auto candidateList = inputPanel().candidateList()) {
+            if (auto *pageable = candidateList->toPageable()) {
+                if (pageable->hasPrev()) {
+                    pageable->prev();
+                    updateUserInterface(UserInterfaceComponent::InputPanel);
+                }
+            }
+        }
+    }
+
+    void nextPage() {
+        CHECK_SENDER_OR_RETURN;
+        if (auto candidateList = inputPanel().candidateList()) {
+            if (auto *pageable = candidateList->toPageable()) {
+                if (pageable->hasNext()) {
+                    pageable->next();
+                    updateUserInterface(UserInterfaceComponent::InputPanel);
+                }
+            }
+        }
+    }
+
+    void selectCandidate(int idx) {
+        CHECK_SENDER_OR_RETURN;
+        if (auto candidateList = inputPanel().candidateList()) {
+            const auto *candidate =
+                nthCandidateIgnorePlaceholder(*candidateList, idx);
+            if (candidate) {
+                candidate->select(this);
+            }
+        }
+    }
+
 private:
     FCITX_OBJECT_VTABLE_METHOD(focusInDBus, "FocusIn", "", "");
     FCITX_OBJECT_VTABLE_METHOD(focusOutDBus, "FocusOut", "", "");
@@ -240,14 +282,27 @@ private:
     FCITX_OBJECT_VTABLE_METHOD(destroyDBus, "DestroyIC", "", "");
     FCITX_OBJECT_VTABLE_METHOD(processKeyEvent, "ProcessKeyEvent", "uuubu",
                                "b");
+
+    FCITX_OBJECT_VTABLE_METHOD(prevPage, "PrevPage", "", "");
+    FCITX_OBJECT_VTABLE_METHOD(nextPage, "NextPage", "", "");
+    FCITX_OBJECT_VTABLE_METHOD(selectCandidate, "SelectCandidate", "i", "");
+
     FCITX_OBJECT_VTABLE_SIGNAL(commitStringDBus, "CommitString", "s");
     FCITX_OBJECT_VTABLE_SIGNAL(currentIM, "CurrentIM", "sss");
     FCITX_OBJECT_VTABLE_SIGNAL(updateFormattedPreedit, "UpdateFormattedPreedit",
                                "a(si)i");
     FCITX_OBJECT_VTABLE_SIGNAL(deleteSurroundingTextDBus,
                                "DeleteSurroundingText", "iu");
+    // This is contains:
+    // - a(si)i preedit
+    // - a(si) aux up
+    // - a(si) aux aux
+    // - a(ss) candidate label + text
+    // - i candidate index
+    // - i candidate layout
+    // - bb prev page / next page
     FCITX_OBJECT_VTABLE_SIGNAL(updateClientSideUI, "UpdateClientSideUI",
-                               "a(si)ia(si)a(si)a(ss)i");
+                               "a(si)ia(si)a(si)a(ss)iibb");
     FCITX_OBJECT_VTABLE_SIGNAL(forwardKeyDBus, "ForwardKey", "uub");
 
     dbus::ObjectPath path_;
