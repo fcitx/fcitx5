@@ -20,6 +20,7 @@ namespace fcitx {
 /// \brief Input context CapabilityFlags.
 enum class CapabilityFlag : uint64_t {
     NoFlag = 0,
+    // Deprecated, because this flag is not compatible with fcitx 4.
     ClientSideUI = (1 << 0),
     Preedit = (1 << 1),
     ClientSideControlState = (1 << 2),
@@ -61,6 +62,12 @@ enum class CapabilityFlag : uint64_t {
      * @since 5.0.4
      */
     ReportKeyRepeat = (1ull << 38),
+    /**
+     * @brief Whether client display input panel by itself.
+     *
+     * @since 5.0.5
+     */
+    ClientSideInputPanel = (1ull << 39),
 
     PasswordOrSensitive = Password | Sensitive
 };

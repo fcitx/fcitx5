@@ -287,10 +287,10 @@ public:
     void updateCapability() {
         CapabilityFlags flags = rawCapabilityFlags_;
         if (stringutils::startsWith(display(), "x11:")) {
-            flags = flags.unset(CapabilityFlag::ClientSideUI);
+            flags = flags.unset(CapabilityFlag::ClientSideInputPanel);
         } else if (stringutils::startsWith(display(), "wayland:")) {
             if (!useClientSideUI(im_->instance())) {
-                flags = flags.unset(CapabilityFlag::ClientSideUI);
+                flags = flags.unset(CapabilityFlag::ClientSideInputPanel);
             }
         }
         setCapabilityFlags(flags);
