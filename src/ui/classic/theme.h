@@ -47,7 +47,7 @@ FCITX_CONFIGURATION(
 FCITX_CONFIGURATION(
     BackgroundImageConfig,
     Option<std::string> image{this, "Image", _("Background Image")};
-    Option<Color> color{this, "Color", "Color", Color("#ffffff")};
+    Option<Color> color{this, "Color", _("Color"), Color("#ffffff")};
     Option<Color> borderColor{this, "BorderColor", _("Border Color"),
                               Color("#ffffff")};
     Option<std::string> overlay{this, "Overlay", _("Overlay Image")};
