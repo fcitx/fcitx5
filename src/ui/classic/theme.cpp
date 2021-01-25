@@ -243,6 +243,12 @@ ThemeImage::ThemeImage(const std::string &name,
             cairo_image_surface_create(CAIRO_FORMAT_ARGB32, width, height));
         auto *cr = cairo_create(image_.get());
         cairo_set_operator(cr, CAIRO_OPERATOR_SOURCE);
+        cairoSetSourceColor(cr, *cfg.borderColor);
+        cairo_paint(cr);
+
+        cairo_rectangle(cr, *cfg.margin->marginLeft, *cfg.margin->marginTop, 1,
+                        1);
+        cairo_clip(cr);
         cairoSetSourceColor(cr, *cfg.color);
         cairo_paint(cr);
         cairo_destroy(cr);
