@@ -628,7 +628,8 @@ DBusModule::DBusModule(Instance *instance)
     }
     if (!bus_->requestName(FCITX_DBUS_SERVICE, requestFlag)) {
         instance_->exit();
-        throw std::runtime_error("Unable to request dbus name");
+        throw std::runtime_error("Unable to request dbus name. Is there "
+                                 "another fcitx already running?");
     }
 
     disconnectedSlot_ = bus_->addMatch(
