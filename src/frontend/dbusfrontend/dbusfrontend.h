@@ -38,7 +38,7 @@ private:
     std::unique_ptr<InputMethod1> inputMethod1_;
     std::unique_ptr<InputMethod1> inputMethod1Compatible_;
     std::unique_ptr<InputMethod1> portalInputMethod1_;
-    std::unique_ptr<HandlerTableEntry<EventHandler>> event_;
+    std::vector<std::unique_ptr<HandlerTableEntry<EventHandler>>> events_;
     int icIdx_ = 0;
 };
 } // namespace fcitx

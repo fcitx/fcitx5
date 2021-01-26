@@ -389,7 +389,7 @@ DBusFrontendModule::DBusFrontendModule(Instance *instance)
         FCITX_WARN() << "Can not get portal dbus name right now.";
     }
 
-    event_ = instance_->watchEvent(
+    events_.emplace_back(instance_->watchEvent(
         EventType::InputContextInputMethodActivated, EventWatcherPhase::Default,
         [this](Event &event) {
             auto &activated = static_cast<InputMethodActivatedEvent &>(event);
@@ -400,8 +400,8 @@ DBusFrontendModule::DBusFrontendModule(Instance *instance)
                     static_cast<DBusInputContext1 *>(ic)->updateIM(entry);
                 }
             }
-        });
-    event_ = instance_->watchEvent(
+        }));
+    events_.emplace_back(instance_->watchEvent(
         EventType::UIChanged, EventWatcherPhase::Default, [this](Event &) {
             instance_->inputContextManager().foreach([](InputContext *ic) {
                 if (strcmp(ic->frontend(), "dbus") == 0) {
@@ -409,7 +409,7 @@ DBusFrontendModule::DBusFrontendModule(Instance *instance)
                 }
                 return true;
             });
-        });
+        }));
 }
 
 DBusFrontendModule::~DBusFrontendModule() {
