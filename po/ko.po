@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2021-01-19 20:26+0000\n"
+"POT-Creation-Date: 2021-01-26 20:24+0000\n"
 "PO-Revision-Date: 2017-11-23 04:14+0000\n"
 "Last-Translator: Bruce Lee <daemul72@gmail.com>, 2020\n"
 "Language-Team: Korean (https://www.transifex.com/fcitx/teams/12005/ko/)\n"
@@ -186,7 +186,7 @@ msgctxt "Key name"
 msgid "Audio Repeat"
 msgstr "음원 반복 듣기"
 
-#: src/ui/classic/theme.h:128
+#: src/ui/classic/theme.h:129
 msgid "Author"
 msgstr ""
 
@@ -205,7 +205,7 @@ msgctxt "Key name"
 msgid "Back Forward"
 msgstr "뒤로 앞으로"
 
-#: src/ui/classic/theme.h:94 src/ui/classic/theme.h:113
+#: src/ui/classic/theme.h:95 src/ui/classic/theme.h:114
 msgid "Background"
 msgstr ""
 
@@ -245,7 +245,7 @@ msgctxt "Key name"
 msgid "Bluetooth"
 msgstr "블루투스"
 
-#: src/ui/classic/theme.h:103
+#: src/ui/classic/theme.h:104
 msgid "Blur Margin"
 msgstr ""
 
@@ -253,6 +253,10 @@ msgstr ""
 msgctxt "Key name"
 msgid "Book"
 msgstr "책"
+
+#: src/ui/classic/theme.h:51
+msgid "Border Color"
+msgstr ""
 
 #: src/ui/classic/theme.h:33
 msgid "Bottom Center"
@@ -388,7 +392,7 @@ msgstr ""
 msgid "Change Fcitx 5 Configuration"
 msgstr "Fcitx 5 환경설정 변경"
 
-#: src/ui/classic/theme.h:118
+#: src/ui/classic/theme.h:119
 msgid "Check box"
 msgstr ""
 
@@ -405,7 +409,7 @@ msgctxt "Key name"
 msgid "Clear"
 msgstr "지우기"
 
-#: src/ui/classic/theme.h:72
+#: src/ui/classic/theme.h:74
 msgid "Click Margin"
 msgstr ""
 
@@ -427,24 +431,28 @@ msgctxt "Key name"
 msgid "Code input"
 msgstr "코드 입력"
 
+#: src/ui/classic/theme.h:50
+msgid "Color"
+msgstr ""
+
 #: src/lib/fcitx-utils/key.cpp:113
 msgctxt "Key name"
 msgid "Community"
 msgstr "커뮤니티"
 
-#: src/im/keyboard/keyboard.cpp:791
+#: src/im/keyboard/keyboard.cpp:790
 msgid "Completion"
 msgstr "완성"
 
-#: src/im/keyboard/keyboard.cpp:782
+#: src/im/keyboard/keyboard.cpp:781
 msgid "Completion is disabled."
 msgstr "완성이 비활성화되었습니다."
 
-#: src/im/keyboard/keyboard.cpp:785
+#: src/im/keyboard/keyboard.cpp:784
 msgid "Completion is enabled temporarily."
 msgstr ""
 
-#: src/im/keyboard/keyboard.cpp:787
+#: src/im/keyboard/keyboard.cpp:786
 msgid "Completion is enabled."
 msgstr "완성이 활성화되었습니다."
 
@@ -575,7 +583,7 @@ msgctxt "Key name"
 msgid "Delete"
 msgstr "삭제"
 
-#: src/ui/classic/theme.h:130
+#: src/ui/classic/theme.h:131
 msgid "Description"
 msgstr ""
 
@@ -637,7 +645,7 @@ msgstr "그림문자"
 msgid "Enable"
 msgstr ""
 
-#: src/ui/classic/theme.h:82
+#: src/ui/classic/theme.h:83
 msgid "Enable Blur on KWin"
 msgstr ""
 
@@ -885,7 +893,7 @@ msgctxt "Key name"
 msgid "Game"
 msgstr "게임"
 
-#: src/ui/classic/theme.h:140
+#: src/ui/classic/theme.h:141
 msgid "General"
 msgstr ""
 
@@ -1007,27 +1015,27 @@ msgstr "하이버네이트"
 msgid "Hidden Notifications"
 msgstr "숨은 알림"
 
-#: src/ui/classic/theme.h:57
+#: src/ui/classic/theme.h:59
 msgid "Hide overlay if size does not fit"
 msgstr ""
 
-#: src/ui/classic/theme.h:96 src/ui/classic/theme.h:115
+#: src/ui/classic/theme.h:97 src/ui/classic/theme.h:116
 msgid "Highlight Background"
 msgstr ""
 
-#: src/ui/classic/theme.h:91
+#: src/ui/classic/theme.h:92
 msgid "Highlight Background color"
 msgstr ""
 
-#: src/ui/classic/theme.h:79 src/ui/classic/theme.h:109
+#: src/ui/classic/theme.h:81 src/ui/classic/theme.h:110
 msgid "Highlight Candidate Color"
 msgstr "강조 후보 색상"
 
-#: src/ui/classic/theme.h:67
+#: src/ui/classic/theme.h:69
 msgid "Highlight Click Margin"
 msgstr ""
 
-#: src/ui/classic/theme.h:89
+#: src/ui/classic/theme.h:90
 msgid "Highlight text color"
 msgstr ""
 
@@ -1106,11 +1114,11 @@ msgid ""
 "any input method other than ${2}. See ${link} for more detail."
 msgstr ""
 
-#: src/ui/classic/theme.h:70
+#: src/ui/classic/theme.h:72
 msgid "Image"
 msgstr ""
 
-#: src/im/keyboard/keyboard.cpp:790 src/ui/classic/xcbtraywindow.cpp:38
+#: src/im/keyboard/keyboard.cpp:789 src/ui/classic/xcbtraywindow.cpp:38
 #: src/lib/fcitx/instance.cpp:730 src/lib/fcitx/instance.cpp:900
 #: src/modules/notificationitem/dbusmenu.cpp:241
 #: src/modules/notificationitem/notificationitem.cpp:128
@@ -1127,7 +1135,7 @@ msgstr "입력기 환경설정"
 msgid "Input Method Related Environment Variables: "
 msgstr ""
 
-#: src/ui/classic/theme.h:142
+#: src/ui/classic/theme.h:143
 msgid "Input Panel"
 msgstr ""
 
@@ -1360,7 +1368,7 @@ msgctxt "Key name"
 msgid "Mail Forward"
 msgstr "이메일 전달"
 
-#: src/ui/classic/theme.h:59
+#: src/ui/classic/theme.h:61
 msgid "Margin"
 msgstr ""
 
@@ -1380,11 +1388,11 @@ msgstr ""
 msgid "Margin Top"
 msgstr ""
 
-#: src/ui/classic/theme.h:98 src/ui/classic/theme.h:121
+#: src/ui/classic/theme.h:99 src/ui/classic/theme.h:122
 msgid "Margin around all content"
 msgstr ""
 
-#: src/ui/classic/theme.h:100 src/ui/classic/theme.h:123
+#: src/ui/classic/theme.h:101 src/ui/classic/theme.h:124
 msgid "Margin around text"
 msgstr ""
 
@@ -1443,7 +1451,7 @@ msgctxt "Key name"
 msgid "Meeting"
 msgstr "미팅"
 
-#: src/ui/classic/theme.h:143
+#: src/ui/classic/theme.h:144
 msgid "Menu"
 msgstr ""
 
@@ -1466,7 +1474,7 @@ msgctxt "Key name"
 msgid "Messenger"
 msgstr "메신저"
 
-#: src/ui/classic/theme.h:138
+#: src/ui/classic/theme.h:139
 msgid "Metadata"
 msgstr ""
 
@@ -1505,7 +1513,7 @@ msgctxt "Key name"
 msgid "My Sites"
 msgstr "내 사이트"
 
-#: src/ui/classic/theme.h:126
+#: src/ui/classic/theme.h:127
 msgid "Name"
 msgstr ""
 
@@ -1523,7 +1531,7 @@ msgstr "뉴스"
 msgid "Next Candidate"
 msgstr "다음 후보"
 
-#: src/ui/classic/theme.h:102
+#: src/ui/classic/theme.h:103
 msgid "Next Page Button"
 msgstr ""
 
@@ -1535,7 +1543,7 @@ msgstr "클립보드 기록이 없습니다."
 msgid "None"
 msgstr "없음"
 
-#: src/ui/classic/theme.h:76 src/ui/classic/theme.h:106
+#: src/ui/classic/theme.h:78 src/ui/classic/theme.h:107
 msgid "Normal text color"
 msgstr ""
 
@@ -1560,7 +1568,7 @@ msgstr "NumLock"
 msgid "Number of entries"
 msgstr ""
 
-#: src/im/keyboard/keyboard.cpp:776
+#: src/im/keyboard/keyboard.cpp:775
 msgid ""
 "Only emoji support is found. To enable spell checking, you may need to "
 "install spell check data for the language."
@@ -1583,23 +1591,23 @@ msgctxt "Key name"
 msgid "Option"
 msgstr "선택사항"
 
-#: src/ui/classic/theme.h:61
+#: src/ui/classic/theme.h:63
 msgid "Overlay Clip Margin"
 msgstr ""
 
-#: src/ui/classic/theme.h:51
+#: src/ui/classic/theme.h:53
 msgid "Overlay Image"
 msgstr ""
 
-#: src/ui/classic/theme.h:54
+#: src/ui/classic/theme.h:56
 msgid "Overlay X offset"
 msgstr ""
 
-#: src/ui/classic/theme.h:55
+#: src/ui/classic/theme.h:57
 msgid "Overlay Y offset"
 msgstr ""
 
-#: src/ui/classic/theme.h:53
+#: src/ui/classic/theme.h:55
 msgid "Overlay position"
 msgstr ""
 
@@ -1695,7 +1703,7 @@ msgstr "사전 설정"
 msgid "Prev Candidate"
 msgstr "이전 후보"
 
-#: src/ui/classic/theme.h:101
+#: src/ui/classic/theme.h:102
 msgid "Prev Page Button"
 msgstr ""
 
@@ -1856,7 +1864,7 @@ msgctxt "Key name"
 msgid "Send"
 msgstr "보내기"
 
-#: src/ui/classic/theme.h:117
+#: src/ui/classic/theme.h:118
 msgid "Separator Background"
 msgstr ""
 
@@ -1912,7 +1920,7 @@ msgctxt "Key name"
 msgid "Space"
 msgstr "공백"
 
-#: src/ui/classic/theme.h:81 src/ui/classic/theme.h:111
+#: src/ui/classic/theme.h:112
 msgid "Spacing"
 msgstr ""
 
@@ -1953,7 +1961,7 @@ msgctxt "Key name"
 msgid "Stop"
 msgstr "중지"
 
-#: src/ui/classic/theme.h:119
+#: src/ui/classic/theme.h:120
 msgid "Sub Menu"
 msgstr ""
 
@@ -2102,7 +2110,7 @@ msgctxt "Key name"
 msgid "Travel"
 msgstr "여행"
 
-#: src/ui/classic/theme.h:134
+#: src/ui/classic/theme.h:135
 msgid "Tray Font"
 msgstr ""
 
@@ -2166,7 +2174,7 @@ msgstr "스팟 스타일에서 사용(다시 시작 필요)"
 msgid "Use Per Screen DPI"
 msgstr "화면 해상도 사용하기"
 
-#: src/ui/classic/theme.h:86
+#: src/ui/classic/theme.h:87
 msgid "Use all horizontal space for highlight when it is vertical list"
 msgstr ""
 
@@ -2186,7 +2194,7 @@ msgstr "사용자 인터페이스:"
 msgid "Using ${1} to check dbus."
 msgstr ""
 
-#: src/ui/classic/theme.h:127
+#: src/ui/classic/theme.h:128
 msgid "Version"
 msgstr ""
 
