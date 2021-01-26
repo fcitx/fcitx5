@@ -49,7 +49,7 @@ FCITX_CONFIGURATION(
     Option<std::string> image{this, "Image", _("Background Image")};
     Option<Color> color{this, "Color", _("Color"), Color("#ffffff")};
     Option<Color> borderColor{this, "BorderColor", _("Border Color"),
-                              Color("#ffffff")};
+                              Color("#ffffff00")};
     Option<std::string> overlay{this, "Overlay", _("Overlay Image")};
     OptionWithAnnotation<Gravity, GravityI18NAnnotation> gravity{
         this, "Gravity", _("Overlay position")};
