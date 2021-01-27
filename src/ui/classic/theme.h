@@ -47,9 +47,30 @@ FCITX_CONFIGURATION(
 FCITX_CONFIGURATION(
     BackgroundImageConfig,
     Option<std::string> image{this, "Image", _("Background Image")};
-    Option<Color> color{this, "Color", _("Color"), Color("#ffffff")};
-    Option<Color> borderColor{this, "BorderColor", _("Border Color"),
-                              Color("#ffffff00")};
+    OptionWithAnnotation<Color, ToolTipAnnotation> color{
+        this,
+        "Color",
+        _("Color"),
+        Color("#ffffff"),
+        {},
+        {},
+        {_("This option is only effective if image is not set.")}};
+    OptionWithAnnotation<Color, ToolTipAnnotation> borderColor{
+        this,
+        "BorderColor",
+        _("Border Color"),
+        Color("#ffffff00"),
+        {},
+        {},
+        {_("This option is only effective if image is not set.")}};
+    Option<int, IntConstrain, DefaultMarshaller<int>, ToolTipAnnotation>
+        borderWidth{this,
+                    "BorderWidth",
+                    _("Border width"),
+                    0,
+                    IntConstrain(0),
+                    {},
+                    {_("This value should be less than any of margin value.")}};
     Option<std::string> overlay{this, "Overlay", _("Overlay Image")};
     OptionWithAnnotation<Gravity, GravityI18NAnnotation> gravity{
         this, "Gravity", _("Overlay position")};
