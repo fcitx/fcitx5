@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2021-01-26 20:24+0000\n"
+"POT-Creation-Date: 2021-01-27 20:24+0000\n"
 "PO-Revision-Date: 2017-11-23 04:14+0000\n"
 "Last-Translator: csslayer <wengxt@gmail.com>, 2021\n"
 "Language-Team: Chinese (China) (https://www.transifex.com/fcitx/teams/12005/"
@@ -185,7 +185,7 @@ msgctxt "Key name"
 msgid "Audio Repeat"
 msgstr "音频重复"
 
-#: src/ui/classic/theme.h:129
+#: src/ui/classic/theme.h:150
 msgid "Author"
 msgstr "作者"
 
@@ -204,7 +204,7 @@ msgctxt "Key name"
 msgid "Back Forward"
 msgstr "向后"
 
-#: src/ui/classic/theme.h:95 src/ui/classic/theme.h:114
+#: src/ui/classic/theme.h:116 src/ui/classic/theme.h:135
 msgid "Background"
 msgstr "背景"
 
@@ -244,7 +244,7 @@ msgctxt "Key name"
 msgid "Bluetooth"
 msgstr "蓝牙"
 
-#: src/ui/classic/theme.h:104
+#: src/ui/classic/theme.h:125
 msgid "Blur Margin"
 msgstr "模糊区域边距"
 
@@ -253,8 +253,12 @@ msgctxt "Key name"
 msgid "Book"
 msgstr "书"
 
-#: src/ui/classic/theme.h:51
+#: src/ui/classic/theme.h:61
 msgid "Border Color"
+msgstr ""
+
+#: src/ui/classic/theme.h:69
+msgid "Border width"
 msgstr ""
 
 #: src/ui/classic/theme.h:33
@@ -391,7 +395,7 @@ msgstr "右侧居中"
 msgid "Change Fcitx 5 Configuration"
 msgstr "修改 Fcitx 5 配置"
 
-#: src/ui/classic/theme.h:119
+#: src/ui/classic/theme.h:140
 msgid "Check box"
 msgstr "复选框"
 
@@ -408,7 +412,7 @@ msgctxt "Key name"
 msgid "Clear"
 msgstr "清空"
 
-#: src/ui/classic/theme.h:74
+#: src/ui/classic/theme.h:95
 msgid "Click Margin"
 msgstr "点击区域边距"
 
@@ -430,7 +434,7 @@ msgctxt "Key name"
 msgid "Code input"
 msgstr "代码输入"
 
-#: src/ui/classic/theme.h:50
+#: src/ui/classic/theme.h:53
 msgid "Color"
 msgstr ""
 
@@ -582,7 +586,7 @@ msgctxt "Key name"
 msgid "Delete"
 msgstr "删除"
 
-#: src/ui/classic/theme.h:131
+#: src/ui/classic/theme.h:152
 msgid "Description"
 msgstr "描述"
 
@@ -644,7 +648,7 @@ msgstr "颜文字"
 msgid "Enable"
 msgstr "启用"
 
-#: src/ui/classic/theme.h:83
+#: src/ui/classic/theme.h:104
 msgid "Enable Blur on KWin"
 msgstr "KWin 下启用模糊"
 
@@ -898,7 +902,7 @@ msgctxt "Key name"
 msgid "Game"
 msgstr "游戏"
 
-#: src/ui/classic/theme.h:141
+#: src/ui/classic/theme.h:162
 msgid "General"
 msgstr "常规"
 
@@ -1020,27 +1024,27 @@ msgstr "休眠"
 msgid "Hidden Notifications"
 msgstr "隐藏提示"
 
-#: src/ui/classic/theme.h:59
+#: src/ui/classic/theme.h:80
 msgid "Hide overlay if size does not fit"
 msgstr "显示区域不足时隐藏覆盖图片"
 
-#: src/ui/classic/theme.h:97 src/ui/classic/theme.h:116
+#: src/ui/classic/theme.h:118 src/ui/classic/theme.h:137
 msgid "Highlight Background"
 msgstr "高亮背景"
 
-#: src/ui/classic/theme.h:92
+#: src/ui/classic/theme.h:113
 msgid "Highlight Background color"
 msgstr "高亮背景颜色"
 
-#: src/ui/classic/theme.h:81 src/ui/classic/theme.h:110
+#: src/ui/classic/theme.h:102 src/ui/classic/theme.h:131
 msgid "Highlight Candidate Color"
 msgstr "高亮候选词颜色"
 
-#: src/ui/classic/theme.h:69
+#: src/ui/classic/theme.h:90
 msgid "Highlight Click Margin"
 msgstr "高亮点击边距"
 
-#: src/ui/classic/theme.h:90
+#: src/ui/classic/theme.h:111
 msgid "Highlight text color"
 msgstr "高亮文字颜色"
 
@@ -1124,7 +1128,7 @@ msgstr ""
 "${g36_disable_ibus} 禁用 IBus 集成已使用除 ${2} 之外的任何输入法. 更多细节参"
 "见 ${link}。"
 
-#: src/ui/classic/theme.h:72
+#: src/ui/classic/theme.h:93
 msgid "Image"
 msgstr "图片"
 
@@ -1145,7 +1149,7 @@ msgstr "输入法配置"
 msgid "Input Method Related Environment Variables: "
 msgstr "输入法相关的环境变量："
 
-#: src/ui/classic/theme.h:143
+#: src/ui/classic/theme.h:164
 msgid "Input Panel"
 msgstr "输入面板"
 
@@ -1380,7 +1384,7 @@ msgctxt "Key name"
 msgid "Mail Forward"
 msgstr "转发邮件"
 
-#: src/ui/classic/theme.h:61
+#: src/ui/classic/theme.h:82
 msgid "Margin"
 msgstr "边距"
 
@@ -1400,11 +1404,11 @@ msgstr "右侧边距"
 msgid "Margin Top"
 msgstr "顶部边距"
 
-#: src/ui/classic/theme.h:99 src/ui/classic/theme.h:122
+#: src/ui/classic/theme.h:120 src/ui/classic/theme.h:143
 msgid "Margin around all content"
 msgstr "内容周围边界"
 
-#: src/ui/classic/theme.h:101 src/ui/classic/theme.h:124
+#: src/ui/classic/theme.h:122 src/ui/classic/theme.h:145
 msgid "Margin around text"
 msgstr "文本周围边距"
 
@@ -1463,7 +1467,7 @@ msgctxt "Key name"
 msgid "Meeting"
 msgstr "会议"
 
-#: src/ui/classic/theme.h:144
+#: src/ui/classic/theme.h:165
 msgid "Menu"
 msgstr "菜单"
 
@@ -1486,7 +1490,7 @@ msgctxt "Key name"
 msgid "Messenger"
 msgstr "即时通信"
 
-#: src/ui/classic/theme.h:139
+#: src/ui/classic/theme.h:160
 msgid "Metadata"
 msgstr "元数据"
 
@@ -1525,7 +1529,7 @@ msgctxt "Key name"
 msgid "My Sites"
 msgstr "我的站点"
 
-#: src/ui/classic/theme.h:127
+#: src/ui/classic/theme.h:148
 msgid "Name"
 msgstr "名称"
 
@@ -1543,7 +1547,7 @@ msgstr "新闻"
 msgid "Next Candidate"
 msgstr "下一个候选词"
 
-#: src/ui/classic/theme.h:103
+#: src/ui/classic/theme.h:124
 msgid "Next Page Button"
 msgstr "下一页按钮"
 
@@ -1555,7 +1559,7 @@ msgstr "无剪贴板历史。"
 msgid "None"
 msgstr "无"
 
-#: src/ui/classic/theme.h:78 src/ui/classic/theme.h:107
+#: src/ui/classic/theme.h:99 src/ui/classic/theme.h:128
 msgid "Normal text color"
 msgstr "一般文字颜色"
 
@@ -1602,23 +1606,23 @@ msgctxt "Key name"
 msgid "Option"
 msgstr "选项"
 
-#: src/ui/classic/theme.h:63
+#: src/ui/classic/theme.h:84
 msgid "Overlay Clip Margin"
 msgstr "覆盖图片裁剪边界"
 
-#: src/ui/classic/theme.h:53
+#: src/ui/classic/theme.h:74
 msgid "Overlay Image"
 msgstr "覆盖图片"
 
-#: src/ui/classic/theme.h:56
+#: src/ui/classic/theme.h:77
 msgid "Overlay X offset"
 msgstr "覆盖图片 X 偏移"
 
-#: src/ui/classic/theme.h:57
+#: src/ui/classic/theme.h:78
 msgid "Overlay Y offset"
 msgstr "覆盖图片 Y 偏移"
 
-#: src/ui/classic/theme.h:55
+#: src/ui/classic/theme.h:76
 msgid "Overlay position"
 msgstr "覆盖图片位置"
 
@@ -1716,7 +1720,7 @@ msgstr "Presage"
 msgid "Prev Candidate"
 msgstr "上一个候选词"
 
-#: src/ui/classic/theme.h:102
+#: src/ui/classic/theme.h:123
 msgid "Prev Page Button"
 msgstr "上一页按钮"
 
@@ -1877,7 +1881,7 @@ msgctxt "Key name"
 msgid "Send"
 msgstr "发送"
 
-#: src/ui/classic/theme.h:118
+#: src/ui/classic/theme.h:139
 msgid "Separator Background"
 msgstr "分隔符背景"
 
@@ -1933,7 +1937,7 @@ msgctxt "Key name"
 msgid "Space"
 msgstr "空格"
 
-#: src/ui/classic/theme.h:112
+#: src/ui/classic/theme.h:133
 msgid "Spacing"
 msgstr "间隔"
 
@@ -1974,7 +1978,7 @@ msgctxt "Key name"
 msgid "Stop"
 msgstr "停止"
 
-#: src/ui/classic/theme.h:120
+#: src/ui/classic/theme.h:141
 msgid "Sub Menu"
 msgstr "子菜单"
 
@@ -2059,6 +2063,14 @@ msgstr "主题"
 msgid "This is only effective when the tray icon is xembed."
 msgstr "这只在托盘为 xembed 时有效。"
 
+#: src/ui/classic/theme.h:57 src/ui/classic/theme.h:65
+msgid "This option is only effective if image is not set."
+msgstr ""
+
+#: src/ui/classic/theme.h:73
+msgid "This value should be less than any of margin value."
+msgstr ""
+
 #: src/lib/fcitx-utils/key.cpp:177
 msgctxt "Key name"
 msgid "Time"
@@ -2125,7 +2137,7 @@ msgctxt "Key name"
 msgid "Travel"
 msgstr "旅行"
 
-#: src/ui/classic/theme.h:135
+#: src/ui/classic/theme.h:156
 msgid "Tray Font"
 msgstr "托盘字体"
 
@@ -2189,7 +2201,7 @@ msgstr "使用 On The Spot 风格 (需要重启)"
 msgid "Use Per Screen DPI"
 msgstr "按屏幕 DPI 使用"
 
-#: src/ui/classic/theme.h:87
+#: src/ui/classic/theme.h:108
 msgid "Use all horizontal space for highlight when it is vertical list"
 msgstr "竖排列表时使用所有横向空间高亮"
 
@@ -2209,7 +2221,7 @@ msgstr "用户界面："
 msgid "Using ${1} to check dbus."
 msgstr "使用 ${1} 来检查 dbus。"
 
-#: src/ui/classic/theme.h:128
+#: src/ui/classic/theme.h:149
 msgid "Version"
 msgstr "版本"
 

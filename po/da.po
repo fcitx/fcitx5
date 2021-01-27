@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2021-01-26 20:24+0000\n"
+"POT-Creation-Date: 2021-01-27 20:24+0000\n"
 "PO-Revision-Date: 2017-11-23 04:14+0000\n"
 "Last-Translator: scootergrisen, 2021\n"
 "Language-Team: Danish (https://www.transifex.com/fcitx/teams/12005/da/)\n"
@@ -184,7 +184,7 @@ msgctxt "Key name"
 msgid "Audio Repeat"
 msgstr "Lyd gentag"
 
-#: src/ui/classic/theme.h:129
+#: src/ui/classic/theme.h:150
 msgid "Author"
 msgstr "Forfatter"
 
@@ -203,7 +203,7 @@ msgctxt "Key name"
 msgid "Back Forward"
 msgstr "Tilbage fremad"
 
-#: src/ui/classic/theme.h:95 src/ui/classic/theme.h:114
+#: src/ui/classic/theme.h:116 src/ui/classic/theme.h:135
 msgid "Background"
 msgstr "Baggrund"
 
@@ -243,7 +243,7 @@ msgctxt "Key name"
 msgid "Bluetooth"
 msgstr "Bluetooth"
 
-#: src/ui/classic/theme.h:104
+#: src/ui/classic/theme.h:125
 msgid "Blur Margin"
 msgstr "Sløringsmargen"
 
@@ -252,8 +252,12 @@ msgctxt "Key name"
 msgid "Book"
 msgstr "Bog"
 
-#: src/ui/classic/theme.h:51
+#: src/ui/classic/theme.h:61
 msgid "Border Color"
+msgstr ""
+
+#: src/ui/classic/theme.h:69
+msgid "Border width"
 msgstr ""
 
 #: src/ui/classic/theme.h:33
@@ -395,7 +399,7 @@ msgstr "I midten til højre"
 msgid "Change Fcitx 5 Configuration"
 msgstr "Skift Fcitx 5-konfiguration"
 
-#: src/ui/classic/theme.h:119
+#: src/ui/classic/theme.h:140
 msgid "Check box"
 msgstr "Afkrydsningsboks"
 
@@ -412,7 +416,7 @@ msgctxt "Key name"
 msgid "Clear"
 msgstr "Ryd"
 
-#: src/ui/classic/theme.h:74
+#: src/ui/classic/theme.h:95
 msgid "Click Margin"
 msgstr "Klikmargen"
 
@@ -434,7 +438,7 @@ msgctxt "Key name"
 msgid "Code input"
 msgstr "Kodeinput"
 
-#: src/ui/classic/theme.h:50
+#: src/ui/classic/theme.h:53
 msgid "Color"
 msgstr ""
 
@@ -586,7 +590,7 @@ msgctxt "Key name"
 msgid "Delete"
 msgstr "Slet"
 
-#: src/ui/classic/theme.h:131
+#: src/ui/classic/theme.h:152
 msgid "Description"
 msgstr "Beskrivelse"
 
@@ -648,7 +652,7 @@ msgstr "Emoji"
 msgid "Enable"
 msgstr "Aktivér"
 
-#: src/ui/classic/theme.h:83
+#: src/ui/classic/theme.h:104
 msgid "Enable Blur on KWin"
 msgstr "Aktivér sløring i KWin"
 
@@ -903,7 +907,7 @@ msgctxt "Key name"
 msgid "Game"
 msgstr "Spil"
 
-#: src/ui/classic/theme.h:141
+#: src/ui/classic/theme.h:162
 msgid "General"
 msgstr "Generelt"
 
@@ -1025,27 +1029,27 @@ msgstr "Dvale"
 msgid "Hidden Notifications"
 msgstr "Skjulte underretninger"
 
-#: src/ui/classic/theme.h:59
+#: src/ui/classic/theme.h:80
 msgid "Hide overlay if size does not fit"
 msgstr "Skjul overlægningen hvis størrelsen ikke passer"
 
-#: src/ui/classic/theme.h:97 src/ui/classic/theme.h:116
+#: src/ui/classic/theme.h:118 src/ui/classic/theme.h:137
 msgid "Highlight Background"
 msgstr "Baggrund for fremhævning"
 
-#: src/ui/classic/theme.h:92
+#: src/ui/classic/theme.h:113
 msgid "Highlight Background color"
 msgstr "Baggrundsfarve for fremhævning"
 
-#: src/ui/classic/theme.h:81 src/ui/classic/theme.h:110
+#: src/ui/classic/theme.h:102 src/ui/classic/theme.h:131
 msgid "Highlight Candidate Color"
 msgstr "Kandidatfarve for fremhævning"
 
-#: src/ui/classic/theme.h:69
+#: src/ui/classic/theme.h:90
 msgid "Highlight Click Margin"
 msgstr "Fremhæv klikmargen"
 
-#: src/ui/classic/theme.h:90
+#: src/ui/classic/theme.h:111
 msgid "Highlight text color"
 msgstr "Tekstfarve for fremhævning"
 
@@ -1132,7 +1136,7 @@ msgstr ""
 "bruger kommandoen ${g36_disable_ibus} til at deaktivere IBus-integration for "
 "at kunne bruge andre inputmetoder end ${2}. Se ${link} for flere detaljer."
 
-#: src/ui/classic/theme.h:72
+#: src/ui/classic/theme.h:93
 msgid "Image"
 msgstr "Billede"
 
@@ -1153,7 +1157,7 @@ msgstr "Konfiguration af inputmetode"
 msgid "Input Method Related Environment Variables: "
 msgstr "Inputmetode med relation til miljøvariabler: "
 
-#: src/ui/classic/theme.h:143
+#: src/ui/classic/theme.h:164
 msgid "Input Panel"
 msgstr "Inputpanel"
 
@@ -1386,7 +1390,7 @@ msgctxt "Key name"
 msgid "Mail Forward"
 msgstr "Mail videresend"
 
-#: src/ui/classic/theme.h:61
+#: src/ui/classic/theme.h:82
 msgid "Margin"
 msgstr "Margen"
 
@@ -1406,11 +1410,11 @@ msgstr "Margen til højre"
 msgid "Margin Top"
 msgstr "Margen øverst"
 
-#: src/ui/classic/theme.h:99 src/ui/classic/theme.h:122
+#: src/ui/classic/theme.h:120 src/ui/classic/theme.h:143
 msgid "Margin around all content"
 msgstr "Margen omkring al indholdet"
 
-#: src/ui/classic/theme.h:101 src/ui/classic/theme.h:124
+#: src/ui/classic/theme.h:122 src/ui/classic/theme.h:145
 msgid "Margin around text"
 msgstr "Margen omkring tekst"
 
@@ -1469,7 +1473,7 @@ msgctxt "Key name"
 msgid "Meeting"
 msgstr "Møde"
 
-#: src/ui/classic/theme.h:144
+#: src/ui/classic/theme.h:165
 msgid "Menu"
 msgstr "Menu"
 
@@ -1492,7 +1496,7 @@ msgctxt "Key name"
 msgid "Messenger"
 msgstr "Messenger"
 
-#: src/ui/classic/theme.h:139
+#: src/ui/classic/theme.h:160
 msgid "Metadata"
 msgstr "Metadata"
 
@@ -1531,7 +1535,7 @@ msgctxt "Key name"
 msgid "My Sites"
 msgstr "Mine steder"
 
-#: src/ui/classic/theme.h:127
+#: src/ui/classic/theme.h:148
 msgid "Name"
 msgstr "Navn"
 
@@ -1549,7 +1553,7 @@ msgstr "Nyheder"
 msgid "Next Candidate"
 msgstr "Næste kandidat"
 
-#: src/ui/classic/theme.h:103
+#: src/ui/classic/theme.h:124
 msgid "Next Page Button"
 msgstr "Knap for næste side"
 
@@ -1561,7 +1565,7 @@ msgstr "Ingen udklipsholderhistorik."
 msgid "None"
 msgstr "Ingen"
 
-#: src/ui/classic/theme.h:78 src/ui/classic/theme.h:107
+#: src/ui/classic/theme.h:99 src/ui/classic/theme.h:128
 msgid "Normal text color"
 msgstr "Normal tekstfarve"
 
@@ -1609,23 +1613,23 @@ msgctxt "Key name"
 msgid "Option"
 msgstr "Valgmulighed"
 
-#: src/ui/classic/theme.h:63
+#: src/ui/classic/theme.h:84
 msgid "Overlay Clip Margin"
 msgstr "Klikmargen for overlægning"
 
-#: src/ui/classic/theme.h:53
+#: src/ui/classic/theme.h:74
 msgid "Overlay Image"
 msgstr "Billede for overlægning"
 
-#: src/ui/classic/theme.h:56
+#: src/ui/classic/theme.h:77
 msgid "Overlay X offset"
 msgstr "X-forskydning for overlægning"
 
-#: src/ui/classic/theme.h:57
+#: src/ui/classic/theme.h:78
 msgid "Overlay Y offset"
 msgstr "Y-forskydning for overlægning"
 
-#: src/ui/classic/theme.h:55
+#: src/ui/classic/theme.h:76
 msgid "Overlay position"
 msgstr "Placering for overlægning"
 
@@ -1726,7 +1730,7 @@ msgstr "Varsel"
 msgid "Prev Candidate"
 msgstr "Forrige kandidat"
 
-#: src/ui/classic/theme.h:102
+#: src/ui/classic/theme.h:123
 msgid "Prev Page Button"
 msgstr "Knap for forrige side"
 
@@ -1887,7 +1891,7 @@ msgctxt "Key name"
 msgid "Send"
 msgstr "Send"
 
-#: src/ui/classic/theme.h:118
+#: src/ui/classic/theme.h:139
 msgid "Separator Background"
 msgstr "Baggrund for separator"
 
@@ -1943,7 +1947,7 @@ msgctxt "Key name"
 msgid "Space"
 msgstr "Mellemrum"
 
-#: src/ui/classic/theme.h:112
+#: src/ui/classic/theme.h:133
 msgid "Spacing"
 msgstr "Afstand"
 
@@ -1984,7 +1988,7 @@ msgctxt "Key name"
 msgid "Stop"
 msgstr "Stop"
 
-#: src/ui/classic/theme.h:120
+#: src/ui/classic/theme.h:141
 msgid "Sub Menu"
 msgstr "Undermenu"
 
@@ -2069,6 +2073,14 @@ msgstr "Tema"
 msgid "This is only effective when the tray icon is xembed."
 msgstr "Anvendes kun når bakkeikonet er xembed."
 
+#: src/ui/classic/theme.h:57 src/ui/classic/theme.h:65
+msgid "This option is only effective if image is not set."
+msgstr ""
+
+#: src/ui/classic/theme.h:73
+msgid "This value should be less than any of margin value."
+msgstr ""
+
 #: src/lib/fcitx-utils/key.cpp:177
 msgctxt "Key name"
 msgid "Time"
@@ -2136,7 +2148,7 @@ msgctxt "Key name"
 msgid "Travel"
 msgstr "Rejse"
 
-#: src/ui/classic/theme.h:135
+#: src/ui/classic/theme.h:156
 msgid "Tray Font"
 msgstr "Skrifttype for bakke"
 
@@ -2200,7 +2212,7 @@ msgstr "Brug her-og-nu-stil (kræver genstart)"
 msgid "Use Per Screen DPI"
 msgstr "Brug pr. skærm DPI"
 
-#: src/ui/classic/theme.h:87
+#: src/ui/classic/theme.h:108
 msgid "Use all horizontal space for highlight when it is vertical list"
 msgstr "Brug al vandret plads til fremhævning når det er en lodret liste"
 
@@ -2220,7 +2232,7 @@ msgstr "Brugerflade:"
 msgid "Using ${1} to check dbus."
 msgstr "Bruger ${1} til at tjekke dbus."
 
-#: src/ui/classic/theme.h:128
+#: src/ui/classic/theme.h:149
 msgid "Version"
 msgstr "Version"
 

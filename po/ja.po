@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2021-01-26 20:24+0000\n"
+"POT-Creation-Date: 2021-01-27 20:24+0000\n"
 "PO-Revision-Date: 2017-11-23 04:14+0000\n"
 "Last-Translator: UTUMI Hirosi <utuhiro78@yahoo.co.jp>, 2021\n"
 "Language-Team: Japanese (https://www.transifex.com/fcitx/teams/12005/ja/)\n"
@@ -186,7 +186,7 @@ msgctxt "Key name"
 msgid "Audio Repeat"
 msgstr "オーディオリピート"
 
-#: src/ui/classic/theme.h:129
+#: src/ui/classic/theme.h:150
 msgid "Author"
 msgstr "作者"
 
@@ -205,7 +205,7 @@ msgctxt "Key name"
 msgid "Back Forward"
 msgstr "Back Forward"
 
-#: src/ui/classic/theme.h:95 src/ui/classic/theme.h:114
+#: src/ui/classic/theme.h:116 src/ui/classic/theme.h:135
 msgid "Background"
 msgstr "背景"
 
@@ -245,7 +245,7 @@ msgctxt "Key name"
 msgid "Bluetooth"
 msgstr "Bluetooth"
 
-#: src/ui/classic/theme.h:104
+#: src/ui/classic/theme.h:125
 msgid "Blur Margin"
 msgstr "ブラーぼかしのマージン"
 
@@ -254,8 +254,12 @@ msgctxt "Key name"
 msgid "Book"
 msgstr "Book"
 
-#: src/ui/classic/theme.h:51
+#: src/ui/classic/theme.h:61
 msgid "Border Color"
+msgstr ""
+
+#: src/ui/classic/theme.h:69
+msgid "Border width"
 msgstr ""
 
 #: src/ui/classic/theme.h:33
@@ -395,7 +399,7 @@ msgstr "中央右"
 msgid "Change Fcitx 5 Configuration"
 msgstr "Fcitx5 設定を変更"
 
-#: src/ui/classic/theme.h:119
+#: src/ui/classic/theme.h:140
 msgid "Check box"
 msgstr "チェックボックス"
 
@@ -412,7 +416,7 @@ msgctxt "Key name"
 msgid "Clear"
 msgstr "クリア"
 
-#: src/ui/classic/theme.h:74
+#: src/ui/classic/theme.h:95
 msgid "Click Margin"
 msgstr "クリックマージン"
 
@@ -434,7 +438,7 @@ msgctxt "Key name"
 msgid "Code input"
 msgstr "コード入力"
 
-#: src/ui/classic/theme.h:50
+#: src/ui/classic/theme.h:53
 msgid "Color"
 msgstr ""
 
@@ -586,7 +590,7 @@ msgctxt "Key name"
 msgid "Delete"
 msgstr "削除"
 
-#: src/ui/classic/theme.h:131
+#: src/ui/classic/theme.h:152
 msgid "Description"
 msgstr "詳細"
 
@@ -648,7 +652,7 @@ msgstr "絵文字"
 msgid "Enable"
 msgstr "有効"
 
-#: src/ui/classic/theme.h:83
+#: src/ui/classic/theme.h:104
 msgid "Enable Blur on KWin"
 msgstr "KWin でブラーを有効にする"
 
@@ -903,7 +907,7 @@ msgctxt "Key name"
 msgid "Game"
 msgstr "ゲーム"
 
-#: src/ui/classic/theme.h:141
+#: src/ui/classic/theme.h:162
 msgid "General"
 msgstr "全般"
 
@@ -1025,27 +1029,27 @@ msgstr "ハイバネート"
 msgid "Hidden Notifications"
 msgstr "隠す通知"
 
-#: src/ui/classic/theme.h:59
+#: src/ui/classic/theme.h:80
 msgid "Hide overlay if size does not fit"
 msgstr "サイズが合わない場合はオーバーレイを非表示にする"
 
-#: src/ui/classic/theme.h:97 src/ui/classic/theme.h:116
+#: src/ui/classic/theme.h:118 src/ui/classic/theme.h:137
 msgid "Highlight Background"
 msgstr "ハイライト背景"
 
-#: src/ui/classic/theme.h:92
+#: src/ui/classic/theme.h:113
 msgid "Highlight Background color"
 msgstr "ハイライト背景色"
 
-#: src/ui/classic/theme.h:81 src/ui/classic/theme.h:110
+#: src/ui/classic/theme.h:102 src/ui/classic/theme.h:131
 msgid "Highlight Candidate Color"
 msgstr "ハイライト候補色"
 
-#: src/ui/classic/theme.h:69
+#: src/ui/classic/theme.h:90
 msgid "Highlight Click Margin"
 msgstr "ハイライトクリックマージン"
 
-#: src/ui/classic/theme.h:90
+#: src/ui/classic/theme.h:111
 msgid "Highlight text color"
 msgstr "ハイライトテキスト色"
 
@@ -1131,7 +1135,7 @@ msgstr ""
 "${g36_disable_ibus} コマンドを実行してください。詳細は ${link} で確認してくだ"
 "さい。"
 
-#: src/ui/classic/theme.h:72
+#: src/ui/classic/theme.h:93
 msgid "Image"
 msgstr "画像"
 
@@ -1152,7 +1156,7 @@ msgstr "入力メソッドの設定"
 msgid "Input Method Related Environment Variables: "
 msgstr "入力メソッド関連の環境変数:"
 
-#: src/ui/classic/theme.h:143
+#: src/ui/classic/theme.h:164
 msgid "Input Panel"
 msgstr "入力パネル"
 
@@ -1387,7 +1391,7 @@ msgctxt "Key name"
 msgid "Mail Forward"
 msgstr "メール転送"
 
-#: src/ui/classic/theme.h:61
+#: src/ui/classic/theme.h:82
 msgid "Margin"
 msgstr "マージン "
 
@@ -1407,11 +1411,11 @@ msgstr "右マージン"
 msgid "Margin Top"
 msgstr "上マージン"
 
-#: src/ui/classic/theme.h:99 src/ui/classic/theme.h:122
+#: src/ui/classic/theme.h:120 src/ui/classic/theme.h:143
 msgid "Margin around all content"
 msgstr "全コンテンツの周りのマージン"
 
-#: src/ui/classic/theme.h:101 src/ui/classic/theme.h:124
+#: src/ui/classic/theme.h:122 src/ui/classic/theme.h:145
 msgid "Margin around text"
 msgstr "テキストの周りのマージン"
 
@@ -1470,7 +1474,7 @@ msgctxt "Key name"
 msgid "Meeting"
 msgstr "ミーティング"
 
-#: src/ui/classic/theme.h:144
+#: src/ui/classic/theme.h:165
 msgid "Menu"
 msgstr "メニュー"
 
@@ -1493,7 +1497,7 @@ msgctxt "Key name"
 msgid "Messenger"
 msgstr "Messenger"
 
-#: src/ui/classic/theme.h:139
+#: src/ui/classic/theme.h:160
 msgid "Metadata"
 msgstr "メタデータ"
 
@@ -1532,7 +1536,7 @@ msgctxt "Key name"
 msgid "My Sites"
 msgstr "個人用サイト"
 
-#: src/ui/classic/theme.h:127
+#: src/ui/classic/theme.h:148
 msgid "Name"
 msgstr "名前"
 
@@ -1550,7 +1554,7 @@ msgstr "ニュース"
 msgid "Next Candidate"
 msgstr "次の候補"
 
-#: src/ui/classic/theme.h:103
+#: src/ui/classic/theme.h:124
 msgid "Next Page Button"
 msgstr "次ページボタン"
 
@@ -1562,7 +1566,7 @@ msgstr "クリップボード履歴がありません。"
 msgid "None"
 msgstr "なし"
 
-#: src/ui/classic/theme.h:78 src/ui/classic/theme.h:107
+#: src/ui/classic/theme.h:99 src/ui/classic/theme.h:128
 msgid "Normal text color"
 msgstr "ノーマルテキスト色"
 
@@ -1610,23 +1614,23 @@ msgctxt "Key name"
 msgid "Option"
 msgstr "オプション"
 
-#: src/ui/classic/theme.h:63
+#: src/ui/classic/theme.h:84
 msgid "Overlay Clip Margin"
 msgstr "クリップマージンのオーバーレイ"
 
-#: src/ui/classic/theme.h:53
+#: src/ui/classic/theme.h:74
 msgid "Overlay Image"
 msgstr "オーバーレイ画像"
 
-#: src/ui/classic/theme.h:56
+#: src/ui/classic/theme.h:77
 msgid "Overlay X offset"
 msgstr "Xオフセットのオーバーレイ"
 
-#: src/ui/classic/theme.h:57
+#: src/ui/classic/theme.h:78
 msgid "Overlay Y offset"
 msgstr "Yオフセットのオーバーレイ"
 
-#: src/ui/classic/theme.h:55
+#: src/ui/classic/theme.h:76
 msgid "Overlay position"
 msgstr "オーバーレイの位置"
 
@@ -1727,7 +1731,7 @@ msgstr "Presage"
 msgid "Prev Candidate"
 msgstr "前の候補"
 
-#: src/ui/classic/theme.h:102
+#: src/ui/classic/theme.h:123
 msgid "Prev Page Button"
 msgstr "前ページのボタン"
 
@@ -1888,7 +1892,7 @@ msgctxt "Key name"
 msgid "Send"
 msgstr "送信"
 
-#: src/ui/classic/theme.h:118
+#: src/ui/classic/theme.h:139
 msgid "Separator Background"
 msgstr "セパレーターの背景"
 
@@ -1944,7 +1948,7 @@ msgctxt "Key name"
 msgid "Space"
 msgstr "スペース"
 
-#: src/ui/classic/theme.h:112
+#: src/ui/classic/theme.h:133
 msgid "Spacing"
 msgstr "間隔"
 
@@ -1985,7 +1989,7 @@ msgctxt "Key name"
 msgid "Stop"
 msgstr "停止"
 
-#: src/ui/classic/theme.h:120
+#: src/ui/classic/theme.h:141
 msgid "Sub Menu"
 msgstr "サブメニュー"
 
@@ -2070,6 +2074,14 @@ msgstr "テーマ"
 msgid "This is only effective when the tray icon is xembed."
 msgstr "これはトレイアイコンが XEmbed の場合のみ有効です。"
 
+#: src/ui/classic/theme.h:57 src/ui/classic/theme.h:65
+msgid "This option is only effective if image is not set."
+msgstr ""
+
+#: src/ui/classic/theme.h:73
+msgid "This value should be less than any of margin value."
+msgstr ""
+
 #: src/lib/fcitx-utils/key.cpp:177
 msgctxt "Key name"
 msgid "Time"
@@ -2137,7 +2149,7 @@ msgctxt "Key name"
 msgid "Travel"
 msgstr "トラベル"
 
-#: src/ui/classic/theme.h:135
+#: src/ui/classic/theme.h:156
 msgid "Tray Font"
 msgstr "トレイフォント"
 
@@ -2201,7 +2213,7 @@ msgstr "XIM で On The Spot スタイルを使う(再起動が必要)"
 msgid "Use Per Screen DPI"
 msgstr "スクリーンごとのDPIを使用する"
 
-#: src/ui/classic/theme.h:87
+#: src/ui/classic/theme.h:108
 msgid "Use all horizontal space for highlight when it is vertical list"
 msgstr "候補リストが縦の場合は、ハイライト時にすべての水平スペースを使用します"
 
@@ -2221,7 +2233,7 @@ msgstr "ユーザーインターフェイス:"
 msgid "Using ${1} to check dbus."
 msgstr "DBus をチェックするために ${1} を使用します。"
 
-#: src/ui/classic/theme.h:128
+#: src/ui/classic/theme.h:149
 msgid "Version"
 msgstr "バージョン"
 

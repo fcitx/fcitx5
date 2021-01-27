@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2021-01-26 20:24+0000\n"
+"POT-Creation-Date: 2021-01-27 20:24+0000\n"
 "PO-Revision-Date: 2017-11-23 04:14+0000\n"
 "Last-Translator: TotalCaesar659 <x24cm5b8c54q6szxw@yandex.ru>, 2017\n"
 "Language-Team: Russian (https://www.transifex.com/fcitx/teams/12005/ru/)\n"
@@ -186,7 +186,7 @@ msgctxt "Key name"
 msgid "Audio Repeat"
 msgstr ""
 
-#: src/ui/classic/theme.h:129
+#: src/ui/classic/theme.h:150
 msgid "Author"
 msgstr ""
 
@@ -205,7 +205,7 @@ msgctxt "Key name"
 msgid "Back Forward"
 msgstr ""
 
-#: src/ui/classic/theme.h:95 src/ui/classic/theme.h:114
+#: src/ui/classic/theme.h:116 src/ui/classic/theme.h:135
 msgid "Background"
 msgstr ""
 
@@ -245,7 +245,7 @@ msgctxt "Key name"
 msgid "Bluetooth"
 msgstr ""
 
-#: src/ui/classic/theme.h:104
+#: src/ui/classic/theme.h:125
 msgid "Blur Margin"
 msgstr ""
 
@@ -254,8 +254,12 @@ msgctxt "Key name"
 msgid "Book"
 msgstr ""
 
-#: src/ui/classic/theme.h:51
+#: src/ui/classic/theme.h:61
 msgid "Border Color"
+msgstr ""
+
+#: src/ui/classic/theme.h:69
+msgid "Border width"
 msgstr ""
 
 #: src/ui/classic/theme.h:33
@@ -392,7 +396,7 @@ msgstr ""
 msgid "Change Fcitx 5 Configuration"
 msgstr ""
 
-#: src/ui/classic/theme.h:119
+#: src/ui/classic/theme.h:140
 msgid "Check box"
 msgstr ""
 
@@ -409,7 +413,7 @@ msgctxt "Key name"
 msgid "Clear"
 msgstr ""
 
-#: src/ui/classic/theme.h:74
+#: src/ui/classic/theme.h:95
 msgid "Click Margin"
 msgstr ""
 
@@ -431,7 +435,7 @@ msgctxt "Key name"
 msgid "Code input"
 msgstr ""
 
-#: src/ui/classic/theme.h:50
+#: src/ui/classic/theme.h:53
 msgid "Color"
 msgstr ""
 
@@ -583,7 +587,7 @@ msgctxt "Key name"
 msgid "Delete"
 msgstr ""
 
-#: src/ui/classic/theme.h:131
+#: src/ui/classic/theme.h:152
 msgid "Description"
 msgstr ""
 
@@ -645,7 +649,7 @@ msgstr ""
 msgid "Enable"
 msgstr ""
 
-#: src/ui/classic/theme.h:83
+#: src/ui/classic/theme.h:104
 msgid "Enable Blur on KWin"
 msgstr ""
 
@@ -893,7 +897,7 @@ msgctxt "Key name"
 msgid "Game"
 msgstr ""
 
-#: src/ui/classic/theme.h:141
+#: src/ui/classic/theme.h:162
 msgid "General"
 msgstr ""
 
@@ -1015,27 +1019,27 @@ msgstr ""
 msgid "Hidden Notifications"
 msgstr ""
 
-#: src/ui/classic/theme.h:59
+#: src/ui/classic/theme.h:80
 msgid "Hide overlay if size does not fit"
 msgstr ""
 
-#: src/ui/classic/theme.h:97 src/ui/classic/theme.h:116
+#: src/ui/classic/theme.h:118 src/ui/classic/theme.h:137
 msgid "Highlight Background"
 msgstr ""
 
-#: src/ui/classic/theme.h:92
+#: src/ui/classic/theme.h:113
 msgid "Highlight Background color"
 msgstr ""
 
-#: src/ui/classic/theme.h:81 src/ui/classic/theme.h:110
+#: src/ui/classic/theme.h:102 src/ui/classic/theme.h:131
 msgid "Highlight Candidate Color"
 msgstr ""
 
-#: src/ui/classic/theme.h:69
+#: src/ui/classic/theme.h:90
 msgid "Highlight Click Margin"
 msgstr ""
 
-#: src/ui/classic/theme.h:90
+#: src/ui/classic/theme.h:111
 msgid "Highlight text color"
 msgstr ""
 
@@ -1114,7 +1118,7 @@ msgid ""
 "any input method other than ${2}. See ${link} for more detail."
 msgstr ""
 
-#: src/ui/classic/theme.h:72
+#: src/ui/classic/theme.h:93
 msgid "Image"
 msgstr ""
 
@@ -1135,7 +1139,7 @@ msgstr ""
 msgid "Input Method Related Environment Variables: "
 msgstr ""
 
-#: src/ui/classic/theme.h:143
+#: src/ui/classic/theme.h:164
 msgid "Input Panel"
 msgstr ""
 
@@ -1368,7 +1372,7 @@ msgctxt "Key name"
 msgid "Mail Forward"
 msgstr ""
 
-#: src/ui/classic/theme.h:61
+#: src/ui/classic/theme.h:82
 msgid "Margin"
 msgstr ""
 
@@ -1388,11 +1392,11 @@ msgstr ""
 msgid "Margin Top"
 msgstr ""
 
-#: src/ui/classic/theme.h:99 src/ui/classic/theme.h:122
+#: src/ui/classic/theme.h:120 src/ui/classic/theme.h:143
 msgid "Margin around all content"
 msgstr ""
 
-#: src/ui/classic/theme.h:101 src/ui/classic/theme.h:124
+#: src/ui/classic/theme.h:122 src/ui/classic/theme.h:145
 msgid "Margin around text"
 msgstr ""
 
@@ -1451,7 +1455,7 @@ msgctxt "Key name"
 msgid "Meeting"
 msgstr ""
 
-#: src/ui/classic/theme.h:144
+#: src/ui/classic/theme.h:165
 msgid "Menu"
 msgstr ""
 
@@ -1474,7 +1478,7 @@ msgctxt "Key name"
 msgid "Messenger"
 msgstr ""
 
-#: src/ui/classic/theme.h:139
+#: src/ui/classic/theme.h:160
 msgid "Metadata"
 msgstr ""
 
@@ -1513,7 +1517,7 @@ msgctxt "Key name"
 msgid "My Sites"
 msgstr ""
 
-#: src/ui/classic/theme.h:127
+#: src/ui/classic/theme.h:148
 msgid "Name"
 msgstr ""
 
@@ -1531,7 +1535,7 @@ msgstr ""
 msgid "Next Candidate"
 msgstr ""
 
-#: src/ui/classic/theme.h:103
+#: src/ui/classic/theme.h:124
 msgid "Next Page Button"
 msgstr ""
 
@@ -1543,7 +1547,7 @@ msgstr "История буфера обмена отсутствует."
 msgid "None"
 msgstr "Нет"
 
-#: src/ui/classic/theme.h:78 src/ui/classic/theme.h:107
+#: src/ui/classic/theme.h:99 src/ui/classic/theme.h:128
 msgid "Normal text color"
 msgstr ""
 
@@ -1589,23 +1593,23 @@ msgctxt "Key name"
 msgid "Option"
 msgstr ""
 
-#: src/ui/classic/theme.h:63
+#: src/ui/classic/theme.h:84
 msgid "Overlay Clip Margin"
 msgstr ""
 
-#: src/ui/classic/theme.h:53
+#: src/ui/classic/theme.h:74
 msgid "Overlay Image"
 msgstr ""
 
-#: src/ui/classic/theme.h:56
+#: src/ui/classic/theme.h:77
 msgid "Overlay X offset"
 msgstr ""
 
-#: src/ui/classic/theme.h:57
+#: src/ui/classic/theme.h:78
 msgid "Overlay Y offset"
 msgstr ""
 
-#: src/ui/classic/theme.h:55
+#: src/ui/classic/theme.h:76
 msgid "Overlay position"
 msgstr ""
 
@@ -1701,7 +1705,7 @@ msgstr "Presage"
 msgid "Prev Candidate"
 msgstr ""
 
-#: src/ui/classic/theme.h:102
+#: src/ui/classic/theme.h:123
 msgid "Prev Page Button"
 msgstr ""
 
@@ -1862,7 +1866,7 @@ msgctxt "Key name"
 msgid "Send"
 msgstr ""
 
-#: src/ui/classic/theme.h:118
+#: src/ui/classic/theme.h:139
 msgid "Separator Background"
 msgstr ""
 
@@ -1918,7 +1922,7 @@ msgctxt "Key name"
 msgid "Space"
 msgstr ""
 
-#: src/ui/classic/theme.h:112
+#: src/ui/classic/theme.h:133
 msgid "Spacing"
 msgstr ""
 
@@ -1959,7 +1963,7 @@ msgctxt "Key name"
 msgid "Stop"
 msgstr ""
 
-#: src/ui/classic/theme.h:120
+#: src/ui/classic/theme.h:141
 msgid "Sub Menu"
 msgstr ""
 
@@ -2044,6 +2048,14 @@ msgstr ""
 msgid "This is only effective when the tray icon is xembed."
 msgstr ""
 
+#: src/ui/classic/theme.h:57 src/ui/classic/theme.h:65
+msgid "This option is only effective if image is not set."
+msgstr ""
+
+#: src/ui/classic/theme.h:73
+msgid "This value should be less than any of margin value."
+msgstr ""
+
 #: src/lib/fcitx-utils/key.cpp:177
 msgctxt "Key name"
 msgid "Time"
@@ -2108,7 +2120,7 @@ msgctxt "Key name"
 msgid "Travel"
 msgstr ""
 
-#: src/ui/classic/theme.h:135
+#: src/ui/classic/theme.h:156
 msgid "Tray Font"
 msgstr ""
 
@@ -2172,7 +2184,7 @@ msgstr ""
 msgid "Use Per Screen DPI"
 msgstr ""
 
-#: src/ui/classic/theme.h:87
+#: src/ui/classic/theme.h:108
 msgid "Use all horizontal space for highlight when it is vertical list"
 msgstr ""
 
@@ -2192,7 +2204,7 @@ msgstr ""
 msgid "Using ${1} to check dbus."
 msgstr ""
 
-#: src/ui/classic/theme.h:128
+#: src/ui/classic/theme.h:149
 msgid "Version"
 msgstr ""
 
