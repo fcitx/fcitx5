@@ -478,7 +478,7 @@ private:
 
     // We dont tell others anything.
     static std::tuple<uint32_t, uint32_t> contentType() { return {0, 0}; }
-    void setContentType(uint32_t hints, uint32_t purpose) {
+    void setContentType(uint32_t purpose, uint32_t hints) {
 
         static const CapabilityFlags purpose_related_capability = {
             CapabilityFlag::Alpha,   CapabilityFlag::Digit,
@@ -570,7 +570,7 @@ private:
                     fcitx::CapabilityFlag::UppwercaseSentences)
         CHECK_HINTS(GTK_INPUT_HINT_INHIBIT_OSK,
                     fcitx::CapabilityFlag::NoOnScreenKeyboard)
-        setCapability(flag);
+        setCapabilityFlags(flag);
     }
     FCITX_OBJECT_VTABLE_WRITABLE_PROPERTY(
         contentType, "ContentType", "(uu)",
