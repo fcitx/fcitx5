@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2021-01-27 20:24+0000\n"
+"POT-Creation-Date: 2021-01-29 20:24+0000\n"
 "PO-Revision-Date: 2017-11-23 04:14+0000\n"
 "Last-Translator: UTUMI Hirosi <utuhiro78@yahoo.co.jp>, 2021\n"
 "Language-Team: Japanese (https://www.transifex.com/fcitx/teams/12005/ja/)\n"
@@ -256,11 +256,11 @@ msgstr "Book"
 
 #: src/ui/classic/theme.h:61
 msgid "Border Color"
-msgstr ""
+msgstr "ボーダーの色"
 
 #: src/ui/classic/theme.h:69
 msgid "Border width"
-msgstr ""
+msgstr "ボーダーの幅"
 
 #: src/ui/classic/theme.h:33
 msgid "Bottom Center"
@@ -440,7 +440,7 @@ msgstr "コード入力"
 
 #: src/ui/classic/theme.h:53
 msgid "Color"
-msgstr ""
+msgstr "色"
 
 #: src/lib/fcitx-utils/key.cpp:113
 msgctxt "Key name"
@@ -2076,11 +2076,11 @@ msgstr "これはトレイアイコンが XEmbed の場合のみ有効です。"
 
 #: src/ui/classic/theme.h:57 src/ui/classic/theme.h:65
 msgid "This option is only effective if image is not set."
-msgstr ""
+msgstr "このオプションは画像が設定されていない場合にのみ有効です。"
 
 #: src/ui/classic/theme.h:73
 msgid "This value should be less than any of margin value."
-msgstr ""
+msgstr "この値はどのマージンの値よりも小さくする必要があります。"
 
 #: src/lib/fcitx-utils/key.cpp:177
 msgctxt "Key name"
