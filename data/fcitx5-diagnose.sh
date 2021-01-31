@@ -1242,13 +1242,14 @@ init_gtk_dirs() {
 }
 
 find_gtk_query_immodules() {
+    gtk_query_immodules=()
     local version="$1"
     init_gtk_dirs "${version}"
+    [ "${#gtk_dirs[@]}" = 0 ] && return
     local IFS=$'\n'
     local query_im_lib
     find_file query_im_lib -H "${gtk_dirs[@]}" -type f \
         -name "gtk-query-immodules-${version}*"
-    gtk_query_immodules=()
     unique_file_array "gtk_query_immodules_${version}" gtk_query_immodules \
         $(find_in_path "gtk-query-immodules-${version}*") \
         "${query_im_lib[@]}"
@@ -1370,6 +1371,7 @@ check_gtk_query_immodule() {
 find_gtk_immodules_cache() {
     local version="$1"
     init_gtk_dirs "${version}"
+    [ "${#gtk_dirs[@]}" = 0 ] && return
     local IFS=$'\n'
     local __gtk_immodule_cache
     find_file __gtk_immodule_cache -H \
@@ -1452,6 +1454,7 @@ check_gtk_immodule_cache() {
 find_gtk_immodules_cache_gio() {
     local version="$1"
     init_gtk_dirs "${version}"
+    [ "${#gtk_dirs[@]}" = 0 ] && return
     local IFS=$'\n'
     local __gtk_immodule_cache
     find_file __gtk_immodule_cache -H \
