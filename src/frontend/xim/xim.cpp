@@ -178,17 +178,37 @@ private:
     std::unique_ptr<HandlerTableEntry<XCBEventFilter>> filter_;
 };
 
+pid_t getWindowPid(xcb_ewmh_connection_t *ewmh, xcb_window_t w) {
+    auto cookie = xcb_ewmh_get_wm_pid(ewmh, w);
+    uint32_t pid = 0;
+    if (xcb_ewmh_get_wm_pid_reply(ewmh, cookie, &pid, nullptr) == 1) {
+        return pid;
+    }
+    return 0;
+}
+
 std::string getProgramName(XIMServer *server, xcb_im_input_context_t *ic) {
     auto w = xcb_im_input_context_get_client_window(ic);
     if (!w) {
         w = xcb_im_input_context_get_focus_window(ic);
     }
     if (w) {
-        auto cookie = xcb_ewmh_get_wm_pid(server->ewmh(), w);
-        uint32_t pid;
-        if (xcb_ewmh_get_wm_pid_reply(server->ewmh(), cookie, &pid, nullptr) ==
-            1) {
-            return getProcessName(pid);
+        while (w != server->root()) {
+            if (auto pid = getWindowPid(server->ewmh(), w)) {
+                return getProcessName(pid);
+            }
+
+            auto cookie = xcb_query_tree(server->conn(), w);
+            auto reply = makeUniqueCPtr(
+                xcb_query_tree_reply(server->conn(), cookie, nullptr));
+            if (!reply) {
+                break;
+            }
+            // This should never happen, but just as a sanity check.
+            if (reply->root != server->root() || w == reply->parent) {
+                break;
+            }
+            w = reply->parent;
         }
     }
     return {};
