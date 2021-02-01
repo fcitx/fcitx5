@@ -125,16 +125,9 @@ bool XCBTrayWindow::filterEvent(xcb_generic_event_t *event) {
             reinterpret_cast<xcb_configure_notify_event_t *>(event);
         if (wid_ == configure->event) {
             CLASSICUI_DEBUG() << "Tray recevied configure event";
-            if (width() != configure->width && height() != configure->height) {
-                resize(configure->width, configure->height);
-                xcb_size_hints_t size_hints;
-                memset(&size_hints, 0, sizeof(size_hints));
-                size_hints.flags = XCB_ICCCM_SIZE_HINT_BASE_SIZE;
-                size_hints.base_width = configure->width;
-                size_hints.base_height = configure->height;
-                xcb_icccm_set_wm_normal_hints(ui_->connection(), wid_,
-                                              &size_hints);
-            }
+            hintHeight_ = configure->height;
+            hintWidth_ = configure->width;
+            resizeTrayWindow();
             return true;
         }
         break;
@@ -155,6 +148,10 @@ bool XCBTrayWindow::filterEvent(xcb_generic_event_t *event) {
             createTrayWindow();
             findDock();
             return true;
+        } else if (property->atom == atoms_[ATOM_ORIENTATION] &&
+                   property->window == dockWindow_) {
+            isHorizontal_ = trayOrientation();
+            resizeTrayWindow();
         }
         break;
     }
@@ -209,6 +206,7 @@ void XCBTrayWindow::findDock() {
 
 void XCBTrayWindow::createTrayWindow() {
     trayVid_ = trayVisual();
+    isHorizontal_ = trayOrientation();
     if (trayVid_) {
         xcb_screen_t *screen =
             xcb_aux_get_screen(ui_->connection(), ui_->defaultScreen());
@@ -216,7 +214,21 @@ void XCBTrayWindow::createTrayWindow() {
     } else {
         trayDepth_ = 0;
     }
+
     createWindow(trayVid_);
+}
+
+void XCBTrayWindow::resizeTrayWindow() {
+    auto size = isHorizontal_ ? hintHeight_ : hintWidth_;
+    if (width() != size && height() != size) {
+        resize(size, size);
+        xcb_size_hints_t size_hints;
+        memset(&size_hints, 0, sizeof(size_hints));
+        size_hints.flags = XCB_ICCCM_SIZE_HINT_BASE_SIZE;
+        size_hints.base_width = size;
+        size_hints.base_height = size;
+        xcb_icccm_set_wm_normal_hints(ui_->connection(), wid_, &size_hints);
+    }
 }
 
 void XCBTrayWindow::sendTrayOpcode(long message, long data1, long data2,
@@ -260,6 +272,29 @@ xcb_visualid_t XCBTrayWindow::trayVisual() {
     }
     vid = *reinterpret_cast<xcb_visualid_t *>(data);
     return vid;
+}
+
+bool XCBTrayWindow::trayOrientation() {
+    if (dockWindow_ == XCB_WINDOW_NONE) {
+        return true;
+    }
+    auto cookie =
+        xcb_get_property(ui_->connection(), false, dockWindow_,
+                         atoms_[ATOM_ORIENTATION], XCB_ATOM_CARDINAL, 0, 1);
+    auto reply = makeUniqueCPtr(
+        xcb_get_property_reply(ui_->connection(), cookie, nullptr));
+    if (!reply || reply->type != XCB_ATOM_CARDINAL || reply->format != 32 ||
+        reply->bytes_after != 0) {
+        return true;
+    }
+    auto *data = static_cast<char *>(xcb_get_property_value(reply.get()));
+    int length = xcb_get_property_value_length(reply.get());
+    if (length != 32 / 8) {
+        return true;
+    }
+    constexpr uint32_t SYSTEM_TRAY_ORIENTATION_HORZ = 0;
+    return (*reinterpret_cast<uint32_t *>(data)) ==
+           SYSTEM_TRAY_ORIENTATION_HORZ;
 }
 
 void XCBTrayWindow::postCreateWindow() {

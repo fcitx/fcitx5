@@ -36,8 +36,10 @@ private:
     void sendTrayOpcode(long message, long data1, long data2, long data3);
     void refreshDockWindow();
     xcb_visualid_t trayVisual();
+    bool trayOrientation();
     void paint(cairo_t *cr);
     void createTrayWindow();
+    void resizeTrayWindow();
 
     xcb_window_t dockWindow_ = XCB_WINDOW_NONE;
     std::unique_ptr<HandlerTableEntry<XCBSelectionNotifyCallback>>
@@ -66,6 +68,11 @@ private:
 
     xcb_visualid_t trayVid_ = 0;
     int trayDepth_ = 0;
+
+    bool isHorizontal_ = true;
+    int hintWidth_ = 0;
+    int hintHeight_ = 0;
+
     Menu groupMenu_;
     std::list<SimpleAction> groupActions_;
     Menu inputMethodMenu_;
