@@ -8,6 +8,7 @@
 #define _FCITX_TEXT_H_
 
 #include <memory>
+#include <ostream>
 #include <string>
 #include <fcitx-utils/flags.h>
 #include <fcitx-utils/macros.h>
@@ -48,6 +49,9 @@ private:
     std::unique_ptr<TextPrivate> d_ptr;
     FCITX_DECLARE_PRIVATE(Text);
 };
+
+FCITXCORE_EXPORT std::ostream &operator<<(std::ostream &os, const Text &text);
+
 } // namespace fcitx
 
 #endif // _FCITX_TEXT_H_

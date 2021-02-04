@@ -104,4 +104,17 @@ std::string Text::toStringForCommit() const {
 
     return result;
 }
+
+std::ostream &operator<<(std::ostream &os, const Text &text) {
+    os << "Text(";
+    for (size_t i = 0; i < text.size(); i++) {
+        os << "<" << text.stringAt(i) << ", flag=" << text.formatAt(i) << ">";
+        if (i + 1 != text.size()) {
+            os << ", ";
+        }
+    }
+    os << ", cursor=" << text.cursor() << ")";
+    return os;
+}
+
 } // namespace fcitx
