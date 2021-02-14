@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2021-02-10 20:24+0000\n"
+"POT-Creation-Date: 2021-02-14 20:24+0000\n"
 "PO-Revision-Date: 2017-11-23 04:14+0000\n"
 "Last-Translator: Bruce Lee <daemul72@gmail.com>, 2021\n"
 "Language-Team: Korean (https://www.transifex.com/fcitx/teams/12005/ko/)\n"
@@ -98,11 +98,11 @@ msgstr "<개인사용>"
 msgid "<not assigned>"
 msgstr "<할당 안됨>"
 
-#: src/lib/fcitx/globalconfig.cpp:71
+#: src/lib/fcitx/globalconfig.cpp:74
 msgid "Activate Input Method"
 msgstr "입력기 활성화"
 
-#: src/lib/fcitx/globalconfig.cpp:127
+#: src/lib/fcitx/globalconfig.cpp:130
 msgid "Active By Default"
 msgstr "기본적으로 활성화"
 
@@ -131,6 +131,10 @@ msgstr "애드온 목록:"
 msgctxt "Key name"
 msgid "Adjust Brightness"
 msgstr "밝기 조절"
+
+#: src/lib/fcitx/globalconfig.cpp:18
+msgid "All"
+msgstr ""
 
 #: data/fcitx5-diagnose.sh:1299
 msgid "All found Gtk ${1} immodule files exist."
@@ -231,7 +235,7 @@ msgstr "배터리"
 msgid "Beginner's Guide"
 msgstr "초보자 가이드"
 
-#: src/lib/fcitx/globalconfig.cpp:160
+#: src/lib/fcitx/globalconfig.cpp:164
 msgid "Behavior"
 msgstr "동작방식"
 
@@ -553,7 +557,7 @@ msgctxt "Key name"
 msgid "DOS"
 msgstr "DOS"
 
-#: src/lib/fcitx/globalconfig.cpp:80
+#: src/lib/fcitx/globalconfig.cpp:83
 msgid "Deactivate Input Method"
 msgstr "입력기 비활성화"
 
@@ -562,23 +566,23 @@ msgstr "입력기 비활성화"
 msgid "Default"
 msgstr "기본값"
 
-#: src/lib/fcitx/globalconfig.cpp:116
+#: src/lib/fcitx/globalconfig.cpp:119
 msgid "Default Next Candidate"
 msgstr "기본 다음 후보"
 
-#: src/lib/fcitx/globalconfig.cpp:100
+#: src/lib/fcitx/globalconfig.cpp:103
 msgid "Default Next page"
 msgstr "기본 다음 페이지"
 
-#: src/lib/fcitx/globalconfig.cpp:110
+#: src/lib/fcitx/globalconfig.cpp:113
 msgid "Default Previous Candidate"
 msgstr "기본 이전 후보"
 
-#: src/lib/fcitx/globalconfig.cpp:88
+#: src/lib/fcitx/globalconfig.cpp:91
 msgid "Default Previous page"
 msgstr "기본 이전 페이지"
 
-#: src/lib/fcitx/globalconfig.cpp:147
+#: src/lib/fcitx/globalconfig.cpp:151
 msgid "Default page size"
 msgstr "페이지 크기 기본값"
 
@@ -678,23 +682,23 @@ msgstr "종료"
 msgid "Entries"
 msgstr ""
 
-#: src/lib/fcitx/globalconfig.cpp:47
+#: src/lib/fcitx/globalconfig.cpp:50
 msgid "Enumerate Input Method Backward"
 msgstr "입력기를 역순으로 적용"
 
-#: src/lib/fcitx/globalconfig.cpp:40
+#: src/lib/fcitx/globalconfig.cpp:43
 msgid "Enumerate Input Method Forward"
 msgstr "입력기를 순차적으로 적용"
 
-#: src/lib/fcitx/globalconfig.cpp:64
+#: src/lib/fcitx/globalconfig.cpp:67
 msgid "Enumerate Input Method Group Backward"
 msgstr "입력기 그룹을 역순으로 적용"
 
-#: src/lib/fcitx/globalconfig.cpp:57
+#: src/lib/fcitx/globalconfig.cpp:60
 msgid "Enumerate Input Method Group Forward"
 msgstr "입력기 그룹을 순차적으로 적용"
 
-#: src/lib/fcitx/globalconfig.cpp:29
+#: src/lib/fcitx/globalconfig.cpp:32
 msgid "Enumerate when press trigger key repeatedly"
 msgstr "전환 키를 반복해서 누를 때 보이기"
 
@@ -1084,7 +1088,7 @@ msgctxt "Key name"
 msgid "Hot Links"
 msgstr "핫 링크"
 
-#: src/lib/fcitx/globalconfig.cpp:158
+#: src/lib/fcitx/globalconfig.cpp:162
 msgid "Hotkey"
 msgstr "단축키"
 
@@ -1149,7 +1153,7 @@ msgstr ""
 msgid "Input method selector"
 msgstr "입력기 선택"
 
-#: src/lib/fcitx/globalconfig.cpp:92 src/lib/fcitx/globalconfig.cpp:104
+#: src/lib/fcitx/globalconfig.cpp:95 src/lib/fcitx/globalconfig.cpp:107
 msgid ""
 "Input methods may have different setup in their own configuration. This is "
 "commonly used by modules like clipboard or quickphrase."
@@ -1541,6 +1545,10 @@ msgstr "다음 후보"
 msgid "Next Page Button"
 msgstr ""
 
+#: src/lib/fcitx/globalconfig.cpp:19
+msgid "No"
+msgstr ""
+
 #: src/modules/clipboard/clipboard.cpp:313
 msgid "No clipboard history."
 msgstr "클립보드 기록이 없습니다."
@@ -1723,6 +1731,10 @@ msgctxt "Key name"
 msgid "Print Screen"
 msgstr "화면 출력"
 
+#: src/lib/fcitx/globalconfig.cpp:19
+msgid "Program"
+msgstr ""
+
 #: src/modules/spell/spell.h:38
 msgid "Providers"
 msgstr "제공도구"
@@ -1874,7 +1886,7 @@ msgstr "보내기"
 msgid "Separator Background"
 msgstr ""
 
-#: src/lib/fcitx/globalconfig.cpp:129
+#: src/lib/fcitx/globalconfig.cpp:133
 msgid "Share Input State"
 msgstr "입력 상태 공유"
 
@@ -1888,19 +1900,19 @@ msgctxt "Key name"
 msgid "Shop"
 msgstr "숍"
 
-#: src/lib/fcitx/globalconfig.cpp:139
+#: src/lib/fcitx/globalconfig.cpp:143
 msgid "Show Input Method Information when changing focus"
 msgstr "포커스를 변경할 때 입력기 정보 표시"
 
-#: src/lib/fcitx/globalconfig.cpp:136
+#: src/lib/fcitx/globalconfig.cpp:140
 msgid "Show Input Method Information when switch input method"
 msgstr "입력기 변경시 입력기 정보 표시"
 
-#: src/lib/fcitx/globalconfig.cpp:142
+#: src/lib/fcitx/globalconfig.cpp:146
 msgid "Show compact input method information"
 msgstr ""
 
-#: src/lib/fcitx/globalconfig.cpp:145
+#: src/lib/fcitx/globalconfig.cpp:149
 msgid "Show first input method information"
 msgstr ""
 
@@ -1908,11 +1920,11 @@ msgstr ""
 msgid "Show label when using keyboard or icon unavailable"
 msgstr ""
 
-#: src/lib/fcitx/globalconfig.cpp:132
+#: src/lib/fcitx/globalconfig.cpp:136
 msgid "Show preedit in application"
 msgstr ""
 
-#: src/lib/fcitx/globalconfig.cpp:53
+#: src/lib/fcitx/globalconfig.cpp:56
 msgid "Skip first input method while enumerating"
 msgstr ""
 
@@ -2026,7 +2038,7 @@ msgctxt "Key name"
 msgid "Task Panel"
 msgstr "작업 패널"
 
-#: src/lib/fcitx/globalconfig.cpp:33
+#: src/lib/fcitx/globalconfig.cpp:36
 msgid "Temporally switch between first and current Input Method"
 msgstr "첫 번째 입력 방법과 현재 입력 방법 사이의 임시 전환"
 
@@ -2073,7 +2085,7 @@ msgid ""
 "freezing, see ${link2}."
 msgstr ""
 
-#: src/lib/fcitx/globalconfig.cpp:121
+#: src/lib/fcitx/globalconfig.cpp:124
 msgid "Toggle embedded preedit"
 msgstr "내장된 사전편집 전환"
 
@@ -2128,7 +2140,7 @@ msgstr "여행"
 msgid "Tray Font"
 msgstr ""
 
-#: src/lib/fcitx/globalconfig.cpp:23
+#: src/lib/fcitx/globalconfig.cpp:26
 msgid "Trigger Input Method"
 msgstr "입력기 전환"
 
