@@ -15,6 +15,9 @@ namespace fcitx {
 
 namespace impl {
 
+FCITX_CONFIG_ENUM_I18N_ANNOTATION(PropertyPropagatePolicy, N_("All"),
+                                  N_("Program"), N_("No"));
+
 FCITX_CONFIGURATION(
     HotkeyConfig,
     KeyListOption triggerKeys{
@@ -125,9 +128,10 @@ FCITX_CONFIGURATION(
 FCITX_CONFIGURATION(
     BehaviorConfig, Option<bool> activeByDefault{this, "ActiveByDefault",
                                                  _("Active By Default")};
-    Option<PropertyPropagatePolicy> shareState{this, "ShareInputState",
-                                               _("Share Input State"),
-                                               PropertyPropagatePolicy::No};
+    OptionWithAnnotation<PropertyPropagatePolicy,
+                         PropertyPropagatePolicyI18NAnnotation>
+        shareState{this, "ShareInputState", _("Share Input State"),
+                   PropertyPropagatePolicy::No};
     Option<bool> preeditEnabledByDefault{this, "PreeditEnabledByDefault",
                                          _("Show preedit in application"),
                                          true};
