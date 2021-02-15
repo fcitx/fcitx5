@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2021-02-14 20:24+0000\n"
+"POT-Creation-Date: 2021-02-15 20:24+0000\n"
 "PO-Revision-Date: 2017-11-23 04:14+0000\n"
 "Last-Translator: csslayer <wengxt@gmail.com>, 2021\n"
 "Language-Team: Chinese (China) (https://www.transifex.com/fcitx/teams/12005/"
@@ -133,7 +133,7 @@ msgstr "调整亮度"
 
 #: src/lib/fcitx/globalconfig.cpp:18
 msgid "All"
-msgstr ""
+msgstr "所有"
 
 #: data/fcitx5-diagnose.sh:1299
 msgid "All found Gtk ${1} immodule files exist."
@@ -1557,7 +1557,7 @@ msgstr "下一页按钮"
 
 #: src/lib/fcitx/globalconfig.cpp:19
 msgid "No"
-msgstr ""
+msgstr "否"
 
 #: src/modules/clipboard/clipboard.cpp:313
 msgid "No clipboard history."
@@ -1744,7 +1744,7 @@ msgstr "截屏"
 
 #: src/lib/fcitx/globalconfig.cpp:19
 msgid "Program"
-msgstr ""
+msgstr "程序"
 
 #: src/modules/spell/spell.h:38
 msgid "Providers"
