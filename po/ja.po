@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2021-02-14 20:24+0000\n"
+"POT-Creation-Date: 2021-02-17 20:24+0000\n"
 "PO-Revision-Date: 2017-11-23 04:14+0000\n"
 "Last-Translator: UTUMI Hirosi <utuhiro78@yahoo.co.jp>, 2021\n"
 "Language-Team: Japanese (https://www.transifex.com/fcitx/teams/12005/ja/)\n"
@@ -134,7 +134,7 @@ msgstr "明るさ調整"
 
 #: src/lib/fcitx/globalconfig.cpp:18
 msgid "All"
-msgstr ""
+msgstr "すべて"
 
 #: data/fcitx5-diagnose.sh:1299
 msgid "All found Gtk ${1} immodule files exist."
@@ -1564,7 +1564,7 @@ msgstr "次ページボタン"
 
 #: src/lib/fcitx/globalconfig.cpp:19
 msgid "No"
-msgstr ""
+msgstr "いいえ"
 
 #: src/modules/clipboard/clipboard.cpp:313
 msgid "No clipboard history."
@@ -1755,7 +1755,7 @@ msgstr "プリントスクリーン"
 
 #: src/lib/fcitx/globalconfig.cpp:19
 msgid "Program"
-msgstr ""
+msgstr "プログラム"
 
 #: src/modules/spell/spell.h:38
 msgid "Providers"
