@@ -119,6 +119,12 @@ public:
     FCITX_SIMPLE_LOG(T)
 
     template <typename T>
+    inline LogMessageBuilder &operator<<(const std::unique_ptr<T> &ptr) {
+        *this << "unique_ptr(" << ptr.get() << ")";
+        return *this;
+    }
+
+    template <typename T>
     inline LogMessageBuilder &operator<<(const std::vector<T> &vec) {
         *this << "[";
         printRange(vec.begin(), vec.end());
