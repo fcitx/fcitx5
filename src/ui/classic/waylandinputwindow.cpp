@@ -78,12 +78,11 @@ void WaylandInputWindow::initPanel() {
         window_->createWindow();
         return;
     }
-    auto panel = ui_->display()->getGlobals<wayland::ZwpInputPanelV1>();
-    if (panel.empty()) {
+    auto panel = ui_->display()->getGlobal<wayland::ZwpInputPanelV1>();
+    if (!panel) {
         return;
     }
-    auto iface = panel[0];
-    panelSurface_.reset(iface->getInputPanelSurface(window_->surface()));
+    panelSurface_.reset(panel->getInputPanelSurface(window_->surface()));
     panelSurface_->setOverlayPanel();
 }
 

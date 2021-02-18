@@ -77,17 +77,21 @@ WaylandUI::WaylandUI(ClassicUI *parent, const std::string &name,
 
     display_->requestGlobals<wayland::WlCompositor>();
     display_->requestGlobals<wayland::WlShm>();
-    display_->requestGlobals<wayland::WlShell>();
     display_->requestGlobals<wayland::WlSeat>();
-    // Ensure necessary global is available.
-    display_->roundtrip();
-
     display_->requestGlobals<wayland::ZwpInputPanelV1>();
     panelConn_ = display_->globalCreated().connect(
         [this](const std::string &name, const std::shared_ptr<void> &) {
             if (name == wayland::ZwpInputPanelV1::interface) {
                 if (inputWindow_) {
                     inputWindow_->initPanel();
+                }
+            } else if (name == wayland::WlCompositor::interface ||
+                       name == wayland::WlShm::interface) {
+                setupInputWindow();
+            } else if (name == wayland::WlSeat::interface) {
+                auto seat = display_->getGlobal<wayland::WlSeat>();
+                if (seat) {
+                    pointer_ = std::make_unique<WaylandPointer>(seat.get());
                 }
             }
         });
@@ -103,6 +107,7 @@ WaylandUI::WaylandUI(ClassicUI *parent, const std::string &name,
     if (seat) {
         pointer_ = std::make_unique<WaylandPointer>(seat.get());
     }
+    display_->sync();
 }
 
 WaylandUI::~WaylandUI() {
@@ -220,10 +225,30 @@ void WaylandUI::update(UserInterfaceComponent component,
     }
 }
 
-void WaylandUI::suspend() { inputWindow_.reset(); }
+void WaylandUI::suspend() {
+    isSuspend_ = true;
+    inputWindow_.reset();
+}
 
 void WaylandUI::resume() {
+    isSuspend_ = false;
+    setupInputWindow();
+}
+
+void WaylandUI::setupInputWindow() {
+    if (isSuspend_ || inputWindow_) {
+        return;
+    }
+    // Unable to draw window.
+    if (!hasEgl_ && !display_->getGlobal<wayland::WlShm>()) {
+        return;
+    }
+    // Unable to create surface.
+    if (!display_->getGlobal<wayland::WlCompositor>()) {
+        return;
+    }
     inputWindow_ = std::make_unique<WaylandInputWindow>(this);
+    inputWindow_->initPanel();
 }
 
 std::unique_ptr<WaylandWindow> WaylandUI::newWindow() {

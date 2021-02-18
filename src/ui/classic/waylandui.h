@@ -52,12 +52,13 @@ public:
                 InputContext *inputContext) override;
     void suspend() override;
     void resume() override;
-    void setEnableTray(bool) override{};
+    void setEnableTray(bool) override {}
 
     std::unique_ptr<WaylandWindow> newWindow();
 
 private:
-    static const struct wl_registry_listener registryListener;
+    void setupInputWindow();
+
     ClassicUI *parent_;
     std::string name_;
     wayland::Display *display_;
@@ -65,9 +66,10 @@ private:
     std::unique_ptr<WaylandPointer> pointer_;
     std::unique_ptr<WaylandInputWindow> inputWindow_;
 
+    bool isSuspend_ = true;
+    bool hasEgl_ = false;
 #ifdef CAIRO_EGL_FOUND
     // EGL stuff
-    bool hasEgl_ = false;
     EGLDisplay eglDisplay_ = nullptr;
     EGLConfig argbConfig_ = nullptr;
     EGLContext argbCtx_ = nullptr;

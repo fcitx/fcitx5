@@ -24,21 +24,19 @@ WaylandIMServerV2::WaylandIMServerV2(wl_display *display, FocusGroup *group,
     display_->requestGlobals<wayland::ZwpVirtualKeyboardManagerV1>();
     display_->requestGlobals<wayland::WlSeat>();
     WAYLANDIM_DEBUG() << "WAYLANDIM V2";
-    globalConn_ = display_->registry()->global().connect(
-        [this](uint32_t, const char *interface, uint32_t) {
-            if (0 == strcmp(interface,
-                            wayland::ZwpInputMethodManagerV2::interface)) {
-                WAYLANDIM_DEBUG() << "WAYLAND IM INTERFACE" << interface;
+    globalConn_ = display_->globalCreated().connect(
+        [this](const std::string &interface, const std::shared_ptr<void> &) {
+            if (interface == wayland::ZwpInputMethodManagerV2::interface) {
+                WAYLANDIM_DEBUG() << "WAYLAND IM INTERFACE: " << interface;
                 inputMethodManagerV2_ =
                     display_->getGlobal<wayland::ZwpInputMethodManagerV2>();
             }
-            if (0 == strcmp(interface,
-                            wayland::ZwpVirtualKeyboardManagerV1::interface)) {
-                WAYLANDIM_DEBUG() << "WAYLAND VK INTERFACE" << interface;
+            if (interface == wayland::ZwpVirtualKeyboardManagerV1::interface) {
+                WAYLANDIM_DEBUG() << "WAYLAND VK INTERFACE: " << interface;
                 virtualKeyboardManagerV1_ =
                     display_->getGlobal<wayland::ZwpVirtualKeyboardManagerV1>();
             }
-            if (0 == strcmp(interface, wayland::WlSeat::interface)) {
+            if (interface == wayland::WlSeat::interface) {
                 refreshSeat();
             }
             init();
