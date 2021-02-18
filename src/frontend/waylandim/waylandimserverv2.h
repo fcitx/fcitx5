@@ -34,12 +34,14 @@ public:
     InputContextManager &inputContextManager();
 
     void init();
+    void refreshSeat();
     void activate(wayland::ZwpInputMethodV2 *id);
     void deactivate(wayland::ZwpInputMethodV2 *id);
-    void add(WaylandIMInputContextV2 *ic, wayland::ZwpInputMethodV2 *id);
-    void remove(wayland::ZwpInputMethodV2 *id);
+    void add(WaylandIMInputContextV2 *ic, wayland::WlSeat *seat);
+    void remove(wayland::WlSeat *seat);
     Instance *instance();
     FocusGroup *group() { return group_; }
+    auto *inputMethodManagerV2() { return inputMethodManagerV2_.get(); }
 
 private:
     FocusGroup *group_;
@@ -73,15 +75,14 @@ private:
 
     KeyStates modifiers_;
 
-    std::unordered_map<wayland::ZwpInputMethodV2 *, WaylandIMInputContextV2 *>
-        icMap_;
+    std::unordered_map<wayland::WlSeat *, WaylandIMInputContextV2 *> icMap_;
 };
 
 class WaylandIMInputContextV2 : public InputContext {
 public:
     WaylandIMInputContextV2(InputContextManager &inputContextManager,
                             WaylandIMServerV2 *server,
-                            wayland::ZwpInputMethodV2 *ic,
+                            std::shared_ptr<wayland::WlSeat> seat,
                             wayland::ZwpVirtualKeyboardV1 *vk);
     ~WaylandIMInputContextV2();
 
@@ -124,6 +125,7 @@ private:
     void repeatInfoCallback(int32_t rate, int32_t delay);
 
     WaylandIMServerV2 *server_;
+    std::shared_ptr<wayland::WlSeat> seat_;
     std::unique_ptr<wayland::ZwpInputMethodV2> ic_;
     std::unique_ptr<wayland::ZwpInputMethodKeyboardGrabV2> keyboardGrab_;
     std::unique_ptr<wayland::ZwpVirtualKeyboardV1> vk_;

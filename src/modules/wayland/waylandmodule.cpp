@@ -64,7 +64,7 @@ void WaylandConnection::onIOEvent(IOEventFlags flags) {
         }
     }
 
-    wl_display_flush(*display_)
+    wl_display_flush(*display_);
 }
 
 WaylandModule::WaylandModule(fcitx::Instance *instance) : instance_(instance) {

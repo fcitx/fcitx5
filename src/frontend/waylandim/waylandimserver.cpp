@@ -139,7 +139,7 @@ WaylandIMInputContextV1::WaylandIMInputContextV1(
     keyboard_->repeatInfo().connect([this](int32_t rate, int32_t delay) {
         repeatInfoCallback(rate, delay);
     });
-    server_->display_->roundtrip();
+    server_->display_->sync();
     repeatInfoCallback(repeatRate_, repeatDelay_);
     created();
 }

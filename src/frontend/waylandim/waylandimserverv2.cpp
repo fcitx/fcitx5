@@ -38,6 +38,9 @@ WaylandIMServerV2::WaylandIMServerV2(wl_display *display, FocusGroup *group,
                 virtualKeyboardManagerV1_ =
                     display_->getGlobal<wayland::ZwpVirtualKeyboardManagerV1>();
             }
+            if (0 == strcmp(interface, wayland::WlSeat::interface)) {
+                refreshSeat();
+            }
             init();
         });
 
@@ -73,24 +76,32 @@ void WaylandIMServerV2::init() {
         return;
     }
     WAYLANDIM_DEBUG() << "INIT IM V2";
-    auto seats = display_->getGlobals<wayland::WlSeat>();
-    for (const auto &seat : seats) {
-        auto *ic = new WaylandIMInputContextV2(
-            inputContextManager(), this,
-            inputMethodManagerV2_->getInputMethod(seat.get()),
-            virtualKeyboardManagerV1_->createVirtualKeyboard(seat.get()));
-        ic->setFocusGroup(group_);
-    }
+    refreshSeat();
 
     display_->flush();
 }
 
-void WaylandIMServerV2::add(WaylandIMInputContextV2 *ic,
-                            wayland::ZwpInputMethodV2 *id) {
+void WaylandIMServerV2::refreshSeat() {
+    if (!init_) {
+        return;
+    }
+    auto seats = display_->getGlobals<wayland::WlSeat>();
+    for (const auto &seat : seats) {
+        if (icMap_.count(seat.get())) {
+            continue;
+        }
+        auto *ic = new WaylandIMInputContextV2(
+            inputContextManager(), this, seat,
+            virtualKeyboardManagerV1_->createVirtualKeyboard(seat.get()));
+        ic->setFocusGroup(group_);
+    }
+}
+
+void WaylandIMServerV2::add(WaylandIMInputContextV2 *ic, wayland::WlSeat *id) {
     icMap_[id] = ic;
 }
 
-void WaylandIMServerV2::remove(wayland::ZwpInputMethodV2 *id) {
+void WaylandIMServerV2::remove(wayland::WlSeat *id) {
     auto iter = icMap_.find(id);
     if (iter != icMap_.end()) {
         icMap_.erase(iter);
@@ -99,9 +110,12 @@ void WaylandIMServerV2::remove(wayland::ZwpInputMethodV2 *id) {
 
 WaylandIMInputContextV2::WaylandIMInputContextV2(
     InputContextManager &inputContextManager, WaylandIMServerV2 *server,
-    wayland::ZwpInputMethodV2 *ic, wayland::ZwpVirtualKeyboardV1 *vk)
-    : InputContext(inputContextManager), server_(server), ic_(ic), vk_(vk) {
-    server->add(this, ic);
+    std::shared_ptr<wayland::WlSeat> seat, wayland::ZwpVirtualKeyboardV1 *vk)
+    : InputContext(inputContextManager), server_(server),
+      seat_(std::move(seat)),
+      ic_(server->inputMethodManagerV2()->getInputMethod(seat_.get())),
+      vk_(vk) {
+    server->add(this, seat_.get());
     ic_->surroundingText().connect(
         [this](const char *text, uint32_t cursor, uint32_t anchor) {
             surroundingTextCallback(text, cursor, anchor);
@@ -120,7 +134,7 @@ WaylandIMInputContextV2::WaylandIMInputContextV2(
         if (pendingDeactivate_) {
             pendingDeactivate_ = false;
             keyboardGrab_.reset();
-            server_->display_->roundtrip();
+            server_->display_->sync();
             focusOut();
         }
         if (pendingActivate_) {
@@ -151,7 +165,7 @@ WaylandIMInputContextV2::WaylandIMInputContextV2(
                     });
                 repeatInfoCallback(repeatRate_, repeatDelay_);
                 focusIn();
-                server_->display_->roundtrip();
+                server_->display_->sync();
             }
         }
     });
@@ -174,7 +188,7 @@ WaylandIMInputContextV2::WaylandIMInputContextV2(
 }
 
 WaylandIMInputContextV2::~WaylandIMInputContextV2() {
-    server_->remove(ic_.get());
+    server_->remove(seat_.get());
     destroy();
 }
 

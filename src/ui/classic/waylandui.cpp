@@ -78,8 +78,11 @@ WaylandUI::WaylandUI(ClassicUI *parent, const std::string &name,
     display_->requestGlobals<wayland::WlCompositor>();
     display_->requestGlobals<wayland::WlShm>();
     display_->requestGlobals<wayland::WlShell>();
-    display_->requestGlobals<wayland::ZwpInputPanelV1>();
     display_->requestGlobals<wayland::WlSeat>();
+    // Ensure necessary global is available.
+    display_->roundtrip();
+
+    display_->requestGlobals<wayland::ZwpInputPanelV1>();
     panelConn_ = display_->globalCreated().connect(
         [this](const std::string &name, const std::shared_ptr<void> &) {
             if (name == wayland::ZwpInputPanelV1::interface) {

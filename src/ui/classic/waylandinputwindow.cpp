@@ -74,6 +74,10 @@ void WaylandInputWindow::initPanel() {
     if (panelSurface_) {
         return;
     }
+    if (!window_->surface()) {
+        window_->createWindow();
+        return;
+    }
     auto panel = ui_->display()->getGlobals<wayland::ZwpInputPanelV1>();
     if (panel.empty()) {
         return;
@@ -96,6 +100,10 @@ void WaylandInputWindow::update(fcitx::InputContext *ic) {
             panelSurfaceV2_.reset(im->getInputPopupSurface(window_->surface()));
         }
     }
+    if (!panelSurface_ && !panelSurfaceV2_) {
+        return;
+    }
+
     if (!visible()) {
         window_->hide();
         return;
