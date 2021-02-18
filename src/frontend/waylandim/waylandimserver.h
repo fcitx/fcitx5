@@ -37,8 +37,6 @@ public:
     void init();
     void activate(wayland::ZwpInputMethodContextV1 *id);
     void deactivate(wayland::ZwpInputMethodContextV1 *id);
-    void add(WaylandIMInputContextV1 *ic, wayland::ZwpInputMethodContextV1 *id);
-    void remove(wayland::ZwpInputMethodContextV1 *id);
     Instance *instance();
     FocusGroup *group() { return group_; }
 
@@ -71,19 +69,19 @@ private:
 
     KeyStates modifiers_;
 
-    std::unordered_map<wayland::ZwpInputMethodContextV1 *,
-                       WaylandIMInputContextV1 *>
-        icMap_;
+    WaylandIMInputContextV1 *globalIc_ = nullptr;
 };
 
 class WaylandIMInputContextV1 : public InputContext {
 public:
     WaylandIMInputContextV1(InputContextManager &inputContextManager,
-                            WaylandIMServer *server,
-                            wayland::ZwpInputMethodContextV1 *ic);
+                            WaylandIMServer *server);
     ~WaylandIMInputContextV1();
 
     const char *frontend() const override { return "wayland"; }
+
+    void activate(wayland::ZwpInputMethodContextV1 *id);
+    void deactivate(wayland::ZwpInputMethodContextV1 *id);
 
 protected:
     void commitStringImpl(const std::string &text) override {

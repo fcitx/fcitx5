@@ -45,12 +45,7 @@ WaylandIMServer::WaylandIMServer(wl_display *display, FocusGroup *group,
     init();
 }
 
-WaylandIMServer::~WaylandIMServer() {
-    // Delete all input context when server goes away.
-    while (!icMap_.empty()) {
-        delete icMap_.begin()->second;
-    }
-}
+WaylandIMServer::~WaylandIMServer() { delete globalIc_; }
 InputContextManager &WaylandIMServer::inputContextManager() {
     return parent_->instance()->inputContextManager();
 }
@@ -61,6 +56,9 @@ void WaylandIMServer::init() {
     auto im = display_->getGlobal<wayland::ZwpInputMethodV1>();
     if (im && !inputMethodV1_) {
         inputMethodV1_ = im;
+        globalIc_ = new WaylandIMInputContextV1(
+            parent_->instance()->inputContextManager(), this);
+        globalIc_->setFocusGroup(group_);
         inputMethodV1_->activate().connect(
             [this](wayland::ZwpInputMethodContextV1 *ic) { activate(ic); });
         inputMethodV1_->deactivate().connect(
@@ -70,34 +68,30 @@ void WaylandIMServer::init() {
 }
 
 void WaylandIMServer::activate(wayland::ZwpInputMethodContextV1 *id) {
-    auto *ic = new WaylandIMInputContextV1(
-        parent_->instance()->inputContextManager(), this, id);
-    ic->setFocusGroup(group_);
-    ic->focusIn();
+    globalIc_->activate(id);
 }
 
 void WaylandIMServer::deactivate(wayland::ZwpInputMethodContextV1 *id) {
-    auto iter = icMap_.find(id);
-    delete iter->second;
-}
-
-void WaylandIMServer::add(WaylandIMInputContextV1 *ic,
-                          wayland::ZwpInputMethodContextV1 *id) {
-    icMap_[id] = ic;
-}
-
-void WaylandIMServer::remove(wayland::ZwpInputMethodContextV1 *id) {
-    auto iter = icMap_.find(id);
-    if (iter != icMap_.end()) {
-        icMap_.erase(iter);
-    }
+    globalIc_->deactivate(id);
 }
 
 WaylandIMInputContextV1::WaylandIMInputContextV1(
-    InputContextManager &inputContextManager, WaylandIMServer *server,
-    wayland::ZwpInputMethodContextV1 *ic)
-    : InputContext(inputContextManager), server_(server), ic_(ic) {
-    server->add(this, ic);
+    InputContextManager &inputContextManager, WaylandIMServer *server)
+    : InputContext(inputContextManager), server_(server) {
+    timeEvent_ = server_->instance()->eventLoop().addTimeEvent(
+        CLOCK_MONOTONIC, now(CLOCK_MONOTONIC), 0,
+        [this](EventSourceTime *, uint64_t) {
+            repeat();
+            return true;
+        });
+    timeEvent_->setEnabled(false);
+    created();
+}
+
+WaylandIMInputContextV1::~WaylandIMInputContextV1() { destroy(); }
+
+void WaylandIMInputContextV1::activate(wayland::ZwpInputMethodContextV1 *ic) {
+    ic_.reset(ic);
     ic_->surroundingText().connect(
         [this](const char *text, uint32_t cursor, uint32_t anchor) {
             surroundingTextCallback(text, cursor, anchor);
@@ -113,14 +107,6 @@ WaylandIMInputContextV1::WaylandIMInputContextV1(
         [this](uint32_t serial) { commitStateCallback(serial); });
     ic_->preferredLanguage().connect(
         [](const char *language) { preferredLanguageCallback(language); });
-    timeEvent_ = server_->instance()->eventLoop().addTimeEvent(
-        CLOCK_MONOTONIC, now(CLOCK_MONOTONIC), 0,
-        [this](EventSourceTime *, uint64_t) {
-            repeat();
-            return true;
-        });
-    timeEvent_->setEnabled(false);
-
     keyboard_.reset(ic_->grabKeyboard());
     keyboard_->keymap().connect(
         [this](uint32_t format, int32_t fd, uint32_t size) {
@@ -139,14 +125,20 @@ WaylandIMInputContextV1::WaylandIMInputContextV1(
     keyboard_->repeatInfo().connect([this](int32_t rate, int32_t delay) {
         repeatInfoCallback(rate, delay);
     });
-    server_->display_->sync();
     repeatInfoCallback(repeatRate_, repeatDelay_);
-    created();
+    server_->display_->sync();
+    focusIn();
 }
 
-WaylandIMInputContextV1::~WaylandIMInputContextV1() {
-    server_->remove(ic_.get());
-    destroy();
+void WaylandIMInputContextV1::deactivate(wayland::ZwpInputMethodContextV1 *ic) {
+    if (ic_.get() == ic) {
+        ic_.reset();
+        keyboard_.reset();
+        focusOut();
+    } else {
+        // This should not happen, but just in case.
+        delete ic;
+    }
 }
 
 void WaylandIMInputContextV1::repeat() {
