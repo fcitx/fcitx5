@@ -93,13 +93,13 @@ endforeach()
 
 add_dependencies(testaddon dummyaddon)
 
-add_executable(testxkbrules testxkbrules.cpp ../src/im/keyboard/xkbrules.cpp ../src/im/keyboard/xmlparser.cpp)
-target_compile_definitions(testxkbrules PRIVATE "-D_TEST_XKBRULES")
-target_include_directories(testxkbrules PRIVATE ../src)
-target_link_libraries(testxkbrules Fcitx5::Core Expat::Expat)
-add_test(NAME testxkbrules COMMAND testxkbrules)
-
 if (ENABLE_KEYBOARD)
+    add_executable(testxkbrules testxkbrules.cpp ../src/im/keyboard/xkbrules.cpp ../src/im/keyboard/xmlparser.cpp)
+    target_compile_definitions(testxkbrules PRIVATE "-D_TEST_XKBRULES")
+    target_include_directories(testxkbrules PRIVATE ../src)
+    target_link_libraries(testxkbrules Fcitx5::Core Expat::Expat)
+    add_test(NAME testxkbrules COMMAND testxkbrules)
+
     add_executable(testisocodes testisocodes.cpp ../src/im/keyboard/isocodes.cpp)
     target_compile_definitions(testisocodes PRIVATE "-D_TEST_XKBRULES")
     target_include_directories(testisocodes PRIVATE ../src)
