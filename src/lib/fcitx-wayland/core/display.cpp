@@ -10,6 +10,7 @@
 #include <poll.h>
 #include <cassert>
 #include <cstring>
+#include <fcitx-utils/log.h>
 #include "wl_callback.h"
 #include "wl_output.h"
 #include "wl_registry.h"
@@ -46,7 +47,12 @@ Display::Display(wl_display *display) : display_(display) {
         if (iter != globals_.end()) {
             globalRemovedSignal_(std::get<std::string>(iter->second),
                                  std::get<std::shared_ptr<void>>(iter->second));
-            requestedGlobals_[std::get<std::string>(iter->second)]->erase(name);
+            const auto &interface = std::get<std::string>(iter->second);
+            auto localGlobalIter = requestedGlobals_.find(interface);
+            if (localGlobalIter != requestedGlobals_.end()) {
+                localGlobalIter->second->erase(name);
+            }
+            globals_.erase(iter);
         }
     });
 
