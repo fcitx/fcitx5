@@ -10,22 +10,19 @@
 namespace fcitx {
 
 FCITX_CONFIGURATION(
-    AddonConfigBase, fcitx::Option<I18NString> name{this, "Name", "Addon Name"};
-    fcitx::Option<I18NString> comment{this, "Comment", "Comment"};
-    fcitx::Option<std::string> type{this, "Type", "Addon Type"};
-    fcitx::Option<std::string> library{this, "Library", "Addon Library"};
-    fcitx::Option<bool> configurable{this, "Configurable", "Configurable",
-                                     false};
-    fcitx::Option<bool> enabled{this, "Enabled", "Enabled", true};
-    fcitx::Option<AddonCategory> category{this, "Category", "Category"};
-    fcitx::Option<std::vector<std::string>> dependencies{this, "Dependencies",
-                                                         "Dependencies"};
-    fcitx::Option<std::vector<std::string>> optionalDependencies{
+    AddonConfigBase, Option<I18NString> name{this, "Name", "Addon Name"};
+    Option<I18NString> comment{this, "Comment", "Comment"};
+    Option<std::string> type{this, "Type", "Addon Type"};
+    Option<std::string> library{this, "Library", "Addon Library"};
+    Option<bool> configurable{this, "Configurable", "Configurable", false};
+    Option<bool> enabled{this, "Enabled", "Enabled", true};
+    Option<AddonCategory> category{this, "Category", "Category"};
+    Option<std::vector<std::string>> dependencies{this, "Dependencies",
+                                                  "Dependencies"};
+    Option<std::vector<std::string>> optionalDependencies{
         this, "OptionalDependencies", "Optional Dependencies"};
-    fcitx::Option<bool> onDemand{this, "OnDemand", "Load only on request",
-                                 false};
-    fcitx::Option<int> uiPriority{this, "UIPriority", "User interface priority",
-                                  0};)
+    Option<bool> onDemand{this, "OnDemand", "Load only on request", false};
+    Option<int> uiPriority{this, "UIPriority", "User interface priority", 0};)
 
 FCITX_CONFIGURATION(AddonConfig,
                     Option<AddonConfigBase> addon{this, "Addon", "Addon"};)
