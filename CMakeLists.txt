@@ -55,6 +55,10 @@ if (ENABLE_EMOJI)
     endif()
 endif()
 
+if ((ENABLE_WAYLAND OR ENABLE_X11) AND NOT ENABLE_KEYBOARD)
+    message(FATAL_ERROR "X11 and Wayland require ENABLE_KEYBOARD to be set to ON.")
+endif ()
+
 
 #######################################################################
 # Find packages

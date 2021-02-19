@@ -14,8 +14,6 @@
 #include <utility>
 #include <fmt/format.h>
 #include <getopt.h>
-#include <xkbcommon/xkbcommon-compose.h>
-#include <xkbcommon/xkbcommon.h>
 #include "fcitx-config/iniparser.h"
 #include "fcitx-utils/event.h"
 #include "fcitx-utils/i18n.h"
@@ -38,6 +36,11 @@
 
 #ifdef ENABLE_X11
 #include <../modules/xcb/xcb_public.h>
+#endif
+
+#ifdef ENABLE_KEYBOARD
+#include <xkbcommon/xkbcommon-compose.h>
+#include <xkbcommon/xkbcommon.h>
 #endif
 
 FCITX_DEFINE_LOG_CATEGORY(keyTrace, "key_trace");
