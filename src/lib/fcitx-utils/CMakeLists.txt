@@ -1,15 +1,30 @@
-if (NOT TARGET Systemd::Systemd)
-  set(FCITX_UTILS_SOURCES
-      dbus/libdbus/bus.cpp
-      dbus/libdbus/message.cpp
-      dbus/libdbus/objectvtable_libdbus.cpp
-      dbus/libdbus/servicenamecache.cpp)
-else()
-  set(FCITX_UTILS_SOURCES
-      dbus/sdbus/bus.cpp
-      dbus/sdbus/message.cpp
-      dbus/sdbus/objectvtablewrapper.c
-      dbus/sdbus/objectvtable_sdbus.cpp)
+set(FCITX_UTILS_SOURCES)
+
+if (ENABLE_DBUS)
+
+    set(FCITX_UTILS_SOURCES
+        ${FCITX_UTILS_SOURCES}
+        dbus/servicewatcher.cpp
+        dbus/matchrule.cpp
+        dbus/variant.cpp
+        dbus/objectvtable.cpp
+    )
+
+    if (NOT TARGET Systemd::Systemd)
+        set(FCITX_UTILS_SOURCES
+            ${FCITX_UTILS_SOURCES}
+            dbus/libdbus/bus.cpp
+            dbus/libdbus/message.cpp
+            dbus/libdbus/objectvtable_libdbus.cpp
+            dbus/libdbus/servicenamecache.cpp)
+    else()
+        set(FCITX_UTILS_SOURCES
+            ${FCITX_UTILS_SOURCES}
+            dbus/sdbus/bus.cpp
+            dbus/sdbus/message.cpp
+            dbus/sdbus/objectvtablewrapper.c
+            dbus/sdbus/objectvtable_sdbus.cpp)
+    endif()
 endif()
 
 if (NOT TARGET Systemd::Systemd)
@@ -24,10 +39,6 @@ endif()
 
 set(FCITX_UTILS_SOURCES
     ${FCITX_UTILS_SOURCES}
-    dbus/servicewatcher.cpp
-    dbus/matchrule.cpp
-    dbus/variant.cpp
-    dbus/objectvtable.cpp
     stringutils.cpp
     testing.cpp
     key.cpp
@@ -120,9 +131,12 @@ if(LIBKVM_FOUND)
 endif()
 
 if (NOT TARGET Systemd::Systemd)
-target_link_libraries(Fcitx5Utils PRIVATE PkgConfig::DBus PkgConfig::LibEvent)
+    target_link_libraries(Fcitx5Utils PRIVATE PkgConfig::LibEvent)
+    if (ENABLE_DBUS)
+        target_link_libraries(Fcitx5Utils PRIVATE PkgConfig::DBus)
+    endif()
 else()
-target_link_libraries(Fcitx5Utils PRIVATE Systemd::Systemd)
+    target_link_libraries(Fcitx5Utils PRIVATE Systemd::Systemd)
 endif()
 
 configure_file(Fcitx5Utils.pc.in ${CMAKE_CURRENT_BINARY_DIR}/Fcitx5Utils.pc @ONLY)
@@ -131,7 +145,10 @@ install(TARGETS Fcitx5Utils EXPORT Fcitx5UtilsTargets LIBRARY DESTINATION "${CMA
 install(FILES ${CMAKE_CURRENT_BINARY_DIR}/Fcitx5Utils.pc
   DESTINATION "${CMAKE_INSTALL_LIBDIR}/pkgconfig")
 install(FILES ${FCITX_UTILS_HEADERS} DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}/Fcitx5/Utils/fcitx-utils")
-install(FILES ${FCITX_UTILS_DBUS_HEADERS} DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}/Fcitx5/Utils/fcitx-utils/dbus")
+
+if (ENABLE_DBUS)
+    install(FILES ${FCITX_UTILS_DBUS_HEADERS} DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}/Fcitx5/Utils/fcitx-utils/dbus")
+endif()
 
 add_library(Fcitx5::Utils ALIAS Fcitx5Utils)
 

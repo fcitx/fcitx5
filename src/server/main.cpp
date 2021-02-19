@@ -18,15 +18,24 @@
 #include "fcitx/addonmanager.h"
 #include "fcitx/instance.h"
 #include "errorhandler.h"
+
+#ifdef ENABLE_KEYBOARD
 #include "keyboard.h"
+#endif
 
 using namespace fcitx;
 int selfpipe[2];
 std::string crashlog;
 
+#ifdef ENABLE_KEYBOARD
 static KeyboardEngineFactory keyboardFactory;
+#endif
+
 StaticAddonRegistry staticAddon = {
-    std::make_pair<std::string, AddonFactory *>("keyboard", &keyboardFactory)};
+#ifdef ENABLE_KEYBOARD
+    std::make_pair<std::string, AddonFactory *>("keyboard", &keyboardFactory)
+#endif
+};
 
 int main(int argc, char *argv[]) {
     if (safePipe(selfpipe) < 0) {

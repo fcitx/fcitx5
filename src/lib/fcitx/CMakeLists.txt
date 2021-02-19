@@ -72,7 +72,10 @@ target_include_directories(Fcitx5Core PUBLIC
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/..>
     $<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}>
     $<INSTALL_INTERFACE:${CMAKE_INSTALL_FULL_INCLUDEDIR}/Fcitx5/Core>)
-target_link_libraries(Fcitx5Core PUBLIC Fcitx5::Config Fcitx5::Utils PRIVATE LibUUID::LibUUID LibIntl::LibIntl XKBCommon::XKBCommon ${FMT_TARGET})
+target_link_libraries(Fcitx5Core PUBLIC Fcitx5::Config Fcitx5::Utils PRIVATE LibUUID::LibUUID LibIntl::LibIntl ${FMT_TARGET})
+if (ENABLE_KEYBOARD)
+    target_link_libraries(Fcitx5Core PRIVATE XKBCommon::XKBCommon)
+endif()
 
 configure_file(Fcitx5Core.pc.in ${CMAKE_CURRENT_BINARY_DIR}/Fcitx5Core.pc @ONLY)
 

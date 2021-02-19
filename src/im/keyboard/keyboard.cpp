@@ -34,9 +34,7 @@
 #include "xcb_public.h"
 #endif
 
-#ifdef ENABLE_EMOJI
 #include "emoji_public.h"
-#endif
 
 const char imNamePrefix[] = "keyboard-";
 #define FCITX_KEYBOARD_MAX_BUFFER 20
@@ -586,12 +584,8 @@ void KeyboardEngine::commitBuffer(InputContext *inputContext) {
 
 bool KeyboardEngine::supportHint(const std::string &language) {
     const bool hasSpell = spell() && spell()->call<ISpell::checkDict>(language);
-#ifdef ENABLE_EMOJI
     const bool hasEmoji = *config_.enableEmoji && emoji() &&
                           emoji()->call<IEmoji::check>(language, true);
-#else
-    const bool hasEmoji = false;
-#endif
     return hasSpell || hasEmoji;
 }
 
@@ -646,7 +640,6 @@ void KeyboardEngine::updateCandidate(const InputMethodEntry &entry,
                                               state->buffer_.userInput(),
                                               config_.pageSize.value());
     }
-#ifdef ENABLE_EMOJI
     if (config_.enableEmoji.value() && emoji()) {
         auto emojiResults = emoji()->call<IEmoji::query>(
             entry.languageCode(), state->buffer_.userInput(), true);
@@ -664,7 +657,6 @@ void KeyboardEngine::updateCandidate(const InputMethodEntry &entry,
             i++;
         }
     }
-#endif
 
     auto candidateList = std::make_unique<CommonCandidateList>();
     auto spellType = guessSpellType(state->buffer_.userInput());
@@ -729,7 +721,6 @@ bool KeyboardEngine::foreachVariant(
 }
 
 void KeyboardEngine::initQuickPhrase() {
-#ifdef ENABLE_EMOJI
     auto *qp = quickphrase();
     if (!qp) {
         return;
@@ -759,7 +750,6 @@ void KeyboardEngine::initQuickPhrase() {
             }
             return true;
         });
-#endif
 }
 
 void KeyboardEngine::showHintNotification(const InputMethodEntry &entry,

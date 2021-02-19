@@ -117,9 +117,11 @@ struct InputState : public InputContextProperty {
     void copyTo(InputContextProperty *other) override;
 
     void reset() {
+#ifdef ENABLE_KEYBOARD
         if (xkbComposeState_) {
             xkb_compose_state_reset(xkbComposeState_.get());
         }
+#endif
         keyReleased_ = -1;
         lastKeyPressed_ = Key();
         totallyReleased_ = true;
@@ -143,19 +145,21 @@ struct InputState : public InputContextProperty {
         }
     }
 
+#ifdef ENABLE_KEYBOARD
     xkb_state *customXkbState(bool refresh = false);
     void resetXkbState() {
         lastXkbLayout_.clear();
         xkbState_.reset();
     }
 
-    CheckInputMethodChanged *imChanged_ = nullptr;
     auto xkbComposeState() { return xkbComposeState_.get(); }
+#endif
 
     bool isActive() const { return active_; }
     void setActive(bool active);
     void setLocalIM(const std::string &localIM);
 
+    CheckInputMethodChanged *imChanged_ = nullptr;
     int keyReleased_ = -1;
     Key lastKeyPressed_;
     bool totallyReleased_ = true;
@@ -173,9 +177,11 @@ private:
     InstancePrivate *d_ptr;
     InputContext *ic_;
 
+#ifdef ENABLE_KEYBOARD
     UniqueCPtr<xkb_compose_state, xkb_compose_state_unref> xkbComposeState_;
     UniqueCPtr<xkb_state, xkb_state_unref> xkbState_;
     std::string lastXkbLayout_;
+#endif
 
     std::unique_ptr<EventSourceTime> imInfoTimer_;
     std::string lastInfo_;
@@ -271,6 +277,7 @@ public:
         if (!locale) {
             locale = "C";
         }
+#ifdef ENABLE_KEYBOARD
         xkbContext_.reset(xkb_context_new(XKB_CONTEXT_NO_FLAGS));
         if (xkbContext_) {
             xkb_context_set_log_level(xkbContext_.get(),
@@ -278,6 +285,7 @@ public:
             xkbComposeTable_.reset(xkb_compose_table_new_from_locale(
                 xkbContext_.get(), locale, XKB_COMPOSE_COMPILE_NO_FLAGS));
         }
+#endif
     }
 
     std::unique_ptr<HandlerTableEntry<EventHandler>>
@@ -285,6 +293,7 @@ public:
         return eventHandlers_[type][phase].add(std::move(callback));
     }
 
+#ifdef ENABLE_KEYBOARD
     xkb_keymap *keymap(const std::string &display, const std::string &layout,
                        const std::string &variant) {
         auto layoutAndVariant = stringutils::concat(layout, "-", variant);
@@ -312,6 +321,8 @@ public:
         assert(result.second);
         return result.first->second.get();
     }
+#endif
+
     std::pair<std::unordered_set<std::string>, std::unordered_set<std::string>>
     overrideAddons() {
         std::unordered_set<std::string> enabled;
@@ -424,17 +435,21 @@ public:
     FactoryFor<InputState> inputStateFactory_{
         [this](InputContext &ic) { return new InputState(this, &ic); }};
 
+#ifdef ENABLE_KEYBOARD
     UniqueCPtr<xkb_context, xkb_context_unref> xkbContext_;
     UniqueCPtr<xkb_compose_table, xkb_compose_table_unref> xkbComposeTable_;
+#endif
 
     std::vector<ScopedConnection> connections_;
     std::unique_ptr<EventSourceTime> imGroupInfoTimer_;
     std::unique_ptr<EventSourceTime> focusInImInfoTimer_;
 
+#ifdef ENABLE_KEYBOARD
     std::unordered_map<
         std::string, std::unordered_map<
                          std::string, UniqueCPtr<xkb_keymap, xkb_keymap_unref>>>
         keymapCache_;
+#endif
     std::unordered_map<std::string, std::tuple<uint32_t, uint32_t, uint32_t>>
         stateMask_;
     std::unordered_map<std::string,
@@ -451,10 +466,12 @@ public:
 InputState::InputState(InstancePrivate *d, InputContext *ic)
     : d_ptr(d), ic_(ic) {
     active_ = d->globalConfig_.activeByDefault();
+#ifdef ENABLE_KEYBOARD
     if (d->xkbComposeTable_) {
         xkbComposeState_.reset(xkb_compose_state_new(
             d->xkbComposeTable_.get(), XKB_COMPOSE_STATE_NO_FLAGS));
     }
+#endif
 }
 
 void InputState::showInputMethodInformation(const std::string &name) {
@@ -469,6 +486,7 @@ void InputState::showInputMethodInformation(const std::string &name) {
         });
 }
 
+#ifdef ENABLE_KEYBOARD
 xkb_state *InputState::customXkbState(bool refresh) {
     auto *instance = d_ptr->q_func();
     auto defaultLayout = d_ptr->imManager_.currentGroup().defaultLayout();
@@ -498,6 +516,7 @@ xkb_state *InputState::customXkbState(bool refresh) {
     }
     return xkbState_.get();
 }
+#endif
 
 void InputState::setActive(bool active) {
     if (active_ != active) {
@@ -924,11 +943,12 @@ Instance::Instance(int argc, char **argv) {
             auto &keyEvent = static_cast<KeyEvent &>(event);
             auto *ic = keyEvent.inputContext();
             auto *inputState = ic->propertyFor(&d->inputStateFactory_);
-            auto *xkbState = inputState->customXkbState();
             FCITX_KEYTRACE() << "KeyEvent: " << keyEvent.key()
                              << " rawKey: " << keyEvent.rawKey()
                              << " origKey: " << keyEvent.origKey()
                              << " Release:" << keyEvent.isRelease();
+#ifdef ENABLE_KEYBOARD
+            auto *xkbState = inputState->customXkbState();
             if (xkbState) {
                 if (auto *mods = findValue(d->stateMask_, ic->display())) {
                     FCITX_DEBUG() << "Update mask to customXkbState";
@@ -968,6 +988,7 @@ Instance::Instance(int argc, char **argv) {
                     << "Custom Xkb translated Key: " << key.toString();
                 keyEvent.setKey(key.normalize());
             }
+#endif
 
             if (keyEvent.isRelease()) {
                 return;
@@ -988,7 +1009,7 @@ Instance::Instance(int argc, char **argv) {
                    }));
     d->eventWatchers_.emplace_back(d->watchEvent(
         EventType::InputContextKeyEvent, EventWatcherPhase::ReservedLast,
-        [this, d](Event &event) {
+        [this](Event &event) {
             auto &keyEvent = static_cast<KeyEvent &>(event);
             auto *ic = keyEvent.inputContext();
             auto *engine = inputMethodEngine(ic);
@@ -997,9 +1018,11 @@ Instance::Instance(int argc, char **argv) {
                 return;
             }
             engine->filterKey(*entry, keyEvent);
-            auto *inputState = ic->propertyFor(&d->inputStateFactory_);
             emit<Instance::KeyEventResult>(keyEvent);
             if (keyEvent.forward()) {
+#ifdef ENABLE_KEYBOARD
+                FCITX_D();
+                auto *inputState = ic->propertyFor(&d->inputStateFactory_);
                 if (auto *xkbState = inputState->customXkbState()) {
                     if (auto utf32 = xkb_state_key_get_utf32(
                             xkbState, keyEvent.key().code())) {
@@ -1019,6 +1042,7 @@ Instance::Instance(int argc, char **argv) {
                         keyEvent.filterAndAccept();
                     }
                 }
+#endif
             }
         }));
     d->eventWatchers_.emplace_back(d->watchEvent(
@@ -1550,6 +1574,7 @@ InputMethodEngine *Instance::inputMethodEngine(const std::string &name) {
 }
 
 uint32_t Instance::processCompose(InputContext *ic, KeySym keysym) {
+#ifdef ENABLE_KEYBOARD
     FCITX_D();
     auto *state = ic->propertyFor(&d->inputStateFactory_);
 
@@ -1590,10 +1615,16 @@ uint32_t Instance::processCompose(InputContext *ic, KeySym keysym) {
     }
 
     return FCITX_INVALID_COMPOSE_RESULT;
+#else
+    FCITX_UNUSED(ic);
+    FCITX_UNUSED(keysym);
+    return 0;
+#endif
 }
 
 std::optional<std::string> Instance::processComposeString(InputContext *ic,
                                                           KeySym keysym) {
+#ifdef ENABLE_KEYBOARD
     FCITX_D();
     auto *state = ic->propertyFor(&d->inputStateFactory_);
 
@@ -1635,11 +1666,16 @@ std::optional<std::string> Instance::processComposeString(InputContext *ic,
     if (status == XKB_COMPOSE_CANCELLED) {
         xkb_compose_state_reset(xkbComposeState);
     }
-
     return std::nullopt;
+#else
+    FCITX_UNUSED(ic);
+    FCITX_UNUSED(keysym);
+    return std::nullopt;
+#endif
 }
 
 void Instance::resetCompose(InputContext *inputContext) {
+#ifdef ENABLE_KEYBOARD
     FCITX_D();
     auto *state = inputContext->propertyFor(&d->inputStateFactory_);
     auto *xkbComposeState = state->xkbComposeState();
@@ -1647,6 +1683,9 @@ void Instance::resetCompose(InputContext *inputContext) {
         return;
     }
     xkb_compose_state_reset(xkbComposeState);
+#else
+    FCITX_UNUSED(inputContext);
+#endif
 }
 
 void Instance::save() {
@@ -2115,6 +2154,7 @@ void Instance::activateInputMethod(InputContextEvent &event) {
     if (!engine || !entry) {
         return;
     }
+#ifdef ENABLE_KEYBOARD
     if (auto *xkbState = inputState->customXkbState(true)) {
         if (auto *mods = findValue(d->stateMask_, ic->display())) {
             FCITX_DEBUG() << "Update mask to customXkbState";
@@ -2129,6 +2169,7 @@ void Instance::activateInputMethod(InputContextEvent &event) {
             xkb_state_update_mask(xkbState, 0, latched, locked, 0, 0, 0);
         }
     }
+#endif
     ic->statusArea().clearGroup(StatusGroup::InputMethod);
     engine->activate(*entry, event);
     postEvent(InputMethodActivatedEvent(entry->uniqueName(), ic));
@@ -2193,6 +2234,7 @@ void Instance::setXkbParameters(const std::string &display,
                                 const std::string &rule,
                                 const std::string &model,
                                 const std::string &options) {
+#ifdef ENABLE_KEYBOARD
     FCITX_D();
     bool resetState = false;
     if (auto *param = findValue(d->xkbParams_, display)) {
@@ -2217,6 +2259,12 @@ void Instance::setXkbParameters(const std::string &display,
             return true;
         });
     }
+#else
+    FCITX_UNUSED(display);
+    FCITX_UNUSED(rule);
+    FCITX_UNUSED(model);
+    FCITX_UNUSED(options);
+#endif
 }
 
 void Instance::updateXkbStateMask(const std::string &display,
