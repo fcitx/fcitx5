@@ -107,7 +107,7 @@ if (ENABLE_KEYBOARD)
     add_test(NAME testisocodes COMMAND testisocodes)
 endif()
 
-if (TARGET Fcitx5::Module::Emoji)
+if (TARGET emoji)
 add_executable(testemoji testemoji.cpp)
 target_link_libraries(testemoji Fcitx5::Core Fcitx5::Module::Emoji)
 add_dependencies(testemoji emoji emoji.conf.in-fmt)
