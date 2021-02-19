@@ -73,13 +73,12 @@ else()
 endif()
 
 if (NOT TARGET Systemd::Systemd)
+    if (ENABLE_DBUS)
+        pkg_check_modules(DBus REQUIRED IMPORTED_TARGET "dbus-1")
+        pkg_get_variable(DBUS_SYSTEM_BUS_DEFAULT_ADDRESS "dbus-1" "system_bus_default_address")
+    endif()
 
-if (ENABLE_DBUS)
-    pkg_check_modules(DBus REQUIRED IMPORTED_TARGET "dbus-1")
-    pkg_get_variable(DBUS_SYSTEM_BUS_DEFAULT_ADDRESS "dbus-1" "system_bus_default_address")
-endif()
-
-pkg_check_modules(LibEvent REQUIRED IMPORTED_TARGET "libevent")
+    find_package(Libevent REQUIRED)
 endif()
 
 if(${CMAKE_SYSTEM_NAME} MATCHES "BSD")

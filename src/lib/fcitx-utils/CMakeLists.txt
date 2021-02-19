@@ -131,7 +131,7 @@ if(LIBKVM_FOUND)
 endif()
 
 if (NOT TARGET Systemd::Systemd)
-    target_link_libraries(Fcitx5Utils PRIVATE PkgConfig::LibEvent)
+    target_link_libraries(Fcitx5Utils PRIVATE libevent::core)
     if (ENABLE_DBUS)
         target_link_libraries(Fcitx5Utils PRIVATE PkgConfig::DBus)
     endif()
