@@ -18,7 +18,11 @@
 #include "fcitx/addonmanager.h"
 #include "fcitx/inputmethodmanager.h"
 #include "fcitx/misc_p.h"
+
+#ifdef ENABLE_DBUS
 #include "dbus_public.h"
+#endif
+
 #include "xcb_public.h"
 #include "xcbconnection.h"
 #include "xcbkeyboard.h"
@@ -508,12 +512,15 @@ bool XCBKeyboard::setLayoutByName(const std::string &layout,
     }
 
     FCITX_XCB_DEBUG() << "Lock group " << index;
+#ifdef ENABLE_DBUS
     auto *addon = conn_->instance()->addonManager().addon("dbus", true);
-    if (!addon || !addon->call<IDBusModule::lockGroup>(index)) {
-        xcb_xkb_latch_lock_state(connection(), XCB_XKB_ID_USE_CORE_KBD, 0, 0,
-                                 true, index, 0, false, 0);
-        xcb_flush(connection());
+    if (addon && addon->call<IDBusModule::lockGroup>(index)) {
+        return true;
     }
+#endif
+    xcb_xkb_latch_lock_state(connection(), XCB_XKB_ID_USE_CORE_KBD, 0, 0, true,
+                             index, 0, false, 0);
+    xcb_flush(connection());
     return true;
 }
 
