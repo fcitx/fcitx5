@@ -1,5 +1,5 @@
 add_executable(fcitx5 main.cpp errorhandler.cpp)
-target_link_libraries(fcitx5 Fcitx5::Core)
+target_link_libraries(fcitx5 Fcitx5::Core LibIntl::LibIntl)
 if (ENABLE_KEYBOARD)
     target_link_libraries(fcitx5 keyboard)
 endif()
