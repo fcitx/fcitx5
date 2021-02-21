@@ -83,7 +83,7 @@ if (NOT TARGET Systemd::Systemd)
         pkg_get_variable(DBUS_SYSTEM_BUS_DEFAULT_ADDRESS "dbus-1" "system_bus_default_address")
     endif()
 
-    if (NOT (TARGET libevent::core AND TARGET PkgConfig::LibEvent))
+    if (NOT (TARGET libevent::core OR TARGET PkgConfig::LibEvent))
         find_package(Libevent)
     endif()
     if (TARGET libevent::core)
