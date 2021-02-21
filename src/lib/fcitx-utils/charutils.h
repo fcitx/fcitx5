@@ -50,6 +50,30 @@ static constexpr inline char toHex(int c) {
     return hex[c & (sizeof(hex) - 1)];
 }
 
+/**
+ * Return integer value for hex char
+ *
+ * @param c input char
+ * @return return integer for hex, if not hex, return -1
+ * @since 5.0.5
+ */
+static constexpr inline int fromHex(char c) {
+    if (isdigit(c)) {
+        return c - '0';
+    }
+
+    c = tolower(c);
+    if ((c >= 'a') && (c <= 'f')) {
+        return c - 'a' + 10;
+    }
+    return -1;
+}
+
+static constexpr inline bool isxdigit(char c) {
+    return isdigit(c) || ((c >= 'a') && (c <= 'f')) ||
+           ((c >= 'A') && (c <= 'F'));
+}
+
 } // namespace fcitx::charutils
 
 #endif // _FCITX_UTILS_CHARUTILS_H_

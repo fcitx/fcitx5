@@ -18,8 +18,6 @@
 
 namespace fcitx {
 
-static_assert(sizeof(uuid_t) == 16, "uuid size mismatch");
-
 InputContext::InputContext(InputContextManager &manager,
                            const std::string &program)
     : d_ptr(std::make_unique<InputContextPrivate>(this, manager, program)) {

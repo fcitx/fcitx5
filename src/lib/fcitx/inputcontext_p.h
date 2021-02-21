@@ -9,13 +9,13 @@
 
 #include <unordered_map>
 #include <fcitx-utils/intrusivelist.h>
+#include <fcitx-utils/uuid_p.h>
 #include <fcitx/inputcontext.h>
 #include <fcitx/inputcontextmanager.h>
 #include <fcitx/inputcontextproperty.h>
 #include <fcitx/inputpanel.h>
 #include <fcitx/instance.h>
 #include <fcitx/statusarea.h>
-#include <uuid.h>
 
 namespace fcitx {
 
@@ -25,9 +25,7 @@ public:
                         const std::string &program)
         : QPtrHolder(q), manager_(manager), group_(nullptr), inputPanel_(q),
           statusArea_(q), program_(program),
-          isPreeditEnabled_(manager.isPreeditEnabledByDefault()) {
-        uuid_generate(uuid_.data());
-    }
+          isPreeditEnabled_(manager.isPreeditEnabledByDefault()) {}
 
     template <typename E>
     bool postEvent(E &&event) {

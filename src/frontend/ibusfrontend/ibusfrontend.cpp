@@ -13,7 +13,6 @@
 #include <fstream>
 #include <mutex>
 #include <fmt/format.h>
-#include <uuid/uuid.h>
 #include "fcitx-config/iniparser.h"
 #include "fcitx-utils/dbus/message.h"
 #include "fcitx-utils/dbus/objectvtable.h"
@@ -24,6 +23,7 @@
 #include "fcitx-utils/standardpath.h"
 #include "fcitx-utils/stringutils.h"
 #include "fcitx-utils/utf8.h"
+#include "fcitx-utils/uuid_p.h"
 #include "fcitx/inputcontext.h"
 #include "fcitx/instance.h"
 #include "fcitx/misc_p.h"
@@ -821,7 +821,7 @@ void IBusFrontendModule::becomeIBus() {
     }
     address.append(",fcitx_random_string=");
     ICUUID uuid;
-    uuid_generate(uuid.data());
+    generateUUID(uuid.data());
     for (auto v : uuid) {
         address.append(fmt::format("{:02x}", static_cast<int>(v)));
     }

@@ -120,7 +120,12 @@ public:
 
     inline void registerInputContext(InputContext &inputContext) {
         inputContexts_.push_back(inputContext);
-        uuidMap_.emplace(inputContext.uuid(), &inputContext);
+        int maxRetry = 3;
+        do {
+            generateUUID(inputContext.d_func()->uuid_.data());
+            maxRetry -= 1;
+        } while (!uuidMap_.emplace(inputContext.uuid(), &inputContext).second &&
+                 maxRetry > 0);
         if (!inputContext.program().empty()) {
             programMap_[inputContext.program()].insert(&inputContext);
         }
@@ -156,9 +161,7 @@ public:
         }
     }
 
-    std::unordered_map<std::array<uint8_t, sizeof(uuid_t)>, InputContext *,
-                       container_hasher>
-        uuidMap_;
+    std::unordered_map<ICUUID, InputContext *, container_hasher> uuidMap_;
     IntrusiveList<InputContext, InputContextListHelper> inputContexts_;
     IntrusiveList<InputContext, InputContextFocusedListHelper>
         focusedInputContexts_;

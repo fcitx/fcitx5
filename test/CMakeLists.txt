@@ -22,7 +22,8 @@ set(FCITX_UTILS_TEST
     testinputbuffer
     testlog
     testeventdispatcher
-    testrect)
+    testrect
+    testfallbackuuid)
 
 set(FCITX_UTILS_DBUS_TEST
     testdbusmessage
