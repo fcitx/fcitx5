@@ -10,7 +10,7 @@
 #include "testdir.h"
 
 int main() {
-    uint8_t t[16], t2[16];
+    uint8_t t[16], t2[16], t3[16];
     FCITX_ASSERT(!fcitx::parseUUID("ff4d1624ze568-4f86-9def-302c73959c1d", t));
     FCITX_ASSERT(!fcitx::parseUUID("ff4d1624-m568-4f86-9def-302c73959c1d", t));
     FCITX_ASSERT(fcitx::parseUUID("ff4d1624-e568-4f86-9def-302c73959c1d", t));
@@ -26,6 +26,9 @@ int main() {
 
     fcitx::generateUUIDFallback(FCITX5_SOURCE_DIR "/test/invalid_uuid", t);
     fcitx::generateUUIDFallback(FCITX5_SOURCE_DIR "/test/invalid_uuid", t2);
+    fcitx::generateUUIDFallback(nullptr, t3);
     FCITX_ASSERT(memcmp(t, t2, 16) != 0);
+    FCITX_ASSERT(memcmp(t, t3, 16) != 0);
+    FCITX_ASSERT(memcmp(t2, t3, 16) != 0);
     return 0;
 }
