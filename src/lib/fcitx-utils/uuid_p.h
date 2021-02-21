@@ -59,7 +59,10 @@ static inline bool parseUUID(const char *str, uint8_t *data) {
 
 static inline void generateUUIDFallback(const char *file, uint8_t *data) {
     memset(data, 0, 16);
-    UnixFD fd(open(file, O_RDONLY));
+    UnixFD fd;
+    if (file) {
+        fd = UnixFD::own(open(file, O_RDONLY));
+    }
 
     constexpr ssize_t uuidStrLength = 36;
     char uuidStr[uuidStrLength];
@@ -103,8 +106,7 @@ static inline void generateUUID(uint8_t *data) {
 #ifdef __linux__
     generateUUIDFallback("/proc/sys/kernel/random/uuid", data);
 #else
-    static_assert(false, "The fallback uuid generation does not work on "
-                         "non-Linux system, please use libuuid instead.");
+    generateUUIDFallback(nullptr, data);
 #endif
 
 #endif
