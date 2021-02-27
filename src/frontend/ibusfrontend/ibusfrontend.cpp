@@ -577,14 +577,22 @@ private:
         ([]() -> dbus::DBusStruct<uint32_t, uint32_t> {
             return {0, 0};
         }),
+#if __GNUC__ <= 8
+        ([&](dbus::DBusStruct<uint32_t, uint32_t> type) {
+#else
         ([this](dbus::DBusStruct<uint32_t, uint32_t> type) {
+#endif
             setContentType(std::get<0>(type), std::get<1>(type));
         }),
         dbus::PropertyOption::Hidden);
     FCITX_OBJECT_VTABLE_WRITABLE_PROPERTY(
         clientCommitPreedit, "ClientCommitPreedit", "(b)",
         ([this]() -> dbus::DBusStruct<bool> { return {clientCommitPreedit_}; }),
+#if __GNUC__ <= 8
+        ([&](dbus::DBusStruct<bool> value) {
+#else
         ([this](dbus::DBusStruct<bool> value) {
+#endif
             clientCommitPreedit_ = std::get<0>(value);
         }),
         dbus::PropertyOption::Hidden);
