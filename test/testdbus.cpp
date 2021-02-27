@@ -67,7 +67,11 @@ private:
                                  []() { return 5; });
     FCITX_OBJECT_VTABLE_WRITABLE_PROPERTY(
         testProperty2, "testProperty2", "i", [this]() { return prop2; },
+#if __GNUC__ <= 8
+        [&](int32_t v) { prop2 = v; });
+#else
         [this](int32_t v) { prop2 = v; });
+#endif
 };
 
 #define TEST_SERVICE "org.fcitx.Fcitx.TestDBus"
