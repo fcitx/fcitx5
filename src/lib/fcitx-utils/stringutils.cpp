@@ -70,7 +70,12 @@ std::string concatPathPieces(
 }
 } // namespace details
 
-bool startsWith(const std::string &str, const std::string &prefix) {
+FCITXUTILS_DEPRECATED_EXPORT bool startsWith(const std::string &str,
+                                             const std::string &prefix) {
+    return startsWith(std::string_view(str), std::string_view(prefix));
+}
+
+bool startsWith(std::string_view str, std::string_view prefix) {
     if (str.size() < prefix.size()) {
         return false;
     }
@@ -78,7 +83,12 @@ bool startsWith(const std::string &str, const std::string &prefix) {
     return (str.compare(0, prefix.size(), prefix) == 0);
 }
 
-bool endsWith(const std::string &str, const std::string &suffix) {
+FCITXUTILS_DEPRECATED_EXPORT bool endsWith(const std::string &str,
+                                           const std::string &suffix) {
+    return endsWith(std::string_view(str), std::string_view(suffix));
+}
+
+bool endsWith(std::string_view str, std::string_view suffix) {
     if (str.size() < suffix.size()) {
         return false;
     }

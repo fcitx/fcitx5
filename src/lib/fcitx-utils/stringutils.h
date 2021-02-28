@@ -25,26 +25,25 @@ namespace fcitx {
 namespace stringutils {
 
 /// \brief Check if a string starts with a prefix.
-FCITXUTILS_EXPORT bool startsWith(const std::string &str,
-                                  const std::string &prefix);
+FCITXUTILS_EXPORT bool startsWith(std::string_view str,
+                                  std::string_view prefix);
 
 /// \brief Check if a string starts with a prefix char.
-inline bool startsWith(const std::string &str, char prefix) {
+inline bool startsWith(std::string_view str, char prefix) {
     return !str.empty() && str.front() == prefix;
 }
 
 /// \brief Check if a string ends with a suffix.
-FCITXUTILS_EXPORT bool endsWith(const std::string &str,
-                                const std::string &suffix);
+FCITXUTILS_EXPORT bool endsWith(std::string_view str, std::string_view suffix);
 
 /// \brief Check if a string ends with a suffix char.
-inline bool endsWith(const std::string &str, char suffix) {
+inline bool endsWith(std::string_view str, char suffix) {
     return !str.empty() && str.back() == suffix;
 }
 
 /// \brief Check if a string is a concatenation of two other strings
-inline bool isConcatOf(const std::string &str, const std::string &sub1,
-                       const std::string &sub2) {
+inline bool isConcatOf(std::string_view str, std::string_view sub1,
+                       std::string_view sub2) {
     return str.size() == sub1.size() + sub2.size() && startsWith(str, sub1) &&
            endsWith(str, sub2);
 }
