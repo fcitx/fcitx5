@@ -25,7 +25,6 @@ option(ENABLE_COVERAGE "Build the project with gcov support (Need ENABLE_TEST=On
 set(GCOV_TOOL "gcov" CACHE STRING "Path to gcov tool used by coverage.")
 set(DEFAULT_XKB_RULES "evdev" CACHE STRING "Xkb rules name")
 option(ENABLE_ENCHANT "Enable enchant for word predication" On)
-option(ENABLE_PRESAGE "Enable presage for word predication" Off)
 option(ENABLE_X11 "Enable X11 support" On)
 option(ENABLE_WAYLAND "Enable wayland support" On)
 option(ENABLE_DBUS "Enable DBus" On)
@@ -167,10 +166,6 @@ if(ENABLE_ENCHANT)
   if(NOT TARGET PkgConfig::Enchant)
     pkg_check_modules(Enchant IMPORTED_TARGET "enchant" REQUIRED)
   endif()
-endif()
-
-if(ENABLE_PRESAGE)
-  find_package(Presage REQUIRED)
 endif()
 
 if (TARGET PkgConfig::CairoEGL AND TARGET EGL::EGL AND TARGET Wayland::Egl)
