@@ -60,14 +60,14 @@ trimInplace(const std::string &str);
 FCITXUTILS_EXPORT std::string trim(const std::string &str);
 
 /// \brief Split the string by delim.
-FCITXUTILS_EXPORT std::vector<std::string> split(const std::string &str,
-                                                 const std::string &delim);
+FCITXUTILS_EXPORT std::vector<std::string> split(std::string_view str,
+                                                 std::string_view delim);
 
 enum class SplitBehavior { KeepEmpty, SkipEmpty };
 
 /// \brief Split the string by delim.
 FCITXUTILS_EXPORT std::vector<std::string>
-split(const std::string &str, const std::string &delim, SplitBehavior behavior);
+split(std::string_view str, std::string_view delim, SplitBehavior behavior);
 
 /// \brief Replace all substring appearance of before with after.
 FCITXUTILS_EXPORT std::string replaceAll(std::string str,

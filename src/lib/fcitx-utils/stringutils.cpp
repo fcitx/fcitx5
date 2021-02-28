@@ -117,7 +117,13 @@ std::string trim(const std::string &str) {
     return std::string(str.begin() + pair.first, str.begin() + pair.second);
 }
 
+FCITXUTILS_DEPRECATED_EXPORT
 std::vector<std::string> split(const std::string &str, const std::string &delim,
+                               SplitBehavior behavior) {
+    return split(std::string_view(str), std::string_view(delim), behavior);
+}
+
+std::vector<std::string> split(std::string_view str, std::string_view delim,
                                SplitBehavior behavior) {
     std::vector<std::string> strings;
     std::string::size_type lastPos, pos;
@@ -129,7 +135,7 @@ std::vector<std::string> split(const std::string &str, const std::string &delim,
     pos = str.find_first_of(delim, lastPos);
 
     while (std::string::npos != pos || std::string::npos != lastPos) {
-        strings.push_back(str.substr(lastPos, pos - lastPos));
+        strings.push_back(std::string(str.substr(lastPos, pos - lastPos)));
         if (behavior == SplitBehavior::SkipEmpty) {
             lastPos = str.find_first_not_of(delim, pos);
         } else {
@@ -144,8 +150,12 @@ std::vector<std::string> split(const std::string &str, const std::string &delim,
     return strings;
 }
 
-std::vector<std::string> split(const std::string &str,
-                               const std::string &delim) {
+FCITXUTILS_DEPRECATED_EXPORT std::vector<std::string>
+split(const std::string &str, const std::string &delim) {
+    return split(std::string_view(str), std::string_view(delim));
+}
+
+std::vector<std::string> split(std::string_view str, std::string_view delim) {
     return split(str, delim, SplitBehavior::SkipEmpty);
 }
 
