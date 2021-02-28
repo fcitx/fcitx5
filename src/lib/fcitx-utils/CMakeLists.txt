@@ -58,6 +58,7 @@ set(FCITX_UTILS_SOURCES
     inputbuffer.cpp
     log.cpp
     misc.cpp
+    semver.cpp
     )
 
 set(FCITX_UTILS_HEADERS
@@ -98,6 +99,7 @@ set(FCITX_UTILS_HEADERS
     inputbuffer.h
     log.h
     testing.h
+    semver.h
     ${CMAKE_CURRENT_BINARY_DIR}/fcitxutils_export.h
     )
 
