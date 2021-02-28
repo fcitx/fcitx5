@@ -45,6 +45,18 @@ bool unmarshallOption(std::string &value, const RawConfig &config, bool) {
     return true;
 }
 
+void marshallOption(RawConfig &config, const SemanticVersion &value) {
+    config = value.toString();
+}
+
+bool unmarshallOption(SemanticVersion &value, const RawConfig &config, bool) {
+    if (auto result = SemanticVersion::parse(config.value())) {
+        value = result.value();
+        return true;
+    }
+    return false;
+}
+
 void marshallOption(RawConfig &config, const Key &value) {
     config = value.toString();
 }

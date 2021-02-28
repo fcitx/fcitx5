@@ -129,8 +129,8 @@ inline bool operator>=(const SemanticVersion &lhs,
     return !(lhs < rhs);
 }
 
-LogMessageBuilder &operator<<(LogMessageBuilder &builder,
-                              const SemanticVersion &version) {
+inline LogMessageBuilder &operator<<(LogMessageBuilder &builder,
+                                     const SemanticVersion &version) {
     builder << "SemanticVersion(" << version.toString() << ")";
     return builder;
 }

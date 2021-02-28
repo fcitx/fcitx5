@@ -12,6 +12,7 @@ namespace fcitx {
 FCITX_CONFIGURATION(
     AddonConfigBase, Option<I18NString> name{this, "Name", "Addon Name"};
     Option<I18NString> comment{this, "Comment", "Comment"};
+    Option<SemanticVersion> version{this, "Version", "Addon Version"};
     Option<std::string> type{this, "Type", "Addon Type"};
     Option<std::string> library{this, "Library", "Addon Library"};
     Option<bool> configurable{this, "Configurable", "Configurable", false};
@@ -27,6 +28,31 @@ FCITX_CONFIGURATION(
 FCITX_CONFIGURATION(AddonConfig,
                     Option<AddonConfigBase> addon{this, "Addon", "Addon"};)
 
+namespace {
+
+void parseDependencies(const std::vector<std::string> &data,
+                       std::vector<std::string> &dependencies,
+                       std::vector<std::tuple<std::string, SemanticVersion>>
+                           &dependenciesWithVersion) {
+    dependencies.clear();
+    dependenciesWithVersion.clear();
+    for (const auto &item : data) {
+        auto tokens = stringutils::split(item, ":");
+        if (tokens.size() == 1) {
+            dependencies.push_back(tokens[0]);
+            dependenciesWithVersion.emplace_back(tokens[0], SemanticVersion{});
+        } else if (tokens.size() == 2) {
+            auto version = SemanticVersion::parse(tokens[1]);
+            if (version) {
+                dependencies.push_back(tokens[0]);
+                dependenciesWithVersion.emplace_back(tokens[0],
+                                                     version.value());
+            }
+        }
+    }
+}
+} // namespace
+
 class AddonInfoPrivate : public AddonConfig {
 public:
     AddonInfoPrivate(const std::string &name) : uniqueName_(name) {}
@@ -34,6 +60,12 @@ public:
     bool valid_ = false;
     std::string uniqueName_;
     OverrideEnabled overrideEnabled_ = OverrideEnabled::NotSet;
+    std::vector<std::string> dependencies_;
+    std::vector<std::string> optionalDependencies_;
+    std::vector<std::tuple<std::string, SemanticVersion>>
+        dependenciesWithVersion_;
+    std::vector<std::tuple<std::string, SemanticVersion>>
+        optionalDependenciesWithVersion_;
 };
 
 AddonInfo::AddonInfo(const std::string &name)
@@ -78,12 +110,24 @@ const std::string &AddonInfo::library() const {
 
 const std::vector<std::string> &AddonInfo::dependencies() const {
     FCITX_D();
-    return d->addon->dependencies.value();
+    return d->dependencies_;
 }
 
 const std::vector<std::string> &AddonInfo::optionalDependencies() const {
     FCITX_D();
-    return d->addon->optionalDependencies.value();
+    return d->optionalDependencies_;
+}
+
+const std::vector<std::tuple<std::string, SemanticVersion>> &
+AddonInfo::dependenciesWithVersion() const {
+    FCITX_D();
+    return d->dependenciesWithVersion_;
+}
+
+const std::vector<std::tuple<std::string, SemanticVersion>> &
+AddonInfo::optionalDependenciesWithVersion() const {
+    FCITX_D();
+    return d->optionalDependenciesWithVersion_;
 }
 
 bool AddonInfo::onDemand() const {
@@ -99,6 +143,11 @@ int AddonInfo::uiPriority() const {
 void AddonInfo::load(const RawConfig &config) {
     FCITX_D();
     d->load(config);
+
+    parseDependencies(*d->addon->dependencies, d->dependencies_,
+                      d->dependenciesWithVersion_);
+    parseDependencies(*d->addon->optionalDependencies, d->optionalDependencies_,
+                      d->optionalDependenciesWithVersion_);
 
     // Validate more information
     d->valid_ = !(d->uniqueName_.empty()) &&
@@ -122,6 +171,11 @@ bool AddonInfo::isDefaultEnabled() const {
 bool AddonInfo::isConfigurable() const {
     FCITX_D();
     return *d->addon->configurable;
+}
+
+const SemanticVersion &AddonInfo::version() const {
+    FCITX_D();
+    return *d->addon->version;
 }
 
 void AddonInfo::setOverrideEnabled(OverrideEnabled overrideEnabled) {

@@ -12,6 +12,7 @@
 #include <fcitx-config/enum.h>
 #include <fcitx-utils/i18nstring.h>
 #include <fcitx-utils/macros.h>
+#include <fcitx-utils/semver.h>
 #include "fcitxcore_export.h"
 
 namespace fcitx {
@@ -36,12 +37,17 @@ public:
     const std::string &library() const;
     const std::vector<std::string> &dependencies() const;
     const std::vector<std::string> &optionalDependencies() const;
+    const std::vector<std::tuple<std::string, SemanticVersion>> &
+    dependenciesWithVersion() const;
+    const std::vector<std::tuple<std::string, SemanticVersion>> &
+    optionalDependenciesWithVersion() const;
     bool onDemand() const;
     int uiPriority() const;
     bool isEnabled() const;
     bool isDefaultEnabled() const;
     void setOverrideEnabled(OverrideEnabled overrideEnabled);
     bool isConfigurable() const;
+    const SemanticVersion &version() const;
 
     void load(const RawConfig &config);
 

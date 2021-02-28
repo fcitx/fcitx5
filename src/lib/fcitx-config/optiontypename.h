@@ -11,6 +11,7 @@
 #include <fcitx-utils/color.h>
 #include <fcitx-utils/i18nstring.h>
 #include <fcitx-utils/key.h>
+#include <fcitx-utils/semver.h>
 
 namespace fcitx {
 
@@ -22,6 +23,7 @@ namespace fcitx {
 FCITX_SPECIALIZE_TYPENAME(bool, "Boolean");
 FCITX_SPECIALIZE_TYPENAME(int, "Integer");
 FCITX_SPECIALIZE_TYPENAME(std::string, "String");
+FCITX_SPECIALIZE_TYPENAME(SemanticVersion, "Version");
 FCITX_SPECIALIZE_TYPENAME(fcitx::Key, "Key");
 FCITX_SPECIALIZE_TYPENAME(fcitx::Color, "Color");
 FCITX_SPECIALIZE_TYPENAME(fcitx::I18NString, "I18NString");

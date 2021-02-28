@@ -12,6 +12,7 @@
 #include <fcitx-utils/color.h>
 #include <fcitx-utils/i18nstring.h>
 #include <fcitx-utils/key.h>
+#include <fcitx-utils/semver.h>
 #include "rawconfig.h"
 
 namespace fcitx {
@@ -29,6 +30,11 @@ FCITXCONFIG_EXPORT bool unmarshallOption(int &value, const RawConfig &config,
 FCITXCONFIG_EXPORT void marshallOption(RawConfig &config,
                                        const std::string &value);
 FCITXCONFIG_EXPORT bool unmarshallOption(std::string &value,
+                                         const RawConfig &config, bool partial);
+
+FCITXCONFIG_EXPORT void marshallOption(RawConfig &config,
+                                       const SemanticVersion &value);
+FCITXCONFIG_EXPORT bool unmarshallOption(SemanticVersion &value,
                                          const RawConfig &config, bool partial);
 
 FCITXCONFIG_EXPORT void marshallOption(RawConfig &config, const Key &value);

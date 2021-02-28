@@ -15,6 +15,8 @@
 double f(int) { return 0; }
 
 int main() {
+    fcitx::Log::setLogRule("default=5");
+    setenv("SKIP_FCITX_PATH", "1", 1);
     setenv("XDG_DATA_DIRS", FCITX5_SOURCE_DIR "/test/addon2", 1);
     setenv("FCITX_ADDON_DIRS", FCITX5_BINARY_DIR "/test/addon", 1);
     fcitx::AddonManager manager;
@@ -32,5 +34,9 @@ int main() {
     FCITX_ASSERT(result);
     auto result2 = 8 == addon->call<fcitx::IDummyAddon::addOne>(7);
     FCITX_ASSERT(result2);
+    auto *addon2 = manager.addon("dummyaddon2");
+    FCITX_ASSERT(addon2);
+    auto *addon3 = manager.addon("dummyaddon3");
+    FCITX_ASSERT(!addon3);
     return 0;
 }
