@@ -11,6 +11,7 @@
 #include <xcb-imdkit/encoding.h>
 #include <xcb/xcb_aux.h>
 #include <xkbcommon/xkbcommon.h>
+#include "fcitx-utils/misc_p.h"
 #include "fcitx-utils/stringutils.h"
 #include "fcitx-utils/utf8.h"
 #include "fcitx/focusgroup.h"
@@ -43,10 +44,9 @@ uint32_t onthespot_style_array[] = {
 };
 
 char COMPOUND_TEXT[] = "COMPOUND_TEXT";
+char UTF8_STRING[] = "UTF8_STRING";
 
-char *encoding_array[] = {
-    COMPOUND_TEXT,
-};
+char *encoding_array[] = {COMPOUND_TEXT, UTF8_STRING};
 
 xcb_im_encodings_t encodings = {FCITX_ARRAY_SIZE(encoding_array),
                                 encoding_array};
@@ -176,6 +176,8 @@ private:
     xcb_window_t serverWindow_;
     xcb_ewmh_connection_t *ewmh_;
     std::unique_ptr<HandlerTableEntry<XCBEventFilter>> filter_;
+    // bool value: isUtf8
+    std::unordered_map<xcb_im_client_t *, bool> clientEncodingMapping_;
 };
 
 pid_t getWindowPid(xcb_ewmh_connection_t *ewmh, xcb_window_t w) {
@@ -217,9 +219,9 @@ std::string getProgramName(XIMServer *server, xcb_im_input_context_t *ic) {
 class XIMInputContext final : public InputContext {
 public:
     XIMInputContext(InputContextManager &inputContextManager, XIMServer *server,
-                    xcb_im_input_context_t *ic)
+                    xcb_im_input_context_t *ic, bool useUtf8)
         : InputContext(inputContextManager, getProgramName(server, ic)),
-          server_(server), xic_(ic) {
+          server_(server), xic_(ic), useUtf8_(useUtf8) {
         setFocusGroup(server->focusGroup());
         xcb_im_input_context_set_data(xic_, this, nullptr);
         auto style = xcb_im_input_context_get_input_style(ic);
@@ -322,16 +324,23 @@ public:
 
 protected:
     void commitStringImpl(const std::string &text) override {
-        size_t compoundTextLength;
-        UniqueCPtr<char> compoundText(xcb_utf8_to_compound_text(
-            text.c_str(), text.size(), &compoundTextLength));
-        if (!compoundText) {
-            return;
+        UniqueCPtr<char> compoundText;
+        const char *commit = text.data();
+        size_t length = text.size();
+        if (!useUtf8_) {
+            size_t compoundTextLength;
+            compoundText.reset(xcb_utf8_to_compound_text(
+                text.c_str(), text.size(), &compoundTextLength));
+            if (!compoundText) {
+                return;
+            }
+            commit = compoundText.get();
+            length = compoundTextLength;
         }
         XIM_DEBUG() << "XIM commit: " << text;
 
-        xcb_im_commit_string(server_->im(), xic_, XCB_XIM_LOOKUP_CHARS,
-                             compoundText.get(), compoundTextLength, 0);
+        xcb_im_commit_string(server_->im(), xic_, XCB_XIM_LOOKUP_CHARS, commit,
+                             length, 0);
     }
     void deleteSurroundingTextImpl(int, unsigned int) override {}
     void forwardKeyImpl(const ForwardKeyEvent &key) override {
@@ -428,17 +437,25 @@ protected:
                     utf8::length(strPreedit.begin(),
                                  std::next(strPreedit.begin(), text.cursor()));
             }
+            UniqueCPtr<char> compoundText;
             frame.chg_first = 0;
             frame.chg_length = lastPreeditLength_;
-            size_t compoundTextLength;
-            UniqueCPtr<char> compoundText(xcb_utf8_to_compound_text(
-                strPreedit.c_str(), strPreedit.size(), &compoundTextLength));
-            if (!compoundText) {
-                return;
+            if (useUtf8_) {
+                frame.preedit_string =
+                    reinterpret_cast<uint8_t *>(strPreedit.data());
+                frame.length_of_preedit_string = strPreedit.size();
+            } else {
+                size_t compoundTextLength;
+                compoundText.reset(xcb_utf8_to_compound_text(
+                    strPreedit.c_str(), strPreedit.size(),
+                    &compoundTextLength));
+                if (!compoundText) {
+                    return;
+                }
+                frame.length_of_preedit_string = compoundTextLength;
+                frame.preedit_string =
+                    reinterpret_cast<uint8_t *>(compoundText.get());
             }
-            frame.length_of_preedit_string = compoundTextLength;
-            frame.preedit_string =
-                reinterpret_cast<uint8_t *>(compoundText.get());
             frame.feedback_array.size = feedbackBuffer_.size();
             frame.feedback_array.items = feedbackBuffer_.data();
             frame.status = frame.feedback_array.size ? 0 : 2;
@@ -450,6 +467,7 @@ protected:
 private:
     XIMServer *server_;
     xcb_im_input_context_t *xic_;
+    const bool useUtf8_ = false;
     bool preeditStarted = false;
     int lastPreeditLength_ = 0;
     std::vector<uint32_t> feedbackBuffer_;
@@ -461,10 +479,25 @@ private:
 void XIMServer::callback(xcb_im_client_t *client, xcb_im_input_context_t *xic,
                          const xcb_im_packet_header_fr_t *hdr, void *frame,
                          void *arg) {
-    FCITX_UNUSED(client);
     FCITX_UNUSED(hdr);
     FCITX_UNUSED(frame);
-    FCITX_UNUSED(arg);
+
+    switch (hdr->major_opcode) {
+    case XCB_XIM_ENCODING_NEGOTIATION:
+        if (arg) {
+            auto encodingIndex = *static_cast<uint16_t *>(arg);
+            XIM_DEBUG() << "Client encoding: " << client << " "
+                        << encodingIndex;
+            if (encodingIndex != 0) {
+                clientEncodingMapping_[client] = encodingIndex == 1;
+            }
+        }
+        return;
+    case XCB_XIM_DISCONNECT:
+        XIM_DEBUG() << "Client disconnect: " << client;
+        clientEncodingMapping_.erase(client);
+        return;
+    }
 
     if (!xic) {
         return;
@@ -481,10 +514,15 @@ void XIMServer::callback(xcb_im_client_t *client, xcb_im_input_context_t *xic,
     }
 
     switch (hdr->major_opcode) {
-    case XCB_XIM_CREATE_IC:
+    case XCB_XIM_CREATE_IC: {
+        bool useUtf8 = false;
+        if (auto entry = findValue(clientEncodingMapping_, client);
+            entry && *entry) {
+            useUtf8 = true;
+        }
         new XIMInputContext(parent_->instance()->inputContextManager(), this,
-                            xic);
-        break;
+                            xic, useUtf8);
+    } break;
     case XCB_XIM_DESTROY_IC:
         delete ic;
         break;
