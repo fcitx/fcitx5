@@ -219,6 +219,13 @@ public:
      * @return fcitx::Key
      */
     Key origKey() const { return origKey_; }
+
+    /**
+     * @brief Key event after layout conversion. Basically it is the
+     * "unnormalized" key event.
+     *
+     * @return fcitx::Key
+     */
     Key rawKey() const { return rawKey_; }
     bool isRelease() const { return isRelease_; }
     int time() const { return time_; }

@@ -4,6 +4,7 @@ Comment=Freedesktop.org Notification Support
 Type=SharedLibrary
 Library=notifications
 Category=Module
+Version=@PROJECT_VERSION@
 OnDemand=True
 Configurable=True
 

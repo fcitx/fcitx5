@@ -6,6 +6,7 @@ if (ENABLE_DBUS)
     install(FILES "${CMAKE_CURRENT_BINARY_DIR}/notifications.conf" DESTINATION "${FCITX_INSTALL_PKGDATADIR}/addon")
 endif()
 
-fcitx5_translate_desktop_file(notifications.conf.in notifications.conf)
+configure_file(notifications.conf.in.in notifications.conf.in @ONLY)
+fcitx5_translate_desktop_file(${CMAKE_CURRENT_BINARY_DIR}/notifications.conf.in notifications.conf)
 fcitx5_export_module(Notifications TARGET notifications BUILD_INCLUDE_DIRECTORIES "${CMAKE_CURRENT_SOURCE_DIR}" HEADERS notifications_public.h INSTALL)
 

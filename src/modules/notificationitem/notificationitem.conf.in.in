@@ -4,6 +4,7 @@ Comment=DBus based new Freedesktop.org tray icon
 Type=SharedLibrary
 Library=notificationitem
 Category=Module
+Version=@PROJECT_VERSION@
 OnDemand=True
 Configurable=True
 

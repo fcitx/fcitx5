@@ -3,6 +3,7 @@ Name=DBus Frontend
 Type=SharedLibrary
 Library=dbusfrontend
 Category=Frontend
+Version=@PROJECT_VERSION@
 
 [Addon/Dependencies]
 0=dbus

@@ -3,6 +3,7 @@ Name=Classic User Inteface
 Type=SharedLibrary
 Library=classicui
 Category=UI
+Version=@PROJECT_VERSION@
 OnDemand=True
 Configurable=True
 

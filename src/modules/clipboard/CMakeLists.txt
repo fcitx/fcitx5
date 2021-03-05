@@ -5,6 +5,7 @@ set_target_properties(clipboard PROPERTIES PREFIX "")
 install(TARGETS clipboard DESTINATION "${FCITX_INSTALL_ADDONDIR}")
 install(FILES "${CMAKE_CURRENT_BINARY_DIR}/clipboard.conf" DESTINATION "${FCITX_INSTALL_PKGDATADIR}/addon")
 endif()
-fcitx5_translate_desktop_file(clipboard.conf.in clipboard.conf)
+configure_file(clipboard.conf.in.in clipboard.conf.in @ONLY)
+fcitx5_translate_desktop_file(${CMAKE_CURRENT_BINARY_DIR}/clipboard.conf.in clipboard.conf)
 fcitx5_export_module(Clipboard TARGET clipboard BUILD_INCLUDE_DIRECTORIES "${CMAKE_CURRENT_SOURCE_DIR}" HEADERS clipboard_public.h INSTALL)
 

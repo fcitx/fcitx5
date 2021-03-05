@@ -76,6 +76,26 @@ class FCITXUTILS_EXPORT Log {
 public:
     static const LogCategory &defaultCategory();
     static void setLogRule(const std::string &rule);
+    /**
+     * @brief set the global log stream to be used by default.
+     *
+     * This function is not thread safe.
+     * Please ensure there is no other thread using it at the same time.
+     * By default is std::cerr. When you pass a stream into it, you need to
+     * ensure it out-live the last call to the function. You may reset it to
+     * std::cerr when you don't want to keep the old stream anymore.
+     *
+     * @param stream
+     * @since 5.0.6
+     */
+    static void setLogStream(std::ostream &stream);
+    /**
+     * @brief Return the default log stream to be used.
+     *
+     * @return std::ostream&
+     * @since 5.0.6
+     */
+    static std::ostream &logStream();
 };
 
 class FCITXUTILS_EXPORT LogMessageBuilder {
@@ -259,7 +279,8 @@ private:
              (CONDITION) && CATEGORY().fatalWrapper(::fcitx::LogLevel::LEVEL); \
          fcitxLogEnabled;                                                      \
          fcitxLogEnabled = CATEGORY().fatalWrapper2(::fcitx::LogLevel::LEVEL)) \
-    ::fcitx::LogMessageBuilder(std::cerr, ::fcitx::LogLevel::LEVEL,            \
+    ::fcitx::LogMessageBuilder(::fcitx::Log::logStream(),                      \
+                               ::fcitx::LogLevel::LEVEL,                       \
                                FCITX_LOG_FILENAME_WRAP, __LINE__)              \
         .self()
 
@@ -268,7 +289,8 @@ private:
              CATEGORY().fatalWrapper(::fcitx::LogLevel::LEVEL);                \
          fcitxLogEnabled;                                                      \
          fcitxLogEnabled = CATEGORY().fatalWrapper2(::fcitx::LogLevel::LEVEL)) \
-    ::fcitx::LogMessageBuilder(std::cerr, ::fcitx::LogLevel::LEVEL,            \
+    ::fcitx::LogMessageBuilder(::fcitx::Log::logStream(),                      \
+                               ::fcitx::LogLevel::LEVEL,                       \
                                FCITX_LOG_FILENAME_WRAP, __LINE__)              \
         .self()
 

@@ -3,6 +3,7 @@ Name=DBus
 Type=SharedLibrary
 Library=dbus
 Category=Module
+Version=@PROJECT_VERSION@
 
 [Addon/Dependencies]
 0=keyboard

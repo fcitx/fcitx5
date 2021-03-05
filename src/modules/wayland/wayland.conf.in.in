@@ -3,4 +3,5 @@ Name=Wayland
 Type=SharedLibrary
 Library=wayland
 Category=Module
+Version=@PROJECT_VERSION@
 

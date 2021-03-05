@@ -3,6 +3,7 @@ Name=Fcitx4 Frontend
 Type=SharedLibrary
 Library=fcitx4frontend
 Category=Frontend
+Version=@PROJECT_VERSION@
 
 [Addon/Dependencies]
 0=dbus

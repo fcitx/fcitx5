@@ -4,6 +4,7 @@
  * SPDX-License-Identifier: LGPL-2.1-or-later
  *
  */
+#include <sstream>
 #include <fcitx-utils/log.h>
 #include <fcitx-utils/metastring.h>
 
@@ -25,6 +26,13 @@ int main() {
     FCITX_INFO() << map;
 
     FCITX_INFO() << std::make_tuple(1, 3, "a", false);
+
+    std::stringstream s;
+    fcitx::Log::setLogStream(s);
+    FCITX_INFO() << "ABCD";
+    fcitx::Log::setLogStream(std::cerr);
+
+    FCITX_ASSERT(s.str().find("ABCD") != std::string::npos);
 
     return 0;
 }

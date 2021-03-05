@@ -3,6 +3,7 @@ Name=Clipboard
 Type=SharedLibrary
 Library=clipboard
 Category=Module
+Version=@PROJECT_VERSION@
 OnDemand=False
 Configurable=True
 

@@ -3,4 +3,5 @@ Name=Emoji
 Type=SharedLibrary
 Library=emoji
 Category=Module
+Version=@PROJECT_VERSION@
 OnDemand=True

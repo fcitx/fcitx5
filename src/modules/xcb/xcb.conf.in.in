@@ -3,4 +3,5 @@ Name=XCB
 Type=SharedLibrary
 Library=xcb
 Category=Module
+Version=@PROJECT_VERSION@
 Configurable=True

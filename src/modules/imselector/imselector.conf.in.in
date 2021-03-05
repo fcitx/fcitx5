@@ -2,6 +2,7 @@
 Name=Input method selector
 Comment=Select specific input method via keyboard
 Category=Module
+Version=@PROJECT_VERSION@
 Library=imselector
 Type=SharedLibrary
 OnDemand=False

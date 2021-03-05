@@ -3,6 +3,7 @@ Name=Keyboard
 Type=StaticLibrary
 Library=keyboard
 Category=InputMethod
+Version=@PROJECT_VERSION@
 Configurable=True
 
 [Addon/OptionalDependencies]

@@ -6,4 +6,5 @@ install(TARGETS xim DESTINATION "${FCITX_INSTALL_ADDONDIR}")
 install(FILES "${CMAKE_CURRENT_BINARY_DIR}/xim.conf" DESTINATION "${FCITX_INSTALL_PKGDATADIR}/addon")
 endif()
 
-fcitx5_translate_desktop_file(xim.conf.in xim.conf)
+configure_file(xim.conf.in.in xim.conf.in @ONLY)
+fcitx5_translate_desktop_file(${CMAKE_CURRENT_BINARY_DIR}/xim.conf.in xim.conf)

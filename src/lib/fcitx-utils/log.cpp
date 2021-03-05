@@ -23,6 +23,8 @@ namespace {
 
 FCITX_DEFINE_LOG_CATEGORY(defaultCategory, "default");
 
+static std::ostream *defaultLogStream = &std::cerr;
+
 bool validateLogLevel(std::underlying_type_t<LogLevel> l) {
     return (l >= 0 &&
             l <= std::underlying_type_t<LogLevel>(LogLevel::LastLogLevel));
@@ -164,6 +166,10 @@ const LogCategory &Log::defaultCategory() { return fcitx::defaultCategory(); }
 void Log::setLogRule(const std::string &ruleString) {
     LogRegistry::instance().setLogRule(ruleString);
 }
+
+void Log::setLogStream(std::ostream &stream) { defaultLogStream = &stream; }
+
+std::ostream &Log::logStream() { return *defaultLogStream; }
 
 LogMessageBuilder::LogMessageBuilder(std::ostream &out, LogLevel l,
                                      const char *filename, int lineNumber)

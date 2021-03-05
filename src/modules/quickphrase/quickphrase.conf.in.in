@@ -3,6 +3,7 @@ Name=Quick Phrase
 Type=SharedLibrary
 Library=quickphrase
 Category=Module
+Version=@PROJECT_VERSION@
 OnDemand=False
 Configurable=True
 

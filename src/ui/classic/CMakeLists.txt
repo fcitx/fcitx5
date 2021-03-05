@@ -39,5 +39,6 @@ target_link_libraries(classicui
     ${FMT_TARGET})
 set_target_properties(classicui PROPERTIES PREFIX "")
 install(TARGETS classicui DESTINATION "${FCITX_INSTALL_ADDONDIR}")
-fcitx5_translate_desktop_file(classicui.conf.in classicui.conf)
+configure_file(classicui.conf.in.in classicui.conf.in @ONLY)
+fcitx5_translate_desktop_file(${CMAKE_CURRENT_BINARY_DIR}/classicui.conf.in classicui.conf)
 install(FILES "${CMAKE_CURRENT_BINARY_DIR}/classicui.conf" DESTINATION "${FCITX_INSTALL_PKGDATADIR}/addon")

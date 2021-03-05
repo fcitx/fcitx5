@@ -12,5 +12,6 @@ install(TARGETS xcb DESTINATION "${FCITX_INSTALL_ADDONDIR}")
 install(FILES "${CMAKE_CURRENT_BINARY_DIR}/xcb.conf" DESTINATION "${FCITX_INSTALL_PKGDATADIR}/addon")
 endif()
 
-fcitx5_translate_desktop_file(xcb.conf.in xcb.conf)
+configure_file(xcb.conf.in.in xcb.conf.in @ONLY)
+fcitx5_translate_desktop_file(${CMAKE_CURRENT_BINARY_DIR}/xcb.conf.in xcb.conf)
 fcitx5_export_module(XCB TARGET xcb BUILD_INCLUDE_DIRECTORIES "${CMAKE_CURRENT_SOURCE_DIR}" HEADERS xcb_public.h INSTALL)
