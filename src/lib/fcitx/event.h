@@ -169,9 +169,7 @@ protected:
 class FCITXCORE_EXPORT KeyEventBase : public InputContextEvent {
 public:
     KeyEventBase(EventType type, InputContext *context, Key rawKey,
-                 bool isRelease = false, int time = 0)
-        : InputContextEvent(context, type), key_(rawKey.normalize()),
-          origKey_(key_), rawKey_(rawKey), isRelease_(isRelease), time_(time) {}
+                 bool isRelease = false, int time = 0);
     KeyEventBase(const KeyEventBase &) = default;
 
     /**
@@ -221,8 +219,9 @@ public:
     Key origKey() const { return origKey_; }
 
     /**
-     * @brief Key event after layout conversion. Basically it is the
-     * "unnormalized" key event.
+     * Key event after layout conversion.
+     *
+     * Basically it is the "unnormalized" key event.
      *
      * @return fcitx::Key
      */

@@ -872,22 +872,21 @@ Instance::Instance(int argc, char **argv) {
             // Keep these two values, and reset them in the state
             inputState->keyReleased_ = -1;
             inputState->lastKeyPressed_ = Key();
-            const bool isModifier = keyEvent.origKey().isModifier();
+            auto origKey = keyEvent.origKey().normalize();
+            const bool isModifier = origKey.isModifier();
             if (keyEvent.isRelease()) {
                 int idx = 0;
-                if (keyEvent.origKey().isModifier() &&
-                    Key::keySymToStates(keyEvent.origKey().sym()) ==
-                        keyEvent.origKey().states()) {
+                if (origKey.isModifier() &&
+                    Key::keySymToStates(origKey.sym()) == origKey.states()) {
                     inputState->totallyReleased_ = true;
                 }
                 for (auto &keyHandler : keyHandlers) {
                     if (keyReleased == idx &&
-                        keyEvent.origKey().isReleaseOfModifier(
-                            lastKeyPressed) &&
+                        origKey.isReleaseOfModifier(lastKeyPressed) &&
                         keyHandler.check()) {
                         if (isModifier) {
                             keyHandler.trigger(inputState->totallyReleased_);
-                            if (keyEvent.origKey().hasModifier()) {
+                            if (origKey.hasModifier()) {
                                 inputState->totallyReleased_ = false;
                             }
                         }
@@ -900,18 +899,17 @@ Instance::Instance(int argc, char **argv) {
             if (!keyEvent.filtered() && !keyEvent.isRelease()) {
                 int idx = 0;
                 for (auto &keyHandler : keyHandlers) {
-                    auto keyIdx =
-                        keyEvent.origKey().keyListIndex(keyHandler.list);
+                    auto keyIdx = origKey.keyListIndex(keyHandler.list);
                     if (keyIdx >= 0 && keyHandler.check()) {
                         inputState->keyReleased_ = idx;
-                        inputState->lastKeyPressed_ = keyEvent.origKey();
+                        inputState->lastKeyPressed_ = origKey;
                         if (isModifier) {
                             // don't forward to input method, but make it pass
                             // through to client.
                             return keyEvent.filter();
                         }
                         keyHandler.trigger(inputState->totallyReleased_);
-                        if (keyEvent.origKey().hasModifier()) {
+                        if (origKey.hasModifier()) {
                             inputState->totallyReleased_ = false;
                         }
                         return keyEvent.filterAndAccept();
@@ -989,7 +987,7 @@ Instance::Instance(int argc, char **argv) {
                 Key key(static_cast<KeySym>(newSym), newModifier, newCode);
                 FCITX_DEBUG()
                     << "Custom Xkb translated Key: " << key.toString();
-                keyEvent.setKey(key.normalize());
+                keyEvent.setRawKey(key);
             }
 #endif
 

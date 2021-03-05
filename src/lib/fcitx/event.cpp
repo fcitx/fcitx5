@@ -9,4 +9,9 @@
 
 namespace fcitx {
 Event::~Event() {}
+
+KeyEventBase::KeyEventBase(EventType type, InputContext *context, Key rawKey,
+                           bool isRelease, int time)
+    : InputContextEvent(context, type), key_(rawKey.normalize()),
+      origKey_(rawKey), rawKey_(rawKey), isRelease_(isRelease), time_(time) {}
 } // namespace fcitx
