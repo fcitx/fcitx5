@@ -36,6 +36,11 @@ public:
                                &buildDefaultGroupCallback);
     void setGroupOrder(const std::vector<std::string> &groupOrder);
 
+    // Read entries from inputmethod/*.conf
+    void loadStaticEntries(const std::unordered_set<std::string> &addonNames);
+    // Read entries from addon->listInputMethods();
+    void loadDynamicEntries(const std::unordered_set<std::string> &addonNames);
+
     FCITX_DEFINE_SIGNAL_PRIVATE(InputMethodManager, CurrentGroupAboutToChange);
     FCITX_DEFINE_SIGNAL_PRIVATE(InputMethodManager, CurrentGroupChanged);
 
@@ -138,24 +143,17 @@ void InputMethodManagerPrivate::buildDefaultGroup(
     }
 }
 
-InputMethodManager::InputMethodManager(AddonManager *addonManager)
-    : d_ptr(std::make_unique<InputMethodManagerPrivate>(addonManager, this)) {}
-
-InputMethodManager::~InputMethodManager() {}
-
-void InputMethodManager::load(const std::function<void(InputMethodManager &)>
-                                  &buildDefaultGroupCallback) {
-    FCITX_D();
-    emit<InputMethodManager::CurrentGroupAboutToChange>(
-        d->groupOrder_.empty() ? "" : d->groupOrder_.front());
-
-    auto inputMethods =
-        d->addonManager_->addonNames(AddonCategory::InputMethod);
+void InputMethodManagerPrivate::loadStaticEntries(
+    const std::unordered_set<std::string> &addonNames) {
     const auto &path = StandardPath::global();
     auto filesMap =
         path.multiOpenAll(StandardPath::Type::PkgData, "inputmethod", O_RDONLY,
                           filter::Suffix(".conf"));
     for (const auto &file : filesMap) {
+        const auto name = file.first.substr(0, file.first.size() - 5);
+        if (entries_.count(name) != 0) {
+            continue;
+        }
         const auto &files = file.second;
         RawConfig config;
         // reverse the order, so we end up parse user file at last.
@@ -168,23 +166,24 @@ void InputMethodManager::load(const std::function<void(InputMethodManager &)>
         InputMethodInfo imInfo;
         imInfo.load(config);
         // Remove ".conf"
-        auto name = file.first.substr(0, file.first.size() - 5);
         InputMethodEntry entry = toInputMethodEntry(name, imInfo);
-        if (checkEntry(entry, inputMethods) &&
-            stringutils::isConcatOf(file.first, entry.uniqueName(), ".conf") &&
-            d->entries_.count(entry.uniqueName()) == 0) {
-            d->entries_.emplace(std::string(entry.uniqueName()),
-                                std::move(entry));
+        if (checkEntry(entry, addonNames) &&
+            stringutils::isConcatOf(file.first, entry.uniqueName(), ".conf")) {
+            entries_.emplace(std::string(entry.uniqueName()), std::move(entry));
         }
     }
-    for (const auto &addonName : inputMethods) {
-        const auto *addonInfo = d->addonManager_->addonInfo(addonName);
+}
+
+void InputMethodManagerPrivate::loadDynamicEntries(
+    const std::unordered_set<std::string> &addonNames) {
+    for (const auto &addonName : addonNames) {
+        const auto *addonInfo = addonManager_->addonInfo(addonName);
         // on request input method should always provides entry with config file
         if (!addonInfo || addonInfo->onDemand()) {
             continue;
         }
-        auto *engine = static_cast<InputMethodEngine *>(
-            d->addonManager_->addon(addonName));
+        auto *engine =
+            static_cast<InputMethodEngine *>(addonManager_->addon(addonName));
         if (!engine) {
             FCITX_WARN() << "Failed to load input method addon: " << addonName;
             continue;
@@ -194,14 +193,30 @@ void InputMethodManager::load(const std::function<void(InputMethodManager &)>
                      << "in addon " << addonName;
         for (auto &newEntry : newEntries) {
             // ok we can't let you register something werid.
-            if (checkEntry(newEntry, inputMethods) &&
+            if (checkEntry(newEntry, addonNames) &&
                 newEntry.addon() == addonName &&
-                d->entries_.count(newEntry.uniqueName()) == 0) {
-                d->entries_.emplace(std::string(newEntry.uniqueName()),
-                                    std::move(newEntry));
+                entries_.count(newEntry.uniqueName()) == 0) {
+                entries_.emplace(std::string(newEntry.uniqueName()),
+                                 std::move(newEntry));
             }
         }
     }
+}
+
+InputMethodManager::InputMethodManager(AddonManager *addonManager)
+    : d_ptr(std::make_unique<InputMethodManagerPrivate>(addonManager, this)) {}
+
+InputMethodManager::~InputMethodManager() {}
+
+void InputMethodManager::load(const std::function<void(InputMethodManager &)>
+                                  &buildDefaultGroupCallback) {
+    FCITX_D();
+    emit<InputMethodManager::CurrentGroupAboutToChange>(
+        d->groupOrder_.empty() ? "" : d->groupOrder_.front());
+
+    auto addonNames = d->addonManager_->addonNames(AddonCategory::InputMethod);
+    d->loadStaticEntries(addonNames);
+    d->loadDynamicEntries(addonNames);
 
     d->loadConfig(buildDefaultGroupCallback);
     // groupOrder guarantee to be non-empty at this point.
@@ -217,6 +232,12 @@ void InputMethodManager::reset(const std::function<void(InputMethodManager &)>
     d->buildDefaultGroup(buildDefaultGroupCallback);
     // groupOrder guarantee to be non-empty at this point.
     emit<InputMethodManager::CurrentGroupChanged>(d->groupOrder_.front());
+}
+
+void InputMethodManager::refresh() {
+    FCITX_D();
+    auto addonNames = d->addonManager_->addonNames(AddonCategory::InputMethod);
+    d->loadStaticEntries(addonNames);
 }
 
 std::vector<std::string> InputMethodManager::groups() const {

@@ -142,6 +142,10 @@ public:
     void reloadConfig();
     /// Reload certain addon config.
     void reloadAddonConfig(const std::string &addonName);
+    /// Load newly installed input methods and addons.
+    void refresh();
+
+    /// Return the current input method of last input context.
     std::string currentInputMethod();
     void setCurrentInputMethod(const std::string &imName);
     void setCurrentInputMethod(InputContext *ic, const std::string &imName,

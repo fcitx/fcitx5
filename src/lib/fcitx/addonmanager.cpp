@@ -252,6 +252,9 @@ void AddonManager::load(const std::unordered_set<std::string> &enabled,
         if (name == "core") {
             FCITX_ERROR() << "\"core\" is not a valid addon name.";
         }
+        if (d->addons_.count(name)) {
+            continue;
+        }
 
         const auto &files = file.second;
         RawConfig config;
@@ -261,6 +264,7 @@ void AddonManager::load(const std::unordered_set<std::string> &enabled,
             auto fd = iter->fd();
             readFromIni(config, fd);
         }
+
         // override configuration
         auto addon = std::make_unique<Addon>(name, config);
         if (addon->isValid()) {

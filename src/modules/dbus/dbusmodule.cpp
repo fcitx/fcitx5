@@ -560,6 +560,15 @@ public:
         return ss.str();
     }
 
+    void refresh() {
+        deferEvent_ =
+            instance_->eventLoop().addDeferEvent([this](EventSource *) {
+                instance_->refresh();
+                deferEvent_.reset();
+                return false;
+            });
+    }
+
 private:
     DBusModule *module_;
     Instance *instance_;
@@ -615,6 +624,7 @@ private:
     FCITX_OBJECT_VTABLE_METHOD(setAddonsState, "SetAddonsState", "a(sb)", "");
     FCITX_OBJECT_VTABLE_METHOD(openX11Connection, "OpenX11Connection", "s", "");
     FCITX_OBJECT_VTABLE_METHOD(debugInfo, "DebugInfo", "", "s");
+    FCITX_OBJECT_VTABLE_METHOD(refresh, "Refresh", "", "");
 };
 
 DBusModule::DBusModule(Instance *instance)

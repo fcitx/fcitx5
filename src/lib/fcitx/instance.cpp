@@ -1763,6 +1763,13 @@ void Instance::reloadAddonConfig(const std::string &addonName) {
     }
 }
 
+void Instance::refresh() {
+    FCITX_D();
+    auto [enabled, disabled] = d->overrideAddons();
+    d->addonManager_.load(enabled, disabled);
+    d->imManager_.refresh();
+}
+
 void Instance::reloadConfig() {
     FCITX_D();
     const auto &standardPath = StandardPath::global();
