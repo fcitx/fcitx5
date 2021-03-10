@@ -650,7 +650,7 @@ bool Bus::requestName(const std::string &name, Flags<RequestNameFlag> flags) {
              : 0) |
         ((flags & RequestNameFlag::Queue) ? 0 : DBUS_NAME_FLAG_DO_NOT_QUEUE);
     return dbus_bus_request_name(d->conn_.get(), name.c_str(), d_flags,
-                                 nullptr);
+                                 nullptr) >= 0;
 }
 
 bool Bus::releaseName(const std::string &name) {

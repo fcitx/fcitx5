@@ -36,7 +36,10 @@ FCITX_DEFINE_LOG_CATEGORY(ibus, "ibus")
 #define IBUS_INPUTMETHOD_DBUS_INTERFACE "org.freedesktop.IBus"
 #define IBUS_INPUTCONTEXT_DBUS_INTERFACE "org.freedesktop.IBus.InputContext"
 #define IBUS_SERVICE_DBUS_INTERFACE "org.freedesktop.IBus.Service"
-#define IBUS_PANEL_SERVICE_NAME "org.freedesktop.IBus.Panel"
+#define IBUS_PANEL_SERVICE "org.freedesktop.IBus.Panel"
+#define IBUS_SERVICE "org.freedesktop.IBus"
+#define IBUS_PORTAL_DBUS_SERVICE "org.freedesktop.portal.IBus"
+#define IBUS_PORTAL_DBUS_INTERFACE "org.freedesktop.IBus.Portal"
 
 namespace fcitx {
 
@@ -614,9 +617,6 @@ IBusFrontend::createInputContext(const std::string & /* unused */) {
     return ic->path();
 }
 
-#define IBUS_PORTAL_DBUS_SERVICE "org.freedesktop.portal.IBus"
-#define IBUS_PORTAL_DBUS_INTERFACE "org.freedesktop.IBus.Portal"
-
 std::set<std::string> allSocketPaths() {
     std::set<std::string> paths;
     if (isInFlatpak()) {
@@ -664,7 +664,37 @@ IBusFrontendModule::IBusFrontendModule(Instance *instance)
     dbus::VariantTypeRegistry::defaultRegistry().registerType<IBusText>();
     dbus::VariantTypeRegistry::defaultRegistry().registerType<IBusAttribute>();
     dbus::VariantTypeRegistry::defaultRegistry().registerType<IBusAttrList>();
-    replaceIBus();
+
+    // Do the resource initialization first.
+    inputMethod1_ = std::make_unique<IBusFrontend>(
+        this, bus(), IBUS_INPUTMETHOD_DBUS_INTERFACE);
+    portalBus_ = std::make_unique<dbus::Bus>(bus()->address());
+    portalIBusFrontend_ = std::make_unique<IBusFrontend>(
+        this, portalBus_.get(), IBUS_PORTAL_DBUS_INTERFACE);
+    portalBus_->attachEventLoop(&instance_->eventLoop());
+
+    FCITX_IBUS_DEBUG() << "Requesting IBus service name.";
+    if (!bus()->requestName(
+            IBUS_SERVICE,
+            Flags<dbus::RequestNameFlag>{dbus::RequestNameFlag::ReplaceExisting,
+                                         dbus::RequestNameFlag::Queue})) {
+        FCITX_IBUS_WARN() << "Failed to request IBus service name.";
+        return;
+    }
+
+    bus()->requestName(
+        IBUS_PANEL_SERVICE,
+        Flags<dbus::RequestNameFlag>{dbus::RequestNameFlag::ReplaceExisting,
+                                     dbus::RequestNameFlag::Queue});
+
+    if (!portalBus_->requestName(
+            IBUS_PORTAL_DBUS_SERVICE,
+            Flags<dbus::RequestNameFlag>{dbus::RequestNameFlag::ReplaceExisting,
+                                         dbus::RequestNameFlag::Queue})) {
+        FCITX_IBUS_WARN() << "Can not get portal ibus name right now.";
+    }
+
+    replaceIBus(/*recheck=*/true);
 }
 
 IBusFrontendModule::~IBusFrontendModule() {
@@ -693,7 +723,7 @@ dbus::Bus *IBusFrontendModule::bus() {
     return dbus()->call<IDBusModule::bus>();
 }
 
-void IBusFrontendModule::replaceIBus() {
+void IBusFrontendModule::replaceIBus(bool recheck) {
     FCITX_IBUS_DEBUG() << "Found ibus socket files: " << socketPaths_;
     std::pair<std::string, pid_t> address;
     for (const auto &path : socketPaths_) {
@@ -731,17 +761,18 @@ void IBusFrontendModule::replaceIBus() {
             dbus::Bus bus(oldAddress);
             if (bus.isOpen()) {
                 auto call = bus.createMethodCall(
-                    "org.freedesktop.IBus", "/org/freedesktop/IBus",
-                    "org.freedesktop.IBus", "Exit");
+                    IBUS_SERVICE, "/org/freedesktop/IBus",
+                    IBUS_INPUTMETHOD_DBUS_INTERFACE, "Exit");
                 call << false;
                 call.call(1000000);
                 // Wait 1 second to become ibus.
                 timeEvent_ = instance()->eventLoop().addTimeEvent(
                     CLOCK_MONOTONIC, now(CLOCK_MONOTONIC) + 1000000, 0,
-                    [this](EventSourceTime *, uint64_t) {
-                        becomeIBus();
+                    [this, recheck](EventSourceTime *, uint64_t) {
+                        becomeIBus(recheck);
                         return true;
                     });
+                return;
             }
         } else {
             // If ibus command is not available, then ibus is probably not
@@ -751,7 +782,7 @@ void IBusFrontendModule::replaceIBus() {
                 FCITX_IBUS_DEBUG() << "Running ibus exit.";
                 timeEvent_ = instance()->eventLoop().addTimeEvent(
                     CLOCK_MONOTONIC, now(CLOCK_MONOTONIC) + 1000000, 0,
-                    [this, pid, address](EventSourceTime *, uint64_t) {
+                    [this, pid, address, recheck](EventSourceTime *, uint64_t) {
                         int stat = -1;
                         pid_t ret;
                         while ((ret = waitpid(pid, &stat, WNOHANG)) <= 0) {
@@ -783,31 +814,19 @@ void IBusFrontendModule::replaceIBus() {
                                 }
                             }
                         }
-                        becomeIBus();
+                        becomeIBus(recheck);
                         return true;
                     });
+                return;
             }
         }
     }
 
-    if (!timeEvent_) {
-        becomeIBus();
-    }
+    becomeIBus(recheck);
 }
 
-void IBusFrontendModule::becomeIBus() {
+void IBusFrontendModule::becomeIBus(bool recheck) {
     // ibusBus_.reset();
-    FCITX_IBUS_DEBUG() << "Requesting IBus service name.";
-    if (!bus()->requestName(
-            "org.freedesktop.IBus",
-            Flags<dbus::RequestNameFlag>{dbus::RequestNameFlag::ReplaceExisting,
-                                         dbus::RequestNameFlag::Queue})) {
-        FCITX_IBUS_DEBUG() << "Failed to request IBus service name.";
-        return;
-    }
-
-    inputMethod1_ = std::make_unique<IBusFrontend>(
-        this, bus(), IBUS_INPUTMETHOD_DBUS_INTERFACE);
     RawConfig config;
     auto address = bus()->address();
     // This is a small hack to make ibus think that address is changed.
@@ -844,20 +863,51 @@ void IBusFrontendModule::becomeIBus() {
     addressWrote_ = address;
     pidWrote_ = pidToWrite;
 
-    bus()->requestName(
-        IBUS_PANEL_SERVICE_NAME,
-        Flags<dbus::RequestNameFlag>{dbus::RequestNameFlag::ReplaceExisting,
-                                     dbus::RequestNameFlag::Queue});
+    if (!recheck) {
+        return;
+    }
 
-    portalBus_ = std::make_unique<dbus::Bus>(bus()->address());
-    portalIBusFrontend_ = std::make_unique<IBusFrontend>(
-        this, portalBus_.get(), IBUS_PORTAL_DBUS_INTERFACE);
-    portalBus_->attachEventLoop(&instance()->eventLoop());
-    if (!portalBus_->requestName(
-            IBUS_PORTAL_DBUS_SERVICE,
-            Flags<dbus::RequestNameFlag>{dbus::RequestNameFlag::ReplaceExisting,
-                                         dbus::RequestNameFlag::Queue})) {
-        FCITX_IBUS_WARN() << "Can not get portal ibus name right now.";
+    auto timeEvent = instance()->eventLoop().addTimeEvent(
+        CLOCK_MONOTONIC, now(CLOCK_MONOTONIC) + 1500000, 0,
+        [this](EventSourceTime *, uint64_t) {
+            ensureIsIBus();
+            return true;
+        });
+
+    auto that = this;
+    that->timeEvent_ = std::move(timeEvent);
+}
+
+void IBusFrontendModule::ensureIsIBus() {
+    if (!isInFlatpak()) {
+        auto myname = bus()->uniqueName();
+        if (!myname.empty() &&
+            myname != bus()->serviceOwner(IBUS_SERVICE, 1000000)) {
+            auto msg = bus()->createMethodCall(
+                "org.freedesktop.DBus", "/org/freedesktop/DBus",
+                "org.freedesktop.DBus", "GetConnectionUnixProcessID");
+            msg << IBUS_SERVICE;
+            auto reply = msg.call(1000000);
+
+            uint32_t pid = 0;
+            if (reply.type() == dbus::MessageType::Reply) {
+                reply >> pid;
+            }
+            if (pid > 0 && static_cast<pid_t>(pid) != getpid()) {
+                if (kill(pid, SIGKILL) != 0) {
+                    return;
+                }
+            }
+        }
+    }
+
+    // Some one overwrite our address file.
+    for (const auto &path : socketPaths_) {
+        auto address = getAddress(path);
+        if (address.first != addressWrote_ || address.second != pidWrote_) {
+            replaceIBus(false);
+            return;
+        }
     }
 }
 
