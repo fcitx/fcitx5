@@ -723,10 +723,10 @@ dbus::Bus *IBusFrontendModule::bus() {
     return dbus()->call<IDBusModule::bus>();
 }
 
-void IBusFrontendModule::replaceIBus(bool recheck) {
-    FCITX_IBUS_DEBUG() << "Found ibus socket files: " << socketPaths_;
+std::pair<std::string, pid_t>
+readIBusInfo(const std::set<std::string> &socketPaths) {
     std::pair<std::string, pid_t> address;
-    for (const auto &path : socketPaths_) {
+    for (const auto &path : socketPaths) {
         address = getAddress(path);
 
         FCITX_IBUS_DEBUG() << "Found ibus address from file " << path << ": "
@@ -748,6 +748,17 @@ void IBusFrontendModule::replaceIBus(bool recheck) {
             break;
         }
     }
+    return address;
+}
+
+void IBusFrontendModule::replaceIBus(bool recheck) {
+    if (retry_ <= 0) {
+        return;
+    }
+    // Ensure we don't dead loop here.
+    retry_ -= 1;
+    FCITX_IBUS_DEBUG() << "Found ibus socket files: " << socketPaths_;
+    std::pair<std::string, pid_t> address = readIBusInfo(socketPaths_);
     const auto &oldAddress = address.first;
     FCITX_IBUS_DEBUG() << "Old ibus address is: " << oldAddress;
     if (!oldAddress.empty()) {
@@ -802,6 +813,15 @@ void IBusFrontendModule::replaceIBus(bool recheck) {
 
                         FCITX_IBUS_DEBUG() << "ibus exit returns with " << stat;
                         if (stat != 0) {
+                            // Re-read to ensure we have the latest information.
+                            auto newAddress = readIBusInfo(socketPaths_);
+                            if (address != newAddress) {
+                                // We should try ibus exit again.
+                                // This is not recursive because it's in time
+                                // event callback.
+                                replaceIBus(recheck);
+                                return true;
+                            }
                             auto cmd = readFileContent(stringutils::joinPath(
                                 "/proc", address.second, "cmdline"));
                             if (cmd.find("ibus-daemon") != std::string::npos) {

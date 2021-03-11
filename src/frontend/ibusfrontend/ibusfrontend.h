@@ -46,6 +46,7 @@ private:
     std::set<std::string> socketPaths_;
     std::string addressWrote_;
     pid_t pidWrote_;
+    int retry_ = 5;
 };
 } // namespace fcitx
 
