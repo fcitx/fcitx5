@@ -227,6 +227,14 @@ void NotificationItem::enable() {
         eventHandlers_.emplace_back(instance_->watchEvent(
             type, EventWatcherPhase::Default, updateIcon));
     }
+    eventHandlers_.emplace_back(instance_->watchEvent(
+        EventType::InputContextUpdateUI, EventWatcherPhase::Default,
+        [this](Event &event) {
+            if (static_cast<InputContextUpdateUIEvent &>(event).component() ==
+                UserInterfaceComponent::StatusArea) {
+                newIcon();
+            }
+        }));
 }
 
 void NotificationItem::disable() {

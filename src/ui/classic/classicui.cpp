@@ -248,6 +248,9 @@ void ClassicUI::update(UserInterfaceComponent component,
 
     if (ui) {
         ui->update(component, inputContext);
+        if (component == UserInterfaceComponent::StatusArea) {
+            ui->updateCurrentInputMethod(inputContext);
+        }
     }
 }
 
