@@ -877,7 +877,8 @@ Instance::Instance(int argc, char **argv) {
             if (keyEvent.isRelease()) {
                 int idx = 0;
                 if (origKey.isModifier() &&
-                    Key::keySymToStates(origKey.sym()) == origKey.states()) {
+                    (Key::keySymToStates(origKey.sym()) == origKey.states() ||
+                     origKey.states() == 0)) {
                     inputState->totallyReleased_ = true;
                 }
                 for (auto &keyHandler : keyHandlers) {
