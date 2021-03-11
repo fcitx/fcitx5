@@ -46,7 +46,28 @@ public:
                                          const RawConfig &config) {
         setConfig(config);
     }
+    /**
+     * Return the icon name for the sub mode.
+     *
+     * Prefer subclass this method from InputMethodEngineV2 over overrideIcon.
+     *
+     * @param  entry input method entry
+     * @param  ic input context
+     * @return std::string
+     *
+     * @see overrideIcon
+     */
+    std::string subModeIcon(const InputMethodEntry &entry, InputContext &ic);
 };
+
+class FCITXCORE_EXPORT InputMethodEngineV2 : public InputMethodEngine {
+public:
+    virtual std::string subModeIconImpl(const InputMethodEntry &,
+                                        InputContext &) {
+        return {};
+    }
+};
+
 } // namespace fcitx
 
 #endif // _FCITX_INPUTMETHODENGINE_H_

@@ -6,6 +6,7 @@
  */
 
 #include "kimpanel.h"
+#include <fcitx/inputmethodengine.h>
 #include "fcitx-utils/dbus/objectvtable.h"
 #include "fcitx-utils/dbus/servicewatcher.h"
 #include "fcitx-utils/i18n.h"
@@ -355,16 +356,11 @@ void Kimpanel::updateInputPanel(InputContext *inputContext) {
 }
 
 std::string Kimpanel::inputMethodStatus(InputContext *ic) {
-    std::string icon = "input-keyboard";
     std::string label;
     std::string description = _("Not available");
+    std::string icon = "input-keyboard";
     if (ic) {
-        const auto *entry = instance_->inputMethodEntry(ic);
-        if (entry) {
-            icon = entry->icon();
-            label = entry->label();
-            description = entry->name();
-        }
+        icon = instance_->inputMethodIcon(ic);
     }
 
     static const bool preferSymbolic = !isKDE();

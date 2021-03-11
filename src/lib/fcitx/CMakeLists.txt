@@ -24,6 +24,7 @@ set(FCITX_CORE_SOURCES
     inputpanel.cpp
     candidatelist.cpp
     icontheme.cpp
+    inputmethodengine.cpp
     )
 
 set(FCITX_CORE_HEADERS

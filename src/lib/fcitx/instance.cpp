@@ -1574,6 +1574,21 @@ InputMethodEngine *Instance::inputMethodEngine(const std::string &name) {
         d->addonManager_.addon(entry->addon(), true));
 }
 
+std::string Instance::inputMethodIcon(InputContext *ic) {
+    std::string icon = "input-keyboard";
+
+    const auto *entry = inputMethodEntry(ic);
+    auto *engine = inputMethodEngine(ic);
+
+    if (engine) {
+        icon = engine->subModeIcon(*entry, *ic);
+    }
+    if (icon.empty()) {
+        icon = entry->icon();
+    }
+    return icon;
+}
+
 uint32_t Instance::processCompose(InputContext *ic, KeySym keysym) {
 #ifdef ENABLE_KEYBOARD
     FCITX_D();

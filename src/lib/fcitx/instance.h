@@ -73,6 +73,18 @@ public:
     const InputMethodEntry *inputMethodEntry(InputContext *ic);
     InputMethodEngine *inputMethodEngine(InputContext *ic);
     InputMethodEngine *inputMethodEngine(const std::string &name);
+    /**
+     * Return the input method icon for input context.
+     *
+     * It will fallback to input-keyboard by default if no input method is
+     * available.
+     *
+     * @param ic input context
+     * @return icon name.
+     *
+     * @see InputMethodEngine::subModeIcon
+     */
+    std::string inputMethodIcon(InputContext *ic);
 
     /**
      * Handle current XCompose state.

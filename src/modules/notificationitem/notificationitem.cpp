@@ -15,6 +15,7 @@
 #include "fcitx-utils/i18n.h"
 #include "fcitx/addonfactory.h"
 #include "fcitx/addonmanager.h"
+#include "fcitx/inputmethodengine.h"
 #include "fcitx/inputmethodentry.h"
 #include "dbusmenu.h"
 
@@ -71,9 +72,7 @@ public:
             icon = "input-keyboard";
         }
         if (auto *ic = parent_->instance()->lastFocusedInputContext()) {
-            if (const auto *entry = parent_->instance()->inputMethodEntry(ic)) {
-                icon = entry->icon();
-            }
+            icon = parent_->instance()->inputMethodIcon(ic);
         }
         if (icon == "input-keyboard" && preferSymbolic) {
             return "input-keyboard-symbolic";

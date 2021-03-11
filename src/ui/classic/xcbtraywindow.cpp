@@ -344,10 +344,10 @@ void XCBTrayWindow::paint(cairo_t *c) {
     std::string label;
     const InputMethodEntry *entry = nullptr;
     if (ic) {
+        icon = instance->inputMethodIcon(ic);
         entry = instance->inputMethodEntry(ic);
     }
     if (entry) {
-        icon = entry->icon();
         label = entry->label();
     }
 
