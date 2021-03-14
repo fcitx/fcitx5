@@ -2213,8 +2213,12 @@ void Instance::deactivateInputMethod(InputContextEvent &event) {
             static_cast<InputContextSwitchInputMethodEvent &>(event);
         FCITX_DEBUG() << "Switch reason: "
                       << static_cast<int>(icEvent.reason());
-        FCITX_DEBUG() << "Old Input method: " << icEvent.oldInputMethod();
-        entry = d->imManager_.entry(icEvent.oldInputMethod());
+        if (icEvent.oldInputMethod().empty()) {
+            entry = inputMethodEntry(ic);
+        } else {
+            FCITX_DEBUG() << "Old Input method: " << icEvent.oldInputMethod();
+            entry = d->imManager_.entry(icEvent.oldInputMethod());
+        }
     } else {
         entry = inputMethodEntry(ic);
     }
