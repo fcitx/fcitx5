@@ -2164,6 +2164,7 @@ FocusGroup *Instance::defaultFocusGroup(const std::string &displayHint) {
 
 void Instance::activateInputMethod(InputContextEvent &event) {
     FCITX_D();
+    FCITX_DEBUG() << "Instance::activateInputMethod";
     InputContext *ic = event.inputContext();
     auto *inputState = ic->propertyFor(&d->inputStateFactory_);
     const auto *entry = inputMethodEntry(ic);
@@ -2201,6 +2202,7 @@ void Instance::activateInputMethod(InputContextEvent &event) {
 
 void Instance::deactivateInputMethod(InputContextEvent &event) {
     FCITX_D();
+    FCITX_DEBUG() << "Instance::deactivateInputMethod";
     InputContext *ic = event.inputContext();
     auto *inputState = ic->propertyFor(&d->inputStateFactory_);
     const InputMethodEntry *entry = nullptr;
@@ -2209,6 +2211,7 @@ void Instance::deactivateInputMethod(InputContextEvent &event) {
     if (event.type() == EventType::InputContextSwitchInputMethod) {
         auto &icEvent =
             static_cast<InputContextSwitchInputMethodEvent &>(event);
+        FCITX_DEBUG() << "Old Input method: " << icEvent.oldInputMethod();
         entry = d->imManager_.entry(icEvent.oldInputMethod());
     } else {
         entry = inputMethodEntry(ic);
