@@ -10,6 +10,7 @@
 #include <memory>
 #include <ostream>
 #include <string>
+#include <vector>
 #include <fcitx-utils/flags.h>
 #include <fcitx-utils/macros.h>
 #include <fcitx-utils/textformatflags.h>
@@ -44,6 +45,14 @@ public:
     size_t textLength() const;
     std::string toString() const;
     std::string toStringForCommit() const;
+
+    /**
+     * Split Text object into lines.
+     *
+     * @return lines.
+     * @since 5.0.6
+     */
+    std::vector<Text> splitByLine() const;
 
 private:
     std::unique_ptr<TextPrivate> d_ptr;

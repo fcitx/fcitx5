@@ -105,5 +105,9 @@ int main() {
                                     stringutils::SplitBehavior::KeepEmpty) ==
                  (std::vector<std::string>{"dvorak"}));
 
+    FCITX_ASSERT(
+        stringutils::split("", ",", stringutils::SplitBehavior::KeepEmpty) ==
+        (std::vector<std::string>{""}));
+
     return 0;
 }
