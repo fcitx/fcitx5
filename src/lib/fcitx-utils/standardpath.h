@@ -258,6 +258,14 @@ public:
     StandardPathFile openUser(Type type, const std::string &path,
                               int flags) const;
 
+    /**
+     * \brief Open the non-user file.
+     *
+     * \since 5.0.6
+     */
+    StandardPathFile openSystem(Type type, const std::string &path,
+                                int flags) const;
+
     /// \brief Open user file, but create file with mktemp.
     StandardPathTempFile openUserTemp(Type type,
                                       const std::string &pathOrig) const;

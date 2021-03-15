@@ -472,6 +472,35 @@ StandardPathFile StandardPath::openUser(Type type, const std::string &path,
     return {};
 }
 
+StandardPathFile StandardPath::openSystem(Type type, const std::string &path,
+                                          int flags) const {
+    int retFD = -1;
+    std::string fdPath;
+    if (isAbsolutePath(path)) {
+        int fd = ::open(path.c_str(), flags);
+        if (fd >= 0) {
+            retFD = fd;
+            fdPath = path;
+        }
+    } else {
+        scanDirectories(type, [flags, &retFD, &fdPath,
+                               &path](const std::string &dirPath, bool user) {
+            if (user) {
+                return true;
+            }
+            auto fullPath = constructPath(dirPath, path);
+            int fd = ::open(fullPath.c_str(), flags);
+            if (fd < 0) {
+                return true;
+            }
+            retFD = fd;
+            fdPath = fullPath;
+            return false;
+        });
+    }
+    return {retFD, fdPath};
+}
+
 std::vector<StandardPathFile> StandardPath::openAll(StandardPath::Type type,
                                                     const std::string &path,
                                                     int flags) const {
