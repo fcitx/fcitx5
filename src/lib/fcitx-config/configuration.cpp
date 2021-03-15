@@ -27,9 +27,19 @@ Configuration::Configuration()
 Configuration::~Configuration() {}
 
 void Configuration::dumpDescription(RawConfig &config) const {
+    return dumpDescriptionImpl(config, {});
+}
+
+void Configuration::dumpDescriptionImpl(
+    RawConfig &config, const std::vector<std::string> &parentPaths) const {
     FCITX_D();
-    std::shared_ptr<RawConfig> subRoot = config.get(typeName(), true);
-    std::vector<std::unique_ptr<Configuration>> subConfigs;
+    auto fullpaths = parentPaths;
+    fullpaths.push_back(typeName());
+    auto pathString = stringutils::join(fullpaths, '$');
+    std::shared_ptr<RawConfig> subRoot = config.get(pathString, true);
+    std::vector<
+        std::tuple<std::vector<std::string>, std::unique_ptr<Configuration>>>
+        subConfigs;
     for (const auto &path : d->optionsOrder_) {
         auto optionIter = d->options_.find(path);
         assert(optionIter != d->options_.end());
@@ -40,14 +50,30 @@ void Configuration::dumpDescription(RawConfig &config) const {
         auto descConfigPtr = subRoot->get(option->path(), true);
         option->dumpDescription(*descConfigPtr);
 
-        auto subConfig = (option->subConfigSkeleton());
+        auto subConfig = option->subConfigSkeleton();
         if (subConfig) {
-            subConfigs.emplace_back(std::move(subConfig));
+            auto subConfigPath = parentPaths;
+            subConfigPath.push_back(option->path());
+            std::string subTypeName = subConfig->typeName();
+            auto oldTypeName = descConfigPtr->valueByPath("Type");
+            // Replace the "Type" with the full name we want.
+            // Path$To$Value$TypeName
+            if (oldTypeName &&
+                stringutils::endsWith(*oldTypeName, subTypeName)) {
+                auto newTypeName = oldTypeName->substr(
+                    0, oldTypeName->size() - subTypeName.size());
+                newTypeName.append(stringutils::join(subConfigPath, '$'));
+                newTypeName.append("$");
+                newTypeName.append(subTypeName);
+                descConfigPtr->setValueByPath("Type", newTypeName);
+            }
+            subConfigs.emplace_back(subConfigPath, std::move(subConfig));
         }
     }
 
-    for (const auto &subConfigPtr : subConfigs) {
-        subConfigPtr->dumpDescription(config);
+    // Make sure sub type use an unique name, named after the path to the value.
+    for (const auto &[subConfigPath, subConfigPtr] : subConfigs) {
+        subConfigPtr->dumpDescriptionImpl(config, subConfigPath);
     }
 }
 

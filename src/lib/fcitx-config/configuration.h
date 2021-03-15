@@ -73,6 +73,8 @@ protected:
     void copyHelper(const Configuration &other);
 
 private:
+    void dumpDescriptionImpl(RawConfig &config,
+                             const std::vector<std::string> &parentPaths) const;
     void addOption(fcitx::OptionBase *option);
 
     FCITX_DECLARE_PRIVATE(Configuration);
