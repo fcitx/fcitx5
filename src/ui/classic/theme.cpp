@@ -8,13 +8,14 @@
 #include "theme.h"
 #include <fcntl.h>
 #include <cassert>
-#include <fcitx-utils/rect.h>
 #include <fmt/format.h>
 #include <gdk-pixbuf/gdk-pixbuf.h>
 #include <gio/gunixinputstream.h>
 #include <pango/pangocairo.h>
+#include "fcitx-config/iniparser.h"
 #include "fcitx-utils/fs.h"
 #include "fcitx-utils/log.h"
+#include "fcitx-utils/rect.h"
 #include "fcitx-utils/standardpath.h"
 #include "fcitx/misc_p.h"
 #include "common.h"
@@ -576,11 +577,43 @@ void Theme::paint(cairo_t *c, const ActionImageConfig &cfg, double alpha) {
     cairo_restore(c);
 }
 
-void Theme::load(const std::string &name, const RawConfig &rawConfig) {
+void Theme::reset() {
     imageTable_.clear();
     trayImageTable_.clear();
     backgroundImageTable_.clear();
     actionImageTable_.clear();
+}
+
+void Theme::load(const std::string &name) {
+    reset();
+    if (auto themeConfigFile = StandardPath::global().openSystem(
+            StandardPath::Type::PkgData,
+            stringutils::joinPath("themes", name, "theme.conf"), O_RDONLY);
+        themeConfigFile.isValid()) {
+        RawConfig themeConfig;
+        readFromIni(themeConfig, themeConfigFile.fd());
+        FCITX_INFO() << themeConfig;
+        Configuration::load(themeConfig, true);
+    } else {
+        // No sys file, reset default value.
+        ThemeConfig config;
+        copyHelper(config);
+    }
+    syncDefaultValueToCurrent();
+    if (auto themeConfigFile = StandardPath::global().openUser(
+            StandardPath::Type::PkgData,
+            stringutils::joinPath("themes", name, "theme.conf"), O_RDONLY);
+        themeConfigFile.isValid()) {
+        // Has user file, load user file data.
+        RawConfig themeConfig;
+        readFromIni(themeConfig, themeConfigFile.fd());
+        Configuration::load(themeConfig, true);
+    }
+    name_ = name;
+}
+
+void Theme::load(const std::string &name, const RawConfig &rawConfig) {
+    reset();
     Configuration::load(rawConfig, true);
     name_ = name;
 }

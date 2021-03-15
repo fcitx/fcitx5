@@ -221,6 +221,7 @@ public:
     Theme();
     ~Theme();
 
+    void load(const std::string &name);
     void load(const std::string &name, const RawConfig &rawConfig);
     const ThemeImage &loadImage(const std::string &icon,
                                 const std::string &label, uint32_t size,
@@ -236,6 +237,8 @@ public:
     bool setIconTheme(const std::string &name);
 
 private:
+    void reset();
+
     std::unordered_map<const BackgroundImageConfig *, ThemeImage>
         backgroundImageTable_;
     std::unordered_map<const ActionImageConfig *, ThemeImage> actionImageTable_;

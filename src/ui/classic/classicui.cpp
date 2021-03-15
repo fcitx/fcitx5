@@ -75,15 +75,7 @@ void ClassicUI::reloadConfig() {
     reloadTheme();
 }
 
-void ClassicUI::reloadTheme() {
-    auto themeConfigFile = StandardPath::global().open(
-        StandardPath::Type::PkgData,
-        stringutils::joinPath("themes", *config_.theme, "theme.conf"),
-        O_RDONLY);
-    RawConfig themeConfig;
-    readFromIni(themeConfig, themeConfigFile.fd());
-    theme_.load(*config_.theme, themeConfig);
-}
+void ClassicUI::reloadTheme() { theme_.load(*config_.theme); }
 
 void ClassicUI::suspend() {
     suspended_ = true;
@@ -277,12 +269,7 @@ fcitx::classicui::ClassicUI::getSubConfig(const std::string &path) const {
         return &theme_;
     }
 
-    auto themeConfigFile = StandardPath::global().open(
-        StandardPath::Type::PkgData,
-        stringutils::joinPath("themes", name, "theme.conf"), O_RDONLY);
-    RawConfig themeConfig;
-    readFromIni(themeConfig, themeConfigFile.fd());
-    subconfigTheme_.load(name, themeConfig);
+    subconfigTheme_.load(name);
     return &subconfigTheme_;
 }
 
@@ -298,7 +285,7 @@ void fcitx::classicui::ClassicUI::setSubConfig(const std::string &path,
 
     auto &theme = name == *config_.theme ? theme_ : subconfigTheme_;
     if (&theme == &subconfigTheme_) {
-        // Fill the old value, this help with Name field..
+        // Fill the system value.
         getSubConfig(path);
     }
     theme.load(name, config);
