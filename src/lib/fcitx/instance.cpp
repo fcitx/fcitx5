@@ -740,7 +740,8 @@ Instance::Instance(int argc, char **argv) {
                 d->icManager_.foreachFocused([this](InputContext *ic) {
                     assert(ic->hasFocus());
                     InputContextSwitchInputMethodEvent event(
-                        InputMethodSwitchedReason::GroupChange, "", ic);
+                        InputMethodSwitchedReason::GroupChange, inputMethod(ic),
+                        ic);
                     deactivateInputMethod(event);
                     return true;
                 });
@@ -789,7 +790,8 @@ Instance::Instance(int argc, char **argv) {
                 return;
             }
             InputContextSwitchInputMethodEvent switchIM(
-                InputMethodSwitchedReason::CapabilityChanged, "",
+                InputMethodSwitchedReason::CapabilityChanged,
+                inputMethod(capChanged.inputContext()),
                 capChanged.inputContext());
             deactivateInputMethod(switchIM);
         }));
@@ -2202,7 +2204,8 @@ void Instance::activateInputMethod(InputContextEvent &event) {
 
 void Instance::deactivateInputMethod(InputContextEvent &event) {
     FCITX_D();
-    FCITX_DEBUG() << "Instance::deactivateInputMethod";
+    FCITX_DEBUG() << "Instance::deactivateInputMethod event_type="
+                  << static_cast<uint32_t>(event.type());
     InputContext *ic = event.inputContext();
     auto *inputState = ic->propertyFor(&d->inputStateFactory_);
     const InputMethodEntry *entry = nullptr;
@@ -2213,12 +2216,8 @@ void Instance::deactivateInputMethod(InputContextEvent &event) {
             static_cast<InputContextSwitchInputMethodEvent &>(event);
         FCITX_DEBUG() << "Switch reason: "
                       << static_cast<int>(icEvent.reason());
-        if (icEvent.oldInputMethod().empty()) {
-            entry = inputMethodEntry(ic);
-        } else {
-            FCITX_DEBUG() << "Old Input method: " << icEvent.oldInputMethod();
-            entry = d->imManager_.entry(icEvent.oldInputMethod());
-        }
+        FCITX_DEBUG() << "Old Input method: " << icEvent.oldInputMethod();
+        entry = d->imManager_.entry(icEvent.oldInputMethod());
     } else {
         entry = inputMethodEntry(ic);
     }
