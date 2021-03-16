@@ -58,12 +58,29 @@ public:
      * @see overrideIcon
      */
     std::string subModeIcon(const InputMethodEntry &entry, InputContext &ic);
+
+    /**
+     * Return the label for the sub mode.
+     *
+     * Prefer subclass this method from InputMethodEngineV2 over overrideIcon.
+     *
+     * @param  entry input method entry
+     * @param  ic input context
+     * @return std::string
+     *
+     * @see overrideIcon
+     */
+    std::string subModeLabel(const InputMethodEntry &entry, InputContext &ic);
 };
 
 class FCITXCORE_EXPORT InputMethodEngineV2 : public InputMethodEngine {
 public:
     virtual std::string subModeIconImpl(const InputMethodEntry &,
                                         InputContext &) {
+        return {};
+    }
+    virtual std::string subModeLabelImpl(const InputMethodEntry &,
+                                         InputContext &) {
         return {};
     }
 };

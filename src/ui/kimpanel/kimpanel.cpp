@@ -35,6 +35,15 @@ bool isKDE() {
     return desktop == "KDE";
 }
 
+bool isGNOME() {
+    std::string desktop;
+    auto *desktopEnv = getenv("XDG_CURRENT_DESKTOP");
+    if (desktopEnv) {
+        desktop = desktopEnv;
+    }
+    return desktop == "GNOME";
+}
+
 enum class CursorRectMethod {
     SetSpotRect,
     SetRelativeSpotRect,
@@ -113,8 +122,7 @@ private:
 };
 
 Kimpanel::Kimpanel(Instance *instance)
-    : instance_(instance),
-      bus_(instance_->addonManager().addon("dbus")->call<IDBusModule::bus>()),
+    : instance_(instance), bus_(dbus()->call<IDBusModule::bus>()),
       watcher_(*bus_) {
     entry_ = watcher_.watchService(
         "org.kde.impanel", [this](const std::string &, const std::string &,
@@ -365,11 +373,27 @@ std::string Kimpanel::inputMethodStatus(InputContext *ic) {
     std::string icon = "input-keyboard";
     if (ic) {
         icon = instance_->inputMethodIcon(ic);
+        if (auto entry = instance_->inputMethodEntry(ic)) {
+            label = entry->label();
+            if (auto engine = instance_->inputMethodEngine(ic)) {
+                auto subModeLabel = engine->subModeLabel(*entry, *ic);
+                if (!subModeLabel.empty()) {
+                    label = subModeLabel;
+                }
+            }
+            description = entry->name();
+        }
     }
 
     static const bool preferSymbolic = !isKDE();
     if (preferSymbolic && icon == "input-keyboard") {
         icon = "input-keyboard-symbolic";
+    }
+    static const bool isGNOMEDE = isGNOME();
+    const bool preferLabel =
+        isGNOMEDE && dbus()->call<IDBusModule::hasXkbHelper>();
+    if (preferLabel && !label.empty()) {
+        icon = "";
     }
 
     return stringutils::concat(

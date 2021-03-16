@@ -12,5 +12,6 @@
 
 FCITX_ADDON_DECLARE_FUNCTION(DBusModule, bus, fcitx::dbus::Bus *());
 FCITX_ADDON_DECLARE_FUNCTION(DBusModule, lockGroup, bool(int group));
+FCITX_ADDON_DECLARE_FUNCTION(DBusModule, hasXkbHelper, bool());
 
 #endif // _FCITX_MODULES_DBUS_DBUS_PUBLIC_H_

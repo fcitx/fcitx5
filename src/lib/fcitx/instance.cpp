@@ -365,11 +365,15 @@ public:
         std::string display;
         if (engine) {
             auto subMode = engine->subMode(*entry, *ic);
+            auto subModeLabel = engine->subModeLabel(*entry, *ic);
             auto name = globalConfig_.compactInputMethodInformation() &&
                                 !entry->label().empty()
                             ? entry->label()
                             : entry->name();
-            if (subMode.empty()) {
+            if (globalConfig_.compactInputMethodInformation() &&
+                !subModeLabel.empty()) {
+                display = subModeLabel;
+            } else if (subMode.empty()) {
                 display = name;
             } else {
                 display = fmt::format(_("{0} ({1})"), name, subMode);

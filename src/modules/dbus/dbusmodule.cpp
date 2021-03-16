@@ -716,6 +716,8 @@ bool DBusModule::lockGroup(int group) {
     return msg.send();
 }
 
+bool DBusModule::hasXkbHelper() const { return !xkbHelperName_.empty(); }
+
 class DBusModuleFactory : public AddonFactory {
     AddonInstance *create(AddonManager *manager) override {
         return new DBusModule(manager->instance());

@@ -52,6 +52,8 @@ private:
         return IconTheme::iconName(icon, inFlatpak_);
     }
 
+    FCITX_ADDON_DEPENDENCY_LOADER(dbus, instance_->addonManager());
+
     Instance *instance_;
     dbus::Bus *bus_;
     dbus::ServiceWatcher watcher_;

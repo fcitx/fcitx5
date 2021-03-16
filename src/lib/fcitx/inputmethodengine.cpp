@@ -14,3 +14,12 @@ fcitx::InputMethodEngine::subModeIcon(const fcitx::InputMethodEntry &entry,
     }
     return overrideIcon(entry);
 }
+
+std::string
+fcitx::InputMethodEngine::subModeLabel(const fcitx::InputMethodEntry &entry,
+                                       fcitx::InputContext &ic) {
+    if (auto *this2 = dynamic_cast<InputMethodEngineV2 *>(this)) {
+        return this2->subModeLabelImpl(entry, ic);
+    }
+    return {};
+}

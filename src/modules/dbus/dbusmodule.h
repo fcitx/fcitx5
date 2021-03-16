@@ -24,12 +24,14 @@ public:
 
     dbus::Bus *bus();
     bool lockGroup(int group);
+    bool hasXkbHelper() const;
     FCITX_ADDON_DEPENDENCY_LOADER(keyboard, instance_->addonManager());
     FCITX_ADDON_DEPENDENCY_LOADER(xcb, instance_->addonManager());
 
 private:
     FCITX_ADDON_EXPORT_FUNCTION(DBusModule, bus);
     FCITX_ADDON_EXPORT_FUNCTION(DBusModule, lockGroup);
+    FCITX_ADDON_EXPORT_FUNCTION(DBusModule, hasXkbHelper);
 
     std::unique_ptr<dbus::Bus> connectToSessionBus();
 
