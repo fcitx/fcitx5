@@ -592,7 +592,6 @@ void Theme::load(const std::string &name) {
         themeConfigFile.isValid()) {
         RawConfig themeConfig;
         readFromIni(themeConfig, themeConfigFile.fd());
-        FCITX_INFO() << themeConfig;
         Configuration::load(themeConfig, true);
     } else {
         // No sys file, reset default value.

@@ -21,6 +21,34 @@ class ClassicUI;
 
 using PangoAttrListUniquePtr = UniqueCPtr<PangoAttrList, pango_attr_list_unref>;
 
+class MultilineLayout {
+public:
+    MultilineLayout() = default;
+    FCITX_INLINE_DEFINE_DEFAULT_DTOR_AND_MOVE(MultilineLayout);
+
+    void contextChanged() {
+        for (const auto &layout : lines_) {
+            pango_layout_context_changed(layout.get());
+        }
+    }
+    int characterCount() const {
+        int count = 0;
+        for (const auto &layout : lines_) {
+            count += pango_layout_get_character_count(layout.get());
+        }
+        return count;
+    }
+
+    int width() const;
+
+    int size() { return lines_.size(); }
+    void render(cairo_t *cr, int x, int y, int lineHeight, bool highlight);
+
+    std::vector<GObjectUniquePtr<PangoLayout>> lines_;
+    std::vector<PangoAttrListUniquePtr> attrLists_;
+    std::vector<PangoAttrListUniquePtr> highlightAttrLists_;
+};
+
 class InputWindow {
 public:
     InputWindow(ClassicUI *parent);
@@ -44,18 +72,16 @@ protected:
         PangoAttrListUniquePtr *attrList,
         PangoAttrListUniquePtr *highlightAttrList,
         std::initializer_list<std::reference_wrapper<const Text>> texts);
+    void setTextToMultilineLayout(InputContext *inputContext,
+                                  MultilineLayout &layout, const Text &text);
     int highlight() const;
 
     ClassicUI *parent_;
     GObjectUniquePtr<PangoContext> context_;
     GObjectUniquePtr<PangoLayout> upperLayout_;
     GObjectUniquePtr<PangoLayout> lowerLayout_;
-    std::vector<GObjectUniquePtr<PangoLayout>> labelLayouts_;
-    std::vector<GObjectUniquePtr<PangoLayout>> candidateLayouts_;
-    std::vector<PangoAttrListUniquePtr> labelAttrLists_;
-    std::vector<PangoAttrListUniquePtr> candidateAttrLists_;
-    std::vector<PangoAttrListUniquePtr> highlightLabelAttrLists_;
-    std::vector<PangoAttrListUniquePtr> highlightCandidateAttrLists_;
+    std::vector<MultilineLayout> labelLayouts_;
+    std::vector<MultilineLayout> candidateLayouts_;
     std::vector<Rect> candidateRegions_;
     TrackableObjectReference<InputContext> inputContext_;
     bool visible_ = false;
