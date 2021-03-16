@@ -145,7 +145,9 @@ void Kimpanel::registerAllProperties(InputContext *ic) {
             props.push_back(actionToStatus(action, ic));
         }
     }
-    props.push_back(inputMethodStatus(ic));
+
+    const auto imStatus = inputMethodStatus(ic);
+    props.push_back(imStatus);
 
     if (ic) {
         for (auto group :
@@ -157,6 +159,8 @@ void Kimpanel::registerAllProperties(InputContext *ic) {
     }
 
     proxy_->registerProperties(props);
+    proxy_->updateProperty(imStatus);
+    proxy_->enable(true);
 
     bus_->flush();
 }
