@@ -35,15 +35,6 @@ bool isKDE() {
     return desktop == "KDE";
 }
 
-bool isGNOME() {
-    std::string desktop;
-    auto *desktopEnv = getenv("XDG_CURRENT_DESKTOP");
-    if (desktopEnv) {
-        desktop = desktopEnv;
-    }
-    return desktop == "GNOME";
-}
-
 enum class CursorRectMethod {
     SetSpotRect,
     SetRelativeSpotRect,
@@ -370,6 +361,7 @@ void Kimpanel::updateInputPanel(InputContext *inputContext) {
 std::string Kimpanel::inputMethodStatus(InputContext *ic) {
     std::string label;
     std::string description = _("Not available");
+    std::string altDescription = "";
     std::string icon = "input-keyboard";
     if (ic) {
         icon = instance_->inputMethodIcon(ic);
@@ -380,6 +372,7 @@ std::string Kimpanel::inputMethodStatus(InputContext *ic) {
                 if (!subModeLabel.empty()) {
                     label = subModeLabel;
                 }
+                altDescription = engine->subMode(*entry, *ic);
             }
             description = entry->name();
         }
@@ -389,16 +382,9 @@ std::string Kimpanel::inputMethodStatus(InputContext *ic) {
     if (preferSymbolic && icon == "input-keyboard") {
         icon = "input-keyboard-symbolic";
     }
-    static const bool isGNOMEDE = isGNOME();
-    const bool preferLabel =
-        isGNOMEDE && dbus()->call<IDBusModule::hasXkbHelper>();
-    if (preferLabel && !label.empty()) {
-        icon = "";
-    }
 
-    return stringutils::concat(
-        "/Fcitx/im:", label.empty() ? description : label, ":", iconName(icon),
-        ":", label.empty() ? "" : description, ":menu");
+    return stringutils::concat("/Fcitx/im:", description, ":", iconName(icon),
+                               ":", altDescription, ":menu,label=", label);
 }
 
 void Kimpanel::updateCurrentInputMethod(InputContext *ic) {
