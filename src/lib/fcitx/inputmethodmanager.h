@@ -131,6 +131,14 @@ public:
         const std::function<bool(const InputMethodEntry &entry)> &callback);
 
     /**
+     * Check if there is new entries could be loaded.
+     *
+     * @return whether need to perform update.
+     * @see InputMethodManager::refresh
+     */
+    bool checkUpdate() const;
+
+    /**
      * Emit the signal when current group is about to change.
      *
      * @see InputMethodManager::setCurrentGroup

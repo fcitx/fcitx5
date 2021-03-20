@@ -314,6 +314,8 @@ public:
                                   filter::Chainer<Args...>(args...));
     }
 
+    int64_t timestamp(Type type, const std::string &path) const;
+
 private:
     std::unique_ptr<StandardPathPrivate> d_ptr;
     FCITX_DECLARE_PRIVATE(StandardPath);

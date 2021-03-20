@@ -18,6 +18,7 @@
 #include <vector>
 #include "config.h"
 #include "fs.h"
+#include "mtime_p.h"
 #include "stringutils.h"
 
 namespace fcitx {
@@ -45,6 +46,14 @@ bool checkBoolEnvVar(const char *name) {
     }
     return value;
 }
+
+int64_t getTimestamp(const std::string &path) {
+    struct stat stats;
+    if (stat(path.c_str(), &stats) != 0) {
+        return 0;
+    }
+    return modifiedTime(stats).sec;
+};
 
 } // namespace
 
@@ -611,4 +620,20 @@ StandardPathFilesMap StandardPath::multiOpenAllFilter(
 
     return result;
 }
+
+int64_t StandardPath::timestamp(Type type, const std::string &path) const {
+    if (isAbsolutePath(path)) {
+        return getTimestamp(path);
+    }
+
+    int64_t timestamp = 0;
+    scanDirectories(type,
+                    [&timestamp, &path](const std::string &dirPath, bool) {
+                        auto fullPath = constructPath(dirPath, path);
+                        timestamp = std::max(timestamp, getTimestamp(fullPath));
+                        return true;
+                    });
+    return timestamp;
+}
+
 } // namespace fcitx

@@ -51,6 +51,7 @@ public:
     std::unordered_map<std::string, InputMethodEntry> entries_;
     Instance *instance_ = nullptr;
     std::unique_ptr<HandlerTableEntry<EventHandler>> eventWatcher_;
+    int64_t timestamp_ = 0;
 };
 
 bool checkEntry(const InputMethodEntry &entry,
@@ -146,6 +147,7 @@ void InputMethodManagerPrivate::buildDefaultGroup(
 void InputMethodManagerPrivate::loadStaticEntries(
     const std::unordered_set<std::string> &addonNames) {
     const auto &path = StandardPath::global();
+    timestamp_ = path.timestamp(StandardPath::Type::PkgData, "inputmethod");
     auto filesMap =
         path.multiOpenAll(StandardPath::Type::PkgData, "inputmethod", O_RDONLY,
                           filter::Suffix(".conf"));
@@ -416,6 +418,13 @@ void InputMethodManager::setGroupOrder(const std::vector<std::string> &groups) {
         throw std::runtime_error("Called not within building group");
     }
     d->setGroupOrder(groups);
+}
+
+bool InputMethodManager::checkUpdate() const {
+    FCITX_D();
+    auto timestamp = StandardPath::global().timestamp(
+        StandardPath::Type::PkgData, "inputmethod");
+    return timestamp > d->timestamp_;
 }
 
 } // namespace fcitx

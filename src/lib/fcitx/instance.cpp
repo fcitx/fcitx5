@@ -2266,6 +2266,11 @@ void Instance::showInputMethodInformation(InputContext *ic) {
     d->showInputMethodInformation(ic);
 }
 
+bool Instance::checkUpdate() const {
+    FCITX_D();
+    return d->addonManager_.checkUpdate() || d->imManager_.checkUpdate();
+}
+
 void Instance::setXkbParameters(const std::string &display,
                                 const std::string &rule,
                                 const std::string &model,

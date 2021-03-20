@@ -173,6 +173,14 @@ public:
                             uint32_t latched_mods, uint32_t locked_mods);
     void showInputMethodInformation(InputContext *ic);
 
+    /**
+     * Check if need to invoke Instance::refresh.
+     *
+     * @return need update
+     * @see Instance::refresh
+     */
+    bool checkUpdate() const;
+
     static const char *version();
 
 private:

@@ -203,6 +203,7 @@ public:
 
     Instance *instance_ = nullptr;
     EventLoop *eventLoop_ = nullptr;
+    int64_t timestamp_ = 0;
     const SemanticVersion version_ =
         SemanticVersion::parse(FCITX_VERSION_STRING).value();
 };
@@ -241,6 +242,8 @@ void AddonManager::load(const std::unordered_set<std::string> &enabled,
                         const std::unordered_set<std::string> &disabled) {
     FCITX_D();
     const auto &path = StandardPath::global();
+    d->timestamp_ =
+        path.timestamp(StandardPath::Type::PkgData, d->addonConfigDir_);
     auto fileMap =
         path.multiOpenAll(StandardPath::Type::PkgData, d->addonConfigDir_,
                           O_RDONLY, filter::Suffix(".conf"));
@@ -371,6 +374,13 @@ EventLoop *AddonManager::eventLoop() {
 const SemanticVersion &AddonManager::version() const {
     FCITX_D();
     return d->version_;
+}
+
+bool AddonManager::checkUpdate() const {
+    FCITX_D();
+    auto timestamp = StandardPath::global().timestamp(
+        StandardPath::Type::PkgData, d->addonConfigDir_);
+    return timestamp > d->timestamp_;
 }
 
 } // namespace fcitx

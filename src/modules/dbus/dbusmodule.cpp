@@ -569,6 +569,8 @@ public:
             });
     }
 
+    bool checkUpdate() { return instance_->checkUpdate(); }
+
 private:
     DBusModule *module_;
     Instance *instance_;
@@ -625,6 +627,7 @@ private:
     FCITX_OBJECT_VTABLE_METHOD(openX11Connection, "OpenX11Connection", "s", "");
     FCITX_OBJECT_VTABLE_METHOD(debugInfo, "DebugInfo", "", "s");
     FCITX_OBJECT_VTABLE_METHOD(refresh, "Refresh", "", "");
+    FCITX_OBJECT_VTABLE_METHOD(checkUpdate, "CheckUpdate", "", "b");
 };
 
 DBusModule::DBusModule(Instance *instance)
