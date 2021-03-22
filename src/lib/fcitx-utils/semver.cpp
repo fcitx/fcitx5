@@ -212,7 +212,7 @@ std::optional<SemanticVersion> SemanticVersion::parse(std::string_view data) {
             return std::nullopt;
         }
     }
-    
+
     if (data.empty()) {
         return version;
     }
