@@ -1490,7 +1490,7 @@ bool Instance::postEvent(Event &event) {
                 // Re-forward the event to ensure we got delivered later than
                 // commit.
                 keyEvent.filterAndAccept();
-                ic->forwardKey(keyEvent.rawKey(), keyEvent.isRelease(),
+                ic->forwardKey(keyEvent.origKey(), keyEvent.isRelease(),
                                keyEvent.time());
             }
         }
