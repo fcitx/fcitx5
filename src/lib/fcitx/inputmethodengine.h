@@ -33,7 +33,8 @@ public:
     // reset will only be called if ic is focused
     virtual void reset(const InputMethodEntry &, InputContextEvent &) {}
     virtual void filterKey(const InputMethodEntry &, KeyEvent &) {}
-    virtual void updateSurroundingText(const InputMethodEntry &) {}
+    FCITXCORE_DEPRECATED virtual void
+    updateSurroundingText(const InputMethodEntry &) {}
     virtual std::string subMode(const InputMethodEntry &, InputContext &) {
         return {};
     }
