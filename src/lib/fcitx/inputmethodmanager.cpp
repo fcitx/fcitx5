@@ -240,6 +240,7 @@ void InputMethodManager::refresh() {
     FCITX_D();
     auto addonNames = d->addonManager_->addonNames(AddonCategory::InputMethod);
     d->loadStaticEntries(addonNames);
+    d->loadDynamicEntries(addonNames);
 }
 
 std::vector<std::string> InputMethodManager::groups() const {
