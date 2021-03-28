@@ -127,6 +127,7 @@ public:
                          void(InputContext *inputContext, Text &orig));
     FCITX_DECLARE_SIGNAL(Instance, KeyEventResult,
                          void(const KeyEvent &keyEvent));
+    FCITX_DECLARE_SIGNAL(Instance, CheckUpdate, bool());
 
     /// Return a focused input context.
     InputContext *lastFocusedInputContext();

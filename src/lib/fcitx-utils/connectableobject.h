@@ -34,12 +34,27 @@
 #define FCITX_DEFINE_SIGNAL_PRIVATE(CLASS_NAME, NAME)                          \
     ::fcitx::SignalAdaptor<CLASS_NAME::NAME> CLASS_NAME##NAME##Adaptor { q_ptr }
 
+/// \brief Declare a signal in pimpl class.
+#define FCITX_DEFINE_SIGNAL_WITH_COMBINER(CLASS_NAME, NAME, COMBINER)          \
+    ::fcitx::SignalAdaptor<CLASS_NAME::NAME, COMBINER>                         \
+        CLASS_NAME##NAME##Adaptor {                                            \
+        this                                                                   \
+    }
+
+/// \brief Declare a signal in pimpl class.
+#define FCITX_DEFINE_SIGNAL_PRIVATE_WITH_COMBINER(CLASS_NAME, NAME, COMBINER)  \
+    ::fcitx::SignalAdaptor<CLASS_NAME::NAME, COMBINER>                         \
+        CLASS_NAME##NAME##Adaptor {                                            \
+        q_ptr                                                                  \
+    }
+
 namespace fcitx {
 
 class ConnectableObject;
 
 /// \brief Helper class to register class.
-template <typename T>
+template <typename T, typename Combiner = LastValue<typename std::function<
+                          typename T::signalType>::result_type>>
 class SignalAdaptor {
 public:
     SignalAdaptor(ConnectableObject *d);
@@ -53,7 +68,7 @@ class ConnectableObjectPrivate;
 
 /// \brief Base class for all object supports connection.
 class FCITXUTILS_EXPORT ConnectableObject {
-    template <typename T>
+    template <typename T, typename Combiner>
     friend class SignalAdaptor;
 
 public:
@@ -101,11 +116,14 @@ protected:
             signal))(std::forward<Args>(args)...);
     }
 
-    template <typename SignalType>
+    template <typename SignalType,
+              typename Combiner = LastValue<typename std::function<
+                  typename SignalType::signalType>::result_type>>
     void registerSignal() {
         _registerSignal(
             SignalType::signature::data(),
-            std::make_unique<Signal<typename SignalType::signalType>>());
+            std::make_unique<
+                Signal<typename SignalType::signalType, Combiner>>());
     }
 
     template <typename SignalType>
@@ -124,13 +142,13 @@ private:
     FCITX_DECLARE_PRIVATE(ConnectableObject);
 };
 
-template <typename T>
-SignalAdaptor<T>::SignalAdaptor(ConnectableObject *d) : self(d) {
-    self->registerSignal<T>();
+template <typename T, typename Combiner>
+SignalAdaptor<T, Combiner>::SignalAdaptor(ConnectableObject *d) : self(d) {
+    self->registerSignal<T, Combiner>();
 }
 
-template <typename T>
-SignalAdaptor<T>::~SignalAdaptor() {
+template <typename T, typename Combiner>
+SignalAdaptor<T, Combiner>::~SignalAdaptor() {
     self->unregisterSignal<T>();
 }
 
