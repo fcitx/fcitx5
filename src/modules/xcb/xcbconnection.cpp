@@ -54,6 +54,23 @@ XCBConnection::XCBConnection(XCBModule *xcb, const std::string &name)
             setDoGrab(imManager.groupCount() > 1);
         }));
 
+    connections_.emplace_back(
+        parent_->instance()
+            ->inputMethodManager()
+            .connect<InputMethodManager::GroupAdded>(
+                [this](const std::string &) {
+                    auto &imManager = parent_->instance()->inputMethodManager();
+                    setDoGrab(imManager.groupCount() > 1);
+                }));
+    connections_.emplace_back(
+        parent_->instance()
+            ->inputMethodManager()
+            .connect<InputMethodManager::GroupRemoved>(
+                [this](const std::string &) {
+                    auto &imManager = parent_->instance()->inputMethodManager();
+                    setDoGrab(imManager.groupCount() > 1);
+                }));
+
     // create a focus group for display server
     group_ =
         new FocusGroup("x11:" + name_, xcb->instance()->inputContextManager());

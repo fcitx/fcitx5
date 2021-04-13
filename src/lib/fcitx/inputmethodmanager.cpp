@@ -43,6 +43,8 @@ public:
 
     FCITX_DEFINE_SIGNAL_PRIVATE(InputMethodManager, CurrentGroupAboutToChange);
     FCITX_DEFINE_SIGNAL_PRIVATE(InputMethodManager, CurrentGroupChanged);
+    FCITX_DEFINE_SIGNAL_PRIVATE(InputMethodManager, GroupAdded);
+    FCITX_DEFINE_SIGNAL_PRIVATE(InputMethodManager, GroupRemoved);
 
     AddonManager *addonManager_;
     std::list<std::string> groupOrder_;
@@ -114,7 +116,6 @@ void InputMethodManagerPrivate::loadConfig(
     if (groups_.empty()) {
         FCITX_INFO() << "No valid input method group in configuration. "
                      << "Building a default one";
-        groups_.clear();
         buildDefaultGroup(buildDefaultGroupCallback);
     } else {
         if (!imConfig.groupOrder.value().empty()) {
@@ -128,6 +129,7 @@ void InputMethodManagerPrivate::loadConfig(
 void InputMethodManagerPrivate::buildDefaultGroup(
     const std::function<void(InputMethodManager &)>
         &buildDefaultGroupCallback) {
+    groups_.clear();
     if (buildDefaultGroupCallback) {
         buildingGroup_ = true;
         buildDefaultGroupCallback(*q_func());
@@ -142,6 +144,8 @@ void InputMethodManagerPrivate::buildDefaultGroup(
         group.setDefaultLayout("us");
         setGroupOrder({name});
     }
+    assert(!groups_.empty());
+    assert(!groupOrder_.empty());
 }
 
 void InputMethodManagerPrivate::loadStaticEntries(
@@ -230,7 +234,6 @@ void InputMethodManager::reset(const std::function<void(InputMethodManager &)>
     FCITX_D();
     emit<InputMethodManager::CurrentGroupAboutToChange>(
         d->groupOrder_.empty() ? "" : d->groupOrder_.front());
-    d->groups_.clear();
     d->buildDefaultGroup(buildDefaultGroupCallback);
     // groupOrder guarantee to be non-empty at this point.
     emit<InputMethodManager::CurrentGroupChanged>(d->groupOrder_.front());
@@ -288,27 +291,27 @@ InputMethodManager::group(const std::string &name) const {
 void InputMethodManager::setGroup(InputMethodGroup newGroupInfo) {
     FCITX_D();
     auto *group = findValue(d->groups_, newGroupInfo.name());
-    if (group) {
-        bool isCurrent = false;
-        if (!d->buildingGroup_) {
-            isCurrent = (group == &currentGroup());
-            if (isCurrent) {
-                emit<InputMethodManager::CurrentGroupAboutToChange>(
-                    d->groupOrder_.front());
-            }
-        }
-        auto &list = newGroupInfo.inputMethodList();
-        auto iter = std::remove_if(list.begin(), list.end(),
-                                   [d](const InputMethodGroupItem &item) {
-                                       return !d->entries_.count(item.name());
-                                   });
-        list.erase(iter, list.end());
-        newGroupInfo.setDefaultInputMethod(newGroupInfo.defaultInputMethod());
-        *group = std::move(newGroupInfo);
-        if (!d->buildingGroup_ && isCurrent) {
-            emit<InputMethodManager::CurrentGroupChanged>(
+    if (!group) {
+        return;
+    }
+    bool isCurrent = false;
+    if (!d->buildingGroup_) {
+        isCurrent = (group == &currentGroup());
+        if (isCurrent) {
+            emit<InputMethodManager::CurrentGroupAboutToChange>(
                 d->groupOrder_.front());
         }
+    }
+    auto &list = newGroupInfo.inputMethodList();
+    auto iter = std::remove_if(list.begin(), list.end(),
+                               [d](const InputMethodGroupItem &item) {
+                                   return !d->entries_.count(item.name());
+                               });
+    list.erase(iter, list.end());
+    newGroupInfo.setDefaultInputMethod(newGroupInfo.defaultInputMethod());
+    *group = std::move(newGroupInfo);
+    if (!d->buildingGroup_ && isCurrent) {
+        emit<InputMethodManager::CurrentGroupChanged>(d->groupOrder_.front());
     }
 }
 
@@ -344,6 +347,9 @@ void InputMethodManager::addEmptyGroup(const std::string &name) {
     }
     d->groups_.emplace(name, std::move(newGroup));
     d->groupOrder_.push_back(name);
+    if (!d->buildingGroup_) {
+        emit<InputMethodManager::GroupAdded>(name);
+    }
 }
 
 void InputMethodManager::removeGroup(const std::string &name) {
@@ -364,6 +370,9 @@ void InputMethodManager::removeGroup(const std::string &name) {
         if (isCurrent) {
             emit<InputMethodManager::CurrentGroupChanged>(
                 d->groupOrder_.front());
+        }
+        if (!d->buildingGroup_) {
+            emit<InputMethodManager::GroupRemoved>(name);
         }
     }
 }

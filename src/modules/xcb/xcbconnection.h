@@ -93,6 +93,7 @@ private:
     HandlerTable<XCBConvertSelectionRequest> convertSelections_;
     std::vector<std::unique_ptr<HandlerTableEntry<EventHandler>>>
         eventHandlers_;
+    std::vector<ScopedConnection> connections_;
 
     HandlerTable<XCBEventFilter> filters_;
     // need to be clean up before filters_ destructs;

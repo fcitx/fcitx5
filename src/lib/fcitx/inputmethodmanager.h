@@ -41,7 +41,7 @@ class InputMethodEntry;
  */
 class FCITXCORE_EXPORT InputMethodManager : public ConnectableObject {
 public:
-    InputMethodManager(AddonManager *addonManager_);
+    InputMethodManager(AddonManager *addonManager);
     virtual ~InputMethodManager();
 
     /**
@@ -150,6 +150,28 @@ public:
     FCITX_DECLARE_SIGNAL(InputMethodManager, CurrentGroupAboutToChange,
                          void(const std::string &group));
     FCITX_DECLARE_SIGNAL(InputMethodManager, CurrentGroupChanged,
+                         void(const std::string &group));
+
+    /**
+     * Emit the signal when a new group is added.
+     *
+     * This will not be emitted when building the group.
+     *
+     * @see InputMethodManager::addEmptyGroup
+     * @since 5.0.8
+     */
+    FCITX_DECLARE_SIGNAL(InputMethodManager, GroupAdded,
+                         void(const std::string &group));
+
+    /**
+     * Emit the signal when a group is removed.
+     *
+     * This will not be emitted when building the group.
+     *
+     * @see InputMethodManager::removeGroup
+     * @since 5.0.8
+     */
+    FCITX_DECLARE_SIGNAL(InputMethodManager, GroupRemoved,
                          void(const std::string &group));
 
 private:
