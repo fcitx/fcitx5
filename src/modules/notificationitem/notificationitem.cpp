@@ -194,7 +194,10 @@ void NotificationItem::setSerivceName(const std::string &newName) {
     sniWatcherName_ = newName;
     // It's a new service anyway, set unregistered.
     setRegistered(false);
-    registerSNI();
+    if (enabled_) {
+        disable();
+        enable();
+    }
 }
 
 void NotificationItem::setRegistered(bool registered) {
