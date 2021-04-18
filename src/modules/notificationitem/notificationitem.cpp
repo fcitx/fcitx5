@@ -24,6 +24,7 @@
 #define NOTIFICATION_WATCHER_DBUS_ADDR "org.kde.StatusNotifierWatcher"
 #define NOTIFICATION_WATCHER_DBUS_OBJ "/StatusNotifierWatcher"
 #define NOTIFICATION_WATCHER_DBUS_IFACE "org.kde.StatusNotifierWatcher"
+#define DBUS_MENU_IFACE "com.canonical.dbusmenu"
 
 namespace fcitx {
 
@@ -168,8 +169,8 @@ private:
 };
 
 NotificationItem::NotificationItem(Instance *instance)
-    : instance_(instance), bus_(bus()),
-      watcher_(std::make_unique<dbus::ServiceWatcher>(*bus_)),
+    : instance_(instance),
+      watcher_(std::make_unique<dbus::ServiceWatcher>(*globalBus())),
       sni_(std::make_unique<StatusNotifierItem>(this)),
       menu_(std::make_unique<DBusMenu>(this)) {
     reloadConfig();
@@ -181,7 +182,9 @@ NotificationItem::NotificationItem(Instance *instance)
 
 NotificationItem::~NotificationItem() = default;
 
-dbus::Bus *NotificationItem::bus() { return dbus()->call<IDBusModule::bus>(); }
+dbus::Bus *NotificationItem::globalBus() {
+    return dbus()->call<IDBusModule::bus>();
+}
 
 void NotificationItem::reloadConfig() {
     readAsIni(config_, "conf/notificationitem.conf");
@@ -208,7 +211,7 @@ void NotificationItem::registerSNI() {
     if (!enabled_ || sniWatcherName_.empty()) {
         return;
     }
-    auto call = bus_->createMethodCall(
+    auto call = privateBus_->createMethodCall(
         sniWatcherName_.c_str(), NOTIFICATION_WATCHER_DBUS_OBJ,
         NOTIFICATION_WATCHER_DBUS_IFACE, "RegisterStatusNotifierItem");
     call << serviceName_;
@@ -231,12 +234,17 @@ void NotificationItem::enable() {
     }
     // Ensure we are released.
     sni_->releaseSlot();
-    bus_->addObjectVTable(NOTIFICATION_ITEM_DEFAULT_OBJ,
-                          NOTIFICATION_ITEM_DBUS_IFACE, *sni_);
+    menu_->releaseSlot();
+    privateBus_ = std::make_unique<dbus::Bus>(globalBus()->address());
+    privateBus_->attachEventLoop(&instance_->eventLoop());
+    privateBus_->addObjectVTable(NOTIFICATION_ITEM_DEFAULT_OBJ,
+                                 NOTIFICATION_ITEM_DBUS_IFACE, *sni_);
+    privateBus_->addObjectVTable("/MenuBar", DBUS_MENU_IFACE, *menu_);
 
     serviceName_ = fmt::format("org.fcitx.Fcitx5.StatusNotifierItem-{0}-{1}",
                                getpid(), ++index_);
-    if (!bus_->requestName(serviceName_, Flags<dbus::RequestNameFlag>(0))) {
+    if (!privateBus_->requestName(serviceName_,
+                                  Flags<dbus::RequestNameFlag>(0))) {
         return;
     }
     enabled_ = true;
@@ -264,8 +272,10 @@ void NotificationItem::disable() {
         return;
     }
 
-    bus_->releaseName(serviceName_);
+    privateBus_->releaseName(serviceName_);
     sni_->releaseSlot();
+    menu_->releaseSlot();
+    privateBus_.reset();
 
     enabled_ = false;
     eventHandlers_.clear();

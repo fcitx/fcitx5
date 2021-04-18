@@ -25,8 +25,6 @@ namespace fcitx {
 //
 //
 
-#define DBUS_MENU_IFACE "com.canonical.dbusmenu"
-
 enum BuiltInIndex {
     BII_InputMethodGroup = 1,
     BII_InputMethod,
@@ -45,9 +43,7 @@ enum BuiltInIndex {
 
 constexpr static int builtInIds = BII_Last;
 
-DBusMenu::DBusMenu(NotificationItem *item) : parent_(item) {
-    item->bus()->addObjectVTable("/MenuBar", DBUS_MENU_IFACE, *this);
-}
+DBusMenu::DBusMenu(NotificationItem *item) : parent_(item) {}
 
 DBusMenu::~DBusMenu() = default;
 

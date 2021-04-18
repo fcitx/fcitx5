@@ -34,7 +34,7 @@ public:
     NotificationItem(Instance *instance);
     ~NotificationItem();
 
-    dbus::Bus *bus();
+    dbus::Bus *globalBus();
     Instance *instance() { return instance_; }
     const auto &config() { return config_; }
 
@@ -64,8 +64,8 @@ private:
     FCITX_ADDON_EXPORT_FUNCTION(NotificationItem, registered);
     StatusNotifierItemConfig config_;
     Instance *instance_;
-    dbus::Bus *bus_;
     std::unique_ptr<dbus::ServiceWatcher> watcher_;
+    std::unique_ptr<dbus::Bus> privateBus_;
     std::unique_ptr<StatusNotifierItem> sni_;
     std::unique_ptr<DBusMenu> menu_;
     std::unique_ptr<dbus::ServiceWatcherEntry> watcherEntry_;
