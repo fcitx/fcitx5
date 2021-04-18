@@ -37,6 +37,8 @@ FCITX_CONFIGURATION(
 
 class ClipboardState;
 class Clipboard final : public AddonInstance {
+    static constexpr char configFile[] = "conf/clipboard.conf";
+
 public:
     Clipboard(Instance *instance);
     ~Clipboard();
@@ -47,12 +49,12 @@ public:
     void updateUI(InputContext *inputContext);
     auto &factory() { return factory_; }
 
-    void reloadConfig() override;
+    void reloadConfig() override { readAsIni(config_, configFile); }
 
     const Configuration *getConfig() const override { return &config_; }
     void setConfig(const RawConfig &config) override {
         config_.load(config, true);
-        safeSaveAsIni(config_, "conf/clipboard.conf");
+        safeSaveAsIni(config_, configFile);
     }
 
     std::string primary(const InputContext *ic);

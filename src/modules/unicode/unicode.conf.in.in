@@ -6,6 +6,7 @@ Library=unicode
 Category=Module
 Version=@PROJECT_VERSION@
 OnDemand=False
+Configurable=True
 
 [Addon/OptionalDependencies]
 0=clipboard

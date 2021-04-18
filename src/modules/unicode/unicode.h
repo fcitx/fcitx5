@@ -10,6 +10,8 @@
 #include <map>
 #include "fcitx-config/configuration.h"
 #include "fcitx-config/enum.h"
+#include "fcitx-config/iniparser.h"
+#include "fcitx-utils/i18n.h"
 #include "fcitx-utils/key.h"
 #include "fcitx-utils/standardpath.h"
 #include "fcitx/addonfactory.h"
@@ -22,8 +24,17 @@
 
 namespace fcitx {
 
+FCITX_CONFIGURATION(UnicodeConfig,
+                    KeyListOption triggerKey{this,
+                                             "TriggerKey",
+                                             _("Trigger Key"),
+                                             {Key("Control+Alt+Shift+U")},
+                                             KeyListConstrain()};);
+
 class UnicodeState;
 class Unicode : public AddonInstance {
+    static constexpr char configFile[] = "conf/clipboard.conf";
+
 public:
     Unicode(Instance *instance);
     ~Unicode();
@@ -36,11 +47,19 @@ public:
 
     const CharSelectData &data() const { return data_; }
 
+    void reloadConfig() override { readAsIni(config_, configFile); }
+
+    const Configuration *getConfig() const override { return &config_; }
+    void setConfig(const RawConfig &config) override {
+        config_.load(config, true);
+        safeSaveAsIni(config_, configFile);
+    }
+
     FCITX_ADDON_DEPENDENCY_LOADER(clipboard, instance_->addonManager());
 
 private:
     Instance *instance_;
-    Key toggleKey_;
+    UnicodeConfig config_;
     CharSelectData data_;
     std::vector<std::unique_ptr<fcitx::HandlerTableEntry<fcitx::EventHandler>>>
         eventHandlers_;

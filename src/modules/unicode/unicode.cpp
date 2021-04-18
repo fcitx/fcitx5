@@ -55,7 +55,7 @@ public:
 };
 
 Unicode::Unicode(Instance *instance)
-    : instance_(instance), toggleKey_(Key("Control+Alt+Shift+U")),
+    : instance_(instance),
       factory_([this](InputContext &) { return new UnicodeState(this); }) {
     instance_->inputContextManager().registerProperty("unicodeState",
                                                       &factory_);
@@ -77,7 +77,8 @@ Unicode::Unicode(Instance *instance)
             if (keyEvent.isRelease()) {
                 return;
             }
-            if (keyEvent.key().check(toggleKey_) && data_.load()) {
+            if (keyEvent.key().checkKeyList(*config_.triggerKey) &&
+                data_.load()) {
                 trigger(keyEvent.inputContext());
                 keyEvent.filterAndAccept();
                 return;
