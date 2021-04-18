@@ -77,6 +77,7 @@ private:
     std::string serviceName_;
     bool enabled_ = false;
     bool registered_ = false;
+    std::unique_ptr<EventSourceTime> scheduleRegister_;
     HandlerTable<NotificationItemCallback> handlers_;
 };
 

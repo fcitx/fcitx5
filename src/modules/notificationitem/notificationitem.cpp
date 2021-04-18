@@ -26,6 +26,9 @@
 #define NOTIFICATION_WATCHER_DBUS_IFACE "org.kde.StatusNotifierWatcher"
 #define DBUS_MENU_IFACE "com.canonical.dbusmenu"
 
+FCITX_DEFINE_LOG_CATEGORY(notificationitem, "notificationitem");
+#define SNI_DEBUG() FCITX_LOGC(::notificationitem, Debug)
+
 namespace fcitx {
 
 namespace {
@@ -191,9 +194,12 @@ void NotificationItem::reloadConfig() {
 }
 
 void NotificationItem::setSerivceName(const std::string &newName) {
+    SNI_DEBUG() << "Old SNI Name: " << sniWatcherName_
+                << " New Name: " << newName;
     sniWatcherName_ = newName;
     // It's a new service anyway, set unregistered.
     setRegistered(false);
+    SNI_DEBUG() << "Current SNI enabled: " << enabled_;
     if (enabled_) {
         disable();
         enable();
@@ -214,10 +220,19 @@ void NotificationItem::registerSNI() {
     if (!enabled_ || sniWatcherName_.empty()) {
         return;
     }
+    // Ensure we are released.
+    sni_->releaseSlot();
+    menu_->releaseSlot();
+    privateBus_->addObjectVTable(NOTIFICATION_ITEM_DEFAULT_OBJ,
+                                 NOTIFICATION_ITEM_DBUS_IFACE, *sni_);
+    privateBus_->addObjectVTable("/MenuBar", DBUS_MENU_IFACE, *menu_);
+    SNI_DEBUG() << "Current DBus Unique Name" << privateBus_->uniqueName();
     auto call = privateBus_->createMethodCall(
         sniWatcherName_.c_str(), NOTIFICATION_WATCHER_DBUS_OBJ,
         NOTIFICATION_WATCHER_DBUS_IFACE, "RegisterStatusNotifierItem");
     call << serviceName_;
+
+    SNI_DEBUG() << "Register SNI with name: " << serviceName_;
     pendingRegisterCall_ = call.callAsync(0, [this](dbus::Message &msg) {
         FCITX_DEBUG() << "SNI Register result: " << msg.signature();
         if (msg.signature() == "s") {
@@ -235,15 +250,12 @@ void NotificationItem::enable() {
     if (enabled_) {
         return;
     }
+    SNI_DEBUG() << "Enable SNI";
     // Ensure we are released.
     sni_->releaseSlot();
     menu_->releaseSlot();
     privateBus_ = std::make_unique<dbus::Bus>(globalBus()->address());
     privateBus_->attachEventLoop(&instance_->eventLoop());
-    privateBus_->addObjectVTable(NOTIFICATION_ITEM_DEFAULT_OBJ,
-                                 NOTIFICATION_ITEM_DBUS_IFACE, *sni_);
-    privateBus_->addObjectVTable("/MenuBar", DBUS_MENU_IFACE, *menu_);
-
     serviceName_ = fmt::format("org.fcitx.Fcitx5.StatusNotifierItem-{0}-{1}",
                                getpid(), ++index_);
     if (!privateBus_->requestName(serviceName_,
@@ -251,7 +263,14 @@ void NotificationItem::enable() {
         return;
     }
     enabled_ = true;
-    registerSNI();
+
+    // Try to avoid Race between close dbus and register.
+    scheduleRegister_ = instance_->eventLoop().addTimeEvent(
+        CLOCK_MONOTONIC, now(CLOCK_MONOTONIC) + 300000, 0,
+        [this](EventSourceTime *, uint64_t) {
+            registerSNI();
+            return true;
+        });
 
     auto updateIcon = [this](Event &) { newIcon(); };
     for (auto type : {EventType::InputContextFocusIn,
@@ -275,6 +294,7 @@ void NotificationItem::disable() {
         return;
     }
 
+    SNI_DEBUG() << "Disable SNI";
     privateBus_->releaseName(serviceName_);
     sni_->releaseSlot();
     menu_->releaseSlot();
