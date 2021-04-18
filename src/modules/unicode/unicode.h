@@ -33,7 +33,7 @@ FCITX_CONFIGURATION(UnicodeConfig,
 
 class UnicodeState;
 class Unicode : public AddonInstance {
-    static constexpr char configFile[] = "conf/clipboard.conf";
+    static constexpr char configFile[] = "conf/unicode.conf";
 
 public:
     Unicode(Instance *instance);
