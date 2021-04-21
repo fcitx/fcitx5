@@ -33,7 +33,7 @@ public:
 protected:
     XCBUI *ui_;
     xcb_window_t wid_ = 0;
-    xcb_colormap_t colorMap_ = 0;
+    xcb_colormap_t colorMapNeedFree_ = 0;
     xcb_visualid_t vid_ = 0;
     std::unique_ptr<HandlerTableEntry<XCBEventFilter>> eventFilter_;
     UniqueCPtr<cairo_surface_t, cairo_surface_destroy> surface_;

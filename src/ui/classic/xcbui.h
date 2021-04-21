@@ -73,6 +73,7 @@ private:
     xcb_ewmh_connection_t *ewmh_;
     int defaultScreen_;
     xcb_colormap_t colorMap_;
+    bool needFreeColorMap_ = false;
     std::unique_ptr<XCBInputWindow> inputWindow_;
     std::unique_ptr<XCBTrayWindow> trayWindow_;
     bool enableTray_ = false;

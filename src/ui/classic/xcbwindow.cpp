@@ -27,14 +27,22 @@ void XCBWindow::createWindow(xcb_visualid_t vid, bool overrideRedirect) {
     }
     xcb_screen_t *screen = xcb_aux_get_screen(conn, ui_->defaultScreen());
 
+    xcb_colormap_t colorMap;
+    CLASSICUI_DEBUG() << "Create window with vid: " << vid;
     if (vid == ui_->visualId()) {
-        colorMap_ = ui_->colorMap();
+        colorMap = ui_->colorMap();
+        colorMapNeedFree_ = 0;
+        CLASSICUI_DEBUG() << "Use shared color map: " << colorMap;
     } else if (vid) {
-        colorMap_ = xcb_generate_id(conn);
-        xcb_create_colormap(conn, XCB_COLORMAP_ALLOC_NONE, colorMap_,
+        colorMapNeedFree_ = xcb_generate_id(conn);
+        xcb_create_colormap(conn, XCB_COLORMAP_ALLOC_NONE, colorMapNeedFree_,
                             screen->root, vid);
+        colorMap = colorMapNeedFree_;
+        CLASSICUI_DEBUG() << "Use new color map: " << colorMapNeedFree_;
     } else {
-        colorMap_ = XCB_COPY_FROM_PARENT;
+        colorMapNeedFree_ = 0;
+        colorMap = XCB_COPY_FROM_PARENT;
+        CLASSICUI_DEBUG() << "Use color map copy from parent";
     }
 
     wid_ = xcb_generate_id(conn);
@@ -58,14 +66,16 @@ void XCBWindow::createWindow(xcb_visualid_t vid, bool overrideRedirect) {
     params.backing_store = XCB_BACKING_STORE_WHEN_MAPPED;
     params.override_redirect = overrideRedirect ? 1 : 0;
     params.save_under = 1;
-    params.colormap = colorMap_;
+    params.colormap = colorMap;
     vid_ = vid;
 
     auto cookie = xcb_aux_create_window_checked(
         conn, depth, wid_, screen->root, 0, 0, width_, height_, 0,
         XCB_WINDOW_CLASS_INPUT_OUTPUT, vid, valueMask, &params);
     if (auto error = makeUniqueCPtr(xcb_request_check(conn, cookie))) {
-        CLASSICUI_DEBUG() << static_cast<int>(error->error_code);
+        CLASSICUI_DEBUG() << "Create window failed: "
+                          << static_cast<int>(error->error_code) << " " << vid
+                          << " " << colorMap;
     } else {
         CLASSICUI_DEBUG() << "Window created id: " << wid_;
     }
@@ -100,9 +110,9 @@ void XCBWindow::destroyWindow() {
         xcb_destroy_window(conn, wid_);
         wid_ = 0;
     }
-    if (colorMap_) {
-        xcb_free_colormap(conn, colorMap_);
-        colorMap_ = 0;
+    if (colorMapNeedFree_) {
+        xcb_free_colormap(conn, colorMapNeedFree_);
+        colorMapNeedFree_ = 0;
     }
     xcb_flush(conn);
 }

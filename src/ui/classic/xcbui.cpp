@@ -408,15 +408,24 @@ void XCBUI::refreshCompositeManager() {
     }
 
     xcb_screen_t *screen = xcb_aux_get_screen(conn_, defaultScreen_);
+    if (needFreeColorMap_) {
+        xcb_free_colormap(conn_, colorMap_);
+    }
+
     if (compMgrWindow_) {
         addEventMaskToWindow(conn_, compMgrWindow_,
                              XCB_EVENT_MASK_STRUCTURE_NOTIFY);
         colorMap_ = xcb_generate_id(conn_);
         xcb_create_colormap(conn_, XCB_COLORMAP_ALLOC_NONE, colorMap_,
                             screen->root, visualId());
+        needFreeColorMap_ = true;
     } else {
         colorMap_ = screen->default_colormap;
+        needFreeColorMap_ = false;
     }
+    CLASSICUI_DEBUG() << "Refresh color map: " << colorMap_
+                      << " vid: " << visualId()
+                      << " CompMgr: " << compMgrWindow_;
     inputWindow_->createWindow(visualId());
     // mainWindow_->createWindow();
 }
