@@ -93,7 +93,7 @@ if (NOT TARGET Systemd::Systemd)
     endif()
 endif()
 
-if(${CMAKE_SYSTEM_NAME} MATCHES "BSD")
+if(${CMAKE_SYSTEM_NAME} MATCHES "BSD|DragonFly")
     find_package(LibKVM REQUIRED)
 endif()
 find_package(DL REQUIRED)
