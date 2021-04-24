@@ -16,7 +16,9 @@
 #include <kvm.h>
 #include <sys/param.h>
 #include <sys/sysctl.h>
+# if defined(__FreeBSD__)
 #include <sys/user.h>
+# endif
 #elif defined(__APPLE__)
 #include <libproc.h>
 #endif
