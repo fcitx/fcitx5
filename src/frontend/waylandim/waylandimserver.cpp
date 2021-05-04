@@ -134,6 +134,7 @@ void WaylandIMInputContextV1::deactivate(wayland::ZwpInputMethodContextV1 *ic) {
     if (ic_.get() == ic) {
         ic_.reset();
         keyboard_.reset();
+        timeEvent_->setEnabled(false);
         focusOut();
     } else {
         // This should not happen, but just in case.

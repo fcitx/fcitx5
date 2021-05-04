@@ -132,6 +132,7 @@ WaylandIMInputContextV2::WaylandIMInputContextV2(
         if (pendingDeactivate_) {
             pendingDeactivate_ = false;
             keyboardGrab_.reset();
+            timeEvent_->setEnabled(false);
             server_->display_->sync();
             focusOut();
         }
