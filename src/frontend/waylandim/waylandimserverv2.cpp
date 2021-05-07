@@ -197,8 +197,16 @@ void WaylandIMInputContextV2::repeat() {
         Key(repeatSym_, server_->modifiers_ | KeyState::Repeat, repeatKey_ + 8),
         false, repeatTime_);
     if (!keyEvent(event)) {
-        vk_->key(repeatTime_, event.rawKey().code() - 8,
-                 WL_KEYBOARD_KEY_STATE_PRESSED);
+        // Since key repeating is also handled by Wayland client, key pressed
+        // event shouldn't be generated repeatedly. Otherwise, the client-side
+        // repetition would be interleaved with the IM event.
+        if (!lastPressedSentToVk_) {
+            vk_->key(repeatTime_, event.rawKey().code() - 8,
+                     WL_KEYBOARD_KEY_STATE_PRESSED);
+            lastPressedSentToVk_ = true;
+        }
+    } else {
+        lastPressedSentToVk_ = false;
     }
 
     timeEvent_->setNextInterval(1000000 / repeatRate_);
@@ -393,6 +401,9 @@ void WaylandIMInputContextV2::keyCallback(uint32_t, uint32_t time, uint32_t key,
         vk_->key(time, event.rawKey().code() - 8,
                  event.isRelease() ? WL_KEYBOARD_KEY_STATE_RELEASED
                                    : WL_KEYBOARD_KEY_STATE_PRESSED);
+        lastPressedSentToVk_ = !event.isRelease();
+    } else {
+        lastPressedSentToVk_ = false;
     }
     server_->display_->flush();
 }
