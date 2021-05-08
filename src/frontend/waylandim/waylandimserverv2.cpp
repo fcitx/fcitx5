@@ -198,8 +198,7 @@ void WaylandIMInputContextV2::repeat() {
         false, repeatTime_);
     if (!keyEvent(event)) {
         vk_->key(repeatTime_, event.rawKey().code() - 8,
-                 event.isRelease() ? WL_KEYBOARD_KEY_STATE_RELEASED
-                                   : WL_KEYBOARD_KEY_STATE_PRESSED);
+                 WL_KEYBOARD_KEY_STATE_PRESSED);
     }
 
     timeEvent_->setNextInterval(1000000 / repeatRate_);

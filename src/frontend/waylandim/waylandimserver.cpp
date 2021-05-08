@@ -149,8 +149,7 @@ void WaylandIMInputContextV1::repeat() {
         false, repeatTime_);
     if (!keyEvent(event)) {
         ic_->keysym(serial_, repeatTime_, event.rawKey().sym(),
-                    event.isRelease() ? WL_KEYBOARD_KEY_STATE_RELEASED
-                                      : WL_KEYBOARD_KEY_STATE_PRESSED,
+                    WL_KEYBOARD_KEY_STATE_PRESSED,
                     event.rawKey().states());
     }
 
