@@ -236,8 +236,15 @@ ThemeImage::ThemeImage(const std::string &name,
     }
 
     if (!image_) {
-        auto width = *cfg.margin->marginLeft + *cfg.margin->marginRight + 1;
-        auto height = *cfg.margin->marginTop + *cfg.margin->marginBottom + 1;
+        constexpr auto minimumSize = 20;
+        auto width =
+            *cfg.margin->marginLeft + *cfg.margin->marginRight +
+            std::max(*cfg.margin->marginLeft + *cfg.margin->marginRight,
+                     minimumSize);
+        auto height =
+            *cfg.margin->marginTop + *cfg.margin->marginBottom +
+            std::max(*cfg.margin->marginTop + *cfg.margin->marginBottom,
+                     minimumSize);
 
         auto borderWidth =
             std::min({*cfg.borderWidth, *cfg.margin->marginLeft,
