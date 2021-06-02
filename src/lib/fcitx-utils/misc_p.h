@@ -10,6 +10,8 @@
 #include <fcntl.h>
 #include <unistd.h>
 #include <algorithm>
+#include <cstdlib>
+#include <cstring>
 #include <list>
 #include <string>
 #include <type_traits>
@@ -125,6 +127,17 @@ static inline int safePipe(int pipefd[2]) {
     ::fcntl(pipefd[1], F_SETFL, ::fcntl(pipefd[1], F_GETFL) | O_NONBLOCK);
     return 0;
 #endif
+}
+
+static inline bool checkBoolEnvVar(const char *name) {
+    const char *var = getenv(name);
+    bool value = false;
+    if (var && var[0] &&
+        (strcmp(var, "True") == 0 || strcmp(var, "true") == 0 ||
+         strcmp(var, "1") == 0)) {
+        value = true;
+    }
+    return value;
 }
 
 } // namespace fcitx

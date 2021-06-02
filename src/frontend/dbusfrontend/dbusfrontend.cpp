@@ -41,6 +41,11 @@ bool useClientSideUI(Instance *instance) {
     return true;
 }
 
+bool x11UseClientSideUI() {
+    static const bool value = checkBoolEnvVar("FCITX_X11_USE_CLIENT_SIDE_UI");
+    return value;
+}
+
 std::vector<dbus::DBusStruct<std::string, int>>
 buildFormattedTextVector(const Text &text) {
     std::vector<dbus::DBusStruct<std::string, int>> vector;
@@ -287,7 +292,9 @@ public:
     void updateCapability() {
         CapabilityFlags flags = rawCapabilityFlags_;
         if (stringutils::startsWith(display(), "x11:")) {
-            flags = flags.unset(CapabilityFlag::ClientSideInputPanel);
+            if (!x11UseClientSideUI()) {
+                flags = flags.unset(CapabilityFlag::ClientSideInputPanel);
+            }
         } else if (stringutils::startsWith(display(), "wayland:")) {
             if (!useClientSideUI(im_->instance())) {
                 flags = flags.unset(CapabilityFlag::ClientSideInputPanel);

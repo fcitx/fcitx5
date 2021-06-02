@@ -18,6 +18,7 @@
 #include <vector>
 #include "config.h"
 #include "fs.h"
+#include "misc_p.h"
 #include "mtime_p.h"
 #include "stringutils.h"
 
@@ -34,17 +35,6 @@ std::string constructPath(const std::string &basepath,
         return {};
     }
     return fs::cleanPath(stringutils::joinPath(basepath, path));
-}
-
-bool checkBoolEnvVar(const char *name) {
-    const char *var = getenv(name);
-    bool value = false;
-    if (var && var[0] &&
-        (strcmp(var, "True") == 0 || strcmp(var, "true") == 0 ||
-         strcmp(var, "1") == 0)) {
-        value = true;
-    }
-    return value;
 }
 
 int64_t getTimestamp(const std::string &path) {
