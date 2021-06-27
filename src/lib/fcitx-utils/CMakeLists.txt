@@ -61,6 +61,10 @@ set(FCITX_UTILS_SOURCES
     semver.cpp
     )
 
+if (ENABLE_ANDROID)
+    set(FCITX_UTILS_SOURCES ${FCITX_UTILS_SOURCES} androidstreambuf.cpp)
+endif ()
+
 set(FCITX_UTILS_HEADERS
     macros.h
     stringutils.h
@@ -102,6 +106,10 @@ set(FCITX_UTILS_HEADERS
     semver.h
     ${CMAKE_CURRENT_BINARY_DIR}/fcitxutils_export.h
     )
+
+if (ENABLE_ANDROID)
+    set(FCITX_UTILS_HEADERS ${FCITX_UTILS_HEADERS} androidstreambuf.h)
+endif ()
 
 set(FCITX_UTILS_DBUS_HEADERS
     dbus/message.h
