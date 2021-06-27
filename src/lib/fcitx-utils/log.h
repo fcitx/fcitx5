@@ -28,6 +28,9 @@
 #include <fcitx-utils/metastring.h>
 #include <fcitx-utils/misc.h>
 #include <fcitx-utils/tuplehelpers.h>
+#ifdef ENABLE_ANDROID
+#include <android/log.h>
+#endif
 #include "fcitxutils_export.h"
 
 namespace fcitx {
@@ -97,6 +100,24 @@ public:
      */
     static std::ostream &logStream();
 };
+
+#ifdef ENABLE_ANDROID
+static const char *tag = "fcitx5";
+static const size_t androidBufSize = 512;
+
+class AndroidStreamBuf : public std::streambuf {
+public:
+    explicit AndroidStreamBuf(size_t buf_size);
+    ~AndroidStreamBuf() override;
+
+    int overflow(int c) override;
+    int sync() override;
+
+private:
+    const size_t buf_size_;
+    char *pbuf_;
+};
+#endif
 
 class FCITXUTILS_EXPORT LogMessageBuilder {
 public:

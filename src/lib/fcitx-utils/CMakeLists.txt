@@ -141,6 +141,11 @@ else()
     target_link_libraries(Fcitx5Utils PRIVATE Systemd::Systemd)
 endif()
 
+if (ENABLE_ANDROID)
+    find_library(AndroidLog log)
+    target_link_libraries(Fcitx5Utils PRIVATE ${AndroidLog})
+endif ()
+
 configure_file(Fcitx5Utils.pc.in ${CMAKE_CURRENT_BINARY_DIR}/Fcitx5Utils.pc @ONLY)
 
 install(TARGETS Fcitx5Utils EXPORT Fcitx5UtilsTargets LIBRARY DESTINATION "${CMAKE_INSTALL_LIBDIR}")
