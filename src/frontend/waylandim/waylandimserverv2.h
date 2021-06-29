@@ -140,6 +140,7 @@ private:
     uint32_t repeatKey_ = 0;
     uint32_t repeatTime_ = 0;
     KeySym repeatSym_ = FcitxKey_None;
+    bool lastPressedSentToVk_ = false;
 
     int32_t repeatRate_ = 40, repeatDelay_ = 400;
 };
