@@ -1712,7 +1712,7 @@ std::optional<std::string> Instance::processComposeString(InputContext *ic,
 #else
     FCITX_UNUSED(ic);
     FCITX_UNUSED(keysym);
-    return std::nullopt;
+    return std::string();
 #endif
 }
 
