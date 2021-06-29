@@ -23,7 +23,12 @@ namespace {
 
 FCITX_DEFINE_LOG_CATEGORY(defaultCategory, "default");
 
+#ifdef ENABLE_ANDROID
+static auto stream = std::ostream(new AndroidStreamBuf(androidBufSize));
+static std::ostream *defaultLogStream = &stream;
+#else
 static std::ostream *defaultLogStream = &std::cerr;
+#endif
 
 bool validateLogLevel(std::underlying_type_t<LogLevel> l) {
     return (l >= 0 &&

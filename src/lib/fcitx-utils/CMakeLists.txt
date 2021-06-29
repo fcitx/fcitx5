@@ -61,6 +61,10 @@ set(FCITX_UTILS_SOURCES
     semver.cpp
     )
 
+if (ENABLE_ANDROID)
+    set(FCITX_UTILS_SOURCES ${FCITX_UTILS_SOURCES} androidstreambuf.cpp)
+endif ()
+
 set(FCITX_UTILS_HEADERS
     macros.h
     stringutils.h
@@ -103,6 +107,10 @@ set(FCITX_UTILS_HEADERS
     ${CMAKE_CURRENT_BINARY_DIR}/fcitxutils_export.h
     )
 
+if (ENABLE_ANDROID)
+    set(FCITX_UTILS_HEADERS ${FCITX_UTILS_HEADERS} androidstreambuf.h)
+endif ()
+
 set(FCITX_UTILS_DBUS_HEADERS
     dbus/message.h
     dbus/objectvtable.h
@@ -140,6 +148,11 @@ if (NOT TARGET Systemd::Systemd)
 else()
     target_link_libraries(Fcitx5Utils PRIVATE Systemd::Systemd)
 endif()
+
+if (ENABLE_ANDROID)
+    find_library(AndroidLog log)
+    target_link_libraries(Fcitx5Utils PRIVATE ${AndroidLog})
+endif ()
 
 configure_file(Fcitx5Utils.pc.in ${CMAKE_CURRENT_BINARY_DIR}/Fcitx5Utils.pc @ONLY)
 

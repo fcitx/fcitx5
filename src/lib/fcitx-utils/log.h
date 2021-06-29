@@ -28,6 +28,9 @@
 #include <fcitx-utils/metastring.h>
 #include <fcitx-utils/misc.h>
 #include <fcitx-utils/tuplehelpers.h>
+#ifdef ENABLE_ANDROID
+#include "androidstreambuf.h"
+#endif
 #include "fcitxutils_export.h"
 
 namespace fcitx {
