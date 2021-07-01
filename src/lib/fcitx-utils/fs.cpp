@@ -119,10 +119,22 @@ bool makePath(const std::string &path) {
         return true;
     }
 
+    // find deepest dir that exists
+    auto iter = opath.end();
+    while (true) {
+        if (*iter == '/') {
+            std::string curpath(opath.begin(), iter);
+            if (isdir(curpath)) {
+                break;
+            }
+        }
+        iter--;
+    }
     // skip first /, the root directory or unc is not what we can create
-    auto iter = opath.begin();
-    while (iter != opath.end() && *iter == '/') {
-        iter++;
+    if (iter == opath.begin()) {
+        while (iter != opath.end() && *iter == '/') {
+            iter++;
+        }
     }
     while (true) {
         if (iter == opath.end() || *iter == '/') {
