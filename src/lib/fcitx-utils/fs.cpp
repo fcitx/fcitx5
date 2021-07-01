@@ -14,6 +14,41 @@
 
 namespace fcitx::fs {
 
+namespace {
+
+bool makePathHelper(const std::string &name) {
+    if (::mkdir(name.c_str(), S_IRWXU) == 0) {
+        return true;
+    }
+    if (errno == EEXIST) {
+        return isdir(name);
+    }
+
+    // Check if error is parent not exists.
+    if (errno != ENOENT) {
+        return false;
+    }
+
+    // Try to create because parent doesn't exist.
+    auto pos = name.rfind('/');
+    if (pos == std::string::npos || pos == 0 || name[pos - 1] == '/') {
+        return false;
+    }
+
+    std::string parent = name.substr(0, pos);
+    if (!makePathHelper(parent)) {
+        return false;
+    }
+
+    // try again
+    if (::mkdir(name.c_str(), S_IRWXU) == 0) {
+        return true;
+    }
+    return errno == EEXIST && isdir(name);
+}
+
+} // namespace
+
 bool isdir(const std::string &path) {
     struct stat stats;
     return (stat(path.c_str(), &stats) == 0 && S_ISDIR(stats.st_mode) &&
@@ -119,30 +154,7 @@ bool makePath(const std::string &path) {
         return true;
     }
 
-    // skip first /, the root directory or unc is not what we can create
-    auto iter = opath.begin();
-    while (iter != opath.end() && *iter == '/') {
-        iter++;
-    }
-    while (true) {
-        if (iter == opath.end() || *iter == '/') {
-            std::string curpath(opath.begin(), iter);
-
-            if (mkdir(curpath.c_str(), S_IRWXU) != 0) {
-                if (errno == EEXIST) {
-                    if (!isdir(curpath)) {
-                        return false;
-                    }
-                }
-            }
-        }
-
-        if (iter == opath.end()) {
-            break;
-        }
-        iter++;
-    }
-    return true;
+    return makePathHelper(opath);
 }
 
 std::string dirName(const std::string &path) {
