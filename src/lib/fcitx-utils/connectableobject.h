@@ -1,5 +1,6 @@
 /*
  * SPDX-FileCopyrightText: 2016-2016 CSSlayer <wengxt@gmail.com>
+ * SPDX-FileCopyrightText: 2021-2021 Danh Doan <congdanhqx@gmail.com>
  *
  * SPDX-License-Identifier: LGPL-2.1-or-later
  *
@@ -20,10 +21,11 @@
 /// \brief Utilities to enable use object with signal.
 
 /// \brief Declare signal by type.
-#define FCITX_DECLARE_SIGNAL(CLASS_NAME, NAME, ...)                            \
-    struct NAME {                                                              \
-        using signalType = __VA_ARGS__;                                        \
-        using signature = fcitxMakeMetaString(#CLASS_NAME "::" #NAME);         \
+#define FCITX_DECLARE_SIGNAL(CLASS_NAME, NAME, ...)                                      \
+    struct NAME {                                                                        \
+        using signalType = __VA_ARGS__;                                                  \
+        using combinerType = ::fcitx::LastValue<std::function<signalType>::result_type>; \
+        using signature = fcitxMakeMetaString(#CLASS_NAME "::" #NAME);                   \
     }
 
 /// \brief Declare a signal.
@@ -53,8 +55,7 @@ namespace fcitx {
 class ConnectableObject;
 
 /// \brief Helper class to register class.
-template <typename T, typename Combiner = LastValue<typename std::function<
-                          typename T::signalType>::result_type>>
+template <typename T, typename Combiner = typename T::combinerType>
 class SignalAdaptor {
 public:
     SignalAdaptor(ConnectableObject *d);
@@ -79,7 +80,7 @@ public:
     Connection connect(F &&func) {
         auto signal = findSignal(SignalType::signature::data());
         if (signal) {
-            return static_cast<Signal<typename SignalType::signalType> *>(
+            return static_cast<Signal<typename SignalType::signalType, typename SignalType::combinerType> *>(
                        signal)
                 ->connect(std::forward<F>(func));
         }
@@ -89,7 +90,7 @@ public:
     template <typename SignalType>
     void disconnectAll() {
         auto signal = findSignal(SignalType::signature::data());
-        static_cast<Signal<typename SignalType::signalType> *>(signal)
+        static_cast<Signal<typename SignalType::signalType, typename SignalType::combinerType> *>(signal)
             ->disconnectAll();
     }
 
@@ -112,13 +113,12 @@ protected:
     template <typename SignalType, typename... Args>
     auto emit(Args &&...args) const {
         auto signal = findSignal(SignalType::signature::data());
-        return (*static_cast<Signal<typename SignalType::signalType> *>(
+        return (*static_cast<Signal<typename SignalType::signalType, typename SignalType::combinerType> *>(
             signal))(std::forward<Args>(args)...);
     }
 
     template <typename SignalType,
-              typename Combiner = LastValue<typename std::function<
-                  typename SignalType::signalType>::result_type>>
+              typename Combiner = typename SignalType::combinerType>
     void registerSignal() {
         _registerSignal(
             SignalType::signature::data(),
