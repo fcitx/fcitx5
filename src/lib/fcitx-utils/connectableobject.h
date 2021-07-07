@@ -28,6 +28,18 @@
         using signature = fcitxMakeMetaString(#CLASS_NAME "::" #NAME);                   \
     }
 
+/// \brief Declare signal by type with combiner.
+///
+/// This macro is intended to be used outside of class declaration,
+/// because the custom combiner is an implementation detail,
+/// thus it'll be put in source files.
+#define FCITX_DECLARE_SIGNAL_WITH_COMBINER(CLASS_NAME, NAME, COMBINER, ...)    \
+    struct CLASS_NAME::NAME {                                                  \
+        using signalType = __VA_ARGS__;                                        \
+        using combinerType = COMBINER;                                         \
+        using signature = fcitxMakeMetaString(#CLASS_NAME "::" #NAME);         \
+    }
+
 /// \brief Declare a signal.
 #define FCITX_DEFINE_SIGNAL(CLASS_NAME, NAME)                                  \
     ::fcitx::SignalAdaptor<CLASS_NAME::NAME> CLASS_NAME##NAME##Adaptor { this }
