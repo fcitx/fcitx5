@@ -1,5 +1,6 @@
 /*
  * SPDX-FileCopyrightText: 2016-2016 CSSlayer <wengxt@gmail.com>
+ * SPDX-FileCopyrightText: 2021-2021 Danh Doan <congdanhqx@gmail.com>
  *
  * SPDX-License-Identifier: LGPL-2.1-or-later
  *
@@ -125,6 +126,8 @@ std::string stripLanguage(const std::string &lc) {
 }
 
 } // namespace
+
+FCITX_DECLARE_SIGNAL_WITH_COMBINER(Instance, CheckUpdate, CheckUpdateResult, bool());
 
 class CheckInputMethodChanged;
 
@@ -455,8 +458,7 @@ public:
     FCITX_DEFINE_SIGNAL_PRIVATE(Instance, CommitFilter);
     FCITX_DEFINE_SIGNAL_PRIVATE(Instance, OutputFilter);
     FCITX_DEFINE_SIGNAL_PRIVATE(Instance, KeyEventResult);
-    FCITX_DEFINE_SIGNAL_PRIVATE_WITH_COMBINER(Instance, CheckUpdate,
-                                              CheckUpdateResult);
+    FCITX_DEFINE_SIGNAL_PRIVATE(Instance, CheckUpdate);
 
     FactoryFor<InputState> inputStateFactory_{
         [this](InputContext &ic) { return new InputState(this, &ic); }};
