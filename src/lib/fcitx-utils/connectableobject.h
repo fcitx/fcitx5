@@ -69,6 +69,8 @@ class ConnectableObject;
 /// \brief Helper class to register class.
 template <typename T, typename Combiner = typename T::combinerType>
 class SignalAdaptor {
+    // FIXME remove Combiner when we can break ABI.
+    static_assert(std::is_same<Combiner, typename T::combinerType>::value);
 public:
     SignalAdaptor(ConnectableObject *d);
     ~SignalAdaptor();
@@ -132,6 +134,8 @@ protected:
     template <typename SignalType,
               typename Combiner = typename SignalType::combinerType>
     void registerSignal() {
+        // FIXME remove Combiner when we can break ABI.
+        static_assert(std::is_same<Combiner, typename SignalType::combinerType>::value);
         _registerSignal(
             SignalType::signature::data(),
             std::make_unique<
