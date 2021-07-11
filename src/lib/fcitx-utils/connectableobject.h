@@ -1,5 +1,6 @@
 /*
  * SPDX-FileCopyrightText: 2016-2016 CSSlayer <wengxt@gmail.com>
+ * SPDX-FileCopyrightText: 2021-2021 Danh Doan <congdanhqx@gmail.com>
  *
  * SPDX-License-Identifier: LGPL-2.1-or-later
  *
@@ -20,9 +21,22 @@
 /// \brief Utilities to enable use object with signal.
 
 /// \brief Declare signal by type.
-#define FCITX_DECLARE_SIGNAL(CLASS_NAME, NAME, ...)                            \
-    struct NAME {                                                              \
+#define FCITX_DECLARE_SIGNAL(CLASS_NAME, NAME, ...)                                      \
+    struct NAME {                                                                        \
+        using signalType = __VA_ARGS__;                                                  \
+        using combinerType = ::fcitx::LastValue<std::function<signalType>::result_type>; \
+        using signature = fcitxMakeMetaString(#CLASS_NAME "::" #NAME);                   \
+    }
+
+/// \brief Declare signal by type with combiner.
+///
+/// This macro is intended to be used outside of class declaration,
+/// because the custom combiner is an implementation detail,
+/// thus it'll be put in source files.
+#define FCITX_DECLARE_SIGNAL_WITH_COMBINER(CLASS_NAME, NAME, COMBINER, ...)    \
+    struct CLASS_NAME::NAME {                                                  \
         using signalType = __VA_ARGS__;                                        \
+        using combinerType = COMBINER;                                         \
         using signature = fcitxMakeMetaString(#CLASS_NAME "::" #NAME);         \
     }
 
@@ -34,28 +48,15 @@
 #define FCITX_DEFINE_SIGNAL_PRIVATE(CLASS_NAME, NAME)                          \
     ::fcitx::SignalAdaptor<CLASS_NAME::NAME> CLASS_NAME##NAME##Adaptor { q_ptr }
 
-/// \brief Declare a signal in pimpl class.
-#define FCITX_DEFINE_SIGNAL_WITH_COMBINER(CLASS_NAME, NAME, COMBINER)          \
-    ::fcitx::SignalAdaptor<CLASS_NAME::NAME, COMBINER>                         \
-        CLASS_NAME##NAME##Adaptor {                                            \
-        this                                                                   \
-    }
-
-/// \brief Declare a signal in pimpl class.
-#define FCITX_DEFINE_SIGNAL_PRIVATE_WITH_COMBINER(CLASS_NAME, NAME, COMBINER)  \
-    ::fcitx::SignalAdaptor<CLASS_NAME::NAME, COMBINER>                         \
-        CLASS_NAME##NAME##Adaptor {                                            \
-        q_ptr                                                                  \
-    }
-
 namespace fcitx {
 
 class ConnectableObject;
 
 /// \brief Helper class to register class.
-template <typename T, typename Combiner = LastValue<typename std::function<
-                          typename T::signalType>::result_type>>
+template <typename T, typename Combiner = typename T::combinerType>
 class SignalAdaptor {
+    // FIXME remove Combiner when we can break ABI.
+    static_assert(std::is_same<Combiner, typename T::combinerType>::value);
 public:
     SignalAdaptor(ConnectableObject *d);
     ~SignalAdaptor();
@@ -79,7 +80,7 @@ public:
     Connection connect(F &&func) {
         auto signal = findSignal(SignalType::signature::data());
         if (signal) {
-            return static_cast<Signal<typename SignalType::signalType> *>(
+            return static_cast<Signal<typename SignalType::signalType, typename SignalType::combinerType> *>(
                        signal)
                 ->connect(std::forward<F>(func));
         }
@@ -89,7 +90,7 @@ public:
     template <typename SignalType>
     void disconnectAll() {
         auto signal = findSignal(SignalType::signature::data());
-        static_cast<Signal<typename SignalType::signalType> *>(signal)
+        static_cast<Signal<typename SignalType::signalType, typename SignalType::combinerType> *>(signal)
             ->disconnectAll();
     }
 
@@ -112,14 +113,15 @@ protected:
     template <typename SignalType, typename... Args>
     auto emit(Args &&...args) const {
         auto signal = findSignal(SignalType::signature::data());
-        return (*static_cast<Signal<typename SignalType::signalType> *>(
+        return (*static_cast<Signal<typename SignalType::signalType, typename SignalType::combinerType> *>(
             signal))(std::forward<Args>(args)...);
     }
 
     template <typename SignalType,
-              typename Combiner = LastValue<typename std::function<
-                  typename SignalType::signalType>::result_type>>
+              typename Combiner = typename SignalType::combinerType>
     void registerSignal() {
+        // FIXME remove Combiner when we can break ABI.
+        static_assert(std::is_same<Combiner, typename SignalType::combinerType>::value);
         _registerSignal(
             SignalType::signature::data(),
             std::make_unique<
