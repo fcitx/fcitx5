@@ -2218,7 +2218,7 @@ msgid "Use all horizontal space for highlight when it is vertical list"
 msgstr "竖排列表时使用所有横向空间高亮"
 
 #: src/ui/classic/classicui.h:105
-msgid "Use input method langauge to display text"
+msgid "Use input method language to display text"
 msgstr "使用输入法的语言来显示文字"
 
 #: src/ui/classic/classicui.h:94

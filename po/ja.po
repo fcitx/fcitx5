@@ -2230,7 +2230,7 @@ msgid "Use all horizontal space for highlight when it is vertical list"
 msgstr "候補リストが縦の場合は、ハイライト時にすべての水平スペースを使用します"
 
 #: src/ui/classic/classicui.h:105
-msgid "Use input method langauge to display text"
+msgid "Use input method language to display text"
 msgstr "テキストを表示する際に入力メソッドの言語を使用する"
 
 #: src/ui/classic/classicui.h:94

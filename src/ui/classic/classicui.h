@@ -102,7 +102,7 @@ FCITX_CONFIGURATION(
         useInputMethodLanguageToDisplayText{
             this,
             "UseInputMethodLangaugeToDisplayText",
-            _("Use input method langauge to display text"),
+            _("Use input method language to display text"),
             true,
             {},
             {},
