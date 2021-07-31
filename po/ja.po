@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2021-02-17 20:24+0000\n"
+"POT-Creation-Date: 2021-07-31 20:24+0000\n"
 "PO-Revision-Date: 2017-11-23 04:14+0000\n"
 "Last-Translator: UTUMI Hirosi <utuhiro78@yahoo.co.jp>, 2021\n"
 "Language-Team: Japanese (https://www.transifex.com/fcitx/teams/12005/ja/)\n"
@@ -50,11 +50,11 @@ msgstr "${1} は見つかりません"
 msgid "${1} works properly."
 msgstr "${1} は正常に動作しています。"
 
-#: src/lib/fcitx/instance.cpp:353
+#: src/lib/fcitx/instance.cpp:401
 msgid "(Not available)"
 msgstr "(使用不可)"
 
-#: src/modules/unicode/unicode.cpp:324
+#: src/modules/unicode/unicode.cpp:325
 msgid "(Type to search unicode by code or description)"
 msgstr "(コードまたは説明からUnicodeを検索する）"
 
@@ -111,7 +111,7 @@ msgctxt "Key name"
 msgid "Add Favorite"
 msgstr "お気に入りに追加する"
 
-#: src/modules/unicode/unicode.conf.in:4
+#: src/modules/unicode/unicode.conf.in.in:4
 msgid "Add Unicode Typing Support"
 msgstr "ユニコード入力対応を追加します"
 
@@ -411,7 +411,7 @@ msgstr "チェックボックス"
 msgid "Choose key modifier"
 msgstr "キーモディファイアーを選択"
 
-#: src/ui/classic/classicui.conf.in:3
+#: src/ui/classic/classicui.conf.in.in:3
 msgid "Classic User Inteface"
 msgstr "クラシックユーザーインターフェース"
 
@@ -424,7 +424,7 @@ msgstr "クリア"
 msgid "Click Margin"
 msgstr "クリックマージン"
 
-#: src/modules/clipboard/clipboard.conf.in:3
+#: src/modules/clipboard/clipboard.conf.in.in:3
 msgid "Clipboard"
 msgstr "クリップボード"
 
@@ -451,19 +451,19 @@ msgctxt "Key name"
 msgid "Community"
 msgstr "コミュニティ"
 
-#: src/im/keyboard/keyboard.cpp:790
+#: src/im/keyboard/keyboard.cpp:780
 msgid "Completion"
 msgstr "補完"
 
-#: src/im/keyboard/keyboard.cpp:781
+#: src/im/keyboard/keyboard.cpp:771
 msgid "Completion is disabled."
 msgstr "補完は無効です。"
 
-#: src/im/keyboard/keyboard.cpp:784
+#: src/im/keyboard/keyboard.cpp:774
 msgid "Completion is enabled temporarily."
 msgstr "補完は一時的に有効です。"
 
-#: src/im/keyboard/keyboard.cpp:786
+#: src/im/keyboard/keyboard.cpp:776
 msgid "Completion is enabled."
 msgstr "補完は有効です。"
 
@@ -496,7 +496,7 @@ msgid "Configuration:"
 msgstr "設定:"
 
 #: src/ui/classic/xcbtraywindow.cpp:40
-#: src/modules/notificationitem/dbusmenu.cpp:257
+#: src/modules/notificationitem/dbusmenu.cpp:253
 msgid "Configure"
 msgstr "設定"
 
@@ -539,15 +539,15 @@ msgctxt "Key name"
 msgid "Cut"
 msgstr "Cut"
 
-#: src/modules/dbus/dbus.conf.in:3
+#: src/modules/dbus/dbus.conf.in.in:3
 msgid "DBus"
 msgstr "DBus"
 
-#: src/frontend/dbusfrontend/dbusfrontend.conf.in:3
+#: src/frontend/dbusfrontend/dbusfrontend.conf.in.in:3
 msgid "DBus Frontend"
 msgstr "DBus フロントエンド"
 
-#: src/modules/notificationitem/notificationitem.conf.in:4
+#: src/modules/notificationitem/notificationitem.conf.in.in:4
 msgid "DBus based new Freedesktop.org tray icon"
 msgstr "新しい Freedesktop.org の DBus のトレイアイコン"
 
@@ -564,7 +564,7 @@ msgstr "DOS"
 msgid "Deactivate Input Method"
 msgstr "入力メソッドをオフにする"
 
-#: src/lib/fcitx/inputmethodmanager.cpp:130 src/lib/fcitx/instance.cpp:659
+#: src/lib/fcitx/inputmethodmanager.cpp:138 src/lib/fcitx/instance.cpp:717
 #: src/ui/classic/themes/default/theme.conf.in:3
 msgid "Default"
 msgstr "デフォルト"
@@ -648,7 +648,7 @@ msgctxt "Key name"
 msgid "Eject"
 msgstr "Eject"
 
-#: src/modules/emoji/emoji.conf.in:3
+#: src/modules/emoji/emoji.conf.in.in:3
 msgid "Emoji"
 msgstr "絵文字"
 
@@ -744,7 +744,7 @@ msgid "Execute"
 msgstr "実行"
 
 #: src/ui/classic/xcbtraywindow.cpp:42
-#: src/modules/notificationitem/dbusmenu.cpp:270
+#: src/modules/notificationitem/dbusmenu.cpp:266
 msgid "Exit"
 msgstr "閉じる"
 
@@ -799,7 +799,7 @@ msgstr ""
 msgid "Fcitx version: ${1}"
 msgstr "Fcitx のバージョン: ${1}"
 
-#: src/frontend/fcitx4frontend/fcitx4frontend.conf.in:3
+#: src/frontend/fcitx4frontend/fcitx4frontend.conf.in.in:3
 msgid "Fcitx4 Frontend"
 msgstr "Fcitx4 フロントエンド"
 
@@ -898,7 +898,7 @@ msgstr "gtk ${1} の immodule cache を ${2} に見つけました。"
 msgid "Found unknown ${1} qt module: ${2}."
 msgstr "不明な ${1} qt モジュールが見つかりました: ${2}。"
 
-#: src/modules/notifications/notifications.conf.in:4
+#: src/modules/notifications/notifications.conf.in.in:4
 msgid "Freedesktop.org Notification Support"
 msgstr "Freedesktop.org通知サポート"
 
@@ -926,15 +926,15 @@ msgid "Green"
 msgstr "Green"
 
 #: src/ui/classic/xcbtraywindow.cpp:36
-#: src/modules/notificationitem/dbusmenu.cpp:247
+#: src/modules/notificationitem/dbusmenu.cpp:243
 msgid "Group"
 msgstr "グループ"
 
-#: src/lib/fcitx/instance.cpp:357
+#: src/lib/fcitx/instance.cpp:405
 msgid "Group {0}: {1}"
 msgstr "グループ {0}: {1}"
 
-#: src/lib/fcitx/instance.cpp:661
+#: src/lib/fcitx/instance.cpp:719
 msgid "Group {}"
 msgstr "グループ {}"
 
@@ -1114,7 +1114,7 @@ msgctxt "Key name"
 msgid "Hyper"
 msgstr "Hyper"
 
-#: src/frontend/ibusfrontend/ibusfrontend.conf.in:3
+#: src/frontend/ibusfrontend/ibusfrontend.conf.in.in:3
 msgid "IBus Frontend"
 msgstr "IBus フロントエンド"
 
@@ -1143,11 +1143,11 @@ msgstr ""
 msgid "Image"
 msgstr "画像"
 
-#: src/im/keyboard/keyboard.cpp:789 src/ui/classic/xcbtraywindow.cpp:38
-#: src/lib/fcitx/instance.cpp:730 src/lib/fcitx/instance.cpp:900
-#: src/modules/notificationitem/dbusmenu.cpp:241
-#: src/modules/notificationitem/notificationitem.cpp:128
-#: src/modules/xcb/xcbconnection.cpp:388 data/org.fcitx.Fcitx5.desktop.in.in:4
+#: src/im/keyboard/keyboard.cpp:779 src/ui/classic/xcbtraywindow.cpp:38
+#: src/lib/fcitx/instance.cpp:789 src/lib/fcitx/instance.cpp:959
+#: src/modules/notificationitem/dbusmenu.cpp:237
+#: src/modules/notificationitem/notificationitem.cpp:125
+#: src/modules/xcb/xcbconnection.cpp:405 data/org.fcitx.Fcitx5.desktop.in.in:4
 #: data/org.fcitx.Fcitx5.metainfo.xml.in:7
 msgid "Input Method"
 msgstr "入力メソッド"
@@ -1164,7 +1164,7 @@ msgstr "入力メソッド関連の環境変数:"
 msgid "Input Panel"
 msgstr "入力パネル"
 
-#: src/modules/imselector/imselector.conf.in:3
+#: src/modules/imselector/imselector.conf.in.in:3
 msgid "Input method selector"
 msgstr "入力メソッドセレクター"
 
@@ -1185,7 +1185,7 @@ msgstr "挿入"
 msgid "Invalid addon config file ${1}."
 msgstr "不正なアドオン設定ファイル ${1} です。"
 
-#: src/ui/kimpanel/kimpanel.conf.in:3
+#: src/ui/kimpanel/kimpanel.conf.in.in:3
 msgid "KDE Input Method Panel"
 msgstr "KDE入力メソッドパネル"
 
@@ -1213,15 +1213,15 @@ msgstr "カタカナ"
 msgid "Key"
 msgstr "キー"
 
-#: src/im/keyboard/keyboard.cpp:324 src/im/keyboard/keyboard.conf.in:3
+#: src/im/keyboard/keyboard.cpp:322 src/im/keyboard/keyboard.conf.in.in:3
 msgid "Keyboard"
 msgstr "キーボード"
 
-#: src/im/keyboard/keyboard.cpp:250
+#: src/im/keyboard/keyboard.cpp:248
 msgid "Keyboard - {0}"
 msgstr "キーボード - {0}"
 
-#: src/im/keyboard/keyboard.cpp:269
+#: src/im/keyboard/keyboard.cpp:267
 msgid "Keyboard - {0} - {1}"
 msgstr "キーボード - {0} - {1}"
 
@@ -1578,7 +1578,7 @@ msgstr "なし"
 msgid "Normal text color"
 msgstr "ノーマルテキスト色"
 
-#: src/ui/kimpanel/kimpanel.cpp:360
+#: src/ui/kimpanel/kimpanel.cpp:363
 msgid "Not available"
 msgstr "使用不可"
 
@@ -1586,7 +1586,7 @@ msgstr "使用不可"
 msgid "Note for GNOME Later than 3.6"
 msgstr "GNOME 3.6 以降の注意"
 
-#: src/modules/notifications/notifications.conf.in:3
+#: src/modules/notifications/notifications.conf.in.in:3
 msgid "Notification"
 msgstr "通知"
 
@@ -1599,7 +1599,7 @@ msgstr "NumLock"
 msgid "Number of entries"
 msgstr "エントリー数"
 
-#: src/im/keyboard/keyboard.cpp:775
+#: src/im/keyboard/keyboard.cpp:765
 msgid ""
 "Only emoji support is found. To enable spell checking, you may need to "
 "install spell check data for the language."
@@ -1719,15 +1719,15 @@ msgctxt "Key name"
 msgid "Power Off"
 msgstr "電源オフ"
 
-#: src/lib/fcitx/instance.cpp:900
+#: src/lib/fcitx/instance.cpp:959
 msgid "Preedit"
 msgstr "プリエディット"
 
-#: src/lib/fcitx/instance.cpp:902
+#: src/lib/fcitx/instance.cpp:961
 msgid "Preedit disabled"
 msgstr "プリエディット無効"
 
-#: src/lib/fcitx/instance.cpp:901
+#: src/lib/fcitx/instance.cpp:960
 msgid "Preedit enabled"
 msgstr "プリエディット有効"
 
@@ -1765,7 +1765,7 @@ msgstr "プロバイダー"
 msgid "Qt IM module files:"
 msgstr "Qt IM module ファイル:"
 
-#: src/modules/quickphrase/quickphrase.conf.in:3
+#: src/modules/quickphrase/quickphrase.conf.in.in:3
 msgid "Quick Phrase"
 msgstr "クイックフレーズ"
 
@@ -1799,7 +1799,7 @@ msgid "Reply"
 msgstr "リプライ"
 
 #: src/ui/classic/xcbtraywindow.cpp:41
-#: src/modules/notificationitem/dbusmenu.cpp:264
+#: src/modules/notificationitem/dbusmenu.cpp:260
 msgid "Restart"
 msgstr "再起動"
 
@@ -1895,7 +1895,7 @@ msgstr "入力メソッドを選択:"
 msgid "Select local input method:"
 msgstr "ローカル入力メソッドを選択:"
 
-#: src/modules/imselector/imselector.conf.in:4
+#: src/modules/imselector/imselector.conf.in.in:4
 msgid "Select specific input method via keyboard"
 msgstr "キーボードで指定の入力メソッドを選択"
 
@@ -1964,7 +1964,7 @@ msgstr "スペース"
 msgid "Spacing"
 msgstr "間隔"
 
-#: src/modules/spell/spell.conf.in:3
+#: src/modules/spell/spell.conf.in.in:3
 msgid "Spell"
 msgstr "スペル"
 
@@ -1992,7 +1992,7 @@ msgstr "スタンバイ"
 msgid "Start Input Method"
 msgstr "入力メソッドを開始"
 
-#: src/modules/notificationitem/notificationitem.conf.in:3
+#: src/modules/notificationitem/notificationitem.conf.in.in:3
 msgid "Status Notifier"
 msgstr "ステータス通知"
 
@@ -2029,15 +2029,15 @@ msgctxt "Key name"
 msgid "Suspend"
 msgstr "サスペンド"
 
-#: src/lib/fcitx/instance.cpp:731 src/modules/xcb/xcbconnection.cpp:389
+#: src/lib/fcitx/instance.cpp:790 src/modules/xcb/xcbconnection.cpp:406
 msgid "Switch group"
 msgstr "グループの切り替え"
 
-#: src/modules/xcb/xcbconnection.cpp:390
+#: src/modules/xcb/xcbconnection.cpp:407
 msgid "Switch group to {0}"
 msgstr "{0} にグループを切り替える"
 
-#: src/lib/fcitx/instance.cpp:732
+#: src/lib/fcitx/instance.cpp:791
 msgid "Switched group to {0}"
 msgstr "{0} にグループを切り替えました"
 
@@ -2170,7 +2170,7 @@ msgid "Trigger Input Method"
 msgstr "入力メソッドの切り替え"
 
 #: src/modules/imselector/imselector.h:25
-#: src/modules/quickphrase/quickphrase.h:36
+#: src/modules/quickphrase/quickphrase.h:36 src/modules/unicode/unicode.h:30
 #: src/modules/clipboard/clipboard.h:29
 msgid "Trigger Key"
 msgstr "トリガーキー"
@@ -2204,11 +2204,11 @@ msgctxt "Key name"
 msgid "Undo"
 msgstr "Undo"
 
-#: src/modules/unicode/unicode.conf.in:3
+#: src/modules/unicode/unicode.conf.in.in:3
 msgid "Unicode"
 msgstr "Unicode"
 
-#: src/modules/unicode/unicode.cpp:322
+#: src/modules/unicode/unicode.cpp:323
 msgid "Unicode: "
 msgstr "Unicode:"
 
@@ -2231,7 +2231,7 @@ msgstr "候補リストが縦の場合は、ハイライト時にすべての水
 
 #: src/ui/classic/classicui.h:105
 msgid "Use input method language to display text"
-msgstr "テキストを表示する際に入力メソッドの言語を使用する"
+msgstr ""
 
 #: src/ui/classic/classicui.h:94
 msgid "Use mouse wheel to go to prev or next page"
@@ -2292,11 +2292,11 @@ msgctxt "Key name"
 msgid "Wake Up"
 msgstr "Wake Up"
 
-#: src/modules/wayland/wayland.conf.in:3
+#: src/modules/wayland/wayland.conf.in.in:3
 msgid "Wayland"
 msgstr "Wayland"
 
-#: src/frontend/waylandim/waylandim.conf.in:3
+#: src/frontend/waylandim/waylandim.conf.in.in:3
 msgid "Wayland Input method frontend"
 msgstr "Wayland 入力メソッドフロントエンド"
 
@@ -2319,11 +2319,11 @@ msgctxt "Key name"
 msgid "Word Processor"
 msgstr "ワープロ"
 
-#: src/frontend/xim/xim.conf.in:3
+#: src/frontend/xim/xim.conf.in.in:3
 msgid "X Input Method Frontend"
 msgstr "X Input Method フロントエンド"
 
-#: src/modules/xcb/xcb.conf.in:3
+#: src/modules/xcb/xcb.conf.in.in:3
 msgid "XCB"
 msgstr "XCB"
 
@@ -2474,14 +2474,14 @@ msgstr "sudo の環境変数"
 msgid "version:"
 msgstr "バージョン:"
 
-#: src/im/keyboard/keyboard.cpp:301
+#: src/im/keyboard/keyboard.cpp:299
 msgid "{0} (Not Available)"
 msgstr "{0} (利用できません)"
 
-#: src/lib/fcitx/instance.cpp:351
+#: src/lib/fcitx/instance.cpp:399
 msgid "{0} (Not available)"
 msgstr "{0} (使用不可)"
 
-#: src/lib/fcitx/instance.cpp:348
+#: src/lib/fcitx/instance.cpp:396
 msgid "{0} ({1})"
 msgstr "{0} ({1})"
