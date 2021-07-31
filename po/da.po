@@ -2229,7 +2229,7 @@ msgid "Use all horizontal space for highlight when it is vertical list"
 msgstr "Brug al vandret plads til fremhævning når det er en lodret liste"
 
 #: src/ui/classic/classicui.h:105
-msgid "Use input method langauge to display text"
+msgid "Use input method language to display text"
 msgstr "Brug sprog for inputmetode til at vise tekst"
 
 #: src/ui/classic/classicui.h:94
