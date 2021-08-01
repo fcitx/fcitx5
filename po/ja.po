@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2021-07-31 20:24+0000\n"
+"POT-Creation-Date: 2021-08-01 20:24+0000\n"
 "PO-Revision-Date: 2017-11-23 04:14+0000\n"
 "Last-Translator: UTUMI Hirosi <utuhiro78@yahoo.co.jp>, 2021\n"
 "Language-Team: Japanese (https://www.transifex.com/fcitx/teams/12005/ja/)\n"
@@ -2231,7 +2231,7 @@ msgstr "候補リストが縦の場合は、ハイライト時にすべての水
 
 #: src/ui/classic/classicui.h:105
 msgid "Use input method language to display text"
-msgstr ""
+msgstr "入力メソッドの言語を使用してテキストを表示する"
 
 #: src/ui/classic/classicui.h:94
 msgid "Use mouse wheel to go to prev or next page"
