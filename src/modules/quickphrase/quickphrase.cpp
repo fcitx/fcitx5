@@ -143,11 +143,19 @@ QuickPhrase::QuickPhrase(Instance *instance)
 
                 if (keyEvent.key().checkKeyList(
                         instance_->globalConfig().defaultNextPage())) {
-                    keyEvent.filterAndAccept();
-                    candidateList->toPageable()->next();
-                    inputContext->updateUserInterface(
-                        UserInterfaceComponent::InputPanel);
-                    return;
+                    auto *pageable = candidateList->toPageable();
+                    if (!pageable->hasNext()) {
+                        if (pageable->usedNextBefore()) {
+                            event.accept();
+                            return;
+                        }
+                    } else {
+                        event.accept();
+                        pageable->next();
+                        inputContext->updateUserInterface(
+                            UserInterfaceComponent::InputPanel);
+                        return;
+                    }
                 }
 
                 if (candidateList->size() &&
