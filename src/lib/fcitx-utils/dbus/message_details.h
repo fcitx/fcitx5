@@ -203,8 +203,9 @@ DBusSignatureToType<c...>
     DBusMetaStringSignatureToTupleHelper(MetaString<c...>);
 
 template <typename T>
-using DBusMetaStringSignatureToTuple = MakeTupleIfNeededType<typename decltype(
-    DBusMetaStringSignatureToTupleHelper(std::declval<T>()))::type>;
+using DBusMetaStringSignatureToTuple = MakeTupleIfNeededType<
+    typename decltype(DBusMetaStringSignatureToTupleHelper(
+        std::declval<T>()))::type>;
 
 template <typename... Args>
 DBusStruct<Args...> TupleToDBusStructHelper(std::tuple<Args...>);

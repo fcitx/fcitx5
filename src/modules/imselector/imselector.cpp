@@ -152,19 +152,11 @@ IMSelector::IMSelector(Instance *instance)
 
                 if (keyEvent.key().checkKeyList(
                         instance_->globalConfig().defaultPrevPage())) {
-                    auto *pageable = candidateList->toPageable();
-                    if (!pageable->hasPrev()) {
-                        if (pageable->usedNextBefore()) {
-                            event.accept();
-                            return;
-                        }
-                    } else {
-                        event.accept();
-                        pageable->prev();
-                        inputContext->updateUserInterface(
-                            UserInterfaceComponent::InputPanel);
-                        return;
-                    }
+                    keyEvent.filterAndAccept();
+                    candidateList->toPageable()->prev();
+                    inputContext->updateUserInterface(
+                        UserInterfaceComponent::InputPanel);
+                    return;
                 }
 
                 if (keyEvent.key().checkKeyList(

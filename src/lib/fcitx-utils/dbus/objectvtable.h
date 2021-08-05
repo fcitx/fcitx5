@@ -145,8 +145,8 @@ struct ReturnValueHelper<void> {
                 };                                                             \
                 auto argsWithThis =                                            \
                     std::tuple_cat(std::make_tuple(this), std::move(args));    \
-                typedef decltype(                                              \
-                    callWithTuple(func, argsWithThis)) ReturnType;             \
+                typedef decltype(callWithTuple(func,                           \
+                                               argsWithThis)) ReturnType;      \
                 ::fcitx::dbus::ReturnValueHelper<ReturnType> helper;           \
                 auto functor = [&argsWithThis, func]() {                       \
                     return callWithTuple(func, argsWithThis);                  \
