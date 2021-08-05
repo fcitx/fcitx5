@@ -34,20 +34,6 @@
 #define FCITX_DEFINE_SIGNAL_PRIVATE(CLASS_NAME, NAME)                          \
     ::fcitx::SignalAdaptor<CLASS_NAME::NAME> CLASS_NAME##NAME##Adaptor { q_ptr }
 
-/// \brief Declare a signal in pimpl class.
-#define FCITX_DEFINE_SIGNAL_WITH_COMBINER(CLASS_NAME, NAME, COMBINER)          \
-    ::fcitx::SignalAdaptor<CLASS_NAME::NAME, COMBINER>                         \
-        CLASS_NAME##NAME##Adaptor {                                            \
-        this                                                                   \
-    }
-
-/// \brief Declare a signal in pimpl class.
-#define FCITX_DEFINE_SIGNAL_PRIVATE_WITH_COMBINER(CLASS_NAME, NAME, COMBINER)  \
-    ::fcitx::SignalAdaptor<CLASS_NAME::NAME, COMBINER>                         \
-        CLASS_NAME##NAME##Adaptor {                                            \
-        q_ptr                                                                  \
-    }
-
 namespace fcitx {
 
 class ConnectableObject;
