@@ -49,22 +49,6 @@ namespace fcitx {
 
 namespace {
 
-/// \brief Combiner that return the last value.
-class CheckUpdateResult {
-public:
-    template <typename InputIterator>
-    bool operator()(InputIterator begin, InputIterator end) {
-        bool v = false;
-        for (; begin != end; begin++) {
-            v = v || *begin;
-            if (v) {
-                break;
-            }
-        }
-        return v;
-    }
-};
-
 constexpr uint64_t AutoSavePeriod = 1800ull * 1000000ull; // 30 minutes
 constexpr uint64_t AutoSaveIdleTime = 60ull * 1000000ull; // 1 minutes
 
@@ -455,8 +439,7 @@ public:
     FCITX_DEFINE_SIGNAL_PRIVATE(Instance, CommitFilter);
     FCITX_DEFINE_SIGNAL_PRIVATE(Instance, OutputFilter);
     FCITX_DEFINE_SIGNAL_PRIVATE(Instance, KeyEventResult);
-    FCITX_DEFINE_SIGNAL_PRIVATE_WITH_COMBINER(Instance, CheckUpdate,
-                                              CheckUpdateResult);
+    FCITX_DEFINE_SIGNAL_PRIVATE(Instance, CheckUpdate);
 
     FactoryFor<InputState> inputStateFactory_{
         [this](InputContext &ic) { return new InputState(this, &ic); }};
@@ -2287,8 +2270,7 @@ void Instance::showInputMethodInformation(InputContext *ic) {
 
 bool Instance::checkUpdate() const {
     FCITX_D();
-    return d->addonManager_.checkUpdate() || d->imManager_.checkUpdate() ||
-           emit<Instance::CheckUpdate>();
+    return d->addonManager_.checkUpdate() || d->imManager_.checkUpdate();
 }
 
 void Instance::setXkbParameters(const std::string &display,
