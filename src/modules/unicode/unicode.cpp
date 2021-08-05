@@ -224,6 +224,8 @@ Unicode::Unicode(Instance *instance)
 
             updateUI(inputContext);
         }));
+
+    reloadConfig();
 }
 
 Unicode::~Unicode() {}
