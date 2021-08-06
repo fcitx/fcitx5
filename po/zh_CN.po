@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2021-07-31 20:24+0000\n"
+"POT-Creation-Date: 2021-08-06 20:24+0000\n"
 "PO-Revision-Date: 2017-11-23 04:14+0000\n"
 "Last-Translator: csslayer <wengxt@gmail.com>, 2021\n"
 "Language-Team: Chinese (China) (https://www.transifex.com/fcitx/teams/12005/"
@@ -49,11 +49,11 @@ msgstr "${1} 未找到."
 msgid "${1} works properly."
 msgstr "${1} 工作正常。"
 
-#: src/lib/fcitx/instance.cpp:401
+#: src/lib/fcitx/instance.cpp:385
 msgid "(Not available)"
 msgstr "(不可用)"
 
-#: src/modules/unicode/unicode.cpp:325
+#: src/modules/unicode/unicode.cpp:327
 msgid "(Type to search unicode by code or description)"
 msgstr "(输入编码或者描述来搜索 Unicode 字符)"
 
@@ -560,7 +560,7 @@ msgstr "DOS"
 msgid "Deactivate Input Method"
 msgstr "取消激活输入法"
 
-#: src/lib/fcitx/inputmethodmanager.cpp:138 src/lib/fcitx/instance.cpp:717
+#: src/lib/fcitx/inputmethodmanager.cpp:138 src/lib/fcitx/instance.cpp:700
 #: src/ui/classic/themes/default/theme.conf.in:3
 msgid "Default"
 msgstr "默认"
@@ -925,11 +925,11 @@ msgstr "绿"
 msgid "Group"
 msgstr "分组"
 
-#: src/lib/fcitx/instance.cpp:405
+#: src/lib/fcitx/instance.cpp:389
 msgid "Group {0}: {1}"
 msgstr "分组 {0}：{1}"
 
-#: src/lib/fcitx/instance.cpp:719
+#: src/lib/fcitx/instance.cpp:702
 msgid "Group {}"
 msgstr "分组 {}"
 
@@ -1137,7 +1137,7 @@ msgid "Image"
 msgstr "图片"
 
 #: src/im/keyboard/keyboard.cpp:779 src/ui/classic/xcbtraywindow.cpp:38
-#: src/lib/fcitx/instance.cpp:789 src/lib/fcitx/instance.cpp:959
+#: src/lib/fcitx/instance.cpp:772 src/lib/fcitx/instance.cpp:942
 #: src/modules/notificationitem/dbusmenu.cpp:237
 #: src/modules/notificationitem/notificationitem.cpp:125
 #: src/modules/xcb/xcbconnection.cpp:405 data/org.fcitx.Fcitx5.desktop.in.in:4
@@ -1708,15 +1708,15 @@ msgctxt "Key name"
 msgid "Power Off"
 msgstr "关机"
 
-#: src/lib/fcitx/instance.cpp:959
+#: src/lib/fcitx/instance.cpp:942
 msgid "Preedit"
 msgstr "预编辑"
 
-#: src/lib/fcitx/instance.cpp:961
+#: src/lib/fcitx/instance.cpp:944
 msgid "Preedit disabled"
 msgstr "预编辑已禁用"
 
-#: src/lib/fcitx/instance.cpp:960
+#: src/lib/fcitx/instance.cpp:943
 msgid "Preedit enabled"
 msgstr "预编辑已启用"
 
@@ -1758,7 +1758,7 @@ msgstr "Qt 输入法模块文件："
 msgid "Quick Phrase"
 msgstr "快速输入"
 
-#: src/modules/quickphrase/quickphrase.cpp:395
+#: src/modules/quickphrase/quickphrase.cpp:403
 msgid "Quick Phrase: "
 msgstr "快速输入: "
 
@@ -1876,11 +1876,11 @@ msgctxt "Key name"
 msgid "Select"
 msgstr "选择"
 
-#: src/modules/imselector/imselector.cpp:264
+#: src/modules/imselector/imselector.cpp:256
 msgid "Select input method:"
 msgstr "选择输入法："
 
-#: src/modules/imselector/imselector.cpp:263
+#: src/modules/imselector/imselector.cpp:255
 msgid "Select local input method:"
 msgstr "选择局部输入法："
 
@@ -2018,7 +2018,7 @@ msgctxt "Key name"
 msgid "Suspend"
 msgstr "睡眠"
 
-#: src/lib/fcitx/instance.cpp:790 src/modules/xcb/xcbconnection.cpp:406
+#: src/lib/fcitx/instance.cpp:773 src/modules/xcb/xcbconnection.cpp:406
 msgid "Switch group"
 msgstr "切换分组"
 
@@ -2026,7 +2026,7 @@ msgstr "切换分组"
 msgid "Switch group to {0}"
 msgstr "切换到分组 {0}"
 
-#: src/lib/fcitx/instance.cpp:791
+#: src/lib/fcitx/instance.cpp:774
 msgid "Switched group to {0}"
 msgstr "已切换到分组 {0}"
 
@@ -2196,7 +2196,7 @@ msgstr "撤销"
 msgid "Unicode"
 msgstr "Unicode"
 
-#: src/modules/unicode/unicode.cpp:323
+#: src/modules/unicode/unicode.cpp:325
 msgid "Unicode: "
 msgstr "Unicode："
 
@@ -2219,7 +2219,7 @@ msgstr "竖排列表时使用所有横向空间高亮"
 
 #: src/ui/classic/classicui.h:105
 msgid "Use input method language to display text"
-msgstr ""
+msgstr "使用输入法的语言来显示文字"
 
 #: src/ui/classic/classicui.h:94
 msgid "Use mouse wheel to go to prev or next page"
@@ -2463,10 +2463,10 @@ msgstr "版本："
 msgid "{0} (Not Available)"
 msgstr "{0} (不可用)"
 
-#: src/lib/fcitx/instance.cpp:399
+#: src/lib/fcitx/instance.cpp:383
 msgid "{0} (Not available)"
 msgstr "{0} (不可用)"
 
-#: src/lib/fcitx/instance.cpp:396
+#: src/lib/fcitx/instance.cpp:380
 msgid "{0} ({1})"
 msgstr "{0} ({1})"
