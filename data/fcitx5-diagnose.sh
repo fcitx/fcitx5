@@ -256,6 +256,9 @@ _detectDE_XDG_CURRENT() {
         XFCE)
             DE=xfce
             ;;
+        Deepin)
+            DE=deepin
+            ;;
         *)
             return 1
             ;;
