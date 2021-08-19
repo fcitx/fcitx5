@@ -299,6 +299,9 @@ _detectDE_SESSION() {
         xfce|xfce4|'Xfce Session')
             DE=xfce
             ;;
+        Deepin)
+            DE=deepin
+            ;;
         *)
             return 1
             ;;
