@@ -18,33 +18,128 @@ class FCITXCORE_EXPORT InputMethodEngine : public AddonInstance {
 public:
     virtual ~InputMethodEngine() {}
 
+    /**
+     * List the input methods provided by this engine.
+     *
+     * If OnDemand=True, the input method will be provided by configuration file
+     * instead. Additional input method may be provided by configuration file.
+     */
     virtual std::vector<InputMethodEntry> listInputMethods() { return {}; }
+
+    /**
+     * Main function where the input method handles a key event.
+     *
+     * @param entry input method entry
+     * @param event key event
+     */
     virtual void keyEvent(const InputMethodEntry &entry,
                           KeyEvent &keyEvent) = 0;
-    // fcitx gurantee that activate and deactivate appear in pair for all input
-    // context
-    // activate means it will be used.
-    virtual void activate(const InputMethodEntry &, InputContextEvent &) {}
-    // deactivate means it will not be used for this context
+    /**
+     * Called when the input context is switched to this input method.
+     *
+     * @param entry input method entry
+     * @param event event
+     */
+    virtual void activate(const InputMethodEntry &entry,
+                          InputContextEvent &event) {
+        FCITX_UNUSED(entry);
+        FCITX_UNUSED(event);
+    }
+
+    /**
+     * Called when input context switch its input method.
+     *
+     * By default it will call reset.
+     *
+     * @param entry input method entry
+     * @param event event
+     */
     virtual void deactivate(const InputMethodEntry &entry,
                             InputContextEvent &event) {
         reset(entry, event);
     }
-    // reset will only be called if ic is focused
-    virtual void reset(const InputMethodEntry &, InputContextEvent &) {}
-    virtual void filterKey(const InputMethodEntry &, KeyEvent &) {}
+    /**
+     * Being called when the input context need to reset it state.
+     *
+     * reset will only be called if ic is focused
+     *
+     * @param entry input method entry
+     * @param event event
+     */
+    virtual void reset(const InputMethodEntry &entry,
+                       InputContextEvent &event) {
+        FCITX_UNUSED(entry);
+        FCITX_UNUSED(event);
+    }
+
+    /**
+     * If a key event is not handled by all other handler, it will be passed to
+     * this function.
+     *
+     * This is useful for input method to block all the keys that it doesn't
+     * want to handle.
+     *
+     * @param entry input method entry
+     * @param event key event
+     */
+    virtual void filterKey(const InputMethodEntry &entry, KeyEvent &event) {
+        FCITX_UNUSED(entry);
+        FCITX_UNUSED(event);
+    }
+
     FCITXCORE_DEPRECATED virtual void
     updateSurroundingText(const InputMethodEntry &) {}
-    virtual std::string subMode(const InputMethodEntry &, InputContext &) {
+
+    /**
+     * Return a localized name for the sub mode of input method.
+     *
+     * @param entry input method entry
+     * @param inputContext input context
+     * @return name of the sub mode.
+     */
+    virtual std::string subMode(const InputMethodEntry &entry,
+                                InputContext &inputContext) {
+        FCITX_UNUSED(entry);
+        FCITX_UNUSED(inputContext);
         return {};
     }
+
+    /**
+     * Return an alternative icon for entry.
+     *
+     * @param  entry input method entry
+     * @return icon name
+     *
+     * @see InputMethodEngine::subModeIcon
+     */
     virtual std::string overrideIcon(const InputMethodEntry &) { return {}; }
+
+    /**
+     * Return the configuration for this input method entry.
+     *
+     * The entry need to have Configurable=True
+     * By default it will return the addon's config.
+     *
+     * @param entry input method entry
+     * @return pointer to the configuration
+     */
     virtual const Configuration *
-    getConfigForInputMethod(const InputMethodEntry &) const {
+    getConfigForInputMethod(const InputMethodEntry &entry) const {
+        FCITX_UNUSED(entry);
         return getConfig();
     }
-    virtual void setConfigForInputMethod(const InputMethodEntry &,
+
+    /**
+     * Update the configuration for this input method entry.
+     *
+     * The entry need to have Configurable=True
+     * By default it will set the addon's config.
+     *
+     * @param entry input method entry
+     */
+    virtual void setConfigForInputMethod(const InputMethodEntry &entry,
                                          const RawConfig &config) {
+        FCITX_UNUSED(entry);
         setConfig(config);
     }
     /**
