@@ -2213,7 +2213,7 @@ msgstr "根據每個螢幕不同的 DPI 設定"
 
 #: src/ui/classic/theme.h:108
 msgid "Use all horizontal space for highlight when it is vertical list"
-msgstr ""
+msgstr "在使用垂直選字列表時，將整個寬度都變成反白"
 
 #: src/ui/classic/classicui.h:105
 msgid "Use input method language to display text"
@@ -2241,7 +2241,7 @@ msgstr "版本行："
 
 #: src/ui/classic/classicui.h:90
 msgid "Vertical Candidate List"
-msgstr "垂直候選字列表"
+msgstr "垂直選字列表"
 
 #: src/lib/fcitx-utils/key.cpp:158
 msgctxt "Key name"
