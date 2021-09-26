@@ -135,7 +135,7 @@ msgstr "調整亮度"
 
 #: src/lib/fcitx/globalconfig.cpp:18
 msgid "All"
-msgstr ""
+msgstr "在所有應用程式中分享輸入法狀態"
 
 #: data/fcitx5-diagnose.sh:1299
 msgid "All found Gtk ${1} immodule files exist."
@@ -165,16 +165,16 @@ msgstr "Alt"
 #: src/lib/fcitx-utils/key.cpp:116
 msgctxt "Key name"
 msgid "Application Left"
-msgstr "應用程式左"
+msgstr "應用程式左鍵"
 
 #: src/lib/fcitx-utils/key.cpp:117
 msgctxt "Key name"
 msgid "Application Right"
-msgstr "應用程式右"
+msgstr "應用程式右鍵"
 
 #: src/im/keyboard/keyboard.h:75
 msgid "Applications disabled for long press"
-msgstr ""
+msgstr "停用長按的應用程式"
 
 #: src/lib/fcitx-utils/key.cpp:176
 msgctxt "Key name"
@@ -252,7 +252,7 @@ msgstr "藍牙"
 
 #: src/ui/classic/theme.h:125
 msgid "Blur Margin"
-msgstr ""
+msgstr "邊緣模糊"
 
 #: src/lib/fcitx-utils/key.cpp:118
 msgctxt "Key name"
@@ -261,23 +261,23 @@ msgstr "書籍"
 
 #: src/ui/classic/theme.h:61
 msgid "Border Color"
-msgstr ""
+msgstr "外框顏色"
 
 #: src/ui/classic/theme.h:69
 msgid "Border width"
-msgstr ""
+msgstr "外框寬度"
 
 #: src/ui/classic/theme.h:33
 msgid "Bottom Center"
-msgstr ""
+msgstr "正下方"
 
 #: src/ui/classic/theme.h:33
 msgid "Bottom Left"
-msgstr ""
+msgstr "左下方"
 
 #: src/ui/classic/theme.h:34
 msgid "Bottom Right"
-msgstr ""
+msgstr "右下方"
 
 #: src/lib/fcitx-utils/key.cpp:129
 msgctxt "Key name"
@@ -301,7 +301,7 @@ msgstr "取消"
 
 #: src/im/keyboard/longpress.h:19
 msgid "Candidates"
-msgstr ""
+msgstr "候選字"
 
 #: data/fcitx5-diagnose.sh:927
 msgid "Cannot connect to ${1} correctly."
@@ -387,15 +387,15 @@ msgstr "大寫鎖定 (CapsLock)"
 
 #: src/ui/classic/theme.h:32
 msgid "Center"
-msgstr "正中"
+msgstr "正中央"
 
 #: src/ui/classic/theme.h:31
 msgid "Center Left"
-msgstr ""
+msgstr "左方"
 
 #: src/ui/classic/theme.h:32
 msgid "Center Right"
-msgstr ""
+msgstr "右方"
 
 #: data/fcitx5-configtool.desktop.in.in:5
 msgid "Change Fcitx 5 Configuration"
@@ -403,7 +403,7 @@ msgstr "變更 Fcitx 5 設定"
 
 #: src/ui/classic/theme.h:140
 msgid "Check box"
-msgstr ""
+msgstr "選取框"
 
 #: src/im/keyboard/keyboard.h:57 src/modules/quickphrase/quickphrase.h:41
 msgid "Choose key modifier"
@@ -420,7 +420,7 @@ msgstr "清空"
 
 #: src/ui/classic/theme.h:95
 msgid "Click Margin"
-msgstr ""
+msgstr "點擊邊界"
 
 #: src/modules/clipboard/clipboard.conf.in:3
 msgid "Clipboard"
@@ -442,7 +442,7 @@ msgstr "字碼輸入"
 
 #: src/ui/classic/theme.h:53
 msgid "Color"
-msgstr ""
+msgstr "顏色"
 
 #: src/lib/fcitx-utils/key.cpp:113
 msgctxt "Key name"
@@ -451,19 +451,19 @@ msgstr "社群"
 
 #: src/im/keyboard/keyboard.cpp:790
 msgid "Completion"
-msgstr ""
+msgstr "自動完成"
 
 #: src/im/keyboard/keyboard.cpp:781
 msgid "Completion is disabled."
-msgstr ""
+msgstr "已停用自動完成"
 
 #: src/im/keyboard/keyboard.cpp:784
 msgid "Completion is enabled temporarily."
-msgstr ""
+msgstr "已暫時啟用自動完成"
 
 #: src/im/keyboard/keyboard.cpp:786
 msgid "Completion is enabled."
-msgstr ""
+msgstr "已啟用自動完成"
 
 #: data/fcitx5-diagnose.sh:999
 msgid "Config GUI for gtk${1} not found."
@@ -652,11 +652,11 @@ msgstr "顏文字"
 
 #: src/im/keyboard/longpress.h:17
 msgid "Enable"
-msgstr ""
+msgstr "啟用"
 
 #: src/ui/classic/theme.h:104
 msgid "Enable Blur on KWin"
-msgstr ""
+msgstr "在 KWin 上啟用模糊效果"
 
 #: src/modules/quickphrase/quickphrase.h:43
 msgid "Enable Spell check"
@@ -664,11 +664,11 @@ msgstr "啟用拼字檢查"
 
 #: src/im/keyboard/keyboard.h:52
 msgid "Enable emoji in hint"
-msgstr ""
+msgstr "在提示中使用顏文字"
 
 #: src/im/keyboard/keyboard.h:55
 msgid "Enable emoji in quickphrase"
-msgstr ""
+msgstr "在快速片語中使用顏文字"
 
 #: src/modules/spell/spell.h:23
 msgid "Enchant"
@@ -685,19 +685,19 @@ msgstr ""
 
 #: src/lib/fcitx/globalconfig.cpp:50
 msgid "Enumerate Input Method Backward"
-msgstr "枚舉輸入法向後"
+msgstr "向後枚舉輸入法"
 
 #: src/lib/fcitx/globalconfig.cpp:43
 msgid "Enumerate Input Method Forward"
-msgstr "枚舉輸入法向前"
+msgstr "向前枚舉輸入法"
 
 #: src/lib/fcitx/globalconfig.cpp:67
 msgid "Enumerate Input Method Group Backward"
-msgstr "枚舉輸入法群組向後"
+msgstr "向後枚舉輸入法群組"
 
 #: src/lib/fcitx/globalconfig.cpp:60
 msgid "Enumerate Input Method Group Forward"
-msgstr "枚舉輸入法群組向前"
+msgstr "向前枚舉輸入法群組"
 
 #: src/lib/fcitx/globalconfig.cpp:32
 msgid "Enumerate when press trigger key repeatedly"
@@ -790,6 +790,8 @@ msgid ""
 "language. It also features variant choice of addons that improve your typing "
 "experience."
 msgstr ""
+"Fcitx 是一套輸入法框架。它可以幫助您輸入您所使用的語言；同時也提供多樣的附加元件，大大提昇您在"
+"打字時的體驗。"
 
 #: data/fcitx5-diagnose.sh:901
 msgid "Fcitx version: ${1}"
@@ -797,7 +799,7 @@ msgstr "Fcitx 版本：${1}"
 
 #: src/frontend/fcitx4frontend/fcitx4frontend.conf.in:3
 msgid "Fcitx4 Frontend"
-msgstr ""
+msgstr "Fcitx4 前端"
 
 #: src/lib/fcitx-utils/key.cpp:112
 msgctxt "Key name"
@@ -811,7 +813,7 @@ msgstr "尋找"
 
 #: src/ui/classic/classicui.h:98
 msgid "Font"
-msgstr ""
+msgstr "字體"
 
 #: src/ui/classic/classicui.h:109
 msgid ""
@@ -819,6 +821,8 @@ msgid ""
 "Japanese variant when using Anthy. The font configuration needs to support "
 "this to use this feature."
 msgstr ""
+"比方說，在使用拼音輸入法的時候，會使用中文字體，使用 Anthy 時則使用日文字體。您必須要有支援"
+"這項功能的字體設定，才能使用這項功能。"
 
 #: src/lib/fcitx-utils/key.cpp:59
 msgctxt "Key name"
@@ -1032,23 +1036,23 @@ msgstr ""
 
 #: src/ui/classic/theme.h:118 src/ui/classic/theme.h:137
 msgid "Highlight Background"
-msgstr ""
+msgstr "反白背景"
 
 #: src/ui/classic/theme.h:113
 msgid "Highlight Background color"
-msgstr ""
+msgstr "反白背景顏色"
 
 #: src/ui/classic/theme.h:102 src/ui/classic/theme.h:131
 msgid "Highlight Candidate Color"
-msgstr ""
+msgstr "反白候選字顏色"
 
 #: src/ui/classic/theme.h:90
 msgid "Highlight Click Margin"
-msgstr ""
+msgstr "反白邊緣點擊區"
 
 #: src/ui/classic/theme.h:111
 msgid "Highlight text color"
-msgstr ""
+msgstr "高亮文字顏色"
 
 #: src/lib/fcitx-utils/key.cpp:203
 msgctxt "Key name"
@@ -1095,12 +1099,13 @@ msgstr "快捷鍵"
 
 #: src/modules/imselector/imselector.h:35
 msgid "Hotkey for switching to the N-th input method"
-msgstr ""
+msgstr "用來切換到第 N 個輸入法的熱鍵"
 
 #: src/modules/imselector/imselector.h:44
 msgid ""
 "Hotkey for switching to the N-th input method for only current input context"
 msgstr ""
+"用來在當前輸入環境中切換到第 N 個輸入法的熱鍵"
 
 #: src/lib/fcitx-utils/key.cpp:479
 msgctxt "Key name"
@@ -1132,7 +1137,7 @@ msgstr ""
 
 #: src/ui/classic/theme.h:93
 msgid "Image"
-msgstr ""
+msgstr "圖片"
 
 #: src/im/keyboard/keyboard.cpp:789 src/ui/classic/xcbtraywindow.cpp:38
 #: src/lib/fcitx/instance.cpp:730 src/lib/fcitx/instance.cpp:900
@@ -1153,7 +1158,7 @@ msgstr "輸入法相關環境變數："
 
 #: src/ui/classic/theme.h:164
 msgid "Input Panel"
-msgstr ""
+msgstr "輸入面板"
 
 #: src/modules/imselector/imselector.conf.in:3
 msgid "Input method selector"
@@ -1164,6 +1169,7 @@ msgid ""
 "Input methods may have different setup in their own configuration. This is "
 "commonly used by modules like clipboard or quickphrase."
 msgstr ""
+"每個輸入法可能會有各自的設定，像是剪貼簿以及快速片語功能，每個輸入法的設定方式都可能不同。"
 
 #: src/lib/fcitx-utils/key.cpp:194
 msgctxt "Key name"
@@ -1200,7 +1206,7 @@ msgstr "片假名"
 
 #: src/im/keyboard/longpress.h:16
 msgid "Key"
-msgstr ""
+msgstr "按鍵"
 
 #: src/im/keyboard/keyboard.cpp:324 src/im/keyboard/keyboard.conf.in:3
 msgid "Keyboard"
@@ -1330,7 +1336,7 @@ msgstr "啟動郵件程式"
 #: src/lib/fcitx-utils/key.cpp:47
 msgctxt "Key name"
 msgid "Left"
-msgstr "左"
+msgstr "左鍵"
 
 #: src/lib/fcitx-utils/key.cpp:30
 msgctxt "Key name"
@@ -1377,7 +1383,7 @@ msgstr "登出"
 
 #: src/im/keyboard/keyboard.h:77
 msgid "Long Press behavior"
-msgstr ""
+msgstr "長按行為"
 
 #: src/lib/fcitx-utils/key.cpp:166
 msgctxt "Key name"
@@ -1386,31 +1392,31 @@ msgstr "轉寄信件"
 
 #: src/ui/classic/theme.h:82
 msgid "Margin"
-msgstr ""
+msgstr "邊界"
 
 #: src/ui/classic/theme.h:44
 msgid "Margin Bottom"
-msgstr ""
+msgstr "下邊界"
 
 #: src/ui/classic/theme.h:38
 msgid "Margin Left"
-msgstr ""
+msgstr "左邊界"
 
 #: src/ui/classic/theme.h:40
 msgid "Margin Right"
-msgstr ""
+msgstr "右邊界"
 
 #: src/ui/classic/theme.h:42
 msgid "Margin Top"
-msgstr ""
+msgstr "上邊界"
 
 #: src/ui/classic/theme.h:120 src/ui/classic/theme.h:143
 msgid "Margin around all content"
-msgstr ""
+msgstr "全部內容周圍的邊緣"
 
 #: src/ui/classic/theme.h:122 src/ui/classic/theme.h:145
 msgid "Margin around text"
-msgstr ""
+msgstr "文字周圍的邊緣"
 
 #: src/lib/fcitx-utils/key.cpp:134
 msgctxt "Key name"
@@ -1478,7 +1484,7 @@ msgstr "選單"
 
 #: src/ui/classic/classicui.h:100
 msgid "Menu Font"
-msgstr ""
+msgstr "選單字體"
 
 #: src/lib/fcitx-utils/key.cpp:137
 msgctxt "Key name"
@@ -1549,11 +1555,11 @@ msgstr "下一個候選字"
 
 #: src/ui/classic/theme.h:124
 msgid "Next Page Button"
-msgstr ""
+msgstr "下一頁按鈕"
 
 #: src/lib/fcitx/globalconfig.cpp:19
 msgid "No"
-msgstr ""
+msgstr "不要分享"
 
 #: src/modules/clipboard/clipboard.cpp:313
 msgid "No clipboard history."
@@ -1565,7 +1571,7 @@ msgstr "無"
 
 #: src/ui/classic/theme.h:99 src/ui/classic/theme.h:128
 msgid "Normal text color"
-msgstr ""
+msgstr "一般文字顏色"
 
 #: src/ui/kimpanel/kimpanel.cpp:360
 msgid "Not available"
@@ -1586,13 +1592,14 @@ msgstr "數字鎖定 (NumLock)"
 
 #: src/modules/clipboard/clipboard.h:35
 msgid "Number of entries"
-msgstr ""
+msgstr "剪貼簿數量"
 
 #: src/im/keyboard/keyboard.cpp:775
 msgid ""
 "Only emoji support is found. To enable spell checking, you may need to "
 "install spell check data for the language."
 msgstr ""
+"目前只有發現顏文字功能。要啟動拼字檢查功能，您必須要安裝這套語言的拼字檢查資料。"
 
 #: src/lib/fcitx-utils/key.cpp:189
 msgctxt "Key name"
@@ -1611,31 +1618,31 @@ msgstr "選項"
 
 #: src/ui/classic/theme.h:84
 msgid "Overlay Clip Margin"
-msgstr ""
+msgstr "浮層裁切邊界"
 
 #: src/ui/classic/theme.h:74
 msgid "Overlay Image"
-msgstr ""
+msgstr "浮層圖片"
 
 #: src/ui/classic/theme.h:77
 msgid "Overlay X offset"
-msgstr ""
+msgstr "浮層 X 軸位置"
 
 #: src/ui/classic/theme.h:78
 msgid "Overlay Y offset"
-msgstr ""
+msgstr "浮層 Y 軸位置"
 
 #: src/ui/classic/theme.h:76
 msgid "Overlay position"
-msgstr ""
+msgstr "浮層位置"
 
 #: data/fcitx5-diagnose.sh:943
 msgid "Owner of DBus name ${1} is ${2}."
-msgstr ""
+msgstr "Dbus 名稱 ${1} 的擁有者是 ${2}"
 
 #: data/fcitx5-diagnose.sh:951
 msgid "PID of DBus name ${1} owner is ${2}."
-msgstr ""
+msgstr "Dbus 名稱 ${1} 擁有者的 PID 是 ${2}"
 
 #: src/im/keyboard/keyboard.h:38
 msgid "Page size"
@@ -1648,7 +1655,7 @@ msgstr "貼上"
 
 #: src/modules/clipboard/clipboard.h:33
 msgid "Paste Primary"
-msgstr ""
+msgstr "主要貼上按鍵"
 
 #: src/lib/fcitx-utils/key.cpp:44
 msgctxt "Key name"
@@ -1703,15 +1710,15 @@ msgstr "關機"
 
 #: src/lib/fcitx/instance.cpp:900
 msgid "Preedit"
-msgstr ""
+msgstr "輸入緩衝區"
 
 #: src/lib/fcitx/instance.cpp:902
 msgid "Preedit disabled"
-msgstr ""
+msgstr "輸入緩衝區已停用"
 
 #: src/lib/fcitx/instance.cpp:901
 msgid "Preedit enabled"
-msgstr ""
+msgstr "輸入緩衝區已啟用"
 
 #: src/modules/spell/spell.h:22
 msgid "Presage"
@@ -1723,7 +1730,7 @@ msgstr "上一個候選字"
 
 #: src/ui/classic/theme.h:123
 msgid "Prev Page Button"
-msgstr ""
+msgstr "上一頁按鈕"
 
 #: src/lib/fcitx-utils/key.cpp:217
 msgctxt "Key name"
@@ -1737,15 +1744,15 @@ msgstr "截圖 (PrtSc)"
 
 #: src/lib/fcitx/globalconfig.cpp:19
 msgid "Program"
-msgstr ""
+msgstr "在同一應用程式中分享輸入法狀態"
 
 #: src/modules/spell/spell.h:38
 msgid "Providers"
-msgstr ""
+msgstr "提供者"
 
 #: data/fcitx5-diagnose.sh:1189
 msgid "Qt IM module files:"
-msgstr ""
+msgstr "Qt 輸入模組檔案："
 
 #: src/modules/quickphrase/quickphrase.conf.in:3
 msgid "Quick Phrase"
@@ -1753,7 +1760,7 @@ msgstr "快速片語"
 
 #: src/modules/quickphrase/quickphrase.cpp:395
 msgid "Quick Phrase: "
-msgstr "快速輸入："
+msgstr "快速片語："
 
 #: src/lib/fcitx-utils/key.cpp:184
 msgctxt "Key name"
@@ -1793,7 +1800,7 @@ msgstr "Return 鍵"
 #: src/lib/fcitx-utils/key.cpp:49
 msgctxt "Key name"
 msgid "Right"
-msgstr "右"
+msgstr "右鍵"
 
 #: src/lib/fcitx-utils/key.cpp:31
 msgctxt "Key name"
@@ -1808,7 +1815,7 @@ msgstr "右 Control 鍵"
 #: src/lib/fcitx-utils/key.cpp:39
 msgctxt "Key name"
 msgid "Right Hyper"
-msgstr ""
+msgstr "右 Hyper 鍵"
 
 #: src/lib/fcitx-utils/key.cpp:33
 msgctxt "Key name"
@@ -1914,19 +1921,19 @@ msgstr "當切換輸入法時顯示輸入法資訊"
 
 #: src/lib/fcitx/globalconfig.cpp:146
 msgid "Show compact input method information"
-msgstr ""
+msgstr "顯示精簡版本的輸入法資訊"
 
 #: src/lib/fcitx/globalconfig.cpp:149
 msgid "Show first input method information"
-msgstr ""
+msgstr "顯示第一個輸入法的資訊"
 
 #: src/modules/notificationitem/notificationitem.h:26
 msgid "Show label when using keyboard or icon unavailable"
-msgstr ""
+msgstr "在使用鍵盤，或是沒有圖示的時候，顯示文字訊息"
 
 #: src/lib/fcitx/globalconfig.cpp:136
 msgid "Show preedit in application"
-msgstr ""
+msgstr "在應用程式中顯示輸入緩衝區"
 
 #: src/lib/fcitx/globalconfig.cpp:56
 msgid "Skip first input method while enumerating"
@@ -1944,7 +1951,7 @@ msgstr "空格"
 
 #: src/ui/classic/theme.h:133
 msgid "Spacing"
-msgstr ""
+msgstr "間距"
 
 #: src/modules/spell/spell.conf.in:3
 msgid "Spell"
@@ -1985,7 +1992,7 @@ msgstr "停止"
 
 #: src/ui/classic/theme.h:141
 msgid "Sub Menu"
-msgstr ""
+msgstr "子選單"
 
 #: src/lib/fcitx-utils/key.cpp:175
 msgctxt "Key name"
@@ -2100,11 +2107,11 @@ msgstr "工具"
 
 #: src/ui/classic/theme.h:30
 msgid "Top Center"
-msgstr ""
+msgstr "正上方"
 
 #: src/ui/classic/theme.h:30
 msgid "Top Left"
-msgstr ""
+msgstr "左上方"
 
 #: src/lib/fcitx-utils/key.cpp:180
 msgctxt "Key name"
@@ -2113,7 +2120,7 @@ msgstr "頂部選單"
 
 #: src/ui/classic/theme.h:31
 msgid "Top Right"
-msgstr ""
+msgstr "右上方"
 
 #: src/lib/fcitx-utils/key.cpp:233
 msgctxt "Key name"
@@ -2142,7 +2149,7 @@ msgstr "旅行"
 
 #: src/ui/classic/theme.h:156
 msgid "Tray Font"
-msgstr ""
+msgstr "工具列字體"
 
 #: src/lib/fcitx/globalconfig.cpp:26
 msgid "Trigger Input Method"
@@ -2152,11 +2159,11 @@ msgstr "切換啟用或非啟用輸入法"
 #: src/modules/quickphrase/quickphrase.h:36
 #: src/modules/clipboard/clipboard.h:29
 msgid "Trigger Key"
-msgstr ""
+msgstr "觸發按鍵"
 
 #: src/modules/imselector/imselector.h:29
 msgid "Trigger Key for only current input context"
-msgstr ""
+msgstr "只在當前輸入環境下的觸發按鍵"
 
 #: src/im/keyboard/keyboard.h:61
 msgid "Trigger hint mode"
@@ -2168,15 +2175,15 @@ msgstr ""
 
 #: src/im/keyboard/keyboard.h:70
 msgid "Type special characters with long press"
-msgstr ""
+msgstr "使用長按輸入特殊字元"
 
 #: data/org.fcitx.Fcitx5.metainfo.xml.in:20
 msgid "Typing with Fcitx and Kimpanel"
-msgstr ""
+msgstr "使用 Fcitx 與 Kimpanel 打字"
 
 #: data/fcitx5-diagnose.sh:959
 msgid "Unable to find a program to check dbus."
-msgstr ""
+msgstr "無法找到可以檢查 dbus 的應用程式。"
 
 #: src/lib/fcitx-utils/key.cpp:191
 msgctxt "Key name"
@@ -2194,15 +2201,15 @@ msgstr "Unicode："
 #: src/lib/fcitx-utils/key.cpp:48
 msgctxt "Key name"
 msgid "Up"
-msgstr "上"
+msgstr "上鍵"
 
 #: src/frontend/xim/xim.h:33
 msgid "Use On The Spot Style (Needs restarting)"
-msgstr ""
+msgstr "使用 On-The-Spot 風格（需要重新啟動）"
 
 #: src/ui/classic/classicui.h:91
 msgid "Use Per Screen DPI"
-msgstr "依每個螢幕的 DPI 使用"
+msgstr "根據每個螢幕不同的 DPI 設定"
 
 #: src/ui/classic/theme.h:108
 msgid "Use all horizontal space for highlight when it is vertical list"
@@ -2210,27 +2217,27 @@ msgstr ""
 
 #: src/ui/classic/classicui.h:105
 msgid "Use input method language to display text"
-msgstr ""
+msgstr "使用輸入法的語言顯示文字"
 
 #: src/ui/classic/classicui.h:94
 msgid "Use mouse wheel to go to prev or next page"
-msgstr ""
+msgstr "使用滑鼠滾輪前往前一頁或下一頁"
 
 #: data/fcitx5-diagnose.sh:1633
 msgid "User Interface:"
-msgstr ""
+msgstr "使用者介面"
 
 #: data/fcitx5-diagnose.sh:938
 msgid "Using ${1} to check dbus."
-msgstr ""
+msgstr "使用 ${1} 檢查 dbus。"
 
 #: src/ui/classic/theme.h:149
 msgid "Version"
-msgstr ""
+msgstr "版本"
 
 #: data/fcitx5-diagnose.sh:1337 data/fcitx5-diagnose.sh:1421
 msgid "Version Line:"
-msgstr ""
+msgstr "版本行："
 
 #: src/ui/classic/classicui.h:90
 msgid "Vertical Candidate List"
@@ -2286,7 +2293,7 @@ msgstr "網路攝影機"
 
 #: data/fcitx5-diagnose.sh:878
 msgid "Why is it bad to run as root"
-msgstr ""
+msgstr "為什麼使用 root 權限執行是個壞主意"
 
 #: src/lib/fcitx-utils/key.cpp:171
 msgctxt "Key name"
@@ -2313,33 +2320,35 @@ msgstr "XFer"
 
 #: data/fcitx5-diagnose.sh:1136
 msgid "XIM encoding:"
-msgstr ""
+msgstr "XIM 編碼："
 
 #: data/fcitx5-diagnose.sh:1131
 msgid "XIM for Emacs:"
-msgstr ""
+msgstr "供 Enacs 使用的 XIM："
 
 #: data/fcitx5-diagnose.sh:1107
 msgid "XIM_SERVERS on root window:"
-msgstr ""
+msgstr "在根視窗上的 XIM_SERVERS"
 
 #: data/fcitx5-diagnose.sh:1084
 msgid "XMODIFIERS is not set"
-msgstr ""
+msgstr "尚未設置 XMODIFIERS"
 
 #: data/fcitx5-diagnose.sh:1105
 msgid "Xim Server Name from Environment variable is ${1}."
-msgstr ""
+msgstr "環境變數中的 XIM Server 名稱是 ${1}"
 
 #: data/fcitx5-diagnose.sh:1117
 msgid "Xim server name is the same with that set in the environment variable."
-msgstr ""
+msgstr "Xim Server 的名稱與環境變數中一致。"
 
 #: data/fcitx5-diagnose.sh:1119
 msgid ""
 "Xim server name: \"${1}\" is different from that set in the environment "
 "variable: \"${2}\"."
 msgstr ""
+"Xim server 的名稱: \"${1}\" 與環境變數當中的設定不同，目前設定的"
+"變數名稱是: \"${2}\"."
 
 #: src/lib/fcitx-utils/key.cpp:186
 msgctxt "Key name"
@@ -2361,17 +2370,19 @@ msgstr ""
 
 #: data/fcitx5-diagnose.sh:1158
 msgid "You are using xim in ${1} programs."
-msgstr ""
+msgstr "您正在 ${1} 應用程式中使用 xim。"
 
 #: data/fcitx5-diagnose.sh:1163
 msgid "You may have trouble using fcitx in ${1} programs."
-msgstr ""
+msgstr "您可能會在 ${1} 應用程式中遇到使用 fcitx 的問題。"
 
 #: data/fcitx5-configtool.sh:131
 msgid ""
 "You're currently running Fcitx with GUI, but fcitx5-config-qt couldn't be "
 "found. Now it will open config directory."
 msgstr ""
+"您正在 GUI 環境下使用 Fcitx，不過我們找不到 fcitx5-config-qt。"
+"我們現在會幫您打開設定目錄。"
 
 #: data/fcitx5-configtool.sh:128
 msgid ""
@@ -2379,6 +2390,9 @@ msgid ""
 "package name of this KCModule is usually kcm-fcitx or kde-config-fcitx. Now "
 "it will open config directory."
 msgstr ""
+"您正在使用 KDE，不過我們找不到供 fcitx 使用的 KCModule。"
+"–這個 KCModule 的套件名稱通常叫做 kcm-fcitx 或是 kde-config-fcitx。"
+"我們現在會幫您打開設定目錄。"
 
 #: data/fcitx5-diagnose.sh:1133
 msgid ""
@@ -2386,12 +2400,15 @@ msgid ""
 "able to use input method in emacs because of an really old emacs bug that "
 "upstream refuse to fix for years."
 msgstr ""
+"您的 LC_CTYPE 目前設定成 ${1}，而非 zh、ja、ko 當中的其中一種。您可能會無法在 emacs 中"
+"使用輸入法，原因是，多年來有個 emacs bug 一直沒被修好。"
 
 #: data/fcitx5-diagnose.sh:1138
 msgid ""
 "Your LC_CTYPE is set to ${1} whose encoding is not UTF-8. You may have "
 "trouble committing strings using XIM."
 msgstr ""
+"您目前將 LC_CTYPE 設定成 ${1}，使用的並不是 UTF-8 編碼。您可能會在使用 XIM 送出字串時遇到問題。"
 
 #: src/lib/fcitx-utils/key.cpp:206
 msgctxt "Key name"
@@ -2415,11 +2432,11 @@ msgstr "縮小"
 
 #: data/fcitx5-diagnose.sh:888
 msgid "executable:"
-msgstr ""
+msgstr "執行檔："
 
 #: data/fcitx5-diagnose.sh:712
 msgid "here"
-msgstr ""
+msgstr "這裡"
 
 #: src/lib/fcitx-utils/key.cpp:132
 msgctxt "Key name"
@@ -2436,7 +2453,7 @@ msgstr ""
 
 #: data/fcitx5-diagnose.sh:898
 msgid "version:"
-msgstr ""
+msgstr "版本："
 
 #: src/im/keyboard/keyboard.cpp:301
 msgid "{0} (Not Available)"
