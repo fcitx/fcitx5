@@ -307,18 +307,22 @@ void WaylandIMInputContextV2::keymapCallback(uint32_t format, int32_t fd,
         return;
     }
 
-    if (server_->keymap_) {
-        server_->keymap_.reset();
-    }
-
     auto *mapStr = mmap(nullptr, size, PROT_READ, MAP_SHARED, fd, 0);
     if (mapStr == MAP_FAILED) {
         return;
     }
 
-    server_->keymap_.reset(xkb_keymap_new_from_string(
-        server_->context_.get(), static_cast<const char *>(mapStr),
-        XKB_KEYMAP_FORMAT_TEXT_V1, XKB_KEYMAP_COMPILE_NO_FLAGS));
+    const bool keymapChanged =
+        (size != server_->keymapData_.size() ||
+         memcmp(mapStr, server_->keymapData_.data(), size) != 0);
+    if (keymapChanged) {
+        server_->keymapData_.resize(size);
+        server_->keymapData_.assign(static_cast<const char *>(mapStr),
+                                    static_cast<const char *>(mapStr) + size);
+        server_->keymap_.reset(xkb_keymap_new_from_string(
+            server_->context_.get(), static_cast<const char *>(mapStr),
+            XKB_KEYMAP_FORMAT_TEXT_V1, XKB_KEYMAP_COMPILE_NO_FLAGS));
+    }
 
     munmap(mapStr, size);
 
@@ -355,7 +359,9 @@ void WaylandIMInputContextV2::keymapCallback(uint32_t format, int32_t fd,
     server_->stateMask_.meta_mask =
         1 << xkb_keymap_mod_get_index(server_->keymap_.get(), "Meta");
 
-    vk_->keymap(format, scopeFD.fd(), size);
+    if (keymapChanged) {
+        vk_->keymap(format, scopeFD.fd(), size);
+    }
 }
 
 void WaylandIMInputContextV2::keyCallback(uint32_t, uint32_t time, uint32_t key,
@@ -439,7 +445,7 @@ void WaylandIMInputContextV2::modifiersCallback(uint32_t,
         server_->modifiers_ |= KeyState::Meta;
     }
 
-    vk_->modifiers(mods_depressed, mods_depressed, mods_latched, group);
+    vk_->modifiers(mods_depressed, mods_latched, mods_locked, group);
 }
 
 void WaylandIMInputContextV2::repeatInfoCallback(int32_t rate, int32_t delay) {

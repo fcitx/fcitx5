@@ -53,6 +53,7 @@ private:
         virtualKeyboardManagerV1_;
 
     UniqueCPtr<struct xkb_context, xkb_context_unref> context_;
+    std::vector<char> keymapData_;
     UniqueCPtr<struct xkb_keymap, xkb_keymap_unref> keymap_;
     UniqueCPtr<struct xkb_state, xkb_state_unref> state_;
 
