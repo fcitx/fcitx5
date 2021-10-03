@@ -182,6 +182,7 @@ WaylandIMInputContextV2::WaylandIMInputContextV2(
             repeat();
             return true;
         });
+    timeEvent_->setAccuracy(1);
     timeEvent_->setEnabled(false);
     created();
 }
@@ -198,13 +199,13 @@ void WaylandIMInputContextV2::repeat() {
         false, repeatTime_);
     if (!keyEvent(event)) {
         vk_->key(repeatTime_, event.rawKey().code() - 8,
-                 event.isRelease() ? WL_KEYBOARD_KEY_STATE_RELEASED
-                                   : WL_KEYBOARD_KEY_STATE_PRESSED);
+                 WL_KEYBOARD_KEY_STATE_PRESSED);
     }
-
-    timeEvent_->setNextInterval(1000000 / repeatRate_);
+    uint64_t interval = 1000000 / repeatRate_;
+    timeEvent_->setTime(timeEvent_->time() + interval);
     timeEvent_->setOneShot();
-    server_->display_->flush();
+
+    server_->display_->roundtrip();
 }
 
 void WaylandIMInputContextV2::surroundingTextCallback(const char *text,
