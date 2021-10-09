@@ -747,21 +747,7 @@ std::string getKdeTheme(int fd) {
     return "";
 }
 
-std::string getGtk3Theme(int fd) {
-    RawConfig rawConfig;
-    readFromIni(rawConfig, fd);
-    if (auto settings = rawConfig.get("Settings")) {
-        if (auto theme = settings->get("gtk-icon-theme-name")) {
-            if (!theme->value().empty() &&
-                theme->value().find('/') == std::string::npos) {
-                return theme->value();
-            }
-        }
-    }
-    return "";
-}
-
-std::string getGtk2Theme(const std::string &filename) {
+std::string getGtkTheme(const std::string &filename) {
     // Evil Gtk2 use an non standard "ini-like" rc file.
     // Grep it and try to find the line we want ourselves.
     std::ifstream fin(filename, std::ios::in | std::ios::binary);
@@ -771,6 +757,10 @@ std::string getGtk2Theme(const std::string &filename) {
         if (tokens.size() == 2 &&
             stringutils::trim(tokens[0]) == "gtk-icon-theme-name") {
             auto value = stringutils::trim(tokens[1]);
+            if (value.size() >= 2 && value.front() == '"' &&
+                value.back() == '"') {
+                value = value.substr(1, value.size() - 2);
+            }
             if (!value.empty() && value.find('/') == std::string::npos) {
                 return value;
             }
@@ -812,16 +802,15 @@ std::string IconTheme::defaultIconThemeName() {
         return "oxygen";
     }
     default: {
-        auto files = StandardPath::global().openAll(
-            StandardPath::Type::Config, "gtk-3.0/settings.ini", O_RDONLY);
+        auto files = StandardPath::global().locateAll(
+            StandardPath::Type::Config, "gtk-3.0/settings.ini");
         for (auto &file : files) {
-            auto theme = getGtk3Theme(file.fd());
+            auto theme = getGtkTheme(file);
             if (!theme.empty()) {
                 return theme;
             }
         }
-        auto fd = UnixFD::own(open("/etc/gtk-3.0/settings.ini", O_RDONLY));
-        auto theme = getGtk3Theme(fd.fd());
+        auto theme = getGtkTheme("/etc/gtk-3.0/settings.ini");
         if (!theme.empty()) {
             return theme;
         }
@@ -831,7 +820,7 @@ std::string IconTheme::defaultIconThemeName() {
             std::string files[] = {stringutils::joinPath(homeStr, ".gtkrc-2.0"),
                                    "/etc/gtk-2.0/gtkrc"};
             for (auto &file : files) {
-                auto theme = getGtk2Theme(file);
+                auto theme = getGtkTheme(file);
                 if (!theme.empty()) {
                     return theme;
                 }
