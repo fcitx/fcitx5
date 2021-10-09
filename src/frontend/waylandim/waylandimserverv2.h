@@ -41,6 +41,7 @@ public:
     void remove(wayland::WlSeat *seat);
     Instance *instance();
     FocusGroup *group() { return group_; }
+    auto *xkbState() { return state_.get(); }
     auto *inputMethodManagerV2() { return inputMethodManagerV2_.get(); }
 
 private:
@@ -97,16 +98,12 @@ protected:
         ic_->commit(serial_);
     }
     void deleteSurroundingTextImpl(int offset, unsigned int size) override {
-        ic_->deleteSurroundingText(offset, size);
+        ic_->deleteSurroundingText(-offset, offset + size);
         ic_->commit(serial_);
     }
-    void forwardKeyImpl(const ForwardKeyEvent &key) override {
-        vk_->key(time_, key.rawKey().code(),
-                 key.isRelease() ? WL_KEYBOARD_KEY_STATE_RELEASED
-                                 : WL_KEYBOARD_KEY_STATE_PRESSED);
-    }
+    void forwardKeyImpl(const ForwardKeyEvent &key) override;
 
-    virtual void updatePreeditImpl() override;
+    void updatePreeditImpl() override;
 
 private:
     void repeat();

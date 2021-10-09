@@ -14,6 +14,10 @@
 
 namespace fcitx {
 
+constexpr CapabilityFlags baseFlags{CapabilityFlag::Preedit,
+                                    CapabilityFlag::FormattedPreedit,
+                                    CapabilityFlag::SurroundingText};
+
 WaylandIMServerV2::WaylandIMServerV2(wl_display *display, FocusGroup *group,
                                      const std::string &name,
                                      WaylandIMModule *waylandim)
@@ -92,6 +96,7 @@ void WaylandIMServerV2::refreshSeat() {
             inputContextManager(), this, seat,
             virtualKeyboardManagerV1_->createVirtualKeyboard(seat.get()));
         ic->setFocusGroup(group_);
+        ic->setCapabilityFlags(baseFlags);
     }
 }
 
@@ -197,6 +202,9 @@ void WaylandIMInputContextV2::repeat() {
         this,
         Key(repeatSym_, server_->modifiers_ | KeyState::Repeat, repeatKey_ + 8),
         false, repeatTime_);
+    vk_->key(repeatTime_, event.rawKey().code() - 8,
+             WL_KEYBOARD_KEY_STATE_RELEASED);
+    server_->display_->roundtrip();
     if (!keyEvent(event)) {
         vk_->key(repeatTime_, event.rawKey().code() - 8,
                  WL_KEYBOARD_KEY_STATE_PRESSED);
@@ -217,7 +225,7 @@ void WaylandIMInputContextV2::surroundingTextCallback(const char *text,
 void WaylandIMInputContextV2::resetCallback() { reset(ResetReason::Client); }
 void WaylandIMInputContextV2::contentTypeCallback(uint32_t hint,
                                                   uint32_t purpose) {
-    CapabilityFlags flags;
+    CapabilityFlags flags = baseFlags;
 
     if (hint & ZWP_TEXT_INPUT_V3_CONTENT_HINT_COMPLETION) {
         flags |= CapabilityFlag::WordCompletion;
@@ -390,7 +398,9 @@ void WaylandIMInputContextV2::keyCallback(uint32_t, uint32_t time, uint32_t key,
             repeatKey_ = key;
             repeatTime_ = time;
             repeatSym_ = event.rawKey().sym();
-            timeEvent_->setNextInterval(repeatDelay_ * 1000);
+            // Let's trick the key event system by fake our first.
+            // Remove 100 from the initial interval.
+            timeEvent_->setNextInterval(repeatDelay_ * 1000 - 100);
             timeEvent_->setOneShot();
         }
     }
@@ -452,7 +462,30 @@ void WaylandIMInputContextV2::modifiersCallback(uint32_t,
 void WaylandIMInputContextV2::repeatInfoCallback(int32_t rate, int32_t delay) {
     repeatRate_ = rate;
     repeatDelay_ = delay;
-    timeEvent_->setAccuracy(std::min(delay * 1000, 1000000 / rate));
+}
+
+void WaylandIMInputContextV2::forwardKeyImpl(const ForwardKeyEvent &key) {
+    uint32_t code = 0;
+    if (key.rawKey().code()) {
+        code = key.rawKey().code();
+    } else if (auto xkbState = server_->xkbState()) {
+        auto *map = xkb_state_get_keymap(xkbState);
+        auto min = xkb_keymap_min_keycode(map),
+             max = xkb_keymap_max_keycode(map);
+        for (auto keyCode = min; keyCode < max; keyCode++) {
+            if (xkb_state_key_get_one_sym(xkbState, keyCode) ==
+                static_cast<uint32_t>(key.rawKey().sym())) {
+                code = keyCode;
+                break;
+            }
+        }
+    }
+    vk_->key(time_, code - 8,
+             key.isRelease() ? WL_KEYBOARD_KEY_STATE_RELEASED
+                             : WL_KEYBOARD_KEY_STATE_PRESSED);
+    if (!key.isRelease()) {
+        vk_->key(time_, code - 8, WL_KEYBOARD_KEY_STATE_RELEASED);
+    }
 }
 
 void WaylandIMInputContextV2::updatePreeditImpl() {

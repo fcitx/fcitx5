@@ -936,7 +936,6 @@ Instance::Instance(int argc, char **argv) {
                 keyEvent.key().checkKeyList(
                     d->globalConfig_.togglePreeditKeys())) {
                 ic->setEnablePreedit(!ic->isPreeditEnabled());
-                FCITX_INFO() << ic->capabilityFlags();
                 if (d->notifications_) {
                     d->notifications_->call<INotifications::showTip>(
                         "toggle-preedit", _("Input Method"), "", _("Preedit"),

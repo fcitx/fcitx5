@@ -231,7 +231,7 @@ bool InputContext::keyEvent(KeyEvent &event) {
                      << std::chrono::duration_cast<std::chrono::milliseconds>(
                             std::chrono::steady_clock::now() - start)
                             .count()
-                     << "ms";
+                     << "ms result:" << result;
     return result;
 }
 
