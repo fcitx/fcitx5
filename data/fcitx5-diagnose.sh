@@ -256,6 +256,9 @@ _detectDE_XDG_CURRENT() {
         XFCE)
             DE=xfce
             ;;
+        Deepin)
+            DE=deepin
+            ;;
         *)
             return 1
             ;;
@@ -295,6 +298,9 @@ _detectDE_SESSION() {
             ;;
         xfce|xfce4|'Xfce Session')
             DE=xfce
+            ;;
+        Deepin)
+            DE=deepin
             ;;
         *)
             return 1
