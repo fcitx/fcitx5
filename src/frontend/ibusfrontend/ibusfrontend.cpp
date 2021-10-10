@@ -724,32 +724,40 @@ dbus::Bus *IBusFrontendModule::bus() {
     return dbus()->call<IDBusModule::bus>();
 }
 
-std::pair<std::string, pid_t>
-readIBusInfo(const std::set<std::string> &socketPaths) {
-    std::pair<std::string, pid_t> address;
-    for (const auto &path : socketPaths) {
-        address = getAddress(path);
+std::optional<std::pair<std::string, pid_t>>
+readIBusInfo(const std::string &socketPath) {
+    std::pair<std::string, pid_t> address = getAddress(socketPath);
 
-        FCITX_IBUS_DEBUG() << "Found ibus address from file " << path << ": "
-                           << address;
+    FCITX_IBUS_DEBUG() << "Found ibus address from file " << socketPath << ": "
+                       << address;
 
-        if (isInFlatpak()) {
-            // Check the in flatpak special pid value.
-            if (address.second == 0) {
-                continue;
-            }
-        } else {
-            // It's not meaningful to compare pid from different pid namespace.
-            if (address.second == getpid()) {
-                continue;
-            }
+    if (isInFlatpak()) {
+        // Check the in flatpak special pid value.
+        if (address.second == 0) {
+            return std::nullopt;
         }
-        if (!address.first.empty() &&
-            address.first.find("fcitx_random_string") == std::string::npos) {
-            break;
+    } else {
+        // It's not meaningful to compare pid from different pid namespace.
+        if (address.second == getpid()) {
+            return std::nullopt;
         }
     }
+    if (address.first.empty() ||
+        address.first.find("fcitx_random_string") != std::string::npos) {
+        return std::nullopt;
+    }
     return address;
+}
+
+std::optional<std::pair<std::string, pid_t>>
+readIBusInfo(const std::set<std::string> &socketPaths) {
+    for (const auto &path : socketPaths) {
+        auto address = readIBusInfo(path);
+        if (address) {
+            return address;
+        }
+    }
+    return std::nullopt;
 }
 
 void IBusFrontendModule::replaceIBus(bool recheck) {
@@ -759,87 +767,92 @@ void IBusFrontendModule::replaceIBus(bool recheck) {
     // Ensure we don't dead loop here.
     retry_ -= 1;
     FCITX_IBUS_DEBUG() << "Found ibus socket files: " << socketPaths_;
-    std::pair<std::string, pid_t> address = readIBusInfo(socketPaths_);
-    const auto &oldAddress = address.first;
-    FCITX_IBUS_DEBUG() << "Old ibus address is: " << oldAddress;
-    if (!oldAddress.empty()) {
-        if (isInFlatpak()) {
-            // When running inside flatpak, ibus command won't be available.
-            // sd-bus does not connect to IBus's dbus, probably due to different
-            // implemenation on dbus protocol. sd-bus has bug on xdg-dbus-proxy
-            // anyway, so luckily, in the flatpak we are forced to used libdbus
-            // which works for bus of ibus.
-            FCITX_IBUS_DEBUG() << "Connecting to ibus address: " << oldAddress;
-            dbus::Bus bus(oldAddress);
-            if (bus.isOpen()) {
-                auto call = bus.createMethodCall(
-                    IBUS_SERVICE, "/org/freedesktop/IBus",
-                    IBUS_INPUTMETHOD_DBUS_INTERFACE, "Exit");
-                call << false;
-                call.call(1000000);
-                // Wait 1 second to become ibus.
-                timeEvent_ = instance()->eventLoop().addTimeEvent(
-                    CLOCK_MONOTONIC, now(CLOCK_MONOTONIC) + 1000000, 0,
-                    [this, recheck](EventSourceTime *, uint64_t) {
-                        becomeIBus(recheck);
-                        return true;
-                    });
-                return;
-            }
-        } else {
-            // If ibus command is not available, then ibus is probably not
-            // installed anyway, so there is nothing to worry about.
-            auto pid = runIBusExit();
-            if (pid > 0) {
-                FCITX_IBUS_DEBUG() << "Running ibus exit.";
-                timeEvent_ = instance()->eventLoop().addTimeEvent(
-                    CLOCK_MONOTONIC, now(CLOCK_MONOTONIC) + 1000000, 0,
-                    [this, pid, address, recheck](EventSourceTime *, uint64_t) {
-                        int stat = -1;
-                        pid_t ret;
-                        while ((ret = waitpid(pid, &stat, WNOHANG)) <= 0) {
-                            if (ret == 0) {
-                                FCITX_IBUS_DEBUG()
-                                    << "ibus exit haven't ended yet, kill it.";
-                                kill(pid, SIGKILL);
-                                waitpid(pid, &stat, WNOHANG);
-                                break;
-                            }
 
-                            if (errno != EINTR) {
-                                stat = -1;
-                                break;
-                            }
+    if (isInFlatpak()) {
+        // Send exit request to all possible addresses.
+        bool deferCheck = false;
+        for (const auto &socketPath : socketPaths_) {
+            auto address = readIBusInfo(socketPath);
+            if (!address) {
+                continue;
+            }
+            const auto &oldAddress = address->first;
+            FCITX_IBUS_DEBUG() << "Old ibus address is: " << oldAddress;
+            FCITX_IBUS_DEBUG() << "Connecting to ibus address: " << oldAddress;
+            try {
+                dbus::Bus bus(oldAddress);
+                if (bus.isOpen()) {
+                    auto call = bus.createMethodCall(
+                        IBUS_SERVICE, "/org/freedesktop/IBus",
+                        IBUS_INPUTMETHOD_DBUS_INTERFACE, "Exit");
+                    call << false;
+                    call.call(1000000);
+                    deferCheck = true;
+                }
+            } catch (...) {
+            }
+        }
+        if (deferCheck) {
+            // Wait 1 second to become ibus.
+            timeEvent_ = instance()->eventLoop().addTimeEvent(
+                CLOCK_MONOTONIC, now(CLOCK_MONOTONIC) + 1000000, 0,
+                [this, recheck](EventSourceTime *, uint64_t) {
+                    becomeIBus(recheck);
+                    return true;
+                });
+            return;
+        }
+    } else if (auto optionalAddress = readIBusInfo(socketPaths_)) {
+        auto address = *optionalAddress;
+        auto pid = runIBusExit();
+        if (pid > 0) {
+            FCITX_IBUS_DEBUG() << "Running ibus exit.";
+            timeEvent_ = instance()->eventLoop().addTimeEvent(
+                CLOCK_MONOTONIC, now(CLOCK_MONOTONIC) + 1000000, 0,
+                [this, pid, address, recheck](EventSourceTime *, uint64_t) {
+                    int stat = -1;
+                    pid_t ret;
+                    while ((ret = waitpid(pid, &stat, WNOHANG)) <= 0) {
+                        if (ret == 0) {
+                            FCITX_IBUS_DEBUG()
+                                << "ibus exit haven't ended yet, kill it.";
+                            kill(pid, SIGKILL);
+                            waitpid(pid, &stat, WNOHANG);
+                            break;
                         }
 
-                        FCITX_IBUS_DEBUG() << "ibus exit returns with " << stat;
-                        if (stat != 0) {
-                            // Re-read to ensure we have the latest information.
-                            auto newAddress = readIBusInfo(socketPaths_);
-                            if (address != newAddress) {
-                                // We should try ibus exit again.
-                                // This is not recursive because it's in time
-                                // event callback.
-                                replaceIBus(recheck);
+                        if (errno != EINTR) {
+                            stat = -1;
+                            break;
+                        }
+                    }
+
+                    FCITX_IBUS_DEBUG() << "ibus exit returns with " << stat;
+                    if (stat != 0) {
+                        // Re-read to ensure we have the latest information.
+                        auto newAddress = readIBusInfo(socketPaths_);
+                        if (address != newAddress) {
+                            // We should try ibus exit again.
+                            // This is not recursive because it's in time
+                            // event callback.
+                            replaceIBus(recheck);
+                            return true;
+                        }
+                        auto cmd = readFileContent(stringutils::joinPath(
+                            "/proc", address.second, "cmdline"));
+                        if (cmd.find("ibus-daemon") != std::string::npos) {
+                            FCITX_IBUS_DEBUG() << "try to kill ibus-daemon.";
+                            // Well we can't kill it so better not to
+                            // replace it.
+                            if (kill(address.second, SIGKILL) != 0) {
                                 return true;
                             }
-                            auto cmd = readFileContent(stringutils::joinPath(
-                                "/proc", address.second, "cmdline"));
-                            if (cmd.find("ibus-daemon") != std::string::npos) {
-                                FCITX_IBUS_DEBUG()
-                                    << "try to kill ibus-daemon.";
-                                // Well we can't kill it so better not to
-                                // replace it.
-                                if (kill(address.second, SIGKILL) != 0) {
-                                    return true;
-                                }
-                            }
                         }
-                        becomeIBus(recheck);
-                        return true;
-                    });
-                return;
-            }
+                    }
+                    becomeIBus(recheck);
+                    return true;
+                });
+            return;
         }
     }
 
