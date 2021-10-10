@@ -8,6 +8,7 @@
 #include "ibusfrontend.h"
 #include <fcntl.h>
 #include <signal.h>
+#include <sys/stat.h>
 #include <sys/wait.h>
 #include <unistd.h>
 #include <fstream>
@@ -849,6 +850,22 @@ void IBusFrontendModule::becomeIBus(bool recheck) {
     // ibusBus_.reset();
     RawConfig config;
     auto address = bus()->address();
+    if (isInFlatpak()) {
+        if (address.find("/run/flatpak/bus") != std::string::npos) {
+            auto userBus =
+                stringutils::joinPath(StandardPath::global().userDirectory(
+                                          StandardPath::Type::Runtime),
+                                      "bus");
+
+            struct stat statbuf;
+
+            if (::stat(userBus.data(), &statbuf) == 0 &&
+                (statbuf.st_mode & S_IFMT) == S_IFSOCK &&
+                statbuf.st_uid == getuid()) {
+                address = stringutils::concat("unix:path=", userBus);
+            }
+        }
+    }
     // This is a small hack to make ibus think that address is changed.
     // Otherwise it won't retry connection since we always use session bus
     // instead of start our own one.
