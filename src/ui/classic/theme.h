@@ -207,11 +207,13 @@ public:
         }
         return height <= 0 ? 1 : height;
     }
+    bool isImage() const { return isImage_; }
 
 private:
     bool valid_ = false;
     std::string currentText_;
     uint32_t size_ = 0;
+    bool isImage_ = false;
     UniqueCPtr<cairo_surface_t, cairo_surface_destroy> image_;
     UniqueCPtr<cairo_surface_t, cairo_surface_destroy> overlay_;
 };

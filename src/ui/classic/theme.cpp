@@ -268,6 +268,7 @@ ThemeImage::ThemeImage(const std::string &name,
         cairoSetSourceColor(cr, *cfg.color);
         cairo_paint(cr);
         cairo_destroy(cr);
+        isImage_ = true;
     }
 }
 
