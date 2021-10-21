@@ -65,6 +65,7 @@ private:
     void readXSettings();
     void initScreen();
     void updateTray();
+    void scheduleUpdateScreen();
 
     ClassicUI *parent_;
     std::string name_;
@@ -94,6 +95,7 @@ private:
     int primaryDpi_ = -1;
     MultiScreenExtension multiScreen_ = MultiScreenExtension::EXTNone;
     int xrandrFirstEvent_ = 0;
+    std::unique_ptr<EventSourceTime> initScreenEvent_;
 
     std::vector<std::pair<Rect, int>> rects_;
 

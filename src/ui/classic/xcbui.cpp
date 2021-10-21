@@ -194,6 +194,14 @@ XCBUI::XCBUI(ClassicUI *parent, const std::string &name, xcb_connection_t *conn,
     xsettingsAtom_ = parent_->xcb()->call<IXCBModule::atom>(
         name_, "_XSETTINGS_SETTINGS", false);
 
+    initScreenEvent_ = parent_->instance()->eventLoop().addTimeEvent(
+        CLOCK_MONOTONIC, now(CLOCK_MONOTONIC) + 10000, 0,
+        [this](EventSourceTime *, uint64_t) {
+            initScreen();
+            return true;
+        });
+    initScreenEvent_->setEnabled(false);
+
     eventHandlers_.emplace_back(parent_->xcb()->call<IXCBModule::addSelection>(
         name, compMgrAtomString_,
         [this](xcb_atom_t) { refreshCompositeManager(); }));
@@ -238,17 +246,24 @@ XCBUI::XCBUI(ClassicUI *parent, const std::string &name, xcb_connection_t *conn,
                         reinterpret_cast<xcb_configure_notify_event_t *>(event);
                     auto *screen = xcb_aux_get_screen(conn_, defaultScreen_);
                     if (configure->window == screen->root) {
-                        initScreen();
+                        scheduleUpdateScreen();
                     }
                     break;
                 }
                 }
-                if (multiScreen_ == MultiScreenExtension::Randr &&
-                    xrandrFirstEvent_ == XCB_RANDR_NOTIFY) {
-                    auto *randr =
-                        reinterpret_cast<xcb_randr_notify_event_t *>(event);
-                    if (randr->subCode == XCB_RANDR_NOTIFY_CRTC_CHANGE) {
-                        initScreen();
+                if (multiScreen_ == MultiScreenExtension::Randr) {
+                    if (response_type ==
+                        xrandrFirstEvent_ + XCB_RANDR_SCREEN_CHANGE_NOTIFY) {
+                        scheduleUpdateScreen();
+                    } else if (response_type ==
+                               xrandrFirstEvent_ + XCB_RANDR_NOTIFY) {
+
+                        auto *randr =
+                            reinterpret_cast<xcb_randr_notify_event_t *>(event);
+                        if (randr->subCode == XCB_RANDR_NOTIFY_CRTC_CHANGE ||
+                            randr->subCode == XCB_RANDR_NOTIFY_OUTPUT_CHANGE) {
+                            scheduleUpdateScreen();
+                        }
                     }
                 }
                 return false;
@@ -270,12 +285,17 @@ XCBUI::~XCBUI() {}
 void XCBUI::initScreen() {
     auto *screen = xcb_aux_get_screen(conn_, defaultScreen_);
     int newScreenCount = xcb_setup_roots_length(xcb_get_setup(conn_));
-    if (newScreenCount == 1) {
+    if (multiScreen_ == MultiScreenExtension::EXTNone && newScreenCount == 1) {
         const xcb_query_extension_reply_t *reply =
             xcb_get_extension_data(conn_, &xcb_randr_id);
         if (reply && reply->present) {
             multiScreen_ = MultiScreenExtension::Randr;
             xrandrFirstEvent_ = reply->first_event;
+            xcb_randr_select_input(conn_, screen->root,
+                                   XCB_RANDR_NOTIFY_MASK_SCREEN_CHANGE |
+                                       XCB_RANDR_NOTIFY_MASK_OUTPUT_CHANGE |
+                                       XCB_RANDR_NOTIFY_MASK_CRTC_CHANGE |
+                                       XCB_RANDR_NOTIFY_MASK_OUTPUT_PROPERTY);
         } else {
             const xcb_query_extension_reply_t *reply =
                 xcb_get_extension_data(conn_, &xcb_xinerama_id);
@@ -709,5 +729,10 @@ void XCBUI::setEnableTray(bool enable) {
         enableTray_ = enable;
         updateTray();
     }
+}
+
+void XCBUI::scheduleUpdateScreen() {
+    initScreenEvent_->setNextInterval(100000);
+    initScreenEvent_->setOneShot();
 }
 } // namespace fcitx::classicui
