@@ -3,15 +3,15 @@
 # This file is distributed under the same license as the fcitx5 package.
 #
 # Translators:
-# Omer I.S. <omeritzicschwartz@gmail.com>, 2021
+# Omeritzics Games <omeritzicschwartz@gmail.com>, 2021
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2021-07-20 20:24+0000\n"
+"POT-Creation-Date: 2021-10-22 20:24+0000\n"
 "PO-Revision-Date: 2017-11-23 04:14+0000\n"
-"Last-Translator: Omer I.S. <omeritzicschwartz@gmail.com>, 2021\n"
+"Last-Translator: Omeritzics Games <omeritzicschwartz@gmail.com>, 2021\n"
 "Language-Team: Hebrew (https://www.transifex.com/fcitx/teams/12005/he/)\n"
 "Language: he\n"
 "MIME-Version: 1.0\n"
@@ -20,59 +20,59 @@ msgstr ""
 "Plural-Forms: nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n == 2 && n % "
 "1 == 0) ? 1: (n % 10 == 0 && n % 1 == 0 && n > 10) ? 2 : 3;\n"
 
-#: data/fcitx5-diagnose.sh:852
+#: data/fcitx5-diagnose.sh:869
 msgid "${1} Environment Variables:"
 msgstr ""
 
-#: data/fcitx5-diagnose.sh:838
+#: data/fcitx5-diagnose.sh:855
 msgid "${1} Settings Directory:"
 msgstr ""
 
-#: data/fcitx5-diagnose.sh:912
+#: data/fcitx5-diagnose.sh:929
 msgid "${1} is not running."
 msgstr ""
 
-#: data/fcitx5-diagnose.sh:861
+#: data/fcitx5-diagnose.sh:878
 msgid "${1} is not set."
 msgstr ""
 
-#: data/fcitx5-diagnose.sh:858
+#: data/fcitx5-diagnose.sh:875
 msgid "${1} is set to ${2}."
 msgstr ""
 
-#: data/fcitx5-diagnose.sh:520
+#: data/fcitx5-diagnose.sh:536
 msgid "${1} not found."
 msgstr ""
 
-#: data/fcitx5-diagnose.sh:929
+#: data/fcitx5-diagnose.sh:946
 msgid "${1} works properly."
 msgstr ""
 
-#: src/lib/fcitx/instance.cpp:401
+#: src/lib/fcitx/instance.cpp:385
 msgid "(Not available)"
 msgstr ""
 
-#: src/modules/unicode/unicode.cpp:325
+#: src/modules/unicode/unicode.cpp:327
 msgid "(Type to search unicode by code or description)"
 msgstr ""
 
-#: data/fcitx5-diagnose.sh:662
+#: data/fcitx5-diagnose.sh:678
 msgid "/Beginner%27s_Guide"
 msgstr ""
 
-#: data/fcitx5-diagnose.sh:709
+#: data/fcitx5-diagnose.sh:725
 msgid "/Hall_of_Shame_for_Linux_IME_Support"
 msgstr ""
 
-#: data/fcitx5-diagnose.sh:673
+#: data/fcitx5-diagnose.sh:689
 msgid "/Input_method_related_environment_variables"
 msgstr ""
 
-#: data/fcitx5-diagnose.sh:689
+#: data/fcitx5-diagnose.sh:705
 msgid "/Note_for_GNOME_Later_than_3.6"
 msgstr ""
 
-#: data/fcitx5-diagnose.sh:713
+#: data/fcitx5-diagnose.sh:729
 msgid "/XIM"
 msgstr ""
 
@@ -113,15 +113,15 @@ msgstr ""
 msgid "Add Unicode Typing Support"
 msgstr ""
 
-#: data/fcitx5-diagnose.sh:1536
+#: data/fcitx5-diagnose.sh:1557
 msgid "Addon Config Dir:"
 msgstr ""
 
-#: data/fcitx5-diagnose.sh:1606
+#: data/fcitx5-diagnose.sh:1627
 msgid "Addon Libraries:"
 msgstr ""
 
-#: data/fcitx5-diagnose.sh:1561
+#: data/fcitx5-diagnose.sh:1582
 msgid "Addon List:"
 msgstr ""
 
@@ -134,15 +134,15 @@ msgstr ""
 msgid "All"
 msgstr ""
 
-#: data/fcitx5-diagnose.sh:1299
+#: data/fcitx5-diagnose.sh:1320
 msgid "All found Gtk ${1} immodule files exist."
 msgstr ""
 
-#: data/fcitx5-diagnose.sh:1632
+#: data/fcitx5-diagnose.sh:1653
 msgid "All libraries for all addons are found."
 msgstr ""
 
-#: data/fcitx5-diagnose.sh:806
+#: data/fcitx5-diagnose.sh:823
 msgid "All locale:"
 msgstr ""
 
@@ -154,7 +154,7 @@ msgstr ""
 msgid "Alt"
 msgstr ""
 
-#: src/lib/fcitx-utils/key.cpp:476
+#: src/lib/fcitx-utils/key.cpp:480
 msgctxt "Key name"
 msgid "Alt"
 msgstr "Alt"
@@ -220,7 +220,7 @@ msgctxt "Key name"
 msgid "Backspace"
 msgstr ""
 
-#: data/fcitx5-diagnose.sh:780
+#: data/fcitx5-diagnose.sh:796
 msgid "Bash Version:"
 msgstr ""
 
@@ -229,7 +229,7 @@ msgctxt "Key name"
 msgid "Battery"
 msgstr "סוללה"
 
-#: data/fcitx5-diagnose.sh:661
+#: data/fcitx5-diagnose.sh:677
 msgid "Beginner's Guide"
 msgstr ""
 
@@ -300,80 +300,80 @@ msgstr "ביטול"
 msgid "Candidates"
 msgstr ""
 
-#: data/fcitx5-diagnose.sh:927
+#: data/fcitx5-diagnose.sh:944
 msgid "Cannot connect to ${1} correctly."
 msgstr ""
 
-#: data/fcitx5-diagnose.sh:775
+#: data/fcitx5-diagnose.sh:791
 msgid "Cannot determine desktop environment."
 msgstr ""
 
-#: data/fcitx5-diagnose.sh:1552
+#: data/fcitx5-diagnose.sh:1573
 msgid "Cannot find ${1} addon config directory."
 msgstr ""
 
-#: data/fcitx5-diagnose.sh:1047
+#: data/fcitx5-diagnose.sh:1068
 msgid "Cannot find ${1} executable!"
 msgstr ""
 
-#: data/fcitx5-diagnose.sh:1449 data/fcitx5-diagnose.sh:1502
+#: data/fcitx5-diagnose.sh:1470 data/fcitx5-diagnose.sh:1523
 msgid "Cannot find ${1} im module for gtk ${2} in cache."
 msgstr ""
 
-#: data/fcitx5-diagnose.sh:1366
+#: data/fcitx5-diagnose.sh:1387
 msgid "Cannot find ${1} im module for gtk ${2}."
 msgstr ""
 
-#: data/fcitx5-diagnose.sh:1225 data/fcitx5-diagnose.sh:1230
+#: data/fcitx5-diagnose.sh:1246 data/fcitx5-diagnose.sh:1251
 msgid "Cannot find ${1} input method module for ${2}."
 msgstr ""
 
-#: data/fcitx5-diagnose.sh:1360
+#: data/fcitx5-diagnose.sh:1381
 msgid "Cannot find ${2} for gtk ${1}"
 msgstr ""
 
-#: data/fcitx5-diagnose.sh:947
+#: data/fcitx5-diagnose.sh:964
 msgid "Cannot find DBus name ${1} owner."
 msgstr ""
 
-#: data/fcitx5-diagnose.sh:1057
+#: data/fcitx5-diagnose.sh:1078
 msgid "Cannot find a GUI config tool, please install one of ${1}, or ${2}."
 msgstr ""
 
-#: data/fcitx5-diagnose.sh:1635
+#: data/fcitx5-diagnose.sh:1656
 msgid "Cannot find enabled ${1} user interface!"
 msgstr ""
 
-#: data/fcitx5-diagnose.sh:890
+#: data/fcitx5-diagnose.sh:907
 msgid "Cannot find fcitx5 executable!"
 msgstr ""
 
-#: data/fcitx5-diagnose.sh:1614
+#: data/fcitx5-diagnose.sh:1635
 msgid "Cannot find file ${1} of addon ${2}."
 msgstr ""
 
-#: data/fcitx5-diagnose.sh:1624
+#: data/fcitx5-diagnose.sh:1645
 msgid "Cannot find following required libraries for ${1} of addon ${2}."
 msgstr ""
 
-#: data/fcitx5-diagnose.sh:1444 data/fcitx5-diagnose.sh:1497
+#: data/fcitx5-diagnose.sh:1465 data/fcitx5-diagnose.sh:1518
 msgid "Cannot find immodules cache for gtk ${1}"
 msgstr ""
 
-#: data/fcitx5-diagnose.sh:1654
+#: data/fcitx5-diagnose.sh:1675
 msgid ""
 "Cannot find kimpanel dbus interface or enabled non-kimpanel user interface."
 msgstr ""
 
-#: data/fcitx5-diagnose.sh:955
+#: data/fcitx5-diagnose.sh:972
 msgid "Cannot find pid of DBus name ${1} owner."
 msgstr ""
 
-#: data/fcitx5-diagnose.sh:1123
+#: data/fcitx5-diagnose.sh:1144
 msgid "Cannot find xim_server on root window."
 msgstr ""
 
-#: data/fcitx5-diagnose.sh:1097
+#: data/fcitx5-diagnose.sh:1118
 msgid "Cannot interpret XMODIFIERS: ${1}."
 msgstr ""
 
@@ -462,31 +462,31 @@ msgstr ""
 msgid "Completion is enabled."
 msgstr ""
 
-#: data/fcitx5-diagnose.sh:999
+#: data/fcitx5-diagnose.sh:1020
 msgid "Config GUI for gtk${1} not found."
 msgstr ""
 
-#: data/fcitx5-diagnose.sh:995
+#: data/fcitx5-diagnose.sh:1016
 msgid "Config GUI for gtk${1}:"
 msgstr ""
 
-#: data/fcitx5-diagnose.sh:1029
+#: data/fcitx5-diagnose.sh:1050
 msgid "Config GUI for kde:"
 msgstr ""
 
-#: data/fcitx5-diagnose.sh:1018
+#: data/fcitx5-diagnose.sh:1039
 msgid "Config GUI for qt not found."
 msgstr ""
 
-#: data/fcitx5-diagnose.sh:1016
+#: data/fcitx5-diagnose.sh:1037
 msgid "Config GUI for qt:"
 msgstr ""
 
-#: data/fcitx5-diagnose.sh:1045
+#: data/fcitx5-diagnose.sh:1066
 msgid "Config Tool Wrapper:"
 msgstr ""
 
-#: data/fcitx5-diagnose.sh:1797
+#: data/fcitx5-diagnose.sh:1770
 msgid "Configuration:"
 msgstr ""
 
@@ -499,7 +499,7 @@ msgstr "הגדרה"
 msgid "Control"
 msgstr ""
 
-#: src/lib/fcitx-utils/key.cpp:475
+#: src/lib/fcitx-utils/key.cpp:479
 msgctxt "Key name"
 msgid "Control"
 msgstr ""
@@ -509,19 +509,19 @@ msgctxt "Key name"
 msgid "Copy"
 msgstr ""
 
-#: data/fcitx5-diagnose.sh:840
+#: data/fcitx5-diagnose.sh:857
 msgid "Current ${1} settings directory is ${2} (${3})."
 msgstr ""
 
-#: data/fcitx5-diagnose.sh:808
+#: data/fcitx5-diagnose.sh:825
 msgid "Current locale:"
 msgstr ""
 
-#: data/fcitx5-diagnose.sh:846
+#: data/fcitx5-diagnose.sh:863
 msgid "Current user:"
 msgstr ""
 
-#: data/fcitx5-diagnose.sh:834
+#: data/fcitx5-diagnose.sh:851
 msgid "Current value of ${1} is ${2} (${3})."
 msgstr ""
 
@@ -546,7 +546,7 @@ msgstr ""
 msgid "DBus based new Freedesktop.org tray icon"
 msgstr ""
 
-#: data/fcitx5-diagnose.sh:935
+#: data/fcitx5-diagnose.sh:952
 msgid "DBus interface:"
 msgstr ""
 
@@ -559,7 +559,11 @@ msgstr "DOS"
 msgid "Deactivate Input Method"
 msgstr ""
 
-#: src/lib/fcitx/inputmethodmanager.cpp:138 src/lib/fcitx/instance.cpp:717
+#: data/fcitx5-diagnose.sh:976
+msgid "Debug information from dbus:"
+msgstr ""
+
+#: src/lib/fcitx/inputmethodmanager.cpp:138 src/lib/fcitx/instance.cpp:700
 #: src/ui/classic/themes/default/theme.conf.in:3
 msgid "Default"
 msgstr ""
@@ -593,15 +597,15 @@ msgstr "מחיקה"
 msgid "Description"
 msgstr ""
 
-#: data/fcitx5-diagnose.sh:772
+#: data/fcitx5-diagnose.sh:788
 msgid "Desktop Environment:"
 msgstr ""
 
-#: data/fcitx5-diagnose.sh:777
+#: data/fcitx5-diagnose.sh:793
 msgid "Desktop environment is ${1}."
 msgstr ""
 
-#: data/fcitx5-diagnose.sh:820
+#: data/fcitx5-diagnose.sh:837
 msgid "Directories:"
 msgstr ""
 
@@ -700,29 +704,29 @@ msgstr ""
 msgid "Enumerate when press trigger key repeatedly"
 msgstr ""
 
-#: data/fcitx5-diagnose.sh:1075
+#: data/fcitx5-diagnose.sh:1096
 msgid ""
 "Environment variable ${1} is \"${2}\" instead of \"${3}\". Please check if "
 "you have exported it incorrectly in any of your init files."
 msgstr ""
 
-#: data/fcitx5-diagnose.sh:826
+#: data/fcitx5-diagnose.sh:843
 msgid "Environment variable ${1} is not set."
 msgstr ""
 
-#: data/fcitx5-diagnose.sh:1069
+#: data/fcitx5-diagnose.sh:1090
 msgid "Environment variable ${1} is set to \"${2}\" correctly."
 msgstr ""
 
-#: data/fcitx5-diagnose.sh:830
+#: data/fcitx5-diagnose.sh:847
 msgid "Environment variable ${1} is set to ${2}."
 msgstr ""
 
-#: data/fcitx5-diagnose.sh:785
+#: data/fcitx5-diagnose.sh:801
 msgid "Environment:"
 msgstr ""
 
-#: data/fcitx5-diagnose.sh:812
+#: data/fcitx5-diagnose.sh:829
 msgid "Error occurs when running ${1}. Please check your locale settings."
 msgstr ""
 
@@ -741,11 +745,11 @@ msgstr ""
 msgid "Exit"
 msgstr "יציאה"
 
-#: data/fcitx5-diagnose.sh:1438 data/fcitx5-diagnose.sh:1491
+#: data/fcitx5-diagnose.sh:1459 data/fcitx5-diagnose.sh:1512
 msgid "Failed to find ${1} in immodule cache at ${2}"
 msgstr ""
 
-#: data/fcitx5-diagnose.sh:1354
+#: data/fcitx5-diagnose.sh:1375
 msgid "Failed to find ${1} in the output of ${2}"
 msgstr ""
 
@@ -767,15 +771,15 @@ msgstr ""
 msgid "Fcitx 5 Configuration"
 msgstr ""
 
-#: data/fcitx5-diagnose.sh:1535
+#: data/fcitx5-diagnose.sh:1556
 msgid "Fcitx Addons:"
 msgstr ""
 
-#: data/fcitx5-diagnose.sh:1044
+#: data/fcitx5-diagnose.sh:1065
 msgid "Fcitx Configure UI:"
 msgstr ""
 
-#: data/fcitx5-diagnose.sh:887
+#: data/fcitx5-diagnose.sh:904
 msgid "Fcitx State:"
 msgstr ""
 
@@ -786,7 +790,7 @@ msgid ""
 "experience."
 msgstr ""
 
-#: data/fcitx5-diagnose.sh:901
+#: data/fcitx5-diagnose.sh:918
 msgid "Fcitx version: ${1}"
 msgstr ""
 
@@ -820,69 +824,69 @@ msgctxt "Key name"
 msgid "Forward"
 msgstr ""
 
-#: data/fcitx5-diagnose.sh:1214
+#: data/fcitx5-diagnose.sh:1235
 msgid "Found ${1} ${2} module: ${3}."
 msgstr ""
 
-#: data/fcitx5-diagnose.sh:921
+#: data/fcitx5-diagnose.sh:938
 msgid "Found ${1} ${2} process:"
 msgstr ""
 
-#: data/fcitx5-diagnose.sh:919
+#: data/fcitx5-diagnose.sh:936
 msgid "Found ${1} ${2} processes:"
 msgstr ""
 
-#: data/fcitx5-diagnose.sh:1555
+#: data/fcitx5-diagnose.sh:1576
 msgid "Found ${1} addon config directory: ${2}."
 msgstr ""
 
-#: data/fcitx5-diagnose.sh:896 data/fcitx5-diagnose.sh:1008
-#: data/fcitx5-diagnose.sh:1021 data/fcitx5-diagnose.sh:1049
+#: data/fcitx5-diagnose.sh:913 data/fcitx5-diagnose.sh:1029
+#: data/fcitx5-diagnose.sh:1042 data/fcitx5-diagnose.sh:1070
 msgid "Found ${1} at ${2}."
 msgstr ""
 
-#: data/fcitx5-diagnose.sh:1600
+#: data/fcitx5-diagnose.sh:1621
 msgid "Found ${1} disabled addons:"
 msgstr ""
 
-#: data/fcitx5-diagnose.sh:1595
+#: data/fcitx5-diagnose.sh:1616
 msgid "Found ${1} enabled addons:"
 msgstr ""
 
-#: data/fcitx5-diagnose.sh:1637
+#: data/fcitx5-diagnose.sh:1658
 msgid "Found ${1} enabled user interface addons:"
 msgstr ""
 
-#: data/fcitx5-diagnose.sh:1348 data/fcitx5-diagnose.sh:1432
-#: data/fcitx5-diagnose.sh:1485
+#: data/fcitx5-diagnose.sh:1369 data/fcitx5-diagnose.sh:1453
+#: data/fcitx5-diagnose.sh:1506
 msgid "Found ${1} im modules for gtk ${2}."
 msgstr ""
 
-#: data/fcitx5-diagnose.sh:1035
+#: data/fcitx5-diagnose.sh:1056
 msgid "Found ${1} kcm module."
 msgstr ""
 
-#: data/fcitx5-diagnose.sh:1340
+#: data/fcitx5-diagnose.sh:1361
 msgid "Found ${2} for unknown gtk version at ${1}."
 msgstr ""
 
-#: data/fcitx5-diagnose.sh:1332
+#: data/fcitx5-diagnose.sh:1353
 msgid "Found ${3} for gtk ${1} at ${2}."
 msgstr ""
 
-#: data/fcitx5-diagnose.sh:1203 data/fcitx5-diagnose.sh:1208
+#: data/fcitx5-diagnose.sh:1224 data/fcitx5-diagnose.sh:1229
 msgid "Found ${3} im module for ${2}: ${1}."
 msgstr ""
 
-#: data/fcitx5-diagnose.sh:1425
+#: data/fcitx5-diagnose.sh:1446
 msgid "Found immodule cache for unknown gtk version at ${1}."
 msgstr ""
 
-#: data/fcitx5-diagnose.sh:1417 data/fcitx5-diagnose.sh:1478
+#: data/fcitx5-diagnose.sh:1438 data/fcitx5-diagnose.sh:1499
 msgid "Found immodules cache for gtk ${1} at ${2}."
 msgstr ""
 
-#: data/fcitx5-diagnose.sh:1217
+#: data/fcitx5-diagnose.sh:1238
 msgid "Found unknown ${1} qt module: ${2}."
 msgstr ""
 
@@ -890,7 +894,7 @@ msgstr ""
 msgid "Freedesktop.org Notification Support"
 msgstr ""
 
-#: data/fcitx5-diagnose.sh:1790
+#: data/fcitx5-diagnose.sh:1763
 msgid "Frontends setup:"
 msgstr ""
 
@@ -918,27 +922,27 @@ msgstr ""
 msgid "Group"
 msgstr ""
 
-#: src/lib/fcitx/instance.cpp:405
+#: src/lib/fcitx/instance.cpp:389
 msgid "Group {0}: {1}"
 msgstr ""
 
-#: src/lib/fcitx/instance.cpp:719
+#: src/lib/fcitx/instance.cpp:702
 msgid "Group {}"
 msgstr ""
 
-#: data/fcitx5-diagnose.sh:1293
+#: data/fcitx5-diagnose.sh:1314
 msgid "Gtk ${1} immodule file ${2} does not exist."
 msgstr ""
 
-#: data/fcitx5-diagnose.sh:1515
+#: data/fcitx5-diagnose.sh:1536
 msgid "Gtk IM module cache:"
 msgstr ""
 
-#: data/fcitx5-diagnose.sh:1521
+#: data/fcitx5-diagnose.sh:1542
 msgid "Gtk IM module files:"
 msgstr ""
 
-#: data/fcitx5-diagnose.sh:708
+#: data/fcitx5-diagnose.sh:724
 msgid "Hall of Shame for Linux IME Support"
 msgstr ""
 
@@ -1075,7 +1079,7 @@ msgctxt "Key name"
 msgid "Home Page"
 msgstr ""
 
-#: data/fcitx5-diagnose.sh:822
+#: data/fcitx5-diagnose.sh:839
 msgid "Home:"
 msgstr ""
 
@@ -1097,7 +1101,7 @@ msgid ""
 "Hotkey for switching to the N-th input method for only current input context"
 msgstr ""
 
-#: src/lib/fcitx-utils/key.cpp:479
+#: src/lib/fcitx-utils/key.cpp:483
 msgctxt "Key name"
 msgid "Hyper"
 msgstr ""
@@ -1106,14 +1110,14 @@ msgstr ""
 msgid "IBus Frontend"
 msgstr ""
 
-#: data/fcitx5-diagnose.sh:697
+#: data/fcitx5-diagnose.sh:713
 msgid ""
 "If you are using ${1}, you may want to uninstall ${2} or remove ${3} in "
 "order to use any input method other than ${2}. See ${link} for more detail "
 "as well as alternative solutions."
 msgstr ""
 
-#: data/fcitx5-diagnose.sh:695
+#: data/fcitx5-diagnose.sh:711
 msgid ""
 "If you are using ${1}, you may want to uninstall ${2}, remove ${3} or use "
 "the command ${g36_disable_ibus} to disable IBus integration in order to use "
@@ -1125,7 +1129,7 @@ msgid "Image"
 msgstr ""
 
 #: src/im/keyboard/keyboard.cpp:779 src/ui/classic/xcbtraywindow.cpp:38
-#: src/lib/fcitx/instance.cpp:789 src/lib/fcitx/instance.cpp:959
+#: src/lib/fcitx/instance.cpp:772 src/lib/fcitx/instance.cpp:941
 #: src/modules/notificationitem/dbusmenu.cpp:237
 #: src/modules/notificationitem/notificationitem.cpp:125
 #: src/modules/xcb/xcbconnection.cpp:405 data/org.fcitx.Fcitx5.desktop.in.in:4
@@ -1137,8 +1141,12 @@ msgstr ""
 msgid "Input Method Configuration"
 msgstr ""
 
-#: data/fcitx5-diagnose.sh:672
+#: data/fcitx5-diagnose.sh:688
 msgid "Input Method Related Environment Variables: "
+msgstr ""
+
+#: data/fcitx5-diagnose.sh:1681
+msgid "Input Methods:"
 msgstr ""
 
 #: src/ui/classic/theme.h:164
@@ -1160,7 +1168,7 @@ msgctxt "Key name"
 msgid "Insert"
 msgstr ""
 
-#: data/fcitx5-diagnose.sh:1567
+#: data/fcitx5-diagnose.sh:1588
 msgid "Invalid addon config file ${1}."
 msgstr ""
 
@@ -1214,7 +1222,7 @@ msgctxt "Key name"
 msgid "Keyboard Brightness Up"
 msgstr ""
 
-#: data/fcitx5-diagnose.sh:788
+#: data/fcitx5-diagnose.sh:805
 msgid "Keyboard Layout:"
 msgstr ""
 
@@ -1228,7 +1236,7 @@ msgctxt "Key name"
 msgid "Keyboard Menu"
 msgstr ""
 
-#: data/fcitx5-diagnose.sh:1646
+#: data/fcitx5-diagnose.sh:1667
 msgid "Kimpanel process:"
 msgstr ""
 
@@ -1352,11 +1360,11 @@ msgctxt "Key name"
 msgid "LightBulb"
 msgstr ""
 
-#: data/fcitx5-diagnose.sh:803
+#: data/fcitx5-diagnose.sh:820
 msgid "Locale:"
 msgstr ""
 
-#: data/fcitx5-diagnose.sh:1803
+#: data/fcitx5-diagnose.sh:1776
 msgid "Log:"
 msgstr ""
 
@@ -1561,7 +1569,7 @@ msgstr ""
 msgid "Not available"
 msgstr ""
 
-#: data/fcitx5-diagnose.sh:688
+#: data/fcitx5-diagnose.sh:704
 msgid "Note for GNOME Later than 3.6"
 msgstr ""
 
@@ -1619,11 +1627,11 @@ msgstr ""
 msgid "Overlay position"
 msgstr ""
 
-#: data/fcitx5-diagnose.sh:943
+#: data/fcitx5-diagnose.sh:960
 msgid "Owner of DBus name ${1} is ${2}."
 msgstr ""
 
-#: data/fcitx5-diagnose.sh:951
+#: data/fcitx5-diagnose.sh:968
 msgid "PID of DBus name ${1} owner is ${2}."
 msgstr ""
 
@@ -1665,17 +1673,17 @@ msgctxt "Key name"
 msgid "Pictures"
 msgstr "תמונות"
 
-#: data/fcitx5-diagnose.sh:892
+#: data/fcitx5-diagnose.sh:909
 msgid "Please check ${1} for how to install fcitx5."
 msgstr ""
 
-#: data/fcitx5-diagnose.sh:914
+#: data/fcitx5-diagnose.sh:931
 msgid ""
 "Please check the Configure link of your distribution in ${1} for how to "
 "setup ${2} autostart."
 msgstr ""
 
-#: data/fcitx5-diagnose.sh:669
+#: data/fcitx5-diagnose.sh:685
 msgid ""
 "Please set environment variable ${env_name} to \"${value}\" using the tool "
 "your distribution provides or add ${1} to your ${2}. See ${link}."
@@ -1691,15 +1699,15 @@ msgctxt "Key name"
 msgid "Power Off"
 msgstr "כיבוי"
 
-#: src/lib/fcitx/instance.cpp:959
+#: src/lib/fcitx/instance.cpp:941
 msgid "Preedit"
 msgstr ""
 
-#: src/lib/fcitx/instance.cpp:961
+#: src/lib/fcitx/instance.cpp:943
 msgid "Preedit disabled"
 msgstr ""
 
-#: src/lib/fcitx/instance.cpp:960
+#: src/lib/fcitx/instance.cpp:942
 msgid "Preedit enabled"
 msgstr ""
 
@@ -1733,7 +1741,7 @@ msgstr ""
 msgid "Providers"
 msgstr ""
 
-#: data/fcitx5-diagnose.sh:1189
+#: data/fcitx5-diagnose.sh:1210
 msgid "Qt IM module files:"
 msgstr ""
 
@@ -1741,7 +1749,7 @@ msgstr ""
 msgid "Quick Phrase"
 msgstr ""
 
-#: src/modules/quickphrase/quickphrase.cpp:395
+#: src/modules/quickphrase/quickphrase.cpp:403
 msgid "Quick Phrase: "
 msgstr ""
 
@@ -1830,7 +1838,7 @@ msgctxt "Key name"
 msgid "Rotation PB"
 msgstr ""
 
-#: data/fcitx5-diagnose.sh:868
+#: data/fcitx5-diagnose.sh:885
 msgid "Running as root:"
 msgstr ""
 
@@ -1859,11 +1867,11 @@ msgctxt "Key name"
 msgid "Select"
 msgstr "בחירה"
 
-#: src/modules/imselector/imselector.cpp:264
+#: src/modules/imselector/imselector.cpp:256
 msgid "Select input method:"
 msgstr ""
 
-#: src/modules/imselector/imselector.cpp:263
+#: src/modules/imselector/imselector.cpp:255
 msgid "Select local input method:"
 msgstr ""
 
@@ -1884,7 +1892,7 @@ msgstr ""
 msgid "Share Input State"
 msgstr ""
 
-#: src/lib/fcitx-utils/key.cpp:477
+#: src/lib/fcitx-utils/key.cpp:481
 msgctxt "Key name"
 msgid "Shift"
 msgstr ""
@@ -1986,7 +1994,7 @@ msgstr ""
 msgid "Super"
 msgstr ""
 
-#: src/lib/fcitx-utils/key.cpp:478
+#: src/lib/fcitx-utils/key.cpp:482
 msgctxt "Key name"
 msgid "Super"
 msgstr ""
@@ -2001,7 +2009,7 @@ msgctxt "Key name"
 msgid "Suspend"
 msgstr "השהיה"
 
-#: src/lib/fcitx/instance.cpp:790 src/modules/xcb/xcbconnection.cpp:406
+#: src/lib/fcitx/instance.cpp:773 src/modules/xcb/xcbconnection.cpp:406
 msgid "Switch group"
 msgstr ""
 
@@ -2009,11 +2017,11 @@ msgstr ""
 msgid "Switch group to {0}"
 msgstr ""
 
-#: src/lib/fcitx/instance.cpp:791
+#: src/lib/fcitx/instance.cpp:774
 msgid "Switched group to {0}"
 msgstr ""
 
-#: data/fcitx5-diagnose.sh:744
+#: data/fcitx5-diagnose.sh:760
 msgid "System Info:"
 msgstr ""
 
@@ -2046,7 +2054,7 @@ msgstr "מסוף"
 msgid "The n-th hotkey in the list selects the n-th input method."
 msgstr ""
 
-#: data/fcitx5-diagnose.sh:847
+#: data/fcitx5-diagnose.sh:864
 msgid "The script is run as ${1} (${2})."
 msgstr ""
 
@@ -2066,12 +2074,19 @@ msgstr ""
 msgid "This value should be less than any of margin value."
 msgstr ""
 
+#: data/fcitx5-diagnose.sh:1782
+msgid ""
+"Though such information can be helpful to developers for diagnostic purpose, "
+"please double check and remove as necessary before posting it online "
+"publicly."
+msgstr ""
+
 #: src/lib/fcitx-utils/key.cpp:177
 msgctxt "Key name"
 msgid "Time"
 msgstr ""
 
-#: data/fcitx5-diagnose.sh:705
+#: data/fcitx5-diagnose.sh:721
 #, sh-format
 msgid ""
 "To see some application specific problems you may have when using xim, check "
@@ -2164,7 +2179,7 @@ msgstr ""
 msgid "Typing with Fcitx and Kimpanel"
 msgstr ""
 
-#: data/fcitx5-diagnose.sh:959
+#: data/fcitx5-diagnose.sh:980
 msgid "Unable to find a program to check dbus."
 msgstr ""
 
@@ -2177,7 +2192,7 @@ msgstr ""
 msgid "Unicode"
 msgstr ""
 
-#: src/modules/unicode/unicode.cpp:323
+#: src/modules/unicode/unicode.cpp:325
 msgid "Unicode: "
 msgstr ""
 
@@ -2206,11 +2221,11 @@ msgstr ""
 msgid "Use mouse wheel to go to prev or next page"
 msgstr ""
 
-#: data/fcitx5-diagnose.sh:1633
+#: data/fcitx5-diagnose.sh:1654
 msgid "User Interface:"
 msgstr ""
 
-#: data/fcitx5-diagnose.sh:938
+#: data/fcitx5-diagnose.sh:955
 msgid "Using ${1} to check dbus."
 msgstr ""
 
@@ -2218,7 +2233,7 @@ msgstr ""
 msgid "Version"
 msgstr ""
 
-#: data/fcitx5-diagnose.sh:1337 data/fcitx5-diagnose.sh:1421
+#: data/fcitx5-diagnose.sh:1358 data/fcitx5-diagnose.sh:1442
 msgid "Version Line:"
 msgstr ""
 
@@ -2261,6 +2276,13 @@ msgctxt "Key name"
 msgid "Wake Up"
 msgstr ""
 
+#: data/fcitx5-diagnose.sh:1781
+msgid ""
+"Warning: the output of fcitx5-diagnose contains sensitive information, "
+"including the distribution name, kernel version, name of currently running "
+"programs, etc."
+msgstr ""
+
 #: src/modules/wayland/wayland.conf.in.in:3
 msgid "Wayland"
 msgstr ""
@@ -2274,7 +2296,7 @@ msgctxt "Key name"
 msgid "WebCam"
 msgstr ""
 
-#: data/fcitx5-diagnose.sh:878
+#: data/fcitx5-diagnose.sh:895
 msgid "Why is it bad to run as root"
 msgstr ""
 
@@ -2301,31 +2323,31 @@ msgctxt "Key name"
 msgid "XFer"
 msgstr ""
 
-#: data/fcitx5-diagnose.sh:1136
+#: data/fcitx5-diagnose.sh:1157
 msgid "XIM encoding:"
 msgstr ""
 
-#: data/fcitx5-diagnose.sh:1131
+#: data/fcitx5-diagnose.sh:1152
 msgid "XIM for Emacs:"
 msgstr ""
 
-#: data/fcitx5-diagnose.sh:1107
+#: data/fcitx5-diagnose.sh:1128
 msgid "XIM_SERVERS on root window:"
 msgstr ""
 
-#: data/fcitx5-diagnose.sh:1084
+#: data/fcitx5-diagnose.sh:1105
 msgid "XMODIFIERS is not set"
 msgstr ""
 
-#: data/fcitx5-diagnose.sh:1105
+#: data/fcitx5-diagnose.sh:1126
 msgid "Xim Server Name from Environment variable is ${1}."
 msgstr ""
 
-#: data/fcitx5-diagnose.sh:1117
+#: data/fcitx5-diagnose.sh:1138
 msgid "Xim server name is the same with that set in the environment variable."
 msgstr ""
 
-#: data/fcitx5-diagnose.sh:1119
+#: data/fcitx5-diagnose.sh:1140
 msgid ""
 "Xim server name: \"${1}\" is different from that set in the environment "
 "variable: \"${2}\"."
@@ -2336,24 +2358,24 @@ msgctxt "Key name"
 msgid "Yellow"
 msgstr "צהוב"
 
-#: data/fcitx5-diagnose.sh:876
+#: data/fcitx5-diagnose.sh:893
 msgid ""
 "You are probably logging in as ${1} or using ${2} to run this script. This "
 "either means you have security problems or the result of this script may not "
 "be accurate. See ${3} or ${4} for more information."
 msgstr ""
 
-#: data/fcitx5-diagnose.sh:871
+#: data/fcitx5-diagnose.sh:888
 msgid ""
 "You are probably using ${1} to run this script. This means the result of "
 "this script may not be accurate. See ${2} for more information."
 msgstr ""
 
-#: data/fcitx5-diagnose.sh:1158
+#: data/fcitx5-diagnose.sh:1179
 msgid "You are using xim in ${1} programs."
 msgstr ""
 
-#: data/fcitx5-diagnose.sh:1163
+#: data/fcitx5-diagnose.sh:1184
 msgid "You may have trouble using fcitx in ${1} programs."
 msgstr ""
 
@@ -2370,14 +2392,14 @@ msgid ""
 "it will open config directory."
 msgstr ""
 
-#: data/fcitx5-diagnose.sh:1133
+#: data/fcitx5-diagnose.sh:1154
 msgid ""
 "Your LC_CTYPE is set to ${1} instead of one of zh, ja, ko. You may not be "
 "able to use input method in emacs because of an really old emacs bug that "
 "upstream refuse to fix for years."
 msgstr ""
 
-#: data/fcitx5-diagnose.sh:1138
+#: data/fcitx5-diagnose.sh:1159
 msgid ""
 "Your LC_CTYPE is set to ${1} whose encoding is not UTF-8. You may have "
 "trouble committing strings using XIM."
@@ -2403,11 +2425,11 @@ msgctxt "Key name"
 msgid "Zoom Out"
 msgstr ""
 
-#: data/fcitx5-diagnose.sh:888
+#: data/fcitx5-diagnose.sh:905
 msgid "executable:"
 msgstr ""
 
-#: data/fcitx5-diagnose.sh:712
+#: data/fcitx5-diagnose.sh:728
 msgid "here"
 msgstr ""
 
@@ -2416,15 +2438,15 @@ msgctxt "Key name"
 msgid "iTouch"
 msgstr "iTouch"
 
-#: data/fcitx5-diagnose.sh:902
+#: data/fcitx5-diagnose.sh:919
 msgid "process:"
 msgstr ""
 
-#: data/fcitx5-diagnose.sh:873 data/fcitx5-diagnose.sh:879
+#: data/fcitx5-diagnose.sh:890 data/fcitx5-diagnose.sh:896
 msgid "sudo environment variables"
 msgstr ""
 
-#: data/fcitx5-diagnose.sh:898
+#: data/fcitx5-diagnose.sh:915
 msgid "version:"
 msgstr ""
 
@@ -2432,10 +2454,10 @@ msgstr ""
 msgid "{0} (Not Available)"
 msgstr ""
 
-#: src/lib/fcitx/instance.cpp:399
+#: src/lib/fcitx/instance.cpp:383
 msgid "{0} (Not available)"
 msgstr ""
 
-#: src/lib/fcitx/instance.cpp:396
+#: src/lib/fcitx/instance.cpp:380
 msgid "{0} ({1})"
 msgstr ""
