@@ -376,7 +376,11 @@ bool Key::isCursorMove() const {
     return ((sym_ == FcitxKey_Left || sym_ == FcitxKey_Right ||
              sym_ == FcitxKey_Up || sym_ == FcitxKey_Down ||
              sym_ == FcitxKey_Page_Up || sym_ == FcitxKey_Page_Down ||
-             sym_ == FcitxKey_Home || sym_ == FcitxKey_End) &&
+             sym_ == FcitxKey_Home || sym_ == FcitxKey_End ||
+             sym_ == FcitxKey_KP_Left || sym_ == FcitxKey_KP_Right ||
+             sym_ == FcitxKey_KP_Up || sym_ == FcitxKey_KP_Down ||
+             sym_ == FcitxKey_KP_Page_Up || sym_ == FcitxKey_KP_Page_Down ||
+             sym_ == FcitxKey_KP_Home || sym_ == FcitxKey_KP_End) &&
             (states_ == KeyState::Ctrl || states_ == KeyState::Ctrl_Shift ||
              states_ == KeyState::Shift || states_ == KeyState::NoState));
 }
