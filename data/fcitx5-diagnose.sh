@@ -801,6 +801,7 @@ check_env() {
     write_title 1 "$(_ 'Environment:')"
     write_order_list "DISPLAY:"
     write_quote_str "DISPLAY='${DISPLAY}'"
+    write_quote_str "WAYLAND_DISPLAY='${WAYLAND_DISPLAY}'"
     write_order_list "$(_ 'Keyboard Layout:')"
     increase_cur_level 1
     write_order_list "$(code_inline setxkbmap):"
@@ -1677,62 +1678,14 @@ check_modules() {
 }
 
 check_input_methods() {
-    return
-    # TODO
-    # write_title 2 "$(_ 'Input Methods:')"
-    # local IFS=','
-    # local imlist=($(get_from_config_file \
-    #     ${fx_conf_home}/profile EnabledIMList)) || {
-    #     write_error_eval "$(_ 'Cannot read im list from ${1} profile.')" fcitx5
-    #     return 0
-    # }
-    # local enabled_im=()
-    # local disabled_im=()
-    # local im
-    # local name
-    # local enable
-    # for im in "${imlist[@]}"; do
-    #     [[ $im =~ ^([^:]+):(True|False)$ ]] || {
-    #         write_error_eval "$(_ 'Invalid item ${1} in im list.')" \
-    #             "${im}"
-    #         continue
-    #     }
-    #     name="${BASH_REMATCH[1]}"
-    #     if [ "${BASH_REMATCH[2]}" = True ]; then
-    #         enabled_im=("${enabled_im[@]}" "${name}")
-    #     else
-    #         disabled_im=("${disabled_im[@]}" "${name}")
-    #     fi
-    # done
-    # write_order_list_eval "$(_ 'Found ${1} enabled input methods:')" \
-    #     "${#enabled_im[@]}"
-    # [ "${#enabled_im[@]}" = 0 ] || {
-    #     write_quote_cmd print_array "${enabled_im[@]}"
-    # }
-    # write_order_list "$(_ 'Default input methods:')"
-    # case "${#enabled_im[@]}" in
-    #     0)
-    #         write_error "$(_ "You don't have any input methods enabled.")"
-    #         ;;
-    #     1)
-    #         if [[ ${enabled_im[0]} =~ ^fcitx-keyboard- ]]; then
-    #             write_eval "$(_ 'You only have one keyboard input method enabled. You may want to add another input method to input other languages.')"
-    #         else
-    #             write_error "$(_ 'You only have one input method enabled, please add a keyboard input method as the first one and your main input method as the second one.')"
-    #         fi
-    #         ;;
-    #     *)
-    #         if [[ ${enabled_im[0]} =~ ^fcitx-keyboard- ]]; then
-    #             write_eval \
-    #                 "$(_ 'You have a keyboard input method "${1}" correctly added as your default input method.')" \
-    #                 "${enabled_im[0]}"
-    #         else
-    #             write_error_eval \
-    #                 "$(_ 'Your first (default) input method is ${1} instead of a keyboard input method. You may have trouble deactivate fcitx.')" \
-    #                 "${enabled_im[0]}"
-    #         fi
-    #         ;;
-    # esac
+    write_title 2 "$(_ 'Input Methods:')"
+    write_order_list "$(code_inline "${fx_conf_home}/profile"):"
+    if [ -f "${fx_conf_home}/profile" ]; then
+        write_quote_cmd cat "${fx_conf_home}/profile"
+    else
+        write_paragraph \
+            "$(print_not_found "${fx_conf_pretty_home}/profile")"
+    fi
 }
 
 
