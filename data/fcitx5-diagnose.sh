@@ -208,6 +208,12 @@ if type dbus-send &> /dev/null; then
             "string:$1" 2> /dev/null) || return 1
         echo -n "${pid##* }"
     }
+    dbus_debuginfo() {
+        local debuginfo
+        debuginfo=$(dbus-send --print-reply=literal --dest=org.fcitx.Fcitx5 \
+            /controller org.fcitx.Fcitx.Controller1.DebugInfo 2> /dev/null) || return 1
+        echo -n "${debuginfo}"
+    }
 elif qdbus_exe=$(which qdbus 2> /dev/null) || \
         qdbus_exe=$(which qdbus-qt4 2> /dev/null) || \
         qdbus_exe=$(which qdbus-qt5 2> /dev/null); then
@@ -219,6 +225,10 @@ elif qdbus_exe=$(which qdbus 2> /dev/null) || \
     dbus_get_pid() {
         "${qdbus_exe}" org.freedesktop.DBus /org/freedesktop/DBus \
             org.freedesktop.DBus.GetConnectionUnixProcessID "$1" 2> /dev/null
+    }
+    dbus_debuginfo() {
+        "${qdbus_exe}" org.fcitx.Fcitx5 /controller \
+            org.fcitx.Fcitx.Controller1.DebugInfo 2> /dev/null
     }
 else
     dbus_exe=
@@ -960,6 +970,10 @@ check_fcitx() {
         else
             write_error_eval "$(_ 'Cannot find pid of DBus name ${1} owner.')" \
                              "$(code_inline "${dbus_name}")"
+        fi
+        if [[ -n ${owner_name} ]]; then
+            write_eval "$(_ 'Debug information from dbus:')"
+            write_quote_str "$(dbus_debuginfo)"
         fi
     else
         write_error "$(_ "Unable to find a program to check dbus.")"
@@ -1809,3 +1823,7 @@ check_config_ui
     write_title 1 "$(_ 'Log:')"
     check_log
 }
+
+set_cur_level -1
+write_error "$(_ 'Warning: the output of fcitx5-diagnose contains sensitive information, including the distribution name, kernel version, name of currently running programs, etc.')"
+write_error "$(_ 'Though such information can be helpful to developers for diagnostic purpose, please double check and remove as necessary before posting it online publicly.')"
