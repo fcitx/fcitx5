@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2021-10-22 20:24+0000\n"
+"POT-Creation-Date: 2021-10-23 20:24+0000\n"
 "PO-Revision-Date: 2017-11-23 04:14+0000\n"
 "Last-Translator: UTUMI Hirosi <utuhiro78@yahoo.co.jp>, 2021\n"
 "Language-Team: Japanese (https://www.transifex.com/fcitx/teams/12005/ja/)\n"
@@ -566,7 +566,7 @@ msgstr "入力メソッドをオフにする"
 
 #: data/fcitx5-diagnose.sh:976
 msgid "Debug information from dbus:"
-msgstr ""
+msgstr "dbus からのデバッグ情報:"
 
 #: src/lib/fcitx/inputmethodmanager.cpp:138 src/lib/fcitx/instance.cpp:700
 #: src/ui/classic/themes/default/theme.conf.in:3
@@ -1166,7 +1166,7 @@ msgstr "入力メソッド関連の環境変数:"
 
 #: data/fcitx5-diagnose.sh:1681
 msgid "Input Methods:"
-msgstr ""
+msgstr "入力メソッド:"
 
 #: src/ui/classic/theme.h:164
 msgid "Input Panel"
@@ -2108,6 +2108,8 @@ msgid ""
 "please double check and remove as necessary before posting it online "
 "publicly."
 msgstr ""
+"このような情報は開発者が診断するときに役に立つ場合がありますが、オンラインで"
+"公開する前に確認して、必要があれば削除してください。"
 
 #: src/lib/fcitx-utils/key.cpp:177
 msgctxt "Key name"
@@ -2313,6 +2315,8 @@ msgid ""
 "including the distribution name, kernel version, name of currently running "
 "programs, etc."
 msgstr ""
+"警告: fcitx5-diagnose の出力には、ディストリビューション名、カーネルバージョ"
+"ン、現在実行中のプログラムなどの機密情報が含まれています。"
 
 #: src/modules/wayland/wayland.conf.in.in:3
 msgid "Wayland"
