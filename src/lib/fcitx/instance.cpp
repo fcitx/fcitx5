@@ -125,6 +125,7 @@ struct InputState : public InputContextProperty {
             xkb_compose_state_reset(xkbComposeState_.get());
         }
 #endif
+        pendingGroupIndex_ = 0;
         keyReleased_ = -1;
         lastKeyPressed_ = Key();
         totallyReleased_ = true;
@@ -167,6 +168,7 @@ struct InputState : public InputContextProperty {
     Key lastKeyPressed_;
     bool totallyReleased_ = true;
     bool firstTrigger_ = false;
+    size_t pendingGroupIndex_ = 0;
 
     std::string lastIM_;
 
@@ -408,6 +410,36 @@ public:
         }
         auto *inputState = ic->propertyFor(&inputStateFactory_);
         return inputState->isActive();
+    }
+
+    void navigateGroup(InputContext *ic, bool forward) {
+        auto *inputState = ic->propertyFor(&inputStateFactory_);
+        inputState->pendingGroupIndex_ =
+            (inputState->pendingGroupIndex_ +
+             (forward ? 1 : imManager_.groupCount() - 1)) %
+            imManager_.groupCount();
+        FCITX_DEBUG() << "Switch to group " << inputState->pendingGroupIndex_;
+
+        if (notifications_) {
+            notifications_->call<INotifications::showTip>(
+                "enumerate-group", _("Input Method"), "input-keyboard",
+                _("Switch group"),
+                fmt::format(
+                    _("Switch group to {0}"),
+                    imManager_.groups()[inputState->pendingGroupIndex_]),
+                3000);
+        }
+    }
+
+    void acceptGroupChange(InputContext *ic) {
+        FCITX_DEBUG() << "Accept group change";
+
+        auto *inputState = ic->propertyFor(&inputStateFactory_);
+        auto groups = imManager_.groups();
+        if (groups.size() > inputState->pendingGroupIndex_) {
+            imManager_.setCurrentGroup(groups[inputState->pendingGroupIndex_]);
+        }
+        inputState->pendingGroupIndex_ = 0;
     }
 
     InstanceArgument arg_;
@@ -856,22 +888,10 @@ Instance::Instance(int argc, char **argv) {
                  [this, ic](bool) { return enumerate(ic, false); }},
                 {d->globalConfig_.enumerateGroupForwardKeys(),
                  [this]() { return canChangeGroup(); },
-                 [this, ic, d](bool) {
-                     auto *inputState = ic->propertyFor(&d->inputStateFactory_);
-                     if (inputState->imChanged_) {
-                         inputState->imChanged_->ignore();
-                     }
-                     return enumerateGroup(true);
-                 }},
+                 [ic, d](bool) { return d->navigateGroup(ic, true); }},
                 {d->globalConfig_.enumerateGroupBackwardKeys(),
                  [this]() { return canChangeGroup(); },
-                 [this, ic, d](bool) {
-                     auto *inputState = ic->propertyFor(&d->inputStateFactory_);
-                     if (inputState->imChanged_) {
-                         inputState->imChanged_->ignore();
-                     }
-                     return enumerateGroup(true);
-                 }},
+                 [ic, d](bool) { return d->navigateGroup(ic, false); }},
             };
 
             auto *inputState = ic->propertyFor(&d->inputStateFactory_);
@@ -903,6 +923,15 @@ Instance::Instance(int argc, char **argv) {
                     }
                     idx++;
                 }
+            }
+
+            if (inputState->pendingGroupIndex_ &&
+                inputState->totallyReleased_) {
+                auto *inputState = ic->propertyFor(&d->inputStateFactory_);
+                if (inputState->imChanged_) {
+                    inputState->imChanged_->ignore();
+                }
+                d->acceptGroupChange(ic);
             }
 
             if (!keyEvent.filtered() && !keyEvent.isRelease()) {
