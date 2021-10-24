@@ -83,8 +83,8 @@ void MultilineLayout::render(cairo_t *cr, int x, int y, int lineHeight,
 }
 
 InputWindow::InputWindow(ClassicUI *parent) : parent_(parent) {
-    auto *fontMap = pango_cairo_font_map_get_default();
-    context_.reset(pango_font_map_create_context(fontMap));
+    fontMap_.reset(pango_cairo_font_map_new());
+    context_.reset(pango_font_map_create_context(fontMap_.get()));
     upperLayout_ = newPangoLayout(context_.get());
     lowerLayout_ = newPangoLayout(context_.get());
 }
@@ -345,7 +345,6 @@ std::pair<unsigned int, unsigned int> InputWindow::sizeHint() {
     auto *fontDesc =
         pango_font_description_from_string(parent_->config().font->c_str());
     pango_context_set_font_description(context_.get(), fontDesc);
-    pango_cairo_context_set_resolution(context_.get(), dpi_);
     pango_font_description_free(fontDesc);
     pango_layout_context_changed(upperLayout_.get());
     pango_layout_context_changed(lowerLayout_.get());

@@ -16,9 +16,7 @@ namespace fcitx::classicui {
 XCBInputWindow::XCBInputWindow(XCBUI *ui)
     : XCBWindow(ui), InputWindow(ui->parent()),
       atomBlur_(ui_->parent()->xcb()->call<IXCBModule::atom>(
-          ui_->name(), "_KDE_NET_WM_BLUR_BEHIND_REGION", false)) {
-    ui->fontOption().setupPangoContext(context_.get());
-}
+          ui_->name(), "_KDE_NET_WM_BLUR_BEHIND_REGION", false)) {}
 
 void XCBInputWindow::postCreateWindow() {
     if (ui_->ewmh()->_NET_WM_WINDOW_TYPE_POPUP_MENU &&
@@ -107,6 +105,9 @@ void XCBInputWindow::updatePosition(InputContext *inputContext) {
 void XCBInputWindow::updateDPI(InputContext *inputContext) {
     dpi_ = ui_->dpiByPosition(inputContext->cursorRect().left(),
                               inputContext->cursorRect().top());
+    pango_cairo_font_map_set_resolution(PANGO_CAIRO_FONT_MAP(fontMap_.get()),
+                                        dpi_);
+    pango_cairo_context_set_resolution(context_.get(), dpi_);
 }
 
 void XCBInputWindow::update(InputContext *inputContext) {

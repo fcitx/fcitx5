@@ -239,6 +239,13 @@ XCBUI::XCBUI(ClassicUI *parent, const std::string &name, xcb_connection_t *conn,
                         property->window == xsettingsWindow_) {
                         readXSettings();
                     }
+
+                    auto *screen = xcb_aux_get_screen(conn_, defaultScreen_);
+                    if (property->window == screen->root &&
+                        property->atom == XCB_ATOM_RESOURCE_MANAGER) {
+                        fontOption_ = forcedDpi(conn_, screen);
+                    }
+
                     break;
                 }
                 case XCB_CONFIGURE_NOTIFY: {
@@ -270,7 +277,9 @@ XCBUI::XCBUI(ClassicUI *parent, const std::string &name, xcb_connection_t *conn,
             }));
 
     xcb_screen_t *screen = xcb_aux_get_screen(conn_, defaultScreen_);
-    addEventMaskToWindow(conn_, screen->root, XCB_EVENT_MASK_STRUCTURE_NOTIFY);
+    addEventMaskToWindow(conn_, screen->root,
+                         XCB_EVENT_MASK_STRUCTURE_NOTIFY |
+                             XCB_EVENT_MASK_PROPERTY_CHANGE);
     root_ = screen->root;
     fontOption_ = forcedDpi(conn_, screen);
     CLASSICUI_DEBUG() << "Xft.dpi: " << fontOption_.dpi;

@@ -77,6 +77,7 @@ protected:
     int highlight() const;
 
     ClassicUI *parent_;
+    GObjectUniquePtr<PangoFontMap> fontMap_;
     GObjectUniquePtr<PangoContext> context_;
     GObjectUniquePtr<PangoLayout> upperLayout_;
     GObjectUniquePtr<PangoLayout> lowerLayout_;
@@ -86,7 +87,6 @@ protected:
     TrackableObjectReference<InputContext> inputContext_;
     bool visible_ = false;
     int cursor_ = 0;
-    int dpi_ = -1;
     size_t nCandidates_ = 0;
     bool hasPrev_ = false;
     bool hasNext_ = false;
