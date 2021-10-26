@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2021-10-22 20:24+0000\n"
+"POT-Creation-Date: 2021-10-26 07:27+0000\n"
 "PO-Revision-Date: 2017-11-23 04:14+0000\n"
 "Last-Translator: csslayer <wengxt@gmail.com>, 2021\n"
 "Language-Team: Chinese (China) (https://www.transifex.com/fcitx/teams/12005/"
@@ -49,7 +49,7 @@ msgstr "${1} 未找到."
 msgid "${1} works properly."
 msgstr "${1} 工作正常。"
 
-#: src/lib/fcitx/instance.cpp:385
+#: src/lib/fcitx/instance.cpp:387
 msgid "(Not available)"
 msgstr "(不可用)"
 
@@ -562,9 +562,9 @@ msgstr "取消激活输入法"
 
 #: data/fcitx5-diagnose.sh:976
 msgid "Debug information from dbus:"
-msgstr ""
+msgstr "来自 dbus 的调试信息："
 
-#: src/lib/fcitx/inputmethodmanager.cpp:138 src/lib/fcitx/instance.cpp:700
+#: src/lib/fcitx/inputmethodmanager.cpp:138 src/lib/fcitx/instance.cpp:732
 #: src/ui/classic/themes/default/theme.conf.in:3
 msgid "Default"
 msgstr "默认"
@@ -929,11 +929,11 @@ msgstr "绿"
 msgid "Group"
 msgstr "分组"
 
-#: src/lib/fcitx/instance.cpp:389
+#: src/lib/fcitx/instance.cpp:391
 msgid "Group {0}: {1}"
 msgstr "分组 {0}：{1}"
 
-#: src/lib/fcitx/instance.cpp:702
+#: src/lib/fcitx/instance.cpp:734
 msgid "Group {}"
 msgstr "分组 {}"
 
@@ -1141,10 +1141,10 @@ msgid "Image"
 msgstr "图片"
 
 #: src/im/keyboard/keyboard.cpp:779 src/ui/classic/xcbtraywindow.cpp:38
-#: src/lib/fcitx/instance.cpp:772 src/lib/fcitx/instance.cpp:941
-#: src/modules/notificationitem/dbusmenu.cpp:237
+#: src/lib/fcitx/instance.cpp:425 src/lib/fcitx/instance.cpp:804
+#: src/lib/fcitx/instance.cpp:970 src/modules/notificationitem/dbusmenu.cpp:237
 #: src/modules/notificationitem/notificationitem.cpp:125
-#: src/modules/xcb/xcbconnection.cpp:405 data/org.fcitx.Fcitx5.desktop.in.in:4
+#: src/modules/xcb/xcbconnection.cpp:406 data/org.fcitx.Fcitx5.desktop.in.in:4
 #: data/org.fcitx.Fcitx5.metainfo.xml.in:7
 msgid "Input Method"
 msgstr "输入法"
@@ -1159,7 +1159,7 @@ msgstr "输入法相关的环境变量："
 
 #: data/fcitx5-diagnose.sh:1681
 msgid "Input Methods:"
-msgstr ""
+msgstr "输入法："
 
 #: src/ui/classic/theme.h:164
 msgid "Input Panel"
@@ -1716,15 +1716,15 @@ msgctxt "Key name"
 msgid "Power Off"
 msgstr "关机"
 
-#: src/lib/fcitx/instance.cpp:941
+#: src/lib/fcitx/instance.cpp:970
 msgid "Preedit"
 msgstr "预编辑"
 
-#: src/lib/fcitx/instance.cpp:943
+#: src/lib/fcitx/instance.cpp:972
 msgid "Preedit disabled"
 msgstr "预编辑已禁用"
 
-#: src/lib/fcitx/instance.cpp:942
+#: src/lib/fcitx/instance.cpp:971
 msgid "Preedit enabled"
 msgstr "预编辑已启用"
 
@@ -2026,15 +2026,16 @@ msgctxt "Key name"
 msgid "Suspend"
 msgstr "睡眠"
 
-#: src/lib/fcitx/instance.cpp:773 src/modules/xcb/xcbconnection.cpp:406
+#: src/lib/fcitx/instance.cpp:426 src/lib/fcitx/instance.cpp:805
+#: src/modules/xcb/xcbconnection.cpp:407
 msgid "Switch group"
 msgstr "切换分组"
 
-#: src/modules/xcb/xcbconnection.cpp:407
+#: src/lib/fcitx/instance.cpp:428 src/modules/xcb/xcbconnection.cpp:408
 msgid "Switch group to {0}"
 msgstr "切换到分组 {0}"
 
-#: src/lib/fcitx/instance.cpp:774
+#: src/lib/fcitx/instance.cpp:806
 msgid "Switched group to {0}"
 msgstr "已切换到分组 {0}"
 
@@ -2097,6 +2098,8 @@ msgid ""
 "please double check and remove as necessary before posting it online "
 "publicly."
 msgstr ""
+"尽管这些信息对于开发者诊断问题有帮助，请在公开发送到在线网站前检查并且根据需"
+"要移除的对应信息。"
 
 #: src/lib/fcitx-utils/key.cpp:177
 msgctxt "Key name"
@@ -2301,6 +2304,8 @@ msgid ""
 "including the distribution name, kernel version, name of currently running "
 "programs, etc."
 msgstr ""
+"警告：fcitx5-diagnose 的输出可能包含敏感信息，包括发行版名称，内核版本，正在"
+"运行的程序名称等。"
 
 #: src/modules/wayland/wayland.conf.in.in:3
 msgid "Wayland"
@@ -2485,10 +2490,10 @@ msgstr "版本："
 msgid "{0} (Not Available)"
 msgstr "{0} (不可用)"
 
-#: src/lib/fcitx/instance.cpp:383
+#: src/lib/fcitx/instance.cpp:385
 msgid "{0} (Not available)"
 msgstr "{0} (不可用)"
 
-#: src/lib/fcitx/instance.cpp:380
+#: src/lib/fcitx/instance.cpp:382
 msgid "{0} ({1})"
 msgstr "{0} ({1})"
