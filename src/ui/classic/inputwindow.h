@@ -78,6 +78,7 @@ protected:
 
     ClassicUI *parent_;
     GObjectUniquePtr<PangoFontMap> fontMap_;
+    double fontMapDefaultDPI_ = 96.0;
     GObjectUniquePtr<PangoContext> context_;
     GObjectUniquePtr<PangoLayout> upperLayout_;
     GObjectUniquePtr<PangoLayout> lowerLayout_;

@@ -105,8 +105,16 @@ void XCBInputWindow::updatePosition(InputContext *inputContext) {
 void XCBInputWindow::updateDPI(InputContext *inputContext) {
     dpi_ = ui_->dpiByPosition(inputContext->cursorRect().left(),
                               inputContext->cursorRect().top());
-    pango_cairo_font_map_set_resolution(PANGO_CAIRO_FONT_MAP(fontMap_.get()),
-                                        dpi_);
+
+    // Unlike pango cairo context, Cairo font map does not accept negative dpi.
+    // Restore to default value instead.
+    if (dpi_ < 0) {
+        pango_cairo_font_map_set_resolution(
+            PANGO_CAIRO_FONT_MAP(fontMap_.get()), fontMapDefaultDPI_);
+    } else {
+        pango_cairo_font_map_set_resolution(
+            PANGO_CAIRO_FONT_MAP(fontMap_.get()), dpi_);
+    }
     pango_cairo_context_set_resolution(context_.get(), dpi_);
 }
 

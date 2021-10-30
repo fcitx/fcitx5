@@ -84,6 +84,12 @@ void MultilineLayout::render(cairo_t *cr, int x, int y, int lineHeight,
 
 InputWindow::InputWindow(ClassicUI *parent) : parent_(parent) {
     fontMap_.reset(pango_cairo_font_map_new());
+    // Although documentation says it is 96 by default, try not rely on this
+    // behavior.
+    fontMapDefaultDPI_ = pango_cairo_font_map_get_resolution(
+        PANGO_CAIRO_FONT_MAP(fontMap_.get()));
+    FCITX_INFO() << pango_cairo_font_map_get_resolution(
+        PANGO_CAIRO_FONT_MAP(pango_cairo_font_map_get_default()));
     context_.reset(pango_font_map_create_context(fontMap_.get()));
     upperLayout_ = newPangoLayout(context_.get());
     lowerLayout_ = newPangoLayout(context_.get());
@@ -577,9 +583,6 @@ void InputWindow::paint(cairo_t *cr, unsigned int width, unsigned int height) {
             // Last candidate, fill.
             highlightWidth = width - *margin.marginLeft - *margin.marginRight -
                              *textMargin.marginRight - *textMargin.marginLeft;
-            CLASSICUI_DEBUG() << width << " "
-                              << highlightWidth + *highlightMargin.marginLeft +
-                                     *highlightMargin.marginRight;
         }
         const int highlightIndex = highlight();
         bool highlight = false;

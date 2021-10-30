@@ -696,7 +696,7 @@ int XCBUI::dpiByPosition(int x, int y) {
 
 int XCBUI::scaledDPI(int dpi) {
     if (!*parent_->config().perScreenDPI) {
-        // CLASSICUI_DEBUG() << "Use font dpi: " << fontOption_.dpi;
+        // CLASSICUI_DEBUG() << "Use font option dpi: " << fontOption_.dpi;
         return fontOption_.dpi;
     }
     if (dpi < 0) {
