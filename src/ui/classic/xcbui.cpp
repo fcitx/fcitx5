@@ -424,8 +424,12 @@ void XCBUI::initScreen() {
             Rect(0, 0, screen->width_in_pixels, screen->height_in_pixels), -1);
     }
 
+    screenDpi_ =
+        25.4 * screen->height_in_pixels / screen->height_in_millimeters;
+
     CLASSICUI_DEBUG() << "Screen rects are: " << rects_
-                      << " Primary DPI: " << primaryDpi_;
+                      << " Primary DPI: " << primaryDpi_
+                      << " XScreen DPI: " << screenDpi_;
 }
 
 void XCBUI::refreshCompositeManager() {
@@ -697,19 +701,24 @@ int XCBUI::dpiByPosition(int x, int y) {
 int XCBUI::scaledDPI(int dpi) {
     if (!*parent_->config().perScreenDPI) {
         // CLASSICUI_DEBUG() << "Use font option dpi: " << fontOption_.dpi;
-        return fontOption_.dpi;
+        if (fontOption_.dpi > 0) {
+            return fontOption_.dpi;
+        } else if (screenDpi_ >= 96) {
+            // Nowadays their should not be tiny dpi screen I assume.
+            // In ancient days, there used to be invalid DPI value that make
+            // font extremely tiny.
+            return screenDpi_;
+        }
+        return -1;
     }
     if (dpi < 0) {
         return fontOption_.dpi;
     }
 
     double targetDPI;
-    if (fontOption_.dpi < 0) {
-        targetDPI = dpi;
-    } else {
-        auto baseDPI = primaryDpi_ > 0 ? primaryDpi_ : maxDpi_;
-        targetDPI = (static_cast<double>(dpi) / baseDPI) * fontOption_.dpi;
-    }
+    auto baseScreenDPI = primaryDpi_ > 0 ? primaryDpi_ : maxDpi_;
+    auto baseDPI = fontOption_.dpi > 0 ? fontOption_.dpi : screenDpi_;
+    targetDPI = (static_cast<double>(dpi) / baseScreenDPI) * baseDPI;
     double scale = targetDPI / 96;
     if (scale < 1) {
         targetDPI = 96;
