@@ -88,8 +88,6 @@ InputWindow::InputWindow(ClassicUI *parent) : parent_(parent) {
     // behavior.
     fontMapDefaultDPI_ = pango_cairo_font_map_get_resolution(
         PANGO_CAIRO_FONT_MAP(fontMap_.get()));
-    FCITX_INFO() << pango_cairo_font_map_get_resolution(
-        PANGO_CAIRO_FONT_MAP(pango_cairo_font_map_get_default()));
     context_.reset(pango_font_map_create_context(fontMap_.get()));
     upperLayout_ = newPangoLayout(context_.get());
     lowerLayout_ = newPangoLayout(context_.get());
