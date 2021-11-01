@@ -19,7 +19,6 @@
 #include "config.h"
 #include "fs.h"
 #include "misc_p.h"
-#include "mtime_p.h"
 #include "stringutils.h"
 
 namespace fcitx {
@@ -36,14 +35,6 @@ std::string constructPath(const std::string &basepath,
     }
     return fs::cleanPath(stringutils::joinPath(basepath, path));
 }
-
-int64_t getTimestamp(const std::string &path) {
-    struct stat stats;
-    if (stat(path.c_str(), &stats) != 0) {
-        return 0;
-    }
-    return modifiedTime(stats).sec;
-};
 
 } // namespace
 
@@ -613,16 +604,16 @@ StandardPathFilesMap StandardPath::multiOpenAllFilter(
 
 int64_t StandardPath::timestamp(Type type, const std::string &path) const {
     if (isAbsolutePath(path)) {
-        return getTimestamp(path);
+        return fs::modifiedTime(path);
     }
 
     int64_t timestamp = 0;
-    scanDirectories(type,
-                    [&timestamp, &path](const std::string &dirPath, bool) {
-                        auto fullPath = constructPath(dirPath, path);
-                        timestamp = std::max(timestamp, getTimestamp(fullPath));
-                        return true;
-                    });
+    scanDirectories(
+        type, [&timestamp, &path](const std::string &dirPath, bool) {
+            auto fullPath = constructPath(dirPath, path);
+            timestamp = std::max(timestamp, fs::modifiedTime(fullPath));
+            return true;
+        });
     return timestamp;
 }
 
