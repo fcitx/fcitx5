@@ -1561,7 +1561,9 @@ check_modules() {
     local enabled_ui_name=()
     local enabled_ui=()
     local addon_file
+    local addon_version
     local name
+    local version
     local id
     local enable
     local _enable
@@ -1569,6 +1571,7 @@ check_modules() {
     local addon_name
     declare -A addon_file
     declare -A disabled_addon_config
+    declare -A addon_version
     if [ ! -d "${addon_conf_dir}" ]; then
       write_error_eval "$(_ 'Cannot find ${1} addon config directory.')" fcitx5
       return
@@ -1589,6 +1592,10 @@ check_modules() {
                 "$(code_inline "${file}")"
             continue
         fi
+        if ! version=$(get_from_config_file "${file}" Version); then
+            version=
+        fi
+        addon_version["${name}"]="${version}"
         enable=
         # This is O(M*N) but I don't care...
         for addon_name in "${disabled_addon_config[@]}"; do
@@ -1616,12 +1623,20 @@ check_modules() {
     write_order_list_eval "$(_ 'Found ${1} enabled addons:')" \
         "${#enabled_addon[@]}"
     [ "${#enabled_addon[@]}" = 0 ] || {
-        write_quote_cmd print_array "${enabled_addon[@]}"
+        local addon_list=()
+        for addon_name in "${enabled_addon[@]}"; do
+            array_push addon_list "${addon_name} ${addon_version[${addon_name}]}"
+        done
+        write_quote_cmd print_array "${addon_list[@]}"
     }
     write_order_list_eval "$(_ 'Found ${1} disabled addons:')" \
         "${#disabled_addon[@]}"
     [ "${#disabled_addon[@]}" = 0 ] || {
-        write_quote_cmd print_array "${disabled_addon[@]}"
+        local addon_list=()
+        for addon_name in "${disabled_addon[@]}"; do
+            array_push addon_list "${addon_name} ${addon_version[${addon_name}]}"
+        done
+        write_quote_cmd print_array "${addon_list[@]}"
     }
     increase_cur_level -1
     write_order_list_eval "$(_ 'Addon Libraries:')"
