@@ -104,6 +104,7 @@ enum class EventType : uint32_t {
     InputMethodGroupChanged = InstanceEventFlag | 0x1,
     InputMethodGroupAboutToChange = InstanceEventFlag | 0x2,
     UIChanged = InstanceEventFlag | 0x3,
+    CheckUpdate = InstanceEventFlag | 0x4,
 };
 
 /**
@@ -253,7 +254,7 @@ public:
                        isRelease, time) {}
 
     void filter() { filtered_ = true; }
-    virtual bool filtered() const { return filtered_; }
+    bool filtered() const override { return filtered_; }
     void filterAndAccept() {
         filter();
         accept();
@@ -385,6 +386,22 @@ public:
 class FCITXCORE_EXPORT UIChangedEvent : public Event {
 public:
     UIChangedEvent() : Event(EventType::UIChanged) {}
+};
+
+class FCITXCORE_EXPORT CheckUpdateEvent : public Event {
+public:
+    CheckUpdateEvent() : Event(EventType::CheckUpdate) {}
+
+    /// Make checking update short circuit. If anything need a refresh, just
+    /// simply break.
+    void setHasUpdate() {
+        filtered_ = true;
+        accept();
+    }
+    bool filtered() const override { return filtered_; }
+
+private:
+    bool filtered_ = false;
 };
 
 class FCITXCORE_EXPORT CapabilityEvent : public InputContextEvent {

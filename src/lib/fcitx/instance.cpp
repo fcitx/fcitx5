@@ -978,6 +978,8 @@ Instance::Instance(int argc, char **argv) {
     d->eventWatchers_.emplace_back(d->watchEvent(
         EventType::InputContextKeyEvent, EventWatcherPhase::ReservedFirst,
         [d](Event &event) {
+            // Update auto save.
+            d->idleStartTimestamp_ = now(CLOCK_MONOTONIC);
             auto &keyEvent = static_cast<KeyEvent &>(event);
             auto *ic = keyEvent.inputContext();
             auto *inputState = ic->propertyFor(&d->inputStateFactory_);
@@ -1484,6 +1486,10 @@ GlobalConfig &Instance::globalConfig() {
 }
 
 bool Instance::postEvent(Event &event) {
+    return std::as_const(*this).postEvent(event);
+}
+
+bool Instance::postEvent(Event &event) const {
     FCITX_D();
     auto iter = d->eventHandlers_.find(event.type());
     if (iter != d->eventHandlers_.end()) {
@@ -1510,8 +1516,6 @@ bool Instance::postEvent(Event &event) {
         // Make sure this part of fix is always executed regardless of the
         // filter.
         if (event.type() == EventType::InputContextKeyEvent) {
-            // Update auto save.
-            d->idleStartTimestamp_ = now(CLOCK_MONOTONIC);
             auto &keyEvent = static_cast<KeyEvent &>(event);
             auto *ic = keyEvent.inputContext();
             if (ic->hasPendingEvents() &&
@@ -2298,7 +2302,8 @@ void Instance::showInputMethodInformation(InputContext *ic) {
 
 bool Instance::checkUpdate() const {
     FCITX_D();
-    return d->addonManager_.checkUpdate() || d->imManager_.checkUpdate();
+    return d->addonManager_.checkUpdate() || d->imManager_.checkUpdate() ||
+           postEvent(CheckUpdateEvent());
 }
 
 void Instance::setXkbParameters(const std::string &display,

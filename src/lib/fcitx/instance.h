@@ -65,6 +65,9 @@ public:
 
     bool postEvent(Event &event);
     bool postEvent(Event &&event) { return postEvent(event); }
+    // TODO: Merge this when we can break API.
+    bool postEvent(Event &event) const;
+    bool postEvent(Event &&event) const { return postEvent(event); }
 
     FCITX_NODISCARD std::unique_ptr<HandlerTableEntry<EventHandler>>
     watchEvent(EventType type, EventWatcherPhase phase, EventHandler callback);

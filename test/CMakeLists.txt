@@ -86,10 +86,14 @@ set(FCITX_CORE_TEST
     testelement
     testcandidatelist
     testicontheme
-    testtext)
+    testtext
+    testinstance)
+
+set(testinstance_LIBS Pthread::Pthread)
+
 foreach(TESTCASE ${FCITX_CORE_TEST})
     add_executable(${TESTCASE} ${TESTCASE}.cpp)
-    target_link_libraries(${TESTCASE} Fcitx5::Core)
+    target_link_libraries(${TESTCASE} Fcitx5::Core ${${TESTCASE}_LIBS})
     add_test(NAME ${TESTCASE}
              COMMAND ${TESTCASE} ${${TESTCASE}_ARGS})
 endforeach()
