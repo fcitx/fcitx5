@@ -992,10 +992,11 @@ Instance::Instance(int argc, char **argv) {
             if (xkbState) {
                 if (auto *mods = findValue(d->stateMask_, ic->display())) {
                     FCITX_DEBUG() << "Update mask to customXkbState";
-                    // Keep depressed, but propagate latched and locked.
+                    // Keep depressed, latched, but propagate locked.
                     auto depressed = xkb_state_serialize_mods(
                         xkbState, XKB_STATE_MODS_DEPRESSED);
-                    auto latched = std::get<1>(*mods);
+                    auto latched = xkb_state_serialize_mods(
+                        xkbState, XKB_STATE_MODS_LATCHED);
                     auto locked = std::get<2>(*mods);
 
                     // set modifiers in depressed if they don't appear in any of
@@ -1006,10 +1007,11 @@ Instance::Instance(int argc, char **argv) {
                     xkb_state_update_mask(xkbState, depressed, latched, locked,
                                           0, 0, 0);
                 }
-                FCITX_DEBUG() << "XkbState update key";
-                xkb_state_update_key(xkbState, keyEvent.rawKey().code(),
-                                     keyEvent.isRelease() ? XKB_KEY_UP
-                                                          : XKB_KEY_DOWN);
+                const uint32_t effective = xkb_state_serialize_mods(
+                    xkbState, XKB_STATE_MODS_EFFECTIVE);
+                auto newSym = xkb_state_key_get_one_sym(
+                    xkbState, keyEvent.rawKey().code());
+                auto newModifier = KeyStates(effective);
 
                 const uint32_t modsDepressed = xkb_state_serialize_mods(
                     xkbState, XKB_STATE_MODS_DEPRESSED);
@@ -1017,14 +1019,11 @@ Instance::Instance(int argc, char **argv) {
                     xkb_state_serialize_mods(xkbState, XKB_STATE_MODS_LATCHED);
                 const uint32_t modsLocked =
                     xkb_state_serialize_mods(xkbState, XKB_STATE_MODS_LOCKED);
-                FCITX_DEBUG() << "Current mods" << modsDepressed << modsLatched
-                              << modsLocked;
-                auto newSym = xkb_state_key_get_one_sym(
-                    xkbState, keyEvent.rawKey().code());
-                auto newModifier = keyEvent.rawKey().states();
+                FCITX_KEYTRACE() << "Current mods: " << modsDepressed << " "
+                                 << modsLatched << " " << modsLocked;
                 auto newCode = keyEvent.rawKey().code();
                 Key key(static_cast<KeySym>(newSym), newModifier, newCode);
-                FCITX_DEBUG()
+                FCITX_KEYTRACE()
                     << "Custom Xkb translated Key: " << key.toString();
                 keyEvent.setRawKey(key);
             }
@@ -1059,8 +1058,8 @@ Instance::Instance(int argc, char **argv) {
             }
             engine->filterKey(*entry, keyEvent);
             emit<Instance::KeyEventResult>(keyEvent);
-            if (keyEvent.forward()) {
 #ifdef ENABLE_KEYBOARD
+            if (keyEvent.forward()) {
                 FCITX_D();
                 auto *inputState = ic->propertyFor(&d->inputStateFactory_);
                 if (auto *xkbState = inputState->customXkbState()) {
@@ -1072,18 +1071,27 @@ Instance::Instance(int argc, char **argv) {
                             return;
                         }
                         if (keyEvent.key().states().test(KeyState::Ctrl) ||
-                            keyEvent.key().sym() == keyEvent.origKey().sym()) {
+                            keyEvent.rawKey().sym() ==
+                                keyEvent.origKey().sym()) {
                             return;
                         }
                         if (!keyEvent.isRelease()) {
-                            FCITX_DEBUG() << "Will commit char: " << utf32;
+                            FCITX_KEYTRACE() << "Will commit char: " << utf32;
                             ic->commitString(utf8::UCS4ToUTF8(utf32));
                         }
                         keyEvent.filterAndAccept();
+                    } else if (!keyEvent.key().states().test(KeyState::Ctrl) &&
+                               keyEvent.rawKey().sym() !=
+                                   keyEvent.origKey().sym() &&
+                               Key::keySymToUnicode(keyEvent.origKey().sym()) !=
+                                   0) {
+                        // filter key for the case that: origKey will produce
+                        // character, while the translated will not.
+                        keyEvent.filterAndAccept();
                     }
                 }
-#endif
             }
+#endif
         }));
     d->eventWatchers_.emplace_back(d->watchEvent(
         EventType::InputContextFocusIn, EventWatcherPhase::ReservedFirst,
@@ -1518,6 +1526,24 @@ bool Instance::postEvent(Event &event) const {
         if (event.type() == EventType::InputContextKeyEvent) {
             auto &keyEvent = static_cast<KeyEvent &>(event);
             auto *ic = keyEvent.inputContext();
+#ifdef ENABLE_KEYBOARD
+            do {
+                if (!keyEvent.forward() && !keyEvent.origKey().code()) {
+                    break;
+                }
+                auto *inputState = ic->propertyFor(&d->inputStateFactory_);
+                auto *xkbState = inputState->customXkbState();
+                if (!xkbState) {
+                    break;
+                }
+                // This need to be called after xkb_state_key_get_*, and should
+                // be called against all Key regardless whether they are
+                // filtered or not.
+                xkb_state_update_key(xkbState, keyEvent.origKey().code(),
+                                     keyEvent.isRelease() ? XKB_KEY_UP
+                                                          : XKB_KEY_DOWN);
+            } while (0);
+#endif
             if (ic->hasPendingEvents() &&
                 ic->capabilityFlags().test(CapabilityFlag::KeyEventOrderFix) &&
                 !keyEvent.accepted()) {
