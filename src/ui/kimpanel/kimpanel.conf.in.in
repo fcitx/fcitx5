@@ -9,3 +9,4 @@ OnDemand=True
 
 [Addon/Dependencies]
 0=dbus
+1=core:@PROJECT_VERSION@

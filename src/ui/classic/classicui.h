@@ -146,6 +146,7 @@ private:
 
     UIInterface *uiForEvent(Event &event);
     UIInterface *uiForInputContext(InputContext *inputContext);
+    UIInterface *uiForDisplay(const std::string &display);
     void reloadTheme();
 
 #ifdef ENABLE_X11

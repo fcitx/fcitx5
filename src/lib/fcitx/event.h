@@ -16,6 +16,7 @@
 namespace fcitx {
 
 class InputContext;
+class FocusGroup;
 
 enum class ResetReason { ChangeByInactivate, LostFocus, SwitchIM, Client };
 
@@ -105,6 +106,7 @@ enum class EventType : uint32_t {
     InputMethodGroupAboutToChange = InstanceEventFlag | 0x2,
     UIChanged = InstanceEventFlag | 0x3,
     CheckUpdate = InstanceEventFlag | 0x4,
+    FocusGroupFocusChanged = InstanceEventFlag | 0x5,
 };
 
 /**
@@ -402,6 +404,28 @@ public:
 
 private:
     bool filtered_ = false;
+};
+
+/**
+ * Notify a focus change for focus group.
+ *
+ * @since 5.0.11
+ */
+class FCITXCORE_EXPORT FocusGroupFocusChangedEvent : public Event {
+public:
+    FocusGroupFocusChangedEvent(FocusGroup *group, InputContext *oldFocus,
+                                InputContext *newFocus)
+        : Event(EventType::FocusGroupFocusChanged), group_(group),
+          oldFocus_(oldFocus), newFocus_(newFocus) {}
+
+    FocusGroup *group() const { return group_; }
+    InputContext *oldFocus() const { return oldFocus_; };
+    InputContext *newFocus() const { return newFocus_; };
+
+private:
+    FocusGroup *group_;
+    InputContext *oldFocus_;
+    InputContext *newFocus_;
 };
 
 class FCITXCORE_EXPORT CapabilityEvent : public InputContextEvent {

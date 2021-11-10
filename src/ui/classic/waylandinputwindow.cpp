@@ -90,6 +90,13 @@ void WaylandInputWindow::resetPanel() { panelSurface_.reset(); }
 
 void WaylandInputWindow::update(fcitx::InputContext *ic) {
     InputWindow::update(ic);
+
+    if (!visible()) {
+        window_->hide();
+        return;
+    }
+
+    assert(!visible() || ic != nullptr);
     if (ic->frontend() == std::string_view("wayland_v2")) {
         if (ic != v2IC_.get()) {
             v2IC_ = ic->watch();
@@ -100,11 +107,6 @@ void WaylandInputWindow::update(fcitx::InputContext *ic) {
         }
     }
     if (!panelSurface_ && !panelSurfaceV2_) {
-        return;
-    }
-
-    if (!visible()) {
-        window_->hide();
         return;
     }
     auto pair = sizeHint();

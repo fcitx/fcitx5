@@ -252,7 +252,7 @@ void InputWindow::setTextToLayout(
 }
 
 void InputWindow::update(InputContext *inputContext) {
-    if (parent_->suspended()) {
+    if (parent_->suspended() || !inputContext) {
         visible_ = false;
         return;
     }

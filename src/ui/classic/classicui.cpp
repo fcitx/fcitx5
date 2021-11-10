@@ -144,7 +144,11 @@ UIInterface *ClassicUI::uiForInputContext(InputContext *inputContext) {
     if (!inputContext->hasFocus()) {
         return nullptr;
     }
-    auto iter = uis_.find(inputContext->display());
+    return uiForDisplay(inputContext->display());
+}
+
+UIInterface *ClassicUI::uiForDisplay(const std::string &display) {
+    auto iter = uis_.find(display);
     if (iter == uis_.end()) {
         return nullptr;
     }
@@ -212,6 +216,17 @@ void ClassicUI::resume() {
                     }
                     return true;
                 });
+        }));
+    eventHandlers_.emplace_back(instance_->watchEvent(
+        EventType::FocusGroupFocusChanged, EventWatcherPhase::Default,
+        [this](Event &event) {
+            auto &focusEvent =
+                static_cast<FocusGroupFocusChangedEvent &>(event);
+            if (!focusEvent.newFocus()) {
+                if (auto ui = uiForDisplay(focusEvent.group()->display())) {
+                    ui->update(UserInterfaceComponent::InputPanel, nullptr);
+                }
+            }
         }));
 }
 

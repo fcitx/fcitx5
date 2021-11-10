@@ -248,6 +248,19 @@ void Kimpanel::resume() {
             registerAllProperties(icEvent.inputContext());
             updateCurrentInputMethod(icEvent.inputContext());
         }));
+    eventHandlers_.emplace_back(instance_->watchEvent(
+        EventType::FocusGroupFocusChanged, EventWatcherPhase::Default,
+        [this](Event &event) {
+            auto &focusEvent =
+                static_cast<FocusGroupFocusChangedEvent &>(event);
+            if (!focusEvent.newFocus() &&
+                lastInputContext_.get() == focusEvent.oldFocus()) {
+                proxy_->showAux(false);
+                proxy_->showPreedit(false);
+                proxy_->showLookupTable(false);
+                bus_->flush();
+            }
+        }));
 }
 
 void Kimpanel::update(UserInterfaceComponent component,
