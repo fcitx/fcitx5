@@ -1,6 +1,6 @@
 #!/bin/sh
 #--------------------------------------
-# fcitx-config
+# fcitx-configtool
 #
 
 export TEXTDOMAIN=fcitx5
@@ -107,17 +107,13 @@ detectDE() {
 
 run_kde() {
     if (systemsettings5 --list 2>/dev/null | grep ^kcm_fcitx5 > /dev/null 2>&1); then
-        if [ x"$1" != x ]; then
-            exec systemsettings5 kcm_fcitx5 --args "$1"
-        else
-            exec systemsettings5 kcm_fcitx5
-        fi
+        exec systemsettings5 kcm_fcitx5
     fi
 }
 
 run_qt() {
     if which fcitx5-config-qt > /dev/null 2>&1; then
-        exec fcitx5-config-qt "$1"
+        exec fcitx5-config-qt
     fi
     return 1
 }
@@ -164,7 +160,7 @@ case "$DE" in
 esac
 
 for cmd in $order; do
-    run_${cmd} "$1"
+    run_${cmd}
 done
 
 echo 'Cannot find a command to run.' >&2
