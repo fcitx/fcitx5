@@ -106,11 +106,11 @@ detectDE() {
 }
 
 run_kde() {
-    if (kcmshell5 --list 2>/dev/null | grep ^kcm_fcitx5 > /dev/null 2>&1); then
+    if (systemsettings5 --list 2>/dev/null | grep ^kcm_fcitx5 > /dev/null 2>&1); then
         if [ x"$1" != x ]; then
-            exec kcmshell5 fcitx5 --args "$1"
+            exec systemsettings5 kcm_fcitx5 --args "$1"
         else
-            exec kcmshell5 fcitx5
+            exec systemsettings5 kcm_fcitx5
         fi
     fi
 }
