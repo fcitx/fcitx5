@@ -1,7 +1,7 @@
 [Addon]
 Name=Fcitx4 Frontend
 Type=SharedLibrary
-Library=fcitx4frontend
+Library=libfcitx4frontend
 Category=Frontend
 Version=@PROJECT_VERSION@
 

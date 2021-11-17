@@ -1,7 +1,7 @@
 [Addon]
 Name=Quick Phrase
 Type=SharedLibrary
-Library=quickphrase
+Library=libquickphrase
 Category=Module
 Version=@PROJECT_VERSION@
 OnDemand=False

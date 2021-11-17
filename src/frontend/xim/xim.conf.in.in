@@ -1,7 +1,7 @@
 [Addon]
 Name=X Input Method Frontend
 Type=SharedLibrary
-Library=xim
+Library=libxim
 Category=Frontend
 Version=@PROJECT_VERSION@
 Configurable=True

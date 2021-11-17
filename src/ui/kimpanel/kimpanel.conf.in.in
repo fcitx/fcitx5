@@ -1,7 +1,7 @@
 [Addon]
 Name=KDE Input Method Panel
 Type=SharedLibrary
-Library=kimpanel
+Library=libkimpanel
 Category=UI
 Version=@PROJECT_VERSION@
 UIPriority=50

@@ -1,7 +1,7 @@
 [Addon]
 Name=Classic User Inteface
 Type=SharedLibrary
-Library=classicui
+Library=libclassicui
 Category=UI
 Version=@PROJECT_VERSION@
 OnDemand=True

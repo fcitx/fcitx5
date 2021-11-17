@@ -37,7 +37,6 @@ target_link_libraries(classicui
     ${CAIRO_EGL_LIBRARY}
     ${CLASSICUI_WAYLAND_LIBS}
     ${FMT_TARGET})
-set_target_properties(classicui PROPERTIES PREFIX "")
 install(TARGETS classicui DESTINATION "${FCITX_INSTALL_ADDONDIR}")
 configure_file(classicui.conf.in.in classicui.conf.in @ONLY)
 fcitx5_translate_desktop_file(${CMAKE_CURRENT_BINARY_DIR}/classicui.conf.in classicui.conf)

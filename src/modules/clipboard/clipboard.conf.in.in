@@ -1,7 +1,7 @@
 [Addon]
 Name=Clipboard
 Type=SharedLibrary
-Library=clipboard
+Library=libclipboard
 Category=Module
 Version=@PROJECT_VERSION@
 OnDemand=False

@@ -1,7 +1,6 @@
 if (ENABLE_X11)
 add_library(clipboard MODULE clipboard.cpp)
 target_link_libraries(clipboard Fcitx5::Core Fcitx5::Module::XCB XCB::XCB)
-set_target_properties(clipboard PROPERTIES PREFIX "")
 install(TARGETS clipboard DESTINATION "${FCITX_INSTALL_ADDONDIR}")
 install(FILES "${CMAKE_CURRENT_BINARY_DIR}/clipboard.conf" DESTINATION "${FCITX_INSTALL_PKGDATADIR}/addon")
 endif()
