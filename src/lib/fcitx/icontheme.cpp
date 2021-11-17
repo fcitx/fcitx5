@@ -683,12 +683,14 @@ FCITX_DEFINE_READ_ONLY_PROPERTY_PRIVATE(IconTheme, std::string, example);
 std::string IconTheme::findIcon(const std::string &iconName,
                                 unsigned int desiredSize, int scale,
                                 const std::vector<std::string> &extensions) {
-    return std::as_const(*this).findIcon(iconName, desiredSize, scale, extensions);
+    return std::as_const(*this).findIcon(iconName, desiredSize, scale,
+                                         extensions);
 }
 
-std::string IconTheme::findIcon(const std::string &iconName,
-                                unsigned int desiredSize, int scale,
-                                const std::vector<std::string> &extensions) const {
+std::string
+IconTheme::findIcon(const std::string &iconName, unsigned int desiredSize,
+                    int scale,
+                    const std::vector<std::string> &extensions) const {
     FCITX_D();
     return d->findIcon(iconName, desiredSize, scale, extensions);
 }

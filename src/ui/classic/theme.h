@@ -164,7 +164,9 @@ class ThemeImage {
 public:
     ThemeImage(const std::string &name, const BackgroundImageConfig &cfg);
     ThemeImage(const std::string &name, const ActionImageConfig &cfg);
-    ThemeImage(const IconTheme& iconTheme, const std::string &icon, const std::string &label, uint32_t size, const ClassicUIConfig& cfg);
+    ThemeImage(const IconTheme &iconTheme, const std::string &icon,
+               const std::string &label, uint32_t size,
+               const ClassicUIConfig &cfg);
 
     operator cairo_surface_t *() const { return image_.get(); }
     auto height() const {
@@ -219,7 +221,8 @@ public:
     void load(const std::string &name);
     void load(const std::string &name, const RawConfig &rawConfig);
     const ThemeImage &loadImage(const std::string &icon,
-                                const std::string &label, uint32_t size, const ClassicUIConfig &config);
+                                const std::string &label, uint32_t size,
+                                const ClassicUIConfig &config);
     const ThemeImage &loadBackground(const BackgroundImageConfig &cfg);
     const ThemeImage &loadAction(const ActionImageConfig &cfg);
 

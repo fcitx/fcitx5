@@ -18,8 +18,8 @@
 #include "fcitx-utils/rect.h"
 #include "fcitx-utils/standardpath.h"
 #include "fcitx/misc_p.h"
-#include "common.h"
 #include "classicui.h"
+#include "common.h"
 
 namespace fcitx::classicui {
 
@@ -166,9 +166,12 @@ cairo_surface_t *loadImage(StandardPathFile &file) {
     return surface;
 }
 
-ThemeImage::ThemeImage(const IconTheme& iconTheme, const std::string &icon, const std::string &label, uint32_t size, const ClassicUIConfig &config)
+ThemeImage::ThemeImage(const IconTheme &iconTheme, const std::string &icon,
+                       const std::string &label, uint32_t size,
+                       const ClassicUIConfig &config)
     : size_(size) {
-    bool preferTextIcon = !label.empty() && (icon == "input-keyboard" || *config.preferTextIcon);
+    bool preferTextIcon =
+        !label.empty() && (icon == "input-keyboard" || *config.preferTextIcon);
     if (!preferTextIcon && !icon.empty()) {
         std::string iconPath = iconTheme.findIcon(icon, size, 1);
         auto fd = open(iconPath.c_str(), O_RDONLY);
@@ -202,7 +205,7 @@ ThemeImage::ThemeImage(const IconTheme& iconTheme, const std::string &icon, cons
         pango_font_description_free(desc);
         pango_layout_get_pixel_extents(layout.get(), &rect, nullptr);
         cairo_translate(cr, (size - rect.width) * 0.5 - rect.x,
-                      (size - rect.height) * 0.5 - rect.y);
+                        (size - rect.height) * 0.5 - rect.y);
         if (config.trayBorderColor->alpha()) {
             cairo_save(cr);
             cairoSetSourceColor(cr, *config.trayBorderColor);
@@ -326,7 +329,8 @@ const ThemeImage &Theme::loadAction(const ActionImageConfig &cfg) {
 }
 
 const ThemeImage &Theme::loadImage(const std::string &icon,
-                                   const std::string &label, uint32_t size, const ClassicUIConfig &config) {
+                                   const std::string &label, uint32_t size,
+                                   const ClassicUIConfig &config) {
     auto &map = trayImageTable_;
     auto name = stringutils::concat("icon:", icon, "label:", label);
     if (auto *image = findValue(map, name)) {
