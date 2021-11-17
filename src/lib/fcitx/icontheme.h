@@ -63,10 +63,15 @@ public:
     IconTheme(const StandardPath &standardPath = StandardPath::global());
     FCITX_DECLARE_VIRTUAL_DTOR_MOVE(IconTheme);
 
+    // FIXME: remove non-const version when we can break ABI.
     std::string findIcon(const std::string &iconName, unsigned int desiredSize,
                          int scale = 1,
                          const std::vector<std::string> &extensions = {
                              ".svg", ".png", ".xpm"});
+    std::string findIcon(const std::string &iconName, unsigned int desiredSize,
+                         int scale = 1,
+                         const std::vector<std::string> &extensions = {
+                             ".svg", ".png", ".xpm"}) const;
     static std::string defaultIconThemeName();
 
     FCITX_DECLARE_READ_ONLY_PROPERTY(std::string, internalName);

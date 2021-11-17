@@ -98,6 +98,14 @@ FCITX_CONFIGURATION(
         this, "Font", _("Font"), "Sans 10"};
     OptionWithAnnotation<std::string, MenuFontAnnotation> menuFont{
         this, "MenuFont", _("Menu Font"), "Sans 10"};
+    OptionWithAnnotation<std::string, MenuFontAnnotation> trayFont{
+        this, "TrayFont", _("Tray Font"), "Sans 10"};
+    OptionWithAnnotation<Color, ToolTipAnnotation> trayBorderColor{
+        this, "TrayOutlineColor", _("Tray Label Outline Color"), Color("#000000ff"), {}, {}, ToolTipAnnotation(_("This is only effective when the tray icon is xembed."))};
+    OptionWithAnnotation<Color, ToolTipAnnotation> trayTextColor{
+        this, "TrayTextColor", _("Tray Label Text Color"), Color("#ffffffff"), {}, {}, ToolTipAnnotation(_("This is only effective when the tray icon is xembed."))};
+    OptionWithAnnotation<bool, ToolTipAnnotation> preferTextIcon{
+        this, "PreferTextIcon", _("Prefer Text Icon"), true, {}, {}, ToolTipAnnotation(_("This is only effective when the tray icon is xembed."))};
     OptionWithAnnotation<bool, ToolTipAnnotation>
         useInputMethodLanguageToDisplayText{
             this,
