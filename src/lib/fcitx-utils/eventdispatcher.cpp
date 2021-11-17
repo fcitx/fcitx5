@@ -86,7 +86,7 @@ void EventDispatcher::schedule(std::function<void()> functor) {
     fs::safeWrite(d->fd_[1].fd(), &dummy, 1);
 }
 
-EventLoop *EventDispatcher::loop() const {
+EventLoop *EventDispatcher::eventLoop() const {
     FCITX_D();
     std::lock_guard<std::mutex> lock(d->mutex_);
     return d->loop_;
