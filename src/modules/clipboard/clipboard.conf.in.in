@@ -7,5 +7,6 @@ Version=@PROJECT_VERSION@
 OnDemand=False
 Configurable=True
 
-[Addon/Dependencies]
+[Addon/OptionalDependencies]
 0=xcb
+1=wayland
