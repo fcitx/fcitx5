@@ -35,9 +35,10 @@ public:
     }
 
     // Mutex to be used to protect eventList_.
-    std::mutex mutex_;
+    mutable std::mutex mutex_;
     std::queue<std::function<void()>> eventList_;
     std::unique_ptr<EventSourceIO> ioEvent_;
+    EventLoop *loop_ = nullptr;
     UnixFD fd_[2];
 };
 
@@ -62,12 +63,14 @@ void EventDispatcher::attach(EventLoop *event) {
                                         d->dispatchEvent();
                                         return true;
                                     });
+    d->loop_ = event;
 }
 
 void EventDispatcher::detach() {
     FCITX_D();
     std::lock_guard<std::mutex> lock(d->mutex_);
     d->ioEvent_.reset();
+    d->loop_ = nullptr;
 }
 
 void EventDispatcher::schedule(std::function<void()> functor) {
@@ -81,6 +84,12 @@ void EventDispatcher::schedule(std::function<void()> functor) {
     }
     uint8_t dummy = 0;
     fs::safeWrite(d->fd_[1].fd(), &dummy, 1);
+}
+
+EventLoop *EventDispatcher::loop() const {
+    FCITX_D();
+    std::lock_guard<std::mutex> lock(d->mutex_);
+    return d->loop_;
 }
 
 } // namespace fcitx
