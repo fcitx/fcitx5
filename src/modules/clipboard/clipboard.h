@@ -13,6 +13,7 @@
 #include "fcitx-config/iniparser.h"
 #include "fcitx-utils/i18n.h"
 #include "fcitx-utils/key.h"
+#include "fcitx-utils/log.h"
 #include "fcitx-utils/misc_p.h"
 #include "fcitx-utils/standardpath.h"
 #include "fcitx/addonfactory.h"
@@ -117,6 +118,10 @@ private:
     OrderedSet<std::string> history_;
     std::string primary_;
 };
+
+FCITX_DECLARE_LOG_CATEGORY(clipboard_log);
+
+#define FCITX_CLIPBOARD_DEBUG() FCITX_LOGC(::fcitx::clipboard_log, Debug)
 } // namespace fcitx
 
 #endif // _FCITX_MODULES_CLIPBOARD_CLIPBOARD_H_

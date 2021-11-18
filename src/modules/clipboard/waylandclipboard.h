@@ -33,6 +33,7 @@ using DataOfferCallback = std::function<void(const std::vector<char> &)>;
 class DataOffer;
 struct DataOfferTask {
     DataOfferCallback callback_;
+    std::shared_ptr<UnixFD> fd_;
     std::vector<char> data_;
     std::unique_ptr<EventSourceIO> ioEvent_;
     std::unique_ptr<EventSource> timeEvent_;
@@ -59,7 +60,7 @@ public:
 
     static void run(DataReaderThread *self) { self->realRun(); }
 
-    uint64_t addTask(int fd, DataOfferCallback callback);
+    uint64_t addTask(std::shared_ptr<UnixFD> fd, DataOfferCallback callback);
     void removeTask(uint64_t token);
 
 private:

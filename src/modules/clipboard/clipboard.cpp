@@ -20,6 +20,8 @@
 
 namespace fcitx {
 
+FCITX_DEFINE_LOG_CATEGORY(clipboard_log, "clipboard");
+
 class ClipboardState : public InputContextProperty {
 public:
     ClipboardState(Clipboard *q) : q_(q) {}

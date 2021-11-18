@@ -14,19 +14,22 @@
 
 namespace fcitx {
 
-uint64_t DataReaderThread::addTask(int fd, DataOfferCallback callback) {
+uint64_t DataReaderThread::addTask(std::shared_ptr<UnixFD> fd,
+                                   DataOfferCallback callback) {
     auto id = nextId_++;
     if (id == 0) {
         id = nextId_++;
     }
+    FCITX_CLIPBOARD_DEBUG() << "Add task: " << id << " " << fd;
     dispatcherToWorker_.schedule([this, id, fd,
                                   dispatcher = &dispatcherToWorker_,
                                   callback = std::move(callback)]() {
         auto &task = ((*tasks_)[id] = std::make_unique<DataOfferTask>());
+        task->fd_ = fd;
         task->callback_ = std::move(callback);
         try {
             task->ioEvent_ = dispatcher->eventLoop()->addIOEvent(
-                fd, {IOEventFlag::In, IOEventFlag::Err},
+                fd->fd(), {IOEventFlag::In, IOEventFlag::Err},
                 [this, id, task = task.get()](EventSource *, int fd,
                                               IOEventFlags flags) {
                     if (flags.test(IOEventFlag::Err)) {
@@ -53,9 +56,12 @@ uint64_t DataReaderThread::addTask(int fd, DataOfferCallback callback) {
                     }
                     return true;
                 });
+            FCITX_CLIPBOARD_DEBUG() << "Add watch to fd: " << fd->fd();
+            // 1 sec timeout in case it takes forever.
             task->timeEvent_ = dispatcher->eventLoop()->addTimeEvent(
                 CLOCK_MONOTONIC, now(CLOCK_MONOTONIC) + 1000000, 0,
                 [this, id](EventSource *, uint64_t) {
+                    FCITX_CLIPBOARD_DEBUG() << "Reading data timeout.";
                     tasks_->erase(id);
                     return true;
                 });
@@ -68,6 +74,7 @@ uint64_t DataReaderThread::addTask(int fd, DataOfferCallback callback) {
 }
 
 void DataReaderThread::removeTask(uint64_t token) {
+    FCITX_CLIPBOARD_DEBUG() << "Remove task: " << token;
     dispatcherToWorker_.schedule([this, token]() { tasks_->erase(token); });
 }
 
@@ -119,9 +126,9 @@ void DataOffer::receiveData(DataReaderThread &thread,
     offer_->receive(mime.data(), pipeFds[1]);
     close(pipeFds[1]);
 
-    fd_ = UnixFD::own(pipeFds[0]);
     thread_ = &thread;
-    thread_->addTask(fd_.fd(), std::move(callback));
+    taskId_ = thread_->addTask(
+        std::make_shared<UnixFD>(UnixFD::own(pipeFds[0])), std::move(callback));
 }
 
 DataDevice::DataDevice(WaylandClipboard *clipboard,
@@ -140,6 +147,7 @@ DataDevice::DataDevice(WaylandClipboard *clipboard,
                 thread_, [this](std::vector<char> data) {
                     data.push_back('\0');
                     clipboard_->setClipboard(data.data());
+                    clipboardOffer_.reset();
                 });
         }));
     conns_.emplace_back(device_->primarySelection().connect(
@@ -153,6 +161,7 @@ DataDevice::DataDevice(WaylandClipboard *clipboard,
             primaryOffer_->receiveData(thread_, [this](std::vector<char> data) {
                 data.push_back('\0');
                 clipboard_->setPrimary(data.data());
+                primaryOffer_.reset();
             });
         }));
     conns_.emplace_back(device_->finished().connect([this]() {
