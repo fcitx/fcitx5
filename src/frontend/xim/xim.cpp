@@ -240,6 +240,14 @@ public:
 
     const char *frontend() const override { return "xim"; }
 
+    void maybeUpdateCursorLocationForRootStyle() {
+        auto style = xcb_im_input_context_get_input_style(xic_);
+        if ((style & XCB_IM_PreeditPosition) == XCB_IM_PreeditPosition) {
+            return;
+        }
+        updateCursorLocation();
+    }
+
     void updateCursorLocation() {
         // kinds of like notification for position moving
         bool hasSpotLocation =
@@ -589,6 +597,17 @@ XIMModule::XIMModule(Instance *instance) : instance_(instance) {
     closedCallback_ = xcb()->call<IXCBModule::addConnectionClosedCallback>(
         [this](const std::string &name, xcb_connection_t *) {
             servers_.erase(name);
+        });
+
+    updateRootStyleCallback_ = instance_->watchEvent(
+        EventType::InputContextUpdateUI, EventWatcherPhase::PreInputMethod,
+        [](Event &event) {
+            auto &uiEvent = static_cast<InputContextUpdateUIEvent &>(event);
+            auto ic = uiEvent.inputContext();
+            if (ic->frontend() == std::string_view("xim")) {
+                auto xic = static_cast<XIMInputContext *>(ic);
+                xic->maybeUpdateCursorLocationForRootStyle();
+            }
         });
 }
 
