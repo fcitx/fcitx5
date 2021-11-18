@@ -273,7 +273,7 @@ void ThemeImage::drawTextIcon(cairo_surface_t *surface,
     cairoSetSourceColor(cr, Color("#00000000"));
     cairo_paint(cr);
 
-    int pixelSize = size * 0.7;
+    int pixelSize = size * 0.75;
     auto *fontMap = pango_cairo_font_map_get_default();
     GObjectUniquePtr<PangoContext> context(
         pango_font_map_create_context(fontMap));
@@ -293,7 +293,7 @@ void ThemeImage::drawTextIcon(cairo_surface_t *surface,
         cairo_save(cr);
         cairoSetSourceColor(cr, *config.trayBorderColor);
         pango_cairo_layout_path(cr, layout.get());
-        cairo_set_line_width(cr, (size + 6) / 12);
+        cairo_set_line_width(cr, std::min(4, (pixelSize + 12) / 24));
         cairo_stroke(cr);
         cairo_restore(cr);
     }

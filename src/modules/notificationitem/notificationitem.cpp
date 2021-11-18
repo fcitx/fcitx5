@@ -117,8 +117,20 @@ public:
     FCITX_OBJECT_VTABLE_PROPERTY(status, "Status", "s",
                                  []() { return "Active"; });
     FCITX_OBJECT_VTABLE_PROPERTY(windowId, "WindowId", "u", []() { return 0; });
-    FCITX_OBJECT_VTABLE_PROPERTY(iconName, "IconName", "s",
-                                 [this]() { return iconName(); });
+    FCITX_OBJECT_VTABLE_PROPERTY(
+        iconName, "IconName", "s", ([this]() {
+            std::string label, icon;
+            if (auto *ic = parent_->instance()->lastFocusedInputContext()) {
+                label = parent_->instance()->inputMethodLabel(ic);
+                icon = parent_->instance()->inputMethodIcon(ic);
+            }
+            auto classicui = parent_->classicui();
+            bool preferTextIcon =
+                classicui && !label.empty() &&
+                (icon == "input-keyboard" ||
+                 classicui->call<IClassicUI::preferTextIcon>());
+            return preferTextIcon ? "" : iconName();
+        }));
     FCITX_OBJECT_VTABLE_PROPERTY(
         iconPixmap, "IconPixmap", "a(iiay)", ([this]() {
             std::vector<dbus::DBusStruct<int, int, std::vector<uint8_t>>>

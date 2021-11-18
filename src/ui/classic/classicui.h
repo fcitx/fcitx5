@@ -99,8 +99,8 @@ FCITX_CONFIGURATION(
         this, "Font", _("Font"), "Sans 10"};
     OptionWithAnnotation<std::string, MenuFontAnnotation> menuFont{
         this, "MenuFont", _("Menu Font"), "Sans 10"};
-    OptionWithAnnotation<std::string, MenuFontAnnotation> trayFont{
-        this, "TrayFont", _("Tray Font"), "Sans 10"};
+    OptionWithAnnotation<std::string, FontAnnotation> trayFont{
+        this, "TrayFont", _("Tray Font"), "Sans Bold 10"};
     Option<Color> trayBorderColor{this, "TrayOutlineColor",
                                   _("Tray Label Outline Color"),
                                   Color("#000000ff")};
