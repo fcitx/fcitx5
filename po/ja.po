@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2021-10-23 20:24+0000\n"
+"POT-Creation-Date: 2021-11-18 20:05+0000\n"
 "PO-Revision-Date: 2017-11-23 04:14+0000\n"
 "Last-Translator: UTUMI Hirosi <utuhiro78@yahoo.co.jp>, 2021\n"
 "Language-Team: Japanese (https://www.transifex.com/fcitx/teams/12005/ja/)\n"
@@ -50,7 +50,7 @@ msgstr "${1} は見つかりません"
 msgid "${1} works properly."
 msgstr "${1} は正常に動作しています。"
 
-#: src/lib/fcitx/instance.cpp:385
+#: src/lib/fcitx/instance.cpp:387
 msgid "(Not available)"
 msgstr "(使用不可)"
 
@@ -119,11 +119,11 @@ msgstr "ユニコード入力対応を追加します"
 msgid "Addon Config Dir:"
 msgstr "アドオン設定ディレクトリ:"
 
-#: data/fcitx5-diagnose.sh:1627
+#: data/fcitx5-diagnose.sh:1642
 msgid "Addon Libraries:"
 msgstr "アドオンライブラリ:"
 
-#: data/fcitx5-diagnose.sh:1582
+#: data/fcitx5-diagnose.sh:1585
 msgid "Addon List:"
 msgstr "アドオン一覧:"
 
@@ -140,7 +140,7 @@ msgstr "すべて"
 msgid "All found Gtk ${1} immodule files exist."
 msgstr "見つかった Gtk ${1} IMモジュールファイルはすべて存在します。"
 
-#: data/fcitx5-diagnose.sh:1653
+#: data/fcitx5-diagnose.sh:1668
 msgid "All libraries for all addons are found."
 msgstr "全てのアドオン用ライブラリが見つかりました。"
 
@@ -310,7 +310,7 @@ msgstr "正しく ${1} に接続できません。"
 msgid "Cannot determine desktop environment."
 msgstr "デスクトップ環境を決定できません。"
 
-#: data/fcitx5-diagnose.sh:1573
+#: data/fcitx5-diagnose.sh:1576
 msgid "Cannot find ${1} addon config directory."
 msgstr "${1} アドオンの設定ディレクトリが見つかりません。"
 
@@ -343,7 +343,7 @@ msgid "Cannot find a GUI config tool, please install one of ${1}, or ${2}."
 msgstr ""
 "GUI設定ツールが見つかりません。{1} または {2} をインストールしてください。"
 
-#: data/fcitx5-diagnose.sh:1656
+#: data/fcitx5-diagnose.sh:1671
 msgid "Cannot find enabled ${1} user interface!"
 msgstr "有効な ${1} ユーザーインターフェイスが見つかりません！"
 
@@ -351,11 +351,11 @@ msgstr "有効な ${1} ユーザーインターフェイスが見つかりませ
 msgid "Cannot find fcitx5 executable!"
 msgstr "fcitx5 を実行できません！"
 
-#: data/fcitx5-diagnose.sh:1635
+#: data/fcitx5-diagnose.sh:1650
 msgid "Cannot find file ${1} of addon ${2}."
 msgstr "アドオン ${2} のファイル ${1} が見つかりません。"
 
-#: data/fcitx5-diagnose.sh:1645
+#: data/fcitx5-diagnose.sh:1660
 msgid "Cannot find following required libraries for ${1} of addon ${2}."
 msgstr "アドオン ${2} の ${1} に必要な次のライブラリが見つかりません。"
 
@@ -363,7 +363,7 @@ msgstr "アドオン ${2} の ${1} に必要な次のライブラリが見つか
 msgid "Cannot find immodules cache for gtk ${1}"
 msgstr "gtk ${1} の immodules キャッシュが見つかりません"
 
-#: data/fcitx5-diagnose.sh:1675
+#: data/fcitx5-diagnose.sh:1690
 msgid ""
 "Cannot find kimpanel dbus interface or enabled non-kimpanel user interface."
 msgstr ""
@@ -428,7 +428,7 @@ msgstr "クリックマージン"
 msgid "Clipboard"
 msgstr "クリップボード"
 
-#: src/modules/clipboard/clipboard.cpp:311
+#: src/modules/clipboard/clipboard.cpp:337
 msgid "Clipboard:"
 msgstr "クリップボード:"
 
@@ -491,12 +491,12 @@ msgstr "qt 向け設定 GUI:"
 msgid "Config Tool Wrapper:"
 msgstr "設定ツールラッパー:"
 
-#: data/fcitx5-diagnose.sh:1770
+#: data/fcitx5-diagnose.sh:1785
 msgid "Configuration:"
 msgstr "設定:"
 
-#: src/ui/classic/xcbtraywindow.cpp:40
-#: src/modules/notificationitem/dbusmenu.cpp:253
+#: src/ui/classic/xcbtraywindow.cpp:38
+#: src/modules/notificationitem/dbusmenu.cpp:243
 msgid "Configure"
 msgstr "設定"
 
@@ -568,7 +568,7 @@ msgstr "入力メソッドをオフにする"
 msgid "Debug information from dbus:"
 msgstr "dbus からのデバッグ情報:"
 
-#: src/lib/fcitx/inputmethodmanager.cpp:138 src/lib/fcitx/instance.cpp:700
+#: src/lib/fcitx/inputmethodmanager.cpp:138 src/lib/fcitx/instance.cpp:732
 #: src/ui/classic/themes/default/theme.conf.in:3
 msgid "Default"
 msgstr "デフォルト"
@@ -747,8 +747,8 @@ msgctxt "Key name"
 msgid "Execute"
 msgstr "実行"
 
-#: src/ui/classic/xcbtraywindow.cpp:42
-#: src/modules/notificationitem/dbusmenu.cpp:266
+#: src/ui/classic/xcbtraywindow.cpp:40
+#: src/modules/notificationitem/dbusmenu.cpp:256
 msgid "Exit"
 msgstr "閉じる"
 
@@ -817,11 +817,11 @@ msgctxt "Key name"
 msgid "Find"
 msgstr "Find"
 
-#: src/ui/classic/classicui.h:98
+#: src/ui/classic/classicui.h:99
 msgid "Font"
 msgstr "フォント"
 
-#: src/ui/classic/classicui.h:109
+#: src/ui/classic/classicui.h:119
 msgid ""
 "For example, display character with Chinese variant when using Pinyin and "
 "Japanese variant when using Anthy. The font configuration needs to support "
@@ -848,7 +848,7 @@ msgstr "${1} ${2} プロセスが見つかりました:"
 msgid "Found ${1} ${2} processes:"
 msgstr "${1} ${2} プロセスが見つかりました:"
 
-#: data/fcitx5-diagnose.sh:1576
+#: data/fcitx5-diagnose.sh:1579
 msgid "Found ${1} addon config directory: ${2}."
 msgstr "${1} アドオンの設定ディレクトリを見つけました: ${2}。"
 
@@ -857,15 +857,15 @@ msgstr "${1} アドオンの設定ディレクトリを見つけました: ${2}�
 msgid "Found ${1} at ${2}."
 msgstr "${1} を ${2} で見つけました。"
 
-#: data/fcitx5-diagnose.sh:1621
+#: data/fcitx5-diagnose.sh:1632
 msgid "Found ${1} disabled addons:"
 msgstr "${1} 個の無効なアドオンが見つかりました:"
 
-#: data/fcitx5-diagnose.sh:1616
+#: data/fcitx5-diagnose.sh:1623
 msgid "Found ${1} enabled addons:"
 msgstr "${1} 個の有効なアドオンが見つかりました:"
 
-#: data/fcitx5-diagnose.sh:1658
+#: data/fcitx5-diagnose.sh:1673
 msgid "Found ${1} enabled user interface addons:"
 msgstr "${1} が有効なユーザーインターフェイスアドオンが見つかりました:"
 
@@ -906,7 +906,7 @@ msgstr "不明な ${1} qt モジュールが見つかりました: ${2}。"
 msgid "Freedesktop.org Notification Support"
 msgstr "Freedesktop.org通知サポート"
 
-#: data/fcitx5-diagnose.sh:1763
+#: data/fcitx5-diagnose.sh:1778
 msgid "Frontends setup:"
 msgstr "フロントエンド設定:"
 
@@ -914,10 +914,6 @@ msgstr "フロントエンド設定:"
 msgctxt "Key name"
 msgid "Game"
 msgstr "ゲーム"
-
-#: src/ui/classic/theme.h:162
-msgid "General"
-msgstr "全般"
 
 #: src/lib/fcitx-utils/key.cpp:131
 msgctxt "Key name"
@@ -930,15 +926,15 @@ msgid "Green"
 msgstr "Green"
 
 #: src/ui/classic/xcbtraywindow.cpp:36
-#: src/modules/notificationitem/dbusmenu.cpp:243
+#: src/modules/notificationitem/dbusmenu.cpp:233
 msgid "Group"
 msgstr "グループ"
 
-#: src/lib/fcitx/instance.cpp:389
+#: src/lib/fcitx/instance.cpp:391
 msgid "Group {0}: {1}"
 msgstr "グループ {0}: {1}"
 
-#: src/lib/fcitx/instance.cpp:702
+#: src/lib/fcitx/instance.cpp:734
 msgid "Group {}"
 msgstr "グループ {}"
 
@@ -1147,11 +1143,10 @@ msgstr ""
 msgid "Image"
 msgstr "画像"
 
-#: src/im/keyboard/keyboard.cpp:779 src/ui/classic/xcbtraywindow.cpp:38
-#: src/lib/fcitx/instance.cpp:772 src/lib/fcitx/instance.cpp:941
-#: src/modules/notificationitem/dbusmenu.cpp:237
-#: src/modules/notificationitem/notificationitem.cpp:125
-#: src/modules/xcb/xcbconnection.cpp:405 data/org.fcitx.Fcitx5.desktop.in.in:4
+#: src/im/keyboard/keyboard.cpp:779 src/lib/fcitx/instance.cpp:425
+#: src/lib/fcitx/instance.cpp:804 src/lib/fcitx/instance.cpp:970
+#: src/modules/notificationitem/notificationitem.cpp:116
+#: src/modules/xcb/xcbconnection.cpp:406 data/org.fcitx.Fcitx5.desktop.in.in:4
 #: data/org.fcitx.Fcitx5.metainfo.xml.in:7
 msgid "Input Method"
 msgstr "入力メソッド"
@@ -1164,11 +1159,11 @@ msgstr "入力メソッドの設定"
 msgid "Input Method Related Environment Variables: "
 msgstr "入力メソッド関連の環境変数:"
 
-#: data/fcitx5-diagnose.sh:1681
+#: data/fcitx5-diagnose.sh:1696
 msgid "Input Methods:"
 msgstr "入力メソッド:"
 
-#: src/ui/classic/theme.h:164
+#: src/ui/classic/theme.h:158
 msgid "Input Panel"
 msgstr "入力パネル"
 
@@ -1189,7 +1184,7 @@ msgctxt "Key name"
 msgid "Insert"
 msgstr "挿入"
 
-#: data/fcitx5-diagnose.sh:1588
+#: data/fcitx5-diagnose.sh:1591
 msgid "Invalid addon config file ${1}."
 msgstr "不正なアドオン設定ファイル ${1} です。"
 
@@ -1257,7 +1252,7 @@ msgctxt "Key name"
 msgid "Keyboard Menu"
 msgstr "キーボードメニュー"
 
-#: data/fcitx5-diagnose.sh:1667
+#: data/fcitx5-diagnose.sh:1682
 msgid "Kimpanel process:"
 msgstr "Kimpanel のプロセス:"
 
@@ -1385,7 +1380,7 @@ msgstr "LightBulb"
 msgid "Locale:"
 msgstr "ロケール:"
 
-#: data/fcitx5-diagnose.sh:1776
+#: data/fcitx5-diagnose.sh:1791
 msgid "Log:"
 msgstr "ログ:"
 
@@ -1486,7 +1481,7 @@ msgctxt "Key name"
 msgid "Meeting"
 msgstr "ミーティング"
 
-#: src/ui/classic/theme.h:165
+#: src/ui/classic/theme.h:159
 msgid "Menu"
 msgstr "メニュー"
 
@@ -1495,7 +1490,7 @@ msgctxt "Key name"
 msgid "Menu"
 msgstr "メニュー"
 
-#: src/ui/classic/classicui.h:100
+#: src/ui/classic/classicui.h:101
 msgid "Menu Font"
 msgstr "メニューフォント"
 
@@ -1509,7 +1504,7 @@ msgctxt "Key name"
 msgid "Messenger"
 msgstr "Messenger"
 
-#: src/ui/classic/theme.h:160
+#: src/ui/classic/theme.h:156
 msgid "Metadata"
 msgstr "メタデータ"
 
@@ -1574,7 +1569,7 @@ msgstr "次ページボタン"
 msgid "No"
 msgstr "いいえ"
 
-#: src/modules/clipboard/clipboard.cpp:313
+#: src/modules/clipboard/clipboard.cpp:339
 msgid "No clipboard history."
 msgstr "クリップボード履歴がありません。"
 
@@ -1586,7 +1581,7 @@ msgstr "なし"
 msgid "Normal text color"
 msgstr "ノーマルテキスト色"
 
-#: src/ui/kimpanel/kimpanel.cpp:363
+#: src/ui/kimpanel/kimpanel.cpp:376
 msgid "Not available"
 msgstr "使用不可"
 
@@ -1603,7 +1598,7 @@ msgctxt "Key name"
 msgid "NumLock"
 msgstr "NumLock"
 
-#: src/modules/clipboard/clipboard.h:35
+#: src/modules/clipboard/clipboard.h:48
 msgid "Number of entries"
 msgstr "エントリー数"
 
@@ -1667,7 +1662,7 @@ msgctxt "Key name"
 msgid "Paste"
 msgstr "Paste"
 
-#: src/modules/clipboard/clipboard.h:33
+#: src/modules/clipboard/clipboard.h:46
 msgid "Paste Primary"
 msgstr "プライマリの貼り付け"
 
@@ -1727,17 +1722,21 @@ msgctxt "Key name"
 msgid "Power Off"
 msgstr "電源オフ"
 
-#: src/lib/fcitx/instance.cpp:941
+#: src/lib/fcitx/instance.cpp:970
 msgid "Preedit"
 msgstr "プリエディット"
 
-#: src/lib/fcitx/instance.cpp:943
+#: src/lib/fcitx/instance.cpp:972
 msgid "Preedit disabled"
 msgstr "プリエディット無効"
 
-#: src/lib/fcitx/instance.cpp:942
+#: src/lib/fcitx/instance.cpp:971
 msgid "Preedit enabled"
 msgstr "プリエディット有効"
+
+#: src/ui/classic/classicui.h:109
+msgid "Prefer Text Icon"
+msgstr ""
 
 #: src/modules/spell/spell.h:22
 msgid "Presage"
@@ -1806,8 +1805,8 @@ msgctxt "Key name"
 msgid "Reply"
 msgstr "リプライ"
 
-#: src/ui/classic/xcbtraywindow.cpp:41
-#: src/modules/notificationitem/dbusmenu.cpp:260
+#: src/ui/classic/xcbtraywindow.cpp:39
+#: src/modules/notificationitem/dbusmenu.cpp:250
 msgid "Restart"
 msgstr "再起動"
 
@@ -1946,10 +1945,6 @@ msgstr "入力メソッドの情報をコンパクトに表示する"
 msgid "Show first input method information"
 msgstr "第1入力メソッドの情報を表示する"
 
-#: src/modules/notificationitem/notificationitem.h:26
-msgid "Show label when using keyboard or icon unavailable"
-msgstr "キーボードまたはアイコンを利用できないときにラベルを表示する"
-
 #: src/lib/fcitx/globalconfig.cpp:136
 msgid "Show preedit in application"
 msgstr "アプリケーションにプリエディットを表示する"
@@ -2037,15 +2032,16 @@ msgctxt "Key name"
 msgid "Suspend"
 msgstr "サスペンド"
 
-#: src/lib/fcitx/instance.cpp:773 src/modules/xcb/xcbconnection.cpp:406
+#: src/lib/fcitx/instance.cpp:426 src/lib/fcitx/instance.cpp:805
+#: src/modules/xcb/xcbconnection.cpp:407
 msgid "Switch group"
 msgstr "グループの切り替え"
 
-#: src/modules/xcb/xcbconnection.cpp:407
+#: src/lib/fcitx/instance.cpp:428 src/modules/xcb/xcbconnection.cpp:408
 msgid "Switch group to {0}"
 msgstr "{0} にグループを切り替える"
 
-#: src/lib/fcitx/instance.cpp:774
+#: src/lib/fcitx/instance.cpp:806
 msgid "Switched group to {0}"
 msgstr "{0} にグループを切り替えました"
 
@@ -2086,11 +2082,11 @@ msgstr "N番目のホットキーでN番目の入力メソッドに切り替え�
 msgid "The script is run as ${1} (${2})."
 msgstr "${1} (${2})としてスクリプトを実行"
 
-#: src/ui/classic/classicui.h:114
+#: src/ui/classic/classicui.h:124
 msgid "Theme"
 msgstr "テーマ"
 
-#: src/ui/classic/classicui.h:77
+#: src/ui/classic/classicui.h:78
 msgid "This is only effective when the tray icon is xembed."
 msgstr "これはトレイアイコンが XEmbed の場合のみ有効です。"
 
@@ -2102,7 +2098,7 @@ msgstr "このオプションは画像が設定されていない場合にのみ
 msgid "This value should be less than any of margin value."
 msgstr "この値はどのマージンの値よりも小さくする必要があります。"
 
-#: data/fcitx5-diagnose.sh:1782
+#: data/fcitx5-diagnose.sh:1797
 msgid ""
 "Though such information can be helpful to developers for diagnostic purpose, "
 "please double check and remove as necessary before posting it online "
@@ -2178,9 +2174,17 @@ msgctxt "Key name"
 msgid "Travel"
 msgstr "トラベル"
 
-#: src/ui/classic/theme.h:156
+#: src/ui/classic/classicui.h:103
 msgid "Tray Font"
 msgstr "トレイフォント"
+
+#: src/ui/classic/classicui.h:105
+msgid "Tray Label Outline Color"
+msgstr ""
+
+#: src/ui/classic/classicui.h:108
+msgid "Tray Label Text Color"
+msgstr ""
 
 #: src/lib/fcitx/globalconfig.cpp:26
 msgid "Trigger Input Method"
@@ -2188,7 +2192,7 @@ msgstr "入力メソッドの切り替え"
 
 #: src/modules/imselector/imselector.h:25
 #: src/modules/quickphrase/quickphrase.h:36 src/modules/unicode/unicode.h:30
-#: src/modules/clipboard/clipboard.h:29
+#: src/modules/clipboard/clipboard.h:42
 msgid "Trigger Key"
 msgstr "トリガーキー"
 
@@ -2238,7 +2242,7 @@ msgstr "上"
 msgid "Use On The Spot Style (Needs restarting)"
 msgstr "XIM で On The Spot スタイルを使う(再起動が必要)"
 
-#: src/ui/classic/classicui.h:91
+#: src/ui/classic/classicui.h:92
 msgid "Use Per Screen DPI"
 msgstr "スクリーンごとのDPIを使用する"
 
@@ -2246,15 +2250,15 @@ msgstr "スクリーンごとのDPIを使用する"
 msgid "Use all horizontal space for highlight when it is vertical list"
 msgstr "候補リストが縦の場合は、ハイライト時にすべての水平スペースを使用します"
 
-#: src/ui/classic/classicui.h:105
+#: src/ui/classic/classicui.h:115
 msgid "Use input method language to display text"
 msgstr "入力メソッドの言語を使用してテキストを表示する"
 
-#: src/ui/classic/classicui.h:94
+#: src/ui/classic/classicui.h:95
 msgid "Use mouse wheel to go to prev or next page"
 msgstr "マウスホイールを使用して前または次のページに移動する"
 
-#: data/fcitx5-diagnose.sh:1654
+#: data/fcitx5-diagnose.sh:1669
 msgid "User Interface:"
 msgstr "ユーザーインターフェイス:"
 
@@ -2270,7 +2274,7 @@ msgstr "バージョン"
 msgid "Version Line:"
 msgstr "バージョンライン:"
 
-#: src/ui/classic/classicui.h:90
+#: src/ui/classic/classicui.h:91
 msgid "Vertical Candidate List"
 msgstr "候補ウィンドウを縦にする"
 
@@ -2309,7 +2313,7 @@ msgctxt "Key name"
 msgid "Wake Up"
 msgstr "Wake Up"
 
-#: data/fcitx5-diagnose.sh:1781
+#: data/fcitx5-diagnose.sh:1796
 msgid ""
 "Warning: the output of fcitx5-diagnose contains sensitive information, "
 "including the distribution name, kernel version, name of currently running "
@@ -2419,7 +2423,7 @@ msgstr "XIM を ${1} プログラムで使用しています。"
 msgid "You may have trouble using fcitx in ${1} programs."
 msgstr "Fcitx を使っている プログラム ${1} で問題が発生しています。"
 
-#: data/fcitx5-configtool.sh:131
+#: data/fcitx5-configtool.sh:127
 msgid ""
 "You're currently running Fcitx with GUI, but fcitx5-config-qt couldn't be "
 "found. Now it will open config directory."
@@ -2427,7 +2431,7 @@ msgstr ""
 "現在fcitxをGUIで使用していますが、fcitx5-configtoolが見つかりません。今回は既"
 "定のテキストエディタで設定ファイルを開きます。"
 
-#: data/fcitx5-configtool.sh:128
+#: data/fcitx5-configtool.sh:124
 msgid ""
 "You're currently running KDE, but KCModule for fcitx couldn't be found, the "
 "package name of this KCModule is usually kcm-fcitx or kde-config-fcitx. Now "
@@ -2504,10 +2508,10 @@ msgstr "バージョン:"
 msgid "{0} (Not Available)"
 msgstr "{0} (利用できません)"
 
-#: src/lib/fcitx/instance.cpp:383
+#: src/lib/fcitx/instance.cpp:385
 msgid "{0} (Not available)"
 msgstr "{0} (使用不可)"
 
-#: src/lib/fcitx/instance.cpp:380
+#: src/lib/fcitx/instance.cpp:382
 msgid "{0} ({1})"
 msgstr "{0} ({1})"
