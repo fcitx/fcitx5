@@ -58,7 +58,10 @@ void XCBModule::removeConnection(const std::string &name) {
     FCITX_INFO() << "Disconnected from X11 Display " << localName;
     if (localName == mainDisplay_) {
         mainDisplay_.clear();
-        if (instance_->exitWhenMainDisplayDisconnected()) {
+        char *sessionType = getenv("XDG_SESSION_TYPE");
+        // We assume that empty XDG_SESSION_TYPE is X11.
+        if ((isSessionType("x11") || !sessionType || sessionType[0] == '\0') &&
+            instance_->exitWhenMainDisplayDisconnected()) {
             instance_->exit();
         }
     }

@@ -7,20 +7,12 @@
 
 #include "waylandmodule.h"
 #include <stdexcept>
+#include <fcitx/misc_p.h>
 #include <wayland-client.h>
 #include "fcitx-utils/log.h"
 #include "fcitx/instance.h"
 
 namespace fcitx {
-
-// Return false if XDG_SESSION_TYPE is set and is not wayland.
-bool isWaylandSession() {
-    const char *sessionType = getenv("XDG_SESSION_TYPE");
-    if (sessionType && std::string_view(sessionType) != "wayland") {
-        return false;
-    }
-    return true;
-}
 
 WaylandConnection::WaylandConnection(WaylandModule *wayland, const char *name)
     : parent_(wayland), name_(name ? name : "") {
@@ -94,7 +86,7 @@ void WaylandModule::removeDisplay(const std::string &name) {
         conns_.erase(iter);
     }
     if (name.empty() && instance_->exitWhenMainDisplayDisconnected() &&
-        isWaylandSession()) {
+        isSessionType("wayland")) {
         instance_->exit();
     }
 }

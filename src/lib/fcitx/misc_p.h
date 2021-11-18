@@ -7,6 +7,7 @@
 #ifndef _FCITX_MISC_P_H_
 #define _FCITX_MISC_P_H_
 
+#include <cstdlib>
 #include <fstream>
 #include <string>
 #include <type_traits>
@@ -70,6 +71,15 @@ static inline std::string getLocalMachineId(const std::string &fallback = {}) {
     }
 
     return content.empty() ? fallback : content;
+}
+
+// Return false if XDG_SESSION_TYPE is set and is not given type.
+static inline bool isSessionType(std::string_view type) {
+    const char *sessionType = getenv("XDG_SESSION_TYPE");
+    if (sessionType && std::string_view(sessionType) != type) {
+        return false;
+    }
+    return true;
 }
 
 } // namespace fcitx
