@@ -185,6 +185,7 @@ public:
         }
         if (!addon.instance_) {
             addon.setFailed(true);
+            FCITX_INFO() << "Could not load addon " << addon.info().uniqueName();
         } else {
             FCITX_INFO() << "Loaded addon " << addon.info().uniqueName();
         }

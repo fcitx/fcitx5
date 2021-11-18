@@ -26,8 +26,12 @@ AddonInstance *SharedLibraryLoader::load(const AddonInfo &info,
             libname = libname.substr(7);
             flag |= LibraryLoadHint::ExportExternalSymbolsHint;
         }
-        auto libs = standardPath_.locateAll(StandardPath::Type::Addon,
-                                            libname + FCITX_LIBRARY_SUFFIX);
+        auto file = libname + FCITX_LIBRARY_SUFFIX;
+        auto libs = standardPath_.locateAll(StandardPath::Type::Addon, file);
+        if (libs.empty()) {
+            FCITX_ERROR() << "Could not locate library " << file
+                          << " for addon " << info.uniqueName() << ".";
+        }
         for (const auto &libraryPath : libs) {
             Library lib(libraryPath);
             if (!lib.load(flag)) {
