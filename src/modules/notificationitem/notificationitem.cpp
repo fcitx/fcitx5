@@ -11,12 +11,14 @@
 #include "fcitx-utils/charutils.h"
 #include "fcitx-utils/dbus/message.h"
 #include "fcitx-utils/dbus/objectvtable.h"
+#include "fcitx-utils/endian_p.h"
 #include "fcitx-utils/fs.h"
 #include "fcitx-utils/i18n.h"
 #include "fcitx/addonfactory.h"
 #include "fcitx/addonmanager.h"
 #include "fcitx/inputmethodengine.h"
 #include "fcitx/inputmethodentry.h"
+#include "classicui_public.h"
 #include "dbusmenu.h"
 
 #define NOTIFICATION_ITEM_DBUS_IFACE "org.kde.StatusNotifierItem"
@@ -40,6 +42,7 @@ bool isKDE() {
     }
     return (desktop == "KDE");
 }
+
 } // namespace
 
 class StatusNotifierItem : public dbus::ObjectVTable<StatusNotifierItem> {
@@ -84,19 +87,7 @@ public:
         return IconTheme::iconName(icon, inFlatpak_);
     }
 
-    std::string label() {
-        if (!parent_->config().showLabel.value()) {
-            return "";
-        }
-        if (auto *ic = parent_->instance()->lastFocusedInputContext()) {
-            if (const auto *entry = parent_->instance()->inputMethodEntry(ic)) {
-                if (entry->isKeyboard() || entry->icon().empty()) {
-                    return entry->label();
-                }
-            }
-        }
-        return "";
-    }
+    std::string label() { return ""; }
 
     static dbus::DBusStruct<
         std::string,
@@ -129,9 +120,44 @@ public:
     FCITX_OBJECT_VTABLE_PROPERTY(iconName, "IconName", "s",
                                  [this]() { return iconName(); });
     FCITX_OBJECT_VTABLE_PROPERTY(
-        iconPixmap, "IconPixmap", "a(iiay)", ([]() {
-            return std::vector<
-                dbus::DBusStruct<int, int, std::vector<uint8_t>>>{};
+        iconPixmap, "IconPixmap", "a(iiay)", ([this]() {
+            std::vector<dbus::DBusStruct<int, int, std::vector<uint8_t>>>
+                result;
+
+            std::string label, icon;
+            if (auto *ic = parent_->instance()->lastFocusedInputContext()) {
+                label = parent_->instance()->inputMethodLabel(ic);
+                icon = parent_->instance()->inputMethodIcon(ic);
+            }
+            auto classicui = parent_->classicui();
+            bool preferTextIcon =
+                classicui && !label.empty() &&
+                (icon == "input-keyboard" ||
+                 classicui->call<IClassicUI::preferTextIcon>());
+            if (preferTextIcon) {
+                if (lastLabel_ == label) {
+                    result = lastLabelIcon_;
+                } else {
+                    for (unsigned int size : {16, 22, 32, 48}) {
+                        // swap to network byte order if we are little endian
+                        auto data =
+                            classicui->call<IClassicUI::labelIcon>(label, size);
+                        if (isLittleEndian()) {
+                            uint32_t *uintBuf =
+                                reinterpret_cast<uint32_t *>(data.data());
+                            for (size_t i = 0;
+                                 i < data.size() / sizeof(uint32_t); ++i) {
+                                *uintBuf = htobe32(*uintBuf);
+                                ++uintBuf;
+                            }
+                        }
+                        result.emplace_back(size, size, std::move(data));
+                    }
+                    lastLabel_ = label;
+                    lastLabelIcon_ = result;
+                }
+            }
+            return result;
         }));
     FCITX_OBJECT_VTABLE_PROPERTY(overlayIconName, "OverlayIconName", "s",
                                  ([]() { return ""; }));
@@ -169,6 +195,10 @@ private:
     NotificationItem *parent_;
     int deltaAcc_ = 0;
     const bool inFlatpak_ = fs::isreg("/.flatpak-info");
+    // Quick cache for the icon.
+    std::string lastLabel_;
+    std::vector<dbus::DBusStruct<int, int, std::vector<uint8_t>>>
+        lastLabelIcon_;
 };
 
 NotificationItem::NotificationItem(Instance *instance)
@@ -187,10 +217,6 @@ NotificationItem::~NotificationItem() = default;
 
 dbus::Bus *NotificationItem::globalBus() {
     return dbus()->call<IDBusModule::bus>();
-}
-
-void NotificationItem::reloadConfig() {
-    readAsIni(config_, "conf/notificationitem.conf");
 }
 
 void NotificationItem::setSerivceName(const std::string &newName) {

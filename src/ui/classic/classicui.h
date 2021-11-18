@@ -20,6 +20,7 @@
 #include "fcitx/focusgroup.h"
 #include "fcitx/instance.h"
 #include "fcitx/userinterface.h"
+#include "classicui_public.h"
 #include "theme.h"
 #ifdef ENABLE_X11
 #include "xcb_public.h"
@@ -100,33 +101,13 @@ FCITX_CONFIGURATION(
         this, "MenuFont", _("Menu Font"), "Sans 10"};
     OptionWithAnnotation<std::string, MenuFontAnnotation> trayFont{
         this, "TrayFont", _("Tray Font"), "Sans 10"};
-    OptionWithAnnotation<Color, ToolTipAnnotation> trayBorderColor{
-        this,
-        "TrayOutlineColor",
-        _("Tray Label Outline Color"),
-        Color("#000000ff"),
-        {},
-        {},
-        ToolTipAnnotation(
-            _("This is only effective when the tray icon is xembed."))};
-    OptionWithAnnotation<Color, ToolTipAnnotation> trayTextColor{
-        this,
-        "TrayTextColor",
-        _("Tray Label Text Color"),
-        Color("#ffffffff"),
-        {},
-        {},
-        ToolTipAnnotation(
-            _("This is only effective when the tray icon is xembed."))};
-    OptionWithAnnotation<bool, ToolTipAnnotation> preferTextIcon{
-        this,
-        "PreferTextIcon",
-        _("Prefer Text Icon"),
-        true,
-        {},
-        {},
-        ToolTipAnnotation(
-            _("This is only effective when the tray icon is xembed."))};
+    Option<Color> trayBorderColor{this, "TrayOutlineColor",
+                                  _("Tray Label Outline Color"),
+                                  Color("#000000ff")};
+    Option<Color> trayTextColor{this, "TrayTextColor",
+                                _("Tray Label Text Color"), Color("#ffffffff")};
+    Option<bool> preferTextIcon{this, "PreferTextIcon", _("Prefer Text Icon"),
+                                false};
     OptionWithAnnotation<bool, ToolTipAnnotation>
         useInputMethodLanguageToDisplayText{
             this,
@@ -170,8 +151,14 @@ public:
                 InputContext *inputContext) override;
     void reloadConfig() override;
 
+    std::vector<unsigned char> labelIcon(const std::string &label,
+                                         unsigned int size);
+    bool preferTextIcon() const;
+
 private:
     FCITX_ADDON_DEPENDENCY_LOADER(notificationitem, instance_->addonManager());
+    FCITX_ADDON_EXPORT_FUNCTION(ClassicUI, labelIcon);
+    FCITX_ADDON_EXPORT_FUNCTION(ClassicUI, preferTextIcon);
 
     UIInterface *uiForEvent(Event &event);
     UIInterface *uiForInputContext(InputContext *inputContext);

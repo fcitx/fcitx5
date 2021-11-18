@@ -166,7 +166,10 @@ public:
     ThemeImage(const std::string &name, const ActionImageConfig &cfg);
     ThemeImage(const IconTheme &iconTheme, const std::string &icon,
                const std::string &label, uint32_t size,
-               const ClassicUIConfig &cfg);
+               const ClassicUIConfig &config);
+
+    static void drawTextIcon(cairo_surface_t *surface, const std::string &label,
+                             uint32_t size, const ClassicUIConfig &config);
 
     operator cairo_surface_t *() const { return image_.get(); }
     auto height() const {

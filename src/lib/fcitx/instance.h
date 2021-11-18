@@ -76,6 +76,7 @@ public:
     const InputMethodEntry *inputMethodEntry(InputContext *ic);
     InputMethodEngine *inputMethodEngine(InputContext *ic);
     InputMethodEngine *inputMethodEngine(const std::string &name);
+
     /**
      * Return the input method icon for input context.
      *
@@ -88,6 +89,17 @@ public:
      * @see InputMethodEngine::subModeIcon
      */
     std::string inputMethodIcon(InputContext *ic);
+
+    /**
+     * Return the input method label for input context.
+     *
+     * @param ic input context
+     * @return label.
+     *
+     * @see InputMethodEngine::subModeLabel
+     * @since 5.0.11
+     */
+    std::string inputMethodLabel(InputContext *ic);
 
     /**
      * Handle current XCompose state.

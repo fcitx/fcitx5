@@ -20,12 +20,6 @@
 
 namespace fcitx {
 
-FCITX_CONFIGURATION(StatusNotifierItemConfig,
-                    fcitx::Option<bool> showLabel{
-                        this, "Show Label",
-                        _("Show label when using keyboard or icon unavailable"),
-                        false};);
-
 class StatusNotifierItem;
 class DBusMenu;
 
@@ -36,15 +30,6 @@ public:
 
     dbus::Bus *globalBus();
     Instance *instance() { return instance_; }
-    const auto &config() { return config_; }
-
-    const Configuration *getConfig() const override { return &config_; }
-    void setConfig(const RawConfig &config) override {
-        config_.load(config, true);
-        safeSaveAsIni(config_, "conf/notificationitem.conf");
-    }
-
-    void reloadConfig() override;
 
     void setSerivceName(const std::string &newName);
     void setRegistered(bool);
@@ -55,6 +40,7 @@ public:
     std::unique_ptr<HandlerTableEntry<NotificationItemCallback>>
     watch(NotificationItemCallback callback);
     void newIcon();
+    FCITX_ADDON_DEPENDENCY_LOADER(classicui, instance_->addonManager());
 
 private:
     FCITX_ADDON_DEPENDENCY_LOADER(dbus, instance_->addonManager());
@@ -62,7 +48,6 @@ private:
     FCITX_ADDON_EXPORT_FUNCTION(NotificationItem, disable);
     FCITX_ADDON_EXPORT_FUNCTION(NotificationItem, watch);
     FCITX_ADDON_EXPORT_FUNCTION(NotificationItem, registered);
-    StatusNotifierItemConfig config_;
     Instance *instance_;
     std::unique_ptr<dbus::ServiceWatcher> watcher_;
     std::unique_ptr<dbus::Bus> privateBus_;

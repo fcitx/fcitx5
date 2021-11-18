@@ -185,42 +185,7 @@ ThemeImage::ThemeImage(const IconTheme &iconTheme, const std::string &icon,
     if (!image_) {
         image_.reset(
             cairo_image_surface_create(CAIRO_FORMAT_ARGB32, size, size));
-        auto *cr = cairo_create(image_.get());
-        cairo_set_operator(cr, CAIRO_OPERATOR_SOURCE);
-        cairoSetSourceColor(cr, Color("#00000000"));
-        cairo_paint(cr);
-
-        int pixelSize = size * 0.7;
-        auto *fontMap = pango_cairo_font_map_get_default();
-        GObjectUniquePtr<PangoContext> context(
-            pango_font_map_create_context(fontMap));
-        GObjectUniquePtr<PangoLayout> layout(pango_layout_new(context.get()));
-        pango_layout_set_single_paragraph_mode(layout.get(), true);
-        pango_layout_set_text(layout.get(), label.c_str(), label.size());
-        PangoRectangle rect;
-        PangoFontDescription *desc =
-            pango_font_description_from_string(config.trayFont->c_str());
-        pango_font_description_set_absolute_size(desc, pixelSize * PANGO_SCALE);
-        pango_layout_set_font_description(layout.get(), desc);
-        pango_font_description_free(desc);
-        pango_layout_get_pixel_extents(layout.get(), &rect, nullptr);
-        cairo_translate(cr, (size - rect.width) * 0.5 - rect.x,
-                        (size - rect.height) * 0.5 - rect.y);
-        if (config.trayBorderColor->alpha()) {
-            cairo_save(cr);
-            cairoSetSourceColor(cr, *config.trayBorderColor);
-            pango_cairo_layout_path(cr, layout.get());
-            cairo_set_line_width(cr, 2);
-            cairo_stroke(cr);
-            cairo_restore(cr);
-        }
-
-        cairo_save(cr);
-        cairoSetSourceColor(cr, *config.trayTextColor);
-        pango_cairo_show_layout(cr, layout.get());
-        cairo_restore(cr);
-
-        cairo_destroy(cr);
+        drawTextIcon(image_.get(), label, size, config);
     }
 }
 
@@ -298,6 +263,47 @@ ThemeImage::ThemeImage(const std::string &name, const ActionImageConfig &cfg) {
         }
         valid_ = image_ != nullptr;
     }
+}
+
+void ThemeImage::drawTextIcon(cairo_surface_t *surface,
+                              const std::string &label, uint32_t size,
+                              const ClassicUIConfig &config) {
+    auto *cr = cairo_create(surface);
+    cairo_set_operator(cr, CAIRO_OPERATOR_SOURCE);
+    cairoSetSourceColor(cr, Color("#00000000"));
+    cairo_paint(cr);
+
+    int pixelSize = size * 0.7;
+    auto *fontMap = pango_cairo_font_map_get_default();
+    GObjectUniquePtr<PangoContext> context(
+        pango_font_map_create_context(fontMap));
+    GObjectUniquePtr<PangoLayout> layout(pango_layout_new(context.get()));
+    pango_layout_set_single_paragraph_mode(layout.get(), true);
+    pango_layout_set_text(layout.get(), label.c_str(), label.size());
+    PangoRectangle rect;
+    PangoFontDescription *desc =
+        pango_font_description_from_string(config.trayFont->c_str());
+    pango_font_description_set_absolute_size(desc, pixelSize * PANGO_SCALE);
+    pango_layout_set_font_description(layout.get(), desc);
+    pango_font_description_free(desc);
+    pango_layout_get_pixel_extents(layout.get(), &rect, nullptr);
+    cairo_translate(cr, (size - rect.width) * 0.5 - rect.x,
+                    (size - rect.height) * 0.5 - rect.y);
+    if (config.trayBorderColor->alpha()) {
+        cairo_save(cr);
+        cairoSetSourceColor(cr, *config.trayBorderColor);
+        pango_cairo_layout_path(cr, layout.get());
+        cairo_set_line_width(cr, (size + 6) / 12);
+        cairo_stroke(cr);
+        cairo_restore(cr);
+    }
+
+    cairo_save(cr);
+    cairoSetSourceColor(cr, *config.trayTextColor);
+    pango_cairo_show_layout(cr, layout.get());
+    cairo_restore(cr);
+
+    cairo_destroy(cr);
 }
 
 Theme::Theme() : iconTheme_(IconTheme::defaultIconThemeName()) {}

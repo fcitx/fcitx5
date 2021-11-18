@@ -9,6 +9,7 @@
 #include <xcb/randr.h>
 #include <xcb/xcb_aux.h>
 #include <xcb/xinerama.h>
+#include "fcitx-utils/endian_p.h"
 #include "fcitx-utils/stringutils.h"
 #include "xcbinputwindow.h"
 #include "xcbtraywindow.h"
@@ -518,14 +519,7 @@ void XCBUI::readXSettings() {
     if (error || data.empty()) {
         return;
     }
-    enum { BYTE_ORDER_MSB_FIRST = 1, BYTE_ORDER_LSB_FIRST = 0 };
-    const uint16_t endian = 1;
-    uint8_t byteOrder = 0;
-    if (*reinterpret_cast<const char *>(&endian)) {
-        byteOrder = BYTE_ORDER_LSB_FIRST;
-    } else {
-        byteOrder = BYTE_ORDER_MSB_FIRST;
-    }
+    auto byteOrder = hostByteOrder();
     if (data[0] != BYTE_ORDER_LSB_FIRST && data[0] != BYTE_ORDER_MSB_FIRST) {
         return;
     }

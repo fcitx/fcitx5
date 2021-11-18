@@ -32,4 +32,18 @@
 #include <sys/endian.h>
 #endif
 
+enum { BYTE_ORDER_MSB_FIRST = 1, BYTE_ORDER_LSB_FIRST = 0 };
+inline uint8_t hostByteOrder() {
+    const uint16_t endian = 1;
+    uint8_t byteOrder = 0;
+    if (*reinterpret_cast<const char *>(&endian)) {
+        byteOrder = BYTE_ORDER_LSB_FIRST;
+    } else {
+        byteOrder = BYTE_ORDER_MSB_FIRST;
+    }
+    return byteOrder;
+}
+
+inline bool isLittleEndian() { return hostByteOrder() == BYTE_ORDER_LSB_FIRST; }
+
 #endif // _FCITX_UTILS_ENDIAN_P_H_

@@ -1656,6 +1656,21 @@ std::string Instance::inputMethodIcon(InputContext *ic) {
     return icon;
 }
 
+std::string Instance::inputMethodLabel(InputContext *ic) {
+    std::string label;
+
+    const auto *entry = inputMethodEntry(ic);
+    auto *engine = inputMethodEngine(ic);
+
+    if (engine) {
+        label = engine->subModeLabel(*entry, *ic);
+    }
+    if (label.empty()) {
+        label = entry->label();
+    }
+    return label;
+}
+
 uint32_t Instance::processCompose(InputContext *ic, KeySym keysym) {
 #ifdef ENABLE_KEYBOARD
     FCITX_D();
