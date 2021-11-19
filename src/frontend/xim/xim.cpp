@@ -279,7 +279,7 @@ public:
                 return;
             }
             auto trans_cookie = xcb_translate_coordinates(
-                server_->conn(), w, server_->root(), reply->x, reply->y);
+                server_->conn(), w, server_->root(), 0, 0);
             auto trans_reply = makeUniqueCPtr(xcb_translate_coordinates_reply(
                 server_->conn(), trans_cookie, nullptr));
 
