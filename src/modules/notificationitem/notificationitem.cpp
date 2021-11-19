@@ -144,7 +144,7 @@ public:
             auto classicui = parent_->classicui();
             bool preferTextIcon =
                 classicui && !label.empty() &&
-                (icon == "input-keyboard" ||
+                (icon.empty() || icon == "input-keyboard" ||
                  classicui->call<IClassicUI::preferTextIcon>());
             if (preferTextIcon) {
                 if (lastLabel_ == label) {
