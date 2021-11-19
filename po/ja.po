@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2021-11-18 20:05+0000\n"
+"POT-Creation-Date: 2021-11-19 20:24+0000\n"
 "PO-Revision-Date: 2017-11-23 04:14+0000\n"
 "Last-Translator: UTUMI Hirosi <utuhiro78@yahoo.co.jp>, 2021\n"
 "Language-Team: Japanese (https://www.transifex.com/fcitx/teams/12005/ja/)\n"
@@ -1736,7 +1736,7 @@ msgstr "プリエディット有効"
 
 #: src/ui/classic/classicui.h:109
 msgid "Prefer Text Icon"
-msgstr ""
+msgstr "テキストアイコンを優先する"
 
 #: src/modules/spell/spell.h:22
 msgid "Presage"
@@ -2180,11 +2180,11 @@ msgstr "トレイフォント"
 
 #: src/ui/classic/classicui.h:105
 msgid "Tray Label Outline Color"
-msgstr ""
+msgstr "トレイラベルのアウトライン色"
 
 #: src/ui/classic/classicui.h:108
 msgid "Tray Label Text Color"
-msgstr ""
+msgstr "トレイラベルのテキスト色"
 
 #: src/lib/fcitx/globalconfig.cpp:26
 msgid "Trigger Input Method"
