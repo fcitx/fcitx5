@@ -618,12 +618,14 @@ std::string KeyboardEngine::preeditString(InputContext *inputContext) {
 }
 
 void KeyboardEngine::updateUI(InputContext *inputContext) {
-    Text preedit(preeditString(inputContext), TextFormatFlag::Underline);
-    if (auto length = preedit.textLength()) {
-        preedit.setCursor(length);
-    }
-    inputContext->inputPanel().setClientPreedit(preedit);
-    if (!inputContext->capabilityFlags().test(CapabilityFlag::Preedit)) {
+    if (inputContext->capabilityFlags().test(CapabilityFlag::Preedit)) {
+        Text preedit(preeditString(inputContext), TextFormatFlag::HighLight);
+        inputContext->inputPanel().setClientPreedit(preedit);
+    } else {
+        Text preedit(preeditString(inputContext), TextFormatFlag::Underline);
+        if (auto length = preedit.textLength()) {
+            preedit.setCursor(length);
+        }
         inputContext->inputPanel().setPreedit(preedit);
     }
     inputContext->updatePreedit();
