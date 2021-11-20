@@ -30,7 +30,7 @@ bool useClientSideUI(Instance *instance) {
     if (instance->userInterfaceManager().currentUI() != "kimpanel") {
         return true;
     }
-    static DesktopType desktop = getDesktopType();
+    const static DesktopType desktop = getDesktopType();
     if (desktop == DesktopType::GNOME) {
         return false;
     }

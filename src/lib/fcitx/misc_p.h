@@ -11,6 +11,7 @@
 #include <fstream>
 #include <string>
 #include <type_traits>
+#include "fcitx-utils/charutils.h"
 #include "fcitx-utils/log.h"
 #include "fcitx-utils/misc_p.h"
 #include "fcitx-utils/stringutils.h"
@@ -100,10 +101,13 @@ static inline DesktopType getDesktopType() {
         desktop = desktopEnv;
     }
 
+    for (auto &c : desktop) {
+        c = charutils::tolower(c);
+    }
     auto desktops =
         stringutils::split(desktop, ":", stringutils::SplitBehavior::SkipEmpty);
     for (const auto &desktop : desktops) {
-        if (desktop == "KDE") {
+        if (desktop == "kde") {
             auto *version = getenv("KDE_SESSION_VERSION");
             auto versionInt = 0;
             if (version) {
@@ -118,15 +122,15 @@ static inline DesktopType getDesktopType() {
             if (versionInt == 5) {
                 return DesktopType::KDE5;
             }
-        } else if (desktop == "X-Cinnamon") {
+        } else if (desktop == "x-cinnamon") {
             return DesktopType::Cinnamon;
-        } else if (desktop == "LXDE") {
+        } else if (desktop == "lxde") {
             return DesktopType::LXDE;
-        } else if (desktop == "MATE") {
+        } else if (desktop == "mate") {
             return DesktopType::MATE;
-        } else if (desktop == "Gnome") {
+        } else if (desktop == "gnome") {
             return DesktopType::GNOME;
-        } else if (desktop == "XFCE") {
+        } else if (desktop == "xfce") {
             return DesktopType::XFCE;
         }
     }
