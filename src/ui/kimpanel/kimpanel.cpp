@@ -27,12 +27,8 @@
 namespace fcitx {
 
 bool isKDE() {
-    std::string desktop;
-    auto *desktopEnv = getenv("XDG_CURRENT_DESKTOP");
-    if (desktopEnv) {
-        desktop = desktopEnv;
-    }
-    return desktop == "KDE";
+    static const DesktopType desktop = getDesktopType();
+    return desktop == DesktopType::KDE4 || desktop == DesktopType::KDE5;
 }
 
 enum class CursorRectMethod {

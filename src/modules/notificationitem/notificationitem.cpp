@@ -18,6 +18,7 @@
 #include "fcitx/addonmanager.h"
 #include "fcitx/inputmethodengine.h"
 #include "fcitx/inputmethodentry.h"
+#include "fcitx/misc_p.h"
 #include "classicui_public.h"
 #include "dbusmenu.h"
 
@@ -35,12 +36,8 @@ namespace fcitx {
 
 namespace {
 bool isKDE() {
-    std::string_view desktop;
-    auto *desktopEnv = getenv("XDG_CURRENT_DESKTOP");
-    if (desktopEnv) {
-        desktop = desktopEnv;
-    }
-    return (desktop == "KDE");
+    static const DesktopType desktop = getDesktopType();
+    return desktop == DesktopType::KDE4 || desktop == DesktopType::KDE5;
 }
 
 } // namespace

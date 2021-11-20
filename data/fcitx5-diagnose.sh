@@ -253,26 +253,31 @@ print_process_info() {
 # Detect DE
 
 _detectDE_XDG_CURRENT() {
-    case "${XDG_CURRENT_DESKTOP}" in
-        GNOME)
+    for desktop in $(echo "${XDG_CURRENT_DESKTOP}" | tr ":" "\n"); do
+        case "${desktop}" in
+            GNOME)
             DE=gnome
+            return
             ;;
-        KDE)
+            KDE)
             DE=kde
+            return
             ;;
-        LXDE)
+            LXDE)
             DE=lxde
+            return
             ;;
-        XFCE)
+            XFCE)
             DE=xfce
+            return
             ;;
-        Deepin)
+            Deepin)
             DE=deepin
+            return
             ;;
-        *)
-            return 1
-            ;;
-    esac
+        esac
+    done
+    return 1
 }
 
 _detectDE_classic() {

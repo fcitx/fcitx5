@@ -19,6 +19,7 @@
 #include "fcitx-utils/log.h"
 #include "fcitx-utils/mtime_p.h"
 #include "config.h"
+#include "misc_p.h"
 
 namespace fcitx {
 
@@ -693,52 +694,6 @@ IconTheme::findIcon(const std::string &iconName, unsigned int desiredSize,
                     const std::vector<std::string> &extensions) const {
     FCITX_D();
     return d->findIcon(iconName, desiredSize, scale, extensions);
-}
-
-enum class DesktopType {
-    KDE5,
-    KDE4,
-    GNOME,
-    Cinnamon,
-    MATE,
-    LXDE,
-    XFCE,
-    Unknown
-};
-
-DesktopType getDesktopType() {
-    std::string desktop;
-    auto *desktopEnv = getenv("XDG_CURRENT_DESKTOP");
-    if (desktopEnv) {
-        desktop = desktopEnv;
-    }
-    if (desktop == "KDE") {
-        auto *version = getenv("KDE_SESSION_VERSION");
-        auto versionInt = 0;
-        if (version) {
-            try {
-                versionInt = std::stoi(version);
-            } catch (...) {
-            }
-        }
-        if (versionInt == 4) {
-            return DesktopType::KDE4;
-        }
-        if (versionInt == 5) {
-            return DesktopType::KDE5;
-        }
-    } else if (desktop == "X-Cinnamon") {
-        return DesktopType::Cinnamon;
-    } else if (desktop == "LXDE") {
-        return DesktopType::LXDE;
-    } else if (desktop == "MATE") {
-        return DesktopType::MATE;
-    } else if (desktop == "Gnome") {
-        return DesktopType::GNOME;
-    } else if (desktop == "XFCE") {
-        return DesktopType::XFCE;
-    }
-    return DesktopType::Unknown;
 }
 
 std::string getKdeTheme(int fd) {

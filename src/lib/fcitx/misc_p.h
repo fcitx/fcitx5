@@ -82,6 +82,57 @@ static inline bool isSessionType(std::string_view type) {
     return true;
 }
 
+enum class DesktopType {
+    KDE5,
+    KDE4,
+    GNOME,
+    Cinnamon,
+    MATE,
+    LXDE,
+    XFCE,
+    Unknown
+};
+
+static inline DesktopType getDesktopType() {
+    std::string desktop;
+    auto *desktopEnv = getenv("XDG_CURRENT_DESKTOP");
+    if (desktopEnv) {
+        desktop = desktopEnv;
+    }
+
+    auto desktops =
+        stringutils::split(desktop, ":", stringutils::SplitBehavior::SkipEmpty);
+    for (const auto &desktop : desktops) {
+        if (desktop == "KDE") {
+            auto *version = getenv("KDE_SESSION_VERSION");
+            auto versionInt = 0;
+            if (version) {
+                try {
+                    versionInt = std::stoi(version);
+                } catch (...) {
+                }
+            }
+            if (versionInt == 4) {
+                return DesktopType::KDE4;
+            }
+            if (versionInt == 5) {
+                return DesktopType::KDE5;
+            }
+        } else if (desktop == "X-Cinnamon") {
+            return DesktopType::Cinnamon;
+        } else if (desktop == "LXDE") {
+            return DesktopType::LXDE;
+        } else if (desktop == "MATE") {
+            return DesktopType::MATE;
+        } else if (desktop == "Gnome") {
+            return DesktopType::GNOME;
+        } else if (desktop == "XFCE") {
+            return DesktopType::XFCE;
+        }
+    }
+    return DesktopType::Unknown;
+}
+
 } // namespace fcitx
 
 FCITX_DECLARE_LOG_CATEGORY(keyTrace);

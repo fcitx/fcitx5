@@ -30,12 +30,8 @@ bool useClientSideUI(Instance *instance) {
     if (instance->userInterfaceManager().currentUI() != "kimpanel") {
         return true;
     }
-    std::string desktop;
-    auto *desktopEnv = getenv("XDG_CURRENT_DESKTOP");
-    if (desktopEnv) {
-        desktop = desktopEnv;
-    }
-    if (desktop == "GNOME") {
+    static DesktopType desktop = getDesktopType();
+    if (desktop == DesktopType::GNOME) {
         return false;
     }
     return true;

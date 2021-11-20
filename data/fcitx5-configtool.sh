@@ -46,20 +46,27 @@ detectDE() {
     # see https://bugs.freedesktop.org/show_bug.cgi?id=34164
     unset GREP_OPTIONS
 
+    local desktop
     if [ -n "${XDG_CURRENT_DESKTOP}" ]; then
-      case "${XDG_CURRENT_DESKTOP}" in
-         GNOME)
-           DE=gnome;
-           ;;
-         KDE)
-           DE=kde;
-           ;;
-         LXDE)
-           DE=lxde;
-           ;;
-         XFCE)
-           DE=xfce
-      esac
+      for desktop in $(echo "${XDG_CURRENT_DESKTOP}" | tr ":" "\n"); do
+        case "${desktop}" in
+            GNOME)
+            DE=gnome
+            break
+            ;;
+            KDE)
+            DE=kde
+            break
+            ;;
+            LXDE)
+            DE=lxde
+            break
+            ;;
+            XFCE)
+            DE=xfce
+            break
+        esac
+      done
     fi
 
     if [ x"$DE" = x"" ]; then
