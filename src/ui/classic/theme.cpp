@@ -293,7 +293,7 @@ void ThemeImage::drawTextIcon(cairo_surface_t *surface,
         cairo_save(cr);
         cairoSetSourceColor(cr, *config.trayBorderColor);
         pango_cairo_layout_path(cr, layout.get());
-        cairo_set_line_width(cr, std::min(4, (pixelSize + 12) / 24));
+        cairo_set_line_width(cr, std::min(4, (pixelSize + 4) / 8));
         cairo_stroke(cr);
         cairo_restore(cr);
     }
