@@ -347,7 +347,7 @@ public:
 
     void resetDBus() {
         CHECK_SENDER_OR_RETURN;
-        reset(ResetReason::Client);
+        reset();
     }
 
     void setCursorLocation(int x, int y, int w, int h) {

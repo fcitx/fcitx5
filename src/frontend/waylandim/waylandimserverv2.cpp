@@ -222,7 +222,7 @@ void WaylandIMInputContextV2::surroundingTextCallback(const char *text,
     surroundingText().setText(text, cursor, anchor);
     updateSurroundingText();
 }
-void WaylandIMInputContextV2::resetCallback() { reset(ResetReason::Client); }
+void WaylandIMInputContextV2::resetCallback() { reset(); }
 void WaylandIMInputContextV2::contentTypeCallback(uint32_t hint,
                                                   uint32_t purpose) {
     CapabilityFlags flags = baseFlags;

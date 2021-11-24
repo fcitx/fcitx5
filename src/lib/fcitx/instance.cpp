@@ -1828,12 +1828,7 @@ void Instance::configure() {
 
 void Instance::configureAddon(const std::string &) {}
 
-void Instance::configureInputMethod(const std::string &imName) {
-    auto addon = addonForInputMethod(imName);
-    if (!addon.empty()) {
-        return configureAddon(addon);
-    }
-}
+void Instance::configureInputMethod(const std::string &) {}
 
 std::string Instance::currentInputMethod() {
     if (auto *ic = lastFocusedInputContext()) {

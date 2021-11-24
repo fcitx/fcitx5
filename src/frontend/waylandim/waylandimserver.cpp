@@ -174,7 +174,7 @@ void WaylandIMInputContextV1::surroundingTextCallback(const char *text,
     surroundingText().setText(text, cursor, anchor);
     updateSurroundingText();
 }
-void WaylandIMInputContextV1::resetCallback() { reset(ResetReason::Client); }
+void WaylandIMInputContextV1::resetCallback() { reset(); }
 void WaylandIMInputContextV1::contentTypeCallback(uint32_t hint,
                                                   uint32_t purpose) {
     CapabilityFlags flags;

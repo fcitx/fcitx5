@@ -208,7 +208,7 @@ public:
 
     void resetDBus() {
         CHECK_SENDER_OR_RETURN;
-        reset(ResetReason::Client);
+        reset();
     }
 
     void setCursorRectDBus(int x, int y, int w, int h) {

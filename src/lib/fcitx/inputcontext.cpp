@@ -240,9 +240,11 @@ void InputContext::invokeAction(InvokeActionEvent &event) {
     d->postEvent(event);
 }
 
-void InputContext::reset(ResetReason reason) {
+void InputContext::reset(ResetReason) { reset(); }
+
+void InputContext::reset() {
     FCITX_D();
-    d->emplaceEvent<ResetEvent>(reason, this);
+    d->emplaceEvent<ResetEvent>(this);
 }
 
 SurroundingText &InputContext::surroundingText() {

@@ -141,12 +141,8 @@ public:
             });
     }
     void configure() { instance_->configure(); }
-    void configureAddon(const std::string &addon) {
-        instance_->configureAddon(addon);
-    }
-    void configureInputMethod(const std::string &imName) {
-        instance_->configureInputMethod(imName);
-    }
+    void configureAddon(const std::string &) { instance_->configure(); }
+    void configureInputMethod(const std::string &) { instance_->configure(); }
     std::string currentUI() { return instance_->currentUI(); }
     std::string addonForInputMethod(const std::string &imName) {
         return instance_->addonForInputMethod(imName);

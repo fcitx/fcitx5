@@ -18,29 +18,38 @@ namespace fcitx {
 class InputContext;
 class FocusGroup;
 
-enum class ResetReason { ChangeByInactivate, LostFocus, SwitchIM, Client };
+enum class ResetReason {
+    ChangeByInactivate FCITXCORE_DEPRECATED,
+    LostFocus FCITXCORE_DEPRECATED,
+    SwitchIM FCITXCORE_DEPRECATED,
+    Client
+};
 
+/**
+ * The reason why input method is switched to another.
+ */
 enum class InputMethodSwitchedReason {
+    /// Switched by trigger key
     Trigger,
-    /**
-     * when user press inactivate key, default behavior is commit raw preedit.
-     * If you want to OVERRIDE this behavior, be sure to implement this
-     * function.
-     *
-     * in some case, your implementation of OnClose should respect the value of
-     * [Output/SendTextWhenSwitchEng], when this value is true, commit something
-     * you
-     * want.
-     */
+    /// Switched by deactivate key
     Deactivate,
+    /// Switched by alternative trigger key
     AltTrigger,
+    /// Switched by activate key
     Activate,
+    /// Switched by enumerate key
     Enumerate,
+    /// Switched by group change
     GroupChange,
+    /// Switched by capability change (e.g. password field)
     CapabilityChanged,
+    /// miscellaneous reason
     Other,
 };
 
+/**
+ * Type of input method events.
+ */
 enum class EventType : uint32_t {
     EventTypeFlag = 0xffff0000,
     UserTypeFlag = 0xffff0000,
@@ -379,11 +388,14 @@ protected:
 
 class FCITXCORE_EXPORT ResetEvent : public InputContextEvent {
 public:
-    ResetEvent(ResetReason reason, InputContext *context)
+    FCITXCORE_DEPRECATED ResetEvent(ResetReason reason, InputContext *context)
         : InputContextEvent(context, EventType::InputContextReset),
           reason_(reason) {}
+    ResetEvent(InputContext *context)
+        : InputContextEvent(context, EventType::InputContextReset),
+          reason_(ResetReason::Client) {}
 
-    ResetReason reason() const { return reason_; }
+    FCITXCORE_DEPRECATED ResetReason reason() const { return reason_; }
 
 protected:
     ResetReason reason_;

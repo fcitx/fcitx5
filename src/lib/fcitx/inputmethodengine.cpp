@@ -32,7 +32,7 @@ void defaultInvokeActionBehavior(InvokeActionEvent &event) {
     if (!commit.empty()) {
         ic->commitString(commit);
     }
-    ic->reset(ResetReason::Client);
+    ic->reset();
     event.filter();
 }
 

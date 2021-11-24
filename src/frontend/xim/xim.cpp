@@ -571,7 +571,7 @@ void XIMServer::callback(xcb_im_client_t *client, xcb_im_input_context_t *xic,
         break;
     }
     case XCB_XIM_RESET_IC:
-        ic->reset(ResetReason::Client);
+        ic->reset();
         break;
     case XCB_XIM_SET_IC_FOCUS:
         ic->focusIn();

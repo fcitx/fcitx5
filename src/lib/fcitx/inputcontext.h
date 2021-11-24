@@ -98,7 +98,10 @@ public:
     FocusGroup *focusGroup() const;
 
     /// Called when input context state need to be reset.
-    void reset(ResetReason reason);
+    FCITXCORE_DEPRECATED void reset(ResetReason reason);
+
+    /// Called when input context state need to be reset.
+    void reset();
 
     /**
      * Update the capability flags of the input context.
