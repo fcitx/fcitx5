@@ -187,7 +187,7 @@ public:
      *
      * @param type event type
      * @param phase the stage that callback will be executed.
-     * @param callback callbac function.
+     * @param callback callback function.
      * @return Handle to the callback, the callback will be removed when it is
      * deleted.
      */
