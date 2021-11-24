@@ -112,6 +112,8 @@ enum class EventType : uint32_t {
      * InvokeAction event is generated when client click on the preedit.
      *
      * Not all client support this feature.
+     *
+     * @since 5.0.11
      */
     InputContextInvokeAction = InputContextEventFlag | 0xE,
 

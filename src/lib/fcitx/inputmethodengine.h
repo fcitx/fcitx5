@@ -173,7 +173,7 @@ public:
      *
      * @param entry input method entry
      * @param event Invoke action event
-     * @since 5.0.10
+     * @since 5.0.11
      */
     void invokeAction(const InputMethodEntry &entry,
                       const InvokeActionEvent &event);
