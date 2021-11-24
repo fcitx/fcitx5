@@ -16,6 +16,9 @@
 #include "fcitx-utils/misc_p.h"
 #include "fcitx-utils/stringutils.h"
 #include "fcitx/candidatelist.h"
+#include "fcitx/inputmethodentry.h"
+#include "fcitx/inputmethodmanager.h"
+#include "fcitx/instance.h"
 
 // This ia a file for random private util functions that we'd like to share
 // among different modules.
@@ -135,6 +138,31 @@ static inline DesktopType getDesktopType() {
         }
     }
     return DesktopType::Unknown;
+}
+
+static inline bool hasTwoKeyboardInCurrentGroup(Instance *instance) {
+    size_t numOfKeyboard = 0;
+    for (const auto &item :
+         instance->inputMethodManager().currentGroup().inputMethodList()) {
+        if (auto entry = instance->inputMethodManager().entry(item.name());
+            entry && entry->isKeyboard()) {
+            ++numOfKeyboard;
+        }
+        if (numOfKeyboard >= 2) {
+            return true;
+        }
+    }
+
+    std::unordered_set<std::string> groupLayouts;
+    for (const auto &groupName : instance->inputMethodManager().groups()) {
+        if (auto group = instance->inputMethodManager().group(groupName)) {
+            groupLayouts.insert(group->defaultLayout());
+        }
+        if (groupLayouts.size() >= 2) {
+            return true;
+        }
+    }
+    return false;
 }
 
 } // namespace fcitx

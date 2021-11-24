@@ -18,6 +18,7 @@
 #include "fcitx/addonmanager.h"
 #include "fcitx/inputmethodengine.h"
 #include "fcitx/inputmethodentry.h"
+#include "fcitx/inputmethodmanager.h"
 #include "fcitx/misc_p.h"
 #include "classicui_public.h"
 #include "dbusmenu.h"
@@ -94,6 +95,14 @@ public:
         return {};
     }
 
+    bool preferTextIcon(const std::string &label, const std::string &icon) {
+        auto classicui = parent_->classicui();
+        return classicui && !label.empty() &&
+               ((icon == "input-keyboard" &&
+                 hasTwoKeyboardInCurrentGroup(parent_->instance())) ||
+                classicui->call<IClassicUI::preferTextIcon>());
+    }
+
     FCITX_OBJECT_VTABLE_METHOD(scroll, "Scroll", "is", "");
     FCITX_OBJECT_VTABLE_METHOD(activate, "Activate", "ii", "");
     FCITX_OBJECT_VTABLE_METHOD(secondaryActivate, "SecondaryActivate", "ii",
@@ -121,12 +130,7 @@ public:
                 label = parent_->instance()->inputMethodLabel(ic);
                 icon = parent_->instance()->inputMethodIcon(ic);
             }
-            auto classicui = parent_->classicui();
-            bool preferTextIcon =
-                classicui && !label.empty() &&
-                (icon == "input-keyboard" ||
-                 classicui->call<IClassicUI::preferTextIcon>());
-            return preferTextIcon ? "" : iconName();
+            return preferTextIcon(label, icon) ? "" : iconName();
         }));
     FCITX_OBJECT_VTABLE_PROPERTY(
         iconPixmap, "IconPixmap", "a(iiay)", ([this]() {
@@ -139,11 +143,7 @@ public:
                 icon = parent_->instance()->inputMethodIcon(ic);
             }
             auto classicui = parent_->classicui();
-            bool preferTextIcon =
-                classicui && !label.empty() &&
-                (icon.empty() || icon == "input-keyboard" ||
-                 classicui->call<IClassicUI::preferTextIcon>());
-            if (preferTextIcon) {
+            if (preferTextIcon(label, icon)) {
                 if (lastLabel_ == label) {
                     result = lastLabelIcon_;
                 } else {

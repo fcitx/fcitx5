@@ -168,10 +168,13 @@ cairo_surface_t *loadImage(StandardPathFile &file) {
 
 ThemeImage::ThemeImage(const IconTheme &iconTheme, const std::string &icon,
                        const std::string &label, uint32_t size,
-                       const ClassicUIConfig &config)
+                       const ClassicUI *classicui)
     : size_(size) {
     bool preferTextIcon =
-        !label.empty() && (icon == "input-keyboard" || *config.preferTextIcon);
+        !label.empty() &&
+        ((icon == "input-keyboard" &&
+          hasTwoKeyboardInCurrentGroup(classicui->instance())) ||
+         *classicui->config().preferTextIcon);
     if (!preferTextIcon && !icon.empty()) {
         std::string iconPath = iconTheme.findIcon(icon, size, 1);
         auto fd = open(iconPath.c_str(), O_RDONLY);
@@ -185,7 +188,7 @@ ThemeImage::ThemeImage(const IconTheme &iconTheme, const std::string &icon,
     if (!image_) {
         image_.reset(
             cairo_image_surface_create(CAIRO_FORMAT_ARGB32, size, size));
-        drawTextIcon(image_.get(), label, size, config);
+        drawTextIcon(image_.get(), label, size, classicui->config());
     }
 }
 
@@ -336,7 +339,7 @@ const ThemeImage &Theme::loadAction(const ActionImageConfig &cfg) {
 
 const ThemeImage &Theme::loadImage(const std::string &icon,
                                    const std::string &label, uint32_t size,
-                                   const ClassicUIConfig &config) {
+                                   const ClassicUI *classicui) {
     auto &map = trayImageTable_;
     auto name = stringutils::concat("icon:", icon, "label:", label);
     if (auto *image = findValue(map, name)) {
@@ -348,7 +351,7 @@ const ThemeImage &Theme::loadImage(const std::string &icon,
 
     auto result = map.emplace(
         std::piecewise_construct, std::forward_as_tuple(name),
-        std::forward_as_tuple(iconTheme_, icon, label, size, config));
+        std::forward_as_tuple(iconTheme_, icon, label, size, classicui));
     assert(result.second);
     return result.first->second;
 }

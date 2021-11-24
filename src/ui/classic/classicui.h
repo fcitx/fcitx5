@@ -131,7 +131,7 @@ public:
     FCITX_ADDON_DEPENDENCY_LOADER(xcb, instance_->addonManager());
     FCITX_ADDON_DEPENDENCY_LOADER(wayland, instance_->addonManager());
     FCITX_ADDON_DEPENDENCY_LOADER(waylandim, instance_->addonManager());
-    Instance *instance() { return instance_; }
+    Instance *instance() const { return instance_; }
     const Configuration *getConfig() const override;
     void setConfig(const RawConfig &config) override {
         config_.load(config, true);
@@ -141,7 +141,7 @@ public:
     const Configuration *getSubConfig(const std::string &path) const override;
     void setSubConfig(const std::string &path,
                       const RawConfig &config) override;
-    auto &config() { return config_; }
+    auto &config() const { return config_; }
     Theme &theme() { return theme_; }
     void suspend() override;
     void resume() override;

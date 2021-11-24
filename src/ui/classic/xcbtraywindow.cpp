@@ -348,7 +348,7 @@ void XCBTrayWindow::paint(cairo_t *c) {
     }
 
     const auto &image = theme.loadImage(
-        icon, label, std::min(height(), width()), ui_->parent()->config());
+        icon, label, std::min(height(), width()), ui_->parent());
 
     cairo_save(c);
     cairo_set_operator(c, CAIRO_OPERATOR_SOURCE);

@@ -158,6 +158,7 @@ FCITX_CONFIGURATION(ThemeConfig,
                                                              _("Input Panel")};
                     Option<MenuThemeConfig> menu{this, "Menu", _("Menu")};);
 
+class ClassicUI;
 class ClassicUIConfig;
 
 class ThemeImage {
@@ -166,7 +167,7 @@ public:
     ThemeImage(const std::string &name, const ActionImageConfig &cfg);
     ThemeImage(const IconTheme &iconTheme, const std::string &icon,
                const std::string &label, uint32_t size,
-               const ClassicUIConfig &config);
+               const ClassicUI *classicui);
 
     static void drawTextIcon(cairo_surface_t *surface, const std::string &label,
                              uint32_t size, const ClassicUIConfig &config);
@@ -225,7 +226,7 @@ public:
     void load(const std::string &name, const RawConfig &rawConfig);
     const ThemeImage &loadImage(const std::string &icon,
                                 const std::string &label, uint32_t size,
-                                const ClassicUIConfig &config);
+                                const ClassicUI *classicui);
     const ThemeImage &loadBackground(const BackgroundImageConfig &cfg);
     const ThemeImage &loadAction(const ActionImageConfig &cfg);
 
