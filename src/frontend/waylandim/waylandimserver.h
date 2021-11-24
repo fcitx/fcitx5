@@ -105,7 +105,7 @@ private:
                                  uint32_t anchor);
     void resetCallback();
     void contentTypeCallback(uint32_t hint, uint32_t purpose);
-    static void invokeActionCallback(uint32_t button, uint32_t index);
+    void invokeActionCallback(uint32_t button, uint32_t index);
     void commitStateCallback(uint32_t serial);
     static void preferredLanguageCallback(const char *language);
 

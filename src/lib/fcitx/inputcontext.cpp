@@ -235,6 +235,11 @@ bool InputContext::keyEvent(KeyEvent &event) {
     return result;
 }
 
+void InputContext::invokeAction(InvokeActionEvent &event) {
+    FCITX_D();
+    d->postEvent(event);
+}
+
 void InputContext::reset(ResetReason reason) {
     FCITX_D();
     d->emplaceEvent<ResetEvent>(reason, this);

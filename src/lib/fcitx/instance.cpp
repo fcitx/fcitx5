@@ -1046,6 +1046,18 @@ Instance::Instance(int argc, char **argv) {
                        }
                        engine->keyEvent(*entry, keyEvent);
                    }));
+    d->eventWatchers_.emplace_back(watchEvent(
+        EventType::InputContextInvokeAction, EventWatcherPhase::InputMethod,
+        [this](Event &event) {
+            auto &invokeActionEvent = static_cast<InvokeActionEvent &>(event);
+            auto *ic = invokeActionEvent.inputContext();
+            auto *engine = inputMethodEngine(ic);
+            const auto *entry = inputMethodEntry(ic);
+            if (!engine || !entry) {
+                return;
+            }
+            engine->invokeAction(*entry, invokeActionEvent);
+        }));
     d->eventWatchers_.emplace_back(d->watchEvent(
         EventType::InputContextKeyEvent, EventWatcherPhase::ReservedLast,
         [this](Event &event) {

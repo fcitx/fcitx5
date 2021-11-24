@@ -9,6 +9,15 @@
 #include <fcitx-utils/utf8.h>
 #include "waylandim.h"
 
+#ifdef __linux__
+#include <linux/input-event-codes.h>
+#elif __FreeBSD__
+#include <dev/evdev/input-event-codes.h>
+#else
+#define BTN_LEFT 0x110
+#define BTN_RIGHT 0x111
+#endif
+
 namespace fcitx {
 
 static inline unsigned int waylandFormat(TextFormatFlags flags) {
@@ -100,7 +109,7 @@ void WaylandIMInputContextV1::activate(wayland::ZwpInputMethodContextV1 *ic) {
     ic_->contentType().connect([this](uint32_t hint, uint32_t purpose) {
         contentTypeCallback(hint, purpose);
     });
-    ic_->invokeAction().connect([](uint32_t button, uint32_t index) {
+    ic_->invokeAction().connect([this](uint32_t button, uint32_t index) {
         invokeActionCallback(button, index);
     });
     ic_->commitState().connect(
@@ -243,8 +252,19 @@ void WaylandIMInputContextV1::contentTypeCallback(uint32_t hint,
 }
 void WaylandIMInputContextV1::invokeActionCallback(uint32_t button,
                                                    uint32_t index) {
-    FCITX_UNUSED(button);
-    FCITX_UNUSED(index);
+    InvokeActionEvent::Action action;
+    switch (button) {
+    case BTN_LEFT:
+        action = InvokeActionEvent::Action::LeftClick;
+        break;
+    case BTN_RIGHT:
+        action = InvokeActionEvent::Action::LeftClick;
+        break;
+    default:
+        return;
+    }
+    InvokeActionEvent event(action, index, this);
+    invokeAction(event);
 }
 void WaylandIMInputContextV1::commitStateCallback(uint32_t serial) {
     serial_ = serial;

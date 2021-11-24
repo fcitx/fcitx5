@@ -183,6 +183,7 @@ public:
                          key.isRelease());
         bus()->flush();
     }
+
 #define CHECK_SENDER_OR_RETURN                                                 \
     if (currentMessage()->sender() != name_)                                   \
     return
@@ -299,6 +300,12 @@ public:
         setCapabilityFlags(flags);
     }
 
+    void invokeActionDBus(uint32_t action, int32_t cursor) {
+        InvokeActionEvent event(static_cast<InvokeActionEvent::Action>(action),
+                                cursor, this);
+        invokeAction(event);
+    }
+
 private:
     FCITX_OBJECT_VTABLE_METHOD(focusInDBus, "FocusIn", "", "");
     FCITX_OBJECT_VTABLE_METHOD(focusOutDBus, "FocusOut", "", "");
@@ -318,6 +325,7 @@ private:
     FCITX_OBJECT_VTABLE_METHOD(prevPage, "PrevPage", "", "");
     FCITX_OBJECT_VTABLE_METHOD(nextPage, "NextPage", "", "");
     FCITX_OBJECT_VTABLE_METHOD(selectCandidate, "SelectCandidate", "i", "");
+    FCITX_OBJECT_VTABLE_METHOD(invokeActionDBus, "InvokeAction", "ui", "");
 
     FCITX_OBJECT_VTABLE_SIGNAL(commitStringDBus, "CommitString", "s");
     FCITX_OBJECT_VTABLE_SIGNAL(currentIM, "CurrentIM", "sss");

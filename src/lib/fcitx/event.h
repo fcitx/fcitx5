@@ -44,12 +44,22 @@ enum class InputMethodSwitchedReason {
 enum class EventType : uint32_t {
     EventTypeFlag = 0xffff0000,
     UserTypeFlag = 0xffff0000,
-    InputContextEventFlag = 0x0001000,
-    InputMethodEventFlag = 0x0002000,
-    InstanceEventFlag = 0x0003000,
     // send by frontend, captured by core, input method, or module
+    InputContextEventFlag = 0x0001000,
+    // send by im, captured by frontend, or module
+    InputMethodEventFlag = 0x0002000,
+
+    /**
+     * captured by everything
+     */
+    InstanceEventFlag = 0x0003000,
     InputContextCreated = InputContextEventFlag | 0x1,
     InputContextDestroyed = InputContextEventFlag | 0x2,
+    /**
+     * FocusInEvent is generated when client gets focused.
+     *
+     * @see FocusInEvent
+     */
     InputContextFocusIn = InputContextEventFlag | 0x3,
     /**
      * when using lost focus
@@ -67,9 +77,19 @@ enum class EventType : uint32_t {
      *
      * Input method need to notice, that the commit is already DONE, do not do
      * extra commit.
+     *
+     * @see FocusOutEvent
      */
     InputContextFocusOut = InputContextEventFlag | 0x4,
+    /**
+     * Key event is generated when client press or release a key.
+     * @see KeyEvent
+     */
     InputContextKeyEvent = InputContextEventFlag | 0x5,
+    /**
+     * ResetEvent is generated
+     *
+     */
     InputContextReset = InputContextEventFlag | 0x6,
     InputContextSurroundingTextUpdated = InputContextEventFlag | 0x7,
     InputContextCapabilityChanged = InputContextEventFlag | 0x8,
@@ -88,24 +108,54 @@ enum class EventType : uint32_t {
     // a valid one.
     InputContextInputMethodActivated = InputContextEventFlag | 0xB,
     InputContextInputMethodDeactivated = InputContextEventFlag | 0xC,
+    /**
+     * InvokeAction event is generated when client click on the preedit.
+     *
+     * Not all client support this feature.
+     */
+    InputContextInvokeAction = InputContextEventFlag | 0xE,
 
-    // send by im, captured by frontend, or module
     InputContextForwardKey = InputMethodEventFlag | 0x1,
     InputContextCommitString = InputMethodEventFlag | 0x2,
     InputContextDeleteSurroundingText = InputMethodEventFlag | 0x3,
     InputContextUpdatePreedit = InputMethodEventFlag | 0x4,
     InputContextUpdateUI = InputMethodEventFlag | 0x5,
 
-    // send by im or module, captured by ui TODO
-
     /**
-     * captured by everything
+     * This is generated when input method group changed.
      * This would also trigger InputContextSwitchInputMethod afterwards.
      */
     InputMethodGroupChanged = InstanceEventFlag | 0x1,
+    /**
+     * InputMethodGroupAboutToChangeEvent is generated when input method group
+     * is about to bed changed.
+     *
+     * @see InputMethodGroupAboutToChange
+     */
     InputMethodGroupAboutToChange = InstanceEventFlag | 0x2,
+    /**
+     * UIChangedEvent is posted when the UI implementation is changed.
+     */
     UIChanged = InstanceEventFlag | 0x3,
+    /**
+     * CheckUpdateEvent is posted when the Instance is requested to check for
+     * newly installed addons and input methods.
+     *
+     * This can be used for addons to pick up new input methods if it provides
+     * input method at runtime.
+     */
     CheckUpdate = InstanceEventFlag | 0x4,
+    /**
+     * FocusGroupFocusChanged is posted when a focus group changed its focused
+     * input context.
+     *
+     * This is a more fine grained control over focus in and focus out event.
+     * This is more useful for UI to keep track of what input context is being
+     * focused.
+     *
+     * @see FocusInEvent
+     * @see FocusOutEvent
+     */
     FocusGroupFocusChanged = InstanceEventFlag | 0x5,
 };
 
@@ -284,6 +334,21 @@ public:
 
 protected:
     std::string text_;
+};
+
+class FCITXCORE_EXPORT InvokeActionEvent : public InputContextEvent {
+public:
+    enum class Action { LeftClick, RightClick };
+    InvokeActionEvent(Action action, int cursor, InputContext *context)
+        : InputContextEvent(context, EventType::InputContextInvokeAction),
+          action_(action), cursor_(cursor) {}
+
+    Action action() const { return action_; }
+    int cursor() const { return cursor_; }
+
+protected:
+    Action action_;
+    int cursor_;
 };
 
 class FCITXCORE_EXPORT InputContextSwitchInputMethodEvent

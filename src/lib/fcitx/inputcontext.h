@@ -132,6 +132,9 @@ public:
     /// Returns whether the input context holds the input focus.
     bool hasFocus() const;
 
+    /// Invoke an action on the preedit
+    void invokeAction(InvokeActionEvent &event);
+
     /**
      * Returns the mutable surrounding text of the input context.
      *

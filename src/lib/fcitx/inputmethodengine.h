@@ -167,6 +167,16 @@ public:
      * @see overrideIcon
      */
     std::string subModeLabel(const InputMethodEntry &entry, InputContext &ic);
+
+    /**
+     * Process InvokeActionEvent.
+     *
+     * @param entry input method entry
+     * @param event Invoke action event
+     * @since 5.0.10
+     */
+    void invokeAction(const InputMethodEntry &entry,
+                      const InvokeActionEvent &event);
 };
 
 class FCITXCORE_EXPORT InputMethodEngineV2 : public InputMethodEngine {
@@ -179,6 +189,12 @@ public:
                                          InputContext &) {
         return {};
     }
+};
+
+class FCITXCORE_EXPORT InputMethodEngineV3 : public InputMethodEngineV2 {
+public:
+    virtual void invokeActionImpl(const InputMethodEntry &entry,
+                                  const InvokeActionEvent &event);
 };
 
 } // namespace fcitx
