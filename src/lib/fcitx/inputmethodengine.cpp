@@ -26,27 +26,29 @@ std::string InputMethodEngine::subModeLabel(const InputMethodEntry &entry,
     return {};
 }
 
-void defaultInvokeActionBehavior(InputContext *ic) {
+void defaultInvokeActionBehavior(InvokeActionEvent &event) {
+    auto ic = event.inputContext();
     auto commit = ic->inputPanel().clientPreedit().toStringForCommit();
     if (!commit.empty()) {
         ic->commitString(commit);
     }
     ic->reset(ResetReason::Client);
+    event.filter();
 }
 
 void InputMethodEngine::invokeAction(const InputMethodEntry &entry,
 
-                                     const InvokeActionEvent &event) {
+                                     InvokeActionEvent &event) {
     if (auto *this3 = dynamic_cast<InputMethodEngineV3 *>(this)) {
         return this3->invokeActionImpl(entry, event);
     }
-    defaultInvokeActionBehavior(event.inputContext());
+    defaultInvokeActionBehavior(event);
 }
 
 void InputMethodEngineV3::invokeActionImpl(const InputMethodEntry &entry,
-                                           const InvokeActionEvent &event) {
+                                           InvokeActionEvent &event) {
     FCITX_UNUSED(entry);
-    defaultInvokeActionBehavior(event.inputContext());
+    defaultInvokeActionBehavior(event);
 }
 
 } // namespace fcitx

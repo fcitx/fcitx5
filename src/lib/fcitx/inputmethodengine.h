@@ -175,8 +175,7 @@ public:
      * @param event Invoke action event
      * @since 5.0.11
      */
-    void invokeAction(const InputMethodEntry &entry,
-                      const InvokeActionEvent &event);
+    void invokeAction(const InputMethodEntry &entry, InvokeActionEvent &event);
 };
 
 class FCITXCORE_EXPORT InputMethodEngineV2 : public InputMethodEngine {
@@ -194,7 +193,7 @@ public:
 class FCITXCORE_EXPORT InputMethodEngineV3 : public InputMethodEngineV2 {
 public:
     virtual void invokeActionImpl(const InputMethodEntry &entry,
-                                  const InvokeActionEvent &event);
+                                  InvokeActionEvent &event);
 };
 
 } // namespace fcitx
