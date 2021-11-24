@@ -348,9 +348,16 @@ public:
     Action action() const { return action_; }
     int cursor() const { return cursor_; }
 
+    void filter() {
+        filtered_ = true;
+        accept();
+    }
+    bool filtered() const override { return filtered_; }
+
 protected:
     Action action_;
     int cursor_;
+    bool filtered_ = false;
 };
 
 class FCITXCORE_EXPORT InputContextSwitchInputMethodEvent
