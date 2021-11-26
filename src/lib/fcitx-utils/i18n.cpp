@@ -22,8 +22,11 @@ public:
         if (domains_.count(domain)) {
             return;
         }
-        const auto *localedir = StandardPath::fcitxPath("localedir");
         if (!dir) {
+            const auto *localedir = getenv("FCITX_LOCALE_DIR");
+            if (!localedir) {
+                localedir = StandardPath::fcitxPath("localedir");
+            }
             dir = localedir;
         }
         bindtextdomain(domain, dir);
