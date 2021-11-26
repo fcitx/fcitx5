@@ -23,11 +23,7 @@ public:
             return;
         }
         if (!dir) {
-            const auto *localedir = getenv("FCITX_LOCALE_DIR");
-            if (!localedir) {
-                localedir = StandardPath::fcitxPath("localedir");
-            }
-            dir = localedir;
+            dir = StandardPath::fcitxPath("localedir");
         }
         bindtextdomain(domain, dir);
         bind_textdomain_codeset(domain, "UTF-8");
@@ -92,6 +88,10 @@ translateDomainCtx(const char *domain, const char *ctx, const char *s) {
 }
 
 FCITXUTILS_EXPORT void registerDomain(const char *domain, const char *dir) {
+    const char *localedir = getenv("FCITX_LOCALE_DIR");
+    if (localedir) {
+        dir = localedir;
+    }
     gettextManager.addDomain(domain, dir);
 }
 } // namespace fcitx
