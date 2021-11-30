@@ -622,7 +622,7 @@ void KeyboardEngine::updateUI(InputContext *inputContext) {
         Text preedit(preeditString(inputContext), TextFormatFlag::HighLight);
         inputContext->inputPanel().setClientPreedit(preedit);
     } else {
-        Text preedit(preeditString(inputContext), TextFormatFlag::Underline);
+        Text preedit(preeditString(inputContext));
         if (auto length = preedit.textLength()) {
             preedit.setCursor(length);
         }
