@@ -42,7 +42,7 @@ public:
 
     Instance *instance() { return instance_; }
 
-    void trigger(InputContext *inputContext);
+    bool trigger(InputContext *inputContext);
     void updateUI(InputContext *inputContext, bool trigger = false);
     auto &factory() { return factory_; }
 
