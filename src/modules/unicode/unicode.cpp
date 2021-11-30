@@ -77,10 +77,8 @@ Unicode::Unicode(Instance *instance)
             if (keyEvent.isRelease()) {
                 return;
             }
-            if (keyEvent.key().checkKeyList(*config_.triggerKey)) {
-                if (!trigger(keyEvent.inputContext())) {
-                    return;
-                }
+            if (keyEvent.key().checkKeyList(*config_.triggerKey) &&
+                trigger(keyEvent.inputContext())) {
                 keyEvent.filterAndAccept();
                 return;
             }
