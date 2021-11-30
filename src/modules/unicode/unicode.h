@@ -21,6 +21,7 @@
 #include "fcitx/instance.h"
 #include "charselectdata.h"
 #include "clipboard_public.h"
+#include "unicode_public.h"
 
 namespace fcitx {
 
@@ -41,7 +42,7 @@ public:
 
     Instance *instance() { return instance_; }
 
-    void trigger(InputContext *inputContext);
+    bool trigger(InputContext *inputContext);
     void updateUI(InputContext *inputContext, bool trigger = false);
     auto &factory() { return factory_; }
 
@@ -58,6 +59,7 @@ public:
     FCITX_ADDON_DEPENDENCY_LOADER(clipboard, instance_->addonManager());
 
 private:
+    FCITX_ADDON_EXPORT_FUNCTION(Unicode, trigger);
     Instance *instance_;
     UnicodeConfig config_;
     CharSelectData data_;

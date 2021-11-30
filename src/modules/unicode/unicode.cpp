@@ -78,8 +78,7 @@ Unicode::Unicode(Instance *instance)
                 return;
             }
             if (keyEvent.key().checkKeyList(*config_.triggerKey) &&
-                data_.load()) {
-                trigger(keyEvent.inputContext());
+                trigger(keyEvent.inputContext())) {
                 keyEvent.filterAndAccept();
                 return;
             }
@@ -230,10 +229,12 @@ Unicode::Unicode(Instance *instance)
 
 Unicode::~Unicode() {}
 
-void Unicode::trigger(InputContext *inputContext) {
+bool Unicode::trigger(InputContext *inputContext) {
+    if (!data_.load()) return false;
     auto *state = inputContext->propertyFor(&factory_);
     state->enabled_ = true;
     updateUI(inputContext, true);
+    return true;
 }
 void Unicode::updateUI(InputContext *inputContext, bool trigger) {
     auto *state = inputContext->propertyFor(&factory_);
