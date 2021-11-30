@@ -224,7 +224,7 @@ bool Bus::requestName(const std::string &name, Flags<RequestNameFlag> flags) {
                         : 0) |
                    ((flags & RequestNameFlag::Queue) ? SD_BUS_NAME_QUEUE : 0);
     int r = sd_bus_request_name(d->bus_, name.c_str(), sd_flags);
-    return r >= 0;
+    return r >= 0 || r == -EALREADY;
 }
 
 bool Bus::releaseName(const std::string &name) {
