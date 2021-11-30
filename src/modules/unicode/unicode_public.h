@@ -11,7 +11,6 @@
 #include <fcitx/addoninstance.h>
 #include <fcitx/inputcontext.h>
 
-FCITX_ADDON_DECLARE_FUNCTION(Unicode, trigger,
-                             bool(InputContext *ic));
+FCITX_ADDON_DECLARE_FUNCTION(Unicode, trigger, bool(InputContext *ic));
 
 #endif // _FCITX_MODULES_UNICODE_UNICODE_PUBLIC_H_

@@ -230,7 +230,8 @@ Unicode::Unicode(Instance *instance)
 Unicode::~Unicode() {}
 
 bool Unicode::trigger(InputContext *inputContext) {
-    if (!data_.load()) return false;
+    if (!data_.load())
+        return false;
     auto *state = inputContext->propertyFor(&factory_);
     state->enabled_ = true;
     updateUI(inputContext, true);

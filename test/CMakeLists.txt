@@ -89,8 +89,6 @@ set(FCITX_CORE_TEST
     testtext
     testinstance)
 
-set(testinstance_LIBS Pthread::Pthread)
-
 foreach(TESTCASE ${FCITX_CORE_TEST})
     add_executable(${TESTCASE} ${TESTCASE}.cpp)
     target_link_libraries(${TESTCASE} Fcitx5::Core ${${TESTCASE}_LIBS})
@@ -122,12 +120,12 @@ add_test(NAME testemoji COMMAND testemoji)
 endif()
 
 add_executable(testunicode testunicode.cpp)
-target_link_libraries(testunicode Fcitx5::Core Fcitx5::Module::TestFrontend Fcitx5::Module::TestIM Pthread::Pthread)
+target_link_libraries(testunicode Fcitx5::Core Fcitx5::Module::TestFrontend Fcitx5::Module::TestIM)
 add_dependencies(testunicode copy-addon unicode testui testfrontend testim)
 add_test(NAME testunicode COMMAND testunicode)
 
 add_executable(testquickphrase testquickphrase.cpp)
-target_link_libraries(testquickphrase Fcitx5::Core Fcitx5::Module::QuickPhrase Fcitx5::Module::TestFrontend Fcitx5::Module::TestIM Pthread::Pthread)
+target_link_libraries(testquickphrase Fcitx5::Core Fcitx5::Module::QuickPhrase Fcitx5::Module::TestFrontend Fcitx5::Module::TestIM)
 add_dependencies(testquickphrase copy-addon quickphrase testui testfrontend testim)
 add_test(NAME testquickphrase COMMAND testquickphrase)
 

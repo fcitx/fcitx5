@@ -4,7 +4,6 @@
  * SPDX-License-Identifier: LGPL-2.1-or-later
  *
  */
-#include <thread>
 #include "fcitx-utils/eventdispatcher.h"
 #include "fcitx-utils/testing.h"
 #include "fcitx/addonmanager.h"
@@ -176,8 +175,7 @@ int main() {
     instance.addonManager().registerDefaultLoader(nullptr);
     EventDispatcher dispatcher;
     dispatcher.attach(&instance.eventLoop());
-    std::thread thread(scheduleEvent, &dispatcher, &instance);
+    scheduleEvent(&dispatcher, &instance);
     instance.exec();
-    thread.join();
     return 0;
 }
