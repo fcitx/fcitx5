@@ -77,8 +77,7 @@ Unicode::Unicode(Instance *instance)
             if (keyEvent.isRelease()) {
                 return;
             }
-            if (keyEvent.key().checkKeyList(*config_.triggerKey) &&
-                data_.load()) {
+            if (keyEvent.key().checkKeyList(*config_.triggerKey)) {
                 trigger(keyEvent.inputContext());
                 keyEvent.filterAndAccept();
                 return;
@@ -231,6 +230,7 @@ Unicode::Unicode(Instance *instance)
 Unicode::~Unicode() {}
 
 void Unicode::trigger(InputContext *inputContext) {
+    if (!data_.load()) return;
     auto *state = inputContext->propertyFor(&factory_);
     state->enabled_ = true;
     updateUI(inputContext, true);
