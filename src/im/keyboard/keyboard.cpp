@@ -320,7 +320,7 @@ std::vector<InputMethodEntry> KeyboardEngine::listInputMethods() {
     if (!usExists) {
         result.push_back(std::move(
             InputMethodEntry("keyboard-us", _("Keyboard"), "en", "keyboard")
-                .setLabel("us")
+                .setLabel("en")
                 .setIcon("input-keyboard")
                 .setConfigurable(true)));
     }
