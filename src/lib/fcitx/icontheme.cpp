@@ -360,14 +360,12 @@ public:
         }
     }
 
-    void loadFile(int fd) { readFromIni(config_, fd); }
-
-    void parse(IconTheme *parent) {
+    void parse(const RawConfig &config, IconTheme *parent) {
         if (!parent) {
             subThemeNames_.insert(internalName_);
         }
 
-        auto section = config_.get("Icon Theme");
+        auto section = config.get("Icon Theme");
         if (!section) {
             // If it's top level theme, make it fallback to hicolor.
             if (!parent) {
@@ -384,7 +382,7 @@ public:
             unmarshallOption(comment_, *commentSection, false);
         }
 
-        auto parseDirectory = [this,
+        auto parseDirectory = [&config,
                                section](const char *name,
                                         std::vector<IconThemeDirectory> &dir) {
             if (auto subConfig = section->get(name)) {
@@ -392,7 +390,7 @@ public:
                 unmarshallOption(directories, *subConfig, false);
                 for (const auto &directory :
                      stringutils::split(directories, ",")) {
-                    if (auto directoryConfig = config_.get(directory)) {
+                    if (auto directoryConfig = config.get(directory)) {
                         try {
                             dir.emplace_back(*directoryConfig);
                         } catch (...) {
@@ -625,7 +623,6 @@ public:
     std::string home_;
     std::string internalName_;
     const StandardPath &standardPath_;
-    RawConfig config_;
     I18NString name_;
     I18NString comment_;
     std::vector<IconTheme> inherits_;
@@ -649,16 +646,17 @@ IconTheme::IconTheme(const std::string &name, IconTheme *parent,
         StandardPath::Type::Data,
         stringutils::joinPath("icons", name, "index.theme"), O_RDONLY);
 
+    RawConfig config;
     for (auto iter = files.rbegin(), end = files.rend(); iter != end; iter++) {
-        d->loadFile(iter->fd());
+        readFromIni(config, iter->fd());
     }
     auto path = stringutils::joinPath(d->home_, ".icons", name, "index.theme");
     auto fd = UnixFD::own(open(path.c_str(), O_RDONLY));
     if (fd.fd() >= 0) {
-        d->loadFile(fd.fd());
+        readFromIni(config, fd.fd());
     }
 
-    d->parse(parent);
+    d->parse(config, parent);
     d->internalName_ = name;
     d->prepare();
 }
