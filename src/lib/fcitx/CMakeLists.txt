@@ -25,6 +25,7 @@ set(FCITX_CORE_SOURCES
     candidatelist.cpp
     icontheme.cpp
     inputmethodengine.cpp
+    virtualkeyboard/layout.cpp
     )
 
 set(FCITX_CORE_HEADERS
