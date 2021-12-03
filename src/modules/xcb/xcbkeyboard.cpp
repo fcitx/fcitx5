@@ -163,8 +163,7 @@ XCBKeyboard::XCBKeyboard(XCBConnection *conn) : conn_(conn) {
                                                     .currentGroup()
                                                     .defaultLayout());
             FCITX_XCB_DEBUG() << layoutAndVariant;
-            setLayoutByName(layoutAndVariant.first, layoutAndVariant.second,
-                            true);
+            setLayoutByName(layoutAndVariant.first, layoutAndVariant.second);
         }));
 }
 
@@ -294,7 +293,7 @@ void XCBKeyboard::initDefaultLayout() {
 }
 
 int XCBKeyboard::findLayoutIndex(const std::string &layout,
-                                 const std::string &variant) {
+                                 const std::string &variant) const {
     FCITX_XCB_DEBUG() << "findLayoutIndex layout:" << layout
                       << " variant:" << variant;
     FCITX_XCB_DEBUG() << "defaultLayouts:" << defaultLayouts_;
@@ -310,32 +309,34 @@ int XCBKeyboard::findLayoutIndex(const std::string &layout,
 }
 
 int XCBKeyboard::findOrAddLayout(const std::string &layout,
-                                 const std::string &variant, bool toDefault) {
-    auto index = findLayoutIndex(layout, variant);
-    if (!(index < 0 || (index > 0 && toDefault))) {
-        return index;
-    }
-    addNewLayout(layout, variant, index, toDefault);
+                                 const std::string &variant) {
+    addNewLayout(layout, variant);
     initDefaultLayout();
     return findLayoutIndex(layout, variant);
 }
 
 void XCBKeyboard::addNewLayout(const std::string &layout,
-                               const std::string &variant, int index,
-                               bool toDefault) {
+                               const std::string &variant) {
     FCITX_XCB_DEBUG() << "addNewLayout " << layout << " " << variant;
-    while (defaultVariants_.size() < defaultLayouts_.size()) {
-        defaultVariants_.emplace_back();
-    }
 
-    while (defaultVariants_.size() > defaultLayouts_.size()) {
-        defaultVariants_.pop_back();
-    }
+    if (*conn_->parent()->config().alwaysSetToGroupLayout) {
+        defaultLayouts_.clear();
+        defaultVariants_.clear();
+        defaultLayouts_.push_back(layout);
+        defaultVariants_.push_back(variant);
+    } else {
+        while (defaultVariants_.size() < defaultLayouts_.size()) {
+            defaultVariants_.emplace_back();
+        }
 
-    if (toDefault) {
+        while (defaultVariants_.size() > defaultLayouts_.size()) {
+            defaultVariants_.pop_back();
+        }
+        auto index = findLayoutIndex(layout, variant);
         if (index == 0) {
             return;
         }
+
         if (index > 0) {
             defaultLayouts_.erase(std::next(defaultLayouts_.begin(), index));
             defaultVariants_.erase(std::next(defaultVariants_.begin(), index));
@@ -346,13 +347,6 @@ void XCBKeyboard::addNewLayout(const std::string &layout,
         }
         defaultLayouts_.insert(defaultLayouts_.begin(), layout);
         defaultVariants_.insert(defaultVariants_.begin(), variant);
-    } else {
-        while (defaultLayouts_.size() >= 4) {
-            defaultLayouts_.pop_back();
-            defaultVariants_.pop_back();
-        }
-        defaultLayouts_.push_back(layout);
-        defaultVariants_.push_back(variant);
     }
 
     setRMLVOToServer(xkbRule_, xkbModel_,
@@ -504,9 +498,9 @@ void XCBKeyboard::setRMLVOToServer(const std::string &rule,
 }
 
 bool XCBKeyboard::setLayoutByName(const std::string &layout,
-                                  const std::string &variant, bool toDefault) {
+                                  const std::string &variant) {
     int index;
-    index = findOrAddLayout(layout, variant, toDefault);
+    index = findOrAddLayout(layout, variant);
     if (index < 0) {
         return false;
     }
