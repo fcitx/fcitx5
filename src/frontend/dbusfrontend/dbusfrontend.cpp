@@ -215,6 +215,11 @@ public:
 
     void setCapability(uint64_t cap) {
         CHECK_SENDER_OR_RETURN;
+        // Due to a bug in SDL, it might send garbage over the wire.
+        // This a workaround to make sure it can work more likely.
+        if (cap & (~static_cast<uint64_t>(CapabilityFlag::UsedBits) != 0)) {
+            cap &= 0xffffffffull;
+        }
         rawCapabilityFlags_ = CapabilityFlags(cap);
         updateCapability();
     }
