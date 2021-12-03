@@ -70,8 +70,6 @@ enum class CapabilityFlag : uint64_t {
     ClientSideInputPanel = (1ull << 39),
 
     PasswordOrSensitive = Password | Sensitive,
-    // Keep in sync with the most significant bit.
-    UsedBits = 0xffffffffffull
 };
 
 typedef Flags<CapabilityFlag> CapabilityFlags;

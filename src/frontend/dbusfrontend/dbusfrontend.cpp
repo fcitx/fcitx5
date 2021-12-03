@@ -213,12 +213,18 @@ public:
         setCursorRect(Rect{x, y, x + w, y + h}, scale);
     }
 
+    void setSupportedCapability(uint64_t cap) {
+        CHECK_SENDER_OR_RETURN;
+        supportedCapability_ = cap;
+    }
+
     void setCapability(uint64_t cap) {
         CHECK_SENDER_OR_RETURN;
         // Due to a bug in SDL, it might send garbage over the wire.
         // This a workaround to make sure it can work more likely.
-        if ((cap & (~static_cast<uint64_t>(CapabilityFlag::UsedBits))) !=
-            0ull) {
+        // The flag is most to ClientSideInputPanel (0~39bit).
+        if (!supportedCapability_.has_value() &&
+            (cap & (~static_cast<uint64_t>(0xffffffffffull))) != 0ull) {
             cap &= 0xffffffffull;
         }
         rawCapabilityFlags_ = CapabilityFlags(cap);
@@ -320,6 +326,8 @@ private:
     FCITX_OBJECT_VTABLE_METHOD(setCursorRectV2DBus, "SetCursorRectV2", "iiiid",
                                "");
     FCITX_OBJECT_VTABLE_METHOD(setCapability, "SetCapability", "t", "");
+    FCITX_OBJECT_VTABLE_METHOD(setSupportedCapability, "SetSupportedCapability",
+                               "t", "");
     FCITX_OBJECT_VTABLE_METHOD(setSurroundingText, "SetSurroundingText", "suu",
                                "");
     FCITX_OBJECT_VTABLE_METHOD(setSurroundingTextPosition,
@@ -356,6 +364,7 @@ private:
     std::unique_ptr<HandlerTableEntry<dbus::ServiceWatcherCallback>> handler_;
     std::string name_;
     CapabilityFlags rawCapabilityFlags_;
+    std::optional<uint64_t> supportedCapability_;
 };
 
 std::tuple<dbus::ObjectPath, std::vector<uint8_t>>
