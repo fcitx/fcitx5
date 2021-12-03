@@ -87,7 +87,8 @@ set(FCITX_CORE_TEST
     testcandidatelist
     testicontheme
     testtext
-    testinstance)
+    testinstance
+    testlayout)
 
 foreach(TESTCASE ${FCITX_CORE_TEST})
     add_executable(${TESTCASE} ${TESTCASE}.cpp)

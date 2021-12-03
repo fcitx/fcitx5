@@ -10,44 +10,49 @@
 #include <memory>
 #include <utility>
 #include <vector>
+#include <fcitx-config/enum.h>
+#include <fcitx-config/rawconfig.h>
 #include <fcitx-utils/element.h>
 #include <fcitx-utils/macros.h>
+#include "fcitxcore_export.h"
 
 namespace fcitx::virtualkeyboard {
 
-enum class LayoutDirection { Vertical, Horizontal };
+FCITX_CONFIG_ENUM(LayoutOrientation, Vertical, Horizontal);
 
-enum class LayoutAlignment {
-    Begin,
-    Center,
-    End,
-};
+FCITX_CONFIG_ENUM(LayoutAlignment, Begin, Center, End, );
 
 class LayoutPrivate;
 class ButtonPrivate;
 class Button;
 
-class LayoutItem : public Element {};
+class FCITXCORE_EXPORT LayoutItem {
+public:
+    virtual ~LayoutItem() = default;
+    virtual void writeToRawConfig(RawConfig &config) const = 0;
+};
 
-class Layout : public LayoutItem {
+class FCITXCORE_EXPORT Layout : public LayoutItem {
 public:
     Layout();
     ~Layout();
-    FCITX_DECLARE_PROPERTY(LayoutDirection, direction, setDirection);
+    FCITX_DECLARE_PROPERTY(LayoutOrientation, orientation, setOrientation);
     FCITX_DECLARE_PROPERTY(LayoutAlignment, alignment, setAlignment);
 
     Layout *addLayout(float size);
     Button *addButton(float size, uint32_t id);
-    std::vector<LayoutItem *> items() const;
+    const std::vector<std::unique_ptr<LayoutItem>> &items() const;
 
     static std::unique_ptr<Layout> standard26Key();
+
+    void writeToRawConfig(RawConfig &config) const override;
 
 private:
     FCITX_DECLARE_PRIVATE(Layout);
     std::unique_ptr<LayoutPrivate> d_ptr;
 };
 
-class Button : public LayoutItem {
+class FCITXCORE_EXPORT Button : public LayoutItem {
 public:
     static constexpr uint32_t SPACER_ID = 0;
 
@@ -57,15 +62,17 @@ public:
     uint32_t id() const;
     bool isSpacer() const;
 
+    void writeToRawConfig(RawConfig &config) const override;
+
 private:
     FCITX_DECLARE_PRIVATE(Button);
     std::unique_ptr<ButtonPrivate> d_ptr;
 };
 
-enum class SpecialAction { None, LanguageSwitch, Commit };
+FCITX_CONFIG_ENUM(SpecialAction, None, LanguageSwitch, EnterKey, LayoutSwitch);
 
 class ButtonMetadataPrivate;
-class ButtonMetadata {
+class FCITXCORE_EXPORT ButtonMetadata {
 public:
     using LongPressMetadata = std::pair<std::string, uint32_t>;
 
@@ -79,7 +86,12 @@ public:
     FCITX_DECLARE_PROPERTY(std::vector<LongPressMetadata>, longPress,
                            setLongPress);
     FCITX_DECLARE_PROPERTY(bool, visible, setVisible);
-    FCITX_DECLARE_PROPERTY(SpecialAction, specialAction, setSpecialAction);
+    SpecialAction specialAction() const;
+    void setLanguageSwitch();
+    void setEnterKey();
+    void setLayoutSwitch(uint32_t layout);
+
+    void writeToRawConfig(RawConfig &config) const;
 
 private:
     FCITX_DECLARE_PRIVATE(ButtonMetadata);
@@ -87,10 +99,10 @@ private:
 };
 
 class KeymapPrivate;
-class Keymap {
+class FCITXCORE_EXPORT Keymap {
 public:
     Keymap();
-    FCITX_INLINE_DEFINE_DEFAULT_DTOR_AND_MOVE(Keymap);
+    FCITX_DECLARE_VIRTUAL_DTOR_MOVE(Keymap);
 
     ButtonMetadata &setKey(uint32_t id, ButtonMetadata metadata);
     void clear();
@@ -98,9 +110,26 @@ public:
 
     static Keymap qwerty();
 
+    void writeToRawConfig(RawConfig &config) const;
+
 private:
     FCITX_DECLARE_PRIVATE(Keymap);
     std::unique_ptr<KeymapPrivate> d_ptr;
+};
+
+class VirtualKeyboardPrivate;
+
+class FCITXCORE_EXPORT VirtualKeyboard {
+public:
+    VirtualKeyboard();
+    ~VirtualKeyboard();
+    Keymap *addKeymap(std::string layout);
+
+    void writeToRawConfig(RawConfig &config) const;
+
+private:
+    FCITX_DECLARE_PRIVATE(VirtualKeyboard);
+    std::unique_ptr<VirtualKeyboardPrivate> d_ptr;
 };
 
 }; // namespace fcitx::virtualkeyboard

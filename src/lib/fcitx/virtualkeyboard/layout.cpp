@@ -5,14 +5,17 @@
  *
  */
 #include "layout.h"
+#include <any>
+#include <map>
 #include <unordered_map>
 #include <fcitx-utils/keysym.h>
+#include <fcitx-utils/misc_p.h>
 
 namespace fcitx::virtualkeyboard {
 
 class LayoutPrivate {
 public:
-    LayoutDirection direction_ = LayoutDirection::Horizontal;
+    LayoutOrientation orientation_ = LayoutOrientation::Horizontal;
     LayoutAlignment alignment_ = LayoutAlignment::Begin;
     std::vector<std::unique_ptr<LayoutItem>> subItems_;
     std::unordered_map<LayoutItem *, float> sizeMap_;
@@ -31,35 +34,41 @@ public:
     std::vector<ButtonMetadata::LongPressMetadata> longPress_;
     bool visible_ = true;
     SpecialAction specialAction_ = SpecialAction::None;
+    std::any actionData_;
 };
 
 class KeymapPrivate {
 public:
-    std::unordered_map<uint32_t, ButtonMetadata> keys_;
+    std::map<uint32_t, ButtonMetadata> keys_;
+};
+
+class VirtualKeyboardPrivate {
+public:
+    std::vector<std::pair<std::string, std::unique_ptr<Keymap>>> keymaps_;
 };
 
 Layout::Layout() : d_ptr(std::make_unique<LayoutPrivate>()) {}
 
 Layout::~Layout() = default;
 
-FCITX_DEFINE_PROPERTY_PRIVATE(Layout, LayoutDirection, direction, setDirection);
+FCITX_DEFINE_PROPERTY_PRIVATE(Layout, LayoutOrientation, orientation,
+                              setOrientation);
 FCITX_DEFINE_PROPERTY_PRIVATE(Layout, LayoutAlignment, alignment, setAlignment);
 
-std::vector<LayoutItem *> Layout::items() const {
-    std::vector<LayoutItem *> result;
-    for (auto *ele : childs()) {
-        result.push_back(static_cast<LayoutItem *>(ele));
-    }
-    return result;
+const std::vector<std::unique_ptr<LayoutItem>> &Layout::items() const {
+    FCITX_D();
+    return d->subItems_;
 }
 
 Layout *Layout::addLayout(float size) {
-    if (size <= 0 || size > 1) {
+    if (size > 1) {
         throw std::invalid_argument("Invalid size");
     }
     FCITX_D();
     d->subItems_.push_back(std::make_unique<Layout>());
-    return static_cast<Layout *>(d->subItems_.back().get());
+    auto newItem = d->subItems_.back().get();
+    d->sizeMap_[newItem] = size;
+    return static_cast<Layout *>(newItem);
 }
 
 Button *Layout::addButton(float size, uint32_t id) {
@@ -68,7 +77,24 @@ Button *Layout::addButton(float size, uint32_t id) {
     }
     FCITX_D();
     d->subItems_.push_back(std::make_unique<Button>(id));
-    return static_cast<Button *>(d->subItems_.back().get());
+    auto newItem = d->subItems_.back().get();
+    d->sizeMap_[newItem] = size;
+    return static_cast<Button *>(newItem);
+}
+
+void Layout::writeToRawConfig(RawConfig &config) const {
+    FCITX_D();
+    auto sub = config.get("Layout", true);
+    sub->setValueByPath("Alignment", LayoutAlignmentToString(d->alignment_));
+    sub->setValueByPath("Orientation",
+                        LayoutOrientationToString(d->orientation_));
+    for (size_t i = 0; i < d->subItems_.size(); i++) {
+        auto item = sub->get(std::to_string(i), true);
+        auto weight = findValue(d->sizeMap_, d->subItems_[i].get());
+        assert(weight);
+        item->setValueByPath("Weight", std::to_string(*weight));
+        d->subItems_[i]->writeToRawConfig(*item);
+    }
 }
 
 Button::Button(uint32_t id) : d_ptr(std::make_unique<ButtonPrivate>(id)) {}
@@ -79,6 +105,10 @@ uint32_t Button::id() const {
 }
 
 bool Button::isSpacer() const { return id() == SPACER_ID; }
+
+void Button::writeToRawConfig(RawConfig &config) const {
+    config.setValueByPath("Button", std::to_string(id()));
+}
 
 Button::~Button() = default;
 
@@ -99,10 +129,62 @@ FCITX_DEFINE_PROPERTY_PRIVATE(ButtonMetadata,
                               std::vector<ButtonMetadata::LongPressMetadata>,
                               longPress, setLongPress);
 FCITX_DEFINE_PROPERTY_PRIVATE(ButtonMetadata, bool, visible, setVisible);
-FCITX_DEFINE_PROPERTY_PRIVATE(ButtonMetadata, SpecialAction, specialAction,
-                              setSpecialAction);
+
+fcitx::virtualkeyboard::SpecialAction
+fcitx::virtualkeyboard::ButtonMetadata::specialAction() const {
+    FCITX_D();
+    return d->specialAction_;
+}
+
+void ButtonMetadata::setEnterKey() {
+    FCITX_D();
+    d->specialAction_ = SpecialAction::EnterKey;
+    d->actionData_.reset();
+}
+
+void ButtonMetadata::setLanguageSwitch() {
+    FCITX_D();
+    d->specialAction_ = SpecialAction::LanguageSwitch;
+    d->actionData_.reset();
+}
+
+void ButtonMetadata::setLayoutSwitch(uint32_t layout) {
+    FCITX_D();
+    d->specialAction_ = SpecialAction::LayoutSwitch;
+    d->actionData_ = layout;
+}
+
+void ButtonMetadata::writeToRawConfig(RawConfig &config) const {
+    FCITX_D();
+    config.setValueByPath("Text", d->text_);
+    config.setValueByPath("Code", std::to_string(d->code_));
+    if (!d->longPress_.empty()) {
+        auto longpress = config.get("LongPress", true);
+        size_t i = 0;
+        for (const auto &[text, code] : d->longPress_) {
+            auto item = longpress->get(std::to_string(i), true);
+            item->setValueByPath("Text", text);
+            item->setValueByPath("Code", std::to_string(code));
+        }
+    }
+
+    if (d->specialAction_ != SpecialAction::None) {
+        config.setValueByPath("Action",
+                              SpecialActionToString(d->specialAction_));
+    }
+
+    switch (d->specialAction_) {
+    case SpecialAction::LayoutSwitch:
+        config.setValueByPath(
+            "Layout", std::to_string(std::any_cast<uint32_t>(d->actionData_)));
+    default:
+        break;
+    }
+}
 
 Keymap::Keymap() : d_ptr(std::make_unique<KeymapPrivate>()) {}
+
+FCITX_DEFINE_DEFAULT_DTOR_AND_MOVE(Keymap);
 
 ButtonMetadata &Keymap::setKey(uint32_t id, ButtonMetadata metadata) {
     FCITX_D();
@@ -121,9 +203,9 @@ void Keymap::clear() {
 
 std::unique_ptr<Layout> Layout::standard26Key() {
     auto layout = std::make_unique<Layout>();
-    layout->setDirection(LayoutDirection::Vertical);
+    layout->setOrientation(LayoutOrientation::Vertical);
     auto topLayout = layout->addLayout(1.0f / 4);
-    topLayout->setDirection(LayoutDirection::Horizontal);
+    topLayout->setOrientation(LayoutOrientation::Horizontal);
     std::array topKey = {FcitxKey_Q, FcitxKey_W, FcitxKey_E, FcitxKey_R,
                          FcitxKey_T, FcitxKey_Y, FcitxKey_U, FcitxKey_I,
                          FcitxKey_O, FcitxKey_P};
@@ -134,7 +216,7 @@ std::unique_ptr<Layout> Layout::standard26Key() {
                             FcitxKey_F, FcitxKey_G, FcitxKey_H,
                             FcitxKey_J, FcitxKey_K, FcitxKey_L};
     auto middleLayout = layout->addLayout(1.0f / 4);
-    middleLayout->setDirection(LayoutDirection::Horizontal);
+    middleLayout->setOrientation(LayoutOrientation::Horizontal);
     for (auto key : middleKey) {
         middleLayout->addButton(1.0f / topKey.size(), key);
     }
@@ -142,7 +224,7 @@ std::unique_ptr<Layout> Layout::standard26Key() {
     std::array bottomKey = {FcitxKey_Z, FcitxKey_X, FcitxKey_C, FcitxKey_V,
                             FcitxKey_B, FcitxKey_N, FcitxKey_M};
     auto bottomLayout = layout->addLayout(1.0f / 4);
-    bottomLayout->setDirection(LayoutDirection::Horizontal);
+    bottomLayout->setOrientation(LayoutOrientation::Horizontal);
     bottomLayout->addButton(0.15f, FcitxKey_Caps_Lock);
     for (auto key : bottomKey) {
         bottomLayout->addButton(1.0f / topKey.size(), key);
@@ -150,7 +232,7 @@ std::unique_ptr<Layout> Layout::standard26Key() {
     bottomLayout->addButton(0.15f, FcitxKey_BackSpace);
 
     auto functionLayout = layout->addLayout(1.0f / 4);
-    functionLayout->setDirection(LayoutDirection::Horizontal);
+    functionLayout->setOrientation(LayoutOrientation::Horizontal);
     functionLayout->addButton(0.125f, FcitxKey_Execute);
     functionLayout->addButton(0.125f, FcitxKey_Mode_switch);
     functionLayout->addButton(0.1f, FcitxKey_comma);
@@ -159,6 +241,14 @@ std::unique_ptr<Layout> Layout::standard26Key() {
     functionLayout->addButton(0.25f, FcitxKey_Return);
 
     return layout;
+}
+
+void Keymap::writeToRawConfig(RawConfig &config) const {
+    FCITX_D();
+    for (const auto &[id, button] : d->keys_) {
+        auto buttonConfig = config.get(std::to_string(id), true);
+        button.writeToRawConfig(*buttonConfig);
+    }
 }
 
 Keymap Keymap::qwerty() {
@@ -195,13 +285,35 @@ Keymap Keymap::qwerty() {
     keymap.setKey(FcitxKey_BackSpace, {"⌫", FcitxKey_BackSpace});
 
     keymap.setKey(FcitxKey_Execute, {"“”", FcitxKey_Execute});
-    keymap.setKey(FcitxKey_Mode_switch, {"🌐", FcitxKey_Mode_switch});
+    keymap.setKey(FcitxKey_Mode_switch, {"🌐", FcitxKey_Mode_switch})
+        .setLanguageSwitch();
     keymap.setKey(FcitxKey_comma, {",", FcitxKey_comma});
     keymap.setKey(FcitxKey_space, {"", FcitxKey_space});
     keymap.setKey(FcitxKey_period, {".", FcitxKey_period});
-    keymap.setKey(FcitxKey_Return, {"⏎", FcitxKey_Return})
-        .setSpecialAction(SpecialAction::Commit);
+    keymap.setKey(FcitxKey_Return, {"⏎", FcitxKey_Return}).setEnterKey();
     return keymap;
+}
+
+fcitx::virtualkeyboard::VirtualKeyboard::VirtualKeyboard()
+    : d_ptr(std::make_unique<VirtualKeyboardPrivate>()) {}
+
+fcitx::virtualkeyboard::VirtualKeyboard::~VirtualKeyboard() = default;
+
+fcitx::virtualkeyboard::Keymap *
+fcitx::virtualkeyboard::VirtualKeyboard::addKeymap(std::string layout) {
+    FCITX_D();
+    d->keymaps_.emplace_back(std::move(layout), std::make_unique<Keymap>());
+    return d->keymaps_.back().second.get();
+}
+
+void fcitx::virtualkeyboard::VirtualKeyboard::writeToRawConfig(
+    fcitx::RawConfig &config) const {
+    FCITX_D();
+    for (size_t i = 0; i < d->keymaps_.size(); i++) {
+        auto keymapConfig = config.get(std::to_string(i), true);
+        keymapConfig->setValueByPath("LayoutName", d->keymaps_[i].first);
+        d->keymaps_[i].second->writeToRawConfig(*keymapConfig);
+    }
 }
 
 } // namespace fcitx::virtualkeyboard
