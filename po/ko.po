@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2021-11-18 20:05+0000\n"
+"POT-Creation-Date: 2021-12-03 20:24+0000\n"
 "PO-Revision-Date: 2017-11-23 04:14+0000\n"
 "Last-Translator: Bon Keun Seo <scobyseo@gmail.com>, 2021\n"
 "Language-Team: Korean (https://www.transifex.com/fcitx/teams/12005/ko/)\n"
@@ -22,31 +22,31 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
-#: data/fcitx5-diagnose.sh:869
+#: data/fcitx5-diagnose.sh:874
 msgid "${1} Environment Variables:"
 msgstr "${1} 환경 변수:"
 
-#: data/fcitx5-diagnose.sh:855
+#: data/fcitx5-diagnose.sh:860
 msgid "${1} Settings Directory:"
 msgstr "${1} 설정 디렉토리:"
 
-#: data/fcitx5-diagnose.sh:929
+#: data/fcitx5-diagnose.sh:934
 msgid "${1} is not running."
 msgstr "${1}이(가) 실행되고 있지 않습니다."
 
-#: data/fcitx5-diagnose.sh:878
+#: data/fcitx5-diagnose.sh:883
 msgid "${1} is not set."
 msgstr "${1}이(가) 지정되지 않았습니다."
 
-#: data/fcitx5-diagnose.sh:875
+#: data/fcitx5-diagnose.sh:880
 msgid "${1} is set to ${2}."
 msgstr "${1}이(가) ${2}로 지정되었습니다."
 
-#: data/fcitx5-diagnose.sh:536
+#: data/fcitx5-diagnose.sh:541
 msgid "${1} not found."
 msgstr "${1}을(를) 찾을 수 없습니다."
 
-#: data/fcitx5-diagnose.sh:946
+#: data/fcitx5-diagnose.sh:951
 msgid "${1} works properly."
 msgstr "${1}이(가) 제대로 작동합니다."
 
@@ -54,27 +54,27 @@ msgstr "${1}이(가) 제대로 작동합니다."
 msgid "(Not available)"
 msgstr "(사용할 수 없음)"
 
-#: src/modules/unicode/unicode.cpp:327
+#: src/modules/unicode/unicode.cpp:329
 msgid "(Type to search unicode by code or description)"
 msgstr "(코드 또는 설명으로 유니코드를 검색하는 유형)"
 
-#: data/fcitx5-diagnose.sh:678
+#: data/fcitx5-diagnose.sh:683
 msgid "/Beginner%27s_Guide"
 msgstr "/초보자_가이드"
 
-#: data/fcitx5-diagnose.sh:725
+#: data/fcitx5-diagnose.sh:730
 msgid "/Hall_of_Shame_for_Linux_IME_Support"
 msgstr "/Linux_ME_지원에_대한_불명예의_전당"
 
-#: data/fcitx5-diagnose.sh:689
+#: data/fcitx5-diagnose.sh:694
 msgid "/Input_method_related_environment_variables"
 msgstr "/Input_method_related_environment_variables"
 
-#: data/fcitx5-diagnose.sh:705
+#: data/fcitx5-diagnose.sh:710
 msgid "/Note_for_GNOME_Later_than_3.6"
 msgstr "/3.6_이후_GNOME에_대한_참고사항"
 
-#: data/fcitx5-diagnose.sh:729
+#: data/fcitx5-diagnose.sh:734
 msgid "/XIM"
 msgstr "/XIM"
 
@@ -115,15 +115,15 @@ msgstr "즐겨찾기 추가"
 msgid "Add Unicode Typing Support"
 msgstr "유니코드 입력 지원 추가"
 
-#: data/fcitx5-diagnose.sh:1557
+#: data/fcitx5-diagnose.sh:1562
 msgid "Addon Config Dir:"
 msgstr "애드온 설정 디렉토리:"
 
-#: data/fcitx5-diagnose.sh:1642
+#: data/fcitx5-diagnose.sh:1647
 msgid "Addon Libraries:"
 msgstr "애드온 라이브러리:"
 
-#: data/fcitx5-diagnose.sh:1585
+#: data/fcitx5-diagnose.sh:1590
 msgid "Addon List:"
 msgstr "애드온 목록:"
 
@@ -136,15 +136,15 @@ msgstr "밝기 조절"
 msgid "All"
 msgstr "모두"
 
-#: data/fcitx5-diagnose.sh:1320
+#: data/fcitx5-diagnose.sh:1325
 msgid "All found Gtk ${1} immodule files exist."
 msgstr "발견된 GTK ${1} 입력모듈 파일이 모두 존재합니다."
 
-#: data/fcitx5-diagnose.sh:1668
+#: data/fcitx5-diagnose.sh:1673
 msgid "All libraries for all addons are found."
 msgstr "모든 애드온에 대한 모든 라이브러리가 있습니다."
 
-#: data/fcitx5-diagnose.sh:823
+#: data/fcitx5-diagnose.sh:828
 msgid "All locale:"
 msgstr "모든 로케일:"
 
@@ -160,6 +160,10 @@ msgstr "Alt"
 msgctxt "Key name"
 msgid "Alt"
 msgstr "Alt"
+
+#: src/modules/xcb/xcbmodule.h:33
+msgid "Always set layout to be only group layout"
+msgstr ""
 
 #: src/lib/fcitx-utils/key.cpp:116
 msgctxt "Key name"
@@ -222,7 +226,7 @@ msgctxt "Key name"
 msgid "Backspace"
 msgstr "백스페이스"
 
-#: data/fcitx5-diagnose.sh:796
+#: data/fcitx5-diagnose.sh:801
 msgid "Bash Version:"
 msgstr "Bash 버전:"
 
@@ -231,7 +235,7 @@ msgctxt "Key name"
 msgid "Battery"
 msgstr "배터리"
 
-#: data/fcitx5-diagnose.sh:677
+#: data/fcitx5-diagnose.sh:682
 msgid "Beginner's Guide"
 msgstr "초보자 가이드"
 
@@ -302,82 +306,82 @@ msgstr "취소"
 msgid "Candidates"
 msgstr "후보"
 
-#: data/fcitx5-diagnose.sh:944
+#: data/fcitx5-diagnose.sh:949
 msgid "Cannot connect to ${1} correctly."
 msgstr "${1}에 연결할 수 없습니다."
 
-#: data/fcitx5-diagnose.sh:791
+#: data/fcitx5-diagnose.sh:796
 msgid "Cannot determine desktop environment."
 msgstr "데스크톱 환경을 확인할 수 없습니다."
 
-#: data/fcitx5-diagnose.sh:1576
+#: data/fcitx5-diagnose.sh:1581
 msgid "Cannot find ${1} addon config directory."
 msgstr "${1} 애드온 설정 디렉토리를 찾을 수 없습니다."
 
-#: data/fcitx5-diagnose.sh:1068
+#: data/fcitx5-diagnose.sh:1073
 msgid "Cannot find ${1} executable!"
 msgstr "${1} 실행 파일을 찾을 수 없습니다!"
 
-#: data/fcitx5-diagnose.sh:1470 data/fcitx5-diagnose.sh:1523
+#: data/fcitx5-diagnose.sh:1475 data/fcitx5-diagnose.sh:1528
 msgid "Cannot find ${1} im module for gtk ${2} in cache."
 msgstr "캐시에서 GTK ${2}에 대한 ${1} 입력 모듈을 찾을 수 없습니다."
 
-#: data/fcitx5-diagnose.sh:1387
+#: data/fcitx5-diagnose.sh:1392
 msgid "Cannot find ${1} im module for gtk ${2}."
 msgstr "{2}에 대한 {1} 입력 모듈을 찾을 수 없습니다."
 
-#: data/fcitx5-diagnose.sh:1246 data/fcitx5-diagnose.sh:1251
+#: data/fcitx5-diagnose.sh:1251 data/fcitx5-diagnose.sh:1256
 msgid "Cannot find ${1} input method module for ${2}."
 msgstr "${1} 입력기 모듈을 ${2}에서 찾을 수 없습니다."
 
-#: data/fcitx5-diagnose.sh:1381
+#: data/fcitx5-diagnose.sh:1386
 msgid "Cannot find ${2} for gtk ${1}"
 msgstr "gtk ${1} 에서 ${2}를 찾을 수 없습니다."
 
-#: data/fcitx5-diagnose.sh:964
+#: data/fcitx5-diagnose.sh:969
 msgid "Cannot find DBus name ${1} owner."
 msgstr "DBus 이름 ${1} 소유자를 찾을 수 없습니다."
 
-#: data/fcitx5-diagnose.sh:1078
+#: data/fcitx5-diagnose.sh:1083
 msgid "Cannot find a GUI config tool, please install one of ${1}, or ${2}."
 msgstr "GUI 설정 도구를 찾을 수 없습니다. ${1}, ${2} 중 하나를 설치하십시오."
 
-#: data/fcitx5-diagnose.sh:1671
+#: data/fcitx5-diagnose.sh:1676
 msgid "Cannot find enabled ${1} user interface!"
 msgstr "활성화된 ${1} 사용자 인터페이스를 찾을 수 없습니다!"
 
-#: data/fcitx5-diagnose.sh:907
+#: data/fcitx5-diagnose.sh:912
 msgid "Cannot find fcitx5 executable!"
 msgstr "Fcitx5 실행 파일을 찾을 수 없습니다!"
 
-#: data/fcitx5-diagnose.sh:1650
+#: data/fcitx5-diagnose.sh:1655
 msgid "Cannot find file ${1} of addon ${2}."
 msgstr "${2} 애드온의 ${1} 파일을 찾을 수 없습니다."
 
-#: data/fcitx5-diagnose.sh:1660
+#: data/fcitx5-diagnose.sh:1665
 msgid "Cannot find following required libraries for ${1} of addon ${2}."
 msgstr "${2} 애드온의 ${1}을 위한 다음 라이브러리를 찾을 수 없습니다."
 
-#: data/fcitx5-diagnose.sh:1465 data/fcitx5-diagnose.sh:1518
+#: data/fcitx5-diagnose.sh:1470 data/fcitx5-diagnose.sh:1523
 msgid "Cannot find immodules cache for gtk ${1}"
 msgstr "GTK ${1}의 입력모듈 캐시를 찾을 수 없습니다"
 
-#: data/fcitx5-diagnose.sh:1690
+#: data/fcitx5-diagnose.sh:1695
 msgid ""
 "Cannot find kimpanel dbus interface or enabled non-kimpanel user interface."
 msgstr ""
 "kimpanel dbus 인터페이스나 kimpanel이 아닌 활성화된 사용자 인터페이스를 찾을 "
 "수 없습니다."
 
-#: data/fcitx5-diagnose.sh:972
+#: data/fcitx5-diagnose.sh:977
 msgid "Cannot find pid of DBus name ${1} owner."
 msgstr "DBus 이름 ${1} 소유자의 프로세스 번호를 찾을 수 없습니다."
 
-#: data/fcitx5-diagnose.sh:1144
+#: data/fcitx5-diagnose.sh:1149
 msgid "Cannot find xim_server on root window."
 msgstr "루트 창에서 xim_server를 찾을 수 없습니다."
 
-#: data/fcitx5-diagnose.sh:1118
+#: data/fcitx5-diagnose.sh:1123
 msgid "Cannot interpret XMODIFIERS: ${1}."
 msgstr "XMODIFIERS를 해석할 수 없음: ${1}"
 
@@ -450,47 +454,47 @@ msgctxt "Key name"
 msgid "Community"
 msgstr "커뮤니티"
 
-#: src/im/keyboard/keyboard.cpp:780
+#: src/im/keyboard/keyboard.cpp:782
 msgid "Completion"
 msgstr "완성"
 
-#: src/im/keyboard/keyboard.cpp:771
+#: src/im/keyboard/keyboard.cpp:773
 msgid "Completion is disabled."
 msgstr "완성이 비활성화되었습니다."
 
-#: src/im/keyboard/keyboard.cpp:774
+#: src/im/keyboard/keyboard.cpp:776
 msgid "Completion is enabled temporarily."
 msgstr "완성이 일시적으로 활성화되었습니다."
 
-#: src/im/keyboard/keyboard.cpp:776
+#: src/im/keyboard/keyboard.cpp:778
 msgid "Completion is enabled."
 msgstr "완성이 활성화되었습니다."
 
-#: data/fcitx5-diagnose.sh:1020
+#: data/fcitx5-diagnose.sh:1025
 msgid "Config GUI for gtk${1} not found."
 msgstr "gtk${1}에 대한 GUI 설정을 찾지 못했습니다."
 
-#: data/fcitx5-diagnose.sh:1016
+#: data/fcitx5-diagnose.sh:1021
 msgid "Config GUI for gtk${1}:"
 msgstr "gtk${1}에 대한 GUI 설정:"
 
-#: data/fcitx5-diagnose.sh:1050
+#: data/fcitx5-diagnose.sh:1055
 msgid "Config GUI for kde:"
 msgstr "kde에 대한 GUI 설정:"
 
-#: data/fcitx5-diagnose.sh:1039
+#: data/fcitx5-diagnose.sh:1044
 msgid "Config GUI for qt not found."
 msgstr "Qt에 대한 GUI 설정을 찾을 수 없습니다."
 
-#: data/fcitx5-diagnose.sh:1037
+#: data/fcitx5-diagnose.sh:1042
 msgid "Config GUI for qt:"
 msgstr "qt에 대한 GUI 설정:"
 
-#: data/fcitx5-diagnose.sh:1066
+#: data/fcitx5-diagnose.sh:1071
 msgid "Config Tool Wrapper:"
 msgstr "설정 도구 Wrapper:"
 
-#: data/fcitx5-diagnose.sh:1785
+#: data/fcitx5-diagnose.sh:1790
 msgid "Configuration:"
 msgstr "환경설정:"
 
@@ -513,19 +517,19 @@ msgctxt "Key name"
 msgid "Copy"
 msgstr "복사"
 
-#: data/fcitx5-diagnose.sh:857
+#: data/fcitx5-diagnose.sh:862
 msgid "Current ${1} settings directory is ${2} (${3})."
 msgstr "현재 ${1} 설정 디렉토리는 ${2} (${3}) 입니다."
 
-#: data/fcitx5-diagnose.sh:825
+#: data/fcitx5-diagnose.sh:830
 msgid "Current locale:"
 msgstr "현재 로케일:"
 
-#: data/fcitx5-diagnose.sh:863
+#: data/fcitx5-diagnose.sh:868
 msgid "Current user:"
 msgstr "현재 사용자:"
 
-#: data/fcitx5-diagnose.sh:851
+#: data/fcitx5-diagnose.sh:856
 msgid "Current value of ${1} is ${2} (${3})."
 msgstr "${1}의 현재 값은 ${2}(${3})입니다."
 
@@ -550,7 +554,7 @@ msgstr "DBus 전처리기"
 msgid "DBus based new Freedesktop.org tray icon"
 msgstr "DBus 기반 새 Freedesktop.org 트레이 아이콘"
 
-#: data/fcitx5-diagnose.sh:952
+#: data/fcitx5-diagnose.sh:957
 msgid "DBus interface:"
 msgstr "DBus 인터페이스:"
 
@@ -563,7 +567,7 @@ msgstr "DOS"
 msgid "Deactivate Input Method"
 msgstr "입력기 비활성화"
 
-#: data/fcitx5-diagnose.sh:976
+#: data/fcitx5-diagnose.sh:981
 msgid "Debug information from dbus:"
 msgstr ""
 
@@ -601,15 +605,15 @@ msgstr "삭제"
 msgid "Description"
 msgstr "설명"
 
-#: data/fcitx5-diagnose.sh:788
+#: data/fcitx5-diagnose.sh:793
 msgid "Desktop Environment:"
 msgstr "데스크탑 환경:"
 
-#: data/fcitx5-diagnose.sh:793
+#: data/fcitx5-diagnose.sh:798
 msgid "Desktop environment is ${1}."
 msgstr "데스크톱 환경은 ${1}입니다."
 
-#: data/fcitx5-diagnose.sh:837
+#: data/fcitx5-diagnose.sh:842
 msgid "Directories:"
 msgstr "디렉토리:"
 
@@ -708,7 +712,7 @@ msgstr "입력기 그룹을 순차적으로 적용"
 msgid "Enumerate when press trigger key repeatedly"
 msgstr "전환 키를 반복해서 누를 때 보이기"
 
-#: data/fcitx5-diagnose.sh:1096
+#: data/fcitx5-diagnose.sh:1101
 msgid ""
 "Environment variable ${1} is \"${2}\" instead of \"${3}\". Please check if "
 "you have exported it incorrectly in any of your init files."
@@ -716,23 +720,23 @@ msgstr ""
 "환경변수 ${1} 는 \"${3}\"이(가) 아닌 \"${2}\"입니다. init 파일에서 해당 환경"
 "변수를 올바로 설정했는지 확인하십시오."
 
-#: data/fcitx5-diagnose.sh:843
+#: data/fcitx5-diagnose.sh:848
 msgid "Environment variable ${1} is not set."
 msgstr "환경 변수 ${1}가 설정되지 않았습니다."
 
-#: data/fcitx5-diagnose.sh:1090
+#: data/fcitx5-diagnose.sh:1095
 msgid "Environment variable ${1} is set to \"${2}\" correctly."
 msgstr "환경 변수 ${1}이(가) \"${2}\"로 올바르게 지정되었습니다."
 
-#: data/fcitx5-diagnose.sh:847
+#: data/fcitx5-diagnose.sh:852
 msgid "Environment variable ${1} is set to ${2}."
 msgstr "환경 변수 ${1}이(가) ${2}로 지정되었습니다."
 
-#: data/fcitx5-diagnose.sh:801
+#: data/fcitx5-diagnose.sh:806
 msgid "Environment:"
 msgstr "환경:"
 
-#: data/fcitx5-diagnose.sh:829
+#: data/fcitx5-diagnose.sh:834
 msgid "Error occurs when running ${1}. Please check your locale settings."
 msgstr "${1}을 실행하는 중 오류가 발생하였습니다. 지역 설정을 확인하십시오."
 
@@ -751,11 +755,11 @@ msgstr "실행"
 msgid "Exit"
 msgstr "나가기"
 
-#: data/fcitx5-diagnose.sh:1459 data/fcitx5-diagnose.sh:1512
+#: data/fcitx5-diagnose.sh:1464 data/fcitx5-diagnose.sh:1517
 msgid "Failed to find ${1} in immodule cache at ${2}"
 msgstr "${2}의 입력모듈 캐시에서 ${1}을(를) 찾을 수 없습니다."
 
-#: data/fcitx5-diagnose.sh:1375
+#: data/fcitx5-diagnose.sh:1380
 msgid "Failed to find ${1} in the output of ${2}"
 msgstr "${1}을 ${2}의 출력 내용에서 찾을 수 없음"
 
@@ -777,15 +781,15 @@ msgstr "Fcitx 5"
 msgid "Fcitx 5 Configuration"
 msgstr "Fcitx 5 환경설정"
 
-#: data/fcitx5-diagnose.sh:1556
+#: data/fcitx5-diagnose.sh:1561
 msgid "Fcitx Addons:"
 msgstr "Fcitx 애드온:"
 
-#: data/fcitx5-diagnose.sh:1065
+#: data/fcitx5-diagnose.sh:1070
 msgid "Fcitx Configure UI:"
 msgstr "Fcitx UI 구성하기:"
 
-#: data/fcitx5-diagnose.sh:904
+#: data/fcitx5-diagnose.sh:909
 msgid "Fcitx State:"
 msgstr "Fcitx 상태:"
 
@@ -798,7 +802,7 @@ msgstr ""
 "Fcitx는 입력기 프레임워크입니다. 자신의 언어를 입력하는데 도움이 될 수 있습니"
 "다. 또한 타이핑 경험을 향상시키는 다양한 애드온을 선택할 수 있습니다."
 
-#: data/fcitx5-diagnose.sh:918
+#: data/fcitx5-diagnose.sh:923
 msgid "Fcitx version: ${1}"
 msgstr "Fcitx 버전: ${1}"
 
@@ -835,69 +839,69 @@ msgctxt "Key name"
 msgid "Forward"
 msgstr "앞으로"
 
-#: data/fcitx5-diagnose.sh:1235
+#: data/fcitx5-diagnose.sh:1240
 msgid "Found ${1} ${2} module: ${3}."
 msgstr "${1} ${2}개의 모듈을 찾았습니다: ${3}"
 
-#: data/fcitx5-diagnose.sh:938
+#: data/fcitx5-diagnose.sh:943
 msgid "Found ${1} ${2} process:"
 msgstr " ${1} ${2}개의 프로세스를 찾았습니다:"
 
-#: data/fcitx5-diagnose.sh:936
+#: data/fcitx5-diagnose.sh:941
 msgid "Found ${1} ${2} processes:"
 msgstr " ${1} ${2}개의 프로세스를 찾았습니다:"
 
-#: data/fcitx5-diagnose.sh:1579
+#: data/fcitx5-diagnose.sh:1584
 msgid "Found ${1} addon config directory: ${2}."
 msgstr "${1}애드온 설정 디렉토리를 찾았습니다: ${2}."
 
-#: data/fcitx5-diagnose.sh:913 data/fcitx5-diagnose.sh:1029
-#: data/fcitx5-diagnose.sh:1042 data/fcitx5-diagnose.sh:1070
+#: data/fcitx5-diagnose.sh:918 data/fcitx5-diagnose.sh:1034
+#: data/fcitx5-diagnose.sh:1047 data/fcitx5-diagnose.sh:1075
 msgid "Found ${1} at ${2}."
 msgstr "${1}을(를) ${2}에서 찾았습니다."
 
-#: data/fcitx5-diagnose.sh:1632
+#: data/fcitx5-diagnose.sh:1637
 msgid "Found ${1} disabled addons:"
 msgstr "${1}개의 비활성화된 애드온을 찾았습니다:"
 
-#: data/fcitx5-diagnose.sh:1623
+#: data/fcitx5-diagnose.sh:1628
 msgid "Found ${1} enabled addons:"
 msgstr "${1}개의 활성화된 애드온을 찾았습니다:"
 
-#: data/fcitx5-diagnose.sh:1673
+#: data/fcitx5-diagnose.sh:1678
 msgid "Found ${1} enabled user interface addons:"
 msgstr "${1}개의 활성화된 사용자 인터페이스 애드온을 찾았습니다:"
 
-#: data/fcitx5-diagnose.sh:1369 data/fcitx5-diagnose.sh:1453
-#: data/fcitx5-diagnose.sh:1506
+#: data/fcitx5-diagnose.sh:1374 data/fcitx5-diagnose.sh:1458
+#: data/fcitx5-diagnose.sh:1511
 msgid "Found ${1} im modules for gtk ${2}."
 msgstr "${2}에 대한 ${1} 입력 모듈을 찾았습니다."
 
-#: data/fcitx5-diagnose.sh:1056
+#: data/fcitx5-diagnose.sh:1061
 msgid "Found ${1} kcm module."
 msgstr "${1}개의 kcm 모듈을 찾았습니다."
 
-#: data/fcitx5-diagnose.sh:1361
+#: data/fcitx5-diagnose.sh:1366
 msgid "Found ${2} for unknown gtk version at ${1}."
 msgstr "${1}에서 알 수 없는 GTK 버전의 ${2}를 찾았습니다."
 
-#: data/fcitx5-diagnose.sh:1353
+#: data/fcitx5-diagnose.sh:1358
 msgid "Found ${3} for gtk ${1} at ${2}."
 msgstr "GTK ${1}에 대한 ${3}을 ${2}에서 찾았습니다."
 
-#: data/fcitx5-diagnose.sh:1224 data/fcitx5-diagnose.sh:1229
+#: data/fcitx5-diagnose.sh:1229 data/fcitx5-diagnose.sh:1234
 msgid "Found ${3} im module for ${2}: ${1}."
 msgstr "${2}를 위해 ${3} 개의 입력기 모듈을 찾았습니다 : ${1}"
 
-#: data/fcitx5-diagnose.sh:1446
+#: data/fcitx5-diagnose.sh:1451
 msgid "Found immodule cache for unknown gtk version at ${1}."
 msgstr "알 수 없는 GTK 버전의 입력모듈 캐시를 ${1}에서 찾았습니다."
 
-#: data/fcitx5-diagnose.sh:1438 data/fcitx5-diagnose.sh:1499
+#: data/fcitx5-diagnose.sh:1443 data/fcitx5-diagnose.sh:1504
 msgid "Found immodules cache for gtk ${1} at ${2}."
 msgstr "GTK ${1}의 입력모듈 캐시를 ${2}에서 찾았습니다."
 
-#: data/fcitx5-diagnose.sh:1238
+#: data/fcitx5-diagnose.sh:1243
 msgid "Found unknown ${1} qt module: ${2}."
 msgstr "알 수 없는 ${1} Qt 모듈을 찾았습니다: ${2}."
 
@@ -905,7 +909,7 @@ msgstr "알 수 없는 ${1} Qt 모듈을 찾았습니다: ${2}."
 msgid "Freedesktop.org Notification Support"
 msgstr "Freedesktop.org 알림 지원"
 
-#: data/fcitx5-diagnose.sh:1778
+#: data/fcitx5-diagnose.sh:1783
 msgid "Frontends setup:"
 msgstr "프론트엔드 설정:"
 
@@ -937,19 +941,19 @@ msgstr "그룹 {0}: {1}"
 msgid "Group {}"
 msgstr "그룹 {}"
 
-#: data/fcitx5-diagnose.sh:1314
+#: data/fcitx5-diagnose.sh:1319
 msgid "Gtk ${1} immodule file ${2} does not exist."
 msgstr "GTK ${1} 입력모듈 파일 ${2}(가) 존재하지 않습니다."
 
-#: data/fcitx5-diagnose.sh:1536
+#: data/fcitx5-diagnose.sh:1541
 msgid "Gtk IM module cache:"
 msgstr "Gtk IM 모듈 캐시:"
 
-#: data/fcitx5-diagnose.sh:1542
+#: data/fcitx5-diagnose.sh:1547
 msgid "Gtk IM module files:"
 msgstr "Gtk IM 모듈 파일:"
 
-#: data/fcitx5-diagnose.sh:724
+#: data/fcitx5-diagnose.sh:729
 msgid "Hall of Shame for Linux IME Support"
 msgstr "Linux IME 지원에 대한 불명예의 전당"
 
@@ -1086,7 +1090,7 @@ msgctxt "Key name"
 msgid "Home Page"
 msgstr "홈페이지"
 
-#: data/fcitx5-diagnose.sh:839
+#: data/fcitx5-diagnose.sh:844
 msgid "Home:"
 msgstr "홈:"
 
@@ -1117,7 +1121,7 @@ msgstr "하이퍼"
 msgid "IBus Frontend"
 msgstr "IBus 전처리기"
 
-#: data/fcitx5-diagnose.sh:713
+#: data/fcitx5-diagnose.sh:718
 msgid ""
 "If you are using ${1}, you may want to uninstall ${2} or remove ${3} in "
 "order to use any input method other than ${2}. See ${link} for more detail "
@@ -1126,7 +1130,7 @@ msgstr ""
 "${1}을 사용하는 경우, ${2} 이외의 입력기를 사용하려면 ${2}을(를) 제거하거나 "
 "${3}을(를) 제거하십시오.  자세한 내용은 ${link}와 다른 솔루션을 참조하십시오."
 
-#: data/fcitx5-diagnose.sh:711
+#: data/fcitx5-diagnose.sh:716
 msgid ""
 "If you are using ${1}, you may want to uninstall ${2}, remove ${3} or use "
 "the command ${g36_disable_ibus} to disable IBus integration in order to use "
@@ -1140,9 +1144,9 @@ msgstr ""
 msgid "Image"
 msgstr "이미지"
 
-#: src/im/keyboard/keyboard.cpp:779 src/lib/fcitx/instance.cpp:425
+#: src/im/keyboard/keyboard.cpp:781 src/lib/fcitx/instance.cpp:425
 #: src/lib/fcitx/instance.cpp:804 src/lib/fcitx/instance.cpp:970
-#: src/modules/notificationitem/notificationitem.cpp:116
+#: src/modules/notificationitem/notificationitem.cpp:122
 #: src/modules/xcb/xcbconnection.cpp:406 data/org.fcitx.Fcitx5.desktop.in.in:4
 #: data/org.fcitx.Fcitx5.metainfo.xml.in:7
 msgid "Input Method"
@@ -1152,11 +1156,11 @@ msgstr "입력기"
 msgid "Input Method Configuration"
 msgstr "입력기 환경설정"
 
-#: data/fcitx5-diagnose.sh:688
+#: data/fcitx5-diagnose.sh:693
 msgid "Input Method Related Environment Variables: "
 msgstr "입력기와 관련된 환경변수: "
 
-#: data/fcitx5-diagnose.sh:1696
+#: data/fcitx5-diagnose.sh:1701
 msgid "Input Methods:"
 msgstr ""
 
@@ -1181,7 +1185,7 @@ msgctxt "Key name"
 msgid "Insert"
 msgstr "삽입"
 
-#: data/fcitx5-diagnose.sh:1591
+#: data/fcitx5-diagnose.sh:1596
 msgid "Invalid addon config file ${1}."
 msgstr "잘못된 애드온 설정 파일 ${1}."
 
@@ -1235,7 +1239,7 @@ msgctxt "Key name"
 msgid "Keyboard Brightness Up"
 msgstr "키보드 밝기 높이기"
 
-#: data/fcitx5-diagnose.sh:805
+#: data/fcitx5-diagnose.sh:810
 msgid "Keyboard Layout:"
 msgstr "키보드 자판:"
 
@@ -1249,7 +1253,7 @@ msgctxt "Key name"
 msgid "Keyboard Menu"
 msgstr "키보드 메뉴"
 
-#: data/fcitx5-diagnose.sh:1682
+#: data/fcitx5-diagnose.sh:1687
 msgid "Kimpanel process:"
 msgstr "Kimpanel 프로세스:"
 
@@ -1373,11 +1377,11 @@ msgctxt "Key name"
 msgid "LightBulb"
 msgstr "전구"
 
-#: data/fcitx5-diagnose.sh:820
+#: data/fcitx5-diagnose.sh:825
 msgid "Locale:"
 msgstr "로케일:"
 
-#: data/fcitx5-diagnose.sh:1791
+#: data/fcitx5-diagnose.sh:1796
 msgid "Log:"
 msgstr "로그:"
 
@@ -1578,11 +1582,11 @@ msgstr "없음"
 msgid "Normal text color"
 msgstr "일반 텍스트 색상"
 
-#: src/ui/kimpanel/kimpanel.cpp:376
+#: src/ui/kimpanel/kimpanel.cpp:372
 msgid "Not available"
 msgstr "사용할 수 없음"
 
-#: data/fcitx5-diagnose.sh:704
+#: data/fcitx5-diagnose.sh:709
 msgid "Note for GNOME Later than 3.6"
 msgstr "3.6 이후의 GNOME에 대한 참고사항"
 
@@ -1599,7 +1603,7 @@ msgstr "NumLock"
 msgid "Number of entries"
 msgstr "항목의 수"
 
-#: src/im/keyboard/keyboard.cpp:765
+#: src/im/keyboard/keyboard.cpp:767
 msgid ""
 "Only emoji support is found. To enable spell checking, you may need to "
 "install spell check data for the language."
@@ -1642,11 +1646,11 @@ msgstr "오버레이 Y 오프셋"
 msgid "Overlay position"
 msgstr "오버레이 위치"
 
-#: data/fcitx5-diagnose.sh:960
+#: data/fcitx5-diagnose.sh:965
 msgid "Owner of DBus name ${1} is ${2}."
 msgstr "DBus ${1}의 소유자는 ${2}입니다."
 
-#: data/fcitx5-diagnose.sh:968
+#: data/fcitx5-diagnose.sh:973
 msgid "PID of DBus name ${1} owner is ${2}."
 msgstr "DBus 이름 ${1} 소유자의 PID는 ${2}입니다."
 
@@ -1688,11 +1692,11 @@ msgctxt "Key name"
 msgid "Pictures"
 msgstr "사진"
 
-#: data/fcitx5-diagnose.sh:909
+#: data/fcitx5-diagnose.sh:914
 msgid "Please check ${1} for how to install fcitx5."
 msgstr "Fcitx5 설치방법은 ${1}을 확인하세요."
 
-#: data/fcitx5-diagnose.sh:931
+#: data/fcitx5-diagnose.sh:936
 msgid ""
 "Please check the Configure link of your distribution in ${1} for how to "
 "setup ${2} autostart."
@@ -1700,7 +1704,7 @@ msgstr ""
 "${2}의 자동 시작을 설정하는 방법은 ${1}에서 배포판의 구성 링크를 확인하십시"
 "오."
 
-#: data/fcitx5-diagnose.sh:685
+#: data/fcitx5-diagnose.sh:690
 msgid ""
 "Please set environment variable ${env_name} to \"${value}\" using the tool "
 "your distribution provides or add ${1} to your ${2}. See ${link}."
@@ -1764,7 +1768,7 @@ msgstr "프로그램"
 msgid "Providers"
 msgstr "제공도구"
 
-#: data/fcitx5-diagnose.sh:1210
+#: data/fcitx5-diagnose.sh:1215
 msgid "Qt IM module files:"
 msgstr "Qt IM 모듈 파일:"
 
@@ -1861,7 +1865,7 @@ msgctxt "Key name"
 msgid "Rotation PB"
 msgstr "교체 PB"
 
-#: data/fcitx5-diagnose.sh:885
+#: data/fcitx5-diagnose.sh:890
 msgid "Running as root:"
 msgstr "루트 계정으로 실행중:"
 
@@ -2041,7 +2045,7 @@ msgstr "{0}(으)로 그룹 전환"
 msgid "Switched group to {0}"
 msgstr "{0}(으)로 그룹 전환됨"
 
-#: data/fcitx5-diagnose.sh:760
+#: data/fcitx5-diagnose.sh:765
 msgid "System Info:"
 msgstr "시스템 정보:"
 
@@ -2074,7 +2078,7 @@ msgstr "터미널"
 msgid "The n-th hotkey in the list selects the n-th input method."
 msgstr "목록의 n번째 단축키는 n번째 입력기를 선택합니다."
 
-#: data/fcitx5-diagnose.sh:864
+#: data/fcitx5-diagnose.sh:869
 msgid "The script is run as ${1} (${2})."
 msgstr "스크립트는 ${1} (${2}) 계정으로 실행됩니다."
 
@@ -2094,7 +2098,7 @@ msgstr "이 옵션은 이미지가 지정되지 않은 경우에만 유효합니
 msgid "This value should be less than any of margin value."
 msgstr "이 값은 여백 값보다 작아야 합니다."
 
-#: data/fcitx5-diagnose.sh:1797
+#: data/fcitx5-diagnose.sh:1802
 msgid ""
 "Though such information can be helpful to developers for diagnostic purpose, "
 "please double check and remove as necessary before posting it online "
@@ -2106,7 +2110,7 @@ msgctxt "Key name"
 msgid "Time"
 msgstr "시간"
 
-#: data/fcitx5-diagnose.sh:721
+#: data/fcitx5-diagnose.sh:726
 #, sh-format
 msgid ""
 "To see some application specific problems you may have when using xim, check "
@@ -2185,7 +2189,7 @@ msgid "Trigger Input Method"
 msgstr "입력기 전환"
 
 #: src/modules/imselector/imselector.h:25
-#: src/modules/quickphrase/quickphrase.h:36 src/modules/unicode/unicode.h:30
+#: src/modules/quickphrase/quickphrase.h:36 src/modules/unicode/unicode.h:31
 #: src/modules/clipboard/clipboard.h:42
 msgid "Trigger Key"
 msgstr "전환 키"
@@ -2210,7 +2214,7 @@ msgstr "길게 눌러 특수 문자 입력"
 msgid "Typing with Fcitx and Kimpanel"
 msgstr "Fcitx 및 Kimpanel로 입력"
 
-#: data/fcitx5-diagnose.sh:980
+#: data/fcitx5-diagnose.sh:985
 msgid "Unable to find a program to check dbus."
 msgstr "dbus를 확인할 프로그램을 찾을 수 없습니다."
 
@@ -2223,7 +2227,7 @@ msgstr "되돌리기"
 msgid "Unicode"
 msgstr "유니코드"
 
-#: src/modules/unicode/unicode.cpp:325
+#: src/modules/unicode/unicode.cpp:327
 msgid "Unicode: "
 msgstr "유니코드:"
 
@@ -2252,11 +2256,11 @@ msgstr "텍스트 표시할 때 입력기 언어 사용"
 msgid "Use mouse wheel to go to prev or next page"
 msgstr "마우스 휠을 사용하여 이전 또는 다음 페이지로 이동"
 
-#: data/fcitx5-diagnose.sh:1669
+#: data/fcitx5-diagnose.sh:1674
 msgid "User Interface:"
 msgstr "사용자 인터페이스:"
 
-#: data/fcitx5-diagnose.sh:955
+#: data/fcitx5-diagnose.sh:960
 msgid "Using ${1} to check dbus."
 msgstr "${1}을(를) 사용하여 dbus를 확인합니다."
 
@@ -2264,7 +2268,7 @@ msgstr "${1}을(를) 사용하여 dbus를 확인합니다."
 msgid "Version"
 msgstr "버전"
 
-#: data/fcitx5-diagnose.sh:1358 data/fcitx5-diagnose.sh:1442
+#: data/fcitx5-diagnose.sh:1363 data/fcitx5-diagnose.sh:1447
 msgid "Version Line:"
 msgstr "버전 줄:"
 
@@ -2307,7 +2311,7 @@ msgctxt "Key name"
 msgid "Wake Up"
 msgstr "깨우기"
 
-#: data/fcitx5-diagnose.sh:1796
+#: data/fcitx5-diagnose.sh:1801
 msgid ""
 "Warning: the output of fcitx5-diagnose contains sensitive information, "
 "including the distribution name, kernel version, name of currently running "
@@ -2327,7 +2331,7 @@ msgctxt "Key name"
 msgid "WebCam"
 msgstr "웹캠"
 
-#: data/fcitx5-diagnose.sh:895
+#: data/fcitx5-diagnose.sh:900
 msgid "Why is it bad to run as root"
 msgstr "루트로 실행하는 것이 나쁜 이유"
 
@@ -2354,31 +2358,31 @@ msgctxt "Key name"
 msgid "XFer"
 msgstr "XFer"
 
-#: data/fcitx5-diagnose.sh:1157
+#: data/fcitx5-diagnose.sh:1162
 msgid "XIM encoding:"
 msgstr "XIM 인코딩:"
 
-#: data/fcitx5-diagnose.sh:1152
+#: data/fcitx5-diagnose.sh:1157
 msgid "XIM for Emacs:"
 msgstr "Emacs용 XIM:"
 
-#: data/fcitx5-diagnose.sh:1128
+#: data/fcitx5-diagnose.sh:1133
 msgid "XIM_SERVERS on root window:"
 msgstr "루트 창의 XIM_SERVERS:"
 
-#: data/fcitx5-diagnose.sh:1105
+#: data/fcitx5-diagnose.sh:1110
 msgid "XMODIFIERS is not set"
 msgstr "XMODIFIERS가 지정되지 않음"
 
-#: data/fcitx5-diagnose.sh:1126
+#: data/fcitx5-diagnose.sh:1131
 msgid "Xim Server Name from Environment variable is ${1}."
 msgstr "환경 변수의 Xim 서버 이름은 ${1}입니다."
 
-#: data/fcitx5-diagnose.sh:1138
+#: data/fcitx5-diagnose.sh:1143
 msgid "Xim server name is the same with that set in the environment variable."
 msgstr "Xim 서버 이름은 환경 변수에 설정된 것과 동일합니다."
 
-#: data/fcitx5-diagnose.sh:1140
+#: data/fcitx5-diagnose.sh:1145
 msgid ""
 "Xim server name: \"${1}\" is different from that set in the environment "
 "variable: \"${2}\"."
@@ -2389,7 +2393,7 @@ msgctxt "Key name"
 msgid "Yellow"
 msgstr "노랑"
 
-#: data/fcitx5-diagnose.sh:893
+#: data/fcitx5-diagnose.sh:898
 msgid ""
 "You are probably logging in as ${1} or using ${2} to run this script. This "
 "either means you have security problems or the result of this script may not "
@@ -2399,7 +2403,7 @@ msgstr ""
 "보안 문제가 있거나, 실행결과가 올바르지 않을 수 있습니다. 자세한 내용은 ${3} "
 "또는 ${4}를 참조하세요."
 
-#: data/fcitx5-diagnose.sh:888
+#: data/fcitx5-diagnose.sh:893
 msgid ""
 "You are probably using ${1} to run this script. This means the result of "
 "this script may not be accurate. See ${2} for more information."
@@ -2407,15 +2411,15 @@ msgstr ""
 "이 스크립트를 실행하는데 ${1}을 사용하나요? 실행결과가 올바르지 않을 수 있습"
 "니다. 자세한 정보는 ${2}를 참조하세요."
 
-#: data/fcitx5-diagnose.sh:1179
+#: data/fcitx5-diagnose.sh:1184
 msgid "You are using xim in ${1} programs."
 msgstr "xim을 ${1} 프로그램에서 사용 중입니다."
 
-#: data/fcitx5-diagnose.sh:1184
+#: data/fcitx5-diagnose.sh:1189
 msgid "You may have trouble using fcitx in ${1} programs."
 msgstr "${1} 프로그램에서 Fcitx를 사용하는데 문제가 발생할 수 있습니다."
 
-#: data/fcitx5-configtool.sh:127
+#: data/fcitx5-configtool.sh:134
 msgid ""
 "You're currently running Fcitx with GUI, but fcitx5-config-qt couldn't be "
 "found. Now it will open config directory."
@@ -2423,7 +2427,7 @@ msgstr ""
 "현재 Fcitx를 GUI로 실행하고 있지만 Fcitx5-config-qt를 찾을 수 없습니다. 이제 "
 "구성 디렉토리가 열립니다."
 
-#: data/fcitx5-configtool.sh:124
+#: data/fcitx5-configtool.sh:131
 msgid ""
 "You're currently running KDE, but KCModule for fcitx couldn't be found, the "
 "package name of this KCModule is usually kcm-fcitx or kde-config-fcitx. Now "
@@ -2433,7 +2437,7 @@ msgstr ""
 "의 패키지 이름은 일반적으로 kcm-fcitx 또는 kde-config-fcitx입니다. 이제 설정 "
 "디렉토리가 열립니다."
 
-#: data/fcitx5-diagnose.sh:1154
+#: data/fcitx5-diagnose.sh:1159
 msgid ""
 "Your LC_CTYPE is set to ${1} instead of one of zh, ja, ko. You may not be "
 "able to use input method in emacs because of an really old emacs bug that "
@@ -2443,7 +2447,7 @@ msgstr ""
 "를 사용할 수 없을지도 모릅니다. 이것은 수년간 수정하지 않고 버티고 있는 emacs"
 "의 매우 오랜 버그 때문입니다."
 
-#: data/fcitx5-diagnose.sh:1159
+#: data/fcitx5-diagnose.sh:1164
 msgid ""
 "Your LC_CTYPE is set to ${1} whose encoding is not UTF-8. You may have "
 "trouble committing strings using XIM."
@@ -2471,11 +2475,11 @@ msgctxt "Key name"
 msgid "Zoom Out"
 msgstr "작게 보기"
 
-#: data/fcitx5-diagnose.sh:905
+#: data/fcitx5-diagnose.sh:910
 msgid "executable:"
 msgstr "실행파일:"
 
-#: data/fcitx5-diagnose.sh:728
+#: data/fcitx5-diagnose.sh:733
 msgid "here"
 msgstr "여기"
 
@@ -2484,15 +2488,15 @@ msgctxt "Key name"
 msgid "iTouch"
 msgstr "iTouch"
 
-#: data/fcitx5-diagnose.sh:919
+#: data/fcitx5-diagnose.sh:924
 msgid "process:"
 msgstr "프로세스:"
 
-#: data/fcitx5-diagnose.sh:890 data/fcitx5-diagnose.sh:896
+#: data/fcitx5-diagnose.sh:895 data/fcitx5-diagnose.sh:901
 msgid "sudo environment variables"
 msgstr "sudo 환경 변수"
 
-#: data/fcitx5-diagnose.sh:915
+#: data/fcitx5-diagnose.sh:920
 msgid "version:"
 msgstr "버전:"
 
