@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2021-12-03 20:24+0000\n"
+"POT-Creation-Date: 2021-12-04 20:24+0000\n"
 "PO-Revision-Date: 2017-11-23 04:14+0000\n"
 "Last-Translator: UTUMI Hirosi <utuhiro78@yahoo.co.jp>, 2021\n"
 "Language-Team: Japanese (https://www.transifex.com/fcitx/teams/12005/ja/)\n"
@@ -163,7 +163,7 @@ msgstr "Alt"
 
 #: src/modules/xcb/xcbmodule.h:33
 msgid "Always set layout to be only group layout"
-msgstr ""
+msgstr "常にレイアウトをグループレイアウトのみにする"
 
 #: src/lib/fcitx-utils/key.cpp:116
 msgctxt "Key name"
