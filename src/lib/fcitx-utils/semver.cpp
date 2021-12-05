@@ -154,9 +154,9 @@ void SemanticVersion::setPreReleaseIds(std::vector<PreReleaseId> ids) {
     preReleaseIds_ = std::move(ids);
 }
 
-uint32_t SemanticVersion::major() const { return major_; }
+uint32_t(SemanticVersion::major)() const { return major_; }
 
-uint32_t SemanticVersion::minor() const { return minor_; }
+uint32_t(SemanticVersion::minor)() const { return minor_; }
 
 uint32_t SemanticVersion::patch() const { return patch_; }
 
