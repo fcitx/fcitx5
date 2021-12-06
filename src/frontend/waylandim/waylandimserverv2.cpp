@@ -198,6 +198,9 @@ WaylandIMInputContextV2::~WaylandIMInputContextV2() {
 }
 
 void WaylandIMInputContextV2::repeat() {
+    if (!hasFocus()) {
+        return;
+    }
     KeyEvent event(
         this,
         Key(repeatSym_, server_->modifiers_ | KeyState::Repeat, repeatKey_ + 8),
@@ -378,6 +381,10 @@ void WaylandIMInputContextV2::keyCallback(uint32_t, uint32_t time, uint32_t key,
     time_ = time;
     if (!server_->state_) {
         return;
+    }
+
+    if (!hasFocus()) {
+        focusIn();
     }
 
     WAYLANDIM_DEBUG() << "RECEIVE KEY";

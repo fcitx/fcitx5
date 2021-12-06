@@ -100,7 +100,8 @@ public:
     /// Called when input context state need to be reset.
     FCITXCORE_DEPRECATED void reset(ResetReason reason);
 
-    /// Called when input context state need to be reset.
+    /// Called when input context state need to be reset. Input context need to
+    /// have focus.
     void reset();
 
     /**
@@ -132,7 +133,8 @@ public:
     /// Send a key event to current input context.
     bool keyEvent(KeyEvent &event);
 
-    /// Returns whether the input context holds the input focus.
+    /// Returns whether the input context holds the input focus. Input context
+    /// need to have focus.
     bool hasFocus() const;
 
     /// Invoke an action on the preedit
