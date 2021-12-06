@@ -50,8 +50,8 @@ int main() {
                  SemanticVersion::parse("1.0.0"));
     auto ver = SemanticVersion::parse("1.2.3-beta.alpha+exp.sha.5114f85");
     FCITX_ASSERT(ver);
-    FCITX_ASSERT(ver->major() == 1);
-    FCITX_ASSERT(ver->minor() == 2);
+    FCITX_ASSERT((ver->major)() == 1);
+    FCITX_ASSERT((ver->minor)() == 2);
     FCITX_ASSERT(ver->patch() == 3);
     FCITX_ASSERT(
         ver->preReleaseIds() ==
