@@ -258,12 +258,15 @@ void WaylandIMInputContextV1::invokeActionCallback(uint32_t button,
         action = InvokeActionEvent::Action::LeftClick;
         break;
     case BTN_RIGHT:
-        action = InvokeActionEvent::Action::LeftClick;
+        action = InvokeActionEvent::Action::RightClick;
         break;
     default:
         return;
     }
     InvokeActionEvent event(action, index, this);
+    if (!hasFocus()) {
+        focusIn();
+    }
     invokeAction(event);
 }
 void WaylandIMInputContextV1::commitStateCallback(uint32_t serial) {

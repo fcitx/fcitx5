@@ -315,6 +315,9 @@ public:
     void invokeActionDBus(uint32_t action, int32_t cursor) {
         InvokeActionEvent event(static_cast<InvokeActionEvent::Action>(action),
                                 cursor, this);
+        if (!hasFocus()) {
+            focusIn();
+        }
         invokeAction(event);
     }
 
