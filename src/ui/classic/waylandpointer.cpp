@@ -36,35 +36,35 @@ void WaylandPointer::initPointer() {
         if (!window) {
             return;
         }
-        focus_ = window->watch();
-        focusX_ = wl_fixed_to_int(sx);
-        focusY_ = wl_fixed_to_int(sy);
-        window->hover()(focusX_, focusY_);
+        pointerFocus_ = window->watch();
+        pointerFocusX_ = wl_fixed_to_int(sx);
+        pointerFocusY_ = wl_fixed_to_int(sy);
+        window->hover()(pointerFocusX_, pointerFocusY_);
     });
     pointer_->leave().connect([this](uint32_t, wayland::WlSurface *surface) {
-        if (auto *window = focus_.get()) {
+        if (auto *window = pointerFocus_.get()) {
             if (window->surface() == surface) {
-                focus_.unwatch();
+                pointerFocus_.unwatch();
                 window->leave()();
             }
         }
     });
     pointer_->motion().connect([this](uint32_t, wl_fixed_t sx, wl_fixed_t sy) {
-        if (auto *window = focus_.get()) {
-            focusX_ = wl_fixed_to_int(sx);
-            focusY_ = wl_fixed_to_int(sy);
-            window->hover()(focusX_, focusY_);
+        if (auto *window = pointerFocus_.get()) {
+            pointerFocusX_ = wl_fixed_to_int(sx);
+            pointerFocusY_ = wl_fixed_to_int(sy);
+            window->hover()(pointerFocusX_, pointerFocusY_);
         }
     });
     pointer_->button().connect(
         [this](uint32_t, uint32_t, uint32_t button, uint32_t state) {
-            if (auto *window = focus_.get()) {
-                window->click()(focusX_, focusY_, button, state);
+            if (auto *window = pointerFocus_.get()) {
+                window->click()(pointerFocusX_, pointerFocusY_, button, state);
             }
         });
     pointer_->axis().connect([this](uint32_t, uint32_t axis, wl_fixed_t value) {
-        if (auto *window = focus_.get()) {
-            window->axis()(focusX_, focusY_, axis, value);
+        if (auto *window = pointerFocus_.get()) {
+            window->axis()(pointerFocusX_, pointerFocusY_, axis, value);
         }
     });
 }
@@ -77,17 +77,17 @@ void WaylandPointer::initTouch() {
             if (!window) {
                 return;
             }
-            focus_ = window->watch();
-            focusX_ = wl_fixed_to_int(sx);
-            focusY_ = wl_fixed_to_int(sy);
-            window->touchDown()(focusX_, focusY_);
+            touchFocus_ = window->watch();
+            touchFocusX_ = wl_fixed_to_int(sx);
+            touchFocusY_ = wl_fixed_to_int(sy);
+            window->touchDown()(touchFocusX_, touchFocusY_);
         });
     touch_->up().connect(
         [this](uint32_t, uint32_t, int) {
             // TODO handle id for multiple touch
-            if (auto *window = focus_.get()) {
-                window->touchUp()(focusX_, focusY_);
-                focus_.unwatch();
+            if (auto *window = touchFocus_.get()) {
+                window->touchUp()(touchFocusX_, touchFocusY_);
+                touchFocus_.unwatch();
                 window->leave()();
             }
         });
