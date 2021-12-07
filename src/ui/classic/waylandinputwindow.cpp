@@ -47,6 +47,12 @@ WaylandInputWindow::WaylandInputWindow(WaylandUI *ui)
             repaint();
         }
     });
+    window_->touchDown().connect([this](int x, int y) {
+        click(x, y);
+    });
+    window_->touchUp().connect([this](int, int) {
+        // do nothing
+    });
     window_->axis().connect([this](int, int, uint32_t axis, wl_fixed_t value) {
         if (axis != WL_POINTER_AXIS_VERTICAL_SCROLL) {
             return;
