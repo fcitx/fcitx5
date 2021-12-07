@@ -23,7 +23,7 @@ WaylandPointer::WaylandPointer(wayland::WlSeat *seat) {
         if ((caps & WL_SEAT_CAPABILITY_TOUCH) && !touch_) {
             touch_.reset(seat->getTouch());
             initTouch();
-        } else if (!(caps & WL_SEAT_CAPABILITY_POINTER) && touch_) {
+        } else if (!(caps & WL_SEAT_CAPABILITY_TOUCH) && touch_) {
             touch_.reset();
         }
     });
