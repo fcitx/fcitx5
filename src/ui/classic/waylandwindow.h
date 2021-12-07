@@ -35,6 +35,9 @@ public:
     auto &axis() { return axis_; }
     auto &leave() { return leave_; }
 
+    auto &touchDown() { return touchDown_; }
+    auto &touchUp() { return touchUp_; }
+
 protected:
     WaylandUI *ui_;
     std::unique_ptr<wayland::WlSurface> surface_;
@@ -44,6 +47,9 @@ protected:
     Signal<void(int, int, uint32_t, uint32_t)> click_;
     Signal<void(int, int, uint32_t, wl_fixed_t)> axis_;
     Signal<void()> leave_;
+
+    Signal<void(int, int)> touchDown_;
+    Signal<void(int, int)> touchUp_;
 
     Rect serverAllocation_;
     Rect allocation_;

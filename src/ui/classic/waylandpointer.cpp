@@ -19,6 +19,13 @@ WaylandPointer::WaylandPointer(wayland::WlSeat *seat) {
         } else if (!(caps & WL_SEAT_CAPABILITY_POINTER) && pointer_) {
             pointer_.reset();
         }
+
+        if ((caps & WL_SEAT_CAPABILITY_TOUCH) && !touch_) {
+            touch_.reset(seat->getTouch());
+            initTouch();
+        } else if (!(caps & WL_SEAT_CAPABILITY_POINTER) && touch_) {
+            touch_.reset();
+        }
     });
 }
 
@@ -60,6 +67,30 @@ void WaylandPointer::initPointer() {
             window->axis()(focusX_, focusY_, axis, value);
         }
     });
+}
+
+void WaylandPointer::initTouch() {
+    touch_->down().connect(
+        [this](uint32_t, uint32_t, wayland::WlSurface *surface, int, wl_fixed_t sx, wl_fixed_t sy) {
+            // TODO handle id for multiple touch
+            auto *window = static_cast<WaylandWindow *>(surface->userData());
+            if (!window) {
+                return;
+            }
+            focus_ = window->watch();
+            focusX_ = wl_fixed_to_int(sx);
+            focusY_ = wl_fixed_to_int(sy);
+            window->touchDown()(focusX_, focusY_);
+        });
+    touch_->up().connect(
+        [this](uint32_t, uint32_t, int) {
+            // TODO handle id for multiple touch
+            if (auto *window = focus_.get()) {
+                window->touchUp()(focusX_, focusY_);
+                focus_.unwatch();
+                window->leave()();
+            }
+        });
 }
 
 } // namespace fcitx::classicui
