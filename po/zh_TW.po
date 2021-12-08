@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2021-12-03 20:24+0000\n"
+"POT-Creation-Date: 2021-12-08 20:24+0000\n"
 "PO-Revision-Date: 2017-11-23 04:14+0000\n"
 "Last-Translator: bruh, 2020\n"
 "Language-Team: Chinese (Taiwan) (https://www.transifex.com/fcitx/teams/12005/"
@@ -146,8 +146,8 @@ msgid "All libraries for all addons are found."
 msgstr "找到了所有附加元件的函式庫。"
 
 #: data/fcitx5-diagnose.sh:828
-msgid "All locale:"
-msgstr "全部地區設定："
+msgid "All locales:"
+msgstr ""
 
 #: src/modules/xcb/xcbmodule.h:30
 msgid "Allow Overriding System XKB Settings"

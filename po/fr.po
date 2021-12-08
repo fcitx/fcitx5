@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2021-12-03 20:22+0000\n"
+"POT-Creation-Date: 2021-12-08 20:22+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Language-Team: French (https://www.transifex.com/fcitx/teams/12005/fr/)\n"
 "Language: fr\n"
@@ -138,7 +138,7 @@ msgid "All libraries for all addons are found."
 msgstr ""
 
 #: data/fcitx5-diagnose.sh:828
-msgid "All locale:"
+msgid "All locales:"
 msgstr ""
 
 #: src/modules/xcb/xcbmodule.h:30

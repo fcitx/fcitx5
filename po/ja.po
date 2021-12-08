@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2021-12-04 20:24+0000\n"
+"POT-Creation-Date: 2021-12-08 20:24+0000\n"
 "PO-Revision-Date: 2017-11-23 04:14+0000\n"
 "Last-Translator: UTUMI Hirosi <utuhiro78@yahoo.co.jp>, 2021\n"
 "Language-Team: Japanese (https://www.transifex.com/fcitx/teams/12005/ja/)\n"
@@ -145,8 +145,8 @@ msgid "All libraries for all addons are found."
 msgstr "全てのアドオン用ライブラリが見つかりました。"
 
 #: data/fcitx5-diagnose.sh:828
-msgid "All locale:"
-msgstr "すべてのロケール:"
+msgid "All locales:"
+msgstr ""
 
 #: src/modules/xcb/xcbmodule.h:30
 msgid "Allow Overriding System XKB Settings"
