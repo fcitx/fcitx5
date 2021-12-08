@@ -825,7 +825,7 @@ check_env() {
     write_order_list "$(_ 'Locale:')"
     if type locale &> /dev/null; then
         increase_cur_level 1
-        write_order_list "$(_ 'All locale:')"
+        write_order_list "$(_ 'All locales:')"
         write_quote_str "$(locale -a 2> /dev/null)"
         write_order_list "$(_ 'Current locale:')"
         write_quote_str "$(locale 2> /dev/null)"
