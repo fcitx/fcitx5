@@ -47,9 +47,7 @@ WaylandInputWindow::WaylandInputWindow(WaylandUI *ui)
             repaint();
         }
     });
-    window_->touchDown().connect([this](int x, int y) {
-        click(x, y);
-    });
+    window_->touchDown().connect([this](int x, int y) { click(x, y); });
     window_->touchUp().connect([this](int, int) {
         // do nothing
     });

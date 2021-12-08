@@ -70,27 +70,27 @@ void WaylandPointer::initPointer() {
 }
 
 void WaylandPointer::initTouch() {
-    touch_->down().connect(
-        [this](uint32_t, uint32_t, wayland::WlSurface *surface, int, wl_fixed_t sx, wl_fixed_t sy) {
-            // TODO handle id for multiple touch
-            auto *window = static_cast<WaylandWindow *>(surface->userData());
-            if (!window) {
-                return;
-            }
-            touchFocus_ = window->watch();
-            touchFocusX_ = wl_fixed_to_int(sx);
-            touchFocusY_ = wl_fixed_to_int(sy);
-            window->touchDown()(touchFocusX_, touchFocusY_);
-        });
-    touch_->up().connect(
-        [this](uint32_t, uint32_t, int) {
-            // TODO handle id for multiple touch
-            if (auto *window = touchFocus_.get()) {
-                window->touchUp()(touchFocusX_, touchFocusY_);
-                touchFocus_.unwatch();
-                window->leave()();
-            }
-        });
+    touch_->down().connect([this](uint32_t, uint32_t,
+                                  wayland::WlSurface *surface, int,
+                                  wl_fixed_t sx, wl_fixed_t sy) {
+        // TODO handle id for multiple touch
+        auto *window = static_cast<WaylandWindow *>(surface->userData());
+        if (!window) {
+            return;
+        }
+        touchFocus_ = window->watch();
+        touchFocusX_ = wl_fixed_to_int(sx);
+        touchFocusY_ = wl_fixed_to_int(sy);
+        window->touchDown()(touchFocusX_, touchFocusY_);
+    });
+    touch_->up().connect([this](uint32_t, uint32_t, int) {
+        // TODO handle id for multiple touch
+        if (auto *window = touchFocus_.get()) {
+            window->touchUp()(touchFocusX_, touchFocusY_);
+            touchFocus_.unwatch();
+            window->leave()();
+        }
+    });
 }
 
 } // namespace fcitx::classicui
