@@ -271,11 +271,9 @@ _detectDE_XDG_CURRENT() {
             DE=xfce
             return
             ;;
-        Deepin)
+            Deepin)
             DE=deepin
-            ;;
-        *)
-            return 1
+            return
             ;;
         esac
     done
