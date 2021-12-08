@@ -7,7 +7,6 @@ if (ENABLE_DBUS)
     target_link_libraries(xcb Fcitx5::Module::DBus)
 endif()
 
-set_target_properties(xcb PROPERTIES PREFIX "")
 install(TARGETS xcb DESTINATION "${FCITX_INSTALL_ADDONDIR}")
 install(FILES "${CMAKE_CURRENT_BINARY_DIR}/xcb.conf" DESTINATION "${FCITX_INSTALL_PKGDATADIR}/addon")
 endif()

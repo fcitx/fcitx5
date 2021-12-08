@@ -19,9 +19,8 @@ namespace fcitx::classicui {
 
 XCBMenu::XCBMenu(XCBUI *ui, MenuPool *pool, Menu *menu)
     : XCBWindow(ui), pool_(pool), menu_(menu) {
-    auto *fontMap = pango_cairo_font_map_get_default();
-    context_.reset(pango_font_map_create_context(fontMap));
-    ui->fontOption().setupPangoContext(context_.get());
+    fontMap_.reset(pango_cairo_font_map_new());
+    context_.reset(pango_font_map_create_context(fontMap_.get()));
     if (auto *ic = ui_->parent()->instance()->mostRecentInputContext()) {
         lastRelevantIc_ = ic->watch();
     }
@@ -331,8 +330,11 @@ void XCBMenu::update() {
     auto *fontDesc = pango_font_description_from_string(
         ui_->parent()->config().menuFont->c_str());
     pango_context_set_font_description(context_.get(), fontDesc);
+    pango_cairo_font_map_set_resolution(PANGO_CAIRO_FONT_MAP(fontMap_.get()),
+                                        dpi_);
     pango_cairo_context_set_resolution(context_.get(), dpi_);
     pango_font_description_free(fontDesc);
+    ui_->fontOption().setupPangoContext(context_.get());
 
     const auto &textMargin = *theme.menu->textMargin;
     int i = 0;
@@ -390,7 +392,7 @@ void XCBMenu::update() {
         if (item.isSeparator_) {
             item.layoutX_ = width;
             item.layoutY_ = height;
-            height += separator.height();
+            height += (separator.isImage() ? 2 : separator.height());
             prevIsSeparator = true;
             continue;
         }
@@ -440,10 +442,12 @@ void XCBMenu::update() {
         if (item.isSeparator_) {
             cairo_save(c);
             cairo_translate(c, item.layoutX_, item.layoutY_);
+            const ThemeImage &separator =
+                theme.loadBackground(*theme.menu->separator);
             theme.paint(c, *theme.menu->separator,
                         width - *theme.menu->contentMargin->marginLeft -
                             *theme.menu->contentMargin->marginRight,
-                        -1);
+                        (separator.isImage() ? 2 : -1));
             cairo_restore(c);
             continue;
         }

@@ -19,6 +19,7 @@
 #include "fcitx-utils/log.h"
 #include "fcitx-utils/mtime_p.h"
 #include "config.h"
+#include "misc_p.h"
 
 namespace fcitx {
 
@@ -359,14 +360,12 @@ public:
         }
     }
 
-    void loadFile(int fd) { readFromIni(config_, fd); }
-
-    void parse(IconTheme *parent) {
+    void parse(const RawConfig &config, IconTheme *parent) {
         if (!parent) {
             subThemeNames_.insert(internalName_);
         }
 
-        auto section = config_.get("Icon Theme");
+        auto section = config.get("Icon Theme");
         if (!section) {
             // If it's top level theme, make it fallback to hicolor.
             if (!parent) {
@@ -383,7 +382,7 @@ public:
             unmarshallOption(comment_, *commentSection, false);
         }
 
-        auto parseDirectory = [this,
+        auto parseDirectory = [&config,
                                section](const char *name,
                                         std::vector<IconThemeDirectory> &dir) {
             if (auto subConfig = section->get(name)) {
@@ -391,7 +390,7 @@ public:
                 unmarshallOption(directories, *subConfig, false);
                 for (const auto &directory :
                      stringutils::split(directories, ",")) {
-                    if (auto directoryConfig = config_.get(directory)) {
+                    if (auto directoryConfig = config.get(directory)) {
                         try {
                             dir.emplace_back(*directoryConfig);
                         } catch (...) {
@@ -624,7 +623,6 @@ public:
     std::string home_;
     std::string internalName_;
     const StandardPath &standardPath_;
-    RawConfig config_;
     I18NString name_;
     I18NString comment_;
     std::vector<IconTheme> inherits_;
@@ -648,16 +646,17 @@ IconTheme::IconTheme(const std::string &name, IconTheme *parent,
         StandardPath::Type::Data,
         stringutils::joinPath("icons", name, "index.theme"), O_RDONLY);
 
+    RawConfig config;
     for (auto iter = files.rbegin(), end = files.rend(); iter != end; iter++) {
-        d->loadFile(iter->fd());
+        readFromIni(config, iter->fd());
     }
     auto path = stringutils::joinPath(d->home_, ".icons", name, "index.theme");
     auto fd = UnixFD::own(open(path.c_str(), O_RDONLY));
     if (fd.fd() >= 0) {
-        d->loadFile(fd.fd());
+        readFromIni(config, fd.fd());
     }
 
-    d->parse(parent);
+    d->parse(config, parent);
     d->internalName_ = name;
     d->prepare();
 }
@@ -683,54 +682,16 @@ FCITX_DEFINE_READ_ONLY_PROPERTY_PRIVATE(IconTheme, std::string, example);
 std::string IconTheme::findIcon(const std::string &iconName,
                                 unsigned int desiredSize, int scale,
                                 const std::vector<std::string> &extensions) {
-    FCITX_D();
-    return d->findIcon(iconName, desiredSize, scale, extensions);
+    return std::as_const(*this).findIcon(iconName, desiredSize, scale,
+                                         extensions);
 }
 
-enum class DesktopType {
-    KDE5,
-    KDE4,
-    GNOME,
-    Cinnamon,
-    MATE,
-    LXDE,
-    XFCE,
-    Unknown
-};
-
-DesktopType getDesktopType() {
-    std::string desktop;
-    auto *desktopEnv = getenv("XDG_CURRENT_DESKTOP");
-    if (desktopEnv) {
-        desktop = desktopEnv;
-    }
-    if (desktop == "KDE") {
-        auto *version = getenv("KDE_SESSION_VERSION");
-        auto versionInt = 0;
-        if (version) {
-            try {
-                versionInt = std::stoi(version);
-            } catch (...) {
-            }
-        }
-        if (versionInt == 4) {
-            return DesktopType::KDE4;
-        }
-        if (versionInt == 5) {
-            return DesktopType::KDE5;
-        }
-    } else if (desktop == "X-Cinnamon") {
-        return DesktopType::Cinnamon;
-    } else if (desktop == "LXDE") {
-        return DesktopType::LXDE;
-    } else if (desktop == "MATE") {
-        return DesktopType::MATE;
-    } else if (desktop == "Gnome") {
-        return DesktopType::GNOME;
-    } else if (desktop == "XFCE") {
-        return DesktopType::XFCE;
-    }
-    return DesktopType::Unknown;
+std::string
+IconTheme::findIcon(const std::string &iconName, unsigned int desiredSize,
+                    int scale,
+                    const std::vector<std::string> &extensions) const {
+    FCITX_D();
+    return d->findIcon(iconName, desiredSize, scale, extensions);
 }
 
 std::string getKdeTheme(int fd) {
@@ -747,21 +708,7 @@ std::string getKdeTheme(int fd) {
     return "";
 }
 
-std::string getGtk3Theme(int fd) {
-    RawConfig rawConfig;
-    readFromIni(rawConfig, fd);
-    if (auto settings = rawConfig.get("Settings")) {
-        if (auto theme = settings->get("gtk-icon-theme-name")) {
-            if (!theme->value().empty() &&
-                theme->value().find('/') == std::string::npos) {
-                return theme->value();
-            }
-        }
-    }
-    return "";
-}
-
-std::string getGtk2Theme(const std::string &filename) {
+std::string getGtkTheme(const std::string &filename) {
     // Evil Gtk2 use an non standard "ini-like" rc file.
     // Grep it and try to find the line we want ourselves.
     std::ifstream fin(filename, std::ios::in | std::ios::binary);
@@ -771,6 +718,10 @@ std::string getGtk2Theme(const std::string &filename) {
         if (tokens.size() == 2 &&
             stringutils::trim(tokens[0]) == "gtk-icon-theme-name") {
             auto value = stringutils::trim(tokens[1]);
+            if (value.size() >= 2 && value.front() == '"' &&
+                value.back() == '"') {
+                value = value.substr(1, value.size() - 2);
+            }
             if (!value.empty() && value.find('/') == std::string::npos) {
                 return value;
             }
@@ -812,16 +763,15 @@ std::string IconTheme::defaultIconThemeName() {
         return "oxygen";
     }
     default: {
-        auto files = StandardPath::global().openAll(
-            StandardPath::Type::Config, "gtk-3.0/settings.ini", O_RDONLY);
+        auto files = StandardPath::global().locateAll(
+            StandardPath::Type::Config, "gtk-3.0/settings.ini");
         for (auto &file : files) {
-            auto theme = getGtk3Theme(file.fd());
+            auto theme = getGtkTheme(file);
             if (!theme.empty()) {
                 return theme;
             }
         }
-        auto fd = UnixFD::own(open("/etc/gtk-3.0/settings.ini", O_RDONLY));
-        auto theme = getGtk3Theme(fd.fd());
+        auto theme = getGtkTheme("/etc/gtk-3.0/settings.ini");
         if (!theme.empty()) {
             return theme;
         }
@@ -831,7 +781,7 @@ std::string IconTheme::defaultIconThemeName() {
             std::string files[] = {stringutils::joinPath(homeStr, ".gtkrc-2.0"),
                                    "/etc/gtk-2.0/gtkrc"};
             for (auto &file : files) {
-                auto theme = getGtk2Theme(file);
+                auto theme = getGtkTheme(file);
                 if (!theme.empty()) {
                     return theme;
                 }

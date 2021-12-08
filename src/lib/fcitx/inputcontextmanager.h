@@ -34,12 +34,42 @@ public:
     InputContextManager();
     virtual ~InputContextManager();
 
+    /**
+     * Find the input context by UUID.
+     *
+     * This is useful when you want to pass a token from another process to
+     * identify the input context.
+     *
+     * @param uuid UUID of input context.
+     * @return pointer to input context or null if nothing is found.
+     *
+     * @see InputContext::uuid
+     */
     InputContext *findByUUID(ICUUID uuid);
 
+    /**
+     * Set the property propgate policy.
+     *
+     * The policy can be either All, Program or No, to define whether a certain
+     * state need to be copied  to another input context.
+     *
+     * @param policy policy
+     *
+     * @see GlobalConfig::shareInputState
+     */
     void setPropertyPropagatePolicy(PropertyPropagatePolicy policy);
 
     Instance *instance();
 
+    /**
+     * Register a named property for input context.
+     *
+     * This is used to store the per-input context state.
+     *
+     * @param name unique name of input context.
+     * @param factory factory
+     * @return registration successful or not.
+     */
     bool registerProperty(const std::string &name,
                           InputContextPropertyFactory *factory);
 
@@ -47,7 +77,23 @@ public:
     bool foreachFocused(const InputContextVisitor &visitor);
     bool foreachGroup(const FocusGroupVisitor &visitor);
 
+    /**
+     * Get the last focused input context. This is useful for certain UI to get
+     * the most recently used input context.
+     *
+     * @return pointer of the last focused input context or null if there is no
+     * focus.
+     */
     InputContext *lastFocusedInputContext();
+    /**
+     * Get the last used input context. This is useful for certain UI to get the
+     * most recently used input context.
+     *
+     * Certain UI implementation may cause focus out in the application, this is
+     * a way for them to get the input context being used.
+     *
+     * @return fcitx::InputContext*
+     */
     InputContext *mostRecentInputContext();
 
     void setPreeditEnabledByDefault(bool enable);

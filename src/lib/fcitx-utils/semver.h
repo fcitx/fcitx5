@@ -51,8 +51,8 @@ public:
 
     std::string toString() const;
 
-    FCITX_DECLARE_PROPERTY(uint32_t, major, setMajor);
-    FCITX_DECLARE_PROPERTY(uint32_t, minor, setMinor);
+    FCITX_DECLARE_PROPERTY(uint32_t, (major), setMajor);
+    FCITX_DECLARE_PROPERTY(uint32_t, (minor), setMinor);
     FCITX_DECLARE_PROPERTY(uint32_t, patch, setPatch);
     FCITX_DECLARE_PROPERTY(std::vector<PreReleaseId>, preReleaseIds,
                            setPreReleaseIds);

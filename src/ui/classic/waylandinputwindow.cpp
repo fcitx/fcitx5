@@ -47,6 +47,12 @@ WaylandInputWindow::WaylandInputWindow(WaylandUI *ui)
             repaint();
         }
     });
+    window_->touchDown().connect([this](int x, int y) {
+        click(x, y);
+    });
+    window_->touchUp().connect([this](int, int) {
+        // do nothing
+    });
     window_->axis().connect([this](int, int, uint32_t axis, wl_fixed_t value) {
         if (axis != WL_POINTER_AXIS_VERTICAL_SCROLL) {
             return;
@@ -90,6 +96,13 @@ void WaylandInputWindow::resetPanel() { panelSurface_.reset(); }
 
 void WaylandInputWindow::update(fcitx::InputContext *ic) {
     InputWindow::update(ic);
+
+    if (!visible()) {
+        window_->hide();
+        return;
+    }
+
+    assert(!visible() || ic != nullptr);
     if (ic->frontend() == std::string_view("wayland_v2")) {
         if (ic != v2IC_.get()) {
             v2IC_ = ic->watch();
@@ -100,11 +113,6 @@ void WaylandInputWindow::update(fcitx::InputContext *ic) {
         }
     }
     if (!panelSurface_ && !panelSurfaceV2_) {
-        return;
-    }
-
-    if (!visible()) {
-        window_->hide();
         return;
     }
     auto pair = sizeHint();

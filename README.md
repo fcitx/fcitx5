@@ -7,6 +7,7 @@ Fcitx 5 is a generic input method framework released under LGPL-2.1+.
 [![Documentation](https://codedocs.xyz/fcitx/fcitx5.svg)](https://codedocs.xyz/fcitx/fcitx5/)
 
 * Wiki: [https://fcitx-im.org/](https://fcitx-im.org/)
+  - Registration require explicit approval due to the spam, please send an email to the mail list if you do not get approved.
 * Discussion:
   - [fcitx [at] googlegroups.com](https://groups.google.com/g/fcitx)
   - [https://github.com/fcitx/fcitx5/discussions](https://github.com/fcitx/fcitx5/discussions)
@@ -14,3 +15,6 @@ Fcitx 5 is a generic input method framework released under LGPL-2.1+.
   - IRC: [#fcitx [at] libera.chat](https://web.libera.chat/?channels=#fcitx)
 * Bug report: [https://github.com/fcitx/fcitx5/issues](https://github.com/fcitx/fcitx5/issues)
   - You can always report any fcitx 5 issue here, it might be transfer to other repos later.
+* Translation: [https://www.transifex.com/fcitx/](https://www.transifex.com/fcitx/)
+  - Do not send pull request for translation updates.
+  - The translation will be automatically pushed to git repository nightly, but not vice versa. 

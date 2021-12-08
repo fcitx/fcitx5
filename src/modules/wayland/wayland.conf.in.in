@@ -1,7 +1,7 @@
 [Addon]
 Name=Wayland
 Type=SharedLibrary
-Library=wayland
+Library=libwayland
 Category=Module
 Version=@PROJECT_VERSION@
 

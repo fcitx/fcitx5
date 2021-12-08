@@ -66,6 +66,9 @@ void TestFrontend::keyEvent(ICUUID uuid, const Key &key, bool isRelease) {
     if (!ic) {
         return;
     }
+    if (!ic->hasFocus()) {
+        ic->focusIn();
+    }
     KeyEvent keyEvent(ic, key, isRelease);
     ic->keyEvent(keyEvent);
     FCITX_INFO() << "KeyEvent key: " << key.toString()

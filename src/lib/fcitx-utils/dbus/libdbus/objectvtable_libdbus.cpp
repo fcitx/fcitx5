@@ -38,7 +38,7 @@ const std::string &ObjectVTableBasePrivate::getXml(ObjectVTableBase *q) {
                                                type, "\"/>");
             }
             for (auto &type : splitDBusSignature(method->ret())) {
-                p->xml_ += stringutils::concat("<arg direction=\"in\" type=\"",
+                p->xml_ += stringutils::concat("<arg direction=\"out\" type=\"",
                                                type, "\"/>");
             }
             p->xml_ += "</method>";

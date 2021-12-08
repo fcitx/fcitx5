@@ -53,6 +53,7 @@ private:
     std::unordered_map<std::string, std::unique_ptr<XIMServer>> servers_;
     std::unique_ptr<HandlerTableEntry<XCBConnectionCreated>> createdCallback_;
     std::unique_ptr<HandlerTableEntry<XCBConnectionClosed>> closedCallback_;
+    std::unique_ptr<HandlerTableEntry<EventHandler>> updateRootStyleCallback_;
     XIMConfig config_;
 };
 } // namespace fcitx

@@ -11,6 +11,11 @@
 #include <vector>
 #include "fcitxutils_export.h"
 
+/// \addtogroup FcitxUtils
+/// \{
+/// \file
+/// \brief Utility functions for testing
+
 namespace fcitx {
 
 /**

@@ -27,7 +27,6 @@ namespace fcitx {
 
 enum BuiltInIndex {
     BII_InputMethodGroup = 1,
-    BII_InputMethod,
     BII_Separator1,
     BII_Separator2,
     BII_Configure,
@@ -161,8 +160,12 @@ void DBusMenu::fillLayoutItem(
             appendSubItem(subLayoutItems, BII_InputMethodGroup, depth,
                           propertyNames);
         }
-        // Input Method
-        appendSubItem(subLayoutItems, BII_InputMethod, depth, propertyNames);
+        int idx = BII_InputMethodStart;
+        for (const auto &item : imManager.currentGroup().inputMethodList()) {
+            FCITX_UNUSED(item);
+            appendSubItem(subLayoutItems, idx, depth, propertyNames);
+            idx++;
+        }
         // Separator
         appendSubItem(subLayoutItems, BII_Separator1, depth, propertyNames);
         bool hasAction = false;
@@ -188,13 +191,6 @@ void DBusMenu::fillLayoutItem(
         int idx = BII_InputMethodGroupStart;
         for (const auto &group : imManager.groups()) {
             FCITX_UNUSED(group);
-            appendSubItem(subLayoutItems, idx, depth, propertyNames);
-            idx++;
-        }
-    } else if (id == BII_InputMethod) {
-        int idx = BII_InputMethodStart;
-        for (const auto &item : imManager.currentGroup().inputMethodList()) {
-            FCITX_UNUSED(item);
             appendSubItem(subLayoutItems, idx, depth, propertyNames);
             idx++;
         }
@@ -230,12 +226,6 @@ void DBusMenu::fillLayoutProperties(
                        dbus::Variant("submenu"));
     } else if (id <= BII_NormalEnd) {
         switch (id) {
-        case BII_InputMethod:
-            appendProperty(properties, propertyNames, "children-display",
-                           dbus::Variant("submenu"));
-            appendProperty(properties, propertyNames, "label",
-                           dbus::Variant(_("Input Method")));
-            break;
         case BII_InputMethodGroup:
             appendProperty(properties, propertyNames, "children-display",
                            dbus::Variant("submenu"));

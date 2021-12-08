@@ -9,6 +9,7 @@
 #include "focusgroup_p.h"
 #include "inputcontext.h"
 #include "inputcontextmanager.h"
+#include "instance.h"
 
 namespace fcitx {
 
@@ -35,9 +36,14 @@ void FocusGroup::setFocusedInputContext(InputContext *ic) {
     if (d->focus_) {
         d->focus_->setHasFocus(false);
     }
+    auto *oldFocus = d->focus_;
     d->focus_ = ic;
     if (d->focus_) {
         d->focus_->setHasFocus(true);
+    }
+    if (auto *instance = d->manager_.instance()) {
+        instance->postEvent(
+            FocusGroupFocusChangedEvent(this, oldFocus, d->focus_));
     }
 }
 

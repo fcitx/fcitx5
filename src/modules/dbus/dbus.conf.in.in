@@ -1,7 +1,7 @@
 [Addon]
 Name=DBus
 Type=SharedLibrary
-Library=dbus
+Library=libdbus
 Category=Module
 Version=@PROJECT_VERSION@
 

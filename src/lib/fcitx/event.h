@@ -16,39 +16,59 @@
 namespace fcitx {
 
 class InputContext;
+class FocusGroup;
 
-enum class ResetReason { ChangeByInactivate, LostFocus, SwitchIM, Client };
+enum class ResetReason {
+    ChangeByInactivate FCITXCORE_DEPRECATED,
+    LostFocus FCITXCORE_DEPRECATED,
+    SwitchIM FCITXCORE_DEPRECATED,
+    Client
+};
 
+/**
+ * The reason why input method is switched to another.
+ */
 enum class InputMethodSwitchedReason {
+    /// Switched by trigger key
     Trigger,
-    /**
-     * when user press inactivate key, default behavior is commit raw preedit.
-     * If you want to OVERRIDE this behavior, be sure to implement this
-     * function.
-     *
-     * in some case, your implementation of OnClose should respect the value of
-     * [Output/SendTextWhenSwitchEng], when this value is true, commit something
-     * you
-     * want.
-     */
+    /// Switched by deactivate key
     Deactivate,
+    /// Switched by alternative trigger key
     AltTrigger,
+    /// Switched by activate key
     Activate,
+    /// Switched by enumerate key
     Enumerate,
+    /// Switched by group change
     GroupChange,
+    /// Switched by capability change (e.g. password field)
     CapabilityChanged,
+    /// miscellaneous reason
     Other,
 };
 
+/**
+ * Type of input method events.
+ */
 enum class EventType : uint32_t {
     EventTypeFlag = 0xffff0000,
     UserTypeFlag = 0xffff0000,
-    InputContextEventFlag = 0x0001000,
-    InputMethodEventFlag = 0x0002000,
-    InstanceEventFlag = 0x0003000,
     // send by frontend, captured by core, input method, or module
+    InputContextEventFlag = 0x0001000,
+    // send by im, captured by frontend, or module
+    InputMethodEventFlag = 0x0002000,
+
+    /**
+     * captured by everything
+     */
+    InstanceEventFlag = 0x0003000,
     InputContextCreated = InputContextEventFlag | 0x1,
     InputContextDestroyed = InputContextEventFlag | 0x2,
+    /**
+     * FocusInEvent is generated when client gets focused.
+     *
+     * @see FocusInEvent
+     */
     InputContextFocusIn = InputContextEventFlag | 0x3,
     /**
      * when using lost focus
@@ -66,9 +86,19 @@ enum class EventType : uint32_t {
      *
      * Input method need to notice, that the commit is already DONE, do not do
      * extra commit.
+     *
+     * @see FocusOutEvent
      */
     InputContextFocusOut = InputContextEventFlag | 0x4,
+    /**
+     * Key event is generated when client press or release a key.
+     * @see KeyEvent
+     */
     InputContextKeyEvent = InputContextEventFlag | 0x5,
+    /**
+     * ResetEvent is generated
+     *
+     */
     InputContextReset = InputContextEventFlag | 0x6,
     InputContextSurroundingTextUpdated = InputContextEventFlag | 0x7,
     InputContextCapabilityChanged = InputContextEventFlag | 0x8,
@@ -87,23 +117,57 @@ enum class EventType : uint32_t {
     // a valid one.
     InputContextInputMethodActivated = InputContextEventFlag | 0xB,
     InputContextInputMethodDeactivated = InputContextEventFlag | 0xC,
+    /**
+     * InvokeAction event is generated when client click on the preedit.
+     *
+     * Not all client support this feature.
+     *
+     * @since 5.0.11
+     */
+    InputContextInvokeAction = InputContextEventFlag | 0xE,
 
-    // send by im, captured by frontend, or module
     InputContextForwardKey = InputMethodEventFlag | 0x1,
     InputContextCommitString = InputMethodEventFlag | 0x2,
     InputContextDeleteSurroundingText = InputMethodEventFlag | 0x3,
     InputContextUpdatePreedit = InputMethodEventFlag | 0x4,
     InputContextUpdateUI = InputMethodEventFlag | 0x5,
 
-    // send by im or module, captured by ui TODO
-
     /**
-     * captured by everything
+     * This is generated when input method group changed.
      * This would also trigger InputContextSwitchInputMethod afterwards.
      */
     InputMethodGroupChanged = InstanceEventFlag | 0x1,
+    /**
+     * InputMethodGroupAboutToChangeEvent is generated when input method group
+     * is about to bed changed.
+     *
+     * @see InputMethodGroupAboutToChange
+     */
     InputMethodGroupAboutToChange = InstanceEventFlag | 0x2,
+    /**
+     * UIChangedEvent is posted when the UI implementation is changed.
+     */
     UIChanged = InstanceEventFlag | 0x3,
+    /**
+     * CheckUpdateEvent is posted when the Instance is requested to check for
+     * newly installed addons and input methods.
+     *
+     * This can be used for addons to pick up new input methods if it provides
+     * input method at runtime.
+     */
+    CheckUpdate = InstanceEventFlag | 0x4,
+    /**
+     * FocusGroupFocusChanged is posted when a focus group changed its focused
+     * input context.
+     *
+     * This is a more fine grained control over focus in and focus out event.
+     * This is more useful for UI to keep track of what input context is being
+     * focused.
+     *
+     * @see FocusInEvent
+     * @see FocusOutEvent
+     */
+    FocusGroupFocusChanged = InstanceEventFlag | 0x5,
 };
 
 /**
@@ -253,7 +317,7 @@ public:
                        isRelease, time) {}
 
     void filter() { filtered_ = true; }
-    virtual bool filtered() const { return filtered_; }
+    bool filtered() const override { return filtered_; }
     void filterAndAccept() {
         filter();
         accept();
@@ -283,6 +347,28 @@ protected:
     std::string text_;
 };
 
+class FCITXCORE_EXPORT InvokeActionEvent : public InputContextEvent {
+public:
+    enum class Action { LeftClick, RightClick };
+    InvokeActionEvent(Action action, int cursor, InputContext *context)
+        : InputContextEvent(context, EventType::InputContextInvokeAction),
+          action_(action), cursor_(cursor) {}
+
+    Action action() const { return action_; }
+    int cursor() const { return cursor_; }
+
+    void filter() {
+        filtered_ = true;
+        accept();
+    }
+    bool filtered() const override { return filtered_; }
+
+protected:
+    Action action_;
+    int cursor_;
+    bool filtered_ = false;
+};
+
 class FCITXCORE_EXPORT InputContextSwitchInputMethodEvent
     : public InputContextEvent {
 public:
@@ -302,11 +388,14 @@ protected:
 
 class FCITXCORE_EXPORT ResetEvent : public InputContextEvent {
 public:
-    ResetEvent(ResetReason reason, InputContext *context)
+    FCITXCORE_DEPRECATED ResetEvent(ResetReason reason, InputContext *context)
         : InputContextEvent(context, EventType::InputContextReset),
           reason_(reason) {}
+    ResetEvent(InputContext *context)
+        : InputContextEvent(context, EventType::InputContextReset),
+          reason_(ResetReason::Client) {}
 
-    ResetReason reason() const { return reason_; }
+    FCITXCORE_DEPRECATED ResetReason reason() const { return reason_; }
 
 protected:
     ResetReason reason_;
@@ -385,6 +474,44 @@ public:
 class FCITXCORE_EXPORT UIChangedEvent : public Event {
 public:
     UIChangedEvent() : Event(EventType::UIChanged) {}
+};
+
+class FCITXCORE_EXPORT CheckUpdateEvent : public Event {
+public:
+    CheckUpdateEvent() : Event(EventType::CheckUpdate) {}
+
+    /// Make checking update short circuit. If anything need a refresh, just
+    /// simply break.
+    void setHasUpdate() {
+        filtered_ = true;
+        accept();
+    }
+    bool filtered() const override { return filtered_; }
+
+private:
+    bool filtered_ = false;
+};
+
+/**
+ * Notify a focus change for focus group.
+ *
+ * @since 5.0.11
+ */
+class FCITXCORE_EXPORT FocusGroupFocusChangedEvent : public Event {
+public:
+    FocusGroupFocusChangedEvent(FocusGroup *group, InputContext *oldFocus,
+                                InputContext *newFocus)
+        : Event(EventType::FocusGroupFocusChanged), group_(group),
+          oldFocus_(oldFocus), newFocus_(newFocus) {}
+
+    FocusGroup *group() const { return group_; }
+    InputContext *oldFocus() const { return oldFocus_; };
+    InputContext *newFocus() const { return newFocus_; };
+
+private:
+    FocusGroup *group_;
+    InputContext *oldFocus_;
+    InputContext *newFocus_;
 };
 
 class FCITXCORE_EXPORT CapabilityEvent : public InputContextEvent {

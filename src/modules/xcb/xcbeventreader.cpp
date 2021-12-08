@@ -15,8 +15,12 @@ XCBEventReader::XCBEventReader(XCBConnection *conn) : conn_(conn) {
 }
 
 XCBEventReader::~XCBEventReader() {
-    dispatcherToWorker_.schedule([this]() { event_->exit(); });
-    thread_->join();
+    if (thread_->joinable()) {
+        dispatcherToWorker_.schedule([dispatcher = &dispatcherToWorker_]() {
+            dispatcher->eventLoop()->exit();
+        });
+        thread_->join();
+    }
 }
 
 auto nextXCBEvent(xcb_connection_t *conn, IOEventFlags flags) {
@@ -31,6 +35,7 @@ bool XCBEventReader::onIOEvent(IOEventFlags flags) {
         return false;
     }
     if (int err = xcb_connection_has_error(conn_->connection())) {
+        hadError_ = true;
         FCITX_WARN() << "XCB connection \"" << conn_->name()
                      << "\" got error: " << err;
         dispatcherToMain_.schedule([this]() {
@@ -65,25 +70,25 @@ void XCBEventReader::wakeUp() {
 }
 
 void XCBEventReader::run() {
-    event_ = std::make_unique<EventLoop>();
-    dispatcherToWorker_.attach(event_.get());
+    EventLoop event;
+    dispatcherToWorker_.attach(&event);
 
     FCITX_XCB_DEBUG() << "Start XCBEventReader thread";
 
     int fd = xcb_get_file_descriptor(conn_->connection());
-    auto ioEvent = event_->addIOEvent(
-        fd, IOEventFlag::In, [this](EventSource *src, int, IOEventFlags flags) {
+    auto ioEvent = event.addIOEvent(
+        fd, IOEventFlag::In,
+        [this, &event](EventSource *, int, IOEventFlags flags) {
             if (!onIOEvent(flags)) {
-                src->setEnabled(false);
+                event.exit();
             }
             return true;
         });
-    event_->exec();
+    event.exec();
     ioEvent.reset();
     dispatcherToWorker_.detach();
 
     FCITX_XCB_DEBUG() << "End XCBEventReader thread";
-    event_.reset();
 }
 
 } // namespace fcitx

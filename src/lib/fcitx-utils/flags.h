@@ -56,7 +56,7 @@ public:
     }
 
     constexpr bool operator!() const { return !flags_; }
-    Flags &operator&=(Flags flag) {
+    constexpr Flags &operator&=(Flags flag) {
         flags_ &= flag.flags_;
         return *this;
     }
@@ -68,7 +68,7 @@ public:
         flags_ |= flag.flags_;
         return *this;
     }
-    Flags &operator|=(Enum flag) {
+    constexpr Flags &operator|=(Enum flag) {
         flags_ |= static_cast<storage_type>(flag);
         return *this;
     }

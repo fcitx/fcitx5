@@ -208,6 +208,12 @@ if type dbus-send &> /dev/null; then
             "string:$1" 2> /dev/null) || return 1
         echo -n "${pid##* }"
     }
+    dbus_debuginfo() {
+        local debuginfo
+        debuginfo=$(dbus-send --print-reply=literal --dest=org.fcitx.Fcitx5 \
+            /controller org.fcitx.Fcitx.Controller1.DebugInfo 2> /dev/null) || return 1
+        echo -n "${debuginfo}"
+    }
 elif qdbus_exe=$(which qdbus 2> /dev/null) || \
         qdbus_exe=$(which qdbus-qt4 2> /dev/null) || \
         qdbus_exe=$(which qdbus-qt5 2> /dev/null); then
@@ -219,6 +225,10 @@ elif qdbus_exe=$(which qdbus 2> /dev/null) || \
     dbus_get_pid() {
         "${qdbus_exe}" org.freedesktop.DBus /org/freedesktop/DBus \
             org.freedesktop.DBus.GetConnectionUnixProcessID "$1" 2> /dev/null
+    }
+    dbus_debuginfo() {
+        "${qdbus_exe}" org.fcitx.Fcitx5 /controller \
+            org.fcitx.Fcitx.Controller1.DebugInfo 2> /dev/null
     }
 else
     dbus_exe=
@@ -243,18 +253,23 @@ print_process_info() {
 # Detect DE
 
 _detectDE_XDG_CURRENT() {
-    case "${XDG_CURRENT_DESKTOP}" in
-        GNOME)
+    for desktop in $(echo "${XDG_CURRENT_DESKTOP}" | tr ":" "\n"); do
+        case "${desktop}" in
+            GNOME)
             DE=gnome
+            return
             ;;
-        KDE)
+            KDE)
             DE=kde
+            return
             ;;
-        LXDE)
+            LXDE)
             DE=lxde
+            return
             ;;
-        XFCE)
+            XFCE)
             DE=xfce
+            return
             ;;
         Deepin)
             DE=deepin
@@ -262,7 +277,9 @@ _detectDE_XDG_CURRENT() {
         *)
             return 1
             ;;
-    esac
+        esac
+    done
+    return 1
 }
 
 _detectDE_classic() {
@@ -791,6 +808,7 @@ check_env() {
     write_title 1 "$(_ 'Environment:')"
     write_order_list "DISPLAY:"
     write_quote_str "DISPLAY='${DISPLAY}'"
+    write_quote_str "WAYLAND_DISPLAY='${WAYLAND_DISPLAY}'"
     write_order_list "$(_ 'Keyboard Layout:')"
     increase_cur_level 1
     write_order_list "$(code_inline setxkbmap):"
@@ -960,6 +978,10 @@ check_fcitx() {
         else
             write_error_eval "$(_ 'Cannot find pid of DBus name ${1} owner.')" \
                              "$(code_inline "${dbus_name}")"
+        fi
+        if [[ -n ${owner_name} ]]; then
+            write_eval "$(_ 'Debug information from dbus:')"
+            write_quote_str "$(dbus_debuginfo)"
         fi
     else
         write_error "$(_ "Unable to find a program to check dbus.")"
@@ -1546,7 +1568,9 @@ check_modules() {
     local enabled_ui_name=()
     local enabled_ui=()
     local addon_file
+    local addon_version
     local name
+    local version
     local id
     local enable
     local _enable
@@ -1554,6 +1578,7 @@ check_modules() {
     local addon_name
     declare -A addon_file
     declare -A disabled_addon_config
+    declare -A addon_version
     if [ ! -d "${addon_conf_dir}" ]; then
       write_error_eval "$(_ 'Cannot find ${1} addon config directory.')" fcitx5
       return
@@ -1574,6 +1599,10 @@ check_modules() {
                 "$(code_inline "${file}")"
             continue
         fi
+        if ! version=$(get_from_config_file "${file}" Version); then
+            version=
+        fi
+        addon_version["${name}"]="${version}"
         enable=
         # This is O(M*N) but I don't care...
         for addon_name in "${disabled_addon_config[@]}"; do
@@ -1601,12 +1630,20 @@ check_modules() {
     write_order_list_eval "$(_ 'Found ${1} enabled addons:')" \
         "${#enabled_addon[@]}"
     [ "${#enabled_addon[@]}" = 0 ] || {
-        write_quote_cmd print_array "${enabled_addon[@]}"
+        local addon_list=()
+        for addon_name in "${enabled_addon[@]}"; do
+            array_push addon_list "${addon_name} ${addon_version[${addon_name}]}"
+        done
+        write_quote_cmd print_array "${addon_list[@]}"
     }
     write_order_list_eval "$(_ 'Found ${1} disabled addons:')" \
         "${#disabled_addon[@]}"
     [ "${#disabled_addon[@]}" = 0 ] || {
-        write_quote_cmd print_array "${disabled_addon[@]}"
+        local addon_list=()
+        for addon_name in "${disabled_addon[@]}"; do
+            array_push addon_list "${addon_name} ${addon_version[${addon_name}]}"
+        done
+        write_quote_cmd print_array "${addon_list[@]}"
     }
     increase_cur_level -1
     write_order_list_eval "$(_ 'Addon Libraries:')"
@@ -1663,62 +1700,14 @@ check_modules() {
 }
 
 check_input_methods() {
-    return
-    # TODO
-    # write_title 2 "$(_ 'Input Methods:')"
-    # local IFS=','
-    # local imlist=($(get_from_config_file \
-    #     ${fx_conf_home}/profile EnabledIMList)) || {
-    #     write_error_eval "$(_ 'Cannot read im list from ${1} profile.')" fcitx5
-    #     return 0
-    # }
-    # local enabled_im=()
-    # local disabled_im=()
-    # local im
-    # local name
-    # local enable
-    # for im in "${imlist[@]}"; do
-    #     [[ $im =~ ^([^:]+):(True|False)$ ]] || {
-    #         write_error_eval "$(_ 'Invalid item ${1} in im list.')" \
-    #             "${im}"
-    #         continue
-    #     }
-    #     name="${BASH_REMATCH[1]}"
-    #     if [ "${BASH_REMATCH[2]}" = True ]; then
-    #         enabled_im=("${enabled_im[@]}" "${name}")
-    #     else
-    #         disabled_im=("${disabled_im[@]}" "${name}")
-    #     fi
-    # done
-    # write_order_list_eval "$(_ 'Found ${1} enabled input methods:')" \
-    #     "${#enabled_im[@]}"
-    # [ "${#enabled_im[@]}" = 0 ] || {
-    #     write_quote_cmd print_array "${enabled_im[@]}"
-    # }
-    # write_order_list "$(_ 'Default input methods:')"
-    # case "${#enabled_im[@]}" in
-    #     0)
-    #         write_error "$(_ "You don't have any input methods enabled.")"
-    #         ;;
-    #     1)
-    #         if [[ ${enabled_im[0]} =~ ^fcitx-keyboard- ]]; then
-    #             write_eval "$(_ 'You only have one keyboard input method enabled. You may want to add another input method to input other languages.')"
-    #         else
-    #             write_error "$(_ 'You only have one input method enabled, please add a keyboard input method as the first one and your main input method as the second one.')"
-    #         fi
-    #         ;;
-    #     *)
-    #         if [[ ${enabled_im[0]} =~ ^fcitx-keyboard- ]]; then
-    #             write_eval \
-    #                 "$(_ 'You have a keyboard input method "${1}" correctly added as your default input method.')" \
-    #                 "${enabled_im[0]}"
-    #         else
-    #             write_error_eval \
-    #                 "$(_ 'Your first (default) input method is ${1} instead of a keyboard input method. You may have trouble deactivate fcitx.')" \
-    #                 "${enabled_im[0]}"
-    #         fi
-    #         ;;
-    # esac
+    write_title 2 "$(_ 'Input Methods:')"
+    write_order_list "$(code_inline "${fx_conf_home}/profile"):"
+    if [ -f "${fx_conf_home}/profile" ]; then
+        write_quote_cmd cat "${fx_conf_home}/profile"
+    else
+        write_paragraph \
+            "$(print_not_found "${fx_conf_pretty_home}/profile")"
+    fi
 }
 
 
@@ -1809,3 +1798,7 @@ check_config_ui
     write_title 1 "$(_ 'Log:')"
     check_log
 }
+
+set_cur_level -1
+write_error "$(_ 'Warning: the output of fcitx5-diagnose contains sensitive information, including the distribution name, kernel version, name of currently running programs, etc.')"
+write_error "$(_ 'Though such information can be helpful to developers for diagnostic purpose, please double check and remove as necessary before posting it online publicly.')"

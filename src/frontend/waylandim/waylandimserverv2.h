@@ -41,6 +41,7 @@ public:
     void remove(wayland::WlSeat *seat);
     Instance *instance();
     FocusGroup *group() { return group_; }
+    auto *xkbState() { return state_.get(); }
     auto *inputMethodManagerV2() { return inputMethodManagerV2_.get(); }
 
 private:
@@ -53,6 +54,7 @@ private:
         virtualKeyboardManagerV1_;
 
     UniqueCPtr<struct xkb_context, xkb_context_unref> context_;
+    std::vector<char> keymapData_;
     UniqueCPtr<struct xkb_keymap, xkb_keymap_unref> keymap_;
     UniqueCPtr<struct xkb_state, xkb_state_unref> state_;
 
@@ -96,16 +98,12 @@ protected:
         ic_->commit(serial_);
     }
     void deleteSurroundingTextImpl(int offset, unsigned int size) override {
-        ic_->deleteSurroundingText(offset, size);
+        ic_->deleteSurroundingText(-offset, offset + size);
         ic_->commit(serial_);
     }
-    void forwardKeyImpl(const ForwardKeyEvent &key) override {
-        vk_->key(time_, key.rawKey().code(),
-                 key.isRelease() ? WL_KEYBOARD_KEY_STATE_RELEASED
-                                 : WL_KEYBOARD_KEY_STATE_PRESSED);
-    }
+    void forwardKeyImpl(const ForwardKeyEvent &key) override;
 
-    virtual void updatePreeditImpl() override;
+    void updatePreeditImpl() override;
 
 private:
     void repeat();
@@ -113,7 +111,6 @@ private:
                                  uint32_t anchor);
     void resetCallback();
     void contentTypeCallback(uint32_t hint, uint32_t purpose);
-    void invokeActionCallback(uint32_t button, uint32_t index);
     void commitStateCallback(uint32_t serial);
 
     void keymapCallback(uint32_t format, int32_t fd, uint32_t size);

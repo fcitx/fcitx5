@@ -15,6 +15,7 @@
 #include "fcitx/inputcontextmanager.h"
 #include "fcitx/instance.h"
 #include "fcitx/userinterfacemanager.h"
+#include "common.h"
 #include "notificationitem_public.h"
 #ifdef ENABLE_X11
 #include "xcbui.h"
@@ -144,7 +145,11 @@ UIInterface *ClassicUI::uiForInputContext(InputContext *inputContext) {
     if (!inputContext->hasFocus()) {
         return nullptr;
     }
-    auto iter = uis_.find(inputContext->display());
+    return uiForDisplay(inputContext->display());
+}
+
+UIInterface *ClassicUI::uiForDisplay(const std::string &display) {
+    auto iter = uis_.find(display);
     if (iter == uis_.end()) {
         return nullptr;
     }
@@ -213,6 +218,17 @@ void ClassicUI::resume() {
                     return true;
                 });
         }));
+    eventHandlers_.emplace_back(instance_->watchEvent(
+        EventType::FocusGroupFocusChanged, EventWatcherPhase::Default,
+        [this](Event &event) {
+            auto &focusEvent =
+                static_cast<FocusGroupFocusChangedEvent &>(event);
+            if (!focusEvent.newFocus()) {
+                if (auto ui = uiForDisplay(focusEvent.group()->display())) {
+                    ui->update(UserInterfaceComponent::InputPanel, nullptr);
+                }
+            }
+        }));
 }
 
 void ClassicUI::update(UserInterfaceComponent component,
@@ -252,10 +268,9 @@ public:
         return new ClassicUI(manager->instance());
     }
 };
-} // namespace fcitx::classicui
 
 const fcitx::Configuration *
-fcitx::classicui::ClassicUI::getSubConfig(const std::string &path) const {
+ClassicUI::getSubConfig(const std::string &path) const {
     if (!stringutils::startsWith(path, "theme/")) {
         return nullptr;
     }
@@ -273,8 +288,8 @@ fcitx::classicui::ClassicUI::getSubConfig(const std::string &path) const {
     return &subconfigTheme_;
 }
 
-void fcitx::classicui::ClassicUI::setSubConfig(const std::string &path,
-                                               const fcitx::RawConfig &config) {
+void ClassicUI::setSubConfig(const std::string &path,
+                             const fcitx::RawConfig &config) {
     if (!stringutils::startsWith(path, "theme/")) {
         return;
     }
@@ -292,5 +307,22 @@ void fcitx::classicui::ClassicUI::setSubConfig(const std::string &path,
     safeSaveAsIni(theme, StandardPath::Type::PkgData,
                   stringutils::joinPath("themes", name, "theme.conf"));
 }
+
+std::vector<unsigned char> ClassicUI::labelIcon(const std::string &label,
+                                                unsigned int size) {
+    std::vector<unsigned char> data;
+    auto stride = cairo_format_stride_for_width(CAIRO_FORMAT_ARGB32, size);
+    data.resize(stride * size);
+    UniqueCPtr<cairo_surface_t, cairo_surface_destroy> image;
+    image.reset(cairo_image_surface_create_for_data(
+        data.data(), CAIRO_FORMAT_ARGB32, size, size, stride));
+    ThemeImage::drawTextIcon(image.get(), label, size, config_);
+    image.reset();
+    return data;
+}
+
+bool ClassicUI::preferTextIcon() const { return *config_.preferTextIcon; }
+
+} // namespace fcitx::classicui
 
 FCITX_ADDON_FACTORY(fcitx::classicui::ClassicUIFactory);

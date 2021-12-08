@@ -27,12 +27,8 @@
 namespace fcitx {
 
 bool isKDE() {
-    std::string desktop;
-    auto *desktopEnv = getenv("XDG_CURRENT_DESKTOP");
-    if (desktopEnv) {
-        desktop = desktopEnv;
-    }
-    return desktop == "KDE";
+    static const DesktopType desktop = getDesktopType();
+    return desktop == DesktopType::KDE4 || desktop == DesktopType::KDE5;
 }
 
 enum class CursorRectMethod {
@@ -247,6 +243,19 @@ void Kimpanel::resume() {
             auto &icEvent = static_cast<InputContextEvent &>(event);
             registerAllProperties(icEvent.inputContext());
             updateCurrentInputMethod(icEvent.inputContext());
+        }));
+    eventHandlers_.emplace_back(instance_->watchEvent(
+        EventType::FocusGroupFocusChanged, EventWatcherPhase::Default,
+        [this](Event &event) {
+            auto &focusEvent =
+                static_cast<FocusGroupFocusChangedEvent &>(event);
+            if (!focusEvent.newFocus() &&
+                lastInputContext_.get() == focusEvent.oldFocus()) {
+                proxy_->showAux(false);
+                proxy_->showPreedit(false);
+                proxy_->showLookupTable(false);
+                bus_->flush();
+            }
         }));
 }
 

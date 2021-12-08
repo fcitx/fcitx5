@@ -11,12 +11,16 @@
 #include "fcitx-utils/charutils.h"
 #include "fcitx-utils/dbus/message.h"
 #include "fcitx-utils/dbus/objectvtable.h"
+#include "fcitx-utils/endian_p.h"
 #include "fcitx-utils/fs.h"
 #include "fcitx-utils/i18n.h"
 #include "fcitx/addonfactory.h"
 #include "fcitx/addonmanager.h"
 #include "fcitx/inputmethodengine.h"
 #include "fcitx/inputmethodentry.h"
+#include "fcitx/inputmethodmanager.h"
+#include "fcitx/misc_p.h"
+#include "classicui_public.h"
 #include "dbusmenu.h"
 
 #define NOTIFICATION_ITEM_DBUS_IFACE "org.kde.StatusNotifierItem"
@@ -33,13 +37,10 @@ namespace fcitx {
 
 namespace {
 bool isKDE() {
-    std::string_view desktop;
-    auto *desktopEnv = getenv("XDG_CURRENT_DESKTOP");
-    if (desktopEnv) {
-        desktop = desktopEnv;
-    }
-    return (desktop == "KDE");
+    static const DesktopType desktop = getDesktopType();
+    return desktop == DesktopType::KDE4 || desktop == DesktopType::KDE5;
 }
+
 } // namespace
 
 class StatusNotifierItem : public dbus::ObjectVTable<StatusNotifierItem> {
@@ -84,19 +85,7 @@ public:
         return IconTheme::iconName(icon, inFlatpak_);
     }
 
-    std::string label() {
-        if (!parent_->config().showLabel.value()) {
-            return "";
-        }
-        if (auto *ic = parent_->instance()->lastFocusedInputContext()) {
-            if (const auto *entry = parent_->instance()->inputMethodEntry(ic)) {
-                if (entry->isKeyboard() || entry->icon().empty()) {
-                    return entry->label();
-                }
-            }
-        }
-        return "";
-    }
+    std::string label() { return ""; }
 
     static dbus::DBusStruct<
         std::string,
@@ -104,6 +93,14 @@ public:
         std::string, std::string>
     tooltip() {
         return {};
+    }
+
+    bool preferTextIcon(const std::string &label, const std::string &icon) {
+        auto classicui = parent_->classicui();
+        return classicui && !label.empty() &&
+               ((icon == "input-keyboard" &&
+                 hasTwoKeyboardInCurrentGroup(parent_->instance())) ||
+                classicui->call<IClassicUI::preferTextIcon>());
     }
 
     FCITX_OBJECT_VTABLE_METHOD(scroll, "Scroll", "is", "");
@@ -126,12 +123,50 @@ public:
     FCITX_OBJECT_VTABLE_PROPERTY(status, "Status", "s",
                                  []() { return "Active"; });
     FCITX_OBJECT_VTABLE_PROPERTY(windowId, "WindowId", "u", []() { return 0; });
-    FCITX_OBJECT_VTABLE_PROPERTY(iconName, "IconName", "s",
-                                 [this]() { return iconName(); });
     FCITX_OBJECT_VTABLE_PROPERTY(
-        iconPixmap, "IconPixmap", "a(iiay)", ([]() {
-            return std::vector<
-                dbus::DBusStruct<int, int, std::vector<uint8_t>>>{};
+        iconName, "IconName", "s", ([this]() {
+            std::string label, icon;
+            if (auto *ic = parent_->instance()->lastFocusedInputContext()) {
+                label = parent_->instance()->inputMethodLabel(ic);
+                icon = parent_->instance()->inputMethodIcon(ic);
+            }
+            return preferTextIcon(label, icon) ? "" : iconName();
+        }));
+    FCITX_OBJECT_VTABLE_PROPERTY(
+        iconPixmap, "IconPixmap", "a(iiay)", ([this]() {
+            std::vector<dbus::DBusStruct<int, int, std::vector<uint8_t>>>
+                result;
+
+            std::string label, icon;
+            if (auto *ic = parent_->instance()->lastFocusedInputContext()) {
+                label = parent_->instance()->inputMethodLabel(ic);
+                icon = parent_->instance()->inputMethodIcon(ic);
+            }
+            auto classicui = parent_->classicui();
+            if (preferTextIcon(label, icon)) {
+                if (lastLabel_ == label) {
+                    result = lastLabelIcon_;
+                } else {
+                    for (unsigned int size : {16, 22, 32, 48}) {
+                        // swap to network byte order if we are little endian
+                        auto data =
+                            classicui->call<IClassicUI::labelIcon>(label, size);
+                        if (isLittleEndian()) {
+                            uint32_t *uintBuf =
+                                reinterpret_cast<uint32_t *>(data.data());
+                            for (size_t i = 0;
+                                 i < data.size() / sizeof(uint32_t); ++i) {
+                                *uintBuf = htobe32(*uintBuf);
+                                ++uintBuf;
+                            }
+                        }
+                        result.emplace_back(size, size, std::move(data));
+                    }
+                    lastLabel_ = label;
+                    lastLabelIcon_ = result;
+                }
+            }
+            return result;
         }));
     FCITX_OBJECT_VTABLE_PROPERTY(overlayIconName, "OverlayIconName", "s",
                                  ([]() { return ""; }));
@@ -169,6 +204,10 @@ private:
     NotificationItem *parent_;
     int deltaAcc_ = 0;
     const bool inFlatpak_ = fs::isreg("/.flatpak-info");
+    // Quick cache for the icon.
+    std::string lastLabel_;
+    std::vector<dbus::DBusStruct<int, int, std::vector<uint8_t>>>
+        lastLabelIcon_;
 };
 
 NotificationItem::NotificationItem(Instance *instance)
@@ -187,10 +226,6 @@ NotificationItem::~NotificationItem() = default;
 
 dbus::Bus *NotificationItem::globalBus() {
     return dbus()->call<IDBusModule::bus>();
-}
-
-void NotificationItem::reloadConfig() {
-    readAsIni(config_, "conf/notificationitem.conf");
 }
 
 void NotificationItem::setSerivceName(const std::string &newName) {

@@ -245,7 +245,8 @@ bool XCBConnection::filterEvent(xcb_connection_t *,
         if (client_message->window == serverWindow_ &&
             client_message->format == 8 && client_message->type == atom_) {
             ICUUID uuid;
-            memcpy(uuid.data(), client_message->data.data8, uuid.size());
+            std::copy(client_message->data.data8,
+                      client_message->data.data8 + 16, uuid.begin());
             InputContext *ic =
                 parent_->instance()->inputContextManager().findByUUID(uuid);
             if (ic) {

@@ -125,6 +125,7 @@ struct InputState : public InputContextProperty {
             xkb_compose_state_reset(xkbComposeState_.get());
         }
 #endif
+        pendingGroupIndex_ = 0;
         keyReleased_ = -1;
         lastKeyPressed_ = Key();
         totallyReleased_ = true;
@@ -167,6 +168,7 @@ struct InputState : public InputContextProperty {
     Key lastKeyPressed_;
     bool totallyReleased_ = true;
     bool firstTrigger_ = false;
+    size_t pendingGroupIndex_ = 0;
 
     std::string lastIM_;
 
@@ -408,6 +410,36 @@ public:
         }
         auto *inputState = ic->propertyFor(&inputStateFactory_);
         return inputState->isActive();
+    }
+
+    void navigateGroup(InputContext *ic, bool forward) {
+        auto *inputState = ic->propertyFor(&inputStateFactory_);
+        inputState->pendingGroupIndex_ =
+            (inputState->pendingGroupIndex_ +
+             (forward ? 1 : imManager_.groupCount() - 1)) %
+            imManager_.groupCount();
+        FCITX_DEBUG() << "Switch to group " << inputState->pendingGroupIndex_;
+
+        if (notifications_) {
+            notifications_->call<INotifications::showTip>(
+                "enumerate-group", _("Input Method"), "input-keyboard",
+                _("Switch group"),
+                fmt::format(
+                    _("Switch group to {0}"),
+                    imManager_.groups()[inputState->pendingGroupIndex_]),
+                3000);
+        }
+    }
+
+    void acceptGroupChange(InputContext *ic) {
+        FCITX_DEBUG() << "Accept group change";
+
+        auto *inputState = ic->propertyFor(&inputStateFactory_);
+        auto groups = imManager_.groups();
+        if (groups.size() > inputState->pendingGroupIndex_) {
+            imManager_.setCurrentGroup(groups[inputState->pendingGroupIndex_]);
+        }
+        inputState->pendingGroupIndex_ = 0;
     }
 
     InstanceArgument arg_;
@@ -856,22 +888,10 @@ Instance::Instance(int argc, char **argv) {
                  [this, ic](bool) { return enumerate(ic, false); }},
                 {d->globalConfig_.enumerateGroupForwardKeys(),
                  [this]() { return canChangeGroup(); },
-                 [this, ic, d](bool) {
-                     auto *inputState = ic->propertyFor(&d->inputStateFactory_);
-                     if (inputState->imChanged_) {
-                         inputState->imChanged_->ignore();
-                     }
-                     return enumerateGroup(true);
-                 }},
+                 [ic, d](bool) { return d->navigateGroup(ic, true); }},
                 {d->globalConfig_.enumerateGroupBackwardKeys(),
                  [this]() { return canChangeGroup(); },
-                 [this, ic, d](bool) {
-                     auto *inputState = ic->propertyFor(&d->inputStateFactory_);
-                     if (inputState->imChanged_) {
-                         inputState->imChanged_->ignore();
-                     }
-                     return enumerateGroup(true);
-                 }},
+                 [ic, d](bool) { return d->navigateGroup(ic, false); }},
             };
 
             auto *inputState = ic->propertyFor(&d->inputStateFactory_);
@@ -905,6 +925,15 @@ Instance::Instance(int argc, char **argv) {
                 }
             }
 
+            if (inputState->pendingGroupIndex_ &&
+                inputState->totallyReleased_) {
+                auto *inputState = ic->propertyFor(&d->inputStateFactory_);
+                if (inputState->imChanged_) {
+                    inputState->imChanged_->ignore();
+                }
+                d->acceptGroupChange(ic);
+            }
+
             if (!keyEvent.filtered() && !keyEvent.isRelease()) {
                 int idx = 0;
                 for (auto &keyHandler : keyHandlers) {
@@ -936,7 +965,6 @@ Instance::Instance(int argc, char **argv) {
                 keyEvent.key().checkKeyList(
                     d->globalConfig_.togglePreeditKeys())) {
                 ic->setEnablePreedit(!ic->isPreeditEnabled());
-                FCITX_INFO() << ic->capabilityFlags();
                 if (d->notifications_) {
                     d->notifications_->call<INotifications::showTip>(
                         "toggle-preedit", _("Input Method"), "", _("Preedit"),
@@ -950,6 +978,8 @@ Instance::Instance(int argc, char **argv) {
     d->eventWatchers_.emplace_back(d->watchEvent(
         EventType::InputContextKeyEvent, EventWatcherPhase::ReservedFirst,
         [d](Event &event) {
+            // Update auto save.
+            d->idleStartTimestamp_ = now(CLOCK_MONOTONIC);
             auto &keyEvent = static_cast<KeyEvent &>(event);
             auto *ic = keyEvent.inputContext();
             auto *inputState = ic->propertyFor(&d->inputStateFactory_);
@@ -962,10 +992,11 @@ Instance::Instance(int argc, char **argv) {
             if (xkbState) {
                 if (auto *mods = findValue(d->stateMask_, ic->display())) {
                     FCITX_DEBUG() << "Update mask to customXkbState";
-                    // Keep depressed, but propagate latched and locked.
+                    // Keep depressed, latched, but propagate locked.
                     auto depressed = xkb_state_serialize_mods(
                         xkbState, XKB_STATE_MODS_DEPRESSED);
-                    auto latched = std::get<1>(*mods);
+                    auto latched = xkb_state_serialize_mods(
+                        xkbState, XKB_STATE_MODS_LATCHED);
                     auto locked = std::get<2>(*mods);
 
                     // set modifiers in depressed if they don't appear in any of
@@ -976,10 +1007,11 @@ Instance::Instance(int argc, char **argv) {
                     xkb_state_update_mask(xkbState, depressed, latched, locked,
                                           0, 0, 0);
                 }
-                FCITX_DEBUG() << "XkbState update key";
-                xkb_state_update_key(xkbState, keyEvent.rawKey().code(),
-                                     keyEvent.isRelease() ? XKB_KEY_UP
-                                                          : XKB_KEY_DOWN);
+                const uint32_t effective = xkb_state_serialize_mods(
+                    xkbState, XKB_STATE_MODS_EFFECTIVE);
+                auto newSym = xkb_state_key_get_one_sym(
+                    xkbState, keyEvent.rawKey().code());
+                auto newModifier = KeyStates(effective);
 
                 const uint32_t modsDepressed = xkb_state_serialize_mods(
                     xkbState, XKB_STATE_MODS_DEPRESSED);
@@ -987,14 +1019,11 @@ Instance::Instance(int argc, char **argv) {
                     xkb_state_serialize_mods(xkbState, XKB_STATE_MODS_LATCHED);
                 const uint32_t modsLocked =
                     xkb_state_serialize_mods(xkbState, XKB_STATE_MODS_LOCKED);
-                FCITX_DEBUG() << "Current mods" << modsDepressed << modsLatched
-                              << modsLocked;
-                auto newSym = xkb_state_key_get_one_sym(
-                    xkbState, keyEvent.rawKey().code());
-                auto newModifier = keyEvent.rawKey().states();
+                FCITX_KEYTRACE() << "Current mods: " << modsDepressed << " "
+                                 << modsLatched << " " << modsLocked;
                 auto newCode = keyEvent.rawKey().code();
                 Key key(static_cast<KeySym>(newSym), newModifier, newCode);
-                FCITX_DEBUG()
+                FCITX_KEYTRACE()
                     << "Custom Xkb translated Key: " << key.toString();
                 keyEvent.setRawKey(key);
             }
@@ -1017,6 +1046,18 @@ Instance::Instance(int argc, char **argv) {
                        }
                        engine->keyEvent(*entry, keyEvent);
                    }));
+    d->eventWatchers_.emplace_back(watchEvent(
+        EventType::InputContextInvokeAction, EventWatcherPhase::InputMethod,
+        [this](Event &event) {
+            auto &invokeActionEvent = static_cast<InvokeActionEvent &>(event);
+            auto *ic = invokeActionEvent.inputContext();
+            auto *engine = inputMethodEngine(ic);
+            const auto *entry = inputMethodEntry(ic);
+            if (!engine || !entry) {
+                return;
+            }
+            engine->invokeAction(*entry, invokeActionEvent);
+        }));
     d->eventWatchers_.emplace_back(d->watchEvent(
         EventType::InputContextKeyEvent, EventWatcherPhase::ReservedLast,
         [this](Event &event) {
@@ -1029,8 +1070,8 @@ Instance::Instance(int argc, char **argv) {
             }
             engine->filterKey(*entry, keyEvent);
             emit<Instance::KeyEventResult>(keyEvent);
-            if (keyEvent.forward()) {
 #ifdef ENABLE_KEYBOARD
+            if (keyEvent.forward()) {
                 FCITX_D();
                 auto *inputState = ic->propertyFor(&d->inputStateFactory_);
                 if (auto *xkbState = inputState->customXkbState()) {
@@ -1042,18 +1083,27 @@ Instance::Instance(int argc, char **argv) {
                             return;
                         }
                         if (keyEvent.key().states().test(KeyState::Ctrl) ||
-                            keyEvent.key().sym() == keyEvent.origKey().sym()) {
+                            keyEvent.rawKey().sym() ==
+                                keyEvent.origKey().sym()) {
                             return;
                         }
                         if (!keyEvent.isRelease()) {
-                            FCITX_DEBUG() << "Will commit char: " << utf32;
+                            FCITX_KEYTRACE() << "Will commit char: " << utf32;
                             ic->commitString(utf8::UCS4ToUTF8(utf32));
                         }
                         keyEvent.filterAndAccept();
+                    } else if (!keyEvent.key().states().test(KeyState::Ctrl) &&
+                               keyEvent.rawKey().sym() !=
+                                   keyEvent.origKey().sym() &&
+                               Key::keySymToUnicode(keyEvent.origKey().sym()) !=
+                                   0) {
+                        // filter key for the case that: origKey will produce
+                        // character, while the translated will not.
+                        keyEvent.filterAndAccept();
                     }
                 }
-#endif
             }
+#endif
         }));
     d->eventWatchers_.emplace_back(d->watchEvent(
         EventType::InputContextFocusIn, EventWatcherPhase::ReservedFirst,
@@ -1456,6 +1506,10 @@ GlobalConfig &Instance::globalConfig() {
 }
 
 bool Instance::postEvent(Event &event) {
+    return std::as_const(*this).postEvent(event);
+}
+
+bool Instance::postEvent(Event &event) const {
     FCITX_D();
     auto iter = d->eventHandlers_.find(event.type());
     if (iter != d->eventHandlers_.end()) {
@@ -1482,10 +1536,26 @@ bool Instance::postEvent(Event &event) {
         // Make sure this part of fix is always executed regardless of the
         // filter.
         if (event.type() == EventType::InputContextKeyEvent) {
-            // Update auto save.
-            d->idleStartTimestamp_ = now(CLOCK_MONOTONIC);
             auto &keyEvent = static_cast<KeyEvent &>(event);
             auto *ic = keyEvent.inputContext();
+#ifdef ENABLE_KEYBOARD
+            do {
+                if (!keyEvent.forward() && !keyEvent.origKey().code()) {
+                    break;
+                }
+                auto *inputState = ic->propertyFor(&d->inputStateFactory_);
+                auto *xkbState = inputState->customXkbState();
+                if (!xkbState) {
+                    break;
+                }
+                // This need to be called after xkb_state_key_get_*, and should
+                // be called against all Key regardless whether they are
+                // filtered or not.
+                xkb_state_update_key(xkbState, keyEvent.origKey().code(),
+                                     keyEvent.isRelease() ? XKB_KEY_UP
+                                                          : XKB_KEY_DOWN);
+            } while (0);
+#endif
             if (ic->hasPendingEvents() &&
                 ic->capabilityFlags().test(CapabilityFlag::KeyEventOrderFix) &&
                 !keyEvent.accepted()) {
@@ -1596,6 +1666,21 @@ std::string Instance::inputMethodIcon(InputContext *ic) {
         icon = entry->icon();
     }
     return icon;
+}
+
+std::string Instance::inputMethodLabel(InputContext *ic) {
+    std::string label;
+
+    const auto *entry = inputMethodEntry(ic);
+    auto *engine = inputMethodEngine(ic);
+
+    if (engine) {
+        label = engine->subModeLabel(*entry, *ic);
+    }
+    if (label.empty()) {
+        label = entry->label();
+    }
+    return label;
 }
 
 uint32_t Instance::processCompose(InputContext *ic, KeySym keysym) {
@@ -1743,12 +1828,7 @@ void Instance::configure() {
 
 void Instance::configureAddon(const std::string &) {}
 
-void Instance::configureInputMethod(const std::string &imName) {
-    auto addon = addonForInputMethod(imName);
-    if (!addon.empty()) {
-        return configureAddon(addon);
-    }
-}
+void Instance::configureInputMethod(const std::string &) {}
 
 std::string Instance::currentInputMethod() {
     if (auto *ic = lastFocusedInputContext()) {
@@ -2270,7 +2350,8 @@ void Instance::showInputMethodInformation(InputContext *ic) {
 
 bool Instance::checkUpdate() const {
     FCITX_D();
-    return d->addonManager_.checkUpdate() || d->imManager_.checkUpdate();
+    return d->addonManager_.checkUpdate() || d->imManager_.checkUpdate() ||
+           postEvent(CheckUpdateEvent());
 }
 
 void Instance::setXkbParameters(const std::string &display,

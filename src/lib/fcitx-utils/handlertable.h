@@ -34,7 +34,9 @@ public:
         return result;
     }
 
-    HandlerTableView<T> view() { return {handlers_.begin(), handlers_.end()}; }
+    HandlerTableView<T> view() const {
+        return {handlers_.begin(), handlers_.end()};
+    }
 
     size_t size() const { return handlers_.size(); }
     bool empty() const { return size() == 0; }

@@ -43,7 +43,6 @@ private:
     std::unique_ptr<EventSource> deferEvent_;
     std::unique_ptr<EventSource> wakeEvent_;
     std::unique_ptr<std::thread> thread_;
-    std::unique_ptr<EventLoop> event_;
     std::mutex mutex_;
     std::list<UniqueCPtr<xcb_generic_event_t>> events_;
 };

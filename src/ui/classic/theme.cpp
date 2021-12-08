@@ -18,6 +18,7 @@
 #include "fcitx-utils/rect.h"
 #include "fcitx-utils/standardpath.h"
 #include "fcitx/misc_p.h"
+#include "classicui.h"
 #include "common.h"
 
 namespace fcitx::classicui {
@@ -165,11 +166,18 @@ cairo_surface_t *loadImage(StandardPathFile &file) {
     return surface;
 }
 
-ThemeImage::ThemeImage(const std::string &icon, const std::string &label,
-                       const std::string &font, uint32_t size)
+ThemeImage::ThemeImage(const IconTheme &iconTheme, const std::string &icon,
+                       const std::string &label, uint32_t size,
+                       const ClassicUI *classicui)
     : size_(size) {
-    if (!icon.empty()) {
-        auto fd = open(icon.c_str(), O_RDONLY);
+    bool preferTextIcon =
+        !label.empty() &&
+        ((icon == "input-keyboard" &&
+          hasTwoKeyboardInCurrentGroup(classicui->instance())) ||
+         *classicui->config().preferTextIcon);
+    if (!preferTextIcon && !icon.empty()) {
+        std::string iconPath = iconTheme.findIcon(icon, size, 1);
+        auto fd = open(iconPath.c_str(), O_RDONLY);
         StandardPathFile file(fd, icon);
         image_.reset(loadImage(file));
         if (image_ &&
@@ -180,33 +188,7 @@ ThemeImage::ThemeImage(const std::string &icon, const std::string &label,
     if (!image_) {
         image_.reset(
             cairo_image_surface_create(CAIRO_FORMAT_ARGB32, size, size));
-        auto *cr = cairo_create(image_.get());
-        cairo_set_operator(cr, CAIRO_OPERATOR_SOURCE);
-        cairoSetSourceColor(cr, Color("#00000000"));
-        cairo_paint(cr);
-
-        int pixelSize = size * 0.7;
-        // FIXME use a color from config.
-        Color color("#ffffffff");
-        cairoSetSourceColor(cr, color);
-        auto *fontMap = pango_cairo_font_map_get_default();
-        GObjectUniquePtr<PangoContext> context(
-            pango_font_map_create_context(fontMap));
-        GObjectUniquePtr<PangoLayout> layout(pango_layout_new(context.get()));
-        pango_layout_set_single_paragraph_mode(layout.get(), true);
-        pango_layout_set_text(layout.get(), label.c_str(), label.size());
-        PangoRectangle rect;
-        PangoFontDescription *desc =
-            pango_font_description_from_string(font.c_str());
-        pango_font_description_set_absolute_size(desc, pixelSize * PANGO_SCALE);
-        pango_layout_set_font_description(layout.get(), desc);
-        pango_font_description_free(desc);
-        pango_layout_get_pixel_extents(layout.get(), &rect, nullptr);
-        cairo_move_to(cr, (size - rect.width) * 0.5 - rect.x,
-                      (size - rect.height) * 0.5 - rect.y);
-        pango_cairo_show_layout(cr, layout.get());
-
-        cairo_destroy(cr);
+        drawTextIcon(image_.get(), label, size, classicui->config());
     }
 }
 
@@ -268,6 +250,7 @@ ThemeImage::ThemeImage(const std::string &name,
         cairoSetSourceColor(cr, *cfg.color);
         cairo_paint(cr);
         cairo_destroy(cr);
+        isImage_ = true;
     }
 }
 
@@ -283,6 +266,47 @@ ThemeImage::ThemeImage(const std::string &name, const ActionImageConfig &cfg) {
         }
         valid_ = image_ != nullptr;
     }
+}
+
+void ThemeImage::drawTextIcon(cairo_surface_t *surface,
+                              const std::string &label, uint32_t size,
+                              const ClassicUIConfig &config) {
+    auto *cr = cairo_create(surface);
+    cairo_set_operator(cr, CAIRO_OPERATOR_SOURCE);
+    cairoSetSourceColor(cr, Color("#00000000"));
+    cairo_paint(cr);
+
+    int pixelSize = size * 0.75;
+    auto *fontMap = pango_cairo_font_map_get_default();
+    GObjectUniquePtr<PangoContext> context(
+        pango_font_map_create_context(fontMap));
+    GObjectUniquePtr<PangoLayout> layout(pango_layout_new(context.get()));
+    pango_layout_set_single_paragraph_mode(layout.get(), true);
+    pango_layout_set_text(layout.get(), label.c_str(), label.size());
+    PangoRectangle rect;
+    PangoFontDescription *desc =
+        pango_font_description_from_string(config.trayFont->c_str());
+    pango_font_description_set_absolute_size(desc, pixelSize * PANGO_SCALE);
+    pango_layout_set_font_description(layout.get(), desc);
+    pango_font_description_free(desc);
+    pango_layout_get_pixel_extents(layout.get(), &rect, nullptr);
+    cairo_translate(cr, (size - rect.width) * 0.5 - rect.x,
+                    (size - rect.height) * 0.5 - rect.y);
+    if (config.trayBorderColor->alpha()) {
+        cairo_save(cr);
+        cairoSetSourceColor(cr, *config.trayBorderColor);
+        pango_cairo_layout_path(cr, layout.get());
+        cairo_set_line_width(cr, std::min(4, (pixelSize + 4) / 8));
+        cairo_stroke(cr);
+        cairo_restore(cr);
+    }
+
+    cairo_save(cr);
+    cairoSetSourceColor(cr, *config.trayTextColor);
+    pango_cairo_show_layout(cr, layout.get());
+    cairo_restore(cr);
+
+    cairo_destroy(cr);
 }
 
 Theme::Theme() : iconTheme_(IconTheme::defaultIconThemeName()) {}
@@ -315,9 +339,8 @@ const ThemeImage &Theme::loadAction(const ActionImageConfig &cfg) {
 
 const ThemeImage &Theme::loadImage(const std::string &icon,
                                    const std::string &label, uint32_t size,
-                                   ImagePurpose purpose) {
-    auto &map =
-        purpose == ImagePurpose::General ? imageTable_ : trayImageTable_;
+                                   const ClassicUI *classicui) {
+    auto &map = trayImageTable_;
     auto name = stringutils::concat("icon:", icon, "label:", label);
     if (auto *image = findValue(map, name)) {
         if (image->size() == size) {
@@ -326,14 +349,9 @@ const ThemeImage &Theme::loadImage(const std::string &icon,
         map.erase(name);
     }
 
-    std::string iconPath;
-    if (!icon.empty()) {
-        iconPath = iconTheme_.findIcon(icon, size, 1);
-    }
-
     auto result = map.emplace(
         std::piecewise_construct, std::forward_as_tuple(name),
-        std::forward_as_tuple(iconPath, label, *config->trayFont, size));
+        std::forward_as_tuple(iconTheme_, icon, label, size, classicui));
     assert(result.second);
     return result.first->second;
 }
@@ -576,7 +594,6 @@ void Theme::paint(cairo_t *c, const ActionImageConfig &cfg, double alpha) {
 }
 
 void Theme::reset() {
-    imageTable_.clear();
     trayImageTable_.clear();
     backgroundImageTable_.clear();
     actionImageTable_.clear();

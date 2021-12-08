@@ -49,6 +49,7 @@ void SetMyExceptionHandler(void) {
         case SIGPIPE:
         case SIGUSR2:
         case SIGWINCH:
+        case SIGURG:
             signal(signo, SIG_IGN);
             break;
         default:

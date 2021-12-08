@@ -9,3 +9,4 @@ Categories=Settings;
 X-KDE-StartupNotify=false
 StartupNotify=false
 X-AppStream-Ignore=true
+NotShowIn=KDE

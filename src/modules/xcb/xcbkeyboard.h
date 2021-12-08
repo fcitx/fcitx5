@@ -27,16 +27,14 @@ public:
 
     // Layout handling
     void initDefaultLayout();
-    int findLayoutIndex(const std::string &layout, const std::string &variant);
-    int findOrAddLayout(const std::string &layout, const std::string &variant,
-                        bool toDefault);
-    void addNewLayout(const std::string &layout, const std::string &variant,
-                      int index, bool toDefault);
+    int findLayoutIndex(const std::string &layout,
+                        const std::string &variant) const;
+    int findOrAddLayout(const std::string &layout, const std::string &variant);
+    void addNewLayout(const std::string &layout, const std::string &variant);
     void setRMLVOToServer(const std::string &rule, const std::string &model,
                           const std::string &layout, const std::string &variant,
                           const std::string &options);
-    bool setLayoutByName(const std::string &layout, const std::string &variant,
-                         bool toDefault);
+    bool setLayoutByName(const std::string &layout, const std::string &variant);
 
     bool handleEvent(xcb_generic_event_t *event);
     XkbRulesNames xkbRulesNames();

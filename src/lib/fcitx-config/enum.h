@@ -13,11 +13,32 @@
 
 #define FCITX_ENUM_STRINGIFY(X) FCITX_STRINGIFY(X),
 
+/**
+ * Define a enum with raw string value as name.
+ *
+ * This is basically a simple combinition for the enum class and
+ * FCITX_CONFIG_ENUM_NAME.
+ * It is suitable for case that enum name is a single word.
+ *
+ * For example:
+ * \code{.cpp}
+ * FCITX_CONFIG_ENUM(PropertyPropagatePolicy, All, Program, No);
+ * \endcode
+ *
+ * @see FCITX_CONFIG_ENUM_NAME
+ */
 #define FCITX_CONFIG_ENUM(TYPE, ...)                                           \
     enum class TYPE { __VA_ARGS__ };                                           \
     FCITX_CONFIG_ENUM_NAME(TYPE,                                               \
                            FCITX_FOR_EACH(FCITX_ENUM_STRINGIFY, __VA_ARGS__))
 
+/**
+ * Define the string representation for a enum value to be write to RawConfig.
+ *
+ * This is useful when:
+ * 1. Enum string representation should be multiple words.
+ * 2. Or define enum name for some existing non Fcitx enum type.
+ */
 #define FCITX_CONFIG_ENUM_NAME(TYPE, ...)                                      \
     static constexpr const char *_##TYPE##_Names[] = {__VA_ARGS__};            \
     static inline std::string TYPE##ToString(TYPE value) {                     \
@@ -49,6 +70,19 @@
         }                                                                      \
     }
 
+/**
+ * Define the string representation for a enum value to be shown in UI.
+ *
+ * This should be used in combine with N_ macro.
+ *
+ * \code{.cpp}
+ * FCITX_CONFIG_ENUM_NAME_WITH_I18N(QuickPhraseChooseModifier, N_("None"),
+ *                                  N_("Alt"), N_("Control"), N_("Super"));
+ * \endcode
+ *
+ * After using this macro, the Option template need to be set with associated
+ * I18NAnnotation class.
+ */
 #define FCITX_CONFIG_ENUM_I18N_ANNOTATION(TYPE, ...)                           \
     struct TYPE##I18NAnnotation {                                              \
         static constexpr const char *_##TYPE##_Names2[] = {__VA_ARGS__};       \
@@ -80,6 +114,13 @@
     };                                                                         \
     static_assert(TYPE##I18NAnnotation::equal(0), "Enum mismatch");
 
+/**
+ * A short hand for combining FCITX_CONFIG_ENUM_NAME and
+ * FCITX_CONFIG_ENUM_I18N_ANNOTATION.
+ *
+ * @see FCITX_CONFIG_ENUM_NAME
+ * @see FCITX_CONFIG_ENUM_I18N_ANNOTATION
+ */
 #define FCITX_CONFIG_ENUM_NAME_WITH_I18N(TYPE, ...)                            \
     FCITX_CONFIG_ENUM_NAME(TYPE, __VA_ARGS__);                                 \
     FCITX_CONFIG_ENUM_I18N_ANNOTATION(TYPE, __VA_ARGS__);

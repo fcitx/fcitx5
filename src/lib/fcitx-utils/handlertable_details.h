@@ -36,7 +36,7 @@ public:
               std::make_unique<T>(std::forward<Args>(args)...))) {}
     virtual ~HandlerTableEntry() { handler_->reset(); }
 
-    HandlerTableData<T> handler() { return handler_; };
+    HandlerTableData<T> handler() const { return handler_; }
 
 protected:
     HandlerTableData<T> handler_;
