@@ -98,7 +98,11 @@ public:
     FocusGroup *focusGroup() const;
 
     /// Called when input context state need to be reset.
-    void reset(ResetReason reason);
+    FCITXCORE_DEPRECATED void reset(ResetReason reason);
+
+    /// Called when input context state need to be reset. Input context need to
+    /// have focus.
+    void reset();
 
     /**
      * Update the capability flags of the input context.
@@ -129,8 +133,12 @@ public:
     /// Send a key event to current input context.
     bool keyEvent(KeyEvent &event);
 
-    /// Returns whether the input context holds the input focus.
+    /// Returns whether the input context holds the input focus. Input context
+    /// need to have focus.
     bool hasFocus() const;
+
+    /// Invoke an action on the preedit
+    void invokeAction(InvokeActionEvent &event);
 
     /**
      * Returns the mutable surrounding text of the input context.

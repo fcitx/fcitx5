@@ -167,23 +167,24 @@ class IntrusiveList;
 template <typename T, typename NodeGetter, bool isConst>
 class IntrusiveListIterator {
     typedef IntrusiveList<T, NodeGetter> list_type;
-    typedef IntrusiveListNode *node_ptr;
+    typedef std::conditional_t<isConst, const IntrusiveListNode *,
+                               IntrusiveListNode *>
+        node_ptr;
     struct enabler {};
 
 public:
     typedef std::bidirectional_iterator_tag iterator_category;
     typedef T value_type;
     typedef std::ptrdiff_t difference_type;
-    typedef
-        typename std::conditional<isConst, typename list_type::const_reference,
-                                  typename list_type::reference>::type
-            reference;
-    typedef
-        typename std::conditional<isConst, typename list_type::const_pointer,
-                                  typename list_type::pointer>::type pointer;
+    typedef std::conditional_t<isConst, typename list_type::const_reference,
+                               typename list_type::reference>
+        reference;
+    typedef std::conditional_t<isConst, typename list_type::const_pointer,
+                               typename list_type::pointer>
+        pointer;
 
     IntrusiveListIterator() : node(nullptr), nodeGetter(nullptr) {}
-    IntrusiveListIterator(node_ptr node_, NodeGetter &nodeGetter_)
+    IntrusiveListIterator(node_ptr node_, const NodeGetter &nodeGetter_)
         : node(node_), nodeGetter(&nodeGetter_) {}
 
     // Enable non-const to const conversion.
@@ -218,11 +219,11 @@ public:
 
     node_ptr pointed_node() const { return node; }
 
-    NodeGetter &get_nodeGetter() const { return *nodeGetter; }
+    const NodeGetter &get_nodeGetter() const { return *nodeGetter; }
 
 private:
     node_ptr node;
-    NodeGetter *nodeGetter;
+    const NodeGetter *nodeGetter;
 };
 
 template <typename T, typename NodeGetter = IntrusiveListTrivialNodeGetter<T>>
@@ -247,9 +248,11 @@ public:
     iterator begin() { return {root_.next(), nodeGetter}; }
     iterator end() { return {&root_, nodeGetter}; }
 
-    const_iterator begin() const { return {root_.next(), nodeGetter}; }
+    const_iterator begin() const {
+        return const_iterator{root_.next(), nodeGetter};
+    }
 
-    const_iterator end() const { return {&root_, nodeGetter}; }
+    const_iterator end() const { return const_iterator{&root_, nodeGetter}; }
 
     const_iterator cbegin() const { return {root_.next(), nodeGetter}; }
 
@@ -269,7 +272,7 @@ public:
         return iterator(&nodeGetter.toNode(value), nodeGetter);
     }
 
-    const_iterator iterator_to(const_reference value) {
+    const_iterator iterator_to(const_reference value) const {
         return const_iterator(&nodeGetter.toNode(value), nodeGetter);
     }
 
@@ -288,14 +291,14 @@ public:
 
     void pop_front() { erase(begin()); }
 
-    iterator erase(const_iterator pos) {
+    iterator erase(iterator pos) {
         auto node = pos.pointed_node();
         auto next = node->next();
         remove(node);
         return {next, nodeGetter};
     }
 
-    iterator erase(const_iterator start, const_iterator end) {
+    iterator erase(iterator start, iterator end) {
         if (start == end) {
             return {start->pointed_node(), nodeGetter};
         }
@@ -310,7 +313,7 @@ public:
 
     bool empty() const { return root_.next() == &root_; }
 
-    iterator insert(const_iterator pos, reference value) {
+    iterator insert(iterator pos, reference value) {
         // insert value before pos.
         prepend(&nodeGetter.toNode(value), pos.pointed_node());
         return {pos.pointed_node()->prev(), nodeGetter};

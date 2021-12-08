@@ -1,6 +1,6 @@
 #!/bin/sh
 #--------------------------------------
-# fcitx-config
+# fcitx-configtool
 #
 
 export TEXTDOMAIN=fcitx5
@@ -46,20 +46,27 @@ detectDE() {
     # see https://bugs.freedesktop.org/show_bug.cgi?id=34164
     unset GREP_OPTIONS
 
+    local desktop
     if [ -n "${XDG_CURRENT_DESKTOP}" ]; then
-      case "${XDG_CURRENT_DESKTOP}" in
-         GNOME)
-           DE=gnome;
-           ;;
-         KDE)
-           DE=kde;
-           ;;
-         LXDE)
-           DE=lxde;
-           ;;
-         XFCE)
-           DE=xfce
-      esac
+      for desktop in $(echo "${XDG_CURRENT_DESKTOP}" | tr ":" "\n"); do
+        case "${desktop}" in
+            GNOME)
+            DE=gnome
+            break
+            ;;
+            KDE)
+            DE=kde
+            break
+            ;;
+            LXDE)
+            DE=lxde
+            break
+            ;;
+            XFCE)
+            DE=xfce
+            break
+        esac
+      done
     fi
 
     if [ x"$DE" = x"" ]; then
@@ -106,18 +113,14 @@ detectDE() {
 }
 
 run_kde() {
-    if (kcmshell5 --list 2>/dev/null | grep ^kcm_fcitx5 > /dev/null 2>&1); then
-        if [ x"$1" != x ]; then
-            exec kcmshell5 fcitx5 --args "$1"
-        else
-            exec kcmshell5 fcitx5
-        fi
+    if (systemsettings5 --list 2>/dev/null | grep ^kcm_fcitx5 > /dev/null 2>&1); then
+        exec systemsettings5 kcm_fcitx5
     fi
 }
 
 run_qt() {
     if which fcitx5-config-qt > /dev/null 2>&1; then
-        exec fcitx5-config-qt "$1"
+        exec fcitx5-config-qt
     fi
     return 1
 }
@@ -164,7 +167,7 @@ case "$DE" in
 esac
 
 for cmd in $order; do
-    run_${cmd} "$1"
+    run_${cmd}
 done
 
 echo 'Cannot find a command to run.' >&2

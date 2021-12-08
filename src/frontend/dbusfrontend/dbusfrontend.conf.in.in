@@ -1,7 +1,7 @@
 [Addon]
 Name=DBus Frontend
 Type=SharedLibrary
-Library=dbusfrontend
+Library=libdbusfrontend
 Category=Frontend
 Version=@PROJECT_VERSION@
 

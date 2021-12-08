@@ -30,12 +30,8 @@ bool useClientSideUI(Instance *instance) {
     if (instance->userInterfaceManager().currentUI() != "kimpanel") {
         return true;
     }
-    std::string desktop;
-    auto *desktopEnv = getenv("XDG_CURRENT_DESKTOP");
-    if (desktopEnv) {
-        desktop = desktopEnv;
-    }
-    if (desktop == "GNOME") {
+    const static DesktopType desktop = getDesktopType();
+    if (desktop == DesktopType::GNOME) {
         return false;
     }
     return true;
@@ -187,6 +183,7 @@ public:
                          key.isRelease());
         bus()->flush();
     }
+
 #define CHECK_SENDER_OR_RETURN                                                 \
     if (currentMessage()->sender() != name_)                                   \
     return
@@ -203,7 +200,7 @@ public:
 
     void resetDBus() {
         CHECK_SENDER_OR_RETURN;
-        reset(ResetReason::Client);
+        reset();
     }
 
     void setCursorRectDBus(int x, int y, int w, int h) {
@@ -216,8 +213,20 @@ public:
         setCursorRect(Rect{x, y, x + w, y + h}, scale);
     }
 
+    void setSupportedCapability(uint64_t cap) {
+        CHECK_SENDER_OR_RETURN;
+        supportedCapability_ = cap;
+    }
+
     void setCapability(uint64_t cap) {
         CHECK_SENDER_OR_RETURN;
+        // Due to a bug in SDL, it might send garbage over the wire.
+        // This a workaround to make sure it can work more likely.
+        // The flag is most to ClientSideInputPanel (0~39bit).
+        if (!supportedCapability_.has_value() &&
+            (cap & (~static_cast<uint64_t>(0xffffffffffull))) != 0ull) {
+            cap &= 0xffffffffull;
+        }
         rawCapabilityFlags_ = CapabilityFlags(cap);
         updateCapability();
     }
@@ -303,6 +312,15 @@ public:
         setCapabilityFlags(flags);
     }
 
+    void invokeActionDBus(uint32_t action, int32_t cursor) {
+        InvokeActionEvent event(static_cast<InvokeActionEvent::Action>(action),
+                                cursor, this);
+        if (!hasFocus()) {
+            focusIn();
+        }
+        invokeAction(event);
+    }
+
 private:
     FCITX_OBJECT_VTABLE_METHOD(focusInDBus, "FocusIn", "", "");
     FCITX_OBJECT_VTABLE_METHOD(focusOutDBus, "FocusOut", "", "");
@@ -311,6 +329,8 @@ private:
     FCITX_OBJECT_VTABLE_METHOD(setCursorRectV2DBus, "SetCursorRectV2", "iiiid",
                                "");
     FCITX_OBJECT_VTABLE_METHOD(setCapability, "SetCapability", "t", "");
+    FCITX_OBJECT_VTABLE_METHOD(setSupportedCapability, "SetSupportedCapability",
+                               "t", "");
     FCITX_OBJECT_VTABLE_METHOD(setSurroundingText, "SetSurroundingText", "suu",
                                "");
     FCITX_OBJECT_VTABLE_METHOD(setSurroundingTextPosition,
@@ -322,6 +342,7 @@ private:
     FCITX_OBJECT_VTABLE_METHOD(prevPage, "PrevPage", "", "");
     FCITX_OBJECT_VTABLE_METHOD(nextPage, "NextPage", "", "");
     FCITX_OBJECT_VTABLE_METHOD(selectCandidate, "SelectCandidate", "i", "");
+    FCITX_OBJECT_VTABLE_METHOD(invokeActionDBus, "InvokeAction", "ui", "");
 
     FCITX_OBJECT_VTABLE_SIGNAL(commitStringDBus, "CommitString", "s");
     FCITX_OBJECT_VTABLE_SIGNAL(currentIM, "CurrentIM", "sss");
@@ -346,6 +367,7 @@ private:
     std::unique_ptr<HandlerTableEntry<dbus::ServiceWatcherCallback>> handler_;
     std::string name_;
     CapabilityFlags rawCapabilityFlags_;
+    std::optional<uint64_t> supportedCapability_;
 };
 
 std::tuple<dbus::ObjectPath, std::vector<uint8_t>>

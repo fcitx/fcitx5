@@ -41,6 +41,13 @@ FCITXUTILS_EXPORT ssize_t safeRead(int fd, void *data, size_t maxlen);
 FCITXUTILS_EXPORT ssize_t safeWrite(int fd, const void *data, size_t maxlen);
 /// \brief read symlink.
 FCITXUTILS_EXPORT std::optional<std::string> readlink(const std::string &path);
+/**
+ * \brief Return modified time in seconds of given path. 0 will be returned upon
+ * error.
+ *
+ * \since 5.0.10
+ */
+FCITXUTILS_EXPORT int64_t modifiedTime(const std::string &path);
 } // namespace fs
 } // namespace fcitx
 

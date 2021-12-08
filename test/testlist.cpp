@@ -133,8 +133,33 @@ void test_move() {
     }
 }
 
+void test_const() {
+    {
+        // something to empty
+        IntrusiveList<Foo> list;
+        Foo a(1), b(2), c(3), d(4);
+        list.push_back(a);
+        list.push_back(b);
+        list.push_back(c);
+        list.push_back(d);
+        const IntrusiveList<Foo> &cref = list;
+        std::vector<int> check = {1, 2, 3, 4};
+        size_t idx = 0;
+        for (auto &f : cref) {
+            FCITX_ASSERT(f.data == check[idx]);
+            idx++;
+        }
+
+        auto citer = cref.begin();
+        auto iter = list.begin();
+        static_assert(!std::is_same_v<decltype(iter), decltype(citer)>);
+        citer = iter;
+    }
+}
+
 int main() {
     test_regular();
     test_move();
+    test_const();
     return 0;
 }

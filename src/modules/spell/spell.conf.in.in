@@ -1,7 +1,7 @@
 [Addon]
 Name=Spell
 Type=SharedLibrary
-Library=spell
+Library=libspell
 Category=Module
 Version=@PROJECT_VERSION@
 OnDemand=True

@@ -9,6 +9,15 @@
 #include <fcitx-utils/utf8.h>
 #include "waylandim.h"
 
+#ifdef __linux__
+#include <linux/input-event-codes.h>
+#elif __FreeBSD__
+#include <dev/evdev/input-event-codes.h>
+#else
+#define BTN_LEFT 0x110
+#define BTN_RIGHT 0x111
+#endif
+
 namespace fcitx {
 
 static inline unsigned int waylandFormat(TextFormatFlags flags) {
@@ -100,7 +109,7 @@ void WaylandIMInputContextV1::activate(wayland::ZwpInputMethodContextV1 *ic) {
     ic_->contentType().connect([this](uint32_t hint, uint32_t purpose) {
         contentTypeCallback(hint, purpose);
     });
-    ic_->invokeAction().connect([](uint32_t button, uint32_t index) {
+    ic_->invokeAction().connect([this](uint32_t button, uint32_t index) {
         invokeActionCallback(button, index);
     });
     ic_->commitState().connect(
@@ -165,7 +174,7 @@ void WaylandIMInputContextV1::surroundingTextCallback(const char *text,
     surroundingText().setText(text, cursor, anchor);
     updateSurroundingText();
 }
-void WaylandIMInputContextV1::resetCallback() { reset(ResetReason::Client); }
+void WaylandIMInputContextV1::resetCallback() { reset(); }
 void WaylandIMInputContextV1::contentTypeCallback(uint32_t hint,
                                                   uint32_t purpose) {
     CapabilityFlags flags;
@@ -243,8 +252,22 @@ void WaylandIMInputContextV1::contentTypeCallback(uint32_t hint,
 }
 void WaylandIMInputContextV1::invokeActionCallback(uint32_t button,
                                                    uint32_t index) {
-    FCITX_UNUSED(button);
-    FCITX_UNUSED(index);
+    InvokeActionEvent::Action action;
+    switch (button) {
+    case BTN_LEFT:
+        action = InvokeActionEvent::Action::LeftClick;
+        break;
+    case BTN_RIGHT:
+        action = InvokeActionEvent::Action::RightClick;
+        break;
+    default:
+        return;
+    }
+    InvokeActionEvent event(action, index, this);
+    if (!hasFocus()) {
+        focusIn();
+    }
+    invokeAction(event);
 }
 void WaylandIMInputContextV1::commitStateCallback(uint32_t serial) {
     serial_ = serial;
@@ -350,10 +373,7 @@ void WaylandIMInputContextV1::keyCallback(uint32_t serial, uint32_t time,
     WAYLANDIM_DEBUG() << event.key().toString()
                       << " IsRelease=" << event.isRelease();
     if (!keyEvent(event)) {
-        ic_->keysym(serial, time, event.rawKey().sym(),
-                    event.isRelease() ? WL_KEYBOARD_KEY_STATE_RELEASED
-                                      : WL_KEYBOARD_KEY_STATE_PRESSED,
-                    event.rawKey().states());
+        ic_->key(serial, time, key, state);
     }
     server_->display_->flush();
 }

@@ -1,7 +1,7 @@
 [Addon]
 Name=Wayland Input method frontend
 Type=SharedLibrary
-Library=waylandim
+Library=libwaylandim
 Category=Frontend
 Version=@PROJECT_VERSION@
 

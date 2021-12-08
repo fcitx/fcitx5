@@ -27,7 +27,10 @@ namespace fcitx {
 FCITX_CONFIGURATION(XCBConfig,
                     Option<bool> allowOverrideXKB{
                         this, "Allow Overriding System XKB Settings",
-                        _("Allow Overriding System XKB Settings"), true};);
+                        _("Allow Overriding System XKB Settings"), true};
+                    Option<bool> alwaysSetToGroupLayout{
+                        this, "AlwaysSetToGroupLayout",
+                        _("Always set layout to be only group layout"), true};);
 
 class XCBConnection;
 

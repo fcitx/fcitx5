@@ -9,6 +9,7 @@
 
 #include <memory>
 #include "wl_pointer.h"
+#include "wl_touch.h"
 #include "wl_seat.h"
 
 namespace fcitx {
@@ -22,9 +23,13 @@ public:
 
 private:
     void initPointer();
+    void initTouch();
     std::unique_ptr<wayland::WlPointer> pointer_;
-    TrackableObjectReference<WaylandWindow> focus_;
-    int focusX_ = 0, focusY_ = 0;
+    TrackableObjectReference<WaylandWindow> pointerFocus_;
+    int pointerFocusX_ = 0, pointerFocusY_ = 0;
+    std::unique_ptr<wayland::WlTouch> touch_;
+    TrackableObjectReference<WaylandWindow> touchFocus_;
+    int touchFocusX_ = 0, touchFocusY_ = 0;
     ScopedConnection capConn_;
 };
 

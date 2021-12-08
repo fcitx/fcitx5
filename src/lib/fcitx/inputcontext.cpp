@@ -18,6 +18,13 @@
 
 namespace fcitx {
 
+#define RETURN_IF_HAS_NO_FOCUS(...)                                            \
+    do {                                                                       \
+        if (!hasFocus()) {                                                     \
+            return __VA_ARGS__;                                                \
+        }                                                                      \
+    } while (0);
+
 InputContext::InputContext(InputContextManager &manager,
                            const std::string &program)
     : d_ptr(std::make_unique<InputContextPrivate>(this, manager, program)) {
@@ -221,6 +228,7 @@ void InputContext::setHasFocus(bool hasFocus) {
 
 bool InputContext::keyEvent(KeyEvent &event) {
     FCITX_D();
+    RETURN_IF_HAS_NO_FOCUS(false);
     decltype(std::chrono::steady_clock::now()) start;
     // Don't query time if we don't want log.
     if (::keyTrace().checkLogLevel(LogLevel::Debug)) {
@@ -231,13 +239,22 @@ bool InputContext::keyEvent(KeyEvent &event) {
                      << std::chrono::duration_cast<std::chrono::milliseconds>(
                             std::chrono::steady_clock::now() - start)
                             .count()
-                     << "ms";
+                     << "ms result:" << result;
     return result;
 }
 
-void InputContext::reset(ResetReason reason) {
+void InputContext::invokeAction(InvokeActionEvent &event) {
     FCITX_D();
-    d->emplaceEvent<ResetEvent>(reason, this);
+    RETURN_IF_HAS_NO_FOCUS();
+    d->postEvent(event);
+}
+
+void InputContext::reset(ResetReason) { reset(); }
+
+void InputContext::reset() {
+    FCITX_D();
+    RETURN_IF_HAS_NO_FOCUS();
+    d->emplaceEvent<ResetEvent>(this);
 }
 
 SurroundingText &InputContext::surroundingText() {

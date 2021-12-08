@@ -313,6 +313,11 @@ void InputContextManager::registerFocusGroup(FocusGroup &group) {
 void InputContextManager::unregisterFocusGroup(FocusGroup &group) {
     FCITX_D();
     d->groups_.erase(d->groups_.iterator_to(group));
+    if (d->instance_ && d->instance_->exitWhenMainDisplayDisconnected() &&
+        d->groups_.empty()) {
+        FCITX_INFO() << "All display connections are gone, exit now.";
+        d->instance_->exit();
+    }
 }
 InputContextPropertyFactory *
 InputContextManager::factoryForName(const std::string &name) {

@@ -1,7 +1,7 @@
 [Addon]
 Name=IBus Frontend
 Type=SharedLibrary
-Library=ibusfrontend
+Library=libibusfrontend
 Category=Frontend
 Version=@PROJECT_VERSION@
 

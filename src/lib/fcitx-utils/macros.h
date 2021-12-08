@@ -154,8 +154,7 @@
     GETTER() const;
 
 #define FCITX_DECLARE_PROPERTY(TYPE, GETTER, SETTER)                           \
-    std::conditional_t<std::is_class<TYPE>::value, const TYPE &, TYPE>         \
-    GETTER() const;                                                            \
+    FCITX_DECLARE_READ_ONLY_PROPERTY(TYPE, GETTER)                             \
     void SETTER(TYPE);
 
 #define FCITX_DEFINE_READ_ONLY_PROPERTY_PRIVATE(THIS, TYPE, GETTER)            \

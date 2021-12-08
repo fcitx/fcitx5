@@ -2,7 +2,7 @@
 Name=Notification
 Comment=Freedesktop.org Notification Support
 Type=SharedLibrary
-Library=notifications
+Library=libnotifications
 Category=Module
 Version=@PROJECT_VERSION@
 OnDemand=True

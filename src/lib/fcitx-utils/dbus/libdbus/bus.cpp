@@ -649,13 +649,21 @@ bool Bus::requestName(const std::string &name, Flags<RequestNameFlag> flags) {
              ? DBUS_NAME_FLAG_ALLOW_REPLACEMENT
              : 0) |
         ((flags & RequestNameFlag::Queue) ? 0 : DBUS_NAME_FLAG_DO_NOT_QUEUE);
-    return dbus_bus_request_name(d->conn_.get(), name.c_str(), d_flags,
-                                 nullptr) >= 0;
+    auto ret =
+        dbus_bus_request_name(d->conn_.get(), name.c_str(), d_flags, nullptr);
+    if (ret == DBUS_REQUEST_NAME_REPLY_PRIMARY_OWNER ||
+        ret == DBUS_REQUEST_NAME_REPLY_ALREADY_OWNER ||
+        ((ret == DBUS_REQUEST_NAME_REPLY_IN_QUEUE ||
+          ret == DBUS_REQUEST_NAME_REPLY_EXISTS) &&
+         (flags & RequestNameFlag::Queue))) {
+        return true;
+    }
+    return false;
 }
 
 bool Bus::releaseName(const std::string &name) {
     FCITX_D();
-    return dbus_bus_release_name(d->conn_.get(), name.c_str(), nullptr);
+    return dbus_bus_release_name(d->conn_.get(), name.c_str(), nullptr) >= 0;
 }
 
 std::string Bus::serviceOwner(const std::string &name, uint64_t usec) {

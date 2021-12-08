@@ -10,6 +10,7 @@
 #include <sys/stat.h>
 #include <unistd.h>
 #include <algorithm>
+#include "mtime_p.h"
 #include "stringutils.h"
 
 namespace fcitx::fs {
@@ -231,6 +232,14 @@ std::optional<std::string> readlink(const std::string &path) {
         buffer.resize(buffer.size() * 2);
     }
     return std::nullopt;
+}
+
+int64_t modifiedTime(const std::string &path) {
+    struct stat stats;
+    if (stat(path.c_str(), &stats) != 0) {
+        return 0;
+    }
+    return fcitx::modifiedTime(stats).sec;
 }
 
 } // namespace fcitx::fs

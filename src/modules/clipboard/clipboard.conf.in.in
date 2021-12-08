@@ -1,11 +1,12 @@
 [Addon]
 Name=Clipboard
 Type=SharedLibrary
-Library=clipboard
+Library=libclipboard
 Category=Module
 Version=@PROJECT_VERSION@
 OnDemand=False
 Configurable=True
 
-[Addon/Dependencies]
+[Addon/OptionalDependencies]
 0=xcb
+1=wayland

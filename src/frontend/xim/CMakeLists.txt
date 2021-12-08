@@ -1,7 +1,6 @@
 if (ENABLE_X11)
 add_library(xim MODULE xim.cpp)
 target_link_libraries(xim Fcitx5::Core XCBImdkit::XCBImdkit XCB::XCB XCB::AUX XCB::EWMH XKBCommon::XKBCommon Fcitx5::Module::XCB)
-set_target_properties(xim PROPERTIES PREFIX "")
 install(TARGETS xim DESTINATION "${FCITX_INSTALL_ADDONDIR}")
 install(FILES "${CMAKE_CURRENT_BINARY_DIR}/xim.conf" DESTINATION "${FCITX_INSTALL_PKGDATADIR}/addon")
 endif()

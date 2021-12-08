@@ -50,6 +50,13 @@ public:
      */
     void schedule(std::function<void()> functor);
 
+    /**
+     * Return the currently attached event loop
+     *
+     * @since 5.0.11
+     */
+    EventLoop *eventLoop() const;
+
 private:
     const std::unique_ptr<EventDispatcherPrivate> d_ptr;
     FCITX_DECLARE_PRIVATE(EventDispatcher);

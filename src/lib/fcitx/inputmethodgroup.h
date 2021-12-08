@@ -28,6 +28,7 @@ public:
     InputMethodGroupItem &setLayout(const std::string &layout);
     const std::string &name() const;
     const std::string &layout() const;
+    bool isKeyboard() const;
 
     std::unique_ptr<InputMethodGroupItemPrivate> d_ptr;
     FCITX_DECLARE_PRIVATE(InputMethodGroupItem);

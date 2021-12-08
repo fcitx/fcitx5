@@ -2,11 +2,10 @@
 Name=Status Notifier
 Comment=DBus based new Freedesktop.org tray icon
 Type=SharedLibrary
-Library=notificationitem
+Library=libnotificationitem
 Category=Module
 Version=@PROJECT_VERSION@
 OnDemand=True
-Configurable=True
 
 [Addon/Dependencies]
 0=dbus

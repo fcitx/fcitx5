@@ -11,6 +11,7 @@ using namespace fcitx;
 
 int main() {
     IconTheme theme("breeze");
+    FCITX_INFO() << IconTheme::defaultIconThemeName();
     FCITX_INFO() << theme.name().match();
     FCITX_INFO() << theme.comment().match();
 
