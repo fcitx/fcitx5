@@ -392,9 +392,8 @@ void WaylandIMInputContextV1::modifiersCallback(uint32_t serial,
                           mods_locked, 0, 0, group);
     server_->instance()->updateXkbStateMask(
         server_->group()->display(), mods_depressed, mods_latched, mods_locked);
-    mask = xkb_state_serialize_mods(
-        server_->state_.get(), static_cast<xkb_state_component>(
-                                   XKB_STATE_DEPRESSED | XKB_STATE_LATCHED));
+    mask = xkb_state_serialize_mods(server_->state_.get(),
+                                    XKB_STATE_MODS_EFFECTIVE);
 
     server_->modifiers_ = 0;
     if (mask & server_->stateMask_.shift_mask) {
@@ -419,7 +418,7 @@ void WaylandIMInputContextV1::modifiersCallback(uint32_t serial,
         server_->modifiers_ |= KeyState::Meta;
     }
 
-    ic_->modifiers(serial, mods_depressed, mods_depressed, mods_latched, group);
+    ic_->modifiers(serial, mods_depressed, mods_latched, mods_locked, group);
 }
 
 void WaylandIMInputContextV1::repeatInfoCallback(int32_t rate, int32_t delay) {
