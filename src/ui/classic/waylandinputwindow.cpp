@@ -93,7 +93,12 @@ void WaylandInputWindow::initPanel() {
 void WaylandInputWindow::resetPanel() { panelSurface_.reset(); }
 
 void WaylandInputWindow::update(fcitx::InputContext *ic) {
+    const auto oldVisible = visible();
     InputWindow::update(ic);
+
+    if (!oldVisible && !visible()) {
+        return;
+    }
 
     if (!visible()) {
         window_->hide();
