@@ -382,6 +382,7 @@ void WaylandIMInputContextV1::modifiersCallback(uint32_t serial,
                                                 uint32_t mods_latched,
                                                 uint32_t mods_locked,
                                                 uint32_t group) {
+    FCITX_UNUSED(serial);
     if (!server_->state_) {
         return;
     }
@@ -417,8 +418,6 @@ void WaylandIMInputContextV1::modifiersCallback(uint32_t serial,
     if (mask & server_->stateMask_.meta_mask) {
         server_->modifiers_ |= KeyState::Meta;
     }
-
-    ic_->modifiers(serial, mods_depressed, mods_latched, mods_locked, group);
 }
 
 void WaylandIMInputContextV1::repeatInfoCallback(int32_t rate, int32_t delay) {
