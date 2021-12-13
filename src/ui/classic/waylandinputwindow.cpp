@@ -131,6 +131,9 @@ void WaylandInputWindow::update(fcitx::InputContext *ic) {
 }
 
 void WaylandInputWindow::repaint() {
+    if (!visible()) {
+        return;
+    }
 
     if (auto *surface = window_->prerender()) {
         cairo_t *c = cairo_create(surface);
