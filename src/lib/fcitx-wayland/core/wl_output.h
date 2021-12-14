@@ -22,6 +22,8 @@ public:
     auto &mode() { return modeSignal_; }
     auto &done() { return doneSignal_; }
     auto &scale() { return scaleSignal_; }
+    auto &name() { return nameSignal_; }
+    auto &description() { return descriptionSignal_; }
 
 private:
     static void destructor(wl_output *);
@@ -32,6 +34,8 @@ private:
     fcitx::Signal<void(uint32_t, int32_t, int32_t, int32_t)> modeSignal_;
     fcitx::Signal<void()> doneSignal_;
     fcitx::Signal<void(int32_t)> scaleSignal_;
+    fcitx::Signal<void(const char *)> nameSignal_;
+    fcitx::Signal<void(const char *)> descriptionSignal_;
     uint32_t version_;
     void *userData_ = nullptr;
     UniqueCPtr<wl_output, &destructor> data_;

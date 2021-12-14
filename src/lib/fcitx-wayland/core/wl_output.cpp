@@ -28,6 +28,16 @@ const struct wl_output_listener WlOutput::listener = {
         assert(*obj == wldata);
         { return obj->scale()(factor); }
     },
+    [](void *data, wl_output *wldata, const char *name) {
+      auto *obj = static_cast<WlOutput *>(data);
+      assert(*obj == wldata);
+      { return obj->name()(name); }
+    },
+    [](void *data, wl_output *wldata, const char *description) {
+      auto *obj = static_cast<WlOutput *>(data);
+      assert(*obj == wldata);
+      { return obj->description()(description); }
+    },
 };
 WlOutput::WlOutput(wl_output *data)
     : version_(wl_output_get_version(data)), data_(data) {
