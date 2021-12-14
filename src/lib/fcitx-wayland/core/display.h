@@ -7,6 +7,7 @@
 #ifndef _FCITX_WAYLAND_CORE_DISPLAY_H_
 #define _FCITX_WAYLAND_CORE_DISPLAY_H_
 
+#include <algorithm>
 #include <list>
 #include <memory>
 #include <set>
@@ -43,7 +44,7 @@ public:
     virtual std::shared_ptr<void> create(WlRegistry &registry, uint32_t name,
                                          uint32_t version) {
         std::shared_ptr<T> p;
-        p.reset(registry.bind<T>(name, version));
+        p.reset(registry.bind<T>(name, std::min(version, T::version)));
         globals_.insert(name);
         return p;
     }
