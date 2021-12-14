@@ -798,6 +798,8 @@ check_system() {
         write_eval "$(_ 'Desktop environment is ${1}.')" \
             "$(code_inline "${DE}")"
     fi
+    write_order_list "$(_ 'XDG SESSION TYPE:')"
+    write_quote_str "XDG_SESSION_TYPE='${XDG_SESSION_TYPE}'"
     write_order_list "$(_ 'Bash Version:')"
     write_quote_str "BASH_VERSION='${BASH_VERSION}'"
 }
