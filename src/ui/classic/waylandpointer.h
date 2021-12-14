@@ -9,8 +9,8 @@
 
 #include <memory>
 #include "wl_pointer.h"
-#include "wl_touch.h"
 #include "wl_seat.h"
+#include "wl_touch.h"
 
 namespace fcitx {
 namespace classicui {

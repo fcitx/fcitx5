@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2021-12-03 20:24+0000\n"
+"POT-Creation-Date: 2021-12-08 20:24+0000\n"
 "PO-Revision-Date: 2017-11-23 04:14+0000\n"
 "Last-Translator: Robert Antoni Buj Gelonch <rbuj@fedoraproject.org>, 2020\n"
 "Language-Team: Catalan (https://www.transifex.com/fcitx/teams/12005/ca/)\n"
@@ -143,7 +143,7 @@ msgid "All libraries for all addons are found."
 msgstr ""
 
 #: data/fcitx5-diagnose.sh:828
-msgid "All locale:"
+msgid "All locales:"
 msgstr ""
 
 #: src/modules/xcb/xcbmodule.h:30

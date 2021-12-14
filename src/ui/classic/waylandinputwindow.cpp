@@ -47,9 +47,7 @@ WaylandInputWindow::WaylandInputWindow(WaylandUI *ui)
             repaint();
         }
     });
-    window_->touchDown().connect([this](int x, int y) {
-        click(x, y);
-    });
+    window_->touchDown().connect([this](int x, int y) { click(x, y); });
     window_->touchUp().connect([this](int, int) {
         // do nothing
     });
@@ -95,7 +93,12 @@ void WaylandInputWindow::initPanel() {
 void WaylandInputWindow::resetPanel() { panelSurface_.reset(); }
 
 void WaylandInputWindow::update(fcitx::InputContext *ic) {
+    const auto oldVisible = visible();
     InputWindow::update(ic);
+
+    if (!oldVisible && !visible()) {
+        return;
+    }
 
     if (!visible()) {
         window_->hide();
@@ -133,6 +136,9 @@ void WaylandInputWindow::update(fcitx::InputContext *ic) {
 }
 
 void WaylandInputWindow::repaint() {
+    if (!visible()) {
+        return;
+    }
 
     if (auto *surface = window_->prerender()) {
         cairo_t *c = cairo_create(surface);
