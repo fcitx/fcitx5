@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2021-12-08 20:24+0000\n"
+"POT-Creation-Date: 2021-12-15 20:24+0000\n"
 "PO-Revision-Date: 2017-11-23 04:14+0000\n"
 "Last-Translator: scootergrisen, 2021\n"
 "Language-Team: Danish (https://www.transifex.com/fcitx/teams/12005/da/)\n"
@@ -20,23 +20,23 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: data/fcitx5-diagnose.sh:874
+#: data/fcitx5-diagnose.sh:876
 msgid "${1} Environment Variables:"
 msgstr "${1} miljøvariabler:"
 
-#: data/fcitx5-diagnose.sh:860
+#: data/fcitx5-diagnose.sh:862
 msgid "${1} Settings Directory:"
 msgstr "${1}-indstillingsmappe:"
 
-#: data/fcitx5-diagnose.sh:934
+#: data/fcitx5-diagnose.sh:936
 msgid "${1} is not running."
 msgstr "${1} kører ikke."
 
-#: data/fcitx5-diagnose.sh:883
+#: data/fcitx5-diagnose.sh:885
 msgid "${1} is not set."
 msgstr "${1} er ikke sat."
 
-#: data/fcitx5-diagnose.sh:880
+#: data/fcitx5-diagnose.sh:882
 msgid "${1} is set to ${2}."
 msgstr "${1} er sat til ${2}."
 
@@ -44,7 +44,7 @@ msgstr "${1} er sat til ${2}."
 msgid "${1} not found."
 msgstr "${1} ikke fundet."
 
-#: data/fcitx5-diagnose.sh:951
+#: data/fcitx5-diagnose.sh:953
 msgid "${1} works properly."
 msgstr "${1} virker korrekt."
 
@@ -113,15 +113,15 @@ msgstr "Tilføj favorit"
 msgid "Add Unicode Typing Support"
 msgstr "Tilføj understøttelse af unicode-indtastning"
 
-#: data/fcitx5-diagnose.sh:1562
+#: data/fcitx5-diagnose.sh:1564
 msgid "Addon Config Dir:"
 msgstr "Tilføjelseskonfigurationsmappe:"
 
-#: data/fcitx5-diagnose.sh:1647
+#: data/fcitx5-diagnose.sh:1649
 msgid "Addon Libraries:"
 msgstr "Tilføjelsesbiblioteker:"
 
-#: data/fcitx5-diagnose.sh:1590
+#: data/fcitx5-diagnose.sh:1592
 msgid "Addon List:"
 msgstr "Tilføjelsesliste:"
 
@@ -134,15 +134,15 @@ msgstr "Juster lysstyrke"
 msgid "All"
 msgstr ""
 
-#: data/fcitx5-diagnose.sh:1325
+#: data/fcitx5-diagnose.sh:1327
 msgid "All found Gtk ${1} immodule files exist."
 msgstr "Alle fundne Gtk ${1} im-modul-filer findes."
 
-#: data/fcitx5-diagnose.sh:1673
+#: data/fcitx5-diagnose.sh:1675
 msgid "All libraries for all addons are found."
 msgstr "Alle biblioteker til alle tilføjelse er fundet."
 
-#: data/fcitx5-diagnose.sh:828
+#: data/fcitx5-diagnose.sh:830
 msgid "All locales:"
 msgstr ""
 
@@ -224,7 +224,7 @@ msgctxt "Key name"
 msgid "Backspace"
 msgstr "Backspace"
 
-#: data/fcitx5-diagnose.sh:801
+#: data/fcitx5-diagnose.sh:803
 msgid "Bash Version:"
 msgstr "Bash-version:"
 
@@ -304,7 +304,7 @@ msgstr "Annuller"
 msgid "Candidates"
 msgstr "Kandidater"
 
-#: data/fcitx5-diagnose.sh:949
+#: data/fcitx5-diagnose.sh:951
 msgid "Cannot connect to ${1} correctly."
 msgstr "Kan ikke oprette forbindelse til ${1} korrekt."
 
@@ -312,77 +312,77 @@ msgstr "Kan ikke oprette forbindelse til ${1} korrekt."
 msgid "Cannot determine desktop environment."
 msgstr "Kan ikke bestemme skrivebordsmiljø."
 
-#: data/fcitx5-diagnose.sh:1581
+#: data/fcitx5-diagnose.sh:1583
 msgid "Cannot find ${1} addon config directory."
 msgstr "Kan ikke finde ${1}-tilføjelseskonfigurationsmappe."
 
-#: data/fcitx5-diagnose.sh:1073
+#: data/fcitx5-diagnose.sh:1075
 msgid "Cannot find ${1} executable!"
 msgstr "Kan ikke finde ${1}-eksekverbar!"
 
-#: data/fcitx5-diagnose.sh:1475 data/fcitx5-diagnose.sh:1528
+#: data/fcitx5-diagnose.sh:1477 data/fcitx5-diagnose.sh:1530
 msgid "Cannot find ${1} im module for gtk ${2} in cache."
 msgstr "Kan ikke finde ${1}-im-modul til gtk ${2} i mellemlager."
 
-#: data/fcitx5-diagnose.sh:1392
+#: data/fcitx5-diagnose.sh:1394
 msgid "Cannot find ${1} im module for gtk ${2}."
 msgstr "Kan ikke finde ${1}-im-modul til gtk ${2}."
 
-#: data/fcitx5-diagnose.sh:1251 data/fcitx5-diagnose.sh:1256
+#: data/fcitx5-diagnose.sh:1253 data/fcitx5-diagnose.sh:1258
 msgid "Cannot find ${1} input method module for ${2}."
 msgstr "Kan ikke finde ${1}-inputmetode-modul til ${2}."
 
-#: data/fcitx5-diagnose.sh:1386
+#: data/fcitx5-diagnose.sh:1388
 msgid "Cannot find ${2} for gtk ${1}"
 msgstr "Kan ikke finde ${2} til gtk ${1}"
 
-#: data/fcitx5-diagnose.sh:969
+#: data/fcitx5-diagnose.sh:971
 msgid "Cannot find DBus name ${1} owner."
 msgstr "Kan ikke finde ejer af DBus-navnet ${1}."
 
-#: data/fcitx5-diagnose.sh:1083
+#: data/fcitx5-diagnose.sh:1085
 msgid "Cannot find a GUI config tool, please install one of ${1}, or ${2}."
 msgstr ""
 "Kan ikke finde et konfigurationsværktøj med grafisk brugerflade, installer "
 "venligst ${1} eller ${2}."
 
-#: data/fcitx5-diagnose.sh:1676
+#: data/fcitx5-diagnose.sh:1678
 msgid "Cannot find enabled ${1} user interface!"
 msgstr "Kan ikke finde aktiveret ${1}-brugerflade!"
 
-#: data/fcitx5-diagnose.sh:912
+#: data/fcitx5-diagnose.sh:914
 msgid "Cannot find fcitx5 executable!"
 msgstr "Kan ikke finde fcitx5-eksekverbar!"
 
-#: data/fcitx5-diagnose.sh:1655
+#: data/fcitx5-diagnose.sh:1657
 msgid "Cannot find file ${1} of addon ${2}."
 msgstr "Kan ikke filen ${1} af tilføjelsen ${2}."
 
-#: data/fcitx5-diagnose.sh:1665
+#: data/fcitx5-diagnose.sh:1667
 msgid "Cannot find following required libraries for ${1} of addon ${2}."
 msgstr ""
 "Kan ikke finde følgende krævede biblioteker for ${1} af tilføjelsen ${2}."
 
-#: data/fcitx5-diagnose.sh:1470 data/fcitx5-diagnose.sh:1523
+#: data/fcitx5-diagnose.sh:1472 data/fcitx5-diagnose.sh:1525
 msgid "Cannot find immodules cache for gtk ${1}"
 msgstr "Kan ikke finde im-modul mellemlager til gtk ${1}"
 
-#: data/fcitx5-diagnose.sh:1695
+#: data/fcitx5-diagnose.sh:1697
 msgid ""
 "Cannot find kimpanel dbus interface or enabled non-kimpanel user interface."
 msgstr ""
 "Kan ikke finde kimpanel dbus-grænseflade eller aktivere ikke-kimpanel-"
 "brugerflade."
 
-#: data/fcitx5-diagnose.sh:977
+#: data/fcitx5-diagnose.sh:979
 msgid "Cannot find pid of DBus name ${1} owner."
 msgstr "Kan ikke finde pid på ejer af DBus-navnet ${1}."
 
-#: data/fcitx5-diagnose.sh:1149
+#: data/fcitx5-diagnose.sh:1151
 msgid "Cannot find xim_server on root window."
 msgstr "Kan ikke finde xim_server på rodvindue."
 
-#: data/fcitx5-diagnose.sh:1123
+#: data/fcitx5-diagnose.sh:1125
 msgid "Cannot interpret XMODIFIERS: ${1}."
 msgstr "Kan ikke fortolke XMODIFIERS: ${1}."
 
@@ -471,31 +471,31 @@ msgstr ""
 msgid "Completion is enabled."
 msgstr "Fuldførsel er aktiveret."
 
-#: data/fcitx5-diagnose.sh:1025
+#: data/fcitx5-diagnose.sh:1027
 msgid "Config GUI for gtk${1} not found."
 msgstr "Konfiguration med grafisk brugerflade til gtk${1} ikke fundet."
 
-#: data/fcitx5-diagnose.sh:1021
+#: data/fcitx5-diagnose.sh:1023
 msgid "Config GUI for gtk${1}:"
 msgstr "Konfiguration med grafisk brugerflade til gtk${1}:"
 
-#: data/fcitx5-diagnose.sh:1055
+#: data/fcitx5-diagnose.sh:1057
 msgid "Config GUI for kde:"
 msgstr "Konfiguration med grafisk brugerflade til kde:"
 
-#: data/fcitx5-diagnose.sh:1044
+#: data/fcitx5-diagnose.sh:1046
 msgid "Config GUI for qt not found."
 msgstr "Konfiguration med grafisk brugerflade til qt ikke fundet."
 
-#: data/fcitx5-diagnose.sh:1042
+#: data/fcitx5-diagnose.sh:1044
 msgid "Config GUI for qt:"
 msgstr "Konfiguration med grafisk brugerflade til qt:"
 
-#: data/fcitx5-diagnose.sh:1071
+#: data/fcitx5-diagnose.sh:1073
 msgid "Config Tool Wrapper:"
 msgstr "Konfigurationsværktøjs-wrapper:"
 
-#: data/fcitx5-diagnose.sh:1790
+#: data/fcitx5-diagnose.sh:1792
 msgid "Configuration:"
 msgstr "Konfiguration:"
 
@@ -518,19 +518,19 @@ msgctxt "Key name"
 msgid "Copy"
 msgstr "Kopiér"
 
-#: data/fcitx5-diagnose.sh:862
+#: data/fcitx5-diagnose.sh:864
 msgid "Current ${1} settings directory is ${2} (${3})."
 msgstr "Nuværende ${1}-indstillingsmappe er ${2} (${3})."
 
-#: data/fcitx5-diagnose.sh:830
+#: data/fcitx5-diagnose.sh:832
 msgid "Current locale:"
 msgstr "Nuværende sprog:"
 
-#: data/fcitx5-diagnose.sh:868
+#: data/fcitx5-diagnose.sh:870
 msgid "Current user:"
 msgstr "Nuværende bruger:"
 
-#: data/fcitx5-diagnose.sh:856
+#: data/fcitx5-diagnose.sh:858
 msgid "Current value of ${1} is ${2} (${3})."
 msgstr "Nuværende værdi af ${1} er ${2} (${3})."
 
@@ -555,7 +555,7 @@ msgstr "DBus-frontend"
 msgid "DBus based new Freedesktop.org tray icon"
 msgstr "DBus-baseret nyt Freedesktop.org-bakkeikon"
 
-#: data/fcitx5-diagnose.sh:957
+#: data/fcitx5-diagnose.sh:959
 msgid "DBus interface:"
 msgstr "DBus-grænseflade:"
 
@@ -568,7 +568,7 @@ msgstr "DOS"
 msgid "Deactivate Input Method"
 msgstr "Deaktivér inputmetode"
 
-#: data/fcitx5-diagnose.sh:981
+#: data/fcitx5-diagnose.sh:983
 msgid "Debug information from dbus:"
 msgstr ""
 
@@ -614,7 +614,7 @@ msgstr "Skrivebordsmiljø:"
 msgid "Desktop environment is ${1}."
 msgstr "Skrivebordsmiljø er ${1}."
 
-#: data/fcitx5-diagnose.sh:842
+#: data/fcitx5-diagnose.sh:844
 msgid "Directories:"
 msgstr "Mapper:"
 
@@ -713,7 +713,7 @@ msgstr "Gennemløb inputmetode-gruppe forlæns"
 msgid "Enumerate when press trigger key repeatedly"
 msgstr "Gennemløb når der trykkes på udløsertast gentagne gange"
 
-#: data/fcitx5-diagnose.sh:1101
+#: data/fcitx5-diagnose.sh:1103
 msgid ""
 "Environment variable ${1} is \"${2}\" instead of \"${3}\". Please check if "
 "you have exported it incorrectly in any of your init files."
@@ -721,23 +721,23 @@ msgstr ""
 "Miljøvariablen ${1} er \"${2}\" i stedet for \"${3}\". Tjek venligst om du "
 "har eksporteret den forkert i nogen af dine init-filer."
 
-#: data/fcitx5-diagnose.sh:848
+#: data/fcitx5-diagnose.sh:850
 msgid "Environment variable ${1} is not set."
 msgstr "Miljøvariablen ${1} er ikke sat."
 
-#: data/fcitx5-diagnose.sh:1095
+#: data/fcitx5-diagnose.sh:1097
 msgid "Environment variable ${1} is set to \"${2}\" correctly."
 msgstr "Miljøvariablen ${1} er sat korrekt til \"${2}\"."
 
-#: data/fcitx5-diagnose.sh:852
+#: data/fcitx5-diagnose.sh:854
 msgid "Environment variable ${1} is set to ${2}."
 msgstr "Miljøvariablen ${1} er ikke sat ${2}."
 
-#: data/fcitx5-diagnose.sh:806
+#: data/fcitx5-diagnose.sh:808
 msgid "Environment:"
 msgstr "Miljø:"
 
-#: data/fcitx5-diagnose.sh:834
+#: data/fcitx5-diagnose.sh:836
 msgid "Error occurs when running ${1}. Please check your locale settings."
 msgstr ""
 "Der opstod en fejl under kørsel af ${1}. Tjek venligst dine lokale "
@@ -758,11 +758,11 @@ msgstr "Udfør"
 msgid "Exit"
 msgstr "Afslut"
 
-#: data/fcitx5-diagnose.sh:1464 data/fcitx5-diagnose.sh:1517
+#: data/fcitx5-diagnose.sh:1466 data/fcitx5-diagnose.sh:1519
 msgid "Failed to find ${1} in immodule cache at ${2}"
 msgstr "Kunne ikke finde ${1} i im-modul mellemlager ved ${2}"
 
-#: data/fcitx5-diagnose.sh:1380
+#: data/fcitx5-diagnose.sh:1382
 msgid "Failed to find ${1} in the output of ${2}"
 msgstr "Kunne ikke finde ${1} i outputtet af ${2}"
 
@@ -784,15 +784,15 @@ msgstr "Fcitx 5"
 msgid "Fcitx 5 Configuration"
 msgstr "Fcitx 5-konfiguration"
 
-#: data/fcitx5-diagnose.sh:1561
+#: data/fcitx5-diagnose.sh:1563
 msgid "Fcitx Addons:"
 msgstr "Fcitx-tilføjelser:"
 
-#: data/fcitx5-diagnose.sh:1070
+#: data/fcitx5-diagnose.sh:1072
 msgid "Fcitx Configure UI:"
 msgstr "Fcitx-konfiguration med brugerflade:"
 
-#: data/fcitx5-diagnose.sh:909
+#: data/fcitx5-diagnose.sh:911
 msgid "Fcitx State:"
 msgstr "Fcitx-tilstand:"
 
@@ -806,7 +806,7 @@ msgstr ""
 "sprog du kender. Det har også en vifte af tilføjelser som forbedre din "
 "skriveoplevelse."
 
-#: data/fcitx5-diagnose.sh:923
+#: data/fcitx5-diagnose.sh:925
 msgid "Fcitx version: ${1}"
 msgstr "Fcitx-version: ${1}"
 
@@ -840,69 +840,69 @@ msgctxt "Key name"
 msgid "Forward"
 msgstr "Fremad"
 
-#: data/fcitx5-diagnose.sh:1240
+#: data/fcitx5-diagnose.sh:1242
 msgid "Found ${1} ${2} module: ${3}."
 msgstr "Fandt ${1} ${2}-modul: ${3}."
 
-#: data/fcitx5-diagnose.sh:943
+#: data/fcitx5-diagnose.sh:945
 msgid "Found ${1} ${2} process:"
 msgstr "Fandt ${1} ${2}-proces:"
 
-#: data/fcitx5-diagnose.sh:941
+#: data/fcitx5-diagnose.sh:943
 msgid "Found ${1} ${2} processes:"
 msgstr "Fandt ${1} ${2}-processer:"
 
-#: data/fcitx5-diagnose.sh:1584
+#: data/fcitx5-diagnose.sh:1586
 msgid "Found ${1} addon config directory: ${2}."
 msgstr "Fandt ${1}-tilføjelseskonfigurationsmappe: ${2}."
 
-#: data/fcitx5-diagnose.sh:918 data/fcitx5-diagnose.sh:1034
-#: data/fcitx5-diagnose.sh:1047 data/fcitx5-diagnose.sh:1075
+#: data/fcitx5-diagnose.sh:920 data/fcitx5-diagnose.sh:1036
+#: data/fcitx5-diagnose.sh:1049 data/fcitx5-diagnose.sh:1077
 msgid "Found ${1} at ${2}."
 msgstr "Fandt ${1} ved ${2}."
 
-#: data/fcitx5-diagnose.sh:1637
+#: data/fcitx5-diagnose.sh:1639
 msgid "Found ${1} disabled addons:"
 msgstr "Fandt ${1} deaktiverede tilføjelser:"
 
-#: data/fcitx5-diagnose.sh:1628
+#: data/fcitx5-diagnose.sh:1630
 msgid "Found ${1} enabled addons:"
 msgstr "Fandt ${1} aktiverede tilføjelser:"
 
-#: data/fcitx5-diagnose.sh:1678
+#: data/fcitx5-diagnose.sh:1680
 msgid "Found ${1} enabled user interface addons:"
 msgstr "Fandt ${1} aktiverede brugergrænsefladetilføjelser:"
 
-#: data/fcitx5-diagnose.sh:1374 data/fcitx5-diagnose.sh:1458
-#: data/fcitx5-diagnose.sh:1511
+#: data/fcitx5-diagnose.sh:1376 data/fcitx5-diagnose.sh:1460
+#: data/fcitx5-diagnose.sh:1513
 msgid "Found ${1} im modules for gtk ${2}."
 msgstr "Fandt ${1} im-moduler til gtk ${2}."
 
-#: data/fcitx5-diagnose.sh:1061
+#: data/fcitx5-diagnose.sh:1063
 msgid "Found ${1} kcm module."
 msgstr "Fandt ${1} kcm-modul."
 
-#: data/fcitx5-diagnose.sh:1366
+#: data/fcitx5-diagnose.sh:1368
 msgid "Found ${2} for unknown gtk version at ${1}."
 msgstr "Fandt ${2} til ukendt gtk-version ved ${1}."
 
-#: data/fcitx5-diagnose.sh:1358
+#: data/fcitx5-diagnose.sh:1360
 msgid "Found ${3} for gtk ${1} at ${2}."
 msgstr "Fandt ${3} til gtk ${1} ved ${2}."
 
-#: data/fcitx5-diagnose.sh:1229 data/fcitx5-diagnose.sh:1234
+#: data/fcitx5-diagnose.sh:1231 data/fcitx5-diagnose.sh:1236
 msgid "Found ${3} im module for ${2}: ${1}."
 msgstr "Fandt ${3} im-modul til ${2}: ${1}."
 
-#: data/fcitx5-diagnose.sh:1451
+#: data/fcitx5-diagnose.sh:1453
 msgid "Found immodule cache for unknown gtk version at ${1}."
 msgstr "Fandt im-modul mellemlager for ukendt gtk-version ved ${1}."
 
-#: data/fcitx5-diagnose.sh:1443 data/fcitx5-diagnose.sh:1504
+#: data/fcitx5-diagnose.sh:1445 data/fcitx5-diagnose.sh:1506
 msgid "Found immodules cache for gtk ${1} at ${2}."
 msgstr "Fandt im-modulers mellemlager til gtk ${1} ved ${2}."
 
-#: data/fcitx5-diagnose.sh:1243
+#: data/fcitx5-diagnose.sh:1245
 msgid "Found unknown ${1} qt module: ${2}."
 msgstr "Fandt ukendt ${1} qt-modul: ${2}."
 
@@ -910,7 +910,7 @@ msgstr "Fandt ukendt ${1} qt-modul: ${2}."
 msgid "Freedesktop.org Notification Support"
 msgstr "Understøttelse af Freedesktop.org-underretning"
 
-#: data/fcitx5-diagnose.sh:1783
+#: data/fcitx5-diagnose.sh:1785
 msgid "Frontends setup:"
 msgstr "Frontendens opsætning:"
 
@@ -942,15 +942,15 @@ msgstr "Gruppe {0}: {1}"
 msgid "Group {}"
 msgstr "Gruppe {}"
 
-#: data/fcitx5-diagnose.sh:1319
+#: data/fcitx5-diagnose.sh:1321
 msgid "Gtk ${1} immodule file ${2} does not exist."
 msgstr "Gtk ${1} im-modul-filen ${2} findes ikke."
 
-#: data/fcitx5-diagnose.sh:1541
+#: data/fcitx5-diagnose.sh:1543
 msgid "Gtk IM module cache:"
 msgstr "Mellemlager for Gtk IM-modul:"
 
-#: data/fcitx5-diagnose.sh:1547
+#: data/fcitx5-diagnose.sh:1549
 msgid "Gtk IM module files:"
 msgstr "Filer for Gtk IM-modul:"
 
@@ -1091,7 +1091,7 @@ msgctxt "Key name"
 msgid "Home Page"
 msgstr "Startside"
 
-#: data/fcitx5-diagnose.sh:844
+#: data/fcitx5-diagnose.sh:846
 msgid "Home:"
 msgstr "Hjem:"
 
@@ -1164,7 +1164,7 @@ msgstr "Konfiguration af inputmetode"
 msgid "Input Method Related Environment Variables: "
 msgstr "Inputmetode med relation til miljøvariabler: "
 
-#: data/fcitx5-diagnose.sh:1701
+#: data/fcitx5-diagnose.sh:1703
 msgid "Input Methods:"
 msgstr ""
 
@@ -1187,7 +1187,7 @@ msgctxt "Key name"
 msgid "Insert"
 msgstr "Indsæt"
 
-#: data/fcitx5-diagnose.sh:1596
+#: data/fcitx5-diagnose.sh:1598
 msgid "Invalid addon config file ${1}."
 msgstr "Ugyldig tilføjelseskonfigurationsfil ${1}."
 
@@ -1241,7 +1241,7 @@ msgctxt "Key name"
 msgid "Keyboard Brightness Up"
 msgstr "Tastaturlysstyrke op"
 
-#: data/fcitx5-diagnose.sh:810
+#: data/fcitx5-diagnose.sh:812
 msgid "Keyboard Layout:"
 msgstr "Tastaturlayout:"
 
@@ -1255,7 +1255,7 @@ msgctxt "Key name"
 msgid "Keyboard Menu"
 msgstr "Tastaturmenu"
 
-#: data/fcitx5-diagnose.sh:1687
+#: data/fcitx5-diagnose.sh:1689
 msgid "Kimpanel process:"
 msgstr "Kimpanel-proces:"
 
@@ -1379,11 +1379,11 @@ msgctxt "Key name"
 msgid "LightBulb"
 msgstr "Pære"
 
-#: data/fcitx5-diagnose.sh:825
+#: data/fcitx5-diagnose.sh:827
 msgid "Locale:"
 msgstr "Sprog:"
 
-#: data/fcitx5-diagnose.sh:1796
+#: data/fcitx5-diagnose.sh:1798
 msgid "Log:"
 msgstr "Log:"
 
@@ -1648,11 +1648,11 @@ msgstr "Y-forskydning for overlægning"
 msgid "Overlay position"
 msgstr "Placering for overlægning"
 
-#: data/fcitx5-diagnose.sh:965
+#: data/fcitx5-diagnose.sh:967
 msgid "Owner of DBus name ${1} is ${2}."
 msgstr "Ejer af DBus-navnet ${1} er ${2}."
 
-#: data/fcitx5-diagnose.sh:973
+#: data/fcitx5-diagnose.sh:975
 msgid "PID of DBus name ${1} owner is ${2}."
 msgstr "PID af ejeren af DBus-navnet ${1} er ${2}."
 
@@ -1694,11 +1694,11 @@ msgctxt "Key name"
 msgid "Pictures"
 msgstr "Billeder"
 
-#: data/fcitx5-diagnose.sh:914
+#: data/fcitx5-diagnose.sh:916
 msgid "Please check ${1} for how to install fcitx5."
 msgstr "Tjek venligst ${1} for hvordan fcitx5 installeres."
 
-#: data/fcitx5-diagnose.sh:936
+#: data/fcitx5-diagnose.sh:938
 msgid ""
 "Please check the Configure link of your distribution in ${1} for how to "
 "setup ${2} autostart."
@@ -1771,7 +1771,7 @@ msgstr ""
 msgid "Providers"
 msgstr "Udbydere"
 
-#: data/fcitx5-diagnose.sh:1215
+#: data/fcitx5-diagnose.sh:1217
 msgid "Qt IM module files:"
 msgstr "Filer for Qt IM-modul:"
 
@@ -1868,7 +1868,7 @@ msgctxt "Key name"
 msgid "Rotation PB"
 msgstr "Rotation PB"
 
-#: data/fcitx5-diagnose.sh:890
+#: data/fcitx5-diagnose.sh:892
 msgid "Running as root:"
 msgstr "Kører som root:"
 
@@ -2081,7 +2081,7 @@ msgstr "Terminal"
 msgid "The n-th hotkey in the list selects the n-th input method."
 msgstr "Den niende hottast i listen vælger den niende inputmetode."
 
-#: data/fcitx5-diagnose.sh:869
+#: data/fcitx5-diagnose.sh:871
 msgid "The script is run as ${1} (${2})."
 msgstr "Scriptet køres som ${1} (${2})."
 
@@ -2101,7 +2101,7 @@ msgstr ""
 msgid "This value should be less than any of margin value."
 msgstr ""
 
-#: data/fcitx5-diagnose.sh:1802
+#: data/fcitx5-diagnose.sh:1804
 msgid ""
 "Though such information can be helpful to developers for diagnostic purpose, "
 "please double check and remove as necessary before posting it online "
@@ -2217,7 +2217,7 @@ msgstr "Skriv specialtegn med langt tryk"
 msgid "Typing with Fcitx and Kimpanel"
 msgstr "Skriver med Fcitx og Kimpanel"
 
-#: data/fcitx5-diagnose.sh:985
+#: data/fcitx5-diagnose.sh:987
 msgid "Unable to find a program to check dbus."
 msgstr "Kan ikke finde et program til at tjekke dbus."
 
@@ -2259,11 +2259,11 @@ msgstr ""
 msgid "Use mouse wheel to go to prev or next page"
 msgstr "Brug musehjulet for at gå til forrige eller næste side"
 
-#: data/fcitx5-diagnose.sh:1674
+#: data/fcitx5-diagnose.sh:1676
 msgid "User Interface:"
 msgstr "Brugerflade:"
 
-#: data/fcitx5-diagnose.sh:960
+#: data/fcitx5-diagnose.sh:962
 msgid "Using ${1} to check dbus."
 msgstr "Bruger ${1} til at tjekke dbus."
 
@@ -2271,7 +2271,7 @@ msgstr "Bruger ${1} til at tjekke dbus."
 msgid "Version"
 msgstr "Version"
 
-#: data/fcitx5-diagnose.sh:1363 data/fcitx5-diagnose.sh:1447
+#: data/fcitx5-diagnose.sh:1365 data/fcitx5-diagnose.sh:1449
 msgid "Version Line:"
 msgstr "Versionslinje:"
 
@@ -2314,7 +2314,7 @@ msgctxt "Key name"
 msgid "Wake Up"
 msgstr "Vågn op"
 
-#: data/fcitx5-diagnose.sh:1801
+#: data/fcitx5-diagnose.sh:1803
 msgid ""
 "Warning: the output of fcitx5-diagnose contains sensitive information, "
 "including the distribution name, kernel version, name of currently running "
@@ -2334,7 +2334,7 @@ msgctxt "Key name"
 msgid "WebCam"
 msgstr "Webcam"
 
-#: data/fcitx5-diagnose.sh:900
+#: data/fcitx5-diagnose.sh:902
 msgid "Why is it bad to run as root"
 msgstr "Hvorfor det er en dårlig ide at køre som root"
 
@@ -2356,36 +2356,40 @@ msgstr "X-inputmetode-frontend"
 msgid "XCB"
 msgstr "XCB"
 
+#: data/fcitx5-diagnose.sh:801
+msgid "XDG SESSION TYPE:"
+msgstr ""
+
 #: src/lib/fcitx-utils/key.cpp:160
 msgctxt "Key name"
 msgid "XFer"
 msgstr "XFer"
 
-#: data/fcitx5-diagnose.sh:1162
+#: data/fcitx5-diagnose.sh:1164
 msgid "XIM encoding:"
 msgstr "XIM-kodning:"
 
-#: data/fcitx5-diagnose.sh:1157
+#: data/fcitx5-diagnose.sh:1159
 msgid "XIM for Emacs:"
 msgstr "XIM til Emacs:"
 
-#: data/fcitx5-diagnose.sh:1133
+#: data/fcitx5-diagnose.sh:1135
 msgid "XIM_SERVERS on root window:"
 msgstr "XIM_SERVERS på rod-vindue:"
 
-#: data/fcitx5-diagnose.sh:1110
+#: data/fcitx5-diagnose.sh:1112
 msgid "XMODIFIERS is not set"
 msgstr "XMODIFIERS er ikke sat"
 
-#: data/fcitx5-diagnose.sh:1131
+#: data/fcitx5-diagnose.sh:1133
 msgid "Xim Server Name from Environment variable is ${1}."
 msgstr "Xim-servernavn fra miljøvariabel er ${1}."
 
-#: data/fcitx5-diagnose.sh:1143
+#: data/fcitx5-diagnose.sh:1145
 msgid "Xim server name is the same with that set in the environment variable."
 msgstr "Xim-servernavn er det samme som det der er sat i miljøvariablen."
 
-#: data/fcitx5-diagnose.sh:1145
+#: data/fcitx5-diagnose.sh:1147
 msgid ""
 "Xim server name: \"${1}\" is different from that set in the environment "
 "variable: \"${2}\"."
@@ -2398,7 +2402,7 @@ msgctxt "Key name"
 msgid "Yellow"
 msgstr "Gul"
 
-#: data/fcitx5-diagnose.sh:898
+#: data/fcitx5-diagnose.sh:900
 msgid ""
 "You are probably logging in as ${1} or using ${2} to run this script. This "
 "either means you have security problems or the result of this script may not "
@@ -2409,7 +2413,7 @@ msgstr ""
 "resultatet af scriptet kan være upræcist. Se ${3} eller ${4} for mere "
 "information."
 
-#: data/fcitx5-diagnose.sh:893
+#: data/fcitx5-diagnose.sh:895
 msgid ""
 "You are probably using ${1} to run this script. This means the result of "
 "this script may not be accurate. See ${2} for more information."
@@ -2417,11 +2421,11 @@ msgstr ""
 "Du bruger formodentligt ${1} til at køre scriptet. Det betyder at resultatet "
 "af scriptet kan være upræcist. Se ${2} for mere information."
 
-#: data/fcitx5-diagnose.sh:1184
+#: data/fcitx5-diagnose.sh:1186
 msgid "You are using xim in ${1} programs."
 msgstr "Du bruger xim i ${1} programmer."
 
-#: data/fcitx5-diagnose.sh:1189
+#: data/fcitx5-diagnose.sh:1191
 msgid "You may have trouble using fcitx in ${1} programs."
 msgstr "Det kan være at du har problemer med at bruge fcitx i ${1} programmer."
 
@@ -2443,7 +2447,7 @@ msgstr ""
 "pakkenavnet for KCModule er typisk kcm-fcitx eller kde-config-fcitx. Den vil "
 "nu åbne konfigurationsmappen."
 
-#: data/fcitx5-diagnose.sh:1159
+#: data/fcitx5-diagnose.sh:1161
 msgid ""
 "Your LC_CTYPE is set to ${1} instead of one of zh, ja, ko. You may not be "
 "able to use input method in emacs because of an really old emacs bug that "
@@ -2453,7 +2457,7 @@ msgstr ""
 "kunne bruge inputmetode i emacs pga. en meget gammel emacs-fejl som upstream "
 "har nægtet at rette i årevis."
 
-#: data/fcitx5-diagnose.sh:1164
+#: data/fcitx5-diagnose.sh:1166
 msgid ""
 "Your LC_CTYPE is set to ${1} whose encoding is not UTF-8. You may have "
 "trouble committing strings using XIM."
@@ -2481,7 +2485,7 @@ msgctxt "Key name"
 msgid "Zoom Out"
 msgstr "Zoom ud"
 
-#: data/fcitx5-diagnose.sh:910
+#: data/fcitx5-diagnose.sh:912
 msgid "executable:"
 msgstr "eksekverbar:"
 
@@ -2494,15 +2498,15 @@ msgctxt "Key name"
 msgid "iTouch"
 msgstr "iTouch"
 
-#: data/fcitx5-diagnose.sh:924
+#: data/fcitx5-diagnose.sh:926
 msgid "process:"
 msgstr "proces:"
 
-#: data/fcitx5-diagnose.sh:895 data/fcitx5-diagnose.sh:901
+#: data/fcitx5-diagnose.sh:897 data/fcitx5-diagnose.sh:903
 msgid "sudo environment variables"
 msgstr "sudo-miljøvariabler"
 
-#: data/fcitx5-diagnose.sh:920
+#: data/fcitx5-diagnose.sh:922
 msgid "version:"
 msgstr "version:"
 
