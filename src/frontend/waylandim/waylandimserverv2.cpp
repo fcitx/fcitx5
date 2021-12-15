@@ -484,6 +484,7 @@ void WaylandIMInputContextV2::sendKeyToVK(uint32_t time, uint32_t key,
                                           uint32_t state) {
     lastVKKey_ = key;
     lastVKState_ = state;
+    lastVKTime_ = time;
     vk_->key(time, key, state);
 }
 
