@@ -138,6 +138,13 @@ WaylandIMInputContextV2::WaylandIMInputContextV2(
             pendingDeactivate_ = false;
             keyboardGrab_.reset();
             timeEvent_->setEnabled(false);
+            // If last key to vk is press, send a release.
+            if (lastVKKey_ && lastVKState_ == WL_KEYBOARD_KEY_STATE_PRESSED) {
+                vk_->key(lastVKTime_, lastVKKey_,
+                         WL_KEYBOARD_KEY_STATE_RELEASED);
+                lastVKTime_ = lastVKKey_ = 0;
+                lastVKState_ = WL_KEYBOARD_KEY_STATE_RELEASED;
+            }
             server_->display_->sync();
             focusOut();
         }
@@ -170,6 +177,8 @@ WaylandIMInputContextV2::WaylandIMInputContextV2(
                 repeatInfoCallback(repeatRate_, repeatDelay_);
                 focusIn();
                 server_->display_->sync();
+                lastVKTime_ = lastVKKey_ = 0;
+                lastVKState_ = WL_KEYBOARD_KEY_STATE_RELEASED;
             }
         }
     });
@@ -205,12 +214,12 @@ void WaylandIMInputContextV2::repeat() {
         this,
         Key(repeatSym_, server_->modifiers_ | KeyState::Repeat, repeatKey_ + 8),
         false, repeatTime_);
-    vk_->key(repeatTime_, event.rawKey().code() - 8,
-             WL_KEYBOARD_KEY_STATE_RELEASED);
+    sendKeyToVK(repeatTime_, event.rawKey().code() - 8,
+                WL_KEYBOARD_KEY_STATE_RELEASED);
     server_->display_->roundtrip();
     if (!keyEvent(event)) {
-        vk_->key(repeatTime_, event.rawKey().code() - 8,
-                 WL_KEYBOARD_KEY_STATE_PRESSED);
+        sendKeyToVK(repeatTime_, event.rawKey().code() - 8,
+                    WL_KEYBOARD_KEY_STATE_PRESSED);
     }
     uint64_t interval = 1000000 / repeatRate_;
     timeEvent_->setTime(timeEvent_->time() + interval);
@@ -415,9 +424,9 @@ void WaylandIMInputContextV2::keyCallback(uint32_t, uint32_t time, uint32_t key,
     WAYLANDIM_DEBUG() << event.key().toString()
                       << " IsRelease=" << event.isRelease();
     if (!keyEvent(event)) {
-        vk_->key(time, event.rawKey().code() - 8,
-                 event.isRelease() ? WL_KEYBOARD_KEY_STATE_RELEASED
-                                   : WL_KEYBOARD_KEY_STATE_PRESSED);
+        sendKeyToVK(time, event.rawKey().code() - 8,
+                    event.isRelease() ? WL_KEYBOARD_KEY_STATE_RELEASED
+                                      : WL_KEYBOARD_KEY_STATE_PRESSED);
     }
     server_->display_->flush();
 }
@@ -471,6 +480,13 @@ void WaylandIMInputContextV2::repeatInfoCallback(int32_t rate, int32_t delay) {
     repeatDelay_ = delay;
 }
 
+void WaylandIMInputContextV2::sendKeyToVK(uint32_t time, uint32_t key,
+                                          uint32_t state) {
+    lastVKKey_ = key;
+    lastVKState_ = state;
+    vk_->key(time, key, state);
+}
+
 void WaylandIMInputContextV2::forwardKeyImpl(const ForwardKeyEvent &key) {
     uint32_t code = 0;
     if (key.rawKey().code()) {
@@ -487,11 +503,11 @@ void WaylandIMInputContextV2::forwardKeyImpl(const ForwardKeyEvent &key) {
             }
         }
     }
-    vk_->key(time_, code - 8,
-             key.isRelease() ? WL_KEYBOARD_KEY_STATE_RELEASED
-                             : WL_KEYBOARD_KEY_STATE_PRESSED);
+    sendKeyToVK(time_, code - 8,
+                key.isRelease() ? WL_KEYBOARD_KEY_STATE_RELEASED
+                                : WL_KEYBOARD_KEY_STATE_PRESSED);
     if (!key.isRelease()) {
-        vk_->key(time_, code - 8, WL_KEYBOARD_KEY_STATE_RELEASED);
+        sendKeyToVK(time_, code - 8, WL_KEYBOARD_KEY_STATE_RELEASED);
     }
 }
 
