@@ -452,13 +452,13 @@ void WaylandIMInputContextV1::updatePreeditImpl() {
     }
 
     ic_->preeditCursor(preedit.cursor());
-    ic_->preeditString(serial_, preedit.toString().c_str(),
-                       preedit.toStringForCommit().c_str());
     unsigned int index = 0;
     for (int i = 0, e = preedit.size(); i < e; i++) {
         ic_->preeditStyling(index, preedit.stringAt(i).size(),
                             waylandFormat(preedit.formatAt(i)));
         index += preedit.stringAt(i).size();
     }
+    ic_->preeditString(serial_, preedit.toString().c_str(),
+                       preedit.toStringForCommit().c_str());
 }
 } // namespace fcitx
