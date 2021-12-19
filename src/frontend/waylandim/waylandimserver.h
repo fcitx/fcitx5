@@ -85,12 +85,21 @@ public:
 
 protected:
     void commitStringImpl(const std::string &text) override {
+        if (!ic_) {
+            return;
+        }
         ic_->commitString(serial_, text.c_str());
     }
     void deleteSurroundingTextImpl(int offset, unsigned int size) override {
+        if (!ic_) {
+            return;
+        }
         ic_->deleteSurroundingText(offset, size);
     }
     void forwardKeyImpl(const ForwardKeyEvent &key) override {
+        if (!ic_) {
+            return;
+        }
         ic_->keysym(serial_, time_, key.rawKey().sym(),
                     key.isRelease() ? WL_KEYBOARD_KEY_STATE_RELEASED
                                     : WL_KEYBOARD_KEY_STATE_PRESSED,

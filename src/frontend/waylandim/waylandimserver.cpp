@@ -152,6 +152,9 @@ void WaylandIMInputContextV1::deactivate(wayland::ZwpInputMethodContextV1 *ic) {
 }
 
 void WaylandIMInputContextV1::repeat() {
+    if (!ic_) {
+        return;
+    }
     KeyEvent event(
         this,
         Key(repeatSym_, server_->modifiers_ | KeyState::Repeat, repeatKey_ + 8),
@@ -347,6 +350,9 @@ void WaylandIMInputContextV1::keyCallback(uint32_t serial, uint32_t time,
     if (!server_->state_) {
         return;
     }
+    if (!ic_) {
+        return;
+    }
 
     // EVDEV OFFSET
     uint32_t code = key + 8;
@@ -427,6 +433,10 @@ void WaylandIMInputContextV1::repeatInfoCallback(int32_t rate, int32_t delay) {
 }
 
 void WaylandIMInputContextV1::updatePreeditImpl() {
+    if (!ic_) {
+        return;
+    }
+
     auto preedit =
         server_->instance()->outputFilter(this, inputPanel().clientPreedit());
 
