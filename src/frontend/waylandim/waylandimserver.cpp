@@ -141,6 +141,13 @@ void WaylandIMInputContextV1::activate(wayland::ZwpInputMethodContextV1 *ic) {
     });
     repeatInfoCallback(repeatRate_, repeatDelay_);
     server_->display_->sync();
+    wl_array array;
+    wl_array_init(&array);
+    constexpr char data[] = "Shift\0Control\0Mod1\0Mod4\0";
+    wl_array_add(&array, sizeof(data));
+    memcpy(array.data, data, sizeof(data));
+    ic_->modifiersMap(&array);
+    wl_array_release(&array);
     focusIn();
 }
 
@@ -149,6 +156,14 @@ void WaylandIMInputContextV1::deactivate(wayland::ZwpInputMethodContextV1 *ic) {
         ic_.reset();
         keyboard_.reset();
         timeEvent_->setEnabled(false);
+        // If last key to vk is press, send a release.
+        if (lastVKKey_ && lastVKState_ == WL_KEYBOARD_KEY_STATE_PRESSED) {
+            sendKeyToVK(lastVKTime_, lastVKKey_,
+                        WL_KEYBOARD_KEY_STATE_RELEASED);
+            lastVKTime_ = lastVKKey_ = 0;
+            lastVKState_ = WL_KEYBOARD_KEY_STATE_RELEASED;
+        }
+        server_->display_->sync();
         focusOut();
     } else {
         // This should not happen, but just in case.
@@ -157,18 +172,19 @@ void WaylandIMInputContextV1::deactivate(wayland::ZwpInputMethodContextV1 *ic) {
 }
 
 void WaylandIMInputContextV1::repeat() {
-    if (!ic_) {
+    if (!ic_ || !hasFocus()) {
         return;
     }
     KeyEvent event(
         this,
         Key(repeatSym_, server_->modifiers_ | KeyState::Repeat, repeatKey_ + 8),
         false, repeatTime_);
+
+    sendKeyToVK(repeatTime_, event.rawKey().code() - 8,
+                WL_KEYBOARD_KEY_STATE_RELEASED);
     if (!keyEvent(event)) {
-        ic_->keysym(serial_, repeatTime_, event.rawKey().sym(),
-                    event.isRelease() ? WL_KEYBOARD_KEY_STATE_RELEASED
-                                      : WL_KEYBOARD_KEY_STATE_PRESSED,
-                    event.rawKey().states());
+        sendKeyToVK(repeatTime_, event.rawKey().code() - 8,
+                    WL_KEYBOARD_KEY_STATE_PRESSED);
     }
 
     timeEvent_->setNextInterval(1000000 / repeatRate_);
@@ -376,7 +392,9 @@ void WaylandIMInputContextV1::keyCallback(uint32_t serial, uint32_t time,
             repeatKey_ = key;
             repeatTime_ = time;
             repeatSym_ = event.rawKey().sym();
-            timeEvent_->setNextInterval(repeatDelay_ * 1000);
+            // Let's trick the key event system by fake our first.
+            // Remove 100 from the initial interval.
+            timeEvent_->setNextInterval(repeatDelay_ * 1000 - 100);
             timeEvent_->setOneShot();
         }
     }
@@ -435,6 +453,26 @@ void WaylandIMInputContextV1::repeatInfoCallback(int32_t rate, int32_t delay) {
     repeatRate_ = rate;
     repeatDelay_ = delay;
     timeEvent_->setAccuracy(std::min(delay * 1000, 1000000 / rate));
+}
+
+void WaylandIMInputContextV1::sendKey(uint32_t time, uint32_t sym,
+                                      uint32_t state, KeyStates states) {
+    if (!ic_) {
+        return;
+    }
+    auto modifiers = toModifiers(states);
+    ic_->keysym(serial_, time, sym, state, modifiers);
+}
+
+void WaylandIMInputContextV1::sendKeyToVK(uint32_t time, uint32_t key,
+                                          uint32_t state) {
+    if (!ic_) {
+        return;
+    }
+    lastVKKey_ = key;
+    lastVKState_ = state;
+    lastVKTime_ = time;
+    ic_->key(serial_, time, key, state);
 }
 
 void WaylandIMInputContextV1::updatePreeditImpl() {
