@@ -20,6 +20,10 @@
 
 namespace fcitx {
 
+constexpr CapabilityFlags baseFlags{CapabilityFlag::Preedit,
+                                    CapabilityFlag::FormattedPreedit,
+                                    CapabilityFlag::SurroundingText};
+
 static inline unsigned int waylandFormat(TextFormatFlags flags) {
     unsigned int result = 0;
     if (flags & TextFormatFlag::Underline) {
@@ -68,6 +72,7 @@ void WaylandIMServer::init() {
         globalIc_ = new WaylandIMInputContextV1(
             parent_->instance()->inputContextManager(), this);
         globalIc_->setFocusGroup(group_);
+        globalIc_->setCapabilityFlags(baseFlags);
         inputMethodV1_->activate().connect(
             [this](wayland::ZwpInputMethodContextV1 *ic) { activate(ic); });
         inputMethodV1_->deactivate().connect(
@@ -180,7 +185,7 @@ void WaylandIMInputContextV1::surroundingTextCallback(const char *text,
 void WaylandIMInputContextV1::resetCallback() { reset(); }
 void WaylandIMInputContextV1::contentTypeCallback(uint32_t hint,
                                                   uint32_t purpose) {
-    CapabilityFlags flags;
+    CapabilityFlags flags = baseFlags;
     if (hint & ZWP_TEXT_INPUT_V1_CONTENT_HINT_PASSWORD) {
         flags |= CapabilityFlag::Password;
     }
