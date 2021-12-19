@@ -143,7 +143,7 @@ void WaylandIMInputContextV1::activate(wayland::ZwpInputMethodContextV1 *ic) {
     server_->display_->sync();
     wl_array array;
     wl_array_init(&array);
-    constexpr char data[] = "Shift\0Control\0Mod1\0Mod4\0";
+    constexpr char data[] = "Shift\0Control\0Mod1\0Mod4";
     wl_array_add(&array, sizeof(data));
     memcpy(array.data, data, sizeof(data));
     ic_->modifiersMap(&array);
