@@ -94,10 +94,16 @@ public:
 
 protected:
     void commitStringImpl(const std::string &text) override {
+        if (!hasFocus()) {
+            return;
+        }
         ic_->commitString(text.c_str());
         ic_->commit(serial_);
     }
     void deleteSurroundingTextImpl(int offset, unsigned int size) override {
+        if (!hasFocus()) {
+            return;
+        }
         ic_->deleteSurroundingText(-offset, offset + size);
         ic_->commit(serial_);
     }

@@ -513,6 +513,9 @@ void WaylandIMInputContextV2::forwardKeyImpl(const ForwardKeyEvent &key) {
 }
 
 void WaylandIMInputContextV2::updatePreeditImpl() {
+    if (!hasFocus()) {
+        return;
+    }
     auto preedit =
         server_->instance()->outputFilter(this, inputPanel().clientPreedit());
 
