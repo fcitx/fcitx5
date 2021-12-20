@@ -150,6 +150,11 @@ WaylandIMInputContextV2::WaylandIMInputContextV2(
         }
         if (pendingActivate_) {
             pendingActivate_ = false;
+            // There can be only one grab. Always release old grab first.
+            // It is possible when switching between two client, there will be
+            // two activate. In that case we will have already one grab. The
+            // second request would fail and cause invalid object.
+            keyboardGrab_.reset();
             keyboardGrab_.reset(ic_->grabKeyboard());
             if (!keyboardGrab_) {
                 WAYLANDIM_DEBUG() << "Failed to grab keyboard";
