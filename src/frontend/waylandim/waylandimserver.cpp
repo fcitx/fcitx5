@@ -73,9 +73,15 @@ void WaylandIMServer::init() {
         globalIc_->setFocusGroup(group_);
         globalIc_->setCapabilityFlags(baseFlags);
         inputMethodV1_->activate().connect(
-            [this](wayland::ZwpInputMethodContextV1 *ic) { activate(ic); });
+            [this](wayland::ZwpInputMethodContextV1 *ic) {
+                WAYLANDIM_DEBUG() << "ACTIVATE " << ic;
+                activate(ic);
+            });
         inputMethodV1_->deactivate().connect(
-            [this](wayland::ZwpInputMethodContextV1 *ic) { deactivate(ic); });
+            [this](wayland::ZwpInputMethodContextV1 *ic) {
+                WAYLANDIM_DEBUG() << "DEACTIVATE " << ic;
+                deactivate(ic);
+            });
         display_->flush();
     }
 }
