@@ -114,6 +114,8 @@ void WaylandInputWindow::update(fcitx::InputContext *ic) {
                            ->call<IWaylandIMModule::getInputMethodV2>(ic);
             panelSurfaceV2_.reset(im->getInputPopupSurface(window_->surface()));
         }
+    } else if (ic->frontend() == std::string_view("wayland")) {
+        panelSurface_->setOverlayPanel();
     }
     if (!panelSurface_ && !panelSurfaceV2_) {
         return;
