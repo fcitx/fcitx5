@@ -524,14 +524,36 @@ void WaylandIMInputContextV2::updatePreeditImpl() {
     auto preedit =
         server_->instance()->outputFilter(this, inputPanel().clientPreedit());
 
+    int highlightStart = -1, highlightEnd = -1;
+    int start = 0, end = 0;
+    bool multipleHighlight = false;
     for (int i = 0, e = preedit.size(); i < e; i++) {
         if (!utf8::validate(preedit.stringAt(i))) {
             return;
         }
+        end = start + preedit.stringAt(i).size();
+        if (preedit.formatAt(i).test(TextFormatFlag::HighLight)) {
+            if (highlightStart == -1) {
+                highlightStart = start;
+                highlightEnd = end;
+            } else if (highlightEnd == start) {
+                highlightEnd = end;
+            } else {
+                multipleHighlight = true;
+            }
+        }
+        start = end;
     }
 
-    ic_->setPreeditString(preedit.toString().data(), preedit.cursor(),
-                          preedit.cursor());
+    int cursorStart = preedit.cursor();
+    int cursorEnd = preedit.cursor();
+    if (!multipleHighlight && highlightStart >= 0 && highlightEnd >= 0) {
+        if (cursorStart == highlightStart) {
+            cursorEnd = highlightEnd;
+        }
+    }
+
+    ic_->setPreeditString(preedit.toString().data(), cursorStart, cursorEnd);
     ic_->commit(serial_);
 }
 } // namespace fcitx
