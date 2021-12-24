@@ -46,7 +46,7 @@ std::vector<std::string> SpellEnchant::hint(const std::string &language,
     std::vector<std::string> result;
     number = number > limit ? limit : number;
     result.reserve(number);
-    for (auto i = number; i < number; i++) {
+    for (auto i = 0; i < number; i++) {
         result.push_back(suggestions[i]);
     }
 
