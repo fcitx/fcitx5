@@ -95,6 +95,7 @@ protected:
             return;
         }
         ic_->deleteSurroundingText(offset, size);
+        ic_->commitString(serial_, "");
     }
     void forwardKeyImpl(const ForwardKeyEvent &key) override {
         if (!ic_) {
