@@ -568,4 +568,39 @@ void WaylandIMInputContextV2::updatePreeditImpl() {
     ic_->setPreeditString(preedit.toString().data(), cursorStart, cursorEnd);
     ic_->commit(serial_);
 }
+
+void WaylandIMInputContextV2::deleteSurroundingTextImpl(int offset,
+                                                        unsigned int size) {
+    if (!hasFocus()) {
+        return;
+    }
+
+    // Cant convert to before/after.
+    if (offset > 0 || offset + static_cast<ssize_t>(size) < 0) {
+        return;
+    }
+
+    size_t cursor = surroundingText().cursor();
+    if (static_cast<ssize_t>(cursor) + offset < 0) {
+        return;
+    }
+
+    const auto &text = surroundingText().text();
+    auto len = utf8::length(text);
+
+    size_t start = cursor + offset;
+    size_t end = cursor + offset + size;
+    // validate length.
+    if (cursor > len || start > len || end > len) {
+        return;
+    }
+
+    auto startBytes = utf8::ncharByteLength(text.begin(), start);
+    auto cursorBytes = utf8::ncharByteLength(text.begin(), cursor);
+    auto sizeBytes = utf8::ncharByteLength(text.begin() + startBytes, size);
+    ic_->deleteSurroundingText(cursorBytes - startBytes,
+                               startBytes + sizeBytes - cursorBytes);
+    ic_->commit(serial_);
+}
+
 } // namespace fcitx

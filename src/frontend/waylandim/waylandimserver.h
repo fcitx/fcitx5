@@ -90,13 +90,7 @@ protected:
         }
         ic_->commitString(serial_, text.c_str());
     }
-    void deleteSurroundingTextImpl(int offset, unsigned int size) override {
-        if (!ic_) {
-            return;
-        }
-        ic_->deleteSurroundingText(offset, size);
-        ic_->commitString(serial_, "");
-    }
+    void deleteSurroundingTextImpl(int offset, unsigned int size) override;
     void forwardKeyImpl(const ForwardKeyEvent &key) override {
         if (!ic_) {
             return;
@@ -111,7 +105,7 @@ protected:
         }
     }
 
-    virtual void updatePreeditImpl() override;
+    void updatePreeditImpl() override;
 
 private:
     void repeat();

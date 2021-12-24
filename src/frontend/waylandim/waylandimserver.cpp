@@ -200,7 +200,13 @@ void WaylandIMInputContextV1::repeat() {
 void WaylandIMInputContextV1::surroundingTextCallback(const char *text,
                                                       uint32_t cursor,
                                                       uint32_t anchor) {
-    surroundingText().setText(text, cursor, anchor);
+    std::string_view textView(text);
+    if (cursor > textView.size() || anchor > textView.size() ||
+        !utf8::validate(textView)) {
+        return;
+    }
+    surroundingText().setText(text, utf8::length(textView, 0, cursor),
+                              utf8::length(textView, 0, anchor));
     updateSurroundingText();
 }
 void WaylandIMInputContextV1::resetCallback() { reset(); }
@@ -490,6 +496,7 @@ void WaylandIMInputContextV1::sendKeyToVK(uint32_t time, uint32_t key,
     lastVKState_ = state;
     lastVKTime_ = time;
     ic_->key(serial_, time, key, state);
+    server_->display_->roundtrip();
 }
 
 void WaylandIMInputContextV1::updatePreeditImpl() {
@@ -515,5 +522,32 @@ void WaylandIMInputContextV1::updatePreeditImpl() {
     }
     ic_->preeditString(serial_, preedit.toString().c_str(),
                        preedit.toStringForCommit().c_str());
+}
+
+void WaylandIMInputContextV1::deleteSurroundingTextImpl(int offset,
+                                                        unsigned int size) {
+    if (!ic_) {
+        return;
+    }
+
+    size_t cursor = surroundingText().cursor();
+    if (static_cast<ssize_t>(cursor) + offset < 0) {
+        return;
+    }
+
+    const auto &text = surroundingText().text();
+    auto len = utf8::length(text);
+
+    size_t start = cursor + offset;
+    size_t end = cursor + offset + size;
+    if (cursor > len || start > len || end > len) {
+        return;
+    }
+
+    auto startBytes = utf8::ncharByteLength(text.begin(), start);
+    auto cursorBytes = utf8::ncharByteLength(text.begin(), cursor);
+    auto sizeBytes = utf8::ncharByteLength(text.begin() + startBytes, size);
+    ic_->deleteSurroundingText(startBytes - cursorBytes, sizeBytes);
+    ic_->commitString(serial_, "");
 }
 } // namespace fcitx

@@ -100,13 +100,7 @@ protected:
         ic_->commitString(text.c_str());
         ic_->commit(serial_);
     }
-    void deleteSurroundingTextImpl(int offset, unsigned int size) override {
-        if (!hasFocus()) {
-            return;
-        }
-        ic_->deleteSurroundingText(-offset, offset + size);
-        ic_->commit(serial_);
-    }
+    void deleteSurroundingTextImpl(int offset, unsigned int size) override;
     void forwardKeyImpl(const ForwardKeyEvent &key) override;
 
     void updatePreeditImpl() override;
