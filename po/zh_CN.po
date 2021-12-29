@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2021-12-15 20:24+0000\n"
+"POT-Creation-Date: 2021-12-29 20:24+0000\n"
 "PO-Revision-Date: 2017-11-23 04:14+0000\n"
 "Last-Translator: csslayer <wengxt@gmail.com>, 2021\n"
 "Language-Team: Chinese (China) (https://www.transifex.com/fcitx/teams/12005/"
@@ -145,7 +145,7 @@ msgstr "所有插件所需的库都被找到。"
 
 #: data/fcitx5-diagnose.sh:830
 msgid "All locales:"
-msgstr ""
+msgstr "全部可用 locale："
 
 #: src/modules/xcb/xcbmodule.h:30
 msgid "Allow Overriding System XKB Settings"
@@ -2351,7 +2351,7 @@ msgstr "XCB"
 
 #: data/fcitx5-diagnose.sh:801
 msgid "XDG SESSION TYPE:"
-msgstr ""
+msgstr "XDG 会话类型："
 
 #: src/lib/fcitx-utils/key.cpp:160
 msgctxt "Key name"
