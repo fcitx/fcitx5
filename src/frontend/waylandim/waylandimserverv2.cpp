@@ -221,7 +221,6 @@ void WaylandIMInputContextV2::repeat() {
         false, repeatTime_);
     sendKeyToVK(repeatTime_, event.rawKey().code() - 8,
                 WL_KEYBOARD_KEY_STATE_RELEASED);
-    server_->display_->roundtrip();
     if (!keyEvent(event)) {
         sendKeyToVK(repeatTime_, event.rawKey().code() - 8,
                     WL_KEYBOARD_KEY_STATE_PRESSED);
@@ -229,8 +228,6 @@ void WaylandIMInputContextV2::repeat() {
     uint64_t interval = 1000000 / repeatRate_;
     timeEvent_->setTime(timeEvent_->time() + interval);
     timeEvent_->setOneShot();
-
-    server_->display_->roundtrip();
 }
 
 void WaylandIMInputContextV2::surroundingTextCallback(const char *text,
@@ -401,7 +398,6 @@ void WaylandIMInputContextV2::keyCallback(uint32_t, uint32_t time, uint32_t key,
         focusIn();
     }
 
-    WAYLANDIM_DEBUG() << "RECEIVE KEY";
     // EVDEV OFFSET
     uint32_t code = key + 8;
 
@@ -503,6 +499,7 @@ void WaylandIMInputContextV2::sendKeyToVK(uint32_t time, uint32_t key,
     lastVKState_ = state;
     lastVKTime_ = time;
     vk_->key(time, key, state);
+    server_->display_->flush();
 }
 
 void WaylandIMInputContextV2::forwardKeyImpl(const ForwardKeyEvent &key) {

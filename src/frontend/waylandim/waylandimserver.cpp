@@ -103,6 +103,7 @@ WaylandIMInputContextV1::WaylandIMInputContextV1(
             repeat();
             return true;
         });
+    timeEvent_->setAccuracy(1);
     timeEvent_->setEnabled(false);
     created();
 }
@@ -192,7 +193,8 @@ void WaylandIMInputContextV1::repeat() {
                     WL_KEYBOARD_KEY_STATE_PRESSED);
     }
 
-    timeEvent_->setNextInterval(1000000 / repeatRate_);
+    uint64_t interval = 1000000 / repeatRate_;
+    timeEvent_->setTime(timeEvent_->time() + interval);
     timeEvent_->setOneShot();
     server_->display_->flush();
 }
@@ -475,7 +477,6 @@ void WaylandIMInputContextV1::modifiersCallback(uint32_t serial,
 void WaylandIMInputContextV1::repeatInfoCallback(int32_t rate, int32_t delay) {
     repeatRate_ = rate;
     repeatDelay_ = delay;
-    timeEvent_->setAccuracy(std::min(delay * 1000, 1000000 / rate));
 }
 
 void WaylandIMInputContextV1::sendKey(uint32_t time, uint32_t sym,
@@ -496,7 +497,7 @@ void WaylandIMInputContextV1::sendKeyToVK(uint32_t time, uint32_t key,
     lastVKState_ = state;
     lastVKTime_ = time;
     ic_->key(serial_, time, key, state);
-    server_->display_->roundtrip();
+    server_->display_->flush();
 }
 
 void WaylandIMInputContextV1::updatePreeditImpl() {
