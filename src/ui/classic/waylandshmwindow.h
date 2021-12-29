@@ -35,6 +35,7 @@ private:
     // Pointer to the current buffer.
     wayland::Buffer *buffer_ = nullptr;
     bool pending_ = false;
+    std::unique_ptr<EventSource> deferEvent_;
 };
 } // namespace classicui
 } // namespace fcitx

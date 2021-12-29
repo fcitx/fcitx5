@@ -37,6 +37,8 @@ public:
     auto &rendered() { return rendered_; }
 
 private:
+    uint8_t *data_ = nullptr;
+    size_t dataSize_ = 0;
     Signal<void()> rendered_;
     std::unique_ptr<WlShmPool> pool_;
     std::unique_ptr<WlBuffer> buffer_;

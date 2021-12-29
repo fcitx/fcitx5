@@ -28,12 +28,19 @@ void fcitx::classicui::WaylandShmWindow::newBuffer() {
     buffers_.emplace_back(std::make_unique<wayland::Buffer>(
         shm_.get(), width_, height_, WL_SHM_FORMAT_ARGB8888));
     buffers_.back()->rendered().connect([this]() {
-        if (pending_) {
-            pending_ = false;
+        // Use defer event here, otherwise repaint may delete buffer and cause
+        // problem.
+        deferEvent_ = ui_->parent()->instance()->eventLoop().addDeferEvent(
+            [this](EventSource *) {
+                if (pending_) {
+                    pending_ = false;
 
-            CLASSICUI_DEBUG() << "Trigger repaint";
-            repaint_();
-        }
+                    CLASSICUI_DEBUG() << "Trigger repaint";
+                    repaint_();
+                }
+                deferEvent_.reset();
+                return true;
+            });
     });
 }
 

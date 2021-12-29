@@ -60,6 +60,9 @@ Buffer::Buffer(WlShm *shm, uint32_t width, uint32_t height,
         return;
     }
 
+    data_ = data;
+    dataSize_ = alloc;
+
     pool_.reset(shm->createPool(fd.fd(), alloc));
     buffer_.reset(pool_->createBuffer(0, width, height, stride, format));
     buffer_->release().connect([this]() { busy_ = false; });
@@ -68,7 +71,15 @@ Buffer::Buffer(WlShm *shm, uint32_t width, uint32_t height,
         data, CAIRO_FORMAT_ARGB32, width, height, stride));
 }
 
-Buffer::~Buffer() {}
+Buffer::~Buffer() {
+    callback_.reset();
+    surface_.reset();
+    buffer_.reset();
+    pool_.reset();
+    if (data_) {
+        munmap(data_, dataSize_);
+    }
+}
 
 void Buffer::attachToSurface(WlSurface *surface) {
     if (busy_) {
@@ -78,6 +89,7 @@ void Buffer::attachToSurface(WlSurface *surface) {
     callback_.reset(surface->frame());
     callback_->done().connect([this](uint32_t) {
         // CLASSICUI_DEBUG() << "Shm window rendered. " << this;
+        // Need to ensure buffer won't be deleted.
         busy_ = false;
         rendered_();
         callback_.reset();
