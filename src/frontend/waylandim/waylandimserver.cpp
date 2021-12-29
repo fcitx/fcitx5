@@ -405,7 +405,7 @@ void WaylandIMInputContextV1::keyCallback(uint32_t serial, uint32_t time,
             repeatSym_ = event.rawKey().sym();
             // Let's trick the key event system by fake our first.
             // Remove 100 from the initial interval.
-            timeEvent_->setNextInterval(repeatDelay_ * 1000 - 100);
+            timeEvent_->setNextInterval(repeatDelay_ * 1000 - repeatHackDelay);
             timeEvent_->setOneShot();
         }
     }

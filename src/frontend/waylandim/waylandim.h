@@ -16,6 +16,7 @@
 
 namespace fcitx {
 
+constexpr int32_t repeatHackDelay = 1000;
 class WaylandIMModule;
 class WaylandIMServer;
 class WaylandIMServerV2;
