@@ -5,6 +5,7 @@ Fcitx 5 is a generic input method framework released under LGPL-2.1+.
 [![Jenkins Build Status](https://img.shields.io/jenkins/s/https/jenkins.fcitx-im.org/job/fcitx5.svg)](https://jenkins.fcitx-im.org/job/fcitx5/)
 [![Coverity Scan Status](https://img.shields.io/coverity/scan/9063.svg)](https://scan.coverity.com/projects/fcitx-fcitx5)
 [![Documentation](https://codedocs.xyz/fcitx/fcitx5.svg)](https://codedocs.xyz/fcitx/fcitx5/)
+[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Ffcitx%2Ffcitx5.svg?type=shield)](https://app.fossa.com/projects/git%2Bgithub.com%2Ffcitx%2Ffcitx5?ref=badge_shield)
 
 * Wiki: [https://fcitx-im.org/](https://fcitx-im.org/)
   - Registration require explicit approval due to the spam, please send an email to the mail list if you do not get approved.
@@ -18,3 +19,7 @@ Fcitx 5 is a generic input method framework released under LGPL-2.1+.
 * Translation: [https://www.transifex.com/fcitx/](https://www.transifex.com/fcitx/)
   - Do not send pull request for translation updates.
   - The translation will be automatically pushed to git repository nightly, but not vice versa. 
+
+
+## License
+[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Ffcitx%2Ffcitx5.svg?type=large)](https://app.fossa.com/projects/git%2Bgithub.com%2Ffcitx%2Ffcitx5?ref=badge_large)
