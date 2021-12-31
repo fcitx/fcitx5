@@ -74,7 +74,6 @@ WaylandUI::WaylandUI(ClassicUI *parent, const std::string &name,
 #ifdef CAIRO_EGL_FOUND
     hasEgl_ = initEGL();
 #endif
-
     display_->requestGlobals<wayland::WlCompositor>();
     display_->requestGlobals<wayland::WlShm>();
     display_->requestGlobals<wayland::WlSeat>();
@@ -239,6 +238,7 @@ void WaylandUI::setupInputWindow() {
     if (isSuspend_ || inputWindow_) {
         return;
     }
+
     // Unable to draw window.
     if (!hasEgl_ && !display_->getGlobal<wayland::WlShm>()) {
         return;

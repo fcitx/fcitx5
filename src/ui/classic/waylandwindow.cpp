@@ -29,32 +29,12 @@ void WaylandWindow::createWindow() {
             if (!info) {
                 return;
             }
-            setScale(info->scale());
-            setTransform(info->transform());
+            if (setScaleAndTransform(info->scale(), info->transform())) {
+                repaint_();
+            }
         }));
 }
 
 void WaylandWindow::destroyWindow() { surface_.reset(); }
 
-void bufferToSurfaceSize(enum wl_output_transform buffer_transform,
-                         int32_t buffer_scale, int32_t *width,
-                         int32_t *height) {
-    int32_t tmp;
-
-    switch (buffer_transform) {
-    case WL_OUTPUT_TRANSFORM_90:
-    case WL_OUTPUT_TRANSFORM_270:
-    case WL_OUTPUT_TRANSFORM_FLIPPED_90:
-    case WL_OUTPUT_TRANSFORM_FLIPPED_270:
-        tmp = *width;
-        *width = *height;
-        *height = tmp;
-        break;
-    default:
-        break;
-    }
-
-    *width /= buffer_scale;
-    *height /= buffer_scale;
-}
 } // namespace fcitx::classicui

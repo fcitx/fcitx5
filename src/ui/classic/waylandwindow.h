@@ -25,8 +25,16 @@ public:
     virtual void destroyWindow();
     virtual void hide() = 0;
 
-    void setScale(int32_t scale) { scale_ = scale; }
-    void setTransform(wl_output_transform transform) { transform_ = transform; }
+    int32_t scale() const { return scale_; }
+    wl_output_transform transform() const { return transform_; }
+    bool setScaleAndTransform(int32_t scale, wl_output_transform transform) {
+        if (scale_ != scale || transform_ != transform) {
+            scale_ = scale;
+            transform_ = transform;
+            return true;
+        }
+        return false;
+    }
     wayland::WlSurface *surface() { return surface_.get(); }
 
     auto &repaint() { return repaint_; }

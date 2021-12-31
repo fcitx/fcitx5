@@ -47,9 +47,9 @@ WaylandIMServer::WaylandIMServer(wl_display *display, FocusGroup *group,
       display_(
           static_cast<wayland::Display *>(wl_display_get_user_data(display))) {
     display_->requestGlobals<wayland::ZwpInputMethodV1>();
-    globalConn_ = display_->registry()->global().connect(
-        [this](uint32_t, const char *interface, uint32_t) {
-            if (0 == strcmp(interface, wayland::ZwpInputMethodV1::interface)) {
+    globalConn_ = display_->globalCreated().connect(
+        [this](const std::string &interface, const std::shared_ptr<void> &) {
+            if (interface == wayland::ZwpInputMethodV1::interface) {
                 init();
             }
         });
@@ -67,6 +67,7 @@ Instance *WaylandIMServer::instance() { return parent_->instance(); }
 void WaylandIMServer::init() {
     auto im = display_->getGlobal<wayland::ZwpInputMethodV1>();
     if (im && !inputMethodV1_) {
+        WAYLANDIM_DEBUG() << "WAYLANDIM V1";
         inputMethodV1_ = im;
         globalIc_ = new WaylandIMInputContextV1(
             parent_->instance()->inputContextManager(), this);

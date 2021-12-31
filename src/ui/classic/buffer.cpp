@@ -81,7 +81,7 @@ Buffer::~Buffer() {
     }
 }
 
-void Buffer::attachToSurface(WlSurface *surface) {
+void Buffer::attachToSurface(WlSurface *surface, int scale) {
     if (busy_) {
         return;
     }
@@ -96,6 +96,7 @@ void Buffer::attachToSurface(WlSurface *surface) {
     });
 
     surface->attach(buffer(), 0, 0);
+    surface->setBufferScale(scale);
     surface->damage(0, 0, width_, height_);
     surface->commit();
 }

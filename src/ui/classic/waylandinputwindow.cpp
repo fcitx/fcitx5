@@ -48,7 +48,7 @@ WaylandInputWindow::WaylandInputWindow(WaylandUI *ui)
         }
     });
     window_->touchDown().connect([this](int x, int y) { click(x, y); });
-    window_->touchUp().connect([this](int, int) {
+    window_->touchUp().connect([](int, int) {
         // do nothing
     });
     window_->axis().connect([this](int, int, uint32_t axis, wl_fixed_t value) {
@@ -129,6 +129,7 @@ void WaylandInputWindow::update(fcitx::InputContext *ic) {
 
     if (auto *surface = window_->prerender()) {
         cairo_t *c = cairo_create(surface);
+        cairo_scale(c, window_->scale(), window_->scale());
         paint(c, width, height);
         cairo_destroy(c);
         window_->render();
@@ -144,6 +145,7 @@ void WaylandInputWindow::repaint() {
 
     if (auto *surface = window_->prerender()) {
         cairo_t *c = cairo_create(surface);
+        cairo_scale(c, window_->scale(), window_->scale());
         paint(c, window_->width(), window_->height());
         cairo_destroy(c);
         window_->render();
