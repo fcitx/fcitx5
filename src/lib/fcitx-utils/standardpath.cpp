@@ -190,10 +190,11 @@ private:
 
     static std::vector<std::string> defaultPaths(const char *env,
                                                  const char *defaultPath,
-                                                 const char *fcitxPath) {
+                                                 const char *fcitxPathType) {
         std::vector<std::string> dirs;
 
-        const char *dir = getenv(env);
+        const char *envDir = getenv(env);
+        const char *dir = envDir;
         if (!dir) {
             dir = defaultPath;
         }
@@ -202,18 +203,22 @@ private:
         std::unordered_set<std::string> uniqueDirs(rawDirs.begin(),
                                                    rawDirs.end());
 
+        auto path = StandardPath::fcitxPath(fcitxPathType);
+        std::string fcitxPath(path ? path : "");
+        if (!fcitxPath.empty()) {
+            if (envDir) {
+                rawDirs.push_back(fcitxPath);
+            } else {
+                rawDirs.insert(rawDirs.begin(), fcitxPath);
+            }
+            uniqueDirs.insert(fcitxPath);
+        }
+
         for (auto &s : rawDirs) {
             auto iter = uniqueDirs.find(s);
             if (iter != uniqueDirs.end()) {
                 uniqueDirs.erase(iter);
                 dirs.push_back(s);
-            }
-        }
-        if (fcitxPath) {
-            std::string path = StandardPath::fcitxPath(fcitxPath);
-            if (!path.empty() &&
-                std::find(dirs.begin(), dirs.end(), path) == dirs.end()) {
-                dirs.push_back(path);
             }
         }
 
