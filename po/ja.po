@@ -5,16 +5,16 @@
 # Translators:
 # csslayer <wengxt@gmail.com>, 2017
 # ABE Tsunehiko, 2017
-# Takuro Onoue <kusanaginoturugi@gmail.com>, 2021
 # UTUMI Hirosi <utuhiro78@yahoo.co.jp>, 2021
+# Takuro Onoue <kusanaginoturugi@gmail.com>, 2022
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2021-12-17 20:24+0000\n"
+"POT-Creation-Date: 2022-01-07 20:24+0000\n"
 "PO-Revision-Date: 2017-11-23 04:14+0000\n"
-"Last-Translator: UTUMI Hirosi <utuhiro78@yahoo.co.jp>, 2021\n"
+"Last-Translator: Takuro Onoue <kusanaginoturugi@gmail.com>, 2022\n"
 "Language-Team: Japanese (https://www.transifex.com/fcitx/teams/12005/ja/)\n"
 "Language: ja\n"
 "MIME-Version: 1.0\n"
@@ -473,19 +473,19 @@ msgstr "補完は有効です。"
 
 #: data/fcitx5-diagnose.sh:1027
 msgid "Config GUI for gtk${1} not found."
-msgstr "gtk${1} のGUI設定が見つかりません。"
+msgstr "gtk${1} のGUI 設定が見つかりません。"
 
 #: data/fcitx5-diagnose.sh:1023
 msgid "Config GUI for gtk${1}:"
-msgstr "gtk${1} のGUIを設定:"
+msgstr "gtk${1} のGUI を設定:"
 
 #: data/fcitx5-diagnose.sh:1057
 msgid "Config GUI for kde:"
-msgstr "KDE向け設定GUI:"
+msgstr "KDE 向け設定 GUI:"
 
 #: data/fcitx5-diagnose.sh:1046
 msgid "Config GUI for qt not found."
-msgstr "qt に対する設定のGUIが見つかりません。"
+msgstr "qt に対する設定の GUI が見つかりません。"
 
 #: data/fcitx5-diagnose.sh:1044
 msgid "Config GUI for qt:"
@@ -495,7 +495,7 @@ msgstr "qt 向け設定 GUI:"
 msgid "Config Tool Wrapper:"
 msgstr "設定ツールラッパー:"
 
-#: data/fcitx5-diagnose.sh:1792
+#: data/fcitx5-diagnose.sh:1791
 msgid "Configuration:"
 msgstr "設定:"
 
@@ -553,7 +553,7 @@ msgstr "DBus フロントエンド"
 
 #: src/modules/notificationitem/notificationitem.conf.in.in:4
 msgid "DBus based new Freedesktop.org tray icon"
-msgstr "新しい Freedesktop.org の DBus のトレイアイコン"
+msgstr "DBus ベースの 新しい Freedesktop.org トレイアイコン"
 
 #: data/fcitx5-diagnose.sh:959
 msgid "DBus interface:"
@@ -908,9 +908,9 @@ msgstr "不明な ${1} qt モジュールが見つかりました: ${2}。"
 
 #: src/modules/notifications/notifications.conf.in.in:4
 msgid "Freedesktop.org Notification Support"
-msgstr "Freedesktop.org通知サポート"
+msgstr "Freedesktop.org 通知サポート"
 
-#: data/fcitx5-diagnose.sh:1785
+#: data/fcitx5-diagnose.sh:1784
 msgid "Frontends setup:"
 msgstr "フロントエンド設定:"
 
@@ -948,7 +948,7 @@ msgstr "Gtk ${1} IMモジュールファイル ${2} がありません。"
 
 #: data/fcitx5-diagnose.sh:1543
 msgid "Gtk IM module cache:"
-msgstr "Gtk IM moduleキャッシュ:"
+msgstr "Gtk IM モジュールキャッシュ:"
 
 #: data/fcitx5-diagnose.sh:1549
 msgid "Gtk IM module files:"
@@ -1194,7 +1194,7 @@ msgstr "不正なアドオン設定ファイル ${1} です。"
 
 #: src/ui/kimpanel/kimpanel.conf.in.in:3
 msgid "KDE Input Method Panel"
-msgstr "KDE入力メソッドパネル"
+msgstr "KDE 入力メソッドパネル"
 
 #: src/lib/fcitx-utils/key.cpp:211
 msgctxt "Key name"
@@ -1384,7 +1384,7 @@ msgstr "LightBulb"
 msgid "Locale:"
 msgstr "ロケール:"
 
-#: data/fcitx5-diagnose.sh:1798
+#: data/fcitx5-diagnose.sh:1797
 msgid "Log:"
 msgstr "ログ:"
 
@@ -1774,7 +1774,7 @@ msgstr "プロバイダー"
 
 #: data/fcitx5-diagnose.sh:1217
 msgid "Qt IM module files:"
-msgstr "Qt IM module ファイル:"
+msgstr "Qt IM モジュールファイル:"
 
 #: src/modules/quickphrase/quickphrase.conf.in.in:3
 msgid "Quick Phrase"
@@ -2102,7 +2102,7 @@ msgstr "このオプションは画像が設定されていない場合にのみ
 msgid "This value should be less than any of margin value."
 msgstr "この値はどのマージンの値よりも小さくする必要があります。"
 
-#: data/fcitx5-diagnose.sh:1804
+#: data/fcitx5-diagnose.sh:1803
 msgid ""
 "Though such information can be helpful to developers for diagnostic purpose, "
 "please double check and remove as necessary before posting it online "
@@ -2218,7 +2218,7 @@ msgstr "長押しで特殊文字を入力する"
 
 #: data/org.fcitx.Fcitx5.metainfo.xml.in:20
 msgid "Typing with Fcitx and Kimpanel"
-msgstr "FcitxとKimpanelで入力する"
+msgstr "Fcitx と Kimpanel で入力する"
 
 #: data/fcitx5-diagnose.sh:987
 msgid "Unable to find a program to check dbus."
@@ -2317,7 +2317,7 @@ msgctxt "Key name"
 msgid "Wake Up"
 msgstr "Wake Up"
 
-#: data/fcitx5-diagnose.sh:1803
+#: data/fcitx5-diagnose.sh:1802
 msgid ""
 "Warning: the output of fcitx5-diagnose contains sensitive information, "
 "including the distribution name, kernel version, name of currently running "
@@ -2384,7 +2384,7 @@ msgstr "ルートウィンドウでの XIM_SERVERS :"
 
 #: data/fcitx5-diagnose.sh:1112
 msgid "XMODIFIERS is not set"
-msgstr "XMODIFIERSが設定されていません"
+msgstr "XMODIFIERS が設定されていません"
 
 #: data/fcitx5-diagnose.sh:1133
 msgid "Xim Server Name from Environment variable is ${1}."
@@ -2436,8 +2436,8 @@ msgid ""
 "You're currently running Fcitx with GUI, but fcitx5-config-qt couldn't be "
 "found. Now it will open config directory."
 msgstr ""
-"現在fcitxをGUIで使用していますが、fcitx5-configtoolが見つかりません。今回は既"
-"定のテキストエディタで設定ファイルを開きます。"
+"現在 fcitx を GUI で使用していますが、fcitx5-configtool が見つかりません。今"
+"回は既定のテキストエディタで設定ファイルを開きます。"
 
 #: data/fcitx5-configtool.sh:131
 msgid ""
@@ -2445,9 +2445,9 @@ msgid ""
 "package name of this KCModule is usually kcm-fcitx or kde-config-fcitx. Now "
 "it will open config directory."
 msgstr ""
-"現在KDEを使用していますが、fcitx用のKCModuleが見つかりません。KCModuleのパッ"
-"ケージ名は、たいていの場合kcm-fcitxかkde-config-fcitxです。今回は設定ディレク"
-"トリを開きます。"
+"現在 KDE を使用していますが、fcitx 用の KC モジュールが見つかりません。KC モ"
+"ジュールのパッケージ名は、たいていの場合 kcm-fcitx か kde-config-fcitx です。"
+"今回は設定ディレクトリを開きます。"
 
 #: data/fcitx5-diagnose.sh:1161
 msgid ""
