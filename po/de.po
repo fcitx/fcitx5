@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2021-12-15 20:24+0000\n"
+"POT-Creation-Date: 2022-01-11 20:24+0000\n"
 "PO-Revision-Date: 2017-11-23 04:14+0000\n"
 "Last-Translator: Tim Hofstede <timhofstede.va@gmail.com>, 2018\n"
 "Language-Team: German (https://www.transifex.com/fcitx/teams/12005/de/)\n"
@@ -49,7 +49,7 @@ msgstr ""
 msgid "${1} works properly."
 msgstr ""
 
-#: src/lib/fcitx/instance.cpp:387
+#: src/lib/fcitx/instance.cpp:394
 msgid "(Not available)"
 msgstr "(nicht vorhanden)"
 
@@ -238,7 +238,7 @@ msgstr "Batterie"
 msgid "Beginner's Guide"
 msgstr ""
 
-#: src/lib/fcitx/globalconfig.cpp:164
+#: src/lib/fcitx/globalconfig.cpp:189
 msgid "Behavior"
 msgstr "Verhalten"
 
@@ -491,7 +491,7 @@ msgstr ""
 msgid "Config Tool Wrapper:"
 msgstr ""
 
-#: data/fcitx5-diagnose.sh:1792
+#: data/fcitx5-diagnose.sh:1791
 msgid "Configuration:"
 msgstr ""
 
@@ -534,6 +534,10 @@ msgstr ""
 msgid "Custom"
 msgstr "Anwenderspezifisch"
 
+#: src/lib/fcitx/globalconfig.cpp:177
+msgid "Custom Xkb Option"
+msgstr ""
+
 #: src/lib/fcitx-utils/key.cpp:124
 msgctxt "Key name"
 msgid "Cut"
@@ -568,7 +572,7 @@ msgstr "Eingabemethode deaktivieren"
 msgid "Debug information from dbus:"
 msgstr ""
 
-#: src/lib/fcitx/inputmethodmanager.cpp:138 src/lib/fcitx/instance.cpp:732
+#: src/lib/fcitx/inputmethodmanager.cpp:138 src/lib/fcitx/instance.cpp:739
 #: src/ui/classic/themes/default/theme.conf.in:3
 msgid "Default"
 msgstr "Standard"
@@ -899,7 +903,7 @@ msgstr ""
 msgid "Freedesktop.org Notification Support"
 msgstr "Freedesktop.org Notification Unterstützung"
 
-#: data/fcitx5-diagnose.sh:1785
+#: data/fcitx5-diagnose.sh:1784
 msgid "Frontends setup:"
 msgstr ""
 
@@ -923,11 +927,11 @@ msgstr "Grün"
 msgid "Group"
 msgstr "Gruppe"
 
-#: src/lib/fcitx/instance.cpp:391
+#: src/lib/fcitx/instance.cpp:398
 msgid "Group {0}: {1}"
 msgstr "Gruppe {0}: {1}"
 
-#: src/lib/fcitx/instance.cpp:734
+#: src/lib/fcitx/instance.cpp:741
 msgid "Group {}"
 msgstr ""
 
@@ -1089,7 +1093,7 @@ msgctxt "Key name"
 msgid "Hot Links"
 msgstr "Wichtige Links"
 
-#: src/lib/fcitx/globalconfig.cpp:162
+#: src/lib/fcitx/globalconfig.cpp:187
 msgid "Hotkey"
 msgstr "Kurzbefehl"
 
@@ -1129,8 +1133,8 @@ msgstr ""
 msgid "Image"
 msgstr ""
 
-#: src/im/keyboard/keyboard.cpp:781 src/lib/fcitx/instance.cpp:425
-#: src/lib/fcitx/instance.cpp:804 src/lib/fcitx/instance.cpp:970
+#: src/im/keyboard/keyboard.cpp:781 src/lib/fcitx/instance.cpp:432
+#: src/lib/fcitx/instance.cpp:811 src/lib/fcitx/instance.cpp:977
 #: src/modules/notificationitem/notificationitem.cpp:122
 #: src/modules/xcb/xcbconnection.cpp:406 data/org.fcitx.Fcitx5.desktop.in.in:4
 #: data/org.fcitx.Fcitx5.metainfo.xml.in:7
@@ -1364,7 +1368,7 @@ msgstr "LightBulb"
 msgid "Locale:"
 msgstr ""
 
-#: data/fcitx5-diagnose.sh:1798
+#: data/fcitx5-diagnose.sh:1797
 msgid "Log:"
 msgstr ""
 
@@ -1627,6 +1631,10 @@ msgstr ""
 msgid "Overlay position"
 msgstr ""
 
+#: src/lib/fcitx/globalconfig.cpp:161
+msgid "Override Xkb Option"
+msgstr ""
+
 #: data/fcitx5-diagnose.sh:967
 msgid "Owner of DBus name ${1} is ${2}."
 msgstr ""
@@ -1699,15 +1707,15 @@ msgctxt "Key name"
 msgid "Power Off"
 msgstr "Ausschalten"
 
-#: src/lib/fcitx/instance.cpp:970
+#: src/lib/fcitx/instance.cpp:977
 msgid "Preedit"
 msgstr ""
 
-#: src/lib/fcitx/instance.cpp:972
+#: src/lib/fcitx/instance.cpp:979
 msgid "Preedit disabled"
 msgstr ""
 
-#: src/lib/fcitx/instance.cpp:971
+#: src/lib/fcitx/instance.cpp:978
 msgid "Preedit enabled"
 msgstr ""
 
@@ -2009,16 +2017,16 @@ msgctxt "Key name"
 msgid "Suspend"
 msgstr "Suspend"
 
-#: src/lib/fcitx/instance.cpp:426 src/lib/fcitx/instance.cpp:805
+#: src/lib/fcitx/instance.cpp:433 src/lib/fcitx/instance.cpp:812
 #: src/modules/xcb/xcbconnection.cpp:407
 msgid "Switch group"
 msgstr ""
 
-#: src/lib/fcitx/instance.cpp:428 src/modules/xcb/xcbconnection.cpp:408
+#: src/lib/fcitx/instance.cpp:435 src/modules/xcb/xcbconnection.cpp:408
 msgid "Switch group to {0}"
 msgstr ""
 
-#: src/lib/fcitx/instance.cpp:806
+#: src/lib/fcitx/instance.cpp:813
 msgid "Switched group to {0}"
 msgstr ""
 
@@ -2075,7 +2083,7 @@ msgstr ""
 msgid "This value should be less than any of margin value."
 msgstr ""
 
-#: data/fcitx5-diagnose.sh:1804
+#: data/fcitx5-diagnose.sh:1803
 msgid ""
 "Though such information can be helpful to developers for diagnostic purpose, "
 "please double check and remove as necessary before posting it online "
@@ -2285,7 +2293,7 @@ msgctxt "Key name"
 msgid "Wake Up"
 msgstr "Aufwachen"
 
-#: data/fcitx5-diagnose.sh:1803
+#: data/fcitx5-diagnose.sh:1802
 msgid ""
 "Warning: the output of fcitx5-diagnose contains sensitive information, "
 "including the distribution name, kernel version, name of currently running "
@@ -2304,6 +2312,13 @@ msgstr "Wayland Eingabemethodenfrontend"
 msgctxt "Key name"
 msgid "WebCam"
 msgstr "WebCam"
+
+#: src/lib/fcitx/globalconfig.cpp:166
+msgid ""
+"Whether to override the xkb option from display server. It will not affect "
+"the xkb option send to display, but just the xkb options for custom xkb "
+"layout."
+msgstr ""
 
 #: data/fcitx5-diagnose.sh:902
 msgid "Why is it bad to run as root"
@@ -2467,10 +2482,10 @@ msgstr ""
 msgid "{0} (Not Available)"
 msgstr "{0} (Nicht verfügbar)"
 
-#: src/lib/fcitx/instance.cpp:385
+#: src/lib/fcitx/instance.cpp:392
 msgid "{0} (Not available)"
 msgstr "{0} (Nicht verfügbar)"
 
-#: src/lib/fcitx/instance.cpp:382
+#: src/lib/fcitx/instance.cpp:389
 msgid "{0} ({1})"
 msgstr "{0} ({1})"

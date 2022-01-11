@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2022-01-07 20:24+0000\n"
+"POT-Creation-Date: 2022-01-11 20:24+0000\n"
 "PO-Revision-Date: 2017-11-23 04:14+0000\n"
 "Last-Translator: Takuro Onoue <kusanaginoturugi@gmail.com>, 2022\n"
 "Language-Team: Japanese (https://www.transifex.com/fcitx/teams/12005/ja/)\n"
@@ -50,7 +50,7 @@ msgstr "${1} は見つかりません"
 msgid "${1} works properly."
 msgstr "${1} は正常に動作しています。"
 
-#: src/lib/fcitx/instance.cpp:387
+#: src/lib/fcitx/instance.cpp:394
 msgid "(Not available)"
 msgstr "(使用不可)"
 
@@ -239,7 +239,7 @@ msgstr "バッテリー"
 msgid "Beginner's Guide"
 msgstr "ビギナーズガイド"
 
-#: src/lib/fcitx/globalconfig.cpp:164
+#: src/lib/fcitx/globalconfig.cpp:189
 msgid "Behavior"
 msgstr "動作"
 
@@ -538,6 +538,10 @@ msgstr "現在の ${1} の値は ${2} (${3}) です。"
 msgid "Custom"
 msgstr "カスタム"
 
+#: src/lib/fcitx/globalconfig.cpp:177
+msgid "Custom Xkb Option"
+msgstr ""
+
 #: src/lib/fcitx-utils/key.cpp:124
 msgctxt "Key name"
 msgid "Cut"
@@ -572,7 +576,7 @@ msgstr "入力メソッドをオフにする"
 msgid "Debug information from dbus:"
 msgstr "dbus からのデバッグ情報:"
 
-#: src/lib/fcitx/inputmethodmanager.cpp:138 src/lib/fcitx/instance.cpp:732
+#: src/lib/fcitx/inputmethodmanager.cpp:138 src/lib/fcitx/instance.cpp:739
 #: src/ui/classic/themes/default/theme.conf.in:3
 msgid "Default"
 msgstr "デフォルト"
@@ -934,11 +938,11 @@ msgstr "Green"
 msgid "Group"
 msgstr "グループ"
 
-#: src/lib/fcitx/instance.cpp:391
+#: src/lib/fcitx/instance.cpp:398
 msgid "Group {0}: {1}"
 msgstr "グループ {0}: {1}"
 
-#: src/lib/fcitx/instance.cpp:734
+#: src/lib/fcitx/instance.cpp:741
 msgid "Group {}"
 msgstr "グループ {}"
 
@@ -1100,7 +1104,7 @@ msgctxt "Key name"
 msgid "Hot Links"
 msgstr "ホットリンク"
 
-#: src/lib/fcitx/globalconfig.cpp:162
+#: src/lib/fcitx/globalconfig.cpp:187
 msgid "Hotkey"
 msgstr "ホットキー"
 
@@ -1147,8 +1151,8 @@ msgstr ""
 msgid "Image"
 msgstr "画像"
 
-#: src/im/keyboard/keyboard.cpp:781 src/lib/fcitx/instance.cpp:425
-#: src/lib/fcitx/instance.cpp:804 src/lib/fcitx/instance.cpp:970
+#: src/im/keyboard/keyboard.cpp:781 src/lib/fcitx/instance.cpp:432
+#: src/lib/fcitx/instance.cpp:811 src/lib/fcitx/instance.cpp:977
 #: src/modules/notificationitem/notificationitem.cpp:122
 #: src/modules/xcb/xcbconnection.cpp:406 data/org.fcitx.Fcitx5.desktop.in.in:4
 #: data/org.fcitx.Fcitx5.metainfo.xml.in:7
@@ -1649,6 +1653,10 @@ msgstr "Yオフセットのオーバーレイ"
 msgid "Overlay position"
 msgstr "オーバーレイの位置"
 
+#: src/lib/fcitx/globalconfig.cpp:161
+msgid "Override Xkb Option"
+msgstr ""
+
 #: data/fcitx5-diagnose.sh:967
 msgid "Owner of DBus name ${1} is ${2}."
 msgstr "DBus 名 ${1} の所有者は ${2} です。"
@@ -1726,15 +1734,15 @@ msgctxt "Key name"
 msgid "Power Off"
 msgstr "電源オフ"
 
-#: src/lib/fcitx/instance.cpp:970
+#: src/lib/fcitx/instance.cpp:977
 msgid "Preedit"
 msgstr "プリエディット"
 
-#: src/lib/fcitx/instance.cpp:972
+#: src/lib/fcitx/instance.cpp:979
 msgid "Preedit disabled"
 msgstr "プリエディット無効"
 
-#: src/lib/fcitx/instance.cpp:971
+#: src/lib/fcitx/instance.cpp:978
 msgid "Preedit enabled"
 msgstr "プリエディット有効"
 
@@ -2036,16 +2044,16 @@ msgctxt "Key name"
 msgid "Suspend"
 msgstr "サスペンド"
 
-#: src/lib/fcitx/instance.cpp:426 src/lib/fcitx/instance.cpp:805
+#: src/lib/fcitx/instance.cpp:433 src/lib/fcitx/instance.cpp:812
 #: src/modules/xcb/xcbconnection.cpp:407
 msgid "Switch group"
 msgstr "グループの切り替え"
 
-#: src/lib/fcitx/instance.cpp:428 src/modules/xcb/xcbconnection.cpp:408
+#: src/lib/fcitx/instance.cpp:435 src/modules/xcb/xcbconnection.cpp:408
 msgid "Switch group to {0}"
 msgstr "{0} にグループを切り替える"
 
-#: src/lib/fcitx/instance.cpp:806
+#: src/lib/fcitx/instance.cpp:813
 msgid "Switched group to {0}"
 msgstr "{0} にグループを切り替えました"
 
@@ -2339,6 +2347,13 @@ msgctxt "Key name"
 msgid "WebCam"
 msgstr "ウェブカメラ"
 
+#: src/lib/fcitx/globalconfig.cpp:166
+msgid ""
+"Whether to override the xkb option from display server. It will not affect "
+"the xkb option send to display, but just the xkb options for custom xkb "
+"layout."
+msgstr ""
+
 #: data/fcitx5-diagnose.sh:902
 msgid "Why is it bad to run as root"
 msgstr "なぜ root で実行することが危険なのか"
@@ -2516,10 +2531,10 @@ msgstr "バージョン:"
 msgid "{0} (Not Available)"
 msgstr "{0} (利用できません)"
 
-#: src/lib/fcitx/instance.cpp:385
+#: src/lib/fcitx/instance.cpp:392
 msgid "{0} (Not available)"
 msgstr "{0} (使用不可)"
 
-#: src/lib/fcitx/instance.cpp:382
+#: src/lib/fcitx/instance.cpp:389
 msgid "{0} ({1})"
 msgstr "{0} ({1})"
