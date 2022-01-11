@@ -151,19 +151,30 @@ FCITX_CONFIGURATION(
                                               _("Default page size"), 5,
                                               IntConstrain(1, 10)};
 #ifdef ENABLE_KEYBOARD
-    OptionWithAnnotation<bool, ToolTipAnnotation> overrideXkbOption{
+    OptionWithAnnotation<bool, ToolTipAnnotation>
+#else
+    HiddenOption<bool>
+#endif
+    overrideXkbOption{
         this,
         "OverrideXkbOption",
         _("Override Xkb Option"),
+#ifdef ENABLE_KEYBOARD
         false,
         {},
         {},
         {_("Whether to override the xkb option from display server. It will "
            "not affect the xkb option send to display, but just the xkb "
-           "options for custom xkb layout.")}};
-    Option<std::string> customXkbOption{this, "CustomXkbOption",
-                                        _("Custom Xkb Option"), ""};
+           "options for custom xkb layout.")}
 #endif
+    };
+#ifdef ENABLE_KEYBOARD
+    Option<std::string>
+#else
+    HiddenOption<std::string>
+#endif
+    customXkbOption{this, "CustomXkbOption",
+                                        _("Custom Xkb Option"), ""};
     HiddenOption<std::vector<std::string>> enabledAddons{
         this, "EnabledAddons", "Force Enabled Addons"};
     HiddenOption<std::vector<std::string>> disabledAddons{
@@ -314,7 +325,6 @@ int GlobalConfig::defaultPageSize() const {
     return d->behavior->defaultPageSize.value();
 }
 
-#ifdef ENABLE_KEYBOARD
 bool GlobalConfig::overrideXkbOption() const {
     FCITX_D();
     return d->behavior->overrideXkbOption.value();
@@ -324,7 +334,6 @@ const std::string &GlobalConfig::customXkbOption() const {
     FCITX_D();
     return d->behavior->customXkbOption.value();
 }
-#endif
 
 const std::vector<std::string> &GlobalConfig::enabledAddons() const {
     FCITX_D();

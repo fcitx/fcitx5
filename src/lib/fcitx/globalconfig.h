@@ -51,7 +51,6 @@ public:
     const KeyList &defaultNextCandidate() const;
     int defaultPageSize() const;
 
-#ifdef ENABLE_KEYBOARD
     /**
      * Override the xkb option from display.
      *
@@ -76,7 +75,6 @@ public:
      * @since 5.0.14
      */
     const std::string &customXkbOption() const;
-#endif
 
     const std::vector<std::string> &enabledAddons() const;
     const std::vector<std::string> &disabledAddons() const;
