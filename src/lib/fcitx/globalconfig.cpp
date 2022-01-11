@@ -150,6 +150,18 @@ FCITX_CONFIGURATION(
     Option<int, IntConstrain> defaultPageSize{this, "DefaultPageSize",
                                               _("Default page size"), 5,
                                               IntConstrain(1, 10)};
+    OptionWithAnnotation<bool, ToolTipAnnotation> overrideXkbOption{
+        this,
+        "OverrideXkbOption",
+        _("Override Xkb Option"),
+        false,
+        {},
+        {},
+        {_("Whether to override the xkb option from display server. It will "
+           "not affect the xkb option send to display, but just the xkb "
+           "options for custom xkb layout.")}};
+    Option<std::string> customXkbOption{this, "CustomXkbOption",
+                                        _("Custom Xkb Option"), ""};
     HiddenOption<std::vector<std::string>> enabledAddons{
         this, "EnabledAddons", "Force Enabled Addons"};
     HiddenOption<std::vector<std::string>> disabledAddons{
@@ -298,6 +310,16 @@ const KeyList &GlobalConfig::defaultNextCandidate() const {
 int GlobalConfig::defaultPageSize() const {
     FCITX_D();
     return d->behavior->defaultPageSize.value();
+}
+
+bool GlobalConfig::overrideXkbOption() const {
+    FCITX_D();
+    return d->behavior->overrideXkbOption.value();
+}
+
+const std::string &GlobalConfig::customXkbOption() const {
+    FCITX_D();
+    return d->behavior->customXkbOption.value();
 }
 
 const std::vector<std::string> &GlobalConfig::enabledAddons() const {

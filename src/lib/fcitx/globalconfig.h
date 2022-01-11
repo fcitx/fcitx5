@@ -51,6 +51,31 @@ public:
     const KeyList &defaultNextCandidate() const;
     int defaultPageSize() const;
 
+    /**
+     * Override the xkb option from display.
+     *
+     * This is only useful for custom xkb translation.
+     * Right now there is no way to read system xkb option from wayland.
+     * Instead, we can ask user for the fallback.
+     *
+     * @return override xkb option from system or not
+     * @since 5.0.14
+     */
+    bool overrideXkbOption() const;
+
+    /**
+     * The enforce the xkb option for custom xkb state.
+     *
+     * This is only useful for custom xkb translation.
+     * Right now there is no way to read system xkb option from wayland.
+     * Instead, we can ask user for the fallback.
+     *
+     * @return override xkb option
+     * @see GlobalConfig::overrideXkbOption
+     * @since 5.0.14
+     */
+    const std::string &customXkbOption() const;
+
     const std::vector<std::string> &enabledAddons() const;
     const std::vector<std::string> &disabledAddons() const;
 

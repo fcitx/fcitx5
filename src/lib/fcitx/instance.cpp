@@ -314,7 +314,14 @@ public:
         if (auto *param = findValue(xkbParams_, display)) {
             xkbParam = *param;
         } else {
-            xkbParam = std::make_tuple(DEFAULT_XKB_RULES, "pc101", "");
+            if (!xkbParams_.empty()) {
+                xkbParam = xkbParams_.begin()->second;
+            } else {
+                xkbParam = std::make_tuple(DEFAULT_XKB_RULES, "pc101", "");
+            }
+        }
+        if (globalConfig_.overrideXkbOption()) {
+            std::get<2>(xkbParam) = globalConfig_.customXkbOption();
         }
         names.rules = std::get<0>(xkbParam).c_str();
         names.model = std::get<1>(xkbParam).c_str();
@@ -1900,6 +1907,12 @@ void Instance::reloadConfig() {
             return true;
         });
     }
+    d->keymapCache_.clear();
+    d->icManager_.foreach([d](InputContext *ic) {
+        auto *inputState = ic->propertyFor(&d->inputStateFactory_);
+        inputState->resetXkbState();
+        return true;
+    });
 }
 
 void Instance::resetInputMethodList() {
@@ -2381,7 +2394,8 @@ void Instance::setXkbParameters(const std::string &display,
     if (resetState) {
         d->keymapCache_[display].clear();
         d->icManager_.foreach([d, &display](InputContext *ic) {
-            if (ic->display() == display) {
+            if (ic->display() == display ||
+                d->xkbParams_.count(ic->display()) == 0) {
                 auto *inputState = ic->propertyFor(&d->inputStateFactory_);
                 inputState->resetXkbState();
             }
