@@ -1012,6 +1012,11 @@ Instance::Instance(int argc, char **argv) {
                 auto newSym = xkb_state_key_get_one_sym(
                     xkbState, keyEvent.rawKey().code());
                 auto newModifier = KeyStates(effective);
+                auto keymap = xkb_state_get_keymap(xkbState);
+                if (keyEvent.rawKey().states().test(KeyState::Repeat) &&
+                    xkb_keymap_key_repeats(keymap, keyEvent.rawKey().code())) {
+                    newModifier |= KeyState::Repeat;
+                }
 
                 const uint32_t modsDepressed = xkb_state_serialize_mods(
                     xkbState, XKB_STATE_MODS_DEPRESSED);
