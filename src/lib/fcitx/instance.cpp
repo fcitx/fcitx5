@@ -1907,12 +1907,14 @@ void Instance::reloadConfig() {
             return true;
         });
     }
+#ifdef ENABLE_KEYBOARD
     d->keymapCache_.clear();
     d->icManager_.foreach([d](InputContext *ic) {
         auto *inputState = ic->propertyFor(&d->inputStateFactory_);
         inputState->resetXkbState();
         return true;
     });
+#endif
 }
 
 void Instance::resetInputMethodList() {

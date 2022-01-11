@@ -150,17 +150,30 @@ FCITX_CONFIGURATION(
     Option<int, IntConstrain> defaultPageSize{this, "DefaultPageSize",
                                               _("Default page size"), 5,
                                               IntConstrain(1, 10)};
-    OptionWithAnnotation<bool, ToolTipAnnotation> overrideXkbOption{
+#ifdef ENABLE_KEYBOARD
+    OptionWithAnnotation<bool, ToolTipAnnotation>
+#else
+    HiddenOption<bool>
+#endif
+    overrideXkbOption{
         this,
         "OverrideXkbOption",
         _("Override Xkb Option"),
+#ifdef ENABLE_KEYBOARD
         false,
         {},
         {},
         {_("Whether to override the xkb option from display server. It will "
            "not affect the xkb option send to display, but just the xkb "
-           "options for custom xkb layout.")}};
-    Option<std::string> customXkbOption{this, "CustomXkbOption",
+           "options for custom xkb layout.")}
+#endif
+    };
+#ifdef ENABLE_KEYBOARD
+    Option<std::string>
+#else
+    HiddenOption<std::string>
+#endif
+    customXkbOption{this, "CustomXkbOption",
                                         _("Custom Xkb Option"), ""};
     HiddenOption<std::vector<std::string>> enabledAddons{
         this, "EnabledAddons", "Force Enabled Addons"};
