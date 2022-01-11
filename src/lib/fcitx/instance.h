@@ -431,10 +431,18 @@ public:
     /// Return the version string of Fcitx.
     static const char *version();
 
+    /**
+     * Save everything including input method profile and addon data.
+     *
+     * It also reset the idle save timer.
+     *
+     * @since 5.0.14
+     */
+    void save();
+
 private:
     void initialize();
     void handleSignal();
-    void save();
 
     bool canTrigger() const;
     bool canAltTrigger(InputContext *ic) const;
