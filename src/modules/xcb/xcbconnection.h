@@ -106,7 +106,8 @@ private:
     std::unique_ptr<XCBKeyboard> keyboard_;
 
     UniqueCPtr<xcb_key_symbols_t, xcb_key_symbols_free> syms_;
-    size_t groupIndex_ = 0;
+    bool pendingGroupEnumeration_ = false;
+    bool isPendingGroupEnumerationForward_ = true;
     KeyList forwardGroup_, backwardGroup_;
     bool doGrab_ = false;
     bool keyboardGrabbed_ = false;

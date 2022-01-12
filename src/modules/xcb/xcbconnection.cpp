@@ -316,7 +316,6 @@ bool XCBConnection::filterEvent(xcb_connection_t *,
                     navigateGroup(forward);
                 } else {
                     if (grabXKeyboard()) {
-                        groupIndex_ = 0;
                         navigateGroup(forward);
                     } else {
                         parent_->instance()->enumerateGroup(forward);
@@ -385,30 +384,15 @@ void XCBConnection::acceptGroupChange() {
     }
 
     auto &imManager = parent_->instance()->inputMethodManager();
-    auto groups = imManager.groups();
-    if (groups.size() > groupIndex_) {
-        imManager.setCurrentGroup(groups[groupIndex_]);
-    }
-    groupIndex_ = 0;
+    imManager.enumerateGroup(isPendingGroupEnumerationForward_);
+    pendingGroupEnumeration_ = false;
 }
 
 void XCBConnection::navigateGroup(bool forward) {
-    auto &imManager = parent_->instance()->inputMethodManager();
-    if (imManager.groupCount() < 2) {
-        return;
-    }
-    groupIndex_ = (groupIndex_ + (forward ? 1 : imManager.groupCount() - 1)) %
-                  imManager.groupCount();
-    FCITX_DEBUG() << "Switch to group " << groupIndex_;
+    FCITX_DEBUG() << "Enumerate group. Forward: " << forward;
 
-    if (parent_->notifications()) {
-        parent_->notifications()->call<INotifications::showTip>(
-            "enumerate-group", _("Input Method"), "input-keyboard",
-            _("Switch group"),
-            fmt::format(_("Switch group to {0}"),
-                        imManager.groups()[groupIndex_]),
-            3000);
-    }
+    pendingGroupEnumeration_ = true;
+    isPendingGroupEnumerationForward_ = forward;
 }
 
 std::unique_ptr<HandlerTableEntry<XCBEventFilter>>
