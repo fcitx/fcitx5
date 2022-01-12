@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2022-01-11 20:24+0000\n"
+"POT-Creation-Date: 2022-01-12 20:24+0000\n"
 "PO-Revision-Date: 2017-11-23 04:14+0000\n"
 "Last-Translator: scootergrisen, 2021\n"
 "Language-Team: Danish (https://www.transifex.com/fcitx/teams/12005/da/)\n"
@@ -832,7 +832,7 @@ msgstr "Find"
 msgid "Font"
 msgstr "Skrifttype"
 
-#: src/ui/classic/classicui.h:119
+#: src/ui/classic/classicui.h:129
 msgid ""
 "For example, display character with Chinese variant when using Pinyin and "
 "Japanese variant when using Anthy. The font configuration needs to support "
@@ -1154,7 +1154,7 @@ msgstr "Billede"
 
 #: src/im/keyboard/keyboard.cpp:781 src/lib/fcitx/instance.cpp:432
 #: src/lib/fcitx/instance.cpp:811 src/lib/fcitx/instance.cpp:977
-#: src/modules/notificationitem/notificationitem.cpp:122
+#: src/modules/notificationitem/notificationitem.cpp:123
 #: src/modules/xcb/xcbconnection.cpp:406 data/org.fcitx.Fcitx5.desktop.in.in:4
 #: data/org.fcitx.Fcitx5.metainfo.xml.in:7
 msgid "Input Method"
@@ -1948,6 +1948,10 @@ msgstr "Vis information om inputmetode når der skiftes fokus"
 msgid "Show Input Method Information when switch input method"
 msgstr "Vis information om inputmetode når der skiftes inputmetode"
 
+#: src/ui/classic/classicui.h:114
+msgid "Show Layout Name In Icon"
+msgstr ""
+
 #: src/lib/fcitx/globalconfig.cpp:146
 msgid "Show compact input method information"
 msgstr "Vis kompakt information om inputmetode"
@@ -1955,6 +1959,12 @@ msgstr "Vis kompakt information om inputmetode"
 #: src/lib/fcitx/globalconfig.cpp:149
 msgid "Show first input method information"
 msgstr "Vis første information om inputmetode"
+
+#: src/ui/classic/classicui.h:118
+msgid ""
+"Show layout name in icon if there is more than one active layout. If prefer "
+"text icon is set to true, this option will be ignored."
+msgstr ""
 
 #: src/lib/fcitx/globalconfig.cpp:136
 msgid "Show preedit in application"
@@ -2093,7 +2103,7 @@ msgstr "Den niende hottast i listen vælger den niende inputmetode."
 msgid "The script is run as ${1} (${2})."
 msgstr "Scriptet køres som ${1} (${2})."
 
-#: src/ui/classic/classicui.h:124
+#: src/ui/classic/classicui.h:134
 msgid "Theme"
 msgstr "Tema"
 
@@ -2259,7 +2269,7 @@ msgstr "Brug pr. skærm DPI"
 msgid "Use all horizontal space for highlight when it is vertical list"
 msgstr "Brug al vandret plads til fremhævning når det er en lodret liste"
 
-#: src/ui/classic/classicui.h:115
+#: src/ui/classic/classicui.h:125
 msgid "Use input method language to display text"
 msgstr ""
 
