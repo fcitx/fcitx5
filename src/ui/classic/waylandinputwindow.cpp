@@ -75,19 +75,10 @@ WaylandInputWindow::WaylandInputWindow(WaylandUI *ui)
 }
 
 void WaylandInputWindow::initPanel() {
-    if (panelSurface_) {
-        return;
-    }
     if (!window_->surface()) {
         window_->createWindow();
         return;
     }
-    auto panel = ui_->display()->getGlobal<wayland::ZwpInputPanelV1>();
-    if (!panel) {
-        return;
-    }
-    panelSurface_.reset(panel->getInputPanelSurface(window_->surface()));
-    panelSurface_->setOverlayPanel();
 }
 
 void WaylandInputWindow::resetPanel() { panelSurface_.reset(); }
@@ -102,20 +93,33 @@ void WaylandInputWindow::update(fcitx::InputContext *ic) {
 
     if (!visible()) {
         window_->hide();
+        panelSurface_.reset();
+        panelSurfaceV2_.reset();
+        window_->destroyWindow();
         return;
     }
 
     assert(!visible() || ic != nullptr);
+    initPanel();
     if (ic->frontend() == std::string_view("wayland_v2")) {
         if (ic != v2IC_.get()) {
             v2IC_ = ic->watch();
             auto *im = ui_->parent()
                            ->waylandim()
                            ->call<IWaylandIMModule::getInputMethodV2>(ic);
+            panelSurfaceV2_.reset();
             panelSurfaceV2_.reset(im->getInputPopupSurface(window_->surface()));
         }
     } else if (ic->frontend() == std::string_view("wayland")) {
-        panelSurface_->setOverlayPanel();
+        auto panel = ui_->display()->getGlobal<wayland::ZwpInputPanelV1>();
+        if (!panel) {
+            return;
+        }
+        if (!panelSurface_) {
+            panelSurface_.reset(
+                panel->getInputPanelSurface(window_->surface()));
+            panelSurface_->setOverlayPanel();
+        }
     }
     if (!panelSurface_ && !panelSurfaceV2_) {
         return;

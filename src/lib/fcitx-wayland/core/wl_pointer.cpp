@@ -17,8 +17,9 @@ const struct wl_pointer_listener WlPointer::listener = {
         auto *obj = static_cast<WlPointer *>(data);
         assert(*obj == wldata);
         {
-            auto *surface_ =
-                static_cast<WlSurface *>(wl_surface_get_user_data(surface));
+            auto *surface_ = surface ? static_cast<WlSurface *>(
+                                           wl_surface_get_user_data(surface))
+                                     : nullptr;
             return obj->leave()(serial, surface_);
         }
     },
