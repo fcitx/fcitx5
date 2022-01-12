@@ -16,5 +16,6 @@ FCITX_ADDON_DECLARE_FUNCTION(
     ClassicUI, labelIcon,
     std::vector<unsigned char>(const std::string &label, unsigned int size));
 FCITX_ADDON_DECLARE_FUNCTION(ClassicUI, preferTextIcon, bool());
+FCITX_ADDON_DECLARE_FUNCTION(ClassicUI, showLayoutNameInIcon, bool());
 
 #endif // _FCITX5_UI_CLASSIC_CLASSICUI_PUBLIC_H_

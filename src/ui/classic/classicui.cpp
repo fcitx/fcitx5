@@ -323,6 +323,10 @@ std::vector<unsigned char> ClassicUI::labelIcon(const std::string &label,
 
 bool ClassicUI::preferTextIcon() const { return *config_.preferTextIcon; }
 
+bool ClassicUI::showLayoutNameInIcon() const {
+    return *config_.showLayoutNameInIcon;
+}
+
 } // namespace fcitx::classicui
 
 FCITX_ADDON_FACTORY(fcitx::classicui::ClassicUIFactory);
