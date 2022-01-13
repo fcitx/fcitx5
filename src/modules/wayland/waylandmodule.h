@@ -54,6 +54,7 @@ public:
     addConnectionCreatedCallback(WaylandConnectionCreated callback);
     std::unique_ptr<HandlerTableEntry<WaylandConnectionClosed>>
     addConnectionClosedCallback(WaylandConnectionClosed callback);
+    void reloadXkbOption();
     wl_registry *getRegistry(const std::string &name);
 
 private:
@@ -69,6 +70,7 @@ private:
     HandlerTable<WaylandConnectionClosed> closedCallbacks_;
     FCITX_ADDON_EXPORT_FUNCTION(WaylandModule, addConnectionCreatedCallback);
     FCITX_ADDON_EXPORT_FUNCTION(WaylandModule, addConnectionClosedCallback);
+    FCITX_ADDON_EXPORT_FUNCTION(WaylandModule, reloadXkbOption);
 
     std::vector<std::unique_ptr<HandlerTableEntry<EventHandler>>>
         eventHandlers_;

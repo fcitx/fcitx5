@@ -72,6 +72,7 @@ void WaylandConnection::onIOEvent(IOEventFlags flags) {
 WaylandModule::WaylandModule(fcitx::Instance *instance)
     : instance_(instance), isWaylandSession_(isSessionType("wayland")) {
     openDisplay("");
+    reloadXkbOption();
 
 #ifdef ENABLE_DBUS
     eventHandlers_.emplace_back(instance_->watchEvent(
@@ -102,11 +103,6 @@ WaylandModule::WaylandModule(fcitx::Instance *instance)
                                   layoutAndVariant.second);
             config.setValueByPath("Layout/DisplayNames", "");
             config.setValueByPath("Layout/Use", "true");
-            auto model = config.valueByPath("Layout/Model");
-            auto options = config.valueByPath("Layout/Options");
-            instance_->setXkbParameters(connection->focusGroup()->display(),
-                                        DEFAULT_XKB_RULES, model ? *model : "",
-                                        (options ? *options : ""));
 
             safeSaveAsIni(config, StandardPath::Type::Config, "kxkbrc");
 
@@ -172,6 +168,32 @@ void WaylandModule::onConnectionClosed(WaylandConnection &conn) {
     for (auto &callback : closedCallbacks_.view()) {
         callback(conn.name(), *conn.display());
     }
+}
+
+void WaylandModule::reloadXkbOption() {
+#ifdef ENABLE_DBUS
+    if (!isKDE() || !isWaylandSession_) {
+        return;
+    }
+
+    auto connection = findValue(conns_, "");
+    if (!connection) {
+        return;
+    }
+
+    auto dbusAddon = dbus();
+    if (!dbusAddon) {
+        return;
+    }
+
+    fcitx::RawConfig config;
+    readAsIni(config, StandardPath::Type::Config, "kxkbrc");
+    auto model = config.valueByPath("Layout/Model");
+    auto options = config.valueByPath("Layout/Options");
+    instance_->setXkbParameters(connection->focusGroup()->display(),
+                                DEFAULT_XKB_RULES, model ? *model : "",
+                                (options ? *options : ""));
+#endif
 }
 
 class WaylandModuleFactory : public AddonFactory {

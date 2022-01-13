@@ -385,6 +385,8 @@ void WaylandIMInputContextV2::keymapCallback(uint32_t format, int32_t fd,
     if (keymapChanged) {
         vk_->keymap(format, scopeFD.fd(), size);
     }
+
+    server_->parent_->wayland()->call<IWaylandModule::reloadXkbOption>();
 }
 
 void WaylandIMInputContextV2::keyCallback(uint32_t, uint32_t time, uint32_t key,

@@ -377,6 +377,8 @@ void WaylandIMInputContextV1::keymapCallback(uint32_t format, int32_t fd,
         1 << xkb_keymap_mod_get_index(server_->keymap_.get(), "Hyper");
     server_->stateMask_.meta_mask =
         1 << xkb_keymap_mod_get_index(server_->keymap_.get(), "Meta");
+
+    server_->parent_->wayland()->call<IWaylandModule::reloadXkbOption>();
 }
 
 void WaylandIMInputContextV1::keyCallback(uint32_t serial, uint32_t time,
