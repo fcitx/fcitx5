@@ -330,7 +330,7 @@ void WaylandIMInputContextV2::keymapCallback(uint32_t format, int32_t fd,
         return;
     }
 
-    auto *mapStr = mmap(nullptr, size, PROT_READ, MAP_SHARED, fd, 0);
+    auto *mapStr = mmap(nullptr, size, PROT_READ, MAP_PRIVATE, fd, 0);
     if (mapStr == MAP_FAILED) {
         return;
     }
