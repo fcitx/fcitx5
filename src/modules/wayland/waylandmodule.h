@@ -7,7 +7,9 @@
 #ifndef _FCITX_MODULES_WAYLAND_WAYLANDMODULE_H_
 #define _FCITX_MODULES_WAYLAND_WAYLANDMODULE_H_
 
+#include "fcitx-config/iniparser.h"
 #include "fcitx-utils/event.h"
+#include "fcitx-utils/i18n.h"
 #include "fcitx/addonfactory.h"
 #include "fcitx/addoninstance.h"
 #include "fcitx/addonmanager.h"
@@ -19,6 +21,12 @@
 namespace fcitx {
 
 class WaylandModule;
+
+FCITX_CONFIGURATION(
+    WaylandConfig,
+    Option<bool> allowOverrideXKB{
+        this, "Allow Overriding System XKB Settings",
+        _("Allow Overriding System XKB Settings (Only support KDE 5)"), true};);
 
 class WaylandConnection {
 public:
@@ -57,6 +65,13 @@ public:
     void reloadXkbOption();
     wl_registry *getRegistry(const std::string &name);
 
+    const Configuration *getConfig() const override { return &config_; }
+    void setConfig(const RawConfig &config) override {
+        config_.load(config, true);
+        safeSaveAsIni(config_, "conf/wayland.conf");
+    }
+    void reloadConfig() override;
+
 private:
     void onConnectionCreated(WaylandConnection &conn);
     void onConnectionClosed(WaylandConnection &conn);
@@ -64,6 +79,7 @@ private:
     FCITX_ADDON_DEPENDENCY_LOADER(dbus, instance_->addonManager());
 
     Instance *instance_;
+    WaylandConfig config_;
     bool isWaylandSession_ = false;
     std::unordered_map<std::string, WaylandConnection> conns_;
     HandlerTable<WaylandConnectionCreated> createdCallbacks_;

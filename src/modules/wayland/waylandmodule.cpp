@@ -71,6 +71,7 @@ void WaylandConnection::onIOEvent(IOEventFlags flags) {
 
 WaylandModule::WaylandModule(fcitx::Instance *instance)
     : instance_(instance), isWaylandSession_(isSessionType("wayland")) {
+    reloadConfig();
     openDisplay("");
     reloadXkbOption();
 
@@ -78,7 +79,7 @@ WaylandModule::WaylandModule(fcitx::Instance *instance)
     eventHandlers_.emplace_back(instance_->watchEvent(
         EventType::InputMethodGroupChanged, EventWatcherPhase::Default,
         [this](Event &) {
-            if (!isKDE() || !isWaylandSession_) {
+            if (!isKDE() || !isWaylandSession_ || !*config_.allowOverrideXKB) {
                 return;
             }
 
@@ -113,6 +114,8 @@ WaylandModule::WaylandModule(fcitx::Instance *instance)
         }));
 #endif
 }
+
+void WaylandModule::reloadConfig() { readAsIni(config_, "conf/wayland.conf"); }
 
 void WaylandModule::openDisplay(const std::string &name) {
     const char *displayString = nullptr;
