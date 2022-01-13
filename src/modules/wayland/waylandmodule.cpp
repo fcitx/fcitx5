@@ -7,12 +7,22 @@
 
 #include "waylandmodule.h"
 #include <stdexcept>
-#include <fcitx/misc_p.h>
 #include <wayland-client.h>
+#include "fcitx-config/iniparser.h"
 #include "fcitx-utils/log.h"
 #include "fcitx/instance.h"
+#include "fcitx/misc_p.h"
+#include "dbus_public.h"
 
 namespace fcitx {
+
+namespace {
+bool isKDE() {
+    static const DesktopType desktop = getDesktopType();
+    return desktop == DesktopType::KDE5;
+}
+
+} // namespace
 
 WaylandConnection::WaylandConnection(WaylandModule *wayland, const char *name)
     : parent_(wayland), name_(name ? name : "") {
@@ -59,8 +69,53 @@ void WaylandConnection::onIOEvent(IOEventFlags flags) {
     wl_display_flush(*display_);
 }
 
-WaylandModule::WaylandModule(fcitx::Instance *instance) : instance_(instance) {
+WaylandModule::WaylandModule(fcitx::Instance *instance)
+    : instance_(instance), isWaylandSession_(isSessionType("wayland")) {
     openDisplay("");
+
+#ifdef ENABLE_DBUS
+    eventHandlers_.emplace_back(instance_->watchEvent(
+        EventType::InputMethodGroupChanged, EventWatcherPhase::Default,
+        [this](Event &) {
+            if (!isKDE() || !isWaylandSession_) {
+                return;
+            }
+
+            auto connection = findValue(conns_, "");
+            if (!connection) {
+                return;
+            }
+
+            auto dbusAddon = dbus();
+            if (!dbusAddon) {
+                return;
+            }
+
+            auto layoutAndVariant = parseLayout(
+                instance_->inputMethodManager().currentGroup().defaultLayout());
+            FCITX_DEBUG() << layoutAndVariant;
+
+            fcitx::RawConfig config;
+            readAsIni(config, StandardPath::Type::Config, "kxkbrc");
+            config.setValueByPath("Layout/LayoutList", layoutAndVariant.first);
+            config.setValueByPath("Layout/VariantList",
+                                  layoutAndVariant.second);
+            config.setValueByPath("Layout/DisplayNames", "");
+            config.setValueByPath("Layout/Use", "true");
+            auto model = config.valueByPath("Layout/Model");
+            auto options = config.valueByPath("Layout/Options");
+            instance_->setXkbParameters(connection->focusGroup()->display(),
+                                        DEFAULT_XKB_RULES, model ? *model : "",
+                                        (options ? *options : ""));
+
+            safeSaveAsIni(config, StandardPath::Type::Config, "kxkbrc");
+
+            auto bus = dbusAddon->call<IDBusModule::bus>();
+            auto message = bus->createSignal("/Layouts", "org.kde.keyboard",
+                                             "reloadConfig");
+            message.send();
+        }));
+#endif
 }
 
 void WaylandModule::openDisplay(const std::string &name) {
@@ -86,7 +141,7 @@ void WaylandModule::removeDisplay(const std::string &name) {
         conns_.erase(iter);
     }
     if (name.empty() && instance_->exitWhenMainDisplayDisconnected() &&
-        isSessionType("wayland")) {
+        isWaylandSession_) {
         instance_->exit();
     }
 }

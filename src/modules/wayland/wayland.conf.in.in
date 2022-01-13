@@ -4,4 +4,3 @@ Type=SharedLibrary
 Library=libwayland
 Category=Module
 Version=@PROJECT_VERSION@
-

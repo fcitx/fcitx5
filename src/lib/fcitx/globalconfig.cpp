@@ -9,6 +9,7 @@
 #include "fcitx-config/configuration.h"
 #include "fcitx-config/iniparser.h"
 #include "fcitx-utils/i18n.h"
+#include "config.h"
 #include "inputcontextmanager.h"
 
 namespace fcitx {

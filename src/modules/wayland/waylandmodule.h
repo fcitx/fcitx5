@@ -60,12 +60,18 @@ private:
     void onConnectionCreated(WaylandConnection &conn);
     void onConnectionClosed(WaylandConnection &conn);
 
+    FCITX_ADDON_DEPENDENCY_LOADER(dbus, instance_->addonManager());
+
     Instance *instance_;
+    bool isWaylandSession_ = false;
     std::unordered_map<std::string, WaylandConnection> conns_;
     HandlerTable<WaylandConnectionCreated> createdCallbacks_;
     HandlerTable<WaylandConnectionClosed> closedCallbacks_;
     FCITX_ADDON_EXPORT_FUNCTION(WaylandModule, addConnectionCreatedCallback);
     FCITX_ADDON_EXPORT_FUNCTION(WaylandModule, addConnectionClosedCallback);
+
+    std::vector<std::unique_ptr<HandlerTableEntry<EventHandler>>>
+        eventHandlers_;
 };
 } // namespace fcitx
 

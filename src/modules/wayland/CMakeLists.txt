@@ -1,5 +1,9 @@
 add_library(wayland MODULE waylandmodule.cpp)
 target_link_libraries(wayland Fcitx5::Core Wayland::Client Fcitx5::Wayland::Core)
+
+if (ENABLE_DBUS)
+    target_link_libraries(wayland Fcitx5::Module::DBus)
+endif()
 install(TARGETS wayland DESTINATION "${FCITX_INSTALL_ADDONDIR}")
 configure_file(wayland.conf.in.in wayland.conf.in @ONLY)
 fcitx5_translate_desktop_file(${CMAKE_CURRENT_BINARY_DIR}/wayland.conf.in wayland.conf)
