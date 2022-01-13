@@ -4,15 +4,15 @@
 #
 # Translators:
 # wwj402 <wwj402@gmail.com>, 2017
-# csslayer <wengxt@gmail.com>, 2021
+# csslayer <wengxt@gmail.com>, 2022
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2022-01-12 20:24+0000\n"
+"POT-Creation-Date: 2022-01-13 20:24+0000\n"
 "PO-Revision-Date: 2017-11-23 04:14+0000\n"
-"Last-Translator: csslayer <wengxt@gmail.com>, 2021\n"
+"Last-Translator: csslayer <wengxt@gmail.com>, 2022\n"
 "Language-Team: Chinese (China) (https://www.transifex.com/fcitx/teams/12005/"
 "zh_CN/)\n"
 "Language: zh_CN\n"
@@ -97,11 +97,11 @@ msgstr "<专用区>"
 msgid "<not assigned>"
 msgstr "<未指派>"
 
-#: src/lib/fcitx/globalconfig.cpp:74
+#: src/lib/fcitx/globalconfig.cpp:75
 msgid "Activate Input Method"
 msgstr "激活输入法"
 
-#: src/lib/fcitx/globalconfig.cpp:130
+#: src/lib/fcitx/globalconfig.cpp:131
 msgid "Active By Default"
 msgstr "默认状态为激活"
 
@@ -131,7 +131,7 @@ msgctxt "Key name"
 msgid "Adjust Brightness"
 msgstr "调整亮度"
 
-#: src/lib/fcitx/globalconfig.cpp:18
+#: src/lib/fcitx/globalconfig.cpp:19
 msgid "All"
 msgstr "所有"
 
@@ -150,6 +150,10 @@ msgstr "全部可用 locale："
 #: src/modules/xcb/xcbmodule.h:30
 msgid "Allow Overriding System XKB Settings"
 msgstr "允许重写系统 XKB 设置"
+
+#: src/modules/wayland/waylandmodule.h:29
+msgid "Allow Overriding System XKB Settings (Only support KDE 5)"
+msgstr ""
 
 #: src/im/keyboard/keyboard.h:33 src/modules/quickphrase/quickphrase.h:29
 msgid "Alt"
@@ -238,7 +242,7 @@ msgstr "电池"
 msgid "Beginner's Guide"
 msgstr "入门指南"
 
-#: src/lib/fcitx/globalconfig.cpp:189
+#: src/lib/fcitx/globalconfig.cpp:190
 msgid "Behavior"
 msgstr "行为"
 
@@ -461,11 +465,11 @@ msgstr "补全已禁用。"
 
 #: src/im/keyboard/keyboard.cpp:776
 msgid "Completion is enabled temporarily."
-msgstr "补全已暂时启用。"
+msgstr "已暂时启用补全。"
 
 #: src/im/keyboard/keyboard.cpp:778
 msgid "Completion is enabled."
-msgstr "补全已启用。"
+msgstr "已启用补全。"
 
 #: data/fcitx5-diagnose.sh:1027
 msgid "Config GUI for gtk${1} not found."
@@ -534,9 +538,9 @@ msgstr "${1} 的当前值是 ${2} (${3})。"
 msgid "Custom"
 msgstr "自定义"
 
-#: src/lib/fcitx/globalconfig.cpp:177
+#: src/lib/fcitx/globalconfig.cpp:178
 msgid "Custom Xkb Option"
-msgstr ""
+msgstr "自定义 Xkb 选项"
 
 #: src/lib/fcitx-utils/key.cpp:124
 msgctxt "Key name"
@@ -564,7 +568,7 @@ msgctxt "Key name"
 msgid "DOS"
 msgstr "DOS"
 
-#: src/lib/fcitx/globalconfig.cpp:83
+#: src/lib/fcitx/globalconfig.cpp:84
 msgid "Deactivate Input Method"
 msgstr "取消激活输入法"
 
@@ -577,23 +581,23 @@ msgstr "来自 dbus 的调试信息："
 msgid "Default"
 msgstr "默认"
 
-#: src/lib/fcitx/globalconfig.cpp:119
+#: src/lib/fcitx/globalconfig.cpp:120
 msgid "Default Next Candidate"
 msgstr "默认跳转下一个候选词"
 
-#: src/lib/fcitx/globalconfig.cpp:103
+#: src/lib/fcitx/globalconfig.cpp:104
 msgid "Default Next page"
 msgstr "默认下一页"
 
-#: src/lib/fcitx/globalconfig.cpp:113
+#: src/lib/fcitx/globalconfig.cpp:114
 msgid "Default Previous Candidate"
 msgstr "默认跳转前一个候选词"
 
-#: src/lib/fcitx/globalconfig.cpp:91
+#: src/lib/fcitx/globalconfig.cpp:92
 msgid "Default Previous page"
 msgstr "默认上一页"
 
-#: src/lib/fcitx/globalconfig.cpp:151
+#: src/lib/fcitx/globalconfig.cpp:152
 msgid "Default page size"
 msgstr "默认页大小"
 
@@ -693,23 +697,23 @@ msgstr "行尾"
 msgid "Entries"
 msgstr "项目"
 
-#: src/lib/fcitx/globalconfig.cpp:50
+#: src/lib/fcitx/globalconfig.cpp:51
 msgid "Enumerate Input Method Backward"
 msgstr "向后切换输入法"
 
-#: src/lib/fcitx/globalconfig.cpp:43
+#: src/lib/fcitx/globalconfig.cpp:44
 msgid "Enumerate Input Method Forward"
 msgstr "向前切换输入法"
 
-#: src/lib/fcitx/globalconfig.cpp:67
+#: src/lib/fcitx/globalconfig.cpp:68
 msgid "Enumerate Input Method Group Backward"
 msgstr "向后切换输入法分组"
 
-#: src/lib/fcitx/globalconfig.cpp:60
+#: src/lib/fcitx/globalconfig.cpp:61
 msgid "Enumerate Input Method Group Forward"
 msgstr "向前切换输入分组"
 
-#: src/lib/fcitx/globalconfig.cpp:32
+#: src/lib/fcitx/globalconfig.cpp:33
 msgid "Enumerate when press trigger key repeatedly"
 msgstr "反复按切换键时进行轮换"
 
@@ -1099,7 +1103,7 @@ msgctxt "Key name"
 msgid "Hot Links"
 msgstr "热门链接"
 
-#: src/lib/fcitx/globalconfig.cpp:187
+#: src/lib/fcitx/globalconfig.cpp:188
 msgid "Hotkey"
 msgstr "快捷键"
 
@@ -1172,7 +1176,7 @@ msgstr "输入面板"
 msgid "Input method selector"
 msgstr "输入法选择器"
 
-#: src/lib/fcitx/globalconfig.cpp:95 src/lib/fcitx/globalconfig.cpp:107
+#: src/lib/fcitx/globalconfig.cpp:96 src/lib/fcitx/globalconfig.cpp:108
 msgid ""
 "Input methods may have different setup in their own configuration. This is "
 "commonly used by modules like clipboard or quickphrase."
@@ -1566,7 +1570,7 @@ msgstr "下一个候选词"
 msgid "Next Page Button"
 msgstr "下一页按钮"
 
-#: src/lib/fcitx/globalconfig.cpp:19
+#: src/lib/fcitx/globalconfig.cpp:20
 msgid "No"
 msgstr "否"
 
@@ -1645,9 +1649,9 @@ msgstr "覆盖图片 Y 偏移"
 msgid "Overlay position"
 msgstr "覆盖图片位置"
 
-#: src/lib/fcitx/globalconfig.cpp:161
+#: src/lib/fcitx/globalconfig.cpp:162
 msgid "Override Xkb Option"
-msgstr ""
+msgstr "覆盖 Xkb 选项"
 
 #: data/fcitx5-diagnose.sh:967
 msgid "Owner of DBus name ${1} is ${2}."
@@ -1761,7 +1765,7 @@ msgctxt "Key name"
 msgid "Print Screen"
 msgstr "截屏"
 
-#: src/lib/fcitx/globalconfig.cpp:19
+#: src/lib/fcitx/globalconfig.cpp:20
 msgid "Program"
 msgstr "程序"
 
@@ -1916,7 +1920,7 @@ msgstr "发送"
 msgid "Separator Background"
 msgstr "分隔符背景"
 
-#: src/lib/fcitx/globalconfig.cpp:133
+#: src/lib/fcitx/globalconfig.cpp:134
 msgid "Share Input State"
 msgstr "共享输入状态"
 
@@ -1930,23 +1934,23 @@ msgctxt "Key name"
 msgid "Shop"
 msgstr "购物"
 
-#: src/lib/fcitx/globalconfig.cpp:143
+#: src/lib/fcitx/globalconfig.cpp:144
 msgid "Show Input Method Information when changing focus"
 msgstr "在焦点更改时显示输入法信息"
 
-#: src/lib/fcitx/globalconfig.cpp:140
+#: src/lib/fcitx/globalconfig.cpp:141
 msgid "Show Input Method Information when switch input method"
 msgstr "切换输入法时显示输入法信息"
 
 #: src/ui/classic/classicui.h:114
 msgid "Show Layout Name In Icon"
-msgstr ""
+msgstr "在图标中显示布局名称"
 
-#: src/lib/fcitx/globalconfig.cpp:146
+#: src/lib/fcitx/globalconfig.cpp:147
 msgid "Show compact input method information"
 msgstr "显示紧凑的输入法信息"
 
-#: src/lib/fcitx/globalconfig.cpp:149
+#: src/lib/fcitx/globalconfig.cpp:150
 msgid "Show first input method information"
 msgstr "显示第一个输入法的信息"
 
@@ -1955,12 +1959,14 @@ msgid ""
 "Show layout name in icon if there is more than one active layout. If prefer "
 "text icon is set to true, this option will be ignored."
 msgstr ""
+"如果有超过一个活动布局，则在图标中显示布局名称。如果优先使用文字图标已启用，"
+"这个选项将会被忽略"
 
-#: src/lib/fcitx/globalconfig.cpp:136
+#: src/lib/fcitx/globalconfig.cpp:137
 msgid "Show preedit in application"
 msgstr "在程序中显示预编辑文本"
 
-#: src/lib/fcitx/globalconfig.cpp:56
+#: src/lib/fcitx/globalconfig.cpp:57
 msgid "Skip first input method while enumerating"
 msgstr "轮换输入法时跳过第一个输入法"
 
@@ -2075,7 +2081,7 @@ msgctxt "Key name"
 msgid "Task Panel"
 msgstr "任务栏"
 
-#: src/lib/fcitx/globalconfig.cpp:36
+#: src/lib/fcitx/globalconfig.cpp:37
 msgid "Temporally switch between first and current Input Method"
 msgstr "临时在当前和第一个输入法之间切换"
 
@@ -2133,7 +2139,7 @@ msgstr ""
 "您可以在 ${link1} 找到一些会在使用 xim 时出现问题的应用程序。包括应用程序卡死"
 "在内的更多使用 xim 可能出现的普遍问题请参见 ${link2}。"
 
-#: src/lib/fcitx/globalconfig.cpp:124
+#: src/lib/fcitx/globalconfig.cpp:125
 msgid "Toggle embedded preedit"
 msgstr "切换是否使用嵌入预编辑"
 
@@ -2196,7 +2202,7 @@ msgstr "托盘标签轮廓颜色"
 msgid "Tray Label Text Color"
 msgstr "托盘标签文本颜色"
 
-#: src/lib/fcitx/globalconfig.cpp:26
+#: src/lib/fcitx/globalconfig.cpp:27
 msgid "Trigger Input Method"
 msgstr "切换启用/禁用输入法"
 
@@ -2345,12 +2351,14 @@ msgctxt "Key name"
 msgid "WebCam"
 msgstr "摄像头"
 
-#: src/lib/fcitx/globalconfig.cpp:166
+#: src/lib/fcitx/globalconfig.cpp:167
 msgid ""
 "Whether to override the xkb option from display server. It will not affect "
 "the xkb option send to display, but just the xkb options for custom xkb "
 "layout."
 msgstr ""
+"是否覆盖来自显示服务器的 Xkb 选项。它不会影响发送给显示服务的 Xkb 选项，仅会"
+"影响自定义的 Xkb 布局"
 
 #: data/fcitx5-diagnose.sh:902
 msgid "Why is it bad to run as root"
