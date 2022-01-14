@@ -39,8 +39,8 @@ void basicTest() {
 }
 
 void recursiveSchedule() {
-    EventLoop loop;
     EventDispatcher dispatcher;
+    EventLoop loop;
     dispatcher.attach(&loop);
     int counter = 0;
     std::function<void()> callback = [&dispatcher, &counter, &loop,

@@ -72,7 +72,8 @@ enum class LibEventSourceEnableState { Disabled = 0, Oneshot = 1, Enabled = 2 };
 template <typename Interface>
 struct LibEventSourceBase : public Interface {
 public:
-    LibEventSourceBase(event_base *eventBase) : eventBase_(eventBase) {}
+    LibEventSourceBase(std::shared_ptr<event_base> eventBase)
+        : eventBase_(eventBase) {}
 
     ~LibEventSourceBase() = default;
 
@@ -94,7 +95,7 @@ public:
     }
 
 protected:
-    event_base *eventBase_; // not owned
+    std::shared_ptr<event_base> eventBase_;
     UniqueCPtr<event, event_free> event_;
     LibEventSourceEnableState state_ = LibEventSourceEnableState::Disabled;
 
@@ -108,7 +109,8 @@ private:
 };
 
 struct LibEventSourceIO final : public LibEventSourceBase<EventSourceIO> {
-    LibEventSourceIO(IOCallback _callback, event_base *eventBase, int fd,
+    LibEventSourceIO(IOCallback _callback,
+                     std::shared_ptr<event_base> eventBase, int fd,
                      IOEventFlags flags)
         : LibEventSourceBase(eventBase), fd_(fd), flags_(flags),
           callback_(std::move(_callback)) {
@@ -165,13 +167,13 @@ struct LibEventSourceIO final : public LibEventSourceBase<EventSourceIO> {
         // flags |= EV_CLOSED;
         if (!event_) {
             event_.reset(
-                event_new(eventBase_, fd_, flags, IOEventCallback, this));
+                event_new(eventBase_.get(), fd_, flags, IOEventCallback, this));
             if (!event_) {
                 throw EventLoopException(ENOMEM);
             }
         } else {
-            event_assign(event_.get(), eventBase_, fd_, flags, IOEventCallback,
-                         this);
+            event_assign(event_.get(), eventBase_.get(), fd_, flags,
+                         IOEventCallback, this);
         }
         event_add(event_.get(), nullptr);
     }
@@ -183,8 +185,9 @@ struct LibEventSourceIO final : public LibEventSourceBase<EventSourceIO> {
 
 struct LibEventSourceTime final : public LibEventSourceBase<EventSourceTime>,
                                   public TrackableObject<LibEventSourceTime> {
-    LibEventSourceTime(TimeCallback _callback, event_base *eventBase,
-                       uint64_t time, clockid_t clockid, uint64_t accuracy)
+    LibEventSourceTime(TimeCallback _callback,
+                       std::shared_ptr<event_base> eventBase, uint64_t time,
+                       clockid_t clockid, uint64_t accuracy)
         : LibEventSourceBase(eventBase), time_(time), clock_(clockid),
           accuracy_(accuracy), callback_(std::move(_callback)) {
         setOneShot();
@@ -216,8 +219,8 @@ struct LibEventSourceTime final : public LibEventSourceBase<EventSourceTime>,
             return;
         }
         if (!event_) {
-            event_.reset(
-                event_new(eventBase_, -1, EV_TIMEOUT, TimeEventCallback, this));
+            event_.reset(event_new(eventBase_.get(), -1, EV_TIMEOUT,
+                                   TimeEventCallback, this));
             if (!event_) {
                 throw EventLoopException(ENOMEM);
             }
@@ -264,16 +267,14 @@ public:
         }
         event_config_require_features(config, EV_FEATURE_ET);
 
-        event_ = event_base_new_with_config(config);
+        event_.reset(event_base_new_with_config(config), event_base_free);
         if (event_ == nullptr) {
             throw std::runtime_error("Create event_base failed.");
         }
         event_config_free(config);
     }
 
-    ~EventLoopPrivate() { event_base_free(event_); }
-
-    event_base *event_;
+    std::shared_ptr<event_base> event_;
     std::vector<TrackableObjectReference<LibEventSourceExit>> exitEvents_;
 };
 
@@ -285,13 +286,13 @@ const char *EventLoop::impl() { return "libevent"; }
 
 void *EventLoop::nativeHandle() {
     FCITX_D();
-    return d->event_;
+    return d->event_.get();
 }
 
 bool EventLoop::exec() {
     FCITX_D();
 #ifdef EVLOOP_NO_EXIT_ON_EMPTY
-    int r = event_base_loop(d->event_, EVLOOP_NO_EXIT_ON_EMPTY);
+    int r = event_base_loop(d->event_.get(), EVLOOP_NO_EXIT_ON_EMPTY);
 #else
     UniqueCPtr<event, event_free> dummy(event_new(
         d->event_, -1, EV_PERSIST, [](evutil_socket_t, short, void *) {},
@@ -327,7 +328,7 @@ bool EventLoop::exec() {
 
 void EventLoop::exit() {
     FCITX_D();
-    event_base_loopexit(d->event_, nullptr);
+    event_base_loopexit(d->event_.get(), nullptr);
 }
 
 void IOEventCallback(evutil_socket_t fd, short events, void *arg) {
