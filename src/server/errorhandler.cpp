@@ -167,7 +167,8 @@ void OnException(int signo) {
     case SIGBUS:
     case SIGILL:
     case SIGFPE:
-        _exit(1);
+        signal(signo, SIG_DFL);
+        kill(getpid(), signo);
         break;
     default: {
         uint8_t sig = 0;
