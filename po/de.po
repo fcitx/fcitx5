@@ -6,14 +6,15 @@
 # csslayer <wengxt@gmail.com>, 2017
 # mar well <m.wellendorf@gmx.de>, 2018
 # Tim Hofstede <timhofstede.va@gmail.com>, 2018
+# Ettore Atalan <atalanttore@googlemail.com>, 2022
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2022-01-13 20:24+0000\n"
+"POT-Creation-Date: 2022-01-14 20:24+0000\n"
 "PO-Revision-Date: 2017-11-23 04:14+0000\n"
-"Last-Translator: Tim Hofstede <timhofstede.va@gmail.com>, 2018\n"
+"Last-Translator: Ettore Atalan <atalanttore@googlemail.com>, 2022\n"
 "Language-Team: German (https://www.transifex.com/fcitx/teams/12005/de/)\n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
@@ -43,7 +44,7 @@ msgstr ""
 
 #: data/fcitx5-diagnose.sh:541
 msgid "${1} not found."
-msgstr ""
+msgstr "${1} nicht gefunden."
 
 #: data/fcitx5-diagnose.sh:953
 msgid "${1} works properly."
@@ -674,7 +675,7 @@ msgstr ""
 
 #: src/modules/quickphrase/quickphrase.h:43
 msgid "Enable Spell check"
-msgstr ""
+msgstr "Rechtschreibprüfung aktivieren"
 
 #: src/im/keyboard/keyboard.h:52
 msgid "Enable emoji in hint"
@@ -805,7 +806,7 @@ msgstr ""
 
 #: data/fcitx5-diagnose.sh:925
 msgid "Fcitx version: ${1}"
-msgstr ""
+msgstr "Fcitx-Version: ${1}"
 
 #: src/frontend/fcitx4frontend/fcitx4frontend.conf.in.in:3
 msgid "Fcitx4 Frontend"
@@ -937,7 +938,7 @@ msgstr "Gruppe {0}: {1}"
 
 #: src/lib/fcitx/instance.cpp:741
 msgid "Group {}"
-msgstr ""
+msgstr "Gruppe {}"
 
 #: data/fcitx5-diagnose.sh:1321
 msgid "Gtk ${1} immodule file ${2} does not exist."
@@ -1755,7 +1756,7 @@ msgstr ""
 
 #: src/modules/spell/spell.h:38
 msgid "Providers"
-msgstr ""
+msgstr "Anbieter"
 
 #: data/fcitx5-diagnose.sh:1217
 msgid "Qt IM module files:"
@@ -2482,7 +2483,7 @@ msgstr "iTouch"
 
 #: data/fcitx5-diagnose.sh:926
 msgid "process:"
-msgstr ""
+msgstr "Prozess:"
 
 #: data/fcitx5-diagnose.sh:897 data/fcitx5-diagnose.sh:903
 msgid "sudo environment variables"
