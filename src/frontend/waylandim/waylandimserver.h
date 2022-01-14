@@ -69,7 +69,7 @@ private:
 
     KeyStates modifiers_;
 
-    WaylandIMInputContextV1 *globalIc_ = nullptr;
+    TrackableObjectReference<InputContext> globalIc_;
 };
 
 class WaylandIMInputContextV1 : public InputContext {

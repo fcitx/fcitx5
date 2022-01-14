@@ -57,7 +57,12 @@ WaylandIMServer::WaylandIMServer(wl_display *display, FocusGroup *group,
     init();
 }
 
-WaylandIMServer::~WaylandIMServer() { delete globalIc_; }
+WaylandIMServer::~WaylandIMServer() {
+    if (auto *globalIc = globalIc_.get()) {
+        delete globalIc;
+    }
+}
+
 InputContextManager &WaylandIMServer::inputContextManager() {
     return parent_->instance()->inputContextManager();
 }
@@ -69,10 +74,11 @@ void WaylandIMServer::init() {
     if (im && !inputMethodV1_) {
         WAYLANDIM_DEBUG() << "WAYLANDIM V1";
         inputMethodV1_ = im;
-        globalIc_ = new WaylandIMInputContextV1(
+        auto globalIc = new WaylandIMInputContextV1(
             parent_->instance()->inputContextManager(), this);
-        globalIc_->setFocusGroup(group_);
-        globalIc_->setCapabilityFlags(baseFlags);
+        globalIc->setFocusGroup(group_);
+        globalIc->setCapabilityFlags(baseFlags);
+        globalIc_ = globalIc->watch();
         inputMethodV1_->activate().connect(
             [this](wayland::ZwpInputMethodContextV1 *ic) {
                 WAYLANDIM_DEBUG() << "ACTIVATE " << ic;
@@ -88,11 +94,17 @@ void WaylandIMServer::init() {
 }
 
 void WaylandIMServer::activate(wayland::ZwpInputMethodContextV1 *id) {
-    globalIc_->activate(id);
+    if (auto *globalIc =
+            static_cast<WaylandIMInputContextV1 *>(globalIc_.get())) {
+        globalIc->activate(id);
+    }
 }
 
 void WaylandIMServer::deactivate(wayland::ZwpInputMethodContextV1 *id) {
-    globalIc_->deactivate(id);
+    if (auto *globalIc =
+            static_cast<WaylandIMInputContextV1 *>(globalIc_.get())) {
+        globalIc->deactivate(id);
+    }
 }
 
 WaylandIMInputContextV1::WaylandIMInputContextV1(
