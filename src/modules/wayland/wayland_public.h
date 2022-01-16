@@ -33,5 +33,8 @@ FCITX_ADDON_DECLARE_FUNCTION(
     std::unique_ptr<HandlerTableEntry<fcitx::WaylandConnectionClosed>>(
         WaylandConnectionClosed));
 FCITX_ADDON_DECLARE_FUNCTION(WaylandModule, reloadXkbOption, void());
+FCITX_ADDON_DECLARE_FUNCTION(WaylandModule, openConnection,
+                             void(const std::string &));
+FCITX_ADDON_DECLARE_FUNCTION(WaylandModule, openConnectionSocket, void(int fd));
 
 #endif // _FCITX_MODULES_WAYLAND_WAYLAND_PUBLIC_H_

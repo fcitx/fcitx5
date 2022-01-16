@@ -107,6 +107,7 @@ WaylandUI::WaylandUI(ClassicUI *parent, const std::string &name,
         pointer_ = std::make_unique<WaylandPointer>(seat.get());
     }
     display_->sync();
+    setupInputWindow();
 }
 
 WaylandUI::~WaylandUI() {
@@ -224,18 +225,12 @@ void WaylandUI::update(UserInterfaceComponent component,
     }
 }
 
-void WaylandUI::suspend() {
-    isSuspend_ = true;
-    inputWindow_.reset();
-}
+void WaylandUI::suspend() { inputWindow_.reset(); }
 
-void WaylandUI::resume() {
-    isSuspend_ = false;
-    setupInputWindow();
-}
+void WaylandUI::resume() { setupInputWindow(); }
 
 void WaylandUI::setupInputWindow() {
-    if (isSuspend_ || inputWindow_) {
+    if (parent_->suspended() || inputWindow_) {
         return;
     }
 

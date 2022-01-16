@@ -16,6 +16,10 @@
 
 namespace fcitx {
 
+FCITX_DEFINE_LOG_CATEGORY(wayland_log, "wayland");
+
+#define FCITX_WAYLAND_DEBUG() FCITX_LOGC(::fcitx::wayland_log, Debug)
+
 namespace {
 bool isKDE() {
     static const DesktopType desktop = getDesktopType();
@@ -30,6 +34,23 @@ WaylandConnection::WaylandConnection(WaylandModule *wayland, const char *name)
     if (!display) {
         throw std::runtime_error("Failed to open wayland connection");
     }
+    init(display);
+}
+
+WaylandConnection::WaylandConnection(WaylandModule *wayland, const char *name,
+                                     int fd)
+    : parent_(wayland), name_(name) {
+    auto *display = wl_display_connect_to_fd(fd);
+    if (!display) {
+        throw std::runtime_error("Failed to open wayland connection");
+    }
+    init(display);
+}
+
+WaylandConnection::~WaylandConnection() {}
+
+void WaylandConnection::init(wl_display *display) {
+
     display_ = std::make_unique<wayland::Display>(display);
 
     auto &eventLoop = parent_->instance()->eventLoop();
@@ -41,12 +62,10 @@ WaylandConnection::WaylandConnection(WaylandModule *wayland, const char *name)
                              });
 
     group_ = std::make_unique<FocusGroup>(
-        "wayland:" + name_, wayland->instance()->inputContextManager());
+        "wayland:" + name_, parent_->instance()->inputContextManager());
 }
 
-WaylandConnection::~WaylandConnection() {}
-
-void WaylandConnection::finish() { parent_->removeDisplay(name_); }
+void WaylandConnection::finish() { parent_->removeConnection(name_); }
 
 void WaylandConnection::onIOEvent(IOEventFlags flags) {
     if ((flags & IOEventFlag::Err) || (flags & IOEventFlag::Hup)) {
@@ -59,7 +78,7 @@ void WaylandConnection::onIOEvent(IOEventFlags flags) {
 
     if (wl_display_dispatch(*display_) < 0) {
         error_ = wl_display_get_error(*display_);
-        FCITX_LOG_IF(Error, error_ != 0)
+        FCITX_LOGC_IF(wayland_log, Error, error_ != 0)
             << "Wayland connection got error: " << error_;
         if (error_ != 0) {
             return finish();
@@ -72,7 +91,7 @@ void WaylandConnection::onIOEvent(IOEventFlags flags) {
 WaylandModule::WaylandModule(fcitx::Instance *instance)
     : instance_(instance), isWaylandSession_(isSessionType("wayland")) {
     reloadConfig();
-    openDisplay("");
+    openConnection("");
     reloadXkbOption();
 
 #ifdef ENABLE_DBUS
@@ -95,7 +114,6 @@ WaylandModule::WaylandModule(fcitx::Instance *instance)
 
             auto layoutAndVariant = parseLayout(
                 instance_->inputMethodManager().currentGroup().defaultLayout());
-            FCITX_DEBUG() << layoutAndVariant;
 
             fcitx::RawConfig config;
             readAsIni(config, StandardPath::Type::Config, "kxkbrc");
@@ -117,7 +135,7 @@ WaylandModule::WaylandModule(fcitx::Instance *instance)
 
 void WaylandModule::reloadConfig() { readAsIni(config_, "conf/wayland.conf"); }
 
-void WaylandModule::openDisplay(const std::string &name) {
+void WaylandModule::openConnection(const std::string &name) {
     const char *displayString = nullptr;
     if (!name.empty()) {
         displayString = name.c_str();
@@ -132,8 +150,22 @@ void WaylandModule::openDisplay(const std::string &name) {
     }
 }
 
-void WaylandModule::removeDisplay(const std::string &name) {
-    FCITX_DEBUG() << "Display removed " << name;
+void WaylandModule::openConnectionSocket(int fd) {
+    UnixFD guard = UnixFD::own(fd);
+    socketIdx_++;
+    auto name = stringutils::concat("socket:", socketIdx_);
+    try {
+        auto iter = conns_.emplace(
+            std::piecewise_construct, std::forward_as_tuple(name),
+            std::forward_as_tuple(this, name.data(), fd));
+        guard.release();
+        onConnectionCreated(iter.first->second);
+    } catch (const std::exception &e) {
+    }
+}
+
+void WaylandModule::removeConnection(const std::string &name) {
+    FCITX_WAYLAND_DEBUG() << "Connection removed " << name;
     auto iter = conns_.find(name);
     if (iter != conns_.end()) {
         onConnectionClosed(iter->second);

@@ -30,6 +30,9 @@
 #ifdef ENABLE_X11
 #include "xcb_public.h"
 #endif
+#ifdef WAYLAND_FOUND
+#include "wayland_public.h"
+#endif
 
 #define FCITX_DBUS_SERVICE "org.fcitx.Fcitx5"
 #define FCITX_CONTROLLER_DBUS_INTERFACE "org.fcitx.Fcitx.Controller1"
@@ -521,6 +524,32 @@ public:
                                     "XCB addon is not available.");
     }
 
+    void openWaylandConnection(const std::string &name) {
+#ifdef WAYLAND_FOUND
+        if (auto *wayland = module_->wayland()) {
+            wayland->call<IWaylandModule::openConnection>(name);
+            return;
+        }
+#else
+        FCITX_UNUSED(name);
+#endif
+        throw dbus::MethodCallError("org.freedesktop.DBus.Error.InvalidArgs",
+                                    "Wayland addon is not available.");
+    }
+
+    void openWaylandConnectionSocket(UnixFD &fd) {
+#ifdef WAYLAND_FOUND
+        if (auto *wayland = module_->wayland()) {
+            wayland->call<IWaylandModule::openConnectionSocket>(fd.release());
+            return;
+        }
+#else
+        FCITX_UNUSED(name);
+#endif
+        throw dbus::MethodCallError("org.freedesktop.DBus.Error.InvalidArgs",
+                                    "Wayland addon is not available.");
+    }
+
     std::string debugInfo() {
         std::stringstream ss;
         instance_->inputContextManager().foreachGroup([&ss](FocusGroup *group) {
@@ -621,6 +650,10 @@ private:
                                "a(sssibbbasas)");
     FCITX_OBJECT_VTABLE_METHOD(setAddonsState, "SetAddonsState", "a(sb)", "");
     FCITX_OBJECT_VTABLE_METHOD(openX11Connection, "OpenX11Connection", "s", "");
+    FCITX_OBJECT_VTABLE_METHOD(openWaylandConnection, "OpenWaylandConnection",
+                               "s", "");
+    FCITX_OBJECT_VTABLE_METHOD(openWaylandConnectionSocket,
+                               "OpenWaylandConnectionSocket", "h", "");
     FCITX_OBJECT_VTABLE_METHOD(debugInfo, "DebugInfo", "", "s");
     FCITX_OBJECT_VTABLE_METHOD(refresh, "Refresh", "", "");
     FCITX_OBJECT_VTABLE_METHOD(checkUpdate, "CheckUpdate", "", "b");
@@ -635,6 +668,10 @@ DBusModule::DBusModule(Instance *instance)
     if (instance_->willTryReplace()) {
         requestFlag |= RequestNameFlag::ReplaceExisting;
     }
+
+    controller_ = std::make_unique<Controller1>(this, instance);
+    bus_->addObjectVTable("/controller", FCITX_CONTROLLER_DBUS_INTERFACE,
+                          *controller_);
     if (!bus_->requestName(FCITX_DBUS_SERVICE, requestFlag)) {
         instance_->exit();
         throw std::runtime_error("Unable to request dbus name. Is there "
@@ -664,10 +701,6 @@ DBusModule::DBusModule(Instance *instance)
         GNOME_HELPER_NAME,
         [this](const std::string &, const std::string &,
                const std::string &newName) { xkbHelperName_ = newName; });
-
-    controller_ = std::make_unique<Controller1>(this, instance);
-    bus_->addObjectVTable("/controller", FCITX_CONTROLLER_DBUS_INTERFACE,
-                          *controller_);
 }
 
 DBusModule::~DBusModule() {}

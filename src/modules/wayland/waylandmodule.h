@@ -31,6 +31,7 @@ FCITX_CONFIGURATION(
 class WaylandConnection {
 public:
     WaylandConnection(WaylandModule *wayland, const char *name);
+    WaylandConnection(WaylandModule *wayland, const char *name, int fd);
     ~WaylandConnection();
 
     const std::string &name() const { return name_; }
@@ -38,6 +39,7 @@ public:
     FocusGroup *focusGroup() const { return group_.get(); }
 
 private:
+    void init(wl_display *display);
     void onIOEvent(IOEventFlags flags);
     void finish();
 
@@ -55,8 +57,10 @@ public:
     WaylandModule(Instance *instance);
     Instance *instance() { return instance_; }
 
-    void openDisplay(const std::string &name);
-    void removeDisplay(const std::string &name);
+    void openConnection(const std::string &name);
+    void removeConnection(const std::string &name);
+
+    void openConnectionSocket(int fd);
 
     std::unique_ptr<HandlerTableEntry<WaylandConnectionCreated>>
     addConnectionCreatedCallback(WaylandConnectionCreated callback);
@@ -87,9 +91,12 @@ private:
     FCITX_ADDON_EXPORT_FUNCTION(WaylandModule, addConnectionCreatedCallback);
     FCITX_ADDON_EXPORT_FUNCTION(WaylandModule, addConnectionClosedCallback);
     FCITX_ADDON_EXPORT_FUNCTION(WaylandModule, reloadXkbOption);
+    FCITX_ADDON_EXPORT_FUNCTION(WaylandModule, openConnection);
+    FCITX_ADDON_EXPORT_FUNCTION(WaylandModule, openConnectionSocket);
 
     std::vector<std::unique_ptr<HandlerTableEntry<EventHandler>>>
         eventHandlers_;
+    int socketIdx_ = 0;
 };
 } // namespace fcitx
 
