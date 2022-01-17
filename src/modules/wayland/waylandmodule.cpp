@@ -28,18 +28,18 @@ bool isKDE() {
 
 } // namespace
 
-WaylandConnection::WaylandConnection(WaylandModule *wayland, const char *name)
-    : parent_(wayland), name_(name ? name : "") {
-    auto *display = wl_display_connect(name);
+WaylandConnection::WaylandConnection(WaylandModule *wayland, std::string name)
+    : parent_(wayland), name_(std::move(name)) {
+    auto *display = wl_display_connect(name.c_str());
     if (!display) {
         throw std::runtime_error("Failed to open wayland connection");
     }
     init(display);
 }
 
-WaylandConnection::WaylandConnection(WaylandModule *wayland, const char *name,
+WaylandConnection::WaylandConnection(WaylandModule *wayland, std::string name,
                                      int fd)
-    : parent_(wayland), name_(name) {
+    : parent_(wayland), name_(std::move(name)) {
     auto *display = wl_display_connect_to_fd(fd);
     if (!display) {
         throw std::runtime_error("Failed to open wayland connection");
@@ -135,33 +135,55 @@ WaylandModule::WaylandModule(fcitx::Instance *instance)
 
 void WaylandModule::reloadConfig() { readAsIni(config_, "conf/wayland.conf"); }
 
-void WaylandModule::openConnection(const std::string &name) {
-    const char *displayString = nullptr;
-    if (!name.empty()) {
-        displayString = name.c_str();
+bool WaylandModule::openConnection(const std::string &name) {
+    if (conns_.count(name)) {
+        return false;
     }
 
+    WaylandConnection *newConnection = nullptr;
     try {
         auto iter = conns_.emplace(std::piecewise_construct,
                                    std::forward_as_tuple(name),
-                                   std::forward_as_tuple(this, displayString));
-        onConnectionCreated(iter.first->second);
+                                   std::forward_as_tuple(this, name));
+        newConnection = &iter.first->second;
     } catch (const std::exception &e) {
+        FCITX_ERROR() << e.what();
     }
+    if (newConnection) {
+        onConnectionCreated(*newConnection);
+        return true;
+    }
+    return false;
 }
 
-void WaylandModule::openConnectionSocket(int fd) {
+bool WaylandModule::openConnectionSocket(int fd) {
     UnixFD guard = UnixFD::own(fd);
-    socketIdx_++;
-    auto name = stringutils::concat("socket:", socketIdx_);
+    auto name = stringutils::concat("socket:", fd);
+
+    if (conns_.count(name)) {
+        return false;
+    }
+
+    for (const auto &[name, connection] : conns_) {
+        if (connection.display()->fd() == fd) {
+            return false;
+        }
+    }
+
+    WaylandConnection *newConnection = nullptr;
     try {
-        auto iter = conns_.emplace(
-            std::piecewise_construct, std::forward_as_tuple(name),
-            std::forward_as_tuple(this, name.data(), fd));
+        auto iter = conns_.emplace(std::piecewise_construct,
+                                   std::forward_as_tuple(name),
+                                   std::forward_as_tuple(this, name, fd));
         guard.release();
-        onConnectionCreated(iter.first->second);
+        newConnection = &iter.first->second;
     } catch (const std::exception &e) {
     }
+    if (newConnection) {
+        onConnectionCreated(*newConnection);
+        return true;
+    }
+    return false;
 }
 
 void WaylandModule::removeConnection(const std::string &name) {

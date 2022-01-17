@@ -30,8 +30,8 @@ FCITX_CONFIGURATION(
 
 class WaylandConnection {
 public:
-    WaylandConnection(WaylandModule *wayland, const char *name);
-    WaylandConnection(WaylandModule *wayland, const char *name, int fd);
+    WaylandConnection(WaylandModule *wayland, std::string name);
+    WaylandConnection(WaylandModule *wayland, std::string name, int fd);
     ~WaylandConnection();
 
     const std::string &name() const { return name_; }
@@ -57,10 +57,9 @@ public:
     WaylandModule(Instance *instance);
     Instance *instance() { return instance_; }
 
-    void openConnection(const std::string &name);
+    bool openConnection(const std::string &name);
+    bool openConnectionSocket(int fd);
     void removeConnection(const std::string &name);
-
-    void openConnectionSocket(int fd);
 
     std::unique_ptr<HandlerTableEntry<WaylandConnectionCreated>>
     addConnectionCreatedCallback(WaylandConnectionCreated callback);
@@ -96,7 +95,6 @@ private:
 
     std::vector<std::unique_ptr<HandlerTableEntry<EventHandler>>>
         eventHandlers_;
-    int socketIdx_ = 0;
 };
 } // namespace fcitx
 

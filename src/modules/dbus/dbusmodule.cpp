@@ -527,7 +527,11 @@ public:
     void openWaylandConnection(const std::string &name) {
 #ifdef WAYLAND_FOUND
         if (auto *wayland = module_->wayland()) {
-            wayland->call<IWaylandModule::openConnection>(name);
+            if (!wayland->call<IWaylandModule::openConnection>(name)) {
+                throw dbus::MethodCallError(
+                    "org.freedesktop.DBus.Error.InvalidArgs",
+                    "Failed to create wayland connection.");
+            }
             return;
         }
 #else
@@ -540,7 +544,12 @@ public:
     void openWaylandConnectionSocket(UnixFD &fd) {
 #ifdef WAYLAND_FOUND
         if (auto *wayland = module_->wayland()) {
-            wayland->call<IWaylandModule::openConnectionSocket>(fd.release());
+            if (!wayland->call<IWaylandModule::openConnectionSocket>(
+                    fd.release())) {
+                throw dbus::MethodCallError(
+                    "org.freedesktop.DBus.Error.InvalidArgs",
+                    "Failed to create wayland connection.");
+            }
             return;
         }
 #else
