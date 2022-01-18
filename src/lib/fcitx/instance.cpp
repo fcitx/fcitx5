@@ -1587,6 +1587,7 @@ bool Instance::postEvent(Event &event) const {
                 ic->forwardKey(keyEvent.origKey(), keyEvent.isRelease(),
                                keyEvent.time());
             }
+            d_ptr->uiManager_.flush();
         }
     }
     return event.accepted();
