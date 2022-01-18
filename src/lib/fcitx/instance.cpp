@@ -1482,6 +1482,16 @@ int Instance::exec() {
     return r ? 0 : 1;
 }
 
+void Instance::setRunning(bool running) {
+    FCITX_D();
+    d->running_ = running;
+}
+
+bool Instance::isRunning() const {
+    FCITX_D();
+    return d->running_;
+}
+
 EventLoop &Instance::eventLoop() {
     FCITX_D();
     return d->eventLoop_;
