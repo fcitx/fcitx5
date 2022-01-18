@@ -10,4 +10,3 @@ Version=@PROJECT_VERSION@
 
 [Addon/OptionalDependencies]
 0=xcb
-1=wayland
