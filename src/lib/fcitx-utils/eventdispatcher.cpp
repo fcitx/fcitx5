@@ -75,7 +75,7 @@ void EventDispatcher::detach() {
 
 void EventDispatcher::schedule(std::function<void()> functor) {
     FCITX_D();
-    {
+    if (functor) {
         std::lock_guard<std::mutex> lock(d->mutex_);
         if (!d->ioEvent_) {
             return;
