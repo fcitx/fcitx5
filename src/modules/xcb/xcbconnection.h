@@ -51,6 +51,8 @@ public:
     xcb_atom_t atom(const std::string &atomName, bool exists);
     xcb_ewmh_connection_t *ewmh();
 
+    void setXkbOption(const std::string &option);
+
     void processEvent();
 
 private:

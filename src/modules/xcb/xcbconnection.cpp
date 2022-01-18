@@ -448,6 +448,10 @@ xcb_atom_t XCBConnection::atom(const std::string &atomName, bool exists) {
 
 xcb_ewmh_connection_t *XCBConnection::ewmh() { return &ewmh_; }
 
+void XCBConnection::setXkbOption(const std::string &option) {
+    keyboard_->setXkbOption(option);
+}
+
 std::unique_ptr<HandlerTableEntry<XCBSelectionNotifyCallback>>
 XCBConnection::addSelection(const std::string &selection,
                             XCBSelectionNotifyCallback callback) {

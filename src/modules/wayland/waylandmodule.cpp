@@ -12,7 +12,15 @@
 #include "fcitx-utils/log.h"
 #include "fcitx/instance.h"
 #include "fcitx/misc_p.h"
+#include "config.h"
+
+#ifdef ENABLE_DBUS
 #include "dbus_public.h"
+#endif
+
+#ifdef ENABLE_X11
+#include "xcb_public.h"
+#endif
 
 namespace fcitx {
 
@@ -254,6 +262,13 @@ void WaylandModule::reloadXkbOption() {
     instance_->setXkbParameters(connection->focusGroup()->display(),
                                 DEFAULT_XKB_RULES, model ? *model : "",
                                 (options ? *options : ""));
+#ifdef ENABLE_X11
+    if (auto xcbAddon = xcb()) {
+        xcbAddon->call<IXCBModule::setXkbOption>(
+            xcbAddon->call<IXCBModule::mainDisplay>(),
+            (options ? *options : ""));
+    }
+#endif
 #endif
 }
 
