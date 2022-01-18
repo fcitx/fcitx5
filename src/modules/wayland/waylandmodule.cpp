@@ -115,6 +115,10 @@ WaylandModule::WaylandModule(fcitx::Instance *instance)
             auto layoutAndVariant = parseLayout(
                 instance_->inputMethodManager().currentGroup().defaultLayout());
 
+            if (layoutAndVariant.first.empty()) {
+                return;
+            }
+
             fcitx::RawConfig config;
             readAsIni(config, StandardPath::Type::Config, "kxkbrc");
             config.setValueByPath("Layout/LayoutList", layoutAndVariant.first);
