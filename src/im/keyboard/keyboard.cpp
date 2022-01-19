@@ -197,6 +197,10 @@ private:
 
 } // namespace
 
+KeyboardEngineState::KeyboardEngineState(KeyboardEngine *engine) {
+    enableWordHint_ = engine->config().enableHintByDefault.value();
+}
+
 KeyboardEngine::KeyboardEngine(Instance *instance) : instance_(instance) {
     setupDefaultLongPressConfig(longPressConfig_);
     registerDomain("xkeyboard-config", XKEYBOARDCONFIG_DATADIR "/locale");
@@ -325,16 +329,6 @@ std::vector<InputMethodEntry> KeyboardEngine::listInputMethods() {
                 .setConfigurable(true)));
     }
     return result;
-}
-
-void KeyboardEngine::activate(const InputMethodEntry &entry,
-                              InputContextEvent &event) {
-    if (config_.enableHintByDefault.value() &&
-        supportHint(entry.languageCode())) {
-        auto *inputContext = event.inputContext();
-        auto *state = inputContext->propertyFor(&factory_);
-        state->enableWordHint_ = true;
-    }
 }
 
 void KeyboardEngine::reloadConfig() {

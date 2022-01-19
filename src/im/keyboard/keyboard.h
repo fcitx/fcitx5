@@ -84,6 +84,7 @@ class KeyboardEngine;
 enum class CandidateMode { Hint, LongPress };
 
 struct KeyboardEngineState : public InputContextProperty {
+    KeyboardEngineState(KeyboardEngine *engine);
     bool enableWordHint_ = false;
     bool oneTimeEnableWordHint_ = false;
     InputBuffer buffer_;
@@ -112,11 +113,10 @@ public:
     ~KeyboardEngine();
     Instance *instance() { return instance_; }
     void keyEvent(const InputMethodEntry &entry, KeyEvent &keyEvent) override;
-    void activate(const InputMethodEntry &entry,
-                  InputContextEvent &event) override;
     std::vector<InputMethodEntry> listInputMethods() override;
     void reloadConfig() override;
 
+    const KeyboardEngineConfig &config() { return config_; }
     const Configuration *getConfig() const override { return &config_; }
     void setConfig(const RawConfig &config) override {
         config_.load(config, true);
@@ -188,7 +188,7 @@ private:
         quickphraseHandler_;
 
     FactoryFor<KeyboardEngineState> factory_{
-        [](InputContext &) { return new KeyboardEngineState; }};
+        [this](InputContext &) { return new KeyboardEngineState(this); }};
 
     std::unordered_set<std::string> longPressBlocklistSet_;
 
