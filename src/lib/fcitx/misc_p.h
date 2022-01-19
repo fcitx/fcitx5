@@ -122,9 +122,7 @@ static inline DesktopType getDesktopType() {
             if (versionInt == 4) {
                 return DesktopType::KDE4;
             }
-            if (versionInt == 5) {
-                return DesktopType::KDE5;
-            }
+            return DesktopType::KDE5;
         } else if (desktop == "x-cinnamon") {
             return DesktopType::Cinnamon;
         } else if (desktop == "lxde") {
