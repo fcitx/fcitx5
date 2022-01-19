@@ -38,7 +38,7 @@ bool isKDE() {
 
 WaylandConnection::WaylandConnection(WaylandModule *wayland, std::string name)
     : parent_(wayland), name_(std::move(name)) {
-    auto *display = wl_display_connect(name.c_str());
+    auto *display = wl_display_connect(name_.empty() ? nullptr : name_.c_str());
     if (!display) {
         throw std::runtime_error("Failed to open wayland connection");
     }
