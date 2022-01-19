@@ -327,6 +327,16 @@ std::vector<InputMethodEntry> KeyboardEngine::listInputMethods() {
     return result;
 }
 
+void KeyboardEngine::activate(const InputMethodEntry &entry,
+                              InputContextEvent &event) {
+    if (config_.enableHintByDefault.value() &&
+        supportHint(entry.languageCode())) {
+        auto *inputContext = event.inputContext();
+        auto *state = inputContext->propertyFor(&factory_);
+        state->enableWordHint_ = true;
+    }
+}
+
 void KeyboardEngine::reloadConfig() {
     readAsIni(config_, "conf/keyboard.conf");
     selectionKeys_.clear();

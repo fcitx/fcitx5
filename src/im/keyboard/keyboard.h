@@ -56,6 +56,8 @@ FCITX_CONFIGURATION(
     OptionWithAnnotation<ChooseModifier, ChooseModifierI18NAnnotation>
         chooseModifier{this, "Choose Modifier", _("Choose key modifier"),
                        ChooseModifier::Alt};
+    Option<bool> enableHintByDefault{this, "EnableHintByDefault",
+                                     _("Enable hint by default"), false};
     KeyListOption hintTrigger{this,
                               "Hint Trigger",
                               _("Trigger hint mode"),
@@ -110,6 +112,8 @@ public:
     ~KeyboardEngine();
     Instance *instance() { return instance_; }
     void keyEvent(const InputMethodEntry &entry, KeyEvent &keyEvent) override;
+    void activate(const InputMethodEntry &entry,
+                  InputContextEvent &event) override;
     std::vector<InputMethodEntry> listInputMethods() override;
     void reloadConfig() override;
 
