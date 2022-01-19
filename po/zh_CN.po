@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2022-01-13 20:24+0000\n"
+"POT-Creation-Date: 2022-01-19 20:24+0000\n"
 "PO-Revision-Date: 2017-11-23 04:14+0000\n"
 "Last-Translator: csslayer <wengxt@gmail.com>, 2022\n"
 "Language-Team: Chinese (China) (https://www.transifex.com/fcitx/teams/12005/"
@@ -178,7 +178,7 @@ msgctxt "Key name"
 msgid "Application Right"
 msgstr "应用程序右"
 
-#: src/im/keyboard/keyboard.h:75
+#: src/im/keyboard/keyboard.h:77
 msgid "Applications disabled for long press"
 msgstr "禁用长按的程序"
 
@@ -455,19 +455,19 @@ msgctxt "Key name"
 msgid "Community"
 msgstr "社区"
 
-#: src/im/keyboard/keyboard.cpp:782
+#: src/im/keyboard/keyboard.cpp:786
 msgid "Completion"
 msgstr "补全"
 
-#: src/im/keyboard/keyboard.cpp:773
+#: src/im/keyboard/keyboard.cpp:777
 msgid "Completion is disabled."
 msgstr "补全已禁用。"
 
-#: src/im/keyboard/keyboard.cpp:776
+#: src/im/keyboard/keyboard.cpp:780
 msgid "Completion is enabled temporarily."
 msgstr "已暂时启用补全。"
 
-#: src/im/keyboard/keyboard.cpp:778
+#: src/im/keyboard/keyboard.cpp:782
 msgid "Completion is enabled."
 msgstr "已启用补全。"
 
@@ -683,6 +683,10 @@ msgstr "在输入提示中启用 Emoji"
 #: src/im/keyboard/keyboard.h:55
 msgid "Enable emoji in quickphrase"
 msgstr "在快速输入中启用颜文字"
+
+#: src/im/keyboard/keyboard.h:60
+msgid "Enable hint by default"
+msgstr ""
 
 #: src/modules/spell/spell.h:23
 msgid "Enchant"
@@ -1148,7 +1152,7 @@ msgstr ""
 msgid "Image"
 msgstr "图片"
 
-#: src/im/keyboard/keyboard.cpp:781 src/lib/fcitx/instance.cpp:432
+#: src/im/keyboard/keyboard.cpp:785 src/lib/fcitx/instance.cpp:432
 #: src/lib/fcitx/instance.cpp:811 src/lib/fcitx/instance.cpp:977
 #: src/modules/notificationitem/notificationitem.cpp:123
 #: src/modules/xcb/xcbconnection.cpp:406 data/org.fcitx.Fcitx5.desktop.in.in:4
@@ -1221,15 +1225,15 @@ msgstr "片假名"
 msgid "Key"
 msgstr "按键"
 
-#: src/im/keyboard/keyboard.cpp:322 src/im/keyboard/keyboard.conf.in.in:3
+#: src/im/keyboard/keyboard.cpp:326 src/im/keyboard/keyboard.conf.in.in:3
 msgid "Keyboard"
 msgstr "键盘"
 
-#: src/im/keyboard/keyboard.cpp:248
+#: src/im/keyboard/keyboard.cpp:252
 msgid "Keyboard - {0}"
 msgstr "键盘 - {0}"
 
-#: src/im/keyboard/keyboard.cpp:267
+#: src/im/keyboard/keyboard.cpp:271
 msgid "Keyboard - {0} - {1}"
 msgstr "键盘 - {0} - {1}"
 
@@ -1394,7 +1398,7 @@ msgctxt "Key name"
 msgid "Logoff"
 msgstr "注销"
 
-#: src/im/keyboard/keyboard.h:77
+#: src/im/keyboard/keyboard.h:79
 msgid "Long Press behavior"
 msgstr "长按行为"
 
@@ -1413,7 +1417,7 @@ msgstr "底部边距"
 
 #: src/ui/classic/theme.h:38
 msgid "Margin Left"
-msgstr "左边距"
+msgstr "左侧边距"
 
 #: src/ui/classic/theme.h:40
 msgid "Margin Right"
@@ -1607,7 +1611,7 @@ msgstr "数字锁定"
 msgid "Number of entries"
 msgstr "项目个数"
 
-#: src/im/keyboard/keyboard.cpp:767
+#: src/im/keyboard/keyboard.cpp:771
 msgid ""
 "Only emoji support is found. To enable spell checking, you may need to "
 "install spell check data for the language."
@@ -2216,15 +2220,15 @@ msgstr "触发键"
 msgid "Trigger Key for only current input context"
 msgstr "当前输入上下文的触发键"
 
-#: src/im/keyboard/keyboard.h:61
+#: src/im/keyboard/keyboard.h:63
 msgid "Trigger hint mode"
 msgstr "切换提示模式"
 
-#: src/im/keyboard/keyboard.h:66
+#: src/im/keyboard/keyboard.h:68
 msgid "Trigger hint mode for one time"
 msgstr "触发一次提示模式"
 
-#: src/im/keyboard/keyboard.h:70
+#: src/im/keyboard/keyboard.h:72
 msgid "Type special characters with long press"
 msgstr "用长按来输入特殊字符"
 
@@ -2530,7 +2534,7 @@ msgstr "sudo 的环境变量"
 msgid "version:"
 msgstr "版本："
 
-#: src/im/keyboard/keyboard.cpp:299
+#: src/im/keyboard/keyboard.cpp:303
 msgid "{0} (Not Available)"
 msgstr "{0} (不可用)"
 

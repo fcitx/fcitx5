@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2022-01-13 20:24+0000\n"
+"POT-Creation-Date: 2022-01-19 20:24+0000\n"
 "PO-Revision-Date: 2017-11-23 04:14+0000\n"
 "Last-Translator: scootergrisen, 2021\n"
 "Language-Team: Danish (https://www.transifex.com/fcitx/teams/12005/da/)\n"
@@ -177,7 +177,7 @@ msgctxt "Key name"
 msgid "Application Right"
 msgstr "Program højre"
 
-#: src/im/keyboard/keyboard.h:75
+#: src/im/keyboard/keyboard.h:77
 msgid "Applications disabled for long press"
 msgstr "Programmer deaktiveret for langt tryk"
 
@@ -459,19 +459,19 @@ msgctxt "Key name"
 msgid "Community"
 msgstr "Fællesskab"
 
-#: src/im/keyboard/keyboard.cpp:782
+#: src/im/keyboard/keyboard.cpp:786
 msgid "Completion"
 msgstr "Fuldførsel"
 
-#: src/im/keyboard/keyboard.cpp:773
+#: src/im/keyboard/keyboard.cpp:777
 msgid "Completion is disabled."
 msgstr "Fuldførsel er deaktiveret."
 
-#: src/im/keyboard/keyboard.cpp:776
+#: src/im/keyboard/keyboard.cpp:780
 msgid "Completion is enabled temporarily."
 msgstr ""
 
-#: src/im/keyboard/keyboard.cpp:778
+#: src/im/keyboard/keyboard.cpp:782
 msgid "Completion is enabled."
 msgstr "Fuldførsel er aktiveret."
 
@@ -687,6 +687,10 @@ msgstr "Aktivér emoji i tip"
 #: src/im/keyboard/keyboard.h:55
 msgid "Enable emoji in quickphrase"
 msgstr "Aktivér emoji i hurtigfrase"
+
+#: src/im/keyboard/keyboard.h:60
+msgid "Enable hint by default"
+msgstr ""
 
 #: src/modules/spell/spell.h:23
 msgid "Enchant"
@@ -1156,7 +1160,7 @@ msgstr ""
 msgid "Image"
 msgstr "Billede"
 
-#: src/im/keyboard/keyboard.cpp:781 src/lib/fcitx/instance.cpp:432
+#: src/im/keyboard/keyboard.cpp:785 src/lib/fcitx/instance.cpp:432
 #: src/lib/fcitx/instance.cpp:811 src/lib/fcitx/instance.cpp:977
 #: src/modules/notificationitem/notificationitem.cpp:123
 #: src/modules/xcb/xcbconnection.cpp:406 data/org.fcitx.Fcitx5.desktop.in.in:4
@@ -1227,15 +1231,15 @@ msgstr "Katakana"
 msgid "Key"
 msgstr "Tast"
 
-#: src/im/keyboard/keyboard.cpp:322 src/im/keyboard/keyboard.conf.in.in:3
+#: src/im/keyboard/keyboard.cpp:326 src/im/keyboard/keyboard.conf.in.in:3
 msgid "Keyboard"
 msgstr "Tastatur"
 
-#: src/im/keyboard/keyboard.cpp:248
+#: src/im/keyboard/keyboard.cpp:252
 msgid "Keyboard - {0}"
 msgstr "Tastatur - {0}"
 
-#: src/im/keyboard/keyboard.cpp:267
+#: src/im/keyboard/keyboard.cpp:271
 msgid "Keyboard - {0} - {1}"
 msgstr "Tastatur - {0} - {1}"
 
@@ -1400,7 +1404,7 @@ msgctxt "Key name"
 msgid "Logoff"
 msgstr "Log ud"
 
-#: src/im/keyboard/keyboard.h:77
+#: src/im/keyboard/keyboard.h:79
 msgid "Long Press behavior"
 msgstr "Opførsel for langt tryk"
 
@@ -1613,7 +1617,7 @@ msgstr "NumLock"
 msgid "Number of entries"
 msgstr "Antal poster"
 
-#: src/im/keyboard/keyboard.cpp:767
+#: src/im/keyboard/keyboard.cpp:771
 msgid ""
 "Only emoji support is found. To enable spell checking, you may need to "
 "install spell check data for the language."
@@ -2223,15 +2227,15 @@ msgstr "Tast til at udløse"
 msgid "Trigger Key for only current input context"
 msgstr "Udløsertast kun til nuværende inputkontekst"
 
-#: src/im/keyboard/keyboard.h:61
+#: src/im/keyboard/keyboard.h:63
 msgid "Trigger hint mode"
 msgstr "Udløs tipstilstand"
 
-#: src/im/keyboard/keyboard.h:66
+#: src/im/keyboard/keyboard.h:68
 msgid "Trigger hint mode for one time"
 msgstr ""
 
-#: src/im/keyboard/keyboard.h:70
+#: src/im/keyboard/keyboard.h:72
 msgid "Type special characters with long press"
 msgstr "Skriv specialtegn med langt tryk"
 
@@ -2539,7 +2543,7 @@ msgstr "sudo-miljøvariabler"
 msgid "version:"
 msgstr "version:"
 
-#: src/im/keyboard/keyboard.cpp:299
+#: src/im/keyboard/keyboard.cpp:303
 msgid "{0} (Not Available)"
 msgstr "{0} (ikke tilgængelig)"
 

@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2022-01-13 20:24+0000\n"
+"POT-Creation-Date: 2022-01-19 20:24+0000\n"
 "PO-Revision-Date: 2017-11-23 04:14+0000\n"
 "Last-Translator: Bon Keun Seo <scobyseo@gmail.com>, 2021\n"
 "Language-Team: Korean (https://www.transifex.com/fcitx/teams/12005/ko/)\n"
@@ -179,7 +179,7 @@ msgctxt "Key name"
 msgid "Application Right"
 msgstr "오른쪽 응용 프로그램"
 
-#: src/im/keyboard/keyboard.h:75
+#: src/im/keyboard/keyboard.h:77
 msgid "Applications disabled for long press"
 msgstr "길게 누르면 응용프로그램이 비활성화됨"
 
@@ -458,19 +458,19 @@ msgctxt "Key name"
 msgid "Community"
 msgstr "커뮤니티"
 
-#: src/im/keyboard/keyboard.cpp:782
+#: src/im/keyboard/keyboard.cpp:786
 msgid "Completion"
 msgstr "완성"
 
-#: src/im/keyboard/keyboard.cpp:773
+#: src/im/keyboard/keyboard.cpp:777
 msgid "Completion is disabled."
 msgstr "완성이 비활성화되었습니다."
 
-#: src/im/keyboard/keyboard.cpp:776
+#: src/im/keyboard/keyboard.cpp:780
 msgid "Completion is enabled temporarily."
 msgstr "완성이 일시적으로 활성화되었습니다."
 
-#: src/im/keyboard/keyboard.cpp:778
+#: src/im/keyboard/keyboard.cpp:782
 msgid "Completion is enabled."
 msgstr "완성이 활성화되었습니다."
 
@@ -686,6 +686,10 @@ msgstr "힌트로 그림문자 활성화"
 #: src/im/keyboard/keyboard.h:55
 msgid "Enable emoji in quickphrase"
 msgstr "빠른 표현으로 그림문자 사용"
+
+#: src/im/keyboard/keyboard.h:60
+msgid "Enable hint by default"
+msgstr ""
 
 #: src/modules/spell/spell.h:23
 msgid "Enchant"
@@ -1152,7 +1156,7 @@ msgstr ""
 msgid "Image"
 msgstr "이미지"
 
-#: src/im/keyboard/keyboard.cpp:781 src/lib/fcitx/instance.cpp:432
+#: src/im/keyboard/keyboard.cpp:785 src/lib/fcitx/instance.cpp:432
 #: src/lib/fcitx/instance.cpp:811 src/lib/fcitx/instance.cpp:977
 #: src/modules/notificationitem/notificationitem.cpp:123
 #: src/modules/xcb/xcbconnection.cpp:406 data/org.fcitx.Fcitx5.desktop.in.in:4
@@ -1225,15 +1229,15 @@ msgstr "가타가나"
 msgid "Key"
 msgstr "키"
 
-#: src/im/keyboard/keyboard.cpp:322 src/im/keyboard/keyboard.conf.in.in:3
+#: src/im/keyboard/keyboard.cpp:326 src/im/keyboard/keyboard.conf.in.in:3
 msgid "Keyboard"
 msgstr "키보드"
 
-#: src/im/keyboard/keyboard.cpp:248
+#: src/im/keyboard/keyboard.cpp:252
 msgid "Keyboard - {0}"
 msgstr "키보드 - {0}"
 
-#: src/im/keyboard/keyboard.cpp:267
+#: src/im/keyboard/keyboard.cpp:271
 msgid "Keyboard - {0} - {1}"
 msgstr "키보드 - {0} - {1}"
 
@@ -1398,7 +1402,7 @@ msgctxt "Key name"
 msgid "Logoff"
 msgstr "로그오프"
 
-#: src/im/keyboard/keyboard.h:77
+#: src/im/keyboard/keyboard.h:79
 msgid "Long Press behavior"
 msgstr "길게 누르기 동작"
 
@@ -1611,7 +1615,7 @@ msgstr "NumLock"
 msgid "Number of entries"
 msgstr "항목의 수"
 
-#: src/im/keyboard/keyboard.cpp:767
+#: src/im/keyboard/keyboard.cpp:771
 msgid ""
 "Only emoji support is found. To enable spell checking, you may need to "
 "install spell check data for the language."
@@ -2220,15 +2224,15 @@ msgstr "전환 키"
 msgid "Trigger Key for only current input context"
 msgstr "현재 입력 컨텍스트에 대한 전환 키"
 
-#: src/im/keyboard/keyboard.h:61
+#: src/im/keyboard/keyboard.h:63
 msgid "Trigger hint mode"
 msgstr "힌트 방식 전환"
 
-#: src/im/keyboard/keyboard.h:66
+#: src/im/keyboard/keyboard.h:68
 msgid "Trigger hint mode for one time"
 msgstr "한 번에 힌트 모드 트리거"
 
-#: src/im/keyboard/keyboard.h:70
+#: src/im/keyboard/keyboard.h:72
 msgid "Type special characters with long press"
 msgstr "길게 눌러 특수 문자 입력"
 
@@ -2533,7 +2537,7 @@ msgstr "sudo 환경 변수"
 msgid "version:"
 msgstr "버전:"
 
-#: src/im/keyboard/keyboard.cpp:299
+#: src/im/keyboard/keyboard.cpp:303
 msgid "{0} (Not Available)"
 msgstr "{0} (사용할 수 없음)"
 

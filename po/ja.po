@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2022-01-15 20:24+0000\n"
+"POT-Creation-Date: 2022-01-19 20:24+0000\n"
 "PO-Revision-Date: 2017-11-23 04:14+0000\n"
 "Last-Translator: UTUMI Hirosi <utuhiro78@yahoo.co.jp>, 2022\n"
 "Language-Team: Japanese (https://www.transifex.com/fcitx/teams/12005/ja/)\n"
@@ -179,7 +179,7 @@ msgctxt "Key name"
 msgid "Application Right"
 msgstr "右側のアプリケーション"
 
-#: src/im/keyboard/keyboard.h:75
+#: src/im/keyboard/keyboard.h:77
 msgid "Applications disabled for long press"
 msgstr "長押しを無効にするアプリケーション"
 
@@ -459,19 +459,19 @@ msgctxt "Key name"
 msgid "Community"
 msgstr "コミュニティ"
 
-#: src/im/keyboard/keyboard.cpp:782
+#: src/im/keyboard/keyboard.cpp:786
 msgid "Completion"
 msgstr "補完"
 
-#: src/im/keyboard/keyboard.cpp:773
+#: src/im/keyboard/keyboard.cpp:777
 msgid "Completion is disabled."
 msgstr "補完は無効です。"
 
-#: src/im/keyboard/keyboard.cpp:776
+#: src/im/keyboard/keyboard.cpp:780
 msgid "Completion is enabled temporarily."
 msgstr "補完は一時的に有効です。"
 
-#: src/im/keyboard/keyboard.cpp:778
+#: src/im/keyboard/keyboard.cpp:782
 msgid "Completion is enabled."
 msgstr "補完は有効です。"
 
@@ -687,6 +687,10 @@ msgstr "絵文字のヒントを有効にする"
 #: src/im/keyboard/keyboard.h:55
 msgid "Enable emoji in quickphrase"
 msgstr "絵文字のクイックフレーズを有効にする"
+
+#: src/im/keyboard/keyboard.h:60
+msgid "Enable hint by default"
+msgstr ""
 
 #: src/modules/spell/spell.h:23
 msgid "Enchant"
@@ -1155,7 +1159,7 @@ msgstr ""
 msgid "Image"
 msgstr "画像"
 
-#: src/im/keyboard/keyboard.cpp:781 src/lib/fcitx/instance.cpp:432
+#: src/im/keyboard/keyboard.cpp:785 src/lib/fcitx/instance.cpp:432
 #: src/lib/fcitx/instance.cpp:811 src/lib/fcitx/instance.cpp:977
 #: src/modules/notificationitem/notificationitem.cpp:123
 #: src/modules/xcb/xcbconnection.cpp:406 data/org.fcitx.Fcitx5.desktop.in.in:4
@@ -1228,15 +1232,15 @@ msgstr "カタカナ"
 msgid "Key"
 msgstr "キー"
 
-#: src/im/keyboard/keyboard.cpp:322 src/im/keyboard/keyboard.conf.in.in:3
+#: src/im/keyboard/keyboard.cpp:326 src/im/keyboard/keyboard.conf.in.in:3
 msgid "Keyboard"
 msgstr "キーボード"
 
-#: src/im/keyboard/keyboard.cpp:248
+#: src/im/keyboard/keyboard.cpp:252
 msgid "Keyboard - {0}"
 msgstr "キーボード - {0}"
 
-#: src/im/keyboard/keyboard.cpp:267
+#: src/im/keyboard/keyboard.cpp:271
 msgid "Keyboard - {0} - {1}"
 msgstr "キーボード - {0} - {1}"
 
@@ -1401,7 +1405,7 @@ msgctxt "Key name"
 msgid "Logoff"
 msgstr "ログオフ"
 
-#: src/im/keyboard/keyboard.h:77
+#: src/im/keyboard/keyboard.h:79
 msgid "Long Press behavior"
 msgstr "長押し時の動作"
 
@@ -1614,7 +1618,7 @@ msgstr "NumLock"
 msgid "Number of entries"
 msgstr "エントリー数"
 
-#: src/im/keyboard/keyboard.cpp:767
+#: src/im/keyboard/keyboard.cpp:771
 msgid ""
 "Only emoji support is found. To enable spell checking, you may need to "
 "install spell check data for the language."
@@ -2228,15 +2232,15 @@ msgstr "トリガーキー"
 msgid "Trigger Key for only current input context"
 msgstr "現在の入力コンテキストのみのトリガーキー"
 
-#: src/im/keyboard/keyboard.h:61
+#: src/im/keyboard/keyboard.h:63
 msgid "Trigger hint mode"
 msgstr "ヒントモードの切り替え"
 
-#: src/im/keyboard/keyboard.h:66
+#: src/im/keyboard/keyboard.h:68
 msgid "Trigger hint mode for one time"
 msgstr "ヒントモードを1回切り替える"
 
-#: src/im/keyboard/keyboard.h:70
+#: src/im/keyboard/keyboard.h:72
 msgid "Type special characters with long press"
 msgstr "長押しで特殊文字を入力する"
 
@@ -2546,7 +2550,7 @@ msgstr "sudo の環境変数"
 msgid "version:"
 msgstr "バージョン:"
 
-#: src/im/keyboard/keyboard.cpp:299
+#: src/im/keyboard/keyboard.cpp:303
 msgid "{0} (Not Available)"
 msgstr "{0} (利用できません)"
 
