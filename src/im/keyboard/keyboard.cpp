@@ -197,6 +197,10 @@ private:
 
 } // namespace
 
+KeyboardEngineState::KeyboardEngineState(KeyboardEngine *engine) {
+    enableWordHint_ = engine->config().enableHintByDefault.value();
+}
+
 KeyboardEngine::KeyboardEngine(Instance *instance) : instance_(instance) {
     setupDefaultLongPressConfig(longPressConfig_);
     registerDomain("xkeyboard-config", XKEYBOARDCONFIG_DATADIR "/locale");
