@@ -2,7 +2,6 @@
 #include <cassert>
 #include "wl_keyboard.h"
 namespace fcitx::wayland {
-
 const struct zwp_input_method_context_v1_listener
     ZwpInputMethodContextV1::listener = {
         [](void *data, zwp_input_method_context_v1 *wldata, const char *text,

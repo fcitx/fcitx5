@@ -4,8 +4,7 @@
 #include <wayland-client.h>
 #include "fcitx-utils/signals.h"
 #include "wayland-input-method-unstable-v2-client-protocol.h"
-namespace fcitx {
-namespace wayland {
+namespace fcitx::wayland {
 class WlSurface;
 class ZwpInputMethodKeyboardGrabV2;
 class ZwpInputPopupSurfaceV2;
@@ -56,6 +55,5 @@ private:
 static inline zwp_input_method_v2 *rawPointer(ZwpInputMethodV2 *p) {
     return p ? static_cast<zwp_input_method_v2 *>(*p) : nullptr;
 }
-} // namespace wayland
-} // namespace fcitx
+} // namespace fcitx::wayland
 #endif

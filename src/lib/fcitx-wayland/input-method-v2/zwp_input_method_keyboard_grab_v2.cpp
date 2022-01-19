@@ -1,7 +1,6 @@
 #include "zwp_input_method_keyboard_grab_v2.h"
 #include <cassert>
 namespace fcitx::wayland {
-
 const struct zwp_input_method_keyboard_grab_v2_listener
     ZwpInputMethodKeyboardGrabV2::listener = {
         [](void *data, zwp_input_method_keyboard_grab_v2 *wldata,
@@ -46,7 +45,8 @@ void ZwpInputMethodKeyboardGrabV2::destructor(
     auto version = zwp_input_method_keyboard_grab_v2_get_version(data);
     if (version >= 1) {
         return zwp_input_method_keyboard_grab_v2_release(data);
+    } else {
+        return zwp_input_method_keyboard_grab_v2_destroy(data);
     }
-    return zwp_input_method_keyboard_grab_v2_destroy(data);
 }
 } // namespace fcitx::wayland

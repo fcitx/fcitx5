@@ -3,7 +3,6 @@
 #include "wl_seat.h"
 #include "zwp_input_method_v2.h"
 namespace fcitx::wayland {
-
 ZwpInputMethodManagerV2::ZwpInputMethodManagerV2(
     zwp_input_method_manager_v2 *data)
     : version_(zwp_input_method_manager_v2_get_version(data)), data_(data) {

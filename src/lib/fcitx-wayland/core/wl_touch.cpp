@@ -8,6 +8,9 @@ const struct wl_touch_listener WlTouch::listener = {
         auto *obj = static_cast<WlTouch *>(data);
         assert(*obj == wldata);
         {
+            if (!surface) {
+                return;
+            }
             auto *surface_ =
                 static_cast<WlSurface *>(wl_surface_get_user_data(surface));
             return obj->down()(serial, time, surface_, id, x, y);

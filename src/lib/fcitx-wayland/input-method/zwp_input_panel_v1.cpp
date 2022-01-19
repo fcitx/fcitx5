@@ -3,7 +3,6 @@
 #include "wl_surface.h"
 #include "zwp_input_panel_surface_v1.h"
 namespace fcitx::wayland {
-
 ZwpInputPanelV1::ZwpInputPanelV1(zwp_input_panel_v1 *data)
     : version_(zwp_input_panel_v1_get_version(data)), data_(data) {
     zwp_input_panel_v1_set_user_data(*this, this);

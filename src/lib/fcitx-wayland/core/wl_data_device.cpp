@@ -18,10 +18,14 @@ const struct wl_data_device_listener WlDataDevice::listener = {
         auto *obj = static_cast<WlDataDevice *>(data);
         assert(*obj == wldata);
         {
+            if (!surface) {
+                return;
+            }
             auto *surface_ =
                 static_cast<WlSurface *>(wl_surface_get_user_data(surface));
             auto *id_ =
-                static_cast<WlDataOffer *>(wl_data_offer_get_user_data(id));
+                id ? static_cast<WlDataOffer *>(wl_data_offer_get_user_data(id))
+                   : nullptr;
             return obj->enter()(serial, surface_, x, y, id_);
         }
     },
@@ -46,7 +50,8 @@ const struct wl_data_device_listener WlDataDevice::listener = {
         assert(*obj == wldata);
         {
             auto *id_ =
-                static_cast<WlDataOffer *>(wl_data_offer_get_user_data(id));
+                id ? static_cast<WlDataOffer *>(wl_data_offer_get_user_data(id))
+                   : nullptr;
             return obj->selection()(id_);
         }
     },

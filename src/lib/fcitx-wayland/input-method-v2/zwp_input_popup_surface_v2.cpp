@@ -1,7 +1,6 @@
 #include "zwp_input_popup_surface_v2.h"
 #include <cassert>
 namespace fcitx::wayland {
-
 const struct zwp_input_popup_surface_v2_listener
     ZwpInputPopupSurfaceV2::listener = {
         [](void *data, zwp_input_popup_surface_v2 *wldata, int32_t x, int32_t y,

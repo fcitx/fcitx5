@@ -2,7 +2,6 @@
 #include <cassert>
 #include "wl_output.h"
 namespace fcitx::wayland {
-
 ZwpInputPanelSurfaceV1::ZwpInputPanelSurfaceV1(zwp_input_panel_surface_v1 *data)
     : version_(zwp_input_panel_surface_v1_get_version(data)), data_(data) {
     zwp_input_panel_surface_v1_set_user_data(*this, this);
