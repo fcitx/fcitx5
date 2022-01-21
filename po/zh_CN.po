@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2022-01-19 20:24+0000\n"
+"POT-Creation-Date: 2022-01-21 20:24+0000\n"
 "PO-Revision-Date: 2017-11-23 04:14+0000\n"
 "Last-Translator: csslayer <wengxt@gmail.com>, 2022\n"
 "Language-Team: Chinese (China) (https://www.transifex.com/fcitx/teams/12005/"
@@ -153,7 +153,7 @@ msgstr "允许重写系统 XKB 设置"
 
 #: src/modules/wayland/waylandmodule.h:29
 msgid "Allow Overriding System XKB Settings (Only support KDE 5)"
-msgstr ""
+msgstr "允许重写系统 XKB 设置 (仅支持 KDE 5)"
 
 #: src/im/keyboard/keyboard.h:33 src/modules/quickphrase/quickphrase.h:29
 msgid "Alt"
@@ -686,7 +686,7 @@ msgstr "在快速输入中启用颜文字"
 
 #: src/im/keyboard/keyboard.h:60
 msgid "Enable hint by default"
-msgstr ""
+msgstr "默认启用提示"
 
 #: src/modules/spell/spell.h:23
 msgid "Enchant"
