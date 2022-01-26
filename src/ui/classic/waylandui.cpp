@@ -24,7 +24,7 @@
 
 #include <EGL/egl.h>
 #include <EGL/eglext.h>
-#include <cairo/cairo-gl.h>
+#include <cairo-gl.h>
 #include "waylandeglwindow.h"
 
 #endif

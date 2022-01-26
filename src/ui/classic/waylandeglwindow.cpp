@@ -8,7 +8,7 @@
 
 #ifdef CAIRO_EGL_FOUND
 
-#include <cairo/cairo-gl.h>
+#include <cairo-gl.h>
 #include <wayland-egl.h>
 #include "waylandeglwindow.h"
 #include "wl_callback.h"

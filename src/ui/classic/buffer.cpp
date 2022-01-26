@@ -13,7 +13,7 @@
 #include <cassert>
 #include <stdexcept>
 #include <vector>
-#include <cairo/cairo.h>
+#include <cairo.h>
 #include <sys/syscall.h>
 #include <wayland-client.h>
 #include "fcitx-utils/stringutils.h"

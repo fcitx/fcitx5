@@ -6,7 +6,7 @@
  */
 
 #include "xcbwindow.h"
-#include <cairo/cairo-xcb.h>
+#include <cairo-xcb.h>
 #include <xcb/xcb.h>
 #include <xcb/xcb_aux.h>
 #include "common.h"
