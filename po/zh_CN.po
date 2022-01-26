@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2022-01-21 20:24+0000\n"
+"POT-Creation-Date: 2022-01-26 20:24+0000\n"
 "PO-Revision-Date: 2017-11-23 04:14+0000\n"
 "Last-Translator: csslayer <wengxt@gmail.com>, 2022\n"
 "Language-Team: Chinese (China) (https://www.transifex.com/fcitx/teams/12005/"
@@ -77,23 +77,23 @@ msgstr "/Note_for_GNOME_Later_than_3.6"
 msgid "/XIM"
 msgstr "/XIM/zh-cn"
 
-#: src/modules/unicode/charselectdata.cpp:220
+#: src/modules/unicode/charselectdata.cpp:221
 msgid "<Low Surrogate>"
 msgstr "<低半代理区>"
 
-#: src/modules/unicode/charselectdata.cpp:216
+#: src/modules/unicode/charselectdata.cpp:217
 msgid "<Non Private Use High Surrogate>"
 msgstr "<非专用高半代理区>"
 
-#: src/modules/unicode/charselectdata.cpp:218
+#: src/modules/unicode/charselectdata.cpp:219
 msgid "<Private Use High Surrogate>"
 msgstr "<专用高半代理区>"
 
-#: src/modules/unicode/charselectdata.cpp:222
+#: src/modules/unicode/charselectdata.cpp:223
 msgid "<Private Use>"
 msgstr "<专用区>"
 
-#: src/modules/unicode/charselectdata.cpp:252
+#: src/modules/unicode/charselectdata.cpp:253
 msgid "<not assigned>"
 msgstr "<未指派>"
 
@@ -915,7 +915,7 @@ msgstr "找到了未知的 ${1} qt 模块：${2}。"
 
 #: src/modules/notifications/notifications.conf.in.in:4
 msgid "Freedesktop.org Notification Support"
-msgstr "Freedesktop.org 桌面提示支持"
+msgstr "Freedesktop.org 桌面通知支持"
 
 #: data/fcitx5-diagnose.sh:1784
 msgid "Frontends setup:"
@@ -1042,7 +1042,7 @@ msgstr "休眠"
 
 #: src/modules/notifications/notifications.h:28
 msgid "Hidden Notifications"
-msgstr "隐藏提示"
+msgstr "隐藏通知"
 
 #: src/ui/classic/theme.h:80
 msgid "Hide overlay if size does not fit"
@@ -1600,7 +1600,7 @@ msgstr "有关 3.6 之后版本 GNOME 的备注"
 
 #: src/modules/notifications/notifications.conf.in.in:3
 msgid "Notification"
-msgstr "提示"
+msgstr "通知"
 
 #: src/lib/fcitx-utils/key.cpp:54
 msgctxt "Key name"
