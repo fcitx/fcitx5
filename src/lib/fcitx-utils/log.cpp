@@ -23,10 +23,12 @@ namespace {
 
 FCITX_DEFINE_LOG_CATEGORY(defaultCategory, "default");
 
-using log_rules_t = std::vector<std::pair<std::string, LogLevel>>;
+using LogRule = std::pair<std::string, LogLevel>;
 
-static std::ostream *defaultLogStream = &std::cerr;
-static bool showTimeDate = true;
+struct LogConfig {
+    std::ostream *defaultLogStream = &std::cerr;
+    bool showTimeDate = true;
+} globalLogConfig;
 
 bool validateLogLevel(std::underlying_type_t<LogLevel> l) {
     return (l >= 0 &&
@@ -53,13 +55,10 @@ public:
         categories_.erase(&category);
     }
 
-    void setLogRule(const log_rules_t &rules) {
+    void setLogRules(const std::vector<LogRule> &rules) {
         std::lock_guard<std::mutex> lock(mutex_);
 
-        rules_.clear();
-        for (const auto &ruleItem : rules) {
-            rules_.emplace_back(ruleItem);
-        }
+        rules_ = rules;
 
         for (auto *category : categories_) {
             applyRule(category);
@@ -77,7 +76,7 @@ public:
 
 private:
     std::unordered_set<LogCategory *> categories_;
-    log_rules_t rules_;
+    std::vector<LogRule> rules_;
     std::mutex mutex_;
 };
 } // namespace
@@ -153,31 +152,37 @@ bool LogCategory::fatalWrapper2(LogLevel level) {
 const LogCategory &Log::defaultCategory() { return fcitx::defaultCategory(); }
 
 void Log::setLogRule(const std::string &ruleString) {
-    log_rules_t parsedRules;
+    std::vector<LogRule> parsedRules;
     auto rules = stringutils::split(ruleString, ",");
     for (const auto &rule : rules) {
-        auto ruleItem = stringutils::split(rule, "=");
-        if (ruleItem.size() != 2) {
-            if (ruleItem.size() == 1 && ruleItem[0] == "notimedate")
-                showTimeDate = false;
+        if (rule == "notimedate") {
+            globalLogConfig.showTimeDate = false;
             continue;
-        }
-        auto &name = ruleItem[0];
-        try {
-            auto level = std::stoi(ruleItem[1]);
-            if (validateLogLevel(level)) {
-                parsedRules.emplace_back(name, static_cast<LogLevel>(level));
+        } else {
+            auto ruleItem = stringutils::split(rule, "=");
+            if (ruleItem.size() != 2) {
+                continue;
             }
-        } catch (const std::exception &) {
-            continue;
+            auto &name = ruleItem[0];
+            try {
+                auto level = std::stoi(ruleItem[1]);
+                if (validateLogLevel(level)) {
+                    parsedRules.emplace_back(name,
+                                             static_cast<LogLevel>(level));
+                }
+            } catch (const std::exception &) {
+                continue;
+            }
         }
     }
-    LogRegistry::instance().setLogRule(parsedRules);
+    LogRegistry::instance().setLogRules(parsedRules);
 }
 
-void Log::setLogStream(std::ostream &stream) { defaultLogStream = &stream; }
+void Log::setLogStream(std::ostream &stream) {
+    globalLogConfig.defaultLogStream = &stream;
+}
 
-std::ostream &Log::logStream() { return *defaultLogStream; }
+std::ostream &Log::logStream() { return *globalLogConfig.defaultLogStream; }
 
 LogMessageBuilder::LogMessageBuilder(std::ostream &out, LogLevel l,
                                      const char *filename, int lineNumber)
@@ -203,7 +208,7 @@ LogMessageBuilder::LogMessageBuilder(std::ostream &out, LogLevel l,
     }
 
 #if FMT_VERSION >= 50300
-    if (showTimeDate) {
+    if (globalLogConfig.showTimeDate) {
         auto now = std::chrono::system_clock::now();
         auto floor = std::chrono::floor<std::chrono::seconds>(now);
         auto micro =
