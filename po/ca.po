@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2022-01-19 20:24+0000\n"
+"POT-Creation-Date: 2022-01-28 20:24+0000\n"
 "PO-Revision-Date: 2017-11-23 04:14+0000\n"
 "Last-Translator: Robert Antoni Buj Gelonch <rbuj@fedoraproject.org>, 2020\n"
 "Language-Team: Catalan (https://www.transifex.com/fcitx/teams/12005/ca/)\n"
@@ -48,7 +48,7 @@ msgstr ""
 msgid "${1} works properly."
 msgstr ""
 
-#: src/lib/fcitx/instance.cpp:394
+#: src/lib/fcitx/instance.cpp:372
 msgid "(Not available)"
 msgstr "(no disponible)"
 
@@ -76,23 +76,23 @@ msgstr ""
 msgid "/XIM"
 msgstr ""
 
-#: src/modules/unicode/charselectdata.cpp:220
+#: src/modules/unicode/charselectdata.cpp:221
 msgid "<Low Surrogate>"
 msgstr "<Succedani baix>"
 
-#: src/modules/unicode/charselectdata.cpp:216
+#: src/modules/unicode/charselectdata.cpp:217
 msgid "<Non Private Use High Surrogate>"
 msgstr "<Succedani alt d'ús no privat>"
 
-#: src/modules/unicode/charselectdata.cpp:218
+#: src/modules/unicode/charselectdata.cpp:219
 msgid "<Private Use High Surrogate>"
 msgstr " <Succedani alt d'ús privat>"
 
-#: src/modules/unicode/charselectdata.cpp:222
+#: src/modules/unicode/charselectdata.cpp:223
 msgid "<Private Use>"
 msgstr "<Ús privat>"
 
-#: src/modules/unicode/charselectdata.cpp:252
+#: src/modules/unicode/charselectdata.cpp:253
 msgid "<not assigned>"
 msgstr "<no assignat>"
 
@@ -177,7 +177,7 @@ msgctxt "Key name"
 msgid "Application Right"
 msgstr ""
 
-#: src/im/keyboard/keyboard.h:77
+#: src/im/keyboard/keyboard.h:79
 msgid "Applications disabled for long press"
 msgstr ""
 
@@ -213,6 +213,10 @@ msgstr ""
 #: src/lib/fcitx-utils/key.cpp:115
 msgctxt "Key name"
 msgid "Back Forward"
+msgstr ""
+
+#: src/modules/spell/spell.h:38
+msgid "Backends"
 msgstr ""
 
 #: src/ui/classic/theme.h:116 src/ui/classic/theme.h:135
@@ -454,19 +458,19 @@ msgctxt "Key name"
 msgid "Community"
 msgstr "Comunitat"
 
-#: src/im/keyboard/keyboard.cpp:786
+#: src/im/keyboard/keyboard.cpp:790
 msgid "Completion"
 msgstr ""
 
-#: src/im/keyboard/keyboard.cpp:777
+#: src/im/keyboard/keyboard.cpp:781
 msgid "Completion is disabled."
 msgstr ""
 
-#: src/im/keyboard/keyboard.cpp:780
+#: src/im/keyboard/keyboard.cpp:784
 msgid "Completion is enabled temporarily."
 msgstr ""
 
-#: src/im/keyboard/keyboard.cpp:782
+#: src/im/keyboard/keyboard.cpp:786
 msgid "Completion is enabled."
 msgstr ""
 
@@ -575,7 +579,7 @@ msgstr "Desactiva el mètode d'entrada"
 msgid "Debug information from dbus:"
 msgstr ""
 
-#: src/lib/fcitx/inputmethodmanager.cpp:138 src/lib/fcitx/instance.cpp:739
+#: src/lib/fcitx/inputmethodmanager.cpp:138 src/lib/fcitx/instance.cpp:717
 #: src/ui/classic/themes/default/theme.conf.in:3
 msgid "Default"
 msgstr "Per defecte"
@@ -934,11 +938,11 @@ msgstr "Verd"
 msgid "Group"
 msgstr "Grup"
 
-#: src/lib/fcitx/instance.cpp:398
+#: src/lib/fcitx/instance.cpp:376
 msgid "Group {0}: {1}"
 msgstr "Grup {0}: {1}"
 
-#: src/lib/fcitx/instance.cpp:741
+#: src/lib/fcitx/instance.cpp:719
 msgid "Group {}"
 msgstr ""
 
@@ -1140,8 +1144,8 @@ msgstr ""
 msgid "Image"
 msgstr ""
 
-#: src/im/keyboard/keyboard.cpp:785 src/lib/fcitx/instance.cpp:432
-#: src/lib/fcitx/instance.cpp:811 src/lib/fcitx/instance.cpp:977
+#: src/im/keyboard/keyboard.cpp:789 src/lib/fcitx/instance.cpp:410
+#: src/lib/fcitx/instance.cpp:789 src/lib/fcitx/instance.cpp:955
 #: src/modules/notificationitem/notificationitem.cpp:123
 #: src/modules/xcb/xcbconnection.cpp:406 data/org.fcitx.Fcitx5.desktop.in.in:4
 #: data/org.fcitx.Fcitx5.metainfo.xml.in:7
@@ -1384,7 +1388,7 @@ msgctxt "Key name"
 msgid "Logoff"
 msgstr ""
 
-#: src/im/keyboard/keyboard.h:79
+#: src/im/keyboard/keyboard.h:81
 msgid "Long Press behavior"
 msgstr ""
 
@@ -1597,7 +1601,7 @@ msgstr "Bloq Núm"
 msgid "Number of entries"
 msgstr ""
 
-#: src/im/keyboard/keyboard.cpp:771
+#: src/im/keyboard/keyboard.cpp:775
 msgid ""
 "Only emoji support is found. To enable spell checking, you may need to "
 "install spell check data for the language."
@@ -1714,15 +1718,15 @@ msgctxt "Key name"
 msgid "Power Off"
 msgstr "Apaga"
 
-#: src/lib/fcitx/instance.cpp:977
+#: src/lib/fcitx/instance.cpp:955
 msgid "Preedit"
 msgstr ""
 
-#: src/lib/fcitx/instance.cpp:979
+#: src/lib/fcitx/instance.cpp:957
 msgid "Preedit disabled"
 msgstr ""
 
-#: src/lib/fcitx/instance.cpp:978
+#: src/lib/fcitx/instance.cpp:956
 msgid "Preedit enabled"
 msgstr ""
 
@@ -1754,10 +1758,6 @@ msgstr "Impr Pant"
 
 #: src/lib/fcitx/globalconfig.cpp:20
 msgid "Program"
-msgstr ""
-
-#: src/modules/spell/spell.h:38
-msgid "Providers"
 msgstr ""
 
 #: data/fcitx5-diagnose.sh:1217
@@ -1969,7 +1969,7 @@ msgstr "Espai"
 msgid "Spacing"
 msgstr ""
 
-#: src/modules/spell/spell.conf.in.in:3
+#: src/im/keyboard/keyboard.h:71 src/modules/spell/spell.conf.in.in:3
 msgid "Spell"
 msgstr "Ortografia"
 
@@ -2034,16 +2034,16 @@ msgctxt "Key name"
 msgid "Suspend"
 msgstr "Suspèn"
 
-#: src/lib/fcitx/instance.cpp:433 src/lib/fcitx/instance.cpp:812
+#: src/lib/fcitx/instance.cpp:411 src/lib/fcitx/instance.cpp:790
 #: src/modules/xcb/xcbconnection.cpp:407
 msgid "Switch group"
 msgstr ""
 
-#: src/lib/fcitx/instance.cpp:435 src/modules/xcb/xcbconnection.cpp:408
+#: src/lib/fcitx/instance.cpp:413 src/modules/xcb/xcbconnection.cpp:408
 msgid "Switch group to {0}"
 msgstr ""
 
-#: src/lib/fcitx/instance.cpp:813
+#: src/lib/fcitx/instance.cpp:791
 msgid "Switched group to {0}"
 msgstr ""
 
@@ -2205,7 +2205,7 @@ msgstr ""
 msgid "Trigger hint mode for one time"
 msgstr ""
 
-#: src/im/keyboard/keyboard.h:72
+#: src/im/keyboard/keyboard.h:74
 msgid "Type special characters with long press"
 msgstr ""
 
@@ -2499,10 +2499,10 @@ msgstr ""
 msgid "{0} (Not Available)"
 msgstr ""
 
-#: src/lib/fcitx/instance.cpp:392
+#: src/lib/fcitx/instance.cpp:370
 msgid "{0} (Not available)"
 msgstr "{0} (no disponible)"
 
-#: src/lib/fcitx/instance.cpp:389
+#: src/lib/fcitx/instance.cpp:367
 msgid "{0} ({1})"
 msgstr "{0} ({1})"

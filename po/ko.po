@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2022-01-19 20:24+0000\n"
+"POT-Creation-Date: 2022-01-28 20:24+0000\n"
 "PO-Revision-Date: 2017-11-23 04:14+0000\n"
 "Last-Translator: Bon Keun Seo <scobyseo@gmail.com>, 2021\n"
 "Language-Team: Korean (https://www.transifex.com/fcitx/teams/12005/ko/)\n"
@@ -50,7 +50,7 @@ msgstr "${1}을(를) 찾을 수 없습니다."
 msgid "${1} works properly."
 msgstr "${1}이(가) 제대로 작동합니다."
 
-#: src/lib/fcitx/instance.cpp:394
+#: src/lib/fcitx/instance.cpp:372
 msgid "(Not available)"
 msgstr "(사용할 수 없음)"
 
@@ -78,23 +78,23 @@ msgstr "/3.6_이후_GNOME에_대한_참고사항"
 msgid "/XIM"
 msgstr "/XIM"
 
-#: src/modules/unicode/charselectdata.cpp:220
+#: src/modules/unicode/charselectdata.cpp:221
 msgid "<Low Surrogate>"
 msgstr "<하위 확장코드>"
 
-#: src/modules/unicode/charselectdata.cpp:216
+#: src/modules/unicode/charselectdata.cpp:217
 msgid "<Non Private Use High Surrogate>"
 msgstr "<비 개인용 상위 확장코드>"
 
-#: src/modules/unicode/charselectdata.cpp:218
+#: src/modules/unicode/charselectdata.cpp:219
 msgid "<Private Use High Surrogate>"
 msgstr "<개인용 상위 확장코드>"
 
-#: src/modules/unicode/charselectdata.cpp:222
+#: src/modules/unicode/charselectdata.cpp:223
 msgid "<Private Use>"
 msgstr "<개인사용>"
 
-#: src/modules/unicode/charselectdata.cpp:252
+#: src/modules/unicode/charselectdata.cpp:253
 msgid "<not assigned>"
 msgstr "<할당 안됨>"
 
@@ -179,7 +179,7 @@ msgctxt "Key name"
 msgid "Application Right"
 msgstr "오른쪽 응용 프로그램"
 
-#: src/im/keyboard/keyboard.h:77
+#: src/im/keyboard/keyboard.h:79
 msgid "Applications disabled for long press"
 msgstr "길게 누르면 응용프로그램이 비활성화됨"
 
@@ -216,6 +216,10 @@ msgstr "뒤로"
 msgctxt "Key name"
 msgid "Back Forward"
 msgstr "뒤로 앞으로"
+
+#: src/modules/spell/spell.h:38
+msgid "Backends"
+msgstr ""
 
 #: src/ui/classic/theme.h:116 src/ui/classic/theme.h:135
 msgid "Background"
@@ -458,19 +462,19 @@ msgctxt "Key name"
 msgid "Community"
 msgstr "커뮤니티"
 
-#: src/im/keyboard/keyboard.cpp:786
+#: src/im/keyboard/keyboard.cpp:790
 msgid "Completion"
 msgstr "완성"
 
-#: src/im/keyboard/keyboard.cpp:777
+#: src/im/keyboard/keyboard.cpp:781
 msgid "Completion is disabled."
 msgstr "완성이 비활성화되었습니다."
 
-#: src/im/keyboard/keyboard.cpp:780
+#: src/im/keyboard/keyboard.cpp:784
 msgid "Completion is enabled temporarily."
 msgstr "완성이 일시적으로 활성화되었습니다."
 
-#: src/im/keyboard/keyboard.cpp:782
+#: src/im/keyboard/keyboard.cpp:786
 msgid "Completion is enabled."
 msgstr "완성이 활성화되었습니다."
 
@@ -579,7 +583,7 @@ msgstr "입력기 비활성화"
 msgid "Debug information from dbus:"
 msgstr ""
 
-#: src/lib/fcitx/inputmethodmanager.cpp:138 src/lib/fcitx/instance.cpp:739
+#: src/lib/fcitx/inputmethodmanager.cpp:138 src/lib/fcitx/instance.cpp:717
 #: src/ui/classic/themes/default/theme.conf.in:3
 msgid "Default"
 msgstr "기본값"
@@ -945,11 +949,11 @@ msgstr "녹색"
 msgid "Group"
 msgstr "그룹"
 
-#: src/lib/fcitx/instance.cpp:398
+#: src/lib/fcitx/instance.cpp:376
 msgid "Group {0}: {1}"
 msgstr "그룹 {0}: {1}"
 
-#: src/lib/fcitx/instance.cpp:741
+#: src/lib/fcitx/instance.cpp:719
 msgid "Group {}"
 msgstr "그룹 {}"
 
@@ -1156,8 +1160,8 @@ msgstr ""
 msgid "Image"
 msgstr "이미지"
 
-#: src/im/keyboard/keyboard.cpp:785 src/lib/fcitx/instance.cpp:432
-#: src/lib/fcitx/instance.cpp:811 src/lib/fcitx/instance.cpp:977
+#: src/im/keyboard/keyboard.cpp:789 src/lib/fcitx/instance.cpp:410
+#: src/lib/fcitx/instance.cpp:789 src/lib/fcitx/instance.cpp:955
 #: src/modules/notificationitem/notificationitem.cpp:123
 #: src/modules/xcb/xcbconnection.cpp:406 data/org.fcitx.Fcitx5.desktop.in.in:4
 #: data/org.fcitx.Fcitx5.metainfo.xml.in:7
@@ -1402,7 +1406,7 @@ msgctxt "Key name"
 msgid "Logoff"
 msgstr "로그오프"
 
-#: src/im/keyboard/keyboard.h:79
+#: src/im/keyboard/keyboard.h:81
 msgid "Long Press behavior"
 msgstr "길게 누르기 동작"
 
@@ -1615,7 +1619,7 @@ msgstr "NumLock"
 msgid "Number of entries"
 msgstr "항목의 수"
 
-#: src/im/keyboard/keyboard.cpp:771
+#: src/im/keyboard/keyboard.cpp:775
 msgid ""
 "Only emoji support is found. To enable spell checking, you may need to "
 "install spell check data for the language."
@@ -1738,15 +1742,15 @@ msgctxt "Key name"
 msgid "Power Off"
 msgstr "전원 끄기"
 
-#: src/lib/fcitx/instance.cpp:977
+#: src/lib/fcitx/instance.cpp:955
 msgid "Preedit"
 msgstr "사전편집"
 
-#: src/lib/fcitx/instance.cpp:979
+#: src/lib/fcitx/instance.cpp:957
 msgid "Preedit disabled"
 msgstr "사전편집 비활성화"
 
-#: src/lib/fcitx/instance.cpp:978
+#: src/lib/fcitx/instance.cpp:956
 msgid "Preedit enabled"
 msgstr "사전편집 활성화"
 
@@ -1779,10 +1783,6 @@ msgstr "화면 출력"
 #: src/lib/fcitx/globalconfig.cpp:20
 msgid "Program"
 msgstr "프로그램"
-
-#: src/modules/spell/spell.h:38
-msgid "Providers"
-msgstr "제공도구"
 
 #: data/fcitx5-diagnose.sh:1217
 msgid "Qt IM module files:"
@@ -1993,7 +1993,7 @@ msgstr "공백"
 msgid "Spacing"
 msgstr "간격"
 
-#: src/modules/spell/spell.conf.in.in:3
+#: src/im/keyboard/keyboard.h:71 src/modules/spell/spell.conf.in.in:3
 msgid "Spell"
 msgstr "철자"
 
@@ -2058,16 +2058,16 @@ msgctxt "Key name"
 msgid "Suspend"
 msgstr "중단"
 
-#: src/lib/fcitx/instance.cpp:433 src/lib/fcitx/instance.cpp:812
+#: src/lib/fcitx/instance.cpp:411 src/lib/fcitx/instance.cpp:790
 #: src/modules/xcb/xcbconnection.cpp:407
 msgid "Switch group"
 msgstr "그룹 전환"
 
-#: src/lib/fcitx/instance.cpp:435 src/modules/xcb/xcbconnection.cpp:408
+#: src/lib/fcitx/instance.cpp:413 src/modules/xcb/xcbconnection.cpp:408
 msgid "Switch group to {0}"
 msgstr "{0}(으)로 그룹 전환"
 
-#: src/lib/fcitx/instance.cpp:813
+#: src/lib/fcitx/instance.cpp:791
 msgid "Switched group to {0}"
 msgstr "{0}(으)로 그룹 전환됨"
 
@@ -2232,7 +2232,7 @@ msgstr "힌트 방식 전환"
 msgid "Trigger hint mode for one time"
 msgstr "한 번에 힌트 모드 트리거"
 
-#: src/im/keyboard/keyboard.h:72
+#: src/im/keyboard/keyboard.h:74
 msgid "Type special characters with long press"
 msgstr "길게 눌러 특수 문자 입력"
 
@@ -2541,10 +2541,10 @@ msgstr "버전:"
 msgid "{0} (Not Available)"
 msgstr "{0} (사용할 수 없음)"
 
-#: src/lib/fcitx/instance.cpp:392
+#: src/lib/fcitx/instance.cpp:370
 msgid "{0} (Not available)"
 msgstr "{0} (사용할 수 없음)"
 
-#: src/lib/fcitx/instance.cpp:389
+#: src/lib/fcitx/instance.cpp:367
 msgid "{0} ({1})"
 msgstr "{0} ({1})"
