@@ -29,6 +29,7 @@ private:
     UniqueCPtr<EnchantBroker, enchant_broker_free> broker_;
     std::unique_ptr<EnchantDict, std::function<void(EnchantDict *)>> dict_;
     std::string language_;
+    std::string systemLanguage_;
 };
 } // namespace fcitx
 

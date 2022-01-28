@@ -68,6 +68,8 @@ FCITX_CONFIGURATION(
                                      _("Trigger hint mode for one time"),
                                      {Key("Control+Alt+J")},
                                      KeyListConstrain()};
+    SubConfigOption spell{this, "Spell", _("Spell"),
+                          "fcitx://config/addon/spell"};
     Option<bool> enableLongPress{this, "EnableLongPress",
                                  _("Type special characters with long press"),
                                  false};
