@@ -496,7 +496,9 @@ void KeyboardEngine::keyEvent(const InputMethodEntry &entry, KeyEvent &event) {
     auto compose = *composeResult;
 
     // check the spell trigger key
-    if (event.key().checkKeyList(config_.hintTrigger.value()) &&
+    if ((event.key().checkKeyList(config_.hintTrigger.value()) ||
+         event.origKey().normalize().checkKeyList(
+             config_.hintTrigger.value())) &&
         supportHint(entry.languageCode())) {
         state->enableWordHint_ = !state->enableWordHint_;
         state->oneTimeEnableWordHint_ = false;
@@ -506,7 +508,9 @@ void KeyboardEngine::keyEvent(const InputMethodEntry &entry, KeyEvent &event) {
     }
 
     // check the spell trigger key
-    if (event.key().checkKeyList(config_.oneTimeHintTrigger.value()) &&
+    if ((event.key().checkKeyList(config_.oneTimeHintTrigger.value()) ||
+         event.origKey().normalize().checkKeyList(
+             config_.oneTimeHintTrigger.value())) &&
         supportHint(entry.languageCode())) {
         bool oldOneTime = state->oneTimeEnableWordHint_;
         state->enableWordHint_ = false;
