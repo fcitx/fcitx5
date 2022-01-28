@@ -58,8 +58,7 @@ public:
 
         rules_.clear();
         for (const auto &ruleItem : rules) {
-            const auto &[name, level] = ruleItem;
-            rules_.emplace_back(name, level);
+            rules_.emplace_back(ruleItem);
         }
 
         for (auto *category : categories_) {
