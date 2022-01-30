@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2022-01-28 20:24+0000\n"
+"POT-Creation-Date: 2022-01-30 20:24+0000\n"
 "PO-Revision-Date: 2017-11-23 04:14+0000\n"
 "Last-Translator: csslayer <wengxt@gmail.com>, 2022\n"
 "Language-Team: Chinese (China) (https://www.transifex.com/fcitx/teams/12005/"
@@ -218,7 +218,7 @@ msgstr "向后"
 
 #: src/modules/spell/spell.h:38
 msgid "Backends"
-msgstr ""
+msgstr "后端"
 
 #: src/ui/classic/theme.h:116 src/ui/classic/theme.h:135
 msgid "Background"

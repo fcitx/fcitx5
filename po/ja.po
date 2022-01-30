@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2022-01-29 20:24+0000\n"
+"POT-Creation-Date: 2022-01-30 20:24+0000\n"
 "PO-Revision-Date: 2017-11-23 04:14+0000\n"
 "Last-Translator: UTUMI Hirosi <utuhiro78@yahoo.co.jp>, 2022\n"
 "Language-Team: Japanese (https://www.transifex.com/fcitx/teams/12005/ja/)\n"
@@ -142,7 +142,7 @@ msgstr "見つかった Gtk ${1} IMモジュールファイルはすべて存在
 
 #: data/fcitx5-diagnose.sh:1675
 msgid "All libraries for all addons are found."
-msgstr "全てのアドオン用ライブラリが見つかりました。"
+msgstr "すべてのアドオン用ライブラリが見つかりました。"
 
 #: data/fcitx5-diagnose.sh:830
 msgid "All locales:"
