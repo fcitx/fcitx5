@@ -123,10 +123,11 @@ IMSelector::IMSelector(Instance *instance)
             }
 
             // make sure no one else will handle it
-            keyEvent.filterAndAccept();
+            keyEvent.filter();
             if (keyEvent.isRelease()) {
                 return;
             }
+            keyEvent.accept();
 
             auto candidateList = inputContext->inputPanel().candidateList();
             if (candidateList && !candidateList->empty()) {
