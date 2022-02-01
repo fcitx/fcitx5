@@ -23,7 +23,12 @@ namespace {
 
 FCITX_DEFINE_LOG_CATEGORY(defaultCategory, "default");
 
-static std::ostream *defaultLogStream = &std::cerr;
+using LogRule = std::pair<std::string, LogLevel>;
+
+struct LogConfig {
+    std::ostream *defaultLogStream = &std::cerr;
+    bool showTimeDate = true;
+} globalLogConfig;
 
 bool validateLogLevel(std::underlying_type_t<LogLevel> l) {
     return (l >= 0 &&
@@ -50,27 +55,10 @@ public:
         categories_.erase(&category);
     }
 
-    void setLogRule(const std::string &ruleString) {
+    void setLogRules(const std::vector<LogRule> &rules) {
         std::lock_guard<std::mutex> lock(mutex_);
 
-        rules_.clear();
-        auto rules = stringutils::split(ruleString, ",");
-        rules_.reserve(rules.size());
-        for (const auto &rule : rules) {
-            auto ruleItem = stringutils::split(rule, "=");
-            if (ruleItem.size() != 2) {
-                continue;
-            }
-            auto &name = ruleItem[0];
-            try {
-                auto level = std::stoi(ruleItem[1]);
-                if (validateLogLevel(level)) {
-                    rules_.emplace_back(name, static_cast<LogLevel>(level));
-                }
-            } catch (const std::exception &) {
-                continue;
-            }
-        }
+        rules_ = rules;
 
         for (auto *category : categories_) {
             applyRule(category);
@@ -88,7 +76,7 @@ public:
 
 private:
     std::unordered_set<LogCategory *> categories_;
-    std::vector<std::pair<std::string, LogLevel>> rules_;
+    std::vector<LogRule> rules_;
     std::mutex mutex_;
 };
 } // namespace
@@ -164,12 +152,37 @@ bool LogCategory::fatalWrapper2(LogLevel level) {
 const LogCategory &Log::defaultCategory() { return fcitx::defaultCategory(); }
 
 void Log::setLogRule(const std::string &ruleString) {
-    LogRegistry::instance().setLogRule(ruleString);
+    std::vector<LogRule> parsedRules;
+    auto rules = stringutils::split(ruleString, ",");
+    for (const auto &rule : rules) {
+        if (rule == "notimedate") {
+            globalLogConfig.showTimeDate = false;
+            continue;
+        } else {
+            auto ruleItem = stringutils::split(rule, "=");
+            if (ruleItem.size() != 2) {
+                continue;
+            }
+            auto &name = ruleItem[0];
+            try {
+                auto level = std::stoi(ruleItem[1]);
+                if (validateLogLevel(level)) {
+                    parsedRules.emplace_back(name,
+                                             static_cast<LogLevel>(level));
+                }
+            } catch (const std::exception &) {
+                continue;
+            }
+        }
+    }
+    LogRegistry::instance().setLogRules(parsedRules);
 }
 
-void Log::setLogStream(std::ostream &stream) { defaultLogStream = &stream; }
+void Log::setLogStream(std::ostream &stream) {
+    globalLogConfig.defaultLogStream = &stream;
+}
 
-std::ostream &Log::logStream() { return *defaultLogStream; }
+std::ostream &Log::logStream() { return *globalLogConfig.defaultLogStream; }
 
 LogMessageBuilder::LogMessageBuilder(std::ostream &out, LogLevel l,
                                      const char *filename, int lineNumber)
@@ -195,12 +208,14 @@ LogMessageBuilder::LogMessageBuilder(std::ostream &out, LogLevel l,
     }
 
 #if FMT_VERSION >= 50300
-    auto now = std::chrono::system_clock::now();
-    auto floor = std::chrono::floor<std::chrono::seconds>(now);
-    auto micro =
-        std::chrono::duration_cast<std::chrono::microseconds>(now - floor);
-    auto t = fmt::localtime(std::chrono::system_clock::to_time_t(now));
-    out_ << fmt::format("{:%F %T}.{:06d}", t, micro.count()) << " ";
+    if (globalLogConfig.showTimeDate) {
+        auto now = std::chrono::system_clock::now();
+        auto floor = std::chrono::floor<std::chrono::seconds>(now);
+        auto micro =
+            std::chrono::duration_cast<std::chrono::microseconds>(now - floor);
+        auto t = fmt::localtime(std::chrono::system_clock::to_time_t(now));
+        out_ << fmt::format("{:%F %T}.{:06d}", t, micro.count()) << " ";
+    }
 #endif
     out_ << filename << ":" << lineNumber << "] ";
 }
