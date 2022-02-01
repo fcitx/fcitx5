@@ -81,6 +81,8 @@ private:
     void clipboardChanged(const std::string &name);
     FCITX_ADDON_EXPORT_FUNCTION(Clipboard, primary);
     FCITX_ADDON_EXPORT_FUNCTION(Clipboard, clipboard);
+    FCITX_ADDON_EXPORT_FUNCTION(Clipboard, setPrimary);
+    FCITX_ADDON_EXPORT_FUNCTION(Clipboard, setClipboard);
 #ifdef ENABLE_X11
     FCITX_ADDON_DEPENDENCY_LOADER(xcb, instance_->addonManager());
 #endif
