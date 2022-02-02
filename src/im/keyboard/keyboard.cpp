@@ -703,6 +703,12 @@ void KeyboardEngine::reset(const InputMethodEntry &, InputContextEvent &event) {
     inputContext->updateUserInterface(UserInterfaceComponent::InputPanel);
 }
 
+void KeyboardEngine::invokeActionImpl(const InputMethodEntry &,
+                                      InvokeActionEvent &event) {
+    auto *inputContext = event.inputContext();
+    commitBuffer(inputContext);
+}
+
 bool KeyboardEngine::foreachLayout(
     const std::function<
         bool(const std::string &variant, const std::string &description,

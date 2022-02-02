@@ -109,7 +109,7 @@ struct KeyboardEngineState : public InputContextProperty {
 
 class KeyboardEnginePrivate;
 
-class KeyboardEngine final : public InputMethodEngine {
+class KeyboardEngine final : public InputMethodEngineV3 {
 public:
     KeyboardEngine(Instance *instance);
     ~KeyboardEngine();
@@ -165,6 +165,9 @@ public:
     // Commit current buffer, also reset the state.
     // See also preeditString().
     void commitBuffer(InputContext *inputContext);
+
+    void invokeActionImpl(const fcitx::InputMethodEntry &entry,
+                          fcitx::InvokeActionEvent &event) override;
 
 private:
     FCITX_ADDON_EXPORT_FUNCTION(KeyboardEngine, foreachLayout);
