@@ -553,7 +553,7 @@ public:
             return;
         }
 #else
-        FCITX_UNUSED(name);
+        FCITX_UNUSED(fd);
 #endif
         throw dbus::MethodCallError("org.freedesktop.DBus.Error.InvalidArgs",
                                     "Wayland addon is not available.");
