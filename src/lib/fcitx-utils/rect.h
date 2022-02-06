@@ -23,6 +23,7 @@ public:
         : x1_(_x1), y1_(_y1), x2_(_x2), y2_(_y2) {}
 
     Rect(const Rect &rect) = default;
+    Rect &operator=(const Rect &rect) = default;
 
     inline Rect &setPosition(int x, int y) noexcept {
         x1_ = x;
