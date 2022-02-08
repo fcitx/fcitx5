@@ -96,14 +96,14 @@ std::string PreReleaseId::toString() const {
     return id();
 }
 
-int PreReleaseId::compare(const PreReleaseId &other) const {
+int PreReleaseId::compare(const PreReleaseId &other) const noexcept {
     auto isNum = isNumeric();
     auto otherIsNum = other.isNumeric();
     if (isNum != otherIsNum) {
         // this is num and other is not num, return -1;
         return isNum ? -1 : 1;
     }
-    if (isNum) {
+    if (isNum && otherIsNum) {
         return numericId() - other.numericId();
     }
 

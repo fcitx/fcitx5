@@ -31,7 +31,7 @@ public:
     uint32_t numericId() const;
     const std::string &id() const;
 
-    int compare(const PreReleaseId &other) const;
+    int compare(const PreReleaseId &other) const noexcept;
 
 private:
     std::variant<std::string, uint32_t> value_;
