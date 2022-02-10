@@ -200,14 +200,14 @@ bool WaylandModule::openConnectionSocket(int fd) {
 
 void WaylandModule::removeConnection(const std::string &name) {
     FCITX_WAYLAND_DEBUG() << "Connection removed " << name;
+    if (name.empty() && instance_->exitWhenMainDisplayDisconnected() &&
+        isWaylandSession_) {
+        instance_->exit();
+    }
     auto iter = conns_.find(name);
     if (iter != conns_.end()) {
         onConnectionClosed(iter->second);
         conns_.erase(iter);
-    }
-    if (name.empty() && instance_->exitWhenMainDisplayDisconnected() &&
-        isWaylandSession_) {
-        instance_->exit();
     }
 }
 
