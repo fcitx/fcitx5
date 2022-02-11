@@ -16,6 +16,12 @@ namespace fcitx {
 
 namespace impl {
 
+#ifdef ENABLE_KEYBOARD
+constexpr bool hasKeyboard = true;
+#else
+constexpr bool hasKeyboard = false;
+#endif
+
 FCITX_CONFIG_ENUM_I18N_ANNOTATION(PropertyPropagatePolicy, N_("All"),
                                   N_("Program"), N_("No"));
 
@@ -151,31 +157,21 @@ FCITX_CONFIGURATION(
     Option<int, IntConstrain> defaultPageSize{this, "DefaultPageSize",
                                               _("Default page size"), 5,
                                               IntConstrain(1, 10)};
-#ifdef ENABLE_KEYBOARD
-    OptionWithAnnotation<bool, ToolTipAnnotation>
-#else
-    HiddenOption<bool>
-#endif
+    ConditionalHidden<!hasKeyboard,
+                      OptionWithAnnotation<bool, ToolTipAnnotation>>
         overrideXkbOption{
             this,
             "OverrideXkbOption",
             _("Override Xkb Option"),
-#ifdef ENABLE_KEYBOARD
             false,
             {},
             {},
             {_("Whether to override the xkb option from display server. It "
                "will "
                "not affect the xkb option send to display, but just the xkb "
-               "options for custom xkb layout.")}
-#endif
-        };
-#ifdef ENABLE_KEYBOARD
-    Option<std::string>
-#else
-    HiddenOption<std::string>
-#endif
-        customXkbOption{this, "CustomXkbOption", _("Custom Xkb Option"), ""};
+               "options for custom xkb layout.")}};
+    ConditionalHidden<!hasKeyboard, Option<std::string>> customXkbOption{
+        this, "CustomXkbOption", _("Custom Xkb Option"), ""};
     HiddenOption<std::vector<std::string>> enabledAddons{
         this, "EnabledAddons", "Force Enabled Addons"};
     HiddenOption<std::vector<std::string>> disabledAddons{
