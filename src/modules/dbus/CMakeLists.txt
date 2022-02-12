@@ -9,7 +9,8 @@ endif()
 install(TARGETS dbus DESTINATION "${FCITX_INSTALL_ADDONDIR}")
 configure_file(dbus.conf.in.in dbus.conf.in @ONLY)
 fcitx5_translate_desktop_file(${CMAKE_CURRENT_BINARY_DIR}/dbus.conf.in dbus.conf)
-install(FILES "${CMAKE_CURRENT_BINARY_DIR}/dbus.conf" DESTINATION "${FCITX_INSTALL_PKGDATADIR}/addon")
+install(FILES "${CMAKE_CURRENT_BINARY_DIR}/dbus.conf" DESTINATION "${FCITX_INSTALL_PKGDATADIR}/addon"
+        COMPONENT config)
 fcitx5_export_module(DBus TARGET dbus BUILD_INCLUDE_DIRECTORIES "${CMAKE_CURRENT_SOURCE_DIR}" HEADERS dbus_public.h INSTALL)
 
 configure_file("${CMAKE_CURRENT_SOURCE_DIR}/org.fcitx.Fcitx5.service.in" "${CMAKE_CURRENT_BINARY_DIR}/org.fcitx.Fcitx5.service" @ONLY)
