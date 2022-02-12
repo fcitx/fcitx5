@@ -140,6 +140,10 @@ function(fcitx5_translate_desktop_file SRC DEST)
     DEPENDS "${SRC}" ${PO_FILES})
   _fcitx5_get_unique_target_name("${SRC_BASE}-fmt" uniqueTargetName)
   add_custom_target("${uniqueTargetName}" ALL DEPENDS "${DEST}")
+
+  if (TARGET generate-desktop-file)
+    add_dependencies(generate-desktop-file "${uniqueTargetName}")
+  endif()
 endfunction()
 
 # Gettext function are not good for our use case.
@@ -188,3 +192,8 @@ function(fcitx5_add_i18n_definition)
     add_definitions(-DFCITX_INSTALL_LOCALEDIR=\"${LOCALE_DIR}\")
   endif()
 endfunction()
+
+
+if (NOT TARGET generate-desktop-file)
+    add_custom_target(generate-desktop-file)
+endif()
