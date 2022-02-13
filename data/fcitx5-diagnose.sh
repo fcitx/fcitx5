@@ -275,6 +275,10 @@ _detectDE_XDG_CURRENT() {
             DE=deepin
             return
             ;;
+            X-Cinnamon)
+            DE=cinnamon
+            return
+            ;;
         esac
     done
     return 1
@@ -316,6 +320,9 @@ _detectDE_SESSION() {
             ;;
         Deepin)
             DE=deepin
+            ;;
+        cinnamon)
+            DE=cinnamon
             ;;
         *)
             return 1
