@@ -28,13 +28,14 @@ public:
     void hide() override;
 
 private:
-    void newBuffer();
+    void newBuffer(uint32_t width, uint32_t height);
 
     std::shared_ptr<wayland::WlShm> shm_;
     std::vector<std::unique_ptr<wayland::Buffer>> buffers_;
     // Pointer to the current buffer.
     wayland::Buffer *buffer_ = nullptr;
     bool pending_ = false;
+    std::unique_ptr<EventSource> deferEvent_;
 };
 } // namespace classicui
 } // namespace fcitx

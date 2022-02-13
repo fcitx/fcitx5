@@ -138,11 +138,23 @@ WaylandIMInputContextV2::WaylandIMInputContextV2(
             pendingDeactivate_ = false;
             keyboardGrab_.reset();
             timeEvent_->setEnabled(false);
+            // If last key to vk is press, send a release.
+            if (lastVKKey_ && lastVKState_ == WL_KEYBOARD_KEY_STATE_PRESSED) {
+                vk_->key(lastVKTime_, lastVKKey_,
+                         WL_KEYBOARD_KEY_STATE_RELEASED);
+                lastVKTime_ = lastVKKey_ = 0;
+                lastVKState_ = WL_KEYBOARD_KEY_STATE_RELEASED;
+            }
             server_->display_->sync();
             focusOut();
         }
         if (pendingActivate_) {
             pendingActivate_ = false;
+            // There can be only one grab. Always release old grab first.
+            // It is possible when switching between two client, there will be
+            // two activate. In that case we will have already one grab. The
+            // second request would fail and cause invalid object.
+            keyboardGrab_.reset();
             keyboardGrab_.reset(ic_->grabKeyboard());
             if (!keyboardGrab_) {
                 WAYLANDIM_DEBUG() << "Failed to grab keyboard";
@@ -170,6 +182,8 @@ WaylandIMInputContextV2::WaylandIMInputContextV2(
                 repeatInfoCallback(repeatRate_, repeatDelay_);
                 focusIn();
                 server_->display_->sync();
+                lastVKTime_ = lastVKKey_ = 0;
+                lastVKState_ = WL_KEYBOARD_KEY_STATE_RELEASED;
             }
         }
     });
@@ -205,18 +219,15 @@ void WaylandIMInputContextV2::repeat() {
         this,
         Key(repeatSym_, server_->modifiers_ | KeyState::Repeat, repeatKey_ + 8),
         false, repeatTime_);
-    vk_->key(repeatTime_, event.rawKey().code() - 8,
-             WL_KEYBOARD_KEY_STATE_RELEASED);
-    server_->display_->roundtrip();
+    sendKeyToVK(repeatTime_, event.rawKey().code() - 8,
+                WL_KEYBOARD_KEY_STATE_RELEASED);
     if (!keyEvent(event)) {
-        vk_->key(repeatTime_, event.rawKey().code() - 8,
-                 WL_KEYBOARD_KEY_STATE_PRESSED);
+        sendKeyToVK(repeatTime_, event.rawKey().code() - 8,
+                    WL_KEYBOARD_KEY_STATE_PRESSED);
     }
     uint64_t interval = 1000000 / repeatRate_;
     timeEvent_->setTime(timeEvent_->time() + interval);
     timeEvent_->setOneShot();
-
-    server_->display_->roundtrip();
 }
 
 void WaylandIMInputContextV2::surroundingTextCallback(const char *text,
@@ -319,7 +330,7 @@ void WaylandIMInputContextV2::keymapCallback(uint32_t format, int32_t fd,
         return;
     }
 
-    auto *mapStr = mmap(nullptr, size, PROT_READ, MAP_SHARED, fd, 0);
+    auto *mapStr = mmap(nullptr, size, PROT_READ, MAP_PRIVATE, fd, 0);
     if (mapStr == MAP_FAILED) {
         return;
     }
@@ -374,6 +385,8 @@ void WaylandIMInputContextV2::keymapCallback(uint32_t format, int32_t fd,
     if (keymapChanged) {
         vk_->keymap(format, scopeFD.fd(), size);
     }
+
+    server_->parent_->wayland()->call<IWaylandModule::reloadXkbOption>();
 }
 
 void WaylandIMInputContextV2::keyCallback(uint32_t, uint32_t time, uint32_t key,
@@ -387,7 +400,6 @@ void WaylandIMInputContextV2::keyCallback(uint32_t, uint32_t time, uint32_t key,
         focusIn();
     }
 
-    WAYLANDIM_DEBUG() << "RECEIVE KEY";
     // EVDEV OFFSET
     uint32_t code = key + 8;
 
@@ -407,7 +419,7 @@ void WaylandIMInputContextV2::keyCallback(uint32_t, uint32_t time, uint32_t key,
             repeatSym_ = event.rawKey().sym();
             // Let's trick the key event system by fake our first.
             // Remove 100 from the initial interval.
-            timeEvent_->setNextInterval(repeatDelay_ * 1000 - 100);
+            timeEvent_->setNextInterval(repeatDelay_ * 1000 - repeatHackDelay);
             timeEvent_->setOneShot();
         }
     }
@@ -415,9 +427,9 @@ void WaylandIMInputContextV2::keyCallback(uint32_t, uint32_t time, uint32_t key,
     WAYLANDIM_DEBUG() << event.key().toString()
                       << " IsRelease=" << event.isRelease();
     if (!keyEvent(event)) {
-        vk_->key(time, event.rawKey().code() - 8,
-                 event.isRelease() ? WL_KEYBOARD_KEY_STATE_RELEASED
-                                   : WL_KEYBOARD_KEY_STATE_PRESSED);
+        sendKeyToVK(time, event.rawKey().code() - 8,
+                    event.isRelease() ? WL_KEYBOARD_KEY_STATE_RELEASED
+                                      : WL_KEYBOARD_KEY_STATE_PRESSED);
     }
     server_->display_->flush();
 }
@@ -453,11 +465,23 @@ void WaylandIMInputContextV2::modifiersCallback(uint32_t,
     if (mask & server_->stateMask_.mod1_mask) {
         server_->modifiers_ |= KeyState::Alt;
     }
+    if (mask & server_->stateMask_.mod2_mask) {
+        server_->modifiers_ |= KeyState::NumLock;
+    }
     if (mask & server_->stateMask_.super_mask) {
+        server_->modifiers_ |= KeyState::Super;
+    }
+    if (mask & server_->stateMask_.mod4_mask) {
         server_->modifiers_ |= KeyState::Super;
     }
     if (mask & server_->stateMask_.hyper_mask) {
         server_->modifiers_ |= KeyState::Hyper;
+    }
+    if (mask & server_->stateMask_.mod3_mask) {
+        server_->modifiers_ |= KeyState::Hyper;
+    }
+    if (mask & server_->stateMask_.mod5_mask) {
+        server_->modifiers_ |= KeyState::Mod5;
     }
     if (mask & server_->stateMask_.meta_mask) {
         server_->modifiers_ |= KeyState::Meta;
@@ -469,6 +493,15 @@ void WaylandIMInputContextV2::modifiersCallback(uint32_t,
 void WaylandIMInputContextV2::repeatInfoCallback(int32_t rate, int32_t delay) {
     repeatRate_ = rate;
     repeatDelay_ = delay;
+}
+
+void WaylandIMInputContextV2::sendKeyToVK(uint32_t time, uint32_t key,
+                                          uint32_t state) {
+    lastVKKey_ = key;
+    lastVKState_ = state;
+    lastVKTime_ = time;
+    vk_->key(time, key, state);
+    server_->display_->flush();
 }
 
 void WaylandIMInputContextV2::forwardKeyImpl(const ForwardKeyEvent &key) {
@@ -487,26 +520,86 @@ void WaylandIMInputContextV2::forwardKeyImpl(const ForwardKeyEvent &key) {
             }
         }
     }
-    vk_->key(time_, code - 8,
-             key.isRelease() ? WL_KEYBOARD_KEY_STATE_RELEASED
-                             : WL_KEYBOARD_KEY_STATE_PRESSED);
+    sendKeyToVK(time_, code - 8,
+                key.isRelease() ? WL_KEYBOARD_KEY_STATE_RELEASED
+                                : WL_KEYBOARD_KEY_STATE_PRESSED);
     if (!key.isRelease()) {
-        vk_->key(time_, code - 8, WL_KEYBOARD_KEY_STATE_RELEASED);
+        sendKeyToVK(time_, code - 8, WL_KEYBOARD_KEY_STATE_RELEASED);
     }
 }
 
 void WaylandIMInputContextV2::updatePreeditImpl() {
+    if (!hasFocus()) {
+        return;
+    }
     auto preedit =
         server_->instance()->outputFilter(this, inputPanel().clientPreedit());
 
+    int highlightStart = -1, highlightEnd = -1;
+    int start = 0, end = 0;
+    bool multipleHighlight = false;
     for (int i = 0, e = preedit.size(); i < e; i++) {
         if (!utf8::validate(preedit.stringAt(i))) {
             return;
         }
+        end = start + preedit.stringAt(i).size();
+        if (preedit.formatAt(i).test(TextFormatFlag::HighLight)) {
+            if (highlightStart == -1) {
+                highlightStart = start;
+                highlightEnd = end;
+            } else if (highlightEnd == start) {
+                highlightEnd = end;
+            } else {
+                multipleHighlight = true;
+            }
+        }
+        start = end;
     }
 
-    ic_->setPreeditString(preedit.toString().data(), preedit.cursor(),
-                          preedit.cursor());
+    int cursorStart = preedit.cursor();
+    int cursorEnd = preedit.cursor();
+    if (!multipleHighlight && highlightStart >= 0 && highlightEnd >= 0) {
+        if (cursorStart == highlightStart) {
+            cursorEnd = highlightEnd;
+        }
+    }
+
+    ic_->setPreeditString(preedit.toString().data(), cursorStart, cursorEnd);
     ic_->commit(serial_);
 }
+
+void WaylandIMInputContextV2::deleteSurroundingTextImpl(int offset,
+                                                        unsigned int size) {
+    if (!hasFocus()) {
+        return;
+    }
+
+    // Cant convert to before/after.
+    if (offset > 0 || offset + static_cast<ssize_t>(size) < 0) {
+        return;
+    }
+
+    size_t cursor = surroundingText().cursor();
+    if (static_cast<ssize_t>(cursor) + offset < 0) {
+        return;
+    }
+
+    const auto &text = surroundingText().text();
+    auto len = utf8::length(text);
+
+    size_t start = cursor + offset;
+    size_t end = cursor + offset + size;
+    // validate length.
+    if (cursor > len || start > len || end > len) {
+        return;
+    }
+
+    auto startBytes = utf8::ncharByteLength(text.begin(), start);
+    auto cursorBytes = utf8::ncharByteLength(text.begin(), cursor);
+    auto sizeBytes = utf8::ncharByteLength(text.begin() + startBytes, size);
+    ic_->deleteSurroundingText(cursorBytes - startBytes,
+                               startBytes + sizeBytes - cursorBytes);
+    ic_->commit(serial_);
+}
+
 } // namespace fcitx

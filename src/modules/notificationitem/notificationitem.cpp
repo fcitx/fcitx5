@@ -99,6 +99,7 @@ public:
         auto classicui = parent_->classicui();
         return classicui && !label.empty() &&
                ((icon == "input-keyboard" &&
+                 classicui->call<IClassicUI::showLayoutNameInIcon>() &&
                  hasTwoKeyboardInCurrentGroup(parent_->instance())) ||
                 classicui->call<IClassicUI::preferTextIcon>());
     }

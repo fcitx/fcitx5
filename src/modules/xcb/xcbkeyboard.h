@@ -42,6 +42,8 @@ public:
         return state_.get();
     }
 
+    void setXkbOption(const std::string &option);
+
 private:
     xcb_atom_t xkbRulesNamesAtom();
     XCBConnection *conn_;

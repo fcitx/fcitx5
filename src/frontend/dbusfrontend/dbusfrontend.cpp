@@ -9,6 +9,7 @@
 #include "fcitx-utils/dbus/message.h"
 #include "fcitx-utils/dbus/objectvtable.h"
 #include "fcitx-utils/dbus/servicewatcher.h"
+#include "fcitx-utils/dbus/variant.h"
 #include "fcitx-utils/log.h"
 #include "fcitx-utils/metastring.h"
 #include "fcitx/inputcontext.h"
@@ -25,6 +26,10 @@
 namespace fcitx {
 
 namespace {
+
+enum { BATCHED_COMMIT_STRING = 0, BATCHED_PREEDIT, BATCHED_FORWARD_KEY };
+
+using DBusBlockedEvent = dbus::DBusStruct<uint32_t, dbus::Variant>;
 
 bool useClientSideUI(Instance *instance) {
     if (instance->userInterfaceManager().currentUI() != "kimpanel") {
@@ -51,6 +56,7 @@ buildFormattedTextVector(const Text &text) {
     }
     return vector;
 }
+
 } // namespace
 
 class InputMethod1 : public dbus::ObjectVTable<InputMethod1> {
@@ -64,6 +70,8 @@ public:
     std::tuple<dbus::ObjectPath, std::vector<uint8_t>> createInputContext(
         const std::vector<dbus::DBusStruct<std::string, std::string>> &args);
 
+    uint32_t version() { return 1; }
+
     dbus::ServiceWatcher &serviceWatcher() { return *watcher_; }
     dbus::Bus *bus() { return bus_; }
     Instance *instance() { return module_->instance(); }
@@ -71,6 +79,7 @@ public:
 private:
     FCITX_OBJECT_VTABLE_METHOD(createInputContext, "CreateInputContext",
                                "a(ss)", "oay");
+    FCITX_OBJECT_VTABLE_METHOD(version, "Version", "", "u");
 
     DBusFrontendModule *module_;
     Instance *instance_;
@@ -117,7 +126,11 @@ public:
     }
 
     void commitStringImpl(const std::string &text) override {
-        commitStringDBusTo(name_, text);
+        if (blocked_) {
+            blockedEvents_.emplace_back(BATCHED_COMMIT_STRING, text);
+        } else {
+            commitStringDBusTo(name_, text);
+        }
     }
 
     void updatePreeditImpl() override {
@@ -125,7 +138,15 @@ public:
             im_->instance()->outputFilter(this, inputPanel().clientPreedit());
         std::vector<dbus::DBusStruct<std::string, int>> strs =
             buildFormattedTextVector(preedit);
-        updateFormattedPreeditTo(name_, strs, preedit.cursor());
+        if (blocked_) {
+            blockedEvents_.emplace_back(
+                BATCHED_PREEDIT,
+                dbus::DBusStruct<
+                    std::vector<dbus::DBusStruct<std::string, int32_t>>,
+                    int32_t>(strs, preedit.cursor()));
+        } else {
+            updateFormattedPreeditTo(name_, strs, preedit.cursor());
+        }
     }
 
     void deleteSurroundingTextImpl(int offset, unsigned int size) override {
@@ -178,10 +199,19 @@ public:
     }
 
     void forwardKeyImpl(const ForwardKeyEvent &key) override {
-        forwardKeyDBusTo(name_, static_cast<uint32_t>(key.rawKey().sym()),
-                         static_cast<uint32_t>(key.rawKey().states()),
-                         key.isRelease());
-        bus()->flush();
+        if (blocked_) {
+            blockedEvents_.emplace_back(
+                BATCHED_FORWARD_KEY,
+                dbus::DBusStruct<uint32_t, uint32_t, bool>(
+                    static_cast<uint32_t>(key.rawKey().sym()),
+                    static_cast<uint32_t>(key.rawKey().states()),
+                    key.isRelease()));
+        } else {
+            forwardKeyDBusTo(name_, static_cast<uint32_t>(key.rawKey().sym()),
+                             static_cast<uint32_t>(key.rawKey().states()),
+                             key.isRelease());
+            bus()->flush();
+        }
     }
 
 #define CHECK_SENDER_OR_RETURN                                                 \
@@ -263,6 +293,10 @@ public:
         return keyEvent(event);
     }
 
+    std::tuple<std::vector<DBusBlockedEvent>, bool>
+    processKeyEventBatch(uint32_t keyval, uint32_t keycode, uint32_t state,
+                         bool isRelease, uint32_t time);
+
     void prevPage() {
         CHECK_SENDER_OR_RETURN;
         if (auto candidateList = inputPanel().candidateList()) {
@@ -321,6 +355,17 @@ public:
         invokeAction(event);
     }
 
+    void setBlocked() {
+        assert(!blocked_);
+        blocked_ = true;
+    }
+
+    void setUnblocked(std::vector<DBusBlockedEvent> &event) {
+        blocked_ = false;
+        event = std::move(blockedEvents_);
+        blockedEvents_.clear();
+    }
+
 private:
     FCITX_OBJECT_VTABLE_METHOD(focusInDBus, "FocusIn", "", "");
     FCITX_OBJECT_VTABLE_METHOD(focusOutDBus, "FocusOut", "", "");
@@ -338,6 +383,8 @@ private:
     FCITX_OBJECT_VTABLE_METHOD(destroyDBus, "DestroyIC", "", "");
     FCITX_OBJECT_VTABLE_METHOD(processKeyEvent, "ProcessKeyEvent", "uuubu",
                                "b");
+    FCITX_OBJECT_VTABLE_METHOD(processKeyEventBatch, "ProcessKeyEventBatch",
+                               "uuubu", "a(uv)b");
 
     FCITX_OBJECT_VTABLE_METHOD(prevPage, "PrevPage", "", "");
     FCITX_OBJECT_VTABLE_METHOD(nextPage, "NextPage", "", "");
@@ -368,6 +415,8 @@ private:
     std::string name_;
     CapabilityFlags rawCapabilityFlags_;
     std::optional<uint64_t> supportedCapability_;
+    bool blocked_ = false;
+    std::vector<DBusBlockedEvent> blockedEvents_;
 };
 
 std::tuple<dbus::ObjectPath, std::vector<uint8_t>>
@@ -396,6 +445,28 @@ InputMethod1::createInputContext(
                           *ic);
     return std::make_tuple(
         ic->path(), std::vector<uint8_t>(ic->uuid().begin(), ic->uuid().end()));
+}
+
+std::tuple<std::vector<DBusBlockedEvent>, bool>
+DBusInputContext1::processKeyEventBatch(uint32_t keyval, uint32_t keycode,
+                                        uint32_t state, bool isRelease,
+                                        uint32_t time) {
+    CHECK_SENDER_OR_RETURN{};
+    setBlocked();
+
+    KeyEvent event(this,
+                   Key(static_cast<KeySym>(keyval), KeyStates(state), keycode),
+                   isRelease, time);
+    // Force focus if there's keyevent.
+    if (!hasFocus()) {
+        focusIn();
+    }
+
+    bool keyresult = keyEvent(event);
+
+    std::vector<DBusBlockedEvent> result;
+    setUnblocked(result);
+    return {result, keyresult};
 }
 
 #define FCITX_PORTAL_DBUS_SERVICE "org.freedesktop.portal.Fcitx"

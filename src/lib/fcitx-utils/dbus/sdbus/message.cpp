@@ -368,7 +368,7 @@ Message &Message::operator>>(UnixFD &fd) {
         sd_bus_message_read_basic(d->msg_, SD_BUS_TYPE_UNIX_FD, &f);
     if (r < 0) {
     } else {
-        fd.give(f);
+        fd = UnixFD(f);
     }
     return *this;
 }

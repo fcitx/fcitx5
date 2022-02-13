@@ -277,6 +277,9 @@ void ThemeImage::drawTextIcon(cairo_surface_t *surface,
     cairo_paint(cr);
 
     int pixelSize = size * 0.75;
+    if (pixelSize < 0) {
+        pixelSize = 1;
+    }
     auto *fontMap = pango_cairo_font_map_get_default();
     GObjectUniquePtr<PangoContext> context(
         pango_font_map_create_context(fontMap));

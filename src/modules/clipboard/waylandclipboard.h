@@ -71,7 +71,8 @@ private:
     std::unique_ptr<std::thread> thread_;
     // Value only handled by the reader thread.
     uint64_t nextId_ = 1;
-    std::unordered_map<uint64_t, std::unique_ptr<DataOfferTask>> *tasks_;
+    std::unordered_map<uint64_t, std::unique_ptr<DataOfferTask>> *tasks_ =
+        nullptr;
 };
 
 class DataOffer {

@@ -71,6 +71,8 @@ public:
                     bool exists);
     xcb_ewmh_connection_t *ewmh(const std::string &name);
 
+    void setXkbOption(const std::string &name, const std::string &option);
+
     FCITX_ADDON_DEPENDENCY_LOADER(notifications, instance_->addonManager());
 
 private:
@@ -94,6 +96,7 @@ private:
     FCITX_ADDON_EXPORT_FUNCTION(XCBModule, atom);
     FCITX_ADDON_EXPORT_FUNCTION(XCBModule, ewmh);
     FCITX_ADDON_EXPORT_FUNCTION(XCBModule, mainDisplay);
+    FCITX_ADDON_EXPORT_FUNCTION(XCBModule, setXkbOption);
 };
 
 FCITX_DECLARE_LOG_CATEGORY(xcb_log);

@@ -2,7 +2,8 @@ if (ENABLE_DBUS)
     add_library(notificationitem MODULE notificationitem.cpp dbusmenu.cpp)
     target_link_libraries(notificationitem Fcitx5::Core Fcitx5::Module::DBus ${FMT_TARGET} Fcitx5::Module::ClassicUI )
     install(TARGETS notificationitem DESTINATION "${FCITX_INSTALL_ADDONDIR}")
-    install(FILES "${CMAKE_CURRENT_BINARY_DIR}/notificationitem.conf" DESTINATION "${FCITX_INSTALL_PKGDATADIR}/addon")
+    install(FILES "${CMAKE_CURRENT_BINARY_DIR}/notificationitem.conf" DESTINATION "${FCITX_INSTALL_PKGDATADIR}/addon"
+            COMPONENT config)
 endif()
 
 configure_file(notificationitem.conf.in.in notificationitem.conf.in @ONLY)

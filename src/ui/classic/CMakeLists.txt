@@ -40,6 +40,7 @@ target_link_libraries(classicui
 install(TARGETS classicui DESTINATION "${FCITX_INSTALL_ADDONDIR}")
 configure_file(classicui.conf.in.in classicui.conf.in @ONLY)
 fcitx5_translate_desktop_file(${CMAKE_CURRENT_BINARY_DIR}/classicui.conf.in classicui.conf)
-install(FILES "${CMAKE_CURRENT_BINARY_DIR}/classicui.conf" DESTINATION "${FCITX_INSTALL_PKGDATADIR}/addon")
+install(FILES "${CMAKE_CURRENT_BINARY_DIR}/classicui.conf" DESTINATION "${FCITX_INSTALL_PKGDATADIR}/addon"
+        COMPONENT config)
 
 fcitx5_export_module(ClassicUI TARGET classicui BUILD_INCLUDE_DIRECTORIES "${CMAKE_CURRENT_SOURCE_DIR}" HEADERS classicui_public.h)

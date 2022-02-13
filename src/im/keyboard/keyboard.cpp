@@ -197,6 +197,10 @@ private:
 
 } // namespace
 
+KeyboardEngineState::KeyboardEngineState(KeyboardEngine *engine) {
+    enableWordHint_ = engine->config().enableHintByDefault.value();
+}
+
 KeyboardEngine::KeyboardEngine(Instance *instance) : instance_(instance) {
     setupDefaultLongPressConfig(longPressConfig_);
     registerDomain("xkeyboard-config", XKEYBOARDCONFIG_DATADIR "/locale");
@@ -492,7 +496,9 @@ void KeyboardEngine::keyEvent(const InputMethodEntry &entry, KeyEvent &event) {
     auto compose = *composeResult;
 
     // check the spell trigger key
-    if (event.key().checkKeyList(config_.hintTrigger.value()) &&
+    if ((event.key().checkKeyList(config_.hintTrigger.value()) ||
+         event.origKey().normalize().checkKeyList(
+             config_.hintTrigger.value())) &&
         supportHint(entry.languageCode())) {
         state->enableWordHint_ = !state->enableWordHint_;
         state->oneTimeEnableWordHint_ = false;
@@ -502,7 +508,9 @@ void KeyboardEngine::keyEvent(const InputMethodEntry &entry, KeyEvent &event) {
     }
 
     // check the spell trigger key
-    if (event.key().checkKeyList(config_.oneTimeHintTrigger.value()) &&
+    if ((event.key().checkKeyList(config_.oneTimeHintTrigger.value()) ||
+         event.origKey().normalize().checkKeyList(
+             config_.oneTimeHintTrigger.value())) &&
         supportHint(entry.languageCode())) {
         bool oldOneTime = state->oneTimeEnableWordHint_;
         state->enableWordHint_ = false;
@@ -693,6 +701,12 @@ void KeyboardEngine::reset(const InputMethodEntry &, InputContextEvent &event) {
     inputContext->inputPanel().reset();
     inputContext->updatePreedit();
     inputContext->updateUserInterface(UserInterfaceComponent::InputPanel);
+}
+
+void KeyboardEngine::invokeActionImpl(const InputMethodEntry &,
+                                      InvokeActionEvent &event) {
+    auto *inputContext = event.inputContext();
+    commitBuffer(inputContext);
 }
 
 bool KeyboardEngine::foreachLayout(

@@ -48,7 +48,7 @@ WaylandInputWindow::WaylandInputWindow(WaylandUI *ui)
         }
     });
     window_->touchDown().connect([this](int x, int y) { click(x, y); });
-    window_->touchUp().connect([this](int, int) {
+    window_->touchUp().connect([](int, int) {
         // do nothing
     });
     window_->axis().connect([this](int, int, uint32_t axis, wl_fixed_t value) {
@@ -75,19 +75,10 @@ WaylandInputWindow::WaylandInputWindow(WaylandUI *ui)
 }
 
 void WaylandInputWindow::initPanel() {
-    if (panelSurface_) {
-        return;
-    }
     if (!window_->surface()) {
         window_->createWindow();
         return;
     }
-    auto panel = ui_->display()->getGlobal<wayland::ZwpInputPanelV1>();
-    if (!panel) {
-        return;
-    }
-    panelSurface_.reset(panel->getInputPanelSurface(window_->surface()));
-    panelSurface_->setOverlayPanel();
 }
 
 void WaylandInputWindow::resetPanel() { panelSurface_.reset(); }
@@ -102,17 +93,32 @@ void WaylandInputWindow::update(fcitx::InputContext *ic) {
 
     if (!visible()) {
         window_->hide();
+        panelSurface_.reset();
+        panelSurfaceV2_.reset();
+        window_->destroyWindow();
         return;
     }
 
     assert(!visible() || ic != nullptr);
+    initPanel();
     if (ic->frontend() == std::string_view("wayland_v2")) {
         if (ic != v2IC_.get()) {
             v2IC_ = ic->watch();
             auto *im = ui_->parent()
                            ->waylandim()
                            ->call<IWaylandIMModule::getInputMethodV2>(ic);
+            panelSurfaceV2_.reset();
             panelSurfaceV2_.reset(im->getInputPopupSurface(window_->surface()));
+        }
+    } else if (ic->frontend() == std::string_view("wayland")) {
+        auto panel = ui_->display()->getGlobal<wayland::ZwpInputPanelV1>();
+        if (!panel) {
+            return;
+        }
+        if (!panelSurface_) {
+            panelSurface_.reset(
+                panel->getInputPanelSurface(window_->surface()));
+            panelSurface_->setOverlayPanel();
         }
     }
     if (!panelSurface_ && !panelSurfaceV2_) {
@@ -127,6 +133,7 @@ void WaylandInputWindow::update(fcitx::InputContext *ic) {
 
     if (auto *surface = window_->prerender()) {
         cairo_t *c = cairo_create(surface);
+        cairo_scale(c, window_->scale(), window_->scale());
         paint(c, width, height);
         cairo_destroy(c);
         window_->render();
@@ -142,6 +149,7 @@ void WaylandInputWindow::repaint() {
 
     if (auto *surface = window_->prerender()) {
         cairo_t *c = cairo_create(surface);
+        cairo_scale(c, window_->scale(), window_->scale());
         paint(c, window_->width(), window_->height());
         cairo_destroy(c);
         window_->render();

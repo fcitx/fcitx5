@@ -266,11 +266,11 @@ public:
                 server_->conn(), w, server_->root(), p.x, p.y);
             auto reply = makeUniqueCPtr(xcb_translate_coordinates_reply(
                 server_->conn(), trans_cookie, nullptr));
-            if (reply) {
-                setCursorRect(Rect()
-                                  .setPosition(reply->dst_x, reply->dst_y)
-                                  .setSize(0, 0));
+            if (!reply) {
+                return;
             }
+            setCursorRect(
+                Rect().setPosition(reply->dst_x, reply->dst_y).setSize(0, 0));
         } else {
             auto getgeo_cookie = xcb_get_geometry(server_->conn(), w);
             auto reply = makeUniqueCPtr(xcb_get_geometry_reply(
@@ -282,6 +282,9 @@ public:
                 server_->conn(), w, server_->root(), 0, 0);
             auto trans_reply = makeUniqueCPtr(xcb_translate_coordinates_reply(
                 server_->conn(), trans_cookie, nullptr));
+            if (!trans_reply) {
+                return;
+            }
 
             setCursorRect(Rect()
                               .setPosition(trans_reply->dst_x,

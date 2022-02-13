@@ -1706,7 +1706,7 @@ check_input_methods() {
         write_quote_cmd cat "${fx_conf_home}/profile"
     else
         write_paragraph \
-            "$(print_not_found "${fx_conf_pretty_home}/profile")"
+            "$(print_not_found "${fx_conf_home}/profile")"
     fi
 }
 
@@ -1724,13 +1724,12 @@ check_log() {
         write_error "$(print_not_found 'date')"
     fi
     logdir="${fx_conf_home}"
-    pretty_logdir="${fx_conf_pretty_home}"
     write_order_list "$(code_inline "${logdir}/crash.log"):"
     if [ -f "${logdir}/crash.log" ]; then
         write_quote_cmd cat "${logdir}/crash.log"
     else
         write_paragraph \
-            "$(print_not_found "${pretty_logdir}/crash.log")"
+            "$(print_not_found "${logdir}/crash.log")"
     fi
 }
 

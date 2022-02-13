@@ -4,7 +4,6 @@
 #include "zwp_input_method_keyboard_grab_v2.h"
 #include "zwp_input_popup_surface_v2.h"
 namespace fcitx::wayland {
-
 const struct zwp_input_method_v2_listener ZwpInputMethodV2::listener = {
     [](void *data, zwp_input_method_v2 *wldata) {
         auto *obj = static_cast<ZwpInputMethodV2 *>(data);

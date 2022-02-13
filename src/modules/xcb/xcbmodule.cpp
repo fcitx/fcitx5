@@ -161,6 +161,15 @@ xcb_ewmh_connection_t *XCBModule::ewmh(const std::string &name) {
     return iter->second.ewmh();
 }
 
+void XCBModule::setXkbOption(const std::string &name,
+                             const std::string &option) {
+    auto iter = conns_.find(name);
+    if (iter == conns_.end()) {
+        return;
+    }
+    iter->second.setXkbOption(option);
+}
+
 class XCBModuleFactory : public AddonFactory {
 public:
     AddonInstance *create(AddonManager *manager) override {

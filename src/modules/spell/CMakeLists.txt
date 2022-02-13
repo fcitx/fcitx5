@@ -14,5 +14,6 @@ endif()
 install(TARGETS spell DESTINATION "${FCITX_INSTALL_ADDONDIR}")
 configure_file(spell.conf.in.in spell.conf.in @ONLY)
 fcitx5_translate_desktop_file(${CMAKE_CURRENT_BINARY_DIR}/spell.conf.in spell.conf)
-install(FILES "${CMAKE_CURRENT_BINARY_DIR}/spell.conf" DESTINATION "${FCITX_INSTALL_PKGDATADIR}/addon")
+install(FILES "${CMAKE_CURRENT_BINARY_DIR}/spell.conf" DESTINATION "${FCITX_INSTALL_PKGDATADIR}/addon"
+        COMPONENT config)
 fcitx5_export_module(Spell TARGET spell BUILD_INCLUDE_DIRECTORIES "${CMAKE_CURRENT_SOURCE_DIR}" HEADERS spell_public.h INSTALL)

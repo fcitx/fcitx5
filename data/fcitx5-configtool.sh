@@ -146,11 +146,6 @@ _which_cmdline() {
     echo "$cmd $*"
 }
 
-if [ ! -n "$DISPLAY" ] && [ ! -n "$WAYLAND_DISPLAY" ]; then
-    echo 'Please run it under desktop.' >&2
-    exit 0
-fi
-
 detectDE
 
 # even if we are not on KDE, we should still try kde, some wrongly

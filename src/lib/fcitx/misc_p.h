@@ -122,9 +122,7 @@ static inline DesktopType getDesktopType() {
             if (versionInt == 4) {
                 return DesktopType::KDE4;
             }
-            if (versionInt == 5) {
-                return DesktopType::KDE5;
-            }
+            return DesktopType::KDE5;
         } else if (desktop == "x-cinnamon") {
             return DesktopType::Cinnamon;
         } else if (desktop == "lxde") {
@@ -163,6 +161,28 @@ static inline bool hasTwoKeyboardInCurrentGroup(Instance *instance) {
         }
     }
     return false;
+}
+
+static inline std::string getCurrentLanguage() {
+    for (const char *vars : {"LC_ALL", "LC_MESSAGES", "LANG"}) {
+        auto *lang = getenv(vars);
+        if (lang && lang[0]) {
+            return lang;
+        }
+    }
+    return "";
+}
+
+static inline std::string stripLanguage(const std::string &lc) {
+    auto lang = stringutils::trim(lc);
+    auto idx = lang.find('.');
+    lang = lang.substr(0, idx);
+    idx = lc.find('@');
+    lang = lang.substr(0, idx);
+    if (lang.empty()) {
+        return "C";
+    }
+    return lang;
 }
 
 } // namespace fcitx

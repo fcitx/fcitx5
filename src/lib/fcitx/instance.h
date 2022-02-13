@@ -431,10 +431,41 @@ public:
     /// Return the version string of Fcitx.
     static const char *version();
 
-private:
-    void initialize();
-    void handleSignal();
+    /**
+     * Save everything including input method profile and addon data.
+     *
+     * It also reset the idle save timer.
+     *
+     * @since 5.0.14
+     */
     void save();
+
+    /**
+     * Initialize fcitx.
+     *
+     * This is only intended to be used if you want to handle event loop on your
+     * own. Otherwise you should use Instance::exec().
+     *
+     * @since 5.0.14
+     */
+    void initialize();
+
+    /**
+     * Let other know that event loop is already running.
+     *
+     * This should only be used if you run event loop on your own.
+     * @since 5.0.14
+     */
+    void setRunning(bool running);
+
+    /**
+     * Whether event loop is started and still running.
+     * @since 5.0.14
+     */
+    bool isRunning() const;
+
+private:
+    void handleSignal();
 
     bool canTrigger() const;
     bool canAltTrigger(InputContext *ic) const;

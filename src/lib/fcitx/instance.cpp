@@ -86,28 +86,6 @@ void initAsDaemon() {
     signal(SIGCHLD, oldchld);
 }
 
-std::string getCurrentLanguage() {
-    for (const char *vars : {"LC_ALL", "LC_MESSAGES", "LANG"}) {
-        auto *lang = getenv(vars);
-        if (lang && lang[0]) {
-            return lang;
-        }
-    }
-    return "";
-}
-
-std::string stripLanguage(const std::string &lc) {
-    auto lang = stringutils::trim(lc);
-    auto idx = lang.find('.');
-    lang = lang.substr(0, idx);
-    idx = lc.find('@');
-    lang = lang.substr(0, idx);
-    if (lang.empty()) {
-        return "C";
-    }
-    return lang;
-}
-
 } // namespace
 
 class CheckInputMethodChanged;
@@ -314,7 +292,14 @@ public:
         if (auto *param = findValue(xkbParams_, display)) {
             xkbParam = *param;
         } else {
-            xkbParam = std::make_tuple(DEFAULT_XKB_RULES, "pc101", "");
+            if (!xkbParams_.empty()) {
+                xkbParam = xkbParams_.begin()->second;
+            } else {
+                xkbParam = std::make_tuple(DEFAULT_XKB_RULES, "pc101", "");
+            }
+        }
+        if (globalConfig_.overrideXkbOption()) {
+            std::get<2>(xkbParam) = globalConfig_.customXkbOption();
         }
         names.rules = std::get<0>(xkbParam).c_str();
         names.model = std::get<1>(xkbParam).c_str();
@@ -1012,6 +997,11 @@ Instance::Instance(int argc, char **argv) {
                 auto newSym = xkb_state_key_get_one_sym(
                     xkbState, keyEvent.rawKey().code());
                 auto newModifier = KeyStates(effective);
+                auto keymap = xkb_state_get_keymap(xkbState);
+                if (keyEvent.rawKey().states().test(KeyState::Repeat) &&
+                    xkb_keymap_key_repeats(keymap, keyEvent.rawKey().code())) {
+                    newModifier |= KeyState::Repeat;
+                }
 
                 const uint32_t modsDepressed = xkb_state_serialize_mods(
                     xkbState, XKB_STATE_MODS_DEPRESSED);
@@ -1470,6 +1460,16 @@ int Instance::exec() {
     return r ? 0 : 1;
 }
 
+void Instance::setRunning(bool running) {
+    FCITX_D();
+    d->running_ = running;
+}
+
+bool Instance::isRunning() const {
+    FCITX_D();
+    return d->running_;
+}
+
 EventLoop &Instance::eventLoop() {
     FCITX_D();
     return d->eventLoop_;
@@ -1565,6 +1565,7 @@ bool Instance::postEvent(Event &event) const {
                 ic->forwardKey(keyEvent.origKey(), keyEvent.isRelease(),
                                keyEvent.time());
             }
+            d_ptr->uiManager_.flush();
         }
     }
     return event.accepted();
@@ -1895,6 +1896,14 @@ void Instance::reloadConfig() {
             return true;
         });
     }
+#ifdef ENABLE_KEYBOARD
+    d->keymapCache_.clear();
+    d->icManager_.foreach([d](InputContext *ic) {
+        auto *inputState = ic->propertyFor(&d->inputStateFactory_);
+        inputState->resetXkbState();
+        return true;
+    });
+#endif
 }
 
 void Instance::resetInputMethodList() {
@@ -2376,7 +2385,8 @@ void Instance::setXkbParameters(const std::string &display,
     if (resetState) {
         d->keymapCache_[display].clear();
         d->icManager_.foreach([d, &display](InputContext *ic) {
-            if (ic->display() == display) {
+            if (ic->display() == display ||
+                d->xkbParams_.count(ic->display()) == 0) {
                 auto *inputState = ic->propertyFor(&d->inputStateFactory_);
                 inputState->resetXkbState();
             }

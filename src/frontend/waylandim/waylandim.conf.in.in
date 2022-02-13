@@ -6,5 +6,5 @@ Category=Frontend
 Version=@PROJECT_VERSION@
 
 [Addon/Dependencies]
-0=wayland
+0=wayland:@PROJECT_VERSION@
 

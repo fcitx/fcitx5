@@ -10,6 +10,9 @@ assignees: ''
 **Describe the bug**
 If the problem is about you can not use fcitx in certain application, or the input window is placed in wrong place, be sure to include which application is being typed, and the output of fcitx5-diagnose command.
 
+Specifically, it is Ok to write the issue in Chinese (either Simplified or Traditional).
+可以用中文(简体或繁体)汇报问题。
+
 **To Reproduce**
 Steps to reproduce the behavior:
 1. Open ... app

@@ -629,16 +629,6 @@ void InputWindow::click(int x, int y) {
     if (!candidateList) {
         return;
     }
-    for (size_t idx = 0, e = candidateRegions_.size(); idx < e; idx++) {
-        if (candidateRegions_[idx].contains(x, y)) {
-            const auto *candidate =
-                nthCandidateIgnorePlaceholder(*candidateList, idx);
-            if (candidate) {
-                candidate->select(inputContext);
-            }
-            break;
-        }
-    }
     if (auto *pageable = candidateList->toPageable()) {
         if (pageable->hasPrev() && prevRegion_.contains(x, y)) {
             pageable->prev();
@@ -650,6 +640,17 @@ void InputWindow::click(int x, int y) {
             pageable->next();
             inputContext->updateUserInterface(
                 UserInterfaceComponent::InputPanel);
+            return;
+        }
+    }
+    for (size_t idx = 0, e = candidateRegions_.size(); idx < e; idx++) {
+        if (candidateRegions_[idx].contains(x, y)) {
+            const auto *candidate =
+                nthCandidateIgnorePlaceholder(*candidateList, idx);
+            if (candidate) {
+                candidate->select(inputContext);
+            }
+            break;
         }
     }
 }
@@ -690,23 +691,32 @@ int InputWindow::highlight() const {
 
 bool InputWindow::hover(int x, int y) {
     bool needRepaint = false;
+
+    bool prevHovered = false;
+    bool nextHovered = false;
     auto oldHighlight = highlight();
     hoverIndex_ = -1;
-    for (int idx = 0, e = candidateRegions_.size(); idx < e; idx++) {
-        if (candidateRegions_[idx].contains(x, y)) {
-            hoverIndex_ = idx;
-            break;
+
+    prevHovered = prevRegion_.contains(x, y);
+    if (!prevHovered) {
+        nextHovered = nextRegion_.contains(x, y);
+        if (!nextHovered) {
+            for (int idx = 0, e = candidateRegions_.size(); idx < e; idx++) {
+                if (candidateRegions_[idx].contains(x, y)) {
+                    hoverIndex_ = idx;
+                    break;
+                }
+            }
         }
     }
 
-    needRepaint = needRepaint || oldHighlight != highlight();
-
-    auto prevHovered = prevRegion_.contains(x, y);
-    auto nextHovered = nextRegion_.contains(x, y);
     needRepaint = needRepaint || prevHovered_ != prevHovered;
-    needRepaint = needRepaint || nextHovered_ != nextHovered;
     prevHovered_ = prevHovered;
+
+    needRepaint = needRepaint || nextHovered_ != nextHovered;
     nextHovered_ = nextHovered;
+
+    needRepaint = needRepaint || oldHighlight != highlight();
     return needRepaint;
 }
 

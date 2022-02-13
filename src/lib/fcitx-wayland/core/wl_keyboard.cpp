@@ -14,6 +14,9 @@ const struct wl_keyboard_listener WlKeyboard::listener = {
         auto *obj = static_cast<WlKeyboard *>(data);
         assert(*obj == wldata);
         {
+            if (!surface) {
+                return;
+            }
             auto *surface_ =
                 static_cast<WlSurface *>(wl_surface_get_user_data(surface));
             return obj->enter()(serial, surface_, keys);
@@ -23,6 +26,9 @@ const struct wl_keyboard_listener WlKeyboard::listener = {
         auto *obj = static_cast<WlKeyboard *>(data);
         assert(*obj == wldata);
         {
+            if (!surface) {
+                return;
+            }
             auto *surface_ =
                 static_cast<WlSurface *>(wl_surface_get_user_data(surface));
             return obj->leave()(serial, surface_);

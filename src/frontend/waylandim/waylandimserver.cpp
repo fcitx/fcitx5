@@ -20,21 +20,24 @@
 
 namespace fcitx {
 
+constexpr CapabilityFlags baseFlags{CapabilityFlag::Preedit,
+                                    CapabilityFlag::FormattedPreedit,
+                                    CapabilityFlag::SurroundingText};
+
 static inline unsigned int waylandFormat(TextFormatFlags flags) {
-    unsigned int result = 0;
-    if (flags & TextFormatFlag::Underline) {
-        result |= ZWP_TEXT_INPUT_V1_PREEDIT_STYLE_UNDERLINE;
-    }
     if (flags & TextFormatFlag::HighLight) {
-        result |= ZWP_TEXT_INPUT_V1_PREEDIT_STYLE_SELECTION;
+        return ZWP_TEXT_INPUT_V1_PREEDIT_STYLE_HIGHLIGHT;
     }
     if (flags & TextFormatFlag::Bold) {
-        result |= ZWP_TEXT_INPUT_V1_PREEDIT_STYLE_ACTIVE;
+        return ZWP_TEXT_INPUT_V1_PREEDIT_STYLE_ACTIVE;
     }
     if (flags & TextFormatFlag::Strike) {
-        result |= ZWP_TEXT_INPUT_V1_PREEDIT_STYLE_INCORRECT;
+        return ZWP_TEXT_INPUT_V1_PREEDIT_STYLE_INCORRECT;
     }
-    return result;
+    if (flags & TextFormatFlag::Underline) {
+        return ZWP_TEXT_INPUT_V1_PREEDIT_STYLE_DEFAULT;
+    }
+    return ZWP_TEXT_INPUT_V1_PREEDIT_STYLE_NONE;
 }
 
 WaylandIMServer::WaylandIMServer(wl_display *display, FocusGroup *group,
@@ -44,9 +47,9 @@ WaylandIMServer::WaylandIMServer(wl_display *display, FocusGroup *group,
       display_(
           static_cast<wayland::Display *>(wl_display_get_user_data(display))) {
     display_->requestGlobals<wayland::ZwpInputMethodV1>();
-    globalConn_ = display_->registry()->global().connect(
-        [this](uint32_t, const char *interface, uint32_t) {
-            if (0 == strcmp(interface, wayland::ZwpInputMethodV1::interface)) {
+    globalConn_ = display_->globalCreated().connect(
+        [this](const std::string &interface, const std::shared_ptr<void> &) {
+            if (interface == wayland::ZwpInputMethodV1::interface) {
                 init();
             }
         });
@@ -54,7 +57,12 @@ WaylandIMServer::WaylandIMServer(wl_display *display, FocusGroup *group,
     init();
 }
 
-WaylandIMServer::~WaylandIMServer() { delete globalIc_; }
+WaylandIMServer::~WaylandIMServer() {
+    if (auto *globalIc = globalIc_.get()) {
+        delete globalIc;
+    }
+}
+
 InputContextManager &WaylandIMServer::inputContextManager() {
     return parent_->instance()->inputContextManager();
 }
@@ -64,24 +72,39 @@ Instance *WaylandIMServer::instance() { return parent_->instance(); }
 void WaylandIMServer::init() {
     auto im = display_->getGlobal<wayland::ZwpInputMethodV1>();
     if (im && !inputMethodV1_) {
+        WAYLANDIM_DEBUG() << "WAYLANDIM V1";
         inputMethodV1_ = im;
-        globalIc_ = new WaylandIMInputContextV1(
+        auto globalIc = new WaylandIMInputContextV1(
             parent_->instance()->inputContextManager(), this);
-        globalIc_->setFocusGroup(group_);
+        globalIc->setFocusGroup(group_);
+        globalIc->setCapabilityFlags(baseFlags);
+        globalIc_ = globalIc->watch();
         inputMethodV1_->activate().connect(
-            [this](wayland::ZwpInputMethodContextV1 *ic) { activate(ic); });
+            [this](wayland::ZwpInputMethodContextV1 *ic) {
+                WAYLANDIM_DEBUG() << "ACTIVATE " << ic;
+                activate(ic);
+            });
         inputMethodV1_->deactivate().connect(
-            [this](wayland::ZwpInputMethodContextV1 *ic) { deactivate(ic); });
+            [this](wayland::ZwpInputMethodContextV1 *ic) {
+                WAYLANDIM_DEBUG() << "DEACTIVATE " << ic;
+                deactivate(ic);
+            });
         display_->flush();
     }
 }
 
 void WaylandIMServer::activate(wayland::ZwpInputMethodContextV1 *id) {
-    globalIc_->activate(id);
+    if (auto *globalIc =
+            static_cast<WaylandIMInputContextV1 *>(globalIc_.get())) {
+        globalIc->activate(id);
+    }
 }
 
 void WaylandIMServer::deactivate(wayland::ZwpInputMethodContextV1 *id) {
-    globalIc_->deactivate(id);
+    if (auto *globalIc =
+            static_cast<WaylandIMInputContextV1 *>(globalIc_.get())) {
+        globalIc->deactivate(id);
+    }
 }
 
 WaylandIMInputContextV1::WaylandIMInputContextV1(
@@ -93,6 +116,7 @@ WaylandIMInputContextV1::WaylandIMInputContextV1(
             repeat();
             return true;
         });
+    timeEvent_->setAccuracy(1);
     timeEvent_->setEnabled(false);
     created();
 }
@@ -136,6 +160,13 @@ void WaylandIMInputContextV1::activate(wayland::ZwpInputMethodContextV1 *ic) {
     });
     repeatInfoCallback(repeatRate_, repeatDelay_);
     server_->display_->sync();
+    wl_array array;
+    wl_array_init(&array);
+    constexpr char data[] = "Shift\0Control\0Mod1\0Mod4";
+    wl_array_add(&array, sizeof(data));
+    memcpy(array.data, data, sizeof(data));
+    ic_->modifiersMap(&array);
+    wl_array_release(&array);
     focusIn();
 }
 
@@ -144,6 +175,14 @@ void WaylandIMInputContextV1::deactivate(wayland::ZwpInputMethodContextV1 *ic) {
         ic_.reset();
         keyboard_.reset();
         timeEvent_->setEnabled(false);
+        // If last key to vk is press, send a release.
+        if (lastVKKey_ && lastVKState_ == WL_KEYBOARD_KEY_STATE_PRESSED) {
+            sendKeyToVK(lastVKTime_, lastVKKey_,
+                        WL_KEYBOARD_KEY_STATE_RELEASED);
+            lastVKTime_ = lastVKKey_ = 0;
+            lastVKState_ = WL_KEYBOARD_KEY_STATE_RELEASED;
+        }
+        server_->display_->sync();
         focusOut();
     } else {
         // This should not happen, but just in case.
@@ -152,18 +191,23 @@ void WaylandIMInputContextV1::deactivate(wayland::ZwpInputMethodContextV1 *ic) {
 }
 
 void WaylandIMInputContextV1::repeat() {
+    if (!ic_ || !hasFocus()) {
+        return;
+    }
     KeyEvent event(
         this,
         Key(repeatSym_, server_->modifiers_ | KeyState::Repeat, repeatKey_ + 8),
         false, repeatTime_);
+
+    sendKeyToVK(repeatTime_, event.rawKey().code() - 8,
+                WL_KEYBOARD_KEY_STATE_RELEASED);
     if (!keyEvent(event)) {
-        ic_->keysym(serial_, repeatTime_, event.rawKey().sym(),
-                    event.isRelease() ? WL_KEYBOARD_KEY_STATE_RELEASED
-                                      : WL_KEYBOARD_KEY_STATE_PRESSED,
-                    event.rawKey().states());
+        sendKeyToVK(repeatTime_, event.rawKey().code() - 8,
+                    WL_KEYBOARD_KEY_STATE_PRESSED);
     }
 
-    timeEvent_->setNextInterval(1000000 / repeatRate_);
+    uint64_t interval = 1000000 / repeatRate_;
+    timeEvent_->setTime(timeEvent_->time() + interval);
     timeEvent_->setOneShot();
     server_->display_->flush();
 }
@@ -171,13 +215,19 @@ void WaylandIMInputContextV1::repeat() {
 void WaylandIMInputContextV1::surroundingTextCallback(const char *text,
                                                       uint32_t cursor,
                                                       uint32_t anchor) {
-    surroundingText().setText(text, cursor, anchor);
+    std::string_view textView(text);
+    if (cursor > textView.size() || anchor > textView.size() ||
+        !utf8::validate(textView)) {
+        return;
+    }
+    surroundingText().setText(text, utf8::length(textView, 0, cursor),
+                              utf8::length(textView, 0, anchor));
     updateSurroundingText();
 }
 void WaylandIMInputContextV1::resetCallback() { reset(); }
 void WaylandIMInputContextV1::contentTypeCallback(uint32_t hint,
                                                   uint32_t purpose) {
-    CapabilityFlags flags;
+    CapabilityFlags flags = baseFlags;
     if (hint & ZWP_TEXT_INPUT_V1_CONTENT_HINT_PASSWORD) {
         flags |= CapabilityFlag::Password;
     }
@@ -294,7 +344,7 @@ void WaylandIMInputContextV1::keymapCallback(uint32_t format, int32_t fd,
         server_->keymap_.reset();
     }
 
-    auto *mapStr = mmap(nullptr, size, PROT_READ, MAP_SHARED, fd, 0);
+    auto *mapStr = mmap(nullptr, size, PROT_READ, MAP_PRIVATE, fd, 0);
     if (mapStr == MAP_FAILED) {
         close(fd);
         return;
@@ -339,12 +389,17 @@ void WaylandIMInputContextV1::keymapCallback(uint32_t format, int32_t fd,
         1 << xkb_keymap_mod_get_index(server_->keymap_.get(), "Hyper");
     server_->stateMask_.meta_mask =
         1 << xkb_keymap_mod_get_index(server_->keymap_.get(), "Meta");
+
+    server_->parent_->wayland()->call<IWaylandModule::reloadXkbOption>();
 }
 
 void WaylandIMInputContextV1::keyCallback(uint32_t serial, uint32_t time,
                                           uint32_t key, uint32_t state) {
     time_ = time;
     if (!server_->state_) {
+        return;
+    }
+    if (!ic_) {
         return;
     }
 
@@ -365,7 +420,9 @@ void WaylandIMInputContextV1::keyCallback(uint32_t serial, uint32_t time,
             repeatKey_ = key;
             repeatTime_ = time;
             repeatSym_ = event.rawKey().sym();
-            timeEvent_->setNextInterval(repeatDelay_ * 1000);
+            // Let's trick the key event system by fake our first.
+            // Remove 100 from the initial interval.
+            timeEvent_->setNextInterval(repeatDelay_ * 1000 - repeatHackDelay);
             timeEvent_->setOneShot();
         }
     }
@@ -409,11 +466,23 @@ void WaylandIMInputContextV1::modifiersCallback(uint32_t serial,
     if (mask & server_->stateMask_.mod1_mask) {
         server_->modifiers_ |= KeyState::Alt;
     }
+    if (mask & server_->stateMask_.mod2_mask) {
+        server_->modifiers_ |= KeyState::NumLock;
+    }
     if (mask & server_->stateMask_.super_mask) {
+        server_->modifiers_ |= KeyState::Super;
+    }
+    if (mask & server_->stateMask_.mod4_mask) {
         server_->modifiers_ |= KeyState::Super;
     }
     if (mask & server_->stateMask_.hyper_mask) {
         server_->modifiers_ |= KeyState::Hyper;
+    }
+    if (mask & server_->stateMask_.mod3_mask) {
+        server_->modifiers_ |= KeyState::Hyper;
+    }
+    if (mask & server_->stateMask_.mod5_mask) {
+        server_->modifiers_ |= KeyState::Mod5;
     }
     if (mask & server_->stateMask_.meta_mask) {
         server_->modifiers_ |= KeyState::Meta;
@@ -423,10 +492,34 @@ void WaylandIMInputContextV1::modifiersCallback(uint32_t serial,
 void WaylandIMInputContextV1::repeatInfoCallback(int32_t rate, int32_t delay) {
     repeatRate_ = rate;
     repeatDelay_ = delay;
-    timeEvent_->setAccuracy(std::min(delay * 1000, 1000000 / rate));
+}
+
+void WaylandIMInputContextV1::sendKey(uint32_t time, uint32_t sym,
+                                      uint32_t state, KeyStates states) {
+    if (!ic_) {
+        return;
+    }
+    auto modifiers = toModifiers(states);
+    ic_->keysym(serial_, time, sym, state, modifiers);
+}
+
+void WaylandIMInputContextV1::sendKeyToVK(uint32_t time, uint32_t key,
+                                          uint32_t state) {
+    if (!ic_) {
+        return;
+    }
+    lastVKKey_ = key;
+    lastVKState_ = state;
+    lastVKTime_ = time;
+    ic_->key(serial_, time, key, state);
+    server_->display_->flush();
 }
 
 void WaylandIMInputContextV1::updatePreeditImpl() {
+    if (!ic_) {
+        return;
+    }
+
     auto preedit =
         server_->instance()->outputFilter(this, inputPanel().clientPreedit());
 
@@ -437,13 +530,40 @@ void WaylandIMInputContextV1::updatePreeditImpl() {
     }
 
     ic_->preeditCursor(preedit.cursor());
-    ic_->preeditString(serial_, preedit.toString().c_str(),
-                       preedit.toStringForCommit().c_str());
     unsigned int index = 0;
     for (int i = 0, e = preedit.size(); i < e; i++) {
         ic_->preeditStyling(index, preedit.stringAt(i).size(),
                             waylandFormat(preedit.formatAt(i)));
         index += preedit.stringAt(i).size();
     }
+    ic_->preeditString(serial_, preedit.toString().c_str(),
+                       preedit.toStringForCommit().c_str());
+}
+
+void WaylandIMInputContextV1::deleteSurroundingTextImpl(int offset,
+                                                        unsigned int size) {
+    if (!ic_) {
+        return;
+    }
+
+    size_t cursor = surroundingText().cursor();
+    if (static_cast<ssize_t>(cursor) + offset < 0) {
+        return;
+    }
+
+    const auto &text = surroundingText().text();
+    auto len = utf8::length(text);
+
+    size_t start = cursor + offset;
+    size_t end = cursor + offset + size;
+    if (cursor > len || start > len || end > len) {
+        return;
+    }
+
+    auto startBytes = utf8::ncharByteLength(text.begin(), start);
+    auto cursorBytes = utf8::ncharByteLength(text.begin(), cursor);
+    auto sizeBytes = utf8::ncharByteLength(text.begin() + startBytes, size);
+    ic_->deleteSurroundingText(startBytes - cursorBytes, sizeBytes);
+    ic_->commitString(serial_, "");
 }
 } // namespace fcitx

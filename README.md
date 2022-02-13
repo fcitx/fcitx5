@@ -18,3 +18,5 @@ Fcitx 5 is a generic input method framework released under LGPL-2.1+.
 * Translation: [https://www.transifex.com/fcitx/](https://www.transifex.com/fcitx/)
   - Do not send pull request for translation updates.
   - The translation will be automatically pushed to git repository nightly, but not vice versa. 
+
+[![Packaging status](https://repology.org/badge/vertical-allrepos/fcitx5.svg)](https://repology.org/project/fcitx5/versions)

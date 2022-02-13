@@ -56,6 +56,8 @@ FCITX_CONFIGURATION(
     OptionWithAnnotation<ChooseModifier, ChooseModifierI18NAnnotation>
         chooseModifier{this, "Choose Modifier", _("Choose key modifier"),
                        ChooseModifier::Alt};
+    Option<bool> enableHintByDefault{this, "EnableHintByDefault",
+                                     _("Enable hint by default"), false};
     KeyListOption hintTrigger{this,
                               "Hint Trigger",
                               _("Trigger hint mode"),
@@ -66,6 +68,8 @@ FCITX_CONFIGURATION(
                                      _("Trigger hint mode for one time"),
                                      {Key("Control+Alt+J")},
                                      KeyListConstrain()};
+    SubConfigOption spell{this, "Spell", _("Spell"),
+                          "fcitx://config/addon/spell"};
     Option<bool> enableLongPress{this, "EnableLongPress",
                                  _("Type special characters with long press"),
                                  false};
@@ -82,6 +86,7 @@ class KeyboardEngine;
 enum class CandidateMode { Hint, LongPress };
 
 struct KeyboardEngineState : public InputContextProperty {
+    KeyboardEngineState(KeyboardEngine *engine);
     bool enableWordHint_ = false;
     bool oneTimeEnableWordHint_ = false;
     InputBuffer buffer_;
@@ -104,7 +109,7 @@ struct KeyboardEngineState : public InputContextProperty {
 
 class KeyboardEnginePrivate;
 
-class KeyboardEngine final : public InputMethodEngine {
+class KeyboardEngine final : public InputMethodEngineV3 {
 public:
     KeyboardEngine(Instance *instance);
     ~KeyboardEngine();
@@ -113,6 +118,7 @@ public:
     std::vector<InputMethodEntry> listInputMethods() override;
     void reloadConfig() override;
 
+    const KeyboardEngineConfig &config() { return config_; }
     const Configuration *getConfig() const override { return &config_; }
     void setConfig(const RawConfig &config) override {
         config_.load(config, true);
@@ -160,6 +166,9 @@ public:
     // See also preeditString().
     void commitBuffer(InputContext *inputContext);
 
+    void invokeActionImpl(const fcitx::InputMethodEntry &entry,
+                          fcitx::InvokeActionEvent &event) override;
+
 private:
     FCITX_ADDON_EXPORT_FUNCTION(KeyboardEngine, foreachLayout);
     FCITX_ADDON_EXPORT_FUNCTION(KeyboardEngine, foreachVariant);
@@ -184,7 +193,7 @@ private:
         quickphraseHandler_;
 
     FactoryFor<KeyboardEngineState> factory_{
-        [](InputContext &) { return new KeyboardEngineState; }};
+        [this](InputContext &) { return new KeyboardEngineState(this); }};
 
     std::unordered_set<std::string> longPressBlocklistSet_;
 

@@ -140,6 +140,10 @@ function(fcitx5_translate_desktop_file SRC DEST)
     DEPENDS "${SRC}" ${PO_FILES})
   _fcitx5_get_unique_target_name("${SRC_BASE}-fmt" uniqueTargetName)
   add_custom_target("${uniqueTargetName}" ALL DEPENDS "${DEST}")
+
+  if (TARGET generate-desktop-file)
+    add_dependencies(generate-desktop-file "${uniqueTargetName}")
+  endif()
 endfunction()
 
 # Gettext function are not good for our use case.
@@ -158,10 +162,14 @@ function(fcitx5_install_translation domain)
         DEPENDS ${ABS_PO_FILE}
     )
 
-    install(FILES ${MO_FILE} RENAME ${domain}.mo DESTINATION ${FCITX_INSTALL_LOCALEDIR}/${PO_LANG}/LC_MESSAGES)
+    install(FILES ${MO_FILE} RENAME ${domain}.mo DESTINATION ${FCITX_INSTALL_LOCALEDIR}/${PO_LANG}/LC_MESSAGES
+            COMPONENT translation)
     set(MO_FILES ${MO_FILES} ${MO_FILE})
   endforeach ()
   add_custom_target("${domain}-translation" ALL DEPENDS ${MO_FILES})
+  if (TARGET translation-file)
+    add_dependencies(translation-file "${domain}-translation")
+  endif()
 
 endfunction()
 
@@ -188,3 +196,12 @@ function(fcitx5_add_i18n_definition)
     add_definitions(-DFCITX_INSTALL_LOCALEDIR=\"${LOCALE_DIR}\")
   endif()
 endfunction()
+
+
+if (NOT TARGET generate-desktop-file)
+    add_custom_target(generate-desktop-file)
+endif()
+
+if (NOT TARGET translation-file)
+    add_custom_target(translation-file)
+endif()

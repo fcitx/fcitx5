@@ -596,6 +596,19 @@ bool XCBKeyboard::handleEvent(xcb_generic_event_t *event) {
     return true;
 }
 
+void XCBKeyboard::setXkbOption(const std::string &option) {
+    if (xkbOptions_ == option) {
+        return;
+    }
+    xkbOptions_ = option;
+
+    if (conn_->parent()->config().allowOverrideXKB.value()) {
+        setRMLVOToServer(xkbRule_, xkbModel_,
+                         stringutils::join(defaultLayouts_, ","),
+                         stringutils::join(defaultVariants_, ","), xkbOptions_);
+    }
+}
+
 xcb_connection_t *XCBKeyboard::connection() { return conn_->connection(); }
 
 } // namespace fcitx

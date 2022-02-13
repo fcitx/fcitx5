@@ -10,6 +10,9 @@ const struct wl_surface_listener WlSurface::listener = {
         auto *obj = static_cast<WlSurface *>(data);
         assert(*obj == wldata);
         {
+            if (!output) {
+                return;
+            }
             auto *output_ =
                 static_cast<WlOutput *>(wl_output_get_user_data(output));
             return obj->enter()(output_);
@@ -19,6 +22,9 @@ const struct wl_surface_listener WlSurface::listener = {
         auto *obj = static_cast<WlSurface *>(data);
         assert(*obj == wldata);
         {
+            if (!output) {
+                return;
+            }
             auto *output_ =
                 static_cast<WlOutput *>(wl_output_get_user_data(output));
             return obj->leave()(output_);

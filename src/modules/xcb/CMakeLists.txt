@@ -8,7 +8,8 @@ if (ENABLE_DBUS)
 endif()
 
 install(TARGETS xcb DESTINATION "${FCITX_INSTALL_ADDONDIR}")
-install(FILES "${CMAKE_CURRENT_BINARY_DIR}/xcb.conf" DESTINATION "${FCITX_INSTALL_PKGDATADIR}/addon")
+install(FILES "${CMAKE_CURRENT_BINARY_DIR}/xcb.conf" DESTINATION "${FCITX_INSTALL_PKGDATADIR}/addon"
+        COMPONENT config)
 endif()
 
 configure_file(xcb.conf.in.in xcb.conf.in @ONLY)

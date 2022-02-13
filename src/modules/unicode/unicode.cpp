@@ -296,11 +296,11 @@ void Unicode::updateUI(InputContext *inputContext, bool trigger) {
                 auto name = data_.name(c);
                 std::string display;
                 if (!name.empty()) {
-                    display = fmt::format("{0} U+{1:04x} {2}",
+                    display = fmt::format("{0} U+{1:04X} {2}",
                                           utf8::UCS4ToUTF8(c), c, name);
                 } else {
                     display =
-                        fmt::format("{0} U+{1:04x}", utf8::UCS4ToUTF8(c), c);
+                        fmt::format("{0} U+{1:04X}", utf8::UCS4ToUTF8(c), c);
                 }
                 candidateList->append<DisplayOnlyCandidateWord>(Text(display));
                 if (counter >= limit) {

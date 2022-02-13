@@ -1,7 +1,15 @@
 add_library(wayland MODULE waylandmodule.cpp)
 target_link_libraries(wayland Fcitx5::Core Wayland::Client Fcitx5::Wayland::Core)
+
+if (ENABLE_DBUS)
+    target_link_libraries(wayland Fcitx5::Module::DBus)
+endif()
+if (ENABLE_X11)
+    target_link_libraries(wayland Fcitx5::Module::XCB)
+endif()
 install(TARGETS wayland DESTINATION "${FCITX_INSTALL_ADDONDIR}")
 configure_file(wayland.conf.in.in wayland.conf.in @ONLY)
 fcitx5_translate_desktop_file(${CMAKE_CURRENT_BINARY_DIR}/wayland.conf.in wayland.conf)
-install(FILES "${CMAKE_CURRENT_BINARY_DIR}/wayland.conf" DESTINATION "${FCITX_INSTALL_PKGDATADIR}/addon")
+install(FILES "${CMAKE_CURRENT_BINARY_DIR}/wayland.conf" DESTINATION "${FCITX_INSTALL_PKGDATADIR}/addon"
+        COMPONENT config)
 fcitx5_export_module(Wayland TARGET wayland BUILD_INCLUDE_DIRECTORIES "${CMAKE_CURRENT_SOURCE_DIR}" HEADERS wayland_public.h INSTALL)

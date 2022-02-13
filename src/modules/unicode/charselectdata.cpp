@@ -193,7 +193,8 @@ std::string CharSelectData::name(uint32_t unicode) const {
             (unicode >= 0x4e00 && unicode <= 0x9fa5) ||
             (unicode >= 0x20000 && unicode <= 0x2A6D6)) {
             std::stringstream ss;
-            ss << "CJK UNIFIED IDEOGRAPH-%x" << std::hex << unicode;
+            ss << "CJK UNIFIED IDEOGRAPH-" << std::uppercase << std::hex
+               << unicode;
             result = ss.str();
         } else if (unicode >= 0xac00 && unicode <= 0xd7af) {
             /* compute hangul syllable name as per UAX #15 */

@@ -134,6 +134,14 @@ struct HideInDescription {
     void dumpDescription(RawConfig &) const {}
 };
 
+template <typename Annotation>
+struct HideInDescriptionAnnotation : public Annotation {
+    using Annotation::Annotation;
+    bool skipDescription() { return true; }
+    using Annotation::dumpDescription;
+    using Annotation::skipSave;
+};
+
 /**
  * List Constrain that applies the constrain to all element.
  */
@@ -419,8 +427,33 @@ KeyListConstrain(KeyConstrainFlags flags = KeyConstrainFlags()) {
 }
 
 /// Shorthand for option that will not show in UI.
-template <typename T>
-using HiddenOption = OptionWithAnnotation<T, HideInDescription>;
+template <typename T, typename Constrain = NoConstrain<T>,
+          typename Marshaller = DefaultMarshaller<T>,
+          typename Annotation = NoAnnotation>
+using HiddenOption =
+    Option<T, Constrain, Marshaller, HideInDescriptionAnnotation<Annotation>>;
+
+template <bool hidden, typename T>
+struct ConditionalHiddenHelper;
+
+template <typename T, typename Constrain, typename Marshaller,
+          typename Annotation>
+struct ConditionalHiddenHelper<false,
+                               Option<T, Constrain, Marshaller, Annotation>> {
+    using OptionType = Option<T, Constrain, Marshaller, Annotation>;
+};
+
+template <typename T, typename Constrain, typename Marshaller,
+          typename Annotation>
+struct ConditionalHiddenHelper<true,
+                               Option<T, Constrain, Marshaller, Annotation>> {
+    using OptionType = HiddenOption<T, Constrain, Marshaller, Annotation>;
+};
+
+template <bool hidden, typename T>
+using ConditionalHidden =
+    typename ConditionalHiddenHelper<hidden, T>::OptionType;
+
 } // namespace fcitx
 
 #endif // _FCITX_CONFIG_OPTION_H_

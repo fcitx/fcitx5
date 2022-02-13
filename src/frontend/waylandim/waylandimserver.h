@@ -69,7 +69,7 @@ private:
 
     KeyStates modifiers_;
 
-    WaylandIMInputContextV1 *globalIc_ = nullptr;
+    TrackableObjectReference<InputContext> globalIc_;
 };
 
 class WaylandIMInputContextV1 : public InputContext {
@@ -85,19 +85,27 @@ public:
 
 protected:
     void commitStringImpl(const std::string &text) override {
+        if (!ic_) {
+            return;
+        }
         ic_->commitString(serial_, text.c_str());
     }
-    void deleteSurroundingTextImpl(int offset, unsigned int size) override {
-        ic_->deleteSurroundingText(offset, size);
-    }
+    void deleteSurroundingTextImpl(int offset, unsigned int size) override;
     void forwardKeyImpl(const ForwardKeyEvent &key) override {
-        ic_->keysym(serial_, time_, key.rawKey().sym(),
-                    key.isRelease() ? WL_KEYBOARD_KEY_STATE_RELEASED
-                                    : WL_KEYBOARD_KEY_STATE_PRESSED,
+        if (!ic_) {
+            return;
+        }
+        sendKey(time_, key.rawKey().sym(),
+                key.isRelease() ? WL_KEYBOARD_KEY_STATE_RELEASED
+                                : WL_KEYBOARD_KEY_STATE_PRESSED,
+                key.rawKey().states());
+        if (!key.isRelease()) {
+            sendKey(time_, key.rawKey().sym(), WL_KEYBOARD_KEY_STATE_RELEASED,
                     key.rawKey().states());
+        }
     }
 
-    virtual void updatePreeditImpl() override;
+    void updatePreeditImpl() override;
 
 private:
     void repeat();
@@ -117,6 +125,27 @@ private:
                            uint32_t group);
     void repeatInfoCallback(int32_t rate, int32_t delay);
 
+    void sendKey(uint32_t time, uint32_t sym, uint32_t state, KeyStates states);
+    void sendKeyToVK(uint32_t time, uint32_t key, uint32_t state);
+
+    static uint32_t toModifiers(KeyStates states) {
+        uint32_t modifiers = 0;
+        // We use Shift Control Mod1 Mod4
+        if (states.test(KeyState::Shift)) {
+            modifiers |= (1 << 0);
+        }
+        if (states.test(KeyState::Ctrl)) {
+            modifiers |= (1 << 1);
+        }
+        if (states.test(KeyState::Alt)) {
+            modifiers |= (1 << 2);
+        }
+        if (states.test(KeyState::Super)) {
+            modifiers |= (1 << 3);
+        }
+        return modifiers;
+    }
+
     WaylandIMServer *server_;
     std::unique_ptr<wayland::ZwpInputMethodContextV1> ic_;
     std::unique_ptr<wayland::WlKeyboard> keyboard_;
@@ -129,6 +158,10 @@ private:
     KeySym repeatSym_ = FcitxKey_None;
 
     int32_t repeatRate_ = 40, repeatDelay_ = 400;
+
+    uint32_t lastVKKey_ = 0;
+    uint32_t lastVKState_ = WL_KEYBOARD_KEY_STATE_RELEASED;
+    uint32_t lastVKTime_ = 0;
 };
 
 } // namespace fcitx

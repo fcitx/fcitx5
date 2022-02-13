@@ -24,7 +24,7 @@
 
 #include <EGL/egl.h>
 #include <EGL/eglext.h>
-#include <cairo/cairo-gl.h>
+#include <cairo-gl.h>
 #include "waylandeglwindow.h"
 
 #endif
@@ -74,7 +74,6 @@ WaylandUI::WaylandUI(ClassicUI *parent, const std::string &name,
 #ifdef CAIRO_EGL_FOUND
     hasEgl_ = initEGL();
 #endif
-
     display_->requestGlobals<wayland::WlCompositor>();
     display_->requestGlobals<wayland::WlShm>();
     display_->requestGlobals<wayland::WlSeat>();
@@ -108,6 +107,7 @@ WaylandUI::WaylandUI(ClassicUI *parent, const std::string &name,
         pointer_ = std::make_unique<WaylandPointer>(seat.get());
     }
     display_->sync();
+    setupInputWindow();
 }
 
 WaylandUI::~WaylandUI() {
@@ -225,20 +225,15 @@ void WaylandUI::update(UserInterfaceComponent component,
     }
 }
 
-void WaylandUI::suspend() {
-    isSuspend_ = true;
-    inputWindow_.reset();
-}
+void WaylandUI::suspend() { inputWindow_.reset(); }
 
-void WaylandUI::resume() {
-    isSuspend_ = false;
-    setupInputWindow();
-}
+void WaylandUI::resume() { setupInputWindow(); }
 
 void WaylandUI::setupInputWindow() {
-    if (isSuspend_ || inputWindow_) {
+    if (parent_->suspended() || inputWindow_) {
         return;
     }
+
     // Unable to draw window.
     if (!hasEgl_ && !display_->getGlobal<wayland::WlShm>()) {
         return;

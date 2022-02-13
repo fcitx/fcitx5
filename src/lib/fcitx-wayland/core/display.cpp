@@ -74,7 +74,7 @@ Display::Display(wl_display *display) : display_(display) {
         removeOutput(output);
     });
 
-    sync();
+    roundtrip();
     flush();
 }
 

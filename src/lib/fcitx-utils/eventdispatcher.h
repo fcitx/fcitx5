@@ -46,6 +46,10 @@ public:
     /**
      * A thread-safe function to schedule a functor to be call from event loop.
      *
+     * If functor is null, it will simply wake up event loop. Passing null can
+     * be useful if you want to implement your own event loop and wake up event
+     * loop.
+     *
      * @param functor functor to be called.
      */
     void schedule(std::function<void()> functor);

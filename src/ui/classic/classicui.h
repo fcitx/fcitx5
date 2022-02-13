@@ -108,6 +108,16 @@ FCITX_CONFIGURATION(
                                 _("Tray Label Text Color"), Color("#ffffffff")};
     Option<bool> preferTextIcon{this, "PreferTextIcon", _("Prefer Text Icon"),
                                 false};
+    OptionWithAnnotation<bool, ToolTipAnnotation> showLayoutNameInIcon{
+        this,
+        "ShowLayoutNameInIcon",
+        _("Show Layout Name In Icon"),
+        true,
+        {},
+        {},
+        {_("Show layout name in icon if there is more than one active layout. "
+           "If prefer text icon is set to true, this option will be "
+           "ignored.")}};
     OptionWithAnnotation<bool, ToolTipAnnotation>
         useInputMethodLanguageToDisplayText{
             this,
@@ -154,11 +164,13 @@ public:
     std::vector<unsigned char> labelIcon(const std::string &label,
                                          unsigned int size);
     bool preferTextIcon() const;
+    bool showLayoutNameInIcon() const;
 
 private:
     FCITX_ADDON_DEPENDENCY_LOADER(notificationitem, instance_->addonManager());
     FCITX_ADDON_EXPORT_FUNCTION(ClassicUI, labelIcon);
     FCITX_ADDON_EXPORT_FUNCTION(ClassicUI, preferTextIcon);
+    FCITX_ADDON_EXPORT_FUNCTION(ClassicUI, showLayoutNameInIcon);
 
     UIInterface *uiForEvent(Event &event);
     UIInterface *uiForInputContext(InputContext *inputContext);

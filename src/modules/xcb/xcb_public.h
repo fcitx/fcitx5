@@ -62,6 +62,8 @@ FCITX_ADDON_DECLARE_FUNCTION(XCBModule, convertSelection,
                                  const std::string &, const std::string &,
                                  const std::string &,
                                  XCBConvertSelectionCallback));
+FCITX_ADDON_DECLARE_FUNCTION(XCBModule, setXkbOption,
+                             void(const std::string &, const std::string &));
 
 FCITX_ADDON_DECLARE_FUNCTION(XCBModule, mainDisplay, std::string());
 

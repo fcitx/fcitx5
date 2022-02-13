@@ -35,8 +35,8 @@ void Spell::reloadConfig() { readAsIni(config_, "conf/spell.conf"); }
 
 Spell::BackendMap::iterator Spell::findBackend(const std::string &language) {
     for (auto backend : config_.providerOrder.value()) {
-        auto iter = backends_.find(backend);
-        if (iter != backends_.end() && iter->second->checkDict(language)) {
+        auto iter = findBackend(language, backend);
+        if (iter != backends_.end()) {
             return iter;
         }
     }

@@ -4,8 +4,7 @@
 #include <wayland-client.h>
 #include "fcitx-utils/signals.h"
 #include "wayland-virtual-keyboard-unstable-v1-client-protocol.h"
-namespace fcitx {
-namespace wayland {
+namespace fcitx::wayland {
 class ZwpVirtualKeyboardV1 final {
 public:
     static constexpr const char *interface = "zwp_virtual_keyboard_v1";
@@ -35,6 +34,5 @@ private:
 static inline zwp_virtual_keyboard_v1 *rawPointer(ZwpVirtualKeyboardV1 *p) {
     return p ? static_cast<zwp_virtual_keyboard_v1 *>(*p) : nullptr;
 }
-} // namespace wayland
-} // namespace fcitx
+} // namespace fcitx::wayland
 #endif

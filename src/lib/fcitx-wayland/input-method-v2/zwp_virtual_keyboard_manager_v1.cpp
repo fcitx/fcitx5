@@ -3,7 +3,6 @@
 #include "wl_seat.h"
 #include "zwp_virtual_keyboard_v1.h"
 namespace fcitx::wayland {
-
 ZwpVirtualKeyboardManagerV1::ZwpVirtualKeyboardManagerV1(
     zwp_virtual_keyboard_manager_v1 *data)
     : version_(zwp_virtual_keyboard_manager_v1_get_version(data)), data_(data) {

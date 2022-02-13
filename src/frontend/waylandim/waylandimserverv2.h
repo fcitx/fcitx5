@@ -94,13 +94,13 @@ public:
 
 protected:
     void commitStringImpl(const std::string &text) override {
+        if (!hasFocus()) {
+            return;
+        }
         ic_->commitString(text.c_str());
         ic_->commit(serial_);
     }
-    void deleteSurroundingTextImpl(int offset, unsigned int size) override {
-        ic_->deleteSurroundingText(-offset, offset + size);
-        ic_->commit(serial_);
-    }
+    void deleteSurroundingTextImpl(int offset, unsigned int size) override;
     void forwardKeyImpl(const ForwardKeyEvent &key) override;
 
     void updatePreeditImpl() override;
@@ -120,6 +120,7 @@ private:
                            uint32_t mods_latched, uint32_t mods_locked,
                            uint32_t group);
     void repeatInfoCallback(int32_t rate, int32_t delay);
+    void sendKeyToVK(uint32_t time, uint32_t key, uint32_t state);
 
     WaylandIMServerV2 *server_;
     std::shared_ptr<wayland::WlSeat> seat_;
@@ -139,6 +140,10 @@ private:
     KeySym repeatSym_ = FcitxKey_None;
 
     int32_t repeatRate_ = 40, repeatDelay_ = 400;
+
+    uint32_t lastVKKey_ = 0;
+    uint32_t lastVKState_ = WL_KEYBOARD_KEY_STATE_RELEASED;
+    uint32_t lastVKTime_ = 0;
 };
 
 } // namespace fcitx
