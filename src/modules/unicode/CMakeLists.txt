@@ -7,5 +7,5 @@ install(FILES "${CMAKE_CURRENT_BINARY_DIR}/unicode.conf" DESTINATION "${FCITX_IN
         COMPONENT config)
 fcitx5_export_module(Unicode TARGET unicode BUILD_INCLUDE_DIRECTORIES "${CMAKE_CURRENT_SOURCE_DIR}" HEADERS unicode_public.h INSTALL)
 
-install(FILES charselectdata DESTINATION "${FCITX_INSTALL_PKGDATADIR}/unicode")
+install(FILES charselectdata DESTINATION "${FCITX_INSTALL_PKGDATADIR}/unicode" COMPONENT config)
 
