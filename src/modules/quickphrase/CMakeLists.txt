@@ -8,5 +8,6 @@ install(FILES "${CMAKE_CURRENT_BINARY_DIR}/quickphrase.conf" DESTINATION "${FCIT
 fcitx5_export_module(QuickPhrase TARGET quickphrase BUILD_INCLUDE_DIRECTORIES "${CMAKE_CURRENT_SOURCE_DIR}" HEADERS quickphrase_public.h INSTALL)
 
 install(DIRECTORY quickphrase.d DESTINATION "${FCITX_INSTALL_PKGDATADIR}/data"
-  FILES_MATCHING PATTERN "*.mb")
+        COMPONENT config
+        FILES_MATCHING PATTERN "*.mb")
 
