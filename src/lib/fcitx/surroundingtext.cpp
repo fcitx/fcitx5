@@ -16,6 +16,7 @@ public:
 
     unsigned int anchor_, cursor_;
     std::string text_;
+    size_t utf8Length_;
 
     bool valid_;
 };
@@ -36,6 +37,7 @@ void SurroundingText::invalidate() {
     d->anchor_ = 0;
     d->cursor_ = 0;
     d->text_ = std::string();
+    d->utf8Length_ = 0;
 }
 
 const std::string &SurroundingText::text() const {
@@ -70,14 +72,25 @@ std::string SurroundingText::selectedText() const {
 void SurroundingText::setText(const std::string &text, unsigned int cursor,
                               unsigned int anchor) {
     FCITX_D();
+    auto length = utf8::lengthValidated(text);
+    if (length == utf8::INVALID_LENGTH || length < cursor || length < anchor) {
+        invalidate();
+        return;
+    }
+
     d->valid_ = true;
     d->text_ = text;
     d->cursor_ = cursor;
     d->anchor_ = anchor;
+    d->utf8Length_ = length;
 }
 
 void SurroundingText::setCursor(unsigned int cursor, unsigned int anchor) {
     FCITX_D();
+    if (d->utf8Length_ < cursor || d->utf8Length_ < anchor) {
+        invalidate();
+        return;
+    }
     d->cursor_ = cursor;
     d->anchor_ = anchor;
 }
@@ -102,9 +115,14 @@ void SurroundingText::deleteText(int offset, unsigned int size) {
         auto end = utf8::nextNChar(start, size);
         d->text_.erase(start, end);
         d->cursor_ = cursor_pos;
+        d->utf8Length_ = utf8::lengthValidated(d->text_);
+        if (d->utf8Length_ == utf8::INVALID_LENGTH) {
+            invalidate();
+        }
     } else {
         d->text_.clear();
         d->cursor_ = 0;
+        d->utf8Length_ = 0;
     }
     d->anchor_ = d->cursor_;
 }

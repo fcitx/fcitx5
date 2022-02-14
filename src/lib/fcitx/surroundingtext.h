@@ -22,21 +22,56 @@ namespace fcitx {
 
 class SurroundingTextPrivate;
 
+/**
+ * Class represents the current state of surrounding text of an input context.
+ */
 class FCITXCORE_EXPORT SurroundingText {
 public:
     SurroundingText();
     virtual ~SurroundingText();
 
+    /// Reset surrounding text to invalid state.
     void invalidate();
+    /// Return whether surrounding text is valid.
     bool isValid() const;
+    /// offset of anchor in character.
     unsigned int anchor() const;
+    /// offset of anchor in character.
     unsigned int cursor() const;
     const std::string &text() const;
     std::string selectedText() const;
 
+    /**
+     * Set current of surrounding text.
+     *
+     * If cursor and anchor are out of range, it will be reset to invalid state.
+     *
+     * @param text text
+     * @param cursor offset of cursor in character.
+     * @param anchor offset of anchor in character.
+     */
     void setText(const std::string &text, unsigned int cursor,
                  unsigned int anchor);
+
+    /**
+     * Set current cursor and anchor of surrounding text.
+     *
+     * If cursor and anchor are out of range, it will be reset to invalid state.
+     * This function is useful to safe some bandwidth.
+     *
+     * @param cursor offset of cursor in character.
+     * @param anchor offset of anchor in character.
+     */
     void setCursor(unsigned int cursor, unsigned int anchor);
+
+    /**
+     * Delete surrounding text with offset and size.
+     *
+     * This can be used to update the local state of surrounding text before
+     * client send it back.
+     * @param offset offset to cursor position.
+     * @param size length of text to delete.
+     */
     void deleteText(int offset, unsigned int size);
 
 private:

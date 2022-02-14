@@ -25,5 +25,12 @@ int main() {
     surroundingText.invalidate();
     FCITX_ASSERT(!surroundingText.isValid());
 
+    surroundingText.setText("あ", 3, 3);
+    FCITX_ASSERT(!surroundingText.isValid());
+
+    surroundingText.setText("あ", 1, 1);
+    FCITX_ASSERT(surroundingText.isValid());
+    surroundingText.setCursor(2, 2);
+    FCITX_ASSERT(!surroundingText.isValid());
     return 0;
 }
