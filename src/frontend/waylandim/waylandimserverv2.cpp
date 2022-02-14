@@ -233,7 +233,28 @@ void WaylandIMInputContextV2::repeat() {
 void WaylandIMInputContextV2::surroundingTextCallback(const char *text,
                                                       uint32_t cursor,
                                                       uint32_t anchor) {
-    surroundingText().setText(text, cursor, anchor);
+    std::string str(text);
+    surroundingText().invalidate();
+    do {
+        auto length = utf8::lengthValidated(str);
+        if (length != utf8::INVALID_LENGTH) {
+            break;
+        }
+        if (cursor > str.size() || anchor > str.size()) {
+            break;
+        }
+        size_t cursorByChar =
+            utf8::lengthValidated(str.begin(), str.begin() + cursor);
+        if (cursorByChar == utf8::INVALID_LENGTH) {
+            break;
+        }
+        size_t anchorByChar =
+            utf8::lengthValidated(str.begin(), str.begin() + anchor);
+        if (anchorByChar == utf8::INVALID_LENGTH) {
+            break;
+        }
+        surroundingText().setText(text, cursorByChar, anchorByChar);
+    } while (0);
     updateSurroundingText();
 }
 void WaylandIMInputContextV2::resetCallback() { reset(); }
