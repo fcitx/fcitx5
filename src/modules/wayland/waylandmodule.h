@@ -46,8 +46,8 @@ private:
     WaylandModule *parent_;
     std::string name_;
     // order matters, callback in ioEvent_ uses display_.
-    std::unique_ptr<EventSourceIO> ioEvent_;
     std::unique_ptr<wayland::Display> display_;
+    std::unique_ptr<EventSourceIO> ioEvent_;
     std::unique_ptr<FocusGroup> group_;
     int error_ = 0;
 };

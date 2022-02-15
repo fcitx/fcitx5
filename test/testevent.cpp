@@ -12,7 +12,7 @@
 
 using namespace fcitx;
 
-int main() {
+void test_basic() {
     EventLoop e;
 
     int pipefd[2];
@@ -94,5 +94,47 @@ int main() {
                            return false;
                        }));
 
-    return e.exec() ? 0 : 1;
+    e.exec();
+}
+
+void test_source_deleted() {
+    EventLoop e;
+
+    int pipefd[2];
+    int r = pipe(pipefd);
+    FCITX_ASSERT(r == 0);
+
+    std::unique_ptr<EventSource> source(
+        e.addIOEvent(pipefd[0], IOEventFlag::In,
+                     [&source](EventSource *, int, IOEventFlags flags) {
+                         if (flags & IOEventFlag::In) {
+                             FCITX_INFO() << "RESET";
+                             source.reset();
+                         }
+                         return true;
+                     }));
+
+    std::unique_ptr<EventSource> source2(
+        e.addDeferEvent([pipefd](EventSource *) {
+            FCITX_INFO() << "WRITE";
+            auto r = write(pipefd[1], "a", 1);
+            FCITX_ASSERT(r == 1);
+            return false;
+        }));
+
+    std::unique_ptr<EventSource> source3(
+        e.addTimeEvent(CLOCK_MONOTONIC, now(CLOCK_MONOTONIC) + 2000000ul, 0,
+                       [&e](EventSource *, uint64_t) {
+                           FCITX_INFO() << "EXIT";
+                           e.exit();
+                           return false;
+                       }));
+
+    e.exec();
+}
+
+int main() {
+    test_basic();
+    test_source_deleted();
+    return 0;
 }
