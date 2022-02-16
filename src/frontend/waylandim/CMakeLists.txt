@@ -17,4 +17,4 @@ fcitx5_translate_desktop_file(${CMAKE_CURRENT_BINARY_DIR}/waylandim.conf.in wayl
 install(FILES "${CMAKE_CURRENT_BINARY_DIR}/waylandim.conf" DESTINATION "${FCITX_INSTALL_PKGDATADIR}/addon"
         COMPONENT config)
 
-fcitx5_export_module(WaylandIM TARGET waylandim BUILD_INCLUDE_DIRECTORIES "${CMAKE_CURRENT_SOURCE_DIR}" HEADERS waylandim_public.h)
+fcitx5_export_module(WaylandIM TARGET waylandim BUILD_INCLUDE_DIRECTORIES "${CMAKE_CURRENT_SOURCE_DIR}" HEADERS waylandim_public.h INSTALL)
