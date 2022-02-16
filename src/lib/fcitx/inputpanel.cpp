@@ -76,6 +76,7 @@ void InputPanel::reset() {
     FCITX_D();
     d->preedit_.clear();
     d->clientPreedit_.clear();
+    d->clientPreedit_.setCursor(0);
     d->candidate_.reset();
     d->auxUp_.clear();
     d->auxDown_.clear();
