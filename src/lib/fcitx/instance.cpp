@@ -140,6 +140,8 @@ struct InputState : public InputContextProperty {
     bool isActive() const { return active_; }
     void setActive(bool active);
     void setLocalIM(const std::string &localIM);
+    void setModsAllReleased() { modsAllReleased_ = true; }
+    bool isModsAllReleased() const { return modsAllReleased_; }
 
     CheckInputMethodChanged *imChanged_ = nullptr;
     int keyReleased_ = -1;
@@ -163,6 +165,7 @@ private:
 #ifdef ENABLE_KEYBOARD
     UniqueCPtr<xkb_compose_state, xkb_compose_state_unref> xkbComposeState_;
     UniqueCPtr<xkb_state, xkb_state_unref> xkbState_;
+    bool modsAllReleased_ = false;
     std::string lastXkbLayout_;
 #endif
 
@@ -524,6 +527,7 @@ xkb_state *InputState::customXkbState(bool refresh) {
     if (layout == defaultLayout || layout.empty()) {
         // Use system one.
         xkbState_.reset();
+        modsAllReleased_ = false;
         lastXkbLayout_.clear();
         return nullptr;
     }
@@ -973,9 +977,18 @@ Instance::Instance(int argc, char **argv) {
             if (xkbState) {
                 if (auto *mods = findValue(d->stateMask_, ic->display())) {
                     FCITX_KEYTRACE() << "Update mask to customXkbState";
-                    // Keep depressed, latched, but propagate locked.
-                    auto depressed = xkb_state_serialize_mods(
-                        xkbState, XKB_STATE_MODS_DEPRESSED);
+                    // Keep latched, but propagate depressed optionally and
+                    // locked.
+                    uint32_t depressed;
+                    if (inputState->isModsAllReleased()) {
+                        depressed = xkb_state_serialize_mods(
+                            xkbState, XKB_STATE_MODS_DEPRESSED);
+                    } else {
+                        depressed = std::get<0>(*mods);
+                    }
+                    if (std::get<0>(*mods) == 0) {
+                        inputState->setModsAllReleased();
+                    }
                     auto latched = xkb_state_serialize_mods(
                         xkbState, XKB_STATE_MODS_LATCHED);
                     auto locked = std::get<2>(*mods);
@@ -1675,10 +1688,10 @@ std::string Instance::inputMethodLabel(InputContext *ic) {
     const auto *entry = inputMethodEntry(ic);
     auto *engine = inputMethodEngine(ic);
 
-    if (engine) {
+    if (engine && entry) {
         label = engine->subModeLabel(*entry, *ic);
     }
-    if (label.empty()) {
+    if (label.empty() && entry) {
         label = entry->label();
     }
     return label;
@@ -2288,7 +2301,11 @@ void Instance::activateInputMethod(InputContextEvent &event) {
             // final masks
             // depressed |= ~(depressed | latched | locked);
             FCITX_KEYTRACE() << depressed << " " << latched << " " << locked;
-            xkb_state_update_mask(xkbState, 0, latched, locked, 0, 0, 0);
+            if (depressed == 0) {
+                inputState->setModsAllReleased();
+            }
+            xkb_state_update_mask(xkbState, depressed, latched, locked, 0, 0,
+                                  0);
         }
     }
 #endif
