@@ -968,15 +968,11 @@ Instance::Instance(int argc, char **argv) {
             auto &keyEvent = static_cast<KeyEvent &>(event);
             auto *ic = keyEvent.inputContext();
             auto *inputState = ic->propertyFor(&d->inputStateFactory_);
-            FCITX_KEYTRACE() << "KeyEvent: " << keyEvent.key()
-                             << " rawKey: " << keyEvent.rawKey()
-                             << " origKey: " << keyEvent.origKey()
-                             << " Release:" << keyEvent.isRelease();
 #ifdef ENABLE_KEYBOARD
             auto *xkbState = inputState->customXkbState();
             if (xkbState) {
                 if (auto *mods = findValue(d->stateMask_, ic->display())) {
-                    FCITX_DEBUG() << "Update mask to customXkbState";
+                    FCITX_KEYTRACE() << "Update mask to customXkbState";
                     // Keep depressed, latched, but propagate locked.
                     auto depressed = xkb_state_serialize_mods(
                         xkbState, XKB_STATE_MODS_DEPRESSED);
@@ -1018,6 +1014,10 @@ Instance::Instance(int argc, char **argv) {
                 keyEvent.setRawKey(key);
             }
 #endif
+            FCITX_KEYTRACE() << "KeyEvent: " << keyEvent.key()
+                             << " rawKey: " << keyEvent.rawKey()
+                             << " origKey: " << keyEvent.origKey()
+                             << " Release:" << keyEvent.isRelease();
 
             if (keyEvent.isRelease()) {
                 return;
@@ -2279,7 +2279,7 @@ void Instance::activateInputMethod(InputContextEvent &event) {
 #ifdef ENABLE_KEYBOARD
     if (auto *xkbState = inputState->customXkbState(true)) {
         if (auto *mods = findValue(d->stateMask_, ic->display())) {
-            FCITX_DEBUG() << "Update mask to customXkbState";
+            FCITX_KEYTRACE() << "Update mask to customXkbState";
             auto depressed = std::get<0>(*mods);
             auto latched = std::get<1>(*mods);
             auto locked = std::get<2>(*mods);
@@ -2287,7 +2287,7 @@ void Instance::activateInputMethod(InputContextEvent &event) {
             // set modifiers in depressed if they don't appear in any of the
             // final masks
             // depressed |= ~(depressed | latched | locked);
-            FCITX_DEBUG() << depressed << " " << latched << " " << locked;
+            FCITX_KEYTRACE() << depressed << " " << latched << " " << locked;
             xkb_state_update_mask(xkbState, 0, latched, locked, 0, 0, 0);
         }
     }
