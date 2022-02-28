@@ -133,6 +133,10 @@ public:
     /// Send a key event to current input context.
     bool keyEvent(KeyEvent &event);
 
+    /// Send a virtual key event to current input context.
+    /// This handles the event the same way as physical key events.
+    void virtualKeyEvent(KeyEvent &event);
+
     /// Returns whether the input context holds the input focus. Input context
     /// need to have focus.
     bool hasFocus() const;
@@ -253,6 +257,15 @@ public:
     void updateProperty(const InputContextPropertyFactory *factory);
 
 protected:
+    /**
+     * Process the virtual key event.
+     *
+     * @param event KeyEvent
+     * 
+     * @see virtualKeyEvent
+     */
+    virtual void virtualKeyEventImpl(KeyEvent &event);
+
     /**
      * Send the committed string to client
      *

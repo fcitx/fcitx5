@@ -243,6 +243,19 @@ bool InputContext::keyEvent(KeyEvent &event) {
     return result;
 }
 
+void InputContext::virtualKeyEvent(KeyEvent &event) {
+    decltype(std::chrono::steady_clock::now()) start;
+    // Don't query time if we don't want log.
+    if (::keyTrace().checkLogLevel(LogLevel::Debug)) {
+        start = std::chrono::steady_clock::now();
+    }
+    virtualKeyEventImpl(event);
+    FCITX_KEYTRACE() << "KeyEvent handling time: "
+                     << std::chrono::duration_cast<std::chrono::milliseconds>(
+                            std::chrono::steady_clock::now() - start)
+                            .count();
+}
+
 void InputContext::invokeAction(InvokeActionEvent &event) {
     FCITX_D();
     RETURN_IF_HAS_NO_FOCUS();
@@ -331,6 +344,11 @@ InputPanel &InputContext::inputPanel() {
 StatusArea &InputContext::statusArea() {
     FCITX_D();
     return d->statusArea_;
+}
+
+void InputContext::virtualKeyEventImpl(KeyEvent &event) {
+    FCITX_D();
+    d->postEvent(event);
 }
 
 void InputContext::updateClientSideUIImpl() {}
