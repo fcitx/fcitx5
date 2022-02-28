@@ -292,7 +292,7 @@ void InputMethodManager::enumerateGroup(bool forward) {
         d->groupOrder_.splice(
             d->groupOrder_.begin(),
             d->groupOrder_,
-            --(d->groupOrder_.end())
+            std::prev(d->groupOrder_.end())
         );
     }
     emit<InputMethodManager::CurrentGroupChanged>(d->groupOrder_.front());
