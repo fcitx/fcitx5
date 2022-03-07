@@ -85,22 +85,22 @@ public:
         msg.send();
     }
 
-    FCITX_OBJECT_VTABLE_SIGNAL(execDialog, "ExecDialog", "s");
-    FCITX_OBJECT_VTABLE_SIGNAL(execMenu, "ExecMenu", "as");
-    FCITX_OBJECT_VTABLE_SIGNAL(registerProperties, "RegisterProperties", "as");
-    FCITX_OBJECT_VTABLE_SIGNAL(updateProperty, "UpdateProperty", "s");
-    FCITX_OBJECT_VTABLE_SIGNAL(removeProperty, "RemoveProperty", "s");
-    FCITX_OBJECT_VTABLE_SIGNAL(showAux, "ShowAux", "b");
-    FCITX_OBJECT_VTABLE_SIGNAL(showPreedit, "ShowPreedit", "b");
-    FCITX_OBJECT_VTABLE_SIGNAL(showLookupTable, "ShowLookupTable", "b");
+    FCITX_OBJECT_VTABLE_SIGNAL(execDialog, "ExecDialog", "s")
+    FCITX_OBJECT_VTABLE_SIGNAL(execMenu, "ExecMenu", "as")
+    FCITX_OBJECT_VTABLE_SIGNAL(registerProperties, "RegisterProperties", "as")
+    FCITX_OBJECT_VTABLE_SIGNAL(updateProperty, "UpdateProperty", "s")
+    FCITX_OBJECT_VTABLE_SIGNAL(removeProperty, "RemoveProperty", "s")
+    FCITX_OBJECT_VTABLE_SIGNAL(showAux, "ShowAux", "b")
+    FCITX_OBJECT_VTABLE_SIGNAL(showPreedit, "ShowPreedit", "b")
+    FCITX_OBJECT_VTABLE_SIGNAL(showLookupTable, "ShowLookupTable", "b")
     FCITX_OBJECT_VTABLE_SIGNAL(updateLookupTableCursor,
-                               "UpdateLookupTableCursor", "i");
-    FCITX_OBJECT_VTABLE_SIGNAL(updatePreeditCaret, "UpdatePreeditCaret", "i");
-    FCITX_OBJECT_VTABLE_SIGNAL(updatePreeditText, "UpdatePreeditText", "ss");
-    FCITX_OBJECT_VTABLE_SIGNAL(updateAux, "UpdateAux", "ss");
-    FCITX_OBJECT_VTABLE_SIGNAL(updateSpotLocation, "UpdateSpotLocation", "ii");
-    FCITX_OBJECT_VTABLE_SIGNAL(updateScreen, "UpdateScreen", "i");
-    FCITX_OBJECT_VTABLE_SIGNAL(enable, "Enable", "b");
+                               "UpdateLookupTableCursor", "i")
+    FCITX_OBJECT_VTABLE_SIGNAL(updatePreeditCaret, "UpdatePreeditCaret", "i")
+    FCITX_OBJECT_VTABLE_SIGNAL(updatePreeditText, "UpdatePreeditText", "ss")
+    FCITX_OBJECT_VTABLE_SIGNAL(updateAux, "UpdateAux", "ss")
+    FCITX_OBJECT_VTABLE_SIGNAL(updateSpotLocation, "UpdateSpotLocation", "ii")
+    FCITX_OBJECT_VTABLE_SIGNAL(updateScreen, "UpdateScreen", "i")
+    FCITX_OBJECT_VTABLE_SIGNAL(enable, "Enable", "b"
 
 private:
     dbus::Bus *bus_;
