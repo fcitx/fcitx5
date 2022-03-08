@@ -35,7 +35,7 @@ public:
                   auto querySlot = bus_->serviceOwnerAsync(
                       key, 0, [this, key](Message &msg) {
                           // Key itself may be gone later, put it on the stack.
-                          const std::string &pivotKey = key;
+                          std::string pivotKey = key;
                           auto protector = watch();
                           std::string newName;
                           if (msg.type() != dbus::MessageType::Error) {

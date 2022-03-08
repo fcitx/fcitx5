@@ -283,17 +283,11 @@ void InputMethodManager::enumerateGroup(bool forward) {
     }
     emit<InputMethodManager::CurrentGroupAboutToChange>(d->groupOrder_.front());
     if (forward) {
-        d->groupOrder_.splice(
-            d->groupOrder_.end(),
-            d->groupOrder_,
-            d->groupOrder_.begin()
-        );
+        d->groupOrder_.splice(d->groupOrder_.end(), d->groupOrder_,
+                              d->groupOrder_.begin());
     } else {
-        d->groupOrder_.splice(
-            d->groupOrder_.begin(),
-            d->groupOrder_,
-            std::prev(d->groupOrder_.end())
-        );
+        d->groupOrder_.splice(d->groupOrder_.begin(), d->groupOrder_,
+                              std::prev(d->groupOrder_.end()));
     }
     emit<InputMethodManager::CurrentGroupChanged>(d->groupOrder_.front());
 }
