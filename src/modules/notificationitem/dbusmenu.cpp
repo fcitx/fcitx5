@@ -125,7 +125,8 @@ void DBusMenu::appendProperty(
     DBusMenuProperties &properties,
     const std::unordered_set<std::string> &propertyNames,
     const std::string &name, const dbus::Variant &variant) {
-    if (!propertyNames.empty() && !propertyNames.count(name)) {
+    if (name != "icon-name" && name != "label" && !propertyNames.empty() &&
+        !propertyNames.count(name)) {
         return;
     }
     properties.emplace_back(name, variant);
