@@ -81,7 +81,11 @@ void WaylandConnection::onIOEvent(IOEventFlags flags) {
     }
 
     if (wl_display_prepare_read(*display_) == 0) {
-        wl_display_read_events(*display_);
+        if (flags & IOEventFlag::In) {
+            wl_display_read_events(*display_);
+        } else {
+            wl_display_cancel_read(*display_);
+        }
     }
 
     if (wl_display_dispatch(*display_) < 0) {
