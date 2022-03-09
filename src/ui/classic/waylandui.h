@@ -14,13 +14,6 @@
 #include "waylandpointer.h"
 #include "wl_pointer.h"
 
-#ifdef CAIRO_EGL_FOUND
-
-#include <EGL/egl.h>
-#include <wayland-egl.h>
-
-#endif
-
 namespace fcitx {
 namespace classicui {
 
@@ -31,19 +24,6 @@ class WaylandUI : public UIInterface {
 public:
     WaylandUI(ClassicUI *parent, const std::string &name, wl_display *display);
     ~WaylandUI();
-
-#ifdef CAIRO_EGL_FOUND
-
-    bool initEGL();
-    EGLSurface createEGLSurface(wl_egl_window *window,
-                                const EGLint *attrib_list);
-    void destroyEGLSurface(EGLSurface surface);
-    EGLContext argbCtx() { return argbCtx_; }
-    EGLDisplay eglDisplay() { return eglDisplay_; }
-
-    cairo_surface_t *createEGLCairoSurface(EGLSurface surface, int width,
-                                           int height);
-#endif
 
     ClassicUI *parent() const { return parent_; }
     const std::string &name() const { return name_; }
@@ -65,15 +45,7 @@ private:
     ScopedConnection panelConn_, panelRemovedConn_;
     std::unique_ptr<WaylandPointer> pointer_;
     std::unique_ptr<WaylandInputWindow> inputWindow_;
-
-    bool hasEgl_ = false;
-#ifdef CAIRO_EGL_FOUND
-    // EGL stuff
-    EGLDisplay eglDisplay_ = nullptr;
-    EGLConfig argbConfig_ = nullptr;
-    EGLContext argbCtx_ = nullptr;
-    cairo_device_t *argbDevice_ = nullptr;
-#endif
+    std::unique_ptr<EventSource> defer_;
 };
 } // namespace classicui
 } // namespace fcitx

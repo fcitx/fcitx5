@@ -102,7 +102,7 @@ void WaylandInputWindow::update(fcitx::InputContext *ic) {
     assert(!visible() || ic != nullptr);
     initPanel();
     if (ic->frontend() == std::string_view("wayland_v2")) {
-        if (ic != v2IC_.get()) {
+        if (!panelSurfaceV2_ || ic != v2IC_.get()) {
             v2IC_ = ic->watch();
             auto *im = ui_->parent()
                            ->waylandim()

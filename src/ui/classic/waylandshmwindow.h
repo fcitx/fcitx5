@@ -22,7 +22,7 @@ public:
     WaylandShmWindow(WaylandUI *ui);
     ~WaylandShmWindow();
 
-    void destroyWindow() override;
+    void destroyWindow();
     cairo_surface_t *prerender() override;
     void render() override;
     void hide() override;

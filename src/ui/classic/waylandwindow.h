@@ -22,7 +22,7 @@ public:
     ~WaylandWindow();
 
     virtual void createWindow();
-    virtual void destroyWindow();
+    void destroyWindow();
     virtual void hide() = 0;
 
     int32_t scale() const { return scale_; }
