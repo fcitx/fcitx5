@@ -81,7 +81,7 @@ void WaylandUI::setupInputWindow() {
     }
 
     // Unable to draw window.
-    if (!hasEgl_ && !display_->getGlobal<wayland::WlShm>()) {
+    if (!display_->getGlobal<wayland::WlShm>()) {
         return;
     }
     // Unable to create surface.
