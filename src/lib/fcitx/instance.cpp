@@ -1524,6 +1524,9 @@ bool Instance::postEvent(Event &event) {
 
 bool Instance::postEvent(Event &event) const {
     FCITX_D();
+    if (d->exit_) {
+        return false;
+    }
     auto iter = d->eventHandlers_.find(event.type());
     if (iter != d->eventHandlers_.end()) {
         auto &handlers = iter->second;
