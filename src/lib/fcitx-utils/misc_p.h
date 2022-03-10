@@ -45,6 +45,11 @@ public:
 
     const T &front() const { return order_.front(); }
 
+    void clear() {
+        dict_.clear();
+        order_.clear();
+    }
+
     bool pushFront(const T &v) {
         if (dict_.count(v)) {
             return false;
