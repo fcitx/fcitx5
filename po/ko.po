@@ -6,15 +6,15 @@
 # csslayer <wengxt@gmail.com>, 2017
 # heavyuser <heavyuser73@gmail.com>, 2018
 # Bon Keun Seo <scobyseo@gmail.com>, 2021
-# JungHee Lee <daemul72@gmail.com>, 2022
+# Junghee Lee <daemul72@gmail.com>, 2022
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2022-03-01 20:24+0000\n"
+"POT-Creation-Date: 2022-03-10 20:29+0000\n"
 "PO-Revision-Date: 2017-11-23 04:14+0000\n"
-"Last-Translator: JungHee Lee <daemul72@gmail.com>, 2022\n"
+"Last-Translator: Junghee Lee <daemul72@gmail.com>, 2022\n"
 "Language-Team: Korean (https://www.transifex.com/fcitx/teams/12005/ko/)\n"
 "Language: ko\n"
 "MIME-Version: 1.0\n"
@@ -439,9 +439,9 @@ msgstr "여백 클릭"
 msgid "Clipboard"
 msgstr "클립보드"
 
-#: src/modules/clipboard/clipboard.cpp:337
-msgid "Clipboard:"
-msgstr "클립보드:"
+#: src/modules/clipboard/clipboard.cpp:345
+msgid "Clipboard (Press BackSpace/Delete to clear history):"
+msgstr ""
 
 #: src/lib/fcitx-utils/key.cpp:122
 msgctxt "Key name"
@@ -507,7 +507,7 @@ msgid "Configuration:"
 msgstr "구성:"
 
 #: src/ui/classic/xcbtraywindow.cpp:38
-#: src/modules/notificationitem/dbusmenu.cpp:243
+#: src/modules/notificationitem/dbusmenu.cpp:244
 msgid "Configure"
 msgstr "구성하기"
 
@@ -767,7 +767,7 @@ msgid "Execute"
 msgstr "실행"
 
 #: src/ui/classic/xcbtraywindow.cpp:40
-#: src/modules/notificationitem/dbusmenu.cpp:256
+#: src/modules/notificationitem/dbusmenu.cpp:257
 msgid "Exit"
 msgstr "나가기"
 
@@ -945,7 +945,7 @@ msgid "Green"
 msgstr "녹색"
 
 #: src/ui/classic/xcbtraywindow.cpp:36
-#: src/modules/notificationitem/dbusmenu.cpp:233
+#: src/modules/notificationitem/dbusmenu.cpp:234
 msgid "Group"
 msgstr "그룹"
 
@@ -1586,7 +1586,7 @@ msgstr "다음 페이지 버튼"
 msgid "No"
 msgstr "아니오"
 
-#: src/modules/clipboard/clipboard.cpp:339
+#: src/modules/clipboard/clipboard.cpp:347
 msgid "No clipboard history."
 msgstr "클립보드 기록이 없습니다."
 
@@ -1822,7 +1822,7 @@ msgid "Reply"
 msgstr "답장"
 
 #: src/ui/classic/xcbtraywindow.cpp:39
-#: src/modules/notificationitem/dbusmenu.cpp:250
+#: src/modules/notificationitem/dbusmenu.cpp:251
 msgid "Restart"
 msgstr "재시작"
 
