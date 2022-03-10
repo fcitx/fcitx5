@@ -81,6 +81,13 @@ int main() {
         FCITX_INFO() << data;
     }
     {
+        bool b = false;
+        auto msg = bus.createSignal("/test", "test.a.b.c", "test");
+        msg << b;
+        FCITX_INFO() << msg.signature();
+        FCITX_ASSERT(msg.signature() == "b");
+    }
+    {
         dbus::Variant var;
         FCITX_INFO() << var;
 

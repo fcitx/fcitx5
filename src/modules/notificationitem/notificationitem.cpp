@@ -308,7 +308,10 @@ void NotificationItem::enable() {
             return true;
         });
 
-    auto updateIcon = [this](Event &) { newIcon(); };
+    auto updateIcon = [this](Event &) {
+        menu_->updateMenu();
+        newIcon();
+    };
     for (auto type : {EventType::InputContextFocusIn,
                       EventType::InputContextSwitchInputMethod,
                       EventType::InputMethodGroupChanged}) {
@@ -321,6 +324,7 @@ void NotificationItem::enable() {
             if (static_cast<InputContextUpdateUIEvent &>(event).component() ==
                 UserInterfaceComponent::StatusArea) {
                 newIcon();
+                menu_->updateMenu();
             }
         }));
 }

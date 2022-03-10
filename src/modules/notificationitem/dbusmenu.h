@@ -34,6 +34,8 @@ public:
     DBusMenu(NotificationItem *item);
     ~DBusMenu();
 
+    void updateMenu();
+
 private:
     void event(int32_t id, const std::string &type, const dbus::Variant &,
                uint32_t);
@@ -97,11 +99,12 @@ private:
     FCITX_OBJECT_VTABLE_METHOD(aboutToShow, "AboutToShow", "i", "b");
 
     constexpr static uint32_t version_ = 2;
-    constexpr static uint32_t revision_ = 2;
+    uint32_t revision_ = 2;
     NotificationItem *parent_;
     std::unique_ptr<EventSourceTime> timeEvent_;
     TrackableObjectReference<InputContext> lastRelevantIc_;
     std::unordered_set<int32_t> requestedMenus_;
+    std::unique_ptr<EventSource> deferEvent_;
 
     const bool inFlatpak_ = fs::isreg("/.flatpak-info");
 };

@@ -371,4 +371,14 @@ bool DBusMenu::aboutToShow(int32_t id) {
     return requestedMenus_.count(id) == 0;
 }
 
+void DBusMenu::updateMenu() {
+    if (isRegistered()) {
+        ++revision_;
+        if (auto *ic = parent_->instance()->mostRecentInputContext()) {
+            lastRelevantIc_ = ic->watch();
+        }
+        layoutUpdated(revision_, 0);
+    }
+}
+
 } // namespace fcitx
