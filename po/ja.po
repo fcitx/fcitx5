@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2022-03-10 20:29+0000\n"
+"POT-Creation-Date: 2022-03-11 20:24+0000\n"
 "PO-Revision-Date: 2017-11-23 04:14+0000\n"
 "Last-Translator: UTUMI Hirosi <utuhiro78@yahoo.co.jp>, 2022\n"
 "Language-Team: Japanese (https://www.transifex.com/fcitx/teams/12005/ja/)\n"
@@ -442,7 +442,7 @@ msgstr "クリップボード"
 
 #: src/modules/clipboard/clipboard.cpp:345
 msgid "Clipboard (Press BackSpace/Delete to clear history):"
-msgstr ""
+msgstr "クリップボード (BackSpace/Delete で履歴をクリア)"
 
 #: src/lib/fcitx-utils/key.cpp:122
 msgctxt "Key name"

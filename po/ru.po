@@ -5,14 +5,15 @@
 # Translators:
 # csslayer <wengxt@gmail.com>, 2017
 # TotalCaesar659 <x24cm5b8c54q6szxw@yandex.ru>, 2017
+# Dmitry <dmitrydmitry761@gmail.com>, 2022
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2022-03-10 20:29+0000\n"
+"POT-Creation-Date: 2022-03-11 20:24+0000\n"
 "PO-Revision-Date: 2017-11-23 04:14+0000\n"
-"Last-Translator: TotalCaesar659 <x24cm5b8c54q6szxw@yandex.ru>, 2017\n"
+"Last-Translator: Dmitry <dmitrydmitry761@gmail.com>, 2022\n"
 "Language-Team: Russian (https://www.transifex.com/fcitx/teams/12005/ru/)\n"
 "Language: ru\n"
 "MIME-Version: 1.0\n"
@@ -24,31 +25,31 @@ msgstr ""
 
 #: data/fcitx5-diagnose.sh:883
 msgid "${1} Environment Variables:"
-msgstr ""
+msgstr "${1} Переменные среды:"
 
 #: data/fcitx5-diagnose.sh:869
 msgid "${1} Settings Directory:"
-msgstr ""
+msgstr "${1} Каталог настроек"
 
 #: data/fcitx5-diagnose.sh:943
 msgid "${1} is not running."
-msgstr ""
+msgstr "${1} не работает."
 
 #: data/fcitx5-diagnose.sh:892
 msgid "${1} is not set."
-msgstr ""
+msgstr "${1} не задана."
 
 #: data/fcitx5-diagnose.sh:889
 msgid "${1} is set to ${2}."
-msgstr ""
+msgstr "${1} присвоено значение ${2}."
 
 #: data/fcitx5-diagnose.sh:548
 msgid "${1} not found."
-msgstr ""
+msgstr "${1} не найден."
 
 #: data/fcitx5-diagnose.sh:960
 msgid "${1} works properly."
-msgstr ""
+msgstr "${1} работает правильно."
 
 #: src/lib/fcitx/instance.cpp:375
 msgid "(Not available)"
@@ -56,27 +57,27 @@ msgstr "(Недоступно)"
 
 #: src/modules/unicode/unicode.cpp:329
 msgid "(Type to search unicode by code or description)"
-msgstr ""
+msgstr "(Введите для поиска юникода по коду или описанию)"
 
 #: data/fcitx5-diagnose.sh:690
 msgid "/Beginner%27s_Guide"
-msgstr ""
+msgstr "/Руководство по%27s для начинающих"
 
 #: data/fcitx5-diagnose.sh:737
 msgid "/Hall_of_Shame_for_Linux_IME_Support"
-msgstr ""
+msgstr "/Зал_позора_за_поддержку_IME_в_Linux"
 
 #: data/fcitx5-diagnose.sh:701
 msgid "/Input_method_related_environment_variables"
-msgstr ""
+msgstr "/Относящиеся_к_методу_ввода_переменные_среды"
 
 #: data/fcitx5-diagnose.sh:717
 msgid "/Note_for_GNOME_Later_than_3.6"
-msgstr ""
+msgstr "/Заметка_для_пользователей_GNOME_старше_версии_3.6"
 
 #: data/fcitx5-diagnose.sh:741
 msgid "/XIM"
-msgstr ""
+msgstr "/XIM"
 
 #: src/modules/unicode/charselectdata.cpp:221
 msgid "<Low Surrogate>"
@@ -109,7 +110,7 @@ msgstr "Активен по умолчанию"
 #: src/lib/fcitx-utils/key.cpp:109
 msgctxt "Key name"
 msgid "Add Favorite"
-msgstr ""
+msgstr "Добавить в избранное"
 
 #: src/modules/unicode/unicode.conf.in.in:4
 msgid "Add Unicode Typing Support"
@@ -117,44 +118,46 @@ msgstr "Добавляет поддержку набора с помощью с�
 
 #: data/fcitx5-diagnose.sh:1571
 msgid "Addon Config Dir:"
-msgstr ""
+msgstr "Конфигурационный каталог дополнений:"
 
 #: data/fcitx5-diagnose.sh:1656
 msgid "Addon Libraries:"
-msgstr ""
+msgstr "Библиотеки дополнений:"
 
 #: data/fcitx5-diagnose.sh:1599
 msgid "Addon List:"
-msgstr ""
+msgstr "Список дополнений:"
 
 #: src/lib/fcitx-utils/key.cpp:111
 msgctxt "Key name"
 msgid "Adjust Brightness"
-msgstr ""
+msgstr "Отрегулировать яркость"
 
 #: src/lib/fcitx/globalconfig.cpp:25
 msgid "All"
-msgstr ""
+msgstr "Все"
 
 #: data/fcitx5-diagnose.sh:1334
 msgid "All found Gtk ${1} immodule files exist."
-msgstr ""
+msgstr "Все найденные immodule-файлы Gtk ${1} существуют."
 
 #: data/fcitx5-diagnose.sh:1682
 msgid "All libraries for all addons are found."
-msgstr ""
+msgstr "Все библиотеки для всех дополнений найдены."
 
 #: data/fcitx5-diagnose.sh:837
 msgid "All locales:"
-msgstr ""
+msgstr "Все локали:"
 
 #: src/modules/xcb/xcbmodule.h:30
 msgid "Allow Overriding System XKB Settings"
-msgstr ""
+msgstr "Разрешить переопределение системных настроек XKB"
 
 #: src/modules/wayland/waylandmodule.h:29
 msgid "Allow Overriding System XKB Settings (Only support KDE 5)"
 msgstr ""
+"Разрешить переопределение системных настроек XKB (поддерживается только KDE "
+"5)"
 
 #: src/im/keyboard/keyboard.h:33 src/modules/quickphrase/quickphrase.h:29
 msgid "Alt"
@@ -163,89 +166,89 @@ msgstr "Alt"
 #: src/lib/fcitx-utils/key.cpp:480
 msgctxt "Key name"
 msgid "Alt"
-msgstr ""
+msgstr "Alt"
 
 #: src/modules/xcb/xcbmodule.h:33
 msgid "Always set layout to be only group layout"
-msgstr ""
+msgstr "Всегда устанавливайте раскладку только для групповой раскладки"
 
 #: src/lib/fcitx-utils/key.cpp:116
 msgctxt "Key name"
 msgid "Application Left"
-msgstr ""
+msgstr "Приложение слева"
 
 #: src/lib/fcitx-utils/key.cpp:117
 msgctxt "Key name"
 msgid "Application Right"
-msgstr ""
+msgstr "Приложение справа"
 
 #: src/im/keyboard/keyboard.h:79
 msgid "Applications disabled for long press"
-msgstr ""
+msgstr "Отключение приложений при длительном нажатии"
 
 #: src/lib/fcitx-utils/key.cpp:176
 msgctxt "Key name"
 msgid "Audio Cycle Track"
-msgstr ""
+msgstr "Циклическая аудиодорожка"
 
 #: src/lib/fcitx-utils/key.cpp:174
 msgctxt "Key name"
 msgid "Audio Random Play"
-msgstr ""
+msgstr "Случайное воспроизведение аудио"
 
 #: src/lib/fcitx-utils/key.cpp:173
 msgctxt "Key name"
 msgid "Audio Repeat"
-msgstr ""
+msgstr "Повтор аудио"
 
 #: src/ui/classic/theme.h:150
 msgid "Author"
-msgstr ""
+msgstr "Автор"
 
 #: src/lib/fcitx-utils/key.cpp:163
 msgctxt "Key name"
 msgid "Away"
-msgstr ""
+msgstr "Уйти"
 
 #: src/lib/fcitx-utils/key.cpp:58
 msgctxt "Key name"
 msgid "Back"
-msgstr ""
+msgstr "Назад"
 
 #: src/lib/fcitx-utils/key.cpp:115
 msgctxt "Key name"
 msgid "Back Forward"
-msgstr ""
+msgstr "Обратно вперед"
 
 #: src/modules/spell/spell.h:38
 msgid "Backends"
-msgstr ""
+msgstr "Бэкенды"
 
 #: src/ui/classic/theme.h:116 src/ui/classic/theme.h:135
 msgid "Background"
-msgstr ""
+msgstr "Фон"
 
 #: src/ui/classic/theme.h:49
 msgid "Background Image"
-msgstr ""
+msgstr "Фоновое изображение"
 
 #: src/lib/fcitx-utils/key.cpp:42
 msgctxt "Key name"
 msgid "Backspace"
-msgstr ""
+msgstr "BackSpace"
 
 #: data/fcitx5-diagnose.sh:810
 msgid "Bash Version:"
-msgstr ""
+msgstr "Версия Bash:"
 
 #: src/lib/fcitx-utils/key.cpp:169
 msgctxt "Key name"
 msgid "Battery"
-msgstr ""
+msgstr "Аккумулятор"
 
 #: data/fcitx5-diagnose.sh:689
 msgid "Beginner's Guide"
-msgstr ""
+msgstr "Руководство для начинающих"
 
 #: src/lib/fcitx/globalconfig.cpp:186
 msgid "Behavior"
@@ -254,171 +257,176 @@ msgstr "Поведение"
 #: src/lib/fcitx-utils/key.cpp:187
 msgctxt "Key name"
 msgid "Blue"
-msgstr ""
+msgstr "Синий"
 
 #: src/lib/fcitx-utils/key.cpp:170
 msgctxt "Key name"
 msgid "Bluetooth"
-msgstr ""
+msgstr "Блютус"
 
 #: src/ui/classic/theme.h:125
 msgid "Blur Margin"
-msgstr ""
+msgstr "Размытый Край"
 
 #: src/lib/fcitx-utils/key.cpp:118
 msgctxt "Key name"
 msgid "Book"
-msgstr ""
+msgstr "Книга"
 
 #: src/ui/classic/theme.h:61
 msgid "Border Color"
-msgstr ""
+msgstr "Цвет границы"
 
 #: src/ui/classic/theme.h:69
 msgid "Border width"
-msgstr ""
+msgstr "Ширина рамки"
 
 #: src/ui/classic/theme.h:33
 msgid "Bottom Center"
-msgstr ""
+msgstr "Нижний Центр"
 
 #: src/ui/classic/theme.h:33
 msgid "Bottom Left"
-msgstr ""
+msgstr "Нижний Левый"
 
 #: src/ui/classic/theme.h:34
 msgid "Bottom Right"
-msgstr ""
+msgstr "Нижний Правый"
 
 #: src/lib/fcitx-utils/key.cpp:129
 msgctxt "Key name"
 msgid "Browser"
-msgstr ""
+msgstr "Браузер"
 
 #: src/lib/fcitx-utils/key.cpp:119
 msgctxt "Key name"
 msgid "CD"
-msgstr ""
+msgstr "CD"
 
 #: src/lib/fcitx-utils/key.cpp:120
 msgctxt "Key name"
 msgid "Calculator"
-msgstr ""
+msgstr "Калькулятор"
 
 #: src/lib/fcitx-utils/key.cpp:229
 msgctxt "Key name"
 msgid "Cancel"
-msgstr ""
+msgstr "Отменить"
 
 #: src/im/keyboard/longpress.h:19
 msgid "Candidates"
-msgstr ""
+msgstr "Кандидаты"
 
 #: data/fcitx5-diagnose.sh:958
 msgid "Cannot connect to ${1} correctly."
-msgstr ""
+msgstr "Не удается подключиться к ${1} правильно."
 
 #: data/fcitx5-diagnose.sh:803
 msgid "Cannot determine desktop environment."
-msgstr ""
+msgstr "Не удалось определить среду рабочего стола."
 
 #: data/fcitx5-diagnose.sh:1590
 msgid "Cannot find ${1} addon config directory."
-msgstr ""
+msgstr "Не удается найти ${1} каталог конфигурации дополнения."
 
 #: data/fcitx5-diagnose.sh:1082
 msgid "Cannot find ${1} executable!"
-msgstr ""
+msgstr "Не удается найти ${1} исполняемый файл!"
 
 #: data/fcitx5-diagnose.sh:1484 data/fcitx5-diagnose.sh:1537
 msgid "Cannot find ${1} im module for gtk ${2} in cache."
-msgstr ""
+msgstr "Не удается найти ${1} im-модуль для gtk ${2} в кэше."
 
 #: data/fcitx5-diagnose.sh:1401
 msgid "Cannot find ${1} im module for gtk ${2}."
-msgstr ""
+msgstr "Не удается найти ${1} модуль для gtk ${2}."
 
 #: data/fcitx5-diagnose.sh:1260 data/fcitx5-diagnose.sh:1265
 msgid "Cannot find ${1} input method module for ${2}."
-msgstr ""
+msgstr "Не удается найти ${1} модуль метода ввода для ${2}."
 
 #: data/fcitx5-diagnose.sh:1395
 msgid "Cannot find ${2} for gtk ${1}"
-msgstr ""
+msgstr "Не удалось найти ${2} для gtk ${1}"
 
 #: data/fcitx5-diagnose.sh:978
 msgid "Cannot find DBus name ${1} owner."
-msgstr ""
+msgstr "Не удается найти владельца имени DBus ${1}."
 
 #: data/fcitx5-diagnose.sh:1092
 msgid "Cannot find a GUI config tool, please install one of ${1}, or ${2}."
 msgstr ""
+"Не удается найти инструмент настройки графического интерфейса, пожалуйста, "
+"установите  ${1}, или ${2}."
 
 #: data/fcitx5-diagnose.sh:1685
 msgid "Cannot find enabled ${1} user interface!"
-msgstr ""
+msgstr "Не удается найти включенный  ${1} пользовательский интерфейс!"
 
 #: data/fcitx5-diagnose.sh:921
 msgid "Cannot find fcitx5 executable!"
-msgstr ""
+msgstr "Не удается найти исполняемый файл fcitx5!"
 
 #: data/fcitx5-diagnose.sh:1664
 msgid "Cannot find file ${1} of addon ${2}."
-msgstr ""
+msgstr "Не удается найти файл ${1} для дополнения ${2}."
 
 #: data/fcitx5-diagnose.sh:1674
 msgid "Cannot find following required libraries for ${1} of addon ${2}."
 msgstr ""
+"Не удается найти следующие необходимые библиотеки для ${1} дополнения ${2}."
 
 #: data/fcitx5-diagnose.sh:1479 data/fcitx5-diagnose.sh:1532
 msgid "Cannot find immodules cache for gtk ${1}"
-msgstr ""
+msgstr "Не удалось найти immodules-кэш для GTK ${1}"
 
 #: data/fcitx5-diagnose.sh:1704
 msgid ""
 "Cannot find kimpanel dbus interface or enabled non-kimpanel user interface."
 msgstr ""
+"Не удалось найти dbus-интерфейс kimpanel или запущенный интерфейс, отличный "
+"от kimpanel."
 
 #: data/fcitx5-diagnose.sh:986
 msgid "Cannot find pid of DBus name ${1} owner."
-msgstr ""
+msgstr "Не удается найти PID владельца имени DBus ${1}."
 
 #: data/fcitx5-diagnose.sh:1158
 msgid "Cannot find xim_server on root window."
-msgstr ""
+msgstr "Не удалось найти xim_server в окне суперпользователя."
 
 #: data/fcitx5-diagnose.sh:1132
 msgid "Cannot interpret XMODIFIERS: ${1}."
-msgstr ""
+msgstr "Не удалось интерпретировать XMODIFIERS: ${1}."
 
 #: src/lib/fcitx-utils/key.cpp:53
 msgctxt "Key name"
 msgid "CapsLock"
-msgstr ""
+msgstr "CapsLock"
 
 #: src/ui/classic/theme.h:32
 msgid "Center"
-msgstr ""
+msgstr "Центр"
 
 #: src/ui/classic/theme.h:31
 msgid "Center Left"
-msgstr ""
+msgstr "По Центру Слева"
 
 #: src/ui/classic/theme.h:32
 msgid "Center Right"
-msgstr ""
+msgstr "По центру Справа"
 
 #: data/fcitx5-configtool.desktop.in.in:5
 msgid "Change Fcitx 5 Configuration"
-msgstr ""
+msgstr "Изменить конфигурацию Fcitx 5"
 
 #: src/ui/classic/theme.h:140
 msgid "Check box"
-msgstr ""
+msgstr "Флажок"
 
 #: src/im/keyboard/keyboard.h:57 src/modules/quickphrase/quickphrase.h:41
 msgid "Choose key modifier"
-msgstr ""
+msgstr "Выбрать клавишу-модификатор"
 
 #: src/ui/classic/classicui.conf.in.in:3
 msgid "Classic User Inteface"
@@ -427,11 +435,11 @@ msgstr "Классический интерфейс пользователя"
 #: src/lib/fcitx-utils/key.cpp:121
 msgctxt "Key name"
 msgid "Clear"
-msgstr ""
+msgstr "Очистить"
 
 #: src/ui/classic/theme.h:95
 msgid "Click Margin"
-msgstr ""
+msgstr "Нажмите на Поле"
 
 #: src/modules/clipboard/clipboard.conf.in.in:3
 msgid "Clipboard"
@@ -439,42 +447,42 @@ msgstr "Буфер обмена"
 
 #: src/modules/clipboard/clipboard.cpp:345
 msgid "Clipboard (Press BackSpace/Delete to clear history):"
-msgstr ""
+msgstr "Буфер обмена (нажмите BackSpace/Delete, чтобы очистить историю):"
 
 #: src/lib/fcitx-utils/key.cpp:122
 msgctxt "Key name"
 msgid "Close"
-msgstr ""
+msgstr "Закрыть"
 
 #: src/lib/fcitx-utils/key.cpp:215
 msgctxt "Key name"
 msgid "Code input"
-msgstr ""
+msgstr "Ввести код"
 
 #: src/ui/classic/theme.h:53
 msgid "Color"
-msgstr ""
+msgstr "Цвет"
 
 #: src/lib/fcitx-utils/key.cpp:113
 msgctxt "Key name"
 msgid "Community"
-msgstr ""
+msgstr "Сообщество"
 
 #: src/im/keyboard/keyboard.cpp:796
 msgid "Completion"
-msgstr ""
+msgstr "Завершение"
 
 #: src/im/keyboard/keyboard.cpp:787
 msgid "Completion is disabled."
-msgstr ""
+msgstr "Завершение отключено."
 
 #: src/im/keyboard/keyboard.cpp:790
 msgid "Completion is enabled temporarily."
-msgstr ""
+msgstr "Завершение временно включено."
 
 #: src/im/keyboard/keyboard.cpp:792
 msgid "Completion is enabled."
-msgstr ""
+msgstr "Завершение включено."
 
 #: data/fcitx5-diagnose.sh:1034
 msgid "Config GUI for gtk${1} not found."
