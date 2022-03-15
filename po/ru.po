@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2022-03-14 20:24+0000\n"
+"POT-Creation-Date: 2022-03-15 20:24+0000\n"
 "PO-Revision-Date: 2017-11-23 04:14+0000\n"
 "Last-Translator: Dmitry <dmitrydmitry761@gmail.com>, 2022\n"
 "Language-Team: Russian (https://www.transifex.com/fcitx/teams/12005/ru/)\n"
@@ -2107,7 +2107,7 @@ msgstr "Tab"
 #: src/lib/fcitx-utils/key.cpp:154
 msgctxt "Key name"
 msgid "Task Panel"
-msgstr ""
+msgstr "Панель задач"
 
 #: src/lib/fcitx/globalconfig.cpp:43
 msgid "Temporally switch between first and current Input Method"
@@ -2116,32 +2116,34 @@ msgstr "Временное переключение между основным 
 #: src/lib/fcitx-utils/key.cpp:155
 msgctxt "Key name"
 msgid "Terminal"
-msgstr ""
+msgstr "Терминал"
 
 #: src/modules/imselector/imselector.h:40
 #: src/modules/imselector/imselector.h:50
 msgid "The n-th hotkey in the list selects the n-th input method."
 msgstr ""
+"Определённая горячая клавиша в списке выбирает определённый метод ввода."
 
 #: data/fcitx5-diagnose.sh:878
 msgid "The script is run as ${1} (${2})."
-msgstr ""
+msgstr "Сценарий запущен пользователем ${1} (${2})."
 
 #: src/ui/classic/classicui.h:134
 msgid "Theme"
-msgstr ""
+msgstr "Тема"
 
 #: src/ui/classic/classicui.h:78
 msgid "This is only effective when the tray icon is xembed."
-msgstr ""
+msgstr "Это эффективно только тогда, когда значок в трее встроен."
 
 #: src/ui/classic/theme.h:57 src/ui/classic/theme.h:65
 msgid "This option is only effective if image is not set."
 msgstr ""
+"Этот параметр эффективен только в том случае, если имидж не установлен."
 
 #: src/ui/classic/theme.h:73
 msgid "This value should be less than any of margin value."
-msgstr ""
+msgstr "Это значение должно быть меньше любого значения разницы."
 
 #: data/fcitx5-diagnose.sh:1810
 msgid ""
@@ -2149,11 +2151,14 @@ msgid ""
 "please double check and remove as necessary before posting it online "
 "publicly."
 msgstr ""
+"Хотя такая информация может быть полезна разработчикам в диагностических "
+"целях, пожалуйста, дважды проверьте и удалите при необходимости, прежде чем "
+"публиковать ее в Интернете публично."
 
 #: src/lib/fcitx-utils/key.cpp:177
 msgctxt "Key name"
 msgid "Time"
-msgstr ""
+msgstr "Время"
 
 #: data/fcitx5-diagnose.sh:733
 #, sh-format
@@ -2162,69 +2167,73 @@ msgid ""
 "${link1}. For other more general problems of using XIM including application "
 "freezing, see ${link2}."
 msgstr ""
+"Чтобы увидеть некоторые проблемы, связанные с конкретными приложениями, "
+"которые могут возникнуть у вас при использовании xim, проверьте ${link1}. "
+"Для других более общих проблем, связанных с использованием XIM, включая "
+"замораживание приложений, см. ${link2}."
 
 #: src/lib/fcitx/globalconfig.cpp:131
 msgid "Toggle embedded preedit"
-msgstr ""
+msgstr "Переключение встроенного предварительного редактирования"
 
 #: src/lib/fcitx-utils/key.cpp:156
 msgctxt "Key name"
 msgid "Tools"
-msgstr ""
+msgstr "Инструменты"
 
 #: src/ui/classic/theme.h:30
 msgid "Top Center"
-msgstr ""
+msgstr "Вверху по-центру"
 
 #: src/ui/classic/theme.h:30
 msgid "Top Left"
-msgstr ""
+msgstr "Вверху слева"
 
 #: src/lib/fcitx-utils/key.cpp:180
 msgctxt "Key name"
 msgid "Top Menu"
-msgstr ""
+msgstr "Верхнее меню"
 
 #: src/ui/classic/theme.h:31
 msgid "Top Right"
-msgstr ""
+msgstr "Вверху справа"
 
 #: src/lib/fcitx-utils/key.cpp:233
 msgctxt "Key name"
 msgid "Touchpad Off"
-msgstr ""
+msgstr "Сенсорная Панель Выключена"
 
 #: src/lib/fcitx-utils/key.cpp:232
 msgctxt "Key name"
 msgid "Touchpad On"
-msgstr ""
+msgstr "Сенсорная Панель Включена"
 
 #: src/lib/fcitx-utils/key.cpp:231
 msgctxt "Key name"
 msgid "Touchpad Toggle"
-msgstr ""
+msgstr "Переключатель сенсорной панели"
 
 #: src/lib/fcitx-utils/key.cpp:209
 msgctxt "Key name"
 msgid "Touroku"
-msgstr ""
+msgstr "Touroku"
 
 #: src/lib/fcitx-utils/key.cpp:157
 msgctxt "Key name"
 msgid "Travel"
-msgstr ""
+msgstr "Ход"
 
 #: src/ui/classic/classicui.h:103
 msgid "Tray Font"
-msgstr ""
+msgstr "Шрифт в лотке"
 
 #: src/ui/classic/classicui.h:105
 msgid "Tray Label Outline Color"
-msgstr ""
+msgstr "Цвет контура лейбла лотка"
 
 #: src/ui/classic/classicui.h:108
 msgid "Tray Label Text Color"
-msgstr ""
+msgstr "Цвет текста лейбла лотка"
 
 #: src/lib/fcitx/globalconfig.cpp:33
 msgid "Trigger Input Method"
@@ -2234,36 +2243,36 @@ msgstr "Активация метода ввода"
 #: src/modules/quickphrase/quickphrase.h:36 src/modules/unicode/unicode.h:31
 #: src/modules/clipboard/clipboard.h:42
 msgid "Trigger Key"
-msgstr ""
+msgstr "Клавиша-триггер"
 
 #: src/modules/imselector/imselector.h:29
 msgid "Trigger Key for only current input context"
-msgstr ""
+msgstr "Клавиша-триггер только для текущего контекста ввода"
 
 #: src/im/keyboard/keyboard.h:63
 msgid "Trigger hint mode"
-msgstr ""
+msgstr "Активировать режим подсказки"
 
 #: src/im/keyboard/keyboard.h:68
 msgid "Trigger hint mode for one time"
-msgstr ""
+msgstr "Активировать режим подсказки один раз"
 
 #: src/im/keyboard/keyboard.h:74
 msgid "Type special characters with long press"
-msgstr ""
+msgstr "Вводить специальные символы долгим нажатием"
 
 #: data/org.fcitx.Fcitx5.metainfo.xml.in:20
 msgid "Typing with Fcitx and Kimpanel"
-msgstr ""
+msgstr "Печатание с помощью Fcitx и Kimpanel"
 
 #: data/fcitx5-diagnose.sh:994
 msgid "Unable to find a program to check dbus."
-msgstr ""
+msgstr "Не удается найти программу для проверки dbus."
 
 #: src/lib/fcitx-utils/key.cpp:191
 msgctxt "Key name"
 msgid "Undo"
-msgstr ""
+msgstr "Отменить"
 
 #: src/modules/unicode/unicode.conf.in.in:3
 msgid "Unicode"
@@ -2276,82 +2285,84 @@ msgstr "Unicode: "
 #: src/lib/fcitx-utils/key.cpp:48
 msgctxt "Key name"
 msgid "Up"
-msgstr ""
+msgstr "Вверх"
 
 #: src/frontend/xim/xim.h:33
 msgid "Use On The Spot Style (Needs restarting)"
-msgstr ""
+msgstr "Использовать стиль On The Spot (требуется перезагрузка)"
 
 #: src/ui/classic/classicui.h:92
 msgid "Use Per Screen DPI"
-msgstr ""
+msgstr "Использовать DPI для каждого экрана"
 
 #: src/ui/classic/theme.h:108
 msgid "Use all horizontal space for highlight when it is vertical list"
 msgstr ""
+"Используйте все горизонтальное пространство для выделения, когда это "
+"вертикальный список"
 
 #: src/ui/classic/classicui.h:125
 msgid "Use input method language to display text"
-msgstr ""
+msgstr "Использовать язык метода ввода для отображения текста"
 
 #: src/ui/classic/classicui.h:95
 msgid "Use mouse wheel to go to prev or next page"
-msgstr ""
+msgstr "Используйте колёсико мыши, для перелистывания страниц"
 
 #: data/fcitx5-diagnose.sh:1683
 msgid "User Interface:"
-msgstr ""
+msgstr "Пользовательский интерфейс:"
 
 #: data/fcitx5-diagnose.sh:969
 msgid "Using ${1} to check dbus."
-msgstr ""
+msgstr "Использование ${1} для проверки dbus."
 
 #: src/ui/classic/theme.h:149
 msgid "Version"
-msgstr ""
+msgstr "Версия"
 
 #: data/fcitx5-diagnose.sh:1372 data/fcitx5-diagnose.sh:1456
 msgid "Version Line:"
-msgstr ""
+msgstr "Версия Line:"
 
 #: src/ui/classic/classicui.h:91
 msgid "Vertical Candidate List"
-msgstr ""
+msgstr "Вертикальный список кандидатов"
 
 #: src/lib/fcitx-utils/key.cpp:158
 msgctxt "Key name"
 msgid "Video"
-msgstr ""
+msgstr "Видео"
 
 #: src/lib/fcitx-utils/key.cpp:179
 msgctxt "Key name"
 msgid "View"
-msgstr ""
+msgstr "Вид"
 
 #: src/lib/fcitx-utils/key.cpp:62
 msgctxt "Key name"
 msgid "Volume Down"
-msgstr ""
+msgstr "Уменьшить громкость"
 
 #: src/lib/fcitx-utils/key.cpp:63
 msgctxt "Key name"
 msgid "Volume Mute"
-msgstr ""
+msgstr "Отключение звука"
 
 #: src/lib/fcitx-utils/key.cpp:64
 msgctxt "Key name"
 msgid "Volume Up"
-msgstr ""
+msgstr "Увеличить громкость"
 
 #: src/lib/fcitx-utils/key.cpp:104
 msgctxt "Key name"
 msgid "WWW"
-msgstr ""
+msgstr "WWW"
 
 #: src/lib/fcitx-utils/key.cpp:101
 msgctxt "Key name"
 msgid "Wake Up"
-msgstr ""
+msgstr "Выход из сна"
 
 #: data/fcitx5-diagnose.sh:1809
 msgid ""
@@ -2359,6 +2370,9 @@ msgid ""
 "including the distribution name, kernel version, name of currently running "
 "programs, etc."
 msgstr ""
+"Предупреждение: выходные данные fcitx5-diagnose содержат конфиденциальную "
+"информацию, включая имя дистрибутива, версию ядра, имя запущенных в данный "
+"момент программ и т. д."
 
 #: src/modules/wayland/wayland.conf.in.in:3
 msgid "Wayland"
@@ -2371,7 +2385,7 @@ msgstr "Интерфейс метода ввода Wayland"
 #: src/lib/fcitx-utils/key.cpp:165
 msgctxt "Key name"
 msgid "WebCam"
-msgstr ""
+msgstr "Веб-камера"
 
 #: src/lib/fcitx/globalconfig.cpp:169
 msgid ""
@@ -2379,20 +2393,23 @@ msgid ""
 "the xkb option send to display, but just the xkb options for custom xkb "
 "layout."
 msgstr ""
+"Следует ли переопределить параметр xkb с сервера отображения. Это не "
+"повлияет на параметр xkb, отправленный для отображения, а только на "
+"параметры xkb для пользовательской раскладки xkb."
 
 #: data/fcitx5-diagnose.sh:909
 msgid "Why is it bad to run as root"
-msgstr ""
+msgstr "Почему не рекомедуется запускать с правами администратора"
 
 #: src/lib/fcitx-utils/key.cpp:171
 msgctxt "Key name"
 msgid "Wireless"
-msgstr ""
+msgstr "Беспроводная связь"
 
 #: src/lib/fcitx-utils/key.cpp:159
 msgctxt "Key name"
 msgid "Word Processor"
-msgstr ""
+msgstr "Текстовый редактор"
 
 #: src/frontend/xim/xim.conf.in.in:3
 msgid "X Input Method Frontend"
@@ -2404,28 +2421,28 @@ msgstr "XCB"
 
 #: data/fcitx5-diagnose.sh:808
 msgid "XDG SESSION TYPE:"
-msgstr ""
+msgstr "XDG SESSION TYPE:"
 
 #: src/lib/fcitx-utils/key.cpp:160
 msgctxt "Key name"
 msgid "XFer"
-msgstr ""
+msgstr "XFer"
 
 #: data/fcitx5-diagnose.sh:1171
 msgid "XIM encoding:"
-msgstr ""
+msgstr "XIM encoding:"
 
 #: data/fcitx5-diagnose.sh:1166
 msgid "XIM for Emacs:"
-msgstr ""
+msgstr "XIM для Emacs:"
 
 #: data/fcitx5-diagnose.sh:1142
 msgid "XIM_SERVERS on root window:"
-msgstr ""
+msgstr "XIM_SERVERS в окне суперпользователя:"
 
 #: data/fcitx5-diagnose.sh:1119
 msgid "XMODIFIERS is not set"
-msgstr ""
+msgstr "XMODIFIERS не заданы"
 
 #: data/fcitx5-diagnose.sh:1140
 msgid "Xim Server Name from Environment variable is ${1}."
@@ -2446,7 +2463,7 @@ msgstr ""
 #: src/lib/fcitx-utils/key.cpp:186
 msgctxt "Key name"
 msgid "Yellow"
-msgstr ""
+msgstr "Жёлтое"
 
 #: data/fcitx5-diagnose.sh:907
 msgid ""
@@ -2470,17 +2487,19 @@ msgstr ""
 
 #: data/fcitx5-diagnose.sh:1193
 msgid "You are using xim in ${1} programs."
-msgstr ""
+msgstr "Вы используете xim в ${1} программах."
 
 #: data/fcitx5-diagnose.sh:1198
 msgid "You may have trouble using fcitx in ${1} programs."
-msgstr ""
+msgstr "Возможны проблемы при использовании fcitx в ${1} программах."
 
 #: data/fcitx5-configtool.sh:134
 msgid ""
 "You're currently running Fcitx with GUI, but fcitx5-config-qt couldn't be "
 "found. Now it will open config directory."
 msgstr ""
+"В настоящее время вы используете Fcitx с графическим интерфейсом, но не "
+"удалось найти fcitx5-config-qt. Сейчас будет открыт конфигурационный каталог."
 
 #: data/fcitx5-configtool.sh:131
 msgid ""
@@ -2488,6 +2507,9 @@ msgid ""
 "package name of this KCModule is usually kcm-fcitx or kde-config-fcitx. Now "
 "it will open config directory."
 msgstr ""
+"В настоящее время вы используете KDE, но KCModule для fcitx не может быть "
+"найден, имя пакета этого KCModule обычно kcm-fcitx или kde-config-fcitx. "
+"Сейчас будет открыт конфигурационный каталог."
 
 #: data/fcitx5-diagnose.sh:1168
 msgid ""
@@ -2495,61 +2517,67 @@ msgid ""
 "able to use input method in emacs because of an really old emacs bug that "
 "upstream refuse to fix for years."
 msgstr ""
+"Переменной LC_CTYPE вместо zh, ja или ko присвоено значение ${1}. Возможно, "
+"вы не сможете использовать метод ввода в Emacs из-за очень старой ошибки в "
+"Emacs, которую не один год не хотят исправлять в апстриме."
 
 #: data/fcitx5-diagnose.sh:1173
 msgid ""
 "Your LC_CTYPE is set to ${1} whose encoding is not UTF-8. You may have "
 "trouble committing strings using XIM."
 msgstr ""
+"Переменной LC_CTYPE присвоено значение ${1}, кодировка текста которой "
+"отличается от UTF-8. Могут возникнуть проблемы при выполнении строк с "
+"использованием XIM."
 
 #: src/lib/fcitx-utils/key.cpp:206
 msgctxt "Key name"
 msgid "Zenkaku"
-msgstr ""
+msgstr "Zenkaku"
 
 #: src/lib/fcitx-utils/key.cpp:208
 msgctxt "Key name"
 msgid "Zenkaku Hankaku"
-msgstr ""
+msgstr "Zenkaku Hankaku"
 
 #: src/lib/fcitx-utils/key.cpp:161
 msgctxt "Key name"
 msgid "Zoom In"
-msgstr ""
+msgstr "Увеличить"
 
 #: src/lib/fcitx-utils/key.cpp:162
 msgctxt "Key name"
 msgid "Zoom Out"
-msgstr ""
+msgstr "Уменьшить"
 
 #: data/fcitx5-diagnose.sh:919
 msgid "executable:"
-msgstr ""
+msgstr "выполняется:"
 
 #: data/fcitx5-diagnose.sh:740
 msgid "here"
-msgstr ""
+msgstr "здесь"
 
 #: src/lib/fcitx-utils/key.cpp:132
 msgctxt "Key name"
 msgid "iTouch"
-msgstr ""
+msgstr "iTouch"
 
 #: data/fcitx5-diagnose.sh:933
 msgid "process:"
-msgstr ""
+msgstr "Процесс:"
 
 #: data/fcitx5-diagnose.sh:904 data/fcitx5-diagnose.sh:910
 msgid "sudo environment variables"
-msgstr ""
+msgstr "Переменные среды sudo"
 
 #: data/fcitx5-diagnose.sh:929
 msgid "version:"
-msgstr ""
+msgstr "Версия:"
 
 #: src/im/keyboard/keyboard.cpp:303
 msgid "{0} (Not Available)"
-msgstr ""
+msgstr "{0} (Недоступно)"
 
 #: src/lib/fcitx/instance.cpp:373
 msgid "{0} (Not available)"
