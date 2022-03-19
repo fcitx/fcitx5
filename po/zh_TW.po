@@ -8,14 +8,15 @@
 # pan93412 <pan93412@gmail.com>, 2019
 # bruh, 2020
 # Steve Nian, 2022
+# 菘菘 <rrt467778@gmail.com>, 2022
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2022-03-10 20:29+0000\n"
+"POT-Creation-Date: 2022-03-19 20:24+0000\n"
 "PO-Revision-Date: 2017-11-23 04:14+0000\n"
-"Last-Translator: Steve Nian, 2022\n"
+"Last-Translator: 菘菘 <rrt467778@gmail.com>, 2022\n"
 "Language-Team: Chinese (Taiwan) (https://www.transifex.com/fcitx/teams/12005/"
 "zh_TW/)\n"
 "Language: zh_TW\n"
@@ -156,7 +157,7 @@ msgstr "允許覆寫系統 XKB 設定"
 
 #: src/modules/wayland/waylandmodule.h:29
 msgid "Allow Overriding System XKB Settings (Only support KDE 5)"
-msgstr ""
+msgstr "允許覆寫系統 XKB 設定 (僅支援 KDE 5)"
 
 #: src/im/keyboard/keyboard.h:33 src/modules/quickphrase/quickphrase.h:29
 msgid "Alt"
@@ -221,7 +222,7 @@ msgstr "往後"
 
 #: src/modules/spell/spell.h:38
 msgid "Backends"
-msgstr ""
+msgstr "後端"
 
 #: src/ui/classic/theme.h:116 src/ui/classic/theme.h:135
 msgid "Background"
@@ -441,7 +442,7 @@ msgstr "剪貼簿"
 
 #: src/modules/clipboard/clipboard.cpp:345
 msgid "Clipboard (Press BackSpace/Delete to clear history):"
-msgstr ""
+msgstr "剪貼簿（按 BackSpace/Delete 清除歷史記錄）："
 
 #: src/lib/fcitx-utils/key.cpp:122
 msgctxt "Key name"
@@ -693,7 +694,7 @@ msgstr "在快速片語中啟用表情符號"
 
 #: src/im/keyboard/keyboard.h:60
 msgid "Enable hint by default"
-msgstr ""
+msgstr "預設啟用提示"
 
 #: src/modules/spell/spell.h:23
 msgid "Enchant"
@@ -1125,7 +1126,7 @@ msgstr "切換到第 N 個輸入法的快速鍵"
 #: src/modules/imselector/imselector.h:44
 msgid ""
 "Hotkey for switching to the N-th input method for only current input context"
-msgstr ""
+msgstr "僅用於目前輸入上下文切換到第 N 種輸入法的快捷鍵"
 
 #: src/lib/fcitx-utils/key.cpp:483
 msgctxt "Key name"
@@ -1436,11 +1437,11 @@ msgstr "頂部邊距"
 
 #: src/ui/classic/theme.h:120 src/ui/classic/theme.h:143
 msgid "Margin around all content"
-msgstr ""
+msgstr "內容周圍邊界"
 
 #: src/ui/classic/theme.h:122 src/ui/classic/theme.h:145
 msgid "Margin around text"
-msgstr ""
+msgstr "內容周圍邊界"
 
 #: src/lib/fcitx-utils/key.cpp:134
 msgctxt "Key name"
@@ -1641,7 +1642,7 @@ msgstr "選項"
 
 #: src/ui/classic/theme.h:84
 msgid "Overlay Clip Margin"
-msgstr ""
+msgstr "覆蓋圖片裁剪邊界"
 
 #: src/ui/classic/theme.h:74
 msgid "Overlay Image"
@@ -1649,27 +1650,27 @@ msgstr "覆蓋圖片"
 
 #: src/ui/classic/theme.h:77
 msgid "Overlay X offset"
-msgstr ""
+msgstr "覆蓋 X 位移"
 
 #: src/ui/classic/theme.h:78
 msgid "Overlay Y offset"
-msgstr ""
+msgstr "覆蓋 Y 位移"
 
 #: src/ui/classic/theme.h:76
 msgid "Overlay position"
-msgstr ""
+msgstr "覆蓋圖片位置"
 
 #: src/lib/fcitx/globalconfig.cpp:165
 msgid "Override Xkb Option"
-msgstr ""
+msgstr "覆蓋 Xkb 選項"
 
 #: data/fcitx5-diagnose.sh:974
 msgid "Owner of DBus name ${1} is ${2}."
-msgstr ""
+msgstr "DBus 名稱 ${1} 的擁有者是 ${2}。"
 
 #: data/fcitx5-diagnose.sh:982
 msgid "PID of DBus name ${1} owner is ${2}."
-msgstr ""
+msgstr "DBus 名稱 ${1} PID 的擁有者是 ${2}。"
 
 #: src/im/keyboard/keyboard.h:38
 msgid "Page size"
@@ -1682,7 +1683,7 @@ msgstr "貼上"
 
 #: src/modules/clipboard/clipboard.h:46
 msgid "Paste Primary"
-msgstr ""
+msgstr "貼上主選區"
 
 #: src/lib/fcitx-utils/key.cpp:44
 msgctxt "Key name"
@@ -1711,7 +1712,7 @@ msgstr "圖片"
 
 #: data/fcitx5-diagnose.sh:923
 msgid "Please check ${1} for how to install fcitx5."
-msgstr ""
+msgstr "如何安裝 fcitx5 請查閱 ${1}。"
 
 #: data/fcitx5-diagnose.sh:945
 msgid ""
