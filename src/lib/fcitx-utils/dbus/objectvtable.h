@@ -13,6 +13,7 @@
 #include <stdexcept>
 #include <string>
 #include <type_traits>
+#include <fcitx-utils/dbus/message.h>
 #include <fcitx-utils/flags.h>
 #include <fcitx-utils/macros.h>
 #include <fcitx-utils/trackableobject.h>
@@ -134,40 +135,13 @@ struct ReturnValueHelper<void> {
 #define FCITX_OBJECT_VTABLE_METHOD(FUNCTION, FUNCTION_NAME, SIGNATURE, RET)    \
     ::fcitx::dbus::ObjectVTableMethod FUNCTION##Method {                       \
         this, FUNCTION_NAME, SIGNATURE, RET,                                   \
-            [this](::fcitx::dbus::Message msg) {                               \
-                this->setCurrentMessage(&msg);                                 \
-                auto watcher = static_cast<ObjectVTableBase *>(this)->watch(); \
-                FCITX_STRING_TO_DBUS_TUPLE(SIGNATURE) args;                    \
-                msg >> args;                                                   \
-                auto func = [](auto that, auto &&...args) {                    \
-                    return that->FUNCTION(                                     \
+            ::fcitx::dbus::makeObjectVTablePropertyObjectMethodAdaptor<        \
+                FCITX_STRING_TO_DBUS_TYPE(RET),                                \
+                FCITX_STRING_TO_DBUS_TUPLE(SIGNATURE)>(                        \
+                this, [this](auto &&...args) {                                 \
+                    return this->FUNCTION(                                     \
                         std::forward<decltype(args)>(args)...);                \
-                };                                                             \
-                auto argsWithThis =                                            \
-                    std::tuple_cat(std::make_tuple(this), std::move(args));    \
-                typedef decltype(callWithTuple(func,                           \
-                                               argsWithThis)) ReturnType;      \
-                ::fcitx::dbus::ReturnValueHelper<ReturnType> helper;           \
-                auto functor = [&argsWithThis, func]() {                       \
-                    return callWithTuple(func, argsWithThis);                  \
-                };                                                             \
-                try {                                                          \
-                    helper.call(functor);                                      \
-                    auto reply = msg.createReply();                            \
-                    static_assert(std::is_same<FCITX_STRING_TO_DBUS_TYPE(RET), \
-                                               ReturnType>::value,             \
-                                  "Return type does not match: " RET);         \
-                    reply << helper.ret;                                       \
-                    reply.send();                                              \
-                } catch (const ::fcitx::dbus::MethodCallError &error) {        \
-                    auto reply = msg.createError(error.name(), error.what());  \
-                    reply.send();                                              \
-                }                                                              \
-                if (watcher.isValid()) {                                       \
-                    watcher.get()->setCurrentMessage(nullptr);                 \
-                }                                                              \
-                return true;                                                   \
-            }                                                                  \
+                })                                                             \
     }
 
 /**
@@ -217,11 +191,8 @@ struct ReturnValueHelper<void> {
                                      ...)                                      \
     ::fcitx::dbus::ObjectVTableProperty PROPERTY##Property{                    \
         this, NAME, SIGNATURE,                                                 \
-        [method = GETMETHOD](::fcitx::dbus::Message &msg) {                    \
-            typedef FCITX_STRING_TO_DBUS_TUPLE(SIGNATURE) property_type;       \
-            property_type property = method();                                 \
-            msg << property;                                                   \
-        },                                                                     \
+        ::fcitx::dbus::makeObjectVTablePropertyGetMethodAdaptor<               \
+            FCITX_STRING_TO_DBUS_TUPLE(SIGNATURE)>(this, GETMETHOD),           \
         ::fcitx::dbus::PropertyOptions{__VA_ARGS__}};
 
 /**
@@ -241,24 +212,10 @@ struct ReturnValueHelper<void> {
         this,                                                                  \
         NAME,                                                                  \
         SIGNATURE,                                                             \
-        [method = GETMETHOD](::fcitx::dbus::Message &msg) {                    \
-            typedef FCITX_STRING_TO_DBUS_TUPLE(SIGNATURE) property_type;       \
-            property_type property = method();                                 \
-            msg << property;                                                   \
-        },                                                                     \
-        [this, method = SETMETHOD](::fcitx::dbus::Message &msg) {              \
-            this->setCurrentMessage(&msg);                                     \
-            auto watcher = static_cast<ObjectVTableBase *>(this)->watch();     \
-            FCITX_STRING_TO_DBUS_TUPLE(SIGNATURE) args;                        \
-            msg >> args;                                                       \
-            callWithTuple(method, args);                                       \
-            auto reply = msg.createReply();                                    \
-            reply.send();                                                      \
-            if (watcher.isValid()) {                                           \
-                watcher.get()->setCurrentMessage(nullptr);                     \
-            }                                                                  \
-            return true;                                                       \
-        },                                                                     \
+        ::fcitx::dbus::makeObjectVTablePropertyGetMethodAdaptor<               \
+            FCITX_STRING_TO_DBUS_TUPLE(SIGNATURE)>(this, GETMETHOD),           \
+        ::fcitx::dbus::makeObjectVTablePropertySetMethodAdaptor<               \
+            FCITX_STRING_TO_DBUS_TUPLE(SIGNATURE)>(this, SETMETHOD),           \
         ::fcitx::dbus::PropertyOptions{__VA_ARGS__}};
 
 class ObjectVTableSignalPrivate;
@@ -433,6 +390,117 @@ public:
         return d.get();
     }
 };
+
+template <typename Ret, typename Args, typename Callback>
+class ObjectVTablePropertyObjectMethodAdaptor {
+public:
+    ObjectVTablePropertyObjectMethodAdaptor(ObjectVTableBase *base,
+                                            Callback callback)
+        : base_(base), callback_(std::move(callback)) {}
+
+    FCITX_INLINE_DEFINE_DEFAULT_DTOR_COPY_AND_MOVE(
+        ObjectVTablePropertyObjectMethodAdaptor);
+
+    bool operator()(Message msg) {
+        base_->setCurrentMessage(&msg);
+        auto watcher = base_->watch();
+        Args args;
+        msg >> args;
+        try {
+            typedef decltype(callWithTuple(callback_, args)) ReturnType;
+            static_assert(std::is_same<Ret, ReturnType>::value,
+                          "Return type does not match.");
+            ReturnValueHelper<ReturnType> helper;
+            helper.call(
+                [this, &args]() { return callWithTuple(callback_, args); });
+            auto reply = msg.createReply();
+            reply << helper.ret;
+            reply.send();
+        } catch (const ::fcitx::dbus::MethodCallError &error) {
+            auto reply = msg.createError(error.name(), error.what());
+            reply.send();
+        }
+        if (watcher.isValid()) {
+            watcher.get()->setCurrentMessage(nullptr);
+        }
+        return true;
+    }
+
+private:
+    ObjectVTableBase *base_;
+    Callback callback_;
+};
+
+template <typename Ret, typename Args, typename Callback>
+auto makeObjectVTablePropertyObjectMethodAdaptor(ObjectVTableBase *base,
+                                                 Callback &&callback) {
+    return ObjectVTablePropertyObjectMethodAdaptor<Ret, Args, Callback>(
+        base, std::forward<Callback>(callback));
+}
+
+template <typename Ret, typename Callback>
+class ObjectVTablePropertyGetMethodAdaptor {
+public:
+    ObjectVTablePropertyGetMethodAdaptor(ObjectVTableBase *base,
+                                         Callback callback)
+        : base_(base), callback_(std::move(callback)) {}
+
+    FCITX_INLINE_DEFINE_DEFAULT_DTOR_COPY_AND_MOVE(
+        ObjectVTablePropertyGetMethodAdaptor);
+
+    void operator()(Message &msg) {
+        Ret property = callback_();
+        msg << property;
+    }
+
+private:
+    ObjectVTableBase *base_;
+    Callback callback_;
+};
+
+template <typename Ret, typename Callback>
+auto makeObjectVTablePropertyGetMethodAdaptor(ObjectVTableBase *base,
+                                              Callback &&callback) {
+    return ObjectVTablePropertyGetMethodAdaptor<Ret, Callback>(
+        base, std::forward<Callback>(callback));
+}
+
+template <typename Ret, typename Callback>
+class ObjectVTablePropertySetMethodAdaptor {
+public:
+    ObjectVTablePropertySetMethodAdaptor(ObjectVTableBase *base,
+                                         Callback callback)
+        : base_(base), callback_(std::move(callback)) {}
+
+    FCITX_INLINE_DEFINE_DEFAULT_DTOR_COPY_AND_MOVE(
+        ObjectVTablePropertySetMethodAdaptor);
+
+    bool operator()(Message &msg) {
+        base_->setCurrentMessage(&msg);
+        auto watcher = base_->watch();
+        Ret args;
+        msg >> args;
+        callWithTuple(callback_, args);
+        auto reply = msg.createReply();
+        reply.send();
+        if (watcher.isValid()) {
+            watcher.get()->setCurrentMessage(nullptr);
+        }
+        return true;
+    }
+
+private:
+    ObjectVTableBase *base_;
+    Callback callback_;
+};
+
+template <typename Ret, typename Callback>
+auto makeObjectVTablePropertySetMethodAdaptor(ObjectVTableBase *base,
+                                              Callback &&callback) {
+    return ObjectVTablePropertySetMethodAdaptor<Ret, Callback>(
+        base, std::forward<Callback>(callback));
+}
+
 } // namespace dbus
 } // namespace fcitx
 
