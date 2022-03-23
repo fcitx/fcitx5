@@ -201,6 +201,8 @@ private:
     Theme theme_;
     mutable Theme subconfigTheme_;
     bool suspended_ = true;
+
+    std::unique_ptr<EventSource> deferedEnableTray_;
 };
 } // namespace classicui
 } // namespace fcitx

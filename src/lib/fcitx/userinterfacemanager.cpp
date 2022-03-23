@@ -235,6 +235,7 @@ void UserInterfaceManager::updateAvailability() {
         }
     }
     if (oldUI != newUI) {
+        FCITX_DEBUG() << "Switching UI addon to " << newUIName;
         if (oldUI) {
             oldUI->suspend();
         }

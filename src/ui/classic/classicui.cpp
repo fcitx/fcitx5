@@ -172,10 +172,24 @@ void ClassicUI::resume() {
                 });
         }
         sni->call<INotificationItem::enable>();
-        auto registered = sni->call<INotificationItem::registered>();
-        for (auto &p : uis_) {
-            p.second->setEnableTray(!registered);
-        }
+        // Delay 1 sec to enable xembed tray icon.
+        deferedEnableTray_ = instance_->eventLoop().addTimeEvent(
+            CLOCK_MONOTONIC, now(CLOCK_MONOTONIC) + 1000000, 0,
+            [this](EventSource *, uint64_t) {
+                // If we are now suspended, just return.
+                if (suspended()) {
+                    return true;
+                }
+                if (auto *sni = notificationitem()) {
+                    auto registered =
+                        sni->call<INotificationItem::registered>();
+                    for (auto &p : uis_) {
+                        p.second->setEnableTray(!registered);
+                    }
+                }
+                deferedEnableTray_.reset();
+                return true;
+            });
     } else {
         for (auto &p : uis_) {
             p.second->setEnableTray(true);
