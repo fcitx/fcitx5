@@ -49,7 +49,7 @@ private:
     void init() {
         keyboard_->keymap().connect([this](uint32_t, int32_t fd, uint32_t) {
             close(fd);
-            updateKeymap();
+            updateKeymap_();
         });
     }
     ScopedConnection capConn_;
