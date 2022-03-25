@@ -7,12 +7,14 @@
 
 #include "waylandmodule.h"
 #include <stdexcept>
+#include <gio/gio.h>
 #include <wayland-client.h>
 #include "fcitx-config/iniparser.h"
 #include "fcitx-utils/log.h"
 #include "fcitx/instance.h"
 #include "fcitx/misc_p.h"
 #include "config.h"
+#include "wl_seat.h"
 
 #ifdef ENABLE_DBUS
 #include "dbus_public.h"
@@ -71,9 +73,33 @@ void WaylandConnection::init(wl_display *display) {
 
     group_ = std::make_unique<FocusGroup>(
         "wayland:" + name_, parent_->instance()->inputContextManager());
+
+    panelConn_ = display_->globalCreated().connect(
+        [this](const std::string &name, const std::shared_ptr<void> &seat) {
+            if (name == wayland::WlSeat::interface) {
+                setupKeyboard(static_cast<wayland::WlSeat *>(seat.get()));
+            }
+        });
+    panelRemovedConn_ = display_->globalRemoved().connect(
+        [this](const std::string &name, const std::shared_ptr<void> &ptr) {
+            if (name == wayland::WlSeat::interface) {
+                keyboards_.erase(static_cast<wayland::WlSeat *>(ptr.get()));
+            }
+        });
+    for (auto seat : display_->getGlobals<wayland::WlSeat>()) {
+        setupKeyboard(seat.get());
+    }
 }
 
 void WaylandConnection::finish() { parent_->removeConnection(name_); }
+
+void WaylandConnection::setupKeyboard(wayland::WlSeat *seat) {
+    auto &kbd = (keyboards_[seat] = std::make_unique<WaylandKeyboard>(seat));
+    kbd->updateKeymap().connect([this]() {
+        FCITX_WAYLAND_DEBUG() << "Update keymap";
+        parent_->reloadXkbOption();
+    });
+}
 
 void WaylandConnection::onIOEvent(IOEventFlags flags) {
     if ((flags & IOEventFlag::Err) || (flags & IOEventFlag::Hup)) {
@@ -102,6 +128,15 @@ void WaylandConnection::onIOEvent(IOEventFlags flags) {
 
 WaylandModule::WaylandModule(fcitx::Instance *instance)
     : instance_(instance), isWaylandSession_(isSessionType("wayland")) {
+
+    delayedReloadXkbOption_ = instance_->eventLoop().addTimeEvent(
+        CLOCK_MONOTONIC, now(CLOCK_MONOTONIC), 0,
+        [this](EventSourceTime *, uint64_t) {
+            reloadXkbOptionReal();
+            return true;
+        });
+    delayedReloadXkbOption_->setEnabled(false);
+
     reloadConfig();
     openConnection("");
     reloadXkbOption();
@@ -242,35 +277,61 @@ void WaylandModule::onConnectionClosed(WaylandConnection &conn) {
         callback(conn.name(), *conn.display());
     }
 }
-
 void WaylandModule::reloadXkbOption() {
+    delayedReloadXkbOption_->setNextInterval(30000);
+    delayedReloadXkbOption_->setOneShot();
+}
+
+void WaylandModule::reloadXkbOptionReal() {
 #ifdef ENABLE_DBUS
-    if (!isKDE() || !isWaylandSession_) {
+    if (!isWaylandSession_) {
         return;
     }
-
     auto connection = findValue(conns_, "");
     if (!connection) {
         return;
     }
 
-    auto dbusAddon = dbus();
-    if (!dbusAddon) {
-        return;
-    }
+    FCITX_WAYLAND_DEBUG() << "Try to reload Xkb option from desktop";
+    std::optional<std::string> xkbOption = std::nullopt;
+    if (isKDE()) {
 
-    fcitx::RawConfig config;
-    readAsIni(config, StandardPath::Type::Config, "kxkbrc");
-    auto model = config.valueByPath("Layout/Model");
-    auto options = config.valueByPath("Layout/Options");
-    instance_->setXkbParameters(connection->focusGroup()->display(),
-                                DEFAULT_XKB_RULES, model ? *model : "",
-                                (options ? *options : ""));
+        auto dbusAddon = dbus();
+        if (!dbusAddon) {
+            return;
+        }
+
+        fcitx::RawConfig config;
+        readAsIni(config, StandardPath::Type::Config, "kxkbrc");
+        auto model = config.valueByPath("Layout/Model");
+        auto options = config.valueByPath("Layout/Options");
+        xkbOption = (options ? *options : "");
+        instance_->setXkbParameters(connection->focusGroup()->display(),
+                                    DEFAULT_XKB_RULES, model ? *model : "",
+                                    *xkbOption);
+        FCITX_WAYLAND_DEBUG()
+            << "KDE xkb options: model=" << (model ? *model : "")
+            << " options=" << *xkbOption;
+    } else if (getDesktopType() == DesktopType::GNOME) {
+        auto settings = g_settings_new("org.gnome.desktop.input-sources");
+        if (settings) {
+
+            gchar **value = g_settings_get_strv(settings, "xkb-options");
+            if (value) {
+                auto options = g_strjoinv(",", value);
+                xkbOption = (options ? options : "");
+                instance_->setXkbParameters(connection->focusGroup()->display(),
+                                            DEFAULT_XKB_RULES, "", *xkbOption);
+                FCITX_WAYLAND_DEBUG() << "GNOME xkb options=" << *xkbOption;
+                g_free(options);
+            }
+            g_object_unref(settings);
+        }
+    }
 #ifdef ENABLE_X11
-    if (auto xcbAddon = xcb()) {
+    if (auto xcbAddon = xcb(); xcbAddon && xkbOption) {
         xcbAddon->call<IXCBModule::setXkbOption>(
-            xcbAddon->call<IXCBModule::mainDisplay>(),
-            (options ? *options : ""));
+            xcbAddon->call<IXCBModule::mainDisplay>(), *xkbOption);
     }
 #endif
 #endif

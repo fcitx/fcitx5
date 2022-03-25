@@ -17,6 +17,8 @@
 #include "fcitx/instance.h"
 #include "display.h"
 #include "wayland_public.h"
+#include "wl_keyboard.h"
+#include "wl_seat.h"
 
 namespace fcitx {
 
@@ -27,6 +29,33 @@ FCITX_CONFIGURATION(
     Option<bool> allowOverrideXKB{
         this, "Allow Overriding System XKB Settings",
         _("Allow Overriding System XKB Settings (Only support KDE 5)"), true};);
+
+class WaylandKeyboard {
+public:
+    WaylandKeyboard(wayland::WlSeat *seat) {
+        capConn_ = seat->capabilities().connect([this, seat](uint32_t caps) {
+            if ((caps & WL_SEAT_CAPABILITY_KEYBOARD) && !keyboard_) {
+                keyboard_.reset(seat->getKeyboard());
+                init();
+            } else if (!(caps & WL_SEAT_CAPABILITY_KEYBOARD) && keyboard_) {
+                keyboard_.reset();
+            }
+        });
+    }
+
+    auto &updateKeymap() { return updateKeymap_; }
+
+private:
+    void init() {
+        keyboard_->keymap().connect([this](uint32_t, int32_t fd, uint32_t) {
+            close(fd);
+            updateKeymap();
+        });
+    }
+    ScopedConnection capConn_;
+    std::unique_ptr<wayland::WlKeyboard> keyboard_;
+    Signal<void()> updateKeymap_;
+};
 
 class WaylandConnection {
 public:
@@ -42,6 +71,7 @@ private:
     void init(wl_display *display);
     void onIOEvent(IOEventFlags flags);
     void finish();
+    void setupKeyboard(wayland::WlSeat *seat);
 
     WaylandModule *parent_;
     std::string name_;
@@ -50,6 +80,9 @@ private:
     std::unique_ptr<EventSourceIO> ioEvent_;
     std::unique_ptr<FocusGroup> group_;
     int error_ = 0;
+    ScopedConnection panelConn_, panelRemovedConn_;
+    std::unordered_map<wayland::WlSeat *, std::unique_ptr<WaylandKeyboard>>
+        keyboards_;
 };
 
 class WaylandModule : public AddonInstance {
@@ -78,6 +111,7 @@ public:
 private:
     void onConnectionCreated(WaylandConnection &conn);
     void onConnectionClosed(WaylandConnection &conn);
+    void reloadXkbOptionReal();
 
     FCITX_ADDON_DEPENDENCY_LOADER(dbus, instance_->addonManager());
     FCITX_ADDON_DEPENDENCY_LOADER(xcb, instance_->addonManager());
@@ -96,6 +130,7 @@ private:
 
     std::vector<std::unique_ptr<HandlerTableEntry<EventHandler>>>
         eventHandlers_;
+    std::unique_ptr<EventSourceTime> delayedReloadXkbOption_;
 };
 } // namespace fcitx
 
