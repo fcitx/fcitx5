@@ -135,13 +135,13 @@ struct InputState : public InputContextProperty {
     }
 
     auto xkbComposeState() { return xkbComposeState_.get(); }
+    void setModsAllReleased() { modsAllReleased_ = true; }
+    bool isModsAllReleased() const { return modsAllReleased_; }
 #endif
 
     bool isActive() const { return active_; }
     void setActive(bool active);
     void setLocalIM(const std::string &localIM);
-    void setModsAllReleased() { modsAllReleased_ = true; }
-    bool isModsAllReleased() const { return modsAllReleased_; }
 
     CheckInputMethodChanged *imChanged_ = nullptr;
     int keyReleased_ = -1;
