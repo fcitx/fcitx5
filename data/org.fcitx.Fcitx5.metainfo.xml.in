@@ -43,4 +43,5 @@
     <release version="5.0.0" date="2020-10-30"/>
   </releases>
   <launchable type="desktop-id">org.fcitx.Fcitx5.desktop</launchable>
+  <content_rating type="oars-1.1"/>
 </component>
