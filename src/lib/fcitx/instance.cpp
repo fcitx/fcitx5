@@ -544,6 +544,7 @@ xkb_state *InputState::customXkbState(bool refresh) {
     } else {
         xkbState_.reset();
     }
+    modsAllReleased_ = false;
     return xkbState_.get();
 }
 #endif
