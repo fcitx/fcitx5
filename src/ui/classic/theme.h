@@ -107,6 +107,8 @@ FCITX_CONFIGURATION(
         this, "FullWidthHighlight",
         _("Use all horizontal space for highlight when it is vertical list"),
         true};
+    Option<int> offsetX{this, "OffsetX", _("InputPanel X offset"), 0};
+    Option<int> offsetY{this, "OffsetY", _("InputPanel Y offset"), 0};
     Option<Color> highlightColor{this, "HighlightColor",
                                  _("Highlight text color"), Color("#ffffffff")};
     Option<Color> highlightBackgroundColor{this, "HighlightBackgroundColor",

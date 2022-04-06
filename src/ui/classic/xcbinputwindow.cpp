@@ -91,9 +91,13 @@ void XCBInputWindow::updatePosition(InputContext *inputContext) {
         y = newY;
     }
 
+    // add support of input panel offset here.
+    auto &theme = parent_->theme();
+
     xcb_params_configure_window_t wc;
-    wc.x = x;
-    wc.y = y;
+    wc.x = x + theme.inputPanel->offsetX.value();
+    wc.y = y + theme.inputPanel->offsetY.value();
+
     wc.stack_mode = XCB_STACK_MODE_ABOVE;
     xcb_aux_configure_window(ui_->connection(), wid_,
                              XCB_CONFIG_WINDOW_STACK_MODE |
