@@ -47,9 +47,21 @@ void XCBInputWindow::updatePosition(InputContext *inputContext) {
     }
     int x, y, h;
 
-    x = inputContext->cursorRect().left();
-    y = inputContext->cursorRect().top();
+    // add support of input panel offset here.
+    // TODO: RTL support.
+    auto &theme = parent_->theme();
+    int leftSW, rightSW, topSW, bottomSW, expectedWidth, expectedHeight;
+    leftSW = theme.inputPanel->shadowMargin->marginLeft.value();
+    rightSW = theme.inputPanel->shadowMargin->marginRight.value();
+    topSW = theme.inputPanel->shadowMargin->marginTop.value();
+    bottomSW = theme.inputPanel->shadowMargin->marginBottom.value();
+
+    x = inputContext->cursorRect().left() - leftSW;
+    y = inputContext->cursorRect().top() - topSW;
     h = inputContext->cursorRect().height();
+
+    expectedWidth = width() - leftSW - rightSW;
+    expectedHeight = height() - topSW - bottomSW;
 
     const Rect *closestScreen = nullptr;
     int shortestDistance = INT_MAX;
@@ -76,28 +88,24 @@ void XCBInputWindow::updatePosition(InputContext *inputContext) {
             newY = y + (h ? h : (10 * ((dpi_ < 0 ? 96.0 : dpi_) / 96.0)));
         }
 
-        if ((newX + static_cast<int>(width())) > closestScreen->right()) {
-            newX = closestScreen->right() - width();
+        if ((newX + static_cast<int>(expectedWidth)) > closestScreen->right()) {
+            newX = closestScreen->right() - expectedWidth;
         }
 
-        if ((newY + static_cast<int>(height())) > closestScreen->bottom()) {
+        if ((newY + static_cast<int>(expectedHeight)) > closestScreen->bottom()) {
             if (newY > closestScreen->bottom()) {
-                newY = closestScreen->bottom() - height() - 40;
+                newY = closestScreen->bottom() - expectedHeight - 40;
             } else { /* better position the window */
-                newY = newY - height() - ((h == 0) ? 40 : h);
+                newY = newY - expectedHeight - ((h == 0) ? 40 : h);
             }
         }
         x = newX;
         y = newY;
     }
 
-    // add support of input panel offset here.
-    auto &theme = parent_->theme();
-
     xcb_params_configure_window_t wc;
-    wc.x = x + theme.inputPanel->offsetX.value();
-    wc.y = y + theme.inputPanel->offsetY.value();
-
+    wc.x = x;
+    wc.y = y;
     wc.stack_mode = XCB_STACK_MODE_ABOVE;
     xcb_aux_configure_window(ui_->connection(), wid_,
                              XCB_CONFIG_WINDOW_STACK_MODE |
