@@ -56,8 +56,8 @@ void XCBInputWindow::updatePosition(InputContext *inputContext) {
     topSW = theme.inputPanel->shadowMargin->marginTop.value();
     bottomSW = theme.inputPanel->shadowMargin->marginBottom.value();
 
-    x = inputContext->cursorRect().left() - leftSW;
-    y = inputContext->cursorRect().top() - topSW;
+    x = inputContext->cursorRect().left();
+    y = inputContext->cursorRect().top();
     h = inputContext->cursorRect().height();
 
     expectedWidth = width() - leftSW - rightSW;
@@ -102,6 +102,10 @@ void XCBInputWindow::updatePosition(InputContext *inputContext) {
         x = newX;
         y = newY;
     }
+
+    // exclude shadow border width
+    x -= leftSW;
+    y -= topSW;
 
     xcb_params_configure_window_t wc;
     wc.x = x;
