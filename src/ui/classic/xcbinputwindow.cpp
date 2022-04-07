@@ -50,7 +50,7 @@ void XCBInputWindow::updatePosition(InputContext *inputContext) {
     // add support of input panel offset here.
     // TODO: RTL support.
     auto &theme = parent_->theme();
-    int leftSW, rightSW, topSW, bottomSW, expectedWidth, expectedHeight;
+    int leftSW, rightSW, topSW, bottomSW, actualWidth, actualHeight;
     leftSW = theme.inputPanel->shadowMargin->marginLeft.value();
     rightSW = theme.inputPanel->shadowMargin->marginRight.value();
     topSW = theme.inputPanel->shadowMargin->marginTop.value();
@@ -60,8 +60,10 @@ void XCBInputWindow::updatePosition(InputContext *inputContext) {
     y = inputContext->cursorRect().top();
     h = inputContext->cursorRect().height();
 
-    expectedWidth = width() - leftSW - rightSW;
-    expectedHeight = height() - topSW - bottomSW;
+    actualWidth = width() - leftSW - rightSW;
+    actualWidth = actualWidth <= 0 ? width() : actualWidth;
+    actualHeight = height() - topSW - bottomSW;
+    actualHeight = actualHeight <= 0 ? height() : actualHeight;
 
     const Rect *closestScreen = nullptr;
     int shortestDistance = INT_MAX;
@@ -88,15 +90,15 @@ void XCBInputWindow::updatePosition(InputContext *inputContext) {
             newY = y + (h ? h : (10 * ((dpi_ < 0 ? 96.0 : dpi_) / 96.0)));
         }
 
-        if ((newX + static_cast<int>(expectedWidth)) > closestScreen->right()) {
-            newX = closestScreen->right() - expectedWidth;
+        if ((newX + static_cast<int>(actualWidth)) > closestScreen->right()) {
+            newX = closestScreen->right() - actualWidth;
         }
 
-        if ((newY + static_cast<int>(expectedHeight)) > closestScreen->bottom()) {
+        if ((newY + static_cast<int>(actualHeight)) > closestScreen->bottom()) {
             if (newY > closestScreen->bottom()) {
-                newY = closestScreen->bottom() - expectedHeight - 40;
+                newY = closestScreen->bottom() - actualHeight - 40;
             } else { /* better position the window */
-                newY = newY - expectedHeight - ((h == 0) ? 40 : h);
+                newY = newY - actualHeight - ((h == 0) ? 40 : h);
             }
         }
         x = newX;
