@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2022-03-15 20:24+0000\n"
+"POT-Creation-Date: 2022-04-08 20:24+0000\n"
 "PO-Revision-Date: 2017-11-23 04:14+0000\n"
 "Last-Translator: Dmitry <dmitrydmitry761@gmail.com>, 2022\n"
 "Language-Team: Russian (https://www.transifex.com/fcitx/teams/12005/ru/)\n"
@@ -153,7 +153,7 @@ msgstr "Все локали:"
 msgid "Allow Overriding System XKB Settings"
 msgstr "Разрешить переопределение системных настроек XKB"
 
-#: src/modules/wayland/waylandmodule.h:29
+#: src/modules/wayland/waylandmodule.h:31
 msgid "Allow Overriding System XKB Settings (Only support KDE 5)"
 msgstr ""
 "Разрешить переопределение системных настроек XKB (поддерживается только KDE "
@@ -201,7 +201,7 @@ msgctxt "Key name"
 msgid "Audio Repeat"
 msgstr "Повтор аудио"
 
-#: src/ui/classic/theme.h:150
+#: src/ui/classic/theme.h:152
 msgid "Author"
 msgstr "Автор"
 
@@ -224,7 +224,7 @@ msgstr "Обратно вперед"
 msgid "Backends"
 msgstr "Бэкенды"
 
-#: src/ui/classic/theme.h:116 src/ui/classic/theme.h:135
+#: src/ui/classic/theme.h:116 src/ui/classic/theme.h:137
 msgid "Background"
 msgstr "Фон"
 
@@ -420,7 +420,7 @@ msgstr "По центру Справа"
 msgid "Change Fcitx 5 Configuration"
 msgstr "Изменить конфигурацию Fcitx 5"
 
-#: src/ui/classic/theme.h:140
+#: src/ui/classic/theme.h:142
 msgid "Check box"
 msgstr "Флажок"
 
@@ -589,7 +589,7 @@ msgstr "Деактивация метода ввода"
 msgid "Debug information from dbus:"
 msgstr "Отладочная информация от dbus:"
 
-#: src/lib/fcitx/inputmethodmanager.cpp:138 src/lib/fcitx/instance.cpp:721
+#: src/lib/fcitx/inputmethodmanager.cpp:138 src/lib/fcitx/instance.cpp:722
 #: src/ui/classic/themes/default/theme.conf.in:3
 msgid "Default"
 msgstr "По умолчанию"
@@ -619,7 +619,7 @@ msgctxt "Key name"
 msgid "Delete"
 msgstr "Удалить"
 
-#: src/ui/classic/theme.h:152
+#: src/ui/classic/theme.h:154
 msgid "Description"
 msgstr "Описание"
 
@@ -962,7 +962,7 @@ msgstr "Группа"
 msgid "Group {0}: {1}"
 msgstr "Группа {0}: {1}"
 
-#: src/lib/fcitx/instance.cpp:723
+#: src/lib/fcitx/instance.cpp:724
 msgid "Group {}"
 msgstr "Группа {}"
 
@@ -1065,7 +1065,7 @@ msgstr "Скрытые уведомления"
 msgid "Hide overlay if size does not fit"
 msgstr "Скрыть наложение, если размер не подходит"
 
-#: src/ui/classic/theme.h:118 src/ui/classic/theme.h:137
+#: src/ui/classic/theme.h:118 src/ui/classic/theme.h:139
 msgid "Highlight Background"
 msgstr "Выделить фон"
 
@@ -1073,7 +1073,7 @@ msgstr "Выделить фон"
 msgid "Highlight Background color"
 msgstr "Цвет фона выделения"
 
-#: src/ui/classic/theme.h:102 src/ui/classic/theme.h:131
+#: src/ui/classic/theme.h:102 src/ui/classic/theme.h:133
 msgid "Highlight Candidate Color"
 msgstr "Выделить цветом кандидат"
 
@@ -1175,7 +1175,7 @@ msgid "Image"
 msgstr "Изображение"
 
 #: src/im/keyboard/keyboard.cpp:795 src/lib/fcitx/instance.cpp:413
-#: src/lib/fcitx/instance.cpp:793 src/lib/fcitx/instance.cpp:959
+#: src/lib/fcitx/instance.cpp:794 src/lib/fcitx/instance.cpp:960
 #: src/modules/notificationitem/notificationitem.cpp:123
 #: src/modules/xcb/xcbconnection.cpp:406 data/org.fcitx.Fcitx5.desktop.in.in:4
 #: data/org.fcitx.Fcitx5.metainfo.xml.in:7
@@ -1194,7 +1194,7 @@ msgstr "Относящиеся к методу ввода переменные �
 msgid "Input Methods:"
 msgstr "Методы ввода:"
 
-#: src/ui/classic/theme.h:158
+#: src/ui/classic/theme.h:160
 msgid "Input Panel"
 msgstr "Панель ввода"
 
@@ -1450,11 +1450,11 @@ msgstr "Поле справа"
 msgid "Margin Top"
 msgstr "Поле сверху"
 
-#: src/ui/classic/theme.h:120 src/ui/classic/theme.h:143
+#: src/ui/classic/theme.h:120 src/ui/classic/theme.h:145
 msgid "Margin around all content"
 msgstr "Поля вокруг всего содержимого"
 
-#: src/ui/classic/theme.h:122 src/ui/classic/theme.h:145
+#: src/ui/classic/theme.h:122 src/ui/classic/theme.h:147
 msgid "Margin around text"
 msgstr "Поле вокруг текста"
 
@@ -1513,7 +1513,7 @@ msgctxt "Key name"
 msgid "Meeting"
 msgstr "Встреча"
 
-#: src/ui/classic/theme.h:159
+#: src/ui/classic/theme.h:161
 msgid "Menu"
 msgstr "Меню"
 
@@ -1536,7 +1536,7 @@ msgctxt "Key name"
 msgid "Messenger"
 msgstr "Мессенджер"
 
-#: src/ui/classic/theme.h:156
+#: src/ui/classic/theme.h:158
 msgid "Metadata"
 msgstr "Метаданные"
 
@@ -1575,7 +1575,7 @@ msgctxt "Key name"
 msgid "My Sites"
 msgstr "Мои сайты"
 
-#: src/ui/classic/theme.h:148
+#: src/ui/classic/theme.h:150
 msgid "Name"
 msgstr "Имя"
 
@@ -1609,7 +1609,7 @@ msgstr "История буфера обмена отсутствует."
 msgid "None"
 msgstr "Нет"
 
-#: src/ui/classic/theme.h:99 src/ui/classic/theme.h:128
+#: src/ui/classic/theme.h:99 src/ui/classic/theme.h:130
 msgid "Normal text color"
 msgstr "Обычный цвет текста"
 
@@ -1758,15 +1758,15 @@ msgctxt "Key name"
 msgid "Power Off"
 msgstr "Power Off"
 
-#: src/lib/fcitx/instance.cpp:959
+#: src/lib/fcitx/instance.cpp:960
 msgid "Preedit"
 msgstr "Предварительное редактирование"
 
-#: src/lib/fcitx/instance.cpp:961
+#: src/lib/fcitx/instance.cpp:962
 msgid "Preedit disabled"
 msgstr "Предварительное редактирование отключено"
 
-#: src/lib/fcitx/instance.cpp:960
+#: src/lib/fcitx/instance.cpp:961
 msgid "Preedit enabled"
 msgstr "Предварительное редактирование включено"
 
@@ -1943,9 +1943,13 @@ msgctxt "Key name"
 msgid "Send"
 msgstr "Отправить"
 
-#: src/ui/classic/theme.h:139
+#: src/ui/classic/theme.h:141
 msgid "Separator Background"
 msgstr "Фон разделителя"
+
+#: src/ui/classic/theme.h:127
+msgid "Shadow Margin"
+msgstr ""
 
 #: src/lib/fcitx/globalconfig.cpp:140
 msgid "Share Input State"
@@ -2008,7 +2012,7 @@ msgctxt "Key name"
 msgid "Space"
 msgstr "Space"
 
-#: src/ui/classic/theme.h:133
+#: src/ui/classic/theme.h:135
 msgid "Spacing"
 msgstr "Расстояние"
 
@@ -2049,7 +2053,7 @@ msgctxt "Key name"
 msgid "Stop"
 msgstr "Остановить"
 
-#: src/ui/classic/theme.h:141
+#: src/ui/classic/theme.h:143
 msgid "Sub Menu"
 msgstr "Подменю"
 
@@ -2077,7 +2081,7 @@ msgctxt "Key name"
 msgid "Suspend"
 msgstr "Приостановить"
 
-#: src/lib/fcitx/instance.cpp:414 src/lib/fcitx/instance.cpp:794
+#: src/lib/fcitx/instance.cpp:414 src/lib/fcitx/instance.cpp:795
 #: src/modules/xcb/xcbconnection.cpp:407
 msgid "Switch group"
 msgstr "Сменить группу"
@@ -2086,7 +2090,7 @@ msgstr "Сменить группу"
 msgid "Switch group to {0}"
 msgstr "Переключить группу на {0}"
 
-#: src/lib/fcitx/instance.cpp:795
+#: src/lib/fcitx/instance.cpp:796
 msgid "Switched group to {0}"
 msgstr "Группа переключена на {0}"
 
@@ -2317,7 +2321,7 @@ msgstr "Пользовательский интерфейс:"
 msgid "Using ${1} to check dbus."
 msgstr "Использование ${1} для проверки dbus."
 
-#: src/ui/classic/theme.h:149
+#: src/ui/classic/theme.h:151
 msgid "Version"
 msgstr "Версия"
 

@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2022-03-23 20:24+0000\n"
+"POT-Creation-Date: 2022-04-08 20:24+0000\n"
 "PO-Revision-Date: 2017-11-23 04:14+0000\n"
 "Last-Translator: rocka, 2022\n"
 "Language-Team: Chinese (China) (https://www.transifex.com/fcitx/teams/12005/"
@@ -152,7 +152,7 @@ msgstr "全部可用 locale："
 msgid "Allow Overriding System XKB Settings"
 msgstr "允许重写系统 XKB 设置"
 
-#: src/modules/wayland/waylandmodule.h:29
+#: src/modules/wayland/waylandmodule.h:31
 msgid "Allow Overriding System XKB Settings (Only support KDE 5)"
 msgstr "允许重写系统 XKB 设置 (仅支持 KDE 5)"
 
@@ -198,7 +198,7 @@ msgctxt "Key name"
 msgid "Audio Repeat"
 msgstr "音频重复"
 
-#: src/ui/classic/theme.h:150
+#: src/ui/classic/theme.h:152
 msgid "Author"
 msgstr "作者"
 
@@ -221,7 +221,7 @@ msgstr "向后"
 msgid "Backends"
 msgstr "后端"
 
-#: src/ui/classic/theme.h:116 src/ui/classic/theme.h:135
+#: src/ui/classic/theme.h:116 src/ui/classic/theme.h:137
 msgid "Background"
 msgstr "背景"
 
@@ -412,7 +412,7 @@ msgstr "右侧居中"
 msgid "Change Fcitx 5 Configuration"
 msgstr "修改 Fcitx 5 配置"
 
-#: src/ui/classic/theme.h:140
+#: src/ui/classic/theme.h:142
 msgid "Check box"
 msgstr "复选框"
 
@@ -581,7 +581,7 @@ msgstr "取消激活输入法"
 msgid "Debug information from dbus:"
 msgstr "来自 dbus 的调试信息："
 
-#: src/lib/fcitx/inputmethodmanager.cpp:138 src/lib/fcitx/instance.cpp:721
+#: src/lib/fcitx/inputmethodmanager.cpp:138 src/lib/fcitx/instance.cpp:722
 #: src/ui/classic/themes/default/theme.conf.in:3
 msgid "Default"
 msgstr "默认"
@@ -611,7 +611,7 @@ msgctxt "Key name"
 msgid "Delete"
 msgstr "删除"
 
-#: src/ui/classic/theme.h:152
+#: src/ui/classic/theme.h:154
 msgid "Description"
 msgstr "描述"
 
@@ -950,7 +950,7 @@ msgstr "分组"
 msgid "Group {0}: {1}"
 msgstr "分组 {0}：{1}"
 
-#: src/lib/fcitx/instance.cpp:723
+#: src/lib/fcitx/instance.cpp:724
 msgid "Group {}"
 msgstr "分组 {}"
 
@@ -1053,7 +1053,7 @@ msgstr "隐藏通知"
 msgid "Hide overlay if size does not fit"
 msgstr "显示区域不足时隐藏覆盖图片"
 
-#: src/ui/classic/theme.h:118 src/ui/classic/theme.h:137
+#: src/ui/classic/theme.h:118 src/ui/classic/theme.h:139
 msgid "Highlight Background"
 msgstr "高亮背景"
 
@@ -1061,7 +1061,7 @@ msgstr "高亮背景"
 msgid "Highlight Background color"
 msgstr "高亮背景颜色"
 
-#: src/ui/classic/theme.h:102 src/ui/classic/theme.h:131
+#: src/ui/classic/theme.h:102 src/ui/classic/theme.h:133
 msgid "Highlight Candidate Color"
 msgstr "高亮候选词颜色"
 
@@ -1158,7 +1158,7 @@ msgid "Image"
 msgstr "图片"
 
 #: src/im/keyboard/keyboard.cpp:795 src/lib/fcitx/instance.cpp:413
-#: src/lib/fcitx/instance.cpp:793 src/lib/fcitx/instance.cpp:959
+#: src/lib/fcitx/instance.cpp:794 src/lib/fcitx/instance.cpp:960
 #: src/modules/notificationitem/notificationitem.cpp:123
 #: src/modules/xcb/xcbconnection.cpp:406 data/org.fcitx.Fcitx5.desktop.in.in:4
 #: data/org.fcitx.Fcitx5.metainfo.xml.in:7
@@ -1177,7 +1177,7 @@ msgstr "输入法相关的环境变量："
 msgid "Input Methods:"
 msgstr "输入法："
 
-#: src/ui/classic/theme.h:158
+#: src/ui/classic/theme.h:160
 msgid "Input Panel"
 msgstr "输入面板"
 
@@ -1432,11 +1432,11 @@ msgstr "右侧边距"
 msgid "Margin Top"
 msgstr "顶部边距"
 
-#: src/ui/classic/theme.h:120 src/ui/classic/theme.h:143
+#: src/ui/classic/theme.h:120 src/ui/classic/theme.h:145
 msgid "Margin around all content"
 msgstr "内容周围边界"
 
-#: src/ui/classic/theme.h:122 src/ui/classic/theme.h:145
+#: src/ui/classic/theme.h:122 src/ui/classic/theme.h:147
 msgid "Margin around text"
 msgstr "文本周围边距"
 
@@ -1495,7 +1495,7 @@ msgctxt "Key name"
 msgid "Meeting"
 msgstr "会议"
 
-#: src/ui/classic/theme.h:159
+#: src/ui/classic/theme.h:161
 msgid "Menu"
 msgstr "菜单"
 
@@ -1518,7 +1518,7 @@ msgctxt "Key name"
 msgid "Messenger"
 msgstr "即时通信"
 
-#: src/ui/classic/theme.h:156
+#: src/ui/classic/theme.h:158
 msgid "Metadata"
 msgstr "元数据"
 
@@ -1557,7 +1557,7 @@ msgctxt "Key name"
 msgid "My Sites"
 msgstr "我的站点"
 
-#: src/ui/classic/theme.h:148
+#: src/ui/classic/theme.h:150
 msgid "Name"
 msgstr "名称"
 
@@ -1591,7 +1591,7 @@ msgstr "无剪贴板历史。"
 msgid "None"
 msgstr "无"
 
-#: src/ui/classic/theme.h:99 src/ui/classic/theme.h:128
+#: src/ui/classic/theme.h:99 src/ui/classic/theme.h:130
 msgid "Normal text color"
 msgstr "一般文字颜色"
 
@@ -1736,15 +1736,15 @@ msgctxt "Key name"
 msgid "Power Off"
 msgstr "关机"
 
-#: src/lib/fcitx/instance.cpp:959
+#: src/lib/fcitx/instance.cpp:960
 msgid "Preedit"
 msgstr "预编辑"
 
-#: src/lib/fcitx/instance.cpp:961
+#: src/lib/fcitx/instance.cpp:962
 msgid "Preedit disabled"
 msgstr "预编辑已禁用"
 
-#: src/lib/fcitx/instance.cpp:960
+#: src/lib/fcitx/instance.cpp:961
 msgid "Preedit enabled"
 msgstr "预编辑已启用"
 
@@ -1921,9 +1921,13 @@ msgctxt "Key name"
 msgid "Send"
 msgstr "发送"
 
-#: src/ui/classic/theme.h:139
+#: src/ui/classic/theme.h:141
 msgid "Separator Background"
 msgstr "分隔符背景"
+
+#: src/ui/classic/theme.h:127
+msgid "Shadow Margin"
+msgstr ""
 
 #: src/lib/fcitx/globalconfig.cpp:140
 msgid "Share Input State"
@@ -1985,7 +1989,7 @@ msgctxt "Key name"
 msgid "Space"
 msgstr "空格"
 
-#: src/ui/classic/theme.h:133
+#: src/ui/classic/theme.h:135
 msgid "Spacing"
 msgstr "间隔"
 
@@ -2026,7 +2030,7 @@ msgctxt "Key name"
 msgid "Stop"
 msgstr "停止"
 
-#: src/ui/classic/theme.h:141
+#: src/ui/classic/theme.h:143
 msgid "Sub Menu"
 msgstr "子菜单"
 
@@ -2054,7 +2058,7 @@ msgctxt "Key name"
 msgid "Suspend"
 msgstr "睡眠"
 
-#: src/lib/fcitx/instance.cpp:414 src/lib/fcitx/instance.cpp:794
+#: src/lib/fcitx/instance.cpp:414 src/lib/fcitx/instance.cpp:795
 #: src/modules/xcb/xcbconnection.cpp:407
 msgid "Switch group"
 msgstr "切换分组"
@@ -2063,7 +2067,7 @@ msgstr "切换分组"
 msgid "Switch group to {0}"
 msgstr "切换到分组 {0}"
 
-#: src/lib/fcitx/instance.cpp:795
+#: src/lib/fcitx/instance.cpp:796
 msgid "Switched group to {0}"
 msgstr "已切换到分组 {0}"
 
@@ -2287,7 +2291,7 @@ msgstr "用户界面："
 msgid "Using ${1} to check dbus."
 msgstr "使用 ${1} 来检查 dbus。"
 
-#: src/ui/classic/theme.h:149
+#: src/ui/classic/theme.h:151
 msgid "Version"
 msgstr "版本"
 

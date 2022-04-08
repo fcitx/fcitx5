@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2022-03-10 20:29+0000\n"
+"POT-Creation-Date: 2022-04-08 20:24+0000\n"
 "PO-Revision-Date: 2017-11-23 04:14+0000\n"
 "Last-Translator: scootergrisen, 2021\n"
 "Language-Team: Danish (https://www.transifex.com/fcitx/teams/12005/da/)\n"
@@ -150,7 +150,7 @@ msgstr ""
 msgid "Allow Overriding System XKB Settings"
 msgstr "Tillad tilsidesættelse af systemets XKB-indstillinger"
 
-#: src/modules/wayland/waylandmodule.h:29
+#: src/modules/wayland/waylandmodule.h:31
 msgid "Allow Overriding System XKB Settings (Only support KDE 5)"
 msgstr ""
 
@@ -196,7 +196,7 @@ msgctxt "Key name"
 msgid "Audio Repeat"
 msgstr "Lyd gentag"
 
-#: src/ui/classic/theme.h:150
+#: src/ui/classic/theme.h:152
 msgid "Author"
 msgstr "Forfatter"
 
@@ -219,7 +219,7 @@ msgstr "Tilbage fremad"
 msgid "Backends"
 msgstr ""
 
-#: src/ui/classic/theme.h:116 src/ui/classic/theme.h:135
+#: src/ui/classic/theme.h:116 src/ui/classic/theme.h:137
 msgid "Background"
 msgstr "Baggrund"
 
@@ -415,7 +415,7 @@ msgstr "I midten til højre"
 msgid "Change Fcitx 5 Configuration"
 msgstr "Skift Fcitx 5-konfiguration"
 
-#: src/ui/classic/theme.h:140
+#: src/ui/classic/theme.h:142
 msgid "Check box"
 msgstr "Afkrydsningsboks"
 
@@ -584,7 +584,7 @@ msgstr "Deaktivér inputmetode"
 msgid "Debug information from dbus:"
 msgstr ""
 
-#: src/lib/fcitx/inputmethodmanager.cpp:138 src/lib/fcitx/instance.cpp:721
+#: src/lib/fcitx/inputmethodmanager.cpp:138 src/lib/fcitx/instance.cpp:722
 #: src/ui/classic/themes/default/theme.conf.in:3
 msgid "Default"
 msgstr "Standard"
@@ -614,7 +614,7 @@ msgctxt "Key name"
 msgid "Delete"
 msgstr "Slet"
 
-#: src/ui/classic/theme.h:152
+#: src/ui/classic/theme.h:154
 msgid "Description"
 msgstr "Beskrivelse"
 
@@ -954,7 +954,7 @@ msgstr "Gruppe"
 msgid "Group {0}: {1}"
 msgstr "Gruppe {0}: {1}"
 
-#: src/lib/fcitx/instance.cpp:723
+#: src/lib/fcitx/instance.cpp:724
 msgid "Group {}"
 msgstr "Gruppe {}"
 
@@ -1057,7 +1057,7 @@ msgstr "Skjulte underretninger"
 msgid "Hide overlay if size does not fit"
 msgstr "Skjul overlægningen hvis størrelsen ikke passer"
 
-#: src/ui/classic/theme.h:118 src/ui/classic/theme.h:137
+#: src/ui/classic/theme.h:118 src/ui/classic/theme.h:139
 msgid "Highlight Background"
 msgstr "Baggrund for fremhævning"
 
@@ -1065,7 +1065,7 @@ msgstr "Baggrund for fremhævning"
 msgid "Highlight Background color"
 msgstr "Baggrundsfarve for fremhævning"
 
-#: src/ui/classic/theme.h:102 src/ui/classic/theme.h:131
+#: src/ui/classic/theme.h:102 src/ui/classic/theme.h:133
 msgid "Highlight Candidate Color"
 msgstr "Kandidatfarve for fremhævning"
 
@@ -1165,7 +1165,7 @@ msgid "Image"
 msgstr "Billede"
 
 #: src/im/keyboard/keyboard.cpp:795 src/lib/fcitx/instance.cpp:413
-#: src/lib/fcitx/instance.cpp:793 src/lib/fcitx/instance.cpp:959
+#: src/lib/fcitx/instance.cpp:794 src/lib/fcitx/instance.cpp:960
 #: src/modules/notificationitem/notificationitem.cpp:123
 #: src/modules/xcb/xcbconnection.cpp:406 data/org.fcitx.Fcitx5.desktop.in.in:4
 #: data/org.fcitx.Fcitx5.metainfo.xml.in:7
@@ -1184,7 +1184,7 @@ msgstr "Inputmetode med relation til miljøvariabler: "
 msgid "Input Methods:"
 msgstr ""
 
-#: src/ui/classic/theme.h:158
+#: src/ui/classic/theme.h:160
 msgid "Input Panel"
 msgstr "Inputpanel"
 
@@ -1437,11 +1437,11 @@ msgstr "Margen til højre"
 msgid "Margin Top"
 msgstr "Margen øverst"
 
-#: src/ui/classic/theme.h:120 src/ui/classic/theme.h:143
+#: src/ui/classic/theme.h:120 src/ui/classic/theme.h:145
 msgid "Margin around all content"
 msgstr "Margen omkring al indholdet"
 
-#: src/ui/classic/theme.h:122 src/ui/classic/theme.h:145
+#: src/ui/classic/theme.h:122 src/ui/classic/theme.h:147
 msgid "Margin around text"
 msgstr "Margen omkring tekst"
 
@@ -1500,7 +1500,7 @@ msgctxt "Key name"
 msgid "Meeting"
 msgstr "Møde"
 
-#: src/ui/classic/theme.h:159
+#: src/ui/classic/theme.h:161
 msgid "Menu"
 msgstr "Menu"
 
@@ -1523,7 +1523,7 @@ msgctxt "Key name"
 msgid "Messenger"
 msgstr "Messenger"
 
-#: src/ui/classic/theme.h:156
+#: src/ui/classic/theme.h:158
 msgid "Metadata"
 msgstr "Metadata"
 
@@ -1562,7 +1562,7 @@ msgctxt "Key name"
 msgid "My Sites"
 msgstr "Mine steder"
 
-#: src/ui/classic/theme.h:148
+#: src/ui/classic/theme.h:150
 msgid "Name"
 msgstr "Navn"
 
@@ -1596,7 +1596,7 @@ msgstr "Ingen udklipsholderhistorik."
 msgid "None"
 msgstr "Ingen"
 
-#: src/ui/classic/theme.h:99 src/ui/classic/theme.h:128
+#: src/ui/classic/theme.h:99 src/ui/classic/theme.h:130
 msgid "Normal text color"
 msgstr "Normal tekstfarve"
 
@@ -1745,15 +1745,15 @@ msgctxt "Key name"
 msgid "Power Off"
 msgstr "Sluk"
 
-#: src/lib/fcitx/instance.cpp:959
+#: src/lib/fcitx/instance.cpp:960
 msgid "Preedit"
 msgstr "Preedit"
 
-#: src/lib/fcitx/instance.cpp:961
+#: src/lib/fcitx/instance.cpp:962
 msgid "Preedit disabled"
 msgstr "Preedit deaktiveret"
 
-#: src/lib/fcitx/instance.cpp:960
+#: src/lib/fcitx/instance.cpp:961
 msgid "Preedit enabled"
 msgstr "Preedit aktiveret"
 
@@ -1930,9 +1930,13 @@ msgctxt "Key name"
 msgid "Send"
 msgstr "Send"
 
-#: src/ui/classic/theme.h:139
+#: src/ui/classic/theme.h:141
 msgid "Separator Background"
 msgstr "Baggrund for separator"
+
+#: src/ui/classic/theme.h:127
+msgid "Shadow Margin"
+msgstr ""
 
 #: src/lib/fcitx/globalconfig.cpp:140
 msgid "Share Input State"
@@ -1992,7 +1996,7 @@ msgctxt "Key name"
 msgid "Space"
 msgstr "Mellemrum"
 
-#: src/ui/classic/theme.h:133
+#: src/ui/classic/theme.h:135
 msgid "Spacing"
 msgstr "Afstand"
 
@@ -2033,7 +2037,7 @@ msgctxt "Key name"
 msgid "Stop"
 msgstr "Stop"
 
-#: src/ui/classic/theme.h:141
+#: src/ui/classic/theme.h:143
 msgid "Sub Menu"
 msgstr "Undermenu"
 
@@ -2061,7 +2065,7 @@ msgctxt "Key name"
 msgid "Suspend"
 msgstr "Hvile"
 
-#: src/lib/fcitx/instance.cpp:414 src/lib/fcitx/instance.cpp:794
+#: src/lib/fcitx/instance.cpp:414 src/lib/fcitx/instance.cpp:795
 #: src/modules/xcb/xcbconnection.cpp:407
 msgid "Switch group"
 msgstr "Skift gruppe"
@@ -2070,7 +2074,7 @@ msgstr "Skift gruppe"
 msgid "Switch group to {0}"
 msgstr "Skift gruppe til {0}"
 
-#: src/lib/fcitx/instance.cpp:795
+#: src/lib/fcitx/instance.cpp:796
 msgid "Switched group to {0}"
 msgstr "Skiftede gruppe til {0}"
 
@@ -2293,7 +2297,7 @@ msgstr "Brugerflade:"
 msgid "Using ${1} to check dbus."
 msgstr "Bruger ${1} til at tjekke dbus."
 
-#: src/ui/classic/theme.h:149
+#: src/ui/classic/theme.h:151
 msgid "Version"
 msgstr "Version"
 

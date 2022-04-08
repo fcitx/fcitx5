@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2022-03-10 20:29+0000\n"
+"POT-Creation-Date: 2022-04-08 20:24+0000\n"
 "PO-Revision-Date: 2017-11-23 04:14+0000\n"
 "Last-Translator: Junghee Lee <daemul72@gmail.com>, 2022\n"
 "Language-Team: Korean (https://www.transifex.com/fcitx/teams/12005/ko/)\n"
@@ -152,7 +152,7 @@ msgstr ""
 msgid "Allow Overriding System XKB Settings"
 msgstr "시스템 XKB 설정을 덮어쓰도록 허용"
 
-#: src/modules/wayland/waylandmodule.h:29
+#: src/modules/wayland/waylandmodule.h:31
 msgid "Allow Overriding System XKB Settings (Only support KDE 5)"
 msgstr ""
 
@@ -198,7 +198,7 @@ msgctxt "Key name"
 msgid "Audio Repeat"
 msgstr "음원 반복 듣기"
 
-#: src/ui/classic/theme.h:150
+#: src/ui/classic/theme.h:152
 msgid "Author"
 msgstr "작성자"
 
@@ -221,7 +221,7 @@ msgstr "뒤로 앞으로"
 msgid "Backends"
 msgstr ""
 
-#: src/ui/classic/theme.h:116 src/ui/classic/theme.h:135
+#: src/ui/classic/theme.h:116 src/ui/classic/theme.h:137
 msgid "Background"
 msgstr "배경"
 
@@ -414,7 +414,7 @@ msgstr "오른쪽 중앙"
 msgid "Change Fcitx 5 Configuration"
 msgstr "Fcitx 5 구성 변경"
 
-#: src/ui/classic/theme.h:140
+#: src/ui/classic/theme.h:142
 msgid "Check box"
 msgstr "체크 박스"
 
@@ -583,7 +583,7 @@ msgstr "입력기 비활성화"
 msgid "Debug information from dbus:"
 msgstr ""
 
-#: src/lib/fcitx/inputmethodmanager.cpp:138 src/lib/fcitx/instance.cpp:721
+#: src/lib/fcitx/inputmethodmanager.cpp:138 src/lib/fcitx/instance.cpp:722
 #: src/ui/classic/themes/default/theme.conf.in:3
 msgid "Default"
 msgstr "기본값"
@@ -613,7 +613,7 @@ msgctxt "Key name"
 msgid "Delete"
 msgstr "삭제"
 
-#: src/ui/classic/theme.h:152
+#: src/ui/classic/theme.h:154
 msgid "Description"
 msgstr "설명"
 
@@ -953,7 +953,7 @@ msgstr "그룹"
 msgid "Group {0}: {1}"
 msgstr "그룹 {0}: {1}"
 
-#: src/lib/fcitx/instance.cpp:723
+#: src/lib/fcitx/instance.cpp:724
 msgid "Group {}"
 msgstr "그룹 {}"
 
@@ -1056,7 +1056,7 @@ msgstr "숨은 알림"
 msgid "Hide overlay if size does not fit"
 msgstr "크기가 맞지 않으면 오버레이 숨기기"
 
-#: src/ui/classic/theme.h:118 src/ui/classic/theme.h:137
+#: src/ui/classic/theme.h:118 src/ui/classic/theme.h:139
 msgid "Highlight Background"
 msgstr "배경 강조표시"
 
@@ -1064,7 +1064,7 @@ msgstr "배경 강조표시"
 msgid "Highlight Background color"
 msgstr "배경 색상 강조표시"
 
-#: src/ui/classic/theme.h:102 src/ui/classic/theme.h:131
+#: src/ui/classic/theme.h:102 src/ui/classic/theme.h:133
 msgid "Highlight Candidate Color"
 msgstr "강조 후보 색상"
 
@@ -1161,7 +1161,7 @@ msgid "Image"
 msgstr "이미지"
 
 #: src/im/keyboard/keyboard.cpp:795 src/lib/fcitx/instance.cpp:413
-#: src/lib/fcitx/instance.cpp:793 src/lib/fcitx/instance.cpp:959
+#: src/lib/fcitx/instance.cpp:794 src/lib/fcitx/instance.cpp:960
 #: src/modules/notificationitem/notificationitem.cpp:123
 #: src/modules/xcb/xcbconnection.cpp:406 data/org.fcitx.Fcitx5.desktop.in.in:4
 #: data/org.fcitx.Fcitx5.metainfo.xml.in:7
@@ -1180,7 +1180,7 @@ msgstr "입력기와 관련된 환경변수: "
 msgid "Input Methods:"
 msgstr "입력기:"
 
-#: src/ui/classic/theme.h:158
+#: src/ui/classic/theme.h:160
 msgid "Input Panel"
 msgstr "입력 패널"
 
@@ -1435,11 +1435,11 @@ msgstr "오른쪽 여백"
 msgid "Margin Top"
 msgstr "상단 여백"
 
-#: src/ui/classic/theme.h:120 src/ui/classic/theme.h:143
+#: src/ui/classic/theme.h:120 src/ui/classic/theme.h:145
 msgid "Margin around all content"
 msgstr "모든 콘텐츠 주변의 여백"
 
-#: src/ui/classic/theme.h:122 src/ui/classic/theme.h:145
+#: src/ui/classic/theme.h:122 src/ui/classic/theme.h:147
 msgid "Margin around text"
 msgstr "텍스트 주변 여백"
 
@@ -1498,7 +1498,7 @@ msgctxt "Key name"
 msgid "Meeting"
 msgstr "미팅"
 
-#: src/ui/classic/theme.h:159
+#: src/ui/classic/theme.h:161
 msgid "Menu"
 msgstr "메뉴"
 
@@ -1521,7 +1521,7 @@ msgctxt "Key name"
 msgid "Messenger"
 msgstr "메신저"
 
-#: src/ui/classic/theme.h:156
+#: src/ui/classic/theme.h:158
 msgid "Metadata"
 msgstr "메타데이터"
 
@@ -1560,7 +1560,7 @@ msgctxt "Key name"
 msgid "My Sites"
 msgstr "내 사이트"
 
-#: src/ui/classic/theme.h:148
+#: src/ui/classic/theme.h:150
 msgid "Name"
 msgstr "이름"
 
@@ -1594,7 +1594,7 @@ msgstr "클립보드 기록이 없습니다."
 msgid "None"
 msgstr "없음"
 
-#: src/ui/classic/theme.h:99 src/ui/classic/theme.h:128
+#: src/ui/classic/theme.h:99 src/ui/classic/theme.h:130
 msgid "Normal text color"
 msgstr "일반 텍스트 색상"
 
@@ -1742,15 +1742,15 @@ msgctxt "Key name"
 msgid "Power Off"
 msgstr "전원 끄기"
 
-#: src/lib/fcitx/instance.cpp:959
+#: src/lib/fcitx/instance.cpp:960
 msgid "Preedit"
 msgstr "사전편집"
 
-#: src/lib/fcitx/instance.cpp:961
+#: src/lib/fcitx/instance.cpp:962
 msgid "Preedit disabled"
 msgstr "사전편집 비활성화"
 
-#: src/lib/fcitx/instance.cpp:960
+#: src/lib/fcitx/instance.cpp:961
 msgid "Preedit enabled"
 msgstr "사전편집 활성화"
 
@@ -1927,9 +1927,13 @@ msgctxt "Key name"
 msgid "Send"
 msgstr "보내기"
 
-#: src/ui/classic/theme.h:139
+#: src/ui/classic/theme.h:141
 msgid "Separator Background"
 msgstr "구분자 배경"
+
+#: src/ui/classic/theme.h:127
+msgid "Shadow Margin"
+msgstr ""
 
 #: src/lib/fcitx/globalconfig.cpp:140
 msgid "Share Input State"
@@ -1989,7 +1993,7 @@ msgctxt "Key name"
 msgid "Space"
 msgstr "공백"
 
-#: src/ui/classic/theme.h:133
+#: src/ui/classic/theme.h:135
 msgid "Spacing"
 msgstr "간격"
 
@@ -2030,7 +2034,7 @@ msgctxt "Key name"
 msgid "Stop"
 msgstr "중지"
 
-#: src/ui/classic/theme.h:141
+#: src/ui/classic/theme.h:143
 msgid "Sub Menu"
 msgstr "하위 메뉴"
 
@@ -2058,7 +2062,7 @@ msgctxt "Key name"
 msgid "Suspend"
 msgstr "중단"
 
-#: src/lib/fcitx/instance.cpp:414 src/lib/fcitx/instance.cpp:794
+#: src/lib/fcitx/instance.cpp:414 src/lib/fcitx/instance.cpp:795
 #: src/modules/xcb/xcbconnection.cpp:407
 msgid "Switch group"
 msgstr "그룹 전환"
@@ -2067,7 +2071,7 @@ msgstr "그룹 전환"
 msgid "Switch group to {0}"
 msgstr "{0}(으)로 그룹 전환"
 
-#: src/lib/fcitx/instance.cpp:795
+#: src/lib/fcitx/instance.cpp:796
 msgid "Switched group to {0}"
 msgstr "{0}(으)로 그룹 전환됨"
 
@@ -2290,7 +2294,7 @@ msgstr "사용자 인터페이스:"
 msgid "Using ${1} to check dbus."
 msgstr "${1}을(를) 사용하여 dbus를 확인합니다."
 
-#: src/ui/classic/theme.h:149
+#: src/ui/classic/theme.h:151
 msgid "Version"
 msgstr "버전"
 

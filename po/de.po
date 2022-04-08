@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2022-03-10 20:29+0000\n"
+"POT-Creation-Date: 2022-04-08 20:24+0000\n"
 "PO-Revision-Date: 2017-11-23 04:14+0000\n"
 "Last-Translator: Ettore Atalan <atalanttore@googlemail.com>, 2022\n"
 "Language-Team: German (https://www.transifex.com/fcitx/teams/12005/de/)\n"
@@ -152,7 +152,7 @@ msgstr "Alle Sprachumgebungen:"
 msgid "Allow Overriding System XKB Settings"
 msgstr "Erlauben, die XKB-Einstellungen außer Kraft zu setzen"
 
-#: src/modules/wayland/waylandmodule.h:29
+#: src/modules/wayland/waylandmodule.h:31
 msgid "Allow Overriding System XKB Settings (Only support KDE 5)"
 msgstr ""
 
@@ -198,7 +198,7 @@ msgctxt "Key name"
 msgid "Audio Repeat"
 msgstr "Audio Wiederhohlung"
 
-#: src/ui/classic/theme.h:150
+#: src/ui/classic/theme.h:152
 msgid "Author"
 msgstr "Autor"
 
@@ -221,7 +221,7 @@ msgstr "Zurück vorwärts"
 msgid "Backends"
 msgstr ""
 
-#: src/ui/classic/theme.h:116 src/ui/classic/theme.h:135
+#: src/ui/classic/theme.h:116 src/ui/classic/theme.h:137
 msgid "Background"
 msgstr "Hintergrund"
 
@@ -412,7 +412,7 @@ msgstr ""
 msgid "Change Fcitx 5 Configuration"
 msgstr "Fcitx 5 Konfiguration ändern"
 
-#: src/ui/classic/theme.h:140
+#: src/ui/classic/theme.h:142
 msgid "Check box"
 msgstr ""
 
@@ -581,7 +581,7 @@ msgstr "Eingabemethode deaktivieren"
 msgid "Debug information from dbus:"
 msgstr ""
 
-#: src/lib/fcitx/inputmethodmanager.cpp:138 src/lib/fcitx/instance.cpp:721
+#: src/lib/fcitx/inputmethodmanager.cpp:138 src/lib/fcitx/instance.cpp:722
 #: src/ui/classic/themes/default/theme.conf.in:3
 msgid "Default"
 msgstr "Standard"
@@ -611,7 +611,7 @@ msgctxt "Key name"
 msgid "Delete"
 msgstr "Löschen"
 
-#: src/ui/classic/theme.h:152
+#: src/ui/classic/theme.h:154
 msgid "Description"
 msgstr "Beschreibung"
 
@@ -944,7 +944,7 @@ msgstr "Gruppe"
 msgid "Group {0}: {1}"
 msgstr "Gruppe {0}: {1}"
 
-#: src/lib/fcitx/instance.cpp:723
+#: src/lib/fcitx/instance.cpp:724
 msgid "Group {}"
 msgstr "Gruppe {}"
 
@@ -1047,7 +1047,7 @@ msgstr "Verborgene Hinweise"
 msgid "Hide overlay if size does not fit"
 msgstr ""
 
-#: src/ui/classic/theme.h:118 src/ui/classic/theme.h:137
+#: src/ui/classic/theme.h:118 src/ui/classic/theme.h:139
 msgid "Highlight Background"
 msgstr ""
 
@@ -1055,7 +1055,7 @@ msgstr ""
 msgid "Highlight Background color"
 msgstr ""
 
-#: src/ui/classic/theme.h:102 src/ui/classic/theme.h:131
+#: src/ui/classic/theme.h:102 src/ui/classic/theme.h:133
 msgid "Highlight Candidate Color"
 msgstr ""
 
@@ -1147,7 +1147,7 @@ msgid "Image"
 msgstr "Bild"
 
 #: src/im/keyboard/keyboard.cpp:795 src/lib/fcitx/instance.cpp:413
-#: src/lib/fcitx/instance.cpp:793 src/lib/fcitx/instance.cpp:959
+#: src/lib/fcitx/instance.cpp:794 src/lib/fcitx/instance.cpp:960
 #: src/modules/notificationitem/notificationitem.cpp:123
 #: src/modules/xcb/xcbconnection.cpp:406 data/org.fcitx.Fcitx5.desktop.in.in:4
 #: data/org.fcitx.Fcitx5.metainfo.xml.in:7
@@ -1166,7 +1166,7 @@ msgstr ""
 msgid "Input Methods:"
 msgstr "Eingabemethoden:"
 
-#: src/ui/classic/theme.h:158
+#: src/ui/classic/theme.h:160
 msgid "Input Panel"
 msgstr "Eingabeleiste"
 
@@ -1419,11 +1419,11 @@ msgstr ""
 msgid "Margin Top"
 msgstr ""
 
-#: src/ui/classic/theme.h:120 src/ui/classic/theme.h:143
+#: src/ui/classic/theme.h:120 src/ui/classic/theme.h:145
 msgid "Margin around all content"
 msgstr "Rand um alle Inhalte"
 
-#: src/ui/classic/theme.h:122 src/ui/classic/theme.h:145
+#: src/ui/classic/theme.h:122 src/ui/classic/theme.h:147
 msgid "Margin around text"
 msgstr ""
 
@@ -1482,7 +1482,7 @@ msgctxt "Key name"
 msgid "Meeting"
 msgstr "Treffen"
 
-#: src/ui/classic/theme.h:159
+#: src/ui/classic/theme.h:161
 msgid "Menu"
 msgstr "Menü"
 
@@ -1505,7 +1505,7 @@ msgctxt "Key name"
 msgid "Messenger"
 msgstr "Messenger"
 
-#: src/ui/classic/theme.h:156
+#: src/ui/classic/theme.h:158
 msgid "Metadata"
 msgstr "Metadaten"
 
@@ -1544,7 +1544,7 @@ msgctxt "Key name"
 msgid "My Sites"
 msgstr "Meine Seiten"
 
-#: src/ui/classic/theme.h:148
+#: src/ui/classic/theme.h:150
 msgid "Name"
 msgstr "Name"
 
@@ -1578,7 +1578,7 @@ msgstr "Kein Zwischenablageverlauf"
 msgid "None"
 msgstr "Nicht beibehalten"
 
-#: src/ui/classic/theme.h:99 src/ui/classic/theme.h:128
+#: src/ui/classic/theme.h:99 src/ui/classic/theme.h:130
 msgid "Normal text color"
 msgstr "Normale Textfarbe"
 
@@ -1720,15 +1720,15 @@ msgctxt "Key name"
 msgid "Power Off"
 msgstr "Ausschalten"
 
-#: src/lib/fcitx/instance.cpp:959
+#: src/lib/fcitx/instance.cpp:960
 msgid "Preedit"
 msgstr ""
 
-#: src/lib/fcitx/instance.cpp:961
+#: src/lib/fcitx/instance.cpp:962
 msgid "Preedit disabled"
 msgstr ""
 
-#: src/lib/fcitx/instance.cpp:960
+#: src/lib/fcitx/instance.cpp:961
 msgid "Preedit enabled"
 msgstr ""
 
@@ -1905,8 +1905,12 @@ msgctxt "Key name"
 msgid "Send"
 msgstr "Senden"
 
-#: src/ui/classic/theme.h:139
+#: src/ui/classic/theme.h:141
 msgid "Separator Background"
+msgstr ""
+
+#: src/ui/classic/theme.h:127
+msgid "Shadow Margin"
 msgstr ""
 
 #: src/lib/fcitx/globalconfig.cpp:140
@@ -1967,7 +1971,7 @@ msgctxt "Key name"
 msgid "Space"
 msgstr "Leerzeichen"
 
-#: src/ui/classic/theme.h:133
+#: src/ui/classic/theme.h:135
 msgid "Spacing"
 msgstr "Abstand"
 
@@ -2008,7 +2012,7 @@ msgctxt "Key name"
 msgid "Stop"
 msgstr "Stop"
 
-#: src/ui/classic/theme.h:141
+#: src/ui/classic/theme.h:143
 msgid "Sub Menu"
 msgstr "Untermenü"
 
@@ -2036,7 +2040,7 @@ msgctxt "Key name"
 msgid "Suspend"
 msgstr "Suspend"
 
-#: src/lib/fcitx/instance.cpp:414 src/lib/fcitx/instance.cpp:794
+#: src/lib/fcitx/instance.cpp:414 src/lib/fcitx/instance.cpp:795
 #: src/modules/xcb/xcbconnection.cpp:407
 msgid "Switch group"
 msgstr "Gruppe umschalten"
@@ -2045,7 +2049,7 @@ msgstr "Gruppe umschalten"
 msgid "Switch group to {0}"
 msgstr "Gruppe auf {0} umschalten"
 
-#: src/lib/fcitx/instance.cpp:795
+#: src/lib/fcitx/instance.cpp:796
 msgid "Switched group to {0}"
 msgstr "Gruppe auf {0} umgeschaltet"
 
@@ -2265,7 +2269,7 @@ msgstr "Benutzeroberfläche:"
 msgid "Using ${1} to check dbus."
 msgstr ""
 
-#: src/ui/classic/theme.h:149
+#: src/ui/classic/theme.h:151
 msgid "Version"
 msgstr "Version"
 
