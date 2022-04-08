@@ -107,10 +107,6 @@ FCITX_CONFIGURATION(
         this, "FullWidthHighlight",
         _("Use all horizontal space for highlight when it is vertical list"),
         true};
-    Option<MarginConfig> shadowMargin{
-        this, "ShadowMargin",
-        _("The shadow border width around InputPanel, will be excluded when "
-          "calculating the InputPanel position.")};
     Option<Color> highlightColor{this, "HighlightColor",
                                  _("Highlight text color"), Color("#ffffffff")};
     Option<Color> highlightBackgroundColor{this, "HighlightBackgroundColor",
@@ -126,7 +122,9 @@ FCITX_CONFIGURATION(
                                     _("Margin around text")};
     Option<ActionImageConfig> prev{this, "PrevPage", _("Prev Page Button")};
     Option<ActionImageConfig> next{this, "NextPage", _("Next Page Button")};
-    Option<MarginConfig> blurMargin{this, "BlurMargin", _("Blur Margin")};);
+    Option<MarginConfig> blurMargin{this, "BlurMargin", _("Blur Margin")};
+    Option<MarginConfig> shadowMargin{this, "ShadowMargin",
+                                      _("Shadow Margin")};);
 FCITX_CONFIGURATION(
     MenuThemeConfig,
     Option<Color> normalColor{this, "NormalColor", _("Normal text color"),
