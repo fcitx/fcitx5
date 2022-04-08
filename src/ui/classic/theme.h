@@ -107,6 +107,10 @@ FCITX_CONFIGURATION(
         this, "FullWidthHighlight",
         _("Use all horizontal space for highlight when it is vertical list"),
         true};
+    Option<MarginConfig> shadowMargin{
+        this, "ShadowMargin",
+        _("The shadow border width around InputPanel, will be excluded when "
+          "calculating the InputPanel position.")};
     Option<Color> highlightColor{this, "HighlightColor",
                                  _("Highlight text color"), Color("#ffffffff")};
     Option<Color> highlightBackgroundColor{this, "HighlightBackgroundColor",
