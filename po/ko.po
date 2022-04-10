@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2022-04-09 20:24+0000\n"
+"POT-Creation-Date: 2022-04-10 20:24+0000\n"
 "PO-Revision-Date: 2017-11-23 04:14+0000\n"
 "Last-Translator: Junghee Lee <daemul72@gmail.com>, 2022\n"
 "Language-Team: Korean (https://www.transifex.com/fcitx/teams/12005/ko/)\n"
@@ -138,7 +138,7 @@ msgstr "모두"
 
 #: data/fcitx5-diagnose.sh:1334
 msgid "All found Gtk ${1} immodule files exist."
-msgstr "발견된 GTK ${1} 입력모듈 파일이 모두 존재합니다."
+msgstr "발견된 모든 GTK ${1} 입력기모듈 파일이 존재합니다."
 
 #: data/fcitx5-diagnose.sh:1682
 msgid "All libraries for all addons are found."
@@ -154,7 +154,7 @@ msgstr "시스템 XKB 설정을 덮어쓰도록 허용"
 
 #: src/modules/wayland/waylandmodule.h:31
 msgid "Allow Overriding System XKB Settings (Only support KDE 5)"
-msgstr ""
+msgstr "시스템 XKB 설정 무시 허용(KDE 5만 지원)"
 
 #: src/im/keyboard/keyboard.h:33 src/modules/quickphrase/quickphrase.h:29
 msgid "Alt"
@@ -219,7 +219,7 @@ msgstr "뒤로 앞으로"
 
 #: src/modules/spell/spell.h:38
 msgid "Backends"
-msgstr ""
+msgstr "백엔드"
 
 #: src/ui/classic/theme.h:116 src/ui/classic/theme.h:137
 msgid "Background"
@@ -332,11 +332,11 @@ msgstr "${1} 실행 파일을 찾을 수 없습니다!"
 
 #: data/fcitx5-diagnose.sh:1484 data/fcitx5-diagnose.sh:1537
 msgid "Cannot find ${1} im module for gtk ${2} in cache."
-msgstr "캐시에서 GTK ${2}에 대한 ${1} 입력 모듈을 찾을 수 없습니다."
+msgstr "캐시에서 GTK ${2}용 ${1} 입력기 모듈을 찾을 수 없습니다."
 
 #: data/fcitx5-diagnose.sh:1401
 msgid "Cannot find ${1} im module for gtk ${2}."
-msgstr "{2}에 대한 {1} 입력 모듈을 찾을 수 없습니다."
+msgstr "GTK ${2}용 ${1} 입력기 모듈을 찾을 수 없습니다."
 
 #: data/fcitx5-diagnose.sh:1260 data/fcitx5-diagnose.sh:1265
 msgid "Cannot find ${1} input method module for ${2}."
@@ -352,7 +352,7 @@ msgstr "DBus 이름 ${1} 소유자를 찾을 수 없습니다."
 
 #: data/fcitx5-diagnose.sh:1092
 msgid "Cannot find a GUI config tool, please install one of ${1}, or ${2}."
-msgstr "GUI 구성 도구를 찾을 수 없습니다. ${1}, ${2} 중 하나를 설치하십시오."
+msgstr "GUI 구성 도구를 찾을 수 없습니다. ${1}, ${2} 중 하나를 설치합니다."
 
 #: data/fcitx5-diagnose.sh:1685
 msgid "Cannot find enabled ${1} user interface!"
@@ -372,7 +372,7 @@ msgstr "${2} 애드온의 ${1}을 위한 다음 라이브러리를 찾을 수 �
 
 #: data/fcitx5-diagnose.sh:1479 data/fcitx5-diagnose.sh:1532
 msgid "Cannot find immodules cache for gtk ${1}"
-msgstr "GTK ${1}의 입력모듈 캐시를 찾을 수 없습니다"
+msgstr "GTK ${1}용 입력기모듈 캐시를 찾을 수 없습니다"
 
 #: data/fcitx5-diagnose.sh:1704
 msgid ""
@@ -412,7 +412,7 @@ msgstr "오른쪽 중앙"
 
 #: data/fcitx5-configtool.desktop.in.in:5
 msgid "Change Fcitx 5 Configuration"
-msgstr "Fcitx 5 구성 변경"
+msgstr "Fcitx5 구성 변경"
 
 #: src/ui/classic/theme.h:142
 msgid "Check box"
@@ -441,7 +441,7 @@ msgstr "클립보드"
 
 #: src/modules/clipboard/clipboard.cpp:345
 msgid "Clipboard (Press BackSpace/Delete to clear history):"
-msgstr ""
+msgstr "클립보드(기록을 지우려면 BackSpace/Delete 키 누르기):"
 
 #: src/lib/fcitx-utils/key.cpp:122
 msgctxt "Key name"
@@ -547,7 +547,7 @@ msgstr "사용자 지정"
 
 #: src/lib/fcitx/globalconfig.cpp:174
 msgid "Custom Xkb Option"
-msgstr ""
+msgstr "사용자 지정 Xkb 옵션"
 
 #: src/lib/fcitx-utils/key.cpp:124
 msgctxt "Key name"
@@ -655,7 +655,7 @@ msgstr "편집기"
 #: src/lib/fcitx-utils/key.cpp:213
 msgctxt "Key name"
 msgid "Eisu Shift"
-msgstr "영문/숫자 시프트"
+msgstr "영문/숫자 교체"
 
 #: src/lib/fcitx-utils/key.cpp:214
 msgctxt "Key name"
@@ -693,7 +693,7 @@ msgstr "빠른 표현으로 그림문자 사용"
 
 #: src/im/keyboard/keyboard.h:60
 msgid "Enable hint by default"
-msgstr ""
+msgstr "기본적으로 힌트 사용"
 
 #: src/modules/spell/spell.h:23
 msgid "Enchant"
@@ -726,15 +726,15 @@ msgstr "입력기 그룹을 순차적으로 적용"
 
 #: src/lib/fcitx/globalconfig.cpp:39
 msgid "Enumerate when press trigger key repeatedly"
-msgstr "전환 키를 반복해서 누를 때 보이기"
+msgstr "트리거 키를 반복해서 누를 때 열거하기"
 
 #: data/fcitx5-diagnose.sh:1110
 msgid ""
 "Environment variable ${1} is \"${2}\" instead of \"${3}\". Please check if "
 "you have exported it incorrectly in any of your init files."
 msgstr ""
-"환경변수 ${1} 는 \"${3}\"이(가) 아닌 \"${2}\"입니다. init 파일에서 해당 환경"
-"변수를 올바로 설정했는지 확인하십시오."
+"환경 변수 ${1}는 \"${3}\" 대신 \"${2}\"입니다. 사용자의 init 파일에서 잘못 내"
+"보낸 것이 있는지 확인합니다."
 
 #: data/fcitx5-diagnose.sh:857
 msgid "Environment variable ${1} is not set."
@@ -754,12 +754,12 @@ msgstr "환경:"
 
 #: data/fcitx5-diagnose.sh:843
 msgid "Error occurs when running ${1}. Please check your locale settings."
-msgstr "${1}을 실행하는 중 오류가 발생하였습니다. 지역 설정을 확인하십시오."
+msgstr "${1}을 실행하는 중 오류가 발생하였습니다. 지역 설정을 확인합니다."
 
 #: src/lib/fcitx-utils/key.cpp:196
 msgctxt "Key name"
 msgid "Escape"
-msgstr "Escape"
+msgstr "Esc"
 
 #: src/lib/fcitx-utils/key.cpp:230
 msgctxt "Key name"
@@ -773,7 +773,7 @@ msgstr "나가기"
 
 #: data/fcitx5-diagnose.sh:1473 data/fcitx5-diagnose.sh:1526
 msgid "Failed to find ${1} in immodule cache at ${2}"
-msgstr "${2}의 입력모듈 캐시에서 ${1}을(를) 찾을 수 없습니다."
+msgstr "${2}의 입력기모듈 캐시에서 ${1}를 찾지 못했습니다"
 
 #: data/fcitx5-diagnose.sh:1389
 msgid "Failed to find ${1} in the output of ${2}"
@@ -791,11 +791,11 @@ msgstr "즐겨찾기"
 #: data/org.fcitx.Fcitx5.desktop.in.in:3
 #: data/org.fcitx.Fcitx5.metainfo.xml.in:6
 msgid "Fcitx 5"
-msgstr "Fcitx 5"
+msgstr "Fcitx5"
 
 #: data/fcitx5-configtool.desktop.in.in:3
 msgid "Fcitx 5 Configuration"
-msgstr "Fcitx 5 구성"
+msgstr "Fcitx5 구성"
 
 #: data/fcitx5-diagnose.sh:1570
 msgid "Fcitx Addons:"
@@ -846,9 +846,9 @@ msgid ""
 "Japanese variant when using Anthy. The font configuration needs to support "
 "this to use this feature."
 msgstr ""
-"예를 들어 병음을 사용할때 한어 변형으로 문자를 표시하고, Anthy을 사용할때 일"
-"본어 변형으로 문자를 표시합니다. 이 기능을 사용하려면 글꼴 구성에서 이를 지원"
-"해야 합니다."
+"예를 들어 Pinyin을 사용할때 한어 변형으로 문자를 표시하고, Anthy을 사용할때 "
+"일본어 변형으로 문자를 표시합니다. 이 기능을 사용하려면 글꼴 구성에서 이를 지"
+"원해야 합니다."
 
 #: src/lib/fcitx-utils/key.cpp:59
 msgctxt "Key name"
@@ -891,7 +891,7 @@ msgstr "${1}개의 활성화된 사용자 인터페이스 애드온을 찾았습
 #: data/fcitx5-diagnose.sh:1383 data/fcitx5-diagnose.sh:1467
 #: data/fcitx5-diagnose.sh:1520
 msgid "Found ${1} im modules for gtk ${2}."
-msgstr "${2}에 대한 ${1} 입력 모듈을 찾았습니다."
+msgstr "${2}용 ${1} 입력기 모듈을 찾았습니다."
 
 #: data/fcitx5-diagnose.sh:1070
 msgid "Found ${1} kcm module."
@@ -907,15 +907,15 @@ msgstr "GTK ${1}에 대한 ${3}을 ${2}에서 찾았습니다."
 
 #: data/fcitx5-diagnose.sh:1238 data/fcitx5-diagnose.sh:1243
 msgid "Found ${3} im module for ${2}: ${1}."
-msgstr "${2}를 위해 ${3} 개의 입력기 모듈을 찾았습니다 : ${1}"
+msgstr "${2}용 ${3}개의 입력기 모듈을 찾았습니다 : ${1}"
 
 #: data/fcitx5-diagnose.sh:1460
 msgid "Found immodule cache for unknown gtk version at ${1}."
-msgstr "알 수 없는 GTK 버전의 입력모듈 캐시를 ${1}에서 찾았습니다."
+msgstr "${1}에서 알 수 없는 GTK 버전용 입력기모듈 캐시를 찾았습니다."
 
 #: data/fcitx5-diagnose.sh:1452 data/fcitx5-diagnose.sh:1513
 msgid "Found immodules cache for gtk ${1} at ${2}."
-msgstr "GTK ${1}의 입력모듈 캐시를 ${2}에서 찾았습니다."
+msgstr "GTK ${1}용 입력기모듈 캐시를 ${2}에서 찾았습니다."
 
 #: data/fcitx5-diagnose.sh:1252
 msgid "Found unknown ${1} qt module: ${2}."
@@ -959,15 +959,15 @@ msgstr "그룹 {}"
 
 #: data/fcitx5-diagnose.sh:1328
 msgid "Gtk ${1} immodule file ${2} does not exist."
-msgstr "GTK ${1} 입력모듈 파일 ${2}(가) 존재하지 않습니다."
+msgstr "GTK ${1} 입력기모듈 파일 ${2}이 존재하지 않습니다."
 
 #: data/fcitx5-diagnose.sh:1550
 msgid "Gtk IM module cache:"
-msgstr "Gtk IM 모듈 캐시:"
+msgstr "GTK 입력기 모듈 캐시:"
 
 #: data/fcitx5-diagnose.sh:1556
 msgid "Gtk IM module files:"
-msgstr "Gtk IM 모듈 파일:"
+msgstr "GTK 입력기 모듈 파일:"
 
 #: data/fcitx5-diagnose.sh:736
 msgid "Hall of Shame for Linux IME Support"
@@ -1084,7 +1084,7 @@ msgstr "히라가나"
 #: src/lib/fcitx-utils/key.cpp:205
 msgctxt "Key name"
 msgid "Hiragana Katakana"
-msgstr "히라가나 가타가나"
+msgstr "히라가나 가타카나"
 
 #: src/lib/fcitx-utils/key.cpp:108
 msgctxt "Key name"
@@ -1144,7 +1144,7 @@ msgid ""
 "as well as alternative solutions."
 msgstr ""
 "${1}을 사용하는 경우, ${2} 이외의 입력기를 사용하려면 ${2}을(를) 제거하거나 "
-"${3}을(를) 제거하십시오.  자세한 내용은 ${link}와 다른 솔루션을 참조하십시오."
+"${3}을(를) 제거합니다.  자세한 내용은 ${link}와 다른 솔루션을 참조합니다."
 
 #: data/fcitx5-diagnose.sh:723
 msgid ""
@@ -1152,9 +1152,9 @@ msgid ""
 "the command ${g36_disable_ibus} to disable IBus integration in order to use "
 "any input method other than ${2}. See ${link} for more detail."
 msgstr ""
-"${1}을 사용하는 경우 ${2} 이외의 입력기를 사용하기 위해 ${2}를 제거하거나, "
-"${3}을 제거하거나, ${g36_disable_ibus} 명령을 사용하여 IBus 통합을 비활성화 "
-"할 수 있습니다. 자세한 내용은 ${link}를 참조하십시오."
+"${1}를 사용하는 경우, ${2}를 제거하거나, ${3}를 제거하거나 "
+"${g36_disable_ibus} 명령을 사용하여 ${2} 이외의 입력기를 사용하기 위해 IBus "
+"통합을 비활성화할 수 있습니다.. 자세한 내용은 ${link}를 참조합니다."
 
 #: src/ui/classic/theme.h:93
 msgid "Image"
@@ -1212,12 +1212,12 @@ msgstr "KDE 입력기 패널"
 #: src/lib/fcitx-utils/key.cpp:211
 msgctxt "Key name"
 msgid "Kana Lock"
-msgstr "가나 고정"
+msgstr "카나 고정"
 
 #: src/lib/fcitx-utils/key.cpp:212
 msgctxt "Key name"
 msgid "Kana Shift"
-msgstr "가나 시프트"
+msgstr "카나 Shift"
 
 #: src/lib/fcitx-utils/key.cpp:199
 msgctxt "Key name"
@@ -1227,7 +1227,7 @@ msgstr "한자"
 #: src/lib/fcitx-utils/key.cpp:204
 msgctxt "Key name"
 msgid "Katakana"
-msgstr "가타가나"
+msgstr "가타카나"
 
 #: src/im/keyboard/longpress.h:16
 msgid "Key"
@@ -1276,82 +1276,82 @@ msgstr "Kimpanel 프로세스:"
 #: src/lib/fcitx-utils/key.cpp:77
 msgctxt "Key name"
 msgid "Launch (0)"
-msgstr "빠른 실행 (0)"
+msgstr "실행 (0)"
 
 #: src/lib/fcitx-utils/key.cpp:78
 msgctxt "Key name"
 msgid "Launch (1)"
-msgstr "빠른 실행 (1)"
+msgstr "실행 (1)"
 
 #: src/lib/fcitx-utils/key.cpp:79
 msgctxt "Key name"
 msgid "Launch (2)"
-msgstr "빠른 실행 (2)"
+msgstr "실행 (2)"
 
 #: src/lib/fcitx-utils/key.cpp:80
 msgctxt "Key name"
 msgid "Launch (3)"
-msgstr "빠른 실행 (3)"
+msgstr "실행 (3)"
 
 #: src/lib/fcitx-utils/key.cpp:81
 msgctxt "Key name"
 msgid "Launch (4)"
-msgstr "빠른 실행 (4)"
+msgstr "실행 (4)"
 
 #: src/lib/fcitx-utils/key.cpp:82
 msgctxt "Key name"
 msgid "Launch (5)"
-msgstr "빠른 실행 (5)"
+msgstr "실행 (5)"
 
 #: src/lib/fcitx-utils/key.cpp:83
 msgctxt "Key name"
 msgid "Launch (6)"
-msgstr "빠른 실행 (6)"
+msgstr "실행 (6)"
 
 #: src/lib/fcitx-utils/key.cpp:84
 msgctxt "Key name"
 msgid "Launch (7)"
-msgstr "빠른 실행 (7)"
+msgstr "실행 (7)"
 
 #: src/lib/fcitx-utils/key.cpp:85
 msgctxt "Key name"
 msgid "Launch (8)"
-msgstr "빠른 실행 (8)"
+msgstr "실행 (8)"
 
 #: src/lib/fcitx-utils/key.cpp:86
 msgctxt "Key name"
 msgid "Launch (9)"
-msgstr "빠른 실행 (9)"
+msgstr "실행 (9)"
 
 #: src/lib/fcitx-utils/key.cpp:87
 msgctxt "Key name"
 msgid "Launch (A)"
-msgstr "빠른 실행 (A)"
+msgstr "실행 (A)"
 
 #: src/lib/fcitx-utils/key.cpp:88
 msgctxt "Key name"
 msgid "Launch (B)"
-msgstr "빠른 실행 (B)"
+msgstr "실행 (B)"
 
 #: src/lib/fcitx-utils/key.cpp:89
 msgctxt "Key name"
 msgid "Launch (C)"
-msgstr "빠른 실행 (C)"
+msgstr "실행 (C)"
 
 #: src/lib/fcitx-utils/key.cpp:90
 msgctxt "Key name"
 msgid "Launch (D)"
-msgstr "빠른 실행 (D)"
+msgstr "실행 (D)"
 
 #: src/lib/fcitx-utils/key.cpp:91
 msgctxt "Key name"
 msgid "Launch (E)"
-msgstr "빠른 실행 (E)"
+msgstr "실행 (E)"
 
 #: src/lib/fcitx-utils/key.cpp:92
 msgctxt "Key name"
 msgid "Launch (F)"
-msgstr "빠른 실행 (F)"
+msgstr "실행 (F)"
 
 #: src/lib/fcitx-utils/key.cpp:76
 msgctxt "Key name"
@@ -1381,7 +1381,7 @@ msgstr "왼쪽 하이퍼"
 #: src/lib/fcitx-utils/key.cpp:32
 msgctxt "Key name"
 msgid "Left Shift"
-msgstr "왼쪽 시프트"
+msgstr "왼쪽 Shift"
 
 #: src/lib/fcitx-utils/key.cpp:36
 msgctxt "Key name"
@@ -1617,7 +1617,7 @@ msgstr "NumLock"
 
 #: src/modules/clipboard/clipboard.h:48
 msgid "Number of entries"
-msgstr "항목의 수"
+msgstr "항목 수"
 
 #: src/im/keyboard/keyboard.cpp:781
 msgid ""
@@ -1664,7 +1664,7 @@ msgstr "오버레이 위치"
 
 #: src/lib/fcitx/globalconfig.cpp:165
 msgid "Override Xkb Option"
-msgstr ""
+msgstr "Xkb 옵션 재정의"
 
 #: data/fcitx5-diagnose.sh:974
 msgid "Owner of DBus name ${1} is ${2}."
@@ -1721,8 +1721,7 @@ msgid ""
 "Please check the Configure link of your distribution in ${1} for how to "
 "setup ${2} autostart."
 msgstr ""
-"${2}의 자동 시작을 구성하는 방법은 ${1}에서 배포판의 구성 링크를 확인하십시"
-"오."
+"${2}의 자동 시작을 구성하는 방법은 ${1}에서 배포판의 구성 링크를 확인합니다."
 
 #: data/fcitx5-diagnose.sh:697
 msgid ""
@@ -1730,7 +1729,7 @@ msgid ""
 "your distribution provides or add ${1} to your ${2}. See ${link}."
 msgstr ""
 "배포판에서 제공하는 도구를 사용하여 환경 변수 ${env_name}을 \"${value}\"로 지"
-"정하거나 ${2}에 ${1}를 추가하십시오. $ {link} 참조."
+"정하거나 ${2}에 ${1}를 추가합니다. $ {link} 참조."
 
 #: src/lib/fcitx-utils/key.cpp:181
 msgctxt "Key name"
@@ -1786,7 +1785,7 @@ msgstr "프로그램"
 
 #: data/fcitx5-diagnose.sh:1224
 msgid "Qt IM module files:"
-msgstr "Qt IM 모듈 파일:"
+msgstr "Qt 입력기 모듈 파일:"
 
 #: src/modules/quickphrase/quickphrase.conf.in.in:3
 msgid "Quick Phrase"
@@ -1854,7 +1853,7 @@ msgstr "오른쪽 하이퍼"
 #: src/lib/fcitx-utils/key.cpp:33
 msgctxt "Key name"
 msgid "Right Shift"
-msgstr "오른쪽 시프트"
+msgstr "오른쪽 Shift"
 
 #: src/lib/fcitx-utils/key.cpp:37
 msgctxt "Key name"
@@ -1933,7 +1932,7 @@ msgstr "구분자 배경"
 
 #: src/ui/classic/theme.h:127
 msgid "Shadow Margin"
-msgstr ""
+msgstr "그림자 여백"
 
 #: src/lib/fcitx/globalconfig.cpp:140
 msgid "Share Input State"
@@ -1988,7 +1987,7 @@ msgstr "열거하는 동안 첫 번째 입력기 건너뛰기"
 #: src/lib/fcitx-utils/key.cpp:105
 msgctxt "Key name"
 msgid "Sleep"
-msgstr "Sleep"
+msgstr "지연시간"
 
 #: src/lib/fcitx-utils/key.cpp:40
 msgctxt "Key name"
@@ -2098,7 +2097,7 @@ msgstr "작업 패널"
 
 #: src/lib/fcitx/globalconfig.cpp:43
 msgid "Temporally switch between first and current Input Method"
-msgstr "첫 번째 입력 방법과 현재 입력 방법 사이의 임시 전환"
+msgstr "첫 번째 입력기와 현재 입력기 사이의 임시 전환"
 
 #: src/lib/fcitx-utils/key.cpp:155
 msgctxt "Key name"
@@ -2136,6 +2135,8 @@ msgid ""
 "please double check and remove as necessary before posting it online "
 "publicly."
 msgstr ""
+"이러한 정보는 진단 목적으로 개발자에게 도움이 될 수 있지만 온라인에 공개적으"
+"로 게시하기 전에 다시 확인하고 필요한 경우 제거합니다."
 
 #: src/lib/fcitx-utils/key.cpp:177
 msgctxt "Key name"
@@ -2150,8 +2151,8 @@ msgid ""
 "freezing, see ${link2}."
 msgstr ""
 "XIM을 사용할 때 발생할 수있는 응용 프로그램 특정 문제점을 보려면 ${link1}을 "
-"확인하십시오.  응용 프로그램 멈춤을 포함하여 XIM을 사용하는 다른 일반적인 문"
-"제는 ${link2}를 참조하십시오."
+"확인합니다.  응용 프로그램 멈춤을 포함하여 XIM을 사용하는 다른 일반적인 문제"
+"는 ${link2}를 참조합니다."
 
 #: src/lib/fcitx/globalconfig.cpp:131
 msgid "Toggle embedded preedit"
@@ -2210,33 +2211,33 @@ msgstr "트레이 글꼴"
 
 #: src/ui/classic/classicui.h:105
 msgid "Tray Label Outline Color"
-msgstr ""
+msgstr "트레이 라벨 윤곽선 색상"
 
 #: src/ui/classic/classicui.h:108
 msgid "Tray Label Text Color"
-msgstr ""
+msgstr "트레이 레이블 텍스트 색상"
 
 #: src/lib/fcitx/globalconfig.cpp:33
 msgid "Trigger Input Method"
-msgstr "입력기 전환"
+msgstr "트리거 입력기"
 
 #: src/modules/imselector/imselector.h:25
 #: src/modules/quickphrase/quickphrase.h:36 src/modules/unicode/unicode.h:31
 #: src/modules/clipboard/clipboard.h:42
 msgid "Trigger Key"
-msgstr "전환 키"
+msgstr "트리거 키"
 
 #: src/modules/imselector/imselector.h:29
 msgid "Trigger Key for only current input context"
-msgstr "현재 입력 컨텍스트에 대한 전환 키"
+msgstr "현재 입력 컨텍스트에 대한 트리거 키"
 
 #: src/im/keyboard/keyboard.h:63
 msgid "Trigger hint mode"
-msgstr "힌트 방식 전환"
+msgstr "트리거 힌트 모드"
 
 #: src/im/keyboard/keyboard.h:68
 msgid "Trigger hint mode for one time"
-msgstr "한 번에 힌트 모드 트리거"
+msgstr "힌트 모드를 한 번만 트리거"
 
 #: src/im/keyboard/keyboard.h:74
 msgid "Type special characters with long press"
@@ -2349,6 +2350,8 @@ msgid ""
 "including the distribution name, kernel version, name of currently running "
 "programs, etc."
 msgstr ""
+"경고: fcitx5-diagnose의 출력에는 배포 이름, 커널 버전, 현재 실행 중인 프로그"
+"램 이름 등 민감한 정보가 포함되어 있습니다."
 
 #: src/modules/wayland/wayland.conf.in.in:3
 msgid "Wayland"
@@ -2375,7 +2378,7 @@ msgstr ""
 
 #: data/fcitx5-diagnose.sh:909
 msgid "Why is it bad to run as root"
-msgstr "루트로 실행하는 것이 나쁜 이유"
+msgstr "루트로 실행하는 것이 문제있는 이유"
 
 #: src/lib/fcitx-utils/key.cpp:171
 msgctxt "Key name"
