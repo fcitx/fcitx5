@@ -7,14 +7,15 @@
 # heavyuser <heavyuser73@gmail.com>, 2018
 # Bon Keun Seo <scobyseo@gmail.com>, 2021
 # Junghee Lee <daemul72@gmail.com>, 2022
+# perillamint <perillamint@quendi.moe>, 2022
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2022-04-10 20:24+0000\n"
+"POT-Creation-Date: 2022-04-11 20:24+0000\n"
 "PO-Revision-Date: 2017-11-23 04:14+0000\n"
-"Last-Translator: Junghee Lee <daemul72@gmail.com>, 2022\n"
+"Last-Translator: perillamint <perillamint@quendi.moe>, 2022\n"
 "Language-Team: Korean (https://www.transifex.com/fcitx/teams/12005/ko/)\n"
 "Language: ko\n"
 "MIME-Version: 1.0\n"
@@ -64,7 +65,7 @@ msgstr "/초보자_가이드"
 
 #: data/fcitx5-diagnose.sh:737
 msgid "/Hall_of_Shame_for_Linux_IME_Support"
-msgstr "/Linux_ME_지원에_대한_불명예의_전당"
+msgstr "/Hall_of_Shame_for_Linux_IME_Support"
 
 #: data/fcitx5-diagnose.sh:701
 msgid "/Input_method_related_environment_variables"
@@ -72,7 +73,7 @@ msgstr "/Input_method_related_environment_variables"
 
 #: data/fcitx5-diagnose.sh:717
 msgid "/Note_for_GNOME_Later_than_3.6"
-msgstr "/3.6_이후_GNOME에_대한_참고사항"
+msgstr "/Note_for_GNOME_Later_than_3.6"
 
 #: data/fcitx5-diagnose.sh:741
 msgid "/XIM"
@@ -92,7 +93,7 @@ msgstr "<개인용 상위 확장코드>"
 
 #: src/modules/unicode/charselectdata.cpp:223
 msgid "<Private Use>"
-msgstr "<개인사용>"
+msgstr "<Private Use>"
 
 #: src/modules/unicode/charselectdata.cpp:253
 msgid "<not assigned>"
@@ -560,7 +561,7 @@ msgstr "DBus"
 
 #: src/frontend/dbusfrontend/dbusfrontend.conf.in.in:3
 msgid "DBus Frontend"
-msgstr "DBus 전처리기"
+msgstr "DBus 프론트엔드"
 
 #: src/modules/notificationitem/notificationitem.conf.in.in:4
 msgid "DBus based new Freedesktop.org tray icon"
@@ -669,7 +670,7 @@ msgstr "꺼내기"
 
 #: src/modules/emoji/emoji.conf.in.in:3
 msgid "Emoji"
-msgstr "그림문자"
+msgstr "에모지"
 
 #: src/im/keyboard/longpress.h:17
 msgid "Enable"
@@ -677,7 +678,7 @@ msgstr "활성화"
 
 #: src/ui/classic/theme.h:104
 msgid "Enable Blur on KWin"
-msgstr "KWin에서 흐림 사용"
+msgstr "KWin에서 블러 활성화"
 
 #: src/modules/quickphrase/quickphrase.h:43
 msgid "Enable Spell check"
@@ -685,11 +686,11 @@ msgstr "철자 검사 활성화"
 
 #: src/im/keyboard/keyboard.h:52
 msgid "Enable emoji in hint"
-msgstr "힌트로 그림문자 활성화"
+msgstr "힌트에 에모지 보이기"
 
 #: src/im/keyboard/keyboard.h:55
 msgid "Enable emoji in quickphrase"
-msgstr "빠른 표현으로 그림문자 사용"
+msgstr "상용구에 에모지 활성화"
 
 #: src/im/keyboard/keyboard.h:60
 msgid "Enable hint by default"
@@ -710,19 +711,19 @@ msgstr "항목"
 
 #: src/lib/fcitx/globalconfig.cpp:57
 msgid "Enumerate Input Method Backward"
-msgstr "입력기를 역순으로 적용"
+msgstr "입력기 역순으로 전환"
 
 #: src/lib/fcitx/globalconfig.cpp:50
 msgid "Enumerate Input Method Forward"
-msgstr "입력기를 순차적으로 적용"
+msgstr "입력기 전환"
 
 #: src/lib/fcitx/globalconfig.cpp:74
 msgid "Enumerate Input Method Group Backward"
-msgstr "입력기 그룹을 역순으로 적용"
+msgstr "입력기 그룹 역순으로 전환"
 
 #: src/lib/fcitx/globalconfig.cpp:67
 msgid "Enumerate Input Method Group Forward"
-msgstr "입력기 그룹을 순차적으로 적용"
+msgstr "입력기 그룹 전환"
 
 #: src/lib/fcitx/globalconfig.cpp:39
 msgid "Enumerate when press trigger key repeatedly"
@@ -733,8 +734,8 @@ msgid ""
 "Environment variable ${1} is \"${2}\" instead of \"${3}\". Please check if "
 "you have exported it incorrectly in any of your init files."
 msgstr ""
-"환경 변수 ${1}는 \"${3}\" 대신 \"${2}\"입니다. 사용자의 init 파일에서 잘못 내"
-"보낸 것이 있는지 확인합니다."
+"환경 변수 ${1}는 \"${3}\" 대신 \"${2}\"입니다. init 파일에서 잘못 내보낸 것"
+"이 있는지 확인해 주세요."
 
 #: data/fcitx5-diagnose.sh:857
 msgid "Environment variable ${1} is not set."
@@ -759,7 +760,7 @@ msgstr "${1}을 실행하는 중 오류가 발생하였습니다. 지역 설정�
 #: src/lib/fcitx-utils/key.cpp:196
 msgctxt "Key name"
 msgid "Escape"
-msgstr "Esc"
+msgstr "Escape"
 
 #: src/lib/fcitx-utils/key.cpp:230
 msgctxt "Key name"
@@ -791,11 +792,11 @@ msgstr "즐겨찾기"
 #: data/org.fcitx.Fcitx5.desktop.in.in:3
 #: data/org.fcitx.Fcitx5.metainfo.xml.in:6
 msgid "Fcitx 5"
-msgstr "Fcitx5"
+msgstr "Fcitx 5"
 
 #: data/fcitx5-configtool.desktop.in.in:3
 msgid "Fcitx 5 Configuration"
-msgstr "Fcitx5 구성"
+msgstr "Fcitx 5 설정"
 
 #: data/fcitx5-diagnose.sh:1570
 msgid "Fcitx Addons:"
@@ -1222,7 +1223,7 @@ msgstr "카나 Shift"
 #: src/lib/fcitx-utils/key.cpp:199
 msgctxt "Key name"
 msgid "Kanji"
-msgstr "한자"
+msgstr "칸지"
 
 #: src/lib/fcitx-utils/key.cpp:204
 msgctxt "Key name"
@@ -1456,27 +1457,27 @@ msgstr "Massyo"
 #: src/lib/fcitx-utils/key.cpp:172
 msgctxt "Key name"
 msgid "Media Fast Forward"
-msgstr "음악 빠르게 넘어가기"
+msgstr "빨리감기"
 
 #: src/lib/fcitx-utils/key.cpp:68
 msgctxt "Key name"
 msgid "Media Next"
-msgstr "다음 음원 재생"
+msgstr "다음 "
 
 #: src/lib/fcitx-utils/key.cpp:70
 msgctxt "Key name"
 msgid "Media Pause"
-msgstr "재생 잠시 중단"
+msgstr "일시정지"
 
 #: src/lib/fcitx-utils/key.cpp:65
 msgctxt "Key name"
 msgid "Media Play"
-msgstr "음원 재생"
+msgstr "재생"
 
 #: src/lib/fcitx-utils/key.cpp:67
 msgctxt "Key name"
 msgid "Media Previous"
-msgstr "이전 음원 재생"
+msgstr "이전 "
 
 #: src/lib/fcitx-utils/key.cpp:69
 msgctxt "Key name"
@@ -1486,12 +1487,12 @@ msgstr "녹음하기"
 #: src/lib/fcitx-utils/key.cpp:114
 msgctxt "Key name"
 msgid "Media Rewind"
-msgstr "음원 되감기"
+msgstr "되감기"
 
 #: src/lib/fcitx-utils/key.cpp:66
 msgctxt "Key name"
 msgid "Media Stop"
-msgstr "재생 중지"
+msgstr "정지"
 
 #: src/lib/fcitx-utils/key.cpp:135
 msgctxt "Key name"
@@ -1533,12 +1534,12 @@ msgstr "마이크 끄기"
 #: src/lib/fcitx-utils/key.cpp:95
 msgctxt "Key name"
 msgid "Monitor Brightness Down"
-msgstr "모니터 밝기 줄이기"
+msgstr "모니터 밝기 낮추기"
 
 #: src/lib/fcitx-utils/key.cpp:93
 msgctxt "Key name"
 msgid "Monitor Brightness Up"
-msgstr "모니터 밝기 낮추기"
+msgstr "모니터 밝기 높이기"
 
 #: src/lib/fcitx-utils/key.cpp:200
 msgctxt "Key name"
@@ -1624,7 +1625,7 @@ msgid ""
 "Only emoji support is found. To enable spell checking, you may need to "
 "install spell check data for the language."
 msgstr ""
-"그림문자 지원만 있습니다. 철자 검사를 사용하려면 언어에 대한 철자 검사 데이터"
+"에모지 지원만 있습니다. 철자 검사를 사용하려면 언어에 대한 철자 검사 데이터"
 "를 설치해야 할 수 있습니다."
 
 #: src/lib/fcitx-utils/key.cpp:189
@@ -1695,12 +1696,12 @@ msgstr "중지"
 #: src/lib/fcitx-utils/key.cpp:52
 msgctxt "Key name"
 msgid "PgDown"
-msgstr "페이지다운"
+msgstr "페이지 다운"
 
 #: src/lib/fcitx-utils/key.cpp:51
 msgctxt "Key name"
 msgid "PgUp"
-msgstr "페이지업"
+msgstr "페이지 업"
 
 #: src/lib/fcitx-utils/key.cpp:143
 msgctxt "Key name"
@@ -1858,7 +1859,7 @@ msgstr "오른쪽 Shift"
 #: src/lib/fcitx-utils/key.cpp:37
 msgctxt "Key name"
 msgid "Right Super"
-msgstr "오른쪽 윈도우키"
+msgstr "오른쪽 슈퍼 키"
 
 #: src/lib/fcitx-utils/key.cpp:202
 msgctxt "Key name"
@@ -1882,7 +1883,7 @@ msgstr "교체 PB"
 
 #: data/fcitx5-diagnose.sh:899
 msgid "Running as root:"
-msgstr "루트 계정으로 실행중:"
+msgstr "root로 실행중:"
 
 #: src/lib/fcitx-utils/key.cpp:149
 msgctxt "Key name"
@@ -2135,8 +2136,8 @@ msgid ""
 "please double check and remove as necessary before posting it online "
 "publicly."
 msgstr ""
-"이러한 정보는 진단 목적으로 개발자에게 도움이 될 수 있지만 온라인에 공개적으"
-"로 게시하기 전에 다시 확인하고 필요한 경우 제거합니다."
+"이러한 정보는 개발자에게 도움이 될 수 있지만, 온라인에 올리기 전에 꼭 확인하"
+"고 민감한 정보가 있다면, 제거하세요."
 
 #: src/lib/fcitx-utils/key.cpp:177
 msgctxt "Key name"
@@ -2350,8 +2351,8 @@ msgid ""
 "including the distribution name, kernel version, name of currently running "
 "programs, etc."
 msgstr ""
-"경고: fcitx5-diagnose의 출력에는 배포 이름, 커널 버전, 현재 실행 중인 프로그"
-"램 이름 등 민감한 정보가 포함되어 있습니다."
+"경고: fcitx5-diagnose의 출력에는 배포판 이름, 커널 버전, 현재 실행 중인 프로"
+"그램 등 민감한 정보가 포함되어 있습니다."
 
 #: src/modules/wayland/wayland.conf.in.in:3
 msgid "Wayland"
@@ -2359,7 +2360,7 @@ msgstr "Wayland"
 
 #: src/frontend/waylandim/waylandim.conf.in.in:3
 msgid "Wayland Input method frontend"
-msgstr "Wayland 입력기 전처리기"
+msgstr "Wayland 입력기 프론트엔드"
 
 #: src/lib/fcitx-utils/key.cpp:165
 msgctxt "Key name"
@@ -2378,7 +2379,7 @@ msgstr ""
 
 #: data/fcitx5-diagnose.sh:909
 msgid "Why is it bad to run as root"
-msgstr "루트로 실행하는 것이 문제있는 이유"
+msgstr "root 로 실행하는 것이 나쁜 이유"
 
 #: src/lib/fcitx-utils/key.cpp:171
 msgctxt "Key name"
@@ -2392,7 +2393,7 @@ msgstr "워드프로세서"
 
 #: src/frontend/xim/xim.conf.in.in:3
 msgid "X Input Method Frontend"
-msgstr "X 입력기 전처리기"
+msgstr "X 입력기 프론트엔드"
 
 #: src/modules/xcb/xcb.conf.in.in:3
 msgid "XCB"
@@ -2473,8 +2474,8 @@ msgid ""
 "You're currently running Fcitx with GUI, but fcitx5-config-qt couldn't be "
 "found. Now it will open config directory."
 msgstr ""
-"현재 Fcitx를 GUI로 실행하고 있지만 Fcitx5-config-qt를 찾을 수 없습니다. 이제 "
-"구성 디렉토리가 열립니다."
+"현재 Fcitx를 GUI로 실행하고 있지만 Fcitx5-config-qt를 찾을 수 없습니다. 대신 "
+"설정 디렉토리를 엽니다."
 
 #: data/fcitx5-configtool.sh:131
 msgid ""
@@ -2483,8 +2484,8 @@ msgid ""
 "it will open config directory."
 msgstr ""
 "현재 KDE를 실행하고 있지만 Fcitx용 KCModule을 찾을 수 없습니다. 이 KCModule"
-"의 패키지 이름은 일반적으로 kcm-fcitx 또는 kde-config-fcitx입니다. 이제 구성 "
-"디렉토리가 열립니다."
+"의 패키지 이름은 일반적으로 kcm-fcitx 또는 kde-config-fcitx입니다. 대신 설정 "
+"디렉토리를 엽니다."
 
 #: data/fcitx5-diagnose.sh:1168
 msgid ""
