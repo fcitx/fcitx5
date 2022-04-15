@@ -4,16 +4,16 @@
 #
 # Translators:
 # wwj402 <wwj402@gmail.com>, 2017
-# csslayer <wengxt@gmail.com>, 2022
 # rocka, 2022
+# csslayer <wengxt@gmail.com>, 2022
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2022-04-08 20:24+0000\n"
+"POT-Creation-Date: 2022-04-15 20:24+0000\n"
 "PO-Revision-Date: 2017-11-23 04:14+0000\n"
-"Last-Translator: rocka, 2022\n"
+"Last-Translator: csslayer <wengxt@gmail.com>, 2022\n"
 "Language-Team: Chinese (China) (https://www.transifex.com/fcitx/teams/12005/"
 "zh_CN/)\n"
 "Language: zh_CN\n"
@@ -1927,7 +1927,7 @@ msgstr "分隔符背景"
 
 #: src/ui/classic/theme.h:127
 msgid "Shadow Margin"
-msgstr ""
+msgstr "阴影边距"
 
 #: src/lib/fcitx/globalconfig.cpp:140
 msgid "Share Input State"
