@@ -22,10 +22,7 @@ namespace fcitx {
 class InputContextPrivate : public QPtrHolder<InputContext> {
 public:
     InputContextPrivate(InputContext *q, InputContextManager &manager,
-                        const std::string &program)
-        : QPtrHolder(q), manager_(manager), group_(nullptr), inputPanel_(q),
-          statusArea_(q), program_(program),
-          isPreeditEnabled_(manager.isPreeditEnabledByDefault()) {}
+                        const std::string &program);
 
     template <typename E>
     bool postEvent(E &&event) {

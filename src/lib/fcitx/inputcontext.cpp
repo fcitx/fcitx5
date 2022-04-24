@@ -9,6 +9,7 @@
 #include <cassert>
 #include <chrono>
 #include <exception>
+#include <regex>
 #include "fcitx-utils/event.h"
 #include "focusgroup.h"
 #include "inputcontext_p.h"
@@ -17,6 +18,42 @@
 #include "misc_p.h"
 
 namespace fcitx {
+
+namespace {
+
+bool shouldDisablePreeditByDefault(const std::string &program) {
+    static const std::vector<std::regex> matchers = []() {
+        std::vector<std::regex> matchers;
+        const char *apps = getenv("FCITX_NO_PREEDIT_APPS");
+        if (!apps) {
+            apps = NO_PREEDIT_APPS;
+        }
+        auto matcherStrings = stringutils::split(apps, ",");
+        for (const auto &matcherString : matcherStrings) {
+            try {
+                matchers.emplace_back(matcherString, std::regex::icase |
+                                                         std::regex::extended |
+                                                         std::regex::nosubs);
+            } catch (...) {
+            }
+        }
+        return matchers;
+    }();
+
+    return std::any_of(matchers.begin(), matchers.end(),
+                       [&program](const std::regex &regex) {
+                           return std::regex_match(program, regex);
+                       });
+}
+} // namespace
+
+InputContextPrivate::InputContextPrivate(InputContext *q,
+                                         InputContextManager &manager,
+                                         const std::string &program)
+    : QPtrHolder(q), manager_(manager), group_(nullptr), inputPanel_(q),
+      statusArea_(q), program_(program),
+      isPreeditEnabled_(manager.isPreeditEnabledByDefault() &&
+                        !shouldDisablePreeditByDefault(program)) {}
 
 #define RETURN_IF_HAS_NO_FOCUS(...)                                            \
     do {                                                                       \
