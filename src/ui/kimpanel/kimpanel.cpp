@@ -408,7 +408,7 @@ void Kimpanel::msgV1Handler(dbus::Message &msg) {
     if (msg.member() == "Exit") {
         instance_->exit();
     } else if (msg.member() == "ReloadConfig") {
-        instance_->reloadConfig();
+        instance_->restart();
     } else if (msg.member() == "Restart") {
         instance_->restart();
     } else if (msg.member() == "Configure") {
