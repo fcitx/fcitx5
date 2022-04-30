@@ -1448,7 +1448,7 @@ void Instance::initialize() {
         if (d->restart_) {
             auto fcitxBinary = StandardPath::fcitxPath("bindir", "fcitx5");
             if (d->inFlatpak_) {
-                startProcess({"flatpak-spawn", fcitxBinary, "-r"});
+                startProcess({"flatpak-spawn", fcitxBinary, "-rd"});
             } else {
                 std::vector<char> command{fcitxBinary.begin(),
                                           fcitxBinary.end()};
