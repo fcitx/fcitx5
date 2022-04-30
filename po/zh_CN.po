@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2022-04-15 20:24+0000\n"
+"POT-Creation-Date: 2022-04-30 20:24+0000\n"
 "PO-Revision-Date: 2017-11-23 04:14+0000\n"
 "Last-Translator: csslayer <wengxt@gmail.com>, 2022\n"
 "Language-Team: Chinese (China) (https://www.transifex.com/fcitx/teams/12005/"
@@ -156,7 +156,7 @@ msgstr "允许重写系统 XKB 设置"
 msgid "Allow Overriding System XKB Settings (Only support KDE 5)"
 msgstr "允许重写系统 XKB 设置 (仅支持 KDE 5)"
 
-#: src/im/keyboard/keyboard.h:33 src/modules/quickphrase/quickphrase.h:29
+#: src/im/keyboard/keyboard.h:34 src/modules/quickphrase/quickphrase.h:29
 msgid "Alt"
 msgstr "Alt"
 
@@ -179,7 +179,7 @@ msgctxt "Key name"
 msgid "Application Right"
 msgstr "应用程序右"
 
-#: src/im/keyboard/keyboard.h:79
+#: src/im/keyboard/keyboard.h:89
 msgid "Applications disabled for long press"
 msgstr "禁用长按的程序"
 
@@ -416,7 +416,7 @@ msgstr "修改 Fcitx 5 配置"
 msgid "Check box"
 msgstr "复选框"
 
-#: src/im/keyboard/keyboard.h:57 src/modules/quickphrase/quickphrase.h:41
+#: src/im/keyboard/keyboard.h:58 src/modules/quickphrase/quickphrase.h:41
 msgid "Choose key modifier"
 msgstr "选词修饰键"
 
@@ -460,19 +460,19 @@ msgctxt "Key name"
 msgid "Community"
 msgstr "社区"
 
-#: src/im/keyboard/keyboard.cpp:796
+#: src/im/keyboard/keyboard.cpp:678
 msgid "Completion"
 msgstr "补全"
 
-#: src/im/keyboard/keyboard.cpp:787
+#: src/im/keyboard/keyboard.cpp:669
 msgid "Completion is disabled."
 msgstr "补全已禁用。"
 
-#: src/im/keyboard/keyboard.cpp:790
+#: src/im/keyboard/keyboard.cpp:672
 msgid "Completion is enabled temporarily."
 msgstr "已暂时启用补全。"
 
-#: src/im/keyboard/keyboard.cpp:792
+#: src/im/keyboard/keyboard.cpp:674
 msgid "Completion is enabled."
 msgstr "已启用补全。"
 
@@ -509,7 +509,7 @@ msgstr "配置:"
 msgid "Configure"
 msgstr "配置"
 
-#: src/im/keyboard/keyboard.h:34 src/modules/quickphrase/quickphrase.h:29
+#: src/im/keyboard/keyboard.h:35 src/modules/quickphrase/quickphrase.h:29
 msgid "Control"
 msgstr "Control"
 
@@ -681,15 +681,15 @@ msgstr "KWin 下启用模糊"
 msgid "Enable Spell check"
 msgstr "启用拼写检查"
 
-#: src/im/keyboard/keyboard.h:52
+#: src/im/keyboard/keyboard.h:53
 msgid "Enable emoji in hint"
 msgstr "在输入提示中启用 Emoji"
 
-#: src/im/keyboard/keyboard.h:55
+#: src/im/keyboard/keyboard.h:56
 msgid "Enable emoji in quickphrase"
 msgstr "在快速输入中启用颜文字"
 
-#: src/im/keyboard/keyboard.h:60
+#: src/im/keyboard/keyboard.h:61
 msgid "Enable hint by default"
 msgstr "默认启用提示"
 
@@ -1157,7 +1157,7 @@ msgstr ""
 msgid "Image"
 msgstr "图片"
 
-#: src/im/keyboard/keyboard.cpp:795 src/lib/fcitx/instance.cpp:413
+#: src/im/keyboard/keyboard.cpp:677 src/lib/fcitx/instance.cpp:413
 #: src/lib/fcitx/instance.cpp:794 src/lib/fcitx/instance.cpp:960
 #: src/modules/notificationitem/notificationitem.cpp:123
 #: src/modules/xcb/xcbconnection.cpp:406 data/org.fcitx.Fcitx5.desktop.in.in:4
@@ -1230,15 +1230,15 @@ msgstr "片假名"
 msgid "Key"
 msgstr "按键"
 
-#: src/im/keyboard/keyboard.cpp:326 src/im/keyboard/keyboard.conf.in.in:3
+#: src/im/keyboard/keyboard.cpp:332 src/im/keyboard/keyboard.conf.in.in:3
 msgid "Keyboard"
 msgstr "键盘"
 
-#: src/im/keyboard/keyboard.cpp:252
+#: src/im/keyboard/keyboard.cpp:258
 msgid "Keyboard - {0}"
 msgstr "键盘 - {0}"
 
-#: src/im/keyboard/keyboard.cpp:271
+#: src/im/keyboard/keyboard.cpp:277
 msgid "Keyboard - {0} - {1}"
 msgstr "键盘 - {0} - {1}"
 
@@ -1403,7 +1403,7 @@ msgctxt "Key name"
 msgid "Logoff"
 msgstr "注销"
 
-#: src/im/keyboard/keyboard.h:81
+#: src/im/keyboard/keyboard.h:91
 msgid "Long Press behavior"
 msgstr "长按行为"
 
@@ -1571,7 +1571,7 @@ msgctxt "Key name"
 msgid "News"
 msgstr "新闻"
 
-#: src/im/keyboard/keyboard.h:49
+#: src/im/keyboard/keyboard.h:50
 msgid "Next Candidate"
 msgstr "下一个候选词"
 
@@ -1587,7 +1587,7 @@ msgstr "否"
 msgid "No clipboard history."
 msgstr "无剪贴板历史。"
 
-#: src/im/keyboard/keyboard.h:33 src/modules/quickphrase/quickphrase.h:28
+#: src/im/keyboard/keyboard.h:34 src/modules/quickphrase/quickphrase.h:28
 msgid "None"
 msgstr "无"
 
@@ -1616,7 +1616,7 @@ msgstr "数字锁定"
 msgid "Number of entries"
 msgstr "项目个数"
 
-#: src/im/keyboard/keyboard.cpp:781
+#: src/im/keyboard/keyboard.cpp:663
 msgid ""
 "Only emoji support is found. To enable spell checking, you may need to "
 "install spell check data for the language."
@@ -1670,7 +1670,7 @@ msgstr "DBus 名称 ${1} 的所有者是 ${2}。"
 msgid "PID of DBus name ${1} owner is ${2}."
 msgstr "DBus 名称 ${1} 的 PID 所有者是 ${2}。"
 
-#: src/im/keyboard/keyboard.h:38
+#: src/im/keyboard/keyboard.h:39
 msgid "Page size"
 msgstr "页大小"
 
@@ -1756,7 +1756,7 @@ msgstr "优先使用文字图标"
 msgid "Presage"
 msgstr "Presage"
 
-#: src/im/keyboard/keyboard.h:43
+#: src/im/keyboard/keyboard.h:44
 msgid "Prev Candidate"
 msgstr "上一个候选词"
 
@@ -1975,6 +1975,12 @@ msgstr ""
 msgid "Show preedit in application"
 msgstr "在程序中显示预编辑文本"
 
+#: src/im/keyboard/keyboard.h:79
+msgid ""
+"Show preedit when compose, and commit dead key if there is no matching "
+"sequence."
+msgstr ""
+
 #: src/lib/fcitx/globalconfig.cpp:63
 msgid "Skip first input method while enumerating"
 msgstr "轮换输入法时跳过第一个输入法"
@@ -1993,7 +1999,7 @@ msgstr "空格"
 msgid "Spacing"
 msgstr "间隔"
 
-#: src/im/keyboard/keyboard.h:71 src/modules/spell/spell.conf.in.in:3
+#: src/im/keyboard/keyboard.h:81 src/modules/spell/spell.conf.in.in:3
 msgid "Spell"
 msgstr "拼写"
 
@@ -2039,7 +2045,7 @@ msgctxt "Key name"
 msgid "Subtitle"
 msgstr "副标题"
 
-#: src/im/keyboard/keyboard.h:34 src/modules/quickphrase/quickphrase.h:29
+#: src/im/keyboard/keyboard.h:35 src/modules/quickphrase/quickphrase.h:29
 msgid "Super"
 msgstr "Super"
 
@@ -2225,15 +2231,15 @@ msgstr "触发键"
 msgid "Trigger Key for only current input context"
 msgstr "当前输入上下文的触发键"
 
-#: src/im/keyboard/keyboard.h:63
+#: src/im/keyboard/keyboard.h:64
 msgid "Trigger hint mode"
 msgstr "切换提示模式"
 
-#: src/im/keyboard/keyboard.h:68
+#: src/im/keyboard/keyboard.h:69
 msgid "Trigger hint mode for one time"
 msgstr "触发一次提示模式"
 
-#: src/im/keyboard/keyboard.h:74
+#: src/im/keyboard/keyboard.h:84
 msgid "Type special characters with long press"
 msgstr "用长按来输入特殊字符"
 
@@ -2282,6 +2288,10 @@ msgstr "使用输入法的语言来显示文字"
 #: src/ui/classic/classicui.h:95
 msgid "Use mouse wheel to go to prev or next page"
 msgstr "使用鼠标滚轮翻页"
+
+#: src/im/keyboard/keyboard.h:75
+msgid "Use new compose behavior"
+msgstr ""
 
 #: data/fcitx5-diagnose.sh:1683
 msgid "User Interface:"
@@ -2539,7 +2549,7 @@ msgstr "sudo 的环境变量"
 msgid "version:"
 msgstr "版本："
 
-#: src/im/keyboard/keyboard.cpp:303
+#: src/im/keyboard/keyboard.cpp:309
 msgid "{0} (Not Available)"
 msgstr "{0} (不可用)"
 

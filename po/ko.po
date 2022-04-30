@@ -6,14 +6,14 @@
 # csslayer <wengxt@gmail.com>, 2017
 # heavyuser <heavyuser73@gmail.com>, 2018
 # Bon Keun Seo <scobyseo@gmail.com>, 2021
-# Junghee Lee <daemul72@gmail.com>, 2022
+# JungHee Lee <daemul72@gmail.com>, 2022
 # perillamint <perillamint@quendi.moe>, 2022
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2022-04-11 20:24+0000\n"
+"POT-Creation-Date: 2022-04-30 20:24+0000\n"
 "PO-Revision-Date: 2017-11-23 04:14+0000\n"
 "Last-Translator: perillamint <perillamint@quendi.moe>, 2022\n"
 "Language-Team: Korean (https://www.transifex.com/fcitx/teams/12005/ko/)\n"
@@ -157,7 +157,7 @@ msgstr "시스템 XKB 설정을 덮어쓰도록 허용"
 msgid "Allow Overriding System XKB Settings (Only support KDE 5)"
 msgstr "시스템 XKB 설정 무시 허용(KDE 5만 지원)"
 
-#: src/im/keyboard/keyboard.h:33 src/modules/quickphrase/quickphrase.h:29
+#: src/im/keyboard/keyboard.h:34 src/modules/quickphrase/quickphrase.h:29
 msgid "Alt"
 msgstr "Alt"
 
@@ -180,7 +180,7 @@ msgctxt "Key name"
 msgid "Application Right"
 msgstr "오른쪽 응용 프로그램"
 
-#: src/im/keyboard/keyboard.h:79
+#: src/im/keyboard/keyboard.h:89
 msgid "Applications disabled for long press"
 msgstr "길게 누르면 응용프로그램이 비활성화됨"
 
@@ -419,7 +419,7 @@ msgstr "Fcitx5 구성 변경"
 msgid "Check box"
 msgstr "체크 박스"
 
-#: src/im/keyboard/keyboard.h:57 src/modules/quickphrase/quickphrase.h:41
+#: src/im/keyboard/keyboard.h:58 src/modules/quickphrase/quickphrase.h:41
 msgid "Choose key modifier"
 msgstr "변환 키 선택"
 
@@ -463,19 +463,19 @@ msgctxt "Key name"
 msgid "Community"
 msgstr "커뮤니티"
 
-#: src/im/keyboard/keyboard.cpp:796
+#: src/im/keyboard/keyboard.cpp:678
 msgid "Completion"
 msgstr "완성"
 
-#: src/im/keyboard/keyboard.cpp:787
+#: src/im/keyboard/keyboard.cpp:669
 msgid "Completion is disabled."
 msgstr "완성이 비활성화되었습니다."
 
-#: src/im/keyboard/keyboard.cpp:790
+#: src/im/keyboard/keyboard.cpp:672
 msgid "Completion is enabled temporarily."
 msgstr "완성이 일시적으로 활성화되었습니다."
 
-#: src/im/keyboard/keyboard.cpp:792
+#: src/im/keyboard/keyboard.cpp:674
 msgid "Completion is enabled."
 msgstr "완성이 활성화되었습니다."
 
@@ -512,7 +512,7 @@ msgstr "구성:"
 msgid "Configure"
 msgstr "구성하기"
 
-#: src/im/keyboard/keyboard.h:34 src/modules/quickphrase/quickphrase.h:29
+#: src/im/keyboard/keyboard.h:35 src/modules/quickphrase/quickphrase.h:29
 msgid "Control"
 msgstr "Control"
 
@@ -684,15 +684,15 @@ msgstr "KWin에서 블러 활성화"
 msgid "Enable Spell check"
 msgstr "철자 검사 활성화"
 
-#: src/im/keyboard/keyboard.h:52
+#: src/im/keyboard/keyboard.h:53
 msgid "Enable emoji in hint"
 msgstr "힌트에 에모지 보이기"
 
-#: src/im/keyboard/keyboard.h:55
+#: src/im/keyboard/keyboard.h:56
 msgid "Enable emoji in quickphrase"
 msgstr "상용구에 에모지 활성화"
 
-#: src/im/keyboard/keyboard.h:60
+#: src/im/keyboard/keyboard.h:61
 msgid "Enable hint by default"
 msgstr "기본적으로 힌트 사용"
 
@@ -1161,7 +1161,7 @@ msgstr ""
 msgid "Image"
 msgstr "이미지"
 
-#: src/im/keyboard/keyboard.cpp:795 src/lib/fcitx/instance.cpp:413
+#: src/im/keyboard/keyboard.cpp:677 src/lib/fcitx/instance.cpp:413
 #: src/lib/fcitx/instance.cpp:794 src/lib/fcitx/instance.cpp:960
 #: src/modules/notificationitem/notificationitem.cpp:123
 #: src/modules/xcb/xcbconnection.cpp:406 data/org.fcitx.Fcitx5.desktop.in.in:4
@@ -1234,15 +1234,15 @@ msgstr "가타카나"
 msgid "Key"
 msgstr "키"
 
-#: src/im/keyboard/keyboard.cpp:326 src/im/keyboard/keyboard.conf.in.in:3
+#: src/im/keyboard/keyboard.cpp:332 src/im/keyboard/keyboard.conf.in.in:3
 msgid "Keyboard"
 msgstr "키보드"
 
-#: src/im/keyboard/keyboard.cpp:252
+#: src/im/keyboard/keyboard.cpp:258
 msgid "Keyboard - {0}"
 msgstr "키보드 - {0}"
 
-#: src/im/keyboard/keyboard.cpp:271
+#: src/im/keyboard/keyboard.cpp:277
 msgid "Keyboard - {0} - {1}"
 msgstr "키보드 - {0} - {1}"
 
@@ -1407,7 +1407,7 @@ msgctxt "Key name"
 msgid "Logoff"
 msgstr "로그오프"
 
-#: src/im/keyboard/keyboard.h:81
+#: src/im/keyboard/keyboard.h:91
 msgid "Long Press behavior"
 msgstr "길게 누르기 동작"
 
@@ -1575,7 +1575,7 @@ msgctxt "Key name"
 msgid "News"
 msgstr "뉴스"
 
-#: src/im/keyboard/keyboard.h:49
+#: src/im/keyboard/keyboard.h:50
 msgid "Next Candidate"
 msgstr "다음 후보"
 
@@ -1591,7 +1591,7 @@ msgstr "아니오"
 msgid "No clipboard history."
 msgstr "클립보드 기록이 없습니다."
 
-#: src/im/keyboard/keyboard.h:33 src/modules/quickphrase/quickphrase.h:28
+#: src/im/keyboard/keyboard.h:34 src/modules/quickphrase/quickphrase.h:28
 msgid "None"
 msgstr "없음"
 
@@ -1620,7 +1620,7 @@ msgstr "NumLock"
 msgid "Number of entries"
 msgstr "항목 수"
 
-#: src/im/keyboard/keyboard.cpp:781
+#: src/im/keyboard/keyboard.cpp:663
 msgid ""
 "Only emoji support is found. To enable spell checking, you may need to "
 "install spell check data for the language."
@@ -1675,7 +1675,7 @@ msgstr "DBus ${1}의 소유자는 ${2}입니다."
 msgid "PID of DBus name ${1} owner is ${2}."
 msgstr "DBus 이름 ${1} 소유자의 PID는 ${2}입니다."
 
-#: src/im/keyboard/keyboard.h:38
+#: src/im/keyboard/keyboard.h:39
 msgid "Page size"
 msgstr "페이지 크기"
 
@@ -1762,7 +1762,7 @@ msgstr "텍스트 아이콘 선호"
 msgid "Presage"
 msgstr "사전 설정"
 
-#: src/im/keyboard/keyboard.h:43
+#: src/im/keyboard/keyboard.h:44
 msgid "Prev Candidate"
 msgstr "이전 후보"
 
@@ -1981,6 +1981,12 @@ msgstr ""
 msgid "Show preedit in application"
 msgstr "응용프로그램에서 사전편집 표시"
 
+#: src/im/keyboard/keyboard.h:79
+msgid ""
+"Show preedit when compose, and commit dead key if there is no matching "
+"sequence."
+msgstr ""
+
 #: src/lib/fcitx/globalconfig.cpp:63
 msgid "Skip first input method while enumerating"
 msgstr "열거하는 동안 첫 번째 입력기 건너뛰기"
@@ -1999,7 +2005,7 @@ msgstr "공백"
 msgid "Spacing"
 msgstr "간격"
 
-#: src/im/keyboard/keyboard.h:71 src/modules/spell/spell.conf.in.in:3
+#: src/im/keyboard/keyboard.h:81 src/modules/spell/spell.conf.in.in:3
 msgid "Spell"
 msgstr "철자"
 
@@ -2045,7 +2051,7 @@ msgctxt "Key name"
 msgid "Subtitle"
 msgstr "부제"
 
-#: src/im/keyboard/keyboard.h:34 src/modules/quickphrase/quickphrase.h:29
+#: src/im/keyboard/keyboard.h:35 src/modules/quickphrase/quickphrase.h:29
 msgid "Super"
 msgstr "Super"
 
@@ -2232,15 +2238,15 @@ msgstr "트리거 키"
 msgid "Trigger Key for only current input context"
 msgstr "현재 입력 컨텍스트에 대한 트리거 키"
 
-#: src/im/keyboard/keyboard.h:63
+#: src/im/keyboard/keyboard.h:64
 msgid "Trigger hint mode"
 msgstr "트리거 힌트 모드"
 
-#: src/im/keyboard/keyboard.h:68
+#: src/im/keyboard/keyboard.h:69
 msgid "Trigger hint mode for one time"
 msgstr "힌트 모드를 한 번만 트리거"
 
-#: src/im/keyboard/keyboard.h:74
+#: src/im/keyboard/keyboard.h:84
 msgid "Type special characters with long press"
 msgstr "길게 눌러 특수 문자 입력"
 
@@ -2289,6 +2295,10 @@ msgstr "텍스트 표시할 때 입력기 언어 사용"
 #: src/ui/classic/classicui.h:95
 msgid "Use mouse wheel to go to prev or next page"
 msgstr "마우스 휠을 사용하여 이전 또는 다음 페이지로 이동"
+
+#: src/im/keyboard/keyboard.h:75
+msgid "Use new compose behavior"
+msgstr ""
 
 #: data/fcitx5-diagnose.sh:1683
 msgid "User Interface:"
@@ -2550,7 +2560,7 @@ msgstr "sudo 환경 변수"
 msgid "version:"
 msgstr "버전:"
 
-#: src/im/keyboard/keyboard.cpp:303
+#: src/im/keyboard/keyboard.cpp:309
 msgid "{0} (Not Available)"
 msgstr "{0} (사용할 수 없음)"
 

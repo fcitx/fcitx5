@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2022-04-09 20:24+0000\n"
+"POT-Creation-Date: 2022-04-30 20:24+0000\n"
 "PO-Revision-Date: 2017-11-23 04:14+0000\n"
 "Last-Translator: Dmitry <dmitrydmitry761@gmail.com>, 2022\n"
 "Language-Team: Russian (https://www.transifex.com/fcitx/teams/12005/ru/)\n"
@@ -159,7 +159,7 @@ msgstr ""
 "Разрешить переопределение системных настроек XKB (поддерживается только KDE "
 "5)"
 
-#: src/im/keyboard/keyboard.h:33 src/modules/quickphrase/quickphrase.h:29
+#: src/im/keyboard/keyboard.h:34 src/modules/quickphrase/quickphrase.h:29
 msgid "Alt"
 msgstr "Alt"
 
@@ -182,7 +182,7 @@ msgctxt "Key name"
 msgid "Application Right"
 msgstr "Приложение справа"
 
-#: src/im/keyboard/keyboard.h:79
+#: src/im/keyboard/keyboard.h:89
 msgid "Applications disabled for long press"
 msgstr "Отключение приложений при длительном нажатии"
 
@@ -424,7 +424,7 @@ msgstr "Изменить конфигурацию Fcitx 5"
 msgid "Check box"
 msgstr "Флажок"
 
-#: src/im/keyboard/keyboard.h:57 src/modules/quickphrase/quickphrase.h:41
+#: src/im/keyboard/keyboard.h:58 src/modules/quickphrase/quickphrase.h:41
 msgid "Choose key modifier"
 msgstr "Выбрать клавишу-модификатор"
 
@@ -468,19 +468,19 @@ msgctxt "Key name"
 msgid "Community"
 msgstr "Сообщество"
 
-#: src/im/keyboard/keyboard.cpp:796
+#: src/im/keyboard/keyboard.cpp:678
 msgid "Completion"
 msgstr "Завершение"
 
-#: src/im/keyboard/keyboard.cpp:787
+#: src/im/keyboard/keyboard.cpp:669
 msgid "Completion is disabled."
 msgstr "Завершение отключено."
 
-#: src/im/keyboard/keyboard.cpp:790
+#: src/im/keyboard/keyboard.cpp:672
 msgid "Completion is enabled temporarily."
 msgstr "Завершение временно включено."
 
-#: src/im/keyboard/keyboard.cpp:792
+#: src/im/keyboard/keyboard.cpp:674
 msgid "Completion is enabled."
 msgstr "Завершение включено."
 
@@ -517,7 +517,7 @@ msgstr "Настройка:"
 msgid "Configure"
 msgstr "Настроить"
 
-#: src/im/keyboard/keyboard.h:34 src/modules/quickphrase/quickphrase.h:29
+#: src/im/keyboard/keyboard.h:35 src/modules/quickphrase/quickphrase.h:29
 msgid "Control"
 msgstr "Управление"
 
@@ -689,15 +689,15 @@ msgstr "Включить размытие на KWin"
 msgid "Enable Spell check"
 msgstr "Включить проверку орфографии"
 
-#: src/im/keyboard/keyboard.h:52
+#: src/im/keyboard/keyboard.h:53
 msgid "Enable emoji in hint"
 msgstr "Включить эмодзи в подсказке"
 
-#: src/im/keyboard/keyboard.h:55
+#: src/im/keyboard/keyboard.h:56
 msgid "Enable emoji in quickphrase"
 msgstr "Включить эмодзи в быстрой фразе"
 
-#: src/im/keyboard/keyboard.h:60
+#: src/im/keyboard/keyboard.h:61
 msgid "Enable hint by default"
 msgstr "Включить подсказку по умолчанию"
 
@@ -1174,7 +1174,7 @@ msgstr ""
 msgid "Image"
 msgstr "Изображение"
 
-#: src/im/keyboard/keyboard.cpp:795 src/lib/fcitx/instance.cpp:413
+#: src/im/keyboard/keyboard.cpp:677 src/lib/fcitx/instance.cpp:413
 #: src/lib/fcitx/instance.cpp:794 src/lib/fcitx/instance.cpp:960
 #: src/modules/notificationitem/notificationitem.cpp:123
 #: src/modules/xcb/xcbconnection.cpp:406 data/org.fcitx.Fcitx5.desktop.in.in:4
@@ -1248,15 +1248,15 @@ msgstr "Катакана"
 msgid "Key"
 msgstr "Клавиша"
 
-#: src/im/keyboard/keyboard.cpp:326 src/im/keyboard/keyboard.conf.in.in:3
+#: src/im/keyboard/keyboard.cpp:332 src/im/keyboard/keyboard.conf.in.in:3
 msgid "Keyboard"
 msgstr "Клавиатура"
 
-#: src/im/keyboard/keyboard.cpp:252
+#: src/im/keyboard/keyboard.cpp:258
 msgid "Keyboard - {0}"
 msgstr "Клавиатура - {0}"
 
-#: src/im/keyboard/keyboard.cpp:271
+#: src/im/keyboard/keyboard.cpp:277
 msgid "Keyboard - {0} - {1}"
 msgstr "Клавиатура - {0} - {1}"
 
@@ -1421,7 +1421,7 @@ msgctxt "Key name"
 msgid "Logoff"
 msgstr "Выйти"
 
-#: src/im/keyboard/keyboard.h:81
+#: src/im/keyboard/keyboard.h:91
 msgid "Long Press behavior"
 msgstr "Поведение при длительном нажатии"
 
@@ -1589,7 +1589,7 @@ msgctxt "Key name"
 msgid "News"
 msgstr "Новости"
 
-#: src/im/keyboard/keyboard.h:49
+#: src/im/keyboard/keyboard.h:50
 msgid "Next Candidate"
 msgstr "Следующий кандидат"
 
@@ -1605,7 +1605,7 @@ msgstr "Нет"
 msgid "No clipboard history."
 msgstr "История буфера обмена отсутствует."
 
-#: src/im/keyboard/keyboard.h:33 src/modules/quickphrase/quickphrase.h:28
+#: src/im/keyboard/keyboard.h:34 src/modules/quickphrase/quickphrase.h:28
 msgid "None"
 msgstr "Нет"
 
@@ -1634,7 +1634,7 @@ msgstr "NumLock"
 msgid "Number of entries"
 msgstr "Количество входов"
 
-#: src/im/keyboard/keyboard.cpp:781
+#: src/im/keyboard/keyboard.cpp:663
 msgid ""
 "Only emoji support is found. To enable spell checking, you may need to "
 "install spell check data for the language."
@@ -1689,7 +1689,7 @@ msgstr "Владелец имени DBus ${1} — ${2}."
 msgid "PID of DBus name ${1} owner is ${2}."
 msgstr "PID владельца имени DBus ${1} — ${2}."
 
-#: src/im/keyboard/keyboard.h:38
+#: src/im/keyboard/keyboard.h:39
 msgid "Page size"
 msgstr "Размер страницы"
 
@@ -1778,7 +1778,7 @@ msgstr "Иконка предпочтительного текста"
 msgid "Presage"
 msgstr "Presage"
 
-#: src/im/keyboard/keyboard.h:43
+#: src/im/keyboard/keyboard.h:44
 msgid "Prev Candidate"
 msgstr "Предыдущий кандидат"
 
@@ -1998,6 +1998,12 @@ msgstr ""
 msgid "Show preedit in application"
 msgstr "Показать предварительное редактирование в приложении"
 
+#: src/im/keyboard/keyboard.h:79
+msgid ""
+"Show preedit when compose, and commit dead key if there is no matching "
+"sequence."
+msgstr ""
+
 #: src/lib/fcitx/globalconfig.cpp:63
 msgid "Skip first input method while enumerating"
 msgstr "Пропустить первый метод ввода при перечислении"
@@ -2016,7 +2022,7 @@ msgstr "Space"
 msgid "Spacing"
 msgstr "Расстояние"
 
-#: src/im/keyboard/keyboard.h:71 src/modules/spell/spell.conf.in.in:3
+#: src/im/keyboard/keyboard.h:81 src/modules/spell/spell.conf.in.in:3
 msgid "Spell"
 msgstr "Подсказки"
 
@@ -2062,7 +2068,7 @@ msgctxt "Key name"
 msgid "Subtitle"
 msgstr "Подзаголовок"
 
-#: src/im/keyboard/keyboard.h:34 src/modules/quickphrase/quickphrase.h:29
+#: src/im/keyboard/keyboard.h:35 src/modules/quickphrase/quickphrase.h:29
 msgid "Super"
 msgstr "Super"
 
@@ -2253,15 +2259,15 @@ msgstr "Клавиша-триггер"
 msgid "Trigger Key for only current input context"
 msgstr "Клавиша-триггер только для текущего контекста ввода"
 
-#: src/im/keyboard/keyboard.h:63
+#: src/im/keyboard/keyboard.h:64
 msgid "Trigger hint mode"
 msgstr "Активировать режим подсказки"
 
-#: src/im/keyboard/keyboard.h:68
+#: src/im/keyboard/keyboard.h:69
 msgid "Trigger hint mode for one time"
 msgstr "Активировать режим подсказки один раз"
 
-#: src/im/keyboard/keyboard.h:74
+#: src/im/keyboard/keyboard.h:84
 msgid "Type special characters with long press"
 msgstr "Вводить специальные символы долгим нажатием"
 
@@ -2312,6 +2318,10 @@ msgstr "Использовать язык метода ввода для ото�
 #: src/ui/classic/classicui.h:95
 msgid "Use mouse wheel to go to prev or next page"
 msgstr "Используйте колёсико мыши, для перелистывания страниц"
+
+#: src/im/keyboard/keyboard.h:75
+msgid "Use new compose behavior"
+msgstr ""
 
 #: data/fcitx5-diagnose.sh:1683
 msgid "User Interface:"
@@ -2579,7 +2589,7 @@ msgstr "Переменные среды sudo"
 msgid "version:"
 msgstr "Версия:"
 
-#: src/im/keyboard/keyboard.cpp:303
+#: src/im/keyboard/keyboard.cpp:309
 msgid "{0} (Not Available)"
 msgstr "{0} (Недоступно)"
 
