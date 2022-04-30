@@ -19,6 +19,7 @@
 #include "fcitx/inputcontextproperty.h"
 #include "fcitx/inputmethodengine.h"
 #include "fcitx/instance.h"
+#include "compose.h"
 #include "isocodes.h"
 #include "keyboard_public.h"
 #include "longpress.h"
@@ -68,6 +69,15 @@ FCITX_CONFIGURATION(
                                      _("Trigger hint mode for one time"),
                                      {Key("Control+Alt+J")},
                                      KeyListConstrain()};
+    OptionWithAnnotation<bool, ToolTipAnnotation> useNewComposeBehavior{
+        this,
+        "UseNewComposeBehavior",
+        _("Use new compose behavior"),
+        true,
+        {},
+        {},
+        {_("Show preedit when compose, and commit dead key if there is no "
+           "matching sequence.")}};
     SubConfigOption spell{this, "Spell", _("Spell"),
                           "fcitx://config/addon/spell"};
     Option<bool> enableLongPress{this, "EnableLongPress",
@@ -86,25 +96,45 @@ class KeyboardEngine;
 enum class CandidateMode { Hint, LongPress };
 
 struct KeyboardEngineState : public InputContextProperty {
-    KeyboardEngineState(KeyboardEngine *engine);
+    KeyboardEngineState(KeyboardEngine *engine, InputContext *inputContext);
+    KeyboardEngine *engine_;
+    InputContext *inputContext_;
     bool enableWordHint_ = false;
     bool oneTimeEnableWordHint_ = false;
     InputBuffer buffer_;
     CandidateMode mode_ = CandidateMode::Hint;
     std::string origKeyString_;
     bool repeatStarted_ = false;
+    ComposeState compose_;
 
     bool hintEnabled() const {
         return enableWordHint_ || oneTimeEnableWordHint_;
     }
 
-    void reset() {
-        origKeyString_.clear();
-        buffer_.clear();
-        mode_ = CandidateMode::Hint;
-        repeatStarted_ = false;
-        oneTimeEnableWordHint_ = false;
-    }
+    void reset(bool resetCompose = true);
+
+    bool handleLongPress(const KeyEvent &event);
+    bool handleSpellModeTrigger(const InputMethodEntry &entry,
+                                const KeyEvent &event);
+    bool handleCandidateSelection(const KeyEvent &event);
+    std::tuple<std::string, bool> handleCompose(const KeyEvent &event);
+    bool handleBackspace(const InputMethodEntry &entry);
+
+    // Commit current buffer, also reset the state.
+    // See also preeditString().
+    void commitBuffer();
+    std::string preeditString() const;
+    std::string currentSelection() const;
+    void showHintNotification(const InputMethodEntry &entry) const;
+
+    void updateCandidate(const InputMethodEntry &entry);
+    // Update preedit and send ui update.
+    void setPreedit();
+
+    // Return true if chr is pushed to buffer.
+    // Return false if chr will be skipped by buffer, usually this means caller
+    // need to call commit buffer and forward chr manually.
+    bool updateBuffer(std::string_view chr);
 };
 
 class KeyboardEnginePrivate;
@@ -133,17 +163,15 @@ public:
     void reset(const InputMethodEntry &entry,
                InputContextEvent &event) override;
 
+    void invokeActionImpl(const fcitx::InputMethodEntry &entry,
+                          fcitx::InvokeActionEvent &event) override;
+
     void resetState(InputContext *inputContext);
 
     FCITX_ADDON_DEPENDENCY_LOADER(spell, instance_->addonManager());
     FCITX_ADDON_DEPENDENCY_LOADER(notifications, instance_->addonManager());
     FCITX_ADDON_DEPENDENCY_LOADER(emoji, instance_->addonManager());
     FCITX_ADDON_DEPENDENCY_LOADER(quickphrase, instance_->addonManager());
-
-    void updateCandidate(const InputMethodEntry &entry,
-                         InputContext *inputContext);
-    // Update preedit and send ui update.
-    void updateUI(InputContext *inputContext);
 
     auto factory() { return &factory_; }
 
@@ -157,27 +185,18 @@ public:
             bool(const std::string &variant, const std::string &description,
                  const std::vector<std::string> &languages)> &callback);
 
-    // Return true if chr is pushed to buffer.
-    // Return false if chr will be skipped by buffer, usually this means caller
-    // need to call commit buffer and forward chr manually.
-    bool updateBuffer(InputContext *inputContext, const std::string &chr);
-
-    // Commit current buffer, also reset the state.
-    // See also preeditString().
-    void commitBuffer(InputContext *inputContext);
-
-    void invokeActionImpl(const fcitx::InputMethodEntry &entry,
-                          fcitx::InvokeActionEvent &event) override;
+    bool isBlockedForLongPress(const std::string &program) const {
+        return longPressBlocklistSet_.count(program) > 0;
+    }
+    const auto &longPressData() const { return longPressData_; }
+    bool supportHint(const std::string &language);
+    const auto &selectionKeys() const { return selectionKeys_; }
 
 private:
     FCITX_ADDON_EXPORT_FUNCTION(KeyboardEngine, foreachLayout);
     FCITX_ADDON_EXPORT_FUNCTION(KeyboardEngine, foreachVariant);
 
-    bool supportHint(const std::string &language);
-    std::string preeditString(InputContext *inputContext);
     void initQuickPhrase();
-    void showHintNotification(const InputMethodEntry &entry,
-                              KeyboardEngineState *state);
 
     Instance *instance_;
     AddonInstance *spell_ = nullptr;
@@ -193,7 +212,9 @@ private:
         quickphraseHandler_;
 
     FactoryFor<KeyboardEngineState> factory_{
-        [this](InputContext &) { return new KeyboardEngineState(this); }};
+        [this](InputContext &inputContext) {
+            return new KeyboardEngineState(this, &inputContext);
+        }};
 
     std::unordered_set<std::string> longPressBlocklistSet_;
 

@@ -1802,6 +1802,24 @@ std::optional<std::string> Instance::processComposeString(InputContext *ic,
 #endif
 }
 
+bool Instance::isComposing(InputContext *inputContext) {
+#ifdef ENABLE_KEYBOARD
+    FCITX_D();
+    auto *state = inputContext->propertyFor(&d->inputStateFactory_);
+
+    auto *xkbComposeState = state->xkbComposeState();
+    if (!xkbComposeState) {
+        return false;
+    }
+
+    return xkb_compose_state_get_status(xkbComposeState) ==
+           XKB_COMPOSE_COMPOSING;
+#else
+    FCITX_UNUSED(inputContext);
+    return false;
+#endif
+}
+
 void Instance::resetCompose(InputContext *inputContext) {
 #ifdef ENABLE_KEYBOARD
     FCITX_D();

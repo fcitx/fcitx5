@@ -262,6 +262,9 @@ public:
     /// Reset the compose state.
     void resetCompose(InputContext *inputContext);
 
+    /// Check whether input contex is composing or not.
+    bool isComposing(InputContext *inputContext);
+
     /**
      * Update the commit string to frontend
      *

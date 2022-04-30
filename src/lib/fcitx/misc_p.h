@@ -24,6 +24,15 @@
 // among different modules.
 namespace fcitx {
 
+class Finally {
+public:
+    Finally(std::function<void()> func) : func_(std::move(func)) {}
+    ~Finally() { func_(); }
+
+private:
+    std::function<void()> func_;
+};
+
 static inline std::pair<std::string, std::string>
 parseLayout(const std::string &layout) {
     auto pos = layout.find('-');

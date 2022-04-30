@@ -30,7 +30,7 @@ FCITX_CONFIGURATION(LongPressConfig,
                                 ListDisplayOptionAnnotation("Key")};);
 
 std::unordered_map<std::string, std::vector<std::string>>
-longPressData(const LongPressConfig &config);
+loadLongPressData(const LongPressConfig &config);
 
 void setupDefaultLongPressConfig(LongPressConfig &config);
 

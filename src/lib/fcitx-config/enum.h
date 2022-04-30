@@ -41,16 +41,16 @@
  */
 #define FCITX_CONFIG_ENUM_NAME(TYPE, ...)                                      \
     static constexpr const char *_##TYPE##_Names[] = {__VA_ARGS__};            \
-    static inline std::string TYPE##ToString(TYPE value) {                     \
+    static inline std::string _FCITX_UNUSED_ TYPE##ToString(TYPE value) {      \
         return _##TYPE##_Names[static_cast<std::underlying_type_t<TYPE>>(      \
             value)];                                                           \
     }                                                                          \
-    static inline void marshallOption(fcitx::RawConfig &config,                \
-                                      const TYPE value) {                      \
+    static inline void _FCITX_UNUSED_ marshallOption(fcitx::RawConfig &config, \
+                                                     const TYPE value) {       \
         config =                                                               \
             _##TYPE##_Names[static_cast<std::underlying_type_t<TYPE>>(value)]; \
     }                                                                          \
-    static inline bool unmarshallOption(                                       \
+    static inline bool _FCITX_UNUSED_ unmarshallOption(                        \
         TYPE &value, const fcitx::RawConfig &config, bool) {                   \
         auto size = FCITX_ARRAY_SIZE(_##TYPE##_Names);                         \
         for (decltype(size) i = 0; i < size; i++) {                            \

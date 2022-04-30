@@ -144,7 +144,7 @@ void setupDefaultLongPressConfig(LongPressConfig &config) {
 }
 
 std::unordered_map<std::string, std::vector<std::string>>
-longPressData(const LongPressConfig &config) {
+loadLongPressData(const LongPressConfig &config) {
     std::unordered_map<std::string, std::vector<std::string>> result;
     for (const auto &entry : *config.entries) {
         if (!*entry.enable || entry.candidates->empty()) {

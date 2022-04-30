@@ -139,6 +139,16 @@ public:
     FCITX_SIMPLE_LOG(T)
 
     template <typename T>
+    inline LogMessageBuilder &operator<<(const std::optional<T> &opt) {
+        *this << "optional(has_value=" << opt.has_value();
+        if (opt.has_value()) {
+            *this << *opt;
+        }
+        *this << ")";
+        return *this;
+    }
+
+    template <typename T>
     inline LogMessageBuilder &operator<<(const std::unique_ptr<T> &ptr) {
         *this << "unique_ptr(" << ptr.get() << ")";
         return *this;
