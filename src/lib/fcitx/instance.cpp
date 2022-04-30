@@ -490,6 +490,8 @@ public:
     AddonInstance *notifications_ = nullptr;
 
     std::string lastGroup_;
+
+    const bool inFlatpak_ = fs::isreg("/.flatpak-info");
 };
 
 InputState::InputState(InstancePrivate *d, InputContext *ic)
@@ -1445,12 +1447,17 @@ void Instance::initialize() {
         save();
         if (d->restart_) {
             auto fcitxBinary = StandardPath::fcitxPath("bindir", "fcitx5");
-            std::vector<char> command{fcitxBinary.begin(), fcitxBinary.end()};
-            command.push_back('\0');
-            char *const argv[] = {command.data(), nullptr};
-            execv(argv[0], argv);
-            perror("Restart failed: execvp:");
-            _exit(1);
+            if (d->inFlatpak_) {
+                startProcess({"flatpak-spawn", fcitxBinary, "-r"});
+            } else {
+                std::vector<char> command{fcitxBinary.begin(),
+                                          fcitxBinary.end()};
+                command.push_back('\0');
+                char *const argv[] = {command.data(), nullptr};
+                execv(argv[0], argv);
+                perror("Restart failed: execvp:");
+                _exit(1);
+            }
         }
         return false;
     });
@@ -2398,7 +2405,8 @@ void Instance::showInputMethodInformation(InputContext *ic) {
 
 bool Instance::checkUpdate() const {
     FCITX_D();
-    return d->addonManager_.checkUpdate() || d->imManager_.checkUpdate() ||
+    return (d->inFlatpak_ && fs::isreg("/app/.updated")) ||
+           d->addonManager_.checkUpdate() || d->imManager_.checkUpdate() ||
            postEvent(CheckUpdateEvent());
 }
 
