@@ -67,12 +67,11 @@ void BuiltInQuickPhraseProvider::load(StandardPathFile &file) {
     while (getline(buf, &len, fp.get()) != -1) {
         std::string strBuf(buf.get());
 
-        auto pair = stringutils::trimInplace(strBuf);
-        std::string::size_type start = pair.first, end = pair.second;
+        auto [start, end] = stringutils::trimInplace(strBuf);
         if (start == end) {
             continue;
         }
-        std::string text(strBuf.begin() + start, strBuf.begin() + end);
+        std::string_view text(strBuf.data() + start, end - start);
         if (!utf8::validate(text)) {
             continue;
         }
@@ -88,7 +87,7 @@ void BuiltInQuickPhraseProvider::load(StandardPathFile &file) {
         }
 
         if (text.back() == '\"' &&
-            (text[word] != '\"' || word + 1 != text.size())) {
+            (text[word] != '\"' || word + 1 == text.size())) {
             continue;
         }
 
@@ -97,7 +96,7 @@ void BuiltInQuickPhraseProvider::load(StandardPathFile &file) {
 
         bool escapeQuote;
         if (text.back() == '\"' && text[word] == '\"') {
-            wordString = text.substr(word + 1, text.size() - word - 1);
+            wordString = text.substr(word + 1, text.size() - word - 2);
             escapeQuote = true;
         } else {
             wordString = text.substr(word);
