@@ -76,7 +76,7 @@ FCITX_CONFIGURATION(
         true,
         {},
         {},
-        {_("Show preedit when compose, and commit dead key if there is no "
+        {_("Show preedit when composing, and commit dead key if there is no "
            "matching sequence.")}};
     SubConfigOption spell{this, "Spell", _("Spell"),
                           "fcitx://config/addon/spell"};
