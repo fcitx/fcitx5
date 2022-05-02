@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2022-04-30 20:24+0000\n"
+"POT-Creation-Date: 2022-05-02 20:30+0000\n"
 "PO-Revision-Date: 2017-11-23 04:14+0000\n"
 "Last-Translator: csslayer <wengxt@gmail.com>, 2022\n"
 "Language-Team: Chinese (China) (https://www.transifex.com/fcitx/teams/12005/"
@@ -581,7 +581,7 @@ msgstr "取消激活输入法"
 msgid "Debug information from dbus:"
 msgstr "来自 dbus 的调试信息："
 
-#: src/lib/fcitx/inputmethodmanager.cpp:138 src/lib/fcitx/instance.cpp:722
+#: src/lib/fcitx/inputmethodmanager.cpp:138 src/lib/fcitx/instance.cpp:724
 #: src/ui/classic/themes/default/theme.conf.in:3
 msgid "Default"
 msgstr "默认"
@@ -950,7 +950,7 @@ msgstr "分组"
 msgid "Group {0}: {1}"
 msgstr "分组 {0}：{1}"
 
-#: src/lib/fcitx/instance.cpp:724
+#: src/lib/fcitx/instance.cpp:726
 msgid "Group {}"
 msgstr "分组 {}"
 
@@ -1158,7 +1158,7 @@ msgid "Image"
 msgstr "图片"
 
 #: src/im/keyboard/keyboard.cpp:677 src/lib/fcitx/instance.cpp:413
-#: src/lib/fcitx/instance.cpp:794 src/lib/fcitx/instance.cpp:960
+#: src/lib/fcitx/instance.cpp:796 src/lib/fcitx/instance.cpp:962
 #: src/modules/notificationitem/notificationitem.cpp:123
 #: src/modules/xcb/xcbconnection.cpp:406 data/org.fcitx.Fcitx5.desktop.in.in:4
 #: data/org.fcitx.Fcitx5.metainfo.xml.in:7
@@ -1736,15 +1736,15 @@ msgctxt "Key name"
 msgid "Power Off"
 msgstr "关机"
 
-#: src/lib/fcitx/instance.cpp:960
+#: src/lib/fcitx/instance.cpp:962
 msgid "Preedit"
 msgstr "预编辑"
 
-#: src/lib/fcitx/instance.cpp:962
+#: src/lib/fcitx/instance.cpp:964
 msgid "Preedit disabled"
 msgstr "预编辑已禁用"
 
-#: src/lib/fcitx/instance.cpp:961
+#: src/lib/fcitx/instance.cpp:963
 msgid "Preedit enabled"
 msgstr "预编辑已启用"
 
@@ -1977,7 +1977,7 @@ msgstr "在程序中显示预编辑文本"
 
 #: src/im/keyboard/keyboard.h:79
 msgid ""
-"Show preedit when compose, and commit dead key if there is no matching "
+"Show preedit when composing, and commit dead key if there is no matching "
 "sequence."
 msgstr ""
 
@@ -2064,7 +2064,7 @@ msgctxt "Key name"
 msgid "Suspend"
 msgstr "睡眠"
 
-#: src/lib/fcitx/instance.cpp:414 src/lib/fcitx/instance.cpp:795
+#: src/lib/fcitx/instance.cpp:414 src/lib/fcitx/instance.cpp:797
 #: src/modules/xcb/xcbconnection.cpp:407
 msgid "Switch group"
 msgstr "切换分组"
@@ -2073,7 +2073,7 @@ msgstr "切换分组"
 msgid "Switch group to {0}"
 msgstr "切换到分组 {0}"
 
-#: src/lib/fcitx/instance.cpp:796
+#: src/lib/fcitx/instance.cpp:798
 msgid "Switched group to {0}"
 msgstr "已切换到分组 {0}"
 
@@ -2291,7 +2291,7 @@ msgstr "使用鼠标滚轮翻页"
 
 #: src/im/keyboard/keyboard.h:75
 msgid "Use new compose behavior"
-msgstr ""
+msgstr "使用新的组合键行为"
 
 #: data/fcitx5-diagnose.sh:1683
 msgid "User Interface:"

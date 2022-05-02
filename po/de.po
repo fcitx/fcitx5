@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2022-04-30 20:24+0000\n"
+"POT-Creation-Date: 2022-05-02 20:30+0000\n"
 "PO-Revision-Date: 2017-11-23 04:14+0000\n"
 "Last-Translator: Ettore Atalan <atalanttore@googlemail.com>, 2022\n"
 "Language-Team: German (https://www.transifex.com/fcitx/teams/12005/de/)\n"
@@ -581,7 +581,7 @@ msgstr "Eingabemethode deaktivieren"
 msgid "Debug information from dbus:"
 msgstr ""
 
-#: src/lib/fcitx/inputmethodmanager.cpp:138 src/lib/fcitx/instance.cpp:722
+#: src/lib/fcitx/inputmethodmanager.cpp:138 src/lib/fcitx/instance.cpp:724
 #: src/ui/classic/themes/default/theme.conf.in:3
 msgid "Default"
 msgstr "Standard"
@@ -944,7 +944,7 @@ msgstr "Gruppe"
 msgid "Group {0}: {1}"
 msgstr "Gruppe {0}: {1}"
 
-#: src/lib/fcitx/instance.cpp:724
+#: src/lib/fcitx/instance.cpp:726
 msgid "Group {}"
 msgstr "Gruppe {}"
 
@@ -1147,7 +1147,7 @@ msgid "Image"
 msgstr "Bild"
 
 #: src/im/keyboard/keyboard.cpp:677 src/lib/fcitx/instance.cpp:413
-#: src/lib/fcitx/instance.cpp:794 src/lib/fcitx/instance.cpp:960
+#: src/lib/fcitx/instance.cpp:796 src/lib/fcitx/instance.cpp:962
 #: src/modules/notificationitem/notificationitem.cpp:123
 #: src/modules/xcb/xcbconnection.cpp:406 data/org.fcitx.Fcitx5.desktop.in.in:4
 #: data/org.fcitx.Fcitx5.metainfo.xml.in:7
@@ -1720,15 +1720,15 @@ msgctxt "Key name"
 msgid "Power Off"
 msgstr "Ausschalten"
 
-#: src/lib/fcitx/instance.cpp:960
+#: src/lib/fcitx/instance.cpp:962
 msgid "Preedit"
 msgstr ""
 
-#: src/lib/fcitx/instance.cpp:962
+#: src/lib/fcitx/instance.cpp:964
 msgid "Preedit disabled"
 msgstr ""
 
-#: src/lib/fcitx/instance.cpp:961
+#: src/lib/fcitx/instance.cpp:963
 msgid "Preedit enabled"
 msgstr ""
 
@@ -1959,7 +1959,7 @@ msgstr ""
 
 #: src/im/keyboard/keyboard.h:79
 msgid ""
-"Show preedit when compose, and commit dead key if there is no matching "
+"Show preedit when composing, and commit dead key if there is no matching "
 "sequence."
 msgstr ""
 
@@ -2046,7 +2046,7 @@ msgctxt "Key name"
 msgid "Suspend"
 msgstr "Suspend"
 
-#: src/lib/fcitx/instance.cpp:414 src/lib/fcitx/instance.cpp:795
+#: src/lib/fcitx/instance.cpp:414 src/lib/fcitx/instance.cpp:797
 #: src/modules/xcb/xcbconnection.cpp:407
 msgid "Switch group"
 msgstr "Gruppe umschalten"
@@ -2055,7 +2055,7 @@ msgstr "Gruppe umschalten"
 msgid "Switch group to {0}"
 msgstr "Gruppe auf {0} umschalten"
 
-#: src/lib/fcitx/instance.cpp:796
+#: src/lib/fcitx/instance.cpp:798
 msgid "Switched group to {0}"
 msgstr "Gruppe auf {0} umgeschaltet"
 
