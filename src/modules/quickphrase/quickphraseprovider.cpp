@@ -86,25 +86,14 @@ void BuiltInQuickPhraseProvider::load(StandardPathFile &file) {
             continue;
         }
 
-        if (text.back() == '\"' &&
-            (text[word] != '\"' || word + 1 == text.size())) {
-            continue;
-        }
 
         std::string key(text.begin(), text.begin() + pos);
-        std::string wordString;
+        auto wordString = stringutils::unescapeForValue(std::string_view(text.substr(word)));
 
-        bool escapeQuote;
-        if (text.back() == '\"' && text[word] == '\"') {
-            wordString = text.substr(word + 1, text.size() - word - 2);
-            escapeQuote = true;
-        } else {
-            wordString = text.substr(word);
-            escapeQuote = false;
+        if (!wordString) {
+            continue;
         }
-        stringutils::unescape(wordString, escapeQuote);
-
-        map_.emplace(std::move(key), std::move(wordString));
+        map_.emplace(std::move(key), std::move(*wordString));
     }
 }
 

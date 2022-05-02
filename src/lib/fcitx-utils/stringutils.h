@@ -18,6 +18,7 @@
 #include <string>
 #include <utility>
 #include <vector>
+#include <optional>
 #include "fcitxutils_export.h"
 #include "stringutils_details.h"
 
@@ -154,6 +155,26 @@ constexpr bool literalEqual(char const *a, char const *b) {
 
 /// \brief Inplace unescape a string contains slash, new line, optionally quote.
 FCITXUTILS_EXPORT bool unescape(std::string &str, bool unescapeQuote);
+
+/**
+ * \brief unescape a string, that is potentially quoted.
+ *
+ * \param str input string.
+ * \return unescaped string
+ * \see escapeForValue
+ * \since 5.0.16
+ */
+FCITXUTILS_EXPORT std::optional<std::string> unescapeForValue(std::string_view str);
+
+/**
+ * \brief escape a string, add quote if needed.
+ *
+ * \param str input string.
+ * \return escaped string
+ * \see unescapeForValue
+ * \since 5.0.16
+ */
+FCITXUTILS_EXPORT std::string escapeForValue(std::string_view str);
 
 } // namespace stringutils
 } // namespace fcitx

@@ -109,5 +109,14 @@ int main() {
         stringutils::split("", ",", stringutils::SplitBehavior::KeepEmpty) ==
         (std::vector<std::string>{""}));
 
+    FCITX_ASSERT(
+        stringutils::escapeForValue("\"") == R"("\"")");
+    FCITX_ASSERT(
+        stringutils::escapeForValue("abc") == R"(abc)");
+    FCITX_ASSERT(
+        stringutils::escapeForValue("ab\"c") == R"("ab\"c")");
+    FCITX_ASSERT(
+        stringutils::escapeForValue("a c") == R"("a c")");
+
     return 0;
 }

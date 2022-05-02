@@ -73,19 +73,9 @@ void readFromIni(RawConfig &config, FILE *fin) {
                    std::string::npos) {
             auto name = lineBuf.substr(start, equalPos - start);
             auto valueStart = equalPos + 1;
-            auto valueEnd = lineBuf.size();
 
-            bool unescapeQuote = false;
-            // having quote at beginning and end, escape
-            if (valueEnd - valueStart >= 2 && lineBuf[valueStart] == '"' &&
-                lineBuf[valueEnd - 1] == '"') {
-                lineBuf.resize(valueEnd - 1);
-                valueStart++;
-                unescapeQuote = true;
-            }
-
-            auto value = lineBuf.substr(valueStart);
-            if (!stringutils::unescape(value, unescapeQuote)) {
+            auto value = stringutils::unescapeForValue(std::string_view(lineBuf).substr(valueStart));
+            if (!value) {
                 continue;
             }
 
@@ -98,7 +88,7 @@ void readFromIni(RawConfig &config, FILE *fin) {
             } else {
                 subConfig = config.get(name, true);
             }
-            subConfig->setValue(value);
+            subConfig->setValue(*value);
             subConfig->setLineNumber(line);
         }
     }
@@ -124,28 +114,10 @@ bool writeAsIni(const RawConfig &root, FILE *fout) {
                         values += "\n";
                     }
 
-                    auto value = config.value();
-                    value = stringutils::replaceAll(value, "\\", "\\\\");
-                    value = stringutils::replaceAll(value, "\n", "\\n");
-
-                    bool needQuote =
-                        value.find_first_of("\f\r\t\v \"") != std::string::npos;
-
-                    if (needQuote) {
-                        value = stringutils::replaceAll(value, "\"", "\\\"");
-                    }
-
-                    if (needQuote) {
-                        values += config.name();
-                        values += "=\"";
-                        values += value;
-                        values += "\"\n";
-                    } else {
-                        values += config.name();
-                        values += "=";
-                        values += value;
-                        values += "\n";
-                    }
+                    values += config.name();
+                    values += "=";
+                    values += stringutils::escapeForValue(config.value());
+                    values += "\n";
                     return true;
                 },
                 "", false, path);
