@@ -129,7 +129,7 @@ bool writeAsIni(const RawConfig &root, FILE *fout) {
                     value = stringutils::replaceAll(value, "\n", "\\n");
 
                     bool needQuote =
-                        value.find_first_of("\f\r\t\v ") != std::string::npos;
+                        value.find_first_of("\f\r\t\v \"") != std::string::npos;
 
                     if (needQuote) {
                         value = stringutils::replaceAll(value, "\"", "\\\"");
