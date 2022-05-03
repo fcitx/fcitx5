@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2022-05-02 20:30+0000\n"
+"POT-Creation-Date: 2022-05-03 20:24+0000\n"
 "PO-Revision-Date: 2017-11-23 04:14+0000\n"
 "Last-Translator: Dmitry <dmitrydmitry761@gmail.com>, 2022\n"
 "Language-Team: Russian (https://www.transifex.com/fcitx/teams/12005/ru/)\n"
@@ -2003,6 +2003,8 @@ msgid ""
 "Show preedit when composing, and commit dead key if there is no matching "
 "sequence."
 msgstr ""
+"Показывать предварительное редактирование при составлении и фиксировать "
+"мертвую клавишу, если нет подходящей последовательности."
 
 #: src/lib/fcitx/globalconfig.cpp:63
 msgid "Skip first input method while enumerating"
@@ -2321,7 +2323,7 @@ msgstr "Используйте колёсико мыши, для перелис�
 
 #: src/im/keyboard/keyboard.h:75
 msgid "Use new compose behavior"
-msgstr ""
+msgstr "Использовать новое поведение при написании"
 
 #: data/fcitx5-diagnose.sh:1683
 msgid "User Interface:"
