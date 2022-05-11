@@ -37,7 +37,7 @@ option(USE_FLATPAK_ICON "Use flatpak icon name for desktop files" Off)
 set(CLDR_DIR "" CACHE STRING "Unicode CLDR (Common Locale Data Repository) directory")
 option(ENABLE_EMOJI "Enable emoji loading for CLDR" On)
 option(ENABLE_LIBUUID "Use libuuid for uuid generation" On)
-set(NO_PREEDIT_APPS "gvim.*,wps.*" CACHE STRING "Disable preedit for follwing app by default.")
+set(NO_PREEDIT_APPS "gvim.*,wps.*,wpp.*,et.*" CACHE STRING "Disable preedit for follwing app by default.")
 
 if (CLDR_DIR STREQUAL "")
     if (IS_DIRECTORY "${CMAKE_INSTALL_FULL_DATADIR}/unicode/cldr")
