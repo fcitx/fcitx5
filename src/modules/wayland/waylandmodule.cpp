@@ -36,11 +36,42 @@ bool isKDE() {
     return desktop == DesktopType::KDE5;
 }
 
+class ScopedEnvvar {
+public:
+    explicit ScopedEnvvar(std::string name, const char* value) : name_(std::move(name)) {
+        auto old = getenv(name_.data());
+        if (old) {
+            oldValue_ = std::string(old);
+        }
+
+        setenv(name_.data(), value, true);
+    }
+
+    ~ScopedEnvvar() {
+        if (oldValue_) {
+            setenv(name_.data(), oldValue_->data(), true);
+        } else {
+            unsetenv(name_.data());
+        }
+    }
+
+private:
+    std::string name_;
+    std::optional<std::string> oldValue_ = std::nullopt;
+};
+
 } // namespace
 
 WaylandConnection::WaylandConnection(WaylandModule *wayland, std::string name)
     : parent_(wayland), name_(std::move(name)) {
-    auto *display = wl_display_connect(name_.empty() ? nullptr : name_.c_str());
+    wl_display *display = nullptr;
+    {
+        std::unique_ptr<ScopedEnvvar> env;
+        if (wayland_log().checkLogLevel(Debug)) {
+            env = std::make_unique<ScopedEnvvar>("WAYLAND_DEBUG", "1");
+        }
+        display = wl_display_connect(name_.empty() ? nullptr : name_.c_str());
+    }
     if (!display) {
         throw std::runtime_error("Failed to open wayland connection");
     }
@@ -50,7 +81,14 @@ WaylandConnection::WaylandConnection(WaylandModule *wayland, std::string name)
 WaylandConnection::WaylandConnection(WaylandModule *wayland, std::string name,
                                      int fd)
     : parent_(wayland), name_(std::move(name)) {
-    auto *display = wl_display_connect_to_fd(fd);
+    wl_display *display = nullptr;
+    {
+        std::unique_ptr<ScopedEnvvar> env;
+        if (wayland_log().checkLogLevel(Debug)) {
+            env = std::make_unique<ScopedEnvvar>("WAYLAND_DEBUG", "1");
+        }
+        display = wl_display_connect_to_fd(fd);
+    }
     if (!display) {
         throw std::runtime_error("Failed to open wayland connection");
     }
