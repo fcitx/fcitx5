@@ -385,8 +385,16 @@ void XCBUI::initScreen() {
                         if (crtc) {
                             Rect rect;
                             rect.setPosition(crtc->x, crtc->y);
-                            int dpiX = 25.4 * crtc->width / output->mm_width;
-                            int dpiY = 25.4 * crtc->height / output->mm_height;
+                            auto outputWidth = output->mm_width;
+                            auto outputHeight = output->mm_height;
+                            if (crtc->rotation ==
+                                    XCB_RANDR_ROTATION_ROTATE_90 ||
+                                crtc->rotation ==
+                                    XCB_RANDR_ROTATION_ROTATE_270) {
+                                std::swap(outputWidth, outputHeight);
+                            }
+                            int dpiX = 25.4 * crtc->width / outputWidth;
+                            int dpiY = 25.4 * crtc->height / outputHeight;
                             rect.setSize(crtc->width, crtc->height);
                             rects_.emplace_back(rect, std::min(dpiX, dpiY));
                             if (maxDpi_ < rects_.back().second) {
