@@ -20,6 +20,8 @@ namespace fcitx::classicui {
 XCBMenu::XCBMenu(XCBUI *ui, MenuPool *pool, Menu *menu)
     : XCBWindow(ui), pool_(pool), menu_(menu) {
     fontMap_.reset(pango_cairo_font_map_new());
+    fontMapDefaultDPI_ = pango_cairo_font_map_get_resolution(
+        PANGO_CAIRO_FONT_MAP(fontMap_.get()));
     context_.reset(pango_font_map_create_context(fontMap_.get()));
     if (auto *ic = ui_->parent()->instance()->mostRecentInputContext()) {
         lastRelevantIc_ = ic->watch();
@@ -305,6 +307,21 @@ std::pair<MenuItem *, Action *> XCBMenu::actionAt(size_t index) {
     return {&items_[index], actions[index]};
 }
 
+void XCBMenu::updateDPI(int x, int y) {
+    dpi_ = ui_->dpiByPosition(x, y);
+
+    // Unlike pango cairo context, Cairo font map does not accept negative dpi.
+    // Restore to default value instead.
+    if (dpi_ < 0) {
+        pango_cairo_font_map_set_resolution(
+            PANGO_CAIRO_FONT_MAP(fontMap_.get()), fontMapDefaultDPI_);
+    } else {
+        pango_cairo_font_map_set_resolution(
+            PANGO_CAIRO_FONT_MAP(fontMap_.get()), dpi_);
+    }
+    pango_cairo_context_set_resolution(context_.get(), dpi_);
+}
+
 void XCBMenu::update() {
     auto *ic = lastRelevantIc();
     if (!ic) {
@@ -330,9 +347,6 @@ void XCBMenu::update() {
     auto *fontDesc = pango_font_description_from_string(
         ui_->parent()->config().menuFont->c_str());
     pango_context_set_font_description(context_.get(), fontDesc);
-    pango_cairo_font_map_set_resolution(PANGO_CAIRO_FONT_MAP(fontMap_.get()),
-                                        dpi_);
-    pango_cairo_context_set_resolution(context_.get(), dpi_);
     pango_font_description_free(fontDesc);
     ui_->fontOption().setupPangoContext(context_.get());
 
@@ -364,6 +378,7 @@ void XCBMenu::update() {
 
         // Calculate size for real items.
         auto text = action->shortText(ic);
+        pango_layout_context_changed(item.layout_.get());
         pango_layout_set_text(item.layout_.get(), text.c_str(), text.size());
         item.textWidth_ = item.textHeight_ = 0;
         pango_layout_get_pixel_size(item.layout_.get(), &item.textWidth_,
@@ -569,7 +584,7 @@ void XCBMenu::show(Rect rect) {
     subMenuIndex_ = -1;
     int x = rect.left();
     int y = rect.top();
-    dpi_ = ui_->dpiByPosition(x, y);
+    updateDPI(x, y);
     update();
     const Rect *closestScreen = nullptr;
     int shortestDistance = INT_MAX;
