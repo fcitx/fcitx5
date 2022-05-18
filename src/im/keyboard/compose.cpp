@@ -5,14 +5,13 @@
  *
  */
 
-#include <fcitx-utils/utf8.h>
 #include "compose.h"
+#include <fcitx-utils/utf8.h>
 
 namespace fcitx {
 
 bool isDeadKey(KeySym sym) {
-            return (sym >= FcitxKey_dead_grave &&
-                sym <= FcitxKey_dead_greek);
+    return (sym >= FcitxKey_dead_grave && sym <= FcitxKey_dead_greek);
 }
 
 void appendDeadKey(std::string &string, KeySym keysym) {
@@ -82,9 +81,8 @@ void appendDeadKey(std::string &string, KeySym keysym) {
     }
 }
 
-ComposeState::ComposeState(Instance* instance, InputContext *inputContext) : instance_(instance), inputContext_(inputContext) {
-
-}
+ComposeState::ComposeState(Instance *instance, InputContext *inputContext)
+    : instance_(instance), inputContext_(inputContext) {}
 
 std::tuple<std::string, bool> ComposeState::type(KeySym sym) {
     std::string result;
@@ -92,7 +90,7 @@ std::tuple<std::string, bool> ComposeState::type(KeySym sym) {
     return {result, consumeKey};
 }
 
-bool ComposeState::typeImpl(KeySym sym, std::string& result) {
+bool ComposeState::typeImpl(KeySym sym, std::string &result) {
     bool wasComposing = instance_->isComposing(inputContext_);
     if (wasComposing != !composeBuffer_.empty()) {
         FCITX_DEBUG() << "Inconsistent compose state";
@@ -102,13 +100,13 @@ bool ComposeState::typeImpl(KeySym sym, std::string& result) {
 
     composeBuffer_.push_back(sym);
     // check compose first.
-    auto composeResult = instance_->processComposeString(inputContext_,
-                                                          sym);
+    auto composeResult = instance_->processComposeString(inputContext_, sym);
     if (!composeResult) {
         if (instance_->isComposing(inputContext_)) {
             return true;
         }
-        // If compose is invalid, and we are not in composing state before, ignore this.
+        // If compose is invalid, and we are not in composing state before,
+        // ignore this.
         if (!wasComposing) {
             composeBuffer_.clear();
             return false;
@@ -145,7 +143,8 @@ bool ComposeState::typeImpl(KeySym sym, std::string& result) {
             swap(buffer, composeBuffer_);
             reset();
             bool consumed = false;
-            for (auto iter = buffer.begin(), end = buffer.end() ; iter != end; ++iter) {
+            for (auto iter = buffer.begin(), end = buffer.end(); iter != end;
+                 ++iter) {
                 consumed = typeImpl(sym, result);
                 if (std::next(iter) != end) {
                     result.append(Key::keySymToUTF8(sym));
@@ -173,7 +172,8 @@ std::string ComposeState::preedit() const {
     std::string result;
     for (size_t i = 0, e = composeBuffer_.size(); i < e; i++) {
         if (composeBuffer_[i] == FcitxKey_Multi_key) {
-            if (e == 1 || i > 0 || (i + 1 < e && composeBuffer_[i + 1] == FcitxKey_Multi_key)) {
+            if (e == 1 || i > 0 ||
+                (i + 1 < e && composeBuffer_[i + 1] == FcitxKey_Multi_key)) {
                 result.append("·");
             }
         } else {
@@ -206,4 +206,4 @@ void ComposeState::reset() {
     composeBuffer_.clear();
 }
 
-}
+} // namespace fcitx

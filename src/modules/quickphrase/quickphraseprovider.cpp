@@ -86,9 +86,9 @@ void BuiltInQuickPhraseProvider::load(StandardPathFile &file) {
             continue;
         }
 
-
         std::string key(text.begin(), text.begin() + pos);
-        auto wordString = stringutils::unescapeForValue(std::string_view(text.substr(word)));
+        auto wordString =
+            stringutils::unescapeForValue(std::string_view(text.substr(word)));
 
         if (!wordString) {
             continue;

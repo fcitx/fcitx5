@@ -74,7 +74,8 @@ void readFromIni(RawConfig &config, FILE *fin) {
             auto name = lineBuf.substr(start, equalPos - start);
             auto valueStart = equalPos + 1;
 
-            auto value = stringutils::unescapeForValue(std::string_view(lineBuf).substr(valueStart));
+            auto value = stringutils::unescapeForValue(
+                std::string_view(lineBuf).substr(valueStart));
             if (!value) {
                 continue;
             }

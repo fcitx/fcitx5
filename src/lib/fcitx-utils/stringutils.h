@@ -15,10 +15,10 @@
 #include <cstddef>
 #include <initializer_list>
 #include <iterator>
+#include <optional>
 #include <string>
 #include <utility>
 #include <vector>
-#include <optional>
 #include "fcitxutils_export.h"
 #include "stringutils_details.h"
 
@@ -164,7 +164,8 @@ FCITXUTILS_EXPORT bool unescape(std::string &str, bool unescapeQuote);
  * \see escapeForValue
  * \since 5.0.16
  */
-FCITXUTILS_EXPORT std::optional<std::string> unescapeForValue(std::string_view str);
+FCITXUTILS_EXPORT std::optional<std::string>
+unescapeForValue(std::string_view str);
 
 /**
  * \brief escape a string, add quote if needed.

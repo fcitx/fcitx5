@@ -339,8 +339,7 @@ bool unescape(std::string &str, bool unescapeQuote) {
 std::optional<std::string> unescapeForValue(std::string_view str) {
     bool unescapeQuote = false;
     // having quote at beginning and end, escape
-    if (str.size() >= 2 && str.front() == '"' &&
-        str.back() == '"') {
+    if (str.size() >= 2 && str.front() == '"' && str.back() == '"') {
         unescapeQuote = true;
         str = str.substr(1, str.size() - 2);
     }
@@ -360,8 +359,7 @@ std::string escapeForValue(std::string_view str) {
     value = stringutils::replaceAll(value, "\\", "\\\\");
     value = stringutils::replaceAll(value, "\n", "\\n");
 
-    bool needQuote =
-        value.find_first_of("\f\r\t\v \"") != std::string::npos;
+    bool needQuote = value.find_first_of("\f\r\t\v \"") != std::string::npos;
 
     if (needQuote) {
         value = stringutils::replaceAll(value, "\"", "\\\"");

@@ -7,20 +7,21 @@
 #ifndef _FCITX_IM_KEYBOARD_COMPOSE_H_
 #define _FCITX_IM_KEYBOARD_COMPOSE_H_
 
+#include <deque>
 #include <fcitx-utils/keysym.h>
 #include <fcitx/inputcontext.h>
 #include <fcitx/instance.h>
-#include <deque>
 
 namespace fcitx {
 class ComposeState {
 public:
-    ComposeState(Instance* instance, InputContext *inputContext);
+    ComposeState(Instance *instance, InputContext *inputContext);
     std::tuple<std::string, bool> type(KeySym sym);
     void backspace();
     std::string preedit() const;
     void reset();
     bool isComposing() const { return !composeBuffer_.empty(); }
+
 private:
     bool typeImpl(KeySym sym, std::string &result);
     Instance *instance_;
