@@ -54,11 +54,17 @@ inline bool isConcatOf(std::string_view str, std::string_view sub1,
 ///
 /// Will return a pair of equal value all characters are whitespace.
 FCITXUTILS_EXPORT std::pair<std::string::size_type, std::string::size_type>
-trimInplace(const std::string &str);
+trimInplace(std::string_view str);
+
+/// \brief Trim the white space in string view
+/// \see trimInplace
+/// \since 5.0.16
+FCITXUTILS_EXPORT
+std::string_view trimView(std::string_view);
 
 /// \brief Trim the white space in str.
 /// \see trimInplace
-FCITXUTILS_EXPORT std::string trim(const std::string &str);
+FCITXUTILS_EXPORT std::string trim(std::string_view str);
 
 /// \brief Split the string by delim.
 FCITXUTILS_EXPORT std::vector<std::string> split(std::string_view str,

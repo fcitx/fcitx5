@@ -33,6 +33,9 @@ int main() {
     end = pair.second;
     FCITX_ASSERT(start == end);
 
+    std::string_view testView = stringutils::trimView("\t\n\r ");
+    FCITX_ASSERT(testView.empty());
+
     auto replace_result = stringutils::replaceAll("abcabc", "a", "b");
     FCITX_ASSERT(replace_result == "bbcbbc");
 
