@@ -255,11 +255,11 @@ UniqueFilePtr openFDImpl(FDLike &fd, const char *modes) {
     return file;
 }
 
-UniqueFilePtr openUnixFD(UnixFD &fd, const char *modes) {
+UniqueFilePtr openFD(UnixFD &fd, const char *modes) {
     return openFDImpl(fd, modes);
 }
 
-UniqueFilePtr openStandardPathFile(StandardPathFile &file, const char *modes) {
+UniqueFilePtr openFD(StandardPathFile &file, const char *modes) {
     return openFDImpl(file, modes);
 }
 

@@ -57,7 +57,7 @@ void BuiltInQuickPhraseProvider::reloadConfig() {
 }
 
 void BuiltInQuickPhraseProvider::load(StandardPathFile &file) {
-    UniqueFilePtr fp = fs::openStandardPathFile(file, "rb");
+    UniqueFilePtr fp = fs::openFD(file, "rb");
     if (!fp) {
         return;
     }

@@ -21,7 +21,7 @@ void readFromIni(RawConfig &config, int fd) {
     }
     // dup it
     UnixFD unixFD(fd);
-    UniqueFilePtr fp = fs::openUnixFD(unixFD, "rb");
+    UniqueFilePtr fp = fs::openFD(unixFD, "rb");
     if (!fp) {
         return;
     }
@@ -34,7 +34,7 @@ bool writeAsIni(const RawConfig &config, int fd) {
     }
     // dup it
     UnixFD unixFD(fd);
-    UniqueFilePtr fp = fs::openUnixFD(unixFD, "wb");
+    UniqueFilePtr fp = fs::openFD(unixFD, "wb");
     if (!fp) {
         return false;
     }

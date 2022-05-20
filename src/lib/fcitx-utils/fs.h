@@ -68,7 +68,7 @@ FCITXUTILS_EXPORT int64_t modifiedTime(const std::string &path);
  * \return FILE pointer if fd is valid and successfully opened.
  * \since 5.0.16
  */
-FCITXUTILS_EXPORT UniqueFilePtr openUnixFD(UnixFD &fd, const char *modes);
+FCITXUTILS_EXPORT UniqueFilePtr openFD(UnixFD &fd, const char *modes);
 
 /**
  * \brief open the standard path file fd with fdopen.
@@ -79,8 +79,8 @@ FCITXUTILS_EXPORT UniqueFilePtr openUnixFD(UnixFD &fd, const char *modes);
  * \see openUnixFD
  * \since 5.0.16
  */
-FCITXUTILS_EXPORT UniqueFilePtr openStandardPathFile(StandardPathFile &file,
-                                                     const char *modes);
+FCITXUTILS_EXPORT UniqueFilePtr openFD(StandardPathFile &file,
+                                           const char *modes);
 } // namespace fs
 } // namespace fcitx
 
