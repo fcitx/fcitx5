@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2022-05-02 20:30+0000\n"
+"POT-Creation-Date: 2022-05-20 20:25+0000\n"
 "PO-Revision-Date: 2017-11-23 04:14+0000\n"
 "Last-Translator: perillamint <perillamint@quendi.moe>, 2022\n"
 "Language-Team: Korean (https://www.transifex.com/fcitx/teams/12005/ko/)\n"
@@ -424,8 +424,8 @@ msgid "Choose key modifier"
 msgstr "변환 키 선택"
 
 #: src/ui/classic/classicui.conf.in.in:3
-msgid "Classic User Inteface"
-msgstr "클래식 사용자 인터페이스"
+msgid "Classic User Interface"
+msgstr ""
 
 #: src/lib/fcitx-utils/key.cpp:121
 msgctxt "Key name"
@@ -508,7 +508,7 @@ msgid "Configuration:"
 msgstr "구성:"
 
 #: src/ui/classic/xcbtraywindow.cpp:38
-#: src/modules/notificationitem/dbusmenu.cpp:244
+#: src/modules/notificationitem/dbusmenu.cpp:245
 msgid "Configure"
 msgstr "구성하기"
 
@@ -768,7 +768,7 @@ msgid "Execute"
 msgstr "실행"
 
 #: src/ui/classic/xcbtraywindow.cpp:40
-#: src/modules/notificationitem/dbusmenu.cpp:257
+#: src/modules/notificationitem/dbusmenu.cpp:259
 msgid "Exit"
 msgstr "나가기"
 
@@ -946,7 +946,7 @@ msgid "Green"
 msgstr "녹색"
 
 #: src/ui/classic/xcbtraywindow.cpp:36
-#: src/modules/notificationitem/dbusmenu.cpp:234
+#: src/modules/notificationitem/dbusmenu.cpp:235
 msgid "Group"
 msgstr "그룹"
 
@@ -1163,7 +1163,7 @@ msgstr "이미지"
 
 #: src/im/keyboard/keyboard.cpp:677 src/lib/fcitx/instance.cpp:413
 #: src/lib/fcitx/instance.cpp:796 src/lib/fcitx/instance.cpp:962
-#: src/modules/notificationitem/notificationitem.cpp:123
+#: src/modules/notificationitem/notificationitem.cpp:115
 #: src/modules/xcb/xcbconnection.cpp:406 data/org.fcitx.Fcitx5.desktop.in.in:4
 #: data/org.fcitx.Fcitx5.metainfo.xml.in:7
 msgid "Input Method"
@@ -1599,7 +1599,7 @@ msgstr "없음"
 msgid "Normal text color"
 msgstr "일반 텍스트 색상"
 
-#: src/ui/kimpanel/kimpanel.cpp:372
+#: src/ui/kimpanel/kimpanel.cpp:367
 msgid "Not available"
 msgstr "사용할 수 없음"
 
@@ -1822,7 +1822,7 @@ msgid "Reply"
 msgstr "답장"
 
 #: src/ui/classic/xcbtraywindow.cpp:39
-#: src/modules/notificationitem/dbusmenu.cpp:251
+#: src/modules/notificationitem/dbusmenu.cpp:253
 msgid "Restart"
 msgstr "재시작"
 

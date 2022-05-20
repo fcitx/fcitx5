@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2022-05-14 20:24+0000\n"
+"POT-Creation-Date: 2022-05-20 20:25+0000\n"
 "PO-Revision-Date: 2017-11-23 04:14+0000\n"
 "Last-Translator: csslayer <wengxt@gmail.com>, 2022\n"
 "Language-Team: Chinese (China) (https://www.transifex.com/fcitx/teams/12005/"
@@ -421,8 +421,8 @@ msgid "Choose key modifier"
 msgstr "选词修饰键"
 
 #: src/ui/classic/classicui.conf.in.in:3
-msgid "Classic User Inteface"
-msgstr "经典用户界面"
+msgid "Classic User Interface"
+msgstr ""
 
 #: src/lib/fcitx-utils/key.cpp:121
 msgctxt "Key name"
@@ -505,7 +505,7 @@ msgid "Configuration:"
 msgstr "配置:"
 
 #: src/ui/classic/xcbtraywindow.cpp:38
-#: src/modules/notificationitem/dbusmenu.cpp:244
+#: src/modules/notificationitem/dbusmenu.cpp:245
 msgid "Configure"
 msgstr "配置"
 
@@ -765,7 +765,7 @@ msgid "Execute"
 msgstr "执行"
 
 #: src/ui/classic/xcbtraywindow.cpp:40
-#: src/modules/notificationitem/dbusmenu.cpp:257
+#: src/modules/notificationitem/dbusmenu.cpp:259
 msgid "Exit"
 msgstr "退出"
 
@@ -942,7 +942,7 @@ msgid "Green"
 msgstr "绿"
 
 #: src/ui/classic/xcbtraywindow.cpp:36
-#: src/modules/notificationitem/dbusmenu.cpp:234
+#: src/modules/notificationitem/dbusmenu.cpp:235
 msgid "Group"
 msgstr "分组"
 
@@ -1159,7 +1159,7 @@ msgstr "图片"
 
 #: src/im/keyboard/keyboard.cpp:677 src/lib/fcitx/instance.cpp:413
 #: src/lib/fcitx/instance.cpp:796 src/lib/fcitx/instance.cpp:962
-#: src/modules/notificationitem/notificationitem.cpp:123
+#: src/modules/notificationitem/notificationitem.cpp:115
 #: src/modules/xcb/xcbconnection.cpp:406 data/org.fcitx.Fcitx5.desktop.in.in:4
 #: data/org.fcitx.Fcitx5.metainfo.xml.in:7
 msgid "Input Method"
@@ -1595,7 +1595,7 @@ msgstr "无"
 msgid "Normal text color"
 msgstr "一般文字颜色"
 
-#: src/ui/kimpanel/kimpanel.cpp:372
+#: src/ui/kimpanel/kimpanel.cpp:367
 msgid "Not available"
 msgstr "不可用"
 
@@ -1816,7 +1816,7 @@ msgid "Reply"
 msgstr "回复"
 
 #: src/ui/classic/xcbtraywindow.cpp:39
-#: src/modules/notificationitem/dbusmenu.cpp:251
+#: src/modules/notificationitem/dbusmenu.cpp:253
 msgid "Restart"
 msgstr "重新启动"
 
