@@ -414,7 +414,7 @@ msgid "Choose key modifier"
 msgstr ""
 
 #: src/ui/classic/classicui.conf.in.in:3
-msgid "Classic User Inteface"
+msgid "Classic User Interface"
 msgstr ""
 
 #: src/lib/fcitx-utils/key.cpp:121
