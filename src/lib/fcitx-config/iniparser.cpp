@@ -34,10 +34,11 @@ bool writeAsIni(const RawConfig &config, int fd) {
     }
     // dup it
     UnixFD unixFD(fd);
-    UniqueFilePtr fp{fdopen(unixFD.release(), "wb")};
+    UniqueFilePtr fp{fdopen(unixFD.fd(), "wb")};
     if (!fp) {
         return false;
     }
+    unixFD.release();
     return writeAsIni(config, fp.get());
 }
 
