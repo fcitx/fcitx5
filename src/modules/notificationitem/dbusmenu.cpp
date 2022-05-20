@@ -11,6 +11,7 @@
 #include "fcitx/inputmethodentry.h"
 #include "fcitx/inputmethodmanager.h"
 #include "fcitx/menu.h"
+#include "fcitx/misc_p.h"
 #include "fcitx/userinterfacemanager.h"
 #include "notificationitem.h"
 
@@ -242,9 +243,10 @@ void DBusMenu::fillLayoutProperties(
             /* this icon sucks on KDE, why configure doesn't have "configure" */
             appendProperty(properties, propertyNames, "label",
                            dbus::Variant(_("Configure")));
-#if 0
-                properties.emplace_back("icon-name", dbus::Variant("preferences-system"));
-#endif
+            if (isKDE()) {
+                properties.emplace_back("icon-name",
+                                        dbus::Variant("configure"));
+            }
             break;
         case BII_Restart:
             appendProperty(properties, propertyNames, "label",

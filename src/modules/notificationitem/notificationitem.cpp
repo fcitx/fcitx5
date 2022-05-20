@@ -35,14 +35,6 @@ FCITX_DEFINE_LOG_CATEGORY(notificationitem, "notificationitem");
 
 namespace fcitx {
 
-namespace {
-bool isKDE() {
-    static const DesktopType desktop = getDesktopType();
-    return desktop == DesktopType::KDE4 || desktop == DesktopType::KDE5;
-}
-
-} // namespace
-
 class StatusNotifierItem : public dbus::ObjectVTable<StatusNotifierItem> {
 public:
     StatusNotifierItem(NotificationItem *parent) : parent_(parent) {

@@ -147,6 +147,11 @@ static inline DesktopType getDesktopType() {
     return DesktopType::Unknown;
 }
 
+static inline bool isKDE() {
+    static const DesktopType desktop = getDesktopType();
+    return desktop == DesktopType::KDE4 || desktop == DesktopType::KDE5;
+}
+
 static inline bool hasTwoKeyboardInCurrentGroup(Instance *instance) {
     size_t numOfKeyboard = 0;
     for (const auto &item :
