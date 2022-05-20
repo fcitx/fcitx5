@@ -11,6 +11,7 @@
 #include <unistd.h>
 #include <algorithm>
 #include "mtime_p.h"
+#include "standardpath.h"
 #include "stringutils.h"
 
 namespace fcitx::fs {
@@ -240,6 +241,26 @@ int64_t modifiedTime(const std::string &path) {
         return 0;
     }
     return fcitx::modifiedTime(stats).sec;
+}
+
+template <typename FDLike>
+UniqueFilePtr openFDImpl(FDLike &fd, const char *modes) {
+    if (!fd.isValid()) {
+        return nullptr;
+    }
+    UniqueFilePtr file(fdopen(fd.fd(), modes));
+    if (file) {
+        fd.release();
+    }
+    return file;
+}
+
+UniqueFilePtr openUnixFD(UnixFD &fd, const char *modes) {
+    return openFDImpl(fd, modes);
+}
+
+UniqueFilePtr openStandardPathFile(StandardPathFile &file, const char *modes) {
+    return openFDImpl(file, modes);
 }
 
 } // namespace fcitx::fs

@@ -7,8 +7,10 @@
 #ifndef _FCITX_UTILS_FS_H_
 #define _FCITX_UTILS_FS_H_
 
+#include <cstdio>
 #include <optional>
 #include <string>
+#include <fcitx-utils/misc.h>
 #include "fcitxutils_export.h"
 
 /// \addtogroup FcitxUtils
@@ -17,6 +19,10 @@
 /// \brief Simple file system related API for checking file status.
 
 namespace fcitx {
+
+class UnixFD;
+class StandardPathFile;
+
 namespace fs {
 
 /// \brief check whether path is a directory.
@@ -48,6 +54,33 @@ FCITXUTILS_EXPORT std::optional<std::string> readlink(const std::string &path);
  * \since 5.0.10
  */
 FCITXUTILS_EXPORT int64_t modifiedTime(const std::string &path);
+
+/**
+ * \brief open the unix fd with fdopen.
+ *
+ * since fdopen'ed fd will be closed upon fclose, the ownership of fd will be
+ * transferred to the FILE if the file descriptor is opened. Otherwise fd is
+ * untouched. This helps user to avoid double close on the same file descriptor,
+ * since the file descriptor number might be reused.
+ *
+ * \param fd file descriptor
+ * \param modes modes passed to fdopen
+ * \return FILE pointer if fd is valid and successfully opened.
+ * \since 5.0.16
+ */
+FCITXUTILS_EXPORT UniqueFilePtr openUnixFD(UnixFD &fd, const char *modes);
+
+/**
+ * \brief open the standard path file fd with fdopen.
+ *
+ * \param fd file descriptor
+ * \param modes modes passed to fdopen
+ * \return FILE pointer if fd is valid and successfully opened.
+ * \see openUnixFD
+ * \since 5.0.16
+ */
+FCITXUTILS_EXPORT UniqueFilePtr openStandardPathFile(StandardPathFile &file,
+                                                     const char *modes);
 } // namespace fs
 } // namespace fcitx
 

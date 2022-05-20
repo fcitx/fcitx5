@@ -8,6 +8,7 @@
 #include <fcntl.h>
 #include <fcitx-utils/utf8.h>
 #include <fcitx/inputmethodentry.h>
+#include "fcitx-utils/fs.h"
 #include "fcitx-utils/standardpath.h"
 #include "fcitx-utils/stringutils.h"
 #include "quickphrase.h"
@@ -56,11 +57,10 @@ void BuiltInQuickPhraseProvider::reloadConfig() {
 }
 
 void BuiltInQuickPhraseProvider::load(StandardPathFile &file) {
-    UniqueFilePtr fp{fdopen(file.fd(), "rb")};
+    UniqueFilePtr fp = fs::openStandardPathFile(file, "rb");
     if (!fp) {
         return;
     }
-    file.release();
 
     UniqueCPtr<char> buf;
     size_t len = 0;
