@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2022-05-20 20:25+0000\n"
+"POT-Creation-Date: 2022-05-21 05:43+0000\n"
 "PO-Revision-Date: 2017-11-23 04:14+0000\n"
 "Last-Translator: csslayer <wengxt@gmail.com>, 2022\n"
 "Language-Team: Chinese (China) (https://www.transifex.com/fcitx/teams/12005/"
@@ -422,7 +422,7 @@ msgstr "选词修饰键"
 
 #: src/ui/classic/classicui.conf.in.in:3
 msgid "Classic User Interface"
-msgstr ""
+msgstr "经典用户界面"
 
 #: src/lib/fcitx-utils/key.cpp:121
 msgctxt "Key name"
