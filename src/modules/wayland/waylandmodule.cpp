@@ -38,7 +38,8 @@ bool isKDE5() {
 
 class ScopedEnvvar {
 public:
-    explicit ScopedEnvvar(std::string name, const char* value) : name_(std::move(name)) {
+    explicit ScopedEnvvar(std::string name, const char *value)
+        : name_(std::move(name)) {
         auto old = getenv(name_.data());
         if (old) {
             oldValue_ = std::string(old);

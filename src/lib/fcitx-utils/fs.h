@@ -80,7 +80,7 @@ FCITXUTILS_EXPORT UniqueFilePtr openFD(UnixFD &fd, const char *modes);
  * \since 5.0.16
  */
 FCITXUTILS_EXPORT UniqueFilePtr openFD(StandardPathFile &file,
-                                           const char *modes);
+                                       const char *modes);
 } // namespace fs
 } // namespace fcitx
 
