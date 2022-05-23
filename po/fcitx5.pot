@@ -207,7 +207,7 @@ msgstr ""
 
 #: src/lib/fcitx-utils/key.cpp:115
 msgctxt "Key name"
-msgid "Back Forward"
+msgid "Backward"
 msgstr ""
 
 #: src/modules/spell/spell.h:38

@@ -112,7 +112,7 @@ std::unordered_map<KeySym, const char *, EnumHash> makeLookupKeyNameMap() {
         {FcitxKey_Finance, NC_("Key name", "Finance")},
         {FcitxKey_Community, NC_("Key name", "Community")},
         {FcitxKey_AudioRewind, NC_("Key name", "Media Rewind")},
-        {FcitxKey_BackForward, NC_("Key name", "Back Forward")},
+        {FcitxKey_BackForward, NC_("Key name", "Backward")},
         {FcitxKey_ApplicationLeft, NC_("Key name", "Application Left")},
         {FcitxKey_ApplicationRight, NC_("Key name", "Application Right")},
         {FcitxKey_Book, NC_("Key name", "Book")},
