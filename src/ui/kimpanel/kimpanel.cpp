@@ -26,11 +26,6 @@
 
 namespace fcitx {
 
-bool isKDE() {
-    static const DesktopType desktop = getDesktopType();
-    return desktop == DesktopType::KDE4 || desktop == DesktopType::KDE5;
-}
-
 enum class CursorRectMethod {
     SetSpotRect,
     SetRelativeSpotRect,

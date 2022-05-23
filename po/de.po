@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2022-05-02 20:30+0000\n"
+"POT-Creation-Date: 2022-05-20 20:25+0000\n"
 "PO-Revision-Date: 2017-11-23 04:14+0000\n"
 "Last-Translator: Ettore Atalan <atalanttore@googlemail.com>, 2022\n"
 "Language-Team: German (https://www.transifex.com/fcitx/teams/12005/de/)\n"
@@ -421,8 +421,8 @@ msgid "Choose key modifier"
 msgstr "Funktionstaste wählen"
 
 #: src/ui/classic/classicui.conf.in.in:3
-msgid "Classic User Inteface"
-msgstr "Klassische Oberfläche"
+msgid "Classic User Interface"
+msgstr ""
 
 #: src/lib/fcitx-utils/key.cpp:121
 msgctxt "Key name"
@@ -505,7 +505,7 @@ msgid "Configuration:"
 msgstr "Konfiguration:"
 
 #: src/ui/classic/xcbtraywindow.cpp:38
-#: src/modules/notificationitem/dbusmenu.cpp:244
+#: src/modules/notificationitem/dbusmenu.cpp:245
 msgid "Configure"
 msgstr "Konfigurieren"
 
@@ -763,7 +763,7 @@ msgid "Execute"
 msgstr "Ausführen"
 
 #: src/ui/classic/xcbtraywindow.cpp:40
-#: src/modules/notificationitem/dbusmenu.cpp:257
+#: src/modules/notificationitem/dbusmenu.cpp:259
 msgid "Exit"
 msgstr "Beenden"
 
@@ -936,7 +936,7 @@ msgid "Green"
 msgstr "Grün"
 
 #: src/ui/classic/xcbtraywindow.cpp:36
-#: src/modules/notificationitem/dbusmenu.cpp:234
+#: src/modules/notificationitem/dbusmenu.cpp:235
 msgid "Group"
 msgstr "Gruppe"
 
@@ -1148,7 +1148,7 @@ msgstr "Bild"
 
 #: src/im/keyboard/keyboard.cpp:677 src/lib/fcitx/instance.cpp:413
 #: src/lib/fcitx/instance.cpp:796 src/lib/fcitx/instance.cpp:962
-#: src/modules/notificationitem/notificationitem.cpp:123
+#: src/modules/notificationitem/notificationitem.cpp:115
 #: src/modules/xcb/xcbconnection.cpp:406 data/org.fcitx.Fcitx5.desktop.in.in:4
 #: data/org.fcitx.Fcitx5.metainfo.xml.in:7
 msgid "Input Method"
@@ -1582,7 +1582,7 @@ msgstr "Nicht beibehalten"
 msgid "Normal text color"
 msgstr "Normale Textfarbe"
 
-#: src/ui/kimpanel/kimpanel.cpp:372
+#: src/ui/kimpanel/kimpanel.cpp:367
 msgid "Not available"
 msgstr "Nicht verfügbar"
 
@@ -1800,7 +1800,7 @@ msgid "Reply"
 msgstr "Antworten"
 
 #: src/ui/classic/xcbtraywindow.cpp:39
-#: src/modules/notificationitem/dbusmenu.cpp:251
+#: src/modules/notificationitem/dbusmenu.cpp:253
 msgid "Restart"
 msgstr "Neustart"
 

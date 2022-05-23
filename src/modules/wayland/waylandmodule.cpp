@@ -31,7 +31,7 @@ FCITX_DEFINE_LOG_CATEGORY(wayland_log, "wayland");
 #define FCITX_WAYLAND_DEBUG() FCITX_LOGC(::fcitx::wayland_log, Debug)
 
 namespace {
-bool isKDE() {
+bool isKDE5() {
     static const DesktopType desktop = getDesktopType();
     return desktop == DesktopType::KDE5;
 }
@@ -183,7 +183,7 @@ WaylandModule::WaylandModule(fcitx::Instance *instance)
     eventHandlers_.emplace_back(instance_->watchEvent(
         EventType::InputMethodGroupChanged, EventWatcherPhase::Default,
         [this](Event &) {
-            if (!isKDE() || !isWaylandSession_ || !*config_.allowOverrideXKB) {
+            if (!isKDE5() || !isWaylandSession_ || !*config_.allowOverrideXKB) {
                 return;
             }
 
@@ -332,7 +332,7 @@ void WaylandModule::reloadXkbOptionReal() {
 
     FCITX_WAYLAND_DEBUG() << "Try to reload Xkb option from desktop";
     std::optional<std::string> xkbOption = std::nullopt;
-    if (isKDE()) {
+    if (isKDE5()) {
 
         auto dbusAddon = dbus();
         if (!dbusAddon) {

@@ -7,6 +7,7 @@
 #include "iniparser.h"
 #include <fcntl.h>
 #include <cstdio>
+#include "fcitx-utils/fs.h"
 #include "fcitx-utils/standardpath.h"
 #include "fcitx-utils/stringutils.h"
 #include "fcitx-utils/unixfd.h"
@@ -20,11 +21,10 @@ void readFromIni(RawConfig &config, int fd) {
     }
     // dup it
     UnixFD unixFD(fd);
-    UniqueFilePtr fp{fdopen(unixFD.fd(), "rb")};
+    UniqueFilePtr fp = fs::openFD(unixFD, "rb");
     if (!fp) {
         return;
     }
-    unixFD.release();
     readFromIni(config, fp.get());
 }
 
@@ -34,7 +34,7 @@ bool writeAsIni(const RawConfig &config, int fd) {
     }
     // dup it
     UnixFD unixFD(fd);
-    UniqueFilePtr fp{fdopen(unixFD.release(), "wb")};
+    UniqueFilePtr fp = fs::openFD(unixFD, "wb");
     if (!fp) {
         return false;
     }

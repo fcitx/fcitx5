@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2022-05-02 20:30+0000\n"
+"POT-Creation-Date: 2022-05-20 20:25+0000\n"
 "PO-Revision-Date: 2017-11-23 04:14+0000\n"
 "Last-Translator: Robert Antoni Buj Gelonch <rbuj@fedoraproject.org>, 2020\n"
 "Language-Team: Catalan (https://www.transifex.com/fcitx/teams/12005/ca/)\n"
@@ -419,8 +419,8 @@ msgid "Choose key modifier"
 msgstr "Escolliu el modificador de tecla"
 
 #: src/ui/classic/classicui.conf.in.in:3
-msgid "Classic User Inteface"
-msgstr "Interfície d'usuari clàssica"
+msgid "Classic User Interface"
+msgstr ""
 
 #: src/lib/fcitx-utils/key.cpp:121
 msgctxt "Key name"
@@ -503,7 +503,7 @@ msgid "Configuration:"
 msgstr ""
 
 #: src/ui/classic/xcbtraywindow.cpp:38
-#: src/modules/notificationitem/dbusmenu.cpp:244
+#: src/modules/notificationitem/dbusmenu.cpp:245
 msgid "Configure"
 msgstr "Configura"
 
@@ -761,7 +761,7 @@ msgid "Execute"
 msgstr "Executa"
 
 #: src/ui/classic/xcbtraywindow.cpp:40
-#: src/modules/notificationitem/dbusmenu.cpp:257
+#: src/modules/notificationitem/dbusmenu.cpp:259
 msgid "Exit"
 msgstr "Surt"
 
@@ -934,7 +934,7 @@ msgid "Green"
 msgstr "Verd"
 
 #: src/ui/classic/xcbtraywindow.cpp:36
-#: src/modules/notificationitem/dbusmenu.cpp:234
+#: src/modules/notificationitem/dbusmenu.cpp:235
 msgid "Group"
 msgstr "Grup"
 
@@ -1146,7 +1146,7 @@ msgstr ""
 
 #: src/im/keyboard/keyboard.cpp:677 src/lib/fcitx/instance.cpp:413
 #: src/lib/fcitx/instance.cpp:796 src/lib/fcitx/instance.cpp:962
-#: src/modules/notificationitem/notificationitem.cpp:123
+#: src/modules/notificationitem/notificationitem.cpp:115
 #: src/modules/xcb/xcbconnection.cpp:406 data/org.fcitx.Fcitx5.desktop.in.in:4
 #: data/org.fcitx.Fcitx5.metainfo.xml.in:7
 msgid "Input Method"
@@ -1580,7 +1580,7 @@ msgstr "Cap"
 msgid "Normal text color"
 msgstr ""
 
-#: src/ui/kimpanel/kimpanel.cpp:372
+#: src/ui/kimpanel/kimpanel.cpp:367
 msgid "Not available"
 msgstr "No disponible"
 
@@ -1798,7 +1798,7 @@ msgid "Reply"
 msgstr "Respon"
 
 #: src/ui/classic/xcbtraywindow.cpp:39
-#: src/modules/notificationitem/dbusmenu.cpp:251
+#: src/modules/notificationitem/dbusmenu.cpp:253
 msgid "Restart"
 msgstr "Reinicia"
 
