@@ -12,13 +12,13 @@ namespace fcitx {
 
 class SurroundingTextPrivate {
 public:
-    SurroundingTextPrivate() : anchor_(0), cursor_(0), valid_(false) {}
+    SurroundingTextPrivate() {}
 
-    unsigned int anchor_, cursor_;
+    unsigned int anchor_ = 0, cursor_ = 0;
     std::string text_;
-    size_t utf8Length_;
+    size_t utf8Length_ = 0;
 
-    bool valid_;
+    bool valid_ = false;
 };
 
 SurroundingText::SurroundingText()
