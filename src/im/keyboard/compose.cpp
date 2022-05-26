@@ -157,6 +157,12 @@ bool ComposeState::typeImpl(KeySym sym, std::string &result) {
             return true;
         }
     }
+    // Empty string but composing, means ignored
+    if (instance_->isComposing(inputContext_)) {
+        // Do not push feed ignore key into compose buffer.
+        composeBuffer_.pop_back();
+        return false;
+    }
 
     reset();
     // Compose success or key should be ignored.

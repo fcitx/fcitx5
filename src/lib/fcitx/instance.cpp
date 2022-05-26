@@ -1769,9 +1769,9 @@ std::optional<std::string> Instance::processComposeString(InputContext *ic,
     }
 
     auto keyval = static_cast<xkb_keysym_t>(keysym);
-
     enum xkb_compose_feed_result result =
         xkb_compose_state_feed(xkbComposeState, keyval);
+
     if (result == XKB_COMPOSE_FEED_IGNORED) {
         return std::string();
     }
