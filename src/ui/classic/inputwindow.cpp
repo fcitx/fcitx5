@@ -253,6 +253,7 @@ void InputWindow::setTextToLayout(
 
 void InputWindow::update(InputContext *inputContext) {
     if (parent_->suspended() || !inputContext) {
+        hoverIndex_ = -1;
         visible_ = false;
         return;
     }
