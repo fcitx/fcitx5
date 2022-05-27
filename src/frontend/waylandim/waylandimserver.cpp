@@ -328,7 +328,15 @@ void WaylandIMInputContextV1::invokeActionCallback(uint32_t button,
     default:
         return;
     }
-    InvokeActionEvent event(action, index, this);
+    auto preedit = inputPanel().clientPreedit().toString();
+    std::string::size_type offset = index;
+    offset = std::min(offset, preedit.length());
+    auto length =
+        utf8::lengthValidated(std::string_view(preedit).substr(0, offset));
+    if (length == utf8::INVALID_LENGTH) {
+        return;
+    }
+    InvokeActionEvent event(action, length, this);
     if (!hasFocus()) {
         focusIn();
     }
