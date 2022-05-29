@@ -108,6 +108,9 @@ void WaylandShmWindow::render() {
 }
 
 void WaylandShmWindow::hide() {
+    if (!surface_) {
+        return;
+    }
     surface_->attach(nullptr, 0, 0);
     surface_->commit();
 }

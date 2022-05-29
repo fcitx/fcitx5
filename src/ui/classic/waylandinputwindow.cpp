@@ -85,18 +85,9 @@ void WaylandInputWindow::resetPanel() { panelSurface_.reset(); }
 
 void WaylandInputWindow::update(fcitx::InputContext *ic) {
     const auto oldVisible = visible();
-    InputWindow::update(ic);
-
+    auto [width, height] = InputWindow::update(ic);
     if (!oldVisible && !visible()) {
         return;
-    }
-
-    int width = 0, height = 0;
-    if (visible()) {
-        std::tie(width, height) = sizeHint();
-        if (width <= 0 || height <= 0) {
-            visible_ = false;
-        }
     }
 
     if (!visible()) {

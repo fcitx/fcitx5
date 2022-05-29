@@ -144,14 +144,7 @@ void XCBInputWindow::update(InputContext *inputContext) {
     if (inputContext) {
         updateDPI(inputContext);
     }
-    InputWindow::update(inputContext);
-    int width = 0, height = 0;
-    if (visible()) {
-        std::tie(width, height) = sizeHint();
-        if (width <= 0 || height <= 0) {
-            visible_ = false;
-        }
-    }
+    auto [width, height] = InputWindow::update(inputContext);
     if (!visible()) {
         if (oldVisible) {
             xcb_unmap_window(ui_->connection(), wid_);

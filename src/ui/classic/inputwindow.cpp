@@ -251,11 +251,11 @@ void InputWindow::setTextToLayout(
     pango_attr_list_unref(newAttrList);
 }
 
-void InputWindow::update(InputContext *inputContext) {
+std::pair<int, int> InputWindow::update(InputContext *inputContext) {
     if (parent_->suspended() || !inputContext) {
         hoverIndex_ = -1;
         visible_ = false;
-        return;
+        return {0, 0};
     }
     // | aux up | preedit
     // | aux down
@@ -343,6 +343,15 @@ void InputWindow::update(InputContext *inputContext) {
     visible_ = nCandidates_ ||
                pango_layout_get_character_count(upperLayout_.get()) ||
                pango_layout_get_character_count(lowerLayout_.get());
+    int width = 0, height = 0;
+    if (visible_) {
+        std::tie(width, height) = sizeHint();
+        if (width <= 0 || height <= 0) {
+            width = height = 0;
+            visible_ = false;
+        }
+    }
+    return {width, height};
 }
 
 std::pair<unsigned int, unsigned int> InputWindow::sizeHint() {
