@@ -490,15 +490,21 @@ bool KeyboardEngine::supportHint(const std::string &language) {
 }
 
 void KeyboardEngineState::setPreedit() {
+    const bool useClientPreedit = inputContext_->capabilityFlags().test(CapabilityFlag::Preedit);
     auto preeditText = preeditString();
-    if (inputContext_->capabilityFlags().test(CapabilityFlag::Preedit)) {
-        Text preedit(preeditText, TextFormatFlag::HighLight);
+    TextFormatFlag format = useClientPreedit ? TextFormatFlag::HighLight : TextFormatFlag::NoFlag;
+    Text preedit;
+    if (!preeditText.empty()) {
+        preedit.append(preeditText, format);
+        if (!useClientPreedit) {
+            preedit.setCursor(preeditText.size());
+        } else {
+            preedit.setCursor(0);
+        }
+    }
+    if (useClientPreedit) {
         inputContext_->inputPanel().setClientPreedit(preedit);
     } else {
-        Text preedit(preeditText);
-        if (auto length = preedit.textLength()) {
-            preedit.setCursor(length);
-        }
         inputContext_->inputPanel().setPreedit(preedit);
     }
     inputContext_->updatePreedit();
