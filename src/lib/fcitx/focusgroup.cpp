@@ -66,6 +66,7 @@ void FocusGroup::addInputContext(InputContext *ic) {
     FCITX_D();
     auto iter = d->ics_.insert(ic);
     assert(iter.second);
+    FCITX_UNUSED(iter);
 }
 
 void FocusGroup::removeInputContext(InputContext *ic) {
@@ -75,6 +76,7 @@ void FocusGroup::removeInputContext(InputContext *ic) {
     }
     auto iter = d->ics_.find(ic);
     assert(iter != d->ics_.end());
+    FCITX_UNUSED(iter);
     d->ics_.erase(ic);
 }
 
