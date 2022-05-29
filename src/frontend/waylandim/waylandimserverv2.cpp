@@ -136,15 +136,13 @@ WaylandIMInputContextV2::WaylandIMInputContextV2(
         ++serial_;
         if (pendingDeactivate_) {
             pendingDeactivate_ = false;
-            keyboardGrab_.reset();
             timeEvent_->setEnabled(false);
             // If last key to vk is press, send a release.
-            if (lastVKKey_ && lastVKState_ == WL_KEYBOARD_KEY_STATE_PRESSED) {
-                vk_->key(lastVKTime_, lastVKKey_,
-                         WL_KEYBOARD_KEY_STATE_RELEASED);
-                lastVKTime_ = lastVKKey_ = 0;
-                lastVKState_ = WL_KEYBOARD_KEY_STATE_RELEASED;
+            for (auto [vkkey, vktime] : pressedVKKey_) {
+                vk_->key(vktime, vkkey, WL_KEYBOARD_KEY_STATE_RELEASED);
             }
+            pressedVKKey_.clear();
+            keyboardGrab_.reset();
             server_->display_->sync();
             focusOut();
         }
@@ -182,8 +180,7 @@ WaylandIMInputContextV2::WaylandIMInputContextV2(
                 repeatInfoCallback(repeatRate_, repeatDelay_);
                 focusIn();
                 server_->display_->sync();
-                lastVKTime_ = lastVKKey_ = 0;
-                lastVKState_ = WL_KEYBOARD_KEY_STATE_RELEASED;
+                pressedVKKey_.clear();
             }
         }
     });
@@ -518,9 +515,11 @@ void WaylandIMInputContextV2::repeatInfoCallback(int32_t rate, int32_t delay) {
 
 void WaylandIMInputContextV2::sendKeyToVK(uint32_t time, uint32_t key,
                                           uint32_t state) {
-    lastVKKey_ = key;
-    lastVKState_ = state;
-    lastVKTime_ = time;
+    // Erase old to ensure order, and released ones can the be removed.
+    pressedVKKey_.erase(key);
+    if (state == WL_KEYBOARD_KEY_STATE_PRESSED) {
+        pressedVKKey_[key] = time;
+    }
     vk_->key(time, key, state);
     server_->display_->flush();
 }
