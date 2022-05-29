@@ -91,6 +91,14 @@ void WaylandInputWindow::update(fcitx::InputContext *ic) {
         return;
     }
 
+    int width = 0, height = 0;
+    if (visible()) {
+        std::tie(width, height) = sizeHint();
+        if (width <= 0 || height <= 0) {
+            visible_ = false;
+        }
+    }
+
     if (!visible()) {
         window_->hide();
         panelSurface_.reset();
@@ -100,6 +108,7 @@ void WaylandInputWindow::update(fcitx::InputContext *ic) {
     }
 
     assert(!visible() || ic != nullptr);
+
     initPanel();
     if (ic->frontend() == std::string_view("wayland_v2")) {
         if (!panelSurfaceV2_ || ic != v2IC_.get()) {
@@ -124,8 +133,6 @@ void WaylandInputWindow::update(fcitx::InputContext *ic) {
     if (!panelSurface_ && !panelSurfaceV2_) {
         return;
     }
-    auto pair = sizeHint();
-    int width = pair.first, height = pair.second;
 
     if (width != window_->width() || height != window_->height()) {
         window_->resize(width, height);
