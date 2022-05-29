@@ -175,13 +175,6 @@ void WaylandIMInputContextV1::deactivate(wayland::ZwpInputMethodContextV1 *ic) {
         ic_.reset();
         keyboard_.reset();
         timeEvent_->setEnabled(false);
-        // If last key to vk is press, send a release.
-        if (lastVKKey_ && lastVKState_ == WL_KEYBOARD_KEY_STATE_PRESSED) {
-            sendKeyToVK(lastVKTime_, lastVKKey_,
-                        WL_KEYBOARD_KEY_STATE_RELEASED);
-            lastVKTime_ = lastVKKey_ = 0;
-            lastVKState_ = WL_KEYBOARD_KEY_STATE_RELEASED;
-        }
         server_->display_->sync();
         focusOut();
     } else {
@@ -531,9 +524,6 @@ void WaylandIMInputContextV1::sendKeyToVK(uint32_t time, uint32_t key,
     if (!ic_) {
         return;
     }
-    lastVKKey_ = key;
-    lastVKState_ = state;
-    lastVKTime_ = time;
     ic_->key(serial_, time, key, state);
     server_->display_->flush();
 }

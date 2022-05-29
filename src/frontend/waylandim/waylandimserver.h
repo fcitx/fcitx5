@@ -7,12 +7,12 @@
 #ifndef _FCITX5_FRONTEND_WAYLANDIM_WAYLANDIMSERVER_H_
 #define _FCITX5_FRONTEND_WAYLANDIM_WAYLANDIMSERVER_H_
 
-#include <fcitx-utils/event.h>
-#include <fcitx/focusgroup.h>
-#include <fcitx/inputcontextmanager.h>
-#include <fcitx/instance.h>
 #include <wayland-client.h>
 #include <xkbcommon/xkbcommon.h>
+#include "fcitx-utils/event.h"
+#include "fcitx/focusgroup.h"
+#include "fcitx/inputcontextmanager.h"
+#include "fcitx/instance.h"
 #include "display.h"
 #include "wayland-text-input-unstable-v1-client-protocol.h"
 #include "wl_keyboard.h"
@@ -158,10 +158,6 @@ private:
     KeySym repeatSym_ = FcitxKey_None;
 
     int32_t repeatRate_ = 40, repeatDelay_ = 400;
-
-    uint32_t lastVKKey_ = 0;
-    uint32_t lastVKState_ = WL_KEYBOARD_KEY_STATE_RELEASED;
-    uint32_t lastVKTime_ = 0;
 };
 
 } // namespace fcitx
