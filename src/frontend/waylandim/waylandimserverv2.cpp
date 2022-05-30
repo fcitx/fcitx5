@@ -143,6 +143,7 @@ WaylandIMInputContextV2::WaylandIMInputContextV2(
                 auto [vkkey, vktime] = *pressedVKKey_.begin();
                 sendKeyToVK(vktime, vkkey, WL_KEYBOARD_KEY_STATE_RELEASED);
             }
+            vk_->modifiers(0, 0, 0, 0);
             server_->display_->sync();
             focusOut();
         }
