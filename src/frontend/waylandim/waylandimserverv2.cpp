@@ -136,13 +136,13 @@ WaylandIMInputContextV2::WaylandIMInputContextV2(
         ++serial_;
         if (pendingDeactivate_) {
             pendingDeactivate_ = false;
+            keyboardGrab_.reset();
             timeEvent_->setEnabled(false);
             // If last key to vk is press, send a release.
-            for (auto [vkkey, vktime] : pressedVKKey_) {
-                vk_->key(vktime, vkkey, WL_KEYBOARD_KEY_STATE_RELEASED);
+            while (pressedVKKey_.empty()) {
+                auto [vkkey, vktime] = *pressedVKKey_.begin();
+                sendKeyToVK(vktime, vkkey, WL_KEYBOARD_KEY_STATE_RELEASED);
             }
-            pressedVKKey_.clear();
-            keyboardGrab_.reset();
             server_->display_->sync();
             focusOut();
         }
@@ -180,7 +180,6 @@ WaylandIMInputContextV2::WaylandIMInputContextV2(
                 repeatInfoCallback(repeatRate_, repeatDelay_);
                 focusIn();
                 server_->display_->sync();
-                pressedVKKey_.clear();
             }
         }
     });
