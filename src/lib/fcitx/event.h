@@ -47,6 +47,8 @@ enum class InputMethodSwitchedReason {
     Other,
 };
 
+enum class InputMethodMode { PhysicalKeyboard, OnScreenKeyboard };
+
 /**
  * Type of input method events.
  */
@@ -168,6 +170,10 @@ enum class EventType : uint32_t {
      * @see FocusOutEvent
      */
     FocusGroupFocusChanged = InstanceEventFlag | 0x5,
+    /**
+     * Input method mode changed
+     */
+    InputMethodModeChanged = InstanceEventFlag | 0x6,
 };
 
 /**
@@ -514,6 +520,17 @@ private:
     InputContext *newFocus_;
 };
 
+/**
+ * Notify the input method mode is changed.
+ *
+ * @see Instance::InputMethodMode
+ * @since 5.1.0
+ */
+class FCITXCORE_EXPORT InputMethodModeChangedEvent : public Event {
+public:
+    InputMethodModeChangedEvent() : Event(EventType::InputMethodModeChanged) {}
+};
+
 class FCITXCORE_EXPORT CapabilityEvent : public InputContextEvent {
 public:
     CapabilityEvent(InputContext *ic, EventType type, CapabilityFlags oldFlags,
@@ -544,6 +561,7 @@ public:
         : CapabilityEvent(ic, EventType::InputContextCapabilityAboutToChange,
                           oldFlags, newFlags) {}
 };
+
 } // namespace fcitx
 
 #endif // _FCITX_EVENT_H_

@@ -48,6 +48,11 @@ FCITX_DEFINE_LOG_CATEGORY(keyTrace, "key_trace");
 namespace fcitx {
 
 namespace {
+#ifdef ANDROID
+constexpr bool isAndroid = true;
+#else
+constexpr bool isAndroid = false;
+#endif
 
 constexpr uint64_t AutoSavePeriod = 1800ull * 1000000ull; // 30 minutes
 constexpr uint64_t AutoSaveIdleTime = 60ull * 1000000ull; // 1 minutes
@@ -435,6 +440,9 @@ public:
     int signalPipe_ = -1;
     bool exit_ = false;
     bool running_ = false;
+    InputMethodMode inputMethodMode_ = isAndroid
+                                           ? InputMethodMode::OnScreenKeyboard
+                                           : InputMethodMode::PhysicalKeyboard;
     EventLoop eventLoop_;
     std::unique_ptr<EventSourceIO> signalPipeEvent_;
     std::unique_ptr<EventSource> preloadInputMethodEvent_;
@@ -1489,6 +1497,15 @@ void Instance::setRunning(bool running) {
 bool Instance::isRunning() const {
     FCITX_D();
     return d->running_;
+}
+
+void Instance::setInputMethodMode(InputMethodMode mode) {
+    FCITX_D();
+    if (d->inputMethodMode_ == mode) {
+        return;
+    }
+    d->inputMethodMode_ = mode;
+    postEvent(InputMethodModeChangedEvent());
 }
 
 EventLoop &Instance::eventLoop() {

@@ -467,6 +467,23 @@ public:
      */
     bool isRunning() const;
 
+    /**
+     * The current global input method mode.
+     *
+     * It may affect the user interface and behavior of certain key binding.
+     * @since 5.1.0
+     */
+    InputMethodMode inputMethodMode() const;
+
+    /**
+     * Set the current global input method mode.
+     *
+     * @see InputMethodMode
+     * @see InputMethodModeChanged
+     * @since 5.1.0
+     */
+    void setInputMethodMode(InputMethodMode mode);
+
 private:
     void handleSignal();
 
