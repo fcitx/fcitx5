@@ -110,6 +110,10 @@ if (ENABLE_KEYBOARD)
     target_include_directories(testisocodes PRIVATE ../src)
     target_link_libraries(testisocodes Fcitx5::Core PkgConfig::JsonC)
     add_test(NAME testisocodes COMMAND testisocodes)
+
+    add_executable(testcompose testcompose.cpp)
+    target_link_libraries(testcompose Fcitx5::Core Fcitx5::Module::TestFrontend XKBCommon::XKBCommon keyboard)
+    add_test(NAME testcompose COMMAND testcompose)
 endif()
 
 if (TARGET emoji)

@@ -467,6 +467,10 @@ public:
      */
     bool isRunning() const;
 
+protected:
+    // For testing purpose
+    InstancePrivate *privateData();
+
 private:
     void handleSignal();
 

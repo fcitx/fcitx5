@@ -7,6 +7,7 @@
 
 #include "testui.h"
 #include <iostream>
+#include "fcitx-utils/utf8.h"
 #include "fcitx/action.h"
 #include "fcitx/addonfactory.h"
 #include "fcitx/addonmanager.h"
@@ -60,8 +61,11 @@ void TestUI::printInputPanel(InputContext *inputContext) {
     if (cursor >= 0) {
         preeditString.insert(cursor, "|");
     }
+    FCITX_ASSERT(utf8::validate(preeditString));
     std::cerr << "Preedit: " << preeditString << std::endl;
+    FCITX_ASSERT(utf8::validate(auxUp.toString()));
     std::cerr << "AuxUp: " << auxUp.toString() << std::endl;
+    FCITX_ASSERT(utf8::validate(auxDown.toString()));
     std::cerr << "AuxDown: " << auxDown.toString() << std::endl;
     std::cerr << "Candidates: " << std::endl;
     if (auto candidateList = inputPanel.candidateList()) {
@@ -70,6 +74,7 @@ void TestUI::printInputPanel(InputContext *inputContext) {
                 instance_->outputFilter(inputContext, candidateList->label(i));
             auto candidate = instance_->outputFilter(
                 inputContext, candidateList->candidate(i).text());
+            FCITX_ASSERT(utf8::validate(candidate.toString()));
             std::cerr << label.toString() << " " << candidate.toString()
                       << std::endl;
         }

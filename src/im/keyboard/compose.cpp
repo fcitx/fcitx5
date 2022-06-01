@@ -189,7 +189,6 @@ std::string ComposeState::preedit() const {
             }
         }
     }
-    FCITX_INFO() << result << " " << utf8::validate(result);
     return result;
 }
 
