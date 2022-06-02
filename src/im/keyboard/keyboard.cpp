@@ -490,9 +490,11 @@ bool KeyboardEngine::supportHint(const std::string &language) {
 }
 
 void KeyboardEngineState::setPreedit() {
-    const bool useClientPreedit = inputContext_->capabilityFlags().test(CapabilityFlag::Preedit);
+    const bool useClientPreedit =
+        inputContext_->capabilityFlags().test(CapabilityFlag::Preedit);
     auto preeditText = preeditString();
-    TextFormatFlag format = useClientPreedit ? TextFormatFlag::HighLight : TextFormatFlag::NoFlag;
+    TextFormatFlag format =
+        useClientPreedit ? TextFormatFlag::HighLight : TextFormatFlag::NoFlag;
     Text preedit;
     if (!preeditText.empty()) {
         preedit.append(preeditText, format);
