@@ -484,6 +484,10 @@ public:
      */
     void setInputMethodMode(InputMethodMode mode);
 
+protected:
+    // For testing purpose
+    InstancePrivate *privateData();
+
 private:
     void handleSignal();
 

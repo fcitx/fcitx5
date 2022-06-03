@@ -23,11 +23,10 @@ void appendDeadKey(std::string &string, KeySym keysym) {
 #define CASE(keysym, unicode, sp)                                              \
     case FcitxKey_dead_##keysym:                                               \
         if (sp) {                                                              \
-            string.push_back('\xa0');                                          \
+            string.push_back('\x20');                                          \
         }                                                                      \
         string.append(utf8::UCS4ToUTF8(unicode));                              \
         break;
-
         CASE(grave, 0x60, 0);
         CASE(acute, 0xb4, 0);
         CASE(circumflex, 0x5e, 0);

@@ -139,7 +139,7 @@ WaylandIMInputContextV2::WaylandIMInputContextV2(
             keyboardGrab_.reset();
             timeEvent_->setEnabled(false);
             // If last key to vk is press, send a release.
-            while (pressedVKKey_.empty()) {
+            while (!pressedVKKey_.empty()) {
                 auto [vkkey, vktime] = *pressedVKKey_.begin();
                 sendKeyToVK(vktime, vkkey, WL_KEYBOARD_KEY_STATE_RELEASED);
             }
