@@ -103,6 +103,7 @@ enum class DesktopType {
     MATE,
     LXDE,
     XFCE,
+    DEEPIN,
     Unknown
 };
 
@@ -142,6 +143,8 @@ static inline DesktopType getDesktopType() {
             return DesktopType::GNOME;
         } else if (desktop == "xfce") {
             return DesktopType::XFCE;
+        } else if (desktop == "Deepin") {
+            return DesktopType::DEEPIN;
         }
     }
     return DesktopType::Unknown;
