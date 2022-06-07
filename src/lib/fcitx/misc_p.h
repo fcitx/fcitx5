@@ -143,7 +143,7 @@ static inline DesktopType getDesktopType() {
             return DesktopType::GNOME;
         } else if (desktop == "xfce") {
             return DesktopType::XFCE;
-        } else if (desktop == "Deepin") {
+        } else if (desktop == "deepin") {
             return DesktopType::DEEPIN;
         }
     }
