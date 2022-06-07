@@ -584,7 +584,9 @@ void WaylandIMInputContextV2::updatePreeditImpl() {
         }
     }
 
-    ic_->setPreeditString(preedit.toString().data(), cursorStart, cursorEnd);
+    if (preedit.textLength()) {
+        ic_->setPreeditString(preedit.toString().data(), cursorStart, cursorEnd);
+    }
     ic_->commit(serial_);
 }
 
