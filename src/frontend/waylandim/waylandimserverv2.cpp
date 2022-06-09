@@ -139,13 +139,15 @@ WaylandIMInputContextV2::WaylandIMInputContextV2(
             keyboardGrab_.reset();
             timeEvent_->setEnabled(false);
             if (hasFocus()) {
-                // If last key to vk is press, send a release.
-                while (!pressedVKKey_.empty()) {
-                    auto [vkkey, vktime] = *pressedVKKey_.begin();
-                    sendKeyToVK(vktime, vkkey, WL_KEYBOARD_KEY_STATE_RELEASED);
+                if (vkReady_) {
+                    // If last key to vk is press, send a release.
+                    while (!pressedVKKey_.empty()) {
+                        auto [vkkey, vktime] = *pressedVKKey_.begin();
+                        sendKeyToVK(vktime, vkkey, WL_KEYBOARD_KEY_STATE_RELEASED);
+                    }
+                    vk_->modifiers(0, 0, 0, 0);
+                    server_->display_->sync();
                 }
-                vk_->modifiers(0, 0, 0, 0);
-                server_->display_->sync();
                 focusOut();
             }
         }
@@ -404,6 +406,7 @@ void WaylandIMInputContextV2::keymapCallback(uint32_t format, int32_t fd,
 
     if (keymapChanged) {
         vk_->keymap(format, scopeFD.fd(), size);
+        vkReady_ = true;
     }
 
     server_->parent_->wayland()->call<IWaylandModule::reloadXkbOption>();
@@ -507,7 +510,9 @@ void WaylandIMInputContextV2::modifiersCallback(uint32_t,
         server_->modifiers_ |= KeyState::Meta;
     }
 
-    vk_->modifiers(mods_depressed, mods_latched, mods_locked, group);
+    if (vkReady_) {
+        vk_->modifiers(mods_depressed, mods_latched, mods_locked, group);
+    }
 }
 
 void WaylandIMInputContextV2::repeatInfoCallback(int32_t rate, int32_t delay) {
@@ -517,6 +522,9 @@ void WaylandIMInputContextV2::repeatInfoCallback(int32_t rate, int32_t delay) {
 
 void WaylandIMInputContextV2::sendKeyToVK(uint32_t time, uint32_t key,
                                           uint32_t state) {
+    if (!vkReady_) {
+        return;
+    }
     // Erase old to ensure order, and released ones can the be removed.
     pressedVKKey_.erase(key);
     if (state == WL_KEYBOARD_KEY_STATE_PRESSED) {
