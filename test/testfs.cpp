@@ -69,6 +69,12 @@ int main() {
     TEST_PATH("./../a/../c/b", "../c/b");
     TEST_PATH("./.../a/../c/b", ".../c/b");
 
+    TEST_PATH("/", "/");
+    TEST_PATH("///", "///");
+    TEST_PATH("/", "/");
+    TEST_PATH("./././.", "");
+    TEST_PATH("/usr/share/", "/usr/share");
+
     TEST_DIRNAME("/usr/lib");
     TEST_DIRNAME("/usr/");
     TEST_DIRNAME("usr");
