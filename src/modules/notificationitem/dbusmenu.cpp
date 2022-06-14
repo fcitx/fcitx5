@@ -30,6 +30,7 @@ enum BuiltInIndex {
     BII_InputMethodGroup = 1,
     BII_Separator1,
     BII_Separator2,
+    BII_Separator3,
     BII_Configure,
     BII_Restart,
     BII_Exit,
@@ -95,7 +96,9 @@ void DBusMenu::handleEvent(int32_t id) {
 
         parent_->instance()->setCurrentInputMethod(entry->uniqueName());
     } else if (id >= BII_InputMethodGroupStart &&
-               id <= BII_InputMethodGroupEnd) {
+               id <= BII_InputMethodGroupEnd &&
+               *parent_->config().useInputGroup) {
+
         size_t idx = id - BII_InputMethodGroupStart;
         const auto &list = imManager.groups();
         if (idx >= list.size()) {
@@ -158,9 +161,11 @@ void DBusMenu::fillLayoutItem(
     auto &imManager = parent_->instance()->inputMethodManager();
     if (id == 0) {
         // Group
-        if (imManager.groupCount()) {
-            appendSubItem(subLayoutItems, BII_InputMethodGroup, depth,
-                          propertyNames);
+        if (*parent_->config().useInputGroup) {
+            if (imManager.groupCount()) {
+                appendSubItem(subLayoutItems, BII_InputMethodGroup, depth,
+                              propertyNames);
+            }
         }
         int idx = BII_InputMethodStart;
         for (const auto &item : imManager.currentGroup().inputMethodList()) {
@@ -187,9 +192,17 @@ void DBusMenu::fillLayoutItem(
             appendSubItem(subLayoutItems, BII_Separator2, depth, propertyNames);
         }
         appendSubItem(subLayoutItems, BII_Configure, depth, propertyNames);
-        appendSubItem(subLayoutItems, BII_Restart, depth, propertyNames);
-        appendSubItem(subLayoutItems, BII_Exit, depth, propertyNames);
-    } else if (id == BII_InputMethodGroup) {
+        if (*parent_->config().useExit || *parent_->config().useRestart) {
+            appendSubItem(subLayoutItems, BII_Separator3, depth, propertyNames);
+        }
+        if (*parent_->config().useRestart) {
+            appendSubItem(subLayoutItems, BII_Restart, depth, propertyNames);
+        }
+        if (*parent_->config().useExit) {
+            appendSubItem(subLayoutItems, BII_Exit, depth, propertyNames);
+        }
+    } else if (id == BII_InputMethodGroup && *parent_->config().useInputGroup) {
+
         int idx = BII_InputMethodGroupStart;
         for (const auto &group : imManager.groups()) {
             FCITX_UNUSED(group);
@@ -229,36 +242,42 @@ void DBusMenu::fillLayoutProperties(
     } else if (id <= BII_NormalEnd) {
         switch (id) {
         case BII_InputMethodGroup:
-            appendProperty(properties, propertyNames, "children-display",
-                           dbus::Variant("submenu"));
-            appendProperty(properties, propertyNames, "label",
-                           dbus::Variant(_("Group")));
+            if (*parent_->config().useInputGroup) {
+                appendProperty(properties, propertyNames, "children-display",
+                               dbus::Variant("submenu"));
+                appendProperty(properties, propertyNames, "label",
+                               dbus::Variant(_("Group")));
+            }
             break;
         case BII_Separator1:
         case BII_Separator2:
+        case BII_Separator3:
             appendProperty(properties, propertyNames, "type",
                            dbus::Variant("separator"));
             break;
         case BII_Configure:
             /* this icon sucks on KDE, why configure doesn't have "configure" */
             appendProperty(properties, propertyNames, "label",
-                           dbus::Variant(_("Configure")));
-            if (isKDE()) {
-                properties.emplace_back("icon-name",
-                                        dbus::Variant("configure"));
-            }
+                           dbus::Variant(_("Input Method Configure")));
+#if 0
+                properties.emplace_back("icon-name", dbus::Variant("preferences-system"));
+#endif
             break;
         case BII_Restart:
-            appendProperty(properties, propertyNames, "label",
-                           dbus::Variant(_("Restart")));
-            appendProperty(properties, propertyNames, "icon-name",
-                           dbus::Variant("view-refresh"));
+            if (*parent_->config().useRestart) {
+                appendProperty(properties, propertyNames, "label",
+                               dbus::Variant(_("Restart")));
+                appendProperty(properties, propertyNames, "icon-name",
+                               dbus::Variant("view-refresh"));
+            }
             break;
         case BII_Exit:
-            appendProperty(properties, propertyNames, "label",
-                           dbus::Variant(_("Exit")));
-            appendProperty(properties, propertyNames, "icon-name",
-                           dbus::Variant("application-exit"));
+            if (*parent_->config().useExit) {
+                appendProperty(properties, propertyNames, "label",
+                               dbus::Variant(_("Exit")));
+                appendProperty(properties, propertyNames, "icon-name",
+                               dbus::Variant("application-exit"));
+            }
             break;
         }
     } else if (id >= BII_InputMethodStart && id <= BII_InputMethodEnd) {
@@ -289,7 +308,9 @@ void DBusMenu::fillLayoutProperties(
                                   : 0));
         }
     } else if (id >= BII_InputMethodGroupStart &&
-               id <= BII_InputMethodGroupEnd) {
+               id <= BII_InputMethodGroupEnd &&
+               *parent_->config().useInputGroup) {
+
         size_t idx = id - BII_InputMethodGroupStart;
         const auto &list = imManager.groups();
         if (idx >= list.size()) {

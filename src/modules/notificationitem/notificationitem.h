@@ -23,6 +23,14 @@ namespace fcitx {
 class StatusNotifierItem;
 class DBusMenu;
 
+FCITX_CONFIGURATION(NotificationItemConfig,
+                    Option<bool> useInputGroup{this, "UseInputGroup",
+                                               _("Use InputGroup"), true};
+                    Option<bool> useRestart{this, "UseRestart",
+                                            _("Use Restart"), true};
+                    Option<bool> useExit{this, "UseExit", _("Use Exit"),
+                                         true};);
+
 class NotificationItem : public AddonInstance {
 public:
     NotificationItem(Instance *instance);
@@ -31,6 +39,13 @@ public:
     dbus::Bus *globalBus();
     Instance *instance() { return instance_; }
 
+    const NotificationItemConfig &config() const { return config_; }
+    const Configuration *getConfig() const override { return &config_; }
+    void setConfig(const RawConfig &config) override {
+        config_.load(config, true);
+        safeSaveAsIni(config_, "conf/notificationitem.conf");
+    }
+    void reloadConfig() override;
     void setSerivceName(const std::string &newName);
     void setRegistered(bool);
     void registerSNI();
@@ -48,6 +63,7 @@ private:
     FCITX_ADDON_EXPORT_FUNCTION(NotificationItem, disable);
     FCITX_ADDON_EXPORT_FUNCTION(NotificationItem, watch);
     FCITX_ADDON_EXPORT_FUNCTION(NotificationItem, registered);
+    NotificationItemConfig config_;
     Instance *instance_;
     std::unique_ptr<dbus::ServiceWatcher> watcher_;
     std::unique_ptr<dbus::Bus> privateBus_;

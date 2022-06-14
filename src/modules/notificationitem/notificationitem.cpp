@@ -217,6 +217,10 @@ NotificationItem::NotificationItem(Instance *instance)
 
 NotificationItem::~NotificationItem() = default;
 
+void NotificationItem::reloadConfig() {
+    readAsIni(config_, "conf/notificationitem.conf");
+}
+
 dbus::Bus *NotificationItem::globalBus() {
     return dbus()->call<IDBusModule::bus>();
 }
