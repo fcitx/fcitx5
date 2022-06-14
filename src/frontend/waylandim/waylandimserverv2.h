@@ -132,6 +132,7 @@ private:
 
     bool pendingActivate_ = false;
     bool pendingDeactivate_ = false;
+    bool vkReady_ = false;
 
     uint32_t serial_ = 0;
     uint32_t time_ = 0;
