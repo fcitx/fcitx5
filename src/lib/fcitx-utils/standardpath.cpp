@@ -199,6 +199,9 @@ private:
         }
 
         auto rawDirs = stringutils::split(dir, ":");
+        for (auto &rawDir : rawDirs) {
+            rawDir = fs::cleanPath(rawDir);
+        }
         std::unordered_set<std::string> uniqueDirs(rawDirs.begin(),
                                                    rawDirs.end());
 
@@ -210,7 +213,8 @@ private:
             }
         }
         if (fcitxPath) {
-            std::string path = StandardPath::fcitxPath(fcitxPath);
+            std::string path =
+                fs::cleanPath(StandardPath::fcitxPath(fcitxPath));
             if (!path.empty() &&
                 std::find(dirs.begin(), dirs.end(), path) == dirs.end()) {
                 dirs.push_back(path);

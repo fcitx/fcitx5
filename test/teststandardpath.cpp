@@ -19,12 +19,15 @@ using namespace fcitx;
 
 void test_basic() {
     FCITX_ASSERT(setenv("XDG_CONFIG_HOME", "/TEST/PATH", 1) == 0);
-    FCITX_ASSERT(setenv("XDG_CONFIG_DIRS", "/TEST/PATH1:/TEST/PATH2", 1) == 0);
+    FCITX_ASSERT(setenv("XDG_CONFIG_DIRS",
+                        "/TEST/PATH1/:/TEST/PATH2:/TEST/PATH2/:/TEST/PATH1",
+                        1) == 0);
     FCITX_ASSERT(setenv("XDG_DATA_DIRS", TEST_ADDON_DIR, 1) == 0);
     StandardPath standardPath(true);
 
     FCITX_ASSERT(standardPath.userDirectory(StandardPath::Type::Config) ==
                  "/TEST/PATH");
+    // The order to the path should be kept for their first appearance.
     FCITX_ASSERT(standardPath.directories(StandardPath::Type::Config) ==
                  std::vector<std::string>({"/TEST/PATH1", "/TEST/PATH2"}));
 
