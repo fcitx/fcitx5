@@ -158,7 +158,7 @@ void DBusMenu::fillLayoutItem(
     auto &imManager = parent_->instance()->inputMethodManager();
     if (id == 0) {
         // Group
-        if (imManager.groupCount()) {
+        if (imManager.groupCount() > 1) {
             appendSubItem(subLayoutItems, BII_InputMethodGroup, depth,
                           propertyNames);
         }
