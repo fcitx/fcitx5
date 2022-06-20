@@ -188,7 +188,9 @@ void DBusMenu::fillLayoutItem(
         }
         appendSubItem(subLayoutItems, BII_Configure, depth, propertyNames);
         appendSubItem(subLayoutItems, BII_Restart, depth, propertyNames);
-        appendSubItem(subLayoutItems, BII_Exit, depth, propertyNames);
+        if (getDesktopType() != DesktopType::DEEPIN) {
+            appendSubItem(subLayoutItems, BII_Exit, depth, propertyNames);
+        }
     } else if (id == BII_InputMethodGroup) {
         int idx = BII_InputMethodGroupStart;
         for (const auto &group : imManager.groups()) {
