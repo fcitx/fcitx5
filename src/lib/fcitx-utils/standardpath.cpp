@@ -410,6 +410,14 @@ StandardPath::locateAll(Type type, const std::string &path) const {
         scanDirectories(type,
                         [&retPaths, &path](const std::string &dirPath, bool) {
                             auto fullPath = constructPath(dirPath, path);
+#ifdef __ANDROID__
+                            auto find = fullPath.find('!');
+                            if (fullPath.find("/data/app/") == 0 && find != std::string::npos) {
+                                if (fs::isreg(fullPath.substr(0, find))) {
+                                    retPaths.push_back(fullPath);
+                                }
+                            }
+#endif
                             if (fs::isreg(fullPath)) {
                                 retPaths.push_back(fullPath);
                             }
