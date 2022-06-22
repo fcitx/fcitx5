@@ -65,6 +65,10 @@ detectDE() {
             XFCE)
             DE=xfce
             break
+            ;;
+            Deepin)
+            DE=deepin
+            break
         esac
       done
     fi
@@ -125,6 +129,13 @@ run_qt() {
     return 1
 }
 
+run_dde() {
+    if which dde-control-center > /dev/null 2>&1; then
+        dbus-send --print-reply --dest=com.deepin.dde.ControlCenter /com/deepin/dde/ControlCenter com.deepin.dde.ControlCenter.ShowPage string:'keyboard/Manage Input Methods' > /dev/null 2>&1 
+    fi
+    return 1
+}
+
 run_xdg() {
     case "$DE" in
         kde)
@@ -155,6 +166,9 @@ detectDE
 case "$DE" in
     kde)
         order="kde qt xdg"
+        ;;
+    deepin)
+        order="dde"
         ;;
     *)
         order="qt kde xdg"
