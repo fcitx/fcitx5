@@ -498,11 +498,11 @@ void KeyboardEngineState::setPreedit() {
     Text preedit;
     if (!preeditText.empty()) {
         preedit.append(preeditText, format);
-        if (!useClientPreedit) {
-            preedit.setCursor(preeditText.size());
-        } else {
-            preedit.setCursor(0);
-        }
+    }
+    if (useClientPreedit) {
+        preedit.setCursor(0);
+    } else {
+        preedit.setCursor(preeditText.size());
     }
     if (useClientPreedit) {
         inputContext_->inputPanel().setClientPreedit(preedit);
