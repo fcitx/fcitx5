@@ -143,7 +143,8 @@ WaylandIMInputContextV2::WaylandIMInputContextV2(
                     // If last key to vk is press, send a release.
                     while (!pressedVKKey_.empty()) {
                         auto [vkkey, vktime] = *pressedVKKey_.begin();
-                        sendKeyToVK(vktime, vkkey, WL_KEYBOARD_KEY_STATE_RELEASED);
+                        sendKeyToVK(vktime, vkkey,
+                                    WL_KEYBOARD_KEY_STATE_RELEASED);
                     }
                     vk_->modifiers(0, 0, 0, 0);
                     server_->display_->sync();
@@ -595,7 +596,8 @@ void WaylandIMInputContextV2::updatePreeditImpl() {
     }
 
     if (preedit.textLength()) {
-        ic_->setPreeditString(preedit.toString().data(), cursorStart, cursorEnd);
+        ic_->setPreeditString(preedit.toString().data(), cursorStart,
+                              cursorEnd);
     }
     ic_->commit(serial_);
 }
