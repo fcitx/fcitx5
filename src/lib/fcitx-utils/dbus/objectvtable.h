@@ -66,7 +66,7 @@ class ObjectVTableMethodPrivate;
 /**
  * Register a DBus method to current DBus VTable.
  *
- * Usually this class should not be used directory in the code.
+ * Usually this class should not be used directly in the code.
  *
  * @see FCITX_OBJECT_VTABLE_METHOD
  */
@@ -223,7 +223,7 @@ class ObjectVTableSignalPrivate;
 /**
  * Register a DBus signal to current DBus VTable.
  *
- * Usually this class should not be used directory in the code.
+ * Usually this class should not be used directly in the code.
  *
  * @see FCITX_OBJECT_VTABLE_SIGNAL
  */
@@ -251,7 +251,7 @@ class ObjectVTablePropertyPrivate;
 /**
  * Register a DBus read-only property to current DBus VTable.
  *
- * Usually this class should not be used directory in the code.
+ * Usually this class should not be used directly in the code.
  *
  * @see FCITX_OBJECT_VTABLE_PROPERTY
  */
@@ -278,7 +278,7 @@ protected:
 /**
  * Register a DBus property to current DBus VTable.
  *
- * Usually this class should not be used directory in the code.
+ * Usually this class should not be used directly in the code.
  *
  * @see FCITX_OBJECT_VTABLE_WRITABLE_PROPERTY
  */
