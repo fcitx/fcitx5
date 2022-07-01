@@ -68,6 +68,7 @@ void WaylandUI::update(UserInterfaceComponent component,
                        InputContext *inputContext) {
     if (inputWindow_ && component == UserInterfaceComponent::InputPanel) {
         inputWindow_->update(inputContext);
+        display_->flush();
     }
 }
 
