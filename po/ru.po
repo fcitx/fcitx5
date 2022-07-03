@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2022-07-03 15:41+0000\n"
+"POT-Creation-Date: 2022-07-03 19:04+0000\n"
 "PO-Revision-Date: 2017-11-23 04:14+0000\n"
 "Last-Translator: Dmitry <dmitrydmitry761@gmail.com>, 2022\n"
 "Language-Team: Russian (https://www.transifex.com/fcitx/teams/12005/ru/)\n"
@@ -1226,7 +1226,7 @@ msgstr "Панель метода ввода KDE"
 
 #: src/ui/classic/classicui.cpp:144
 msgid "KDE Plasma (Experimental)"
-msgstr ""
+msgstr "KDE Plasma (экспериментально)"
 
 #: src/lib/fcitx-utils/key.cpp:211
 msgctxt "Key name"
