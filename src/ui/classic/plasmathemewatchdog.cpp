@@ -8,10 +8,15 @@
 #include <sys/wait.h>
 #include <unistd.h>
 #include <stdexcept>
-#include <sys/prctl.h>
 #include "fcitx-utils/event.h"
 #include "fcitx-utils/misc_p.h"
 #include "common.h"
+
+#if defined(__FreeBSD__)
+#include <sys/procctl.h>
+#elif defined(__linux__)
+#include <sys/prctl.h>
+#endif
 
 fcitx::classicui::PlasmaThemeWatchdog::PlasmaThemeWatchdog(
     EventLoop *event, std::function<void()> callback)
@@ -27,7 +32,12 @@ fcitx::classicui::PlasmaThemeWatchdog::PlasmaThemeWatchdog(
     auto pid = fork();
     if (pid == 0) {
         close(pipefd[0]);
+#if defined(__FreeBSD__)
+        int procctl_value = SIGKILL;
+        procctl(P_PID, 0, PROC_PDEATHSIG_CTL, &procctl_value);
+#elif defined(__linux__)
         prctl(PR_SET_PDEATHSIG, SIGKILL);
+#endif
         char arg0[] = PLASMA_THEME_GENERATOR;
         char arg1[] = "--fd";
         std::string value = std::to_string(pipefd[1]);
