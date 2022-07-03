@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2022-07-03 15:41+0000\n"
+"POT-Creation-Date: 2022-07-03 15:55+0000\n"
 "PO-Revision-Date: 2017-11-23 04:14+0000\n"
 "Last-Translator: csslayer <wengxt@gmail.com>, 2022\n"
 "Language-Team: Chinese (China) (https://www.transifex.com/fcitx/teams/12005/"
@@ -1208,7 +1208,7 @@ msgstr "KDE 输入法面板"
 
 #: src/ui/classic/classicui.cpp:144
 msgid "KDE Plasma (Experimental)"
-msgstr ""
+msgstr "KDE Plasma (实验性)"
 
 #: src/lib/fcitx-utils/key.cpp:211
 msgctxt "Key name"
