@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2022-06-18 20:24+0000\n"
+"POT-Creation-Date: 2022-07-03 15:41+0000\n"
 "PO-Revision-Date: 2017-11-23 04:14+0000\n"
 "Last-Translator: UTUMI Hirosi <utuhiro78@yahoo.co.jp>, 2022\n"
 "Language-Team: Japanese (https://www.transifex.com/fcitx/teams/12005/ja/)\n"
@@ -508,7 +508,7 @@ msgid "Configuration:"
 msgstr "設定:"
 
 #: src/ui/classic/xcbtraywindow.cpp:38
-#: src/modules/notificationitem/dbusmenu.cpp:245
+#: src/modules/notificationitem/dbusmenu.cpp:247
 msgid "Configure"
 msgstr "設定"
 
@@ -768,7 +768,7 @@ msgid "Execute"
 msgstr "実行"
 
 #: src/ui/classic/xcbtraywindow.cpp:40
-#: src/modules/notificationitem/dbusmenu.cpp:259
+#: src/modules/notificationitem/dbusmenu.cpp:261
 msgid "Exit"
 msgstr "閉じる"
 
@@ -837,11 +837,11 @@ msgctxt "Key name"
 msgid "Find"
 msgstr "Find"
 
-#: src/ui/classic/classicui.h:99
+#: src/ui/classic/classicui.h:100
 msgid "Font"
 msgstr "フォント"
 
-#: src/ui/classic/classicui.h:129
+#: src/ui/classic/classicui.h:130
 msgid ""
 "For example, display character with Chinese variant when using Pinyin and "
 "Japanese variant when using Anthy. The font configuration needs to support "
@@ -946,7 +946,7 @@ msgid "Green"
 msgstr "Green"
 
 #: src/ui/classic/xcbtraywindow.cpp:36
-#: src/modules/notificationitem/dbusmenu.cpp:235
+#: src/modules/notificationitem/dbusmenu.cpp:237
 msgid "Group"
 msgstr "グループ"
 
@@ -1211,6 +1211,10 @@ msgstr "不正なアドオン設定ファイル ${1} です。"
 #: src/ui/kimpanel/kimpanel.conf.in.in:3
 msgid "KDE Input Method Panel"
 msgstr "KDE 入力メソッドパネル"
+
+#: src/ui/classic/classicui.cpp:144
+msgid "KDE Plasma (Experimental)"
+msgstr ""
 
 #: src/lib/fcitx-utils/key.cpp:211
 msgctxt "Key name"
@@ -1510,7 +1514,7 @@ msgctxt "Key name"
 msgid "Menu"
 msgstr "メニュー"
 
-#: src/ui/classic/classicui.h:101
+#: src/ui/classic/classicui.h:102
 msgid "Menu Font"
 msgstr "メニューフォント"
 
@@ -1758,7 +1762,7 @@ msgstr "プリエディット無効"
 msgid "Preedit enabled"
 msgstr "プリエディット有効"
 
-#: src/ui/classic/classicui.h:109
+#: src/ui/classic/classicui.h:110
 msgid "Prefer Text Icon"
 msgstr "テキストアイコンを優先する"
 
@@ -1826,7 +1830,7 @@ msgid "Reply"
 msgstr "リプライ"
 
 #: src/ui/classic/xcbtraywindow.cpp:39
-#: src/modules/notificationitem/dbusmenu.cpp:253
+#: src/modules/notificationitem/dbusmenu.cpp:255
 msgid "Restart"
 msgstr "再起動"
 
@@ -1961,7 +1965,7 @@ msgstr "フォーカスを変更する際に入力メソッドの情報を表示
 msgid "Show Input Method Information when switch input method"
 msgstr "入力メソッドを切り替える際に入力メソッドの情報を表示する"
 
-#: src/ui/classic/classicui.h:114
+#: src/ui/classic/classicui.h:115
 msgid "Show Layout Name In Icon"
 msgstr "アイコンにレイアウト名を表示する"
 
@@ -1973,7 +1977,7 @@ msgstr "入力メソッドの情報をコンパクトに表示する"
 msgid "Show first input method information"
 msgstr "第1入力メソッドの情報を表示する"
 
-#: src/ui/classic/classicui.h:118
+#: src/ui/classic/classicui.h:119
 msgid ""
 "Show layout name in icon if there is more than one active layout. If prefer "
 "text icon is set to true, this option will be ignored."
@@ -2126,11 +2130,11 @@ msgstr "N番目のホットキーでN番目の入力メソッドに切り替え�
 msgid "The script is run as ${1} (${2})."
 msgstr "${1} (${2})としてスクリプトを実行"
 
-#: src/ui/classic/classicui.h:134
+#: src/ui/classic/classicui.h:135
 msgid "Theme"
 msgstr "テーマ"
 
-#: src/ui/classic/classicui.h:78
+#: src/ui/classic/classicui.h:79
 msgid "This is only effective when the tray icon is xembed."
 msgstr "これはトレイアイコンが XEmbed の場合のみ有効です。"
 
@@ -2218,15 +2222,15 @@ msgctxt "Key name"
 msgid "Travel"
 msgstr "トラベル"
 
-#: src/ui/classic/classicui.h:103
+#: src/ui/classic/classicui.h:104
 msgid "Tray Font"
 msgstr "トレイフォント"
 
-#: src/ui/classic/classicui.h:105
+#: src/ui/classic/classicui.h:106
 msgid "Tray Label Outline Color"
 msgstr "トレイラベルのアウトライン色"
 
-#: src/ui/classic/classicui.h:108
+#: src/ui/classic/classicui.h:109
 msgid "Tray Label Text Color"
 msgstr "トレイラベルのテキスト色"
 
@@ -2286,7 +2290,7 @@ msgstr "上"
 msgid "Use On The Spot Style (Needs restarting)"
 msgstr "XIM で On The Spot スタイルを使う(再起動が必要)"
 
-#: src/ui/classic/classicui.h:92
+#: src/ui/classic/classicui.h:93
 msgid "Use Per Screen DPI"
 msgstr "スクリーンごとのDPIを使用する"
 
@@ -2294,11 +2298,11 @@ msgstr "スクリーンごとのDPIを使用する"
 msgid "Use all horizontal space for highlight when it is vertical list"
 msgstr "候補リストが縦の場合は、ハイライト時にすべての水平スペースを使用します"
 
-#: src/ui/classic/classicui.h:125
+#: src/ui/classic/classicui.h:126
 msgid "Use input method language to display text"
 msgstr "入力メソッドの言語を使用してテキストを表示する"
 
-#: src/ui/classic/classicui.h:95
+#: src/ui/classic/classicui.h:96
 msgid "Use mouse wheel to go to prev or next page"
 msgstr "マウスホイールを使用して前または次のページに移動する"
 
@@ -2322,7 +2326,7 @@ msgstr "バージョン"
 msgid "Version Line:"
 msgstr "バージョンライン:"
 
-#: src/ui/classic/classicui.h:91
+#: src/ui/classic/classicui.h:92
 msgid "Vertical Candidate List"
 msgstr "候補ウィンドウを縦にする"
 

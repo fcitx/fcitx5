@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2022-05-20 20:25+0000\n"
+"POT-Creation-Date: 2022-07-03 15:41+0000\n"
 "PO-Revision-Date: 2017-11-23 04:14+0000\n"
 "Last-Translator: scootergrisen, 2021\n"
 "Language-Team: Danish (https://www.transifex.com/fcitx/teams/12005/da/)\n"
@@ -48,7 +48,7 @@ msgstr "${1} ikke fundet."
 msgid "${1} works properly."
 msgstr "${1} virker korrekt."
 
-#: src/lib/fcitx/instance.cpp:375
+#: src/lib/fcitx/instance.cpp:382
 msgid "(Not available)"
 msgstr "(ikke tilgængelig)"
 
@@ -463,19 +463,19 @@ msgctxt "Key name"
 msgid "Community"
 msgstr "Fællesskab"
 
-#: src/im/keyboard/keyboard.cpp:678
+#: src/im/keyboard/keyboard.cpp:686
 msgid "Completion"
 msgstr "Fuldførsel"
 
-#: src/im/keyboard/keyboard.cpp:669
+#: src/im/keyboard/keyboard.cpp:677
 msgid "Completion is disabled."
 msgstr "Fuldførsel er deaktiveret."
 
-#: src/im/keyboard/keyboard.cpp:672
+#: src/im/keyboard/keyboard.cpp:680
 msgid "Completion is enabled temporarily."
 msgstr ""
 
-#: src/im/keyboard/keyboard.cpp:674
+#: src/im/keyboard/keyboard.cpp:682
 msgid "Completion is enabled."
 msgstr "Fuldførsel er aktiveret."
 
@@ -508,7 +508,7 @@ msgid "Configuration:"
 msgstr "Konfiguration:"
 
 #: src/ui/classic/xcbtraywindow.cpp:38
-#: src/modules/notificationitem/dbusmenu.cpp:245
+#: src/modules/notificationitem/dbusmenu.cpp:247
 msgid "Configure"
 msgstr "Konfigurer"
 
@@ -584,7 +584,7 @@ msgstr "Deaktivér inputmetode"
 msgid "Debug information from dbus:"
 msgstr ""
 
-#: src/lib/fcitx/inputmethodmanager.cpp:138 src/lib/fcitx/instance.cpp:724
+#: src/lib/fcitx/inputmethodmanager.cpp:138 src/lib/fcitx/instance.cpp:329
 #: src/ui/classic/themes/default/theme.conf.in:3
 msgid "Default"
 msgstr "Standard"
@@ -770,7 +770,7 @@ msgid "Execute"
 msgstr "Udfør"
 
 #: src/ui/classic/xcbtraywindow.cpp:40
-#: src/modules/notificationitem/dbusmenu.cpp:259
+#: src/modules/notificationitem/dbusmenu.cpp:261
 msgid "Exit"
 msgstr "Afslut"
 
@@ -840,11 +840,11 @@ msgctxt "Key name"
 msgid "Find"
 msgstr "Find"
 
-#: src/ui/classic/classicui.h:99
+#: src/ui/classic/classicui.h:100
 msgid "Font"
 msgstr "Skrifttype"
 
-#: src/ui/classic/classicui.h:129
+#: src/ui/classic/classicui.h:130
 msgid ""
 "For example, display character with Chinese variant when using Pinyin and "
 "Japanese variant when using Anthy. The font configuration needs to support "
@@ -946,15 +946,15 @@ msgid "Green"
 msgstr "Grøn"
 
 #: src/ui/classic/xcbtraywindow.cpp:36
-#: src/modules/notificationitem/dbusmenu.cpp:235
+#: src/modules/notificationitem/dbusmenu.cpp:237
 msgid "Group"
 msgstr "Gruppe"
 
-#: src/lib/fcitx/instance.cpp:379
+#: src/lib/fcitx/instance.cpp:386
 msgid "Group {0}: {1}"
 msgstr "Gruppe {0}: {1}"
 
-#: src/lib/fcitx/instance.cpp:726
+#: src/lib/fcitx/instance.cpp:331
 msgid "Group {}"
 msgstr "Gruppe {}"
 
@@ -1164,8 +1164,8 @@ msgstr ""
 msgid "Image"
 msgstr "Billede"
 
-#: src/im/keyboard/keyboard.cpp:677 src/lib/fcitx/instance.cpp:413
-#: src/lib/fcitx/instance.cpp:796 src/lib/fcitx/instance.cpp:962
+#: src/im/keyboard/keyboard.cpp:685 src/lib/fcitx/instance.cpp:420
+#: src/lib/fcitx/instance.cpp:638 src/lib/fcitx/instance.cpp:804
 #: src/modules/notificationitem/notificationitem.cpp:115
 #: src/modules/xcb/xcbconnection.cpp:406 data/org.fcitx.Fcitx5.desktop.in.in:4
 #: data/org.fcitx.Fcitx5.metainfo.xml.in:7
@@ -1210,6 +1210,10 @@ msgstr "Ugyldig tilføjelseskonfigurationsfil ${1}."
 #: src/ui/kimpanel/kimpanel.conf.in.in:3
 msgid "KDE Input Method Panel"
 msgstr "Panel til KDE-inputmetode"
+
+#: src/ui/classic/classicui.cpp:144
+msgid "KDE Plasma (Experimental)"
+msgstr ""
 
 #: src/lib/fcitx-utils/key.cpp:211
 msgctxt "Key name"
@@ -1509,7 +1513,7 @@ msgctxt "Key name"
 msgid "Menu"
 msgstr "Menu"
 
-#: src/ui/classic/classicui.h:101
+#: src/ui/classic/classicui.h:102
 msgid "Menu Font"
 msgstr "Menuens skrifttype"
 
@@ -1621,7 +1625,7 @@ msgstr "NumLock"
 msgid "Number of entries"
 msgstr "Antal poster"
 
-#: src/im/keyboard/keyboard.cpp:663
+#: src/im/keyboard/keyboard.cpp:671
 msgid ""
 "Only emoji support is found. To enable spell checking, you may need to "
 "install spell check data for the language."
@@ -1745,19 +1749,19 @@ msgctxt "Key name"
 msgid "Power Off"
 msgstr "Sluk"
 
-#: src/lib/fcitx/instance.cpp:962
+#: src/lib/fcitx/instance.cpp:804
 msgid "Preedit"
 msgstr "Preedit"
 
-#: src/lib/fcitx/instance.cpp:964
+#: src/lib/fcitx/instance.cpp:806
 msgid "Preedit disabled"
 msgstr "Preedit deaktiveret"
 
-#: src/lib/fcitx/instance.cpp:963
+#: src/lib/fcitx/instance.cpp:805
 msgid "Preedit enabled"
 msgstr "Preedit aktiveret"
 
-#: src/ui/classic/classicui.h:109
+#: src/ui/classic/classicui.h:110
 msgid "Prefer Text Icon"
 msgstr ""
 
@@ -1825,7 +1829,7 @@ msgid "Reply"
 msgstr "Svar"
 
 #: src/ui/classic/xcbtraywindow.cpp:39
-#: src/modules/notificationitem/dbusmenu.cpp:253
+#: src/modules/notificationitem/dbusmenu.cpp:255
 msgid "Restart"
 msgstr "Genstart"
 
@@ -1960,7 +1964,7 @@ msgstr "Vis information om inputmetode når der skiftes fokus"
 msgid "Show Input Method Information when switch input method"
 msgstr "Vis information om inputmetode når der skiftes inputmetode"
 
-#: src/ui/classic/classicui.h:114
+#: src/ui/classic/classicui.h:115
 msgid "Show Layout Name In Icon"
 msgstr ""
 
@@ -1972,7 +1976,7 @@ msgstr "Vis kompakt information om inputmetode"
 msgid "Show first input method information"
 msgstr "Vis første information om inputmetode"
 
-#: src/ui/classic/classicui.h:118
+#: src/ui/classic/classicui.h:119
 msgid ""
 "Show layout name in icon if there is more than one active layout. If prefer "
 "text icon is set to true, this option will be ignored."
@@ -2071,16 +2075,16 @@ msgctxt "Key name"
 msgid "Suspend"
 msgstr "Hvile"
 
-#: src/lib/fcitx/instance.cpp:414 src/lib/fcitx/instance.cpp:797
+#: src/lib/fcitx/instance.cpp:421 src/lib/fcitx/instance.cpp:639
 #: src/modules/xcb/xcbconnection.cpp:407
 msgid "Switch group"
 msgstr "Skift gruppe"
 
-#: src/lib/fcitx/instance.cpp:416 src/modules/xcb/xcbconnection.cpp:408
+#: src/lib/fcitx/instance.cpp:422 src/modules/xcb/xcbconnection.cpp:408
 msgid "Switch group to {0}"
 msgstr "Skift gruppe til {0}"
 
-#: src/lib/fcitx/instance.cpp:798
+#: src/lib/fcitx/instance.cpp:640
 msgid "Switched group to {0}"
 msgstr "Skiftede gruppe til {0}"
 
@@ -2121,11 +2125,11 @@ msgstr "Den niende hottast i listen vælger den niende inputmetode."
 msgid "The script is run as ${1} (${2})."
 msgstr "Scriptet køres som ${1} (${2})."
 
-#: src/ui/classic/classicui.h:134
+#: src/ui/classic/classicui.h:135
 msgid "Theme"
 msgstr "Tema"
 
-#: src/ui/classic/classicui.h:78
+#: src/ui/classic/classicui.h:79
 msgid "This is only effective when the tray icon is xembed."
 msgstr "Anvendes kun når bakkeikonet er xembed."
 
@@ -2211,15 +2215,15 @@ msgctxt "Key name"
 msgid "Travel"
 msgstr "Rejse"
 
-#: src/ui/classic/classicui.h:103
+#: src/ui/classic/classicui.h:104
 msgid "Tray Font"
 msgstr "Skrifttype for bakke"
 
-#: src/ui/classic/classicui.h:105
+#: src/ui/classic/classicui.h:106
 msgid "Tray Label Outline Color"
 msgstr ""
 
-#: src/ui/classic/classicui.h:108
+#: src/ui/classic/classicui.h:109
 msgid "Tray Label Text Color"
 msgstr ""
 
@@ -2279,7 +2283,7 @@ msgstr "Op"
 msgid "Use On The Spot Style (Needs restarting)"
 msgstr "Brug her-og-nu-stil (kræver genstart)"
 
-#: src/ui/classic/classicui.h:92
+#: src/ui/classic/classicui.h:93
 msgid "Use Per Screen DPI"
 msgstr "Brug pr. skærm DPI"
 
@@ -2287,11 +2291,11 @@ msgstr "Brug pr. skærm DPI"
 msgid "Use all horizontal space for highlight when it is vertical list"
 msgstr "Brug al vandret plads til fremhævning når det er en lodret liste"
 
-#: src/ui/classic/classicui.h:125
+#: src/ui/classic/classicui.h:126
 msgid "Use input method language to display text"
 msgstr ""
 
-#: src/ui/classic/classicui.h:95
+#: src/ui/classic/classicui.h:96
 msgid "Use mouse wheel to go to prev or next page"
 msgstr "Brug musehjulet for at gå til forrige eller næste side"
 
@@ -2315,7 +2319,7 @@ msgstr "Version"
 msgid "Version Line:"
 msgstr "Versionslinje:"
 
-#: src/ui/classic/classicui.h:91
+#: src/ui/classic/classicui.h:92
 msgid "Vertical Candidate List"
 msgstr "Lodret kandidatliste"
 
@@ -2561,10 +2565,10 @@ msgstr "version:"
 msgid "{0} (Not Available)"
 msgstr "{0} (ikke tilgængelig)"
 
-#: src/lib/fcitx/instance.cpp:373
+#: src/lib/fcitx/instance.cpp:380
 msgid "{0} (Not available)"
 msgstr "{0} (ikke tilgængelig)"
 
-#: src/lib/fcitx/instance.cpp:370
+#: src/lib/fcitx/instance.cpp:377
 msgid "{0} ({1})"
 msgstr "{0} ({1})"

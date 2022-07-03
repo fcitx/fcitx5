@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2022-06-06 20:24+0000\n"
+"POT-Creation-Date: 2022-07-03 15:41+0000\n"
 "PO-Revision-Date: 2017-11-23 04:14+0000\n"
 "Last-Translator: roxfr <roxfr@outlook.fr>, 2022\n"
 "Language-Team: French (https://www.transifex.com/fcitx/teams/12005/fr/)\n"
@@ -515,7 +515,7 @@ msgid "Configuration:"
 msgstr "Configuration :"
 
 #: src/ui/classic/xcbtraywindow.cpp:38
-#: src/modules/notificationitem/dbusmenu.cpp:245
+#: src/modules/notificationitem/dbusmenu.cpp:247
 msgid "Configure"
 msgstr "Configurer"
 
@@ -781,7 +781,7 @@ msgid "Execute"
 msgstr "Exécuter"
 
 #: src/ui/classic/xcbtraywindow.cpp:40
-#: src/modules/notificationitem/dbusmenu.cpp:259
+#: src/modules/notificationitem/dbusmenu.cpp:261
 msgid "Exit"
 msgstr "Quitter"
 
@@ -851,11 +851,11 @@ msgctxt "Key name"
 msgid "Find"
 msgstr "Rechercher"
 
-#: src/ui/classic/classicui.h:99
+#: src/ui/classic/classicui.h:100
 msgid "Font"
 msgstr "Police"
 
-#: src/ui/classic/classicui.h:129
+#: src/ui/classic/classicui.h:130
 msgid ""
 "For example, display character with Chinese variant when using Pinyin and "
 "Japanese variant when using Anthy. The font configuration needs to support "
@@ -961,7 +961,7 @@ msgid "Green"
 msgstr "Vert"
 
 #: src/ui/classic/xcbtraywindow.cpp:36
-#: src/modules/notificationitem/dbusmenu.cpp:235
+#: src/modules/notificationitem/dbusmenu.cpp:237
 msgid "Group"
 msgstr "Groupe"
 
@@ -1229,6 +1229,10 @@ msgstr "Fichier de configuration d'extension invalide ${1}."
 #: src/ui/kimpanel/kimpanel.conf.in.in:3
 msgid "KDE Input Method Panel"
 msgstr "Panneau de méthode de saisie KDE"
+
+#: src/ui/classic/classicui.cpp:144
+msgid "KDE Plasma (Experimental)"
+msgstr ""
 
 #: src/lib/fcitx-utils/key.cpp:211
 msgctxt "Key name"
@@ -1528,7 +1532,7 @@ msgctxt "Key name"
 msgid "Menu"
 msgstr "Menu"
 
-#: src/ui/classic/classicui.h:101
+#: src/ui/classic/classicui.h:102
 msgid "Menu Font"
 msgstr "Police du menu"
 
@@ -1777,7 +1781,7 @@ msgstr "Pré-édition désactivée"
 msgid "Preedit enabled"
 msgstr "Pré-édition activée"
 
-#: src/ui/classic/classicui.h:109
+#: src/ui/classic/classicui.h:110
 msgid "Prefer Text Icon"
 msgstr "Préférer l'icône de texte"
 
@@ -1845,7 +1849,7 @@ msgid "Reply"
 msgstr "Répondre"
 
 #: src/ui/classic/xcbtraywindow.cpp:39
-#: src/modules/notificationitem/dbusmenu.cpp:253
+#: src/modules/notificationitem/dbusmenu.cpp:255
 msgid "Restart"
 msgstr "Redémarrer"
 
@@ -1983,7 +1987,7 @@ msgstr ""
 "Afficher les informations sur la méthode d'entrée lors du changement de "
 "méthode d'entrée"
 
-#: src/ui/classic/classicui.h:114
+#: src/ui/classic/classicui.h:115
 msgid "Show Layout Name In Icon"
 msgstr "Afficher le nom de la mise en page dans l'icône"
 
@@ -1995,7 +1999,7 @@ msgstr "Afficher les informations sur la méthode d'entrée compacte"
 msgid "Show first input method information"
 msgstr "Afficher les informations de la première méthode d'entrée"
 
-#: src/ui/classic/classicui.h:118
+#: src/ui/classic/classicui.h:119
 msgid ""
 "Show layout name in icon if there is more than one active layout. If prefer "
 "text icon is set to true, this option will be ignored."
@@ -2153,11 +2157,11 @@ msgstr ""
 msgid "The script is run as ${1} (${2})."
 msgstr "Le script est exécuté en tant que ${1} (${2})."
 
-#: src/ui/classic/classicui.h:134
+#: src/ui/classic/classicui.h:135
 msgid "Theme"
 msgstr "Thème"
 
-#: src/ui/classic/classicui.h:78
+#: src/ui/classic/classicui.h:79
 msgid "This is only effective when the tray icon is xembed."
 msgstr "Ceci n'est efficace que lorsque l'icône de la barre d'état est xembed."
 
@@ -2247,15 +2251,15 @@ msgctxt "Key name"
 msgid "Travel"
 msgstr "Voyage"
 
-#: src/ui/classic/classicui.h:103
+#: src/ui/classic/classicui.h:104
 msgid "Tray Font"
 msgstr "Police du bac"
 
-#: src/ui/classic/classicui.h:105
+#: src/ui/classic/classicui.h:106
 msgid "Tray Label Outline Color"
 msgstr "Couleur du contour de l'étiquette du plateau"
 
-#: src/ui/classic/classicui.h:108
+#: src/ui/classic/classicui.h:109
 msgid "Tray Label Text Color"
 msgstr "Couleur du texte de l'étiquette du plateau"
 
@@ -2315,7 +2319,7 @@ msgstr "Haut"
 msgid "Use On The Spot Style (Needs restarting)"
 msgstr "Utiliser le style On The Spot (nécessite un redémarrage)"
 
-#: src/ui/classic/classicui.h:92
+#: src/ui/classic/classicui.h:93
 msgid "Use Per Screen DPI"
 msgstr "Utiliser PPP par écran"
 
@@ -2325,11 +2329,11 @@ msgstr ""
 "Utiliser tout l'espace horizontal pour la surbrillance lorsqu'il s'agit "
 "d'une liste verticale"
 
-#: src/ui/classic/classicui.h:125
+#: src/ui/classic/classicui.h:126
 msgid "Use input method language to display text"
 msgstr "Utiliser la langue de la méthode de saisie pour afficher le texte"
 
-#: src/ui/classic/classicui.h:95
+#: src/ui/classic/classicui.h:96
 msgid "Use mouse wheel to go to prev or next page"
 msgstr ""
 "Utiliser la molette de la souris pour aller à la page précédente ou suivante"
@@ -2354,7 +2358,7 @@ msgstr "Version"
 msgid "Version Line:"
 msgstr "Ligne de version :"
 
-#: src/ui/classic/classicui.h:91
+#: src/ui/classic/classicui.h:92
 msgid "Vertical Candidate List"
 msgstr "Liste verticale des candidats"
 
