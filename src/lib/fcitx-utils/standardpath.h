@@ -322,6 +322,24 @@ public:
 
     int64_t timestamp(Type type, const std::string &path) const;
 
+    /**
+     * Check if certain executable presents in PATH.
+     *
+     * If the file presents, return the absolute PATH. If name is absolute path,
+     * check the absolute path instead of using PATH.
+     *
+     * @since 5.0.18
+     */
+    static std::string findExecutable(const std::string &name);
+
+    /**
+     * Check if certain executable presents in PATH.
+     *
+     * @see findExecutable     *
+     * @since 5.0.18
+     */
+    static bool hasExecutable(const std::string &name);
+
 private:
     std::unique_ptr<StandardPathPrivate> d_ptr;
     FCITX_DECLARE_PRIVATE(StandardPath);

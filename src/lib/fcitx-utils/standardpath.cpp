@@ -21,6 +21,10 @@
 #include "misc_p.h"
 #include "stringutils.h"
 
+#if __has_include(<paths.h>)
+#include <paths.h>
+#endif
+
 namespace fcitx {
 
 namespace {
@@ -619,6 +623,48 @@ int64_t StandardPath::timestamp(Type type, const std::string &path) const {
             return true;
         });
     return timestamp;
+}
+
+std::string StandardPath::findExecutable(const std::string &name) {
+    if (name.empty()) {
+        return "";
+    }
+
+    if (name[0] == '/') {
+        return fs::isexe(name) ? name : "";
+    }
+
+    std::string sEnv;
+    const char *pEnv = getenv("PATH");
+    if (pEnv) {
+        sEnv = pEnv;
+    } else {
+#if defined(_PATH_DEFPATH)
+        sEnv = _PATH_DEFPATH;
+#elif defined(_CS_PATH)
+        size_t n = confstr(_CS_PATH, nullptr, 0);
+        if (n) {
+            std::vector<char> data;
+            data.resize(n + 1);
+            confstr(_CS_PATH, data.data(), data.size());
+            data.push_back('\0');
+            sEnv = data.data();
+        }
+#endif
+    }
+    auto paths = stringutils::split(sEnv, ":");
+    for (auto &path : paths) {
+        path = fs::cleanPath(path);
+        auto fullPath = constructPath(path, name);
+        if (!fullPath.empty() && fs::isexe(fullPath)) {
+            return fullPath;
+        }
+    }
+    return "";
+}
+
+bool StandardPath::hasExecutable(const std::string &name) {
+    return !findExecutable(name).empty();
 }
 
 } // namespace fcitx
