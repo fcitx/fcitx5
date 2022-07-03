@@ -76,7 +76,24 @@ void ClassicUI::reloadConfig() {
     reloadTheme();
 }
 
-void ClassicUI::reloadTheme() { theme_.load(*config_.theme); }
+void ClassicUI::reloadTheme() {
+    if (*config_.theme == "plasma") {
+        if (!plasmaThemeWatchdog_) {
+            try {
+                plasmaThemeWatchdog_ = std::make_unique<PlasmaThemeWatchdog>(
+                    &instance_->eventLoop(), [this]() {
+                        CLASSICUI_DEBUG() << "Reload plasma theme";
+                        reloadTheme();
+                    });
+            } catch (...) {
+            }
+        }
+    } else {
+        plasmaThemeWatchdog_.reset();
+    }
+
+    theme_.load(*config_.theme);
+}
 
 void ClassicUI::suspend() {
     suspended_ = true;
@@ -121,6 +138,12 @@ const Configuration *ClassicUI::getConfig() const {
                 themeConfig.metadata.value().name.value().match();
         }
     }
+
+    if (StandardPath::hasExecutable(PLASMA_THEME_GENERATOR)) {
+        themes.erase("plasma");
+        themes["plasma"] = _("KDE Plasma (Experimental)");
+    }
+
     config_.theme.annotation().setThemes({themes.begin(), themes.end()});
     return &config_;
 }

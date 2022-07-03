@@ -21,6 +21,7 @@
 #include "fcitx/instance.h"
 #include "fcitx/userinterface.h"
 #include "classicui_public.h"
+#include "plasmathemewatchdog.h"
 #include "theme.h"
 #ifdef ENABLE_X11
 #include "xcb_public.h"
@@ -203,6 +204,7 @@ private:
     bool suspended_ = true;
 
     std::unique_ptr<EventSource> deferedEnableTray_;
+    std::unique_ptr<PlasmaThemeWatchdog> plasmaThemeWatchdog_;
 };
 } // namespace classicui
 } // namespace fcitx

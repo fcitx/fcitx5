@@ -637,7 +637,7 @@ void Theme::load(const std::string &name, const RawConfig &rawConfig) {
 
 bool Theme::setIconTheme(const std::string &name) {
     if (iconTheme_.internalName() != name) {
-        FCITX_INFO() << "New Icon theme: " << name;
+        CLASSICUI_DEBUG() << "New Icon theme: " << name;
         iconTheme_ = IconTheme(name);
         trayImageTable_.clear();
         return true;

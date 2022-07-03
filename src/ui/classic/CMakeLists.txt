@@ -20,7 +20,7 @@ if (ENABLE_X11)
 endif()
 
 add_library(classicui MODULE
-    classicui.cpp window.cpp theme.cpp inputwindow.cpp  ${CLASSICUI_WAYLAND_SRCS}
+    classicui.cpp window.cpp theme.cpp inputwindow.cpp plasmathemewatchdog.cpp ${CLASSICUI_WAYLAND_SRCS}
     )
 
 target_link_libraries(classicui
