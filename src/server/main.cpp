@@ -61,16 +61,28 @@ int main(int argc, char *argv[]) {
 
     setlocale(LC_ALL, "");
 
+    int ret = 0;
+    bool restart = false;
     try {
         Instance instance(argc, argv);
         instance.setSignalPipe(selfpipe[0]);
         instance.addonManager().registerDefaultLoader(&staticAddon);
 
-        return instance.exec();
+        ret = instance.exec();
+        restart = instance.isRestartRequested();
     } catch (const InstanceQuietQuit &) {
     } catch (const std::exception &e) {
         std::cerr << "Received exception: " << e.what() << std::endl;
         return 1;
     }
-    return 0;
+
+    if (restart) {
+        auto fcitxBinary = StandardPath::fcitxPath("bindir", "fcitx5");
+        if (fs::isreg("/.flatpak-info")) {
+            startProcess({"flatpak-spawn", fcitxBinary, "-rd"});
+        } else {
+            startProcess({fcitxBinary, "-r"});
+        }
+    }
+    return ret;
 }

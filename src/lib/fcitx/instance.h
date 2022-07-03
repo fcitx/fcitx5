@@ -467,6 +467,12 @@ public:
      */
     bool isRunning() const;
 
+    /**
+     * Whether restart is requested.
+     * @since 5.0.18
+     */
+    bool isRestartRequested() const;
+
 protected:
     // For testing purpose
     InstancePrivate *privateData();

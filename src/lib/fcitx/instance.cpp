@@ -1285,22 +1285,7 @@ void Instance::initialize() {
 
     d->exitEvent_ = d->eventLoop_.addExitEvent([this](EventSource *) {
         FCITX_DEBUG() << "Running save...";
-        FCITX_D();
         save();
-        if (d->restart_) {
-            auto fcitxBinary = StandardPath::fcitxPath("bindir", "fcitx5");
-            if (d->inFlatpak_) {
-                startProcess({"flatpak-spawn", fcitxBinary, "-rd"});
-            } else {
-                std::vector<char> command{fcitxBinary.begin(),
-                                          fcitxBinary.end()};
-                command.push_back('\0');
-                char *const argv[] = {command.data(), nullptr};
-                execv(argv[0], argv);
-                perror("Restart failed: execvp:");
-                _exit(1);
-            }
-        }
         return false;
     });
     d->notifications_ = d->addonManager_.addon("notifications", true);
@@ -1331,6 +1316,11 @@ void Instance::setRunning(bool running) {
 bool Instance::isRunning() const {
     FCITX_D();
     return d->running_;
+}
+
+bool Instance::isRestartRequested() const {
+    FCITX_D();
+    return d->restart_;
 }
 
 InstancePrivate *Instance::privateData() {

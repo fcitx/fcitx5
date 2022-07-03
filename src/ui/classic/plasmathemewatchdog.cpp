@@ -59,24 +59,16 @@ fcitx::classicui::PlasmaThemeWatchdog::PlasmaThemeWatchdog(
 fcitx::classicui::PlasmaThemeWatchdog::~PlasmaThemeWatchdog() { cleanup(); }
 
 void fcitx::classicui::PlasmaThemeWatchdog::cleanup() {
+    FCITX_INFO() << "CLEAN UP generator PID " << generator_;
     if (generator_ == 0) {
         return;
     }
-    int stat = 0, ret;
-    while ((ret = waitpid(generator_, &stat, WNOHANG)) <= 0) {
-        if (ret == 0) {
-            CLASSICUI_DEBUG()
-                << "fcitx5-plasma-theme-generator not done, kill it";
-            kill(generator_, SIGKILL);
-            waitpid(generator_, &stat, WNOHANG);
-            break;
-        }
-
-        if (errno != EINTR) {
-            stat = -1;
-            break;
-        }
-    }
+    int stat = 0;
+    int ret;
+    kill(generator_, SIGKILL);
+    do {
+        ret = waitpid(generator_, &stat, WNOHANG);
+    } while (ret == -1 && errno == EINTR);
     generator_ = 0;
     ioEvent_.reset();
 }
