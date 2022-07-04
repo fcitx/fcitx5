@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2022-07-03 15:41+0000\n"
+"POT-Creation-Date: 2022-07-04 20:24+0000\n"
 "PO-Revision-Date: 2017-11-23 04:14+0000\n"
 "Last-Translator: UTUMI Hirosi <utuhiro78@yahoo.co.jp>, 2022\n"
 "Language-Team: Japanese (https://www.transifex.com/fcitx/teams/12005/ja/)\n"
@@ -1214,7 +1214,7 @@ msgstr "KDE 入力メソッドパネル"
 
 #: src/ui/classic/classicui.cpp:144
 msgid "KDE Plasma (Experimental)"
-msgstr ""
+msgstr "KDE Plasma（実験的）"
 
 #: src/lib/fcitx-utils/key.cpp:211
 msgctxt "Key name"
