@@ -102,6 +102,7 @@ protected:
 private:
     std::pair<unsigned int, unsigned int> sizeHint();
 };
+
 } // namespace classicui
 } // namespace fcitx
 

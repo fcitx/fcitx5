@@ -61,6 +61,7 @@ int main(int argc, char *argv[]) {
 
     setlocale(LC_ALL, "");
 
+    // Log::setLogRule("wayland=5");
     int ret = 0;
     bool restart = false;
     try {

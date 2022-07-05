@@ -69,7 +69,6 @@ fcitx::classicui::PlasmaThemeWatchdog::PlasmaThemeWatchdog(
 fcitx::classicui::PlasmaThemeWatchdog::~PlasmaThemeWatchdog() { cleanup(); }
 
 void fcitx::classicui::PlasmaThemeWatchdog::cleanup() {
-    FCITX_INFO() << "CLEAN UP generator PID " << generator_;
     if (generator_ == 0) {
         return;
     }

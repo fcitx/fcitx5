@@ -11,6 +11,8 @@
 #include "fcitx-utils/stringutils.h"
 #include "config.h"
 #include "display.h"
+#include "org_kde_kwin_blur.h"
+#include "org_kde_kwin_blur_manager.h"
 #include "waylandinputwindow.h"
 #include "waylandshmwindow.h"
 #include "wl_compositor.h"
@@ -30,6 +32,7 @@ WaylandUI::WaylandUI(ClassicUI *parent, const std::string &name,
     display_->requestGlobals<wayland::WlShm>();
     display_->requestGlobals<wayland::WlSeat>();
     display_->requestGlobals<wayland::ZwpInputPanelV1>();
+    display_->requestGlobals<wayland::OrgKdeKwinBlurManager>();
     panelConn_ = display_->globalCreated().connect(
         [this](const std::string &name, const std::shared_ptr<void> &) {
             if (name == wayland::ZwpInputPanelV1::interface) {
@@ -44,6 +47,11 @@ WaylandUI::WaylandUI(ClassicUI *parent, const std::string &name,
                 if (seat) {
                     pointer_ = std::make_unique<WaylandPointer>(seat.get());
                 }
+            } else if (name == wayland::OrgKdeKwinBlurManager::interface) {
+                if (inputWindow_) {
+                    inputWindow_->setBlurManager(
+                        display_->getGlobal<wayland::OrgKdeKwinBlurManager>());
+                }
             }
         });
     panelRemovedConn_ = display_->globalRemoved().connect(
@@ -51,6 +59,10 @@ WaylandUI::WaylandUI(ClassicUI *parent, const std::string &name,
             if (name == wayland::ZwpInputPanelV1::interface) {
                 if (inputWindow_) {
                     inputWindow_->resetPanel();
+                }
+            } else if (name == wayland::OrgKdeKwinBlurManager::interface) {
+                if (inputWindow_) {
+                    inputWindow_->setBlurManager(nullptr);
                 }
             }
         });
@@ -91,6 +103,8 @@ void WaylandUI::setupInputWindow() {
     }
     inputWindow_ = std::make_unique<WaylandInputWindow>(this);
     inputWindow_->initPanel();
+    inputWindow_->setBlurManager(
+        display_->getGlobal<wayland::OrgKdeKwinBlurManager>());
 }
 
 std::unique_ptr<WaylandWindow> WaylandUI::newWindow() {

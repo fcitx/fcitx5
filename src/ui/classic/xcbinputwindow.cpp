@@ -163,13 +163,30 @@ void XCBInputWindow::update(InputContext *inputContext) {
                 xcb_delete_property(ui_->connection(), wid_, atomBlur_);
             } else {
                 std::vector<uint32_t> data;
-                data.push_back(rect.left());
-                data.push_back(rect.top());
-                data.push_back(rect.width());
-                data.push_back(rect.height());
-                xcb_change_property(ui_->connection(), XCB_PROP_MODE_REPLACE,
-                                    wid_, atomBlur_, XCB_ATOM_CARDINAL, 32,
-                                    data.size(), data.data());
+                if (ui_->parent()->theme().inputPanel->blurMask->empty()) {
+                    FCITX_INFO() << "SET BLUR " << rect;
+                    data.push_back(rect.left());
+                    data.push_back(rect.top());
+                    data.push_back(rect.width());
+                    data.push_back(rect.height());
+                    xcb_change_property(ui_->connection(),
+                                        XCB_PROP_MODE_REPLACE, wid_, atomBlur_,
+                                        XCB_ATOM_CARDINAL, 32, data.size(),
+                                        data.data());
+                } else {
+                    auto region = parent_->theme().mask(
+                        parent_->theme().maskConfig(), width, height);
+                    for (const auto &rect : region) {
+                        data.push_back(rect.left());
+                        data.push_back(rect.top());
+                        data.push_back(rect.width());
+                        data.push_back(rect.height());
+                    }
+                    xcb_change_property(ui_->connection(),
+                                        XCB_PROP_MODE_REPLACE, wid_, atomBlur_,
+                                        XCB_ATOM_CARDINAL, 32, data.size(),
+                                        data.data());
+                }
             }
         }
     }
