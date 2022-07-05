@@ -671,7 +671,6 @@ std::vector<Rect> Theme::mask(const BackgroundImageConfig &cfg, int width,
     const auto *data = cairo_image_surface_get_data(mask.get());
     auto cairo_stride = cairo_image_surface_get_stride(mask.get());
     constexpr bool little = G_BYTE_ORDER == G_LITTLE_ENDIAN;
-    FCITX_INFO() << "WH:" << width << " " << height << " " << cairo_stride;
     int x, y;
     for (y = 0; y < height; ++y) {
         uint8_t all = zero;

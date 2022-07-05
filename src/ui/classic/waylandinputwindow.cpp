@@ -116,7 +116,6 @@ void WaylandInputWindow::updateBlur() {
         } else {
             auto regions = parent_->theme().mask(parent_->theme().maskConfig(),
                                                  width, height);
-            FCITX_INFO() << regions;
             for (const auto &rect : regions) {
                 region->add(rect.left(), rect.top(), rect.width(),
                             rect.height());

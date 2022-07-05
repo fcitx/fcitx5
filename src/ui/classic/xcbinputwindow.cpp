@@ -164,7 +164,6 @@ void XCBInputWindow::update(InputContext *inputContext) {
             } else {
                 std::vector<uint32_t> data;
                 if (ui_->parent()->theme().inputPanel->blurMask->empty()) {
-                    FCITX_INFO() << "SET BLUR " << rect;
                     data.push_back(rect.left());
                     data.push_back(rect.top());
                     data.push_back(rect.width());
