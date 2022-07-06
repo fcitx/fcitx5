@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2022-07-03 15:41+0000\n"
+"POT-Creation-Date: 2022-07-06 20:24+0000\n"
 "PO-Revision-Date: 2017-11-23 04:14+0000\n"
 "Last-Translator: perillamint <perillamint@quendi.moe>, 2022\n"
 "Language-Team: Korean (https://www.transifex.com/fcitx/teams/12005/ko/)\n"
@@ -157,7 +157,7 @@ msgstr "시스템 XKB 설정을 덮어쓰도록 허용"
 msgid "Allow Overriding System XKB Settings (Only support KDE 5)"
 msgstr "시스템 XKB 설정 무시 허용(KDE 5만 지원)"
 
-#: src/im/keyboard/keyboard.h:34 src/modules/quickphrase/quickphrase.h:29
+#: src/im/keyboard/keyboard.h:32 src/modules/quickphrase/quickphrase.h:29
 msgid "Alt"
 msgstr "Alt"
 
@@ -180,7 +180,7 @@ msgctxt "Key name"
 msgid "Application Right"
 msgstr "오른쪽 응용 프로그램"
 
-#: src/im/keyboard/keyboard.h:89
+#: src/im/keyboard/keyboard.h:87
 msgid "Applications disabled for long press"
 msgstr "길게 누르면 응용프로그램이 비활성화됨"
 
@@ -199,7 +199,7 @@ msgctxt "Key name"
 msgid "Audio Repeat"
 msgstr "음원 반복 듣기"
 
-#: src/ui/classic/theme.h:152
+#: src/ui/classic/theme.h:153
 msgid "Author"
 msgstr "작성자"
 
@@ -222,7 +222,7 @@ msgstr "뒤로 앞으로"
 msgid "Backends"
 msgstr "백엔드"
 
-#: src/ui/classic/theme.h:116 src/ui/classic/theme.h:137
+#: src/ui/classic/theme.h:118 src/ui/classic/theme.h:138
 msgid "Background"
 msgstr "배경"
 
@@ -262,9 +262,13 @@ msgctxt "Key name"
 msgid "Bluetooth"
 msgstr "블루투스"
 
-#: src/ui/classic/theme.h:125
+#: src/ui/classic/theme.h:107
 msgid "Blur Margin"
 msgstr "블러 여백"
+
+#: src/ui/classic/theme.h:106
+msgid "Blur mask"
+msgstr ""
 
 #: src/lib/fcitx-utils/key.cpp:118
 msgctxt "Key name"
@@ -415,11 +419,11 @@ msgstr "오른쪽 중앙"
 msgid "Change Fcitx 5 Configuration"
 msgstr "Fcitx5 구성 변경"
 
-#: src/ui/classic/theme.h:142
+#: src/ui/classic/theme.h:143
 msgid "Check box"
 msgstr "체크 박스"
 
-#: src/im/keyboard/keyboard.h:58 src/modules/quickphrase/quickphrase.h:41
+#: src/im/keyboard/keyboard.h:56 src/modules/quickphrase/quickphrase.h:41
 msgid "Choose key modifier"
 msgstr "변환 키 선택"
 
@@ -512,7 +516,7 @@ msgstr "구성:"
 msgid "Configure"
 msgstr "구성하기"
 
-#: src/im/keyboard/keyboard.h:35 src/modules/quickphrase/quickphrase.h:29
+#: src/im/keyboard/keyboard.h:33 src/modules/quickphrase/quickphrase.h:29
 msgid "Control"
 msgstr "Control"
 
@@ -614,7 +618,7 @@ msgctxt "Key name"
 msgid "Delete"
 msgstr "삭제"
 
-#: src/ui/classic/theme.h:154
+#: src/ui/classic/theme.h:155
 msgid "Description"
 msgstr "설명"
 
@@ -684,15 +688,15 @@ msgstr "KWin에서 블러 활성화"
 msgid "Enable Spell check"
 msgstr "철자 검사 활성화"
 
-#: src/im/keyboard/keyboard.h:53
+#: src/im/keyboard/keyboard.h:51
 msgid "Enable emoji in hint"
 msgstr "힌트에 에모지 보이기"
 
-#: src/im/keyboard/keyboard.h:56
+#: src/im/keyboard/keyboard.h:54
 msgid "Enable emoji in quickphrase"
 msgstr "상용구에 에모지 활성화"
 
-#: src/im/keyboard/keyboard.h:61
+#: src/im/keyboard/keyboard.h:59
 msgid "Enable hint by default"
 msgstr "기본적으로 힌트 사용"
 
@@ -1057,15 +1061,15 @@ msgstr "숨은 알림"
 msgid "Hide overlay if size does not fit"
 msgstr "크기가 맞지 않으면 오버레이 숨기기"
 
-#: src/ui/classic/theme.h:118 src/ui/classic/theme.h:139
+#: src/ui/classic/theme.h:120 src/ui/classic/theme.h:140
 msgid "Highlight Background"
 msgstr "배경 강조표시"
 
-#: src/ui/classic/theme.h:113
+#: src/ui/classic/theme.h:115
 msgid "Highlight Background color"
 msgstr "배경 색상 강조표시"
 
-#: src/ui/classic/theme.h:102 src/ui/classic/theme.h:133
+#: src/ui/classic/theme.h:102 src/ui/classic/theme.h:134
 msgid "Highlight Candidate Color"
 msgstr "강조 후보 색상"
 
@@ -1073,7 +1077,7 @@ msgstr "강조 후보 색상"
 msgid "Highlight Click Margin"
 msgstr "클릭 여백 강조표시"
 
-#: src/ui/classic/theme.h:111
+#: src/ui/classic/theme.h:113
 msgid "Highlight text color"
 msgstr "텍스트 색상 강조표시"
 
@@ -1181,7 +1185,7 @@ msgstr "입력기와 관련된 환경변수: "
 msgid "Input Methods:"
 msgstr "입력기:"
 
-#: src/ui/classic/theme.h:160
+#: src/ui/classic/theme.h:161
 msgid "Input Panel"
 msgstr "입력 패널"
 
@@ -1411,7 +1415,7 @@ msgctxt "Key name"
 msgid "Logoff"
 msgstr "로그오프"
 
-#: src/im/keyboard/keyboard.h:91
+#: src/im/keyboard/keyboard.h:89
 msgid "Long Press behavior"
 msgstr "길게 누르기 동작"
 
@@ -1440,11 +1444,11 @@ msgstr "오른쪽 여백"
 msgid "Margin Top"
 msgstr "상단 여백"
 
-#: src/ui/classic/theme.h:120 src/ui/classic/theme.h:145
+#: src/ui/classic/theme.h:122 src/ui/classic/theme.h:146
 msgid "Margin around all content"
 msgstr "모든 콘텐츠 주변의 여백"
 
-#: src/ui/classic/theme.h:122 src/ui/classic/theme.h:147
+#: src/ui/classic/theme.h:124 src/ui/classic/theme.h:148
 msgid "Margin around text"
 msgstr "텍스트 주변 여백"
 
@@ -1503,7 +1507,7 @@ msgctxt "Key name"
 msgid "Meeting"
 msgstr "미팅"
 
-#: src/ui/classic/theme.h:161
+#: src/ui/classic/theme.h:162
 msgid "Menu"
 msgstr "메뉴"
 
@@ -1526,7 +1530,7 @@ msgctxt "Key name"
 msgid "Messenger"
 msgstr "메신저"
 
-#: src/ui/classic/theme.h:158
+#: src/ui/classic/theme.h:159
 msgid "Metadata"
 msgstr "메타데이터"
 
@@ -1565,7 +1569,7 @@ msgctxt "Key name"
 msgid "My Sites"
 msgstr "내 사이트"
 
-#: src/ui/classic/theme.h:150
+#: src/ui/classic/theme.h:151
 msgid "Name"
 msgstr "이름"
 
@@ -1579,11 +1583,11 @@ msgctxt "Key name"
 msgid "News"
 msgstr "뉴스"
 
-#: src/im/keyboard/keyboard.h:50
+#: src/im/keyboard/keyboard.h:48
 msgid "Next Candidate"
 msgstr "다음 후보"
 
-#: src/ui/classic/theme.h:124
+#: src/ui/classic/theme.h:126
 msgid "Next Page Button"
 msgstr "다음 페이지 버튼"
 
@@ -1595,11 +1599,11 @@ msgstr "아니오"
 msgid "No clipboard history."
 msgstr "클립보드 기록이 없습니다."
 
-#: src/im/keyboard/keyboard.h:34 src/modules/quickphrase/quickphrase.h:28
+#: src/im/keyboard/keyboard.h:32 src/modules/quickphrase/quickphrase.h:28
 msgid "None"
 msgstr "없음"
 
-#: src/ui/classic/theme.h:99 src/ui/classic/theme.h:130
+#: src/ui/classic/theme.h:99 src/ui/classic/theme.h:131
 msgid "Normal text color"
 msgstr "일반 텍스트 색상"
 
@@ -1679,7 +1683,7 @@ msgstr "DBus ${1}의 소유자는 ${2}입니다."
 msgid "PID of DBus name ${1} owner is ${2}."
 msgstr "DBus 이름 ${1} 소유자의 PID는 ${2}입니다."
 
-#: src/im/keyboard/keyboard.h:39
+#: src/im/keyboard/keyboard.h:37
 msgid "Page size"
 msgstr "페이지 크기"
 
@@ -1766,11 +1770,11 @@ msgstr "텍스트 아이콘 선호"
 msgid "Presage"
 msgstr "사전 설정"
 
-#: src/im/keyboard/keyboard.h:44
+#: src/im/keyboard/keyboard.h:42
 msgid "Prev Candidate"
 msgstr "이전 후보"
 
-#: src/ui/classic/theme.h:123
+#: src/ui/classic/theme.h:125
 msgid "Prev Page Button"
 msgstr "이전 페이지 버튼"
 
@@ -1931,11 +1935,11 @@ msgctxt "Key name"
 msgid "Send"
 msgstr "보내기"
 
-#: src/ui/classic/theme.h:141
+#: src/ui/classic/theme.h:142
 msgid "Separator Background"
 msgstr "구분자 배경"
 
-#: src/ui/classic/theme.h:127
+#: src/ui/classic/theme.h:128
 msgid "Shadow Margin"
 msgstr "그림자 여백"
 
@@ -1985,7 +1989,7 @@ msgstr ""
 msgid "Show preedit in application"
 msgstr "응용프로그램에서 사전편집 표시"
 
-#: src/im/keyboard/keyboard.h:79
+#: src/im/keyboard/keyboard.h:77
 msgid ""
 "Show preedit when composing, and commit dead key if there is no matching "
 "sequence."
@@ -2005,11 +2009,11 @@ msgctxt "Key name"
 msgid "Space"
 msgstr "공백"
 
-#: src/ui/classic/theme.h:135
+#: src/ui/classic/theme.h:136
 msgid "Spacing"
 msgstr "간격"
 
-#: src/im/keyboard/keyboard.h:81 src/modules/spell/spell.conf.in.in:3
+#: src/im/keyboard/keyboard.h:79 src/modules/spell/spell.conf.in.in:3
 msgid "Spell"
 msgstr "철자"
 
@@ -2046,7 +2050,7 @@ msgctxt "Key name"
 msgid "Stop"
 msgstr "중지"
 
-#: src/ui/classic/theme.h:143
+#: src/ui/classic/theme.h:144
 msgid "Sub Menu"
 msgstr "하위 메뉴"
 
@@ -2055,7 +2059,7 @@ msgctxt "Key name"
 msgid "Subtitle"
 msgstr "부제"
 
-#: src/im/keyboard/keyboard.h:35 src/modules/quickphrase/quickphrase.h:29
+#: src/im/keyboard/keyboard.h:33 src/modules/quickphrase/quickphrase.h:29
 msgid "Super"
 msgstr "Super"
 
@@ -2242,15 +2246,15 @@ msgstr "트리거 키"
 msgid "Trigger Key for only current input context"
 msgstr "현재 입력 컨텍스트에 대한 트리거 키"
 
-#: src/im/keyboard/keyboard.h:64
+#: src/im/keyboard/keyboard.h:62
 msgid "Trigger hint mode"
 msgstr "트리거 힌트 모드"
 
-#: src/im/keyboard/keyboard.h:69
+#: src/im/keyboard/keyboard.h:67
 msgid "Trigger hint mode for one time"
 msgstr "힌트 모드를 한 번만 트리거"
 
-#: src/im/keyboard/keyboard.h:84
+#: src/im/keyboard/keyboard.h:82
 msgid "Type special characters with long press"
 msgstr "길게 눌러 특수 문자 입력"
 
@@ -2288,7 +2292,7 @@ msgstr "스팟 스타일에서 사용(다시 시작 필요)"
 msgid "Use Per Screen DPI"
 msgstr "화면 해상도 사용하기"
 
-#: src/ui/classic/theme.h:108
+#: src/ui/classic/theme.h:110
 msgid "Use all horizontal space for highlight when it is vertical list"
 msgstr "세로 목록 일 때 강조 표시에 모든 가로 공간 사용"
 
@@ -2300,7 +2304,7 @@ msgstr "텍스트 표시할 때 입력기 언어 사용"
 msgid "Use mouse wheel to go to prev or next page"
 msgstr "마우스 휠을 사용하여 이전 또는 다음 페이지로 이동"
 
-#: src/im/keyboard/keyboard.h:75
+#: src/im/keyboard/keyboard.h:73
 msgid "Use new compose behavior"
 msgstr ""
 
@@ -2312,7 +2316,7 @@ msgstr "사용자 인터페이스:"
 msgid "Using ${1} to check dbus."
 msgstr "${1}을(를) 사용하여 dbus를 확인합니다."
 
-#: src/ui/classic/theme.h:151
+#: src/ui/classic/theme.h:152
 msgid "Version"
 msgstr "버전"
 

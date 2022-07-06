@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2022-07-03 15:41+0000\n"
+"POT-Creation-Date: 2022-07-06 20:24+0000\n"
 "PO-Revision-Date: 2017-11-23 04:14+0000\n"
 "Last-Translator: scootergrisen, 2021\n"
 "Language-Team: Danish (https://www.transifex.com/fcitx/teams/12005/da/)\n"
@@ -154,7 +154,7 @@ msgstr "Tillad tilsidesættelse af systemets XKB-indstillinger"
 msgid "Allow Overriding System XKB Settings (Only support KDE 5)"
 msgstr ""
 
-#: src/im/keyboard/keyboard.h:34 src/modules/quickphrase/quickphrase.h:29
+#: src/im/keyboard/keyboard.h:32 src/modules/quickphrase/quickphrase.h:29
 msgid "Alt"
 msgstr "Alt"
 
@@ -177,7 +177,7 @@ msgctxt "Key name"
 msgid "Application Right"
 msgstr "Program højre"
 
-#: src/im/keyboard/keyboard.h:89
+#: src/im/keyboard/keyboard.h:87
 msgid "Applications disabled for long press"
 msgstr "Programmer deaktiveret for langt tryk"
 
@@ -196,7 +196,7 @@ msgctxt "Key name"
 msgid "Audio Repeat"
 msgstr "Lyd gentag"
 
-#: src/ui/classic/theme.h:152
+#: src/ui/classic/theme.h:153
 msgid "Author"
 msgstr "Forfatter"
 
@@ -219,7 +219,7 @@ msgstr "Tilbage fremad"
 msgid "Backends"
 msgstr ""
 
-#: src/ui/classic/theme.h:116 src/ui/classic/theme.h:137
+#: src/ui/classic/theme.h:118 src/ui/classic/theme.h:138
 msgid "Background"
 msgstr "Baggrund"
 
@@ -259,9 +259,13 @@ msgctxt "Key name"
 msgid "Bluetooth"
 msgstr "Bluetooth"
 
-#: src/ui/classic/theme.h:125
+#: src/ui/classic/theme.h:107
 msgid "Blur Margin"
 msgstr "Sløringsmargen"
+
+#: src/ui/classic/theme.h:106
+msgid "Blur mask"
+msgstr ""
 
 #: src/lib/fcitx-utils/key.cpp:118
 msgctxt "Key name"
@@ -415,11 +419,11 @@ msgstr "I midten til højre"
 msgid "Change Fcitx 5 Configuration"
 msgstr "Skift Fcitx 5-konfiguration"
 
-#: src/ui/classic/theme.h:142
+#: src/ui/classic/theme.h:143
 msgid "Check box"
 msgstr "Afkrydsningsboks"
 
-#: src/im/keyboard/keyboard.h:58 src/modules/quickphrase/quickphrase.h:41
+#: src/im/keyboard/keyboard.h:56 src/modules/quickphrase/quickphrase.h:41
 msgid "Choose key modifier"
 msgstr "Vælg ændringstast"
 
@@ -512,7 +516,7 @@ msgstr "Konfiguration:"
 msgid "Configure"
 msgstr "Konfigurer"
 
-#: src/im/keyboard/keyboard.h:35 src/modules/quickphrase/quickphrase.h:29
+#: src/im/keyboard/keyboard.h:33 src/modules/quickphrase/quickphrase.h:29
 msgid "Control"
 msgstr "Styring"
 
@@ -614,7 +618,7 @@ msgctxt "Key name"
 msgid "Delete"
 msgstr "Slet"
 
-#: src/ui/classic/theme.h:154
+#: src/ui/classic/theme.h:155
 msgid "Description"
 msgstr "Beskrivelse"
 
@@ -684,15 +688,15 @@ msgstr "Aktivér sløring i KWin"
 msgid "Enable Spell check"
 msgstr "Aktivér stavekontrol"
 
-#: src/im/keyboard/keyboard.h:53
+#: src/im/keyboard/keyboard.h:51
 msgid "Enable emoji in hint"
 msgstr "Aktivér emoji i tip"
 
-#: src/im/keyboard/keyboard.h:56
+#: src/im/keyboard/keyboard.h:54
 msgid "Enable emoji in quickphrase"
 msgstr "Aktivér emoji i hurtigfrase"
 
-#: src/im/keyboard/keyboard.h:61
+#: src/im/keyboard/keyboard.h:59
 msgid "Enable hint by default"
 msgstr ""
 
@@ -1057,15 +1061,15 @@ msgstr "Skjulte underretninger"
 msgid "Hide overlay if size does not fit"
 msgstr "Skjul overlægningen hvis størrelsen ikke passer"
 
-#: src/ui/classic/theme.h:118 src/ui/classic/theme.h:139
+#: src/ui/classic/theme.h:120 src/ui/classic/theme.h:140
 msgid "Highlight Background"
 msgstr "Baggrund for fremhævning"
 
-#: src/ui/classic/theme.h:113
+#: src/ui/classic/theme.h:115
 msgid "Highlight Background color"
 msgstr "Baggrundsfarve for fremhævning"
 
-#: src/ui/classic/theme.h:102 src/ui/classic/theme.h:133
+#: src/ui/classic/theme.h:102 src/ui/classic/theme.h:134
 msgid "Highlight Candidate Color"
 msgstr "Kandidatfarve for fremhævning"
 
@@ -1073,7 +1077,7 @@ msgstr "Kandidatfarve for fremhævning"
 msgid "Highlight Click Margin"
 msgstr "Fremhæv klikmargen"
 
-#: src/ui/classic/theme.h:111
+#: src/ui/classic/theme.h:113
 msgid "Highlight text color"
 msgstr "Tekstfarve for fremhævning"
 
@@ -1184,7 +1188,7 @@ msgstr "Inputmetode med relation til miljøvariabler: "
 msgid "Input Methods:"
 msgstr ""
 
-#: src/ui/classic/theme.h:160
+#: src/ui/classic/theme.h:161
 msgid "Input Panel"
 msgstr "Inputpanel"
 
@@ -1412,7 +1416,7 @@ msgctxt "Key name"
 msgid "Logoff"
 msgstr "Log ud"
 
-#: src/im/keyboard/keyboard.h:91
+#: src/im/keyboard/keyboard.h:89
 msgid "Long Press behavior"
 msgstr "Opførsel for langt tryk"
 
@@ -1441,11 +1445,11 @@ msgstr "Margen til højre"
 msgid "Margin Top"
 msgstr "Margen øverst"
 
-#: src/ui/classic/theme.h:120 src/ui/classic/theme.h:145
+#: src/ui/classic/theme.h:122 src/ui/classic/theme.h:146
 msgid "Margin around all content"
 msgstr "Margen omkring al indholdet"
 
-#: src/ui/classic/theme.h:122 src/ui/classic/theme.h:147
+#: src/ui/classic/theme.h:124 src/ui/classic/theme.h:148
 msgid "Margin around text"
 msgstr "Margen omkring tekst"
 
@@ -1504,7 +1508,7 @@ msgctxt "Key name"
 msgid "Meeting"
 msgstr "Møde"
 
-#: src/ui/classic/theme.h:161
+#: src/ui/classic/theme.h:162
 msgid "Menu"
 msgstr "Menu"
 
@@ -1527,7 +1531,7 @@ msgctxt "Key name"
 msgid "Messenger"
 msgstr "Messenger"
 
-#: src/ui/classic/theme.h:158
+#: src/ui/classic/theme.h:159
 msgid "Metadata"
 msgstr "Metadata"
 
@@ -1566,7 +1570,7 @@ msgctxt "Key name"
 msgid "My Sites"
 msgstr "Mine steder"
 
-#: src/ui/classic/theme.h:150
+#: src/ui/classic/theme.h:151
 msgid "Name"
 msgstr "Navn"
 
@@ -1580,11 +1584,11 @@ msgctxt "Key name"
 msgid "News"
 msgstr "Nyheder"
 
-#: src/im/keyboard/keyboard.h:50
+#: src/im/keyboard/keyboard.h:48
 msgid "Next Candidate"
 msgstr "Næste kandidat"
 
-#: src/ui/classic/theme.h:124
+#: src/ui/classic/theme.h:126
 msgid "Next Page Button"
 msgstr "Knap for næste side"
 
@@ -1596,11 +1600,11 @@ msgstr ""
 msgid "No clipboard history."
 msgstr "Ingen udklipsholderhistorik."
 
-#: src/im/keyboard/keyboard.h:34 src/modules/quickphrase/quickphrase.h:28
+#: src/im/keyboard/keyboard.h:32 src/modules/quickphrase/quickphrase.h:28
 msgid "None"
 msgstr "Ingen"
 
-#: src/ui/classic/theme.h:99 src/ui/classic/theme.h:130
+#: src/ui/classic/theme.h:99 src/ui/classic/theme.h:131
 msgid "Normal text color"
 msgstr "Normal tekstfarve"
 
@@ -1680,7 +1684,7 @@ msgstr "Ejer af DBus-navnet ${1} er ${2}."
 msgid "PID of DBus name ${1} owner is ${2}."
 msgstr "PID af ejeren af DBus-navnet ${1} er ${2}."
 
-#: src/im/keyboard/keyboard.h:39
+#: src/im/keyboard/keyboard.h:37
 msgid "Page size"
 msgstr "Sidestørrelse"
 
@@ -1769,11 +1773,11 @@ msgstr ""
 msgid "Presage"
 msgstr "Varsel"
 
-#: src/im/keyboard/keyboard.h:44
+#: src/im/keyboard/keyboard.h:42
 msgid "Prev Candidate"
 msgstr "Forrige kandidat"
 
-#: src/ui/classic/theme.h:123
+#: src/ui/classic/theme.h:125
 msgid "Prev Page Button"
 msgstr "Knap for forrige side"
 
@@ -1934,11 +1938,11 @@ msgctxt "Key name"
 msgid "Send"
 msgstr "Send"
 
-#: src/ui/classic/theme.h:141
+#: src/ui/classic/theme.h:142
 msgid "Separator Background"
 msgstr "Baggrund for separator"
 
-#: src/ui/classic/theme.h:127
+#: src/ui/classic/theme.h:128
 msgid "Shadow Margin"
 msgstr ""
 
@@ -1986,7 +1990,7 @@ msgstr ""
 msgid "Show preedit in application"
 msgstr "Vis preedit i program"
 
-#: src/im/keyboard/keyboard.h:79
+#: src/im/keyboard/keyboard.h:77
 msgid ""
 "Show preedit when composing, and commit dead key if there is no matching "
 "sequence."
@@ -2006,11 +2010,11 @@ msgctxt "Key name"
 msgid "Space"
 msgstr "Mellemrum"
 
-#: src/ui/classic/theme.h:135
+#: src/ui/classic/theme.h:136
 msgid "Spacing"
 msgstr "Afstand"
 
-#: src/im/keyboard/keyboard.h:81 src/modules/spell/spell.conf.in.in:3
+#: src/im/keyboard/keyboard.h:79 src/modules/spell/spell.conf.in.in:3
 msgid "Spell"
 msgstr "Stav"
 
@@ -2047,7 +2051,7 @@ msgctxt "Key name"
 msgid "Stop"
 msgstr "Stop"
 
-#: src/ui/classic/theme.h:143
+#: src/ui/classic/theme.h:144
 msgid "Sub Menu"
 msgstr "Undermenu"
 
@@ -2056,7 +2060,7 @@ msgctxt "Key name"
 msgid "Subtitle"
 msgstr "Undertekst"
 
-#: src/im/keyboard/keyboard.h:35 src/modules/quickphrase/quickphrase.h:29
+#: src/im/keyboard/keyboard.h:33 src/modules/quickphrase/quickphrase.h:29
 msgid "Super"
 msgstr "Super"
 
@@ -2241,15 +2245,15 @@ msgstr "Tast til at udløse"
 msgid "Trigger Key for only current input context"
 msgstr "Udløsertast kun til nuværende inputkontekst"
 
-#: src/im/keyboard/keyboard.h:64
+#: src/im/keyboard/keyboard.h:62
 msgid "Trigger hint mode"
 msgstr "Udløs tipstilstand"
 
-#: src/im/keyboard/keyboard.h:69
+#: src/im/keyboard/keyboard.h:67
 msgid "Trigger hint mode for one time"
 msgstr ""
 
-#: src/im/keyboard/keyboard.h:84
+#: src/im/keyboard/keyboard.h:82
 msgid "Type special characters with long press"
 msgstr "Skriv specialtegn med langt tryk"
 
@@ -2287,7 +2291,7 @@ msgstr "Brug her-og-nu-stil (kræver genstart)"
 msgid "Use Per Screen DPI"
 msgstr "Brug pr. skærm DPI"
 
-#: src/ui/classic/theme.h:108
+#: src/ui/classic/theme.h:110
 msgid "Use all horizontal space for highlight when it is vertical list"
 msgstr "Brug al vandret plads til fremhævning når det er en lodret liste"
 
@@ -2299,7 +2303,7 @@ msgstr ""
 msgid "Use mouse wheel to go to prev or next page"
 msgstr "Brug musehjulet for at gå til forrige eller næste side"
 
-#: src/im/keyboard/keyboard.h:75
+#: src/im/keyboard/keyboard.h:73
 msgid "Use new compose behavior"
 msgstr ""
 
@@ -2311,7 +2315,7 @@ msgstr "Brugerflade:"
 msgid "Using ${1} to check dbus."
 msgstr "Bruger ${1} til at tjekke dbus."
 
-#: src/ui/classic/theme.h:151
+#: src/ui/classic/theme.h:152
 msgid "Version"
 msgstr "Version"
 
