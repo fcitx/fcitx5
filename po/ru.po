@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2022-07-06 20:24+0000\n"
+"POT-Creation-Date: 2022-07-07 20:24+0000\n"
 "PO-Revision-Date: 2017-11-23 04:14+0000\n"
 "Last-Translator: Dmitry <dmitrydmitry761@gmail.com>, 2022\n"
 "Language-Team: Russian (https://www.transifex.com/fcitx/teams/12005/ru/)\n"
@@ -270,7 +270,7 @@ msgstr "Размытый Край"
 
 #: src/ui/classic/theme.h:106
 msgid "Blur mask"
-msgstr ""
+msgstr "Размытая маска"
 
 #: src/lib/fcitx-utils/key.cpp:118
 msgctxt "Key name"
