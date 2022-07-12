@@ -24,7 +24,7 @@ class MatchRulePrivate;
 class Message;
 
 /**
- * A dbus matching rull to be used with add match.
+ * A dbus matching rule to be used with add match.
  *
  * Usually it is used to monitor certain signals on the bus.
  *
