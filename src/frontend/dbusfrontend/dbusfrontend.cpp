@@ -397,10 +397,10 @@ private:
                                "a(si)i");
     FCITX_OBJECT_VTABLE_SIGNAL(deleteSurroundingTextDBus,
                                "DeleteSurroundingText", "iu");
-    // This is contains:
+    // This contains:
     // - a(si)i preedit
     // - a(si) aux up
-    // - a(si) aux aux
+    // - a(si) aux down
     // - a(ss) candidate label + text
     // - i candidate index
     // - i candidate layout
