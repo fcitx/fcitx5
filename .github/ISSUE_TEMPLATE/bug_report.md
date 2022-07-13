@@ -10,8 +10,10 @@ assignees: ''
 **Describe the bug**
 If the problem is about you can not use fcitx in certain application, or the input window is placed in wrong place, be sure to include which application is being typed, and the output of fcitx5-diagnose command.
 
-Specifically, it is Ok to write the issue in Chinese (either Simplified or Traditional).
+Specifically, it is Ok to write the issue in Chinese (either Simplified or Traditional), because lots of developers understand Chinese.
 可以用中文(简体或繁体)汇报问题。
+
+The opened issue might be closed right away if it is considered a configuration issue (E.g. required packages not installed, wrong environment variables, misconfiguration like not adding wrong input method engine to the configuration, etc), but you may continue to use the issue comment to follow up for support.
 
 **To Reproduce**
 Steps to reproduce the behavior:
