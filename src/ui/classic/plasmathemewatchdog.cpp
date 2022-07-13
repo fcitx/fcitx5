@@ -51,7 +51,7 @@ fcitx::classicui::PlasmaThemeWatchdog::PlasmaThemeWatchdog(
         ioEvent_ = event->addIOEvent(
             monitorFD_.fd(),
             {IOEventFlag::In, IOEventFlag::Err, IOEventFlag::Hup},
-            [this](EventSourceIO *, int fd, IOEventFlags flags) {
+            [this, event](EventSourceIO *, int fd, IOEventFlags flags) {
                 if ((flags & IOEventFlag::Err) || (flags & IOEventFlag::Hup)) {
                     cleanup();
                     return true;
@@ -60,7 +60,12 @@ fcitx::classicui::PlasmaThemeWatchdog::PlasmaThemeWatchdog(
                     uint8_t dummy;
                     while (fs::safeRead(fd, &dummy, sizeof(dummy)) > 0) {
                     }
-                    callback_();
+                    timerEvent_ = event->addTimeEvent(
+                        CLOCK_MONOTONIC, now(CLOCK_MONOTONIC) + 1000000, 0,
+                        [this](EventSourceTime *, uint64_t) {
+                            callback_();
+                            return true;
+                        });
                 }
                 return true;
             });

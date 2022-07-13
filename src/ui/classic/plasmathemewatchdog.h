@@ -26,6 +26,7 @@ private:
     std::function<void()> callback_;
     UnixFD monitorFD_;
     std::unique_ptr<EventSourceIO> ioEvent_;
+    std::unique_ptr<EventSourceTime> timerEvent_;
     pid_t generator_ = 0;
 };
 
