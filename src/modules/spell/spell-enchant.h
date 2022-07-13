@@ -20,9 +20,9 @@ public:
 
     bool checkDict(const std::string &language) override;
     void addWord(const std::string &language, const std::string &word) override;
-    std::vector<std::string> hint(const std::string &language,
-                                  const std::string &word,
-                                  size_t limit) override;
+    std::vector<std::pair<std::string, std::string>>
+    hint(const std::string &language, const std::string &word,
+         size_t limit) override;
 
 private:
     bool loadDict(const std::string &language);

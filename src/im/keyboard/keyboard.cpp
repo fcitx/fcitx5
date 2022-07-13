@@ -45,53 +45,6 @@ const char imNamePrefix[] = "keyboard-";
 namespace fcitx {
 
 namespace {
-enum class SpellType { AllLower, Mixed, FirstUpper, AllUpper };
-
-SpellType guessSpellType(const std::string &input) {
-    if (input.size() <= 1) {
-        if (charutils::isupper(input[0])) {
-            return SpellType::FirstUpper;
-        }
-        return SpellType::AllLower;
-    }
-
-    if (std::all_of(input.begin(), input.end(),
-                    [](char c) { return charutils::isupper(c); })) {
-        return SpellType::AllUpper;
-    }
-
-    if (std::all_of(input.begin() + 1, input.end(),
-                    [](char c) { return charutils::islower(c); })) {
-        if (charutils::isupper(input[0])) {
-            return SpellType::FirstUpper;
-        }
-        return SpellType::AllLower;
-    }
-
-    return SpellType::Mixed;
-}
-
-std::string formatWord(const std::string &input, SpellType type) {
-    if (type == SpellType::Mixed || type == SpellType::AllLower) {
-        return input;
-    }
-    if (guessSpellType(input) != SpellType::AllLower) {
-        return input;
-    }
-    std::string result;
-    if (type == SpellType::AllUpper) {
-        result.reserve(input.size());
-        std::transform(input.begin(), input.end(), std::back_inserter(result),
-                       charutils::toupper);
-    } else {
-        // FirstUpper
-        result = input;
-        if (!result.empty()) {
-            result[0] = charutils::toupper(result[0]);
-        }
-    }
-    return result;
-}
 
 std::string findBestLanguage(const IsoCodes &isocodes, const std::string &hint,
                              const std::vector<std::string> &languages) {
@@ -155,20 +108,23 @@ std::string findBestLanguage(const IsoCodes &isocodes, const std::string &hint,
 
 class KeyboardCandidateWord : public CandidateWord {
 public:
-    KeyboardCandidateWord(KeyboardEngine *engine, Text text)
-        : CandidateWord(std::move(text)), engine_(engine) {}
+    KeyboardCandidateWord(KeyboardEngine *engine, Text text, std::string commit)
+        : CandidateWord(std::move(text)), engine_(engine),
+          commit_(std::move(commit)) {}
 
     void select(InputContext *inputContext) const override {
-        auto commit = text().toString();
         inputContext->inputPanel().reset();
         inputContext->updatePreedit();
         inputContext->updateUserInterface(UserInterfaceComponent::InputPanel);
-        inputContext->commitString(commit);
+        inputContext->commitString(commit_);
         engine_->resetState(inputContext);
     }
 
+    const std::string &stringForCommit() const { return commit_; }
+
 private:
     KeyboardEngine *engine_;
+    std::string commit_;
 };
 
 class LongPressCandidateWord : public CandidateWord {
@@ -515,11 +471,11 @@ void KeyboardEngineState::setPreedit() {
 
 void KeyboardEngineState::updateCandidate(const InputMethodEntry &entry) {
     inputContext_->inputPanel().reset();
-    std::vector<std::string> results;
+    std::vector<std::pair<std::string, std::string>> results;
     if (auto spell = engine_->spell()) {
-        results =
-            spell->call<ISpell::hint>(entry.languageCode(), buffer_.userInput(),
-                                      engine_->config().pageSize.value());
+        results = spell->call<ISpell::hintForDisplay>(
+            entry.languageCode(), SpellProvider::Default, buffer_.userInput(),
+            engine_->config().pageSize.value());
     }
     if (engine_->config().enableEmoji.value() && engine_->emoji()) {
         auto emojiResults = engine_->emoji()->call<IEmoji::query>(
@@ -535,16 +491,15 @@ void KeyboardEngineState::updateCandidate(const InputMethodEntry &entry) {
         while (i < emojiResults.size() &&
                static_cast<int>(results.size()) <
                    engine_->config().pageSize.value()) {
-            results.push_back(emojiResults[i]);
+            results.emplace_back(emojiResults[i], emojiResults[i]);
             i++;
         }
     }
 
     auto candidateList = std::make_unique<CommonCandidateList>();
-    auto spellType = guessSpellType(buffer_.userInput());
     for (const auto &result : results) {
         candidateList->append<KeyboardCandidateWord>(
-            engine_, Text(formatWord(result, spellType)));
+            engine_, Text(result.first), result.second);
     }
     candidateList->setPageSize(*engine_->config().pageSize);
     candidateList->setSelectionKey(engine_->selectionKeys());
@@ -825,7 +780,7 @@ std::string KeyboardEngineState::currentSelection() const {
                     dynamic_cast<const KeyboardCandidateWord *>(
                         &candidateList->candidate(
                             candidateList->cursorIndex()))) {
-                return candidate->text().toString();
+                return candidate->stringForCommit();
             }
         }
         return buffer_.userInput();

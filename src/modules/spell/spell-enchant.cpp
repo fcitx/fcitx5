@@ -16,6 +16,56 @@
 #include "fcitx/misc_p.h"
 
 namespace fcitx {
+namespace {
+enum class SpellType { AllLower, Mixed, FirstUpper, AllUpper };
+
+SpellType guessSpellType(const std::string &input) {
+    if (input.size() <= 1) {
+        if (charutils::isupper(input[0])) {
+            return SpellType::FirstUpper;
+        }
+        return SpellType::AllLower;
+    }
+
+    if (std::all_of(input.begin(), input.end(),
+                    [](char c) { return charutils::isupper(c); })) {
+        return SpellType::AllUpper;
+    }
+
+    if (std::all_of(input.begin() + 1, input.end(),
+                    [](char c) { return charutils::islower(c); })) {
+        if (charutils::isupper(input[0])) {
+            return SpellType::FirstUpper;
+        }
+        return SpellType::AllLower;
+    }
+
+    return SpellType::Mixed;
+}
+
+std::string formatWord(const std::string &input, SpellType type) {
+    if (type == SpellType::Mixed || type == SpellType::AllLower) {
+        return input;
+    }
+    if (guessSpellType(input) != SpellType::AllLower) {
+        return input;
+    }
+    std::string result;
+    if (type == SpellType::AllUpper) {
+        result.reserve(input.size());
+        std::transform(input.begin(), input.end(), std::back_inserter(result),
+                       charutils::toupper);
+    } else {
+        // FirstUpper
+        result = input;
+        if (!result.empty()) {
+            result[0] = charutils::toupper(result[0]);
+        }
+    }
+    return result;
+}
+
+} // namespace
 
 template <typename Callback>
 auto foreachLanguage(const std::string &lang, const std::string &systemLanguage,
@@ -66,9 +116,9 @@ SpellEnchant::SpellEnchant(Spell *spell)
 
 SpellEnchant::~SpellEnchant() {}
 
-std::vector<std::string> SpellEnchant::hint(const std::string &language,
-                                            const std::string &word,
-                                            size_t limit) {
+std::vector<std::pair<std::string, std::string>>
+SpellEnchant::hint(const std::string &language, const std::string &word,
+                   size_t limit) {
     if (word.empty() || !loadDict(language)) {
         return {};
     }
@@ -80,11 +130,14 @@ std::vector<std::string> SpellEnchant::hint(const std::string &language,
         return {};
     }
 
-    std::vector<std::string> result;
+    std::vector<std::pair<std::string, std::string>> result;
     number = number > limit ? limit : number;
     result.reserve(number);
+    auto spellType = guessSpellType(word);
     for (size_t i = 0; i < number; i++) {
-        result.push_back(suggestions[i]);
+        std::string hintWord = suggestions[i];
+        hintWord = formatWord(hintWord, spellType);
+        result.emplace_back(hintWord, hintWord);
     }
 
     enchant_dict_free_string_list(dict_.get(), suggestions);

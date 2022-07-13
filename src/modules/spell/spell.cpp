@@ -45,6 +45,10 @@ Spell::BackendMap::iterator Spell::findBackend(const std::string &language) {
 
 Spell::BackendMap::iterator Spell::findBackend(const std::string &language,
                                                SpellProvider provider) {
+    if (provider == SpellProvider::Default) {
+        return findBackend(language);
+    }
+
     auto iter = backends_.find(provider);
     if (iter != backends_.end() && iter->second->checkDict(language)) {
         return iter;
@@ -66,6 +70,16 @@ void Spell::addWord(const std::string &language, const std::string &word) {
     iter->second->addWord(language, word);
 }
 
+std::vector<std::string>
+takeSecond(std::vector<std::pair<std::string, std::string>> raw) {
+    std::vector<std::string> result;
+    result.reserve(raw.size());
+    for (auto &item : raw) {
+        result.emplace_back(std::move(item.second));
+    }
+    return result;
+}
+
 std::vector<std::string> Spell::hint(const std::string &language,
                                      const std::string &word, size_t limit) {
     auto iter = findBackend(language);
@@ -73,13 +87,24 @@ std::vector<std::string> Spell::hint(const std::string &language,
         return {};
     }
 
-    return iter->second->hint(language, word, limit);
+    return takeSecond(iter->second->hint(language, word, limit));
 }
 
 std::vector<std::string> Spell::hintWithProvider(const std::string &language,
                                                  SpellProvider provider,
                                                  const std::string &word,
                                                  size_t limit) {
+    auto iter = findBackend(language, provider);
+    if (iter == backends_.end()) {
+        return {};
+    }
+
+    return takeSecond(iter->second->hint(language, word, limit));
+}
+
+std::vector<std::pair<std::string, std::string>>
+Spell::hintForDisplay(const std::string &language, SpellProvider provider,
+                      const std::string &word, size_t limit) {
     auto iter = findBackend(language, provider);
     if (iter == backends_.end()) {
         return {};

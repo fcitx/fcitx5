@@ -416,8 +416,8 @@ int SpellCustomDict::getDistance(const char *word, int utf8Len,
     return -1;
 }
 
-std::vector<std::string> SpellCustomDict::hint(const std::string &str,
-                                               size_t limit) {
+std::vector<std::pair<std::string, std::string>>
+SpellCustomDict::hint(const std::string &str, size_t limit) {
     const char *word = str.c_str();
     const char *real_word = word;
     std::vector<std::string> result;
@@ -431,6 +431,9 @@ std::vector<std::string> SpellCustomDict::hint(const std::string &str,
     if (!real_word[0]) {
         return {};
     }
+
+    std::string_view prefix(word);
+    prefix = prefix.substr(0, real_word - word);
     auto word_type = wordCheck(real_word);
     int word_len = fcitx_utf8_strlen(real_word);
     auto compare = [](const std::pair<const char *, int> &lhs,
@@ -455,9 +458,15 @@ std::vector<std::string> SpellCustomDict::hint(const std::string &str,
 
     result.reserve(tops.size());
     for (auto &top : tops) {
-        result.emplace_back(top.first);
+        result.emplace_back(std::move(top.first));
     }
     hintComplete(result, word_type);
-    return result;
+
+    std::vector<std::pair<std::string, std::string>> finalResult;
+    finalResult.reserve(result.size());
+    for (const auto &item : result) {
+        finalResult.emplace_back(item, stringutils::concat(prefix, item));
+    }
+    return finalResult;
 }
 } // namespace fcitx

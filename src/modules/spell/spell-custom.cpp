@@ -38,9 +38,9 @@ bool fcitx::SpellCustom::loadDict(const std::string &language) {
     return false;
 }
 
-std::vector<std::string> fcitx::SpellCustom::hint(const std::string &language,
-                                                  const std::string &str,
-                                                  size_t limit) {
+std::vector<std::pair<std::string, std::string>>
+fcitx::SpellCustom::hint(const std::string &language, const std::string &str,
+                         size_t limit) {
     if (!loadDict(language)) {
         return {};
     }
