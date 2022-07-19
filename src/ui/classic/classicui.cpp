@@ -278,10 +278,12 @@ void ClassicUI::update(UserInterfaceComponent component,
         // unfortunately, hopefully main display is X wayland.
         // The position will be wrong anyway.
 #ifdef ENABLE_X11
-        auto mainX11Display = xcb()->call<IXCBModule::mainDisplay>();
-        if (!mainX11Display.empty()) {
-            if (auto *uiPtr = findValue(uis_, "x11:" + mainX11Display)) {
-                ui = uiPtr->get();
+        if (auto *xcbAddon = xcb()) {
+            auto mainX11Display = xcbAddon->call<IXCBModule::mainDisplay>();
+            if (!mainX11Display.empty()) {
+                if (auto *uiPtr = findValue(uis_, "x11:" + mainX11Display)) {
+                    ui = uiPtr->get();
+                }
             }
         }
 #endif
