@@ -61,6 +61,9 @@ public:
     void wheel(bool up);
 
 protected:
+    // Override the font DPI in cairo/pango context. If less-equal than zero, it
+    // will restore to font map default dpi.
+    void setFontDPI(int dpi);
     void resizeCandidates(size_t n);
     void appendText(std::string &s, PangoAttrList *attrList,
                     PangoAttrList *highlightAttrList, const Text &text);
