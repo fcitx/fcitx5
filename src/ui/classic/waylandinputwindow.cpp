@@ -80,8 +80,9 @@ void WaylandInputWindow::initPanel() {
     if (!window_->surface()) {
         window_->createWindow();
         updateBlur();
-        return;
     }
+
+    setFontDPI(*parent_->config().forceWaylandDPI);
 }
 
 void WaylandInputWindow::setBlurManager(
