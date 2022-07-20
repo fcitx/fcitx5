@@ -14,7 +14,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2022-07-06 20:24+0000\n"
+"POT-Creation-Date: 2022-07-20 20:24+0000\n"
 "PO-Revision-Date: 2017-11-23 04:14+0000\n"
 "Last-Translator: 菘菘 <rrt467778@gmail.com>, 2022\n"
 "Language-Team: Chinese (Taiwan) (https://www.transifex.com/fcitx/teams/12005/"
@@ -467,19 +467,19 @@ msgctxt "Key name"
 msgid "Community"
 msgstr "社群"
 
-#: src/im/keyboard/keyboard.cpp:686
+#: src/im/keyboard/keyboard.cpp:641
 msgid "Completion"
 msgstr "補全"
 
-#: src/im/keyboard/keyboard.cpp:677
+#: src/im/keyboard/keyboard.cpp:632
 msgid "Completion is disabled."
 msgstr "補全已停用。"
 
-#: src/im/keyboard/keyboard.cpp:680
+#: src/im/keyboard/keyboard.cpp:635
 msgid "Completion is enabled temporarily."
 msgstr "補全暫時啟用。"
 
-#: src/im/keyboard/keyboard.cpp:682
+#: src/im/keyboard/keyboard.cpp:637
 msgid "Completion is enabled."
 msgstr "已啟用補全。"
 
@@ -854,6 +854,10 @@ msgstr ""
 "例如，使用拼音時顯示中文異體字，使用 Anthy 時顯示日文異體字。 字體配置需要支"
 "持此功能才能使用此功能。"
 
+#: src/ui/classic/classicui.h:140
+msgid "Force font DPI on Wayland"
+msgstr ""
+
 #: src/lib/fcitx-utils/key.cpp:59
 msgctxt "Key name"
 msgid "Forward"
@@ -1164,7 +1168,7 @@ msgstr ""
 msgid "Image"
 msgstr "圖片"
 
-#: src/im/keyboard/keyboard.cpp:685 src/lib/fcitx/instance.cpp:420
+#: src/im/keyboard/keyboard.cpp:640 src/lib/fcitx/instance.cpp:420
 #: src/lib/fcitx/instance.cpp:638 src/lib/fcitx/instance.cpp:804
 #: src/modules/notificationitem/notificationitem.cpp:115
 #: src/modules/xcb/xcbconnection.cpp:406 data/org.fcitx.Fcitx5.desktop.in.in:4
@@ -1241,15 +1245,15 @@ msgstr "片假名"
 msgid "Key"
 msgstr "按鍵"
 
-#: src/im/keyboard/keyboard.cpp:332 src/im/keyboard/keyboard.conf.in.in:3
+#: src/im/keyboard/keyboard.cpp:288 src/im/keyboard/keyboard.conf.in.in:3
 msgid "Keyboard"
 msgstr "鍵盤"
 
-#: src/im/keyboard/keyboard.cpp:258
+#: src/im/keyboard/keyboard.cpp:214
 msgid "Keyboard - {0}"
 msgstr "鍵盤 - {0}"
 
-#: src/im/keyboard/keyboard.cpp:277
+#: src/im/keyboard/keyboard.cpp:233
 msgid "Keyboard - {0} - {1}"
 msgstr "鍵盤 - {0} - {1}"
 
@@ -1627,7 +1631,7 @@ msgstr "數字鎖定 (NumLock)"
 msgid "Number of entries"
 msgstr "項目數"
 
-#: src/im/keyboard/keyboard.cpp:671
+#: src/im/keyboard/keyboard.cpp:626
 msgid ""
 "Only emoji support is found. To enable spell checking, you may need to "
 "install spell check data for the language."
@@ -1671,6 +1675,15 @@ msgstr "覆蓋圖片位置"
 #: src/lib/fcitx/globalconfig.cpp:165
 msgid "Override Xkb Option"
 msgstr "覆蓋 Xkb 選項"
+
+#: src/ui/classic/classicui.h:144
+msgid ""
+"Override the font DPI on Wayland. Normally Wayland use just use 96 as font "
+"DPI in combinition with the screen scale factor. This option allows you to "
+"override the font DPI value. It may be used in conjunction with other text "
+"scale options for other application to achieve desired font size globally on "
+"Wayland. If the value is 0, it means this option is disabled."
+msgstr ""
 
 #: data/fcitx5-diagnose.sh:974
 msgid "Owner of DBus name ${1} is ${2}."
@@ -2545,7 +2558,7 @@ msgstr "sudo 的環境變數"
 msgid "version:"
 msgstr "版本："
 
-#: src/im/keyboard/keyboard.cpp:309
+#: src/im/keyboard/keyboard.cpp:265
 msgid "{0} (Not Available)"
 msgstr "{0} (無法使用)"
 

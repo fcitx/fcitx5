@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2022-07-07 20:24+0000\n"
+"POT-Creation-Date: 2022-07-20 20:24+0000\n"
 "PO-Revision-Date: 2017-11-23 04:14+0000\n"
 "Last-Translator: Dmitry <dmitrydmitry761@gmail.com>, 2022\n"
 "Language-Team: Russian (https://www.transifex.com/fcitx/teams/12005/ru/)\n"
@@ -472,19 +472,19 @@ msgctxt "Key name"
 msgid "Community"
 msgstr "Сообщество"
 
-#: src/im/keyboard/keyboard.cpp:686
+#: src/im/keyboard/keyboard.cpp:641
 msgid "Completion"
 msgstr "Завершение"
 
-#: src/im/keyboard/keyboard.cpp:677
+#: src/im/keyboard/keyboard.cpp:632
 msgid "Completion is disabled."
 msgstr "Завершение отключено."
 
-#: src/im/keyboard/keyboard.cpp:680
+#: src/im/keyboard/keyboard.cpp:635
 msgid "Completion is enabled temporarily."
 msgstr "Завершение временно включено."
 
-#: src/im/keyboard/keyboard.cpp:682
+#: src/im/keyboard/keyboard.cpp:637
 msgid "Completion is enabled."
 msgstr "Завершение включено."
 
@@ -863,6 +863,10 @@ msgstr ""
 "и японским вариантом при использовании Anthy. Конфигурация шрифта должна "
 "поддерживать это, чтобы использовать эту функцию."
 
+#: src/ui/classic/classicui.h:140
+msgid "Force font DPI on Wayland"
+msgstr ""
+
 #: src/lib/fcitx-utils/key.cpp:59
 msgctxt "Key name"
 msgid "Forward"
@@ -1178,7 +1182,7 @@ msgstr ""
 msgid "Image"
 msgstr "Изображение"
 
-#: src/im/keyboard/keyboard.cpp:685 src/lib/fcitx/instance.cpp:420
+#: src/im/keyboard/keyboard.cpp:640 src/lib/fcitx/instance.cpp:420
 #: src/lib/fcitx/instance.cpp:638 src/lib/fcitx/instance.cpp:804
 #: src/modules/notificationitem/notificationitem.cpp:115
 #: src/modules/xcb/xcbconnection.cpp:406 data/org.fcitx.Fcitx5.desktop.in.in:4
@@ -1256,15 +1260,15 @@ msgstr "Катакана"
 msgid "Key"
 msgstr "Клавиша"
 
-#: src/im/keyboard/keyboard.cpp:332 src/im/keyboard/keyboard.conf.in.in:3
+#: src/im/keyboard/keyboard.cpp:288 src/im/keyboard/keyboard.conf.in.in:3
 msgid "Keyboard"
 msgstr "Клавиатура"
 
-#: src/im/keyboard/keyboard.cpp:258
+#: src/im/keyboard/keyboard.cpp:214
 msgid "Keyboard - {0}"
 msgstr "Клавиатура - {0}"
 
-#: src/im/keyboard/keyboard.cpp:277
+#: src/im/keyboard/keyboard.cpp:233
 msgid "Keyboard - {0} - {1}"
 msgstr "Клавиатура - {0} - {1}"
 
@@ -1642,7 +1646,7 @@ msgstr "NumLock"
 msgid "Number of entries"
 msgstr "Количество входов"
 
-#: src/im/keyboard/keyboard.cpp:671
+#: src/im/keyboard/keyboard.cpp:626
 msgid ""
 "Only emoji support is found. To enable spell checking, you may need to "
 "install spell check data for the language."
@@ -1688,6 +1692,15 @@ msgstr "Позиция наложения"
 #: src/lib/fcitx/globalconfig.cpp:165
 msgid "Override Xkb Option"
 msgstr "Переопределить параметр Xkb"
+
+#: src/ui/classic/classicui.h:144
+msgid ""
+"Override the font DPI on Wayland. Normally Wayland use just use 96 as font "
+"DPI in combinition with the screen scale factor. This option allows you to "
+"override the font DPI value. It may be used in conjunction with other text "
+"scale options for other application to achieve desired font size globally on "
+"Wayland. If the value is 0, it means this option is disabled."
+msgstr ""
 
 #: data/fcitx5-diagnose.sh:974
 msgid "Owner of DBus name ${1} is ${2}."
@@ -2599,7 +2612,7 @@ msgstr "Переменные среды sudo"
 msgid "version:"
 msgstr "Версия:"
 
-#: src/im/keyboard/keyboard.cpp:309
+#: src/im/keyboard/keyboard.cpp:265
 msgid "{0} (Not Available)"
 msgstr "{0} (Недоступно)"
 
