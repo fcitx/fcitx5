@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2022-07-20 20:24+0000\n"
+"POT-Creation-Date: 2022-07-21 01:57+0000\n"
 "PO-Revision-Date: 2017-11-23 04:14+0000\n"
 "Last-Translator: Dmitry <dmitrydmitry761@gmail.com>, 2022\n"
 "Language-Team: Russian (https://www.transifex.com/fcitx/teams/12005/ru/)\n"
@@ -1625,6 +1625,13 @@ msgstr "Нет"
 msgid "Normal text color"
 msgstr "Обычный цвет текста"
 
+#: src/ui/classic/classicui.h:144
+msgid ""
+"Normally Wayland uses 96 as font DPI in combinition with the screen scale "
+"factor. This option allows you to override the font DPI. If the value is 0, "
+"it means this option is disabled."
+msgstr ""
+
 #: src/ui/kimpanel/kimpanel.cpp:367
 msgid "Not available"
 msgstr "Недоступно"
@@ -1692,15 +1699,6 @@ msgstr "Позиция наложения"
 #: src/lib/fcitx/globalconfig.cpp:165
 msgid "Override Xkb Option"
 msgstr "Переопределить параметр Xkb"
-
-#: src/ui/classic/classicui.h:144
-msgid ""
-"Override the font DPI on Wayland. Normally Wayland use just use 96 as font "
-"DPI in combinition with the screen scale factor. This option allows you to "
-"override the font DPI value. It may be used in conjunction with other text "
-"scale options for other application to achieve desired font size globally on "
-"Wayland. If the value is 0, it means this option is disabled."
-msgstr ""
 
 #: data/fcitx5-diagnose.sh:974
 msgid "Owner of DBus name ${1} is ${2}."
