@@ -141,12 +141,9 @@ FCITX_CONFIGURATION(
             0,
             IntConstrain(0),
             {},
-            {_("Override the font DPI on Wayland. Normally Wayland use just "
-               "use 96 as font DPI in combinition with the screen scale "
-               "factor. This option allows you to override the font DPI value. "
-               "It may be used in conjunction with other text scale options "
-               "for other application to achieve desired font size globally "
-               "on Wayland. If the value is 0, it means this option is "
+            {_("Normally Wayland uses 96 as font DPI in combinition with the "
+               "screen scale factor. This option allows you to override the "
+               "font DPI. If the value is 0, it means this option is "
                "disabled.")}};);
 
 class ClassicUI final : public UserInterface {
