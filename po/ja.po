@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2022-07-21 01:57+0000\n"
+"POT-Creation-Date: 2022-07-24 20:25+0000\n"
 "PO-Revision-Date: 2017-11-23 04:14+0000\n"
 "Last-Translator: UTUMI Hirosi <utuhiro78@yahoo.co.jp>, 2022\n"
 "Language-Team: Japanese (https://www.transifex.com/fcitx/teams/12005/ja/)\n"
@@ -857,7 +857,7 @@ msgstr ""
 
 #: src/ui/classic/classicui.h:140
 msgid "Force font DPI on Wayland"
-msgstr ""
+msgstr "フォント DPI を Wayland で強制する"
 
 #: src/lib/fcitx-utils/key.cpp:59
 msgctxt "Key name"
@@ -1619,6 +1619,9 @@ msgid ""
 "factor. This option allows you to override the font DPI. If the value is 0, "
 "it means this option is disabled."
 msgstr ""
+"通常、Wayland は画面スケール係数との組み合わせで、フォント DPI を 96 にしま"
+"す。このオプションを使用すると、フォント DPI を上書きできます。値が 0 の場"
+"合、このオプションは無効になります。"
 
 #: src/ui/kimpanel/kimpanel.cpp:367
 msgid "Not available"
