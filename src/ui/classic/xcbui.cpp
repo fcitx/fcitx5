@@ -423,7 +423,7 @@ void XCBUI::initScreen() {
                 auto y = info->y_org;
                 auto w = info->width;
                 auto h = info->height;
-                rects_.emplace_back(Rect(x, y, x + w - 1, y + h - 1), -1);
+                rects_.emplace_back(Rect().setPosition(x, y).setSize(w, h), -1);
             }
         }
     }
