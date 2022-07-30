@@ -404,6 +404,11 @@ void KeyboardEngine::keyEvent(const InputMethodEntry &entry, KeyEvent &event) {
         return;
     }
 
+    if (event.key().states().testAny(
+            KeyStates{KeyState::Ctrl, KeyState::Super})) {
+        return;
+    }
+
     auto [compose, consumeKey] = state->handleCompose(event);
     auto range = utf8::MakeUTF8CharRange(compose);
     for (auto i = std::begin(range); i != std::end(range); ++i) {
