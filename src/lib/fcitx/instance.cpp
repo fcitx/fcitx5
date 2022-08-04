@@ -1337,6 +1337,26 @@ bool Instance::isRestartRequested() const {
     return d->restart_;
 }
 
+bool Instance::virtualKeyboardAutoShow() const {
+    FCITX_D();
+    return d->virtualKeyboardAutoShow_;
+}
+
+void Instance::setVirtualKeyboardAutoShow(bool autoShow) {
+    FCITX_D();
+    d->virtualKeyboardAutoShow_ = autoShow;
+}
+
+bool Instance::virtualKeyboardAutoHide() const {
+    FCITX_D();
+    return d->virtualKeyboardAutoHide_;
+}
+
+void Instance::setVirtualKeyboardAutoHide(bool autoHide) {
+    FCITX_D();
+    d->virtualKeyboardAutoHide_ = autoHide;
+}
+
 InstancePrivate *Instance::privateData() {
     FCITX_D();
     return d;

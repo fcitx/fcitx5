@@ -218,6 +218,10 @@ public:
     std::string lastGroup_;
 
     const bool inFlatpak_ = fs::isreg("/.flatpak-info");
+
+    bool virtualKeyboardAutoShow_ = false;
+
+    bool virtualKeyboardAutoHide_ = true;
 };
 
 } // namespace fcitx
