@@ -179,6 +179,7 @@ public:
 
         if (auto *loader = findValue(loaders_, addon.info().type())) {
             addon.instance_.reset((*loader)->load(addon.info(), q_ptr));
+            addon.instance_->setAddonInfo(&(addon.info()));
         } else {
             FCITX_ERROR() << "Failed to find addon loader for: "
                           << addon.info().type();

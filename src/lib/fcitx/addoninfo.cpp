@@ -23,7 +23,9 @@ FCITX_CONFIGURATION(
     Option<std::vector<std::string>> optionalDependencies{
         this, "OptionalDependencies", "Optional Dependencies"};
     Option<bool> onDemand{this, "OnDemand", "Load only on request", false};
-    Option<int> uiPriority{this, "UIPriority", "User interface priority", 0};)
+    Option<int> uiPriority{this, "UIPriority", "User interface priority", 0};
+    Option<int> uiType{this, "UIType", "User interface type",
+                       static_cast<int>(UIType::PhyscialKeyboard)};)
 
 FCITX_CONFIGURATION(AddonConfig,
                     Option<AddonConfigBase> addon{this, "Addon", "Addon"};)
@@ -138,6 +140,17 @@ bool AddonInfo::onDemand() const {
 int AddonInfo::uiPriority() const {
     FCITX_D();
     return d->addon->uiPriority.value();
+}
+
+UIType AddonInfo::uiType() const {
+    FCITX_D();
+    auto value = d->addon->uiType.value();
+    if (value < static_cast<int>(UIType::First) ||
+        value > static_cast<int>(UIType::Last)) {
+        return UIType::PhyscialKeyboard;
+    }
+
+    return static_cast<UIType>(value);
 }
 
 void AddonInfo::load(const RawConfig &config) {

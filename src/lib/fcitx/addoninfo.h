@@ -23,6 +23,8 @@ FCITX_CONFIG_ENUM(AddonCategory, InputMethod, Frontend, Loader, Module, UI)
 
 enum class OverrideEnabled { NotSet, Enabled, Disabled };
 
+enum class UIType { First, PhyscialKeyboard = First, OnScreenKeyboard, Last = OnScreenKeyboard };
+
 class FCITXCORE_EXPORT AddonInfo {
 public:
     AddonInfo(const std::string &name);
@@ -43,6 +45,7 @@ public:
     optionalDependenciesWithVersion() const;
     bool onDemand() const;
     int uiPriority() const;
+    UIType uiType() const;
     bool isEnabled() const;
     bool isDefaultEnabled() const;
     void setOverrideEnabled(OverrideEnabled overrideEnabled);

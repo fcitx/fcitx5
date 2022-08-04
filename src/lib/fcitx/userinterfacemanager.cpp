@@ -207,9 +207,12 @@ void UserInterfaceManager::flush() {
     FCITX_D();
     for (auto &p : d->updateList_) {
         for (auto comp : p.second) {
-            if (comp == UserInterfaceComponent::InputPanel &&
-                p.first->capabilityFlags().test(
-                    CapabilityFlag::ClientSideInputPanel)) {
+            if (d->ui_ != nullptr && d->ui_->addonInfo() != nullptr &&
+                d->ui_->addonInfo()->uiType() == UIType::OnScreenKeyboard) {
+                d->ui_->update(comp, p.first);
+            } else if (comp == UserInterfaceComponent::InputPanel &&
+                       p.first->capabilityFlags().test(
+                           CapabilityFlag::ClientSideInputPanel)) {
                 p.first->updateClientSideUIImpl();
             } else if (d->ui_) {
                 d->ui_->update(comp, p.first);
@@ -220,16 +223,30 @@ void UserInterfaceManager::flush() {
     d->updateList_.clear();
 }
 
+bool isUserInterfaceValid(UserInterface *userInterface,
+                          InputMethodMode inputMethodMode) {
+    if (userInterface == nullptr || !userInterface->available() ||
+        userInterface->addonInfo() == nullptr) {
+        return false;
+    }
+
+    return (userInterface->addonInfo()->uiType() == UIType::OnScreenKeyboard &&
+            inputMethodMode == InputMethodMode::OnScreenKeyboard) ||
+           (userInterface->addonInfo()->uiType() == UIType::PhyscialKeyboard &&
+            inputMethodMode == InputMethodMode::PhysicalKeyboard);
+}
+
 void UserInterfaceManager::updateAvailability() {
     FCITX_D();
+    auto *instance = d->addonManager_->instance();
     auto *oldUI = d->ui_;
     UserInterface *newUI = nullptr;
     std::string newUIName;
     for (auto &name : d->uis_) {
         auto *ui =
             static_cast<UserInterface *>(d->addonManager_->addon(name, true));
-        if (ui && ui->available()) {
-            newUI = static_cast<UserInterface *>(ui);
+        if (isUserInterfaceValid(ui, instance->inputMethodMode())) {
+            newUI = ui;
             newUIName = name;
             break;
         }
@@ -253,5 +270,44 @@ void UserInterfaceManager::updateAvailability() {
 std::string UserInterfaceManager::currentUI() const {
     FCITX_D();
     return d->uiName_;
+}
+
+bool UserInterfaceManager::isVirtualKeyboardVisible() const {
+    FCITX_D();
+
+    auto *ui = d->ui_;
+    if (ui == nullptr || ui->addonInfo() == nullptr ||
+        ui->addonInfo()->uiType() != UIType::OnScreenKeyboard) {
+        return false;
+    }
+
+    auto *vkui = static_cast<VirtualKeyboardUserInterface *>(ui);
+    return vkui->isVirtualKeyboardVisible();
+}
+
+void UserInterfaceManager::showVirtualKeyboard() const {
+    FCITX_D();
+
+    auto *ui = d->ui_;
+    if (ui == nullptr || ui->addonInfo() == nullptr ||
+        ui->addonInfo()->uiType() != UIType::OnScreenKeyboard) {
+        return;
+    }
+
+    auto *vkui = static_cast<VirtualKeyboardUserInterface *>(ui);
+    vkui->showVirtualKeyboard();
+}
+
+void UserInterfaceManager::hideVirtualKeyboard() const {
+    FCITX_D();
+
+    auto *ui = d->ui_;
+    if (ui == nullptr || ui->addonInfo() == nullptr ||
+        ui->addonInfo()->uiType() != UIType::OnScreenKeyboard) {
+        return;
+    }
+
+    auto *vkui = static_cast<VirtualKeyboardUserInterface *>(ui);
+    vkui->hideVirtualKeyboard();
 }
 } // namespace fcitx

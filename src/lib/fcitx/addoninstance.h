@@ -15,6 +15,7 @@
 #include <fcitx-utils/library.h>
 #include <fcitx-utils/metastring.h>
 #include <fcitx/addoninstance_details.h>
+#include "fcitx/addoninfo.h"
 #include "fcitxcore_export.h"
 
 /// \addtogroup FcitxCore
@@ -113,6 +114,10 @@ public:
 
     void registerCallback(const std::string &name,
                           AddonFunctionAdaptorBase *adaptor);
+
+    const AddonInfo *addonInfo() const;
+
+    void setAddonInfo(const AddonInfo *addInfo);
 
 private:
     AddonFunctionAdaptorBase *findCall(const std::string &name);
