@@ -694,6 +694,19 @@ void InputWindow::wheel(bool up) {
     }
 }
 
+void InputWindow::setFontDPI(int dpi) {
+    // Unlike pango cairo context, Cairo font map does not accept negative dpi.
+    // Restore to default value instead.
+    if (dpi <= 0) {
+        pango_cairo_font_map_set_resolution(
+            PANGO_CAIRO_FONT_MAP(fontMap_.get()), fontMapDefaultDPI_);
+    } else {
+        pango_cairo_font_map_set_resolution(
+            PANGO_CAIRO_FONT_MAP(fontMap_.get()), dpi);
+    }
+    pango_cairo_context_set_resolution(context_.get(), dpi);
+}
+
 int InputWindow::highlight() const {
     int highlightIndex = (hoverIndex_ >= 0) ? hoverIndex_ : candidateIndex_;
     return highlightIndex;

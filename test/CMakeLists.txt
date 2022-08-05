@@ -128,6 +128,14 @@ target_link_libraries(testunicode Fcitx5::Core Fcitx5::Module::TestFrontend Fcit
 add_dependencies(testunicode copy-addon unicode testui testfrontend testim)
 add_test(NAME testunicode COMMAND testunicode)
 
+
+if (ENABLE_KEYBOARD)
+    add_executable(testspell testspell.cpp)
+    target_link_libraries(testspell Fcitx5::Core Fcitx5::Module::TestFrontend keyboard)
+    add_dependencies(testspell copy-addon spell testui testfrontend spell_en_dict)
+    add_test(NAME testspell COMMAND testspell)
+endif()
+
 add_executable(testquickphrase testquickphrase.cpp)
 target_link_libraries(testquickphrase Fcitx5::Core Fcitx5::Module::QuickPhrase Fcitx5::Module::TestFrontend Fcitx5::Module::TestIM)
 add_dependencies(testquickphrase copy-addon quickphrase testui testfrontend testim)

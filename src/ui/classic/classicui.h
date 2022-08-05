@@ -21,6 +21,7 @@
 #include "fcitx/instance.h"
 #include "fcitx/userinterface.h"
 #include "classicui_public.h"
+#include "plasmathemewatchdog.h"
 #include "theme.h"
 #ifdef ENABLE_X11
 #include "xcb_public.h"
@@ -131,7 +132,19 @@ FCITX_CONFIGURATION(
                "configuration needs to support this to use this feature.")}};
     Option<std::string, NotEmpty, DefaultMarshaller<std::string>,
            ThemeAnnotation>
-        theme{this, "Theme", _("Theme"), "default"};);
+        theme{this, "Theme", _("Theme"), "default"};
+    Option<int, IntConstrain, DefaultMarshaller<int>, ToolTipAnnotation>
+        forceWaylandDPI{
+            this,
+            "ForceWaylandDPI",
+            _("Force font DPI on Wayland"),
+            0,
+            IntConstrain(0),
+            {},
+            {_("Normally Wayland uses 96 as font DPI in combinition with the "
+               "screen scale factor. This option allows you to override the "
+               "font DPI. If the value is 0, it means this option is "
+               "disabled.")}};);
 
 class ClassicUI final : public UserInterface {
 public:
@@ -203,6 +216,7 @@ private:
     bool suspended_ = true;
 
     std::unique_ptr<EventSource> deferedEnableTray_;
+    std::unique_ptr<PlasmaThemeWatchdog> plasmaThemeWatchdog_;
 };
 } // namespace classicui
 } // namespace fcitx

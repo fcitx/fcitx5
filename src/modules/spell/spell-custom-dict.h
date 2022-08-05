@@ -21,7 +21,8 @@ public:
     static bool checkDict(const std::string &language);
     static std::string locateDictFile(const std::string &lang);
 
-    std::vector<std::string> hint(const std::string &str, size_t limit);
+    std::vector<std::pair<std::string, std::string>>
+    hint(const std::string &str, size_t limit);
 
 protected:
     void loadDict(const std::string &lang);

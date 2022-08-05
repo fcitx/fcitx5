@@ -11,7 +11,7 @@
 #include <fcitx/addoninstance.h>
 
 namespace fcitx {
-enum class SpellProvider { Presage, Custom, Enchant };
+enum class SpellProvider { Presage, Custom, Enchant, Default = -1 };
 }
 
 FCITX_ADDON_DECLARE_FUNCTION(Spell, checkDict,
@@ -28,5 +28,10 @@ FCITX_ADDON_DECLARE_FUNCTION(
     std::vector<std::string>(const std::string &language,
                              fcitx::SpellProvider provider,
                              const std::string &word, size_t limit));
+FCITX_ADDON_DECLARE_FUNCTION(Spell, hintForDisplay,
+                             std::vector<std::pair<std::string, std::string>>(
+                                 const std::string &language,
+                                 fcitx::SpellProvider provider,
+                                 const std::string &word, size_t limit));
 
 #endif // _FCITX_MODULES_SPELL_SPELL_PUBLIC_H_

@@ -8,6 +8,8 @@
 #define _FCITX_UI_CLASSIC_WAYLANDINPUTWINDOW_H_
 
 #include "inputwindow.h"
+#include "org_kde_kwin_blur.h"
+#include "org_kde_kwin_blur_manager.h"
 #include "zwp_input_panel_surface_v1.h"
 #include "zwp_input_popup_surface_v2.h"
 
@@ -25,8 +27,11 @@ public:
     void resetPanel();
     void update(InputContext *ic);
     void repaint();
+    void setBlurManager(std::shared_ptr<wayland::OrgKdeKwinBlurManager> blur);
 
 private:
+    void updateBlur();
+
     WaylandUI *ui_;
     wl_fixed_t scroll_ = 0;
     std::unique_ptr<wayland::ZwpInputPanelSurfaceV1> panelSurface_;
@@ -34,6 +39,8 @@ private:
     std::unique_ptr<wayland::ZwpInputPopupSurfaceV2> panelSurfaceV2_;
     std::unique_ptr<WaylandWindow> window_;
     TrackableObjectReference<InputContext> repaintIC_;
+    std::shared_ptr<wayland::OrgKdeKwinBlurManager> blurManager_;
+    std::unique_ptr<wayland::OrgKdeKwinBlur> blur_;
 };
 
 } // namespace classicui

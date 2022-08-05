@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2022-05-20 20:25+0000\n"
+"POT-Creation-Date: 2022-07-24 20:25+0000\n"
 "PO-Revision-Date: 2017-11-23 04:14+0000\n"
 "Last-Translator: UTUMI Hirosi <utuhiro78@yahoo.co.jp>, 2022\n"
 "Language-Team: Japanese (https://www.transifex.com/fcitx/teams/12005/ja/)\n"
@@ -50,7 +50,7 @@ msgstr "${1} は見つかりません"
 msgid "${1} works properly."
 msgstr "${1} は正常に動作しています。"
 
-#: src/lib/fcitx/instance.cpp:375
+#: src/lib/fcitx/instance.cpp:382
 msgid "(Not available)"
 msgstr "(使用不可)"
 
@@ -156,7 +156,7 @@ msgstr "システム XKB 設定のオーバーライドを許可する"
 msgid "Allow Overriding System XKB Settings (Only support KDE 5)"
 msgstr "システムの XKB 設定より優先する (KDE 5 のみサポート)"
 
-#: src/im/keyboard/keyboard.h:34 src/modules/quickphrase/quickphrase.h:29
+#: src/im/keyboard/keyboard.h:32 src/modules/quickphrase/quickphrase.h:29
 msgid "Alt"
 msgstr "Alt"
 
@@ -179,7 +179,7 @@ msgctxt "Key name"
 msgid "Application Right"
 msgstr "右側のアプリケーション"
 
-#: src/im/keyboard/keyboard.h:89
+#: src/im/keyboard/keyboard.h:87
 msgid "Applications disabled for long press"
 msgstr "長押しを無効にするアプリケーション"
 
@@ -198,7 +198,7 @@ msgctxt "Key name"
 msgid "Audio Repeat"
 msgstr "オーディオリピート"
 
-#: src/ui/classic/theme.h:152
+#: src/ui/classic/theme.h:153
 msgid "Author"
 msgstr "作者"
 
@@ -221,7 +221,7 @@ msgstr "Back Forward"
 msgid "Backends"
 msgstr "バックエンド"
 
-#: src/ui/classic/theme.h:116 src/ui/classic/theme.h:137
+#: src/ui/classic/theme.h:118 src/ui/classic/theme.h:138
 msgid "Background"
 msgstr "背景"
 
@@ -261,9 +261,13 @@ msgctxt "Key name"
 msgid "Bluetooth"
 msgstr "Bluetooth"
 
-#: src/ui/classic/theme.h:125
+#: src/ui/classic/theme.h:107
 msgid "Blur Margin"
-msgstr "ブラーぼかしのマージン"
+msgstr "ブラーのマージン"
+
+#: src/ui/classic/theme.h:106
+msgid "Blur mask"
+msgstr "ブラーマスク"
 
 #: src/lib/fcitx-utils/key.cpp:118
 msgctxt "Key name"
@@ -415,17 +419,17 @@ msgstr "中央右"
 msgid "Change Fcitx 5 Configuration"
 msgstr "Fcitx5 設定を変更"
 
-#: src/ui/classic/theme.h:142
+#: src/ui/classic/theme.h:143
 msgid "Check box"
 msgstr "チェックボックス"
 
-#: src/im/keyboard/keyboard.h:58 src/modules/quickphrase/quickphrase.h:41
+#: src/im/keyboard/keyboard.h:56 src/modules/quickphrase/quickphrase.h:41
 msgid "Choose key modifier"
 msgstr "キーモディファイアーを選択"
 
 #: src/ui/classic/classicui.conf.in.in:3
 msgid "Classic User Interface"
-msgstr ""
+msgstr "クラシックユーザーインターフェース"
 
 #: src/lib/fcitx-utils/key.cpp:121
 msgctxt "Key name"
@@ -463,19 +467,19 @@ msgctxt "Key name"
 msgid "Community"
 msgstr "コミュニティ"
 
-#: src/im/keyboard/keyboard.cpp:678
+#: src/im/keyboard/keyboard.cpp:641
 msgid "Completion"
 msgstr "補完"
 
-#: src/im/keyboard/keyboard.cpp:669
+#: src/im/keyboard/keyboard.cpp:632
 msgid "Completion is disabled."
 msgstr "補完は無効です。"
 
-#: src/im/keyboard/keyboard.cpp:672
+#: src/im/keyboard/keyboard.cpp:635
 msgid "Completion is enabled temporarily."
 msgstr "補完は一時的に有効です。"
 
-#: src/im/keyboard/keyboard.cpp:674
+#: src/im/keyboard/keyboard.cpp:637
 msgid "Completion is enabled."
 msgstr "補完は有効です。"
 
@@ -508,11 +512,11 @@ msgid "Configuration:"
 msgstr "設定:"
 
 #: src/ui/classic/xcbtraywindow.cpp:38
-#: src/modules/notificationitem/dbusmenu.cpp:245
+#: src/modules/notificationitem/dbusmenu.cpp:247
 msgid "Configure"
 msgstr "設定"
 
-#: src/im/keyboard/keyboard.h:35 src/modules/quickphrase/quickphrase.h:29
+#: src/im/keyboard/keyboard.h:33 src/modules/quickphrase/quickphrase.h:29
 msgid "Control"
 msgstr "Control"
 
@@ -584,7 +588,7 @@ msgstr "入力メソッドをオフにする"
 msgid "Debug information from dbus:"
 msgstr "dbus からのデバッグ情報:"
 
-#: src/lib/fcitx/inputmethodmanager.cpp:138 src/lib/fcitx/instance.cpp:724
+#: src/lib/fcitx/inputmethodmanager.cpp:138 src/lib/fcitx/instance.cpp:329
 #: src/ui/classic/themes/default/theme.conf.in:3
 msgid "Default"
 msgstr "デフォルト"
@@ -614,7 +618,7 @@ msgctxt "Key name"
 msgid "Delete"
 msgstr "削除"
 
-#: src/ui/classic/theme.h:154
+#: src/ui/classic/theme.h:155
 msgid "Description"
 msgstr "詳細"
 
@@ -684,15 +688,15 @@ msgstr "KWin でブラーを有効にする"
 msgid "Enable Spell check"
 msgstr "スペルチェックを有効にする"
 
-#: src/im/keyboard/keyboard.h:53
+#: src/im/keyboard/keyboard.h:51
 msgid "Enable emoji in hint"
 msgstr "絵文字のヒントを有効にする"
 
-#: src/im/keyboard/keyboard.h:56
+#: src/im/keyboard/keyboard.h:54
 msgid "Enable emoji in quickphrase"
 msgstr "絵文字のクイックフレーズを有効にする"
 
-#: src/im/keyboard/keyboard.h:61
+#: src/im/keyboard/keyboard.h:59
 msgid "Enable hint by default"
 msgstr "デフォルトでヒントを有効にする"
 
@@ -768,7 +772,7 @@ msgid "Execute"
 msgstr "実行"
 
 #: src/ui/classic/xcbtraywindow.cpp:40
-#: src/modules/notificationitem/dbusmenu.cpp:259
+#: src/modules/notificationitem/dbusmenu.cpp:261
 msgid "Exit"
 msgstr "閉じる"
 
@@ -837,11 +841,11 @@ msgctxt "Key name"
 msgid "Find"
 msgstr "Find"
 
-#: src/ui/classic/classicui.h:99
+#: src/ui/classic/classicui.h:100
 msgid "Font"
 msgstr "フォント"
 
-#: src/ui/classic/classicui.h:129
+#: src/ui/classic/classicui.h:130
 msgid ""
 "For example, display character with Chinese variant when using Pinyin and "
 "Japanese variant when using Anthy. The font configuration needs to support "
@@ -850,6 +854,10 @@ msgstr ""
 "例えば Pinyin を使用している場合は中国語の書体で文字を表示し、Anthy を使用し"
 "ている場合は日本語の書体で文字を表示します。この機能を使用するには多言語フォ"
 "ントを指定する必要があります。"
+
+#: src/ui/classic/classicui.h:140
+msgid "Force font DPI on Wayland"
+msgstr "フォント DPI を Wayland で強制する"
 
 #: src/lib/fcitx-utils/key.cpp:59
 msgctxt "Key name"
@@ -946,15 +954,15 @@ msgid "Green"
 msgstr "Green"
 
 #: src/ui/classic/xcbtraywindow.cpp:36
-#: src/modules/notificationitem/dbusmenu.cpp:235
+#: src/modules/notificationitem/dbusmenu.cpp:237
 msgid "Group"
 msgstr "グループ"
 
-#: src/lib/fcitx/instance.cpp:379
+#: src/lib/fcitx/instance.cpp:386
 msgid "Group {0}: {1}"
 msgstr "グループ {0}: {1}"
 
-#: src/lib/fcitx/instance.cpp:726
+#: src/lib/fcitx/instance.cpp:331
 msgid "Group {}"
 msgstr "グループ {}"
 
@@ -1057,15 +1065,15 @@ msgstr "隠す通知"
 msgid "Hide overlay if size does not fit"
 msgstr "サイズが合わない場合はオーバーレイを非表示にする"
 
-#: src/ui/classic/theme.h:118 src/ui/classic/theme.h:139
+#: src/ui/classic/theme.h:120 src/ui/classic/theme.h:140
 msgid "Highlight Background"
 msgstr "ハイライト背景"
 
-#: src/ui/classic/theme.h:113
+#: src/ui/classic/theme.h:115
 msgid "Highlight Background color"
 msgstr "ハイライト背景色"
 
-#: src/ui/classic/theme.h:102 src/ui/classic/theme.h:133
+#: src/ui/classic/theme.h:102 src/ui/classic/theme.h:134
 msgid "Highlight Candidate Color"
 msgstr "ハイライト候補色"
 
@@ -1073,7 +1081,7 @@ msgstr "ハイライト候補色"
 msgid "Highlight Click Margin"
 msgstr "ハイライトクリックマージン"
 
-#: src/ui/classic/theme.h:111
+#: src/ui/classic/theme.h:113
 msgid "Highlight text color"
 msgstr "ハイライトテキスト色"
 
@@ -1163,8 +1171,8 @@ msgstr ""
 msgid "Image"
 msgstr "画像"
 
-#: src/im/keyboard/keyboard.cpp:677 src/lib/fcitx/instance.cpp:413
-#: src/lib/fcitx/instance.cpp:796 src/lib/fcitx/instance.cpp:962
+#: src/im/keyboard/keyboard.cpp:640 src/lib/fcitx/instance.cpp:420
+#: src/lib/fcitx/instance.cpp:638 src/lib/fcitx/instance.cpp:804
 #: src/modules/notificationitem/notificationitem.cpp:115
 #: src/modules/xcb/xcbconnection.cpp:406 data/org.fcitx.Fcitx5.desktop.in.in:4
 #: data/org.fcitx.Fcitx5.metainfo.xml.in:7
@@ -1183,7 +1191,7 @@ msgstr "入力メソッド関連の環境変数:"
 msgid "Input Methods:"
 msgstr "入力メソッド:"
 
-#: src/ui/classic/theme.h:160
+#: src/ui/classic/theme.h:161
 msgid "Input Panel"
 msgstr "入力パネル"
 
@@ -1212,6 +1220,10 @@ msgstr "不正なアドオン設定ファイル ${1} です。"
 msgid "KDE Input Method Panel"
 msgstr "KDE 入力メソッドパネル"
 
+#: src/ui/classic/classicui.cpp:144
+msgid "KDE Plasma (Experimental)"
+msgstr "KDE Plasma（実験的）"
+
 #: src/lib/fcitx-utils/key.cpp:211
 msgctxt "Key name"
 msgid "Kana Lock"
@@ -1236,15 +1248,15 @@ msgstr "カタカナ"
 msgid "Key"
 msgstr "キー"
 
-#: src/im/keyboard/keyboard.cpp:332 src/im/keyboard/keyboard.conf.in.in:3
+#: src/im/keyboard/keyboard.cpp:288 src/im/keyboard/keyboard.conf.in.in:3
 msgid "Keyboard"
 msgstr "キーボード"
 
-#: src/im/keyboard/keyboard.cpp:258
+#: src/im/keyboard/keyboard.cpp:214
 msgid "Keyboard - {0}"
 msgstr "キーボード - {0}"
 
-#: src/im/keyboard/keyboard.cpp:277
+#: src/im/keyboard/keyboard.cpp:233
 msgid "Keyboard - {0} - {1}"
 msgstr "キーボード - {0} - {1}"
 
@@ -1409,7 +1421,7 @@ msgctxt "Key name"
 msgid "Logoff"
 msgstr "ログオフ"
 
-#: src/im/keyboard/keyboard.h:91
+#: src/im/keyboard/keyboard.h:89
 msgid "Long Press behavior"
 msgstr "長押し時の動作"
 
@@ -1438,11 +1450,11 @@ msgstr "右マージン"
 msgid "Margin Top"
 msgstr "上マージン"
 
-#: src/ui/classic/theme.h:120 src/ui/classic/theme.h:145
+#: src/ui/classic/theme.h:122 src/ui/classic/theme.h:146
 msgid "Margin around all content"
 msgstr "全コンテンツの周りのマージン"
 
-#: src/ui/classic/theme.h:122 src/ui/classic/theme.h:147
+#: src/ui/classic/theme.h:124 src/ui/classic/theme.h:148
 msgid "Margin around text"
 msgstr "テキストの周りのマージン"
 
@@ -1501,7 +1513,7 @@ msgctxt "Key name"
 msgid "Meeting"
 msgstr "ミーティング"
 
-#: src/ui/classic/theme.h:161
+#: src/ui/classic/theme.h:162
 msgid "Menu"
 msgstr "メニュー"
 
@@ -1510,7 +1522,7 @@ msgctxt "Key name"
 msgid "Menu"
 msgstr "メニュー"
 
-#: src/ui/classic/classicui.h:101
+#: src/ui/classic/classicui.h:102
 msgid "Menu Font"
 msgstr "メニューフォント"
 
@@ -1524,7 +1536,7 @@ msgctxt "Key name"
 msgid "Messenger"
 msgstr "Messenger"
 
-#: src/ui/classic/theme.h:158
+#: src/ui/classic/theme.h:159
 msgid "Metadata"
 msgstr "メタデータ"
 
@@ -1563,7 +1575,7 @@ msgctxt "Key name"
 msgid "My Sites"
 msgstr "個人用サイト"
 
-#: src/ui/classic/theme.h:150
+#: src/ui/classic/theme.h:151
 msgid "Name"
 msgstr "名前"
 
@@ -1577,11 +1589,11 @@ msgctxt "Key name"
 msgid "News"
 msgstr "ニュース"
 
-#: src/im/keyboard/keyboard.h:50
+#: src/im/keyboard/keyboard.h:48
 msgid "Next Candidate"
 msgstr "次の候補"
 
-#: src/ui/classic/theme.h:124
+#: src/ui/classic/theme.h:126
 msgid "Next Page Button"
 msgstr "次ページボタン"
 
@@ -1593,13 +1605,23 @@ msgstr "いいえ"
 msgid "No clipboard history."
 msgstr "クリップボード履歴がありません。"
 
-#: src/im/keyboard/keyboard.h:34 src/modules/quickphrase/quickphrase.h:28
+#: src/im/keyboard/keyboard.h:32 src/modules/quickphrase/quickphrase.h:28
 msgid "None"
 msgstr "なし"
 
-#: src/ui/classic/theme.h:99 src/ui/classic/theme.h:130
+#: src/ui/classic/theme.h:99 src/ui/classic/theme.h:131
 msgid "Normal text color"
 msgstr "ノーマルテキスト色"
+
+#: src/ui/classic/classicui.h:144
+msgid ""
+"Normally Wayland uses 96 as font DPI in combinition with the screen scale "
+"factor. This option allows you to override the font DPI. If the value is 0, "
+"it means this option is disabled."
+msgstr ""
+"通常、Wayland は画面スケール係数との組み合わせで、フォント DPI を 96 にしま"
+"す。このオプションを使用すると、フォント DPI を上書きできます。値が 0 の場"
+"合、このオプションは無効になります。"
 
 #: src/ui/kimpanel/kimpanel.cpp:367
 msgid "Not available"
@@ -1622,7 +1644,7 @@ msgstr "NumLock"
 msgid "Number of entries"
 msgstr "エントリー数"
 
-#: src/im/keyboard/keyboard.cpp:663
+#: src/im/keyboard/keyboard.cpp:626
 msgid ""
 "Only emoji support is found. To enable spell checking, you may need to "
 "install spell check data for the language."
@@ -1677,7 +1699,7 @@ msgstr "DBus 名 ${1} の所有者は ${2} です。"
 msgid "PID of DBus name ${1} owner is ${2}."
 msgstr "DBus 名 ${1} の所有者の PID は${2} です。"
 
-#: src/im/keyboard/keyboard.h:39
+#: src/im/keyboard/keyboard.h:37
 msgid "Page size"
 msgstr "ページサイズ"
 
@@ -1746,19 +1768,19 @@ msgctxt "Key name"
 msgid "Power Off"
 msgstr "電源オフ"
 
-#: src/lib/fcitx/instance.cpp:962
+#: src/lib/fcitx/instance.cpp:804
 msgid "Preedit"
 msgstr "プリエディット"
 
-#: src/lib/fcitx/instance.cpp:964
+#: src/lib/fcitx/instance.cpp:806
 msgid "Preedit disabled"
 msgstr "プリエディット無効"
 
-#: src/lib/fcitx/instance.cpp:963
+#: src/lib/fcitx/instance.cpp:805
 msgid "Preedit enabled"
 msgstr "プリエディット有効"
 
-#: src/ui/classic/classicui.h:109
+#: src/ui/classic/classicui.h:110
 msgid "Prefer Text Icon"
 msgstr "テキストアイコンを優先する"
 
@@ -1766,11 +1788,11 @@ msgstr "テキストアイコンを優先する"
 msgid "Presage"
 msgstr "Presage"
 
-#: src/im/keyboard/keyboard.h:44
+#: src/im/keyboard/keyboard.h:42
 msgid "Prev Candidate"
 msgstr "前の候補"
 
-#: src/ui/classic/theme.h:123
+#: src/ui/classic/theme.h:125
 msgid "Prev Page Button"
 msgstr "前ページのボタン"
 
@@ -1826,7 +1848,7 @@ msgid "Reply"
 msgstr "リプライ"
 
 #: src/ui/classic/xcbtraywindow.cpp:39
-#: src/modules/notificationitem/dbusmenu.cpp:253
+#: src/modules/notificationitem/dbusmenu.cpp:255
 msgid "Restart"
 msgstr "再起動"
 
@@ -1931,13 +1953,13 @@ msgctxt "Key name"
 msgid "Send"
 msgstr "送信"
 
-#: src/ui/classic/theme.h:141
+#: src/ui/classic/theme.h:142
 msgid "Separator Background"
 msgstr "セパレーターの背景"
 
-#: src/ui/classic/theme.h:127
+#: src/ui/classic/theme.h:128
 msgid "Shadow Margin"
-msgstr ""
+msgstr "影のマージン"
 
 #: src/lib/fcitx/globalconfig.cpp:140
 msgid "Share Input State"
@@ -1961,7 +1983,7 @@ msgstr "フォーカスを変更する際に入力メソッドの情報を表示
 msgid "Show Input Method Information when switch input method"
 msgstr "入力メソッドを切り替える際に入力メソッドの情報を表示する"
 
-#: src/ui/classic/classicui.h:114
+#: src/ui/classic/classicui.h:115
 msgid "Show Layout Name In Icon"
 msgstr "アイコンにレイアウト名を表示する"
 
@@ -1973,7 +1995,7 @@ msgstr "入力メソッドの情報をコンパクトに表示する"
 msgid "Show first input method information"
 msgstr "第1入力メソッドの情報を表示する"
 
-#: src/ui/classic/classicui.h:118
+#: src/ui/classic/classicui.h:119
 msgid ""
 "Show layout name in icon if there is more than one active layout. If prefer "
 "text icon is set to true, this option will be ignored."
@@ -1985,11 +2007,13 @@ msgstr ""
 msgid "Show preedit in application"
 msgstr "アプリケーションにプリエディットを表示する"
 
-#: src/im/keyboard/keyboard.h:79
+#: src/im/keyboard/keyboard.h:77
 msgid ""
 "Show preedit when composing, and commit dead key if there is no matching "
 "sequence."
 msgstr ""
+"入力時にプリエディットを表示し、一致するシーケンスがない場合はデッドキーをコ"
+"ミットします。"
 
 #: src/lib/fcitx/globalconfig.cpp:63
 msgid "Skip first input method while enumerating"
@@ -2005,11 +2029,11 @@ msgctxt "Key name"
 msgid "Space"
 msgstr "スペース"
 
-#: src/ui/classic/theme.h:135
+#: src/ui/classic/theme.h:136
 msgid "Spacing"
 msgstr "間隔"
 
-#: src/im/keyboard/keyboard.h:81 src/modules/spell/spell.conf.in.in:3
+#: src/im/keyboard/keyboard.h:79 src/modules/spell/spell.conf.in.in:3
 msgid "Spell"
 msgstr "スペル"
 
@@ -2046,7 +2070,7 @@ msgctxt "Key name"
 msgid "Stop"
 msgstr "停止"
 
-#: src/ui/classic/theme.h:143
+#: src/ui/classic/theme.h:144
 msgid "Sub Menu"
 msgstr "サブメニュー"
 
@@ -2055,7 +2079,7 @@ msgctxt "Key name"
 msgid "Subtitle"
 msgstr "サブタイトル"
 
-#: src/im/keyboard/keyboard.h:35 src/modules/quickphrase/quickphrase.h:29
+#: src/im/keyboard/keyboard.h:33 src/modules/quickphrase/quickphrase.h:29
 msgid "Super"
 msgstr "Super"
 
@@ -2074,16 +2098,16 @@ msgctxt "Key name"
 msgid "Suspend"
 msgstr "サスペンド"
 
-#: src/lib/fcitx/instance.cpp:414 src/lib/fcitx/instance.cpp:797
+#: src/lib/fcitx/instance.cpp:421 src/lib/fcitx/instance.cpp:639
 #: src/modules/xcb/xcbconnection.cpp:407
 msgid "Switch group"
 msgstr "グループの切り替え"
 
-#: src/lib/fcitx/instance.cpp:416 src/modules/xcb/xcbconnection.cpp:408
+#: src/lib/fcitx/instance.cpp:422 src/modules/xcb/xcbconnection.cpp:408
 msgid "Switch group to {0}"
 msgstr "{0} にグループを切り替える"
 
-#: src/lib/fcitx/instance.cpp:798
+#: src/lib/fcitx/instance.cpp:640
 msgid "Switched group to {0}"
 msgstr "{0} にグループを切り替えました"
 
@@ -2124,11 +2148,11 @@ msgstr "N番目のホットキーでN番目の入力メソッドに切り替え�
 msgid "The script is run as ${1} (${2})."
 msgstr "${1} (${2})としてスクリプトを実行"
 
-#: src/ui/classic/classicui.h:134
+#: src/ui/classic/classicui.h:135
 msgid "Theme"
 msgstr "テーマ"
 
-#: src/ui/classic/classicui.h:78
+#: src/ui/classic/classicui.h:79
 msgid "This is only effective when the tray icon is xembed."
 msgstr "これはトレイアイコンが XEmbed の場合のみ有効です。"
 
@@ -2216,15 +2240,15 @@ msgctxt "Key name"
 msgid "Travel"
 msgstr "トラベル"
 
-#: src/ui/classic/classicui.h:103
+#: src/ui/classic/classicui.h:104
 msgid "Tray Font"
 msgstr "トレイフォント"
 
-#: src/ui/classic/classicui.h:105
+#: src/ui/classic/classicui.h:106
 msgid "Tray Label Outline Color"
 msgstr "トレイラベルのアウトライン色"
 
-#: src/ui/classic/classicui.h:108
+#: src/ui/classic/classicui.h:109
 msgid "Tray Label Text Color"
 msgstr "トレイラベルのテキスト色"
 
@@ -2242,15 +2266,15 @@ msgstr "トリガーキー"
 msgid "Trigger Key for only current input context"
 msgstr "現在の入力コンテキストのみのトリガーキー"
 
-#: src/im/keyboard/keyboard.h:64
+#: src/im/keyboard/keyboard.h:62
 msgid "Trigger hint mode"
 msgstr "ヒントモードの切り替え"
 
-#: src/im/keyboard/keyboard.h:69
+#: src/im/keyboard/keyboard.h:67
 msgid "Trigger hint mode for one time"
-msgstr "ヒントモードを1回切り替える"
+msgstr "ヒントモードに一時的に切り替え"
 
-#: src/im/keyboard/keyboard.h:84
+#: src/im/keyboard/keyboard.h:82
 msgid "Type special characters with long press"
 msgstr "長押しで特殊文字を入力する"
 
@@ -2284,25 +2308,25 @@ msgstr "上"
 msgid "Use On The Spot Style (Needs restarting)"
 msgstr "XIM で On The Spot スタイルを使う(再起動が必要)"
 
-#: src/ui/classic/classicui.h:92
+#: src/ui/classic/classicui.h:93
 msgid "Use Per Screen DPI"
 msgstr "スクリーンごとのDPIを使用する"
 
-#: src/ui/classic/theme.h:108
+#: src/ui/classic/theme.h:110
 msgid "Use all horizontal space for highlight when it is vertical list"
 msgstr "候補リストが縦の場合は、ハイライト時にすべての水平スペースを使用します"
 
-#: src/ui/classic/classicui.h:125
+#: src/ui/classic/classicui.h:126
 msgid "Use input method language to display text"
 msgstr "入力メソッドの言語を使用してテキストを表示する"
 
-#: src/ui/classic/classicui.h:95
+#: src/ui/classic/classicui.h:96
 msgid "Use mouse wheel to go to prev or next page"
 msgstr "マウスホイールを使用して前または次のページに移動する"
 
-#: src/im/keyboard/keyboard.h:75
+#: src/im/keyboard/keyboard.h:73
 msgid "Use new compose behavior"
-msgstr ""
+msgstr "新規入力時の動作を使用する"
 
 #: data/fcitx5-diagnose.sh:1683
 msgid "User Interface:"
@@ -2312,7 +2336,7 @@ msgstr "ユーザーインターフェイス:"
 msgid "Using ${1} to check dbus."
 msgstr "DBus をチェックするために ${1} を使用します。"
 
-#: src/ui/classic/theme.h:151
+#: src/ui/classic/theme.h:152
 msgid "Version"
 msgstr "バージョン"
 
@@ -2320,7 +2344,7 @@ msgstr "バージョン"
 msgid "Version Line:"
 msgstr "バージョンライン:"
 
-#: src/ui/classic/classicui.h:91
+#: src/ui/classic/classicui.h:92
 msgid "Vertical Candidate List"
 msgstr "候補ウィンドウを縦にする"
 
@@ -2564,14 +2588,14 @@ msgstr "sudo の環境変数"
 msgid "version:"
 msgstr "バージョン:"
 
-#: src/im/keyboard/keyboard.cpp:309
+#: src/im/keyboard/keyboard.cpp:265
 msgid "{0} (Not Available)"
 msgstr "{0} (利用できません)"
 
-#: src/lib/fcitx/instance.cpp:373
+#: src/lib/fcitx/instance.cpp:380
 msgid "{0} (Not available)"
 msgstr "{0} (使用不可)"
 
-#: src/lib/fcitx/instance.cpp:370
+#: src/lib/fcitx/instance.cpp:377
 msgid "{0} ({1})"
 msgstr "{0} ({1})"

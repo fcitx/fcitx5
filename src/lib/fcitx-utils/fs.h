@@ -29,6 +29,11 @@ namespace fs {
 FCITXUTILS_EXPORT bool isdir(const std::string &path);
 /// \brief check whether path is a regular file.
 FCITXUTILS_EXPORT bool isreg(const std::string &path);
+/**
+ * \brief check whether path is an executable regular file.
+ * \since 5.0.18
+ */
+FCITXUTILS_EXPORT bool isexe(const std::string &path);
 /// \brief check whether path is a link.
 FCITXUTILS_EXPORT bool islnk(const std::string &path);
 

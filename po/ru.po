@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2022-06-02 20:25+0000\n"
+"POT-Creation-Date: 2022-07-23 20:24+0000\n"
 "PO-Revision-Date: 2017-11-23 04:14+0000\n"
 "Last-Translator: Dmitry <dmitrydmitry761@gmail.com>, 2022\n"
 "Language-Team: Russian (https://www.transifex.com/fcitx/teams/12005/ru/)\n"
@@ -159,7 +159,7 @@ msgstr ""
 "Разрешить переопределение системных настроек XKB (поддерживается только KDE "
 "5)"
 
-#: src/im/keyboard/keyboard.h:34 src/modules/quickphrase/quickphrase.h:29
+#: src/im/keyboard/keyboard.h:32 src/modules/quickphrase/quickphrase.h:29
 msgid "Alt"
 msgstr "Alt"
 
@@ -182,7 +182,7 @@ msgctxt "Key name"
 msgid "Application Right"
 msgstr "Приложение справа"
 
-#: src/im/keyboard/keyboard.h:89
+#: src/im/keyboard/keyboard.h:87
 msgid "Applications disabled for long press"
 msgstr "Отключение приложений при длительном нажатии"
 
@@ -201,7 +201,7 @@ msgctxt "Key name"
 msgid "Audio Repeat"
 msgstr "Повтор аудио"
 
-#: src/ui/classic/theme.h:152
+#: src/ui/classic/theme.h:153
 msgid "Author"
 msgstr "Автор"
 
@@ -224,7 +224,7 @@ msgstr "Обратно вперед"
 msgid "Backends"
 msgstr "Бэкенды"
 
-#: src/ui/classic/theme.h:116 src/ui/classic/theme.h:137
+#: src/ui/classic/theme.h:118 src/ui/classic/theme.h:138
 msgid "Background"
 msgstr "Фон"
 
@@ -264,9 +264,13 @@ msgctxt "Key name"
 msgid "Bluetooth"
 msgstr "Блютус"
 
-#: src/ui/classic/theme.h:125
+#: src/ui/classic/theme.h:107
 msgid "Blur Margin"
 msgstr "Размытый Край"
+
+#: src/ui/classic/theme.h:106
+msgid "Blur mask"
+msgstr "Размытая маска"
 
 #: src/lib/fcitx-utils/key.cpp:118
 msgctxt "Key name"
@@ -420,11 +424,11 @@ msgstr "По центру Справа"
 msgid "Change Fcitx 5 Configuration"
 msgstr "Изменить конфигурацию Fcitx 5"
 
-#: src/ui/classic/theme.h:142
+#: src/ui/classic/theme.h:143
 msgid "Check box"
 msgstr "Флажок"
 
-#: src/im/keyboard/keyboard.h:58 src/modules/quickphrase/quickphrase.h:41
+#: src/im/keyboard/keyboard.h:56 src/modules/quickphrase/quickphrase.h:41
 msgid "Choose key modifier"
 msgstr "Выбрать клавишу-модификатор"
 
@@ -468,19 +472,19 @@ msgctxt "Key name"
 msgid "Community"
 msgstr "Сообщество"
 
-#: src/im/keyboard/keyboard.cpp:686
+#: src/im/keyboard/keyboard.cpp:641
 msgid "Completion"
 msgstr "Завершение"
 
-#: src/im/keyboard/keyboard.cpp:677
+#: src/im/keyboard/keyboard.cpp:632
 msgid "Completion is disabled."
 msgstr "Завершение отключено."
 
-#: src/im/keyboard/keyboard.cpp:680
+#: src/im/keyboard/keyboard.cpp:635
 msgid "Completion is enabled temporarily."
 msgstr "Завершение временно включено."
 
-#: src/im/keyboard/keyboard.cpp:682
+#: src/im/keyboard/keyboard.cpp:637
 msgid "Completion is enabled."
 msgstr "Завершение включено."
 
@@ -513,11 +517,11 @@ msgid "Configuration:"
 msgstr "Настройка:"
 
 #: src/ui/classic/xcbtraywindow.cpp:38
-#: src/modules/notificationitem/dbusmenu.cpp:245
+#: src/modules/notificationitem/dbusmenu.cpp:247
 msgid "Configure"
 msgstr "Настроить"
 
-#: src/im/keyboard/keyboard.h:35 src/modules/quickphrase/quickphrase.h:29
+#: src/im/keyboard/keyboard.h:33 src/modules/quickphrase/quickphrase.h:29
 msgid "Control"
 msgstr "Управление"
 
@@ -619,7 +623,7 @@ msgctxt "Key name"
 msgid "Delete"
 msgstr "Удалить"
 
-#: src/ui/classic/theme.h:154
+#: src/ui/classic/theme.h:155
 msgid "Description"
 msgstr "Описание"
 
@@ -689,15 +693,15 @@ msgstr "Включить размытие на KWin"
 msgid "Enable Spell check"
 msgstr "Включить проверку орфографии"
 
-#: src/im/keyboard/keyboard.h:53
+#: src/im/keyboard/keyboard.h:51
 msgid "Enable emoji in hint"
 msgstr "Включить эмодзи в подсказке"
 
-#: src/im/keyboard/keyboard.h:56
+#: src/im/keyboard/keyboard.h:54
 msgid "Enable emoji in quickphrase"
 msgstr "Включить эмодзи в быстрой фразе"
 
-#: src/im/keyboard/keyboard.h:61
+#: src/im/keyboard/keyboard.h:59
 msgid "Enable hint by default"
 msgstr "Включить подсказку по умолчанию"
 
@@ -775,7 +779,7 @@ msgid "Execute"
 msgstr "Выполнить"
 
 #: src/ui/classic/xcbtraywindow.cpp:40
-#: src/modules/notificationitem/dbusmenu.cpp:259
+#: src/modules/notificationitem/dbusmenu.cpp:261
 msgid "Exit"
 msgstr "Выход"
 
@@ -845,11 +849,11 @@ msgctxt "Key name"
 msgid "Find"
 msgstr "Найти"
 
-#: src/ui/classic/classicui.h:99
+#: src/ui/classic/classicui.h:100
 msgid "Font"
 msgstr "Шрифт"
 
-#: src/ui/classic/classicui.h:129
+#: src/ui/classic/classicui.h:130
 msgid ""
 "For example, display character with Chinese variant when using Pinyin and "
 "Japanese variant when using Anthy. The font configuration needs to support "
@@ -858,6 +862,10 @@ msgstr ""
 "Например, отображать символы с китайским вариантом при использовании Pinyin "
 "и японским вариантом при использовании Anthy. Конфигурация шрифта должна "
 "поддерживать это, чтобы использовать эту функцию."
+
+#: src/ui/classic/classicui.h:140
+msgid "Force font DPI on Wayland"
+msgstr "Принудительное изменение DPI шрифта на Wayland"
 
 #: src/lib/fcitx-utils/key.cpp:59
 msgctxt "Key name"
@@ -954,7 +962,7 @@ msgid "Green"
 msgstr "Зеленый"
 
 #: src/ui/classic/xcbtraywindow.cpp:36
-#: src/modules/notificationitem/dbusmenu.cpp:235
+#: src/modules/notificationitem/dbusmenu.cpp:237
 msgid "Group"
 msgstr "Группа"
 
@@ -1065,15 +1073,15 @@ msgstr "Скрытые уведомления"
 msgid "Hide overlay if size does not fit"
 msgstr "Скрыть наложение, если размер не подходит"
 
-#: src/ui/classic/theme.h:118 src/ui/classic/theme.h:139
+#: src/ui/classic/theme.h:120 src/ui/classic/theme.h:140
 msgid "Highlight Background"
 msgstr "Выделить фон"
 
-#: src/ui/classic/theme.h:113
+#: src/ui/classic/theme.h:115
 msgid "Highlight Background color"
 msgstr "Цвет фона выделения"
 
-#: src/ui/classic/theme.h:102 src/ui/classic/theme.h:133
+#: src/ui/classic/theme.h:102 src/ui/classic/theme.h:134
 msgid "Highlight Candidate Color"
 msgstr "Выделить цветом кандидат"
 
@@ -1081,7 +1089,7 @@ msgstr "Выделить цветом кандидат"
 msgid "Highlight Click Margin"
 msgstr "Выделить поле клика"
 
-#: src/ui/classic/theme.h:111
+#: src/ui/classic/theme.h:113
 msgid "Highlight text color"
 msgstr "Выделить цветом текст"
 
@@ -1174,7 +1182,7 @@ msgstr ""
 msgid "Image"
 msgstr "Изображение"
 
-#: src/im/keyboard/keyboard.cpp:685 src/lib/fcitx/instance.cpp:420
+#: src/im/keyboard/keyboard.cpp:640 src/lib/fcitx/instance.cpp:420
 #: src/lib/fcitx/instance.cpp:638 src/lib/fcitx/instance.cpp:804
 #: src/modules/notificationitem/notificationitem.cpp:115
 #: src/modules/xcb/xcbconnection.cpp:406 data/org.fcitx.Fcitx5.desktop.in.in:4
@@ -1194,7 +1202,7 @@ msgstr "Относящиеся к методу ввода переменные �
 msgid "Input Methods:"
 msgstr "Методы ввода:"
 
-#: src/ui/classic/theme.h:160
+#: src/ui/classic/theme.h:161
 msgid "Input Panel"
 msgstr "Панель ввода"
 
@@ -1224,6 +1232,10 @@ msgstr "Неверный файл конфигурации дополнения 
 msgid "KDE Input Method Panel"
 msgstr "Панель метода ввода KDE"
 
+#: src/ui/classic/classicui.cpp:144
+msgid "KDE Plasma (Experimental)"
+msgstr "KDE Plasma (экспериментально)"
+
 #: src/lib/fcitx-utils/key.cpp:211
 msgctxt "Key name"
 msgid "Kana Lock"
@@ -1248,15 +1260,15 @@ msgstr "Катакана"
 msgid "Key"
 msgstr "Клавиша"
 
-#: src/im/keyboard/keyboard.cpp:332 src/im/keyboard/keyboard.conf.in.in:3
+#: src/im/keyboard/keyboard.cpp:288 src/im/keyboard/keyboard.conf.in.in:3
 msgid "Keyboard"
 msgstr "Клавиатура"
 
-#: src/im/keyboard/keyboard.cpp:258
+#: src/im/keyboard/keyboard.cpp:214
 msgid "Keyboard - {0}"
 msgstr "Клавиатура - {0}"
 
-#: src/im/keyboard/keyboard.cpp:277
+#: src/im/keyboard/keyboard.cpp:233
 msgid "Keyboard - {0} - {1}"
 msgstr "Клавиатура - {0} - {1}"
 
@@ -1421,7 +1433,7 @@ msgctxt "Key name"
 msgid "Logoff"
 msgstr "Выйти"
 
-#: src/im/keyboard/keyboard.h:91
+#: src/im/keyboard/keyboard.h:89
 msgid "Long Press behavior"
 msgstr "Поведение при длительном нажатии"
 
@@ -1450,11 +1462,11 @@ msgstr "Поле справа"
 msgid "Margin Top"
 msgstr "Поле сверху"
 
-#: src/ui/classic/theme.h:120 src/ui/classic/theme.h:145
+#: src/ui/classic/theme.h:122 src/ui/classic/theme.h:146
 msgid "Margin around all content"
 msgstr "Поля вокруг всего содержимого"
 
-#: src/ui/classic/theme.h:122 src/ui/classic/theme.h:147
+#: src/ui/classic/theme.h:124 src/ui/classic/theme.h:148
 msgid "Margin around text"
 msgstr "Поле вокруг текста"
 
@@ -1513,7 +1525,7 @@ msgctxt "Key name"
 msgid "Meeting"
 msgstr "Встреча"
 
-#: src/ui/classic/theme.h:161
+#: src/ui/classic/theme.h:162
 msgid "Menu"
 msgstr "Меню"
 
@@ -1522,7 +1534,7 @@ msgctxt "Key name"
 msgid "Menu"
 msgstr "Меню"
 
-#: src/ui/classic/classicui.h:101
+#: src/ui/classic/classicui.h:102
 msgid "Menu Font"
 msgstr "Шрифт меню"
 
@@ -1536,7 +1548,7 @@ msgctxt "Key name"
 msgid "Messenger"
 msgstr "Мессенджер"
 
-#: src/ui/classic/theme.h:158
+#: src/ui/classic/theme.h:159
 msgid "Metadata"
 msgstr "Метаданные"
 
@@ -1575,7 +1587,7 @@ msgctxt "Key name"
 msgid "My Sites"
 msgstr "Мои сайты"
 
-#: src/ui/classic/theme.h:150
+#: src/ui/classic/theme.h:151
 msgid "Name"
 msgstr "Имя"
 
@@ -1589,11 +1601,11 @@ msgctxt "Key name"
 msgid "News"
 msgstr "Новости"
 
-#: src/im/keyboard/keyboard.h:50
+#: src/im/keyboard/keyboard.h:48
 msgid "Next Candidate"
 msgstr "Следующий кандидат"
 
-#: src/ui/classic/theme.h:124
+#: src/ui/classic/theme.h:126
 msgid "Next Page Button"
 msgstr "Кнопка следующей страницы"
 
@@ -1605,13 +1617,23 @@ msgstr "Нет"
 msgid "No clipboard history."
 msgstr "История буфера обмена отсутствует."
 
-#: src/im/keyboard/keyboard.h:34 src/modules/quickphrase/quickphrase.h:28
+#: src/im/keyboard/keyboard.h:32 src/modules/quickphrase/quickphrase.h:28
 msgid "None"
 msgstr "Нет"
 
-#: src/ui/classic/theme.h:99 src/ui/classic/theme.h:130
+#: src/ui/classic/theme.h:99 src/ui/classic/theme.h:131
 msgid "Normal text color"
 msgstr "Обычный цвет текста"
+
+#: src/ui/classic/classicui.h:144
+msgid ""
+"Normally Wayland uses 96 as font DPI in combinition with the screen scale "
+"factor. This option allows you to override the font DPI. If the value is 0, "
+"it means this option is disabled."
+msgstr ""
+"Обычно Wayland использует 96 DPI шрифта в сочетании с коэффициентом "
+"масштабирования экрана. Эта опция позволяет переопределить DPI шрифта. Если "
+"значение равно 0, это означает, что эта опция отключена."
 
 #: src/ui/kimpanel/kimpanel.cpp:367
 msgid "Not available"
@@ -1634,7 +1656,7 @@ msgstr "NumLock"
 msgid "Number of entries"
 msgstr "Количество входов"
 
-#: src/im/keyboard/keyboard.cpp:671
+#: src/im/keyboard/keyboard.cpp:626
 msgid ""
 "Only emoji support is found. To enable spell checking, you may need to "
 "install spell check data for the language."
@@ -1689,7 +1711,7 @@ msgstr "Владелец имени DBus ${1} — ${2}."
 msgid "PID of DBus name ${1} owner is ${2}."
 msgstr "PID владельца имени DBus ${1} — ${2}."
 
-#: src/im/keyboard/keyboard.h:39
+#: src/im/keyboard/keyboard.h:37
 msgid "Page size"
 msgstr "Размер страницы"
 
@@ -1770,7 +1792,7 @@ msgstr "Предварительное редактирование отключ
 msgid "Preedit enabled"
 msgstr "Предварительное редактирование включено"
 
-#: src/ui/classic/classicui.h:109
+#: src/ui/classic/classicui.h:110
 msgid "Prefer Text Icon"
 msgstr "Иконка предпочтительного текста"
 
@@ -1778,11 +1800,11 @@ msgstr "Иконка предпочтительного текста"
 msgid "Presage"
 msgstr "Presage"
 
-#: src/im/keyboard/keyboard.h:44
+#: src/im/keyboard/keyboard.h:42
 msgid "Prev Candidate"
 msgstr "Предыдущий кандидат"
 
-#: src/ui/classic/theme.h:123
+#: src/ui/classic/theme.h:125
 msgid "Prev Page Button"
 msgstr "Кнопка предыдущей страницы"
 
@@ -1838,7 +1860,7 @@ msgid "Reply"
 msgstr "Ответить"
 
 #: src/ui/classic/xcbtraywindow.cpp:39
-#: src/modules/notificationitem/dbusmenu.cpp:253
+#: src/modules/notificationitem/dbusmenu.cpp:255
 msgid "Restart"
 msgstr "Перезапустить"
 
@@ -1943,11 +1965,11 @@ msgctxt "Key name"
 msgid "Send"
 msgstr "Отправить"
 
-#: src/ui/classic/theme.h:141
+#: src/ui/classic/theme.h:142
 msgid "Separator Background"
 msgstr "Фон разделителя"
 
-#: src/ui/classic/theme.h:127
+#: src/ui/classic/theme.h:128
 msgid "Shadow Margin"
 msgstr "Затенённое поле"
 
@@ -1973,7 +1995,7 @@ msgstr "Показывать информацию о способе ввода �
 msgid "Show Input Method Information when switch input method"
 msgstr "Показывать информацию о методе ввода при переключении"
 
-#: src/ui/classic/classicui.h:114
+#: src/ui/classic/classicui.h:115
 msgid "Show Layout Name In Icon"
 msgstr "Показать имя раскладки в значке"
 
@@ -1985,7 +2007,7 @@ msgstr "Показать информацию о компактном метод
 msgid "Show first input method information"
 msgstr "Показать информацию о первом методе ввода"
 
-#: src/ui/classic/classicui.h:118
+#: src/ui/classic/classicui.h:119
 msgid ""
 "Show layout name in icon if there is more than one active layout. If prefer "
 "text icon is set to true, this option will be ignored."
@@ -1998,7 +2020,7 @@ msgstr ""
 msgid "Show preedit in application"
 msgstr "Показать предварительное редактирование в приложении"
 
-#: src/im/keyboard/keyboard.h:79
+#: src/im/keyboard/keyboard.h:77
 msgid ""
 "Show preedit when composing, and commit dead key if there is no matching "
 "sequence."
@@ -2020,11 +2042,11 @@ msgctxt "Key name"
 msgid "Space"
 msgstr "Space"
 
-#: src/ui/classic/theme.h:135
+#: src/ui/classic/theme.h:136
 msgid "Spacing"
 msgstr "Расстояние"
 
-#: src/im/keyboard/keyboard.h:81 src/modules/spell/spell.conf.in.in:3
+#: src/im/keyboard/keyboard.h:79 src/modules/spell/spell.conf.in.in:3
 msgid "Spell"
 msgstr "Подсказки"
 
@@ -2061,7 +2083,7 @@ msgctxt "Key name"
 msgid "Stop"
 msgstr "Остановить"
 
-#: src/ui/classic/theme.h:143
+#: src/ui/classic/theme.h:144
 msgid "Sub Menu"
 msgstr "Подменю"
 
@@ -2070,7 +2092,7 @@ msgctxt "Key name"
 msgid "Subtitle"
 msgstr "Подзаголовок"
 
-#: src/im/keyboard/keyboard.h:35 src/modules/quickphrase/quickphrase.h:29
+#: src/im/keyboard/keyboard.h:33 src/modules/quickphrase/quickphrase.h:29
 msgid "Super"
 msgstr "Super"
 
@@ -2140,11 +2162,11 @@ msgstr ""
 msgid "The script is run as ${1} (${2})."
 msgstr "Сценарий запущен пользователем ${1} (${2})."
 
-#: src/ui/classic/classicui.h:134
+#: src/ui/classic/classicui.h:135
 msgid "Theme"
 msgstr "Тема"
 
-#: src/ui/classic/classicui.h:78
+#: src/ui/classic/classicui.h:79
 msgid "This is only effective when the tray icon is xembed."
 msgstr "Это эффективно только тогда, когда значок в трее встроен."
 
@@ -2235,15 +2257,15 @@ msgctxt "Key name"
 msgid "Travel"
 msgstr "Ход"
 
-#: src/ui/classic/classicui.h:103
+#: src/ui/classic/classicui.h:104
 msgid "Tray Font"
 msgstr "Шрифт в лотке"
 
-#: src/ui/classic/classicui.h:105
+#: src/ui/classic/classicui.h:106
 msgid "Tray Label Outline Color"
 msgstr "Цвет контура лейбла лотка"
 
-#: src/ui/classic/classicui.h:108
+#: src/ui/classic/classicui.h:109
 msgid "Tray Label Text Color"
 msgstr "Цвет текста лейбла лотка"
 
@@ -2261,15 +2283,15 @@ msgstr "Клавиша-триггер"
 msgid "Trigger Key for only current input context"
 msgstr "Клавиша-триггер только для текущего контекста ввода"
 
-#: src/im/keyboard/keyboard.h:64
+#: src/im/keyboard/keyboard.h:62
 msgid "Trigger hint mode"
 msgstr "Активировать режим подсказки"
 
-#: src/im/keyboard/keyboard.h:69
+#: src/im/keyboard/keyboard.h:67
 msgid "Trigger hint mode for one time"
 msgstr "Активировать режим подсказки один раз"
 
-#: src/im/keyboard/keyboard.h:84
+#: src/im/keyboard/keyboard.h:82
 msgid "Type special characters with long press"
 msgstr "Вводить специальные символы долгим нажатием"
 
@@ -2303,25 +2325,25 @@ msgstr "Вверх"
 msgid "Use On The Spot Style (Needs restarting)"
 msgstr "Использовать стиль On The Spot (требуется перезагрузка)"
 
-#: src/ui/classic/classicui.h:92
+#: src/ui/classic/classicui.h:93
 msgid "Use Per Screen DPI"
 msgstr "Использовать DPI для каждого экрана"
 
-#: src/ui/classic/theme.h:108
+#: src/ui/classic/theme.h:110
 msgid "Use all horizontal space for highlight when it is vertical list"
 msgstr ""
 "Используйте все горизонтальное пространство для выделения, когда это "
 "вертикальный список"
 
-#: src/ui/classic/classicui.h:125
+#: src/ui/classic/classicui.h:126
 msgid "Use input method language to display text"
 msgstr "Использовать язык метода ввода для отображения текста"
 
-#: src/ui/classic/classicui.h:95
+#: src/ui/classic/classicui.h:96
 msgid "Use mouse wheel to go to prev or next page"
 msgstr "Используйте колёсико мыши, для перелистывания страниц"
 
-#: src/im/keyboard/keyboard.h:75
+#: src/im/keyboard/keyboard.h:73
 msgid "Use new compose behavior"
 msgstr "Использовать новое поведение при написании"
 
@@ -2333,7 +2355,7 @@ msgstr "Пользовательский интерфейс:"
 msgid "Using ${1} to check dbus."
 msgstr "Использование ${1} для проверки dbus."
 
-#: src/ui/classic/theme.h:151
+#: src/ui/classic/theme.h:152
 msgid "Version"
 msgstr "Версия"
 
@@ -2341,7 +2363,7 @@ msgstr "Версия"
 msgid "Version Line:"
 msgstr "Версия Line:"
 
-#: src/ui/classic/classicui.h:91
+#: src/ui/classic/classicui.h:92
 msgid "Vertical Candidate List"
 msgstr "Вертикальный список кандидатов"
 
@@ -2591,7 +2613,7 @@ msgstr "Переменные среды sudo"
 msgid "version:"
 msgstr "Версия:"
 
-#: src/im/keyboard/keyboard.cpp:309
+#: src/im/keyboard/keyboard.cpp:265
 msgid "{0} (Not Available)"
 msgstr "{0} (Недоступно)"
 

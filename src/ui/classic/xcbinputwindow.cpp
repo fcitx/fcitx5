@@ -124,16 +124,7 @@ void XCBInputWindow::updateDPI(InputContext *inputContext) {
     dpi_ = ui_->dpiByPosition(inputContext->cursorRect().left(),
                               inputContext->cursorRect().top());
 
-    // Unlike pango cairo context, Cairo font map does not accept negative dpi.
-    // Restore to default value instead.
-    if (dpi_ < 0) {
-        pango_cairo_font_map_set_resolution(
-            PANGO_CAIRO_FONT_MAP(fontMap_.get()), fontMapDefaultDPI_);
-    } else {
-        pango_cairo_font_map_set_resolution(
-            PANGO_CAIRO_FONT_MAP(fontMap_.get()), dpi_);
-    }
-    pango_cairo_context_set_resolution(context_.get(), dpi_);
+    setFontDPI(dpi_);
 }
 
 void XCBInputWindow::update(InputContext *inputContext) {
@@ -163,13 +154,29 @@ void XCBInputWindow::update(InputContext *inputContext) {
                 xcb_delete_property(ui_->connection(), wid_, atomBlur_);
             } else {
                 std::vector<uint32_t> data;
-                data.push_back(rect.left());
-                data.push_back(rect.top());
-                data.push_back(rect.width());
-                data.push_back(rect.height());
-                xcb_change_property(ui_->connection(), XCB_PROP_MODE_REPLACE,
-                                    wid_, atomBlur_, XCB_ATOM_CARDINAL, 32,
-                                    data.size(), data.data());
+                if (ui_->parent()->theme().inputPanel->blurMask->empty()) {
+                    data.push_back(rect.left());
+                    data.push_back(rect.top());
+                    data.push_back(rect.width());
+                    data.push_back(rect.height());
+                    xcb_change_property(ui_->connection(),
+                                        XCB_PROP_MODE_REPLACE, wid_, atomBlur_,
+                                        XCB_ATOM_CARDINAL, 32, data.size(),
+                                        data.data());
+                } else {
+                    auto region = parent_->theme().mask(
+                        parent_->theme().maskConfig(), width, height);
+                    for (const auto &rect : region) {
+                        data.push_back(rect.left());
+                        data.push_back(rect.top());
+                        data.push_back(rect.width());
+                        data.push_back(rect.height());
+                    }
+                    xcb_change_property(ui_->connection(),
+                                        XCB_PROP_MODE_REPLACE, wid_, atomBlur_,
+                                        XCB_ATOM_CARDINAL, 32, data.size(),
+                                        data.data());
+                }
             }
         }
     }

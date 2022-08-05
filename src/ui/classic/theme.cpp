@@ -627,6 +627,9 @@ void Theme::load(const std::string &name) {
         Configuration::load(themeConfig, true);
     }
     name_ = name;
+    maskConfig_ = *inputPanel->background;
+    maskConfig_.overlay.setValue("");
+    maskConfig_.image.setValue(*inputPanel->blurMask);
 }
 
 void Theme::load(const std::string &name, const RawConfig &rawConfig) {
@@ -637,11 +640,97 @@ void Theme::load(const std::string &name, const RawConfig &rawConfig) {
 
 bool Theme::setIconTheme(const std::string &name) {
     if (iconTheme_.internalName() != name) {
-        FCITX_INFO() << "New Icon theme: " << name;
+        CLASSICUI_DEBUG() << "New Icon theme: " << name;
         iconTheme_ = IconTheme(name);
         trayImageTable_.clear();
         return true;
     }
     return false;
 }
+std::vector<Rect> Theme::mask(const BackgroundImageConfig &cfg, int width,
+                              int height) {
+    UniqueCPtr<cairo_surface_t, cairo_surface_destroy> mask(
+        cairo_image_surface_create(CAIRO_FORMAT_A1, width, height));
+    auto c = cairo_create(mask.get());
+    cairo_set_operator(c, CAIRO_OPERATOR_SOURCE);
+    paint(c, cfg, width, height, 1);
+    cairo_destroy(c);
+
+    UniqueCPtr<cairo_region_t, cairo_region_destroy> region(
+        cairo_region_create());
+    cairo_rectangle_int_t rect;
+#define AddSpan                                                                \
+    do {                                                                       \
+        rect.x = prev1;                                                        \
+        rect.y = y;                                                            \
+        rect.width = x - prev1;                                                \
+        rect.height = 1;                                                       \
+        cairo_region_union_rectangle(region.get(), &rect);                     \
+    } while (0)
+    const uint8_t zero = 0;
+    const auto *data = cairo_image_surface_get_data(mask.get());
+    auto cairo_stride = cairo_image_surface_get_stride(mask.get());
+    constexpr bool little = G_BYTE_ORDER == G_LITTLE_ENDIAN;
+    int x, y;
+    for (y = 0; y < height; ++y) {
+        uint8_t all = zero;
+        int prev1 = -1;
+        for (x = 0; x < width;) {
+            uint8_t byte = data[x / 8];
+            if (x > width - 8 || byte != all) {
+                if constexpr (little) {
+                    for (int b = 8; b > 0 && x < width; --b) {
+                        if (!(byte & 0x01) == !all) {
+                            // More of the same
+                        } else {
+                            // A change.
+                            if (all != zero) {
+                                AddSpan;
+                                all = zero;
+                            } else {
+                                prev1 = x;
+                                all = ~zero;
+                            }
+                        }
+                        byte >>= 1;
+                        ++x;
+                    }
+                } else {
+                    for (int b = 8; b > 0 && x < width; --b) {
+                        if (!(byte & 0x80) == !all) {
+                            // More of the same
+                        } else {
+                            // A change.
+                            if (all != zero) {
+                                AddSpan;
+                                all = zero;
+                            } else {
+                                prev1 = x;
+                                all = ~zero;
+                            }
+                        }
+                        byte <<= 1;
+                        ++x;
+                    }
+                }
+            } else {
+                x += 8;
+            }
+        }
+        if (all != zero) {
+            AddSpan;
+        }
+        data += cairo_stride;
+    }
+#undef AddSpan
+    std::vector<Rect> result;
+    for (int i = 0, e = cairo_region_num_rectangles(region.get()); i < e; i++) {
+        cairo_region_get_rectangle(region.get(), i, &rect);
+        result.push_back(Rect()
+                             .setPosition(rect.x, rect.y)
+                             .setSize(rect.width, rect.height));
+    }
+    return result;
+}
+
 } // namespace fcitx::classicui

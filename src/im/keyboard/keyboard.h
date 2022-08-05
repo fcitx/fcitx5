@@ -7,8 +7,6 @@
 #ifndef _FCITX_IM_KEYBOARD_KEYBOARD_H_
 #define _FCITX_IM_KEYBOARD_KEYBOARD_H_
 
-#include <xkbcommon/xkbcommon-compose.h>
-#include <xkbcommon/xkbcommon.h>
 #include "fcitx-config/configuration.h"
 #include "fcitx-config/iniparser.h"
 #include "fcitx-utils/event.h"

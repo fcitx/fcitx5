@@ -8,7 +8,8 @@ if (WAYLAND_FOUND)
         waylandpointer.cpp buffer.cpp waylandinputwindow.cpp)
     set(CLASSICUI_WAYLAND_LIBS ${CLASSICUI_WAYLAND_LIBS}
         Fcitx5::Module::Wayland Fcitx5::Module::WaylandIM Wayland::Client Fcitx5::Wayland::Core
-        Fcitx5::Wayland::InputMethod Fcitx5::Wayland::InputMethodV2)
+        Fcitx5::Wayland::InputMethod Fcitx5::Wayland::InputMethodV2
+        Fcitx5::Wayland::Blur)
 else()
 endif()
 
@@ -20,7 +21,7 @@ if (ENABLE_X11)
 endif()
 
 add_library(classicui MODULE
-    classicui.cpp window.cpp theme.cpp inputwindow.cpp  ${CLASSICUI_WAYLAND_SRCS}
+    classicui.cpp window.cpp theme.cpp inputwindow.cpp plasmathemewatchdog.cpp ${CLASSICUI_WAYLAND_SRCS}
     )
 
 target_link_libraries(classicui

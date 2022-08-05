@@ -66,12 +66,16 @@ public:
                                               SpellProvider provider,
                                               const std::string &word,
                                               size_t limit);
+    std::vector<std::pair<std::string, std::string>>
+    hintForDisplay(const std::string &language, SpellProvider provider,
+                   const std::string &word, size_t limit);
 
 private:
     FCITX_ADDON_EXPORT_FUNCTION(Spell, checkDict);
     FCITX_ADDON_EXPORT_FUNCTION(Spell, addWord);
     FCITX_ADDON_EXPORT_FUNCTION(Spell, hint);
     FCITX_ADDON_EXPORT_FUNCTION(Spell, hintWithProvider);
+    FCITX_ADDON_EXPORT_FUNCTION(Spell, hintForDisplay);
     SpellConfig config_;
     typedef std::unordered_map<SpellProvider, std::unique_ptr<SpellBackend>,
                                EnumHash>
@@ -92,9 +96,9 @@ public:
     virtual bool checkDict(const std::string &language) = 0;
     virtual void addWord(const std::string &language,
                          const std::string &word) = 0;
-    virtual std::vector<std::string> hint(const std::string &language,
-                                          const std::string &word,
-                                          size_t limit) = 0;
+    virtual std::vector<std::pair<std::string, std::string>>
+    hint(const std::string &language, const std::string &word,
+         size_t limit) = 0;
 
     const SpellConfig &config() { return parent_->config(); }
 

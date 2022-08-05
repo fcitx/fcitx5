@@ -158,7 +158,7 @@ void DBusMenu::fillLayoutItem(
     auto &imManager = parent_->instance()->inputMethodManager();
     if (id == 0) {
         // Group
-        if (imManager.groupCount()) {
+        if (imManager.groupCount() > 1) {
             appendSubItem(subLayoutItems, BII_InputMethodGroup, depth,
                           propertyNames);
         }
@@ -188,7 +188,9 @@ void DBusMenu::fillLayoutItem(
         }
         appendSubItem(subLayoutItems, BII_Configure, depth, propertyNames);
         appendSubItem(subLayoutItems, BII_Restart, depth, propertyNames);
-        appendSubItem(subLayoutItems, BII_Exit, depth, propertyNames);
+        if (getDesktopType() != DesktopType::DEEPIN) {
+            appendSubItem(subLayoutItems, BII_Exit, depth, propertyNames);
+        }
     } else if (id == BII_InputMethodGroup) {
         int idx = BII_InputMethodGroupStart;
         for (const auto &group : imManager.groups()) {

@@ -63,6 +63,12 @@ bool isreg(const std::string &path) {
             access(path.c_str(), R_OK) == 0);
 }
 
+bool isexe(const std::string &path) {
+    struct stat stats;
+    return (stat(path.c_str(), &stats) == 0 && S_ISREG(stats.st_mode) &&
+            access(path.c_str(), R_OK | X_OK) == 0);
+}
+
 bool islnk(const std::string &path) {
     struct stat stats;
     return lstat(path.c_str(), &stats) == 0 && S_ISLNK(stats.st_mode);
