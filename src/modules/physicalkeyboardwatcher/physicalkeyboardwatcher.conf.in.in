@@ -1,0 +1,12 @@
+[Addon]
+Name=Physical Keyboard Watcher
+Comment=Physical Keyboard Watcher
+Type=SharedLibrary
+Library=libphysicalkeyboardwatcher
+Category=Module
+Version=@PROJECT_VERSION@
+OnDemand=False
+
+[Addon/Dependencies]
+0=dbus
+1=core:@PROJECT_VERSION@
