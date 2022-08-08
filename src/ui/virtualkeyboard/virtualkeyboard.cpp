@@ -6,7 +6,7 @@
  */
 
 #include "virtualkeyboard.h"
-#include <fcitx/inputmethodengine.h>
+#include "fcitx/inputmethodengine.h"
 #include "fcitx-utils/dbus/message.h"
 #include "fcitx-utils/dbus/objectvtable.h"
 #include "fcitx-utils/dbus/servicewatcher.h"
@@ -27,13 +27,19 @@
 
 namespace fcitx {
 
-class VirtualKeyboardService
-    : public dbus::ObjectVTable<VirtualKeyboardService> {
+static const char VirtualKeyboardBackendName[] = "org.fcitx.Fcitx5.VirtualKeyboardBackend";
+static const char VirtualKeyboardBackendInterfaceName[] = "org.fcitx.Fcitx5.VirtualKeyboardBackend1";
+static const char VirtualKeyboardName[] = "org.fcitx.Fcitx5.VirtualKeyboard";
+static const char VirtualKeyboardInterfaceName[] = "org.fcitx.Fcitx5.VirtualKeyboard1";
+
+class VirtualKeyboardBackend
+    : public dbus::ObjectVTable<VirtualKeyboardBackend> {
 public:
-    explicit VirtualKeyboardService(VirtualKeyboard *parent)
+    VirtualKeyboardBackend(VirtualKeyboard *parent)
         : parent_(parent) {}
 
-    ~VirtualKeyboardService() = default;
+    ~VirtualKeyboardBackend() = default;
+
 
     void showVirtualKeyboard() {
         if (!parent_->available() || parent_->isVirtualKeyboardVisible()) {
@@ -53,25 +59,6 @@ public:
 
         parent_->hideVirtualKeyboard();
     }
-
-private:
-    FCITX_OBJECT_VTABLE_METHOD(showVirtualKeyboard, "ShowVirtualKeyboard", "",
-                               "");
-
-    FCITX_OBJECT_VTABLE_METHOD(hideVirtualKeyboard, "HideVirtualKeyboard", "",
-                               "");
-
-private:
-    VirtualKeyboard *parent_;
-};
-
-class VirtualKeyboardProxy : public dbus::ObjectVTable<VirtualKeyboardProxy> {
-
-public:
-    VirtualKeyboardProxy(VirtualKeyboard *parent, dbus::Bus *bus)
-        : parent_(parent), bus_(bus) {}
-
-    ~VirtualKeyboardProxy() = default;
 
     void processKeyEvent(uint32_t keyval, uint32_t keycode, uint32_t state,
                          bool isRelease, uint32_t time);
@@ -108,10 +95,16 @@ private:
     PageableCandidateList *getPageableCandidateList();
 
 private:
+    FCITX_OBJECT_VTABLE_METHOD(showVirtualKeyboard, "ShowVirtualKeyboard", "",
+                               "");
+
+    FCITX_OBJECT_VTABLE_METHOD(hideVirtualKeyboard, "HideVirtualKeyboard", "",
+                               "");
+
     FCITX_OBJECT_VTABLE_METHOD(processKeyEvent, "ProcessKeyEvent", "uuubu", "");
 
     FCITX_OBJECT_VTABLE_METHOD(processVisibilityEvent,
-                               "PprocessVisibilityEvent", "b", "");
+                               "ProcessVisibilityEvent", "b", "");
 
     FCITX_OBJECT_VTABLE_METHOD(selectCandidate, "SelectCandidate", "i", "");
 
@@ -126,23 +119,20 @@ private:
     FCITX_OBJECT_VTABLE_METHOD(nextPage, "NextPage", "", "");
 
     VirtualKeyboard *parent_;
-    dbus::Bus *bus_;
 };
 
-void VirtualKeyboardProxy::processKeyEvent(uint32_t keyval, uint32_t keycode,
+void VirtualKeyboardBackend::processKeyEvent(uint32_t keyval, uint32_t keycode,
                                            uint32_t state, bool isRelease,
                                            uint32_t time) {
     auto *inputContext = parent_->instance()->mostRecentInputContext();
-    if (inputContext == nullptr) {
+    if (inputContext == nullptr || !inputContext->hasFocus()) {
+        // TODO: when keyboard is shown but no focused ic, send fake key via display server interface.
         return;
     }
 
     KeyEvent event(inputContext,
                    Key(static_cast<KeySym>(keyval), KeyStates(state), keycode),
                    isRelease, time);
-    if (!inputContext->hasFocus()) {
-        inputContext->focusIn();
-    }
 
     auto eventConsumed = inputContext->keyEvent(event);
     if (eventConsumed) {
@@ -155,7 +145,7 @@ void VirtualKeyboardProxy::processKeyEvent(uint32_t keyval, uint32_t keycode,
 }
 
 std::vector<dbus::DBusStruct<std::string, std::string>>
-VirtualKeyboardProxy::getInputMethodList() {
+VirtualKeyboardBackend::getInputMethodList() {
     auto *instance = parent_->instance();
     auto &imManager = instance->inputMethodManager();
     auto &imList = imManager.currentGroup().inputMethodList();
@@ -168,7 +158,7 @@ VirtualKeyboardProxy::getInputMethodList() {
     return inputMethodList;
 }
 
-void VirtualKeyboardProxy::prevPage() {
+void VirtualKeyboardBackend::prevPage() {
     auto *inputContext = parent_->instance()->mostRecentInputContext();
     if (inputContext == nullptr) {
         return;
@@ -183,7 +173,7 @@ void VirtualKeyboardProxy::prevPage() {
     inputContext->updateUserInterface(UserInterfaceComponent::InputPanel);
 }
 
-void VirtualKeyboardProxy::nextPage() {
+void VirtualKeyboardBackend::nextPage() {
     auto *inputContext = parent_->instance()->mostRecentInputContext();
     if (inputContext == nullptr) {
         return;
@@ -198,7 +188,7 @@ void VirtualKeyboardProxy::nextPage() {
     inputContext->updateUserInterface(UserInterfaceComponent::InputPanel);
 }
 
-PageableCandidateList *VirtualKeyboardProxy::getPageableCandidateList() {
+PageableCandidateList *VirtualKeyboardBackend::getPageableCandidateList() {
     auto *inputContext = parent_->instance()->mostRecentInputContext();
     if (inputContext == nullptr) {
         return nullptr;
@@ -217,7 +207,7 @@ VirtualKeyboard::VirtualKeyboard(Instance *instance)
     : instance_(instance), bus_(dbus()->call<IDBusModule::bus>()),
       watcher_(*bus_) {
     entry_ =
-        watcher_.watchService("org.fcitx.virtualkeyboard.inputpanel",
+        watcher_.watchService(VirtualKeyboardName,
                               [this](const std::string &, const std::string &,
                                      const std::string &newOwner) {
                                   FCITX_INFO() << "VirtualKeyboard new owner: "
@@ -231,15 +221,15 @@ VirtualKeyboard::~VirtualKeyboard() = default;
 void VirtualKeyboard::suspend() {
     eventHandlers_.clear();
     proxy_.reset();
-    bus_->releaseName("org.fcitx.virtualkeyboard.inputpanel");
+    bus_->releaseName(VirtualKeyboardBackendName);
 }
 
 void VirtualKeyboard::resume() {
-    proxy_ = std::make_unique<VirtualKeyboardProxy>(this, bus_);
+    proxy_ = std::make_unique<VirtualKeyboardBackend>(this);
     bus_->addObjectVTable("/virtualkeyboard",
-                          "org.fcitx.virtualkeyboard.inputmethod", *proxy_);
+                          VirtualKeyboardBackendInterfaceName, *proxy_);
     bus_->requestName(
-        "org.fcitx.virtualkeyboard.inputmethod",
+        VirtualKeyboardBackendName,
         Flags<dbus::RequestNameFlag>{dbus::RequestNameFlag::ReplaceExisting,
                                      dbus::RequestNameFlag::Queue});
     bus_->flush();
@@ -262,7 +252,7 @@ void VirtualKeyboard::resume() {
         }));
     eventHandlers_.emplace_back(instance_->watchEvent(
         EventType::InputContextKeyEvent, EventWatcherPhase::PreInputMethod,
-        [this](Event &event) {
+        [this](Event &) {
             instance_->setInputMethodMode(InputMethodMode::PhysicalKeyboard);
         }));
 }
@@ -279,9 +269,9 @@ void VirtualKeyboard::showVirtualKeyboard() {
         return;
     }
 
-    auto msg = bus_->createMethodCall("org.fcitx.virtualkeyboard.inputpanel",
+    auto msg = bus_->createMethodCall(VirtualKeyboardName,
                                       "/org/fcitx/virtualkeyboard/impanel",
-                                      "org.fcitx.virtualkeyboard.inputpanel",
+                                      VirtualKeyboardInterfaceName,
                                       "ShowVirtualKeyboard");
 
     msg.send();
@@ -292,9 +282,9 @@ void VirtualKeyboard::hideVirtualKeyboard() {
         return;
     }
 
-    auto msg = bus_->createMethodCall("org.fcitx.virtualkeyboard.inputpanel",
+    auto msg = bus_->createMethodCall(VirtualKeyboardName,
                                       "/org/fcitx/virtualkeyboard/impanel",
-                                      "org.fcitx.virtualkeyboard.inputpanel",
+                                      VirtualKeyboardInterfaceName,
                                       "HideVirtualKeyboard");
 
     msg.send();
@@ -323,23 +313,6 @@ void VirtualKeyboard::updateInputPanel(InputContext *inputContext) {
     updateCandidateArea(candidateTextList, hasPrev, hasNext, pageIndex);
 }
 
-void VirtualKeyboard::startVirtualKeyboardService() {
-    service_ = std::make_unique<VirtualKeyboardService>(this);
-    bus_->addObjectVTable("/virtualkeyboard",
-                          "org.fcitx.virtualkeyboard.service", *service_);
-    bus_->requestName(
-        "org.fcitx.virtualkeyboard.service",
-        Flags<dbus::RequestNameFlag>{dbus::RequestNameFlag::ReplaceExisting,
-                                     dbus::RequestNameFlag::Queue});
-    bus_->flush();
-}
-
-void VirtualKeyboard::stopVirtualKeyboardService() {
-    service_.reset();
-
-    bus_->releaseName("org.fcitx.virtualkeyboard.service");
-}
-
 void VirtualKeyboard::setAvailable(bool available) {
     if (available_ == available) {
         return;
@@ -348,12 +321,6 @@ void VirtualKeyboard::setAvailable(bool available) {
     available_ = available;
 
     instance()->userInterfaceManager().updateAvailability();
-
-    if (available) {
-        startVirtualKeyboardService();
-    } else {
-        stopVirtualKeyboardService();
-    }
 }
 
 int VirtualKeyboard::calcPreeditCursor(const Text &preedit) {
@@ -375,18 +342,18 @@ int VirtualKeyboard::calcPreeditCursor(const Text &preedit) {
 
 void VirtualKeyboard::updatePreeditCaret(int preeditCursor) {
 
-    auto msg = bus_->createMethodCall("org.fcitx.virtualkeyboard.inputpanel",
+    auto msg = bus_->createMethodCall(VirtualKeyboardName,
                                       "/org/fcitx/virtualkeyboard/impanel",
-                                      "org.fcitx.virtualkeyboard.inputpanel",
+                                      VirtualKeyboardInterfaceName,
                                       "UpdatePreeditCaret");
     msg << preeditCursor;
     msg.send();
 }
 
 void VirtualKeyboard::updatePreeditArea(const std::string &preeditText) {
-    auto msg = bus_->createMethodCall("org.fcitx.virtualkeyboard.inputpanel",
+    auto msg = bus_->createMethodCall(VirtualKeyboardName,
                                       "/org/fcitx/virtualkeyboard/impanel",
-                                      "org.fcitx.virtualkeyboard.inputpanel",
+                                      VirtualKeyboardInterfaceName,
                                       "UpdatePreeditArea");
     msg << preeditText;
     msg.send();
@@ -416,35 +383,35 @@ std::vector<std::string> VirtualKeyboard::makeCandidateTextList(
 void VirtualKeyboard::updateCandidateArea(
     const std::vector<std::string> &candidateTextList, bool hasPrev,
     bool hasNext, int pageIndex) {
-    auto msg = bus_->createMethodCall("org.fcitx.virtualkeyboard.inputpanel",
+    auto msg = bus_->createMethodCall(VirtualKeyboardName,
                                       "/org/fcitx/virtualkeyboard/impanel",
-                                      "org.fcitx.virtualkeyboard.inputpanel",
+                                      VirtualKeyboardInterfaceName,
                                       "UpdateCandidateArea");
     msg << candidateTextList << hasPrev << hasNext << pageIndex;
     msg.send();
 }
 
 void VirtualKeyboard::notifyIMActivated(const std::string &uniqueName) {
-    auto msg = bus_->createMethodCall("org.fcitx.virtualkeyboard.inputpanel",
+    auto msg = bus_->createMethodCall(VirtualKeyboardName,
                                       "/org/fcitx/virtualkeyboard/impanel",
-                                      "org.fcitx.virtualkeyboard.inputpanel",
+                                      VirtualKeyboardInterfaceName,
                                       "NotifyIMActivated");
     msg << uniqueName;
     msg.send();
 }
 
 void VirtualKeyboard::notifyIMDeactivated(const std::string &uniqueName) {
-    auto msg = bus_->createMethodCall("org.fcitx.virtualkeyboard.inputpanel",
+    auto msg = bus_->createMethodCall(VirtualKeyboardName,
                                       "/org/fcitx/virtualkeyboard/impanel",
-                                      "org.fcitx.virtualkeyboard.inputpanel",
+                                      VirtualKeyboardInterfaceName,
                                       "NotifyIMDeactivated");
     msg << uniqueName;
     msg.send();
 }
 void VirtualKeyboard::notifyIMListChanged() {
-    auto msg = bus_->createMethodCall("org.fcitx.virtualkeyboard.inputpanel",
+    auto msg = bus_->createMethodCall(VirtualKeyboardName,
                                       "/org/fcitx/virtualkeyboard/impanel",
-                                      "org.fcitx.virtualkeyboard.inputpanel",
+                                      VirtualKeyboardInterfaceName,
                                       "NotifyIMListChanged");
     msg.send();
 }

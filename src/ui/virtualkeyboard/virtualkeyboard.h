@@ -20,8 +20,7 @@
 namespace fcitx {
 
 class CandidateList;
-class VirtualKeyboardProxy;
-class VirtualKeyboardService;
+class VirtualKeyboardBackend;
 
 class VirtualKeyboard : public VirtualKeyboardUserInterface {
 public:
@@ -70,8 +69,7 @@ private:
     Instance *instance_;
     dbus::Bus *bus_;
     dbus::ServiceWatcher watcher_;
-    std::unique_ptr<VirtualKeyboardProxy> proxy_;
-    std::unique_ptr<VirtualKeyboardService> service_;
+    std::unique_ptr<VirtualKeyboardBackend> proxy_;
     std::unique_ptr<dbus::ServiceWatcherEntry> entry_;
     std::vector<std::unique_ptr<HandlerTableEntry<EventHandler>>>
         eventHandlers_;

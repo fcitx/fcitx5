@@ -23,7 +23,7 @@ FCITX_CONFIG_ENUM(AddonCategory, InputMethod, Frontend, Loader, Module, UI)
 
 enum class OverrideEnabled { NotSet, Enabled, Disabled };
 
-enum class UIType { First, PhyscialKeyboard = First, OnScreenKeyboard, Last = OnScreenKeyboard };
+FCITX_CONFIG_ENUM(UIType, PhyscialKeyboard, OnScreenKeyboard);
 
 class FCITXCORE_EXPORT AddonInfo {
 public:

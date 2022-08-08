@@ -15,7 +15,7 @@
 #include <fcitx-utils/library.h>
 #include <fcitx-utils/metastring.h>
 #include <fcitx/addoninstance_details.h>
-#include "fcitx/addoninfo.h"
+#include <fcitx/addoninfo.h>
 #include "fcitxcore_export.h"
 
 /// \addtogroup FcitxCore
@@ -24,6 +24,8 @@
 /// \brief Addon For fcitx.
 
 namespace fcitx {
+
+class AddonManagerPrivate;
 
 /// \brief Base class for any addon in fcitx.
 /// To implement addon in fcitx, you will need to create a sub class for this
@@ -70,6 +72,7 @@ namespace fcitx {
 /// addon->call<fcitx::IDummyAddon::addOne>(7);
 /// \endcode
 class FCITXCORE_EXPORT AddonInstance {
+    friend class AddonManagerPrivate;
 public:
     AddonInstance();
     virtual ~AddonInstance();
@@ -116,8 +119,6 @@ public:
                           AddonFunctionAdaptorBase *adaptor);
 
     const AddonInfo *addonInfo() const;
-
-    void setAddonInfo(const AddonInfo *addInfo);
 
 private:
     AddonFunctionAdaptorBase *findCall(const std::string &name);
