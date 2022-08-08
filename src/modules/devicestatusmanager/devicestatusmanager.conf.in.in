@@ -1,0 +1,12 @@
+[Addon]
+Name=Device Status Manager
+Comment=Device Status Manager
+Type=SharedLibrary
+Library=libdevicestatusmanager
+Category=Module
+Version=@PROJECT_VERSION@
+OnDemand=False
+
+[Addon/Dependencies]
+0=dbus
+1=core:@PROJECT_VERSION@
