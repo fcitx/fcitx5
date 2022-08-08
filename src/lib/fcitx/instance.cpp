@@ -958,6 +958,12 @@ Instance::Instance(int argc, char **argv) {
         [this, d](Event &event) {
             auto &icEvent = static_cast<InputContextEvent &>(event);
             activateInputMethod(icEvent);
+
+            if (virtualKeyboardAutoShow()) {
+                auto *inputContext = icEvent.inputContext();
+                inputContext->showVirtualKeyboard();
+            }
+
             if (!d->globalConfig_.showInputMethodInformationWhenFocusIn()) {
                 return;
             }
@@ -991,6 +997,10 @@ Instance::Instance(int argc, char **argv) {
                 }
             }
             deactivateInputMethod(icEvent);
+            if (virtualKeyboardAutoHide()) {
+                auto *inputContext = icEvent.inputContext();
+                inputContext->hideVirtualKeyboard();
+            }
         }));
     d->eventWatchers_.emplace_back(d->watchEvent(
         EventType::InputContextReset, EventWatcherPhase::ReservedFirst,
@@ -1089,6 +1099,9 @@ Instance::Instance(int argc, char **argv) {
             auto &icEvent = static_cast<InputContextEvent &>(event);
             d->uiManager_.expire(icEvent.inputContext());
         }));
+    d->eventWatchers_.emplace_back(d->watchEvent(
+        EventType::InputMethodModeChanged, EventWatcherPhase::ReservedFirst,
+        [d](Event &) { d->uiManager_.updateAvailability(); }));
     d->uiUpdateEvent_ = d->eventLoop_.addDeferEvent([d](EventSource *) {
         d->uiManager_.flush();
         return true;
