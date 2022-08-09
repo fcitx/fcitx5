@@ -885,6 +885,8 @@ Instance::Instance(int argc, char **argv) {
     d->eventWatchers_.emplace_back(
         watchEvent(EventType::InputContextKeyEvent,
                    EventWatcherPhase::InputMethod, [this](Event &event) {
+                       setInputMethodMode(InputMethodMode::PhysicalKeyboard);
+
                        auto &keyEvent = static_cast<KeyEvent &>(event);
                        auto *ic = keyEvent.inputContext();
                        auto *engine = inputMethodEngine(ic);
