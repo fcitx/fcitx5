@@ -41,9 +41,6 @@ public:
     void showVirtualKeyboard() override;
     void hideVirtualKeyboard() override;
 
-    void startVirtualKeyboardService();
-    void stopVirtualKeyboardService();
-
     void setVisible(bool visible) { visible_ = visible; }
 
     void updateInputPanel(InputContext *inputContext);
