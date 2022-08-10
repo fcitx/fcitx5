@@ -47,6 +47,17 @@ public:
     virtual void suspend() = 0;
     virtual void resume() = 0;
 };
+
+class FCITXCORE_EXPORT VirtualKeyboardUserInterface : public UserInterface {
+public:
+    ~VirtualKeyboardUserInterface() override;
+
+    virtual bool isVirtualKeyboardVisible() const = 0;
+
+    virtual void showVirtualKeyboard() = 0;
+
+    virtual void hideVirtualKeyboard() = 0;
+};
 }; // namespace fcitx
 
 #endif // _FCITX_USERINTERFACE_H_

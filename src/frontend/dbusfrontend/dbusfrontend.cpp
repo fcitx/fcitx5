@@ -355,6 +355,24 @@ public:
         invokeAction(event);
     }
 
+    bool isVirtualKeyboardVisibleDBus() const {
+        CHECK_SENDER_OR_RETURN false;
+
+        return isVirtualKeyboardVisible();
+    }
+
+    void showVirtualKeyboardDBus() const {
+        CHECK_SENDER_OR_RETURN;
+
+        showVirtualKeyboard();
+    }
+
+    void hideVirtualKeyboardDBus() const {
+        CHECK_SENDER_OR_RETURN;
+
+        hideVirtualKeyboard();
+    }
+
     void setBlocked() {
         assert(!blocked_);
         blocked_ = true;
@@ -390,6 +408,13 @@ private:
     FCITX_OBJECT_VTABLE_METHOD(nextPage, "NextPage", "", "");
     FCITX_OBJECT_VTABLE_METHOD(selectCandidate, "SelectCandidate", "i", "");
     FCITX_OBJECT_VTABLE_METHOD(invokeActionDBus, "InvokeAction", "ui", "");
+
+    FCITX_OBJECT_VTABLE_METHOD(isVirtualKeyboardVisibleDBus,
+                               "IsVirtualKeyboardVisible", "", "b");
+    FCITX_OBJECT_VTABLE_METHOD(showVirtualKeyboardDBus, "ShowVirtualKeyboard",
+                               "", "");
+    FCITX_OBJECT_VTABLE_METHOD(hideVirtualKeyboardDBus, "HideVirtualKeyboard",
+                               "", "");
 
     FCITX_OBJECT_VTABLE_SIGNAL(commitStringDBus, "CommitString", "s");
     FCITX_OBJECT_VTABLE_SIGNAL(currentIM, "CurrentIM", "sss");

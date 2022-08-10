@@ -12,6 +12,7 @@
 #include <unordered_set>
 #include "fcitx-config/iniparser.h"
 #include "fcitx-utils/log.h"
+#include "addoninstance_p.h"
 #include "addonloader.h"
 #include "addonloader_p.h"
 #include "instance.h"
@@ -179,6 +180,7 @@ public:
 
         if (auto *loader = findValue(loaders_, addon.info().type())) {
             addon.instance_.reset((*loader)->load(addon.info(), q_ptr));
+            addon.instance_->d_func()->addonInfo_ = &(addon.info());
         } else {
             FCITX_ERROR() << "Failed to find addon loader for: "
                           << addon.info().type();

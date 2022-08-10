@@ -41,6 +41,10 @@ public:
     void updateAvailability();
     std::string currentUI() const;
 
+    bool isVirtualKeyboardVisible() const;
+    void showVirtualKeyboard() const;
+    void hideVirtualKeyboard() const;
+
 private:
     std::unique_ptr<UserInterfaceManagerPrivate> d_ptr;
     FCITX_DECLARE_PRIVATE(UserInterfaceManager);

@@ -16,6 +16,7 @@
 #include "inputcontextmanager.h"
 #include "instance.h"
 #include "misc_p.h"
+#include "userinterfacemanager.h"
 
 namespace fcitx {
 
@@ -142,6 +143,24 @@ void InputContext::updateProperty(const InputContextPropertyFactory *factory) {
         return;
     }
     d->manager_.propagateProperty(*this, factory);
+}
+
+bool InputContext::isVirtualKeyboardVisible() const {
+    FCITX_D();
+    auto *instance = d->manager_.instance();
+    return instance->userInterfaceManager().isVirtualKeyboardVisible();
+}
+
+void InputContext::showVirtualKeyboard() const {
+    FCITX_D();
+    auto *instance = d->manager_.instance();
+    return instance->userInterfaceManager().showVirtualKeyboard();
+}
+
+void InputContext::hideVirtualKeyboard() const {
+    FCITX_D();
+    auto *instance = d->manager_.instance();
+    return instance->userInterfaceManager().hideVirtualKeyboard();
 }
 
 CapabilityFlags calculateFlags(CapabilityFlags flag, bool isPreeditEnabled) {

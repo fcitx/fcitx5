@@ -252,6 +252,12 @@ public:
      */
     void updateProperty(const InputContextPropertyFactory *factory);
 
+    bool isVirtualKeyboardVisible() const;
+
+    void showVirtualKeyboard() const;
+
+    void hideVirtualKeyboard() const;
+
 protected:
     /**
      * Send the committed string to client

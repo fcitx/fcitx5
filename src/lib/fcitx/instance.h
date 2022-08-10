@@ -490,6 +490,14 @@ public:
      */
     bool isRestartRequested() const;
 
+    bool virtualKeyboardAutoShow() const;
+
+    void setVirtualKeyboardAutoShow(bool autoShow);
+
+    bool virtualKeyboardAutoHide() const;
+
+    void setVirtualKeyboardAutoHide(bool autoHide);
+
 protected:
     // For testing purpose
     InstancePrivate *privateData();
