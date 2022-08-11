@@ -28,6 +28,8 @@ namespace fcitx {
 
 FCITX_DEFINE_LOG_CATEGORY(wayland_log, "wayland");
 
+#define FCITX_WAYLAND_INFO() FCITX_LOGC(::fcitx::wayland_log, Info)
+#define FCITX_WAYLAND_ERROR() FCITX_LOGC(::fcitx::wayland_log, Error)
 #define FCITX_WAYLAND_DEBUG() FCITX_LOGC(::fcitx::wayland_log, Debug)
 
 namespace {
@@ -142,6 +144,7 @@ void WaylandConnection::setupKeyboard(wayland::WlSeat *seat) {
 
 void WaylandConnection::onIOEvent(IOEventFlags flags) {
     if ((flags & IOEventFlag::Err) || (flags & IOEventFlag::Hup)) {
+        FCITX_WAYLAND_ERROR() << "Received error on socket.";
         return finish();
     }
 
@@ -277,7 +280,7 @@ bool WaylandModule::openConnectionSocket(int fd) {
 }
 
 void WaylandModule::removeConnection(const std::string &name) {
-    FCITX_WAYLAND_DEBUG() << "Connection removed " << name;
+    FCITX_WAYLAND_INFO() << "Connection removed " << name;
     if (name.empty() && instance_->exitWhenMainDisplayDisconnected() &&
         isWaylandSession_) {
         instance_->exit();
