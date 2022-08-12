@@ -26,6 +26,15 @@ std::string InputMethodEngine::subModeLabel(const InputMethodEntry &entry,
     return {};
 }
 
+void InputMethodEngine::virtualKeyEvent(const InputMethodEntry &entry,
+                                        VirtualKeyEvent &virtualKeyEvent) {
+    if (auto *this4 = dynamic_cast<InputMethodEngineV4 *>(this)) {
+        this4->virtualKeyEvent(entry, virtualKeyEvent);
+    } else {
+        keyEvent(entry, virtualKeyEvent);
+    }
+}
+
 void defaultInvokeActionBehavior(InvokeActionEvent &event) {
     auto ic = event.inputContext();
     auto commit = ic->inputPanel().clientPreedit().toStringForCommit();
@@ -49,6 +58,11 @@ void InputMethodEngineV3::invokeActionImpl(const InputMethodEntry &entry,
                                            InvokeActionEvent &event) {
     FCITX_UNUSED(entry);
     defaultInvokeActionBehavior(event);
+}
+
+void InputMethodEngineV4::virtualKeyEvent(const InputMethodEntry &entry,
+                                          VirtualKeyEvent &virtualKeyEvent) {
+    keyEvent(entry, virtualKeyEvent);
 }
 
 } // namespace fcitx
