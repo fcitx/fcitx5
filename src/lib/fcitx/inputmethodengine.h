@@ -176,6 +176,9 @@ public:
      * @since 5.0.11
      */
     void invokeAction(const InputMethodEntry &entry, InvokeActionEvent &event);
+
+    void virtualKeyEvent(const InputMethodEntry &entry,
+                         VirtualKeyEvent &virtualKeyEvent);
 };
 
 class FCITXCORE_EXPORT InputMethodEngineV2 : public InputMethodEngine {
@@ -194,6 +197,12 @@ class FCITXCORE_EXPORT InputMethodEngineV3 : public InputMethodEngineV2 {
 public:
     virtual void invokeActionImpl(const InputMethodEntry &entry,
                                   InvokeActionEvent &event);
+};
+
+class FCITXCORE_EXPORT InputMethodEngineV4 : public InputMethodEngineV3 {
+public:
+    virtual void virtualKeyEvent(const InputMethodEntry &entry,
+                                  VirtualKeyEvent &virtualKeyEvent);
 };
 
 } // namespace fcitx

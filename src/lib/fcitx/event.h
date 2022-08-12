@@ -128,6 +128,8 @@ enum class EventType : uint32_t {
      */
     InputContextInvokeAction = InputContextEventFlag | 0xE,
 
+    InputContextVirtualKeyEvent = InputContextEventFlag | 0xF,
+
     InputContextForwardKey = InputMethodEventFlag | 0x1,
     InputContextCommitString = InputMethodEventFlag | 0x2,
     InputContextDeleteSurroundingText = InputMethodEventFlag | 0x3,
@@ -331,6 +333,17 @@ public:
 
 private:
     bool filtered_ = false;
+};
+
+class FCITXCORE_EXPORT VirtualKeyEvent : public KeyEvent {
+public:
+    VirtualKeyEvent(InputContext *context, Key rawKey, bool isRelease = false,
+                    int time = 0)
+        : KeyEvent(context,
+                   Key(rawKey.sym(),
+                       rawKey.states() | KeyStates(KeyState::VirtualKey),
+                       rawKey.code()),
+                   isRelease, time) {}
 };
 
 class FCITXCORE_EXPORT ForwardKeyEvent : public KeyEventBase {

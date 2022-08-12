@@ -119,11 +119,11 @@ void VirtualKeyboardBackend::processKeyEvent(uint32_t keyval, uint32_t keycode,
         return;
     }
 
-    KeyEvent event(inputContext,
+    VirtualKeyEvent event(inputContext,
                    Key(static_cast<KeySym>(keyval), KeyStates(state), keycode),
                    isRelease, time);
 
-    auto eventConsumed = inputContext->keyEvent(event);
+    auto eventConsumed = inputContext->virtualKeyEvent(event);
     if (eventConsumed) {
         return;
     }
