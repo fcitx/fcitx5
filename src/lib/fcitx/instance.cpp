@@ -1273,28 +1273,31 @@ void Instance::initialize() {
 
     const auto *entry = d->imManager_.entry("keyboard-us");
     FCITX_LOG_IF(Error, !entry) << "Couldn't find keyboard-us";
-    d->preloadInputMethodEvent_ = d->eventLoop_.addDeferEvent([this](EventSource
-                                                                         *) {
-        FCITX_D();
-        if (d->exit_ || !d->globalConfig_.preloadInputMethod()) {
+    d->preloadInputMethodEvent_ = d->eventLoop_.addTimeEvent(
+        CLOCK_MONOTONIC, now(CLOCK_MONOTONIC) + 1000000, 0,
+        [this](EventSourceTime *, uint64_t) {
+            FCITX_D();
+            if (d->exit_ || !d->globalConfig_.preloadInputMethod()) {
+                return false;
+            }
+            // Preload first input method.
+            if (!d->imManager_.currentGroup().inputMethodList().empty()) {
+                if (auto entry =
+                        d->imManager_.entry(d->imManager_.currentGroup()
+                                                .inputMethodList()[0]
+                                                .name())) {
+                    d->addonManager_.addon(entry->addon(), true);
+                }
+            }
+            // Preload default input method.
+            if (!d->imManager_.currentGroup().defaultInputMethod().empty()) {
+                if (auto entry = d->imManager_.entry(
+                        d->imManager_.currentGroup().defaultInputMethod())) {
+                    d->addonManager_.addon(entry->addon(), true);
+                }
+            }
             return false;
-        }
-        // Preload first input method.
-        if (!d->imManager_.currentGroup().inputMethodList().empty()) {
-            if (auto entry = d->imManager_.entry(
-                    d->imManager_.currentGroup().inputMethodList()[0].name())) {
-                d->addonManager_.addon(entry->addon(), true);
-            }
-        }
-        // Preload default input method.
-        if (!d->imManager_.currentGroup().defaultInputMethod().empty()) {
-            if (auto entry = d->imManager_.entry(
-                    d->imManager_.currentGroup().defaultInputMethod())) {
-                d->addonManager_.addon(entry->addon(), true);
-            }
-        }
-        return false;
-    });
+        });
 
     d->exitEvent_ = d->eventLoop_.addExitEvent([this](EventSource *) {
         FCITX_DEBUG() << "Running save...";

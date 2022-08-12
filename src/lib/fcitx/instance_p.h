@@ -163,7 +163,7 @@ public:
 
     EventLoop eventLoop_;
     std::unique_ptr<EventSourceIO> signalPipeEvent_;
-    std::unique_ptr<EventSource> preloadInputMethodEvent_;
+    std::unique_ptr<EventSourceTime> preloadInputMethodEvent_;
     std::unique_ptr<EventSource> exitEvent_;
     InputContextManager icManager_;
     AddonManager addonManager_;
