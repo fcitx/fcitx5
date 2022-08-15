@@ -895,6 +895,18 @@ Instance::Instance(int argc, char **argv) {
                        engine->keyEvent(*entry, keyEvent);
                    }));
     d->eventWatchers_.emplace_back(watchEvent(
+        EventType::InputContextVirtualKeyboardEvent,
+        EventWatcherPhase::InputMethod, [this](Event &event) {
+            auto &keyEvent = static_cast<VirtualKeyboardEvent &>(event);
+            auto *ic = keyEvent.inputContext();
+            auto *engine = inputMethodEngine(ic);
+            const auto *entry = inputMethodEntry(ic);
+            if (!engine || !entry) {
+                return;
+            }
+            engine->virtualKeyboardEvent(*entry, keyEvent);
+        }));
+    d->eventWatchers_.emplace_back(watchEvent(
         EventType::InputContextInvokeAction, EventWatcherPhase::InputMethod,
         [this](Event &event) {
             auto &invokeActionEvent = static_cast<InvokeActionEvent &>(event);

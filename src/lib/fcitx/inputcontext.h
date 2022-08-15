@@ -133,6 +133,15 @@ public:
     /// Send a key event to current input context.
     bool keyEvent(KeyEvent &event);
 
+    /**
+     * Send a virtual keyboard event to current input context.
+     *
+     * @param event virtual keyboard event
+     * @return whether event is accepted.
+     * @since 5.1.0
+     */
+    bool virtualKeyboardEvent(VirtualKeyboardEvent &event);
+
     /// Returns whether the input context holds the input focus. Input context
     /// need to have focus.
     bool hasFocus() const;

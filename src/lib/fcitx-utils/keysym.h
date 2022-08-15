@@ -43,6 +43,12 @@ enum class KeyState : uint32_t {
     Super2 = 1 << 26, // Gtk virtual Super
     Hyper2 = 1 << 27, // Gtk virtual Hyper
     Meta = 1 << 28,
+    /*
+     * Key state that used internally for virtual key board.
+     *
+     * @since 5.1.0
+     */
+    Virtual = 1u << 29,
     /**
      * Whether a Key Press is from key repetition.
      *

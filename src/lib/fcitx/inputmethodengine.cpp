@@ -26,6 +26,22 @@ std::string InputMethodEngine::subModeLabel(const InputMethodEntry &entry,
     return {};
 }
 
+void InputMethodEngine::virtualKeyboardEvent(
+    const InputMethodEntry &entry, VirtualKeyboardEvent &virtualKeyboardEvent) {
+    if (auto *this4 = dynamic_cast<InputMethodEngineV4 *>(this)) {
+        this4->virtualKeyboardEventImpl(entry, virtualKeyboardEvent);
+    } else if (auto virtualKeyEvent = virtualKeyboardEvent.toKeyEvent()) {
+        keyEvent(entry, *virtualKeyEvent);
+        // TODO: revisit the default action.
+        if (virtualKeyEvent->accepted()) {
+            virtualKeyboardEvent.accept();
+        } else {
+            virtualKeyboardEvent.inputContext()->commitString(
+                virtualKeyboardEvent.text());
+        }
+    }
+}
+
 void defaultInvokeActionBehavior(InvokeActionEvent &event) {
     auto ic = event.inputContext();
     auto commit = ic->inputPanel().clientPreedit().toStringForCommit();
