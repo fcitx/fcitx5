@@ -299,7 +299,7 @@ bool InputContext::keyEvent(KeyEvent &event) {
     return result;
 }
 
-bool InputContext::virtualKeyEvent(VirtualKeyEvent &event) {
+bool InputContext::virtualKeyboardEvent(VirtualKeyboardEvent &event) {
     FCITX_D();
     RETURN_IF_HAS_NO_FOCUS(false);
     decltype(std::chrono::steady_clock::now()) start;
@@ -308,7 +308,7 @@ bool InputContext::virtualKeyEvent(VirtualKeyEvent &event) {
         start = std::chrono::steady_clock::now();
     }
     auto result = d->postEvent(event);
-    FCITX_KEYTRACE() << "VirtualKeyEvent handling time: "
+    FCITX_KEYTRACE() << "VirtualKeyboardEvent handling time: "
                      << std::chrono::duration_cast<std::chrono::milliseconds>(
                             std::chrono::steady_clock::now() - start)
                             .count()

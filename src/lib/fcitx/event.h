@@ -128,7 +128,7 @@ enum class EventType : uint32_t {
      */
     InputContextInvokeAction = InputContextEventFlag | 0xE,
 
-    InputContextVirtualKeyEvent = InputContextEventFlag | 0xF,
+    InputContextVirtualKeyboardEvent = InputContextEventFlag | 0xF,
 
     InputContextForwardKey = InputMethodEventFlag | 0x1,
     InputContextCommitString = InputMethodEventFlag | 0x2,
@@ -335,15 +335,36 @@ private:
     bool filtered_ = false;
 };
 
-class FCITXCORE_EXPORT VirtualKeyEvent : public KeyEvent {
+class VirtualKeyboardEventPrivate;
+
+class FCITXCORE_EXPORT VirtualKeyboardEvent : public InputContextEvent {
 public:
-    VirtualKeyEvent(InputContext *context, Key rawKey, bool isRelease = false,
-                    int time = 0)
-        : KeyEvent(context,
-                   Key(rawKey.sym(),
-                       rawKey.states() | KeyStates(KeyState::VirtualKey),
-                       rawKey.code()),
-                   isRelease, time) {}
+    VirtualKeyboardEvent(InputContext *context, int time = 0);
+    ~VirtualKeyboardEvent();
+
+    int time() const;
+
+    void setKey(Key key);
+    const Key &key() const;
+
+    void setPosition(float x, float y);
+    float x() const;
+    float y() const;
+
+    void setLongPress(bool longPress);
+    bool isLongPress() const;
+
+    void setUserAction(uint64_t actionId);
+    uint64_t userAction() const;
+
+    void setText(std::string text);
+    const std::string &text() const;
+
+    std::unique_ptr<KeyEvent> toKeyEvent() const;
+
+protected:
+    FCITX_DECLARE_PRIVATE(VirtualKeyboardEvent);
+    std::unique_ptr<VirtualKeyboardEventPrivate> d_ptr;
 };
 
 class FCITXCORE_EXPORT ForwardKeyEvent : public KeyEventBase {

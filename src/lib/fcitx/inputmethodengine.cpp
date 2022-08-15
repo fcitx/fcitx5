@@ -26,12 +26,19 @@ std::string InputMethodEngine::subModeLabel(const InputMethodEntry &entry,
     return {};
 }
 
-void InputMethodEngine::virtualKeyEvent(const InputMethodEntry &entry,
-                                        VirtualKeyEvent &virtualKeyEvent) {
+void InputMethodEngine::virtualKeyboardEvent(
+    const InputMethodEntry &entry, VirtualKeyboardEvent &virtualKeyboardEvent) {
     if (auto *this4 = dynamic_cast<InputMethodEngineV4 *>(this)) {
-        this4->virtualKeyEvent(entry, virtualKeyEvent);
-    } else {
-        keyEvent(entry, virtualKeyEvent);
+        this4->virtualKeyboardEventImpl(entry, virtualKeyboardEvent);
+    } else if (auto virtualKeyEvent = virtualKeyboardEvent.toKeyEvent()) {
+        keyEvent(entry, *virtualKeyEvent);
+        // TODO: revisit the default action.
+        if (virtualKeyEvent->accepted()) {
+            virtualKeyboardEvent.accept();
+        } else {
+            virtualKeyboardEvent.inputContext()->commitString(
+                virtualKeyboardEvent.text());
+        }
     }
 }
 
@@ -58,11 +65,6 @@ void InputMethodEngineV3::invokeActionImpl(const InputMethodEntry &entry,
                                            InvokeActionEvent &event) {
     FCITX_UNUSED(entry);
     defaultInvokeActionBehavior(event);
-}
-
-void InputMethodEngineV4::virtualKeyEvent(const InputMethodEntry &entry,
-                                          VirtualKeyEvent &virtualKeyEvent) {
-    keyEvent(entry, virtualKeyEvent);
 }
 
 } // namespace fcitx
