@@ -434,7 +434,7 @@ protected:
         }
 
         if (!strPreedit.empty() && !preeditStarted) {
-            xcb_im_preedit_start(server_->im(), xic_);
+            xcb_im_preedit_start_callback(server_->im(), xic_);
             preeditStarted = true;
         }
         if (!strPreedit.empty()) {
