@@ -44,7 +44,6 @@ public:
     void setVisible(bool visible) { visible_ = visible; }
 
     void updateInputPanel(InputContext *inputContext);
-    void updateCurrentInputMethod(InputContext *ic);
 
 private:
     void setAvailable(bool available);
