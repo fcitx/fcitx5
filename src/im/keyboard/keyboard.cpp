@@ -849,6 +849,7 @@ bool KeyboardEngineState::handleBackspace(const InputMethodEntry &entry) {
         inputContext_->inputPanel().reset();
         origKeyString_.clear();
         auto current = currentSelection();
+        mode_ = CandidateMode::Hint;
         if (!updateBuffer(current)) {
             commitBuffer();
             inputContext_->commitString(current);
