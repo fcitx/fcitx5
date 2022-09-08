@@ -7,6 +7,7 @@
 #ifndef _FCITX_UI_CLASSIC_WAYLANDWINDOW_H_
 #define _FCITX_UI_CLASSIC_WAYLANDWINDOW_H_
 
+#include <cstdint>
 #include <cairo/cairo.h>
 #include "fcitx-utils/rect.h"
 #include "waylandui.h"

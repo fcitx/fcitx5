@@ -7,6 +7,7 @@
 #ifndef _FCITX_UTILS_DBUS_MESSAGE_DETAILS_H_
 #define _FCITX_UTILS_DBUS_MESSAGE_DETAILS_H_
 
+#include <cstdint>
 #include <tuple>
 #include <vector>
 #include <fcitx-utils/metastring.h>

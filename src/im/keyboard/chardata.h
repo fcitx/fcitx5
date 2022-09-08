@@ -7,6 +7,7 @@
 #ifndef _FCITX_IM_KEYBOARD_CHARDATA_H_
 #define _FCITX_IM_KEYBOARD_CHARDATA_H_
 
+#include <cstdint>
 #include <unordered_set>
 
 static const std::unordered_set<uint32_t> validSyms = {

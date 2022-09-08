@@ -7,6 +7,7 @@
 #ifndef _FCITX_MODULES_UNICODE_CHARSELECTDATA_H_
 #define _FCITX_MODULES_UNICODE_CHARSELECTDATA_H_
 
+#include <cstdint>
 #include <set>
 #include <sstream>
 #include <string>

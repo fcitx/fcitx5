@@ -7,6 +7,7 @@
 #ifndef _FCITX5_FRONTEND_WAYLANDIM_WAYLANDIMSERVERV2_H_
 #define _FCITX5_FRONTEND_WAYLANDIM_WAYLANDIMSERVERV2_H_
 
+#include <cstdint>
 #include <fcitx-utils/event.h>
 #include <fcitx/focusgroup.h>
 #include <fcitx/instance.h>
