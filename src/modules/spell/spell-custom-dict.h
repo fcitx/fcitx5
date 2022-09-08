@@ -8,6 +8,7 @@
 #ifndef _FCITX_MODULES_SPELL_SPELL_CUSTOM_DICT_H_
 #define _FCITX_MODULES_SPELL_SPELL_CUSTOM_DICT_H_
 
+#include <cstdint>
 #include <string>
 #include <vector>
 

@@ -8,6 +8,7 @@
 #define _FCITX_UTILS_DBUS_MESSAGE_H_
 
 #include <cassert>
+#include <cstdint>
 #include <functional>
 #include <memory>
 #include <string>

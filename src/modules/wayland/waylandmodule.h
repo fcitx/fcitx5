@@ -7,6 +7,7 @@
 #ifndef _FCITX_MODULES_WAYLAND_WAYLANDMODULE_H_
 #define _FCITX_MODULES_WAYLAND_WAYLANDMODULE_H_
 
+#include <cstdint>
 #include "fcitx-config/iniparser.h"
 #include "fcitx-utils/event.h"
 #include "fcitx-utils/i18n.h"

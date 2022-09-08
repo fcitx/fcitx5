@@ -223,7 +223,7 @@ void DBusMenu::fillLayoutProperties(
     if (id < 0) {
         return;
     }
-    /* index == 0 means it has a sub menu */
+    /* id == 0 means it has a sub menu */
     auto &imManager = parent_->instance()->inputMethodManager();
     if (id == 0) {
         appendProperty(properties, propertyNames, "children-display",

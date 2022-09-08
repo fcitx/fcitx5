@@ -102,11 +102,14 @@ public:
             conn, XCB_COPY_FROM_PARENT, serverWindow_, screen->root, 0, 0, 1, 1,
             1, XCB_WINDOW_CLASS_INPUT_OUTPUT, screen->root_visual, 0, nullptr);
 
+        auto inputStyles =
+            (*parent_->config().useOnTheSpot ? &onthespot_styles : &styles);
+        for (uint32_t i = 0; i < inputStyles->nStyles; i++) {
+            supportedStyles_.insert(inputStyles->styles[i]);
+        }
         im_.reset(xcb_im_create(
             conn, defaultScreen, serverWindow_, guess_server_name().c_str(),
-            XCB_IM_ALL_LOCALES,
-            (*parent_->config().useOnTheSpot ? &onthespot_styles : &styles),
-            nullptr, nullptr, &encodings,
+            XCB_IM_ALL_LOCALES, inputStyles, nullptr, nullptr, &encodings,
             XCB_EVENT_MASK_KEY_PRESS | XCB_EVENT_MASK_KEY_RELEASE,
             &XIMServer::callback, this));
 
@@ -139,6 +142,7 @@ public:
     }
 
     Instance *instance() { return parent_->instance(); }
+    const auto &supportedStyles() { return supportedStyles_; }
 
     ~XIMServer() {
         if (im_) {
@@ -178,6 +182,7 @@ private:
     std::unique_ptr<HandlerTableEntry<XCBEventFilter>> filter_;
     // bool value: isUtf8
     std::unordered_map<xcb_im_client_t *, bool> clientEncodingMapping_;
+    std::unordered_set<uint32_t> supportedStyles_;
 };
 
 pid_t getWindowPid(xcb_ewmh_connection_t *ewmh, xcb_window_t w) {
@@ -224,10 +229,10 @@ public:
           server_(server), xic_(ic), useUtf8_(useUtf8) {
         setFocusGroup(server->focusGroup());
         xcb_im_input_context_set_data(xic_, this, nullptr);
-        auto style = xcb_im_input_context_get_input_style(ic);
+
         created();
         CapabilityFlags flags = CapabilityFlag::ReportKeyRepeat;
-        if (style & XCB_IM_PreeditCallbacks) {
+        if (validatedInputStyle() & XCB_IM_PreeditCallbacks) {
             flags = flags | CapabilityFlag::Preedit;
             flags = flags | CapabilityFlag::FormattedPreedit;
         }
@@ -238,11 +243,28 @@ public:
         destroy();
     }
 
+    uint32_t validatedInputStyle() {
+        auto style = xcb_im_input_context_get_input_style(xic_);
+        if (server_->supportedStyles().count(style)) {
+            return style;
+        }
+        auto preeditStyle = (style & 0xff) | XCB_IM_StatusNothing;
+        if (server_->supportedStyles().count(preeditStyle)) {
+            return preeditStyle;
+        }
+        auto statusStyle = (style & 0xff00) | XCB_IM_PreeditNothing;
+        if (server_->supportedStyles().count(statusStyle)) {
+            return statusStyle;
+        }
+
+        return XCB_IM_StatusNothing | XCB_IM_PreeditNothing;
+    }
+
     const char *frontend() const override { return "xim"; }
 
     void maybeUpdateCursorLocationForRootStyle() {
-        auto style = xcb_im_input_context_get_input_style(xic_);
-        if ((style & XCB_IM_PreeditPosition) == XCB_IM_PreeditPosition) {
+        if ((validatedInputStyle() & XCB_IM_PreeditPosition) ==
+            XCB_IM_PreeditPosition) {
             return;
         }
         updateCursorLocation();
@@ -412,7 +434,7 @@ protected:
         }
 
         if (!strPreedit.empty() && !preeditStarted) {
-            xcb_im_preedit_start(server_->im(), xic_);
+            xcb_im_preedit_start_callback(server_->im(), xic_);
             preeditStarted = true;
         }
         if (!strPreedit.empty()) {

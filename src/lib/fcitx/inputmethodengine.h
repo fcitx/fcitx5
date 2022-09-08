@@ -158,13 +158,9 @@ public:
     /**
      * Return the label for the sub mode.
      *
-     * Prefer subclass this method from InputMethodEngineV2 over overrideIcon.
-     *
      * @param  entry input method entry
      * @param  ic input context
      * @return std::string
-     *
-     * @see overrideIcon
      */
     std::string subModeLabel(const InputMethodEntry &entry, InputContext &ic);
 

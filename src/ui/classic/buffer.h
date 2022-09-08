@@ -7,6 +7,7 @@
 #ifndef _FCITX_WAYLAND_CORE_BUFFER_H_
 #define _FCITX_WAYLAND_CORE_BUFFER_H_
 
+#include <cstdint>
 #include <memory>
 #include <cairo/cairo.h>
 #include <wayland-client.h>

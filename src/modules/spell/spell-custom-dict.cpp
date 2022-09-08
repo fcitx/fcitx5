@@ -9,6 +9,7 @@
 #include "spell-custom-dict.h"
 #include <fcntl.h>
 #include <sys/stat.h>
+#include <cstdint>
 #include <stdexcept>
 #include "fcitx-utils/cutf8.h"
 #include "fcitx-utils/endian_p.h"

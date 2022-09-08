@@ -4,14 +4,15 @@
 #
 # Translators:
 # roxfr <roxfr@outlook.fr>, 2022
+# csslayer <wengxt@gmail.com>, 2022
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2022-07-21 01:57+0000\n"
+"POT-Creation-Date: 2022-08-16 20:24+0000\n"
 "PO-Revision-Date: 2017-11-23 04:14+0000\n"
-"Last-Translator: roxfr <roxfr@outlook.fr>, 2022\n"
+"Last-Translator: csslayer <wengxt@gmail.com>, 2022\n"
 "Language-Team: French (https://www.transifex.com/fcitx/teams/12005/fr/)\n"
 "Language: fr\n"
 "MIME-Version: 1.0\n"
@@ -474,19 +475,19 @@ msgctxt "Key name"
 msgid "Community"
 msgstr "Communauté"
 
-#: src/im/keyboard/keyboard.cpp:641
+#: src/im/keyboard/keyboard.cpp:648
 msgid "Completion"
 msgstr "Achèvement"
 
-#: src/im/keyboard/keyboard.cpp:632
+#: src/im/keyboard/keyboard.cpp:639
 msgid "Completion is disabled."
 msgstr "La complétion est désactivée."
 
-#: src/im/keyboard/keyboard.cpp:635
+#: src/im/keyboard/keyboard.cpp:642
 msgid "Completion is enabled temporarily."
 msgstr "La complétion est activée temporairement."
 
-#: src/im/keyboard/keyboard.cpp:637
+#: src/im/keyboard/keyboard.cpp:644
 msgid "Completion is enabled."
 msgstr "La complétion est activée."
 
@@ -735,7 +736,7 @@ msgstr "Énumérer le groupe de méthodes d'entrée vers l'arrière"
 
 #: src/lib/fcitx/globalconfig.cpp:67
 msgid "Enumerate Input Method Group Forward"
-msgstr "Enumerate Input Method Group Forward"
+msgstr "Énumérer le groupe de méthodes d'entrée vers l'avant"
 
 #: src/lib/fcitx/globalconfig.cpp:39
 msgid "Enumerate when press trigger key repeatedly"
@@ -1188,7 +1189,7 @@ msgstr ""
 msgid "Image"
 msgstr "Image"
 
-#: src/im/keyboard/keyboard.cpp:640 src/lib/fcitx/instance.cpp:420
+#: src/im/keyboard/keyboard.cpp:647 src/lib/fcitx/instance.cpp:420
 #: src/lib/fcitx/instance.cpp:638 src/lib/fcitx/instance.cpp:804
 #: src/modules/notificationitem/notificationitem.cpp:115
 #: src/modules/xcb/xcbconnection.cpp:406 data/org.fcitx.Fcitx5.desktop.in.in:4
@@ -1659,7 +1660,7 @@ msgstr "NumLock"
 msgid "Number of entries"
 msgstr "Nombre d'entrées"
 
-#: src/im/keyboard/keyboard.cpp:626
+#: src/im/keyboard/keyboard.cpp:633
 msgid ""
 "Only emoji support is found. To enable spell checking, you may need to "
 "install spell check data for the language."

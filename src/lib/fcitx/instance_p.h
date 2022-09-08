@@ -7,6 +7,7 @@
 #ifndef _FCITX_INSTANCE_P_H_
 #define _FCITX_INSTANCE_P_H_
 
+#include <cstdint>
 #include <memory>
 #include <string>
 #include <unordered_map>
