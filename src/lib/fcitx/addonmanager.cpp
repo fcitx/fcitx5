@@ -180,7 +180,6 @@ public:
 
         if (auto *loader = findValue(loaders_, addon.info().type())) {
             addon.instance_.reset((*loader)->load(addon.info(), q_ptr));
-            addon.instance_->d_func()->addonInfo_ = &(addon.info());
         } else {
             FCITX_ERROR() << "Failed to find addon loader for: "
                           << addon.info().type();
@@ -190,6 +189,7 @@ public:
             FCITX_INFO() << "Could not load addon "
                          << addon.info().uniqueName();
         } else {
+            addon.instance_->d_func()->addonInfo_ = &(addon.info());
             FCITX_INFO() << "Loaded addon " << addon.info().uniqueName();
         }
     }
