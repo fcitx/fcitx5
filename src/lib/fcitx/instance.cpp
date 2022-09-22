@@ -146,6 +146,17 @@ InstancePrivate::InstancePrivate(Instance *q) : QPtrHolder<Instance>(q) {
         xkb_context_set_log_level(xkbContext_.get(), XKB_LOG_LEVEL_CRITICAL);
         xkbComposeTable_.reset(xkb_compose_table_new_from_locale(
             xkbContext_.get(), locale, XKB_COMPOSE_COMPILE_NO_FLAGS));
+        if (!xkbComposeTable_) {
+            FCITX_INFO()
+                << "Trying to fallback to compose table for en_US.UTF-8";
+            xkbComposeTable_.reset(xkb_compose_table_new_from_locale(
+                xkbContext_.get(), "en_US.UTF-8",
+                XKB_COMPOSE_COMPILE_NO_FLAGS));
+        }
+        if (!xkbComposeTable_) {
+            FCITX_WARN() << "No compose table is loaded, you may want to your "
+                            "locale settings.";
+        }
     }
 #endif
 }
