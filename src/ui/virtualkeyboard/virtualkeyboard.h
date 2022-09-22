@@ -57,6 +57,7 @@ private:
                           std::shared_ptr<CandidateList> candidateList);
     void updateCandidateArea(const std::vector<std::string> &candidateTextList,
                              bool hasPrev, bool hasNext, int pageIndex);
+    void updateCandidate(InputContext *inputContext);
 
     void notifyIMActivated(const std::string &uniqueName);
     void notifyIMDeactivated(const std::string &uniqueName);

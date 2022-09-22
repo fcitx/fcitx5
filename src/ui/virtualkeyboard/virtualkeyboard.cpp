@@ -269,18 +269,7 @@ void VirtualKeyboard::updateInputPanel(InputContext *inputContext) {
     auto cursorIndex = calcPreeditCursor(preedit);
     updatePreeditCaret(cursorIndex);
 
-    bool hasPrev = false;
-    bool hasNext = false;
-    auto *pageable = inputPanel.candidateList()->toPageable();
-    if (pageable != nullptr) {
-        hasPrev = pageable->hasPrev();
-        hasNext = pageable->hasNext();
-    }
-
-    auto candidateTextList =
-        makeCandidateTextList(inputContext, inputPanel.candidateList());
-    auto pageIndex = inputPanel.candidateList()->cursorIndex();
-    updateCandidateArea(candidateTextList, hasPrev, hasNext, pageIndex);
+    updateCandidate(inputContext);
 }
 
 void VirtualKeyboard::setAvailable(bool available) {
@@ -356,6 +345,30 @@ void VirtualKeyboard::updateCandidateArea(
         VirtualKeyboardInterfaceName, "UpdateCandidateArea");
     msg << candidateTextList << hasPrev << hasNext << pageIndex;
     msg.send();
+}
+
+void VirtualKeyboard::updateCandidate(InputContext *inputContext)
+{
+    auto &inputPanel = inputContext->inputPanel();
+
+    if (inputPanel.candidateList() == nullptr ||
+        inputPanel.candidateList()->size() == 0) {
+        updateCandidateArea({}, false, false, -1);
+        return;
+    }
+
+    bool hasPrev = false;
+    bool hasNext = false;
+    auto *pageable = inputPanel.candidateList()->toPageable();
+    if (pageable != nullptr) {
+        hasPrev = pageable->hasPrev();
+        hasNext = pageable->hasNext();
+    }
+
+    auto candidateTextList =
+        makeCandidateTextList(inputContext, inputPanel.candidateList());
+    auto pageIndex = inputPanel.candidateList()->cursorIndex();
+    updateCandidateArea(candidateTextList, hasPrev, hasNext, pageIndex);
 }
 
 void VirtualKeyboard::notifyIMActivated(const std::string &uniqueName) {
