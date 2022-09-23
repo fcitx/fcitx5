@@ -154,8 +154,9 @@ InstancePrivate::InstancePrivate(Instance *q) : QPtrHolder<Instance>(q) {
                 XKB_COMPOSE_COMPILE_NO_FLAGS));
         }
         if (!xkbComposeTable_) {
-            FCITX_WARN() << "No compose table is loaded, you may want to your "
-                            "locale settings.";
+            FCITX_WARN()
+                << "No compose table is loaded, you may want to check your "
+                   "locale settings.";
         }
     }
 #endif
