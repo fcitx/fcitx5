@@ -1113,18 +1113,18 @@ _env_incorrect() {
 
 check_xim() {
     write_title 2 "Xim:"
-    xim_name=fcitx
+    xim_name=fcitx5
     write_order_list "$(code_inline '${XMODIFIERS}'):"
     if [ -z "${XMODIFIERS}" ]; then
         write_error_eval "$(_ 'XMODIFIERS is not set')"
-        set_env_link XMODIFIERS '@im=fcitx'
+        set_env_link XMODIFIERS '@im=fcitx5'
         __need_blank_line=0
-    elif [ "${XMODIFIERS}" = '@im=fcitx' ]; then
-        _env_correct 'XMODIFIERS' '@im=fcitx'
+    elif [ "${XMODIFIERS}" = '@im=fcitx5' ]; then
+        _env_correct 'XMODIFIERS' '@im=fcitx5'
         __need_blank_line=0
     else
-        _env_incorrect 'XMODIFIERS' '@im=fcitx' "${XMODIFIERS}"
-        set_env_link XMODIFIERS '@im=fcitx'
+        _env_incorrect 'XMODIFIERS' '@im=fcitx5' "${XMODIFIERS}"
+        set_env_link XMODIFIERS '@im=fcitx5'
         if [[ ${XMODIFIERS} =~ @im=([-_0-9a-zA-Z]+) ]]; then
             xim_name="${BASH_REMATCH[1]}"
         else
@@ -1183,11 +1183,11 @@ _check_toolkit_env() {
         [ -z "${!env_name}" ] || break
     done
     if [ -z "${!env_name}" ]; then
-        set_env_link "${env_name}" 'fcitx'
-    elif [ "${!env_name}" = 'fcitx' ]; then
-        _env_correct "${env_name}" 'fcitx'
+        set_env_link "${env_name}" 'fcitx5'
+    elif [ "${!env_name}" = 'fcitx5' ]; then
+        _env_correct "${env_name}" 'fcitx5'
     else
-        _env_incorrect "${env_name}" 'fcitx' "${!env_name}"
+        _env_incorrect "${env_name}" 'fcitx5' "${!env_name}"
         __need_blank_line=0
         if [ "${!env_name}" = 'xim' ]; then
             write_error_eval "$(_ 'You are using xim in ${1} programs.')" \
@@ -1195,14 +1195,14 @@ _check_toolkit_env() {
             no_xim_link
         else
             write_error_eval \
-                "$(_ 'You may have trouble using fcitx in ${1} programs.')" \
+                "$(_ 'You may have trouble using fcitx5 in ${1} programs.')" \
                 "${name}"
             if [ "${!env_name}" = "ibus" ] && [ "${name}" = 'qt' ]; then
                 __need_blank_line=0
                 gnome_36_link || __need_blank_line=1
             fi
         fi
-        set_env_link "${env_name}" 'fcitx'
+        set_env_link "${env_name}" 'fcitx5'
     fi
 }
 
