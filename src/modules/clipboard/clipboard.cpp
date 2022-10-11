@@ -113,6 +113,14 @@ Clipboard::Clipboard(Instance *instance)
                        FocusGroup *) {
                     auto &callbacks = selectionCallbacks_[name];
 
+                    // Ensure that atom exists. See:
+                    // https://github.com/fcitx/fcitx5/issues/610 PRIMARY /
+                    // CLIPBOARD is not guaranteed to exist if fcitx5 is
+                    // launched at an very early stage. We should try to create
+                    // atom ourselves.
+                    this->xcb()->call<IXCBModule::atom>(name, "PRIMARY", false);
+                    this->xcb()->call<IXCBModule::atom>(name, "CLIPBOARD",
+                                                        false);
                     callbacks.emplace_back(
                         this->xcb()->call<IXCBModule::addSelection>(
                             name, "PRIMARY", [this, name](xcb_atom_t) {
