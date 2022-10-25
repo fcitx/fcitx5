@@ -139,12 +139,14 @@ const Configuration *ClassicUI::getConfig() const {
         }
     }
 
+    bool plasmaTheme = false;
     if (StandardPath::hasExecutable(PLASMA_THEME_GENERATOR)) {
         themes.erase("plasma");
         themes["plasma"] = _("KDE Plasma (Experimental)");
+        plasmaTheme = true;
     }
 
-    config_.theme.annotation().setThemes({themes.begin(), themes.end()});
+    config_.theme.annotation().setThemes({themes.begin(), themes.end()}, plasmaTheme);
     return &config_;
 }
 

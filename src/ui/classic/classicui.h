@@ -51,8 +51,9 @@ struct NotEmpty {
 };
 
 struct ThemeAnnotation : public EnumAnnotation {
-    void setThemes(std::vector<std::pair<std::string, std::string>> themes) {
+    void setThemes(std::vector<std::pair<std::string, std::string>> themes, bool plasmaTheme) {
         themes_ = std::move(themes);
+        plasmaTheme_ = plasmaTheme;
     }
     void dumpDescription(RawConfig &config) const {
         EnumAnnotation::dumpDescription(config);
@@ -62,15 +63,21 @@ struct ThemeAnnotation : public EnumAnnotation {
                                   themes_[i].first);
             config.setValueByPath("EnumI18n/" + std::to_string(i),
                                   themes_[i].second);
-            config.setValueByPath(
-                "SubConfigPath/" + std::to_string(i),
-                stringutils::concat("fcitx://config/addon/classicui/theme/",
-                                    themes_[i].first));
+            if (themes_[i].first != "plasma" || !plasmaTheme_) {
+                config.setValueByPath(
+                    "SubConfigPath/" + std::to_string(i),
+                    stringutils::concat("fcitx://config/addon/classicui/theme/",
+                                        themes_[i].first));
+            } else {
+                config.setValueByPath(
+                    "SubConfigPath/" + std::to_string(i), "");
+            }
         }
     }
 
 private:
     std::vector<std::pair<std::string, std::string>> themes_;
+    bool plasmaTheme_ = false;
 };
 
 struct MenuFontAnnotation : private FontAnnotation, private ToolTipAnnotation {
