@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2022-07-23 20:24+0000\n"
+"POT-Creation-Date: 2022-10-26 20:24+0000\n"
 "PO-Revision-Date: 2017-11-23 04:14+0000\n"
 "Last-Translator: Dmitry <dmitrydmitry761@gmail.com>, 2022\n"
 "Language-Team: Russian (https://www.transifex.com/fcitx/teams/12005/ru/)\n"
@@ -51,7 +51,7 @@ msgstr "${1} не найден."
 msgid "${1} works properly."
 msgstr "${1} работает правильно."
 
-#: src/lib/fcitx/instance.cpp:382
+#: src/lib/fcitx/instance.cpp:394
 msgid "(Not available)"
 msgstr "(Недоступно)"
 
@@ -116,15 +116,15 @@ msgstr "Добавить в избранное"
 msgid "Add Unicode Typing Support"
 msgstr "Добавляет поддержку набора с помощью символов Юникод"
 
-#: data/fcitx5-diagnose.sh:1571
+#: data/fcitx5-diagnose.sh:1583
 msgid "Addon Config Dir:"
 msgstr "Конфигурационный каталог дополнений:"
 
-#: data/fcitx5-diagnose.sh:1656
+#: data/fcitx5-diagnose.sh:1668
 msgid "Addon Libraries:"
 msgstr "Библиотеки дополнений:"
 
-#: data/fcitx5-diagnose.sh:1599
+#: data/fcitx5-diagnose.sh:1611
 msgid "Addon List:"
 msgstr "Список дополнений:"
 
@@ -137,11 +137,11 @@ msgstr "Отрегулировать яркость"
 msgid "All"
 msgstr "Все"
 
-#: data/fcitx5-diagnose.sh:1334
+#: data/fcitx5-diagnose.sh:1346
 msgid "All found Gtk ${1} immodule files exist."
 msgstr "Все найденные immodule-файлы Gtk ${1} существуют."
 
-#: data/fcitx5-diagnose.sh:1682
+#: data/fcitx5-diagnose.sh:1694
 msgid "All libraries for all addons are found."
 msgstr "Все библиотеки для всех дополнений найдены."
 
@@ -153,7 +153,7 @@ msgstr "Все локали:"
 msgid "Allow Overriding System XKB Settings"
 msgstr "Разрешить переопределение системных настроек XKB"
 
-#: src/modules/wayland/waylandmodule.h:31
+#: src/modules/wayland/waylandmodule.h:32
 msgid "Allow Overriding System XKB Settings (Only support KDE 5)"
 msgstr ""
 "Разрешить переопределение системных настроек XKB (поддерживается только KDE "
@@ -163,7 +163,7 @@ msgstr ""
 msgid "Alt"
 msgstr "Alt"
 
-#: src/lib/fcitx-utils/key.cpp:480
+#: src/lib/fcitx-utils/key.cpp:509
 msgctxt "Key name"
 msgid "Alt"
 msgstr "Alt"
@@ -201,7 +201,7 @@ msgctxt "Key name"
 msgid "Audio Repeat"
 msgstr "Повтор аудио"
 
-#: src/ui/classic/theme.h:153
+#: src/ui/classic/theme.h:154
 msgid "Author"
 msgstr "Автор"
 
@@ -224,11 +224,11 @@ msgstr "Обратно вперед"
 msgid "Backends"
 msgstr "Бэкенды"
 
-#: src/ui/classic/theme.h:118 src/ui/classic/theme.h:138
+#: src/ui/classic/theme.h:119 src/ui/classic/theme.h:139
 msgid "Background"
 msgstr "Фон"
 
-#: src/ui/classic/theme.h:49
+#: src/ui/classic/theme.h:50
 msgid "Background Image"
 msgstr "Фоновое изображение"
 
@@ -264,11 +264,11 @@ msgctxt "Key name"
 msgid "Bluetooth"
 msgstr "Блютус"
 
-#: src/ui/classic/theme.h:107
+#: src/ui/classic/theme.h:108
 msgid "Blur Margin"
 msgstr "Размытый Край"
 
-#: src/ui/classic/theme.h:106
+#: src/ui/classic/theme.h:107
 msgid "Blur mask"
 msgstr "Размытая маска"
 
@@ -277,23 +277,23 @@ msgctxt "Key name"
 msgid "Book"
 msgstr "Книга"
 
-#: src/ui/classic/theme.h:61
+#: src/ui/classic/theme.h:62
 msgid "Border Color"
 msgstr "Цвет границы"
 
-#: src/ui/classic/theme.h:69
+#: src/ui/classic/theme.h:70
 msgid "Border width"
 msgstr "Ширина рамки"
 
-#: src/ui/classic/theme.h:33
+#: src/ui/classic/theme.h:34
 msgid "Bottom Center"
 msgstr "Нижний Центр"
 
-#: src/ui/classic/theme.h:33
+#: src/ui/classic/theme.h:34
 msgid "Bottom Left"
 msgstr "Нижний Левый"
 
-#: src/ui/classic/theme.h:34
+#: src/ui/classic/theme.h:35
 msgid "Bottom Right"
 msgstr "Нижний Правый"
 
@@ -329,7 +329,7 @@ msgstr "Не удается подключиться к ${1} правильно.
 msgid "Cannot determine desktop environment."
 msgstr "Не удалось определить среду рабочего стола."
 
-#: data/fcitx5-diagnose.sh:1590
+#: data/fcitx5-diagnose.sh:1602
 msgid "Cannot find ${1} addon config directory."
 msgstr "Не удается найти ${1} каталог конфигурации дополнения."
 
@@ -337,19 +337,20 @@ msgstr "Не удается найти ${1} каталог конфигурац�
 msgid "Cannot find ${1} executable!"
 msgstr "Не удается найти ${1} исполняемый файл!"
 
-#: data/fcitx5-diagnose.sh:1484 data/fcitx5-diagnose.sh:1537
+#: data/fcitx5-diagnose.sh:1496 data/fcitx5-diagnose.sh:1549
 msgid "Cannot find ${1} im module for gtk ${2} in cache."
 msgstr "Не удается найти ${1} im-модуль для gtk ${2} в кэше."
 
-#: data/fcitx5-diagnose.sh:1401
+#: data/fcitx5-diagnose.sh:1413
 msgid "Cannot find ${1} im module for gtk ${2}."
 msgstr "Не удается найти ${1} модуль для gtk ${2}."
 
-#: data/fcitx5-diagnose.sh:1260 data/fcitx5-diagnose.sh:1265
+#: data/fcitx5-diagnose.sh:1267 data/fcitx5-diagnose.sh:1272
+#: data/fcitx5-diagnose.sh:1277
 msgid "Cannot find ${1} input method module for ${2}."
 msgstr "Не удается найти ${1} модуль метода ввода для ${2}."
 
-#: data/fcitx5-diagnose.sh:1395
+#: data/fcitx5-diagnose.sh:1407
 msgid "Cannot find ${2} for gtk ${1}"
 msgstr "Не удалось найти ${2} для gtk ${1}"
 
@@ -363,7 +364,7 @@ msgstr ""
 "Не удается найти инструмент настройки графического интерфейса, пожалуйста, "
 "установите  ${1}, или ${2}."
 
-#: data/fcitx5-diagnose.sh:1685
+#: data/fcitx5-diagnose.sh:1697
 msgid "Cannot find enabled ${1} user interface!"
 msgstr "Не удается найти включенный  ${1} пользовательский интерфейс!"
 
@@ -371,20 +372,20 @@ msgstr "Не удается найти включенный  ${1} пользов
 msgid "Cannot find fcitx5 executable!"
 msgstr "Не удается найти исполняемый файл fcitx5!"
 
-#: data/fcitx5-diagnose.sh:1664
+#: data/fcitx5-diagnose.sh:1676
 msgid "Cannot find file ${1} of addon ${2}."
 msgstr "Не удается найти файл ${1} для дополнения ${2}."
 
-#: data/fcitx5-diagnose.sh:1674
+#: data/fcitx5-diagnose.sh:1686
 msgid "Cannot find following required libraries for ${1} of addon ${2}."
 msgstr ""
 "Не удается найти следующие необходимые библиотеки для ${1} дополнения ${2}."
 
-#: data/fcitx5-diagnose.sh:1479 data/fcitx5-diagnose.sh:1532
+#: data/fcitx5-diagnose.sh:1491 data/fcitx5-diagnose.sh:1544
 msgid "Cannot find immodules cache for gtk ${1}"
 msgstr "Не удалось найти immodules-кэш для GTK ${1}"
 
-#: data/fcitx5-diagnose.sh:1704
+#: data/fcitx5-diagnose.sh:1716
 msgid ""
 "Cannot find kimpanel dbus interface or enabled non-kimpanel user interface."
 msgstr ""
@@ -408,15 +409,15 @@ msgctxt "Key name"
 msgid "CapsLock"
 msgstr "CapsLock"
 
-#: src/ui/classic/theme.h:32
+#: src/ui/classic/theme.h:33
 msgid "Center"
 msgstr "Центр"
 
-#: src/ui/classic/theme.h:31
+#: src/ui/classic/theme.h:32
 msgid "Center Left"
 msgstr "По Центру Слева"
 
-#: src/ui/classic/theme.h:32
+#: src/ui/classic/theme.h:33
 msgid "Center Right"
 msgstr "По центру Справа"
 
@@ -424,7 +425,7 @@ msgstr "По центру Справа"
 msgid "Change Fcitx 5 Configuration"
 msgstr "Изменить конфигурацию Fcitx 5"
 
-#: src/ui/classic/theme.h:143
+#: src/ui/classic/theme.h:144
 msgid "Check box"
 msgstr "Флажок"
 
@@ -441,7 +442,7 @@ msgctxt "Key name"
 msgid "Clear"
 msgstr "Очистить"
 
-#: src/ui/classic/theme.h:95
+#: src/ui/classic/theme.h:96
 msgid "Click Margin"
 msgstr "Нажмите на Поле"
 
@@ -449,7 +450,7 @@ msgstr "Нажмите на Поле"
 msgid "Clipboard"
 msgstr "Буфер обмена"
 
-#: src/modules/clipboard/clipboard.cpp:345
+#: src/modules/clipboard/clipboard.cpp:353
 msgid "Clipboard (Press BackSpace/Delete to clear history):"
 msgstr "Буфер обмена (нажмите BackSpace/Delete, чтобы очистить историю):"
 
@@ -463,7 +464,7 @@ msgctxt "Key name"
 msgid "Code input"
 msgstr "Ввести код"
 
-#: src/ui/classic/theme.h:53
+#: src/ui/classic/theme.h:54
 msgid "Color"
 msgstr "Цвет"
 
@@ -472,19 +473,19 @@ msgctxt "Key name"
 msgid "Community"
 msgstr "Сообщество"
 
-#: src/im/keyboard/keyboard.cpp:641
+#: src/im/keyboard/keyboard.cpp:648
 msgid "Completion"
 msgstr "Завершение"
 
-#: src/im/keyboard/keyboard.cpp:632
+#: src/im/keyboard/keyboard.cpp:639
 msgid "Completion is disabled."
 msgstr "Завершение отключено."
 
-#: src/im/keyboard/keyboard.cpp:635
+#: src/im/keyboard/keyboard.cpp:642
 msgid "Completion is enabled temporarily."
 msgstr "Завершение временно включено."
 
-#: src/im/keyboard/keyboard.cpp:637
+#: src/im/keyboard/keyboard.cpp:644
 msgid "Completion is enabled."
 msgstr "Завершение включено."
 
@@ -512,7 +513,7 @@ msgstr "Конфигурационный GUI для qt:"
 msgid "Config Tool Wrapper:"
 msgstr "Оболочка средства настройки:"
 
-#: data/fcitx5-diagnose.sh:1798
+#: data/fcitx5-diagnose.sh:1810
 msgid "Configuration:"
 msgstr "Настройка:"
 
@@ -525,7 +526,7 @@ msgstr "Настроить"
 msgid "Control"
 msgstr "Управление"
 
-#: src/lib/fcitx-utils/key.cpp:479
+#: src/lib/fcitx-utils/key.cpp:508
 msgctxt "Key name"
 msgid "Control"
 msgstr "Управление"
@@ -593,7 +594,7 @@ msgstr "Деактивация метода ввода"
 msgid "Debug information from dbus:"
 msgstr "Отладочная информация от dbus:"
 
-#: src/lib/fcitx/inputmethodmanager.cpp:138 src/lib/fcitx/instance.cpp:329
+#: src/lib/fcitx/inputmethodmanager.cpp:138 src/lib/fcitx/instance.cpp:341
 #: src/ui/classic/themes/default/theme.conf.in:3
 msgid "Default"
 msgstr "По умолчанию"
@@ -623,7 +624,7 @@ msgctxt "Key name"
 msgid "Delete"
 msgstr "Удалить"
 
-#: src/ui/classic/theme.h:155
+#: src/ui/classic/theme.h:156
 msgid "Description"
 msgstr "Описание"
 
@@ -685,7 +686,7 @@ msgstr "Эмодзи"
 msgid "Enable"
 msgstr "Включить"
 
-#: src/ui/classic/theme.h:104
+#: src/ui/classic/theme.h:105
 msgid "Enable Blur on KWin"
 msgstr "Включить размытие на KWin"
 
@@ -783,11 +784,11 @@ msgstr "Выполнить"
 msgid "Exit"
 msgstr "Выход"
 
-#: data/fcitx5-diagnose.sh:1473 data/fcitx5-diagnose.sh:1526
+#: data/fcitx5-diagnose.sh:1485 data/fcitx5-diagnose.sh:1538
 msgid "Failed to find ${1} in immodule cache at ${2}"
 msgstr "Не удалось найти ${1} в кеше immodule в ${2}"
 
-#: data/fcitx5-diagnose.sh:1389
+#: data/fcitx5-diagnose.sh:1401
 msgid "Failed to find ${1} in the output of ${2}"
 msgstr "Не удалось найти ${1} в выводе ${2}"
 
@@ -809,7 +810,7 @@ msgstr "Fcitx 5"
 msgid "Fcitx 5 Configuration"
 msgstr "Конфигурация Fcitx 5"
 
-#: data/fcitx5-diagnose.sh:1570
+#: data/fcitx5-diagnose.sh:1582
 msgid "Fcitx Addons:"
 msgstr "Дополнения Fcitx:"
 
@@ -849,11 +850,19 @@ msgctxt "Key name"
 msgid "Find"
 msgstr "Найти"
 
-#: src/ui/classic/classicui.h:100
+#: data/fcitx5-diagnose.sh:1263
+msgid ""
+"Following error may not be accurate because guessing Qt version from path "
+"depends on how your distribution packages Qt. It is not a critical error if "
+"you do not use any Qt application with certain version of Qt or you are "
+"using text-input support by Qt under Wayland."
+msgstr ""
+
+#: src/ui/classic/classicui.h:107
 msgid "Font"
 msgstr "Шрифт"
 
-#: src/ui/classic/classicui.h:130
+#: src/ui/classic/classicui.h:137
 msgid ""
 "For example, display character with Chinese variant when using Pinyin and "
 "Japanese variant when using Anthy. The font configuration needs to support "
@@ -863,7 +872,7 @@ msgstr ""
 "и японским вариантом при использовании Anthy. Конфигурация шрифта должна "
 "поддерживать это, чтобы использовать эту функцию."
 
-#: src/ui/classic/classicui.h:140
+#: src/ui/classic/classicui.h:147
 msgid "Force font DPI on Wayland"
 msgstr "Принудительное изменение DPI шрифта на Wayland"
 
@@ -872,7 +881,7 @@ msgctxt "Key name"
 msgid "Forward"
 msgstr "Вперед"
 
-#: data/fcitx5-diagnose.sh:1249
+#: data/fcitx5-diagnose.sh:1255
 msgid "Found ${1} ${2} module: ${3}."
 msgstr "Найден ${1} ${2} модуль: ${3}."
 
@@ -884,7 +893,7 @@ msgstr "Найден ${1} ${2} процесс:"
 msgid "Found ${1} ${2} processes:"
 msgstr "Найденные ${1} ${2} процессы:"
 
-#: data/fcitx5-diagnose.sh:1593
+#: data/fcitx5-diagnose.sh:1605
 msgid "Found ${1} addon config directory: ${2}."
 msgstr "Найден ${1} конфигурационный каталог дополнения: ${2}."
 
@@ -893,20 +902,20 @@ msgstr "Найден ${1} конфигурационный каталог доп
 msgid "Found ${1} at ${2}."
 msgstr "Найден ${1} в ${2}."
 
-#: data/fcitx5-diagnose.sh:1646
+#: data/fcitx5-diagnose.sh:1658
 msgid "Found ${1} disabled addons:"
 msgstr "Найдено ${1} отключенных дополнений:"
 
-#: data/fcitx5-diagnose.sh:1637
+#: data/fcitx5-diagnose.sh:1649
 msgid "Found ${1} enabled addons:"
 msgstr "Найдено ${1} включенных дополнений:"
 
-#: data/fcitx5-diagnose.sh:1687
+#: data/fcitx5-diagnose.sh:1699
 msgid "Found ${1} enabled user interface addons:"
 msgstr "Найдено ${1} подключенных дополнений пользоватeльских интерфейсов:"
 
-#: data/fcitx5-diagnose.sh:1383 data/fcitx5-diagnose.sh:1467
-#: data/fcitx5-diagnose.sh:1520
+#: data/fcitx5-diagnose.sh:1395 data/fcitx5-diagnose.sh:1479
+#: data/fcitx5-diagnose.sh:1532
 msgid "Found ${1} im modules for gtk ${2}."
 msgstr "Найден ${1} im-модуль для gtk ${2}."
 
@@ -914,27 +923,27 @@ msgstr "Найден ${1} im-модуль для gtk ${2}."
 msgid "Found ${1} kcm module."
 msgstr "Найден ${1} kcm-модуль."
 
-#: data/fcitx5-diagnose.sh:1375
+#: data/fcitx5-diagnose.sh:1387
 msgid "Found ${2} for unknown gtk version at ${1}."
 msgstr "В ${1} найден ${2} для неизвестной версии gtk."
 
-#: data/fcitx5-diagnose.sh:1367
+#: data/fcitx5-diagnose.sh:1379
 msgid "Found ${3} for gtk ${1} at ${2}."
 msgstr "В ${2} найден ${3} для gtk ${1}."
 
-#: data/fcitx5-diagnose.sh:1238 data/fcitx5-diagnose.sh:1243
+#: data/fcitx5-diagnose.sh:1242 data/fcitx5-diagnose.sh:1247
 msgid "Found ${3} im module for ${2}: ${1}."
 msgstr "Найден ${3} im-модуль для ${2}: ${1}."
 
-#: data/fcitx5-diagnose.sh:1460
+#: data/fcitx5-diagnose.sh:1472
 msgid "Found immodule cache for unknown gtk version at ${1}."
 msgstr "Найден immodules-кэш для неизвестной версии GTK в ${1}."
 
-#: data/fcitx5-diagnose.sh:1452 data/fcitx5-diagnose.sh:1513
+#: data/fcitx5-diagnose.sh:1464 data/fcitx5-diagnose.sh:1525
 msgid "Found immodules cache for gtk ${1} at ${2}."
 msgstr "Найден immodules-кэш для GTK ${1} в ${2}."
 
-#: data/fcitx5-diagnose.sh:1252
+#: data/fcitx5-diagnose.sh:1258
 msgid "Found unknown ${1} qt module: ${2}."
 msgstr "Найден неизвестный ${1} qt-модуль: ${2}."
 
@@ -942,7 +951,7 @@ msgstr "Найден неизвестный ${1} qt-модуль: ${2}."
 msgid "Freedesktop.org Notification Support"
 msgstr "Поддержка уведомлений Freedesktop.org"
 
-#: data/fcitx5-diagnose.sh:1791
+#: data/fcitx5-diagnose.sh:1803
 msgid "Frontends setup:"
 msgstr "Настройка интерфейсов:"
 
@@ -966,23 +975,23 @@ msgstr "Зеленый"
 msgid "Group"
 msgstr "Группа"
 
-#: src/lib/fcitx/instance.cpp:386
+#: src/lib/fcitx/instance.cpp:398
 msgid "Group {0}: {1}"
 msgstr "Группа {0}: {1}"
 
-#: src/lib/fcitx/instance.cpp:331
+#: src/lib/fcitx/instance.cpp:343
 msgid "Group {}"
 msgstr "Группа {}"
 
-#: data/fcitx5-diagnose.sh:1328
+#: data/fcitx5-diagnose.sh:1340
 msgid "Gtk ${1} immodule file ${2} does not exist."
 msgstr "Immodule-файл ${2} Gtk ${1} не существует."
 
-#: data/fcitx5-diagnose.sh:1550
+#: data/fcitx5-diagnose.sh:1562
 msgid "Gtk IM module cache:"
 msgstr "Кэш IM-модуля Gtk:"
 
-#: data/fcitx5-diagnose.sh:1556
+#: data/fcitx5-diagnose.sh:1568
 msgid "Gtk IM module files:"
 msgstr "Файлы IM-модуля Gtk:"
 
@@ -1069,27 +1078,27 @@ msgstr "Гибернация"
 msgid "Hidden Notifications"
 msgstr "Скрытые уведомления"
 
-#: src/ui/classic/theme.h:80
+#: src/ui/classic/theme.h:81
 msgid "Hide overlay if size does not fit"
 msgstr "Скрыть наложение, если размер не подходит"
 
-#: src/ui/classic/theme.h:120 src/ui/classic/theme.h:140
+#: src/ui/classic/theme.h:121 src/ui/classic/theme.h:141
 msgid "Highlight Background"
 msgstr "Выделить фон"
 
-#: src/ui/classic/theme.h:115
+#: src/ui/classic/theme.h:116
 msgid "Highlight Background color"
 msgstr "Цвет фона выделения"
 
-#: src/ui/classic/theme.h:102 src/ui/classic/theme.h:134
+#: src/ui/classic/theme.h:103 src/ui/classic/theme.h:135
 msgid "Highlight Candidate Color"
 msgstr "Выделить цветом кандидат"
 
-#: src/ui/classic/theme.h:90
+#: src/ui/classic/theme.h:91
 msgid "Highlight Click Margin"
 msgstr "Выделить поле клика"
 
-#: src/ui/classic/theme.h:113
+#: src/ui/classic/theme.h:114
 msgid "Highlight text color"
 msgstr "Выделить цветом текст"
 
@@ -1147,7 +1156,7 @@ msgstr ""
 "Горячая клавиша для переключения на определённый метод ввода только для "
 "текущего контекста ввода"
 
-#: src/lib/fcitx-utils/key.cpp:483
+#: src/lib/fcitx-utils/key.cpp:512
 msgctxt "Key name"
 msgid "Hyper"
 msgstr "Hyper"
@@ -1178,12 +1187,12 @@ msgstr ""
 "интеграции с IBus, чтобы использовать любой метод ввода, отличный от ${2}. "
 "Для получения подробной информации см. ${link}."
 
-#: src/ui/classic/theme.h:93
+#: src/ui/classic/theme.h:94
 msgid "Image"
 msgstr "Изображение"
 
-#: src/im/keyboard/keyboard.cpp:640 src/lib/fcitx/instance.cpp:420
-#: src/lib/fcitx/instance.cpp:638 src/lib/fcitx/instance.cpp:804
+#: src/im/keyboard/keyboard.cpp:647 src/lib/fcitx/instance.cpp:432
+#: src/lib/fcitx/instance.cpp:650 src/lib/fcitx/instance.cpp:816
 #: src/modules/notificationitem/notificationitem.cpp:115
 #: src/modules/xcb/xcbconnection.cpp:406 data/org.fcitx.Fcitx5.desktop.in.in:4
 #: data/org.fcitx.Fcitx5.metainfo.xml.in:7
@@ -1198,11 +1207,11 @@ msgstr "Настройка метода ввода"
 msgid "Input Method Related Environment Variables: "
 msgstr "Относящиеся к методу ввода переменные среды: "
 
-#: data/fcitx5-diagnose.sh:1710
+#: data/fcitx5-diagnose.sh:1722
 msgid "Input Methods:"
 msgstr "Методы ввода:"
 
-#: src/ui/classic/theme.h:161
+#: src/ui/classic/theme.h:162
 msgid "Input Panel"
 msgstr "Панель ввода"
 
@@ -1224,15 +1233,21 @@ msgctxt "Key name"
 msgid "Insert"
 msgstr "Insert"
 
-#: data/fcitx5-diagnose.sh:1605
+#: data/fcitx5-diagnose.sh:1617
 msgid "Invalid addon config file ${1}."
 msgstr "Неверный файл конфигурации дополнения ${1}."
+
+#: data/fcitx5-diagnose.sh:1188
+msgid ""
+"It is OK to use ${1} built-in Wayland im module if your compositor fully "
+"supports text-input protocol used by ${1}."
+msgstr ""
 
 #: src/ui/kimpanel/kimpanel.conf.in.in:3
 msgid "KDE Input Method Panel"
 msgstr "Панель метода ввода KDE"
 
-#: src/ui/classic/classicui.cpp:144
+#: src/ui/classic/classicui.cpp:145
 msgid "KDE Plasma (Experimental)"
 msgstr "KDE Plasma (экспериментально)"
 
@@ -1296,7 +1311,7 @@ msgctxt "Key name"
 msgid "Keyboard Menu"
 msgstr "Меню клавиатуры"
 
-#: data/fcitx5-diagnose.sh:1696
+#: data/fcitx5-diagnose.sh:1708
 msgid "Kimpanel process:"
 msgstr "Процесс Kimpanel:"
 
@@ -1424,7 +1439,7 @@ msgstr "LightBulb"
 msgid "Locale:"
 msgstr "Локаль:"
 
-#: data/fcitx5-diagnose.sh:1804
+#: data/fcitx5-diagnose.sh:1816
 msgid "Log:"
 msgstr "Журнал:"
 
@@ -1442,31 +1457,31 @@ msgctxt "Key name"
 msgid "Mail Forward"
 msgstr "Пересылка почты"
 
-#: src/ui/classic/theme.h:82
+#: src/ui/classic/theme.h:83
 msgid "Margin"
 msgstr "Поле"
 
-#: src/ui/classic/theme.h:44
+#: src/ui/classic/theme.h:45
 msgid "Margin Bottom"
 msgstr "Поле внизу"
 
-#: src/ui/classic/theme.h:38
+#: src/ui/classic/theme.h:39
 msgid "Margin Left"
 msgstr "Поле слева"
 
-#: src/ui/classic/theme.h:40
+#: src/ui/classic/theme.h:41
 msgid "Margin Right"
 msgstr "Поле справа"
 
-#: src/ui/classic/theme.h:42
+#: src/ui/classic/theme.h:43
 msgid "Margin Top"
 msgstr "Поле сверху"
 
-#: src/ui/classic/theme.h:122 src/ui/classic/theme.h:146
+#: src/ui/classic/theme.h:123 src/ui/classic/theme.h:147
 msgid "Margin around all content"
 msgstr "Поля вокруг всего содержимого"
 
-#: src/ui/classic/theme.h:124 src/ui/classic/theme.h:148
+#: src/ui/classic/theme.h:125 src/ui/classic/theme.h:149
 msgid "Margin around text"
 msgstr "Поле вокруг текста"
 
@@ -1525,7 +1540,7 @@ msgctxt "Key name"
 msgid "Meeting"
 msgstr "Встреча"
 
-#: src/ui/classic/theme.h:162
+#: src/ui/classic/theme.h:163
 msgid "Menu"
 msgstr "Меню"
 
@@ -1534,7 +1549,7 @@ msgctxt "Key name"
 msgid "Menu"
 msgstr "Меню"
 
-#: src/ui/classic/classicui.h:102
+#: src/ui/classic/classicui.h:109
 msgid "Menu Font"
 msgstr "Шрифт меню"
 
@@ -1548,7 +1563,7 @@ msgctxt "Key name"
 msgid "Messenger"
 msgstr "Мессенджер"
 
-#: src/ui/classic/theme.h:159
+#: src/ui/classic/theme.h:160
 msgid "Metadata"
 msgstr "Метаданные"
 
@@ -1587,7 +1602,7 @@ msgctxt "Key name"
 msgid "My Sites"
 msgstr "Мои сайты"
 
-#: src/ui/classic/theme.h:151
+#: src/ui/classic/theme.h:152
 msgid "Name"
 msgstr "Имя"
 
@@ -1605,7 +1620,7 @@ msgstr "Новости"
 msgid "Next Candidate"
 msgstr "Следующий кандидат"
 
-#: src/ui/classic/theme.h:126
+#: src/ui/classic/theme.h:127
 msgid "Next Page Button"
 msgstr "Кнопка следующей страницы"
 
@@ -1613,7 +1628,7 @@ msgstr "Кнопка следующей страницы"
 msgid "No"
 msgstr "Нет"
 
-#: src/modules/clipboard/clipboard.cpp:347
+#: src/modules/clipboard/clipboard.cpp:355
 msgid "No clipboard history."
 msgstr "История буфера обмена отсутствует."
 
@@ -1621,11 +1636,11 @@ msgstr "История буфера обмена отсутствует."
 msgid "None"
 msgstr "Нет"
 
-#: src/ui/classic/theme.h:99 src/ui/classic/theme.h:131
+#: src/ui/classic/theme.h:100 src/ui/classic/theme.h:132
 msgid "Normal text color"
 msgstr "Обычный цвет текста"
 
-#: src/ui/classic/classicui.h:144
+#: src/ui/classic/classicui.h:151
 msgid ""
 "Normally Wayland uses 96 as font DPI in combinition with the screen scale "
 "factor. This option allows you to override the font DPI. If the value is 0, "
@@ -1656,7 +1671,7 @@ msgstr "NumLock"
 msgid "Number of entries"
 msgstr "Количество входов"
 
-#: src/im/keyboard/keyboard.cpp:626
+#: src/im/keyboard/keyboard.cpp:633
 msgid ""
 "Only emoji support is found. To enable spell checking, you may need to "
 "install spell check data for the language."
@@ -1679,23 +1694,23 @@ msgctxt "Key name"
 msgid "Option"
 msgstr "Выбор"
 
-#: src/ui/classic/theme.h:84
+#: src/ui/classic/theme.h:85
 msgid "Overlay Clip Margin"
 msgstr "Наложение поля клипа"
 
-#: src/ui/classic/theme.h:74
+#: src/ui/classic/theme.h:75
 msgid "Overlay Image"
 msgstr "Наложенное изображение"
 
-#: src/ui/classic/theme.h:77
+#: src/ui/classic/theme.h:78
 msgid "Overlay X offset"
 msgstr "Смещение X"
 
-#: src/ui/classic/theme.h:78
+#: src/ui/classic/theme.h:79
 msgid "Overlay Y offset"
 msgstr "Смещение Y"
 
-#: src/ui/classic/theme.h:76
+#: src/ui/classic/theme.h:77
 msgid "Overlay position"
 msgstr "Позиция наложения"
 
@@ -1780,19 +1795,19 @@ msgctxt "Key name"
 msgid "Power Off"
 msgstr "Power Off"
 
-#: src/lib/fcitx/instance.cpp:804
+#: src/lib/fcitx/instance.cpp:816
 msgid "Preedit"
 msgstr "Предварительное редактирование"
 
-#: src/lib/fcitx/instance.cpp:806
+#: src/lib/fcitx/instance.cpp:818
 msgid "Preedit disabled"
 msgstr "Предварительное редактирование отключено"
 
-#: src/lib/fcitx/instance.cpp:805
+#: src/lib/fcitx/instance.cpp:817
 msgid "Preedit enabled"
 msgstr "Предварительное редактирование включено"
 
-#: src/ui/classic/classicui.h:110
+#: src/ui/classic/classicui.h:117
 msgid "Prefer Text Icon"
 msgstr "Иконка предпочтительного текста"
 
@@ -1804,7 +1819,7 @@ msgstr "Presage"
 msgid "Prev Candidate"
 msgstr "Предыдущий кандидат"
 
-#: src/ui/classic/theme.h:125
+#: src/ui/classic/theme.h:126
 msgid "Prev Page Button"
 msgstr "Кнопка предыдущей страницы"
 
@@ -1822,7 +1837,7 @@ msgstr "Снимок экрана"
 msgid "Program"
 msgstr "Программа"
 
-#: data/fcitx5-diagnose.sh:1224
+#: data/fcitx5-diagnose.sh:1228
 msgid "Qt IM module files:"
 msgstr "Файлы модуля Qt IM:"
 
@@ -1830,7 +1845,7 @@ msgstr "Файлы модуля Qt IM:"
 msgid "Quick Phrase"
 msgstr "Быстрая фраза"
 
-#: src/modules/quickphrase/quickphrase.cpp:403
+#: src/modules/quickphrase/quickphrase.cpp:408
 msgid "Quick Phrase: "
 msgstr "Быстрая фраза:"
 
@@ -1965,11 +1980,11 @@ msgctxt "Key name"
 msgid "Send"
 msgstr "Отправить"
 
-#: src/ui/classic/theme.h:142
+#: src/ui/classic/theme.h:143
 msgid "Separator Background"
 msgstr "Фон разделителя"
 
-#: src/ui/classic/theme.h:128
+#: src/ui/classic/theme.h:129
 msgid "Shadow Margin"
 msgstr "Затенённое поле"
 
@@ -1977,7 +1992,7 @@ msgstr "Затенённое поле"
 msgid "Share Input State"
 msgstr "Поделиться состоянием ввода"
 
-#: src/lib/fcitx-utils/key.cpp:481
+#: src/lib/fcitx-utils/key.cpp:510
 msgctxt "Key name"
 msgid "Shift"
 msgstr "Shift"
@@ -1995,7 +2010,7 @@ msgstr "Показывать информацию о способе ввода �
 msgid "Show Input Method Information when switch input method"
 msgstr "Показывать информацию о методе ввода при переключении"
 
-#: src/ui/classic/classicui.h:115
+#: src/ui/classic/classicui.h:122
 msgid "Show Layout Name In Icon"
 msgstr "Показать имя раскладки в значке"
 
@@ -2007,7 +2022,7 @@ msgstr "Показать информацию о компактном метод
 msgid "Show first input method information"
 msgstr "Показать информацию о первом методе ввода"
 
-#: src/ui/classic/classicui.h:119
+#: src/ui/classic/classicui.h:126
 msgid ""
 "Show layout name in icon if there is more than one active layout. If prefer "
 "text icon is set to true, this option will be ignored."
@@ -2042,7 +2057,7 @@ msgctxt "Key name"
 msgid "Space"
 msgstr "Space"
 
-#: src/ui/classic/theme.h:136
+#: src/ui/classic/theme.h:137
 msgid "Spacing"
 msgstr "Расстояние"
 
@@ -2083,7 +2098,7 @@ msgctxt "Key name"
 msgid "Stop"
 msgstr "Остановить"
 
-#: src/ui/classic/theme.h:144
+#: src/ui/classic/theme.h:145
 msgid "Sub Menu"
 msgstr "Подменю"
 
@@ -2096,7 +2111,7 @@ msgstr "Подзаголовок"
 msgid "Super"
 msgstr "Super"
 
-#: src/lib/fcitx-utils/key.cpp:482
+#: src/lib/fcitx-utils/key.cpp:511
 msgctxt "Key name"
 msgid "Super"
 msgstr "Super"
@@ -2111,16 +2126,16 @@ msgctxt "Key name"
 msgid "Suspend"
 msgstr "Приостановить"
 
-#: src/lib/fcitx/instance.cpp:421 src/lib/fcitx/instance.cpp:639
+#: src/lib/fcitx/instance.cpp:433 src/lib/fcitx/instance.cpp:651
 #: src/modules/xcb/xcbconnection.cpp:407
 msgid "Switch group"
 msgstr "Сменить группу"
 
-#: src/lib/fcitx/instance.cpp:422 src/modules/xcb/xcbconnection.cpp:408
+#: src/lib/fcitx/instance.cpp:434 src/modules/xcb/xcbconnection.cpp:408
 msgid "Switch group to {0}"
 msgstr "Переключить группу на {0}"
 
-#: src/lib/fcitx/instance.cpp:640
+#: src/lib/fcitx/instance.cpp:652
 msgid "Switched group to {0}"
 msgstr "Группа переключена на {0}"
 
@@ -2162,24 +2177,24 @@ msgstr ""
 msgid "The script is run as ${1} (${2})."
 msgstr "Сценарий запущен пользователем ${1} (${2})."
 
-#: src/ui/classic/classicui.h:135
+#: src/ui/classic/classicui.h:142
 msgid "Theme"
 msgstr "Тема"
 
-#: src/ui/classic/classicui.h:79
+#: src/ui/classic/classicui.h:86
 msgid "This is only effective when the tray icon is xembed."
 msgstr "Это эффективно только тогда, когда значок в трее встроен."
 
-#: src/ui/classic/theme.h:57 src/ui/classic/theme.h:65
+#: src/ui/classic/theme.h:58 src/ui/classic/theme.h:66
 msgid "This option is only effective if image is not set."
 msgstr ""
 "Этот параметр эффективен только в том случае, если имидж не установлен."
 
-#: src/ui/classic/theme.h:73
+#: src/ui/classic/theme.h:74
 msgid "This value should be less than any of margin value."
 msgstr "Это значение должно быть меньше любого значения разницы."
 
-#: data/fcitx5-diagnose.sh:1810
+#: data/fcitx5-diagnose.sh:1822
 msgid ""
 "Though such information can be helpful to developers for diagnostic purpose, "
 "please double check and remove as necessary before posting it online "
@@ -2215,11 +2230,11 @@ msgctxt "Key name"
 msgid "Tools"
 msgstr "Инструменты"
 
-#: src/ui/classic/theme.h:30
+#: src/ui/classic/theme.h:31
 msgid "Top Center"
 msgstr "Вверху по-центру"
 
-#: src/ui/classic/theme.h:30
+#: src/ui/classic/theme.h:31
 msgid "Top Left"
 msgstr "Вверху слева"
 
@@ -2228,7 +2243,7 @@ msgctxt "Key name"
 msgid "Top Menu"
 msgstr "Верхнее меню"
 
-#: src/ui/classic/theme.h:31
+#: src/ui/classic/theme.h:32
 msgid "Top Right"
 msgstr "Вверху справа"
 
@@ -2257,15 +2272,15 @@ msgctxt "Key name"
 msgid "Travel"
 msgstr "Ход"
 
-#: src/ui/classic/classicui.h:104
+#: src/ui/classic/classicui.h:111
 msgid "Tray Font"
 msgstr "Шрифт в лотке"
 
-#: src/ui/classic/classicui.h:106
+#: src/ui/classic/classicui.h:113
 msgid "Tray Label Outline Color"
 msgstr "Цвет контура лейбла лотка"
 
-#: src/ui/classic/classicui.h:109
+#: src/ui/classic/classicui.h:116
 msgid "Tray Label Text Color"
 msgstr "Цвет текста лейбла лотка"
 
@@ -2325,21 +2340,21 @@ msgstr "Вверх"
 msgid "Use On The Spot Style (Needs restarting)"
 msgstr "Использовать стиль On The Spot (требуется перезагрузка)"
 
-#: src/ui/classic/classicui.h:93
+#: src/ui/classic/classicui.h:100
 msgid "Use Per Screen DPI"
 msgstr "Использовать DPI для каждого экрана"
 
-#: src/ui/classic/theme.h:110
+#: src/ui/classic/theme.h:111
 msgid "Use all horizontal space for highlight when it is vertical list"
 msgstr ""
 "Используйте все горизонтальное пространство для выделения, когда это "
 "вертикальный список"
 
-#: src/ui/classic/classicui.h:126
+#: src/ui/classic/classicui.h:133
 msgid "Use input method language to display text"
 msgstr "Использовать язык метода ввода для отображения текста"
 
-#: src/ui/classic/classicui.h:96
+#: src/ui/classic/classicui.h:103
 msgid "Use mouse wheel to go to prev or next page"
 msgstr "Используйте колёсико мыши, для перелистывания страниц"
 
@@ -2347,7 +2362,7 @@ msgstr "Используйте колёсико мыши, для перелис�
 msgid "Use new compose behavior"
 msgstr "Использовать новое поведение при написании"
 
-#: data/fcitx5-diagnose.sh:1683
+#: data/fcitx5-diagnose.sh:1695
 msgid "User Interface:"
 msgstr "Пользовательский интерфейс:"
 
@@ -2355,15 +2370,15 @@ msgstr "Пользовательский интерфейс:"
 msgid "Using ${1} to check dbus."
 msgstr "Использование ${1} для проверки dbus."
 
-#: src/ui/classic/theme.h:152
+#: src/ui/classic/theme.h:153
 msgid "Version"
 msgstr "Версия"
 
-#: data/fcitx5-diagnose.sh:1372 data/fcitx5-diagnose.sh:1456
+#: data/fcitx5-diagnose.sh:1384 data/fcitx5-diagnose.sh:1468
 msgid "Version Line:"
 msgstr "Версия Line:"
 
-#: src/ui/classic/classicui.h:92
+#: src/ui/classic/classicui.h:99
 msgid "Vertical Candidate List"
 msgstr "Вертикальный список кандидатов"
 
@@ -2402,7 +2417,7 @@ msgctxt "Key name"
 msgid "Wake Up"
 msgstr "Выход из сна"
 
-#: data/fcitx5-diagnose.sh:1809
+#: data/fcitx5-diagnose.sh:1821
 msgid ""
 "Warning: the output of fcitx5-diagnose contains sensitive information, "
 "including the distribution name, kernel version, name of currently running "
@@ -2523,11 +2538,11 @@ msgstr ""
 "выполнения скрипта может быть некорректным. Для подробной информации см. "
 "${2}."
 
-#: data/fcitx5-diagnose.sh:1193
+#: data/fcitx5-diagnose.sh:1196
 msgid "You are using xim in ${1} programs."
 msgstr "Вы используете xim в ${1} программах."
 
-#: data/fcitx5-diagnose.sh:1198
+#: data/fcitx5-diagnose.sh:1201
 msgid "You may have trouble using fcitx in ${1} programs."
 msgstr "Возможны проблемы при использовании fcitx в ${1} программах."
 
@@ -2617,10 +2632,10 @@ msgstr "Версия:"
 msgid "{0} (Not Available)"
 msgstr "{0} (Недоступно)"
 
-#: src/lib/fcitx/instance.cpp:380
+#: src/lib/fcitx/instance.cpp:392
 msgid "{0} (Not available)"
 msgstr "{0} (Недоступно)"
 
-#: src/lib/fcitx/instance.cpp:377
+#: src/lib/fcitx/instance.cpp:389
 msgid "{0} ({1})"
 msgstr "{0} ({1})"

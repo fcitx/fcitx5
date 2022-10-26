@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2022-07-24 20:25+0000\n"
+"POT-Creation-Date: 2022-10-26 20:24+0000\n"
 "PO-Revision-Date: 2017-11-23 04:14+0000\n"
 "Last-Translator: UTUMI Hirosi <utuhiro78@yahoo.co.jp>, 2022\n"
 "Language-Team: Japanese (https://www.transifex.com/fcitx/teams/12005/ja/)\n"
@@ -50,7 +50,7 @@ msgstr "${1} は見つかりません"
 msgid "${1} works properly."
 msgstr "${1} は正常に動作しています。"
 
-#: src/lib/fcitx/instance.cpp:382
+#: src/lib/fcitx/instance.cpp:394
 msgid "(Not available)"
 msgstr "(使用不可)"
 
@@ -115,15 +115,15 @@ msgstr "お気に入りに追加する"
 msgid "Add Unicode Typing Support"
 msgstr "ユニコード入力対応を追加します"
 
-#: data/fcitx5-diagnose.sh:1571
+#: data/fcitx5-diagnose.sh:1583
 msgid "Addon Config Dir:"
 msgstr "アドオン設定ディレクトリ:"
 
-#: data/fcitx5-diagnose.sh:1656
+#: data/fcitx5-diagnose.sh:1668
 msgid "Addon Libraries:"
 msgstr "アドオンライブラリ:"
 
-#: data/fcitx5-diagnose.sh:1599
+#: data/fcitx5-diagnose.sh:1611
 msgid "Addon List:"
 msgstr "アドオン一覧:"
 
@@ -136,11 +136,11 @@ msgstr "明るさ調整"
 msgid "All"
 msgstr "すべて"
 
-#: data/fcitx5-diagnose.sh:1334
+#: data/fcitx5-diagnose.sh:1346
 msgid "All found Gtk ${1} immodule files exist."
 msgstr "見つかった Gtk ${1} IMモジュールファイルはすべて存在します。"
 
-#: data/fcitx5-diagnose.sh:1682
+#: data/fcitx5-diagnose.sh:1694
 msgid "All libraries for all addons are found."
 msgstr "すべてのアドオン用ライブラリが見つかりました。"
 
@@ -152,7 +152,7 @@ msgstr "すべてのロケール:"
 msgid "Allow Overriding System XKB Settings"
 msgstr "システム XKB 設定のオーバーライドを許可する"
 
-#: src/modules/wayland/waylandmodule.h:31
+#: src/modules/wayland/waylandmodule.h:32
 msgid "Allow Overriding System XKB Settings (Only support KDE 5)"
 msgstr "システムの XKB 設定より優先する (KDE 5 のみサポート)"
 
@@ -160,7 +160,7 @@ msgstr "システムの XKB 設定より優先する (KDE 5 のみサポート)"
 msgid "Alt"
 msgstr "Alt"
 
-#: src/lib/fcitx-utils/key.cpp:480
+#: src/lib/fcitx-utils/key.cpp:509
 msgctxt "Key name"
 msgid "Alt"
 msgstr "Alt"
@@ -198,7 +198,7 @@ msgctxt "Key name"
 msgid "Audio Repeat"
 msgstr "オーディオリピート"
 
-#: src/ui/classic/theme.h:153
+#: src/ui/classic/theme.h:154
 msgid "Author"
 msgstr "作者"
 
@@ -221,11 +221,11 @@ msgstr "Back Forward"
 msgid "Backends"
 msgstr "バックエンド"
 
-#: src/ui/classic/theme.h:118 src/ui/classic/theme.h:138
+#: src/ui/classic/theme.h:119 src/ui/classic/theme.h:139
 msgid "Background"
 msgstr "背景"
 
-#: src/ui/classic/theme.h:49
+#: src/ui/classic/theme.h:50
 msgid "Background Image"
 msgstr "背景画像"
 
@@ -261,11 +261,11 @@ msgctxt "Key name"
 msgid "Bluetooth"
 msgstr "Bluetooth"
 
-#: src/ui/classic/theme.h:107
+#: src/ui/classic/theme.h:108
 msgid "Blur Margin"
 msgstr "ブラーのマージン"
 
-#: src/ui/classic/theme.h:106
+#: src/ui/classic/theme.h:107
 msgid "Blur mask"
 msgstr "ブラーマスク"
 
@@ -274,23 +274,23 @@ msgctxt "Key name"
 msgid "Book"
 msgstr "Book"
 
-#: src/ui/classic/theme.h:61
+#: src/ui/classic/theme.h:62
 msgid "Border Color"
 msgstr "ボーダーの色"
 
-#: src/ui/classic/theme.h:69
+#: src/ui/classic/theme.h:70
 msgid "Border width"
 msgstr "ボーダーの幅"
 
-#: src/ui/classic/theme.h:33
+#: src/ui/classic/theme.h:34
 msgid "Bottom Center"
 msgstr "中央下"
 
-#: src/ui/classic/theme.h:33
+#: src/ui/classic/theme.h:34
 msgid "Bottom Left"
 msgstr "左下"
 
-#: src/ui/classic/theme.h:34
+#: src/ui/classic/theme.h:35
 msgid "Bottom Right"
 msgstr "右下"
 
@@ -326,7 +326,7 @@ msgstr "正しく ${1} に接続できません。"
 msgid "Cannot determine desktop environment."
 msgstr "デスクトップ環境を決定できません。"
 
-#: data/fcitx5-diagnose.sh:1590
+#: data/fcitx5-diagnose.sh:1602
 msgid "Cannot find ${1} addon config directory."
 msgstr "${1} アドオンの設定ディレクトリが見つかりません。"
 
@@ -334,19 +334,20 @@ msgstr "${1} アドオンの設定ディレクトリが見つかりません。"
 msgid "Cannot find ${1} executable!"
 msgstr "実行可能な ${1} が見つかりません。"
 
-#: data/fcitx5-diagnose.sh:1484 data/fcitx5-diagnose.sh:1537
+#: data/fcitx5-diagnose.sh:1496 data/fcitx5-diagnose.sh:1549
 msgid "Cannot find ${1} im module for gtk ${2} in cache."
 msgstr "キャッシュに gtk ${2} の ${1} 入力メソッドモジュールが見つかりません。"
 
-#: data/fcitx5-diagnose.sh:1401
+#: data/fcitx5-diagnose.sh:1413
 msgid "Cannot find ${1} im module for gtk ${2}."
 msgstr "gtk ${2} の ${1} 入力メソッドモジュールが見つかりません。"
 
-#: data/fcitx5-diagnose.sh:1260 data/fcitx5-diagnose.sh:1265
+#: data/fcitx5-diagnose.sh:1267 data/fcitx5-diagnose.sh:1272
+#: data/fcitx5-diagnose.sh:1277
 msgid "Cannot find ${1} input method module for ${2}."
 msgstr "${2} の ${1} 入力メソッドモジュールが見つかりません。"
 
-#: data/fcitx5-diagnose.sh:1395
+#: data/fcitx5-diagnose.sh:1407
 msgid "Cannot find ${2} for gtk ${1}"
 msgstr "gtk ${1} の ${2} が見つかりません"
 
@@ -359,7 +360,7 @@ msgid "Cannot find a GUI config tool, please install one of ${1}, or ${2}."
 msgstr ""
 "GUI設定ツールが見つかりません。{1} または {2} をインストールしてください。"
 
-#: data/fcitx5-diagnose.sh:1685
+#: data/fcitx5-diagnose.sh:1697
 msgid "Cannot find enabled ${1} user interface!"
 msgstr "有効な ${1} ユーザーインターフェイスが見つかりません！"
 
@@ -367,19 +368,19 @@ msgstr "有効な ${1} ユーザーインターフェイスが見つかりませ
 msgid "Cannot find fcitx5 executable!"
 msgstr "fcitx5 を実行できません！"
 
-#: data/fcitx5-diagnose.sh:1664
+#: data/fcitx5-diagnose.sh:1676
 msgid "Cannot find file ${1} of addon ${2}."
 msgstr "アドオン ${2} のファイル ${1} が見つかりません。"
 
-#: data/fcitx5-diagnose.sh:1674
+#: data/fcitx5-diagnose.sh:1686
 msgid "Cannot find following required libraries for ${1} of addon ${2}."
 msgstr "アドオン ${2} の ${1} に必要な次のライブラリが見つかりません。"
 
-#: data/fcitx5-diagnose.sh:1479 data/fcitx5-diagnose.sh:1532
+#: data/fcitx5-diagnose.sh:1491 data/fcitx5-diagnose.sh:1544
 msgid "Cannot find immodules cache for gtk ${1}"
 msgstr "gtk ${1} の immodules キャッシュが見つかりません"
 
-#: data/fcitx5-diagnose.sh:1704
+#: data/fcitx5-diagnose.sh:1716
 msgid ""
 "Cannot find kimpanel dbus interface or enabled non-kimpanel user interface."
 msgstr ""
@@ -403,15 +404,15 @@ msgctxt "Key name"
 msgid "CapsLock"
 msgstr "CapsLock"
 
-#: src/ui/classic/theme.h:32
+#: src/ui/classic/theme.h:33
 msgid "Center"
 msgstr "中央"
 
-#: src/ui/classic/theme.h:31
+#: src/ui/classic/theme.h:32
 msgid "Center Left"
 msgstr "中央左"
 
-#: src/ui/classic/theme.h:32
+#: src/ui/classic/theme.h:33
 msgid "Center Right"
 msgstr "中央右"
 
@@ -419,7 +420,7 @@ msgstr "中央右"
 msgid "Change Fcitx 5 Configuration"
 msgstr "Fcitx5 設定を変更"
 
-#: src/ui/classic/theme.h:143
+#: src/ui/classic/theme.h:144
 msgid "Check box"
 msgstr "チェックボックス"
 
@@ -436,7 +437,7 @@ msgctxt "Key name"
 msgid "Clear"
 msgstr "クリア"
 
-#: src/ui/classic/theme.h:95
+#: src/ui/classic/theme.h:96
 msgid "Click Margin"
 msgstr "クリックマージン"
 
@@ -444,7 +445,7 @@ msgstr "クリックマージン"
 msgid "Clipboard"
 msgstr "クリップボード"
 
-#: src/modules/clipboard/clipboard.cpp:345
+#: src/modules/clipboard/clipboard.cpp:353
 msgid "Clipboard (Press BackSpace/Delete to clear history):"
 msgstr "クリップボード (BackSpace/Delete で履歴をクリア)"
 
@@ -458,7 +459,7 @@ msgctxt "Key name"
 msgid "Code input"
 msgstr "コード入力"
 
-#: src/ui/classic/theme.h:53
+#: src/ui/classic/theme.h:54
 msgid "Color"
 msgstr "色"
 
@@ -467,19 +468,19 @@ msgctxt "Key name"
 msgid "Community"
 msgstr "コミュニティ"
 
-#: src/im/keyboard/keyboard.cpp:641
+#: src/im/keyboard/keyboard.cpp:648
 msgid "Completion"
 msgstr "補完"
 
-#: src/im/keyboard/keyboard.cpp:632
+#: src/im/keyboard/keyboard.cpp:639
 msgid "Completion is disabled."
 msgstr "補完は無効です。"
 
-#: src/im/keyboard/keyboard.cpp:635
+#: src/im/keyboard/keyboard.cpp:642
 msgid "Completion is enabled temporarily."
 msgstr "補完は一時的に有効です。"
 
-#: src/im/keyboard/keyboard.cpp:637
+#: src/im/keyboard/keyboard.cpp:644
 msgid "Completion is enabled."
 msgstr "補完は有効です。"
 
@@ -507,7 +508,7 @@ msgstr "qt 向け設定 GUI:"
 msgid "Config Tool Wrapper:"
 msgstr "設定ツールラッパー:"
 
-#: data/fcitx5-diagnose.sh:1798
+#: data/fcitx5-diagnose.sh:1810
 msgid "Configuration:"
 msgstr "設定:"
 
@@ -520,7 +521,7 @@ msgstr "設定"
 msgid "Control"
 msgstr "Control"
 
-#: src/lib/fcitx-utils/key.cpp:479
+#: src/lib/fcitx-utils/key.cpp:508
 msgctxt "Key name"
 msgid "Control"
 msgstr "Control"
@@ -588,7 +589,7 @@ msgstr "入力メソッドをオフにする"
 msgid "Debug information from dbus:"
 msgstr "dbus からのデバッグ情報:"
 
-#: src/lib/fcitx/inputmethodmanager.cpp:138 src/lib/fcitx/instance.cpp:329
+#: src/lib/fcitx/inputmethodmanager.cpp:138 src/lib/fcitx/instance.cpp:341
 #: src/ui/classic/themes/default/theme.conf.in:3
 msgid "Default"
 msgstr "デフォルト"
@@ -618,7 +619,7 @@ msgctxt "Key name"
 msgid "Delete"
 msgstr "削除"
 
-#: src/ui/classic/theme.h:155
+#: src/ui/classic/theme.h:156
 msgid "Description"
 msgstr "詳細"
 
@@ -680,7 +681,7 @@ msgstr "絵文字"
 msgid "Enable"
 msgstr "有効"
 
-#: src/ui/classic/theme.h:104
+#: src/ui/classic/theme.h:105
 msgid "Enable Blur on KWin"
 msgstr "KWin でブラーを有効にする"
 
@@ -776,11 +777,11 @@ msgstr "実行"
 msgid "Exit"
 msgstr "閉じる"
 
-#: data/fcitx5-diagnose.sh:1473 data/fcitx5-diagnose.sh:1526
+#: data/fcitx5-diagnose.sh:1485 data/fcitx5-diagnose.sh:1538
 msgid "Failed to find ${1} in immodule cache at ${2}"
 msgstr "${1} の immodule キャッシュに ${2} が見つかりません。"
 
-#: data/fcitx5-diagnose.sh:1389
+#: data/fcitx5-diagnose.sh:1401
 msgid "Failed to find ${1} in the output of ${2}"
 msgstr "${1} の出力に ${2} が見つかりません。"
 
@@ -802,7 +803,7 @@ msgstr "Fcitx 5"
 msgid "Fcitx 5 Configuration"
 msgstr "Fcitx5 設定"
 
-#: data/fcitx5-diagnose.sh:1570
+#: data/fcitx5-diagnose.sh:1582
 msgid "Fcitx Addons:"
 msgstr "Fcitx アドオン:"
 
@@ -841,11 +842,19 @@ msgctxt "Key name"
 msgid "Find"
 msgstr "Find"
 
-#: src/ui/classic/classicui.h:100
+#: data/fcitx5-diagnose.sh:1263
+msgid ""
+"Following error may not be accurate because guessing Qt version from path "
+"depends on how your distribution packages Qt. It is not a critical error if "
+"you do not use any Qt application with certain version of Qt or you are "
+"using text-input support by Qt under Wayland."
+msgstr ""
+
+#: src/ui/classic/classicui.h:107
 msgid "Font"
 msgstr "フォント"
 
-#: src/ui/classic/classicui.h:130
+#: src/ui/classic/classicui.h:137
 msgid ""
 "For example, display character with Chinese variant when using Pinyin and "
 "Japanese variant when using Anthy. The font configuration needs to support "
@@ -855,7 +864,7 @@ msgstr ""
 "ている場合は日本語の書体で文字を表示します。この機能を使用するには多言語フォ"
 "ントを指定する必要があります。"
 
-#: src/ui/classic/classicui.h:140
+#: src/ui/classic/classicui.h:147
 msgid "Force font DPI on Wayland"
 msgstr "フォント DPI を Wayland で強制する"
 
@@ -864,7 +873,7 @@ msgctxt "Key name"
 msgid "Forward"
 msgstr "Forward"
 
-#: data/fcitx5-diagnose.sh:1249
+#: data/fcitx5-diagnose.sh:1255
 msgid "Found ${1} ${2} module: ${3}."
 msgstr "${1} ${2} モジュールが見つかりました: ${3}。"
 
@@ -876,7 +885,7 @@ msgstr "${1} ${2} プロセスが見つかりました:"
 msgid "Found ${1} ${2} processes:"
 msgstr "${1} ${2} プロセスが見つかりました:"
 
-#: data/fcitx5-diagnose.sh:1593
+#: data/fcitx5-diagnose.sh:1605
 msgid "Found ${1} addon config directory: ${2}."
 msgstr "${1} アドオンの設定ディレクトリを見つけました: ${2}。"
 
@@ -885,20 +894,20 @@ msgstr "${1} アドオンの設定ディレクトリを見つけました: ${2}�
 msgid "Found ${1} at ${2}."
 msgstr "${1} を ${2} で見つけました。"
 
-#: data/fcitx5-diagnose.sh:1646
+#: data/fcitx5-diagnose.sh:1658
 msgid "Found ${1} disabled addons:"
 msgstr "${1} 個の無効なアドオンが見つかりました:"
 
-#: data/fcitx5-diagnose.sh:1637
+#: data/fcitx5-diagnose.sh:1649
 msgid "Found ${1} enabled addons:"
 msgstr "${1} 個の有効なアドオンが見つかりました:"
 
-#: data/fcitx5-diagnose.sh:1687
+#: data/fcitx5-diagnose.sh:1699
 msgid "Found ${1} enabled user interface addons:"
 msgstr "${1} が有効なユーザーインターフェイスアドオンが見つかりました:"
 
-#: data/fcitx5-diagnose.sh:1383 data/fcitx5-diagnose.sh:1467
-#: data/fcitx5-diagnose.sh:1520
+#: data/fcitx5-diagnose.sh:1395 data/fcitx5-diagnose.sh:1479
+#: data/fcitx5-diagnose.sh:1532
 msgid "Found ${1} im modules for gtk ${2}."
 msgstr "gtk ${2} 用の ${1} 入力メソッドモジュールが見つかりました。"
 
@@ -906,27 +915,27 @@ msgstr "gtk ${2} 用の ${1} 入力メソッドモジュールが見つかりま
 msgid "Found ${1} kcm module."
 msgstr "${1} kcm モジュールを見つけました。"
 
-#: data/fcitx5-diagnose.sh:1375
+#: data/fcitx5-diagnose.sh:1387
 msgid "Found ${2} for unknown gtk version at ${1}."
 msgstr "未知のバージョンの gtk 用の ${2} を ${1} に見つけました。"
 
-#: data/fcitx5-diagnose.sh:1367
+#: data/fcitx5-diagnose.sh:1379
 msgid "Found ${3} for gtk ${1} at ${2}."
 msgstr "gtk ${1} 用の ${3} を ${2} に見つけました。"
 
-#: data/fcitx5-diagnose.sh:1238 data/fcitx5-diagnose.sh:1243
+#: data/fcitx5-diagnose.sh:1242 data/fcitx5-diagnose.sh:1247
 msgid "Found ${3} im module for ${2}: ${1}."
 msgstr "${2}の $3{3} im モジュールが見つかりました: ${1}"
 
-#: data/fcitx5-diagnose.sh:1460
+#: data/fcitx5-diagnose.sh:1472
 msgid "Found immodule cache for unknown gtk version at ${1}."
 msgstr "未知の gtk 用の immodules キャッシュを ${1} に見つけました。"
 
-#: data/fcitx5-diagnose.sh:1452 data/fcitx5-diagnose.sh:1513
+#: data/fcitx5-diagnose.sh:1464 data/fcitx5-diagnose.sh:1525
 msgid "Found immodules cache for gtk ${1} at ${2}."
 msgstr "gtk ${1} の immodule cache を ${2} に見つけました。"
 
-#: data/fcitx5-diagnose.sh:1252
+#: data/fcitx5-diagnose.sh:1258
 msgid "Found unknown ${1} qt module: ${2}."
 msgstr "不明な ${1} qt モジュールが見つかりました: ${2}。"
 
@@ -934,7 +943,7 @@ msgstr "不明な ${1} qt モジュールが見つかりました: ${2}。"
 msgid "Freedesktop.org Notification Support"
 msgstr "Freedesktop.org 通知サポート"
 
-#: data/fcitx5-diagnose.sh:1791
+#: data/fcitx5-diagnose.sh:1803
 msgid "Frontends setup:"
 msgstr "フロントエンド設定:"
 
@@ -958,23 +967,23 @@ msgstr "Green"
 msgid "Group"
 msgstr "グループ"
 
-#: src/lib/fcitx/instance.cpp:386
+#: src/lib/fcitx/instance.cpp:398
 msgid "Group {0}: {1}"
 msgstr "グループ {0}: {1}"
 
-#: src/lib/fcitx/instance.cpp:331
+#: src/lib/fcitx/instance.cpp:343
 msgid "Group {}"
 msgstr "グループ {}"
 
-#: data/fcitx5-diagnose.sh:1328
+#: data/fcitx5-diagnose.sh:1340
 msgid "Gtk ${1} immodule file ${2} does not exist."
 msgstr "Gtk ${1} IMモジュールファイル ${2} がありません。"
 
-#: data/fcitx5-diagnose.sh:1550
+#: data/fcitx5-diagnose.sh:1562
 msgid "Gtk IM module cache:"
 msgstr "Gtk IM モジュールキャッシュ:"
 
-#: data/fcitx5-diagnose.sh:1556
+#: data/fcitx5-diagnose.sh:1568
 msgid "Gtk IM module files:"
 msgstr "Gtk IM モジュールファイル:"
 
@@ -1061,27 +1070,27 @@ msgstr "ハイバネート"
 msgid "Hidden Notifications"
 msgstr "隠す通知"
 
-#: src/ui/classic/theme.h:80
+#: src/ui/classic/theme.h:81
 msgid "Hide overlay if size does not fit"
 msgstr "サイズが合わない場合はオーバーレイを非表示にする"
 
-#: src/ui/classic/theme.h:120 src/ui/classic/theme.h:140
+#: src/ui/classic/theme.h:121 src/ui/classic/theme.h:141
 msgid "Highlight Background"
 msgstr "ハイライト背景"
 
-#: src/ui/classic/theme.h:115
+#: src/ui/classic/theme.h:116
 msgid "Highlight Background color"
 msgstr "ハイライト背景色"
 
-#: src/ui/classic/theme.h:102 src/ui/classic/theme.h:134
+#: src/ui/classic/theme.h:103 src/ui/classic/theme.h:135
 msgid "Highlight Candidate Color"
 msgstr "ハイライト候補色"
 
-#: src/ui/classic/theme.h:90
+#: src/ui/classic/theme.h:91
 msgid "Highlight Click Margin"
 msgstr "ハイライトクリックマージン"
 
-#: src/ui/classic/theme.h:113
+#: src/ui/classic/theme.h:114
 msgid "Highlight text color"
 msgstr "ハイライトテキスト色"
 
@@ -1137,7 +1146,7 @@ msgid ""
 "Hotkey for switching to the N-th input method for only current input context"
 msgstr "現在の入力コンテキストのみをN番目の入力メソッドに切り替えるホットキー"
 
-#: src/lib/fcitx-utils/key.cpp:483
+#: src/lib/fcitx-utils/key.cpp:512
 msgctxt "Key name"
 msgid "Hyper"
 msgstr "Hyper"
@@ -1167,12 +1176,12 @@ msgstr ""
 "${g36_disable_ibus} コマンドを実行してください。詳細は ${link} で確認してくだ"
 "さい。"
 
-#: src/ui/classic/theme.h:93
+#: src/ui/classic/theme.h:94
 msgid "Image"
 msgstr "画像"
 
-#: src/im/keyboard/keyboard.cpp:640 src/lib/fcitx/instance.cpp:420
-#: src/lib/fcitx/instance.cpp:638 src/lib/fcitx/instance.cpp:804
+#: src/im/keyboard/keyboard.cpp:647 src/lib/fcitx/instance.cpp:432
+#: src/lib/fcitx/instance.cpp:650 src/lib/fcitx/instance.cpp:816
 #: src/modules/notificationitem/notificationitem.cpp:115
 #: src/modules/xcb/xcbconnection.cpp:406 data/org.fcitx.Fcitx5.desktop.in.in:4
 #: data/org.fcitx.Fcitx5.metainfo.xml.in:7
@@ -1187,11 +1196,11 @@ msgstr "入力メソッドの設定"
 msgid "Input Method Related Environment Variables: "
 msgstr "入力メソッド関連の環境変数:"
 
-#: data/fcitx5-diagnose.sh:1710
+#: data/fcitx5-diagnose.sh:1722
 msgid "Input Methods:"
 msgstr "入力メソッド:"
 
-#: src/ui/classic/theme.h:161
+#: src/ui/classic/theme.h:162
 msgid "Input Panel"
 msgstr "入力パネル"
 
@@ -1212,15 +1221,21 @@ msgctxt "Key name"
 msgid "Insert"
 msgstr "挿入"
 
-#: data/fcitx5-diagnose.sh:1605
+#: data/fcitx5-diagnose.sh:1617
 msgid "Invalid addon config file ${1}."
 msgstr "不正なアドオン設定ファイル ${1} です。"
+
+#: data/fcitx5-diagnose.sh:1188
+msgid ""
+"It is OK to use ${1} built-in Wayland im module if your compositor fully "
+"supports text-input protocol used by ${1}."
+msgstr ""
 
 #: src/ui/kimpanel/kimpanel.conf.in.in:3
 msgid "KDE Input Method Panel"
 msgstr "KDE 入力メソッドパネル"
 
-#: src/ui/classic/classicui.cpp:144
+#: src/ui/classic/classicui.cpp:145
 msgid "KDE Plasma (Experimental)"
 msgstr "KDE Plasma（実験的）"
 
@@ -1284,7 +1299,7 @@ msgctxt "Key name"
 msgid "Keyboard Menu"
 msgstr "キーボードメニュー"
 
-#: data/fcitx5-diagnose.sh:1696
+#: data/fcitx5-diagnose.sh:1708
 msgid "Kimpanel process:"
 msgstr "Kimpanel のプロセス:"
 
@@ -1412,7 +1427,7 @@ msgstr "LightBulb"
 msgid "Locale:"
 msgstr "ロケール:"
 
-#: data/fcitx5-diagnose.sh:1804
+#: data/fcitx5-diagnose.sh:1816
 msgid "Log:"
 msgstr "ログ:"
 
@@ -1430,31 +1445,31 @@ msgctxt "Key name"
 msgid "Mail Forward"
 msgstr "メール転送"
 
-#: src/ui/classic/theme.h:82
+#: src/ui/classic/theme.h:83
 msgid "Margin"
 msgstr "マージン "
 
-#: src/ui/classic/theme.h:44
+#: src/ui/classic/theme.h:45
 msgid "Margin Bottom"
 msgstr "下マージン"
 
-#: src/ui/classic/theme.h:38
+#: src/ui/classic/theme.h:39
 msgid "Margin Left"
 msgstr "左マージン"
 
-#: src/ui/classic/theme.h:40
+#: src/ui/classic/theme.h:41
 msgid "Margin Right"
 msgstr "右マージン"
 
-#: src/ui/classic/theme.h:42
+#: src/ui/classic/theme.h:43
 msgid "Margin Top"
 msgstr "上マージン"
 
-#: src/ui/classic/theme.h:122 src/ui/classic/theme.h:146
+#: src/ui/classic/theme.h:123 src/ui/classic/theme.h:147
 msgid "Margin around all content"
 msgstr "全コンテンツの周りのマージン"
 
-#: src/ui/classic/theme.h:124 src/ui/classic/theme.h:148
+#: src/ui/classic/theme.h:125 src/ui/classic/theme.h:149
 msgid "Margin around text"
 msgstr "テキストの周りのマージン"
 
@@ -1513,7 +1528,7 @@ msgctxt "Key name"
 msgid "Meeting"
 msgstr "ミーティング"
 
-#: src/ui/classic/theme.h:162
+#: src/ui/classic/theme.h:163
 msgid "Menu"
 msgstr "メニュー"
 
@@ -1522,7 +1537,7 @@ msgctxt "Key name"
 msgid "Menu"
 msgstr "メニュー"
 
-#: src/ui/classic/classicui.h:102
+#: src/ui/classic/classicui.h:109
 msgid "Menu Font"
 msgstr "メニューフォント"
 
@@ -1536,7 +1551,7 @@ msgctxt "Key name"
 msgid "Messenger"
 msgstr "Messenger"
 
-#: src/ui/classic/theme.h:159
+#: src/ui/classic/theme.h:160
 msgid "Metadata"
 msgstr "メタデータ"
 
@@ -1575,7 +1590,7 @@ msgctxt "Key name"
 msgid "My Sites"
 msgstr "個人用サイト"
 
-#: src/ui/classic/theme.h:151
+#: src/ui/classic/theme.h:152
 msgid "Name"
 msgstr "名前"
 
@@ -1593,7 +1608,7 @@ msgstr "ニュース"
 msgid "Next Candidate"
 msgstr "次の候補"
 
-#: src/ui/classic/theme.h:126
+#: src/ui/classic/theme.h:127
 msgid "Next Page Button"
 msgstr "次ページボタン"
 
@@ -1601,7 +1616,7 @@ msgstr "次ページボタン"
 msgid "No"
 msgstr "いいえ"
 
-#: src/modules/clipboard/clipboard.cpp:347
+#: src/modules/clipboard/clipboard.cpp:355
 msgid "No clipboard history."
 msgstr "クリップボード履歴がありません。"
 
@@ -1609,11 +1624,11 @@ msgstr "クリップボード履歴がありません。"
 msgid "None"
 msgstr "なし"
 
-#: src/ui/classic/theme.h:99 src/ui/classic/theme.h:131
+#: src/ui/classic/theme.h:100 src/ui/classic/theme.h:132
 msgid "Normal text color"
 msgstr "ノーマルテキスト色"
 
-#: src/ui/classic/classicui.h:144
+#: src/ui/classic/classicui.h:151
 msgid ""
 "Normally Wayland uses 96 as font DPI in combinition with the screen scale "
 "factor. This option allows you to override the font DPI. If the value is 0, "
@@ -1644,7 +1659,7 @@ msgstr "NumLock"
 msgid "Number of entries"
 msgstr "エントリー数"
 
-#: src/im/keyboard/keyboard.cpp:626
+#: src/im/keyboard/keyboard.cpp:633
 msgid ""
 "Only emoji support is found. To enable spell checking, you may need to "
 "install spell check data for the language."
@@ -1667,23 +1682,23 @@ msgctxt "Key name"
 msgid "Option"
 msgstr "オプション"
 
-#: src/ui/classic/theme.h:84
+#: src/ui/classic/theme.h:85
 msgid "Overlay Clip Margin"
 msgstr "クリップマージンのオーバーレイ"
 
-#: src/ui/classic/theme.h:74
+#: src/ui/classic/theme.h:75
 msgid "Overlay Image"
 msgstr "オーバーレイ画像"
 
-#: src/ui/classic/theme.h:77
+#: src/ui/classic/theme.h:78
 msgid "Overlay X offset"
 msgstr "Xオフセットのオーバーレイ"
 
-#: src/ui/classic/theme.h:78
+#: src/ui/classic/theme.h:79
 msgid "Overlay Y offset"
 msgstr "Yオフセットのオーバーレイ"
 
-#: src/ui/classic/theme.h:76
+#: src/ui/classic/theme.h:77
 msgid "Overlay position"
 msgstr "オーバーレイの位置"
 
@@ -1768,19 +1783,19 @@ msgctxt "Key name"
 msgid "Power Off"
 msgstr "電源オフ"
 
-#: src/lib/fcitx/instance.cpp:804
+#: src/lib/fcitx/instance.cpp:816
 msgid "Preedit"
 msgstr "プリエディット"
 
-#: src/lib/fcitx/instance.cpp:806
+#: src/lib/fcitx/instance.cpp:818
 msgid "Preedit disabled"
 msgstr "プリエディット無効"
 
-#: src/lib/fcitx/instance.cpp:805
+#: src/lib/fcitx/instance.cpp:817
 msgid "Preedit enabled"
 msgstr "プリエディット有効"
 
-#: src/ui/classic/classicui.h:110
+#: src/ui/classic/classicui.h:117
 msgid "Prefer Text Icon"
 msgstr "テキストアイコンを優先する"
 
@@ -1792,7 +1807,7 @@ msgstr "Presage"
 msgid "Prev Candidate"
 msgstr "前の候補"
 
-#: src/ui/classic/theme.h:125
+#: src/ui/classic/theme.h:126
 msgid "Prev Page Button"
 msgstr "前ページのボタン"
 
@@ -1810,7 +1825,7 @@ msgstr "プリントスクリーン"
 msgid "Program"
 msgstr "プログラム"
 
-#: data/fcitx5-diagnose.sh:1224
+#: data/fcitx5-diagnose.sh:1228
 msgid "Qt IM module files:"
 msgstr "Qt IM モジュールファイル:"
 
@@ -1818,7 +1833,7 @@ msgstr "Qt IM モジュールファイル:"
 msgid "Quick Phrase"
 msgstr "クイックフレーズ"
 
-#: src/modules/quickphrase/quickphrase.cpp:403
+#: src/modules/quickphrase/quickphrase.cpp:408
 msgid "Quick Phrase: "
 msgstr "クイックフレーズ:"
 
@@ -1953,11 +1968,11 @@ msgctxt "Key name"
 msgid "Send"
 msgstr "送信"
 
-#: src/ui/classic/theme.h:142
+#: src/ui/classic/theme.h:143
 msgid "Separator Background"
 msgstr "セパレーターの背景"
 
-#: src/ui/classic/theme.h:128
+#: src/ui/classic/theme.h:129
 msgid "Shadow Margin"
 msgstr "影のマージン"
 
@@ -1965,7 +1980,7 @@ msgstr "影のマージン"
 msgid "Share Input State"
 msgstr "入力状態を共有する"
 
-#: src/lib/fcitx-utils/key.cpp:481
+#: src/lib/fcitx-utils/key.cpp:510
 msgctxt "Key name"
 msgid "Shift"
 msgstr "シフト"
@@ -1983,7 +1998,7 @@ msgstr "フォーカスを変更する際に入力メソッドの情報を表示
 msgid "Show Input Method Information when switch input method"
 msgstr "入力メソッドを切り替える際に入力メソッドの情報を表示する"
 
-#: src/ui/classic/classicui.h:115
+#: src/ui/classic/classicui.h:122
 msgid "Show Layout Name In Icon"
 msgstr "アイコンにレイアウト名を表示する"
 
@@ -1995,7 +2010,7 @@ msgstr "入力メソッドの情報をコンパクトに表示する"
 msgid "Show first input method information"
 msgstr "第1入力メソッドの情報を表示する"
 
-#: src/ui/classic/classicui.h:119
+#: src/ui/classic/classicui.h:126
 msgid ""
 "Show layout name in icon if there is more than one active layout. If prefer "
 "text icon is set to true, this option will be ignored."
@@ -2029,7 +2044,7 @@ msgctxt "Key name"
 msgid "Space"
 msgstr "スペース"
 
-#: src/ui/classic/theme.h:136
+#: src/ui/classic/theme.h:137
 msgid "Spacing"
 msgstr "間隔"
 
@@ -2070,7 +2085,7 @@ msgctxt "Key name"
 msgid "Stop"
 msgstr "停止"
 
-#: src/ui/classic/theme.h:144
+#: src/ui/classic/theme.h:145
 msgid "Sub Menu"
 msgstr "サブメニュー"
 
@@ -2083,7 +2098,7 @@ msgstr "サブタイトル"
 msgid "Super"
 msgstr "Super"
 
-#: src/lib/fcitx-utils/key.cpp:482
+#: src/lib/fcitx-utils/key.cpp:511
 msgctxt "Key name"
 msgid "Super"
 msgstr "Super"
@@ -2098,16 +2113,16 @@ msgctxt "Key name"
 msgid "Suspend"
 msgstr "サスペンド"
 
-#: src/lib/fcitx/instance.cpp:421 src/lib/fcitx/instance.cpp:639
+#: src/lib/fcitx/instance.cpp:433 src/lib/fcitx/instance.cpp:651
 #: src/modules/xcb/xcbconnection.cpp:407
 msgid "Switch group"
 msgstr "グループの切り替え"
 
-#: src/lib/fcitx/instance.cpp:422 src/modules/xcb/xcbconnection.cpp:408
+#: src/lib/fcitx/instance.cpp:434 src/modules/xcb/xcbconnection.cpp:408
 msgid "Switch group to {0}"
 msgstr "{0} にグループを切り替える"
 
-#: src/lib/fcitx/instance.cpp:640
+#: src/lib/fcitx/instance.cpp:652
 msgid "Switched group to {0}"
 msgstr "{0} にグループを切り替えました"
 
@@ -2148,23 +2163,23 @@ msgstr "N番目のホットキーでN番目の入力メソッドに切り替え�
 msgid "The script is run as ${1} (${2})."
 msgstr "${1} (${2})としてスクリプトを実行"
 
-#: src/ui/classic/classicui.h:135
+#: src/ui/classic/classicui.h:142
 msgid "Theme"
 msgstr "テーマ"
 
-#: src/ui/classic/classicui.h:79
+#: src/ui/classic/classicui.h:86
 msgid "This is only effective when the tray icon is xembed."
 msgstr "これはトレイアイコンが XEmbed の場合のみ有効です。"
 
-#: src/ui/classic/theme.h:57 src/ui/classic/theme.h:65
+#: src/ui/classic/theme.h:58 src/ui/classic/theme.h:66
 msgid "This option is only effective if image is not set."
 msgstr "このオプションは画像が設定されていない場合にのみ有効です。"
 
-#: src/ui/classic/theme.h:73
+#: src/ui/classic/theme.h:74
 msgid "This value should be less than any of margin value."
 msgstr "この値はどのマージンの値よりも小さくする必要があります。"
 
-#: data/fcitx5-diagnose.sh:1810
+#: data/fcitx5-diagnose.sh:1822
 msgid ""
 "Though such information can be helpful to developers for diagnostic purpose, "
 "please double check and remove as necessary before posting it online "
@@ -2198,11 +2213,11 @@ msgctxt "Key name"
 msgid "Tools"
 msgstr "ツール"
 
-#: src/ui/classic/theme.h:30
+#: src/ui/classic/theme.h:31
 msgid "Top Center"
 msgstr "中央上"
 
-#: src/ui/classic/theme.h:30
+#: src/ui/classic/theme.h:31
 msgid "Top Left"
 msgstr "左上"
 
@@ -2211,7 +2226,7 @@ msgctxt "Key name"
 msgid "Top Menu"
 msgstr "トップメニュー"
 
-#: src/ui/classic/theme.h:31
+#: src/ui/classic/theme.h:32
 msgid "Top Right"
 msgstr "右上"
 
@@ -2240,15 +2255,15 @@ msgctxt "Key name"
 msgid "Travel"
 msgstr "トラベル"
 
-#: src/ui/classic/classicui.h:104
+#: src/ui/classic/classicui.h:111
 msgid "Tray Font"
 msgstr "トレイフォント"
 
-#: src/ui/classic/classicui.h:106
+#: src/ui/classic/classicui.h:113
 msgid "Tray Label Outline Color"
 msgstr "トレイラベルのアウトライン色"
 
-#: src/ui/classic/classicui.h:109
+#: src/ui/classic/classicui.h:116
 msgid "Tray Label Text Color"
 msgstr "トレイラベルのテキスト色"
 
@@ -2308,19 +2323,19 @@ msgstr "上"
 msgid "Use On The Spot Style (Needs restarting)"
 msgstr "XIM で On The Spot スタイルを使う(再起動が必要)"
 
-#: src/ui/classic/classicui.h:93
+#: src/ui/classic/classicui.h:100
 msgid "Use Per Screen DPI"
 msgstr "スクリーンごとのDPIを使用する"
 
-#: src/ui/classic/theme.h:110
+#: src/ui/classic/theme.h:111
 msgid "Use all horizontal space for highlight when it is vertical list"
 msgstr "候補リストが縦の場合は、ハイライト時にすべての水平スペースを使用します"
 
-#: src/ui/classic/classicui.h:126
+#: src/ui/classic/classicui.h:133
 msgid "Use input method language to display text"
 msgstr "入力メソッドの言語を使用してテキストを表示する"
 
-#: src/ui/classic/classicui.h:96
+#: src/ui/classic/classicui.h:103
 msgid "Use mouse wheel to go to prev or next page"
 msgstr "マウスホイールを使用して前または次のページに移動する"
 
@@ -2328,7 +2343,7 @@ msgstr "マウスホイールを使用して前または次のページに移動
 msgid "Use new compose behavior"
 msgstr "新規入力時の動作を使用する"
 
-#: data/fcitx5-diagnose.sh:1683
+#: data/fcitx5-diagnose.sh:1695
 msgid "User Interface:"
 msgstr "ユーザーインターフェイス:"
 
@@ -2336,15 +2351,15 @@ msgstr "ユーザーインターフェイス:"
 msgid "Using ${1} to check dbus."
 msgstr "DBus をチェックするために ${1} を使用します。"
 
-#: src/ui/classic/theme.h:152
+#: src/ui/classic/theme.h:153
 msgid "Version"
 msgstr "バージョン"
 
-#: data/fcitx5-diagnose.sh:1372 data/fcitx5-diagnose.sh:1456
+#: data/fcitx5-diagnose.sh:1384 data/fcitx5-diagnose.sh:1468
 msgid "Version Line:"
 msgstr "バージョンライン:"
 
-#: src/ui/classic/classicui.h:92
+#: src/ui/classic/classicui.h:99
 msgid "Vertical Candidate List"
 msgstr "候補ウィンドウを縦にする"
 
@@ -2383,7 +2398,7 @@ msgctxt "Key name"
 msgid "Wake Up"
 msgstr "Wake Up"
 
-#: data/fcitx5-diagnose.sh:1809
+#: data/fcitx5-diagnose.sh:1821
 msgid ""
 "Warning: the output of fcitx5-diagnose contains sensitive information, "
 "including the distribution name, kernel version, name of currently running "
@@ -2499,11 +2514,11 @@ msgstr ""
 "このスクリプトを実行するために ${1} が使われたようです。スクリプトの結果は正"
 "確ではない可能性があります。詳細は ${2} で確認してください。"
 
-#: data/fcitx5-diagnose.sh:1193
+#: data/fcitx5-diagnose.sh:1196
 msgid "You are using xim in ${1} programs."
 msgstr "XIM を ${1} プログラムで使用しています。"
 
-#: data/fcitx5-diagnose.sh:1198
+#: data/fcitx5-diagnose.sh:1201
 msgid "You may have trouble using fcitx in ${1} programs."
 msgstr "Fcitx を使っている プログラム ${1} で問題が発生しています。"
 
@@ -2592,10 +2607,10 @@ msgstr "バージョン:"
 msgid "{0} (Not Available)"
 msgstr "{0} (利用できません)"
 
-#: src/lib/fcitx/instance.cpp:380
+#: src/lib/fcitx/instance.cpp:392
 msgid "{0} (Not available)"
 msgstr "{0} (使用不可)"
 
-#: src/lib/fcitx/instance.cpp:377
+#: src/lib/fcitx/instance.cpp:389
 msgid "{0} ({1})"
 msgstr "{0} ({1})"
