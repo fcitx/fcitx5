@@ -38,6 +38,14 @@ int main() {
 
     FCITX_ASSERT(fcitx::Key::keySymFromUnicode(' ') == FcitxKey_space);
     FCITX_ASSERT(fcitx::Key("1").isDigit());
+    FCITX_ASSERT(fcitx::Key(FcitxKey_KP_7).isDigit());
+    FCITX_ASSERT(fcitx::Key(FcitxKey_KP_6).digit() == 6);
+    FCITX_ASSERT(fcitx::Key(FcitxKey_3).digit() == 3);
+    FCITX_ASSERT(fcitx::Key(FcitxKey_space).digit() == -1);
+    FCITX_ASSERT(fcitx::Key(FcitxKey_KP_5).digitSelection() == 4);
+    FCITX_ASSERT(fcitx::Key("Control+KP_3").digitSelection() == -1);
+    FCITX_ASSERT(
+        fcitx::Key("Control+KP_3").digitSelection(fcitx::KeyState::Ctrl) == 2);
     FCITX_ASSERT(!fcitx::Key("Ctrl+1").isDigit());
     FCITX_ASSERT(!fcitx::Key("a").isDigit());
     FCITX_ASSERT(fcitx::Key("a").isLAZ());

@@ -131,7 +131,7 @@ IMSelector::IMSelector(Instance *instance)
 
             auto candidateList = inputContext->inputPanel().candidateList();
             if (candidateList && !candidateList->empty()) {
-                int idx = keyEvent.key().keyListIndex(selectionKeys_);
+                int idx = keyEvent.key().digitSelection();
                 if (idx >= 0) {
                     if (idx < candidateList->size()) {
                         keyEvent.accept();

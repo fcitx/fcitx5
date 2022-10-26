@@ -346,7 +346,36 @@ bool Key::check(const Key &key) const {
 }
 
 bool Key::isDigit() const {
-    return !states_ && sym_ >= FcitxKey_0 && sym_ <= FcitxKey_9;
+    return !states_ && ((sym_ >= FcitxKey_0 && sym_ <= FcitxKey_9) ||
+                        (sym_ >= FcitxKey_KP_0 && sym_ <= FcitxKey_KP_9));
+}
+
+int Key::digit() const {
+    if (states_) {
+        return -1;
+    }
+    if (sym_ >= FcitxKey_0 && sym_ <= FcitxKey_9) {
+        return sym_ - FcitxKey_0;
+    }
+    if (sym_ >= FcitxKey_KP_0 && sym_ <= FcitxKey_KP_9) {
+        return sym_ - FcitxKey_KP_0;
+    }
+    return -1;
+}
+
+int Key::digitSelection(KeyStates states) const {
+    auto filteredStates =
+        states_ &
+        KeyStates({KeyState::Ctrl_Alt_Shift, KeyState::Super, KeyState::Mod3});
+    if (filteredStates != states) {
+        return -1;
+    }
+
+    const int idx = Key(sym_).digit();
+    if (idx >= 0) {
+        return (idx + 9) % 10;
+    }
+    return -1;
 }
 
 bool Key::isUAZ() const {

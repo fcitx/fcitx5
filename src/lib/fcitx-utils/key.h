@@ -92,8 +92,35 @@ public:
      */
     bool isReleaseOfModifier(const Key &key) const;
 
-    /// Check if key is digit key.
+    /**
+     * Check if key is digit key or keypad digit key.
+     *
+     * Since 5.0.20, it will also return true for keypad digit key.
+     * @return Whether the key is a digit key without modifier.
+     */
     bool isDigit() const;
+
+    /**
+     * Return the value of digit key.
+     *
+     * The key must not have modifier.
+     * For example, FcitxKey_7 will return 7.
+     *
+     * @return value of digit key. If the key is not a digit key, it returns -1.
+     * @since 5.0.20
+     */
+    int digit() const;
+
+    /**
+     * Return index when using digit key for selection.
+     *
+     * The return value will return in the order of 1234567890.
+     *
+     * @return index of digit key. If the key is not a digit key, it returns -1.
+     * @since 5.0.20
+     * @see digit
+     */
+    int digitSelection(KeyStates states = KeyStates()) const;
 
     /// Check if key is upper case.
     bool isUAZ() const;

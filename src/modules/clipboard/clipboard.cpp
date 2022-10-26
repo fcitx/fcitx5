@@ -219,7 +219,7 @@ Clipboard::Clipboard(Instance *instance)
 
             auto candidateList = inputContext->inputPanel().candidateList();
             if (candidateList) {
-                int idx = keyEvent.key().keyListIndex(selectionKeys_);
+                int idx = keyEvent.key().digitSelection();
                 if (idx >= 0) {
                     keyEvent.accept();
                     if (idx < candidateList->size()) {
