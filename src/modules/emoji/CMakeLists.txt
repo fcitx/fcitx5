@@ -1,9 +1,10 @@
-if (EMOJI_FOUND)
-    add_library(emoji MODULE emoji.cpp ../../im/keyboard/xmlparser.cpp)
-    target_link_libraries(emoji Fcitx5::Core Expat::Expat)
+if (ENABLE_EMOJI)
+    add_library(emoji MODULE emoji.cpp)
+    target_link_libraries(emoji Fcitx5::Core ZLIB::ZLIB)
     install(TARGETS emoji DESTINATION "${FCITX_INSTALL_ADDONDIR}")
     install(FILES "${CMAKE_CURRENT_BINARY_DIR}/emoji.conf" DESTINATION "${FCITX_INSTALL_PKGDATADIR}/addon"
             COMPONENT config)
+    add_subdirectory(data)
 endif()
 
 configure_file(emoji.conf.in.in emoji.conf.in @ONLY)
