@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2022-10-26 20:24+0000\n"
+"POT-Creation-Date: 2022-10-27 20:24+0000\n"
 "PO-Revision-Date: 2017-11-23 04:14+0000\n"
 "Last-Translator: UTUMI Hirosi <utuhiro78@yahoo.co.jp>, 2022\n"
 "Language-Team: Japanese (https://www.transifex.com/fcitx/teams/12005/ja/)\n"
@@ -78,23 +78,23 @@ msgstr "/Note_for_GNOME_Later_than_3.6"
 msgid "/XIM"
 msgstr "/XIM"
 
-#: src/modules/unicode/charselectdata.cpp:221
+#: src/modules/unicode/charselectdata.cpp:215
 msgid "<Low Surrogate>"
 msgstr "<Low Surrogate>"
 
-#: src/modules/unicode/charselectdata.cpp:217
+#: src/modules/unicode/charselectdata.cpp:211
 msgid "<Non Private Use High Surrogate>"
 msgstr "<Non Private Use High Surrogate>"
 
-#: src/modules/unicode/charselectdata.cpp:219
+#: src/modules/unicode/charselectdata.cpp:213
 msgid "<Private Use High Surrogate>"
 msgstr "<Private Use High Surrogate>"
 
-#: src/modules/unicode/charselectdata.cpp:223
+#: src/modules/unicode/charselectdata.cpp:217
 msgid "<Private Use>"
 msgstr "<Private Use>"
 
-#: src/modules/unicode/charselectdata.cpp:253
+#: src/modules/unicode/charselectdata.cpp:247
 msgid "<not assigned>"
 msgstr "<not assigned>"
 
@@ -849,6 +849,11 @@ msgid ""
 "you do not use any Qt application with certain version of Qt or you are "
 "using text-input support by Qt under Wayland."
 msgstr ""
+"パスから Qt のバージョンを推測しており、パスはディストリビューションの Qt "
+"パッケージ化方法に依存するため、次のエラーは正確でない場合があります。 特定の"
+"バージョンの Qt で Qt アプリケーションを使用していない場合や、Wayland で Qt "
+"によるテキスト入力サポートを使用している場合は、これは重大なエラーではありま"
+"せん。"
 
 #: src/ui/classic/classicui.h:107
 msgid "Font"
@@ -1230,6 +1235,8 @@ msgid ""
 "It is OK to use ${1} built-in Wayland im module if your compositor fully "
 "supports text-input protocol used by ${1}."
 msgstr ""
+"コンポジターが ${1} で使用されるテキスト入力プロトコルを完全にサポートしてい"
+"る場合は、${1} に組み込まれた Wayland IM モジュールを使用してもかまいません。"
 
 #: src/ui/kimpanel/kimpanel.conf.in.in:3
 msgid "KDE Input Method Panel"
