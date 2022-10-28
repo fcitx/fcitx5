@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2022-10-26 20:24+0000\n"
+"POT-Creation-Date: 2022-10-28 20:24+0000\n"
 "PO-Revision-Date: 2017-11-23 04:14+0000\n"
 "Last-Translator: Dmitry <dmitrydmitry761@gmail.com>, 2022\n"
 "Language-Team: Russian (https://www.transifex.com/fcitx/teams/12005/ru/)\n"
@@ -79,23 +79,23 @@ msgstr "/Заметка_для_пользователей_GNOME_старше_в�
 msgid "/XIM"
 msgstr "/XIM"
 
-#: src/modules/unicode/charselectdata.cpp:221
+#: src/modules/unicode/charselectdata.cpp:215
 msgid "<Low Surrogate>"
 msgstr "<Низкий заменитель>"
 
-#: src/modules/unicode/charselectdata.cpp:217
+#: src/modules/unicode/charselectdata.cpp:211
 msgid "<Non Private Use High Surrogate>"
 msgstr "<Не лично использовать высокий заменитель>"
 
-#: src/modules/unicode/charselectdata.cpp:219
+#: src/modules/unicode/charselectdata.cpp:213
 msgid "<Private Use High Surrogate>"
 msgstr "<Лично использовать высокий заменитель>"
 
-#: src/modules/unicode/charselectdata.cpp:223
+#: src/modules/unicode/charselectdata.cpp:217
 msgid "<Private Use>"
 msgstr "<Для личного использования>"
 
-#: src/modules/unicode/charselectdata.cpp:253
+#: src/modules/unicode/charselectdata.cpp:247
 msgid "<not assigned>"
 msgstr "<не назначен>"
 
@@ -857,6 +857,10 @@ msgid ""
 "you do not use any Qt application with certain version of Qt or you are "
 "using text-input support by Qt under Wayland."
 msgstr ""
+"Следующая ошибка может быть неточной, потому что угадывание версии Qt по "
+"пути зависит от того, как ваш дистрибутив упаковывает Qt. Это не критическая "
+"ошибка, если вы не используете какое-либо приложение Qt с определенной "
+"версией Qt или используете поддержку ввода текста Qt под Wayland."
 
 #: src/ui/classic/classicui.h:107
 msgid "Font"
@@ -1231,7 +1235,7 @@ msgstr ""
 #: src/lib/fcitx-utils/key.cpp:194
 msgctxt "Key name"
 msgid "Insert"
-msgstr "Insert"
+msgstr "Вставка"
 
 #: data/fcitx5-diagnose.sh:1617
 msgid "Invalid addon config file ${1}."
@@ -1242,6 +1246,8 @@ msgid ""
 "It is OK to use ${1} built-in Wayland im module if your compositor fully "
 "supports text-input protocol used by ${1}."
 msgstr ""
+"Можно использовать ${1} встроенный модуль Wayland im, если составитель "
+"полностью поддерживает протокол ввода текста, используемый ${1}."
 
 #: src/ui/kimpanel/kimpanel.conf.in.in:3
 msgid "KDE Input Method Panel"
