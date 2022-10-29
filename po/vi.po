@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2022-10-26 20:24+0000\n"
+"POT-Creation-Date: 2022-10-29 20:24+0000\n"
 "PO-Revision-Date: 2017-11-23 04:14+0000\n"
 "Last-Translator: Zen Fas, 2022\n"
 "Language-Team: Vietnamese (https://www.transifex.com/fcitx/teams/12005/vi/)\n"
@@ -51,7 +51,7 @@ msgstr "${1} chạy bình thường."
 msgid "(Not available)"
 msgstr "(Không khả dụng)"
 
-#: src/modules/unicode/unicode.cpp:329
+#: src/modules/unicode/unicode.cpp:459
 msgid "(Type to search unicode by code or description)"
 msgstr "(Nhập để tìm kiếm theo mã unicode hoặc mô tả)"
 
@@ -75,23 +75,23 @@ msgstr ""
 msgid "/XIM"
 msgstr ""
 
-#: src/modules/unicode/charselectdata.cpp:221
+#: src/modules/unicode/charselectdata.cpp:215
 msgid "<Low Surrogate>"
 msgstr ""
 
-#: src/modules/unicode/charselectdata.cpp:217
+#: src/modules/unicode/charselectdata.cpp:211
 msgid "<Non Private Use High Surrogate>"
 msgstr ""
 
-#: src/modules/unicode/charselectdata.cpp:219
+#: src/modules/unicode/charselectdata.cpp:213
 msgid "<Private Use High Surrogate>"
 msgstr ""
 
-#: src/modules/unicode/charselectdata.cpp:223
+#: src/modules/unicode/charselectdata.cpp:217
 msgid "<Private Use>"
 msgstr ""
 
-#: src/modules/unicode/charselectdata.cpp:253
+#: src/modules/unicode/charselectdata.cpp:247
 msgid "<not assigned>"
 msgstr ""
 
@@ -2252,6 +2252,10 @@ msgstr ""
 msgid "Type special characters with long press"
 msgstr ""
 
+#: src/modules/unicode/unicode.h:36
+msgid "Type unicode in Hex number"
+msgstr ""
+
 #: data/org.fcitx.Fcitx5.metainfo.xml.in:20
 msgid "Typing with Fcitx and Kimpanel"
 msgstr ""
@@ -2269,7 +2273,7 @@ msgstr ""
 msgid "Unicode"
 msgstr ""
 
-#: src/modules/unicode/unicode.cpp:327
+#: src/modules/unicode/unicode.cpp:457
 msgid "Unicode: "
 msgstr ""
 

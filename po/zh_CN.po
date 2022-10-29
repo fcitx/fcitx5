@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2022-10-26 20:24+0000\n"
+"POT-Creation-Date: 2022-10-29 20:24+0000\n"
 "PO-Revision-Date: 2017-11-23 04:14+0000\n"
 "Last-Translator: csslayer <wengxt@gmail.com>, 2022\n"
 "Language-Team: Chinese (China) (https://www.transifex.com/fcitx/teams/12005/"
@@ -54,7 +54,7 @@ msgstr "${1} 工作正常。"
 msgid "(Not available)"
 msgstr "(不可用)"
 
-#: src/modules/unicode/unicode.cpp:329
+#: src/modules/unicode/unicode.cpp:459
 msgid "(Type to search unicode by code or description)"
 msgstr "(输入编码或者描述来搜索 Unicode 字符)"
 
@@ -78,23 +78,23 @@ msgstr "/Note_for_GNOME_Later_than_3.6"
 msgid "/XIM"
 msgstr "/XIM/zh-cn"
 
-#: src/modules/unicode/charselectdata.cpp:221
+#: src/modules/unicode/charselectdata.cpp:215
 msgid "<Low Surrogate>"
 msgstr "<低半代理区>"
 
-#: src/modules/unicode/charselectdata.cpp:217
+#: src/modules/unicode/charselectdata.cpp:211
 msgid "<Non Private Use High Surrogate>"
 msgstr "<非专用高半代理区>"
 
-#: src/modules/unicode/charselectdata.cpp:219
+#: src/modules/unicode/charselectdata.cpp:213
 msgid "<Private Use High Surrogate>"
 msgstr "<专用高半代理区>"
 
-#: src/modules/unicode/charselectdata.cpp:223
+#: src/modules/unicode/charselectdata.cpp:217
 msgid "<Private Use>"
 msgstr "<专用区>"
 
-#: src/modules/unicode/charselectdata.cpp:253
+#: src/modules/unicode/charselectdata.cpp:247
 msgid "<not assigned>"
 msgstr "<未指派>"
 
@@ -2279,6 +2279,10 @@ msgstr "触发一次提示模式"
 msgid "Type special characters with long press"
 msgstr "用长按来输入特殊字符"
 
+#: src/modules/unicode/unicode.h:36
+msgid "Type unicode in Hex number"
+msgstr ""
+
 #: data/org.fcitx.Fcitx5.metainfo.xml.in:20
 msgid "Typing with Fcitx and Kimpanel"
 msgstr "用 Fcitx 和 Kimpanel 输入"
@@ -2296,7 +2300,7 @@ msgstr "撤销"
 msgid "Unicode"
 msgstr "Unicode"
 
-#: src/modules/unicode/unicode.cpp:327
+#: src/modules/unicode/unicode.cpp:457
 msgid "Unicode: "
 msgstr "Unicode："
 

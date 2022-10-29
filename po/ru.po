@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2022-10-28 20:24+0000\n"
+"POT-Creation-Date: 2022-10-29 20:24+0000\n"
 "PO-Revision-Date: 2017-11-23 04:14+0000\n"
 "Last-Translator: Dmitry <dmitrydmitry761@gmail.com>, 2022\n"
 "Language-Team: Russian (https://www.transifex.com/fcitx/teams/12005/ru/)\n"
@@ -55,7 +55,7 @@ msgstr "${1} работает правильно."
 msgid "(Not available)"
 msgstr "(Недоступно)"
 
-#: src/modules/unicode/unicode.cpp:329
+#: src/modules/unicode/unicode.cpp:459
 msgid "(Type to search unicode by code or description)"
 msgstr "(Введите для поиска юникода по коду или описанию)"
 
@@ -2316,6 +2316,10 @@ msgstr "Активировать режим подсказки один раз"
 msgid "Type special characters with long press"
 msgstr "Вводить специальные символы долгим нажатием"
 
+#: src/modules/unicode/unicode.h:36
+msgid "Type unicode in Hex number"
+msgstr ""
+
 #: data/org.fcitx.Fcitx5.metainfo.xml.in:20
 msgid "Typing with Fcitx and Kimpanel"
 msgstr "Печатание с помощью Fcitx и Kimpanel"
@@ -2333,7 +2337,7 @@ msgstr "Отменить"
 msgid "Unicode"
 msgstr "Unicode"
 
-#: src/modules/unicode/unicode.cpp:327
+#: src/modules/unicode/unicode.cpp:457
 msgid "Unicode: "
 msgstr "Unicode: "
 

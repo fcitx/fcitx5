@@ -6,16 +6,16 @@
 # csslayer <wengxt@gmail.com>, 2017
 # heavyuser <heavyuser73@gmail.com>, 2018
 # Bon Keun Seo <scobyseo@gmail.com>, 2021
-# JungHee Lee <daemul72@gmail.com>, 2022
 # perillamint <perillamint@quendi.moe>, 2022
+# JungHee Lee <daemul72@gmail.com>, 2022
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2022-10-26 20:24+0000\n"
+"POT-Creation-Date: 2022-10-29 20:24+0000\n"
 "PO-Revision-Date: 2017-11-23 04:14+0000\n"
-"Last-Translator: perillamint <perillamint@quendi.moe>, 2022\n"
+"Last-Translator: JungHee Lee <daemul72@gmail.com>, 2022\n"
 "Language-Team: Korean (https://www.transifex.com/fcitx/teams/12005/ko/)\n"
 "Language: ko\n"
 "MIME-Version: 1.0\n"
@@ -37,7 +37,7 @@ msgstr "${1}이(가) 실행되고 있지 않습니다."
 
 #: data/fcitx5-diagnose.sh:892
 msgid "${1} is not set."
-msgstr "${1}이(가) 지정되지 않았습니다."
+msgstr "${1}이(가) 설정되지 않았습니다."
 
 #: data/fcitx5-diagnose.sh:889
 msgid "${1} is set to ${2}."
@@ -55,7 +55,7 @@ msgstr "${1}이(가) 제대로 작동합니다."
 msgid "(Not available)"
 msgstr "(사용할 수 없음)"
 
-#: src/modules/unicode/unicode.cpp:329
+#: src/modules/unicode/unicode.cpp:459
 msgid "(Type to search unicode by code or description)"
 msgstr "(코드 또는 설명으로 유니코드를 검색하는 유형)"
 
@@ -79,23 +79,23 @@ msgstr "/Note_for_GNOME_Later_than_3.6"
 msgid "/XIM"
 msgstr "/XIM"
 
-#: src/modules/unicode/charselectdata.cpp:221
+#: src/modules/unicode/charselectdata.cpp:215
 msgid "<Low Surrogate>"
 msgstr "<하위 확장코드>"
 
-#: src/modules/unicode/charselectdata.cpp:217
+#: src/modules/unicode/charselectdata.cpp:211
 msgid "<Non Private Use High Surrogate>"
 msgstr "<비 개인용 상위 확장코드>"
 
-#: src/modules/unicode/charselectdata.cpp:219
+#: src/modules/unicode/charselectdata.cpp:213
 msgid "<Private Use High Surrogate>"
 msgstr "<개인용 상위 확장코드>"
 
-#: src/modules/unicode/charselectdata.cpp:223
+#: src/modules/unicode/charselectdata.cpp:217
 msgid "<Private Use>"
 msgstr "<Private Use>"
 
-#: src/modules/unicode/charselectdata.cpp:253
+#: src/modules/unicode/charselectdata.cpp:247
 msgid "<not assigned>"
 msgstr "<할당 안됨>"
 
@@ -1235,7 +1235,7 @@ msgstr "KDE 입력기 패널"
 
 #: src/ui/classic/classicui.cpp:145
 msgid "KDE Plasma (Experimental)"
-msgstr ""
+msgstr "KDE 플라즈마 (실험용)"
 
 #: src/lib/fcitx-utils/key.cpp:211
 msgctxt "Key name"
@@ -2164,7 +2164,7 @@ msgstr "트레이 아이콘이 xembed인 경우에만 유효합니다."
 
 #: src/ui/classic/theme.h:58 src/ui/classic/theme.h:66
 msgid "This option is only effective if image is not set."
-msgstr "이 옵션은 이미지가 지정되지 않은 경우에만 유효합니다."
+msgstr "이 옵션은 이미지가 설정되지 않은 경우에만 유효합니다."
 
 #: src/ui/classic/theme.h:74
 msgid "This value should be less than any of margin value."
@@ -2284,6 +2284,10 @@ msgstr "힌트 모드를 한 번만 트리거"
 msgid "Type special characters with long press"
 msgstr "길게 눌러 특수 문자 입력"
 
+#: src/modules/unicode/unicode.h:36
+msgid "Type unicode in Hex number"
+msgstr ""
+
 #: data/org.fcitx.Fcitx5.metainfo.xml.in:20
 msgid "Typing with Fcitx and Kimpanel"
 msgstr "Fcitx 및 Kimpanel로 입력"
@@ -2301,7 +2305,7 @@ msgstr "되돌리기"
 msgid "Unicode"
 msgstr "유니코드"
 
-#: src/modules/unicode/unicode.cpp:327
+#: src/modules/unicode/unicode.cpp:457
 msgid "Unicode: "
 msgstr "유니코드:"
 
@@ -2466,7 +2470,7 @@ msgstr "루트 창의 XIM_SERVERS:"
 
 #: data/fcitx5-diagnose.sh:1119
 msgid "XMODIFIERS is not set"
-msgstr "XMODIFIERS가 지정되지 않음"
+msgstr "XMODIFIERS가 설정되지 않음"
 
 #: data/fcitx5-diagnose.sh:1140
 msgid "Xim Server Name from Environment variable is ${1}."
