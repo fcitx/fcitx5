@@ -347,8 +347,7 @@ void VirtualKeyboard::updateCandidateArea(
     msg.send();
 }
 
-void VirtualKeyboard::updateCandidate(InputContext *inputContext)
-{
+void VirtualKeyboard::updateCandidate(InputContext *inputContext) {
     auto &inputPanel = inputContext->inputPanel();
 
     if (inputPanel.candidateList() == nullptr ||

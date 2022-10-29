@@ -984,7 +984,9 @@ Instance::Instance(int argc, char **argv) {
 
             if (virtualKeyboardAutoShow()) {
                 auto *inputContext = icEvent.inputContext();
-                inputContext->showVirtualKeyboard();
+                if (!inputContext->clientControlVirtualkeyboardVisibility()) {
+                    inputContext->showVirtualKeyboard();
+                }
             }
 
             if (!d->globalConfig_.showInputMethodInformationWhenFocusIn()) {
@@ -1022,7 +1024,9 @@ Instance::Instance(int argc, char **argv) {
             deactivateInputMethod(icEvent);
             if (virtualKeyboardAutoHide()) {
                 auto *inputContext = icEvent.inputContext();
-                inputContext->hideVirtualKeyboard();
+                if (!inputContext->clientControlVirtualkeyboardVisibility()) {
+                    inputContext->hideVirtualKeyboard();
+                }
             }
         }));
     d->eventWatchers_.emplace_back(d->watchEvent(
