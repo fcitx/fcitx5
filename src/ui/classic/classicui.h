@@ -51,7 +51,8 @@ struct NotEmpty {
 };
 
 struct ThemeAnnotation : public EnumAnnotation {
-    void setThemes(std::vector<std::pair<std::string, std::string>> themes, bool plasmaTheme) {
+    void setThemes(std::vector<std::pair<std::string, std::string>> themes,
+                   bool plasmaTheme) {
         themes_ = std::move(themes);
         plasmaTheme_ = plasmaTheme;
     }
@@ -69,8 +70,7 @@ struct ThemeAnnotation : public EnumAnnotation {
                     stringutils::concat("fcitx://config/addon/classicui/theme/",
                                         themes_[i].first));
             } else {
-                config.setValueByPath(
-                    "SubConfigPath/" + std::to_string(i), "");
+                config.setValueByPath("SubConfigPath/" + std::to_string(i), "");
             }
         }
     }

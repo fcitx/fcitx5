@@ -146,7 +146,8 @@ const Configuration *ClassicUI::getConfig() const {
         plasmaTheme = true;
     }
 
-    config_.theme.annotation().setThemes({themes.begin(), themes.end()}, plasmaTheme);
+    config_.theme.annotation().setThemes({themes.begin(), themes.end()},
+                                         plasmaTheme);
     return &config_;
 }
 
