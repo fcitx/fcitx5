@@ -267,6 +267,10 @@ public:
 
     void hideVirtualKeyboard() const;
 
+    bool clientControlVirtualkeyboardVisibility() const;
+
+    void setClientControlVirtualkeyboardVisibility(bool show);
+
 protected:
     /**
      * Send the committed string to client

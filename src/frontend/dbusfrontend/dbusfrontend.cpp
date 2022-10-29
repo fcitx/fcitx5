@@ -57,6 +57,15 @@ buildFormattedTextVector(const Text &text) {
     return vector;
 }
 
+std::string
+getArgument(const std::unordered_map<std::string, std::string> &args,
+            const std::string &name, const std::string &defaultValue = "") {
+    if (auto *value = findValue(args, name)) {
+        return *value;
+    }
+    return defaultValue;
+}
+
 } // namespace
 
 class InputMethod1 : public dbus::ObjectVTable<InputMethod1> {
@@ -91,8 +100,9 @@ class DBusInputContext1 : public InputContext,
                           public dbus::ObjectVTable<DBusInputContext1> {
 public:
     DBusInputContext1(int id, InputContextManager &icManager, InputMethod1 *im,
-                      const std::string &sender, const std::string &program)
-        : InputContext(icManager, program),
+                      const std::string &sender,
+                      const std::unordered_map<std::string, std::string> &args)
+        : InputContext(icManager, getArgument(args, "program")),
           path_("/org/freedesktop/portal/inputcontext/" + std::to_string(id)),
           im_(im), handler_(im_->serviceWatcher().watchService(
                        sender,
@@ -111,7 +121,15 @@ public:
                 }
                 return method(std::move(message));
             });
+
+        setClientControlVirtualkeyboardVisibility(
+            getArgument(args, "clientControlVirtualkeyboardVisibility",
+                        "false") == "true");
+
         created();
+
+        setFocusGroup(
+            im->instance()->defaultFocusGroup(getArgument(args, "display")));
     }
 
     ~DBusInputContext1() { InputContext::destroy(); }
@@ -452,19 +470,11 @@ InputMethod1::createInputContext(
         const auto &[key, value] = p.data();
         strMap[key] = value;
     }
-    std::string program;
-    auto iter = strMap.find("program");
-    if (iter != strMap.end()) {
-        program = iter->second;
-    }
-
-    std::string *display = findValue(strMap, "display");
 
     auto sender = currentMessage()->sender();
     auto *ic = new DBusInputContext1(module_->nextIcIdx(),
                                      instance_->inputContextManager(), this,
-                                     sender, program);
-    ic->setFocusGroup(instance_->defaultFocusGroup(display ? *display : ""));
+                                     sender, strMap);
 
     bus_->addObjectVTable(ic->path().path(), FCITX_INPUTCONTEXT_DBUS_INTERFACE,
                           *ic);

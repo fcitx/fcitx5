@@ -163,6 +163,16 @@ void InputContext::hideVirtualKeyboard() const {
     return instance->userInterfaceManager().hideVirtualKeyboard();
 }
 
+bool InputContext::clientControlVirtualkeyboardVisibility() const {
+    FCITX_D();
+    return d->clientControlVirtualkeyboardVisibility_;
+}
+
+void InputContext::setClientControlVirtualkeyboardVisibility(bool show) {
+    FCITX_D();
+    d->clientControlVirtualkeyboardVisibility_ = show;
+}
+
 CapabilityFlags calculateFlags(CapabilityFlags flag, bool isPreeditEnabled) {
     if (!isPreeditEnabled) {
         flag = flag.unset(CapabilityFlag::Preedit)
