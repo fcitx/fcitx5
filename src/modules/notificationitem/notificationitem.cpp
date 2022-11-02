@@ -192,6 +192,8 @@ public:
     FCITX_OBJECT_VTABLE_PROPERTY(xayatanaLabelOrderingIndex,
                                  "XAyatanaOrderingIndex", "u",
                                  []() { return 0; });
+    FCITX_OBJECT_VTABLE_PROPERTY(iconAccessibleDesc, "IconAccessibleDesc", "s",
+                                 []() { return _("Input Method"); });
 
 private:
     NotificationItem *parent_;
