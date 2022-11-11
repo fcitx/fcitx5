@@ -379,8 +379,12 @@ public:
         return isVirtualKeyboardVisible();
     }
 
-    void showVirtualKeyboardDBus() const {
+    void showVirtualKeyboardDBus() {
         CHECK_SENDER_OR_RETURN;
+
+        if (!hasFocus()) {
+            focusIn();
+        }
 
         showVirtualKeyboard();
     }
