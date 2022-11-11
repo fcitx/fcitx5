@@ -87,6 +87,16 @@ void initAsDaemon() {
     signal(SIGCHLD, oldchld);
 }
 
+// Switch IM when these capabilities change.
+bool shouldSwitchIM(const CapabilityFlags &oldFlags,
+                    const CapabilityFlags &newFlags) {
+    const bool oldDisable = oldFlags.testAny(
+        CapabilityFlags{CapabilityFlag::Password, CapabilityFlag::Disable});
+    const bool newDisable = newFlags.testAny(
+        CapabilityFlags{CapabilityFlag::Password, CapabilityFlag::Disable});
+    return oldDisable != newDisable;
+}
+
 } // namespace
 
 void InstanceArgument::printUsage() {
@@ -665,14 +675,11 @@ Instance::Instance(int argc, char **argv) {
             if (!capChanged.inputContext()->hasFocus()) {
                 return;
             }
-            // Change ::inputMethod when this changes.
-            bool oldPassword =
-                capChanged.oldFlags().test(CapabilityFlag::Password);
-            bool newPassword =
-                capChanged.newFlags().test(CapabilityFlag::Password);
-            if (oldPassword == newPassword) {
+
+            if (!shouldSwitchIM(capChanged.oldFlags(), capChanged.newFlags())) {
                 return;
             }
+
             InputContextSwitchInputMethodEvent switchIM(
                 InputMethodSwitchedReason::CapabilityChanged,
                 inputMethod(capChanged.inputContext()),
@@ -686,14 +693,11 @@ Instance::Instance(int argc, char **argv) {
             if (!capChanged.inputContext()->hasFocus()) {
                 return;
             }
-            // Change ::inputMethod when this changes.
-            bool oldPassword =
-                capChanged.oldFlags().test(CapabilityFlag::Password);
-            bool newPassword =
-                capChanged.newFlags().test(CapabilityFlag::Password);
-            if (oldPassword == newPassword) {
+
+            if (!shouldSwitchIM(capChanged.oldFlags(), capChanged.newFlags())) {
                 return;
             }
+
             InputContextSwitchInputMethodEvent switchIM(
                 InputMethodSwitchedReason::CapabilityChanged, "",
                 capChanged.inputContext());
@@ -970,7 +974,9 @@ Instance::Instance(int argc, char **argv) {
         [this, d](Event &event) {
             auto &icEvent = static_cast<InputContextEvent &>(event);
             activateInputMethod(icEvent);
-            if (!d->globalConfig_.showInputMethodInformationWhenFocusIn()) {
+            if (!d->globalConfig_.showInputMethodInformationWhenFocusIn() ||
+                icEvent.inputContext()->capabilityFlags().test(
+                    CapabilityFlag::Disable)) {
                 return;
             }
             // Give some time because the cursor location may need some time
@@ -1477,10 +1483,11 @@ std::string Instance::inputMethod(InputContext *ic) {
     }
 
     auto &group = d->imManager_.currentGroup();
-    if (ic->capabilityFlags().test(CapabilityFlag::Password)) {
+    if (ic->capabilityFlags().testAny(CapabilityFlags{
+            CapabilityFlag::Password, CapabilityFlag::Disable})) {
         auto defaultLayout = group.defaultLayout();
-        auto passwordIM = fmt::format("keyboard-{}", defaultLayout);
-        const auto *entry = d->imManager_.entry(passwordIM);
+        auto defaultLayoutIM = fmt::format("keyboard-{}", defaultLayout);
+        const auto *entry = d->imManager_.entry(defaultLayoutIM);
         if (!entry) {
             entry = d->imManager_.entry("keyboard-us");
         }
