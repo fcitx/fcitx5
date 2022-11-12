@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2022-10-29 20:24+0000\n"
+"POT-Creation-Date: 2022-11-12 20:25+0000\n"
 "PO-Revision-Date: 2017-11-23 04:14+0000\n"
 "Last-Translator: csslayer <wengxt@gmail.com>, 2022\n"
 "Language-Team: Chinese (China) (https://www.transifex.com/fcitx/teams/12005/"
@@ -846,6 +846,9 @@ msgid ""
 "you do not use any Qt application with certain version of Qt or you are "
 "using text-input support by Qt under Wayland."
 msgstr ""
+"下列错误也许并不准确，因为对 Qt 版本的猜测取决于发行版如何打包 Qt。如果您不使"
+"用任何对应版本的 Qt 程序，或者在 Wayland 下使用 Qt 的 text-input 支持，下列错"
+"误也也不是严重问题。"
 
 #: src/ui/classic/classicui.h:107
 msgid "Font"
@@ -1177,6 +1180,7 @@ msgstr "图片"
 #: src/im/keyboard/keyboard.cpp:647 src/lib/fcitx/instance.cpp:432
 #: src/lib/fcitx/instance.cpp:650 src/lib/fcitx/instance.cpp:816
 #: src/modules/notificationitem/notificationitem.cpp:115
+#: src/modules/notificationitem/notificationitem.cpp:196
 #: src/modules/xcb/xcbconnection.cpp:406 data/org.fcitx.Fcitx5.desktop.in.in:4
 #: data/org.fcitx.Fcitx5.metainfo.xml.in:7
 msgid "Input Method"
@@ -1224,6 +1228,8 @@ msgid ""
 "It is OK to use ${1} built-in Wayland im module if your compositor fully "
 "supports text-input protocol used by ${1}."
 msgstr ""
+"如果您的混成器完全支持 ${1} 使用的 text-input 协议，您也可以使用 ${1} 内置的 "
+"Wayland 模块。"
 
 #: src/ui/kimpanel/kimpanel.conf.in.in:3
 msgid "KDE Input Method Panel"
@@ -2281,7 +2287,7 @@ msgstr "用长按来输入特殊字符"
 
 #: src/modules/unicode/unicode.h:36
 msgid "Type unicode in Hex number"
-msgstr ""
+msgstr "使用十六进制数字输入 Unicode 字符"
 
 #: data/org.fcitx.Fcitx5.metainfo.xml.in:20
 msgid "Typing with Fcitx and Kimpanel"
