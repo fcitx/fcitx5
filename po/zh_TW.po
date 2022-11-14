@@ -9,14 +9,15 @@
 # bruh, 2020
 # Steve Nian, 2022
 # 菘菘 <rrt467778@gmail.com>, 2022
+# yan12125, 2022
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2022-10-29 20:24+0000\n"
+"POT-Creation-Date: 2022-11-14 20:25+0000\n"
 "PO-Revision-Date: 2017-11-23 04:14+0000\n"
-"Last-Translator: 菘菘 <rrt467778@gmail.com>, 2022\n"
+"Last-Translator: yan12125, 2022\n"
 "Language-Team: Chinese (Taiwan) (https://www.transifex.com/fcitx/teams/12005/"
 "zh_TW/)\n"
 "Language: zh_TW\n"
@@ -53,7 +54,7 @@ msgstr "找不到 ${1}。"
 msgid "${1} works properly."
 msgstr "${1} 運作正常。"
 
-#: src/lib/fcitx/instance.cpp:394
+#: src/lib/fcitx/instance.cpp:404
 msgid "(Not available)"
 msgstr "（無法使用）"
 
@@ -430,7 +431,7 @@ msgstr "選擇輔助按鍵"
 
 #: src/ui/classic/classicui.conf.in.in:3
 msgid "Classic User Interface"
-msgstr ""
+msgstr "經典使用者介面"
 
 #: src/lib/fcitx-utils/key.cpp:121
 msgctxt "Key name"
@@ -589,7 +590,7 @@ msgstr "停用輸入法"
 msgid "Debug information from dbus:"
 msgstr "來自 dbus 的除錯訊息："
 
-#: src/lib/fcitx/inputmethodmanager.cpp:138 src/lib/fcitx/instance.cpp:341
+#: src/lib/fcitx/inputmethodmanager.cpp:138 src/lib/fcitx/instance.cpp:351
 #: src/ui/classic/themes/default/theme.conf.in:3
 msgid "Default"
 msgstr "預設"
@@ -865,7 +866,7 @@ msgstr ""
 
 #: src/ui/classic/classicui.h:147
 msgid "Force font DPI on Wayland"
-msgstr ""
+msgstr "在 Wayland 上強制使用字型 DPI"
 
 #: src/lib/fcitx-utils/key.cpp:59
 msgctxt "Key name"
@@ -966,11 +967,11 @@ msgstr "綠色"
 msgid "Group"
 msgstr "群組"
 
-#: src/lib/fcitx/instance.cpp:398
+#: src/lib/fcitx/instance.cpp:408
 msgid "Group {0}: {1}"
 msgstr "群組 {0}：{1}"
 
-#: src/lib/fcitx/instance.cpp:343
+#: src/lib/fcitx/instance.cpp:353
 msgid "Group {}"
 msgstr "群組 {}"
 
@@ -1177,9 +1178,10 @@ msgstr ""
 msgid "Image"
 msgstr "圖片"
 
-#: src/im/keyboard/keyboard.cpp:647 src/lib/fcitx/instance.cpp:432
-#: src/lib/fcitx/instance.cpp:650 src/lib/fcitx/instance.cpp:816
+#: src/im/keyboard/keyboard.cpp:647 src/lib/fcitx/instance.cpp:442
+#: src/lib/fcitx/instance.cpp:660 src/lib/fcitx/instance.cpp:820
 #: src/modules/notificationitem/notificationitem.cpp:115
+#: src/modules/notificationitem/notificationitem.cpp:196
 #: src/modules/xcb/xcbconnection.cpp:406 data/org.fcitx.Fcitx5.desktop.in.in:4
 #: data/org.fcitx.Fcitx5.metainfo.xml.in:7
 msgid "Input Method"
@@ -1770,15 +1772,15 @@ msgctxt "Key name"
 msgid "Power Off"
 msgstr "關機"
 
-#: src/lib/fcitx/instance.cpp:816
+#: src/lib/fcitx/instance.cpp:820
 msgid "Preedit"
 msgstr "預編輯"
 
-#: src/lib/fcitx/instance.cpp:818
+#: src/lib/fcitx/instance.cpp:822
 msgid "Preedit disabled"
 msgstr "預編輯已停用"
 
-#: src/lib/fcitx/instance.cpp:817
+#: src/lib/fcitx/instance.cpp:821
 msgid "Preedit enabled"
 msgstr "預編輯已啟用"
 
@@ -2098,16 +2100,16 @@ msgctxt "Key name"
 msgid "Suspend"
 msgstr "暫停"
 
-#: src/lib/fcitx/instance.cpp:433 src/lib/fcitx/instance.cpp:651
+#: src/lib/fcitx/instance.cpp:443 src/lib/fcitx/instance.cpp:661
 #: src/modules/xcb/xcbconnection.cpp:407
 msgid "Switch group"
 msgstr "切換分組"
 
-#: src/lib/fcitx/instance.cpp:434 src/modules/xcb/xcbconnection.cpp:408
+#: src/lib/fcitx/instance.cpp:444 src/modules/xcb/xcbconnection.cpp:408
 msgid "Switch group to {0}"
 msgstr "切換分組到 {0}"
 
-#: src/lib/fcitx/instance.cpp:652
+#: src/lib/fcitx/instance.cpp:662
 msgid "Switched group to {0}"
 msgstr "已切換分組到 {0}"
 
@@ -2579,10 +2581,10 @@ msgstr "版本："
 msgid "{0} (Not Available)"
 msgstr "{0} (無法使用)"
 
-#: src/lib/fcitx/instance.cpp:392
+#: src/lib/fcitx/instance.cpp:402
 msgid "{0} (Not available)"
 msgstr "{0}（不可用）"
 
-#: src/lib/fcitx/instance.cpp:389
+#: src/lib/fcitx/instance.cpp:399
 msgid "{0} ({1})"
 msgstr "{0} ({1})"
