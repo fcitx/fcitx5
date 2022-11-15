@@ -1710,7 +1710,7 @@ void Instance::save() {
 
 void Instance::activate() {
     FCITX_D();
-    if (auto *ic = lastFocusedInputContext()) {
+    if (auto *ic = mostRecentInputContext()) {
         CheckInputMethodChanged imChangedRAII(ic, d);
         activate(ic);
     }
@@ -1733,7 +1733,7 @@ void Instance::configureAddon(const std::string &) {}
 void Instance::configureInputMethod(const std::string &) {}
 
 std::string Instance::currentInputMethod() {
-    if (auto *ic = lastFocusedInputContext()) {
+    if (auto *ic = mostRecentInputContext()) {
         if (const auto *entry = inputMethodEntry(ic)) {
             return entry->uniqueName();
         }
@@ -1748,7 +1748,7 @@ std::string Instance::currentUI() {
 
 void Instance::deactivate() {
     FCITX_D();
-    if (auto *ic = lastFocusedInputContext()) {
+    if (auto *ic = mostRecentInputContext()) {
         CheckInputMethodChanged imChangedRAII(ic, d);
         deactivate(ic);
     }
@@ -1819,9 +1819,7 @@ void Instance::restart() {
 }
 
 void Instance::setCurrentInputMethod(const std::string &name) {
-    if (auto *ic = lastFocusedInputContext()) {
-        setCurrentInputMethod(ic, name, false);
-    }
+    setCurrentInputMethod(mostRecentInputContext(), name, false);
 }
 
 void Instance::setCurrentInputMethod(InputContext *ic, const std::string &name,
@@ -1831,15 +1829,8 @@ void Instance::setCurrentInputMethod(InputContext *ic, const std::string &name,
         return;
     }
 
-    CheckInputMethodChanged imChangedRAII(ic, d);
-    auto currentIM = inputMethod(ic);
-    if (currentIM == name) {
-        return;
-    }
     auto &imManager = inputMethodManager();
-    auto *inputState = ic->propertyFor(&d->inputStateFactory_);
     const auto &imList = imManager.currentGroup().inputMethodList();
-
     auto iter = std::find_if(imList.begin(), imList.end(),
                              [&name](const InputMethodGroupItem &item) {
                                  return item.name() == name;
@@ -1847,36 +1838,58 @@ void Instance::setCurrentInputMethod(InputContext *ic, const std::string &name,
     if (iter == imList.end()) {
         return;
     }
-    auto idx = std::distance(imList.begin(), iter);
-    if (idx != 0) {
-        if (local) {
-            inputState->setLocalIM(name);
-        } else {
-            inputState->setLocalIM({});
 
-            std::vector<std::unique_ptr<CheckInputMethodChanged>>
-                groupRAIICheck;
-            d->icManager_.foreachFocused(
-                [d, &groupRAIICheck](InputContext *ic) {
-                    assert(ic->hasFocus());
-                    groupRAIICheck.push_back(
-                        std::make_unique<CheckInputMethodChanged>(ic, d));
-                    return true;
-                });
-            imManager.setDefaultInputMethod(name);
+    auto setGlobalDefaultInputMethod = [d](const std::string &name) {
+        std::vector<std::unique_ptr<CheckInputMethodChanged>> groupRAIICheck;
+        d->icManager_.foreachFocused([d, &groupRAIICheck](InputContext *ic) {
+            assert(ic->hasFocus());
+            groupRAIICheck.push_back(
+                std::make_unique<CheckInputMethodChanged>(ic, d));
+            return true;
+        });
+        d->imManager_.setDefaultInputMethod(name);
+    };
+
+    auto idx = std::distance(imList.begin(), iter);
+    if (ic) {
+        CheckInputMethodChanged imChangedRAII(ic, d);
+        auto currentIM = inputMethod(ic);
+        if (currentIM == name) {
+            return;
         }
-        inputState->setActive(true);
+        auto *inputState = ic->propertyFor(&d->inputStateFactory_);
+
+        if (idx != 0) {
+            if (local) {
+                inputState->setLocalIM(name);
+            } else {
+                inputState->setLocalIM({});
+
+                setGlobalDefaultInputMethod(name);
+            }
+            inputState->setActive(true);
+        } else {
+            inputState->setActive(false);
+        }
+        if (inputState->imChanged_) {
+            inputState->imChanged_->setReason(InputMethodSwitchedReason::Other);
+        }
     } else {
-        inputState->setActive(false);
-    }
-    if (inputState->imChanged_) {
-        inputState->imChanged_->setReason(InputMethodSwitchedReason::Other);
+        // We can't set local input method if we don't have a IC, but we should
+        // still to change the global default.
+        if (local) {
+            return;
+        }
+        if (idx != 0) {
+            setGlobalDefaultInputMethod(name);
+        }
+        return;
     }
 }
 
 int Instance::state() {
     FCITX_D();
-    if (auto *ic = lastFocusedInputContext()) {
+    if (auto *ic = mostRecentInputContext()) {
         auto *inputState = ic->propertyFor(&d->inputStateFactory_);
         return inputState->isActive() ? 2 : 1;
     }
@@ -1885,7 +1898,7 @@ int Instance::state() {
 
 void Instance::toggle() {
     FCITX_D();
-    if (auto *ic = lastFocusedInputContext()) {
+    if (auto *ic = mostRecentInputContext()) {
         CheckInputMethodChanged imChangedRAII(ic, d);
         trigger(ic, true);
     }
@@ -1893,7 +1906,7 @@ void Instance::toggle() {
 
 void Instance::enumerate(bool forward) {
     FCITX_D();
-    if (auto *ic = lastFocusedInputContext()) {
+    if (auto *ic = mostRecentInputContext()) {
         CheckInputMethodChanged imChangedRAII(ic, d);
         enumerate(ic, forward);
     }

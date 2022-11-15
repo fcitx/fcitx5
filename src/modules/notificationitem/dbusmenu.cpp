@@ -93,7 +93,8 @@ void DBusMenu::handleEvent(int32_t id) {
             return;
         }
 
-        parent_->instance()->setCurrentInputMethod(entry->uniqueName());
+        parent_->instance()->setCurrentInputMethod(
+            lastRelevantIc(), entry->uniqueName(), /*local=*/false);
     } else if (id >= BII_InputMethodGroupStart &&
                id <= BII_InputMethodGroupEnd) {
         size_t idx = id - BII_InputMethodGroupStart;
