@@ -267,9 +267,13 @@ public:
 
     void hideVirtualKeyboard() const;
 
-    bool clientControlVirtualkeyboardVisibility() const;
+    bool clientControlVirtualkeyboardShow() const;
 
-    void setClientControlVirtualkeyboardVisibility(bool show);
+    void setClientControlVirtualkeyboardShow(bool show);
+
+    bool clientControlVirtualkeyboardHide() const;
+
+    void setClientControlVirtualkeyboardHide(bool show);
 
 protected:
     /**
