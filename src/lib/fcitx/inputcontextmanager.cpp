@@ -237,7 +237,11 @@ InputContextManager::InputContextManager()
     d->dummyInputContext_ = std::make_unique<DummyInputContext>(*this);
 }
 
-InputContextManager::~InputContextManager() {}
+InputContextManager::~InputContextManager() {
+    FCITX_D();
+    // Need to reset this before d becomes invalid.
+    d->dummyInputContext_.reset();
+}
 
 InputContext *InputContextManager::findByUUID(ICUUID uuid) {
     FCITX_D();
@@ -295,6 +299,7 @@ void InputContextManager::setPropertyPropagatePolicy(
 void InputContextManager::finalize() {
     FCITX_D();
     d->finalized_ = true;
+    d->dummyInputContext_.reset();
     while (!d->inputContexts_.empty()) {
         delete &d->inputContexts_.front();
     }
