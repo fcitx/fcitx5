@@ -92,6 +92,11 @@ public:
      * Certain UI implementation may cause focus out in the application, this is
      * a way for them to get the input context being used.
      *
+     * When PropertyPropagatePolicy is All, if there is no other recently
+     * focused input context it will return a dummy input context. It is useful
+     * to use this dummy IC to propagate data to other input context, e.g.
+     * change current input method.
+     *
      * @return fcitx::InputContext*
      */
     InputContext *mostRecentInputContext();
