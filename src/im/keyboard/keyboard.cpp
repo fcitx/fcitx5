@@ -301,23 +301,23 @@ void KeyboardEngine::reloadConfig() {
         FcitxKey_6, FcitxKey_7, FcitxKey_8, FcitxKey_9, FcitxKey_0,
     };
 
-    KeyStates states;
+    selectionModifier_ = KeyState::NoState;
     switch (config_.chooseModifier.value()) {
     case ChooseModifier::Alt:
-        states = KeyState::Alt;
+        selectionModifier_ = KeyState::Alt;
         break;
     case ChooseModifier::Control:
-        states = KeyState::Ctrl;
+        selectionModifier_ = KeyState::Ctrl;
         break;
     case ChooseModifier::Super:
-        states = KeyState::Super;
+        selectionModifier_ = KeyState::Super;
         break;
     default:
         break;
     }
 
     for (auto sym : syms) {
-        selectionKeys_.emplace_back(sym, states);
+        selectionKeys_.emplace_back(sym, selectionModifier_);
     }
     longPressBlocklistSet_ = decltype(longPressBlocklistSet_)(
         config_.blocklistApplicationForLongPress->begin(),
@@ -728,7 +728,7 @@ bool KeyboardEngineState::handleCandidateSelection(const KeyEvent &event) {
     if (!candList) {
         return false;
     }
-    int idx = event.key().keyListIndex(engine_->selectionKeys());
+    int idx = event.key().digitSelection(engine_->selectionModifier());
     if (idx >= 0 && idx < candList->size()) {
         candList->candidate(idx).select(inputContext_);
         return true;

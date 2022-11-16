@@ -15,8 +15,8 @@ Fcitx 5 is a generic input method framework released under LGPL-2.1+.
   - IRC: [#fcitx [at] libera.chat](https://web.libera.chat/?channels=#fcitx)
 * Bug report: [https://github.com/fcitx/fcitx5/issues](https://github.com/fcitx/fcitx5/issues)
   - You can always report any fcitx 5 issue here, it might be transfer to other repos later.
-* Translation: [https://www.transifex.com/fcitx/](https://www.transifex.com/fcitx/)
+* Translation: [https://explore.transifex.com/fcitx/](https://explore.transifex.com/fcitx/)
   - Do not send pull request for translation updates.
-  - The translation will be automatically pushed to git repository nightly, but not vice versa. 
+  - The translation will be automatically pushed to git repository nightly, but not vice versa.
 
 [![Packaging status](https://repology.org/badge/vertical-allrepos/fcitx5.svg)](https://repology.org/project/fcitx5/versions)

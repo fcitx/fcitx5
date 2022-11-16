@@ -582,6 +582,9 @@ public:
             if (ic->focusGroup()) {
                 return true;
             }
+            if (std::string_view(ic->frontend()) == "dummy") {
+                return true;
+            }
             ss << "  IC [";
             for (auto v : ic->uuid()) {
                 ss << fmt::format("{:02x}", static_cast<int>(v));

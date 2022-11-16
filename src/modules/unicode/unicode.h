@@ -25,12 +25,19 @@
 
 namespace fcitx {
 
-FCITX_CONFIGURATION(UnicodeConfig,
-                    KeyListOption triggerKey{this,
-                                             "TriggerKey",
-                                             _("Trigger Key"),
-                                             {Key("Control+Alt+Shift+U")},
-                                             KeyListConstrain()};);
+FCITX_CONFIGURATION(
+    UnicodeConfig, KeyListOption triggerKey{this,
+                                            "TriggerKey",
+                                            _("Trigger Key"),
+                                            {Key("Control+Alt+Shift+U")},
+                                            KeyListConstrain()};
+    KeyListOption directUnicodeKey{this,
+                                   "DirectUnicodeMode",
+                                   _("Type unicode in Hex number"),
+                                   {Key("Control+Shift+U")},
+                                   KeyListConstrain()};
+
+);
 
 class UnicodeState;
 class Unicode : public AddonInstance {
@@ -43,6 +50,7 @@ public:
     Instance *instance() { return instance_; }
 
     bool trigger(InputContext *inputContext);
+    bool triggerDirect(KeyEvent &keyEvent);
     void updateUI(InputContext *inputContext, bool trigger = false);
     auto &factory() { return factory_; }
 
@@ -59,6 +67,9 @@ public:
     FCITX_ADDON_DEPENDENCY_LOADER(clipboard, instance_->addonManager());
 
 private:
+    void handleSearch(KeyEvent &keyEvent);
+    void handleDirect(KeyEvent &keyEvent);
+
     FCITX_ADDON_EXPORT_FUNCTION(Unicode, trigger);
     Instance *instance_;
     UnicodeConfig config_;

@@ -189,6 +189,7 @@ public:
     const auto &longPressData() const { return longPressData_; }
     bool supportHint(const std::string &language);
     const auto &selectionKeys() const { return selectionKeys_; }
+    auto selectionModifier() const { return selectionModifier_; }
 
 private:
     FCITX_ADDON_EXPORT_FUNCTION(KeyboardEngine, foreachLayout);
@@ -204,6 +205,7 @@ private:
     std::unordered_map<std::string, std::vector<std::string>> longPressData_;
     XkbRules xkbRules_;
     std::string ruleName_;
+    KeyStates selectionModifier_;
     KeyList selectionKeys_;
     std::unique_ptr<EventSource> deferEvent_;
     std::unique_ptr<HandlerTableEntry<QuickPhraseProviderCallback>>

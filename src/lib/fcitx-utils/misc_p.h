@@ -17,6 +17,7 @@
 #include <type_traits>
 #include <unordered_map>
 #include <config.h>
+#include "endian_p.h"
 
 namespace fcitx {
 
@@ -297,6 +298,14 @@ static inline bool checkBoolEnvVar(const char *name) {
         value = true;
     }
     return value;
+}
+
+template <typename T>
+static inline uint32_t FromLittleEndian32(const T *d) {
+    const uint8_t *data = reinterpret_cast<const uint8_t *>(d);
+    uint32_t t;
+    memcpy(&t, data, sizeof(t));
+    return le32toh(t);
 }
 
 } // namespace fcitx

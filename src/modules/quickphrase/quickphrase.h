@@ -92,6 +92,7 @@ private:
     std::vector<std::unique_ptr<fcitx::HandlerTableEntry<fcitx::EventHandler>>>
         eventHandlers_;
     KeyList selectionKeys_;
+    KeyStates selectionModifier_;
     CallbackQuickPhraseProvider callbackProvider_;
     BuiltInQuickPhraseProvider builtinProvider_;
     SpellQuickPhraseProvider spellProvider_;

@@ -22,6 +22,7 @@ void scheduleEvent(EventDispatcher *dispatcher, Instance *instance) {
     dispatcher->schedule([dispatcher, instance]() {
         auto *testfrontend = instance->addonManager().addon("testfrontend");
         testfrontend->call<ITestFrontend::pushCommitExpectation>("🍏");
+        testfrontend->call<ITestFrontend::pushCommitExpectation>("’");
         auto uuid =
             testfrontend->call<ITestFrontend::createInputContext>("testapp");
         testfrontend->call<ITestFrontend::keyEvent>(
@@ -41,6 +42,28 @@ void scheduleEvent(EventDispatcher *dispatcher, Instance *instance) {
         testfrontend->call<ITestFrontend::keyEvent>(uuid, Key("e"), false);
         testfrontend->call<ITestFrontend::keyEvent>(uuid, Key("n"), false);
         testfrontend->call<ITestFrontend::keyEvent>(uuid, Key("Alt+1"), false);
+
+        testfrontend->call<ITestFrontend::keyEvent>(
+            uuid, Key("Control+Shift+u"), false);
+        testfrontend->call<ITestFrontend::keyEvent>(uuid, Key("2"), false);
+        testfrontend->call<ITestFrontend::keyEvent>(
+            uuid, Key(FcitxKey_BackSpace), false);
+        testfrontend->call<ITestFrontend::keyEvent>(
+            uuid, Key(FcitxKey_BackSpace), false);
+        testfrontend->call<ITestFrontend::keyEvent>(
+            uuid, Key("Control+Shift+u"), false);
+        testfrontend->call<ITestFrontend::keyEvent>(uuid, Key("2"), false);
+        testfrontend->call<ITestFrontend::keyEvent>(uuid, Key("p"),
+                                                    false); // ignored
+        testfrontend->call<ITestFrontend::keyEvent>(uuid, Key("0"), false);
+        testfrontend->call<ITestFrontend::keyEvent>(uuid, Key("p"),
+                                                    false); // ignored
+        testfrontend->call<ITestFrontend::keyEvent>(uuid, Key("1"), false);
+        testfrontend->call<ITestFrontend::keyEvent>(uuid, Key("8"), false);
+        testfrontend->call<ITestFrontend::keyEvent>(
+            uuid, Key(FcitxKey_BackSpace), false);
+        testfrontend->call<ITestFrontend::keyEvent>(uuid, Key("9"), false);
+        testfrontend->call<ITestFrontend::keyEvent>(uuid, Key("space"), false);
 
         dispatcher->schedule([dispatcher, instance]() {
             dispatcher->detach();

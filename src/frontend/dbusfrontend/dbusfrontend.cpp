@@ -123,11 +123,11 @@ public:
             });
 
         setClientControlVirtualkeyboardShow(
-            getArgument(args, "clientControlVirtualkeyboardShow",
-                        "false") == "true");
+            getArgument(args, "clientControlVirtualkeyboardShow", "false") ==
+            "true");
         setClientControlVirtualkeyboardHide(
-            getArgument(args, "clientControlVirtualkeyboardHide",
-                        "false") == "true");
+            getArgument(args, "clientControlVirtualkeyboardHide", "false") ==
+            "true");
         created();
 
         setFocusGroup(
@@ -270,11 +270,14 @@ public:
 
     void setCapability(uint64_t cap) {
         CHECK_SENDER_OR_RETURN;
-        // Due to a bug in SDL, it might send garbage over the wire.
+        // 1. Due to a bug in SDL, it might send garbage over the wire.
         // This a workaround to make sure it can work more likely.
         // The flag is most to ClientSideInputPanel (0~39bit).
-        if (!supportedCapability_.has_value() &&
-            (cap & (~static_cast<uint64_t>(0xffffffffffull))) != 0ull) {
+        // 2. For new bits such as 40bit(Disable) or above, we should
+        // use supportedCapability_'s value to get all the effective bits.
+        if (supportedCapability_.has_value()) {
+            cap &= supportedCapability_.value();
+        } else if ((cap & (~static_cast<uint64_t>(0xffffffffffull))) != 0ull) {
             cap &= 0xffffffffull;
         }
         rawCapabilityFlags_ = CapabilityFlags(cap);

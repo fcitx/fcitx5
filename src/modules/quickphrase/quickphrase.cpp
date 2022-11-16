@@ -105,7 +105,13 @@ QuickPhrase::QuickPhrase(Instance *instance)
 
             auto candidateList = inputContext->inputPanel().candidateList();
             if (candidateList) {
-                int idx = keyEvent.key().keyListIndex(selectionKeys_);
+                int idx = -1;
+                if (!selectionKeys_.empty() &&
+                    selectionKeys_[0].sym() == FcitxKey_1) {
+                    idx = keyEvent.key().digitSelection(selectionModifier_);
+                } else {
+                    idx = keyEvent.key().keyListIndex(selectionKeys_);
+                }
                 if (idx >= 0) {
                     if (idx < candidateList->size()) {
                         keyEvent.accept();
@@ -307,24 +313,23 @@ void QuickPhrase::setSelectionKeys(QuickPhraseAction action) {
     }
 
     selectionKeys_.clear();
-
-    KeyStates states;
+    selectionModifier_ = KeyState::NoState;
     switch (config_.chooseModifier.value()) {
     case QuickPhraseChooseModifier::Alt:
-        states = KeyState::Alt;
+        selectionModifier_ = KeyState::Alt;
         break;
     case QuickPhraseChooseModifier::Control:
-        states = KeyState::Ctrl;
+        selectionModifier_ = KeyState::Ctrl;
         break;
     case QuickPhraseChooseModifier::Super:
-        states = KeyState::Super;
+        selectionModifier_ = KeyState::Super;
         break;
     default:
         break;
     }
 
     for (auto sym : syms) {
-        selectionKeys_.emplace_back(sym, states);
+        selectionKeys_.emplace_back(sym, selectionModifier_);
     }
 }
 

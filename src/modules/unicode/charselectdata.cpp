@@ -27,6 +27,7 @@
 #include "fcitx-utils/endian_p.h"
 #include "fcitx-utils/fs.h"
 #include "fcitx-utils/i18n.h"
+#include "fcitx-utils/misc_p.h"
 #include "fcitx-utils/standardpath.h"
 #include "fcitx-utils/stringutils.h"
 
@@ -57,13 +58,6 @@ static const char JAMO_T_TABLE[][4] = {"",   "G",  "GG", "GS", "N",  "NJ", "NH",
                                        "NG", "J",  "C",  "K",  "T",  "P",  "H"};
 
 std::string FormatCode(uint32_t code, int length, const char *prefix);
-
-uint32_t FromLittleEndian32(const char *d) {
-    const uint8_t *data = (const uint8_t *)d;
-    uint32_t t;
-    memcpy(&t, data, sizeof(t));
-    return le32toh(t);
-}
 
 uint16_t FromLittleEndian16(const char *d) {
     const uint8_t *data = (const uint8_t *)d;

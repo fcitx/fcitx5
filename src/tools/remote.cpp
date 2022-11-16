@@ -23,6 +23,7 @@ void usage(std::ostream &stream) {
               "\t-m <imname>\tprint corresponding addon name for im\n"
               "\t-g <group>\tset current input method group\n"
               "\t-q\t\tGet current input method group name\n"
+              "\t-n\t\tGet current input method name\n"
               "\t-s <imname>\tswitch to the input method uniquely identified "
               "by <imname>\n"
               "\t[no option]\tdisplay fcitx state, 0 for close, 1 for "
@@ -39,6 +40,7 @@ enum {
     FCITX_DBUS_GET_CURRENT_STATE,
     FCITX_DBUS_GET_IM_ADDON,
     FCITX_DBUS_SET_CURRENT_IM,
+    FCITX_DBUS_GET_CURRENT_IM,
     FCITX_DBUS_SET_CURRENT_GROUP,
     FCITX_DBUS_GET_CURRENT_GROUP,
 };
@@ -54,7 +56,7 @@ int main(int argc, char *argv[]) {
     int ret = 1;
     int messageType = FCITX_DBUS_GET_CURRENT_STATE;
     std::string imname;
-    while ((c = getopt(argc, argv, "chortTeam:s:g:q")) != -1) {
+    while ((c = getopt(argc, argv, "nchortTeam:s:g:q")) != -1) {
         switch (c) {
         case 'o':
             messageType = FCITX_DBUS_ACTIVATE;
@@ -80,6 +82,10 @@ int main(int argc, char *argv[]) {
         case 'm':
             messageType = FCITX_DBUS_GET_IM_ADDON;
             imname = optarg;
+            break;
+
+        case 'n':
+            messageType = FCITX_DBUS_GET_CURRENT_IM;
             break;
 
         case 's':
@@ -132,6 +138,7 @@ int main(int argc, char *argv[]) {
         CASE(TOGGLE, Toggle);
         CASE(GET_CURRENT_STATE, State);
         CASE(GET_IM_ADDON, AddonForIM);
+        CASE(GET_CURRENT_IM, CurrentInputMethod);
         CASE(SET_CURRENT_IM, SetCurrentIM);
         CASE(GET_CURRENT_GROUP, CurrentInputMethodGroup);
         CASE(SET_CURRENT_GROUP, SwitchInputMethodGroup);
@@ -166,6 +173,17 @@ int main(int argc, char *argv[]) {
     }
     if (messageType == FCITX_DBUS_GET_IM_ADDON) {
         message << imname;
+        auto reply = message.call(defaultTimeout);
+        if (!reply.isError()) {
+            std::string result;
+            reply >> result;
+            std::cout << result << std::endl;
+            return 0;
+        }
+        std::cerr << "Failed to get reply." << std::endl;
+        return 1;
+    }
+    if (messageType == FCITX_DBUS_GET_CURRENT_IM) {
         auto reply = message.call(defaultTimeout);
         if (!reply.isError()) {
             std::string result;

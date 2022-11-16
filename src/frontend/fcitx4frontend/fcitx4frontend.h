@@ -35,6 +35,8 @@ public:
     Instance *instance() { return instance_; }
     int nextIcIdx() { return ++icIdx_; }
 
+    dbus::ServiceWatcher &serviceWatcher() { return *watcher_; }
+
     void addDisplay(const std::string &name);
     void removeDisplay(const std::string &name);
 
@@ -62,6 +64,7 @@ private:
 
     std::unique_ptr<HandlerTableEntry<EventHandler>> event_;
     int icIdx_ = 0;
+    std::unique_ptr<dbus::ServiceWatcher> watcher_;
 };
 } // namespace fcitx
 

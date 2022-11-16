@@ -9,14 +9,15 @@
 # bruh, 2020
 # Steve Nian, 2022
 # 菘菘 <rrt467778@gmail.com>, 2022
+# yan12125, 2022
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2022-07-21 01:57+0000\n"
+"POT-Creation-Date: 2022-11-14 20:25+0000\n"
 "PO-Revision-Date: 2017-11-23 04:14+0000\n"
-"Last-Translator: 菘菘 <rrt467778@gmail.com>, 2022\n"
+"Last-Translator: yan12125, 2022\n"
 "Language-Team: Chinese (Taiwan) (https://www.transifex.com/fcitx/teams/12005/"
 "zh_TW/)\n"
 "Language: zh_TW\n"
@@ -53,11 +54,11 @@ msgstr "找不到 ${1}。"
 msgid "${1} works properly."
 msgstr "${1} 運作正常。"
 
-#: src/lib/fcitx/instance.cpp:382
+#: src/lib/fcitx/instance.cpp:404
 msgid "(Not available)"
 msgstr "（無法使用）"
 
-#: src/modules/unicode/unicode.cpp:329
+#: src/modules/unicode/unicode.cpp:459
 msgid "(Type to search unicode by code or description)"
 msgstr "(輸入編碼或者描述來搜尋 Unicode 字元)"
 
@@ -81,23 +82,23 @@ msgstr "/Note_for_GNOME_Later_than_3.6"
 msgid "/XIM"
 msgstr "/XIM"
 
-#: src/modules/unicode/charselectdata.cpp:221
+#: src/modules/unicode/charselectdata.cpp:215
 msgid "<Low Surrogate>"
 msgstr "<低半代理區>"
 
-#: src/modules/unicode/charselectdata.cpp:217
+#: src/modules/unicode/charselectdata.cpp:211
 msgid "<Non Private Use High Surrogate>"
 msgstr "<非專用高半代理區>"
 
-#: src/modules/unicode/charselectdata.cpp:219
+#: src/modules/unicode/charselectdata.cpp:213
 msgid "<Private Use High Surrogate>"
 msgstr "<專用高半代理區>"
 
-#: src/modules/unicode/charselectdata.cpp:223
+#: src/modules/unicode/charselectdata.cpp:217
 msgid "<Private Use>"
 msgstr "<專用區>"
 
-#: src/modules/unicode/charselectdata.cpp:253
+#: src/modules/unicode/charselectdata.cpp:247
 msgid "<not assigned>"
 msgstr "<未指定>"
 
@@ -118,15 +119,15 @@ msgstr "加入收藏"
 msgid "Add Unicode Typing Support"
 msgstr "加入 Unicode 輸入支援"
 
-#: data/fcitx5-diagnose.sh:1571
+#: data/fcitx5-diagnose.sh:1583
 msgid "Addon Config Dir:"
 msgstr "附加元件設定目錄："
 
-#: data/fcitx5-diagnose.sh:1656
+#: data/fcitx5-diagnose.sh:1668
 msgid "Addon Libraries:"
 msgstr "附加元件函式庫："
 
-#: data/fcitx5-diagnose.sh:1599
+#: data/fcitx5-diagnose.sh:1611
 msgid "Addon List:"
 msgstr "附加元件清單："
 
@@ -139,11 +140,11 @@ msgstr "調整亮度"
 msgid "All"
 msgstr "全部"
 
-#: data/fcitx5-diagnose.sh:1334
+#: data/fcitx5-diagnose.sh:1346
 msgid "All found Gtk ${1} immodule files exist."
 msgstr "所有找到的 gtk ${1} 輸入法模組檔案皆存在。"
 
-#: data/fcitx5-diagnose.sh:1682
+#: data/fcitx5-diagnose.sh:1694
 msgid "All libraries for all addons are found."
 msgstr "找到了所有附加元件的函式庫。"
 
@@ -155,7 +156,7 @@ msgstr "全部可用 locale："
 msgid "Allow Overriding System XKB Settings"
 msgstr "允許覆寫系統 XKB 設定"
 
-#: src/modules/wayland/waylandmodule.h:31
+#: src/modules/wayland/waylandmodule.h:32
 msgid "Allow Overriding System XKB Settings (Only support KDE 5)"
 msgstr "允許覆寫系統 XKB 設定 (僅支援 KDE 5)"
 
@@ -163,7 +164,7 @@ msgstr "允許覆寫系統 XKB 設定 (僅支援 KDE 5)"
 msgid "Alt"
 msgstr "Alt"
 
-#: src/lib/fcitx-utils/key.cpp:480
+#: src/lib/fcitx-utils/key.cpp:509
 msgctxt "Key name"
 msgid "Alt"
 msgstr "Alt"
@@ -201,7 +202,7 @@ msgctxt "Key name"
 msgid "Audio Repeat"
 msgstr "音訊重複"
 
-#: src/ui/classic/theme.h:153
+#: src/ui/classic/theme.h:154
 msgid "Author"
 msgstr "作者"
 
@@ -224,11 +225,11 @@ msgstr "往後"
 msgid "Backends"
 msgstr "後端"
 
-#: src/ui/classic/theme.h:118 src/ui/classic/theme.h:138
+#: src/ui/classic/theme.h:119 src/ui/classic/theme.h:139
 msgid "Background"
 msgstr "背景"
 
-#: src/ui/classic/theme.h:49
+#: src/ui/classic/theme.h:50
 msgid "Background Image"
 msgstr "背景圖片"
 
@@ -264,11 +265,11 @@ msgctxt "Key name"
 msgid "Bluetooth"
 msgstr "藍牙"
 
-#: src/ui/classic/theme.h:107
+#: src/ui/classic/theme.h:108
 msgid "Blur Margin"
 msgstr "模糊邊緣"
 
-#: src/ui/classic/theme.h:106
+#: src/ui/classic/theme.h:107
 msgid "Blur mask"
 msgstr ""
 
@@ -277,23 +278,23 @@ msgctxt "Key name"
 msgid "Book"
 msgstr "書籍"
 
-#: src/ui/classic/theme.h:61
+#: src/ui/classic/theme.h:62
 msgid "Border Color"
 msgstr "邊框顏色"
 
-#: src/ui/classic/theme.h:69
+#: src/ui/classic/theme.h:70
 msgid "Border width"
 msgstr "邊框寬度"
 
-#: src/ui/classic/theme.h:33
+#: src/ui/classic/theme.h:34
 msgid "Bottom Center"
 msgstr "底部居中"
 
-#: src/ui/classic/theme.h:33
+#: src/ui/classic/theme.h:34
 msgid "Bottom Left"
 msgstr "左下"
 
-#: src/ui/classic/theme.h:34
+#: src/ui/classic/theme.h:35
 msgid "Bottom Right"
 msgstr "右下"
 
@@ -329,7 +330,7 @@ msgstr "無法正確連接 ${1}。"
 msgid "Cannot determine desktop environment."
 msgstr "無法確認桌面環境。"
 
-#: data/fcitx5-diagnose.sh:1590
+#: data/fcitx5-diagnose.sh:1602
 msgid "Cannot find ${1} addon config directory."
 msgstr "找不到附加元件 ${1} 設定目錄。"
 
@@ -337,19 +338,20 @@ msgstr "找不到附加元件 ${1} 設定目錄。"
 msgid "Cannot find ${1} executable!"
 msgstr "找不到 ${1} 可執行檔！"
 
-#: data/fcitx5-diagnose.sh:1484 data/fcitx5-diagnose.sh:1537
+#: data/fcitx5-diagnose.sh:1496 data/fcitx5-diagnose.sh:1549
 msgid "Cannot find ${1} im module for gtk ${2} in cache."
 msgstr "在快取中找不到 gtk ${2} 的 ${1} 輸入法模組。"
 
-#: data/fcitx5-diagnose.sh:1401
+#: data/fcitx5-diagnose.sh:1413
 msgid "Cannot find ${1} im module for gtk ${2}."
 msgstr "找不到 gtk ${2} 的 ${1} 輸入法模組。"
 
-#: data/fcitx5-diagnose.sh:1260 data/fcitx5-diagnose.sh:1265
+#: data/fcitx5-diagnose.sh:1267 data/fcitx5-diagnose.sh:1272
+#: data/fcitx5-diagnose.sh:1277
 msgid "Cannot find ${1} input method module for ${2}."
 msgstr "找不到 ${2} 的 ${1} 輸入法模組。"
 
-#: data/fcitx5-diagnose.sh:1395
+#: data/fcitx5-diagnose.sh:1407
 msgid "Cannot find ${2} for gtk ${1}"
 msgstr "找不到 gtk ${1} 的 ${2}"
 
@@ -361,7 +363,7 @@ msgstr "找不到 DBus 名稱 ${1} 的擁有者。"
 msgid "Cannot find a GUI config tool, please install one of ${1}, or ${2}."
 msgstr "找不到設定介面，請安裝 ${1} 或 ${2} 其中之一。"
 
-#: data/fcitx5-diagnose.sh:1685
+#: data/fcitx5-diagnose.sh:1697
 msgid "Cannot find enabled ${1} user interface!"
 msgstr "找不到啟用的 ${1} 使用者介面！"
 
@@ -369,19 +371,19 @@ msgstr "找不到啟用的 ${1} 使用者介面！"
 msgid "Cannot find fcitx5 executable!"
 msgstr "找不到 fcitx5 可執行檔！"
 
-#: data/fcitx5-diagnose.sh:1664
+#: data/fcitx5-diagnose.sh:1676
 msgid "Cannot find file ${1} of addon ${2}."
 msgstr "找不到附加元件 ${2} 的檔案 ${1}。"
 
-#: data/fcitx5-diagnose.sh:1674
+#: data/fcitx5-diagnose.sh:1686
 msgid "Cannot find following required libraries for ${1} of addon ${2}."
 msgstr "找不到附加元件 ${2} 的 ${1} 所需之以下函式庫。"
 
-#: data/fcitx5-diagnose.sh:1479 data/fcitx5-diagnose.sh:1532
+#: data/fcitx5-diagnose.sh:1491 data/fcitx5-diagnose.sh:1544
 msgid "Cannot find immodules cache for gtk ${1}"
 msgstr "找不到 gtk ${1} 的輸入法模組快取"
 
-#: data/fcitx5-diagnose.sh:1704
+#: data/fcitx5-diagnose.sh:1716
 msgid ""
 "Cannot find kimpanel dbus interface or enabled non-kimpanel user interface."
 msgstr "找不到 kimpanel dbus 介面或非 kimpanel 使用者介面。"
@@ -403,15 +405,15 @@ msgctxt "Key name"
 msgid "CapsLock"
 msgstr "大寫鎖定 (CapsLock)"
 
-#: src/ui/classic/theme.h:32
+#: src/ui/classic/theme.h:33
 msgid "Center"
 msgstr "正中"
 
-#: src/ui/classic/theme.h:31
+#: src/ui/classic/theme.h:32
 msgid "Center Left"
 msgstr "左側居中"
 
-#: src/ui/classic/theme.h:32
+#: src/ui/classic/theme.h:33
 msgid "Center Right"
 msgstr "右側居中"
 
@@ -419,7 +421,7 @@ msgstr "右側居中"
 msgid "Change Fcitx 5 Configuration"
 msgstr "變更 Fcitx 5 設定"
 
-#: src/ui/classic/theme.h:143
+#: src/ui/classic/theme.h:144
 msgid "Check box"
 msgstr "複選框"
 
@@ -429,14 +431,14 @@ msgstr "選擇輔助按鍵"
 
 #: src/ui/classic/classicui.conf.in.in:3
 msgid "Classic User Interface"
-msgstr ""
+msgstr "經典使用者介面"
 
 #: src/lib/fcitx-utils/key.cpp:121
 msgctxt "Key name"
 msgid "Clear"
 msgstr "清空"
 
-#: src/ui/classic/theme.h:95
+#: src/ui/classic/theme.h:96
 msgid "Click Margin"
 msgstr "按區域邊距"
 
@@ -444,7 +446,7 @@ msgstr "按區域邊距"
 msgid "Clipboard"
 msgstr "剪貼簿"
 
-#: src/modules/clipboard/clipboard.cpp:345
+#: src/modules/clipboard/clipboard.cpp:353
 msgid "Clipboard (Press BackSpace/Delete to clear history):"
 msgstr "剪貼簿（按 BackSpace/Delete 清除歷史記錄）："
 
@@ -458,7 +460,7 @@ msgctxt "Key name"
 msgid "Code input"
 msgstr "字碼輸入"
 
-#: src/ui/classic/theme.h:53
+#: src/ui/classic/theme.h:54
 msgid "Color"
 msgstr "顏色"
 
@@ -467,19 +469,19 @@ msgctxt "Key name"
 msgid "Community"
 msgstr "社群"
 
-#: src/im/keyboard/keyboard.cpp:641
+#: src/im/keyboard/keyboard.cpp:648
 msgid "Completion"
 msgstr "補全"
 
-#: src/im/keyboard/keyboard.cpp:632
+#: src/im/keyboard/keyboard.cpp:639
 msgid "Completion is disabled."
 msgstr "補全已停用。"
 
-#: src/im/keyboard/keyboard.cpp:635
+#: src/im/keyboard/keyboard.cpp:642
 msgid "Completion is enabled temporarily."
 msgstr "補全暫時啟用。"
 
-#: src/im/keyboard/keyboard.cpp:637
+#: src/im/keyboard/keyboard.cpp:644
 msgid "Completion is enabled."
 msgstr "已啟用補全。"
 
@@ -507,7 +509,7 @@ msgstr "Qt 的設定介面："
 msgid "Config Tool Wrapper:"
 msgstr "設定工具封裝："
 
-#: data/fcitx5-diagnose.sh:1798
+#: data/fcitx5-diagnose.sh:1810
 msgid "Configuration:"
 msgstr "設定："
 
@@ -520,7 +522,7 @@ msgstr "設定"
 msgid "Control"
 msgstr "控制"
 
-#: src/lib/fcitx-utils/key.cpp:479
+#: src/lib/fcitx-utils/key.cpp:508
 msgctxt "Key name"
 msgid "Control"
 msgstr "Control 鍵"
@@ -588,7 +590,7 @@ msgstr "停用輸入法"
 msgid "Debug information from dbus:"
 msgstr "來自 dbus 的除錯訊息："
 
-#: src/lib/fcitx/inputmethodmanager.cpp:138 src/lib/fcitx/instance.cpp:329
+#: src/lib/fcitx/inputmethodmanager.cpp:138 src/lib/fcitx/instance.cpp:351
 #: src/ui/classic/themes/default/theme.conf.in:3
 msgid "Default"
 msgstr "預設"
@@ -618,7 +620,7 @@ msgctxt "Key name"
 msgid "Delete"
 msgstr "刪除"
 
-#: src/ui/classic/theme.h:155
+#: src/ui/classic/theme.h:156
 msgid "Description"
 msgstr "說明"
 
@@ -680,7 +682,7 @@ msgstr "顏文字"
 msgid "Enable"
 msgstr "啟用"
 
-#: src/ui/classic/theme.h:104
+#: src/ui/classic/theme.h:105
 msgid "Enable Blur on KWin"
 msgstr "在 KWin 啟用模糊"
 
@@ -776,11 +778,11 @@ msgstr "執行"
 msgid "Exit"
 msgstr "離開"
 
-#: data/fcitx5-diagnose.sh:1473 data/fcitx5-diagnose.sh:1526
+#: data/fcitx5-diagnose.sh:1485 data/fcitx5-diagnose.sh:1538
 msgid "Failed to find ${1} in immodule cache at ${2}"
 msgstr "無法在 ${2} 的輸入法模組快取中找到 ${1}"
 
-#: data/fcitx5-diagnose.sh:1389
+#: data/fcitx5-diagnose.sh:1401
 msgid "Failed to find ${1} in the output of ${2}"
 msgstr "無法在 ${2} 的輸出中找到 ${1}。"
 
@@ -802,7 +804,7 @@ msgstr "Fcitx 5"
 msgid "Fcitx 5 Configuration"
 msgstr "Fcitx 5 設定"
 
-#: data/fcitx5-diagnose.sh:1570
+#: data/fcitx5-diagnose.sh:1582
 msgid "Fcitx Addons:"
 msgstr "Fcitx 附加元件："
 
@@ -841,11 +843,19 @@ msgctxt "Key name"
 msgid "Find"
 msgstr "尋找"
 
-#: src/ui/classic/classicui.h:100
+#: data/fcitx5-diagnose.sh:1263
+msgid ""
+"Following error may not be accurate because guessing Qt version from path "
+"depends on how your distribution packages Qt. It is not a critical error if "
+"you do not use any Qt application with certain version of Qt or you are "
+"using text-input support by Qt under Wayland."
+msgstr ""
+
+#: src/ui/classic/classicui.h:107
 msgid "Font"
 msgstr "字體"
 
-#: src/ui/classic/classicui.h:130
+#: src/ui/classic/classicui.h:137
 msgid ""
 "For example, display character with Chinese variant when using Pinyin and "
 "Japanese variant when using Anthy. The font configuration needs to support "
@@ -854,16 +864,16 @@ msgstr ""
 "例如，使用拼音時顯示中文異體字，使用 Anthy 時顯示日文異體字。 字體配置需要支"
 "持此功能才能使用此功能。"
 
-#: src/ui/classic/classicui.h:140
+#: src/ui/classic/classicui.h:147
 msgid "Force font DPI on Wayland"
-msgstr ""
+msgstr "在 Wayland 上強制使用字型 DPI"
 
 #: src/lib/fcitx-utils/key.cpp:59
 msgctxt "Key name"
 msgid "Forward"
 msgstr "往前"
 
-#: data/fcitx5-diagnose.sh:1249
+#: data/fcitx5-diagnose.sh:1255
 msgid "Found ${1} ${2} module: ${3}."
 msgstr "找到了 ${1} 的 ${2} 模組：${3}。"
 
@@ -875,7 +885,7 @@ msgstr "找到 ${1} 個 ${2} 程序："
 msgid "Found ${1} ${2} processes:"
 msgstr "找到 ${1} 個 ${2} 程序："
 
-#: data/fcitx5-diagnose.sh:1593
+#: data/fcitx5-diagnose.sh:1605
 msgid "Found ${1} addon config directory: ${2}."
 msgstr "找到 ${1} 附加元件設定目錄：${2}。"
 
@@ -884,20 +894,20 @@ msgstr "找到 ${1} 附加元件設定目錄：${2}。"
 msgid "Found ${1} at ${2}."
 msgstr "在 ${2} 找到了 ${1}。"
 
-#: data/fcitx5-diagnose.sh:1646
+#: data/fcitx5-diagnose.sh:1658
 msgid "Found ${1} disabled addons:"
 msgstr "找到 ${1} 個停用的附加元件："
 
-#: data/fcitx5-diagnose.sh:1637
+#: data/fcitx5-diagnose.sh:1649
 msgid "Found ${1} enabled addons:"
 msgstr "找到 ${1} 個啟用的附加元件："
 
-#: data/fcitx5-diagnose.sh:1687
+#: data/fcitx5-diagnose.sh:1699
 msgid "Found ${1} enabled user interface addons:"
 msgstr "找到 ${1} 個啟用的使用者介面附加元件："
 
-#: data/fcitx5-diagnose.sh:1383 data/fcitx5-diagnose.sh:1467
-#: data/fcitx5-diagnose.sh:1520
+#: data/fcitx5-diagnose.sh:1395 data/fcitx5-diagnose.sh:1479
+#: data/fcitx5-diagnose.sh:1532
 msgid "Found ${1} im modules for gtk ${2}."
 msgstr "找到了 gtk ${2} 的 ${1} 輸入法模組。"
 
@@ -905,27 +915,27 @@ msgstr "找到了 gtk ${2} 的 ${1} 輸入法模組。"
 msgid "Found ${1} kcm module."
 msgstr "找到了 ${1} 的 kcm 模組。"
 
-#: data/fcitx5-diagnose.sh:1375
+#: data/fcitx5-diagnose.sh:1387
 msgid "Found ${2} for unknown gtk version at ${1}."
 msgstr "在 ${1} 找到未知 gtk 版本的 ${2}。"
 
-#: data/fcitx5-diagnose.sh:1367
+#: data/fcitx5-diagnose.sh:1379
 msgid "Found ${3} for gtk ${1} at ${2}."
 msgstr "在 ${2} 找到 gtk ${1} 的 ${3}。"
 
-#: data/fcitx5-diagnose.sh:1238 data/fcitx5-diagnose.sh:1243
+#: data/fcitx5-diagnose.sh:1242 data/fcitx5-diagnose.sh:1247
 msgid "Found ${3} im module for ${2}: ${1}."
 msgstr "找到了 ${2} 的 ${3} 輸入法模組：${1}。"
 
-#: data/fcitx5-diagnose.sh:1460
+#: data/fcitx5-diagnose.sh:1472
 msgid "Found immodule cache for unknown gtk version at ${1}."
 msgstr "在 ${1} 找到未知 gtk 版本的輸入法模組快取。"
 
-#: data/fcitx5-diagnose.sh:1452 data/fcitx5-diagnose.sh:1513
+#: data/fcitx5-diagnose.sh:1464 data/fcitx5-diagnose.sh:1525
 msgid "Found immodules cache for gtk ${1} at ${2}."
 msgstr "在 ${2} 找到 gtk ${1} 的輸入法模組快取。"
 
-#: data/fcitx5-diagnose.sh:1252
+#: data/fcitx5-diagnose.sh:1258
 msgid "Found unknown ${1} qt module: ${2}."
 msgstr "找到未知的 ${1} qt 模組：${2}。"
 
@@ -933,7 +943,7 @@ msgstr "找到未知的 ${1} qt 模組：${2}。"
 msgid "Freedesktop.org Notification Support"
 msgstr "Freedesktop.org 通知支援"
 
-#: data/fcitx5-diagnose.sh:1791
+#: data/fcitx5-diagnose.sh:1803
 msgid "Frontends setup:"
 msgstr "前端設定："
 
@@ -957,23 +967,23 @@ msgstr "綠色"
 msgid "Group"
 msgstr "群組"
 
-#: src/lib/fcitx/instance.cpp:386
+#: src/lib/fcitx/instance.cpp:408
 msgid "Group {0}: {1}"
 msgstr "群組 {0}：{1}"
 
-#: src/lib/fcitx/instance.cpp:331
+#: src/lib/fcitx/instance.cpp:353
 msgid "Group {}"
 msgstr "群組 {}"
 
-#: data/fcitx5-diagnose.sh:1328
+#: data/fcitx5-diagnose.sh:1340
 msgid "Gtk ${1} immodule file ${2} does not exist."
 msgstr "Gtk ${1} 輸入法模組檔案 ${2} 不存在。"
 
-#: data/fcitx5-diagnose.sh:1550
+#: data/fcitx5-diagnose.sh:1562
 msgid "Gtk IM module cache:"
 msgstr "Gtk 輸入法模組快取："
 
-#: data/fcitx5-diagnose.sh:1556
+#: data/fcitx5-diagnose.sh:1568
 msgid "Gtk IM module files:"
 msgstr "Gtk 輸入法模組檔案："
 
@@ -1060,27 +1070,27 @@ msgstr "休眠"
 msgid "Hidden Notifications"
 msgstr "隱藏通知"
 
-#: src/ui/classic/theme.h:80
+#: src/ui/classic/theme.h:81
 msgid "Hide overlay if size does not fit"
 msgstr "如果尺寸不合適，隱藏疊加層"
 
-#: src/ui/classic/theme.h:120 src/ui/classic/theme.h:140
+#: src/ui/classic/theme.h:121 src/ui/classic/theme.h:141
 msgid "Highlight Background"
 msgstr "高亮背景"
 
-#: src/ui/classic/theme.h:115
+#: src/ui/classic/theme.h:116
 msgid "Highlight Background color"
 msgstr "高亮背景顏色"
 
-#: src/ui/classic/theme.h:102 src/ui/classic/theme.h:134
+#: src/ui/classic/theme.h:103 src/ui/classic/theme.h:135
 msgid "Highlight Candidate Color"
 msgstr "高亮候選詞顏色"
 
-#: src/ui/classic/theme.h:90
+#: src/ui/classic/theme.h:91
 msgid "Highlight Click Margin"
 msgstr "高亮點擊邊距"
 
-#: src/ui/classic/theme.h:113
+#: src/ui/classic/theme.h:114
 msgid "Highlight text color"
 msgstr "高亮文字顏色"
 
@@ -1136,7 +1146,7 @@ msgid ""
 "Hotkey for switching to the N-th input method for only current input context"
 msgstr "僅用於目前輸入上下文切換到第 N 種輸入法的快捷鍵"
 
-#: src/lib/fcitx-utils/key.cpp:483
+#: src/lib/fcitx-utils/key.cpp:512
 msgctxt "Key name"
 msgid "Hyper"
 msgstr "Hyper 鍵"
@@ -1164,13 +1174,14 @@ msgstr ""
 "${g36_disable_ibus} 指令停用 IBus 整合以使用 ${2} 以外的任何輸入法。更多細節"
 "參見 ${link}。"
 
-#: src/ui/classic/theme.h:93
+#: src/ui/classic/theme.h:94
 msgid "Image"
 msgstr "圖片"
 
-#: src/im/keyboard/keyboard.cpp:640 src/lib/fcitx/instance.cpp:420
-#: src/lib/fcitx/instance.cpp:638 src/lib/fcitx/instance.cpp:804
+#: src/im/keyboard/keyboard.cpp:647 src/lib/fcitx/instance.cpp:442
+#: src/lib/fcitx/instance.cpp:660 src/lib/fcitx/instance.cpp:820
 #: src/modules/notificationitem/notificationitem.cpp:115
+#: src/modules/notificationitem/notificationitem.cpp:196
 #: src/modules/xcb/xcbconnection.cpp:406 data/org.fcitx.Fcitx5.desktop.in.in:4
 #: data/org.fcitx.Fcitx5.metainfo.xml.in:7
 msgid "Input Method"
@@ -1184,11 +1195,11 @@ msgstr "輸入法設定"
 msgid "Input Method Related Environment Variables: "
 msgstr "輸入法相關環境變數："
 
-#: data/fcitx5-diagnose.sh:1710
+#: data/fcitx5-diagnose.sh:1722
 msgid "Input Methods:"
 msgstr "輸入法："
 
-#: src/ui/classic/theme.h:161
+#: src/ui/classic/theme.h:162
 msgid "Input Panel"
 msgstr "輸入面板"
 
@@ -1209,15 +1220,21 @@ msgctxt "Key name"
 msgid "Insert"
 msgstr "插入"
 
-#: data/fcitx5-diagnose.sh:1605
+#: data/fcitx5-diagnose.sh:1617
 msgid "Invalid addon config file ${1}."
 msgstr "不正確的附加元件設定檔：${1}。"
+
+#: data/fcitx5-diagnose.sh:1188
+msgid ""
+"It is OK to use ${1} built-in Wayland im module if your compositor fully "
+"supports text-input protocol used by ${1}."
+msgstr ""
 
 #: src/ui/kimpanel/kimpanel.conf.in.in:3
 msgid "KDE Input Method Panel"
 msgstr "KDE 輸入法面板"
 
-#: src/ui/classic/classicui.cpp:144
+#: src/ui/classic/classicui.cpp:145
 msgid "KDE Plasma (Experimental)"
 msgstr ""
 
@@ -1281,7 +1298,7 @@ msgctxt "Key name"
 msgid "Keyboard Menu"
 msgstr "鍵盤選單"
 
-#: data/fcitx5-diagnose.sh:1696
+#: data/fcitx5-diagnose.sh:1708
 msgid "Kimpanel process:"
 msgstr "Kimpanel 程序："
 
@@ -1409,7 +1426,7 @@ msgstr "燈泡"
 msgid "Locale:"
 msgstr "地區設定："
 
-#: data/fcitx5-diagnose.sh:1804
+#: data/fcitx5-diagnose.sh:1816
 msgid "Log:"
 msgstr "日誌："
 
@@ -1427,31 +1444,31 @@ msgctxt "Key name"
 msgid "Mail Forward"
 msgstr "轉寄信件"
 
-#: src/ui/classic/theme.h:82
+#: src/ui/classic/theme.h:83
 msgid "Margin"
 msgstr "邊距"
 
-#: src/ui/classic/theme.h:44
+#: src/ui/classic/theme.h:45
 msgid "Margin Bottom"
 msgstr "底部邊距"
 
-#: src/ui/classic/theme.h:38
+#: src/ui/classic/theme.h:39
 msgid "Margin Left"
 msgstr "左側邊距"
 
-#: src/ui/classic/theme.h:40
+#: src/ui/classic/theme.h:41
 msgid "Margin Right"
 msgstr "右側邊距"
 
-#: src/ui/classic/theme.h:42
+#: src/ui/classic/theme.h:43
 msgid "Margin Top"
 msgstr "頂部邊距"
 
-#: src/ui/classic/theme.h:122 src/ui/classic/theme.h:146
+#: src/ui/classic/theme.h:123 src/ui/classic/theme.h:147
 msgid "Margin around all content"
 msgstr "內容周圍邊界"
 
-#: src/ui/classic/theme.h:124 src/ui/classic/theme.h:148
+#: src/ui/classic/theme.h:125 src/ui/classic/theme.h:149
 msgid "Margin around text"
 msgstr "內容周圍邊界"
 
@@ -1510,7 +1527,7 @@ msgctxt "Key name"
 msgid "Meeting"
 msgstr "會議"
 
-#: src/ui/classic/theme.h:162
+#: src/ui/classic/theme.h:163
 msgid "Menu"
 msgstr "選單"
 
@@ -1519,7 +1536,7 @@ msgctxt "Key name"
 msgid "Menu"
 msgstr "選單"
 
-#: src/ui/classic/classicui.h:102
+#: src/ui/classic/classicui.h:109
 msgid "Menu Font"
 msgstr "功能表字體"
 
@@ -1533,7 +1550,7 @@ msgctxt "Key name"
 msgid "Messenger"
 msgstr "即時通訊工具"
 
-#: src/ui/classic/theme.h:159
+#: src/ui/classic/theme.h:160
 msgid "Metadata"
 msgstr "元數據"
 
@@ -1572,7 +1589,7 @@ msgctxt "Key name"
 msgid "My Sites"
 msgstr "個人站台"
 
-#: src/ui/classic/theme.h:151
+#: src/ui/classic/theme.h:152
 msgid "Name"
 msgstr "名稱"
 
@@ -1590,7 +1607,7 @@ msgstr "新聞"
 msgid "Next Candidate"
 msgstr "下一個候選字"
 
-#: src/ui/classic/theme.h:126
+#: src/ui/classic/theme.h:127
 msgid "Next Page Button"
 msgstr "下一頁按鈕"
 
@@ -1598,7 +1615,7 @@ msgstr "下一頁按鈕"
 msgid "No"
 msgstr "否"
 
-#: src/modules/clipboard/clipboard.cpp:347
+#: src/modules/clipboard/clipboard.cpp:355
 msgid "No clipboard history."
 msgstr "沒有輸入法歷史"
 
@@ -1606,11 +1623,11 @@ msgstr "沒有輸入法歷史"
 msgid "None"
 msgstr "無"
 
-#: src/ui/classic/theme.h:99 src/ui/classic/theme.h:131
+#: src/ui/classic/theme.h:100 src/ui/classic/theme.h:132
 msgid "Normal text color"
 msgstr "一般文字顏色"
 
-#: src/ui/classic/classicui.h:144
+#: src/ui/classic/classicui.h:151
 msgid ""
 "Normally Wayland uses 96 as font DPI in combinition with the screen scale "
 "factor. This option allows you to override the font DPI. If the value is 0, "
@@ -1638,7 +1655,7 @@ msgstr "數字鎖定 (NumLock)"
 msgid "Number of entries"
 msgstr "項目數"
 
-#: src/im/keyboard/keyboard.cpp:626
+#: src/im/keyboard/keyboard.cpp:633
 msgid ""
 "Only emoji support is found. To enable spell checking, you may need to "
 "install spell check data for the language."
@@ -1659,23 +1676,23 @@ msgctxt "Key name"
 msgid "Option"
 msgstr "選項"
 
-#: src/ui/classic/theme.h:84
+#: src/ui/classic/theme.h:85
 msgid "Overlay Clip Margin"
 msgstr "覆蓋圖片裁剪邊界"
 
-#: src/ui/classic/theme.h:74
+#: src/ui/classic/theme.h:75
 msgid "Overlay Image"
 msgstr "覆蓋圖片"
 
-#: src/ui/classic/theme.h:77
+#: src/ui/classic/theme.h:78
 msgid "Overlay X offset"
 msgstr "覆蓋 X 位移"
 
-#: src/ui/classic/theme.h:78
+#: src/ui/classic/theme.h:79
 msgid "Overlay Y offset"
 msgstr "覆蓋 Y 位移"
 
-#: src/ui/classic/theme.h:76
+#: src/ui/classic/theme.h:77
 msgid "Overlay position"
 msgstr "覆蓋圖片位置"
 
@@ -1755,19 +1772,19 @@ msgctxt "Key name"
 msgid "Power Off"
 msgstr "關機"
 
-#: src/lib/fcitx/instance.cpp:804
+#: src/lib/fcitx/instance.cpp:820
 msgid "Preedit"
 msgstr "預編輯"
 
-#: src/lib/fcitx/instance.cpp:806
+#: src/lib/fcitx/instance.cpp:822
 msgid "Preedit disabled"
 msgstr "預編輯已停用"
 
-#: src/lib/fcitx/instance.cpp:805
+#: src/lib/fcitx/instance.cpp:821
 msgid "Preedit enabled"
 msgstr "預編輯已啟用"
 
-#: src/ui/classic/classicui.h:110
+#: src/ui/classic/classicui.h:117
 msgid "Prefer Text Icon"
 msgstr "首選文字圖示"
 
@@ -1779,7 +1796,7 @@ msgstr "Presage"
 msgid "Prev Candidate"
 msgstr "上一個候選字"
 
-#: src/ui/classic/theme.h:125
+#: src/ui/classic/theme.h:126
 msgid "Prev Page Button"
 msgstr "上一頁按鈕"
 
@@ -1797,7 +1814,7 @@ msgstr "截圖 (PrtSc)"
 msgid "Program"
 msgstr "程式"
 
-#: data/fcitx5-diagnose.sh:1224
+#: data/fcitx5-diagnose.sh:1228
 msgid "Qt IM module files:"
 msgstr "Qt IM 模組檔案："
 
@@ -1805,7 +1822,7 @@ msgstr "Qt IM 模組檔案："
 msgid "Quick Phrase"
 msgstr "快速片語"
 
-#: src/modules/quickphrase/quickphrase.cpp:403
+#: src/modules/quickphrase/quickphrase.cpp:408
 msgid "Quick Phrase: "
 msgstr "快速輸入："
 
@@ -1940,11 +1957,11 @@ msgctxt "Key name"
 msgid "Send"
 msgstr "傳送"
 
-#: src/ui/classic/theme.h:142
+#: src/ui/classic/theme.h:143
 msgid "Separator Background"
 msgstr "分隔符背景"
 
-#: src/ui/classic/theme.h:128
+#: src/ui/classic/theme.h:129
 msgid "Shadow Margin"
 msgstr ""
 
@@ -1952,7 +1969,7 @@ msgstr ""
 msgid "Share Input State"
 msgstr "共享輸入法狀態"
 
-#: src/lib/fcitx-utils/key.cpp:481
+#: src/lib/fcitx-utils/key.cpp:510
 msgctxt "Key name"
 msgid "Shift"
 msgstr "Shift 鍵"
@@ -1970,7 +1987,7 @@ msgstr "當切換輸入焦點時顯示輸入法資訊"
 msgid "Show Input Method Information when switch input method"
 msgstr "當切換輸入法時顯示輸入法資訊"
 
-#: src/ui/classic/classicui.h:115
+#: src/ui/classic/classicui.h:122
 msgid "Show Layout Name In Icon"
 msgstr "在圖示顯示佈局名稱"
 
@@ -1982,7 +1999,7 @@ msgstr "顯示緊湊的輸入法訊息"
 msgid "Show first input method information"
 msgstr "顯示第一個輸入法資訊"
 
-#: src/ui/classic/classicui.h:119
+#: src/ui/classic/classicui.h:126
 msgid ""
 "Show layout name in icon if there is more than one active layout. If prefer "
 "text icon is set to true, this option will be ignored."
@@ -2014,7 +2031,7 @@ msgctxt "Key name"
 msgid "Space"
 msgstr "空格"
 
-#: src/ui/classic/theme.h:136
+#: src/ui/classic/theme.h:137
 msgid "Spacing"
 msgstr "間隔"
 
@@ -2055,7 +2072,7 @@ msgctxt "Key name"
 msgid "Stop"
 msgstr "停止"
 
-#: src/ui/classic/theme.h:144
+#: src/ui/classic/theme.h:145
 msgid "Sub Menu"
 msgstr "子功能表"
 
@@ -2068,7 +2085,7 @@ msgstr "副標題"
 msgid "Super"
 msgstr "超級"
 
-#: src/lib/fcitx-utils/key.cpp:482
+#: src/lib/fcitx-utils/key.cpp:511
 msgctxt "Key name"
 msgid "Super"
 msgstr "Super 鍵"
@@ -2083,16 +2100,16 @@ msgctxt "Key name"
 msgid "Suspend"
 msgstr "暫停"
 
-#: src/lib/fcitx/instance.cpp:421 src/lib/fcitx/instance.cpp:639
+#: src/lib/fcitx/instance.cpp:443 src/lib/fcitx/instance.cpp:661
 #: src/modules/xcb/xcbconnection.cpp:407
 msgid "Switch group"
 msgstr "切換分組"
 
-#: src/lib/fcitx/instance.cpp:422 src/modules/xcb/xcbconnection.cpp:408
+#: src/lib/fcitx/instance.cpp:444 src/modules/xcb/xcbconnection.cpp:408
 msgid "Switch group to {0}"
 msgstr "切換分組到 {0}"
 
-#: src/lib/fcitx/instance.cpp:640
+#: src/lib/fcitx/instance.cpp:662
 msgid "Switched group to {0}"
 msgstr "已切換分組到 {0}"
 
@@ -2133,23 +2150,23 @@ msgstr "列表中第 n 個快速鍵選擇第 n 個輸入法。"
 msgid "The script is run as ${1} (${2})."
 msgstr "此腳本以 ${1} (${2}) 執行。"
 
-#: src/ui/classic/classicui.h:135
+#: src/ui/classic/classicui.h:142
 msgid "Theme"
 msgstr "主題"
 
-#: src/ui/classic/classicui.h:79
+#: src/ui/classic/classicui.h:86
 msgid "This is only effective when the tray icon is xembed."
 msgstr "這只在托盤圖示為 xembed 時有效。"
 
-#: src/ui/classic/theme.h:57 src/ui/classic/theme.h:65
+#: src/ui/classic/theme.h:58 src/ui/classic/theme.h:66
 msgid "This option is only effective if image is not set."
 msgstr "此選項僅在圖片沒有設定時有效。"
 
-#: src/ui/classic/theme.h:73
+#: src/ui/classic/theme.h:74
 msgid "This value should be less than any of margin value."
 msgstr "這個值應該小於任何邊距值。"
 
-#: data/fcitx5-diagnose.sh:1810
+#: data/fcitx5-diagnose.sh:1822
 msgid ""
 "Though such information can be helpful to developers for diagnostic purpose, "
 "please double check and remove as necessary before posting it online "
@@ -2180,11 +2197,11 @@ msgctxt "Key name"
 msgid "Tools"
 msgstr "工具"
 
-#: src/ui/classic/theme.h:30
+#: src/ui/classic/theme.h:31
 msgid "Top Center"
 msgstr "頂部居中"
 
-#: src/ui/classic/theme.h:30
+#: src/ui/classic/theme.h:31
 msgid "Top Left"
 msgstr "左上"
 
@@ -2193,7 +2210,7 @@ msgctxt "Key name"
 msgid "Top Menu"
 msgstr "頂部選單"
 
-#: src/ui/classic/theme.h:31
+#: src/ui/classic/theme.h:32
 msgid "Top Right"
 msgstr "右上"
 
@@ -2222,15 +2239,15 @@ msgctxt "Key name"
 msgid "Travel"
 msgstr "旅行"
 
-#: src/ui/classic/classicui.h:104
+#: src/ui/classic/classicui.h:111
 msgid "Tray Font"
 msgstr "托盤字體"
 
-#: src/ui/classic/classicui.h:106
+#: src/ui/classic/classicui.h:113
 msgid "Tray Label Outline Color"
 msgstr "托盤標簽輪廓顏色"
 
-#: src/ui/classic/classicui.h:109
+#: src/ui/classic/classicui.h:116
 msgid "Tray Label Text Color"
 msgstr "托盤標簽文字顏色"
 
@@ -2260,6 +2277,10 @@ msgstr "一次性觸發提示模式"
 msgid "Type special characters with long press"
 msgstr "使用長按來輸入特殊字元"
 
+#: src/modules/unicode/unicode.h:36
+msgid "Type unicode in Hex number"
+msgstr ""
+
 #: data/org.fcitx.Fcitx5.metainfo.xml.in:20
 msgid "Typing with Fcitx and Kimpanel"
 msgstr "使用 Fcitx 和 Kimpanel 輸入"
@@ -2277,7 +2298,7 @@ msgstr "復原"
 msgid "Unicode"
 msgstr "Unicode"
 
-#: src/modules/unicode/unicode.cpp:327
+#: src/modules/unicode/unicode.cpp:457
 msgid "Unicode: "
 msgstr "Unicode："
 
@@ -2290,19 +2311,19 @@ msgstr "上"
 msgid "Use On The Spot Style (Needs restarting)"
 msgstr "使用 On The Spot 風格 (需要重新啟動)"
 
-#: src/ui/classic/classicui.h:93
+#: src/ui/classic/classicui.h:100
 msgid "Use Per Screen DPI"
 msgstr "依每個螢幕的 DPI 使用"
 
-#: src/ui/classic/theme.h:110
+#: src/ui/classic/theme.h:111
 msgid "Use all horizontal space for highlight when it is vertical list"
 msgstr "當它是垂直列表時，使用所有橫向空間高亮顯示"
 
-#: src/ui/classic/classicui.h:126
+#: src/ui/classic/classicui.h:133
 msgid "Use input method language to display text"
 msgstr "使用輸入法語言來顯示文字"
 
-#: src/ui/classic/classicui.h:96
+#: src/ui/classic/classicui.h:103
 msgid "Use mouse wheel to go to prev or next page"
 msgstr "使用滑鼠滾輪到上一頁或下一頁"
 
@@ -2310,7 +2331,7 @@ msgstr "使用滑鼠滾輪到上一頁或下一頁"
 msgid "Use new compose behavior"
 msgstr ""
 
-#: data/fcitx5-diagnose.sh:1683
+#: data/fcitx5-diagnose.sh:1695
 msgid "User Interface:"
 msgstr "使用者介面："
 
@@ -2318,15 +2339,15 @@ msgstr "使用者介面："
 msgid "Using ${1} to check dbus."
 msgstr "使用 ${1}檢查 dbus。"
 
-#: src/ui/classic/theme.h:152
+#: src/ui/classic/theme.h:153
 msgid "Version"
 msgstr "版本"
 
-#: data/fcitx5-diagnose.sh:1372 data/fcitx5-diagnose.sh:1456
+#: data/fcitx5-diagnose.sh:1384 data/fcitx5-diagnose.sh:1468
 msgid "Version Line:"
 msgstr "版本行："
 
-#: src/ui/classic/classicui.h:92
+#: src/ui/classic/classicui.h:99
 msgid "Vertical Candidate List"
 msgstr "垂直候選字列表"
 
@@ -2365,7 +2386,7 @@ msgctxt "Key name"
 msgid "Wake Up"
 msgstr "喚醒"
 
-#: data/fcitx5-diagnose.sh:1809
+#: data/fcitx5-diagnose.sh:1821
 msgid ""
 "Warning: the output of fcitx5-diagnose contains sensitive information, "
 "including the distribution name, kernel version, name of currently running "
@@ -2473,11 +2494,11 @@ msgid ""
 "this script may not be accurate. See ${2} for more information."
 msgstr ""
 
-#: data/fcitx5-diagnose.sh:1193
+#: data/fcitx5-diagnose.sh:1196
 msgid "You are using xim in ${1} programs."
 msgstr "您正在 ${1}程式中使用 xim。"
 
-#: data/fcitx5-diagnose.sh:1198
+#: data/fcitx5-diagnose.sh:1201
 msgid "You may have trouble using fcitx in ${1} programs."
 msgstr "您可能會在 ${1}程式中使用 fcitx 時遇到問題。"
 
@@ -2560,10 +2581,10 @@ msgstr "版本："
 msgid "{0} (Not Available)"
 msgstr "{0} (無法使用)"
 
-#: src/lib/fcitx/instance.cpp:380
+#: src/lib/fcitx/instance.cpp:402
 msgid "{0} (Not available)"
 msgstr "{0}（不可用）"
 
-#: src/lib/fcitx/instance.cpp:377
+#: src/lib/fcitx/instance.cpp:399
 msgid "{0} ({1})"
 msgstr "{0} ({1})"

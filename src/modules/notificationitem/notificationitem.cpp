@@ -68,7 +68,7 @@ public:
         } else {
             icon = "input-keyboard";
         }
-        if (auto *ic = parent_->instance()->lastFocusedInputContext()) {
+        if (auto *ic = parent_->instance()->mostRecentInputContext()) {
             icon = parent_->instance()->inputMethodIcon(ic);
         }
         if (icon == "input-keyboard" && preferSymbolic) {
@@ -119,7 +119,7 @@ public:
     FCITX_OBJECT_VTABLE_PROPERTY(
         iconName, "IconName", "s", ([this]() {
             std::string label, icon;
-            if (auto *ic = parent_->instance()->lastFocusedInputContext()) {
+            if (auto *ic = parent_->instance()->mostRecentInputContext()) {
                 label = parent_->instance()->inputMethodLabel(ic);
                 icon = parent_->instance()->inputMethodIcon(ic);
             }
@@ -131,7 +131,7 @@ public:
                 result;
 
             std::string label, icon;
-            if (auto *ic = parent_->instance()->lastFocusedInputContext()) {
+            if (auto *ic = parent_->instance()->mostRecentInputContext()) {
                 label = parent_->instance()->inputMethodLabel(ic);
                 icon = parent_->instance()->inputMethodIcon(ic);
             }
@@ -192,6 +192,8 @@ public:
     FCITX_OBJECT_VTABLE_PROPERTY(xayatanaLabelOrderingIndex,
                                  "XAyatanaOrderingIndex", "u",
                                  []() { return 0; });
+    FCITX_OBJECT_VTABLE_PROPERTY(iconAccessibleDesc, "IconAccessibleDesc", "s",
+                                 []() { return _("Input Method"); });
 
 private:
     NotificationItem *parent_;

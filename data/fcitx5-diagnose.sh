@@ -1184,6 +1184,9 @@ _check_toolkit_env() {
     done
     if [ -z "${!env_name}" ]; then
         set_env_link "${env_name}" 'fcitx'
+        if [ "${name}" != qt4 ]; then
+            write_error_eval "$(_ 'It is OK to use ${1} built-in Wayland im module if your compositor fully supports text-input protocol used by ${1}.')" "${name}"
+        fi
     elif [ "${!env_name}" = 'fcitx' ]; then
         _env_correct "${env_name}" 'fcitx'
     else
@@ -1221,6 +1224,7 @@ check_qt() {
     find_qt_modules
     qt4_module_found=''
     qt5_module_found=''
+    qt6_module_found=''
     write_order_list "$(_ 'Qt IM module files:')"
     echo
     for file in "${qt_modules[@]}"; do
@@ -1244,6 +1248,8 @@ check_qt() {
                 "$(code_inline "${file}")" ${qt_version} fcitx5
             if [[ ${qt_version} != "qt6" ]]; then
                 qt5_module_found=1
+            else
+                qt6_module_found=1
             fi
         elif [[ ${file} =~ /fcitx5/qt ]]; then
             write_eval "$(_ 'Found ${1} ${2} module: ${3}.')" \
@@ -1254,6 +1260,7 @@ check_qt() {
                        "$(code_inline "${file}")"
         fi
     done
+    write_eval "$(_ 'Following error may not be accurate because guessing Qt version from path depends on how your distribution packages Qt. It is not a critical error if you do not use any Qt application with certain version of Qt or you are using text-input support by Qt under Wayland.')"
     if [ -z "${qt4_module_found}" ]; then
         __need_blank_line=0
         write_error_eval \
@@ -1263,6 +1270,11 @@ check_qt() {
         __need_blank_line=0
         write_error_eval \
             "$(_ 'Cannot find ${1} input method module for ${2}.')" fcitx5 Qt5
+    fi
+    if [ -z "${qt6_module_found}" ]; then
+        __need_blank_line=0
+        write_error_eval \
+            "$(_ 'Cannot find ${1} input method module for ${2}.')" fcitx6 Qt6
     fi
 }
 

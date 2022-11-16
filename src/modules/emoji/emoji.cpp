@@ -5,69 +5,109 @@
  *
  */
 #include "emoji.h"
+#include <sys/stat.h>
+#include <functional>
+#include <zlib.h>
 #include "fcitx-utils/charutils.h"
 #include "fcitx-utils/misc_p.h"
+#include "fcitx-utils/standardpath.h"
 #include "fcitx-utils/stringutils.h"
 #include "fcitx-utils/utf8.h"
 #include "fcitx/addonfactory.h"
-#include "../../im/keyboard/xmlparser.h"
 #include "config.h"
 
 namespace fcitx {
-class EmojiParser : public XMLParser {
+
+namespace {
+
+uint32_t readInt32(const uint8_t **data, const uint8_t *end) {
+    if (*data + 4 > end) {
+        throw std::runtime_error("Unknown emoji dict data");
+    }
+    uint32_t n = FromLittleEndian32(*data);
+    *data += 4;
+    return n;
+}
+
+std::string_view readString(const uint8_t **data, const uint8_t *end) {
+    uint32_t length = readInt32(data, end);
+    if (*data + length > end) {
+        throw std::runtime_error("Unknown emoji dict data");
+    }
+    std::string_view s(reinterpret_cast<const char *>(*data), length);
+    *data += length;
+    return s;
+}
+
+} // namespace
+
+class EmojiParser {
 public:
-    EmojiParser(std::function<bool(const std::string &)> filter)
+    EmojiParser(std::function<bool(std::string_view)> filter)
         : filter_(std::move(filter)) {}
 
-    void startElement(const XML_Char *name, const XML_Char **attrs) override {
-        // Data are like <annotation cp="..."> ...</annotation>
-        if (strcmp(name, "annotation") == 0) {
-            int i = 0;
-            while (attrs && attrs[i * 2] != 0) {
-                if (strcmp(reinterpret_cast<const char *>(attrs[i * 2]),
-                           "cp") == 0) {
-                    currentEmoji_ =
-                        reinterpret_cast<const char *>(attrs[i * 2 + 1]);
+    bool load(int fd) {
+        struct stat s;
+        if (fstat(fd, &s) < 0) {
+            return false;
+        }
+        std::vector<uint8_t> compressed;
+        std::vector<uint8_t> data;
+        auto size = s.st_size;
+        if (size < 4) {
+            return false;
+        }
+        compressed.resize(size);
+        if (size != fs::safeRead(fd, compressed.data(), size)) {
+            return false;
+        }
+        uint32_t expectedSize = FromLittleEndian32(compressed.data());
+        if (!expectedSize) {
+            return false;
+        }
+
+        data.resize(expectedSize);
+
+        unsigned long len = expectedSize;
+        if (::uncompress(data.data(), &len, compressed.data() + 4, size - 4) !=
+            Z_OK) {
+            return false;
+        }
+
+        try {
+            const auto *cur = data.data(), *end = data.data() + data.size();
+            uint32_t nEmoji = readInt32(&cur, end);
+            for (uint32_t i = 0; i < nEmoji; i++) {
+                std::string_view emoji = readString(&cur, end);
+                if (!utf8::validate(emoji)) {
+                    throw std::runtime_error("Corrupted emoji data");
                 }
-                i++;
+                uint32_t nAnnotations = readInt32(&cur, end);
+                for (uint32_t j = 0; j < nAnnotations; j++) {
+                    std::string_view annotation = readString(&cur, end);
+                    if (filter_ && filter_(annotation)) {
+                        continue;
+                    }
+                    auto &emojis = emojiMap_[std::string(annotation)];
+                    // Certain word has a very general meaning and has tons of
+                    // matches, keep only 1 or 2 for specific.
+                    if (emojis.empty() ||
+                        (emojis.size() == 1 && emojis[0] != emoji)) {
+                        emojis.push_back(std::string(emoji));
+                    }
+                }
             }
+        } catch (const std::runtime_error &) {
+            FCITX_ERROR() << "Failed to load emoji dictionary";
+            return false;
         }
-    }
-    void endElement(const XML_Char *name) override {
-        if (strcmp(name, "annotation") == 0) {
-            currentEmoji_.clear();
-        }
-    }
-    void characterData(const XML_Char *ch, int len) override {
-        if (currentEmoji_.empty()) {
-            return;
-        }
-        std::string temp(reinterpret_cast<const char *>(ch), len);
-        auto tokens = stringutils::split(temp, "|");
-        std::transform(tokens.begin(), tokens.end(), tokens.begin(),
-                       stringutils::trim);
-        for (const auto &token : tokens) {
-            if (token.empty()) {
-                continue;
-            }
-            if (filter_ && filter_(token)) {
-                continue;
-            }
-            auto &emojis = emojiMap_[token];
-            // Certain word has a very general meaning and has tons of matches,
-            // keep only 1 or 2 for specific.
-            if (emojis.empty() ||
-                (emojis.size() == 1 && emojis[0] != currentEmoji_)) {
-                emojis.push_back(currentEmoji_);
-            }
-        }
+        return true;
     }
 
     EmojiMap emojiMap_;
 
 private:
-    std::string currentEmoji_;
-    std::function<bool(const std::string &)> filter_;
+    std::function<bool(std::string_view)> filter_;
 };
 
 static const std::vector<std::string> emptyEmoji;
@@ -119,7 +159,7 @@ void Emoji::prefix(
 }
 
 namespace {
-bool noSpace(const std::string &str) {
+bool noSpace(std::string_view str) {
     return std::any_of(str.begin(), str.end(), charutils::isspace);
 }
 } // namespace
@@ -139,8 +179,8 @@ const EmojiMap *Emoji::loadEmoji(const std::string &language,
     auto *emojiMap = findValue(langToEmojiMap_, lang);
     if (!emojiMap) {
         // These are having aspell/hunspell/ispell available.
-        static const std::unordered_map<
-            std::string, std::function<bool(const std::string &)>>
+        static const std::unordered_map<std::string,
+                                        std::function<bool(std::string_view)>>
             filterMap = {{"en", noSpace},
                          {"de", noSpace},
                          {"es", noSpace},
@@ -161,21 +201,22 @@ const EmojiMap *Emoji::loadEmoji(const std::string &language,
                          {"sv", noSpace},
                          {"uk", noSpace},
                          {"zh",
-                          [](const std::string &str) {
+                          [](std::string_view str) {
                               return utf8::lengthValidated(str) > 2;
                           }},
                          {"zh_Hant_HK",
-                          [](const std::string &str) {
+                          [](std::string_view str) {
                               return utf8::lengthValidated(str) > 2;
                           }},
-                         {"zh_Hant", [](const std::string &str) {
+                         {"zh_Hant", [](std::string_view str) {
                               return utf8::lengthValidated(str) > 2;
                           }}};
         const auto *filter = findValue(filterMap, lang);
-        const auto file = stringutils::joinPath(
-            CLDR_DIR, "/common/annotations", stringutils::concat(lang, ".xml"));
+        const auto file = StandardPath::global().open(
+            StandardPath::Type::PkgData,
+            stringutils::concat("emoji/data/", lang, ".dict"), O_RDONLY);
         EmojiParser parser(filter ? *filter : nullptr);
-        if (parser.parse(file)) {
+        if (file.isValid() && parser.load(file.fd())) {
             emojiMap = &(langToEmojiMap_[lang] = std::move(parser.emojiMap_));
             FCITX_INFO() << "Trying to load emoji for " << lang << " from "
                          << file << ": " << emojiMap->size()

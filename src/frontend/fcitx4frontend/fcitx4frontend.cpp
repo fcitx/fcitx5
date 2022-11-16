@@ -68,8 +68,7 @@ class Fcitx4InputMethod : public dbus::ObjectVTable<Fcitx4InputMethod> {
 public:
     Fcitx4InputMethod(int display, Fcitx4FrontendModule *module, dbus::Bus *bus)
         : display_(display), module_(module), instance_(module->instance()),
-          bus_(std::make_unique<dbus::Bus>(bus->address())),
-          watcher_(std::make_unique<dbus::ServiceWatcher>(*bus_)) {
+          bus_(std::make_unique<dbus::Bus>(bus->address())) {
         bus_->attachEventLoop(&instance_->eventLoop());
         bus_->addObjectVTable("/inputmethod", FCITX_INPUTMETHOD_DBUS_INTERFACE,
                               *this);
@@ -111,10 +110,9 @@ public:
 
     std::tuple<int, bool, uint32_t, uint32_t, uint32_t, uint32_t>
     createICv3(const std::string &appname, int pid);
-
-    dbus::ServiceWatcher &serviceWatcher() { return *watcher_; }
     dbus::Bus *bus() { return bus_.get(); }
-    Instance *instance() { return module_->instance(); }
+    auto *instance() { return module_->instance(); }
+    auto *parent() { return module_; }
 
 private:
     // V1 and V2 are too old, so we just ignore them.
@@ -124,7 +122,6 @@ private:
     Fcitx4FrontendModule *module_;
     Instance *instance_;
     std::unique_ptr<dbus::Bus> bus_;
-    std::unique_ptr<dbus::ServiceWatcher> watcher_;
     std::string pathWrote_;
 };
 
@@ -136,7 +133,7 @@ public:
                        const std::string &program)
         : InputContext(icManager, program),
           path_(stringutils::concat("/inputcontext_", id)), im_(im),
-          handler_(im_->serviceWatcher().watchService(
+          handler_(im_->parent()->serviceWatcher().watchService(
               sender,
               [this](const std::string &, const std::string &,
                      const std::string &newName) {
@@ -319,7 +316,8 @@ Fcitx4FrontendModule::Fcitx4FrontendModule(Instance *instance)
               }
               return false;
           },
-          [this](int display) { fcitx4InputMethod_.erase(display); }) {
+          [this](int display) { fcitx4InputMethod_.erase(display); }),
+      watcher_(std::make_unique<dbus::ServiceWatcher>(*bus())) {
 #ifdef ENABLE_X11
     if (xcb()) {
         createdCallback_ =

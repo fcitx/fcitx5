@@ -113,6 +113,7 @@ bool XCBTrayWindow::filterEvent(xcb_generic_event_t *event) {
         if (expose->window == wid_) {
             CLASSICUI_DEBUG() << "Tray recevied expose event";
             update();
+            return true;
         }
         break;
     }
@@ -148,6 +149,7 @@ bool XCBTrayWindow::filterEvent(xcb_generic_event_t *event) {
                    property->window == dockWindow_) {
             isHorizontal_ = trayOrientation();
             resizeTrayWindow();
+            return true;
         }
         break;
     }

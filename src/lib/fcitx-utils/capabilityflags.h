@@ -69,6 +69,15 @@ enum class CapabilityFlag : uint64_t {
      */
     ClientSideInputPanel = (1ull << 39),
 
+    /**
+     * Whether client request input method to be disabled.
+     *
+     * Usually this means only allow to type with raw keyboard.
+     *
+     * @since 5.0.20
+     */
+    Disable = (1ull << 40),
+
     PasswordOrSensitive = Password | Sensitive,
 };
 
