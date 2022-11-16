@@ -31,7 +31,7 @@ public:
     dbus::Bus *globalBus();
     Instance *instance() { return instance_; }
 
-    void setSerivceName(const std::string &newName);
+    void setServiceName(const std::string &newName);
     void setRegistered(bool);
     void registerSNI();
     void enable();
@@ -48,6 +48,10 @@ private:
     FCITX_ADDON_EXPORT_FUNCTION(NotificationItem, disable);
     FCITX_ADDON_EXPORT_FUNCTION(NotificationItem, watch);
     FCITX_ADDON_EXPORT_FUNCTION(NotificationItem, registered);
+
+    void maybeScheduleRegister();
+    void cleanUp();
+
     Instance *instance_;
     std::unique_ptr<dbus::ServiceWatcher> watcher_;
     std::unique_ptr<dbus::Bus> privateBus_;

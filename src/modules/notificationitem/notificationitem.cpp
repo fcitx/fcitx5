@@ -214,7 +214,7 @@ NotificationItem::NotificationItem(Instance *instance)
     watcherEntry_ = watcher_->watchService(
         NOTIFICATION_WATCHER_DBUS_ADDR,
         [this](const std::string &, const std::string &,
-               const std::string &newName) { setSerivceName(newName); });
+               const std::string &newName) { setServiceName(newName); });
 }
 
 NotificationItem::~NotificationItem() = default;
@@ -223,39 +223,77 @@ dbus::Bus *NotificationItem::globalBus() {
     return dbus()->call<IDBusModule::bus>();
 }
 
-void NotificationItem::setSerivceName(const std::string &newName) {
+void NotificationItem::setServiceName(const std::string &newName) {
     SNI_DEBUG() << "Old SNI Name: " << sniWatcherName_
                 << " New Name: " << newName;
     sniWatcherName_ = newName;
     // It's a new service anyway, set unregistered.
     setRegistered(false);
     SNI_DEBUG() << "Current SNI enabled: " << enabled_;
-    if (enabled_) {
-        disable();
-        enable();
-    }
+    maybeScheduleRegister();
 }
 
 void NotificationItem::setRegistered(bool registered) {
-    if (registered_ != registered) {
-        registered_ = registered;
+    // Always clean up if it's not registered.
+    if (!registered) {
+        cleanUp();
+    }
 
-        for (auto &handler : handlers_.view()) {
-            handler(registered_);
+    if (registered_ == registered) {
+        return;
+    }
+    registered_ = registered;
+
+    if (registered_) {
+        auto updateIcon = [this](Event &) {
+            menu_->updateMenu();
+            newIcon();
+        };
+        for (auto type : {EventType::InputContextFocusIn,
+                          EventType::InputContextSwitchInputMethod,
+                          EventType::InputMethodGroupChanged}) {
+            eventHandlers_.emplace_back(instance_->watchEvent(
+                type, EventWatcherPhase::Default, updateIcon));
         }
+        eventHandlers_.emplace_back(instance_->watchEvent(
+            EventType::InputContextUpdateUI, EventWatcherPhase::Default,
+            [this](Event &event) {
+                if (static_cast<InputContextUpdateUIEvent &>(event)
+                        .component() == UserInterfaceComponent::StatusArea) {
+                    newIcon();
+                    menu_->updateMenu();
+                }
+            }));
+    } else {
+        cleanUp();
+    }
+
+    for (auto &handler : handlers_.view()) {
+        handler(registered_);
     }
 }
 
 void NotificationItem::registerSNI() {
-    if (!enabled_ || sniWatcherName_.empty()) {
+    if (!enabled_ || sniWatcherName_.empty() || registered_) {
         return;
     }
+
+    setRegistered(false);
     // Ensure we are released.
-    sni_->releaseSlot();
-    menu_->releaseSlot();
+    privateBus_ = std::make_unique<dbus::Bus>(globalBus()->address());
+    privateBus_->attachEventLoop(&instance_->eventLoop());
+    // Add object before request name.
     privateBus_->addObjectVTable(NOTIFICATION_ITEM_DEFAULT_OBJ,
                                  NOTIFICATION_ITEM_DBUS_IFACE, *sni_);
     privateBus_->addObjectVTable("/MenuBar", DBUS_MENU_IFACE, *menu_);
+    serviceName_ = fmt::format("org.fcitx.Fcitx5.StatusNotifierItem-{0}-{1}",
+                               getpid(), ++index_);
+    if (!privateBus_->requestName(serviceName_,
+                                  Flags<dbus::RequestNameFlag>(0))) {
+        SNI_DEBUG() << "Failed to request service name" << serviceName_;
+        setRegistered(false);
+        return;
+    }
     SNI_DEBUG() << "Current DBus Unique Name" << privateBus_->uniqueName();
     auto call = privateBus_->createMethodCall(
         sniWatcherName_.c_str(), NOTIFICATION_WATCHER_DBUS_OBJ,
@@ -264,36 +302,23 @@ void NotificationItem::registerSNI() {
 
     SNI_DEBUG() << "Register SNI with name: " << serviceName_;
     pendingRegisterCall_ = call.callAsync(0, [this](dbus::Message &msg) {
-        FCITX_DEBUG() << "SNI Register result: " << msg.signature();
+        SNI_DEBUG() << "SNI Register result: " << msg.signature();
         if (msg.signature() == "s") {
             std::string mesg;
             msg >> mesg;
-            FCITX_DEBUG() << mesg;
+            SNI_DEBUG() << mesg;
         }
         setRegistered(!msg.isError());
+
         pendingRegisterCall_.reset();
         return true;
     });
 }
 
-void NotificationItem::enable() {
-    if (enabled_) {
+void NotificationItem::maybeScheduleRegister() {
+    if (!enabled_ || sniWatcherName_.empty() || registered_) {
         return;
     }
-    SNI_DEBUG() << "Enable SNI";
-    // Ensure we are released.
-    sni_->releaseSlot();
-    menu_->releaseSlot();
-    privateBus_ = std::make_unique<dbus::Bus>(globalBus()->address());
-    privateBus_->attachEventLoop(&instance_->eventLoop());
-    serviceName_ = fmt::format("org.fcitx.Fcitx5.StatusNotifierItem-{0}-{1}",
-                               getpid(), ++index_);
-    if (!privateBus_->requestName(serviceName_,
-                                  Flags<dbus::RequestNameFlag>(0))) {
-        return;
-    }
-    enabled_ = true;
-
     // Try to avoid Race between close dbus and register.
     scheduleRegister_ = instance_->eventLoop().addTimeEvent(
         CLOCK_MONOTONIC, now(CLOCK_MONOTONIC) + 300000, 0,
@@ -301,26 +326,16 @@ void NotificationItem::enable() {
             registerSNI();
             return true;
         });
+}
 
-    auto updateIcon = [this](Event &) {
-        menu_->updateMenu();
-        newIcon();
-    };
-    for (auto type : {EventType::InputContextFocusIn,
-                      EventType::InputContextSwitchInputMethod,
-                      EventType::InputMethodGroupChanged}) {
-        eventHandlers_.emplace_back(instance_->watchEvent(
-            type, EventWatcherPhase::Default, updateIcon));
+void NotificationItem::enable() {
+    if (enabled_) {
+        return;
     }
-    eventHandlers_.emplace_back(instance_->watchEvent(
-        EventType::InputContextUpdateUI, EventWatcherPhase::Default,
-        [this](Event &event) {
-            if (static_cast<InputContextUpdateUIEvent &>(event).component() ==
-                UserInterfaceComponent::StatusArea) {
-                newIcon();
-                menu_->updateMenu();
-            }
-        }));
+
+    enabled_ = true;
+    SNI_DEBUG() << "Enable SNI";
+    maybeScheduleRegister();
 }
 
 void NotificationItem::disable() {
@@ -329,12 +344,20 @@ void NotificationItem::disable() {
     }
 
     SNI_DEBUG() << "Disable SNI";
-    privateBus_->releaseName(serviceName_);
+    enabled_ = false;
+    setRegistered(false);
+}
+
+void NotificationItem::cleanUp() {
+    pendingRegisterCall_.reset();
+    if (privateBus_ && !serviceName_.empty()) {
+        privateBus_->releaseName(serviceName_);
+    }
+    serviceName_ = std::string();
     sni_->releaseSlot();
     menu_->releaseSlot();
     privateBus_.reset();
 
-    enabled_ = false;
     eventHandlers_.clear();
 }
 
