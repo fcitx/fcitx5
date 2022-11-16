@@ -137,7 +137,8 @@ public:
     InputPanel inputPanel_;
     StatusArea statusArea_;
     bool hasFocus_ = false;
-    bool clientControlVirtualkeyboardVisibility_ = false;
+    bool clientControlVirtualkeyboardShow_ = false;
+    bool clientControlVirtualkeyboardHide_ = false;
     std::string program_;
     CapabilityFlags capabilityFlags_;
     bool isPreeditEnabled_ = true;

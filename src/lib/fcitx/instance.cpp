@@ -984,7 +984,7 @@ Instance::Instance(int argc, char **argv) {
 
             if (virtualKeyboardAutoShow()) {
                 auto *inputContext = icEvent.inputContext();
-                if (!inputContext->clientControlVirtualkeyboardVisibility()) {
+                if (!inputContext->clientControlVirtualkeyboardShow()) {
                     inputContext->showVirtualKeyboard();
                 }
             }
@@ -1024,7 +1024,7 @@ Instance::Instance(int argc, char **argv) {
             deactivateInputMethod(icEvent);
             if (virtualKeyboardAutoHide()) {
                 auto *inputContext = icEvent.inputContext();
-                if (!inputContext->clientControlVirtualkeyboardVisibility()) {
+                if (!inputContext->clientControlVirtualkeyboardHide()) {
                     inputContext->hideVirtualKeyboard();
                 }
             }

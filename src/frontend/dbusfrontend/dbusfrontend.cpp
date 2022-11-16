@@ -122,10 +122,12 @@ public:
                 return method(std::move(message));
             });
 
-        setClientControlVirtualkeyboardVisibility(
-            getArgument(args, "clientControlVirtualkeyboardVisibility",
+        setClientControlVirtualkeyboardShow(
+            getArgument(args, "clientControlVirtualkeyboardShow",
                         "false") == "true");
-
+        setClientControlVirtualkeyboardHide(
+            getArgument(args, "clientControlVirtualkeyboardHide",
+                        "false") == "true");
         created();
 
         setFocusGroup(
