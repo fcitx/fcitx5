@@ -318,6 +318,7 @@ void NotificationItem::registerSNI() {
         pendingRegisterCall_.reset();
         return true;
     });
+    privateBus_->flush();
 }
 
 void NotificationItem::maybeScheduleRegister() {
