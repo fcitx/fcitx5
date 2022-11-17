@@ -279,8 +279,13 @@ void NotificationItem::registerSNI() {
     }
 
     setRegistered(false);
-    // Ensure we are released.
-    privateBus_ = std::make_unique<dbus::Bus>(globalBus()->address());
+    try {
+        // Ensure we are released.
+        privateBus_ = std::make_unique<dbus::Bus>(globalBus()->address());
+    } catch (...) {
+        setRegistered(false);
+        return;
+    }
     privateBus_->attachEventLoop(&instance_->eventLoop());
     // Add object before request name.
     privateBus_->addObjectVTable(NOTIFICATION_ITEM_DEFAULT_OBJ,
