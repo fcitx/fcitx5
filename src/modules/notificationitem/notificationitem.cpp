@@ -291,21 +291,13 @@ void NotificationItem::registerSNI() {
     privateBus_->addObjectVTable(NOTIFICATION_ITEM_DEFAULT_OBJ,
                                  NOTIFICATION_ITEM_DBUS_IFACE, *sni_);
     privateBus_->addObjectVTable("/MenuBar", DBUS_MENU_IFACE, *menu_);
-    serviceName_ = fmt::format("org.fcitx.Fcitx5.StatusNotifierItem-{0}-{1}",
-                               getpid(), ++index_);
-    if (!privateBus_->requestName(serviceName_,
-                                  Flags<dbus::RequestNameFlag>(0))) {
-        SNI_DEBUG() << "Failed to request service name" << serviceName_;
-        setRegistered(false);
-        return;
-    }
     SNI_DEBUG() << "Current DBus Unique Name" << privateBus_->uniqueName();
     auto call = privateBus_->createMethodCall(
         sniWatcherName_.c_str(), NOTIFICATION_WATCHER_DBUS_OBJ,
         NOTIFICATION_WATCHER_DBUS_IFACE, "RegisterStatusNotifierItem");
-    call << serviceName_;
+    call << privateBus_->uniqueName();
 
-    SNI_DEBUG() << "Register SNI with name: " << serviceName_;
+    SNI_DEBUG() << "Register SNI with name: " << privateBus_->uniqueName();
     pendingRegisterCall_ = call.callAsync(0, [this](dbus::Message &msg) {
         SNI_DEBUG() << "SNI Register result: " << msg.signature();
         if (msg.signature() == "s") {
@@ -358,10 +350,6 @@ void NotificationItem::disable() {
 
 void NotificationItem::cleanUp() {
     pendingRegisterCall_.reset();
-    if (privateBus_ && !serviceName_.empty()) {
-        privateBus_->releaseName(serviceName_);
-    }
-    serviceName_ = std::string();
     sni_->releaseSlot();
     menu_->releaseSlot();
     privateBus_.reset();

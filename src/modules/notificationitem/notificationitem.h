@@ -62,8 +62,6 @@ private:
         eventHandlers_;
     std::unique_ptr<dbus::Slot> pendingRegisterCall_;
     std::string sniWatcherName_;
-    int index_ = 0;
-    std::string serviceName_;
     bool enabled_ = false;
     bool registered_ = false;
     std::unique_ptr<EventSourceTime> scheduleRegister_;
