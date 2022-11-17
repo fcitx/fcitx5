@@ -115,7 +115,7 @@ public:
                                  []() { return _("Input Method"); });
     FCITX_OBJECT_VTABLE_PROPERTY(status, "Status", "s",
                                  []() { return "Active"; });
-    FCITX_OBJECT_VTABLE_PROPERTY(windowId, "WindowId", "u", []() { return 0; });
+    FCITX_OBJECT_VTABLE_PROPERTY(windowId, "WindowId", "i", []() { return 0; });
     FCITX_OBJECT_VTABLE_PROPERTY(
         iconName, "IconName", "s", ([this]() {
             std::string label, icon;
