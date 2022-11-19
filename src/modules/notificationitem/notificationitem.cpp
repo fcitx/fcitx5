@@ -87,13 +87,42 @@ public:
         return {};
     }
 
-    bool preferTextIcon(const std::string &label, const std::string &icon) {
+    bool preferTextIcon(const std::string &label,
+                        const std::string &icon) const {
         auto classicui = parent_->classicui();
         return classicui && !label.empty() &&
                ((icon == "input-keyboard" &&
                  classicui->call<IClassicUI::showLayoutNameInIcon>() &&
                  hasTwoKeyboardInCurrentGroup(parent_->instance())) ||
                 classicui->call<IClassicUI::preferTextIcon>());
+    }
+
+    void notifyNewIcon() {
+        auto icon = iconName();
+        auto label = labelText();
+        if (icon != lastIconName_ || label != lastLabel_) {
+            newIcon();
+        }
+        lastIconName_ = icon;
+        lastLabel_ = label;
+    }
+
+    void reset() {
+        releaseSlot();
+        lastIconName_.clear();
+        lastLabel_.clear();
+    }
+
+    std::string labelText() const {
+        std::string label, icon;
+        if (auto *ic = parent_->instance()->mostRecentInputContext()) {
+            label = parent_->instance()->inputMethodLabel(ic);
+            icon = parent_->instance()->inputMethodIcon(ic);
+        }
+        if (!preferTextIcon(label, icon)) {
+            return "";
+        }
+        return label;
     }
 
     FCITX_OBJECT_VTABLE_METHOD(scroll, "Scroll", "is", "");
@@ -130,15 +159,11 @@ public:
             std::vector<dbus::DBusStruct<int, int, std::vector<uint8_t>>>
                 result;
 
-            std::string label, icon;
-            if (auto *ic = parent_->instance()->mostRecentInputContext()) {
-                label = parent_->instance()->inputMethodLabel(ic);
-                icon = parent_->instance()->inputMethodIcon(ic);
-            }
             auto classicui = parent_->classicui();
-            if (preferTextIcon(label, icon)) {
-                if (lastLabel_ == label) {
-                    result = lastLabelIcon_;
+            const auto label = labelText();
+            if (!label.empty()) {
+                if (cachedLabel_ == label) {
+                    result = cachedLabelIcon_;
                 } else {
                     for (unsigned int size : {16, 22, 32, 48}) {
                         // swap to network byte order if we are little endian
@@ -155,8 +180,8 @@ public:
                         }
                         result.emplace_back(size, size, std::move(data));
                     }
-                    lastLabel_ = label;
-                    lastLabelIcon_ = result;
+                    cachedLabel_ = label;
+                    cachedLabelIcon_ = result;
                 }
             }
             return result;
@@ -199,10 +224,12 @@ private:
     NotificationItem *parent_;
     int deltaAcc_ = 0;
     const bool inFlatpak_ = fs::isreg("/.flatpak-info");
-    // Quick cache for the icon.
     std::string lastLabel_;
+    std::string lastIconName_;
+    // Quick cache for the icon.
+    std::string cachedLabel_;
     std::vector<dbus::DBusStruct<int, int, std::vector<uint8_t>>>
-        lastLabelIcon_;
+        cachedLabelIcon_;
 };
 
 NotificationItem::NotificationItem(Instance *instance)
@@ -350,7 +377,7 @@ void NotificationItem::disable() {
 
 void NotificationItem::cleanUp() {
     pendingRegisterCall_.reset();
-    sni_->releaseSlot();
+    sni_->reset();
     menu_->releaseSlot();
     privateBus_.reset();
 
@@ -367,8 +394,9 @@ void NotificationItem::newIcon() {
     if (!sni_->isRegistered()) {
         return;
     }
-    sni_->newIcon();
-    sni_->xayatanaNewLabel(sni_->label(), sni_->label());
+    sni_->notifyNewIcon();
+    // Our label now is pixmap based, so no need to notify XAyatanaNewLabel.
+    // sni_->xayatanaNewLabel(sni_->label(), sni_->label());
 }
 
 class NotificationItemFactory : public AddonFactory {
