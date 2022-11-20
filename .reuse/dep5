@@ -1,0 +1,8 @@
+Format: https://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
+Upstream-Name: fcitx5
+Upstream-Contact: fcitx-dev <fcitx-dev@googlegroups.com>
+Source: https://github.com/fcitx/fcitx5
+
+Files: src/modules/emoji/data/*.dict
+Copyright: Unicode, Inc.
+License: Unicode-DFS-2016
