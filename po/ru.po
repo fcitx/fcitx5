@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2022-11-19 20:25+0000\n"
+"POT-Creation-Date: 2022-11-20 20:25+0000\n"
 "PO-Revision-Date: 2017-11-23 04:14+0000\n"
 "Last-Translator: Dmitry <dmitrydmitry761@gmail.com>, 2022\n"
 "Language-Team: Russian (https://www.transifex.com/fcitx/teams/12005/ru/)\n"
@@ -25,11 +25,11 @@ msgstr ""
 
 #: data/fcitx5-diagnose.sh:883
 msgid "${1} Environment Variables:"
-msgstr "${1} Переменные среды:"
+msgstr "${1} Переменные окружения:"
 
 #: data/fcitx5-diagnose.sh:869
 msgid "${1} Settings Directory:"
-msgstr "${1} Каталог настроек"
+msgstr "${1} Каталог настроек:"
 
 #: data/fcitx5-diagnose.sh:943
 msgid "${1} is not running."
@@ -69,7 +69,7 @@ msgstr "/Зал_позора_за_поддержку_IME_в_Linux"
 
 #: data/fcitx5-diagnose.sh:701
 msgid "/Input_method_related_environment_variables"
-msgstr "/Относящиеся_к_методу_ввода_переменные_среды"
+msgstr "/Относящиеся_к_методу_ввода_переменные_окружения"
 
 #: data/fcitx5-diagnose.sh:717
 msgid "/Note_for_GNOME_Later_than_3.6"
@@ -744,20 +744,20 @@ msgid ""
 "Environment variable ${1} is \"${2}\" instead of \"${3}\". Please check if "
 "you have exported it incorrectly in any of your init files."
 msgstr ""
-"Переменной среды ${1}это \"${2}\" вместо \"${3}\". Убедитесь, что вы "
+"Переменная окружения ${1}это \"${2}\" вместо \"${3}\". Убедитесь, что вы "
 "правильно экспортировали её в соответствующие init-файлы."
 
 #: data/fcitx5-diagnose.sh:857
 msgid "Environment variable ${1} is not set."
-msgstr "Переменная среды ${1} не задана."
+msgstr "Переменная окружения ${1} не задана."
 
 #: data/fcitx5-diagnose.sh:1104
 msgid "Environment variable ${1} is set to \"${2}\" correctly."
-msgstr "Переменной среды ${1} правильно присвоено значение \"${2}\"."
+msgstr "Переменной окружения ${1} правильно присвоено значение \"${2}\"."
 
 #: data/fcitx5-diagnose.sh:861
 msgid "Environment variable ${1} is set to ${2}."
-msgstr "Переменной среды ${1} присвоено значение ${2}."
+msgstr "Переменной окружения ${1} присвоено значение ${2}."
 
 #: data/fcitx5-diagnose.sh:815
 msgid "Environment:"
@@ -1210,7 +1210,7 @@ msgstr "Настройка метода ввода"
 
 #: data/fcitx5-diagnose.sh:700
 msgid "Input Method Related Environment Variables: "
-msgstr "Относящиеся к методу ввода переменные среды: "
+msgstr "Относящиеся к методу ввода переменные окружения: "
 
 #: data/fcitx5-diagnose.sh:1722
 msgid "Input Methods:"
@@ -1311,7 +1311,7 @@ msgstr "Раскладка клавиатуры:"
 #: src/lib/fcitx-utils/key.cpp:96
 msgctxt "Key name"
 msgid "Keyboard Light On/Off"
-msgstr "Подсветка клавиатуры вкл./выкл."
+msgstr "Подсветка клавиатуры вкл./выкл"
 
 #: src/lib/fcitx-utils/key.cpp:136
 msgctxt "Key name"
@@ -1781,16 +1781,16 @@ msgid ""
 "setup ${2} autostart."
 msgstr ""
 "Пожалуйста, проверьте ссылку Настройки вашего дистрибутива в ${1}, чтобы "
-"узнать, как настроить ${2}автозапуск. "
+"узнать, как настроить ${2}автозапуск."
 
 #: data/fcitx5-diagnose.sh:697
 msgid ""
 "Please set environment variable ${env_name} to \"${value}\" using the tool "
 "your distribution provides or add ${1} to your ${2}. See ${link}."
 msgstr ""
-"Пожалуйста, установите переменной среды ${env_name} в \"${value}\"с помощью "
-"инструмента, предоставляемого вашим дистрибутивом, или добавьте ${1}к вашему "
-"${2}. Смотрите ${link}."
+"Пожалуйста, установите переменной окружения ${env_name} в \"${value}\"с "
+"помощью инструмента, предоставляемого вашим дистрибутивом, или добавьте ${1}"
+"к вашему ${2}. Смотрите ${link}."
 
 #: src/lib/fcitx-utils/key.cpp:181
 msgctxt "Key name"
@@ -1854,7 +1854,7 @@ msgstr "Быстрая фраза"
 
 #: src/modules/quickphrase/quickphrase.cpp:408
 msgid "Quick Phrase: "
-msgstr "Быстрая фраза:"
+msgstr "Быстрая фраза: "
 
 #: src/lib/fcitx-utils/key.cpp:184
 msgctxt "Key name"
@@ -2510,19 +2510,20 @@ msgstr "XMODIFIERS не заданы"
 
 #: data/fcitx5-diagnose.sh:1140
 msgid "Xim Server Name from Environment variable is ${1}."
-msgstr "Указанное в переменных среды имя сервера Xim: ${1}."
+msgstr "Указанное в переменной окружения имя сервера Xim: ${1}."
 
 #: data/fcitx5-diagnose.sh:1152
 msgid "Xim server name is the same with that set in the environment variable."
-msgstr "Имя сервера Xim совпадает с тем, которое задано в переменных среды."
+msgstr ""
+"Имя сервера Xim совпадает с тем, которое задано в переменной окружения."
 
 #: data/fcitx5-diagnose.sh:1154
 msgid ""
 "Xim server name: \"${1}\" is different from that set in the environment "
 "variable: \"${2}\"."
 msgstr ""
-"Имя сервера Xim (\"${1}\") отличается от того, которое задано в переменных "
-"среды (\"${2}\")."
+"Имя сервера Xim \"${1}\" отличается от того, которое задано в переменной "
+"окружения \"${2}\"."
 
 #: src/lib/fcitx-utils/key.cpp:186
 msgctxt "Key name"
@@ -2629,15 +2630,15 @@ msgstr "iTouch"
 
 #: data/fcitx5-diagnose.sh:933
 msgid "process:"
-msgstr "Процесс:"
+msgstr "процесс:"
 
 #: data/fcitx5-diagnose.sh:904 data/fcitx5-diagnose.sh:910
 msgid "sudo environment variables"
-msgstr "Переменные среды sudo"
+msgstr "переменные окружения sudo"
 
 #: data/fcitx5-diagnose.sh:929
 msgid "version:"
-msgstr "Версия:"
+msgstr "версия:"
 
 #: src/im/keyboard/keyboard.cpp:265
 msgid "{0} (Not Available)"
