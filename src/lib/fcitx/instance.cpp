@@ -666,7 +666,6 @@ Instance::Instance(int argc, char **argv) {
                 d->lastGroup_ = newGroup;
             }));
 
-    d->icManager_.registerProperty("inputState", &d->inputStateFactory_);
     d->eventWatchers_.emplace_back(d->watchEvent(
         EventType::InputContextCapabilityAboutToChange,
         EventWatcherPhase::ReservedFirst, [this](Event &event) {
@@ -1264,6 +1263,7 @@ void Instance::initialize() {
         d->arg_.enableList.push_back(d->arg_.uiName);
     }
     reloadConfig();
+    d->icManager_.registerProperty("inputState", &d->inputStateFactory_);
     std::unordered_set<std::string> enabled;
     std::unordered_set<std::string> disabled;
     std::tie(enabled, disabled) = d->overrideAddons();
@@ -1799,11 +1799,13 @@ void Instance::reloadConfig() {
     }
 #ifdef ENABLE_KEYBOARD
     d->keymapCache_.clear();
-    d->icManager_.foreach([d](InputContext *ic) {
-        auto *inputState = ic->propertyFor(&d->inputStateFactory_);
-        inputState->resetXkbState();
-        return true;
-    });
+    if (d->inputStateFactory_.registered()) {
+        d->icManager_.foreach([d](InputContext *ic) {
+            auto *inputState = ic->propertyFor(&d->inputStateFactory_);
+            inputState->resetXkbState();
+            return true;
+        });
+    }
 #endif
 }
 
