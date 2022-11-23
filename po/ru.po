@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2022-11-20 20:25+0000\n"
+"POT-Creation-Date: 2022-11-23 20:25+0000\n"
 "PO-Revision-Date: 2017-11-23 04:14+0000\n"
 "Last-Translator: Dmitry <dmitrydmitry761@gmail.com>, 2022\n"
 "Language-Team: Russian (https://www.transifex.com/fcitx/teams/12005/ru/)\n"
@@ -1196,7 +1196,7 @@ msgid "Image"
 msgstr "Изображение"
 
 #: src/im/keyboard/keyboard.cpp:647 src/lib/fcitx/instance.cpp:442
-#: src/lib/fcitx/instance.cpp:660 src/lib/fcitx/instance.cpp:820
+#: src/lib/fcitx/instance.cpp:660 src/lib/fcitx/instance.cpp:819
 #: src/modules/notificationitem/notificationitem.cpp:144
 #: src/modules/notificationitem/notificationitem.cpp:221
 #: src/modules/xcb/xcbconnection.cpp:406 data/org.fcitx.Fcitx5.desktop.in.in:4
@@ -1802,15 +1802,15 @@ msgctxt "Key name"
 msgid "Power Off"
 msgstr "Power Off"
 
-#: src/lib/fcitx/instance.cpp:820
+#: src/lib/fcitx/instance.cpp:819
 msgid "Preedit"
 msgstr "Предварительное редактирование"
 
-#: src/lib/fcitx/instance.cpp:822
+#: src/lib/fcitx/instance.cpp:821
 msgid "Preedit disabled"
 msgstr "Предварительное редактирование отключено"
 
-#: src/lib/fcitx/instance.cpp:821
+#: src/lib/fcitx/instance.cpp:820
 msgid "Preedit enabled"
 msgstr "Предварительное редактирование включено"
 
@@ -2523,7 +2523,7 @@ msgid ""
 "variable: \"${2}\"."
 msgstr ""
 "Имя сервера Xim \"${1}\" отличается от того, которое задано в переменной "
-"окружения \"${2}\"."
+"окружения: \"${2}\"."
 
 #: src/lib/fcitx-utils/key.cpp:186
 msgctxt "Key name"
