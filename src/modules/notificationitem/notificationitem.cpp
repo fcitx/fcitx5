@@ -291,8 +291,6 @@ void NotificationItem::setRegistered(bool registered) {
                     menu_->updateMenu();
                 }
             }));
-    } else {
-        cleanUp();
     }
 
     for (auto &handler : handlers_.view()) {
@@ -326,6 +324,8 @@ void NotificationItem::registerSNI() {
 
     SNI_DEBUG() << "Register SNI with name: " << privateBus_->uniqueName();
     pendingRegisterCall_ = call.callAsync(0, [this](dbus::Message &msg) {
+        // clear the pendingRegisterCall_, but keep it alive.
+        std::unique_ptr<dbus::Slot> call = std::move(pendingRegisterCall_);
         SNI_DEBUG() << "SNI Register result: " << msg.signature();
         if (msg.signature() == "s") {
             std::string mesg;
@@ -333,8 +333,6 @@ void NotificationItem::registerSNI() {
             SNI_DEBUG() << mesg;
         }
         setRegistered(!msg.isError());
-
-        pendingRegisterCall_.reset();
         return true;
     });
     if (privateBus_) {
