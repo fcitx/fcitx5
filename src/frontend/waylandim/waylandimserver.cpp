@@ -212,7 +212,7 @@ void WaylandIMInputContextV1::surroundingTextCallback(const char *text,
     surroundingText().invalidate();
     do {
         auto length = utf8::lengthValidated(str);
-        if (length != utf8::INVALID_LENGTH) {
+        if (length == utf8::INVALID_LENGTH) {
             break;
         }
         if (cursor > str.size() || anchor > str.size()) {
