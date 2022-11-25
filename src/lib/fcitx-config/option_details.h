@@ -50,6 +50,12 @@ public:
     virtual void syncDefaultValueToCurrent() = 0;
 };
 
+class FCITXCONFIG_EXPORT OptionBaseV3 : public OptionBaseV2 {
+public:
+    using OptionBaseV2::OptionBaseV2;
+    ~OptionBaseV3() override;
+};
+
 template <typename T>
 struct RemoveVector {
     typedef T type;

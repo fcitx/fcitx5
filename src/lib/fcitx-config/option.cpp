@@ -38,6 +38,8 @@ void OptionBase::dumpDescription(RawConfig &config) const {
     config.setValueByPath("Description", description_);
 }
 
+OptionBaseV3::~OptionBaseV3() {}
+
 ExternalOption::ExternalOption(Configuration *parent, std::string path,
                                std::string description, std::string uri)
     : OptionBase(parent, std::move(path), std::move(description)),
