@@ -59,6 +59,16 @@ public:
     /// Returns the underlying implementation of Input Context.
     virtual const char *frontend() const = 0;
 
+    /**
+     * Return the frontend name.
+     *
+     * Helper function that simply calls InputContext::frontend, but returns a
+     * string_view.
+     *
+     * @since 5.0.22
+     */
+    std::string_view frontendName() const;
+
     /// Returns the uuid of this input context.
     const ICUUID &uuid() const;
 

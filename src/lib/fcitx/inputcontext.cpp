@@ -75,6 +75,8 @@ void InputContext::created() {
     d->emplaceEvent<InputContextCreatedEvent>(this);
 }
 
+std::string_view InputContext::frontendName() const { return frontend(); }
+
 void InputContext::destroy() {
     FCITX_D();
     assert(!d->destroyed_);
