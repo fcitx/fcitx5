@@ -993,7 +993,7 @@ Instance::Instance(int argc, char **argv) {
         }));
     d->eventWatchers_.emplace_back(d->watchEvent(
         EventType::InputContextFocusOut, EventWatcherPhase::ReservedFirst,
-        [this, d](Event &event) {
+        [d](Event &event) {
             auto &icEvent = static_cast<InputContextEvent &>(event);
             auto *ic = icEvent.inputContext();
             auto *inputState = ic->propertyFor(&d->inputStateFactory_);
@@ -1007,6 +1007,11 @@ Instance::Instance(int argc, char **argv) {
                     ic->commitString(commit);
                 }
             }
+        }));
+    d->eventWatchers_.emplace_back(d->watchEvent(
+        EventType::InputContextFocusOut, EventWatcherPhase::InputMethod,
+        [this, d](Event &event) {
+            auto &icEvent = static_cast<InputContextEvent &>(event);
             deactivateInputMethod(icEvent);
         }));
     d->eventWatchers_.emplace_back(d->watchEvent(
