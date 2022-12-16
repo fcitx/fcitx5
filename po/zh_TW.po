@@ -10,14 +10,15 @@
 # Steve Nian, 2022
 # 菘菘 <rrt467778@gmail.com>, 2022
 # yan12125, 2022
+# Neko ◣ 0xFF, 2022
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2022-11-14 20:25+0000\n"
+"POT-Creation-Date: 2022-12-16 20:25+0000\n"
 "PO-Revision-Date: 2017-11-23 04:14+0000\n"
-"Last-Translator: yan12125, 2022\n"
+"Last-Translator: Neko ◣ 0xFF, 2022\n"
 "Language-Team: Chinese (Taiwan) (https://www.transifex.com/fcitx/teams/12005/"
 "zh_TW/)\n"
 "Language: zh_TW\n"
@@ -271,7 +272,7 @@ msgstr "模糊邊緣"
 
 #: src/ui/classic/theme.h:107
 msgid "Blur mask"
-msgstr ""
+msgstr "遮罩模糊"
 
 #: src/lib/fcitx-utils/key.cpp:118
 msgctxt "Key name"
@@ -514,7 +515,7 @@ msgid "Configuration:"
 msgstr "設定："
 
 #: src/ui/classic/xcbtraywindow.cpp:38
-#: src/modules/notificationitem/dbusmenu.cpp:247
+#: src/modules/notificationitem/dbusmenu.cpp:248
 msgid "Configure"
 msgstr "設定"
 
@@ -774,7 +775,7 @@ msgid "Execute"
 msgstr "執行"
 
 #: src/ui/classic/xcbtraywindow.cpp:40
-#: src/modules/notificationitem/dbusmenu.cpp:261
+#: src/modules/notificationitem/dbusmenu.cpp:262
 msgid "Exit"
 msgstr "離開"
 
@@ -850,6 +851,9 @@ msgid ""
 "you do not use any Qt application with certain version of Qt or you are "
 "using text-input support by Qt under Wayland."
 msgstr ""
+"下列錯誤也許並不准確，因為對 Qt 版本的猜測取決於發行版如何打包 Qt。如果您不使"
+"用任何對應版本的 Qt 程序，或者在 Wayland 下使用 Qt 的 text-input 支持，下列錯"
+"誤也也不是嚴重問題。"
 
 #: src/ui/classic/classicui.h:107
 msgid "Font"
@@ -963,7 +967,7 @@ msgid "Green"
 msgstr "綠色"
 
 #: src/ui/classic/xcbtraywindow.cpp:36
-#: src/modules/notificationitem/dbusmenu.cpp:237
+#: src/modules/notificationitem/dbusmenu.cpp:238
 msgid "Group"
 msgstr "群組"
 
@@ -1179,9 +1183,9 @@ msgid "Image"
 msgstr "圖片"
 
 #: src/im/keyboard/keyboard.cpp:647 src/lib/fcitx/instance.cpp:442
-#: src/lib/fcitx/instance.cpp:660 src/lib/fcitx/instance.cpp:820
-#: src/modules/notificationitem/notificationitem.cpp:115
-#: src/modules/notificationitem/notificationitem.cpp:196
+#: src/lib/fcitx/instance.cpp:660 src/lib/fcitx/instance.cpp:819
+#: src/modules/notificationitem/notificationitem.cpp:144
+#: src/modules/notificationitem/notificationitem.cpp:221
 #: src/modules/xcb/xcbconnection.cpp:406 data/org.fcitx.Fcitx5.desktop.in.in:4
 #: data/org.fcitx.Fcitx5.metainfo.xml.in:7
 msgid "Input Method"
@@ -1229,6 +1233,8 @@ msgid ""
 "It is OK to use ${1} built-in Wayland im module if your compositor fully "
 "supports text-input protocol used by ${1}."
 msgstr ""
+"如果您的混成器完全支持 ${1}使用的 text-input 協議，您也可以使用 ${1} 內置的 "
+"Wayland 模塊。"
 
 #: src/ui/kimpanel/kimpanel.conf.in.in:3
 msgid "KDE Input Method Panel"
@@ -1236,7 +1242,7 @@ msgstr "KDE 輸入法面板"
 
 #: src/ui/classic/classicui.cpp:145
 msgid "KDE Plasma (Experimental)"
-msgstr ""
+msgstr "KDE Plasma (實驗性)"
 
 #: src/lib/fcitx-utils/key.cpp:211
 msgctxt "Key name"
@@ -1633,6 +1639,8 @@ msgid ""
 "factor. This option allows you to override the font DPI. If the value is 0, "
 "it means this option is disabled."
 msgstr ""
+"通常 Wayland 使用 96 作為字體 DPI，同時和螢幕的縮放倍數組合調整文字大小。這個"
+"選項允許你覆蓋字體的 DPI。如果設置為 0，這個選項將被禁用。"
 
 #: src/ui/kimpanel/kimpanel.cpp:367
 msgid "Not available"
@@ -1754,13 +1762,15 @@ msgstr "如何安裝 fcitx5 請查閱 ${1}。"
 msgid ""
 "Please check the Configure link of your distribution in ${1} for how to "
 "setup ${2} autostart."
-msgstr ""
+msgstr "請在 ${1} 檢查您的發行版的設定連結是如何設定 ${2}自動啟動。"
 
 #: data/fcitx5-diagnose.sh:697
 msgid ""
 "Please set environment variable ${env_name} to \"${value}\" using the tool "
 "your distribution provides or add ${1} to your ${2}. See ${link}."
 msgstr ""
+"請設定環境變數 ${env_name} 到「${value}」，使用您的發行版提供的工具或加入 "
+"${1} 到您的 ${2}。請參閱 ${link}。"
 
 #: src/lib/fcitx-utils/key.cpp:181
 msgctxt "Key name"
@@ -1772,15 +1782,15 @@ msgctxt "Key name"
 msgid "Power Off"
 msgstr "關機"
 
-#: src/lib/fcitx/instance.cpp:820
+#: src/lib/fcitx/instance.cpp:819
 msgid "Preedit"
 msgstr "預編輯"
 
-#: src/lib/fcitx/instance.cpp:822
+#: src/lib/fcitx/instance.cpp:821
 msgid "Preedit disabled"
 msgstr "預編輯已停用"
 
-#: src/lib/fcitx/instance.cpp:821
+#: src/lib/fcitx/instance.cpp:820
 msgid "Preedit enabled"
 msgstr "預編輯已啟用"
 
@@ -1852,7 +1862,7 @@ msgid "Reply"
 msgstr "回覆"
 
 #: src/ui/classic/xcbtraywindow.cpp:39
-#: src/modules/notificationitem/dbusmenu.cpp:255
+#: src/modules/notificationitem/dbusmenu.cpp:256
 msgid "Restart"
 msgstr "重新啟動"
 
@@ -1963,7 +1973,7 @@ msgstr "分隔符背景"
 
 #: src/ui/classic/theme.h:129
 msgid "Shadow Margin"
-msgstr ""
+msgstr "陰影邊緣"
 
 #: src/lib/fcitx/globalconfig.cpp:140
 msgid "Share Input State"
@@ -2015,7 +2025,7 @@ msgstr "在應用程式中顯示預編輯"
 msgid ""
 "Show preedit when composing, and commit dead key if there is no matching "
 "sequence."
-msgstr ""
+msgstr "使用組合鍵時顯示預編輯，並且在沒有匹配序列時提交死鍵對應符號"
 
 #: src/lib/fcitx/globalconfig.cpp:63
 msgid "Skip first input method while enumerating"
@@ -2187,6 +2197,8 @@ msgid ""
 "${link1}. For other more general problems of using XIM including application "
 "freezing, see ${link2}."
 msgstr ""
+"若要查看您在使用 xim 時，一些應用程式的特定問題，請檢查 ${link1}。使用 XIM 的"
+"其他一般性的問題包括應用程式凍結，請參閱 ${link2}。"
 
 #: src/lib/fcitx/globalconfig.cpp:131
 msgid "Toggle embedded preedit"
@@ -2279,7 +2291,7 @@ msgstr "使用長按來輸入特殊字元"
 
 #: src/modules/unicode/unicode.h:36
 msgid "Type unicode in Hex number"
-msgstr ""
+msgstr "使用十六進制數值來輸入 Unicode 字符"
 
 #: data/org.fcitx.Fcitx5.metainfo.xml.in:20
 msgid "Typing with Fcitx and Kimpanel"
@@ -2329,7 +2341,7 @@ msgstr "使用滑鼠滾輪到上一頁或下一頁"
 
 #: src/im/keyboard/keyboard.h:73
 msgid "Use new compose behavior"
-msgstr ""
+msgstr "使用新的撰寫行為"
 
 #: data/fcitx5-diagnose.sh:1695
 msgid "User Interface:"
@@ -2414,6 +2426,8 @@ msgid ""
 "the xkb option send to display, but just the xkb options for custom xkb "
 "layout."
 msgstr ""
+"是否覆蓋來自顯示伺服器的 Xkb 選項。它不會影響發送給顯示服務的 Xkb 選項，僅會"
+"影響自定義的 Xkb 佈局"
 
 #: data/fcitx5-diagnose.sh:909
 msgid "Why is it bad to run as root"
@@ -2474,7 +2488,7 @@ msgstr "Xim 伺服器名稱與環境變數中設定的名稱相同。"
 msgid ""
 "Xim server name: \"${1}\" is different from that set in the environment "
 "variable: \"${2}\"."
-msgstr ""
+msgstr "xim 伺服器名稱：\"${1}\" 與環境變量中設置的不同：\"${2}\"。"
 
 #: src/lib/fcitx-utils/key.cpp:186
 msgctxt "Key name"
@@ -2487,12 +2501,15 @@ msgid ""
 "either means you have security problems or the result of this script may not "
 "be accurate. See ${3} or ${4} for more information."
 msgstr ""
+"您可能正登入為 ${1} 或以 ${2} 執行這個腳本。這可能表示有安全問題或是此腳本的"
+"結果不準確。詳情請參照 ${3} 或 ${4}。"
 
 #: data/fcitx5-diagnose.sh:902
 msgid ""
 "You are probably using ${1} to run this script. This means the result of "
 "this script may not be accurate. See ${2} for more information."
 msgstr ""
+"您可能正以 ${1} 執行這個腳本。這表示此腳本的結果可能不準確。詳情請參照 ${2}。"
 
 #: data/fcitx5-diagnose.sh:1196
 msgid "You are using xim in ${1} programs."
@@ -2525,12 +2542,16 @@ msgid ""
 "able to use input method in emacs because of an really old emacs bug that "
 "upstream refuse to fix for years."
 msgstr ""
+"您的 LC_CTYPE 設定為 ${1} 而不是 zh, ja, ko 其中之一。您可能無法在 Emacs 中使"
+"用輸入法，原因是上游多年來拒絕修復的一個古老 bug。"
 
 #: data/fcitx5-diagnose.sh:1173
 msgid ""
 "Your LC_CTYPE is set to ${1} whose encoding is not UTF-8. You may have "
 "trouble committing strings using XIM."
 msgstr ""
+"您的 LC_CTYPE 設定為 ${1}，它的編碼不是 UTF-8。您可能會在使用 XIM 提交字串時"
+"遇到問題。"
 
 #: src/lib/fcitx-utils/key.cpp:206
 msgctxt "Key name"
