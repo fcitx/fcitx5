@@ -520,7 +520,7 @@ void KeyboardEngine::resetState(InputContext *inputContext) {
     state->reset();
 }
 
-void KeyboardEngine::reset(const InputMethodEntry &, InputContextEvent &event) {
+void KeyboardEngine::deactivate(const InputMethodEntry &, InputContextEvent &event) {
     auto *inputContext = event.inputContext();
     auto *state = inputContext->propertyFor(&factory_);
     // The reason that we do not commit here is we want to force the behavior.
@@ -530,6 +530,15 @@ void KeyboardEngine::reset(const InputMethodEntry &, InputContextEvent &event) {
     } else {
         state->reset();
     }
+    inputContext->inputPanel().reset();
+    inputContext->updatePreedit();
+    inputContext->updateUserInterface(UserInterfaceComponent::InputPanel);
+}
+
+void KeyboardEngine::reset(const InputMethodEntry &, InputContextEvent &event) {
+    auto *inputContext = event.inputContext();
+    auto *state = inputContext->propertyFor(&factory_);
+    state->reset();
     inputContext->inputPanel().reset();
     inputContext->updatePreedit();
     inputContext->updateUserInterface(UserInterfaceComponent::InputPanel);
