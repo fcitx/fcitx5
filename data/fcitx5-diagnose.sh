@@ -1274,7 +1274,7 @@ check_qt() {
     if [ -z "${qt6_module_found}" ]; then
         __need_blank_line=0
         write_error_eval \
-            "$(_ 'Cannot find ${1} input method module for ${2}.')" fcitx6 Qt6
+            "$(_ 'Cannot find ${1} input method module for ${2}.')" fcitx5 Qt6
     fi
 }
 
