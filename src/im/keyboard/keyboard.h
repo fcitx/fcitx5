@@ -161,7 +161,7 @@ public:
     void reset(const InputMethodEntry &entry,
                InputContextEvent &event) override;
     void deactivate(const InputMethodEntry &entry,
-               InputContextEvent &event) override;
+                    InputContextEvent &event) override;
 
     void invokeActionImpl(const fcitx::InputMethodEntry &entry,
                           fcitx::InvokeActionEvent &event) override;

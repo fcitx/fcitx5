@@ -520,7 +520,8 @@ void KeyboardEngine::resetState(InputContext *inputContext) {
     state->reset();
 }
 
-void KeyboardEngine::deactivate(const InputMethodEntry &, InputContextEvent &event) {
+void KeyboardEngine::deactivate(const InputMethodEntry &,
+                                InputContextEvent &event) {
     auto *inputContext = event.inputContext();
     auto *state = inputContext->propertyFor(&factory_);
     // The reason that we do not commit here is we want to force the behavior.
