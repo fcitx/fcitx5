@@ -327,6 +327,12 @@ bool Key::isReleaseOfModifier(const Key &key) const {
 bool Key::check(const Key &key) const {
     auto states = states_ & KeyStates({KeyState::Ctrl_Alt_Shift,
                                        KeyState::Super, KeyState::Mod3});
+    if (states_.test(KeyState::Super2)) {
+        states |= KeyState::Super;
+    }
+    if (states_.test(KeyState::Hyper2)) {
+        states |= KeyState::Hyper;
+    }
 
     // key is keycode based, do key code based check.
     if (key.code()) {
@@ -427,7 +433,8 @@ Key Key::normalize() const {
     Key key(*this);
     /* key state != 0 */
     key.states_ = key.states_ & KeyStates({KeyState::Ctrl_Alt_Shift,
-                                           KeyState::Super, KeyState::Mod3});
+                                           KeyState::Super, KeyState::Mod3,
+                                           KeyState::Super2, KeyState::Hyper2});
     if (key.states_) {
         if (key.states_ != KeyState::Shift && Key(key.sym_).isLAZ()) {
             key.sym_ = static_cast<KeySym>(key.sym_ + FcitxKey_A - FcitxKey_a);
@@ -494,22 +501,26 @@ std::string Key::toString(KeyStringFormat format) const {
     }
 
 #define _APPEND_MODIFIER_STRING(STR, VALUE)                                    \
-    if (states & KeyState::VALUE) {                                            \
+    if (states & VALUE) {                                                      \
         str += STR;                                                            \
         str += "+";                                                            \
     }
     if (format == KeyStringFormat::Portable) {
-        _APPEND_MODIFIER_STRING("Control", Ctrl)
-        _APPEND_MODIFIER_STRING("Alt", Alt)
-        _APPEND_MODIFIER_STRING("Shift", Shift)
-        _APPEND_MODIFIER_STRING("Super", Super)
-        _APPEND_MODIFIER_STRING("Hyper", Mod3)
+        _APPEND_MODIFIER_STRING("Control", KeyState::Ctrl)
+        _APPEND_MODIFIER_STRING("Alt", KeyState::Alt)
+        _APPEND_MODIFIER_STRING("Shift", KeyState::Shift)
+        _APPEND_MODIFIER_STRING("Super",
+                                (KeyStates{KeyState::Super, KeyState::Super2}))
+        _APPEND_MODIFIER_STRING("Hyper",
+                                (KeyStates{KeyState::Hyper, KeyState::Hyper2}))
     } else {
-        _APPEND_MODIFIER_STRING(C_("Key name", "Control"), Ctrl)
-        _APPEND_MODIFIER_STRING(C_("Key name", "Alt"), Alt)
-        _APPEND_MODIFIER_STRING(C_("Key name", "Shift"), Shift)
-        _APPEND_MODIFIER_STRING(C_("Key name", "Super"), Super)
-        _APPEND_MODIFIER_STRING(C_("Key name", "Hyper"), Mod3)
+        _APPEND_MODIFIER_STRING(C_("Key name", "Control"), KeyState::Ctrl)
+        _APPEND_MODIFIER_STRING(C_("Key name", "Alt"), KeyState::Alt)
+        _APPEND_MODIFIER_STRING(C_("Key name", "Shift"), KeyState::Shift)
+        _APPEND_MODIFIER_STRING(C_("Key name", "Super"),
+                                (KeyStates{KeyState::Super, KeyState::Super2}))
+        _APPEND_MODIFIER_STRING(C_("Key name", "Hyper"),
+                                (KeyStates{KeyState::Hyper, KeyState::Hyper2}))
     }
 
 #undef _APPEND_MODIFIER_STRING

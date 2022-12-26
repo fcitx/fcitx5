@@ -75,6 +75,11 @@ int main() {
                      .isReleaseOfModifier(fcitx::Key("Alt+Shift_L")));
     FCITX_ASSERT(!fcitx::Key("Shift+Shift_L")
                       .isReleaseOfModifier(fcitx::Key("Alt+Shift_L")));
+    FCITX_ASSERT(fcitx::Key(FcitxKey_space, fcitx::KeyState::Super2)
+                     .normalize()
+                     .states() == fcitx::KeyState::Super2);
+    FCITX_ASSERT(fcitx::Key(FcitxKey_space, fcitx::KeyState::Super2)
+                     .check(fcitx::Key("Super+space")));
 
     // Test complex parse
     auto keyList = fcitx::Key::keyListFromString(
