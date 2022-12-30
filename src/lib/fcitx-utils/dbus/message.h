@@ -497,9 +497,14 @@ public:
             signature;
         if (*this >>
             Container(Container::Type::Array, Signature(signature::data()))) {
-            T temp;
-            while (!end() && *this >> temp) {
-                t.push_back(temp);
+            t.clear();
+            while (!end()) {
+                T temp;
+                if (*this >> temp) {
+                    t.push_back(temp);
+                } else {
+                    break;
+                }
             }
             *this >> ContainerEnd();
         }
