@@ -210,6 +210,7 @@ int main() {
     }
     EventLoop loop;
     bus.attachEventLoop(&loop);
+    FCITX_ASSERT(&loop == bus.eventLoop());
     if (!bus.requestName(TEST_SERVICE, {RequestNameFlag::AllowReplacement,
                                         RequestNameFlag::ReplaceExisting})) {
         return 1;
@@ -228,6 +229,33 @@ int main() {
             loop.exit();
             return false;
         }));
+
+    {
+        MatchRule rule(TEST_SERVICE, "", TEST_INTERFACE, "testSignal");
+        FCITX_ASSERT(
+            rule.rule() ==
+            "type='signal',sender='org.fcitx.Fcitx.TestDBus',interface='org."
+            "fcitx.Fcitx.TestDBus.Interface',member='testSignal'")
+            << rule.rule();
+    }
+    {
+        MatchRule rule(MessageType::MethodCall, TEST_SERVICE, "",
+                       TEST_INTERFACE, "testSignal", "", {"abc"}, true);
+        FCITX_ASSERT(rule.rule() ==
+                     "type='method_call',sender='org.fcitx.Fcitx.TestDBus',"
+                     "path='org.fcitx.Fcitx.TestDBus.Interface',interface='"
+                     "testSignal',arg0='abc',eavesdrop='true'")
+            << rule.rule();
+    }
+    {
+        MatchRule rule(MessageType::Reply, TEST_SERVICE, "", TEST_INTERFACE,
+                       "testSignal", "Test", {"abc"}, true);
+        FCITX_ASSERT(rule.rule() ==
+                     "type='method_return',sender='org.fcitx.Fcitx.TestDBus',"
+                     "path='org.fcitx.Fcitx.TestDBus.Interface',interface='"
+                     "testSignal',member='Test',arg0='abc',eavesdrop='true'")
+            << rule.rule();
+    }
 
     std::thread thread(client);
 
