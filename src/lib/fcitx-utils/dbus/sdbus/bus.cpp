@@ -22,7 +22,7 @@ public:
     ~BusPrivate() { sd_bus_flush_close_unref(bus_); }
 
     sd_bus *bus_;
-    bool attached_ = false;
+    EventLoop *eventLoop_ = nullptr;
 };
 
 Bus::Bus(BusType type) : d_ptr(std::make_unique<BusPrivate>()) {
@@ -71,7 +71,7 @@ fail:
 
 Bus::~Bus() {
     FCITX_D();
-    if (d->attached_) {
+    if (d->eventLoop_) {
         detachEventLoop();
     }
 }
@@ -114,16 +114,26 @@ Message Bus::createSignal(const char *path, const char *interface,
 
 void Bus::attachEventLoop(EventLoop *loop) {
     FCITX_D();
+    if (d->eventLoop_) {
+        return;
+    }
     sd_event *event = static_cast<sd_event *>(loop->nativeHandle());
     if (sd_bus_attach_event(d->bus_, event, 0) >= 0) {
-        d->attached_ = true;
+        d->eventLoop_ = loop;
     }
 }
 
 void Bus::detachEventLoop() {
     FCITX_D();
-    sd_bus_detach_event(d->bus_);
-    d->attached_ = false;
+    if (d->eventLoop_) {
+        sd_bus_detach_event(d->bus_);
+        d->eventLoop_ = nullptr;
+    }
+}
+
+EventLoop *Bus::eventLoop() const {
+    FCITX_D();
+    return d->eventLoop_;
 }
 
 int SDMessageCallback(sd_bus_message *m, void *userdata, sd_bus_error *) {
