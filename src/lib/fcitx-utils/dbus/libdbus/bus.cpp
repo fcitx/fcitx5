@@ -557,6 +557,7 @@ std::unique_ptr<Slot> Bus::addMatch(const MatchRule &rule,
 
 std::unique_ptr<Slot> Bus::addFilter(MessageCallback callback) {
     FCITX_D();
+
     auto slot = std::make_unique<DBusFilterSlot>();
     slot->handler_ = d->filterHandlers_.add(std::move(callback));
 

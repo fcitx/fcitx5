@@ -78,7 +78,8 @@ std::string Message::destination() const {
     if (!d->msg()) {
         return {};
     }
-    return dbus_message_get_destination(d->msg());
+    auto result = dbus_message_get_destination(d->msg());
+    return result ? result : "";
 }
 
 std::string Message::sender() const {
