@@ -316,7 +316,7 @@ private:
     FCITX_LOGC_IF(::fcitx::Log::defaultCategory, LEVEL, CONDITION)
 
 #define FCITX_ASSERT(...)                                                      \
-    FCITX_LOG_IF(Fatal, !(__VA_ARGS__)) << #__VA_ARGS__ << " failed."
+    FCITX_LOG_IF(Fatal, !(__VA_ARGS__)) << #__VA_ARGS__ << " failed. "
 
 #define FCITX_DEFINE_LOG_CATEGORY(name, ...)                                   \
     const ::fcitx::LogCategory &name() {                                       \
