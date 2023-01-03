@@ -123,7 +123,7 @@ __get_pretty_name() {
     fi
 }
 
-fcitx_exe="$(which fcitx5 2> /dev/null)"
+fcitx_exe="$(command -v fcitx5 2> /dev/null)"
 
 __conf_dir_init() {
     # Don't do any fancy check here, it's the user's fault, which we should detect
@@ -214,9 +214,9 @@ if type dbus-send &> /dev/null; then
             /controller org.fcitx.Fcitx.Controller1.DebugInfo 2> /dev/null) || return 1
         echo -n "${debuginfo}"
     }
-elif qdbus_exe=$(which qdbus 2> /dev/null) || \
-        qdbus_exe=$(which qdbus-qt4 2> /dev/null) || \
-        qdbus_exe=$(which qdbus-qt5 2> /dev/null); then
+elif qdbus_exe=$(command -v qdbus 2> /dev/null) || \
+        qdbus_exe=$(command -v qdbus-qt4 2> /dev/null) || \
+        qdbus_exe=$(command -v qdbus-qt5 2> /dev/null); then
     dbus_exe=${qdbus_exe}
     dbus_get_name_owner() {
         "${qdbus_exe}" org.freedesktop.DBus /org/freedesktop/DBus \
@@ -352,15 +352,15 @@ detectDE() {
     if [ x"$DE" = x"gnome" ]; then
         # gnome-default-applications-properties is only available in GNOME 2.x
         # but not in GNOME 3.x
-        which gnome-default-applications-properties > /dev/null 2>&1 || \
+        command -v gnome-default-applications-properties > /dev/null 2>&1 || \
             DE="gnome3"
-        which gnome-shell &> /dev/null && DE="gnome3"
+        command -v gnome-shell &> /dev/null && DE="gnome3"
     fi
 }
 
 maybe_gnome3() {
     [[ $DE = gnome3 ]] && return 0
-    [[ $DE = generic ]] && which gnome-shell &> /dev/null && return 0
+    [[ $DE = generic ]] && command -v gnome-shell &> /dev/null && return 0
     return 1
 }
 
@@ -369,7 +369,7 @@ detectDE
 # user and uid
 
 detect_user() {
-    if which id &> /dev/null; then
+    if command -v id &> /dev/null; then
         cur_user=$(id -un)
         cur_uid=$(id -u)
     else
@@ -380,7 +380,7 @@ detect_user() {
         else
             cur_uid=""
         fi
-        if which whoami &> /dev/null; then
+        if command -v whoami &> /dev/null; then
             cur_user=$(whoami)
         elif [[ -d /proc/$$/ ]]; then
             cur_user=$(stat -c %U /proc/$$/)
@@ -402,7 +402,7 @@ _check_open_root() {
     for f in /proc/1/environ /proc/1/mem /proc/kcore /proc/kmem; do
         try_open "$f" && return 0
     done
-    if which readlink &> /dev/null; then
+    if command -v readlink &> /dev/null; then
         for f in /proc/1/exe /proc/1/cwd /proc/1/root; do
             readlink "$f" &> /dev/null && return 0
         done
@@ -1001,7 +1001,7 @@ _find_config_gtk() {
         return 0
     }
     local config_gtk
-    config_gtk="$(which "fcitx5-config-gtk" 2> /dev/null)" || return 1
+    config_gtk="$(command -v "fcitx5-config-gtk" 2> /dev/null)" || return 1
     echo "${config_gtk}"
     _config_tool_gtk_exe="${config_gtk}"
 }
@@ -1028,7 +1028,7 @@ _check_config_gtk() {
     local version=$1
     local config_gtk config_gtk_name
     write_order_list_eval "$(_ 'Config GUI for gtk${1}:')" "${version}"
-    if ! config_gtk="$(which "fcitx5-config-gtk${version}" 2> /dev/null)"; then
+    if ! config_gtk="$(command -v "fcitx5-config-gtk${version}" 2> /dev/null)"; then
         if ! _check_config_gtk_version "${version}"; then
             write_error_eval \
                 "$(_ 'Config GUI for gtk${1} not found.')" "${version}"
@@ -1049,7 +1049,7 @@ _check_config_qt() {
     local config_qt config_qt_name
     config_qt_name="fcitx5-config-qt"
     write_order_list_eval "$(_ 'Config GUI for qt:')" "${version}"
-    if ! config_qt="$(which "${config_qt_name}" 2> /dev/null)"; then
+    if ! config_qt="$(command -v "${config_qt_name}" 2> /dev/null)"; then
         write_error "$(_ 'Config GUI for qt not found.')"
         return 1
     fi
@@ -1062,7 +1062,7 @@ _check_config_kcm() {
     local version=$1
     local kcm_shell config_kcm
     write_order_list "$(_ 'Config GUI for kde:')"
-    if ! kcm_shell="$(which "kcmshell${version}" 2> /dev/null)"; then
+    if ! kcm_shell="$(command -v "kcmshell${version}" 2> /dev/null)"; then
         write_error "$(print_not_found "kcmshell${version}")"
         return 1
     fi
@@ -1078,7 +1078,7 @@ check_config_ui() {
     local IFS=$'\n'
     write_title 1 "$(_ 'Fcitx Configure UI:')"
     write_order_list "$(_ 'Config Tool Wrapper:')"
-    if ! fcitx_configtool="$(which fcitx5-configtool 2> /dev/null)"; then
+    if ! fcitx_configtool="$(command -v fcitx5-configtool 2> /dev/null)"; then
         write_error_eval "$(_ 'Cannot find ${1} executable!')" fcitx5-configtool
     else
         write_eval "$(_ 'Found ${1} at ${2}.')" \
