@@ -206,7 +206,6 @@ private:
     LongPressConfig longPressConfig_;
     std::unordered_map<std::string, std::vector<std::string>> longPressData_;
     XkbRules xkbRules_;
-    std::string ruleName_;
     KeyStates selectionModifier_;
     KeyList selectionKeys_;
     std::unique_ptr<EventSource> deferEvent_;

@@ -11,6 +11,7 @@
 #include <cstring>
 #include <fmt/format.h>
 #include <libintl.h>
+#include <xkbcommon/xkbcommon.h>
 #include "fcitx-config/iniparser.h"
 #include "fcitx-utils/charutils.h"
 #include "fcitx-utils/cutf8.h"
@@ -166,25 +167,41 @@ KeyboardEngineState::KeyboardEngineState(KeyboardEngine *engine,
 KeyboardEngine::KeyboardEngine(Instance *instance) : instance_(instance) {
     setupDefaultLongPressConfig(longPressConfig_);
     registerDomain("xkeyboard-config", XKEYBOARDCONFIG_DATADIR "/locale");
-    std::string rule;
+    std::string ruleName = DEFAULT_XKB_RULES;
+    std::string extraRuleFile;
 #ifdef ENABLE_X11
     auto *xcb = instance_->addonManager().addon("xcb");
     if (xcb) {
         auto rules = xcb->call<IXCBModule::xkbRulesNames>("");
         if (!rules[0].empty()) {
-            rule = rules[0];
-            if (rule[0] != '/') {
-                rule = XKEYBOARDCONFIG_XKBBASE "/rules/" + rule;
+            if (rules[0][0] == '/') {
+                extraRuleFile = rules[0];
+                if (!stringutils::endsWith(extraRuleFile, ".xml")) {
+                    extraRuleFile = extraRuleFile + ".xml";
+                }
+            } else {
+                ruleName = rules[0];
             }
-            rule += ".xml";
-            ruleName_ = rule;
         }
     }
 #endif
-    if (rule.empty() || !xkbRules_.read(rule)) {
-        rule = XKEYBOARDCONFIG_XKBBASE "/rules/" DEFAULT_XKB_RULES ".xml";
-        xkbRules_.read(rule);
-        ruleName_ = DEFAULT_XKB_RULES;
+
+    UniqueCPtr<xkb_context, xkb_context_unref> xkbContext(
+        xkb_context_new(XKB_CONTEXT_NO_FLAGS));
+    std::vector<std::string> directories;
+    if (xkbContext) {
+        for (unsigned int i = 0,
+                          e = xkb_context_num_include_paths(xkbContext.get());
+             i < e; i++) {
+            directories.push_back(
+                xkb_context_include_path_get(xkbContext.get(), i));
+        }
+    }
+    if (directories.empty()) {
+        directories.push_back(XKEYBOARDCONFIG_XKBBASE);
+    }
+    if (!xkbRules_.read(directories, ruleName, extraRuleFile)) {
+        xkbRules_.read(directories, DEFAULT_XKB_RULES, "");
     }
 
     instance_->inputContextManager().registerProperty("keyboardState",

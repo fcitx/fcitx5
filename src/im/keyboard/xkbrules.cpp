@@ -148,27 +148,38 @@ struct XkbRulesParseState : public XMLParser {
     }
 };
 
-bool XkbRules::read(const std::string &fileName) {
+bool XkbRules::read(const std::vector<std::string> &directories,
+                    const std::string &name, const std::string &extraFile) {
     clear();
 
-    {
-        XkbRulesParseState state;
-        state.rules_ = this;
-        if (!state.parse(fileName)) {
-            return false;
-        }
-        state.merge(this);
-    }
-
-    if (stringutils::endsWith(fileName, ".xml")) {
-        auto extraFile = fileName.substr(0, fileName.size() - 3);
-        extraFile += "extras.xml";
+    for (const auto &directory : directories) {
+        std::string fileName = stringutils::joinPath(
+            directory, "rules", stringutils::concat(name, ".xml"));
         {
             XkbRulesParseState state;
             state.rules_ = this;
-            if (state.parse(extraFile)) {
+            if (!state.parse(fileName)) {
+                return false;
+            }
+            state.merge(this);
+        }
+
+        std::string extraFileName = stringutils::joinPath(
+            directory, "rules", stringutils::concat(name, ".extras.xml"));
+        {
+            XkbRulesParseState state;
+            state.rules_ = this;
+            if (state.parse(extraFileName)) {
                 state.merge(this);
             }
+        }
+    }
+
+    if (!extraFile.empty()) {
+        XkbRulesParseState state;
+        state.rules_ = this;
+        if (state.parse(extraFile)) {
+            state.merge(this);
         }
     }
     return true;
