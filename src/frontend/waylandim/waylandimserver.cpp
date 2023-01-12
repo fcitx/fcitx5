@@ -428,13 +428,44 @@ void WaylandIMInputContextV1::keyCallback(uint32_t serial, uint32_t time,
                        server_->modifiers_, code),
                    state == WL_KEYBOARD_KEY_STATE_RELEASED, time);
 
-    if (state == WL_KEYBOARD_KEY_STATE_RELEASED && key == repeatKey_) {
+    processKeyEvent(event, false, serial);
+}
+
+void WaylandIMInputContextV1::virtualKeyEventImpl(KeyEvent &event) {
+    // `mods_locked` value seems to be 16 usually.
+    // If we need to implement behavior such as `capslocked` for virtual key events, 
+    // we will need to manage this `mods_locked` value.
+    if (event.rawKey().hasModifier()) {
+        if (event.rawKey().states().test(KeyState::Shift)) {
+            modifiersCallback(serial_, (uint32_t)KeyState::Shift, 0, 16, 0);
+        }
+    } else {
+        modifiersCallback(serial_, 0, 0, 16, 0);
+    }
+
+    processKeyEvent(event, true, serial_);
+}
+
+void WaylandIMInputContextV1::processKeyEvent(KeyEvent &event,
+                                              bool isVirtualKey,
+                                              uint32_t serial) {
+    const uint32_t key = event.rawKey().code() > 8 ? event.rawKey().code() - 8
+                                                   : 0;
+    const auto state = event.isRelease() ? WL_KEYBOARD_KEY_STATE_RELEASED
+                                         : WL_KEYBOARD_KEY_STATE_PRESSED;
+
+    const auto cancelRepeat = isVirtualKey
+        ? (state == WL_KEYBOARD_KEY_STATE_RELEASED)
+        // Strict condition for physical keys.
+        : (state == WL_KEYBOARD_KEY_STATE_RELEASED && key == repeatKey_);
+
+    if (cancelRepeat) {
         timeEvent_->setEnabled(false);
     } else if (state == WL_KEYBOARD_KEY_STATE_PRESSED &&
-               xkb_keymap_key_repeats(server_->keymap_.get(), code)) {
+               xkb_keymap_key_repeats(server_->keymap_.get(), event.rawKey().code())) {
         if (repeatRate_) {
             repeatKey_ = key;
-            repeatTime_ = time;
+            repeatTime_ = event.time();
             repeatSym_ = event.rawKey().sym();
             // Let's trick the key event system by fake our first.
             // Remove 100 from the initial interval.
@@ -446,10 +477,11 @@ void WaylandIMInputContextV1::keyCallback(uint32_t serial, uint32_t time,
     WAYLANDIM_DEBUG() << event.key().toString()
                       << " IsRelease=" << event.isRelease();
     if (!keyEvent(event)) {
-        ic_->key(serial, time, key, state);
+        ic_->key(serial, event.time(), key, state);
     }
     server_->display_->flush();
 }
+
 void WaylandIMInputContextV1::modifiersCallback(uint32_t serial,
                                                 uint32_t mods_depressed,
                                                 uint32_t mods_latched,
