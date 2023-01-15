@@ -341,7 +341,7 @@ bool InputContext::hasPendingEventsStrictOrder() const {
                         return event->type() !=
                                EventType::InputContextUpdatePreedit;
                     })) {
-        return false;
+        return true;
     }
 
     // Check whether the preedit is non-empty.
