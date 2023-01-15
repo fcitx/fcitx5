@@ -216,10 +216,49 @@ void test_preedit_override() {
     FCITX_ASSERT(ic->capabilityFlags().test(CapabilityFlag::Preedit));
 }
 
+void test_event_blocking() {
+    InputContextManager manager;
+    auto ic = std::make_unique<TestInputContext>(manager, "Firefox");
+    ic->setCapabilityFlags(CapabilityFlag::Preedit);
+    ic->commitString("ABC");
+
+    FCITX_ASSERT(!ic->hasPendingEvents());
+    FCITX_ASSERT(!ic->hasPendingEventsStrictOrder());
+
+    ic->setBlockEventToClient(true);
+    ic->commitString("ABC");
+    FCITX_ASSERT(ic->hasPendingEvents());
+    FCITX_ASSERT(ic->hasPendingEventsStrictOrder());
+
+    ic->setBlockEventToClient(false);
+    FCITX_ASSERT(!ic->hasPendingEvents());
+    FCITX_ASSERT(!ic->hasPendingEventsStrictOrder());
+
+    ic->setBlockEventToClient(true);
+    ic->commitString("ABC");
+    ic->updatePreedit();
+    FCITX_ASSERT(ic->hasPendingEvents());
+    FCITX_ASSERT(ic->hasPendingEventsStrictOrder());
+
+    ic->setBlockEventToClient(false);
+    FCITX_ASSERT(!ic->hasPendingEvents());
+    FCITX_ASSERT(!ic->hasPendingEventsStrictOrder());
+
+    ic->setBlockEventToClient(true);
+    ic->updatePreedit();
+    FCITX_ASSERT(ic->hasPendingEvents());
+    FCITX_ASSERT(!ic->hasPendingEventsStrictOrder());
+
+    ic->setBlockEventToClient(false);
+    FCITX_ASSERT(!ic->hasPendingEvents());
+    FCITX_ASSERT(!ic->hasPendingEventsStrictOrder());
+}
+
 int main() {
     test_simple();
     test_property();
     test_preedit_override();
+    test_event_blocking();
 
     return 0;
 }
