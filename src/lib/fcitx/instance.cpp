@@ -1443,9 +1443,8 @@ bool Instance::postEvent(Event &event) const {
                                                           : XKB_KEY_DOWN);
             } while (0);
 #endif
-            if (ic->hasPendingEvents() &&
-                ic->capabilityFlags().test(CapabilityFlag::KeyEventOrderFix) &&
-                !keyEvent.accepted()) {
+            if (ic->capabilityFlags().test(CapabilityFlag::KeyEventOrderFix) &&
+                !keyEvent.accepted() && ic->hasPendingEventsStrictOrder()) {
                 // Re-forward the event to ensure we got delivered later than
                 // commit.
                 keyEvent.filterAndAccept();

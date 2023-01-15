@@ -207,6 +207,16 @@ public:
     void setBlockEventToClient(bool block);
     bool hasPendingEvents() const;
 
+    /**
+     * Has pending event that need to use key order fix.
+     *
+     * If pending event only have preedit, then it's generally fine to not use
+     * key forward.
+     *
+     * @since 5.0.21
+     */
+    bool hasPendingEventsStrictOrder() const;
+
     /// Returns the input context property by name.
     InputContextProperty *property(const std::string &name);
 
@@ -216,8 +226,22 @@ public:
     /// Returns the associated input panel.
     InputPanel &inputPanel();
 
+    /**
+     * Returns the associated input panel.
+     *
+     * @since 5.0.22
+     */
+    const InputPanel &inputPanel() const;
+
     /// Returns the associated StatusArea.
     StatusArea &statusArea();
+
+    /**
+     * Returns the associated StatusArea.
+     *
+     * @since 5.0.22
+     */
+    const StatusArea &statusArea() const;
 
     /**
      * Helper function to return the input context property in specific type.
