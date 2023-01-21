@@ -308,28 +308,36 @@ void DBusMenu::fillLayoutProperties(
                                                                        : 0));
     } else {
         id -= builtInIds;
-        if (auto *ic = lastRelevantIc()) {
-            if (auto *action = parent_->instance()
-                                   ->userInterfaceManager()
-                                   .lookupActionById(id)) {
-                appendProperty(properties, propertyNames, "label",
-                               dbus::Variant(action->shortText(ic)));
-                appendProperty(properties, propertyNames, "icon-name",
-                               dbus::Variant(iconName(action->icon(ic))));
-                if (action->isCheckable()) {
-                    appendProperty(properties, propertyNames, "toggle-type",
-                                   dbus::Variant("radio"));
-                    bool checked = action->isChecked(ic);
+        auto *ic = lastRelevantIc();
+        if (!ic) {
+            return;
+        }
+        auto *action =
+            parent_->instance()->userInterfaceManager().lookupActionById(id);
+        if (!action) {
+            return;
+        }
+        if (action->isSeparator()) {
+            appendProperty(properties, propertyNames, "type",
+                           dbus::Variant("separator"));
+            return;
+        }
 
-                    appendProperty(properties, propertyNames, "toggle-state",
-                                   dbus::Variant(checked ? 1 : 0));
-                }
-                if (action->menu()) {
-                    appendProperty(properties, propertyNames,
-                                   "children-display",
-                                   dbus::Variant("submenu"));
-                }
-            }
+        appendProperty(properties, propertyNames, "label",
+                       dbus::Variant(action->shortText(ic)));
+        appendProperty(properties, propertyNames, "icon-name",
+                       dbus::Variant(iconName(action->icon(ic))));
+        if (action->isCheckable()) {
+            appendProperty(properties, propertyNames, "toggle-type",
+                           dbus::Variant("radio"));
+            bool checked = action->isChecked(ic);
+
+            appendProperty(properties, propertyNames, "toggle-state",
+                           dbus::Variant(checked ? 1 : 0));
+        }
+        if (action->menu()) {
+            appendProperty(properties, propertyNames, "children-display",
+                           dbus::Variant("submenu"));
         }
     }
 }

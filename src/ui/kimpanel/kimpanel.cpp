@@ -448,6 +448,9 @@ void Kimpanel::msgV1Handler(dbus::Message &msg) {
             if (auto *menu = action->menu()) {
                 std::vector<std::string> menuitems;
                 for (auto *menuAction : menu->actions()) {
+                    if (menuAction->isSeparator()) {
+                        continue;
+                    }
                     menuitems.push_back(actionToStatus(menuAction, ic));
                 }
                 proxy_->execMenu(menuitems);
