@@ -492,9 +492,7 @@ XCBConnection::convertSelection(const std::string &selection,
 
 Instance *XCBConnection::instance() { return parent_->instance(); }
 
-struct xkb_state *XCBConnection::xkbState() {
-    return keyboard_->xkbState();
-}
+struct xkb_state *XCBConnection::xkbState() { return keyboard_->xkbState(); }
 
 XkbRulesNames XCBConnection::xkbRulesNames() {
     return keyboard_->xkbRulesNames();
