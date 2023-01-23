@@ -8,6 +8,7 @@
 #include <sys/mman.h>
 #include "fcitx-utils/unixfd.h"
 #include "fcitx-utils/utf8.h"
+#include "virtualinputcontext.h"
 #include "wayland-text-input-unstable-v3-client-protocol.h"
 #include "waylandim.h"
 #include "wl_seat.h"

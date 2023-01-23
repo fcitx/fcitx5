@@ -12,9 +12,13 @@
 #include "fcitx-utils/event.h"
 #include "fcitx-utils/utf8.h"
 #include "fcitx/inputcontext.h"
+#include "appmonitor.h"
+#include "dbus_public.h"
 #include "display.h"
+#include "plasmaappmonitor.h"
 #include "waylandimserver.h"
 #include "waylandimserverv2.h"
+#include "wlrappmonitor.h"
 
 FCITX_DEFINE_LOG_CATEGORY(waylandim, "waylandim")
 
@@ -31,6 +35,10 @@ WaylandIMModule::WaylandIMModule(Instance *instance) : instance_(instance) {
                 WaylandIMServerV2 *serverv2 =
                     new WaylandIMServerV2(display, group, name, this);
                 serversV2_[name].reset(serverv2);
+                new PlasmaAppMonitor(static_cast<wayland::Display *>(
+                    wl_display_get_user_data(display)));
+                new WlrAppMonitor(static_cast<wayland::Display *>(
+                    wl_display_get_user_data(display)));
             });
     closedCallback_ =
         wayland()->call<IWaylandModule::addConnectionClosedCallback>(
@@ -38,6 +46,10 @@ WaylandIMModule::WaylandIMModule(Instance *instance) : instance_(instance) {
                 servers_.erase(name);
                 serversV2_.erase(name);
             });
+
+    if (dbus()) {
+        // new GnomeAppMonitor(dbus()->call<IDBusModule::bus>());
+    }
 }
 
 WaylandIMModule::~WaylandIMModule() {}

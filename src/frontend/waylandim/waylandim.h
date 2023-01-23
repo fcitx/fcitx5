@@ -27,6 +27,7 @@ public:
     ~WaylandIMModule();
 
     FCITX_ADDON_DEPENDENCY_LOADER(wayland, instance_->addonManager());
+    FCITX_ADDON_DEPENDENCY_LOADER(dbus, instance_->addonManager());
     Instance *instance() { return instance_; }
 
     wayland::ZwpInputMethodV2 *getInputMethodV2(InputContext *ic);

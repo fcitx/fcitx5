@@ -8,3 +8,6 @@ Version=@PROJECT_VERSION@
 [Addon/Dependencies]
 0=wayland:@PROJECT_VERSION@
 
+[Addon/OptionalDependencies]
+0=dbus
+

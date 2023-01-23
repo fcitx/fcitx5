@@ -7,6 +7,7 @@
 #include "waylandimserver.h"
 #include <sys/mman.h>
 #include <fcitx-utils/utf8.h>
+#include "virtualinputcontext.h"
 #include "waylandim.h"
 
 #ifdef __linux__
@@ -57,11 +58,7 @@ WaylandIMServer::WaylandIMServer(wl_display *display, FocusGroup *group,
     init();
 }
 
-WaylandIMServer::~WaylandIMServer() {
-    if (auto *globalIc = globalIc_.get()) {
-        delete globalIc;
-    }
-}
+WaylandIMServer::~WaylandIMServer() { delete globalIc_.get(); }
 
 InputContextManager &WaylandIMServer::inputContextManager() {
     return parent_->instance()->inputContextManager();
@@ -74,7 +71,7 @@ void WaylandIMServer::init() {
     if (im && !inputMethodV1_) {
         WAYLANDIM_DEBUG() << "WAYLANDIM V1";
         inputMethodV1_ = im;
-        auto globalIc = new WaylandIMInputContextV1(
+        auto *globalIc = new WaylandIMInputContextV1(
             parent_->instance()->inputContextManager(), this);
         globalIc->setFocusGroup(group_);
         globalIc->setCapabilityFlags(baseFlags);
@@ -109,7 +106,7 @@ void WaylandIMServer::deactivate(wayland::ZwpInputMethodContextV1 *id) {
 
 WaylandIMInputContextV1::WaylandIMInputContextV1(
     InputContextManager &inputContextManager, WaylandIMServer *server)
-    : InputContext(inputContextManager), server_(server) {
+    : VirtualInputContextGlue(inputContextManager), server_(server) {
     timeEvent_ = server_->instance()->eventLoop().addTimeEvent(
         CLOCK_MONOTONIC, now(CLOCK_MONOTONIC), 0,
         [this](EventSourceTime *, uint64_t) {
@@ -119,6 +116,12 @@ WaylandIMInputContextV1::WaylandIMInputContextV1(
     timeEvent_->setAccuracy(1);
     timeEvent_->setEnabled(false);
     created();
+
+    appMonitor_.reset(getAppMonitor(server_->display_));
+    if (appMonitor_) {
+        virtualICManager_ = std::make_unique<VirtualInputContextManager>(
+            &inputContextManager, this, appMonitor_.get());
+    }
 }
 
 WaylandIMInputContextV1::~WaylandIMInputContextV1() { destroy(); }
@@ -167,7 +170,11 @@ void WaylandIMInputContextV1::activate(wayland::ZwpInputMethodContextV1 *ic) {
     memcpy(array.data, data, sizeof(data));
     ic_->modifiersMap(&array);
     wl_array_release(&array);
-    focusIn();
+    if (virtualICManager_) {
+        virtualICManager_->setRealFocus(true);
+    } else {
+        focusIn();
+    }
 }
 
 void WaylandIMInputContextV1::deactivate(wayland::ZwpInputMethodContextV1 *ic) {
@@ -176,7 +183,11 @@ void WaylandIMInputContextV1::deactivate(wayland::ZwpInputMethodContextV1 *ic) {
         keyboard_.reset();
         timeEvent_->setEnabled(false);
         server_->display_->sync();
-        focusOut();
+        if (virtualICManager_) {
+            virtualICManager_->setRealFocus(false);
+        } else {
+            focusOut();
+        }
     } else {
         // This should not happen, but just in case.
         delete ic;
@@ -409,6 +420,17 @@ void WaylandIMInputContextV1::keymapCallback(uint32_t format, int32_t fd,
     server_->parent_->wayland()->call<IWaylandModule::reloadXkbOption>();
 }
 
+bool WaylandIMInputContextV1::keyEvent(KeyEvent &event) {
+    if (virtualICManager_) {
+        if (auto *ic = virtualICManager_->focusedVirtualIC()) {
+            KeyEvent newEvent(ic, event.rawKey(), event.isRelease(),
+                              event.time());
+            return ic->keyEvent(newEvent);
+        }
+    }
+    return InputContext::keyEvent(event);
+}
+
 void WaylandIMInputContextV1::keyCallback(uint32_t serial, uint32_t time,
                                           uint32_t key, uint32_t state) {
     time_ = time;
@@ -511,7 +533,7 @@ void WaylandIMInputContextV1::repeatInfoCallback(int32_t rate, int32_t delay) {
 }
 
 void WaylandIMInputContextV1::sendKey(uint32_t time, uint32_t sym,
-                                      uint32_t state, KeyStates states) {
+                                      uint32_t state, KeyStates states) const {
     if (!ic_) {
         return;
     }
@@ -528,13 +550,13 @@ void WaylandIMInputContextV1::sendKeyToVK(uint32_t time, uint32_t key,
     server_->display_->flush();
 }
 
-void WaylandIMInputContextV1::updatePreeditImpl() {
+void WaylandIMInputContextV1::updatePreeditDelegate(InputContext *ic) const {
     if (!ic_) {
         return;
     }
 
     auto preedit =
-        server_->instance()->outputFilter(this, inputPanel().clientPreedit());
+        server_->instance()->outputFilter(ic, ic->inputPanel().clientPreedit());
 
     for (int i = 0, e = preedit.size(); i < e; i++) {
         if (!utf8::validate(preedit.stringAt(i))) {
@@ -553,18 +575,18 @@ void WaylandIMInputContextV1::updatePreeditImpl() {
                        preedit.toStringForCommit().c_str());
 }
 
-void WaylandIMInputContextV1::deleteSurroundingTextImpl(int offset,
-                                                        unsigned int size) {
+void WaylandIMInputContextV1::deleteSurroundingTextDelegate(
+    InputContext *ic, int offset, unsigned int size) const {
     if (!ic_) {
         return;
     }
 
-    size_t cursor = surroundingText().cursor();
+    size_t cursor = ic->surroundingText().cursor();
     if (static_cast<ssize_t>(cursor) + offset < 0) {
         return;
     }
 
-    const auto &text = surroundingText().text();
+    const auto &text = ic->surroundingText().text();
     auto len = utf8::length(text);
 
     size_t start = cursor + offset;

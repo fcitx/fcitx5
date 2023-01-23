@@ -14,6 +14,7 @@
 #include <xkbcommon/xkbcommon.h>
 #include "fcitx-utils/misc_p.h"
 #include "display.h"
+#include "virtualinputcontext.h"
 #include "zwp_input_method_keyboard_grab_v2.h"
 #include "zwp_input_method_manager_v2.h"
 #include "zwp_input_method_v2.h"
