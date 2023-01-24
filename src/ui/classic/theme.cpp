@@ -17,11 +17,46 @@
 #include "fcitx-utils/log.h"
 #include "fcitx-utils/rect.h"
 #include "fcitx-utils/standardpath.h"
+#include "fcitx-utils/utf8.h"
 #include "fcitx/misc_p.h"
 #include "classicui.h"
 #include "common.h"
 
 namespace fcitx::classicui {
+
+namespace {
+
+inline uint32_t charWidth(uint32_t c) {
+    if (g_unichar_iszerowidth(c)) {
+        return 0;
+    }
+    return g_unichar_iswide(c) ? 2 : 1;
+}
+
+// This is heuristic, but we guranteed that we don't do crazy things with label.
+std::pair<std::string, size_t> extractTextForLabel(const std::string &label) {
+    std::string extracted;
+
+    // We have non white space here because xkb shortDescription have things like
+    // fr-tg, mon-a1.
+    auto texts = stringutils::split(label, FCITX_WHITESPACE "-_/|");
+    if (texts.empty()) {
+        return {"", 0};
+    }
+
+    size_t currentWidth = 0;
+    for (uint32_t chr : utf8::MakeUTF8CharRange(texts[0])) {
+        const auto width = charWidth(chr);
+        if (currentWidth + width <= 3) {
+            extracted.append(utf8::UCS4ToUTF8(chr));
+            currentWidth += width;
+        } else {
+            break;
+        }
+    }
+
+    return {extracted, currentWidth};
+}
 
 cairo_status_t readFromFd(void *closure, unsigned char *data,
                           unsigned int length) {
@@ -166,6 +201,8 @@ cairo_surface_t *loadImage(StandardPathFile &file) {
     return surface;
 }
 
+} // namespace
+
 ThemeImage::ThemeImage(const IconTheme &iconTheme, const std::string &icon,
                        const std::string &label, uint32_t size,
                        const ClassicUI *classicui)
@@ -269,14 +306,16 @@ ThemeImage::ThemeImage(const std::string &name, const ActionImageConfig &cfg) {
 }
 
 void ThemeImage::drawTextIcon(cairo_surface_t *surface,
-                              const std::string &label, uint32_t size,
+                              const std::string &rawLabel, uint32_t size,
                               const ClassicUIConfig &config) {
+
+    auto [label, textWidth] = extractTextForLabel(rawLabel);
     auto *cr = cairo_create(surface);
     cairo_set_operator(cr, CAIRO_OPERATOR_SOURCE);
     cairoSetSourceColor(cr, Color("#00000000"));
     cairo_paint(cr);
 
-    int pixelSize = size * 0.75;
+    int pixelSize = size * 0.75 * (textWidth >= 3 ? (2.0 / textWidth) : 1.0);
     if (pixelSize < 0) {
         pixelSize = 1;
     }
