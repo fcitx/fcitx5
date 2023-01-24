@@ -252,11 +252,21 @@ std::vector<InputMethodEntry> KeyboardEngine::listInputMethods() {
                             D_("xkeyboard-config", variantInfo.description));
             auto uniqueName = stringutils::concat(imNamePrefix, layoutInfo.name,
                                                   "-", variantInfo.name);
+
+            auto variantLabel = variantInfo.shortDescription.empty()
+                                    ? layoutInfo.name
+                                    : variantInfo.shortDescription;
+            // Certain layout use the variant name as label, if that is the
+            // case, we don't need to repeat it, otherwise put the variant in
+            // the label. E.g. Cherokee label is chr, and variant name is also
+            // chr. So "chr (chr)" would be redundant in this case.
+            if (variantLabel != variantInfo.name) {
+                variantLabel =
+                    fmt::format("{0} ({1})", variantLabel, variantInfo.name);
+            }
             result.push_back(std::move(
                 InputMethodEntry(uniqueName, description, language, "keyboard")
-                    .setLabel(variantInfo.shortDescription.empty()
-                                  ? layoutInfo.name
-                                  : variantInfo.shortDescription)
+                    .setLabel(variantLabel)
                     .setIcon("input-keyboard")
                     .setConfigurable(true)));
         }
