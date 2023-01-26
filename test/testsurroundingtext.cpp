@@ -32,5 +32,18 @@ int main() {
     FCITX_ASSERT(surroundingText.isValid());
     surroundingText.setCursor(2, 2);
     FCITX_ASSERT(!surroundingText.isValid());
+
+    surroundingText.setText("abcd", 1, 1);
+    SurroundingText other;
+    FCITX_ASSERT(!other.isValid());
+    other = surroundingText;
+    FCITX_ASSERT(other.isValid());
+    FCITX_ASSERT(other.text() == "abcd");
+    FCITX_ASSERT(other.cursor() == 1);
+    FCITX_ASSERT(other.anchor() == 1);
+
+    FCITX_ASSERT(surroundingText.text() == "abcd");
+    FCITX_ASSERT(surroundingText.cursor() == 1);
+    FCITX_ASSERT(surroundingText.anchor() == 1);
     return 0;
 }
