@@ -23,6 +23,7 @@ FCITX_CONFIGURATION(
     Option<std::vector<InputMethodGroupItemConfig>> items{this, "Items",
                                                           "Items"};
     Option<std::string> defaultLayout{this, "Default Layout", "Layout"};
+    Option<std::string> defaultLayoutOptions{this, "Default Layout Options", "XKB Layout Options"};
     Option<std::string> defaultInputMethod{this, "DefaultIM",
                                            "Default Input Method"};);
 

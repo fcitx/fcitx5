@@ -45,6 +45,8 @@ public:
     const std::string &name() const;
     void setDefaultLayout(const std::string &layout);
     const std::string &defaultLayout() const;
+    void setDefaultLayoutOptions(const std::string &layoutOptions);
+    const std::string &defaultLayoutOptions() const;
     std::vector<InputMethodGroupItem> &inputMethodList();
     const std::vector<InputMethodGroupItem> &inputMethodList() const;
     const std::string &defaultInputMethod() const;

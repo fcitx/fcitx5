@@ -201,8 +201,8 @@ WaylandModule::WaylandModule(fcitx::Instance *instance)
                 return;
             }
 
-            auto layoutAndVariant = parseLayout(
-                instance_->inputMethodManager().currentGroup().defaultLayout());
+            auto group = instance_->inputMethodManager().currentGroup();
+            auto layoutAndVariant = parseLayout(group.defaultLayout());
 
             if (layoutAndVariant.first.empty()) {
                 return;
@@ -213,6 +213,8 @@ WaylandModule::WaylandModule(fcitx::Instance *instance)
             config.setValueByPath("Layout/LayoutList", layoutAndVariant.first);
             config.setValueByPath("Layout/VariantList",
                                   layoutAndVariant.second);
+            config.setValueByPath("Layout/Options",
+                                  group.defaultLayoutOptions());
             config.setValueByPath("Layout/DisplayNames", "");
             config.setValueByPath("Layout/Use", "true");
 
