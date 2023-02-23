@@ -24,6 +24,7 @@ struct XkbRulesParseState : public XMLParser {
     std::list<XkbModelInfo> modelInfos_;
     std::list<XkbOptionGroupInfo> optionGroupInfos_;
     std::string version_;
+    std::string textBuff_;
 
     bool match(const std::initializer_list<const char *> &array) {
         if (parseStack_.size() < array.size()) {
@@ -70,13 +71,11 @@ struct XkbRulesParseState : public XMLParser {
             }
         }
     }
-    void endElement(const XML_Char *) override { parseStack_.pop_back(); }
-    void characterData(const XML_Char *ch, int len) override {
-        std::string temp(reinterpret_cast<const char *>(ch), len);
-        auto pair = stringutils::trimInplace(temp);
+    void endElement(const XML_Char *) override {
+        auto pair = stringutils::trimInplace(textBuff_);
         std::string::size_type start = pair.first, end = pair.second;
         if (start != end) {
-            std::string text(temp.begin() + start, temp.begin() + end);
+            std::string text(textBuff_.begin() + start, textBuff_.begin() + end);
             if (match({"layoutList", "layout", "configItem", "name"})) {
                 layoutInfos_.back().name = text;
             } else if (match({"layoutList", "layout", "configItem",
@@ -121,6 +120,12 @@ struct XkbRulesParseState : public XMLParser {
                 optionGroupInfos_.back().optionInfos.back().description = text;
             }
         }
+
+        textBuff_.clear();
+        parseStack_.pop_back();
+    }
+    void characterData(const XML_Char *ch, int len) override {
+        textBuff_.append(reinterpret_cast<const char *>(ch), len);
     }
 
     void merge(XkbRules *rules) {
