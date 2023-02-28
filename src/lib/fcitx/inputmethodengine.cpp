@@ -35,7 +35,7 @@ void InputMethodEngine::virtualKeyboardEvent(
         // TODO: revisit the default action.
         if (virtualKeyEvent->accepted()) {
             virtualKeyboardEvent.accept();
-        } else {
+        } else if (!virtualKeyboardEvent.text().empty()) {
             virtualKeyboardEvent.inputContext()->commitString(
                 virtualKeyboardEvent.text());
         }
