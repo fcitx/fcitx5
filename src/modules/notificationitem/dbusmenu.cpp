@@ -280,17 +280,20 @@ void DBusMenu::fillLayoutProperties(
             appendProperty(properties, propertyNames, "icon-name",
                            dbus::Variant(iconName(entry->icon())));
         }
+        appendProperty(properties, propertyNames, "toggle-type",
+                       dbus::Variant("radio"));
 
-        if (auto *ic = lastRelevantIc()) {
-            appendProperty(properties, propertyNames, "toggle-type",
-                           dbus::Variant("radio"));
-            // We can use pointer comparision here.
-            appendProperty(
-                properties, propertyNames, "toggle-state",
-                dbus::Variant(parent_->instance()->inputMethodEntry(ic) == entry
-                                  ? 1
-                                  : 0));
+        auto *ic = lastRelevantIc();
+        if (!ic) {
+            ic = parent_->instance()->mostRecentInputContext();
         }
+        // We can use pointer comparision here.
+        appendProperty(
+            properties, propertyNames, "toggle-state",
+            dbus::Variant(
+                (ic && parent_->instance()->inputMethodEntry(ic) == entry)
+                    ? 1
+                    : 0));
     } else if (id >= BII_InputMethodGroupStart &&
                id <= BII_InputMethodGroupEnd) {
         size_t idx = id - BII_InputMethodGroupStart;
