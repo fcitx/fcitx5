@@ -130,7 +130,7 @@ void VirtualKeyboardBackend::processKeyEvent(uint32_t keyval, uint32_t keycode,
         return;
     }
 
-    VirtualKeyboardEvent event(inputContext, time);
+    VirtualKeyboardEvent event(inputContext, isRelease, time);
     event.setKey(Key(static_cast<KeySym>(keyval), KeyStates(state), keycode));
 
     auto eventConsumed = inputContext->virtualKeyboardEvent(event);
