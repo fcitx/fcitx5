@@ -37,8 +37,8 @@ inline uint32_t charWidth(uint32_t c) {
 std::pair<std::string, size_t> extractTextForLabel(const std::string &label) {
     std::string extracted;
 
-    // We have non white space here because xkb shortDescription have things like
-    // fr-tg, mon-a1.
+    // We have non white space here because xkb shortDescription have things
+    // like fr-tg, mon-a1.
     auto texts = stringutils::split(label, FCITX_WHITESPACE "-_/|");
     if (texts.empty()) {
         return {"", 0};
