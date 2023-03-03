@@ -36,6 +36,7 @@ struct XkbRulesParseState : public XMLParser {
 
     void startElement(const XML_Char *name, const XML_Char **attrs) override {
         parseStack_.emplace_back(reinterpret_cast<const char *>(name));
+        textBuff_.clear();
 
         if (match({"layoutList", "layout", "configItem"})) {
             layoutInfos_.emplace_back();
@@ -72,10 +73,8 @@ struct XkbRulesParseState : public XMLParser {
         }
     }
     void endElement(const XML_Char *) override {
-        auto pair = stringutils::trimInplace(textBuff_);
-        std::string::size_type start = pair.first, end = pair.second;
-        if (start != end) {
-            std::string text(textBuff_.begin() + start, textBuff_.begin() + end);
+        auto text = stringutils::trimView(textBuff_);
+        if (!text.empty()) {
             if (match({"layoutList", "layout", "configItem", "name"})) {
                 layoutInfos_.back().name = text;
             } else if (match({"layoutList", "layout", "configItem",
@@ -86,7 +85,7 @@ struct XkbRulesParseState : public XMLParser {
                 layoutInfos_.back().shortDescription = text;
             } else if (match({"layoutList", "layout", "configItem",
                               "languageList", "iso639Id"})) {
-                layoutInfos_.back().languages.push_back(text);
+                layoutInfos_.back().languages.emplace_back(text);
             } else if (match({"layoutList", "layout", "variantList", "variant",
                               "configItem", "name"})) {
                 layoutInfos_.back().variantInfos.back().name = text;
@@ -98,7 +97,7 @@ struct XkbRulesParseState : public XMLParser {
                 layoutInfos_.back().variantInfos.back().shortDescription = text;
             } else if (match({"layoutList", "layout", "variantList", "variant",
                               "configItem", "languageList", "iso639Id"})) {
-                layoutInfos_.back().variantInfos.back().languages.push_back(
+                layoutInfos_.back().variantInfos.back().languages.emplace_back(
                     text);
             } else if (match({"modelList", "model", "configItem", "name"})) {
                 modelInfos_.back().name = text;
