@@ -155,6 +155,9 @@ void WaylandInputWindow::update(fcitx::InputContext *ic) {
             auto *im = ui_->parent()
                            ->waylandim()
                            ->call<IWaylandIMModule::getInputMethodV2>(ic);
+            if (!im) {
+                return;
+            }
             panelSurfaceV2_.reset();
             panelSurfaceV2_.reset(im->getInputPopupSurface(window_->surface()));
         }
