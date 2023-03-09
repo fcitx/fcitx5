@@ -3,15 +3,15 @@
 # This file is distributed under the same license as the fcitx5 package.
 #
 # Translators:
-# Omer I.S. <omeritzicschwartz@gmail.com>, 2021
+# עומר א״ש <omeritzicschwartz@gmail.com>, 2021
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2022-10-29 20:24+0000\n"
+"POT-Creation-Date: 2023-03-09 20:25+0000\n"
 "PO-Revision-Date: 2017-11-23 04:14+0000\n"
-"Last-Translator: Omer I.S. <omeritzicschwartz@gmail.com>, 2021\n"
+"Last-Translator: עומר א״ש <omeritzicschwartz@gmail.com>, 2021\n"
 "Language-Team: Hebrew (https://www.transifex.com/fcitx/teams/12005/he/)\n"
 "Language: he\n"
 "MIME-Version: 1.0\n"
@@ -48,7 +48,7 @@ msgstr ""
 msgid "${1} works properly."
 msgstr ""
 
-#: src/lib/fcitx/instance.cpp:394
+#: src/lib/fcitx/instance.cpp:404
 msgid "(Not available)"
 msgstr ""
 
@@ -158,7 +158,7 @@ msgstr ""
 msgid "Alt"
 msgstr ""
 
-#: src/lib/fcitx-utils/key.cpp:509
+#: src/lib/fcitx-utils/key.cpp:518
 msgctxt "Key name"
 msgid "Alt"
 msgstr "Alt"
@@ -463,19 +463,19 @@ msgctxt "Key name"
 msgid "Community"
 msgstr ""
 
-#: src/im/keyboard/keyboard.cpp:648
+#: src/im/keyboard/keyboard.cpp:685
 msgid "Completion"
 msgstr ""
 
-#: src/im/keyboard/keyboard.cpp:639
+#: src/im/keyboard/keyboard.cpp:676
 msgid "Completion is disabled."
 msgstr ""
 
-#: src/im/keyboard/keyboard.cpp:642
+#: src/im/keyboard/keyboard.cpp:679
 msgid "Completion is enabled temporarily."
 msgstr ""
 
-#: src/im/keyboard/keyboard.cpp:644
+#: src/im/keyboard/keyboard.cpp:681
 msgid "Completion is enabled."
 msgstr ""
 
@@ -508,7 +508,7 @@ msgid "Configuration:"
 msgstr ""
 
 #: src/ui/classic/xcbtraywindow.cpp:38
-#: src/modules/notificationitem/dbusmenu.cpp:247
+#: src/modules/notificationitem/dbusmenu.cpp:248
 msgid "Configure"
 msgstr "הגדרה"
 
@@ -516,7 +516,7 @@ msgstr "הגדרה"
 msgid "Control"
 msgstr ""
 
-#: src/lib/fcitx-utils/key.cpp:508
+#: src/lib/fcitx-utils/key.cpp:517
 msgctxt "Key name"
 msgid "Control"
 msgstr ""
@@ -584,7 +584,7 @@ msgstr ""
 msgid "Debug information from dbus:"
 msgstr ""
 
-#: src/lib/fcitx/inputmethodmanager.cpp:138 src/lib/fcitx/instance.cpp:341
+#: src/lib/fcitx/inputmethodmanager.cpp:138 src/lib/fcitx/instance.cpp:351
 #: src/ui/classic/themes/default/theme.conf.in:3
 msgid "Default"
 msgstr ""
@@ -624,6 +624,10 @@ msgstr ""
 
 #: data/fcitx5-diagnose.sh:805
 msgid "Desktop environment is ${1}."
+msgstr ""
+
+#: src/frontend/waylandim/waylandim.h:27
+msgid "Detect current running application (Need restart)"
 msgstr ""
 
 #: data/fcitx5-diagnose.sh:851
@@ -766,7 +770,7 @@ msgid "Execute"
 msgstr ""
 
 #: src/ui/classic/xcbtraywindow.cpp:40
-#: src/modules/notificationitem/dbusmenu.cpp:261
+#: src/modules/notificationitem/dbusmenu.cpp:262
 msgid "Exit"
 msgstr "יציאה"
 
@@ -951,15 +955,15 @@ msgid "Green"
 msgstr ""
 
 #: src/ui/classic/xcbtraywindow.cpp:36
-#: src/modules/notificationitem/dbusmenu.cpp:237
+#: src/modules/notificationitem/dbusmenu.cpp:238
 msgid "Group"
 msgstr ""
 
-#: src/lib/fcitx/instance.cpp:398
+#: src/lib/fcitx/instance.cpp:408
 msgid "Group {0}: {1}"
 msgstr ""
 
-#: src/lib/fcitx/instance.cpp:343
+#: src/lib/fcitx/instance.cpp:353
 msgid "Group {}"
 msgstr ""
 
@@ -1134,7 +1138,7 @@ msgid ""
 "Hotkey for switching to the N-th input method for only current input context"
 msgstr ""
 
-#: src/lib/fcitx-utils/key.cpp:512
+#: src/lib/fcitx-utils/key.cpp:522
 msgctxt "Key name"
 msgid "Hyper"
 msgstr ""
@@ -1161,9 +1165,10 @@ msgstr ""
 msgid "Image"
 msgstr ""
 
-#: src/im/keyboard/keyboard.cpp:647 src/lib/fcitx/instance.cpp:432
-#: src/lib/fcitx/instance.cpp:650 src/lib/fcitx/instance.cpp:816
-#: src/modules/notificationitem/notificationitem.cpp:115
+#: src/im/keyboard/keyboard.cpp:684 src/lib/fcitx/instance.cpp:442
+#: src/lib/fcitx/instance.cpp:660 src/lib/fcitx/instance.cpp:819
+#: src/modules/notificationitem/notificationitem.cpp:144
+#: src/modules/notificationitem/notificationitem.cpp:221
 #: src/modules/xcb/xcbconnection.cpp:406 data/org.fcitx.Fcitx5.desktop.in.in:4
 #: data/org.fcitx.Fcitx5.metainfo.xml.in:7
 msgid "Input Method"
@@ -1242,15 +1247,15 @@ msgstr ""
 msgid "Key"
 msgstr ""
 
-#: src/im/keyboard/keyboard.cpp:288 src/im/keyboard/keyboard.conf.in.in:3
+#: src/im/keyboard/keyboard.cpp:315 src/im/keyboard/keyboard.conf.in.in:3
 msgid "Keyboard"
 msgstr ""
 
-#: src/im/keyboard/keyboard.cpp:214
+#: src/im/keyboard/keyboard.cpp:231
 msgid "Keyboard - {0}"
 msgstr ""
 
-#: src/im/keyboard/keyboard.cpp:233
+#: src/im/keyboard/keyboard.cpp:250
 msgid "Keyboard - {0} - {1}"
 msgstr ""
 
@@ -1614,7 +1619,7 @@ msgid ""
 "it means this option is disabled."
 msgstr ""
 
-#: src/ui/kimpanel/kimpanel.cpp:367
+#: src/ui/kimpanel/kimpanel.cpp:380
 msgid "Not available"
 msgstr ""
 
@@ -1635,7 +1640,7 @@ msgstr "NumLock"
 msgid "Number of entries"
 msgstr ""
 
-#: src/im/keyboard/keyboard.cpp:633
+#: src/im/keyboard/keyboard.cpp:670
 msgid ""
 "Only emoji support is found. To enable spell checking, you may need to "
 "install spell check data for the language."
@@ -1752,15 +1757,15 @@ msgctxt "Key name"
 msgid "Power Off"
 msgstr "כיבוי"
 
-#: src/lib/fcitx/instance.cpp:816
+#: src/lib/fcitx/instance.cpp:819
 msgid "Preedit"
 msgstr ""
 
-#: src/lib/fcitx/instance.cpp:818
+#: src/lib/fcitx/instance.cpp:821
 msgid "Preedit disabled"
 msgstr ""
 
-#: src/lib/fcitx/instance.cpp:817
+#: src/lib/fcitx/instance.cpp:820
 msgid "Preedit enabled"
 msgstr ""
 
@@ -1832,7 +1837,7 @@ msgid "Reply"
 msgstr ""
 
 #: src/ui/classic/xcbtraywindow.cpp:39
-#: src/modules/notificationitem/dbusmenu.cpp:255
+#: src/modules/notificationitem/dbusmenu.cpp:256
 msgid "Restart"
 msgstr ""
 
@@ -1949,7 +1954,7 @@ msgstr ""
 msgid "Share Input State"
 msgstr ""
 
-#: src/lib/fcitx-utils/key.cpp:510
+#: src/lib/fcitx-utils/key.cpp:519
 msgctxt "Key name"
 msgid "Shift"
 msgstr ""
@@ -2063,7 +2068,7 @@ msgstr ""
 msgid "Super"
 msgstr ""
 
-#: src/lib/fcitx-utils/key.cpp:511
+#: src/lib/fcitx-utils/key.cpp:520
 msgctxt "Key name"
 msgid "Super"
 msgstr ""
@@ -2078,16 +2083,16 @@ msgctxt "Key name"
 msgid "Suspend"
 msgstr "השהיה"
 
-#: src/lib/fcitx/instance.cpp:433 src/lib/fcitx/instance.cpp:651
+#: src/lib/fcitx/instance.cpp:443 src/lib/fcitx/instance.cpp:661
 #: src/modules/xcb/xcbconnection.cpp:407
 msgid "Switch group"
 msgstr ""
 
-#: src/lib/fcitx/instance.cpp:434 src/modules/xcb/xcbconnection.cpp:408
+#: src/lib/fcitx/instance.cpp:444 src/modules/xcb/xcbconnection.cpp:408
 msgid "Switch group to {0}"
 msgstr ""
 
-#: src/lib/fcitx/instance.cpp:652
+#: src/lib/fcitx/instance.cpp:662
 msgid "Switched group to {0}"
 msgstr ""
 
@@ -2547,14 +2552,14 @@ msgstr ""
 msgid "version:"
 msgstr ""
 
-#: src/im/keyboard/keyboard.cpp:265
+#: src/im/keyboard/keyboard.cpp:292
 msgid "{0} (Not Available)"
 msgstr ""
 
-#: src/lib/fcitx/instance.cpp:392
+#: src/lib/fcitx/instance.cpp:402
 msgid "{0} (Not available)"
 msgstr ""
 
-#: src/lib/fcitx/instance.cpp:389
+#: src/lib/fcitx/instance.cpp:399
 msgid "{0} ({1})"
 msgstr ""

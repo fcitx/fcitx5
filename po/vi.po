@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2023-02-18 13:01+0000\n"
+"POT-Creation-Date: 2023-03-09 20:25+0000\n"
 "PO-Revision-Date: 2017-11-23 04:14+0000\n"
 "Last-Translator: Zen Fas, 2023\n"
 "Language-Team: Vietnamese (https://www.transifex.com/fcitx/teams/12005/vi/)\n"
@@ -627,6 +627,10 @@ msgstr "Môi trường Desktop:"
 #: data/fcitx5-diagnose.sh:805
 msgid "Desktop environment is ${1}."
 msgstr "Môi trường Desktop là ${1}."
+
+#: src/frontend/waylandim/waylandim.h:27
+msgid "Detect current running application (Need restart)"
+msgstr ""
 
 #: data/fcitx5-diagnose.sh:851
 msgid "Directories:"
