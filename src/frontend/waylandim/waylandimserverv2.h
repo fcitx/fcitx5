@@ -13,7 +13,9 @@
 #include <fcitx/instance.h>
 #include <xkbcommon/xkbcommon.h>
 #include "fcitx-utils/misc_p.h"
+#include "fcitx/inputcontext.h"
 #include "display.h"
+#include "virtualinputcontext.h"
 #include "zwp_input_method_keyboard_grab_v2.h"
 #include "zwp_input_method_manager_v2.h"
 #include "zwp_input_method_v2.h"
@@ -82,7 +84,7 @@ private:
     std::unordered_map<wayland::WlSeat *, WaylandIMInputContextV2 *> icMap_;
 };
 
-class WaylandIMInputContextV2 : public InputContext {
+class WaylandIMInputContextV2 : public VirtualInputContextGlue {
 public:
     WaylandIMInputContextV2(InputContextManager &inputContextManager,
                             WaylandIMServerV2 *server,
@@ -95,17 +97,20 @@ public:
     auto inputMethodV2() { return ic_.get(); }
 
 protected:
-    void commitStringImpl(const std::string &text) override {
-        if (!hasFocus()) {
+    void commitStringDelegate(InputContext *,
+                              const std::string &text) const override {
+        if (!ic_) {
             return;
         }
         ic_->commitString(text.c_str());
         ic_->commit(serial_);
     }
-    void deleteSurroundingTextImpl(int offset, unsigned int size) override;
-    void forwardKeyImpl(const ForwardKeyEvent &key) override;
+    void deleteSurroundingTextDelegate(InputContext *ic, int offset,
+                                       unsigned int size) const override;
+    void forwardKeyDelegate(InputContext *,
+                            const ForwardKeyEvent &key) const override;
 
-    void updatePreeditImpl() override;
+    void updatePreeditDelegate(InputContext *ic) const override;
 
 private:
     void repeat();
@@ -122,7 +127,7 @@ private:
                            uint32_t mods_latched, uint32_t mods_locked,
                            uint32_t group);
     void repeatInfoCallback(int32_t rate, int32_t delay);
-    void sendKeyToVK(uint32_t time, uint32_t key, uint32_t state);
+    void sendKeyToVK(uint32_t time, uint32_t key, uint32_t state) const;
 
     WaylandIMServerV2 *server_;
     std::shared_ptr<wayland::WlSeat> seat_;
@@ -130,6 +135,7 @@ private:
     std::unique_ptr<wayland::ZwpInputMethodKeyboardGrabV2> keyboardGrab_;
     std::unique_ptr<wayland::ZwpVirtualKeyboardV1> vk_;
     std::unique_ptr<EventSourceTime> timeEvent_;
+    std::unique_ptr<VirtualInputContextManager> virtualICManager_;
 
     bool pendingActivate_ = false;
     bool pendingDeactivate_ = false;
@@ -144,7 +150,7 @@ private:
 
     int32_t repeatRate_ = 40, repeatDelay_ = 400;
 
-    OrderedMap<uint32_t, uint32_t> pressedVKKey_;
+    mutable OrderedMap<uint32_t, uint32_t> pressedVKKey_;
 };
 
 } // namespace fcitx
