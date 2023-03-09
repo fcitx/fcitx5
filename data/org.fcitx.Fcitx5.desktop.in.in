@@ -13,3 +13,4 @@ X-GNOME-Autostart-Notify=false
 X-KDE-autostart-after=panel
 X-KDE-StartupNotify=false
 X-KDE-Wayland-VirtualKeyboard=true
+X-KDE-Wayland-Interfaces=org_kde_plasma_window_management
