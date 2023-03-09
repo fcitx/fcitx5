@@ -8,9 +8,13 @@
 #include "xcbconnection.h"
 #include <stdexcept>
 #include <fmt/format.h>
+#include <xcb/randr.h>
+#include <xcb/xcb.h>
 #include <xcb/xcb_aux.h>
 #include <xcb/xfixes.h>
+#include <xcb/xproto.h>
 #include "fcitx-utils/log.h"
+#include "fcitx-utils/misc.h"
 #include "fcitx-utils/stringutils.h"
 #include "fcitx/inputcontext.h"
 #include "fcitx/inputcontextmanager.h"
@@ -23,6 +27,72 @@
 #include "xcbmodule.h"
 
 namespace fcitx {
+
+bool extensionCheckXWayland(xcb_connection_t *conn) {
+    constexpr std::string_view xwaylandExt("XWAYLAND");
+    auto queryCookie =
+        xcb_query_extension(conn, xwaylandExt.length(), xwaylandExt.data());
+    auto extQuery =
+        makeUniqueCPtr(xcb_query_extension_reply(conn, queryCookie, nullptr));
+    return (extQuery && extQuery->present);
+}
+
+bool xrandrCheckXWayland(xcb_connection_t *conn, xcb_screen_t *screen) {
+    const xcb_query_extension_reply_t *queryExtReply =
+        xcb_get_extension_data(conn, &xcb_randr_id);
+    if (!queryExtReply || !queryExtReply->present) {
+        return false;
+    }
+
+    auto cookie = xcb_randr_get_screen_resources_current(conn, screen->root);
+    auto reply = makeUniqueCPtr(
+        xcb_randr_get_screen_resources_current_reply(conn, cookie, nullptr));
+    if (!reply) {
+        return false;
+    }
+    xcb_timestamp_t timestamp = 0;
+    xcb_randr_output_t *outputs = nullptr;
+    int outputCount =
+        xcb_randr_get_screen_resources_current_outputs_length(reply.get());
+
+    if (outputCount) {
+        timestamp = reply->config_timestamp;
+        outputs = xcb_randr_get_screen_resources_current_outputs(reply.get());
+    } else {
+        auto resourcesCookie =
+            xcb_randr_get_screen_resources(conn, screen->root);
+        auto resourcesReply =
+            makeUniqueCPtr(xcb_randr_get_screen_resources_reply(
+                conn, resourcesCookie, nullptr));
+        if (resourcesReply) {
+            timestamp = resourcesReply->config_timestamp;
+            outputCount = xcb_randr_get_screen_resources_outputs_length(
+                resourcesReply.get());
+            outputs =
+                xcb_randr_get_screen_resources_outputs(resourcesReply.get());
+        }
+    }
+
+    for (int i = 0; i < outputCount; i++) {
+        auto outputInfoCookie =
+            xcb_randr_get_output_info(conn, outputs[i], timestamp);
+        auto output = makeUniqueCPtr(
+            xcb_randr_get_output_info_reply(conn, outputInfoCookie, nullptr));
+        // Invalid, disconnected or disabled output
+        if (!output) {
+            continue;
+        }
+
+        std::string_view outputName(
+            reinterpret_cast<char *>(
+                xcb_randr_get_output_info_name(output.get())),
+            xcb_randr_get_output_info_name_length(output.get()));
+        if (stringutils::startsWith(outputName, "XWAYLAND")) {
+            return true;
+        }
+    }
+    return false;
+}
 
 XCBConnection::XCBConnection(XCBModule *xcb, const std::string &name)
     : parent_(xcb), name_(name) {
@@ -101,6 +171,12 @@ XCBConnection::XCBConnection(XCBModule *xcb, const std::string &name)
         if (!xcb_ewmh_init_atoms_replies(&ewmh_, cookie, nullptr)) {
             memset(&ewmh_, 0, sizeof(ewmh_));
         }
+    }
+
+    if (extensionCheckXWayland(conn_.get()) ||
+        xrandrCheckXWayland(conn_.get(), screen)) {
+        isXWayland_ = true;
+        FCITX_XCB_DEBUG() << "X11 display: " << name_ << " is xwayland.";
     }
 
     syms_.reset(xcb_key_symbols_alloc(conn_.get()));

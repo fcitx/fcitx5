@@ -112,6 +112,7 @@ private:
     KeyList forwardGroup_, backwardGroup_;
     bool doGrab_ = false;
     bool keyboardGrabbed_ = false;
+    bool isXWayland_ = false;
 
     std::unique_ptr<XCBEventReader> reader_;
 };
