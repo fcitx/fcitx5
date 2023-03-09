@@ -140,7 +140,7 @@ public:
 
     template <typename T>
     inline LogMessageBuilder &operator<<(const std::optional<T> &opt) {
-        *this << "optional(has_value=" << opt.has_value();
+        *this << "optional(has_value=" << opt.has_value() << " ";
         if (opt.has_value()) {
             *this << *opt;
         }
