@@ -146,6 +146,7 @@ void WaylandIMInputContextV1::activate(wayland::ZwpInputMethodContextV1 *ic) {
         [this](uint32_t serial) { commitStateCallback(serial); });
     ic_->preferredLanguage().connect(
         [](const char *language) { preferredLanguageCallback(language); });
+    keyboard_.reset();
     keyboard_.reset(ic_->grabKeyboard());
     keyboard_->keymap().connect(
         [this](uint32_t format, int32_t fd, uint32_t size) {
@@ -184,6 +185,12 @@ void WaylandIMInputContextV1::deactivate(wayland::ZwpInputMethodContextV1 *ic) {
     if (ic_.get() == ic) {
         ic_.reset();
         keyboard_.reset();
+        // This is the only place we update wayland display mask, so it is ok to
+        // reset it to 0. This breaks the caps lock or num lock. But we have no
+        // other option until we can listen to the mod change globally.
+        server_->instance()->updateXkbStateMask(server_->group()->display(), 0,
+                                                0, 0);
+
         timeEvent_->setEnabled(false);
         server_->display_->sync();
         focusOutWrapper();

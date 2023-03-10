@@ -139,6 +139,12 @@ WaylandIMInputContextV2::WaylandIMInputContextV2(
         if (pendingDeactivate_) {
             pendingDeactivate_ = false;
             keyboardGrab_.reset();
+            // This is the only place we update wayland xkb mask, so it is ok to
+            // reset it to 0. This breaks the caps lock or num lock. But we have
+            // no other option until we can listen to the mod change globally.
+            server_->instance()->updateXkbStateMask(server_->group()->display(),
+                                                    0, 0, 0);
+
             timeEvent_->setEnabled(false);
             if (realFocus()) {
                 if (vkReady_) {
@@ -647,5 +653,4 @@ void WaylandIMInputContextV2::deleteSurroundingTextDelegate(
                                startBytes + sizeBytes - cursorBytes);
     ic_->commit(serial_);
 }
-
 } // namespace fcitx
