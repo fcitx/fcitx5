@@ -6,15 +6,15 @@
 # csslayer <wengxt@gmail.com>, 2017
 # ABE Tsunehiko, 2017
 # Takuro Onoue <kusanaginoturugi@gmail.com>, 2022
-# UTUMI Hirosi <utuhiro78@yahoo.co.jp>, 2022
+# UTUMI Hirosi <utuhiro78@yahoo.co.jp>, 2023
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2023-03-09 20:25+0000\n"
+"POT-Creation-Date: 2023-03-10 20:24+0000\n"
 "PO-Revision-Date: 2017-11-23 04:14+0000\n"
-"Last-Translator: UTUMI Hirosi <utuhiro78@yahoo.co.jp>, 2022\n"
+"Last-Translator: UTUMI Hirosi <utuhiro78@yahoo.co.jp>, 2023\n"
 "Language-Team: Japanese (https://www.transifex.com/fcitx/teams/12005/ja/)\n"
 "Language: ja\n"
 "MIME-Version: 1.0\n"
@@ -56,7 +56,7 @@ msgstr "(使用不可)"
 
 #: src/modules/unicode/unicode.cpp:459
 msgid "(Type to search unicode by code or description)"
-msgstr "(コードまたは説明からUnicodeを検索する）"
+msgstr "(コードまたは説明からUnicodeを検索する)"
 
 #: data/fcitx5-diagnose.sh:690
 msgid "/Beginner%27s_Guide"
@@ -633,7 +633,7 @@ msgstr "デスクトップ環境は ${1} です。"
 
 #: src/frontend/waylandim/waylandim.h:27
 msgid "Detect current running application (Need restart)"
-msgstr ""
+msgstr "現在実行中のアプリケーションを検出する（再起動が必要）"
 
 #: data/fcitx5-diagnose.sh:851
 msgid "Directories:"
@@ -1193,7 +1193,7 @@ msgstr "画像"
 #: src/lib/fcitx/instance.cpp:660 src/lib/fcitx/instance.cpp:819
 #: src/modules/notificationitem/notificationitem.cpp:144
 #: src/modules/notificationitem/notificationitem.cpp:221
-#: src/modules/xcb/xcbconnection.cpp:406 data/org.fcitx.Fcitx5.desktop.in.in:4
+#: src/modules/xcb/xcbconnection.cpp:482 data/org.fcitx.Fcitx5.desktop.in.in:4
 #: data/org.fcitx.Fcitx5.metainfo.xml.in:7
 msgid "Input Method"
 msgstr "入力メソッド"
@@ -2126,11 +2126,11 @@ msgid "Suspend"
 msgstr "サスペンド"
 
 #: src/lib/fcitx/instance.cpp:443 src/lib/fcitx/instance.cpp:661
-#: src/modules/xcb/xcbconnection.cpp:407
+#: src/modules/xcb/xcbconnection.cpp:483
 msgid "Switch group"
 msgstr "グループの切り替え"
 
-#: src/lib/fcitx/instance.cpp:444 src/modules/xcb/xcbconnection.cpp:408
+#: src/lib/fcitx/instance.cpp:444 src/modules/xcb/xcbconnection.cpp:484
 msgid "Switch group to {0}"
 msgstr "{0} にグループを切り替える"
 
@@ -2337,7 +2337,7 @@ msgstr "上"
 
 #: src/frontend/xim/xim.h:33
 msgid "Use On The Spot Style (Needs restarting)"
-msgstr "XIM で On The Spot スタイルを使う(再起動が必要)"
+msgstr "XIM で On The Spot スタイルを使う（再起動が必要）"
 
 #: src/ui/classic/classicui.h:100
 msgid "Use Per Screen DPI"

@@ -5,15 +5,15 @@
 # Translators:
 # wwj402 <wwj402@gmail.com>, 2017
 # rocka, 2022
-# csslayer <wengxt@gmail.com>, 2022
+# csslayer <wengxt@gmail.com>, 2023
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2023-03-09 20:25+0000\n"
+"POT-Creation-Date: 2023-03-10 20:24+0000\n"
 "PO-Revision-Date: 2017-11-23 04:14+0000\n"
-"Last-Translator: csslayer <wengxt@gmail.com>, 2022\n"
+"Last-Translator: csslayer <wengxt@gmail.com>, 2023\n"
 "Language-Team: Chinese (China) (https://www.transifex.com/fcitx/teams/12005/"
 "zh_CN/)\n"
 "Language: zh_CN\n"
@@ -630,7 +630,7 @@ msgstr "桌面环境为 ${1}。"
 
 #: src/frontend/waylandim/waylandim.h:27
 msgid "Detect current running application (Need restart)"
-msgstr ""
+msgstr "检测当前运行的程序 (需要重启)"
 
 #: data/fcitx5-diagnose.sh:851
 msgid "Directories:"
@@ -1185,7 +1185,7 @@ msgstr "图片"
 #: src/lib/fcitx/instance.cpp:660 src/lib/fcitx/instance.cpp:819
 #: src/modules/notificationitem/notificationitem.cpp:144
 #: src/modules/notificationitem/notificationitem.cpp:221
-#: src/modules/xcb/xcbconnection.cpp:406 data/org.fcitx.Fcitx5.desktop.in.in:4
+#: src/modules/xcb/xcbconnection.cpp:482 data/org.fcitx.Fcitx5.desktop.in.in:4
 #: data/org.fcitx.Fcitx5.metainfo.xml.in:7
 msgid "Input Method"
 msgstr "输入法"
@@ -2111,11 +2111,11 @@ msgid "Suspend"
 msgstr "睡眠"
 
 #: src/lib/fcitx/instance.cpp:443 src/lib/fcitx/instance.cpp:661
-#: src/modules/xcb/xcbconnection.cpp:407
+#: src/modules/xcb/xcbconnection.cpp:483
 msgid "Switch group"
 msgstr "切换分组"
 
-#: src/lib/fcitx/instance.cpp:444 src/modules/xcb/xcbconnection.cpp:408
+#: src/lib/fcitx/instance.cpp:444 src/modules/xcb/xcbconnection.cpp:484
 msgid "Switch group to {0}"
 msgstr "切换到分组 {0}"
 
