@@ -188,8 +188,7 @@ void WaylandIMInputContextV1::deactivate(wayland::ZwpInputMethodContextV1 *ic) {
         // This is the only place we update wayland display mask, so it is ok to
         // reset it to 0. This breaks the caps lock or num lock. But we have no
         // other option until we can listen to the mod change globally.
-        server_->instance()->updateXkbStateMask(server_->group()->display(), 0,
-                                                0, 0);
+        server_->instance()->clearXkbStateMask(server_->group()->display());
 
         timeEvent_->setEnabled(false);
         server_->display_->sync();

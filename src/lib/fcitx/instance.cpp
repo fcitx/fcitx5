@@ -2334,6 +2334,11 @@ void Instance::updateXkbStateMask(const std::string &display,
         std::make_tuple(depressed_mods, latched_mods, locked_mods);
 }
 
+void Instance::clearXkbStateMask(const std::string &display) {
+    FCITX_D();
+    d->stateMask_.erase(display);
+}
+
 const char *Instance::version() { return FCITX_VERSION_STRING; }
 
 } // namespace fcitx
