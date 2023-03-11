@@ -518,7 +518,9 @@ xcb_atom_t XCBConnection::atom(const std::string &atomName, bool exists) {
     if (reply) {
         result = reply->atom;
     }
-    atomCache_.emplace(std::make_pair(atomName, result));
+    if (result != XCB_ATOM_NONE || exists) {
+        atomCache_.emplace(std::make_pair(atomName, result));
+    }
     return result;
 }
 

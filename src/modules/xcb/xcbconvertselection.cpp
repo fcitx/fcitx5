@@ -18,7 +18,7 @@ XCBConvertSelectionRequest::XCBConvertSelectionRequest(
       realCallback_(std::move(callback)) {
     if (type == 0) {
         fallbacks_.push_back(XCB_ATOM_STRING);
-        auto utf8Atom = conn->atom("UTF8_STRING", true);
+        auto utf8Atom = conn->atom("UTF8_STRING", false);
         if (utf8Atom) {
             fallbacks_.push_back(utf8Atom);
         }
