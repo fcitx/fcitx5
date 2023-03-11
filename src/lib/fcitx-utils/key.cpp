@@ -330,9 +330,6 @@ bool Key::check(const Key &key) const {
     if (states_.test(KeyState::Super2)) {
         states |= KeyState::Super;
     }
-    if (states_.test(KeyState::Hyper2)) {
-        states |= KeyState::Hyper;
-    }
 
     // key is keycode based, do key code based check.
     if (key.code()) {
@@ -432,9 +429,9 @@ bool Key::hasModifier() const { return !!(states_ & KeyState::SimpleMask); }
 Key Key::normalize() const {
     Key key(*this);
     /* key state != 0 */
-    key.states_ = key.states_ & KeyStates({KeyState::Ctrl_Alt_Shift,
-                                           KeyState::Super, KeyState::Mod3,
-                                           KeyState::Super2, KeyState::Hyper2});
+    key.states_ =
+        key.states_ & KeyStates({KeyState::Ctrl_Alt_Shift, KeyState::Super,
+                                 KeyState::Mod3, KeyState::Super2});
     if (key.states_) {
         if (key.states_ != KeyState::Shift && Key(key.sym_).isLAZ()) {
             key.sym_ = static_cast<KeySym>(key.sym_ + FcitxKey_A - FcitxKey_a);
