@@ -361,7 +361,6 @@ void Unicode::updateUI(InputContext *inputContext, bool trigger) {
         } else {
             inputContext->inputPanel().setPreedit(preedit);
         }
-        FCITX_INFO() << preedit.toString();
     } else if (state->mode_ == UnicodeMode::Search) {
         if (!state->buffer_.empty()) {
             auto result = data_.find(state->buffer_.userInput());
