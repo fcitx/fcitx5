@@ -99,7 +99,7 @@ bool shouldSwitchIM(const CapabilityFlags &oldFlags,
 
 } // namespace
 
-void InstanceArgument::printUsage() {
+void InstanceArgument::printUsage() const {
     std::cout
         << "Usage: " << argv0 << " [Option]\n"
         << "  --disable <addon names>\tA comma separated list of addons to "

@@ -108,7 +108,7 @@ struct InstanceArgument {
     static void printVersion() {
         std::cout << FCITX_VERSION_STRING << std::endl;
     }
-    void printUsage();
+    void printUsage() const;
 
     int overrideDelay = -1;
     bool tryReplace = false;
