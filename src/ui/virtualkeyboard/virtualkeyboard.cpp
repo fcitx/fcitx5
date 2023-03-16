@@ -27,6 +27,37 @@
 
 namespace fcitx {
 
+class VirtualKeyboardService
+    : public dbus::ObjectVTable<VirtualKeyboardService> {
+public:
+    explicit VirtualKeyboardService(VirtualKeyboard *parent)
+        : parent_(parent) {}
+
+    ~VirtualKeyboardService() = default;
+
+    void showVirtualKeyboard() {
+        if (!parent_->available()) {
+            return;
+        }
+        parent_->instance()->setInputMethodMode(
+            InputMethodMode::OnScreenKeyboard);
+
+        parent_->showVirtualKeyboard();
+    }
+
+    void hideVirtualKeyboard() { parent_->hideVirtualKeyboard(); }
+
+private:
+    FCITX_OBJECT_VTABLE_METHOD(showVirtualKeyboard, "ShowVirtualKeyboard", "",
+                               "");
+
+    FCITX_OBJECT_VTABLE_METHOD(hideVirtualKeyboard, "HideVirtualKeyboard", "",
+                               "");
+
+private:
+    VirtualKeyboard *parent_;
+};
+
 static const char VirtualKeyboardBackendName[] =
     "org.fcitx.Fcitx5.VirtualKeyboardBackend";
 static const char VirtualKeyboardBackendInterfaceName[] =
@@ -41,25 +72,6 @@ public:
     VirtualKeyboardBackend(VirtualKeyboard *parent) : parent_(parent) {}
 
     ~VirtualKeyboardBackend() = default;
-
-    void showVirtualKeyboard() {
-        if (!parent_->available() || parent_->isVirtualKeyboardVisible()) {
-            return;
-        }
-
-        parent_->instance()->setInputMethodMode(
-            InputMethodMode::OnScreenKeyboard);
-
-        parent_->showVirtualKeyboard();
-    }
-
-    void hideVirtualKeyboard() {
-        if (!parent_->isVirtualKeyboardVisible()) {
-            return;
-        }
-
-        parent_->hideVirtualKeyboard();
-    }
 
     void processKeyEvent(uint32_t keyval, uint32_t keycode, uint32_t state,
                          bool isRelease, uint32_t time);
@@ -89,12 +101,6 @@ private:
     PageableCandidateList *getPageableCandidateList();
 
 private:
-    FCITX_OBJECT_VTABLE_METHOD(showVirtualKeyboard, "ShowVirtualKeyboard", "",
-                               "");
-
-    FCITX_OBJECT_VTABLE_METHOD(hideVirtualKeyboard, "HideVirtualKeyboard", "",
-                               "");
-
     FCITX_OBJECT_VTABLE_METHOD(processKeyEvent, "ProcessKeyEvent", "uuubu", "");
 
     FCITX_OBJECT_VTABLE_METHOD(processVisibilityEvent, "ProcessVisibilityEvent",
@@ -186,6 +192,8 @@ VirtualKeyboard::VirtualKeyboard(Instance *instance)
             FCITX_INFO() << "VirtualKeyboard new owner: " << newOwner;
             setAvailable(!newOwner.empty());
         });
+
+    initVirtualKeyboardService();
 }
 
 VirtualKeyboard::~VirtualKeyboard() = default;
@@ -237,10 +245,6 @@ void VirtualKeyboard::update(UserInterfaceComponent component,
 }
 
 void VirtualKeyboard::showVirtualKeyboard() {
-    if (isVirtualKeyboardVisible()) {
-        return;
-    }
-
     auto msg = bus_->createMethodCall(
         VirtualKeyboardName, "/org/fcitx/virtualkeyboard/impanel",
         VirtualKeyboardInterfaceName, "ShowVirtualKeyboard");
@@ -249,10 +253,6 @@ void VirtualKeyboard::showVirtualKeyboard() {
 }
 
 void VirtualKeyboard::hideVirtualKeyboard() {
-    if (!isVirtualKeyboardVisible()) {
-        return;
-    }
-
     auto msg = bus_->createMethodCall(
         VirtualKeyboardName, "/org/fcitx/virtualkeyboard/impanel",
         VirtualKeyboardInterfaceName, "HideVirtualKeyboard");
@@ -270,6 +270,13 @@ void VirtualKeyboard::updateInputPanel(InputContext *inputContext) {
     updatePreeditCaret(cursorIndex);
 
     updateCandidate(inputContext);
+}
+
+void VirtualKeyboard::initVirtualKeyboardService() {
+    service_ = std::make_unique<VirtualKeyboardService>(this);
+    bus_->addObjectVTable("/virtualkeyboard",
+                          "org.fcitx.Fcitx.VirtualKeyboard1", *service_);
+    bus_->flush();
 }
 
 void VirtualKeyboard::setAvailable(bool available) {
