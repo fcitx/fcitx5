@@ -77,7 +77,7 @@ int main() {
                       .isReleaseOfModifier(fcitx::Key("Alt+Shift_L")));
     FCITX_ASSERT(fcitx::Key(FcitxKey_space, fcitx::KeyState::Super2)
                      .normalize()
-                     .states() == fcitx::KeyState::Super2);
+                     .states() == fcitx::KeyState::Super);
     FCITX_ASSERT(fcitx::Key(FcitxKey_space, fcitx::KeyState::Super2)
                      .check(fcitx::Key("Super+space")));
 
