@@ -3,15 +3,16 @@
 # This file is distributed under the same license as the fcitx5 package.
 #
 # Translators:
-# עומר א״ש <omeritzicschwartz@gmail.com>, 2021
+# 63f334ffc0709ba0fc2361b80bf3c0f0_00ffd1e <ab96c93ca0ac55ba7fa06385427e60dd_878890>, 2021
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2023-03-09 20:25+0000\n"
+"POT-Creation-Date: 2023-03-17 20:24+0000\n"
 "PO-Revision-Date: 2017-11-23 04:14+0000\n"
-"Last-Translator: עומר א״ש <omeritzicschwartz@gmail.com>, 2021\n"
+"Last-Translator: 63f334ffc0709ba0fc2361b80bf3c0f0_00ffd1e "
+"<ab96c93ca0ac55ba7fa06385427e60dd_878890>, 2021\n"
 "Language-Team: Hebrew (https://www.transifex.com/fcitx/teams/12005/he/)\n"
 "Language: he\n"
 "MIME-Version: 1.0\n"
@@ -52,7 +53,7 @@ msgstr ""
 msgid "(Not available)"
 msgstr ""
 
-#: src/modules/unicode/unicode.cpp:459
+#: src/modules/unicode/unicode.cpp:458
 msgid "(Type to search unicode by code or description)"
 msgstr ""
 
@@ -158,7 +159,7 @@ msgstr ""
 msgid "Alt"
 msgstr ""
 
-#: src/lib/fcitx-utils/key.cpp:518
+#: src/lib/fcitx-utils/key.cpp:519
 msgctxt "Key name"
 msgid "Alt"
 msgstr "Alt"
@@ -516,7 +517,7 @@ msgstr "הגדרה"
 msgid "Control"
 msgstr ""
 
-#: src/lib/fcitx-utils/key.cpp:517
+#: src/lib/fcitx-utils/key.cpp:518
 msgctxt "Key name"
 msgid "Control"
 msgstr ""
@@ -1138,7 +1139,7 @@ msgid ""
 "Hotkey for switching to the N-th input method for only current input context"
 msgstr ""
 
-#: src/lib/fcitx-utils/key.cpp:522
+#: src/lib/fcitx-utils/key.cpp:523
 msgctxt "Key name"
 msgid "Hyper"
 msgstr ""
@@ -1169,7 +1170,7 @@ msgstr ""
 #: src/lib/fcitx/instance.cpp:660 src/lib/fcitx/instance.cpp:819
 #: src/modules/notificationitem/notificationitem.cpp:144
 #: src/modules/notificationitem/notificationitem.cpp:221
-#: src/modules/xcb/xcbconnection.cpp:406 data/org.fcitx.Fcitx5.desktop.in.in:4
+#: src/modules/xcb/xcbconnection.cpp:482 data/org.fcitx.Fcitx5.desktop.in.in:4
 #: data/org.fcitx.Fcitx5.metainfo.xml.in:7
 msgid "Input Method"
 msgstr ""
@@ -1954,7 +1955,7 @@ msgstr ""
 msgid "Share Input State"
 msgstr ""
 
-#: src/lib/fcitx-utils/key.cpp:519
+#: src/lib/fcitx-utils/key.cpp:520
 msgctxt "Key name"
 msgid "Shift"
 msgstr ""
@@ -2068,7 +2069,7 @@ msgstr ""
 msgid "Super"
 msgstr ""
 
-#: src/lib/fcitx-utils/key.cpp:520
+#: src/lib/fcitx-utils/key.cpp:521
 msgctxt "Key name"
 msgid "Super"
 msgstr ""
@@ -2084,11 +2085,11 @@ msgid "Suspend"
 msgstr "השהיה"
 
 #: src/lib/fcitx/instance.cpp:443 src/lib/fcitx/instance.cpp:661
-#: src/modules/xcb/xcbconnection.cpp:407
+#: src/modules/xcb/xcbconnection.cpp:483
 msgid "Switch group"
 msgstr ""
 
-#: src/lib/fcitx/instance.cpp:444 src/modules/xcb/xcbconnection.cpp:408
+#: src/lib/fcitx/instance.cpp:444 src/modules/xcb/xcbconnection.cpp:484
 msgid "Switch group to {0}"
 msgstr ""
 
@@ -2279,7 +2280,7 @@ msgstr ""
 msgid "Unicode"
 msgstr ""
 
-#: src/modules/unicode/unicode.cpp:457
+#: src/modules/unicode/unicode.cpp:456
 msgid "Unicode: "
 msgstr ""
 
