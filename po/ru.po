@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2023-03-10 20:24+0000\n"
+"POT-Creation-Date: 2023-03-23 20:24+0000\n"
 "PO-Revision-Date: 2017-11-23 04:14+0000\n"
 "Last-Translator: Dmitry <dmitrydmitry761@gmail.com>, 2023\n"
 "Language-Team: Russian (https://www.transifex.com/fcitx/teams/12005/ru/)\n"
@@ -55,7 +55,7 @@ msgstr "${1} работает правильно."
 msgid "(Not available)"
 msgstr "(Недоступно)"
 
-#: src/modules/unicode/unicode.cpp:459
+#: src/modules/unicode/unicode.cpp:458
 msgid "(Type to search unicode by code or description)"
 msgstr "(Введите для поиска юникода по коду или описанию)"
 
@@ -163,7 +163,7 @@ msgstr ""
 msgid "Alt"
 msgstr "Alt"
 
-#: src/lib/fcitx-utils/key.cpp:518
+#: src/lib/fcitx-utils/key.cpp:519
 msgctxt "Key name"
 msgid "Alt"
 msgstr "Alt"
@@ -526,7 +526,7 @@ msgstr "Настроить"
 msgid "Control"
 msgstr "Управление"
 
-#: src/lib/fcitx-utils/key.cpp:517
+#: src/lib/fcitx-utils/key.cpp:518
 msgctxt "Key name"
 msgid "Control"
 msgstr "Управление"
@@ -1164,7 +1164,7 @@ msgstr ""
 "Горячая клавиша для переключения на определённый метод ввода только для "
 "текущего контекста ввода"
 
-#: src/lib/fcitx-utils/key.cpp:522
+#: src/lib/fcitx-utils/key.cpp:523
 msgctxt "Key name"
 msgid "Hyper"
 msgstr "Hyper"
@@ -2003,7 +2003,7 @@ msgstr "Затенённое поле"
 msgid "Share Input State"
 msgstr "Поделиться состоянием ввода"
 
-#: src/lib/fcitx-utils/key.cpp:519
+#: src/lib/fcitx-utils/key.cpp:520
 msgctxt "Key name"
 msgid "Shift"
 msgstr "Shift"
@@ -2122,7 +2122,7 @@ msgstr "Подзаголовок"
 msgid "Super"
 msgstr "Super"
 
-#: src/lib/fcitx-utils/key.cpp:520
+#: src/lib/fcitx-utils/key.cpp:521
 msgctxt "Key name"
 msgid "Super"
 msgstr "Super"
@@ -2323,7 +2323,7 @@ msgstr "Вводить специальные символы долгим наж
 
 #: src/modules/unicode/unicode.h:36
 msgid "Type unicode in Hex number"
-msgstr "Вводить unicode в шестнадцатеричном формате"
+msgstr "Вводить Юникод в шестнадцатеричном формате"
 
 #: data/org.fcitx.Fcitx5.metainfo.xml.in:20
 msgid "Typing with Fcitx and Kimpanel"
@@ -2340,11 +2340,11 @@ msgstr "Отменить"
 
 #: src/modules/unicode/unicode.conf.in.in:3
 msgid "Unicode"
-msgstr "Unicode"
+msgstr "Юникод"
 
-#: src/modules/unicode/unicode.cpp:457
+#: src/modules/unicode/unicode.cpp:456
 msgid "Unicode: "
-msgstr "Unicode: "
+msgstr "Юникод:"
 
 #: src/lib/fcitx-utils/key.cpp:48
 msgctxt "Key name"
