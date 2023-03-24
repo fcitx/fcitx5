@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2023-03-23 20:24+0000\n"
+"POT-Creation-Date: 2023-03-24 20:24+0000\n"
 "PO-Revision-Date: 2017-11-23 04:14+0000\n"
 "Last-Translator: Dmitry <dmitrydmitry761@gmail.com>, 2023\n"
 "Language-Team: Russian (https://www.transifex.com/fcitx/teams/12005/ru/)\n"
@@ -2344,7 +2344,7 @@ msgstr "Юникод"
 
 #: src/modules/unicode/unicode.cpp:456
 msgid "Unicode: "
-msgstr "Юникод:"
+msgstr "Юникод: "
 
 #: src/lib/fcitx-utils/key.cpp:48
 msgctxt "Key name"
