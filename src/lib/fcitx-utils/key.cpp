@@ -312,7 +312,7 @@ bool Key::isReleaseOfModifier(const Key &key) const {
         keys.emplace_back(FcitxKey_Shift_L, states);
         keys.emplace_back(FcitxKey_Shift_R, states);
     }
-    if (key.states() & KeyState::Super) {
+    if ((key.states() & KeyState::Super) || (key.states() & KeyState::Super2)) {
         keys.emplace_back(FcitxKey_Super_L, states);
         keys.emplace_back(FcitxKey_Super_R, states);
     }
@@ -432,6 +432,10 @@ Key Key::normalize() const {
     key.states_ =
         key.states_ & KeyStates({KeyState::Ctrl_Alt_Shift, KeyState::Super,
                                  KeyState::Mod3, KeyState::Super2});
+    if (key.states_.test(KeyState::Super2)) {
+        key.states_ = key.states_.unset(KeyState::Super2);
+        key.states_ |= KeyState::Super;
+    }
     if (key.states_) {
         if (key.states_ != KeyState::Shift && Key(key.sym_).isLAZ()) {
             key.sym_ = static_cast<KeySym>(key.sym_ + FcitxKey_A - FcitxKey_a);
