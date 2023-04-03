@@ -161,9 +161,10 @@ std::string Kimpanel::actionToStatus(Action *action, InputContext *ic) {
     if (action->menu()) {
         type = "menu";
     }
-    return stringutils::concat(
-        "/Fcitx/", action->name(), ":", action->shortText(ic), ":",
-        iconName(action->icon(ic)), ":", action->longText(ic), ":", type);
+    return stringutils::concat("/Fcitx/", action->name(), ":",
+                               action->shortText(ic), ":",
+                               IconTheme::iconName(action->icon(ic)), ":",
+                               action->longText(ic), ":", type);
 }
 
 void Kimpanel::resume() {
@@ -402,8 +403,9 @@ std::string Kimpanel::inputMethodStatus(InputContext *ic) {
         icon = "input-keyboard-symbolic";
     }
 
-    return stringutils::concat("/Fcitx/im:", description, ":", iconName(icon),
-                               ":", altDescription, ":menu,label=", label);
+    return stringutils::concat("/Fcitx/im:", description, ":",
+                               IconTheme::iconName(icon), ":", altDescription,
+                               ":menu,label=", label);
 }
 
 void Kimpanel::updateCurrentInputMethod(InputContext *ic) {
@@ -437,7 +439,7 @@ void Kimpanel::msgV1Handler(dbus::Message &msg) {
                 }
                 menuitems.push_back(stringutils::concat(
                     "/Fcitx/im/", entry->uniqueName(), ":", entry->name(), ":",
-                    iconName(entry->icon()), "::"));
+                    IconTheme::iconName(entry->icon()), "::"));
             }
             proxy_->execMenu(menuitems);
         } else if (stringutils::startsWith(property, "/Fcitx/im/")) {

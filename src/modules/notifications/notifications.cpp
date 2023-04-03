@@ -10,6 +10,7 @@
 #include <fcntl.h>
 #include "fcitx-config/iniparser.h"
 #include "fcitx-utils/i18n.h"
+#include "fcitx-utils/misc.h"
 #include "fcitx-utils/standardpath.h"
 #include "fcitx/addonfactory.h"
 #include "fcitx/addonmanager.h"
@@ -151,8 +152,8 @@ uint32_t Notifications::sendNotification(
         removeItem(*replaceItem);
     }
 
-    message << appName << replaceId << IconTheme::iconName(appIcon, inFlatpak_)
-            << summary << body;
+    message << appName << replaceId << IconTheme::iconName(appIcon) << summary
+            << body;
     message << actions;
     message << dbus::Container(dbus::Container::Type::Array,
                                dbus::Signature("{sv}"));

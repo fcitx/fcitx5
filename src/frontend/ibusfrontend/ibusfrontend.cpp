@@ -46,11 +46,6 @@ namespace fcitx {
 
 namespace {
 
-bool isInFlatpak() {
-    static bool inFlatpak = fs::isreg("/.flatpak-info");
-    return inFlatpak;
-}
-
 std::string getSocketPath(bool isWayland) {
     auto *path = getenv("IBUS_ADDRESS_FILE");
     if (path) {

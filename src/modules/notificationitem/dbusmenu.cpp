@@ -278,7 +278,7 @@ void DBusMenu::fillLayoutProperties(
                        dbus::Variant(entry->name()));
         if (!entry->icon().empty()) {
             appendProperty(properties, propertyNames, "icon-name",
-                           dbus::Variant(iconName(entry->icon())));
+                           dbus::Variant(IconTheme::iconName(entry->icon())));
         }
         appendProperty(properties, propertyNames, "toggle-type",
                        dbus::Variant("radio"));
@@ -329,7 +329,7 @@ void DBusMenu::fillLayoutProperties(
         appendProperty(properties, propertyNames, "label",
                        dbus::Variant(action->shortText(ic)));
         appendProperty(properties, propertyNames, "icon-name",
-                       dbus::Variant(iconName(action->icon(ic))));
+                       dbus::Variant(IconTheme::iconName(action->icon(ic))));
         if (action->isCheckable()) {
             appendProperty(properties, propertyNames, "toggle-type",
                            dbus::Variant("radio"));

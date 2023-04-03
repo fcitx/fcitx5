@@ -800,13 +800,9 @@ std::string IconTheme::defaultIconThemeName() {
 
 /// Rename fcitx-* icon to org.fcitx.Fcitx5.fcitx-* if in flatpak
 std::string IconTheme::iconName(const std::string &icon, bool inFlatpak) {
-#ifdef USE_FLATPAK_ICON
     if (inFlatpak && stringutils::startsWith(icon, "fcitx-")) {
         return stringutils::concat("org.fcitx.Fcitx5.", icon);
     }
-#else
-    FCITX_UNUSED(inFlatpak);
-#endif
     return icon;
 }
 } // namespace fcitx

@@ -37,9 +37,7 @@ namespace fcitx {
 
 class StatusNotifierItem : public dbus::ObjectVTable<StatusNotifierItem> {
 public:
-    StatusNotifierItem(NotificationItem *parent) : parent_(parent) {
-        FCITX_LOG_IF(Info, inFlatpak_) << "Running inside flatpak.";
-    }
+    StatusNotifierItem(NotificationItem *parent) : parent_(parent) {}
 
     void scroll(int delta, const std::string &_orientation) {
         std::string orientation = _orientation;
@@ -74,7 +72,7 @@ public:
         if (icon == "input-keyboard" && preferSymbolic) {
             return "input-keyboard-symbolic";
         }
-        return IconTheme::iconName(icon, inFlatpak_);
+        return IconTheme::iconName(icon);
     }
 
     std::string label() { return ""; }
@@ -223,7 +221,6 @@ public:
 private:
     NotificationItem *parent_;
     int deltaAcc_ = 0;
-    const bool inFlatpak_ = fs::isreg("/.flatpak-info");
     std::string lastLabel_;
     std::string lastIconName_;
     // Quick cache for the icon.

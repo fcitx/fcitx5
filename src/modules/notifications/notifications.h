@@ -114,8 +114,6 @@ private:
 
     std::unordered_map<uint64_t, NotificationItem> items_;
     std::unordered_map<uint32_t, uint64_t> globalToInternalId_;
-
-    const bool inFlatpak_ = fs::isreg("/.flatpak-info");
 };
 } // namespace fcitx
 

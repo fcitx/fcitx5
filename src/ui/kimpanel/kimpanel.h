@@ -11,6 +11,7 @@
 #include "fcitx-utils/dbus/servicewatcher.h"
 #include "fcitx-utils/event.h"
 #include "fcitx-utils/fs.h"
+#include "fcitx-utils/misc.h"
 #include "fcitx/addonfactory.h"
 #include "fcitx/addoninstance.h"
 #include "fcitx/addonmanager.h"
@@ -48,10 +49,6 @@ public:
 private:
     void setAvailable(bool available);
 
-    std::string iconName(const std::string &icon) {
-        return IconTheme::iconName(icon, inFlatpak_);
-    }
-
     FCITX_ADDON_DEPENDENCY_LOADER(dbus, instance_->addonManager());
 
     Instance *instance_;
@@ -68,7 +65,6 @@ private:
     std::unique_ptr<dbus::Slot> relativeQuery_;
     bool hasRelative_ = false;
     bool hasRelativeV2_ = false;
-    const bool inFlatpak_ = fs::isreg("/.flatpak-info");
 };
 } // namespace fcitx
 

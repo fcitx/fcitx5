@@ -208,8 +208,6 @@ public:
     AddonInstance *notifications_ = nullptr;
 
     std::string lastGroup_;
-
-    const bool inFlatpak_ = fs::isreg("/.flatpak-info");
 };
 
 } // namespace fcitx
