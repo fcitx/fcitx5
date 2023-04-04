@@ -2,6 +2,32 @@ cmake_minimum_required(VERSION 3.6.0)
 project(fcitx VERSION 5.0.23)
 set(FCITX_VERSION ${PROJECT_VERSION})
 
+# extra-cmake-modules
+if(DEFINED ENV{ECM_DIR})
+    set(ECM_DIR $ENV{ECM_DIR})
+else()
+	set(ECM_DIR "/usr/local/Cellar/extra-cmake-modules/5.97.0/share/ECM/cmake/")
+endif()
+
+set(PREBUILT_DIR "${CMAKE_CURRENT_SOURCE_DIR}/prebuilt")
+
+# prebuilt fmt
+set(fmt_DIR "${PREBUILT_DIR}/fmt/${ANDROID_ABI}/lib/cmake/fmt")
+# prebuilt libintl-lite
+set(LibIntl_DIR "${PREBUILT_DIR}/libintl-lite/${ANDROID_ABI}/lib/cmake")
+set(LibIntl_INCLUDE_DIR "${PREBUILT_DIR}/libintl-lite/${ANDROID_ABI}/include/")
+# prebuilt libevent
+set(Libevent_DIR "${PREBUILT_DIR}/libevent/${ANDROID_ABI}/lib/cmake/libevent")
+
+# prebuilt boost
+set(BOOST_VERSION "1.80.0")
+set(BOOST_MODULES headers filesystem atomic iostreams regex)
+set(BOOST_ROOT "${PREBUILT_DIR}/boost/${ANDROID_ABI}")
+set(Boost_DIR "${BOOST_ROOT}/lib/cmake/Boost-${BOOST_VERSION}")
+foreach(mod IN LISTS BOOST_MODULES)
+    set("boost_${mod}_DIR" "${BOOST_ROOT}/lib/cmake/boost_${mod}-${BOOST_VERSION}")
+endforeach()
+
 find_package(ECM REQUIRED 1.0.0)
 set(CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake" ${ECM_MODULE_PATH} ${CMAKE_MODULE_PATH})
 
@@ -193,9 +219,9 @@ configure_file(${CMAKE_CURRENT_SOURCE_DIR}/config.h.in ${CMAKE_CURRENT_BINARY_DI
 include_directories(${CMAKE_CURRENT_BINARY_DIR})
 
 add_subdirectory(src)
-add_subdirectory(data)
-add_subdirectory(po)
-add_subdirectory(testing)
+# add_subdirectory(data)
+# add_subdirectory(po)
+# add_subdirectory(testing)
 
 #######################################################################
 # Test features

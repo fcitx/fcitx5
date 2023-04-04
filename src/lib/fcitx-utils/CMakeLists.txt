@@ -117,6 +117,8 @@ ecm_setup_version(PROJECT
                   PACKAGE_VERSION_FILE "${CMAKE_CURRENT_BINARY_DIR}/Fcitx5UtilsConfigVersion.cmake"
                   SOVERSION 2)
 
+set(LibIntl::LibIntl "${PREBUILT_DIR}/libintl-lite/${ANDROID_ABI}/lib/libintl.a")
+
 add_library(Fcitx5Utils SHARED ${FCITX_UTILS_SOURCES})
 set_target_properties(Fcitx5Utils
   PROPERTIES VERSION ${Fcitx5Utils_VERSION}
