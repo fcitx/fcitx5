@@ -84,7 +84,7 @@ macro(fcitx5_export_module EXPORTNAME)
     if(FEM_INSTALL)
         install(FILES "${CMAKE_CURRENT_BINARY_DIR}/Fcitx5Module${EXPORTNAME}Config.cmake"
                       "${CMAKE_CURRENT_BINARY_DIR}/Fcitx5Module${EXPORTNAME}ConfigVersion.cmake" DESTINATION "${FEM_LIB_INSTALL_DIR}/cmake/Fcitx5Module${EXPORTNAME}")
-        install(FILES ${FEM_HEADERS} DESTINATION "${_MODULE_HEADER_DIR}")
+        install(FILES ${FEM_HEADERS} DESTINATION "${_MODULE_HEADER_DIR}" COMPONENT header)
     endif()
 endmacro()
 
