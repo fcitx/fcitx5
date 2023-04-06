@@ -1011,7 +1011,7 @@ Instance::Instance(int argc, char **argv) {
         }));
     d->eventWatchers_.emplace_back(d->watchEvent(
         EventType::InputContextFocusOut, EventWatcherPhase::InputMethod,
-        [this, d](Event &event) {
+        [this](Event &event) {
             auto &icEvent = static_cast<InputContextEvent &>(event);
             deactivateInputMethod(icEvent);
         }));
