@@ -56,7 +56,7 @@ public:
      * Register addon loader, including static and shared library loader.
      *
      * This function usually need to be called before any other function call to
-     * adddon manager.
+     * addon manager.
      *
      * @param registry static addon registry that can be used to set a list of
      * built-in addons.

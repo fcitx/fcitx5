@@ -29,7 +29,7 @@ public:
      *
      * This function is called by AddonManager
      *
-     * @return a created addon isntance.
+     * @return a created addon instance.
      *
      * @see AddonManager
      */

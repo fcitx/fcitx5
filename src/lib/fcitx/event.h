@@ -80,7 +80,7 @@ enum class EventType : uint32_t {
      *
      * So OnClose is called when preedit IS committed (not like
      * CChangeByInactivate,
-     * this behavior cannot be overrided), it give im a chance to choose
+     * this behavior cannot be overridden), it give im a chance to choose
      * remember this
      * word or not.
      *

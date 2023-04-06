@@ -87,7 +87,7 @@ public:
     double scaleFactor() const;
 
     // Following functions should only be called by Frontend.
-    // Calling following most of folloing functions will generate a
+    // Calling following most of following functions will generate a
     // corresponding InputContextEvent.
 
     /// Called When input context gains the input focus.
@@ -131,7 +131,7 @@ public:
     /// Override the preedit hint from client.
     void setEnablePreedit(bool enable);
 
-    /// Check if preedit is manually disalbed.
+    /// Check if preedit is manually disabled.
     bool isPreeditEnabled() const;
 
     /// Update the current cursor rect of the input context.
@@ -269,7 +269,7 @@ public:
     }
 
     /**
-     * Notifes the change of a given input context property
+     * Notifies the change of a given input context property
      *
      * @param name name of the input context property.
      *
@@ -278,7 +278,7 @@ public:
     void updateProperty(const std::string &name);
 
     /**
-     * Notifes the change of a given input context property by its factory.
+     * Notifies the change of a given input context property by its factory.
      *
      * @param name name of the input context property.
      *
