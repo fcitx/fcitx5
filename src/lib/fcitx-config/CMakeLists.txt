@@ -45,7 +45,7 @@ configure_file(Fcitx5Config.pc.in ${CMAKE_CURRENT_BINARY_DIR}/Fcitx5Config.pc @O
 install(TARGETS Fcitx5Config EXPORT Fcitx5ConfigTargets LIBRARY DESTINATION "${CMAKE_INSTALL_LIBDIR}")
 install(FILES ${CMAKE_CURRENT_BINARY_DIR}/Fcitx5Config.pc
   DESTINATION "${CMAKE_INSTALL_LIBDATADIR}/pkgconfig")
-install(FILES ${FCITX_CONFIG_HEADERS} DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}/Fcitx5/Config/fcitx-config")
+install(FILES ${FCITX_CONFIG_HEADERS} DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}/Fcitx5/Config/fcitx-config" COMPONENT header)
 
 add_library(Fcitx5::Config ALIAS Fcitx5Config)
 
