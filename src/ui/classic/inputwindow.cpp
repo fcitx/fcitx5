@@ -5,9 +5,14 @@
  *
  */
 #include "inputwindow.h"
+#include <cmath>
 #include <functional>
 #include <initializer_list>
 #include <limits>
+#include <cairo.h>
+#include <pango/pango-context.h>
+#include <pango/pango-font.h>
+#include <pango/pango-layout.h>
 #include <pango/pangocairo.h>
 #include "fcitx-utils/color.h"
 #include "fcitx-utils/log.h"
@@ -51,7 +56,21 @@ static void renderLayout(cairo_t *cr, PangoLayout *layout, int x, int y) {
     auto yOffset = PANGO_PIXELS(ascent - baseline);
     cairo_save(cr);
 
+    // Ensure the text are not painting on half pixel.
     cairo_move_to(cr, x, y + yOffset);
+    double dx, dy, odx, ody;
+    cairo_get_current_point(cr, &dx, &dy);
+    // Save old user value
+    odx = dx;
+    ody = dy;
+    // Convert to device and round.
+    cairo_user_to_device(cr, &dx, &dy);
+    double ndx = std::round(dx);
+    double ndy = std::round(dy);
+    // Convert back to user and calculate delta.
+    cairo_device_to_user(cr, &ndx, &ndy);
+    cairo_move_to(cr, x + ndx - odx, y + yOffset + ndy - ody);
+    
     prepareLayout(cr, layout);
     pango_cairo_show_layout(cr, layout);
 
@@ -447,10 +466,13 @@ std::pair<unsigned int, unsigned int> InputWindow::sizeHint() {
     return {width, height};
 }
 
-void InputWindow::paint(cairo_t *cr, unsigned int width, unsigned int height) {
+void InputWindow::paint(cairo_t *cr, unsigned int width, unsigned int height,
+                        double scale) {
+    cairo_scale(cr, scale, scale);
     auto &theme = parent_->theme();
     cairo_set_operator(cr, CAIRO_OPERATOR_SOURCE);
-    theme.paint(cr, *theme.inputPanel->background, width, height);
+    theme.paint(cr, *theme.inputPanel->background, width, height, /*alpha=*/1.0,
+                scale);
     const auto &margin = *theme.inputPanel->contentMargin;
     const auto &textMargin = *theme.inputPanel->textMargin;
     cairo_set_operator(cr, CAIRO_OPERATOR_OVER);
@@ -602,7 +624,8 @@ void InputWindow::paint(cairo_t *cr, unsigned int width, unsigned int height) {
                         highlightWidth + *highlightMargin.marginLeft +
                             *highlightMargin.marginRight,
                         vheight + *highlightMargin.marginTop +
-                            *highlightMargin.marginBottom);
+                            *highlightMargin.marginBottom,
+                        /*alpha=*/1.0, scale);
             cairo_restore(cr);
             highlight = true;
         }

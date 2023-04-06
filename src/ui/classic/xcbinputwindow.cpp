@@ -187,7 +187,7 @@ void XCBInputWindow::update(InputContext *inputContext) {
         xcb_map_window(ui_->connection(), wid_);
         xcb_flush(ui_->connection());
     }
-    paint(c, width, height);
+    paint(c, width, height, /*scale=*/1.0);
     cairo_destroy(c);
     render();
 }
@@ -248,7 +248,7 @@ void XCBInputWindow::repaint() {
     }
     if (auto *surface = prerender()) {
         cairo_t *c = cairo_create(surface);
-        paint(c, width(), height());
+        paint(c, width(), height(), /*scale=*/1.0);
         cairo_destroy(c);
         render();
     }

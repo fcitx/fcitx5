@@ -14,10 +14,13 @@ int main() {
     FCITX_INFO() << IconTheme::defaultIconThemeName();
     FCITX_INFO() << theme.name().match();
     FCITX_INFO() << theme.comment().match();
-    FCITX_ASSERT(IconTheme::iconName("input-keyboard", false) == "input-keyboard");
-    FCITX_ASSERT(IconTheme::iconName("input-keyboard", true) == "input-keyboard");
+    FCITX_ASSERT(IconTheme::iconName("input-keyboard", false) ==
+                 "input-keyboard");
+    FCITX_ASSERT(IconTheme::iconName("input-keyboard", true) ==
+                 "input-keyboard");
     FCITX_ASSERT(IconTheme::iconName("fcitx-pinyin", false) == "fcitx-pinyin");
-    FCITX_ASSERT(IconTheme::iconName("fcitx-pinyin", true) == "org.fcitx.Fcitx5.fcitx-pinyin");
+    FCITX_ASSERT(IconTheme::iconName("fcitx-pinyin", true) ==
+                 "org.fcitx.Fcitx5.fcitx-pinyin");
 
     for (const auto &inheritTheme : theme.inherits()) {
         FCITX_INFO() << inheritTheme.name().match();

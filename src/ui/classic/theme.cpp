@@ -8,6 +8,7 @@
 #include "theme.h"
 #include <fcntl.h>
 #include <cassert>
+#include <cairo.h>
 #include <fmt/format.h>
 #include <gdk-pixbuf/gdk-pixbuf.h>
 #include <gio/gunixinputstream.h>
@@ -15,6 +16,7 @@
 #include "fcitx-config/iniparser.h"
 #include "fcitx-utils/fs.h"
 #include "fcitx-utils/log.h"
+#include "fcitx-utils/misc.h"
 #include "fcitx-utils/rect.h"
 #include "fcitx-utils/standardpath.h"
 #include "fcitx-utils/utf8.h"
@@ -398,13 +400,10 @@ const ThemeImage &Theme::loadImage(const std::string &icon,
     return result.first->second;
 }
 
-void Theme::paint(cairo_t *c, const BackgroundImageConfig &cfg, int width,
-                  int height, double alpha) {
-    const ThemeImage &image = loadBackground(cfg);
-    auto marginTop = *cfg.margin->marginTop;
-    auto marginBottom = *cfg.margin->marginBottom;
-    auto marginLeft = *cfg.margin->marginLeft;
-    auto marginRight = *cfg.margin->marginRight;
+void paintTile(cairo_t *c, int width, int height, double alpha,
+               cairo_surface_t *image, int marginLeft, int marginTop,
+               int marginRight, int marginBottom) {
+
     int resizeHeight =
         cairo_image_surface_get_height(image) - marginTop - marginBottom;
     int resizeWidth =
@@ -425,15 +424,11 @@ void Theme::paint(cairo_t *c, const BackgroundImageConfig &cfg, int width,
     if (width < 0) {
         width = resizeWidth;
     }
-
     const auto targetResizeWidth = width - marginLeft - marginRight;
     const auto targetResizeHeight = height - marginTop - marginBottom;
     const double scaleX = static_cast<double>(targetResizeWidth) / resizeWidth;
     const double scaleY =
         static_cast<double>(targetResizeHeight) / resizeHeight;
-
-    cairo_save(c);
-
     /*
      * 7 8 9
      * 4 5 6
@@ -546,7 +541,36 @@ void Theme::paint(cairo_t *c, const BackgroundImageConfig &cfg, int width,
         cairo_paint_with_alpha(c, alpha);
         cairo_restore(c);
     }
-    cairo_restore(c);
+}
+
+void Theme::paint(cairo_t *c, const BackgroundImageConfig &cfg, int width,
+                  int height, double alpha, double scale) {
+    const ThemeImage &image = loadBackground(cfg);
+    auto marginTop = *cfg.margin->marginTop;
+    auto marginBottom = *cfg.margin->marginBottom;
+    auto marginLeft = *cfg.margin->marginLeft;
+    auto marginRight = *cfg.margin->marginRight;
+
+    if (scale != 1.0) {
+        UniqueCPtr<cairo_surface_t, cairo_surface_destroy> background(
+            cairo_surface_create_similar_image(
+                cairo_get_target(c), CAIRO_FORMAT_ARGB32, width, height));
+        {
+            UniqueCPtr<cairo_t, cairo_destroy> backgroundC(
+                cairo_create(background.get()));
+            paintTile(backgroundC.get(), width, height, 1.0, image, marginLeft,
+                      marginTop, marginRight, marginBottom);
+        }
+        cairo_save(c);
+        cairo_rectangle(c, 0, 0, width, height);
+        cairo_set_source_surface(c, background.get(), 0, 0);
+        cairo_clip(c);
+        cairo_paint_with_alpha(c, alpha);
+        cairo_restore(c);
+    } else {
+        paintTile(c, width, height, alpha, image, marginLeft, marginTop,
+                  marginRight, marginBottom);
+    }
 
     if (!image.overlay()) {
         return;
@@ -692,7 +716,7 @@ std::vector<Rect> Theme::mask(const BackgroundImageConfig &cfg, int width,
         cairo_image_surface_create(CAIRO_FORMAT_A1, width, height));
     auto c = cairo_create(mask.get());
     cairo_set_operator(c, CAIRO_OPERATOR_SOURCE);
-    paint(c, cfg, width, height, 1);
+    paint(c, cfg, width, height, 1, 1);
     cairo_destroy(c);
 
     UniqueCPtr<cairo_region_t, cairo_region_destroy> region(

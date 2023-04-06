@@ -19,6 +19,10 @@
 #include "wl_seat.h"
 #include "wl_shell.h"
 #include "wl_shm.h"
+#include "wp_fractional_scale_manager_v1.h"
+#include "wp_fractional_scale_v1.h"
+#include "wp_viewport.h"
+#include "wp_viewporter.h"
 #include "zwp_input_panel_v1.h"
 #include "zwp_input_popup_surface_v2.h"
 
@@ -33,6 +37,8 @@ WaylandUI::WaylandUI(ClassicUI *parent, const std::string &name,
     display_->requestGlobals<wayland::WlSeat>();
     display_->requestGlobals<wayland::ZwpInputPanelV1>();
     display_->requestGlobals<wayland::OrgKdeKwinBlurManager>();
+    display_->requestGlobals<wayland::WpFractionalScaleManagerV1>();
+    display_->requestGlobals<wayland::WpViewporter>();
     panelConn_ = display_->globalCreated().connect(
         [this](const std::string &name, const std::shared_ptr<void> &) {
             if (name == wayland::ZwpInputPanelV1::interface) {
@@ -52,6 +58,11 @@ WaylandUI::WaylandUI(ClassicUI *parent, const std::string &name,
                     inputWindow_->setBlurManager(
                         display_->getGlobal<wayland::OrgKdeKwinBlurManager>());
                 }
+            } else if (name == wayland::WpFractionalScaleManagerV1::interface ||
+                       name == wayland::WpViewporter::interface) {
+                if (inputWindow_) {
+                    inputWindow_->updateScale();
+                }
             }
         });
     panelRemovedConn_ = display_->globalRemoved().connect(
@@ -63,6 +74,11 @@ WaylandUI::WaylandUI(ClassicUI *parent, const std::string &name,
             } else if (name == wayland::OrgKdeKwinBlurManager::interface) {
                 if (inputWindow_) {
                     inputWindow_->setBlurManager(nullptr);
+                }
+            } else if (name == wayland::WpFractionalScaleManagerV1::interface ||
+                       name == wayland::WpViewporter::interface) {
+                if (inputWindow_) {
+                    inputWindow_->updateScale();
                 }
             }
         });

@@ -9,7 +9,8 @@ if (WAYLAND_FOUND)
     set(CLASSICUI_WAYLAND_LIBS ${CLASSICUI_WAYLAND_LIBS}
         Fcitx5::Module::Wayland Fcitx5::Module::WaylandIM Wayland::Client Fcitx5::Wayland::Core
         Fcitx5::Wayland::InputMethod Fcitx5::Wayland::InputMethodV2
-        Fcitx5::Wayland::Blur)
+        Fcitx5::Wayland::Blur
+        Fcitx5::Wayland::FractionalScale Fcitx5::Wayland::Viewporter)
 else()
 endif()
 

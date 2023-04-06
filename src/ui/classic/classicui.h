@@ -11,6 +11,7 @@
 
 #include "fcitx-config/configuration.h"
 #include "fcitx-config/iniparser.h"
+#include "fcitx-config/option.h"
 #include "fcitx-utils/event.h"
 #include "fcitx-utils/i18n.h"
 #include "fcitx-utils/log.h"
@@ -151,7 +152,16 @@ FCITX_CONFIGURATION(
             {_("Normally Wayland uses 96 as font DPI in combinition with the "
                "screen scale factor. This option allows you to override the "
                "font DPI. If the value is 0, it means this option is "
-               "disabled.")}};);
+               "disabled.")}};
+
+    OptionWithAnnotation<bool, ToolTipAnnotation> fractionalScale{
+        this,
+        "EnableFractionalScale",
+        _("Enable fractional scale under Wayland"),
+        true,
+        {},
+        {},
+        {_("This option require support from wayland compositor.")}};);
 
 class ClassicUI final : public UserInterface {
 public:
