@@ -336,6 +336,10 @@ bool Key::check(const Key &key) const {
         return key.states_ == states && key.code_ == code_;
     }
 
+    if (key.sym() == FcitxKey_None) {
+        return false;
+    }
+
     if (isModifier()) {
         Key keyAlt = *this;
         auto states = states_ & (~keySymToStates(sym_));

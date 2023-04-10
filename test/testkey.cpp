@@ -61,7 +61,7 @@ int main() {
     FCITX_ASSERT(fcitx::Key("S").check(fcitx::Key("Shift+S").normalize()));
     FCITX_ASSERT(
         fcitx::Key("Shift+F4").check(fcitx::Key("Shift+F4").normalize()));
-    FCITX_ASSERT(fcitx::Key("Ctrl+A").check(fcitx::Key("Ctrl+a").normalize()));
+    FCITX_ASSERT(fcitx::Key("Control+A").check(fcitx::Key("Control+a").normalize()));
     FCITX_ASSERT(fcitx::Key("Alt+exclam")
                      .check(fcitx::Key("Alt+Shift+exclam").normalize()));
     FCITX_ASSERT(fcitx::Key("").sym() == FcitxKey_None);
@@ -80,6 +80,7 @@ int main() {
                      .states() == fcitx::KeyState::Super);
     FCITX_ASSERT(fcitx::Key(FcitxKey_space, fcitx::KeyState::Super2)
                      .check(fcitx::Key("Super+space")));
+    FCITX_ASSERT(!fcitx::Key(FcitxKey_None).check(fcitx::Key(FcitxKey_None)));
 
     // Test complex parse
     auto keyList = fcitx::Key::keyListFromString(
