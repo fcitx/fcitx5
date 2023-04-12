@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2023-04-12 14:26+0000\n"
+"POT-Creation-Date: 2023-04-12 20:37+0000\n"
 "PO-Revision-Date: 2017-11-23 04:14+0000\n"
 "Last-Translator: UTUMI Hirosi <utuhiro78@yahoo.co.jp>, 2023\n"
 "Language-Team: Japanese (https://app.transifex.com/fcitx/teams/12005/ja/)\n"
@@ -703,7 +703,7 @@ msgstr "絵文字のクイックフレーズを有効にする"
 
 #: src/ui/classic/classicui.h:160
 msgid "Enable fractional scale under Wayland"
-msgstr ""
+msgstr "Wayland で分数スケールを有効にする"
 
 #: src/im/keyboard/keyboard.h:59
 msgid "Enable hint by default"
@@ -2193,7 +2193,7 @@ msgstr "このオプションは画像が設定されていない場合にのみ
 
 #: src/ui/classic/classicui.h:164
 msgid "This option require support from wayland compositor."
-msgstr ""
+msgstr "このオプションには Wayland コンポジターのサポートが必要です。"
 
 #: src/ui/classic/theme.h:74
 msgid "This value should be less than any of margin value."
