@@ -10,10 +10,10 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2023-03-09 20:25+0000\n"
+"POT-Creation-Date: 2023-04-12 14:26+0000\n"
 "PO-Revision-Date: 2017-11-23 04:14+0000\n"
 "Last-Translator: Robert Antoni Buj i Gelonch <rbuj@fedoraproject.org>, 2020\n"
-"Language-Team: Catalan (https://www.transifex.com/fcitx/teams/12005/ca/)\n"
+"Language-Team: Catalan (https://app.transifex.com/fcitx/teams/12005/ca/)\n"
 "Language: ca\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -48,11 +48,11 @@ msgstr ""
 msgid "${1} works properly."
 msgstr ""
 
-#: src/lib/fcitx/instance.cpp:404
+#: src/lib/fcitx/instance.cpp:405
 msgid "(Not available)"
 msgstr "(no disponible)"
 
-#: src/modules/unicode/unicode.cpp:459
+#: src/modules/unicode/unicode.cpp:458
 msgid "(Type to search unicode by code or description)"
 msgstr ""
 
@@ -158,7 +158,7 @@ msgstr ""
 msgid "Alt"
 msgstr "Alt"
 
-#: src/lib/fcitx-utils/key.cpp:518
+#: src/lib/fcitx-utils/key.cpp:523
 msgctxt "Key name"
 msgid "Alt"
 msgstr "Alt"
@@ -516,7 +516,7 @@ msgstr "Configura"
 msgid "Control"
 msgstr "Control"
 
-#: src/lib/fcitx-utils/key.cpp:517
+#: src/lib/fcitx-utils/key.cpp:522
 msgctxt "Key name"
 msgid "Control"
 msgstr "Control"
@@ -584,7 +584,7 @@ msgstr "Desactiva el mètode d'entrada"
 msgid "Debug information from dbus:"
 msgstr ""
 
-#: src/lib/fcitx/inputmethodmanager.cpp:138 src/lib/fcitx/instance.cpp:351
+#: src/lib/fcitx/inputmethodmanager.cpp:138 src/lib/fcitx/instance.cpp:352
 #: src/ui/classic/themes/default/theme.conf.in:3
 msgid "Default"
 msgstr "Per defecte"
@@ -639,7 +639,7 @@ msgctxt "Key name"
 msgid "Display"
 msgstr ""
 
-#: src/modules/notifications/notifications.cpp:203
+#: src/modules/notifications/notifications.cpp:204
 msgid "Do not show again"
 msgstr "No ho mostris un altre cop"
 
@@ -694,6 +694,10 @@ msgstr ""
 
 #: src/im/keyboard/keyboard.h:54
 msgid "Enable emoji in quickphrase"
+msgstr ""
+
+#: src/ui/classic/classicui.h:160
+msgid "Enable fractional scale under Wayland"
 msgstr ""
 
 #: src/im/keyboard/keyboard.h:59
@@ -845,18 +849,18 @@ msgid ""
 "using text-input support by Qt under Wayland."
 msgstr ""
 
-#: src/ui/classic/classicui.h:107
+#: src/ui/classic/classicui.h:108
 msgid "Font"
 msgstr ""
 
-#: src/ui/classic/classicui.h:137
+#: src/ui/classic/classicui.h:138
 msgid ""
 "For example, display character with Chinese variant when using Pinyin and "
 "Japanese variant when using Anthy. The font configuration needs to support "
 "this to use this feature."
 msgstr ""
 
-#: src/ui/classic/classicui.h:147
+#: src/ui/classic/classicui.h:148
 msgid "Force font DPI on Wayland"
 msgstr ""
 
@@ -959,11 +963,11 @@ msgstr "Verd"
 msgid "Group"
 msgstr "Grup"
 
-#: src/lib/fcitx/instance.cpp:408
+#: src/lib/fcitx/instance.cpp:409
 msgid "Group {0}: {1}"
 msgstr "Grup {0}: {1}"
 
-#: src/lib/fcitx/instance.cpp:353
+#: src/lib/fcitx/instance.cpp:354
 msgid "Group {}"
 msgstr ""
 
@@ -1138,7 +1142,7 @@ msgid ""
 "Hotkey for switching to the N-th input method for only current input context"
 msgstr ""
 
-#: src/lib/fcitx-utils/key.cpp:522
+#: src/lib/fcitx-utils/key.cpp:527
 msgctxt "Key name"
 msgid "Hyper"
 msgstr ""
@@ -1165,11 +1169,11 @@ msgstr ""
 msgid "Image"
 msgstr ""
 
-#: src/im/keyboard/keyboard.cpp:684 src/lib/fcitx/instance.cpp:442
-#: src/lib/fcitx/instance.cpp:660 src/lib/fcitx/instance.cpp:819
-#: src/modules/notificationitem/notificationitem.cpp:144
-#: src/modules/notificationitem/notificationitem.cpp:221
-#: src/modules/xcb/xcbconnection.cpp:406 data/org.fcitx.Fcitx5.desktop.in.in:4
+#: src/im/keyboard/keyboard.cpp:684 src/lib/fcitx/instance.cpp:443
+#: src/lib/fcitx/instance.cpp:661 src/lib/fcitx/instance.cpp:820
+#: src/modules/notificationitem/notificationitem.cpp:142
+#: src/modules/notificationitem/notificationitem.cpp:219
+#: src/modules/xcb/xcbconnection.cpp:482 data/org.fcitx.Fcitx5.desktop.in.in:4
 #: data/org.fcitx.Fcitx5.metainfo.xml.in:7
 msgid "Input Method"
 msgstr "Mètode d'entrada"
@@ -1521,7 +1525,7 @@ msgctxt "Key name"
 msgid "Menu"
 msgstr "Menú"
 
-#: src/ui/classic/classicui.h:109
+#: src/ui/classic/classicui.h:110
 msgid "Menu Font"
 msgstr ""
 
@@ -1612,14 +1616,14 @@ msgstr "Cap"
 msgid "Normal text color"
 msgstr ""
 
-#: src/ui/classic/classicui.h:151
+#: src/ui/classic/classicui.h:152
 msgid ""
 "Normally Wayland uses 96 as font DPI in combinition with the screen scale "
 "factor. This option allows you to override the font DPI. If the value is 0, "
 "it means this option is disabled."
 msgstr ""
 
-#: src/ui/kimpanel/kimpanel.cpp:380
+#: src/ui/kimpanel/kimpanel.cpp:381
 msgid "Not available"
 msgstr "No disponible"
 
@@ -1757,19 +1761,19 @@ msgctxt "Key name"
 msgid "Power Off"
 msgstr "Apaga"
 
-#: src/lib/fcitx/instance.cpp:819
+#: src/lib/fcitx/instance.cpp:820
 msgid "Preedit"
 msgstr ""
 
-#: src/lib/fcitx/instance.cpp:821
+#: src/lib/fcitx/instance.cpp:822
 msgid "Preedit disabled"
 msgstr ""
 
-#: src/lib/fcitx/instance.cpp:820
+#: src/lib/fcitx/instance.cpp:821
 msgid "Preedit enabled"
 msgstr ""
 
-#: src/ui/classic/classicui.h:117
+#: src/ui/classic/classicui.h:118
 msgid "Prefer Text Icon"
 msgstr ""
 
@@ -1954,7 +1958,7 @@ msgstr ""
 msgid "Share Input State"
 msgstr ""
 
-#: src/lib/fcitx-utils/key.cpp:519
+#: src/lib/fcitx-utils/key.cpp:524
 msgctxt "Key name"
 msgid "Shift"
 msgstr "Majúscules"
@@ -1972,7 +1976,7 @@ msgstr ""
 msgid "Show Input Method Information when switch input method"
 msgstr ""
 
-#: src/ui/classic/classicui.h:122
+#: src/ui/classic/classicui.h:123
 msgid "Show Layout Name In Icon"
 msgstr ""
 
@@ -1984,7 +1988,7 @@ msgstr ""
 msgid "Show first input method information"
 msgstr ""
 
-#: src/ui/classic/classicui.h:126
+#: src/ui/classic/classicui.h:127
 msgid ""
 "Show layout name in icon if there is more than one active layout. If prefer "
 "text icon is set to true, this option will be ignored."
@@ -2068,7 +2072,7 @@ msgstr "Subtítol"
 msgid "Super"
 msgstr ""
 
-#: src/lib/fcitx-utils/key.cpp:520
+#: src/lib/fcitx-utils/key.cpp:525
 msgctxt "Key name"
 msgid "Super"
 msgstr ""
@@ -2083,16 +2087,16 @@ msgctxt "Key name"
 msgid "Suspend"
 msgstr "Suspèn"
 
-#: src/lib/fcitx/instance.cpp:443 src/lib/fcitx/instance.cpp:661
-#: src/modules/xcb/xcbconnection.cpp:407
+#: src/lib/fcitx/instance.cpp:444 src/lib/fcitx/instance.cpp:662
+#: src/modules/xcb/xcbconnection.cpp:483
 msgid "Switch group"
 msgstr ""
 
-#: src/lib/fcitx/instance.cpp:444 src/modules/xcb/xcbconnection.cpp:408
+#: src/lib/fcitx/instance.cpp:445 src/modules/xcb/xcbconnection.cpp:484
 msgid "Switch group to {0}"
 msgstr ""
 
-#: src/lib/fcitx/instance.cpp:662
+#: src/lib/fcitx/instance.cpp:663
 msgid "Switched group to {0}"
 msgstr ""
 
@@ -2133,16 +2137,20 @@ msgstr ""
 msgid "The script is run as ${1} (${2})."
 msgstr ""
 
-#: src/ui/classic/classicui.h:142
+#: src/ui/classic/classicui.h:143
 msgid "Theme"
 msgstr ""
 
-#: src/ui/classic/classicui.h:86
+#: src/ui/classic/classicui.h:87
 msgid "This is only effective when the tray icon is xembed."
 msgstr ""
 
 #: src/ui/classic/theme.h:58 src/ui/classic/theme.h:66
 msgid "This option is only effective if image is not set."
+msgstr ""
+
+#: src/ui/classic/classicui.h:164
+msgid "This option require support from wayland compositor."
 msgstr ""
 
 #: src/ui/classic/theme.h:74
@@ -2220,15 +2228,15 @@ msgctxt "Key name"
 msgid "Travel"
 msgstr ""
 
-#: src/ui/classic/classicui.h:111
+#: src/ui/classic/classicui.h:112
 msgid "Tray Font"
 msgstr ""
 
-#: src/ui/classic/classicui.h:113
+#: src/ui/classic/classicui.h:114
 msgid "Tray Label Outline Color"
 msgstr ""
 
-#: src/ui/classic/classicui.h:116
+#: src/ui/classic/classicui.h:117
 msgid "Tray Label Text Color"
 msgstr ""
 
@@ -2279,7 +2287,7 @@ msgstr "Desfés"
 msgid "Unicode"
 msgstr "Unicode"
 
-#: src/modules/unicode/unicode.cpp:457
+#: src/modules/unicode/unicode.cpp:456
 msgid "Unicode: "
 msgstr "Unicode: "
 
@@ -2292,7 +2300,7 @@ msgstr "Amunt"
 msgid "Use On The Spot Style (Needs restarting)"
 msgstr ""
 
-#: src/ui/classic/classicui.h:100
+#: src/ui/classic/classicui.h:101
 msgid "Use Per Screen DPI"
 msgstr ""
 
@@ -2300,11 +2308,11 @@ msgstr ""
 msgid "Use all horizontal space for highlight when it is vertical list"
 msgstr ""
 
-#: src/ui/classic/classicui.h:133
+#: src/ui/classic/classicui.h:134
 msgid "Use input method language to display text"
 msgstr ""
 
-#: src/ui/classic/classicui.h:103
+#: src/ui/classic/classicui.h:104
 msgid "Use mouse wheel to go to prev or next page"
 msgstr ""
 
@@ -2328,7 +2336,7 @@ msgstr ""
 msgid "Version Line:"
 msgstr ""
 
-#: src/ui/classic/classicui.h:99
+#: src/ui/classic/classicui.h:100
 msgid "Vertical Candidate List"
 msgstr ""
 
@@ -2556,10 +2564,10 @@ msgstr ""
 msgid "{0} (Not Available)"
 msgstr ""
 
-#: src/lib/fcitx/instance.cpp:402
+#: src/lib/fcitx/instance.cpp:403
 msgid "{0} (Not available)"
 msgstr "{0} (no disponible)"
 
-#: src/lib/fcitx/instance.cpp:399
+#: src/lib/fcitx/instance.cpp:400
 msgid "{0} ({1})"
 msgstr "{0} ({1})"
