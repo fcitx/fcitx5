@@ -271,6 +271,27 @@ public:
         return instance_->inputMethodManager().currentGroup().name();
     }
 
+    std::vector<dbus::DBusStruct<std::string, std::string, std::string>>
+    currentIMList() {
+        auto &imManager = instance_->inputMethodManager();
+        const auto &groupName = imManager.currentGroup().name();
+        const auto *group = imManager.group(groupName);
+
+        if (group == nullptr) {
+            return {};
+        }
+
+        std::vector<dbus::DBusStruct<std::string, std::string, std::string>>
+            imList;
+        for (const auto &item : group->inputMethodList()) {
+            const auto *entry = imManager.entry(item.name());
+            imList.emplace_back(std::forward_as_tuple(
+                item.name(), entry->name(), entry->label()));
+        }
+
+        return imList;
+    }
+
     std::tuple<dbus::Variant, DBusConfig> getConfig(const std::string &uri) {
         std::tuple<dbus::Variant, DBusConfig> result;
         if (uri == globalConfigPath) {
@@ -630,6 +651,7 @@ private:
                                "s", "");
     FCITX_OBJECT_VTABLE_METHOD(currentInputMethodGroup,
                                "CurrentInputMethodGroup", "", "s");
+    FCITX_OBJECT_VTABLE_METHOD(currentIMList, "CurrentIMList", "", "a(sss)");
     FCITX_OBJECT_VTABLE_METHOD(availableInputMethods, "AvailableInputMethods",
                                "", "a(ssssssb)");
     FCITX_OBJECT_VTABLE_METHOD(inputMethodGroupInfo, "InputMethodGroupInfo",
