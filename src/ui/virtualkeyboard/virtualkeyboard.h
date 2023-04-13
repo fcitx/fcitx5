@@ -34,9 +34,7 @@ public:
     void update(UserInterfaceComponent component,
                 InputContext *inputContext) override;
 
-    bool isVirtualKeyboardVisible() const override {
-        return available_ && visible_;
-    }
+    bool isVirtualKeyboardVisible() const override;
 
     void showVirtualKeyboard() override;
     void hideVirtualKeyboard() override;

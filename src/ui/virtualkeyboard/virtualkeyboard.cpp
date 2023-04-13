@@ -236,6 +236,16 @@ void VirtualKeyboard::update(UserInterfaceComponent component,
     }
 }
 
+bool VirtualKeyboard::isVirtualKeyboardVisible() const {
+    auto msg = bus_->createMethodCall(
+        VirtualKeyboardName, "/org/fcitx/virtualkeyboard/impanel",
+        VirtualKeyboardInterfaceName, "IsVirtualKeyboardVisible");
+
+    bool visible;
+    msg.call(0) >> visible;
+    return visible;
+}
+
 void VirtualKeyboard::showVirtualKeyboard() {
     if (isVirtualKeyboardVisible()) {
         return;
