@@ -67,6 +67,7 @@ private:
     void notifyIMListChanged();
 
     FCITX_ADDON_DEPENDENCY_LOADER(dbus, instance_->addonManager());
+    FCITX_ADDON_DEPENDENCY_LOADER(notificationitem, instance_->addonManager());
 
     Instance *instance_;
     dbus::Bus *bus_;

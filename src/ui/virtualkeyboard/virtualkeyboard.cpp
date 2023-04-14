@@ -24,6 +24,7 @@
 #include "fcitx/misc_p.h"
 #include "fcitx/userinterfacemanager.h"
 #include "dbus_public.h"
+#include "notificationitem_public.h"
 
 namespace fcitx {
 
@@ -199,12 +200,20 @@ VirtualKeyboard::VirtualKeyboard(Instance *instance)
 VirtualKeyboard::~VirtualKeyboard() = default;
 
 void VirtualKeyboard::suspend() {
+    if (auto *sni = notificationitem()) {
+        sni->call<INotificationItem::disable>();
+    }
+
     eventHandlers_.clear();
     proxy_.reset();
     bus_->releaseName(VirtualKeyboardBackendName);
 }
 
 void VirtualKeyboard::resume() {
+    if (auto *sni = notificationitem()) {
+        sni->call<INotificationItem::enable>();
+    }
+
     proxy_ = std::make_unique<VirtualKeyboardBackend>(this);
     bus_->addObjectVTable("/virtualkeyboard",
                           VirtualKeyboardBackendInterfaceName, *proxy_);
