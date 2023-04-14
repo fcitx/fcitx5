@@ -85,12 +85,16 @@ public:
             return;
         }
 
-        if (auto candidateList = inputContext->inputPanel().candidateList()) {
-            const auto *candidate =
-                nthCandidateIgnorePlaceholder(*candidateList, index);
-            if (candidate != nullptr) {
-                candidate->select(inputContext);
-            }
+        auto *bulkCandidateList =
+            inputContext->inputPanel().candidateList()->toBulk();
+        if (bulkCandidateList == nullptr) {
+            return;
+        }
+
+        const auto *candidate =
+            nthBulkCandidateIgnorePlaceholder(*bulkCandidateList, index);
+        if (candidate != nullptr) {
+            candidate->select(inputContext);
         }
     }
 
@@ -353,13 +357,48 @@ std::vector<std::string> VirtualKeyboard::makeCandidateTextList(
     return candidateTextList;
 }
 
+std::vector<std::string> VirtualKeyboard::makeBulkCandidateTextList(
+    InputContext *inputContext, std::shared_ptr<CandidateList> candidateList) {
+    if (candidateList == nullptr || candidateList->size() == 0) {
+        return {};
+    }
+
+    std::vector<std::string> candidateTextList;
+
+    const auto *bulkCandidateList = candidateList->toBulk();
+    for (int index = 0; index < bulkCandidateList->totalSize(); index++) {
+        const auto &candidate = bulkCandidateList->candidateFromAll(index);
+        if (candidate.isPlaceHolder()) {
+            continue;
+        }
+
+        auto candidateText =
+            instance_->outputFilter(inputContext, candidate.text());
+        candidateTextList.push_back(candidateText.toString());
+    }
+
+    return candidateTextList;
+}
+
+int VirtualKeyboard::globalCursorIndex(
+    std::shared_ptr<CandidateList> candidateList) const {
+    auto *commonCandidateList =
+        dynamic_cast<CommonCandidateList *>(candidateList.get());
+    if (commonCandidateList == nullptr) {
+        return -1;
+    }
+
+    return commonCandidateList->globalCursorIndex();
+}
+
 void VirtualKeyboard::updateCandidateArea(
     const std::vector<std::string> &candidateTextList, bool hasPrev,
-    bool hasNext, int pageIndex) {
+    bool hasNext, int pageIndex, int globalCursorIndex) {
     auto msg = bus_->createMethodCall(
         VirtualKeyboardName, "/org/fcitx/virtualkeyboard/impanel",
         VirtualKeyboardInterfaceName, "UpdateCandidateArea");
-    msg << candidateTextList << hasPrev << hasNext << pageIndex;
+    msg << candidateTextList << hasPrev << hasNext << pageIndex
+        << globalCursorIndex;
     msg.send();
 }
 
@@ -368,22 +407,15 @@ void VirtualKeyboard::updateCandidate(InputContext *inputContext) {
 
     if (inputPanel.candidateList() == nullptr ||
         inputPanel.candidateList()->size() == 0) {
-        updateCandidateArea({}, false, false, -1);
+        updateCandidateArea({}, false, false, -1, -1);
         return;
     }
 
-    bool hasPrev = false;
-    bool hasNext = false;
-    auto *pageable = inputPanel.candidateList()->toPageable();
-    if (pageable != nullptr) {
-        hasPrev = pageable->hasPrev();
-        hasNext = pageable->hasNext();
-    }
-
     auto candidateTextList =
-        makeCandidateTextList(inputContext, inputPanel.candidateList());
-    auto pageIndex = inputPanel.candidateList()->cursorIndex();
-    updateCandidateArea(candidateTextList, hasPrev, hasNext, pageIndex);
+        makeBulkCandidateTextList(inputContext, inputPanel.candidateList());
+    updateCandidateArea(candidateTextList, false, false, -1,
+                        globalCursorIndex(inputPanel.candidateList()));
+    return;
 }
 
 void VirtualKeyboard::notifyIMActivated(const std::string &uniqueName) {

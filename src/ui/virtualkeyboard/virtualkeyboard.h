@@ -58,8 +58,13 @@ private:
     std::vector<std::string>
     makeCandidateTextList(InputContext *inputContext,
                           std::shared_ptr<CandidateList> candidateList);
+    std::vector<std::string>
+    makeBulkCandidateTextList(InputContext *inputContext,
+                              std::shared_ptr<CandidateList> candidateList);
+    int globalCursorIndex(std::shared_ptr<CandidateList> candidateList) const;
     void updateCandidateArea(const std::vector<std::string> &candidateTextList,
-                             bool hasPrev, bool hasNext, int pageIndex);
+                             bool hasPrev, bool hasNext, int pageIndex,
+                             int globalCursorIndex);
     void updateCandidate(InputContext *inputContext);
 
     void notifyIMActivated(const std::string &uniqueName);
