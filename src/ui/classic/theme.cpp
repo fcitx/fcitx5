@@ -273,7 +273,9 @@ ThemeImage::ThemeImage(const std::string &name,
                       *cfg.margin->marginBottom});
 
         CLASSICUI_DEBUG() << "Paint background: height " << height << " width "
-                          << width;
+                          << width << " border=" << *cfg.borderColor
+                          << " border width=" << *cfg.borderWidth
+                          << " color=" << *cfg.color;
         image_.reset(
             cairo_image_surface_create(CAIRO_FORMAT_ARGB32, width, height));
         auto *cr = cairo_create(image_.get());
@@ -667,6 +669,10 @@ void Theme::reset() {
 
 void Theme::load(const std::string &name) {
     reset();
+    ThemeConfig config;
+    copyHelper(config);
+    // Reset the default value to state.
+    syncDefaultValueToCurrent();
     if (auto themeConfigFile = StandardPath::global().openSystem(
             StandardPath::Type::PkgData,
             stringutils::joinPath("themes", name, "theme.conf"), O_RDONLY);

@@ -1,14 +1,16 @@
 [Metadata]
-Name=Default
+Name=Default Dark
 Version=1
 Author=Fcitx
-Description=Default Theme
+Description=Default Dark Theme
 ScaleWithDPI=True
 
 [InputPanel]
 Font=Sans 10
-NormalColor=#000000
-HighlightColor=#ffffff
+NormalColor=#e0e0e0
+HighlightCandidateColor=#e0e0e0
+HighlightColor=#e0e0e0
+HighlightBackgroundColor=#606060
 Spacing=3
 
 [InputPanel/TextMargin]
@@ -25,8 +27,8 @@ Bottom=2
 
 [InputPanel/Background]
 Image=
-Color=#ffffff
-BorderColor=#c0c0c0
+Color=#000000
+BorderColor=#404040
 BorderWidth=2
 
 [InputPanel/Background/Margin]
@@ -37,7 +39,7 @@ Bottom=2
 
 [InputPanel/Highlight]
 Image=
-Color=#808080
+Color=#606060
 
 [InputPanel/Highlight/Margin]
 Left=5
@@ -63,10 +65,14 @@ Right=5
 Top=4
 Bottom=4
 
+[Menu]
+NormalColor=#e0e0e0
+HighlightCandidateColor=#e0e0e0
+
 [Menu/Background]
 Image=
-Color=#ffffff
-BorderColor=#c0c0c0
+Color=#000000
+BorderColor=#404040
 BorderWidth=2
 
 [Menu/Background/Margin]
@@ -89,7 +95,7 @@ Image=arrow.png
 
 [Menu/Highlight]
 Image=
-Color=#808080
+Color=#606060
 
 [Menu/Highlight/Margin]
 Left=5

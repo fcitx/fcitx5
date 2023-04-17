@@ -226,6 +226,7 @@ public:
     Theme();
     ~Theme();
 
+    const std::string &name() { return name_; }
     void load(const std::string &name);
     void load(const std::string &name, const RawConfig &rawConfig);
     const ThemeImage &loadImage(const std::string &icon,

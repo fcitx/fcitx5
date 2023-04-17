@@ -161,4 +161,9 @@ void Color::setBlueF(float blue) {
 void Color::setAlphaF(float alpha) {
     alpha_ = std::round(roundColorF(alpha) * USHRT_MAX);
 }
+
+std::ostream &operator<<(std::ostream &os, const Color &c) {
+    os << "Color(" << c.toString() << ")";
+    return os;
+}
 } // namespace fcitx

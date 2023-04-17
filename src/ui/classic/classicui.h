@@ -30,6 +30,9 @@
 #ifdef WAYLAND_FOUND
 #include "wayland_public.h"
 #endif
+#ifdef ENABLE_DBUS
+#include "fcitx-utils/dbus/bus.h"
+#endif
 
 namespace fcitx {
 namespace classicui {
@@ -141,6 +144,12 @@ FCITX_CONFIGURATION(
     Option<std::string, NotEmpty, DefaultMarshaller<std::string>,
            ThemeAnnotation>
         theme{this, "Theme", _("Theme"), "default"};
+    Option<std::string, NotEmpty, DefaultMarshaller<std::string>,
+           ThemeAnnotation>
+        themeDark{this, "DarkTheme", _("Dark Theme"), "default"};
+    Option<bool> useDarkTheme{this, "UseDarkTheme",
+                              _("Follow system light/dark color scheme"),
+                              false};
     Option<int, IntConstrain, DefaultMarshaller<int>, ToolTipAnnotation>
         forceWaylandDPI{
             this,
@@ -198,6 +207,7 @@ public:
 
 private:
     FCITX_ADDON_DEPENDENCY_LOADER(notificationitem, instance_->addonManager());
+    FCITX_ADDON_DEPENDENCY_LOADER(dbus, instance_->addonManager());
     FCITX_ADDON_EXPORT_FUNCTION(ClassicUI, labelIcon);
     FCITX_ADDON_EXPORT_FUNCTION(ClassicUI, preferTextIcon);
     FCITX_ADDON_EXPORT_FUNCTION(ClassicUI, showLayoutNameInIcon);
@@ -220,6 +230,12 @@ private:
         waylandClosedCallback_;
 #endif
 
+    std::unique_ptr<EventSource> deferedReloadTheme_;
+#ifdef ENABLE_DBUS
+    std::unique_ptr<dbus::Slot> appearanceChangedSlot_;
+    std::unique_ptr<dbus::Slot> initialReadSlot_;
+#endif
+
     std::vector<std::unique_ptr<HandlerTableEntry<EventHandler>>>
         eventHandlers_;
     std::unique_ptr<HandlerTableEntryBase> sniHandler_;
@@ -231,6 +247,7 @@ private:
     Theme theme_;
     mutable Theme subconfigTheme_;
     bool suspended_ = true;
+    bool isDark_ = false;
 
     std::unique_ptr<EventSource> deferedEnableTray_;
     std::unique_ptr<PlasmaThemeWatchdog> plasmaThemeWatchdog_;

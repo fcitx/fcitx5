@@ -1,6 +1,4 @@
-if (ENABLE_X11 OR WAYLAND_FOUND)
-    add_subdirectory(classic)
-endif()
+add_subdirectory(classic)
 
 if (ENABLE_DBUS)
     add_subdirectory(kimpanel)

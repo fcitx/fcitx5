@@ -23,10 +23,23 @@
 #ifdef WAYLAND_FOUND
 #include "waylandui.h"
 #endif
+#ifdef ENABLE_DBUS
+#include "fcitx-utils/dbus/variant.h"
+#include "dbus_public.h"
+#endif
 
 namespace fcitx::classicui {
 
 FCITX_DEFINE_LOG_CATEGORY(classicui_logcategory, "classicui");
+
+namespace {
+constexpr const char XDG_PORTAL_DESKTOP_SERVICE[] =
+    "org.freedesktop.portal.Desktop";
+constexpr const char XDG_PORTAL_DESKTOP_PATH[] =
+    "/org/freedesktop/portal/desktop";
+constexpr const char XDG_PORTAL_DESKTOP_SETTINGS_INTERFACE[] =
+    "org.freedesktop.portal.Settings";
+} // namespace
 
 ClassicUI::ClassicUI(Instance *instance) : instance_(instance) {
     reloadConfig();
@@ -67,6 +80,12 @@ ClassicUI::ClassicUI(Instance *instance) : instance_(instance) {
                 });
     }
 #endif
+    deferedReloadTheme_ =
+        instance_->eventLoop().addDeferEvent([this](EventSource *) {
+            reloadTheme();
+            return true;
+        });
+    deferedReloadTheme_->setEnabled(false);
 }
 
 ClassicUI::~ClassicUI() {}
@@ -77,7 +96,80 @@ void ClassicUI::reloadConfig() {
 }
 
 void ClassicUI::reloadTheme() {
-    if (*config_.theme == "plasma") {
+#ifdef ENABLE_DBUS
+    auto parseMessage = [this](dbus::Variant &variant) {
+        if (variant.signature() == "u") {
+            auto color = variant.dataAs<uint32_t>();
+            auto oldIsDark = isDark_;
+            isDark_ = (color == 1);
+            if (oldIsDark != isDark_) {
+                CLASSICUI_DEBUG() << "XDG Portal AppearanceChanged "
+                                     "isDark"
+                                  << isDark_;
+                deferedReloadTheme_->setOneShot();
+            }
+        }
+    };
+
+    if (dbus()) {
+        auto bus = dbus()->call<IDBusModule::bus>();
+        if (*config_.useDarkTheme) {
+            if (!appearanceChangedSlot_) {
+                appearanceChangedSlot_ = bus->addMatch(
+                    dbus::MatchRule(XDG_PORTAL_DESKTOP_SERVICE,
+                                    XDG_PORTAL_DESKTOP_PATH,
+                                    XDG_PORTAL_DESKTOP_SETTINGS_INTERFACE,
+                                    "SettingChanged"),
+                    [parseMessage](dbus::Message &msg) {
+                        if (msg.type() == dbus::MessageType::Signal &&
+                            msg.signature() == "ssv") {
+                            std::string interface, name;
+                            msg >> interface >> name;
+                            if (interface == "org.freedesktop.appearance" &&
+                                name == "color-scheme") {
+                                dbus::Variant variant;
+                                msg >> variant;
+                                parseMessage(variant);
+                            }
+                        }
+                        return true;
+                    });
+                auto call = bus->createMethodCall(
+                    "org.freedesktop.portal.Desktop",
+                    "/org/freedesktop/portal/desktop",
+                    "org.freedesktop.portal.Settings", "Read");
+                call << "org.freedesktop.appearance"
+                     << "color-scheme";
+                initialReadSlot_ =
+                    call.callAsync(1000000, [parseMessage](dbus::Message &msg) {
+                        // XDG portal seems didn't unwrap the variant.
+                        // Check this special case just in case.
+                        if (msg.isError()) {
+                            return true;
+                        }
+                        if (msg.signature() != "v") {
+                            return true;
+                        }
+                        dbus::Variant variant;
+                        msg >> variant;
+                        if (variant.signature() == "v") {
+                            variant = variant.dataAs<dbus::Variant>();
+                        }
+                        parseMessage(variant);
+                        return true;
+                    });
+            }
+        } else {
+            appearanceChangedSlot_.reset();
+        }
+    }
+#endif
+
+    bool hasPlasmaTheme =
+        (*config_.theme == "plasma") ||
+        (*config_.useDarkTheme && *config_.themeDark == "plasma");
+
+    if (hasPlasmaTheme) {
         if (!plasmaThemeWatchdog_) {
             try {
                 plasmaThemeWatchdog_ = std::make_unique<PlasmaThemeWatchdog>(
@@ -92,7 +184,8 @@ void ClassicUI::reloadTheme() {
         plasmaThemeWatchdog_.reset();
     }
 
-    theme_.load(*config_.theme);
+    theme_.load((*config_.useDarkTheme && isDark_) ? *config_.themeDark
+                                                   : *config_.theme);
 }
 
 void ClassicUI::suspend() {
@@ -148,6 +241,8 @@ const Configuration *ClassicUI::getConfig() const {
 
     config_.theme.annotation().setThemes({themes.begin(), themes.end()},
                                          plasmaTheme);
+    config_.themeDark.annotation().setThemes({themes.begin(), themes.end()},
+                                             plasmaTheme);
     return &config_;
 }
 
@@ -322,10 +417,6 @@ ClassicUI::getSubConfig(const std::string &path) const {
         return nullptr;
     }
 
-    if (name == *config_.theme) {
-        return &theme_;
-    }
-
     subconfigTheme_.load(name);
     return &subconfigTheme_;
 }
@@ -340,7 +431,7 @@ void ClassicUI::setSubConfig(const std::string &path,
         return;
     }
 
-    auto &theme = name == *config_.theme ? theme_ : subconfigTheme_;
+    auto &theme = name == theme_.name() ? theme_ : subconfigTheme_;
     if (&theme == &subconfigTheme_) {
         // Fill the system value.
         getSubConfig(path);

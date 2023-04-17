@@ -158,6 +158,9 @@ public:
                 result;
 
             auto classicui = parent_->classicui();
+            if (!classicui) {
+                return result;
+            }
             const auto label = labelText();
             if (!label.empty()) {
                 if (cachedLabel_ == label) {
