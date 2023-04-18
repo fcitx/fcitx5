@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2023-04-12 14:26+0000\n"
+"POT-Creation-Date: 2023-04-18 21:07+0000\n"
 "PO-Revision-Date: 2017-11-23 04:14+0000\n"
 "Last-Translator: Junghee Lee <daemul72@gmail.com>, 2023\n"
 "Language-Team: Korean (https://app.transifex.com/fcitx/teams/12005/ko/)\n"
@@ -581,6 +581,10 @@ msgctxt "Key name"
 msgid "DOS"
 msgstr "DOS"
 
+#: src/ui/classic/classicui.h:149
+msgid "Dark Theme"
+msgstr ""
+
 #: src/lib/fcitx/globalconfig.cpp:90
 msgid "Deactivate Input Method"
 msgstr "입력기 비활성화"
@@ -593,6 +597,10 @@ msgstr "dbus의 디버그 정보:"
 #: src/ui/classic/themes/default/theme.conf.in:3
 msgid "Default"
 msgstr "기본값"
+
+#: src/ui/classic/themes/default-dark/theme-dark.conf.in:3
+msgid "Default Dark"
+msgstr ""
 
 #: src/lib/fcitx/globalconfig.cpp:126
 msgid "Default Next Candidate"
@@ -701,7 +709,7 @@ msgstr "힌트에 에모지 보이기"
 msgid "Enable emoji in quickphrase"
 msgstr "상용구에 에모지 활성화"
 
-#: src/ui/classic/classicui.h:160
+#: src/ui/classic/classicui.h:169
 msgid "Enable fractional scale under Wayland"
 msgstr ""
 
@@ -850,6 +858,10 @@ msgctxt "Key name"
 msgid "Find"
 msgstr "찾기"
 
+#: src/ui/classic/classicui.h:151
+msgid "Follow system light/dark color scheme"
+msgstr ""
+
 #: data/fcitx5-diagnose.sh:1263
 msgid ""
 "Following error may not be accurate because guessing Qt version from path "
@@ -858,11 +870,11 @@ msgid ""
 "using text-input support by Qt under Wayland."
 msgstr ""
 
-#: src/ui/classic/classicui.h:108
+#: src/ui/classic/classicui.h:111
 msgid "Font"
 msgstr "글꼴"
 
-#: src/ui/classic/classicui.h:138
+#: src/ui/classic/classicui.h:141
 msgid ""
 "For example, display character with Chinese variant when using Pinyin and "
 "Japanese variant when using Anthy. The font configuration needs to support "
@@ -872,7 +884,7 @@ msgstr ""
 "일본어 변형으로 문자를 표시합니다. 이 기능을 사용하려면 글꼴 구성에서 이를 지"
 "원해야 합니다."
 
-#: src/ui/classic/classicui.h:148
+#: src/ui/classic/classicui.h:157
 msgid "Force font DPI on Wayland"
 msgstr ""
 
@@ -1189,7 +1201,7 @@ msgstr "이미지"
 #: src/im/keyboard/keyboard.cpp:684 src/lib/fcitx/instance.cpp:443
 #: src/lib/fcitx/instance.cpp:661 src/lib/fcitx/instance.cpp:820
 #: src/modules/notificationitem/notificationitem.cpp:142
-#: src/modules/notificationitem/notificationitem.cpp:219
+#: src/modules/notificationitem/notificationitem.cpp:222
 #: src/modules/xcb/xcbconnection.cpp:482 data/org.fcitx.Fcitx5.desktop.in.in:4
 #: data/org.fcitx.Fcitx5.metainfo.xml.in:7
 msgid "Input Method"
@@ -1242,7 +1254,7 @@ msgstr ""
 msgid "KDE Input Method Panel"
 msgstr "KDE 입력기 패널"
 
-#: src/ui/classic/classicui.cpp:145
+#: src/ui/classic/classicui.cpp:238
 msgid "KDE Plasma (Experimental)"
 msgstr "KDE 플라즈마 (실험용)"
 
@@ -1544,7 +1556,7 @@ msgctxt "Key name"
 msgid "Menu"
 msgstr "메뉴"
 
-#: src/ui/classic/classicui.h:110
+#: src/ui/classic/classicui.h:113
 msgid "Menu Font"
 msgstr "메뉴 글꼴"
 
@@ -1635,7 +1647,7 @@ msgstr "없음"
 msgid "Normal text color"
 msgstr "일반 텍스트 색상"
 
-#: src/ui/classic/classicui.h:152
+#: src/ui/classic/classicui.h:161
 msgid ""
 "Normally Wayland uses 96 as font DPI in combinition with the screen scale "
 "factor. This option allows you to override the font DPI. If the value is 0, "
@@ -1797,7 +1809,7 @@ msgstr "사전편집 비활성화"
 msgid "Preedit enabled"
 msgstr "사전편집 활성화"
 
-#: src/ui/classic/classicui.h:118
+#: src/ui/classic/classicui.h:121
 msgid "Prefer Text Icon"
 msgstr "텍스트 아이콘 선호"
 
@@ -2000,7 +2012,7 @@ msgstr "포커스를 변경할 때 입력기 정보 표시"
 msgid "Show Input Method Information when switch input method"
 msgstr "입력기 변경시 입력기 정보 표시"
 
-#: src/ui/classic/classicui.h:123
+#: src/ui/classic/classicui.h:126
 msgid "Show Layout Name In Icon"
 msgstr "아이콘에 자판 이름 표시"
 
@@ -2012,7 +2024,7 @@ msgstr "간결한 입력기 정보 표시"
 msgid "Show first input method information"
 msgstr "첫 번째 입력기 정보 표시"
 
-#: src/ui/classic/classicui.h:127
+#: src/ui/classic/classicui.h:130
 msgid ""
 "Show layout name in icon if there is more than one active layout. If prefer "
 "text icon is set to true, this option will be ignored."
@@ -2163,11 +2175,11 @@ msgstr "목록의 n번째 단축키는 n번째 입력기를 선택합니다."
 msgid "The script is run as ${1} (${2})."
 msgstr "스크립트는 ${1} (${2}) 계정으로 실행됩니다."
 
-#: src/ui/classic/classicui.h:143
+#: src/ui/classic/classicui.h:146
 msgid "Theme"
 msgstr "테마"
 
-#: src/ui/classic/classicui.h:87
+#: src/ui/classic/classicui.h:90
 msgid "This is only effective when the tray icon is xembed."
 msgstr "트레이 아이콘이 xembed인 경우에만 유효합니다."
 
@@ -2175,7 +2187,7 @@ msgstr "트레이 아이콘이 xembed인 경우에만 유효합니다."
 msgid "This option is only effective if image is not set."
 msgstr "이 옵션은 이미지가 설정되지 않은 경우에만 유효합니다."
 
-#: src/ui/classic/classicui.h:164
+#: src/ui/classic/classicui.h:173
 msgid "This option require support from wayland compositor."
 msgstr ""
 
@@ -2259,15 +2271,15 @@ msgctxt "Key name"
 msgid "Travel"
 msgstr "여행"
 
-#: src/ui/classic/classicui.h:112
+#: src/ui/classic/classicui.h:115
 msgid "Tray Font"
 msgstr "트레이 글꼴"
 
-#: src/ui/classic/classicui.h:114
+#: src/ui/classic/classicui.h:117
 msgid "Tray Label Outline Color"
 msgstr "트레이 라벨 윤곽선 색상"
 
-#: src/ui/classic/classicui.h:117
+#: src/ui/classic/classicui.h:120
 msgid "Tray Label Text Color"
 msgstr "트레이 레이블 텍스트 색상"
 
@@ -2331,7 +2343,7 @@ msgstr "위쪽"
 msgid "Use On The Spot Style (Needs restarting)"
 msgstr "스팟 스타일에서 사용(다시 시작 필요)"
 
-#: src/ui/classic/classicui.h:101
+#: src/ui/classic/classicui.h:104
 msgid "Use Per Screen DPI"
 msgstr "화면 해상도 사용하기"
 
@@ -2339,11 +2351,11 @@ msgstr "화면 해상도 사용하기"
 msgid "Use all horizontal space for highlight when it is vertical list"
 msgstr "세로 목록 일 때 강조 표시에 모든 가로 공간 사용"
 
-#: src/ui/classic/classicui.h:134
+#: src/ui/classic/classicui.h:137
 msgid "Use input method language to display text"
 msgstr "텍스트 표시할 때 입력기 언어 사용"
 
-#: src/ui/classic/classicui.h:104
+#: src/ui/classic/classicui.h:107
 msgid "Use mouse wheel to go to prev or next page"
 msgstr "마우스 휠을 사용하여 이전 또는 다음 페이지로 이동"
 
@@ -2367,7 +2379,7 @@ msgstr "버전"
 msgid "Version Line:"
 msgstr "버전 줄:"
 
-#: src/ui/classic/classicui.h:100
+#: src/ui/classic/classicui.h:103
 msgid "Vertical Candidate List"
 msgstr "세로 후보 목록"
 
