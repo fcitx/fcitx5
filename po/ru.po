@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2023-04-18 21:07+0000\n"
+"POT-Creation-Date: 2023-04-19 20:24+0000\n"
 "PO-Revision-Date: 2017-11-23 04:14+0000\n"
 "Last-Translator: Dmitry <dmitrydmitry761@gmail.com>, 2023\n"
 "Language-Team: Russian (https://app.transifex.com/fcitx/teams/12005/ru/)\n"
@@ -588,7 +588,7 @@ msgstr "DOS"
 
 #: src/ui/classic/classicui.h:149
 msgid "Dark Theme"
-msgstr ""
+msgstr "Тёмная тема"
 
 #: src/lib/fcitx/globalconfig.cpp:90
 msgid "Deactivate Input Method"
@@ -605,7 +605,7 @@ msgstr "По умолчанию"
 
 #: src/ui/classic/themes/default-dark/theme-dark.conf.in:3
 msgid "Default Dark"
-msgstr ""
+msgstr "Тёмная по умолчанию"
 
 #: src/lib/fcitx/globalconfig.cpp:126
 msgid "Default Next Candidate"
@@ -868,7 +868,7 @@ msgstr "Найти"
 
 #: src/ui/classic/classicui.h:151
 msgid "Follow system light/dark color scheme"
-msgstr ""
+msgstr "Следовать системной световой/темной цветовой схеме"
 
 #: data/fcitx5-diagnose.sh:1263
 msgid ""
