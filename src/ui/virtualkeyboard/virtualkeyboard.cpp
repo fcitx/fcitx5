@@ -77,7 +77,7 @@ public:
     void processKeyEvent(uint32_t keyval, uint32_t keycode, uint32_t state,
                          bool isRelease, uint32_t time);
 
-    void processVisibilityEvent(bool visible) { parent_->setVisible(visible); }
+    void processVisibilityEvent(bool /*visible*/) {}
 
     void selectCandidate(int index) {
         auto *inputContext = parent_->instance()->mostRecentInputContext();
@@ -196,6 +196,8 @@ VirtualKeyboard::VirtualKeyboard(Instance *instance)
                                     const std::string &newOwner) {
             FCITX_INFO() << "VirtualKeyboard new owner: " << newOwner;
             setAvailable(!newOwner.empty());
+
+            setVisible(false);
         });
 
     initVirtualKeyboardService();
@@ -258,6 +260,12 @@ void VirtualKeyboard::update(UserInterfaceComponent component,
 }
 
 void VirtualKeyboard::showVirtualKeyboard() {
+    if (!available_) {
+        return;
+    }
+
+    setVisible(true);
+
     auto msg = bus_->createMethodCall(
         VirtualKeyboardName, "/org/fcitx/virtualkeyboard/impanel",
         VirtualKeyboardInterfaceName, "ShowVirtualKeyboard");
@@ -266,6 +274,12 @@ void VirtualKeyboard::showVirtualKeyboard() {
 }
 
 void VirtualKeyboard::hideVirtualKeyboard() {
+    if (!available_) {
+        return;
+    }
+
+    setVisible(false);
+
     auto msg = bus_->createMethodCall(
         VirtualKeyboardName, "/org/fcitx/virtualkeyboard/impanel",
         VirtualKeyboardInterfaceName, "HideVirtualKeyboard");
