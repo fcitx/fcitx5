@@ -11,7 +11,7 @@ NormalColor=#e0e0e0
 HighlightCandidateColor=#e0e0e0
 HighlightColor=#e0e0e0
 HighlightBackgroundColor=#606060
-Spacing=3
+PageButtonAlignment=Last Candidate
 
 [InputPanel/TextMargin]
 Left=5

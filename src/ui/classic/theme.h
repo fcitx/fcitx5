@@ -11,6 +11,7 @@
 #include <cairo/cairo.h>
 #include "fcitx-config/configuration.h"
 #include "fcitx-config/enum.h"
+#include "fcitx-config/option.h"
 #include "fcitx-utils/i18n.h"
 #include "fcitx-utils/log.h"
 #include "fcitx-utils/rect.h"
@@ -33,6 +34,17 @@ FCITX_CONFIG_ENUM_NAME_WITH_I18N(Gravity, N_("Top Left"), N_("Top Center"),
                                  N_("Center"), N_("Center Right"),
                                  N_("Bottom Left"), N_("Bottom Center"),
                                  N_("Bottom Right"));
+
+enum class PageButtonAlignment {
+    Top,
+    FirstCandidate,
+    Center,
+    LastCandidate,
+    Bottom
+};
+FCITX_CONFIG_ENUM_NAME_WITH_I18N(PageButtonAlignment, N_("Top"),
+                                 N_("First Candidate"), N_("Center"),
+                                 N_("Last Candidate"), N_("Bottom"));
 
 FCITX_CONFIGURATION(
     MarginConfig,
@@ -115,6 +127,10 @@ FCITX_CONFIGURATION(
     Option<Color> highlightBackgroundColor{this, "HighlightBackgroundColor",
                                            _("Highlight Background color"),
                                            Color("#a5a5a5ff")};
+    OptionWithAnnotation<PageButtonAlignment, PageButtonAlignmentI18NAnnotation>
+        buttonAlignment{this, "PageButtonAlignment",
+                        _("Page button vertical alignment"),
+                        PageButtonAlignment::Bottom};
     Option<BackgroundImageConfig> background{this, "Background",
                                              _("Background")};
     Option<HighlightBackgroundImageConfig> highlight{this, "Highlight",

@@ -9,7 +9,7 @@ ScaleWithDPI=True
 Font=Sans 10
 NormalColor=#000000
 HighlightColor=#ffffff
-Spacing=3
+PageButtonAlignment=Last Candidate
 
 [InputPanel/TextMargin]
 Left=5
