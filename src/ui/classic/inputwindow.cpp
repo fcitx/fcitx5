@@ -70,7 +70,7 @@ static void renderLayout(cairo_t *cr, PangoLayout *layout, int x, int y) {
     // Convert back to user and calculate delta.
     cairo_device_to_user(cr, &ndx, &ndy);
     cairo_move_to(cr, x + ndx - odx, y + yOffset + ndy - ody);
-    
+
     prepareLayout(cr, layout);
     pango_cairo_show_layout(cr, layout);
 

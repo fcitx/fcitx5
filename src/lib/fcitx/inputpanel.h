@@ -7,6 +7,7 @@
 #ifndef _FCITX_INPUTPANEL_H_
 #define _FCITX_INPUTPANEL_H_
 
+#include <functional>
 #include <fcitx-utils/element.h>
 #include <fcitx/candidatelist.h>
 #include <fcitx/text.h>
@@ -21,6 +22,8 @@ namespace fcitx {
 
 class InputPanelPrivate;
 class InputContext;
+
+using CustomInputPanelCallback = std::function<void(InputContext *)>;
 
 /**
  * Input Panel is usually a floating window that is display at the cursor of
@@ -65,6 +68,35 @@ public:
 
     std::shared_ptr<CandidateList> candidateList() const;
     void setCandidateList(std::unique_ptr<CandidateList> candidate);
+
+    /**
+     * Return the current input panel display callback.
+     *
+     * @see setCustomInputPanelCallback
+     * @return current custom ui callback
+     * @since 5.0.24
+     */
+    const CustomInputPanelCallback &customInputPanelCallback() const;
+
+    /**
+     * Set a custom callback to display the input panel.
+     *
+     * When this is set,
+     * Instance::updateUserInterface(UserInterfaceComponent::InputPanel) will
+     * trigger a call to the callback function instead. The capability flag
+     * ClientSideInputPanel will not be respected, but the clientPreedit will
+     * still be sent if InputContext::updatePreedit is called.
+     *
+     * All the UI display batching logic still applies. The actual update that
+     * triggers this callback will be called as a deferred event after current
+     * event. If you need UI update right away (rare), you can still true as
+     * immediate to Instance::updateUserInterface.
+     *
+     * @param callback callback to display input panel.
+     *
+     * @since 5.0.24
+     */
+    void setCustomInputPanelCallback(CustomInputPanelCallback callback);
 
     void reset();
 

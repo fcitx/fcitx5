@@ -207,11 +207,19 @@ void UserInterfaceManager::flush() {
     FCITX_D();
     for (auto &p : d->updateList_) {
         for (auto comp : p.second) {
-            if (comp == UserInterfaceComponent::InputPanel &&
-                p.first->capabilityFlags().test(
-                    CapabilityFlag::ClientSideInputPanel)) {
-                p.first->updateClientSideUIImpl();
-            } else if (d->ui_) {
+            if (comp == UserInterfaceComponent::InputPanel) {
+                if (const auto &callback =
+                        p.first->inputPanel().customInputPanelCallback()) {
+                    callback(p.first);
+                    continue;
+                } else if (p.first->capabilityFlags().test(
+                               CapabilityFlag::ClientSideInputPanel)) {
+                    p.first->updateClientSideUIImpl();
+                    continue;
+                }
+            }
+
+            if (d->ui_) {
                 d->ui_->update(comp, p.first);
             }
         }

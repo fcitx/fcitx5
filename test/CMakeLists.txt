@@ -77,6 +77,8 @@ foreach(TESTCASE ${FCITX_CONFIG_TEST})
              COMMAND ${TESTCASE})
 endforeach()
 
+set(testinputcontext_LIBS Fcitx5::Module::TestFrontend Fcitx5::Module::TestIM)
+
 set(FCITX_CORE_TEST
     testinputcontext
     testsurroundingtext

@@ -61,7 +61,8 @@ int main() {
     FCITX_ASSERT(fcitx::Key("S").check(fcitx::Key("Shift+S").normalize()));
     FCITX_ASSERT(
         fcitx::Key("Shift+F4").check(fcitx::Key("Shift+F4").normalize()));
-    FCITX_ASSERT(fcitx::Key("Control+A").check(fcitx::Key("Control+a").normalize()));
+    FCITX_ASSERT(
+        fcitx::Key("Control+A").check(fcitx::Key("Control+a").normalize()));
     FCITX_ASSERT(fcitx::Key("Alt+exclam")
                      .check(fcitx::Key("Alt+Shift+exclam").normalize()));
     FCITX_ASSERT(fcitx::Key("").sym() == FcitxKey_None);
