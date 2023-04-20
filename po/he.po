@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2023-04-18 21:07+0000\n"
+"POT-Creation-Date: 2023-04-20 20:29+0000\n"
 "PO-Revision-Date: 2017-11-23 04:14+0000\n"
 "Last-Translator: 63f334ffc0709ba0fc2361b80bf3c0f0_00ffd1e "
 "<ab96c93ca0ac55ba7fa06385427e60dd_878890>, 2021\n"
@@ -197,7 +197,7 @@ msgctxt "Key name"
 msgid "Audio Repeat"
 msgstr ""
 
-#: src/ui/classic/theme.h:154
+#: src/ui/classic/theme.h:170
 msgid "Author"
 msgstr ""
 
@@ -220,11 +220,11 @@ msgstr ""
 msgid "Backends"
 msgstr ""
 
-#: src/ui/classic/theme.h:119 src/ui/classic/theme.h:139
+#: src/ui/classic/theme.h:135 src/ui/classic/theme.h:155
 msgid "Background"
 msgstr ""
 
-#: src/ui/classic/theme.h:50
+#: src/ui/classic/theme.h:62
 msgid "Background Image"
 msgstr ""
 
@@ -260,11 +260,11 @@ msgctxt "Key name"
 msgid "Bluetooth"
 msgstr "Bluetooth"
 
-#: src/ui/classic/theme.h:108
+#: src/ui/classic/theme.h:120
 msgid "Blur Margin"
 msgstr ""
 
-#: src/ui/classic/theme.h:107
+#: src/ui/classic/theme.h:119
 msgid "Blur mask"
 msgstr ""
 
@@ -273,23 +273,27 @@ msgctxt "Key name"
 msgid "Book"
 msgstr ""
 
-#: src/ui/classic/theme.h:62
+#: src/ui/classic/theme.h:74
 msgid "Border Color"
 msgstr ""
 
-#: src/ui/classic/theme.h:70
+#: src/ui/classic/theme.h:82
 msgid "Border width"
 msgstr ""
 
-#: src/ui/classic/theme.h:34
-msgid "Bottom Center"
-msgstr ""
-
-#: src/ui/classic/theme.h:34
-msgid "Bottom Left"
+#: src/ui/classic/theme.h:47
+msgid "Bottom"
 msgstr ""
 
 #: src/ui/classic/theme.h:35
+msgid "Bottom Center"
+msgstr ""
+
+#: src/ui/classic/theme.h:35
+msgid "Bottom Left"
+msgstr ""
+
+#: src/ui/classic/theme.h:36
 msgid "Bottom Right"
 msgstr ""
 
@@ -400,15 +404,15 @@ msgctxt "Key name"
 msgid "CapsLock"
 msgstr ""
 
-#: src/ui/classic/theme.h:33
+#: src/ui/classic/theme.h:34 src/ui/classic/theme.h:46
 msgid "Center"
 msgstr ""
 
-#: src/ui/classic/theme.h:32
+#: src/ui/classic/theme.h:33
 msgid "Center Left"
 msgstr ""
 
-#: src/ui/classic/theme.h:33
+#: src/ui/classic/theme.h:34
 msgid "Center Right"
 msgstr ""
 
@@ -416,7 +420,7 @@ msgstr ""
 msgid "Change Fcitx 5 Configuration"
 msgstr ""
 
-#: src/ui/classic/theme.h:144
+#: src/ui/classic/theme.h:160
 msgid "Check box"
 msgstr ""
 
@@ -433,7 +437,7 @@ msgctxt "Key name"
 msgid "Clear"
 msgstr "ניקוי"
 
-#: src/ui/classic/theme.h:96
+#: src/ui/classic/theme.h:108
 msgid "Click Margin"
 msgstr ""
 
@@ -455,7 +459,7 @@ msgctxt "Key name"
 msgid "Code input"
 msgstr ""
 
-#: src/ui/classic/theme.h:54
+#: src/ui/classic/theme.h:66
 msgid "Color"
 msgstr ""
 
@@ -623,7 +627,7 @@ msgctxt "Key name"
 msgid "Delete"
 msgstr "מחיקה"
 
-#: src/ui/classic/theme.h:156
+#: src/ui/classic/theme.h:172
 msgid "Description"
 msgstr ""
 
@@ -689,7 +693,7 @@ msgstr ""
 msgid "Enable"
 msgstr ""
 
-#: src/ui/classic/theme.h:105
+#: src/ui/classic/theme.h:117
 msgid "Enable Blur on KWin"
 msgstr ""
 
@@ -848,6 +852,10 @@ msgstr ""
 #: src/lib/fcitx-utils/key.cpp:190
 msgctxt "Key name"
 msgid "Find"
+msgstr ""
+
+#: src/ui/classic/theme.h:46
+msgid "First Candidate"
 msgstr ""
 
 #: src/ui/classic/classicui.h:151
@@ -1079,27 +1087,27 @@ msgstr "תרדמת"
 msgid "Hidden Notifications"
 msgstr ""
 
-#: src/ui/classic/theme.h:81
+#: src/ui/classic/theme.h:93
 msgid "Hide overlay if size does not fit"
 msgstr ""
 
-#: src/ui/classic/theme.h:121 src/ui/classic/theme.h:141
+#: src/ui/classic/theme.h:137 src/ui/classic/theme.h:157
 msgid "Highlight Background"
 msgstr ""
 
-#: src/ui/classic/theme.h:116
+#: src/ui/classic/theme.h:128
 msgid "Highlight Background color"
 msgstr ""
 
-#: src/ui/classic/theme.h:103 src/ui/classic/theme.h:135
+#: src/ui/classic/theme.h:115 src/ui/classic/theme.h:151
 msgid "Highlight Candidate Color"
 msgstr ""
 
-#: src/ui/classic/theme.h:91
+#: src/ui/classic/theme.h:103
 msgid "Highlight Click Margin"
 msgstr ""
 
-#: src/ui/classic/theme.h:114
+#: src/ui/classic/theme.h:126
 msgid "Highlight text color"
 msgstr ""
 
@@ -1178,7 +1186,7 @@ msgid ""
 "any input method other than ${2}. See ${link} for more detail."
 msgstr ""
 
-#: src/ui/classic/theme.h:94
+#: src/ui/classic/theme.h:106
 msgid "Image"
 msgstr ""
 
@@ -1203,7 +1211,7 @@ msgstr ""
 msgid "Input Methods:"
 msgstr ""
 
-#: src/ui/classic/theme.h:162
+#: src/ui/classic/theme.h:178
 msgid "Input Panel"
 msgstr ""
 
@@ -1302,6 +1310,10 @@ msgstr ""
 
 #: data/fcitx5-diagnose.sh:1708
 msgid "Kimpanel process:"
+msgstr ""
+
+#: src/ui/classic/theme.h:47
+msgid "Last Candidate"
 msgstr ""
 
 #: src/lib/fcitx-utils/key.cpp:77
@@ -1446,31 +1458,31 @@ msgctxt "Key name"
 msgid "Mail Forward"
 msgstr ""
 
-#: src/ui/classic/theme.h:83
+#: src/ui/classic/theme.h:95
 msgid "Margin"
 msgstr ""
 
-#: src/ui/classic/theme.h:45
+#: src/ui/classic/theme.h:57
 msgid "Margin Bottom"
 msgstr ""
 
-#: src/ui/classic/theme.h:39
+#: src/ui/classic/theme.h:51
 msgid "Margin Left"
 msgstr ""
 
-#: src/ui/classic/theme.h:41
+#: src/ui/classic/theme.h:53
 msgid "Margin Right"
 msgstr ""
 
-#: src/ui/classic/theme.h:43
+#: src/ui/classic/theme.h:55
 msgid "Margin Top"
 msgstr ""
 
-#: src/ui/classic/theme.h:123 src/ui/classic/theme.h:147
+#: src/ui/classic/theme.h:139 src/ui/classic/theme.h:163
 msgid "Margin around all content"
 msgstr ""
 
-#: src/ui/classic/theme.h:125 src/ui/classic/theme.h:149
+#: src/ui/classic/theme.h:141 src/ui/classic/theme.h:165
 msgid "Margin around text"
 msgstr ""
 
@@ -1529,7 +1541,7 @@ msgctxt "Key name"
 msgid "Meeting"
 msgstr ""
 
-#: src/ui/classic/theme.h:163
+#: src/ui/classic/theme.h:179
 msgid "Menu"
 msgstr ""
 
@@ -1552,7 +1564,7 @@ msgctxt "Key name"
 msgid "Messenger"
 msgstr ""
 
-#: src/ui/classic/theme.h:160
+#: src/ui/classic/theme.h:176
 msgid "Metadata"
 msgstr ""
 
@@ -1591,7 +1603,7 @@ msgctxt "Key name"
 msgid "My Sites"
 msgstr ""
 
-#: src/ui/classic/theme.h:152
+#: src/ui/classic/theme.h:168
 msgid "Name"
 msgstr ""
 
@@ -1609,7 +1621,7 @@ msgstr ""
 msgid "Next Candidate"
 msgstr ""
 
-#: src/ui/classic/theme.h:127
+#: src/ui/classic/theme.h:143
 msgid "Next Page Button"
 msgstr ""
 
@@ -1625,7 +1637,7 @@ msgstr ""
 msgid "None"
 msgstr ""
 
-#: src/ui/classic/theme.h:100 src/ui/classic/theme.h:132
+#: src/ui/classic/theme.h:112 src/ui/classic/theme.h:148
 msgid "Normal text color"
 msgstr ""
 
@@ -1678,23 +1690,23 @@ msgctxt "Key name"
 msgid "Option"
 msgstr ""
 
-#: src/ui/classic/theme.h:85
+#: src/ui/classic/theme.h:97
 msgid "Overlay Clip Margin"
 msgstr ""
 
-#: src/ui/classic/theme.h:75
+#: src/ui/classic/theme.h:87
 msgid "Overlay Image"
 msgstr ""
 
-#: src/ui/classic/theme.h:78
+#: src/ui/classic/theme.h:90
 msgid "Overlay X offset"
 msgstr ""
 
-#: src/ui/classic/theme.h:79
+#: src/ui/classic/theme.h:91
 msgid "Overlay Y offset"
 msgstr ""
 
-#: src/ui/classic/theme.h:77
+#: src/ui/classic/theme.h:89
 msgid "Overlay position"
 msgstr ""
 
@@ -1708,6 +1720,10 @@ msgstr ""
 
 #: data/fcitx5-diagnose.sh:982
 msgid "PID of DBus name ${1} owner is ${2}."
+msgstr ""
+
+#: src/ui/classic/theme.h:132
+msgid "Page button vertical alignment"
 msgstr ""
 
 #: src/im/keyboard/keyboard.h:37
@@ -1798,7 +1814,7 @@ msgstr ""
 msgid "Prev Candidate"
 msgstr ""
 
-#: src/ui/classic/theme.h:126
+#: src/ui/classic/theme.h:142
 msgid "Prev Page Button"
 msgstr ""
 
@@ -1959,11 +1975,11 @@ msgctxt "Key name"
 msgid "Send"
 msgstr "שליחה"
 
-#: src/ui/classic/theme.h:143
+#: src/ui/classic/theme.h:159
 msgid "Separator Background"
 msgstr ""
 
-#: src/ui/classic/theme.h:129
+#: src/ui/classic/theme.h:145
 msgid "Shadow Margin"
 msgstr ""
 
@@ -2031,7 +2047,7 @@ msgctxt "Key name"
 msgid "Space"
 msgstr ""
 
-#: src/ui/classic/theme.h:137
+#: src/ui/classic/theme.h:153
 msgid "Spacing"
 msgstr ""
 
@@ -2072,7 +2088,7 @@ msgctxt "Key name"
 msgid "Stop"
 msgstr ""
 
-#: src/ui/classic/theme.h:145
+#: src/ui/classic/theme.h:161
 msgid "Sub Menu"
 msgstr ""
 
@@ -2158,7 +2174,7 @@ msgstr ""
 msgid "This is only effective when the tray icon is xembed."
 msgstr ""
 
-#: src/ui/classic/theme.h:58 src/ui/classic/theme.h:66
+#: src/ui/classic/theme.h:70 src/ui/classic/theme.h:78
 msgid "This option is only effective if image is not set."
 msgstr ""
 
@@ -2166,7 +2182,7 @@ msgstr ""
 msgid "This option require support from wayland compositor."
 msgstr ""
 
-#: src/ui/classic/theme.h:74
+#: src/ui/classic/theme.h:86
 msgid "This value should be less than any of margin value."
 msgstr ""
 
@@ -2199,11 +2215,15 @@ msgctxt "Key name"
 msgid "Tools"
 msgstr "כלים"
 
-#: src/ui/classic/theme.h:31
+#: src/ui/classic/theme.h:45
+msgid "Top"
+msgstr ""
+
+#: src/ui/classic/theme.h:32
 msgid "Top Center"
 msgstr ""
 
-#: src/ui/classic/theme.h:31
+#: src/ui/classic/theme.h:32
 msgid "Top Left"
 msgstr ""
 
@@ -2212,7 +2232,7 @@ msgctxt "Key name"
 msgid "Top Menu"
 msgstr ""
 
-#: src/ui/classic/theme.h:32
+#: src/ui/classic/theme.h:33
 msgid "Top Right"
 msgstr ""
 
@@ -2317,7 +2337,7 @@ msgstr ""
 msgid "Use Per Screen DPI"
 msgstr ""
 
-#: src/ui/classic/theme.h:111
+#: src/ui/classic/theme.h:123
 msgid "Use all horizontal space for highlight when it is vertical list"
 msgstr ""
 
@@ -2341,7 +2361,7 @@ msgstr ""
 msgid "Using ${1} to check dbus."
 msgstr ""
 
-#: src/ui/classic/theme.h:153
+#: src/ui/classic/theme.h:169
 msgid "Version"
 msgstr ""
 
