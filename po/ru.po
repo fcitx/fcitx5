@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2023-04-20 20:29+0000\n"
+"POT-Creation-Date: 2023-04-21 20:27+0000\n"
 "PO-Revision-Date: 2017-11-23 04:14+0000\n"
 "Last-Translator: Dmitry <dmitrydmitry761@gmail.com>, 2023\n"
 "Language-Team: Russian (https://app.transifex.com/fcitx/teams/12005/ru/)\n"
@@ -287,7 +287,7 @@ msgstr "Ширина рамки"
 
 #: src/ui/classic/theme.h:47
 msgid "Bottom"
-msgstr ""
+msgstr "Нижний"
 
 #: src/ui/classic/theme.h:35
 msgid "Bottom Center"
@@ -872,7 +872,7 @@ msgstr "Найти"
 
 #: src/ui/classic/theme.h:46
 msgid "First Candidate"
-msgstr ""
+msgstr "Первый кандидат"
 
 #: src/ui/classic/classicui.h:151
 msgid "Follow system light/dark color scheme"
@@ -1352,7 +1352,7 @@ msgstr "Процесс Kimpanel:"
 
 #: src/ui/classic/theme.h:47
 msgid "Last Candidate"
-msgstr ""
+msgstr "Последний кандидат"
 
 #: src/lib/fcitx-utils/key.cpp:77
 msgctxt "Key name"
@@ -1767,7 +1767,7 @@ msgstr "PID владельца имени DBus ${1} — ${2}."
 
 #: src/ui/classic/theme.h:132
 msgid "Page button vertical alignment"
-msgstr ""
+msgstr "Выравнивание кнопки страницы по вертикали"
 
 #: src/im/keyboard/keyboard.h:37
 msgid "Page size"
@@ -2279,7 +2279,7 @@ msgstr "Инструменты"
 
 #: src/ui/classic/theme.h:45
 msgid "Top"
-msgstr ""
+msgstr "Вверху"
 
 #: src/ui/classic/theme.h:32
 msgid "Top Center"
