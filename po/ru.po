@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2023-04-21 20:27+0000\n"
+"POT-Creation-Date: 2023-04-22 20:24+0000\n"
 "PO-Revision-Date: 2017-11-23 04:14+0000\n"
 "Last-Translator: Dmitry <dmitrydmitry761@gmail.com>, 2023\n"
 "Language-Team: Russian (https://app.transifex.com/fcitx/teams/12005/ru/)\n"
@@ -287,19 +287,19 @@ msgstr "Ширина рамки"
 
 #: src/ui/classic/theme.h:47
 msgid "Bottom"
-msgstr "Нижний"
+msgstr "Внизу"
 
 #: src/ui/classic/theme.h:35
 msgid "Bottom Center"
-msgstr "Нижний Центр"
+msgstr "Внизу по центру"
 
 #: src/ui/classic/theme.h:35
 msgid "Bottom Left"
-msgstr "Нижний Левый"
+msgstr "Внизу слева"
 
 #: src/ui/classic/theme.h:36
 msgid "Bottom Right"
-msgstr "Нижний Правый"
+msgstr "Внизу справа"
 
 #: src/lib/fcitx-utils/key.cpp:129
 msgctxt "Key name"
@@ -419,11 +419,11 @@ msgstr "Центр"
 
 #: src/ui/classic/theme.h:33
 msgid "Center Left"
-msgstr "По Центру Слева"
+msgstr "Слева по центру"
 
 #: src/ui/classic/theme.h:34
 msgid "Center Right"
-msgstr "По центру Справа"
+msgstr "Справа по центру"
 
 #: data/fcitx5-configtool.desktop.in.in:5
 msgid "Change Fcitx 5 Configuration"
@@ -2283,7 +2283,7 @@ msgstr "Вверху"
 
 #: src/ui/classic/theme.h:32
 msgid "Top Center"
-msgstr "Вверху по-центру"
+msgstr "Вверху по центру"
 
 #: src/ui/classic/theme.h:32
 msgid "Top Left"
