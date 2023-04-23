@@ -42,6 +42,8 @@ public:
     void showVirtualKeyboard() override;
     void hideVirtualKeyboard() override;
 
+    void toggleVirtualKeyboard();
+
     void updateInputPanel(InputContext *inputContext);
 
 private:
