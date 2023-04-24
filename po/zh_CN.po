@@ -6,14 +6,15 @@
 # wwj402 <wwj402@gmail.com>, 2017
 # rocka, 2022
 # csslayer <wengxt@gmail.com>, 2023
+# Lau YeeYu, 2023
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2023-04-20 20:29+0000\n"
+"POT-Creation-Date: 2023-04-24 20:24+0000\n"
 "PO-Revision-Date: 2017-11-23 04:14+0000\n"
-"Last-Translator: csslayer <wengxt@gmail.com>, 2023\n"
+"Last-Translator: Lau YeeYu, 2023\n"
 "Language-Team: Chinese (China) (https://app.transifex.com/fcitx/teams/12005/"
 "zh_CN/)\n"
 "Language: zh_CN\n"
@@ -284,7 +285,7 @@ msgstr "边框宽度"
 
 #: src/ui/classic/theme.h:47
 msgid "Bottom"
-msgstr ""
+msgstr "按钮"
 
 #: src/ui/classic/theme.h:35
 msgid "Bottom Center"
@@ -584,7 +585,7 @@ msgstr "DOS"
 
 #: src/ui/classic/classicui.h:149
 msgid "Dark Theme"
-msgstr ""
+msgstr "深色模式"
 
 #: src/lib/fcitx/globalconfig.cpp:90
 msgid "Deactivate Input Method"
@@ -601,7 +602,7 @@ msgstr "默认"
 
 #: src/ui/classic/themes/default-dark/theme-dark.conf.in:3
 msgid "Default Dark"
-msgstr ""
+msgstr "默认深色"
 
 #: src/lib/fcitx/globalconfig.cpp:126
 msgid "Default Next Candidate"
@@ -712,7 +713,7 @@ msgstr "在快速输入中启用颜文字"
 
 #: src/ui/classic/classicui.h:169
 msgid "Enable fractional scale under Wayland"
-msgstr ""
+msgstr "在 Wayland 下启用分数缩放"
 
 #: src/im/keyboard/keyboard.h:59
 msgid "Enable hint by default"
@@ -861,11 +862,11 @@ msgstr "查找"
 
 #: src/ui/classic/theme.h:46
 msgid "First Candidate"
-msgstr ""
+msgstr "第一候选词"
 
 #: src/ui/classic/classicui.h:151
 msgid "Follow system light/dark color scheme"
-msgstr ""
+msgstr "跟随系统浅色/深色设定"
 
 #: data/fcitx5-diagnose.sh:1263
 msgid ""
@@ -1333,7 +1334,7 @@ msgstr "Kimpanel 进程:"
 
 #: src/ui/classic/theme.h:47
 msgid "Last Candidate"
-msgstr ""
+msgstr "上一个候选词"
 
 #: src/lib/fcitx-utils/key.cpp:77
 msgctxt "Key name"
@@ -1746,7 +1747,7 @@ msgstr "DBus 名称 ${1} 的 PID 所有者是 ${2}。"
 
 #: src/ui/classic/theme.h:132
 msgid "Page button vertical alignment"
-msgstr ""
+msgstr "页面按钮垂直对齐"
 
 #: src/im/keyboard/keyboard.h:37
 msgid "Page size"
@@ -2206,7 +2207,7 @@ msgstr "此选项仅在图片没有设置时生效。"
 
 #: src/ui/classic/classicui.h:173
 msgid "This option require support from wayland compositor."
-msgstr ""
+msgstr "此选项需要 Wayland 混成器支持。"
 
 #: src/ui/classic/theme.h:86
 msgid "This value should be less than any of margin value."
@@ -2247,7 +2248,7 @@ msgstr "工具"
 
 #: src/ui/classic/theme.h:45
 msgid "Top"
-msgstr ""
+msgstr "顶部"
 
 #: src/ui/classic/theme.h:32
 msgid "Top Center"
