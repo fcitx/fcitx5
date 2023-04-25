@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2023-04-24 20:24+0000\n"
+"POT-Creation-Date: 2023-04-25 20:24+0000\n"
 "PO-Revision-Date: 2017-11-23 04:14+0000\n"
 "Last-Translator: Lau YeeYu, 2023\n"
 "Language-Team: Chinese (China) (https://app.transifex.com/fcitx/teams/12005/"
@@ -866,7 +866,7 @@ msgstr "第一候选词"
 
 #: src/ui/classic/classicui.h:151
 msgid "Follow system light/dark color scheme"
-msgstr "跟随系统浅色/深色设定"
+msgstr "跟随系统浅色/深色设置"
 
 #: data/fcitx5-diagnose.sh:1263
 msgid ""
@@ -2207,7 +2207,7 @@ msgstr "此选项仅在图片没有设置时生效。"
 
 #: src/ui/classic/classicui.h:173
 msgid "This option require support from wayland compositor."
-msgstr "此选项需要 Wayland 混成器支持。"
+msgstr "此选项需要 Wayland 混成器 (Wayland compositor) 支持。"
 
 #: src/ui/classic/theme.h:86
 msgid "This value should be less than any of margin value."

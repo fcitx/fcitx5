@@ -11,14 +11,15 @@
 # yan12125, 2022
 # Neko ◣ 0xFF, 2022
 # csslayer <wengxt@gmail.com>, 2023
+# Lau YeeYu, 2023
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2023-04-20 20:29+0000\n"
+"POT-Creation-Date: 2023-04-25 20:24+0000\n"
 "PO-Revision-Date: 2017-11-23 04:14+0000\n"
-"Last-Translator: csslayer <wengxt@gmail.com>, 2023\n"
+"Last-Translator: Lau YeeYu, 2023\n"
 "Language-Team: Chinese (Taiwan) (https://app.transifex.com/fcitx/teams/12005/"
 "zh_TW/)\n"
 "Language: zh_TW\n"
@@ -289,7 +290,7 @@ msgstr "邊框寬度"
 
 #: src/ui/classic/theme.h:47
 msgid "Bottom"
-msgstr ""
+msgstr "按鈕"
 
 #: src/ui/classic/theme.h:35
 msgid "Bottom Center"
@@ -589,7 +590,7 @@ msgstr "DOS"
 
 #: src/ui/classic/classicui.h:149
 msgid "Dark Theme"
-msgstr ""
+msgstr "深色模式"
 
 #: src/lib/fcitx/globalconfig.cpp:90
 msgid "Deactivate Input Method"
@@ -606,7 +607,7 @@ msgstr "預設"
 
 #: src/ui/classic/themes/default-dark/theme-dark.conf.in:3
 msgid "Default Dark"
-msgstr ""
+msgstr "預設深色"
 
 #: src/lib/fcitx/globalconfig.cpp:126
 msgid "Default Next Candidate"
@@ -647,7 +648,7 @@ msgstr "桌面環境為 ${1}。"
 
 #: src/frontend/waylandim/waylandim.h:27
 msgid "Detect current running application (Need restart)"
-msgstr ""
+msgstr "檢測當前運行的程式 (需要重新啟動)"
 
 #: data/fcitx5-diagnose.sh:851
 msgid "Directories:"
@@ -717,7 +718,7 @@ msgstr "在快速片語中啟用表情符號"
 
 #: src/ui/classic/classicui.h:169
 msgid "Enable fractional scale under Wayland"
-msgstr ""
+msgstr "在 Wayland 下啟用分數縮放"
 
 #: src/im/keyboard/keyboard.h:59
 msgid "Enable hint by default"
@@ -866,11 +867,11 @@ msgstr "尋找"
 
 #: src/ui/classic/theme.h:46
 msgid "First Candidate"
-msgstr ""
+msgstr "第一候選詞"
 
 #: src/ui/classic/classicui.h:151
 msgid "Follow system light/dark color scheme"
-msgstr ""
+msgstr "跟隨系統淺色/深色設定"
 
 #: data/fcitx5-diagnose.sh:1263
 msgid ""
@@ -1338,7 +1339,7 @@ msgstr "Kimpanel 程序："
 
 #: src/ui/classic/theme.h:47
 msgid "Last Candidate"
-msgstr ""
+msgstr "上一個候選詞"
 
 #: src/lib/fcitx-utils/key.cpp:77
 msgctxt "Key name"
@@ -1750,7 +1751,7 @@ msgstr "DBus 名稱 ${1} PID 的擁有者是 ${2}。"
 
 #: src/ui/classic/theme.h:132
 msgid "Page button vertical alignment"
-msgstr ""
+msgstr "頁面按鈕垂直對齊"
 
 #: src/im/keyboard/keyboard.h:37
 msgid "Page size"
@@ -2210,7 +2211,7 @@ msgstr "此選項僅在圖片沒有設定時有效。"
 
 #: src/ui/classic/classicui.h:173
 msgid "This option require support from wayland compositor."
-msgstr ""
+msgstr "此選項需要 Wayland 混成器 (Wayland compositor) 支援。"
 
 #: src/ui/classic/theme.h:86
 msgid "This value should be less than any of margin value."
@@ -2251,7 +2252,7 @@ msgstr "工具"
 
 #: src/ui/classic/theme.h:45
 msgid "Top"
-msgstr ""
+msgstr "頂部"
 
 #: src/ui/classic/theme.h:32
 msgid "Top Center"
