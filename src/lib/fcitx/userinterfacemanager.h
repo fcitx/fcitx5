@@ -42,6 +42,13 @@ public:
     std::string currentUI() const;
 
 private:
+    bool shouldUpdateInputPanel(UserInterfaceComponent component,
+                                InputContext *ic);
+    void updateInputPanel(InputContext *ic);
+    void updateUserInterfaceComponent(UserInterfaceComponent component,
+                                      InputContext *ic, UserInterface *ui);
+
+private:
     std::unique_ptr<UserInterfaceManagerPrivate> d_ptr;
     FCITX_DECLARE_PRIVATE(UserInterfaceManager);
 };

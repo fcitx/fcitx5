@@ -203,27 +203,44 @@ void UserInterfaceManager::expire(InputContext *inputContext) {
     }
 }
 
+bool UserInterfaceManager::shouldUpdateInputPanel(
+    UserInterfaceComponent component, InputContext *ic) {
+    if (component != UserInterfaceComponent::InputPanel) {
+        return false;
+    }
+
+    return ic->inputPanel().customInputPanelCallback() != nullptr ||
+           ic->capabilityFlags().test(CapabilityFlag::ClientSideInputPanel);
+}
+
+void UserInterfaceManager::updateInputPanel(InputContext *ic) {
+    if (const auto &callback = ic->inputPanel().customInputPanelCallback()) {
+        callback(ic);
+    } else {
+        ic->updateClientSideUIImpl();
+    }
+}
+
+void UserInterfaceManager::updateUserInterfaceComponent(
+    UserInterfaceComponent component, InputContext *ic, UserInterface *ui) {
+    if (shouldUpdateInputPanel(component, ic)) {
+        updateInputPanel(ic);
+        return;
+    }
+
+    if (ui != nullptr) {
+        ui->update(component, ic);
+    }
+}
+
 void UserInterfaceManager::flush() {
     FCITX_D();
     for (auto &p : d->updateList_) {
         for (auto comp : p.second) {
-            if (comp == UserInterfaceComponent::InputPanel) {
-                if (const auto &callback =
-                        p.first->inputPanel().customInputPanelCallback()) {
-                    callback(p.first);
-                    continue;
-                } else if (p.first->capabilityFlags().test(
-                               CapabilityFlag::ClientSideInputPanel)) {
-                    p.first->updateClientSideUIImpl();
-                    continue;
-                }
-            }
-
-            if (d->ui_) {
-                d->ui_->update(comp, p.first);
-            }
+            updateUserInterfaceComponent(comp, p.first, d->ui_);
         }
     }
+
     d->updateIndex_.clear();
     d->updateList_.clear();
 }
