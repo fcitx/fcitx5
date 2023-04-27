@@ -74,6 +74,8 @@ public:
 
     ~VirtualKeyboardBackend() = default;
 
+    void setVirtualKeyboardFunctionMode(uint32_t mode);
+
     void processKeyEvent(uint32_t keyval, uint32_t keycode, uint32_t state,
                          bool isRelease, uint32_t time);
 
@@ -106,6 +108,9 @@ private:
     PageableCandidateList *getPageableCandidateList();
 
 private:
+    FCITX_OBJECT_VTABLE_METHOD(setVirtualKeyboardFunctionMode,
+                               "SetVirtualKeyboardFunctionMode", "u", "");
+
     FCITX_OBJECT_VTABLE_METHOD(processKeyEvent, "ProcessKeyEvent", "uuubu", "");
 
     FCITX_OBJECT_VTABLE_METHOD(processVisibilityEvent, "ProcessVisibilityEvent",
@@ -120,6 +125,17 @@ private:
     VirtualKeyboard *parent_;
 };
 
+void VirtualKeyboardBackend::setVirtualKeyboardFunctionMode(uint32_t mode) {
+    if (mode != static_cast<uint32_t>(VirtualKeyboardFunctionMode::Full) &&
+        mode != static_cast<uint32_t>(VirtualKeyboardFunctionMode::Limited)) {
+        throw dbus::MethodCallError("org.freedesktop.DBus.Error.InvalidArgs",
+                                    "The argument mode is invalid.");
+    }
+
+    parent_->instance()->setVirtualKeyboardFunctionMode(
+        static_cast<VirtualKeyboardFunctionMode>(mode));
+}
+
 void VirtualKeyboardBackend::processKeyEvent(uint32_t keyval, uint32_t keycode,
                                              uint32_t state, bool isRelease,
                                              uint32_t time) {
@@ -133,7 +149,14 @@ void VirtualKeyboardBackend::processKeyEvent(uint32_t keyval, uint32_t keycode,
     VirtualKeyboardEvent event(inputContext, isRelease, time);
     event.setKey(Key(static_cast<KeySym>(keyval), KeyStates(state), keycode));
 
-    auto eventConsumed = inputContext->virtualKeyboardEvent(event);
+    auto eventConsumed = false;
+    if (parent_->instance()->virtualKeyboardFunctionMode() ==
+        VirtualKeyboardFunctionMode::Limited) {
+        eventConsumed = inputContext->virtualKeyboardEvent(event);
+    } else {
+        eventConsumed = inputContext->keyEvent(*event.toKeyEvent());
+    }
+
     if (eventConsumed) {
         return;
     }
@@ -247,7 +270,12 @@ void VirtualKeyboard::resume() {
         }));
     eventHandlers_.emplace_back(instance_->watchEvent(
         EventType::InputContextKeyEvent, EventWatcherPhase::PreInputMethod,
-        [this](Event &) {
+        [this](Event &event) {
+            const auto &keyEvent = static_cast<KeyEvent &>(event);
+            if (keyEvent.origKey().states().test(KeyState::Virtual)) {
+                return;
+            }
+
             instance_->setInputMethodMode(InputMethodMode::PhysicalKeyboard);
         }));
 }

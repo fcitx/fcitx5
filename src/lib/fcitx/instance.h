@@ -36,6 +36,11 @@ class FocusGroup;
 typedef std::function<void(Event &event)> EventHandler;
 
 /**
+ * The function mode of virtual keyboard.
+ */
+enum class VirtualKeyboardFunctionMode : uint32_t { Full = 1, Limited = 2 };
+
+/**
  * The event handling phase of event pipeline.
  */
 enum class EventWatcherPhase {
@@ -497,6 +502,10 @@ public:
     bool virtualKeyboardAutoHide() const;
 
     void setVirtualKeyboardAutoHide(bool autoHide);
+
+    VirtualKeyboardFunctionMode virtualKeyboardFunctionMode() const;
+
+    void setVirtualKeyboardFunctionMode(VirtualKeyboardFunctionMode mode);
 
 protected:
     // For testing purpose

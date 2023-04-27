@@ -223,6 +223,9 @@ public:
     bool virtualKeyboardAutoShow_ = false;
 
     bool virtualKeyboardAutoHide_ = true;
+
+    VirtualKeyboardFunctionMode virtualKeyboardFunctionMode_ =
+        VirtualKeyboardFunctionMode::Full;
 };
 
 } // namespace fcitx

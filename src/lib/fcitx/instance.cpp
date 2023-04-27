@@ -1407,6 +1407,17 @@ void Instance::setVirtualKeyboardAutoHide(bool autoHide) {
     d->virtualKeyboardAutoHide_ = autoHide;
 }
 
+VirtualKeyboardFunctionMode Instance::virtualKeyboardFunctionMode() const {
+    FCITX_D();
+    return d->virtualKeyboardFunctionMode_;
+}
+
+void Instance::setVirtualKeyboardFunctionMode(
+    VirtualKeyboardFunctionMode mode) {
+    FCITX_D();
+    d->virtualKeyboardFunctionMode_ = mode;
+}
+
 InstancePrivate *Instance::privateData() {
     FCITX_D();
     return d;
