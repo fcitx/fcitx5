@@ -252,7 +252,7 @@ print_process_info() {
 
 check_software(){
     local software=$1
-    if which $software >/dev/null; then
+    if which $software >/dev/null 2>&1; then
         $software
     else
         echo "$software not found"
@@ -1229,11 +1229,11 @@ find_qt_modules() {
 check_qt() {
     write_title 2 "Qt:"
     _check_toolkit_env qt4 QT4_IM_MODULE QT_IM_MODULE
-    write_quote_cmd $check_software fcitx5-qt4-immodule-probing
+    write_quote_cmd check_software fcitx5-qt4-immodule-probing
     _check_toolkit_env qt5 QT_IM_MODULE
-    write_quote_cmd $check_software fcitx5-qt5-immodule-probing
+    write_quote_cmd check_software fcitx5-qt5-immodule-probing
     _check_toolkit_env qt6 QT_IM_MODULE
-    write_quote_cmd $check_software fcitx5-qt6-immodule-probing
+    write_quote_cmd check_software fcitx5-qt6-immodule-probing
     find_qt_modules
     qt4_module_found=''
     qt5_module_found=''
