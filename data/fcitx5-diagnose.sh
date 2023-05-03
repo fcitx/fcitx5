@@ -1567,6 +1567,9 @@ check_gtk_immodule_cache_gio() {
 check_gtk() {
     write_title 2 "Gtk:"
     _check_toolkit_env gtk GTK_IM_MODULE
+    write_quote_cmd check_software fcitx5-gtk2-immodule-probing
+    write_quote_cmd check_software fcitx5-gtk3-immodule-probing
+    write_quote_cmd check_software fcitx5-gtk4-immodule-probing
     write_order_list "$(code_inline gtk-query-immodules):"
     increase_cur_level 1
     check_gtk_query_immodule 2
