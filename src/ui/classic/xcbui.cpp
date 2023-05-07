@@ -100,13 +100,13 @@ XCBFontOption forcedDpi(xcb_connection_t *conn, xcb_screen_t *screen) {
     parse(resources, "Xft.rgba:\t", [&option](const std::string &value) {
         if (value == "none") {
             option.rgba = XCBRGBA::NoRGBA;
-        } else if (value == "hintnone") {
+        } else if (value == "rgb") {
             option.rgba = XCBRGBA::RGB;
-        } else if (value == "hintmedium") {
+        } else if (value == "bgr") {
             option.rgba = XCBRGBA::BGR;
-        } else if (value == "hintslight") {
+        } else if (value == "vrgb") {
             option.rgba = XCBRGBA::VRGB;
-        } else if (value == "hintslight") {
+        } else if (value == "vbgr") {
             option.rgba = XCBRGBA::VBGR;
         }
         // default
