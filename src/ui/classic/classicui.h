@@ -101,8 +101,6 @@ FCITX_CONFIGURATION(
     ClassicUIConfig,
     Option<bool> verticalCandidateList{this, "Vertical Candidate List",
                                        _("Vertical Candidate List"), false};
-    Option<bool> perScreenDPI{this, "PerScreenDPI", _("Use Per Screen DPI"),
-                              true};
     Option<bool> useWheelForPaging{
         this, "WheelForPaging", _("Use mouse wheel to go to prev or next page"),
         true};
@@ -150,6 +148,14 @@ FCITX_CONFIGURATION(
     Option<bool> useDarkTheme{this, "UseDarkTheme",
                               _("Follow system light/dark color scheme"),
                               false};
+    OptionWithAnnotation<bool, ToolTipAnnotation> perScreenDPI{
+        this,
+        "PerScreenDPI",
+        _("Use Per Screen DPI on X11"),
+        false,
+        {},
+        {},
+        {_("This option will be always disabled on XWayland.")}};
     Option<int, IntConstrain, DefaultMarshaller<int>, ToolTipAnnotation>
         forceWaylandDPI{
             this,

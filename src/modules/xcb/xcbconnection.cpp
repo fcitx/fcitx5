@@ -173,10 +173,12 @@ XCBConnection::XCBConnection(XCBModule *xcb, const std::string &name)
         }
     }
 
+    FCITX_XCB_INFO() << "Connecting to X11 display, display name:" << name_
+                     << ".";
     if (extensionCheckXWayland(conn_.get()) ||
         xrandrCheckXWayland(conn_.get(), screen)) {
         isXWayland_ = true;
-        FCITX_XCB_DEBUG() << "X11 display: " << name_ << " is xwayland.";
+        FCITX_XCB_INFO() << "X11 display: " << name_ << " is xwayland.";
     }
 
     syms_.reset(xcb_key_symbols_alloc(conn_.get()));

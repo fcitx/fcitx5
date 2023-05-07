@@ -701,7 +701,8 @@ int XCBUI::dpiByPosition(int x, int y) {
 }
 
 int XCBUI::scaledDPI(int dpi) {
-    if (!*parent_->config().perScreenDPI) {
+    if (!*parent_->config().perScreenDPI ||
+        parent_->xcb()->call<IXCBModule::isXWayland>(name_)) {
         // CLASSICUI_DEBUG() << "Use font option dpi: " << fontOption_.dpi;
         if (fontOption_.dpi > 0) {
             return fontOption_.dpi;
