@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2023-04-22 20:24+0000\n"
+"POT-Creation-Date: 2023-05-07 20:24+0000\n"
 "PO-Revision-Date: 2017-11-23 04:14+0000\n"
 "Last-Translator: UTUMI Hirosi <utuhiro78@yahoo.co.jp>, 2023\n"
 "Language-Team: Japanese (https://app.transifex.com/fcitx/teams/12005/ja/)\n"
@@ -585,7 +585,7 @@ msgctxt "Key name"
 msgid "DOS"
 msgstr "DOS"
 
-#: src/ui/classic/classicui.h:149
+#: src/ui/classic/classicui.h:147
 msgid "Dark Theme"
 msgstr "ダークテーマ"
 
@@ -713,7 +713,7 @@ msgstr "絵文字のヒントを有効にする"
 msgid "Enable emoji in quickphrase"
 msgstr "絵文字のクイックフレーズを有効にする"
 
-#: src/ui/classic/classicui.h:169
+#: src/ui/classic/classicui.h:175
 msgid "Enable fractional scale under Wayland"
 msgstr "Wayland で分数スケールを有効にする"
 
@@ -866,7 +866,7 @@ msgstr "Find"
 msgid "First Candidate"
 msgstr "最初の候補"
 
-#: src/ui/classic/classicui.h:151
+#: src/ui/classic/classicui.h:149
 msgid "Follow system light/dark color scheme"
 msgstr "システムのライト/ダーク配色に従う"
 
@@ -883,11 +883,11 @@ msgstr ""
 "によるテキスト入力サポートを使用している場合は、これは重大なエラーではありま"
 "せん。"
 
-#: src/ui/classic/classicui.h:111
+#: src/ui/classic/classicui.h:109
 msgid "Font"
 msgstr "フォント"
 
-#: src/ui/classic/classicui.h:141
+#: src/ui/classic/classicui.h:139
 msgid ""
 "For example, display character with Chinese variant when using Pinyin and "
 "Japanese variant when using Anthy. The font configuration needs to support "
@@ -897,7 +897,7 @@ msgstr ""
 "ている場合は日本語の書体で文字を表示します。この機能を使用するには多言語フォ"
 "ントを指定する必要があります。"
 
-#: src/ui/classic/classicui.h:157
+#: src/ui/classic/classicui.h:163
 msgid "Force font DPI on Wayland"
 msgstr "フォント DPI を Wayland で強制する"
 
@@ -1217,7 +1217,7 @@ msgstr "画像"
 #: src/lib/fcitx/instance.cpp:661 src/lib/fcitx/instance.cpp:820
 #: src/modules/notificationitem/notificationitem.cpp:142
 #: src/modules/notificationitem/notificationitem.cpp:222
-#: src/modules/xcb/xcbconnection.cpp:482 data/org.fcitx.Fcitx5.desktop.in.in:4
+#: src/modules/xcb/xcbconnection.cpp:484 data/org.fcitx.Fcitx5.desktop.in.in:4
 #: data/org.fcitx.Fcitx5.metainfo.xml.in:7
 msgid "Input Method"
 msgstr "入力メソッド"
@@ -1577,7 +1577,7 @@ msgctxt "Key name"
 msgid "Menu"
 msgstr "メニュー"
 
-#: src/ui/classic/classicui.h:113
+#: src/ui/classic/classicui.h:111
 msgid "Menu Font"
 msgstr "メニューフォント"
 
@@ -1668,7 +1668,7 @@ msgstr "なし"
 msgid "Normal text color"
 msgstr "ノーマルテキスト色"
 
-#: src/ui/classic/classicui.h:161
+#: src/ui/classic/classicui.h:167
 msgid ""
 "Normally Wayland uses 96 as font DPI in combinition with the screen scale "
 "factor. This option allows you to override the font DPI. If the value is 0, "
@@ -1839,7 +1839,7 @@ msgstr "プリエディット無効"
 msgid "Preedit enabled"
 msgstr "プリエディット有効"
 
-#: src/ui/classic/classicui.h:121
+#: src/ui/classic/classicui.h:119
 msgid "Prefer Text Icon"
 msgstr "テキストアイコンを優先する"
 
@@ -2042,7 +2042,7 @@ msgstr "フォーカスを変更する際に入力メソッドの情報を表示
 msgid "Show Input Method Information when switch input method"
 msgstr "入力メソッドを切り替える際に入力メソッドの情報を表示する"
 
-#: src/ui/classic/classicui.h:126
+#: src/ui/classic/classicui.h:124
 msgid "Show Layout Name In Icon"
 msgstr "アイコンにレイアウト名を表示する"
 
@@ -2054,7 +2054,7 @@ msgstr "入力メソッドの情報をコンパクトに表示する"
 msgid "Show first input method information"
 msgstr "第1入力メソッドの情報を表示する"
 
-#: src/ui/classic/classicui.h:130
+#: src/ui/classic/classicui.h:128
 msgid ""
 "Show layout name in icon if there is more than one active layout. If prefer "
 "text icon is set to true, this option will be ignored."
@@ -2158,11 +2158,11 @@ msgid "Suspend"
 msgstr "サスペンド"
 
 #: src/lib/fcitx/instance.cpp:444 src/lib/fcitx/instance.cpp:662
-#: src/modules/xcb/xcbconnection.cpp:483
+#: src/modules/xcb/xcbconnection.cpp:485
 msgid "Switch group"
 msgstr "グループの切り替え"
 
-#: src/lib/fcitx/instance.cpp:445 src/modules/xcb/xcbconnection.cpp:484
+#: src/lib/fcitx/instance.cpp:445 src/modules/xcb/xcbconnection.cpp:486
 msgid "Switch group to {0}"
 msgstr "{0} にグループを切り替える"
 
@@ -2207,7 +2207,7 @@ msgstr "N番目のホットキーでN番目の入力メソッドに切り替え�
 msgid "The script is run as ${1} (${2})."
 msgstr "${1} (${2})としてスクリプトを実行"
 
-#: src/ui/classic/classicui.h:146
+#: src/ui/classic/classicui.h:144
 msgid "Theme"
 msgstr "テーマ"
 
@@ -2219,9 +2219,13 @@ msgstr "これはトレイアイコンが XEmbed の場合のみ有効です。"
 msgid "This option is only effective if image is not set."
 msgstr "このオプションは画像が設定されていない場合にのみ有効です。"
 
-#: src/ui/classic/classicui.h:173
+#: src/ui/classic/classicui.h:179
 msgid "This option require support from wayland compositor."
 msgstr "このオプションには Wayland コンポジターのサポートが必要です。"
+
+#: src/ui/classic/classicui.h:158
+msgid "This option will be always disabled on XWayland."
+msgstr ""
 
 #: src/ui/classic/theme.h:86
 msgid "This value should be less than any of margin value."
@@ -2307,15 +2311,15 @@ msgctxt "Key name"
 msgid "Travel"
 msgstr "トラベル"
 
-#: src/ui/classic/classicui.h:115
+#: src/ui/classic/classicui.h:113
 msgid "Tray Font"
 msgstr "トレイフォント"
 
-#: src/ui/classic/classicui.h:117
+#: src/ui/classic/classicui.h:115
 msgid "Tray Label Outline Color"
 msgstr "トレイラベルのアウトライン色"
 
-#: src/ui/classic/classicui.h:120
+#: src/ui/classic/classicui.h:118
 msgid "Tray Label Text Color"
 msgstr "トレイラベルのテキスト色"
 
@@ -2379,19 +2383,19 @@ msgstr "上"
 msgid "Use On The Spot Style (Needs restarting)"
 msgstr "XIM で On The Spot スタイルを使う（再起動が必要）"
 
-#: src/ui/classic/classicui.h:104
-msgid "Use Per Screen DPI"
-msgstr "スクリーンごとのDPIを使用する"
+#: src/ui/classic/classicui.h:154
+msgid "Use Per Screen DPI on X11"
+msgstr ""
 
 #: src/ui/classic/theme.h:123
 msgid "Use all horizontal space for highlight when it is vertical list"
 msgstr "候補リストが縦の場合は、ハイライト時にすべての水平スペースを使用します"
 
-#: src/ui/classic/classicui.h:137
+#: src/ui/classic/classicui.h:135
 msgid "Use input method language to display text"
 msgstr "入力メソッドの言語を使用してテキストを表示する"
 
-#: src/ui/classic/classicui.h:107
+#: src/ui/classic/classicui.h:105
 msgid "Use mouse wheel to go to prev or next page"
 msgstr "マウスホイールを使用して前または次のページに移動する"
 

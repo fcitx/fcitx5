@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2023-04-22 20:24+0000\n"
+"POT-Creation-Date: 2023-05-07 20:24+0000\n"
 "PO-Revision-Date: 2017-11-23 04:14+0000\n"
 "Last-Translator: Dmitry <dmitrydmitry761@gmail.com>, 2023\n"
 "Language-Team: Russian (https://app.transifex.com/fcitx/teams/12005/ru/)\n"
@@ -590,7 +590,7 @@ msgctxt "Key name"
 msgid "DOS"
 msgstr "DOS"
 
-#: src/ui/classic/classicui.h:149
+#: src/ui/classic/classicui.h:147
 msgid "Dark Theme"
 msgstr "Тёмная тема"
 
@@ -718,7 +718,7 @@ msgstr "Включить эмодзи в подсказке"
 msgid "Enable emoji in quickphrase"
 msgstr "Включить эмодзи в быстрой фразе"
 
-#: src/ui/classic/classicui.h:169
+#: src/ui/classic/classicui.h:175
 msgid "Enable fractional scale under Wayland"
 msgstr "Включить дробную шкалу в Wayland"
 
@@ -874,7 +874,7 @@ msgstr "Найти"
 msgid "First Candidate"
 msgstr "Первый кандидат"
 
-#: src/ui/classic/classicui.h:151
+#: src/ui/classic/classicui.h:149
 msgid "Follow system light/dark color scheme"
 msgstr "Следовать системной светлой/темной цветовой схеме"
 
@@ -890,11 +890,11 @@ msgstr ""
 "ошибка, если вы не используете какое-либо приложение Qt с определенной "
 "версией Qt или используете поддержку ввода текста Qt под Wayland."
 
-#: src/ui/classic/classicui.h:111
+#: src/ui/classic/classicui.h:109
 msgid "Font"
 msgstr "Шрифт"
 
-#: src/ui/classic/classicui.h:141
+#: src/ui/classic/classicui.h:139
 msgid ""
 "For example, display character with Chinese variant when using Pinyin and "
 "Japanese variant when using Anthy. The font configuration needs to support "
@@ -904,7 +904,7 @@ msgstr ""
 "и японским вариантом при использовании Anthy. Конфигурация шрифта должна "
 "поддерживать это, чтобы использовать эту функцию."
 
-#: src/ui/classic/classicui.h:157
+#: src/ui/classic/classicui.h:163
 msgid "Force font DPI on Wayland"
 msgstr "Принудительное изменение DPI шрифта на Wayland"
 
@@ -1227,7 +1227,7 @@ msgstr "Изображение"
 #: src/lib/fcitx/instance.cpp:661 src/lib/fcitx/instance.cpp:820
 #: src/modules/notificationitem/notificationitem.cpp:142
 #: src/modules/notificationitem/notificationitem.cpp:222
-#: src/modules/xcb/xcbconnection.cpp:482 data/org.fcitx.Fcitx5.desktop.in.in:4
+#: src/modules/xcb/xcbconnection.cpp:484 data/org.fcitx.Fcitx5.desktop.in.in:4
 #: data/org.fcitx.Fcitx5.metainfo.xml.in:7
 msgid "Input Method"
 msgstr "Метод ввода"
@@ -1588,7 +1588,7 @@ msgctxt "Key name"
 msgid "Menu"
 msgstr "Меню"
 
-#: src/ui/classic/classicui.h:113
+#: src/ui/classic/classicui.h:111
 msgid "Menu Font"
 msgstr "Шрифт меню"
 
@@ -1679,7 +1679,7 @@ msgstr "Нет"
 msgid "Normal text color"
 msgstr "Обычный цвет текста"
 
-#: src/ui/classic/classicui.h:161
+#: src/ui/classic/classicui.h:167
 msgid ""
 "Normally Wayland uses 96 as font DPI in combinition with the screen scale "
 "factor. This option allows you to override the font DPI. If the value is 0, "
@@ -1850,7 +1850,7 @@ msgstr "Предварительное редактирование отключ
 msgid "Preedit enabled"
 msgstr "Предварительное редактирование включено"
 
-#: src/ui/classic/classicui.h:121
+#: src/ui/classic/classicui.h:119
 msgid "Prefer Text Icon"
 msgstr "Иконка предпочтительного текста"
 
@@ -2053,7 +2053,7 @@ msgstr "Показывать информацию о способе ввода �
 msgid "Show Input Method Information when switch input method"
 msgstr "Показывать информацию о методе ввода при переключении"
 
-#: src/ui/classic/classicui.h:126
+#: src/ui/classic/classicui.h:124
 msgid "Show Layout Name In Icon"
 msgstr "Показать имя раскладки в значке"
 
@@ -2065,7 +2065,7 @@ msgstr "Показать информацию о компактном метод
 msgid "Show first input method information"
 msgstr "Показать информацию о первом методе ввода"
 
-#: src/ui/classic/classicui.h:130
+#: src/ui/classic/classicui.h:128
 msgid ""
 "Show layout name in icon if there is more than one active layout. If prefer "
 "text icon is set to true, this option will be ignored."
@@ -2170,11 +2170,11 @@ msgid "Suspend"
 msgstr "Приостановить"
 
 #: src/lib/fcitx/instance.cpp:444 src/lib/fcitx/instance.cpp:662
-#: src/modules/xcb/xcbconnection.cpp:483
+#: src/modules/xcb/xcbconnection.cpp:485
 msgid "Switch group"
 msgstr "Сменить группу"
 
-#: src/lib/fcitx/instance.cpp:445 src/modules/xcb/xcbconnection.cpp:484
+#: src/lib/fcitx/instance.cpp:445 src/modules/xcb/xcbconnection.cpp:486
 msgid "Switch group to {0}"
 msgstr "Переключить группу на {0}"
 
@@ -2220,7 +2220,7 @@ msgstr ""
 msgid "The script is run as ${1} (${2})."
 msgstr "Сценарий запущен пользователем ${1} (${2})."
 
-#: src/ui/classic/classicui.h:146
+#: src/ui/classic/classicui.h:144
 msgid "Theme"
 msgstr "Тема"
 
@@ -2233,9 +2233,13 @@ msgid "This option is only effective if image is not set."
 msgstr ""
 "Этот параметр эффективен только в том случае, если имидж не установлен."
 
-#: src/ui/classic/classicui.h:173
+#: src/ui/classic/classicui.h:179
 msgid "This option require support from wayland compositor."
 msgstr "Для этого параметра требуется поддержка wayland compositor."
+
+#: src/ui/classic/classicui.h:158
+msgid "This option will be always disabled on XWayland."
+msgstr ""
 
 #: src/ui/classic/theme.h:86
 msgid "This value should be less than any of margin value."
@@ -2323,15 +2327,15 @@ msgctxt "Key name"
 msgid "Travel"
 msgstr "Ход"
 
-#: src/ui/classic/classicui.h:115
+#: src/ui/classic/classicui.h:113
 msgid "Tray Font"
 msgstr "Шрифт в лотке"
 
-#: src/ui/classic/classicui.h:117
+#: src/ui/classic/classicui.h:115
 msgid "Tray Label Outline Color"
 msgstr "Цвет контура лейбла лотка"
 
-#: src/ui/classic/classicui.h:120
+#: src/ui/classic/classicui.h:118
 msgid "Tray Label Text Color"
 msgstr "Цвет текста лейбла лотка"
 
@@ -2395,9 +2399,9 @@ msgstr "Вверх"
 msgid "Use On The Spot Style (Needs restarting)"
 msgstr "Использовать стиль On The Spot (требуется перезагрузка)"
 
-#: src/ui/classic/classicui.h:104
-msgid "Use Per Screen DPI"
-msgstr "Использовать DPI для каждого экрана"
+#: src/ui/classic/classicui.h:154
+msgid "Use Per Screen DPI on X11"
+msgstr ""
 
 #: src/ui/classic/theme.h:123
 msgid "Use all horizontal space for highlight when it is vertical list"
@@ -2405,11 +2409,11 @@ msgstr ""
 "Используйте все горизонтальное пространство для выделения, когда это "
 "вертикальный список"
 
-#: src/ui/classic/classicui.h:137
+#: src/ui/classic/classicui.h:135
 msgid "Use input method language to display text"
 msgstr "Использовать язык метода ввода для отображения текста"
 
-#: src/ui/classic/classicui.h:107
+#: src/ui/classic/classicui.h:105
 msgid "Use mouse wheel to go to prev or next page"
 msgstr "Используйте колёсико мыши, для перелистывания страниц"
 

@@ -17,7 +17,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2023-04-25 20:24+0000\n"
+"POT-Creation-Date: 2023-05-07 20:24+0000\n"
 "PO-Revision-Date: 2017-11-23 04:14+0000\n"
 "Last-Translator: Lau YeeYu, 2023\n"
 "Language-Team: Chinese (Taiwan) (https://app.transifex.com/fcitx/teams/12005/"
@@ -588,7 +588,7 @@ msgctxt "Key name"
 msgid "DOS"
 msgstr "DOS"
 
-#: src/ui/classic/classicui.h:149
+#: src/ui/classic/classicui.h:147
 msgid "Dark Theme"
 msgstr "深色模式"
 
@@ -716,7 +716,7 @@ msgstr "在提示中啟用表情符號"
 msgid "Enable emoji in quickphrase"
 msgstr "在快速片語中啟用表情符號"
 
-#: src/ui/classic/classicui.h:169
+#: src/ui/classic/classicui.h:175
 msgid "Enable fractional scale under Wayland"
 msgstr "在 Wayland 下啟用分數縮放"
 
@@ -869,7 +869,7 @@ msgstr "尋找"
 msgid "First Candidate"
 msgstr "第一候選詞"
 
-#: src/ui/classic/classicui.h:151
+#: src/ui/classic/classicui.h:149
 msgid "Follow system light/dark color scheme"
 msgstr "跟隨系統淺色/深色設定"
 
@@ -884,11 +884,11 @@ msgstr ""
 "用任何對應版本的 Qt 程序，或者在 Wayland 下使用 Qt 的 text-input 支持，下列錯"
 "誤也不是嚴重問題。"
 
-#: src/ui/classic/classicui.h:111
+#: src/ui/classic/classicui.h:109
 msgid "Font"
 msgstr "字體"
 
-#: src/ui/classic/classicui.h:141
+#: src/ui/classic/classicui.h:139
 msgid ""
 "For example, display character with Chinese variant when using Pinyin and "
 "Japanese variant when using Anthy. The font configuration needs to support "
@@ -897,7 +897,7 @@ msgstr ""
 "例如，使用拼音時顯示中文異體字，使用 Anthy 時顯示日文異體字。 字體配置需要支"
 "持此功能才能使用此功能。"
 
-#: src/ui/classic/classicui.h:157
+#: src/ui/classic/classicui.h:163
 msgid "Force font DPI on Wayland"
 msgstr "在 Wayland 上強制使用字型 DPI"
 
@@ -1215,7 +1215,7 @@ msgstr "圖片"
 #: src/lib/fcitx/instance.cpp:661 src/lib/fcitx/instance.cpp:820
 #: src/modules/notificationitem/notificationitem.cpp:142
 #: src/modules/notificationitem/notificationitem.cpp:222
-#: src/modules/xcb/xcbconnection.cpp:482 data/org.fcitx.Fcitx5.desktop.in.in:4
+#: src/modules/xcb/xcbconnection.cpp:484 data/org.fcitx.Fcitx5.desktop.in.in:4
 #: data/org.fcitx.Fcitx5.metainfo.xml.in:7
 msgid "Input Method"
 msgstr "輸入法"
@@ -1575,7 +1575,7 @@ msgctxt "Key name"
 msgid "Menu"
 msgstr "選單"
 
-#: src/ui/classic/classicui.h:113
+#: src/ui/classic/classicui.h:111
 msgid "Menu Font"
 msgstr "功能表字體"
 
@@ -1666,7 +1666,7 @@ msgstr "無"
 msgid "Normal text color"
 msgstr "一般文字顏色"
 
-#: src/ui/classic/classicui.h:161
+#: src/ui/classic/classicui.h:167
 msgid ""
 "Normally Wayland uses 96 as font DPI in combinition with the screen scale "
 "factor. This option allows you to override the font DPI. If the value is 0, "
@@ -1831,7 +1831,7 @@ msgstr "預編輯已停用"
 msgid "Preedit enabled"
 msgstr "預編輯已啟用"
 
-#: src/ui/classic/classicui.h:121
+#: src/ui/classic/classicui.h:119
 msgid "Prefer Text Icon"
 msgstr "首選文字圖示"
 
@@ -2034,7 +2034,7 @@ msgstr "當切換輸入焦點時顯示輸入法資訊"
 msgid "Show Input Method Information when switch input method"
 msgstr "當切換輸入法時顯示輸入法資訊"
 
-#: src/ui/classic/classicui.h:126
+#: src/ui/classic/classicui.h:124
 msgid "Show Layout Name In Icon"
 msgstr "在圖示顯示佈局名稱"
 
@@ -2046,7 +2046,7 @@ msgstr "顯示緊湊的輸入法訊息"
 msgid "Show first input method information"
 msgstr "顯示第一個輸入法資訊"
 
-#: src/ui/classic/classicui.h:130
+#: src/ui/classic/classicui.h:128
 msgid ""
 "Show layout name in icon if there is more than one active layout. If prefer "
 "text icon is set to true, this option will be ignored."
@@ -2148,11 +2148,11 @@ msgid "Suspend"
 msgstr "暫停"
 
 #: src/lib/fcitx/instance.cpp:444 src/lib/fcitx/instance.cpp:662
-#: src/modules/xcb/xcbconnection.cpp:483
+#: src/modules/xcb/xcbconnection.cpp:485
 msgid "Switch group"
 msgstr "切換分組"
 
-#: src/lib/fcitx/instance.cpp:445 src/modules/xcb/xcbconnection.cpp:484
+#: src/lib/fcitx/instance.cpp:445 src/modules/xcb/xcbconnection.cpp:486
 msgid "Switch group to {0}"
 msgstr "切換分組到 {0}"
 
@@ -2197,7 +2197,7 @@ msgstr "列表中第 n 個快速鍵選擇第 n 個輸入法。"
 msgid "The script is run as ${1} (${2})."
 msgstr "此腳本以 ${1} (${2}) 執行。"
 
-#: src/ui/classic/classicui.h:146
+#: src/ui/classic/classicui.h:144
 msgid "Theme"
 msgstr "主題"
 
@@ -2209,9 +2209,13 @@ msgstr "這只在托盤圖示為 xembed 時有效。"
 msgid "This option is only effective if image is not set."
 msgstr "此選項僅在圖片沒有設定時有效。"
 
-#: src/ui/classic/classicui.h:173
+#: src/ui/classic/classicui.h:179
 msgid "This option require support from wayland compositor."
 msgstr "此選項需要 Wayland 混成器 (Wayland compositor) 支援。"
+
+#: src/ui/classic/classicui.h:158
+msgid "This option will be always disabled on XWayland."
+msgstr ""
 
 #: src/ui/classic/theme.h:86
 msgid "This value should be less than any of margin value."
@@ -2296,15 +2300,15 @@ msgctxt "Key name"
 msgid "Travel"
 msgstr "旅行"
 
-#: src/ui/classic/classicui.h:115
+#: src/ui/classic/classicui.h:113
 msgid "Tray Font"
 msgstr "托盤字體"
 
-#: src/ui/classic/classicui.h:117
+#: src/ui/classic/classicui.h:115
 msgid "Tray Label Outline Color"
 msgstr "托盤標簽輪廓顏色"
 
-#: src/ui/classic/classicui.h:120
+#: src/ui/classic/classicui.h:118
 msgid "Tray Label Text Color"
 msgstr "托盤標簽文字顏色"
 
@@ -2368,19 +2372,19 @@ msgstr "上"
 msgid "Use On The Spot Style (Needs restarting)"
 msgstr "使用 On The Spot 風格 (需要重新啟動)"
 
-#: src/ui/classic/classicui.h:104
-msgid "Use Per Screen DPI"
-msgstr "依每個螢幕的 DPI 使用"
+#: src/ui/classic/classicui.h:154
+msgid "Use Per Screen DPI on X11"
+msgstr ""
 
 #: src/ui/classic/theme.h:123
 msgid "Use all horizontal space for highlight when it is vertical list"
 msgstr "當它是垂直列表時，使用所有橫向空間高亮顯示"
 
-#: src/ui/classic/classicui.h:137
+#: src/ui/classic/classicui.h:135
 msgid "Use input method language to display text"
 msgstr "使用輸入法語言來顯示文字"
 
-#: src/ui/classic/classicui.h:107
+#: src/ui/classic/classicui.h:105
 msgid "Use mouse wheel to go to prev or next page"
 msgstr "使用滑鼠滾輪到上一頁或下一頁"
 

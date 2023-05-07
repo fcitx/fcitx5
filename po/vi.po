@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2023-04-20 20:29+0000\n"
+"POT-Creation-Date: 2023-05-07 20:24+0000\n"
 "PO-Revision-Date: 2017-11-23 04:14+0000\n"
 "Last-Translator: Zen Fas, 2023\n"
 "Language-Team: Vietnamese (https://app.transifex.com/fcitx/teams/12005/vi/)\n"
@@ -582,7 +582,7 @@ msgctxt "Key name"
 msgid "DOS"
 msgstr "DOS"
 
-#: src/ui/classic/classicui.h:149
+#: src/ui/classic/classicui.h:147
 msgid "Dark Theme"
 msgstr ""
 
@@ -710,7 +710,7 @@ msgstr "Bật gợi ý emoji"
 msgid "Enable emoji in quickphrase"
 msgstr "Bật emoji trong cụm từ nhanh"
 
-#: src/ui/classic/classicui.h:169
+#: src/ui/classic/classicui.h:175
 msgid "Enable fractional scale under Wayland"
 msgstr ""
 
@@ -862,7 +862,7 @@ msgstr "Tìm"
 msgid "First Candidate"
 msgstr ""
 
-#: src/ui/classic/classicui.h:151
+#: src/ui/classic/classicui.h:149
 msgid "Follow system light/dark color scheme"
 msgstr ""
 
@@ -878,11 +878,11 @@ msgstr ""
 "nếu bạn không sử dụng bất kỳ ứng dụng Qt nào với phiên bản Qt nhất định hoặc "
 "bạn đang sử dụng hỗ trợ nhập văn bản của Qt trong Wayland."
 
-#: src/ui/classic/classicui.h:111
+#: src/ui/classic/classicui.h:109
 msgid "Font"
 msgstr "Font"
 
-#: src/ui/classic/classicui.h:141
+#: src/ui/classic/classicui.h:139
 msgid ""
 "For example, display character with Chinese variant when using Pinyin and "
 "Japanese variant when using Anthy. The font configuration needs to support "
@@ -892,7 +892,7 @@ msgstr ""
 "thể tiếng Nhật khi sử dụng Anthy. Cấu hình phông chữ cần hỗ trợ điều này để "
 "sử dụng tính năng này."
 
-#: src/ui/classic/classicui.h:157
+#: src/ui/classic/classicui.h:163
 msgid "Force font DPI on Wayland"
 msgstr "Bắt buộc font DPI trên Wayland"
 
@@ -1206,7 +1206,7 @@ msgstr "Hình ảnh"
 #: src/lib/fcitx/instance.cpp:661 src/lib/fcitx/instance.cpp:820
 #: src/modules/notificationitem/notificationitem.cpp:142
 #: src/modules/notificationitem/notificationitem.cpp:222
-#: src/modules/xcb/xcbconnection.cpp:482 data/org.fcitx.Fcitx5.desktop.in.in:4
+#: src/modules/xcb/xcbconnection.cpp:484 data/org.fcitx.Fcitx5.desktop.in.in:4
 #: data/org.fcitx.Fcitx5.metainfo.xml.in:7
 msgid "Input Method"
 msgstr "Kiểu Gõ"
@@ -1565,7 +1565,7 @@ msgctxt "Key name"
 msgid "Menu"
 msgstr ""
 
-#: src/ui/classic/classicui.h:113
+#: src/ui/classic/classicui.h:111
 msgid "Menu Font"
 msgstr ""
 
@@ -1656,7 +1656,7 @@ msgstr ""
 msgid "Normal text color"
 msgstr ""
 
-#: src/ui/classic/classicui.h:161
+#: src/ui/classic/classicui.h:167
 msgid ""
 "Normally Wayland uses 96 as font DPI in combinition with the screen scale "
 "factor. This option allows you to override the font DPI. If the value is 0, "
@@ -1817,7 +1817,7 @@ msgstr ""
 msgid "Preedit enabled"
 msgstr ""
 
-#: src/ui/classic/classicui.h:121
+#: src/ui/classic/classicui.h:119
 msgid "Prefer Text Icon"
 msgstr ""
 
@@ -2020,7 +2020,7 @@ msgstr ""
 msgid "Show Input Method Information when switch input method"
 msgstr ""
 
-#: src/ui/classic/classicui.h:126
+#: src/ui/classic/classicui.h:124
 msgid "Show Layout Name In Icon"
 msgstr ""
 
@@ -2032,7 +2032,7 @@ msgstr ""
 msgid "Show first input method information"
 msgstr ""
 
-#: src/ui/classic/classicui.h:130
+#: src/ui/classic/classicui.h:128
 msgid ""
 "Show layout name in icon if there is more than one active layout. If prefer "
 "text icon is set to true, this option will be ignored."
@@ -2132,11 +2132,11 @@ msgid "Suspend"
 msgstr ""
 
 #: src/lib/fcitx/instance.cpp:444 src/lib/fcitx/instance.cpp:662
-#: src/modules/xcb/xcbconnection.cpp:483
+#: src/modules/xcb/xcbconnection.cpp:485
 msgid "Switch group"
 msgstr ""
 
-#: src/lib/fcitx/instance.cpp:445 src/modules/xcb/xcbconnection.cpp:484
+#: src/lib/fcitx/instance.cpp:445 src/modules/xcb/xcbconnection.cpp:486
 msgid "Switch group to {0}"
 msgstr ""
 
@@ -2181,7 +2181,7 @@ msgstr ""
 msgid "The script is run as ${1} (${2})."
 msgstr ""
 
-#: src/ui/classic/classicui.h:146
+#: src/ui/classic/classicui.h:144
 msgid "Theme"
 msgstr ""
 
@@ -2193,8 +2193,12 @@ msgstr ""
 msgid "This option is only effective if image is not set."
 msgstr ""
 
-#: src/ui/classic/classicui.h:173
+#: src/ui/classic/classicui.h:179
 msgid "This option require support from wayland compositor."
+msgstr ""
+
+#: src/ui/classic/classicui.h:158
+msgid "This option will be always disabled on XWayland."
 msgstr ""
 
 #: src/ui/classic/theme.h:86
@@ -2276,15 +2280,15 @@ msgctxt "Key name"
 msgid "Travel"
 msgstr ""
 
-#: src/ui/classic/classicui.h:115
+#: src/ui/classic/classicui.h:113
 msgid "Tray Font"
 msgstr ""
 
-#: src/ui/classic/classicui.h:117
+#: src/ui/classic/classicui.h:115
 msgid "Tray Label Outline Color"
 msgstr ""
 
-#: src/ui/classic/classicui.h:120
+#: src/ui/classic/classicui.h:118
 msgid "Tray Label Text Color"
 msgstr ""
 
@@ -2348,19 +2352,19 @@ msgstr ""
 msgid "Use On The Spot Style (Needs restarting)"
 msgstr ""
 
-#: src/ui/classic/classicui.h:104
-msgid "Use Per Screen DPI"
+#: src/ui/classic/classicui.h:154
+msgid "Use Per Screen DPI on X11"
 msgstr ""
 
 #: src/ui/classic/theme.h:123
 msgid "Use all horizontal space for highlight when it is vertical list"
 msgstr ""
 
-#: src/ui/classic/classicui.h:137
+#: src/ui/classic/classicui.h:135
 msgid "Use input method language to display text"
 msgstr ""
 
-#: src/ui/classic/classicui.h:107
+#: src/ui/classic/classicui.h:105
 msgid "Use mouse wheel to go to prev or next page"
 msgstr ""
 
