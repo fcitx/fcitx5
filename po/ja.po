@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2023-05-07 20:24+0000\n"
+"POT-Creation-Date: 2023-05-08 20:24+0000\n"
 "PO-Revision-Date: 2017-11-23 04:14+0000\n"
 "Last-Translator: UTUMI Hirosi <utuhiro78@yahoo.co.jp>, 2023\n"
 "Language-Team: Japanese (https://app.transifex.com/fcitx/teams/12005/ja/)\n"
@@ -2225,7 +2225,7 @@ msgstr "このオプションには Wayland コンポジターのサポートが
 
 #: src/ui/classic/classicui.h:158
 msgid "This option will be always disabled on XWayland."
-msgstr ""
+msgstr "このオプションは、XWayland では常に無効になります。"
 
 #: src/ui/classic/theme.h:86
 msgid "This value should be less than any of margin value."
@@ -2385,7 +2385,7 @@ msgstr "XIM で On The Spot スタイルを使う（再起動が必要）"
 
 #: src/ui/classic/classicui.h:154
 msgid "Use Per Screen DPI on X11"
-msgstr ""
+msgstr "X11 で Per Screen DPI を使用する"
 
 #: src/ui/classic/theme.h:123
 msgid "Use all horizontal space for highlight when it is vertical list"
