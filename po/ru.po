@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2023-05-07 20:24+0000\n"
+"POT-Creation-Date: 2023-05-09 20:24+0000\n"
 "PO-Revision-Date: 2017-11-23 04:14+0000\n"
 "Last-Translator: Dmitry <dmitrydmitry761@gmail.com>, 2023\n"
 "Language-Team: Russian (https://app.transifex.com/fcitx/teams/12005/ru/)\n"
@@ -2239,7 +2239,7 @@ msgstr "Для этого параметра требуется поддержк
 
 #: src/ui/classic/classicui.h:158
 msgid "This option will be always disabled on XWayland."
-msgstr ""
+msgstr "Этот параметр всегда будет отключен в XWayland."
 
 #: src/ui/classic/theme.h:86
 msgid "This value should be less than any of margin value."
@@ -2401,7 +2401,7 @@ msgstr "Использовать стиль On The Spot (требуется пе
 
 #: src/ui/classic/classicui.h:154
 msgid "Use Per Screen DPI on X11"
-msgstr ""
+msgstr "Использовать DPI для каждого экрана на X11"
 
 #: src/ui/classic/theme.h:123
 msgid "Use all horizontal space for highlight when it is vertical list"
