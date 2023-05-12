@@ -410,6 +410,7 @@ std::string Kimpanel::inputMethodStatus(InputContext *ic) {
     static const bool preferSymbolic = !isKDE();
     if (*config_.preferTextIcon) {
         icon = "";
+        altDescription = description;
         description = label;
     } else if (preferSymbolic && icon == "input-keyboard") {
         icon = "input-keyboard-symbolic";
