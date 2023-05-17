@@ -1510,47 +1510,6 @@ find_gtk_immodules_cache_gio() {
         "${__gtk_immodule_cache[@]}"
 }
 
-check_gtk_immodule_cache_gio() {
-    local version="$1"
-    local IFS=$'\n'
-    local cache_found=0
-    local module_found=0
-    write_order_list "gtk ${version}:"
-    local gtk_immodules_cache
-    find_gtk_immodules_cache_gio "${version}" gtk_immodules_cache
-
-    for cache in "${gtk_immodules_cache[@]}"; do
-        cache_found=1
-        write_eval \
-            "$(_ 'Found immodules cache for gtk ${1} at ${2}.')" \
-            "$(code_inline ${version})" \
-            "$(code_inline "${cache}")"
-        cache_content=$(cat "${cache}")
-        if fcitx_gtk=$(grep fcitx5 <<< "${cache_content}"); then
-            module_found=1
-            __need_blank_line=0
-            write_eval "$(_ 'Found ${1} im modules for gtk ${2}.')" \
-                       fcitx5 "$(code_inline ${version})"
-            write_quote_str "${fcitx_gtk}"
-            reg_gtk_query_output_gio "${version}" "${fcitx_gtk}" "${cache%/*}"
-        else
-            write_error_eval \
-                "$(_ 'Failed to find ${1} in immodule cache at ${2}')" \
-                fcitx5 "$(code_inline "${cache}")"
-        fi
-    done
-    ((cache_found)) || {
-        write_error_eval \
-            "$(_ 'Cannot find immodules cache for gtk ${1}')" \
-            "${version}"
-    }
-    ((module_found)) || {
-        write_error_eval \
-            "$(_ 'Cannot find ${1} im module for gtk ${2} in cache.')" \
-            fcitx5 "${version}"
-    }
-}
-
 check_gtk() {
     write_title 2 "Gtk:"
     _check_toolkit_env gtk GTK_IM_MODULE
@@ -1563,7 +1522,6 @@ check_gtk() {
     increase_cur_level 1
     check_gtk_immodule_cache 2
     check_gtk_immodule_cache 3
-    check_gtk_immodule_cache_gio 4
     increase_cur_level -1
     write_order_list "$(_ 'Gtk IM module files:')"
     increase_cur_level 1
