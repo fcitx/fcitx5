@@ -570,8 +570,9 @@ public:
                     ss << fmt::format("{:02x}", static_cast<int>(v));
                 }
                 ss << "] program:" << ic->program()
-                   << " frontend:" << ic->frontend()
-                   << " cap:" << fmt::format("{:x}", ic->capabilityFlags())
+                   << " frontend:" << ic->frontend() << " cap:"
+                   << fmt::format("{:x}",
+                                  static_cast<uint64_t>(ic->capabilityFlags()))
                    << " focus:" << ic->hasFocus() << std::endl;
                 return true;
             });
