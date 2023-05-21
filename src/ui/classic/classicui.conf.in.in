@@ -15,3 +15,4 @@ Configurable=True
 1=wayland
 2=notificationitem
 3=dbus
+4=waylandim
