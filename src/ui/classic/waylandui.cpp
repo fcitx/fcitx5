@@ -30,8 +30,9 @@ namespace fcitx::classicui {
 
 WaylandUI::WaylandUI(ClassicUI *parent, const std::string &name,
                      wl_display *display)
-    : parent_(parent), name_(name), display_(static_cast<wayland::Display *>(
-                                        wl_display_get_user_data(display))) {
+    : UIInterface("wayland:" + name), parent_(parent),
+      display_(
+          static_cast<wayland::Display *>(wl_display_get_user_data(display))) {
     display_->requestGlobals<wayland::WlCompositor>();
     display_->requestGlobals<wayland::WlShm>();
     display_->requestGlobals<wayland::WlSeat>();

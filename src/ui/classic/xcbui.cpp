@@ -177,23 +177,24 @@ void XCBFontOption::setupPangoContext(PangoContext *context) const {
 
 XCBUI::XCBUI(ClassicUI *parent, const std::string &name, xcb_connection_t *conn,
              int defaultScreen)
-    : parent_(parent), name_(name), conn_(conn), defaultScreen_(defaultScreen) {
-    ewmh_ = parent_->xcb()->call<IXCBModule::ewmh>(name_);
+    : UIInterface("x11:" + name), parent_(parent), displayName_(name),
+      conn_(conn), defaultScreen_(defaultScreen) {
+    ewmh_ = parent_->xcb()->call<IXCBModule::ewmh>(displayName_);
     inputWindow_ = std::make_unique<XCBInputWindow>(this);
     trayWindow_ = std::make_unique<XCBTrayWindow>(this);
 
     compMgrAtomString_ = "_NET_WM_CM_S" + std::to_string(defaultScreen_);
     compMgrAtom_ = parent_->xcb()->call<IXCBModule::atom>(
-        name_, compMgrAtomString_, false);
+        displayName_, compMgrAtomString_, false);
 
     auto xsettingsSelectionString =
         "_XSETTINGS_S" + std::to_string(defaultScreen_);
     managerAtom_ =
-        parent_->xcb()->call<IXCBModule::atom>(name_, "MANAGER", false);
+        parent_->xcb()->call<IXCBModule::atom>(displayName_, "MANAGER", false);
     xsettingsSelectionAtom_ = parent_->xcb()->call<IXCBModule::atom>(
-        name_, xsettingsSelectionString, false);
+        displayName_, xsettingsSelectionString, false);
     xsettingsAtom_ = parent_->xcb()->call<IXCBModule::atom>(
-        name_, "_XSETTINGS_SETTINGS", false);
+        displayName_, "_XSETTINGS_SETTINGS", false);
 
     initScreenEvent_ = parent_->instance()->eventLoop().addTimeEvent(
         CLOCK_MONOTONIC, now(CLOCK_MONOTONIC) + 10000, 0,
@@ -702,7 +703,7 @@ int XCBUI::dpiByPosition(int x, int y) {
 
 int XCBUI::scaledDPI(int dpi) {
     if (!*parent_->config().perScreenDPI ||
-        parent_->xcb()->call<IXCBModule::isXWayland>(name_)) {
+        parent_->xcb()->call<IXCBModule::isXWayland>(displayName_)) {
         // CLASSICUI_DEBUG() << "Use font option dpi: " << fontOption_.dpi;
         if (fontOption_.dpi > 0) {
             return fontOption_.dpi;

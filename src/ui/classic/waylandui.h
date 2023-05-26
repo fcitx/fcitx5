@@ -26,7 +26,6 @@ public:
     ~WaylandUI();
 
     ClassicUI *parent() const { return parent_; }
-    const std::string &name() const { return name_; }
     wayland::Display *display() const { return display_; }
     void update(UserInterfaceComponent component,
                 InputContext *inputContext) override;
@@ -40,7 +39,6 @@ private:
     void setupInputWindow();
 
     ClassicUI *parent_;
-    std::string name_;
     wayland::Display *display_;
     ScopedConnection panelConn_, panelRemovedConn_;
     std::unique_ptr<WaylandPointer> pointer_;

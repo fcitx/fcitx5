@@ -39,6 +39,10 @@ namespace classicui {
 
 class UIInterface {
 public:
+    UIInterface(std::string name) : name_(name) {}
+
+    const std::string &name() const { return name_; }
+
     virtual ~UIInterface() {}
     virtual void update(UserInterfaceComponent component,
                         InputContext *inputContext) = 0;
@@ -47,6 +51,9 @@ public:
     virtual void suspend() = 0;
     virtual void resume() {}
     virtual void setEnableTray(bool) = 0;
+
+private:
+    const std::string name_;
 };
 
 struct NotEmpty {

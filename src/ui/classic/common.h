@@ -22,6 +22,8 @@ FCITX_DECLARE_LOG_CATEGORY(classicui_logcategory);
     FCITX_LOGC(::fcitx::classicui::classicui_logcategory, Debug)
 #define CLASSICUI_ERROR()                                                      \
     FCITX_LOGC(::fcitx::classicui::classicui_logcategory, Error)
+#define CLASSICUI_INFO()                                                       \
+    FCITX_LOGC(::fcitx::classicui::classicui_logcategory, Info)
 
 } // namespace classicui
 } // namespace fcitx

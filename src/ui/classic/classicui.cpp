@@ -50,8 +50,11 @@ ClassicUI::ClassicUI(Instance *instance) : instance_(instance) {
             xcbAddon->call<IXCBModule::addConnectionCreatedCallback>(
                 [this](const std::string &name, xcb_connection_t *conn,
                        int screen, FocusGroup *) {
-                    uis_["x11:" + name].reset(
-                        new XCBUI(this, name, conn, screen));
+                    auto xcbui =
+                        std::make_unique<XCBUI>(this, name, conn, screen);
+                    uis_[xcbui->name()] = std::move(xcbui);
+                    CLASSICUI_INFO()
+                        << "Created classicui for x11 display:" << name;
                 });
         xcbClosedCallback_ =
             xcbAddon->call<IXCBModule::addConnectionClosedCallback>(
@@ -68,8 +71,11 @@ ClassicUI::ClassicUI(Instance *instance) : instance_(instance) {
                 [this](const std::string &name, wl_display *display,
                        FocusGroup *) {
                     try {
-                        uis_["wayland:" + name].reset(
-                            new WaylandUI(this, name, display));
+                        auto waylandui =
+                            std::make_unique<WaylandUI>(this, name, display);
+                        uis_[waylandui->name()] = std::move(waylandui);
+                        CLASSICUI_INFO()
+                            << "Created classicui for wayland display:" << name;
                     } catch (const std::runtime_error &) {
                     }
                 });
@@ -390,6 +396,11 @@ void ClassicUI::update(UserInterfaceComponent component,
             ui = uiPtr->get();
         }
     }
+    CLASSICUI_DEBUG() << "Update component: " << static_cast<int>(component)
+                      << " for IC program:" << inputContext->program()
+                      << " frontend:" << inputContext->frontend()
+                      << " display:" << inputContext->display()
+                      << " ui:" << (ui ? ui->name() : "(not available)");
 
     if (ui) {
         ui->update(component, inputContext);

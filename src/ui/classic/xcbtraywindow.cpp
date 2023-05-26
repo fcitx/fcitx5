@@ -166,8 +166,8 @@ void XCBTrayWindow::initTray() {
     sprintf(trayAtomNameBuf, "_NET_SYSTEM_TRAY_S%d", ui_->defaultScreen());
     size_t i = 0;
     for (const auto *name : atom_names) {
-        atoms_[i] = ui_->parent()->xcb()->call<IXCBModule::atom>(ui_->name(),
-                                                                 name, false);
+        atoms_[i] = ui_->parent()->xcb()->call<IXCBModule::atom>(
+            ui_->displayName(), name, false);
         i++;
     }
 }
@@ -416,7 +416,7 @@ void XCBTrayWindow::resume() {
     addEventMaskToWindow(ui_->connection(), screen->root,
                          XCB_EVENT_MASK_STRUCTURE_NOTIFY);
     dockCallback_ = ui_->parent()->xcb()->call<IXCBModule::addSelection>(
-        ui_->name(), trayAtomNameBuf,
+        ui_->displayName(), trayAtomNameBuf,
         [this](xcb_atom_t) { refreshDockWindow(); });
     refreshDockWindow();
 }
