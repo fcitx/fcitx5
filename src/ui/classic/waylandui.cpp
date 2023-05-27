@@ -96,6 +96,7 @@ WaylandUI::~WaylandUI() {}
 void WaylandUI::update(UserInterfaceComponent component,
                        InputContext *inputContext) {
     if (inputWindow_ && component == UserInterfaceComponent::InputPanel) {
+        CLASSICUI_DEBUG() << "Update Wayland Input Window";
         inputWindow_->update(inputContext);
         display_->flush();
     }
@@ -103,7 +104,12 @@ void WaylandUI::update(UserInterfaceComponent component,
 
 void WaylandUI::suspend() { inputWindow_.reset(); }
 
-void WaylandUI::resume() { setupInputWindow(); }
+void WaylandUI::resume() {
+    CLASSICUI_DEBUG() << "Resume WaylandUI display name:" << display_;
+    setupInputWindow();
+    CLASSICUI_DEBUG() << "Wayland Input window is initialized:"
+                      << !!inputWindow_;
+}
 
 void WaylandUI::setupInputWindow() {
     if (parent_->suspended() || inputWindow_) {

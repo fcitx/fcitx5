@@ -138,11 +138,16 @@ void WaylandInputWindow::resetPanel() { panelSurface_.reset(); }
 void WaylandInputWindow::update(fcitx::InputContext *ic) {
     const auto oldVisible = visible();
     auto [width, height] = InputWindow::update(ic);
+    CLASSICUI_DEBUG() << "Wayland Input Window visible:" << visible()
+                      << " for IC program:" << ic->program()
+                      << " frontend:" << ic->frontend();
     if (!oldVisible && !visible()) {
+        CLASSICUI_DEBUG() << "Wayland Input Window has been hidden.";
         return;
     }
 
     if (!visible()) {
+        CLASSICUI_DEBUG() << "Hide Wayland Input Window.";
         window_->hide();
         repaintIC_.unwatch();
         panelSurface_.reset();
@@ -154,6 +159,8 @@ void WaylandInputWindow::update(fcitx::InputContext *ic) {
 
     assert(!visible() || ic != nullptr);
 
+    CLASSICUI_DEBUG()
+        << "Wayland Input Window is visible, ensure surface is created.";
     initPanel();
     if (ic->frontend() == std::string_view("wayland_v2")) {
         if (!panelSurfaceV2_ || ic != v2IC_.get()) {
@@ -188,6 +195,7 @@ void WaylandInputWindow::update(fcitx::InputContext *ic) {
         }
     }
     if (!panelSurface_ && !panelSurfaceV2_) {
+        CLASSICUI_DEBUG() << "No Panel surface available, return.";
         return;
     }
 

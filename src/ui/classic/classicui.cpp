@@ -284,6 +284,7 @@ UIInterface *ClassicUI::uiForDisplay(const std::string &display) {
 }
 
 void ClassicUI::resume() {
+    CLASSICUI_DEBUG() << "Resume ClassicUI";
     suspended_ = false;
     for (auto &p : uis_) {
         p.second->resume();
