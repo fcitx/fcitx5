@@ -6,6 +6,7 @@ Category=UI
 Version=@PROJECT_VERSION@
 UIPriority=50
 OnDemand=True
+Configurable=True
 
 [Addon/Dependencies]
 0=dbus

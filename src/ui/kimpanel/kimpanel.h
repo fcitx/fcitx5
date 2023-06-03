@@ -7,6 +7,9 @@
 #ifndef _FCITX_UI_KIMPANEL_KIMPANEL_H_
 #define _FCITX_UI_KIMPANEL_KIMPANEL_H_
 
+#include "fcitx-config/configuration.h"
+#include "fcitx-config/iniparser.h"
+#include "fcitx-utils/i18n.h"
 #include "fcitx-utils/dbus/bus.h"
 #include "fcitx-utils/dbus/servicewatcher.h"
 #include "fcitx-utils/event.h"
@@ -25,12 +28,24 @@ namespace fcitx {
 class KimpanelProxy;
 class Action;
 
+
+FCITX_CONFIGURATION(
+    KimpanelConfig,
+    Option<bool> preferTextIcon{this, "PreferTextIcon", _("Prefer Text Icon"),
+                                false};);
+
 class Kimpanel : public UserInterface {
 public:
     Kimpanel(Instance *instance);
     ~Kimpanel();
 
     Instance *instance() { return instance_; }
+    const Configuration *getConfig() const override;
+    void setConfig(const RawConfig &config) override {
+        config_.load(config, true);
+        safeSaveAsIni(config_, "conf/kimpanel.conf");
+    }
+    auto &config() const { return config_; }
     void suspend() override;
     void resume() override;
     bool available() override { return available_; }
@@ -38,6 +53,7 @@ public:
                 InputContext *inputContext) override;
     void updateInputPanel(InputContext *inputContext);
     void updateCurrentInputMethod(InputContext *ic);
+    void reloadConfig() override;
 
     void msgV1Handler(dbus::Message &msg);
     void msgV2Handler(dbus::Message &msg);
@@ -65,6 +81,7 @@ private:
     std::unique_ptr<dbus::Slot> relativeQuery_;
     bool hasRelative_ = false;
     bool hasRelativeV2_ = false;
+    KimpanelConfig config_;
 };
 } // namespace fcitx
 

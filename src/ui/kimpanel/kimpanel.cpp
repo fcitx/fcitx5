@@ -106,6 +106,7 @@ private:
 Kimpanel::Kimpanel(Instance *instance)
     : instance_(instance), bus_(dbus()->call<IDBusModule::bus>()),
       watcher_(*bus_) {
+    reloadConfig();
     entry_ = watcher_.watchService(
         "org.kde.impanel", [this](const std::string &, const std::string &,
                                   const std::string &newOwner) {
@@ -116,12 +117,20 @@ Kimpanel::Kimpanel(Instance *instance)
 
 Kimpanel::~Kimpanel() {}
 
+void Kimpanel::reloadConfig() {
+    readAsIni(config_, "conf/kimpanel.conf");
+}
+
 void Kimpanel::suspend() {
     eventHandlers_.clear();
     proxy_.reset();
     bus_->releaseName("org.kde.kimpanel.inputmethod");
     hasRelative_ = false;
     hasRelativeV2_ = false;
+}
+
+const Configuration *Kimpanel::getConfig() const {
+    return &config_;
 }
 
 void Kimpanel::registerAllProperties(InputContext *ic) {
@@ -399,7 +408,11 @@ std::string Kimpanel::inputMethodStatus(InputContext *ic) {
     label = extractTextForLabel(label);
 
     static const bool preferSymbolic = !isKDE();
-    if (preferSymbolic && icon == "input-keyboard") {
+    if (*config_.preferTextIcon) {
+        icon = "";
+        altDescription = description;
+        description = label;
+    } else if (preferSymbolic && icon == "input-keyboard") {
         icon = "input-keyboard-symbolic";
     }
 
