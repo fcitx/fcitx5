@@ -215,6 +215,8 @@ void VirtualKeyboard::suspend() {
         sni->call<INotificationItem::disable>();
     }
 
+    hideVirtualKeyboard();
+
     eventHandlers_.clear();
     proxy_.reset();
     bus_->releaseName(VirtualKeyboardBackendName);
