@@ -30,8 +30,9 @@ namespace fcitx::classicui {
 
 WaylandUI::WaylandUI(ClassicUI *parent, const std::string &name,
                      wl_display *display)
-    : parent_(parent), name_(name), display_(static_cast<wayland::Display *>(
-                                        wl_display_get_user_data(display))) {
+    : UIInterface("wayland:" + name), parent_(parent),
+      display_(
+          static_cast<wayland::Display *>(wl_display_get_user_data(display))) {
     display_->requestGlobals<wayland::WlCompositor>();
     display_->requestGlobals<wayland::WlShm>();
     display_->requestGlobals<wayland::WlSeat>();
@@ -95,6 +96,7 @@ WaylandUI::~WaylandUI() {}
 void WaylandUI::update(UserInterfaceComponent component,
                        InputContext *inputContext) {
     if (inputWindow_ && component == UserInterfaceComponent::InputPanel) {
+        CLASSICUI_DEBUG() << "Update Wayland Input Window";
         inputWindow_->update(inputContext);
         display_->flush();
     }
@@ -102,7 +104,12 @@ void WaylandUI::update(UserInterfaceComponent component,
 
 void WaylandUI::suspend() { inputWindow_.reset(); }
 
-void WaylandUI::resume() { setupInputWindow(); }
+void WaylandUI::resume() {
+    CLASSICUI_DEBUG() << "Resume WaylandUI display name:" << display_;
+    setupInputWindow();
+    CLASSICUI_DEBUG() << "Wayland Input window is initialized:"
+                      << !!inputWindow_;
+}
 
 void WaylandUI::setupInputWindow() {
     if (parent_->suspended() || inputWindow_) {

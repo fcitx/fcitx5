@@ -16,7 +16,7 @@ namespace fcitx::classicui {
 XCBInputWindow::XCBInputWindow(XCBUI *ui)
     : XCBWindow(ui), InputWindow(ui->parent()),
       atomBlur_(ui_->parent()->xcb()->call<IXCBModule::atom>(
-          ui_->name(), "_KDE_NET_WM_BLUR_BEHIND_REGION", false)) {}
+          ui_->displayName(), "_KDE_NET_WM_BLUR_BEHIND_REGION", false)) {}
 
 void XCBInputWindow::postCreateWindow() {
     if (ui_->ewmh()->_NET_WM_WINDOW_TYPE_POPUP_MENU &&

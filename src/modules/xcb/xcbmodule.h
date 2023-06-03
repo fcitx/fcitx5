@@ -70,6 +70,7 @@ public:
     xcb_atom_t atom(const std::string &name, const std::string &atom,
                     bool exists);
     xcb_ewmh_connection_t *ewmh(const std::string &name);
+    bool isXWayland(const std::string &name);
 
     void setXkbOption(const std::string &name, const std::string &option);
 
@@ -97,12 +98,14 @@ private:
     FCITX_ADDON_EXPORT_FUNCTION(XCBModule, ewmh);
     FCITX_ADDON_EXPORT_FUNCTION(XCBModule, mainDisplay);
     FCITX_ADDON_EXPORT_FUNCTION(XCBModule, setXkbOption);
+    FCITX_ADDON_EXPORT_FUNCTION(XCBModule, isXWayland);
 };
 
 FCITX_DECLARE_LOG_CATEGORY(xcb_log);
 
 #define FCITX_XCB_DEBUG() FCITX_LOGC(::fcitx::xcb_log, Debug)
-#define FCITX_XCB_WARN() FCITX_LOGC(::fcitx::xcb_log, Debug)
+#define FCITX_XCB_WARN() FCITX_LOGC(::fcitx::xcb_log, Warn)
+#define FCITX_XCB_INFO() FCITX_LOGC(::fcitx::xcb_log, Info)
 
 } // namespace fcitx
 

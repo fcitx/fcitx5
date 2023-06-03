@@ -39,6 +39,10 @@ namespace classicui {
 
 class UIInterface {
 public:
+    UIInterface(std::string name) : name_(name) {}
+
+    const std::string &name() const { return name_; }
+
     virtual ~UIInterface() {}
     virtual void update(UserInterfaceComponent component,
                         InputContext *inputContext) = 0;
@@ -47,6 +51,9 @@ public:
     virtual void suspend() = 0;
     virtual void resume() {}
     virtual void setEnableTray(bool) = 0;
+
+private:
+    const std::string name_;
 };
 
 struct NotEmpty {
@@ -101,8 +108,6 @@ FCITX_CONFIGURATION(
     ClassicUIConfig,
     Option<bool> verticalCandidateList{this, "Vertical Candidate List",
                                        _("Vertical Candidate List"), false};
-    Option<bool> perScreenDPI{this, "PerScreenDPI", _("Use Per Screen DPI"),
-                              true};
     Option<bool> useWheelForPaging{
         this, "WheelForPaging", _("Use mouse wheel to go to prev or next page"),
         true};
@@ -150,6 +155,14 @@ FCITX_CONFIGURATION(
     Option<bool> useDarkTheme{this, "UseDarkTheme",
                               _("Follow system light/dark color scheme"),
                               false};
+    OptionWithAnnotation<bool, ToolTipAnnotation> perScreenDPI{
+        this,
+        "PerScreenDPI",
+        _("Use Per Screen DPI on X11"),
+        false,
+        {},
+        {},
+        {_("This option will be always disabled on XWayland.")}};
     Option<int, IntConstrain, DefaultMarshaller<int>, ToolTipAnnotation>
         forceWaylandDPI{
             this,

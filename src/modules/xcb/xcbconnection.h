@@ -50,6 +50,7 @@ public:
     void convertSelectionRequest(const XCBConvertSelectionRequest &request);
     xcb_atom_t atom(const std::string &atomName, bool exists);
     xcb_ewmh_connection_t *ewmh();
+    bool isXWayland() const { return isXWayland_; }
 
     void setXkbOption(const std::string &option);
 
