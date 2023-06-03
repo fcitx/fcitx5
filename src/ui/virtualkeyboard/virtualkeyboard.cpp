@@ -48,12 +48,17 @@ public:
 
     void hideVirtualKeyboard() { parent_->hideVirtualKeyboard(); }
 
+    void toggleVirtualKeyboard() { parent_->toggleVirtualKeyboard(); }
+
 private:
     FCITX_OBJECT_VTABLE_METHOD(showVirtualKeyboard, "ShowVirtualKeyboard", "",
                                "");
 
     FCITX_OBJECT_VTABLE_METHOD(hideVirtualKeyboard, "HideVirtualKeyboard", "",
                                "");
+
+    FCITX_OBJECT_VTABLE_METHOD(toggleVirtualKeyboard, "ToggleVirtualKeyboard",
+                               "", "");
 
 private:
     VirtualKeyboard *parent_;
@@ -285,6 +290,18 @@ void VirtualKeyboard::hideVirtualKeyboard() {
         VirtualKeyboardInterfaceName, "HideVirtualKeyboard");
 
     msg.send();
+}
+
+void VirtualKeyboard::toggleVirtualKeyboard() {
+    if (!available_) {
+        return;
+    }
+
+    if (visible_) {
+        hideVirtualKeyboard();
+    } else {
+        showVirtualKeyboard();
+    }
 }
 
 void VirtualKeyboard::updateInputPanel(InputContext *inputContext) {
