@@ -252,7 +252,7 @@ print_process_info() {
 
 check_software(){
     local software=$1
-    if which $software >/dev/null 2>&1; then
+    if command -v $software >/dev/null 2>&1; then
         $software
     else
         echo "$software not found"
