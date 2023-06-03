@@ -117,9 +117,7 @@ Kimpanel::Kimpanel(Instance *instance)
 
 Kimpanel::~Kimpanel() {}
 
-void Kimpanel::reloadConfig() {
-    readAsIni(config_, "conf/kimpanel.conf");
-}
+void Kimpanel::reloadConfig() { readAsIni(config_, "conf/kimpanel.conf"); }
 
 void Kimpanel::suspend() {
     eventHandlers_.clear();
@@ -129,9 +127,7 @@ void Kimpanel::suspend() {
     hasRelativeV2_ = false;
 }
 
-const Configuration *Kimpanel::getConfig() const {
-    return &config_;
-}
+const Configuration *Kimpanel::getConfig() const { return &config_; }
 
 void Kimpanel::registerAllProperties(InputContext *ic) {
     std::vector<std::string> props;

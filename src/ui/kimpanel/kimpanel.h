@@ -9,11 +9,11 @@
 
 #include "fcitx-config/configuration.h"
 #include "fcitx-config/iniparser.h"
-#include "fcitx-utils/i18n.h"
 #include "fcitx-utils/dbus/bus.h"
 #include "fcitx-utils/dbus/servicewatcher.h"
 #include "fcitx-utils/event.h"
 #include "fcitx-utils/fs.h"
+#include "fcitx-utils/i18n.h"
 #include "fcitx-utils/misc.h"
 #include "fcitx/addonfactory.h"
 #include "fcitx/addoninstance.h"
@@ -28,11 +28,9 @@ namespace fcitx {
 class KimpanelProxy;
 class Action;
 
-
-FCITX_CONFIGURATION(
-    KimpanelConfig,
-    Option<bool> preferTextIcon{this, "PreferTextIcon", _("Prefer Text Icon"),
-                                false};);
+FCITX_CONFIGURATION(KimpanelConfig,
+                    Option<bool> preferTextIcon{this, "PreferTextIcon",
+                                                _("Prefer Text Icon"), false};);
 
 class Kimpanel : public UserInterface {
 public:
