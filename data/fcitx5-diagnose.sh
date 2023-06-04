@@ -250,6 +250,15 @@ print_process_info() {
     echo "$1 ${cmdline}"
 }
 
+check_software(){
+    local software=$1
+    if command -v $software >/dev/null 2>&1; then
+        $software
+    else
+        echo "$software not found"
+    fi
+}
+
 # Detect DE
 
 _detectDE_XDG_CURRENT() {
@@ -1220,7 +1229,11 @@ find_qt_modules() {
 check_qt() {
     write_title 2 "Qt:"
     _check_toolkit_env qt4 QT4_IM_MODULE QT_IM_MODULE
+    write_quote_cmd check_software fcitx5-qt4-immodule-probing
     _check_toolkit_env qt5 QT_IM_MODULE
+    write_quote_cmd check_software fcitx5-qt5-immodule-probing
+    _check_toolkit_env qt6 QT_IM_MODULE
+    write_quote_cmd check_software fcitx5-qt6-immodule-probing
     find_qt_modules
     qt4_module_found=''
     qt5_module_found=''
@@ -1513,6 +1526,9 @@ find_gtk_immodules_cache_gio() {
 check_gtk() {
     write_title 2 "Gtk:"
     _check_toolkit_env gtk GTK_IM_MODULE
+    write_quote_cmd check_software fcitx5-gtk2-immodule-probing
+    write_quote_cmd check_software fcitx5-gtk3-immodule-probing
+    write_quote_cmd check_software fcitx5-gtk4-immodule-probing
     write_order_list "$(code_inline gtk-query-immodules):"
     increase_cur_level 1
     check_gtk_query_immodule 2
