@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2023-05-08 20:24+0000\n"
+"POT-Creation-Date: 2023-06-04 20:24+0000\n"
 "PO-Revision-Date: 2017-11-23 04:14+0000\n"
 "Last-Translator: Lau YeeYu, 2023\n"
 "Language-Team: Chinese (China) (https://app.transifex.com/fcitx/teams/12005/"
@@ -23,31 +23,31 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
-#: data/fcitx5-diagnose.sh:883
+#: data/fcitx5-diagnose.sh:893
 msgid "${1} Environment Variables:"
 msgstr "${1} 环境变量："
 
-#: data/fcitx5-diagnose.sh:869
+#: data/fcitx5-diagnose.sh:879
 msgid "${1} Settings Directory:"
 msgstr "${1} 设置目录："
 
-#: data/fcitx5-diagnose.sh:943
+#: data/fcitx5-diagnose.sh:953
 msgid "${1} is not running."
 msgstr "${1} 没有在运行。"
 
-#: data/fcitx5-diagnose.sh:892
+#: data/fcitx5-diagnose.sh:902
 msgid "${1} is not set."
 msgstr "${1} 没有设定。"
 
-#: data/fcitx5-diagnose.sh:889
+#: data/fcitx5-diagnose.sh:899
 msgid "${1} is set to ${2}."
 msgstr "${1} 设定为 ${2}。"
 
-#: data/fcitx5-diagnose.sh:548
+#: data/fcitx5-diagnose.sh:558
 msgid "${1} not found."
 msgstr "${1} 未找到."
 
-#: data/fcitx5-diagnose.sh:960
+#: data/fcitx5-diagnose.sh:970
 msgid "${1} works properly."
 msgstr "${1} 工作正常。"
 
@@ -59,23 +59,23 @@ msgstr "(不可用)"
 msgid "(Type to search unicode by code or description)"
 msgstr "(输入编码或者描述来搜索 Unicode 字符)"
 
-#: data/fcitx5-diagnose.sh:690
+#: data/fcitx5-diagnose.sh:700
 msgid "/Beginner%27s_Guide"
 msgstr "/Beginner%27s_Guide/zh-cn"
 
-#: data/fcitx5-diagnose.sh:737
+#: data/fcitx5-diagnose.sh:747
 msgid "/Hall_of_Shame_for_Linux_IME_Support"
 msgstr "/Hall_of_Shame_for_Linux_IME_Support"
 
-#: data/fcitx5-diagnose.sh:701
+#: data/fcitx5-diagnose.sh:711
 msgid "/Input_method_related_environment_variables"
 msgstr "/Input_method_related_environment_variables/zh-cn"
 
-#: data/fcitx5-diagnose.sh:717
+#: data/fcitx5-diagnose.sh:727
 msgid "/Note_for_GNOME_Later_than_3.6"
 msgstr "/Note_for_GNOME_Later_than_3.6"
 
-#: data/fcitx5-diagnose.sh:741
+#: data/fcitx5-diagnose.sh:751
 msgid "/XIM"
 msgstr "/XIM/zh-cn"
 
@@ -116,15 +116,15 @@ msgstr "添加收藏"
 msgid "Add Unicode Typing Support"
 msgstr "添加 Unicode 输入支持"
 
-#: data/fcitx5-diagnose.sh:1583
+#: data/fcitx5-diagnose.sh:1558
 msgid "Addon Config Dir:"
 msgstr "插件配置文件目录："
 
-#: data/fcitx5-diagnose.sh:1668
+#: data/fcitx5-diagnose.sh:1643
 msgid "Addon Libraries:"
 msgstr "插件库: "
 
-#: data/fcitx5-diagnose.sh:1611
+#: data/fcitx5-diagnose.sh:1586
 msgid "Addon List:"
 msgstr "插件列表："
 
@@ -137,15 +137,15 @@ msgstr "调整亮度"
 msgid "All"
 msgstr "所有"
 
-#: data/fcitx5-diagnose.sh:1346
+#: data/fcitx5-diagnose.sh:1360
 msgid "All found Gtk ${1} immodule files exist."
 msgstr "找到的全部 Gtk ${1} 输入法模块文件均存在。"
 
-#: data/fcitx5-diagnose.sh:1694
+#: data/fcitx5-diagnose.sh:1669
 msgid "All libraries for all addons are found."
 msgstr "所有插件所需的库都被找到。"
 
-#: data/fcitx5-diagnose.sh:837
+#: data/fcitx5-diagnose.sh:847
 msgid "All locales:"
 msgstr "全部可用 locale："
 
@@ -235,7 +235,7 @@ msgctxt "Key name"
 msgid "Backspace"
 msgstr "退格"
 
-#: data/fcitx5-diagnose.sh:810
+#: data/fcitx5-diagnose.sh:820
 msgid "Bash Version:"
 msgstr "Bash 版本："
 
@@ -244,7 +244,7 @@ msgctxt "Key name"
 msgid "Battery"
 msgstr "电池"
 
-#: data/fcitx5-diagnose.sh:689
+#: data/fcitx5-diagnose.sh:699
 msgid "Beginner's Guide"
 msgstr "入门指南"
 
@@ -323,81 +323,81 @@ msgstr "取消"
 msgid "Candidates"
 msgstr "候选"
 
-#: data/fcitx5-diagnose.sh:958
+#: data/fcitx5-diagnose.sh:968
 msgid "Cannot connect to ${1} correctly."
 msgstr "无法连接到 ${1}。"
 
-#: data/fcitx5-diagnose.sh:803
+#: data/fcitx5-diagnose.sh:813
 msgid "Cannot determine desktop environment."
 msgstr "无法确定桌面环境。"
 
-#: data/fcitx5-diagnose.sh:1602
+#: data/fcitx5-diagnose.sh:1577
 msgid "Cannot find ${1} addon config directory."
 msgstr "无法找到 ${1} 的插件配置目录。"
 
-#: data/fcitx5-diagnose.sh:1082
+#: data/fcitx5-diagnose.sh:1092
 msgid "Cannot find ${1} executable!"
 msgstr "无法找到 ${1} 的可执行文件！"
 
-#: data/fcitx5-diagnose.sh:1496 data/fcitx5-diagnose.sh:1549
+#: data/fcitx5-diagnose.sh:1510
 msgid "Cannot find ${1} im module for gtk ${2} in cache."
 msgstr "无法在缓存中找到 gtk ${2} 的 ${1} 输入法模块。"
 
-#: data/fcitx5-diagnose.sh:1413
+#: data/fcitx5-diagnose.sh:1427
 msgid "Cannot find ${1} im module for gtk ${2}."
 msgstr "无法找到 gtk ${2} 的 ${1} 输入法模块。"
 
-#: data/fcitx5-diagnose.sh:1267 data/fcitx5-diagnose.sh:1272
-#: data/fcitx5-diagnose.sh:1277
+#: data/fcitx5-diagnose.sh:1281 data/fcitx5-diagnose.sh:1286
+#: data/fcitx5-diagnose.sh:1291
 msgid "Cannot find ${1} input method module for ${2}."
 msgstr "无法找到 ${2} 的 ${1} 输入法模块。"
 
-#: data/fcitx5-diagnose.sh:1407
+#: data/fcitx5-diagnose.sh:1421
 msgid "Cannot find ${2} for gtk ${1}"
 msgstr "无法找到 gtk ${1} 的 ${2}。"
 
-#: data/fcitx5-diagnose.sh:978
+#: data/fcitx5-diagnose.sh:988
 msgid "Cannot find DBus name ${1} owner."
 msgstr "找不到 DBus 名称 ${1} 的所有者。"
 
-#: data/fcitx5-diagnose.sh:1092
+#: data/fcitx5-diagnose.sh:1102
 msgid "Cannot find a GUI config tool, please install one of ${1}, or ${2}."
 msgstr "无法找到一个图形界面的配置工具，请安装 ${1} 或 ${2}。"
 
-#: data/fcitx5-diagnose.sh:1697
+#: data/fcitx5-diagnose.sh:1672
 msgid "Cannot find enabled ${1} user interface!"
 msgstr "无法找到启用的 ${1} 用户界面！"
 
-#: data/fcitx5-diagnose.sh:921
+#: data/fcitx5-diagnose.sh:931
 msgid "Cannot find fcitx5 executable!"
 msgstr "无法找到 fcitx5 可执行文件!"
 
-#: data/fcitx5-diagnose.sh:1676
+#: data/fcitx5-diagnose.sh:1651
 msgid "Cannot find file ${1} of addon ${2}."
 msgstr "无法找到插件 ${2} 的文件 ${1}。"
 
-#: data/fcitx5-diagnose.sh:1686
+#: data/fcitx5-diagnose.sh:1661
 msgid "Cannot find following required libraries for ${1} of addon ${2}."
 msgstr "无法找到插件 ${2} 所需的库 ${1}。"
 
-#: data/fcitx5-diagnose.sh:1491 data/fcitx5-diagnose.sh:1544
+#: data/fcitx5-diagnose.sh:1505
 msgid "Cannot find immodules cache for gtk ${1}"
 msgstr "无法找到 gtk ${1} 的输入法模块缓存"
 
-#: data/fcitx5-diagnose.sh:1716
+#: data/fcitx5-diagnose.sh:1691
 msgid ""
 "Cannot find kimpanel dbus interface or enabled non-kimpanel user interface."
 msgstr "无法找到 kimpanel dbus 接口或非 kimpanel 用户界面."
 
-#: data/fcitx5-diagnose.sh:986
+#: data/fcitx5-diagnose.sh:996
 msgid "Cannot find pid of DBus name ${1} owner."
 msgstr "找不到 DBus 名称 ${1} 的 pid 所有者。"
 
-#: data/fcitx5-diagnose.sh:1158
+#: data/fcitx5-diagnose.sh:1168
 msgid "Cannot find xim_server on root window."
 msgstr "无法在根窗口找到 xim_server。"
 
-#: data/fcitx5-diagnose.sh:1132
+#: data/fcitx5-diagnose.sh:1142
 msgid "Cannot interpret XMODIFIERS: ${1}."
 msgstr "无法解析 XMODIFIERS: ${1}."
 
@@ -486,31 +486,31 @@ msgstr "已暂时启用补全。"
 msgid "Completion is enabled."
 msgstr "已启用补全。"
 
-#: data/fcitx5-diagnose.sh:1034
+#: data/fcitx5-diagnose.sh:1044
 msgid "Config GUI for gtk${1} not found."
 msgstr "未找到 gtk${1} 的配置界面."
 
-#: data/fcitx5-diagnose.sh:1030
+#: data/fcitx5-diagnose.sh:1040
 msgid "Config GUI for gtk${1}:"
 msgstr "用于 gtk${1} 的配置界面："
 
-#: data/fcitx5-diagnose.sh:1064
+#: data/fcitx5-diagnose.sh:1074
 msgid "Config GUI for kde:"
 msgstr "KDE 的配置界面："
 
-#: data/fcitx5-diagnose.sh:1053
+#: data/fcitx5-diagnose.sh:1063
 msgid "Config GUI for qt not found."
 msgstr "未找到 qt 的配置界面。"
 
-#: data/fcitx5-diagnose.sh:1051
+#: data/fcitx5-diagnose.sh:1061
 msgid "Config GUI for qt:"
 msgstr "Qt 的配置界面："
 
-#: data/fcitx5-diagnose.sh:1080
+#: data/fcitx5-diagnose.sh:1090
 msgid "Config Tool Wrapper:"
 msgstr "配置工具封装："
 
-#: data/fcitx5-diagnose.sh:1810
+#: data/fcitx5-diagnose.sh:1786
 msgid "Configuration:"
 msgstr "配置:"
 
@@ -533,19 +533,19 @@ msgctxt "Key name"
 msgid "Copy"
 msgstr "复制"
 
-#: data/fcitx5-diagnose.sh:871
+#: data/fcitx5-diagnose.sh:881
 msgid "Current ${1} settings directory is ${2} (${3})."
 msgstr "当前 ${1} 设置目录是 ${2} (${3})。"
 
-#: data/fcitx5-diagnose.sh:839
+#: data/fcitx5-diagnose.sh:849
 msgid "Current locale:"
 msgstr "当前 locale："
 
-#: data/fcitx5-diagnose.sh:877
+#: data/fcitx5-diagnose.sh:887
 msgid "Current user:"
 msgstr "当前用户："
 
-#: data/fcitx5-diagnose.sh:865
+#: data/fcitx5-diagnose.sh:875
 msgid "Current value of ${1} is ${2} (${3})."
 msgstr "${1} 的当前值是 ${2} (${3})。"
 
@@ -574,7 +574,7 @@ msgstr "DBus 前端"
 msgid "DBus based new Freedesktop.org tray icon"
 msgstr "基于 DBus 的新 Freedesktop.org 托盘图标"
 
-#: data/fcitx5-diagnose.sh:966
+#: data/fcitx5-diagnose.sh:976
 msgid "DBus interface:"
 msgstr "DBus 界面："
 
@@ -583,7 +583,7 @@ msgctxt "Key name"
 msgid "DOS"
 msgstr "DOS"
 
-#: src/ui/classic/classicui.h:147
+#: src/ui/classic/classicui.h:154
 msgid "Dark Theme"
 msgstr "深色模式"
 
@@ -591,7 +591,7 @@ msgstr "深色模式"
 msgid "Deactivate Input Method"
 msgstr "取消激活输入法"
 
-#: data/fcitx5-diagnose.sh:990
+#: data/fcitx5-diagnose.sh:1000
 msgid "Debug information from dbus:"
 msgstr "来自 dbus 的调试信息："
 
@@ -633,11 +633,11 @@ msgstr "删除"
 msgid "Description"
 msgstr "描述"
 
-#: data/fcitx5-diagnose.sh:800
+#: data/fcitx5-diagnose.sh:810
 msgid "Desktop Environment:"
 msgstr "桌面环境："
 
-#: data/fcitx5-diagnose.sh:805
+#: data/fcitx5-diagnose.sh:815
 msgid "Desktop environment is ${1}."
 msgstr "桌面环境为 ${1}。"
 
@@ -645,7 +645,7 @@ msgstr "桌面环境为 ${1}。"
 msgid "Detect current running application (Need restart)"
 msgstr "检测当前运行的程序 (需要重启)"
 
-#: data/fcitx5-diagnose.sh:851
+#: data/fcitx5-diagnose.sh:861
 msgid "Directories:"
 msgstr "目录："
 
@@ -711,7 +711,7 @@ msgstr "在输入提示中启用 Emoji"
 msgid "Enable emoji in quickphrase"
 msgstr "在快速输入中启用颜文字"
 
-#: src/ui/classic/classicui.h:175
+#: src/ui/classic/classicui.h:182
 msgid "Enable fractional scale under Wayland"
 msgstr "在 Wayland 下启用分数缩放"
 
@@ -752,7 +752,7 @@ msgstr "向前切换输入分组"
 msgid "Enumerate when press trigger key repeatedly"
 msgstr "反复按切换键时进行轮换"
 
-#: data/fcitx5-diagnose.sh:1110
+#: data/fcitx5-diagnose.sh:1120
 msgid ""
 "Environment variable ${1} is \"${2}\" instead of \"${3}\". Please check if "
 "you have exported it incorrectly in any of your init files."
@@ -760,23 +760,23 @@ msgstr ""
 "环境变量 ${1} 的值被设为了“${2}”而不是“${3}”。请检查您是否在某个初始化文件中"
 "错误的设置了它的值。"
 
-#: data/fcitx5-diagnose.sh:857
+#: data/fcitx5-diagnose.sh:867
 msgid "Environment variable ${1} is not set."
 msgstr "环境变量 ${1} 没有设定。"
 
-#: data/fcitx5-diagnose.sh:1104
+#: data/fcitx5-diagnose.sh:1114
 msgid "Environment variable ${1} is set to \"${2}\" correctly."
 msgstr "环境变量 ${1} 已经正确地设为了“${2}”。"
 
-#: data/fcitx5-diagnose.sh:861
+#: data/fcitx5-diagnose.sh:871
 msgid "Environment variable ${1} is set to ${2}."
 msgstr "环境变量 ${1} 是设定为 ${2} 。"
 
-#: data/fcitx5-diagnose.sh:815
+#: data/fcitx5-diagnose.sh:825
 msgid "Environment:"
 msgstr "环境："
 
-#: data/fcitx5-diagnose.sh:843
+#: data/fcitx5-diagnose.sh:853
 msgid "Error occurs when running ${1}. Please check your locale settings."
 msgstr "运行 ${1} 时发生错误. 请检查您的区域设置."
 
@@ -795,11 +795,11 @@ msgstr "执行"
 msgid "Exit"
 msgstr "退出"
 
-#: data/fcitx5-diagnose.sh:1485 data/fcitx5-diagnose.sh:1538
+#: data/fcitx5-diagnose.sh:1499
 msgid "Failed to find ${1} in immodule cache at ${2}"
 msgstr "无法输入法模块缓存 ${2} 中找到 ${1}"
 
-#: data/fcitx5-diagnose.sh:1401
+#: data/fcitx5-diagnose.sh:1415
 msgid "Failed to find ${1} in the output of ${2}"
 msgstr "无法在 ${2} 的输出中找到 ${1}。"
 
@@ -821,15 +821,15 @@ msgstr "Fcitx 5"
 msgid "Fcitx 5 Configuration"
 msgstr "Fcitx 5 配置"
 
-#: data/fcitx5-diagnose.sh:1582
+#: data/fcitx5-diagnose.sh:1557
 msgid "Fcitx Addons:"
 msgstr "Fcitx 插件："
 
-#: data/fcitx5-diagnose.sh:1079
+#: data/fcitx5-diagnose.sh:1089
 msgid "Fcitx Configure UI:"
 msgstr "Fcitx 配置界面："
 
-#: data/fcitx5-diagnose.sh:918
+#: data/fcitx5-diagnose.sh:928
 msgid "Fcitx State:"
 msgstr "Fcitx 状态:"
 
@@ -842,7 +842,7 @@ msgstr ""
 "Fcitx 是一个输入法框架。它可以帮助您输入您需要的语言。它也支持许多不同的附加"
 "组件来改善输入体验。"
 
-#: data/fcitx5-diagnose.sh:932
+#: data/fcitx5-diagnose.sh:942
 msgid "Fcitx version: ${1}"
 msgstr "Fcitx 版本: ${1}"
 
@@ -864,11 +864,11 @@ msgstr "查找"
 msgid "First Candidate"
 msgstr "第一候选词"
 
-#: src/ui/classic/classicui.h:149
+#: src/ui/classic/classicui.h:156
 msgid "Follow system light/dark color scheme"
 msgstr "跟随系统浅色/深色设置"
 
-#: data/fcitx5-diagnose.sh:1263
+#: data/fcitx5-diagnose.sh:1277
 msgid ""
 "Following error may not be accurate because guessing Qt version from path "
 "depends on how your distribution packages Qt. It is not a critical error if "
@@ -879,11 +879,11 @@ msgstr ""
 "Qt。如果您不使用任何对应版本的 Qt 程序，或者在 Wayland 下使用 Qt 的 text-"
 "input 支持，下列错误也不是严重问题。"
 
-#: src/ui/classic/classicui.h:109
+#: src/ui/classic/classicui.h:116
 msgid "Font"
 msgstr "字体"
 
-#: src/ui/classic/classicui.h:139
+#: src/ui/classic/classicui.h:146
 msgid ""
 "For example, display character with Chinese variant when using Pinyin and "
 "Japanese variant when using Anthy. The font configuration needs to support "
@@ -892,7 +892,7 @@ msgstr ""
 "例如，用拼音时显示中文的异体字，用 Anthy 时显示日语的异体字。字体配置需要支持"
 "这个功能。"
 
-#: src/ui/classic/classicui.h:163
+#: src/ui/classic/classicui.h:170
 msgid "Force font DPI on Wayland"
 msgstr "固定 Wayland 的字体 DPI"
 
@@ -901,69 +901,68 @@ msgctxt "Key name"
 msgid "Forward"
 msgstr "向前"
 
-#: data/fcitx5-diagnose.sh:1255
+#: data/fcitx5-diagnose.sh:1269
 msgid "Found ${1} ${2} module: ${3}."
 msgstr "找到了 ${1} ${2} 模块：${3}。"
 
-#: data/fcitx5-diagnose.sh:952
+#: data/fcitx5-diagnose.sh:962
 msgid "Found ${1} ${2} process:"
 msgstr "找到了 ${1} 个 ${2} 进程："
 
-#: data/fcitx5-diagnose.sh:950
+#: data/fcitx5-diagnose.sh:960
 msgid "Found ${1} ${2} processes:"
 msgstr "找到了 ${1} 个 ${2} 进程："
 
-#: data/fcitx5-diagnose.sh:1605
+#: data/fcitx5-diagnose.sh:1580
 msgid "Found ${1} addon config directory: ${2}."
 msgstr "找到了 ${1} 的插件配置目录：${2}。"
 
-#: data/fcitx5-diagnose.sh:927 data/fcitx5-diagnose.sh:1043
-#: data/fcitx5-diagnose.sh:1056 data/fcitx5-diagnose.sh:1084
+#: data/fcitx5-diagnose.sh:937 data/fcitx5-diagnose.sh:1053
+#: data/fcitx5-diagnose.sh:1066 data/fcitx5-diagnose.sh:1094
 msgid "Found ${1} at ${2}."
 msgstr "在 ${2} 找到了 ${1}。"
 
-#: data/fcitx5-diagnose.sh:1658
+#: data/fcitx5-diagnose.sh:1633
 msgid "Found ${1} disabled addons:"
 msgstr "找到了 ${1} 个被禁用的插件："
 
-#: data/fcitx5-diagnose.sh:1649
+#: data/fcitx5-diagnose.sh:1624
 msgid "Found ${1} enabled addons:"
 msgstr "找到了 ${1} 个已启用的插件："
 
-#: data/fcitx5-diagnose.sh:1699
+#: data/fcitx5-diagnose.sh:1674
 msgid "Found ${1} enabled user interface addons:"
 msgstr "找到了 ${1} 个已启用的用户界面插件："
 
-#: data/fcitx5-diagnose.sh:1395 data/fcitx5-diagnose.sh:1479
-#: data/fcitx5-diagnose.sh:1532
+#: data/fcitx5-diagnose.sh:1409 data/fcitx5-diagnose.sh:1493
 msgid "Found ${1} im modules for gtk ${2}."
 msgstr "已找到 gtk ${2} 的 ${1} 输入法模块。"
 
-#: data/fcitx5-diagnose.sh:1070
+#: data/fcitx5-diagnose.sh:1080
 msgid "Found ${1} kcm module."
 msgstr "找到了 ${1} 的 kcm 模块。"
 
-#: data/fcitx5-diagnose.sh:1387
+#: data/fcitx5-diagnose.sh:1401
 msgid "Found ${2} for unknown gtk version at ${1}."
 msgstr "在 ${1} 找到了未知 gtk 版本的 ${2}。"
 
-#: data/fcitx5-diagnose.sh:1379
+#: data/fcitx5-diagnose.sh:1393
 msgid "Found ${3} for gtk ${1} at ${2}."
 msgstr "在 ${2} 找到了 gtk ${1} 的 ${3}。"
 
-#: data/fcitx5-diagnose.sh:1242 data/fcitx5-diagnose.sh:1247
+#: data/fcitx5-diagnose.sh:1256 data/fcitx5-diagnose.sh:1261
 msgid "Found ${3} im module for ${2}: ${1}."
 msgstr "找到了 ${3} 的 ${2} 输入法模块：${1}。"
 
-#: data/fcitx5-diagnose.sh:1472
+#: data/fcitx5-diagnose.sh:1486
 msgid "Found immodule cache for unknown gtk version at ${1}."
 msgstr "在 ${1} 找到了未知 gtk 版本的输入法模块缓存."
 
-#: data/fcitx5-diagnose.sh:1464 data/fcitx5-diagnose.sh:1525
+#: data/fcitx5-diagnose.sh:1478
 msgid "Found immodules cache for gtk ${1} at ${2}."
 msgstr "在 ${2} 找到了 gtk ${1} 的输入法模块缓存。"
 
-#: data/fcitx5-diagnose.sh:1258
+#: data/fcitx5-diagnose.sh:1272
 msgid "Found unknown ${1} qt module: ${2}."
 msgstr "找到了未知的 ${1} qt 模块：${2}。"
 
@@ -971,7 +970,7 @@ msgstr "找到了未知的 ${1} qt 模块：${2}。"
 msgid "Freedesktop.org Notification Support"
 msgstr "Freedesktop.org 桌面通知支持"
 
-#: data/fcitx5-diagnose.sh:1803
+#: data/fcitx5-diagnose.sh:1778
 msgid "Frontends setup:"
 msgstr "前端设置："
 
@@ -1003,19 +1002,19 @@ msgstr "分组 {0}：{1}"
 msgid "Group {}"
 msgstr "分组 {}"
 
-#: data/fcitx5-diagnose.sh:1340
+#: data/fcitx5-diagnose.sh:1354
 msgid "Gtk ${1} immodule file ${2} does not exist."
 msgstr "Gtk ${1} 输入法模块文件 ${2} 不存在。"
 
-#: data/fcitx5-diagnose.sh:1562
+#: data/fcitx5-diagnose.sh:1538
 msgid "Gtk IM module cache:"
 msgstr "Gtk 输入法模块缓存："
 
-#: data/fcitx5-diagnose.sh:1568
+#: data/fcitx5-diagnose.sh:1543
 msgid "Gtk IM module files:"
 msgstr "Gtk 输入法模块文件："
 
-#: data/fcitx5-diagnose.sh:736
+#: data/fcitx5-diagnose.sh:746
 msgid "Hall of Shame for Linux IME Support"
 msgstr "Linux 输入法支持耻辱堂"
 
@@ -1152,7 +1151,7 @@ msgctxt "Key name"
 msgid "Home Page"
 msgstr "主页"
 
-#: data/fcitx5-diagnose.sh:853
+#: data/fcitx5-diagnose.sh:863
 msgid "Home:"
 msgstr "主目录："
 
@@ -1183,7 +1182,7 @@ msgstr "Hyper"
 msgid "IBus Frontend"
 msgstr "IBus 前端"
 
-#: data/fcitx5-diagnose.sh:725
+#: data/fcitx5-diagnose.sh:735
 msgid ""
 "If you are using ${1}, you may want to uninstall ${2} or remove ${3} in "
 "order to use any input method other than ${2}. See ${link} for more detail "
@@ -1192,7 +1191,7 @@ msgstr ""
 "如果您正在使用 ${1}, 您可能需要卸载 ${2} 或者删除 ${3} 已使用除 ${2} 之外的任"
 "何输入法. 更多细节和其它的解决方法参见 ${link}。"
 
-#: data/fcitx5-diagnose.sh:723
+#: data/fcitx5-diagnose.sh:733
 msgid ""
 "If you are using ${1}, you may want to uninstall ${2}, remove ${3} or use "
 "the command ${g36_disable_ibus} to disable IBus integration in order to use "
@@ -1219,11 +1218,11 @@ msgstr "输入法"
 msgid "Input Method Configuration"
 msgstr "输入法配置"
 
-#: data/fcitx5-diagnose.sh:700
+#: data/fcitx5-diagnose.sh:710
 msgid "Input Method Related Environment Variables: "
 msgstr "输入法相关的环境变量："
 
-#: data/fcitx5-diagnose.sh:1722
+#: data/fcitx5-diagnose.sh:1697
 msgid "Input Methods:"
 msgstr "输入法："
 
@@ -1248,11 +1247,11 @@ msgctxt "Key name"
 msgid "Insert"
 msgstr "插入"
 
-#: data/fcitx5-diagnose.sh:1617
+#: data/fcitx5-diagnose.sh:1592
 msgid "Invalid addon config file ${1}."
 msgstr "无效的插件配置文件: ${1}。"
 
-#: data/fcitx5-diagnose.sh:1188
+#: data/fcitx5-diagnose.sh:1198
 msgid ""
 "It is OK to use ${1} built-in Wayland im module if your compositor fully "
 "supports text-input protocol used by ${1}."
@@ -1264,7 +1263,7 @@ msgstr ""
 msgid "KDE Input Method Panel"
 msgstr "KDE 输入法面板"
 
-#: src/ui/classic/classicui.cpp:238
+#: src/ui/classic/classicui.cpp:244
 msgid "KDE Plasma (Experimental)"
 msgstr "KDE Plasma (实验性)"
 
@@ -1314,7 +1313,7 @@ msgctxt "Key name"
 msgid "Keyboard Brightness Up"
 msgstr "增加键盘背光亮度"
 
-#: data/fcitx5-diagnose.sh:819
+#: data/fcitx5-diagnose.sh:829
 msgid "Keyboard Layout:"
 msgstr "键盘布局："
 
@@ -1328,7 +1327,7 @@ msgctxt "Key name"
 msgid "Keyboard Menu"
 msgstr "键盘菜单"
 
-#: data/fcitx5-diagnose.sh:1708
+#: data/fcitx5-diagnose.sh:1683
 msgid "Kimpanel process:"
 msgstr "Kimpanel 进程:"
 
@@ -1456,11 +1455,11 @@ msgctxt "Key name"
 msgid "LightBulb"
 msgstr "灯泡"
 
-#: data/fcitx5-diagnose.sh:834
+#: data/fcitx5-diagnose.sh:844
 msgid "Locale:"
 msgstr "Locale："
 
-#: data/fcitx5-diagnose.sh:1816
+#: data/fcitx5-diagnose.sh:1792
 msgid "Log:"
 msgstr "日志："
 
@@ -1570,7 +1569,7 @@ msgctxt "Key name"
 msgid "Menu"
 msgstr "菜单"
 
-#: src/ui/classic/classicui.h:111
+#: src/ui/classic/classicui.h:118
 msgid "Menu Font"
 msgstr "菜单字体"
 
@@ -1661,7 +1660,7 @@ msgstr "无"
 msgid "Normal text color"
 msgstr "一般文字颜色"
 
-#: src/ui/classic/classicui.h:167
+#: src/ui/classic/classicui.h:174
 msgid ""
 "Normally Wayland uses 96 as font DPI in combinition with the screen scale "
 "factor. This option allows you to override the font DPI. If the value is 0, "
@@ -1670,11 +1669,11 @@ msgstr ""
 "通常 Wayland 使用 96 作为字体 DPI，同时和屏幕的缩放倍数组合调整文字大小。这个"
 "选项允许你覆盖字体的 DPI。如果设置为 0，这个选项将被禁用。"
 
-#: src/ui/kimpanel/kimpanel.cpp:381
+#: src/ui/kimpanel/kimpanel.cpp:386
 msgid "Not available"
 msgstr "不可用"
 
-#: data/fcitx5-diagnose.sh:716
+#: data/fcitx5-diagnose.sh:726
 msgid "Note for GNOME Later than 3.6"
 msgstr "有关 3.6 之后版本 GNOME 的备注"
 
@@ -1737,11 +1736,11 @@ msgstr "覆盖图片位置"
 msgid "Override Xkb Option"
 msgstr "覆盖 Xkb 选项"
 
-#: data/fcitx5-diagnose.sh:974
+#: data/fcitx5-diagnose.sh:984
 msgid "Owner of DBus name ${1} is ${2}."
 msgstr "DBus 名称 ${1} 的所有者是 ${2}。"
 
-#: data/fcitx5-diagnose.sh:982
+#: data/fcitx5-diagnose.sh:992
 msgid "PID of DBus name ${1} owner is ${2}."
 msgstr "DBus 名称 ${1} 的 PID 所有者是 ${2}。"
 
@@ -1787,17 +1786,17 @@ msgctxt "Key name"
 msgid "Pictures"
 msgstr "图片"
 
-#: data/fcitx5-diagnose.sh:923
+#: data/fcitx5-diagnose.sh:933
 msgid "Please check ${1} for how to install fcitx5."
 msgstr "请访问 ${1} 查看如何安装 fcitx5。"
 
-#: data/fcitx5-diagnose.sh:945
+#: data/fcitx5-diagnose.sh:955
 msgid ""
 "Please check the Configure link of your distribution in ${1} for how to "
 "setup ${2} autostart."
 msgstr "请访问 ${1} 页面上对应您发行版的配置链接查看如何配置 ${2} 的自动启动."
 
-#: data/fcitx5-diagnose.sh:697
+#: data/fcitx5-diagnose.sh:707
 msgid ""
 "Please set environment variable ${env_name} to \"${value}\" using the tool "
 "your distribution provides or add ${1} to your ${2}. See ${link}."
@@ -1827,7 +1826,7 @@ msgstr "预编辑已禁用"
 msgid "Preedit enabled"
 msgstr "预编辑已启用"
 
-#: src/ui/classic/classicui.h:119
+#: src/ui/classic/classicui.h:126 src/ui/kimpanel/kimpanel.h:33
 msgid "Prefer Text Icon"
 msgstr "优先使用文字图标"
 
@@ -1857,7 +1856,7 @@ msgstr "截屏"
 msgid "Program"
 msgstr "程序"
 
-#: data/fcitx5-diagnose.sh:1228
+#: data/fcitx5-diagnose.sh:1242
 msgid "Qt IM module files:"
 msgstr "Qt 输入法模块文件："
 
@@ -1954,7 +1953,7 @@ msgctxt "Key name"
 msgid "Rotation PB"
 msgstr "Rotation PB"
 
-#: data/fcitx5-diagnose.sh:899
+#: data/fcitx5-diagnose.sh:909
 msgid "Running as root:"
 msgstr "以管理员运行："
 
@@ -2030,7 +2029,7 @@ msgstr "在焦点更改时显示输入法信息"
 msgid "Show Input Method Information when switch input method"
 msgstr "切换输入法时显示输入法信息"
 
-#: src/ui/classic/classicui.h:124
+#: src/ui/classic/classicui.h:131
 msgid "Show Layout Name In Icon"
 msgstr "在图标中显示布局名称"
 
@@ -2042,7 +2041,7 @@ msgstr "显示紧凑的输入法信息"
 msgid "Show first input method information"
 msgstr "显示第一个输入法的信息"
 
-#: src/ui/classic/classicui.h:128
+#: src/ui/classic/classicui.h:135
 msgid ""
 "Show layout name in icon if there is more than one active layout. If prefer "
 "text icon is set to true, this option will be ignored."
@@ -2156,7 +2155,7 @@ msgstr "切换到分组 {0}"
 msgid "Switched group to {0}"
 msgstr "已切换到分组 {0}"
 
-#: data/fcitx5-diagnose.sh:772
+#: data/fcitx5-diagnose.sh:782
 msgid "System Info:"
 msgstr "系统信息:"
 
@@ -2184,20 +2183,30 @@ msgctxt "Key name"
 msgid "Terminal"
 msgstr "终端"
 
+#: data/fcitx5-diagnose.sh:1779
+#, sh-format
+msgid ""
+"The environment variable checked by this script only shows the environment "
+"under current shell. It is still possible that you did not set the "
+"environment to the whole graphic desktop session. You may inspect the actual "
+"environment variable of a certain process by using `xargs -0 -L1 /proc/$PID/"
+"environ` for a certain process that you find not working."
+msgstr ""
+
 #: src/modules/imselector/imselector.h:40
 #: src/modules/imselector/imselector.h:50
 msgid "The n-th hotkey in the list selects the n-th input method."
 msgstr "列表中第 n 个按键选择第 n 个对应输入法。"
 
-#: data/fcitx5-diagnose.sh:878
+#: data/fcitx5-diagnose.sh:888
 msgid "The script is run as ${1} (${2})."
 msgstr "脚本作为 ${1} (${2}) 运行。"
 
-#: src/ui/classic/classicui.h:144
+#: src/ui/classic/classicui.h:151
 msgid "Theme"
 msgstr "主题"
 
-#: src/ui/classic/classicui.h:90
+#: src/ui/classic/classicui.h:97
 msgid "This is only effective when the tray icon is xembed."
 msgstr "这只在托盘为 xembed 时有效。"
 
@@ -2205,11 +2214,11 @@ msgstr "这只在托盘为 xembed 时有效。"
 msgid "This option is only effective if image is not set."
 msgstr "此选项仅在图片没有设置时生效。"
 
-#: src/ui/classic/classicui.h:179
+#: src/ui/classic/classicui.h:186
 msgid "This option require support from wayland compositor."
 msgstr "此选项需要 Wayland 混成器 (Wayland compositor) 支持。"
 
-#: src/ui/classic/classicui.h:158
+#: src/ui/classic/classicui.h:165
 msgid "This option will be always disabled on XWayland."
 msgstr "在 XWayland 上，此选项将始终被禁用。"
 
@@ -2217,7 +2226,7 @@ msgstr "在 XWayland 上，此选项将始终被禁用。"
 msgid "This value should be less than any of margin value."
 msgstr "这个值应该小于任何边距。"
 
-#: data/fcitx5-diagnose.sh:1822
+#: data/fcitx5-diagnose.sh:1798
 msgid ""
 "Though such information can be helpful to developers for diagnostic purpose, "
 "please double check and remove as necessary before posting it online "
@@ -2231,7 +2240,7 @@ msgctxt "Key name"
 msgid "Time"
 msgstr "时间"
 
-#: data/fcitx5-diagnose.sh:733
+#: data/fcitx5-diagnose.sh:743
 #, sh-format
 msgid ""
 "To see some application specific problems you may have when using xim, check "
@@ -2296,15 +2305,15 @@ msgctxt "Key name"
 msgid "Travel"
 msgstr "旅行"
 
-#: src/ui/classic/classicui.h:113
+#: src/ui/classic/classicui.h:120
 msgid "Tray Font"
 msgstr "托盘字体"
 
-#: src/ui/classic/classicui.h:115
+#: src/ui/classic/classicui.h:122
 msgid "Tray Label Outline Color"
 msgstr "托盘标签轮廓颜色"
 
-#: src/ui/classic/classicui.h:118
+#: src/ui/classic/classicui.h:125
 msgid "Tray Label Text Color"
 msgstr "托盘标签文本颜色"
 
@@ -2342,7 +2351,7 @@ msgstr "使用十六进制数字输入 Unicode 字符"
 msgid "Typing with Fcitx and Kimpanel"
 msgstr "用 Fcitx 和 Kimpanel 输入"
 
-#: data/fcitx5-diagnose.sh:994
+#: data/fcitx5-diagnose.sh:1004
 msgid "Unable to find a program to check dbus."
 msgstr "无法找到程序检查 dbus。"
 
@@ -2368,7 +2377,7 @@ msgstr "上"
 msgid "Use On The Spot Style (Needs restarting)"
 msgstr "使用 On The Spot 风格 (需要重启)"
 
-#: src/ui/classic/classicui.h:154
+#: src/ui/classic/classicui.h:161
 msgid "Use Per Screen DPI on X11"
 msgstr "在 X11 上针对不同屏幕使用单独的 DPI"
 
@@ -2376,11 +2385,11 @@ msgstr "在 X11 上针对不同屏幕使用单独的 DPI"
 msgid "Use all horizontal space for highlight when it is vertical list"
 msgstr "竖排列表时使用所有横向空间高亮"
 
-#: src/ui/classic/classicui.h:135
+#: src/ui/classic/classicui.h:142
 msgid "Use input method language to display text"
 msgstr "使用输入法的语言来显示文字"
 
-#: src/ui/classic/classicui.h:105
+#: src/ui/classic/classicui.h:112
 msgid "Use mouse wheel to go to prev or next page"
 msgstr "使用鼠标滚轮翻页"
 
@@ -2388,23 +2397,29 @@ msgstr "使用鼠标滚轮翻页"
 msgid "Use new compose behavior"
 msgstr "使用新的组合键行为"
 
-#: data/fcitx5-diagnose.sh:1695
+#: data/fcitx5-diagnose.sh:1670
 msgid "User Interface:"
 msgstr "用户界面："
 
-#: data/fcitx5-diagnose.sh:969
+#: data/fcitx5-diagnose.sh:979
 msgid "Using ${1} to check dbus."
 msgstr "使用 ${1} 来检查 dbus。"
+
+#: data/fcitx5-diagnose.sh:256
+msgid ""
+"Using ${1} to check the actual im module to be used under current "
+"environment:"
+msgstr ""
 
 #: src/ui/classic/theme.h:169
 msgid "Version"
 msgstr "版本"
 
-#: data/fcitx5-diagnose.sh:1384 data/fcitx5-diagnose.sh:1468
+#: data/fcitx5-diagnose.sh:1398 data/fcitx5-diagnose.sh:1482
 msgid "Version Line:"
 msgstr "版本行："
 
-#: src/ui/classic/classicui.h:103
+#: src/ui/classic/classicui.h:110
 msgid "Vertical Candidate List"
 msgstr "垂直候选列表"
 
@@ -2443,7 +2458,7 @@ msgctxt "Key name"
 msgid "Wake Up"
 msgstr "唤醒"
 
-#: data/fcitx5-diagnose.sh:1821
+#: data/fcitx5-diagnose.sh:1797
 msgid ""
 "Warning: the output of fcitx5-diagnose contains sensitive information, "
 "including the distribution name, kernel version, name of currently running "
@@ -2474,7 +2489,7 @@ msgstr ""
 "是否覆盖来自显示服务器的 Xkb 选项。它不会影响发送给显示服务的 Xkb 选项，仅会"
 "影响自定义的 Xkb 布局"
 
-#: data/fcitx5-diagnose.sh:909
+#: data/fcitx5-diagnose.sh:919
 msgid "Why is it bad to run as root"
 msgstr "以 root 身份运行不好的原因"
 
@@ -2496,7 +2511,7 @@ msgstr "X 输入法前端"
 msgid "XCB"
 msgstr "XCB"
 
-#: data/fcitx5-diagnose.sh:808
+#: data/fcitx5-diagnose.sh:818
 msgid "XDG SESSION TYPE:"
 msgstr "XDG 会话类型："
 
@@ -2505,31 +2520,31 @@ msgctxt "Key name"
 msgid "XFer"
 msgstr "XFer"
 
-#: data/fcitx5-diagnose.sh:1171
+#: data/fcitx5-diagnose.sh:1181
 msgid "XIM encoding:"
 msgstr "XIM 编码："
 
-#: data/fcitx5-diagnose.sh:1166
+#: data/fcitx5-diagnose.sh:1176
 msgid "XIM for Emacs:"
 msgstr "用于 Emacs 的 XIM："
 
-#: data/fcitx5-diagnose.sh:1142
+#: data/fcitx5-diagnose.sh:1152
 msgid "XIM_SERVERS on root window:"
 msgstr "根窗口上的 XIM_SERVERS："
 
-#: data/fcitx5-diagnose.sh:1119
+#: data/fcitx5-diagnose.sh:1129
 msgid "XMODIFIERS is not set"
 msgstr "XMODIFIERS 没有设置"
 
-#: data/fcitx5-diagnose.sh:1140
+#: data/fcitx5-diagnose.sh:1150
 msgid "Xim Server Name from Environment variable is ${1}."
 msgstr "从环境变量中获取的 Xim 服务名称为 ${1}."
 
-#: data/fcitx5-diagnose.sh:1152
+#: data/fcitx5-diagnose.sh:1162
 msgid "Xim server name is the same with that set in the environment variable."
 msgstr "Xim 服务的名称与环境变量中设置的相同。"
 
-#: data/fcitx5-diagnose.sh:1154
+#: data/fcitx5-diagnose.sh:1164
 msgid ""
 "Xim server name: \"${1}\" is different from that set in the environment "
 "variable: \"${2}\"."
@@ -2540,7 +2555,7 @@ msgctxt "Key name"
 msgid "Yellow"
 msgstr "黄"
 
-#: data/fcitx5-diagnose.sh:907
+#: data/fcitx5-diagnose.sh:917
 msgid ""
 "You are probably logging in as ${1} or using ${2} to run this script. This "
 "either means you have security problems or the result of this script may not "
@@ -2549,7 +2564,7 @@ msgstr ""
 "你可能以 ${1} 或者 ${2} 登录运行此脚本。这意味着两种情况，要么你有安全问题或"
 "该脚本的结果可能不准确。有关更多信息，请参见 ${3} 或者 ${4} 。"
 
-#: data/fcitx5-diagnose.sh:902
+#: data/fcitx5-diagnose.sh:912
 msgid ""
 "You are probably using ${1} to run this script. This means the result of "
 "this script may not be accurate. See ${2} for more information."
@@ -2557,11 +2572,11 @@ msgstr ""
 "你可能正在使用 ${1} 运行此脚本。这意味着这个脚本的结果可能不准确。见 ${2} 以"
 "获取更多信息。"
 
-#: data/fcitx5-diagnose.sh:1196
+#: data/fcitx5-diagnose.sh:1206
 msgid "You are using xim in ${1} programs."
 msgstr "您正在 ${1} 程序中使用 xim。"
 
-#: data/fcitx5-diagnose.sh:1201
+#: data/fcitx5-diagnose.sh:1211
 msgid "You may have trouble using fcitx in ${1} programs."
 msgstr "您可能会在 ${1} 程序中使用 fcitx 时遇到问题."
 
@@ -2582,7 +2597,7 @@ msgstr ""
 "您正在运行 KDE，但是 fcitx 的 KCModule 未被找到，此 KCModule 的软件包名通常"
 "为 kcm-fcitx 或 kde-config-fcitx。现在将打开配置目录。"
 
-#: data/fcitx5-diagnose.sh:1168
+#: data/fcitx5-diagnose.sh:1178
 msgid ""
 "Your LC_CTYPE is set to ${1} instead of one of zh, ja, ko. You may not be "
 "able to use input method in emacs because of an really old emacs bug that "
@@ -2591,7 +2606,7 @@ msgstr ""
 "您的 LC_CTYPE 设置为 ${1} 而不是 zh, ja, ko 之一。您可能无法在 Emacs 中使用输"
 "入法，其根本是源自上游拒绝修复多年的一个超老的故障。"
 
-#: data/fcitx5-diagnose.sh:1173
+#: data/fcitx5-diagnose.sh:1183
 msgid ""
 "Your LC_CTYPE is set to ${1} whose encoding is not UTF-8. You may have "
 "trouble committing strings using XIM."
@@ -2619,11 +2634,11 @@ msgctxt "Key name"
 msgid "Zoom Out"
 msgstr "缩小"
 
-#: data/fcitx5-diagnose.sh:919
+#: data/fcitx5-diagnose.sh:929
 msgid "executable:"
 msgstr "可执行文件："
 
-#: data/fcitx5-diagnose.sh:740
+#: data/fcitx5-diagnose.sh:750
 msgid "here"
 msgstr "这里"
 
@@ -2632,15 +2647,15 @@ msgctxt "Key name"
 msgid "iTouch"
 msgstr "iTouch"
 
-#: data/fcitx5-diagnose.sh:933
+#: data/fcitx5-diagnose.sh:943
 msgid "process:"
 msgstr "进程："
 
-#: data/fcitx5-diagnose.sh:904 data/fcitx5-diagnose.sh:910
+#: data/fcitx5-diagnose.sh:914 data/fcitx5-diagnose.sh:920
 msgid "sudo environment variables"
 msgstr "sudo 的环境变量"
 
-#: data/fcitx5-diagnose.sh:929
+#: data/fcitx5-diagnose.sh:939
 msgid "version:"
 msgstr "版本："
 
