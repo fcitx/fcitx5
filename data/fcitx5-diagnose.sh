@@ -250,12 +250,13 @@ print_process_info() {
     echo "$1 ${cmdline}"
 }
 
-check_software(){
-    local software=$1
-    if command -v $software >/dev/null 2>&1; then
-        $software
+run_im_module_probing(){
+    local program=$1
+    if command -v $program >/dev/null 2>&1; then
+        write_eval "$(_ 'Using ${1} to check the actual im module to be used under current environment:')" $program
+        write_quote_str "$($program 2> /dev/null)"
     else
-        echo "$software not found"
+        write_error "$(print_not_found $program)"
     fi
 }
 
@@ -1229,11 +1230,11 @@ find_qt_modules() {
 check_qt() {
     write_title 2 "Qt:"
     _check_toolkit_env qt4 QT4_IM_MODULE QT_IM_MODULE
-    write_quote_cmd check_software fcitx5-qt4-immodule-probing
+    run_im_module_probing fcitx5-qt4-immodule-probing
     _check_toolkit_env qt5 QT_IM_MODULE
-    write_quote_cmd check_software fcitx5-qt5-immodule-probing
+    run_im_module_probing fcitx5-qt5-immodule-probing
     _check_toolkit_env qt6 QT_IM_MODULE
-    write_quote_cmd check_software fcitx5-qt6-immodule-probing
+    run_im_module_probing fcitx5-qt6-immodule-probing
     find_qt_modules
     qt4_module_found=''
     qt5_module_found=''
@@ -1526,9 +1527,9 @@ find_gtk_immodules_cache_gio() {
 check_gtk() {
     write_title 2 "Gtk:"
     _check_toolkit_env gtk GTK_IM_MODULE
-    write_quote_cmd check_software fcitx5-gtk2-immodule-probing
-    write_quote_cmd check_software fcitx5-gtk3-immodule-probing
-    write_quote_cmd check_software fcitx5-gtk4-immodule-probing
+    run_im_module_probing fcitx5-gtk2-immodule-probing
+    run_im_module_probing fcitx5-gtk3-immodule-probing
+    run_im_module_probing fcitx5-gtk4-immodule-probing
     write_order_list "$(code_inline gtk-query-immodules):"
     increase_cur_level 1
     check_gtk_query_immodule 2
@@ -1775,6 +1776,7 @@ check_config_ui
 
 ((_check_frontend)) && {
     write_title 1 "$(_ 'Frontends setup:')"
+    write_paragraph "$(_ 'The environment variable checked by this script only shows the environment under current shell. It is still possible that you did not set the environment to the whole graphic desktop session. You may inspect the actual environment variable of a certain process by using `xargs -0 -L1 /proc/$PID/environ` for a certain process that you find not working.')"
     check_xim
     check_qt
     check_gtk
