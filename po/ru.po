@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2023-06-04 20:24+0000\n"
+"POT-Creation-Date: 2023-06-06 20:27+0000\n"
 "PO-Revision-Date: 2017-11-23 04:14+0000\n"
 "Last-Translator: Dmitry <dmitrydmitry761@gmail.com>, 2023\n"
 "Language-Team: Russian (https://app.transifex.com/fcitx/teams/12005/ru/)\n"
@@ -528,12 +528,12 @@ msgstr "Настроить"
 
 #: src/im/keyboard/keyboard.h:33 src/modules/quickphrase/quickphrase.h:29
 msgid "Control"
-msgstr "Управление"
+msgstr "Control"
 
 #: src/lib/fcitx-utils/key.cpp:522
 msgctxt "Key name"
 msgid "Control"
-msgstr "Управление"
+msgstr "Control"
 
 #: src/lib/fcitx-utils/key.cpp:123
 msgctxt "Key name"
@@ -2218,6 +2218,12 @@ msgid ""
 "environment variable of a certain process by using `xargs -0 -L1 /proc/$PID/"
 "environ` for a certain process that you find not working."
 msgstr ""
+"Переменная окружения, проверенная этим сценарием, показывает окружение "
+"только в текущей оболочке. Все еще есть вероятность, что вы не установили "
+"среду для всего сеанса графического рабочего стола. Вы можете проверить "
+"фактическую переменную среды определенного процесса, используя `xargs -0 -"
+"L1 /proc/$PID/environ` для определенного процесса, который вы считаете "
+"неработающим."
 
 #: src/modules/imselector/imselector.h:40
 #: src/modules/imselector/imselector.h:50
@@ -2443,6 +2449,8 @@ msgid ""
 "Using ${1} to check the actual im module to be used under current "
 "environment:"
 msgstr ""
+"Использование ${1} для проверки фактического модуля im, который будет "
+"использоваться в текущей среде:"
 
 #: src/ui/classic/theme.h:169
 msgid "Version"
