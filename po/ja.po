@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2023-06-04 20:24+0000\n"
+"POT-Creation-Date: 2023-06-07 20:24+0000\n"
 "PO-Revision-Date: 2017-11-23 04:14+0000\n"
 "Last-Translator: UTUMI Hirosi <utuhiro78@yahoo.co.jp>, 2023\n"
 "Language-Team: Japanese (https://app.transifex.com/fcitx/teams/12005/ja/)\n"
@@ -2206,6 +2206,10 @@ msgid ""
 "environment variable of a certain process by using `xargs -0 -L1 /proc/$PID/"
 "environ` for a certain process that you find not working."
 msgstr ""
+"このスクリプトでチェックされる環境変数は、現在のシェルの変数のみを示します。"
+"変数をグラフィックデスクトップセッション全体に設定していない可能性がありま"
+"す。動作していない特定のプロセスに対して、「xargs -0 -L1 /proc/$PID/environ」"
+"を使用することで、特定のプロセスの実際の変数を検査できます。"
 
 #: src/modules/imselector/imselector.h:40
 #: src/modules/imselector/imselector.h:50
@@ -2424,7 +2428,7 @@ msgstr "DBus をチェックするために ${1} を使用します。"
 msgid ""
 "Using ${1} to check the actual im module to be used under current "
 "environment:"
-msgstr ""
+msgstr "${1} を使用して、現在の環境で使用される実際の IM モジュールを確認する:"
 
 #: src/ui/classic/theme.h:169
 msgid "Version"
