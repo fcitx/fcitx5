@@ -8,6 +8,7 @@ Terminal=false
 Type=Application
 Categories=System;Utility;
 StartupNotify=false
+Hidden=true
 X-GNOME-AutoRestart=false
 X-GNOME-Autostart-Notify=false
 X-KDE-autostart-after=panel
