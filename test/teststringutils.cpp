@@ -69,6 +69,10 @@ int main() {
         FCITX_ASSERT(replace_result2 == largeReplaceCorrect2);
     }
 
+    FCITX_ASSERT(stringutils::replaceAll("ababba", "a", "cc") == "ccbccbbcc");
+    FCITX_ASSERT(stringutils::replaceAll("\"a\nb\"", "\"", "\\\"") ==
+                 "\\\"a\nb\\\"");
+
     FCITX_ASSERT(stringutils::backwardSearch("abcabc", "bc", 0) ==
                  std::string::npos);
     FCITX_ASSERT(stringutils::backwardSearch("abcabc", "bc", 1) == 1);

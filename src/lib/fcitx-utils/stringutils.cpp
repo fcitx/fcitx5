@@ -7,6 +7,7 @@
 #include "stringutils.h"
 #include <climits>
 #include <cstring>
+#include <string>
 #include "charutils.h"
 #include "macros.h"
 
@@ -181,23 +182,35 @@ std::vector<std::string> split(std::string_view str, std::string_view delim) {
     return split(str, delim, SplitBehavior::SkipEmpty);
 }
 
-#define MAX_REPLACE_INDICES_NUM 128
-
 std::string replaceAll(std::string str, const std::string &before,
                        const std::string &after) {
     if (before.empty()) {
         return str;
     }
 
+    constexpr int MAX_REPLACE_INDICES_NUM = 128;
+
     size_t pivot = 0;
     std::string newString;
     size_t lastLen = 0;
-    int indices[MAX_REPLACE_INDICES_NUM];
+    size_t indices[MAX_REPLACE_INDICES_NUM];
 
-    int newStringPos = 0;
-    int oldStringPos = 0;
+    size_t newStringPos = 0;
+    size_t oldStringPos = 0;
+
+    auto copyAndMoveOn = [&newString, &newStringPos](std::string_view source,
+                                                     size_t pos,
+                                                     size_t length) {
+        if (length == 0) {
+            return;
+        }
+        // Append source[pos..pos+length] to newString.
+        newString.replace(newStringPos, length, source, pos, length);
+        newStringPos += length;
+    };
 
     do {
+
         int nIndices = 0;
         while (nIndices < MAX_REPLACE_INDICES_NUM) {
             pivot = str.find(before, pivot);
@@ -211,38 +224,27 @@ std::string replaceAll(std::string str, const std::string &before,
 
         if (nIndices) {
             if (!lastLen) {
-                lastLen =
-                    str.size() + nIndices * (after.size() - before.size());
+                lastLen = str.size() + nIndices * after.size() -
+                          nIndices * before.size();
                 newString.resize(lastLen);
             } else {
-                size_t newLen =
-                    lastLen + nIndices * (after.size() - before.size());
+                size_t newLen = lastLen + nIndices * after.size() -
+                                nIndices * before.size();
                 lastLen = newLen;
                 newString.resize(newLen);
             }
-
-#define _COPY_AND_MOVE_ON(s, pos, LEN)                                         \
-    do {                                                                       \
-        int diffLen = (LEN);                                                   \
-        if ((LEN) == 0) {                                                      \
-            break;                                                             \
-        }                                                                      \
-        newString.replace(newStringPos, diffLen, s, pos, diffLen);             \
-        newStringPos += diffLen;                                               \
-    } while (0)
 
             // string s is split as
             // oldStringPos, indices[0], indices[0] + before.size(), indices[1],
             // indices[1] + before.size()
             // .... indices[nIndices - 1], indices[nIndices - 1] + before.size()
-            _COPY_AND_MOVE_ON(str, oldStringPos, indices[0] - oldStringPos);
-            _COPY_AND_MOVE_ON(after, 0, after.size());
+            copyAndMoveOn(str, oldStringPos, indices[0] - oldStringPos);
+            copyAndMoveOn(after, 0, after.size());
 
             for (int i = 1; i < nIndices; i++) {
-                _COPY_AND_MOVE_ON(str, indices[i] + before.size(),
-                                  indices[i] -
-                                      (indices[i - 1] + before.size()));
-                _COPY_AND_MOVE_ON(after, 0, after.size());
+                copyAndMoveOn(str, indices[i - 1] + before.size(),
+                              indices[i] - (indices[i - 1] + before.size()));
+                copyAndMoveOn(after, 0, after.size());
             }
 
             oldStringPos = indices[nIndices - 1] + before.size();
@@ -253,7 +255,7 @@ std::string replaceAll(std::string str, const std::string &before,
         return str;
     }
 
-    _COPY_AND_MOVE_ON(str, oldStringPos, str.size() - oldStringPos);
+    copyAndMoveOn(str, oldStringPos, str.size() - oldStringPos);
     newString.resize(newStringPos);
 
     return newString;
