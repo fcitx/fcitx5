@@ -379,15 +379,31 @@ std::optional<std::string> unescapeForValue(std::string_view str) {
 }
 
 std::string escapeForValue(std::string_view str) {
-    std::string value(str);
-    value = stringutils::replaceAll(value, "\\", "\\\\");
-    value = stringutils::replaceAll(value, "\n", "\\n");
-
-    bool needQuote = value.find_first_of("\f\r\t\v \"") != std::string::npos;
-
+    std::string value;
+    value.reserve(str.size());
+    const bool needQuote =
+        str.find_first_of("\f\r\t\v \"") != std::string::npos;
     if (needQuote) {
-        value = stringutils::replaceAll(value, "\"", "\\\"");
-        return stringutils::concat("\"", value, "\"");
+        value.push_back('"');
+    }
+    for (char c : str) {
+        switch (c) {
+        case '\\':
+            value.append("\\\\");
+            break;
+        case '\n':
+            value.append("\\n");
+            break;
+        case '"':
+            value.append("\\\"");
+            break;
+        default:
+            value.push_back(c);
+            break;
+        }
+    }
+    if (needQuote) {
+        value.push_back('"');
     }
 
     return value;
