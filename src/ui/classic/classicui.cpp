@@ -7,6 +7,8 @@
 
 #include "classicui.h"
 #include <fcntl.h>
+#include <string>
+#include <string_view>
 #include "fcitx-config/iniparser.h"
 #include "fcitx-utils/misc_p.h"
 #include "fcitx-utils/standardpath.h"
@@ -17,6 +19,7 @@
 #include "fcitx/userinterfacemanager.h"
 #include "common.h"
 #include "notificationitem_public.h"
+#include "plasmathemewatchdog.h"
 #ifdef ENABLE_X11
 #include "xcbui.h"
 #endif
@@ -172,11 +175,11 @@ void ClassicUI::reloadTheme() {
 #endif
 
     bool hasPlasmaTheme =
-        (*config_.theme == "plasma") ||
-        (*config_.useDarkTheme && *config_.themeDark == "plasma");
+        (*config_.theme == PlasmaThemeName) ||
+        (*config_.useDarkTheme && *config_.themeDark == PlasmaThemeName);
 
     if (hasPlasmaTheme) {
-        if (!plasmaThemeWatchdog_) {
+        if (!plasmaThemeWatchdog_ && PlasmaThemeWatchdog::isAvailable()) {
             try {
                 plasmaThemeWatchdog_ = std::make_unique<PlasmaThemeWatchdog>(
                     &instance_->eventLoop(), [this]() {
@@ -190,8 +193,11 @@ void ClassicUI::reloadTheme() {
         plasmaThemeWatchdog_.reset();
     }
 
-    theme_.load((*config_.useDarkTheme && isDark_) ? *config_.themeDark
-                                                   : *config_.theme);
+    std::string_view themeName = (*config_.useDarkTheme && isDark_)
+                                     ? *config_.themeDark
+                                     : *config_.theme;
+
+    theme_.load(themeName);
 }
 
 void ClassicUI::suspend() {
@@ -216,7 +222,7 @@ const Configuration *ClassicUI::getConfig() const {
             }
             return true;
         });
-    std::map<std::string, std::string> themes;
+    std::map<std::string, std::string, std::less<>> themes;
     for (const auto &themeName : themeDirs) {
         auto file = StandardPath::global().open(
             StandardPath::Type::PkgData,
@@ -239,9 +245,11 @@ const Configuration *ClassicUI::getConfig() const {
     }
 
     bool plasmaTheme = false;
-    if (StandardPath::hasExecutable(PLASMA_THEME_GENERATOR)) {
-        themes.erase("plasma");
-        themes["plasma"] = _("KDE Plasma (Experimental)");
+    if (PlasmaThemeWatchdog::isAvailable()) {
+        if (auto iter = themes.find(PlasmaThemeName); iter != themes.end()) {
+            themes.erase(iter);
+        }
+        themes.emplace(PlasmaThemeName, _("KDE Plasma (Experimental)"));
         plasmaTheme = true;
     }
 

@@ -37,6 +37,8 @@
 namespace fcitx {
 namespace classicui {
 
+inline constexpr std::string_view PlasmaThemeName = "plasma";
+
 class UIInterface {
 public:
     UIInterface(std::string name) : name_(name) {}
@@ -75,7 +77,7 @@ struct ThemeAnnotation : public EnumAnnotation {
                                   themes_[i].first);
             config.setValueByPath("EnumI18n/" + std::to_string(i),
                                   themes_[i].second);
-            if (themes_[i].first != "plasma" || !plasmaTheme_) {
+            if (themes_[i].first != PlasmaThemeName || !plasmaTheme_) {
                 config.setValueByPath(
                     "SubConfigPath/" + std::to_string(i),
                     stringutils::concat("fcitx://config/addon/classicui/theme/",

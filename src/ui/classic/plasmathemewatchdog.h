@@ -11,8 +11,6 @@
 #include "fcitx-utils/event.h"
 #include "fcitx-utils/unixfd.h"
 
-#define PLASMA_THEME_GENERATOR "fcitx5-plasma-theme-generator"
-
 namespace fcitx::classicui {
 
 class PlasmaThemeWatchdog {
@@ -21,6 +19,10 @@ public:
 
     ~PlasmaThemeWatchdog();
 
+    bool isRunning() const { return running_; }
+
+    static bool isAvailable();
+
 private:
     void cleanup();
     std::function<void()> callback_;
@@ -28,6 +30,8 @@ private:
     std::unique_ptr<EventSourceIO> ioEvent_;
     std::unique_ptr<EventSourceTime> timerEvent_;
     pid_t generator_ = 0;
+    bool destruct_ = false;
+    bool running_ = false;
 };
 
 } // namespace fcitx::classicui

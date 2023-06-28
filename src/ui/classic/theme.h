@@ -8,6 +8,7 @@
 #define _FCITX_UI_CLASSIC_THEME_H_
 
 #include <cstdint>
+#include <string_view>
 #include <cairo/cairo.h>
 #include "fcitx-config/configuration.h"
 #include "fcitx-config/enum.h"
@@ -243,8 +244,8 @@ public:
     ~Theme();
 
     const std::string &name() { return name_; }
-    void load(const std::string &name);
-    void load(const std::string &name, const RawConfig &rawConfig);
+    void load(std::string_view name);
+    void load(std::string_view name, const RawConfig &rawConfig);
     const ThemeImage &loadImage(const std::string &icon,
                                 const std::string &label, uint32_t size,
                                 const ClassicUI *classicui);

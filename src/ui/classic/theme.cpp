@@ -667,7 +667,7 @@ void Theme::reset() {
     actionImageTable_.clear();
 }
 
-void Theme::load(const std::string &name) {
+void Theme::load(std::string_view name) {
     reset();
     ThemeConfig config;
     copyHelper(config);
@@ -701,7 +701,7 @@ void Theme::load(const std::string &name) {
     maskConfig_.image.setValue(*inputPanel->blurMask);
 }
 
-void Theme::load(const std::string &name, const RawConfig &rawConfig) {
+void Theme::load(std::string_view name, const RawConfig &rawConfig) {
     reset();
     Configuration::load(rawConfig, true);
     name_ = name;
