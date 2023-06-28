@@ -151,7 +151,7 @@ FCITX_CONFIGURATION(
         theme{this, "Theme", _("Theme"), "default"};
     Option<std::string, NotEmpty, DefaultMarshaller<std::string>,
            ThemeAnnotation>
-        themeDark{this, "DarkTheme", _("Dark Theme"), "default"};
+        themeDark{this, "DarkTheme", _("Dark Theme"), "default-dark"};
     Option<bool> useDarkTheme{this, "UseDarkTheme",
                               _("Follow system light/dark color scheme"),
                               false};
