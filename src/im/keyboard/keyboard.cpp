@@ -410,12 +410,8 @@ void KeyboardEngine::keyEvent(const InputMethodEntry &entry, KeyEvent &event) {
         return;
     }
 
-    const bool wasClientPreeditEmpty =
-        inputContext->inputPanel().clientPreedit().empty();
     // Always update preedit after key event.
-    Finally finally([wasClientPreeditEmpty, state]() {
-        state->setPreedit(wasClientPreeditEmpty);
-    });
+    Finally finally([state]() { state->setPreedit(); });
     if (state->handleLongPress(event)) {
         return event.filterAndAccept();
     }
@@ -483,7 +479,7 @@ bool KeyboardEngine::supportHint(const std::string &language) {
     return hasSpell || hasEmoji;
 }
 
-void KeyboardEngineState::setPreedit(bool wasClientPreeditEmpty) {
+void KeyboardEngineState::setPreedit() {
     const bool useClientPreedit =
         inputContext_->capabilityFlags().test(CapabilityFlag::Preedit);
     auto preeditText = preeditString();
@@ -503,10 +499,7 @@ void KeyboardEngineState::setPreedit(bool wasClientPreeditEmpty) {
     } else {
         inputContext_->inputPanel().setPreedit(preedit);
     }
-    if (!inputContext_->inputPanel().clientPreedit().empty() ||
-        !wasClientPreeditEmpty) {
-        inputContext_->updatePreedit();
-    }
+    inputContext_->updatePreedit();
     inputContext_->updateUserInterface(UserInterfaceComponent::InputPanel);
 }
 

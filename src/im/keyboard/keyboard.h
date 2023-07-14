@@ -127,7 +127,7 @@ struct KeyboardEngineState : public InputContextProperty {
 
     void updateCandidate(const InputMethodEntry &entry);
     // Update preedit and send ui update.
-    void setPreedit(bool wasClientPreeditEmpty = false);
+    void setPreedit();
 
     // Return true if chr is pushed to buffer.
     // Return false if chr will be skipped by buffer, usually this means caller
