@@ -374,6 +374,12 @@ void InputContext::updatePreedit() {
     if (!capabilityFlags().test(CapabilityFlag::Preedit)) {
         return;
     }
+    if (inputPanel().clientPreedit().empty()) {
+        if (d->lastPreeditUpdateIsEmpty_) {
+            return;
+        }
+        d->lastPreeditUpdateIsEmpty_ = true;
+    }
     d->pushEvent<UpdatePreeditEvent>(this);
 }
 
