@@ -63,10 +63,6 @@ private:
     }
     void updatePreeditImpl() override { return updatePreeditDelegate(this); }
 
-    using InputContext::commitStringImpl;
-    using InputContext::deleteSurroundingTextImpl;
-    using InputContext::forwardKeyImpl;
-    using InputContext::updatePreeditImpl;
     bool realFocus_ = false;
     VirtualInputContextManager *virtualICManager_ = nullptr;
 };
