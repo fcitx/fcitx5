@@ -11,9 +11,11 @@ namespace fcitx {
 
 class VirtualKeyboardEventPrivate {
 public:
-    VirtualKeyboardEventPrivate(int time) : time_(time) {}
+    VirtualKeyboardEventPrivate(bool isRelease, int time)
+        : isRelease_(isRelease), time_(time) {}
 
     Key key_;
+    bool isRelease_ = false;
     int time_ = 0;
     uint64_t userAction_ = 0;
     std::string text_;
@@ -28,9 +30,10 @@ KeyEventBase::KeyEventBase(EventType type, InputContext *context, Key rawKey,
     : InputContextEvent(context, type), key_(rawKey.normalize()),
       origKey_(rawKey), rawKey_(rawKey), isRelease_(isRelease), time_(time) {}
 
-VirtualKeyboardEvent::VirtualKeyboardEvent(InputContext *context, int time)
+VirtualKeyboardEvent::VirtualKeyboardEvent(InputContext *context,
+                                           bool isRelease, int time)
     : InputContextEvent(context, EventType::InputContextVirtualKeyboardEvent),
-      d_ptr(std::make_unique<VirtualKeyboardEventPrivate>(time)) {}
+      d_ptr(std::make_unique<VirtualKeyboardEventPrivate>(isRelease, time)) {}
 
 FCITX_DEFINE_DEFAULT_DTOR(VirtualKeyboardEvent);
 
@@ -58,7 +61,8 @@ std::unique_ptr<KeyEvent> fcitx::VirtualKeyboardEvent::toKeyEvent() const {
 
     Key key{d->key_.sym(), d->key_.states() | KeyState::Virtual,
             d->key_.code()};
-    return std::make_unique<KeyEvent>(inputContext(), key, false, time());
+    return std::make_unique<KeyEvent>(inputContext(), key, d->isRelease_,
+                                      time());
 }
 
 } // namespace fcitx

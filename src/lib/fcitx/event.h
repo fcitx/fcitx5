@@ -339,7 +339,7 @@ class VirtualKeyboardEventPrivate;
 
 class FCITXCORE_EXPORT VirtualKeyboardEvent : public InputContextEvent {
 public:
-    VirtualKeyboardEvent(InputContext *context, int time = 0);
+    VirtualKeyboardEvent(InputContext *context, bool isRelease, int time = 0);
     ~VirtualKeyboardEvent();
 
     int time() const;
