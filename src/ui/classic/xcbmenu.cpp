@@ -6,11 +6,13 @@
  */
 #include "xcbmenu.h"
 #include <pango/pangocairo.h>
+#include <xcb/xcb.h>
 #include <xcb/xcb_aux.h>
 #include <xcb/xcb_keysyms.h>
 
 #include <utility>
 #include <xcb/xcb_icccm.h>
+#include "fcitx-utils/log.h"
 #include "fcitx/inputcontext.h"
 #include "fcitx/userinterfacemanager.h"
 #include "common.h"
@@ -77,87 +79,51 @@ bool XCBMenu::filterEvent(xcb_generic_event_t *event) {
             break;
         }
         if (buttonPress->detail != XCB_BUTTON_INDEX_1) {
-            hideParents();
-            hideChilds();
-            xcb_flush(ui_->connection());
+            hideAll();
             return true;
         }
-        for (size_t i = 0; i < items_.size(); i++) {
-            if (items_[i].isSeparator_ ||
-                !items_[i].region_.contains(buttonPress->event_x,
-                                            buttonPress->event_y)) {
-                continue;
-            }
-            if (items_[i].hasSubMenu_) {
-                return true;
-            }
-            // Check if actions is still good.
-            auto actions = menu_->actions();
-            if (i >= actions.size()) {
-                break;
-            }
-            auto *ic = lastRelevantIc();
-            if (!ic) {
-                break;
-            }
-
-            auto id = actions[i]->id();
-            auto icRef = ic->watch();
-            // Why we need to delay the event, because we
-            // want to make ic has focus.
-            activateTimer_ =
-                ui_->parent()->instance()->eventLoop().addTimeEvent(
-                    CLOCK_MONOTONIC, now(CLOCK_MONOTONIC) + 30000, 0,
-                    [this, icRef, id](EventSourceTime *, uint64_t) {
-                        // FCITX_INFO() << "Timer Triggered";
-                        if (auto *ic = icRef.get()) {
-
-                            auto *action = ui_->parent()
-                                               ->instance()
-                                               ->userInterfaceManager()
-                                               .lookupActionById(id);
-                            if (action) {
-                                action->activate(ic);
-                            }
-                        }
-                        activateTimer_.reset();
-                        return true;
-                    });
-            break;
+        if (auto *menu =
+                childByPosition(buttonPress->root_x, buttonPress->root_y)) {
+            menu->handleButtonPress(buttonPress->root_x - menu->x_,
+                                    buttonPress->root_y - menu->y_);
+        } else {
+            hideAll();
+            return true;
         }
-        hideParents();
-        hide();
-        xcb_flush(ui_->connection());
         return true;
     }
     case XCB_MOTION_NOTIFY: {
         auto *motion = reinterpret_cast<xcb_motion_notify_event_t *>(event);
-        if (motion->event == wid_) {
-            for (size_t i = 0; i < items_.size(); i++) {
-                if (!items_[i].isSeparator_ &&
-                    items_[i].region_.contains(motion->event_x,
-                                               motion->event_y)) {
-                    setHoveredIndex(i);
-                    break;
-                }
-            }
-            return true;
+        if (motion->event != wid_) {
+            break;
         }
-        break;
+
+        if (auto *menu = childByPosition(motion->root_x, motion->root_y)) {
+            menu->handleMotionNotify(motion->root_x - menu->x_,
+                                     motion->root_y - menu->y_);
+        }
+        return true;
     }
     case XCB_ENTER_NOTIFY: {
         auto *enter = reinterpret_cast<xcb_enter_notify_event_t *>(event);
-        if (enter->event == wid_) {
-            hasMouse_ = true;
+        if (enter->event != wid_) {
+            break;
+        }
+
+        if (auto *menu = childByPosition(enter->root_x, enter->root_y)) {
+            menu->hasMouse_ = true;
             return true;
         }
         break;
     }
     case XCB_LEAVE_NOTIFY: {
         auto *leave = reinterpret_cast<xcb_leave_notify_event_t *>(event);
-        if (leave->event == wid_) {
-            hasMouse_ = false;
-            setHoveredIndex(-1);
+        if (leave->event != wid_) {
+            break;
+        }
+        if (auto *menu = childByPosition(leave->root_x, leave->root_y)) {
+            menu->hasMouse_ = false;
+            menu->setHoveredIndex(-1);
             return true;
         }
         break;
@@ -173,6 +139,65 @@ bool XCBMenu::filterEvent(xcb_generic_event_t *event) {
     return false;
 }
 
+void XCBMenu::handleButtonPress(int eventX, int eventY) {
+    for (size_t i = 0; i < items_.size(); i++) {
+        if (items_[i].isSeparator_ ||
+            !items_[i].region_.contains(eventX, eventY)) {
+            continue;
+        }
+        if (items_[i].hasSubMenu_) {
+            return;
+        }
+        // Check if actions is still good.
+        auto actions = menu_->actions();
+        if (i >= actions.size()) {
+            break;
+        }
+        auto *ic = lastRelevantIc();
+        if (!ic) {
+            ic = ui_->parent()
+                     ->instance()
+                     ->inputContextManager()
+                     .dummyInputContext();
+        }
+
+        auto id = actions[i]->id();
+        auto icRef = ic->watch();
+        // Why we need to delay the event, because we
+        // want to make ic has focus.
+        activateTimer_ = ui_->parent()->instance()->eventLoop().addTimeEvent(
+            CLOCK_MONOTONIC, now(CLOCK_MONOTONIC) + 30000, 0,
+            [this, icRef, id](EventSourceTime *, uint64_t) {
+                // FCITX_INFO() << "Timer Triggered";
+                if (auto *ic = icRef.get()) {
+
+                    auto *action = ui_->parent()
+                                       ->instance()
+                                       ->userInterfaceManager()
+                                       .lookupActionById(id);
+                    if (action) {
+                        action->activate(ic);
+                    }
+                }
+                activateTimer_.reset();
+                return true;
+            });
+        break;
+    }
+
+    hideAll();
+}
+
+void XCBMenu::handleMotionNotify(int eventX, int eventY) {
+    for (size_t i = 0; i < items_.size(); i++) {
+        if (!items_[i].isSeparator_ &&
+            items_[i].region_.contains(eventX, eventY)) {
+            setHoveredIndex(i);
+            return;
+        }
+    }
+}
+
 void XCBMenu::hide() {
     if (!visible_) {
         return;
@@ -181,6 +206,9 @@ void XCBMenu::hide() {
     visible_ = false;
     setParent(nullptr);
     xcb_unmap_window(ui_->connection(), wid_);
+    if (ui_->pointerGrabber() == this) {
+        ui_->ungrabPointer();
+    }
 }
 
 void XCBMenu::hideParents() {
@@ -199,6 +227,13 @@ void XCBMenu::hideChilds() {
     }
 }
 
+void XCBMenu::hideAll() {
+    hideParents();
+    hide();
+    hideChilds();
+    xcb_flush(ui_->connection());
+}
+
 bool XCBMenu::childHasMouse() const {
     auto ref = child_;
     while (auto *child = ref.get()) {
@@ -208,6 +243,27 @@ bool XCBMenu::childHasMouse() const {
         ref = child->child_;
     }
     return false;
+}
+
+XCBMenu *XCBMenu::childByPosition(int rootX, int rootY) {
+    if (ui_->pointerGrabber() != this) {
+        return this;
+    }
+
+    XCBMenu *result = this;
+    while (auto *child = result->child_.get()) {
+        result = child;
+    }
+    while (result) {
+        Rect rect;
+        rect.setPosition(result->x_, result->y_)
+            .setSize(result->width_, result->height_);
+        if (rect.contains(rootX, rootY)) {
+            break;
+        }
+        result = result->parent_.get();
+    }
+    return result;
 }
 
 void XCBMenu::hideTillMenuHasMouseOrTopLevel() {
@@ -325,7 +381,10 @@ void XCBMenu::updateDPI(int x, int y) {
 void XCBMenu::update() {
     auto *ic = lastRelevantIc();
     if (!ic) {
-        return;
+        ic = ui_->parent()
+                 ->instance()
+                 ->inputContextManager()
+                 .dummyInputContext();
     }
 
     // Size hint:
@@ -451,7 +510,8 @@ void XCBMenu::update() {
     cairo_t *c = cairo_create(prerender());
 
     cairo_set_operator(c, CAIRO_OPERATOR_SOURCE);
-    theme.paint(c, *theme.menu->background, width, height);
+    theme.paint(c, *theme.menu->background, width, height, /*alpha=*/1.0,
+                /*scale=*/1.0);
     cairo_set_operator(c, CAIRO_OPERATOR_OVER);
     for (const auto &item : items_) {
         if (item.isSeparator_) {
@@ -462,7 +522,8 @@ void XCBMenu::update() {
             theme.paint(c, *theme.menu->separator,
                         width - *theme.menu->contentMargin->marginLeft -
                             *theme.menu->contentMargin->marginRight,
-                        (separator.isImage() ? 2 : -1));
+                        (separator.isImage() ? 2 : -1), /*alpha=*/1.0,
+                        /*scale=*/1.0);
             cairo_restore(c);
             continue;
         }
@@ -471,21 +532,23 @@ void XCBMenu::update() {
             cairo_save(c);
             cairo_translate(c, item.region_.left(), item.region_.top());
             theme.paint(c, *theme.menu->highlight, item.region_.width(),
-                        item.region_.height());
+                        item.region_.height(), /*alpha=*/1.0, /*scale=*/1.0);
             cairo_restore(c);
         }
 
         if (item.isChecked_) {
             cairo_save(c);
             cairo_translate(c, item.checkBoxX_, item.checkBoxY_);
-            theme.paint(c, *theme.menu->checkBox, -1, -1);
+            theme.paint(c, *theme.menu->checkBox, -1, -1, /*alpha=*/1.0,
+                        /*scale=*/1.0);
             cairo_restore(c);
         }
 
         if (item.hasSubMenu_) {
             cairo_save(c);
             cairo_translate(c, item.subMenuX_, item.subMenuY_);
-            theme.paint(c, *theme.menu->subMenu, -1, -1);
+            theme.paint(c, *theme.menu->subMenu, -1, -1, /*alpha=*/1.0,
+                        /*scale=*/1.0);
             cairo_restore(c);
         }
 
@@ -635,6 +698,9 @@ void XCBMenu::show(Rect rect) {
 
     xcb_map_window(ui_->connection(), wid_);
     setFocus();
+    if (parent_.isNull()) {
+        ui_->grabPointer(this);
+    }
     xcb_flush(ui_->connection());
     x_ = x;
     y_ = y;

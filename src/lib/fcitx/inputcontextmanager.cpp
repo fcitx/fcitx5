@@ -455,6 +455,11 @@ InputContext *InputContextManager::mostRecentInputContext() {
     return ic;
 }
 
+InputContext *InputContextManager::dummyInputContext() const {
+    FCITX_D();
+    return d->dummyInputContext_.get();
+}
+
 void InputContextManager::setPreeditEnabledByDefault(bool enable) {
     FCITX_D();
     d->preeditEnabledByDefault_ = enable;

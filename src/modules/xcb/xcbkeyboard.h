@@ -38,9 +38,7 @@ public:
 
     bool handleEvent(xcb_generic_event_t *event);
     XkbRulesNames xkbRulesNames();
-    struct xkb_state *xkbState() {
-        return state_.get();
-    }
+    struct xkb_state *xkbState() { return state_.get(); }
 
     void setXkbOption(const std::string &option);
 

@@ -17,6 +17,7 @@ public:
     Text clientPreedit_;
     std::shared_ptr<CandidateList> candidate_;
     InputContext *ic_;
+    CustomInputPanelCallback customCallback_ = nullptr;
 };
 
 InputPanel::InputPanel(InputContext *ic)
@@ -72,6 +73,17 @@ const Text &InputPanel::preedit() const {
     return d->preedit_;
 }
 
+const CustomInputPanelCallback &InputPanel::customInputPanelCallback() const {
+    FCITX_D();
+    return d->customCallback_;
+}
+
+void InputPanel::setCustomInputPanelCallback(
+    CustomInputPanelCallback callback) {
+    FCITX_D();
+    d->customCallback_ = std::move(callback);
+}
+
 void InputPanel::reset() {
     FCITX_D();
     d->preedit_.clear();
@@ -80,6 +92,7 @@ void InputPanel::reset() {
     d->candidate_.reset();
     d->auxUp_.clear();
     d->auxDown_.clear();
+    d->customCallback_ = nullptr;
 }
 
 bool InputPanel::empty() const {

@@ -37,9 +37,7 @@ namespace fcitx {
 
 class StatusNotifierItem : public dbus::ObjectVTable<StatusNotifierItem> {
 public:
-    StatusNotifierItem(NotificationItem *parent) : parent_(parent) {
-        FCITX_LOG_IF(Info, inFlatpak_) << "Running inside flatpak.";
-    }
+    StatusNotifierItem(NotificationItem *parent) : parent_(parent) {}
 
     void scroll(int delta, const std::string &_orientation) {
         std::string orientation = _orientation;
@@ -74,7 +72,7 @@ public:
         if (icon == "input-keyboard" && preferSymbolic) {
             return "input-keyboard-symbolic";
         }
-        return IconTheme::iconName(icon, inFlatpak_);
+        return IconTheme::iconName(icon);
     }
 
     std::string label() { return ""; }
@@ -87,13 +85,42 @@ public:
         return {};
     }
 
-    bool preferTextIcon(const std::string &label, const std::string &icon) {
+    bool preferTextIcon(const std::string &label,
+                        const std::string &icon) const {
         auto classicui = parent_->classicui();
         return classicui && !label.empty() &&
                ((icon == "input-keyboard" &&
                  classicui->call<IClassicUI::showLayoutNameInIcon>() &&
                  hasTwoKeyboardInCurrentGroup(parent_->instance())) ||
                 classicui->call<IClassicUI::preferTextIcon>());
+    }
+
+    void notifyNewIcon() {
+        auto icon = iconName();
+        auto label = labelText();
+        if (icon != lastIconName_ || label != lastLabel_) {
+            newIcon();
+        }
+        lastIconName_ = icon;
+        lastLabel_ = label;
+    }
+
+    void reset() {
+        releaseSlot();
+        lastIconName_.clear();
+        lastLabel_.clear();
+    }
+
+    std::string labelText() const {
+        std::string label, icon;
+        if (auto *ic = parent_->instance()->mostRecentInputContext()) {
+            label = parent_->instance()->inputMethodLabel(ic);
+            icon = parent_->instance()->inputMethodIcon(ic);
+        }
+        if (!preferTextIcon(label, icon)) {
+            return "";
+        }
+        return label;
     }
 
     FCITX_OBJECT_VTABLE_METHOD(scroll, "Scroll", "is", "");
@@ -115,7 +142,7 @@ public:
                                  []() { return _("Input Method"); });
     FCITX_OBJECT_VTABLE_PROPERTY(status, "Status", "s",
                                  []() { return "Active"; });
-    FCITX_OBJECT_VTABLE_PROPERTY(windowId, "WindowId", "u", []() { return 0; });
+    FCITX_OBJECT_VTABLE_PROPERTY(windowId, "WindowId", "i", []() { return 0; });
     FCITX_OBJECT_VTABLE_PROPERTY(
         iconName, "IconName", "s", ([this]() {
             std::string label, icon;
@@ -130,15 +157,14 @@ public:
             std::vector<dbus::DBusStruct<int, int, std::vector<uint8_t>>>
                 result;
 
-            std::string label, icon;
-            if (auto *ic = parent_->instance()->mostRecentInputContext()) {
-                label = parent_->instance()->inputMethodLabel(ic);
-                icon = parent_->instance()->inputMethodIcon(ic);
-            }
             auto classicui = parent_->classicui();
-            if (preferTextIcon(label, icon)) {
-                if (lastLabel_ == label) {
-                    result = lastLabelIcon_;
+            if (!classicui) {
+                return result;
+            }
+            const auto label = labelText();
+            if (!label.empty()) {
+                if (cachedLabel_ == label) {
+                    result = cachedLabelIcon_;
                 } else {
                     for (unsigned int size : {16, 22, 32, 48}) {
                         // swap to network byte order if we are little endian
@@ -155,8 +181,8 @@ public:
                         }
                         result.emplace_back(size, size, std::move(data));
                     }
-                    lastLabel_ = label;
-                    lastLabelIcon_ = result;
+                    cachedLabel_ = label;
+                    cachedLabelIcon_ = result;
                 }
             }
             return result;
@@ -198,11 +224,12 @@ public:
 private:
     NotificationItem *parent_;
     int deltaAcc_ = 0;
-    const bool inFlatpak_ = fs::isreg("/.flatpak-info");
-    // Quick cache for the icon.
     std::string lastLabel_;
+    std::string lastIconName_;
+    // Quick cache for the icon.
+    std::string cachedLabel_;
     std::vector<dbus::DBusStruct<int, int, std::vector<uint8_t>>>
-        lastLabelIcon_;
+        cachedLabelIcon_;
 };
 
 NotificationItem::NotificationItem(Instance *instance)
@@ -214,7 +241,7 @@ NotificationItem::NotificationItem(Instance *instance)
     watcherEntry_ = watcher_->watchService(
         NOTIFICATION_WATCHER_DBUS_ADDR,
         [this](const std::string &, const std::string &,
-               const std::string &newName) { setSerivceName(newName); });
+               const std::string &newName) { setServiceName(newName); });
 }
 
 NotificationItem::~NotificationItem() = default;
@@ -223,36 +250,69 @@ dbus::Bus *NotificationItem::globalBus() {
     return dbus()->call<IDBusModule::bus>();
 }
 
-void NotificationItem::setSerivceName(const std::string &newName) {
+void NotificationItem::setServiceName(const std::string &newName) {
     SNI_DEBUG() << "Old SNI Name: " << sniWatcherName_
                 << " New Name: " << newName;
     sniWatcherName_ = newName;
     // It's a new service anyway, set unregistered.
     setRegistered(false);
     SNI_DEBUG() << "Current SNI enabled: " << enabled_;
-    if (enabled_) {
-        disable();
-        enable();
-    }
+    maybeScheduleRegister();
 }
 
 void NotificationItem::setRegistered(bool registered) {
-    if (registered_ != registered) {
-        registered_ = registered;
+    // Always clean up if it's not registered.
+    if (!registered) {
+        cleanUp();
+    }
 
-        for (auto &handler : handlers_.view()) {
-            handler(registered_);
+    if (registered_ == registered) {
+        return;
+    }
+    registered_ = registered;
+
+    if (registered_) {
+        auto updateIcon = [this](Event &) {
+            menu_->updateMenu();
+            newIcon();
+        };
+        for (auto type : {EventType::InputContextFocusIn,
+                          EventType::InputContextSwitchInputMethod,
+                          EventType::InputMethodGroupChanged}) {
+            eventHandlers_.emplace_back(instance_->watchEvent(
+                type, EventWatcherPhase::Default, updateIcon));
         }
+        eventHandlers_.emplace_back(instance_->watchEvent(
+            EventType::InputContextUpdateUI, EventWatcherPhase::Default,
+            [this](Event &event) {
+                if (static_cast<InputContextUpdateUIEvent &>(event)
+                        .component() == UserInterfaceComponent::StatusArea) {
+                    newIcon();
+                    menu_->updateMenu();
+                }
+            }));
+    }
+
+    for (auto &handler : handlers_.view()) {
+        handler(registered_);
     }
 }
 
 void NotificationItem::registerSNI() {
-    if (!enabled_ || sniWatcherName_.empty()) {
+    if (!enabled_ || sniWatcherName_.empty() || registered_) {
         return;
     }
-    // Ensure we are released.
-    sni_->releaseSlot();
-    menu_->releaseSlot();
+
+    setRegistered(false);
+    try {
+        // Ensure we are released.
+        privateBus_ = std::make_unique<dbus::Bus>(globalBus()->address());
+    } catch (...) {
+        setRegistered(false);
+        return;
+    }
+    privateBus_->attachEventLoop(&instance_->eventLoop());
+    // Add object before request name.
     privateBus_->addObjectVTable(NOTIFICATION_ITEM_DEFAULT_OBJ,
                                  NOTIFICATION_ITEM_DBUS_IFACE, *sni_);
     privateBus_->addObjectVTable("/MenuBar", DBUS_MENU_IFACE, *menu_);
@@ -260,40 +320,30 @@ void NotificationItem::registerSNI() {
     auto call = privateBus_->createMethodCall(
         sniWatcherName_.c_str(), NOTIFICATION_WATCHER_DBUS_OBJ,
         NOTIFICATION_WATCHER_DBUS_IFACE, "RegisterStatusNotifierItem");
-    call << serviceName_;
+    call << privateBus_->uniqueName();
 
-    SNI_DEBUG() << "Register SNI with name: " << serviceName_;
+    SNI_DEBUG() << "Register SNI with name: " << privateBus_->uniqueName();
     pendingRegisterCall_ = call.callAsync(0, [this](dbus::Message &msg) {
-        FCITX_DEBUG() << "SNI Register result: " << msg.signature();
+        // clear the pendingRegisterCall_, but keep it alive.
+        std::unique_ptr<dbus::Slot> call = std::move(pendingRegisterCall_);
+        SNI_DEBUG() << "SNI Register result: " << msg.signature();
         if (msg.signature() == "s") {
             std::string mesg;
             msg >> mesg;
-            FCITX_DEBUG() << mesg;
+            SNI_DEBUG() << mesg;
         }
         setRegistered(!msg.isError());
-        pendingRegisterCall_.reset();
         return true;
     });
+    if (privateBus_) {
+        privateBus_->flush();
+    }
 }
 
-void NotificationItem::enable() {
-    if (enabled_) {
+void NotificationItem::maybeScheduleRegister() {
+    if (!enabled_ || sniWatcherName_.empty() || registered_) {
         return;
     }
-    SNI_DEBUG() << "Enable SNI";
-    // Ensure we are released.
-    sni_->releaseSlot();
-    menu_->releaseSlot();
-    privateBus_ = std::make_unique<dbus::Bus>(globalBus()->address());
-    privateBus_->attachEventLoop(&instance_->eventLoop());
-    serviceName_ = fmt::format("org.fcitx.Fcitx5.StatusNotifierItem-{0}-{1}",
-                               getpid(), ++index_);
-    if (!privateBus_->requestName(serviceName_,
-                                  Flags<dbus::RequestNameFlag>(0))) {
-        return;
-    }
-    enabled_ = true;
-
     // Try to avoid Race between close dbus and register.
     scheduleRegister_ = instance_->eventLoop().addTimeEvent(
         CLOCK_MONOTONIC, now(CLOCK_MONOTONIC) + 300000, 0,
@@ -301,26 +351,16 @@ void NotificationItem::enable() {
             registerSNI();
             return true;
         });
+}
 
-    auto updateIcon = [this](Event &) {
-        menu_->updateMenu();
-        newIcon();
-    };
-    for (auto type : {EventType::InputContextFocusIn,
-                      EventType::InputContextSwitchInputMethod,
-                      EventType::InputMethodGroupChanged}) {
-        eventHandlers_.emplace_back(instance_->watchEvent(
-            type, EventWatcherPhase::Default, updateIcon));
+void NotificationItem::enable() {
+    if (enabled_) {
+        return;
     }
-    eventHandlers_.emplace_back(instance_->watchEvent(
-        EventType::InputContextUpdateUI, EventWatcherPhase::Default,
-        [this](Event &event) {
-            if (static_cast<InputContextUpdateUIEvent &>(event).component() ==
-                UserInterfaceComponent::StatusArea) {
-                newIcon();
-                menu_->updateMenu();
-            }
-        }));
+
+    enabled_ = true;
+    SNI_DEBUG() << "Enable SNI";
+    maybeScheduleRegister();
 }
 
 void NotificationItem::disable() {
@@ -329,12 +369,16 @@ void NotificationItem::disable() {
     }
 
     SNI_DEBUG() << "Disable SNI";
-    privateBus_->releaseName(serviceName_);
-    sni_->releaseSlot();
+    enabled_ = false;
+    setRegistered(false);
+}
+
+void NotificationItem::cleanUp() {
+    pendingRegisterCall_.reset();
+    sni_->reset();
     menu_->releaseSlot();
     privateBus_.reset();
 
-    enabled_ = false;
     eventHandlers_.clear();
 }
 
@@ -348,8 +392,9 @@ void NotificationItem::newIcon() {
     if (!sni_->isRegistered()) {
         return;
     }
-    sni_->newIcon();
-    sni_->xayatanaNewLabel(sni_->label(), sni_->label());
+    sni_->notifyNewIcon();
+    // Our label now is pixmap based, so no need to notify XAyatanaNewLabel.
+    // sni_->xayatanaNewLabel(sni_->label(), sni_->label());
 }
 
 class NotificationItemFactory : public AddonFactory {

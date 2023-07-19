@@ -267,7 +267,7 @@ public:
     /// Reset the compose state.
     void resetCompose(InputContext *inputContext);
 
-    /// Check whether input contex is composing or not.
+    /// Check whether input context is composing or not.
     bool isComposing(InputContext *inputContext);
 
     /**
@@ -416,6 +416,9 @@ public:
     /// Update xkb state mask for given display
     void updateXkbStateMask(const std::string &display, uint32_t depressed_mods,
                             uint32_t latched_mods, uint32_t locked_mods);
+
+    /// Clear xkb state mask for given display
+    void clearXkbStateMask(const std::string &display);
 
     /**
      * Show a small popup with input popup window with current input method

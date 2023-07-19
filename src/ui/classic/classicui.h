@@ -11,6 +11,7 @@
 
 #include "fcitx-config/configuration.h"
 #include "fcitx-config/iniparser.h"
+#include "fcitx-config/option.h"
 #include "fcitx-utils/event.h"
 #include "fcitx-utils/i18n.h"
 #include "fcitx-utils/log.h"
@@ -29,12 +30,21 @@
 #ifdef WAYLAND_FOUND
 #include "wayland_public.h"
 #endif
+#ifdef ENABLE_DBUS
+#include "fcitx-utils/dbus/bus.h"
+#endif
 
 namespace fcitx {
 namespace classicui {
 
+inline constexpr std::string_view PlasmaThemeName = "plasma";
+
 class UIInterface {
 public:
+    UIInterface(std::string name) : name_(name) {}
+
+    const std::string &name() const { return name_; }
+
     virtual ~UIInterface() {}
     virtual void update(UserInterfaceComponent component,
                         InputContext *inputContext) = 0;
@@ -43,6 +53,9 @@ public:
     virtual void suspend() = 0;
     virtual void resume() {}
     virtual void setEnableTray(bool) = 0;
+
+private:
+    const std::string name_;
 };
 
 struct NotEmpty {
@@ -64,7 +77,7 @@ struct ThemeAnnotation : public EnumAnnotation {
                                   themes_[i].first);
             config.setValueByPath("EnumI18n/" + std::to_string(i),
                                   themes_[i].second);
-            if (themes_[i].first != "plasma" || !plasmaTheme_) {
+            if (themes_[i].first != PlasmaThemeName || !plasmaTheme_) {
                 config.setValueByPath(
                     "SubConfigPath/" + std::to_string(i),
                     stringutils::concat("fcitx://config/addon/classicui/theme/",
@@ -97,8 +110,6 @@ FCITX_CONFIGURATION(
     ClassicUIConfig,
     Option<bool> verticalCandidateList{this, "Vertical Candidate List",
                                        _("Vertical Candidate List"), false};
-    Option<bool> perScreenDPI{this, "PerScreenDPI", _("Use Per Screen DPI"),
-                              true};
     Option<bool> useWheelForPaging{
         this, "WheelForPaging", _("Use mouse wheel to go to prev or next page"),
         true};
@@ -140,6 +151,20 @@ FCITX_CONFIGURATION(
     Option<std::string, NotEmpty, DefaultMarshaller<std::string>,
            ThemeAnnotation>
         theme{this, "Theme", _("Theme"), "default"};
+    Option<std::string, NotEmpty, DefaultMarshaller<std::string>,
+           ThemeAnnotation>
+        themeDark{this, "DarkTheme", _("Dark Theme"), "default-dark"};
+    Option<bool> useDarkTheme{this, "UseDarkTheme",
+                              _("Follow system light/dark color scheme"),
+                              false};
+    OptionWithAnnotation<bool, ToolTipAnnotation> perScreenDPI{
+        this,
+        "PerScreenDPI",
+        _("Use Per Screen DPI on X11"),
+        false,
+        {},
+        {},
+        {_("This option will be always disabled on XWayland.")}};
     Option<int, IntConstrain, DefaultMarshaller<int>, ToolTipAnnotation>
         forceWaylandDPI{
             this,
@@ -151,7 +176,16 @@ FCITX_CONFIGURATION(
             {_("Normally Wayland uses 96 as font DPI in combinition with the "
                "screen scale factor. This option allows you to override the "
                "font DPI. If the value is 0, it means this option is "
-               "disabled.")}};);
+               "disabled.")}};
+
+    OptionWithAnnotation<bool, ToolTipAnnotation> fractionalScale{
+        this,
+        "EnableFractionalScale",
+        _("Enable fractional scale under Wayland"),
+        true,
+        {},
+        {},
+        {_("This option require support from wayland compositor.")}};);
 
 class ClassicUI final : public UserInterface {
 public:
@@ -188,6 +222,7 @@ public:
 
 private:
     FCITX_ADDON_DEPENDENCY_LOADER(notificationitem, instance_->addonManager());
+    FCITX_ADDON_DEPENDENCY_LOADER(dbus, instance_->addonManager());
     FCITX_ADDON_EXPORT_FUNCTION(ClassicUI, labelIcon);
     FCITX_ADDON_EXPORT_FUNCTION(ClassicUI, preferTextIcon);
     FCITX_ADDON_EXPORT_FUNCTION(ClassicUI, showLayoutNameInIcon);
@@ -210,6 +245,12 @@ private:
         waylandClosedCallback_;
 #endif
 
+    std::unique_ptr<EventSource> deferedReloadTheme_;
+#ifdef ENABLE_DBUS
+    std::unique_ptr<dbus::Slot> appearanceChangedSlot_;
+    std::unique_ptr<dbus::Slot> initialReadSlot_;
+#endif
+
     std::vector<std::unique_ptr<HandlerTableEntry<EventHandler>>>
         eventHandlers_;
     std::unique_ptr<HandlerTableEntryBase> sniHandler_;
@@ -221,6 +262,7 @@ private:
     Theme theme_;
     mutable Theme subconfigTheme_;
     bool suspended_ = true;
+    bool isDark_ = false;
 
     std::unique_ptr<EventSource> deferedEnableTray_;
     std::unique_ptr<PlasmaThemeWatchdog> plasmaThemeWatchdog_;

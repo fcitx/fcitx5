@@ -160,6 +160,8 @@ public:
 
     void reset(const InputMethodEntry &entry,
                InputContextEvent &event) override;
+    void deactivate(const InputMethodEntry &entry,
+                    InputContextEvent &event) override;
 
     void invokeActionImpl(const fcitx::InputMethodEntry &entry,
                           fcitx::InvokeActionEvent &event) override;
@@ -204,7 +206,6 @@ private:
     LongPressConfig longPressConfig_;
     std::unordered_map<std::string, std::vector<std::string>> longPressData_;
     XkbRules xkbRules_;
-    std::string ruleName_;
     KeyStates selectionModifier_;
     KeyList selectionKeys_;
     std::unique_ptr<EventSource> deferEvent_;

@@ -8,6 +8,7 @@
 #include "theme.h"
 #include <fcntl.h>
 #include <cassert>
+#include <cairo.h>
 #include <fmt/format.h>
 #include <gdk-pixbuf/gdk-pixbuf.h>
 #include <gio/gunixinputstream.h>
@@ -15,13 +16,49 @@
 #include "fcitx-config/iniparser.h"
 #include "fcitx-utils/fs.h"
 #include "fcitx-utils/log.h"
+#include "fcitx-utils/misc.h"
 #include "fcitx-utils/rect.h"
 #include "fcitx-utils/standardpath.h"
+#include "fcitx-utils/utf8.h"
 #include "fcitx/misc_p.h"
 #include "classicui.h"
 #include "common.h"
 
 namespace fcitx::classicui {
+
+namespace {
+
+inline uint32_t charWidth(uint32_t c) {
+    if (g_unichar_iszerowidth(c)) {
+        return 0;
+    }
+    return g_unichar_iswide(c) ? 2 : 1;
+}
+
+// This is heuristic, but we guranteed that we don't do crazy things with label.
+std::pair<std::string, size_t> extractTextForLabel(const std::string &label) {
+    std::string extracted;
+
+    // We have non white space here because xkb shortDescription have things
+    // like fr-tg, mon-a1.
+    auto texts = stringutils::split(label, FCITX_WHITESPACE "-_/|");
+    if (texts.empty()) {
+        return {"", 0};
+    }
+
+    size_t currentWidth = 0;
+    for (uint32_t chr : utf8::MakeUTF8CharRange(texts[0])) {
+        const auto width = charWidth(chr);
+        if (currentWidth + width <= 3) {
+            extracted.append(utf8::UCS4ToUTF8(chr));
+            currentWidth += width;
+        } else {
+            break;
+        }
+    }
+
+    return {extracted, currentWidth};
+}
 
 cairo_status_t readFromFd(void *closure, unsigned char *data,
                           unsigned int length) {
@@ -166,6 +203,8 @@ cairo_surface_t *loadImage(StandardPathFile &file) {
     return surface;
 }
 
+} // namespace
+
 ThemeImage::ThemeImage(const IconTheme &iconTheme, const std::string &icon,
                        const std::string &label, uint32_t size,
                        const ClassicUI *classicui)
@@ -234,7 +273,9 @@ ThemeImage::ThemeImage(const std::string &name,
                       *cfg.margin->marginBottom});
 
         CLASSICUI_DEBUG() << "Paint background: height " << height << " width "
-                          << width;
+                          << width << " border=" << *cfg.borderColor
+                          << " border width=" << *cfg.borderWidth
+                          << " color=" << *cfg.color;
         image_.reset(
             cairo_image_surface_create(CAIRO_FORMAT_ARGB32, width, height));
         auto *cr = cairo_create(image_.get());
@@ -269,14 +310,16 @@ ThemeImage::ThemeImage(const std::string &name, const ActionImageConfig &cfg) {
 }
 
 void ThemeImage::drawTextIcon(cairo_surface_t *surface,
-                              const std::string &label, uint32_t size,
+                              const std::string &rawLabel, uint32_t size,
                               const ClassicUIConfig &config) {
+
+    auto [label, textWidth] = extractTextForLabel(rawLabel);
     auto *cr = cairo_create(surface);
     cairo_set_operator(cr, CAIRO_OPERATOR_SOURCE);
     cairoSetSourceColor(cr, Color("#00000000"));
     cairo_paint(cr);
 
-    int pixelSize = size * 0.75;
+    int pixelSize = size * 0.75 * (textWidth >= 3 ? (2.0 / textWidth) : 1.0);
     if (pixelSize < 0) {
         pixelSize = 1;
     }
@@ -359,13 +402,10 @@ const ThemeImage &Theme::loadImage(const std::string &icon,
     return result.first->second;
 }
 
-void Theme::paint(cairo_t *c, const BackgroundImageConfig &cfg, int width,
-                  int height, double alpha) {
-    const ThemeImage &image = loadBackground(cfg);
-    auto marginTop = *cfg.margin->marginTop;
-    auto marginBottom = *cfg.margin->marginBottom;
-    auto marginLeft = *cfg.margin->marginLeft;
-    auto marginRight = *cfg.margin->marginRight;
+void paintTile(cairo_t *c, int width, int height, double alpha,
+               cairo_surface_t *image, int marginLeft, int marginTop,
+               int marginRight, int marginBottom) {
+
     int resizeHeight =
         cairo_image_surface_get_height(image) - marginTop - marginBottom;
     int resizeWidth =
@@ -386,15 +426,11 @@ void Theme::paint(cairo_t *c, const BackgroundImageConfig &cfg, int width,
     if (width < 0) {
         width = resizeWidth;
     }
-
     const auto targetResizeWidth = width - marginLeft - marginRight;
     const auto targetResizeHeight = height - marginTop - marginBottom;
     const double scaleX = static_cast<double>(targetResizeWidth) / resizeWidth;
     const double scaleY =
         static_cast<double>(targetResizeHeight) / resizeHeight;
-
-    cairo_save(c);
-
     /*
      * 7 8 9
      * 4 5 6
@@ -507,7 +543,36 @@ void Theme::paint(cairo_t *c, const BackgroundImageConfig &cfg, int width,
         cairo_paint_with_alpha(c, alpha);
         cairo_restore(c);
     }
-    cairo_restore(c);
+}
+
+void Theme::paint(cairo_t *c, const BackgroundImageConfig &cfg, int width,
+                  int height, double alpha, double scale) {
+    const ThemeImage &image = loadBackground(cfg);
+    auto marginTop = *cfg.margin->marginTop;
+    auto marginBottom = *cfg.margin->marginBottom;
+    auto marginLeft = *cfg.margin->marginLeft;
+    auto marginRight = *cfg.margin->marginRight;
+
+    if (scale != 1.0) {
+        UniqueCPtr<cairo_surface_t, cairo_surface_destroy> background(
+            cairo_surface_create_similar_image(
+                cairo_get_target(c), CAIRO_FORMAT_ARGB32, width, height));
+        {
+            UniqueCPtr<cairo_t, cairo_destroy> backgroundC(
+                cairo_create(background.get()));
+            paintTile(backgroundC.get(), width, height, 1.0, image, marginLeft,
+                      marginTop, marginRight, marginBottom);
+        }
+        cairo_save(c);
+        cairo_rectangle(c, 0, 0, width, height);
+        cairo_set_source_surface(c, background.get(), 0, 0);
+        cairo_clip(c);
+        cairo_paint_with_alpha(c, alpha);
+        cairo_restore(c);
+    } else {
+        paintTile(c, width, height, alpha, image, marginLeft, marginTop,
+                  marginRight, marginBottom);
+    }
 
     if (!image.overlay()) {
         return;
@@ -602,8 +667,12 @@ void Theme::reset() {
     actionImageTable_.clear();
 }
 
-void Theme::load(const std::string &name) {
+void Theme::load(std::string_view name) {
     reset();
+    ThemeConfig config;
+    copyHelper(config);
+    // Reset the default value to state.
+    syncDefaultValueToCurrent();
     if (auto themeConfigFile = StandardPath::global().openSystem(
             StandardPath::Type::PkgData,
             stringutils::joinPath("themes", name, "theme.conf"), O_RDONLY);
@@ -632,7 +701,7 @@ void Theme::load(const std::string &name) {
     maskConfig_.image.setValue(*inputPanel->blurMask);
 }
 
-void Theme::load(const std::string &name, const RawConfig &rawConfig) {
+void Theme::load(std::string_view name, const RawConfig &rawConfig) {
     reset();
     Configuration::load(rawConfig, true);
     name_ = name;
@@ -653,7 +722,7 @@ std::vector<Rect> Theme::mask(const BackgroundImageConfig &cfg, int width,
         cairo_image_surface_create(CAIRO_FORMAT_A1, width, height));
     auto c = cairo_create(mask.get());
     cairo_set_operator(c, CAIRO_OPERATOR_SOURCE);
-    paint(c, cfg, width, height, 1);
+    paint(c, cfg, width, height, 1, 1);
     cairo_destroy(c);
 
     UniqueCPtr<cairo_region_t, cairo_region_destroy> region(

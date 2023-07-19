@@ -24,6 +24,7 @@ struct XkbRulesParseState : public XMLParser {
     std::list<XkbModelInfo> modelInfos_;
     std::list<XkbOptionGroupInfo> optionGroupInfos_;
     std::string version_;
+    std::string textBuff_;
 
     bool match(const std::initializer_list<const char *> &array) {
         if (parseStack_.size() < array.size()) {
@@ -35,6 +36,7 @@ struct XkbRulesParseState : public XMLParser {
 
     void startElement(const XML_Char *name, const XML_Char **attrs) override {
         parseStack_.emplace_back(reinterpret_cast<const char *>(name));
+        textBuff_.clear();
 
         if (match({"layoutList", "layout", "configItem"})) {
             layoutInfos_.emplace_back();
@@ -70,13 +72,9 @@ struct XkbRulesParseState : public XMLParser {
             }
         }
     }
-    void endElement(const XML_Char *) override { parseStack_.pop_back(); }
-    void characterData(const XML_Char *ch, int len) override {
-        std::string temp(reinterpret_cast<const char *>(ch), len);
-        auto pair = stringutils::trimInplace(temp);
-        std::string::size_type start = pair.first, end = pair.second;
-        if (start != end) {
-            std::string text(temp.begin() + start, temp.begin() + end);
+    void endElement(const XML_Char *) override {
+        auto text = stringutils::trimView(textBuff_);
+        if (!text.empty()) {
             if (match({"layoutList", "layout", "configItem", "name"})) {
                 layoutInfos_.back().name = text;
             } else if (match({"layoutList", "layout", "configItem",
@@ -87,7 +85,7 @@ struct XkbRulesParseState : public XMLParser {
                 layoutInfos_.back().shortDescription = text;
             } else if (match({"layoutList", "layout", "configItem",
                               "languageList", "iso639Id"})) {
-                layoutInfos_.back().languages.push_back(text);
+                layoutInfos_.back().languages.emplace_back(text);
             } else if (match({"layoutList", "layout", "variantList", "variant",
                               "configItem", "name"})) {
                 layoutInfos_.back().variantInfos.back().name = text;
@@ -99,7 +97,7 @@ struct XkbRulesParseState : public XMLParser {
                 layoutInfos_.back().variantInfos.back().shortDescription = text;
             } else if (match({"layoutList", "layout", "variantList", "variant",
                               "configItem", "languageList", "iso639Id"})) {
-                layoutInfos_.back().variantInfos.back().languages.push_back(
+                layoutInfos_.back().variantInfos.back().languages.emplace_back(
                     text);
             } else if (match({"modelList", "model", "configItem", "name"})) {
                 modelInfos_.back().name = text;
@@ -121,6 +119,12 @@ struct XkbRulesParseState : public XMLParser {
                 optionGroupInfos_.back().optionInfos.back().description = text;
             }
         }
+
+        textBuff_.clear();
+        parseStack_.pop_back();
+    }
+    void characterData(const XML_Char *ch, int len) override {
+        textBuff_.append(reinterpret_cast<const char *>(ch), len);
     }
 
     void merge(XkbRules *rules) {
@@ -148,27 +152,38 @@ struct XkbRulesParseState : public XMLParser {
     }
 };
 
-bool XkbRules::read(const std::string &fileName) {
+bool XkbRules::read(const std::vector<std::string> &directories,
+                    const std::string &name, const std::string &extraFile) {
     clear();
 
-    {
-        XkbRulesParseState state;
-        state.rules_ = this;
-        if (!state.parse(fileName)) {
-            return false;
-        }
-        state.merge(this);
-    }
-
-    if (stringutils::endsWith(fileName, ".xml")) {
-        auto extraFile = fileName.substr(0, fileName.size() - 3);
-        extraFile += "extras.xml";
+    for (const auto &directory : directories) {
+        std::string fileName = stringutils::joinPath(
+            directory, "rules", stringutils::concat(name, ".xml"));
         {
             XkbRulesParseState state;
             state.rules_ = this;
-            if (state.parse(extraFile)) {
+            if (!state.parse(fileName)) {
+                return false;
+            }
+            state.merge(this);
+        }
+
+        std::string extraFileName = stringutils::joinPath(
+            directory, "rules", stringutils::concat(name, ".extras.xml"));
+        {
+            XkbRulesParseState state;
+            state.rules_ = this;
+            if (state.parse(extraFileName)) {
                 state.merge(this);
             }
+        }
+    }
+
+    if (!extraFile.empty()) {
+        XkbRulesParseState state;
+        state.rules_ = this;
+        if (state.parse(extraFile)) {
+            state.merge(this);
         }
     }
     return true;

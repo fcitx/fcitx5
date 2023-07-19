@@ -10,6 +10,7 @@
 #include <stdexcept>
 #include "fcitx-utils/event.h"
 #include "fcitx-utils/misc_p.h"
+#include "fcitx-utils/standardpath.h"
 #include "common.h"
 
 #if defined(__FreeBSD__)
@@ -18,8 +19,17 @@
 #include <sys/prctl.h>
 #endif
 
-fcitx::classicui::PlasmaThemeWatchdog::PlasmaThemeWatchdog(
-    EventLoop *event, std::function<void()> callback)
+namespace fcitx::classicui {
+
+#define PLASMA_THEME_GENERATOR "fcitx5-plasma-theme-generator";
+
+bool PlasmaThemeWatchdog::isAvailable() {
+    static const std::string binaryName = PLASMA_THEME_GENERATOR;
+    return StandardPath::hasExecutable(binaryName);
+}
+
+PlasmaThemeWatchdog::PlasmaThemeWatchdog(EventLoop *event,
+                                         std::function<void()> callback)
     : callback_(std::move(callback)) {
     int pipefd[2];
     int ret = ::pipe(pipefd);
@@ -48,6 +58,7 @@ fcitx::classicui::PlasmaThemeWatchdog::PlasmaThemeWatchdog(
         close(pipefd[1]);
         monitorFD_.give(pipefd[0]);
         generator_ = pid;
+        running_ = true;
         ioEvent_ = event->addIOEvent(
             monitorFD_.fd(),
             {IOEventFlag::In, IOEventFlag::Err, IOEventFlag::Hup},
@@ -71,9 +82,21 @@ fcitx::classicui::PlasmaThemeWatchdog::PlasmaThemeWatchdog(
             });
     }
 }
-fcitx::classicui::PlasmaThemeWatchdog::~PlasmaThemeWatchdog() { cleanup(); }
+PlasmaThemeWatchdog::~PlasmaThemeWatchdog() {
+    destruct_ = true;
+    cleanup();
+}
 
-void fcitx::classicui::PlasmaThemeWatchdog::cleanup() {
+void PlasmaThemeWatchdog::cleanup() {
+    running_ = false;
+    CLASSICUI_INFO() << "Cleanup Plasma Theme generator.";
+    if (!destruct_) {
+        // For certain distribution, it is possible that
+        // fcitx5-plasma-theme-generator command presents, but not usable since
+        // plasma is set to be an optional dependency to fcitx5-configtool. If
+        // that happens, we need to notify to reload the theme.
+        callback_();
+    }
     if (generator_ == 0) {
         return;
     }
@@ -86,3 +109,5 @@ void fcitx::classicui::PlasmaThemeWatchdog::cleanup() {
     generator_ = 0;
     ioEvent_.reset();
 }
+
+} // namespace fcitx::classicui

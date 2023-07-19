@@ -108,7 +108,7 @@ struct InstanceArgument {
     static void printVersion() {
         std::cout << FCITX_VERSION_STRING << std::endl;
     }
-    void printUsage();
+    void printUsage() const;
 
     int overrideDelay = -1;
     bool tryReplace = false;
@@ -217,8 +217,6 @@ public:
     AddonInstance *notifications_ = nullptr;
 
     std::string lastGroup_;
-
-    const bool inFlatpak_ = fs::isreg("/.flatpak-info");
 
     bool virtualKeyboardAutoShow_ = false;
 

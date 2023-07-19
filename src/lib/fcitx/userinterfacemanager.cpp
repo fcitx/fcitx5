@@ -70,6 +70,11 @@ public:
         action->setId(0);
     }
 
+    void updateDispatch(UserInterfaceComponent comp, InputContext *ic);
+
+    template <UserInterfaceComponent component>
+    void updateSingleComponent(InputContext *ic);
+
     UserInterface *ui_ = nullptr;
     std::string uiName_;
     std::vector<std::string> uis_;
@@ -87,6 +92,44 @@ public:
 
     IdAllocator ids_;
 };
+
+template <>
+void UserInterfaceManagerPrivate::updateSingleComponent<
+    UserInterfaceComponent::InputPanel>(InputContext *ic) {
+    if (ui_ != nullptr && ui_->addonInfo() != nullptr &&
+        ui_->addonInfo()->uiType() == UIType::OnScreenKeyboard) {
+        ui_->update(UserInterfaceComponent::InputPanel, ic);
+    } else if (const auto &callback = ic->inputPanel().customInputPanelCallback()) {
+        callback(ic);
+    } else if (ic->capabilityFlags().test(
+                   CapabilityFlag::ClientSideInputPanel)) {
+        ic->updateClientSideUIImpl();
+    } else if (ui_) {
+        ui_->update(UserInterfaceComponent::InputPanel, ic);
+    }
+}
+
+template <>
+void UserInterfaceManagerPrivate::updateSingleComponent<
+    UserInterfaceComponent::StatusArea>(InputContext *ic) {
+    if (ui_) {
+        ui_->update(UserInterfaceComponent::StatusArea, ic);
+    }
+}
+
+void UserInterfaceManagerPrivate::updateDispatch(UserInterfaceComponent comp,
+                                                 InputContext *ic) {
+#define _UI_CASE(COMP)                                                         \
+    case COMP:                                                                 \
+        updateSingleComponent<COMP>(ic);                                       \
+        break
+
+    switch (comp) {
+        _UI_CASE(UserInterfaceComponent::InputPanel);
+        _UI_CASE(UserInterfaceComponent::StatusArea);
+    }
+#undef _UI_CASE
+}
 
 UserInterfaceManager::UserInterfaceManager(AddonManager *addonManager)
     : d_ptr(std::make_unique<UserInterfaceManagerPrivate>(addonManager)) {}
@@ -207,16 +250,7 @@ void UserInterfaceManager::flush() {
     FCITX_D();
     for (auto &p : d->updateList_) {
         for (auto comp : p.second) {
-            if (d->ui_ != nullptr && d->ui_->addonInfo() != nullptr &&
-                d->ui_->addonInfo()->uiType() == UIType::OnScreenKeyboard) {
-                d->ui_->update(comp, p.first);
-            } else if (comp == UserInterfaceComponent::InputPanel &&
-                       p.first->capabilityFlags().test(
-                           CapabilityFlag::ClientSideInputPanel)) {
-                p.first->updateClientSideUIImpl();
-            } else if (d->ui_) {
-                d->ui_->update(comp, p.first);
-            }
+            d->updateDispatch(comp, p.first);
         }
     }
     d->updateIndex_.clear();

@@ -187,13 +187,9 @@ public:
 class FCITXCORE_EXPORT InputMethodEngineV2 : public InputMethodEngine {
 public:
     virtual std::string subModeIconImpl(const InputMethodEntry &,
-                                        InputContext &) {
-        return {};
-    }
+                                        InputContext &);
     virtual std::string subModeLabelImpl(const InputMethodEntry &,
-                                         InputContext &) {
-        return {};
-    }
+                                         InputContext &);
 };
 
 class FCITXCORE_EXPORT InputMethodEngineV3 : public InputMethodEngineV2 {

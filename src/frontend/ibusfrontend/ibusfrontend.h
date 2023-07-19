@@ -34,7 +34,9 @@ private:
     FCITX_ADDON_DEPENDENCY_LOADER(dbus, instance_->addonManager());
 
     void replaceIBus(bool recheck);
+    // Write socket file, call ensureIsIBus after a delay.
     void becomeIBus(bool recheck);
+    // Check if org.freedesktop.IBus is owned by us and socket file is ours.
     void ensureIsIBus();
 
     Instance *instance_;

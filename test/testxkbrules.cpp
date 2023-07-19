@@ -10,7 +10,7 @@
 
 int main() {
     fcitx::XkbRules xkbRules;
-    xkbRules.read(XKEYBOARDCONFIG_XKBBASE "/rules/" DEFAULT_XKB_RULES ".xml");
+    xkbRules.read({XKEYBOARDCONFIG_XKBBASE}, DEFAULT_XKB_RULES, {});
     xkbRules.dump();
     return 0;
 }

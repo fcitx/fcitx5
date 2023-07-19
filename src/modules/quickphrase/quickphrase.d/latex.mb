@@ -299,7 +299,8 @@
 \boxdot ⊡
 \vdash ⊢
 \dashv ⊣
-\bot ⊤
+\bot ⊥
+\top ⊤
 \perp ⊥
 \vDash ⊧
 \models ⊨

@@ -74,10 +74,6 @@ private:
     }
     bool aboutToShow(int32_t id);
 
-    std::string iconName(const std::string &icon) {
-        return IconTheme::iconName(icon, inFlatpak_);
-    }
-
     InputContext *lastRelevantIc();
 
     FCITX_OBJECT_VTABLE_PROPERTY(version, "Version", "u",
@@ -105,8 +101,6 @@ private:
     TrackableObjectReference<InputContext> lastRelevantIc_;
     std::unordered_set<int32_t> requestedMenus_;
     std::unique_ptr<EventSource> deferEvent_;
-
-    const bool inFlatpak_ = fs::isreg("/.flatpak-info");
 };
 
 } // namespace fcitx

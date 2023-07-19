@@ -28,7 +28,7 @@ class SurroundingTextPrivate;
 class FCITXCORE_EXPORT SurroundingText {
 public:
     SurroundingText();
-    virtual ~SurroundingText();
+    FCITX_DECLARE_VIRTUAL_DTOR_COPY_AND_MOVE(SurroundingText);
 
     /// Reset surrounding text to invalid state.
     void invalidate();

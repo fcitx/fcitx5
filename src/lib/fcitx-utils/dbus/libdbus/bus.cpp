@@ -333,7 +333,7 @@ fail:
 
 Bus::~Bus() {
     FCITX_D();
-    if (d->attached_) {
+    if (d->loop_) {
         detachEventLoop();
     }
 }
@@ -489,7 +489,7 @@ void DBusDispatchStatusCallback(DBusConnection *, DBusDispatchStatus status,
 
 void Bus::attachEventLoop(EventLoop *loop) {
     FCITX_D();
-    if (d->attached_) {
+    if (d->loop_) {
         return;
     }
     d->loop_ = loop;
@@ -530,7 +530,11 @@ void Bus::detachEventLoop() {
                                                  nullptr, nullptr);
     d->deferEvent_.reset();
     d->loop_ = nullptr;
-    d->attached_ = false;
+}
+
+EventLoop *Bus::eventLoop() const {
+    FCITX_D();
+    return d->loop_;
 }
 
 std::unique_ptr<Slot> Bus::addMatch(const MatchRule &rule,
@@ -553,6 +557,7 @@ std::unique_ptr<Slot> Bus::addMatch(const MatchRule &rule,
 
 std::unique_ptr<Slot> Bus::addFilter(MessageCallback callback) {
     FCITX_D();
+
     auto slot = std::make_unique<DBusFilterSlot>();
     slot->handler_ = d->filterHandlers_.add(std::move(callback));
 

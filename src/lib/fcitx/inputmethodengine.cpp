@@ -61,6 +61,16 @@ void InputMethodEngine::invokeAction(const InputMethodEntry &entry,
     defaultInvokeActionBehavior(event);
 }
 
+std::string InputMethodEngineV2::subModeIconImpl(const InputMethodEntry &,
+                                                 InputContext &) {
+    return {};
+}
+
+std::string InputMethodEngineV2::subModeLabelImpl(const InputMethodEntry &,
+                                                  InputContext &) {
+    return {};
+}
+
 void InputMethodEngineV3::invokeActionImpl(const InputMethodEntry &entry,
                                            InvokeActionEvent &event) {
     FCITX_UNUSED(entry);

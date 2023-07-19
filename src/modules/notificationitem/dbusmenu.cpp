@@ -278,19 +278,22 @@ void DBusMenu::fillLayoutProperties(
                        dbus::Variant(entry->name()));
         if (!entry->icon().empty()) {
             appendProperty(properties, propertyNames, "icon-name",
-                           dbus::Variant(iconName(entry->icon())));
+                           dbus::Variant(IconTheme::iconName(entry->icon())));
         }
+        appendProperty(properties, propertyNames, "toggle-type",
+                       dbus::Variant("radio"));
 
-        if (auto *ic = lastRelevantIc()) {
-            appendProperty(properties, propertyNames, "toggle-type",
-                           dbus::Variant("radio"));
-            // We can use pointer comparision here.
-            appendProperty(
-                properties, propertyNames, "toggle-state",
-                dbus::Variant(parent_->instance()->inputMethodEntry(ic) == entry
-                                  ? 1
-                                  : 0));
+        auto *ic = lastRelevantIc();
+        if (!ic) {
+            ic = parent_->instance()->mostRecentInputContext();
         }
+        // We can use pointer comparision here.
+        appendProperty(
+            properties, propertyNames, "toggle-state",
+            dbus::Variant(
+                (ic && parent_->instance()->inputMethodEntry(ic) == entry)
+                    ? 1
+                    : 0));
     } else if (id >= BII_InputMethodGroupStart &&
                id <= BII_InputMethodGroupEnd) {
         size_t idx = id - BII_InputMethodGroupStart;
@@ -308,28 +311,36 @@ void DBusMenu::fillLayoutProperties(
                                                                        : 0));
     } else {
         id -= builtInIds;
-        if (auto *ic = lastRelevantIc()) {
-            if (auto *action = parent_->instance()
-                                   ->userInterfaceManager()
-                                   .lookupActionById(id)) {
-                appendProperty(properties, propertyNames, "label",
-                               dbus::Variant(action->shortText(ic)));
-                appendProperty(properties, propertyNames, "icon-name",
-                               dbus::Variant(iconName(action->icon(ic))));
-                if (action->isCheckable()) {
-                    appendProperty(properties, propertyNames, "toggle-type",
-                                   dbus::Variant("radio"));
-                    bool checked = action->isChecked(ic);
+        auto *ic = lastRelevantIc();
+        if (!ic) {
+            return;
+        }
+        auto *action =
+            parent_->instance()->userInterfaceManager().lookupActionById(id);
+        if (!action) {
+            return;
+        }
+        if (action->isSeparator()) {
+            appendProperty(properties, propertyNames, "type",
+                           dbus::Variant("separator"));
+            return;
+        }
 
-                    appendProperty(properties, propertyNames, "toggle-state",
-                                   dbus::Variant(checked ? 1 : 0));
-                }
-                if (action->menu()) {
-                    appendProperty(properties, propertyNames,
-                                   "children-display",
-                                   dbus::Variant("submenu"));
-                }
-            }
+        appendProperty(properties, propertyNames, "label",
+                       dbus::Variant(action->shortText(ic)));
+        appendProperty(properties, propertyNames, "icon-name",
+                       dbus::Variant(IconTheme::iconName(action->icon(ic))));
+        if (action->isCheckable()) {
+            appendProperty(properties, propertyNames, "toggle-type",
+                           dbus::Variant("radio"));
+            bool checked = action->isChecked(ic);
+
+            appendProperty(properties, propertyNames, "toggle-state",
+                           dbus::Variant(checked ? 1 : 0));
+        }
+        if (action->menu()) {
+            appendProperty(properties, propertyNames, "children-display",
+                           dbus::Variant("submenu"));
         }
     }
 }

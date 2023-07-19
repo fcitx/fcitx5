@@ -50,6 +50,7 @@ class FCITXCORE_EXPORT InputContext : public TrackableObject<InputContext> {
     friend class InputContextManagerPrivate;
     friend class FocusGroup;
     friend class UserInterfaceManager;
+    friend class UserInterfaceManagerPrivate;
 
 public:
     InputContext(InputContextManager &manager, const std::string &program = {});
@@ -58,6 +59,16 @@ public:
 
     /// Returns the underlying implementation of Input Context.
     virtual const char *frontend() const = 0;
+
+    /**
+     * Return the frontend name.
+     *
+     * Helper function that simply calls InputContext::frontend, but returns a
+     * string_view.
+     *
+     * @since 5.0.22
+     */
+    std::string_view frontendName() const;
 
     /// Returns the uuid of this input context.
     const ICUUID &uuid() const;
@@ -77,7 +88,7 @@ public:
     double scaleFactor() const;
 
     // Following functions should only be called by Frontend.
-    // Calling following most of folloing functions will generate a
+    // Calling following most of following functions will generate a
     // corresponding InputContextEvent.
 
     /// Called When input context gains the input focus.
@@ -121,7 +132,7 @@ public:
     /// Override the preedit hint from client.
     void setEnablePreedit(bool enable);
 
-    /// Check if preedit is manually disalbed.
+    /// Check if preedit is manually disabled.
     bool isPreeditEnabled() const;
 
     /// Update the current cursor rect of the input context.
@@ -206,6 +217,16 @@ public:
     void setBlockEventToClient(bool block);
     bool hasPendingEvents() const;
 
+    /**
+     * Has pending event that need to use key order fix.
+     *
+     * If pending event only have preedit, then it's generally fine to not use
+     * key forward.
+     *
+     * @since 5.0.21
+     */
+    bool hasPendingEventsStrictOrder() const;
+
     /// Returns the input context property by name.
     InputContextProperty *property(const std::string &name);
 
@@ -215,8 +236,22 @@ public:
     /// Returns the associated input panel.
     InputPanel &inputPanel();
 
+    /**
+     * Returns the associated input panel.
+     *
+     * @since 5.0.22
+     */
+    const InputPanel &inputPanel() const;
+
     /// Returns the associated StatusArea.
     StatusArea &statusArea();
+
+    /**
+     * Returns the associated StatusArea.
+     *
+     * @since 5.0.22
+     */
+    const StatusArea &statusArea() const;
 
     /**
      * Helper function to return the input context property in specific type.
@@ -244,7 +279,7 @@ public:
     }
 
     /**
-     * Notifes the change of a given input context property
+     * Notifies the change of a given input context property
      *
      * @param name name of the input context property.
      *
@@ -253,7 +288,7 @@ public:
     void updateProperty(const std::string &name);
 
     /**
-     * Notifes the change of a given input context property by its factory.
+     * Notifies the change of a given input context property by its factory.
      *
      * @param name name of the input context property.
      *

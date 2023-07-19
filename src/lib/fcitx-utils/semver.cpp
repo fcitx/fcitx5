@@ -246,9 +246,9 @@ int SemanticVersion::compare(const SemanticVersion &other) const noexcept {
     }
 
     bool preRelease = isPreRelease();
-    bool otherIsPrerelase = other.isPreRelease();
+    bool otherIsPreRelease = other.isPreRelease();
 
-    if (preRelease != otherIsPrerelase) {
+    if (preRelease != otherIsPreRelease) {
         return preRelease ? -1 : 1;
     }
 

@@ -106,6 +106,7 @@ private:
 Kimpanel::Kimpanel(Instance *instance)
     : instance_(instance), bus_(dbus()->call<IDBusModule::bus>()),
       watcher_(*bus_) {
+    reloadConfig();
     entry_ = watcher_.watchService(
         "org.kde.impanel", [this](const std::string &, const std::string &,
                                   const std::string &newOwner) {
@@ -116,6 +117,8 @@ Kimpanel::Kimpanel(Instance *instance)
 
 Kimpanel::~Kimpanel() {}
 
+void Kimpanel::reloadConfig() { readAsIni(config_, "conf/kimpanel.conf"); }
+
 void Kimpanel::suspend() {
     eventHandlers_.clear();
     proxy_.reset();
@@ -123,6 +126,8 @@ void Kimpanel::suspend() {
     hasRelative_ = false;
     hasRelativeV2_ = false;
 }
+
+const Configuration *Kimpanel::getConfig() const { return &config_; }
 
 void Kimpanel::registerAllProperties(InputContext *ic) {
     std::vector<std::string> props;
@@ -161,9 +166,10 @@ std::string Kimpanel::actionToStatus(Action *action, InputContext *ic) {
     if (action->menu()) {
         type = "menu";
     }
-    return stringutils::concat(
-        "/Fcitx/", action->name(), ":", action->shortText(ic), ":",
-        iconName(action->icon(ic)), ":", action->longText(ic), ":", type);
+    return stringutils::concat("/Fcitx/", action->name(), ":",
+                               action->shortText(ic), ":",
+                               IconTheme::iconName(action->icon(ic)), ":",
+                               action->longText(ic), ":", type);
 }
 
 void Kimpanel::resume() {
@@ -362,6 +368,19 @@ void Kimpanel::updateInputPanel(InputContext *inputContext) {
     bus_->flush();
 }
 
+// This is heuristic, but we guranteed that we don't do crazy things with label.
+std::string extractTextForLabel(const std::string &label) {
+    if (label.empty()) {
+        return "";
+    }
+    auto texts = stringutils::split(label, FCITX_WHITESPACE);
+    if (texts.empty()) {
+        return "";
+    }
+
+    return texts[0];
+}
+
 std::string Kimpanel::inputMethodStatus(InputContext *ic) {
     std::string label;
     std::string description = _("Not available");
@@ -382,13 +401,20 @@ std::string Kimpanel::inputMethodStatus(InputContext *ic) {
         }
     }
 
+    label = extractTextForLabel(label);
+
     static const bool preferSymbolic = !isKDE();
-    if (preferSymbolic && icon == "input-keyboard") {
+    if (*config_.preferTextIcon) {
+        icon = "";
+        altDescription = description;
+        description = label;
+    } else if (preferSymbolic && icon == "input-keyboard") {
         icon = "input-keyboard-symbolic";
     }
 
-    return stringutils::concat("/Fcitx/im:", description, ":", iconName(icon),
-                               ":", altDescription, ":menu,label=", label);
+    return stringutils::concat("/Fcitx/im:", description, ":",
+                               IconTheme::iconName(icon), ":", altDescription,
+                               ":menu,label=", label);
 }
 
 void Kimpanel::updateCurrentInputMethod(InputContext *ic) {
@@ -422,7 +448,7 @@ void Kimpanel::msgV1Handler(dbus::Message &msg) {
                 }
                 menuitems.push_back(stringutils::concat(
                     "/Fcitx/im/", entry->uniqueName(), ":", entry->name(), ":",
-                    iconName(entry->icon()), "::"));
+                    IconTheme::iconName(entry->icon()), "::"));
             }
             proxy_->execMenu(menuitems);
         } else if (stringutils::startsWith(property, "/Fcitx/im/")) {
@@ -448,6 +474,9 @@ void Kimpanel::msgV1Handler(dbus::Message &msg) {
             if (auto *menu = action->menu()) {
                 std::vector<std::string> menuitems;
                 for (auto *menuAction : menu->actions()) {
+                    if (menuAction->isSeparator()) {
+                        continue;
+                    }
                     menuitems.push_back(actionToStatus(menuAction, ic));
                 }
                 proxy_->execMenu(menuitems);

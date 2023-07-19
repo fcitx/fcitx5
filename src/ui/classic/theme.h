@@ -8,9 +8,11 @@
 #define _FCITX_UI_CLASSIC_THEME_H_
 
 #include <cstdint>
+#include <string_view>
 #include <cairo/cairo.h>
 #include "fcitx-config/configuration.h"
 #include "fcitx-config/enum.h"
+#include "fcitx-config/option.h"
 #include "fcitx-utils/i18n.h"
 #include "fcitx-utils/log.h"
 #include "fcitx-utils/rect.h"
@@ -33,6 +35,17 @@ FCITX_CONFIG_ENUM_NAME_WITH_I18N(Gravity, N_("Top Left"), N_("Top Center"),
                                  N_("Center"), N_("Center Right"),
                                  N_("Bottom Left"), N_("Bottom Center"),
                                  N_("Bottom Right"));
+
+enum class PageButtonAlignment {
+    Top,
+    FirstCandidate,
+    Center,
+    LastCandidate,
+    Bottom
+};
+FCITX_CONFIG_ENUM_NAME_WITH_I18N(PageButtonAlignment, N_("Top"),
+                                 N_("First Candidate"), N_("Center"),
+                                 N_("Last Candidate"), N_("Bottom"));
 
 FCITX_CONFIGURATION(
     MarginConfig,
@@ -115,6 +128,10 @@ FCITX_CONFIGURATION(
     Option<Color> highlightBackgroundColor{this, "HighlightBackgroundColor",
                                            _("Highlight Background color"),
                                            Color("#a5a5a5ff")};
+    OptionWithAnnotation<PageButtonAlignment, PageButtonAlignmentI18NAnnotation>
+        buttonAlignment{this, "PageButtonAlignment",
+                        _("Page button vertical alignment"),
+                        PageButtonAlignment::Bottom};
     Option<BackgroundImageConfig> background{this, "Background",
                                              _("Background")};
     Option<HighlightBackgroundImageConfig> highlight{this, "Highlight",
@@ -226,8 +243,9 @@ public:
     Theme();
     ~Theme();
 
-    void load(const std::string &name);
-    void load(const std::string &name, const RawConfig &rawConfig);
+    const std::string &name() { return name_; }
+    void load(std::string_view name);
+    void load(std::string_view name, const RawConfig &rawConfig);
     const ThemeImage &loadImage(const std::string &icon,
                                 const std::string &label, uint32_t size,
                                 const ClassicUI *classicui);
@@ -235,7 +253,7 @@ public:
     const ThemeImage &loadAction(const ActionImageConfig &cfg);
 
     void paint(cairo_t *c, const BackgroundImageConfig &cfg, int width,
-               int height, double alpha = 1.0);
+               int height, double alpha, double scale);
 
     void paint(cairo_t *c, const ActionImageConfig &cfg, double alpha = 1.0);
 

@@ -283,7 +283,7 @@ private:
 template <typename T, typename Constrain = NoConstrain<T>,
           typename Marshaller = DefaultMarshaller<T>,
           typename Annotation = NoAnnotation>
-class Option : public OptionBaseV2 {
+class Option : public OptionBaseV3 {
 public:
     using value_type = T;
     using constrain_type = Constrain;
@@ -292,7 +292,7 @@ public:
            const T &defaultValue = T(), Constrain constrain = Constrain(),
            Marshaller marshaller = Marshaller(),
            Annotation annotation = Annotation())
-        : OptionBaseV2(parent, std::move(path), std::move(description)),
+        : OptionBaseV3(parent, std::move(path), std::move(description)),
           defaultValue_(defaultValue), value_(defaultValue),
           marshaller_(marshaller), constrain_(constrain),
           annotation_(annotation) {

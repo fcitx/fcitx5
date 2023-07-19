@@ -154,6 +154,7 @@ public:
 
     std::list<std::unique_ptr<InputContextEvent>> blockedEvents_;
     bool blockEventToClient_ = false;
+    bool lastPreeditUpdateIsEmpty_ = true;
 };
 } // namespace fcitx
 

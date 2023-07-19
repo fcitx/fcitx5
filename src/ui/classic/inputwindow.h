@@ -53,7 +53,8 @@ class InputWindow {
 public:
     InputWindow(ClassicUI *parent);
     std::pair<int, int> update(InputContext *inputContext);
-    void paint(cairo_t *cr, unsigned int width, unsigned int height);
+    void paint(cairo_t *cr, unsigned int width, unsigned int height,
+               double scale);
     void hide();
     bool visible() const { return visible_; }
     bool hover(int x, int y);

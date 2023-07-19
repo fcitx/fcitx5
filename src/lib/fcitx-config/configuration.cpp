@@ -147,7 +147,12 @@ void Configuration::syncDefaultValueToCurrent() {
     for (const auto &path : d->optionsOrder_) {
         auto iter = d->options_.find(path);
         assert(iter != d->options_.end());
-        if (auto optionV2 = dynamic_cast<OptionBaseV2 *>(iter->second)) {
+        // Unfortunately on certain system OptionBaseV2 doesn't have key
+        // function emit type info, so we have to add OptionBaseV3 with a
+        // non-abstract virtual funciton.
+        if (auto optionV3 = dynamic_cast<OptionBaseV3 *>(iter->second)) {
+            optionV3->syncDefaultValueToCurrent();
+        } else if (auto optionV2 = dynamic_cast<OptionBaseV2 *>(iter->second)) {
             optionV2->syncDefaultValueToCurrent();
         }
     }

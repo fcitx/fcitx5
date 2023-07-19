@@ -46,11 +46,6 @@ namespace fcitx {
 
 namespace {
 
-bool isInFlatpak() {
-    static bool inFlatpak = fs::isreg("/.flatpak-info");
-    return inFlatpak;
-}
-
 std::string getSocketPath(bool isWayland) {
     auto *path = getenv("IBUS_ADDRESS_FILE");
     if (path) {
@@ -695,7 +690,15 @@ IBusFrontendModule::IBusFrontendModule(Instance *instance)
         FCITX_IBUS_WARN() << "Can not get portal ibus name right now.";
     }
 
-    replaceIBus(/*recheck=*/true);
+    // Add some delay for the initial check, since xcb may trigger a ibus
+    // restart on GNOME.
+    timeEvent_ = instance->eventLoop().addTimeEvent(
+        CLOCK_MONOTONIC, now(CLOCK_MONOTONIC) + 1000000, 0,
+        [this](EventSourceTime *, uint64_t) {
+            replaceIBus(/*recheck=*/true);
+            return true;
+        });
+    ;
 }
 
 IBusFrontendModule::~IBusFrontendModule() {

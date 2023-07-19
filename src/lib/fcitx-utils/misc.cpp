@@ -8,6 +8,8 @@
 #include <sys/wait.h>
 #include <unistd.h>
 #include <fmt/format.h>
+#include "fcitx-utils/fs.h"
+#include "fcitx-utils/misc_p.h"
 #include "config.h"
 #include "log.h"
 
@@ -131,6 +133,16 @@ ssize_t getline(UniqueCPtr<char> &lineptr, size_t *n, std::FILE *stream) {
     auto ret = getline(&lineRawPtr, n, stream);
     lineptr.reset(lineRawPtr);
     return ret;
+}
+
+bool isInFlatpak() {
+    static const bool flatpak = []() {
+        if (checkBoolEnvVar("FCITX_OVERRIDE_FLATPAK")) {
+            return true;
+        }
+        return fs::isreg("/.flatpak-info");
+    }();
+    return flatpak;
 }
 
 } // namespace fcitx

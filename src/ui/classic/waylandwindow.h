@@ -13,6 +13,10 @@
 #include "waylandui.h"
 #include "window.h"
 #include "wl_surface.h"
+#include "wp_fractional_scale_manager_v1.h"
+#include "wp_fractional_scale_v1.h"
+#include "wp_viewport.h"
+#include "wp_viewporter.h"
 
 namespace fcitx {
 namespace classicui {
@@ -26,11 +30,14 @@ public:
     void destroyWindow();
     virtual void hide() = 0;
 
-    int32_t scale() const { return scale_; }
+    float bufferScale() const {
+        return viewport_ ? lastFractionalScale_ : lastOutputScale_;
+    }
+    int32_t outputScale() const { return lastOutputScale_; }
     wl_output_transform transform() const { return transform_; }
     bool setScaleAndTransform(int32_t scale, wl_output_transform transform) {
-        if (scale_ != scale || transform_ != transform) {
-            scale_ = scale;
+        if (lastOutputScale_ != scale || transform_ != transform) {
+            lastOutputScale_ = scale;
             transform_ = transform;
             return true;
         }
@@ -47,10 +54,12 @@ public:
     auto &touchDown() { return touchDown_; }
     auto &touchUp() { return touchUp_; }
 
+    void updateScale();
+
 protected:
     WaylandUI *ui_;
     std::unique_ptr<wayland::WlSurface> surface_;
-    std::list<fcitx::ScopedConnection> conns_;
+    fcitx::ScopedConnection enterConn_;
     Signal<void()> repaint_;
     Signal<void(int, int)> hover_;
     Signal<void(int, int, uint32_t, uint32_t)> click_;
@@ -63,12 +72,28 @@ protected:
     Rect serverAllocation_;
     Rect allocation_;
 
-    int scale_ = 1;
+    int lastOutputScale_ = 1;
+    double lastFractionalScale_ = 1.0;
     wl_output_transform transform_ = WL_OUTPUT_TRANSFORM_NORMAL;
+
+    std::shared_ptr<wayland::WpViewporter> viewporter_;
+    std::shared_ptr<wayland::WpFractionalScaleManagerV1>
+        fractionalScaleManager_;
+
+    std::unique_ptr<wayland::WpViewport> viewport_;
+    std::unique_ptr<wayland::WpFractionalScaleV1> fractionalScale_;
+    std::unique_ptr<EventSource> repaintEvent_;
+
+private:
+    void resetFractionalScale();
+    // Avoid repaint being done too much.
+    // For input window, since it will re-created frequently, the initial scale
+    // might be wrong. To avoid show blurry 1x on scaled monitor, we always use
+    // the last value. But just "upon" window is shown on screen, more than one
+    // new scale might arrive. Do not repaint upon every scale change.
+    void scheduleRepaint();
 };
 
-void bufferToSurfaceSize(enum wl_output_transform buffer_transform,
-                         int32_t buffer_scale, int32_t *width, int32_t *height);
 } // namespace classicui
 } // namespace fcitx
 

@@ -411,6 +411,8 @@ public:
         blockedEvents_.clear();
     }
 
+    void sendFocusOut() { notifyFocusOutTo(name_); }
+
 private:
     FCITX_OBJECT_VTABLE_METHOD(focusInDBus, "FocusIn", "", "");
     FCITX_OBJECT_VTABLE_METHOD(focusOutDBus, "FocusOut", "", "");
@@ -460,6 +462,7 @@ private:
     FCITX_OBJECT_VTABLE_SIGNAL(updateClientSideUI, "UpdateClientSideUI",
                                "a(si)ia(si)a(si)a(ss)iibb");
     FCITX_OBJECT_VTABLE_SIGNAL(forwardKeyDBus, "ForwardKey", "uub");
+    FCITX_OBJECT_VTABLE_SIGNAL(notifyFocusOut, "NotifyFocusOut", "");
 
     dbus::ObjectPath path_;
     InputMethod1 *im_;
@@ -538,7 +541,7 @@ DBusFrontendModule::DBusFrontendModule(Instance *instance)
         [this](Event &event) {
             auto &activated = static_cast<InputMethodActivatedEvent &>(event);
             auto *ic = activated.inputContext();
-            if (strcmp(ic->frontend(), "dbus") == 0) {
+            if (ic->frontendName() == "dbus") {
                 if (const auto *entry = instance_->inputMethodManager().entry(
                         activated.name())) {
                     static_cast<DBusInputContext1 *>(ic)->updateIM(entry);
@@ -548,11 +551,23 @@ DBusFrontendModule::DBusFrontendModule(Instance *instance)
     events_.emplace_back(instance_->watchEvent(
         EventType::UIChanged, EventWatcherPhase::Default, [this](Event &) {
             instance_->inputContextManager().foreach([](InputContext *ic) {
-                if (strcmp(ic->frontend(), "dbus") == 0) {
+                if (ic->frontendName() == "dbus") {
                     static_cast<DBusInputContext1 *>(ic)->updateCapability();
                 }
                 return true;
             });
+        }));
+    events_.emplace_back(instance_->watchEvent(
+        EventType::InputContextFocusOut, EventWatcherPhase::PreInputMethod,
+        [](Event &event) {
+            // Right now we do this regardless of it's coming from client or
+            // server. We may want to save some dbus message if we can
+            // distinguish between two different type of focus out event.
+            auto &focusOut = static_cast<FocusOutEvent &>(event);
+            InputContext *ic = focusOut.inputContext();
+            if (ic->frontendName() == "dbus") {
+                static_cast<DBusInputContext1 *>(ic)->sendFocusOut();
+            }
         }));
 }
 

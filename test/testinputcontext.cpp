@@ -6,11 +6,19 @@
  */
 
 #include <vector>
+#include "fcitx-utils/capabilityflags.h"
+#include "fcitx-utils/eventdispatcher.h"
 #include "fcitx-utils/log.h"
+#include "fcitx-utils/testing.h"
+#include "fcitx/addonmanager.h"
 #include "fcitx/focusgroup.h"
 #include "fcitx/inputcontext.h"
 #include "fcitx/inputcontextmanager.h"
 #include "fcitx/inputcontextproperty.h"
+#include "fcitx/instance.h"
+#include "fcitx/userinterface.h"
+#include "testdir.h"
+#include "testfrontend_public.h"
 
 #define TEST_FOCUS(ARGS...)                                                    \
     do {                                                                       \
@@ -216,10 +224,113 @@ void test_preedit_override() {
     FCITX_ASSERT(ic->capabilityFlags().test(CapabilityFlag::Preedit));
 }
 
+void test_event_blocking() {
+    InputContextManager manager;
+    auto ic = std::make_unique<TestInputContext>(manager, "Firefox");
+    ic->setCapabilityFlags(CapabilityFlag::Preedit);
+    ic->commitString("ABC");
+
+    FCITX_ASSERT(!ic->hasPendingEvents());
+    FCITX_ASSERT(!ic->hasPendingEventsStrictOrder());
+
+    ic->setBlockEventToClient(true);
+    ic->commitString("ABC");
+    FCITX_ASSERT(ic->hasPendingEvents());
+    FCITX_ASSERT(ic->hasPendingEventsStrictOrder());
+
+    ic->setBlockEventToClient(false);
+    FCITX_ASSERT(!ic->hasPendingEvents());
+    FCITX_ASSERT(!ic->hasPendingEventsStrictOrder());
+
+    ic->setBlockEventToClient(true);
+    ic->commitString("ABC");
+    ic->updatePreedit();
+    FCITX_ASSERT(ic->hasPendingEvents());
+    FCITX_ASSERT(ic->hasPendingEventsStrictOrder());
+
+    ic->setBlockEventToClient(false);
+    FCITX_ASSERT(!ic->hasPendingEvents());
+    FCITX_ASSERT(!ic->hasPendingEventsStrictOrder());
+
+    ic->setBlockEventToClient(true);
+    ic->updatePreedit();
+    FCITX_ASSERT(ic->hasPendingEvents());
+    FCITX_ASSERT(!ic->hasPendingEventsStrictOrder());
+
+    ic->setBlockEventToClient(false);
+    FCITX_ASSERT(!ic->hasPendingEvents());
+    FCITX_ASSERT(!ic->hasPendingEventsStrictOrder());
+}
+
+void scheduleEvent(EventDispatcher *dispatcher, Instance *instance) {
+    dispatcher->schedule([dispatcher, instance]() {
+        auto *testfrontend = instance->addonManager().addon("testfrontend");
+        auto uuid =
+            testfrontend->call<ITestFrontend::createInputContext>("testapp");
+        auto *ic = instance->inputContextManager().findByUUID(uuid);
+        FCITX_ASSERT(ic);
+        {
+            bool customUICallbackCalled = false;
+            ic->inputPanel().setCustomInputPanelCallback(
+                [&customUICallbackCalled](InputContext *) {
+                    customUICallbackCalled = true;
+                });
+            ic->updateUserInterface(UserInterfaceComponent::InputPanel, true);
+            FCITX_ASSERT(customUICallbackCalled);
+
+            customUICallbackCalled = false;
+            ic->inputPanel().reset();
+            ic->updateUserInterface(UserInterfaceComponent::InputPanel, true);
+            FCITX_ASSERT(!customUICallbackCalled);
+        }
+        {
+            ic->setCapabilityFlags(CapabilityFlag::ClientSideInputPanel);
+            bool customUICallbackCalled = false;
+            ic->inputPanel().setCustomInputPanelCallback(
+                [&customUICallbackCalled](InputContext *) {
+                    customUICallbackCalled = true;
+                });
+            ic->updateUserInterface(UserInterfaceComponent::InputPanel, true);
+            FCITX_ASSERT(customUICallbackCalled);
+        }
+
+        dispatcher->schedule([dispatcher, instance]() {
+            dispatcher->detach();
+            instance->exit();
+        });
+    });
+}
+
+void test_custom_panel() {
+
+    setupTestingEnvironment(FCITX5_BINARY_DIR,
+                            {"testing/testfrontend", "testing/testui"},
+                            {"test"});
+
+    char arg0[] = "testcompose";
+    char arg1[] = "--disable=all";
+    char arg2[] = "--enable=testfrontend,testim,testui";
+    char *argv[] = {arg0, arg1, arg2};
+    try {
+        Instance instance(FCITX_ARRAY_SIZE(argv), argv);
+        instance.addonManager().registerDefaultLoader(nullptr);
+        EventDispatcher dispatcher;
+        dispatcher.attach(&instance.eventLoop());
+        scheduleEvent(&dispatcher, &instance);
+
+        instance.exec();
+    } catch (const InstanceQuietQuit &) {
+    } catch (const std::exception &e) {
+        FCITX_FATAL() << "Received exception: " << e.what();
+    }
+}
+
 int main() {
     test_simple();
     test_property();
     test_preedit_override();
+    test_event_blocking();
+    test_custom_panel();
 
     return 0;
 }

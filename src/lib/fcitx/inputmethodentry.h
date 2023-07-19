@@ -41,6 +41,19 @@ public:
     const std::string &uniqueName() const;
     const std::string &languageCode() const;
     const std::string &addon() const;
+    /**
+     * A compact label that intented to be shown in a compact space.
+     *
+     * usually some latin-character, or a single character of the input method
+     * language.
+     *
+     * UI may choose to strip it to a shorter version if the content is too
+     * long. For example, classicui will take the first section of text to make
+     * it fit with in 3 character width. custom -> cus fr-tg -> fr mon-a1 -> mon
+     * us (intl) -> us
+     *
+     * @return label text
+     */
     const std::string &label() const;
     bool isConfigurable() const;
 

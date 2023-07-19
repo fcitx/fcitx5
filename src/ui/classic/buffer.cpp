@@ -154,9 +154,9 @@ Buffer::~Buffer() {
     }
 }
 
-void Buffer::attachToSurface(WlSurface *surface, int scale) {
+bool Buffer::attachToSurface(WlSurface *surface, int scale) {
     if (busy_) {
-        return;
+        return false;
     }
     busy_ = true;
     callback_.reset(surface->frame());
@@ -171,7 +171,7 @@ void Buffer::attachToSurface(WlSurface *surface, int scale) {
     surface->attach(buffer(), 0, 0);
     surface->setBufferScale(scale);
     surface->damage(0, 0, width_, height_);
-    surface->commit();
+    return true;
 }
 
 } // namespace fcitx::wayland

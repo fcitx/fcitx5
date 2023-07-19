@@ -16,6 +16,7 @@
 #include <utility>
 #include <vector>
 #include <fcitx-utils/macros.h>
+#include "fcitxutils_export.h"
 
 namespace fcitx {
 
@@ -131,6 +132,16 @@ inline auto makeUniqueCPtr(T *ptr) {
 
 FCITXUTILS_EXPORT ssize_t getline(UniqueCPtr<char> &lineptr, size_t *n,
                                   std::FILE *stream);
+
+/**
+ * Util function to check whether fcitx is running in flatpak.
+ *
+ * If environment variable FCITX_OVERRIDE_FLATPAK is true, it will return true.
+ * Otherwise it will simply check the existence of file /.flatpak-info .
+ *
+ * @since 5.0.24
+ */
+FCITXUTILS_EXPORT bool isInFlatpak();
 
 } // namespace fcitx
 

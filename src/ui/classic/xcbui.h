@@ -23,6 +23,8 @@ enum class XCBHintStyle { Default, NoHint, Medium, Slight, Full };
 
 enum class XCBRGBA { Default, NoRGBA, RGB, BGR, VRGB, VBGR };
 
+class XCBWindow;
+
 struct XCBFontOption {
     int dpi = -1;
     bool antialias = true;
@@ -39,7 +41,7 @@ public:
     ~XCBUI();
 
     ClassicUI *parent() const { return parent_; }
-    const std::string &name() const { return name_; }
+    const std::string &displayName() const { return displayName_; }
     xcb_connection_t *connection() const { return conn_; }
     xcb_ewmh_connection_t *ewmh() const { return ewmh_; }
     xcb_window_t root() const { return root_; }
@@ -59,6 +61,10 @@ public:
     int scaledDPI(int dpi);
     const XCBFontOption &fontOption() const { return fontOption_; }
 
+    bool grabPointer(XCBWindow *window);
+    void ungrabPointer();
+    XCBWindow *pointerGrabber() const { return pointerGrabber_; }
+
 private:
     void refreshCompositeManager();
     void refreshManager();
@@ -68,8 +74,9 @@ private:
     void scheduleUpdateScreen();
 
     ClassicUI *parent_;
-    std::string name_;
+    std::string displayName_;
     xcb_connection_t *conn_;
+    XCBWindow *pointerGrabber_;
     xcb_window_t root_ = XCB_WINDOW_NONE;
     xcb_ewmh_connection_t *ewmh_;
     int defaultScreen_;

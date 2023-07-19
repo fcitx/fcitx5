@@ -66,6 +66,16 @@ public:
     /// Remove this bus from an event loop.
     void detachEventLoop();
 
+    /**
+     * Return the attached event loop
+     *
+     * @return attached event loop, not necessary a valid pointer if event loop
+     * is destructed before bus.
+     *
+     * @since 5.0.22
+     */
+    EventLoop *eventLoop() const;
+
     FCITX_NODISCARD std::unique_ptr<Slot> addMatch(const MatchRule &rule,
                                                    MessageCallback callback);
     FCITX_NODISCARD std::unique_ptr<Slot> addFilter(MessageCallback callback);

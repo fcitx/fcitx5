@@ -63,7 +63,9 @@ public:
 
     FCITX_INLINE_DEFINE_DEFAULT_DTOR_COPY_AND_MOVE(Connection)
 
+    // FIXME: merge this
     bool connected() { return body_.isValid(); }
+    bool connected() const { return body_.isValid(); }
 
     void disconnect() {
         auto *body = body_.get();

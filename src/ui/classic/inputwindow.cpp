@@ -5,9 +5,14 @@
  *
  */
 #include "inputwindow.h"
+#include <cmath>
 #include <functional>
 #include <initializer_list>
 #include <limits>
+#include <cairo.h>
+#include <pango/pango-context.h>
+#include <pango/pango-font.h>
+#include <pango/pango-layout.h>
 #include <pango/pangocairo.h>
 #include "fcitx-utils/color.h"
 #include "fcitx-utils/log.h"
@@ -16,6 +21,7 @@
 #include "fcitx/instance.h"
 #include "fcitx/misc_p.h"
 #include "classicui.h"
+#include "theme.h"
 
 namespace fcitx::classicui {
 
@@ -51,7 +57,21 @@ static void renderLayout(cairo_t *cr, PangoLayout *layout, int x, int y) {
     auto yOffset = PANGO_PIXELS(ascent - baseline);
     cairo_save(cr);
 
+    // Ensure the text are not painting on half pixel.
     cairo_move_to(cr, x, y + yOffset);
+    double dx, dy, odx, ody;
+    cairo_get_current_point(cr, &dx, &dy);
+    // Save old user value
+    odx = dx;
+    ody = dy;
+    // Convert to device and round.
+    cairo_user_to_device(cr, &dx, &dy);
+    double ndx = std::round(dx);
+    double ndy = std::round(dy);
+    // Convert back to user and calculate delta.
+    cairo_device_to_user(cr, &ndx, &ndy);
+    cairo_move_to(cr, x + ndx - odx, y + yOffset + ndy - ody);
+
     prepareLayout(cr, layout);
     pango_cairo_show_layout(cr, layout);
 
@@ -447,58 +467,20 @@ std::pair<unsigned int, unsigned int> InputWindow::sizeHint() {
     return {width, height};
 }
 
-void InputWindow::paint(cairo_t *cr, unsigned int width, unsigned int height) {
+void InputWindow::paint(cairo_t *cr, unsigned int width, unsigned int height,
+                        double scale) {
+    cairo_scale(cr, scale, scale);
     auto &theme = parent_->theme();
     cairo_set_operator(cr, CAIRO_OPERATOR_SOURCE);
-    theme.paint(cr, *theme.inputPanel->background, width, height);
+    theme.paint(cr, *theme.inputPanel->background, width, height, /*alpha=*/1.0,
+                scale);
     const auto &margin = *theme.inputPanel->contentMargin;
     const auto &textMargin = *theme.inputPanel->textMargin;
     cairo_set_operator(cr, CAIRO_OPERATOR_OVER);
     cairo_save(cr);
 
-    prevRegion_ = Rect();
-    nextRegion_ = Rect();
-    if (nCandidates_ && (hasPrev_ || hasNext_)) {
-        const auto &prev = theme.loadAction(*theme.inputPanel->prev);
-        const auto &next = theme.loadAction(*theme.inputPanel->next);
-        if (prev.valid() && next.valid()) {
-            cairo_save(cr);
-            nextRegion_.setPosition(width - *margin.marginRight - next.width(),
-                                    height - *margin.marginBottom -
-                                        next.height());
-            nextRegion_.setSize(next.width(), next.height());
-            cairo_translate(cr, nextRegion_.left(), nextRegion_.top());
-            shrink(nextRegion_, *theme.inputPanel->next->clickMargin);
-            double alpha = 1.0;
-            if (!hasNext_) {
-                alpha = 0.3;
-            } else if (nextHovered_) {
-                alpha = 0.7;
-            }
-            theme.paint(cr, *theme.inputPanel->next, alpha);
-            cairo_restore(cr);
-            cairo_save(cr);
-            prevRegion_.setPosition(
-                width - *margin.marginRight - next.width() - prev.width(),
-                height - *margin.marginBottom - prev.height());
-            prevRegion_.setSize(prev.width(), prev.height());
-            cairo_translate(cr, prevRegion_.left(), prevRegion_.top());
-            shrink(prevRegion_, *theme.inputPanel->prev->clickMargin);
-            alpha = 1.0;
-            if (!hasPrev_) {
-                alpha = 0.3;
-            } else if (prevHovered_) {
-                alpha = 0.7;
-            }
-            theme.paint(cr, *theme.inputPanel->prev, alpha);
-            cairo_restore(cr);
-        }
-    }
-
     // Move position to the right place.
     cairo_translate(cr, *margin.marginLeft, *margin.marginTop);
-
-    cairo_save(cr);
     cairoSetSourceColor(cr, *theme.inputPanel->normalColor);
     // CLASSICUI_DEBUG() << theme.inputPanel->normalColor->toString();
     auto *metrics = pango_context_get_metrics(
@@ -602,7 +584,8 @@ void InputWindow::paint(cairo_t *cr, unsigned int width, unsigned int height) {
                         highlightWidth + *highlightMargin.marginLeft +
                             *highlightMargin.marginRight,
                         vheight + *highlightMargin.marginTop +
-                            *highlightMargin.marginBottom);
+                            *highlightMargin.marginBottom,
+                        /*alpha=*/1.0, scale);
             cairo_restore(cr);
             highlight = true;
         }
@@ -628,6 +611,84 @@ void InputWindow::paint(cairo_t *cr, unsigned int width, unsigned int height) {
         }
     }
     cairo_restore(cr);
+
+    prevRegion_ = Rect();
+    nextRegion_ = Rect();
+    if (nCandidates_ && (hasPrev_ || hasNext_)) {
+        const auto &prev = theme.loadAction(*theme.inputPanel->prev);
+        const auto &next = theme.loadAction(*theme.inputPanel->next);
+        if (prev.valid() && next.valid()) {
+            cairo_save(cr);
+            int prevY = 0, nextY = 0;
+            switch (*theme.inputPanel->buttonAlignment) {
+            case PageButtonAlignment::Top:
+                prevY = *margin.marginTop;
+                nextY = *margin.marginTop;
+                break;
+            case PageButtonAlignment::FirstCandidate:
+                prevY =
+                    candidateRegions_.front().top() +
+                    (candidateRegions_.front().height() - prev.height()) / 2.0;
+                ;
+                nextY =
+                    candidateRegions_.front().top() +
+                    (candidateRegions_.front().height() - prev.height()) / 2.0;
+                ;
+                break;
+            case PageButtonAlignment::Center:
+                prevY =
+                    *margin.marginTop + (height - *margin.marginTop -
+                                         *margin.marginBottom - prev.height()) /
+                                            2.0;
+                nextY =
+                    *margin.marginTop + (height - *margin.marginTop -
+                                         *margin.marginBottom - next.height()) /
+                                            2.0;
+                break;
+            case PageButtonAlignment::LastCandidate:
+                prevY =
+                    candidateRegions_.back().top() +
+                    (candidateRegions_.back().height() - prev.height()) / 2.0;
+                nextY =
+                    candidateRegions_.back().top() +
+                    (candidateRegions_.back().height() - next.height()) / 2.0;
+                break;
+            case PageButtonAlignment::Bottom:
+            default:
+                prevY = height - *margin.marginBottom - prev.height();
+                nextY = height - *margin.marginBottom - next.height();
+                break;
+            }
+            nextRegion_.setPosition(width - *margin.marginRight - next.width(),
+                                    nextY);
+            nextRegion_.setSize(next.width(), next.height());
+            cairo_translate(cr, nextRegion_.left(), nextRegion_.top());
+            shrink(nextRegion_, *theme.inputPanel->next->clickMargin);
+            double alpha = 1.0;
+            if (!hasNext_) {
+                alpha = 0.3;
+            } else if (nextHovered_) {
+                alpha = 0.7;
+            }
+            theme.paint(cr, *theme.inputPanel->next, alpha);
+            cairo_restore(cr);
+            cairo_save(cr);
+            prevRegion_.setPosition(width - *margin.marginRight - next.width() -
+                                        prev.width(),
+                                    prevY);
+            prevRegion_.setSize(prev.width(), prev.height());
+            cairo_translate(cr, prevRegion_.left(), prevRegion_.top());
+            shrink(prevRegion_, *theme.inputPanel->prev->clickMargin);
+            alpha = 1.0;
+            if (!hasPrev_) {
+                alpha = 0.3;
+            } else if (prevHovered_) {
+                alpha = 0.7;
+            }
+            theme.paint(cr, *theme.inputPanel->prev, alpha);
+            cairo_restore(cr);
+        }
+    }
 }
 
 void InputWindow::click(int x, int y) {

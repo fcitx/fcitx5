@@ -10,6 +10,7 @@
 #include <memory>
 #include <string>
 #include <vector>
+#include <fcitx-utils/dbus/message.h>
 #include <fcitx-utils/macros.h>
 
 /// \addtogroup FcitxUtils
@@ -35,16 +36,25 @@ public:
     explicit MatchRule(std::string service, std::string path = "",
                        std::string interface = "", std::string name = "",
                        std::vector<std::string> argumentMatch = {});
+    explicit MatchRule(MessageType type, std::string service,
+                       std::string destination = "", std::string path = "",
+                       std::string interface = "", std::string name = "",
+                       std::vector<std::string> argumentMatch = {},
+                       bool eavesdrop = false);
 
     FCITX_DECLARE_VIRTUAL_DTOR_COPY_AND_MOVE(MatchRule)
+
+    MessageType messageType() const noexcept;
 
     const std::string &rule() const noexcept;
 
     const std::string &service() const noexcept;
+    const std::string &destination() const noexcept;
     const std::string &path() const noexcept;
     const std::string &interface() const noexcept;
     const std::string &name() const noexcept;
     const std::vector<std::string> &argumentMatch() const noexcept;
+    bool eavesdrop() const noexcept;
 
     bool check(Message &, const std::string &alterName = {}) const;
 

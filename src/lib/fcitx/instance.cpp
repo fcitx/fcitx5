@@ -18,6 +18,7 @@
 #include "fcitx-utils/event.h"
 #include "fcitx-utils/i18n.h"
 #include "fcitx-utils/log.h"
+#include "fcitx-utils/misc.h"
 #include "fcitx-utils/standardpath.h"
 #include "fcitx-utils/stringutils.h"
 #include "fcitx-utils/utf8.h"
@@ -99,7 +100,7 @@ bool shouldSwitchIM(const CapabilityFlags &oldFlags,
 
 } // namespace
 
-void InstanceArgument::printUsage() {
+void InstanceArgument::printUsage() const {
     std::cout
         << "Usage: " << argv0 << " [Option]\n"
         << "  --disable <addon names>\tA comma separated list of addons to "
@@ -666,7 +667,6 @@ Instance::Instance(int argc, char **argv) {
                 d->lastGroup_ = newGroup;
             }));
 
-    d->icManager_.registerProperty("inputState", &d->inputStateFactory_);
     d->eventWatchers_.emplace_back(d->watchEvent(
         EventType::InputContextCapabilityAboutToChange,
         EventWatcherPhase::ReservedFirst, [this](Event &event) {
@@ -1014,7 +1014,7 @@ Instance::Instance(int argc, char **argv) {
         }));
     d->eventWatchers_.emplace_back(d->watchEvent(
         EventType::InputContextFocusOut, EventWatcherPhase::ReservedFirst,
-        [this, d](Event &event) {
+        [d](Event &event) {
             auto &icEvent = static_cast<InputContextEvent &>(event);
             auto *ic = icEvent.inputContext();
             auto *inputState = ic->propertyFor(&d->inputStateFactory_);
@@ -1028,6 +1028,11 @@ Instance::Instance(int argc, char **argv) {
                     ic->commitString(commit);
                 }
             }
+        }));
+    d->eventWatchers_.emplace_back(d->watchEvent(
+        EventType::InputContextFocusOut, EventWatcherPhase::InputMethod,
+        [this](Event &event) {
+            auto &icEvent = static_cast<InputContextEvent &>(event);
             deactivateInputMethod(icEvent);
             if (virtualKeyboardAutoHide()) {
                 auto *inputContext = icEvent.inputContext();
@@ -1293,6 +1298,7 @@ void Instance::initialize() {
         d->arg_.enableList.push_back(d->arg_.uiName);
     }
     reloadConfig();
+    d->icManager_.registerProperty("inputState", &d->inputStateFactory_);
     std::unordered_set<std::string> enabled;
     std::unordered_set<std::string> disabled;
     std::tie(enabled, disabled) = d->overrideAddons();
@@ -1512,9 +1518,8 @@ bool Instance::postEvent(Event &event) const {
                                                           : XKB_KEY_DOWN);
             } while (0);
 #endif
-            if (ic->hasPendingEvents() &&
-                ic->capabilityFlags().test(CapabilityFlag::KeyEventOrderFix) &&
-                !keyEvent.accepted()) {
+            if (ic->capabilityFlags().test(CapabilityFlag::KeyEventOrderFix) &&
+                !keyEvent.accepted() && ic->hasPendingEventsStrictOrder()) {
                 // Re-forward the event to ensure we got delivered later than
                 // commit.
                 keyEvent.filterAndAccept();
@@ -1873,11 +1878,13 @@ void Instance::reloadConfig() {
     }
 #ifdef ENABLE_KEYBOARD
     d->keymapCache_.clear();
-    d->icManager_.foreach([d](InputContext *ic) {
-        auto *inputState = ic->propertyFor(&d->inputStateFactory_);
-        inputState->resetXkbState();
-        return true;
-    });
+    if (d->inputStateFactory_.registered()) {
+        d->icManager_.foreach([d](InputContext *ic) {
+            auto *inputState = ic->propertyFor(&d->inputStateFactory_);
+            inputState->resetXkbState();
+            return true;
+        });
+    }
 #endif
 }
 
@@ -2351,7 +2358,7 @@ void Instance::showInputMethodInformation(InputContext *ic) {
 
 bool Instance::checkUpdate() const {
     FCITX_D();
-    return (d->inFlatpak_ && fs::isreg("/app/.updated")) ||
+    return (isInFlatpak() && fs::isreg("/app/.updated")) ||
            d->addonManager_.checkUpdate() || d->imManager_.checkUpdate() ||
            postEvent(CheckUpdateEvent());
 }
@@ -2400,6 +2407,11 @@ void Instance::updateXkbStateMask(const std::string &display,
     FCITX_D();
     d->stateMask_[display] =
         std::make_tuple(depressed_mods, latched_mods, locked_mods);
+}
+
+void Instance::clearXkbStateMask(const std::string &display) {
+    FCITX_D();
+    d->stateMask_.erase(display);
 }
 
 const char *Instance::version() { return FCITX_VERSION_STRING; }

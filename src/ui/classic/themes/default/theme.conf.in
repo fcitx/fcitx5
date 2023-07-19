@@ -9,7 +9,7 @@ ScaleWithDPI=True
 Font=Sans 10
 NormalColor=#000000
 HighlightColor=#ffffff
-Spacing=3
+PageButtonAlignment=Last Candidate
 
 [InputPanel/TextMargin]
 Left=5
@@ -24,7 +24,10 @@ Top=2
 Bottom=2
 
 [InputPanel/Background]
-Image=panel.png
+Image=
+Color=#ffffff
+BorderColor=#c0c0c0
+BorderWidth=2
 
 [InputPanel/Background/Margin]
 Left=2
@@ -33,7 +36,8 @@ Top=2
 Bottom=2
 
 [InputPanel/Highlight]
-Image=highlight.png
+Image=
+Color=#808080
 
 [InputPanel/Highlight/Margin]
 Left=5
@@ -60,7 +64,10 @@ Top=4
 Bottom=4
 
 [Menu/Background]
-Image=panel.png
+Image=
+Color=#ffffff
+BorderColor=#c0c0c0
+BorderWidth=2
 
 [Menu/Background/Margin]
 Left=2
@@ -81,7 +88,8 @@ Image=radio.png
 Image=arrow.png
 
 [Menu/Highlight]
-Image=highlight.png
+Image=
+Color=#808080
 
 [Menu/Highlight/Margin]
 Left=5

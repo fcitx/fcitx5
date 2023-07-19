@@ -225,7 +225,7 @@ void XCBKeyboard::updateKeymap() {
 
 xcb_atom_t XCBKeyboard::xkbRulesNamesAtom() {
     if (!xkbRulesNamesAtom_) {
-        xkbRulesNamesAtom_ = conn_->atom(_XKB_RF_NAMES_PROP_ATOM, true);
+        xkbRulesNamesAtom_ = conn_->atom(_XKB_RF_NAMES_PROP_ATOM, false);
     }
     return xkbRulesNamesAtom_;
 }

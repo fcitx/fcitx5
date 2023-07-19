@@ -51,7 +51,8 @@ struct XkbRulesParseState;
 class XkbRules {
 public:
     friend struct XkbRulesParseState;
-    bool read(const std::string &fileName);
+    bool read(const std::vector<std::string> &directories,
+              const std::string &name, const std::string &extraFile);
 #ifdef _TEST_XKBRULES
     void dump();
 #endif

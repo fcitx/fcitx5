@@ -7,13 +7,17 @@
 #ifndef _FCITX5_FRONTEND_WAYLANDIM_WAYLANDIMSERVER_H_
 #define _FCITX5_FRONTEND_WAYLANDIM_WAYLANDIMSERVER_H_
 
+#include <memory>
 #include <wayland-client.h>
 #include <xkbcommon/xkbcommon.h>
 #include "fcitx-utils/event.h"
 #include "fcitx/focusgroup.h"
+#include "fcitx/inputcontext.h"
 #include "fcitx/inputcontextmanager.h"
 #include "fcitx/instance.h"
+#include "appmonitor.h"
 #include "display.h"
+#include "virtualinputcontext.h"
 #include "wayland-text-input-unstable-v1-client-protocol.h"
 #include "wl_keyboard.h"
 #include "zwp_input_method_context_v1.h"
@@ -72,7 +76,7 @@ private:
     TrackableObjectReference<InputContext> globalIc_;
 };
 
-class WaylandIMInputContextV1 : public InputContext {
+class WaylandIMInputContextV1 : public VirtualInputContextGlue {
 public:
     WaylandIMInputContextV1(InputContextManager &inputContextManager,
                             WaylandIMServer *server);
@@ -84,14 +88,17 @@ public:
     void deactivate(wayland::ZwpInputMethodContextV1 *id);
 
 protected:
-    void commitStringImpl(const std::string &text) override {
+    void commitStringDelegate(InputContext *,
+                              const std::string &text) const override {
         if (!ic_) {
             return;
         }
         ic_->commitString(serial_, text.c_str());
     }
-    void deleteSurroundingTextImpl(int offset, unsigned int size) override;
-    void forwardKeyImpl(const ForwardKeyEvent &key) override {
+    void deleteSurroundingTextDelegate(InputContext *ic, int offset,
+                                       unsigned int size) const override;
+    void forwardKeyDelegate(InputContext *,
+                            const ForwardKeyEvent &key) const override {
         if (!ic_) {
             return;
         }
@@ -105,7 +112,7 @@ protected:
         }
     }
 
-    void updatePreeditImpl() override;
+    void updatePreeditDelegate(InputContext *ic) const override;
 
 private:
     void repeat();
@@ -125,7 +132,8 @@ private:
                            uint32_t group);
     void repeatInfoCallback(int32_t rate, int32_t delay);
 
-    void sendKey(uint32_t time, uint32_t sym, uint32_t state, KeyStates states);
+    void sendKey(uint32_t time, uint32_t sym, uint32_t state,
+                 KeyStates states) const;
     void sendKeyToVK(uint32_t time, uint32_t key, uint32_t state);
 
     static uint32_t toModifiers(KeyStates states) {
@@ -150,6 +158,7 @@ private:
     std::unique_ptr<wayland::ZwpInputMethodContextV1> ic_;
     std::unique_ptr<wayland::WlKeyboard> keyboard_;
     std::unique_ptr<EventSourceTime> timeEvent_;
+    std::unique_ptr<VirtualInputContextManager> virtualICManager_;
     uint32_t serial_ = 0;
     uint32_t time_ = 0;
 

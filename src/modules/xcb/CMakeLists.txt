@@ -1,7 +1,7 @@
 if (ENABLE_X11)
 add_library(xcb MODULE xcbmodule.cpp xcbconnection.cpp xcbconvertselection.cpp xcbkeyboard.cpp
 xcbeventreader.cpp)
-target_link_libraries(xcb Fcitx5::Core XCB::XCB XCB::AUX XCB::XKB XCB::XFIXES XCB::EWMH XCB::KEYSYMS XKBCommon::XKBCommon XKBCommon::X11 PkgConfig::XkbFile Pthread::Pthread ${FMT_TARGET} Fcitx5::Module::Notifications)
+target_link_libraries(xcb Fcitx5::Core XCB::XCB XCB::AUX XCB::XKB XCB::XFIXES XCB::EWMH XCB::RANDR XCB::KEYSYMS XKBCommon::XKBCommon XKBCommon::X11 PkgConfig::XkbFile Pthread::Pthread ${FMT_TARGET} Fcitx5::Module::Notifications)
 
 if (ENABLE_DBUS)
     target_link_libraries(xcb Fcitx5::Module::DBus)
