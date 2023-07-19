@@ -8,6 +8,7 @@
 #define _FCITX_UI_CLASSIC_XCBMENU_H_
 
 #include <pango/pango.h>
+#include <xcb/xproto.h>
 #include "fcitx/menu.h"
 #include "common.h"
 #include "xcbwindow.h"
@@ -50,6 +51,8 @@ public:
     // Hide all of its child.
     void hideChilds();
 
+    void hideAll();
+
     // Raise the menu.
     void raise();
 
@@ -65,6 +68,10 @@ public:
     bool childHasMouse() const;
 
 private:
+    void handleButtonPress(int eventX, int eventY);
+    void handleMotionNotify(int eventX, int eventY);
+    XCBMenu *childByPosition(int rootX, int rootY);
+
     void hideTillMenuHasMouseOrTopLevelHelper();
     InputContext *lastRelevantIc();
     void update();

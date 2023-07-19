@@ -9,10 +9,13 @@
 #include <xcb/randr.h>
 #include <xcb/xcb_aux.h>
 #include <xcb/xinerama.h>
+#include <xcb/xproto.h>
 #include "fcitx-utils/endian_p.h"
+#include "fcitx-utils/misc.h"
 #include "fcitx-utils/stringutils.h"
 #include "xcbinputwindow.h"
 #include "xcbtraywindow.h"
+#include "xcbwindow.h"
 
 namespace fcitx::classicui {
 
@@ -757,4 +760,29 @@ void XCBUI::scheduleUpdateScreen() {
     initScreenEvent_->setNextInterval(100000);
     initScreenEvent_->setOneShot();
 }
+
+bool XCBUI::grabPointer(XCBWindow *window) {
+    auto cookie = xcb_grab_pointer(
+        conn_, false, window->wid(),
+        (XCB_EVENT_MASK_BUTTON_PRESS | XCB_EVENT_MASK_BUTTON_RELEASE |
+         XCB_EVENT_MASK_BUTTON_MOTION | XCB_EVENT_MASK_ENTER_WINDOW |
+         XCB_EVENT_MASK_LEAVE_WINDOW | XCB_EVENT_MASK_POINTER_MOTION),
+        XCB_GRAB_MODE_ASYNC, XCB_GRAB_MODE_ASYNC, XCB_WINDOW_NONE,
+        XCB_CURSOR_NONE, XCB_TIME_CURRENT_TIME);
+
+    auto reply = makeUniqueCPtr(xcb_grab_pointer_reply(conn_, cookie, nullptr));
+    if (reply && reply->status == XCB_GRAB_STATUS_SUCCESS) {
+        pointerGrabber_ = window;
+        return true;
+    }
+    return false;
+}
+
+void XCBUI::ungrabPointer() {
+    if (pointerGrabber_) {
+        xcb_ungrab_pointer(conn_, XCB_TIME_CURRENT_TIME);
+        pointerGrabber_ = nullptr;
+    }
+}
+
 } // namespace fcitx::classicui

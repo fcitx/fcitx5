@@ -115,6 +115,10 @@ void XCBWindow::destroyWindow() {
         xcb_free_colormap(conn, colorMapNeedFree_);
         colorMapNeedFree_ = 0;
     }
+
+    if (ui_->pointerGrabber() == this) {
+        ui_->ungrabPointer();
+    }
     xcb_flush(conn);
 }
 

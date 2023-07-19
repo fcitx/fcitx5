@@ -101,6 +101,17 @@ public:
      */
     InputContext *mostRecentInputContext();
 
+    /**
+     * Return a dummy input context registered with this input method manager.
+     *
+     * The value is useful for a place holder in certain cases, e.g. get some
+     * value from action.
+     *
+     * @return fcitx::InputContext*
+     * @since 5.0.24
+     */
+    InputContext *dummyInputContext() const;
+
     void setPreeditEnabledByDefault(bool enable);
     bool isPreeditEnabledByDefault() const;
 
