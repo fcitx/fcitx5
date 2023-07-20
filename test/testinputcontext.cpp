@@ -253,12 +253,19 @@ void test_event_blocking() {
     FCITX_ASSERT(!ic->hasPendingEventsStrictOrder());
 
     ic->setBlockEventToClient(true);
+    ic->inputPanel().setClientPreedit(Text("abc"));
     ic->updatePreedit();
     FCITX_ASSERT(ic->hasPendingEvents());
-    FCITX_ASSERT(!ic->hasPendingEventsStrictOrder());
+    FCITX_ASSERT(ic->hasPendingEventsStrictOrder());
 
     ic->setBlockEventToClient(false);
     FCITX_ASSERT(!ic->hasPendingEvents());
+    FCITX_ASSERT(!ic->hasPendingEventsStrictOrder());
+
+    ic->setBlockEventToClient(true);
+    ic->inputPanel().reset();
+    ic->updatePreedit();
+    FCITX_ASSERT(ic->hasPendingEvents());
     FCITX_ASSERT(!ic->hasPendingEventsStrictOrder());
 }
 
