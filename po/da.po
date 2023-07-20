@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2023-06-04 20:24+0000\n"
+"POT-Creation-Date: 2023-07-20 20:23+0000\n"
 "PO-Revision-Date: 2017-11-23 04:14+0000\n"
 "Last-Translator: scootergrisen, 2021\n"
 "Language-Team: Danish (https://app.transifex.com/fcitx/teams/12005/da/)\n"
@@ -196,7 +196,7 @@ msgctxt "Key name"
 msgid "Audio Repeat"
 msgstr "Lyd gentag"
 
-#: src/ui/classic/theme.h:170
+#: src/ui/classic/theme.h:171
 msgid "Author"
 msgstr "Forfatter"
 
@@ -219,11 +219,11 @@ msgstr "Tilbage fremad"
 msgid "Backends"
 msgstr ""
 
-#: src/ui/classic/theme.h:135 src/ui/classic/theme.h:155
+#: src/ui/classic/theme.h:136 src/ui/classic/theme.h:156
 msgid "Background"
 msgstr "Baggrund"
 
-#: src/ui/classic/theme.h:62
+#: src/ui/classic/theme.h:63
 msgid "Background Image"
 msgstr "Baggrundsbillede"
 
@@ -259,11 +259,11 @@ msgctxt "Key name"
 msgid "Bluetooth"
 msgstr "Bluetooth"
 
-#: src/ui/classic/theme.h:120
+#: src/ui/classic/theme.h:121
 msgid "Blur Margin"
 msgstr "Sløringsmargen"
 
-#: src/ui/classic/theme.h:119
+#: src/ui/classic/theme.h:120
 msgid "Blur mask"
 msgstr ""
 
@@ -272,27 +272,27 @@ msgctxt "Key name"
 msgid "Book"
 msgstr "Bog"
 
-#: src/ui/classic/theme.h:74
+#: src/ui/classic/theme.h:75
 msgid "Border Color"
 msgstr ""
 
-#: src/ui/classic/theme.h:82
+#: src/ui/classic/theme.h:83
 msgid "Border width"
 msgstr ""
 
-#: src/ui/classic/theme.h:47
+#: src/ui/classic/theme.h:48
 msgid "Bottom"
 msgstr ""
 
-#: src/ui/classic/theme.h:35
+#: src/ui/classic/theme.h:36
 msgid "Bottom Center"
 msgstr "Nederst i midten"
 
-#: src/ui/classic/theme.h:35
+#: src/ui/classic/theme.h:36
 msgid "Bottom Left"
 msgstr "Nederst til venstre"
 
-#: src/ui/classic/theme.h:36
+#: src/ui/classic/theme.h:37
 msgid "Bottom Right"
 msgstr "Nederst til højre"
 
@@ -408,15 +408,15 @@ msgctxt "Key name"
 msgid "CapsLock"
 msgstr "CapsLock"
 
-#: src/ui/classic/theme.h:34 src/ui/classic/theme.h:46
+#: src/ui/classic/theme.h:35 src/ui/classic/theme.h:47
 msgid "Center"
 msgstr "I midten"
 
-#: src/ui/classic/theme.h:33
+#: src/ui/classic/theme.h:34
 msgid "Center Left"
 msgstr "I midten til venstre"
 
-#: src/ui/classic/theme.h:34
+#: src/ui/classic/theme.h:35
 msgid "Center Right"
 msgstr "I midten til højre"
 
@@ -424,7 +424,7 @@ msgstr "I midten til højre"
 msgid "Change Fcitx 5 Configuration"
 msgstr "Skift Fcitx 5-konfiguration"
 
-#: src/ui/classic/theme.h:160
+#: src/ui/classic/theme.h:161
 msgid "Check box"
 msgstr "Afkrydsningsboks"
 
@@ -441,7 +441,7 @@ msgctxt "Key name"
 msgid "Clear"
 msgstr "Ryd"
 
-#: src/ui/classic/theme.h:108
+#: src/ui/classic/theme.h:109
 msgid "Click Margin"
 msgstr "Klikmargen"
 
@@ -463,7 +463,7 @@ msgctxt "Key name"
 msgid "Code input"
 msgstr "Kodeinput"
 
-#: src/ui/classic/theme.h:66
+#: src/ui/classic/theme.h:67
 msgid "Color"
 msgstr ""
 
@@ -585,7 +585,7 @@ msgctxt "Key name"
 msgid "DOS"
 msgstr "DOS"
 
-#: src/ui/classic/classicui.h:154
+#: src/ui/classic/classicui.h:156
 msgid "Dark Theme"
 msgstr ""
 
@@ -631,7 +631,7 @@ msgctxt "Key name"
 msgid "Delete"
 msgstr "Slet"
 
-#: src/ui/classic/theme.h:172
+#: src/ui/classic/theme.h:173
 msgid "Description"
 msgstr "Beskrivelse"
 
@@ -697,7 +697,7 @@ msgstr "Emoji"
 msgid "Enable"
 msgstr "Aktivér"
 
-#: src/ui/classic/theme.h:117
+#: src/ui/classic/theme.h:118
 msgid "Enable Blur on KWin"
 msgstr "Aktivér sløring i KWin"
 
@@ -713,7 +713,7 @@ msgstr "Aktivér emoji i tip"
 msgid "Enable emoji in quickphrase"
 msgstr "Aktivér emoji i hurtigfrase"
 
-#: src/ui/classic/classicui.h:182
+#: src/ui/classic/classicui.h:184
 msgid "Enable fractional scale under Wayland"
 msgstr ""
 
@@ -865,11 +865,11 @@ msgctxt "Key name"
 msgid "Find"
 msgstr "Find"
 
-#: src/ui/classic/theme.h:46
+#: src/ui/classic/theme.h:47
 msgid "First Candidate"
 msgstr ""
 
-#: src/ui/classic/classicui.h:156
+#: src/ui/classic/classicui.h:158
 msgid "Follow system light/dark color scheme"
 msgstr ""
 
@@ -881,18 +881,18 @@ msgid ""
 "using text-input support by Qt under Wayland."
 msgstr ""
 
-#: src/ui/classic/classicui.h:116
+#: src/ui/classic/classicui.h:118
 msgid "Font"
 msgstr "Skrifttype"
 
-#: src/ui/classic/classicui.h:146
+#: src/ui/classic/classicui.h:148
 msgid ""
 "For example, display character with Chinese variant when using Pinyin and "
 "Japanese variant when using Anthy. The font configuration needs to support "
 "this to use this feature."
 msgstr ""
 
-#: src/ui/classic/classicui.h:170
+#: src/ui/classic/classicui.h:172
 msgid "Force font DPI on Wayland"
 msgstr ""
 
@@ -1097,27 +1097,27 @@ msgstr "Dvale"
 msgid "Hidden Notifications"
 msgstr "Skjulte underretninger"
 
-#: src/ui/classic/theme.h:93
+#: src/ui/classic/theme.h:94
 msgid "Hide overlay if size does not fit"
 msgstr "Skjul overlægningen hvis størrelsen ikke passer"
 
-#: src/ui/classic/theme.h:137 src/ui/classic/theme.h:157
+#: src/ui/classic/theme.h:138 src/ui/classic/theme.h:158
 msgid "Highlight Background"
 msgstr "Baggrund for fremhævning"
 
-#: src/ui/classic/theme.h:128
+#: src/ui/classic/theme.h:129
 msgid "Highlight Background color"
 msgstr "Baggrundsfarve for fremhævning"
 
-#: src/ui/classic/theme.h:115 src/ui/classic/theme.h:151
+#: src/ui/classic/theme.h:116 src/ui/classic/theme.h:152
 msgid "Highlight Candidate Color"
 msgstr "Kandidatfarve for fremhævning"
 
-#: src/ui/classic/theme.h:103
+#: src/ui/classic/theme.h:104
 msgid "Highlight Click Margin"
 msgstr "Fremhæv klikmargen"
 
-#: src/ui/classic/theme.h:126
+#: src/ui/classic/theme.h:127
 msgid "Highlight text color"
 msgstr "Tekstfarve for fremhævning"
 
@@ -1204,7 +1204,7 @@ msgstr ""
 "bruger kommandoen ${g36_disable_ibus} til at deaktivere IBus-integration for "
 "at kunne bruge andre inputmetoder end ${2}. Se ${link} for flere detaljer."
 
-#: src/ui/classic/theme.h:106
+#: src/ui/classic/theme.h:107
 msgid "Image"
 msgstr "Billede"
 
@@ -1229,7 +1229,7 @@ msgstr "Inputmetode med relation til miljøvariabler: "
 msgid "Input Methods:"
 msgstr ""
 
-#: src/ui/classic/theme.h:178
+#: src/ui/classic/theme.h:179
 msgid "Input Panel"
 msgstr "Inputpanel"
 
@@ -1262,7 +1262,7 @@ msgstr ""
 msgid "KDE Input Method Panel"
 msgstr "Panel til KDE-inputmetode"
 
-#: src/ui/classic/classicui.cpp:244
+#: src/ui/classic/classicui.cpp:252
 msgid "KDE Plasma (Experimental)"
 msgstr ""
 
@@ -1330,7 +1330,7 @@ msgstr "Tastaturmenu"
 msgid "Kimpanel process:"
 msgstr "Kimpanel-proces:"
 
-#: src/ui/classic/theme.h:47
+#: src/ui/classic/theme.h:48
 msgid "Last Candidate"
 msgstr ""
 
@@ -1476,31 +1476,31 @@ msgctxt "Key name"
 msgid "Mail Forward"
 msgstr "Mail videresend"
 
-#: src/ui/classic/theme.h:95
+#: src/ui/classic/theme.h:96
 msgid "Margin"
 msgstr "Margen"
 
-#: src/ui/classic/theme.h:57
+#: src/ui/classic/theme.h:58
 msgid "Margin Bottom"
 msgstr "Margen nederst"
 
-#: src/ui/classic/theme.h:51
+#: src/ui/classic/theme.h:52
 msgid "Margin Left"
 msgstr "Margen til venstre"
 
-#: src/ui/classic/theme.h:53
+#: src/ui/classic/theme.h:54
 msgid "Margin Right"
 msgstr "Margen til højre"
 
-#: src/ui/classic/theme.h:55
+#: src/ui/classic/theme.h:56
 msgid "Margin Top"
 msgstr "Margen øverst"
 
-#: src/ui/classic/theme.h:139 src/ui/classic/theme.h:163
+#: src/ui/classic/theme.h:140 src/ui/classic/theme.h:164
 msgid "Margin around all content"
 msgstr "Margen omkring al indholdet"
 
-#: src/ui/classic/theme.h:141 src/ui/classic/theme.h:165
+#: src/ui/classic/theme.h:142 src/ui/classic/theme.h:166
 msgid "Margin around text"
 msgstr "Margen omkring tekst"
 
@@ -1559,7 +1559,7 @@ msgctxt "Key name"
 msgid "Meeting"
 msgstr "Møde"
 
-#: src/ui/classic/theme.h:179
+#: src/ui/classic/theme.h:180
 msgid "Menu"
 msgstr "Menu"
 
@@ -1568,7 +1568,7 @@ msgctxt "Key name"
 msgid "Menu"
 msgstr "Menu"
 
-#: src/ui/classic/classicui.h:118
+#: src/ui/classic/classicui.h:120
 msgid "Menu Font"
 msgstr "Menuens skrifttype"
 
@@ -1582,7 +1582,7 @@ msgctxt "Key name"
 msgid "Messenger"
 msgstr "Messenger"
 
-#: src/ui/classic/theme.h:176
+#: src/ui/classic/theme.h:177
 msgid "Metadata"
 msgstr "Metadata"
 
@@ -1621,7 +1621,7 @@ msgctxt "Key name"
 msgid "My Sites"
 msgstr "Mine steder"
 
-#: src/ui/classic/theme.h:168
+#: src/ui/classic/theme.h:169
 msgid "Name"
 msgstr "Navn"
 
@@ -1639,7 +1639,7 @@ msgstr "Nyheder"
 msgid "Next Candidate"
 msgstr "Næste kandidat"
 
-#: src/ui/classic/theme.h:143
+#: src/ui/classic/theme.h:144
 msgid "Next Page Button"
 msgstr "Knap for næste side"
 
@@ -1655,11 +1655,11 @@ msgstr "Ingen udklipsholderhistorik."
 msgid "None"
 msgstr "Ingen"
 
-#: src/ui/classic/theme.h:112 src/ui/classic/theme.h:148
+#: src/ui/classic/theme.h:113 src/ui/classic/theme.h:149
 msgid "Normal text color"
 msgstr "Normal tekstfarve"
 
-#: src/ui/classic/classicui.h:174
+#: src/ui/classic/classicui.h:176
 msgid ""
 "Normally Wayland uses 96 as font DPI in combinition with the screen scale "
 "factor. This option allows you to override the font DPI. If the value is 0, "
@@ -1710,23 +1710,23 @@ msgctxt "Key name"
 msgid "Option"
 msgstr "Valgmulighed"
 
-#: src/ui/classic/theme.h:97
+#: src/ui/classic/theme.h:98
 msgid "Overlay Clip Margin"
 msgstr "Klikmargen for overlægning"
 
-#: src/ui/classic/theme.h:87
+#: src/ui/classic/theme.h:88
 msgid "Overlay Image"
 msgstr "Billede for overlægning"
 
-#: src/ui/classic/theme.h:90
+#: src/ui/classic/theme.h:91
 msgid "Overlay X offset"
 msgstr "X-forskydning for overlægning"
 
-#: src/ui/classic/theme.h:91
+#: src/ui/classic/theme.h:92
 msgid "Overlay Y offset"
 msgstr "Y-forskydning for overlægning"
 
-#: src/ui/classic/theme.h:89
+#: src/ui/classic/theme.h:90
 msgid "Overlay position"
 msgstr "Placering for overlægning"
 
@@ -1742,7 +1742,7 @@ msgstr "Ejer af DBus-navnet ${1} er ${2}."
 msgid "PID of DBus name ${1} owner is ${2}."
 msgstr "PID af ejeren af DBus-navnet ${1} er ${2}."
 
-#: src/ui/classic/theme.h:132
+#: src/ui/classic/theme.h:133
 msgid "Page button vertical alignment"
 msgstr ""
 
@@ -1827,7 +1827,7 @@ msgstr "Preedit deaktiveret"
 msgid "Preedit enabled"
 msgstr "Preedit aktiveret"
 
-#: src/ui/classic/classicui.h:126 src/ui/kimpanel/kimpanel.h:33
+#: src/ui/classic/classicui.h:128 src/ui/kimpanel/kimpanel.h:33
 msgid "Prefer Text Icon"
 msgstr ""
 
@@ -1839,7 +1839,7 @@ msgstr "Varsel"
 msgid "Prev Candidate"
 msgstr "Forrige kandidat"
 
-#: src/ui/classic/theme.h:142
+#: src/ui/classic/theme.h:143
 msgid "Prev Page Button"
 msgstr "Knap for forrige side"
 
@@ -2000,11 +2000,11 @@ msgctxt "Key name"
 msgid "Send"
 msgstr "Send"
 
-#: src/ui/classic/theme.h:159
+#: src/ui/classic/theme.h:160
 msgid "Separator Background"
 msgstr "Baggrund for separator"
 
-#: src/ui/classic/theme.h:145
+#: src/ui/classic/theme.h:146
 msgid "Shadow Margin"
 msgstr ""
 
@@ -2030,7 +2030,7 @@ msgstr "Vis information om inputmetode når der skiftes fokus"
 msgid "Show Input Method Information when switch input method"
 msgstr "Vis information om inputmetode når der skiftes inputmetode"
 
-#: src/ui/classic/classicui.h:131
+#: src/ui/classic/classicui.h:133
 msgid "Show Layout Name In Icon"
 msgstr ""
 
@@ -2042,7 +2042,7 @@ msgstr "Vis kompakt information om inputmetode"
 msgid "Show first input method information"
 msgstr "Vis første information om inputmetode"
 
-#: src/ui/classic/classicui.h:135
+#: src/ui/classic/classicui.h:137
 msgid ""
 "Show layout name in icon if there is more than one active layout. If prefer "
 "text icon is set to true, this option will be ignored."
@@ -2072,7 +2072,7 @@ msgctxt "Key name"
 msgid "Space"
 msgstr "Mellemrum"
 
-#: src/ui/classic/theme.h:153
+#: src/ui/classic/theme.h:154
 msgid "Spacing"
 msgstr "Afstand"
 
@@ -2113,7 +2113,7 @@ msgctxt "Key name"
 msgid "Stop"
 msgstr "Stop"
 
-#: src/ui/classic/theme.h:161
+#: src/ui/classic/theme.h:162
 msgid "Sub Menu"
 msgstr "Undermenu"
 
@@ -2201,27 +2201,27 @@ msgstr "Den niende hottast i listen vælger den niende inputmetode."
 msgid "The script is run as ${1} (${2})."
 msgstr "Scriptet køres som ${1} (${2})."
 
-#: src/ui/classic/classicui.h:151
+#: src/ui/classic/classicui.h:153
 msgid "Theme"
 msgstr "Tema"
 
-#: src/ui/classic/classicui.h:97
+#: src/ui/classic/classicui.h:99
 msgid "This is only effective when the tray icon is xembed."
 msgstr "Anvendes kun når bakkeikonet er xembed."
 
-#: src/ui/classic/theme.h:70 src/ui/classic/theme.h:78
+#: src/ui/classic/theme.h:71 src/ui/classic/theme.h:79
 msgid "This option is only effective if image is not set."
 msgstr ""
 
-#: src/ui/classic/classicui.h:186
+#: src/ui/classic/classicui.h:188
 msgid "This option require support from wayland compositor."
 msgstr ""
 
-#: src/ui/classic/classicui.h:165
+#: src/ui/classic/classicui.h:167
 msgid "This option will be always disabled on XWayland."
 msgstr ""
 
-#: src/ui/classic/theme.h:86
+#: src/ui/classic/theme.h:87
 msgid "This value should be less than any of margin value."
 msgstr ""
 
@@ -2257,15 +2257,15 @@ msgctxt "Key name"
 msgid "Tools"
 msgstr "Værktøjer"
 
-#: src/ui/classic/theme.h:45
+#: src/ui/classic/theme.h:46
 msgid "Top"
 msgstr ""
 
-#: src/ui/classic/theme.h:32
+#: src/ui/classic/theme.h:33
 msgid "Top Center"
 msgstr "Øverst i midten"
 
-#: src/ui/classic/theme.h:32
+#: src/ui/classic/theme.h:33
 msgid "Top Left"
 msgstr "Øverst til venstre"
 
@@ -2274,7 +2274,7 @@ msgctxt "Key name"
 msgid "Top Menu"
 msgstr "Topmenu"
 
-#: src/ui/classic/theme.h:33
+#: src/ui/classic/theme.h:34
 msgid "Top Right"
 msgstr "Øverst til højre"
 
@@ -2303,15 +2303,15 @@ msgctxt "Key name"
 msgid "Travel"
 msgstr "Rejse"
 
-#: src/ui/classic/classicui.h:120
+#: src/ui/classic/classicui.h:122
 msgid "Tray Font"
 msgstr "Skrifttype for bakke"
 
-#: src/ui/classic/classicui.h:122
+#: src/ui/classic/classicui.h:124
 msgid "Tray Label Outline Color"
 msgstr ""
 
-#: src/ui/classic/classicui.h:125
+#: src/ui/classic/classicui.h:127
 msgid "Tray Label Text Color"
 msgstr ""
 
@@ -2375,19 +2375,19 @@ msgstr "Op"
 msgid "Use On The Spot Style (Needs restarting)"
 msgstr "Brug her-og-nu-stil (kræver genstart)"
 
-#: src/ui/classic/classicui.h:161
+#: src/ui/classic/classicui.h:163
 msgid "Use Per Screen DPI on X11"
 msgstr ""
 
-#: src/ui/classic/theme.h:123
+#: src/ui/classic/theme.h:124
 msgid "Use all horizontal space for highlight when it is vertical list"
 msgstr "Brug al vandret plads til fremhævning når det er en lodret liste"
 
-#: src/ui/classic/classicui.h:142
+#: src/ui/classic/classicui.h:144
 msgid "Use input method language to display text"
 msgstr ""
 
-#: src/ui/classic/classicui.h:112
+#: src/ui/classic/classicui.h:114
 msgid "Use mouse wheel to go to prev or next page"
 msgstr "Brug musehjulet for at gå til forrige eller næste side"
 
@@ -2409,7 +2409,7 @@ msgid ""
 "environment:"
 msgstr ""
 
-#: src/ui/classic/theme.h:169
+#: src/ui/classic/theme.h:170
 msgid "Version"
 msgstr "Version"
 
@@ -2417,7 +2417,7 @@ msgstr "Version"
 msgid "Version Line:"
 msgstr "Versionslinje:"
 
-#: src/ui/classic/classicui.h:110
+#: src/ui/classic/classicui.h:112
 msgid "Vertical Candidate List"
 msgstr "Lodret kandidatliste"
 
@@ -2637,6 +2637,10 @@ msgstr "Zoom ud"
 #: data/fcitx5-diagnose.sh:929
 msgid "executable:"
 msgstr "eksekverbar:"
+
+#: src/ui/virtualkeyboard/virtualkeyboard.conf.in.in:3
+msgid "fcitx5 virtual keyboard"
+msgstr ""
 
 #: data/fcitx5-diagnose.sh:750
 msgid "here"

@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2023-06-28 20:24+0000\n"
+"POT-Creation-Date: 2023-07-20 20:23+0000\n"
 "PO-Revision-Date: 2017-11-23 04:14+0000\n"
 "Last-Translator: csslayer <wengxt@gmail.com>, 2023\n"
 "Language-Team: Chinese (China) (https://app.transifex.com/fcitx/teams/12005/"
@@ -2640,6 +2640,10 @@ msgstr "缩小"
 #: data/fcitx5-diagnose.sh:929
 msgid "executable:"
 msgstr "可执行文件："
+
+#: src/ui/virtualkeyboard/virtualkeyboard.conf.in.in:3
+msgid "fcitx5 virtual keyboard"
+msgstr ""
 
 #: data/fcitx5-diagnose.sh:750
 msgid "here"
