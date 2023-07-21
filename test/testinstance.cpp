@@ -12,7 +12,7 @@
 
 using namespace fcitx;
 
-void scheduleEvent(EventDispatcher *dispatcher, Instance *instance) {
+void testCheckUpdate(EventDispatcher *dispatcher, Instance *instance) {
     dispatcher->schedule([instance]() {
         FCITX_ASSERT(!instance->checkUpdate());
         auto hasUpdateTrue =
@@ -25,6 +25,20 @@ void scheduleEvent(EventDispatcher *dispatcher, Instance *instance) {
         FCITX_ASSERT(instance->checkUpdate());
         hasUpdateTrue.reset();
         FCITX_ASSERT(!instance->checkUpdate());
+    });
+}
+
+void testReloadGlobalConfig(EventDispatcher *dispatcher, Instance *instance) {
+    dispatcher->schedule([instance]() {
+        bool globalConfigReloadedEventFired = false;
+        auto reloadConfigEventWatcher =
+            instance->watchEvent(EventType::GlobalConfigReloaded,
+                                 EventWatcherPhase::Default, [&](Event &) {
+                                     globalConfigReloadedEventFired = true;
+                                     FCITX_INFO() << "Global config reloaded";
+                                 });
+        instance->reloadConfig();
+        FCITX_ASSERT(globalConfigReloadedEventFired);
         instance->exit();
     });
 }
@@ -40,7 +54,8 @@ int main() {
     instance.addonManager().registerDefaultLoader(nullptr);
     EventDispatcher dispatcher;
     dispatcher.attach(&instance.eventLoop());
-    scheduleEvent(&dispatcher, &instance);
+    testCheckUpdate(&dispatcher, &instance);
+    testReloadGlobalConfig(&dispatcher, &instance);
     instance.exec();
     return 0;
 }

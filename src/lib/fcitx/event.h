@@ -13,6 +13,11 @@
 #include <fcitx/userinterface.h>
 #include "fcitxcore_export.h"
 
+/// \addtogroup FcitxCore
+/// \{
+/// \file
+/// \brief Input Method event for Fcitx.
+
 namespace fcitx {
 
 class InputContext;
@@ -176,6 +181,15 @@ enum class EventType : uint32_t {
      * Input method mode changed
      */
     InputMethodModeChanged = InstanceEventFlag | 0x6,
+    /**
+     * Global config is reloaded
+     *
+     * This only fires after fcitx has entered running state.
+     * The initial load will not trigger this event.
+     * @see GlobalConfig
+     * @since 5.1.0
+     */
+    GlobalConfigReloaded = InstanceEventFlag | 0x7,
 };
 
 /**
@@ -563,6 +577,17 @@ private:
 class FCITXCORE_EXPORT InputMethodModeChangedEvent : public Event {
 public:
     InputMethodModeChangedEvent() : Event(EventType::InputMethodModeChanged) {}
+};
+
+/**
+ * Notify the global config is reloaded.
+ *
+ * @see GlobalConfig
+ * @since 5.1.0
+ */
+class FCITXCORE_EXPORT GlobalConfigReloadedEvent : public Event {
+public:
+    GlobalConfigReloadedEvent() : Event(EventType::GlobalConfigReloaded) {}
 };
 
 class FCITXCORE_EXPORT CapabilityEvent : public InputContextEvent {

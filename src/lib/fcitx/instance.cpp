@@ -22,6 +22,7 @@
 #include "fcitx-utils/standardpath.h"
 #include "fcitx-utils/stringutils.h"
 #include "fcitx-utils/utf8.h"
+#include "fcitx/event.h"
 #include "../../modules/notifications/notifications_public.h"
 #include "addonmanager.h"
 #include "focusgroup.h"
@@ -1886,6 +1887,9 @@ void Instance::reloadConfig() {
         });
     }
 #endif
+    if (d->running_) {
+        postEvent(GlobalConfigReloadedEvent());
+    }
 }
 
 void Instance::resetInputMethodList() {

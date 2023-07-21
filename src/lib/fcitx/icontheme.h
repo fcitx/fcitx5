@@ -17,7 +17,7 @@
 #include <fcitx-utils/standardpath.h>
 #include "fcitxcore_export.h"
 
-/// \addtogroup FcitxUtils
+/// \addtogroup FcitxCore
 /// \{
 /// \file
 /// \brief XDG icon specification helper.
