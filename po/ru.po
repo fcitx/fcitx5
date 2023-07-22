@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2023-07-21 20:24+0000\n"
+"POT-Creation-Date: 2023-07-22 20:24+0000\n"
 "PO-Revision-Date: 2017-11-23 04:14+0000\n"
 "Last-Translator: Dmitry <dmitrydmitry761@gmail.com>, 2023\n"
 "Language-Team: Russian (https://app.transifex.com/fcitx/teams/12005/ru/)\n"
@@ -1288,12 +1288,12 @@ msgstr "KDE Plasma (экспериментально)"
 #: src/lib/fcitx-utils/key.cpp:211
 msgctxt "Key name"
 msgid "Kana Lock"
-msgstr "Kana Lock"
+msgstr "Кана Lock"
 
 #: src/lib/fcitx-utils/key.cpp:212
 msgctxt "Key name"
 msgid "Kana Shift"
-msgstr "Kana Shift"
+msgstr "Кана Shift"
 
 #: src/lib/fcitx-utils/key.cpp:199
 msgctxt "Key name"
