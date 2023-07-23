@@ -47,7 +47,7 @@ static constexpr inline bool isprint(char c) {
 
 static constexpr inline char toHex(int c) {
     constexpr char hex[] = "0123456789abcdef";
-    return hex[c & (sizeof(hex) - 1)];
+    return hex[c & 0xf];
 }
 
 /**
