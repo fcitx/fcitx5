@@ -99,7 +99,8 @@ void UserInterfaceManagerPrivate::updateSingleComponent<
     if (ui_ != nullptr && ui_->addonInfo() != nullptr &&
         ui_->addonInfo()->uiType() == UIType::OnScreenKeyboard) {
         ui_->update(UserInterfaceComponent::InputPanel, ic);
-    } else if (const auto &callback = ic->inputPanel().customInputPanelCallback()) {
+    } else if (const auto &callback =
+                   ic->inputPanel().customInputPanelCallback()) {
         callback(ic);
     } else if (ic->capabilityFlags().test(
                    CapabilityFlag::ClientSideInputPanel)) {

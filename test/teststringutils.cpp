@@ -122,7 +122,7 @@ int main() {
     FCITX_ASSERT(stringutils::escapeForValue("ab\"c") == R"("ab\"c")");
     FCITX_ASSERT(stringutils::escapeForValue("a c") == R"("a c")");
 
-    for (int i = 0; i < 16; i ++) {
+    for (int i = 0; i < 16; i++) {
         if (i < 10) {
             FCITX_ASSERT(charutils::toHex(i) == i + '0');
         } else {
