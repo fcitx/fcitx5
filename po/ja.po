@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2023-07-21 20:24+0000\n"
+"POT-Creation-Date: 2023-07-24 20:27+0000\n"
 "PO-Revision-Date: 2017-11-23 04:14+0000\n"
 "Last-Translator: UTUMI Hirosi <utuhiro78@yahoo.co.jp>, 2023\n"
 "Language-Team: Japanese (https://app.transifex.com/fcitx/teams/12005/ja/)\n"
@@ -97,6 +97,10 @@ msgstr "<Private Use>"
 #: src/modules/unicode/charselectdata.cpp:247
 msgid "<not assigned>"
 msgstr "<not assigned>"
+
+#: src/ui/virtualkeyboard/virtualkeyboard.conf.in.in:4
+msgid "A virtual keyboard backend based on DBus"
+msgstr ""
 
 #: src/lib/fcitx/globalconfig.cpp:81
 msgid "Activate Input Method"
@@ -571,6 +575,10 @@ msgstr "DBus"
 #: src/frontend/dbusfrontend/dbusfrontend.conf.in.in:3
 msgid "DBus Frontend"
 msgstr "DBus フロントエンド"
+
+#: src/ui/virtualkeyboard/virtualkeyboard.conf.in.in:3
+msgid "DBus Virtual Keyboard"
+msgstr ""
 
 #: src/modules/notificationitem/notificationitem.conf.in.in:4
 msgid "DBus based new Freedesktop.org tray icon"
@@ -2660,10 +2668,6 @@ msgstr "縮小"
 #: data/fcitx5-diagnose.sh:929
 msgid "executable:"
 msgstr "実行可能:"
-
-#: src/ui/virtualkeyboard/virtualkeyboard.conf.in.in:3
-msgid "fcitx5 virtual keyboard"
-msgstr "fcitx5 バーチャルキーボード"
 
 #: data/fcitx5-diagnose.sh:750
 msgid "here"

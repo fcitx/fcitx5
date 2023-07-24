@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2023-07-20 20:23+0000\n"
+"POT-Creation-Date: 2023-07-24 20:27+0000\n"
 "PO-Revision-Date: 2017-11-23 04:14+0000\n"
 "Last-Translator: Junghee Lee <daemul72@gmail.com>, 2023\n"
 "Language-Team: Korean (https://app.transifex.com/fcitx/teams/12005/ko/)\n"
@@ -51,7 +51,7 @@ msgstr "${1}을(를) 찾을 수 없습니다."
 msgid "${1} works properly."
 msgstr "${1}이(가) 제대로 작동합니다."
 
-#: src/lib/fcitx/instance.cpp:405
+#: src/lib/fcitx/instance.cpp:406
 msgid "(Not available)"
 msgstr "(사용할 수 없음)"
 
@@ -98,6 +98,10 @@ msgstr "<Private Use>"
 #: src/modules/unicode/charselectdata.cpp:247
 msgid "<not assigned>"
 msgstr "<할당 안됨>"
+
+#: src/ui/virtualkeyboard/virtualkeyboard.conf.in.in:4
+msgid "A virtual keyboard backend based on DBus"
+msgstr ""
 
 #: src/lib/fcitx/globalconfig.cpp:81
 msgid "Activate Input Method"
@@ -572,6 +576,10 @@ msgstr "DBus"
 msgid "DBus Frontend"
 msgstr "DBus 프론트엔드"
 
+#: src/ui/virtualkeyboard/virtualkeyboard.conf.in.in:3
+msgid "DBus Virtual Keyboard"
+msgstr ""
+
 #: src/modules/notificationitem/notificationitem.conf.in.in:4
 msgid "DBus based new Freedesktop.org tray icon"
 msgstr "DBus 기반 새 Freedesktop.org 트레이 아이콘"
@@ -597,7 +605,7 @@ msgstr "입력기 비활성화"
 msgid "Debug information from dbus:"
 msgstr "dbus의 디버그 정보:"
 
-#: src/lib/fcitx/inputmethodmanager.cpp:138 src/lib/fcitx/instance.cpp:352
+#: src/lib/fcitx/inputmethodmanager.cpp:138 src/lib/fcitx/instance.cpp:353
 #: src/ui/classic/themes/default/theme.conf.in:3
 msgid "Default"
 msgstr "기본값"
@@ -994,11 +1002,11 @@ msgstr "녹색"
 msgid "Group"
 msgstr "그룹"
 
-#: src/lib/fcitx/instance.cpp:409
+#: src/lib/fcitx/instance.cpp:410
 msgid "Group {0}: {1}"
 msgstr "그룹 {0}: {1}"
 
-#: src/lib/fcitx/instance.cpp:354
+#: src/lib/fcitx/instance.cpp:355
 msgid "Group {}"
 msgstr "그룹 {}"
 
@@ -1205,8 +1213,8 @@ msgstr ""
 msgid "Image"
 msgstr "이미지"
 
-#: src/im/keyboard/keyboard.cpp:684 src/lib/fcitx/instance.cpp:443
-#: src/lib/fcitx/instance.cpp:661 src/lib/fcitx/instance.cpp:820
+#: src/im/keyboard/keyboard.cpp:684 src/lib/fcitx/instance.cpp:444
+#: src/lib/fcitx/instance.cpp:662 src/lib/fcitx/instance.cpp:821
 #: src/modules/notificationitem/notificationitem.cpp:142
 #: src/modules/notificationitem/notificationitem.cpp:222
 #: src/modules/xcb/xcbconnection.cpp:484 data/org.fcitx.Fcitx5.desktop.in.in:4
@@ -1812,15 +1820,15 @@ msgctxt "Key name"
 msgid "Power Off"
 msgstr "전원 끄기"
 
-#: src/lib/fcitx/instance.cpp:820
+#: src/lib/fcitx/instance.cpp:821
 msgid "Preedit"
 msgstr "사전편집"
 
-#: src/lib/fcitx/instance.cpp:822
+#: src/lib/fcitx/instance.cpp:823
 msgid "Preedit disabled"
 msgstr "사전편집 비활성화"
 
-#: src/lib/fcitx/instance.cpp:821
+#: src/lib/fcitx/instance.cpp:822
 msgid "Preedit enabled"
 msgstr "사전편집 활성화"
 
@@ -2140,16 +2148,16 @@ msgctxt "Key name"
 msgid "Suspend"
 msgstr "중단"
 
-#: src/lib/fcitx/instance.cpp:444 src/lib/fcitx/instance.cpp:662
+#: src/lib/fcitx/instance.cpp:445 src/lib/fcitx/instance.cpp:663
 #: src/modules/xcb/xcbconnection.cpp:485
 msgid "Switch group"
 msgstr "그룹 전환"
 
-#: src/lib/fcitx/instance.cpp:445 src/modules/xcb/xcbconnection.cpp:486
+#: src/lib/fcitx/instance.cpp:446 src/modules/xcb/xcbconnection.cpp:486
 msgid "Switch group to {0}"
 msgstr "{0}(으)로 그룹 전환"
 
-#: src/lib/fcitx/instance.cpp:663
+#: src/lib/fcitx/instance.cpp:664
 msgid "Switched group to {0}"
 msgstr "{0}(으)로 그룹 전환됨"
 
@@ -2641,10 +2649,6 @@ msgstr "작게 보기"
 msgid "executable:"
 msgstr "실행파일:"
 
-#: src/ui/virtualkeyboard/virtualkeyboard.conf.in.in:3
-msgid "fcitx5 virtual keyboard"
-msgstr ""
-
 #: data/fcitx5-diagnose.sh:750
 msgid "here"
 msgstr "여기"
@@ -2670,10 +2674,10 @@ msgstr "버전:"
 msgid "{0} (Not Available)"
 msgstr "{0} (사용할 수 없음)"
 
-#: src/lib/fcitx/instance.cpp:403
+#: src/lib/fcitx/instance.cpp:404
 msgid "{0} (Not available)"
 msgstr "{0} (사용할 수 없음)"
 
-#: src/lib/fcitx/instance.cpp:400
+#: src/lib/fcitx/instance.cpp:401
 msgid "{0} ({1})"
 msgstr "{0} ({1})"

@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2023-07-20 20:23+0000\n"
+"POT-Creation-Date: 2023-07-24 20:27+0000\n"
 "PO-Revision-Date: 2017-11-23 04:14+0000\n"
 "Last-Translator: csslayer <wengxt@gmail.com>, 2022\n"
 "Language-Team: French (https://app.transifex.com/fcitx/teams/12005/fr/)\n"
@@ -49,7 +49,7 @@ msgstr "${1} introuvable."
 msgid "${1} works properly."
 msgstr "${1} fonctionne correctement."
 
-#: src/lib/fcitx/instance.cpp:405
+#: src/lib/fcitx/instance.cpp:406
 msgid "(Not available)"
 msgstr "(Non disponible)"
 
@@ -96,6 +96,10 @@ msgstr "<Usage privé>"
 #: src/modules/unicode/charselectdata.cpp:247
 msgid "<not assigned>"
 msgstr "<non attribué>"
+
+#: src/ui/virtualkeyboard/virtualkeyboard.conf.in.in:4
+msgid "A virtual keyboard backend based on DBus"
+msgstr ""
 
 #: src/lib/fcitx/globalconfig.cpp:81
 msgid "Activate Input Method"
@@ -580,6 +584,10 @@ msgstr "DBus"
 msgid "DBus Frontend"
 msgstr "Interface DBus"
 
+#: src/ui/virtualkeyboard/virtualkeyboard.conf.in.in:3
+msgid "DBus Virtual Keyboard"
+msgstr ""
+
 #: src/modules/notificationitem/notificationitem.conf.in.in:4
 msgid "DBus based new Freedesktop.org tray icon"
 msgstr ""
@@ -606,7 +614,7 @@ msgstr "Désactiver la méthode de saisie"
 msgid "Debug information from dbus:"
 msgstr "Informations de débogage de dbus :"
 
-#: src/lib/fcitx/inputmethodmanager.cpp:138 src/lib/fcitx/instance.cpp:352
+#: src/lib/fcitx/inputmethodmanager.cpp:138 src/lib/fcitx/instance.cpp:353
 #: src/ui/classic/themes/default/theme.conf.in:3
 msgid "Default"
 msgstr "Par défaut"
@@ -1010,11 +1018,11 @@ msgstr "Vert"
 msgid "Group"
 msgstr "Groupe"
 
-#: src/lib/fcitx/instance.cpp:409
+#: src/lib/fcitx/instance.cpp:410
 msgid "Group {0}: {1}"
 msgstr "Groupe {0} : {1}"
 
-#: src/lib/fcitx/instance.cpp:354
+#: src/lib/fcitx/instance.cpp:355
 msgid "Group {}"
 msgstr "Groupe {}"
 
@@ -1225,8 +1233,8 @@ msgstr ""
 msgid "Image"
 msgstr "Image"
 
-#: src/im/keyboard/keyboard.cpp:684 src/lib/fcitx/instance.cpp:443
-#: src/lib/fcitx/instance.cpp:661 src/lib/fcitx/instance.cpp:820
+#: src/im/keyboard/keyboard.cpp:684 src/lib/fcitx/instance.cpp:444
+#: src/lib/fcitx/instance.cpp:662 src/lib/fcitx/instance.cpp:821
 #: src/modules/notificationitem/notificationitem.cpp:142
 #: src/modules/notificationitem/notificationitem.cpp:222
 #: src/modules/xcb/xcbconnection.cpp:484 data/org.fcitx.Fcitx5.desktop.in.in:4
@@ -1836,15 +1844,15 @@ msgctxt "Key name"
 msgid "Power Off"
 msgstr "Éteindre"
 
-#: src/lib/fcitx/instance.cpp:820
+#: src/lib/fcitx/instance.cpp:821
 msgid "Preedit"
 msgstr "Pré-éditer"
 
-#: src/lib/fcitx/instance.cpp:822
+#: src/lib/fcitx/instance.cpp:823
 msgid "Preedit disabled"
 msgstr "Pré-édition désactivée"
 
-#: src/lib/fcitx/instance.cpp:821
+#: src/lib/fcitx/instance.cpp:822
 msgid "Preedit enabled"
 msgstr "Pré-édition activée"
 
@@ -2170,16 +2178,16 @@ msgctxt "Key name"
 msgid "Suspend"
 msgstr "Suspendre"
 
-#: src/lib/fcitx/instance.cpp:444 src/lib/fcitx/instance.cpp:662
+#: src/lib/fcitx/instance.cpp:445 src/lib/fcitx/instance.cpp:663
 #: src/modules/xcb/xcbconnection.cpp:485
 msgid "Switch group"
 msgstr "Changer de groupe"
 
-#: src/lib/fcitx/instance.cpp:445 src/modules/xcb/xcbconnection.cpp:486
+#: src/lib/fcitx/instance.cpp:446 src/modules/xcb/xcbconnection.cpp:486
 msgid "Switch group to {0}"
 msgstr "Basculer le groupe vers {0}"
 
-#: src/lib/fcitx/instance.cpp:663
+#: src/lib/fcitx/instance.cpp:664
 msgid "Switched group to {0}"
 msgstr "Groupe basculé vers {0}"
 
@@ -2689,10 +2697,6 @@ msgstr "Zoom arrière"
 msgid "executable:"
 msgstr "exécutable :"
 
-#: src/ui/virtualkeyboard/virtualkeyboard.conf.in.in:3
-msgid "fcitx5 virtual keyboard"
-msgstr ""
-
 #: data/fcitx5-diagnose.sh:750
 msgid "here"
 msgstr "ici"
@@ -2718,10 +2722,10 @@ msgstr "version :"
 msgid "{0} (Not Available)"
 msgstr "{0} (Non disponible)"
 
-#: src/lib/fcitx/instance.cpp:403
+#: src/lib/fcitx/instance.cpp:404
 msgid "{0} (Not available)"
 msgstr "{0} (Non disponible)"
 
-#: src/lib/fcitx/instance.cpp:400
+#: src/lib/fcitx/instance.cpp:401
 msgid "{0} ({1})"
 msgstr "{0} ({1})"
