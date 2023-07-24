@@ -1,5 +1,6 @@
 [Addon]
-Name=fcitx5 virtual keyboard
+Name=DBus Virtual Keyboard
+Comment=A virtual keyboard backend based on DBus
 Type=SharedLibrary
 Library=libvirtualkeyboard
 Category=UI
