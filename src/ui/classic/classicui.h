@@ -140,7 +140,7 @@ FCITX_CONFIGURATION(
     OptionWithAnnotation<bool, ToolTipAnnotation>
         useInputMethodLanguageToDisplayText{
             this,
-            "UseInputMethodLangaugeToDisplayText",
+            "UseInputMethodLanguageToDisplayText",
             _("Use input method language to display text"),
             true,
             {},
