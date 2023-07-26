@@ -182,10 +182,11 @@ public:
         return {"", {}};
     }
 
-    std::vector<
-        DBusStruct<std::string, std::string, std::string, std::string,
-                   std::string, std::string, std::string, bool, DBusVariantMap>>
-    getInputMethodEntriesByGroupName(const std::string &inputMethodGroupName) {
+    std::tuple<std::string, DBusVariantMap,
+               std::vector<DBusStruct<std::string, std::string, std::string,
+                                      std::string, std::string, std::string,
+                                      std::string, bool, DBusVariantMap>>>
+    fullInputMethodGroupInfo(const std::string &inputMethodGroupName) {
         std::vector<DBusStruct<std::string, std::string, std::string,
                                std::string, std::string, std::string,
                                std::string, bool, DBusVariantMap>>
@@ -197,7 +198,7 @@ public:
                                     : inputMethodManager.currentGroup().name();
         const auto *group = inputMethodManager.group(groupName);
         if (group == nullptr) {
-            return inputMethodEntries;
+            return {"", {}, {}};
         }
 
         for (const auto &item : group->inputMethodList()) {
@@ -212,7 +213,7 @@ public:
                 entry->addon(), entry->isConfigurable(), DBusVariantMap()));
         }
 
-        return inputMethodEntries;
+        return {group->defaultLayout(), {}, inputMethodEntries};
     }
 
     std::vector<DBusStruct<std::string, std::string, std::string, std::string,
@@ -664,9 +665,9 @@ private:
                                "s", "");
     FCITX_OBJECT_VTABLE_METHOD(currentInputMethodGroup,
                                "CurrentInputMethodGroup", "", "s");
-    FCITX_OBJECT_VTABLE_METHOD(getInputMethodEntriesByGroupName,
-                               "GetInputMethodEntriesByGroupName", "s",
-                               "a(sssssssba{sv})");
+    FCITX_OBJECT_VTABLE_METHOD(fullInputMethodGroupInfo,
+                               "FullInputMethodGroupInfo", "s",
+                               "sa{sv}a(sssssssba{sv})");
     FCITX_OBJECT_VTABLE_METHOD(availableInputMethods, "AvailableInputMethods",
                                "", "a(ssssssb)");
     FCITX_OBJECT_VTABLE_METHOD(inputMethodGroupInfo, "InputMethodGroupInfo",
