@@ -198,7 +198,7 @@ public:
                                     : inputMethodManager.currentGroup().name();
         const auto *group = inputMethodManager.group(groupName);
         if (group == nullptr) {
-            return {groupName, "", "", {}, {}};
+            return {"", "", "", {}, {}};
         }
 
         for (const auto &item : group->inputMethodList()) {
