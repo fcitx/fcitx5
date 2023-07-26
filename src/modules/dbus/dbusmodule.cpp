@@ -182,7 +182,7 @@ public:
         return {"", {}};
     }
 
-    std::tuple<std::string, DBusVariantMap,
+    std::tuple<std::string, std::string, std::string, DBusVariantMap,
                std::vector<DBusStruct<std::string, std::string, std::string,
                                       std::string, std::string, std::string,
                                       std::string, bool, DBusVariantMap>>>
@@ -198,7 +198,7 @@ public:
                                     : inputMethodManager.currentGroup().name();
         const auto *group = inputMethodManager.group(groupName);
         if (group == nullptr) {
-            return {"", {}, {}};
+            return {"", "", "", {}, {}};
         }
 
         for (const auto &item : group->inputMethodList()) {
@@ -213,7 +213,11 @@ public:
                 entry->addon(), entry->isConfigurable(), DBusVariantMap()));
         }
 
-        return {group->defaultLayout(), {}, inputMethodEntries};
+        return {groupName,
+                group->defaultInputMethod(),
+                group->defaultLayout(),
+                {},
+                inputMethodEntries};
     }
 
     std::vector<DBusStruct<std::string, std::string, std::string, std::string,
@@ -667,7 +671,7 @@ private:
                                "CurrentInputMethodGroup", "", "s");
     FCITX_OBJECT_VTABLE_METHOD(fullInputMethodGroupInfo,
                                "FullInputMethodGroupInfo", "s",
-                               "sa{sv}a(sssssssba{sv})");
+                               "sssa{sv}a(sssssssba{sv})");
     FCITX_OBJECT_VTABLE_METHOD(availableInputMethods, "AvailableInputMethods",
                                "", "a(ssssssb)");
     FCITX_OBJECT_VTABLE_METHOD(inputMethodGroupInfo, "InputMethodGroupInfo",
