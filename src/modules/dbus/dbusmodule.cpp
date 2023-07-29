@@ -185,11 +185,13 @@ public:
     std::tuple<std::string, std::string, std::string, DBusVariantMap,
                std::vector<DBusStruct<std::string, std::string, std::string,
                                       std::string, std::string, std::string,
-                                      std::string, bool, DBusVariantMap>>>
+                                      std::string, bool, DBusVariantMap,
+                                      std::string, DBusVariantMap>>>
     fullInputMethodGroupInfo(const std::string &inputMethodGroupName) {
-        std::vector<DBusStruct<std::string, std::string, std::string,
-                               std::string, std::string, std::string,
-                               std::string, bool, DBusVariantMap>>
+        std::vector<
+            DBusStruct<std::string, std::string, std::string, std::string,
+                       std::string, std::string, std::string, bool,
+                       DBusVariantMap, std::string, DBusVariantMap>>
             inputMethodEntries;
 
         const auto &inputMethodManager = instance_->inputMethodManager();
@@ -210,7 +212,8 @@ public:
             inputMethodEntries.emplace_back(std::forward_as_tuple(
                 entry->uniqueName(), entry->name(), entry->nativeName(),
                 entry->icon(), entry->label(), entry->languageCode(),
-                entry->addon(), entry->isConfigurable(), DBusVariantMap()));
+                entry->addon(), entry->isConfigurable(), DBusVariantMap(),
+                item.layout(), DBusVariantMap()));
         }
 
         return {groupName,
@@ -671,7 +674,7 @@ private:
                                "CurrentInputMethodGroup", "", "s");
     FCITX_OBJECT_VTABLE_METHOD(fullInputMethodGroupInfo,
                                "FullInputMethodGroupInfo", "s",
-                               "sssa{sv}a(sssssssba{sv})");
+                               "sssa{sv}a(sssssssba{sv}sa{sv})");
     FCITX_OBJECT_VTABLE_METHOD(availableInputMethods, "AvailableInputMethods",
                                "", "a(ssssssb)");
     FCITX_OBJECT_VTABLE_METHOD(inputMethodGroupInfo, "InputMethodGroupInfo",
