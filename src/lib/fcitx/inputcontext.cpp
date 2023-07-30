@@ -425,6 +425,11 @@ void InputContext::forwardKey(const Key &rawKey, bool isRelease, int time) {
     d->pushEvent<ForwardKeyEvent>(this, rawKey, isRelease, time);
 }
 
+void InputContext::nofityVirtualKeyboardVisibilityChanged(bool visible) {
+    FCITX_D();
+    d->pushEvent<VirtualKeyboardVisibilityChangedEvent>(visible, this);
+}
+
 void InputContext::updatePreedit() {
     FCITX_D();
     if (!capabilityFlags().test(CapabilityFlag::Preedit)) {

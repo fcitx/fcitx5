@@ -413,6 +413,10 @@ public:
 
     void sendFocusOut() { notifyFocusOutTo(name_); }
 
+    void sendVirtualKeyboardVisibilityChanged(bool visible) {
+        notifyVirtualKeyboardVisibilityChangedTo(name_, visible);
+    }
+
 private:
     FCITX_OBJECT_VTABLE_METHOD(focusInDBus, "FocusIn", "", "");
     FCITX_OBJECT_VTABLE_METHOD(focusOutDBus, "FocusOut", "", "");
@@ -463,6 +467,9 @@ private:
                                "a(si)ia(si)a(si)a(ss)iibb");
     FCITX_OBJECT_VTABLE_SIGNAL(forwardKeyDBus, "ForwardKey", "uub");
     FCITX_OBJECT_VTABLE_SIGNAL(notifyFocusOut, "NotifyFocusOut", "");
+
+    FCITX_OBJECT_VTABLE_SIGNAL(notifyVirtualKeyboardVisibilityChanged,
+                               "NotifyVirtualKeyboardVisibilityChanged", "b");
 
     dbus::ObjectPath path_;
     InputMethod1 *im_;
@@ -567,6 +574,18 @@ DBusFrontendModule::DBusFrontendModule(Instance *instance)
             InputContext *ic = focusOut.inputContext();
             if (ic->frontendName() == "dbus") {
                 static_cast<DBusInputContext1 *>(ic)->sendFocusOut();
+            }
+        }));
+    events_.emplace_back(instance_->watchEvent(
+        EventType::InputContextVirtualKeyboardVisibilityChanged,
+        EventWatcherPhase::PreInputMethod, [](Event &event) {
+            auto &visibilityChangedEvent =
+                static_cast<VirtualKeyboardVisibilityChangedEvent &>(event);
+            InputContext *ic = visibilityChangedEvent.inputContext();
+            if (ic->frontendName() == "dbus") {
+                static_cast<DBusInputContext1 *>(ic)
+                    ->sendVirtualKeyboardVisibilityChanged(
+                        visibilityChangedEvent.visible());
             }
         }));
 }

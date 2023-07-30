@@ -140,6 +140,7 @@ enum class EventType : uint32_t {
     InputContextDeleteSurroundingText = InputMethodEventFlag | 0x3,
     InputContextUpdatePreedit = InputMethodEventFlag | 0x4,
     InputContextUpdateUI = InputMethodEventFlag | 0x5,
+    InputContextVirtualKeyboardVisibilityChanged = InputMethodEventFlag | 0x6,
 
     /**
      * This is generated when input method group changed.
@@ -468,6 +469,21 @@ public:
 protected:
     UserInterfaceComponent component_;
     bool immediate_;
+};
+
+class FCITXCORE_EXPORT VirtualKeyboardVisibilityChangedEvent
+    : public InputContextEvent {
+public:
+    VirtualKeyboardVisibilityChangedEvent(bool isVisibile,
+                                          InputContext *context)
+        : InputContextEvent(
+              context, EventType::InputContextVirtualKeyboardVisibilityChanged),
+          visible_(isVisibile) {}
+
+    bool visible() const { return visible_; }
+
+private:
+    bool visible_;
 };
 
 class FCITXCORE_EXPORT InputMethodNotificationEvent : public InputContextEvent {
