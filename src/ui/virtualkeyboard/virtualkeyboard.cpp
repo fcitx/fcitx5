@@ -16,6 +16,7 @@
 #include "fcitx-utils/stringutils.h"
 #include "fcitx-utils/utf8.h"
 #include "fcitx/addonmanager.h"
+#include "fcitx/candidatelist.h"
 #include "fcitx/inputcontext.h"
 #include "fcitx/inputmethodengine.h"
 #include "fcitx/inputmethodentry.h"
@@ -92,14 +93,17 @@ public:
             return;
         }
 
-        auto *bulkCandidateList =
-            inputContext->inputPanel().candidateList()->toBulk();
-        if (bulkCandidateList == nullptr) {
-            return;
+        const CandidateWord *candidate = nullptr;
+        if (auto *bulkCandidateList =
+                inputContext->inputPanel().candidateList()->toBulk()) {
+            candidate =
+                nthBulkCandidateIgnorePlaceholder(*bulkCandidateList, index);
+
+        } else {
+            candidate = nthCandidateIgnorePlaceholder(
+                *inputContext->inputPanel().candidateList(), index);
         }
 
-        const auto *candidate =
-            nthBulkCandidateIgnorePlaceholder(*bulkCandidateList, index);
         if (candidate != nullptr) {
             candidate->select(inputContext);
         }
@@ -112,7 +116,6 @@ public:
 private:
     PageableCandidateList *getPageableCandidateList();
 
-private:
     FCITX_OBJECT_VTABLE_METHOD(setVirtualKeyboardFunctionMode,
                                "SetVirtualKeyboardFunctionMode", "u", "");
 
@@ -406,7 +409,7 @@ void VirtualKeyboard::updatePreeditArea(const std::string &preeditText) {
 
 std::vector<std::string> VirtualKeyboard::makeCandidateTextList(
     InputContext *inputContext, std::shared_ptr<CandidateList> candidateList) {
-    if (candidateList == nullptr || candidateList->size() == 0) {
+    if (candidateList == nullptr || candidateList->empty()) {
         return {};
     }
 
@@ -427,7 +430,7 @@ std::vector<std::string> VirtualKeyboard::makeCandidateTextList(
 
 std::vector<std::string> VirtualKeyboard::makeBulkCandidateTextList(
     InputContext *inputContext, std::shared_ptr<CandidateList> candidateList) {
-    if (candidateList == nullptr || candidateList->size() == 0) {
+    if (candidateList == nullptr || candidateList->empty()) {
         return {};
     }
 
@@ -474,16 +477,27 @@ void VirtualKeyboard::updateCandidate(InputContext *inputContext) {
     auto &inputPanel = inputContext->inputPanel();
 
     if (inputPanel.candidateList() == nullptr ||
-        inputPanel.candidateList()->size() == 0) {
+        inputPanel.candidateList()->empty()) {
         updateCandidateArea({}, false, false, -1, -1);
         return;
     }
 
-    auto candidateTextList =
-        makeBulkCandidateTextList(inputContext, inputPanel.candidateList());
-    updateCandidateArea(candidateTextList, false, false, -1,
-                        globalCursorIndex(inputPanel.candidateList()));
-    return;
+    if (inputPanel.candidateList()->toBulk()) {
+        auto candidateTextList =
+            makeBulkCandidateTextList(inputContext, inputPanel.candidateList());
+        updateCandidateArea(candidateTextList, false, false, -1,
+                            globalCursorIndex(inputPanel.candidateList()));
+    } else {
+        auto candidateTextList =
+            makeCandidateTextList(inputContext, inputPanel.candidateList());
+        bool hasPrev = false, hasNext = false;
+        if (auto *pageable = inputPanel.candidateList()->toPageable()) {
+            hasPrev = pageable->hasPrev();
+            hasNext = pageable->hasNext();
+        }
+        updateCandidateArea(candidateTextList, hasPrev, hasNext, -1,
+                            inputPanel.candidateList()->cursorIndex());
+    }
 }
 
 void VirtualKeyboard::notifyIMActivated(const std::string &uniqueName) {
