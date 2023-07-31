@@ -363,6 +363,13 @@ void VirtualKeyboard::setAvailable(bool available) {
     instance()->userInterfaceManager().updateAvailability();
 }
 
+void VirtualKeyboard::setVisible(bool visible) {
+    if (visible_ != visible) {
+        visible_ = visible;
+        instance_->userInterfaceManager().updateVirtualKeyboardVisibility();
+    }
+}
+
 int VirtualKeyboard::calcPreeditCursor(const Text &preedit) {
     auto preeditString = preedit.toString();
     if (preedit.cursor() < 0 ||

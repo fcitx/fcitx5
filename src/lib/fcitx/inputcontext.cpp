@@ -149,20 +149,24 @@ void InputContext::updateProperty(const InputContextPropertyFactory *factory) {
 
 bool InputContext::isVirtualKeyboardVisible() const {
     FCITX_D();
-    auto *instance = d->manager_.instance();
-    return instance->userInterfaceManager().isVirtualKeyboardVisible();
+    if (auto *instance = d->manager_.instance()) {
+        return instance->userInterfaceManager().isVirtualKeyboardVisible();
+    }
+    return false;
 }
 
 void InputContext::showVirtualKeyboard() const {
     FCITX_D();
-    auto *instance = d->manager_.instance();
-    return instance->userInterfaceManager().showVirtualKeyboard();
+    if (auto *instance = d->manager_.instance()) {
+        return instance->userInterfaceManager().showVirtualKeyboard();
+    }
 }
 
 void InputContext::hideVirtualKeyboard() const {
     FCITX_D();
-    auto *instance = d->manager_.instance();
-    return instance->userInterfaceManager().hideVirtualKeyboard();
+    if (auto *instance = d->manager_.instance()) {
+        return instance->userInterfaceManager().hideVirtualKeyboard();
+    }
 }
 
 bool InputContext::clientControlVirtualkeyboardShow() const {

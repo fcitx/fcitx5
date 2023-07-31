@@ -51,7 +51,7 @@ private:
 
     void setAvailable(bool available);
 
-    void setVisible(bool visible) { visible_ = visible; }
+    void setVisible(bool visible);
 
     int calcPreeditCursor(const fcitx::Text &preedit);
     void updatePreeditCaret(int preeditCursor);

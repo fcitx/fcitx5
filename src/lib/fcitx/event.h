@@ -190,6 +190,13 @@ enum class EventType : uint32_t {
      * @since 5.1.0
      */
     GlobalConfigReloaded = InstanceEventFlag | 0x7,
+    /**
+     * Virtual keyboard visibility changed
+     *
+     * @see UserInterfaceManager
+     * @since 5.1.0
+     */
+    VirtualKeyboardVisibilityChanged = InstanceEventFlag | 0x8,
 };
 
 /**
@@ -468,6 +475,12 @@ public:
 protected:
     UserInterfaceComponent component_;
     bool immediate_;
+};
+
+class FCITXCORE_EXPORT VirtualKeyboardVisibilityChangedEvent : public Event {
+public:
+    VirtualKeyboardVisibilityChangedEvent()
+        : Event(EventType::VirtualKeyboardVisibilityChanged) {}
 };
 
 class FCITXCORE_EXPORT InputMethodNotificationEvent : public InputContextEvent {

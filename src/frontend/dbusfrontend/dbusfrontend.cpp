@@ -132,6 +132,15 @@ public:
 
         setFocusGroup(
             im->instance()->defaultFocusGroup(getArgument(args, "display")));
+
+        vkVisibilityChanged_ = im_->instance()->watchEvent(
+            EventType::VirtualKeyboardVisibilityChanged,
+            EventWatcherPhase::PreInputMethod, [this](Event &) {
+                virtualKeyboardVisibilityChangedTo(
+                    name_, im_->instance()
+                               ->userInterfaceManager()
+                               .isVirtualKeyboardVisible());
+            });
     }
 
     ~DBusInputContext1() { InputContext::destroy(); }
@@ -464,6 +473,9 @@ private:
     FCITX_OBJECT_VTABLE_SIGNAL(forwardKeyDBus, "ForwardKey", "uub");
     FCITX_OBJECT_VTABLE_SIGNAL(notifyFocusOut, "NotifyFocusOut", "");
 
+    FCITX_OBJECT_VTABLE_SIGNAL(virtualKeyboardVisibilityChanged,
+                               "VirtualKeyboardVisibilityChanged", "b");
+
     dbus::ObjectPath path_;
     InputMethod1 *im_;
     std::unique_ptr<HandlerTableEntry<dbus::ServiceWatcherCallback>> handler_;
@@ -472,6 +484,7 @@ private:
     std::optional<uint64_t> supportedCapability_;
     bool blocked_ = false;
     std::vector<DBusBlockedEvent> blockedEvents_;
+    std::unique_ptr<HandlerTableEntry<EventHandler>> vkVisibilityChanged_;
 };
 
 std::tuple<dbus::ObjectPath, std::vector<uint8_t>>
