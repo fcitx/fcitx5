@@ -364,14 +364,10 @@ void VirtualKeyboard::setAvailable(bool available) {
 }
 
 void VirtualKeyboard::setVisible(bool visible) {
-    visible_ = visible;
-
-    auto *inputContext = instance_->mostRecentInputContext();
-    if (inputContext == nullptr) {
-        return;
+    if (visible_ != visible) {
+        visible_ = visible;
+        instance_->userInterfaceManager().updateVirtualKeyboardVisibility();
     }
-
-    inputContext->nofityVirtualKeyboardVisibilityChanged(visible_);
 }
 
 int VirtualKeyboard::calcPreeditCursor(const Text &preedit) {

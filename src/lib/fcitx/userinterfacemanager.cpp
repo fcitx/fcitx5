@@ -7,6 +7,7 @@
 
 #include "userinterfacemanager.h"
 #include <set>
+#include "fcitx/event.h"
 #include "action.h"
 #include "inputcontext.h"
 #include "instance.h"
@@ -91,6 +92,7 @@ public:
     AddonManager *addonManager_;
 
     IdAllocator ids_;
+    bool isVirtualKeyboardVisible_ = false;
 };
 
 template <>
@@ -300,6 +302,8 @@ void UserInterfaceManager::updateAvailability() {
             d->addonManager_->instance()->postEvent(UIChangedEvent());
         }
     }
+
+    updateVirtualKeyboardVisibility();
 }
 
 std::string UserInterfaceManager::currentUI() const {
@@ -309,15 +313,7 @@ std::string UserInterfaceManager::currentUI() const {
 
 bool UserInterfaceManager::isVirtualKeyboardVisible() const {
     FCITX_D();
-
-    auto *ui = d->ui_;
-    if (ui == nullptr || ui->addonInfo() == nullptr ||
-        ui->addonInfo()->uiType() != UIType::OnScreenKeyboard) {
-        return false;
-    }
-
-    auto *vkui = static_cast<VirtualKeyboardUserInterface *>(ui);
-    return vkui->isVirtualKeyboardVisible();
+    return d->isVirtualKeyboardVisible_;
 }
 
 void UserInterfaceManager::showVirtualKeyboard() const {
@@ -345,4 +341,27 @@ void UserInterfaceManager::hideVirtualKeyboard() const {
     auto *vkui = static_cast<VirtualKeyboardUserInterface *>(ui);
     vkui->hideVirtualKeyboard();
 }
+
+void UserInterfaceManager::updateVirtualKeyboardVisibility() {
+    FCITX_D();
+    bool oldVisible = d->isVirtualKeyboardVisible_;
+    bool newVisible = false;
+
+    auto *ui = d->ui_;
+    if (ui && ui->addonInfo() &&
+        ui->addonInfo()->uiType() == UIType::OnScreenKeyboard) {
+        auto *vkui = static_cast<VirtualKeyboardUserInterface *>(ui);
+        newVisible = vkui->isVirtualKeyboardVisible();
+    }
+
+    if (oldVisible != newVisible) {
+        d->isVirtualKeyboardVisible_ = newVisible;
+
+        if (d->addonManager_->instance()) {
+            d->addonManager_->instance()->postEvent(
+                VirtualKeyboardVisibilityChangedEvent());
+        }
+    }
+}
+
 } // namespace fcitx

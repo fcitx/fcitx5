@@ -471,19 +471,10 @@ protected:
     bool immediate_;
 };
 
-class FCITXCORE_EXPORT VirtualKeyboardVisibilityChangedEvent
-    : public InputContextEvent {
+class FCITXCORE_EXPORT VirtualKeyboardVisibilityChangedEvent : public Event {
 public:
-    VirtualKeyboardVisibilityChangedEvent(bool isVisibile,
-                                          InputContext *context)
-        : InputContextEvent(
-              context, EventType::InputContextVirtualKeyboardVisibilityChanged),
-          visible_(isVisibile) {}
-
-    bool visible() const { return visible_; }
-
-private:
-    bool visible_;
+    VirtualKeyboardVisibilityChangedEvent()
+        : Event(EventType::InputContextVirtualKeyboardVisibilityChanged) {}
 };
 
 class FCITXCORE_EXPORT InputMethodNotificationEvent : public InputContextEvent {

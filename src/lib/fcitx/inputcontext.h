@@ -186,8 +186,6 @@ public:
     /// Send a key event to client.
     void forwardKey(const Key &rawKey, bool isRelease = false, int time = 0);
 
-    void nofityVirtualKeyboardVisibilityChanged(bool visible);
-
     /**
      * Notifies client about changes in clientPreedit
      *
