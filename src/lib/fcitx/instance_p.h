@@ -218,7 +218,7 @@ public:
 
     std::string lastGroup_;
 
-    bool virtualKeyboardAutoShow_ = false;
+    bool virtualKeyboardAutoShow_ = true;
 
     bool virtualKeyboardAutoHide_ = true;
 
