@@ -7,6 +7,7 @@
 
 #include "xcbwindow.h"
 #include <cairo-xcb.h>
+#include <cairo.h>
 #include <xcb/xcb.h>
 #include <xcb/xcb_aux.h>
 #include "common.h"
@@ -98,6 +99,9 @@ void XCBWindow::createWindow(xcb_visualid_t vid, bool overrideRedirect) {
         vid ? xcb_aux_find_visual_by_id(screen, vid)
             : xcb_aux_find_visual_by_id(screen, screen->root_visual),
         width_, height_));
+    if (surface_) {
+        ui_->setCairoDevice(cairo_surface_get_device(surface_.get()));
+    }
     contentSurface_.reset();
 
     postCreateWindow();

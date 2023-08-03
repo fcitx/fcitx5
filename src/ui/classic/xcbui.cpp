@@ -6,6 +6,7 @@
  */
 
 #include "xcbui.h"
+#include <cairo.h>
 #include <xcb/randr.h>
 #include <xcb/xcb_aux.h>
 #include <xcb/xinerama.h>
@@ -294,7 +295,11 @@ XCBUI::XCBUI(ClassicUI *parent, const std::string &name, xcb_connection_t *conn,
     refreshManager();
 }
 
-XCBUI::~XCBUI() {}
+XCBUI::~XCBUI() {
+    inputWindow_.reset();
+    trayWindow_.reset();
+    device_.reset();
+}
 
 void XCBUI::initScreen() {
     auto *screen = xcb_aux_get_screen(conn_, defaultScreen_);
@@ -782,6 +787,33 @@ void XCBUI::ungrabPointer() {
     if (pointerGrabber_) {
         xcb_ungrab_pointer(conn_, XCB_TIME_CURRENT_TIME);
         pointerGrabber_ = nullptr;
+    }
+}
+
+void XCBUI::destroyCairoDevice(cairo_device_t *device) {
+    if (!device) {
+        return;
+    }
+    // Here's how cairo-xcb works.
+    // When a new xcb connection is seen, a internal shared xcb device is
+    // created and referenced by cairo itself. When device_finish is called,
+    // this internal shared reference is decreased, and will be destroyed when
+    // ref is 0. So while it looks like we reference and dereference which
+    // should does nothing, the cairo_device_finish will to the actual work to
+    // clean up the internal reference. See also:
+    // https://lists.cairographics.org/archives/cairo/2018-November/028791.html
+    // Such design is to allow xcb shared connection data to be kept even if
+    // there is no xcb surface. Though this API design really sucks, since there
+    // is no API to create a xcb device and pass it to cairo_xcb_surface_create.
+    // Instead, we have to get the device pointer from a xcb surface.
+    cairo_device_finish(device);
+    cairo_device_destroy(device);
+}
+
+void XCBUI::setCairoDevice(cairo_device_t *device) {
+    if (device_.get() != device) {
+        device_.reset();
+        device_.reset(cairo_device_reference(device));
     }
 }
 

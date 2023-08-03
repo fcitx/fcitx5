@@ -7,7 +7,9 @@
 #ifndef _FCITX_UI_CLASSIC_XCBUI_H_
 #define _FCITX_UI_CLASSIC_XCBUI_H_
 
+#include <cairo.h>
 #include <pango/pangocairo.h>
+#include "fcitx-utils/misc.h"
 #include "fcitx-utils/rect.h"
 #include "classicui.h"
 
@@ -55,6 +57,7 @@ public:
     void suspend() override;
     void resume() override;
     void setEnableTray(bool) override;
+    void setCairoDevice(cairo_device_t *device);
 
     const auto &screenRects() { return rects_; }
     int dpiByPosition(int x, int y);
@@ -73,7 +76,10 @@ private:
     void updateTray();
     void scheduleUpdateScreen();
 
+    static void destroyCairoDevice(cairo_device_t *device);
+
     ClassicUI *parent_;
+    UniqueCPtr<cairo_device_t, destroyCairoDevice> device_;
     std::string displayName_;
     xcb_connection_t *conn_;
     XCBWindow *pointerGrabber_;
