@@ -37,15 +37,7 @@ public:
 
     ~VirtualKeyboardService() = default;
 
-    void showVirtualKeyboard() {
-        if (!parent_->available()) {
-            return;
-        }
-        parent_->instance()->setInputMethodMode(
-            InputMethodMode::OnScreenKeyboard);
-
-        parent_->showVirtualKeyboard();
-    }
+    void showVirtualKeyboard() { parent_->showVirtualKeyboardForcibly(); }
 
     void hideVirtualKeyboard() { parent_->hideVirtualKeyboard(); }
 
@@ -325,6 +317,16 @@ void VirtualKeyboard::hideVirtualKeyboard() {
     msg.send();
 }
 
+void VirtualKeyboard::showVirtualKeyboardForcibly() {
+    if (!available_) {
+        return;
+    }
+
+    instance_->setInputMethodMode(InputMethodMode::OnScreenKeyboard);
+
+    showVirtualKeyboard();
+}
+
 void VirtualKeyboard::toggleVirtualKeyboard() {
     if (!available_) {
         return;
@@ -333,7 +335,7 @@ void VirtualKeyboard::toggleVirtualKeyboard() {
     if (visible_) {
         hideVirtualKeyboard();
     } else {
-        showVirtualKeyboard();
+        showVirtualKeyboardForcibly();
     }
 }
 
