@@ -392,13 +392,13 @@ void QuickPhrase::updateUI(InputContext *inputContext) {
         inputContext->inputPanel().setCandidateList(std::move(candidateList));
     }
     Text preedit;
-    if (!state->prefix_.empty()) {
-        preedit.append(state->prefix_);
-    }
     const bool useClientPreedit =
         inputContext->capabilityFlags().test(CapabilityFlag::Preedit);
     TextFormatFlags format{useClientPreedit ? TextFormatFlag::Underline
                                             : TextFormatFlag::NoFlag};
+    if (!state->prefix_.empty()) {
+        preedit.append(state->prefix_, format);
+    }
     preedit.append(state->buffer_.userInput(), format);
     if (!state->buffer_.empty()) {
         preedit.setCursor(state->prefix_.size() +
@@ -411,7 +411,6 @@ void QuickPhrase::updateUI(InputContext *inputContext) {
     }
     inputContext->inputPanel().setAuxUp(auxUp);
     if (useClientPreedit) {
-        preedit.setCursor(0);
         inputContext->inputPanel().setClientPreedit(preedit);
     } else {
         inputContext->inputPanel().setPreedit(preedit);
