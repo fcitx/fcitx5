@@ -755,11 +755,6 @@ Instance::Instance(int argc, char **argv) {
             const bool isModifier = origKey.isModifier();
             if (keyEvent.isRelease()) {
                 int idx = 0;
-                if (origKey.isModifier() &&
-                    (Key::keySymToStates(origKey.sym()) == origKey.states() ||
-                     origKey.states() == 0)) {
-                    inputState->totallyReleased_ = true;
-                }
                 for (auto &keyHandler : keyHandlers) {
                     if (keyReleased == idx &&
                         origKey.isReleaseOfModifier(lastKeyPressed) &&
@@ -770,9 +765,15 @@ Instance::Instance(int argc, char **argv) {
                                 inputState->totallyReleased_ = false;
                             }
                         }
-                        return keyEvent.filter();
+                        keyEvent.filter();
+                        break;
                     }
                     idx++;
+                }
+                if (origKey.isModifier() &&
+                    (Key::keySymToStates(origKey.sym()) == origKey.states() ||
+                     origKey.states() == 0)) {
+                    inputState->totallyReleased_ = true;
                 }
             }
 
