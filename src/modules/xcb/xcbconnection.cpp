@@ -221,42 +221,57 @@ void XCBConnection::setDoGrab(bool doGrab) {
     }
 }
 
-void XCBConnection::grabKey(const Key &key) {
-    xcb_keysym_t sym = static_cast<xcb_keysym_t>(key.sym());
+std::tuple<xcb_keycode_t, uint32_t> XCBConnection::getKeyCode(const Key &key) {
+    xcb_keycode_t keycode = 0;
     uint32_t modifiers = key.states();
-    UniqueCPtr<xcb_keycode_t> keycode(
-        xcb_key_symbols_get_keycode(syms_.get(), sym));
-    if (key.isModifier()) {
-        modifiers &= ~Key::keySymToStates(key.sym());
-    }
-    if (!keycode) {
-        FCITX_XCB_WARN() << "Can not convert keyval=" << sym << " to keycode!";
+    if (key.code()) {
+        keycode = key.code();
     } else {
-        FCITX_XCB_DEBUG() << "grab keycode " << static_cast<int>(*keycode)
-                          << " modifiers " << modifiers;
-        auto cookie =
-            xcb_grab_key_checked(conn_.get(), true, root_, modifiers, *keycode,
-                                 XCB_GRAB_MODE_ASYNC, XCB_GRAB_MODE_ASYNC);
-        UniqueCPtr<xcb_generic_error_t> error(
-            xcb_request_check(conn_.get(), cookie));
-        if (error) {
-            FCITX_XCB_DEBUG()
-                << "grab key error " << static_cast<int>(error->error_code)
-                << " " << root_;
+        xcb_keysym_t sym = static_cast<xcb_keysym_t>(key.sym());
+        UniqueCPtr<xcb_keycode_t> xcbKeycode(
+            xcb_key_symbols_get_keycode(syms_.get(), sym));
+        if (key.isModifier()) {
+            modifiers &= ~Key::keySymToStates(key.sym());
         }
+        if (!xcbKeycode) {
+            FCITX_XCB_WARN()
+                << "Can not convert keyval=" << sym << " to keycode!";
+        } else {
+            keycode = *xcbKeycode;
+        }
+    }
+
+    return {keycode, modifiers};
+}
+
+void XCBConnection::grabKey(const Key &key) {
+    auto [keycode, modifiers] = getKeyCode(key);
+
+    if (!keycode) {
+        return;
+    }
+
+    FCITX_XCB_DEBUG() << "grab keycode " << static_cast<int>(keycode)
+                      << " modifiers " << modifiers;
+    auto cookie =
+        xcb_grab_key_checked(conn_.get(), true, root_, modifiers, keycode,
+                             XCB_GRAB_MODE_ASYNC, XCB_GRAB_MODE_ASYNC);
+    UniqueCPtr<xcb_generic_error_t> error(
+        xcb_request_check(conn_.get(), cookie));
+    if (error) {
+        FCITX_XCB_DEBUG() << "grab key error "
+                          << static_cast<int>(error->error_code) << " "
+                          << root_;
     }
 }
 
 void XCBConnection::ungrabKey(const Key &key) {
-    xcb_keysym_t sym = static_cast<xcb_keysym_t>(key.sym());
-    uint32_t modifiers = key.states();
-    UniqueCPtr<xcb_keycode_t> keycode(
-        xcb_key_symbols_get_keycode(syms_.get(), sym));
+    auto [keycode, modifiers] = getKeyCode(key);
     if (!keycode) {
-        FCITX_XCB_WARN() << "Can not convert keyval=" << sym << " to keycode!";
-    } else {
-        xcb_ungrab_key(conn_.get(), *keycode, root_, modifiers);
+        return;
     }
+
+    xcb_ungrab_key(conn_.get(), keycode, root_, modifiers);
     xcb_flush(conn_.get());
 }
 
@@ -481,7 +496,7 @@ void XCBConnection::acceptGroupChange() {
     auto &imManager = parent_->instance()->inputMethodManager();
     auto groups = imManager.groups();
     if (groups.size() > groupIndex_) {
-        if (isSingleModifier(currentKey_)) {
+        if (isSingleKey(currentKey_)) {
             imManager.enumerateGroupTo(groups[groupIndex_]);
         } else {
             imManager.setCurrentGroup(groups[groupIndex_]);
@@ -499,7 +514,7 @@ void XCBConnection::navigateGroup(const Key &key, bool forward) {
                   imManager.groupCount();
     FCITX_XCB_DEBUG() << "Switch to group " << groupIndex_;
 
-    if (parent_->notifications() && !isSingleModifier(key)) {
+    if (parent_->notifications() && !isSingleKey(key)) {
         parent_->notifications()->call<INotifications::showTip>(
             "enumerate-group", _("Input Method"), "input-keyboard",
             _("Switch group"),

@@ -233,6 +233,9 @@ static inline bool isSingleModifier(const Key &key) {
     return key.isModifier() && (key.states() == 0 ||
                                 key.states() == Key::keySymToStates(key.sym()));
 }
+static inline bool isSingleKey(const Key &key) {
+    return isSingleModifier(key) || !key.hasModifier();
+}
 
 } // namespace fcitx
 

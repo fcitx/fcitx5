@@ -440,7 +440,7 @@ void InstancePrivate::navigateGroup(InputContext *ic, const Key &key,
         imManager_.groupCount();
     FCITX_DEBUG() << "Switch to group " << inputState->pendingGroupIndex_;
 
-    if (notifications_ && !isSingleModifier(key)) {
+    if (notifications_ && !isSingleKey(key)) {
         notifications_->call<INotifications::showTip>(
             "enumerate-group", _("Input Method"), "input-keyboard",
             _("Switch group"),
@@ -456,7 +456,7 @@ void InstancePrivate::acceptGroupChange(const Key &key, InputContext *ic) {
     auto *inputState = ic->propertyFor(&inputStateFactory_);
     auto groups = imManager_.groups();
     if (groups.size() > inputState->pendingGroupIndex_) {
-        if (isSingleModifier(key)) {
+        if (isSingleKey(key)) {
             imManager_.enumerateGroupTo(groups[inputState->pendingGroupIndex_]);
         } else {
             imManager_.setCurrentGroup(groups[inputState->pendingGroupIndex_]);

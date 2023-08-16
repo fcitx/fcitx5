@@ -63,6 +63,7 @@ private:
 
     // Group enumerate.
     void setDoGrab(bool doGrab);
+    std::tuple<xcb_keycode_t, uint32_t> getKeyCode(const Key &key);
     void grabKey();
     void grabKey(const Key &key);
     void ungrabKey();
