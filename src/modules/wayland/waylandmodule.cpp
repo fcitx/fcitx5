@@ -6,11 +6,14 @@
  */
 
 #include "waylandmodule.h"
+#include <fcntl.h>
 #include <stdexcept>
 #include <gio/gio.h>
 #include <wayland-client.h>
 #include "fcitx-config/iniparser.h"
 #include "fcitx-utils/log.h"
+#include "fcitx-utils/misc.h"
+#include "fcitx-utils/standardpath.h"
 #include "fcitx/instance.h"
 #include "fcitx/misc_p.h"
 #include "config.h"
@@ -216,7 +219,19 @@ WaylandModule::WaylandModule(fcitx::Instance *instance)
             config.setValueByPath("Layout/DisplayNames", "");
             config.setValueByPath("Layout/Use", "true");
 
-            safeSaveAsIni(config, StandardPath::Type::Config, "kxkbrc");
+            // See: https://github.com/flatpak/flatpak/issues/5370
+            // The write temp file and replace does not work with mount bind,
+            // if the intention is to get the file populated outside the sandbox.
+            if (isInFlatpak()) {
+                auto file = StandardPath::global().open(StandardPath::Type::Config, "kxkbrc", O_WRONLY);
+                if (file.isValid()) {
+                    writeAsIni(config, file.fd());
+                } else {
+                    FCITX_WAYLAND_ERROR() << "Failed to write to kxkbrc.";
+                }
+            } else {
+                safeSaveAsIni(config, StandardPath::Type::Config, "kxkbrc");
+            }
 
             auto bus = dbusAddon->call<IDBusModule::bus>();
             auto message = bus->createSignal("/Layouts", "org.kde.keyboard",
