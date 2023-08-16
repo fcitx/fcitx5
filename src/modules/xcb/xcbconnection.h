@@ -71,7 +71,7 @@ private:
     void ungrabXKeyboard();
     void keyRelease(const xcb_key_release_event_t *event);
     void acceptGroupChange();
-    void navigateGroup(bool forward);
+    void navigateGroup(const Key &key, bool forward);
 
     std::unordered_map<std::string, xcb_atom_t> atomCache_;
 
@@ -110,6 +110,7 @@ private:
 
     UniqueCPtr<xcb_key_symbols_t, xcb_key_symbols_free> syms_;
     size_t groupIndex_ = 0;
+    Key currentKey_;
     KeyList forwardGroup_, backwardGroup_;
     bool doGrab_ = false;
     bool keyboardGrabbed_ = false;

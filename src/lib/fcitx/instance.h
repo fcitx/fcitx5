@@ -384,7 +384,13 @@ public:
     void setCurrentInputMethod(InputContext *ic, const std::string &imName,
                                bool local);
 
-    /// Enumerate input method group
+    /*
+     * Enumerate input method group
+     *
+     * This function has different behavior comparing to
+     * InputMethodManager::enumerateGroup Do not use this..
+     */
+    FCITXCORE_DEPRECATED
     bool enumerateGroup(bool forward);
 
     /// Enumerate input method with in current group

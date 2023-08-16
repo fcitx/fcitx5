@@ -229,6 +229,11 @@ static inline std::string stripLanguage(const std::string &lc) {
     return lang;
 }
 
+static inline bool isSingleModifier(const Key &key) {
+    return key.isModifier() && (key.states() == 0 ||
+                                key.states() == Key::keySymToStates(key.sym()));
+}
+
 } // namespace fcitx
 
 FCITX_DECLARE_LOG_CATEGORY(keyTrace);

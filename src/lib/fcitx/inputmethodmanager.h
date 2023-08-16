@@ -88,6 +88,15 @@ public:
     void enumerateGroup(bool forward);
 
     /**
+     * enumerate group to a certain group.
+     *
+     * For example, current order is A,B,C,D, enumerateGroupTo(C)
+     * will make order to be C,D,A,B.
+     * @arg groupName group name
+     */
+    void enumerateGroupTo(const std::string &groupName);
+
+    /**
      * Set default input method for current group.
      *
      * @see InputMethodGroup::setDefaultInputMethod

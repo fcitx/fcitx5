@@ -431,7 +431,8 @@ bool InstancePrivate::canDeactivate(InputContext *ic) {
     return inputState->isActive();
 }
 
-void InstancePrivate::navigateGroup(InputContext *ic, bool forward) {
+void InstancePrivate::navigateGroup(InputContext *ic, const Key &key,
+                                    bool forward) {
     auto *inputState = ic->propertyFor(&inputStateFactory_);
     inputState->pendingGroupIndex_ =
         (inputState->pendingGroupIndex_ +
@@ -439,7 +440,7 @@ void InstancePrivate::navigateGroup(InputContext *ic, bool forward) {
         imManager_.groupCount();
     FCITX_DEBUG() << "Switch to group " << inputState->pendingGroupIndex_;
 
-    if (notifications_) {
+    if (notifications_ && !isSingleModifier(key)) {
         notifications_->call<INotifications::showTip>(
             "enumerate-group", _("Input Method"), "input-keyboard",
             _("Switch group"),
@@ -449,13 +450,17 @@ void InstancePrivate::navigateGroup(InputContext *ic, bool forward) {
     }
 }
 
-void InstancePrivate::acceptGroupChange(InputContext *ic) {
+void InstancePrivate::acceptGroupChange(const Key &key, InputContext *ic) {
     FCITX_DEBUG() << "Accept group change";
 
     auto *inputState = ic->propertyFor(&inputStateFactory_);
     auto groups = imManager_.groups();
     if (groups.size() > inputState->pendingGroupIndex_) {
-        imManager_.setCurrentGroup(groups[inputState->pendingGroupIndex_]);
+        if (isSingleModifier(key)) {
+            imManager_.enumerateGroupTo(groups[inputState->pendingGroupIndex_]);
+        } else {
+            imManager_.setCurrentGroup(groups[inputState->pendingGroupIndex_]);
+        }
     }
     inputState->pendingGroupIndex_ = 0;
 }
@@ -711,6 +716,7 @@ Instance::Instance(int argc, char **argv) {
             auto &keyEvent = static_cast<KeyEvent &>(event);
             auto *ic = keyEvent.inputContext();
             CheckInputMethodChanged imChangedRAII(ic, d);
+            auto origKey = keyEvent.origKey().normalize();
 
             struct {
                 const KeyList &list;
@@ -739,10 +745,14 @@ Instance::Instance(int argc, char **argv) {
                  [this, ic](bool) { return enumerate(ic, false); }},
                 {d->globalConfig_.enumerateGroupForwardKeys(),
                  [this]() { return canChangeGroup(); },
-                 [ic, d](bool) { return d->navigateGroup(ic, true); }},
+                 [ic, d, origKey](bool) {
+                     return d->navigateGroup(ic, origKey, true);
+                 }},
                 {d->globalConfig_.enumerateGroupBackwardKeys(),
                  [this]() { return canChangeGroup(); },
-                 [ic, d](bool) { return d->navigateGroup(ic, false); }},
+                 [ic, d, origKey](bool) {
+                     return d->navigateGroup(ic, origKey, false);
+                 }},
             };
 
             auto *inputState = ic->propertyFor(&d->inputStateFactory_);
@@ -751,7 +761,6 @@ Instance::Instance(int argc, char **argv) {
             // Keep these two values, and reset them in the state
             inputState->keyReleased_ = -1;
             inputState->lastKeyPressed_ = Key();
-            auto origKey = keyEvent.origKey().normalize();
             const bool isModifier = origKey.isModifier();
             if (keyEvent.isRelease()) {
                 int idx = 0;
@@ -770,9 +779,7 @@ Instance::Instance(int argc, char **argv) {
                     }
                     idx++;
                 }
-                if (origKey.isModifier() &&
-                    (Key::keySymToStates(origKey.sym()) == origKey.states() ||
-                     origKey.states() == 0)) {
+                if (isSingleModifier(origKey)) {
                     inputState->totallyReleased_ = true;
                 }
             }
@@ -783,7 +790,7 @@ Instance::Instance(int argc, char **argv) {
                 if (inputState->imChanged_) {
                     inputState->imChanged_->ignore();
                 }
-                d->acceptGroupChange(ic);
+                d->acceptGroupChange(lastKeyPressed, ic);
             }
 
             if (!keyEvent.filtered() && !keyEvent.isRelease()) {

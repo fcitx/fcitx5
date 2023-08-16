@@ -271,6 +271,22 @@ void InputMethodManager::setCurrentGroup(const std::string &groupName) {
     }
 }
 
+void InputMethodManager::enumerateGroupTo(const std::string &groupName) {
+    FCITX_D();
+    if (groupName == d->groupOrder_.front()) {
+        return;
+    }
+    auto iter =
+        std::find(d->groupOrder_.begin(), d->groupOrder_.end(), groupName);
+    if (iter != d->groupOrder_.end()) {
+        emit<InputMethodManager::CurrentGroupAboutToChange>(
+            d->groupOrder_.front());
+        d->groupOrder_.splice(d->groupOrder_.begin(), d->groupOrder_, iter,
+                              d->groupOrder_.end());
+        emit<InputMethodManager::CurrentGroupChanged>(groupName);
+    }
+}
+
 const InputMethodGroup &InputMethodManager::currentGroup() const {
     FCITX_D();
     return d->groups_.find(d->groupOrder_.front())->second;

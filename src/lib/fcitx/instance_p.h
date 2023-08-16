@@ -149,9 +149,9 @@ public:
 
     bool canDeactivate(InputContext *ic);
 
-    void navigateGroup(InputContext *ic, bool forward);
+    void navigateGroup(InputContext *ic, const Key &key, bool forward);
 
-    void acceptGroupChange(InputContext *ic);
+    void acceptGroupChange(const Key &key, InputContext *ic);
 
     InstanceArgument arg_;
 

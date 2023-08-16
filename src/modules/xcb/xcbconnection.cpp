@@ -124,6 +124,15 @@ XCBConnection::XCBConnection(XCBModule *xcb, const std::string &name)
             setDoGrab(imManager.groupCount() > 1);
         }));
 
+    eventHandlers_.emplace_back(parent_->instance()->watchEvent(
+        EventType::GlobalConfigReloaded, EventWatcherPhase::Default,
+        [this](Event &) {
+            // Ungrab first, in order to grab new config.
+            setDoGrab(false);
+            auto &imManager = parent_->instance()->inputMethodManager();
+            setDoGrab(imManager.groupCount() > 1);
+        }));
+
     connections_.emplace_back(
         parent_->instance()
             ->inputMethodManager()
@@ -217,6 +226,9 @@ void XCBConnection::grabKey(const Key &key) {
     uint32_t modifiers = key.states();
     UniqueCPtr<xcb_keycode_t> keycode(
         xcb_key_symbols_get_keycode(syms_.get(), sym));
+    if (key.isModifier()) {
+        modifiers &= ~Key::keySymToStates(key.sym());
+    }
     if (!keycode) {
         FCITX_XCB_WARN() << "Can not convert keyval=" << sym << " to keycode!";
     } else {
@@ -293,7 +305,8 @@ void XCBConnection::ungrabXKeyboard() {
     if (!keyboardGrabbed_) {
         // grabXKeyboard() may fail sometimes, so don't fail, but at least warn
         // anyway
-        FCITX_XCB_DEBUG() << "ungrabXKeyboard() called but keyboard not grabbed!";
+        FCITX_XCB_DEBUG()
+            << "ungrabXKeyboard() called but keyboard not grabbed!";
     }
     FCITX_XCB_DEBUG() << "Ungrab keyboard for display: " << name_;
     keyboardGrabbed_ = false;
@@ -391,13 +404,16 @@ bool XCBConnection::filterEvent(xcb_connection_t *,
             if ((forward = key.checkKeyList(forwardGroup_)) ||
                 key.checkKeyList(backwardGroup_)) {
                 if (keyboardGrabbed_) {
-                    navigateGroup(forward);
+                    navigateGroup(key, forward);
                 } else {
                     if (grabXKeyboard()) {
                         groupIndex_ = 0;
-                        navigateGroup(forward);
+                        currentKey_ = key;
+                        navigateGroup(key, forward);
                     } else {
-                        parent_->instance()->enumerateGroup(forward);
+                        parent_->instance()
+                            ->inputMethodManager()
+                            .enumerateGroup(forward);
                     }
                 }
             }
@@ -465,12 +481,16 @@ void XCBConnection::acceptGroupChange() {
     auto &imManager = parent_->instance()->inputMethodManager();
     auto groups = imManager.groups();
     if (groups.size() > groupIndex_) {
-        imManager.setCurrentGroup(groups[groupIndex_]);
+        if (isSingleModifier(currentKey_)) {
+            imManager.enumerateGroupTo(groups[groupIndex_]);
+        } else {
+            imManager.setCurrentGroup(groups[groupIndex_]);
+        }
     }
     groupIndex_ = 0;
 }
 
-void XCBConnection::navigateGroup(bool forward) {
+void XCBConnection::navigateGroup(const Key &key, bool forward) {
     auto &imManager = parent_->instance()->inputMethodManager();
     if (imManager.groupCount() < 2) {
         return;
@@ -479,7 +499,7 @@ void XCBConnection::navigateGroup(bool forward) {
                   imManager.groupCount();
     FCITX_XCB_DEBUG() << "Switch to group " << groupIndex_;
 
-    if (parent_->notifications()) {
+    if (parent_->notifications() && !isSingleModifier(key)) {
         parent_->notifications()->call<INotifications::showTip>(
             "enumerate-group", _("Input Method"), "input-keyboard",
             _("Switch group"),

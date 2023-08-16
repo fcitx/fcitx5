@@ -245,18 +245,21 @@ QuickPhrase::QuickPhrase(Instance *instance)
                     state->buffer_.setCursor(0);
                     keyEvent.accept();
                     return updateUI(inputContext);
-                } else if (key.check(FcitxKey_End) || key.check(FcitxKey_KP_End)) {
+                } else if (key.check(FcitxKey_End) ||
+                           key.check(FcitxKey_KP_End)) {
                     state->buffer_.setCursor(state->buffer_.size());
                     keyEvent.accept();
                     return updateUI(inputContext);
-                } else if (key.check(FcitxKey_Left) || key.check(FcitxKey_KP_Left)) {
+                } else if (key.check(FcitxKey_Left) ||
+                           key.check(FcitxKey_KP_Left)) {
                     auto cursor = state->buffer_.cursor();
                     if (cursor > 0) {
                         state->buffer_.setCursor(cursor - 1);
                     }
                     keyEvent.accept();
                     return updateUI(inputContext);
-                } else if (key.check(FcitxKey_Right) || key.check(FcitxKey_KP_Right)) {
+                } else if (key.check(FcitxKey_Right) ||
+                           key.check(FcitxKey_KP_Right)) {
                     auto cursor = state->buffer_.cursor();
                     if (cursor < state->buffer_.size()) {
                         state->buffer_.setCursor(cursor + 1);
@@ -302,10 +305,13 @@ QuickPhrase::QuickPhrase(Instance *instance)
                 return;
             }
             invokeActionEvent.filter();
-            int cursor = invokeActionEvent.cursor() - static_cast<int>(state->prefix_.size());
+            int cursor = invokeActionEvent.cursor() -
+                         static_cast<int>(state->prefix_.size());
             if (cursor < 0 ||
-                invokeActionEvent.action() != InvokeActionEvent::Action::LeftClick ||
-                !inputContext->capabilityFlags().test(CapabilityFlag::Preedit)) {
+                invokeActionEvent.action() !=
+                    InvokeActionEvent::Action::LeftClick ||
+                !inputContext->capabilityFlags().test(
+                    CapabilityFlag::Preedit)) {
                 state->reset(inputContext);
                 return;
             }
