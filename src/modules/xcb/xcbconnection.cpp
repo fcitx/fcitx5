@@ -241,7 +241,7 @@ void XCBConnection::ungrabKey(const Key &key) {
     UniqueCPtr<xcb_keycode_t> keycode(
         xcb_key_symbols_get_keycode(syms_.get(), sym));
     if (!keycode) {
-        FCITX_WARN() << "Can not convert keyval=" << sym << " to keycode!";
+        FCITX_XCB_WARN() << "Can not convert keyval=" << sym << " to keycode!";
     } else {
         xcb_ungrab_key(conn_.get(), *keycode, root_, modifiers);
     }
@@ -249,7 +249,7 @@ void XCBConnection::ungrabKey(const Key &key) {
 }
 
 void XCBConnection::grabKey() {
-    FCITX_DEBUG() << "Grab key for X11 display: " << name_;
+    FCITX_XCB_DEBUG() << "Grab key for X11 display: " << name_;
     auto &globalConfig = parent_->instance()->globalConfig();
     forwardGroup_ = globalConfig.enumerateGroupForwardKeys();
     backwardGroup_ = globalConfig.enumerateGroupBackwardKeys();
@@ -277,7 +277,7 @@ bool XCBConnection::grabXKeyboard() {
     if (keyboardGrabbed_) {
         return false;
     }
-    FCITX_DEBUG() << "Grab keyboard for display: " << name_;
+    FCITX_XCB_DEBUG() << "Grab keyboard for display: " << name_;
     auto cookie = xcb_grab_keyboard(conn_.get(), false, root_, XCB_CURRENT_TIME,
                                     XCB_GRAB_MODE_ASYNC, XCB_GRAB_MODE_ASYNC);
     auto reply =
@@ -293,9 +293,9 @@ void XCBConnection::ungrabXKeyboard() {
     if (!keyboardGrabbed_) {
         // grabXKeyboard() may fail sometimes, so don't fail, but at least warn
         // anyway
-        FCITX_DEBUG() << "ungrabXKeyboard() called but keyboard not grabbed!";
+        FCITX_XCB_DEBUG() << "ungrabXKeyboard() called but keyboard not grabbed!";
     }
-    FCITX_DEBUG() << "Ungrab keyboard for display: " << name_;
+    FCITX_XCB_DEBUG() << "Ungrab keyboard for display: " << name_;
     keyboardGrabbed_ = false;
     xcb_ungrab_keyboard(conn_.get(), XCB_CURRENT_TIME);
     xcb_flush(conn_.get());
@@ -381,7 +381,7 @@ bool XCBConnection::filterEvent(xcb_connection_t *,
 
         auto *keypress = reinterpret_cast<xcb_key_press_event_t *>(event);
         if (keypress->event == root_) {
-            FCITX_DEBUG() << "Received key event from root";
+            FCITX_XCB_DEBUG() << "Received key event from root";
             auto sym = xcb_key_press_lookup_keysym(syms_.get(), keypress, 0);
             auto state = keypress->state;
             bool forward;
@@ -457,7 +457,7 @@ void XCBConnection::keyRelease(const xcb_key_release_event_t *event) {
 }
 
 void XCBConnection::acceptGroupChange() {
-    FCITX_DEBUG() << "Accept group change";
+    FCITX_XCB_DEBUG() << "Accept group change";
     if (keyboardGrabbed_) {
         ungrabXKeyboard();
     }
@@ -477,7 +477,7 @@ void XCBConnection::navigateGroup(bool forward) {
     }
     groupIndex_ = (groupIndex_ + (forward ? 1 : imManager.groupCount() - 1)) %
                   imManager.groupCount();
-    FCITX_DEBUG() << "Switch to group " << groupIndex_;
+    FCITX_XCB_DEBUG() << "Switch to group " << groupIndex_;
 
     if (parent_->notifications()) {
         parent_->notifications()->call<INotifications::showTip>(
