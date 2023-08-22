@@ -221,9 +221,11 @@ WaylandModule::WaylandModule(fcitx::Instance *instance)
 
             // See: https://github.com/flatpak/flatpak/issues/5370
             // The write temp file and replace does not work with mount bind,
-            // if the intention is to get the file populated outside the sandbox.
+            // if the intention is to get the file populated outside the
+            // sandbox.
             if (isInFlatpak()) {
-                auto file = StandardPath::global().open(StandardPath::Type::Config, "kxkbrc", O_WRONLY);
+                auto file = StandardPath::global().open(
+                    StandardPath::Type::Config, "kxkbrc", O_WRONLY);
                 if (file.isValid()) {
                     writeAsIni(config, file.fd());
                 } else {
