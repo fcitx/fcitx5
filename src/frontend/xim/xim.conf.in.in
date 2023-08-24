@@ -9,7 +9,8 @@ Configurable=True
 [Addon/Dependencies]
 0=xcb
 
-# This intends to load xim after dbus, so xim is released before dbus.
+# This intends to load xim after dbus & ibusfrontend, so xim is released before dbus.
 # This helps new fcitx server to become xim server properly when replacing.
 [Addon/OptionalDependencies]
 0=dbus
+1=ibusfrontend
