@@ -372,10 +372,11 @@ void WaylandModule::reloadXkbOptionReal() {
             << "KDE xkb options: model=" << (model ? *model : "")
             << " options=" << *xkbOption;
     } else if (getDesktopType() == DesktopType::GNOME) {
-        auto settings = g_settings_new("org.gnome.desktop.input-sources");
+        UniqueCPtr<GSettings, g_object_unref> settings(
+            g_settings_new("org.gnome.desktop.input-sources"));
         if (settings) {
 
-            gchar **value = g_settings_get_strv(settings, "xkb-options");
+            gchar **value = g_settings_get_strv(settings.get(), "xkb-options");
             if (value) {
                 auto options = g_strjoinv(",", value);
                 xkbOption = (options ? options : "");
@@ -383,8 +384,8 @@ void WaylandModule::reloadXkbOptionReal() {
                                             DEFAULT_XKB_RULES, "", *xkbOption);
                 FCITX_WAYLAND_DEBUG() << "GNOME xkb options=" << *xkbOption;
                 g_free(options);
+                g_strfreev(value);
             }
-            g_object_unref(settings);
         }
     }
 #ifdef ENABLE_X11
