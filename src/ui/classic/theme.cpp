@@ -188,18 +188,19 @@ cairo_surface_t *loadImage(StandardPathFile &file) {
         return surface;
     }
 
-    auto *stream = g_unix_input_stream_new(file.fd(), false);
-    auto *image = gdk_pixbuf_new_from_stream(stream, nullptr, nullptr);
+    GObjectUniquePtr<GInputStream> stream(
+        g_unix_input_stream_new(file.fd(), false));
+    if (!stream) {
+        return nullptr;
+    }
+    GObjectUniquePtr<GdkPixbuf> image(
+        gdk_pixbuf_new_from_stream(stream.get(), nullptr, nullptr));
+    g_input_stream_close(stream.get(), nullptr, nullptr);
     if (!image) {
         return nullptr;
     }
 
-    auto *surface = pixBufToCairoSurface(image);
-
-    g_input_stream_close(stream, nullptr, nullptr);
-    g_object_unref(stream);
-    g_object_unref(image);
-
+    auto *surface = pixBufToCairoSurface(image.get());
     return surface;
 }
 
