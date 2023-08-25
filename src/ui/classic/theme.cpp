@@ -8,6 +8,7 @@
 #include "theme.h"
 #include <fcntl.h>
 #include <cassert>
+#include <unordered_set>
 #include <cairo.h>
 #include <fmt/format.h>
 #include <gdk-pixbuf/gdk-pixbuf.h>
@@ -206,6 +207,35 @@ cairo_surface_t *loadImage(StandardPathFile &file) {
 
 } // namespace
 
+const std::vector<std::string> &gdkPixbufSupportedFormats() {
+    const static std::vector<std::string> formats = []() {
+        std::unordered_set<std::string> exts;
+        std::vector<std::string> result;
+        // PNG is supported by cairo.
+        UniqueCPtr<GSList, g_slist_free> list(gdk_pixbuf_get_formats());
+        for (GSList *item = list.get(); item; item = g_slist_next(item)) {
+            gchar **extension = gdk_pixbuf_format_get_extensions(
+                static_cast<GdkPixbufFormat *>(item->data));
+            for (auto *iter = extension; iter && *iter; iter++) {
+                exts.insert(std::string(*iter));
+            }
+            g_strfreev(extension);
+        }
+
+        // Only put the common types and we make a prefered order.
+        for (std::string ext : {"svg", "svgz", "png", "bmp", "xpm"}) {
+            // png is supported by cairo.
+            if (ext == "png" || exts.count(ext)) {
+                result.push_back("." + ext);
+            }
+        }
+        CLASSICUI_DEBUG() << "Supported image extensions: " << result;
+        return result;
+    }();
+
+    return formats;
+}
+
 ThemeImage::ThemeImage(const IconTheme &iconTheme, const std::string &icon,
                        const std::string &label, uint32_t size,
                        const ClassicUI *classicui)
@@ -216,7 +246,8 @@ ThemeImage::ThemeImage(const IconTheme &iconTheme, const std::string &icon,
           hasTwoKeyboardInCurrentGroup(classicui->instance())) ||
          *classicui->config().preferTextIcon);
     if (!preferTextIcon && !icon.empty()) {
-        std::string iconPath = iconTheme.findIcon(icon, size, 1);
+        std::string iconPath =
+            iconTheme.findIcon(icon, size, 1, gdkPixbufSupportedFormats());
         auto fd = open(iconPath.c_str(), O_RDONLY);
         StandardPathFile file(fd, icon);
         image_.reset(loadImage(file));
