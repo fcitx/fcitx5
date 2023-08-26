@@ -15,7 +15,7 @@
   <url type="homepage">https://fcitx-im.org/</url>
   <url type="bugtracker">https://github.com/fcitx/fcitx5/issues</url>
   <url type="help">https://fcitx-im.org/wiki/Fcitx</url>
-  <url type="translation">https://explore.transifex.com/fcitx/</url>
+  <url type="translate">https://explore.transifex.com/fcitx/</url>
   <url type="faq">https://fcitx-im.org/wiki/FAQ</url>
   <screenshots>
     <screenshot type="default">
