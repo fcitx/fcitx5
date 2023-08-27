@@ -649,6 +649,8 @@ public:
 
     bool checkUpdate() { return instance_->checkUpdate(); }
 
+    void save() { return instance_->save(); }
+
 private:
     DBusModule *module_;
     Instance *instance_;
@@ -713,6 +715,7 @@ private:
     FCITX_OBJECT_VTABLE_METHOD(debugInfo, "DebugInfo", "", "s");
     FCITX_OBJECT_VTABLE_METHOD(refresh, "Refresh", "", "");
     FCITX_OBJECT_VTABLE_METHOD(checkUpdate, "CheckUpdate", "", "b");
+    FCITX_OBJECT_VTABLE_METHOD(save, "Save", "", "");
 };
 
 DBusModule::DBusModule(Instance *instance)
