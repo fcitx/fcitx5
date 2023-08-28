@@ -4,6 +4,7 @@
  * SPDX-License-Identifier: LGPL-2.1-or-later
  *
  */
+#define _FILE_OFFSET_BITS 64
 #include "emoji.h"
 #include <sys/stat.h>
 #include <functional>

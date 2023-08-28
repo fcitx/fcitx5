@@ -5,7 +5,7 @@
  * SPDX-License-Identifier: LGPL-2.1-or-later
  *
  */
-
+#define _FILE_OFFSET_BITS 64
 #include <fcntl.h>
 #include <sys/mman.h>
 #include <sys/stat.h>

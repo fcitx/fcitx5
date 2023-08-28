@@ -11,7 +11,7 @@
 //
 // original file is licensed under LGPLv2+
 //
-
+#define _FILE_OFFSET_BITS 64
 #include "charselectdata.h"
 #include <fcntl.h>
 #include <strings.h>

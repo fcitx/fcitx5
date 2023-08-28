@@ -5,6 +5,7 @@
  *
  */
 
+#define _FILE_OFFSET_BITS 64
 #include "library.h"
 #include <dlfcn.h>
 #include <errno.h>

@@ -5,6 +5,7 @@
  *
  */
 
+#define _FILE_OFFSET_BITS 64
 #include "standardpath.h"
 #include <dirent.h>
 #include <fcntl.h>

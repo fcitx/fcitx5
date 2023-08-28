@@ -5,6 +5,7 @@
  *
  */
 
+#define _FILE_OFFSET_BITS 64
 #include "ibusfrontend.h"
 #include <fcntl.h>
 #include <signal.h>

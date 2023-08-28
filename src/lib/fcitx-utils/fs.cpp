@@ -5,6 +5,7 @@
  *
  */
 
+#define _FILE_OFFSET_BITS 64
 #include "fs.h"
 #include <errno.h>
 #include <sys/stat.h>
