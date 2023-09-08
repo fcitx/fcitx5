@@ -131,6 +131,7 @@ enum class DesktopType {
     LXDE,
     XFCE,
     DEEPIN,
+    UKUI,
     Unknown
 };
 
@@ -172,6 +173,8 @@ static inline DesktopType getDesktopType() {
             return DesktopType::XFCE;
         } else if (desktop == "deepin") {
             return DesktopType::DEEPIN;
+        } else if (desktop == "ukui") {
+            return DesktopType::UKUI;
         }
     }
     return DesktopType::Unknown;
