@@ -815,13 +815,11 @@ static const struct _FcitxKeySymToUnicode gdk_keysym_to_unicode_tab[] = {
     {0x0ed9, 0x11ad}, /* Hangul_J_NieunHieuh ᆭ HANGUL JONGSEONG NIEUN-HIEUH */
     {0x0eda, 0x11ae}, /* Hangul_J_Dikeud ᆮ HANGUL JONGSEONG TIKEUT */
     {0x0edb, 0x11af}, /* Hangul_J_Rieul ᆯ HANGUL JONGSEONG RIEUL */
-    {0x0edc,
-     0x11b0}, /* Hangul_J_RieulKiyeog ᆰ HANGUL JONGSEONG RIEUL-KIYEOK */
+    {0x0edc, 0x11b0}, /* Hangul_J_RieulKiyeog ᆰ HANGUL JONGSEONG RIEUL-KIYEOK */
     {0x0edd, 0x11b1}, /* Hangul_J_RieulMieum ᆱ HANGUL JONGSEONG RIEUL-MIEUM */
     {0x0ede, 0x11b2}, /* Hangul_J_RieulPieub ᆲ HANGUL JONGSEONG RIEUL-PIEUP */
     {0x0edf, 0x11b3}, /* Hangul_J_RieulSios ᆳ HANGUL JONGSEONG RIEUL-SIOS */
-    {0x0ee0,
-     0x11b4}, /* Hangul_J_RieulTieut ᆴ HANGUL JONGSEONG RIEUL-THIEUTH */
+    {0x0ee0, 0x11b4}, /* Hangul_J_RieulTieut ᆴ HANGUL JONGSEONG RIEUL-THIEUTH */
     {0x0ee1,
      0x11b5}, /* Hangul_J_RieulPhieuf ᆵ HANGUL JONGSEONG RIEUL-PHIEUPH */
     {0x0ee2, 0x11b6}, /* Hangul_J_RieulHieuh ᆶ HANGUL JONGSEONG RIEUL-HIEUH */
@@ -1397,13 +1395,11 @@ static const struct _FcitxUnicodeToKeySym gdk_unicode_to_keysym_tab[] = {
     {0x0ed9, 0x11ad}, /* Hangul_J_NieunHieuh ᆭ HANGUL JONGSEONG NIEUN-HIEUH */
     {0x0eda, 0x11ae}, /* Hangul_J_Dikeud ᆮ HANGUL JONGSEONG TIKEUT */
     {0x0edb, 0x11af}, /* Hangul_J_Rieul ᆯ HANGUL JONGSEONG RIEUL */
-    {0x0edc,
-     0x11b0}, /* Hangul_J_RieulKiyeog ᆰ HANGUL JONGSEONG RIEUL-KIYEOK */
+    {0x0edc, 0x11b0}, /* Hangul_J_RieulKiyeog ᆰ HANGUL JONGSEONG RIEUL-KIYEOK */
     {0x0edd, 0x11b1}, /* Hangul_J_RieulMieum ᆱ HANGUL JONGSEONG RIEUL-MIEUM */
     {0x0ede, 0x11b2}, /* Hangul_J_RieulPieub ᆲ HANGUL JONGSEONG RIEUL-PIEUP */
     {0x0edf, 0x11b3}, /* Hangul_J_RieulSios ᆳ HANGUL JONGSEONG RIEUL-SIOS */
-    {0x0ee0,
-     0x11b4}, /* Hangul_J_RieulTieut ᆴ HANGUL JONGSEONG RIEUL-THIEUTH */
+    {0x0ee0, 0x11b4}, /* Hangul_J_RieulTieut ᆴ HANGUL JONGSEONG RIEUL-THIEUTH */
     {0x0ee1,
      0x11b5}, /* Hangul_J_RieulPhieuf ᆵ HANGUL JONGSEONG RIEUL-PHIEUPH */
     {0x0ee2, 0x11b6}, /* Hangul_J_RieulHieuh ᆶ HANGUL JONGSEONG RIEUL-HIEUH */
