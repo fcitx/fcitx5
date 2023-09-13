@@ -450,7 +450,7 @@ void QuickPhrase::updateUI(InputContext *inputContext) {
 
         setSelectionKeys(selectionKeyAction);
         candidateList->setSelectionKey(selectionKeys_);
-        if (candidateList->size()) {
+        if (!candidateList->empty()) {
             candidateList->setGlobalCursorIndex(0);
         }
         inputContext->inputPanel().setCandidateList(std::move(candidateList));
@@ -463,8 +463,8 @@ void QuickPhrase::updateUI(InputContext *inputContext) {
     if (!state->prefix_.empty()) {
         preedit.append(state->prefix_, format);
     }
-    preedit.append(state->buffer_.userInput(), format);
     if (!state->buffer_.empty()) {
+        preedit.append(state->buffer_.userInput(), format);
         preedit.setCursor(state->prefix_.size() +
                           state->buffer_.cursorByChar());
     }
