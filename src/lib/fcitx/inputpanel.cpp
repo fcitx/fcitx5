@@ -45,7 +45,12 @@ void InputPanel::setCandidateList(std::unique_ptr<CandidateList> candidate) {
 
 void InputPanel::setClientPreedit(const Text &clientPreedit) {
     FCITX_D();
-    d->clientPreedit_ = clientPreedit;
+    d->clientPreedit_ = clientPreedit.normalize();
+    // If it is empty preedit, always set cursor to 0.
+    // An empty preedit with hidden cursor would only cause issues.
+    if (d->clientPreedit_.empty()) {
+        d->clientPreedit_.setCursor(0);
+    }
 }
 
 void InputPanel::setPreedit(const Text &text) {

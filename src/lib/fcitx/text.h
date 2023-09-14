@@ -47,6 +47,16 @@ public:
     std::string toStringForCommit() const;
 
     /**
+     * Remove empty string piece and merge the string with same format.
+     *
+     * This function is useful for frontend to send less data over the wire and
+     * avoid send data that is problematic for some frontend.
+     *
+     * @since 5.1.1
+     */
+    Text normalize() const;
+
+    /**
      * Split Text object into lines.
      *
      * @return lines.

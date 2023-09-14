@@ -141,4 +141,31 @@ std::vector<Text> Text::splitByLine() const {
     return texts;
 }
 
+Text Text::normalize() const {
+    FCITX_D();
+
+    Text normalized;
+    std::string curStr;
+    TextFormatFlags curFormat;
+    for (const auto &[str, format] : d->texts_) {
+        if (str.empty()) {
+            continue;
+        }
+        if (curFormat == format) {
+            curStr.append(str);
+        } else {
+            if (!curStr.empty()) {
+                normalized.append(std::move(curStr), curFormat);
+            }
+            curStr = str;
+            curFormat = format;
+        }
+    }
+    if (!curStr.empty()) {
+        normalized.append(std::move(curStr), curFormat);
+    }
+    normalized.setCursor(cursor());
+    return normalized;
+}
+
 } // namespace fcitx

@@ -6,9 +6,9 @@
  */
 #include <fcitx-utils/log.h>
 #include <fcitx/text.h>
+using namespace fcitx;
 
-int main() {
-    using namespace fcitx;
+void test_basic() {
     Text text("ABC");
 
     FCITX_ASSERT(text.toString() == "ABC");
@@ -33,6 +33,33 @@ int main() {
     FCITX_ASSERT(lines[2].toStringForCommit() == "");
     FCITX_ASSERT(lines[3].toStringForCommit() == "Z");
     FCITX_ASSERT(lines[4].toStringForCommit() == "1");
+}
 
+void test_normalize() {
+    Text text;
+    text.append("ABC", TextFormatFlag::Underline);
+    text.append("", TextFormatFlag::HighLight);
+    text.append("DEF", TextFormatFlag::Underline);
+    text.append("HIJ", TextFormatFlag::HighLight);
+
+    auto normalized = text.normalize();
+    FCITX_ASSERT(normalized.size() == 2) << normalized;
+    FCITX_ASSERT(normalized.stringAt(0) == "ABCDEF");
+    FCITX_ASSERT(normalized.formatAt(0) == TextFormatFlag::Underline);
+    FCITX_ASSERT(normalized.stringAt(1) == "HIJ");
+    FCITX_ASSERT(normalized.formatAt(1) == TextFormatFlag::HighLight);
+
+    Text empty;
+    empty.append("", TextFormatFlag::Underline);
+    empty.append("", TextFormatFlag::Underline);
+    empty.append("", TextFormatFlag::Underline);
+
+    auto normalizedEmpty = empty.normalize();
+    FCITX_ASSERT(normalizedEmpty.empty()) << normalizedEmpty;
+}
+
+int main() {
+    test_basic();
+    test_normalize();
     return 0;
 }
