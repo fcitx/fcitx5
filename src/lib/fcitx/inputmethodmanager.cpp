@@ -90,6 +90,8 @@ void InputMethodManagerPrivate::loadConfig(
             tempOrder.push_back(groupConfig.name.value());
             auto &group = result.first->second;
             group.setDefaultLayout(groupConfig.defaultLayout.value());
+            group.setDefaultLayoutOptions(
+                groupConfig.defaultLayoutOptions.value());
             const auto &items = groupConfig.items.value();
             for (const auto &item : items) {
                 if (!entries_.count(item.name.value())) {
@@ -422,6 +424,7 @@ void InputMethodManager::save() {
         auto &groupConfig = groups.back();
         groupConfig.name.setValue(group.name());
         groupConfig.defaultLayout.setValue(group.defaultLayout());
+        groupConfig.defaultLayoutOptions.setValue(group.defaultLayoutOptions());
         groupConfig.defaultInputMethod.setValue(group.defaultInputMethod());
         std::vector<InputMethodGroupItemConfig> itemsConfig;
         for (auto &item : group.inputMethodList()) {

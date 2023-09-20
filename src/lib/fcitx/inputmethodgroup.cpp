@@ -32,6 +32,7 @@ public:
     std::vector<InputMethodGroupItem> inputMethodList_;
     std::string defaultInputMethod_;
     std::string defaultLayout_;
+    std::string defaultLayoutOptions_;
 };
 
 InputMethodGroupItem::InputMethodGroupItem(const std::string &name)
@@ -131,5 +132,16 @@ void InputMethodGroup::setDefaultLayout(const std::string &layout) {
 const std::string &InputMethodGroup::defaultLayout() const {
     FCITX_D();
     return d->defaultLayout_;
+}
+
+void InputMethodGroup::setDefaultLayoutOptions(
+    const std::string &layoutOptions) {
+    FCITX_D();
+    d->defaultLayoutOptions_ = layoutOptions;
+}
+
+const std::string &InputMethodGroup::defaultLayoutOptions() const {
+    FCITX_D();
+    return d->defaultLayoutOptions_;
 }
 } // namespace fcitx
