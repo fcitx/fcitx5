@@ -451,14 +451,16 @@ void InstancePrivate::navigateGroup(InputContext *ic, const Key &key,
 }
 
 void InstancePrivate::acceptGroupChange(const Key &key, InputContext *ic) {
-    FCITX_DEBUG() << "Accept group change";
+    FCITX_DEBUG() << "Accept group change, isSingleKey: " << key;
 
     auto *inputState = ic->propertyFor(&inputStateFactory_);
     auto groups = imManager_.groups();
     if (groups.size() > inputState->pendingGroupIndex_) {
         if (isSingleKey(key)) {
+            FCITX_DEBUG() << "EnumerateGroupTo: " << inputState->pendingGroupIndex_ << " " << key;
             imManager_.enumerateGroupTo(groups[inputState->pendingGroupIndex_]);
         } else {
+            FCITX_DEBUG() << "SetCurrentGroup: " << inputState->pendingGroupIndex_ << " " << key;
             imManager_.setCurrentGroup(groups[inputState->pendingGroupIndex_]);
         }
     }
@@ -758,9 +760,8 @@ Instance::Instance(int argc, char **argv) {
             auto *inputState = ic->propertyFor(&d->inputStateFactory_);
             int keyReleased = inputState->keyReleased_;
             Key lastKeyPressed = inputState->lastKeyPressed_;
-            // Keep these two values, and reset them in the state
+            // Keep this value, and reset them in the state
             inputState->keyReleased_ = -1;
-            inputState->lastKeyPressed_ = Key();
             const bool isModifier = origKey.isModifier();
             if (keyEvent.isRelease()) {
                 int idx = 0;
@@ -791,6 +792,7 @@ Instance::Instance(int argc, char **argv) {
                     inputState->imChanged_->ignore();
                 }
                 d->acceptGroupChange(lastKeyPressed, ic);
+                inputState->lastKeyPressed_ = Key();
             }
 
             if (!keyEvent.filtered() && !keyEvent.isRelease()) {
