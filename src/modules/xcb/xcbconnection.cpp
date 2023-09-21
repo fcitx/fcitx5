@@ -454,6 +454,7 @@ void XCBConnection::keyRelease(const xcb_key_release_event_t *event) {
     // released
     // key is this modifier - if yes, release the grab
     int mod_index = -1;
+    // Find and check if mk has only one mask left.
     for (int i = XCB_MAP_INDEX_SHIFT; i <= XCB_MAP_INDEX_5; ++i) {
         if ((mk & (1 << i)) != 0) {
             if (mod_index >= 0) {
@@ -503,6 +504,7 @@ void XCBConnection::acceptGroupChange() {
         }
     }
     groupIndex_ = 0;
+    currentKey_ = Key();
 }
 
 void XCBConnection::navigateGroup(const Key &key, bool forward) {
@@ -611,6 +613,16 @@ struct xkb_state *XCBConnection::xkbState() { return keyboard_->xkbState(); }
 
 XkbRulesNames XCBConnection::xkbRulesNames() {
     return keyboard_->xkbRulesNames();
+}
+
+void XCBConnection::modifierUpdate(KeyStates states) {
+    if (!keyboardGrabbed_) {
+        return;
+    }
+    states = states & USED_MASK;
+    if (states == 0 && (currentKey_.hasModifier() || currentKey_.isModifier())) {
+        acceptGroupChange();
+    }
 }
 
 } // namespace fcitx

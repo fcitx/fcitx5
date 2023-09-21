@@ -12,6 +12,7 @@
 #include <xcb/xcb_keysyms.h>
 #include "fcitx-utils/event.h"
 #include "fcitx-utils/handlertable.h"
+#include "fcitx-utils/key.h"
 #include "xcb_public.h"
 
 namespace fcitx {
@@ -55,6 +56,7 @@ public:
     void setXkbOption(const std::string &option);
 
     void processEvent();
+    void modifierUpdate(KeyStates states);
 
 private:
     bool filterEvent(xcb_connection_t *conn, xcb_generic_event_t *event);

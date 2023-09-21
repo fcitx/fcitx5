@@ -548,6 +548,12 @@ bool XCBKeyboard::handleEvent(xcb_generic_event_t *event) {
             conn_->instance()->updateXkbStateMask(
                 conn_->focusGroup()->display(), state->baseMods,
                 state->latchedMods, state->lockedMods);
+
+            const uint32_t effective = xkb_state_serialize_mods(
+                state_.get(), XKB_STATE_MODS_EFFECTIVE);
+            auto newModifier = KeyStates(effective);
+            conn_->modifierUpdate(newModifier);
+
             return true;
         }
         case XCB_XKB_MAP_NOTIFY: {
