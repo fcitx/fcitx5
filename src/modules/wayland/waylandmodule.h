@@ -113,6 +113,8 @@ private:
     void onConnectionCreated(WaylandConnection &conn);
     void onConnectionClosed(WaylandConnection &conn);
     void reloadXkbOptionReal();
+    void setLayoutToGNOME();
+    void setLayoutToKDE5();
 
     FCITX_ADDON_DEPENDENCY_LOADER(dbus, instance_->addonManager());
     FCITX_ADDON_DEPENDENCY_LOADER(xcb, instance_->addonManager());

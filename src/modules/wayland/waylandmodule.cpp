@@ -8,12 +8,14 @@
 #include "waylandmodule.h"
 #include <fcntl.h>
 #include <stdexcept>
+#include <string>
 #include <gio/gio.h>
 #include <wayland-client.h>
 #include "fcitx-config/iniparser.h"
 #include "fcitx-utils/log.h"
 #include "fcitx-utils/misc.h"
 #include "fcitx-utils/standardpath.h"
+#include "fcitx-utils/stringutils.h"
 #include "fcitx/instance.h"
 #include "fcitx/misc_p.h"
 #include "config.h"
@@ -190,7 +192,7 @@ WaylandModule::WaylandModule(fcitx::Instance *instance)
     eventHandlers_.emplace_back(instance_->watchEvent(
         EventType::InputMethodGroupChanged, EventWatcherPhase::Default,
         [this](Event &) {
-            if (!isKDE5() || !isWaylandSession_ || !*config_.allowOverrideXKB) {
+            if (!isWaylandSession_ || !*config_.allowOverrideXKB) {
                 return;
             }
 
@@ -199,46 +201,11 @@ WaylandModule::WaylandModule(fcitx::Instance *instance)
                 return;
             }
 
-            auto dbusAddon = dbus();
-            if (!dbusAddon) {
-                return;
+            if (isKDE5()) {
+                setLayoutToKDE5();
+            } else if (getDesktopType() == DesktopType::GNOME) {
+                setLayoutToGNOME();
             }
-
-            auto layoutAndVariant = parseLayout(
-                instance_->inputMethodManager().currentGroup().defaultLayout());
-
-            if (layoutAndVariant.first.empty()) {
-                return;
-            }
-
-            fcitx::RawConfig config;
-            readAsIni(config, StandardPath::Type::Config, "kxkbrc");
-            config.setValueByPath("Layout/LayoutList", layoutAndVariant.first);
-            config.setValueByPath("Layout/VariantList",
-                                  layoutAndVariant.second);
-            config.setValueByPath("Layout/DisplayNames", "");
-            config.setValueByPath("Layout/Use", "true");
-
-            // See: https://github.com/flatpak/flatpak/issues/5370
-            // The write temp file and replace does not work with mount bind,
-            // if the intention is to get the file populated outside the
-            // sandbox.
-            if (isInFlatpak()) {
-                auto file = StandardPath::global().open(
-                    StandardPath::Type::Config, "kxkbrc", O_WRONLY);
-                if (file.isValid()) {
-                    writeAsIni(config, file.fd());
-                } else {
-                    FCITX_WAYLAND_ERROR() << "Failed to write to kxkbrc.";
-                }
-            } else {
-                safeSaveAsIni(config, StandardPath::Type::Config, "kxkbrc");
-            }
-
-            auto bus = dbusAddon->call<IDBusModule::bus>();
-            auto message = bus->createSignal("/Layouts", "org.kde.keyboard",
-                                             "reloadConfig");
-            message.send();
         }));
 #endif
 }
@@ -394,6 +361,81 @@ void WaylandModule::reloadXkbOptionReal() {
             xcbAddon->call<IXCBModule::mainDisplay>(), *xkbOption);
     }
 #endif
+#endif
+}
+
+void WaylandModule::setLayoutToKDE5() {
+#ifdef ENABLE_DBUS
+    auto dbusAddon = dbus();
+    if (!dbusAddon) {
+        return;
+    }
+
+    auto layoutAndVariant = parseLayout(
+        instance_->inputMethodManager().currentGroup().defaultLayout());
+
+    if (layoutAndVariant.first.empty()) {
+        return;
+    }
+
+    fcitx::RawConfig config;
+    readAsIni(config, StandardPath::Type::Config, "kxkbrc");
+    config.setValueByPath("Layout/LayoutList", layoutAndVariant.first);
+    config.setValueByPath("Layout/VariantList", layoutAndVariant.second);
+    config.setValueByPath("Layout/DisplayNames", "");
+    config.setValueByPath("Layout/Use", "true");
+
+    // See: https://github.com/flatpak/flatpak/issues/5370
+    // The write temp file and replace does not work with mount bind,
+    // if the intention is to get the file populated outside the
+    // sandbox.
+    if (isInFlatpak()) {
+        auto file = StandardPath::global().open(StandardPath::Type::Config,
+                                                "kxkbrc", O_WRONLY);
+        if (file.isValid()) {
+            writeAsIni(config, file.fd());
+        } else {
+            FCITX_WAYLAND_ERROR() << "Failed to write to kxkbrc.";
+        }
+    } else {
+        safeSaveAsIni(config, StandardPath::Type::Config, "kxkbrc");
+    }
+
+    auto bus = dbusAddon->call<IDBusModule::bus>();
+    auto message =
+        bus->createSignal("/Layouts", "org.kde.keyboard", "reloadConfig");
+    message.send();
+#endif
+}
+
+void WaylandModule::setLayoutToGNOME() {
+#ifdef ENABLE_DBUS
+
+    auto layoutAndVariant = parseLayout(
+        instance_->inputMethodManager().currentGroup().defaultLayout());
+
+    if (layoutAndVariant.first.empty()) {
+        return;
+    }
+
+    std::string xkbsource = layoutAndVariant.first;
+    if (!layoutAndVariant.second.empty()) {
+        xkbsource =
+            stringutils::concat(xkbsource, "+", layoutAndVariant.second);
+    }
+
+    UniqueCPtr<GSettings, g_object_unref> settings(
+        g_settings_new("org.gnome.desktop.input-sources"));
+    if (settings) {
+        GVariantBuilder builder;
+        g_variant_builder_init(&builder, G_VARIANT_TYPE("a(ss)"));
+
+        g_variant_builder_add(&builder, "(ss)", "xkb", xkbsource.data());
+        UniqueCPtr<GVariant, &g_variant_unref> value(
+            g_variant_ref_sink(g_variant_builder_end(&builder)));
+        g_settings_set_value(settings.get(), "sources", value.get());
+        g_settings_set_value(settings.get(), "mru-sources", value.get());
+    }
 #endif
 }
 
