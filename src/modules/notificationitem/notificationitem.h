@@ -41,6 +41,7 @@ public:
     watch(NotificationItemCallback callback);
     void newIcon();
     FCITX_ADDON_DEPENDENCY_LOADER(classicui, instance_->addonManager());
+    DBusMenu *menu() { return menu_.get(); }
 
 private:
     FCITX_ADDON_DEPENDENCY_LOADER(dbus, instance_->addonManager());

@@ -49,6 +49,9 @@ DBusMenu::~DBusMenu() = default;
 
 void DBusMenu::event(int32_t id, const std::string &type, const dbus::Variant &,
                      uint32_t) {
+    if (id == 0 && type == "opened") {
+        sendEventToTopLevel_ = true;
+    }
     // If top level menu is closed, reset the ic info.
     if (id == 0 && type == "closed") {
         lastRelevantIc_.unwatch();
@@ -387,14 +390,24 @@ bool DBusMenu::aboutToShow(int32_t id) {
     return requestedMenus_.count(id) == 0;
 }
 
-void DBusMenu::updateMenu() {
+void DBusMenu::updateMenu(InputContext *icNeedUpdate) {
     if (isRegistered()) {
         ++revision_;
-        if (auto *ic = parent_->instance()->mostRecentInputContext()) {
-            lastRelevantIc_ = ic->watch();
+        if (!sendEventToTopLevel_) {
+            if (auto *ic = parent_->instance()->mostRecentInputContext()) {
+                lastRelevantIc_ = ic->watch();
+            }
         }
-        layoutUpdated(revision_, 0);
+
+        if (!icNeedUpdate || icNeedUpdate == lastRelevantIc_.get()) {
+            layoutUpdated(revision_, 0);
+        }
     }
+}
+
+void DBusMenu::reset() {
+    releaseSlot();
+    sendEventToTopLevel_ = false;
 }
 
 } // namespace fcitx

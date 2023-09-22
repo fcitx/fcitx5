@@ -34,7 +34,9 @@ public:
     DBusMenu(NotificationItem *item);
     ~DBusMenu();
 
-    void updateMenu();
+    void updateMenu(InputContext *icNeedUpdate);
+    InputContext *lastRelevantIc();
+    void reset();
 
 private:
     void event(int32_t id, const std::string &type, const dbus::Variant &,
@@ -74,8 +76,6 @@ private:
     }
     bool aboutToShow(int32_t id);
 
-    InputContext *lastRelevantIc();
-
     FCITX_OBJECT_VTABLE_PROPERTY(version, "Version", "u",
                                  []() { return version_; });
     FCITX_OBJECT_VTABLE_PROPERTY(status, "Status", "s",
@@ -101,6 +101,13 @@ private:
     TrackableObjectReference<InputContext> lastRelevantIc_;
     std::unordered_set<int32_t> requestedMenus_;
     std::unique_ptr<EventSource> deferEvent_;
+    // This is a detection flag that identify if the implement send Event for
+    // top-level menu.
+    // libdbusmenu-gtk based tray is the one who has problems, but we can't
+    // easily detect it with desktop type. So we try to identify it via
+    // behavior. KDE/GNOME ones are ok sending Event(opened/closed) to the top
+    // level menu.
+    bool sendEventToTopLevel_ = false;
 };
 
 } // namespace fcitx

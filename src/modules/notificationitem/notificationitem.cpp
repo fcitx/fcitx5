@@ -66,7 +66,7 @@ public:
         } else {
             icon = "input-keyboard";
         }
-        if (auto *ic = parent_->instance()->mostRecentInputContext()) {
+        if (auto *ic = parent_->menu()->lastRelevantIc()) {
             icon = parent_->instance()->inputMethodIcon(ic);
         }
         if (icon == "input-keyboard" && preferSymbolic) {
@@ -117,7 +117,7 @@ public:
 
     std::string labelText() const {
         std::string label, icon;
-        if (auto *ic = parent_->instance()->mostRecentInputContext()) {
+        if (auto *ic = parent_->menu()->lastRelevantIc()) {
             label = parent_->instance()->inputMethodLabel(ic);
             icon = parent_->instance()->inputMethodIcon(ic);
         }
@@ -151,7 +151,7 @@ public:
     FCITX_OBJECT_VTABLE_PROPERTY(
         iconName, "IconName", "s", ([this]() {
             std::string label, icon;
-            if (auto *ic = parent_->instance()->mostRecentInputContext()) {
+            if (auto *ic = parent_->menu()->lastRelevantIc()) {
                 label = parent_->instance()->inputMethodLabel(ic);
                 icon = parent_->instance()->inputMethodIcon(ic);
             }
@@ -285,8 +285,12 @@ void NotificationItem::setRegistered(bool registered) {
     registered_ = registered;
 
     if (registered_) {
-        auto updateIcon = [this](Event &) {
-            menu_->updateMenu();
+        auto updateIcon = [this](Event &e) {
+            InputContext *ic = nullptr;
+            if (e.isInputContextEvent()) {
+                ic = dynamic_cast<InputContextEvent &>(e).inputContext();
+            }
+            menu_->updateMenu(ic);
             newIcon();
         };
         for (auto type : {EventType::InputContextFocusIn,
@@ -297,11 +301,10 @@ void NotificationItem::setRegistered(bool registered) {
         }
         eventHandlers_.emplace_back(instance_->watchEvent(
             EventType::InputContextUpdateUI, EventWatcherPhase::Default,
-            [this](Event &event) {
+            [updateIcon](Event &event) {
                 if (static_cast<InputContextUpdateUIEvent &>(event)
                         .component() == UserInterfaceComponent::StatusArea) {
-                    newIcon();
-                    menu_->updateMenu();
+                    updateIcon(event);
                 }
             }));
     }
@@ -389,7 +392,7 @@ void NotificationItem::disable() {
 void NotificationItem::cleanUp() {
     pendingRegisterCall_.reset();
     sni_->reset();
-    menu_->releaseSlot();
+    menu_->reset();
     privateBus_.reset();
 
     eventHandlers_.clear();
