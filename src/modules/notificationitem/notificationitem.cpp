@@ -100,6 +100,10 @@ public:
         auto label = labelText();
         if (icon != lastIconName_ || label != lastLabel_) {
             newIcon();
+            // https://github.com/ubuntu/gnome-shell-extension-appindicator/issues/468
+            if (getDesktopType() == DesktopType::GNOME) {
+                newOverlayIcon();
+            }
         }
         lastIconName_ = icon;
         lastLabel_ = label;
@@ -128,6 +132,7 @@ public:
     FCITX_OBJECT_VTABLE_METHOD(secondaryActivate, "SecondaryActivate", "ii",
                                "");
     FCITX_OBJECT_VTABLE_SIGNAL(newIcon, "NewIcon", "");
+    FCITX_OBJECT_VTABLE_SIGNAL(newOverlayIcon, "NewOverlayIcon", "");
     FCITX_OBJECT_VTABLE_SIGNAL(newToolTip, "NewToolTip", "");
     FCITX_OBJECT_VTABLE_SIGNAL(newIconThemePath, "NewIconThemePath", "s");
     FCITX_OBJECT_VTABLE_SIGNAL(newAttentionIcon, "NewAttentionIcon", "");
@@ -191,8 +196,16 @@ public:
                                  ([]() { return ""; }));
     FCITX_OBJECT_VTABLE_PROPERTY(
         overlayIconPixmap, "OverlayIconPixmap", "a(iiay)", ([]() {
-            return std::vector<
-                dbus::DBusStruct<int, int, std::vector<uint8_t>>>{};
+            std::vector<dbus::DBusStruct<int, int, std::vector<uint8_t>>>
+                result;
+            // workaround to
+            // https://github.com/ubuntu/gnome-shell-extension-appindicator/issues/468
+            // enforce the icon to have a invisible overlay icon to bypass an
+            // optimization for pixmap in SNI extension.
+            if (getDesktopType() == DesktopType::GNOME) {
+                result.emplace_back(1, 1, std::vector<uint8_t>{0, 0, 0, 0});
+            }
+            return result;
         }));
     FCITX_OBJECT_VTABLE_PROPERTY(attentionIconName, "AttentionIconName", "s",
                                  []() { return ""; });
