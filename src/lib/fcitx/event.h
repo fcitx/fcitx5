@@ -240,7 +240,8 @@ public:
      */
     bool isInputContextEvent() const {
         auto flag = static_cast<uint32_t>(EventType::InputContextEventFlag);
-        return (static_cast<uint32_t>(type_) & flag) == flag;
+        auto mask = static_cast<uint32_t>(EventType::EventTypeFlag);
+        return (static_cast<uint32_t>(type_) & mask) == flag;
     }
 
 protected:
