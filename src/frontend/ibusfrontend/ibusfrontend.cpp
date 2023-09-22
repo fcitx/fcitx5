@@ -241,11 +241,6 @@ public:
                            }
                        })),
           name_(sender) {
-        processKeyEventMethod.setClosureFunction(
-            [this](dbus::Message message, const dbus::ObjectMethod &method) {
-                InputContextEventBlocker blocker(this);
-                return method(std::move(message));
-            });
         im->bus()->addObjectVTable(path().path(),
                                    IBUS_INPUTCONTEXT_DBUS_INTERFACE, *this);
         im->bus()->addObjectVTable(path().path(), IBUS_SERVICE_DBUS_INTERFACE,
