@@ -58,7 +58,7 @@ enum class InputMethodMode { PhysicalKeyboard, OnScreenKeyboard };
  * Type of input method events.
  */
 enum class EventType : uint32_t {
-    EventTypeFlag = 0xffff0000,
+    EventTypeFlag = 0xfffff000,
     UserTypeFlag = 0xffff0000,
     // send by frontend, captured by core, input method, or module
     InputContextEventFlag = 0x0001000,
