@@ -299,7 +299,7 @@ void test_label() {
     FCITX_ASSERT(candidatelist.label(0).toString() == "a. ");
     FCITX_ASSERT(candidatelist.label(1).toString() == "C-a. ");
     FCITX_ASSERT(candidatelist.label(2).toString() == "C-S-A. ");
-    FCITX_ASSERT(candidatelist.label(5).toString() == "PgUp. ");
+    FCITX_ASSERT(candidatelist.label(5).toString() == "Page Up. ");
     FCITX_ASSERT(candidatelist.label(9).toString() == ",. ");
 }
 
