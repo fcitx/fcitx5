@@ -5,16 +5,16 @@
 # Translators:
 # wwj402 <wwj402@gmail.com>, 2017
 # rocka, 2022
-# csslayer <wengxt@gmail.com>, 2023
 # Lau YeeYu, 2023
+# csslayer <wengxt@gmail.com>, 2023
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2023-09-23 20:24+0000\n"
+"POT-Creation-Date: 2023-09-24 20:24+0000\n"
 "PO-Revision-Date: 2017-11-23 04:14+0000\n"
-"Last-Translator: Lau YeeYu, 2023\n"
+"Last-Translator: csslayer <wengxt@gmail.com>, 2023\n"
 "Language-Team: Chinese (China) (https://app.transifex.com/fcitx/teams/12005/"
 "zh_CN/)\n"
 "Language: zh_CN\n"
@@ -1216,7 +1216,7 @@ msgid "Image"
 msgstr "图片"
 
 #: src/im/keyboard/keyboard.cpp:684 src/lib/fcitx/instance.cpp:445
-#: src/lib/fcitx/instance.cpp:669 src/lib/fcitx/instance.cpp:831
+#: src/lib/fcitx/instance.cpp:671 src/lib/fcitx/instance.cpp:833
 #: src/modules/notificationitem/notificationitem.cpp:147
 #: src/modules/notificationitem/notificationitem.cpp:235
 #: src/modules/xcb/xcbconnection.cpp:521 data/org.fcitx.Fcitx5.desktop.in.in:4
@@ -1342,177 +1342,177 @@ msgstr "键盘菜单"
 #: src/lib/fcitx-utils/key.cpp:74
 msgctxt "Key name"
 msgid "Keypad *"
-msgstr ""
+msgstr "小键盘 *"
 
 #: src/lib/fcitx-utils/key.cpp:75
 msgctxt "Key name"
 msgid "Keypad +"
-msgstr ""
+msgstr "小键盘 +"
 
 #: src/lib/fcitx-utils/key.cpp:76
 msgctxt "Key name"
 msgid "Keypad ,"
-msgstr ""
+msgstr "小键盘 ,"
 
 #: src/lib/fcitx-utils/key.cpp:77
 msgctxt "Key name"
 msgid "Keypad -"
-msgstr ""
+msgstr "小键盘 -"
 
 #: src/lib/fcitx-utils/key.cpp:78
 msgctxt "Key name"
 msgid "Keypad ."
-msgstr ""
+msgstr "小键盘 ."
 
 #: src/lib/fcitx-utils/key.cpp:79
 msgctxt "Key name"
 msgid "Keypad /"
-msgstr ""
+msgstr "小键盘 /"
 
 #: src/lib/fcitx-utils/key.cpp:80
 msgctxt "Key name"
 msgid "Keypad 0"
-msgstr ""
+msgstr "小键盘 0"
 
 #: src/lib/fcitx-utils/key.cpp:81
 msgctxt "Key name"
 msgid "Keypad 1"
-msgstr ""
+msgstr "小键盘 1"
 
 #: src/lib/fcitx-utils/key.cpp:82
 msgctxt "Key name"
 msgid "Keypad 2"
-msgstr ""
+msgstr "小键盘 2"
 
 #: src/lib/fcitx-utils/key.cpp:83
 msgctxt "Key name"
 msgid "Keypad 3"
-msgstr ""
+msgstr "小键盘 3"
 
 #: src/lib/fcitx-utils/key.cpp:84
 msgctxt "Key name"
 msgid "Keypad 4"
-msgstr ""
+msgstr "小键盘 4"
 
 #: src/lib/fcitx-utils/key.cpp:85
 msgctxt "Key name"
 msgid "Keypad 5"
-msgstr ""
+msgstr "小键盘 5"
 
 #: src/lib/fcitx-utils/key.cpp:86
 msgctxt "Key name"
 msgid "Keypad 6"
-msgstr ""
+msgstr "小键盘 6"
 
 #: src/lib/fcitx-utils/key.cpp:87
 msgctxt "Key name"
 msgid "Keypad 7"
-msgstr ""
+msgstr "小键盘 7"
 
 #: src/lib/fcitx-utils/key.cpp:88
 msgctxt "Key name"
 msgid "Keypad 8"
-msgstr ""
+msgstr "小键盘 8"
 
 #: src/lib/fcitx-utils/key.cpp:89
 msgctxt "Key name"
 msgid "Keypad 9"
-msgstr ""
+msgstr "小键盘 9"
 
 #: src/lib/fcitx-utils/key.cpp:73
 msgctxt "Key name"
 msgid "Keypad ="
-msgstr ""
+msgstr "小键盘 ="
 
 #: src/lib/fcitx-utils/key.cpp:70
 msgctxt "Key name"
 msgid "Keypad Begin"
-msgstr ""
+msgstr "小键盘开始"
 
 #: src/lib/fcitx-utils/key.cpp:72
 msgctxt "Key name"
 msgid "Keypad Delete"
-msgstr ""
+msgstr "小键盘删除"
 
 #: src/lib/fcitx-utils/key.cpp:66
 msgctxt "Key name"
 msgid "Keypad Down"
-msgstr ""
+msgstr "小键盘"
 
 #: src/lib/fcitx-utils/key.cpp:69
 msgctxt "Key name"
 msgid "Keypad End"
-msgstr ""
+msgstr "小键盘行尾"
 
 #: src/lib/fcitx-utils/key.cpp:57
 msgctxt "Key name"
 msgid "Keypad Enter"
-msgstr ""
+msgstr "小键盘回车"
 
 #: src/lib/fcitx-utils/key.cpp:58
 msgctxt "Key name"
 msgid "Keypad F1"
-msgstr ""
+msgstr "小键盘 F1"
 
 #: src/lib/fcitx-utils/key.cpp:59
 msgctxt "Key name"
 msgid "Keypad F2"
-msgstr ""
+msgstr "小键盘 F2"
 
 #: src/lib/fcitx-utils/key.cpp:60
 msgctxt "Key name"
 msgid "Keypad F3"
-msgstr ""
+msgstr "小键盘 F3"
 
 #: src/lib/fcitx-utils/key.cpp:61
 msgctxt "Key name"
 msgid "Keypad F4"
-msgstr ""
+msgstr "小键盘 F4"
 
 #: src/lib/fcitx-utils/key.cpp:62
 msgctxt "Key name"
 msgid "Keypad Home"
-msgstr ""
+msgstr "小键盘行首"
 
 #: src/lib/fcitx-utils/key.cpp:71
 msgctxt "Key name"
 msgid "Keypad Insert"
-msgstr ""
+msgstr "小键盘插入"
 
 #: src/lib/fcitx-utils/key.cpp:63
 msgctxt "Key name"
 msgid "Keypad Left"
-msgstr ""
+msgstr "小键盘左"
 
 #: src/lib/fcitx-utils/key.cpp:68
 msgctxt "Key name"
 msgid "Keypad Page Down"
-msgstr ""
+msgstr "小键盘下一页"
 
 #: src/lib/fcitx-utils/key.cpp:67
 msgctxt "Key name"
 msgid "Keypad Page Up"
-msgstr ""
+msgstr "小键盘上一页"
 
 #: src/lib/fcitx-utils/key.cpp:65
 msgctxt "Key name"
 msgid "Keypad Right"
-msgstr ""
+msgstr "小键盘右"
 
 #: src/lib/fcitx-utils/key.cpp:55
 msgctxt "Key name"
 msgid "Keypad Space"
-msgstr ""
+msgstr "小键盘空格"
 
 #: src/lib/fcitx-utils/key.cpp:56
 msgctxt "Key name"
 msgid "Keypad Tab"
-msgstr ""
+msgstr "小键盘 Tab"
 
 #: src/lib/fcitx-utils/key.cpp:64
 msgctxt "Key name"
 msgid "Keypad Up"
-msgstr ""
+msgstr "小键盘上"
 
 #: data/fcitx5-diagnose.sh:1683
 msgid "Kimpanel process:"
@@ -1934,12 +1934,12 @@ msgstr "DBus 名称 ${1} 的 PID 所有者是 ${2}。"
 #: src/lib/fcitx-utils/key.cpp:52
 msgctxt "Key name"
 msgid "Page Down"
-msgstr ""
+msgstr "下一页"
 
 #: src/lib/fcitx-utils/key.cpp:51
 msgctxt "Key name"
 msgid "Page Up"
-msgstr ""
+msgstr "上一页"
 
 #: src/ui/classic/theme.h:133
 msgid "Page button vertical alignment"
@@ -2001,15 +2001,15 @@ msgctxt "Key name"
 msgid "Power Off"
 msgstr "关机"
 
-#: src/lib/fcitx/instance.cpp:831
+#: src/lib/fcitx/instance.cpp:833
 msgid "Preedit"
 msgstr "预编辑"
 
-#: src/lib/fcitx/instance.cpp:833
+#: src/lib/fcitx/instance.cpp:835
 msgid "Preedit disabled"
 msgstr "预编辑已禁用"
 
-#: src/lib/fcitx/instance.cpp:832
+#: src/lib/fcitx/instance.cpp:834
 msgid "Preedit enabled"
 msgstr "预编辑已启用"
 
@@ -2329,7 +2329,7 @@ msgctxt "Key name"
 msgid "Suspend"
 msgstr "睡眠"
 
-#: src/lib/fcitx/instance.cpp:446 src/lib/fcitx/instance.cpp:670
+#: src/lib/fcitx/instance.cpp:446 src/lib/fcitx/instance.cpp:672
 #: src/modules/xcb/xcbconnection.cpp:522
 msgid "Switch group"
 msgstr "切换分组"
@@ -2339,7 +2339,7 @@ msgstr "切换分组"
 msgid "Switch group to {0}"
 msgstr "切换到分组 {0}"
 
-#: src/lib/fcitx/instance.cpp:671
+#: src/lib/fcitx/instance.cpp:673
 #, c++-format
 msgid "Switched group to {0}"
 msgstr "已切换到分组 {0}"
