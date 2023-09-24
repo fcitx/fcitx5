@@ -457,10 +457,12 @@ void InstancePrivate::acceptGroupChange(const Key &key, InputContext *ic) {
     auto groups = imManager_.groups();
     if (groups.size() > inputState->pendingGroupIndex_) {
         if (isSingleKey(key)) {
-            FCITX_DEBUG() << "EnumerateGroupTo: " << inputState->pendingGroupIndex_ << " " << key;
+            FCITX_DEBUG() << "EnumerateGroupTo: "
+                          << inputState->pendingGroupIndex_ << " " << key;
             imManager_.enumerateGroupTo(groups[inputState->pendingGroupIndex_]);
         } else {
-            FCITX_DEBUG() << "SetCurrentGroup: " << inputState->pendingGroupIndex_ << " " << key;
+            FCITX_DEBUG() << "SetCurrentGroup: "
+                          << inputState->pendingGroupIndex_ << " " << key;
             imManager_.setCurrentGroup(groups[inputState->pendingGroupIndex_]);
         }
     }

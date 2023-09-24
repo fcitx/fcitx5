@@ -620,7 +620,8 @@ void XCBConnection::modifierUpdate(KeyStates states) {
         return;
     }
     states = states & USED_MASK;
-    if (states == 0 && (currentKey_.hasModifier() || currentKey_.isModifier())) {
+    if (states == 0 &&
+        (currentKey_.hasModifier() || currentKey_.isModifier())) {
         acceptGroupChange();
     }
 }
