@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2023-09-23 20:24+0000\n"
+"POT-Creation-Date: 2023-09-25 20:24+0000\n"
 "PO-Revision-Date: 2017-11-23 04:14+0000\n"
 "Last-Translator: Dmitry <dmitrydmitry761@gmail.com>, 2023\n"
 "Language-Team: Russian (https://app.transifex.com/fcitx/teams/12005/ru/)\n"
@@ -1233,7 +1233,7 @@ msgid "Image"
 msgstr "Изображение"
 
 #: src/im/keyboard/keyboard.cpp:684 src/lib/fcitx/instance.cpp:445
-#: src/lib/fcitx/instance.cpp:669 src/lib/fcitx/instance.cpp:831
+#: src/lib/fcitx/instance.cpp:671 src/lib/fcitx/instance.cpp:833
 #: src/modules/notificationitem/notificationitem.cpp:147
 #: src/modules/notificationitem/notificationitem.cpp:235
 #: src/modules/xcb/xcbconnection.cpp:521 data/org.fcitx.Fcitx5.desktop.in.in:4
@@ -1355,182 +1355,182 @@ msgstr "Подсветка клавиатуры вкл./выкл"
 #: src/lib/fcitx-utils/key.cpp:171
 msgctxt "Key name"
 msgid "Keyboard Menu"
-msgstr "Меню клавиатуры"
+msgstr "Клавиатура Menu"
 
 #: src/lib/fcitx-utils/key.cpp:74
 msgctxt "Key name"
 msgid "Keypad *"
-msgstr ""
+msgstr "Keypad-блок клавиатуры *"
 
 #: src/lib/fcitx-utils/key.cpp:75
 msgctxt "Key name"
 msgid "Keypad +"
-msgstr ""
+msgstr "Keypad-блок клавиатуры +"
 
 #: src/lib/fcitx-utils/key.cpp:76
 msgctxt "Key name"
 msgid "Keypad ,"
-msgstr ""
+msgstr "Keypad-блок клавиатуры ,"
 
 #: src/lib/fcitx-utils/key.cpp:77
 msgctxt "Key name"
 msgid "Keypad -"
-msgstr ""
+msgstr "Keypad-блок клавиатуры -"
 
 #: src/lib/fcitx-utils/key.cpp:78
 msgctxt "Key name"
 msgid "Keypad ."
-msgstr ""
+msgstr "Keypad-блок клавиатуры ."
 
 #: src/lib/fcitx-utils/key.cpp:79
 msgctxt "Key name"
 msgid "Keypad /"
-msgstr ""
+msgstr "Keypad-блок клавиатуры /"
 
 #: src/lib/fcitx-utils/key.cpp:80
 msgctxt "Key name"
 msgid "Keypad 0"
-msgstr ""
+msgstr "Keypad-блок клавиатуры 0"
 
 #: src/lib/fcitx-utils/key.cpp:81
 msgctxt "Key name"
 msgid "Keypad 1"
-msgstr ""
+msgstr "Keypad-блок клавиатуры 1"
 
 #: src/lib/fcitx-utils/key.cpp:82
 msgctxt "Key name"
 msgid "Keypad 2"
-msgstr ""
+msgstr "Keypad-блок клавиатуры 2"
 
 #: src/lib/fcitx-utils/key.cpp:83
 msgctxt "Key name"
 msgid "Keypad 3"
-msgstr ""
+msgstr "Keypad-блок клавиатуры 3"
 
 #: src/lib/fcitx-utils/key.cpp:84
 msgctxt "Key name"
 msgid "Keypad 4"
-msgstr ""
+msgstr "Keypad-блок клавиатуры 4"
 
 #: src/lib/fcitx-utils/key.cpp:85
 msgctxt "Key name"
 msgid "Keypad 5"
-msgstr ""
+msgstr "Keypad-блок клавиатуры 5"
 
 #: src/lib/fcitx-utils/key.cpp:86
 msgctxt "Key name"
 msgid "Keypad 6"
-msgstr ""
+msgstr "Keypad-блок клавиатуры 6"
 
 #: src/lib/fcitx-utils/key.cpp:87
 msgctxt "Key name"
 msgid "Keypad 7"
-msgstr ""
+msgstr "Keypad-блок клавиатуры 7"
 
 #: src/lib/fcitx-utils/key.cpp:88
 msgctxt "Key name"
 msgid "Keypad 8"
-msgstr ""
+msgstr "Keypad-блок клавиатуры 8"
 
 #: src/lib/fcitx-utils/key.cpp:89
 msgctxt "Key name"
 msgid "Keypad 9"
-msgstr ""
+msgstr "Keypad-блок клавиатуры 9"
 
 #: src/lib/fcitx-utils/key.cpp:73
 msgctxt "Key name"
 msgid "Keypad ="
-msgstr ""
+msgstr "Клавиатура ="
 
 #: src/lib/fcitx-utils/key.cpp:70
 msgctxt "Key name"
 msgid "Keypad Begin"
-msgstr ""
+msgstr "Keypad-блок клавиатуры Begin"
 
 #: src/lib/fcitx-utils/key.cpp:72
 msgctxt "Key name"
 msgid "Keypad Delete"
-msgstr ""
+msgstr "Keypad-блок клавиатуры Delete"
 
 #: src/lib/fcitx-utils/key.cpp:66
 msgctxt "Key name"
 msgid "Keypad Down"
-msgstr ""
+msgstr "Keypad-блок клавиатуры Down"
 
 #: src/lib/fcitx-utils/key.cpp:69
 msgctxt "Key name"
 msgid "Keypad End"
-msgstr ""
+msgstr "Keypad-блок клавиатуры End"
 
 #: src/lib/fcitx-utils/key.cpp:57
 msgctxt "Key name"
 msgid "Keypad Enter"
-msgstr ""
+msgstr "Keypad-блок клавиатуры Enter"
 
 #: src/lib/fcitx-utils/key.cpp:58
 msgctxt "Key name"
 msgid "Keypad F1"
-msgstr ""
+msgstr "Клавиатура F1"
 
 #: src/lib/fcitx-utils/key.cpp:59
 msgctxt "Key name"
 msgid "Keypad F2"
-msgstr ""
+msgstr "Клавиатура F2"
 
 #: src/lib/fcitx-utils/key.cpp:60
 msgctxt "Key name"
 msgid "Keypad F3"
-msgstr ""
+msgstr "Клавиатура F3"
 
 #: src/lib/fcitx-utils/key.cpp:61
 msgctxt "Key name"
 msgid "Keypad F4"
-msgstr ""
+msgstr "Клавиатура F4"
 
 #: src/lib/fcitx-utils/key.cpp:62
 msgctxt "Key name"
 msgid "Keypad Home"
-msgstr ""
+msgstr "Keypad-блок клавиатуры Home"
 
 #: src/lib/fcitx-utils/key.cpp:71
 msgctxt "Key name"
 msgid "Keypad Insert"
-msgstr ""
+msgstr "Keypad-блок клавиатуры Insert"
 
 #: src/lib/fcitx-utils/key.cpp:63
 msgctxt "Key name"
 msgid "Keypad Left"
-msgstr ""
+msgstr "Keypad-блок клавиатуры Left"
 
 #: src/lib/fcitx-utils/key.cpp:68
 msgctxt "Key name"
 msgid "Keypad Page Down"
-msgstr ""
+msgstr "Keypad-блок клавиатуры Page Down"
 
 #: src/lib/fcitx-utils/key.cpp:67
 msgctxt "Key name"
 msgid "Keypad Page Up"
-msgstr ""
+msgstr "Keypad-блок клавиатуры Page Up"
 
 #: src/lib/fcitx-utils/key.cpp:65
 msgctxt "Key name"
 msgid "Keypad Right"
-msgstr ""
+msgstr "Keypad-блок клавиатуры Right"
 
 #: src/lib/fcitx-utils/key.cpp:55
 msgctxt "Key name"
 msgid "Keypad Space"
-msgstr ""
+msgstr "Клавиатура Space"
 
 #: src/lib/fcitx-utils/key.cpp:56
 msgctxt "Key name"
 msgid "Keypad Tab"
-msgstr ""
+msgstr "Клавиатура Tab"
 
 #: src/lib/fcitx-utils/key.cpp:64
 msgctxt "Key name"
 msgid "Keypad Up"
-msgstr ""
+msgstr "Keypad-блок клавиатуры Up"
 
 #: data/fcitx5-diagnose.sh:1683
 msgid "Kimpanel process:"
@@ -1628,7 +1628,7 @@ msgstr "Запустить почту"
 #: src/lib/fcitx-utils/key.cpp:47
 msgctxt "Key name"
 msgid "Left"
-msgstr "Левая"
+msgstr "Left"
 
 #: src/lib/fcitx-utils/key.cpp:30
 msgctxt "Key name"
@@ -1954,12 +1954,12 @@ msgstr "PID владельца имени DBus ${1} — ${2}."
 #: src/lib/fcitx-utils/key.cpp:52
 msgctxt "Key name"
 msgid "Page Down"
-msgstr ""
+msgstr "Страница Вниз"
 
 #: src/lib/fcitx-utils/key.cpp:51
 msgctxt "Key name"
 msgid "Page Up"
-msgstr ""
+msgstr "Страница Вверх"
 
 #: src/ui/classic/theme.h:133
 msgid "Page button vertical alignment"
@@ -2024,15 +2024,15 @@ msgctxt "Key name"
 msgid "Power Off"
 msgstr "Выключение"
 
-#: src/lib/fcitx/instance.cpp:831
+#: src/lib/fcitx/instance.cpp:833
 msgid "Preedit"
 msgstr "Предварительное редактирование"
 
-#: src/lib/fcitx/instance.cpp:833
+#: src/lib/fcitx/instance.cpp:835
 msgid "Preedit disabled"
 msgstr "Предварительное редактирование отключено"
 
-#: src/lib/fcitx/instance.cpp:832
+#: src/lib/fcitx/instance.cpp:834
 msgid "Preedit enabled"
 msgstr "Предварительное редактирование включено"
 
@@ -2355,7 +2355,7 @@ msgctxt "Key name"
 msgid "Suspend"
 msgstr "Приостановить"
 
-#: src/lib/fcitx/instance.cpp:446 src/lib/fcitx/instance.cpp:670
+#: src/lib/fcitx/instance.cpp:446 src/lib/fcitx/instance.cpp:672
 #: src/modules/xcb/xcbconnection.cpp:522
 msgid "Switch group"
 msgstr "Сменить группу"
@@ -2365,7 +2365,7 @@ msgstr "Сменить группу"
 msgid "Switch group to {0}"
 msgstr "Переключить группу на {0}"
 
-#: src/lib/fcitx/instance.cpp:671
+#: src/lib/fcitx/instance.cpp:673
 #, c++-format
 msgid "Switched group to {0}"
 msgstr "Группа переключена на {0}"
