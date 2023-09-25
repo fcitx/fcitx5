@@ -7,6 +7,7 @@
 #ifndef _FCITX_UI_CLASSIC_CLASSICUI_H_
 #define _FCITX_UI_CLASSIC_CLASSICUI_H_
 
+#include <memory>
 #include "config.h"
 
 #include "fcitx-config/configuration.h"
@@ -157,6 +158,10 @@ FCITX_CONFIGURATION(
     Option<bool> useDarkTheme{this, "UseDarkTheme",
                               _("Follow system light/dark color scheme"),
                               false};
+    Option<bool> useAccentColor{
+        this, "UseAccentColor",
+        _("Follow system accent color if it is supported by theme and desktop"),
+        false};
     OptionWithAnnotation<bool, ToolTipAnnotation> perScreenDPI{
         this,
         "PerScreenDPI",
@@ -219,6 +224,8 @@ public:
                                          unsigned int size);
     bool preferTextIcon() const;
     bool showLayoutNameInIcon() const;
+    std::optional<Color> maybeOverrideColor(ColorField field);
+    Color getColor(ColorField field, const Color &defaultColor);
 
 private:
     FCITX_ADDON_DEPENDENCY_LOADER(notificationitem, instance_->addonManager());
@@ -249,6 +256,9 @@ private:
 #ifdef ENABLE_DBUS
     std::unique_ptr<dbus::Slot> appearanceChangedSlot_;
     std::unique_ptr<dbus::Slot> initialReadSlot_;
+
+    std::unique_ptr<dbus::Slot> accentColorSlot_;
+    std::unique_ptr<dbus::Slot> accentColorReadSlot_;
 #endif
 
     std::vector<std::unique_ptr<HandlerTableEntry<EventHandler>>>
@@ -263,6 +273,7 @@ private:
     mutable Theme subconfigTheme_;
     bool suspended_ = true;
     bool isDark_ = false;
+    std::optional<Color> accentColor_ = std::nullopt;
 
     std::unique_ptr<EventSource> deferedEnableTray_;
     std::unique_ptr<PlasmaThemeWatchdog> plasmaThemeWatchdog_;

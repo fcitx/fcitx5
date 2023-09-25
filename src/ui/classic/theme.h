@@ -9,6 +9,7 @@
 
 #include <cstdint>
 #include <string_view>
+#include <vector>
 #include <cairo/cairo.h>
 #include "fcitx-config/configuration.h"
 #include "fcitx-config/enum.h"
@@ -17,6 +18,7 @@
 #include "fcitx-utils/log.h"
 #include "fcitx-utils/rect.h"
 #include "fcitx/icontheme.h"
+#include "fcitx/inputpanel.h"
 
 namespace fcitx::classicui {
 enum class Gravity {
@@ -46,6 +48,31 @@ enum class PageButtonAlignment {
 FCITX_CONFIG_ENUM_NAME_WITH_I18N(PageButtonAlignment, N_("Top"),
                                  N_("First Candidate"), N_("Center"),
                                  N_("Last Candidate"), N_("Bottom"));
+
+enum class ColorField {
+    InputPanel_Background,
+    InputPanel_Border,
+    InputPanel_HighlightBackground,
+    InputPanel_HighlightBorder,
+    InputPanel_Text,
+    InputPanel_HighlightText,
+    InputPanel_HighlightCandidateText,
+    Menu_Background,
+    Menu_Border,
+    Menu_HighlightBackground,
+    Menu_HighlightBorder,
+    Menu_Text,
+    Menu_SelectedItemText,
+    Menu_Separator,
+};
+FCITX_CONFIG_ENUM_NAME_WITH_I18N(
+    ColorField, N_("Input Panel Background"), N_("Input Panel Border"),
+    N_("Input Panel Highlight Background"), N_("Input Panel Highlight Border"),
+    N_("Input Panel Text"), N_("Input Panel Highlight Text"),
+    N_("Input Panel Highlight Candidate Text"), N_("Menu Background"),
+    N_("Menu Border"), N_("Menu Highlight Background"),
+    N_("Menu Highlight Border"), N_("Menu Text"), N_("Menu Selected Item Text"),
+    N_("Menu Separator"));
 
 FCITX_CONFIGURATION(
     MarginConfig,
@@ -112,6 +139,11 @@ FCITX_CONFIGURATION(
     InputPanelThemeConfig,
     Option<Color> normalColor{this, "NormalColor", _("Normal text color"),
                               Color("#000000ff")};
+    Option<Color> highlightColor{this, "HighlightColor",
+                                 _("Highlight text color"), Color("#ffffffff")};
+    Option<Color> highlightBackgroundColor{this, "HighlightBackgroundColor",
+                                           _("Highlight Background color"),
+                                           Color("#a5a5a5ff")};
     Option<Color> highlightCandidateColor{this, "HighlightCandidateColor",
                                           _("Highlight Candidate Color"),
                                           Color("#ffffffff")};
@@ -123,11 +155,6 @@ FCITX_CONFIGURATION(
         this, "FullWidthHighlight",
         _("Use all horizontal space for highlight when it is vertical list"),
         true};
-    Option<Color> highlightColor{this, "HighlightColor",
-                                 _("Highlight text color"), Color("#ffffffff")};
-    Option<Color> highlightBackgroundColor{this, "HighlightBackgroundColor",
-                                           _("Highlight Background color"),
-                                           Color("#a5a5a5ff")};
     OptionWithAnnotation<PageButtonAlignment, PageButtonAlignmentI18NAnnotation>
         buttonAlignment{this, "PageButtonAlignment",
                         _("Page button vertical alignment"),
@@ -149,7 +176,7 @@ FCITX_CONFIGURATION(
     Option<Color> normalColor{this, "NormalColor", _("Normal text color"),
                               Color("#000000ff")};
     Option<Color> highlightTextColor{this, "HighlightCandidateColor",
-                                     _("Highlight Candidate Color"),
+                                     _("Selected Item text color"),
                                      Color("#ffffffff")};
     Option<int> spacing{this, "Spacing", _("Spacing"), 0};
     Option<BackgroundImageConfig> background{this, "Background",
@@ -177,14 +204,17 @@ FCITX_CONFIGURATION(ThemeConfig,
                                                          _("Metadata")};
                     Option<InputPanelThemeConfig> inputPanel{this, "InputPanel",
                                                              _("Input Panel")};
-                    Option<MenuThemeConfig> menu{this, "Menu", _("Menu")};);
+                    Option<MenuThemeConfig> menu{this, "Menu", _("Menu")};
+                    Option<std::vector<ColorField>> accentColor{
+                        this, "AccentColorField", _("Accent Colors")};);
 
 class ClassicUI;
 class ClassicUIConfig;
 
 class ThemeImage {
 public:
-    ThemeImage(const std::string &name, const BackgroundImageConfig &cfg);
+    ThemeImage(const std::string &name, const BackgroundImageConfig &cfg,
+               std::optional<Color> color, std::optional<Color> borderColor);
     ThemeImage(const std::string &name, const ActionImageConfig &cfg);
     ThemeImage(const IconTheme &iconTheme, const std::string &icon,
                const std::string &label, uint32_t size,
@@ -249,11 +279,14 @@ public:
     const ThemeImage &loadImage(const std::string &icon,
                                 const std::string &label, uint32_t size,
                                 const ClassicUI *classicui);
-    const ThemeImage &loadBackground(const BackgroundImageConfig &cfg);
+    const ThemeImage &loadBackground(const BackgroundImageConfig &cfg,
+                                     std::optional<Color> color,
+                                     std::optional<Color> borderColor);
     const ThemeImage &loadAction(const ActionImageConfig &cfg);
 
-    void paint(cairo_t *c, const BackgroundImageConfig &cfg, int width,
-               int height, double alpha, double scale);
+    void paint(cairo_t *c, const BackgroundImageConfig &cfg,
+               std::optional<Color> color, std::optional<Color> borderColor,
+               int width, int height, double alpha, double scale);
 
     void paint(cairo_t *c, const ActionImageConfig &cfg, double alpha = 1.0);
 
@@ -263,6 +296,7 @@ public:
     bool setIconTheme(const std::string &name);
 
     const auto &maskConfig() const { return maskConfig_; }
+    const auto &accentColorFields() const { return accentColorFields_; }
 
 private:
     void reset();
@@ -274,6 +308,7 @@ private:
     IconTheme iconTheme_;
     std::string name_;
     BackgroundImageConfig maskConfig_;
+    std::unordered_set<ColorField> accentColorFields_;
 };
 
 inline void cairoSetSourceColor(cairo_t *cr, const Color &color) {

@@ -10,6 +10,7 @@
 #include <string>
 #include <string_view>
 #include "fcitx-config/iniparser.h"
+#include "fcitx-utils/dbus/message_details.h"
 #include "fcitx-utils/misc_p.h"
 #include "fcitx-utils/standardpath.h"
 #include "fcitx-utils/utf8.h"
@@ -35,6 +36,8 @@ namespace fcitx::classicui {
 
 FCITX_DEFINE_LOG_CATEGORY(classicui_logcategory, "classicui");
 
+using AccentColorDBusType = FCITX_STRING_TO_DBUS_TYPE("(ddd)");
+
 namespace {
 constexpr const char XDG_PORTAL_DESKTOP_SERVICE[] =
     "org.freedesktop.portal.Desktop";
@@ -46,6 +49,11 @@ constexpr const char XDG_PORTAL_DESKTOP_SETTINGS_INTERFACE[] =
 
 ClassicUI::ClassicUI(Instance *instance) : instance_(instance) {
     reloadConfig();
+
+#ifdef ENABLE_DBUS
+    dbus::VariantTypeRegistry::defaultRegistry()
+        .registerType<AccentColorDBusType>();
+#endif
 
 #ifdef ENABLE_X11
     if (auto *xcbAddon = xcb()) {
@@ -125,10 +133,10 @@ void ClassicUI::reloadTheme() {
         if (*config_.useDarkTheme) {
             if (!appearanceChangedSlot_) {
                 appearanceChangedSlot_ = bus->addMatch(
-                    dbus::MatchRule(XDG_PORTAL_DESKTOP_SERVICE,
-                                    XDG_PORTAL_DESKTOP_PATH,
-                                    XDG_PORTAL_DESKTOP_SETTINGS_INTERFACE,
-                                    "SettingChanged"),
+                    dbus::MatchRule(
+                        XDG_PORTAL_DESKTOP_SERVICE, XDG_PORTAL_DESKTOP_PATH,
+                        XDG_PORTAL_DESKTOP_SETTINGS_INTERFACE, "SettingChanged",
+                        {"org.freedesktop.appearance", "color-scheme"}),
                     [parseMessage](dbus::Message &msg) {
                         if (msg.type() == dbus::MessageType::Signal &&
                             msg.signature() == "ssv") {
@@ -198,6 +206,79 @@ void ClassicUI::reloadTheme() {
                                      : *config_.theme;
 
     theme_.load(themeName);
+
+#ifdef ENABLE_DBUS
+    auto parseAccentColor = [this](dbus::Variant &variant) {
+        if (variant.signature() == "(ddd)") {
+            auto dbuscolor = variant.dataAs<AccentColorDBusType>();
+            Color color;
+            color.setAlphaF(1);
+            color.setRedF(std::get<0>(dbuscolor));
+            color.setGreenF(std::get<1>(dbuscolor));
+            color.setBlueF(std::get<2>(dbuscolor));
+            if (!accentColor_ || *accentColor_ != color) {
+                accentColor_ = color;
+                CLASSICUI_DEBUG() << "XDG Portal AccentColor changed "
+                                     "color: "
+                                  << accentColor_;
+                deferedReloadTheme_->setOneShot();
+            }
+        }
+    };
+
+    if (dbus()) {
+        auto bus = dbus()->call<IDBusModule::bus>();
+        if (*config_.useAccentColor) {
+            if (!accentColorSlot_) {
+                accentColorSlot_ = bus->addMatch(
+                    dbus::MatchRule(
+                        XDG_PORTAL_DESKTOP_SERVICE, XDG_PORTAL_DESKTOP_PATH,
+                        XDG_PORTAL_DESKTOP_SETTINGS_INTERFACE, "SettingChanged",
+                        {"org.freedesktop.appearance", "accent-color"}),
+                    [parseAccentColor](dbus::Message &msg) {
+                        if (msg.type() == dbus::MessageType::Signal &&
+                            msg.signature() == "ssv") {
+                            std::string interface, name;
+                            msg >> interface >> name;
+                            if (interface == "org.freedesktop.appearance" &&
+                                name == "accent-color") {
+                                dbus::Variant variant;
+                                msg >> variant;
+                                parseAccentColor(variant);
+                            }
+                        }
+                        return true;
+                    });
+                auto call = bus->createMethodCall(
+                    "org.freedesktop.portal.Desktop",
+                    "/org/freedesktop/portal/desktop",
+                    "org.freedesktop.portal.Settings", "Read");
+                call << "org.freedesktop.appearance"
+                     << "accent-color";
+                accentColorReadSlot_ = call.callAsync(
+                    1000000, [parseAccentColor](dbus::Message &msg) {
+                        // XDG portal seems didn't unwrap the variant.
+                        // Check this special case just in case.
+                        if (msg.isError()) {
+                            return true;
+                        }
+                        if (msg.signature() != "v") {
+                            return true;
+                        }
+                        dbus::Variant variant;
+                        msg >> variant;
+                        if (variant.signature() == "v") {
+                            variant = variant.dataAs<dbus::Variant>();
+                        }
+                        parseAccentColor(variant);
+                        return true;
+                    });
+            }
+        }
+    } else {
+        accentColorSlot_.reset();
+    }
+#endif
 }
 
 void ClassicUI::suspend() {
@@ -478,6 +559,23 @@ bool ClassicUI::preferTextIcon() const { return *config_.preferTextIcon; }
 
 bool ClassicUI::showLayoutNameInIcon() const {
     return *config_.showLayoutNameInIcon;
+}
+
+std::optional<Color> ClassicUI::maybeOverrideColor(ColorField field) {
+    if (!accentColor_) {
+        return std::nullopt;
+    }
+    if (theme_.accentColorFields().count(field)) {
+        return accentColor_;
+    }
+    return std::nullopt;
+}
+
+Color ClassicUI::getColor(ColorField field, const Color &defaultColor) {
+    if (auto accentColor = maybeOverrideColor(field)) {
+        return *accentColor;
+    }
+    return defaultColor;
 }
 
 } // namespace fcitx::classicui

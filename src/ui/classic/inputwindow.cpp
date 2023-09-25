@@ -141,9 +141,15 @@ void InputWindow::insertAttr(PangoAttrList *attrList, TextFormatFlags format,
     }
     Color color =
         (format & TextFormatFlag::HighLight)
-            ? *parent_->theme().inputPanel->highlightColor
-            : (highlight ? *parent_->theme().inputPanel->highlightCandidateColor
-                         : *parent_->theme().inputPanel->normalColor);
+            ? parent_->getColor(ColorField::InputPanel_HighlightText,
+                                *parent_->theme().inputPanel->highlightColor)
+            : (highlight
+                   ? parent_->getColor(
+                         ColorField::InputPanel_HighlightCandidateText,
+                         *parent_->theme().inputPanel->highlightCandidateColor)
+                   : parent_->getColor(
+                         ColorField::InputPanel_Text,
+                         *parent_->theme().inputPanel->normalColor));
     const auto scale = std::numeric_limits<uint16_t>::max();
     auto *attr = pango_attr_foreground_new(
         color.redF() * scale, color.greenF() * scale, color.blueF() * scale);
@@ -472,8 +478,10 @@ void InputWindow::paint(cairo_t *cr, unsigned int width, unsigned int height,
     cairo_scale(cr, scale, scale);
     auto &theme = parent_->theme();
     cairo_set_operator(cr, CAIRO_OPERATOR_SOURCE);
-    theme.paint(cr, *theme.inputPanel->background, width, height, /*alpha=*/1.0,
-                scale);
+    theme.paint(cr, *theme.inputPanel->background,
+                parent_->maybeOverrideColor(ColorField::InputPanel_Background),
+                parent_->maybeOverrideColor(ColorField::InputPanel_Border),
+                width, height, /*alpha=*/1.0, scale);
     const auto &margin = *theme.inputPanel->contentMargin;
     const auto &textMargin = *theme.inputPanel->textMargin;
     cairo_set_operator(cr, CAIRO_OPERATOR_OVER);
@@ -481,7 +489,8 @@ void InputWindow::paint(cairo_t *cr, unsigned int width, unsigned int height,
 
     // Move position to the right place.
     cairo_translate(cr, *margin.marginLeft, *margin.marginTop);
-    cairoSetSourceColor(cr, *theme.inputPanel->normalColor);
+    cairoSetSourceColor(cr, parent_->getColor(ColorField::InputPanel_Text,
+                                              *theme.inputPanel->normalColor));
     // CLASSICUI_DEBUG() << theme.inputPanel->normalColor->toString();
     auto *metrics = pango_context_get_metrics(
         context_.get(), pango_context_get_font_description(context_.get()),
@@ -581,6 +590,10 @@ void InputWindow::paint(cairo_t *cr, unsigned int width, unsigned int height,
             cairo_translate(cr, x - *highlightMargin.marginLeft,
                             y - *highlightMargin.marginTop);
             theme.paint(cr, *theme.inputPanel->highlight,
+                        parent_->maybeOverrideColor(
+                            ColorField::InputPanel_HighlightBackground),
+                        parent_->maybeOverrideColor(
+                            ColorField::InputPanel_HighlightBorder),
                         highlightWidth + *highlightMargin.marginLeft +
                             *highlightMargin.marginRight,
                         vheight + *highlightMargin.marginTop +

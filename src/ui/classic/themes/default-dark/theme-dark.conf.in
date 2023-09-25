@@ -117,3 +117,9 @@ Left=5
 Right=5
 Top=5
 Bottom=5
+
+[AccentColorField]
+0=Input Panel Border
+1=Input Panel Highlight Background
+2=Menu Border
+3=Menu Separator

@@ -38,6 +38,7 @@ public:
     std::string toString() const;
 
     bool operator==(const Color &other) const;
+    bool operator!=(const Color &other) { return !operator==(other); }
 
     void setFromString(const char *s);
     inline void setFromString(const std::string &s) {

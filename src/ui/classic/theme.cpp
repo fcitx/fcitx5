@@ -8,6 +8,8 @@
 #include "theme.h"
 #include <fcntl.h>
 #include <cassert>
+#include <optional>
+#include <unordered_map>
 #include <unordered_set>
 #include <cairo.h>
 #include <fmt/format.h>
@@ -264,7 +266,9 @@ ThemeImage::ThemeImage(const IconTheme &iconTheme, const std::string &icon,
 }
 
 ThemeImage::ThemeImage(const std::string &name,
-                       const BackgroundImageConfig &cfg) {
+                       const BackgroundImageConfig &cfg,
+                       std::optional<Color> color,
+                       std::optional<Color> borderColor) {
     if (!cfg.image->empty()) {
         auto imageFile = StandardPath::global().open(
             StandardPath::Type::PkgData,
@@ -305,22 +309,24 @@ ThemeImage::ThemeImage(const std::string &name,
                       *cfg.margin->marginBottom});
 
         CLASSICUI_DEBUG() << "Paint background: height " << height << " width "
-                          << width << " border=" << *cfg.borderColor
+                          << width << " border="
+                          << (borderColor ? *borderColor : *cfg.borderColor)
                           << " border width=" << *cfg.borderWidth
-                          << " color=" << *cfg.color;
+                          << " color=" << (color ? *color : *cfg.color);
         image_.reset(
             cairo_image_surface_create(CAIRO_FORMAT_ARGB32, width, height));
         auto *cr = cairo_create(image_.get());
         cairo_set_operator(cr, CAIRO_OPERATOR_SOURCE);
         if (borderWidth) {
-            cairoSetSourceColor(cr, *cfg.borderColor);
+            cairoSetSourceColor(cr,
+                                borderColor ? *borderColor : *cfg.borderColor);
             cairo_paint(cr);
         }
 
         cairo_rectangle(cr, borderWidth, borderWidth, width - borderWidth * 2,
                         height - borderWidth * 2);
         cairo_clip(cr);
-        cairoSetSourceColor(cr, *cfg.color);
+        cairoSetSourceColor(cr, color ? *color : *cfg.color);
         cairo_paint(cr);
         cairo_destroy(cr);
         isImage_ = true;
@@ -391,14 +397,16 @@ Theme::Theme() : iconTheme_(IconTheme::defaultIconThemeName()) {}
 
 Theme::~Theme() {}
 
-const ThemeImage &Theme::loadBackground(const BackgroundImageConfig &cfg) {
+const ThemeImage &Theme::loadBackground(const BackgroundImageConfig &cfg,
+                                        std::optional<Color> color,
+                                        std::optional<Color> borderColor) {
     if (auto *image = findValue(backgroundImageTable_, &cfg)) {
         return *image;
     }
 
     auto result = backgroundImageTable_.emplace(
         std::piecewise_construct, std::forward_as_tuple(&cfg),
-        std::forward_as_tuple(name_, cfg));
+        std::forward_as_tuple(name_, cfg, color, borderColor));
     assert(result.second);
     return result.first->second;
 }
@@ -577,9 +585,10 @@ void paintTile(cairo_t *c, int width, int height, double alpha,
     }
 }
 
-void Theme::paint(cairo_t *c, const BackgroundImageConfig &cfg, int width,
-                  int height, double alpha, double scale) {
-    const ThemeImage &image = loadBackground(cfg);
+void Theme::paint(cairo_t *c, const BackgroundImageConfig &cfg,
+                  std::optional<Color> color, std::optional<Color> borderColor,
+                  int width, int height, double alpha, double scale) {
+    const ThemeImage &image = loadBackground(cfg, color, borderColor);
     auto marginTop = *cfg.margin->marginTop;
     auto marginBottom = *cfg.margin->marginBottom;
     auto marginLeft = *cfg.margin->marginLeft;
@@ -731,6 +740,8 @@ void Theme::load(std::string_view name) {
     maskConfig_ = *inputPanel->background;
     maskConfig_.overlay.setValue("");
     maskConfig_.image.setValue(*inputPanel->blurMask);
+    accentColorFields_ = std::unordered_set<ColorField>(
+        accentColor.value().begin(), accentColor.value().end());
 }
 
 void Theme::load(std::string_view name, const RawConfig &rawConfig) {
@@ -754,7 +765,7 @@ std::vector<Rect> Theme::mask(const BackgroundImageConfig &cfg, int width,
         cairo_image_surface_create(CAIRO_FORMAT_A1, width, height));
     auto c = cairo_create(mask.get());
     cairo_set_operator(c, CAIRO_OPERATOR_SOURCE);
-    paint(c, cfg, width, height, 1, 1);
+    paint(c, cfg, std::nullopt, std::nullopt, width, height, 1, 1);
     cairo_destroy(c);
 
     UniqueCPtr<cairo_region_t, cairo_region_destroy> region(
