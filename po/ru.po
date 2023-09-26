@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2023-09-25 20:24+0000\n"
+"POT-Creation-Date: 2023-09-26 20:24+0000\n"
 "PO-Revision-Date: 2017-11-23 04:14+0000\n"
 "Last-Translator: Dmitry <dmitrydmitry761@gmail.com>, 2023\n"
 "Language-Team: Russian (https://app.transifex.com/fcitx/teams/12005/ru/)\n"
@@ -102,6 +102,10 @@ msgstr "<не назначен>"
 #: src/ui/virtualkeyboard/virtualkeyboard.conf.in.in:4
 msgid "A virtual keyboard backend based on DBus"
 msgstr "Серверная часть виртуальной клавиатуры на основе DBus"
+
+#: src/ui/classic/theme.h:209
+msgid "Accent Colors"
+msgstr ""
 
 #: src/lib/fcitx/globalconfig.cpp:81
 msgid "Activate Input Method"
@@ -205,7 +209,7 @@ msgctxt "Key name"
 msgid "Audio Repeat"
 msgstr "Повтор аудио"
 
-#: src/ui/classic/theme.h:171
+#: src/ui/classic/theme.h:198
 msgid "Author"
 msgstr "Автор"
 
@@ -228,11 +232,11 @@ msgstr "Обратно вперед"
 msgid "Backends"
 msgstr "Бэкенды"
 
-#: src/ui/classic/theme.h:136 src/ui/classic/theme.h:156
+#: src/ui/classic/theme.h:163 src/ui/classic/theme.h:183
 msgid "Background"
 msgstr "Фон"
 
-#: src/ui/classic/theme.h:63
+#: src/ui/classic/theme.h:90
 msgid "Background Image"
 msgstr "Фоновое изображение"
 
@@ -268,11 +272,11 @@ msgctxt "Key name"
 msgid "Bluetooth"
 msgstr "Блютус"
 
-#: src/ui/classic/theme.h:121
+#: src/ui/classic/theme.h:153
 msgid "Blur Margin"
 msgstr "Размытый Край"
 
-#: src/ui/classic/theme.h:120
+#: src/ui/classic/theme.h:152
 msgid "Blur mask"
 msgstr "Размытая маска"
 
@@ -281,27 +285,27 @@ msgctxt "Key name"
 msgid "Book"
 msgstr "Книга"
 
-#: src/ui/classic/theme.h:75
+#: src/ui/classic/theme.h:102
 msgid "Border Color"
 msgstr "Цвет границы"
 
-#: src/ui/classic/theme.h:83
+#: src/ui/classic/theme.h:110
 msgid "Border width"
 msgstr "Ширина рамки"
 
-#: src/ui/classic/theme.h:48
+#: src/ui/classic/theme.h:50
 msgid "Bottom"
 msgstr "Внизу"
 
-#: src/ui/classic/theme.h:36
+#: src/ui/classic/theme.h:38
 msgid "Bottom Center"
 msgstr "Внизу по центру"
 
-#: src/ui/classic/theme.h:36
+#: src/ui/classic/theme.h:38
 msgid "Bottom Left"
 msgstr "Внизу слева"
 
-#: src/ui/classic/theme.h:37
+#: src/ui/classic/theme.h:39
 msgid "Bottom Right"
 msgstr "Внизу справа"
 
@@ -417,15 +421,15 @@ msgctxt "Key name"
 msgid "CapsLock"
 msgstr "CapsLock"
 
-#: src/ui/classic/theme.h:35 src/ui/classic/theme.h:47
+#: src/ui/classic/theme.h:37 src/ui/classic/theme.h:49
 msgid "Center"
 msgstr "Центр"
 
-#: src/ui/classic/theme.h:34
+#: src/ui/classic/theme.h:36
 msgid "Center Left"
 msgstr "Слева по центру"
 
-#: src/ui/classic/theme.h:35
+#: src/ui/classic/theme.h:37
 msgid "Center Right"
 msgstr "Справа по центру"
 
@@ -433,7 +437,7 @@ msgstr "Справа по центру"
 msgid "Change Fcitx 5 Configuration"
 msgstr "Изменить конфигурацию Fcitx 5"
 
-#: src/ui/classic/theme.h:161
+#: src/ui/classic/theme.h:188
 msgid "Check box"
 msgstr "Флажок"
 
@@ -450,7 +454,7 @@ msgctxt "Key name"
 msgid "Clear"
 msgstr "Очистить"
 
-#: src/ui/classic/theme.h:109
+#: src/ui/classic/theme.h:136
 msgid "Click Margin"
 msgstr "Нажмите на Поле"
 
@@ -472,7 +476,7 @@ msgctxt "Key name"
 msgid "Code input"
 msgstr "Ввести код"
 
-#: src/ui/classic/theme.h:67
+#: src/ui/classic/theme.h:94
 msgid "Color"
 msgstr "Цвет"
 
@@ -598,7 +602,7 @@ msgctxt "Key name"
 msgid "DOS"
 msgstr "DOS"
 
-#: src/ui/classic/classicui.h:156
+#: src/ui/classic/classicui.h:157
 msgid "Dark Theme"
 msgstr "Тёмная тема"
 
@@ -644,7 +648,7 @@ msgctxt "Key name"
 msgid "Delete"
 msgstr "Удалить"
 
-#: src/ui/classic/theme.h:173
+#: src/ui/classic/theme.h:200
 msgid "Description"
 msgstr "Описание"
 
@@ -710,7 +714,7 @@ msgstr "Эмодзи"
 msgid "Enable"
 msgstr "Включить"
 
-#: src/ui/classic/theme.h:118
+#: src/ui/classic/theme.h:150
 msgid "Enable Blur on KWin"
 msgstr "Включить размытие на KWin"
 
@@ -726,7 +730,7 @@ msgstr "Включить эмодзи в подсказке"
 msgid "Enable emoji in quickphrase"
 msgstr "Включить эмодзи в быстрой фразе"
 
-#: src/ui/classic/classicui.h:184
+#: src/ui/classic/classicui.h:189
 msgid "Enable fractional scale under Wayland"
 msgstr "Включить дробную шкалу в Wayland"
 
@@ -878,11 +882,15 @@ msgctxt "Key name"
 msgid "Find"
 msgstr "Найти"
 
-#: src/ui/classic/theme.h:47
+#: src/ui/classic/theme.h:49
 msgid "First Candidate"
 msgstr "Первый кандидат"
 
-#: src/ui/classic/classicui.h:158
+#: src/ui/classic/classicui.h:163
+msgid "Follow system accent color if it is supported by theme and desktop"
+msgstr ""
+
+#: src/ui/classic/classicui.h:159
 msgid "Follow system light/dark color scheme"
 msgstr "Следовать системной светлой/темной цветовой схеме"
 
@@ -898,11 +906,11 @@ msgstr ""
 "ошибка, если вы не используете какое-либо приложение Qt с определенной "
 "версией Qt или используете поддержку ввода текста Qt под Wayland."
 
-#: src/ui/classic/classicui.h:118
+#: src/ui/classic/classicui.h:119
 msgid "Font"
 msgstr "Шрифт"
 
-#: src/ui/classic/classicui.h:148
+#: src/ui/classic/classicui.h:149
 msgid ""
 "For example, display character with Chinese variant when using Pinyin and "
 "Japanese variant when using Anthy. The font configuration needs to support "
@@ -912,7 +920,7 @@ msgstr ""
 "и японским вариантом при использовании Anthy. Конфигурация шрифта должна "
 "поддерживать это, чтобы использовать эту функцию."
 
-#: src/ui/classic/classicui.h:172
+#: src/ui/classic/classicui.h:177
 msgid "Force font DPI on Wayland"
 msgstr "Принудительное изменение DPI шрифта на Wayland"
 
@@ -1119,27 +1127,27 @@ msgstr "Гибернация"
 msgid "Hidden Notifications"
 msgstr "Скрытые уведомления"
 
-#: src/ui/classic/theme.h:94
+#: src/ui/classic/theme.h:121
 msgid "Hide overlay if size does not fit"
 msgstr "Скрыть наложение, если размер не подходит"
 
-#: src/ui/classic/theme.h:138 src/ui/classic/theme.h:158
+#: src/ui/classic/theme.h:165 src/ui/classic/theme.h:185
 msgid "Highlight Background"
 msgstr "Выделить фон"
 
-#: src/ui/classic/theme.h:129
+#: src/ui/classic/theme.h:145
 msgid "Highlight Background color"
 msgstr "Цвет фона выделения"
 
-#: src/ui/classic/theme.h:116 src/ui/classic/theme.h:152
+#: src/ui/classic/theme.h:148
 msgid "Highlight Candidate Color"
 msgstr "Выделить цветом кандидат"
 
-#: src/ui/classic/theme.h:104
+#: src/ui/classic/theme.h:131
 msgid "Highlight Click Margin"
 msgstr "Выделить поле клика"
 
-#: src/ui/classic/theme.h:127
+#: src/ui/classic/theme.h:143
 msgid "Highlight text color"
 msgstr "Выделить цветом текст"
 
@@ -1228,7 +1236,7 @@ msgstr ""
 "интеграции с IBus, чтобы использовать любой метод ввода, отличный от ${2}. "
 "Для получения подробной информации см. ${link}."
 
-#: src/ui/classic/theme.h:107
+#: src/ui/classic/theme.h:134
 msgid "Image"
 msgstr "Изображение"
 
@@ -1253,9 +1261,37 @@ msgstr "Относящиеся к методу ввода переменные �
 msgid "Input Methods:"
 msgstr "Методы ввода:"
 
-#: src/ui/classic/theme.h:179
+#: src/ui/classic/theme.h:206
 msgid "Input Panel"
 msgstr "Панель ввода"
+
+#: src/ui/classic/theme.h:69
+msgid "Input Panel Background"
+msgstr ""
+
+#: src/ui/classic/theme.h:69
+msgid "Input Panel Border"
+msgstr ""
+
+#: src/ui/classic/theme.h:70
+msgid "Input Panel Highlight Background"
+msgstr ""
+
+#: src/ui/classic/theme.h:70
+msgid "Input Panel Highlight Border"
+msgstr ""
+
+#: src/ui/classic/theme.h:72
+msgid "Input Panel Highlight Candidate Text"
+msgstr ""
+
+#: src/ui/classic/theme.h:71
+msgid "Input Panel Highlight Text"
+msgstr ""
+
+#: src/ui/classic/theme.h:71
+msgid "Input Panel Text"
+msgstr ""
 
 #: src/modules/imselector/imselector.conf.in.in:3
 msgid "Input method selector"
@@ -1291,7 +1327,7 @@ msgstr ""
 msgid "KDE Input Method Panel"
 msgstr "Панель метода ввода KDE"
 
-#: src/ui/classic/classicui.cpp:252
+#: src/ui/classic/classicui.cpp:333
 msgid "KDE Plasma (Experimental)"
 msgstr "KDE Plasma (экспериментально)"
 
@@ -1536,7 +1572,7 @@ msgstr "Keypad-блок клавиатуры Up"
 msgid "Kimpanel process:"
 msgstr "Процесс Kimpanel:"
 
-#: src/ui/classic/theme.h:48
+#: src/ui/classic/theme.h:50
 msgid "Last Candidate"
 msgstr "Последний кандидат"
 
@@ -1682,31 +1718,31 @@ msgctxt "Key name"
 msgid "Mail Forward"
 msgstr "Пересылка почты"
 
-#: src/ui/classic/theme.h:96
+#: src/ui/classic/theme.h:123
 msgid "Margin"
 msgstr "Поле"
 
-#: src/ui/classic/theme.h:58
+#: src/ui/classic/theme.h:85
 msgid "Margin Bottom"
 msgstr "Поле внизу"
 
-#: src/ui/classic/theme.h:52
+#: src/ui/classic/theme.h:79
 msgid "Margin Left"
 msgstr "Поле слева"
 
-#: src/ui/classic/theme.h:54
+#: src/ui/classic/theme.h:81
 msgid "Margin Right"
 msgstr "Поле справа"
 
-#: src/ui/classic/theme.h:56
+#: src/ui/classic/theme.h:83
 msgid "Margin Top"
 msgstr "Поле сверху"
 
-#: src/ui/classic/theme.h:140 src/ui/classic/theme.h:164
+#: src/ui/classic/theme.h:167 src/ui/classic/theme.h:191
 msgid "Margin around all content"
 msgstr "Поля вокруг всего содержимого"
 
-#: src/ui/classic/theme.h:142 src/ui/classic/theme.h:166
+#: src/ui/classic/theme.h:169 src/ui/classic/theme.h:193
 msgid "Margin around text"
 msgstr "Поле вокруг текста"
 
@@ -1765,7 +1801,7 @@ msgctxt "Key name"
 msgid "Meeting"
 msgstr "Встреча"
 
-#: src/ui/classic/theme.h:180
+#: src/ui/classic/theme.h:207
 msgid "Menu"
 msgstr "Меню"
 
@@ -1774,21 +1810,49 @@ msgctxt "Key name"
 msgid "Menu"
 msgstr "Меню"
 
-#: src/ui/classic/classicui.h:120
+#: src/ui/classic/theme.h:72
+msgid "Menu Background"
+msgstr ""
+
+#: src/ui/classic/theme.h:73
+msgid "Menu Border"
+msgstr ""
+
+#: src/ui/classic/classicui.h:121
 msgid "Menu Font"
 msgstr "Шрифт меню"
+
+#: src/ui/classic/theme.h:73
+msgid "Menu Highlight Background"
+msgstr ""
+
+#: src/ui/classic/theme.h:74
+msgid "Menu Highlight Border"
+msgstr ""
 
 #: src/lib/fcitx-utils/key.cpp:172
 msgctxt "Key name"
 msgid "Menu PB"
 msgstr "Меню PB"
 
+#: src/ui/classic/theme.h:74
+msgid "Menu Selected Item Text"
+msgstr ""
+
+#: src/ui/classic/theme.h:75
+msgid "Menu Separator"
+msgstr ""
+
+#: src/ui/classic/theme.h:74
+msgid "Menu Text"
+msgstr ""
+
 #: src/lib/fcitx-utils/key.cpp:199
 msgctxt "Key name"
 msgid "Messenger"
 msgstr "Мессенджер"
 
-#: src/ui/classic/theme.h:177
+#: src/ui/classic/theme.h:204
 msgid "Metadata"
 msgstr "Метаданные"
 
@@ -1827,7 +1891,7 @@ msgctxt "Key name"
 msgid "My Sites"
 msgstr "Мои сайты"
 
-#: src/ui/classic/theme.h:169
+#: src/ui/classic/theme.h:196
 msgid "Name"
 msgstr "Имя"
 
@@ -1845,7 +1909,7 @@ msgstr "Новости"
 msgid "Next Candidate"
 msgstr "Следующий кандидат"
 
-#: src/ui/classic/theme.h:144
+#: src/ui/classic/theme.h:171
 msgid "Next Page Button"
 msgstr "Кнопка следующей страницы"
 
@@ -1861,11 +1925,11 @@ msgstr "История буфера обмена отсутствует."
 msgid "None"
 msgstr "Нет"
 
-#: src/ui/classic/theme.h:113 src/ui/classic/theme.h:149
+#: src/ui/classic/theme.h:140 src/ui/classic/theme.h:176
 msgid "Normal text color"
 msgstr "Обычный цвет текста"
 
-#: src/ui/classic/classicui.h:176
+#: src/ui/classic/classicui.h:181
 msgid ""
 "Normally Wayland uses 96 as font DPI in combinition with the screen scale "
 "factor. This option allows you to override the font DPI. If the value is 0, "
@@ -1919,23 +1983,23 @@ msgctxt "Key name"
 msgid "Option"
 msgstr "Выбор"
 
-#: src/ui/classic/theme.h:98
+#: src/ui/classic/theme.h:125
 msgid "Overlay Clip Margin"
 msgstr "Наложение поля клипа"
 
-#: src/ui/classic/theme.h:88
+#: src/ui/classic/theme.h:115
 msgid "Overlay Image"
 msgstr "Наложенное изображение"
 
-#: src/ui/classic/theme.h:91
+#: src/ui/classic/theme.h:118
 msgid "Overlay X offset"
 msgstr "Смещение X"
 
-#: src/ui/classic/theme.h:92
+#: src/ui/classic/theme.h:119
 msgid "Overlay Y offset"
 msgstr "Смещение Y"
 
-#: src/ui/classic/theme.h:90
+#: src/ui/classic/theme.h:117
 msgid "Overlay position"
 msgstr "Позиция наложения"
 
@@ -1961,7 +2025,7 @@ msgctxt "Key name"
 msgid "Page Up"
 msgstr "Страница Вверх"
 
-#: src/ui/classic/theme.h:133
+#: src/ui/classic/theme.h:160
 msgid "Page button vertical alignment"
 msgstr "Выравнивание кнопки страницы по вертикали"
 
@@ -2036,7 +2100,7 @@ msgstr "Предварительное редактирование отключ
 msgid "Preedit enabled"
 msgstr "Предварительное редактирование включено"
 
-#: src/ui/classic/classicui.h:128 src/ui/kimpanel/kimpanel.h:33
+#: src/ui/classic/classicui.h:129 src/ui/kimpanel/kimpanel.h:33
 msgid "Prefer Text Icon"
 msgstr "Иконка предпочтительного текста"
 
@@ -2048,7 +2112,7 @@ msgstr "Presage"
 msgid "Prev Candidate"
 msgstr "Предыдущий кандидат"
 
-#: src/ui/classic/theme.h:143
+#: src/ui/classic/theme.h:170
 msgid "Prev Page Button"
 msgstr "Кнопка предыдущей страницы"
 
@@ -2204,16 +2268,20 @@ msgstr "Выбрать локальный метод ввода:"
 msgid "Select specific input method via keyboard"
 msgstr "Выберите конкретный метод ввода с клавиатуры"
 
+#: src/ui/classic/theme.h:179
+msgid "Selected Item text color"
+msgstr ""
+
 #: src/lib/fcitx-utils/key.cpp:185
 msgctxt "Key name"
 msgid "Send"
 msgstr "Отправить"
 
-#: src/ui/classic/theme.h:160
+#: src/ui/classic/theme.h:187
 msgid "Separator Background"
 msgstr "Фон разделителя"
 
-#: src/ui/classic/theme.h:146
+#: src/ui/classic/theme.h:173
 msgid "Shadow Margin"
 msgstr "Затенённое поле"
 
@@ -2239,7 +2307,7 @@ msgstr "Показывать информацию о способе ввода �
 msgid "Show Input Method Information when switch input method"
 msgstr "Показывать информацию о методе ввода при переключении"
 
-#: src/ui/classic/classicui.h:133
+#: src/ui/classic/classicui.h:134
 msgid "Show Layout Name In Icon"
 msgstr "Показать имя раскладки в значке"
 
@@ -2251,7 +2319,7 @@ msgstr "Показать информацию о компактном метод
 msgid "Show first input method information"
 msgstr "Показать информацию о первом методе ввода"
 
-#: src/ui/classic/classicui.h:137
+#: src/ui/classic/classicui.h:138
 msgid ""
 "Show layout name in icon if there is more than one active layout. If prefer "
 "text icon is set to true, this option will be ignored."
@@ -2286,7 +2354,7 @@ msgctxt "Key name"
 msgid "Space"
 msgstr "Space"
 
-#: src/ui/classic/theme.h:154
+#: src/ui/classic/theme.h:181
 msgid "Spacing"
 msgstr "Расстояние"
 
@@ -2327,7 +2395,7 @@ msgctxt "Key name"
 msgid "Stop"
 msgstr "Остановить"
 
-#: src/ui/classic/theme.h:162
+#: src/ui/classic/theme.h:189
 msgid "Sub Menu"
 msgstr "Подменю"
 
@@ -2424,28 +2492,28 @@ msgstr ""
 msgid "The script is run as ${1} (${2})."
 msgstr "Сценарий запущен пользователем ${1} (${2})."
 
-#: src/ui/classic/classicui.h:153
+#: src/ui/classic/classicui.h:154
 msgid "Theme"
 msgstr "Тема"
 
-#: src/ui/classic/classicui.h:99
+#: src/ui/classic/classicui.h:100
 msgid "This is only effective when the tray icon is xembed."
 msgstr "Это эффективно только тогда, когда значок в трее встроен."
 
-#: src/ui/classic/theme.h:71 src/ui/classic/theme.h:79
+#: src/ui/classic/theme.h:98 src/ui/classic/theme.h:106
 msgid "This option is only effective if image is not set."
 msgstr ""
 "Этот параметр эффективен только в том случае, если имидж не установлен."
 
-#: src/ui/classic/classicui.h:188
+#: src/ui/classic/classicui.h:193
 msgid "This option require support from wayland compositor."
 msgstr "Для этого параметра требуется поддержка wayland compositor."
 
-#: src/ui/classic/classicui.h:167
+#: src/ui/classic/classicui.h:172
 msgid "This option will be always disabled on XWayland."
 msgstr "Этот параметр всегда будет отключен в XWayland."
 
-#: src/ui/classic/theme.h:87
+#: src/ui/classic/theme.h:114
 msgid "This value should be less than any of margin value."
 msgstr "Это значение должно быть меньше любого значения разницы."
 
@@ -2485,15 +2553,15 @@ msgctxt "Key name"
 msgid "Tools"
 msgstr "Инструменты"
 
-#: src/ui/classic/theme.h:46
+#: src/ui/classic/theme.h:48
 msgid "Top"
 msgstr "Вверху"
 
-#: src/ui/classic/theme.h:33
+#: src/ui/classic/theme.h:35
 msgid "Top Center"
 msgstr "Вверху по центру"
 
-#: src/ui/classic/theme.h:33
+#: src/ui/classic/theme.h:35
 msgid "Top Left"
 msgstr "Вверху слева"
 
@@ -2502,7 +2570,7 @@ msgctxt "Key name"
 msgid "Top Menu"
 msgstr "Верхнее меню"
 
-#: src/ui/classic/theme.h:34
+#: src/ui/classic/theme.h:36
 msgid "Top Right"
 msgstr "Вверху справа"
 
@@ -2531,15 +2599,15 @@ msgctxt "Key name"
 msgid "Travel"
 msgstr "Ход"
 
-#: src/ui/classic/classicui.h:122
+#: src/ui/classic/classicui.h:123
 msgid "Tray Font"
 msgstr "Шрифт в лотке"
 
-#: src/ui/classic/classicui.h:124
+#: src/ui/classic/classicui.h:125
 msgid "Tray Label Outline Color"
 msgstr "Цвет контура лейбла лотка"
 
-#: src/ui/classic/classicui.h:127
+#: src/ui/classic/classicui.h:128
 msgid "Tray Label Text Color"
 msgstr "Цвет текста лейбла лотка"
 
@@ -2603,21 +2671,21 @@ msgstr "Вверх"
 msgid "Use On The Spot Style (Needs restarting)"
 msgstr "Использовать стиль On The Spot (требуется перезагрузка)"
 
-#: src/ui/classic/classicui.h:163
+#: src/ui/classic/classicui.h:168
 msgid "Use Per Screen DPI on X11"
 msgstr "Использовать DPI для каждого экрана на X11"
 
-#: src/ui/classic/theme.h:124
+#: src/ui/classic/theme.h:156
 msgid "Use all horizontal space for highlight when it is vertical list"
 msgstr ""
 "Используйте все горизонтальное пространство для выделения, когда это "
 "вертикальный список"
 
-#: src/ui/classic/classicui.h:144
+#: src/ui/classic/classicui.h:145
 msgid "Use input method language to display text"
 msgstr "Использовать язык метода ввода для отображения текста"
 
-#: src/ui/classic/classicui.h:114
+#: src/ui/classic/classicui.h:115
 msgid "Use mouse wheel to go to prev or next page"
 msgstr "Используйте колёсико мыши, для перелистывания страниц"
 
@@ -2641,7 +2709,7 @@ msgstr ""
 "Использование ${1} для проверки фактического модуля im, который будет "
 "использоваться в текущей среде:"
 
-#: src/ui/classic/theme.h:170
+#: src/ui/classic/theme.h:197
 msgid "Version"
 msgstr "Версия"
 
@@ -2649,7 +2717,7 @@ msgstr "Версия"
 msgid "Version Line:"
 msgstr "Версия Line:"
 
-#: src/ui/classic/classicui.h:112
+#: src/ui/classic/classicui.h:113
 msgid "Vertical Candidate List"
 msgstr "Вертикальный список кандидатов"
 

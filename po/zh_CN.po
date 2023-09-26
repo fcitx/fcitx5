@@ -5,16 +5,16 @@
 # Translators:
 # wwj402 <wwj402@gmail.com>, 2017
 # rocka, 2022
-# Lau YeeYu, 2023
 # csslayer <wengxt@gmail.com>, 2023
+# Lau YeeYu, 2023
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2023-09-24 20:24+0000\n"
+"POT-Creation-Date: 2023-09-26 20:24+0000\n"
 "PO-Revision-Date: 2017-11-23 04:14+0000\n"
-"Last-Translator: csslayer <wengxt@gmail.com>, 2023\n"
+"Last-Translator: Lau YeeYu, 2023\n"
 "Language-Team: Chinese (China) (https://app.transifex.com/fcitx/teams/12005/"
 "zh_CN/)\n"
 "Language: zh_CN\n"
@@ -102,6 +102,10 @@ msgstr "<未指派>"
 #: src/ui/virtualkeyboard/virtualkeyboard.conf.in.in:4
 msgid "A virtual keyboard backend based on DBus"
 msgstr "一个基于 DBus 的虚拟键盘后端"
+
+#: src/ui/classic/theme.h:209
+msgid "Accent Colors"
+msgstr ""
 
 #: src/lib/fcitx/globalconfig.cpp:81
 msgid "Activate Input Method"
@@ -203,7 +207,7 @@ msgctxt "Key name"
 msgid "Audio Repeat"
 msgstr "音频重复"
 
-#: src/ui/classic/theme.h:171
+#: src/ui/classic/theme.h:198
 msgid "Author"
 msgstr "作者"
 
@@ -226,11 +230,11 @@ msgstr "向后"
 msgid "Backends"
 msgstr "后端"
 
-#: src/ui/classic/theme.h:136 src/ui/classic/theme.h:156
+#: src/ui/classic/theme.h:163 src/ui/classic/theme.h:183
 msgid "Background"
 msgstr "背景"
 
-#: src/ui/classic/theme.h:63
+#: src/ui/classic/theme.h:90
 msgid "Background Image"
 msgstr "背景图片"
 
@@ -266,11 +270,11 @@ msgctxt "Key name"
 msgid "Bluetooth"
 msgstr "蓝牙"
 
-#: src/ui/classic/theme.h:121
+#: src/ui/classic/theme.h:153
 msgid "Blur Margin"
 msgstr "模糊区域边距"
 
-#: src/ui/classic/theme.h:120
+#: src/ui/classic/theme.h:152
 msgid "Blur mask"
 msgstr "模糊遮罩"
 
@@ -279,27 +283,27 @@ msgctxt "Key name"
 msgid "Book"
 msgstr "书"
 
-#: src/ui/classic/theme.h:75
+#: src/ui/classic/theme.h:102
 msgid "Border Color"
 msgstr "边框颜色"
 
-#: src/ui/classic/theme.h:83
+#: src/ui/classic/theme.h:110
 msgid "Border width"
 msgstr "边框宽度"
 
-#: src/ui/classic/theme.h:48
+#: src/ui/classic/theme.h:50
 msgid "Bottom"
 msgstr "按钮"
 
-#: src/ui/classic/theme.h:36
+#: src/ui/classic/theme.h:38
 msgid "Bottom Center"
 msgstr "底部居中"
 
-#: src/ui/classic/theme.h:36
+#: src/ui/classic/theme.h:38
 msgid "Bottom Left"
 msgstr "左下"
 
-#: src/ui/classic/theme.h:37
+#: src/ui/classic/theme.h:39
 msgid "Bottom Right"
 msgstr "右下"
 
@@ -410,15 +414,15 @@ msgctxt "Key name"
 msgid "CapsLock"
 msgstr "大写锁定"
 
-#: src/ui/classic/theme.h:35 src/ui/classic/theme.h:47
+#: src/ui/classic/theme.h:37 src/ui/classic/theme.h:49
 msgid "Center"
 msgstr "居中"
 
-#: src/ui/classic/theme.h:34
+#: src/ui/classic/theme.h:36
 msgid "Center Left"
 msgstr "左侧居中"
 
-#: src/ui/classic/theme.h:35
+#: src/ui/classic/theme.h:37
 msgid "Center Right"
 msgstr "右侧居中"
 
@@ -426,7 +430,7 @@ msgstr "右侧居中"
 msgid "Change Fcitx 5 Configuration"
 msgstr "修改 Fcitx 5 配置"
 
-#: src/ui/classic/theme.h:161
+#: src/ui/classic/theme.h:188
 msgid "Check box"
 msgstr "复选框"
 
@@ -443,7 +447,7 @@ msgctxt "Key name"
 msgid "Clear"
 msgstr "清空"
 
-#: src/ui/classic/theme.h:109
+#: src/ui/classic/theme.h:136
 msgid "Click Margin"
 msgstr "点击区域边距"
 
@@ -465,7 +469,7 @@ msgctxt "Key name"
 msgid "Code input"
 msgstr "代码输入"
 
-#: src/ui/classic/theme.h:67
+#: src/ui/classic/theme.h:94
 msgid "Color"
 msgstr "颜色"
 
@@ -591,7 +595,7 @@ msgctxt "Key name"
 msgid "DOS"
 msgstr "DOS"
 
-#: src/ui/classic/classicui.h:156
+#: src/ui/classic/classicui.h:157
 msgid "Dark Theme"
 msgstr "深色主题"
 
@@ -637,7 +641,7 @@ msgctxt "Key name"
 msgid "Delete"
 msgstr "删除"
 
-#: src/ui/classic/theme.h:173
+#: src/ui/classic/theme.h:200
 msgid "Description"
 msgstr "描述"
 
@@ -703,7 +707,7 @@ msgstr "颜文字"
 msgid "Enable"
 msgstr "启用"
 
-#: src/ui/classic/theme.h:118
+#: src/ui/classic/theme.h:150
 msgid "Enable Blur on KWin"
 msgstr "KWin 下启用模糊"
 
@@ -719,7 +723,7 @@ msgstr "在输入提示中启用 Emoji"
 msgid "Enable emoji in quickphrase"
 msgstr "在快速输入中启用颜文字"
 
-#: src/ui/classic/classicui.h:184
+#: src/ui/classic/classicui.h:189
 msgid "Enable fractional scale under Wayland"
 msgstr "在 Wayland 下启用分数缩放"
 
@@ -868,11 +872,15 @@ msgctxt "Key name"
 msgid "Find"
 msgstr "查找"
 
-#: src/ui/classic/theme.h:47
+#: src/ui/classic/theme.h:49
 msgid "First Candidate"
 msgstr "第一候选词"
 
-#: src/ui/classic/classicui.h:158
+#: src/ui/classic/classicui.h:163
+msgid "Follow system accent color if it is supported by theme and desktop"
+msgstr ""
+
+#: src/ui/classic/classicui.h:159
 msgid "Follow system light/dark color scheme"
 msgstr "跟随系统浅色/深色设置"
 
@@ -887,11 +895,11 @@ msgstr ""
 "Qt。如果您不使用任何对应版本的 Qt 程序，或者在 Wayland 下使用 Qt 的 text-"
 "input 支持，下列错误也不是严重问题。"
 
-#: src/ui/classic/classicui.h:118
+#: src/ui/classic/classicui.h:119
 msgid "Font"
 msgstr "字体"
 
-#: src/ui/classic/classicui.h:148
+#: src/ui/classic/classicui.h:149
 msgid ""
 "For example, display character with Chinese variant when using Pinyin and "
 "Japanese variant when using Anthy. The font configuration needs to support "
@@ -900,7 +908,7 @@ msgstr ""
 "例如，用拼音时显示中文的异体字，用 Anthy 时显示日语的异体字。字体配置需要支持"
 "这个功能。"
 
-#: src/ui/classic/classicui.h:172
+#: src/ui/classic/classicui.h:177
 msgid "Force font DPI on Wayland"
 msgstr "固定 Wayland 的字体 DPI"
 
@@ -1107,27 +1115,27 @@ msgstr "休眠"
 msgid "Hidden Notifications"
 msgstr "隐藏通知"
 
-#: src/ui/classic/theme.h:94
+#: src/ui/classic/theme.h:121
 msgid "Hide overlay if size does not fit"
 msgstr "显示区域不足时隐藏覆盖图片"
 
-#: src/ui/classic/theme.h:138 src/ui/classic/theme.h:158
+#: src/ui/classic/theme.h:165 src/ui/classic/theme.h:185
 msgid "Highlight Background"
 msgstr "高亮背景"
 
-#: src/ui/classic/theme.h:129
+#: src/ui/classic/theme.h:145
 msgid "Highlight Background color"
 msgstr "高亮背景颜色"
 
-#: src/ui/classic/theme.h:116 src/ui/classic/theme.h:152
+#: src/ui/classic/theme.h:148
 msgid "Highlight Candidate Color"
 msgstr "高亮候选词颜色"
 
-#: src/ui/classic/theme.h:104
+#: src/ui/classic/theme.h:131
 msgid "Highlight Click Margin"
 msgstr "高亮点击边距"
 
-#: src/ui/classic/theme.h:127
+#: src/ui/classic/theme.h:143
 msgid "Highlight text color"
 msgstr "高亮文字颜色"
 
@@ -1211,7 +1219,7 @@ msgstr ""
 "${g36_disable_ibus} 禁用 IBus 集成已使用除 ${2} 之外的任何输入法. 更多细节参"
 "见 ${link}。"
 
-#: src/ui/classic/theme.h:107
+#: src/ui/classic/theme.h:134
 msgid "Image"
 msgstr "图片"
 
@@ -1236,9 +1244,37 @@ msgstr "输入法相关的环境变量："
 msgid "Input Methods:"
 msgstr "输入法："
 
-#: src/ui/classic/theme.h:179
+#: src/ui/classic/theme.h:206
 msgid "Input Panel"
 msgstr "输入面板"
+
+#: src/ui/classic/theme.h:69
+msgid "Input Panel Background"
+msgstr ""
+
+#: src/ui/classic/theme.h:69
+msgid "Input Panel Border"
+msgstr ""
+
+#: src/ui/classic/theme.h:70
+msgid "Input Panel Highlight Background"
+msgstr ""
+
+#: src/ui/classic/theme.h:70
+msgid "Input Panel Highlight Border"
+msgstr ""
+
+#: src/ui/classic/theme.h:72
+msgid "Input Panel Highlight Candidate Text"
+msgstr ""
+
+#: src/ui/classic/theme.h:71
+msgid "Input Panel Highlight Text"
+msgstr ""
+
+#: src/ui/classic/theme.h:71
+msgid "Input Panel Text"
+msgstr ""
 
 #: src/modules/imselector/imselector.conf.in.in:3
 msgid "Input method selector"
@@ -1273,7 +1309,7 @@ msgstr ""
 msgid "KDE Input Method Panel"
 msgstr "KDE 输入法面板"
 
-#: src/ui/classic/classicui.cpp:252
+#: src/ui/classic/classicui.cpp:333
 msgid "KDE Plasma (Experimental)"
 msgstr "KDE Plasma (实验性)"
 
@@ -1437,7 +1473,7 @@ msgstr "小键盘删除"
 #: src/lib/fcitx-utils/key.cpp:66
 msgctxt "Key name"
 msgid "Keypad Down"
-msgstr "小键盘"
+msgstr "小键盘下"
 
 #: src/lib/fcitx-utils/key.cpp:69
 msgctxt "Key name"
@@ -1518,7 +1554,7 @@ msgstr "小键盘上"
 msgid "Kimpanel process:"
 msgstr "Kimpanel 进程:"
 
-#: src/ui/classic/theme.h:48
+#: src/ui/classic/theme.h:50
 msgid "Last Candidate"
 msgstr "上一个候选词"
 
@@ -1664,31 +1700,31 @@ msgctxt "Key name"
 msgid "Mail Forward"
 msgstr "转发邮件"
 
-#: src/ui/classic/theme.h:96
+#: src/ui/classic/theme.h:123
 msgid "Margin"
 msgstr "边距"
 
-#: src/ui/classic/theme.h:58
+#: src/ui/classic/theme.h:85
 msgid "Margin Bottom"
 msgstr "底部边距"
 
-#: src/ui/classic/theme.h:52
+#: src/ui/classic/theme.h:79
 msgid "Margin Left"
 msgstr "左侧边距"
 
-#: src/ui/classic/theme.h:54
+#: src/ui/classic/theme.h:81
 msgid "Margin Right"
 msgstr "右侧边距"
 
-#: src/ui/classic/theme.h:56
+#: src/ui/classic/theme.h:83
 msgid "Margin Top"
 msgstr "顶部边距"
 
-#: src/ui/classic/theme.h:140 src/ui/classic/theme.h:164
+#: src/ui/classic/theme.h:167 src/ui/classic/theme.h:191
 msgid "Margin around all content"
 msgstr "内容周围边界"
 
-#: src/ui/classic/theme.h:142 src/ui/classic/theme.h:166
+#: src/ui/classic/theme.h:169 src/ui/classic/theme.h:193
 msgid "Margin around text"
 msgstr "文本周围边距"
 
@@ -1747,7 +1783,7 @@ msgctxt "Key name"
 msgid "Meeting"
 msgstr "会议"
 
-#: src/ui/classic/theme.h:180
+#: src/ui/classic/theme.h:207
 msgid "Menu"
 msgstr "菜单"
 
@@ -1756,21 +1792,49 @@ msgctxt "Key name"
 msgid "Menu"
 msgstr "菜单"
 
-#: src/ui/classic/classicui.h:120
+#: src/ui/classic/theme.h:72
+msgid "Menu Background"
+msgstr ""
+
+#: src/ui/classic/theme.h:73
+msgid "Menu Border"
+msgstr ""
+
+#: src/ui/classic/classicui.h:121
 msgid "Menu Font"
 msgstr "菜单字体"
+
+#: src/ui/classic/theme.h:73
+msgid "Menu Highlight Background"
+msgstr ""
+
+#: src/ui/classic/theme.h:74
+msgid "Menu Highlight Border"
+msgstr ""
 
 #: src/lib/fcitx-utils/key.cpp:172
 msgctxt "Key name"
 msgid "Menu PB"
 msgstr "菜单 PB"
 
+#: src/ui/classic/theme.h:74
+msgid "Menu Selected Item Text"
+msgstr ""
+
+#: src/ui/classic/theme.h:75
+msgid "Menu Separator"
+msgstr ""
+
+#: src/ui/classic/theme.h:74
+msgid "Menu Text"
+msgstr ""
+
 #: src/lib/fcitx-utils/key.cpp:199
 msgctxt "Key name"
 msgid "Messenger"
 msgstr "即时通信"
 
-#: src/ui/classic/theme.h:177
+#: src/ui/classic/theme.h:204
 msgid "Metadata"
 msgstr "元数据"
 
@@ -1809,7 +1873,7 @@ msgctxt "Key name"
 msgid "My Sites"
 msgstr "我的站点"
 
-#: src/ui/classic/theme.h:169
+#: src/ui/classic/theme.h:196
 msgid "Name"
 msgstr "名称"
 
@@ -1827,7 +1891,7 @@ msgstr "新闻"
 msgid "Next Candidate"
 msgstr "下一个候选词"
 
-#: src/ui/classic/theme.h:144
+#: src/ui/classic/theme.h:171
 msgid "Next Page Button"
 msgstr "下一页按钮"
 
@@ -1843,11 +1907,11 @@ msgstr "无剪贴板历史。"
 msgid "None"
 msgstr "无"
 
-#: src/ui/classic/theme.h:113 src/ui/classic/theme.h:149
+#: src/ui/classic/theme.h:140 src/ui/classic/theme.h:176
 msgid "Normal text color"
 msgstr "一般文字颜色"
 
-#: src/ui/classic/classicui.h:176
+#: src/ui/classic/classicui.h:181
 msgid ""
 "Normally Wayland uses 96 as font DPI in combinition with the screen scale "
 "factor. This option allows you to override the font DPI. If the value is 0, "
@@ -1899,23 +1963,23 @@ msgctxt "Key name"
 msgid "Option"
 msgstr "选项"
 
-#: src/ui/classic/theme.h:98
+#: src/ui/classic/theme.h:125
 msgid "Overlay Clip Margin"
 msgstr "覆盖图片裁剪边界"
 
-#: src/ui/classic/theme.h:88
+#: src/ui/classic/theme.h:115
 msgid "Overlay Image"
 msgstr "覆盖图片"
 
-#: src/ui/classic/theme.h:91
+#: src/ui/classic/theme.h:118
 msgid "Overlay X offset"
 msgstr "覆盖图片 X 偏移"
 
-#: src/ui/classic/theme.h:92
+#: src/ui/classic/theme.h:119
 msgid "Overlay Y offset"
 msgstr "覆盖图片 Y 偏移"
 
-#: src/ui/classic/theme.h:90
+#: src/ui/classic/theme.h:117
 msgid "Overlay position"
 msgstr "覆盖图片位置"
 
@@ -1941,7 +2005,7 @@ msgctxt "Key name"
 msgid "Page Up"
 msgstr "上一页"
 
-#: src/ui/classic/theme.h:133
+#: src/ui/classic/theme.h:160
 msgid "Page button vertical alignment"
 msgstr "页面按钮垂直对齐"
 
@@ -2013,7 +2077,7 @@ msgstr "预编辑已禁用"
 msgid "Preedit enabled"
 msgstr "预编辑已启用"
 
-#: src/ui/classic/classicui.h:128 src/ui/kimpanel/kimpanel.h:33
+#: src/ui/classic/classicui.h:129 src/ui/kimpanel/kimpanel.h:33
 msgid "Prefer Text Icon"
 msgstr "优先使用文字图标"
 
@@ -2025,7 +2089,7 @@ msgstr "Presage"
 msgid "Prev Candidate"
 msgstr "上一个候选词"
 
-#: src/ui/classic/theme.h:143
+#: src/ui/classic/theme.h:170
 msgid "Prev Page Button"
 msgstr "上一页按钮"
 
@@ -2181,16 +2245,20 @@ msgstr "选择局部输入法："
 msgid "Select specific input method via keyboard"
 msgstr "通过键盘选择特定的输入法"
 
+#: src/ui/classic/theme.h:179
+msgid "Selected Item text color"
+msgstr ""
+
 #: src/lib/fcitx-utils/key.cpp:185
 msgctxt "Key name"
 msgid "Send"
 msgstr "发送"
 
-#: src/ui/classic/theme.h:160
+#: src/ui/classic/theme.h:187
 msgid "Separator Background"
 msgstr "分隔符背景"
 
-#: src/ui/classic/theme.h:146
+#: src/ui/classic/theme.h:173
 msgid "Shadow Margin"
 msgstr "阴影边距"
 
@@ -2216,7 +2284,7 @@ msgstr "在焦点更改时显示输入法信息"
 msgid "Show Input Method Information when switch input method"
 msgstr "切换输入法时显示输入法信息"
 
-#: src/ui/classic/classicui.h:133
+#: src/ui/classic/classicui.h:134
 msgid "Show Layout Name In Icon"
 msgstr "在图标中显示布局名称"
 
@@ -2228,7 +2296,7 @@ msgstr "显示紧凑的输入法信息"
 msgid "Show first input method information"
 msgstr "显示第一个输入法的信息"
 
-#: src/ui/classic/classicui.h:137
+#: src/ui/classic/classicui.h:138
 msgid ""
 "Show layout name in icon if there is more than one active layout. If prefer "
 "text icon is set to true, this option will be ignored."
@@ -2260,7 +2328,7 @@ msgctxt "Key name"
 msgid "Space"
 msgstr "空格"
 
-#: src/ui/classic/theme.h:154
+#: src/ui/classic/theme.h:181
 msgid "Spacing"
 msgstr "间隔"
 
@@ -2301,7 +2369,7 @@ msgctxt "Key name"
 msgid "Stop"
 msgstr "停止"
 
-#: src/ui/classic/theme.h:162
+#: src/ui/classic/theme.h:189
 msgid "Sub Menu"
 msgstr "子菜单"
 
@@ -2394,27 +2462,27 @@ msgstr "列表中第 n 个按键选择第 n 个对应输入法。"
 msgid "The script is run as ${1} (${2})."
 msgstr "脚本作为 ${1} (${2}) 运行。"
 
-#: src/ui/classic/classicui.h:153
+#: src/ui/classic/classicui.h:154
 msgid "Theme"
 msgstr "主题"
 
-#: src/ui/classic/classicui.h:99
+#: src/ui/classic/classicui.h:100
 msgid "This is only effective when the tray icon is xembed."
 msgstr "这只在托盘为 xembed 时有效。"
 
-#: src/ui/classic/theme.h:71 src/ui/classic/theme.h:79
+#: src/ui/classic/theme.h:98 src/ui/classic/theme.h:106
 msgid "This option is only effective if image is not set."
 msgstr "此选项仅在图片没有设置时生效。"
 
-#: src/ui/classic/classicui.h:188
+#: src/ui/classic/classicui.h:193
 msgid "This option require support from wayland compositor."
 msgstr "此选项需要 Wayland 混成器 (Wayland compositor) 支持。"
 
-#: src/ui/classic/classicui.h:167
+#: src/ui/classic/classicui.h:172
 msgid "This option will be always disabled on XWayland."
 msgstr "在 XWayland 上，此选项将始终被禁用。"
 
-#: src/ui/classic/theme.h:87
+#: src/ui/classic/theme.h:114
 msgid "This value should be less than any of margin value."
 msgstr "这个值应该小于任何边距。"
 
@@ -2451,15 +2519,15 @@ msgctxt "Key name"
 msgid "Tools"
 msgstr "工具"
 
-#: src/ui/classic/theme.h:46
+#: src/ui/classic/theme.h:48
 msgid "Top"
 msgstr "顶部"
 
-#: src/ui/classic/theme.h:33
+#: src/ui/classic/theme.h:35
 msgid "Top Center"
 msgstr "顶部居中"
 
-#: src/ui/classic/theme.h:33
+#: src/ui/classic/theme.h:35
 msgid "Top Left"
 msgstr "左上"
 
@@ -2468,7 +2536,7 @@ msgctxt "Key name"
 msgid "Top Menu"
 msgstr "顶部菜单"
 
-#: src/ui/classic/theme.h:34
+#: src/ui/classic/theme.h:36
 msgid "Top Right"
 msgstr "右上"
 
@@ -2497,15 +2565,15 @@ msgctxt "Key name"
 msgid "Travel"
 msgstr "旅行"
 
-#: src/ui/classic/classicui.h:122
+#: src/ui/classic/classicui.h:123
 msgid "Tray Font"
 msgstr "托盘字体"
 
-#: src/ui/classic/classicui.h:124
+#: src/ui/classic/classicui.h:125
 msgid "Tray Label Outline Color"
 msgstr "托盘标签轮廓颜色"
 
-#: src/ui/classic/classicui.h:127
+#: src/ui/classic/classicui.h:128
 msgid "Tray Label Text Color"
 msgstr "托盘标签文本颜色"
 
@@ -2569,19 +2637,19 @@ msgstr "上"
 msgid "Use On The Spot Style (Needs restarting)"
 msgstr "使用 On The Spot 风格 (需要重启)"
 
-#: src/ui/classic/classicui.h:163
+#: src/ui/classic/classicui.h:168
 msgid "Use Per Screen DPI on X11"
 msgstr "在 X11 上针对不同屏幕使用单独的 DPI"
 
-#: src/ui/classic/theme.h:124
+#: src/ui/classic/theme.h:156
 msgid "Use all horizontal space for highlight when it is vertical list"
 msgstr "竖排列表时使用所有横向空间高亮"
 
-#: src/ui/classic/classicui.h:144
+#: src/ui/classic/classicui.h:145
 msgid "Use input method language to display text"
 msgstr "使用输入法的语言来显示文字"
 
-#: src/ui/classic/classicui.h:114
+#: src/ui/classic/classicui.h:115
 msgid "Use mouse wheel to go to prev or next page"
 msgstr "使用鼠标滚轮翻页"
 
@@ -2603,7 +2671,7 @@ msgid ""
 "environment:"
 msgstr "使用 ${1} 来检查在当前环境下将被实际使用的输入法模块："
 
-#: src/ui/classic/theme.h:170
+#: src/ui/classic/theme.h:197
 msgid "Version"
 msgstr "版本"
 
@@ -2611,7 +2679,7 @@ msgstr "版本"
 msgid "Version Line:"
 msgstr "版本行："
 
-#: src/ui/classic/classicui.h:112
+#: src/ui/classic/classicui.h:113
 msgid "Vertical Candidate List"
 msgstr "垂直候选列表"
 
