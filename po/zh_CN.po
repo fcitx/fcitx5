@@ -5,16 +5,16 @@
 # Translators:
 # wwj402 <wwj402@gmail.com>, 2017
 # rocka, 2022
-# csslayer <wengxt@gmail.com>, 2023
 # Lau YeeYu, 2023
+# csslayer <wengxt@gmail.com>, 2023
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2023-09-26 20:24+0000\n"
+"POT-Creation-Date: 2023-09-27 20:24+0000\n"
 "PO-Revision-Date: 2017-11-23 04:14+0000\n"
-"Last-Translator: Lau YeeYu, 2023\n"
+"Last-Translator: csslayer <wengxt@gmail.com>, 2023\n"
 "Language-Team: Chinese (China) (https://app.transifex.com/fcitx/teams/12005/"
 "zh_CN/)\n"
 "Language: zh_CN\n"
@@ -105,7 +105,7 @@ msgstr "一个基于 DBus 的虚拟键盘后端"
 
 #: src/ui/classic/theme.h:209
 msgid "Accent Colors"
-msgstr ""
+msgstr "重点色"
 
 #: src/lib/fcitx/globalconfig.cpp:81
 msgid "Activate Input Method"
@@ -878,7 +878,7 @@ msgstr "第一候选词"
 
 #: src/ui/classic/classicui.h:163
 msgid "Follow system accent color if it is supported by theme and desktop"
-msgstr ""
+msgstr "当被主题和桌面支持时使用系统的重点色"
 
 #: src/ui/classic/classicui.h:159
 msgid "Follow system light/dark color scheme"
@@ -1250,31 +1250,31 @@ msgstr "输入面板"
 
 #: src/ui/classic/theme.h:69
 msgid "Input Panel Background"
-msgstr ""
+msgstr "输入框背景"
 
 #: src/ui/classic/theme.h:69
 msgid "Input Panel Border"
-msgstr ""
+msgstr "输入框边框"
 
 #: src/ui/classic/theme.h:70
 msgid "Input Panel Highlight Background"
-msgstr ""
+msgstr "输入框高亮背景"
 
 #: src/ui/classic/theme.h:70
 msgid "Input Panel Highlight Border"
-msgstr ""
+msgstr "输入框高亮边框"
 
 #: src/ui/classic/theme.h:72
 msgid "Input Panel Highlight Candidate Text"
-msgstr ""
+msgstr "输入框高亮后选词文本"
 
 #: src/ui/classic/theme.h:71
 msgid "Input Panel Highlight Text"
-msgstr ""
+msgstr "输入框高亮文本"
 
 #: src/ui/classic/theme.h:71
 msgid "Input Panel Text"
-msgstr ""
+msgstr "输入框文本"
 
 #: src/modules/imselector/imselector.conf.in.in:3
 msgid "Input method selector"
@@ -1794,11 +1794,11 @@ msgstr "菜单"
 
 #: src/ui/classic/theme.h:72
 msgid "Menu Background"
-msgstr ""
+msgstr "菜单背景"
 
 #: src/ui/classic/theme.h:73
 msgid "Menu Border"
-msgstr ""
+msgstr "菜单边框"
 
 #: src/ui/classic/classicui.h:121
 msgid "Menu Font"
@@ -1806,11 +1806,11 @@ msgstr "菜单字体"
 
 #: src/ui/classic/theme.h:73
 msgid "Menu Highlight Background"
-msgstr ""
+msgstr "菜单高亮背景"
 
 #: src/ui/classic/theme.h:74
 msgid "Menu Highlight Border"
-msgstr ""
+msgstr "菜单高亮边框"
 
 #: src/lib/fcitx-utils/key.cpp:172
 msgctxt "Key name"
@@ -1819,15 +1819,15 @@ msgstr "菜单 PB"
 
 #: src/ui/classic/theme.h:74
 msgid "Menu Selected Item Text"
-msgstr ""
+msgstr "菜单选中项文本"
 
 #: src/ui/classic/theme.h:75
 msgid "Menu Separator"
-msgstr ""
+msgstr "菜单分隔符"
 
 #: src/ui/classic/theme.h:74
 msgid "Menu Text"
-msgstr ""
+msgstr "菜单文本"
 
 #: src/lib/fcitx-utils/key.cpp:199
 msgctxt "Key name"
@@ -2247,7 +2247,7 @@ msgstr "通过键盘选择特定的输入法"
 
 #: src/ui/classic/theme.h:179
 msgid "Selected Item text color"
-msgstr ""
+msgstr "选中项文本颜色"
 
 #: src/lib/fcitx-utils/key.cpp:185
 msgctxt "Key name"

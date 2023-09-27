@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2023-09-26 20:24+0000\n"
+"POT-Creation-Date: 2023-09-27 20:24+0000\n"
 "PO-Revision-Date: 2017-11-23 04:14+0000\n"
 "Last-Translator: Dmitry <dmitrydmitry761@gmail.com>, 2023\n"
 "Language-Team: Russian (https://app.transifex.com/fcitx/teams/12005/ru/)\n"
@@ -105,7 +105,7 @@ msgstr "Серверная часть виртуальной клавиатур�
 
 #: src/ui/classic/theme.h:209
 msgid "Accent Colors"
-msgstr ""
+msgstr "Акцентные цвета"
 
 #: src/lib/fcitx/globalconfig.cpp:81
 msgid "Activate Input Method"
@@ -889,6 +889,8 @@ msgstr "Первый кандидат"
 #: src/ui/classic/classicui.h:163
 msgid "Follow system accent color if it is supported by theme and desktop"
 msgstr ""
+"Следовать цветовому акценту системы, если он поддерживается темой и рабочим "
+"столом"
 
 #: src/ui/classic/classicui.h:159
 msgid "Follow system light/dark color scheme"
@@ -1267,31 +1269,31 @@ msgstr "Панель ввода"
 
 #: src/ui/classic/theme.h:69
 msgid "Input Panel Background"
-msgstr ""
+msgstr "Фон панели ввода"
 
 #: src/ui/classic/theme.h:69
 msgid "Input Panel Border"
-msgstr ""
+msgstr "Граница панели ввода"
 
 #: src/ui/classic/theme.h:70
 msgid "Input Panel Highlight Background"
-msgstr ""
+msgstr "Фон выделения панели ввода"
 
 #: src/ui/classic/theme.h:70
 msgid "Input Panel Highlight Border"
-msgstr ""
+msgstr "Граница выделения панели ввода"
 
 #: src/ui/classic/theme.h:72
 msgid "Input Panel Highlight Candidate Text"
-msgstr ""
+msgstr "Выделение текста-кандидата на панели ввода"
 
 #: src/ui/classic/theme.h:71
 msgid "Input Panel Highlight Text"
-msgstr ""
+msgstr "Выделение текста на панели ввода"
 
 #: src/ui/classic/theme.h:71
 msgid "Input Panel Text"
-msgstr ""
+msgstr "Текст панели ввода"
 
 #: src/modules/imselector/imselector.conf.in.in:3
 msgid "Input method selector"
@@ -1812,11 +1814,11 @@ msgstr "Меню"
 
 #: src/ui/classic/theme.h:72
 msgid "Menu Background"
-msgstr ""
+msgstr "Фон меню"
 
 #: src/ui/classic/theme.h:73
 msgid "Menu Border"
-msgstr ""
+msgstr "Граница меню"
 
 #: src/ui/classic/classicui.h:121
 msgid "Menu Font"
@@ -1824,11 +1826,11 @@ msgstr "Шрифт меню"
 
 #: src/ui/classic/theme.h:73
 msgid "Menu Highlight Background"
-msgstr ""
+msgstr "Фон выделения меню"
 
 #: src/ui/classic/theme.h:74
 msgid "Menu Highlight Border"
-msgstr ""
+msgstr "Граница выделения меню"
 
 #: src/lib/fcitx-utils/key.cpp:172
 msgctxt "Key name"
@@ -1837,15 +1839,15 @@ msgstr "Меню PB"
 
 #: src/ui/classic/theme.h:74
 msgid "Menu Selected Item Text"
-msgstr ""
+msgstr "Текст выбранного пункта меню"
 
 #: src/ui/classic/theme.h:75
 msgid "Menu Separator"
-msgstr ""
+msgstr "Разделитель меню"
 
 #: src/ui/classic/theme.h:74
 msgid "Menu Text"
-msgstr ""
+msgstr "Текст меню"
 
 #: src/lib/fcitx-utils/key.cpp:199
 msgctxt "Key name"
@@ -2270,7 +2272,7 @@ msgstr "Выберите конкретный метод ввода с клав�
 
 #: src/ui/classic/theme.h:179
 msgid "Selected Item text color"
-msgstr ""
+msgstr "Цвет текста выбранного элемента"
 
 #: src/lib/fcitx-utils/key.cpp:185
 msgctxt "Key name"
