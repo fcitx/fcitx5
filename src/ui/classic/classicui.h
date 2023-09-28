@@ -161,7 +161,7 @@ FCITX_CONFIGURATION(
     Option<bool> useAccentColor{
         this, "UseAccentColor",
         _("Follow system accent color if it is supported by theme and desktop"),
-        false};
+        true};
     OptionWithAnnotation<bool, ToolTipAnnotation> perScreenDPI{
         this,
         "PerScreenDPI",
