@@ -413,14 +413,9 @@ void XCBMenu::update() {
 
     const auto &textMargin = *theme.menu->textMargin;
     int i = 0;
-    const auto &separator = theme.loadBackground(
-        *theme.menu->separator,
-        ui_->parent()->maybeOverrideColor(ColorField::Menu_Separator),
-        std::nullopt);
-    const auto &checkBox =
-        theme.loadBackground(*theme.menu->checkBox, std::nullopt, std::nullopt);
-    const auto &subMenu =
-        theme.loadBackground(*theme.menu->subMenu, std::nullopt, std::nullopt);
+    const auto &separator = theme.loadBackground(*theme.menu->separator);
+    const auto &checkBox = theme.loadBackground(*theme.menu->checkBox);
+    const auto &subMenu = theme.loadBackground(*theme.menu->subMenu);
     const auto &highlightMargin = *theme.menu->highlight->margin;
     size_t maxItemWidth = 0;
     size_t maxItemHeight = 0;
@@ -517,28 +512,20 @@ void XCBMenu::update() {
     cairo_t *c = cairo_create(prerender());
 
     cairo_set_operator(c, CAIRO_OPERATOR_SOURCE);
-    theme.paint(c, *theme.menu->background,
-                ui_->parent()->maybeOverrideColor(ColorField::Menu_Background),
-                ui_->parent()->maybeOverrideColor(ColorField::Menu_Border),
-                width, height, /*alpha=*/1.0,
+    theme.paint(c, *theme.menu->background, width, height, /*alpha=*/1.0,
                 /*scale=*/1.0);
     cairo_set_operator(c, CAIRO_OPERATOR_OVER);
     for (const auto &item : items_) {
         if (item.isSeparator_) {
             cairo_save(c);
             cairo_translate(c, item.layoutX_, item.layoutY_);
-            const ThemeImage &separator = theme.loadBackground(
-                *theme.menu->separator,
-                ui_->parent()->maybeOverrideColor(ColorField::Menu_Separator),
-                std::nullopt);
-            theme.paint(
-                c, *theme.menu->separator,
-                ui_->parent()->maybeOverrideColor(ColorField::Menu_Separator),
-                std::nullopt,
-                width - *theme.menu->contentMargin->marginLeft -
-                    *theme.menu->contentMargin->marginRight,
-                (separator.isImage() ? 2 : -1), /*alpha=*/1.0,
-                /*scale=*/1.0);
+            const ThemeImage &separator =
+                theme.loadBackground(*theme.menu->separator);
+            theme.paint(c, *theme.menu->separator,
+                        width - *theme.menu->contentMargin->marginLeft -
+                            *theme.menu->contentMargin->marginRight,
+                        (separator.isImage() ? 2 : -1), /*alpha=*/1.0,
+                        /*scale=*/1.0);
             cairo_restore(c);
             continue;
         }
@@ -546,12 +533,8 @@ void XCBMenu::update() {
         if (item.isHighlight_) {
             cairo_save(c);
             cairo_translate(c, item.region_.left(), item.region_.top());
-            theme.paint(c, *theme.menu->highlight,
-                        ui_->parent()->maybeOverrideColor(
-                            ColorField::Menu_HighlightBackground),
-                        ui_->parent()->maybeOverrideColor(
-                            ColorField::Menu_HighlightBorder),
-                        item.region_.width(), item.region_.height(),
+            theme.paint(c, *theme.menu->highlight, item.region_.width(),
+                        item.region_.height(),
                         /*alpha=*/1.0, /*scale=*/1.0);
             cairo_restore(c);
         }
@@ -559,8 +542,7 @@ void XCBMenu::update() {
         if (item.isChecked_) {
             cairo_save(c);
             cairo_translate(c, item.checkBoxX_, item.checkBoxY_);
-            theme.paint(c, *theme.menu->checkBox, std::nullopt, std::nullopt,
-                        -1, -1, /*alpha=*/1.0,
+            theme.paint(c, *theme.menu->checkBox, -1, -1, /*alpha=*/1.0,
                         /*scale=*/1.0);
             cairo_restore(c);
         }
@@ -568,21 +550,16 @@ void XCBMenu::update() {
         if (item.hasSubMenu_) {
             cairo_save(c);
             cairo_translate(c, item.subMenuX_, item.subMenuY_);
-            theme.paint(c, *theme.menu->subMenu, std::nullopt, std::nullopt, -1,
-                        -1, /*alpha=*/1.0,
+            theme.paint(c, *theme.menu->subMenu, -1, -1, /*alpha=*/1.0,
                         /*scale=*/1.0);
             cairo_restore(c);
         }
 
         cairo_save(c);
         if (item.isHighlight_) {
-            cairoSetSourceColor(
-                c, ui_->parent()->getColor(ColorField::Menu_Text,
-                                           *theme.menu->highlightTextColor));
+            cairoSetSourceColor(c, theme.menuSelectedItemText());
         } else {
-            cairoSetSourceColor(
-                c, ui_->parent()->getColor(ColorField::Menu_Text,
-                                           *theme.menu->normalColor));
+            cairoSetSourceColor(c, theme.menuText());
         }
         cairo_translate(c, item.layoutX_, item.layoutY_);
         pango_cairo_show_layout(c, item.layout_.get());

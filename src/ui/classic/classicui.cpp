@@ -279,6 +279,7 @@ void ClassicUI::reloadTheme() {
         accentColorSlot_.reset();
     }
 #endif
+    theme_.populateColor(accentColor_);
 }
 
 void ClassicUI::suspend() {
@@ -559,23 +560,6 @@ bool ClassicUI::preferTextIcon() const { return *config_.preferTextIcon; }
 
 bool ClassicUI::showLayoutNameInIcon() const {
     return *config_.showLayoutNameInIcon;
-}
-
-std::optional<Color> ClassicUI::maybeOverrideColor(ColorField field) {
-    if (!accentColor_) {
-        return std::nullopt;
-    }
-    if (theme_.accentColorFields().count(field)) {
-        return accentColor_;
-    }
-    return std::nullopt;
-}
-
-Color ClassicUI::getColor(ColorField field, const Color &defaultColor) {
-    if (auto accentColor = maybeOverrideColor(field)) {
-        return *accentColor;
-    }
-    return defaultColor;
 }
 
 } // namespace fcitx::classicui

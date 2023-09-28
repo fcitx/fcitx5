@@ -52,26 +52,21 @@ FCITX_CONFIG_ENUM_NAME_WITH_I18N(PageButtonAlignment, N_("Top"),
 enum class ColorField {
     InputPanel_Background,
     InputPanel_Border,
-    InputPanel_HighlightBackground,
-    InputPanel_HighlightBorder,
-    InputPanel_Text,
-    InputPanel_HighlightText,
-    InputPanel_HighlightCandidateText,
+    InputPanel_HighlightCandidateBackground,
+    InputPanel_HighlightCandidateBorder,
+    InputPanel_Highlight,
     Menu_Background,
     Menu_Border,
-    Menu_HighlightBackground,
-    Menu_HighlightBorder,
-    Menu_Text,
-    Menu_SelectedItemText,
+    Menu_SelectedItemBackground,
+    Menu_SelectedItemBorder,
     Menu_Separator,
 };
 FCITX_CONFIG_ENUM_NAME_WITH_I18N(
     ColorField, N_("Input Panel Background"), N_("Input Panel Border"),
-    N_("Input Panel Highlight Background"), N_("Input Panel Highlight Border"),
-    N_("Input Panel Text"), N_("Input Panel Highlight Text"),
-    N_("Input Panel Highlight Candidate Text"), N_("Menu Background"),
-    N_("Menu Border"), N_("Menu Highlight Background"),
-    N_("Menu Highlight Border"), N_("Menu Text"), N_("Menu Selected Item Text"),
+    N_("Input Panel Highlight Candidate Background"),
+    N_("Input Panel Highlight Candidate Border"), N_("Input Panel Highlight"),
+    N_("Menu Background"), N_("Menu Border"),
+    N_("Menu Selected Item Background"), N_("Menu Selected Item Border"),
     N_("Menu Separator"));
 
 FCITX_CONFIGURATION(
@@ -214,7 +209,7 @@ class ClassicUIConfig;
 class ThemeImage {
 public:
     ThemeImage(const std::string &name, const BackgroundImageConfig &cfg,
-               std::optional<Color> color, std::optional<Color> borderColor);
+               const Color &color, const Color &borderColor);
     ThemeImage(const std::string &name, const ActionImageConfig &cfg);
     ThemeImage(const IconTheme &iconTheme, const std::string &icon,
                const std::string &label, uint32_t size,
@@ -279,14 +274,11 @@ public:
     const ThemeImage &loadImage(const std::string &icon,
                                 const std::string &label, uint32_t size,
                                 const ClassicUI *classicui);
-    const ThemeImage &loadBackground(const BackgroundImageConfig &cfg,
-                                     std::optional<Color> color,
-                                     std::optional<Color> borderColor);
+    const ThemeImage &loadBackground(const BackgroundImageConfig &cfg);
     const ThemeImage &loadAction(const ActionImageConfig &cfg);
 
-    void paint(cairo_t *c, const BackgroundImageConfig &cfg,
-               std::optional<Color> color, std::optional<Color> borderColor,
-               int width, int height, double alpha, double scale);
+    void paint(cairo_t *c, const BackgroundImageConfig &cfg, int width,
+               int height, double alpha, double scale);
 
     void paint(cairo_t *c, const ActionImageConfig &cfg, double alpha = 1.0);
 
@@ -297,6 +289,37 @@ public:
 
     const auto &maskConfig() const { return maskConfig_; }
     const auto &accentColorFields() const { return accentColorFields_; }
+
+    void populateColor(std::optional<Color> accent);
+
+    const auto &inputPanelBackground() const { return inputPanelBackground_; }
+    const auto &inputPanelBorder() const { return inputPanelBorder_; }
+    const auto &inputPanelHighlightCandidateBackground() const {
+        return inputPanelHighlightCandidateBackground_;
+    }
+    const auto &inputPanelHighlightCandidateBorder() const {
+        return inputPanelHighlightCandidateBorder_;
+    }
+    const auto &inputPanelHighlight() const { return inputPanelHighlight_; }
+    const auto &inputPanelText() const { return inputPanelText_; }
+    const auto &inputPanelHighlightText() const {
+        return inputPanelHighlightText_;
+    }
+    const auto &inputPanelHighlightCandidateText() const {
+        return inputPanelHighlightCandidateText_;
+    }
+
+    const auto &menuBackground() const { return menuBackground_; }
+    const auto &menuBorder() const { return menuBorder_; }
+    const auto &menuSelectedItemBackground() const {
+        return menuSelectedItemBackground_;
+    }
+    const auto &menuSelectedItemBorder() const {
+        return menuSelectedItemBorder_;
+    }
+    const auto &menuSeparator() const { return menuSeparator_; }
+    const auto &menuText() const { return menuText_; }
+    const auto &menuSelectedItemText() const { return menuSelectedItemText_; }
 
 private:
     void reset();
@@ -309,6 +332,23 @@ private:
     std::string name_;
     BackgroundImageConfig maskConfig_;
     std::unordered_set<ColorField> accentColorFields_;
+
+    Color inputPanelBackground_;
+    Color inputPanelBorder_;
+    Color inputPanelHighlightCandidateBackground_;
+    Color inputPanelHighlightCandidateBorder_;
+    Color inputPanelHighlight_;
+    Color inputPanelText_;
+    Color inputPanelHighlightText_;
+    Color inputPanelHighlightCandidateText_;
+
+    Color menuBackground_;
+    Color menuBorder_;
+    Color menuSelectedItemBackground_;
+    Color menuSelectedItemBorder_;
+    Color menuSeparator_;
+    Color menuText_;
+    Color menuSelectedItemText_;
 };
 
 inline void cairoSetSourceColor(cairo_t *cr, const Color &color) {

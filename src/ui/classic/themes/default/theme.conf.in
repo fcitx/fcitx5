@@ -114,6 +114,8 @@ Bottom=5
 
 [AccentColorField]
 0=Input Panel Border
-1=Input Panel Highlight Background
-2=Menu Border
-3=Menu Separator
+1=Input Panel Highlight Candidate Background
+2=Input Panel Highlight
+3=Menu Border
+4=Menu Separator
+5=Menu Selected Item Background

@@ -25,6 +25,7 @@
 #include "fcitx-utils/utf8.h"
 #include "fcitx/misc_p.h"
 #include "classicui.h"
+#include "colorhelper.h"
 #include "common.h"
 
 namespace fcitx::classicui {
@@ -266,9 +267,8 @@ ThemeImage::ThemeImage(const IconTheme &iconTheme, const std::string &icon,
 }
 
 ThemeImage::ThemeImage(const std::string &name,
-                       const BackgroundImageConfig &cfg,
-                       std::optional<Color> color,
-                       std::optional<Color> borderColor) {
+                       const BackgroundImageConfig &cfg, const Color &color,
+                       const Color &borderColor) {
     if (!cfg.image->empty()) {
         auto imageFile = StandardPath::global().open(
             StandardPath::Type::PkgData,
@@ -309,24 +309,22 @@ ThemeImage::ThemeImage(const std::string &name,
                       *cfg.margin->marginBottom});
 
         CLASSICUI_DEBUG() << "Paint background: height " << height << " width "
-                          << width << " border="
-                          << (borderColor ? *borderColor : *cfg.borderColor)
+                          << width << " border=" << borderColor
                           << " border width=" << *cfg.borderWidth
-                          << " color=" << (color ? *color : *cfg.color);
+                          << " color=" << color;
         image_.reset(
             cairo_image_surface_create(CAIRO_FORMAT_ARGB32, width, height));
         auto *cr = cairo_create(image_.get());
         cairo_set_operator(cr, CAIRO_OPERATOR_SOURCE);
         if (borderWidth) {
-            cairoSetSourceColor(cr,
-                                borderColor ? *borderColor : *cfg.borderColor);
+            cairoSetSourceColor(cr, borderColor);
             cairo_paint(cr);
         }
 
         cairo_rectangle(cr, borderWidth, borderWidth, width - borderWidth * 2,
                         height - borderWidth * 2);
         cairo_clip(cr);
-        cairoSetSourceColor(cr, color ? *color : *cfg.color);
+        cairoSetSourceColor(cr, color);
         cairo_paint(cr);
         cairo_destroy(cr);
         isImage_ = true;
@@ -397,11 +395,30 @@ Theme::Theme() : iconTheme_(IconTheme::defaultIconThemeName()) {}
 
 Theme::~Theme() {}
 
-const ThemeImage &Theme::loadBackground(const BackgroundImageConfig &cfg,
-                                        std::optional<Color> color,
-                                        std::optional<Color> borderColor) {
+const ThemeImage &Theme::loadBackground(const BackgroundImageConfig &cfg) {
     if (auto *image = findValue(backgroundImageTable_, &cfg)) {
         return *image;
+    }
+
+    Color color, borderColor;
+    if (&cfg == &*inputPanel->background) {
+        color = inputPanelBackground_;
+        borderColor = inputPanelBorder_;
+    } else if (&cfg == &*inputPanel->highlight) {
+        color = inputPanelHighlightCandidateBackground_;
+        borderColor = inputPanelHighlightCandidateBorder_;
+    } else if (&cfg == &*menu->background) {
+        color = menuBackground_;
+        borderColor = menuBorder_;
+    } else if (&cfg == &*menu->highlight) {
+        color = menuSelectedItemBackground_;
+        borderColor = menuSelectedItemBorder_;
+    } else if (&cfg == &*menu->separator) {
+        color = menuSeparator_;
+        borderColor = *cfg.borderColor;
+    } else {
+        color = *cfg.color;
+        borderColor = *cfg.borderColor;
     }
 
     auto result = backgroundImageTable_.emplace(
@@ -585,10 +602,9 @@ void paintTile(cairo_t *c, int width, int height, double alpha,
     }
 }
 
-void Theme::paint(cairo_t *c, const BackgroundImageConfig &cfg,
-                  std::optional<Color> color, std::optional<Color> borderColor,
-                  int width, int height, double alpha, double scale) {
-    const ThemeImage &image = loadBackground(cfg, color, borderColor);
+void Theme::paint(cairo_t *c, const BackgroundImageConfig &cfg, int width,
+                  int height, double alpha, double scale) {
+    const ThemeImage &image = loadBackground(cfg);
     auto marginTop = *cfg.margin->marginTop;
     auto marginBottom = *cfg.margin->marginBottom;
     auto marginLeft = *cfg.margin->marginLeft;
@@ -765,7 +781,7 @@ std::vector<Rect> Theme::mask(const BackgroundImageConfig &cfg, int width,
         cairo_image_surface_create(CAIRO_FORMAT_A1, width, height));
     auto c = cairo_create(mask.get());
     cairo_set_operator(c, CAIRO_OPERATOR_SOURCE);
-    paint(c, cfg, std::nullopt, std::nullopt, width, height, 1, 1);
+    paint(c, cfg, width, height, 1, 1);
     cairo_destroy(c);
 
     UniqueCPtr<cairo_region_t, cairo_region_destroy> region(
@@ -843,6 +859,68 @@ std::vector<Rect> Theme::mask(const BackgroundImageConfig &cfg, int width,
                              .setSize(rect.width, rect.height));
     }
     return result;
+}
+
+void Theme::populateColor(std::optional<Color> accent) {
+    inputPanelBackground_ = *inputPanel->background->color;
+    inputPanelBorder_ = *inputPanel->background->borderColor;
+    inputPanelHighlightCandidateBackground_ = *inputPanel->highlight->color;
+    inputPanelHighlightCandidateBorder_ = *inputPanel->background->borderColor;
+    inputPanelHighlight_ = *inputPanel->highlightBackgroundColor;
+    inputPanelText_ = *inputPanel->normalColor;
+    inputPanelHighlightText_ = *inputPanel->highlightColor;
+    inputPanelHighlightCandidateText_ = *inputPanel->highlightCandidateColor;
+
+    menuBackground_ = *menu->background->color;
+    menuBorder_ = *menu->background->borderColor;
+    menuSelectedItemBackground_ = *menu->highlight->color;
+    menuSelectedItemBorder_ = *menu->background->borderColor;
+    menuSeparator_ = *menu->separator->color;
+    menuText_ = *menu->normalColor;
+    menuSelectedItemText_ = *menu->highlightTextColor;
+
+    if (accent) {
+        auto foreground = accentForeground(*accent);
+        for (auto field : accentColorFields_) {
+            switch (field) {
+            case ColorField::InputPanel_Background:
+                inputPanelBackground_ = *accent;
+                inputPanelText_ = foreground;
+                break;
+            case ColorField::InputPanel_Border:
+                inputPanelBorder_ = *accent;
+                break;
+            case ColorField::InputPanel_HighlightCandidateBackground:
+                inputPanelHighlightCandidateBackground_ = *accent;
+                inputPanelHighlightCandidateText_ = foreground;
+                break;
+            case ColorField::InputPanel_HighlightCandidateBorder:
+                inputPanelHighlightCandidateBorder_ = *accent;
+                break;
+            case ColorField::InputPanel_Highlight:
+                inputPanelHighlight_ = *accent;
+                inputPanelHighlightText_ = foreground;
+                break;
+            case ColorField::Menu_Background:
+                menuBackground_ = *accent;
+                menuText_ = foreground;
+                break;
+            case ColorField::Menu_Border:
+                menuBorder_ = *accent;
+                break;
+            case ColorField::Menu_SelectedItemBackground:
+                menuSelectedItemBackground_ = *accent;
+                menuSelectedItemText_ = foreground;
+                break;
+            case ColorField::Menu_SelectedItemBorder:
+                menuSelectedItemBorder_ = *accent;
+                break;
+            case ColorField::Menu_Separator:
+                menuSeparator_ = *accent;
+                break;
+            }
+        }
+    }
 }
 
 } // namespace fcitx::classicui

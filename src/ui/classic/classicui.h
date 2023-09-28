@@ -224,8 +224,6 @@ public:
                                          unsigned int size);
     bool preferTextIcon() const;
     bool showLayoutNameInIcon() const;
-    std::optional<Color> maybeOverrideColor(ColorField field);
-    Color getColor(ColorField field, const Color &defaultColor);
 
 private:
     FCITX_ADDON_DEPENDENCY_LOADER(notificationitem, instance_->addonManager());
