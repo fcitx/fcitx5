@@ -17,7 +17,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2023-09-26 20:24+0000\n"
+"POT-Creation-Date: 2023-09-28 20:24+0000\n"
 "PO-Revision-Date: 2017-11-23 04:14+0000\n"
 "Last-Translator: Lau YeeYu, 2023\n"
 "Language-Team: Chinese (Taiwan) (https://app.transifex.com/fcitx/teams/12005/"
@@ -108,7 +108,7 @@ msgstr "<未指定>"
 msgid "A virtual keyboard backend based on DBus"
 msgstr "一個基於 DBus 的虛擬鍵盤後端"
 
-#: src/ui/classic/theme.h:209
+#: src/ui/classic/theme.h:204
 msgid "Accent Colors"
 msgstr ""
 
@@ -212,7 +212,7 @@ msgctxt "Key name"
 msgid "Audio Repeat"
 msgstr "音訊重複"
 
-#: src/ui/classic/theme.h:198
+#: src/ui/classic/theme.h:193
 msgid "Author"
 msgstr "作者"
 
@@ -235,11 +235,11 @@ msgstr "往後"
 msgid "Backends"
 msgstr "後端"
 
-#: src/ui/classic/theme.h:163 src/ui/classic/theme.h:183
+#: src/ui/classic/theme.h:158 src/ui/classic/theme.h:178
 msgid "Background"
 msgstr "背景"
 
-#: src/ui/classic/theme.h:90
+#: src/ui/classic/theme.h:85
 msgid "Background Image"
 msgstr "背景圖片"
 
@@ -275,11 +275,11 @@ msgctxt "Key name"
 msgid "Bluetooth"
 msgstr "藍牙"
 
-#: src/ui/classic/theme.h:153
+#: src/ui/classic/theme.h:148
 msgid "Blur Margin"
 msgstr "模糊邊緣"
 
-#: src/ui/classic/theme.h:152
+#: src/ui/classic/theme.h:147
 msgid "Blur mask"
 msgstr "遮罩模糊"
 
@@ -288,11 +288,11 @@ msgctxt "Key name"
 msgid "Book"
 msgstr "書籍"
 
-#: src/ui/classic/theme.h:102
+#: src/ui/classic/theme.h:97
 msgid "Border Color"
 msgstr "邊框顏色"
 
-#: src/ui/classic/theme.h:110
+#: src/ui/classic/theme.h:105
 msgid "Border width"
 msgstr "邊框寬度"
 
@@ -435,7 +435,7 @@ msgstr "右側居中"
 msgid "Change Fcitx 5 Configuration"
 msgstr "變更 Fcitx 5 設定"
 
-#: src/ui/classic/theme.h:188
+#: src/ui/classic/theme.h:183
 msgid "Check box"
 msgstr "複選框"
 
@@ -452,7 +452,7 @@ msgctxt "Key name"
 msgid "Clear"
 msgstr "清空"
 
-#: src/ui/classic/theme.h:136
+#: src/ui/classic/theme.h:131
 msgid "Click Margin"
 msgstr "按區域邊距"
 
@@ -474,7 +474,7 @@ msgctxt "Key name"
 msgid "Code input"
 msgstr "字碼輸入"
 
-#: src/ui/classic/theme.h:94
+#: src/ui/classic/theme.h:89
 msgid "Color"
 msgstr "顏色"
 
@@ -646,7 +646,7 @@ msgctxt "Key name"
 msgid "Delete"
 msgstr "刪除"
 
-#: src/ui/classic/theme.h:200
+#: src/ui/classic/theme.h:195
 msgid "Description"
 msgstr "說明"
 
@@ -712,7 +712,7 @@ msgstr "顏文字"
 msgid "Enable"
 msgstr "啟用"
 
-#: src/ui/classic/theme.h:150
+#: src/ui/classic/theme.h:145
 msgid "Enable Blur on KWin"
 msgstr "在 KWin 啟用模糊"
 
@@ -1120,27 +1120,27 @@ msgstr "休眠"
 msgid "Hidden Notifications"
 msgstr "隱藏通知"
 
-#: src/ui/classic/theme.h:121
+#: src/ui/classic/theme.h:116
 msgid "Hide overlay if size does not fit"
 msgstr "如果尺寸不合適，隱藏疊加層"
 
-#: src/ui/classic/theme.h:165 src/ui/classic/theme.h:185
+#: src/ui/classic/theme.h:160 src/ui/classic/theme.h:180
 msgid "Highlight Background"
 msgstr "高亮背景"
 
-#: src/ui/classic/theme.h:145
+#: src/ui/classic/theme.h:140
 msgid "Highlight Background color"
 msgstr "高亮背景顏色"
 
-#: src/ui/classic/theme.h:148
+#: src/ui/classic/theme.h:143
 msgid "Highlight Candidate Color"
 msgstr "高亮候選詞顏色"
 
-#: src/ui/classic/theme.h:131
+#: src/ui/classic/theme.h:126
 msgid "Highlight Click Margin"
 msgstr "高亮點擊邊距"
 
-#: src/ui/classic/theme.h:143
+#: src/ui/classic/theme.h:138
 msgid "Highlight text color"
 msgstr "高亮文字顏色"
 
@@ -1224,7 +1224,7 @@ msgstr ""
 "${g36_disable_ibus} 指令停用 IBus 整合以使用 ${2} 以外的任何輸入法。更多細節"
 "參見 ${link}。"
 
-#: src/ui/classic/theme.h:134
+#: src/ui/classic/theme.h:129
 msgid "Image"
 msgstr "圖片"
 
@@ -1249,36 +1249,28 @@ msgstr "輸入法相關環境變數："
 msgid "Input Methods:"
 msgstr "輸入法："
 
-#: src/ui/classic/theme.h:206
+#: src/ui/classic/theme.h:201
 msgid "Input Panel"
 msgstr "輸入面板"
 
-#: src/ui/classic/theme.h:69
+#: src/ui/classic/theme.h:65
 msgid "Input Panel Background"
 msgstr ""
 
-#: src/ui/classic/theme.h:69
+#: src/ui/classic/theme.h:65
 msgid "Input Panel Border"
 msgstr ""
 
-#: src/ui/classic/theme.h:70
-msgid "Input Panel Highlight Background"
+#: src/ui/classic/theme.h:67
+msgid "Input Panel Highlight"
 msgstr ""
 
-#: src/ui/classic/theme.h:70
-msgid "Input Panel Highlight Border"
+#: src/ui/classic/theme.h:66
+msgid "Input Panel Highlight Candidate Background"
 msgstr ""
 
-#: src/ui/classic/theme.h:72
-msgid "Input Panel Highlight Candidate Text"
-msgstr ""
-
-#: src/ui/classic/theme.h:71
-msgid "Input Panel Highlight Text"
-msgstr ""
-
-#: src/ui/classic/theme.h:71
-msgid "Input Panel Text"
+#: src/ui/classic/theme.h:67
+msgid "Input Panel Highlight Candidate Border"
 msgstr ""
 
 #: src/modules/imselector/imselector.conf.in.in:3
@@ -1314,7 +1306,7 @@ msgstr ""
 msgid "KDE Input Method Panel"
 msgstr "KDE 輸入法面板"
 
-#: src/ui/classic/classicui.cpp:333
+#: src/ui/classic/classicui.cpp:334
 msgid "KDE Plasma (Experimental)"
 msgstr "KDE Plasma (實驗性)"
 
@@ -1705,31 +1697,31 @@ msgctxt "Key name"
 msgid "Mail Forward"
 msgstr "轉寄信件"
 
-#: src/ui/classic/theme.h:123
+#: src/ui/classic/theme.h:118
 msgid "Margin"
 msgstr "邊距"
 
-#: src/ui/classic/theme.h:85
+#: src/ui/classic/theme.h:80
 msgid "Margin Bottom"
 msgstr "底部邊距"
 
-#: src/ui/classic/theme.h:79
+#: src/ui/classic/theme.h:74
 msgid "Margin Left"
 msgstr "左側邊距"
 
-#: src/ui/classic/theme.h:81
+#: src/ui/classic/theme.h:76
 msgid "Margin Right"
 msgstr "右側邊距"
 
-#: src/ui/classic/theme.h:83
+#: src/ui/classic/theme.h:78
 msgid "Margin Top"
 msgstr "頂部邊距"
 
-#: src/ui/classic/theme.h:167 src/ui/classic/theme.h:191
+#: src/ui/classic/theme.h:162 src/ui/classic/theme.h:186
 msgid "Margin around all content"
 msgstr "內容周圍邊界"
 
-#: src/ui/classic/theme.h:169 src/ui/classic/theme.h:193
+#: src/ui/classic/theme.h:164 src/ui/classic/theme.h:188
 msgid "Margin around text"
 msgstr "內容周圍邊界"
 
@@ -1788,7 +1780,7 @@ msgctxt "Key name"
 msgid "Meeting"
 msgstr "會議"
 
-#: src/ui/classic/theme.h:207
+#: src/ui/classic/theme.h:202
 msgid "Menu"
 msgstr "選單"
 
@@ -1797,11 +1789,11 @@ msgctxt "Key name"
 msgid "Menu"
 msgstr "選單"
 
-#: src/ui/classic/theme.h:72
+#: src/ui/classic/theme.h:68
 msgid "Menu Background"
 msgstr ""
 
-#: src/ui/classic/theme.h:73
+#: src/ui/classic/theme.h:68
 msgid "Menu Border"
 msgstr ""
 
@@ -1809,29 +1801,21 @@ msgstr ""
 msgid "Menu Font"
 msgstr "功能表字體"
 
-#: src/ui/classic/theme.h:73
-msgid "Menu Highlight Background"
-msgstr ""
-
-#: src/ui/classic/theme.h:74
-msgid "Menu Highlight Border"
-msgstr ""
-
 #: src/lib/fcitx-utils/key.cpp:172
 msgctxt "Key name"
 msgid "Menu PB"
 msgstr "選單 PB"
 
-#: src/ui/classic/theme.h:74
-msgid "Menu Selected Item Text"
+#: src/ui/classic/theme.h:69
+msgid "Menu Selected Item Background"
 msgstr ""
 
-#: src/ui/classic/theme.h:75
+#: src/ui/classic/theme.h:69
+msgid "Menu Selected Item Border"
+msgstr ""
+
+#: src/ui/classic/theme.h:70
 msgid "Menu Separator"
-msgstr ""
-
-#: src/ui/classic/theme.h:74
-msgid "Menu Text"
 msgstr ""
 
 #: src/lib/fcitx-utils/key.cpp:199
@@ -1839,7 +1823,7 @@ msgctxt "Key name"
 msgid "Messenger"
 msgstr "即時通訊工具"
 
-#: src/ui/classic/theme.h:204
+#: src/ui/classic/theme.h:199
 msgid "Metadata"
 msgstr "元數據"
 
@@ -1878,7 +1862,7 @@ msgctxt "Key name"
 msgid "My Sites"
 msgstr "個人站台"
 
-#: src/ui/classic/theme.h:196
+#: src/ui/classic/theme.h:191
 msgid "Name"
 msgstr "名稱"
 
@@ -1896,7 +1880,7 @@ msgstr "新聞"
 msgid "Next Candidate"
 msgstr "下一個候選字"
 
-#: src/ui/classic/theme.h:171
+#: src/ui/classic/theme.h:166
 msgid "Next Page Button"
 msgstr "下一頁按鈕"
 
@@ -1912,7 +1896,7 @@ msgstr "沒有輸入法歷史"
 msgid "None"
 msgstr "無"
 
-#: src/ui/classic/theme.h:140 src/ui/classic/theme.h:176
+#: src/ui/classic/theme.h:135 src/ui/classic/theme.h:171
 msgid "Normal text color"
 msgstr "一般文字顏色"
 
@@ -1967,23 +1951,23 @@ msgctxt "Key name"
 msgid "Option"
 msgstr "選項"
 
-#: src/ui/classic/theme.h:125
+#: src/ui/classic/theme.h:120
 msgid "Overlay Clip Margin"
 msgstr "覆蓋圖片裁剪邊界"
 
-#: src/ui/classic/theme.h:115
+#: src/ui/classic/theme.h:110
 msgid "Overlay Image"
 msgstr "覆蓋圖片"
 
-#: src/ui/classic/theme.h:118
+#: src/ui/classic/theme.h:113
 msgid "Overlay X offset"
 msgstr "覆蓋 X 位移"
 
-#: src/ui/classic/theme.h:119
+#: src/ui/classic/theme.h:114
 msgid "Overlay Y offset"
 msgstr "覆蓋 Y 位移"
 
-#: src/ui/classic/theme.h:117
+#: src/ui/classic/theme.h:112
 msgid "Overlay position"
 msgstr "覆蓋圖片位置"
 
@@ -2009,7 +1993,7 @@ msgctxt "Key name"
 msgid "Page Up"
 msgstr "上一頁"
 
-#: src/ui/classic/theme.h:160
+#: src/ui/classic/theme.h:155
 msgid "Page button vertical alignment"
 msgstr "頁面按鈕垂直對齊"
 
@@ -2093,7 +2077,7 @@ msgstr "Presage"
 msgid "Prev Candidate"
 msgstr "上一個候選字"
 
-#: src/ui/classic/theme.h:170
+#: src/ui/classic/theme.h:165
 msgid "Prev Page Button"
 msgstr "上一頁按鈕"
 
@@ -2249,7 +2233,7 @@ msgstr "選擇區域輸入法："
 msgid "Select specific input method via keyboard"
 msgstr "通過鍵盤選擇特定的輸入法"
 
-#: src/ui/classic/theme.h:179
+#: src/ui/classic/theme.h:174
 msgid "Selected Item text color"
 msgstr ""
 
@@ -2258,11 +2242,11 @@ msgctxt "Key name"
 msgid "Send"
 msgstr "傳送"
 
-#: src/ui/classic/theme.h:187
+#: src/ui/classic/theme.h:182
 msgid "Separator Background"
 msgstr "分隔符背景"
 
-#: src/ui/classic/theme.h:173
+#: src/ui/classic/theme.h:168
 msgid "Shadow Margin"
 msgstr "陰影邊緣"
 
@@ -2332,7 +2316,7 @@ msgctxt "Key name"
 msgid "Space"
 msgstr "空格"
 
-#: src/ui/classic/theme.h:181
+#: src/ui/classic/theme.h:176
 msgid "Spacing"
 msgstr "間隔"
 
@@ -2373,7 +2357,7 @@ msgctxt "Key name"
 msgid "Stop"
 msgstr "停止"
 
-#: src/ui/classic/theme.h:189
+#: src/ui/classic/theme.h:184
 msgid "Sub Menu"
 msgstr "子功能表"
 
@@ -2474,7 +2458,7 @@ msgstr "主題"
 msgid "This is only effective when the tray icon is xembed."
 msgstr "這只在托盤圖示為 xembed 時有效。"
 
-#: src/ui/classic/theme.h:98 src/ui/classic/theme.h:106
+#: src/ui/classic/theme.h:93 src/ui/classic/theme.h:101
 msgid "This option is only effective if image is not set."
 msgstr "此選項僅在圖片沒有設定時有效。"
 
@@ -2486,7 +2470,7 @@ msgstr "此選項需要 Wayland 混成器 (Wayland compositor) 支援。"
 msgid "This option will be always disabled on XWayland."
 msgstr "在 XWayland 上，此選項將始終被禁用。"
 
-#: src/ui/classic/theme.h:114
+#: src/ui/classic/theme.h:109
 msgid "This value should be less than any of margin value."
 msgstr "這個值應該小於任何邊距值。"
 
@@ -2645,7 +2629,7 @@ msgstr "使用 On The Spot 風格 (需要重新啟動)"
 msgid "Use Per Screen DPI on X11"
 msgstr "在 X11 上對不同螢幕使用單獨的 DPI"
 
-#: src/ui/classic/theme.h:156
+#: src/ui/classic/theme.h:151
 msgid "Use all horizontal space for highlight when it is vertical list"
 msgstr "當它是垂直列表時，使用所有橫向空間高亮顯示"
 
@@ -2675,7 +2659,7 @@ msgid ""
 "environment:"
 msgstr "使用 ${1} 檢查目前環境下將被實際使用的輸入法模塊："
 
-#: src/ui/classic/theme.h:197
+#: src/ui/classic/theme.h:192
 msgid "Version"
 msgstr "版本"
 

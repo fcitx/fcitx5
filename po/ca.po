@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2023-09-26 20:24+0000\n"
+"POT-Creation-Date: 2023-09-28 20:24+0000\n"
 "PO-Revision-Date: 2017-11-23 04:14+0000\n"
 "Last-Translator: Robert Antoni Buj i Gelonch <rbuj@fedoraproject.org>, 2020\n"
 "Language-Team: Catalan (https://app.transifex.com/fcitx/teams/12005/ca/)\n"
@@ -100,7 +100,7 @@ msgstr "<no assignat>"
 msgid "A virtual keyboard backend based on DBus"
 msgstr ""
 
-#: src/ui/classic/theme.h:209
+#: src/ui/classic/theme.h:204
 msgid "Accent Colors"
 msgstr ""
 
@@ -204,7 +204,7 @@ msgctxt "Key name"
 msgid "Audio Repeat"
 msgstr "Repetició de l'àudio"
 
-#: src/ui/classic/theme.h:198
+#: src/ui/classic/theme.h:193
 msgid "Author"
 msgstr ""
 
@@ -227,11 +227,11 @@ msgstr ""
 msgid "Backends"
 msgstr ""
 
-#: src/ui/classic/theme.h:163 src/ui/classic/theme.h:183
+#: src/ui/classic/theme.h:158 src/ui/classic/theme.h:178
 msgid "Background"
 msgstr ""
 
-#: src/ui/classic/theme.h:90
+#: src/ui/classic/theme.h:85
 msgid "Background Image"
 msgstr ""
 
@@ -267,11 +267,11 @@ msgctxt "Key name"
 msgid "Bluetooth"
 msgstr "Bluetooth"
 
-#: src/ui/classic/theme.h:153
+#: src/ui/classic/theme.h:148
 msgid "Blur Margin"
 msgstr ""
 
-#: src/ui/classic/theme.h:152
+#: src/ui/classic/theme.h:147
 msgid "Blur mask"
 msgstr ""
 
@@ -280,11 +280,11 @@ msgctxt "Key name"
 msgid "Book"
 msgstr "Llibre"
 
-#: src/ui/classic/theme.h:102
+#: src/ui/classic/theme.h:97
 msgid "Border Color"
 msgstr ""
 
-#: src/ui/classic/theme.h:110
+#: src/ui/classic/theme.h:105
 msgid "Border width"
 msgstr ""
 
@@ -427,7 +427,7 @@ msgstr ""
 msgid "Change Fcitx 5 Configuration"
 msgstr ""
 
-#: src/ui/classic/theme.h:188
+#: src/ui/classic/theme.h:183
 msgid "Check box"
 msgstr ""
 
@@ -444,7 +444,7 @@ msgctxt "Key name"
 msgid "Clear"
 msgstr "Neteja"
 
-#: src/ui/classic/theme.h:136
+#: src/ui/classic/theme.h:131
 msgid "Click Margin"
 msgstr ""
 
@@ -466,7 +466,7 @@ msgctxt "Key name"
 msgid "Code input"
 msgstr ""
 
-#: src/ui/classic/theme.h:94
+#: src/ui/classic/theme.h:89
 msgid "Color"
 msgstr ""
 
@@ -638,7 +638,7 @@ msgctxt "Key name"
 msgid "Delete"
 msgstr ""
 
-#: src/ui/classic/theme.h:200
+#: src/ui/classic/theme.h:195
 msgid "Description"
 msgstr ""
 
@@ -704,7 +704,7 @@ msgstr ""
 msgid "Enable"
 msgstr ""
 
-#: src/ui/classic/theme.h:150
+#: src/ui/classic/theme.h:145
 msgid "Enable Blur on KWin"
 msgstr ""
 
@@ -1103,27 +1103,27 @@ msgstr ""
 msgid "Hidden Notifications"
 msgstr ""
 
-#: src/ui/classic/theme.h:121
+#: src/ui/classic/theme.h:116
 msgid "Hide overlay if size does not fit"
 msgstr ""
 
-#: src/ui/classic/theme.h:165 src/ui/classic/theme.h:185
+#: src/ui/classic/theme.h:160 src/ui/classic/theme.h:180
 msgid "Highlight Background"
 msgstr ""
 
-#: src/ui/classic/theme.h:145
+#: src/ui/classic/theme.h:140
 msgid "Highlight Background color"
 msgstr ""
 
-#: src/ui/classic/theme.h:148
+#: src/ui/classic/theme.h:143
 msgid "Highlight Candidate Color"
 msgstr ""
 
-#: src/ui/classic/theme.h:131
+#: src/ui/classic/theme.h:126
 msgid "Highlight Click Margin"
 msgstr ""
 
-#: src/ui/classic/theme.h:143
+#: src/ui/classic/theme.h:138
 msgid "Highlight text color"
 msgstr ""
 
@@ -1202,7 +1202,7 @@ msgid ""
 "any input method other than ${2}. See ${link} for more detail."
 msgstr ""
 
-#: src/ui/classic/theme.h:134
+#: src/ui/classic/theme.h:129
 msgid "Image"
 msgstr ""
 
@@ -1227,36 +1227,28 @@ msgstr ""
 msgid "Input Methods:"
 msgstr ""
 
-#: src/ui/classic/theme.h:206
+#: src/ui/classic/theme.h:201
 msgid "Input Panel"
 msgstr ""
 
-#: src/ui/classic/theme.h:69
+#: src/ui/classic/theme.h:65
 msgid "Input Panel Background"
 msgstr ""
 
-#: src/ui/classic/theme.h:69
+#: src/ui/classic/theme.h:65
 msgid "Input Panel Border"
 msgstr ""
 
-#: src/ui/classic/theme.h:70
-msgid "Input Panel Highlight Background"
+#: src/ui/classic/theme.h:67
+msgid "Input Panel Highlight"
 msgstr ""
 
-#: src/ui/classic/theme.h:70
-msgid "Input Panel Highlight Border"
+#: src/ui/classic/theme.h:66
+msgid "Input Panel Highlight Candidate Background"
 msgstr ""
 
-#: src/ui/classic/theme.h:72
-msgid "Input Panel Highlight Candidate Text"
-msgstr ""
-
-#: src/ui/classic/theme.h:71
-msgid "Input Panel Highlight Text"
-msgstr ""
-
-#: src/ui/classic/theme.h:71
-msgid "Input Panel Text"
+#: src/ui/classic/theme.h:67
+msgid "Input Panel Highlight Candidate Border"
 msgstr ""
 
 #: src/modules/imselector/imselector.conf.in.in:3
@@ -1288,7 +1280,7 @@ msgstr ""
 msgid "KDE Input Method Panel"
 msgstr "Tauler del mètode d'entrada de KDE"
 
-#: src/ui/classic/classicui.cpp:333
+#: src/ui/classic/classicui.cpp:334
 msgid "KDE Plasma (Experimental)"
 msgstr ""
 
@@ -1679,31 +1671,31 @@ msgctxt "Key name"
 msgid "Mail Forward"
 msgstr ""
 
-#: src/ui/classic/theme.h:123
+#: src/ui/classic/theme.h:118
 msgid "Margin"
 msgstr ""
 
-#: src/ui/classic/theme.h:85
+#: src/ui/classic/theme.h:80
 msgid "Margin Bottom"
 msgstr ""
 
-#: src/ui/classic/theme.h:79
+#: src/ui/classic/theme.h:74
 msgid "Margin Left"
 msgstr ""
 
-#: src/ui/classic/theme.h:81
+#: src/ui/classic/theme.h:76
 msgid "Margin Right"
 msgstr ""
 
-#: src/ui/classic/theme.h:83
+#: src/ui/classic/theme.h:78
 msgid "Margin Top"
 msgstr ""
 
-#: src/ui/classic/theme.h:167 src/ui/classic/theme.h:191
+#: src/ui/classic/theme.h:162 src/ui/classic/theme.h:186
 msgid "Margin around all content"
 msgstr ""
 
-#: src/ui/classic/theme.h:169 src/ui/classic/theme.h:193
+#: src/ui/classic/theme.h:164 src/ui/classic/theme.h:188
 msgid "Margin around text"
 msgstr ""
 
@@ -1762,7 +1754,7 @@ msgctxt "Key name"
 msgid "Meeting"
 msgstr ""
 
-#: src/ui/classic/theme.h:207
+#: src/ui/classic/theme.h:202
 msgid "Menu"
 msgstr ""
 
@@ -1771,11 +1763,11 @@ msgctxt "Key name"
 msgid "Menu"
 msgstr "Menú"
 
-#: src/ui/classic/theme.h:72
+#: src/ui/classic/theme.h:68
 msgid "Menu Background"
 msgstr ""
 
-#: src/ui/classic/theme.h:73
+#: src/ui/classic/theme.h:68
 msgid "Menu Border"
 msgstr ""
 
@@ -1783,29 +1775,21 @@ msgstr ""
 msgid "Menu Font"
 msgstr ""
 
-#: src/ui/classic/theme.h:73
-msgid "Menu Highlight Background"
-msgstr ""
-
-#: src/ui/classic/theme.h:74
-msgid "Menu Highlight Border"
-msgstr ""
-
 #: src/lib/fcitx-utils/key.cpp:172
 msgctxt "Key name"
 msgid "Menu PB"
 msgstr ""
 
-#: src/ui/classic/theme.h:74
-msgid "Menu Selected Item Text"
+#: src/ui/classic/theme.h:69
+msgid "Menu Selected Item Background"
 msgstr ""
 
-#: src/ui/classic/theme.h:75
+#: src/ui/classic/theme.h:69
+msgid "Menu Selected Item Border"
+msgstr ""
+
+#: src/ui/classic/theme.h:70
 msgid "Menu Separator"
-msgstr ""
-
-#: src/ui/classic/theme.h:74
-msgid "Menu Text"
 msgstr ""
 
 #: src/lib/fcitx-utils/key.cpp:199
@@ -1813,7 +1797,7 @@ msgctxt "Key name"
 msgid "Messenger"
 msgstr ""
 
-#: src/ui/classic/theme.h:204
+#: src/ui/classic/theme.h:199
 msgid "Metadata"
 msgstr ""
 
@@ -1852,7 +1836,7 @@ msgctxt "Key name"
 msgid "My Sites"
 msgstr "Els meus llocs"
 
-#: src/ui/classic/theme.h:196
+#: src/ui/classic/theme.h:191
 msgid "Name"
 msgstr ""
 
@@ -1870,7 +1854,7 @@ msgstr ""
 msgid "Next Candidate"
 msgstr "Següent candidat"
 
-#: src/ui/classic/theme.h:171
+#: src/ui/classic/theme.h:166
 msgid "Next Page Button"
 msgstr ""
 
@@ -1886,7 +1870,7 @@ msgstr ""
 msgid "None"
 msgstr "Cap"
 
-#: src/ui/classic/theme.h:140 src/ui/classic/theme.h:176
+#: src/ui/classic/theme.h:135 src/ui/classic/theme.h:171
 msgid "Normal text color"
 msgstr ""
 
@@ -1939,23 +1923,23 @@ msgctxt "Key name"
 msgid "Option"
 msgstr "Opció"
 
-#: src/ui/classic/theme.h:125
+#: src/ui/classic/theme.h:120
 msgid "Overlay Clip Margin"
 msgstr ""
 
-#: src/ui/classic/theme.h:115
+#: src/ui/classic/theme.h:110
 msgid "Overlay Image"
 msgstr ""
 
-#: src/ui/classic/theme.h:118
+#: src/ui/classic/theme.h:113
 msgid "Overlay X offset"
 msgstr ""
 
-#: src/ui/classic/theme.h:119
+#: src/ui/classic/theme.h:114
 msgid "Overlay Y offset"
 msgstr ""
 
-#: src/ui/classic/theme.h:117
+#: src/ui/classic/theme.h:112
 msgid "Overlay position"
 msgstr ""
 
@@ -1981,7 +1965,7 @@ msgctxt "Key name"
 msgid "Page Up"
 msgstr ""
 
-#: src/ui/classic/theme.h:160
+#: src/ui/classic/theme.h:155
 msgid "Page button vertical alignment"
 msgstr ""
 
@@ -2063,7 +2047,7 @@ msgstr ""
 msgid "Prev Candidate"
 msgstr ""
 
-#: src/ui/classic/theme.h:170
+#: src/ui/classic/theme.h:165
 msgid "Prev Page Button"
 msgstr ""
 
@@ -2219,7 +2203,7 @@ msgstr ""
 msgid "Select specific input method via keyboard"
 msgstr ""
 
-#: src/ui/classic/theme.h:179
+#: src/ui/classic/theme.h:174
 msgid "Selected Item text color"
 msgstr ""
 
@@ -2228,11 +2212,11 @@ msgctxt "Key name"
 msgid "Send"
 msgstr "Envia"
 
-#: src/ui/classic/theme.h:187
+#: src/ui/classic/theme.h:182
 msgid "Separator Background"
 msgstr ""
 
-#: src/ui/classic/theme.h:173
+#: src/ui/classic/theme.h:168
 msgid "Shadow Margin"
 msgstr ""
 
@@ -2300,7 +2284,7 @@ msgctxt "Key name"
 msgid "Space"
 msgstr "Espai"
 
-#: src/ui/classic/theme.h:181
+#: src/ui/classic/theme.h:176
 msgid "Spacing"
 msgstr ""
 
@@ -2341,7 +2325,7 @@ msgctxt "Key name"
 msgid "Stop"
 msgstr "Atura"
 
-#: src/ui/classic/theme.h:189
+#: src/ui/classic/theme.h:184
 msgid "Sub Menu"
 msgstr ""
 
@@ -2439,7 +2423,7 @@ msgstr ""
 msgid "This is only effective when the tray icon is xembed."
 msgstr ""
 
-#: src/ui/classic/theme.h:98 src/ui/classic/theme.h:106
+#: src/ui/classic/theme.h:93 src/ui/classic/theme.h:101
 msgid "This option is only effective if image is not set."
 msgstr ""
 
@@ -2451,7 +2435,7 @@ msgstr ""
 msgid "This option will be always disabled on XWayland."
 msgstr ""
 
-#: src/ui/classic/theme.h:114
+#: src/ui/classic/theme.h:109
 msgid "This value should be less than any of margin value."
 msgstr ""
 
@@ -2606,7 +2590,7 @@ msgstr ""
 msgid "Use Per Screen DPI on X11"
 msgstr ""
 
-#: src/ui/classic/theme.h:156
+#: src/ui/classic/theme.h:151
 msgid "Use all horizontal space for highlight when it is vertical list"
 msgstr ""
 
@@ -2636,7 +2620,7 @@ msgid ""
 "environment:"
 msgstr ""
 
-#: src/ui/classic/theme.h:197
+#: src/ui/classic/theme.h:192
 msgid "Version"
 msgstr ""
 
