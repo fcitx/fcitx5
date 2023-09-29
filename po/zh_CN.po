@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2023-09-28 20:24+0000\n"
+"POT-Creation-Date: 2023-09-29 20:18+0000\n"
 "PO-Revision-Date: 2017-11-23 04:14+0000\n"
 "Last-Translator: csslayer <wengxt@gmail.com>, 2023\n"
 "Language-Team: Chinese (China) (https://app.transifex.com/fcitx/teams/12005/"
@@ -1258,15 +1258,15 @@ msgstr "输入框边框"
 
 #: src/ui/classic/theme.h:67
 msgid "Input Panel Highlight"
-msgstr ""
+msgstr "输入框高亮"
 
 #: src/ui/classic/theme.h:66
 msgid "Input Panel Highlight Candidate Background"
-msgstr ""
+msgstr "输入框高亮候选词背景"
 
 #: src/ui/classic/theme.h:67
 msgid "Input Panel Highlight Candidate Border"
-msgstr ""
+msgstr "输入框高亮候选词边框"
 
 #: src/modules/imselector/imselector.conf.in.in:3
 msgid "Input method selector"
@@ -1803,11 +1803,11 @@ msgstr "菜单 PB"
 
 #: src/ui/classic/theme.h:69
 msgid "Menu Selected Item Background"
-msgstr ""
+msgstr "菜单选中项背景"
 
 #: src/ui/classic/theme.h:69
 msgid "Menu Selected Item Border"
-msgstr ""
+msgstr "菜单选中项边框"
 
 #: src/ui/classic/theme.h:70
 msgid "Menu Separator"
