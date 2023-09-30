@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2023-09-28 20:24+0000\n"
+"POT-Creation-Date: 2023-09-30 20:24+0000\n"
 "PO-Revision-Date: 2017-11-23 04:14+0000\n"
 "Last-Translator: Dmitry <dmitrydmitry761@gmail.com>, 2023\n"
 "Language-Team: Russian (https://app.transifex.com/fcitx/teams/12005/ru/)\n"
@@ -860,9 +860,9 @@ msgid ""
 "language. It also features variant choice of addons that improve your typing "
 "experience."
 msgstr ""
-"Fcitx — это фреймворк для методов ввода. Это может помочь вам ввести свой "
-"собственный язык. Он также предлагает различные варианты надстроек, которые "
-"улучшают ваш опыт набора текста."
+"Fcitx — это платформа методов ввода. Она может помочь вам ввести свой "
+"собственный язык. Она также предлагает различные варианты дополнений, "
+"которые улучшают удобство набора текста."
 
 #: data/fcitx5-diagnose.sh:942
 msgid "Fcitx version: ${1}"
@@ -875,7 +875,7 @@ msgstr "Интерфейс Fcitx4"
 #: src/lib/fcitx-utils/key.cpp:147
 msgctxt "Key name"
 msgid "Finance"
-msgstr "Финансировать"
+msgstr "Финансы"
 
 #: src/lib/fcitx-utils/key.cpp:225
 msgctxt "Key name"
@@ -1277,15 +1277,15 @@ msgstr "Граница поля ввода"
 
 #: src/ui/classic/theme.h:67
 msgid "Input Panel Highlight"
-msgstr ""
+msgstr "Поле ввода выделено"
 
 #: src/ui/classic/theme.h:66
 msgid "Input Panel Highlight Candidate Background"
-msgstr ""
+msgstr "В поле ввода выделен фон слова-кандидата"
 
 #: src/ui/classic/theme.h:67
 msgid "Input Panel Highlight Candidate Border"
-msgstr ""
+msgstr "Выделение границы слова-кандидата в поле ввода"
 
 #: src/modules/imselector/imselector.conf.in.in:3
 msgid "Input method selector"
@@ -1823,11 +1823,11 @@ msgstr "Меню PB"
 
 #: src/ui/classic/theme.h:69
 msgid "Menu Selected Item Background"
-msgstr ""
+msgstr "Фон выбранного пункта меню"
 
 #: src/ui/classic/theme.h:69
 msgid "Menu Selected Item Border"
-msgstr ""
+msgstr "Граница выбранного пункта меню"
 
 #: src/ui/classic/theme.h:70
 msgid "Menu Separator"

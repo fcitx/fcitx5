@@ -17,7 +17,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2023-09-28 20:24+0000\n"
+"POT-Creation-Date: 2023-09-30 20:24+0000\n"
 "PO-Revision-Date: 2017-11-23 04:14+0000\n"
 "Last-Translator: Lau YeeYu, 2023\n"
 "Language-Team: Chinese (Taiwan) (https://app.transifex.com/fcitx/teams/12005/"
@@ -110,7 +110,7 @@ msgstr "一個基於 DBus 的虛擬鍵盤後端"
 
 #: src/ui/classic/theme.h:204
 msgid "Accent Colors"
-msgstr ""
+msgstr "重點色"
 
 #: src/lib/fcitx/globalconfig.cpp:81
 msgid "Activate Input Method"
@@ -883,7 +883,7 @@ msgstr "第一候選詞"
 
 #: src/ui/classic/classicui.h:163
 msgid "Follow system accent color if it is supported by theme and desktop"
-msgstr ""
+msgstr "在主題與桌面支援時使用系統重點色"
 
 #: src/ui/classic/classicui.h:159
 msgid "Follow system light/dark color scheme"
@@ -1255,23 +1255,23 @@ msgstr "輸入面板"
 
 #: src/ui/classic/theme.h:65
 msgid "Input Panel Background"
-msgstr ""
+msgstr "輸入框背景"
 
 #: src/ui/classic/theme.h:65
 msgid "Input Panel Border"
-msgstr ""
+msgstr "輸入框邊框"
 
 #: src/ui/classic/theme.h:67
 msgid "Input Panel Highlight"
-msgstr ""
+msgstr "輸入框高亮"
 
 #: src/ui/classic/theme.h:66
 msgid "Input Panel Highlight Candidate Background"
-msgstr ""
+msgstr "輸入框高亮候選詞背景"
 
 #: src/ui/classic/theme.h:67
 msgid "Input Panel Highlight Candidate Border"
-msgstr ""
+msgstr "輸入框高亮候選詞邊框"
 
 #: src/modules/imselector/imselector.conf.in.in:3
 msgid "Input method selector"
@@ -1791,11 +1791,11 @@ msgstr "選單"
 
 #: src/ui/classic/theme.h:68
 msgid "Menu Background"
-msgstr ""
+msgstr "選單背景"
 
 #: src/ui/classic/theme.h:68
 msgid "Menu Border"
-msgstr ""
+msgstr "選單邊框"
 
 #: src/ui/classic/classicui.h:121
 msgid "Menu Font"
@@ -1808,15 +1808,15 @@ msgstr "選單 PB"
 
 #: src/ui/classic/theme.h:69
 msgid "Menu Selected Item Background"
-msgstr ""
+msgstr "選單選中項背景"
 
 #: src/ui/classic/theme.h:69
 msgid "Menu Selected Item Border"
-msgstr ""
+msgstr "選單選中項邊框"
 
 #: src/ui/classic/theme.h:70
 msgid "Menu Separator"
-msgstr ""
+msgstr "選單分隔符"
 
 #: src/lib/fcitx-utils/key.cpp:199
 msgctxt "Key name"
@@ -2235,7 +2235,7 @@ msgstr "通過鍵盤選擇特定的輸入法"
 
 #: src/ui/classic/theme.h:174
 msgid "Selected Item text color"
-msgstr ""
+msgstr "選中項文本顏色"
 
 #: src/lib/fcitx-utils/key.cpp:185
 msgctxt "Key name"
