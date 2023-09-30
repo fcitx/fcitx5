@@ -139,8 +139,9 @@ void WaylandInputWindow::update(fcitx::InputContext *ic) {
     const auto oldVisible = visible();
     auto [width, height] = InputWindow::update(ic);
     CLASSICUI_DEBUG() << "Wayland Input Window visible:" << visible()
-                      << " for IC program:" << ic->program()
-                      << " frontend:" << ic->frontend();
+                      << " for IC program:"
+                      << (ic ? ic->program() : std::string("-")) << " frontend:"
+                      << (ic ? ic->frontend() : std::string("-"));
     if (!oldVisible && !visible()) {
         CLASSICUI_DEBUG() << "Wayland Input Window has been hidden.";
         return;
