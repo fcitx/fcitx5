@@ -169,10 +169,13 @@ void XCBMenu::handleButtonPress(int eventX, int eventY) {
         // want to make ic has focus.
         activateTimer_ = ui_->parent()->instance()->eventLoop().addTimeEvent(
             CLOCK_MONOTONIC, now(CLOCK_MONOTONIC) + 30000, 0,
-            [this, icRef, id](EventSourceTime *, uint64_t) {
+            [this, that = this->watch(), icRef, id](EventSourceTime *,
+                                                    uint64_t) {
+                if (!that.isValid()) {
+                    return true;
+                }
                 // FCITX_INFO() << "Timer Triggered";
                 if (auto *ic = icRef.get()) {
-
                     auto *action = ui_->parent()
                                        ->instance()
                                        ->userInterfaceManager()
@@ -305,19 +308,19 @@ void XCBMenu::setHoveredIndex(int idx) {
     pool_->setPopupMenuTimer(
         ui_->parent()->instance()->eventLoop().addTimeEvent(
             CLOCK_MONOTONIC, now(CLOCK_MONOTONIC) + 300000, 0,
-            [this](EventSourceTime *, uint64_t) {
+            [this, that = this->watch()](EventSourceTime *, uint64_t) {
+                if (!that.isValid()) {
+                    return true;
+                }
                 do {
                     // FCITX_INFO() << this << " in timer";
                     if (hoveredIndex_ >= 0 && subMenuIndex_ == hoveredIndex_) {
                         // Mouse is on same menu item.
-                        if (auto *child = child_.get()) {
-                            child->hideChilds();
-                            xcb_flush(ui_->connection());
-                        }
                         break;
                     }
 
                     if (hoveredIndex_ >= 0) {
+                        setFocus();
                         // FCITX_INFO() << this << " in timer branch 1";
                         // The current subMenu anyway is not the hovered one.
                         hideChilds();

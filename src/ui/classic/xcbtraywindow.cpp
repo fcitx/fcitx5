@@ -504,8 +504,9 @@ void XCBTrayWindow::updateInputMethodMenu() {
         auto &inputMethodAction = inputMethodActions_.back();
         inputMethodAction.setShortText(entry->name());
         inputMethodAction.connect<SimpleAction::Activated>(
-            [this, imName](InputContext *) {
-                ui_->parent()->instance()->setCurrentInputMethod(imName);
+            [this, imName](InputContext *ic) {
+                ui_->parent()->instance()->setCurrentInputMethod(ic, imName,
+                                                                 false);
             });
         inputMethodAction.setCheckable(true);
         inputMethodAction.setChecked(
