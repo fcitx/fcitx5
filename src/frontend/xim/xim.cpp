@@ -444,7 +444,7 @@ protected:
             }
             feedbackBuffer_.clear();
 
-            for (size_t i = 0, offset = 0; i < text.size(); i++) {
+            for (size_t i = 0; i < text.size(); i++) {
                 auto format = text.formatAt(i);
                 const auto &str = text.stringAt(i);
                 uint32_t feedback = 0;
@@ -457,7 +457,6 @@ protected:
                 unsigned int strLen = utf8::length(str);
                 for (size_t j = 0; j < strLen; j++) {
                     feedbackBuffer_.push_back(feedback);
-                    offset++;
                 }
             }
             feedbackBuffer_.push_back(0);
