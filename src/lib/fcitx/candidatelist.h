@@ -115,7 +115,16 @@ public:
 // useful for virtual keyboard
 class FCITXCORE_EXPORT BulkCandidateList {
 public:
+    /**
+     * If idx is out of range, it may raise exception. Catching the exception is
+     * useful to iterate over all candidate list for candidate list has no total
+     * size.
+     */
     virtual const CandidateWord &candidateFromAll(int idx) const = 0;
+    /**
+     * It's possible for this function to return -1 if the implement has no
+     * clear number how many candidates are available.
+     */
     virtual int totalSize() const = 0;
 };
 

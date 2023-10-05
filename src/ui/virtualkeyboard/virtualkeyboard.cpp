@@ -439,14 +439,20 @@ std::vector<std::string> VirtualKeyboard::makeBulkCandidateTextList(
     std::vector<std::string> candidateTextList;
 
     const auto *bulkCandidateList = candidateList->toBulk();
-    for (int index = 0; index < bulkCandidateList->totalSize(); index++) {
-        const auto &candidate = bulkCandidateList->candidateFromAll(index);
-        if (candidate.isPlaceHolder()) {
-            continue;
-        }
+    auto totalSize = bulkCandidateList->totalSize();
+    for (int index = 0; (totalSize < 0) || (index < totalSize); index++) {
+        Text candidateText;
+        try {
+            const auto &candidate = bulkCandidateList->candidateFromAll(index);
+            if (candidate.isPlaceHolder()) {
+                continue;
+            }
 
-        auto candidateText =
-            instance_->outputFilter(inputContext, candidate.text());
+            candidateText = candidate.text();
+        } catch (...) {
+            break;
+        }
+        candidateText = instance_->outputFilter(inputContext, candidateText);
         candidateTextList.push_back(candidateText.toString());
     }
 
