@@ -86,17 +86,18 @@ public:
         }
 
         const CandidateWord *candidate = nullptr;
+        try {
         if (auto *bulkCandidateList =
                 inputContext->inputPanel().candidateList()->toBulk()) {
             candidate =
-                nthBulkCandidateIgnorePlaceholder(*bulkCandidateList, index);
+                &bulkCandidateList->candidateFromAll(index);
 
         } else {
-            candidate = nthCandidateIgnorePlaceholder(
-                *inputContext->inputPanel().candidateList(), index);
+            candidate = &inputContext->inputPanel().candidateList()->candidate(index);
         }
+        } catch (...) {}
 
-        if (candidate != nullptr) {
+        if (candidate != nullptr && !candidate->isPlaceHolder()) {
             candidate->select(inputContext);
         }
     }
@@ -419,6 +420,7 @@ std::vector<std::string> VirtualKeyboard::makeCandidateTextList(
     for (int index = 0; index < candidateList->size(); index++) {
         const auto &candidate = candidateList->candidate(index);
         if (candidate.isPlaceHolder()) {
+            candidateTextList.push_back("");
             continue;
         }
 
@@ -445,6 +447,7 @@ std::vector<std::string> VirtualKeyboard::makeBulkCandidateTextList(
         try {
             const auto &candidate = bulkCandidateList->candidateFromAll(index);
             if (candidate.isPlaceHolder()) {
+                candidateTextList.push_back("");
                 continue;
             }
 

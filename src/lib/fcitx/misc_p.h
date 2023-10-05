@@ -76,18 +76,6 @@ nthCandidateIgnorePlaceholder(const CandidateList &candidateList, int idx) {
         idx);
 }
 
-static inline const CandidateWord *
-nthBulkCandidateIgnorePlaceholder(const BulkCandidateList &bulkCandidateList,
-                                  int idx) {
-
-    return nthCandidateIgnorePlaceholder(
-        [&bulkCandidateList]() { return bulkCandidateList.totalSize(); },
-        [&bulkCandidateList](int idx) -> const CandidateWord & {
-            return bulkCandidateList.candidateFromAll(idx);
-        },
-        idx);
-}
-
 static inline std::string readFileContent(const std::string &file) {
     std::ifstream fin(file, std::ios::binary | std::ios::in);
     std::vector<char> buffer;
