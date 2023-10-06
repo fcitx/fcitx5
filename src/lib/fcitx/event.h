@@ -10,6 +10,7 @@
 #include <cstdint>
 #include <fcitx-utils/capabilityflags.h>
 #include <fcitx-utils/key.h>
+#include <fcitx-utils/keysym.h>
 #include <fcitx/userinterface.h>
 #include "fcitxcore_export.h"
 
@@ -331,6 +332,14 @@ public:
      * @return bool
      */
     bool forward() const { return forward_; }
+
+    /**
+     * Whether this key event is derived from a virtual keyboard
+     *
+     * @return bool
+     * @since 5.1.2
+     */
+    bool isVirtual() const { return origKey_.isVirtual(); }
 
 protected:
     Key key_, origKey_, rawKey_;

@@ -144,6 +144,9 @@ public:
     /// Check if states has modifier.
     bool hasModifier() const;
 
+    /// Check if states has virtual bit
+    bool isVirtual() const;
+
     /// \brief Normalize a key, usually used when key is from frontend.
     ///
     /// states will be filtered to have only ctrl alt shift and super.

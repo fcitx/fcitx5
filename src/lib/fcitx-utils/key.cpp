@@ -465,6 +465,8 @@ bool Key::isKeyPad() const {
 
 bool Key::hasModifier() const { return !!(states_ & KeyState::SimpleMask); }
 
+bool Key::isVirtual() const { return states_.test(KeyState::Virtual); }
+
 Key Key::normalize() const {
     Key key(*this);
     /* key state != 0 */
