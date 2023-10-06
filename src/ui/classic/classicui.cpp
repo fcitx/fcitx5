@@ -7,6 +7,7 @@
 
 #include "classicui.h"
 #include <fcntl.h>
+#include <optional>
 #include <string>
 #include <string_view>
 #include "fcitx-config/iniparser.h"
@@ -274,11 +275,13 @@ void ClassicUI::reloadTheme() {
                         return true;
                     });
             }
+        } else {
+            accentColorSlot_.reset();
+            accentColor_ = std::nullopt;
         }
-    } else {
-        accentColorSlot_.reset();
     }
 #endif
+
     theme_.populateColor(accentColor_);
 }
 
