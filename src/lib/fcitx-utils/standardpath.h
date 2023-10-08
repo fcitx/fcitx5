@@ -340,6 +340,15 @@ public:
      */
     static bool hasExecutable(const std::string &name);
 
+    /**
+     * Sync system umask to internal state. This will affect the file
+     * permission created by safeSave.
+     *
+     * @see safeSave
+     * @since 5.1.2
+     */
+    void syncUmask() const;
+
 private:
     std::unique_ptr<StandardPathPrivate> d_ptr;
     FCITX_DECLARE_PRIVATE(StandardPath);

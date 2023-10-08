@@ -7,6 +7,7 @@
 
 #include <fcntl.h>
 #include <locale.h>
+#include <sys/stat.h>
 #include <unistd.h>
 #include <exception>
 #include <iostream>
@@ -39,6 +40,8 @@ StaticAddonRegistry staticAddon = {
 };
 
 int main(int argc, char *argv[]) {
+    umask(077);
+    StandardPath::global().syncUmask();
     if (safePipe(selfpipe) < 0) {
         fprintf(stderr, "Could not create self-pipe.\n");
         return 1;

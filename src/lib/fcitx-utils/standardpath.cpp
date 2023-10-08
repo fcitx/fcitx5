@@ -12,6 +12,7 @@
 #include <sys/stat.h>
 #include <unistd.h>
 #include <algorithm>
+#include <atomic>
 #include <stdexcept>
 #include <unordered_map>
 #include <unordered_set>
@@ -62,7 +63,6 @@ void StandardPathTempFile::close() {
     if (fd_.fd() >= 0) {
         // sync first.
         fsync(fd_.fd());
-        // close it
         fd_.reset();
         if (rename(tempPath_.c_str(), path_.c_str()) < 0) {
             unlink(tempPath_.c_str());
@@ -106,9 +106,9 @@ public:
                                   !tmpdir || !tmpdir[0] ? "/tmp" : tmpdir);
         addonDirs_ =
             defaultPaths("FCITX_ADDON_DIRS", FCITX_INSTALL_ADDONDIR, nullptr);
-    }
 
-    FCITX_INLINE_DEFINE_DEFAULT_DTOR_AND_COPY(StandardPathPrivate)
+        syncUmask();
+    }
 
     std::string userPath(StandardPath::Type type) const {
         if (skipUserPath_) {
@@ -150,6 +150,17 @@ public:
     }
 
     bool skipUser() const { return skipUserPath_; }
+
+    void syncUmask() {
+        // read umask, use 022 which is likely the default value, so less likely
+        // to mess things up.
+        mode_t old = ::umask(022);
+        // restore
+        ::umask(old);
+        umask_.store(old, std::memory_order_relaxed);
+    }
+
+    mode_t umask() const { return umask_.load(std::memory_order_relaxed); }
 
 private:
     // http://standards.freedesktop.org/basedir-spec/basedir-spec-latest.html
@@ -240,6 +251,7 @@ private:
     std::string cacheHome_;
     std::string runtimeDir_;
     std::vector<std::string> addonDirs_;
+    std::atomic<mode_t> umask_;
 };
 
 StandardPath::StandardPath(bool skipFcitxPath, bool skipUserPath)
@@ -550,12 +562,16 @@ StandardPath::openUserTemp(Type type, const std::string &pathOrig) const {
 
 bool StandardPath::safeSave(Type type, const std::string &pathOrig,
                             const std::function<bool(int)> &callback) const {
+    FCITX_D();
     auto file = openUserTemp(type, pathOrig);
     if (!file.isValid()) {
         return false;
     }
     try {
         if (callback(file.fd())) {
+
+            // close it
+            fchmod(file.fd(), 0666 & ~(d->umask()));
             return true;
         }
     } catch (const std::exception &) {
@@ -666,5 +682,7 @@ std::string StandardPath::findExecutable(const std::string &name) {
 bool StandardPath::hasExecutable(const std::string &name) {
     return !findExecutable(name).empty();
 }
+
+void StandardPath::syncUmask() const { d_ptr->syncUmask(); }
 
 } // namespace fcitx
