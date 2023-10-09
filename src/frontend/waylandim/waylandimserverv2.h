@@ -16,6 +16,7 @@
 #include "fcitx/inputcontext.h"
 #include "display.h"
 #include "virtualinputcontext.h"
+#include "waylandimserverbase.h"
 #include "zwp_input_method_keyboard_grab_v2.h"
 #include "zwp_input_method_manager_v2.h"
 #include "zwp_input_method_v2.h"
@@ -26,7 +27,7 @@ namespace fcitx {
 class WaylandIMModule;
 class WaylandIMInputContextV2;
 
-class WaylandIMServerV2 {
+class WaylandIMServerV2 : public WaylandIMServerBase {
     friend class WaylandIMInputContextV2;
 
 public:
@@ -49,20 +50,13 @@ public:
     auto *inputMethodManagerV2() { return inputMethodManagerV2_.get(); }
 
 private:
-    FocusGroup *group_;
-    std::string name_;
     bool init_ = false;
-    WaylandIMModule *parent_;
     std::shared_ptr<wayland::ZwpInputMethodManagerV2> inputMethodManagerV2_;
     std::shared_ptr<wayland::ZwpVirtualKeyboardManagerV1>
         virtualKeyboardManagerV1_;
 
-    UniqueCPtr<struct xkb_context, xkb_context_unref> context_;
     std::vector<char> keymapData_;
-    UniqueCPtr<struct xkb_keymap, xkb_keymap_unref> keymap_;
-    UniqueCPtr<struct xkb_state, xkb_state_unref> state_;
 
-    wayland::Display *display_;
     ScopedConnection globalConn_;
 
     struct StateMask {
@@ -78,8 +72,6 @@ private:
         uint32_t hyper_mask = 0;
         uint32_t meta_mask = 0;
     } stateMask_;
-
-    KeyStates modifiers_;
 
     std::unordered_map<wayland::WlSeat *, WaylandIMInputContextV2 *> icMap_;
 };

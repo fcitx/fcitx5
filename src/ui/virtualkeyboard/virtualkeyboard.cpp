@@ -87,15 +87,17 @@ public:
 
         const CandidateWord *candidate = nullptr;
         try {
-        if (auto *bulkCandidateList =
-                inputContext->inputPanel().candidateList()->toBulk()) {
-            candidate =
-                &bulkCandidateList->candidateFromAll(index);
+            if (auto *bulkCandidateList =
+                    inputContext->inputPanel().candidateList()->toBulk()) {
+                candidate = &bulkCandidateList->candidateFromAll(index);
 
-        } else {
-            candidate = &inputContext->inputPanel().candidateList()->candidate(index);
+            } else {
+                candidate =
+                    &inputContext->inputPanel().candidateList()->candidate(
+                        index);
+            }
+        } catch (...) {
         }
-        } catch (...) {}
 
         if (candidate != nullptr && !candidate->isPlaceHolder()) {
             candidate->select(inputContext);

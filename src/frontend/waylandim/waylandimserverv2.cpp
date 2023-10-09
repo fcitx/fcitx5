@@ -23,9 +23,8 @@ constexpr CapabilityFlags baseFlags{CapabilityFlag::Preedit,
 WaylandIMServerV2::WaylandIMServerV2(wl_display *display, FocusGroup *group,
                                      const std::string &name,
                                      WaylandIMModule *waylandim)
-    : group_(group), name_(name), parent_(waylandim),
-      inputMethodManagerV2_(nullptr), display_(static_cast<wayland::Display *>(
-                                          wl_display_get_user_data(display))) {
+    : WaylandIMServerBase(display, group, name, waylandim),
+      inputMethodManagerV2_(nullptr) {
     display_->requestGlobals<wayland::ZwpInputMethodManagerV2>();
     display_->requestGlobals<wayland::ZwpVirtualKeyboardManagerV1>();
     display_->requestGlobals<wayland::WlSeat>();

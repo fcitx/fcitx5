@@ -8,10 +8,9 @@
 #include <sys/mman.h>
 #include <memory>
 #include <fcitx-utils/utf8.h>
-#include "fcitx/misc_p.h"
 #include "appmonitor.h"
-#include "plasmaappmonitor.h"
 #include "virtualinputcontext.h"
+#include "wayland-text-input-unstable-v1-client-protocol.h"
 #include "waylandim.h"
 
 #ifdef __linux__
@@ -48,9 +47,8 @@ static inline unsigned int waylandFormat(TextFormatFlags flags) {
 WaylandIMServer::WaylandIMServer(wl_display *display, FocusGroup *group,
                                  const std::string &name,
                                  WaylandIMModule *waylandim)
-    : group_(group), name_(name), parent_(waylandim), inputMethodV1_(nullptr),
-      display_(
-          static_cast<wayland::Display *>(wl_display_get_user_data(display))) {
+    : WaylandIMServerBase(display, group, name, waylandim),
+      inputMethodV1_(nullptr) {
     display_->requestGlobals<wayland::ZwpInputMethodV1>();
     globalConn_ = display_->globalCreated().connect(
         [this](const std::string &interface, const std::shared_ptr<void> &) {
@@ -540,6 +538,7 @@ void WaylandIMInputContextV1::sendKey(uint32_t time, uint32_t sym,
     }
     auto modifiers = toModifiers(states);
     ic_->keysym(serial_, time, sym, state, modifiers);
+    server_->deferredFlush();
 }
 
 void WaylandIMInputContextV1::sendKeyToVK(uint32_t time, uint32_t key,
@@ -548,7 +547,7 @@ void WaylandIMInputContextV1::sendKeyToVK(uint32_t time, uint32_t key,
         return;
     }
     ic_->key(serial_, time, key, state);
-    server_->display_->flush();
+    server_->deferredFlush();
 }
 
 void WaylandIMInputContextV1::updatePreeditDelegate(InputContext *ic) const {
@@ -576,6 +575,7 @@ void WaylandIMInputContextV1::updatePreeditDelegate(InputContext *ic) const {
     }
     ic_->preeditString(serial_, preedit.toString().c_str(),
                        preedit.toStringForCommit().c_str());
+    server_->deferredFlush();
 }
 
 void WaylandIMInputContextV1::deleteSurroundingTextDelegate(
@@ -603,5 +603,6 @@ void WaylandIMInputContextV1::deleteSurroundingTextDelegate(
     auto sizeBytes = utf8::ncharByteLength(text.begin() + startBytes, size);
     ic_->deleteSurroundingText(startBytes - cursorBytes, sizeBytes);
     ic_->commitString(serial_, "");
+    server_->deferredFlush();
 }
 } // namespace fcitx

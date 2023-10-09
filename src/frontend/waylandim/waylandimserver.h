@@ -15,10 +15,8 @@
 #include "fcitx/inputcontext.h"
 #include "fcitx/inputcontextmanager.h"
 #include "fcitx/instance.h"
-#include "appmonitor.h"
-#include "display.h"
 #include "virtualinputcontext.h"
-#include "wayland-text-input-unstable-v1-client-protocol.h"
+#include "waylandimserverbase.h"
 #include "wl_keyboard.h"
 #include "zwp_input_method_context_v1.h"
 #include "zwp_input_method_v1.h"
@@ -27,7 +25,7 @@ namespace fcitx {
 class WaylandIMModule;
 class WaylandIMInputContextV1;
 
-class WaylandIMServer {
+class WaylandIMServer : public WaylandIMServerBase {
     friend class WaylandIMInputContextV1;
 
 public:
@@ -45,16 +43,8 @@ public:
     FocusGroup *group() { return group_; }
 
 private:
-    FocusGroup *group_;
-    std::string name_;
-    WaylandIMModule *parent_;
     std::shared_ptr<wayland::ZwpInputMethodV1> inputMethodV1_;
 
-    UniqueCPtr<struct xkb_context, xkb_context_unref> context_;
-    UniqueCPtr<struct xkb_keymap, xkb_keymap_unref> keymap_;
-    UniqueCPtr<struct xkb_state, xkb_state_unref> state_;
-
-    wayland::Display *display_;
     ScopedConnection globalConn_;
 
     struct StateMask {
@@ -70,8 +60,6 @@ private:
         uint32_t hyper_mask = 0;
         uint32_t meta_mask = 0;
     } stateMask_;
-
-    KeyStates modifiers_;
 
     TrackableObjectReference<InputContext> globalIc_;
 };
@@ -94,6 +82,7 @@ protected:
             return;
         }
         ic_->commitString(serial_, text.c_str());
+        server_->deferredFlush();
     }
     void deleteSurroundingTextDelegate(InputContext *ic, int offset,
                                        unsigned int size) const override;
@@ -110,6 +99,7 @@ protected:
             sendKey(time_, key.rawKey().sym(), WL_KEYBOARD_KEY_STATE_RELEASED,
                     key.rawKey().states());
         }
+        server_->deferredFlush();
     }
 
     void updatePreeditDelegate(InputContext *ic) const override;
