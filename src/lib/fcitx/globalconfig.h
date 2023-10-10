@@ -76,6 +76,22 @@ public:
      */
     const std::string &customXkbOption() const;
 
+    /**
+     * Allow use input method in password field.
+     *
+     * @return whether allow use input method in password field.
+     * @since 5.1.2
+     */
+    bool allowInputMethodForPassword() const;
+
+    /**
+     * Show preedit when typing in password field.
+     *
+     * @return whether show preedit in password field.
+     * @since 5.1.2
+     */
+    bool showPreeditForPassword() const;
+
     const std::vector<std::string> &enabledAddons() const;
     const std::vector<std::string> &disabledAddons() const;
 

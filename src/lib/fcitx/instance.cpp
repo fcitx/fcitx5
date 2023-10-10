@@ -15,6 +15,7 @@
 #include <fmt/format.h>
 #include <getopt.h>
 #include "fcitx-config/iniparser.h"
+#include "fcitx-utils/capabilityflags.h"
 #include "fcitx-utils/event.h"
 #include "fcitx-utils/i18n.h"
 #include "fcitx-utils/log.h"
@@ -1575,8 +1576,9 @@ std::string Instance::inputMethod(InputContext *ic) {
     }
 
     auto &group = d->imManager_.currentGroup();
-    if (ic->capabilityFlags().testAny(CapabilityFlags{
-            CapabilityFlag::Password, CapabilityFlag::Disable})) {
+    if (ic->capabilityFlags().test(CapabilityFlag::Disable) ||
+        (ic->capabilityFlags().test(CapabilityFlag::Password) &&
+         !d->globalConfig_.allowInputMethodForPassword())) {
         auto defaultLayout = group.defaultLayout();
         auto defaultLayoutIM = fmt::format("keyboard-{}", defaultLayout);
         const auto *entry = d->imManager_.entry(defaultLayoutIM);
@@ -2193,6 +2195,7 @@ Text Instance::outputFilter(InputContext *inputContext, const Text &orig) {
     emit<Instance::OutputFilter>(inputContext, result);
     if ((&orig == &inputContext->inputPanel().clientPreedit() ||
          &orig == &inputContext->inputPanel().preedit()) &&
+        !globalConfig().showPreeditForPassword() &&
         inputContext->capabilityFlags().test(CapabilityFlag::Password)) {
         Text newText;
         for (int i = 0, e = result.size(); i < e; i++) {
