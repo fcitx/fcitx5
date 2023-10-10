@@ -6,19 +6,21 @@
  */
 
 #include "i18nstring.h"
+#include "fcitx-utils/misc.h"
 #include "charutils.h"
 
 namespace fcitx {
 const std::string &I18NString::match(const std::string &locale_) const {
     std::string locale = locale_;
     if (locale == "system") {
-#ifdef ANDROID
-        // bionic doesn't recognize locale other than C or C.UTF-8
-        // https://android.googlesource.com/platform/bionic/+/refs/tags/android-11.0.0_r48/libc/bionic/locale.cpp#175
-        char *lc = getenv("FCITX_LOCALE");
-#else
-        char *lc = setlocale(LC_MESSAGES, nullptr);
-#endif
+        char *lc = nullptr;
+        if constexpr (isAndroid()) {
+            // bionic doesn't recognize locale other than C or C.UTF-8
+            // https://android.googlesource.com/platform/bionic/+/refs/tags/android-11.0.0_r48/libc/bionic/locale.cpp#175
+            lc = getenv("FCITX_LOCALE");
+        } else {
+            lc = setlocale(LC_MESSAGES, nullptr);
+        }
         if (lc) {
             locale = lc;
         } else {

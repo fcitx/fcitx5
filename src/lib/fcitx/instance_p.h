@@ -122,11 +122,6 @@ struct InstanceArgument {
 };
 
 class InstancePrivate : public QPtrHolder<Instance> {
-#ifdef ANDROID
-    static constexpr bool isAndroid = true;
-#else
-    static constexpr bool isAndroid = false;
-#endif
 public:
     InstancePrivate(Instance *q);
 
@@ -158,7 +153,7 @@ public:
     int signalPipe_ = -1;
     bool exit_ = false;
     bool running_ = false;
-    InputMethodMode inputMethodMode_ = isAndroid
+    InputMethodMode inputMethodMode_ = isAndroid()
                                            ? InputMethodMode::OnScreenKeyboard
                                            : InputMethodMode::PhysicalKeyboard;
 
