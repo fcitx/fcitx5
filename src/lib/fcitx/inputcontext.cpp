@@ -490,6 +490,8 @@ const StatusArea &InputContext::statusArea() const {
 
 void InputContext::updateClientSideUIImpl() {}
 
+InputContextV2::~InputContextV2() = default;
+
 InputContextEventBlocker::InputContextEventBlocker(InputContext *inputContext)
     : inputContext_(inputContext->watch()) {
     inputContext->setBlockEventToClient(true);

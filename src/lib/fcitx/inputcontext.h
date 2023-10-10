@@ -379,6 +379,7 @@ class InputContextV2 : public InputContext {
 
 public:
     using InputContext::InputContext;
+    ~InputContextV2() override;
 
 protected:
     virtual void commitStringWithCursorImpl(const std::string &text,
