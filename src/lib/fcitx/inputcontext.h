@@ -374,7 +374,7 @@ private:
     FCITX_DECLARE_PRIVATE(InputContext);
 };
 
-class InputContextV2 : public InputContext {
+class FCITXCORE_EXPORT InputContextV2 : public InputContext {
     friend class InputContextPrivate;
 
 public:
