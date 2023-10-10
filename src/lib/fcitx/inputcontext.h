@@ -180,6 +180,16 @@ public:
     /// Commit a string to the client.
     void commitString(const std::string &text);
 
+    /**
+     * Commit a string to application with a cursor location after commit.
+     *
+     * @param text text to commit
+     * @param cursor cursor position after commit, the value should be within
+     * [0, utf8::length(text)].
+     * @see CapabilityFlag::CommitStringWithCursor
+     */
+    void commitStringWithCursor(const std::string &text, size_t cursor);
+
     /// Ask client to delete a range of surrounding text.
     void deleteSurroundingText(int offset, unsigned int size);
 
@@ -362,6 +372,17 @@ private:
 
     std::unique_ptr<InputContextPrivate> d_ptr;
     FCITX_DECLARE_PRIVATE(InputContext);
+};
+
+class InputContextV2 : public InputContext {
+    friend class InputContextPrivate;
+
+public:
+    using InputContext::InputContext;
+
+protected:
+    virtual void commitStringWithCursorImpl(const std::string &text,
+                                            size_t cursor) = 0;
 };
 
 /**

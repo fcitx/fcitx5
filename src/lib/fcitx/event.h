@@ -141,6 +141,7 @@ enum class EventType : uint32_t {
     InputContextDeleteSurroundingText = InputMethodEventFlag | 0x3,
     InputContextUpdatePreedit = InputMethodEventFlag | 0x4,
     InputContextUpdateUI = InputMethodEventFlag | 0x5,
+    InputContextCommitStringWithCursor = InputMethodEventFlag | 0x6,
 
     /**
      * This is generated when input method group changed.
@@ -416,6 +417,28 @@ public:
 
 protected:
     std::string text_;
+};
+
+/**
+ * Event for commit string with cursor
+ *
+ * @see InputContext::commitStringWithCursor
+ * @since 5.1.2
+ */
+class FCITXCORE_EXPORT CommitStringWithCursorEvent : public InputContextEvent {
+public:
+    CommitStringWithCursorEvent(std::string text, size_t cursor,
+                                InputContext *context)
+        : InputContextEvent(context,
+                            EventType::InputContextCommitStringWithCursor),
+          text_(std::move(text)), cursor_(cursor) {}
+
+    const std::string &text() const { return text_; }
+    size_t cursor() const { return cursor_; }
+
+protected:
+    std::string text_;
+    size_t cursor_;
 };
 
 class FCITXCORE_EXPORT InvokeActionEvent : public InputContextEvent {

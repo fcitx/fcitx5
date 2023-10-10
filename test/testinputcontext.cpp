@@ -5,12 +5,14 @@
  *
  */
 
+#include <stdexcept>
 #include <vector>
 #include "fcitx-utils/capabilityflags.h"
 #include "fcitx-utils/eventdispatcher.h"
 #include "fcitx-utils/log.h"
 #include "fcitx-utils/testing.h"
 #include "fcitx/addonmanager.h"
+#include "fcitx/event.h"
 #include "fcitx/focusgroup.h"
 #include "fcitx/inputcontext.h"
 #include "fcitx/inputcontextmanager.h"
@@ -44,6 +46,30 @@ public:
     void deleteSurroundingTextImpl(int, unsigned int) override {}
     void forwardKeyImpl(const ForwardKeyEvent &) override {}
     void updatePreeditImpl() override {}
+};
+
+class TestInputContextV2 : public InputContextV2 {
+public:
+    TestInputContextV2(InputContextManager &manager,
+                       const std::string &program = {})
+        : InputContextV2(manager, program) {}
+
+    ~TestInputContextV2() { destroy(); }
+
+    const char *frontend() const override { return "test2"; }
+
+    void commitStringImpl(const std::string &) override {}
+    void deleteSurroundingTextImpl(int, unsigned int) override {}
+    void forwardKeyImpl(const ForwardKeyEvent &) override {}
+    void updatePreeditImpl() override {}
+    void commitStringWithCursorImpl(const std::string &text,
+                                    size_t cursor) override {
+        text_ = text;
+        cursor_ = cursor;
+    }
+
+    std::string text_;
+    size_t cursor_;
 };
 
 class TestProperty : public InputContextProperty {
@@ -332,12 +358,45 @@ void test_custom_panel() {
     }
 }
 
+void test_ic_v2() {
+    InputContextManager manager;
+    auto ic = std::make_unique<TestInputContextV2>(manager, "Firefox");
+    ic->setCapabilityFlags(CapabilityFlag::Preedit);
+    ic->commitStringWithCursor("ABC", 1);
+
+    FCITX_ASSERT(ic->text_ == "ABC");
+    FCITX_ASSERT(ic->cursor_ == 1);
+
+    ic->setBlockEventToClient(true);
+    ic->commitStringWithCursor("DEF", 2);
+
+    FCITX_ASSERT(ic->text_ == "ABC");
+    FCITX_ASSERT(ic->cursor_ == 1);
+
+    ic->setBlockEventToClient(false);
+
+    FCITX_ASSERT(ic->text_ == "DEF");
+    FCITX_ASSERT(ic->cursor_ == 2);
+
+    bool exception = false;
+    try {
+        ic->commitStringWithCursor("ABC", 4);
+    } catch (const std::invalid_argument &) {
+        exception = true;
+    }
+    FCITX_ASSERT(exception);
+
+    FCITX_ASSERT(ic->text_ == "DEF");
+    FCITX_ASSERT(ic->cursor_ == 2);
+}
+
 int main() {
     test_simple();
     test_property();
     test_preedit_override();
     test_event_blocking();
     test_custom_panel();
+    test_ic_v2();
 
     return 0;
 }

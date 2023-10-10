@@ -78,6 +78,12 @@ enum class CapabilityFlag : uint64_t {
      */
     Disable = (1ull << 40),
 
+    /**
+     * Whether client support commit string with cursor location.
+     * @since 5.1.2
+     */
+    CommitStringWithCursor = (1ull << 41),
+
     PasswordOrSensitive = Password | Sensitive,
 };
 

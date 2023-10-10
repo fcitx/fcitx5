@@ -10,7 +10,10 @@
 #include <chrono>
 #include <exception>
 #include <regex>
+#include <stdexcept>
+#include <string>
 #include "fcitx-utils/event.h"
+#include "fcitx-utils/utf8.h"
 #include "focusgroup.h"
 #include "inputcontext_p.h"
 #include "inputcontextmanager.h"
@@ -417,6 +420,22 @@ void InputContext::commitString(const std::string &text) {
         d->pushEvent<CommitStringEvent>(std::move(newString), this);
     } else {
         d->pushEvent<CommitStringEvent>(text, this);
+    }
+}
+
+void InputContext::commitStringWithCursor(const std::string &text,
+                                          size_t cursor) {
+    FCITX_D();
+    if (cursor > utf8::length(text)) {
+        throw std::invalid_argument(text);
+    }
+
+    if (auto *instance = d->manager_.instance()) {
+        auto newString = instance->commitFilter(this, text);
+        d->pushEvent<CommitStringWithCursorEvent>(std::move(newString), cursor,
+                                                  this);
+    } else {
+        d->pushEvent<CommitStringWithCursorEvent>(text, cursor, this);
     }
 }
 
