@@ -143,6 +143,19 @@ FCITXUTILS_EXPORT ssize_t getline(UniqueCPtr<char> &lineptr, size_t *n,
  */
 FCITXUTILS_EXPORT bool isInFlatpak();
 
+/**
+ * Util function that returns whether it is compile agsinst android.
+ *
+ * @since 5.1.2
+ */
+FCITXUTILS_EXPORT constexpr inline bool isAndroid() {
+#if defined(ANDROID) || defined(__ANDROID__)
+    return true;
+#else
+    return false;
+#endif
+}
+
 } // namespace fcitx
 
 #endif // _FCITX_UTILS_MISC_H_
