@@ -5,6 +5,7 @@
  *
  */
 #include "inputmethodengine.h"
+#include <stdexcept>
 #include "inputcontext.h"
 #include "inputpanel.h"
 
@@ -75,6 +76,11 @@ void InputMethodEngineV3::invokeActionImpl(const InputMethodEntry &entry,
                                            InvokeActionEvent &event) {
     FCITX_UNUSED(entry);
     defaultInvokeActionBehavior(event);
+}
+
+void InputMethodEngineV4::virtualKeyboardEventImpl(const InputMethodEntry &,
+                                                   VirtualKeyboardEvent &) {
+    throw std::logic_error("Not implemented virtualKeyboardEventImpl");
 }
 
 } // namespace fcitx
