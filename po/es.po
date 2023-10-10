@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2023-09-28 20:22+0000\n"
+"POT-Creation-Date: 2023-10-10 20:22+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: csslayer <wengxt@gmail.com>, 2017\n"
 "Language-Team: Spanish (https://www.transifex.com/fcitx/teams/12005/es/)\n"
@@ -46,7 +46,7 @@ msgstr ""
 msgid "${1} works properly."
 msgstr ""
 
-#: src/lib/fcitx/instance.cpp:406
+#: src/lib/fcitx/instance.cpp:407
 msgid "(Not available)"
 msgstr ""
 
@@ -102,11 +102,11 @@ msgstr ""
 msgid "Accent Colors"
 msgstr ""
 
-#: src/lib/fcitx/globalconfig.cpp:81
+#: src/lib/fcitx/globalconfig.cpp:82
 msgid "Activate Input Method"
 msgstr ""
 
-#: src/lib/fcitx/globalconfig.cpp:137
+#: src/lib/fcitx/globalconfig.cpp:138
 msgid "Active By Default"
 msgstr ""
 
@@ -136,7 +136,7 @@ msgctxt "Key name"
 msgid "Adjust Brightness"
 msgstr ""
 
-#: src/lib/fcitx/globalconfig.cpp:25
+#: src/lib/fcitx/globalconfig.cpp:26
 msgid "All"
 msgstr ""
 
@@ -160,11 +160,15 @@ msgstr ""
 msgid "Allow Overriding System XKB Settings (Only support KDE 5)"
 msgstr ""
 
+#: src/lib/fcitx/globalconfig.cpp:185
+msgid "Allow input method in the password field"
+msgstr ""
+
 #: src/im/keyboard/keyboard.h:32 src/modules/quickphrase/quickphrase.h:29
 msgid "Alt"
 msgstr ""
 
-#: src/lib/fcitx-utils/key.cpp:558
+#: src/lib/fcitx-utils/key.cpp:560
 msgctxt "Key name"
 msgid "Alt"
 msgstr ""
@@ -251,7 +255,7 @@ msgstr ""
 msgid "Beginner's Guide"
 msgstr ""
 
-#: src/lib/fcitx/globalconfig.cpp:186
+#: src/lib/fcitx/globalconfig.cpp:193
 msgid "Behavior"
 msgstr ""
 
@@ -527,7 +531,7 @@ msgstr "Configurar"
 msgid "Control"
 msgstr ""
 
-#: src/lib/fcitx-utils/key.cpp:557
+#: src/lib/fcitx-utils/key.cpp:559
 msgctxt "Key name"
 msgid "Control"
 msgstr ""
@@ -557,7 +561,7 @@ msgstr ""
 msgid "Custom"
 msgstr ""
 
-#: src/lib/fcitx/globalconfig.cpp:174
+#: src/lib/fcitx/globalconfig.cpp:175
 msgid "Custom Xkb Option"
 msgstr ""
 
@@ -595,7 +599,7 @@ msgstr ""
 msgid "Dark Theme"
 msgstr ""
 
-#: src/lib/fcitx/globalconfig.cpp:90
+#: src/lib/fcitx/globalconfig.cpp:91
 msgid "Deactivate Input Method"
 msgstr ""
 
@@ -603,7 +607,7 @@ msgstr ""
 msgid "Debug information from dbus:"
 msgstr ""
 
-#: src/lib/fcitx/inputmethodmanager.cpp:138 src/lib/fcitx/instance.cpp:353
+#: src/lib/fcitx/inputmethodmanager.cpp:138 src/lib/fcitx/instance.cpp:354
 #: src/ui/classic/themes/default/theme.conf.in:3
 msgid "Default"
 msgstr ""
@@ -612,23 +616,23 @@ msgstr ""
 msgid "Default Dark"
 msgstr ""
 
-#: src/lib/fcitx/globalconfig.cpp:126
+#: src/lib/fcitx/globalconfig.cpp:127
 msgid "Default Next Candidate"
 msgstr ""
 
-#: src/lib/fcitx/globalconfig.cpp:110
+#: src/lib/fcitx/globalconfig.cpp:111
 msgid "Default Next page"
 msgstr ""
 
-#: src/lib/fcitx/globalconfig.cpp:120
+#: src/lib/fcitx/globalconfig.cpp:121
 msgid "Default Previous Candidate"
 msgstr ""
 
-#: src/lib/fcitx/globalconfig.cpp:98
+#: src/lib/fcitx/globalconfig.cpp:99
 msgid "Default Previous page"
 msgstr ""
 
-#: src/lib/fcitx/globalconfig.cpp:158
+#: src/lib/fcitx/globalconfig.cpp:159
 msgid "Default page size"
 msgstr ""
 
@@ -740,23 +744,23 @@ msgstr ""
 msgid "Entries"
 msgstr ""
 
-#: src/lib/fcitx/globalconfig.cpp:57
+#: src/lib/fcitx/globalconfig.cpp:58
 msgid "Enumerate Input Method Backward"
 msgstr ""
 
-#: src/lib/fcitx/globalconfig.cpp:50
+#: src/lib/fcitx/globalconfig.cpp:51
 msgid "Enumerate Input Method Forward"
 msgstr ""
 
-#: src/lib/fcitx/globalconfig.cpp:74
+#: src/lib/fcitx/globalconfig.cpp:75
 msgid "Enumerate Input Method Group Backward"
 msgstr ""
 
-#: src/lib/fcitx/globalconfig.cpp:67
+#: src/lib/fcitx/globalconfig.cpp:68
 msgid "Enumerate Input Method Group Forward"
 msgstr ""
 
-#: src/lib/fcitx/globalconfig.cpp:39
+#: src/lib/fcitx/globalconfig.cpp:40
 msgid "Enumerate when press trigger key repeatedly"
 msgstr ""
 
@@ -998,12 +1002,12 @@ msgstr ""
 msgid "Group"
 msgstr ""
 
-#: src/lib/fcitx/instance.cpp:410
+#: src/lib/fcitx/instance.cpp:411
 #, c++-format
 msgid "Group {0}: {1}"
 msgstr ""
 
-#: src/lib/fcitx/instance.cpp:355
+#: src/lib/fcitx/instance.cpp:356
 #, c++-format
 msgid "Group {}"
 msgstr ""
@@ -1166,7 +1170,7 @@ msgctxt "Key name"
 msgid "Hot Links"
 msgstr ""
 
-#: src/lib/fcitx/globalconfig.cpp:184
+#: src/lib/fcitx/globalconfig.cpp:191
 msgid "Hotkey"
 msgstr ""
 
@@ -1179,7 +1183,7 @@ msgid ""
 "Hotkey for switching to the N-th input method for only current input context"
 msgstr ""
 
-#: src/lib/fcitx-utils/key.cpp:562
+#: src/lib/fcitx-utils/key.cpp:564
 msgctxt "Key name"
 msgid "Hyper"
 msgstr ""
@@ -1206,8 +1210,8 @@ msgstr ""
 msgid "Image"
 msgstr ""
 
-#: src/im/keyboard/keyboard.cpp:684 src/lib/fcitx/instance.cpp:445
-#: src/lib/fcitx/instance.cpp:671 src/lib/fcitx/instance.cpp:833
+#: src/im/keyboard/keyboard.cpp:684 src/lib/fcitx/instance.cpp:446
+#: src/lib/fcitx/instance.cpp:672 src/lib/fcitx/instance.cpp:834
 #: src/modules/notificationitem/notificationitem.cpp:147
 #: src/modules/notificationitem/notificationitem.cpp:235
 #: src/modules/xcb/xcbconnection.cpp:521 data/org.fcitx.Fcitx5.desktop.in.in:4
@@ -1255,7 +1259,7 @@ msgstr ""
 msgid "Input method selector"
 msgstr ""
 
-#: src/lib/fcitx/globalconfig.cpp:102 src/lib/fcitx/globalconfig.cpp:114
+#: src/lib/fcitx/globalconfig.cpp:103 src/lib/fcitx/globalconfig.cpp:115
 msgid ""
 "Input methods may have different setup in their own configuration. This is "
 "commonly used by modules like clipboard or quickphrase."
@@ -1280,7 +1284,7 @@ msgstr ""
 msgid "KDE Input Method Panel"
 msgstr ""
 
-#: src/ui/classic/classicui.cpp:334
+#: src/ui/classic/classicui.cpp:337
 msgid "KDE Plasma (Experimental)"
 msgstr ""
 
@@ -1858,7 +1862,7 @@ msgstr ""
 msgid "Next Page Button"
 msgstr ""
 
-#: src/lib/fcitx/globalconfig.cpp:26
+#: src/lib/fcitx/globalconfig.cpp:27
 msgid "No"
 msgstr ""
 
@@ -1943,7 +1947,7 @@ msgstr ""
 msgid "Overlay position"
 msgstr ""
 
-#: src/lib/fcitx/globalconfig.cpp:165
+#: src/lib/fcitx/globalconfig.cpp:166
 msgid "Override Xkb Option"
 msgstr ""
 
@@ -2023,15 +2027,15 @@ msgctxt "Key name"
 msgid "Power Off"
 msgstr ""
 
-#: src/lib/fcitx/instance.cpp:833
+#: src/lib/fcitx/instance.cpp:834
 msgid "Preedit"
 msgstr ""
 
-#: src/lib/fcitx/instance.cpp:835
+#: src/lib/fcitx/instance.cpp:836
 msgid "Preedit disabled"
 msgstr ""
 
-#: src/lib/fcitx/instance.cpp:834
+#: src/lib/fcitx/instance.cpp:835
 msgid "Preedit enabled"
 msgstr ""
 
@@ -2061,7 +2065,7 @@ msgctxt "Key name"
 msgid "Print Screen"
 msgstr ""
 
-#: src/lib/fcitx/globalconfig.cpp:26
+#: src/lib/fcitx/globalconfig.cpp:27
 msgid "Program"
 msgstr ""
 
@@ -2220,11 +2224,11 @@ msgstr ""
 msgid "Shadow Margin"
 msgstr ""
 
-#: src/lib/fcitx/globalconfig.cpp:140
+#: src/lib/fcitx/globalconfig.cpp:141
 msgid "Share Input State"
 msgstr ""
 
-#: src/lib/fcitx-utils/key.cpp:559
+#: src/lib/fcitx-utils/key.cpp:561
 msgctxt "Key name"
 msgid "Shift"
 msgstr ""
@@ -2234,11 +2238,11 @@ msgctxt "Key name"
 msgid "Shop"
 msgstr ""
 
-#: src/lib/fcitx/globalconfig.cpp:150
+#: src/lib/fcitx/globalconfig.cpp:151
 msgid "Show Input Method Information when changing focus"
 msgstr ""
 
-#: src/lib/fcitx/globalconfig.cpp:147
+#: src/lib/fcitx/globalconfig.cpp:148
 msgid "Show Input Method Information when switch input method"
 msgstr ""
 
@@ -2246,11 +2250,11 @@ msgstr ""
 msgid "Show Layout Name In Icon"
 msgstr ""
 
-#: src/lib/fcitx/globalconfig.cpp:153
+#: src/lib/fcitx/globalconfig.cpp:154
 msgid "Show compact input method information"
 msgstr ""
 
-#: src/lib/fcitx/globalconfig.cpp:156
+#: src/lib/fcitx/globalconfig.cpp:157
 msgid "Show first input method information"
 msgstr ""
 
@@ -2260,8 +2264,12 @@ msgid ""
 "text icon is set to true, this option will be ignored."
 msgstr ""
 
-#: src/lib/fcitx/globalconfig.cpp:143
+#: src/lib/fcitx/globalconfig.cpp:144
 msgid "Show preedit in application"
+msgstr ""
+
+#: src/lib/fcitx/globalconfig.cpp:188
+msgid "Show preedit text when typing password"
 msgstr ""
 
 #: src/im/keyboard/keyboard.h:77
@@ -2270,7 +2278,7 @@ msgid ""
 "sequence."
 msgstr ""
 
-#: src/lib/fcitx/globalconfig.cpp:63
+#: src/lib/fcitx/globalconfig.cpp:64
 msgid "Skip first input method while enumerating"
 msgstr ""
 
@@ -2338,7 +2346,7 @@ msgstr ""
 msgid "Super"
 msgstr ""
 
-#: src/lib/fcitx-utils/key.cpp:560
+#: src/lib/fcitx-utils/key.cpp:562
 msgctxt "Key name"
 msgid "Super"
 msgstr ""
@@ -2353,17 +2361,17 @@ msgctxt "Key name"
 msgid "Suspend"
 msgstr ""
 
-#: src/lib/fcitx/instance.cpp:446 src/lib/fcitx/instance.cpp:672
+#: src/lib/fcitx/instance.cpp:447 src/lib/fcitx/instance.cpp:673
 #: src/modules/xcb/xcbconnection.cpp:522
 msgid "Switch group"
 msgstr ""
 
-#: src/lib/fcitx/instance.cpp:447 src/modules/xcb/xcbconnection.cpp:523
+#: src/lib/fcitx/instance.cpp:448 src/modules/xcb/xcbconnection.cpp:523
 #, c++-format
 msgid "Switch group to {0}"
 msgstr ""
 
-#: src/lib/fcitx/instance.cpp:673
+#: src/lib/fcitx/instance.cpp:674
 #, c++-format
 msgid "Switched group to {0}"
 msgstr ""
@@ -2387,7 +2395,7 @@ msgctxt "Key name"
 msgid "Task Panel"
 msgstr ""
 
-#: src/lib/fcitx/globalconfig.cpp:43
+#: src/lib/fcitx/globalconfig.cpp:44
 msgid "Temporally switch between first and current Input Method"
 msgstr ""
 
@@ -2459,7 +2467,7 @@ msgid ""
 "freezing, see ${link2}."
 msgstr ""
 
-#: src/lib/fcitx/globalconfig.cpp:131
+#: src/lib/fcitx/globalconfig.cpp:132
 msgid "Toggle embedded preedit"
 msgstr ""
 
@@ -2526,7 +2534,7 @@ msgstr ""
 msgid "Tray Label Text Color"
 msgstr ""
 
-#: src/lib/fcitx/globalconfig.cpp:33
+#: src/lib/fcitx/globalconfig.cpp:34
 msgid "Trigger Input Method"
 msgstr ""
 
@@ -2687,7 +2695,7 @@ msgctxt "Key name"
 msgid "WebCam"
 msgstr ""
 
-#: src/lib/fcitx/globalconfig.cpp:169
+#: src/lib/fcitx/globalconfig.cpp:170
 msgid ""
 "Whether to override the xkb option from display server. It will not affect "
 "the xkb option send to display, but just the xkb options for custom xkb "
@@ -2857,12 +2865,12 @@ msgstr ""
 msgid "{0} (Not Available)"
 msgstr ""
 
-#: src/lib/fcitx/instance.cpp:404
+#: src/lib/fcitx/instance.cpp:405
 #, c++-format
 msgid "{0} (Not available)"
 msgstr ""
 
-#: src/lib/fcitx/instance.cpp:401
+#: src/lib/fcitx/instance.cpp:402
 #, c++-format
 msgid "{0} ({1})"
 msgstr ""
