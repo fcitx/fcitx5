@@ -4,17 +4,17 @@
 #
 # Translators:
 # wwj402 <wwj402@gmail.com>, 2017
-# rocka, 2022
 # Lau YeeYu, 2023
 # csslayer <wengxt@gmail.com>, 2023
+# rocka, 2023
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2023-10-10 20:24+0000\n"
+"POT-Creation-Date: 2023-10-11 20:24+0000\n"
 "PO-Revision-Date: 2017-11-23 04:14+0000\n"
-"Last-Translator: csslayer <wengxt@gmail.com>, 2023\n"
+"Last-Translator: rocka, 2023\n"
 "Language-Team: Chinese (China) (https://app.transifex.com/fcitx/teams/12005/"
 "zh_CN/)\n"
 "Language: zh_CN\n"
@@ -167,7 +167,7 @@ msgstr "允许重写系统 XKB 设置 (仅支持 KDE 5)"
 
 #: src/lib/fcitx/globalconfig.cpp:185
 msgid "Allow input method in the password field"
-msgstr ""
+msgstr "允许在密码框中使用输入法"
 
 #: src/im/keyboard/keyboard.h:32 src/modules/quickphrase/quickphrase.h:29
 msgid "Alt"
@@ -2298,7 +2298,7 @@ msgstr "在程序中显示预编辑文本"
 
 #: src/lib/fcitx/globalconfig.cpp:188
 msgid "Show preedit text when typing password"
-msgstr ""
+msgstr "输入密码时显示预编辑文本"
 
 #: src/im/keyboard/keyboard.h:77
 msgid ""
