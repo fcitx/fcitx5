@@ -24,6 +24,7 @@ if (ENABLE_X11)
 endif()
 
 if (ENABLE_DBUS)
+    set(CLASSICUI_SRCS ${CLASSICUI_SRCS} portalsettingmonitor.cpp)
     set(CLASSICUI_LIBS ${CLASSICUI_LIBS} Fcitx5::Module::DBus)
 endif()
 

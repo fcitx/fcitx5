@@ -11,6 +11,7 @@
 #include <unordered_map>
 #include "fcitx-utils/intrusivelist.h"
 #include "fcitx-utils/log.h"
+#include "fcitx/misc_p.h"
 #include "focusgroup.h"
 #include "focusgroup_p.h"
 #include "inputcontext_p.h"
@@ -36,10 +37,6 @@ public:
     void forwardKeyImpl(const ForwardKeyEvent &) override {}
     void updatePreeditImpl() override {}
 };
-
-void hash_combine(std::size_t &seed, std::size_t value) {
-    seed ^= value + 0x9e3779b9 + (seed << 6) + (seed >> 2);
-}
 
 struct container_hasher {
     template <class T>

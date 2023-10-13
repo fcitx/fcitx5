@@ -225,6 +225,10 @@ static inline bool isSingleKey(const Key &key) {
     return isSingleModifier(key) || !key.hasModifier();
 }
 
+inline void hash_combine(std::size_t &seed, std::size_t value) noexcept {
+    seed ^= value + 0x9e3779b9 + (seed << 6) + (seed >> 2);
+}
+
 } // namespace fcitx
 
 FCITX_DECLARE_LOG_CATEGORY(keyTrace);

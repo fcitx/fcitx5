@@ -24,6 +24,7 @@
 #include "fcitx/userinterface.h"
 #include "classicui_public.h"
 #include "plasmathemewatchdog.h"
+#include "portalsettingmonitor.h"
 #include "theme.h"
 #ifdef ENABLE_X11
 #include "xcb_public.h"
@@ -252,11 +253,9 @@ private:
 
     std::unique_ptr<EventSource> deferedReloadTheme_;
 #ifdef ENABLE_DBUS
-    std::unique_ptr<dbus::Slot> appearanceChangedSlot_;
-    std::unique_ptr<dbus::Slot> initialReadSlot_;
-
-    std::unique_ptr<dbus::Slot> accentColorSlot_;
-    std::unique_ptr<dbus::Slot> accentColorReadSlot_;
+    std::unique_ptr<PortalSettingMonitor> settingMonitor_;
+    std::unique_ptr<PortalSettingEntry> darkModeEntry_;
+    std::unique_ptr<PortalSettingEntry> accentColorEntry_;
 #endif
 
     std::vector<std::unique_ptr<HandlerTableEntry<EventHandler>>>

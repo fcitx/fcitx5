@@ -31,6 +31,7 @@
 #ifdef ENABLE_DBUS
 #include "fcitx-utils/dbus/variant.h"
 #include "dbus_public.h"
+#include "portalsettingmonitor.h"
 #endif
 
 namespace fcitx::classicui {
@@ -49,12 +50,17 @@ constexpr const char XDG_PORTAL_DESKTOP_SETTINGS_INTERFACE[] =
 } // namespace
 
 ClassicUI::ClassicUI(Instance *instance) : instance_(instance) {
-    reloadConfig();
 
 #ifdef ENABLE_DBUS
-    dbus::VariantTypeRegistry::defaultRegistry()
-        .registerType<AccentColorDBusType>();
+    if (auto dbusAddon = dbus()) {
+        dbus::VariantTypeRegistry::defaultRegistry()
+            .registerType<AccentColorDBusType>();
+        settingMonitor_ = std::make_unique<PortalSettingMonitor>(
+            *dbusAddon->call<IDBusModule::bus>());
+    }
 #endif
+
+    reloadConfig();
 
 #ifdef ENABLE_X11
     if (auto *xcbAddon = xcb()) {
@@ -115,7 +121,7 @@ void ClassicUI::reloadConfig() {
 
 void ClassicUI::reloadTheme() {
 #ifdef ENABLE_DBUS
-    auto parseMessage = [this](dbus::Variant &variant) {
+    auto parseMessage = [this](const dbus::Variant &variant) {
         if (variant.signature() == "u") {
             auto color = variant.dataAs<uint32_t>();
             auto oldIsDark = isDark_;
@@ -130,55 +136,13 @@ void ClassicUI::reloadTheme() {
     };
 
     if (dbus()) {
-        auto bus = dbus()->call<IDBusModule::bus>();
         if (*config_.useDarkTheme) {
-            if (!appearanceChangedSlot_) {
-                appearanceChangedSlot_ = bus->addMatch(
-                    dbus::MatchRule(
-                        XDG_PORTAL_DESKTOP_SERVICE, XDG_PORTAL_DESKTOP_PATH,
-                        XDG_PORTAL_DESKTOP_SETTINGS_INTERFACE, "SettingChanged",
-                        {"org.freedesktop.appearance", "color-scheme"}),
-                    [parseMessage](dbus::Message &msg) {
-                        if (msg.type() == dbus::MessageType::Signal &&
-                            msg.signature() == "ssv") {
-                            std::string interface, name;
-                            msg >> interface >> name;
-                            if (interface == "org.freedesktop.appearance" &&
-                                name == "color-scheme") {
-                                dbus::Variant variant;
-                                msg >> variant;
-                                parseMessage(variant);
-                            }
-                        }
-                        return true;
-                    });
-                auto call = bus->createMethodCall(
-                    "org.freedesktop.portal.Desktop",
-                    "/org/freedesktop/portal/desktop",
-                    "org.freedesktop.portal.Settings", "Read");
-                call << "org.freedesktop.appearance"
-                     << "color-scheme";
-                initialReadSlot_ =
-                    call.callAsync(1000000, [parseMessage](dbus::Message &msg) {
-                        // XDG portal seems didn't unwrap the variant.
-                        // Check this special case just in case.
-                        if (msg.isError()) {
-                            return true;
-                        }
-                        if (msg.signature() != "v") {
-                            return true;
-                        }
-                        dbus::Variant variant;
-                        msg >> variant;
-                        if (variant.signature() == "v") {
-                            variant = variant.dataAs<dbus::Variant>();
-                        }
-                        parseMessage(variant);
-                        return true;
-                    });
+            if (!darkModeEntry_ && settingMonitor_) {
+                darkModeEntry_ = settingMonitor_->watch(
+                    "org.freedesktop.appearance", "color-scheme", parseMessage);
             }
         } else {
-            appearanceChangedSlot_.reset();
+            darkModeEntry_.reset();
         }
     }
 #endif
@@ -209,7 +173,7 @@ void ClassicUI::reloadTheme() {
     theme_.load(themeName);
 
 #ifdef ENABLE_DBUS
-    auto parseAccentColor = [this](dbus::Variant &variant) {
+    auto parseAccentColor = [this](const dbus::Variant &variant) {
         if (variant.signature() == "(ddd)") {
             auto dbuscolor = variant.dataAs<AccentColorDBusType>();
             Color color;
@@ -228,55 +192,14 @@ void ClassicUI::reloadTheme() {
     };
 
     if (dbus()) {
-        auto bus = dbus()->call<IDBusModule::bus>();
         if (*config_.useAccentColor) {
-            if (!accentColorSlot_) {
-                accentColorSlot_ = bus->addMatch(
-                    dbus::MatchRule(
-                        XDG_PORTAL_DESKTOP_SERVICE, XDG_PORTAL_DESKTOP_PATH,
-                        XDG_PORTAL_DESKTOP_SETTINGS_INTERFACE, "SettingChanged",
-                        {"org.freedesktop.appearance", "accent-color"}),
-                    [parseAccentColor](dbus::Message &msg) {
-                        if (msg.type() == dbus::MessageType::Signal &&
-                            msg.signature() == "ssv") {
-                            std::string interface, name;
-                            msg >> interface >> name;
-                            if (interface == "org.freedesktop.appearance" &&
-                                name == "accent-color") {
-                                dbus::Variant variant;
-                                msg >> variant;
-                                parseAccentColor(variant);
-                            }
-                        }
-                        return true;
-                    });
-                auto call = bus->createMethodCall(
-                    "org.freedesktop.portal.Desktop",
-                    "/org/freedesktop/portal/desktop",
-                    "org.freedesktop.portal.Settings", "Read");
-                call << "org.freedesktop.appearance"
-                     << "accent-color";
-                accentColorReadSlot_ = call.callAsync(
-                    1000000, [parseAccentColor](dbus::Message &msg) {
-                        // XDG portal seems didn't unwrap the variant.
-                        // Check this special case just in case.
-                        if (msg.isError()) {
-                            return true;
-                        }
-                        if (msg.signature() != "v") {
-                            return true;
-                        }
-                        dbus::Variant variant;
-                        msg >> variant;
-                        if (variant.signature() == "v") {
-                            variant = variant.dataAs<dbus::Variant>();
-                        }
-                        parseAccentColor(variant);
-                        return true;
-                    });
+            if (!accentColorEntry_ && settingMonitor_) {
+                accentColorEntry_ =
+                    settingMonitor_->watch("org.freedesktop.appearance",
+                                           "accent-color", parseAccentColor);
             }
         } else {
-            accentColorSlot_.reset();
+            accentColorEntry_.reset();
             accentColor_ = std::nullopt;
         }
     }
