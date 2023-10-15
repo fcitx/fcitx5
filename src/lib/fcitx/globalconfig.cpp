@@ -185,7 +185,16 @@ FCITX_CONFIGURATION(
         _("Allow input method in the password field"), false};
     Option<bool> showPreeditForPassword{
         this, "ShowPreeditForPassword",
-        _("Show preedit text when typing password"), false};);
+        _("Show preedit text when typing password"), false};
+    Option<int, IntConstrain, DefaultMarshaller<int>, ToolTipAnnotation>
+        autoSavePeriod{this,
+                       "AutoSavePeriod",
+                       _("Interval of saving user data"),
+                       30,
+                       IntConstrain(0, 1440),
+                       {},
+                       {_("If value is 0, the user data may only be saved when "
+                          "fcitx quits (e.g. logout).")}};);
 
 FCITX_CONFIGURATION(GlobalConfig,
                     Option<HotkeyConfig> hotkey{this, "Hotkey", _("Hotkey")};
@@ -372,6 +381,11 @@ bool GlobalConfig::allowInputMethodForPassword() const {
 bool GlobalConfig::showPreeditForPassword() const {
     FCITX_D();
     return *d->behavior->showPreeditForPassword;
+}
+
+int GlobalConfig::autoSavePeriod() const {
+    FCITX_D();
+    return *d->behavior->autoSavePeriod;
 }
 
 const Configuration &GlobalConfig::config() const {

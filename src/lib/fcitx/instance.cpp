@@ -53,7 +53,7 @@ namespace fcitx {
 
 namespace {
 
-constexpr uint64_t AutoSavePeriod = 1800ull * 1000000ull; // 30 minutes
+constexpr uint64_t AutoSaveMinInUsecs = 60ull * 1000000ull; // 30 minutes
 constexpr uint64_t AutoSaveIdleTime = 60ull * 1000000ull; // 1 minutes
 
 FCITX_CONFIGURATION(DefaultInputMethod,
@@ -1161,7 +1161,7 @@ Instance::Instance(int argc, char **argv) {
     });
     d->uiUpdateEvent_->setEnabled(false);
     d->periodicalSave_ = d->eventLoop_.addTimeEvent(
-        CLOCK_MONOTONIC, now(CLOCK_MONOTONIC) + AutoSavePeriod, 0,
+        CLOCK_MONOTONIC, now(CLOCK_MONOTONIC) + 1000000, 0,
         [this, d](EventSourceTime *time, uint64_t) {
             if (exiting()) {
                 return true;
@@ -1180,10 +1180,14 @@ Instance::Instance(int argc, char **argv) {
             FCITX_INFO() << "Running autosave...";
             save();
             FCITX_INFO() << "End autosave";
-            time->setNextInterval(AutoSavePeriod);
-            time->setOneShot();
+            if (d->globalConfig_.autoSavePeriod() > 0) {
+                time->setNextInterval(d->globalConfig_.autoSavePeriod() *
+                                      AutoSaveMinInUsecs);
+                time->setOneShot();
+            }
             return true;
         });
+    d->periodicalSave_->setEnabled(false);
 }
 
 Instance::~Instance() {
@@ -1903,6 +1907,14 @@ void Instance::reloadConfig() {
 #endif
     if (d->running_) {
         postEvent(GlobalConfigReloadedEvent());
+    }
+
+    if (d->globalConfig_.autoSavePeriod() <= 0) {
+        d->periodicalSave_->setEnabled(false);
+    } else {
+        d->periodicalSave_->setNextInterval(AutoSaveMinInUsecs *
+                                            d->globalConfig_.autoSavePeriod());
+        d->periodicalSave_->setOneShot();
     }
 }
 

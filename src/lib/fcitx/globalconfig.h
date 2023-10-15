@@ -92,6 +92,14 @@ public:
      */
     bool showPreeditForPassword() const;
 
+    /**
+     * Number of minutes that fcitx will automatically save user data.
+     *
+     * @return the period of auto save
+     * @since 5.1.2
+     */
+    int autoSavePeriod() const;
+
     const std::vector<std::string> &enabledAddons() const;
     const std::vector<std::string> &disabledAddons() const;
 
