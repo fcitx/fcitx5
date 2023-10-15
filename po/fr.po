@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2023-10-10 20:24+0000\n"
+"POT-Creation-Date: 2023-10-15 20:24+0000\n"
 "PO-Revision-Date: 2017-11-23 04:14+0000\n"
 "Last-Translator: csslayer <wengxt@gmail.com>, 2022\n"
 "Language-Team: French (https://app.transifex.com/fcitx/teams/12005/fr/)\n"
@@ -262,7 +262,7 @@ msgstr "Batterie"
 msgid "Beginner's Guide"
 msgstr "Guide du débutant"
 
-#: src/lib/fcitx/globalconfig.cpp:193
+#: src/lib/fcitx/globalconfig.cpp:202
 msgid "Behavior"
 msgstr "Comportement"
 
@@ -610,7 +610,7 @@ msgctxt "Key name"
 msgid "DOS"
 msgstr "DOS"
 
-#: src/ui/classic/classicui.h:157
+#: src/ui/classic/classicui.h:158
 msgid "Dark Theme"
 msgstr ""
 
@@ -738,7 +738,7 @@ msgstr "Activer les emoji dans l'indice"
 msgid "Enable emoji in quickphrase"
 msgstr "Activer les emoji dans la phrase rapide"
 
-#: src/ui/classic/classicui.h:189
+#: src/ui/classic/classicui.h:190
 msgid "Enable fractional scale under Wayland"
 msgstr ""
 
@@ -897,11 +897,11 @@ msgstr "Rechercher"
 msgid "First Candidate"
 msgstr ""
 
-#: src/ui/classic/classicui.h:163
+#: src/ui/classic/classicui.h:164
 msgid "Follow system accent color if it is supported by theme and desktop"
 msgstr ""
 
-#: src/ui/classic/classicui.h:159
+#: src/ui/classic/classicui.h:160
 msgid "Follow system light/dark color scheme"
 msgstr ""
 
@@ -913,11 +913,11 @@ msgid ""
 "using text-input support by Qt under Wayland."
 msgstr ""
 
-#: src/ui/classic/classicui.h:119
+#: src/ui/classic/classicui.h:120
 msgid "Font"
 msgstr "Police"
 
-#: src/ui/classic/classicui.h:149
+#: src/ui/classic/classicui.h:150
 msgid ""
 "For example, display character with Chinese variant when using Pinyin and "
 "Japanese variant when using Anthy. The font configuration needs to support "
@@ -928,7 +928,7 @@ msgstr ""
 "d'Anthy. La configuration de la police doit le prendre en charge pour "
 "utiliser cette fonctionnalité."
 
-#: src/ui/classic/classicui.h:177
+#: src/ui/classic/classicui.h:178
 msgid "Force font DPI on Wayland"
 msgstr ""
 
@@ -1198,7 +1198,7 @@ msgctxt "Key name"
 msgid "Hot Links"
 msgstr "Liens dynamiques"
 
-#: src/lib/fcitx/globalconfig.cpp:191
+#: src/lib/fcitx/globalconfig.cpp:200
 msgid "Hotkey"
 msgstr "Raccourci clavier"
 
@@ -1221,6 +1221,12 @@ msgstr "Hyper"
 #: src/frontend/ibusfrontend/ibusfrontend.conf.in.in:3
 msgid "IBus Frontend"
 msgstr "Interface IBus"
+
+#: src/lib/fcitx/globalconfig.cpp:196
+msgid ""
+"If value is 0, the user data may only be saved when fcitx quits (e.g. "
+"logout)."
+msgstr ""
 
 #: data/fcitx5-diagnose.sh:735
 msgid ""
@@ -1310,6 +1316,10 @@ msgctxt "Key name"
 msgid "Insert"
 msgstr "Insérer"
 
+#: src/lib/fcitx/globalconfig.cpp:192
+msgid "Interval of saving user data"
+msgstr ""
+
 #: data/fcitx5-diagnose.sh:1592
 msgid "Invalid addon config file ${1}."
 msgstr "Fichier de configuration d'extension invalide ${1}."
@@ -1324,7 +1334,7 @@ msgstr ""
 msgid "KDE Input Method Panel"
 msgstr "Panneau de méthode de saisie KDE"
 
-#: src/ui/classic/classicui.cpp:337
+#: src/ui/classic/classicui.cpp:260
 msgid "KDE Plasma (Experimental)"
 msgstr ""
 
@@ -1815,7 +1825,7 @@ msgstr ""
 msgid "Menu Border"
 msgstr ""
 
-#: src/ui/classic/classicui.h:121
+#: src/ui/classic/classicui.h:122
 msgid "Menu Font"
 msgstr "Police du menu"
 
@@ -1918,7 +1928,7 @@ msgstr "Aucun"
 msgid "Normal text color"
 msgstr "Couleur normale du texte"
 
-#: src/ui/classic/classicui.h:181
+#: src/ui/classic/classicui.h:182
 msgid ""
 "Normally Wayland uses 96 as font DPI in combinition with the screen scale "
 "factor. This option allows you to override the font DPI. If the value is 0, "
@@ -2087,7 +2097,7 @@ msgstr "Pré-édition désactivée"
 msgid "Preedit enabled"
 msgstr "Pré-édition activée"
 
-#: src/ui/classic/classicui.h:129 src/ui/kimpanel/kimpanel.h:33
+#: src/ui/classic/classicui.h:130 src/ui/kimpanel/kimpanel.h:33
 msgid "Prefer Text Icon"
 msgstr "Préférer l'icône de texte"
 
@@ -2297,7 +2307,7 @@ msgstr ""
 "Afficher les informations sur la méthode d'entrée lors du changement de "
 "méthode d'entrée"
 
-#: src/ui/classic/classicui.h:134
+#: src/ui/classic/classicui.h:135
 msgid "Show Layout Name In Icon"
 msgstr "Afficher le nom de la mise en page dans l'icône"
 
@@ -2309,7 +2319,7 @@ msgstr "Afficher les informations sur la méthode d'entrée compacte"
 msgid "Show first input method information"
 msgstr "Afficher les informations de la première méthode d'entrée"
 
-#: src/ui/classic/classicui.h:138
+#: src/ui/classic/classicui.h:139
 msgid ""
 "Show layout name in icon if there is more than one active layout. If prefer "
 "text icon is set to true, this option will be ignored."
@@ -2483,11 +2493,11 @@ msgstr ""
 msgid "The script is run as ${1} (${2})."
 msgstr "Le script est exécuté en tant que ${1} (${2})."
 
-#: src/ui/classic/classicui.h:154
+#: src/ui/classic/classicui.h:155
 msgid "Theme"
 msgstr "Thème"
 
-#: src/ui/classic/classicui.h:100
+#: src/ui/classic/classicui.h:101
 msgid "This is only effective when the tray icon is xembed."
 msgstr "Ceci n'est efficace que lorsque l'icône de la barre d'état est xembed."
 
@@ -2495,11 +2505,11 @@ msgstr "Ceci n'est efficace que lorsque l'icône de la barre d'état est xembed.
 msgid "This option is only effective if image is not set."
 msgstr "Cette option n'est efficace que si l'image n'est pas définie."
 
-#: src/ui/classic/classicui.h:193
+#: src/ui/classic/classicui.h:194
 msgid "This option require support from wayland compositor."
 msgstr ""
 
-#: src/ui/classic/classicui.h:172
+#: src/ui/classic/classicui.h:173
 msgid "This option will be always disabled on XWayland."
 msgstr ""
 
@@ -2589,15 +2599,15 @@ msgctxt "Key name"
 msgid "Travel"
 msgstr "Voyage"
 
-#: src/ui/classic/classicui.h:123
+#: src/ui/classic/classicui.h:124
 msgid "Tray Font"
 msgstr "Police du bac"
 
-#: src/ui/classic/classicui.h:125
+#: src/ui/classic/classicui.h:126
 msgid "Tray Label Outline Color"
 msgstr "Couleur du contour de l'étiquette du plateau"
 
-#: src/ui/classic/classicui.h:128
+#: src/ui/classic/classicui.h:129
 msgid "Tray Label Text Color"
 msgstr "Couleur du texte de l'étiquette du plateau"
 
@@ -2661,7 +2671,7 @@ msgstr "Haut"
 msgid "Use On The Spot Style (Needs restarting)"
 msgstr "Utiliser le style On The Spot (nécessite un redémarrage)"
 
-#: src/ui/classic/classicui.h:168
+#: src/ui/classic/classicui.h:169
 msgid "Use Per Screen DPI on X11"
 msgstr ""
 
@@ -2671,11 +2681,11 @@ msgstr ""
 "Utiliser tout l'espace horizontal pour la surbrillance lorsqu'il s'agit "
 "d'une liste verticale"
 
-#: src/ui/classic/classicui.h:145
+#: src/ui/classic/classicui.h:146
 msgid "Use input method language to display text"
 msgstr "Utiliser la langue de la méthode de saisie pour afficher le texte"
 
-#: src/ui/classic/classicui.h:115
+#: src/ui/classic/classicui.h:116
 msgid "Use mouse wheel to go to prev or next page"
 msgstr ""
 "Utiliser la molette de la souris pour aller à la page précédente ou suivante"
@@ -2706,7 +2716,7 @@ msgstr "Version"
 msgid "Version Line:"
 msgstr "Ligne de version :"
 
-#: src/ui/classic/classicui.h:113
+#: src/ui/classic/classicui.h:114
 msgid "Vertical Candidate List"
 msgstr "Liste verticale des candidats"
 

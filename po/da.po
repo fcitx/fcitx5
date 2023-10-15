@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2023-10-10 20:24+0000\n"
+"POT-Creation-Date: 2023-10-15 20:24+0000\n"
 "PO-Revision-Date: 2017-11-23 04:14+0000\n"
 "Last-Translator: scootergrisen, 2021\n"
 "Language-Team: Danish (https://app.transifex.com/fcitx/teams/12005/da/)\n"
@@ -257,7 +257,7 @@ msgstr "Batteri"
 msgid "Beginner's Guide"
 msgstr "Begyndervejledning"
 
-#: src/lib/fcitx/globalconfig.cpp:193
+#: src/lib/fcitx/globalconfig.cpp:202
 msgid "Behavior"
 msgstr "Opførsel"
 
@@ -601,7 +601,7 @@ msgctxt "Key name"
 msgid "DOS"
 msgstr "DOS"
 
-#: src/ui/classic/classicui.h:157
+#: src/ui/classic/classicui.h:158
 msgid "Dark Theme"
 msgstr ""
 
@@ -729,7 +729,7 @@ msgstr "Aktivér emoji i tip"
 msgid "Enable emoji in quickphrase"
 msgstr "Aktivér emoji i hurtigfrase"
 
-#: src/ui/classic/classicui.h:189
+#: src/ui/classic/classicui.h:190
 msgid "Enable fractional scale under Wayland"
 msgstr ""
 
@@ -885,11 +885,11 @@ msgstr "Find"
 msgid "First Candidate"
 msgstr ""
 
-#: src/ui/classic/classicui.h:163
+#: src/ui/classic/classicui.h:164
 msgid "Follow system accent color if it is supported by theme and desktop"
 msgstr ""
 
-#: src/ui/classic/classicui.h:159
+#: src/ui/classic/classicui.h:160
 msgid "Follow system light/dark color scheme"
 msgstr ""
 
@@ -901,18 +901,18 @@ msgid ""
 "using text-input support by Qt under Wayland."
 msgstr ""
 
-#: src/ui/classic/classicui.h:119
+#: src/ui/classic/classicui.h:120
 msgid "Font"
 msgstr "Skrifttype"
 
-#: src/ui/classic/classicui.h:149
+#: src/ui/classic/classicui.h:150
 msgid ""
 "For example, display character with Chinese variant when using Pinyin and "
 "Japanese variant when using Anthy. The font configuration needs to support "
 "this to use this feature."
 msgstr ""
 
-#: src/ui/classic/classicui.h:177
+#: src/ui/classic/classicui.h:178
 msgid "Force font DPI on Wayland"
 msgstr ""
 
@@ -1182,7 +1182,7 @@ msgctxt "Key name"
 msgid "Hot Links"
 msgstr "Hotlinks"
 
-#: src/lib/fcitx/globalconfig.cpp:191
+#: src/lib/fcitx/globalconfig.cpp:200
 msgid "Hotkey"
 msgstr "Hottast"
 
@@ -1205,6 +1205,12 @@ msgstr "Hyper"
 #: src/frontend/ibusfrontend/ibusfrontend.conf.in.in:3
 msgid "IBus Frontend"
 msgstr "IBus-frontend"
+
+#: src/lib/fcitx/globalconfig.cpp:196
+msgid ""
+"If value is 0, the user data may only be saved when fcitx quits (e.g. "
+"logout)."
+msgstr ""
 
 #: data/fcitx5-diagnose.sh:735
 msgid ""
@@ -1290,6 +1296,10 @@ msgctxt "Key name"
 msgid "Insert"
 msgstr "Indsæt"
 
+#: src/lib/fcitx/globalconfig.cpp:192
+msgid "Interval of saving user data"
+msgstr ""
+
 #: data/fcitx5-diagnose.sh:1592
 msgid "Invalid addon config file ${1}."
 msgstr "Ugyldig tilføjelseskonfigurationsfil ${1}."
@@ -1304,7 +1314,7 @@ msgstr ""
 msgid "KDE Input Method Panel"
 msgstr "Panel til KDE-inputmetode"
 
-#: src/ui/classic/classicui.cpp:337
+#: src/ui/classic/classicui.cpp:260
 msgid "KDE Plasma (Experimental)"
 msgstr ""
 
@@ -1795,7 +1805,7 @@ msgstr ""
 msgid "Menu Border"
 msgstr ""
 
-#: src/ui/classic/classicui.h:121
+#: src/ui/classic/classicui.h:122
 msgid "Menu Font"
 msgstr "Menuens skrifttype"
 
@@ -1898,7 +1908,7 @@ msgstr "Ingen"
 msgid "Normal text color"
 msgstr "Normal tekstfarve"
 
-#: src/ui/classic/classicui.h:181
+#: src/ui/classic/classicui.h:182
 msgid ""
 "Normally Wayland uses 96 as font DPI in combinition with the screen scale "
 "factor. This option allows you to override the font DPI. If the value is 0, "
@@ -2066,7 +2076,7 @@ msgstr "Preedit deaktiveret"
 msgid "Preedit enabled"
 msgstr "Preedit aktiveret"
 
-#: src/ui/classic/classicui.h:129 src/ui/kimpanel/kimpanel.h:33
+#: src/ui/classic/classicui.h:130 src/ui/kimpanel/kimpanel.h:33
 msgid "Prefer Text Icon"
 msgstr ""
 
@@ -2273,7 +2283,7 @@ msgstr "Vis information om inputmetode når der skiftes fokus"
 msgid "Show Input Method Information when switch input method"
 msgstr "Vis information om inputmetode når der skiftes inputmetode"
 
-#: src/ui/classic/classicui.h:134
+#: src/ui/classic/classicui.h:135
 msgid "Show Layout Name In Icon"
 msgstr ""
 
@@ -2285,7 +2295,7 @@ msgstr "Vis kompakt information om inputmetode"
 msgid "Show first input method information"
 msgstr "Vis første information om inputmetode"
 
-#: src/ui/classic/classicui.h:138
+#: src/ui/classic/classicui.h:139
 msgid ""
 "Show layout name in icon if there is more than one active layout. If prefer "
 "text icon is set to true, this option will be ignored."
@@ -2450,11 +2460,11 @@ msgstr "Den niende hottast i listen vælger den niende inputmetode."
 msgid "The script is run as ${1} (${2})."
 msgstr "Scriptet køres som ${1} (${2})."
 
-#: src/ui/classic/classicui.h:154
+#: src/ui/classic/classicui.h:155
 msgid "Theme"
 msgstr "Tema"
 
-#: src/ui/classic/classicui.h:100
+#: src/ui/classic/classicui.h:101
 msgid "This is only effective when the tray icon is xembed."
 msgstr "Anvendes kun når bakkeikonet er xembed."
 
@@ -2462,11 +2472,11 @@ msgstr "Anvendes kun når bakkeikonet er xembed."
 msgid "This option is only effective if image is not set."
 msgstr ""
 
-#: src/ui/classic/classicui.h:193
+#: src/ui/classic/classicui.h:194
 msgid "This option require support from wayland compositor."
 msgstr ""
 
-#: src/ui/classic/classicui.h:172
+#: src/ui/classic/classicui.h:173
 msgid "This option will be always disabled on XWayland."
 msgstr ""
 
@@ -2552,15 +2562,15 @@ msgctxt "Key name"
 msgid "Travel"
 msgstr "Rejse"
 
-#: src/ui/classic/classicui.h:123
+#: src/ui/classic/classicui.h:124
 msgid "Tray Font"
 msgstr "Skrifttype for bakke"
 
-#: src/ui/classic/classicui.h:125
+#: src/ui/classic/classicui.h:126
 msgid "Tray Label Outline Color"
 msgstr ""
 
-#: src/ui/classic/classicui.h:128
+#: src/ui/classic/classicui.h:129
 msgid "Tray Label Text Color"
 msgstr ""
 
@@ -2624,7 +2634,7 @@ msgstr "Op"
 msgid "Use On The Spot Style (Needs restarting)"
 msgstr "Brug her-og-nu-stil (kræver genstart)"
 
-#: src/ui/classic/classicui.h:168
+#: src/ui/classic/classicui.h:169
 msgid "Use Per Screen DPI on X11"
 msgstr ""
 
@@ -2632,11 +2642,11 @@ msgstr ""
 msgid "Use all horizontal space for highlight when it is vertical list"
 msgstr "Brug al vandret plads til fremhævning når det er en lodret liste"
 
-#: src/ui/classic/classicui.h:145
+#: src/ui/classic/classicui.h:146
 msgid "Use input method language to display text"
 msgstr ""
 
-#: src/ui/classic/classicui.h:115
+#: src/ui/classic/classicui.h:116
 msgid "Use mouse wheel to go to prev or next page"
 msgstr "Brug musehjulet for at gå til forrige eller næste side"
 
@@ -2666,7 +2676,7 @@ msgstr "Version"
 msgid "Version Line:"
 msgstr "Versionslinje:"
 
-#: src/ui/classic/classicui.h:113
+#: src/ui/classic/classicui.h:114
 msgid "Vertical Candidate List"
 msgstr "Lodret kandidatliste"
 
