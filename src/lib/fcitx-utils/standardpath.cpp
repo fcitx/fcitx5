@@ -473,11 +473,17 @@ StandardPathFile StandardPath::openUser(Type type, const std::string &path,
         }
         fullPath = constructPath(dirPath, path);
     }
-    if (fs::makePath(fs::dirName(fullPath))) {
-        int fd = ::open(fullPath.c_str(), flags, 0600);
-        if (fd >= 0) {
-            return {fd, fullPath};
+
+    // Try ensure directory exists if we want to write.
+    if ((flags & O_ACCMODE) == O_WRONLY || (flags & O_ACCMODE) == O_RDWR) {
+        if (!fs::makePath(fs::dirName(fullPath))) {
+            return {};
         }
+    }
+
+    int fd = ::open(fullPath.c_str(), flags, 0600);
+    if (fd >= 0) {
+        return {fd, fullPath};
     }
     return {};
 }
