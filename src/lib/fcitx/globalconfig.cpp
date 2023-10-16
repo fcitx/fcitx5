@@ -189,7 +189,7 @@ FCITX_CONFIGURATION(
     Option<int, IntConstrain, DefaultMarshaller<int>, ToolTipAnnotation>
         autoSavePeriod{this,
                        "AutoSavePeriod",
-                       _("Interval of saving user data"),
+                       _("Interval of saving user data in minutes"),
                        30,
                        IntConstrain(0, 1440),
                        {},
