@@ -23,6 +23,8 @@ WaylandEventReader::WaylandEventReader(WaylandConnection *conn)
         std::make_unique<std::thread>(&WaylandEventReader::runThread, this);
 }
 WaylandEventReader::~WaylandEventReader() {
+    // Prevent that dispatcherToMain_ to deliver removeConnection.
+    dispatcherToMain_.detach();
     if (thread_->joinable()) {
         quit();
         thread_->join();
