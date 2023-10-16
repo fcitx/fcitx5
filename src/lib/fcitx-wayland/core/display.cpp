@@ -11,7 +11,6 @@
 #include <cassert>
 #include <cstring>
 #include <fcitx-utils/log.h>
-#include "wl_callback.h"
 #include "wl_output.h"
 #include "wl_registry.h"
 
@@ -26,8 +25,6 @@ void Display::createGlobalHelper(
 
     globalCreatedSignal_(std::get<std::string>(globalsPair.second),
                          std::get<std::shared_ptr<void>>(globalsPair.second));
-    sync();
-    flush();
 }
 
 Display::Display(wl_display *display) : display_(display) {
@@ -73,23 +70,11 @@ Display::Display(wl_display *display) : display_(display) {
         auto *output = static_cast<wayland::WlOutput *>(data.get());
         removeOutput(output);
     });
-
-    roundtrip();
-    flush();
 }
 
 Display::~Display() {}
 
 void Display::roundtrip() { wl_display_roundtrip(*this); }
-
-void Display::sync() {
-    callbacks_.emplace_back(
-        std::make_unique<WlCallback>(wl_display_sync(*this)));
-    callbacks_.back()->done().connect(
-        [this, iter = std::prev(callbacks_.end())](uint32_t) {
-            callbacks_.erase(iter);
-        });
-}
 
 void Display::flush() { wl_display_flush(*this); }
 

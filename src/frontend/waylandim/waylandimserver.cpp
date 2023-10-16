@@ -88,7 +88,7 @@ void WaylandIMServer::init() {
                 WAYLANDIM_DEBUG() << "DEACTIVATE " << ic;
                 deactivate(ic);
             });
-        display_->flush();
+        deferredFlush();
     }
 }
 
@@ -164,7 +164,6 @@ void WaylandIMInputContextV1::activate(wayland::ZwpInputMethodContextV1 *ic) {
         repeatInfoCallback(rate, delay);
     });
     repeatInfoCallback(repeatRate_, repeatDelay_);
-    server_->display_->sync();
     wl_array array;
     wl_array_init(&array);
     constexpr char data[] = "Shift\0Control\0Mod1\0Mod4";
@@ -177,6 +176,7 @@ void WaylandIMInputContextV1::activate(wayland::ZwpInputMethodContextV1 *ic) {
     } else {
         focusIn();
     }
+    server_->deferredFlush();
 }
 
 void WaylandIMInputContextV1::deactivate(wayland::ZwpInputMethodContextV1 *ic) {
@@ -189,7 +189,7 @@ void WaylandIMInputContextV1::deactivate(wayland::ZwpInputMethodContextV1 *ic) {
         server_->instance()->clearXkbStateMask(server_->group()->display());
 
         timeEvent_->setEnabled(false);
-        server_->display_->sync();
+        server_->deferredFlush();
         focusOutWrapper();
     } else {
         // This should not happen, but just in case.
@@ -218,7 +218,6 @@ void WaylandIMInputContextV1::repeat() {
     uint64_t interval = 1000000 / repeatRate_;
     timeEvent_->setTime(timeEvent_->time() + interval);
     timeEvent_->setOneShot();
-    server_->display_->flush();
 }
 
 void WaylandIMInputContextV1::surroundingTextCallback(const char *text,
@@ -469,7 +468,7 @@ void WaylandIMInputContextV1::keyCallback(uint32_t serial, uint32_t time,
     if (!ic->keyEvent(event)) {
         ic_->key(serial, time, key, state);
     }
-    server_->display_->flush();
+    server_->deferredFlush();
 }
 void WaylandIMInputContextV1::modifiersCallback(uint32_t serial,
                                                 uint32_t mods_depressed,

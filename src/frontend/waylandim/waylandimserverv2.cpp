@@ -153,7 +153,7 @@ WaylandIMInputContextV2::WaylandIMInputContextV2(
                                     WL_KEYBOARD_KEY_STATE_RELEASED);
                     }
                     vk_->modifiers(0, 0, 0, 0);
-                    server_->display_->sync();
+                    server_->display_->flush();
                 }
                 focusOutWrapper();
             }
@@ -191,7 +191,7 @@ WaylandIMInputContextV2::WaylandIMInputContextV2(
                     });
                 repeatInfoCallback(repeatRate_, repeatDelay_);
                 focusInWrapper();
-                server_->display_->sync();
+                server_->deferredFlush();
             }
         }
     });
