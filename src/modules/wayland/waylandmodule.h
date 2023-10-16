@@ -11,6 +11,7 @@
 #include "fcitx-config/iniparser.h"
 #include "fcitx-utils/event.h"
 #include "fcitx-utils/i18n.h"
+#include "fcitx-utils/log.h"
 #include "fcitx/addonfactory.h"
 #include "fcitx/addoninstance.h"
 #include "fcitx/addonmanager.h"
@@ -24,6 +25,7 @@
 namespace fcitx {
 
 class WaylandModule;
+class WaylandEventReader;
 
 FCITX_CONFIGURATION(
     WaylandConfig,
@@ -67,10 +69,10 @@ public:
     const std::string &name() const { return name_; }
     wayland::Display *display() const { return display_.get(); }
     FocusGroup *focusGroup() const { return group_.get(); }
+    auto *parent() const { return parent_; }
 
 private:
     void init(wl_display *display);
-    void onIOEvent(IOEventFlags flags);
     void finish();
     void setupKeyboard(wayland::WlSeat *seat);
 
@@ -78,7 +80,7 @@ private:
     std::string name_;
     // order matters, callback in ioEvent_ uses display_.
     std::unique_ptr<wayland::Display> display_;
-    std::unique_ptr<EventSourceIO> ioEvent_;
+    std::unique_ptr<WaylandEventReader> eventReader_;
     std::unique_ptr<FocusGroup> group_;
     int error_ = 0;
     ScopedConnection panelConn_, panelRemovedConn_;
@@ -100,7 +102,6 @@ public:
     std::unique_ptr<HandlerTableEntry<WaylandConnectionClosed>>
     addConnectionClosedCallback(WaylandConnectionClosed callback);
     void reloadXkbOption();
-    wl_registry *getRegistry(const std::string &name);
 
     const Configuration *getConfig() const override { return &config_; }
     void setConfig(const RawConfig &config) override {
@@ -135,6 +136,9 @@ private:
         eventHandlers_;
     std::unique_ptr<EventSourceTime> delayedReloadXkbOption_;
 };
+
+FCITX_DECLARE_LOG_CATEGORY(wayland_log);
+
 } // namespace fcitx
 
 #endif // _FCITX_MODULES_WAYLAND_WAYLANDMODULE_H_

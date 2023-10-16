@@ -7,6 +7,7 @@
 
 #include "waylandmodule.h"
 #include <fcntl.h>
+#include <memory>
 #include <stdexcept>
 #include <string>
 #include <gio/gio.h>
@@ -19,6 +20,7 @@
 #include "fcitx/instance.h"
 #include "fcitx/misc_p.h"
 #include "config.h"
+#include "waylandeventreader.h"
 #include "wl_seat.h"
 
 #ifdef ENABLE_DBUS
@@ -106,16 +108,7 @@ WaylandConnection::WaylandConnection(WaylandModule *wayland, std::string name,
 WaylandConnection::~WaylandConnection() {}
 
 void WaylandConnection::init(wl_display *display) {
-
     display_ = std::make_unique<wayland::Display>(display);
-
-    auto &eventLoop = parent_->instance()->eventLoop();
-    ioEvent_ =
-        eventLoop.addIOEvent(display_->fd(), IOEventFlag::In,
-                             [this](EventSource *, int, IOEventFlags flags) {
-                                 onIOEvent(flags);
-                                 return true;
-                             });
 
     group_ = std::make_unique<FocusGroup>(
         "wayland:" + name_, parent_->instance()->inputContextManager());
@@ -135,6 +128,7 @@ void WaylandConnection::init(wl_display *display) {
     for (auto seat : display_->getGlobals<wayland::WlSeat>()) {
         setupKeyboard(seat.get());
     }
+    eventReader_ = std::make_unique<WaylandEventReader>(this);
 }
 
 void WaylandConnection::finish() { parent_->removeConnection(name_); }
@@ -145,32 +139,6 @@ void WaylandConnection::setupKeyboard(wayland::WlSeat *seat) {
         FCITX_WAYLAND_DEBUG() << "Update keymap";
         parent_->reloadXkbOption();
     });
-}
-
-void WaylandConnection::onIOEvent(IOEventFlags flags) {
-    if ((flags & IOEventFlag::Err) || (flags & IOEventFlag::Hup)) {
-        FCITX_WAYLAND_ERROR() << "Received error on socket.";
-        return finish();
-    }
-
-    if (wl_display_prepare_read(*display_) == 0) {
-        if (flags & IOEventFlag::In) {
-            wl_display_read_events(*display_);
-        } else {
-            wl_display_cancel_read(*display_);
-        }
-    }
-
-    if (wl_display_dispatch(*display_) < 0) {
-        error_ = wl_display_get_error(*display_);
-        FCITX_LOGC_IF(wayland_log, Error, error_ != 0)
-            << "Wayland connection got error: " << error_;
-        if (error_ != 0) {
-            return finish();
-        }
-    }
-
-    wl_display_flush(*display_);
 }
 
 WaylandModule::WaylandModule(fcitx::Instance *instance)

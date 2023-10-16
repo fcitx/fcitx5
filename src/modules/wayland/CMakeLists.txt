@@ -1,4 +1,4 @@
-add_library(wayland MODULE waylandmodule.cpp)
+add_library(wayland MODULE waylandmodule.cpp waylandeventreader.cpp)
 target_link_libraries(wayland Fcitx5::Core Wayland::Client Fcitx5::Wayland::Core PkgConfig::Gio)
 
 if (ENABLE_DBUS)
