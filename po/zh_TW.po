@@ -17,7 +17,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2023-10-15 20:24+0000\n"
+"POT-Creation-Date: 2023-10-16 20:24+0000\n"
 "PO-Revision-Date: 2017-11-23 04:14+0000\n"
 "Last-Translator: Lau YeeYu, 2023\n"
 "Language-Team: Chinese (Taiwan) (https://app.transifex.com/fcitx/teams/12005/"
@@ -1213,7 +1213,7 @@ msgstr "IBus 前端"
 msgid ""
 "If value is 0, the user data may only be saved when fcitx quits (e.g. "
 "logout)."
-msgstr ""
+msgstr "如果值為 0，則使用者數據僅會在 fcitx 退出（比如您登出）時保存"
 
 #: data/fcitx5-diagnose.sh:735
 msgid ""
@@ -1302,7 +1302,7 @@ msgstr "插入"
 
 #: src/lib/fcitx/globalconfig.cpp:192
 msgid "Interval of saving user data"
-msgstr ""
+msgstr "儲存使用者數據的時間間隔"
 
 #: data/fcitx5-diagnose.sh:1592
 msgid "Invalid addon config file ${1}."

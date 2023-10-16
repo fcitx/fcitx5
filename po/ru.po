@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2023-10-15 20:24+0000\n"
+"POT-Creation-Date: 2023-10-16 20:24+0000\n"
 "PO-Revision-Date: 2017-11-23 04:14+0000\n"
 "Last-Translator: Dmitry <dmitrydmitry761@gmail.com>, 2023\n"
 "Language-Team: Russian (https://app.transifex.com/fcitx/teams/12005/ru/)\n"
@@ -1225,6 +1225,8 @@ msgid ""
 "If value is 0, the user data may only be saved when fcitx quits (e.g. "
 "logout)."
 msgstr ""
+"Если значение равно 0, пользовательские данные могут быть сохранены только "
+"при выходе из fcitx (например, при выходе из системы)."
 
 #: data/fcitx5-diagnose.sh:735
 msgid ""
@@ -1317,7 +1319,7 @@ msgstr "Вставка"
 
 #: src/lib/fcitx/globalconfig.cpp:192
 msgid "Interval of saving user data"
-msgstr ""
+msgstr "Интервал сохранения пользовательских данных"
 
 #: data/fcitx5-diagnose.sh:1592
 msgid "Invalid addon config file ${1}."
