@@ -36,11 +36,11 @@ private:
     wayland::Display &display_;
     EventDispatcher dispatcherToMain_;
     EventDispatcher dispatcherToWorker_;
+
+    // Protected by mutex_;
     bool quitting_ = false;
     bool isReading_ = false;
-    bool hadError_ = false;
-    std::unique_ptr<EventSource> deferEvent_;
-    std::unique_ptr<EventSource> wakeEvent_;
+
     std::unique_ptr<std::thread> thread_;
     std::mutex mutex_;
     std::condition_variable condition_;
