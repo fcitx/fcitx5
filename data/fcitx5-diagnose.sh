@@ -289,6 +289,10 @@ _detectDE_XDG_CURRENT() {
             DE=cinnamon
             return
             ;;
+            UKUI)
+            DE=ukui
+            return
+            ;;
         esac
     done
     return 1
@@ -333,6 +337,9 @@ _detectDE_SESSION() {
             ;;
         cinnamon)
             DE=cinnamon
+            ;;
+        UKUI)
+            DE=ukui
             ;;
         *)
             return 1
