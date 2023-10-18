@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2023-10-17 20:24+0000\n"
+"POT-Creation-Date: 2023-10-18 19:19+0000\n"
 "PO-Revision-Date: 2017-11-23 04:14+0000\n"
 "Last-Translator: Dmitry <dmitrydmitry761@gmail.com>, 2023\n"
 "Language-Team: Russian (https://app.transifex.com/fcitx/teams/12005/ru/)\n"
@@ -664,6 +664,14 @@ msgstr "Среда рабочего стола:"
 msgid "Desktop environment is ${1}."
 msgstr "Среда рабочего стола: ${1}."
 
+#: src/modules/wayland/waylandmodule.cpp:473
+msgid ""
+"Detect GTK_IM_MODULE and QT_IM_MODULE being set and Wayland Input method "
+"frontend is working. It is recommended to unset GTK_IM_MODULE and "
+"QT_IM_MODULE and use Wayland input method frontend instead. For more details "
+"see https://fcitx-im.org/wiki/Using_Fcitx_5_on_Wayland#KDE_Plasma"
+msgstr ""
+
 #: src/frontend/waylandim/waylandim.h:27
 msgid "Detect current running application (Need restart)"
 msgstr "Определить текущее запущенное приложение (требуется перезапуск)"
@@ -837,6 +845,10 @@ msgctxt "Key name"
 msgid "Favorites"
 msgstr "Избранное"
 
+#: src/modules/wayland/waylandmodule.cpp:449
+msgid "Fcitx"
+msgstr ""
+
 #: data/org.fcitx.Fcitx5.desktop.in.in:3
 #: data/org.fcitx.Fcitx5.metainfo.xml.in:6
 msgid "Fcitx 5"
@@ -867,6 +879,15 @@ msgstr ""
 "Fcitx — это платформа методов ввода. Она может помочь вам ввести свой "
 "собственный язык. Она также предлагает различные варианты дополнений, "
 "которые улучшают удобство набора текста."
+
+#: src/modules/wayland/waylandmodule.cpp:463
+msgid ""
+"Fcitx should be launched by Desktop under KDE Wayland. To do this, you need "
+"to go to \"System Settings\" -> \"Virtual keyboard\" and select \"Fcitx 5\" "
+"from it. You may also need to disable tools that launches input method, such "
+"as imsettings on Fedora, or im-config on Debian/Ubuntu. For more details see "
+"https://fcitx-im.org/wiki/Using_Fcitx_5_on_Wayland#KDE_Plasma"
+msgstr ""
 
 #: data/fcitx5-diagnose.sh:949
 msgid "Fcitx version: ${1}"
@@ -2283,6 +2304,13 @@ msgstr "Отправить"
 msgid "Separator Background"
 msgstr "Фон разделителя"
 
+#: src/modules/wayland/waylandmodule.cpp:513
+msgid ""
+"Set Keyboard layout to wayland compositor from Fcitx is not yet supported on "
+"this desktop. You may still use layout conversion withtin Fcitx by adding "
+"layout to the same input method group."
+msgstr ""
+
 #: src/ui/classic/theme.h:168
 msgid "Shadow Margin"
 msgstr "Затенённое поле"
@@ -2776,6 +2804,10 @@ msgstr ""
 msgid "Wayland"
 msgstr "Wayland"
 
+#: src/modules/wayland/waylandmodule.cpp:449
+msgid "Wayland Diagnose"
+msgstr ""
+
 #: src/frontend/waylandim/waylandim.conf.in.in:3
 msgid "Wayland Input method frontend"
 msgstr "Интерфейс метода ввода Wayland"
@@ -2952,6 +2984,10 @@ msgstr "Уменьшить"
 #: data/fcitx5-diagnose.sh:936
 msgid "executable:"
 msgstr "выполняется:"
+
+#: src/modules/wayland/waylandmodule.cpp:449
+msgid "fcitx"
+msgstr ""
 
 #: data/fcitx5-diagnose.sh:757
 msgid "here"

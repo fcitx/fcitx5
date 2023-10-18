@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2023-10-17 20:24+0000\n"
+"POT-Creation-Date: 2023-10-18 19:19+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -649,6 +649,14 @@ msgstr ""
 msgid "Desktop environment is ${1}."
 msgstr ""
 
+#: src/modules/wayland/waylandmodule.cpp:473
+msgid ""
+"Detect GTK_IM_MODULE and QT_IM_MODULE being set and Wayland Input method "
+"frontend is working. It is recommended to unset GTK_IM_MODULE and "
+"QT_IM_MODULE and use Wayland input method frontend instead. For more details "
+"see https://fcitx-im.org/wiki/Using_Fcitx_5_on_Wayland#KDE_Plasma"
+msgstr ""
+
 #: src/frontend/waylandim/waylandim.h:27
 msgid "Detect current running application (Need restart)"
 msgstr ""
@@ -818,6 +826,10 @@ msgctxt "Key name"
 msgid "Favorites"
 msgstr ""
 
+#: src/modules/wayland/waylandmodule.cpp:449
+msgid "Fcitx"
+msgstr ""
+
 #: data/org.fcitx.Fcitx5.desktop.in.in:3
 #: data/org.fcitx.Fcitx5.metainfo.xml.in:6
 msgid "Fcitx 5"
@@ -844,6 +856,15 @@ msgid ""
 "Fcitx is an input method framework. It can help you to type your own "
 "language. It also features variant choice of addons that improve your typing "
 "experience."
+msgstr ""
+
+#: src/modules/wayland/waylandmodule.cpp:463
+msgid ""
+"Fcitx should be launched by Desktop under KDE Wayland. To do this, you need "
+"to go to \"System Settings\" -> \"Virtual keyboard\" and select \"Fcitx 5\" "
+"from it. You may also need to disable tools that launches input method, such "
+"as imsettings on Fedora, or im-config on Debian/Ubuntu. For more details see "
+"https://fcitx-im.org/wiki/Using_Fcitx_5_on_Wayland#KDE_Plasma"
 msgstr ""
 
 #: data/fcitx5-diagnose.sh:949
@@ -2225,6 +2246,13 @@ msgstr ""
 msgid "Separator Background"
 msgstr ""
 
+#: src/modules/wayland/waylandmodule.cpp:513
+msgid ""
+"Set Keyboard layout to wayland compositor from Fcitx is not yet supported on "
+"this desktop. You may still use layout conversion withtin Fcitx by adding "
+"layout to the same input method group."
+msgstr ""
+
 #: src/ui/classic/theme.h:168
 msgid "Shadow Margin"
 msgstr ""
@@ -2691,6 +2719,10 @@ msgstr ""
 msgid "Wayland"
 msgstr ""
 
+#: src/modules/wayland/waylandmodule.cpp:449
+msgid "Wayland Diagnose"
+msgstr ""
+
 #: src/frontend/waylandim/waylandim.conf.in.in:3
 msgid "Wayland Input method frontend"
 msgstr ""
@@ -2842,6 +2874,10 @@ msgstr ""
 
 #: data/fcitx5-diagnose.sh:936
 msgid "executable:"
+msgstr ""
+
+#: src/modules/wayland/waylandmodule.cpp:449
+msgid "fcitx"
 msgstr ""
 
 #: data/fcitx5-diagnose.sh:757
