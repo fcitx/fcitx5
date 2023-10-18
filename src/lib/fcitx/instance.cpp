@@ -54,7 +54,7 @@ namespace fcitx {
 namespace {
 
 constexpr uint64_t AutoSaveMinInUsecs = 60ull * 1000000ull; // 30 minutes
-constexpr uint64_t AutoSaveIdleTime = 60ull * 1000000ull; // 1 minutes
+constexpr uint64_t AutoSaveIdleTime = 60ull * 1000000ull;   // 1 minutes
 
 FCITX_CONFIGURATION(DefaultInputMethod,
                     Option<std::vector<std::string>> defaultInputMethods{
