@@ -110,6 +110,8 @@ public:
     }
     void reloadConfig() override;
 
+    void selfDiagnose();
+
 private:
     void onConnectionCreated(WaylandConnection &conn);
     void onConnectionClosed(WaylandConnection &conn);
@@ -119,6 +121,7 @@ private:
 
     FCITX_ADDON_DEPENDENCY_LOADER(dbus, instance_->addonManager());
     FCITX_ADDON_DEPENDENCY_LOADER(xcb, instance_->addonManager());
+    FCITX_ADDON_DEPENDENCY_LOADER(notifications, instance_->addonManager());
 
     Instance *instance_;
     WaylandConfig config_;
@@ -135,6 +138,7 @@ private:
     std::vector<std::unique_ptr<HandlerTableEntry<EventHandler>>>
         eventHandlers_;
     std::unique_ptr<EventSourceTime> delayedReloadXkbOption_;
+    std::unique_ptr<EventSourceTime> deferredDiagnose_;
 };
 
 FCITX_DECLARE_LOG_CATEGORY(wayland_log);

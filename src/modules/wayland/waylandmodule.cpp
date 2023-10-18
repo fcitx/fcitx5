@@ -7,19 +7,25 @@
 
 #include "waylandmodule.h"
 #include <fcntl.h>
+#include <cstdlib>
+#include <ctime>
 #include <memory>
 #include <stdexcept>
 #include <string>
 #include <gio/gio.h>
 #include <wayland-client.h>
 #include "fcitx-config/iniparser.h"
+#include "fcitx-utils/event.h"
 #include "fcitx-utils/log.h"
 #include "fcitx-utils/misc.h"
+#include "fcitx-utils/misc_p.h"
 #include "fcitx-utils/standardpath.h"
 #include "fcitx-utils/stringutils.h"
+#include "fcitx/inputcontext.h"
 #include "fcitx/instance.h"
 #include "fcitx/misc_p.h"
 #include "config.h"
+#include "notifications_public.h"
 #include "waylandeventreader.h"
 #include "wl_seat.h"
 
@@ -175,6 +181,13 @@ WaylandModule::WaylandModule(fcitx::Instance *instance)
                 setLayoutToGNOME();
             }
         }));
+
+    deferredDiagnose_ = instance_->eventLoop().addTimeEvent(
+        CLOCK_MONOTONIC, now(CLOCK_MONOTONIC) + 3000000, 0,
+        [this](EventSourceTime *, uint64_t) {
+            selfDiagnose();
+            return true;
+        });
 #endif
 }
 
@@ -405,6 +418,116 @@ void WaylandModule::setLayoutToGNOME() {
         g_settings_set_value(settings.get(), "mru-sources", value.get());
     }
 #endif
+}
+
+void WaylandModule::selfDiagnose() {
+    if (!isWaylandSession_) {
+        return;
+    }
+
+    WaylandConnection *connection = findValue(conns_, "");
+    if (!connection) {
+        return;
+    }
+
+    if (!notifications()) {
+        return;
+    }
+
+    bool isWaylandIM = false;
+    connection->focusGroup()->foreach([&isWaylandIM](InputContext *ic) {
+        if (stringutils::startsWith(ic->frontendName(), "wayland")) {
+            isWaylandIM = true;
+            return false;
+        }
+        return true;
+    });
+
+    auto sendMessage = [this](const std::string &category,
+                              const std::string &message) {
+        notifications()->call<INotifications::showTip>(
+            category, _("Fcitx"), _("fcitx"), _("Wayland Diagnose"), message,
+            60000);
+    };
+
+    auto *gtk = getenv("GTK_IM_MODULE");
+    auto *qt = getenv("QT_IM_MODULE");
+    std::string gtkIM = gtk ? gtk : "";
+    std::string qtIM = qt ? qt : "";
+
+    std::vector<std::string> messages;
+    if (getDesktopType() == DesktopType::KDE5) {
+        if (!isWaylandIM) {
+            sendMessage(
+                "wayland-diagnose-kde",
+                _("Fcitx should be launched by Desktop under KDE Wayland. To "
+                  "do this, you need to go to \"System Settings\" -> \"Virtual "
+                  "keyboard\" and select \"Fcitx 5\" from it. You may also "
+                  "need to disable tools that launches input method, such as "
+                  "imsettings on Fedora, or im-config on Debian/Ubuntu. For "
+                  "more details see "
+                  "https://fcitx-im.org/wiki/"
+                  "Using_Fcitx_5_on_Wayland#KDE_Plasma"));
+        } else if (!gtkIM.empty() || !qtIM.empty()) {
+            sendMessage("wayland-diagnose-kde",
+                        _("Detect GTK_IM_MODULE and QT_IM_MODULE being set and "
+                          "Wayland Input method frontend is working. It is "
+                          "recommended to unset GTK_IM_MODULE and QT_IM_MODULE "
+                          "and use Wayland input method frontend instead. For "
+                          "more details see "
+                          "https://fcitx-im.org/wiki/"
+                          "Using_Fcitx_5_on_Wayland#KDE_Plasma"));
+        }
+    } else if (getDesktopType() == DesktopType::GNOME) {
+        if (instance_->currentUI() != "kimpanel") {
+            sendMessage(
+                "wayland-diagnose-gnome",
+                "It is recommended to install Input Method Panel GNOME "
+                "shell extensions. "
+                "https://extensions.gnome.org/extension/261/kimpanel/ "
+                "Otherwise you may not be able to input method popup "
+                "when typing in dashboard. For more details see "
+                "https://fcitx-im.org/wiki/Using_Fcitx_5_on_Wayland#GNOME");
+        }
+    } else {
+        // It is not clear whether compositor is supported, only warn if wayland
+        // im is being used..
+        if (isWaylandIM) {
+            //
+            if (!gtkIM.empty() && gtkIM != "wayland") {
+                messages.push_back(
+                    "Detect GTK_IM_MODULE being set and "
+                    "Wayland Input method frontend is working. It is "
+                    "recommended to unset GTK_IM_MODULE "
+                    "and use Wayland input method frontend instead.");
+            }
+        }
+
+        std::unordered_set<std::string> groupLayouts;
+        for (const auto &groupName : instance_->inputMethodManager().groups()) {
+            if (auto group = instance_->inputMethodManager().group(groupName)) {
+                groupLayouts.insert(group->defaultLayout());
+            }
+            if (groupLayouts.size() >= 2) {
+                messages.push_back(
+                    _("Set Keyboard layout to wayland compositor from Fcitx is "
+                      "not yet supported "
+                      "on this desktop. You may still use layout conversion "
+                      "withtin Fcitx by adding layout to the same input method "
+                      "group."));
+                break;
+            }
+        }
+
+        if (!messages.empty()) {
+            messages.push_back(
+                "For more details see "
+                "https://fcitx-im.org/wiki/Using_Fcitx_5_on_Wayland");
+        }
+
+        sendMessage("wayland-diagnose-other",
+                    stringutils::join(messages, "\n"));
+    }
 }
 
 class WaylandModuleFactory : public AddonFactory {
