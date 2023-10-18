@@ -446,7 +446,7 @@ void WaylandModule::selfDiagnose() {
     auto sendMessage = [this](const std::string &category,
                               const std::string &message) {
         notifications()->call<INotifications::showTip>(
-            category, _("Fcitx"), _("fcitx"), _("Wayland Diagnose"), message,
+            category, _("Fcitx"), "fcitx", _("Wayland Diagnose"), message,
             60000);
     };
 
@@ -482,12 +482,13 @@ void WaylandModule::selfDiagnose() {
         if (instance_->currentUI() != "kimpanel") {
             sendMessage(
                 "wayland-diagnose-gnome",
-                "It is recommended to install Input Method Panel GNOME "
-                "shell extensions. "
-                "https://extensions.gnome.org/extension/261/kimpanel/ "
-                "Otherwise you may not be able to input method popup "
-                "when typing in dashboard. For more details see "
-                "https://fcitx-im.org/wiki/Using_Fcitx_5_on_Wayland#GNOME");
+                _("It is recommended to install Input Method Panel GNOME "
+                  "shell extensions. "
+                  "https://extensions.gnome.org/extension/261/kimpanel/ "
+                  "Otherwise you may not be able to see input method popup "
+                  "when typing in GNOME Shell's dashboard. For more details "
+                  "see "
+                  "https://fcitx-im.org/wiki/Using_Fcitx_5_on_Wayland#GNOME"));
         }
     } else {
         // It is not clear whether compositor is supported, only warn if wayland
@@ -496,33 +497,33 @@ void WaylandModule::selfDiagnose() {
             //
             if (!gtkIM.empty() && gtkIM != "wayland") {
                 messages.push_back(
-                    "Detect GTK_IM_MODULE being set and "
-                    "Wayland Input method frontend is working. It is "
-                    "recommended to unset GTK_IM_MODULE "
-                    "and use Wayland input method frontend instead.");
+                    _("Detect GTK_IM_MODULE being set and "
+                      "Wayland Input method frontend is working. It is "
+                      "recommended to unset GTK_IM_MODULE "
+                      "and use Wayland input method frontend instead."));
             }
         }
 
         std::unordered_set<std::string> groupLayouts;
         for (const auto &groupName : instance_->inputMethodManager().groups()) {
-            if (auto group = instance_->inputMethodManager().group(groupName)) {
+            if (const auto *group =
+                    instance_->inputMethodManager().group(groupName)) {
                 groupLayouts.insert(group->defaultLayout());
             }
             if (groupLayouts.size() >= 2) {
                 messages.push_back(
                     _("Set Keyboard layout to wayland compositor from Fcitx is "
-                      "not yet supported "
-                      "on this desktop. You may still use layout conversion "
-                      "withtin Fcitx by adding layout to the same input method "
-                      "group."));
+                      "not yet supported on current desktop. You may still use "
+                      "Fcitx's internal layout conversion by adding layout as "
+                      "input method to the input method group."));
                 break;
             }
         }
 
         if (!messages.empty()) {
             messages.push_back(
-                "For more details see "
-                "https://fcitx-im.org/wiki/Using_Fcitx_5_on_Wayland");
+                _("For more details see "
+                  "https://fcitx-im.org/wiki/Using_Fcitx_5_on_Wayland"));
         }
 
         sendMessage("wayland-diagnose-other",
