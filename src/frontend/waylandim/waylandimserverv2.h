@@ -96,6 +96,7 @@ protected:
         }
         ic_->commitString(text.c_str());
         ic_->commit(serial_);
+        server_->deferredFlush();
     }
     void deleteSurroundingTextDelegate(InputContext *ic, int offset,
                                        unsigned int size) const override;

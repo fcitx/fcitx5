@@ -616,6 +616,7 @@ void WaylandIMInputContextV2::updatePreeditDelegate(InputContext *ic) const {
                               cursorEnd);
     }
     ic_->commit(serial_);
+    server_->deferredFlush();
 }
 
 void WaylandIMInputContextV2::deleteSurroundingTextDelegate(
@@ -650,5 +651,6 @@ void WaylandIMInputContextV2::deleteSurroundingTextDelegate(
     ic_->deleteSurroundingText(cursorBytes - startBytes,
                                startBytes + sizeBytes - cursorBytes);
     ic_->commit(serial_);
+    server_->deferredFlush();
 }
 } // namespace fcitx
