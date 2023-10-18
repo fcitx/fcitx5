@@ -4,17 +4,17 @@
 #
 # Translators:
 # wwj402 <wwj402@gmail.com>, 2017
-# csslayer <wengxt@gmail.com>, 2023
 # rocka, 2023
 # Lau YeeYu, 2023
+# csslayer <wengxt@gmail.com>, 2023
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2023-10-18 19:19+0000\n"
+"POT-Creation-Date: 2023-10-18 20:24+0000\n"
 "PO-Revision-Date: 2017-11-23 04:14+0000\n"
-"Last-Translator: Lau YeeYu, 2023\n"
+"Last-Translator: csslayer <wengxt@gmail.com>, 2023\n"
 "Language-Team: Chinese (China) (https://app.transifex.com/fcitx/teams/12005/"
 "zh_CN/)\n"
 "Language: zh_CN\n"
@@ -664,6 +664,9 @@ msgid ""
 "QT_IM_MODULE and use Wayland input method frontend instead. For more details "
 "see https://fcitx-im.org/wiki/Using_Fcitx_5_on_Wayland#KDE_Plasma"
 msgstr ""
+"检测到设置了 GTK_IM_MODULE  和 QT_IM_MODULE 而且 Wayland 输入法前端正在正常工"
+"作。推荐不设置 GTK_IM_MODULE 和 QT_IM_MODULE 从而使用 Wayland 输入法前端。更"
+"多信息请参见 https://fcitx-im.org/wiki/Using_Fcitx_5_on_Wayland#KDE_Plasma"
 
 #: src/frontend/waylandim/waylandim.h:27
 msgid "Detect current running application (Need restart)"
@@ -838,7 +841,7 @@ msgstr "收藏"
 
 #: src/modules/wayland/waylandmodule.cpp:449
 msgid "Fcitx"
-msgstr ""
+msgstr "Fcitx"
 
 #: data/org.fcitx.Fcitx5.desktop.in.in:3
 #: data/org.fcitx.Fcitx5.metainfo.xml.in:6
@@ -878,6 +881,10 @@ msgid ""
 "as imsettings on Fedora, or im-config on Debian/Ubuntu. For more details see "
 "https://fcitx-im.org/wiki/Using_Fcitx_5_on_Wayland#KDE_Plasma"
 msgstr ""
+"Fcitx 在 KDE Wayland 应由桌面启动。您需要打开“系统设置” -> “虚拟键盘” 然后从"
+"中选择“Fcitx 5”。您也许同时还需要禁用那些启动输入法的工具，例如 Fedora 上的 "
+"imsettings，或者 Debian/Ubuntu 上的 im-config。更多信息请参见 https://fcitx-"
+"im.org/wiki/Using_Fcitx_5_on_Wayland#KDE_Plasma"
 
 #: data/fcitx5-diagnose.sh:949
 msgid "Fcitx version: ${1}"
@@ -2283,6 +2290,8 @@ msgid ""
 "this desktop. You may still use layout conversion withtin Fcitx by adding "
 "layout to the same input method group."
 msgstr ""
+"由 Fcitx 对 Wayland 混成器设置键盘布局的功能在此桌面仍未支持。您仍然可以通过"
+"添加布局到同一个输入法分组来使用来自 Fcitx 的布局转换。"
 
 #: src/ui/classic/theme.h:168
 msgid "Shadow Margin"
@@ -2763,7 +2772,7 @@ msgstr "Wayland"
 
 #: src/modules/wayland/waylandmodule.cpp:449
 msgid "Wayland Diagnose"
-msgstr ""
+msgstr "Wayland 诊断"
 
 #: src/frontend/waylandim/waylandim.conf.in.in:3
 msgid "Wayland Input method frontend"
@@ -2934,7 +2943,7 @@ msgstr "可执行文件："
 
 #: src/modules/wayland/waylandmodule.cpp:449
 msgid "fcitx"
-msgstr ""
+msgstr "fcitx"
 
 #: data/fcitx5-diagnose.sh:757
 msgid "here"
