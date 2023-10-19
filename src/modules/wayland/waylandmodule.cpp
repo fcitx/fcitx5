@@ -456,7 +456,8 @@ void WaylandModule::selfDiagnose() {
     std::string qtIM = qt ? qt : "";
 
     std::vector<std::string> messages;
-    if (getDesktopType() == DesktopType::KDE5) {
+    const auto desktop = getDesktopType();
+    if (desktop == DesktopType::KDE5) {
         if (!isWaylandIM) {
             sendMessage(
                 "wayland-diagnose-kde",
@@ -481,7 +482,7 @@ void WaylandModule::selfDiagnose() {
                           "https://fcitx-im.org/wiki/"
                           "Using_Fcitx_5_on_Wayland#KDE_Plasma"));
         }
-    } else if (getDesktopType() == DesktopType::GNOME) {
+    } else if (desktop == DesktopType::GNOME) {
         if (instance_->currentUI() != "kimpanel") {
             sendMessage(
                 "wayland-diagnose-gnome",
@@ -498,8 +499,9 @@ void WaylandModule::selfDiagnose() {
         // It is not clear whether compositor is supported, only warn if wayland
         // im is being used..
         if (isWaylandIM) {
-            //
-            if (!gtkIM.empty() && gtkIM != "wayland") {
+            // Sway's input popup is not merged.
+            if (!gtkIM.empty() && gtkIM != "wayland" &&
+                desktop != DesktopType::Sway) {
                 messages.push_back(
                     _("Detect GTK_IM_MODULE being set and "
                       "Wayland Input method frontend is working. It is "
@@ -529,10 +531,10 @@ void WaylandModule::selfDiagnose() {
             messages.push_back(
                 _("For more details see "
                   "https://fcitx-im.org/wiki/Using_Fcitx_5_on_Wayland"));
-        }
 
-        sendMessage("wayland-diagnose-other",
-                    stringutils::join(messages, "\n"));
+            sendMessage("wayland-diagnose-other",
+                        stringutils::join(messages, "\n"));
+        }
     }
 }
 

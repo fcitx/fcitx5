@@ -120,15 +120,25 @@ enum class DesktopType {
     XFCE,
     DEEPIN,
     UKUI,
+    Sway,
     Unknown
 };
 
 static inline DesktopType getDesktopType() {
     std::string desktop;
+    // new standard
     auto *desktopEnv = getenv("XDG_CURRENT_DESKTOP");
     if (desktopEnv) {
         desktop = desktopEnv;
     }
+    if (desktop.empty()) {
+        // old standard, guaranteed by display manager.
+        desktopEnv = getenv("DESKTOP_SESSION");
+        if (desktopEnv) {
+            desktop = desktopEnv;
+        }
+    }
+    
 
     for (auto &c : desktop) {
         c = charutils::tolower(c);
@@ -163,6 +173,8 @@ static inline DesktopType getDesktopType() {
             return DesktopType::DEEPIN;
         } else if (desktop == "ukui") {
             return DesktopType::UKUI;
+        } else if (desktop == "sway") {
+            return DesktopType::Sway;
         }
     }
     return DesktopType::Unknown;
