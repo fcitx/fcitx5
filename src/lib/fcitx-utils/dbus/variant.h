@@ -9,8 +9,7 @@
 
 #include <memory>
 #include <string>
-#include "fcitxutils_export.h"
-#include "message.h"
+#include <fcitx-utils/dbus/message.h>
 
 /// \addtogroup FcitxUtils
 /// \{
