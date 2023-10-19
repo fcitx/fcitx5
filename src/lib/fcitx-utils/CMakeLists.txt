@@ -110,6 +110,7 @@ set(FCITX_UTILS_DBUS_HEADERS
     dbus/message_details.h
     dbus/servicewatcher.h
     dbus/matchrule.h
+    dbus/variant.h
     )
 
 ecm_setup_version(PROJECT
