@@ -98,6 +98,10 @@ public:
      */
     void setCustomInputPanelCallback(CustomInputPanelCallback callback);
 
+    const CustomInputPanelCallback &customVirtualKeyboardCallback() const;
+
+    void setCustomVirtualKeyboardCallback(CustomInputPanelCallback callback);
+
     void reset();
 
     /// Whether input panel is totally empty.

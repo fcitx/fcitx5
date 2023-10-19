@@ -98,7 +98,10 @@ public:
 template <>
 void UserInterfaceManagerPrivate::updateSingleComponent<
     UserInterfaceComponent::InputPanel>(InputContext *ic) {
-    if (ui_ != nullptr && ui_->addonInfo() != nullptr &&
+    if(const auto &virtualKeyboardCallback =
+                   ic->inputPanel().customVirtualKeyboardCallback()) {
+        virtualKeyboardCallback(ic);
+    } else if (ui_ != nullptr && ui_->addonInfo() != nullptr &&
         ui_->addonInfo()->uiType() == UIType::OnScreenKeyboard) {
         ui_->update(UserInterfaceComponent::InputPanel, ic);
     } else if (const auto &callback =
