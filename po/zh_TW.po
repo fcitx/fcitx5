@@ -17,7 +17,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2023-10-18 19:19+0000\n"
+"POT-Creation-Date: 2023-10-19 04:47+0000\n"
 "PO-Revision-Date: 2017-11-23 04:14+0000\n"
 "Last-Translator: Lau YeeYu, 2023\n"
 "Language-Team: Chinese (Taiwan) (https://app.transifex.com/fcitx/teams/12005/"
@@ -670,6 +670,13 @@ msgid ""
 "see https://fcitx-im.org/wiki/Using_Fcitx_5_on_Wayland#KDE_Plasma"
 msgstr ""
 
+#: src/modules/wayland/waylandmodule.cpp:500
+msgid ""
+"Detect GTK_IM_MODULE being set and Wayland Input method frontend is working. "
+"It is recommended to unset GTK_IM_MODULE and use Wayland input method "
+"frontend instead."
+msgstr ""
+
 #: src/frontend/waylandim/waylandim.h:27
 msgid "Detect current running application (Need restart)"
 msgstr "檢測當前運行的程式 (需要重新啟動)"
@@ -937,6 +944,10 @@ msgid ""
 msgstr ""
 "例如，使用拼音時顯示中文異體字，使用 Anthy 時顯示日文異體字。 字體配置需要支"
 "持此功能才能使用此功能。"
+
+#: src/modules/wayland/waylandmodule.cpp:525
+msgid "For more details see https://fcitx-im.org/wiki/Using_Fcitx_5_on_Wayland"
+msgstr ""
 
 #: src/ui/classic/classicui.h:178
 msgid "Force font DPI on Wayland"
@@ -1336,6 +1347,14 @@ msgid ""
 msgstr ""
 "如果您的混成器完全支持 ${1}使用的 text-input 協議，您也可以使用 ${1} 內置的 "
 "Wayland 模塊。"
+
+#: src/modules/wayland/waylandmodule.cpp:485
+msgid ""
+"It is recommended to install Input Method Panel GNOME shell extensions. "
+"https://extensions.gnome.org/extension/261/kimpanel/ Otherwise you may not "
+"be able to see input method popup when typing in GNOME Shell's dashboard. "
+"For more details see https://fcitx-im.org/wiki/Using_Fcitx_5_on_Wayland#GNOME"
+msgstr ""
 
 #: src/ui/kimpanel/kimpanel.conf.in.in:3
 msgid "KDE Input Method Panel"
@@ -2281,11 +2300,11 @@ msgstr "傳送"
 msgid "Separator Background"
 msgstr "分隔符背景"
 
-#: src/modules/wayland/waylandmodule.cpp:513
+#: src/modules/wayland/waylandmodule.cpp:515
 msgid ""
 "Set Keyboard layout to wayland compositor from Fcitx is not yet supported on "
-"this desktop. You may still use layout conversion withtin Fcitx by adding "
-"layout to the same input method group."
+"current desktop. You may still use Fcitx's internal layout conversion by "
+"adding layout as input method to the input method group."
 msgstr ""
 
 #: src/ui/classic/theme.h:168
@@ -2934,10 +2953,6 @@ msgstr "縮小"
 #: data/fcitx5-diagnose.sh:936
 msgid "executable:"
 msgstr "可執行檔："
-
-#: src/modules/wayland/waylandmodule.cpp:449
-msgid "fcitx"
-msgstr ""
 
 #: data/fcitx5-diagnose.sh:757
 msgid "here"

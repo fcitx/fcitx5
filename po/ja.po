@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2023-10-18 19:19+0000\n"
+"POT-Creation-Date: 2023-10-19 04:47+0000\n"
 "PO-Revision-Date: 2017-11-23 04:14+0000\n"
 "Last-Translator: UTUMI Hirosi <utuhiro78@yahoo.co.jp>, 2023\n"
 "Language-Team: Japanese (https://app.transifex.com/fcitx/teams/12005/ja/)\n"
@@ -667,6 +667,13 @@ msgid ""
 "see https://fcitx-im.org/wiki/Using_Fcitx_5_on_Wayland#KDE_Plasma"
 msgstr ""
 
+#: src/modules/wayland/waylandmodule.cpp:500
+msgid ""
+"Detect GTK_IM_MODULE being set and Wayland Input method frontend is working. "
+"It is recommended to unset GTK_IM_MODULE and use Wayland input method "
+"frontend instead."
+msgstr ""
+
 #: src/frontend/waylandim/waylandim.h:27
 msgid "Detect current running application (Need restart)"
 msgstr "現在実行中のアプリケーションを検出する（再起動が必要）"
@@ -937,6 +944,10 @@ msgstr ""
 "例えば Pinyin を使用している場合は中国語の書体で文字を表示し、Anthy を使用し"
 "ている場合は日本語の書体で文字を表示します。この機能を使用するには多言語フォ"
 "ントを指定する必要があります。"
+
+#: src/modules/wayland/waylandmodule.cpp:525
+msgid "For more details see https://fcitx-im.org/wiki/Using_Fcitx_5_on_Wayland"
+msgstr ""
 
 #: src/ui/classic/classicui.h:178
 msgid "Force font DPI on Wayland"
@@ -1338,6 +1349,14 @@ msgid ""
 msgstr ""
 "コンポジターが ${1} で使用されるテキスト入力プロトコルを完全にサポートしてい"
 "る場合は、${1} に組み込まれた Wayland IM モジュールを使用してもかまいません。"
+
+#: src/modules/wayland/waylandmodule.cpp:485
+msgid ""
+"It is recommended to install Input Method Panel GNOME shell extensions. "
+"https://extensions.gnome.org/extension/261/kimpanel/ Otherwise you may not "
+"be able to see input method popup when typing in GNOME Shell's dashboard. "
+"For more details see https://fcitx-im.org/wiki/Using_Fcitx_5_on_Wayland#GNOME"
+msgstr ""
 
 #: src/ui/kimpanel/kimpanel.conf.in.in:3
 msgid "KDE Input Method Panel"
@@ -2289,11 +2308,11 @@ msgstr "送信"
 msgid "Separator Background"
 msgstr "セパレーターの背景"
 
-#: src/modules/wayland/waylandmodule.cpp:513
+#: src/modules/wayland/waylandmodule.cpp:515
 msgid ""
 "Set Keyboard layout to wayland compositor from Fcitx is not yet supported on "
-"this desktop. You may still use layout conversion withtin Fcitx by adding "
-"layout to the same input method group."
+"current desktop. You may still use Fcitx's internal layout conversion by "
+"adding layout as input method to the input method group."
 msgstr ""
 
 #: src/ui/classic/theme.h:168
@@ -2951,10 +2970,6 @@ msgstr "縮小"
 #: data/fcitx5-diagnose.sh:936
 msgid "executable:"
 msgstr "実行可能:"
-
-#: src/modules/wayland/waylandmodule.cpp:449
-msgid "fcitx"
-msgstr ""
 
 #: data/fcitx5-diagnose.sh:757
 msgid "here"
