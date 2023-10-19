@@ -460,8 +460,8 @@ void WaylandModule::selfDiagnose() {
         if (!isWaylandIM) {
             sendMessage(
                 "wayland-diagnose-kde",
-                _("Fcitx should be launched by Desktop under KDE Wayland. To "
-                  "do this, you need to go to \"System Settings\" -> \"Virtual "
+                _("Fcitx should be launched by KWin under KDE Wayland in order to use Wayland input method frontend. This can improve the experience when using Fcitx on Wayland. To "
+                  "configure this, you need to go to \"System Settings\" -> \"Virtual "
                   "keyboard\" and select \"Fcitx 5\" from it. You may also "
                   "need to disable tools that launches input method, such as "
                   "imsettings on Fedora, or im-config on Debian/Ubuntu. For "
@@ -483,10 +483,10 @@ void WaylandModule::selfDiagnose() {
             sendMessage(
                 "wayland-diagnose-gnome",
                 _("It is recommended to install Input Method Panel GNOME "
-                  "shell extensions. "
+                  "Shell Extensions to provide the input method popup. "
                   "https://extensions.gnome.org/extension/261/kimpanel/ "
                   "Otherwise you may not be able to see input method popup "
-                  "when typing in GNOME Shell's dashboard. For more details "
+                  "when typing in GNOME Shell's activities search box. For more details "
                   "see "
                   "https://fcitx-im.org/wiki/Using_Fcitx_5_on_Wayland#GNOME"));
         }
@@ -512,7 +512,7 @@ void WaylandModule::selfDiagnose() {
             }
             if (groupLayouts.size() >= 2) {
                 messages.push_back(
-                    _("Set Keyboard layout to wayland compositor from Fcitx is "
+                    _("Sending keyboard layout configuration to wayland compositor from Fcitx is "
                       "not yet supported on current desktop. You may still use "
                       "Fcitx's internal layout conversion by adding layout as "
                       "input method to the input method group."));
