@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2023-10-19 04:47+0000\n"
+"POT-Creation-Date: 2023-10-19 05:25+0000\n"
 "PO-Revision-Date: 2017-11-23 04:14+0000\n"
 "Last-Translator: scootergrisen, 2021\n"
 "Language-Team: Danish (https://app.transifex.com/fcitx/teams/12005/da/)\n"
@@ -659,7 +659,7 @@ msgstr "Skrivebordsmiljø:"
 msgid "Desktop environment is ${1}."
 msgstr "Skrivebordsmiljø er ${1}."
 
-#: src/modules/wayland/waylandmodule.cpp:473
+#: src/modules/wayland/waylandmodule.cpp:476
 msgid ""
 "Detect GTK_IM_MODULE and QT_IM_MODULE being set and Wayland Input method "
 "frontend is working. It is recommended to unset GTK_IM_MODULE and "
@@ -667,7 +667,7 @@ msgid ""
 "see https://fcitx-im.org/wiki/Using_Fcitx_5_on_Wayland#KDE_Plasma"
 msgstr ""
 
-#: src/modules/wayland/waylandmodule.cpp:500
+#: src/modules/wayland/waylandmodule.cpp:504
 msgid ""
 "Detect GTK_IM_MODULE being set and Wayland Input method frontend is working. "
 "It is recommended to unset GTK_IM_MODULE and use Wayland input method "
@@ -884,11 +884,13 @@ msgstr ""
 
 #: src/modules/wayland/waylandmodule.cpp:463
 msgid ""
-"Fcitx should be launched by Desktop under KDE Wayland. To do this, you need "
-"to go to \"System Settings\" -> \"Virtual keyboard\" and select \"Fcitx 5\" "
-"from it. You may also need to disable tools that launches input method, such "
-"as imsettings on Fedora, or im-config on Debian/Ubuntu. For more details see "
-"https://fcitx-im.org/wiki/Using_Fcitx_5_on_Wayland#KDE_Plasma"
+"Fcitx should be launched by KWin under KDE Wayland in order to use Wayland "
+"input method frontend. This can improve the experience when using Fcitx on "
+"Wayland. To configure this, you need to go to \"System Settings\" -> "
+"\"Virtual keyboard\" and select \"Fcitx 5\" from it. You may also need to "
+"disable tools that launches input method, such as imsettings on Fedora, or "
+"im-config on Debian/Ubuntu. For more details see https://fcitx-im.org/wiki/"
+"Using_Fcitx_5_on_Wayland#KDE_Plasma"
 msgstr ""
 
 #: data/fcitx5-diagnose.sh:949
@@ -940,7 +942,7 @@ msgid ""
 "this to use this feature."
 msgstr ""
 
-#: src/modules/wayland/waylandmodule.cpp:525
+#: src/modules/wayland/waylandmodule.cpp:530
 msgid "For more details see https://fcitx-im.org/wiki/Using_Fcitx_5_on_Wayland"
 msgstr ""
 
@@ -1342,12 +1344,13 @@ msgid ""
 "supports text-input protocol used by ${1}."
 msgstr ""
 
-#: src/modules/wayland/waylandmodule.cpp:485
+#: src/modules/wayland/waylandmodule.cpp:488
 msgid ""
-"It is recommended to install Input Method Panel GNOME shell extensions. "
-"https://extensions.gnome.org/extension/261/kimpanel/ Otherwise you may not "
-"be able to see input method popup when typing in GNOME Shell's dashboard. "
-"For more details see https://fcitx-im.org/wiki/Using_Fcitx_5_on_Wayland#GNOME"
+"It is recommended to install Input Method Panel GNOME Shell Extensions to "
+"provide the input method popup. https://extensions.gnome.org/extension/261/"
+"kimpanel/ Otherwise you may not be able to see input method popup when "
+"typing in GNOME Shell's activities search box. For more details see https://"
+"fcitx-im.org/wiki/Using_Fcitx_5_on_Wayland#GNOME"
 msgstr ""
 
 #: src/ui/kimpanel/kimpanel.conf.in.in:3
@@ -2293,16 +2296,16 @@ msgctxt "Key name"
 msgid "Send"
 msgstr "Send"
 
+#: src/modules/wayland/waylandmodule.cpp:519
+msgid ""
+"Sending keyboard layout configuration to wayland compositor from Fcitx is "
+"not yet supported on current desktop. You may still use Fcitx's internal "
+"layout conversion by adding layout as input method to the input method group."
+msgstr ""
+
 #: src/ui/classic/theme.h:182
 msgid "Separator Background"
 msgstr "Baggrund for separator"
-
-#: src/modules/wayland/waylandmodule.cpp:515
-msgid ""
-"Set Keyboard layout to wayland compositor from Fcitx is not yet supported on "
-"current desktop. You may still use Fcitx's internal layout conversion by "
-"adding layout as input method to the input method group."
-msgstr ""
 
 #: src/ui/classic/theme.h:168
 msgid "Shadow Margin"
