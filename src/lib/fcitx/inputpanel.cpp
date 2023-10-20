@@ -18,6 +18,7 @@ public:
     std::shared_ptr<CandidateList> candidate_;
     InputContext *ic_;
     CustomInputPanelCallback customCallback_ = nullptr;
+    CustomInputPanelCallback customVirtualKeyboardCallback_ = nullptr;
 };
 
 InputPanel::InputPanel(InputContext *ic)
@@ -89,6 +90,18 @@ void InputPanel::setCustomInputPanelCallback(
     d->customCallback_ = std::move(callback);
 }
 
+const CustomInputPanelCallback &
+InputPanel::customVirtualKeyboardCallback() const {
+    FCITX_D();
+    return d->customVirtualKeyboardCallback_;
+}
+
+void InputPanel::setCustomVirtualKeyboardCallback(
+    CustomInputPanelCallback callback) {
+    FCITX_D();
+    d->customVirtualKeyboardCallback_ = std::move(callback);
+}
+
 void InputPanel::reset() {
     FCITX_D();
     d->preedit_.clear();
@@ -98,6 +111,7 @@ void InputPanel::reset() {
     d->auxUp_.clear();
     d->auxDown_.clear();
     d->customCallback_ = nullptr;
+    d->customVirtualKeyboardCallback_ = nullptr;
 }
 
 bool InputPanel::empty() const {
