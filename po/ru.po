@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2023-10-19 05:25+0000\n"
+"POT-Creation-Date: 2023-10-20 20:24+0000\n"
 "PO-Revision-Date: 2017-11-23 04:14+0000\n"
 "Last-Translator: Dmitry <dmitrydmitry761@gmail.com>, 2023\n"
 "Language-Team: Russian (https://app.transifex.com/fcitx/teams/12005/ru/)\n"
@@ -664,20 +664,28 @@ msgstr "Среда рабочего стола:"
 msgid "Desktop environment is ${1}."
 msgstr "Среда рабочего стола: ${1}."
 
-#: src/modules/wayland/waylandmodule.cpp:476
+#: src/modules/wayland/waylandmodule.cpp:477
 msgid ""
 "Detect GTK_IM_MODULE and QT_IM_MODULE being set and Wayland Input method "
 "frontend is working. It is recommended to unset GTK_IM_MODULE and "
 "QT_IM_MODULE and use Wayland input method frontend instead. For more details "
 "see https://fcitx-im.org/wiki/Using_Fcitx_5_on_Wayland#KDE_Plasma"
 msgstr ""
+"Обнаружено, что GTK_IM_MODULE и QT_IM_MODULE установлены, и интерфейс метода "
+"ввода Wayland работает. Рекомендуется отключить GTK_IM_MODULE и QT_IM_MODULE "
+"и вместо этого использовать интерфейс метода ввода Wayland. Для получения "
+"более подробной информации см. https://fcitx-im.org/wiki/"
+"Using_Fcitx_5_on_Wayland#KDE_Plasma"
 
-#: src/modules/wayland/waylandmodule.cpp:504
+#: src/modules/wayland/waylandmodule.cpp:506
 msgid ""
 "Detect GTK_IM_MODULE being set and Wayland Input method frontend is working. "
 "It is recommended to unset GTK_IM_MODULE and use Wayland input method "
 "frontend instead."
 msgstr ""
+"Обнаружено, что GTK_IM_MODULE установлен, и интерфейс метода ввода Wayland "
+"работает. Рекомендуется отключить GTK_IM_MODULE и вместо этого использовать "
+"интерфейс метода ввода Wayland."
 
 #: src/frontend/waylandim/waylandim.h:27
 msgid "Detect current running application (Need restart)"
@@ -854,7 +862,7 @@ msgstr "Избранное"
 
 #: src/modules/wayland/waylandmodule.cpp:449
 msgid "Fcitx"
-msgstr ""
+msgstr "Fcitx"
 
 #: data/org.fcitx.Fcitx5.desktop.in.in:3
 #: data/org.fcitx.Fcitx5.metainfo.xml.in:6
@@ -887,7 +895,7 @@ msgstr ""
 "собственный язык. Она также предлагает различные варианты дополнений, "
 "которые улучшают удобство набора текста."
 
-#: src/modules/wayland/waylandmodule.cpp:463
+#: src/modules/wayland/waylandmodule.cpp:464
 msgid ""
 "Fcitx should be launched by KWin under KDE Wayland in order to use Wayland "
 "input method frontend. This can improve the experience when using Fcitx on "
@@ -897,6 +905,13 @@ msgid ""
 "im-config on Debian/Ubuntu. For more details see https://fcitx-im.org/wiki/"
 "Using_Fcitx_5_on_Wayland#KDE_Plasma"
 msgstr ""
+"Fcitx в KDE Wayland должен быть запущен с помощью KWin, чтобы использовать "
+"интерфейс метода ввода Wayland. Это улучшает удобство использования Fcitx "
+"под Wayland. Вам нужно открыть «Системные настройки» -> «Виртуальная "
+"клавиатура» и выбрать «Fcitx 5». Вы также можете отключить инструменты, "
+"которые включают методы ввода, такие как imsettings в Fedora или im-config в "
+"Debian/Ubuntu. Дополнительную информацию можно найти на https://fcitx-im.org/"
+"wiki/Using_Fcitx_5_on_Wayland#KDE_Plasma"
 
 #: data/fcitx5-diagnose.sh:949
 msgid "Fcitx version: ${1}"
@@ -956,9 +971,11 @@ msgstr ""
 "и японским вариантом при использовании Anthy. Конфигурация шрифта должна "
 "поддерживать это, чтобы использовать эту функцию."
 
-#: src/modules/wayland/waylandmodule.cpp:530
+#: src/modules/wayland/waylandmodule.cpp:532
 msgid "For more details see https://fcitx-im.org/wiki/Using_Fcitx_5_on_Wayland"
 msgstr ""
+"Для получения более подробной информации см. https://fcitx-im.org/wiki/"
+"Using_Fcitx_5_on_Wayland"
 
 #: src/ui/classic/classicui.h:178
 msgid "Force font DPI on Wayland"
@@ -1353,7 +1370,7 @@ msgstr "Вставка"
 
 #: src/lib/fcitx/globalconfig.cpp:192
 msgid "Interval of saving user data in minutes"
-msgstr ""
+msgstr "Интервал сохранения пользовательских данных в минутах"
 
 #: data/fcitx5-diagnose.sh:1599
 msgid "Invalid addon config file ${1}."
@@ -1367,7 +1384,7 @@ msgstr ""
 "Можно использовать ${1} встроенный модуль Wayland im, если составитель "
 "полностью поддерживает протокол ввода текста, используемый ${1}."
 
-#: src/modules/wayland/waylandmodule.cpp:488
+#: src/modules/wayland/waylandmodule.cpp:489
 msgid ""
 "It is recommended to install Input Method Panel GNOME Shell Extensions to "
 "provide the input method popup. https://extensions.gnome.org/extension/261/"
@@ -1375,6 +1392,11 @@ msgid ""
 "typing in GNOME Shell's activities search box. For more details see https://"
 "fcitx-im.org/wiki/Using_Fcitx_5_on_Wayland#GNOME"
 msgstr ""
+"Рекомендуется установить расширение панели методов ввода GNOME Shell. "
+"https://extensions.gnome.org/extension/261/kimpanel/ В противном случае вы "
+"не сможете увидеть всплывающее окно метода ввода при вводе текста в поле "
+"поиска действий GNOME Shell. Для получения более подробной информации см. "
+"https://fcitx-im.org/wiki/Using_Fcitx_5_on_Wayland#GNOME"
 
 #: src/ui/kimpanel/kimpanel.conf.in.in:3
 msgid "KDE Input Method Panel"
@@ -2322,12 +2344,16 @@ msgctxt "Key name"
 msgid "Send"
 msgstr "Отправить"
 
-#: src/modules/wayland/waylandmodule.cpp:519
+#: src/modules/wayland/waylandmodule.cpp:521
 msgid ""
 "Sending keyboard layout configuration to wayland compositor from Fcitx is "
 "not yet supported on current desktop. You may still use Fcitx's internal "
 "layout conversion by adding layout as input method to the input method group."
 msgstr ""
+"Отправка конфигурации раскладки клавиатуры в компоновщик Wayland из Fcitx "
+"пока не поддерживается на текущем рабочем столе. Вы по-прежнему можете "
+"использовать внутреннее преобразование раскладки Fcitx, добавив раскладку в "
+"качестве метода ввода в группу методов ввода."
 
 #: src/ui/classic/theme.h:182
 msgid "Separator Background"
@@ -2828,7 +2854,7 @@ msgstr "Wayland"
 
 #: src/modules/wayland/waylandmodule.cpp:449
 msgid "Wayland Diagnose"
-msgstr ""
+msgstr "Wayland Диагностика "
 
 #: src/frontend/waylandim/waylandim.conf.in.in:3
 msgid "Wayland Input method frontend"

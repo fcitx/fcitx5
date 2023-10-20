@@ -17,7 +17,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2023-10-19 05:25+0000\n"
+"POT-Creation-Date: 2023-10-20 20:24+0000\n"
 "PO-Revision-Date: 2017-11-23 04:14+0000\n"
 "Last-Translator: Lau YeeYu, 2023\n"
 "Language-Team: Chinese (Taiwan) (https://app.transifex.com/fcitx/teams/12005/"
@@ -662,20 +662,27 @@ msgstr "桌面環境："
 msgid "Desktop environment is ${1}."
 msgstr "桌面環境為 ${1}。"
 
-#: src/modules/wayland/waylandmodule.cpp:476
+#: src/modules/wayland/waylandmodule.cpp:477
 msgid ""
 "Detect GTK_IM_MODULE and QT_IM_MODULE being set and Wayland Input method "
 "frontend is working. It is recommended to unset GTK_IM_MODULE and "
 "QT_IM_MODULE and use Wayland input method frontend instead. For more details "
 "see https://fcitx-im.org/wiki/Using_Fcitx_5_on_Wayland#KDE_Plasma"
 msgstr ""
+"偵測到已設定 GTK_IM_MODULE 和 QT_IM_MODULE 環境變數，且 Wayland 輸入法前端正"
+"在運行。推薦取消設定 GTK_IM_MODULE 和 QT_IM_MODULE 環境變數，從而使用 "
+"Wayland 輸入法前端。更多信息請參見 https://fcitx-im.org/wiki/"
+"Using_Fcitx_5_on_Wayland#KDE_Plasma"
 
-#: src/modules/wayland/waylandmodule.cpp:504
+#: src/modules/wayland/waylandmodule.cpp:506
 msgid ""
 "Detect GTK_IM_MODULE being set and Wayland Input method frontend is working. "
 "It is recommended to unset GTK_IM_MODULE and use Wayland input method "
 "frontend instead."
 msgstr ""
+"偵測到已設定 GTK_IM_MODULE 環境變數，且 Wayland 輸入法前端正在運行。推薦取消"
+"設定 GTK_IM_MODULE 環境變數，從而使用 Wayland 輸入法前端。更多信息請參見 "
+"https://fcitx-im.org/wiki/Using_Fcitx_5_on_Wayland#KDE_Plasma"
 
 #: src/frontend/waylandim/waylandim.h:27
 msgid "Detect current running application (Need restart)"
@@ -850,7 +857,7 @@ msgstr "收藏"
 
 #: src/modules/wayland/waylandmodule.cpp:449
 msgid "Fcitx"
-msgstr ""
+msgstr "Fcitx"
 
 #: data/org.fcitx.Fcitx5.desktop.in.in:3
 #: data/org.fcitx.Fcitx5.metainfo.xml.in:6
@@ -882,7 +889,7 @@ msgstr ""
 "Fcitx 是輸入法框架。它能幫助您輸入自己的語言。它還具有多種插件選擇，可改善您"
 "的打字體驗。"
 
-#: src/modules/wayland/waylandmodule.cpp:463
+#: src/modules/wayland/waylandmodule.cpp:464
 msgid ""
 "Fcitx should be launched by KWin under KDE Wayland in order to use Wayland "
 "input method frontend. This can improve the experience when using Fcitx on "
@@ -892,6 +899,11 @@ msgid ""
 "im-config on Debian/Ubuntu. For more details see https://fcitx-im.org/wiki/"
 "Using_Fcitx_5_on_Wayland#KDE_Plasma"
 msgstr ""
+"Fcitx 在 KDE Wayland 下應當由 KWin 啟動以使用 Wayland 輸入法前端。這可以改善 "
+"Wayland 下使用 Fcitx 的體驗。您需要打開“系統設定” -> “虛擬鍵盤”並選"
+"擇“Fcitx5”來完成此項設定。您可能需要禁用那些啟動輸入法的工具，如 Fedora 上的 "
+"imsettings，或者 Debian/Ubuntu 上的 im-config。更多信息請參見 https://fcitx-"
+"im.org/wiki/Using_Fcitx_5_on_Wayland#KDE_Plasma"
 
 #: data/fcitx5-diagnose.sh:949
 msgid "Fcitx version: ${1}"
@@ -947,9 +959,9 @@ msgstr ""
 "例如，使用拼音時顯示中文異體字，使用 Anthy 時顯示日文異體字。 字體配置需要支"
 "持此功能才能使用此功能。"
 
-#: src/modules/wayland/waylandmodule.cpp:530
+#: src/modules/wayland/waylandmodule.cpp:532
 msgid "For more details see https://fcitx-im.org/wiki/Using_Fcitx_5_on_Wayland"
-msgstr ""
+msgstr "更多細節請參見 https://fcitx-im.org/wiki/Using_Fcitx_5_on_Wayland"
 
 #: src/ui/classic/classicui.h:178
 msgid "Force font DPI on Wayland"
@@ -1350,7 +1362,7 @@ msgstr ""
 "如果您的混成器完全支持 ${1}使用的 text-input 協議，您也可以使用 ${1} 內置的 "
 "Wayland 模塊。"
 
-#: src/modules/wayland/waylandmodule.cpp:488
+#: src/modules/wayland/waylandmodule.cpp:489
 msgid ""
 "It is recommended to install Input Method Panel GNOME Shell Extensions to "
 "provide the input method popup. https://extensions.gnome.org/extension/261/"
@@ -1358,6 +1370,10 @@ msgid ""
 "typing in GNOME Shell's activities search box. For more details see https://"
 "fcitx-im.org/wiki/Using_Fcitx_5_on_Wayland#GNOME"
 msgstr ""
+"推薦安裝輸入法面板 GNOME Shell 擴充套件以提供輸入法顯示。https://extensions."
+"gnome.org/extension/261/kimpanel/ 否則您可能無法在 GNOME Shell 的活動界面看到"
+"輸入法窗口。更多細節請參見 https://fcitx-im.org/wiki/"
+"Using_Fcitx_5_on_Wayland#GNOME"
 
 #: src/ui/kimpanel/kimpanel.conf.in.in:3
 msgid "KDE Input Method Panel"
@@ -2299,12 +2315,14 @@ msgctxt "Key name"
 msgid "Send"
 msgstr "傳送"
 
-#: src/modules/wayland/waylandmodule.cpp:519
+#: src/modules/wayland/waylandmodule.cpp:521
 msgid ""
 "Sending keyboard layout configuration to wayland compositor from Fcitx is "
 "not yet supported on current desktop. You may still use Fcitx's internal "
 "layout conversion by adding layout as input method to the input method group."
 msgstr ""
+"目前桌面不支援由 Fcitx 將鍵盤佈局配置傳送給 wayland 混成器。您仍可以透過將佈"
+"局作為輸入法添加至輸入法分組以使用 Fcitx 內的佈局轉換。"
 
 #: src/ui/classic/theme.h:182
 msgid "Separator Background"
@@ -2789,7 +2807,7 @@ msgstr "Wayland"
 
 #: src/modules/wayland/waylandmodule.cpp:449
 msgid "Wayland Diagnose"
-msgstr ""
+msgstr "Wayland 診斷"
 
 #: src/frontend/waylandim/waylandim.conf.in.in:3
 msgid "Wayland Input method frontend"
