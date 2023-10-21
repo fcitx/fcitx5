@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2023-10-20 20:24+0000\n"
+"POT-Creation-Date: 2023-10-21 20:24+0000\n"
 "PO-Revision-Date: 2017-11-23 04:14+0000\n"
 "Last-Translator: Dmitry <dmitrydmitry761@gmail.com>, 2023\n"
 "Language-Team: Russian (https://app.transifex.com/fcitx/teams/12005/ru/)\n"
@@ -2854,7 +2854,7 @@ msgstr "Wayland"
 
 #: src/modules/wayland/waylandmodule.cpp:449
 msgid "Wayland Diagnose"
-msgstr "Wayland Диагностика "
+msgstr "Wayland Диагностика"
 
 #: src/frontend/waylandim/waylandim.conf.in.in:3
 msgid "Wayland Input method frontend"
