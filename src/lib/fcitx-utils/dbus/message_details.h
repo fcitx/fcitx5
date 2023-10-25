@@ -190,6 +190,14 @@ struct SkipTillNext<left, right, 0, MetaString<first, next...>> {
     typedef MetaString<> str;
 };
 
+// This is required to resolve ambiguity like (i)(i), when a '(' appear
+// immediate after a closed ')'.
+template <char left, char right, char... next>
+struct SkipTillNext<left, right, 0, MetaString<left, next...>> {
+    typedef MetaString<left, next...> type;
+    typedef MetaString<> str;
+};
+
 template <char left, char right>
 struct SkipTillNext<left, right, 0, MetaString<>> {
     typedef MetaString<> type;

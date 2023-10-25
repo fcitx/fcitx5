@@ -6,6 +6,7 @@
  */
 #include <unistd.h>
 #include "fcitx-utils/dbus/bus.h"
+#include "fcitx-utils/dbus/message.h"
 #include "fcitx-utils/dbus/variant.h"
 #include "fcitx-utils/event.h"
 #include "fcitx-utils/log.h"
@@ -44,6 +45,23 @@ int main() {
     static_assert(std::is_same<DBusSignatureToType<'(', 'i', 'i', ')'>::type,
                                dbus::DBusStruct<int32_t, int32_t>>::value,
                   "Type is not same");
+
+    static_assert(
+        std::is_same<
+            DBusSignatureToType<'(', 'i', ')', '(', 'i', ')'>::type,
+            std::tuple<DBusStruct<int32_t>, DBusStruct<int32_t>>>::value,
+        "Type is not same");
+
+    using AtSpiObjectReference =
+        dbus::DBusStruct<std::string, dbus::ObjectPath>;
+    static_assert(
+        std::is_same<
+            FCITX_STRING_TO_DBUS_TYPE("((so)(so)(so)iiassusau)"),
+            dbus::DBusStruct<AtSpiObjectReference, AtSpiObjectReference,
+                             AtSpiObjectReference, int32_t, int32_t,
+                             std::vector<std::string>, std::string, uint32_t,
+                             std::string, std::vector<uint32_t>>>::value,
+        "Type is not same");
 
     // interface name must has dot
     {
