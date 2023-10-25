@@ -254,8 +254,10 @@ void UserInterfaceManager::expire(InputContext *inputContext) {
 
 void UserInterfaceManager::flush() {
     FCITX_D();
+    auto *instance = d->addonManager_->instance();
     for (auto &p : d->updateList_) {
         for (auto comp : p.second) {
+            instance->postEvent(InputContextFlushUIEvent(comp, p.first));
             d->updateDispatch(comp, p.first);
         }
     }
@@ -285,7 +287,9 @@ void UserInterfaceManager::updateAvailability() {
     for (auto &name : d->uis_) {
         auto *ui =
             static_cast<UserInterface *>(d->addonManager_->addon(name, true));
-        if (isUserInterfaceValid(ui, instance->inputMethodMode())) {
+        if (isUserInterfaceValid(ui, instance
+                                         ? instance->inputMethodMode()
+                                         : InputMethodMode::PhysicalKeyboard)) {
             newUI = ui;
             newUIName = name;
             break;
@@ -301,8 +305,8 @@ void UserInterfaceManager::updateAvailability() {
         }
         d->ui_ = newUI;
         d->uiName_ = newUIName;
-        if (d->addonManager_->instance()) {
-            d->addonManager_->instance()->postEvent(UIChangedEvent());
+        if (instance) {
+            instance->postEvent(UIChangedEvent());
         }
     }
 
@@ -360,9 +364,8 @@ void UserInterfaceManager::updateVirtualKeyboardVisibility() {
     if (oldVisible != newVisible) {
         d->isVirtualKeyboardVisible_ = newVisible;
 
-        if (d->addonManager_->instance()) {
-            d->addonManager_->instance()->postEvent(
-                VirtualKeyboardVisibilityChangedEvent());
+        if (auto *instance = d->addonManager_->instance()) {
+            instance->postEvent(VirtualKeyboardVisibilityChangedEvent());
         }
     }
 }

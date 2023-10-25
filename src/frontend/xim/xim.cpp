@@ -624,9 +624,9 @@ XIMModule::XIMModule(Instance *instance) : instance_(instance) {
         });
 
     updateRootStyleCallback_ = instance_->watchEvent(
-        EventType::InputContextUpdateUI, EventWatcherPhase::PreInputMethod,
+        EventType::InputContextFlushUI, EventWatcherPhase::PreInputMethod,
         [](Event &event) {
-            auto &uiEvent = static_cast<InputContextUpdateUIEvent &>(event);
+            auto &uiEvent = static_cast<InputContextFlushUIEvent &>(event);
             auto ic = uiEvent.inputContext();
             if (ic->frontend() == std::string_view("xim")) {
                 auto xic = static_cast<XIMInputContext *>(ic);

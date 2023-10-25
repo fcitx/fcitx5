@@ -142,6 +142,7 @@ enum class EventType : uint32_t {
     InputContextUpdatePreedit = InputMethodEventFlag | 0x4,
     InputContextUpdateUI = InputMethodEventFlag | 0x5,
     InputContextCommitStringWithCursor = InputMethodEventFlag | 0x6,
+    InputContextFlushUI = InputMethodEventFlag | 0x7,
 
     /**
      * This is generated when input method group changed.
@@ -508,6 +509,24 @@ public:
 protected:
     UserInterfaceComponent component_;
     bool immediate_;
+};
+
+/**
+ * Events triggered that user interface manager that flush the UI update.
+ *
+ * @since 5.1.2
+ */
+class FCITXCORE_EXPORT InputContextFlushUIEvent : public InputContextEvent {
+public:
+    InputContextFlushUIEvent(UserInterfaceComponent component,
+                             InputContext *context)
+        : InputContextEvent(context, EventType::InputContextFlushUI),
+          component_(component) {}
+
+    UserInterfaceComponent component() const { return component_; }
+
+protected:
+    UserInterfaceComponent component_;
 };
 
 class FCITXCORE_EXPORT VirtualKeyboardVisibilityChangedEvent : public Event {
