@@ -6,6 +6,7 @@
  */
 
 #include <unordered_set>
+#include <utility>
 #include "../../log.h"
 #include "../../stringutils.h"
 #include "../objectvtable.h"
@@ -115,6 +116,10 @@ ObjectVTableProperty *ObjectVTableBase::findProperty(const std::string &name) {
 void ObjectVTableBase::releaseSlot() { setSlot(nullptr); }
 
 Bus *ObjectVTableBase::bus() {
+    return std::as_const(*this).bus();
+}
+
+Bus *ObjectVTableBase::bus() const {
     FCITX_D();
     if (d->slot_) {
         if (auto *bus = d->slot_->bus_.get()) {

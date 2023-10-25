@@ -321,6 +321,7 @@ public:
 
     /// Return the bus that the object is registered to.
     Bus *bus();
+    Bus *bus() const;
     /// Return whether this object is registered to a bus.
     bool isRegistered() const;
     /// Return the registered dbus object path of the object.
