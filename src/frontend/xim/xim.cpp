@@ -17,6 +17,7 @@
 #include "fcitx/focusgroup.h"
 #include "fcitx/inputcontext.h"
 #include "fcitx/instance.h"
+#include "fcitx/userinterface.h"
 
 FCITX_DEFINE_LOG_CATEGORY(xim, "xim")
 FCITX_DEFINE_LOG_CATEGORY(xim_key, "xim_key")
@@ -628,7 +629,8 @@ XIMModule::XIMModule(Instance *instance) : instance_(instance) {
         [](Event &event) {
             auto &uiEvent = static_cast<InputContextFlushUIEvent &>(event);
             auto ic = uiEvent.inputContext();
-            if (ic->frontendName() == "xim") {
+            if (uiEvent.component() == UserInterfaceComponent::InputPanel &&
+                ic->frontendName() == "xim") {
                 auto xic = static_cast<XIMInputContext *>(ic);
                 xic->maybeUpdateCursorLocationForRootStyle();
             }
