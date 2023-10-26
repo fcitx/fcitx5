@@ -71,7 +71,7 @@ public:
             bool found = false;
             instance_->inputContextManager().foreach(
                 [&found](InputContext *ic) {
-                    if (ic->frontend() == std::string_view("xim")) {
+                    if (ic->frontendName() == "xim") {
                         ic->commitString(commitText);
                         found = true;
                     }

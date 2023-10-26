@@ -628,7 +628,7 @@ XIMModule::XIMModule(Instance *instance) : instance_(instance) {
         [](Event &event) {
             auto &uiEvent = static_cast<InputContextFlushUIEvent &>(event);
             auto ic = uiEvent.inputContext();
-            if (ic->frontend() == std::string_view("xim")) {
+            if (ic->frontendName() == "xim") {
                 auto xic = static_cast<XIMInputContext *>(ic);
                 xic->maybeUpdateCursorLocationForRootStyle();
             }

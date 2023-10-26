@@ -54,7 +54,7 @@ WaylandIMModule::WaylandIMModule(Instance *instance) : instance_(instance) {
 WaylandIMModule::~WaylandIMModule() {}
 
 wayland::ZwpInputMethodV2 *WaylandIMModule::getInputMethodV2(InputContext *ic) {
-    if (ic->frontend() != std::string_view("wayland_v2")) {
+    if (ic->frontendName() != "wayland_v2") {
         return nullptr;
     }
 

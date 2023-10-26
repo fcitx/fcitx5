@@ -338,7 +338,7 @@ Fcitx4FrontendModule::Fcitx4FrontendModule(Instance *instance)
         [this](Event &event) {
             auto &activated = static_cast<InputMethodActivatedEvent &>(event);
             auto *ic = activated.inputContext();
-            if (strcmp(ic->frontend(), "fcitx4") == 0) {
+            if (ic->frontendName() == "fcitx4") {
                 if (const auto *entry = instance_->inputMethodManager().entry(
                         activated.name())) {
                     static_cast<Fcitx4InputContext *>(ic)->updateIM(entry);

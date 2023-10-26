@@ -610,7 +610,7 @@ public:
                     ss << fmt::format("{:02x}", static_cast<int>(v));
                 }
                 ss << "] program:" << ic->program()
-                   << " frontend:" << ic->frontend() << " cap:"
+                   << " frontend:" << ic->frontendName() << " cap:"
                    << fmt::format("{:x}",
                                   static_cast<uint64_t>(ic->capabilityFlags()))
                    << " focus:" << ic->hasFocus() << std::endl;
@@ -623,7 +623,7 @@ public:
             if (ic->focusGroup()) {
                 return true;
             }
-            if (std::string_view(ic->frontend()) == "dummy") {
+            if (ic->frontendName() == "dummy") {
                 return true;
             }
             ss << "  IC [";
@@ -631,7 +631,7 @@ public:
                 ss << fmt::format("{:02x}", static_cast<int>(v));
             }
             ss << "] program:" << ic->program()
-               << " frontend:" << ic->frontend() << " focus:" << ic->hasFocus()
+               << " frontend:" << ic->frontendName() << " focus:" << ic->hasFocus()
                << std::endl;
             return true;
         });

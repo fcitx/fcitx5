@@ -393,7 +393,7 @@ void ClassicUI::update(UserInterfaceComponent component,
                        InputContext *inputContext) {
     UIInterface *ui = nullptr;
     if (stringutils::startsWith(inputContext->display(), "wayland:") &&
-        !stringutils::startsWith(inputContext->frontend(), "wayland")) {
+        !stringutils::startsWith(inputContext->frontendName(), "wayland")) {
         // If display is wayland, but frontend is not, then we can only do X11
         // for now, though position is wrong. We don't know which is xwayland
         // unfortunately, hopefully main display is X wayland.
@@ -415,7 +415,7 @@ void ClassicUI::update(UserInterfaceComponent component,
     }
     CLASSICUI_DEBUG() << "Update component: " << static_cast<int>(component)
                       << " for IC program:" << inputContext->program()
-                      << " frontend:" << inputContext->frontend()
+                      << " frontend:" << inputContext->frontendName()
                       << " display:" << inputContext->display()
                       << " ui:" << (ui ? ui->name() : "(not available)");
 

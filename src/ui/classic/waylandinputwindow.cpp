@@ -141,7 +141,7 @@ void WaylandInputWindow::update(fcitx::InputContext *ic) {
     CLASSICUI_DEBUG() << "Wayland Input Window visible:" << visible()
                       << " for IC program:"
                       << (ic ? ic->program() : std::string("-")) << " frontend:"
-                      << (ic ? ic->frontend() : std::string("-"));
+                      << (ic ? ic->frontendName() : std::string("-"));
     if (!oldVisible && !visible()) {
         CLASSICUI_DEBUG() << "Wayland Input Window has been hidden.";
         return;
@@ -163,7 +163,7 @@ void WaylandInputWindow::update(fcitx::InputContext *ic) {
     CLASSICUI_DEBUG()
         << "Wayland Input Window is visible, ensure surface is created.";
     initPanel();
-    if (ic->frontend() == std::string_view("wayland_v2")) {
+    if (ic->frontendName() == "wayland_v2") {
         if (!panelSurfaceV2_ || ic != v2IC_.get()) {
             auto *waylandim = ui_->parent()->waylandim();
             if (!waylandim) {
@@ -184,7 +184,7 @@ void WaylandInputWindow::update(fcitx::InputContext *ic) {
             panelSurfaceV2_.reset();
             panelSurfaceV2_.reset(im->getInputPopupSurface(window_->surface()));
         }
-    } else if (ic->frontend() == std::string_view("wayland")) {
+    } else if (ic->frontendName() == "wayland") {
         auto panel = ui_->display()->getGlobal<wayland::ZwpInputPanelV1>();
         if (!panel) {
             return;
