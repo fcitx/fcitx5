@@ -1161,7 +1161,7 @@ Instance::Instance(int argc, char **argv) {
     });
     d->uiUpdateEvent_->setEnabled(false);
     d->periodicalSave_ = d->eventLoop_.addTimeEvent(
-        CLOCK_MONOTONIC, now(CLOCK_MONOTONIC) + 1000000, 0,
+        CLOCK_MONOTONIC, now(CLOCK_MONOTONIC) + 1000000, AutoSaveIdleTime,
         [this, d](EventSourceTime *time, uint64_t) {
             if (exiting()) {
                 return true;
