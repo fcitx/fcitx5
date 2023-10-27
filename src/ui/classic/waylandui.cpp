@@ -98,7 +98,6 @@ void WaylandUI::update(UserInterfaceComponent component,
     if (inputWindow_ && component == UserInterfaceComponent::InputPanel) {
         CLASSICUI_DEBUG() << "Update Wayland Input Window";
         inputWindow_->update(inputContext);
-        display_->flush();
     }
 }
 

@@ -212,6 +212,7 @@ void WaylandInputWindow::update(fcitx::InputContext *ic) {
         window_->render();
     }
     repaintIC_ = ic->watch();
+    ui_->display()->flush();
 }
 
 void WaylandInputWindow::repaint() {
