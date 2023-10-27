@@ -302,7 +302,7 @@ void NotificationItem::setRegistered(bool registered) {
         eventHandlers_.emplace_back(instance_->watchEvent(
             EventType::InputContextFlushUI, EventWatcherPhase::Default,
             [updateIcon](Event &event) {
-                if (static_cast<InputContextUpdateUIEvent &>(event)
+                if (static_cast<InputContextFlushUIEvent &>(event)
                         .component() == UserInterfaceComponent::StatusArea) {
                     updateIcon(event);
                 }
