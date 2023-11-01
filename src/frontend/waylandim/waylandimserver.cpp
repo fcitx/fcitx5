@@ -468,6 +468,14 @@ void WaylandIMInputContextV1::keyCallback(uint32_t serial, uint32_t time,
     if (!ic->keyEvent(event)) {
         ic_->key(serial, time, key, state);
     }
+
+    // This means our engine is being too slow, this is usually transient (e.g.
+    // cold start up due to data loading, high CPU usage etc).
+    // To avoid an undesired repetition, reset the next interval.
+    if (timeEvent_->time() < now(timeEvent_->clock()) && timeEvent_->isOneShot()) {
+        timeEvent_->setNextInterval(repeatDelay_ * 1000 - repeatHackDelay);
+    }
+
     server_->deferredFlush();
 }
 void WaylandIMInputContextV1::modifiersCallback(uint32_t serial,
