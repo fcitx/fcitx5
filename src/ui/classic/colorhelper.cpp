@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2023-2023 CSSlayer <wengxt@gmail.com>
+ *
+ * SPDX-License-Identifier: LGPL-2.1-or-later
+ */
+
 #include "colorhelper.h"
 #include <cmath>
 #include <fcitx-utils/color.h>
