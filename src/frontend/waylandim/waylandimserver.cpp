@@ -471,9 +471,13 @@ void WaylandIMInputContextV1::keyCallback(uint32_t serial, uint32_t time,
 
     // This means our engine is being too slow, this is usually transient (e.g.
     // cold start up due to data loading, high CPU usage etc).
-    // To avoid an undesired repetition, reset the next interval.
+    // To avoid an undesired repetition, reset the delay the next interval so we
+    // can handle the release first.
     if (timeEvent_->time() < now(timeEvent_->clock()) && timeEvent_->isOneShot()) {
-        timeEvent_->setNextInterval(repeatDelay_ * 1000 - repeatHackDelay);
+        WAYLANDIM_DEBUG() << "Engine handling speed can not keep up with key "
+                             "repetition rate.";
+        timeEvent_->setNextInterval(
+            std::min(1000, repeatDelay_ * 1000 - repeatHackDelay));
     }
 
     server_->deferredFlush();
