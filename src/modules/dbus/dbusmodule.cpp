@@ -631,8 +631,8 @@ public:
                 ss << fmt::format("{:02x}", static_cast<int>(v));
             }
             ss << "] program:" << ic->program()
-               << " frontend:" << ic->frontendName() << " focus:" << ic->hasFocus()
-               << std::endl;
+               << " frontend:" << ic->frontendName()
+               << " focus:" << ic->hasFocus() << std::endl;
             return true;
         });
         return ss.str();

@@ -191,9 +191,7 @@ ObjectVTableProperty *ObjectVTableBase::findProperty(const std::string &name) {
 
 void ObjectVTableBase::releaseSlot() { setSlot(nullptr); }
 
-Bus *ObjectVTableBase::bus() {
-    return std::as_const(*this).bus();
-}
+Bus *ObjectVTableBase::bus() { return std::as_const(*this).bus(); }
 
 Bus *ObjectVTableBase::bus() const {
     FCITX_D();

@@ -138,7 +138,6 @@ static inline DesktopType getDesktopType() {
             desktop = desktopEnv;
         }
     }
-    
 
     for (auto &c : desktop) {
         c = charutils::tolower(c);
