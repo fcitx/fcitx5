@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2023-10-21 20:24+0000\n"
+"POT-Creation-Date: 2023-11-02 20:24+0000\n"
 "PO-Revision-Date: 2017-11-23 04:14+0000\n"
 "Last-Translator: Dmitry <dmitrydmitry761@gmail.com>, 2023\n"
 "Language-Team: Russian (https://app.transifex.com/fcitx/teams/12005/ru/)\n"
@@ -187,12 +187,12 @@ msgstr "Всегда устанавливайте раскладку тольк�
 #: src/lib/fcitx-utils/key.cpp:151
 msgctxt "Key name"
 msgid "Application Left"
-msgstr "Приложение слева"
+msgstr "Application Left"
 
 #: src/lib/fcitx-utils/key.cpp:152
 msgctxt "Key name"
 msgid "Application Right"
-msgstr "Приложение справа"
+msgstr "Application Right"
 
 #: src/im/keyboard/keyboard.h:87
 msgid "Applications disabled for long press"
@@ -307,11 +307,11 @@ msgstr "Внизу по центру"
 
 #: src/ui/classic/theme.h:38
 msgid "Bottom Left"
-msgstr "Внизу слева"
+msgstr "Bottom Left"
 
 #: src/ui/classic/theme.h:39
 msgid "Bottom Right"
-msgstr "Внизу справа"
+msgstr "Bottom Right"
 
 #: src/lib/fcitx-utils/key.cpp:164
 msgctxt "Key name"
@@ -431,11 +431,11 @@ msgstr "Центр"
 
 #: src/ui/classic/theme.h:36
 msgid "Center Left"
-msgstr "Слева по центру"
+msgstr "Center Left"
 
 #: src/ui/classic/theme.h:37
 msgid "Center Right"
-msgstr "Справа по центру"
+msgstr "Center Right"
 
 #: data/fcitx5-configtool.desktop.in.in:5
 msgid "Change Fcitx 5 Configuration"
@@ -2247,7 +2247,7 @@ msgstr "Возврат каретки"
 #: src/lib/fcitx-utils/key.cpp:49
 msgctxt "Key name"
 msgid "Right"
-msgstr "Правая"
+msgstr "Right"
 
 #: src/lib/fcitx-utils/key.cpp:31
 msgctxt "Key name"
@@ -2654,7 +2654,7 @@ msgstr "Верхнее меню"
 
 #: src/ui/classic/theme.h:36
 msgid "Top Right"
-msgstr "Вверху справа"
+msgstr "Top Right"
 
 #: src/lib/fcitx-utils/key.cpp:268
 msgctxt "Key name"
