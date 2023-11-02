@@ -179,4 +179,10 @@ bool Library::isNewNamespaceSupported() {
     return false;
 #endif
 }
+
+const std::string &Library::path() const {
+    FCITX_D();
+    return d->path_;
+}
+
 } // namespace fcitx

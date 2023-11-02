@@ -44,6 +44,7 @@ public:
     bool findData(const char *slug, const char *magic, size_t lenOfMagic,
                   const std::function<void(const char *data)> &parser);
     std::string error();
+    const std::string &path() const;
 
     template <typename Func>
     static auto toFunction(void *ptr) {
