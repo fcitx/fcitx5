@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2023-10-19 05:25+0000\n"
+"POT-Creation-Date: 2023-11-03 20:24+0000\n"
 "PO-Revision-Date: 2017-11-23 04:14+0000\n"
 "Last-Translator: UTUMI Hirosi <utuhiro78@yahoo.co.jp>, 2023\n"
 "Language-Team: Japanese (https://app.transifex.com/fcitx/teams/12005/ja/)\n"
@@ -104,7 +104,7 @@ msgstr "DBus ベースの仮想キーボードバックエンド"
 
 #: src/ui/classic/theme.h:204
 msgid "Accent Colors"
-msgstr ""
+msgstr "アクセントカラー"
 
 #: src/lib/fcitx/globalconfig.cpp:82
 msgid "Activate Input Method"
@@ -166,7 +166,7 @@ msgstr "システムの XKB 設定より優先する (KDE 5 のみサポート)"
 
 #: src/lib/fcitx/globalconfig.cpp:185
 msgid "Allow input method in the password field"
-msgstr ""
+msgstr "パスワード欄に入力メソッドを許可する"
 
 #: src/im/keyboard/keyboard.h:32 src/modules/quickphrase/quickphrase.h:29
 msgid "Alt"
@@ -659,20 +659,28 @@ msgstr "デスクトップ環境:"
 msgid "Desktop environment is ${1}."
 msgstr "デスクトップ環境は ${1} です。"
 
-#: src/modules/wayland/waylandmodule.cpp:476
+#: src/modules/wayland/waylandmodule.cpp:477
 msgid ""
 "Detect GTK_IM_MODULE and QT_IM_MODULE being set and Wayland Input method "
 "frontend is working. It is recommended to unset GTK_IM_MODULE and "
 "QT_IM_MODULE and use Wayland input method frontend instead. For more details "
 "see https://fcitx-im.org/wiki/Using_Fcitx_5_on_Wayland#KDE_Plasma"
 msgstr ""
+"GTK_IM_MODULE と QT_IM_MODULE が設定され、Wayland 入力メソッドフロントエンド"
+"が動作していることを検出しました。GTK_IM_MODULE と QT_IM_MODULE の設定を解除"
+"し、代わりに Wayland 入力メソッドフロントエンドを使用することをお勧めします。"
+"詳しくは https://fcitx-im.org/wiki/Using_Fcitx_5_on_Wayland#KDE_Plasma をご覧"
+"ください。"
 
-#: src/modules/wayland/waylandmodule.cpp:504
+#: src/modules/wayland/waylandmodule.cpp:506
 msgid ""
 "Detect GTK_IM_MODULE being set and Wayland Input method frontend is working. "
 "It is recommended to unset GTK_IM_MODULE and use Wayland input method "
 "frontend instead."
 msgstr ""
+"GTK_IM_MODULE が設定され、Wayland 入力メソッドフロントエンドが動作しているこ"
+"とを検出しました。GTK_IM_MODULE の設定を解除し、代わりにWayland 入力メソッド"
+"フロントエンドを使用することを推奨します。"
 
 #: src/frontend/waylandim/waylandim.h:27
 msgid "Detect current running application (Need restart)"
@@ -847,7 +855,7 @@ msgstr "お気に入り"
 
 #: src/modules/wayland/waylandmodule.cpp:449
 msgid "Fcitx"
-msgstr ""
+msgstr "Fcitx"
 
 #: data/org.fcitx.Fcitx5.desktop.in.in:3
 #: data/org.fcitx.Fcitx5.metainfo.xml.in:6
@@ -879,7 +887,7 @@ msgstr ""
 "Fcitx は入力メソッドフレームワークです。自分の言語を入力するのに役立ちます。"
 "また、タイピング体験を向上させるさまざまなアドオンの選択肢も備えています。"
 
-#: src/modules/wayland/waylandmodule.cpp:463
+#: src/modules/wayland/waylandmodule.cpp:464
 msgid ""
 "Fcitx should be launched by KWin under KDE Wayland in order to use Wayland "
 "input method frontend. This can improve the experience when using Fcitx on "
@@ -889,6 +897,13 @@ msgid ""
 "im-config on Debian/Ubuntu. For more details see https://fcitx-im.org/wiki/"
 "Using_Fcitx_5_on_Wayland#KDE_Plasma"
 msgstr ""
+"Wayland 入力メソッドフロントエンドを使用するために、Fcitx は KDE Wayland の "
+"KWin で起動する必要があります。これにより、Wayland 上で Fcitx を使用する際の"
+"エクスペリエンスが向上します。これを設定するには、\"システム設定\"  ->  \"仮"
+"想キーボード\" で \"Fcitx 5\" を選択してください。また、Fedora の imsettings "
+"や Debian/Ubuntu の im-config など、入力メソッドを起動するツールを無効にする"
+"必要があるかもしれません。詳細については、https://fcitx-im.org/wiki/"
+"Using_Fcitx_5_on_Wayland#KDE_Plasma を参照してください。"
 
 #: data/fcitx5-diagnose.sh:949
 msgid "Fcitx version: ${1}"
@@ -915,6 +930,8 @@ msgstr "最初の候補"
 #: src/ui/classic/classicui.h:164
 msgid "Follow system accent color if it is supported by theme and desktop"
 msgstr ""
+"テーマとデスクトップでサポートされている場合は、システムのアクセントカラーに"
+"従います"
 
 #: src/ui/classic/classicui.h:160
 msgid "Follow system light/dark color scheme"
@@ -947,9 +964,11 @@ msgstr ""
 "ている場合は日本語の書体で文字を表示します。この機能を使用するには多言語フォ"
 "ントを指定する必要があります。"
 
-#: src/modules/wayland/waylandmodule.cpp:530
+#: src/modules/wayland/waylandmodule.cpp:532
 msgid "For more details see https://fcitx-im.org/wiki/Using_Fcitx_5_on_Wayland"
 msgstr ""
+"詳細については、https://fcitx-im.org/wiki/Using_Fcitx_5_on_Wayland を参照して"
+"ください。"
 
 #: src/ui/classic/classicui.h:178
 msgid "Force font DPI on Wayland"
@@ -1248,6 +1267,8 @@ msgid ""
 "If value is 0, the user data may only be saved when fcitx quits (e.g. "
 "logout)."
 msgstr ""
+"値が 0 の場合、ユーザー データは fcitx が終了するとき（ログアウトなど）にのみ"
+"保存されます。"
 
 #: data/fcitx5-diagnose.sh:742
 msgid ""
@@ -1301,23 +1322,23 @@ msgstr "入力パネル"
 
 #: src/ui/classic/theme.h:65
 msgid "Input Panel Background"
-msgstr ""
+msgstr "入力パネルの背景"
 
 #: src/ui/classic/theme.h:65
 msgid "Input Panel Border"
-msgstr ""
+msgstr "入力パネルの枠線"
 
 #: src/ui/classic/theme.h:67
 msgid "Input Panel Highlight"
-msgstr ""
+msgstr "入力パネルのハイライト"
 
 #: src/ui/classic/theme.h:66
 msgid "Input Panel Highlight Candidate Background"
-msgstr ""
+msgstr "入力パネルのハイライト候補の背景"
 
 #: src/ui/classic/theme.h:67
 msgid "Input Panel Highlight Candidate Border"
-msgstr ""
+msgstr "入力パネルのハイライト候補の枠線"
 
 #: src/modules/imselector/imselector.conf.in.in:3
 msgid "Input method selector"
@@ -1338,7 +1359,7 @@ msgstr "挿入"
 
 #: src/lib/fcitx/globalconfig.cpp:192
 msgid "Interval of saving user data in minutes"
-msgstr ""
+msgstr "ユーザーデータを保存する間隔（分）"
 
 #: data/fcitx5-diagnose.sh:1599
 msgid "Invalid addon config file ${1}."
@@ -1352,7 +1373,7 @@ msgstr ""
 "コンポジターが ${1} で使用されるテキスト入力プロトコルを完全にサポートしてい"
 "る場合は、${1} に組み込まれた Wayland IM モジュールを使用してもかまいません。"
 
-#: src/modules/wayland/waylandmodule.cpp:488
+#: src/modules/wayland/waylandmodule.cpp:489
 msgid ""
 "It is recommended to install Input Method Panel GNOME Shell Extensions to "
 "provide the input method popup. https://extensions.gnome.org/extension/261/"
@@ -1360,12 +1381,18 @@ msgid ""
 "typing in GNOME Shell's activities search box. For more details see https://"
 "fcitx-im.org/wiki/Using_Fcitx_5_on_Wayland#GNOME"
 msgstr ""
+"入力メソッドのポップアップを提供するために、Input Method Panel GNOME Shell "
+"Extensions をインストールすることをお勧めします。https://extensions.gnome."
+"org/extension/261/kimpanel/ そうしないと、GNOME Shell のアクティビティ検索"
+"ボックスで入力するときに、入力メソッドのポップアップが表示されないことがあり"
+"ます。詳細は https://fcitx-im.org/wiki/Using_Fcitx_5_on_Wayland#GNOME を参照"
+"してください。"
 
 #: src/ui/kimpanel/kimpanel.conf.in.in:3
 msgid "KDE Input Method Panel"
 msgstr "KDE 入力メソッドパネル"
 
-#: src/ui/classic/classicui.cpp:260
+#: src/ui/classic/classicui.cpp:289
 msgid "KDE Plasma (Experimental)"
 msgstr "KDE Plasma（実験的）"
 
@@ -1434,177 +1461,177 @@ msgstr "キーボードメニュー"
 #: src/lib/fcitx-utils/key.cpp:74
 msgctxt "Key name"
 msgid "Keypad *"
-msgstr ""
+msgstr "キーパッド *"
 
 #: src/lib/fcitx-utils/key.cpp:75
 msgctxt "Key name"
 msgid "Keypad +"
-msgstr ""
+msgstr "キーパッド +"
 
 #: src/lib/fcitx-utils/key.cpp:76
 msgctxt "Key name"
 msgid "Keypad ,"
-msgstr ""
+msgstr "キーパッド ,"
 
 #: src/lib/fcitx-utils/key.cpp:77
 msgctxt "Key name"
 msgid "Keypad -"
-msgstr ""
+msgstr "キーパッド -"
 
 #: src/lib/fcitx-utils/key.cpp:78
 msgctxt "Key name"
 msgid "Keypad ."
-msgstr ""
+msgstr "キーパッド ."
 
 #: src/lib/fcitx-utils/key.cpp:79
 msgctxt "Key name"
 msgid "Keypad /"
-msgstr ""
+msgstr "キーパッド /"
 
 #: src/lib/fcitx-utils/key.cpp:80
 msgctxt "Key name"
 msgid "Keypad 0"
-msgstr ""
+msgstr "キーパッド 0"
 
 #: src/lib/fcitx-utils/key.cpp:81
 msgctxt "Key name"
 msgid "Keypad 1"
-msgstr ""
+msgstr "キーパッド 1"
 
 #: src/lib/fcitx-utils/key.cpp:82
 msgctxt "Key name"
 msgid "Keypad 2"
-msgstr ""
+msgstr "キーパッド 2"
 
 #: src/lib/fcitx-utils/key.cpp:83
 msgctxt "Key name"
 msgid "Keypad 3"
-msgstr ""
+msgstr "キーパッド 3"
 
 #: src/lib/fcitx-utils/key.cpp:84
 msgctxt "Key name"
 msgid "Keypad 4"
-msgstr ""
+msgstr "キーパッド 4"
 
 #: src/lib/fcitx-utils/key.cpp:85
 msgctxt "Key name"
 msgid "Keypad 5"
-msgstr ""
+msgstr "キーパッド 5"
 
 #: src/lib/fcitx-utils/key.cpp:86
 msgctxt "Key name"
 msgid "Keypad 6"
-msgstr ""
+msgstr "キーパッド 6"
 
 #: src/lib/fcitx-utils/key.cpp:87
 msgctxt "Key name"
 msgid "Keypad 7"
-msgstr ""
+msgstr "キーパッド 7"
 
 #: src/lib/fcitx-utils/key.cpp:88
 msgctxt "Key name"
 msgid "Keypad 8"
-msgstr ""
+msgstr "キーパッド 8"
 
 #: src/lib/fcitx-utils/key.cpp:89
 msgctxt "Key name"
 msgid "Keypad 9"
-msgstr ""
+msgstr "キーパッド 9"
 
 #: src/lib/fcitx-utils/key.cpp:73
 msgctxt "Key name"
 msgid "Keypad ="
-msgstr ""
+msgstr "キーパッド ="
 
 #: src/lib/fcitx-utils/key.cpp:70
 msgctxt "Key name"
 msgid "Keypad Begin"
-msgstr ""
+msgstr "キーパッド Begin"
 
 #: src/lib/fcitx-utils/key.cpp:72
 msgctxt "Key name"
 msgid "Keypad Delete"
-msgstr ""
+msgstr "キーパッド Delete"
 
 #: src/lib/fcitx-utils/key.cpp:66
 msgctxt "Key name"
 msgid "Keypad Down"
-msgstr ""
+msgstr "キーパッド Down"
 
 #: src/lib/fcitx-utils/key.cpp:69
 msgctxt "Key name"
 msgid "Keypad End"
-msgstr ""
+msgstr "キーパッド End"
 
 #: src/lib/fcitx-utils/key.cpp:57
 msgctxt "Key name"
 msgid "Keypad Enter"
-msgstr ""
+msgstr "キーパッド Enter"
 
 #: src/lib/fcitx-utils/key.cpp:58
 msgctxt "Key name"
 msgid "Keypad F1"
-msgstr ""
+msgstr "キーパッド F1"
 
 #: src/lib/fcitx-utils/key.cpp:59
 msgctxt "Key name"
 msgid "Keypad F2"
-msgstr ""
+msgstr "キーパッド F2"
 
 #: src/lib/fcitx-utils/key.cpp:60
 msgctxt "Key name"
 msgid "Keypad F3"
-msgstr ""
+msgstr "キーパッド F3"
 
 #: src/lib/fcitx-utils/key.cpp:61
 msgctxt "Key name"
 msgid "Keypad F4"
-msgstr ""
+msgstr "キーパッド F4"
 
 #: src/lib/fcitx-utils/key.cpp:62
 msgctxt "Key name"
 msgid "Keypad Home"
-msgstr ""
+msgstr "キーパッド Home"
 
 #: src/lib/fcitx-utils/key.cpp:71
 msgctxt "Key name"
 msgid "Keypad Insert"
-msgstr ""
+msgstr "キーパッド Insert"
 
 #: src/lib/fcitx-utils/key.cpp:63
 msgctxt "Key name"
 msgid "Keypad Left"
-msgstr ""
+msgstr "キーパッド Left"
 
 #: src/lib/fcitx-utils/key.cpp:68
 msgctxt "Key name"
 msgid "Keypad Page Down"
-msgstr ""
+msgstr "キーパッド Page Down"
 
 #: src/lib/fcitx-utils/key.cpp:67
 msgctxt "Key name"
 msgid "Keypad Page Up"
-msgstr ""
+msgstr "キーパッド Page Up"
 
 #: src/lib/fcitx-utils/key.cpp:65
 msgctxt "Key name"
 msgid "Keypad Right"
-msgstr ""
+msgstr "キーパッド Right"
 
 #: src/lib/fcitx-utils/key.cpp:55
 msgctxt "Key name"
 msgid "Keypad Space"
-msgstr ""
+msgstr "キーパッド Space"
 
 #: src/lib/fcitx-utils/key.cpp:56
 msgctxt "Key name"
 msgid "Keypad Tab"
-msgstr ""
+msgstr "キーパッド Tab"
 
 #: src/lib/fcitx-utils/key.cpp:64
 msgctxt "Key name"
 msgid "Keypad Up"
-msgstr ""
+msgstr "キーパッド Up"
 
 #: data/fcitx5-diagnose.sh:1690
 msgid "Kimpanel process:"
@@ -1850,11 +1877,11 @@ msgstr "メニュー"
 
 #: src/ui/classic/theme.h:68
 msgid "Menu Background"
-msgstr ""
+msgstr "メニューの背景"
 
 #: src/ui/classic/theme.h:68
 msgid "Menu Border"
-msgstr ""
+msgstr "メニューの枠線"
 
 #: src/ui/classic/classicui.h:122
 msgid "Menu Font"
@@ -1867,15 +1894,15 @@ msgstr "PB メニュー"
 
 #: src/ui/classic/theme.h:69
 msgid "Menu Selected Item Background"
-msgstr ""
+msgstr "メニュー選択項目の背景"
 
 #: src/ui/classic/theme.h:69
 msgid "Menu Selected Item Border"
-msgstr ""
+msgstr "メニュー選択項目の枠線"
 
 #: src/ui/classic/theme.h:70
 msgid "Menu Separator"
-msgstr ""
+msgstr "メニューの区切り"
 
 #: src/lib/fcitx-utils/key.cpp:199
 msgctxt "Key name"
@@ -1969,7 +1996,7 @@ msgstr ""
 "す。このオプションを使用すると、フォント DPI を上書きできます。値が 0 の場"
 "合、このオプションは無効になります。"
 
-#: src/ui/kimpanel/kimpanel.cpp:386
+#: src/ui/kimpanel/kimpanel.cpp:402
 msgid "Not available"
 msgstr "使用不可"
 
@@ -2048,12 +2075,12 @@ msgstr "DBus 名 ${1} の所有者の PID は${2} です。"
 #: src/lib/fcitx-utils/key.cpp:52
 msgctxt "Key name"
 msgid "Page Down"
-msgstr ""
+msgstr "Page Down"
 
 #: src/lib/fcitx-utils/key.cpp:51
 msgctxt "Key name"
 msgid "Page Up"
-msgstr ""
+msgstr "Page Up"
 
 #: src/ui/classic/theme.h:155
 msgid "Page button vertical alignment"
@@ -2300,19 +2327,23 @@ msgstr "キーボードで指定の入力メソッドを選択"
 
 #: src/ui/classic/theme.h:174
 msgid "Selected Item text color"
-msgstr ""
+msgstr "選択した項目の文字色"
 
 #: src/lib/fcitx-utils/key.cpp:185
 msgctxt "Key name"
 msgid "Send"
 msgstr "送信"
 
-#: src/modules/wayland/waylandmodule.cpp:519
+#: src/modules/wayland/waylandmodule.cpp:521
 msgid ""
 "Sending keyboard layout configuration to wayland compositor from Fcitx is "
 "not yet supported on current desktop. You may still use Fcitx's internal "
 "layout conversion by adding layout as input method to the input method group."
 msgstr ""
+"Fcitx から Wayland コンポジターへのキーボード レイアウト設定の送信は、現在の"
+"デスクトップではまだサポートされていません。 入力メソッドグループに入力メソッ"
+"ドとしてレイアウトを追加することで、Fcitx の内部レイアウト変換を引き続き使用"
+"できます。"
 
 #: src/ui/classic/theme.h:182
 msgid "Separator Background"
@@ -2370,7 +2401,7 @@ msgstr "アプリケーションにプリエディットを表示する"
 
 #: src/lib/fcitx/globalconfig.cpp:188
 msgid "Show preedit text when typing password"
-msgstr ""
+msgstr "パスワード入力時にプリエディットテキストを表示する"
 
 #: src/im/keyboard/keyboard.h:77
 msgid ""
@@ -2801,7 +2832,7 @@ msgstr "Wayland"
 
 #: src/modules/wayland/waylandmodule.cpp:449
 msgid "Wayland Diagnose"
-msgstr ""
+msgstr "ウェイランド診断"
 
 #: src/frontend/waylandim/waylandim.conf.in.in:3
 msgid "Wayland Input method frontend"

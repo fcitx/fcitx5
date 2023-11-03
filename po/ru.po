@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2023-11-02 20:24+0000\n"
+"POT-Creation-Date: 2023-11-03 20:24+0000\n"
 "PO-Revision-Date: 2017-11-23 04:14+0000\n"
 "Last-Translator: Dmitry <dmitrydmitry761@gmail.com>, 2023\n"
 "Language-Team: Russian (https://app.transifex.com/fcitx/teams/12005/ru/)\n"
@@ -1402,7 +1402,7 @@ msgstr ""
 msgid "KDE Input Method Panel"
 msgstr "Панель метода ввода KDE"
 
-#: src/ui/classic/classicui.cpp:260
+#: src/ui/classic/classicui.cpp:289
 msgid "KDE Plasma (Experimental)"
 msgstr "KDE Plasma (экспериментально)"
 
@@ -1900,7 +1900,7 @@ msgstr "Шрифт меню"
 #: src/lib/fcitx-utils/key.cpp:172
 msgctxt "Key name"
 msgid "Menu PB"
-msgstr "Меню PB"
+msgstr "Menu PB"
 
 #: src/ui/classic/theme.h:69
 msgid "Menu Selected Item Background"
@@ -2006,7 +2006,7 @@ msgstr ""
 "масштабирования экрана. Эта опция позволяет переопределить DPI шрифта. Если "
 "значение равно 0, это означает, что эта опция отключена."
 
-#: src/ui/kimpanel/kimpanel.cpp:386
+#: src/ui/kimpanel/kimpanel.cpp:402
 msgid "Not available"
 msgstr "Недоступно"
 
@@ -2645,7 +2645,7 @@ msgstr "Вверху по центру"
 
 #: src/ui/classic/theme.h:35
 msgid "Top Left"
-msgstr "Вверху слева"
+msgstr "Top Left"
 
 #: src/lib/fcitx-utils/key.cpp:215
 msgctxt "Key name"
