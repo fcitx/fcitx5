@@ -6,7 +6,6 @@
  */
 
 #include "kimpanel.h"
-#include <fcitx/inputmethodengine.h>
 #include "fcitx-utils/dbus/objectvtable.h"
 #include "fcitx-utils/dbus/servicewatcher.h"
 #include "fcitx-utils/i18n.h"
@@ -16,6 +15,7 @@
 #include "fcitx/action.h"
 #include "fcitx/addonmanager.h"
 #include "fcitx/inputcontext.h"
+#include "fcitx/inputmethodengine.h"
 #include "fcitx/inputmethodentry.h"
 #include "fcitx/inputmethodmanager.h"
 #include "fcitx/instance.h"
@@ -23,6 +23,7 @@
 #include "fcitx/misc_p.h"
 #include "fcitx/userinterfacemanager.h"
 #include "dbus_public.h"
+#include "xcb_public.h"
 
 namespace fcitx {
 
@@ -264,7 +265,10 @@ void Kimpanel::update(UserInterfaceComponent component,
                       InputContext *inputContext) {
     if (component == UserInterfaceComponent::InputPanel) {
         if (classicui() &&
-            stringutils::startsWith(inputContext->frontendName(), "wayland")) {
+            (stringutils::startsWith(inputContext->frontendName(), "wayland")
+             || (xcb() &&
+                 stringutils::startsWith(inputContext->display(), "x11:") &&
+                 xcb()->call<IXCBModule::isXWayland>(inputContext->display().substr(4))))) {
             proxy_->showAux(false);
             proxy_->showPreedit(false);
             proxy_->showLookupTable(false);
