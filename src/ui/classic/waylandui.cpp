@@ -101,17 +101,16 @@ void WaylandUI::update(UserInterfaceComponent component,
     }
 }
 
-void WaylandUI::suspend() { inputWindow_.reset(); }
+void WaylandUI::suspend() { inputWindow_->update(nullptr); }
 
 void WaylandUI::resume() {
     CLASSICUI_DEBUG() << "Resume WaylandUI display name:" << display_;
-    setupInputWindow();
     CLASSICUI_DEBUG() << "Wayland Input window is initialized:"
                       << !!inputWindow_;
 }
 
 void WaylandUI::setupInputWindow() {
-    if (parent_->suspended() || inputWindow_) {
+    if (inputWindow_) {
         return;
     }
 

@@ -272,7 +272,9 @@ void InputWindow::setTextToLayout(
 }
 
 std::pair<int, int> InputWindow::update(InputContext *inputContext) {
-    if (parent_->suspended() || !inputContext) {
+    if ((parent_->suspended() &&
+         parent_->instance()->currentUI() != "kimpanel") ||
+        !inputContext) {
         hoverIndex_ = -1;
         visible_ = false;
         return {0, 0};

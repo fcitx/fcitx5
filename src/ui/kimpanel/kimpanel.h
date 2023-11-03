@@ -64,6 +64,7 @@ private:
     void setAvailable(bool available);
 
     FCITX_ADDON_DEPENDENCY_LOADER(dbus, instance_->addonManager());
+    FCITX_ADDON_DEPENDENCY_LOADER(classicui, instance_->addonManager());
 
     Instance *instance_;
     dbus::Bus *bus_;

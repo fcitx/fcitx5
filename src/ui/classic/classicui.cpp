@@ -15,6 +15,7 @@
 #include "fcitx-utils/misc_p.h"
 #include "fcitx-utils/standardpath.h"
 #include "fcitx-utils/utf8.h"
+#include "fcitx/event.h"
 #include "fcitx/inputcontext.h"
 #include "fcitx/inputcontextmanager.h"
 #include "fcitx/instance.h"
@@ -110,6 +111,27 @@ ClassicUI::ClassicUI(Instance *instance) : instance_(instance) {
             return true;
         });
     deferedReloadTheme_->setEnabled(false);
+
+    // Since kimpanel may call classicui
+    persistentEventHandlers_.emplace_back(instance_->watchEvent(
+        EventType::FocusGroupFocusChanged, EventWatcherPhase::Default,
+        [this](Event &event) {
+            auto &focusEvent =
+                static_cast<FocusGroupFocusChangedEvent &>(event);
+            if (!focusEvent.newFocus()) {
+                if (auto ui = uiForDisplay(focusEvent.group()->display())) {
+                    ui->update(UserInterfaceComponent::InputPanel, nullptr);
+                }
+            }
+        }));
+    persistentEventHandlers_.emplace_back(instance_->watchEvent(
+        EventType::UIChanged, EventWatcherPhase::Default, [this](Event &) {
+            if (instance_->currentUI() == "kimpanel") {
+                deferedReloadTheme_->setOneShot();
+            } else if (instance_->currentUI() == "classicui") {
+                deferedReloadTheme_->setOneShot();
+            }
+        }));
 }
 
 ClassicUI::~ClassicUI() {}
@@ -148,6 +170,7 @@ void ClassicUI::reloadTheme() {
 #endif
 
     bool hasPlasmaTheme =
+        instance_->currentUI() == "kimpanel" ||
         (*config_.theme == PlasmaThemeName) ||
         (*config_.useDarkTheme && *config_.themeDark == PlasmaThemeName);
 
@@ -169,6 +192,12 @@ void ClassicUI::reloadTheme() {
     std::string_view themeName = (*config_.useDarkTheme && isDark_)
                                      ? *config_.themeDark
                                      : *config_.theme;
+
+    if (instance_->currentUI() == "kimpanel") {
+        if (plasmaThemeWatchdog_) {
+            themeName = "plasma";
+        }
+    }
 
     theme_.load(themeName);
 

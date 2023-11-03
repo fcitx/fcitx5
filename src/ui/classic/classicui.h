@@ -260,6 +260,8 @@ private:
 
     std::vector<std::unique_ptr<HandlerTableEntry<EventHandler>>>
         eventHandlers_;
+    std::vector<std::unique_ptr<HandlerTableEntry<EventHandler>>>
+        persistentEventHandlers_;
     std::unique_ptr<HandlerTableEntryBase> sniHandler_;
 
     std::unordered_map<std::string, std::unique_ptr<UIInterface>> uis_;

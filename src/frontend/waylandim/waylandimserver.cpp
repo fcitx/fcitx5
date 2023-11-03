@@ -473,7 +473,8 @@ void WaylandIMInputContextV1::keyCallback(uint32_t serial, uint32_t time,
     // cold start up due to data loading, high CPU usage etc).
     // To avoid an undesired repetition, reset the delay the next interval so we
     // can handle the release first.
-    if (timeEvent_->time() < now(timeEvent_->clock()) && timeEvent_->isOneShot()) {
+    if (timeEvent_->time() < now(timeEvent_->clock()) &&
+        timeEvent_->isOneShot()) {
         WAYLANDIM_DEBUG() << "Engine handling speed can not keep up with key "
                              "repetition rate.";
         timeEvent_->setNextInterval(

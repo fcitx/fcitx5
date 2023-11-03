@@ -263,7 +263,17 @@ void Kimpanel::resume() {
 void Kimpanel::update(UserInterfaceComponent component,
                       InputContext *inputContext) {
     if (component == UserInterfaceComponent::InputPanel) {
-        updateInputPanel(inputContext);
+        if (classicui() &&
+            stringutils::startsWith(inputContext->frontendName(), "wayland")) {
+            proxy_->showAux(false);
+            proxy_->showPreedit(false);
+            proxy_->showLookupTable(false);
+            static_cast<UserInterface *>(classicui())
+                ->update(component, inputContext);
+            lastInputContext_ = inputContext->watch();
+        } else {
+            updateInputPanel(inputContext);
+        }
     } else if (component == UserInterfaceComponent::StatusArea) {
         registerAllProperties(inputContext);
     }
