@@ -264,7 +264,7 @@ void Kimpanel::resume() {
 void Kimpanel::update(UserInterfaceComponent component,
                       InputContext *inputContext) {
     if (component == UserInterfaceComponent::InputPanel) {
-        if (classicui() &&
+        if (classicui() && isKDE() &&
             (stringutils::startsWith(inputContext->frontendName(), "wayland")
              || (xcb() &&
                  stringutils::startsWith(inputContext->display(), "x11:") &&
