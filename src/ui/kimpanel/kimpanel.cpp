@@ -23,6 +23,8 @@
 #include "fcitx/misc_p.h"
 #include "fcitx/userinterfacemanager.h"
 #include "dbus_public.h"
+
+#define FCITX_NO_XCB
 #include "xcb_public.h"
 
 namespace fcitx {
