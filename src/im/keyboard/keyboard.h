@@ -200,8 +200,6 @@ private:
     void initQuickPhrase();
 
     Instance *instance_;
-    AddonInstance *spell_ = nullptr;
-    AddonInstance *notifications_ = nullptr;
     KeyboardEngineConfig config_;
     LongPressConfig longPressConfig_;
     std::unordered_map<std::string, std::vector<std::string>> longPressData_;
