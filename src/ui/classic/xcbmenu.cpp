@@ -678,13 +678,14 @@ void XCBMenu::show(Rect rect) {
 
         newY = y;
 
-        if (newY + height() > closestScreen->bottom()) {
+        if (newY > closestScreen->bottom()) {
             newY = closestScreen->bottom() - height();
-        } else { /* better position the window */
+        } else if (newY + height() > closestScreen->bottom()) {
+            /* better position the window */
             newY = newY - height();
         }
 
-        if (y < closestScreen->top()) {
+        if (newY < closestScreen->top()) {
             newY = closestScreen->top();
         }
 
