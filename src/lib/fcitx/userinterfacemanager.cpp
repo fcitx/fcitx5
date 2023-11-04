@@ -158,8 +158,16 @@ void UserInterfaceManager::load(const std::string &uiName) {
         d->uis_.insert(d->uis_.end(), names.begin(), names.end());
         std::sort(d->uis_.begin(), d->uis_.end(),
                   [d](const std::string &lhs, const std::string &rhs) {
-                      auto lp = d->addonManager_->addonInfo(lhs)->uiPriority();
-                      auto rp = d->addonManager_->addonInfo(rhs)->uiPriority();
+                      auto linfo = d->addonManager_->addonInfo(lhs);
+                      auto rinfo = d->addonManager_->addonInfo(rhs);
+                      if (!linfo) {
+                          return false;
+                      }
+                      if (!rinfo) {
+                          return true;
+                      }
+                      auto lp = linfo->uiPriority();
+                      auto rp = rinfo->uiPriority();
                       if (lp == rp) {
                           return lhs > rhs;
                       }
