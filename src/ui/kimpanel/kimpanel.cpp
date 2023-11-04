@@ -267,10 +267,11 @@ void Kimpanel::update(UserInterfaceComponent component,
                       InputContext *inputContext) {
     if (component == UserInterfaceComponent::InputPanel) {
         if (classicui() && isKDE() &&
-            (stringutils::startsWith(inputContext->frontendName(), "wayland")
-             || (xcb() &&
-                 stringutils::startsWith(inputContext->display(), "x11:") &&
-                 xcb()->call<IXCBModule::isXWayland>(inputContext->display().substr(4))))) {
+            (stringutils::startsWith(inputContext->frontendName(), "wayland") ||
+             (xcb() &&
+              stringutils::startsWith(inputContext->display(), "x11:") &&
+              xcb()->call<IXCBModule::isXWayland>(
+                  inputContext->display().substr(4))))) {
             proxy_->showAux(false);
             proxy_->showPreedit(false);
             proxy_->showLookupTable(false);
