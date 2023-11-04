@@ -6,6 +6,7 @@
  */
 #include "waylandinputwindow.h"
 #include <cstddef>
+#include "fcitx/misc_p.h"
 #include "common.h"
 #include "waylandim_public.h"
 #include "waylandui.h"
@@ -136,6 +137,7 @@ void WaylandInputWindow::updateScale() { window_->updateScale(); }
 void WaylandInputWindow::resetPanel() { panelSurface_.reset(); }
 
 void WaylandInputWindow::update(fcitx::InputContext *ic) {
+    Finally flush([this]() { ui_->display()->flush(); });
     const auto oldVisible = visible();
     auto [width, height] = InputWindow::update(ic);
     CLASSICUI_DEBUG() << "Wayland Input Window visible:" << visible()
@@ -212,7 +214,6 @@ void WaylandInputWindow::update(fcitx::InputContext *ic) {
         window_->render();
     }
     repaintIC_ = ic->watch();
-    ui_->display()->flush();
 }
 
 void WaylandInputWindow::repaint() {
