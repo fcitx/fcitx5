@@ -682,7 +682,7 @@ void KeyboardEngineState::showHintNotification(
     }
     engine_->notifications()->call<INotifications::showTip>(
         "fcitx-keyboard-hint", _("Input Method"), "tools-check-spelling",
-        _("Completion"), message, -1);
+        _("Completion"), message, 1000);
 }
 
 bool KeyboardEngineState::handleLongPress(const KeyEvent &event) {
