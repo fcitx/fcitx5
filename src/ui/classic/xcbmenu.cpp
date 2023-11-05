@@ -339,7 +339,8 @@ void XCBMenu::setHoveredIndex(int idx) {
                             // FCITX_INFO() << this << " in timer show submenu "
                             // << newMenu;
                             newMenu->show(
-                                item.first->region_.translated(x_, y_));
+                                item.first->region_.translated(x_, y_),
+                                ConstrainAdjustment::Slide);
                         }
                     } else {
                         /// FCITX_INFO() << this << " in timer branch 2";
@@ -643,7 +644,7 @@ void XCBMenu::setFocus() {
                         XCB_CURRENT_TIME);
 }
 
-void XCBMenu::show(Rect rect) {
+void XCBMenu::show(Rect rect, ConstrainAdjustment adjustY) {
     // FCITX_INFO() << this << " show() " << hoveredIndex_;
     if (visible_) {
         return;
@@ -668,29 +669,27 @@ void XCBMenu::show(Rect rect) {
     x = x + rect.width();
 
     if (closestScreen) {
-        int newX, newY;
 
         if (x + width() > closestScreen->right()) {
-            newX = rect.left() - width();
-        } else {
-            newX = x;
+            x = rect.left() - width();
         }
 
-        newY = y;
+        switch (adjustY) {
+        case ConstrainAdjustment::Slide:
+            if (y + height() > closestScreen->bottom()) {
+                y = closestScreen->bottom() - height();
+            }
+            break;
+        case ConstrainAdjustment::Flip:
+            if (y + height() > closestScreen->bottom()) {
+                y = rect.top() - height();
+            }
+            break;
+        };
 
-        if (newY > closestScreen->bottom()) {
-            newY = closestScreen->bottom() - height();
-        } else if (newY + height() > closestScreen->bottom()) {
-            /* better position the window */
-            newY = newY - height();
+        if (y < closestScreen->top()) {
+            y = closestScreen->top();
         }
-
-        if (newY < closestScreen->top()) {
-            newY = closestScreen->top();
-        }
-
-        x = newX;
-        y = newY;
     }
 
     xcb_params_configure_window_t wc;

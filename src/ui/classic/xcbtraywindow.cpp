@@ -99,7 +99,8 @@ bool XCBTrayWindow::filterEvent(xcb_generic_event_t *event) {
                 XCBMenu *menu = menuPool_.requestMenu(ui_, &menu_, nullptr);
                 menu->show(Rect()
                                .setPosition(press->root_x, press->root_y)
-                               .setSize(1, 1));
+                               .setSize(1, 1),
+                           ConstrainAdjustment::Flip);
             } else if (press->detail == XCB_BUTTON_INDEX_1) {
                 ui_->parent()->instance()->toggle();
             }

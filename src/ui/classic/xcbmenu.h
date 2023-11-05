@@ -33,11 +33,13 @@ struct MenuItem {
     int subMenuX_ = 0, subMenuY_ = 0;
 };
 
+enum class ConstrainAdjustment { Slide, Flip };
+
 class XCBMenu : public XCBWindow, public TrackableObject<XCBMenu> {
 public:
     XCBMenu(XCBUI *ui, MenuPool *pool, Menu *menu);
     ~XCBMenu();
-    void show(Rect rect);
+    void show(Rect rect, ConstrainAdjustment adjustY);
 
     // Hide menu itself.
     void hide();
