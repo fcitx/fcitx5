@@ -40,8 +40,6 @@ public:
 
     void init();
     void refreshSeat();
-    void activate(wayland::ZwpInputMethodV2 *id);
-    void deactivate(wayland::ZwpInputMethodV2 *id);
     void add(WaylandIMInputContextV2 *ic, wayland::WlSeat *seat);
     void remove(wayland::WlSeat *seat);
     Instance *instance();
