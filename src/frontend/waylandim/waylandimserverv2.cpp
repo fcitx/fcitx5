@@ -153,7 +153,7 @@ WaylandIMInputContextV2::WaylandIMInputContextV2(
                                     WL_KEYBOARD_KEY_STATE_RELEASED);
                     }
                     vk_->modifiers(0, 0, 0, 0);
-                    server_->display_->flush();
+                    server_->deferredFlush();
                 }
                 focusOutWrapper();
             }
@@ -470,7 +470,20 @@ void WaylandIMInputContextV2::keyCallback(uint32_t, uint32_t time, uint32_t key,
                     event.isRelease() ? WL_KEYBOARD_KEY_STATE_RELEASED
                                       : WL_KEYBOARD_KEY_STATE_PRESSED);
     }
-    server_->display_->flush();
+
+    // This means our engine is being too slow, this is usually transient (e.g.
+    // cold start up due to data loading, high CPU usage etc).
+    // To avoid an undesired repetition, reset the delay the next interval so we
+    // can handle the release first.
+    if (timeEvent_->time() < now(timeEvent_->clock()) &&
+        timeEvent_->isOneShot()) {
+        WAYLANDIM_DEBUG() << "Engine handling speed can not keep up with key "
+                             "repetition rate.";
+        timeEvent_->setNextInterval(
+            std::min(1000, repeatDelay_ * 1000 - repeatHackDelay));
+    }
+
+    server_->deferredFlush();
 }
 void WaylandIMInputContextV2::modifiersCallback(uint32_t,
                                                 uint32_t mods_depressed,
@@ -547,7 +560,7 @@ void WaylandIMInputContextV2::sendKeyToVK(uint32_t time, uint32_t key,
         pressedVKKey_[key] = time;
     }
     vk_->key(time, key, state);
-    server_->display_->flush();
+    server_->deferredFlush();
 }
 
 void WaylandIMInputContextV2::forwardKeyDelegate(
