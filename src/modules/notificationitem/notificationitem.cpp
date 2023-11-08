@@ -351,9 +351,7 @@ void NotificationItem::registerSNI() {
         setRegistered(!msg.isError());
         return true;
     });
-    if (privateBus_) {
-        privateBus_->flush();
-    }
+    privateBus_->flush();
 }
 
 void NotificationItem::maybeScheduleRegister() {

@@ -131,7 +131,7 @@ void WaylandConnection::init(wl_display *display) {
                 keyboards_.erase(static_cast<wayland::WlSeat *>(ptr.get()));
             }
         });
-    for (auto seat : display_->getGlobals<wayland::WlSeat>()) {
+    for (const auto &seat : display_->getGlobals<wayland::WlSeat>()) {
         setupKeyboard(seat.get());
     }
     eventReader_ = std::make_unique<WaylandEventReader>(this);

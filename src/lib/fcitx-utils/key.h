@@ -204,7 +204,7 @@ public:
                     KeyStringFormat format = KeyStringFormat::Portable) {
         std::string result;
         bool first = true;
-        for (auto k : container) {
+        for (const auto &k : container) {
             if (first) {
                 first = false;
             } else {

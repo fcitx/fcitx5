@@ -22,7 +22,7 @@ concatPieces(std::initializer_list<std::pair<const char *, std::size_t>> list) {
     }
     std::string result;
     result.reserve(size);
-    for (auto pair : list) {
+    for (const auto &pair : list) {
         result.append(pair.first, pair.first + pair.second);
     }
     assert(result.size() == size);
@@ -38,7 +38,7 @@ std::string concatPathPieces(
     bool first = true;
     bool firstPieceIsSlash = false;
     std::size_t size = 0;
-    for (auto pair : list) {
+    for (const auto &pair : list) {
         if (first) {
             if (pair.first[pair.second - 1] == '/') {
                 firstPieceIsSlash = true;
