@@ -101,7 +101,12 @@ void WaylandUI::update(UserInterfaceComponent component,
     }
 }
 
-void WaylandUI::suspend() { inputWindow_->update(nullptr); }
+void WaylandUI::suspend() {
+    if (!inputWindow_) {
+        return;
+    }
+    inputWindow_->update(nullptr);
+}
 
 void WaylandUI::resume() {
     CLASSICUI_DEBUG() << "Resume WaylandUI display name:" << display_;
