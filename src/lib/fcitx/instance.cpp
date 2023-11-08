@@ -1584,7 +1584,7 @@ std::string Instance::inputMethod(InputContext *ic) {
         (ic->capabilityFlags().test(CapabilityFlag::Password) &&
          !d->globalConfig_.allowInputMethodForPassword())) {
         auto defaultLayout = group.defaultLayout();
-        auto defaultLayoutIM = fmt::format("keyboard-{}", defaultLayout);
+        auto defaultLayoutIM = stringutils::concat("keyboard-", defaultLayout);
         const auto *entry = d->imManager_.entry(defaultLayoutIM);
         if (!entry) {
             entry = d->imManager_.entry("keyboard-us");
