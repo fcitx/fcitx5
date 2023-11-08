@@ -82,7 +82,7 @@ private:
     UniqueCPtr<cairo_device_t, destroyCairoDevice> device_;
     std::string displayName_;
     xcb_connection_t *conn_;
-    XCBWindow *pointerGrabber_;
+    XCBWindow *pointerGrabber_ = nullptr;
     xcb_window_t root_ = XCB_WINDOW_NONE;
     xcb_ewmh_connection_t *ewmh_;
     int defaultScreen_;
