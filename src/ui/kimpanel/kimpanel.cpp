@@ -265,6 +265,10 @@ void Kimpanel::resume() {
 
 void Kimpanel::update(UserInterfaceComponent component,
                       InputContext *inputContext) {
+    if (!inputContext->hasFocus() && inputContext != lastInputContext_.get() &&
+        inputContext != instance_->mostRecentInputContext()) {
+        return;
+    }
     if (component == UserInterfaceComponent::InputPanel) {
         if (classicui() && isKDE() &&
             (stringutils::startsWith(inputContext->frontendName(), "wayland") ||
