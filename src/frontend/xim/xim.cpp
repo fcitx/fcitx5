@@ -11,6 +11,7 @@
 #include <xcb-imdkit/encoding.h>
 #include <xcb/xcb_aux.h>
 #include <xkbcommon/xkbcommon.h>
+#include "fcitx-utils/misc.h"
 #include "fcitx-utils/misc_p.h"
 #include "fcitx-utils/stringutils.h"
 #include "fcitx-utils/utf8.h"
@@ -184,6 +185,7 @@ private:
     // bool value: isUtf8
     std::unordered_map<xcb_im_client_t *, bool> clientEncodingMapping_;
     std::unordered_set<uint32_t> supportedStyles_;
+    UniqueCPtr<struct xkb_state, xkb_state_unref> localState_;
 };
 
 pid_t getWindowPid(xcb_ewmh_connection_t *ewmh, xcb_window_t w) {
@@ -568,11 +570,24 @@ void XIMServer::callback(xcb_im_client_t *client, xcb_im_input_context_t *xic,
         if (!state) {
             break;
         }
+
+        auto *keymap = xkb_state_get_keymap(state);
+        if (!localState_ || xkb_state_get_keymap(localState_.get()) !=
+                                xkb_state_get_keymap(state)) {
+            localState_.reset(xkb_state_new(keymap));
+        }
         xcb_key_press_event_t *xevent =
             static_cast<xcb_key_press_event_t *>(arg);
+        auto layout =
+            xkb_state_serialize_layout(state, XKB_STATE_LAYOUT_EFFECTIVE);
+        // Always use the state that is forwarded by client.
+        // For xkb_state_key_get_one_sym, no need to distinguish
+        // depressed/latched/locked.
+        xkb_state_update_mask(localState_.get(), xevent->state, 0, 0, 0, 0,
+                              layout);
         KeyEvent event(ic,
                        Key(static_cast<KeySym>(xkb_state_key_get_one_sym(
-                               state, xevent->detail)),
+                               localState_.get(), xevent->detail)),
                            ic->updateAutoRepeatState(xevent), xevent->detail),
                        (xevent->response_type & ~0x80) == XCB_KEY_RELEASE,
                        xevent->time);
