@@ -266,6 +266,7 @@ std::unordered_map<KeySym, const char *, EnumHash> makeLookupKeyNameMap() {
         {FcitxKey_TouchpadToggle, NC_("Key name", "Touchpad Toggle")},
         {FcitxKey_TouchpadOn, NC_("Key name", "Touchpad On")},
         {FcitxKey_TouchpadOff, NC_("Key name", "Touchpad Off")},
+        {FcitxKey_VoidSymbol, NC_("Key name", "Void Symbol")},
     };
     std::unordered_map<KeySym, const char *, EnumHash> result;
     for (const auto &item : keyname) {
