@@ -372,7 +372,7 @@ bool Key::check(const Key &key) const {
         return key.states_ == states && key.code_ == code_;
     }
 
-    if (key.sym() == FcitxKey_None) {
+    if (key.sym() == FcitxKey_None || key.sym() == FcitxKey_VoidSymbol) {
         return false;
     }
 
