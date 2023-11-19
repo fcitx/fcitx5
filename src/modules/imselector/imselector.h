@@ -9,6 +9,7 @@
 
 #include "fcitx-config/configuration.h"
 #include "fcitx-config/iniparser.h"
+#include "fcitx-config/option.h"
 #include "fcitx-utils/i18n.h"
 #include "fcitx/addoninstance.h"
 #include "fcitx/inputpanel.h"
@@ -22,19 +23,23 @@ using KeyListOptionWithToolTip =
 FCITX_CONFIGURATION(
     IMSelectorConfig,
     KeyListOption triggerKey{
-        this, "TriggerKey", _("Trigger Key"), {}, KeyListConstrain()};
+        this,
+        "TriggerKey",
+        _("Trigger Key"),
+        {},
+        KeyListConstrain(KeyConstrainFlag::AllowModifierLess)};
     KeyListOption triggerKeyLocal{
         this,
         "TriggerKeyLocal",
         _("Trigger Key for only current input context"),
         {},
-        KeyListConstrain()};
+        KeyListConstrain(KeyConstrainFlag::AllowModifierLess)};
     KeyListOptionWithToolTip switchKey{
         this,
         "SwitchKey",
         _("Hotkey for switching to the N-th input method"),
         {},
-        KeyListConstrain(),
+        KeyListConstrain(KeyConstrainFlag::AllowModifierLess),
         {},
         ToolTipAnnotation(
             _("The n-th hotkey in the list selects the n-th input method."))};
@@ -44,7 +49,7 @@ FCITX_CONFIGURATION(
         _("Hotkey for switching to the N-th input "
           "method for only current input context"),
         {},
-        KeyListConstrain(),
+        KeyListConstrain(KeyConstrainFlag::AllowModifierLess),
         {},
         ToolTipAnnotation(
             _("The n-th hotkey in the list selects the n-th input method."))};);
