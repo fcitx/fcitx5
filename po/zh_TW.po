@@ -17,7 +17,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2023-10-20 20:24+0000\n"
+"POT-Creation-Date: 2023-11-19 20:24+0000\n"
 "PO-Revision-Date: 2017-11-23 04:14+0000\n"
 "Last-Translator: Lau YeeYu, 2023\n"
 "Language-Team: Chinese (Taiwan) (https://app.transifex.com/fcitx/teams/12005/"
@@ -178,7 +178,7 @@ msgstr "允許在密碼輸入框中使用輸入法"
 msgid "Alt"
 msgstr "Alt"
 
-#: src/lib/fcitx-utils/key.cpp:560
+#: src/lib/fcitx-utils/key.cpp:561
 msgctxt "Key name"
 msgid "Alt"
 msgstr "Alt"
@@ -540,7 +540,7 @@ msgstr "設定"
 msgid "Control"
 msgstr "控制"
 
-#: src/lib/fcitx-utils/key.cpp:559
+#: src/lib/fcitx-utils/key.cpp:560
 msgctxt "Key name"
 msgid "Control"
 msgstr "Control 鍵"
@@ -1237,16 +1237,16 @@ msgstr "熱門連結"
 msgid "Hotkey"
 msgstr "快捷鍵"
 
-#: src/modules/imselector/imselector.h:35
+#: src/modules/imselector/imselector.h:40
 msgid "Hotkey for switching to the N-th input method"
 msgstr "切換到第 N 個輸入法的快速鍵"
 
-#: src/modules/imselector/imselector.h:44
+#: src/modules/imselector/imselector.h:49
 msgid ""
 "Hotkey for switching to the N-th input method for only current input context"
 msgstr "僅用於目前輸入上下文切換到第 N 種輸入法的快捷鍵"
 
-#: src/lib/fcitx-utils/key.cpp:564
+#: src/lib/fcitx-utils/key.cpp:565
 msgctxt "Key name"
 msgid "Hyper"
 msgstr "Hyper 鍵"
@@ -1379,7 +1379,7 @@ msgstr ""
 msgid "KDE Input Method Panel"
 msgstr "KDE 輸入法面板"
 
-#: src/ui/classic/classicui.cpp:260
+#: src/ui/classic/classicui.cpp:289
 msgid "KDE Plasma (Experimental)"
 msgstr "KDE Plasma (實驗性)"
 
@@ -1982,7 +1982,7 @@ msgstr ""
 "通常 Wayland 使用 96 作為字體 DPI，同時和螢幕的縮放倍數組合調整文字大小。這個"
 "選項允許你覆蓋字體的 DPI。如果設置為 0，這個選項將被禁用。"
 
-#: src/ui/kimpanel/kimpanel.cpp:386
+#: src/ui/kimpanel/kimpanel.cpp:407
 msgid "Not available"
 msgstr "無法使用"
 
@@ -2336,7 +2336,7 @@ msgstr "陰影邊緣"
 msgid "Share Input State"
 msgstr "共享輸入法狀態"
 
-#: src/lib/fcitx-utils/key.cpp:561
+#: src/lib/fcitx-utils/key.cpp:562
 msgctxt "Key name"
 msgid "Shift"
 msgstr "Shift 鍵"
@@ -2456,7 +2456,7 @@ msgstr "副標題"
 msgid "Super"
 msgstr "超級"
 
-#: src/lib/fcitx-utils/key.cpp:562
+#: src/lib/fcitx-utils/key.cpp:563
 msgctxt "Key name"
 msgid "Super"
 msgstr "Super 鍵"
@@ -2527,8 +2527,8 @@ msgstr ""
 "圖形桌面。您可以對某個無法正常工作的行程執行 `xargs -0 -L1 /proc/$PID/"
 "environ` 以檢查其實際環境變數。"
 
-#: src/modules/imselector/imselector.h:40
-#: src/modules/imselector/imselector.h:50
+#: src/modules/imselector/imselector.h:45
+#: src/modules/imselector/imselector.h:55
 msgid "The n-th hotkey in the list selects the n-th input method."
 msgstr "列表中第 n 個快速鍵選擇第 n 個輸入法。"
 
@@ -2655,13 +2655,13 @@ msgstr "托盤標簽文字顏色"
 msgid "Trigger Input Method"
 msgstr "切換啟用或非啟用輸入法"
 
-#: src/modules/imselector/imselector.h:25
+#: src/modules/imselector/imselector.h:28
 #: src/modules/quickphrase/quickphrase.h:36 src/modules/unicode/unicode.h:31
 #: src/modules/clipboard/clipboard.h:42
 msgid "Trigger Key"
 msgstr "觸發鍵"
 
-#: src/modules/imselector/imselector.h:29
+#: src/modules/imselector/imselector.h:34
 msgid "Trigger Key for only current input context"
 msgstr "只針對當前輸入環境的觸發鍵"
 
@@ -2766,6 +2766,11 @@ msgstr "影片"
 msgctxt "Key name"
 msgid "View"
 msgstr "檢視"
+
+#: src/lib/fcitx-utils/key.cpp:269
+msgctxt "Key name"
+msgid "Void Symbol"
+msgstr ""
 
 #: src/lib/fcitx-utils/key.cpp:97
 msgctxt "Key name"
@@ -2917,7 +2922,7 @@ msgstr "您正在 ${1}程式中使用 xim。"
 msgid "You may have trouble using fcitx in ${1} programs."
 msgstr "您可能會在 ${1}程式中使用 fcitx 時遇到問題。"
 
-#: data/fcitx5-configtool.sh:134
+#: data/fcitx5-configtool.sh:137
 msgid ""
 "You're currently running Fcitx with GUI, but fcitx5-config-qt couldn't be "
 "found. Now it will open config directory."
@@ -2925,7 +2930,7 @@ msgstr ""
 "您目前在圖形介面執行 Fcitx，但是找不到 fcitx5-config-qt。現在它將打開設定目"
 "錄。"
 
-#: data/fcitx5-configtool.sh:131
+#: data/fcitx5-configtool.sh:134
 msgid ""
 "You're currently running KDE, but KCModule for fcitx couldn't be found, the "
 "package name of this KCModule is usually kcm-fcitx or kde-config-fcitx. Now "

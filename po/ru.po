@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2023-11-03 20:24+0000\n"
+"POT-Creation-Date: 2023-11-19 20:24+0000\n"
 "PO-Revision-Date: 2017-11-23 04:14+0000\n"
 "Last-Translator: Dmitry <dmitrydmitry761@gmail.com>, 2023\n"
 "Language-Team: Russian (https://app.transifex.com/fcitx/teams/12005/ru/)\n"
@@ -175,7 +175,7 @@ msgstr "Разрешить метод ввода в поле пароля"
 msgid "Alt"
 msgstr "Alt"
 
-#: src/lib/fcitx-utils/key.cpp:560
+#: src/lib/fcitx-utils/key.cpp:561
 msgctxt "Key name"
 msgid "Alt"
 msgstr "Alt"
@@ -542,7 +542,7 @@ msgstr "Настроить"
 msgid "Control"
 msgstr "Control"
 
-#: src/lib/fcitx-utils/key.cpp:559
+#: src/lib/fcitx-utils/key.cpp:560
 msgctxt "Key name"
 msgid "Control"
 msgstr "Control"
@@ -1251,18 +1251,18 @@ msgstr "Горячие ссылки"
 msgid "Hotkey"
 msgstr "Горячая клавиша"
 
-#: src/modules/imselector/imselector.h:35
+#: src/modules/imselector/imselector.h:40
 msgid "Hotkey for switching to the N-th input method"
 msgstr "Горячая клавиша для переключения на определённый способ ввода"
 
-#: src/modules/imselector/imselector.h:44
+#: src/modules/imselector/imselector.h:49
 msgid ""
 "Hotkey for switching to the N-th input method for only current input context"
 msgstr ""
 "Горячая клавиша для переключения на определённый метод ввода только для "
 "текущего контекста ввода"
 
-#: src/lib/fcitx-utils/key.cpp:564
+#: src/lib/fcitx-utils/key.cpp:565
 msgctxt "Key name"
 msgid "Hyper"
 msgstr "Hyper"
@@ -2006,7 +2006,7 @@ msgstr ""
 "масштабирования экрана. Эта опция позволяет переопределить DPI шрифта. Если "
 "значение равно 0, это означает, что эта опция отключена."
 
-#: src/ui/kimpanel/kimpanel.cpp:402
+#: src/ui/kimpanel/kimpanel.cpp:407
 msgid "Not available"
 msgstr "Недоступно"
 
@@ -2367,7 +2367,7 @@ msgstr "Затенённое поле"
 msgid "Share Input State"
 msgstr "Поделиться состоянием ввода"
 
-#: src/lib/fcitx-utils/key.cpp:561
+#: src/lib/fcitx-utils/key.cpp:562
 msgctxt "Key name"
 msgid "Shift"
 msgstr "Shift"
@@ -2490,7 +2490,7 @@ msgstr "Подзаголовок"
 msgid "Super"
 msgstr "Super"
 
-#: src/lib/fcitx-utils/key.cpp:562
+#: src/lib/fcitx-utils/key.cpp:563
 msgctxt "Key name"
 msgid "Super"
 msgstr "Super"
@@ -2564,8 +2564,8 @@ msgstr ""
 "L1 /proc/$PID/environ` для определенного процесса, который вы считаете "
 "неработающим."
 
-#: src/modules/imselector/imselector.h:40
-#: src/modules/imselector/imselector.h:50
+#: src/modules/imselector/imselector.h:45
+#: src/modules/imselector/imselector.h:55
 msgid "The n-th hotkey in the list selects the n-th input method."
 msgstr ""
 "Определённая горячая клавиша в списке выбирает определённый метод ввода."
@@ -2697,13 +2697,13 @@ msgstr "Цвет текста лейбла лотка"
 msgid "Trigger Input Method"
 msgstr "Активация метода ввода"
 
-#: src/modules/imselector/imselector.h:25
+#: src/modules/imselector/imselector.h:28
 #: src/modules/quickphrase/quickphrase.h:36 src/modules/unicode/unicode.h:31
 #: src/modules/clipboard/clipboard.h:42
 msgid "Trigger Key"
 msgstr "Клавиша-триггер"
 
-#: src/modules/imselector/imselector.h:29
+#: src/modules/imselector/imselector.h:34
 msgid "Trigger Key for only current input context"
 msgstr "Клавиша-триггер только для текущего контекста ввода"
 
@@ -2812,6 +2812,11 @@ msgstr "Видео"
 msgctxt "Key name"
 msgid "View"
 msgstr "Вид"
+
+#: src/lib/fcitx-utils/key.cpp:269
+msgctxt "Key name"
+msgid "Void Symbol"
+msgstr ""
 
 #: src/lib/fcitx-utils/key.cpp:97
 msgctxt "Key name"
@@ -2972,7 +2977,7 @@ msgstr "Вы используете xim в ${1} программах."
 msgid "You may have trouble using fcitx in ${1} programs."
 msgstr "Возможны проблемы при использовании fcitx в ${1} программах."
 
-#: data/fcitx5-configtool.sh:134
+#: data/fcitx5-configtool.sh:137
 msgid ""
 "You're currently running Fcitx with GUI, but fcitx5-config-qt couldn't be "
 "found. Now it will open config directory."
@@ -2980,7 +2985,7 @@ msgstr ""
 "В настоящее время вы используете Fcitx с графическим интерфейсом, но не "
 "удалось найти fcitx5-config-qt. Сейчас будет открыт конфигурационный каталог."
 
-#: data/fcitx5-configtool.sh:131
+#: data/fcitx5-configtool.sh:134
 msgid ""
 "You're currently running KDE, but KCModule for fcitx couldn't be found, the "
 "package name of this KCModule is usually kcm-fcitx or kde-config-fcitx. Now "

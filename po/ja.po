@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2023-11-03 20:24+0000\n"
+"POT-Creation-Date: 2023-11-19 20:24+0000\n"
 "PO-Revision-Date: 2017-11-23 04:14+0000\n"
 "Last-Translator: UTUMI Hirosi <utuhiro78@yahoo.co.jp>, 2023\n"
 "Language-Team: Japanese (https://app.transifex.com/fcitx/teams/12005/ja/)\n"
@@ -172,7 +172,7 @@ msgstr "パスワード欄に入力メソッドを許可する"
 msgid "Alt"
 msgstr "Alt"
 
-#: src/lib/fcitx-utils/key.cpp:560
+#: src/lib/fcitx-utils/key.cpp:561
 msgctxt "Key name"
 msgid "Alt"
 msgstr "Alt"
@@ -537,7 +537,7 @@ msgstr "設定"
 msgid "Control"
 msgstr "Control"
 
-#: src/lib/fcitx-utils/key.cpp:559
+#: src/lib/fcitx-utils/key.cpp:560
 msgctxt "Key name"
 msgid "Control"
 msgstr "Control"
@@ -1244,16 +1244,16 @@ msgstr "ホットリンク"
 msgid "Hotkey"
 msgstr "ホットキー"
 
-#: src/modules/imselector/imselector.h:35
+#: src/modules/imselector/imselector.h:40
 msgid "Hotkey for switching to the N-th input method"
 msgstr "N番目の入力メソッドに切り替えるホットキー"
 
-#: src/modules/imselector/imselector.h:44
+#: src/modules/imselector/imselector.h:49
 msgid ""
 "Hotkey for switching to the N-th input method for only current input context"
 msgstr "現在の入力コンテキストのみをN番目の入力メソッドに切り替えるホットキー"
 
-#: src/lib/fcitx-utils/key.cpp:564
+#: src/lib/fcitx-utils/key.cpp:565
 msgctxt "Key name"
 msgid "Hyper"
 msgstr "Hyper"
@@ -1996,7 +1996,7 @@ msgstr ""
 "す。このオプションを使用すると、フォント DPI を上書きできます。値が 0 の場"
 "合、このオプションは無効になります。"
 
-#: src/ui/kimpanel/kimpanel.cpp:402
+#: src/ui/kimpanel/kimpanel.cpp:407
 msgid "Not available"
 msgstr "使用不可"
 
@@ -2357,7 +2357,7 @@ msgstr "影のマージン"
 msgid "Share Input State"
 msgstr "入力状態を共有する"
 
-#: src/lib/fcitx-utils/key.cpp:561
+#: src/lib/fcitx-utils/key.cpp:562
 msgctxt "Key name"
 msgid "Shift"
 msgstr "シフト"
@@ -2479,7 +2479,7 @@ msgstr "サブタイトル"
 msgid "Super"
 msgstr "Super"
 
-#: src/lib/fcitx-utils/key.cpp:562
+#: src/lib/fcitx-utils/key.cpp:563
 msgctxt "Key name"
 msgid "Super"
 msgstr "Super"
@@ -2551,8 +2551,8 @@ msgstr ""
 "す。動作していない特定のプロセスに対して、「xargs -0 -L1 /proc/$PID/environ」"
 "を使用することで、特定のプロセスの実際の変数を検査できます。"
 
-#: src/modules/imselector/imselector.h:40
-#: src/modules/imselector/imselector.h:50
+#: src/modules/imselector/imselector.h:45
+#: src/modules/imselector/imselector.h:55
 msgid "The n-th hotkey in the list selects the n-th input method."
 msgstr "N番目のホットキーでN番目の入力メソッドに切り替える。"
 
@@ -2680,13 +2680,13 @@ msgstr "トレイラベルのテキスト色"
 msgid "Trigger Input Method"
 msgstr "入力メソッドの切り替え"
 
-#: src/modules/imselector/imselector.h:25
+#: src/modules/imselector/imselector.h:28
 #: src/modules/quickphrase/quickphrase.h:36 src/modules/unicode/unicode.h:31
 #: src/modules/clipboard/clipboard.h:42
 msgid "Trigger Key"
 msgstr "トリガーキー"
 
-#: src/modules/imselector/imselector.h:29
+#: src/modules/imselector/imselector.h:34
 msgid "Trigger Key for only current input context"
 msgstr "現在の入力コンテキストのみのトリガーキー"
 
@@ -2791,6 +2791,11 @@ msgstr "ビデオ"
 msgctxt "Key name"
 msgid "View"
 msgstr "ビュー"
+
+#: src/lib/fcitx-utils/key.cpp:269
+msgctxt "Key name"
+msgid "Void Symbol"
+msgstr ""
 
 #: src/lib/fcitx-utils/key.cpp:97
 msgctxt "Key name"
@@ -2945,7 +2950,7 @@ msgstr "XIM を ${1} プログラムで使用しています。"
 msgid "You may have trouble using fcitx in ${1} programs."
 msgstr "Fcitx を使っている プログラム ${1} で問題が発生しています。"
 
-#: data/fcitx5-configtool.sh:134
+#: data/fcitx5-configtool.sh:137
 msgid ""
 "You're currently running Fcitx with GUI, but fcitx5-config-qt couldn't be "
 "found. Now it will open config directory."
@@ -2953,7 +2958,7 @@ msgstr ""
 "現在 fcitx を GUI で使用していますが、fcitx5-configtool が見つかりません。今"
 "回は既定のテキストエディタで設定ファイルを開きます。"
 
-#: data/fcitx5-configtool.sh:131
+#: data/fcitx5-configtool.sh:134
 msgid ""
 "You're currently running KDE, but KCModule for fcitx couldn't be found, the "
 "package name of this KCModule is usually kcm-fcitx or kde-config-fcitx. Now "

@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2023-10-19 05:51+0000\n"
+"POT-Creation-Date: 2023-11-19 20:24+0000\n"
 "PO-Revision-Date: 2017-11-23 04:14+0000\n"
 "Last-Translator: csslayer <wengxt@gmail.com>, 2023\n"
 "Language-Team: Chinese (China) (https://app.transifex.com/fcitx/teams/12005/"
@@ -173,7 +173,7 @@ msgstr "允许在密码框中使用输入法"
 msgid "Alt"
 msgstr "Alt"
 
-#: src/lib/fcitx-utils/key.cpp:560
+#: src/lib/fcitx-utils/key.cpp:561
 msgctxt "Key name"
 msgid "Alt"
 msgstr "Alt"
@@ -535,7 +535,7 @@ msgstr "配置"
 msgid "Control"
 msgstr "Control"
 
-#: src/lib/fcitx-utils/key.cpp:559
+#: src/lib/fcitx-utils/key.cpp:560
 msgctxt "Key name"
 msgid "Control"
 msgstr "Control"
@@ -657,7 +657,7 @@ msgstr "桌面环境："
 msgid "Desktop environment is ${1}."
 msgstr "桌面环境为 ${1}。"
 
-#: src/modules/wayland/waylandmodule.cpp:476
+#: src/modules/wayland/waylandmodule.cpp:477
 msgid ""
 "Detect GTK_IM_MODULE and QT_IM_MODULE being set and Wayland Input method "
 "frontend is working. It is recommended to unset GTK_IM_MODULE and "
@@ -668,7 +668,7 @@ msgstr ""
 "作。推荐不设置 GTK_IM_MODULE 和 QT_IM_MODULE 从而使用 Wayland 输入法前端。更"
 "多信息请参见 https://fcitx-im.org/wiki/Using_Fcitx_5_on_Wayland#KDE_Plasma"
 
-#: src/modules/wayland/waylandmodule.cpp:504
+#: src/modules/wayland/waylandmodule.cpp:506
 msgid ""
 "Detect GTK_IM_MODULE being set and Wayland Input method frontend is working. "
 "It is recommended to unset GTK_IM_MODULE and use Wayland input method "
@@ -882,7 +882,7 @@ msgstr ""
 "Fcitx 是一个输入法框架。它可以帮助您输入您需要的语言。它也支持许多不同的附加"
 "组件来改善输入体验。"
 
-#: src/modules/wayland/waylandmodule.cpp:463
+#: src/modules/wayland/waylandmodule.cpp:464
 msgid ""
 "Fcitx should be launched by KWin under KDE Wayland in order to use Wayland "
 "input method frontend. This can improve the experience when using Fcitx on "
@@ -952,7 +952,7 @@ msgstr ""
 "例如，用拼音时显示中文的异体字，用 Anthy 时显示日语的异体字。字体配置需要支持"
 "这个功能。"
 
-#: src/modules/wayland/waylandmodule.cpp:530
+#: src/modules/wayland/waylandmodule.cpp:532
 msgid "For more details see https://fcitx-im.org/wiki/Using_Fcitx_5_on_Wayland"
 msgstr "更多细节请参见 https://fcitx-im.org/wiki/Using_Fcitx_5_on_Wayland"
 
@@ -1230,16 +1230,16 @@ msgstr "热门链接"
 msgid "Hotkey"
 msgstr "快捷键"
 
-#: src/modules/imselector/imselector.h:35
+#: src/modules/imselector/imselector.h:40
 msgid "Hotkey for switching to the N-th input method"
 msgstr "切换到当前输入法到第...个输入法的按键"
 
-#: src/modules/imselector/imselector.h:44
+#: src/modules/imselector/imselector.h:49
 msgid ""
 "Hotkey for switching to the N-th input method for only current input context"
 msgstr "切换到当前局部输入法到第...个输入法的按键"
 
-#: src/lib/fcitx-utils/key.cpp:564
+#: src/lib/fcitx-utils/key.cpp:565
 msgctxt "Key name"
 msgid "Hyper"
 msgstr "Hyper"
@@ -1355,7 +1355,7 @@ msgstr ""
 "如果您的混成器完全支持 ${1} 使用的 text-input 协议，您也可以使用 ${1} 内置的 "
 "Wayland 模块。"
 
-#: src/modules/wayland/waylandmodule.cpp:488
+#: src/modules/wayland/waylandmodule.cpp:489
 msgid ""
 "It is recommended to install Input Method Panel GNOME Shell Extensions to "
 "provide the input method popup. https://extensions.gnome.org/extension/261/"
@@ -1371,7 +1371,7 @@ msgstr ""
 msgid "KDE Input Method Panel"
 msgstr "KDE 输入法面板"
 
-#: src/ui/classic/classicui.cpp:260
+#: src/ui/classic/classicui.cpp:289
 msgid "KDE Plasma (Experimental)"
 msgstr "KDE Plasma (实验性)"
 
@@ -1974,7 +1974,7 @@ msgstr ""
 "通常 Wayland 使用 96 作为字体 DPI，同时和屏幕的缩放倍数组合调整文字大小。这个"
 "选项允许你覆盖字体的 DPI。如果设置为 0，这个选项将被禁用。"
 
-#: src/ui/kimpanel/kimpanel.cpp:386
+#: src/ui/kimpanel/kimpanel.cpp:407
 msgid "Not available"
 msgstr "不可用"
 
@@ -2308,7 +2308,7 @@ msgctxt "Key name"
 msgid "Send"
 msgstr "发送"
 
-#: src/modules/wayland/waylandmodule.cpp:519
+#: src/modules/wayland/waylandmodule.cpp:521
 msgid ""
 "Sending keyboard layout configuration to wayland compositor from Fcitx is "
 "not yet supported on current desktop. You may still use Fcitx's internal "
@@ -2329,7 +2329,7 @@ msgstr "阴影边距"
 msgid "Share Input State"
 msgstr "共享输入状态"
 
-#: src/lib/fcitx-utils/key.cpp:561
+#: src/lib/fcitx-utils/key.cpp:562
 msgctxt "Key name"
 msgid "Shift"
 msgstr "Shift"
@@ -2449,7 +2449,7 @@ msgstr "副标题"
 msgid "Super"
 msgstr "Super"
 
-#: src/lib/fcitx-utils/key.cpp:562
+#: src/lib/fcitx-utils/key.cpp:563
 msgctxt "Key name"
 msgid "Super"
 msgstr "Super"
@@ -2520,8 +2520,8 @@ msgstr ""
 "个桌面。您可以通过使用命令对某个无法正常工作的进程使用命令 `xargs -0 -L1 /"
 "proc/$PID/environ` 检查此进程的实际的环境变量。"
 
-#: src/modules/imselector/imselector.h:40
-#: src/modules/imselector/imselector.h:50
+#: src/modules/imselector/imselector.h:45
+#: src/modules/imselector/imselector.h:55
 msgid "The n-th hotkey in the list selects the n-th input method."
 msgstr "列表中第 n 个按键选择第 n 个对应输入法。"
 
@@ -2648,13 +2648,13 @@ msgstr "托盘标签文本颜色"
 msgid "Trigger Input Method"
 msgstr "切换启用/禁用输入法"
 
-#: src/modules/imselector/imselector.h:25
+#: src/modules/imselector/imselector.h:28
 #: src/modules/quickphrase/quickphrase.h:36 src/modules/unicode/unicode.h:31
 #: src/modules/clipboard/clipboard.h:42
 msgid "Trigger Key"
 msgstr "触发键"
 
-#: src/modules/imselector/imselector.h:29
+#: src/modules/imselector/imselector.h:34
 msgid "Trigger Key for only current input context"
 msgstr "当前输入上下文的触发键"
 
@@ -2759,6 +2759,11 @@ msgstr "视频"
 msgctxt "Key name"
 msgid "View"
 msgstr "查看"
+
+#: src/lib/fcitx-utils/key.cpp:269
+msgctxt "Key name"
+msgid "Void Symbol"
+msgstr ""
 
 #: src/lib/fcitx-utils/key.cpp:97
 msgctxt "Key name"
@@ -2911,7 +2916,7 @@ msgstr "您正在 ${1} 程序中使用 xim。"
 msgid "You may have trouble using fcitx in ${1} programs."
 msgstr "您可能会在 ${1} 程序中使用 fcitx 时遇到问题."
 
-#: data/fcitx5-configtool.sh:134
+#: data/fcitx5-configtool.sh:137
 msgid ""
 "You're currently running Fcitx with GUI, but fcitx5-config-qt couldn't be "
 "found. Now it will open config directory."
@@ -2919,7 +2924,7 @@ msgstr ""
 "您当前正在使用图形界面运行 Fcitx，但是无法找到 fcitx5-config-qt。现在将打开配"
 "置目录。"
 
-#: data/fcitx5-configtool.sh:131
+#: data/fcitx5-configtool.sh:134
 msgid ""
 "You're currently running KDE, but KCModule for fcitx couldn't be found, the "
 "package name of this KCModule is usually kcm-fcitx or kde-config-fcitx. Now "

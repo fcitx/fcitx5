@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2023-10-19 05:25+0000\n"
+"POT-Creation-Date: 2023-11-19 20:24+0000\n"
 "PO-Revision-Date: 2017-11-23 04:14+0000\n"
 "Last-Translator: mar well <m.wellendorf@gmx.de>, 2023\n"
 "Language-Team: German (https://app.transifex.com/fcitx/teams/12005/de/)\n"
@@ -172,7 +172,7 @@ msgstr ""
 msgid "Alt"
 msgstr "Alt"
 
-#: src/lib/fcitx-utils/key.cpp:560
+#: src/lib/fcitx-utils/key.cpp:561
 msgctxt "Key name"
 msgid "Alt"
 msgstr "Alt"
@@ -539,7 +539,7 @@ msgstr "Konfigurieren"
 msgid "Control"
 msgstr "Kontrolle"
 
-#: src/lib/fcitx-utils/key.cpp:559
+#: src/lib/fcitx-utils/key.cpp:560
 msgctxt "Key name"
 msgid "Control"
 msgstr "Kontrolle"
@@ -661,7 +661,7 @@ msgstr "Desktopumgebung:"
 msgid "Desktop environment is ${1}."
 msgstr "Desktopumgebung ist ${1}."
 
-#: src/modules/wayland/waylandmodule.cpp:476
+#: src/modules/wayland/waylandmodule.cpp:477
 msgid ""
 "Detect GTK_IM_MODULE and QT_IM_MODULE being set and Wayland Input method "
 "frontend is working. It is recommended to unset GTK_IM_MODULE and "
@@ -669,7 +669,7 @@ msgid ""
 "see https://fcitx-im.org/wiki/Using_Fcitx_5_on_Wayland#KDE_Plasma"
 msgstr ""
 
-#: src/modules/wayland/waylandmodule.cpp:504
+#: src/modules/wayland/waylandmodule.cpp:506
 msgid ""
 "Detect GTK_IM_MODULE being set and Wayland Input method frontend is working. "
 "It is recommended to unset GTK_IM_MODULE and use Wayland input method "
@@ -882,7 +882,7 @@ msgstr ""
 "einzugeben. Es stellt weiter verschiedene Addons zur Verfügung, die die "
 "Eingabe verbessern können."
 
-#: src/modules/wayland/waylandmodule.cpp:463
+#: src/modules/wayland/waylandmodule.cpp:464
 msgid ""
 "Fcitx should be launched by KWin under KDE Wayland in order to use Wayland "
 "input method frontend. This can improve the experience when using Fcitx on "
@@ -942,7 +942,7 @@ msgid ""
 "this to use this feature."
 msgstr ""
 
-#: src/modules/wayland/waylandmodule.cpp:530
+#: src/modules/wayland/waylandmodule.cpp:532
 msgid "For more details see https://fcitx-im.org/wiki/Using_Fcitx_5_on_Wayland"
 msgstr ""
 
@@ -1220,16 +1220,16 @@ msgstr "Wichtige Links"
 msgid "Hotkey"
 msgstr "Kurzbefehl"
 
-#: src/modules/imselector/imselector.h:35
+#: src/modules/imselector/imselector.h:40
 msgid "Hotkey for switching to the N-th input method"
 msgstr ""
 
-#: src/modules/imselector/imselector.h:44
+#: src/modules/imselector/imselector.h:49
 msgid ""
 "Hotkey for switching to the N-th input method for only current input context"
 msgstr ""
 
-#: src/lib/fcitx-utils/key.cpp:564
+#: src/lib/fcitx-utils/key.cpp:565
 msgctxt "Key name"
 msgid "Hyper"
 msgstr ""
@@ -1336,7 +1336,7 @@ msgid ""
 "supports text-input protocol used by ${1}."
 msgstr ""
 
-#: src/modules/wayland/waylandmodule.cpp:488
+#: src/modules/wayland/waylandmodule.cpp:489
 msgid ""
 "It is recommended to install Input Method Panel GNOME Shell Extensions to "
 "provide the input method popup. https://extensions.gnome.org/extension/261/"
@@ -1349,7 +1349,7 @@ msgstr ""
 msgid "KDE Input Method Panel"
 msgstr "Einstellungen KDE Eingabemethode"
 
-#: src/ui/classic/classicui.cpp:260
+#: src/ui/classic/classicui.cpp:289
 msgid "KDE Plasma (Experimental)"
 msgstr ""
 
@@ -1953,7 +1953,7 @@ msgstr ""
 "Bildschirmskalierung. Diese Option erlaubt die Font DPI einzustellen. Wenn "
 "der Wert 0 ist ist die Funktion ausgeschaltet."
 
-#: src/ui/kimpanel/kimpanel.cpp:386
+#: src/ui/kimpanel/kimpanel.cpp:407
 msgid "Not available"
 msgstr "Nicht verfügbar"
 
@@ -2284,7 +2284,7 @@ msgctxt "Key name"
 msgid "Send"
 msgstr "Senden"
 
-#: src/modules/wayland/waylandmodule.cpp:519
+#: src/modules/wayland/waylandmodule.cpp:521
 msgid ""
 "Sending keyboard layout configuration to wayland compositor from Fcitx is "
 "not yet supported on current desktop. You may still use Fcitx's internal "
@@ -2303,7 +2303,7 @@ msgstr ""
 msgid "Share Input State"
 msgstr ""
 
-#: src/lib/fcitx-utils/key.cpp:561
+#: src/lib/fcitx-utils/key.cpp:562
 msgctxt "Key name"
 msgid "Shift"
 msgstr "Shift"
@@ -2421,7 +2421,7 @@ msgstr "Untertitel"
 msgid "Super"
 msgstr "Super"
 
-#: src/lib/fcitx-utils/key.cpp:562
+#: src/lib/fcitx-utils/key.cpp:563
 msgctxt "Key name"
 msgid "Super"
 msgstr "Super"
@@ -2489,8 +2489,8 @@ msgid ""
 "environ` for a certain process that you find not working."
 msgstr ""
 
-#: src/modules/imselector/imselector.h:40
-#: src/modules/imselector/imselector.h:50
+#: src/modules/imselector/imselector.h:45
+#: src/modules/imselector/imselector.h:55
 msgid "The n-th hotkey in the list selects the n-th input method."
 msgstr ""
 
@@ -2613,13 +2613,13 @@ msgstr ""
 msgid "Trigger Input Method"
 msgstr "Eingabemethode aktivieren"
 
-#: src/modules/imselector/imselector.h:25
+#: src/modules/imselector/imselector.h:28
 #: src/modules/quickphrase/quickphrase.h:36 src/modules/unicode/unicode.h:31
 #: src/modules/clipboard/clipboard.h:42
 msgid "Trigger Key"
 msgstr "Auslösetaste"
 
-#: src/modules/imselector/imselector.h:29
+#: src/modules/imselector/imselector.h:34
 msgid "Trigger Key for only current input context"
 msgstr ""
 
@@ -2724,6 +2724,11 @@ msgstr "Video"
 msgctxt "Key name"
 msgid "View"
 msgstr "Ansicht"
+
+#: src/lib/fcitx-utils/key.cpp:269
+msgctxt "Key name"
+msgid "Void Symbol"
+msgstr ""
 
 #: src/lib/fcitx-utils/key.cpp:97
 msgctxt "Key name"
@@ -2868,13 +2873,13 @@ msgstr ""
 msgid "You may have trouble using fcitx in ${1} programs."
 msgstr ""
 
-#: data/fcitx5-configtool.sh:134
+#: data/fcitx5-configtool.sh:137
 msgid ""
 "You're currently running Fcitx with GUI, but fcitx5-config-qt couldn't be "
 "found. Now it will open config directory."
 msgstr ""
 
-#: data/fcitx5-configtool.sh:131
+#: data/fcitx5-configtool.sh:134
 msgid ""
 "You're currently running KDE, but KCModule for fcitx couldn't be found, the "
 "package name of this KCModule is usually kcm-fcitx or kde-config-fcitx. Now "

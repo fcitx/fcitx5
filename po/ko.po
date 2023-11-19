@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2023-10-19 05:25+0000\n"
+"POT-Creation-Date: 2023-11-19 20:24+0000\n"
 "PO-Revision-Date: 2017-11-23 04:14+0000\n"
 "Last-Translator: Junghee Lee <daemul72@gmail.com>, 2023\n"
 "Language-Team: Korean (https://app.transifex.com/fcitx/teams/12005/ko/)\n"
@@ -173,7 +173,7 @@ msgstr ""
 msgid "Alt"
 msgstr "Alt"
 
-#: src/lib/fcitx-utils/key.cpp:560
+#: src/lib/fcitx-utils/key.cpp:561
 msgctxt "Key name"
 msgid "Alt"
 msgstr "Alt"
@@ -537,7 +537,7 @@ msgstr "구성하기"
 msgid "Control"
 msgstr "Control"
 
-#: src/lib/fcitx-utils/key.cpp:559
+#: src/lib/fcitx-utils/key.cpp:560
 msgctxt "Key name"
 msgid "Control"
 msgstr "Control"
@@ -659,7 +659,7 @@ msgstr "데스크탑 환경:"
 msgid "Desktop environment is ${1}."
 msgstr "데스크톱 환경은 ${1}입니다."
 
-#: src/modules/wayland/waylandmodule.cpp:476
+#: src/modules/wayland/waylandmodule.cpp:477
 msgid ""
 "Detect GTK_IM_MODULE and QT_IM_MODULE being set and Wayland Input method "
 "frontend is working. It is recommended to unset GTK_IM_MODULE and "
@@ -667,7 +667,7 @@ msgid ""
 "see https://fcitx-im.org/wiki/Using_Fcitx_5_on_Wayland#KDE_Plasma"
 msgstr ""
 
-#: src/modules/wayland/waylandmodule.cpp:504
+#: src/modules/wayland/waylandmodule.cpp:506
 msgid ""
 "Detect GTK_IM_MODULE being set and Wayland Input method frontend is working. "
 "It is recommended to unset GTK_IM_MODULE and use Wayland input method "
@@ -879,7 +879,7 @@ msgstr ""
 "Fcitx는 입력기 프레임워크입니다. 자신의 언어를 입력하는데 도움이 될 수 있습니"
 "다. 또한 타이핑 경험을 향상시키는 다양한 애드온을 선택할 수 있습니다."
 
-#: src/modules/wayland/waylandmodule.cpp:463
+#: src/modules/wayland/waylandmodule.cpp:464
 msgid ""
 "Fcitx should be launched by KWin under KDE Wayland in order to use Wayland "
 "input method frontend. This can improve the experience when using Fcitx on "
@@ -942,7 +942,7 @@ msgstr ""
 "일본어 변형으로 문자를 표시합니다. 이 기능을 사용하려면 글꼴 구성에서 이를 지"
 "원해야 합니다."
 
-#: src/modules/wayland/waylandmodule.cpp:530
+#: src/modules/wayland/waylandmodule.cpp:532
 msgid "For more details see https://fcitx-im.org/wiki/Using_Fcitx_5_on_Wayland"
 msgstr ""
 
@@ -1220,16 +1220,16 @@ msgstr "핫 링크"
 msgid "Hotkey"
 msgstr "단축키"
 
-#: src/modules/imselector/imselector.h:35
+#: src/modules/imselector/imselector.h:40
 msgid "Hotkey for switching to the N-th input method"
 msgstr "N번째 입력기로 전환하기 위한 단축키"
 
-#: src/modules/imselector/imselector.h:44
+#: src/modules/imselector/imselector.h:49
 msgid ""
 "Hotkey for switching to the N-th input method for only current input context"
 msgstr "현재 입력 컨텍스트에 대해서만 N번째 입력기로 전환하기 위한 단축키"
 
-#: src/lib/fcitx-utils/key.cpp:564
+#: src/lib/fcitx-utils/key.cpp:565
 msgctxt "Key name"
 msgid "Hyper"
 msgstr "하이퍼"
@@ -1343,7 +1343,7 @@ msgid ""
 "supports text-input protocol used by ${1}."
 msgstr ""
 
-#: src/modules/wayland/waylandmodule.cpp:488
+#: src/modules/wayland/waylandmodule.cpp:489
 msgid ""
 "It is recommended to install Input Method Panel GNOME Shell Extensions to "
 "provide the input method popup. https://extensions.gnome.org/extension/261/"
@@ -1356,7 +1356,7 @@ msgstr ""
 msgid "KDE Input Method Panel"
 msgstr "KDE 입력기 패널"
 
-#: src/ui/classic/classicui.cpp:260
+#: src/ui/classic/classicui.cpp:289
 msgid "KDE Plasma (Experimental)"
 msgstr "KDE 플라즈마 (실험용)"
 
@@ -1957,7 +1957,7 @@ msgid ""
 "it means this option is disabled."
 msgstr ""
 
-#: src/ui/kimpanel/kimpanel.cpp:386
+#: src/ui/kimpanel/kimpanel.cpp:407
 msgid "Not available"
 msgstr "사용할 수 없음"
 
@@ -2293,7 +2293,7 @@ msgctxt "Key name"
 msgid "Send"
 msgstr "보내기"
 
-#: src/modules/wayland/waylandmodule.cpp:519
+#: src/modules/wayland/waylandmodule.cpp:521
 msgid ""
 "Sending keyboard layout configuration to wayland compositor from Fcitx is "
 "not yet supported on current desktop. You may still use Fcitx's internal "
@@ -2312,7 +2312,7 @@ msgstr "그림자 여백"
 msgid "Share Input State"
 msgstr "입력 상태 공유"
 
-#: src/lib/fcitx-utils/key.cpp:561
+#: src/lib/fcitx-utils/key.cpp:562
 msgctxt "Key name"
 msgid "Shift"
 msgstr "Shift"
@@ -2432,7 +2432,7 @@ msgstr "부제"
 msgid "Super"
 msgstr "Super"
 
-#: src/lib/fcitx-utils/key.cpp:562
+#: src/lib/fcitx-utils/key.cpp:563
 msgctxt "Key name"
 msgid "Super"
 msgstr "Super"
@@ -2500,8 +2500,8 @@ msgid ""
 "environ` for a certain process that you find not working."
 msgstr ""
 
-#: src/modules/imselector/imselector.h:40
-#: src/modules/imselector/imselector.h:50
+#: src/modules/imselector/imselector.h:45
+#: src/modules/imselector/imselector.h:55
 msgid "The n-th hotkey in the list selects the n-th input method."
 msgstr "목록의 n번째 단축키는 n번째 입력기를 선택합니다."
 
@@ -2629,13 +2629,13 @@ msgstr "트레이 레이블 텍스트 색상"
 msgid "Trigger Input Method"
 msgstr "트리거 입력기"
 
-#: src/modules/imselector/imselector.h:25
+#: src/modules/imselector/imselector.h:28
 #: src/modules/quickphrase/quickphrase.h:36 src/modules/unicode/unicode.h:31
 #: src/modules/clipboard/clipboard.h:42
 msgid "Trigger Key"
 msgstr "트리거 키"
 
-#: src/modules/imselector/imselector.h:29
+#: src/modules/imselector/imselector.h:34
 msgid "Trigger Key for only current input context"
 msgstr "현재 입력 컨텍스트에 대한 트리거 키"
 
@@ -2740,6 +2740,11 @@ msgstr "동영상"
 msgctxt "Key name"
 msgid "View"
 msgstr "보기"
+
+#: src/lib/fcitx-utils/key.cpp:269
+msgctxt "Key name"
+msgid "Void Symbol"
+msgstr ""
 
 #: src/lib/fcitx-utils/key.cpp:97
 msgctxt "Key name"
@@ -2894,7 +2899,7 @@ msgstr "xim을 ${1} 프로그램에서 사용 중입니다."
 msgid "You may have trouble using fcitx in ${1} programs."
 msgstr "${1} 프로그램에서 Fcitx를 사용하는데 문제가 발생할 수 있습니다."
 
-#: data/fcitx5-configtool.sh:134
+#: data/fcitx5-configtool.sh:137
 msgid ""
 "You're currently running Fcitx with GUI, but fcitx5-config-qt couldn't be "
 "found. Now it will open config directory."
@@ -2902,7 +2907,7 @@ msgstr ""
 "현재 Fcitx를 GUI로 실행하고 있지만 Fcitx5-config-qt를 찾을 수 없습니다. 대신 "
 "설정 디렉토리를 엽니다."
 
-#: data/fcitx5-configtool.sh:131
+#: data/fcitx5-configtool.sh:134
 msgid ""
 "You're currently running KDE, but KCModule for fcitx couldn't be found, the "
 "package name of this KCModule is usually kcm-fcitx or kde-config-fcitx. Now "
