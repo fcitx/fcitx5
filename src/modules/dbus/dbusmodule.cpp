@@ -651,6 +651,10 @@ public:
 
     void save() { return instance_->save(); }
 
+    void setLogRule(const std::string &rule) {
+        Log::setLogRule(rule);
+    }
+
 private:
     DBusModule *module_;
     Instance *instance_;
@@ -716,6 +720,7 @@ private:
     FCITX_OBJECT_VTABLE_METHOD(refresh, "Refresh", "", "");
     FCITX_OBJECT_VTABLE_METHOD(checkUpdate, "CheckUpdate", "", "b");
     FCITX_OBJECT_VTABLE_METHOD(save, "Save", "", "");
+    FCITX_OBJECT_VTABLE_METHOD(setLogRule, "SetLogRule", "s", "");
 };
 
 DBusModule::DBusModule(Instance *instance)
