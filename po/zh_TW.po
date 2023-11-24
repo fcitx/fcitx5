@@ -17,7 +17,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2023-11-19 20:24+0000\n"
+"POT-Creation-Date: 2023-11-24 20:24+0000\n"
 "PO-Revision-Date: 2017-11-23 04:14+0000\n"
 "Last-Translator: Lau YeeYu, 2023\n"
 "Language-Team: Chinese (Taiwan) (https://app.transifex.com/fcitx/teams/12005/"
@@ -2770,7 +2770,7 @@ msgstr "檢視"
 #: src/lib/fcitx-utils/key.cpp:269
 msgctxt "Key name"
 msgid "Void Symbol"
-msgstr ""
+msgstr "空符號"
 
 #: src/lib/fcitx-utils/key.cpp:97
 msgctxt "Key name"
