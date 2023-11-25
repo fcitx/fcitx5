@@ -22,7 +22,7 @@ class VirtualInputContextGlue : public InputContext {
 public:
     using InputContext::InputContext;
     // Qualifier is const to ensure the state is read from ic.
-    virtual void commitStringDelegate(InputContext *ic,
+    virtual void commitStringDelegate(const InputContext *ic,
                                       const std::string &text) const = 0;
     virtual void deleteSurroundingTextDelegate(InputContext *ic, int offset,
                                                unsigned int size) const = 0;

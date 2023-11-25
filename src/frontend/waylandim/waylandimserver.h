@@ -11,6 +11,7 @@
 #include <wayland-client.h>
 #include <xkbcommon/xkbcommon.h>
 #include "fcitx-utils/event.h"
+#include "fcitx-utils/key.h"
 #include "fcitx/focusgroup.h"
 #include "fcitx/inputcontext.h"
 #include "fcitx/inputcontextmanager.h"
@@ -76,7 +77,7 @@ public:
     void deactivate(wayland::ZwpInputMethodContextV1 *id);
 
 protected:
-    void commitStringDelegate(InputContext *,
+    void commitStringDelegate(const InputContext *,
                               const std::string &text) const override {
         if (!ic_) {
             return;
@@ -124,7 +125,7 @@ private:
 
     void sendKey(uint32_t time, uint32_t sym, uint32_t state,
                  KeyStates states) const;
-    void sendKeyToVK(uint32_t time, uint32_t key, uint32_t state);
+    void sendKeyToVK(uint32_t time, const Key &key, uint32_t state);
 
     static uint32_t toModifiers(KeyStates states) {
         uint32_t modifiers = 0;

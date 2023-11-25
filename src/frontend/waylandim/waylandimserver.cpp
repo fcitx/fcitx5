@@ -208,11 +208,9 @@ void WaylandIMInputContextV1::repeat() {
         Key(repeatSym_, server_->modifiers_ | KeyState::Repeat, repeatKey_ + 8),
         false, repeatTime_);
 
-    sendKeyToVK(repeatTime_, event.rawKey().code() - 8,
-                WL_KEYBOARD_KEY_STATE_RELEASED);
+    sendKeyToVK(repeatTime_, event.rawKey(), WL_KEYBOARD_KEY_STATE_RELEASED);
     if (!ic->keyEvent(event)) {
-        sendKeyToVK(repeatTime_, event.rawKey().code() - 8,
-                    WL_KEYBOARD_KEY_STATE_PRESSED);
+        sendKeyToVK(repeatTime_, event.rawKey(), WL_KEYBOARD_KEY_STATE_PRESSED);
     }
 
     uint64_t interval = 1000000 / repeatRate_;
@@ -428,8 +426,8 @@ void WaylandIMInputContextV1::keymapCallback(uint32_t format, int32_t fd,
     server_->parent_->wayland()->call<IWaylandModule::reloadXkbOption>();
 }
 
-void WaylandIMInputContextV1::keyCallback(uint32_t serial, uint32_t time,
-                                          uint32_t key, uint32_t state) {
+void WaylandIMInputContextV1::keyCallback(uint32_t, uint32_t time, uint32_t key,
+                                          uint32_t state) {
     time_ = time;
     if (!server_->state_) {
         return;
@@ -447,6 +445,8 @@ void WaylandIMInputContextV1::keyCallback(uint32_t serial, uint32_t time,
                            server_->state_.get(), code)),
                        server_->modifiers_, code),
                    state == WL_KEYBOARD_KEY_STATE_RELEASED, time);
+
+    FCITX_INFO() << code;
 
     if (state == WL_KEYBOARD_KEY_STATE_RELEASED && key == repeatKey_) {
         timeEvent_->setEnabled(false);
@@ -466,7 +466,7 @@ void WaylandIMInputContextV1::keyCallback(uint32_t serial, uint32_t time,
     WAYLANDIM_DEBUG() << event.key().toString()
                       << " IsRelease=" << event.isRelease();
     if (!ic->keyEvent(event)) {
-        ic_->key(serial, time, key, state);
+        sendKeyToVK(time, event.rawKey(), state);
     }
 
     // This means our engine is being too slow, this is usually transient (e.g.
@@ -553,13 +553,18 @@ void WaylandIMInputContextV1::sendKey(uint32_t time, uint32_t sym,
     server_->deferredFlush();
 }
 
-void WaylandIMInputContextV1::sendKeyToVK(uint32_t time, uint32_t key,
+void WaylandIMInputContextV1::sendKeyToVK(uint32_t time, const Key &key,
                                           uint32_t state) {
     if (!ic_) {
         return;
     }
-    ic_->key(serial_, time, key, state);
+
     server_->deferredFlush();
+    if (auto text = server_->mayCommitAsText(key, state)) {
+        ic_->commitString(serial_, text->data());
+    } else {
+        ic_->key(serial_, time, key.code() - 8, state);
+    }
 }
 
 void WaylandIMInputContextV1::updatePreeditDelegate(InputContext *ic) const {

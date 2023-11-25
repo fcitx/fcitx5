@@ -21,11 +21,15 @@
 
 namespace fcitx {
 
-FCITX_CONFIGURATION(WaylandIMConfig,
-                    Option<bool> detectApplication{
-                        this, "DetectApplication",
-                        _("Detect current running application (Need restart)"),
-                        true};);
+FCITX_CONFIGURATION(
+    WaylandIMConfig,
+    Option<bool> detectApplication{
+        this, "DetectApplication",
+        _("Detect current running application (Need restart)"), true};
+    Option<bool> preferKeyEvent{
+        this, "PreferKeyEvent",
+        _("Forward key event instead of commiting text if it is not handled"),
+        true};);
 
 constexpr int32_t repeatHackDelay = 1000;
 class WaylandIMModule;

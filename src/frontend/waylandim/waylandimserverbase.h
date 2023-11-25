@@ -25,6 +25,10 @@ public:
     virtual ~WaylandIMServerBase() = default;
 
     void deferredFlush();
+    auto *parent() { return parent_; }
+
+    std::optional<std::string> mayCommitAsText(const Key &key,
+                                               uint32_t state) const;
 
 protected:
     FocusGroup *group_;

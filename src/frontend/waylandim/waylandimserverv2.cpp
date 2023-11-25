@@ -6,6 +6,7 @@
  */
 #include "waylandimserverv2.h"
 #include <sys/mman.h>
+#include "fcitx-utils/keysymgen.h"
 #include "fcitx-utils/unixfd.h"
 #include "fcitx-utils/utf8.h"
 #include "fcitx/inputcontext.h"
@@ -149,7 +150,10 @@ WaylandIMInputContextV2::WaylandIMInputContextV2(
                     // If last key to vk is press, send a release.
                     while (!pressedVKKey_.empty()) {
                         auto [vkkey, vktime] = *pressedVKKey_.begin();
-                        sendKeyToVK(vktime, vkkey,
+                        // This is key release, so we don't need real sym and
+                        // states.
+                        sendKeyToVK(vktime,
+                                    Key(FcitxKey_None, KeyStates(), vkkey + 8),
                                     WL_KEYBOARD_KEY_STATE_RELEASED);
                     }
                     vk_->modifiers(0, 0, 0, 0);
@@ -233,11 +237,9 @@ void WaylandIMInputContextV2::repeat() {
         ic,
         Key(repeatSym_, server_->modifiers_ | KeyState::Repeat, repeatKey_ + 8),
         false, repeatTime_);
-    sendKeyToVK(repeatTime_, event.rawKey().code() - 8,
-                WL_KEYBOARD_KEY_STATE_RELEASED);
+    sendKeyToVK(repeatTime_, event.rawKey(), WL_KEYBOARD_KEY_STATE_RELEASED);
     if (!ic->keyEvent(event)) {
-        sendKeyToVK(repeatTime_, event.rawKey().code() - 8,
-                    WL_KEYBOARD_KEY_STATE_PRESSED);
+        sendKeyToVK(repeatTime_, event.rawKey(), WL_KEYBOARD_KEY_STATE_PRESSED);
     }
     uint64_t interval = 1000000 / repeatRate_;
     timeEvent_->setTime(timeEvent_->time() + interval);
@@ -466,7 +468,7 @@ void WaylandIMInputContextV2::keyCallback(uint32_t, uint32_t time, uint32_t key,
     WAYLANDIM_DEBUG() << event.key().toString()
                       << " IsRelease=" << event.isRelease();
     if (!ic->keyEvent(event)) {
-        sendKeyToVK(time, event.rawKey().code() - 8,
+        sendKeyToVK(time, event.rawKey(),
                     event.isRelease() ? WL_KEYBOARD_KEY_STATE_RELEASED
                                       : WL_KEYBOARD_KEY_STATE_PRESSED);
     }
@@ -549,17 +551,23 @@ void WaylandIMInputContextV2::repeatInfoCallback(int32_t rate, int32_t delay) {
     repeatDelay_ = delay;
 }
 
-void WaylandIMInputContextV2::sendKeyToVK(uint32_t time, uint32_t key,
+void WaylandIMInputContextV2::sendKeyToVK(uint32_t time, const Key &key,
                                           uint32_t state) const {
     if (!vkReady_) {
         return;
     }
-    // Erase old to ensure order, and released ones can the be removed.
-    pressedVKKey_.erase(key);
-    if (state == WL_KEYBOARD_KEY_STATE_PRESSED) {
-        pressedVKKey_[key] = time;
+
+    uint32_t code = key.code() - 8;
+    if (auto text = server_->mayCommitAsText(key, state)) {
+        commitStringDelegate(this, *text);
+        return;
     }
-    vk_->key(time, key, state);
+    // Erase old to ensure order, and released ones can the be removed.
+    pressedVKKey_.erase(code);
+    if (state == WL_KEYBOARD_KEY_STATE_PRESSED) {
+        pressedVKKey_[code] = time;
+    }
+    vk_->key(time, code, state);
     server_->deferredFlush();
 }
 
@@ -580,11 +588,14 @@ void WaylandIMInputContextV2::forwardKeyDelegate(
             }
         }
     }
-    sendKeyToVK(time_, code - 8,
+
+    Key keyWithCode(key.rawKey().sym(), key.rawKey().states(), code);
+
+    sendKeyToVK(time_, keyWithCode,
                 key.isRelease() ? WL_KEYBOARD_KEY_STATE_RELEASED
                                 : WL_KEYBOARD_KEY_STATE_PRESSED);
     if (!key.isRelease()) {
-        sendKeyToVK(time_, code - 8, WL_KEYBOARD_KEY_STATE_RELEASED);
+        sendKeyToVK(time_, keyWithCode, WL_KEYBOARD_KEY_STATE_RELEASED);
     }
 }
 

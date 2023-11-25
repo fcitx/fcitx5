@@ -87,7 +87,7 @@ public:
     auto inputMethodV2() { return ic_.get(); }
 
 protected:
-    void commitStringDelegate(InputContext *,
+    void commitStringDelegate(const InputContext *,
                               const std::string &text) const override {
         if (!ic_) {
             return;
@@ -118,7 +118,7 @@ private:
                            uint32_t mods_latched, uint32_t mods_locked,
                            uint32_t group);
     void repeatInfoCallback(int32_t rate, int32_t delay);
-    void sendKeyToVK(uint32_t time, uint32_t key, uint32_t state) const;
+    void sendKeyToVK(uint32_t time, const Key &key, uint32_t state) const;
 
     WaylandIMServerV2 *server_;
     std::shared_ptr<wayland::WlSeat> seat_;
