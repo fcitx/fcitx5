@@ -17,7 +17,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2023-11-24 20:24+0000\n"
+"POT-Creation-Date: 2023-11-26 20:24+0000\n"
 "PO-Revision-Date: 2017-11-23 04:14+0000\n"
 "Last-Translator: Lau YeeYu, 2023\n"
 "Language-Team: Chinese (Taiwan) (https://app.transifex.com/fcitx/teams/12005/"
@@ -684,7 +684,7 @@ msgstr ""
 "設定 GTK_IM_MODULE 環境變數，從而使用 Wayland 輸入法前端。更多信息請參見 "
 "https://fcitx-im.org/wiki/Using_Fcitx_5_on_Wayland#KDE_Plasma"
 
-#: src/frontend/waylandim/waylandim.h:27
+#: src/frontend/waylandim/waylandim.h:28
 msgid "Detect current running application (Need restart)"
 msgstr "檢測當前運行的程式 (需要重新啟動)"
 
@@ -971,6 +971,10 @@ msgstr "在 Wayland 上強制使用字型 DPI"
 msgctxt "Key name"
 msgid "Forward"
 msgstr "往前"
+
+#: src/frontend/waylandim/waylandim.h:31
+msgid "Forward key event instead of commiting text if it is not handled"
+msgstr ""
 
 #: data/fcitx5-diagnose.sh:1276
 msgid "Found ${1} ${2} module: ${3}."

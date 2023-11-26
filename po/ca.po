@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2023-11-19 20:24+0000\n"
+"POT-Creation-Date: 2023-11-26 20:24+0000\n"
 "PO-Revision-Date: 2017-11-23 04:14+0000\n"
 "Last-Translator: Robert Antoni Buj i Gelonch <rbuj@fedoraproject.org>, 2020\n"
 "Language-Team: Catalan (https://app.transifex.com/fcitx/teams/12005/ca/)\n"
@@ -669,7 +669,7 @@ msgid ""
 "frontend instead."
 msgstr ""
 
-#: src/frontend/waylandim/waylandim.h:27
+#: src/frontend/waylandim/waylandim.h:28
 msgid "Detect current running application (Need restart)"
 msgstr ""
 
@@ -941,6 +941,10 @@ msgstr ""
 #: src/lib/fcitx-utils/key.cpp:94
 msgctxt "Key name"
 msgid "Forward"
+msgstr ""
+
+#: src/frontend/waylandim/waylandim.h:31
+msgid "Forward key event instead of commiting text if it is not handled"
 msgstr ""
 
 #: data/fcitx5-diagnose.sh:1276

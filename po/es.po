@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2023-11-19 20:22+0000\n"
+"POT-Creation-Date: 2023-11-26 20:22+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: csslayer <wengxt@gmail.com>, 2017\n"
 "Language-Team: Spanish (https://www.transifex.com/fcitx/teams/12005/es/)\n"
@@ -668,7 +668,7 @@ msgid ""
 "frontend instead."
 msgstr ""
 
-#: src/frontend/waylandim/waylandim.h:27
+#: src/frontend/waylandim/waylandim.h:28
 msgid "Detect current running application (Need restart)"
 msgstr ""
 
@@ -941,6 +941,10 @@ msgstr ""
 #: src/lib/fcitx-utils/key.cpp:94
 msgctxt "Key name"
 msgid "Forward"
+msgstr ""
+
+#: src/frontend/waylandim/waylandim.h:31
+msgid "Forward key event instead of commiting text if it is not handled"
 msgstr ""
 
 #: data/fcitx5-diagnose.sh:1276

@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2023-11-22 20:23+0000\n"
+"POT-Creation-Date: 2023-11-26 20:24+0000\n"
 "PO-Revision-Date: 2017-11-23 04:14+0000\n"
 "Last-Translator: csslayer <wengxt@gmail.com>, 2023\n"
 "Language-Team: Chinese (China) (https://app.transifex.com/fcitx/teams/12005/"
@@ -677,7 +677,7 @@ msgstr ""
 "检测到设置了 GTK_IM_MODULE，并且 Wayland 输入法前端可以正常工作。推荐取消设"
 "置 GTK_IM_MODULE 以使用 Wayland 输入法前端。"
 
-#: src/frontend/waylandim/waylandim.h:27
+#: src/frontend/waylandim/waylandim.h:28
 msgid "Detect current running application (Need restart)"
 msgstr "检测当前运行的程序 (需要重启)"
 
@@ -964,6 +964,10 @@ msgstr "固定 Wayland 的字体 DPI"
 msgctxt "Key name"
 msgid "Forward"
 msgstr "向前"
+
+#: src/frontend/waylandim/waylandim.h:31
+msgid "Forward key event instead of commiting text if it is not handled"
+msgstr ""
 
 #: data/fcitx5-diagnose.sh:1276
 msgid "Found ${1} ${2} module: ${3}."
