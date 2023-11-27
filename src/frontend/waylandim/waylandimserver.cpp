@@ -446,8 +446,6 @@ void WaylandIMInputContextV1::keyCallback(uint32_t, uint32_t time, uint32_t key,
                        server_->modifiers_, code),
                    state == WL_KEYBOARD_KEY_STATE_RELEASED, time);
 
-    FCITX_INFO() << code;
-
     if (state == WL_KEYBOARD_KEY_STATE_RELEASED && key == repeatKey_) {
         timeEvent_->setEnabled(false);
     } else if (state == WL_KEYBOARD_KEY_STATE_PRESSED &&
