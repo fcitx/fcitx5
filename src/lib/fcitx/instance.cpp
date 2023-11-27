@@ -967,9 +967,10 @@ Instance::Instance(int argc, char **argv) {
                 if (auto *xkbState = inputState->customXkbState()) {
                     if (auto utf32 = xkb_state_key_get_utf32(
                             xkbState, keyEvent.key().code())) {
-                        // Ignore backspace, return, backspace, and delete.
+                        // Ignore newline, return, backspace, tab, and delete.
                         if (utf32 == '\n' || utf32 == '\b' || utf32 == '\r' ||
-                            utf32 == '\033' || utf32 == '\x7f') {
+                            utf32 == '\t' || utf32 == '\033' ||
+                            utf32 == '\x7f') {
                             return;
                         }
                         if (keyEvent.key().states().test(KeyState::Ctrl) ||
