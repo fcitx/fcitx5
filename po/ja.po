@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2023-11-26 20:24+0000\n"
+"POT-Creation-Date: 2023-11-27 20:24+0000\n"
 "PO-Revision-Date: 2017-11-23 04:14+0000\n"
 "Last-Translator: UTUMI Hirosi <utuhiro78@yahoo.co.jp>, 2023\n"
 "Language-Team: Japanese (https://app.transifex.com/fcitx/teams/12005/ja/)\n"
@@ -982,6 +982,8 @@ msgstr "Forward"
 #: src/frontend/waylandim/waylandim.h:31
 msgid "Forward key event instead of commiting text if it is not handled"
 msgstr ""
+"キーイベントが処理されない場合、テキストをコミットする代わりにキーイベントを"
+"転送する"
 
 #: data/fcitx5-diagnose.sh:1276
 msgid "Found ${1} ${2} module: ${3}."
@@ -2799,7 +2801,7 @@ msgstr "ビュー"
 #: src/lib/fcitx-utils/key.cpp:269
 msgctxt "Key name"
 msgid "Void Symbol"
-msgstr ""
+msgstr "ボイドシンボル"
 
 #: src/lib/fcitx-utils/key.cpp:97
 msgctxt "Key name"
