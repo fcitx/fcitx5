@@ -81,9 +81,8 @@ void WaylandWindow::updateScale() {
 
     if (viewport_ && fractionalScale_) {
         fractionalScale_->preferredScale().connect([this](uint32_t scale) {
-            auto fractionScale = scale / 120.0;
-            if (fractionScale != lastFractionalScale_) {
-                lastFractionalScale_ = fractionScale;
+            if (scale != lastFractionalScale_) {
+                lastFractionalScale_ = scale;
                 scheduleRepaint();
             }
         });

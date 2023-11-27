@@ -23,6 +23,8 @@ namespace classicui {
 
 class WaylandWindow : public Window, public TrackableObject<WaylandWindow> {
 public:
+    static inline constexpr unsigned int ScaleDominator = 120;
+    static inline constexpr double ScaleDominatorF = ScaleDominator;
     WaylandWindow(WaylandUI *ui);
     ~WaylandWindow();
 
@@ -30,8 +32,8 @@ public:
     void destroyWindow();
     virtual void hide() = 0;
 
-    float bufferScale() const {
-        return viewport_ ? lastFractionalScale_ : lastOutputScale_;
+    unsigned int bufferScale() const {
+        return viewport_ ? lastFractionalScale_ : lastOutputScale_ * ScaleDominator;
     }
     int32_t outputScale() const { return lastOutputScale_; }
     wl_output_transform transform() const { return transform_; }
@@ -72,8 +74,8 @@ protected:
     Rect serverAllocation_;
     Rect allocation_;
 
-    int lastOutputScale_ = 1;
-    double lastFractionalScale_ = 1.0;
+    int32_t lastOutputScale_ = 1;
+    unsigned int lastFractionalScale_ = ScaleDominator;
     wl_output_transform transform_ = WL_OUTPUT_TRANSFORM_NORMAL;
 
     std::shared_ptr<wayland::WpViewporter> viewporter_;

@@ -12,10 +12,11 @@ namespace fcitx::classicui {
 
 namespace {
 
-void surfaceToBufferSize(double buffer_scale, uint32_t *width,
+void surfaceToBufferSize(unsigned int buffer_scale, uint32_t *width,
                          uint32_t *height) {
-    *width = std::ceil(*width * buffer_scale);
-    *height = std::ceil(*height * buffer_scale);
+    // round (size * scale), but all integer calculation.
+    *width = (*width * buffer_scale + (WaylandWindow::ScaleDominator / 2)) / WaylandWindow::ScaleDominator;
+    *height = (*height * buffer_scale + (WaylandWindow::ScaleDominator / 2)) / WaylandWindow::ScaleDominator;
 }
 
 } // namespace
@@ -106,12 +107,6 @@ void WaylandShmWindow::render() {
 
     if (viewport_) {
         if (buffer_->attachToSurface(surface_.get(), 1)) {
-            // Source size is important to ensure the accuracy.
-            // Otherwise the window content might be blurry on certain size and
-            // scale.
-            viewport_->setSource(
-                0, 0, wl_fixed_from_double(lastFractionalScale_ * width_),
-                wl_fixed_from_double(lastFractionalScale_ * height_));
             viewport_->setDestination(width_, height_);
             surface_->commit();
         }
