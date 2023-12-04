@@ -201,6 +201,7 @@ public:
     FCITX_ADDON_DEPENDENCY_LOADER(xcb, instance_->addonManager());
     FCITX_ADDON_DEPENDENCY_LOADER(wayland, instance_->addonManager());
     FCITX_ADDON_DEPENDENCY_LOADER(waylandim, instance_->addonManager());
+    FCITX_ADDON_DEPENDENCY_LOADER(dbus, instance_->addonManager());
     Instance *instance() const { return instance_; }
     const Configuration *getConfig() const override;
     void setConfig(const RawConfig &config) override {
@@ -228,7 +229,6 @@ public:
 
 private:
     FCITX_ADDON_DEPENDENCY_LOADER(notificationitem, instance_->addonManager());
-    FCITX_ADDON_DEPENDENCY_LOADER(dbus, instance_->addonManager());
     FCITX_ADDON_EXPORT_FUNCTION(ClassicUI, labelIcon);
     FCITX_ADDON_EXPORT_FUNCTION(ClassicUI, preferTextIcon);
     FCITX_ADDON_EXPORT_FUNCTION(ClassicUI, showLayoutNameInIcon);

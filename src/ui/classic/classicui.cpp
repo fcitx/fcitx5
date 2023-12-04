@@ -41,15 +41,6 @@ FCITX_DEFINE_LOG_CATEGORY(classicui_logcategory, "classicui");
 
 using AccentColorDBusType = FCITX_STRING_TO_DBUS_TYPE("(ddd)");
 
-namespace {
-constexpr const char XDG_PORTAL_DESKTOP_SERVICE[] =
-    "org.freedesktop.portal.Desktop";
-constexpr const char XDG_PORTAL_DESKTOP_PATH[] =
-    "/org/freedesktop/portal/desktop";
-constexpr const char XDG_PORTAL_DESKTOP_SETTINGS_INTERFACE[] =
-    "org.freedesktop.portal.Settings";
-} // namespace
-
 ClassicUI::ClassicUI(Instance *instance) : instance_(instance) {
 
 #ifdef ENABLE_DBUS

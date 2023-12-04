@@ -141,7 +141,7 @@ if (ENABLE_X11 OR ENABLE_WAYLAND)
 endif()
 
 if (ENABLE_WAYLAND)
-    set(REQUIRED_WAYLAND_COMPONENTS Client)
+    set(REQUIRED_WAYLAND_COMPONENTS Client Cursor)
     find_package(Wayland REQUIRED COMPONENTS ${REQUIRED_WAYLAND_COMPONENTS})
     find_package(WaylandScanner REQUIRED)
     find_package(WaylandProtocols REQUIRED)

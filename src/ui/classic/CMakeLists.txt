@@ -7,12 +7,15 @@ set(CLASSICUI_LIBS)
 if (WAYLAND_FOUND)
     set(CLASSICUI_SRCS ${CLASSICUI_SRCS}
         waylandui.cpp waylandwindow.cpp waylandshmwindow.cpp
-        waylandpointer.cpp buffer.cpp waylandinputwindow.cpp)
+        waylandpointer.cpp buffer.cpp waylandinputwindow.cpp
+        waylandcursor.cpp waylandcursortheme.cpp)
     set(CLASSICUI_LIBS ${CLASSICUI_LIBS}
         Fcitx5::Module::Wayland Fcitx5::Module::WaylandIM Wayland::Client Fcitx5::Wayland::Core
+        Wayland::Cursor
         Fcitx5::Wayland::InputMethod Fcitx5::Wayland::InputMethodV2
         Fcitx5::Wayland::Blur
-        Fcitx5::Wayland::FractionalScale Fcitx5::Wayland::Viewporter)
+        Fcitx5::Wayland::FractionalScale Fcitx5::Wayland::Viewporter
+        Fcitx5::Wayland::CursorShape)
 else()
 endif()
 

@@ -34,7 +34,7 @@ WaylandEventReader::~WaylandEventReader() {
 void WaylandEventReader::run() {
     EventLoop event;
     dispatcherToWorker_.attach(&event);
-    int fd = wl_display_get_fd(display_);
+    int fd = display_.fd();
     std::unique_ptr<EventSourceIO> ioEvent;
     ioEvent = event.addIOEvent(
         fd, IOEventFlag::In,

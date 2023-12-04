@@ -11,7 +11,8 @@
 
 namespace fcitx::classicui {
 
-WaylandPointer::WaylandPointer(wayland::WlSeat *seat) {
+WaylandPointer::WaylandPointer(WaylandUI *ui, wayland::WlSeat *seat)
+    : ui_(ui), display_(ui_->display()) {
     capConn_ = seat->capabilities().connect([this, seat](uint32_t caps) {
         if ((caps & WL_SEAT_CAPABILITY_POINTER) && !pointer_) {
             pointer_.reset(seat->getPointer());
@@ -30,8 +31,11 @@ WaylandPointer::WaylandPointer(wayland::WlSeat *seat) {
 }
 
 void WaylandPointer::initPointer() {
-    pointer_->enter().connect([this](uint32_t, wayland::WlSurface *surface,
-                                     wl_fixed_t sx, wl_fixed_t sy) {
+    pointer_->enter().connect([this](uint32_t serial,
+                                     wayland::WlSurface *surface, wl_fixed_t sx,
+                                     wl_fixed_t sy) {
+        enterSerial_ = serial;
+        cursor()->update();
         auto *window = static_cast<WaylandWindow *>(surface->userData());
         if (!window) {
             return;
