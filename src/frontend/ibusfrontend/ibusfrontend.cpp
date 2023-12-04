@@ -582,12 +582,29 @@ private:
             clientCommitPreedit_ = std::get<0>(value);
         }),
         dbus::PropertyOption::Hidden);
+    FCITX_OBJECT_VTABLE_WRITABLE_PROPERTY(
+        effectivePostProcessKeyEvent, "EffectivePostProcessKeyEvent", "(b)",
+        ([this]() -> dbus::DBusStruct<bool> {
+            return {effectivePostProcessKeyEvent_};
+        }),
+        ([this](dbus::DBusStruct<bool> value) {
+            effectivePostProcessKeyEvent_ = std::get<0>(value);
+        }),
+        dbus::PropertyOption::Hidden);
+    FCITX_OBJECT_VTABLE_PROPERTY(
+        postProcessKeyEvent, "PostProcessKeyEvent", "(a(yv))",
+        ([]() -> dbus::DBusStruct<
+                  std::vector<dbus::DBusStruct<uint8_t, dbus::Variant>>> {
+            return {};
+        }),
+        dbus::PropertyOption::Hidden);
 
     dbus::ObjectPath path_;
     IBusFrontend *im_;
     std::unique_ptr<HandlerTableEntry<dbus::ServiceWatcherCallback>> handler_;
     std::string name_;
     bool clientCommitPreedit_ = false;
+    bool effectivePostProcessKeyEvent_ = false;
 
     IBusService service_{this};
 };
