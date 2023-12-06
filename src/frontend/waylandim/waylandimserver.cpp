@@ -552,7 +552,7 @@ void WaylandIMInputContextV1::sendKey(uint32_t time, uint32_t sym,
 }
 
 void WaylandIMInputContextV1::sendKeyToVK(uint32_t time, const Key &key,
-                                          uint32_t state) {
+                                          uint32_t state) const {
     if (!ic_) {
         return;
     }

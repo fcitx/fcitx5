@@ -12,6 +12,7 @@
 #include <xkbcommon/xkbcommon.h>
 #include "fcitx-utils/event.h"
 #include "fcitx-utils/key.h"
+#include "fcitx-utils/keysymgen.h"
 #include "fcitx/focusgroup.h"
 #include "fcitx/inputcontext.h"
 #include "fcitx/inputcontextmanager.h"
@@ -92,13 +93,23 @@ protected:
         if (!ic_) {
             return;
         }
-        sendKey(time_, key.rawKey().sym(),
-                key.isRelease() ? WL_KEYBOARD_KEY_STATE_RELEASED
-                                : WL_KEYBOARD_KEY_STATE_PRESSED,
-                key.rawKey().states());
-        if (!key.isRelease()) {
-            sendKey(time_, key.rawKey().sym(), WL_KEYBOARD_KEY_STATE_RELEASED,
+        if (key.rawKey().code() && key.rawKey().states() == KeyState::NoState) {
+            sendKeyToVK(time_, key.rawKey(),
+                    key.isRelease() ? WL_KEYBOARD_KEY_STATE_RELEASED
+                                    : WL_KEYBOARD_KEY_STATE_PRESSED);
+            if (!key.isRelease()) {
+                sendKeyToVK(time_, key.rawKey(),
+                        WL_KEYBOARD_KEY_STATE_RELEASED);
+            }
+        } else {
+            sendKey(time_, key.rawKey().sym(),
+                    key.isRelease() ? WL_KEYBOARD_KEY_STATE_RELEASED
+                                    : WL_KEYBOARD_KEY_STATE_PRESSED,
                     key.rawKey().states());
+            if (!key.isRelease()) {
+                sendKey(time_, key.rawKey().sym(),
+                        WL_KEYBOARD_KEY_STATE_RELEASED, key.rawKey().states());
+            }
         }
         server_->deferredFlush();
     }
@@ -125,7 +136,7 @@ private:
 
     void sendKey(uint32_t time, uint32_t sym, uint32_t state,
                  KeyStates states) const;
-    void sendKeyToVK(uint32_t time, const Key &key, uint32_t state);
+    void sendKeyToVK(uint32_t time, const Key &key, uint32_t state) const;
 
     static uint32_t toModifiers(KeyStates states) {
         uint32_t modifiers = 0;

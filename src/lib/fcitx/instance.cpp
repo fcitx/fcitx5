@@ -905,7 +905,8 @@ Instance::Instance(int argc, char **argv) {
             FCITX_KEYTRACE() << "KeyEvent: " << keyEvent.key()
                              << " rawKey: " << keyEvent.rawKey()
                              << " origKey: " << keyEvent.origKey()
-                             << " Release:" << keyEvent.isRelease();
+                             << " Release:" << keyEvent.isRelease()
+                             << " keycode: " << keyEvent.origKey().code();
 
             if (keyEvent.isRelease()) {
                 return;
