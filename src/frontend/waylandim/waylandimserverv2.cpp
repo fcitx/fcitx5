@@ -414,12 +414,6 @@ void WaylandIMInputContextV2::keymapCallback(uint32_t format, int32_t fd,
         1 << xkb_keymap_mod_get_index(server_->keymap_.get(), "Mod4");
     server_->stateMask_.mod5_mask =
         1 << xkb_keymap_mod_get_index(server_->keymap_.get(), "Mod5");
-    server_->stateMask_.super_mask =
-        1 << xkb_keymap_mod_get_index(server_->keymap_.get(), "Super");
-    server_->stateMask_.hyper_mask =
-        1 << xkb_keymap_mod_get_index(server_->keymap_.get(), "Hyper");
-    server_->stateMask_.meta_mask =
-        1 << xkb_keymap_mod_get_index(server_->keymap_.get(), "Meta");
 
     if (keymapChanged) {
         vk_->keymap(format, scopeFD.fd(), size);
@@ -522,23 +516,14 @@ void WaylandIMInputContextV2::modifiersCallback(uint32_t,
     if (mask & server_->stateMask_.mod2_mask) {
         server_->modifiers_ |= KeyState::NumLock;
     }
-    if (mask & server_->stateMask_.super_mask) {
-        server_->modifiers_ |= KeyState::Super;
-    }
     if (mask & server_->stateMask_.mod4_mask) {
         server_->modifiers_ |= KeyState::Super;
     }
-    if (mask & server_->stateMask_.hyper_mask) {
-        server_->modifiers_ |= KeyState::Hyper;
-    }
     if (mask & server_->stateMask_.mod3_mask) {
-        server_->modifiers_ |= KeyState::Hyper;
+        server_->modifiers_ |= KeyState::Mod3;
     }
     if (mask & server_->stateMask_.mod5_mask) {
         server_->modifiers_ |= KeyState::Mod5;
-    }
-    if (mask & server_->stateMask_.meta_mask) {
-        server_->modifiers_ |= KeyState::Meta;
     }
 
     if (vkReady_) {

@@ -66,9 +66,6 @@ private:
         uint32_t mod3_mask = 0;
         uint32_t mod4_mask = 0;
         uint32_t mod5_mask = 0;
-        uint32_t super_mask = 0;
-        uint32_t hyper_mask = 0;
-        uint32_t meta_mask = 0;
     } stateMask_;
 
     std::unordered_map<wayland::WlSeat *, WaylandIMInputContextV2 *> icMap_;
