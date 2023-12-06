@@ -352,7 +352,7 @@ bool Key::isReleaseOfModifier(const Key &key) const {
         keys.emplace_back(FcitxKey_Super_L, states);
         keys.emplace_back(FcitxKey_Super_R, states);
     }
-    if (key.states() & KeyState::Mod3) {
+    if ((key.states() & KeyState::Super) || (key.states() & KeyState::Hyper2)) {
         keys.emplace_back(FcitxKey_Hyper_L, states);
         keys.emplace_back(FcitxKey_Hyper_R, states);
     }
@@ -587,10 +587,9 @@ KeyStates Key::keySymToStates(KeySym sym) {
         return KeyState::Shift;
     case FcitxKey_Super_L:
     case FcitxKey_Super_R:
-        return KeyState::Super;
     case FcitxKey_Hyper_L:
     case FcitxKey_Hyper_R:
-        return KeyState::Mod3;
+        return KeyState::Super;
     default:
         return KeyStates();
     }
