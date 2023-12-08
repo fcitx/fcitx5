@@ -27,7 +27,12 @@ namespace fcitx {
 
 namespace {
 
-enum { BATCHED_COMMIT_STRING = 0, BATCHED_PREEDIT, BATCHED_FORWARD_KEY };
+enum {
+    BATCHED_COMMIT_STRING = 0,
+    BATCHED_PREEDIT,
+    BATCHED_FORWARD_KEY,
+    BATCHED_DELETE_SURROUNDING
+};
 
 using DBusBlockedEvent = dbus::DBusStruct<uint32_t, dbus::Variant>;
 
@@ -179,7 +184,13 @@ public:
     }
 
     void deleteSurroundingTextImpl(int offset, unsigned int size) override {
-        deleteSurroundingTextDBusTo(name_, offset, size);
+        if (blocked_) {
+            blockedEvents_.emplace_back(
+                BATCHED_DELETE_SURROUNDING,
+                dbus::DBusStruct<int32_t, uint32_t>(offset, size));
+        } else {
+            deleteSurroundingTextDBusTo(name_, offset, size);
+        }
     }
 
     void updateClientSideUIImpl() override {
