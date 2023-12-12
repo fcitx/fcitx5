@@ -465,9 +465,8 @@ void QuickPhrase::updateUI(InputContext *inputContext) {
     }
     if (!state->buffer_.empty()) {
         preedit.append(state->buffer_.userInput(), format);
-        preedit.setCursor(state->prefix_.size() +
-                          state->buffer_.cursorByChar());
     }
+    preedit.setCursor(state->prefix_.size() + state->buffer_.cursorByChar());
 
     Text auxUp(_("Quick Phrase: "));
     if (!state->typed_) {
