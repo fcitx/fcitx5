@@ -579,7 +579,8 @@ void WaylandIMInputContextV1::updatePreeditDelegate(InputContext *ic) const {
         }
     }
 
-    ic_->preeditCursor(preedit.cursor());
+    // Though negative cursor is allowed by protocol, we just don't use it.
+    ic_->preeditCursor(preedit.cursor() >= 0 ? preedit.cursor() : preedit.textLength());
     unsigned int index = 0;
     for (int i = 0, e = preedit.size(); i < e; i++) {
         if (!preedit.stringAt(i).empty()) {

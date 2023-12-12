@@ -621,6 +621,9 @@ void WaylandIMInputContextV2::updatePreeditDelegate(InputContext *ic) const {
     }
 
     if (preedit.textLength()) {
+        if (cursorStart < 0) {
+            cursorStart = cursorEnd = preedit.textLength();
+        }
         ic_->setPreeditString(preedit.toString().data(), cursorStart,
                               cursorEnd);
     }
