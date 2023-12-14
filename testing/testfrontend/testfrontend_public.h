@@ -19,6 +19,9 @@ FCITX_ADDON_DECLARE_FUNCTION(TestFrontend, destroyInputContext, void(ICUUID));
 FCITX_ADDON_DECLARE_FUNCTION(TestFrontend, keyEvent,
                              void(ICUUID, const Key &, bool isRelease));
 
+FCITX_ADDON_DECLARE_FUNCTION(TestFrontend, sendKeyEvent,
+                             bool(ICUUID, const Key &, bool isRelease));
+
 FCITX_ADDON_DECLARE_FUNCTION(TestFrontend, pushCommitExpectation,
                              void(std::string));
 

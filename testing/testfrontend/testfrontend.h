@@ -28,10 +28,12 @@ private:
     ICUUID createInputContext(const std::string &program);
     void destroyInputContext(ICUUID uuid);
     void keyEvent(ICUUID uuid, const Key &key, bool isRelease);
+    bool sendKeyEvent(ICUUID uuid, const Key &key, bool isRelease);
     void pushCommitExpectation(std::string expect);
     FCITX_ADDON_EXPORT_FUNCTION(TestFrontend, createInputContext);
     FCITX_ADDON_EXPORT_FUNCTION(TestFrontend, destroyInputContext);
     FCITX_ADDON_EXPORT_FUNCTION(TestFrontend, keyEvent);
+    FCITX_ADDON_EXPORT_FUNCTION(TestFrontend, sendKeyEvent);
     FCITX_ADDON_EXPORT_FUNCTION(TestFrontend, pushCommitExpectation);
 
     Instance *instance_;
