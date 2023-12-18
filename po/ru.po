@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2023-11-28 20:24+0000\n"
+"POT-Creation-Date: 2023-12-18 20:24+0000\n"
 "PO-Revision-Date: 2017-11-23 04:14+0000\n"
 "Last-Translator: Dmitry <dmitrydmitry761@gmail.com>, 2023\n"
 "Language-Team: Russian (https://app.transifex.com/fcitx/teams/12005/ru/)\n"
@@ -299,11 +299,11 @@ msgstr "Ширина рамки"
 
 #: src/ui/classic/theme.h:50
 msgid "Bottom"
-msgstr "Внизу"
+msgstr "Bottom"
 
 #: src/ui/classic/theme.h:38
 msgid "Bottom Center"
-msgstr "Внизу по центру"
+msgstr "Bottom Center"
 
 #: src/ui/classic/theme.h:38
 msgid "Bottom Left"
@@ -427,7 +427,7 @@ msgstr "CapsLock"
 
 #: src/ui/classic/theme.h:37 src/ui/classic/theme.h:49
 msgid "Center"
-msgstr "Центр"
+msgstr "Center"
 
 #: src/ui/classic/theme.h:36
 msgid "Center Left"
@@ -1408,7 +1408,7 @@ msgstr ""
 msgid "KDE Input Method Panel"
 msgstr "Панель метода ввода KDE"
 
-#: src/ui/classic/classicui.cpp:289
+#: src/ui/classic/classicui.cpp:280
 msgid "KDE Plasma (Experimental)"
 msgstr "KDE Plasma (экспериментально)"
 
@@ -2211,7 +2211,7 @@ msgstr "Файлы модуля Qt IM:"
 msgid "Quick Phrase"
 msgstr "Быстрая фраза"
 
-#: src/modules/quickphrase/quickphrase.cpp:472
+#: src/modules/quickphrase/quickphrase.cpp:471
 msgid "Quick Phrase: "
 msgstr "Быстрая фраза: "
 
@@ -2643,11 +2643,11 @@ msgstr "Инструменты"
 
 #: src/ui/classic/theme.h:48
 msgid "Top"
-msgstr "Вверху"
+msgstr "Top"
 
 #: src/ui/classic/theme.h:35
 msgid "Top Center"
-msgstr "Вверху по центру"
+msgstr "Top Center"
 
 #: src/ui/classic/theme.h:35
 msgid "Top Left"
@@ -2757,7 +2757,7 @@ msgstr "Вверх"
 
 #: src/frontend/xim/xim.h:33
 msgid "Use On The Spot Style (Needs restarting)"
-msgstr "Использовать стиль On The Spot (требуется перезагрузка)"
+msgstr "Использовать стиль On The Spot (требуется перезапуск программы)"
 
 #: src/ui/classic/classicui.h:169
 msgid "Use Per Screen DPI on X11"
