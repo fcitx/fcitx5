@@ -516,6 +516,28 @@ public:
 
     void setVirtualKeyboardFunctionMode(VirtualKeyboardFunctionMode mode);
 
+    /**
+     * Set if this instance is running as fcitx5 binary.
+     *
+     * This will affect return value of Instance::canRestart.
+     *
+     * @see Instance::canRestart
+     * @since 5.1.6
+     */
+    void setBinaryMode();
+
+    /**
+     * Check if fcitx 5 can safely restart by itself.
+     *
+     * When the existing fcitx 5 instance returns false, fcitx5 -r, or
+     * Instance::restart will just be no-op.
+     *
+     * @return whether it is safe for fcitx to restart on its own.
+     * @see AddonInstance::setCanRestart
+     * @since 5.1.6
+     */
+    bool canRestart() const;
+
 protected:
     // For testing purpose
     InstancePrivate *privateData();

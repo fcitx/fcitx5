@@ -1444,6 +1444,25 @@ void Instance::setVirtualKeyboardFunctionMode(
     d->virtualKeyboardFunctionMode_ = mode;
 }
 
+void Instance::setBinaryMode() {
+    FCITX_D();
+    d->binaryMode_ = true;
+}
+
+bool Instance::canRestart() const {
+    FCITX_D();
+    const auto &addonNames = d->addonManager_.loadedAddonNames();
+    return d->binaryMode_ &&
+           std::all_of(addonNames.begin(), addonNames.end(),
+                       [d](const std::string &name) {
+                           auto addon = d->addonManager_.lookupAddon(name);
+                           if (!addon) {
+                               return true;
+                           }
+                           return addon->canRestart();
+                       });
+}
+
 InstancePrivate *Instance::privateData() {
     FCITX_D();
     return d;
@@ -1927,6 +1946,9 @@ void Instance::resetInputMethodList() {
 
 void Instance::restart() {
     FCITX_D();
+    if (!canRestart()) {
+        return;
+    }
     d->restart_ = true;
     exit();
 }

@@ -68,21 +68,24 @@ int main(int argc, char *argv[]) {
     // Log::setLogRule("wayland=5");
     int ret = 0;
     bool restart = false;
+    bool canRestart = false;
     try {
         FCITX_LOG_IF(Info, isInFlatpak()) << "Running inside flatpak.";
         Instance instance(argc, argv);
+        instance.setBinaryMode();
         instance.setSignalPipe(selfpipe[0]);
         instance.addonManager().registerDefaultLoader(&staticAddon);
 
         ret = instance.exec();
         restart = instance.isRestartRequested();
+        canRestart = instance.canRestart();
     } catch (const InstanceQuietQuit &) {
     } catch (const std::exception &e) {
         std::cerr << "Received exception: " << e.what() << std::endl;
         return 1;
     }
 
-    if (restart) {
+    if (restart && canRestart) {
         auto fcitxBinary = StandardPath::fcitxPath("bindir", "fcitx5");
         if (isInFlatpak()) {
             startProcess({"flatpak-spawn", fcitxBinary, "-rd"});

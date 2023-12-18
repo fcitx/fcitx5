@@ -219,6 +219,8 @@ public:
 
     VirtualKeyboardFunctionMode virtualKeyboardFunctionMode_ =
         VirtualKeyboardFunctionMode::Full;
+
+    bool binaryMode_ = false;
 };
 
 } // namespace fcitx
