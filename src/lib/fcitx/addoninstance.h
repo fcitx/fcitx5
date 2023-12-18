@@ -121,6 +121,37 @@ public:
 
     const AddonInfo *addonInfo() const;
 
+    /**
+     * Check if this addon can safely restart.
+     *
+     * When the existing fcitx 5 instance returns false, fcitx5 -r, or
+     * Instance::restart will just be no-op.
+     *
+     * @return whether it is safe for fcitx to restart on its own.
+     * @see AddonInstance::setCanRestart
+     * @since 5.1.6
+     */
+    bool canRestart() const;
+
+protected:
+    /**
+     * Set if this addon can safely restart.
+     *
+     * In certain cases, it is not a good idea to allow restart fcitx 5.
+     * Otherwise fcitx will lose permission. For example, when fcitx is
+     * launching with WAYLAND_SOCKET. In that case, user is recommended to use
+     * other way to restart fcitx.
+     *
+     * The value will be false be default, but it will default to true when
+     * running as fcitx5 binary. After initialize addon, addon may change it
+     * back to false, for example, wayland module.
+     *
+     * @param canRestart Whether fcitx is allowed to restart on its own.
+     * @see Instance::restart
+     * @since 5.1.6
+     */
+    void setCanRestart(bool canRestart);
+
 private:
     AddonFunctionAdaptorBase *findCall(const std::string &name);
     std::unique_ptr<AddonInstancePrivate> d_ptr;

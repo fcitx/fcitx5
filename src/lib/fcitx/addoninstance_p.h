@@ -18,6 +18,7 @@ class AddonInstancePrivate {
 public:
     std::unordered_map<std::string, AddonFunctionAdaptorBase *> callbackMap_;
     const AddonInfo *addonInfo_ = nullptr;
+    bool canRestart_ = true;
 };
 
 } // namespace fcitx
