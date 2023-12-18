@@ -75,6 +75,7 @@ public:
     void setXkbOption(const std::string &name, const std::string &option);
 
     FCITX_ADDON_DEPENDENCY_LOADER(notifications, instance_->addonManager());
+    FCITX_ADDON_DEPENDENCY_LOADER(waylandim, instance_->addonManager());
 
 private:
     void onConnectionCreated(XCBConnection &conn);

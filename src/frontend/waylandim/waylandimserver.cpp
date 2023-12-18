@@ -106,6 +106,14 @@ void WaylandIMServer::deactivate(wayland::ZwpInputMethodContextV1 *id) {
     }
 }
 
+bool WaylandIMServer::hasKeyboardGrab() const {
+    if (auto *globalIc =
+            static_cast<WaylandIMInputContextV1 *>(globalIc_.get())) {
+        return globalIc->hasKeyboardGrab();
+    }
+    return false;
+}
+
 WaylandIMInputContextV1::WaylandIMInputContextV1(
     InputContextManager &inputContextManager, WaylandIMServer *server)
     : VirtualInputContextGlue(inputContextManager), server_(server) {

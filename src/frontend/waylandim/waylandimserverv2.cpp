@@ -70,6 +70,13 @@ InputContextManager &WaylandIMServerV2::inputContextManager() {
 
 Instance *WaylandIMServerV2::instance() { return parent_->instance(); }
 
+bool WaylandIMServerV2::hasKeyboardGrab() const {
+    return std::any_of(icMap_.begin(), icMap_.end(),
+                       [](const decltype(icMap_)::value_type &ic) {
+                           return ic.second && ic.second->hasKeyboardGrab();
+                       });
+}
+
 void WaylandIMServerV2::init() {
     if (init_) {
         return;

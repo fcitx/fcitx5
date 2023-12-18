@@ -11,6 +11,7 @@
 #include <cstring>
 #include <memory>
 #include "fcitx-utils/event.h"
+#include "fcitx-utils/misc_p.h"
 #include "fcitx-utils/utf8.h"
 #include "fcitx/inputcontext.h"
 #include "fcitx/misc_p.h"
@@ -64,6 +65,20 @@ wayland::ZwpInputMethodV2 *WaylandIMModule::getInputMethodV2(InputContext *ic) {
     auto *vic = static_cast<VirtualInputContext *>(ic);
     return static_cast<WaylandIMInputContextV2 *>(vic->parent())
         ->inputMethodV2();
+}
+
+bool WaylandIMModule::hasKeyboardGrab(const std::string &display) const {
+    if (auto server = findValue(servers_, display); server && *server) {
+        if (server->get()->hasKeyboardGrab()) {
+            return true;
+        }
+    }
+    if (auto serverV2 = findValue(serversV2_, display); serverV2 && *serverV2) {
+        if (serverV2->get()->hasKeyboardGrab()) {
+            return true;
+        }
+    }
+    return false;
 }
 
 AggregatedAppMonitor *WaylandIMModule::appMonitor(const std::string &display) {

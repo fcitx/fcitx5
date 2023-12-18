@@ -46,6 +46,8 @@ public:
 
     wayland::ZwpInputMethodV2 *getInputMethodV2(InputContext *ic);
 
+    bool hasKeyboardGrab(const std::string &display) const;
+
     const Configuration *getConfig() const override { return &config_; }
     void setConfig(const RawConfig &config) override {
         config_.load(config, true);
@@ -55,6 +57,7 @@ public:
     const auto &config() const { return config_; }
 
     FCITX_ADDON_EXPORT_FUNCTION(WaylandIMModule, getInputMethodV2);
+    FCITX_ADDON_EXPORT_FUNCTION(WaylandIMModule, hasKeyboardGrab);
 
     AggregatedAppMonitor *appMonitor(const std::string &display);
 

@@ -43,6 +43,7 @@ public:
     void deactivate(wayland::ZwpInputMethodContextV1 *id);
     Instance *instance();
     FocusGroup *group() { return group_; }
+    bool hasKeyboardGrab() const;
 
 private:
     std::shared_ptr<wayland::ZwpInputMethodV1> inputMethodV1_;
@@ -76,6 +77,7 @@ public:
 
     void activate(wayland::ZwpInputMethodContextV1 *id);
     void deactivate(wayland::ZwpInputMethodContextV1 *id);
+    bool hasKeyboardGrab() const { return keyboard_.get(); }
 
 protected:
     void commitStringDelegate(const InputContext *,

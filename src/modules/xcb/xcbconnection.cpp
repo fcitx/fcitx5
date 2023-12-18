@@ -26,6 +26,10 @@
 #include "xcbkeyboard.h"
 #include "xcbmodule.h"
 
+#ifdef WAYLAND_FOUND
+#include "waylandim_public.h"
+#endif
+
 namespace fcitx {
 
 bool extensionCheckXWayland(xcb_connection_t *conn) {
@@ -418,6 +422,38 @@ bool XCBConnection::filterEvent(xcb_connection_t *,
             key = key.normalize();
             if ((forward = key.checkKeyList(forwardGroup_)) ||
                 key.checkKeyList(backwardGroup_)) {
+
+#ifdef WAYLAND_FOUND
+                // When wayland im is used, don't grab keyboard again, otherwise
+                // we may get same event twice. Whne wayland keyboard grab is
+                // active, we will rely on wayland im to handle group switching
+                // key.
+                // This allows KDE Plasma's X11 legacy support to work
+                // correctly.
+                if (isXWayland_ && parent_->waylandim() &&
+                    parent_->mainDisplay() == name_) {
+                    bool isWaylandAppFocused =
+                        !parent_->instance()
+                             ->inputContextManager()
+                             .foreachFocused([](InputContext *ic) {
+                                 // Main wayland display, but not wayland im.
+                                 if (ic->display() == "wayland:" &&
+                                     !stringutils::startsWith(
+                                         ic->frontendName(), "wayland")) {
+                                     return false;
+                                 }
+                                 return true;
+                             });
+                    if (isWaylandAppFocused ||
+                        parent_->waylandim()
+                            ->call<IWaylandIMModule::hasKeyboardGrab>("")) {
+                        if (keyboardGrabbed_) {
+                            ungrabXKeyboard();
+                        }
+                        return true;
+                    }
+                }
+#endif
                 if (keyboardGrabbed_) {
                     navigateGroup(key, forward);
                 } else {

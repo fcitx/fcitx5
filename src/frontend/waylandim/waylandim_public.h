@@ -13,11 +13,16 @@
 #include <fcitx-utils/metastring.h>
 #include <fcitx/addoninstance.h>
 #include <fcitx/focusgroup.h>
-#include <wayland-client.h>
-#include "zwp_input_method_v2.h"
+
+namespace fcitx::wayland {
+class ZwpInputMethodV2;
+}
 
 FCITX_ADDON_DECLARE_FUNCTION(
     WaylandIMModule, getInputMethodV2,
     fcitx::wayland::ZwpInputMethodV2 *(fcitx::InputContext *));
+
+FCITX_ADDON_DECLARE_FUNCTION(WaylandIMModule, hasKeyboardGrab,
+                             bool(const std::string &display));
 
 #endif // _FCITX5_FRONTEND_WAYLANDIM_WAYLANDIM_PUBLIC_H_

@@ -47,6 +47,8 @@ public:
     auto *xkbState() { return state_.get(); }
     auto *inputMethodManagerV2() { return inputMethodManagerV2_.get(); }
 
+    bool hasKeyboardGrab() const;
+
 private:
     bool init_ = false;
     std::shared_ptr<wayland::ZwpInputMethodManagerV2> inputMethodManagerV2_;
@@ -82,6 +84,8 @@ public:
     const char *frontend() const override { return "wayland_v2"; }
 
     auto inputMethodV2() { return ic_.get(); }
+
+    bool hasKeyboardGrab() const { return keyboardGrab_.get(); }
 
 protected:
     void commitStringDelegate(const InputContext *,

@@ -14,6 +14,7 @@
 #include "wl_compositor.h"
 #include "wl_region.h"
 #include "wp_fractional_scale_manager_v1.h"
+#include "zwp_input_method_v2.h"
 #include "zwp_input_panel_v1.h"
 #include "zwp_input_popup_surface_v2.h"
 
