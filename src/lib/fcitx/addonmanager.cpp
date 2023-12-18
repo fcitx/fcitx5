@@ -12,6 +12,7 @@
 #include <unordered_set>
 #include "fcitx-config/iniparser.h"
 #include "fcitx-utils/log.h"
+#include "fcitx/addoninstance.h"
 #include "addoninstance_p.h"
 #include "addonloader.h"
 #include "addonloader_p.h"
@@ -339,6 +340,17 @@ const AddonInfo *AddonManager::addonInfo(const std::string &name) const {
         return &addon->info();
     }
     return nullptr;
+}
+
+AddonInstance *AddonManager::lookupAddon(const std::string &name) const {
+    FCITX_D();
+    auto *addon = d->addon(name);
+    return addon ? addon->instance() : nullptr;
+}
+
+const std::vector<std::string> &AddonManager::loadedAddonNames() const {
+    FCITX_D();
+    return d->loadOrder_;
 }
 
 std::unordered_set<std::string>
