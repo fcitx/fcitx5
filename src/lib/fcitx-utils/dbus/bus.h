@@ -35,6 +35,7 @@ public:
 
 enum class BusType { Default, Session, System };
 enum class RequestNameFlag {
+    None = 0,
     ReplaceExisting = 1ULL << 0,
     AllowReplacement = 1ULL << 1,
     Queue = 1ULL << 2

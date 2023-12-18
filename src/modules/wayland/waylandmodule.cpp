@@ -7,6 +7,7 @@
 
 #include "waylandmodule.h"
 #include <fcntl.h>
+#include <algorithm>
 #include <cstdlib>
 #include <ctime>
 #include <memory>
@@ -86,6 +87,11 @@ WaylandConnection::WaylandConnection(WaylandModule *wayland, std::string name)
         if (wayland_log().checkLogLevel(Debug)) {
             env = std::make_unique<ScopedEnvvar>("WAYLAND_DEBUG", "1");
         }
+        // When WAYLAND_SOCKET is set, wl_display_connect will use it
+        // regardlessly, no matter it is valid or not.
+        if (getenv("WAYLAND_SOCKET")) {
+            isWaylandSocket_ = true;
+        }
         display = wl_display_connect(name_.empty() ? nullptr : name_.c_str());
     }
     if (!display) {
@@ -96,7 +102,7 @@ WaylandConnection::WaylandConnection(WaylandModule *wayland, std::string name)
 
 WaylandConnection::WaylandConnection(WaylandModule *wayland, std::string name,
                                      int fd)
-    : parent_(wayland), name_(std::move(name)) {
+    : parent_(wayland), name_(std::move(name)), isWaylandSocket_(true) {
     wl_display *display = nullptr;
     {
         std::unique_ptr<ScopedEnvvar> env;
@@ -183,7 +189,7 @@ WaylandModule::WaylandModule(fcitx::Instance *instance)
         }));
 
     deferredDiagnose_ = instance_->eventLoop().addTimeEvent(
-        CLOCK_MONOTONIC, now(CLOCK_MONOTONIC) + 3000000, 0,
+        CLOCK_MONOTONIC, now(CLOCK_MONOTONIC) + 7000000, 0,
         [this](EventSourceTime *, uint64_t) {
             selfDiagnose();
             return true;
@@ -208,9 +214,11 @@ bool WaylandModule::openConnection(const std::string &name) {
         FCITX_ERROR() << e.what();
     }
     if (newConnection) {
+        refreshCanRestart();
         onConnectionCreated(*newConnection);
         return true;
     }
+
     return false;
 }
 
@@ -254,6 +262,7 @@ void WaylandModule::removeConnection(const std::string &name) {
     if (iter != conns_.end()) {
         onConnectionClosed(iter->second);
         conns_.erase(iter);
+        refreshCanRestart();
     }
 }
 
@@ -284,6 +293,14 @@ void WaylandModule::onConnectionClosed(WaylandConnection &conn) {
         callback(conn.name(), *conn.display());
     }
 }
+
+void WaylandModule::refreshCanRestart() {
+    setCanRestart(std::all_of(conns_.begin(), conns_.end(),
+                              [](const decltype(conns_)::value_type &conn) {
+                                  return !conn.second.isWaylandSocket();
+                              }));
+}
+
 void WaylandModule::reloadXkbOption() {
     delayedReloadXkbOption_->setNextInterval(30000);
     delayedReloadXkbOption_->setOneShot();
@@ -391,7 +408,6 @@ void WaylandModule::setLayoutToKDE5() {
 
 void WaylandModule::setLayoutToGNOME() {
 #ifdef ENABLE_DBUS
-
     auto layoutAndVariant = parseLayout(
         instance_->inputMethodManager().currentGroup().defaultLayout());
 

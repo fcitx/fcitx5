@@ -649,11 +649,11 @@ public:
 
     bool checkUpdate() { return instance_->checkUpdate(); }
 
+    bool canRestart() { return instance_->canRestart(); }
+
     void save() { return instance_->save(); }
 
-    void setLogRule(const std::string &rule) {
-        Log::setLogRule(rule);
-    }
+    void setLogRule(const std::string &rule) { Log::setLogRule(rule); }
 
 private:
     DBusModule *module_;
@@ -721,6 +721,7 @@ private:
     FCITX_OBJECT_VTABLE_METHOD(checkUpdate, "CheckUpdate", "", "b");
     FCITX_OBJECT_VTABLE_METHOD(save, "Save", "", "");
     FCITX_OBJECT_VTABLE_METHOD(setLogRule, "SetLogRule", "s", "");
+    FCITX_OBJECT_VTABLE_METHOD(canRestart, "CanRestart", "", "b");
 };
 
 DBusModule::DBusModule(Instance *instance)
@@ -728,7 +729,9 @@ DBusModule::DBusModule(Instance *instance)
       serviceWatcher_(std::make_unique<dbus::ServiceWatcher>(*bus_)) {
     bus_->attachEventLoop(&instance->eventLoop());
     auto uniqueName = bus_->uniqueName();
-    Flags<RequestNameFlag> requestFlag = RequestNameFlag::AllowReplacement;
+    Flags<RequestNameFlag> requestFlag = instance->canRestart()
+                                             ? RequestNameFlag::AllowReplacement
+                                             : RequestNameFlag::None;
     if (instance_->willTryReplace()) {
         requestFlag |= RequestNameFlag::ReplaceExisting;
     }

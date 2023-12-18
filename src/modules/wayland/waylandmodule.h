@@ -71,6 +71,8 @@ public:
     FocusGroup *focusGroup() const { return group_.get(); }
     auto *parent() const { return parent_; }
 
+    bool isWaylandSocket() const { return isWaylandSocket_; }
+
 private:
     void init(wl_display *display);
     void finish();
@@ -86,6 +88,7 @@ private:
     ScopedConnection panelConn_, panelRemovedConn_;
     std::unordered_map<wayland::WlSeat *, std::unique_ptr<WaylandKeyboard>>
         keyboards_;
+    bool isWaylandSocket_ = false;
 };
 
 class WaylandModule : public AddonInstance {
@@ -115,6 +118,7 @@ public:
 private:
     void onConnectionCreated(WaylandConnection &conn);
     void onConnectionClosed(WaylandConnection &conn);
+    void refreshCanRestart();
     void reloadXkbOptionReal();
     void setLayoutToGNOME();
     void setLayoutToKDE5();
