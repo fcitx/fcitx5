@@ -541,6 +541,11 @@ bool XCBKeyboard::handleEvent(xcb_generic_event_t *event) {
         switch (xkbEvent->any.xkbType) {
         case XCB_XKB_STATE_NOTIFY: {
             xcb_xkb_state_notify_event_t *state = &xkbEvent->state_notify;
+            FCITX_XCB_DEBUG()
+                << "XCB_XKB_STATE_NOTIFY depressed:"
+                << static_cast<unsigned int>(state->baseMods)
+                << " latched:" << static_cast<unsigned int>(state->latchedMods)
+                << " locked:" << static_cast<unsigned int>(state->lockedMods);
             xkb_state_update_mask(state_.get(), state->baseMods,
                                   state->latchedMods, state->lockedMods,
                                   state->baseGroup, state->latchedGroup,

@@ -413,12 +413,14 @@ bool XCBConnection::filterEvent(xcb_connection_t *,
 
         auto *keypress = reinterpret_cast<xcb_key_press_event_t *>(event);
         if (keypress->event == root_) {
-            FCITX_XCB_DEBUG() << "Received key event from root";
             auto sym = xcb_key_press_lookup_keysym(syms_.get(), keypress, 0);
             auto state = keypress->state;
             bool forward;
             Key key(static_cast<KeySym>(sym), KeyStates(state),
                     keypress->detail);
+            FCITX_XCB_DEBUG()
+                << "Received key event from root, resolved as: " << key
+                << " code: " << static_cast<int>(keypress->detail);
             key = key.normalize();
             if ((forward = key.checkKeyList(forwardGroup_)) ||
                 key.checkKeyList(backwardGroup_)) {
