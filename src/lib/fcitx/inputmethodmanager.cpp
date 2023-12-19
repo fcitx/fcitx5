@@ -153,28 +153,22 @@ void InputMethodManagerPrivate::loadStaticEntries(
     const auto &path = StandardPath::global();
     timestamp_ = path.timestamp(StandardPath::Type::PkgData, "inputmethod");
     auto filesMap =
-        path.multiOpenAll(StandardPath::Type::PkgData, "inputmethod", O_RDONLY,
+        path.multiOpen(StandardPath::Type::PkgData, "inputmethod", O_RDONLY,
                           filter::Suffix(".conf"));
-    for (const auto &file : filesMap) {
-        const auto name = file.first.substr(0, file.first.size() - 5);
+    for (const auto &[fileName, file] : filesMap) {
+        std::string name = fileName.substr(0, fileName.size() - 5);
         if (entries_.count(name) != 0) {
             continue;
         }
-        const auto &files = file.second;
         RawConfig config;
-        // reverse the order, so we end up parse user file at last.
-        for (auto iter = files.rbegin(), end = files.rend(); iter != end;
-             iter++) {
-            auto fd = iter->fd();
-            readFromIni(config, fd);
-        }
+        readFromIni(config, file.fd());
 
         InputMethodInfo imInfo;
         imInfo.load(config);
         // Remove ".conf"
         InputMethodEntry entry = toInputMethodEntry(name, imInfo);
         if (checkEntry(entry, addonNames) &&
-            stringutils::isConcatOf(file.first, entry.uniqueName(), ".conf")) {
+            stringutils::isConcatOf(name, entry.uniqueName(), ".conf")) {
             entries_.emplace(std::string(entry.uniqueName()), std::move(entry));
         }
     }

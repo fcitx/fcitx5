@@ -250,28 +250,23 @@ void AddonManager::load(const std::unordered_set<std::string> &enabled,
     d->timestamp_ =
         path.timestamp(StandardPath::Type::PkgData, d->addonConfigDir_);
     auto fileMap =
-        path.multiOpenAll(StandardPath::Type::PkgData, d->addonConfigDir_,
+        path.multiOpen(StandardPath::Type::PkgData, d->addonConfigDir_,
                           O_RDONLY, filter::Suffix(".conf"));
     bool enableAll = enabled.count("all");
     bool disableAll = disabled.count("all");
-    for (const auto &file : fileMap) {
+    for (const auto &[fileName, file] : fileMap) {
         // remove .conf
-        auto name = file.first.substr(0, file.first.size() - 5);
+        std::string name = fileName.substr(0, fileName.size() - 5);
         if (name == "core") {
             FCITX_ERROR() << "\"core\" is not a valid addon name.";
+            continue;
         }
         if (d->addons_.count(name)) {
             continue;
         }
 
-        const auto &files = file.second;
         RawConfig config;
-        // reverse the order, so we end up parse user file at last.
-        for (auto iter = files.rbegin(), end = files.rend(); iter != end;
-             iter++) {
-            auto fd = iter->fd();
-            readFromIni(config, fd);
-        }
+        readFromIni(config, file.fd());
 
         // override configuration
         auto addon = std::make_unique<Addon>(name, config);
