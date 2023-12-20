@@ -43,8 +43,8 @@ FCITX_CONFIGURATION(
 FCITX_CONFIGURATION(InputMethodInfo, Option<InputMethodInfoBase> im{
                                          this, "InputMethod", "Input Method"};)
 
-InputMethodEntry toInputMethodEntry(const std::string &uniqueName,
-                                    const InputMethodInfo &config) {
+inline InputMethodEntry toInputMethodEntry(const std::string &uniqueName,
+                                           const InputMethodInfo &config) {
     const auto &langCode = config.im->languageCode.value();
     const auto &name = config.im->name.value();
     InputMethodEntry result(uniqueName, name.match("system"), langCode,

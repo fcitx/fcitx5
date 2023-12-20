@@ -152,9 +152,8 @@ void InputMethodManagerPrivate::loadStaticEntries(
     const std::unordered_set<std::string> &addonNames) {
     const auto &path = StandardPath::global();
     timestamp_ = path.timestamp(StandardPath::Type::PkgData, "inputmethod");
-    auto filesMap =
-        path.multiOpen(StandardPath::Type::PkgData, "inputmethod", O_RDONLY,
-                          filter::Suffix(".conf"));
+    auto filesMap = path.multiOpen(StandardPath::Type::PkgData, "inputmethod",
+                                   O_RDONLY, filter::Suffix(".conf"));
     for (const auto &[fileName, file] : filesMap) {
         std::string name = fileName.substr(0, fileName.size() - 5);
         if (entries_.count(name) != 0) {
@@ -167,8 +166,7 @@ void InputMethodManagerPrivate::loadStaticEntries(
         imInfo.load(config);
         // Remove ".conf"
         InputMethodEntry entry = toInputMethodEntry(name, imInfo);
-        if (checkEntry(entry, addonNames) &&
-            stringutils::isConcatOf(name, entry.uniqueName(), ".conf")) {
+        if (checkEntry(entry, addonNames)) {
             entries_.emplace(std::string(entry.uniqueName()), std::move(entry));
         }
     }
