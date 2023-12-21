@@ -1,4 +1,6 @@
-add_subdirectory(xim)
+if (ENABLE_X11)
+    add_subdirectory(xim)
+endif()
 
 if (WAYLAND_FOUND)
     add_subdirectory(waylandim)
