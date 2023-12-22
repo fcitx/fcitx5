@@ -14,7 +14,8 @@
 namespace fcitx {
 
 UnixFD::UnixFD() noexcept = default;
-UnixFD::UnixFD(int fd) { set(fd); }
+UnixFD::UnixFD(int fd) : UnixFD(fd, 0) {}
+UnixFD::UnixFD(int fd, int min) { set(fd, min); }
 
 UnixFD::UnixFD(UnixFD &&other) noexcept {
     operator=(std::forward<UnixFD>(other));
@@ -42,11 +43,11 @@ void UnixFD::give(int fd) noexcept {
     }
 }
 
-void UnixFD::set(int fd) {
+void UnixFD::set(int fd, int min) {
     if (fd == -1) {
         reset();
     } else {
-        int nfd = ::fcntl(fd, F_DUPFD_CLOEXEC, 0);
+        int nfd = ::fcntl(fd, F_DUPFD_CLOEXEC, min);
         if (nfd == -1) {
             throw std::runtime_error("Failed to dup file descriptor");
         }
@@ -54,6 +55,8 @@ void UnixFD::set(int fd) {
         fd_ = nfd;
     }
 }
+
+void UnixFD::set(int fd) { set(fd, 0); }
 
 void UnixFD::reset() noexcept {
     if (fd_ != -1) {

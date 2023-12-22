@@ -29,6 +29,14 @@ public:
 
     /// \brief Create a UnixFD by using dup.
     explicit UnixFD(int fd);
+    /**
+     * Create UnixFD with dup, with give parameter to dup.
+     *
+     * @param fd file descriptor to duplicate.
+     * @param min minimum file descriptor number
+     * @since 5.1.6
+     */
+    explicit UnixFD(int fd, int min);
     UnixFD(const UnixFD &other) = delete;
     FCITX_DECLARE_MOVE(UnixFD);
     ~UnixFD() noexcept;
@@ -47,6 +55,17 @@ public:
     ///
     /// if fd is -1, reset it. Otherwise use dup to make copy.
     void set(int fd);
+
+    /**
+     * Set a new FD.
+     *
+     * if fd is -1, reset it. Otherwise use dup to make copy.
+     *
+     * @param fd file descriptor to duplicate.
+     * @param min minimum file descriptor number
+     * @since 5.1.6
+     */
+    void set(int fd, int min);
 
     /// \brief Clear the FD and close it.
     void reset() noexcept;
