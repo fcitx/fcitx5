@@ -48,6 +48,27 @@ PlasmaThemeWatchdog::PlasmaThemeWatchdog(EventLoop *event,
 #elif defined(__linux__)
         prctl(PR_SET_PDEATHSIG, SIGKILL);
 #endif
+        // Redirect stdin to /dev/null.
+        UnixFD fd = UnixFD::own(open("/dev/null", O_RDWR | O_CLOEXEC));
+
+        if (!fd.isValid()) {
+            _exit(1);
+        }
+
+        if (fd.fd() < 3) {
+            UnixFD copyFd(fd.fd(), 3);
+            if (!copyFd.isValid()) {
+                _exit(1);
+            }
+            fd = std::move(copyFd);
+        }
+        assert(fd.fd() >= 3);
+        if (dup2(fd.fd(), STDIN_FILENO) < 0) {
+            _exit(1);
+        }
+        fd.reset();
+
+        signal(SIGINT, SIG_IGN);
         char arg0[] = PLASMA_THEME_GENERATOR;
         char arg1[] = "--fd";
         std::string value = std::to_string(pipefd[1]);
@@ -63,21 +84,30 @@ PlasmaThemeWatchdog::PlasmaThemeWatchdog(EventLoop *event,
             monitorFD_.fd(),
             {IOEventFlag::In, IOEventFlag::Err, IOEventFlag::Hup},
             [this, event](EventSourceIO *, int fd, IOEventFlags flags) {
-                if ((flags & IOEventFlag::Err) || (flags & IOEventFlag::Hup)) {
+                if (flags.testAny(
+                        IOEventFlags{IOEventFlag::Err, IOEventFlag::Hup})) {
                     cleanup();
                     return true;
                 }
-                if (flags & IOEventFlag::In) {
-                    uint8_t dummy;
-                    while (fs::safeRead(fd, &dummy, sizeof(dummy)) > 0) {
-                    }
-                    timerEvent_ = event->addTimeEvent(
-                        CLOCK_MONOTONIC, now(CLOCK_MONOTONIC) + 1000000, 0,
-                        [this](EventSourceTime *, uint64_t) {
-                            callback_();
-                            return true;
-                        });
+                if (!flags.test(IOEventFlag::In)) {
+                    return true;
                 }
+                ssize_t result = 0;
+                do {
+                    uint8_t dummy;
+                    result = fs::safeRead(fd, &dummy, sizeof(dummy));
+                } while (result > 0);
+                // Check if pipe EOF, or other errors.
+                if (result == 0 || (result < 0 && errno != EAGAIN)) {
+                    cleanup();
+                    return true;
+                }
+                timerEvent_ = event->addTimeEvent(
+                    CLOCK_MONOTONIC, now(CLOCK_MONOTONIC) + 1000000, 0,
+                    [this](EventSourceTime *, uint64_t) {
+                        callback_();
+                        return true;
+                    });
                 return true;
             });
     }
