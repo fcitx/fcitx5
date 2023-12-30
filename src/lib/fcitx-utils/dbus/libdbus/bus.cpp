@@ -371,16 +371,6 @@ void DBusToggleWatch(DBusWatch *watch, void *data) {
     auto iter = bus->ioWatchers_.find(watch);
     if (iter != bus->ioWatchers_.end()) {
         iter->second->setEnabled(dbus_watch_get_enabled(watch));
-        iter->second->setFd(dbus_watch_get_unix_fd(watch));
-        int dflags = dbus_watch_get_flags(watch);
-        IOEventFlags flags;
-        if (dflags & DBUS_WATCH_READABLE) {
-            flags |= IOEventFlag::In;
-        }
-        if (dflags & DBUS_WATCH_WRITABLE) {
-            flags |= IOEventFlag::Out;
-        }
-        iter->second->setEvents(flags);
     }
 }
 
