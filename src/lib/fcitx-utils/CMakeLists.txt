@@ -30,7 +30,7 @@ endif()
 if (NOT TARGET Systemd::Systemd)
   set(FCITX_UTILS_SOURCES
     ${FCITX_UTILS_SOURCES}
-    event_libevent.cpp)
+    event_libuv.cpp)
 else()
   set(FCITX_UTILS_SOURCES
     ${FCITX_UTILS_SOURCES}
@@ -134,7 +134,7 @@ if(LIBKVM_FOUND)
 endif()
 
 if (NOT TARGET Systemd::Systemd)
-    target_link_libraries(Fcitx5Utils PRIVATE ${LIBEVENT_TARGET})
+    target_link_libraries(Fcitx5Utils PRIVATE ${LIBUV_TARGET})
     if (ENABLE_DBUS)
         target_link_libraries(Fcitx5Utils PRIVATE PkgConfig::DBus)
     endif()
