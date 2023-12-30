@@ -906,10 +906,17 @@ static const struct _FcitxKeySymToUnicode gdk_keysym_to_unicode_tab[] = {
     {0xFFFF /* Delete */, '\177'}};
 
 static const struct _FcitxUnicodeToKeySym gdk_unicode_to_keysym_tab[] = {
+    {0xFF08 /* Backspace */, '\b'},
+    {0xFF09 /* Tab */, '\t'},
+    {0xFF0A /* Linefeed */, '\n'},
+    {0xFF0B /* Vert. Tab */, '\v'},
+    {0xFF0D /* Return */, '\r'},
+    {0xFF1B /* Escape */, '\033'},
     {0x0abd, 0x002e}, /* decimalpoint . FULL STOP */
     {0x0ba3, 0x003c}, /* leftcaret < LESS-THAN SIGN */
     {0x0ba6, 0x003e}, /* rightcaret > GREATER-THAN SIGN */
     {0x0bc6, 0x005f}, /* underbar _ LOW LINE */
+    {0xFFFF /* Delete */, '\177'},
     {0x0bc0, 0x00af}, /* overbar ¯ MACRON */
     {0x03c0, 0x0100}, /* Amacron Ā LATIN CAPITAL LETTER A WITH MACRON */
     {0x03e0, 0x0101}, /* amacron ā LATIN SMALL LETTER A WITH MACRON */
@@ -1223,6 +1230,10 @@ static const struct _FcitxUnicodeToKeySym gdk_unicode_to_keysym_tab[] = {
     {0x06ac, 0x045c}, /* Macedonia_kje ќ CYRILLIC SMALL LETTER KJE */
     {0x06ae, 0x045e}, /* Byelorussian_shortu ў CYRILLIC SMALL LETTER SHORT U */
     {0x06af, 0x045f}, /* Cyrillic_dzhe џ CYRILLIC SMALL LETTER DZHE */
+    {0x06bd, 0x0490}, /* Ukrainian_GHE_WITH_UPTURN Ґ CYRILLIC CAPITAL LETTER GHE
+                         WITH UPTURN */
+    {0x06ad, 0x0491}, /* Ukrainian_ghe_with_upturn ґ CYRILLIC SMALL LETTER GHE
+                         WITH UPTURN */
     {0x0ce0, 0x05d0}, /* hebrew_aleph א HEBREW LETTER ALEF */
     {0x0ce1, 0x05d1}, /* hebrew_bet ב HEBREW LETTER BET */
     {0x0ce2, 0x05d2}, /* hebrew_gimel ג HEBREW LETTER GIMEL */
@@ -1361,6 +1372,7 @@ static const struct _FcitxUnicodeToKeySym gdk_unicode_to_keysym_tab[] = {
     {0x0dd8, 0x0e38}, /* Thai_sarau ุ THAI CHARACTER SARA U */
     {0x0dd9, 0x0e39}, /* Thai_sarauu ู THAI CHARACTER SARA UU */
     {0x0dda, 0x0e3a}, /* Thai_phinthu ฺ THAI CHARACTER PHINTHU */
+    {0x0dde, 0x0e3e}, /* Thai_maihanakat_maitho ฾ ??? */
     {0x0ddf, 0x0e3f}, /* Thai_baht ฿ THAI CURRENCY SYMBOL BAHT */
     {0x0de0, 0x0e40}, /* Thai_sarae เ THAI CHARACTER SARA E */
     {0x0de1, 0x0e41}, /* Thai_saraae แ THAI CHARACTER SARA AE */
