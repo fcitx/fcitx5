@@ -85,6 +85,7 @@ void WlrAppMonitor::setup(wayland::ZwlrForeignToplevelManagerV1 *management) {
 
 void WlrAppMonitor::remove(wayland::ZwlrForeignToplevelHandleV1 *handle) {
     windows_.erase(handle);
+    refresh();
 }
 
 void WlrAppMonitor::refresh() {
