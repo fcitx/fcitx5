@@ -663,28 +663,41 @@ std::string Key::keySymToString(KeySym sym, KeyStringFormat format) {
 }
 
 KeySym Key::keySymFromUnicode(uint32_t unicode) {
+    const auto &tab = unicode_to_keysym_tab();
     int min = 0;
-    int max = sizeof(gdk_unicode_to_keysym_tab) /
-                  sizeof(gdk_unicode_to_keysym_tab[0]) -
-              1;
+    int max = tab.size() - 1;
     int mid;
 
-    /* First check for Latin-1 characters (1:1 mapping) */
+    /* first check for Latin-1 characters (1:1 mapping) */
     if ((unicode >= 0x0020 && unicode <= 0x007e) ||
-        (unicode >= 0x00a0 && unicode <= 0x00ff)) {
+        (unicode >= 0x00a0 && unicode <= 0x00ff))
         return static_cast<KeySym>(unicode);
-    }
+
+    /* special keysyms */
+    if ((unicode >= (FcitxKey_BackSpace & 0x7f) &&
+         unicode <= (FcitxKey_Clear & 0x7f)) ||
+        unicode == (FcitxKey_Return & 0x7f) ||
+        unicode == (FcitxKey_Escape & 0x7f))
+        return static_cast<KeySym>(unicode | 0xff00);
+    if (unicode == (FcitxKey_Delete & 0x7f))
+        return FcitxKey_Delete;
+
+    /* Unicode non-symbols and code points outside Unicode planes */
+    if ((unicode >= 0xd800 && unicode <= 0xdfff) ||
+        (unicode >= 0xfdd0 && unicode <= 0xfdef) || unicode > 0x10ffff ||
+        (unicode & 0xfffe) == 0xfffe)
+        return FcitxKey_None;
 
     /* Binary search in table */
     while (max >= min) {
         mid = (min + max) / 2;
-        if (gdk_unicode_to_keysym_tab[mid].ucs < unicode) {
+        if (tab[mid].ucs < unicode) {
             min = mid + 1;
-        } else if (gdk_unicode_to_keysym_tab[mid].ucs > unicode) {
+        } else if (tab[mid].ucs > unicode) {
             max = mid - 1;
         } else {
             /* found it */
-            return static_cast<KeySym>(gdk_unicode_to_keysym_tab[mid].keysym);
+            return static_cast<KeySym>(tab[mid].keysym);
         }
     }
 
@@ -697,32 +710,58 @@ KeySym Key::keySymFromUnicode(uint32_t unicode) {
 
 uint32_t Key::keySymToUnicode(KeySym sym) {
     int min = 0;
-    int max = sizeof(gdk_keysym_to_unicode_tab) /
-                  sizeof(gdk_keysym_to_unicode_tab[0]) -
-              1;
+    int max =
+        sizeof(keysym_to_unicode_tab) / sizeof(keysym_to_unicode_tab[0]) - 1;
     int mid;
 
-    /* First check for Latin-1 characters (1:1 mapping) */
+    /* first check for Latin-1 characters (1:1 mapping) */
     if ((sym >= 0x0020 && sym <= 0x007e) || (sym >= 0x00a0 && sym <= 0x00ff)) {
         return sym;
     }
 
-    /* Also check for directly encoded 24-bit UCS characters:
+    /* patch encoding botch */
+    if (sym == FcitxKey_KP_Space) {
+        return FcitxKey_space & 0x7f;
+    }
+
+    /* special syms */
+    if ((sym >= FcitxKey_BackSpace && sym <= FcitxKey_Clear) ||
+        (sym >= FcitxKey_KP_Multiply && sym <= FcitxKey_KP_9) ||
+        sym == FcitxKey_Return || sym == FcitxKey_Escape ||
+        sym == FcitxKey_Delete || sym == FcitxKey_KP_Tab ||
+        sym == FcitxKey_KP_Enter || sym == FcitxKey_KP_Equal) {
+        return sym & 0x7f;
+    }
+
+    /* also check for directly encoded Unicode codepoints */
+
+    /* Exclude surrogates: they are invalid in UTF-32.
+     * See https://www.unicode.org/versions/Unicode15.0.0/ch03.pdf#G28875
+     * for further details.
      */
-    if ((sym & 0xff000000) == 0x01000000) {
-        return sym & 0x00ffffff;
+    if (0x0100d800 <= sym && sym <= 0x0100dfff) {
+        return 0;
+    }
+    /*
+     * In theory, this is supposed to start from 0x100100, such that the ASCII
+     * range, which is already covered by 0x00-0xff, can't be encoded in two
+     * ways. However, changing this after a couple of decades probably won't
+     * go well, so it stays as it is.
+     */
+    if (0x01000000 <= sym && sym <= 0x0110ffff) {
+        return sym - 0x01000000;
     }
 
     /* binary search in table */
     while (max >= min) {
         mid = (min + max) / 2;
-        if (gdk_keysym_to_unicode_tab[mid].keysym < sym) {
+        if (keysym_to_unicode_tab[mid].keysym < sym) {
             min = mid + 1;
-        } else if (gdk_keysym_to_unicode_tab[mid].keysym > sym) {
+        } else if (keysym_to_unicode_tab[mid].keysym > sym) {
             max = mid - 1;
         } else {
             /* found it */
-            return gdk_keysym_to_unicode_tab[mid].ucs;
+            return keysym_to_unicode_tab[mid].ucs;
         }
     }
 

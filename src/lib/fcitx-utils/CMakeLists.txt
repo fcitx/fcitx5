@@ -59,6 +59,7 @@ set(FCITX_UTILS_SOURCES
     log.cpp
     misc.cpp
     semver.cpp
+    keydata.cpp
     )
 
 set(FCITX_UTILS_HEADERS

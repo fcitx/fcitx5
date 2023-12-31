@@ -16,7 +16,7 @@
 
 #define CHECK_ARRAY_ORDER(ARRAY, COMPARE_FUNC)                                 \
     for (size_t i = 0; i < FCITX_ARRAY_SIZE(ARRAY) - 1; i++) {                 \
-        FCITX_ASSERT(COMPARE_FUNC(ARRAY[i], ARRAY[i + 1]));                    \
+        FCITX_ASSERT(COMPARE_FUNC(ARRAY[i], ARRAY[i + 1])) << i;               \
     }
 
 int main() {
@@ -24,13 +24,11 @@ int main() {
 #define _STRING_LESS_2(A, B) (strcmp((A).name, (B).name) < 0)
 #define _SYM_LESS(A, B) ((A).sym < (B).sym)
 #define _KEYSYM_LESS(A, B) ((A).keysym < (B).keysym)
-#define _UCS_LESS_OR_EQUAL(A, B) ((A).ucs <= (B).ucs)
 
     CHECK_ARRAY_ORDER(keyNameList, _STRING_LESS);
     CHECK_ARRAY_ORDER(keyNameOffsetByValue, _SYM_LESS);
     CHECK_ARRAY_ORDER(keyNameListCompat, _STRING_LESS_2);
-    CHECK_ARRAY_ORDER(gdk_keysym_to_unicode_tab, _KEYSYM_LESS);
-    CHECK_ARRAY_ORDER(gdk_unicode_to_keysym_tab, _UCS_LESS_OR_EQUAL);
+    CHECK_ARRAY_ORDER(fcitx::keysym_to_unicode_tab, _KEYSYM_LESS);
 
     // Test convert
     for (size_t i = 0; i < FCITX_ARRAY_SIZE(keyValueByNameOffset); i++) {
