@@ -105,7 +105,6 @@ void XCBWindow::createWindow(xcb_visualid_t vid, bool overrideRedirect) {
     contentSurface_.reset();
 
     postCreateWindow();
-    xcb_flush(ui_->connection());
 }
 
 void XCBWindow::destroyWindow() {
@@ -123,7 +122,6 @@ void XCBWindow::destroyWindow() {
     if (ui_->pointerGrabber() == this) {
         ui_->ungrabPointer();
     }
-    xcb_flush(conn);
 }
 
 void XCBWindow::resize(unsigned int width, unsigned int height) {
@@ -131,7 +129,6 @@ void XCBWindow::resize(unsigned int width, unsigned int height) {
     xcb_configure_window(ui_->connection(), wid_,
                          XCB_CONFIG_WINDOW_WIDTH | XCB_CONFIG_WINDOW_HEIGHT,
                          vals);
-    xcb_flush(ui_->connection());
     cairo_xcb_surface_set_size(surface_.get(), width, height);
     Window::resize(width, height);
     CLASSICUI_DEBUG() << "Resize: " << width << " " << height;
@@ -154,7 +151,6 @@ void XCBWindow::render() {
     cairo_set_source_surface(cr, contentSurface_.get(), 0, 0);
     cairo_paint(cr);
     cairo_destroy(cr);
-    xcb_flush(ui_->connection());
     CLASSICUI_DEBUG() << "Render";
 }
 } // namespace fcitx::classicui

@@ -86,7 +86,6 @@ protected:
             return;
         }
         ic_->commitString(serial_, text.c_str());
-        server_->deferredFlush();
     }
     void deleteSurroundingTextDelegate(InputContext *ic, int offset,
                                        unsigned int size) const override;
@@ -113,7 +112,6 @@ protected:
                         WL_KEYBOARD_KEY_STATE_RELEASED, key.rawKey().states());
             }
         }
-        server_->deferredFlush();
     }
 
     void updatePreeditDelegate(InputContext *ic) const override;

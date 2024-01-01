@@ -14,6 +14,16 @@ namespace fcitx {
 
 WaylandEventReader::WaylandEventReader(WaylandConnection *conn)
     : module_(conn->parent()), conn_(conn), display_(*conn_->display()) {
+    postEvent_ = module_->instance()->eventLoop().addPostEvent(
+        [this](EventSource *source) {
+            if (wl_display_get_error(display_)) {
+                source->setEnabled(false);
+                return true;
+            }
+            FCITX_WAYLAND_DEBUG() << "wl_display_flush";
+            display_.flush();
+            return true;
+        });
     dispatcherToMain_.attach(&conn->parent()->instance()->eventLoop());
     // Actively trigger an initial dispatch so we can make sure:
     // 1. depending even before this WaylandEventReader are handled.

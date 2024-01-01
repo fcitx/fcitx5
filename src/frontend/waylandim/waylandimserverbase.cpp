@@ -21,19 +21,6 @@ WaylandIMServerBase::WaylandIMServerBase(wl_display *display, FocusGroup *group,
       display_(
           static_cast<wayland::Display *>(wl_display_get_user_data(display))) {}
 
-void WaylandIMServerBase::deferredFlush() {
-    if (deferEvent_) {
-        return;
-    }
-
-    deferEvent_ =
-        parent_->instance()->eventLoop().addDeferEvent([this](EventSource *) {
-            display_->flush();
-            deferEvent_.reset();
-            return true;
-        });
-}
-
 std::optional<std::string>
 WaylandIMServerBase::mayCommitAsText(const Key &key, uint32_t state) const {
     KeyStates nonShiftMask =

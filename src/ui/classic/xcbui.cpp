@@ -495,7 +495,6 @@ void XCBUI::refreshManager() {
                                  XCB_EVENT_MASK_PROPERTY_CHANGE);
     }
     xcb_ungrab_server(conn_);
-    xcb_flush(conn_);
 
     readXSettings();
 }
@@ -531,7 +530,6 @@ void XCBUI::readXSettings() {
         }
     } while (more);
     xcb_ungrab_server(conn_);
-    xcb_flush(conn_);
 
     if (error || data.empty()) {
         return;

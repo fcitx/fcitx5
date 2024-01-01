@@ -247,7 +247,6 @@ void XCBTrayWindow::sendTrayOpcode(long message, long data1, long data2,
 
     xcb_send_event(ui_->connection(), false, dockWindow_,
                    XCB_EVENT_MASK_NO_EVENT, reinterpret_cast<char *>(&ev));
-    xcb_flush(ui_->connection());
 }
 
 xcb_visualid_t XCBTrayWindow::trayVisual() {
@@ -331,7 +330,6 @@ void XCBTrayWindow::postCreateWindow() {
             ui_->connection(), wid_,
             XCB_CW_BACKING_PIXEL | XCB_CW_BORDER_PIXEL | XCB_CW_BACK_PIXMAP,
             &list);
-        xcb_flush(ui_->connection());
     }
 }
 
@@ -402,7 +400,6 @@ void XCBTrayWindow::render() {
     cairo_paint(cr);
     cairo_destroy(cr);
     cairo_surface_flush(surface_.get());
-    xcb_flush(ui_->connection());
     CLASSICUI_DEBUG() << "Render";
 }
 

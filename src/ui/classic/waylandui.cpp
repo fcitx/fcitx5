@@ -89,7 +89,6 @@ WaylandUI::WaylandUI(ClassicUI *parent, const std::string &name,
     if (seat) {
         pointer_ = std::make_unique<WaylandPointer>(this, seat.get());
     }
-    display_->flush();
     setupInputWindow();
 }
 

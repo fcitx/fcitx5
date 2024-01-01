@@ -28,7 +28,6 @@ XCBConvertSelectionRequest::XCBConvertSelectionRequest(
     xcb_delete_property(conn->connection(), conn->serverWindow(), property_);
     xcb_convert_selection(conn->connection(), conn->serverWindow(), selection_,
                           fallbacks_.back(), property_, XCB_TIME_CURRENT_TIME);
-    xcb_flush(conn->connection());
     timer_ = conn->parent()->instance()->eventLoop().addTimeEvent(
         CLOCK_MONOTONIC, now(CLOCK_MONOTONIC) + 5000000, 0,
         [this](EventSourceTime *, uint64_t) {
@@ -72,7 +71,6 @@ void XCBConvertSelectionRequest::handleReply(xcb_atom_t type, const char *data,
     xcb_convert_selection(conn_->connection(), conn_->serverWindow(),
                           selection_, fallbacks_.back(), property_,
                           XCB_TIME_CURRENT_TIME);
-    xcb_flush(conn_->connection());
 }
 
 } // namespace fcitx

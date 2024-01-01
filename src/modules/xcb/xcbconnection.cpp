@@ -276,7 +276,6 @@ void XCBConnection::ungrabKey(const Key &key) {
     }
 
     xcb_ungrab_key(conn_.get(), keycode, root_, modifiers);
-    xcb_flush(conn_.get());
 }
 
 void XCBConnection::grabKey() {
@@ -292,7 +291,6 @@ void XCBConnection::grabKey() {
     }
     // addEventMaskToWindow(conn_.get(), root_, XCB_EVENT_MASK_KEY_PRESS |
     // XCB_EVENT_MASK_KEY_RELEASE);
-    xcb_flush(conn_.get());
 }
 
 void XCBConnection::ungrabKey() {
@@ -330,7 +328,6 @@ void XCBConnection::ungrabXKeyboard() {
     FCITX_XCB_DEBUG() << "Ungrab keyboard for display: " << name_;
     keyboardGrabbed_ = false;
     xcb_ungrab_keyboard(conn_.get(), XCB_CURRENT_TIME);
-    xcb_flush(conn_.get());
 }
 
 void XCBConnection::processEvent() {
@@ -342,7 +339,6 @@ void XCBConnection::processEvent() {
             }
         }
     }
-    xcb_flush(conn_.get());
     reader_->wakeUp();
 }
 
@@ -575,7 +571,6 @@ void XCBConnection::addSelectionAtom(xcb_atom_t atom) {
         XCB_XFIXES_SELECTION_EVENT_MASK_SET_SELECTION_OWNER |
             XCB_XFIXES_SELECTION_EVENT_MASK_SELECTION_WINDOW_DESTROY |
             XCB_XFIXES_SELECTION_EVENT_MASK_SELECTION_CLIENT_CLOSE);
-    xcb_flush(conn_.get());
 }
 
 void XCBConnection::removeSelectionAtom(xcb_atom_t atom) {

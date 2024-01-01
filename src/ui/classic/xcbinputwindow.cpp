@@ -117,7 +117,6 @@ void XCBInputWindow::updatePosition(InputContext *inputContext) {
                              XCB_CONFIG_WINDOW_STACK_MODE |
                                  XCB_CONFIG_WINDOW_X | XCB_CONFIG_WINDOW_Y,
                              &wc);
-    xcb_flush(ui_->connection());
 }
 
 void XCBInputWindow::updateDPI(InputContext *inputContext) {
@@ -139,7 +138,6 @@ void XCBInputWindow::update(InputContext *inputContext) {
     if (!visible()) {
         if (oldVisible) {
             xcb_unmap_window(ui_->connection(), wid_);
-            xcb_flush(ui_->connection());
         }
         return;
     }
@@ -185,7 +183,6 @@ void XCBInputWindow::update(InputContext *inputContext) {
     updatePosition(inputContext);
     if (!oldVisible) {
         xcb_map_window(ui_->connection(), wid_);
-        xcb_flush(ui_->connection());
     }
     paint(c, width, height, /*scale=*/1.0);
     cairo_destroy(c);

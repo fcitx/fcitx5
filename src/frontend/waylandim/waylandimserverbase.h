@@ -24,7 +24,6 @@ public:
                         const std::string &name, WaylandIMModule *waylandim);
     virtual ~WaylandIMServerBase() = default;
 
-    void deferredFlush();
     auto *parent() { return parent_; }
 
     std::optional<std::string> mayCommitAsText(const Key &key,
@@ -35,8 +34,6 @@ protected:
     std::string name_;
     WaylandIMModule *parent_;
     wayland::Display *display_;
-
-    std::unique_ptr<EventSource> deferEvent_;
 
     UniqueCPtr<struct xkb_context, xkb_context_unref> context_;
     UniqueCPtr<struct xkb_keymap, xkb_keymap_unref> keymap_;

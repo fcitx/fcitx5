@@ -88,7 +88,6 @@ void WaylandIMServer::init() {
                 WAYLANDIM_DEBUG() << "DEACTIVATE " << ic;
                 deactivate(ic);
             });
-        deferredFlush();
     }
 }
 
@@ -184,7 +183,6 @@ void WaylandIMInputContextV1::activate(wayland::ZwpInputMethodContextV1 *ic) {
     } else {
         focusIn();
     }
-    server_->deferredFlush();
 }
 
 void WaylandIMInputContextV1::deactivate(wayland::ZwpInputMethodContextV1 *ic) {
@@ -197,7 +195,6 @@ void WaylandIMInputContextV1::deactivate(wayland::ZwpInputMethodContextV1 *ic) {
         server_->instance()->clearXkbStateMask(server_->group()->display());
 
         timeEvent_->setEnabled(false);
-        server_->deferredFlush();
         focusOutWrapper();
     } else {
         // This should not happen, but just in case.
@@ -486,8 +483,6 @@ void WaylandIMInputContextV1::keyCallback(uint32_t, uint32_t time, uint32_t key,
         timeEvent_->setNextInterval(
             std::min(1000, repeatDelay_ * 1000 - repeatHackDelay));
     }
-
-    server_->deferredFlush();
 }
 void WaylandIMInputContextV1::modifiersCallback(uint32_t serial,
                                                 uint32_t mods_depressed,
@@ -556,7 +551,6 @@ void WaylandIMInputContextV1::sendKey(uint32_t time, uint32_t sym,
     }
     auto modifiers = toModifiers(states);
     ic_->keysym(serial_, time, sym, state, modifiers);
-    server_->deferredFlush();
 }
 
 void WaylandIMInputContextV1::sendKeyToVK(uint32_t time, const Key &key,
@@ -565,7 +559,6 @@ void WaylandIMInputContextV1::sendKeyToVK(uint32_t time, const Key &key,
         return;
     }
 
-    server_->deferredFlush();
     if (auto text = server_->mayCommitAsText(key, state)) {
         ic_->commitString(serial_, text->data());
     } else {
@@ -599,7 +592,6 @@ void WaylandIMInputContextV1::updatePreeditDelegate(InputContext *ic) const {
     }
     ic_->preeditString(serial_, preedit.toString().c_str(),
                        preedit.toStringForCommit().c_str());
-    server_->deferredFlush();
 }
 
 void WaylandIMInputContextV1::deleteSurroundingTextDelegate(
@@ -627,6 +619,5 @@ void WaylandIMInputContextV1::deleteSurroundingTextDelegate(
     auto sizeBytes = utf8::ncharByteLength(text.begin() + startBytes, size);
     ic_->deleteSurroundingText(startBytes - cursorBytes, sizeBytes);
     ic_->commitString(serial_, "");
-    server_->deferredFlush();
 }
 } // namespace fcitx

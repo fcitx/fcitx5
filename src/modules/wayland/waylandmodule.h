@@ -147,6 +147,10 @@ private:
 
 FCITX_DECLARE_LOG_CATEGORY(wayland_log);
 
+#define FCITX_WAYLAND_INFO() FCITX_LOGC(::fcitx::wayland_log, Info)
+#define FCITX_WAYLAND_ERROR() FCITX_LOGC(::fcitx::wayland_log, Error)
+#define FCITX_WAYLAND_DEBUG() FCITX_LOGC(::fcitx::wayland_log, Debug)
+
 } // namespace fcitx
 
 #endif // _FCITX_MODULES_WAYLAND_WAYLANDMODULE_H_

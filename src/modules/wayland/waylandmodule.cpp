@@ -42,10 +42,6 @@ namespace fcitx {
 
 FCITX_DEFINE_LOG_CATEGORY(wayland_log, "wayland");
 
-#define FCITX_WAYLAND_INFO() FCITX_LOGC(::fcitx::wayland_log, Info)
-#define FCITX_WAYLAND_ERROR() FCITX_LOGC(::fcitx::wayland_log, Error)
-#define FCITX_WAYLAND_DEBUG() FCITX_LOGC(::fcitx::wayland_log, Debug)
-
 namespace {
 bool isKDE5() {
     static const DesktopType desktop = getDesktopType();

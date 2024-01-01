@@ -69,7 +69,6 @@ bool XCBMenu::filterEvent(xcb_generic_event_t *event) {
                 hideChilds();
                 hide();
                 hideParents();
-                xcb_flush(ui_->connection());
             }
             return true;
         }
@@ -236,7 +235,6 @@ void XCBMenu::hideAll() {
     hideParents();
     hide();
     hideChilds();
-    xcb_flush(ui_->connection());
 }
 
 bool XCBMenu::childHasMouse() const {
@@ -285,7 +283,6 @@ void XCBMenu::hideTillMenuHasMouseOrTopLevelHelper() {
     if (parent_.isNull() || hasMouse_) {
         update();
         setFocus();
-        xcb_flush(ui_->connection());
         return;
     }
     auto *parent = parent_.get();
@@ -349,7 +346,6 @@ void XCBMenu::setHoveredIndex(int idx) {
                         hideTillMenuHasMouseOrTopLevel();
                     }
                     update();
-                    xcb_flush(ui_->connection());
                 } while (0);
                 pool_->setPopupMenuTimer(nullptr);
                 return true;
@@ -706,7 +702,6 @@ void XCBMenu::show(Rect rect, ConstrainAdjustment adjustY) {
     if (parent_.isNull()) {
         ui_->grabPointer(this);
     }
-    xcb_flush(ui_->connection());
     x_ = x;
     y_ = y;
 }

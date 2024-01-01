@@ -88,8 +88,6 @@ void WaylandIMServerV2::init() {
     }
     WAYLANDIM_DEBUG() << "INIT IM V2";
     refreshSeat();
-
-    display_->flush();
 }
 
 void WaylandIMServerV2::refreshSeat() {
@@ -164,7 +162,6 @@ WaylandIMInputContextV2::WaylandIMInputContextV2(
                                     WL_KEYBOARD_KEY_STATE_RELEASED);
                     }
                     vk_->modifiers(0, 0, 0, 0);
-                    server_->deferredFlush();
                 }
                 focusOutWrapper();
             }
@@ -202,7 +199,6 @@ WaylandIMInputContextV2::WaylandIMInputContextV2(
                     });
                 repeatInfoCallback(repeatRate_, repeatDelay_);
                 focusInWrapper();
-                server_->deferredFlush();
             }
         }
     });
@@ -485,8 +481,6 @@ void WaylandIMInputContextV2::keyCallback(uint32_t, uint32_t time, uint32_t key,
         timeEvent_->setNextInterval(
             std::min(1000, repeatDelay_ * 1000 - repeatHackDelay));
     }
-
-    server_->deferredFlush();
 }
 void WaylandIMInputContextV2::modifiersCallback(uint32_t,
                                                 uint32_t mods_depressed,
@@ -560,7 +554,6 @@ void WaylandIMInputContextV2::sendKeyToVK(uint32_t time, const Key &key,
         pressedVKKey_[code] = time;
     }
     vk_->key(time, code, state);
-    server_->deferredFlush();
 }
 
 void WaylandIMInputContextV2::forwardKeyDelegate(
@@ -635,7 +628,6 @@ void WaylandIMInputContextV2::updatePreeditDelegate(InputContext *ic) const {
                               cursorEnd);
     }
     ic_->commit(serial_);
-    server_->deferredFlush();
 }
 
 void WaylandIMInputContextV2::deleteSurroundingTextDelegate(
@@ -670,6 +662,5 @@ void WaylandIMInputContextV2::deleteSurroundingTextDelegate(
     ic_->deleteSurroundingText(cursorBytes - startBytes,
                                startBytes + sizeBytes - cursorBytes);
     ic_->commit(serial_);
-    server_->deferredFlush();
 }
 } // namespace fcitx

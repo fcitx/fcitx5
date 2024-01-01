@@ -5,11 +5,23 @@
  *
  */
 #include "xcbeventreader.h"
+#include <xcb/xcb.h>
+#include "fcitx-utils/event.h"
 #include "xcbconnection.h"
 #include "xcbmodule.h"
 
 namespace fcitx {
 XCBEventReader::XCBEventReader(XCBConnection *conn) : conn_(conn) {
+    postEvent_ =
+        conn->instance()->eventLoop().addPostEvent([this](EventSource *source) {
+            if (xcb_connection_has_error(conn_->connection())) {
+                source->setEnabled(false);
+                return true;
+            }
+            FCITX_XCB_DEBUG() << "xcb_flush";
+            xcb_flush(conn_->connection());
+            return true;
+        });
     dispatcherToMain_.attach(&conn->instance()->eventLoop());
     thread_ = std::make_unique<std::thread>(&XCBEventReader::runThread, this);
 }

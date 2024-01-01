@@ -36,6 +36,7 @@ private:
     wayland::Display &display_;
     EventDispatcher dispatcherToMain_;
     EventDispatcher dispatcherToWorker_;
+    std::unique_ptr<EventSource> postEvent_;
 
     // Protected by mutex_;
     bool quitting_ = false;

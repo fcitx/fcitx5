@@ -176,7 +176,6 @@ void XCBKeyboard::updateKeymap() {
     if (!context_) {
         return;
     }
-    xcb_flush(connection());
     initDefaultLayout();
 
     keymap_.reset(nullptr);
@@ -514,7 +513,6 @@ bool XCBKeyboard::setLayoutByName(const std::string &layout,
 #endif
     xcb_xkb_latch_lock_state(connection(), XCB_XKB_ID_USE_CORE_KBD, 0, 0, true,
                              index, 0, false, 0);
-    xcb_flush(connection());
     return true;
 }
 

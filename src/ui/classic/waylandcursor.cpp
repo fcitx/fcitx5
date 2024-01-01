@@ -153,7 +153,6 @@ void WaylandCursor::update() {
 void WaylandCursor::timerCallback() {
     timerCalled_ = true;
     maybeUpdate();
-    pointer_->ui()->display()->flush();
 }
 
 void WaylandCursor::frameCallback() {

@@ -42,6 +42,7 @@ private:
     bool hadError_ = false;
     std::unique_ptr<EventSource> deferEvent_;
     std::unique_ptr<EventSource> wakeEvent_;
+    std::unique_ptr<EventSource> postEvent_;
     std::unique_ptr<std::thread> thread_;
     std::mutex mutex_;
     std::list<UniqueCPtr<xcb_generic_event_t>> events_;
