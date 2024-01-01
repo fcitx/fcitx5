@@ -329,4 +329,17 @@ std::unique_ptr<EventSource> EventLoop::addDeferEvent(EventCallback callback) {
     source->setEventSource(sdEventSource);
     return source;
 }
+
+std::unique_ptr<EventSource> EventLoop::addPostEvent(EventCallback callback) {
+    FCITX_D();
+    auto source = std::make_unique<SDEventSource>(std::move(callback));
+    sd_event_source *sdEventSource;
+    int err;
+    if ((err = sd_event_add_post(d->event_, &sdEventSource, StaticEventCallback,
+                                 source.get())) < 0) {
+        throw EventLoopException(err);
+    }
+    source->setEventSource(sdEventSource);
+    return source;
+}
 } // namespace fcitx

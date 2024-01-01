@@ -33,6 +33,7 @@ set(FCITX_UTILS_DBUS_TEST
 
 set(testdbus_LIBS Pthread::Pthread)
 set(testeventdispatcher_LIBS Pthread::Pthread)
+set(testevent_LIBS Pthread::Pthread)
 
 find_program(XVFB_BIN Xvfb)
 

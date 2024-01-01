@@ -90,6 +90,8 @@ public:
     addExitEvent(EventCallback callback);
     FCITX_NODISCARD std::unique_ptr<EventSource>
     addDeferEvent(EventCallback callback);
+    FCITX_NODISCARD std::unique_ptr<EventSource>
+    addPostEvent(EventCallback callback);
 
 private:
     const std::unique_ptr<EventLoopPrivate> d_ptr;

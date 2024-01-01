@@ -40,6 +40,7 @@ static IOEventFlags LibUVFlagsToIOEventFlags(int flags) {
 
 void IOEventCallback(uv_poll_t *handle, int status, int events);
 void TimeEventCallback(uv_timer_t *handle);
+void PostEventCallback(uv_prepare_t *handle);
 
 enum class LibUVSourceEnableState { Disabled = 0, Oneshot = 1, Enabled = 2 };
 
@@ -154,7 +155,8 @@ public:
     virtual void setup(uv_loop_t *loop, HandleType *handle) = 0;
 };
 
-struct LibUVSourceIO final : public LibUVSource<EventSourceIO, uv_poll_t> {
+struct LibUVSourceIO final : public LibUVSource<EventSourceIO, uv_poll_t>,
+                             public TrackableObject<LibUVSourceIO> {
     LibUVSourceIO(IOCallback _callback, std::shared_ptr<UVLoop> loop, int fd,
                   IOEventFlags flags)
         : LibUVSource(loop), fd_(fd), flags_(flags),
@@ -236,6 +238,21 @@ struct LibUVSourceTime final : public LibUVSource<EventSourceTime, uv_timer_t>,
     TimeCallback callback_;
 };
 
+struct LibUVSourcePost final : public LibUVSource<EventSource, uv_prepare_t>,
+                               public TrackableObject<LibUVSourcePost> {
+    LibUVSourcePost(EventCallback callback, std::shared_ptr<UVLoop> loop)
+        : LibUVSource(std::move(loop)), callback_(std::move(callback)) {
+        setEnabled(true);
+    }
+
+    void setup(uv_loop_t *loop, uv_prepare_t *prepare) override {
+        uv_prepare_init(loop, prepare);
+        uv_prepare_start(prepare, &PostEventCallback);
+    }
+
+    EventCallback callback_;
+};
+
 struct LibUVSourceExit final : public EventSource,
                                public TrackableObject<LibUVSourceExit> {
     LibUVSourceExit(EventCallback _callback)
@@ -311,6 +328,7 @@ void EventLoop::exit() {
 void IOEventCallback(uv_poll_t *handle, int status, int events) {
     auto *source = static_cast<LibUVSourceIO *>(
         static_cast<LibUVSourceBase *>(handle->data));
+    auto sourceRef = source->watch();
     try {
         if (source->isOneShot()) {
             source->setEnabled(false);
@@ -319,9 +337,14 @@ void IOEventCallback(uv_poll_t *handle, int status, int events) {
         if (status < 0) {
             flags |= IOEventFlag::Err;
         }
-        source->callback_(source, source->fd(), flags);
+        bool ret = source->callback_(source, source->fd(), flags);
+        if (sourceRef.isValid()) {
+            if (!ret) {
+                source->setEnabled(false);
+            }
+        }
     } catch (const std::exception &e) {
-        // some abnormal things threw{
+        // some abnormal things threw
         FCITX_FATAL() << e.what();
     }
 }
@@ -343,13 +366,18 @@ void TimeEventCallback(uv_timer_t *handle) {
         if (source->isOneShot()) {
             source->setEnabled(false);
         }
-        source->callback_(source, source->time());
-        if (sourceRef.isValid() && source->isEnabled()) {
-            source->resetEvent();
+        bool ret = source->callback_(source, source->time());
+        if (sourceRef.isValid()) {
+            if (!ret) {
+                source->setEnabled(false);
+            }
+            if (source->isEnabled()) {
+                source->resetEvent();
+            }
         }
     } catch (const std::exception &e) {
         // some abnormal things threw
-        abort();
+        FCITX_FATAL() << e.what();
     }
 }
 
@@ -375,6 +403,29 @@ std::unique_ptr<EventSource> EventLoop::addDeferEvent(EventCallback callback) {
         [callback = std::move(callback)](EventSourceTime *source, uint64_t) {
             return callback(source);
         });
+}
+
+void PostEventCallback(uv_prepare_t *handle) {
+    auto *source = static_cast<LibUVSourcePost *>(
+        static_cast<LibUVSourceBase *>(handle->data));
+
+    try {
+        auto sourceRef = source->watch();
+        if (source->isOneShot()) {
+            source->setEnabled(false);
+        }
+        source->callback_(source);
+    } catch (const std::exception &e) {
+        // some abnormal things threw{
+        FCITX_FATAL() << e.what();
+    }
+}
+
+std::unique_ptr<EventSource> EventLoop::addPostEvent(EventCallback callback) {
+    FCITX_D();
+    auto source =
+        std::make_unique<LibUVSourcePost>(std::move(callback), d->loop_);
+    return source;
 }
 
 } // namespace fcitx
