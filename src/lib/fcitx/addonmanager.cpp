@@ -251,7 +251,7 @@ void AddonManager::load(const std::unordered_set<std::string> &enabled,
         path.timestamp(StandardPath::Type::PkgData, d->addonConfigDir_);
     auto fileMap =
         path.multiOpen(StandardPath::Type::PkgData, d->addonConfigDir_,
-                          O_RDONLY, filter::Suffix(".conf"));
+                       O_RDONLY, filter::Suffix(".conf"));
     bool enableAll = enabled.count("all");
     bool disableAll = disabled.count("all");
     for (const auto &[fileName, file] : fileMap) {

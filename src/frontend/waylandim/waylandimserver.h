@@ -96,11 +96,11 @@ protected:
         }
         if (key.rawKey().code() && key.rawKey().states() == KeyState::NoState) {
             sendKeyToVK(time_, key.rawKey(),
-                    key.isRelease() ? WL_KEYBOARD_KEY_STATE_RELEASED
-                                    : WL_KEYBOARD_KEY_STATE_PRESSED);
+                        key.isRelease() ? WL_KEYBOARD_KEY_STATE_RELEASED
+                                        : WL_KEYBOARD_KEY_STATE_PRESSED);
             if (!key.isRelease()) {
                 sendKeyToVK(time_, key.rawKey(),
-                        WL_KEYBOARD_KEY_STATE_RELEASED);
+                            WL_KEYBOARD_KEY_STATE_RELEASED);
             }
         } else {
             sendKey(time_, key.rawKey().sym(),

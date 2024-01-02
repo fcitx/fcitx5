@@ -79,7 +79,7 @@ void initAsDaemon() {
     if (fork() > 0) {
         exit(0);
     }
-    (void) chdir("/");
+    (void)chdir("/");
 
     signal(SIGINT, oldint);
     signal(SIGHUP, oldhup);

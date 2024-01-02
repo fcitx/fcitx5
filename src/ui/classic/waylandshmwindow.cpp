@@ -15,8 +15,10 @@ namespace {
 void surfaceToBufferSize(unsigned int buffer_scale, uint32_t *width,
                          uint32_t *height) {
     // round (size * scale), but all integer calculation.
-    *width = (*width * buffer_scale + (WaylandWindow::ScaleDominator / 2)) / WaylandWindow::ScaleDominator;
-    *height = (*height * buffer_scale + (WaylandWindow::ScaleDominator / 2)) / WaylandWindow::ScaleDominator;
+    *width = (*width * buffer_scale + (WaylandWindow::ScaleDominator / 2)) /
+             WaylandWindow::ScaleDominator;
+    *height = (*height * buffer_scale + (WaylandWindow::ScaleDominator / 2)) /
+              WaylandWindow::ScaleDominator;
 }
 
 } // namespace

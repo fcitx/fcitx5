@@ -40,12 +40,9 @@ int main() {
     }
 
     const std::pair<FcitxKeySym, uint32_t> keySymUnicode[]{
-        {FcitxKey_BackSpace, '\b'},
-        {FcitxKey_Tab, '\t'},
-        {FcitxKey_Linefeed, '\n'},
-        {FcitxKey_Clear, '\v'},
-        {FcitxKey_Return, '\r'},
-        {FcitxKey_Escape, '\033'},
+        {FcitxKey_BackSpace, '\b'}, {FcitxKey_Tab, '\t'},
+        {FcitxKey_Linefeed, '\n'},  {FcitxKey_Clear, '\v'},
+        {FcitxKey_Return, '\r'},    {FcitxKey_Escape, '\033'},
         {FcitxKey_space, ' '},
     };
 

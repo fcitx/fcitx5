@@ -33,7 +33,8 @@ public:
     virtual void hide() = 0;
 
     unsigned int bufferScale() const {
-        return viewport_ ? lastFractionalScale_ : lastOutputScale_ * ScaleDominator;
+        return viewport_ ? lastFractionalScale_
+                         : lastOutputScale_ * ScaleDominator;
     }
     int32_t outputScale() const { return lastOutputScale_; }
     wl_output_transform transform() const { return transform_; }

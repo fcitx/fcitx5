@@ -39,7 +39,7 @@ private:
     WaylandPointer *pointer_;
     uint64_t animationStart_;
 
-    // We keep a reference to the 
+    // We keep a reference to the
     std::shared_ptr<wl_cursor_theme> theme_;
     std::unique_ptr<wayland::WlSurface> surface_;
     std::unique_ptr<wayland::WlCallback> callback_;
