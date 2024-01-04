@@ -139,7 +139,8 @@ FCITX_CONFIGURATION(
     OptionWithAnnotation<PropertyPropagatePolicy,
                          PropertyPropagatePolicyI18NAnnotation>
         shareState{this, "ShareInputState", _("Share Input State"),
-                   PropertyPropagatePolicy::No};
+                   isAndroid() ? PropertyPropagatePolicy::All
+                               : PropertyPropagatePolicy::No};
     Option<bool> preeditEnabledByDefault{this, "PreeditEnabledByDefault",
                                          _("Show preedit in application"),
                                          true};
