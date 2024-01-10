@@ -160,7 +160,7 @@ struct LibUVSourceIO final : public LibUVSource<EventSourceIO, uv_poll_t>,
     LibUVSourceIO(IOCallback _callback, std::shared_ptr<UVLoop> loop, int fd,
                   IOEventFlags flags)
         : LibUVSource(loop), fd_(fd), flags_(flags),
-          callback_(std::move(_callback)) {
+          callback_(std::make_shared<IOCallback>(std::move(_callback))) {
         setEnabled(true);
     }
 
@@ -193,7 +193,7 @@ struct LibUVSourceIO final : public LibUVSource<EventSourceIO, uv_poll_t>,
     int fd_;
     IOEventFlags flags_;
     IOEventFlags revents_;
-    IOCallback callback_;
+    std::shared_ptr<IOCallback> callback_;
 };
 
 struct LibUVSourceTime final : public LibUVSource<EventSourceTime, uv_timer_t>,
@@ -201,7 +201,8 @@ struct LibUVSourceTime final : public LibUVSource<EventSourceTime, uv_timer_t>,
     LibUVSourceTime(TimeCallback _callback, std::shared_ptr<UVLoop> loop,
                     uint64_t time, clockid_t clockid, uint64_t accuracy)
         : LibUVSource(std::move(loop)), time_(time), clock_(clockid),
-          accuracy_(accuracy), callback_(std::move(_callback)) {
+          accuracy_(accuracy),
+          callback_(std::make_shared<TimeCallback>(std::move(_callback))) {
         setOneShot();
     }
 
@@ -235,13 +236,14 @@ struct LibUVSourceTime final : public LibUVSource<EventSourceTime, uv_timer_t>,
     uint64_t time_;
     clockid_t clock_;
     uint64_t accuracy_;
-    TimeCallback callback_;
+    std::shared_ptr<TimeCallback> callback_;
 };
 
 struct LibUVSourcePost final : public LibUVSource<EventSource, uv_prepare_t>,
                                public TrackableObject<LibUVSourcePost> {
     LibUVSourcePost(EventCallback callback, std::shared_ptr<UVLoop> loop)
-        : LibUVSource(std::move(loop)), callback_(std::move(callback)) {
+        : LibUVSource(std::move(loop)),
+          callback_(std::make_shared<EventCallback>(std::move(callback))) {
         setEnabled(true);
     }
 
@@ -250,7 +252,7 @@ struct LibUVSourcePost final : public LibUVSource<EventSource, uv_prepare_t>,
         uv_prepare_start(prepare, &PostEventCallback);
     }
 
-    EventCallback callback_;
+    std::shared_ptr<EventCallback> callback_;
 };
 
 struct LibUVSourceExit final : public EventSource,
@@ -337,7 +339,8 @@ void IOEventCallback(uv_poll_t *handle, int status, int events) {
         if (status < 0) {
             flags |= IOEventFlag::Err;
         }
-        bool ret = source->callback_(source, source->fd(), flags);
+        auto callback = source->callback_;
+        bool ret = (*callback)(source, source->fd(), flags);
         if (sourceRef.isValid()) {
             if (!ret) {
                 source->setEnabled(false);
@@ -366,7 +369,8 @@ void TimeEventCallback(uv_timer_t *handle) {
         if (source->isOneShot()) {
             source->setEnabled(false);
         }
-        bool ret = source->callback_(source, source->time());
+        auto callback = source->callback_;
+        bool ret = (*callback)(source, source->time());
         if (sourceRef.isValid()) {
             if (!ret) {
                 source->setEnabled(false);
@@ -414,7 +418,8 @@ void PostEventCallback(uv_prepare_t *handle) {
         if (source->isOneShot()) {
             source->setEnabled(false);
         }
-        source->callback_(source);
+        auto callback = source->callback_;
+        (*callback)(source);
     } catch (const std::exception &e) {
         // some abnormal things threw{
         FCITX_FATAL() << e.what();
