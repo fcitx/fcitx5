@@ -394,7 +394,7 @@ dbus_bool_t DBusAddWatch(DBusWatch *watch, void *data) {
                            if (!dbus_watch_get_enabled(watch)) {
                                return true;
                            }
-                           const auto &refPivot = ref;
+                           const auto refPivot = ref;
                            int dflags = 0;
 
                            if (flags & IOEventFlag::In) {
@@ -441,7 +441,7 @@ dbus_bool_t DBusAddTimeout(DBusTimeout *timeout, void *data) {
             bus->loop_->addTimeEvent(
                 CLOCK_MONOTONIC, now(CLOCK_MONOTONIC) + interval * 1000ull, 0,
                 [timeout, ref](EventSourceTime *event, uint64_t) {
-                    const auto &refPivot = ref;
+                    const auto refPivot = ref;
                     if (dbus_timeout_get_enabled(timeout)) {
                         event->setNextInterval(
                             dbus_timeout_get_interval(timeout) * 1000ull);
