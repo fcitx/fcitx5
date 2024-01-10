@@ -89,13 +89,15 @@ protected:
 };
 
 struct SDEventSource : public SDEventSourceBase<EventSource> {
-    SDEventSource(EventCallback _callback) : callback_(std::move(_callback)) {}
+    SDEventSource(EventCallback _callback)
+        : callback_(std::make_shared<EventCallback>(std::move(_callback))) {}
 
-    EventCallback callback_;
+    std::shared_ptr<EventCallback> callback_;
 };
 
 struct SDEventSourceIO : public SDEventSourceBase<EventSourceIO> {
-    SDEventSourceIO(IOCallback _callback) : callback_(std::move(_callback)) {}
+    SDEventSourceIO(IOCallback _callback)
+        : callback_(std::make_shared<IOCallback>(std::move(_callback))) {}
 
     int fd() const override {
         int ret = sd_event_source_get_io_fd(eventSource_);
@@ -138,12 +140,12 @@ struct SDEventSourceIO : public SDEventSourceBase<EventSourceIO> {
         return EpollFlagsToIOEventFlags(revents);
     }
 
-    IOCallback callback_;
+    std::shared_ptr<IOCallback> callback_;
 };
 
 struct SDEventSourceTime : public SDEventSourceBase<EventSourceTime> {
     SDEventSourceTime(TimeCallback _callback)
-        : callback_(std::move(_callback)) {}
+        : callback_(std::make_shared<TimeCallback>(std::move(_callback))) {}
 
     uint64_t time() const override {
         uint64_t time;
@@ -186,7 +188,7 @@ struct SDEventSourceTime : public SDEventSourceBase<EventSourceTime> {
         return clock;
     }
 
-    TimeCallback callback_;
+    std::shared_ptr<TimeCallback> callback_;
 };
 
 class EventLoopPrivate {
@@ -232,8 +234,9 @@ int IOEventCallback(sd_event_source *, int fd, uint32_t revents,
         return 0;
     }
     try {
+        auto callback = source->callback_;
         auto result =
-            source->callback_(source, fd, EpollFlagsToIOEventFlags(revents));
+            (*callback)(source, fd, EpollFlagsToIOEventFlags(revents));
         return result ? 0 : -1;
     } catch (const std::exception &e) {
         FCITX_FATAL() << e.what();
@@ -262,7 +265,8 @@ int TimeEventCallback(sd_event_source *, uint64_t usec, void *userdata) {
         return 0;
     }
     try {
-        auto result = source->callback_(source, usec);
+        auto callback = source->callback_;
+        auto result = (*callback)(source, usec);
         return result ? 0 : -1;
     } catch (const std::exception &e) {
         // some abnormal things threw
@@ -294,7 +298,8 @@ int StaticEventCallback(sd_event_source *, void *userdata) {
         return 0;
     }
     try {
-        auto result = source->callback_(source);
+        auto callback = source->callback_;
+        auto result = (*callback)(source);
         return result ? 0 : -1;
     } catch (const std::exception &e) {
         // some abnormal things threw
