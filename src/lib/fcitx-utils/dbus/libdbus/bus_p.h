@@ -8,6 +8,7 @@
 #define _FCITX_UTILS_DBUS_BUS_P_H_
 
 #include <dbus/dbus.h>
+#include "fcitx-utils/event.h"
 #include "../../log.h"
 #include "../bus.h"
 #include "servicenamecache.h"
@@ -57,62 +58,13 @@ public:
     std::string xml_;
 };
 
+class BusWatches;
+
 class BusPrivate : public TrackableObject<BusPrivate> {
 public:
-    BusPrivate(Bus *bus)
-        : bus_(bus),
-          matchRuleSet_(
-              [this](const MatchRule &rule) {
-                  if (!conn_) {
-                      return false;
-                  }
-                  ScopedDBusError error;
-                  if (needWatchService(rule)) {
-                      nameCache()->addWatch(rule.service());
-                  }
-                  FCITX_LIBDBUS_DEBUG() << "Add dbus match: " << rule.rule();
-                  dbus_bus_add_match(conn_.get(), rule.rule().c_str(),
-                                     &error.error());
-                  bool isError = dbus_error_is_set(&error.error());
-                  return !isError;
-              },
-              [this](const MatchRule &rule) {
-                  if (!conn_) {
-                      return;
-                  }
-                  if (needWatchService(rule)) {
-                      nameCache()->removeWatch(rule.service());
-                  }
-                  FCITX_LIBDBUS_DEBUG() << "Remove dbus match: " << rule.rule();
-                  dbus_bus_remove_match(conn_.get(), rule.rule().c_str(),
-                                        nullptr);
-              }),
-          objectRegistration_(
-              [this](const std::string &path) {
-                  if (!conn_) {
-                      return false;
-                  }
-                  DBusObjectPathVTable vtable;
-                  memset(&vtable, 0, sizeof(vtable));
+    BusPrivate(Bus *bus);
 
-                  vtable.message_function = DBusObjectPathVTableMessageCallback;
-                  return dbus_connection_register_object_path(
-                             conn_.get(), path.c_str(), &vtable, this) != 0;
-              },
-              [this](const std::string &path) {
-                  if (!conn_) {
-                      return;
-                  }
-
-                  dbus_connection_unregister_object_path(conn_.get(),
-                                                         path.c_str());
-              }) {}
-
-    ~BusPrivate() {
-        if (conn_) {
-            dbus_connection_flush(conn_.get());
-        }
-    }
+    ~BusPrivate();
 
     void dispatch() const {
         if (!conn_) {
@@ -157,7 +109,7 @@ public:
     HandlerTable<MessageCallback> filterHandlers_;
     bool attached_ = false;
     EventLoop *loop_ = nullptr;
-    std::unordered_map<DBusWatch *, std::unique_ptr<EventSourceIO>> ioWatchers_;
+    std::unordered_map<int, std::unique_ptr<BusWatches>> ioWatchers_;
     std::unordered_map<DBusTimeout *, std::unique_ptr<EventSourceTime>>
         timeWatchers_;
     MultiHandlerTable<std::string,
