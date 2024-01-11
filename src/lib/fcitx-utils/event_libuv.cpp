@@ -149,10 +149,13 @@ public:
     void init(uv_loop_t *loop) override {
         handle_ = static_cast<uv_handle_t *>(calloc(1, sizeof(HandleType)));
         handle_->data = static_cast<LibUVSourceBase *>(this);
-        setup(loop, handle());
+        if (!setup(loop, handle())) {
+            free(handle_);
+            handle_ = nullptr;
+        }
     }
 
-    virtual void setup(uv_loop_t *loop, HandleType *handle) = 0;
+    virtual bool setup(uv_loop_t *loop, HandleType *handle) = 0;
 };
 
 struct LibUVSourceIO final : public LibUVSource<EventSourceIO, uv_poll_t>,
@@ -184,10 +187,15 @@ struct LibUVSourceIO final : public LibUVSource<EventSourceIO, uv_poll_t>,
 
     IOEventFlags revents() const override { return revents_; }
 
-    void setup(uv_loop_t *loop, uv_poll_t *poll) override {
-        uv_poll_init(loop, poll, fd_);
+    bool setup(uv_loop_t *loop, uv_poll_t *poll) override {
+        if (uv_poll_init(loop, poll, fd_) < 0) {
+            return false;
+        }
         const auto flags = IOEventFlagsToLibUVFlags(flags_);
-        uv_poll_start(poll, flags, &IOEventCallback);
+        if (uv_poll_start(poll, flags, &IOEventCallback) < 0) {
+            return false;
+        }
+        return true;
     }
 
     int fd_;
@@ -224,13 +232,18 @@ struct LibUVSourceTime final : public LibUVSource<EventSourceTime, uv_timer_t>,
 
     virtual clockid_t clock() const override { return clock_; }
 
-    void setup(uv_loop_t *loop, uv_timer_t *timer) override {
-        uv_timer_init(loop, timer);
+    bool setup(uv_loop_t *loop, uv_timer_t *timer) override {
+        if (uv_timer_init(loop, timer) < 0) {
+            return false;
+        }
         auto curr = now(clock_);
         uint64_t timeout = time_ > curr ? (time_ - curr) : 0;
         // libuv is milliseconds
         timeout /= 1000;
-        uv_timer_start(timer, &TimeEventCallback, timeout, 0);
+        if (uv_timer_start(timer, &TimeEventCallback, timeout, 0) < 0) {
+            return false;
+        }
+        return true;
     }
 
     uint64_t time_;
@@ -247,9 +260,14 @@ struct LibUVSourcePost final : public LibUVSource<EventSource, uv_prepare_t>,
         setEnabled(true);
     }
 
-    void setup(uv_loop_t *loop, uv_prepare_t *prepare) override {
-        uv_prepare_init(loop, prepare);
-        uv_prepare_start(prepare, &PostEventCallback);
+    bool setup(uv_loop_t *loop, uv_prepare_t *prepare) override {
+        if (uv_prepare_init(loop, prepare) < 0) {
+            return false;
+        }
+        if (uv_prepare_start(prepare, &PostEventCallback) < 0) {
+            return false;
+        }
+        return true;
     }
 
     std::shared_ptr<EventCallback> callback_;
