@@ -16,7 +16,12 @@
 #include "log.h"
 #include "trackableobject.h"
 
+#define FCITX_LIBUV_DEBUG()                                                  \
+    FCITX_LOGC(::fcitx::libuv_logcategory, Debug)
+
 namespace fcitx {
+
+FCITX_DEFINE_LOG_CATEGORY(libuv_logcategory, "libuv");
 
 static int IOEventFlagsToLibUVFlags(IOEventFlags flags) {
     int result = 0;
@@ -188,11 +193,13 @@ struct LibUVSourceIO final : public LibUVSource<EventSourceIO, uv_poll_t>,
     IOEventFlags revents() const override { return revents_; }
 
     bool setup(uv_loop_t *loop, uv_poll_t *poll) override {
-        if (uv_poll_init(loop, poll, fd_) < 0) {
+        if (int err = uv_poll_init(loop, poll, fd_); err < 0) {
+            FCITX_LIBUV_DEBUG() << "Failed to init poll for fd: " << fd_ << " with error: " << err; 
             return false;
         }
         const auto flags = IOEventFlagsToLibUVFlags(flags_);
-        if (uv_poll_start(poll, flags, &IOEventCallback) < 0) {
+        if (int err = uv_poll_start(poll, flags, &IOEventCallback); err < 0) {
+            FCITX_LIBUV_DEBUG() << "Failed to start poll with error: " << err; 
             return false;
         }
         return true;
@@ -233,14 +240,16 @@ struct LibUVSourceTime final : public LibUVSource<EventSourceTime, uv_timer_t>,
     virtual clockid_t clock() const override { return clock_; }
 
     bool setup(uv_loop_t *loop, uv_timer_t *timer) override {
-        if (uv_timer_init(loop, timer) < 0) {
+        if (int err = uv_timer_init(loop, timer); err < 0) {
+            FCITX_LIBUV_DEBUG() << "Failed to init timer with error: " << err; 
             return false;
         }
         auto curr = now(clock_);
         uint64_t timeout = time_ > curr ? (time_ - curr) : 0;
         // libuv is milliseconds
         timeout /= 1000;
-        if (uv_timer_start(timer, &TimeEventCallback, timeout, 0) < 0) {
+        if (int err = uv_timer_start(timer, &TimeEventCallback, timeout, 0); err < 0) {
+            FCITX_LIBUV_DEBUG() << "Failed to start timer with error: " << err; 
             return false;
         }
         return true;
@@ -261,10 +270,12 @@ struct LibUVSourcePost final : public LibUVSource<EventSource, uv_prepare_t>,
     }
 
     bool setup(uv_loop_t *loop, uv_prepare_t *prepare) override {
-        if (uv_prepare_init(loop, prepare) < 0) {
+        if (int err = uv_prepare_init(loop, prepare); err < 0) {
+            FCITX_LIBUV_DEBUG() << "Failed to init prepare with error: " << err; 
             return false;
         }
-        if (uv_prepare_start(prepare, &PostEventCallback) < 0) {
+        if (int err = uv_prepare_start(prepare, &PostEventCallback); err < 0) {
+            FCITX_LIBUV_DEBUG() << "Failed to start prepare with error: " << err; 
             return false;
         }
         return true;

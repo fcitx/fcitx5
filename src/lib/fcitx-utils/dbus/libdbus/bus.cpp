@@ -385,6 +385,7 @@ dbus_bool_t DBusAddWatch(DBusWatch *watch, void *data) {
     if (dflags & DBUS_WATCH_WRITABLE) {
         flags |= IOEventFlag::Out;
     }
+    FCITX_LIBDBUS_DEBUG() << "DBusAddWatch fd: " << fd << " flags: " << dflags;
     auto ref = bus->watch();
     try {
         bus->ioWatchers_.emplace(
@@ -423,6 +424,7 @@ dbus_bool_t DBusAddWatch(DBusWatch *watch, void *data) {
 }
 
 void DBusRemoveWatch(DBusWatch *watch, void *data) {
+    FCITX_LIBDBUS_DEBUG() << "DBusRemoveWatch fd: " << dbus_watch_get_unix_fd(watch);
     auto *bus = static_cast<BusPrivate *>(data);
     bus->ioWatchers_.erase(watch);
 }
