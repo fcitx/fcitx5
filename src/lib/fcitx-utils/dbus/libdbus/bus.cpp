@@ -7,6 +7,7 @@
 #include "config.h"
 
 #include <unistd.h>
+#include <memory>
 #include <stdexcept>
 #include <utility>
 #include "fcitx-utils/event.h"
@@ -22,12 +23,14 @@ namespace fcitx::dbus {
 
 FCITX_DEFINE_LOG_CATEGORY(libdbus_logcategory, "libdbus");
 
-class BusWatches {
+class BusWatches : public std::enable_shared_from_this<BusWatches> {
+    struct Private {};
+
 public:
-    BusWatches(BusPrivate &bus) : bus_(bus) {}
+    BusWatches(BusPrivate &bus, Private) : bus_(bus.watch()) {}
 
     void addWatch(DBusWatch *watch) {
-        watches_.insert(watch);
+        watches_[watch] = std::make_shared<DBusWatch *>(watch);
         refreshWatch();
     }
     bool removeWatch(DBusWatch *watch) {
@@ -36,14 +39,14 @@ public:
         return watches_.empty();
     }
     void refreshWatch() {
-        if (watches_.empty()) {
+        if (watches_.empty() || !bus_.isValid()) {
             ioEvent_.reset();
             return;
         }
 
-        int fd = dbus_watch_get_unix_fd(*watches_.begin());
+        int fd = dbus_watch_get_unix_fd(watches_.begin()->first);
         IOEventFlags flags;
-        for (auto watch : watches_) {
+        for (auto [watch, _] : watches_) {
             if (!dbus_watch_get_enabled(watch)) {
                 continue;
             }
@@ -64,12 +67,25 @@ public:
         }
 
         if (!ioEvent_) {
-            ioEvent_ = bus_.loop_->addIOEvent(
-                fd, flags,
-                [this, ref = bus_.watch()](EventSourceIO *, int,
-                                           IOEventFlags flags) {
-                    auto refPivot = ref;
-                    for (auto watch : watches_) {
+            ioEvent_ = bus_.get()->loop_->addIOEvent(
+                fd, flags, [this](EventSourceIO *, int, IOEventFlags flags) {
+                    // Ensure this is valid.
+                    // At this point, callback is always valid, so no need to
+                    // keep "this".
+                    auto lock = shared_from_this();
+                    // Create a copy of watcher pointers, so we can safely
+                    // remove the watcher during the loop.
+                    std::vector<std::weak_ptr<DBusWatch *>> watchesView;
+                    for (auto [_, watchRef] : watches_) {
+                        watchesView.push_back(watchRef);
+                    }
+
+                    for (auto watchRef : watchesView) {
+                        auto watchStrongRef = watchRef.lock();
+                        if (!watchStrongRef) {
+                            continue;
+                        }
+                        auto watch = *watchStrongRef;
                         if (!dbus_watch_get_enabled(watch)) {
                             continue;
                         }
@@ -96,7 +112,7 @@ public:
                             continue;
                         }
                         dbus_watch_handle(watch, dflags);
-                        if (auto *bus = refPivot.get()) {
+                        if (auto *bus = bus_.get()) {
                             bus->dispatch();
                         }
                     }
@@ -107,9 +123,15 @@ public:
         }
     }
 
+    static std::shared_ptr<BusWatches> create(BusPrivate &bus) {
+        return std::make_shared<BusWatches>(bus, Private());
+    }
+
 private:
-    BusPrivate &bus_;
-    std::unordered_set<DBusWatch *> watches_;
+    TrackableObjectReference<BusPrivate> bus_;
+    // We the value as shared ptr so we know when the watch is removed during
+    // the loop.
+    std::unordered_map<DBusWatch *, std::shared_ptr<DBusWatch *>> watches_;
     std::unique_ptr<EventSourceIO> ioEvent_;
 };
 
@@ -527,7 +549,7 @@ dbus_bool_t DBusAddWatch(DBusWatch *watch, void *data) {
                           << " flags: " << dbus_watch_get_flags(watch);
     auto &watchers = bus->ioWatchers_[fd];
     if (!watchers) {
-        watchers = std::make_unique<BusWatches>(*bus);
+        watchers = BusWatches::create(*bus);
     }
     watchers->addWatch(watch);
     return true;

@@ -109,7 +109,7 @@ public:
     HandlerTable<MessageCallback> filterHandlers_;
     bool attached_ = false;
     EventLoop *loop_ = nullptr;
-    std::unordered_map<int, std::unique_ptr<BusWatches>> ioWatchers_;
+    std::unordered_map<int, std::shared_ptr<BusWatches>> ioWatchers_;
     std::unordered_map<DBusTimeout *, std::unique_ptr<EventSourceTime>>
         timeWatchers_;
     MultiHandlerTable<std::string,
