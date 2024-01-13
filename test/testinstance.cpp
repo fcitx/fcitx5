@@ -49,7 +49,7 @@ int main() {
     char arg0[] = "testinstance";
     char arg1[] = "--disable=all";
     char arg2[] = "--enable=testim";
-    char arg3[] = "--option=name1=opt1a,opt1b,name2=opt2a,opt2b";
+    char arg3[] = "--option=name1=opt1a:opt1b,name2=opt2a:opt2b";
     char *argv[] = {arg0, arg1, arg2, arg3};
     Instance instance(FCITX_ARRAY_SIZE(argv), argv);
     instance.addonManager().registerDefaultLoader(nullptr);
