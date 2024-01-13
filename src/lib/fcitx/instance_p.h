@@ -118,6 +118,7 @@ struct InstanceArgument {
     std::string uiName;
     std::vector<std::string> enableList;
     std::vector<std::string> disableList;
+    std::unordered_map<std::string, std::vector<std::string>> addonOptions_;
     std::string argv0;
 };
 

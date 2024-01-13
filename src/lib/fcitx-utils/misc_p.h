@@ -30,6 +30,12 @@ decltype(&std::declval<M>().begin()->second) findValue(M &&m, K &&key) {
     return nullptr;
 }
 
+template <typename C, typename V>
+bool containerContains(C &&container, V &&value) {
+    return std::find(std::begin(container), std::end(container), value) !=
+           std::end(container);
+}
+
 template <typename T>
 class OrderedSet {
     typedef std::list<T> OrderList;

@@ -12,6 +12,7 @@
 #include <unordered_set>
 #include "fcitx-config/iniparser.h"
 #include "fcitx-utils/log.h"
+#include "fcitx-utils/misc_p.h"
 #include "fcitx/addoninstance.h"
 #include "addoninstance_p.h"
 #include "addonloader.h"
@@ -211,6 +212,8 @@ public:
     int64_t timestamp_ = 0;
     const SemanticVersion version_ =
         SemanticVersion::parse(FCITX_VERSION_STRING).value();
+
+    std::unordered_map<std::string, std::vector<std::string>> options_;
 };
 
 AddonManager::AddonManager() : d_ptr(std::make_unique<AddonManagerPrivate>()) {}
@@ -392,6 +395,20 @@ bool AddonManager::checkUpdate() const {
     auto timestamp = StandardPath::global().timestamp(
         StandardPath::Type::PkgData, d->addonConfigDir_);
     return timestamp > d->timestamp_;
+}
+
+void AddonManager::setAddonOptions(
+    std::unordered_map<std::string, std::vector<std::string>> options) {
+    FCITX_D();
+    d->options_ = std::move(options);
+}
+
+std::vector<std::string> AddonManager::addonOptions(const std::string &name) {
+    FCITX_D();
+    if (auto options = findValue(d->options_, name)) {
+        return *options;
+    }
+    return {};
 }
 
 } // namespace fcitx

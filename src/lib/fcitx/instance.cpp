@@ -11,6 +11,7 @@
 #include <sys/wait.h>
 #include <unistd.h>
 #include <stdexcept>
+#include <unordered_map>
 #include <utility>
 #include <fmt/format.h>
 #include <getopt.h>
@@ -137,6 +138,9 @@ void InstanceArgument::printUsage() const {
         << "  -k, --keep\t\t\tKeep running even the main display is "
            "disconnected.\n"
         << "  -r, --replace\t\t\tReplace the existing instance.\n"
+        << "  -o --option <option>\tPass the option to addons\n"
+        << "\t\t\t\t\t <option> is format "
+           "name1=opt1a:opt1b,name2=opt2a:opt2b... .\n"
         << "  -v, --version\t\t\tShow version and quit.\n"
         << "  -h, --help\t\t\tShow this help message and quit.\n";
 }
@@ -639,6 +643,7 @@ Instance::Instance(int argc, char **argv) {
     FCITX_D();
     d->arg_ = arg;
     d->addonManager_.setInstance(this);
+    d->addonManager_.setAddonOptions(arg.addonOptions_);
     d->icManager_.setInstance(this);
     d->connections_.emplace_back(
         d->imManager_.connect<InputMethodManager::CurrentGroupAboutToChange>(
@@ -1214,11 +1219,13 @@ void InstanceArgument::parseOption(int argc, char **argv) {
                                    {"replace", no_argument, nullptr, 'r'},
                                    {"version", no_argument, nullptr, 'v'},
                                    {"help", no_argument, nullptr, 'h'},
+                                   {"option", required_argument, nullptr, 'o'},
                                    {nullptr, 0, 0, 0}};
 
     int optionIndex = 0;
     int c;
-    while ((c = getopt_long(argc, argv, "ru:dDs:hv", longOptions,
+    std::string addonOptionString;
+    while ((c = getopt_long(argc, argv, "ru:dDs:hvo", longOptions,
                             &optionIndex)) != EOF) {
         switch (c) {
         case 0: {
@@ -1264,6 +1271,9 @@ void InstanceArgument::parseOption(int argc, char **argv) {
             quietQuit = true;
             printVersion();
             break;
+        case 'o':
+            addonOptionString = optarg;
+            break;
         default:
             quietQuit = true;
             printUsage();
@@ -1272,6 +1282,17 @@ void InstanceArgument::parseOption(int argc, char **argv) {
             break;
         }
     }
+
+    std::unordered_map<std::string, std::vector<std::string>> addonOptions;
+    for (const std::string_view item :
+         stringutils::split(addonOptionString, ",")) {
+        auto tokens = stringutils::split(item, "=");
+        if (tokens.size() != 2) {
+            continue;
+        }
+        addonOptions[tokens[0]] = stringutils::split(tokens[1], ":");
+    }
+    addonOptions_ = std::move(addonOptions);
 }
 
 void Instance::setSignalPipe(int fd) {

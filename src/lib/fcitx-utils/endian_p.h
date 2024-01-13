@@ -7,6 +7,7 @@
 #ifndef _FCITX_UTILS_ENDIAN_P_H_
 #define _FCITX_UTILS_ENDIAN_P_H_
 
+#include <cstdint>
 #if defined(__linux__) || defined(__GLIBC__)
 #include <endian.h>
 #elif defined(__APPLE__)

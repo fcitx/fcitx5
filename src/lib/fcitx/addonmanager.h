@@ -188,6 +188,26 @@ public:
      */
     bool checkUpdate() const;
 
+    /**
+     * Set addon parameters that may be used during addon construction.
+     *
+     * This is usually passed with command line flags --options
+     *
+     * @param options map from addon name to a set of string values
+     * @since 5.1.7
+     */
+    void setAddonOptions(
+        std::unordered_map<std::string, std::vector<std::string>> options);
+
+    /**
+     * Query addon options that set with setAddonOptions for given addon.
+     *
+     * @param name addon name
+     * @return Options for given addon
+     * @since 5.1.7
+     */
+    std::vector<std::string> addonOptions(const std::string &name);
+
 private:
     void setInstance(Instance *instance);
     std::unique_ptr<AddonManagerPrivate> d_ptr;
