@@ -170,7 +170,11 @@ WaylandModule::WaylandModule(fcitx::Instance *instance)
     delayedReloadXkbOption_->setEnabled(false);
 
     reloadConfig();
-    openConnection("");
+    if (!containerContains(instance->addonManager().addonOptions("wayland"),
+                           "nodefault")) {
+        openConnection("");
+    }
+
     reloadXkbOption();
 
 #ifdef ENABLE_DBUS

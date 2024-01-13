@@ -17,7 +17,11 @@ FCITX_DEFINE_LOG_CATEGORY(xcb_log, "xcb");
 
 XCBModule::XCBModule(Instance *instance) : instance_(instance) {
     reloadConfig();
-    openConnection("");
+
+    if (!containerContains(instance->addonManager().addonOptions("xcb"),
+                           "nodefault")) {
+        openConnection("");
+    }
 }
 
 void XCBModule::reloadConfig() { readAsIni(config_, "conf/xcb.conf"); }
