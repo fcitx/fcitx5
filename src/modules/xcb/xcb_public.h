@@ -41,6 +41,8 @@ typedef std::function<void(xcb_atom_t, const char *, size_t)>
 
 FCITX_ADDON_DECLARE_FUNCTION(XCBModule, openConnection,
                              void(const std::string &));
+FCITX_ADDON_DECLARE_FUNCTION(XCBModule, openConnectionChecked,
+                             bool(const std::string &));
 FCITX_ADDON_DECLARE_FUNCTION(XCBModule, xkbState,
                              xkb_state *(const std::string &));
 FCITX_ADDON_DECLARE_FUNCTION(XCBModule, xkbRulesNames,

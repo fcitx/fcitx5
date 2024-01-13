@@ -13,22 +13,24 @@ using namespace fcitx;
 using namespace fcitx::dbus;
 
 void usage(std::ostream &stream) {
-    stream << "Usage: fcitx5-remote [OPTION]\n"
-              "\t-c\t\tinactivate input method\n"
-              "\t-o\t\tactivate input method\n"
-              "\t-r\t\treload fcitx config\n"
-              "\t-t,-T\t\tswitch Active/Inactive\n"
-              "\t-e\t\tAsk fcitx to exit\n"
-              "\t-a\t\tprint fcitx's dbus address\n"
-              "\t-m <imname>\tprint corresponding addon name for im\n"
-              "\t-g <group>\tset current input method group\n"
-              "\t-q\t\tGet current input method group name\n"
-              "\t-n\t\tGet current input method name\n"
-              "\t-s <imname>\tswitch to the input method uniquely identified "
-              "by <imname>\n"
-              "\t[no option]\tdisplay fcitx state, 0 for close, 1 for "
-              "inactive, 2 for active\n"
-              "\t-h\t\tdisplay this help and exit\n";
+    stream
+        << "Usage: fcitx5-remote [OPTION]\n"
+           "\t-c\t\tinactivate input method\n"
+           "\t-o\t\tactivate input method\n"
+           "\t-r\t\treload fcitx config\n"
+           "\t-t,-T\t\tswitch Active/Inactive\n"
+           "\t-e\t\tAsk fcitx to exit\n"
+           "\t-a\t\tprint fcitx's dbus address\n"
+           "\t-m <imname>\tprint corresponding addon name for im\n"
+           "\t-g <group>\tset current input method group\n"
+           "\t-q\t\tGet current input method group name\n"
+           "\t-n\t\tGet current input method name\n"
+           "\t-s <imname>\tswitch to the input method uniquely identified "
+           "by <imname>\n"
+           "\t-x\tOpen a new X11 connection with current DISPLAY environment.\n"
+           "\t[no option]\tdisplay fcitx state, 0 for close, 1 for "
+           "inactive, 2 for active\n"
+           "\t-h\t\tdisplay this help and exit\n";
 }
 
 enum {
@@ -43,6 +45,7 @@ enum {
     FCITX_DBUS_GET_CURRENT_IM,
     FCITX_DBUS_SET_CURRENT_GROUP,
     FCITX_DBUS_GET_CURRENT_GROUP,
+    FCITX_DBUS_OPEN_X11_CONNECTION,
 };
 
 int main(int argc, char *argv[]) {
@@ -56,7 +59,7 @@ int main(int argc, char *argv[]) {
     int ret = 1;
     int messageType = FCITX_DBUS_GET_CURRENT_STATE;
     std::string imname;
-    while ((c = getopt(argc, argv, "nchortTeam:s:g:q")) != -1) {
+    while ((c = getopt(argc, argv, "nchortTeam:s:g:qx")) != -1) {
         switch (c) {
         case 'o':
             messageType = FCITX_DBUS_ACTIVATE;
@@ -102,6 +105,10 @@ int main(int argc, char *argv[]) {
             messageType = FCITX_DBUS_GET_CURRENT_GROUP;
             break;
 
+        case 'x':
+            messageType = FCITX_DBUS_OPEN_X11_CONNECTION;
+            break;
+
         case 'a':
             std::cout << bus.address() << std::endl;
             return 0;
@@ -142,6 +149,7 @@ int main(int argc, char *argv[]) {
         CASE(SET_CURRENT_IM, SetCurrentIM);
         CASE(GET_CURRENT_GROUP, CurrentInputMethodGroup);
         CASE(SET_CURRENT_GROUP, SwitchInputMethodGroup);
+        CASE(OPEN_X11_CONNECTION, OpenX11Connection);
 
     default:
         return ret;
@@ -214,6 +222,20 @@ int main(int argc, char *argv[]) {
         }
         std::cerr << "Failed to get reply." << std::endl;
         return 1;
+    }
+    if (messageType == FCITX_DBUS_OPEN_X11_CONNECTION) {
+        auto x11Display = getenv("DISPLAY");
+        if (!x11Display) {
+            std::cerr << "DISPLAY is not set." << std::endl;
+            return 1;
+        }
+        message << x11Display;
+        auto reply = message.call(defaultTimeout);
+        if (reply.isError()) {
+            std::cout << "Failed to open X11 display: " << x11Display
+                      << std::endl;
+        }
+        return reply.isError() ? 1 : 0;
     }
 
     auto reply = message.call(defaultTimeout);
