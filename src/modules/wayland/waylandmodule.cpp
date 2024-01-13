@@ -263,6 +263,7 @@ bool WaylandModule::openConnectionSocket(int fd) {
     } catch (const std::exception &e) {
     }
     if (newConnection) {
+        refreshCanRestart();
         onConnectionCreated(*newConnection);
         return true;
     }
@@ -316,6 +317,7 @@ bool WaylandModule::reopenConnectionSocket(const std::string &displayName,
         // replace it.
         onConnectionClosed(*iter->second);
         iter->second = std::move(newConnection);
+        refreshCanRestart();
         onConnectionCreated(*iter->second);
         // Transfer it to new connection's IC group, we do create two focus
         // group with same name, but well, ic manager doesn't check that.
