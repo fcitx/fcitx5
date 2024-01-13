@@ -191,7 +191,7 @@ public:
     /**
      * Set addon parameters that may be used during addon construction.
      *
-     * This is usually passed with command line flags --options
+     * This is usually passed from command line flags --option or -o.
      *
      * @param options map from addon name to a set of string values
      * @since 5.1.7

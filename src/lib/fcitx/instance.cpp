@@ -138,9 +138,9 @@ void InstanceArgument::printUsage() const {
         << "  -k, --keep\t\t\tKeep running even the main display is "
            "disconnected.\n"
         << "  -r, --replace\t\t\tReplace the existing instance.\n"
-        << "  -o --option <option>\tPass the option to addons\n"
-        << "\t\t\t\t\t <option> is format "
-           "name1=opt1a:opt1b,name2=opt2a:opt2b... .\n"
+        << "  -o --option <option>\t\tPass the option to addons\n"
+        << "\t\t\t\t<option> is in format like:"
+        << "\t\t\t\tname1=opt1a:opt1b,name2=opt2a:opt2b... .\n"
         << "  -v, --version\t\t\tShow version and quit.\n"
         << "  -h, --help\t\t\tShow this help message and quit.\n";
 }
