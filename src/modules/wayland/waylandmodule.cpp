@@ -22,6 +22,7 @@
 #include "fcitx-utils/misc_p.h"
 #include "fcitx-utils/standardpath.h"
 #include "fcitx-utils/stringutils.h"
+#include "fcitx-utils/trackableobject.h"
 #include "fcitx/inputcontext.h"
 #include "fcitx/instance.h"
 #include "fcitx/misc_p.h"
@@ -79,9 +80,9 @@ WaylandConnection::WaylandConnection(WaylandModule *wayland, std::string name)
     : parent_(wayland), name_(std::move(name)) {
     wl_display *display = nullptr;
     {
-        std::unique_ptr<ScopedEnvvar> env;
+        std::optional<ScopedEnvvar> env;
         if (wayland_log().checkLogLevel(Debug)) {
-            env = std::make_unique<ScopedEnvvar>("WAYLAND_DEBUG", "1");
+            env.emplace("WAYLAND_DEBUG", "1");
         }
         // When WAYLAND_SOCKET is set, wl_display_connect will use it
         // regardlessly, no matter it is valid or not.
@@ -93,12 +94,20 @@ WaylandConnection::WaylandConnection(WaylandModule *wayland, std::string name)
     if (!display) {
         throw std::runtime_error("Failed to open wayland connection");
     }
+    if (!isWaylandSocket_ && name_.empty()) {
+        // This is same as wl_display_connect(nullptr) logic.
+        realName_ = "wayland-0";
+        if (auto displayEnv = getenv("WAYLAND_DISPLAY")) {
+            realName_ = displayEnv;
+        }
+    }
     init(display);
 }
 
 WaylandConnection::WaylandConnection(WaylandModule *wayland, std::string name,
-                                     int fd)
-    : parent_(wayland), name_(std::move(name)), isWaylandSocket_(true) {
+                                     int fd, std::string realName)
+    : parent_(wayland), name_(std::move(name)), realName_(std::move(realName)),
+      isWaylandSocket_(true) {
     wl_display *display = nullptr;
     {
         std::unique_ptr<ScopedEnvvar> env;
@@ -200,12 +209,19 @@ bool WaylandModule::openConnection(const std::string &name) {
         return false;
     }
 
+    if (auto defaultConnection = findValue(conns_, "")) {
+        if (name == defaultConnection->get()->realName()) {
+            return false;
+        }
+    }
+
     WaylandConnection *newConnection = nullptr;
     try {
-        auto iter = conns_.emplace(std::piecewise_construct,
-                                   std::forward_as_tuple(name),
-                                   std::forward_as_tuple(this, name));
-        newConnection = &iter.first->second;
+        auto connection = std::make_unique<WaylandConnection>(this, name);
+        auto iter = conns_.emplace(
+            std::piecewise_construct, std::forward_as_tuple(name),
+            std::forward_as_tuple(std::move(connection)));
+        newConnection = iter.first->second.get();
     } catch (const std::exception &e) {
         FCITX_ERROR() << e.what();
     }
@@ -227,22 +243,85 @@ bool WaylandModule::openConnectionSocket(int fd) {
     }
 
     for (const auto &[name, connection] : conns_) {
-        if (connection.display()->fd() == fd) {
+        if (connection->display()->fd() == fd) {
             return false;
         }
     }
 
     WaylandConnection *newConnection = nullptr;
     try {
-        auto iter = conns_.emplace(std::piecewise_construct,
-                                   std::forward_as_tuple(name),
-                                   std::forward_as_tuple(this, name, fd));
+        auto connection = std::make_unique<WaylandConnection>(this, name, fd);
+        auto iter = conns_.emplace(
+            std::piecewise_construct, std::forward_as_tuple(name),
+            std::forward_as_tuple(std::move(connection)));
         guard.release();
-        newConnection = &iter.first->second;
+        newConnection = iter.first->second.get();
     } catch (const std::exception &e) {
     }
     if (newConnection) {
         onConnectionCreated(*newConnection);
+        return true;
+    }
+    return false;
+}
+
+bool WaylandModule::reopenConnectionSocket(const std::string &displayName,
+                                           int fd) {
+    UnixFD guard = UnixFD::own(fd);
+    std::string name = displayName;
+
+    auto iter = conns_.find(name);
+    if (iter == conns_.end() && !name.empty()) {
+        do {
+            // If it's in flatpak, WAYLAND_DISPLAY may be overrrided, so don't
+            // compare it with default connection.
+            if (!isInFlatpak()) {
+                iter = conns_.find("");
+                if (iter != conns_.end() && iter->second->realName() == name) {
+                    name = "";
+                    break;
+                }
+            }
+            return openConnectionSocket(guard.release());
+
+        } while (0);
+    }
+
+    for (const auto &[name, connection] : conns_) {
+        if (connection->display()->fd() == fd) {
+            return false;
+        }
+    }
+
+    // Record all the IC in the old connection.
+    std::vector<TrackableObjectReference<InputContext>> ics;
+    iter->second->focusGroup()->foreach([&ics](InputContext *ic) {
+        ics.push_back(ic->watch());
+        return true;
+    });
+
+    std::unique_ptr<WaylandConnection> newConnection;
+    try {
+        newConnection =
+            std::make_unique<WaylandConnection>(this, name, fd, displayName);
+        guard.release();
+    } catch (const std::exception &e) {
+    }
+    if (newConnection) {
+        // At this point connection is already constructed, now we try to
+        // replace it.
+        onConnectionClosed(*iter->second);
+        iter->second = std::move(newConnection);
+        onConnectionCreated(*iter->second);
+        // Transfer it to new connection's IC group, we do create two focus
+        // group with same name, but well, ic manager doesn't check that.
+        for (auto icRef : ics) {
+            if (auto ic = icRef.get()) {
+                if (!ic->focusGroup()) {
+                    ic->setFocusGroup(iter->second->focusGroup());
+                }
+            }
+        }
         return true;
     }
     return false;
@@ -256,7 +335,7 @@ void WaylandModule::removeConnection(const std::string &name) {
     }
     auto iter = conns_.find(name);
     if (iter != conns_.end()) {
-        onConnectionClosed(iter->second);
+        onConnectionClosed(*iter->second);
         conns_.erase(iter);
         refreshCanRestart();
     }
@@ -268,7 +347,8 @@ WaylandModule::addConnectionCreatedCallback(WaylandConnectionCreated callback) {
 
     for (auto &p : conns_) {
         auto &conn = p.second;
-        (**result->handler())(conn.name(), *conn.display(), conn.focusGroup());
+        (**result->handler())(conn->name(), *conn->display(),
+                              conn->focusGroup());
     }
     return result;
 }
@@ -293,7 +373,7 @@ void WaylandModule::onConnectionClosed(WaylandConnection &conn) {
 void WaylandModule::refreshCanRestart() {
     setCanRestart(std::all_of(conns_.begin(), conns_.end(),
                               [](const decltype(conns_)::value_type &conn) {
-                                  return !conn.second.isWaylandSocket();
+                                  return !conn.second->isWaylandSocket();
                               }));
 }
 
@@ -326,7 +406,7 @@ void WaylandModule::reloadXkbOptionReal() {
         auto model = config.valueByPath("Layout/Model");
         auto options = config.valueByPath("Layout/Options");
         xkbOption = (options ? *options : "");
-        instance_->setXkbParameters(connection->focusGroup()->display(),
+        instance_->setXkbParameters((*connection)->focusGroup()->display(),
                                     DEFAULT_XKB_RULES, model ? *model : "",
                                     *xkbOption);
         FCITX_WAYLAND_DEBUG()
@@ -341,8 +421,9 @@ void WaylandModule::reloadXkbOptionReal() {
             if (value) {
                 auto options = g_strjoinv(",", value);
                 xkbOption = (options ? options : "");
-                instance_->setXkbParameters(connection->focusGroup()->display(),
-                                            DEFAULT_XKB_RULES, "", *xkbOption);
+                instance_->setXkbParameters(
+                    (*connection)->focusGroup()->display(), DEFAULT_XKB_RULES,
+                    "", *xkbOption);
                 FCITX_WAYLAND_DEBUG() << "GNOME xkb options=" << *xkbOption;
                 g_free(options);
                 g_strfreev(value);
@@ -437,7 +518,7 @@ void WaylandModule::selfDiagnose() {
         return;
     }
 
-    WaylandConnection *connection = findValue(conns_, "");
+    auto *connection = findValue(conns_, "");
     if (!connection) {
         return;
     }
@@ -447,7 +528,7 @@ void WaylandModule::selfDiagnose() {
     }
 
     bool isWaylandIM = false;
-    connection->focusGroup()->foreach([&isWaylandIM](InputContext *ic) {
+    (*connection)->focusGroup()->foreach([&isWaylandIM](InputContext *ic) {
         if (stringutils::startsWith(ic->frontendName(), "wayland")) {
             isWaylandIM = true;
             return false;

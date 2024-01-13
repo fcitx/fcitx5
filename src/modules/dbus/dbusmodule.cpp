@@ -599,6 +599,24 @@ public:
                                     "Wayland addon is not available.");
     }
 
+    void reopenWaylandConnectionSocket(const std::string &name, UnixFD &fd) {
+#ifdef WAYLAND_FOUND
+        if (auto *wayland = module_->wayland()) {
+            if (!wayland->call<IWaylandModule::reopenConnectionSocket>(
+                    name, fd.release())) {
+                throw dbus::MethodCallError(
+                    "org.freedesktop.DBus.Error.InvalidArgs",
+                    "Failed to create wayland connection.");
+            }
+            return;
+        }
+#else
+        FCITX_UNUSED(fd);
+#endif
+        throw dbus::MethodCallError("org.freedesktop.DBus.Error.InvalidArgs",
+                                    "Wayland addon is not available.");
+    }
+
     std::string debugInfo() {
         std::stringstream ss;
         instance_->inputContextManager().foreachGroup([&ss](FocusGroup *group) {
@@ -716,6 +734,8 @@ private:
                                "s", "");
     FCITX_OBJECT_VTABLE_METHOD(openWaylandConnectionSocket,
                                "OpenWaylandConnectionSocket", "h", "");
+    FCITX_OBJECT_VTABLE_METHOD(reopenWaylandConnectionSocket,
+                               "ReopenWaylandConnectionSocket", "sh", "");
     FCITX_OBJECT_VTABLE_METHOD(debugInfo, "DebugInfo", "", "s");
     FCITX_OBJECT_VTABLE_METHOD(refresh, "Refresh", "", "");
     FCITX_OBJECT_VTABLE_METHOD(checkUpdate, "CheckUpdate", "", "b");

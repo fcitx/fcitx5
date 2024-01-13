@@ -8,6 +8,8 @@
 #define _FCITX_MODULES_WAYLAND_WAYLANDMODULE_H_
 
 #include <cstdint>
+#include <memory>
+#include <string>
 #include "fcitx-config/iniparser.h"
 #include "fcitx-utils/event.h"
 #include "fcitx-utils/i18n.h"
@@ -63,10 +65,14 @@ private:
 class WaylandConnection {
 public:
     WaylandConnection(WaylandModule *wayland, std::string name);
-    WaylandConnection(WaylandModule *wayland, std::string name, int fd);
+    WaylandConnection(WaylandModule *wayland, std::string name, int fd,
+                      std::string realName = "");
     ~WaylandConnection();
 
     const std::string &name() const { return name_; }
+    const std::string &realName() const {
+        return name_.empty() ? realName_ : name_;
+    }
     wayland::Display *display() const { return display_.get(); }
     FocusGroup *focusGroup() const { return group_.get(); }
     auto *parent() const { return parent_; }
@@ -80,6 +86,7 @@ private:
 
     WaylandModule *parent_;
     std::string name_;
+    std::string realName_;
     // order matters, callback in ioEvent_ uses display_.
     std::unique_ptr<wayland::Display> display_;
     std::unique_ptr<WaylandEventReader> eventReader_;
@@ -98,6 +105,7 @@ public:
 
     bool openConnection(const std::string &name);
     bool openConnectionSocket(int fd);
+    bool reopenConnectionSocket(const std::string &name, int fd);
     void removeConnection(const std::string &name);
 
     std::unique_ptr<HandlerTableEntry<WaylandConnectionCreated>>
@@ -130,7 +138,7 @@ private:
     Instance *instance_;
     WaylandConfig config_;
     bool isWaylandSession_ = false;
-    std::unordered_map<std::string, WaylandConnection> conns_;
+    std::unordered_map<std::string, std::unique_ptr<WaylandConnection>> conns_;
     HandlerTable<WaylandConnectionCreated> createdCallbacks_;
     HandlerTable<WaylandConnectionClosed> closedCallbacks_;
     FCITX_ADDON_EXPORT_FUNCTION(WaylandModule, addConnectionCreatedCallback);
@@ -138,6 +146,7 @@ private:
     FCITX_ADDON_EXPORT_FUNCTION(WaylandModule, reloadXkbOption);
     FCITX_ADDON_EXPORT_FUNCTION(WaylandModule, openConnection);
     FCITX_ADDON_EXPORT_FUNCTION(WaylandModule, openConnectionSocket);
+    FCITX_ADDON_EXPORT_FUNCTION(WaylandModule, reopenConnectionSocket);
 
     std::vector<std::unique_ptr<HandlerTableEntry<EventHandler>>>
         eventHandlers_;

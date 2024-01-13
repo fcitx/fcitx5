@@ -5,6 +5,7 @@
  *
  */
 #include <cstdlib>
+#include <getopt.h>
 #include "fcitx-utils/dbus/bus.h"
 #include "fcitx-utils/dbus/servicewatcher.h"
 #include "fcitx-utils/event.h"
@@ -23,13 +24,15 @@ void usage(std::ostream &stream) {
            "is an\n"
            "expected behavior because compositor may expect the process to "
            "keep running.\n"
-           "\t-h\t\tdisplay this help and exit\n";
+           "\t-h\t\tdisplay this help and exit\n"
+           "\t--reopen\t\treplace the default wayland connection with "
+           "WAYLAND_SOCKET one if WAYLAND_SOCKET is set.\n";
 }
 
 class Launcher {
 public:
-    Launcher(int fd, std::string display)
-        : fd_(UnixFD::own(fd)), display_(display) {
+    Launcher(int fd, std::string display, bool reopen)
+        : fd_(UnixFD::own(fd)), display_(std::move(display)), reopen_(reopen) {
         if (!bus_.isOpen()) {
             throw std::runtime_error("Failed to open dbus connection.");
         }
@@ -86,15 +89,30 @@ private:
     void connectTo(const std::string &newOwner) {
         connectedName_ = newOwner;
         if (fd_.isValid()) {
-            auto message = bus_.createMethodCall(newOwner.data(), "/controller",
-                                                 "org.fcitx.Fcitx.Controller1",
-                                                 "OpenWaylandConnectionSocket");
-            message << fd_;
-            reply_ = message.callAsync(0, [this](dbus::Message &message) {
-                reply(message);
-                return true;
-            });
-            fd_.release();
+            if (reopen_) {
+                auto message =
+                    bus_.createMethodCall(newOwner.data(), "/controller",
+                                          "org.fcitx.Fcitx.Controller1",
+                                          "ReopenWaylandConnectionSocket");
+                message << display_;
+                message << fd_;
+                reply_ = message.callAsync(0, [this](dbus::Message &message) {
+                    reply(message);
+                    return true;
+                });
+                fd_.release();
+            } else {
+                auto message =
+                    bus_.createMethodCall(newOwner.data(), "/controller",
+                                          "org.fcitx.Fcitx.Controller1",
+                                          "OpenWaylandConnectionSocket");
+                message << fd_;
+                reply_ = message.callAsync(0, [this](dbus::Message &message) {
+                    reply(message);
+                    return true;
+                });
+                fd_.release();
+            }
         } else {
             auto message = bus_.createMethodCall(newOwner.data(), "/controller",
                                                  "org.fcitx.Fcitx.Controller1",
@@ -128,12 +146,32 @@ private:
     bool done_ = false;
     std::unique_ptr<EventSource> delayedConnection_;
     bool error_ = false;
+    bool reopen_ = false;
 };
 
 int main(int argc, char *argv[]) {
+    bool reopen = false;
+    struct option longOptions[] = {{"reopen", no_argument, nullptr, 0},
+                                   {"help", no_argument, nullptr, 'h'},
+                                   {nullptr, 0, 0, 0}};
+
+    int optionIndex = 0;
     int c;
-    while ((c = getopt(argc, argv, "h")) != -1) {
+    while ((c = getopt_long(argc, argv, "h", longOptions, &optionIndex)) !=
+           EOF) {
         switch (c) {
+        case 0: {
+            switch (optionIndex) {
+            case 0:
+                reopen = true;
+                break;
+            default:
+                usage(std::cerr);
+                return 1;
+            }
+        } break;
+        case 'r':
+            break;
         case 'h':
             usage(std::cout);
             return 0;
@@ -155,7 +193,7 @@ int main(int argc, char *argv[]) {
     }
 
     try {
-        Launcher launcher(fd, display);
+        Launcher launcher(fd, (display ? display : ""), reopen);
         launcher.run();
         if (launcher.error()) {
             return 1;
