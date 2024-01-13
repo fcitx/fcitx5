@@ -191,8 +191,10 @@ void DBusMenu::fillLayoutItem(
             appendSubItem(subLayoutItems, BII_Separator2, depth, propertyNames);
         }
         appendSubItem(subLayoutItems, BII_Configure, depth, propertyNames);
-        appendSubItem(subLayoutItems, BII_Restart, depth, propertyNames);
-        if (getDesktopType() != DesktopType::DEEPIN) {
+        if (parent_->instance()->canRestart()) {
+            appendSubItem(subLayoutItems, BII_Restart, depth, propertyNames);
+        }
+        if (parent_->instance()->canRestart() && getDesktopType() != DesktopType::DEEPIN) {
             appendSubItem(subLayoutItems, BII_Exit, depth, propertyNames);
         }
     } else if (id == BII_InputMethodGroup) {
