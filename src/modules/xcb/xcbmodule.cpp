@@ -19,6 +19,11 @@ FCITX_DEFINE_LOG_CATEGORY(xcb_log, "xcb");
 XCBModule::XCBModule(Instance *instance) : instance_(instance) {
     reloadConfig();
 
+    auto *env = getenv("DISPLAY");
+    if (env) {
+        mainDisplay_ = env;
+    }
+
     if (!containerContains(instance->addonManager().addonOptions("xcb"),
                            "nodefault")) {
         openConnection("");
@@ -37,7 +42,6 @@ bool XCBModule::openConnectionChecked(const std::string &name_) {
         auto *env = getenv("DISPLAY");
         if (env) {
             name = env;
-            mainDisplay_ = name;
         }
     }
     if (name.empty() || conns_.count(name)) {
