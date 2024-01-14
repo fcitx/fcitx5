@@ -1394,15 +1394,16 @@ int Instance::exec() {
         return 0;
     }
     d->exit_ = false;
+    d->exitCode_ = 0;
     initialize();
     if (d->exit_) {
-        return 1;
+        return d->exitCode_;
     }
     d->running_ = true;
     auto r = eventLoop().exec();
     d->running_ = false;
 
-    return r ? 0 : 1;
+    return r ? d->exitCode_ : 1;
 }
 
 void Instance::setRunning(bool running) {
@@ -1895,8 +1896,13 @@ void Instance::deactivate() {
 }
 
 void Instance::exit() {
+    exit(0);
+}
+
+void Instance::exit(int exitCode) {
     FCITX_D();
     d->exit_ = true;
+    d->exitCode_ = exitCode;
     if (d->running_) {
         d->eventLoop_.exit();
     }

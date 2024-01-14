@@ -153,6 +153,7 @@ public:
 
     int signalPipe_ = -1;
     bool exit_ = false;
+    int exitCode_ = 0;
     bool running_ = false;
     InputMethodMode inputMethodMode_ = isAndroid()
                                            ? InputMethodMode::OnScreenKeyboard

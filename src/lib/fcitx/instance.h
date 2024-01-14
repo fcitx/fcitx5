@@ -323,6 +323,9 @@ public:
     /// Exit the fcitx event loop
     void exit();
 
+    /// Exit the fcitx event loop with an exit code.
+    void exit(int exitCode);
+
     /// Restart fcitx instance, this should only be used within a regular Fcitx
     /// server, not within embedded mode.
     void restart();
