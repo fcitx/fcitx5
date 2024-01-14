@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2023-11-26 20:22+0000\n"
+"POT-Creation-Date: 2024-01-14 20:23+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: csslayer <wengxt@gmail.com>, 2017\n"
 "Language-Team: Spanish (https://www.transifex.com/fcitx/teams/12005/es/)\n"
@@ -46,7 +46,7 @@ msgstr ""
 msgid "${1} works properly."
 msgstr ""
 
-#: src/lib/fcitx/instance.cpp:407
+#: src/lib/fcitx/instance.cpp:411
 msgid "(Not available)"
 msgstr ""
 
@@ -156,11 +156,11 @@ msgstr ""
 msgid "Allow Overriding System XKB Settings"
 msgstr ""
 
-#: src/modules/wayland/waylandmodule.h:34
+#: src/modules/wayland/waylandmodule.h:36
 msgid "Allow Overriding System XKB Settings (Only support KDE 5)"
 msgstr ""
 
-#: src/lib/fcitx/globalconfig.cpp:185
+#: src/lib/fcitx/globalconfig.cpp:186
 msgid "Allow input method in the password field"
 msgstr ""
 
@@ -255,7 +255,7 @@ msgstr ""
 msgid "Beginner's Guide"
 msgstr ""
 
-#: src/lib/fcitx/globalconfig.cpp:202
+#: src/lib/fcitx/globalconfig.cpp:203
 msgid "Behavior"
 msgstr ""
 
@@ -523,7 +523,7 @@ msgid "Configuration:"
 msgstr "Configurar"
 
 #: src/ui/classic/xcbtraywindow.cpp:38
-#: src/modules/notificationitem/dbusmenu.cpp:251
+#: src/modules/notificationitem/dbusmenu.cpp:253
 msgid "Configure"
 msgstr "Configurar"
 
@@ -561,7 +561,7 @@ msgstr ""
 msgid "Custom"
 msgstr ""
 
-#: src/lib/fcitx/globalconfig.cpp:175
+#: src/lib/fcitx/globalconfig.cpp:176
 msgid "Custom Xkb Option"
 msgstr ""
 
@@ -607,7 +607,7 @@ msgstr ""
 msgid "Debug information from dbus:"
 msgstr ""
 
-#: src/lib/fcitx/inputmethodmanager.cpp:138 src/lib/fcitx/instance.cpp:354
+#: src/lib/fcitx/inputmethodmanager.cpp:138 src/lib/fcitx/instance.cpp:358
 #: src/ui/classic/themes/default/theme.conf.in:3
 msgid "Default"
 msgstr ""
@@ -632,7 +632,7 @@ msgstr ""
 msgid "Default Previous page"
 msgstr ""
 
-#: src/lib/fcitx/globalconfig.cpp:159
+#: src/lib/fcitx/globalconfig.cpp:160
 msgid "Default page size"
 msgstr ""
 
@@ -653,7 +653,7 @@ msgstr ""
 msgid "Desktop environment is ${1}."
 msgstr ""
 
-#: src/modules/wayland/waylandmodule.cpp:477
+#: src/modules/wayland/waylandmodule.cpp:586
 msgid ""
 "Detect GTK_IM_MODULE and QT_IM_MODULE being set and Wayland Input method "
 "frontend is working. It is recommended to unset GTK_IM_MODULE and "
@@ -661,7 +661,7 @@ msgid ""
 "see https://fcitx-im.org/wiki/Using_Fcitx_5_on_Wayland#KDE_Plasma"
 msgstr ""
 
-#: src/modules/wayland/waylandmodule.cpp:506
+#: src/modules/wayland/waylandmodule.cpp:615
 msgid ""
 "Detect GTK_IM_MODULE being set and Wayland Input method frontend is working. "
 "It is recommended to unset GTK_IM_MODULE and use Wayland input method "
@@ -816,7 +816,7 @@ msgid "Execute"
 msgstr ""
 
 #: src/ui/classic/xcbtraywindow.cpp:40
-#: src/modules/notificationitem/dbusmenu.cpp:265
+#: src/modules/notificationitem/dbusmenu.cpp:267
 msgid "Exit"
 msgstr "Salir"
 
@@ -837,7 +837,7 @@ msgctxt "Key name"
 msgid "Favorites"
 msgstr ""
 
-#: src/modules/wayland/waylandmodule.cpp:449
+#: src/modules/wayland/waylandmodule.cpp:558
 msgid "Fcitx"
 msgstr ""
 
@@ -848,6 +848,10 @@ msgstr ""
 
 #: data/fcitx5-configtool.desktop.in.in:3
 msgid "Fcitx 5 Configuration"
+msgstr ""
+
+#: data/org.fcitx.Fcitx5.WaylandLauncher.desktop.in.in:3
+msgid "Fcitx 5 Wayland Launcher (Experimental)"
 msgstr ""
 
 #: data/fcitx5-diagnose.sh:1564
@@ -870,7 +874,7 @@ msgid ""
 "experience."
 msgstr ""
 
-#: src/modules/wayland/waylandmodule.cpp:464
+#: src/modules/wayland/waylandmodule.cpp:573
 msgid ""
 "Fcitx should be launched by KWin under KDE Wayland in order to use Wayland "
 "input method frontend. This can improve the experience when using Fcitx on "
@@ -930,7 +934,7 @@ msgid ""
 "this to use this feature."
 msgstr ""
 
-#: src/modules/wayland/waylandmodule.cpp:532
+#: src/modules/wayland/waylandmodule.cpp:641
 msgid "For more details see https://fcitx-im.org/wiki/Using_Fcitx_5_on_Wayland"
 msgstr ""
 
@@ -1036,16 +1040,16 @@ msgid "Green"
 msgstr ""
 
 #: src/ui/classic/xcbtraywindow.cpp:36
-#: src/modules/notificationitem/dbusmenu.cpp:241
+#: src/modules/notificationitem/dbusmenu.cpp:243
 msgid "Group"
 msgstr ""
 
-#: src/lib/fcitx/instance.cpp:411
+#: src/lib/fcitx/instance.cpp:415
 #, c++-format
 msgid "Group {0}: {1}"
 msgstr ""
 
-#: src/lib/fcitx/instance.cpp:356
+#: src/lib/fcitx/instance.cpp:360
 #, c++-format
 msgid "Group {}"
 msgstr ""
@@ -1208,7 +1212,7 @@ msgctxt "Key name"
 msgid "Hot Links"
 msgstr ""
 
-#: src/lib/fcitx/globalconfig.cpp:200
+#: src/lib/fcitx/globalconfig.cpp:201
 msgid "Hotkey"
 msgstr ""
 
@@ -1230,7 +1234,7 @@ msgstr ""
 msgid "IBus Frontend"
 msgstr ""
 
-#: src/lib/fcitx/globalconfig.cpp:196
+#: src/lib/fcitx/globalconfig.cpp:197
 msgid ""
 "If value is 0, the user data may only be saved when fcitx quits (e.g. "
 "logout)."
@@ -1254,11 +1258,13 @@ msgstr ""
 msgid "Image"
 msgstr ""
 
-#: src/im/keyboard/keyboard.cpp:684 src/lib/fcitx/instance.cpp:446
-#: src/lib/fcitx/instance.cpp:672 src/lib/fcitx/instance.cpp:834
+#: src/im/keyboard/keyboard.cpp:684 src/lib/fcitx/instance.cpp:450
+#: src/lib/fcitx/instance.cpp:677 src/lib/fcitx/instance.cpp:839
 #: src/modules/notificationitem/notificationitem.cpp:147
 #: src/modules/notificationitem/notificationitem.cpp:235
-#: src/modules/xcb/xcbconnection.cpp:521 data/org.fcitx.Fcitx5.desktop.in.in:4
+#: src/modules/xcb/xcbconnection.cpp:555
+#: data/org.fcitx.Fcitx5.WaylandLauncher.desktop.in.in:4
+#: data/org.fcitx.Fcitx5.desktop.in.in:4
 #: data/org.fcitx.Fcitx5.metainfo.xml.in:7
 msgid "Input Method"
 msgstr ""
@@ -1314,7 +1320,7 @@ msgctxt "Key name"
 msgid "Insert"
 msgstr ""
 
-#: src/lib/fcitx/globalconfig.cpp:192
+#: src/lib/fcitx/globalconfig.cpp:193
 msgid "Interval of saving user data in minutes"
 msgstr ""
 
@@ -1328,7 +1334,7 @@ msgid ""
 "supports text-input protocol used by ${1}."
 msgstr ""
 
-#: src/modules/wayland/waylandmodule.cpp:489
+#: src/modules/wayland/waylandmodule.cpp:598
 msgid ""
 "It is recommended to install Input Method Panel GNOME Shell Extensions to "
 "provide the input method popup. https://extensions.gnome.org/extension/261/"
@@ -1341,7 +1347,7 @@ msgstr ""
 msgid "KDE Input Method Panel"
 msgstr ""
 
-#: src/ui/classic/classicui.cpp:289
+#: src/ui/classic/classicui.cpp:280
 msgid "KDE Plasma (Experimental)"
 msgstr ""
 
@@ -2004,7 +2010,7 @@ msgstr ""
 msgid "Overlay position"
 msgstr ""
 
-#: src/lib/fcitx/globalconfig.cpp:166
+#: src/lib/fcitx/globalconfig.cpp:167
 msgid "Override Xkb Option"
 msgstr ""
 
@@ -2084,15 +2090,15 @@ msgctxt "Key name"
 msgid "Power Off"
 msgstr ""
 
-#: src/lib/fcitx/instance.cpp:834
+#: src/lib/fcitx/instance.cpp:839
 msgid "Preedit"
 msgstr ""
 
-#: src/lib/fcitx/instance.cpp:836
+#: src/lib/fcitx/instance.cpp:841
 msgid "Preedit disabled"
 msgstr ""
 
-#: src/lib/fcitx/instance.cpp:835
+#: src/lib/fcitx/instance.cpp:840
 msgid "Preedit enabled"
 msgstr ""
 
@@ -2134,7 +2140,7 @@ msgstr ""
 msgid "Quick Phrase"
 msgstr ""
 
-#: src/modules/quickphrase/quickphrase.cpp:472
+#: src/modules/quickphrase/quickphrase.cpp:471
 msgid "Quick Phrase: "
 msgstr ""
 
@@ -2164,7 +2170,7 @@ msgid "Reply"
 msgstr ""
 
 #: src/ui/classic/xcbtraywindow.cpp:39
-#: src/modules/notificationitem/dbusmenu.cpp:259
+#: src/modules/notificationitem/dbusmenu.cpp:261
 msgid "Restart"
 msgstr ""
 
@@ -2273,7 +2279,7 @@ msgctxt "Key name"
 msgid "Send"
 msgstr ""
 
-#: src/modules/wayland/waylandmodule.cpp:521
+#: src/modules/wayland/waylandmodule.cpp:630
 msgid ""
 "Sending keyboard layout configuration to wayland compositor from Fcitx is "
 "not yet supported on current desktop. You may still use Fcitx's internal "
@@ -2302,11 +2308,11 @@ msgctxt "Key name"
 msgid "Shop"
 msgstr ""
 
-#: src/lib/fcitx/globalconfig.cpp:151
+#: src/lib/fcitx/globalconfig.cpp:152
 msgid "Show Input Method Information when changing focus"
 msgstr ""
 
-#: src/lib/fcitx/globalconfig.cpp:148
+#: src/lib/fcitx/globalconfig.cpp:149
 msgid "Show Input Method Information when switch input method"
 msgstr ""
 
@@ -2314,11 +2320,11 @@ msgstr ""
 msgid "Show Layout Name In Icon"
 msgstr ""
 
-#: src/lib/fcitx/globalconfig.cpp:154
+#: src/lib/fcitx/globalconfig.cpp:155
 msgid "Show compact input method information"
 msgstr ""
 
-#: src/lib/fcitx/globalconfig.cpp:157
+#: src/lib/fcitx/globalconfig.cpp:158
 msgid "Show first input method information"
 msgstr ""
 
@@ -2328,11 +2334,11 @@ msgid ""
 "text icon is set to true, this option will be ignored."
 msgstr ""
 
-#: src/lib/fcitx/globalconfig.cpp:144
+#: src/lib/fcitx/globalconfig.cpp:145
 msgid "Show preedit in application"
 msgstr ""
 
-#: src/lib/fcitx/globalconfig.cpp:188
+#: src/lib/fcitx/globalconfig.cpp:189
 msgid "Show preedit text when typing password"
 msgstr ""
 
@@ -2384,6 +2390,7 @@ msgctxt "Key name"
 msgid "Standby"
 msgstr ""
 
+#: data/org.fcitx.Fcitx5.WaylandLauncher.desktop.in.in:5
 #: data/org.fcitx.Fcitx5.desktop.in.in:5
 msgid "Start Input Method"
 msgstr ""
@@ -2425,17 +2432,17 @@ msgctxt "Key name"
 msgid "Suspend"
 msgstr ""
 
-#: src/lib/fcitx/instance.cpp:447 src/lib/fcitx/instance.cpp:673
-#: src/modules/xcb/xcbconnection.cpp:522
+#: src/lib/fcitx/instance.cpp:451 src/lib/fcitx/instance.cpp:678
+#: src/modules/xcb/xcbconnection.cpp:556
 msgid "Switch group"
 msgstr ""
 
-#: src/lib/fcitx/instance.cpp:448 src/modules/xcb/xcbconnection.cpp:523
+#: src/lib/fcitx/instance.cpp:452 src/modules/xcb/xcbconnection.cpp:557
 #, c++-format
 msgid "Switch group to {0}"
 msgstr ""
 
-#: src/lib/fcitx/instance.cpp:674
+#: src/lib/fcitx/instance.cpp:679
 #, c++-format
 msgid "Switched group to {0}"
 msgstr ""
@@ -2755,7 +2762,7 @@ msgstr ""
 msgid "Wayland"
 msgstr ""
 
-#: src/modules/wayland/waylandmodule.cpp:449
+#: src/modules/wayland/waylandmodule.cpp:558
 msgid "Wayland Diagnose"
 msgstr ""
 
@@ -2768,7 +2775,7 @@ msgctxt "Key name"
 msgid "WebCam"
 msgstr ""
 
-#: src/lib/fcitx/globalconfig.cpp:170
+#: src/lib/fcitx/globalconfig.cpp:171
 msgid ""
 "Whether to override the xkb option from display server. It will not affect "
 "the xkb option send to display, but just the xkb options for custom xkb "
@@ -2938,12 +2945,12 @@ msgstr ""
 msgid "{0} (Not Available)"
 msgstr ""
 
-#: src/lib/fcitx/instance.cpp:405
+#: src/lib/fcitx/instance.cpp:409
 #, c++-format
 msgid "{0} (Not available)"
 msgstr ""
 
-#: src/lib/fcitx/instance.cpp:402
+#: src/lib/fcitx/instance.cpp:406
 #, c++-format
 msgid "{0} ({1})"
 msgstr ""
