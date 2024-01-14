@@ -1,0 +1,15 @@
+[Desktop Entry]
+Name=Fcitx 5 Wayland Launcher (Experimental)
+GenericName=Input Method
+Comment=Start Input Method
+Exec=@FCITX_INSTALL_LIBEXECDIR@/fcitx5-wayland-launcher --reopen
+Icon=@FCITX_ICON_NAME@
+Terminal=false
+Type=Application
+Categories=System;Utility;
+StartupNotify=false
+NoDisplay=true
+OnlyShowIn=KDE
+X-KDE-StartupNotify=false
+X-KDE-Wayland-VirtualKeyboard=true
+X-KDE-Wayland-Interfaces=org_kde_plasma_window_management

@@ -4,6 +4,8 @@ configure_file(${CMAKE_CURRENT_SOURCE_DIR}/fcitx5-configtool.desktop.in.in
                ${CMAKE_CURRENT_BINARY_DIR}/fcitx5-configtool.desktop.in @ONLY)
 configure_file(${CMAKE_CURRENT_SOURCE_DIR}/org.fcitx.Fcitx5.desktop.in.in
                ${CMAKE_CURRENT_BINARY_DIR}/org.fcitx.Fcitx5.desktop.in @ONLY)
+configure_file(${CMAKE_CURRENT_SOURCE_DIR}/org.fcitx.Fcitx5.WaylandLauncher.desktop.in.in
+               ${CMAKE_CURRENT_BINARY_DIR}/org.fcitx.Fcitx5.WaylandLauncher.desktop.in @ONLY)
 configure_file(${CMAKE_CURRENT_SOURCE_DIR}/fcitx5-diagnose.sh
                ${CMAKE_CURRENT_BINARY_DIR}/fcitx5-diagnose ESCAPE_QUOTES @ONLY)
 configure_file(${CMAKE_CURRENT_SOURCE_DIR}/20-fcitx-x11.in
@@ -13,10 +15,13 @@ fcitx5_translate_desktop_file(${CMAKE_CURRENT_BINARY_DIR}/fcitx5-configtool.desk
                               fcitx5-configtool.desktop)
 fcitx5_translate_desktop_file(${CMAKE_CURRENT_BINARY_DIR}/org.fcitx.Fcitx5.desktop.in
                               org.fcitx.Fcitx5.desktop)
+                          fcitx5_translate_desktop_file(${CMAKE_CURRENT_BINARY_DIR}/org.fcitx.Fcitx5.WaylandLauncher.desktop.in
+    org.fcitx.Fcitx5.WaylandLauncher.desktop)
 fcitx5_translate_desktop_file(org.fcitx.Fcitx5.metainfo.xml.in
                               org.fcitx.Fcitx5.metainfo.xml XML)
 
 install(FILES "${CMAKE_CURRENT_BINARY_DIR}/org.fcitx.Fcitx5.desktop"
+              "${CMAKE_CURRENT_BINARY_DIR}/org.fcitx.Fcitx5.WaylandLauncher.desktop"
               "${CMAKE_CURRENT_BINARY_DIR}/fcitx5-configtool.desktop"
         DESTINATION "${FCITX_INSTALL_DATADIR}/applications")
 
