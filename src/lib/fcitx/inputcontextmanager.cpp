@@ -352,8 +352,10 @@ void InputContextManager::unregisterFocusGroup(FocusGroup &group) {
     d->groups_.erase(d->groups_.iterator_to(group));
     if (d->instance_ && d->instance_->exitWhenMainDisplayDisconnected() &&
         d->groups_.empty()) {
-        FCITX_INFO() << "All display connections are gone, exit now.";
-        d->instance_->exit();
+        if (!d->instance_->exiting()) {
+            FCITX_INFO() << "All display connections are gone, exit now.";
+            d->instance_->exit();
+        }
     }
 }
 InputContextPropertyFactory *
