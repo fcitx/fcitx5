@@ -1,0 +1,2 @@
+#!/bin/sh
+@FCITX_INSTALL_BINDIR@/fcitx5-remote -x
