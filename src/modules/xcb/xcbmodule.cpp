@@ -196,6 +196,10 @@ void XCBModule::setXkbOption(const std::string &name,
     iter->second.setXkbOption(option);
 }
 
+bool XCBModule::exists(const std::string &name) {
+    return conns_.count(name) > 0;
+}
+
 class XCBModuleFactory : public AddonFactory {
 public:
     AddonInstance *create(AddonManager *manager) override {

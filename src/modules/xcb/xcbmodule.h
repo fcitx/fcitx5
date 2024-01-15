@@ -75,6 +75,8 @@ public:
 
     void setXkbOption(const std::string &name, const std::string &option);
 
+    bool exists(const std::string &name);
+
     FCITX_ADDON_DEPENDENCY_LOADER(notifications, instance_->addonManager());
     FCITX_ADDON_DEPENDENCY_LOADER(waylandim, instance_->addonManager());
 
@@ -102,6 +104,7 @@ private:
     FCITX_ADDON_EXPORT_FUNCTION(XCBModule, mainDisplay);
     FCITX_ADDON_EXPORT_FUNCTION(XCBModule, setXkbOption);
     FCITX_ADDON_EXPORT_FUNCTION(XCBModule, isXWayland);
+    FCITX_ADDON_EXPORT_FUNCTION(XCBModule, exists)
 };
 
 FCITX_DECLARE_LOG_CATEGORY(xcb_log);

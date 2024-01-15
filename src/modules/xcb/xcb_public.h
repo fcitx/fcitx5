@@ -51,6 +51,7 @@ FCITX_ADDON_DECLARE_FUNCTION(XCBModule, setXkbOption,
                              void(const std::string &, const std::string &));
 FCITX_ADDON_DECLARE_FUNCTION(XCBModule, mainDisplay, std::string());
 FCITX_ADDON_DECLARE_FUNCTION(XCBModule, isXWayland, bool(const std::string &));
+FCITX_ADDON_DECLARE_FUNCTION(XCBModule, exists, bool(const std::string &name));
 
 #ifndef FCITX_NO_XCB
 FCITX_ADDON_DECLARE_FUNCTION(XCBModule, addEventFilter,

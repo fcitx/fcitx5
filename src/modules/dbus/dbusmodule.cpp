@@ -554,6 +554,11 @@ public:
     void openX11Connection(const std::string &name) {
 #ifdef ENABLE_X11
         if (auto *xcb = module_->xcb()) {
+            if (xcb->call<IXCBModule::exists>(name)) {
+                throw dbus::MethodCallError(
+                    "org.freedesktop.DBus.Error.InvalidArgs",
+                    "X11 connection already exists.");
+            }
             if (!xcb->call<IXCBModule::openConnectionChecked>(name)) {
                 throw dbus::MethodCallError(
                     "org.freedesktop.DBus.Error.InvalidArgs",
