@@ -5,15 +5,15 @@
 # Translators:
 # csslayer <wengxt@gmail.com>, 2017
 # TotalCaesar659 <x24cm5b8c54q6szxw@yandex.ru>, 2017
-# Dmitry <dmitrydmitry761@gmail.com>, 2023
+# Dmitry <dmitrydmitry761@gmail.com>, 2024
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2024-01-14 20:24+0000\n"
+"POT-Creation-Date: 2024-01-15 20:25+0000\n"
 "PO-Revision-Date: 2017-11-23 04:14+0000\n"
-"Last-Translator: Dmitry <dmitrydmitry761@gmail.com>, 2023\n"
+"Last-Translator: Dmitry <dmitrydmitry761@gmail.com>, 2024\n"
 "Language-Team: Russian (https://app.transifex.com/fcitx/teams/12005/ru/)\n"
 "Language: ru\n"
 "MIME-Version: 1.0\n"
@@ -534,7 +534,7 @@ msgid "Configuration:"
 msgstr "Настройка:"
 
 #: src/ui/classic/xcbtraywindow.cpp:38
-#: src/modules/notificationitem/dbusmenu.cpp:253
+#: src/modules/notificationitem/dbusmenu.cpp:254
 msgid "Configure"
 msgstr "Настроить"
 
@@ -664,7 +664,7 @@ msgstr "Среда рабочего стола:"
 msgid "Desktop environment is ${1}."
 msgstr "Среда рабочего стола: ${1}."
 
-#: src/modules/wayland/waylandmodule.cpp:586
+#: src/modules/wayland/waylandmodule.cpp:590
 msgid ""
 "Detect GTK_IM_MODULE and QT_IM_MODULE being set and Wayland Input method "
 "frontend is working. It is recommended to unset GTK_IM_MODULE and "
@@ -677,7 +677,7 @@ msgstr ""
 "более подробной информации см. https://fcitx-im.org/wiki/"
 "Using_Fcitx_5_on_Wayland#KDE_Plasma"
 
-#: src/modules/wayland/waylandmodule.cpp:615
+#: src/modules/wayland/waylandmodule.cpp:619
 msgid ""
 "Detect GTK_IM_MODULE being set and Wayland Input method frontend is working. "
 "It is recommended to unset GTK_IM_MODULE and use Wayland input method "
@@ -839,7 +839,7 @@ msgid "Execute"
 msgstr "Выполнить"
 
 #: src/ui/classic/xcbtraywindow.cpp:40
-#: src/modules/notificationitem/dbusmenu.cpp:267
+#: src/modules/notificationitem/dbusmenu.cpp:268
 msgid "Exit"
 msgstr "Выход"
 
@@ -860,7 +860,7 @@ msgctxt "Key name"
 msgid "Favorites"
 msgstr "Избранное"
 
-#: src/modules/wayland/waylandmodule.cpp:558
+#: src/modules/wayland/waylandmodule.cpp:562
 msgid "Fcitx"
 msgstr "Fcitx"
 
@@ -875,7 +875,7 @@ msgstr "Конфигурация Fcitx 5"
 
 #: data/org.fcitx.Fcitx5.WaylandLauncher.desktop.in.in:3
 msgid "Fcitx 5 Wayland Launcher (Experimental)"
-msgstr ""
+msgstr "Fcitx 5 Wayland Launcher (Экспериментально)"
 
 #: data/fcitx5-diagnose.sh:1564
 msgid "Fcitx Addons:"
@@ -899,7 +899,7 @@ msgstr ""
 "собственный язык. Она также предлагает различные варианты дополнений, "
 "которые улучшают удобство набора текста."
 
-#: src/modules/wayland/waylandmodule.cpp:573
+#: src/modules/wayland/waylandmodule.cpp:577
 msgid ""
 "Fcitx should be launched by KWin under KDE Wayland in order to use Wayland "
 "input method frontend. This can improve the experience when using Fcitx on "
@@ -975,7 +975,7 @@ msgstr ""
 "и японским вариантом при использовании Anthy. Конфигурация шрифта должна "
 "поддерживать это, чтобы использовать эту функцию."
 
-#: src/modules/wayland/waylandmodule.cpp:641
+#: src/modules/wayland/waylandmodule.cpp:645
 msgid "For more details see https://fcitx-im.org/wiki/Using_Fcitx_5_on_Wayland"
 msgstr ""
 "Для получения более подробной информации см. https://fcitx-im.org/wiki/"
@@ -1085,7 +1085,7 @@ msgid "Green"
 msgstr "Зеленый"
 
 #: src/ui/classic/xcbtraywindow.cpp:36
-#: src/modules/notificationitem/dbusmenu.cpp:243
+#: src/modules/notificationitem/dbusmenu.cpp:244
 msgid "Group"
 msgstr "Группа"
 
@@ -1396,7 +1396,7 @@ msgstr ""
 "Можно использовать ${1} встроенный модуль Wayland im, если составитель "
 "полностью поддерживает протокол ввода текста, используемый ${1}."
 
-#: src/modules/wayland/waylandmodule.cpp:598
+#: src/modules/wayland/waylandmodule.cpp:602
 msgid ""
 "It is recommended to install Input Method Panel GNOME Shell Extensions to "
 "provide the input method popup. https://extensions.gnome.org/extension/261/"
@@ -2247,7 +2247,7 @@ msgid "Reply"
 msgstr "Ответить"
 
 #: src/ui/classic/xcbtraywindow.cpp:39
-#: src/modules/notificationitem/dbusmenu.cpp:261
+#: src/modules/notificationitem/dbusmenu.cpp:262
 msgid "Restart"
 msgstr "Перезапустить"
 
@@ -2356,7 +2356,7 @@ msgctxt "Key name"
 msgid "Send"
 msgstr "Отправить"
 
-#: src/modules/wayland/waylandmodule.cpp:630
+#: src/modules/wayland/waylandmodule.cpp:634
 msgid ""
 "Sending keyboard layout configuration to wayland compositor from Fcitx is "
 "not yet supported on current desktop. You may still use Fcitx's internal "
@@ -2870,7 +2870,7 @@ msgstr ""
 msgid "Wayland"
 msgstr "Wayland"
 
-#: src/modules/wayland/waylandmodule.cpp:558
+#: src/modules/wayland/waylandmodule.cpp:562
 msgid "Wayland Diagnose"
 msgstr "Wayland Диагностика"
 
