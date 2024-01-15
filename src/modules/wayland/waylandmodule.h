@@ -105,7 +105,8 @@ public:
 
     bool openConnection(const std::string &name);
     bool openConnectionSocket(int fd);
-    bool openConnectionSocketWithName(int fd, const std::string &name, const std::string &realName);
+    bool openConnectionSocketWithName(int fd, const std::string &name,
+                                      const std::string &realName);
     bool reopenConnectionSocket(const std::string &name, int fd);
     void removeConnection(const std::string &name);
 

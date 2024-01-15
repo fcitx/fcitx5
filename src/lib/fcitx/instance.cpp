@@ -1895,9 +1895,7 @@ void Instance::deactivate() {
     }
 }
 
-void Instance::exit() {
-    exit(0);
-}
+void Instance::exit() { exit(0); }
 
 void Instance::exit(int exitCode) {
     FCITX_D();

@@ -243,7 +243,9 @@ bool WaylandModule::openConnectionSocket(int fd) {
     return openConnectionSocketWithName(fd, name, "");
 }
 
-bool WaylandModule::openConnectionSocketWithName(int fd, const std::string &name, const std::string &realName) {
+bool WaylandModule::openConnectionSocketWithName(int fd,
+                                                 const std::string &name,
+                                                 const std::string &realName) {
     UnixFD guard = UnixFD::own(fd);
 
     if (conns_.count(name)) {
@@ -258,7 +260,8 @@ bool WaylandModule::openConnectionSocketWithName(int fd, const std::string &name
 
     WaylandConnection *newConnection = nullptr;
     try {
-        auto connection = std::make_unique<WaylandConnection>(this, name, fd, realName);
+        auto connection =
+            std::make_unique<WaylandConnection>(this, name, fd, realName);
         auto iter = conns_.emplace(
             std::piecewise_construct, std::forward_as_tuple(name),
             std::forward_as_tuple(std::move(connection)));
@@ -297,7 +300,8 @@ bool WaylandModule::reopenConnectionSocket(const std::string &displayName,
                     }
                 }
             }
-            return openConnectionSocketWithName(guard.release(), name, displayName);
+            return openConnectionSocketWithName(guard.release(), name,
+                                                displayName);
 
         } while (0);
     }
