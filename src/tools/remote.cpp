@@ -6,11 +6,19 @@
  */
 
 #include <iostream>
+#include <getopt.h>
 #include "fcitx-utils/dbus/bus.h"
 #include "fcitx-utils/utf8.h"
 
 using namespace fcitx;
 using namespace fcitx::dbus;
+
+static constexpr char fcitxServiceName[] = "org.fcitx.Fcitx5";
+static constexpr char interfaceName[] = "org.fcitx.Fcitx.Controller1";
+static constexpr char path[] = "/controller";
+
+// 1s
+static constexpr uint64_t defaultTimeout = 1000 * 1000;
 
 void usage(std::ostream &stream) {
     stream
@@ -28,6 +36,8 @@ void usage(std::ostream &stream) {
            "\t-s <imname>\tswitch to the input method uniquely identified "
            "by <imname>\n"
            "\t-x\tOpen a new X11 connection with current DISPLAY environment.\n"
+           "\t--check\tCheck if Fcitx is already running, if not, return 1.\n"
+           "\t\t\tCan be used with other options.\n"
            "\t[no option]\tdisplay fcitx state, 0 for close, 1 for "
            "inactive, 2 for active\n"
            "\t-h\t\tdisplay this help and exit\n";
@@ -59,8 +69,28 @@ int main(int argc, char *argv[]) {
     int ret = 1;
     int messageType = FCITX_DBUS_GET_CURRENT_STATE;
     std::string imname;
-    while ((c = getopt(argc, argv, "nchortTeam:s:g:qx")) != -1) {
+    std::string serviceName = fcitxServiceName;
+    struct option longOptions[] = {{"check", no_argument, nullptr, 0},
+                                   {"help", no_argument, nullptr, 'h'},
+                                   {nullptr, 0, 0, 0}};
+
+    int optionIndex = 0;
+    while ((c = getopt_long(argc, argv, "nchortTeam:s:g:qx", longOptions,
+                            &optionIndex)) != EOF) {
         switch (c) {
+        case 0:
+            switch (optionIndex) {
+            case 0: {
+                auto name = bus.serviceOwner(serviceName, defaultTimeout);
+                if (name.empty()) {
+                    return 1;
+                }
+                // Make sure we use the unique name to send request to avoid any
+                // race, otherwise it may trigger dbus activation.
+                serviceName = name;
+            } break;
+            }
+            break;
         case 'o':
             messageType = FCITX_DBUS_ACTIVATE;
             break;
@@ -125,16 +155,10 @@ int main(int argc, char *argv[]) {
         return 1;
     }
 
-    constexpr char serviceName[] = "org.fcitx.Fcitx5";
-    constexpr char interfaceName[] = "org.fcitx.Fcitx.Controller1";
-    constexpr char path[] = "/controller";
-    // 1s
-    constexpr uint64_t defaultTimeout = 1000 * 1000;
-
 #define CASE(ENUMNAME, MESSAGENAME)                                            \
     case FCITX_DBUS_##ENUMNAME:                                                \
-        message = bus.createMethodCall(serviceName, path, interfaceName,       \
-                                       #MESSAGENAME);                          \
+        message = bus.createMethodCall(serviceName.data(), path,               \
+                                       interfaceName, #MESSAGENAME);           \
         break;
 
     switch (messageType) {
@@ -232,7 +256,9 @@ int main(int argc, char *argv[]) {
         message << x11Display;
         auto reply = message.call(defaultTimeout);
         if (reply.isError()) {
-            std::cout << "Failed to open X11 display: " << x11Display
+            std::cerr << "Failed to open X11 display: " << x11Display
+                      << std::endl
+                      << reply.errorName() << " " << reply.errorMessage()
                       << std::endl;
         }
         return reply.isError() ? 1 : 0;
