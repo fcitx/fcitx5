@@ -1,2 +1,2 @@
 #!/bin/sh
-@FCITX_INSTALL_BINDIR@/fcitx5-remote -x
+@FCITX_INSTALL_BINDIR@/fcitx5-remote --check -x
