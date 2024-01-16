@@ -548,13 +548,29 @@ void WaylandModule::selfDiagnose() {
     }
 
     bool isWaylandIM = false;
-    (*connection)->focusGroup()->foreach([&isWaylandIM](InputContext *ic) {
-        if (stringutils::startsWith(ic->frontendName(), "wayland")) {
-            isWaylandIM = true;
-            return false;
+    if (isInFlatpak()) {
+        // In flatpak, ReopenWaylandConnection will not replace existing connection.
+        for (const auto &[_, conn] : conns_) {
+            conn->focusGroup()->foreach([&isWaylandIM](InputContext *ic) {
+                if (stringutils::startsWith(ic->frontendName(), "wayland")) {
+                    isWaylandIM = true;
+                    return false;
+                }
+                return true;
+            });
+            if (isWaylandIM) {
+                break;
+            }
         }
-        return true;
-    });
+    } else {
+        (*connection)->focusGroup()->foreach([&isWaylandIM](InputContext *ic) {
+            if (stringutils::startsWith(ic->frontendName(), "wayland")) {
+                isWaylandIM = true;
+                return false;
+            }
+            return true;
+        });
+    }
 
     auto sendMessage = [this](const std::string &category,
                               const std::string &message) {
