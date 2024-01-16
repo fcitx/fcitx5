@@ -15,7 +15,6 @@ fcitx5_translate_desktop_file(org.fcitx.Fcitx5.metainfo.xml.in
                               org.fcitx.Fcitx5.metainfo.xml XML)
 
 install(FILES "${CMAKE_CURRENT_BINARY_DIR}/org.fcitx.Fcitx5.desktop"
-              "${CMAKE_CURRENT_BINARY_DIR}/fcitx5-wayland-launcher.desktop"
               "${CMAKE_CURRENT_BINARY_DIR}/fcitx5-configtool.desktop"
         DESTINATION "${FCITX_INSTALL_DATADIR}/applications")
 
