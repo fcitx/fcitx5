@@ -144,12 +144,25 @@ FCITXUTILS_EXPORT ssize_t getline(UniqueCPtr<char> &lineptr, size_t *n,
 FCITXUTILS_EXPORT bool isInFlatpak();
 
 /**
- * Util function that returns whether it is compile agsinst android.
+ * Util function that returns whether it is compile against android.
  *
  * @since 5.1.2
  */
 FCITXUTILS_EXPORT constexpr inline bool isAndroid() {
 #if defined(ANDROID) || defined(__ANDROID__)
+    return true;
+#else
+    return false;
+#endif
+}
+
+/**
+ * Util function that returns whether it is compile against apple.
+ *
+ * @since 5.1.7
+ */
+FCITXUTILS_EXPORT constexpr inline bool isApple() {
+#if defined(__APPLE__)
     return true;
 #else
     return false;
