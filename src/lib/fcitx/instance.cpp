@@ -1679,16 +1679,18 @@ InputMethodEngine *Instance::inputMethodEngine(const std::string &name) {
 }
 
 std::string Instance::inputMethodIcon(InputContext *ic) {
-    std::string icon = "input-keyboard";
-
+    std::string icon;
     const auto *entry = inputMethodEntry(ic);
-    auto *engine = inputMethodEngine(ic);
-
-    if (engine) {
-        icon = engine->subModeIcon(*entry, *ic);
-    }
-    if (icon.empty()) {
-        icon = entry->icon();
+    if (entry) {
+        auto *engine = inputMethodEngine(ic);
+        if (engine) {
+            icon = engine->subModeIcon(*entry, *ic);
+        }
+        if (icon.empty()) {
+            icon = entry->icon();
+        }
+    } else {
+        icon = "input-keyboard";
     }
     return icon;
 }
