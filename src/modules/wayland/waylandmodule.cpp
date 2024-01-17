@@ -283,11 +283,11 @@ bool WaylandModule::reopenConnectionSocket(const std::string &displayName,
     std::string name = displayName;
 
     auto iter = conns_.find(name);
-    if (iter == conns_.end() && !name.empty()) {
+    if (iter == conns_.end()) {
         do {
             // If it's in flatpak, WAYLAND_DISPLAY may be overrrided, so don't
             // compare it with default connection.
-            if (!isInFlatpak()) {
+            if (!isInFlatpak() && !name.empty()) {
                 iter = conns_.find("");
                 if (iter != conns_.end() && iter->second->realName() == name) {
                     name = "";
