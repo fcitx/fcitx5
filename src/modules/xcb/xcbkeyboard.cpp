@@ -433,7 +433,7 @@ void XCBKeyboard::setRMLVOToServer(const std::string &rule,
     do {                                                                       \
         *data = FIELD##Len;                                                    \
         data += 1;                                                             \
-        if (FIELD##Len) {                                                      \
+        if (FIELD##Len && rnames.FIELD) {                                      \
             memcpy(data, rnames.FIELD, FIELD##Len);                            \
             data += FIELD##Len;                                                \
         }                                                                      \
