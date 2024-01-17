@@ -11,15 +11,15 @@
 # yan12125, 2022
 # Neko ◣ 0xFF, 2022
 # csslayer <wengxt@gmail.com>, 2023
-# Lau YeeYu, 2023
+# Lau YeeYu, 2024
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2024-01-14 20:24+0000\n"
+"POT-Creation-Date: 2024-01-17 20:26+0000\n"
 "PO-Revision-Date: 2017-11-23 04:14+0000\n"
-"Last-Translator: Lau YeeYu, 2023\n"
+"Last-Translator: Lau YeeYu, 2024\n"
 "Language-Team: Chinese (Taiwan) (https://app.transifex.com/fcitx/teams/12005/"
 "zh_TW/)\n"
 "Language: zh_TW\n"
@@ -532,7 +532,7 @@ msgid "Configuration:"
 msgstr "設定："
 
 #: src/ui/classic/xcbtraywindow.cpp:38
-#: src/modules/notificationitem/dbusmenu.cpp:253
+#: src/modules/notificationitem/dbusmenu.cpp:254
 msgid "Configure"
 msgstr "設定"
 
@@ -662,7 +662,7 @@ msgstr "桌面環境："
 msgid "Desktop environment is ${1}."
 msgstr "桌面環境為 ${1}。"
 
-#: src/modules/wayland/waylandmodule.cpp:586
+#: src/modules/wayland/waylandmodule.cpp:606
 msgid ""
 "Detect GTK_IM_MODULE and QT_IM_MODULE being set and Wayland Input method "
 "frontend is working. It is recommended to unset GTK_IM_MODULE and "
@@ -674,7 +674,7 @@ msgstr ""
 "Wayland 輸入法前端。更多信息請參見 https://fcitx-im.org/wiki/"
 "Using_Fcitx_5_on_Wayland#KDE_Plasma"
 
-#: src/modules/wayland/waylandmodule.cpp:615
+#: src/modules/wayland/waylandmodule.cpp:635
 msgid ""
 "Detect GTK_IM_MODULE being set and Wayland Input method frontend is working. "
 "It is recommended to unset GTK_IM_MODULE and use Wayland input method "
@@ -834,7 +834,7 @@ msgid "Execute"
 msgstr "執行"
 
 #: src/ui/classic/xcbtraywindow.cpp:40
-#: src/modules/notificationitem/dbusmenu.cpp:267
+#: src/modules/notificationitem/dbusmenu.cpp:268
 msgid "Exit"
 msgstr "離開"
 
@@ -855,7 +855,7 @@ msgctxt "Key name"
 msgid "Favorites"
 msgstr "收藏"
 
-#: src/modules/wayland/waylandmodule.cpp:558
+#: src/modules/wayland/waylandmodule.cpp:578
 msgid "Fcitx"
 msgstr "Fcitx"
 
@@ -868,9 +868,9 @@ msgstr "Fcitx 5"
 msgid "Fcitx 5 Configuration"
 msgstr "Fcitx 5 設定"
 
-#: data/org.fcitx.Fcitx5.WaylandLauncher.desktop.in.in:3
+#: data/fcitx5-wayland-launcher.desktop.in.in:3
 msgid "Fcitx 5 Wayland Launcher (Experimental)"
-msgstr ""
+msgstr "Fcitx 5 Wayland 啟動器（實驗性）"
 
 #: data/fcitx5-diagnose.sh:1564
 msgid "Fcitx Addons:"
@@ -893,7 +893,7 @@ msgstr ""
 "Fcitx 是輸入法框架。它能幫助您輸入自己的語言。它還具有多種插件選擇，可改善您"
 "的打字體驗。"
 
-#: src/modules/wayland/waylandmodule.cpp:573
+#: src/modules/wayland/waylandmodule.cpp:593
 msgid ""
 "Fcitx should be launched by KWin under KDE Wayland in order to use Wayland "
 "input method frontend. This can improve the experience when using Fcitx on "
@@ -963,7 +963,7 @@ msgstr ""
 "例如，使用拼音時顯示中文異體字，使用 Anthy 時顯示日文異體字。 字體配置需要支"
 "持此功能才能使用此功能。"
 
-#: src/modules/wayland/waylandmodule.cpp:641
+#: src/modules/wayland/waylandmodule.cpp:661
 msgid "For more details see https://fcitx-im.org/wiki/Using_Fcitx_5_on_Wayland"
 msgstr "更多細節請參見 https://fcitx-im.org/wiki/Using_Fcitx_5_on_Wayland"
 
@@ -1069,7 +1069,7 @@ msgid "Green"
 msgstr "綠色"
 
 #: src/ui/classic/xcbtraywindow.cpp:36
-#: src/modules/notificationitem/dbusmenu.cpp:243
+#: src/modules/notificationitem/dbusmenu.cpp:244
 msgid "Group"
 msgstr "群組"
 
@@ -1296,9 +1296,8 @@ msgstr "圖片"
 #: src/lib/fcitx/instance.cpp:677 src/lib/fcitx/instance.cpp:839
 #: src/modules/notificationitem/notificationitem.cpp:147
 #: src/modules/notificationitem/notificationitem.cpp:235
-#: src/modules/xcb/xcbconnection.cpp:555
-#: data/org.fcitx.Fcitx5.WaylandLauncher.desktop.in.in:4
-#: data/org.fcitx.Fcitx5.desktop.in.in:4
+#: src/modules/xcb/xcbconnection.cpp:555 data/org.fcitx.Fcitx5.desktop.in.in:4
+#: data/fcitx5-wayland-launcher.desktop.in.in:4
 #: data/org.fcitx.Fcitx5.metainfo.xml.in:7
 msgid "Input Method"
 msgstr "輸入法"
@@ -1372,7 +1371,7 @@ msgstr ""
 "如果您的混成器完全支持 ${1}使用的 text-input 協議，您也可以使用 ${1} 內置的 "
 "Wayland 模塊。"
 
-#: src/modules/wayland/waylandmodule.cpp:598
+#: src/modules/wayland/waylandmodule.cpp:618
 msgid ""
 "It is recommended to install Input Method Panel GNOME Shell Extensions to "
 "provide the input method popup. https://extensions.gnome.org/extension/261/"
@@ -2216,7 +2215,7 @@ msgid "Reply"
 msgstr "回覆"
 
 #: src/ui/classic/xcbtraywindow.cpp:39
-#: src/modules/notificationitem/dbusmenu.cpp:261
+#: src/modules/notificationitem/dbusmenu.cpp:262
 msgid "Restart"
 msgstr "重新啟動"
 
@@ -2325,7 +2324,7 @@ msgctxt "Key name"
 msgid "Send"
 msgstr "傳送"
 
-#: src/modules/wayland/waylandmodule.cpp:630
+#: src/modules/wayland/waylandmodule.cpp:650
 msgid ""
 "Sending keyboard layout configuration to wayland compositor from Fcitx is "
 "not yet supported on current desktop. You may still use Fcitx's internal "
@@ -2440,8 +2439,8 @@ msgctxt "Key name"
 msgid "Standby"
 msgstr "待機"
 
-#: data/org.fcitx.Fcitx5.WaylandLauncher.desktop.in.in:5
 #: data/org.fcitx.Fcitx5.desktop.in.in:5
+#: data/fcitx5-wayland-launcher.desktop.in.in:5
 msgid "Start Input Method"
 msgstr "啟動輸入法"
 
@@ -2821,7 +2820,7 @@ msgstr ""
 msgid "Wayland"
 msgstr "Wayland"
 
-#: src/modules/wayland/waylandmodule.cpp:558
+#: src/modules/wayland/waylandmodule.cpp:578
 msgid "Wayland Diagnose"
 msgstr "Wayland 診斷"
 
