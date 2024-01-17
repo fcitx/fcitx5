@@ -101,15 +101,18 @@ bool ComposeState::typeImpl(KeySym sym, std::string &result) {
     // check compose first.
     auto composeResult = instance_->processComposeString(inputContext_, sym);
     if (!composeResult) {
+        assert(composeBuffer_.size() > 0);
         if (instance_->isComposing(inputContext_)) {
             return true;
         }
         // If compose is invalid, and we are not in composing state before,
         // ignore this.
         if (!wasComposing) {
+            assert(composeBuffer_.size() == 1);
             composeBuffer_.clear();
             return false;
         }
+        assert(composeBuffer_.size() > 1);
 
         // Check for dead key prefix.
         size_t numDeadPrefix = 0;
@@ -155,6 +158,8 @@ bool ComposeState::typeImpl(KeySym sym, std::string &result) {
             reset();
             return true;
         }
+        // Unreachable.
+        return true;
     }
     // Empty string but composing, means ignored
     if (instance_->isComposing(inputContext_)) {
