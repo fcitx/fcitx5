@@ -390,7 +390,7 @@ void InstancePrivate::showInputMethodInformation(InputContext *ic) {
     }
 
     std::string display;
-    if (engine) {
+    if (engine && entry) {
         auto subMode = engine->subMode(*entry, *ic);
         auto subModeLabel = engine->subModeLabel(*entry, *ic);
         auto name = globalConfig_.compactInputMethodInformation() &&
@@ -1684,10 +1684,10 @@ std::string Instance::inputMethodIcon(InputContext *ic) {
     const auto *entry = inputMethodEntry(ic);
     auto *engine = inputMethodEngine(ic);
 
-    if (engine) {
+    if (engine && entry) {
         icon = engine->subModeIcon(*entry, *ic);
     }
-    if (icon.empty()) {
+    if (icon.empty() && entry) {
         icon = entry->icon();
     }
     return icon;
