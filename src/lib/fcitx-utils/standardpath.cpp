@@ -454,7 +454,7 @@ StandardPathFile StandardPath::open(Type type, const std::string &path,
                 return true;
             }
             retFD = fd;
-            fdPath = fullPath;
+            fdPath = std::move(fullPath);
             return false;
         });
     }
@@ -510,7 +510,7 @@ StandardPathFile StandardPath::openSystem(Type type, const std::string &path,
                 return true;
             }
             retFD = fd;
-            fdPath = fullPath;
+            fdPath = std::move(fullPath);
             return false;
         });
     }
@@ -546,7 +546,7 @@ StandardPath::openUserTemp(Type type, const std::string &pathOrig) const {
     std::string path = pathOrig + "_XXXXXX";
     std::string fullPath, fullPathOrig;
     if (isAbsolutePath(pathOrig)) {
-        fullPath = path;
+        fullPath = std::move(path);
         fullPathOrig = pathOrig;
     } else {
         auto dirPath = userDirectory(type);

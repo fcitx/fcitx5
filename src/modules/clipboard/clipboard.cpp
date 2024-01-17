@@ -90,10 +90,9 @@ public:
     }
 
     void select(InputContext *inputContext) const override {
-        auto commit = str_;
         auto *state = inputContext->propertyFor(&q_->factory());
+        inputContext->commitString(str_);
         state->reset(inputContext);
-        inputContext->commitString(commit);
     }
 
     Clipboard *q_;

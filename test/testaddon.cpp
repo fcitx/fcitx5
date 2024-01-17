@@ -34,6 +34,9 @@ int main() {
     FCITX_ASSERT(result);
     auto result2 = 8 == addon->call<fcitx::IDummyAddon::addOne>(7);
     FCITX_ASSERT(result2);
+
+    FCITX_ASSERT(!addon->call<fcitx::IDummyAddon::testCopy>().isCopy());
+
     auto *addon2 = manager.addon("dummyaddon2");
     FCITX_ASSERT(addon2);
     auto *addon3 = manager.addon("dummyaddon3");

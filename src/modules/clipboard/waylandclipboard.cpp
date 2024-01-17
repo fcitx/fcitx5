@@ -21,7 +21,7 @@ uint64_t DataReaderThread::addTask(std::shared_ptr<UnixFD> fd,
         id = nextId_++;
     }
     FCITX_CLIPBOARD_DEBUG() << "Add task: " << id << " " << fd;
-    dispatcherToWorker_.schedule([this, id, fd,
+    dispatcherToWorker_.schedule([this, id, fd = std::move(fd),
                                   dispatcher = &dispatcherToWorker_,
                                   callback = std::move(callback)]() {
         auto &task = ((*tasks_)[id] = std::make_unique<DataOfferTask>());

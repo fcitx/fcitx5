@@ -103,7 +103,8 @@ public:
         return erasureAdaptor->callback(std::forward<Args>(args)...);
     }
     template <typename MetaSignatureString, typename... Args>
-    auto callWithMetaString(Args &&...args) {
+    AddonFunctionSignatureReturnType<MetaSignatureString>
+    callWithMetaString(Args &&...args) {
         return callWithSignature<
             AddonFunctionSignatureType<MetaSignatureString>>(
             MetaSignatureString::data(), std::forward<Args>(args)...);
@@ -111,7 +112,8 @@ public:
 
     /// Call an exported function for this addon.
     template <typename MetaType, typename... Args>
-    auto call(Args &&...args) {
+    AddonFunctionSignatureReturnType<typename MetaType::Name>
+    call(Args &&...args) {
         return callWithSignature<typename MetaType::Signature>(
             MetaType::Name::data(), std::forward<Args>(args)...);
     }

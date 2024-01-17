@@ -469,10 +469,10 @@ void Kimpanel::msgV1Handler(dbus::Message &msg) {
             }
             proxy_->execMenu(menuitems);
         } else if (stringutils::startsWith(property, "/Fcitx/im/")) {
-            auto imName = property.substr(10);
             timeEvent_ = instance_->eventLoop().addTimeEvent(
                 CLOCK_MONOTONIC, now(CLOCK_MONOTONIC) + 30000, 0,
-                [this, imName](EventSourceTime *, uint64_t) {
+                [this, imName = property.substr(10)](EventSourceTime *,
+                                                     uint64_t) {
                     instance_->setCurrentInputMethod(imName);
                     timeEvent_.reset();
                     return true;

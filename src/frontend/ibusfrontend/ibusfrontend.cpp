@@ -818,13 +818,13 @@ void IBusFrontendModule::replaceIBus(bool recheck) {
             return;
         }
     } else if (auto optionalAddress = readIBusInfo(socketPaths_)) {
-        auto address = *optionalAddress;
         auto pid = runIBusExit();
         if (pid > 0) {
             FCITX_IBUS_DEBUG() << "Running ibus exit.";
             timeEvent_ = instance()->eventLoop().addTimeEvent(
                 CLOCK_MONOTONIC, now(CLOCK_MONOTONIC) + 1000000, 0,
-                [this, pid, address, recheck](EventSourceTime *, uint64_t) {
+                [this, pid, address = std::move(*optionalAddress),
+                 recheck](EventSourceTime *, uint64_t) {
                     int stat = -1;
                     pid_t ret;
                     while ((ret = waitpid(pid, &stat, WNOHANG)) <= 0) {

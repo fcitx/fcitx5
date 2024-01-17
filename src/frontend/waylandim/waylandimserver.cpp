@@ -72,7 +72,7 @@ void WaylandIMServer::init() {
     auto im = display_->getGlobal<wayland::ZwpInputMethodV1>();
     if (im && !inputMethodV1_) {
         WAYLANDIM_DEBUG() << "WAYLANDIM V1";
-        inputMethodV1_ = im;
+        inputMethodV1_ = std::move(im);
         auto *globalIc = new WaylandIMInputContextV1(
             parent_->instance()->inputContextManager(), this);
         globalIc->setFocusGroup(group_);
