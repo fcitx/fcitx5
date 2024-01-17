@@ -49,11 +49,11 @@ WaylandIMServerV2::WaylandIMServerV2(wl_display *display, FocusGroup *group,
         });
 
     if (auto im = display_->getGlobal<wayland::ZwpInputMethodManagerV2>()) {
-        inputMethodManagerV2_ = im;
+        inputMethodManagerV2_ = std::move(im);
     }
 
     if (auto vk = display_->getGlobal<wayland::ZwpVirtualKeyboardManagerV1>()) {
-        virtualKeyboardManagerV1_ = vk;
+        virtualKeyboardManagerV1_ = std::move(vk);
     }
     init();
 }

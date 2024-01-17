@@ -294,8 +294,8 @@ public:
            Annotation annotation = Annotation())
         : OptionBaseV3(parent, std::move(path), std::move(description)),
           defaultValue_(defaultValue), value_(defaultValue),
-          marshaller_(marshaller), constrain_(constrain),
-          annotation_(annotation) {
+          marshaller_(std::move(marshaller)), constrain_(std::move(constrain)),
+          annotation_(std::move(annotation)) {
         if (!constrain_.check(defaultValue_)) {
             throw std::invalid_argument(
                 "defaultValue doesn't satisfy constrain");

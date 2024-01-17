@@ -467,19 +467,19 @@ void XCBTrayWindow::updateMenu() {
 
 void XCBTrayWindow::updateGroupMenu() {
     auto &imManager = ui_->parent()->instance()->inputMethodManager();
-    const auto &list = imManager.groups();
+    std::vector<std::string> list = imManager.groups();
     groupActions_.clear();
     for (size_t i = 0; i < list.size(); i++) {
-        auto groupName = list[i];
+        const std::string &groupName = list[i];
         groupActions_.emplace_back();
         auto &groupAction = groupActions_.back();
-        groupAction.setShortText(list[i]);
+        groupAction.setShortText(groupName);
         groupAction.connect<SimpleAction::Activated>(
             [&imManager, groupName](InputContext *) {
                 imManager.setCurrentGroup(groupName);
             });
         groupAction.setCheckable(true);
-        groupAction.setChecked(list[i] == imManager.currentGroup().name());
+        groupAction.setChecked(groupName == imManager.currentGroup().name());
 
         auto &uiManager = ui_->parent()->instance()->userInterfaceManager();
         uiManager.registerAction(&groupAction);

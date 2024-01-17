@@ -592,7 +592,7 @@ bool XCBKeyboard::handleEvent(xcb_generic_event_t *event) {
                         if (waitingForRefresh_) {
                             waitingForRefresh_ = false;
                             if (auto path = xmodmapFile(); !path.empty()) {
-                                startProcess({"xmodmap", path});
+                                startProcess({"xmodmap", std::move(path)});
                             }
                         }
                         return true;

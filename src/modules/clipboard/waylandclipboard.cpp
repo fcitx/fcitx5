@@ -206,7 +206,7 @@ WaylandClipboard::WaylandClipboard(Clipboard *clipboard,
 
     if (auto manager =
             display_->getGlobal<wayland::ZwlrDataControlManagerV1>()) {
-        manager_ = manager;
+        manager_ = std::move(manager);
     }
     refreshSeat();
 }

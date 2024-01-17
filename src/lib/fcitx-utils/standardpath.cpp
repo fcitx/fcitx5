@@ -404,11 +404,11 @@ std::string StandardPath::locate(Type type, const std::string &path) const {
     } else {
         scanDirectories(type,
                         [&retPath, &path](const std::string &dirPath, bool) {
-                            auto fullPath = constructPath(dirPath, path);
+                            std::string fullPath = constructPath(dirPath, path);
                             if (!fs::isreg(fullPath)) {
                                 return true;
                             }
-                            retPath = fullPath;
+                            retPath = std::move(fullPath);
                             return false;
                         });
     }

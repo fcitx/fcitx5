@@ -51,7 +51,7 @@ class Chainer<First, Rest...> : Chainer<Rest...> {
     typedef Chainer<Rest...> super_class;
 
 public:
-    Chainer(First first, Rest... rest) : super_class(rest...), filter(first) {}
+    Chainer(First first, Rest... rest) : super_class(std::move(rest)...), filter(std::move(first)) {}
 
     bool operator()(const std::string &path, const std::string &dir,
                     bool user) {
