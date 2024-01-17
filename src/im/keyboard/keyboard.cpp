@@ -699,7 +699,7 @@ bool KeyboardEngineState::handleLongPress(const KeyEvent &event) {
             repeatStarted_ = true;
 
             mode_ = CandidateMode::LongPress;
-            origKeyString_ = keystr;
+            origKeyString_ = std::move(keystr);
             if (buffer_.empty()) {
                 if (inputContext->capabilityFlags().test(
                         CapabilityFlag::SurroundingText)) {

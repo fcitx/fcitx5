@@ -409,13 +409,9 @@ std::string Kimpanel::inputMethodStatus(InputContext *ic) {
     std::string icon = "input-keyboard";
     if (ic) {
         icon = instance_->inputMethodIcon(ic);
+        label = instance_->inputMethodLabel(ic);
         if (auto entry = instance_->inputMethodEntry(ic)) {
-            label = entry->label();
             if (auto engine = instance_->inputMethodEngine(ic)) {
-                auto subModeLabel = engine->subModeLabel(*entry, *ic);
-                if (!subModeLabel.empty()) {
-                    label = subModeLabel;
-                }
                 altDescription = engine->subMode(*entry, *ic);
             }
             description = entry->name();

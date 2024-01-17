@@ -55,7 +55,7 @@ class MultiHandlerTable {
 public:
     MultiHandlerTable(std::function<bool(const Key &)> addKey = {},
                       std::function<void(const Key &)> removeKey = {})
-        : addKey_(addKey), removeKey_(removeKey) {}
+        : addKey_(std::move(addKey)), removeKey_(std::move(removeKey)) {}
 
     FCITX_INLINE_DEFINE_DEFAULT_DTOR_AND_MOVE(MultiHandlerTable)
 

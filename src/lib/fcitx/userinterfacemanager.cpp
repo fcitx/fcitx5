@@ -312,7 +312,7 @@ void UserInterfaceManager::updateAvailability() {
             newUI->resume();
         }
         d->ui_ = newUI;
-        d->uiName_ = newUIName;
+        d->uiName_ = std::move(newUIName);
         if (instance) {
             instance->postEvent(UIChangedEvent());
         }

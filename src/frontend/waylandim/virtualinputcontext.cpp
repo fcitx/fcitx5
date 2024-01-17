@@ -128,7 +128,7 @@ void VirtualInputContextManager::appUpdated(
         }
     }
 
-    focus_ = focus;
+    focus_ = std::move(focus);
     updateFocus();
 }
 

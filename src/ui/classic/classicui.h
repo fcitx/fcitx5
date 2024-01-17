@@ -43,7 +43,7 @@ inline constexpr std::string_view PlasmaThemeName = "plasma";
 
 class UIInterface {
 public:
-    UIInterface(std::string name) : name_(name) {}
+    UIInterface(std::string name) : name_(std::move(name)) {}
 
     const std::string &name() const { return name_; }
 

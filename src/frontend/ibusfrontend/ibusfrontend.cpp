@@ -925,7 +925,7 @@ void IBusFrontendModule::becomeIBus(bool recheck) {
         }
     }
 
-    addressWrote_ = address;
+    addressWrote_ = std::move(address);
     pidWrote_ = pidToWrite;
 
     if (!recheck) {

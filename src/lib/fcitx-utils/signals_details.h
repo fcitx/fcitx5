@@ -23,7 +23,7 @@ public:
     Invoker(Args &...args) : args_(args...) {}
 
     template <typename Func>
-    Ret operator()(Func &func) {
+    Ret operator()(const Func &func) {
         return callWithTuple(func, args_);
     }
 

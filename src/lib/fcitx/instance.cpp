@@ -399,9 +399,9 @@ void InstancePrivate::showInputMethodInformation(InputContext *ic) {
                         : entry->name();
         if (globalConfig_.compactInputMethodInformation() &&
             !subModeLabel.empty()) {
-            display = subModeLabel;
+            display = std::move(subModeLabel);
         } else if (subMode.empty()) {
-            display = name;
+            display = std::move(name);
         } else {
             display = fmt::format(_("{0} ({1})"), name, subMode);
         }

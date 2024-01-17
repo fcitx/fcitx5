@@ -142,7 +142,7 @@ void InputMethodManagerPrivate::buildDefaultGroup(
             InputMethodGroupItem("keyboard-us"));
         group.setDefaultInputMethod("");
         group.setDefaultLayout("us");
-        setGroupOrder({name});
+        setGroupOrder({std::move(name)});
     }
     assert(!groups_.empty());
     assert(!groupOrder_.empty());
