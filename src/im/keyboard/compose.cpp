@@ -165,11 +165,12 @@ bool ComposeState::typeImpl(KeySym sym, std::string &result) {
 
     reset();
     // Compose success or key should be ignored.
-    if (composeResult->empty()) {
+    if (composeResult && composeResult->empty()) {
         return false;
+    } else {
+        result.append(*composeResult);
     }
 
-    result.append(*composeResult);
     return true;
 }
 
