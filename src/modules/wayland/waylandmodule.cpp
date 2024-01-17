@@ -314,11 +314,12 @@ bool WaylandModule::reopenConnectionSocket(const std::string &displayName,
 
     // Record all the IC in the old connection.
     std::vector<TrackableObjectReference<InputContext>> ics;
-    iter->second->focusGroup()->foreach([&ics](InputContext *ic) {
-        ics.push_back(ic->watch());
-        return true;
-    });
-
+    if (iter != conns_.end()) {
+        iter->second->focusGroup()->foreach([&ics](InputContext *ic) {
+            ics.push_back(ic->watch());
+            return true;
+        });
+    }
     std::unique_ptr<WaylandConnection> newConnection;
     try {
         newConnection =
@@ -549,7 +550,8 @@ void WaylandModule::selfDiagnose() {
 
     bool isWaylandIM = false;
     if (isInFlatpak()) {
-        // In flatpak, ReopenWaylandConnection will not replace existing connection.
+        // In flatpak, ReopenWaylandConnection will not replace existing
+        // connection.
         for (const auto &[_, conn] : conns_) {
             conn->focusGroup()->foreach([&isWaylandIM](InputContext *ic) {
                 if (stringutils::startsWith(ic->frontendName(), "wayland")) {
