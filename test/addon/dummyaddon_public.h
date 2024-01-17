@@ -10,6 +10,18 @@
 #include "fcitx-utils/metastring.h"
 #include "fcitx/addoninstance.h"
 
+class Data {
+public:
+    Data() {}
+    Data(const Data&) :copy_(true) {}
+
+    bool isCopy() const { return copy_; }
+
+private:
+    const bool copy_ = false;
+};
+
 FCITX_ADDON_DECLARE_FUNCTION(DummyAddon, addOne, int(int));
+FCITX_ADDON_DECLARE_FUNCTION(DummyAddon, testCopy, const Data &());
 
 #endif // _DUMMYADDON_PUBLIC_H_

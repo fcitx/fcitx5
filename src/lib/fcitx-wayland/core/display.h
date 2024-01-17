@@ -77,8 +77,11 @@ public:
         std::vector<std::shared_ptr<T>> results;
         for (uint32_t item : items) {
             auto iter = globals_.find(item);
-            results.push_back(std::static_pointer_cast<T>(
-                std::get<std::shared_ptr<void>>(iter->second)));
+            // This should always be true.
+            if (iter != globals_.end()) {
+                results.push_back(std::static_pointer_cast<T>(
+                    std::get<std::shared_ptr<void>>(iter->second)));
+            }
         }
 
         return results;

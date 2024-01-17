@@ -14,7 +14,15 @@ class DummyAddon : public fcitx::AddonInstance {
 public:
     int addOne(int a) { return a + 1; }
 
+    const Data &testCopy() {
+        return data_;
+    }
+
     FCITX_ADDON_EXPORT_FUNCTION(DummyAddon, addOne);
+    FCITX_ADDON_EXPORT_FUNCTION(DummyAddon, testCopy);
+
+private:
+    Data data_;
 };
 
 class DummyAddonFactory : public fcitx::AddonFactory {

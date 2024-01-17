@@ -5,6 +5,7 @@
  *
  */
 #include "xcbconvertselection.h"
+#include "xcb_public.h"
 #include "xcbconnection.h"
 #include "xcbmodule.h"
 
@@ -45,7 +46,7 @@ void XCBConvertSelectionRequest::invokeCallbackAndCleanUp(xcb_atom_t type,
                                                           const char *data,
                                                           size_t length) {
     // Make a copy to real callback, because it might delete the this.
-    auto realCallback = realCallback_;
+    XCBConvertSelectionCallback realCallback = realCallback_;
     cleanUp();
     if (realCallback) {
         realCallback(type, data, length);

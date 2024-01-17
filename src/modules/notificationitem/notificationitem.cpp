@@ -105,8 +105,8 @@ public:
                 newOverlayIcon();
             }
         }
-        lastIconName_ = icon;
-        lastLabel_ = label;
+        lastIconName_ = std::move(icon);
+        lastLabel_ = std::move(label);
     }
 
     void reset() {

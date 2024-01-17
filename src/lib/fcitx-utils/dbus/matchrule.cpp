@@ -134,8 +134,9 @@ public:
 MatchRule::MatchRule(std::string service, std::string path,
                      std::string interface, std::string name,
                      std::vector<std::string> argumentMatch)
-    : MatchRule(MessageType::Signal, service, "", path, interface, name,
-                argumentMatch, false) {}
+    : MatchRule(MessageType::Signal, service, "", std::move(path),
+                std::move(interface), std::move(name), std::move(argumentMatch),
+                false) {}
 
 MatchRule::MatchRule(MessageType type, std::string service,
                      std::string destination, std::string path,

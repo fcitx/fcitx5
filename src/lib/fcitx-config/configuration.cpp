@@ -65,7 +65,7 @@ void Configuration::dumpDescriptionImpl(
                 newTypeName.append(stringutils::join(subConfigPath, '$'));
                 newTypeName.append("$");
                 newTypeName.append(subTypeName);
-                descConfigPtr->setValueByPath("Type", newTypeName);
+                descConfigPtr->setValueByPath("Type", std::move(newTypeName));
             }
             subConfigs.emplace_back(subConfigPath, std::move(subConfig));
         }

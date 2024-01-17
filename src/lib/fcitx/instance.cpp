@@ -25,6 +25,7 @@
 #include "fcitx-utils/stringutils.h"
 #include "fcitx-utils/utf8.h"
 #include "fcitx/event.h"
+#include "fcitx/inputmethodgroup.h"
 #include "../../modules/notifications/notifications_public.h"
 #include "addonmanager.h"
 #include "focusgroup.h"
@@ -500,13 +501,13 @@ void InputState::showInputMethodInformation(const std::string &name) {
 #ifdef ENABLE_KEYBOARD
 xkb_state *InputState::customXkbState(bool refresh) {
     auto *instance = d_ptr->q_func();
-    auto defaultLayout = d_ptr->imManager_.currentGroup().defaultLayout();
-    auto im = instance->inputMethod(ic_);
-    auto layout = d_ptr->imManager_.currentGroup().layoutFor(im);
+    const InputMethodGroup &group = d_ptr->imManager_.currentGroup();
+    const auto im = instance->inputMethod(ic_);
+    auto layout = group.layoutFor(im);
     if (layout.empty() && stringutils::startsWith(im, "keyboard-")) {
         layout = im.substr(9);
     }
-    if (layout == defaultLayout || layout.empty()) {
+    if (layout.empty() || layout == group.defaultLayout()) {
         // Use system one.
         xkbState_.reset();
         modsAllReleased_ = false;
@@ -519,7 +520,7 @@ xkb_state *InputState::customXkbState(bool refresh) {
     }
 
     lastXkbLayout_ = layout;
-    auto layoutAndVariant = parseLayout(layout);
+    const auto layoutAndVariant = parseLayout(layout);
     if (auto *keymap = d_ptr->keymap(ic_->display(), layoutAndVariant.first,
                                      layoutAndVariant.second)) {
         xkbState_.reset(xkb_state_new(keymap));
@@ -1626,8 +1627,8 @@ std::string Instance::inputMethod(InputContext *ic) {
     if (ic->capabilityFlags().test(CapabilityFlag::Disable) ||
         (ic->capabilityFlags().test(CapabilityFlag::Password) &&
          !d->globalConfig_.allowInputMethodForPassword())) {
-        auto defaultLayout = group.defaultLayout();
-        auto defaultLayoutIM = stringutils::concat("keyboard-", defaultLayout);
+        auto defaultLayoutIM =
+            stringutils::concat("keyboard-", group.defaultLayout());
         const auto *entry = d->imManager_.entry(defaultLayoutIM);
         if (!entry) {
             entry = d->imManager_.entry("keyboard-us");
@@ -2269,7 +2270,7 @@ Text Instance::outputFilter(InputContext *inputContext, const Text &orig) {
                 dot += "\xe2\x80\xa2";
                 length -= 1;
             }
-            newText.append(dot,
+            newText.append(std::move(dot),
                            result.formatAt(i) | TextFormatFlag::DontCommit);
         }
         result = std::move(newText);

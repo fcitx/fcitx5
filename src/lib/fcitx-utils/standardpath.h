@@ -300,7 +300,7 @@ public:
     StandardPathFileMap multiOpen(Type type, const std::string &path, int flags,
                                   Args... args) const {
         return multiOpenFilter(type, path, flags,
-                               filter::Chainer<Args...>(args...));
+                               filter::Chainer<Args...>(std::move(args)...));
     }
 
     /// \brief Open all files match the filter under all [directory]/[path].

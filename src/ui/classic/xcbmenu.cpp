@@ -163,13 +163,12 @@ void XCBMenu::handleButtonPress(int eventX, int eventY) {
         }
 
         auto id = actions[i]->id();
-        auto icRef = ic->watch();
         // Why we need to delay the event, because we
         // want to make ic has focus.
         activateTimer_ = ui_->parent()->instance()->eventLoop().addTimeEvent(
             CLOCK_MONOTONIC, now(CLOCK_MONOTONIC) + 30000, 0,
-            [this, that = this->watch(), icRef, id](EventSourceTime *,
-                                                    uint64_t) {
+            [this, that = this->watch(), icRef = ic->watch(),
+             id](EventSourceTime *, uint64_t) {
                 if (!that.isValid()) {
                     return true;
                 }
