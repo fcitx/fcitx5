@@ -5,7 +5,6 @@
  *
  */
 
-#define FCITX_XCB_EWMH
 #include "xim.h"
 #include <unistd.h>
 #include <cstdarg>
