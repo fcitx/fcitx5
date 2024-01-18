@@ -7,6 +7,10 @@
 #ifndef _FCITX_CONFIG_OPTION_DETAILS_H_
 #define _FCITX_CONFIG_OPTION_DETAILS_H_
 
+#include <string>
+#include <fcitx-config/rawconfig.h>
+#include "fcitxconfig_export.h"
+
 namespace fcitx {
 
 class Configuration;
@@ -58,12 +62,12 @@ public:
 
 template <typename T>
 struct RemoveVector {
-    typedef T type;
+    using type = T;
 };
 
 template <typename T>
 struct RemoveVector<std::vector<T>> {
-    typedef typename RemoveVector<T>::type type;
+    using type = typename RemoveVector<T>::type;
 };
 
 template <typename T>

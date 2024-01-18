@@ -208,12 +208,16 @@ LogMessageBuilder::LogMessageBuilder(std::ostream &out, LogLevel l,
 
 #if FMT_VERSION >= 50300
     if (globalLogConfig.showTimeDate) {
-        auto now = std::chrono::system_clock::now();
-        auto floor = std::chrono::floor<std::chrono::seconds>(now);
-        auto micro =
-            std::chrono::duration_cast<std::chrono::microseconds>(now - floor);
-        auto t = fmt::localtime(std::chrono::system_clock::to_time_t(now));
-        out_ << fmt::format("{:%F %T}.{:06d}", t, micro.count()) << " ";
+        try {
+            auto now = std::chrono::system_clock::now();
+            auto floor = std::chrono::floor<std::chrono::seconds>(now);
+            auto micro = std::chrono::duration_cast<std::chrono::microseconds>(
+                now - floor);
+            auto t = fmt::localtime(std::chrono::system_clock::to_time_t(now));
+            auto timeString = fmt::format("{:%F %T}.{:06d}", t, micro.count());
+            out_ << timeString << " ";
+        } catch (...) {
+        }
     }
 #endif
     out_ << filename << ":" << lineNumber << "] ";

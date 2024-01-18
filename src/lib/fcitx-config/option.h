@@ -423,7 +423,7 @@ using KeyListOption = Option<KeyList, ListConstrain<KeyConstrain>,
 /// Shorthand for create a key list constrain.
 static inline ListConstrain<KeyConstrain>
 KeyListConstrain(KeyConstrainFlags flags = KeyConstrainFlags()) {
-    return ListConstrain<KeyConstrain>(KeyConstrain(flags));
+    return {KeyConstrain(flags)};
 }
 
 /// Shorthand for option that will not show in UI.
