@@ -41,6 +41,7 @@
 #include "userinterfacemanager.h"
 
 #ifdef ENABLE_X11
+#define FCITX_NO_XCB
 #include <../modules/xcb/xcb_public.h>
 #endif
 
