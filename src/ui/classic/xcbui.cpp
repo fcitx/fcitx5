@@ -5,6 +5,7 @@
  *
  */
 
+#define FCITX_XCB_EWMH
 #include "xcbui.h"
 #include <cairo.h>
 #include <xcb/randr.h>

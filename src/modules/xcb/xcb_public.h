@@ -16,7 +16,9 @@
 
 #ifndef FCITX_NO_XCB
 #include <xcb/xcb.h>
+#ifdef FCITX_XCB_EWMH
 #include <xcb/xcb_ewmh.h>
+#endif
 #endif
 
 struct xkb_state;
@@ -65,8 +67,10 @@ FCITX_ADDON_DECLARE_FUNCTION(
     XCBModule, addConnectionClosedCallback,
     std::unique_ptr<HandlerTableEntry<XCBConnectionClosed>>(
         XCBConnectionClosed));
+#if !defined(FCITX_NO_XCB) && defined(FCITX_XCB_EWMH)
 FCITX_ADDON_DECLARE_FUNCTION(XCBModule, ewmh,
                              xcb_ewmh_connection_t *(const std::string &));
+#endif
 FCITX_ADDON_DECLARE_FUNCTION(XCBModule, atom,
                              xcb_atom_t(const std::string &,
                                         const std::string &, bool));

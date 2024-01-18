@@ -4,6 +4,8 @@
  * SPDX-License-Identifier: LGPL-2.1-or-later
  *
  */
+
+#define FCITX_XCB_EWMH
 #include "xim.h"
 #include <unistd.h>
 #include <cstdarg>
