@@ -34,6 +34,7 @@
 #include "spell_public.h"
 
 #ifdef ENABLE_X11
+#define FCITX_NO_XCB
 #include "xcb_public.h"
 #endif
 
