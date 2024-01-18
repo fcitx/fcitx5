@@ -6,15 +6,15 @@
 # csslayer <wengxt@gmail.com>, 2017
 # ABE Tsunehiko, 2017
 # Takuro Onoue <kusanaginoturugi@gmail.com>, 2022
-# UTUMI Hirosi <utuhiro78@yahoo.co.jp>, 2023
+# UTUMI Hirosi <utuhiro78@yahoo.co.jp>, 2024
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2024-01-14 20:24+0000\n"
+"POT-Creation-Date: 2024-01-18 20:25+0000\n"
 "PO-Revision-Date: 2017-11-23 04:14+0000\n"
-"Last-Translator: UTUMI Hirosi <utuhiro78@yahoo.co.jp>, 2023\n"
+"Last-Translator: UTUMI Hirosi <utuhiro78@yahoo.co.jp>, 2024\n"
 "Language-Team: Japanese (https://app.transifex.com/fcitx/teams/12005/ja/)\n"
 "Language: ja\n"
 "MIME-Version: 1.0\n"
@@ -50,11 +50,11 @@ msgstr "${1} は見つかりません"
 msgid "${1} works properly."
 msgstr "${1} は正常に動作しています。"
 
-#: src/lib/fcitx/instance.cpp:411
+#: src/lib/fcitx/instance.cpp:413
 msgid "(Not available)"
 msgstr "(使用不可)"
 
-#: src/modules/unicode/unicode.cpp:458
+#: src/modules/unicode/unicode.cpp:457
 msgid "(Type to search unicode by code or description)"
 msgstr "(コードまたは説明からUnicodeを検索する)"
 
@@ -461,7 +461,7 @@ msgstr "クリックマージン"
 msgid "Clipboard"
 msgstr "クリップボード"
 
-#: src/modules/clipboard/clipboard.cpp:353
+#: src/modules/clipboard/clipboard.cpp:352
 msgid "Clipboard (Press BackSpace/Delete to clear history):"
 msgstr "クリップボード (BackSpace/Delete で履歴をクリア)"
 
@@ -484,19 +484,19 @@ msgctxt "Key name"
 msgid "Community"
 msgstr "コミュニティ"
 
-#: src/im/keyboard/keyboard.cpp:685
+#: src/im/keyboard/keyboard.cpp:686
 msgid "Completion"
 msgstr "補完"
 
-#: src/im/keyboard/keyboard.cpp:676
+#: src/im/keyboard/keyboard.cpp:677
 msgid "Completion is disabled."
 msgstr "補完は無効です。"
 
-#: src/im/keyboard/keyboard.cpp:679
+#: src/im/keyboard/keyboard.cpp:680
 msgid "Completion is enabled temporarily."
 msgstr "補完は一時的に有効です。"
 
-#: src/im/keyboard/keyboard.cpp:681
+#: src/im/keyboard/keyboard.cpp:682
 msgid "Completion is enabled."
 msgstr "補完は有効です。"
 
@@ -529,7 +529,7 @@ msgid "Configuration:"
 msgstr "設定:"
 
 #: src/ui/classic/xcbtraywindow.cpp:38
-#: src/modules/notificationitem/dbusmenu.cpp:253
+#: src/modules/notificationitem/dbusmenu.cpp:254
 msgid "Configure"
 msgstr "設定"
 
@@ -613,7 +613,7 @@ msgstr "入力メソッドをオフにする"
 msgid "Debug information from dbus:"
 msgstr "dbus からのデバッグ情報:"
 
-#: src/lib/fcitx/inputmethodmanager.cpp:138 src/lib/fcitx/instance.cpp:358
+#: src/lib/fcitx/inputmethodmanager.cpp:138 src/lib/fcitx/instance.cpp:360
 #: src/ui/classic/themes/default/theme.conf.in:3
 msgid "Default"
 msgstr "デフォルト"
@@ -659,7 +659,7 @@ msgstr "デスクトップ環境:"
 msgid "Desktop environment is ${1}."
 msgstr "デスクトップ環境は ${1} です。"
 
-#: src/modules/wayland/waylandmodule.cpp:586
+#: src/modules/wayland/waylandmodule.cpp:606
 msgid ""
 "Detect GTK_IM_MODULE and QT_IM_MODULE being set and Wayland Input method "
 "frontend is working. It is recommended to unset GTK_IM_MODULE and "
@@ -672,7 +672,7 @@ msgstr ""
 "詳しくは https://fcitx-im.org/wiki/Using_Fcitx_5_on_Wayland#KDE_Plasma をご覧"
 "ください。"
 
-#: src/modules/wayland/waylandmodule.cpp:615
+#: src/modules/wayland/waylandmodule.cpp:635
 msgid ""
 "Detect GTK_IM_MODULE being set and Wayland Input method frontend is working. "
 "It is recommended to unset GTK_IM_MODULE and use Wayland input method "
@@ -832,7 +832,7 @@ msgid "Execute"
 msgstr "実行"
 
 #: src/ui/classic/xcbtraywindow.cpp:40
-#: src/modules/notificationitem/dbusmenu.cpp:267
+#: src/modules/notificationitem/dbusmenu.cpp:268
 msgid "Exit"
 msgstr "閉じる"
 
@@ -853,7 +853,7 @@ msgctxt "Key name"
 msgid "Favorites"
 msgstr "お気に入り"
 
-#: src/modules/wayland/waylandmodule.cpp:558
+#: src/modules/wayland/waylandmodule.cpp:578
 msgid "Fcitx"
 msgstr "Fcitx"
 
@@ -866,9 +866,9 @@ msgstr "Fcitx 5"
 msgid "Fcitx 5 Configuration"
 msgstr "Fcitx5 設定"
 
-#: data/org.fcitx.Fcitx5.WaylandLauncher.desktop.in.in:3
+#: data/fcitx5-wayland-launcher.desktop.in.in:3
 msgid "Fcitx 5 Wayland Launcher (Experimental)"
-msgstr ""
+msgstr "Fcitx 5 Wayland ランチャー（実験的）"
 
 #: data/fcitx5-diagnose.sh:1564
 msgid "Fcitx Addons:"
@@ -891,7 +891,7 @@ msgstr ""
 "Fcitx は入力メソッドフレームワークです。自分の言語を入力するのに役立ちます。"
 "また、タイピング体験を向上させるさまざまなアドオンの選択肢も備えています。"
 
-#: src/modules/wayland/waylandmodule.cpp:573
+#: src/modules/wayland/waylandmodule.cpp:593
 msgid ""
 "Fcitx should be launched by KWin under KDE Wayland in order to use Wayland "
 "input method frontend. This can improve the experience when using Fcitx on "
@@ -968,7 +968,7 @@ msgstr ""
 "ている場合は日本語の書体で文字を表示します。この機能を使用するには多言語フォ"
 "ントを指定する必要があります。"
 
-#: src/modules/wayland/waylandmodule.cpp:641
+#: src/modules/wayland/waylandmodule.cpp:661
 msgid "For more details see https://fcitx-im.org/wiki/Using_Fcitx_5_on_Wayland"
 msgstr ""
 "詳細については、https://fcitx-im.org/wiki/Using_Fcitx_5_on_Wayland を参照して"
@@ -1078,16 +1078,16 @@ msgid "Green"
 msgstr "Green"
 
 #: src/ui/classic/xcbtraywindow.cpp:36
-#: src/modules/notificationitem/dbusmenu.cpp:243
+#: src/modules/notificationitem/dbusmenu.cpp:244
 msgid "Group"
 msgstr "グループ"
 
-#: src/lib/fcitx/instance.cpp:415
+#: src/lib/fcitx/instance.cpp:417
 #, c++-format
 msgid "Group {0}: {1}"
 msgstr "グループ {0}: {1}"
 
-#: src/lib/fcitx/instance.cpp:360
+#: src/lib/fcitx/instance.cpp:362
 #, c++-format
 msgid "Group {}"
 msgstr "グループ {}"
@@ -1305,13 +1305,12 @@ msgstr ""
 msgid "Image"
 msgstr "画像"
 
-#: src/im/keyboard/keyboard.cpp:684 src/lib/fcitx/instance.cpp:450
-#: src/lib/fcitx/instance.cpp:677 src/lib/fcitx/instance.cpp:839
+#: src/im/keyboard/keyboard.cpp:685 src/lib/fcitx/instance.cpp:452
+#: src/lib/fcitx/instance.cpp:679 src/lib/fcitx/instance.cpp:841
 #: src/modules/notificationitem/notificationitem.cpp:147
 #: src/modules/notificationitem/notificationitem.cpp:235
-#: src/modules/xcb/xcbconnection.cpp:555
-#: data/org.fcitx.Fcitx5.WaylandLauncher.desktop.in.in:4
-#: data/org.fcitx.Fcitx5.desktop.in.in:4
+#: src/modules/xcb/xcbconnection.cpp:555 data/org.fcitx.Fcitx5.desktop.in.in:4
+#: data/fcitx5-wayland-launcher.desktop.in.in:4
 #: data/org.fcitx.Fcitx5.metainfo.xml.in:7
 msgid "Input Method"
 msgstr "入力メソッド"
@@ -1385,7 +1384,7 @@ msgstr ""
 "コンポジターが ${1} で使用されるテキスト入力プロトコルを完全にサポートしてい"
 "る場合は、${1} に組み込まれた Wayland IM モジュールを使用してもかまいません。"
 
-#: src/modules/wayland/waylandmodule.cpp:598
+#: src/modules/wayland/waylandmodule.cpp:618
 msgid ""
 "It is recommended to install Input Method Panel GNOME Shell Extensions to "
 "provide the input method popup. https://extensions.gnome.org/extension/261/"
@@ -1432,16 +1431,16 @@ msgstr "カタカナ"
 msgid "Key"
 msgstr "キー"
 
-#: src/im/keyboard/keyboard.cpp:315 src/im/keyboard/keyboard.conf.in.in:3
+#: src/im/keyboard/keyboard.cpp:316 src/im/keyboard/keyboard.conf.in.in:3
 msgid "Keyboard"
 msgstr "キーボード"
 
-#: src/im/keyboard/keyboard.cpp:231
+#: src/im/keyboard/keyboard.cpp:232
 #, c++-format
 msgid "Keyboard - {0}"
 msgstr "キーボード - {0}"
 
-#: src/im/keyboard/keyboard.cpp:250
+#: src/im/keyboard/keyboard.cpp:251
 #, c++-format
 msgid "Keyboard - {0} - {1}"
 msgstr "キーボード - {0} - {1}"
@@ -1986,7 +1985,7 @@ msgstr "次ページボタン"
 msgid "No"
 msgstr "いいえ"
 
-#: src/modules/clipboard/clipboard.cpp:355
+#: src/modules/clipboard/clipboard.cpp:354
 msgid "No clipboard history."
 msgstr "クリップボード履歴がありません。"
 
@@ -2029,7 +2028,7 @@ msgstr "NumLock"
 msgid "Number of entries"
 msgstr "エントリー数"
 
-#: src/im/keyboard/keyboard.cpp:670
+#: src/im/keyboard/keyboard.cpp:671
 msgid ""
 "Only emoji support is found. To enable spell checking, you may need to "
 "install spell check data for the language."
@@ -2157,15 +2156,15 @@ msgctxt "Key name"
 msgid "Power Off"
 msgstr "電源オフ"
 
-#: src/lib/fcitx/instance.cpp:839
+#: src/lib/fcitx/instance.cpp:841
 msgid "Preedit"
 msgstr "プリエディット"
 
-#: src/lib/fcitx/instance.cpp:841
+#: src/lib/fcitx/instance.cpp:843
 msgid "Preedit disabled"
 msgstr "プリエディット無効"
 
-#: src/lib/fcitx/instance.cpp:840
+#: src/lib/fcitx/instance.cpp:842
 msgid "Preedit enabled"
 msgstr "プリエディット有効"
 
@@ -2237,7 +2236,7 @@ msgid "Reply"
 msgstr "リプライ"
 
 #: src/ui/classic/xcbtraywindow.cpp:39
-#: src/modules/notificationitem/dbusmenu.cpp:261
+#: src/modules/notificationitem/dbusmenu.cpp:262
 msgid "Restart"
 msgstr "再起動"
 
@@ -2346,7 +2345,7 @@ msgctxt "Key name"
 msgid "Send"
 msgstr "送信"
 
-#: src/modules/wayland/waylandmodule.cpp:630
+#: src/modules/wayland/waylandmodule.cpp:650
 msgid ""
 "Sending keyboard layout configuration to wayland compositor from Fcitx is "
 "not yet supported on current desktop. You may still use Fcitx's internal "
@@ -2465,8 +2464,8 @@ msgctxt "Key name"
 msgid "Standby"
 msgstr "スタンバイ"
 
-#: data/org.fcitx.Fcitx5.WaylandLauncher.desktop.in.in:5
 #: data/org.fcitx.Fcitx5.desktop.in.in:5
+#: data/fcitx5-wayland-launcher.desktop.in.in:5
 msgid "Start Input Method"
 msgstr "入力メソッドを開始"
 
@@ -2507,17 +2506,17 @@ msgctxt "Key name"
 msgid "Suspend"
 msgstr "サスペンド"
 
-#: src/lib/fcitx/instance.cpp:451 src/lib/fcitx/instance.cpp:678
+#: src/lib/fcitx/instance.cpp:453 src/lib/fcitx/instance.cpp:680
 #: src/modules/xcb/xcbconnection.cpp:556
 msgid "Switch group"
 msgstr "グループの切り替え"
 
-#: src/lib/fcitx/instance.cpp:452 src/modules/xcb/xcbconnection.cpp:557
+#: src/lib/fcitx/instance.cpp:454 src/modules/xcb/xcbconnection.cpp:557
 #, c++-format
 msgid "Switch group to {0}"
 msgstr "{0} にグループを切り替える"
 
-#: src/lib/fcitx/instance.cpp:679
+#: src/lib/fcitx/instance.cpp:681
 #, c++-format
 msgid "Switched group to {0}"
 msgstr "{0} にグループを切り替えました"
@@ -2736,7 +2735,7 @@ msgstr "Undo"
 msgid "Unicode"
 msgstr "Unicode"
 
-#: src/modules/unicode/unicode.cpp:456
+#: src/modules/unicode/unicode.cpp:455
 msgid "Unicode: "
 msgstr "Unicode:"
 
@@ -2848,7 +2847,7 @@ msgstr ""
 msgid "Wayland"
 msgstr "Wayland"
 
-#: src/modules/wayland/waylandmodule.cpp:558
+#: src/modules/wayland/waylandmodule.cpp:578
 msgid "Wayland Diagnose"
 msgstr "ウェイランド診断"
 
@@ -3044,17 +3043,17 @@ msgstr "sudo の環境変数"
 msgid "version:"
 msgstr "バージョン:"
 
-#: src/im/keyboard/keyboard.cpp:292
+#: src/im/keyboard/keyboard.cpp:293
 #, c++-format
 msgid "{0} (Not Available)"
 msgstr "{0} (利用できません)"
 
-#: src/lib/fcitx/instance.cpp:409
+#: src/lib/fcitx/instance.cpp:411
 #, c++-format
 msgid "{0} (Not available)"
 msgstr "{0} (使用不可)"
 
-#: src/lib/fcitx/instance.cpp:406
+#: src/lib/fcitx/instance.cpp:408
 #, c++-format
 msgid "{0} ({1})"
 msgstr "{0} ({1})"
