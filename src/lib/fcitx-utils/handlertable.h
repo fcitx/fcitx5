@@ -48,9 +48,9 @@ private:
 template <typename Key, typename T>
 class MultiHandlerTable {
     friend class MultiHandlerTableEntry<Key, T>;
-    typedef std::unordered_map<Key,
-                               IntrusiveListFor<MultiHandlerTableEntry<Key, T>>>
-        map_type;
+    using map_type =
+        std::unordered_map<Key,
+                           IntrusiveListFor<MultiHandlerTableEntry<Key, T>>>;
 
 public:
     MultiHandlerTable(std::function<bool(const Key &)> addKey = {},

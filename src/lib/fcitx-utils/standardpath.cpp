@@ -8,11 +8,11 @@
 #include "standardpath.h"
 #include <dirent.h>
 #include <fcntl.h>
-#include <string.h>
 #include <sys/stat.h>
 #include <unistd.h>
 #include <algorithm>
 #include <atomic>
+#include <cstring>
 #include <stdexcept>
 #include <unordered_map>
 #include <unordered_set>
@@ -43,7 +43,7 @@ std::string constructPath(const std::string &basepath,
 
 } // namespace
 
-StandardPathFile::~StandardPathFile() {}
+StandardPathFile::~StandardPathFile() = default;
 
 int StandardPathFile::release() { return fd_.release(); }
 
@@ -261,7 +261,7 @@ StandardPath::StandardPath(bool skipFcitxPath, bool skipUserPath)
 StandardPath::StandardPath(bool skipFcitxPath)
     : StandardPath(skipFcitxPath, false) {}
 
-StandardPath::~StandardPath() {}
+StandardPath::~StandardPath() = default;
 
 const StandardPath &StandardPath::global() {
     bool skipFcitx = checkBoolEnvVar("SKIP_FCITX_PATH");
@@ -544,7 +544,8 @@ std::vector<StandardPathFile> StandardPath::openAll(StandardPath::Type type,
 StandardPathTempFile
 StandardPath::openUserTemp(Type type, const std::string &pathOrig) const {
     std::string path = pathOrig + "_XXXXXX";
-    std::string fullPath, fullPathOrig;
+    std::string fullPath;
+    std::string fullPathOrig;
     if (isAbsolutePath(pathOrig)) {
         fullPath = std::move(path);
         fullPathOrig = pathOrig;

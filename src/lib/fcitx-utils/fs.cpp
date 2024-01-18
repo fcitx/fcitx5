@@ -6,10 +6,10 @@
  */
 
 #include "fs.h"
-#include <errno.h>
 #include <sys/stat.h>
 #include <unistd.h>
 #include <algorithm>
+#include <cerrno>
 #include "mtime_p.h"
 #include "standardpath.h"
 #include "stringutils.h"

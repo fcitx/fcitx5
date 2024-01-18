@@ -71,7 +71,7 @@ public:
         : self_(std::make_unique<std::shared_ptr<bool>>(
               std::make_shared<bool>())) {}
     TrackableObject(const TrackableObject &) = delete;
-    virtual ~TrackableObject() {}
+    virtual ~TrackableObject() = default;
 
     TrackableObjectReference<T> watch() {
         return TrackableObjectReference<T>(*self_, static_cast<T *>(this));

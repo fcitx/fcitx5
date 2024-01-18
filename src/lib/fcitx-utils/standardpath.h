@@ -48,10 +48,11 @@ public:
 
 template <typename First, typename... Rest>
 class Chainer<First, Rest...> : Chainer<Rest...> {
-    typedef Chainer<Rest...> super_class;
+    using super_class = Chainer<Rest...>;
 
 public:
-    Chainer(First first, Rest... rest) : super_class(std::move(rest)...), filter(std::move(first)) {}
+    Chainer(First first, Rest... rest)
+        : super_class(std::move(rest)...), filter(std::move(first)) {}
 
     bool operator()(const std::string &path, const std::string &dir,
                     bool user) {
@@ -165,9 +166,9 @@ private:
 
 class StandardPathPrivate;
 
-typedef std::map<std::string, StandardPathFile> StandardPathFileMap;
-typedef std::map<std::string, std::vector<StandardPathFile>>
-    StandardPathFilesMap;
+using StandardPathFileMap = std::map<std::string, StandardPathFile>;
+using StandardPathFilesMap =
+    std::map<std::string, std::vector<StandardPathFile>>;
 
 /// \brief Utility class to open, locate, list files based on XDG standard.
 class FCITXUTILS_EXPORT StandardPath {

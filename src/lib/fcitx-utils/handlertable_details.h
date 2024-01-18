@@ -34,7 +34,7 @@ public:
     HandlerTableEntry(Args &&...args)
         : handler_(std::make_shared<std::unique_ptr<T>>(
               std::make_unique<T>(std::forward<Args>(args)...))) {}
-    virtual ~HandlerTableEntry() { handler_->reset(); }
+    ~HandlerTableEntry() override { handler_->reset(); }
 
     HandlerTableData<T> handler() const { return handler_; }
 
@@ -49,9 +49,9 @@ class ListHandlerTableEntry : public HandlerTableEntry<T> {
         ListHandlerTableEntry<T>, &ListHandlerTableEntry<T>::node_>;
 
 public:
-    typedef struct IntrusiveListMemberNodeGetter<ListHandlerTableEntry,
-                                                 &ListHandlerTableEntry::node_>
-        node_getter_type;
+    using node_getter_type =
+        struct IntrusiveListMemberNodeGetter<ListHandlerTableEntry,
+                                             &ListHandlerTableEntry::node_>;
 
     template <typename... Args>
     ListHandlerTableEntry(Args &&...args)
@@ -64,7 +64,7 @@ class MultiHandlerTable;
 
 template <typename Key, typename T>
 class MultiHandlerTableEntry : public HandlerTableEntry<T> {
-    typedef MultiHandlerTable<Key, T> table_type;
+    using table_type = MultiHandlerTable<Key, T>;
 
 private:
     table_type *table_;
@@ -74,9 +74,9 @@ private:
                                                 &MultiHandlerTableEntry::node_>;
 
 public:
-    typedef struct IntrusiveListMemberNodeGetter<MultiHandlerTableEntry,
-                                                 &MultiHandlerTableEntry::node_>
-        node_getter_type;
+    using node_getter_type =
+        struct IntrusiveListMemberNodeGetter<MultiHandlerTableEntry,
+                                             &MultiHandlerTableEntry::node_>;
     MultiHandlerTableEntry(table_type *table, Key key, T handler)
         : HandlerTableEntry<T>(std::move(handler)), table_(table), key_(std::move(key)) {}
     ~MultiHandlerTableEntry();
@@ -106,11 +106,11 @@ public:
 
     class iterator {
     public:
-        typedef std::input_iterator_tag iterator_category;
-        typedef T value_type;
-        typedef std::ptrdiff_t difference_type;
-        typedef value_type &reference;
-        typedef value_type *pointer;
+        using iterator_category = std::input_iterator_tag;
+        using value_type = T;
+        using difference_type = std::ptrdiff_t;
+        using reference = value_type &;
+        using pointer = value_type *;
 
         iterator(typename container_type::const_iterator iter,
                  typename container_type::const_iterator end)

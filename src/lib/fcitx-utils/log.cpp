@@ -158,21 +158,20 @@ void Log::setLogRule(const std::string &ruleString) {
         if (rule == "notimedate") {
             globalLogConfig.showTimeDate = false;
             continue;
-        } else {
-            auto ruleItem = stringutils::split(rule, "=");
-            if (ruleItem.size() != 2) {
-                continue;
+        }
+
+        auto ruleItem = stringutils::split(rule, "=");
+        if (ruleItem.size() != 2) {
+            continue;
+        }
+        auto &name = ruleItem[0];
+        try {
+            auto level = std::stoi(ruleItem[1]);
+            if (validateLogLevel(level)) {
+                parsedRules.emplace_back(name, static_cast<LogLevel>(level));
             }
-            auto &name = ruleItem[0];
-            try {
-                auto level = std::stoi(ruleItem[1]);
-                if (validateLogLevel(level)) {
-                    parsedRules.emplace_back(name,
-                                             static_cast<LogLevel>(level));
-                }
-            } catch (const std::exception &) {
-                continue;
-            }
+        } catch (const std::exception &) {
+            continue;
         }
     }
     LogRegistry::instance().setLogRules(parsedRules);

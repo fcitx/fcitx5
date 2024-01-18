@@ -8,7 +8,7 @@
 #ifndef _FCITX_UTILS_KEYNAMETABLE_H_
 #define _FCITX_UTILS_KEYNAMETABLE_H_
 
-
+#include <cstdint>
 #include <fcitx-utils/macros.h>
 
 FCITX_C_DECL_BEGIN

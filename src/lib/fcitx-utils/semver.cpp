@@ -7,12 +7,15 @@
 
 #include "semver.h"
 #include <charconv>
+#include <string>
 #include <fmt/format.h>
 #include "charutils.h"
 #include "misc.h"
 #include "stringutils.h"
 
 namespace fcitx {
+
+namespace {
 
 bool isIdChar(char c) {
     return charutils::islower(c) || charutils::isupper(c) || c == '-' ||
@@ -44,7 +47,8 @@ std::optional<uint32_t> consumeNumericIdentifier(std::string_view &str) {
 std::optional<std::vector<PreReleaseId>>
 consumePrereleaseIds(std::string_view &data) {
     std::vector<PreReleaseId> preReleaseIds;
-    auto endOfVersion = std::find_if_not(data.begin(), data.end(), isIdChar);
+    std::string_view::const_iterator endOfVersion =
+        std::find_if_not(data.begin(), data.end(), isIdChar);
     auto length = std::distance(data.begin(), endOfVersion);
     auto idString = data.substr(0, length);
     auto ids = stringutils::split(idString, ".",
@@ -85,6 +89,10 @@ std::optional<std::vector<std::string>> consumeBuild(std::string_view &data) {
     return std::nullopt;
 }
 
+const std::string kEmptyString;
+
+} // namespace
+
 PreReleaseId::PreReleaseId(uint32_t id) : value_(id) {}
 
 PreReleaseId::PreReleaseId(std::string id) : value_(std::move(id)) {}
@@ -104,19 +112,30 @@ int PreReleaseId::compare(const PreReleaseId &other) const noexcept {
         return isNum ? -1 : 1;
     }
     if (isNum && otherIsNum) {
-        return numericId() - other.numericId();
+        if (numericId() == other.numericId()) {
+            return 0;
+        }
+        return numericId() < other.numericId() ? -1 : 1;
     }
 
     return id().compare(other.id());
 }
 
-const std::string &PreReleaseId::id() const {
-    return std::get<std::string>(value_);
+const std::string &PreReleaseId::id() const noexcept {
+    if (const auto *value = std::get_if<std::string>(&value_)) {
+        return *value;
+    }
+    return kEmptyString;
 }
 
-uint32_t PreReleaseId::numericId() const { return std::get<uint32_t>(value_); }
+uint32_t PreReleaseId::numericId() const noexcept {
+    if (const auto *value = std::get_if<uint32_t>(&value_)) {
+        return *value;
+    }
+    return 0;
+}
 
-bool PreReleaseId::isNumeric() const {
+bool PreReleaseId::isNumeric() const noexcept {
     return std::holds_alternative<uint32_t>(value_);
 }
 
@@ -234,15 +253,15 @@ std::optional<SemanticVersion> SemanticVersion::parse(std::string_view data) {
 
 int SemanticVersion::compare(const SemanticVersion &other) const noexcept {
     if (major_ != other.major_) {
-        return major_ - other.major_;
+        return major_ < other.major_ ? -1 : 1;
     }
 
     if (minor_ != other.minor_) {
-        return minor_ - other.minor_;
+        return minor_ < other.minor_ ? -1 : 1;
     }
 
     if (patch_ != other.patch_) {
-        return patch_ - other.patch_;
+        return patch_ < other.patch_ ? -1 : 1;
     }
 
     bool preRelease = isPreRelease();
@@ -265,8 +284,10 @@ int SemanticVersion::compare(const SemanticVersion &other) const noexcept {
         }
     }
 
-    return static_cast<ssize_t>(preReleaseIds_.size()) -
-           static_cast<ssize_t>(other.preReleaseIds_.size());
+    if (preReleaseIds_.size() == other.preReleaseIds_.size()) {
+        return 0;
+    }
+    return preReleaseIds_.size() < other.preReleaseIds_.size() ? -1 : 1;
 }
 
 } // namespace fcitx
