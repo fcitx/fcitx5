@@ -13,15 +13,14 @@
 #include <fcitx-utils/dbus/message.h>
 #include <fcitx-utils/dbus/objectvtable.h>
 #include <fcitx-utils/event.h>
+#include "fcitx-utils/macros.h"
 
 /// \addtogroup FcitxUtils
 /// \{
 /// \file
 /// \brief API for DBus bus.
 
-namespace fcitx {
-
-namespace dbus {
+namespace fcitx::dbus {
 
 /**
  * Virtual base class represent some internal registration of the bus.
@@ -59,7 +58,7 @@ public:
     Bus(Bus &&other) noexcept;
 
     /// Check if the connection is open.
-    bool isOpen() const;
+    FCITX_NODISCARD bool isOpen() const;
 
     /// Attach this bus to an event loop.
     void attachEventLoop(EventLoop *loop);
@@ -75,7 +74,7 @@ public:
      *
      * @since 5.0.22
      */
-    EventLoop *eventLoop() const;
+    FCITX_NODISCARD EventLoop *eventLoop() const;
 
     FCITX_NODISCARD std::unique_ptr<Slot> addMatch(const MatchRule &rule,
                                                    MessageCallback callback);
@@ -113,7 +112,7 @@ public:
      *
      * @return internal pointer
      */
-    void *nativeHandle() const;
+    FCITX_NODISCARD void *nativeHandle() const;
 
     /**
      * Request the dbus name on the bus.
@@ -162,7 +161,6 @@ private:
     std::unique_ptr<BusPrivate> d_ptr;
     FCITX_DECLARE_PRIVATE(Bus);
 };
-} // namespace dbus
 } // namespace fcitx
 
 #endif // _FCITX_UTILS_DBUS_BUS_H_

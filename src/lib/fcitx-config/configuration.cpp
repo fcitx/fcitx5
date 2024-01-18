@@ -6,6 +6,7 @@
  */
 
 #include "configuration.h"
+#include <algorithm>
 #include <cassert>
 #include <exception>
 #include <list>
@@ -24,7 +25,7 @@ public:
 Configuration::Configuration()
     : d_ptr(std::make_unique<ConfigurationPrivate>()) {}
 
-Configuration::~Configuration() {}
+Configuration::~Configuration() = default;
 
 void Configuration::dumpDescription(RawConfig &config) const {
     return dumpDescriptionImpl(config, {});
@@ -55,7 +56,7 @@ void Configuration::dumpDescriptionImpl(
             auto subConfigPath = parentPaths;
             subConfigPath.push_back(option->path());
             std::string subTypeName = subConfig->typeName();
-            auto oldTypeName = descConfigPtr->valueByPath("Type");
+            const auto *oldTypeName = descConfigPtr->valueByPath("Type");
             // Replace the "Type" with the full name we want.
             // Path$To$Value$TypeName
             if (oldTypeName &&
@@ -79,14 +80,13 @@ void Configuration::dumpDescriptionImpl(
 
 bool Configuration::compareHelper(const Configuration &other) const {
     FCITX_D();
-    for (const auto &path : d->optionsOrder_) {
+    return std::all_of(d->optionsOrder_.begin(), d->optionsOrder_.end(), [d, &other] (const auto &path) {
         auto optionIter = d->options_.find(path);
         assert(optionIter != d->options_.end());
         auto otherOptionIter = other.d_func()->options_.find(path);
-        if (*optionIter->second != *otherOptionIter->second) {
-            return false;
-        }
-    }
+        assert(optionIter != other.d_func()->options_.end());
+        return *optionIter->second == *otherOptionIter->second;
+    });
     return true;
 }
 
@@ -150,9 +150,9 @@ void Configuration::syncDefaultValueToCurrent() {
         // Unfortunately on certain system OptionBaseV2 doesn't have key
         // function emit type info, so we have to add OptionBaseV3 with a
         // non-abstract virtual funciton.
-        if (auto optionV3 = dynamic_cast<OptionBaseV3 *>(iter->second)) {
+        if (auto *optionV3 = dynamic_cast<OptionBaseV3 *>(iter->second)) {
             optionV3->syncDefaultValueToCurrent();
-        } else if (auto optionV2 = dynamic_cast<OptionBaseV2 *>(iter->second)) {
+        } else if (auto *optionV2 = dynamic_cast<OptionBaseV2 *>(iter->second)) {
             optionV2->syncDefaultValueToCurrent();
         }
     }

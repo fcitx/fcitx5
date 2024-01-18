@@ -84,9 +84,8 @@ public:
         actions_;
     std::unordered_map<int, Action *> idToAction_;
 
-    typedef std::list<std::pair<
-        InputContext *, std::unordered_set<UserInterfaceComponent, EnumHash>>>
-        UIUpdateList;
+    using UIUpdateList = std::list<std::pair<
+        InputContext *, std::unordered_set<UserInterfaceComponent, EnumHash>>>;
     UIUpdateList updateList_;
     std::unordered_map<InputContext *, UIUpdateList::iterator> updateIndex_;
     AddonManager *addonManager_;
@@ -140,7 +139,7 @@ void UserInterfaceManagerPrivate::updateDispatch(UserInterfaceComponent comp,
 UserInterfaceManager::UserInterfaceManager(AddonManager *addonManager)
     : d_ptr(std::make_unique<UserInterfaceManagerPrivate>(addonManager)) {}
 
-UserInterfaceManager::~UserInterfaceManager() {}
+UserInterfaceManager::~UserInterfaceManager() = default;
 
 void UserInterfaceManager::load(const std::string &uiName) {
     FCITX_D();
@@ -158,8 +157,8 @@ void UserInterfaceManager::load(const std::string &uiName) {
         d->uis_.insert(d->uis_.end(), names.begin(), names.end());
         std::sort(d->uis_.begin(), d->uis_.end(),
                   [d](const std::string &lhs, const std::string &rhs) {
-                      auto linfo = d->addonManager_->addonInfo(lhs);
-                      auto rinfo = d->addonManager_->addonInfo(rhs);
+                      const auto *linfo = d->addonManager_->addonInfo(lhs);
+                      const auto *rinfo = d->addonManager_->addonInfo(rhs);
                       if (!linfo) {
                           return false;
                       }

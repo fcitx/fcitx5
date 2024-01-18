@@ -32,7 +32,7 @@ namespace fcitx {
 template <typename Enum>
 class Flags {
 public:
-    typedef typename std::underlying_type_t<Enum> storage_type;
+    using storage_type = typename std::underlying_type_t<Enum>;
     constexpr Flags(Enum f) : flags_(static_cast<storage_type>(f)) {}
     explicit Flags(storage_type i = 0) : flags_(i) {}
     constexpr Flags(const std::initializer_list<Enum> &l) : flags_(0) {

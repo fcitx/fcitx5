@@ -20,7 +20,7 @@ bool isIdChar(char c) {
 }
 
 std::optional<uint32_t> consumeNumericIdentifier(std::string_view &str) {
-    auto endOfNum =
+    const auto *endOfNum =
         std::find_if_not(str.begin(), str.end(), charutils::isdigit);
     auto length = std::distance(str.begin(), endOfNum);
     if (length == 0) {

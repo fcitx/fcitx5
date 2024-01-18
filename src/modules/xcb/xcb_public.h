@@ -22,19 +22,19 @@
 struct xkb_state;
 
 namespace fcitx {
-typedef std::array<std::string, 5> XkbRulesNames;
+using XkbRulesNames = std::array<std::string, 5>;
 
 #ifndef FCITX_NO_XCB
-typedef std::function<bool(xcb_connection_t *conn, xcb_generic_event_t *event)>
-    XCBEventFilter;
-typedef std::function<void(const std::string &name, xcb_connection_t *conn,
-                           int screen, FocusGroup *group)>
-    XCBConnectionCreated;
-typedef std::function<void(const std::string &name, xcb_connection_t *conn)>
-    XCBConnectionClosed;
-typedef std::function<void(xcb_atom_t selection)> XCBSelectionNotifyCallback;
-typedef std::function<void(xcb_atom_t, const char *, size_t)>
-    XCBConvertSelectionCallback;
+using XCBEventFilter =
+    std::function<bool(xcb_connection_t *conn, xcb_generic_event_t *event)>;
+using XCBConnectionCreated =
+    std::function<void(const std::string &name, xcb_connection_t *conn,
+                       int screen, FocusGroup *group)>;
+using XCBConnectionClosed =
+    std::function<void(const std::string &name, xcb_connection_t *conn)>;
+using XCBSelectionNotifyCallback = std::function<void(xcb_atom_t selection)>;
+using XCBConvertSelectionCallback =
+    std::function<void(xcb_atom_t, const char *, size_t)>;
 #endif
 
 } // namespace fcitx

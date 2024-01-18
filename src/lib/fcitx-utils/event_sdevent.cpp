@@ -49,7 +49,7 @@ static IOEventFlags EpollFlagsToIOEventFlags(uint32_t flags) {
 template <typename Interface>
 struct SDEventSourceBase : public Interface {
 public:
-    ~SDEventSourceBase() {
+    ~SDEventSourceBase() override {
         if (eventSource_) {
             sd_event_source_set_enabled(eventSource_, SD_EVENT_OFF);
             sd_event_source_set_userdata(eventSource_, nullptr);
@@ -60,8 +60,8 @@ public:
     void setEventSource(sd_event_source *event) { eventSource_ = event; }
 
     bool isEnabled() const override {
-        int result = 0, err;
-        if ((err = sd_event_source_get_enabled(eventSource_, &result)) < 0) {
+        int result = 0;
+        if (int err = sd_event_source_get_enabled(eventSource_, &result); err < 0) {
             throw EventLoopException(err);
         }
         return result != SD_EVENT_OFF;
@@ -73,8 +73,8 @@ public:
     }
 
     bool isOneShot() const override {
-        int result = 0, err;
-        if ((err = sd_event_source_get_enabled(eventSource_, &result)) < 0) {
+        int result = 0;
+        if (int err = sd_event_source_get_enabled(eventSource_, &result); err < 0) {
             throw EventLoopException(err);
         }
         return result == SD_EVENT_ONESHOT;
@@ -207,7 +207,7 @@ public:
 
 EventLoop::EventLoop() : d_ptr(std::make_unique<EventLoopPrivate>()) {}
 
-EventLoop::~EventLoop() {}
+EventLoop::~EventLoop() = default;
 
 const char *EventLoop::impl() { return "sd-event"; }
 

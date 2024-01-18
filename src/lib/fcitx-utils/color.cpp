@@ -9,6 +9,7 @@
 #include <array>
 #include <climits>
 #include <cmath>
+#include <cstdint>
 #include <cstdio>
 #include "charutils.h"
 #include "stringutils.h"
@@ -18,7 +19,7 @@ static unsigned short roundColor(unsigned short c) {
     return c <= 255 ? c : 255;
 }
 
-static float roundColorF(float f) { return f < 0 ? 0.0f : (f > 1.0 ? 1.0 : f); }
+static float roundColorF(float f) { return f < 0 ? 0.0F : (f > 1.0 ? 1.0F : f); }
 
 static unsigned short extendColor(unsigned short c) {
     c = roundColor(c);
@@ -32,7 +33,8 @@ static inline char to_hex_char(int v) {
 static inline unsigned short to_hex_digit(char hi, char lo) {
     hi = charutils::tolower(hi);
     lo = charutils::tolower(lo);
-    int dhi = 0, dlo = 0;
+    int dhi = 0;
+    int dlo = 0;
     if (hi >= '0' && hi <= '9') {
         dhi = hi - '0';
     } else {
@@ -81,7 +83,10 @@ void Color::setFromString(const char *str) {
             throw ColorParseException();
         }
 
-        unsigned short r, g, b, a;
+        uint16_t r;
+        uint16_t g;
+        uint16_t b;
+        uint16_t a;
         r = to_hex_digit(digits[0], digits[1]);
         digits += 2;
         g = to_hex_digit(digits[0], digits[1]);
@@ -99,7 +104,9 @@ void Color::setFromString(const char *str) {
         blue_ = extendColor(b);
         alpha_ = extendColor(a);
     } else {
-        unsigned short r, g, b;
+        uint16_t r;
+        uint16_t g;
+        uint16_t b;
         if (sscanf(str, "%hu %hu %hu", &r, &g, &b) != 3) {
             throw ColorParseException();
         }
@@ -115,10 +122,10 @@ std::string Color::toString() const {
     std::string result;
     result.push_back('#');
     unsigned short v[] = {
-        static_cast<unsigned short>(red_ >> 8u),
-        static_cast<unsigned short>(green_ >> 8u),
-        static_cast<unsigned short>(blue_ >> 8u),
-        static_cast<unsigned short>(alpha_ >> 8u),
+        static_cast<unsigned short>(red_ >> 8U),
+        static_cast<unsigned short>(green_ >> 8U),
+        static_cast<unsigned short>(blue_ >> 8U),
+        static_cast<unsigned short>(alpha_ >> 8U),
     };
 
     for (auto value : v) {

@@ -21,7 +21,7 @@
 
 namespace fcitx {
 struct FCITXUTILS_EXPORT ColorParseException : public std::exception {
-    virtual const char *what() const noexcept { return "Color parse error"; }
+    const char *what() const noexcept override { return "Color parse error"; }
 };
 
 /// \brief Color class for handling color.
@@ -38,7 +38,11 @@ public:
     std::string toString() const;
 
     bool operator==(const Color &other) const;
-    bool operator!=(const Color &other) { return !operator==(other); }
+    // FIXME: remove this
+    bool operator!=(const Color &other) {
+        return !operator==(other);
+    } // NOLINT(readability-make-member-function-const)
+    bool operator!=(const Color &other) const { return !operator==(other); }
 
     void setFromString(const char *s);
     inline void setFromString(const std::string &s) {
