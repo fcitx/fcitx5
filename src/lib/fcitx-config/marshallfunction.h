@@ -7,11 +7,9 @@
 #ifndef _FCITX_CONFIG_INTOPTION_H_
 #define _FCITX_CONFIG_INTOPTION_H_
 
-#include <type_traits>
 #include <vector>
 #include <fcitx-utils/color.h>
 #include <fcitx-utils/i18nstring.h>
-#include <fcitx-utils/key.h>
 #include <fcitx-utils/semver.h>
 #include "rawconfig.h"
 

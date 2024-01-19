@@ -9,7 +9,6 @@
 
 #include "fcitxconfig_export.h"
 
-#include <functional>
 #include <limits>
 #include <string>
 #include <type_traits>

@@ -5,9 +5,6 @@
  *
  */
 #include "inputbuffer.h"
-#include <exception>
-#include <functional>
-#include <numeric>
 #include <stdexcept>
 #include <vector>
 #include "fcitx-utils/utf8.h"

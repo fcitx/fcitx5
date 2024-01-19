@@ -9,7 +9,6 @@
 
 #include <memory>
 #include <fcitx-utils/connectableobject.h>
-#include <fcitx-utils/handlertable.h>
 #include <fcitx-utils/macros.h>
 #include <fcitx/event.h>
 #include <fcitx/globalconfig.h>
@@ -21,7 +20,6 @@
 namespace fcitx {
 
 class InputContext;
-class KeyEvent;
 class InstancePrivate;
 class EventLoop;
 class AddonManager;

@@ -5,8 +5,6 @@
  *
  */
 #include "eventdispatcher.h"
-#include <fcntl.h>
-#include <unistd.h>
 #include <mutex>
 #include <queue>
 #include <stdexcept>

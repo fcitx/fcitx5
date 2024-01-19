@@ -7,7 +7,6 @@
 #ifndef _FCITX_CONFIG_RAWCONFIG_H_
 #define _FCITX_CONFIG_RAWCONFIG_H_
 
-#include <algorithm>
 #include <functional>
 #include <memory>
 #include <string>

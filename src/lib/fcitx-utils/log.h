@@ -12,7 +12,6 @@
 /// \file
 /// \brief Log utilities.
 
-#include <cstdlib>
 #include <iostream>
 #include <list>
 #include <map>

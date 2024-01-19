@@ -6,15 +6,12 @@
  */
 
 #include "log.h"
-#include <chrono>
 #include <mutex>
 #include <type_traits>
 #include <unordered_set>
-#include <fmt/format.h>
 #if FMT_VERSION >= 50300
 #include <fmt/chrono.h>
 #endif
-#include "fs.h"
 #include "stringutils.h"
 
 namespace fcitx {

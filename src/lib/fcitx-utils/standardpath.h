@@ -24,7 +24,6 @@
 #include <memory>
 #include <string>
 #include <vector>
-#include <fcitx-utils/flags.h>
 #include <fcitx-utils/macros.h>
 #include <fcitx-utils/stringutils.h>
 #include <fcitx-utils/unixfd.h>

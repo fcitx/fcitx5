@@ -7,7 +7,6 @@
 
 #include "configuration.h"
 #include <cassert>
-#include <exception>
 #include <list>
 #include <memory>
 #include <stdexcept>
