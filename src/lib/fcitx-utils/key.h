@@ -200,7 +200,7 @@ public:
     /// Convert a key list to string.
     template <typename Container>
     static std::string
-    keyListToString(Container container,
+    keyListToString(const Container &container,
                     KeyStringFormat format = KeyStringFormat::Portable) {
         std::string result;
         bool first = true;
