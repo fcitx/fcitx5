@@ -148,6 +148,19 @@ void test_move() {
     FCITX_ASSERT(!connection.connected());
 }
 
+void test_self_removal() {
+    fcitx::Signal<void()> signal;
+    int number = 0;
+    fcitx::Connection connection = signal.connect([&connection, &number]() { 
+        connection.disconnect();
+        number = 1234;
+     });
+
+    signal();
+    FCITX_ASSERT(number == 1234);
+    FCITX_ASSERT(!connection.connected());
+}
+
 int main() {
     test_simple_signal();
     test_combiner();
@@ -156,6 +169,7 @@ int main() {
     test_connectable_object();
     test_reference();
     test_move();
+    test_self_removal();
 
     return 0;
 }

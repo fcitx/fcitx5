@@ -57,7 +57,7 @@ auto callWithIndices(const F &func, Sequence<S...>,
 }
 
 template <typename... Args, typename F>
-auto callWithTuple(const F &func, std::tuple<Args...> &tuple) {
+auto callWithTuple(F func, std::tuple<Args...> &tuple) {
     typename MakeSequence<sizeof...(Args)>::type a;
     return callWithIndices(func, a, tuple);
 }
