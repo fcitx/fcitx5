@@ -7,7 +7,6 @@
 #ifndef _FCITX_UTILS_ELEMENT_H_
 #define _FCITX_UTILS_ELEMENT_H_
 
-#include <unordered_set>
 #include <fcitx-utils/connectableobject.h>
 #include "fcitxutils_export.h"
 

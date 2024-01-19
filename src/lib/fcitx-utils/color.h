@@ -10,7 +10,6 @@
 
 #include <ostream>
 #include <string>
-#include <type_traits>
 #include <fcitx-utils/macros.h>
 #include "fcitxutils_export.h"
 
