@@ -549,7 +549,8 @@ void WaylandModule::selfDiagnose() {
 
     bool isWaylandIM = false;
     if (isInFlatpak()) {
-        // In flatpak, ReopenWaylandConnection will not replace existing connection.
+        // In flatpak, ReopenWaylandConnection will not replace existing
+        // connection.
         for (const auto &[_, conn] : conns_) {
             conn->focusGroup()->foreach([&isWaylandIM](InputContext *ic) {
                 if (stringutils::startsWith(ic->frontendName(), "wayland")) {

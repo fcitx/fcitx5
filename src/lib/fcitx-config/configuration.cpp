@@ -80,13 +80,15 @@ void Configuration::dumpDescriptionImpl(
 
 bool Configuration::compareHelper(const Configuration &other) const {
     FCITX_D();
-    return std::all_of(d->optionsOrder_.begin(), d->optionsOrder_.end(), [d, &other] (const auto &path) {
-        auto optionIter = d->options_.find(path);
-        assert(optionIter != d->options_.end());
-        auto otherOptionIter = other.d_func()->options_.find(path);
-        assert(optionIter != other.d_func()->options_.end());
-        return *optionIter->second == *otherOptionIter->second;
-    });
+    return std::all_of(
+        d->optionsOrder_.begin(), d->optionsOrder_.end(),
+        [d, &other](const auto &path) {
+            auto optionIter = d->options_.find(path);
+            assert(optionIter != d->options_.end());
+            auto otherOptionIter = other.d_func()->options_.find(path);
+            assert(optionIter != other.d_func()->options_.end());
+            return *optionIter->second == *otherOptionIter->second;
+        });
     return true;
 }
 
@@ -152,7 +154,8 @@ void Configuration::syncDefaultValueToCurrent() {
         // non-abstract virtual funciton.
         if (auto *optionV3 = dynamic_cast<OptionBaseV3 *>(iter->second)) {
             optionV3->syncDefaultValueToCurrent();
-        } else if (auto *optionV2 = dynamic_cast<OptionBaseV2 *>(iter->second)) {
+        } else if (auto *optionV2 =
+                       dynamic_cast<OptionBaseV2 *>(iter->second)) {
             optionV2->syncDefaultValueToCurrent();
         }
     }

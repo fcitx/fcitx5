@@ -161,6 +161,6 @@ private:
     std::unique_ptr<BusPrivate> d_ptr;
     FCITX_DECLARE_PRIVATE(Bus);
 };
-} // namespace fcitx
+} // namespace fcitx::dbus
 
 #endif // _FCITX_UTILS_DBUS_BUS_H_

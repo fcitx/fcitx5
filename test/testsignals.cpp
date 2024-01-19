@@ -151,10 +151,10 @@ void test_move() {
 void test_self_removal() {
     fcitx::Signal<void()> signal;
     int number = 0;
-    fcitx::Connection connection = signal.connect([&connection, &number]() { 
+    fcitx::Connection connection = signal.connect([&connection, &number]() {
         connection.disconnect();
         number = 1234;
-     });
+    });
 
     signal();
     FCITX_ASSERT(number == 1234);

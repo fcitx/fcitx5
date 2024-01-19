@@ -502,7 +502,8 @@ void Kimpanel::msgV1Handler(dbus::Message &msg) {
                 // make ic has focus.
                 timeEvent_ = instance_->eventLoop().addTimeEvent(
                     CLOCK_MONOTONIC, now(CLOCK_MONOTONIC) + 30000, 0,
-                    [this, actionName = std::move(actionName)](EventSourceTime *, uint64_t) {
+                    [this, actionName = std::move(actionName)](
+                        EventSourceTime *, uint64_t) {
                         if (auto *action =
                                 instance_->userInterfaceManager().lookupAction(
                                     actionName)) {

@@ -13,7 +13,7 @@
 class Data {
 public:
     Data() {}
-    Data(const Data&) :copy_(true) {}
+    Data(const Data &) : copy_(true) {}
 
     bool isCopy() const { return copy_; }
 

@@ -78,7 +78,8 @@ public:
         struct IntrusiveListMemberNodeGetter<MultiHandlerTableEntry,
                                              &MultiHandlerTableEntry::node_>;
     MultiHandlerTableEntry(table_type *table, Key key, T handler)
-        : HandlerTableEntry<T>(std::move(handler)), table_(table), key_(std::move(key)) {}
+        : HandlerTableEntry<T>(std::move(handler)), table_(table),
+          key_(std::move(key)) {}
     ~MultiHandlerTableEntry();
 };
 

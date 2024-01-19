@@ -19,7 +19,9 @@ static unsigned short roundColor(unsigned short c) {
     return c <= 255 ? c : 255;
 }
 
-static float roundColorF(float f) { return f < 0 ? 0.0F : (f > 1.0 ? 1.0F : f); }
+static float roundColorF(float f) {
+    return f < 0 ? 0.0F : (f > 1.0 ? 1.0F : f);
+}
 
 static unsigned short extendColor(unsigned short c) {
     c = roundColor(c);

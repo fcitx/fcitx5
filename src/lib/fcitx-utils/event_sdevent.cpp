@@ -61,7 +61,8 @@ public:
 
     bool isEnabled() const override {
         int result = 0;
-        if (int err = sd_event_source_get_enabled(eventSource_, &result); err < 0) {
+        if (int err = sd_event_source_get_enabled(eventSource_, &result);
+            err < 0) {
             throw EventLoopException(err);
         }
         return result != SD_EVENT_OFF;
@@ -74,7 +75,8 @@ public:
 
     bool isOneShot() const override {
         int result = 0;
-        if (int err = sd_event_source_get_enabled(eventSource_, &result); err < 0) {
+        if (int err = sd_event_source_get_enabled(eventSource_, &result);
+            err < 0) {
             throw EventLoopException(err);
         }
         return result == SD_EVENT_ONESHOT;
