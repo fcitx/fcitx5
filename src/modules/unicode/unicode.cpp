@@ -51,10 +51,9 @@ public:
     }
 
     void select(InputContext *inputContext) const override {
-        auto commit = text().stringAt(0);
+        inputContext->commitString(text().stringAt(0));
         auto *state = inputContext->propertyFor(&q_->factory());
         state->reset(inputContext);
-        inputContext->commitString(commit);
     }
 
     Unicode *q_;
@@ -429,7 +428,7 @@ void Unicode::updateUI(InputContext *inputContext, bool trigger) {
                                               utf8::UCS4ToUTF8(chr), chr);
                     }
                     candidateList->append<DisplayOnlyCandidateWord>(
-                        Text(display));
+                        Text(std::move(display)));
                     if (counter >= limit) {
                         break;
                     }

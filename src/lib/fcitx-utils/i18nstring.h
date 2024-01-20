@@ -15,8 +15,8 @@
 namespace fcitx {
 class FCITXUTILS_EXPORT I18NString {
 public:
-    I18NString() {}
-    virtual ~I18NString() {}
+    I18NString() = default;
+    virtual ~I18NString() = default;
 
     void set(const std::string &str, const std::string &locale = "") {
         if (!locale.empty()) {

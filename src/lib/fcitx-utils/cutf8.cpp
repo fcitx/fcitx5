@@ -151,7 +151,7 @@ int fcitx_ucs4_to_utf8(uint32_t c, char *output) {
 
 FCITXUTILS_EXPORT
 char *fcitx_utf8_get_char(const char *i, uint32_t *chr) {
-    const unsigned char *in = (const unsigned char *)i;
+    const auto *in = reinterpret_cast<const unsigned char *>(i);
     if (!(in[0] & 0x80)) {
         *(chr) = *(in);
         return (char *)in + 1;
@@ -211,9 +211,9 @@ char *fcitx_utf8_get_nth_char(const char *s, uint32_t n) {
 
 static uint32_t fcitx_utf8_get_char_extended(const char *s, int max_len,
                                              int *plen) {
-    const unsigned char *p = (const unsigned char *)s;
+    const auto *p = reinterpret_cast<const unsigned char *>(s);
     int i, len;
-    uint32_t wc = (unsigned char)*p;
+    uint32_t wc = static_cast<unsigned char>(*p);
 
     if (wc < 0x80) {
         if (plen) {

@@ -88,6 +88,9 @@ int32_t WaylandCursor::scale() {
 }
 
 void WaylandCursor::update() {
+    if (!pointer_->enterSerial()) {
+        return;
+    }
     if (cursorShape_) {
         cursorShape_->setShape(pointer_->enterSerial(),
                                WP_CURSOR_SHAPE_DEVICE_V1_SHAPE_DEFAULT);

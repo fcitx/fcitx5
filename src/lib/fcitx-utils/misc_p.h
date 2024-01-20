@@ -38,7 +38,7 @@ bool containerContains(C &&container, V &&value) {
 
 template <typename T>
 class OrderedSet {
-    typedef std::list<T> OrderList;
+    using OrderList = std::list<T>;
 
 public:
     auto begin() { return order_.begin(); }
@@ -134,20 +134,20 @@ private:
     std::unordered_map<K, typename decltype(order_)::iterator, Hash, Pred> map_;
 
 public:
-    typedef decltype(map_) map_type;
-    typedef decltype(order_) list_type;
-    typedef typename map_type::key_type key_type;
-    typedef typename list_type::value_type value_type;
-    typedef typename value_type::second_type mapped_type;
+    using map_type = decltype(map_);
+    using list_type = decltype(order_);
+    using key_type = typename map_type::key_type;
+    using value_type = typename list_type::value_type;
+    using mapped_type = typename value_type::second_type;
 
-    typedef typename list_type::pointer pointer;
-    typedef typename list_type::const_pointer const_pointer;
-    typedef typename list_type::reference reference;
-    typedef typename list_type::const_reference const_reference;
-    typedef typename list_type::iterator iterator;
-    typedef typename list_type::const_iterator const_iterator;
-    typedef typename list_type::size_type size_type;
-    typedef typename list_type::difference_type difference_type;
+    using pointer = typename list_type::pointer;
+    using const_pointer = typename list_type::const_pointer;
+    using reference = typename list_type::reference;
+    using const_reference = typename list_type::const_reference;
+    using iterator = typename list_type::iterator;
+    using const_iterator = typename list_type::const_iterator;
+    using size_type = typename list_type::size_type;
+    using difference_type = typename list_type::difference_type;
 
     OrderedMap() = default;
     OrderedMap(const OrderedMap &other) : order_(other.order_) { fillMap(); }
@@ -308,7 +308,7 @@ static inline bool checkBoolEnvVar(const char *name) {
 
 template <typename T>
 static inline uint32_t FromLittleEndian32(const T *d) {
-    const uint8_t *data = reinterpret_cast<const uint8_t *>(d);
+    const auto *data = reinterpret_cast<const uint8_t *>(d);
     uint32_t t;
     memcpy(&t, data, sizeof(t));
     return le32toh(t);

@@ -13,7 +13,7 @@
 
 FCITX_C_DECL_BEGIN
 
-typedef enum _FcitxKeySym
+typedef enum _FcitxKeySym // NOLINT(modernize-use-using)
 {
 FcitxKey_None = 0x0, 
 FcitxKey_VoidSymbol = 0xffffff, /* Void symbol */

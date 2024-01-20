@@ -7,8 +7,8 @@
 #ifndef _FCITX_UTILS_EVENT_H_
 #define _FCITX_UTILS_EVENT_H_
 
-#include <time.h>
 #include <cstring>
+#include <ctime>
 #include <functional>
 #include <memory>
 #include <stdexcept>
@@ -26,13 +26,13 @@ enum class IOEventFlag {
     EdgeTrigger = (1 << 4),
 };
 
-typedef Flags<IOEventFlag> IOEventFlags;
+using IOEventFlags = Flags<IOEventFlag>;
 
 class FCITXUTILS_EXPORT EventLoopException : public std::runtime_error {
 public:
     EventLoopException(int error);
 
-    int error() const { return errno_; }
+    FCITX_NODISCARD int error() const { return errno_; }
 
 private:
     int errno_;
@@ -40,33 +40,33 @@ private:
 
 struct FCITXUTILS_EXPORT EventSource {
     virtual ~EventSource();
-    virtual bool isEnabled() const = 0;
+    FCITX_NODISCARD virtual bool isEnabled() const = 0;
     virtual void setEnabled(bool enabled) = 0;
-    virtual bool isOneShot() const = 0;
+    FCITX_NODISCARD virtual bool isOneShot() const = 0;
     virtual void setOneShot() = 0;
 };
 
 struct FCITXUTILS_EXPORT EventSourceIO : public EventSource {
-    virtual int fd() const = 0;
+    FCITX_NODISCARD virtual int fd() const = 0;
     virtual void setFd(int fd) = 0;
-    virtual IOEventFlags events() const = 0;
+    FCITX_NODISCARD virtual IOEventFlags events() const = 0;
     virtual void setEvents(IOEventFlags flags) = 0;
-    virtual IOEventFlags revents() const = 0;
+    FCITX_NODISCARD virtual IOEventFlags revents() const = 0;
 };
 
 struct FCITXUTILS_EXPORT EventSourceTime : public EventSource {
     virtual void setNextInterval(uint64_t time);
-    virtual uint64_t time() const = 0;
+    FCITX_NODISCARD virtual uint64_t time() const = 0;
     virtual void setTime(uint64_t time) = 0;
-    virtual uint64_t accuracy() const = 0;
+    FCITX_NODISCARD virtual uint64_t accuracy() const = 0;
     virtual void setAccuracy(uint64_t accuracy) = 0;
-    virtual clockid_t clock() const = 0;
+    FCITX_NODISCARD virtual clockid_t clock() const = 0;
 };
 
-typedef std::function<bool(EventSourceIO *, int fd, IOEventFlags flags)>
-    IOCallback;
-typedef std::function<bool(EventSourceTime *, uint64_t usec)> TimeCallback;
-typedef std::function<bool(EventSource *)> EventCallback;
+using IOCallback =
+    std::function<bool(EventSourceIO *, int fd, IOEventFlags flags)>;
+using TimeCallback = std::function<bool(EventSourceTime *, uint64_t usec)>;
+using EventCallback = std::function<bool(EventSource *)>;
 
 FCITXUTILS_EXPORT uint64_t now(clockid_t clock);
 

@@ -553,9 +553,9 @@ public:
                     }
                     auto distance = dir.sizeDistance(size, scale);
                     if (distance < minSize) {
-                        auto path = checkDirectory(dir, baseDir.first);
-                        if (!path.empty()) {
-                            closestFilename = path;
+                        if (auto path = checkDirectory(dir, baseDir.first);
+                            !path.empty()) {
+                            closestFilename = std::move(path);
                             minSize = distance;
                         }
                     }

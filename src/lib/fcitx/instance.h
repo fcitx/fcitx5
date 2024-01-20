@@ -31,7 +31,7 @@ class UserInterfaceManager;
 class GlobalConfig;
 class FocusGroup;
 
-typedef std::function<void(Event &event)> EventHandler;
+using EventHandler = std::function<void(Event &event)>;
 
 /**
  * The function mode of virtual keyboard.

@@ -21,40 +21,40 @@ namespace fcitx {
 /// \brief KeyState to represent modifier keys.
 enum class KeyState : uint32_t {
     NoState = 0,
-    Shift = 1 << 0,
-    CapsLock = 1 << 1,
-    Ctrl = 1 << 2,
-    Alt = 1 << 3,
+    Shift = 1U << 0,
+    CapsLock = 1U << 1,
+    Ctrl = 1U << 2,
+    Alt = 1U << 3,
     Mod1 = Alt,
     Alt_Shift = Alt | Shift,
     Ctrl_Shift = Ctrl | Shift,
     Ctrl_Alt = Ctrl | Alt,
     Ctrl_Alt_Shift = Ctrl | Alt | Shift,
-    NumLock = 1 << 4,
+    NumLock = 1U << 4,
     Mod2 = NumLock,
-    Hyper = 1 << 5,
+    Hyper = 1U << 5,
     Mod3 = Hyper,
-    Super = 1 << 6,
+    Super = 1U << 6,
     Mod4 = Super,
-    Mod5 = 1 << 7,
-    MousePressed = 1 << 8,
-    HandledMask = 1 << 24,
-    IgnoredMask = 1 << 25,
-    Super2 = 1 << 26, // Gtk virtual Super
-    Hyper2 = 1 << 27, // Gtk virtual Hyper
-    Meta = 1 << 28,
+    Mod5 = 1U << 7,
+    MousePressed = 1U << 8,
+    HandledMask = 1U << 24,
+    IgnoredMask = 1U << 25,
+    Super2 = 1U << 26, // Gtk virtual Super
+    Hyper2 = 1U << 27, // Gtk virtual Hyper
+    Meta = 1U << 28,
     /*
      * Key state that used internally for virtual key board.
      *
      * @since 5.1.0
      */
-    Virtual = 1u << 29,
+    Virtual = 1U << 29,
     /**
      * Whether a Key Press is from key repetition.
      *
      * @since 5.0.4
      */
-    Repeat = 1u << 31,
+    Repeat = 1U << 31,
     UsedMask = 0x5c001fff,
     SimpleMask = Ctrl_Alt_Shift | Super | Super2 | Hyper | Meta,
 };
