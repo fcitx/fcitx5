@@ -24,9 +24,9 @@
 
 namespace fcitx {
 class Key;
-typedef FcitxKeySym KeySym;
-typedef Flags<KeyState> KeyStates;
-typedef std::vector<Key> KeyList;
+using KeySym = FcitxKeySym;
+using KeyStates = Flags<KeyState>;
+using KeyList = std::vector<Key>;
 
 /// Control the behavior of toString function.
 enum class KeyStringFormat {
@@ -200,7 +200,7 @@ public:
     /// Convert a key list to string.
     template <typename Container>
     static std::string
-    keyListToString(Container container,
+    keyListToString(const Container &container,
                     KeyStringFormat format = KeyStringFormat::Portable) {
         std::string result;
         bool first = true;
@@ -239,7 +239,7 @@ public:
         if (idx == c.size()) {
             return -1;
         }
-        return idx;
+        return static_cast<int>(idx);
     }
 
 private:

@@ -335,7 +335,7 @@ bool WaylandModule::reopenConnectionSocket(const std::string &displayName,
         onConnectionCreated(*iter->second);
         // Transfer it to new connection's IC group, we do create two focus
         // group with same name, but well, ic manager doesn't check that.
-        for (auto icRef : ics) {
+        for (const auto &icRef : ics) {
             if (auto ic = icRef.get()) {
                 if (!ic->focusGroup()) {
                     ic->setFocusGroup(iter->second->focusGroup());
@@ -549,7 +549,8 @@ void WaylandModule::selfDiagnose() {
 
     bool isWaylandIM = false;
     if (isInFlatpak()) {
-        // In flatpak, ReopenWaylandConnection will not replace existing connection.
+        // In flatpak, ReopenWaylandConnection will not replace existing
+        // connection.
         for (const auto &[_, conn] : conns_) {
             conn->focusGroup()->foreach([&isWaylandIM](InputContext *ic) {
                 if (stringutils::startsWith(ic->frontendName(), "wayland")) {

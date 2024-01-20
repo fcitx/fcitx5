@@ -86,12 +86,14 @@ int main(int argc, char *argv[]) {
     }
 
     if (restart && canRestart) {
-        auto fcitxBinary = StandardPath::fcitxPath("bindir", "fcitx5");
+        std::vector<std::string> args;
         if (isInFlatpak()) {
-            startProcess({"flatpak-spawn", fcitxBinary, "-rd"});
+            args = {"flatpak-spawn",
+                    StandardPath::fcitxPath("bindir", "fcitx5"), "-rd"};
         } else {
-            startProcess({fcitxBinary, "-r"});
+            args = {StandardPath::fcitxPath("bindir", "fcitx5"), "-r"};
         }
+        startProcess(args);
     }
     return ret;
 }

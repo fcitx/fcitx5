@@ -58,7 +58,7 @@ public:
     void load(const RawConfig &config, bool partial = false);
     void save(RawConfig &config) const;
     void dumpDescription(RawConfig &config) const;
-    virtual const char *typeName() const = 0;
+    FCITX_NODISCARD virtual const char *typeName() const = 0;
 
     /**
      * Set default value to current value.

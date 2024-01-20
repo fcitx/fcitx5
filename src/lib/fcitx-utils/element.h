@@ -23,7 +23,7 @@ class ElementPrivate;
 class FCITXUTILS_EXPORT Element : public ConnectableObject {
 public:
     Element();
-    ~Element();
+    ~Element() override;
 
     /// \brief Enable query between different elements.
     bool isChild(const Element *element) const;

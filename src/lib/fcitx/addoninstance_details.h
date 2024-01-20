@@ -7,6 +7,10 @@
 #ifndef _FCITX_ADDONINSTANCE_DETAILS_H_
 #define _FCITX_ADDONINSTANCE_DETAILS_H_
 
+#include <functional>
+#include <string>
+#include <utility>
+
 namespace fcitx {
 
 class AddonInstance;
@@ -33,6 +37,10 @@ template <typename Signature>
 using AddonFunctionSignatureType =
     typename AddonFunctionSignature<Signature>::type;
 
+template <typename Signature>
+using AddonFunctionSignatureReturnType =
+    typename std::function<AddonFunctionSignatureType<Signature>>::result_type;
+
 template <typename CallbackType>
 class AddonFunctionAdaptor;
 
@@ -51,7 +59,7 @@ public:
     }
 
     Ret callback(Args... args) override {
-        return (addon_->*pCallback_)(args...);
+        return (addon_->*pCallback_)(std::forward<Args>(args)...);
     }
 
 private:
@@ -74,7 +82,7 @@ public:
     }
 
     Ret callback(Args... args) override {
-        return (addon_->*pCallback_)(args...);
+        return (addon_->*pCallback_)(std::forward<Args>(args)...);
     }
 
 private:

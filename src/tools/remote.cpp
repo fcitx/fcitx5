@@ -81,13 +81,12 @@ int main(int argc, char *argv[]) {
         case 0:
             switch (optionIndex) {
             case 0: {
-                auto name = bus.serviceOwner(serviceName, defaultTimeout);
-                if (name.empty()) {
-                    return 1;
-                }
                 // Make sure we use the unique name to send request to avoid any
                 // race, otherwise it may trigger dbus activation.
-                serviceName = name;
+                serviceName = bus.serviceOwner(serviceName, defaultTimeout);
+                if (serviceName.empty()) {
+                    return 1;
+                }
             } break;
             }
             break;

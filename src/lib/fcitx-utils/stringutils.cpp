@@ -125,14 +125,11 @@ trimInplace(std::string_view str) {
 }
 
 FCITXUTILS_DEPRECATED_EXPORT
-std::string trim(const std::string &str) {
-    auto pair = trimInplaceImpl(str);
-    return std::string(str.begin() + pair.first, str.begin() + pair.second);
-}
+std::string trim(const std::string &str) { return trim(std::string_view(str)); }
 
 std::string trim(std::string_view str) {
     auto pair = trimInplaceImpl(str);
-    return std::string(str.begin() + pair.first, str.begin() + pair.second);
+    return {str.begin() + pair.first, str.begin() + pair.second};
 }
 
 std::string_view trimView(std::string_view str) {
@@ -149,7 +146,8 @@ std::vector<std::string> split(const std::string &str, const std::string &delim,
 std::vector<std::string> split(std::string_view str, std::string_view delim,
                                SplitBehavior behavior) {
     std::vector<std::string> strings;
-    std::string::size_type lastPos, pos;
+    std::string::size_type lastPos;
+    std::string::size_type pos;
     if (behavior == SplitBehavior::SkipEmpty) {
         lastPos = str.find_first_not_of(delim, 0);
     } else {
@@ -284,7 +282,8 @@ const char *backwardSearch(const char *haystack, size_t l, const char *needle,
     const unsigned int ol_minus_1 = ol - 1;
     const char *n = needle + ol_minus_1;
     const char *h = haystack + ol_minus_1;
-    unsigned int hashNeedle = 0, hashHaystack = 0;
+    unsigned int hashNeedle = 0;
+    unsigned int hashHaystack = 0;
     size_t idx;
     for (idx = 0; idx < ol; ++idx) {
         hashNeedle = ((hashNeedle << 1) + *(n - idx));

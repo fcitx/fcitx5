@@ -67,7 +67,7 @@ public:
         if (!handle_) {
             return;
         }
-        auto handle = handle_;
+        auto *handle = handle_;
         handle_->data = nullptr;
         handle_ = nullptr;
         uv_close(handle, [](uv_handle_t *handle) { free(handle); });

@@ -31,7 +31,7 @@
 /// \brief Input Context for Fcitx.
 
 namespace fcitx {
-typedef std::array<uint8_t, 16> ICUUID;
+using ICUUID = std::array<uint8_t, 16>;
 
 class InputContextManager;
 class FocusGroup;

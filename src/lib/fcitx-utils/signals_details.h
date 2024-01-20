@@ -37,14 +37,14 @@ class SlotInvokeIterator;
 template <typename Ret, typename... Args>
 class SlotInvokeIterator<std::function<Ret(Args...)>> {
 public:
-    typedef std::input_iterator_tag iterator_category;
-    typedef std::function<Ret(Args...)> function_type;
-    typedef typename function_type::result_type value_type;
-    typedef std::ptrdiff_t difference_type;
-    typedef value_type reference;
-    typedef typename HandlerTableView<function_type>::iterator super_iterator;
-    typedef SlotInvokeIterator iterator;
-    typedef Invoker<Ret, Args...> invoker_type;
+    using iterator_category = std::input_iterator_tag;
+    using function_type = std::function<Ret(Args...)>;
+    using value_type = typename function_type::result_type;
+    using difference_type = std::ptrdiff_t;
+    using reference = value_type;
+    using super_iterator = typename HandlerTableView<function_type>::iterator;
+    using iterator = SlotInvokeIterator;
+    using invoker_type = Invoker<Ret, Args...>;
 
     SlotInvokeIterator(invoker_type &invoker, super_iterator iter)
         : parentIter_(iter), invoker_(invoker) {}
@@ -91,7 +91,7 @@ public:
     ConnectionBody(std::unique_ptr<HandlerTableEntry<T>> entry)
         : entry_(std::move(entry)) {}
 
-    virtual ~ConnectionBody() { remove(); }
+    ~ConnectionBody() override { remove(); }
 
 private:
     std::unique_ptr<HandlerTableEntryBase> entry_;

@@ -40,7 +40,8 @@ const std::string &I18NString::match(const std::string &locale_) const {
     size_t languageLength = 0;
     size_t territoryLength = 0;
     bool failed = false;
-    auto i = locale.begin(), e = locale.end();
+    auto i = locale.begin();
+    auto e = locale.end();
     do {
         while (i != e && !charutils::isspace(*i) && *i != '_' && *i != '.' &&
                *i != '@') {
@@ -82,7 +83,7 @@ const std::string &I18NString::match(const std::string &locale_) const {
                 i++;
             }
         }
-    } while (0);
+    } while (false);
 
     if (failed) {
         normalizedLocale.clear();

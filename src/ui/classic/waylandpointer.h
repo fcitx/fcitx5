@@ -47,7 +47,7 @@ private:
     TrackableObjectReference<WaylandWindow> touchFocus_;
     int touchFocusX_ = 0, touchFocusY_ = 0;
     ScopedConnection capConn_;
-    uint32_t enterSerial_;
+    uint32_t enterSerial_ = 0;
     std::unique_ptr<WaylandCursor> cursor_;
 };
 

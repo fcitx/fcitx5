@@ -35,6 +35,10 @@ add_library(classicui MODULE
     classicui.cpp window.cpp theme.cpp inputwindow.cpp plasmathemewatchdog.cpp colorhelper.cpp ${CLASSICUI_SRCS}
     )
 
+if (ENABLE_X11)
+target_compile_definitions(classicui PRIVATE -DFCITX_XCB_EWMH)
+endif()
+
 target_link_libraries(classicui
     Fcitx5::Core
     PkgConfig::Cairo PkgConfig::Pango

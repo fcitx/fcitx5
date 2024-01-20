@@ -122,13 +122,12 @@ bool writeAsIni(const RawConfig &root, FILE *fout) {
                     return true;
                 },
                 "", false, path);
-            auto valueString = values;
-            if (!valueString.empty()) {
+            if (!values.empty()) {
                 if (!path.empty()) {
                     FCITX_RETURN_IF(fprintf(fout, "[%s]\n", path.c_str()) < 0,
                                     false);
                 }
-                FCITX_RETURN_IF(fprintf(fout, "%s\n", valueString.c_str()) < 0,
+                FCITX_RETURN_IF(fprintf(fout, "%s\n", values.c_str()) < 0,
                                 false);
             }
         }

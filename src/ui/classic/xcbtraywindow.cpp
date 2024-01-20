@@ -498,17 +498,17 @@ void XCBTrayWindow::updateInputMethodMenu() {
             return;
         }
         inputMethodActions_.emplace_back();
-        auto imName = entry->uniqueName();
         auto &inputMethodAction = inputMethodActions_.back();
         inputMethodAction.setShortText(entry->name());
         inputMethodAction.connect<SimpleAction::Activated>(
-            [this, imName](InputContext *ic) {
+            [this, imName = entry->uniqueName()](InputContext *ic) {
                 ui_->parent()->instance()->setCurrentInputMethod(ic, imName,
                                                                  false);
             });
         inputMethodAction.setCheckable(true);
         inputMethodAction.setChecked(
-            ic ? (ui_->parent()->instance()->inputMethod(ic) == imName)
+            ic ? (ui_->parent()->instance()->inputMethod(ic) ==
+                  entry->uniqueName())
                : false);
 
         auto &uiManager = ui_->parent()->instance()->userInterfaceManager();

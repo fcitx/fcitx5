@@ -11,7 +11,7 @@ namespace fcitx {
 
 class ConnectableObjectPrivate {
 public:
-    ConnectableObjectPrivate() {}
+    ConnectableObjectPrivate() = default;
     std::unordered_map<std::string, std::unique_ptr<fcitx::SignalBase>>
         signals_;
     bool destroyed_ = false;

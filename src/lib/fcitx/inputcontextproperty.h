@@ -95,7 +95,7 @@ class LambdaInputContextPropertyFactory : public InputContextPropertyFactory {
 public:
     typedef Ret PropertyType;
     LambdaInputContextPropertyFactory(std::function<Ret *(InputContext &)> f)
-        : func_(f) {}
+        : func_(std::move(f)) {}
 
     InputContextProperty *create(InputContext &ic) override {
         return func_(ic);

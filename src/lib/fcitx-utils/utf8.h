@@ -18,8 +18,7 @@
 #include <fcitx-utils/misc.h>
 #include "fcitxutils_export.h"
 
-namespace fcitx {
-namespace utf8 {
+namespace fcitx::utf8 {
 
 /// \brief Return the number UTF-8 characters in the string iterator range.
 /// \see lengthValidated()
@@ -119,10 +118,9 @@ inline Iter getNextChar(Iter iter, Iter end, uint32_t *chr) {
 /// This function has no error check on invalid string or end of string. Check
 /// the string before use it.
 template <typename Iter>
-inline int ncharByteLength(Iter iter, size_t n) {
+inline ssize_t ncharByteLength(Iter iter, size_t n) {
     const char *c = &(*iter);
-    int diff = fcitx_utf8_get_nth_char(c, n) - c;
-    return diff;
+    return fcitx_utf8_get_nth_char(c, n) - c;
 }
 
 /// \brief Move iter over next n character.
@@ -159,11 +157,11 @@ uint32_t getLastChar(const T &str) {
 template <typename Iter>
 class UTF8CharIterator {
 public:
-    typedef std::input_iterator_tag iterator_category;
-    typedef uint32_t value_type;
-    typedef std::ptrdiff_t difference_type;
-    typedef const value_type &reference;
-    typedef const value_type *pointer;
+    using iterator_category = std::input_iterator_tag;
+    using value_type = uint32_t;
+    using difference_type = std::ptrdiff_t;
+    using reference = const value_type &;
+    using pointer = const value_type *;
 
     UTF8CharIterator(Iter iter, Iter end) : iter_(iter), end_(end) { update(); }
     FCITX_INLINE_DEFINE_DEFAULT_DTOR_AND_COPY(UTF8CharIterator)
@@ -223,7 +221,7 @@ auto MakeUTF8CharRange(const T &str) {
     return MakeIterRange(MakeUTF8CharIterator(std::begin(str), std::end(str)),
                          MakeUTF8CharIterator(std::end(str), std::end(str)));
 }
-} // namespace utf8
-} // namespace fcitx
+
+} // namespace fcitx::utf8
 
 #endif // _FCITX_UTILS_UTF8_H_

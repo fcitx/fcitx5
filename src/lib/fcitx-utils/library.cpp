@@ -7,11 +7,11 @@
 
 #include "library.h"
 #include <dlfcn.h>
-#include <errno.h>
 #include <fcntl.h>
 #include <sys/mman.h>
 #include <sys/stat.h>
 #include <unistd.h>
+#include <cerrno>
 #include <cstring>
 #include "config.h"
 #include "misc.h"
@@ -21,7 +21,7 @@ namespace fcitx {
 
 class LibraryPrivate {
 public:
-    LibraryPrivate(const std::string &path) : path_(path), handle_(nullptr) {}
+    LibraryPrivate(std::string path) : path_(std::move(path)) {}
     ~LibraryPrivate() { unload(); }
 
     bool unload() {
@@ -38,7 +38,7 @@ public:
     }
 
     std::string path_;
-    void *handle_;
+    void *handle_ = nullptr;
     std::string error_;
 };
 
@@ -137,7 +137,7 @@ bool Library::findData(const char *slug, const char *magic, size_t lenOfMagic,
         }
         void *needunmap = nullptr;
         void *data = needunmap =
-            mmap(0, statbuf.st_size, PROT_READ, MAP_PRIVATE, fd, 0);
+            mmap(nullptr, statbuf.st_size, PROT_READ, MAP_PRIVATE, fd, 0);
         if (!data) {
             data = malloc(statbuf.st_size);
             needfree.reset(data);
@@ -160,7 +160,7 @@ bool Library::findData(const char *slug, const char *magic, size_t lenOfMagic,
         if (needunmap) {
             munmap(needunmap, statbuf.st_size);
         }
-    } while (0);
+    } while (false);
 
     close(fd);
 

@@ -92,7 +92,7 @@ void WaylandInputWindow::initPanel() {
 
 void WaylandInputWindow::setBlurManager(
     std::shared_ptr<wayland::OrgKdeKwinBlurManager> blur) {
-    blurManager_ = blur;
+    blurManager_ = std::move(blur);
     updateBlur();
 }
 

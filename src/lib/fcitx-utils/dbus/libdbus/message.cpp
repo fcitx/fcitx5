@@ -502,26 +502,22 @@ Message &Message::operator>>(Variant &variant) {
     }
     FCITX_D();
     auto type = peekType();
-    if (type.first == 'v') {
-        auto helper =
-            VariantTypeRegistry::defaultRegistry().lookupType(type.second);
-        if (helper) {
-            if (*this >>
-                Container(Container::Type::Variant, Signature(type.second))) {
-                auto data = helper->copy(nullptr);
-                helper->deserialize(*this, data.get());
-                if (*this) {
-                    variant.setRawData(data, helper);
-                    *this >> ContainerEnd();
-                }
-            }
-            return *this;
-        }
-    }
-    if (dbus_message_iter_get_arg_type(d->iterator()) == DBUS_TYPE_VARIANT) {
-        dbus_message_iter_next(d->iterator());
-    } else {
+    if (type.first != 'v') {
         d->lastError_ = -EINVAL;
+        return *this;
+    }
+    if (auto helper = lookupVariantType(type.second)) {
+        if (*this >>
+            Container(Container::Type::Variant, Signature(type.second))) {
+            auto data = helper->copy(nullptr);
+            helper->deserialize(*this, data.get());
+            if (*this) {
+                variant.setRawData(std::move(data), std::move(helper));
+                *this >> ContainerEnd();
+            }
+        }
+    } else {
+        dbus_message_iter_next(d->iterator());
     }
     return *this;
 }
