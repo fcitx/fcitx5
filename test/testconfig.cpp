@@ -195,6 +195,14 @@ void testExtend() {
     FCITX_ASSERT(*ext.newOption == expect);
 }
 
+void testCopyConfiguration() {
+    TestConfigExt origin;
+    origin.intValue.setValue(7);
+
+    TestConfigExt copy(origin);
+    FCITX_ASSERT(*copy.intValue == 7);
+}
+
 int main() {
     testBasics();
     testMove();
@@ -202,5 +210,6 @@ int main() {
     testRecursiveAssign();
     testSyncDefaultToCurrent();
     testExtend();
+    testCopyConfiguration();
     return 0;
 }
