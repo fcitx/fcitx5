@@ -34,7 +34,7 @@
 #endif
 
 enum { BYTE_ORDER_MSB_FIRST = 1, BYTE_ORDER_LSB_FIRST = 0 };
-inline uint8_t hostByteOrder() {
+inline char hostByteOrder() {
     const uint16_t endian = 1;
     uint8_t byteOrder = 0;
     if (*reinterpret_cast<const char *>(&endian)) {

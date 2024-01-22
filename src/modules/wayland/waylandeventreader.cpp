@@ -59,7 +59,7 @@ void WaylandEventReader::run() {
     ioEvent.reset();
     dispatcherToWorker_.detach();
     {
-        std::lock_guard lock(mutex_);
+        const std::lock_guard lock(mutex_);
         if (isReading_) {
             wl_display_cancel_read(display_);
         }
@@ -70,7 +70,9 @@ bool WaylandEventReader::onIOEvent(IOEventFlags flags) {
     {
         // Make sure previous dispatch ended.
         std::unique_lock lock(mutex_);
-        condition_.wait(lock, [this] { return quitting_ || isReading_; });
+        while (!quitting_ && !isReading_) {
+            condition_.wait(lock);
+        }
 
         if (quitting_) {
             return false;

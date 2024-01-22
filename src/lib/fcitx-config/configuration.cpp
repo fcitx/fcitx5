@@ -13,7 +13,7 @@
 #include <memory>
 #include <stdexcept>
 #include <unordered_map>
-#include "fcitx-utils/standardpath.h"
+#include "fcitx-utils/stringutils.h"
 
 namespace fcitx {
 class ConfigurationPrivate {
@@ -86,7 +86,7 @@ bool Configuration::compareHelper(const Configuration &other) const {
             auto optionIter = d->options_.find(path);
             assert(optionIter != d->options_.end());
             auto otherOptionIter = other.d_func()->options_.find(path);
-            assert(optionIter != other.d_func()->options_.end());
+            assert(otherOptionIter != other.d_func()->options_.end());
             return *optionIter->second == *otherOptionIter->second;
         });
     return true;
