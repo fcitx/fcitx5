@@ -70,9 +70,12 @@ bool WaylandEventReader::onIOEvent(IOEventFlags flags) {
     {
         // Make sure previous dispatch ended.
         std::unique_lock lock(mutex_);
-        while (!quitting_ && !isReading_) {
-            condition_.wait(lock);
-        }
+        condition_.wait(lock, [this, &lock] {
+            assert(lock.owns_lock());
+            return quitting_ || isReading_;
+        });
+
+        assert(lock.owns_lock());
 
         if (quitting_) {
             return false;
