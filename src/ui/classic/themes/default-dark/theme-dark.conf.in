@@ -26,7 +26,6 @@ Top=2
 Bottom=2
 
 [InputPanel/Background]
-Image=
 Color=#000000
 BorderColor=#404040
 BorderWidth=2
@@ -38,7 +37,6 @@ Top=2
 Bottom=2
 
 [InputPanel/Highlight]
-Image=
 Color=#606060
 
 [InputPanel/Highlight/Margin]
@@ -70,7 +68,6 @@ NormalColor=#e0e0e0
 HighlightCandidateColor=#e0e0e0
 
 [Menu/Background]
-Image=
 Color=#000000
 BorderColor=#404040
 BorderWidth=2
@@ -94,7 +91,6 @@ Image=radio.png
 Image=arrow.png
 
 [Menu/Highlight]
-Image=
 Color=#606060
 
 [Menu/Highlight/Margin]
