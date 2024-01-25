@@ -552,7 +552,8 @@ void WaylandIMInputContextV2::sendKeyToVK(uint32_t time, const Key &key,
     }
     // Erase old to ensure order, and released ones can the be removed.
     pressedVKKey_.erase(code);
-    if (state == WL_KEYBOARD_KEY_STATE_PRESSED) {
+    if (state == WL_KEYBOARD_KEY_STATE_PRESSED &&
+        xkb_keymap_key_repeats(server_->keymap_.get(), code)) {
         pressedVKKey_[code] = time;
     }
     vk_->key(time, code, state);
