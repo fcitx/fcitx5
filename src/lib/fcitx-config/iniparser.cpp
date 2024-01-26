@@ -42,26 +42,22 @@ bool writeAsIni(const RawConfig &config, int fd) {
 }
 
 void readFromIni(RawConfig &config, FILE *fin) {
-    std::string lineBuf, currentGroup;
+    std::string currentGroup;
 
     UniqueCPtr<char> clineBuf;
     size_t bufSize = 0;
     unsigned int line = 0;
     while (getline(clineBuf, &bufSize, fin) >= 0) {
         line++;
-        lineBuf = clineBuf.get();
-        auto pair = stringutils::trimInplace(lineBuf);
-        std::string::size_type start = pair.first, end = pair.second;
-        if (start == end || lineBuf[start] == '#') {
+        std::string_view lineBuf = stringutils::trimView(clineBuf.get());
+        if (lineBuf.empty() || lineBuf.front() == '#') {
             continue;
         }
 
-        lineBuf.resize(end);
-
         std::string::size_type equalPos;
 
-        if (lineBuf[start] == '[' && lineBuf[end - 1] == ']') {
-            currentGroup = lineBuf.substr(start + 1, end - start - 2);
+        if (lineBuf.front() == '[' && lineBuf.back() == ']') {
+            currentGroup = lineBuf.substr(1, lineBuf.size() - 2);
             config.visitItemsOnPath(
                 [line](RawConfig &config, const std::string &) {
                     if (!config.lineNumber()) {
@@ -69,9 +65,9 @@ void readFromIni(RawConfig &config, FILE *fin) {
                     }
                 },
                 currentGroup);
-        } else if ((equalPos = lineBuf.find_first_of('=', start)) !=
+        } else if ((equalPos = lineBuf.find_first_of('=')) !=
                    std::string::npos) {
-            auto name = lineBuf.substr(start, equalPos - start);
+            auto name = lineBuf.substr(0, equalPos);
             auto valueStart = equalPos + 1;
 
             auto value = stringutils::unescapeForValue(
@@ -87,7 +83,7 @@ void readFromIni(RawConfig &config, FILE *fin) {
                 s += name;
                 subConfig = config.get(s, true);
             } else {
-                subConfig = config.get(name, true);
+                subConfig = config.get(std::string(name), true);
             }
             subConfig->setValue(*value);
             subConfig->setLineNumber(line);
