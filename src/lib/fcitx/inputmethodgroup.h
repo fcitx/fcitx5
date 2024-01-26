@@ -7,7 +7,6 @@
 #ifndef _FCITX_INPUTMETHODGROUP_H_
 #define _FCITX_INPUTMETHODGROUP_H_
 
-#include <list>
 #include <memory>
 #include <string>
 #include <vector>

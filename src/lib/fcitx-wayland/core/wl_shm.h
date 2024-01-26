@@ -1,6 +1,5 @@
 #ifndef WL_SHM
 #define WL_SHM
-#include <memory>
 #include <wayland-client.h>
 #include "fcitx-utils/signals.h"
 namespace fcitx::wayland {

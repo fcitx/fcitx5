@@ -1,6 +1,5 @@
 #include "wl_keyboard.h"
 #include <cassert>
-#include "wl_surface.h"
 namespace fcitx::wayland {
 const struct wl_keyboard_listener WlKeyboard::listener = {
     [](void *data, wl_keyboard *wldata, uint32_t format, int32_t fd,

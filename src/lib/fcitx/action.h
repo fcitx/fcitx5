@@ -10,7 +10,6 @@
 #include <memory>
 #include <fcitx-utils/element.h>
 #include <fcitx-utils/macros.h>
-#include <fcitx-utils/signals.h>
 #include "fcitxcore_export.h"
 
 namespace fcitx {

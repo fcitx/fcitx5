@@ -1,6 +1,5 @@
 #ifndef ORG_KDE_PLASMA_WINDOW_MANAGEMENT
 #define ORG_KDE_PLASMA_WINDOW_MANAGEMENT
-#include <memory>
 #include <wayland-client.h>
 #include "fcitx-utils/signals.h"
 #include "wayland-plasma-window-management-client-protocol.h"

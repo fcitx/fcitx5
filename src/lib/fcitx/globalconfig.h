@@ -9,7 +9,6 @@
 
 #include <memory>
 #include <vector>
-#include <fcitx-config/configuration.h>
 #include <fcitx-config/rawconfig.h>
 #include <fcitx-utils/key.h>
 #include <fcitx-utils/macros.h>

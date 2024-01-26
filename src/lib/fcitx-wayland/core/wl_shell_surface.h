@@ -1,6 +1,5 @@
 #ifndef WL_SHELL_SURFACE
 #define WL_SHELL_SURFACE
-#include <memory>
 #include <wayland-client.h>
 #include "fcitx-utils/signals.h"
 namespace fcitx::wayland {

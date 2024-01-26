@@ -13,7 +13,6 @@
 namespace fcitx {
 
 class InputContext;
-class CandidateList;
 class PageableCandidateList;
 class BulkCandidateList;
 class ModifiableCandidateList;

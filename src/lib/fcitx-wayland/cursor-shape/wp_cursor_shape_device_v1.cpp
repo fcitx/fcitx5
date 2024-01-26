@@ -1,5 +1,4 @@
 #include "wp_cursor_shape_device_v1.h"
-#include <cassert>
 namespace fcitx::wayland {
 WpCursorShapeDeviceV1::WpCursorShapeDeviceV1(wp_cursor_shape_device_v1 *data)
     : version_(wp_cursor_shape_device_v1_get_version(data)), data_(data) {

@@ -1,5 +1,4 @@
 #include "wp_viewporter.h"
-#include <cassert>
 #include "wl_surface.h"
 #include "wp_viewport.h"
 namespace fcitx::wayland {

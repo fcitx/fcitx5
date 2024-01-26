@@ -1,6 +1,5 @@
 #ifndef ZWP_VIRTUAL_KEYBOARD_MANAGER_V1
 #define ZWP_VIRTUAL_KEYBOARD_MANAGER_V1
-#include <memory>
 #include <wayland-client.h>
 #include "fcitx-utils/signals.h"
 #include "wayland-virtual-keyboard-unstable-v1-client-protocol.h"

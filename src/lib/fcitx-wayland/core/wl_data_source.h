@@ -1,6 +1,5 @@
 #ifndef WL_DATA_SOURCE
 #define WL_DATA_SOURCE
-#include <memory>
 #include <wayland-client.h>
 #include "fcitx-utils/signals.h"
 namespace fcitx::wayland {

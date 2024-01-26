@@ -1,6 +1,5 @@
 #ifndef WL_POINTER
 #define WL_POINTER
-#include <memory>
 #include <wayland-client.h>
 #include "fcitx-utils/signals.h"
 namespace fcitx::wayland {

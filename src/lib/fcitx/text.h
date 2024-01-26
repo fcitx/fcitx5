@@ -11,7 +11,6 @@
 #include <ostream>
 #include <string>
 #include <vector>
-#include <fcitx-utils/flags.h>
 #include <fcitx-utils/macros.h>
 #include <fcitx-utils/textformatflags.h>
 #include "fcitxcore_export.h"

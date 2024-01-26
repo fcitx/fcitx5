@@ -1,5 +1,4 @@
 #include "wl_shm_pool.h"
-#include <cassert>
 #include "wl_buffer.h"
 namespace fcitx::wayland {
 WlShmPool::WlShmPool(wl_shm_pool *data)

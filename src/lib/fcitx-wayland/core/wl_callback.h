@@ -1,6 +1,5 @@
 #ifndef WL_CALLBACK
 #define WL_CALLBACK
-#include <memory>
 #include <wayland-client.h>
 #include "fcitx-utils/signals.h"
 namespace fcitx::wayland {

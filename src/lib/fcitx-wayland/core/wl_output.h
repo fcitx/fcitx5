@@ -1,6 +1,5 @@
 #ifndef WL_OUTPUT
 #define WL_OUTPUT
-#include <memory>
 #include <wayland-client.h>
 #include "fcitx-utils/signals.h"
 namespace fcitx::wayland {

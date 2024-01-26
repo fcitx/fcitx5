@@ -1,6 +1,5 @@
 #ifndef WL_TOUCH
 #define WL_TOUCH
-#include <memory>
 #include <wayland-client.h>
 #include "fcitx-utils/signals.h"
 namespace fcitx::wayland {

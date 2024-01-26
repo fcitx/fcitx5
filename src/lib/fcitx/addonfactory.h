@@ -7,7 +7,6 @@
 #ifndef _FCITX_ADDONFACTORY_H_
 #define _FCITX_ADDONFACTORY_H_
 
-#include <string>
 #include <fcitx/addoninstance.h>
 #include "fcitxcore_export.h"
 

@@ -1,5 +1,4 @@
 #include "wp_cursor_shape_manager_v1.h"
-#include <cassert>
 #include "wl_pointer.h"
 #include "wp_cursor_shape_device_v1.h"
 #include "zwp_tablet_tool_v2.h"

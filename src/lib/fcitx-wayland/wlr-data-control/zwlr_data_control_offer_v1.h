@@ -1,6 +1,5 @@
 #ifndef ZWLR_DATA_CONTROL_OFFER_V1
 #define ZWLR_DATA_CONTROL_OFFER_V1
-#include <memory>
 #include <wayland-client.h>
 #include "fcitx-utils/signals.h"
 #include "wayland-wlr-data-control-unstable-v1-client-protocol.h"

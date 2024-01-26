@@ -1,6 +1,5 @@
 #ifndef WP_VIEWPORTER
 #define WP_VIEWPORTER
-#include <memory>
 #include <wayland-client.h>
 #include "fcitx-utils/signals.h"
 #include "wayland-viewporter-client-protocol.h"
