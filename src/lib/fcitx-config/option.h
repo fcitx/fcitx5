@@ -232,11 +232,12 @@ private:
 /// Default marshaller that write the config RawConfig.
 template <typename T>
 struct DefaultMarshaller {
-    virtual void marshall(RawConfig &config, const T &value) const {
+    DefaultMarshaller() = default;
+
+    void marshall(RawConfig &config, const T &value) const {
         return marshallOption(config, value);
     }
-    virtual bool unmarshall(T &value, const RawConfig &config,
-                            bool partial) const {
+    bool unmarshall(T &value, const RawConfig &config, bool partial) const {
         return unmarshallOption(value, config, partial);
     }
 };

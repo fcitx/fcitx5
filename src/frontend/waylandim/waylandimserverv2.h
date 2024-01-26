@@ -8,12 +8,12 @@
 #define _FCITX5_FRONTEND_WAYLANDIM_WAYLANDIMSERVERV2_H_
 
 #include <cstdint>
-#include <fcitx-utils/event.h>
-#include <fcitx/focusgroup.h>
-#include <fcitx/instance.h>
 #include <xkbcommon/xkbcommon.h>
+#include "fcitx-utils/event.h"
 #include "fcitx-utils/misc_p.h"
+#include "fcitx/focusgroup.h"
 #include "fcitx/inputcontext.h"
+#include "fcitx/instance.h"
 #include "display.h"
 #include "virtualinputcontext.h"
 #include "waylandimserverbase.h"
@@ -34,7 +34,7 @@ public:
     WaylandIMServerV2(wl_display *display, FocusGroup *group,
                       const std::string &name, WaylandIMModule *waylandim);
 
-    ~WaylandIMServerV2();
+    ~WaylandIMServerV2() override;
 
     InputContextManager &inputContextManager();
 
@@ -79,7 +79,7 @@ public:
                             WaylandIMServerV2 *server,
                             std::shared_ptr<wayland::WlSeat> seat,
                             wayland::ZwpVirtualKeyboardV1 *vk);
-    ~WaylandIMInputContextV2();
+    ~WaylandIMInputContextV2() override;
 
     const char *frontend() const override { return "wayland_v2"; }
 
@@ -88,7 +88,7 @@ public:
     bool hasKeyboardGrab() const { return keyboardGrab_.get(); }
 
 protected:
-    void commitStringDelegate(const InputContext *,
+    void commitStringDelegate(const InputContext * /*ic*/,
                               const std::string &text) const override {
         if (!ic_) {
             return;
@@ -98,7 +98,7 @@ protected:
     }
     void deleteSurroundingTextDelegate(InputContext *ic, int offset,
                                        unsigned int size) const override;
-    void forwardKeyDelegate(InputContext *,
+    void forwardKeyDelegate(InputContext * /*ic*/,
                             const ForwardKeyEvent &key) const override;
 
     void updatePreeditDelegate(InputContext *ic) const override;

@@ -13,6 +13,7 @@
 #include "fcitx-utils/event.h"
 #include "fcitx-utils/key.h"
 #include "fcitx-utils/keysymgen.h"
+#include "fcitx-utils/macros.h"
 #include "fcitx/focusgroup.h"
 #include "fcitx/inputcontext.h"
 #include "fcitx/inputcontextmanager.h"
@@ -34,7 +35,7 @@ public:
     WaylandIMServer(wl_display *display, FocusGroup *group,
                     const std::string &name, WaylandIMModule *waylandim);
 
-    ~WaylandIMServer();
+    ~WaylandIMServer() override;
 
     InputContextManager &inputContextManager();
 
@@ -71,17 +72,18 @@ class WaylandIMInputContextV1 : public VirtualInputContextGlue {
 public:
     WaylandIMInputContextV1(InputContextManager &inputContextManager,
                             WaylandIMServer *server);
-    ~WaylandIMInputContextV1();
+    ~WaylandIMInputContextV1() override;
 
     const char *frontend() const override { return "wayland"; }
 
-    void activate(wayland::ZwpInputMethodContextV1 *id);
-    void deactivate(wayland::ZwpInputMethodContextV1 *id);
+    void activate(wayland::ZwpInputMethodContextV1 *ic);
+    void deactivate(wayland::ZwpInputMethodContextV1 *ic);
     bool hasKeyboardGrab() const { return keyboard_.get(); }
 
 protected:
-    void commitStringDelegate(const InputContext *,
+    void commitStringDelegate(const InputContext *ic,
                               const std::string &text) const override {
+        FCITX_UNUSED(ic);
         if (!ic_) {
             return;
         }
@@ -89,8 +91,9 @@ protected:
     }
     void deleteSurroundingTextDelegate(InputContext *ic, int offset,
                                        unsigned int size) const override;
-    void forwardKeyDelegate(InputContext *,
+    void forwardKeyDelegate(InputContext *ic,
                             const ForwardKeyEvent &key) const override {
+        FCITX_UNUSED(ic);
         if (!ic_) {
             return;
         }

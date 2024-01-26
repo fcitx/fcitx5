@@ -54,7 +54,7 @@ WaylandCursorTheme::WaylandCursorTheme(WaylandUI *ui)
 void WaylandCursorTheme::setCursorSize(int cursorSize) {
     // Add some simple validation.
     int newCursorSize = 24;
-    if (cursorSize < 0 || cursorSize > 2048) {
+    if (cursorSize > 0 && cursorSize < 2048) {
         newCursorSize = cursorSize;
     }
 

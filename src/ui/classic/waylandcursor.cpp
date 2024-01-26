@@ -128,9 +128,10 @@ void WaylandCursor::update() {
         return;
     }
 
-    pointer_->pointer()->setCursor(pointer_->enterSerial(), surface,
-                                   cursor->images[frame]->hotspot_x,
-                                   cursor->images[frame]->hotspot_y);
+    pointer_->pointer()->setCursor(
+        pointer_->enterSerial(), surface,
+        cursor->images[frame]->hotspot_x / bufferScale,
+        cursor->images[frame]->hotspot_y / bufferScale);
     surface->setBufferScale(bufferScale);
 
     frameCalled_ = false;

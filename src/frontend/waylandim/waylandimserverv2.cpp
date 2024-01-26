@@ -17,9 +17,9 @@
 
 namespace fcitx {
 
-constexpr CapabilityFlags baseFlags{CapabilityFlag::Preedit,
-                                    CapabilityFlag::FormattedPreedit,
-                                    CapabilityFlag::SurroundingText};
+constexpr CapabilityFlags baseFlags{
+    CapabilityFlag::Preedit, CapabilityFlag::FormattedPreedit,
+    CapabilityFlag::SurroundingText, CapabilityFlag::ClientUnfocusCommit};
 
 WaylandIMServerV2::WaylandIMServerV2(wl_display *display, FocusGroup *group,
                                      const std::string &name,
@@ -107,12 +107,13 @@ void WaylandIMServerV2::refreshSeat() {
     }
 }
 
-void WaylandIMServerV2::add(WaylandIMInputContextV2 *ic, wayland::WlSeat *id) {
-    icMap_[id] = ic;
+void WaylandIMServerV2::add(WaylandIMInputContextV2 *ic,
+                            wayland::WlSeat *seat) {
+    icMap_[seat] = ic;
 }
 
-void WaylandIMServerV2::remove(wayland::WlSeat *id) {
-    auto iter = icMap_.find(id);
+void WaylandIMServerV2::remove(wayland::WlSeat *seat) {
+    auto iter = icMap_.find(seat);
     if (iter != icMap_.end()) {
         icMap_.erase(iter);
     }
@@ -273,7 +274,7 @@ void WaylandIMInputContextV2::surroundingTextCallback(const char *text,
             break;
         }
         surroundingText().setText(text, cursorByChar, anchorByChar);
-    } while (0);
+    } while (false);
     updateSurroundingTextWrapper();
 }
 void WaylandIMInputContextV2::resetCallback() {
@@ -426,8 +427,9 @@ void WaylandIMInputContextV2::keymapCallback(uint32_t format, int32_t fd,
     server_->parent_->wayland()->call<IWaylandModule::reloadXkbOption>();
 }
 
-void WaylandIMInputContextV2::keyCallback(uint32_t, uint32_t time, uint32_t key,
-                                          uint32_t state) {
+void WaylandIMInputContextV2::keyCallback(uint32_t serial, uint32_t time,
+                                          uint32_t key, uint32_t state) {
+    FCITX_UNUSED(serial);
     time_ = time;
     if (!server_->state_) {
         return;
@@ -482,7 +484,7 @@ void WaylandIMInputContextV2::keyCallback(uint32_t, uint32_t time, uint32_t key,
             std::min(1000, repeatDelay_ * 1000 - repeatHackDelay));
     }
 }
-void WaylandIMInputContextV2::modifiersCallback(uint32_t,
+void WaylandIMInputContextV2::modifiersCallback(uint32_t /*serial*/,
                                                 uint32_t mods_depressed,
                                                 uint32_t mods_latched,
                                                 uint32_t mods_locked,
@@ -557,14 +559,14 @@ void WaylandIMInputContextV2::sendKeyToVK(uint32_t time, const Key &key,
 }
 
 void WaylandIMInputContextV2::forwardKeyDelegate(
-    InputContext *, const ForwardKeyEvent &key) const {
+    InputContext * /*ic*/, const ForwardKeyEvent &key) const {
     uint32_t code = 0;
     if (key.rawKey().code()) {
         code = key.rawKey().code();
-    } else if (auto xkbState = server_->xkbState()) {
+    } else if (auto *xkbState = server_->xkbState()) {
         auto *map = xkb_state_get_keymap(xkbState);
-        auto min = xkb_keymap_min_keycode(map),
-             max = xkb_keymap_max_keycode(map);
+        auto min = xkb_keymap_min_keycode(map);
+        auto max = xkb_keymap_max_keycode(map);
         for (auto keyCode = min; keyCode < max; keyCode++) {
             if (xkb_state_key_get_one_sym(xkbState, keyCode) ==
                 static_cast<uint32_t>(key.rawKey().sym())) {
@@ -591,8 +593,10 @@ void WaylandIMInputContextV2::updatePreeditDelegate(InputContext *ic) const {
     auto preedit =
         server_->instance()->outputFilter(ic, ic->inputPanel().clientPreedit());
 
-    int highlightStart = -1, highlightEnd = -1;
-    int start = 0, end = 0;
+    int highlightStart = -1;
+    int highlightEnd = -1;
+    int start = 0;
+    int end = 0;
     bool multipleHighlight = false;
     for (int i = 0, e = preedit.size(); i < e; i++) {
         if (!utf8::validate(preedit.stringAt(i))) {

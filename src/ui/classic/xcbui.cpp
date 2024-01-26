@@ -13,7 +13,6 @@
 #include <xcb/xproto.h>
 #include "fcitx-utils/endian_p.h"
 #include "fcitx-utils/misc.h"
-#include "fcitx-utils/stringutils.h"
 #include "xcbinputwindow.h"
 #include "xcbtraywindow.h"
 #include "xcbwindow.h"
@@ -599,6 +598,9 @@ void XCBUI::readXSettings() {
     if (!readCard32(&nSettings)) {
         return;
     }
+    if (static_cast<uint64_t>(nSettings) * 8 + 8 > data.size()) {
+        return;
+    }
     for (uint32_t i = 0; i < nSettings; i++) {
         // 1      SETTING_TYPE  type
         // 1                    unused
@@ -623,7 +625,7 @@ void XCBUI::readXSettings() {
         if (!readCard16(&nameLen)) {
             return;
         }
-#define XSETTINGS_PAD(n, m) ((n + m - 1) & (~(m - 1)))
+#define XSETTINGS_PAD(n, m) (((n) + (m)-1) & (~((m)-1)))
         uint32_t namePad = XSETTINGS_PAD(nameLen, 4);
         if (std::distance(iter, data.cend()) < namePad) {
             return;
@@ -691,7 +693,10 @@ void XCBUI::updateCursor(InputContext *inputContext) {
     inputWindow_->updatePosition(inputContext);
 }
 
-void XCBUI::updateCurrentInputMethod(InputContext *) { trayWindow_->update(); }
+void XCBUI::updateCurrentInputMethod(InputContext *inputContext) {
+    FCITX_UNUSED(inputContext);
+    trayWindow_->update();
+}
 
 int XCBUI::dpiByPosition(int x, int y) {
     int shortestDistance = INT_MAX;
@@ -713,7 +718,8 @@ int XCBUI::scaledDPI(int dpi) {
         // CLASSICUI_DEBUG() << "Use font option dpi: " << fontOption_.dpi;
         if (fontOption_.dpi > 0) {
             return fontOption_.dpi;
-        } else if (screenDpi_ >= 96) {
+        }
+        if (screenDpi_ >= 96) {
             // Nowadays their should not be tiny dpi screen I assume.
             // In ancient days, there used to be invalid DPI value that make
             // font extremely tiny.

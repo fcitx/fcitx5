@@ -7,7 +7,8 @@
 #include "waylandimserver.h"
 #include <sys/mman.h>
 #include <memory>
-#include <fcitx-utils/utf8.h>
+#include "fcitx-utils/macros.h"
+#include "fcitx-utils/utf8.h"
 #include "appmonitor.h"
 #include "virtualinputcontext.h"
 #include "wayland-text-input-unstable-v1-client-protocol.h"
@@ -24,11 +25,13 @@
 
 namespace fcitx {
 
-constexpr CapabilityFlags baseFlags{CapabilityFlag::Preedit,
-                                    CapabilityFlag::FormattedPreedit,
-                                    CapabilityFlag::SurroundingText};
+namespace {
 
-static inline unsigned int waylandFormat(TextFormatFlags flags) {
+constexpr CapabilityFlags baseFlags{
+    CapabilityFlag::Preedit, CapabilityFlag::FormattedPreedit,
+    CapabilityFlag::SurroundingText, CapabilityFlag::ClientUnfocusCommit};
+
+inline unsigned int waylandFormat(TextFormatFlags flags) {
     if (flags & TextFormatFlag::HighLight) {
         return ZWP_TEXT_INPUT_V1_PREEDIT_STYLE_HIGHLIGHT;
     }
@@ -43,6 +46,8 @@ static inline unsigned int waylandFormat(TextFormatFlags flags) {
     }
     return ZWP_TEXT_INPUT_V1_PREEDIT_STYLE_NONE;
 }
+
+} // namespace
 
 WaylandIMServer::WaylandIMServer(wl_display *display, FocusGroup *group,
                                  const std::string &name,
@@ -247,7 +252,7 @@ void WaylandIMInputContextV1::surroundingTextCallback(const char *text,
             break;
         }
         surroundingText().setText(text, cursorByChar, anchorByChar);
-    } while (0);
+    } while (false);
     updateSurroundingTextWrapper();
 }
 void WaylandIMInputContextV1::resetCallback() {
@@ -431,8 +436,9 @@ void WaylandIMInputContextV1::keymapCallback(uint32_t format, int32_t fd,
     server_->parent_->wayland()->call<IWaylandModule::reloadXkbOption>();
 }
 
-void WaylandIMInputContextV1::keyCallback(uint32_t, uint32_t time, uint32_t key,
-                                          uint32_t state) {
+void WaylandIMInputContextV1::keyCallback(uint32_t serial, uint32_t time,
+                                          uint32_t key, uint32_t state) {
+    FCITX_UNUSED(serial);
     time_ = time;
     if (!server_->state_) {
         return;
