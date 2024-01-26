@@ -1,6 +1,5 @@
 #ifndef ZWLR_FOREIGN_TOPLEVEL_HANDLE_V1
 #define ZWLR_FOREIGN_TOPLEVEL_HANDLE_V1
-#include <memory>
 #include <wayland-client.h>
 #include "fcitx-utils/signals.h"
 #include "wayland-wlr-foreign-toplevel-management-client-protocol.h"

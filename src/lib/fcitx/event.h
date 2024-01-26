@@ -10,7 +10,6 @@
 #include <cstdint>
 #include <fcitx-utils/capabilityflags.h>
 #include <fcitx-utils/key.h>
-#include <fcitx-utils/keysym.h>
 #include <fcitx/userinterface.h>
 #include "fcitxcore_export.h"
 

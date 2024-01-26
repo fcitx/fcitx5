@@ -1,6 +1,5 @@
 #ifndef WP_FRACTIONAL_SCALE_V1
 #define WP_FRACTIONAL_SCALE_V1
-#include <memory>
 #include <wayland-client.h>
 #include "fcitx-utils/signals.h"
 #include "wayland-fractional-scale-v1-client-protocol.h"

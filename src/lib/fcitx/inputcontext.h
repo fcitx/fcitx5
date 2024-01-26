@@ -13,16 +13,12 @@
 #include <memory>
 #include <string>
 #include <fcitx-utils/capabilityflags.h>
-#include <fcitx-utils/flags.h>
-#include <fcitx-utils/key.h>
 #include <fcitx-utils/macros.h>
 #include <fcitx-utils/rect.h>
 #include <fcitx-utils/trackableobject.h>
 #include <fcitx/event.h>
 #include <fcitx/inputcontextproperty.h>
 #include <fcitx/surroundingtext.h>
-#include <fcitx/text.h>
-#include <fcitx/userinterface.h>
 #include "fcitxcore_export.h"
 
 /// \addtogroup FcitxCore

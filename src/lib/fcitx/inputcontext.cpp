@@ -8,11 +8,9 @@
 #include "inputcontext.h"
 #include <cassert>
 #include <chrono>
-#include <exception>
 #include <regex>
 #include <stdexcept>
 #include <string>
-#include "fcitx-utils/event.h"
 #include "fcitx-utils/utf8.h"
 #include "focusgroup.h"
 #include "inputcontext_p.h"

@@ -8,7 +8,6 @@
 #define _FCITX_UTILS_MISC_H_
 
 #include <unistd.h>
-#include <cstdint>
 #include <cstdio>
 #include <cstdlib>
 #include <memory>

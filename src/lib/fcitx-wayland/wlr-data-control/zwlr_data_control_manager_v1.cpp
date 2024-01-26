@@ -1,5 +1,4 @@
 #include "zwlr_data_control_manager_v1.h"
-#include <cassert>
 #include "wl_seat.h"
 #include "zwlr_data_control_device_v1.h"
 #include "zwlr_data_control_source_v1.h"

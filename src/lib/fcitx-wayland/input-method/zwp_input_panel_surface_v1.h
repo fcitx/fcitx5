@@ -1,6 +1,5 @@
 #ifndef ZWP_INPUT_PANEL_SURFACE_V1
 #define ZWP_INPUT_PANEL_SURFACE_V1
-#include <memory>
 #include <wayland-client.h>
 #include "fcitx-utils/signals.h"
 #include "wayland-input-method-unstable-v1-client-protocol.h"

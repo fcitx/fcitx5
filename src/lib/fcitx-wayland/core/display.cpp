@@ -8,9 +8,6 @@
 #include "display.h"
 #include <errno.h>
 #include <poll.h>
-#include <cassert>
-#include <cstring>
-#include <fcitx-utils/log.h>
 #include "wl_output.h"
 #include "wl_registry.h"
 

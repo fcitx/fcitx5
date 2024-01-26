@@ -1,5 +1,4 @@
 #include "zwp_virtual_keyboard_manager_v1.h"
-#include <cassert>
 #include "wl_seat.h"
 #include "zwp_virtual_keyboard_v1.h"
 namespace fcitx::wayland {

@@ -51,7 +51,6 @@ public:
 };
 
 class InputContext;
-class InputContextManager;
 class InputContextPropertyFactoryPrivate;
 
 /**

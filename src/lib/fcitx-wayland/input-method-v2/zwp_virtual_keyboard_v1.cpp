@@ -1,5 +1,4 @@
 #include "zwp_virtual_keyboard_v1.h"
-#include <cassert>
 namespace fcitx::wayland {
 ZwpVirtualKeyboardV1::ZwpVirtualKeyboardV1(zwp_virtual_keyboard_v1 *data)
     : version_(zwp_virtual_keyboard_v1_get_version(data)), data_(data) {

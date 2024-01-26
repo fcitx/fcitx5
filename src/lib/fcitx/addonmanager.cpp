@@ -7,7 +7,6 @@
 
 #include "addonmanager.h"
 #include <fcntl.h>
-#include <unistd.h>
 #include <unordered_map>
 #include <unordered_set>
 #include "fcitx-config/iniparser.h"
@@ -18,7 +17,6 @@
 #include "addonloader.h"
 #include "addonloader_p.h"
 #include "instance.h"
-#include "misc_p.h"
 
 namespace fcitx {
 

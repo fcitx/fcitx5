@@ -1,5 +1,4 @@
 #include "wp_viewport.h"
-#include <cassert>
 namespace fcitx::wayland {
 WpViewport::WpViewport(wp_viewport *data)
     : version_(wp_viewport_get_version(data)), data_(data) {

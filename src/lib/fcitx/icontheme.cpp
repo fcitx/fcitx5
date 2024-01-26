@@ -8,7 +8,6 @@
 #include <fcntl.h>
 #include <sys/mman.h>
 #include <sys/stat.h>
-#include <ctime>
 #include <fstream>
 #include <limits>
 #include <stdexcept>
@@ -16,9 +15,7 @@
 #include "fcitx-config/iniparser.h"
 #include "fcitx-config/marshallfunction.h"
 #include "fcitx-utils/fs.h"
-#include "fcitx-utils/log.h"
 #include "fcitx-utils/mtime_p.h"
-#include "config.h"
 #include "misc_p.h"
 
 namespace fcitx {

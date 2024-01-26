@@ -8,9 +8,7 @@
 #define _FCITX_INPUTPANEL_H_
 
 #include <functional>
-#include <fcitx-utils/element.h>
 #include <fcitx/candidatelist.h>
-#include <fcitx/text.h>
 #include "fcitxcore_export.h"
 
 /// \addtogroup FcitxCore

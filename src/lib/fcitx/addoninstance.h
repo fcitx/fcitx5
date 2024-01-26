@@ -9,10 +9,7 @@
 
 #include <functional>
 #include <memory>
-#include <type_traits>
-#include <unordered_map>
 #include <fcitx-config/configuration.h>
-#include <fcitx-utils/library.h>
 #include <fcitx-utils/metastring.h>
 #include <fcitx/addoninfo.h>
 #include <fcitx/addoninstance_details.h>

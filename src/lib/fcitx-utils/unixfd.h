@@ -12,14 +12,11 @@
 /// \file
 /// \brief Utility class to handle unix file decriptor.
 
-#include <memory>
 #include <fcitx-utils/log.h>
 #include <fcitx-utils/macros.h>
 #include "fcitxutils_export.h"
 
 namespace fcitx {
-
-class UnixFDPrivate;
 
 /// \brief Class wrap around the unix fd.
 class FCITXUTILS_EXPORT UnixFD {

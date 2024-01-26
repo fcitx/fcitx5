@@ -11,7 +11,6 @@
 #include <fcitx-config/enum.h>
 #include <fcitx-utils/macros.h>
 #include <fcitx/inputcontext.h>
-#include <fcitx/inputcontextproperty.h>
 #include "fcitxcore_export.h"
 
 namespace fcitx {

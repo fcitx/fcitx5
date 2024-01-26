@@ -1,5 +1,4 @@
 #include "wp_fractional_scale_manager_v1.h"
-#include <cassert>
 #include "wl_surface.h"
 #include "wp_fractional_scale_v1.h"
 namespace fcitx::wayland {

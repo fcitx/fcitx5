@@ -7,7 +7,6 @@
 
 #include "inputmethodmanager.h"
 #include <fcntl.h>
-#include <unistd.h>
 #include <cassert>
 #include <list>
 #include <unordered_map>

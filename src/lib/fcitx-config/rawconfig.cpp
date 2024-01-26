@@ -6,10 +6,8 @@
  */
 #include "rawconfig.h"
 #include <list>
-#include <unordered_map>
 #include <utility>
 #include "fcitx-utils/misc_p.h"
-#include "fcitx-utils/stringutils.h"
 
 namespace fcitx {
 

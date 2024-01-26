@@ -1,6 +1,5 @@
 #ifndef ZWP_INPUT_POPUP_SURFACE_V2
 #define ZWP_INPUT_POPUP_SURFACE_V2
-#include <memory>
 #include <wayland-client.h>
 #include "fcitx-utils/signals.h"
 #include "wayland-input-method-unstable-v2-client-protocol.h"

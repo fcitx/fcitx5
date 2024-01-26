@@ -1,6 +1,5 @@
 #ifndef WL_DATA_DEVICE
 #define WL_DATA_DEVICE
-#include <memory>
 #include <wayland-client.h>
 #include "fcitx-utils/signals.h"
 namespace fcitx::wayland {

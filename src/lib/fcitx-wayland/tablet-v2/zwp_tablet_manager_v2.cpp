@@ -1,5 +1,4 @@
 #include "zwp_tablet_manager_v2.h"
-#include <cassert>
 #include "wl_seat.h"
 #include "zwp_tablet_seat_v2.h"
 namespace fcitx::wayland {

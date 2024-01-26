@@ -1,6 +1,5 @@
 #ifndef WP_CURSOR_SHAPE_MANAGER_V1
 #define WP_CURSOR_SHAPE_MANAGER_V1
-#include <memory>
 #include <wayland-client.h>
 #include "fcitx-utils/signals.h"
 #include "wayland-cursor-shape-client-protocol.h"

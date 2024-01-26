@@ -1,5 +1,4 @@
 #include "zwp_tablet_v2.h"
-#include <cassert>
 namespace fcitx::wayland {
 const struct zwp_tablet_v2_listener ZwpTabletV2::listener = {
     [](void *data, zwp_tablet_v2 *wldata, const char *name) {

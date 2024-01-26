@@ -1,6 +1,5 @@
 #ifndef ZWP_TABLET_PAD_STRIP_V2
 #define ZWP_TABLET_PAD_STRIP_V2
-#include <memory>
 #include <wayland-client.h>
 #include "fcitx-utils/signals.h"
 #include "wayland-tablet-client-protocol.h"

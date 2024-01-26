@@ -7,7 +7,6 @@
 #ifndef _FCITX_UTILS_ICONTHEME_H_
 #define _FCITX_UTILS_ICONTHEME_H_
 
-#include <cstdlib>
 #include <memory>
 #include <fcitx-config/enum.h>
 #include <fcitx-config/rawconfig.h>

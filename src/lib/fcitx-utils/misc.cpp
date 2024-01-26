@@ -10,7 +10,6 @@
 #include <fmt/format.h>
 #include "fcitx-utils/fs.h"
 #include "fcitx-utils/misc_p.h"
-#include "config.h"
 #include "log.h"
 
 #if defined(LIBKVM_FOUND)

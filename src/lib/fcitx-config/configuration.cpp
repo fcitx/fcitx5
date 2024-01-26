@@ -8,7 +8,6 @@
 #include "configuration.h"
 #include <algorithm>
 #include <cassert>
-#include <exception>
 #include <list>
 #include <memory>
 #include <stdexcept>

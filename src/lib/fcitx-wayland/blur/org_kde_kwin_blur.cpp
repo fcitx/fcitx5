@@ -1,5 +1,4 @@
 #include "org_kde_kwin_blur.h"
-#include <cassert>
 #include "wl_region.h"
 namespace fcitx::wayland {
 OrgKdeKwinBlur::OrgKdeKwinBlur(org_kde_kwin_blur *data)

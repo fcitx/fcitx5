@@ -6,7 +6,6 @@
  */
 
 #include "addoninstance.h"
-#include "fcitx/addoninfo.h"
 #include "addoninstance_p.h"
 
 namespace fcitx {
