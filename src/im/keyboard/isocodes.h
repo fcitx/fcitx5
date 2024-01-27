@@ -21,9 +21,6 @@ struct IsoCodes639Entry {
     std::string name;
 };
 
-class IsoCodes639Parser;
-class IsoCodes3166Parser;
-
 class IsoCodes {
     friend class IsoCodes639Parser;
     friend class IsoCodes3166Parser;

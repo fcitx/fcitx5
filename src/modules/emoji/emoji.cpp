@@ -14,7 +14,6 @@
 #include "fcitx-utils/stringutils.h"
 #include "fcitx-utils/utf8.h"
 #include "fcitx/addonfactory.h"
-#include "config.h"
 
 namespace fcitx {
 

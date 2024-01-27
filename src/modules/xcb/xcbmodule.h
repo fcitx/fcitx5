@@ -7,17 +7,13 @@
 #ifndef _FCITX_MODULES_XCB_XCBMODULE_H_
 #define _FCITX_MODULES_XCB_XCBMODULE_H_
 
-#include <list>
 #include <unordered_map>
-#include <vector>
 #include "fcitx-config/iniparser.h"
-#include "fcitx-utils/event.h"
 #include "fcitx-utils/handlertable.h"
 #include "fcitx-utils/i18n.h"
 #include "fcitx/addonfactory.h"
 #include "fcitx/addoninstance.h"
 #include "fcitx/addonmanager.h"
-#include "fcitx/focusgroup.h"
 #include "fcitx/instance.h"
 #include "xcb_public.h"
 #include "xcbconnection.h"
@@ -32,7 +28,6 @@ FCITX_CONFIGURATION(XCBConfig,
                         this, "AlwaysSetToGroupLayout",
                         _("Always set layout to be only group layout"), true};);
 
-class XCBConnection;
 
 class XCBModule final : public AddonInstance {
 public:

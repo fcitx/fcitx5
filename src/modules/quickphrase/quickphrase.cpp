@@ -5,15 +5,11 @@
  *
  */
 #include "quickphrase.h"
-#include <fcntl.h>
 
 #include <utility>
 #include "fcitx-config/iniparser.h"
-#include "fcitx-utils/charutils.h"
 #include "fcitx-utils/i18n.h"
 #include "fcitx-utils/inputbuffer.h"
-#include "fcitx-utils/standardpath.h"
-#include "fcitx-utils/utf8.h"
 #include "fcitx/addonmanager.h"
 #include "fcitx/candidatelist.h"
 #include "fcitx/inputcontextmanager.h"

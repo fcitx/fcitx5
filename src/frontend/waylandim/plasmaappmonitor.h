@@ -16,7 +16,6 @@ namespace wayland {
 class OrgKdePlasmaWindowManagement;
 class OrgKdePlasmaWindow;
 } // namespace wayland
-class AddonInstance;
 class PlasmaWindow;
 
 class PlasmaAppMonitor : public AppMonitor {

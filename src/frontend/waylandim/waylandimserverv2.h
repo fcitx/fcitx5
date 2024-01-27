@@ -8,13 +8,8 @@
 #define _FCITX5_FRONTEND_WAYLANDIM_WAYLANDIMSERVERV2_H_
 
 #include <cstdint>
-#include <xkbcommon/xkbcommon.h>
 #include "fcitx-utils/event.h"
 #include "fcitx-utils/misc_p.h"
-#include "fcitx/focusgroup.h"
-#include "fcitx/inputcontext.h"
-#include "fcitx/instance.h"
-#include "display.h"
 #include "virtualinputcontext.h"
 #include "waylandimserverbase.h"
 #include "zwp_input_method_keyboard_grab_v2.h"

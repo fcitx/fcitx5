@@ -7,8 +7,6 @@
 
 #include "isocodes.h"
 #include <cstring>
-#include <memory>
-#include <fcitx-utils/log.h>
 #include <json-c/json.h>
 #include "fcitx-utils/metastring.h"
 

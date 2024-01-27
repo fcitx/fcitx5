@@ -8,11 +8,9 @@
 #define _FCITX_UI_CLASSIC_WAYLANDWINDOW_H_
 
 #include <cstdint>
-#include <cairo/cairo.h>
 #include "fcitx-utils/rect.h"
 #include "waylandui.h"
 #include "window.h"
-#include "wl_surface.h"
 #include "wp_fractional_scale_manager_v1.h"
 #include "wp_fractional_scale_v1.h"
 #include "wp_viewport.h"

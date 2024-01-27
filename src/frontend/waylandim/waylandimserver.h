@@ -8,16 +8,10 @@
 #define _FCITX5_FRONTEND_WAYLANDIM_WAYLANDIMSERVER_H_
 
 #include <memory>
-#include <wayland-client.h>
-#include <xkbcommon/xkbcommon.h>
 #include "fcitx-utils/event.h"
 #include "fcitx-utils/key.h"
 #include "fcitx-utils/keysymgen.h"
 #include "fcitx-utils/macros.h"
-#include "fcitx/focusgroup.h"
-#include "fcitx/inputcontext.h"
-#include "fcitx/inputcontextmanager.h"
-#include "fcitx/instance.h"
 #include "virtualinputcontext.h"
 #include "waylandimserverbase.h"
 #include "wl_keyboard.h"
@@ -26,7 +20,6 @@
 
 namespace fcitx {
 class WaylandIMModule;
-class WaylandIMInputContextV1;
 
 class WaylandIMServer : public WaylandIMServerBase {
     friend class WaylandIMInputContextV1;

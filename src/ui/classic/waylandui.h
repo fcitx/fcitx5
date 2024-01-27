@@ -7,13 +7,9 @@
 #ifndef _FCITX_UI_CLASSIC_WAYLANDUI_H_
 #define _FCITX_UI_CLASSIC_WAYLANDUI_H_
 
-#include <cairo/cairo.h>
 #include "classicui.h"
-#include "config.h"
-#include "display.h"
 #include "waylandcursortheme.h"
 #include "waylandpointer.h"
-#include "wl_pointer.h"
 
 namespace fcitx {
 namespace classicui {

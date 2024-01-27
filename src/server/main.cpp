@@ -5,13 +5,10 @@
  *
  */
 
-#include <fcntl.h>
 #include <locale.h>
 #include <sys/stat.h>
-#include <unistd.h>
 #include <exception>
 #include <iostream>
-#include <libintl.h>
 #include "fcitx-utils/fs.h"
 #include "fcitx-utils/misc.h"
 #include "fcitx-utils/misc_p.h"

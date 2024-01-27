@@ -8,17 +8,13 @@
 #define _FCITX_FRONTEND_DBUSFRONTEND_DBUSFRONTEND_H_
 
 #include "fcitx-utils/dbus/servicewatcher.h"
-#include "fcitx-utils/event.h"
 #include "fcitx/addonfactory.h"
 #include "fcitx/addoninstance.h"
 #include "fcitx/addonmanager.h"
-#include "fcitx/focusgroup.h"
 #include "fcitx/instance.h"
 
 namespace fcitx {
 
-class AddonInstance;
-class Instance;
 class InputMethod1;
 
 class DBusFrontendModule : public AddonInstance {

@@ -9,14 +9,9 @@
 
 #include <optional>
 #include <string>
-#include <unordered_set>
 #include "fcitx-utils/signals.h"
 
 namespace fcitx {
-
-namespace wayland {
-class Display;
-}
 
 class AppMonitor {
 public:

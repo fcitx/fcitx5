@@ -12,7 +12,6 @@
 #include "fcitx-utils/log.h"
 #include "fcitx-utils/testing.h"
 #include "fcitx/addonmanager.h"
-#include "fcitx/event.h"
 #include "fcitx/focusgroup.h"
 #include "fcitx/inputcontext.h"
 #include "fcitx/inputcontextmanager.h"

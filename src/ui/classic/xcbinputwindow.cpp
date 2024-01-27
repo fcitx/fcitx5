@@ -6,7 +6,6 @@
  */
 
 #include "xcbinputwindow.h"
-#include <pango/pangocairo.h>
 #include <xcb/xcb_aux.h>
 #include <xcb/xcb_icccm.h>
 #include "fcitx-utils/rect.h"

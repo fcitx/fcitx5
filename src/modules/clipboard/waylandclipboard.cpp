@@ -5,7 +5,6 @@
  *
  */
 #include "waylandclipboard.h"
-#include <cstring>
 #include <unordered_set>
 #include "clipboard.h"
 #include "wl_seat.h"

@@ -7,18 +7,13 @@
 
 #include "notificationitem.h"
 #include <unistd.h>
-#include <fmt/format.h>
 #include "fcitx-utils/charutils.h"
 #include "fcitx-utils/dbus/message.h"
 #include "fcitx-utils/dbus/objectvtable.h"
 #include "fcitx-utils/endian_p.h"
-#include "fcitx-utils/fs.h"
 #include "fcitx-utils/i18n.h"
 #include "fcitx/addonfactory.h"
 #include "fcitx/addonmanager.h"
-#include "fcitx/inputmethodengine.h"
-#include "fcitx/inputmethodentry.h"
-#include "fcitx/inputmethodmanager.h"
 #include "fcitx/misc_p.h"
 #include "classicui_public.h"
 #include "dbusmenu.h"

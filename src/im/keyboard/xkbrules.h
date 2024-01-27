@@ -47,7 +47,6 @@ struct XkbOptionGroupInfo {
     bool exclusive;
 };
 
-struct XkbRulesParseState;
 class XkbRules {
 public:
     friend struct XkbRulesParseState;

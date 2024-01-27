@@ -8,9 +8,7 @@
 #include <pango/pangocairo.h>
 #include <xcb/xcb.h>
 #include <xcb/xcb_aux.h>
-#include <xcb/xcb_keysyms.h>
 
-#include <optional>
 #include <utility>
 #include <xcb/xcb_icccm.h>
 #include "fcitx-utils/log.h"

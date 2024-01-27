@@ -6,7 +6,6 @@
  */
 
 #include <fcntl.h>
-#include <unistd.h>
 #include <set>
 #include "fcitx-utils/fs.h"
 #include "fcitx-utils/log.h"

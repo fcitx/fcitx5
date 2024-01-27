@@ -7,7 +7,6 @@
 #include "fcitx-utils/eventdispatcher.h"
 #include "fcitx-utils/testing.h"
 #include "fcitx/addonmanager.h"
-#include "fcitx/inputmethodmanager.h"
 #include "fcitx/instance.h"
 #include "quickphrase_public.h"
 #include "testdir.h"

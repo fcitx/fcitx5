@@ -10,7 +10,6 @@
 #include <string>
 #include <fcitx/instance.h>
 #include <xcb/xcb_keysyms.h>
-#include "fcitx-utils/event.h"
 #include "fcitx-utils/handlertable.h"
 #include "fcitx-utils/key.h"
 #include "xcb_public.h"

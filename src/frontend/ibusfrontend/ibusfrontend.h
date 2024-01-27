@@ -9,7 +9,6 @@
 
 #include <unistd.h>
 #include "fcitx-utils/dbus/bus.h"
-#include "fcitx-utils/event.h"
 #include "fcitx-utils/standardpath.h"
 #include "fcitx/addoninstance.h"
 #include "fcitx/addonmanager.h"
@@ -17,8 +16,6 @@
 
 namespace fcitx {
 
-class AddonInstance;
-class Instance;
 class IBusFrontend;
 
 class IBusFrontendModule : public AddonInstance {

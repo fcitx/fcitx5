@@ -6,9 +6,7 @@
  */
 
 #include "spell.h"
-#include <fcntl.h>
 #include "fcitx-config/iniparser.h"
-#include "fcitx-utils/standardpath.h"
 #include "fcitx/addonmanager.h"
 #include "config.h"
 #include "spell-custom.h"

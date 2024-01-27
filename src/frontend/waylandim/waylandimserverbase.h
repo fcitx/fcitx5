@@ -8,11 +8,8 @@
 #define _FCITX5_FRONTEND_WAYLANDIM_WAYLANDIMSERVERBASE_H_
 
 #include <string>
-#include <wayland-client-core.h>
 #include <xkbcommon/xkbcommon.h>
-#include "fcitx-utils/event.h"
 #include "fcitx-utils/misc.h"
-#include "fcitx/focusgroup.h"
 #include "display.h"
 #include "waylandim.h"
 

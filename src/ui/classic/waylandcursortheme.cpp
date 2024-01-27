@@ -1,12 +1,10 @@
 #include "waylandcursortheme.h"
 #include <memory>
 #include <wayland-cursor.h>
-#include "fcitx-utils/misc.h"
 #include "fcitx-utils/misc_p.h"
 #include "dbus_public.h"
 #include "portalsettingmonitor.h"
 #include "waylandui.h"
-#include "wl_compositor.h"
 #include "wl_shm.h"
 
 namespace fcitx::classicui {

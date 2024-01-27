@@ -11,8 +11,6 @@
 #include "inputwindow.h"
 #include "org_kde_kwin_blur.h"
 #include "org_kde_kwin_blur_manager.h"
-#include "wp_fractional_scale_manager_v1.h"
-#include "wp_viewporter.h"
 #include "zwp_input_panel_surface_v1.h"
 #include "zwp_input_popup_surface_v2.h"
 

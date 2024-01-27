@@ -6,9 +6,6 @@
  */
 #include "appmonitor.h"
 #include <algorithm>
-#include "fcitx/misc_p.h"
-#include "display.h"
-#include "plasmaappmonitor.h"
 
 namespace fcitx {
 

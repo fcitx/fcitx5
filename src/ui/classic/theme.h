@@ -15,10 +15,8 @@
 #include "fcitx-config/enum.h"
 #include "fcitx-config/option.h"
 #include "fcitx-utils/i18n.h"
-#include "fcitx-utils/log.h"
 #include "fcitx-utils/rect.h"
 #include "fcitx/icontheme.h"
-#include "fcitx/inputpanel.h"
 
 namespace fcitx::classicui {
 enum class Gravity {

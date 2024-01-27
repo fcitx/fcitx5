@@ -6,7 +6,6 @@
  */
 
 #include "xmlparser.h"
-#include <memory>
 #include "fcitx-utils/misc.h"
 #define XML_BUFFER_SIZE 4096
 

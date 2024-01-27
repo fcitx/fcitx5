@@ -6,11 +6,9 @@
  */
 
 #include "fcitx4frontend.h"
-#include <fstream>
 #include "fcitx-utils/dbus/message.h"
 #include "fcitx-utils/dbus/objectvtable.h"
 #include "fcitx-utils/dbus/servicewatcher.h"
-#include "fcitx-utils/log.h"
 #include "fcitx-utils/metastring.h"
 #include "fcitx-utils/standardpath.h"
 #include "fcitx/inputcontext.h"

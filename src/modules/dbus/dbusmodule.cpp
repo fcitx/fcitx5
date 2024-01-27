@@ -8,7 +8,6 @@
 #include "config.h"
 
 #include <pwd.h>
-#include <sys/types.h>
 #include <fstream>
 #include <set>
 #include <sstream>

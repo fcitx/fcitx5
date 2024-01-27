@@ -8,7 +8,6 @@
 #include "fcitx-utils/dbus/bus.h"
 #include "fcitx-utils/dbus/message.h"
 #include "fcitx-utils/dbus/variant.h"
-#include "fcitx-utils/event.h"
 #include "fcitx-utils/log.h"
 #include "fcitx-utils/metastring.h"
 
