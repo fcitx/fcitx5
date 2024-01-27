@@ -65,13 +65,10 @@ void BuiltInQuickPhraseProvider::load(StandardPathFile &file) {
     UniqueCPtr<char> buf;
     size_t len = 0;
     while (getline(buf, &len, fp.get()) != -1) {
-        std::string strBuf(buf.get());
-
-        auto [start, end] = stringutils::trimInplace(strBuf);
-        if (start == end) {
+        std::string_view text = stringutils::trimView(buf.get());
+        if (text.empty()) {
             continue;
         }
-        std::string_view text(strBuf.data() + start, end - start);
         if (!utf8::validate(text)) {
             continue;
         }
@@ -88,7 +85,7 @@ void BuiltInQuickPhraseProvider::load(StandardPathFile &file) {
 
         std::string key(text.begin(), text.begin() + pos);
         auto wordString =
-            stringutils::unescapeForValue(std::string_view(text.substr(word)));
+            stringutils::unescapeForValue(text.substr(word));
 
         if (!wordString) {
             continue;
