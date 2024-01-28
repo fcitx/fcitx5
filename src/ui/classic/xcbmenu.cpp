@@ -5,14 +5,13 @@
  *
  */
 #include "xcbmenu.h"
+#include <optional>
+#include <utility>
 #include <pango/pangocairo.h>
 #include <xcb/xcb.h>
 #include <xcb/xcb_aux.h>
-#include <xcb/xcb_keysyms.h>
-
-#include <optional>
-#include <utility>
 #include <xcb/xcb_icccm.h>
+#include <xcb/xcb_keysyms.h>
 #include "fcitx-utils/log.h"
 #include "fcitx/inputcontext.h"
 #include "fcitx/userinterfacemanager.h"
@@ -635,7 +634,7 @@ InputContext *XCBMenu::lastRelevantIc() {
 }
 
 void XCBMenu::setFocus() {
-    xcb_set_input_focus(ui_->connection(), XCB_INPUT_FOCUS_PARENT, wid_,
+    xcb_set_input_focus(ui_->connection(), XCB_INPUT_FOCUS_NONE, wid_,
                         XCB_CURRENT_TIME);
 }
 
