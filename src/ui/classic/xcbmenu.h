@@ -79,7 +79,6 @@ private:
     void update();
     void setHoveredIndex(int idx);
     void setChild(XCBMenu *child);
-    void setFocus();
     void updateDPI(int x, int y);
     std::pair<MenuItem *, Action *> actionAt(size_t index);
 

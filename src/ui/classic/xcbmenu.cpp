@@ -280,7 +280,6 @@ void XCBMenu::hideTillMenuHasMouseOrTopLevel() {
 void XCBMenu::hideTillMenuHasMouseOrTopLevelHelper() {
     if (parent_.isNull() || hasMouse_) {
         update();
-        setFocus();
         return;
     }
     auto *parent = parent_.get();
@@ -315,7 +314,6 @@ void XCBMenu::setHoveredIndex(int idx) {
                     }
 
                     if (hoveredIndex_ >= 0) {
-                        setFocus();
                         // FCITX_INFO() << this << " in timer branch 1";
                         // The current subMenu anyway is not the hovered one.
                         hideChilds();
@@ -633,11 +631,6 @@ InputContext *XCBMenu::lastRelevantIc() {
     return ui_->parent()->instance()->mostRecentInputContext();
 }
 
-void XCBMenu::setFocus() {
-    xcb_set_input_focus(ui_->connection(), XCB_INPUT_FOCUS_NONE, wid_,
-                        XCB_CURRENT_TIME);
-}
-
 void XCBMenu::show(Rect rect, ConstrainAdjustment adjustY) {
     // FCITX_INFO() << this << " show() " << hoveredIndex_;
     if (visible_) {
@@ -696,7 +689,6 @@ void XCBMenu::show(Rect rect, ConstrainAdjustment adjustY) {
                              &wc);
 
     xcb_map_window(ui_->connection(), wid_);
-    setFocus();
     if (parent_.isNull()) {
         ui_->grabPointer(this);
     }
