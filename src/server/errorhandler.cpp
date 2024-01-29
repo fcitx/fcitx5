@@ -15,7 +15,6 @@
 #include <unistd.h>
 
 #include "fcitx-utils/fs.h"
-#include "fcitx/instance.h"
 #include "errorhandler.h"
 
 #if defined(EXECINFO_FOUND)

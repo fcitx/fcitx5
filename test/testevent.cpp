@@ -5,7 +5,6 @@
  *
  */
 
-#include <fcntl.h>
 #include <unistd.h>
 #include <ctime>
 #include <thread>

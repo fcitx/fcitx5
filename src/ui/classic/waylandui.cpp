@@ -7,25 +7,17 @@
 
 #include "waylandui.h"
 #include <algorithm>
-#include "fcitx-utils/charutils.h"
-#include "fcitx-utils/stringutils.h"
-#include "config.h"
 #include "display.h"
-#include "org_kde_kwin_blur.h"
 #include "org_kde_kwin_blur_manager.h"
 #include "waylandcursortheme.h"
 #include "waylandinputwindow.h"
 #include "waylandshmwindow.h"
 #include "wl_compositor.h"
 #include "wl_seat.h"
-#include "wl_shell.h"
 #include "wl_shm.h"
 #include "wp_fractional_scale_manager_v1.h"
-#include "wp_fractional_scale_v1.h"
-#include "wp_viewport.h"
 #include "wp_viewporter.h"
 #include "zwp_input_panel_v1.h"
-#include "zwp_input_popup_surface_v2.h"
 
 namespace fcitx::classicui {
 

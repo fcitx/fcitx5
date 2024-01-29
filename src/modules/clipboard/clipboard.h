@@ -7,15 +7,12 @@
 #ifndef _FCITX_MODULES_CLIPBOARD_CLIPBOARD_H_
 #define _FCITX_MODULES_CLIPBOARD_CLIPBOARD_H_
 
-#include <map>
 #include "fcitx-config/configuration.h"
-#include "fcitx-config/enum.h"
 #include "fcitx-config/iniparser.h"
 #include "fcitx-utils/i18n.h"
 #include "fcitx-utils/key.h"
 #include "fcitx-utils/log.h"
 #include "fcitx-utils/misc_p.h"
-#include "fcitx-utils/standardpath.h"
 #include "fcitx/addonfactory.h"
 #include "fcitx/addoninstance.h"
 #include "fcitx/addonmanager.h"

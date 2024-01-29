@@ -8,7 +8,6 @@
 #define _FCITX_UI_CLASSIC_WAYLANDPOINTER_H_
 
 #include <memory>
-#include "display.h"
 #include "waylandcursor.h"
 #include "wl_pointer.h"
 #include "wl_seat.h"

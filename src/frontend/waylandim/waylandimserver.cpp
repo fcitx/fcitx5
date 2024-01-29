@@ -9,7 +9,6 @@
 #include <memory>
 #include "fcitx-utils/macros.h"
 #include "fcitx-utils/utf8.h"
-#include "appmonitor.h"
 #include "virtualinputcontext.h"
 #include "wayland-text-input-unstable-v1-client-protocol.h"
 #include "waylandim.h"

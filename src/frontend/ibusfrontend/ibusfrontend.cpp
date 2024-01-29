@@ -11,8 +11,6 @@
 #include <sys/wait.h>
 #include <unistd.h>
 #include <csignal>
-#include <fstream>
-#include <mutex>
 #include <fmt/format.h>
 #include "fcitx-config/iniparser.h"
 #include "fcitx-utils/dbus/message.h"

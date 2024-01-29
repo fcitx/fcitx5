@@ -7,17 +7,12 @@
 #ifndef _FCITX_UI_CLASSIC_WAYLANDCURSORTHEME_H_
 #define _FCITX_UI_CLASSIC_WAYLANDCURSORTHEME_H_
 
-#include <cstdint>
 #include <memory>
 #include <unordered_map>
 #include <wayland-cursor.h>
-#include "fcitx-utils/misc.h"
 #include "config.h"
-#include "display.h"
 #include "portalsettingmonitor.h"
-#include "wl_compositor.h"
 #include "wl_shm.h"
-#include "wl_surface.h"
 
 namespace fcitx::classicui {
 class WaylandUI;

@@ -7,10 +7,7 @@
 #ifndef _FCITX_UI_VIRTUALKEYBOARD_VIRTUALKEYBOARD_H_
 #define _FCITX_UI_VIRTUALKEYBOARD_VIRTUALKEYBOARD_H_
 
-#include "fcitx-utils/dbus/bus.h"
-#include "fcitx-utils/dbus/message.h"
 #include "fcitx-utils/dbus/servicewatcher.h"
-#include "fcitx-utils/event.h"
 #include "fcitx/addonfactory.h"
 #include "fcitx/addoninstance.h"
 #include "fcitx/addonmanager.h"

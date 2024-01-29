@@ -19,12 +19,9 @@
 #include <algorithm>
 #include <cstring>
 #include <iomanip>
-#include <iostream>
 #include <set>
-#include <stdexcept>
 #include <fmt/format.h>
 #include "fcitx-utils/charutils.h"
-#include "fcitx-utils/endian_p.h"
 #include "fcitx-utils/fs.h"
 #include "fcitx-utils/i18n.h"
 #include "fcitx-utils/misc_p.h"

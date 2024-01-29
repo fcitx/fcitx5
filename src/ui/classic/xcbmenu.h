@@ -7,8 +7,6 @@
 #ifndef _FCITX_UI_CLASSIC_XCBMENU_H_
 #define _FCITX_UI_CLASSIC_XCBMENU_H_
 
-#include <pango/pango.h>
-#include <xcb/xproto.h>
 #include "fcitx/menu.h"
 #include "common.h"
 #include "xcbwindow.h"

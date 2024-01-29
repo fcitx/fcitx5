@@ -5,7 +5,6 @@
  *
  */
 #include "dbusmenu.h"
-#include "fcitx-utils/log.h"
 #include "fcitx/action.h"
 #include "fcitx/inputcontext.h"
 #include "fcitx/inputmethodentry.h"

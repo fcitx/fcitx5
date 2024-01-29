@@ -7,14 +7,12 @@
 #ifndef _FCITX_MODULES_NOTIFICATIONS_NOTIFICATIONS_H_
 #define _FCITX_MODULES_NOTIFICATIONS_NOTIFICATIONS_H_
 
-#include <functional>
 #include <unordered_set>
 #include <utility>
 #include "fcitx-config/configuration.h"
 #include "fcitx-config/iniparser.h"
 #include "fcitx-utils/dbus/bus.h"
 #include "fcitx-utils/dbus/servicewatcher.h"
-#include "fcitx-utils/fs.h"
 #include "fcitx-utils/i18n.h"
 #include "fcitx/addoninstance.h"
 #include "fcitx/instance.h"

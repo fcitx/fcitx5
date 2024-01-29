@@ -5,7 +5,6 @@
  *
  */
 
-#include <stdexcept>
 #include <thread>
 #include "fcitx-utils/dbus/bus.h"
 #include "fcitx-utils/dbus/variant.h"

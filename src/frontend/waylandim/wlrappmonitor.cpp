@@ -6,8 +6,6 @@
  */
 #include "wlrappmonitor.h"
 #include <wayland-client-core.h>
-#include "fcitx/addoninstance.h"
-#include "wayland_public.h"
 #include "zwlr_foreign_toplevel_handle_v1.h"
 #include "zwlr_foreign_toplevel_manager_v1.h"
 

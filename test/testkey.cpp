@@ -6,7 +6,6 @@
  */
 
 #include <cstdio>
-#include <cstdlib>
 #include <cstring>
 #include "fcitx-utils/key.h"
 #include "fcitx-utils/keydata.h"

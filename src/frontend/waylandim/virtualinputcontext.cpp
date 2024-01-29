@@ -7,9 +7,7 @@
 #include "virtualinputcontext.h"
 #include <string>
 #include "fcitx-utils/misc_p.h"
-#include "fcitx/focusgroup.h"
 #include "fcitx/inputcontext.h"
-#include "fcitx/inputcontextmanager.h"
 
 namespace fcitx {
 

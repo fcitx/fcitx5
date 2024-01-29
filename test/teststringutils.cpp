@@ -5,7 +5,6 @@
  *
  */
 
-#include <tuple>
 #include "fcitx-utils/charutils.h"
 #include "fcitx-utils/log.h"
 #include "fcitx-utils/macros.h"

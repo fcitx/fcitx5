@@ -17,7 +17,6 @@
 #include "fcitx/addonfactory.h"
 #include "fcitx/addoninstance.h"
 #include "fcitx/addonmanager.h"
-#include "fcitx/focusgroup.h"
 #include "fcitx/instance.h"
 #include "display.h"
 #include "wayland_public.h"
@@ -91,7 +90,6 @@ private:
     std::unique_ptr<wayland::Display> display_;
     std::unique_ptr<WaylandEventReader> eventReader_;
     std::unique_ptr<FocusGroup> group_;
-    int error_ = 0;
     ScopedConnection panelConn_, panelRemovedConn_;
     std::unordered_map<wayland::WlSeat *, std::unique_ptr<WaylandKeyboard>>
         keyboards_;

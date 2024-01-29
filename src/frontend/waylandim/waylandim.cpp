@@ -5,18 +5,11 @@
  *
  */
 #include "waylandim.h"
-#include <unistd.h>
-#include <algorithm>
-#include <cassert>
-#include <cstring>
 #include <memory>
-#include "fcitx-utils/event.h"
 #include "fcitx-utils/misc_p.h"
-#include "fcitx-utils/utf8.h"
 #include "fcitx/inputcontext.h"
 #include "fcitx/misc_p.h"
 #include "appmonitor.h"
-#include "display.h"
 #include "plasmaappmonitor.h"
 #include "virtualinputcontext.h"
 #include "wayland_public.h"

@@ -26,8 +26,6 @@
 
 namespace fcitx {
 
-class Instance;
-
 enum class ChooseModifier { NoModifier, Alt, Control, Super };
 FCITX_CONFIG_ENUM_NAME_WITH_I18N(ChooseModifier, N_("None"), N_("Alt"),
                                  N_("Control"), N_("Super"));
@@ -134,8 +132,6 @@ struct KeyboardEngineState : public InputContextProperty {
     // need to call commit buffer and forward chr manually.
     bool updateBuffer(std::string_view chr);
 };
-
-class KeyboardEnginePrivate;
 
 class KeyboardEngine final : public InputMethodEngineV3 {
 public:

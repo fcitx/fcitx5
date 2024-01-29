@@ -10,7 +10,6 @@
 #include <memory>
 #include <string>
 #include <unordered_map>
-#include "fcitx-utils/connectableobject.h"
 #include "fcitx-utils/dbus/bus.h"
 #include "fcitx-utils/dbus/servicewatcher.h"
 #include "fcitx-utils/dbus/variant.h"

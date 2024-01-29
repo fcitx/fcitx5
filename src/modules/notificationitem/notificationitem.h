@@ -9,10 +9,7 @@
 
 #include <memory>
 #include <fcitx/addonmanager.h>
-#include "fcitx-config/configuration.h"
-#include "fcitx-config/iniparser.h"
 #include "fcitx-utils/dbus/servicewatcher.h"
-#include "fcitx-utils/i18n.h"
 #include "fcitx/addoninstance.h"
 #include "fcitx/instance.h"
 #include "dbus_public.h"

@@ -5,7 +5,6 @@
  * SPDX-License-Identifier: LGPL-2.1-or-later
  *
  */
-#include <atomic>
 #include <condition_variable>
 #include <cstdarg>
 #include <future>
@@ -17,7 +16,6 @@
 #include "fcitx-utils/eventdispatcher.h"
 #include "fcitx-utils/testing.h"
 #include "fcitx/addonmanager.h"
-#include "fcitx/inputmethodmanager.h"
 #include "fcitx/instance.h"
 #include "testdir.h"
 

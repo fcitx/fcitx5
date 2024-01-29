@@ -8,7 +8,6 @@
 #define _FCITX5_MODULES_EMOJI_EMOJI_H_
 
 #include <map>
-#include <set>
 #include <vector>
 #include "fcitx/addoninstance.h"
 #include "emoji_public.h"

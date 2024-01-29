@@ -6,7 +6,6 @@
  */
 #include "xcbmenu.h"
 #include <optional>
-#include <utility>
 #include <pango/pangocairo.h>
 #include <xcb/xcb.h>
 #include <xcb/xcb_aux.h>

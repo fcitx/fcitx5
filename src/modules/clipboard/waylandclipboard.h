@@ -11,15 +11,11 @@
 #include <thread>
 #include <fcitx-utils/event.h>
 #include <fcitx-utils/eventdispatcher.h>
-#include <fcitx-utils/log.h>
-#include <fcitx-utils/misc_p.h>
 #include <fcitx-utils/signals.h>
 #include <fcitx-utils/unixfd.h>
 #include "display.h"
-#include "wl_seat.h"
 #include "zwlr_data_control_device_v1.h"
 #include "zwlr_data_control_manager_v1.h"
-#include "zwlr_data_control_offer_v1.h"
 
 namespace fcitx {
 
@@ -30,7 +26,6 @@ namespace fcitx {
 
 using DataOfferCallback = std::function<void(const std::vector<char> &)>;
 
-class DataOffer;
 struct DataOfferTask {
     DataOfferCallback callback_;
     std::shared_ptr<UnixFD> fd_;

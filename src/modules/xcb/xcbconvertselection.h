@@ -7,7 +7,6 @@
 #ifndef _FCITX_MODULES_XCB_XCBCONVERTSELECTION_H_
 #define _FCITX_MODULES_XCB_XCBCONVERTSELECTION_H_
 
-#include <xcb/xcb.h>
 #include "fcitx-utils/event.h"
 #include "xcb_public.h"
 

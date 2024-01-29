@@ -9,10 +9,7 @@
 
 #include <cairo/cairo.h>
 #include "buffer.h"
-#include "waylandui.h"
 #include "waylandwindow.h"
-#include "wl_callback.h"
-#include "wl_shm.h"
 
 namespace fcitx {
 namespace classicui {

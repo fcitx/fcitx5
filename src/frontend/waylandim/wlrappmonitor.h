@@ -16,7 +16,6 @@ namespace wayland {
 class ZwlrForeignToplevelManagerV1;
 class ZwlrForeignToplevelHandleV1;
 } // namespace wayland
-class AddonInstance;
 class WlrWindow;
 
 class WlrAppMonitor : public AppMonitor {

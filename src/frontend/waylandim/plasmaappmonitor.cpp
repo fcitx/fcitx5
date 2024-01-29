@@ -6,12 +6,8 @@
  */
 #include "plasmaappmonitor.h"
 #include <string>
-#include <unordered_set>
-#include "fcitx-utils/stringutils.h"
-#include "fcitx/addoninstance.h"
 #include "plasma-window-management/org_kde_plasma_window.h"
 #include "plasma-window-management/org_kde_plasma_window_management.h"
-#include "wayland_public.h"
 
 namespace fcitx {
 class PlasmaWindow {

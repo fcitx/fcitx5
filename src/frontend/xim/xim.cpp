@@ -16,7 +16,6 @@
 #include "fcitx-utils/misc_p.h"
 #include "fcitx-utils/stringutils.h"
 #include "fcitx-utils/utf8.h"
-#include "fcitx/focusgroup.h"
 #include "fcitx/inputcontext.h"
 #include "fcitx/instance.h"
 #include "fcitx/userinterface.h"

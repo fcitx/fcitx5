@@ -11,7 +11,6 @@
 #include <fcitx/inputcontext.h>
 #include "fcitx-utils/capabilityflags.h"
 #include "fcitx-utils/signals.h"
-#include "fcitx/event.h"
 #include "appmonitor.h"
 
 namespace fcitx {

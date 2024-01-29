@@ -9,11 +9,9 @@
 #define _FCITX5_FRONTEND_FCITX4FRONTEND_FCITX4FRONTEND_H_
 
 #include "fcitx-utils/dbus/servicewatcher.h"
-#include "fcitx-utils/event.h"
 #include "fcitx/addonfactory.h"
 #include "fcitx/addoninstance.h"
 #include "fcitx/addonmanager.h"
-#include "fcitx/focusgroup.h"
 #include "fcitx/instance.h"
 #include "config.h"
 
@@ -23,8 +21,6 @@
 
 namespace fcitx {
 
-class AddonInstance;
-class Instance;
 class Fcitx4InputMethod;
 
 class Fcitx4FrontendModule : public AddonInstance {
