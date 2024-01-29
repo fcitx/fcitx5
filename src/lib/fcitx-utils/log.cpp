@@ -9,10 +9,12 @@
 #include <mutex>
 #include <type_traits>
 #include <unordered_set>
+#include <fmt/format.h>
+#include "stringutils.h"
+
 #if FMT_VERSION >= 50300
 #include <fmt/chrono.h>
 #endif
-#include "stringutils.h"
 
 namespace fcitx {
 
