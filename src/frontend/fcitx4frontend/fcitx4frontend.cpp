@@ -14,6 +14,7 @@
 #include "fcitx/inputcontext.h"
 #include "fcitx/inputmethodentry.h"
 #include "fcitx/inputmethodmanager.h"
+#include "fcitx/inputpanel.h"
 #include "fcitx/instance.h"
 #include "fcitx/misc_p.h"
 #include "dbus_public.h"
@@ -100,7 +101,7 @@ public:
         }
     }
 
-    ~Fcitx4InputMethod() {
+    ~Fcitx4InputMethod() override {
         if (!pathWrote_.empty()) {
             unlink(pathWrote_.data());
         }
@@ -143,7 +144,7 @@ public:
         created();
     }
 
-    ~Fcitx4InputContext() { InputContext::destroy(); }
+    ~Fcitx4InputContext() override { InputContext::destroy(); }
 
     const char *frontend() const override { return "fcitx4"; }
 

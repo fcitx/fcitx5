@@ -20,6 +20,7 @@
 #include <cstring>
 #include <iomanip>
 #include <set>
+#include <sstream>
 #include <fmt/format.h>
 #include "fcitx-utils/charutils.h"
 #include "fcitx-utils/fs.h"
