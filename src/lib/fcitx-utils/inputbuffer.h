@@ -10,6 +10,7 @@
 #include <cstring>
 #include <memory>
 #include <string>
+#include <string_view>
 #include <fcitx-utils/flags.h>
 #include <fcitx-utils/macros.h>
 #include "fcitxutils_export.h"
@@ -82,6 +83,9 @@ public:
 
     /// Byte range for character at position i.
     std::pair<size_t, size_t> rangeAt(size_t i) const;
+
+    // String view for char
+    std::string_view viewAt(size_t i) const;
 
     /// Byte size at position i.
     size_t sizeAt(size_t i) const;

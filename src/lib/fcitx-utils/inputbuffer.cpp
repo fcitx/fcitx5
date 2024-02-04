@@ -6,6 +6,7 @@
  */
 #include "inputbuffer.h"
 #include <stdexcept>
+#include <string_view>
 #include <vector>
 #include "fcitx-utils/utf8.h"
 
@@ -196,6 +197,11 @@ std::pair<size_t, size_t> InputBuffer::rangeAt(size_t i) const {
     }
     d->ensureAccTill(i);
     return {d->acc_[i], d->acc_[i] + d->sz_[i]};
+}
+
+std::string_view InputBuffer::viewAt(size_t i) const {
+    auto [start, end] = rangeAt(i);
+    return std::string_view(userInput()).substr(start, end - start);
 }
 
 uint32_t InputBuffer::charAt(size_t i) const {
