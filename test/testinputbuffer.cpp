@@ -6,6 +6,7 @@
  */
 #include "fcitx-utils/inputbuffer.h"
 #include "fcitx-utils/log.h"
+#include "fcitx-utils/utf8.h"
 
 void test_basic(bool ascii) {
     using namespace fcitx;
@@ -98,9 +99,24 @@ void test_utf8() {
     FCITX_ASSERT(buffer.userInput().empty());
 }
 
+void test_utf8_issue_965() {
+    using namespace fcitx;
+    InputBuffer buffer{{fcitx::InputBufferOption::NoOption}};
+    buffer.type('a');
+    buffer.type('a');
+    buffer.type("\xe4\xbd\xa0\xe5\xa5\xbd");
+    size_t i = 0;
+    FCITX_ASSERT(buffer.userInput() == "aa\xe4\xbd\xa0\xe5\xa5\xbd");
+    for (uint32_t c : utf8::MakeUTF8CharRange(buffer.userInput())) {
+        FCITX_ASSERT(c == buffer.charAt(i));
+        i++;
+    }
+}
+
 int main() {
     test_basic(true);
     test_basic(false);
     test_utf8();
+    test_utf8_issue_965();
     return 0;
 }
