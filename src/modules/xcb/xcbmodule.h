@@ -28,7 +28,6 @@ FCITX_CONFIGURATION(XCBConfig,
                         this, "AlwaysSetToGroupLayout",
                         _("Always set layout to be only group layout"), true};);
 
-
 class XCBModule final : public AddonInstance {
 public:
     XCBModule(Instance *instance);

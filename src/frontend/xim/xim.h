@@ -7,8 +7,8 @@
 #ifndef _FCITX_FRONTEND_XIM_XIM_H_
 #define _FCITX_FRONTEND_XIM_XIM_H_
 
-#include <xcb-imdkit/imdkit.h>
 #include <unordered_map>
+#include <xcb-imdkit/imdkit.h>
 #include "fcitx-config/iniparser.h"
 #include "fcitx-utils/i18n.h"
 #include "fcitx/addonfactory.h"
