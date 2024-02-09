@@ -149,6 +149,8 @@ int main() {
 
     FCITX_INFO() << fcitx::Key::keySymToString(
         FcitxKey_Insert, fcitx::KeyStringFormat::Localized);
+    FCITX_ASSERT(fcitx::Key::keySymToUnicode(
+                     static_cast<fcitx::KeySym>(0x100fdd7)) == 0);
 
     return 0;
 }

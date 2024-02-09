@@ -749,7 +749,11 @@ uint32_t Key::keySymToUnicode(KeySym sym) {
      * go well, so it stays as it is.
      */
     if (0x01000000 <= sym && sym <= 0x0110ffff) {
-        return sym - 0x01000000;
+        const uint32_t code = sym - 0x01000000;
+        if (utf8::UCS4IsValid(code)) {
+            return code;
+        }
+        return 0;
     }
 
     /* binary search in table */
@@ -770,7 +774,11 @@ uint32_t Key::keySymToUnicode(KeySym sym) {
 }
 
 std::string Key::keySymToUTF8(KeySym sym) {
-    return utf8::UCS4ToUTF8(keySymToUnicode(sym));
+    auto code = keySymToUnicode(sym);
+    if (!utf8::UCS4IsValid(code)) {
+        return "";
+    }
+    return utf8::UCS4ToUTF8(code);
 }
 
 std::vector<Key> Key::keyListFromString(const std::string &str) {
