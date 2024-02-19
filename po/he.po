@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2024-01-14 20:24+0000\n"
+"POT-Creation-Date: 2024-02-19 20:24+0000\n"
 "PO-Revision-Date: 2017-11-23 04:14+0000\n"
 "Last-Translator: 63f334ffc0709ba0fc2361b80bf3c0f0_00ffd1e "
 "<ab96c93ca0ac55ba7fa06385427e60dd_878890>, 2021\n"
@@ -18,7 +18,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n == 2 && n % "
+"Plural-Forms: nplurals=3; plural=(n == 1 && n % 1 == 0) ? 0 : (n == 2 && n % "
 "1 == 0) ? 1: (n % 10 == 0 && n % 1 == 0 && n > 10) ? 2 : 3;\n"
 
 #: data/fcitx5-diagnose.sh:900
@@ -49,11 +49,11 @@ msgstr ""
 msgid "${1} works properly."
 msgstr ""
 
-#: src/lib/fcitx/instance.cpp:411
+#: src/lib/fcitx/instance.cpp:413
 msgid "(Not available)"
 msgstr ""
 
-#: src/modules/unicode/unicode.cpp:458
+#: src/modules/unicode/unicode.cpp:457
 msgid "(Type to search unicode by code or description)"
 msgstr ""
 
@@ -77,23 +77,23 @@ msgstr ""
 msgid "/XIM"
 msgstr ""
 
-#: src/modules/unicode/charselectdata.cpp:215
+#: src/modules/unicode/charselectdata.cpp:213
 msgid "<Low Surrogate>"
 msgstr ""
 
-#: src/modules/unicode/charselectdata.cpp:211
+#: src/modules/unicode/charselectdata.cpp:209
 msgid "<Non Private Use High Surrogate>"
 msgstr ""
 
-#: src/modules/unicode/charselectdata.cpp:213
+#: src/modules/unicode/charselectdata.cpp:211
 msgid "<Private Use High Surrogate>"
 msgstr ""
 
-#: src/modules/unicode/charselectdata.cpp:217
+#: src/modules/unicode/charselectdata.cpp:215
 msgid "<Private Use>"
 msgstr "<שימוש פרטי>"
 
-#: src/modules/unicode/charselectdata.cpp:247
+#: src/modules/unicode/charselectdata.cpp:245
 msgid "<not assigned>"
 msgstr ""
 
@@ -101,7 +101,7 @@ msgstr ""
 msgid "A virtual keyboard backend based on DBus"
 msgstr ""
 
-#: src/ui/classic/theme.h:204
+#: src/ui/classic/theme.h:202
 msgid "Accent Colors"
 msgstr ""
 
@@ -155,11 +155,11 @@ msgstr ""
 msgid "All locales:"
 msgstr ""
 
-#: src/modules/xcb/xcbmodule.h:30
+#: src/modules/xcb/xcbmodule.h:26
 msgid "Allow Overriding System XKB Settings"
 msgstr ""
 
-#: src/modules/wayland/waylandmodule.h:36
+#: src/modules/wayland/waylandmodule.h:35
 msgid "Allow Overriding System XKB Settings (Only support KDE 5)"
 msgstr ""
 
@@ -167,7 +167,7 @@ msgstr ""
 msgid "Allow input method in the password field"
 msgstr ""
 
-#: src/im/keyboard/keyboard.h:32 src/modules/quickphrase/quickphrase.h:29
+#: src/im/keyboard/keyboard.h:30 src/modules/quickphrase/quickphrase.h:26
 msgid "Alt"
 msgstr ""
 
@@ -176,7 +176,7 @@ msgctxt "Key name"
 msgid "Alt"
 msgstr "Alt"
 
-#: src/modules/xcb/xcbmodule.h:33
+#: src/modules/xcb/xcbmodule.h:29
 msgid "Always set layout to be only group layout"
 msgstr ""
 
@@ -190,7 +190,7 @@ msgctxt "Key name"
 msgid "Application Right"
 msgstr ""
 
-#: src/im/keyboard/keyboard.h:87
+#: src/im/keyboard/keyboard.h:85
 msgid "Applications disabled for long press"
 msgstr ""
 
@@ -209,7 +209,7 @@ msgctxt "Key name"
 msgid "Audio Repeat"
 msgstr ""
 
-#: src/ui/classic/theme.h:193
+#: src/ui/classic/theme.h:191
 msgid "Author"
 msgstr ""
 
@@ -232,11 +232,11 @@ msgstr ""
 msgid "Backends"
 msgstr ""
 
-#: src/ui/classic/theme.h:158 src/ui/classic/theme.h:178
+#: src/ui/classic/theme.h:156 src/ui/classic/theme.h:176
 msgid "Background"
 msgstr ""
 
-#: src/ui/classic/theme.h:85
+#: src/ui/classic/theme.h:83
 msgid "Background Image"
 msgstr ""
 
@@ -272,11 +272,11 @@ msgctxt "Key name"
 msgid "Bluetooth"
 msgstr "Bluetooth"
 
-#: src/ui/classic/theme.h:148
+#: src/ui/classic/theme.h:146
 msgid "Blur Margin"
 msgstr ""
 
-#: src/ui/classic/theme.h:147
+#: src/ui/classic/theme.h:145
 msgid "Blur mask"
 msgstr ""
 
@@ -285,27 +285,27 @@ msgctxt "Key name"
 msgid "Book"
 msgstr ""
 
-#: src/ui/classic/theme.h:97
+#: src/ui/classic/theme.h:95
 msgid "Border Color"
 msgstr ""
 
-#: src/ui/classic/theme.h:105
+#: src/ui/classic/theme.h:103
 msgid "Border width"
 msgstr ""
 
-#: src/ui/classic/theme.h:50
+#: src/ui/classic/theme.h:48
 msgid "Bottom"
 msgstr ""
 
-#: src/ui/classic/theme.h:38
+#: src/ui/classic/theme.h:36
 msgid "Bottom Center"
 msgstr ""
 
-#: src/ui/classic/theme.h:38
+#: src/ui/classic/theme.h:36
 msgid "Bottom Left"
 msgstr ""
 
-#: src/ui/classic/theme.h:39
+#: src/ui/classic/theme.h:37
 msgid "Bottom Right"
 msgstr ""
 
@@ -416,15 +416,15 @@ msgctxt "Key name"
 msgid "CapsLock"
 msgstr ""
 
-#: src/ui/classic/theme.h:37 src/ui/classic/theme.h:49
+#: src/ui/classic/theme.h:35 src/ui/classic/theme.h:47
 msgid "Center"
 msgstr ""
 
-#: src/ui/classic/theme.h:36
+#: src/ui/classic/theme.h:34
 msgid "Center Left"
 msgstr ""
 
-#: src/ui/classic/theme.h:37
+#: src/ui/classic/theme.h:35
 msgid "Center Right"
 msgstr ""
 
@@ -432,11 +432,11 @@ msgstr ""
 msgid "Change Fcitx 5 Configuration"
 msgstr ""
 
-#: src/ui/classic/theme.h:183
+#: src/ui/classic/theme.h:181
 msgid "Check box"
 msgstr ""
 
-#: src/im/keyboard/keyboard.h:56 src/modules/quickphrase/quickphrase.h:41
+#: src/im/keyboard/keyboard.h:54 src/modules/quickphrase/quickphrase.h:38
 msgid "Choose key modifier"
 msgstr ""
 
@@ -449,7 +449,7 @@ msgctxt "Key name"
 msgid "Clear"
 msgstr "ניקוי"
 
-#: src/ui/classic/theme.h:131
+#: src/ui/classic/theme.h:129
 msgid "Click Margin"
 msgstr ""
 
@@ -457,7 +457,7 @@ msgstr ""
 msgid "Clipboard"
 msgstr "לוח הגזירים"
 
-#: src/modules/clipboard/clipboard.cpp:353
+#: src/modules/clipboard/clipboard.cpp:348
 msgid "Clipboard (Press BackSpace/Delete to clear history):"
 msgstr ""
 
@@ -471,7 +471,7 @@ msgctxt "Key name"
 msgid "Code input"
 msgstr ""
 
-#: src/ui/classic/theme.h:89
+#: src/ui/classic/theme.h:87
 msgid "Color"
 msgstr ""
 
@@ -480,19 +480,19 @@ msgctxt "Key name"
 msgid "Community"
 msgstr ""
 
-#: src/im/keyboard/keyboard.cpp:685
+#: src/im/keyboard/keyboard.cpp:678
 msgid "Completion"
 msgstr ""
 
-#: src/im/keyboard/keyboard.cpp:676
+#: src/im/keyboard/keyboard.cpp:669
 msgid "Completion is disabled."
 msgstr ""
 
-#: src/im/keyboard/keyboard.cpp:679
+#: src/im/keyboard/keyboard.cpp:672
 msgid "Completion is enabled temporarily."
 msgstr ""
 
-#: src/im/keyboard/keyboard.cpp:681
+#: src/im/keyboard/keyboard.cpp:674
 msgid "Completion is enabled."
 msgstr ""
 
@@ -529,7 +529,7 @@ msgstr ""
 msgid "Configure"
 msgstr "הגדרה"
 
-#: src/im/keyboard/keyboard.h:33 src/modules/quickphrase/quickphrase.h:29
+#: src/im/keyboard/keyboard.h:31 src/modules/quickphrase/quickphrase.h:26
 msgid "Control"
 msgstr ""
 
@@ -597,7 +597,7 @@ msgctxt "Key name"
 msgid "DOS"
 msgstr "DOS"
 
-#: src/ui/classic/classicui.h:158
+#: src/ui/classic/classicui.h:155
 msgid "Dark Theme"
 msgstr ""
 
@@ -609,7 +609,7 @@ msgstr ""
 msgid "Debug information from dbus:"
 msgstr ""
 
-#: src/lib/fcitx/inputmethodmanager.cpp:138 src/lib/fcitx/instance.cpp:358
+#: src/lib/fcitx/inputmethodmanager.cpp:137 src/lib/fcitx/instance.cpp:360
 #: src/ui/classic/themes/default/theme.conf.in:3
 msgid "Default"
 msgstr ""
@@ -643,7 +643,7 @@ msgctxt "Key name"
 msgid "Delete"
 msgstr "מחיקה"
 
-#: src/ui/classic/theme.h:195
+#: src/ui/classic/theme.h:193
 msgid "Description"
 msgstr ""
 
@@ -655,7 +655,7 @@ msgstr ""
 msgid "Desktop environment is ${1}."
 msgstr ""
 
-#: src/modules/wayland/waylandmodule.cpp:586
+#: src/modules/wayland/waylandmodule.cpp:606
 msgid ""
 "Detect GTK_IM_MODULE and QT_IM_MODULE being set and Wayland Input method "
 "frontend is working. It is recommended to unset GTK_IM_MODULE and "
@@ -663,7 +663,7 @@ msgid ""
 "see https://fcitx-im.org/wiki/Using_Fcitx_5_on_Wayland#KDE_Plasma"
 msgstr ""
 
-#: src/modules/wayland/waylandmodule.cpp:615
+#: src/modules/wayland/waylandmodule.cpp:635
 msgid ""
 "Detect GTK_IM_MODULE being set and Wayland Input method frontend is working. "
 "It is recommended to unset GTK_IM_MODULE and use Wayland input method "
@@ -683,7 +683,7 @@ msgctxt "Key name"
 msgid "Display"
 msgstr ""
 
-#: src/modules/notifications/notifications.cpp:204
+#: src/modules/notifications/notifications.cpp:201
 msgid "Do not show again"
 msgstr "לא להציג שוב"
 
@@ -697,7 +697,7 @@ msgctxt "Key name"
 msgid "Down"
 msgstr ""
 
-#: src/modules/quickphrase/quickphrase.h:47
+#: src/modules/quickphrase/quickphrase.h:44
 msgid "Editor"
 msgstr ""
 
@@ -724,27 +724,27 @@ msgstr ""
 msgid "Enable"
 msgstr ""
 
-#: src/ui/classic/theme.h:145
+#: src/ui/classic/theme.h:143
 msgid "Enable Blur on KWin"
 msgstr ""
 
-#: src/modules/quickphrase/quickphrase.h:43
+#: src/modules/quickphrase/quickphrase.h:40
 msgid "Enable Spell check"
 msgstr ""
 
-#: src/im/keyboard/keyboard.h:51
+#: src/im/keyboard/keyboard.h:49
 msgid "Enable emoji in hint"
 msgstr ""
 
-#: src/im/keyboard/keyboard.h:54
+#: src/im/keyboard/keyboard.h:52
 msgid "Enable emoji in quickphrase"
 msgstr ""
 
-#: src/ui/classic/classicui.h:190
+#: src/ui/classic/classicui.h:187
 msgid "Enable fractional scale under Wayland"
 msgstr ""
 
-#: src/im/keyboard/keyboard.h:59
+#: src/im/keyboard/keyboard.h:57
 msgid "Enable hint by default"
 msgstr ""
 
@@ -830,7 +830,7 @@ msgstr ""
 msgid "Failed to find ${1} in the output of ${2}"
 msgstr ""
 
-#: src/modules/quickphrase/quickphrase.h:45
+#: src/modules/quickphrase/quickphrase.h:42
 msgid "Fallback Spell check language"
 msgstr ""
 
@@ -839,7 +839,7 @@ msgctxt "Key name"
 msgid "Favorites"
 msgstr "מועדפים"
 
-#: src/modules/wayland/waylandmodule.cpp:558
+#: src/modules/wayland/waylandmodule.cpp:578
 msgid "Fcitx"
 msgstr ""
 
@@ -852,7 +852,7 @@ msgstr ""
 msgid "Fcitx 5 Configuration"
 msgstr ""
 
-#: data/org.fcitx.Fcitx5.WaylandLauncher.desktop.in.in:3
+#: data/fcitx5-wayland-launcher.desktop.in.in:3
 msgid "Fcitx 5 Wayland Launcher (Experimental)"
 msgstr ""
 
@@ -875,7 +875,7 @@ msgid ""
 "experience."
 msgstr ""
 
-#: src/modules/wayland/waylandmodule.cpp:573
+#: src/modules/wayland/waylandmodule.cpp:593
 msgid ""
 "Fcitx should be launched by KWin under KDE Wayland in order to use Wayland "
 "input method frontend. This can improve the experience when using Fcitx on "
@@ -904,15 +904,15 @@ msgctxt "Key name"
 msgid "Find"
 msgstr ""
 
-#: src/ui/classic/theme.h:49
+#: src/ui/classic/theme.h:47
 msgid "First Candidate"
 msgstr ""
 
-#: src/ui/classic/classicui.h:164
+#: src/ui/classic/classicui.h:161
 msgid "Follow system accent color if it is supported by theme and desktop"
 msgstr ""
 
-#: src/ui/classic/classicui.h:160
+#: src/ui/classic/classicui.h:157
 msgid "Follow system light/dark color scheme"
 msgstr ""
 
@@ -924,22 +924,22 @@ msgid ""
 "using text-input support by Qt under Wayland."
 msgstr ""
 
-#: src/ui/classic/classicui.h:120
+#: src/ui/classic/classicui.h:117
 msgid "Font"
 msgstr ""
 
-#: src/ui/classic/classicui.h:150
+#: src/ui/classic/classicui.h:147
 msgid ""
 "For example, display character with Chinese variant when using Pinyin and "
 "Japanese variant when using Anthy. The font configuration needs to support "
 "this to use this feature."
 msgstr ""
 
-#: src/modules/wayland/waylandmodule.cpp:641
+#: src/modules/wayland/waylandmodule.cpp:661
 msgid "For more details see https://fcitx-im.org/wiki/Using_Fcitx_5_on_Wayland"
 msgstr ""
 
-#: src/ui/classic/classicui.h:178
+#: src/ui/classic/classicui.h:175
 msgid "Force font DPI on Wayland"
 msgstr ""
 
@@ -1045,12 +1045,12 @@ msgstr ""
 msgid "Group"
 msgstr ""
 
-#: src/lib/fcitx/instance.cpp:415
+#: src/lib/fcitx/instance.cpp:417
 #, c++-format
 msgid "Group {0}: {1}"
 msgstr ""
 
-#: src/lib/fcitx/instance.cpp:360
+#: src/lib/fcitx/instance.cpp:362
 #, c++-format
 msgid "Group {}"
 msgstr ""
@@ -1146,31 +1146,31 @@ msgctxt "Key name"
 msgid "Hibernate"
 msgstr "תרדמת"
 
-#: src/modules/notifications/notifications.h:28
+#: src/modules/notifications/notifications.h:26
 msgid "Hidden Notifications"
 msgstr ""
 
-#: src/ui/classic/theme.h:116
+#: src/ui/classic/theme.h:114
 msgid "Hide overlay if size does not fit"
 msgstr ""
 
-#: src/ui/classic/theme.h:160 src/ui/classic/theme.h:180
+#: src/ui/classic/theme.h:158 src/ui/classic/theme.h:178
 msgid "Highlight Background"
 msgstr ""
 
-#: src/ui/classic/theme.h:140
+#: src/ui/classic/theme.h:138
 msgid "Highlight Background color"
 msgstr ""
 
-#: src/ui/classic/theme.h:143
+#: src/ui/classic/theme.h:141
 msgid "Highlight Candidate Color"
 msgstr ""
 
-#: src/ui/classic/theme.h:126
+#: src/ui/classic/theme.h:124
 msgid "Highlight Click Margin"
 msgstr ""
 
-#: src/ui/classic/theme.h:138
+#: src/ui/classic/theme.h:136
 msgid "Highlight text color"
 msgstr ""
 
@@ -1255,17 +1255,16 @@ msgid ""
 "any input method other than ${2}. See ${link} for more detail."
 msgstr ""
 
-#: src/ui/classic/theme.h:129
+#: src/ui/classic/theme.h:127
 msgid "Image"
 msgstr ""
 
-#: src/im/keyboard/keyboard.cpp:684 src/lib/fcitx/instance.cpp:450
-#: src/lib/fcitx/instance.cpp:677 src/lib/fcitx/instance.cpp:839
-#: src/modules/notificationitem/notificationitem.cpp:147
-#: src/modules/notificationitem/notificationitem.cpp:235
-#: src/modules/xcb/xcbconnection.cpp:555
-#: data/org.fcitx.Fcitx5.WaylandLauncher.desktop.in.in:4
-#: data/org.fcitx.Fcitx5.desktop.in.in:4
+#: src/im/keyboard/keyboard.cpp:677 src/lib/fcitx/instance.cpp:452
+#: src/lib/fcitx/instance.cpp:679 src/lib/fcitx/instance.cpp:841
+#: src/modules/notificationitem/notificationitem.cpp:142
+#: src/modules/notificationitem/notificationitem.cpp:230
+#: src/modules/xcb/xcbconnection.cpp:555 data/org.fcitx.Fcitx5.desktop.in.in:4
+#: data/fcitx5-wayland-launcher.desktop.in.in:4
 #: data/org.fcitx.Fcitx5.metainfo.xml.in:7
 msgid "Input Method"
 msgstr ""
@@ -1282,27 +1281,27 @@ msgstr ""
 msgid "Input Methods:"
 msgstr ""
 
-#: src/ui/classic/theme.h:201
+#: src/ui/classic/theme.h:199
 msgid "Input Panel"
 msgstr ""
 
-#: src/ui/classic/theme.h:65
+#: src/ui/classic/theme.h:63
 msgid "Input Panel Background"
 msgstr ""
 
-#: src/ui/classic/theme.h:65
+#: src/ui/classic/theme.h:63
 msgid "Input Panel Border"
 msgstr ""
 
-#: src/ui/classic/theme.h:67
+#: src/ui/classic/theme.h:65
 msgid "Input Panel Highlight"
 msgstr ""
 
-#: src/ui/classic/theme.h:66
+#: src/ui/classic/theme.h:64
 msgid "Input Panel Highlight Candidate Background"
 msgstr ""
 
-#: src/ui/classic/theme.h:67
+#: src/ui/classic/theme.h:65
 msgid "Input Panel Highlight Candidate Border"
 msgstr ""
 
@@ -1335,7 +1334,7 @@ msgid ""
 "supports text-input protocol used by ${1}."
 msgstr ""
 
-#: src/modules/wayland/waylandmodule.cpp:598
+#: src/modules/wayland/waylandmodule.cpp:618
 msgid ""
 "It is recommended to install Input Method Panel GNOME Shell Extensions to "
 "provide the input method popup. https://extensions.gnome.org/extension/261/"
@@ -1348,7 +1347,7 @@ msgstr ""
 msgid "KDE Input Method Panel"
 msgstr ""
 
-#: src/ui/classic/classicui.cpp:280
+#: src/ui/classic/classicui.cpp:278
 msgid "KDE Plasma (Experimental)"
 msgstr ""
 
@@ -1376,16 +1375,16 @@ msgstr ""
 msgid "Key"
 msgstr ""
 
-#: src/im/keyboard/keyboard.cpp:315 src/im/keyboard/keyboard.conf.in.in:3
+#: src/im/keyboard/keyboard.cpp:308 src/im/keyboard/keyboard.conf.in.in:3
 msgid "Keyboard"
 msgstr ""
 
-#: src/im/keyboard/keyboard.cpp:231
+#: src/im/keyboard/keyboard.cpp:224
 #, c++-format
 msgid "Keyboard - {0}"
 msgstr ""
 
-#: src/im/keyboard/keyboard.cpp:250
+#: src/im/keyboard/keyboard.cpp:243
 #, c++-format
 msgid "Keyboard - {0} - {1}"
 msgstr ""
@@ -1593,7 +1592,7 @@ msgstr ""
 msgid "Kimpanel process:"
 msgstr ""
 
-#: src/ui/classic/theme.h:50
+#: src/ui/classic/theme.h:48
 msgid "Last Candidate"
 msgstr ""
 
@@ -1730,7 +1729,7 @@ msgctxt "Key name"
 msgid "Logoff"
 msgstr ""
 
-#: src/im/keyboard/keyboard.h:89
+#: src/im/keyboard/keyboard.h:87
 msgid "Long Press behavior"
 msgstr ""
 
@@ -1739,31 +1738,31 @@ msgctxt "Key name"
 msgid "Mail Forward"
 msgstr ""
 
-#: src/ui/classic/theme.h:118
+#: src/ui/classic/theme.h:116
 msgid "Margin"
 msgstr ""
 
-#: src/ui/classic/theme.h:80
+#: src/ui/classic/theme.h:78
 msgid "Margin Bottom"
 msgstr ""
 
-#: src/ui/classic/theme.h:74
+#: src/ui/classic/theme.h:72
 msgid "Margin Left"
 msgstr ""
 
-#: src/ui/classic/theme.h:76
+#: src/ui/classic/theme.h:74
 msgid "Margin Right"
 msgstr ""
 
-#: src/ui/classic/theme.h:78
+#: src/ui/classic/theme.h:76
 msgid "Margin Top"
 msgstr ""
 
-#: src/ui/classic/theme.h:162 src/ui/classic/theme.h:186
+#: src/ui/classic/theme.h:160 src/ui/classic/theme.h:184
 msgid "Margin around all content"
 msgstr ""
 
-#: src/ui/classic/theme.h:164 src/ui/classic/theme.h:188
+#: src/ui/classic/theme.h:162 src/ui/classic/theme.h:186
 msgid "Margin around text"
 msgstr ""
 
@@ -1822,7 +1821,7 @@ msgctxt "Key name"
 msgid "Meeting"
 msgstr ""
 
-#: src/ui/classic/theme.h:202
+#: src/ui/classic/theme.h:200
 msgid "Menu"
 msgstr ""
 
@@ -1831,15 +1830,15 @@ msgctxt "Key name"
 msgid "Menu"
 msgstr ""
 
-#: src/ui/classic/theme.h:68
+#: src/ui/classic/theme.h:66
 msgid "Menu Background"
 msgstr ""
 
-#: src/ui/classic/theme.h:68
+#: src/ui/classic/theme.h:66
 msgid "Menu Border"
 msgstr ""
 
-#: src/ui/classic/classicui.h:122
+#: src/ui/classic/classicui.h:119
 msgid "Menu Font"
 msgstr ""
 
@@ -1848,15 +1847,15 @@ msgctxt "Key name"
 msgid "Menu PB"
 msgstr ""
 
-#: src/ui/classic/theme.h:69
+#: src/ui/classic/theme.h:67
 msgid "Menu Selected Item Background"
 msgstr ""
 
-#: src/ui/classic/theme.h:69
+#: src/ui/classic/theme.h:67
 msgid "Menu Selected Item Border"
 msgstr ""
 
-#: src/ui/classic/theme.h:70
+#: src/ui/classic/theme.h:68
 msgid "Menu Separator"
 msgstr ""
 
@@ -1865,7 +1864,7 @@ msgctxt "Key name"
 msgid "Messenger"
 msgstr ""
 
-#: src/ui/classic/theme.h:199
+#: src/ui/classic/theme.h:197
 msgid "Metadata"
 msgstr ""
 
@@ -1904,7 +1903,7 @@ msgctxt "Key name"
 msgid "My Sites"
 msgstr ""
 
-#: src/ui/classic/theme.h:191
+#: src/ui/classic/theme.h:189
 msgid "Name"
 msgstr ""
 
@@ -1918,11 +1917,11 @@ msgctxt "Key name"
 msgid "News"
 msgstr ""
 
-#: src/im/keyboard/keyboard.h:48
+#: src/im/keyboard/keyboard.h:46
 msgid "Next Candidate"
 msgstr ""
 
-#: src/ui/classic/theme.h:166
+#: src/ui/classic/theme.h:164
 msgid "Next Page Button"
 msgstr ""
 
@@ -1930,19 +1929,19 @@ msgstr ""
 msgid "No"
 msgstr ""
 
-#: src/modules/clipboard/clipboard.cpp:355
+#: src/modules/clipboard/clipboard.cpp:350
 msgid "No clipboard history."
 msgstr ""
 
-#: src/im/keyboard/keyboard.h:32 src/modules/quickphrase/quickphrase.h:28
+#: src/im/keyboard/keyboard.h:30 src/modules/quickphrase/quickphrase.h:25
 msgid "None"
 msgstr ""
 
-#: src/ui/classic/theme.h:135 src/ui/classic/theme.h:171
+#: src/ui/classic/theme.h:133 src/ui/classic/theme.h:169
 msgid "Normal text color"
 msgstr ""
 
-#: src/ui/classic/classicui.h:182
+#: src/ui/classic/classicui.h:179
 msgid ""
 "Normally Wayland uses 96 as font DPI in combinition with the screen scale "
 "factor. This option allows you to override the font DPI. If the value is 0, "
@@ -1966,11 +1965,11 @@ msgctxt "Key name"
 msgid "NumLock"
 msgstr "NumLock"
 
-#: src/modules/clipboard/clipboard.h:48
+#: src/modules/clipboard/clipboard.h:45
 msgid "Number of entries"
 msgstr ""
 
-#: src/im/keyboard/keyboard.cpp:670
+#: src/im/keyboard/keyboard.cpp:663
 msgid ""
 "Only emoji support is found. To enable spell checking, you may need to "
 "install spell check data for the language."
@@ -1991,23 +1990,23 @@ msgctxt "Key name"
 msgid "Option"
 msgstr ""
 
-#: src/ui/classic/theme.h:120
+#: src/ui/classic/theme.h:118
 msgid "Overlay Clip Margin"
 msgstr ""
 
-#: src/ui/classic/theme.h:110
+#: src/ui/classic/theme.h:108
 msgid "Overlay Image"
 msgstr ""
 
-#: src/ui/classic/theme.h:113
+#: src/ui/classic/theme.h:111
 msgid "Overlay X offset"
 msgstr ""
 
-#: src/ui/classic/theme.h:114
+#: src/ui/classic/theme.h:112
 msgid "Overlay Y offset"
 msgstr ""
 
-#: src/ui/classic/theme.h:112
+#: src/ui/classic/theme.h:110
 msgid "Overlay position"
 msgstr ""
 
@@ -2033,11 +2032,11 @@ msgctxt "Key name"
 msgid "Page Up"
 msgstr ""
 
-#: src/ui/classic/theme.h:155
+#: src/ui/classic/theme.h:153
 msgid "Page button vertical alignment"
 msgstr ""
 
-#: src/im/keyboard/keyboard.h:37
+#: src/im/keyboard/keyboard.h:35
 msgid "Page size"
 msgstr ""
 
@@ -2046,7 +2045,7 @@ msgctxt "Key name"
 msgid "Paste"
 msgstr ""
 
-#: src/modules/clipboard/clipboard.h:46
+#: src/modules/clipboard/clipboard.h:43
 msgid "Paste Primary"
 msgstr ""
 
@@ -2091,19 +2090,19 @@ msgctxt "Key name"
 msgid "Power Off"
 msgstr "כיבוי"
 
-#: src/lib/fcitx/instance.cpp:839
+#: src/lib/fcitx/instance.cpp:841
 msgid "Preedit"
 msgstr ""
 
-#: src/lib/fcitx/instance.cpp:841
+#: src/lib/fcitx/instance.cpp:843
 msgid "Preedit disabled"
 msgstr ""
 
-#: src/lib/fcitx/instance.cpp:840
+#: src/lib/fcitx/instance.cpp:842
 msgid "Preedit enabled"
 msgstr ""
 
-#: src/ui/classic/classicui.h:130 src/ui/kimpanel/kimpanel.h:33
+#: src/ui/classic/classicui.h:127 src/ui/kimpanel/kimpanel.h:28
 msgid "Prefer Text Icon"
 msgstr ""
 
@@ -2111,11 +2110,11 @@ msgstr ""
 msgid "Presage"
 msgstr ""
 
-#: src/im/keyboard/keyboard.h:42
+#: src/im/keyboard/keyboard.h:40
 msgid "Prev Candidate"
 msgstr ""
 
-#: src/ui/classic/theme.h:165
+#: src/ui/classic/theme.h:163
 msgid "Prev Page Button"
 msgstr ""
 
@@ -2141,7 +2140,7 @@ msgstr ""
 msgid "Quick Phrase"
 msgstr ""
 
-#: src/modules/quickphrase/quickphrase.cpp:471
+#: src/modules/quickphrase/quickphrase.cpp:467
 msgid "Quick Phrase: "
 msgstr ""
 
@@ -2271,7 +2270,7 @@ msgstr ""
 msgid "Select specific input method via keyboard"
 msgstr ""
 
-#: src/ui/classic/theme.h:174
+#: src/ui/classic/theme.h:172
 msgid "Selected Item text color"
 msgstr ""
 
@@ -2280,18 +2279,18 @@ msgctxt "Key name"
 msgid "Send"
 msgstr "שליחה"
 
-#: src/modules/wayland/waylandmodule.cpp:630
+#: src/modules/wayland/waylandmodule.cpp:650
 msgid ""
 "Sending keyboard layout configuration to wayland compositor from Fcitx is "
 "not yet supported on current desktop. You may still use Fcitx's internal "
 "layout conversion by adding layout as input method to the input method group."
 msgstr ""
 
-#: src/ui/classic/theme.h:182
+#: src/ui/classic/theme.h:180
 msgid "Separator Background"
 msgstr ""
 
-#: src/ui/classic/theme.h:168
+#: src/ui/classic/theme.h:166
 msgid "Shadow Margin"
 msgstr ""
 
@@ -2317,7 +2316,7 @@ msgstr ""
 msgid "Show Input Method Information when switch input method"
 msgstr ""
 
-#: src/ui/classic/classicui.h:135
+#: src/ui/classic/classicui.h:132
 msgid "Show Layout Name In Icon"
 msgstr ""
 
@@ -2329,7 +2328,7 @@ msgstr ""
 msgid "Show first input method information"
 msgstr ""
 
-#: src/ui/classic/classicui.h:139
+#: src/ui/classic/classicui.h:136
 msgid ""
 "Show layout name in icon if there is more than one active layout. If prefer "
 "text icon is set to true, this option will be ignored."
@@ -2343,7 +2342,7 @@ msgstr ""
 msgid "Show preedit text when typing password"
 msgstr ""
 
-#: src/im/keyboard/keyboard.h:77
+#: src/im/keyboard/keyboard.h:75
 msgid ""
 "Show preedit when composing, and commit dead key if there is no matching "
 "sequence."
@@ -2363,11 +2362,11 @@ msgctxt "Key name"
 msgid "Space"
 msgstr ""
 
-#: src/ui/classic/theme.h:176
+#: src/ui/classic/theme.h:174
 msgid "Spacing"
 msgstr ""
 
-#: src/im/keyboard/keyboard.h:79 src/modules/spell/spell.conf.in.in:3
+#: src/im/keyboard/keyboard.h:77 src/modules/spell/spell.conf.in.in:3
 msgid "Spell"
 msgstr ""
 
@@ -2391,8 +2390,8 @@ msgctxt "Key name"
 msgid "Standby"
 msgstr ""
 
-#: data/org.fcitx.Fcitx5.WaylandLauncher.desktop.in.in:5
 #: data/org.fcitx.Fcitx5.desktop.in.in:5
+#: data/fcitx5-wayland-launcher.desktop.in.in:5
 msgid "Start Input Method"
 msgstr ""
 
@@ -2405,7 +2404,7 @@ msgctxt "Key name"
 msgid "Stop"
 msgstr ""
 
-#: src/ui/classic/theme.h:184
+#: src/ui/classic/theme.h:182
 msgid "Sub Menu"
 msgstr ""
 
@@ -2414,7 +2413,7 @@ msgctxt "Key name"
 msgid "Subtitle"
 msgstr ""
 
-#: src/im/keyboard/keyboard.h:33 src/modules/quickphrase/quickphrase.h:29
+#: src/im/keyboard/keyboard.h:31 src/modules/quickphrase/quickphrase.h:26
 msgid "Super"
 msgstr ""
 
@@ -2433,17 +2432,17 @@ msgctxt "Key name"
 msgid "Suspend"
 msgstr "השהיה"
 
-#: src/lib/fcitx/instance.cpp:451 src/lib/fcitx/instance.cpp:678
+#: src/lib/fcitx/instance.cpp:453 src/lib/fcitx/instance.cpp:680
 #: src/modules/xcb/xcbconnection.cpp:556
 msgid "Switch group"
 msgstr ""
 
-#: src/lib/fcitx/instance.cpp:452 src/modules/xcb/xcbconnection.cpp:557
+#: src/lib/fcitx/instance.cpp:454 src/modules/xcb/xcbconnection.cpp:557
 #, c++-format
 msgid "Switch group to {0}"
 msgstr ""
 
-#: src/lib/fcitx/instance.cpp:679
+#: src/lib/fcitx/instance.cpp:681
 #, c++-format
 msgid "Switched group to {0}"
 msgstr ""
@@ -2495,27 +2494,27 @@ msgstr ""
 msgid "The script is run as ${1} (${2})."
 msgstr ""
 
-#: src/ui/classic/classicui.h:155
+#: src/ui/classic/classicui.h:152
 msgid "Theme"
 msgstr ""
 
-#: src/ui/classic/classicui.h:101
+#: src/ui/classic/classicui.h:98
 msgid "This is only effective when the tray icon is xembed."
 msgstr ""
 
-#: src/ui/classic/theme.h:93 src/ui/classic/theme.h:101
+#: src/ui/classic/theme.h:91 src/ui/classic/theme.h:99
 msgid "This option is only effective if image is not set."
 msgstr ""
 
-#: src/ui/classic/classicui.h:194
+#: src/ui/classic/classicui.h:191
 msgid "This option require support from wayland compositor."
 msgstr ""
 
-#: src/ui/classic/classicui.h:173
+#: src/ui/classic/classicui.h:170
 msgid "This option will be always disabled on XWayland."
 msgstr ""
 
-#: src/ui/classic/theme.h:109
+#: src/ui/classic/theme.h:107
 msgid "This value should be less than any of margin value."
 msgstr ""
 
@@ -2548,15 +2547,15 @@ msgctxt "Key name"
 msgid "Tools"
 msgstr "כלים"
 
-#: src/ui/classic/theme.h:48
+#: src/ui/classic/theme.h:46
 msgid "Top"
 msgstr ""
 
-#: src/ui/classic/theme.h:35
+#: src/ui/classic/theme.h:33
 msgid "Top Center"
 msgstr ""
 
-#: src/ui/classic/theme.h:35
+#: src/ui/classic/theme.h:33
 msgid "Top Left"
 msgstr ""
 
@@ -2565,7 +2564,7 @@ msgctxt "Key name"
 msgid "Top Menu"
 msgstr ""
 
-#: src/ui/classic/theme.h:36
+#: src/ui/classic/theme.h:34
 msgid "Top Right"
 msgstr ""
 
@@ -2594,15 +2593,15 @@ msgctxt "Key name"
 msgid "Travel"
 msgstr "מסע"
 
-#: src/ui/classic/classicui.h:124
+#: src/ui/classic/classicui.h:121
 msgid "Tray Font"
 msgstr ""
 
-#: src/ui/classic/classicui.h:126
+#: src/ui/classic/classicui.h:123
 msgid "Tray Label Outline Color"
 msgstr ""
 
-#: src/ui/classic/classicui.h:129
+#: src/ui/classic/classicui.h:126
 msgid "Tray Label Text Color"
 msgstr ""
 
@@ -2611,8 +2610,8 @@ msgid "Trigger Input Method"
 msgstr ""
 
 #: src/modules/imselector/imselector.h:28
-#: src/modules/quickphrase/quickphrase.h:36 src/modules/unicode/unicode.h:31
-#: src/modules/clipboard/clipboard.h:42
+#: src/modules/quickphrase/quickphrase.h:33 src/modules/unicode/unicode.h:28
+#: src/modules/clipboard/clipboard.h:39
 msgid "Trigger Key"
 msgstr ""
 
@@ -2620,19 +2619,19 @@ msgstr ""
 msgid "Trigger Key for only current input context"
 msgstr ""
 
-#: src/im/keyboard/keyboard.h:62
+#: src/im/keyboard/keyboard.h:60
 msgid "Trigger hint mode"
 msgstr ""
 
-#: src/im/keyboard/keyboard.h:67
+#: src/im/keyboard/keyboard.h:65
 msgid "Trigger hint mode for one time"
 msgstr ""
 
-#: src/im/keyboard/keyboard.h:82
+#: src/im/keyboard/keyboard.h:80
 msgid "Type special characters with long press"
 msgstr ""
 
-#: src/modules/unicode/unicode.h:36
+#: src/modules/unicode/unicode.h:33
 msgid "Type unicode in Hex number"
 msgstr ""
 
@@ -2653,7 +2652,7 @@ msgstr ""
 msgid "Unicode"
 msgstr ""
 
-#: src/modules/unicode/unicode.cpp:456
+#: src/modules/unicode/unicode.cpp:455
 msgid "Unicode: "
 msgstr ""
 
@@ -2662,27 +2661,27 @@ msgctxt "Key name"
 msgid "Up"
 msgstr ""
 
-#: src/frontend/xim/xim.h:33
+#: src/frontend/xim/xim.h:27
 msgid "Use On The Spot Style (Needs restarting)"
 msgstr ""
 
-#: src/ui/classic/classicui.h:169
+#: src/ui/classic/classicui.h:166
 msgid "Use Per Screen DPI on X11"
 msgstr ""
 
-#: src/ui/classic/theme.h:151
+#: src/ui/classic/theme.h:149
 msgid "Use all horizontal space for highlight when it is vertical list"
 msgstr ""
 
-#: src/ui/classic/classicui.h:146
+#: src/ui/classic/classicui.h:143
 msgid "Use input method language to display text"
 msgstr ""
 
-#: src/ui/classic/classicui.h:116
+#: src/ui/classic/classicui.h:113
 msgid "Use mouse wheel to go to prev or next page"
 msgstr ""
 
-#: src/im/keyboard/keyboard.h:73
+#: src/im/keyboard/keyboard.h:71
 msgid "Use new compose behavior"
 msgstr ""
 
@@ -2700,7 +2699,7 @@ msgid ""
 "environment:"
 msgstr ""
 
-#: src/ui/classic/theme.h:192
+#: src/ui/classic/theme.h:190
 msgid "Version"
 msgstr ""
 
@@ -2708,7 +2707,7 @@ msgstr ""
 msgid "Version Line:"
 msgstr ""
 
-#: src/ui/classic/classicui.h:114
+#: src/ui/classic/classicui.h:111
 msgid "Vertical Candidate List"
 msgstr ""
 
@@ -2763,7 +2762,7 @@ msgstr ""
 msgid "Wayland"
 msgstr ""
 
-#: src/modules/wayland/waylandmodule.cpp:558
+#: src/modules/wayland/waylandmodule.cpp:578
 msgid "Wayland Diagnose"
 msgstr ""
 
@@ -2941,17 +2940,17 @@ msgstr ""
 msgid "version:"
 msgstr ""
 
-#: src/im/keyboard/keyboard.cpp:292
+#: src/im/keyboard/keyboard.cpp:285
 #, c++-format
 msgid "{0} (Not Available)"
 msgstr ""
 
-#: src/lib/fcitx/instance.cpp:409
+#: src/lib/fcitx/instance.cpp:411
 #, c++-format
 msgid "{0} (Not available)"
 msgstr ""
 
-#: src/lib/fcitx/instance.cpp:406
+#: src/lib/fcitx/instance.cpp:408
 #, c++-format
 msgid "{0} ({1})"
 msgstr ""
