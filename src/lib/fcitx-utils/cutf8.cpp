@@ -8,7 +8,6 @@
 #include "cutf8.h"
 #include <cstdint>
 #include <cstring>
-#include "fcitxutils_export.h"
 #include "utf8.h"
 
 /** check utf8 character */
@@ -31,7 +30,6 @@
     ((Char) < 0x110000 && (((Char)&0xFFFFF800) != 0xD800) &&                   \
      ((Char) < 0xFDD0 || (Char) > 0xFDEF) && ((Char)&0xFFFE) != 0xFFFE)
 
-FCITXUTILS_EXPORT
 size_t fcitx_utf8_strlen(const char *s) {
     size_t l = 0;
 
@@ -45,7 +43,6 @@ size_t fcitx_utf8_strlen(const char *s) {
     return l;
 }
 
-FCITXUTILS_EXPORT
 unsigned int fcitx_utf8_char_len(const char *in) {
     if (!(in[0] & 0x80)) {
         return 1;
@@ -80,7 +77,6 @@ unsigned int fcitx_utf8_char_len(const char *in) {
     return 1;
 }
 
-FCITXUTILS_EXPORT
 int fcitx_ucs4_char_len(uint32_t c) {
     if (c < 0x00080) {
         return 1;
@@ -101,7 +97,6 @@ int fcitx_ucs4_char_len(uint32_t c) {
     return 6;
 }
 
-FCITXUTILS_EXPORT
 int fcitx_ucs4_to_utf8(uint32_t c, char *output) {
     if (c < 0x00080) {
         output[0] = (char)(c & 0xFF);
@@ -149,7 +144,6 @@ int fcitx_ucs4_to_utf8(uint32_t c, char *output) {
     return 6;
 }
 
-FCITXUTILS_EXPORT
 char *fcitx_utf8_get_char(const char *i, uint32_t *chr) {
     const auto *in = reinterpret_cast<const unsigned char *>(i);
     if (!(in[0] & 0x80)) {
@@ -195,7 +189,6 @@ char *fcitx_utf8_get_char(const char *i, uint32_t *chr) {
     return (char *)in + 1;
 }
 
-FCITXUTILS_EXPORT
 char *fcitx_utf8_get_nth_char(const char *s, uint32_t n) {
     size_t l = 0;
 
@@ -279,7 +272,6 @@ static uint32_t fcitx_utf8_get_char_extended(const char *s, int max_len,
     return wc;
 }
 
-FCITXUTILS_EXPORT
 uint32_t fcitx_utf8_get_char_validated(const char *p, int max_len, int *plen) {
     uint32_t result;
 
@@ -303,7 +295,6 @@ uint32_t fcitx_utf8_get_char_validated(const char *p, int max_len, int *plen) {
     return result;
 }
 
-FCITXUTILS_EXPORT
 bool fcitx_utf8_check_string(const char *s) {
     while (*s) {
         uint32_t chr;
@@ -321,7 +312,6 @@ bool fcitx_utf8_check_string(const char *s) {
     return true;
 }
 
-FCITXUTILS_EXPORT
 void fcitx_utf8_strncpy(char *str, const char *s, size_t byte) {
     while (*s) {
         uint32_t chr;
@@ -344,7 +334,6 @@ void fcitx_utf8_strncpy(char *str, const char *s, size_t byte) {
     }
 }
 
-FCITXUTILS_EXPORT
 size_t fcitx_utf8_strnlen_validated(const char *str, size_t byte) {
     size_t len = 0;
     while (byte && *str) {
@@ -363,7 +352,6 @@ size_t fcitx_utf8_strnlen_validated(const char *str, size_t byte) {
     return len;
 }
 
-FCITXUTILS_EXPORT
 size_t fcitx_utf8_strnlen(const char *str, size_t byte) {
     size_t len = 0;
     // if byte is zero no need to go further.
