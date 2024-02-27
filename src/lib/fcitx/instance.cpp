@@ -141,7 +141,7 @@ void InstanceArgument::printUsage() const {
            "disconnected.\n"
         << "  -r, --replace\t\t\tReplace the existing instance.\n"
         << "  -o --option <option>\t\tPass the option to addons\n"
-        << "\t\t\t\t<option> is in format like:"
+        << "\t\t\t\t<option> is in format like:\n"
         << "\t\t\t\tname1=opt1a:opt1b,name2=opt2a:opt2b... .\n"
         << "  -v, --version\t\t\tShow version and quit.\n"
         << "  -h, --help\t\t\tShow this help message and quit.\n";
