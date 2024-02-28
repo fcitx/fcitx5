@@ -26,7 +26,7 @@
 #include <paths.h>
 #endif
 
-#if defined(_WIN32) && !defined(O_ACCMODE)
+#ifndef O_ACCMODE
 #define O_ACCMODE (O_RDONLY | O_WRONLY | O_RDWR)
 #endif
 
