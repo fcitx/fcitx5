@@ -27,6 +27,7 @@
     <binary>fcitx5</binary>
   </provides>
   <releases>
+    <release version="5.1.8" date="2024-02-28"/>
     <release version="5.1.7" date="2024-01-15"/>
     <release version="5.1.6" date="2024-01-02"/>
     <release version="5.1.5" date="2023-11-08"/>
