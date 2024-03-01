@@ -99,9 +99,8 @@ void WaylandIMServerV2::refreshSeat() {
         if (icMap_.count(seat.get())) {
             continue;
         }
-        auto *ic = new WaylandIMInputContextV2(
-            inputContextManager(), this, seat,
-            virtualKeyboardManagerV1_->createVirtualKeyboard(seat.get()));
+        auto *ic =
+            new WaylandIMInputContextV2(inputContextManager(), this, seat);
         ic->setFocusGroup(group_);
         ic->setCapabilityFlags(baseFlags);
     }
@@ -121,11 +120,10 @@ void WaylandIMServerV2::remove(wayland::WlSeat *seat) {
 
 WaylandIMInputContextV2::WaylandIMInputContextV2(
     InputContextManager &inputContextManager, WaylandIMServerV2 *server,
-    std::shared_ptr<wayland::WlSeat> seat, wayland::ZwpVirtualKeyboardV1 *vk)
+    std::shared_ptr<wayland::WlSeat> seat)
     : VirtualInputContextGlue(inputContextManager), server_(server),
       seat_(std::move(seat)),
-      ic_(server->inputMethodManagerV2()->getInputMethod(seat_.get())),
-      vk_(vk) {
+      ic_(server->inputMethodManagerV2()->getInputMethod(seat_.get())) {
     server->add(this, seat_.get());
     ic_->surroundingText().connect(
         [this](const char *text, uint32_t cursor, uint32_t anchor) {
@@ -162,13 +160,19 @@ WaylandIMInputContextV2::WaylandIMInputContextV2(
                                     Key(FcitxKey_None, KeyStates(), vkkey + 8),
                                     WL_KEYBOARD_KEY_STATE_RELEASED);
                     }
-                    vk_->modifiers(0, 0, 0, 0);
                 }
                 focusOutWrapper();
             }
+            vk_.reset();
+            vkReady_ = false;
         }
         if (pendingActivate_) {
             pendingActivate_ = false;
+            vk_.reset();
+            vkReady_ = false;
+            vk_.reset(
+                server_->virtualKeyboardManagerV1()->createVirtualKeyboard(
+                    seat_.get()));
             // There can be only one grab. Always release old grab first.
             // It is possible when switching between two client, there will be
             // two activate. In that case we will have already one grab. The
@@ -419,7 +423,7 @@ void WaylandIMInputContextV2::keymapCallback(uint32_t format, int32_t fd,
     server_->stateMask_.mod5_mask =
         1 << xkb_keymap_mod_get_index(server_->keymap_.get(), "Mod5");
 
-    if (keymapChanged) {
+    if (keymapChanged || !vkReady_) {
         vk_->keymap(format, scopeFD.fd(), size);
         vkReady_ = true;
     }

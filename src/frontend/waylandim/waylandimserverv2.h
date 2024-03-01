@@ -41,6 +41,7 @@ public:
     FocusGroup *group() { return group_; }
     auto *xkbState() { return state_.get(); }
     auto *inputMethodManagerV2() { return inputMethodManagerV2_.get(); }
+    auto *virtualKeyboardManagerV1() { return virtualKeyboardManagerV1_.get(); }
 
     bool hasKeyboardGrab() const;
 
@@ -72,8 +73,7 @@ class WaylandIMInputContextV2 : public VirtualInputContextGlue {
 public:
     WaylandIMInputContextV2(InputContextManager &inputContextManager,
                             WaylandIMServerV2 *server,
-                            std::shared_ptr<wayland::WlSeat> seat,
-                            wayland::ZwpVirtualKeyboardV1 *vk);
+                            std::shared_ptr<wayland::WlSeat> seat);
     ~WaylandIMInputContextV2() override;
 
     const char *frontend() const override { return "wayland_v2"; }
