@@ -5,6 +5,9 @@
   <project_license>LGPL-2.1+</project_license>
   <name>Fcitx 5</name>
   <summary>Input Method</summary>
+  <developer id="org.fcitx-im">
+      <name>The Fcitx Team</name>
+  </developer>
   <description>
     <p>
       Fcitx is an input method framework.
@@ -17,6 +20,7 @@
   <url type="help">https://fcitx-im.org/wiki/Fcitx</url>
   <url type="translate">https://explore.transifex.com/fcitx/</url>
   <url type="faq">https://fcitx-im.org/wiki/FAQ</url>
+  <url type="vcs-browser">https://github.com/fcitx/fcitx5</url>
   <screenshots>
     <screenshot type="default">
       <caption>Typing with Fcitx and Kimpanel</caption>
