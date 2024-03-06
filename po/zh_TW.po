@@ -17,7 +17,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2024-01-17 20:26+0000\n"
+"POT-Creation-Date: 2024-03-06 20:24+0000\n"
 "PO-Revision-Date: 2017-11-23 04:14+0000\n"
 "Last-Translator: Lau YeeYu, 2024\n"
 "Language-Team: Chinese (Taiwan) (https://app.transifex.com/fcitx/teams/12005/"
@@ -56,11 +56,11 @@ msgstr "找不到 ${1}。"
 msgid "${1} works properly."
 msgstr "${1} 運作正常。"
 
-#: src/lib/fcitx/instance.cpp:411
+#: src/lib/fcitx/instance.cpp:413
 msgid "(Not available)"
 msgstr "（無法使用）"
 
-#: src/modules/unicode/unicode.cpp:458
+#: src/modules/unicode/unicode.cpp:457
 msgid "(Type to search unicode by code or description)"
 msgstr "(輸入編碼或者描述來搜尋 Unicode 字元)"
 
@@ -84,23 +84,23 @@ msgstr "/Note_for_GNOME_Later_than_3.6"
 msgid "/XIM"
 msgstr "/XIM"
 
-#: src/modules/unicode/charselectdata.cpp:215
+#: src/modules/unicode/charselectdata.cpp:213
 msgid "<Low Surrogate>"
 msgstr "<低半代理區>"
 
-#: src/modules/unicode/charselectdata.cpp:211
+#: src/modules/unicode/charselectdata.cpp:209
 msgid "<Non Private Use High Surrogate>"
 msgstr "<非專用高半代理區>"
 
-#: src/modules/unicode/charselectdata.cpp:213
+#: src/modules/unicode/charselectdata.cpp:211
 msgid "<Private Use High Surrogate>"
 msgstr "<專用高半代理區>"
 
-#: src/modules/unicode/charselectdata.cpp:217
+#: src/modules/unicode/charselectdata.cpp:215
 msgid "<Private Use>"
 msgstr "<專用區>"
 
-#: src/modules/unicode/charselectdata.cpp:247
+#: src/modules/unicode/charselectdata.cpp:245
 msgid "<not assigned>"
 msgstr "<未指定>"
 
@@ -108,15 +108,15 @@ msgstr "<未指定>"
 msgid "A virtual keyboard backend based on DBus"
 msgstr "一個基於 DBus 的虛擬鍵盤後端"
 
-#: src/ui/classic/theme.h:204
+#: src/ui/classic/theme.h:202
 msgid "Accent Colors"
 msgstr "重點色"
 
-#: src/lib/fcitx/globalconfig.cpp:82
+#: src/lib/fcitx/globalconfig.cpp:83
 msgid "Activate Input Method"
 msgstr "啟用輸入法"
 
-#: src/lib/fcitx/globalconfig.cpp:138
+#: src/lib/fcitx/globalconfig.cpp:139
 msgid "Active By Default"
 msgstr "預設啟用"
 
@@ -146,7 +146,7 @@ msgctxt "Key name"
 msgid "Adjust Brightness"
 msgstr "調整亮度"
 
-#: src/lib/fcitx/globalconfig.cpp:26
+#: src/lib/fcitx/globalconfig.cpp:27
 msgid "All"
 msgstr "全部"
 
@@ -162,19 +162,19 @@ msgstr "找到了所有附加元件的函式庫。"
 msgid "All locales:"
 msgstr "全部可用 locale："
 
-#: src/modules/xcb/xcbmodule.h:30
+#: src/modules/xcb/xcbmodule.h:26
 msgid "Allow Overriding System XKB Settings"
 msgstr "允許覆寫系統 XKB 設定"
 
-#: src/modules/wayland/waylandmodule.h:36
+#: src/modules/wayland/waylandmodule.h:35
 msgid "Allow Overriding System XKB Settings (Only support KDE 5)"
 msgstr "允許覆寫系統 XKB 設定 (僅支援 KDE 5)"
 
-#: src/lib/fcitx/globalconfig.cpp:186
+#: src/lib/fcitx/globalconfig.cpp:192
 msgid "Allow input method in the password field"
 msgstr "允許在密碼輸入框中使用輸入法"
 
-#: src/im/keyboard/keyboard.h:32 src/modules/quickphrase/quickphrase.h:29
+#: src/im/keyboard/keyboard.h:30 src/modules/quickphrase/quickphrase.h:26
 msgid "Alt"
 msgstr "Alt"
 
@@ -183,7 +183,7 @@ msgctxt "Key name"
 msgid "Alt"
 msgstr "Alt"
 
-#: src/modules/xcb/xcbmodule.h:33
+#: src/modules/xcb/xcbmodule.h:29
 msgid "Always set layout to be only group layout"
 msgstr "總是設定佈局為僅有分組佈局"
 
@@ -197,7 +197,7 @@ msgctxt "Key name"
 msgid "Application Right"
 msgstr "應用程式右"
 
-#: src/im/keyboard/keyboard.h:87
+#: src/im/keyboard/keyboard.h:85
 msgid "Applications disabled for long press"
 msgstr "禁用長按的應用程式"
 
@@ -216,7 +216,7 @@ msgctxt "Key name"
 msgid "Audio Repeat"
 msgstr "音訊重複"
 
-#: src/ui/classic/theme.h:193
+#: src/ui/classic/theme.h:191
 msgid "Author"
 msgstr "作者"
 
@@ -239,11 +239,11 @@ msgstr "往後"
 msgid "Backends"
 msgstr "後端"
 
-#: src/ui/classic/theme.h:158 src/ui/classic/theme.h:178
+#: src/ui/classic/theme.h:156 src/ui/classic/theme.h:176
 msgid "Background"
 msgstr "背景"
 
-#: src/ui/classic/theme.h:85
+#: src/ui/classic/theme.h:83
 msgid "Background Image"
 msgstr "背景圖片"
 
@@ -265,7 +265,7 @@ msgstr "電池"
 msgid "Beginner's Guide"
 msgstr "新手指南"
 
-#: src/lib/fcitx/globalconfig.cpp:203
+#: src/lib/fcitx/globalconfig.cpp:209
 msgid "Behavior"
 msgstr "行為"
 
@@ -279,11 +279,11 @@ msgctxt "Key name"
 msgid "Bluetooth"
 msgstr "藍牙"
 
-#: src/ui/classic/theme.h:148
+#: src/ui/classic/theme.h:146
 msgid "Blur Margin"
 msgstr "模糊邊緣"
 
-#: src/ui/classic/theme.h:147
+#: src/ui/classic/theme.h:145
 msgid "Blur mask"
 msgstr "遮罩模糊"
 
@@ -292,27 +292,27 @@ msgctxt "Key name"
 msgid "Book"
 msgstr "書籍"
 
-#: src/ui/classic/theme.h:97
+#: src/ui/classic/theme.h:95
 msgid "Border Color"
 msgstr "邊框顏色"
 
-#: src/ui/classic/theme.h:105
+#: src/ui/classic/theme.h:103
 msgid "Border width"
 msgstr "邊框寬度"
 
-#: src/ui/classic/theme.h:50
+#: src/ui/classic/theme.h:48
 msgid "Bottom"
 msgstr "按鈕"
 
-#: src/ui/classic/theme.h:38
+#: src/ui/classic/theme.h:36
 msgid "Bottom Center"
 msgstr "底部居中"
 
-#: src/ui/classic/theme.h:38
+#: src/ui/classic/theme.h:36
 msgid "Bottom Left"
 msgstr "左下"
 
-#: src/ui/classic/theme.h:39
+#: src/ui/classic/theme.h:37
 msgid "Bottom Right"
 msgstr "右下"
 
@@ -423,15 +423,15 @@ msgctxt "Key name"
 msgid "CapsLock"
 msgstr "大寫鎖定 (CapsLock)"
 
-#: src/ui/classic/theme.h:37 src/ui/classic/theme.h:49
+#: src/ui/classic/theme.h:35 src/ui/classic/theme.h:47
 msgid "Center"
 msgstr "正中"
 
-#: src/ui/classic/theme.h:36
+#: src/ui/classic/theme.h:34
 msgid "Center Left"
 msgstr "左側居中"
 
-#: src/ui/classic/theme.h:37
+#: src/ui/classic/theme.h:35
 msgid "Center Right"
 msgstr "右側居中"
 
@@ -439,11 +439,11 @@ msgstr "右側居中"
 msgid "Change Fcitx 5 Configuration"
 msgstr "變更 Fcitx 5 設定"
 
-#: src/ui/classic/theme.h:183
+#: src/ui/classic/theme.h:181
 msgid "Check box"
 msgstr "複選框"
 
-#: src/im/keyboard/keyboard.h:56 src/modules/quickphrase/quickphrase.h:41
+#: src/im/keyboard/keyboard.h:54 src/modules/quickphrase/quickphrase.h:38
 msgid "Choose key modifier"
 msgstr "選擇輔助按鍵"
 
@@ -456,7 +456,7 @@ msgctxt "Key name"
 msgid "Clear"
 msgstr "清空"
 
-#: src/ui/classic/theme.h:131
+#: src/ui/classic/theme.h:129
 msgid "Click Margin"
 msgstr "按區域邊距"
 
@@ -464,7 +464,7 @@ msgstr "按區域邊距"
 msgid "Clipboard"
 msgstr "剪貼簿"
 
-#: src/modules/clipboard/clipboard.cpp:353
+#: src/modules/clipboard/clipboard.cpp:348
 msgid "Clipboard (Press BackSpace/Delete to clear history):"
 msgstr "剪貼簿（按 BackSpace/Delete 清除歷史記錄）："
 
@@ -478,7 +478,7 @@ msgctxt "Key name"
 msgid "Code input"
 msgstr "字碼輸入"
 
-#: src/ui/classic/theme.h:89
+#: src/ui/classic/theme.h:87
 msgid "Color"
 msgstr "顏色"
 
@@ -487,19 +487,19 @@ msgctxt "Key name"
 msgid "Community"
 msgstr "社群"
 
-#: src/im/keyboard/keyboard.cpp:685
+#: src/im/keyboard/keyboard.cpp:678
 msgid "Completion"
 msgstr "補全"
 
-#: src/im/keyboard/keyboard.cpp:676
+#: src/im/keyboard/keyboard.cpp:669
 msgid "Completion is disabled."
 msgstr "補全已停用。"
 
-#: src/im/keyboard/keyboard.cpp:679
+#: src/im/keyboard/keyboard.cpp:672
 msgid "Completion is enabled temporarily."
 msgstr "補全暫時啟用。"
 
-#: src/im/keyboard/keyboard.cpp:681
+#: src/im/keyboard/keyboard.cpp:674
 msgid "Completion is enabled."
 msgstr "已啟用補全。"
 
@@ -532,11 +532,11 @@ msgid "Configuration:"
 msgstr "設定："
 
 #: src/ui/classic/xcbtraywindow.cpp:38
-#: src/modules/notificationitem/dbusmenu.cpp:254
+#: src/modules/notificationitem/dbusmenu.cpp:253
 msgid "Configure"
 msgstr "設定"
 
-#: src/im/keyboard/keyboard.h:33 src/modules/quickphrase/quickphrase.h:29
+#: src/im/keyboard/keyboard.h:31 src/modules/quickphrase/quickphrase.h:26
 msgid "Control"
 msgstr "控制"
 
@@ -570,7 +570,7 @@ msgstr "${1} 目前的值為 ${2} (${3})。"
 msgid "Custom"
 msgstr "自訂"
 
-#: src/lib/fcitx/globalconfig.cpp:176
+#: src/lib/fcitx/globalconfig.cpp:182
 msgid "Custom Xkb Option"
 msgstr "自定 Xkb 選項"
 
@@ -604,11 +604,11 @@ msgctxt "Key name"
 msgid "DOS"
 msgstr "DOS"
 
-#: src/ui/classic/classicui.h:158
+#: src/ui/classic/classicui.h:155
 msgid "Dark Theme"
 msgstr "深色模式"
 
-#: src/lib/fcitx/globalconfig.cpp:91
+#: src/lib/fcitx/globalconfig.cpp:92
 msgid "Deactivate Input Method"
 msgstr "停用輸入法"
 
@@ -616,7 +616,7 @@ msgstr "停用輸入法"
 msgid "Debug information from dbus:"
 msgstr "來自 dbus 的除錯訊息："
 
-#: src/lib/fcitx/inputmethodmanager.cpp:138 src/lib/fcitx/instance.cpp:358
+#: src/lib/fcitx/inputmethodmanager.cpp:137 src/lib/fcitx/instance.cpp:360
 #: src/ui/classic/themes/default/theme.conf.in:3
 msgid "Default"
 msgstr "預設"
@@ -625,23 +625,23 @@ msgstr "預設"
 msgid "Default Dark"
 msgstr "預設深色"
 
-#: src/lib/fcitx/globalconfig.cpp:127
+#: src/lib/fcitx/globalconfig.cpp:128
 msgid "Default Next Candidate"
 msgstr "預設下一個候選字"
 
-#: src/lib/fcitx/globalconfig.cpp:111
+#: src/lib/fcitx/globalconfig.cpp:112
 msgid "Default Next page"
 msgstr "預設下一頁"
 
-#: src/lib/fcitx/globalconfig.cpp:121
+#: src/lib/fcitx/globalconfig.cpp:122
 msgid "Default Previous Candidate"
 msgstr "預設上一個候選字"
 
-#: src/lib/fcitx/globalconfig.cpp:99
+#: src/lib/fcitx/globalconfig.cpp:100
 msgid "Default Previous page"
 msgstr "預設上一頁"
 
-#: src/lib/fcitx/globalconfig.cpp:160
+#: src/lib/fcitx/globalconfig.cpp:166
 msgid "Default page size"
 msgstr "預設頁面大小"
 
@@ -650,7 +650,7 @@ msgctxt "Key name"
 msgid "Delete"
 msgstr "刪除"
 
-#: src/ui/classic/theme.h:195
+#: src/ui/classic/theme.h:193
 msgid "Description"
 msgstr "說明"
 
@@ -697,7 +697,7 @@ msgctxt "Key name"
 msgid "Display"
 msgstr "顯示"
 
-#: src/modules/notifications/notifications.cpp:204
+#: src/modules/notifications/notifications.cpp:201
 msgid "Do not show again"
 msgstr "不再顯示"
 
@@ -711,7 +711,7 @@ msgctxt "Key name"
 msgid "Down"
 msgstr "下"
 
-#: src/modules/quickphrase/quickphrase.h:47
+#: src/modules/quickphrase/quickphrase.h:44
 msgid "Editor"
 msgstr "編輯器"
 
@@ -738,27 +738,27 @@ msgstr "顏文字"
 msgid "Enable"
 msgstr "啟用"
 
-#: src/ui/classic/theme.h:145
+#: src/ui/classic/theme.h:143
 msgid "Enable Blur on KWin"
 msgstr "在 KWin 啟用模糊"
 
-#: src/modules/quickphrase/quickphrase.h:43
+#: src/modules/quickphrase/quickphrase.h:40
 msgid "Enable Spell check"
 msgstr "啟用拼字檢查"
 
-#: src/im/keyboard/keyboard.h:51
+#: src/im/keyboard/keyboard.h:49
 msgid "Enable emoji in hint"
 msgstr "在提示中啟用表情符號"
 
-#: src/im/keyboard/keyboard.h:54
+#: src/im/keyboard/keyboard.h:52
 msgid "Enable emoji in quickphrase"
 msgstr "在快速片語中啟用表情符號"
 
-#: src/ui/classic/classicui.h:190
+#: src/ui/classic/classicui.h:187
 msgid "Enable fractional scale under Wayland"
 msgstr "在 Wayland 下啟用分數縮放"
 
-#: src/im/keyboard/keyboard.h:59
+#: src/im/keyboard/keyboard.h:57
 msgid "Enable hint by default"
 msgstr "預設啟用提示"
 
@@ -775,23 +775,23 @@ msgstr "End 鍵"
 msgid "Entries"
 msgstr "項目"
 
-#: src/lib/fcitx/globalconfig.cpp:58
+#: src/lib/fcitx/globalconfig.cpp:59
 msgid "Enumerate Input Method Backward"
 msgstr "枚舉輸入法向後"
 
-#: src/lib/fcitx/globalconfig.cpp:51
+#: src/lib/fcitx/globalconfig.cpp:52
 msgid "Enumerate Input Method Forward"
 msgstr "枚舉輸入法向前"
 
-#: src/lib/fcitx/globalconfig.cpp:75
+#: src/lib/fcitx/globalconfig.cpp:76
 msgid "Enumerate Input Method Group Backward"
 msgstr "枚舉輸入法群組向後"
 
-#: src/lib/fcitx/globalconfig.cpp:68
+#: src/lib/fcitx/globalconfig.cpp:69
 msgid "Enumerate Input Method Group Forward"
 msgstr "枚舉輸入法群組向前"
 
-#: src/lib/fcitx/globalconfig.cpp:40
+#: src/lib/fcitx/globalconfig.cpp:41
 msgid "Enumerate when press trigger key repeatedly"
 msgstr "重複觸發鍵時枚舉輸入法"
 
@@ -834,7 +834,7 @@ msgid "Execute"
 msgstr "執行"
 
 #: src/ui/classic/xcbtraywindow.cpp:40
-#: src/modules/notificationitem/dbusmenu.cpp:268
+#: src/modules/notificationitem/dbusmenu.cpp:267
 msgid "Exit"
 msgstr "離開"
 
@@ -846,7 +846,7 @@ msgstr "無法在 ${2} 的輸入法模組快取中找到 ${1}"
 msgid "Failed to find ${1} in the output of ${2}"
 msgstr "無法在 ${2} 的輸出中找到 ${1}。"
 
-#: src/modules/quickphrase/quickphrase.h:45
+#: src/modules/quickphrase/quickphrase.h:42
 msgid "Fallback Spell check language"
 msgstr "備用拼字檢查語言"
 
@@ -927,15 +927,15 @@ msgctxt "Key name"
 msgid "Find"
 msgstr "尋找"
 
-#: src/ui/classic/theme.h:49
+#: src/ui/classic/theme.h:47
 msgid "First Candidate"
 msgstr "第一候選詞"
 
-#: src/ui/classic/classicui.h:164
+#: src/ui/classic/classicui.h:161
 msgid "Follow system accent color if it is supported by theme and desktop"
 msgstr "在主題與桌面支援時使用系統重點色"
 
-#: src/ui/classic/classicui.h:160
+#: src/ui/classic/classicui.h:157
 msgid "Follow system light/dark color scheme"
 msgstr "跟隨系統淺色/深色設定"
 
@@ -950,11 +950,11 @@ msgstr ""
 "用任何對應版本的 Qt 程序，或者在 Wayland 下使用 Qt 的 text-input 支持，下列錯"
 "誤也不是嚴重問題。"
 
-#: src/ui/classic/classicui.h:120
+#: src/ui/classic/classicui.h:117
 msgid "Font"
 msgstr "字體"
 
-#: src/ui/classic/classicui.h:150
+#: src/ui/classic/classicui.h:147
 msgid ""
 "For example, display character with Chinese variant when using Pinyin and "
 "Japanese variant when using Anthy. The font configuration needs to support "
@@ -967,7 +967,7 @@ msgstr ""
 msgid "For more details see https://fcitx-im.org/wiki/Using_Fcitx_5_on_Wayland"
 msgstr "更多細節請參見 https://fcitx-im.org/wiki/Using_Fcitx_5_on_Wayland"
 
-#: src/ui/classic/classicui.h:178
+#: src/ui/classic/classicui.h:175
 msgid "Force font DPI on Wayland"
 msgstr "在 Wayland 上強制使用字型 DPI"
 
@@ -1069,16 +1069,16 @@ msgid "Green"
 msgstr "綠色"
 
 #: src/ui/classic/xcbtraywindow.cpp:36
-#: src/modules/notificationitem/dbusmenu.cpp:244
+#: src/modules/notificationitem/dbusmenu.cpp:243
 msgid "Group"
 msgstr "群組"
 
-#: src/lib/fcitx/instance.cpp:415
+#: src/lib/fcitx/instance.cpp:417
 #, c++-format
 msgid "Group {0}: {1}"
 msgstr "群組 {0}：{1}"
 
-#: src/lib/fcitx/instance.cpp:360
+#: src/lib/fcitx/instance.cpp:362
 #, c++-format
 msgid "Group {}"
 msgstr "群組 {}"
@@ -1174,31 +1174,31 @@ msgctxt "Key name"
 msgid "Hibernate"
 msgstr "休眠"
 
-#: src/modules/notifications/notifications.h:28
+#: src/modules/notifications/notifications.h:26
 msgid "Hidden Notifications"
 msgstr "隱藏通知"
 
-#: src/ui/classic/theme.h:116
+#: src/ui/classic/theme.h:114
 msgid "Hide overlay if size does not fit"
 msgstr "如果尺寸不合適，隱藏疊加層"
 
-#: src/ui/classic/theme.h:160 src/ui/classic/theme.h:180
+#: src/ui/classic/theme.h:158 src/ui/classic/theme.h:178
 msgid "Highlight Background"
 msgstr "高亮背景"
 
-#: src/ui/classic/theme.h:140
+#: src/ui/classic/theme.h:138
 msgid "Highlight Background color"
 msgstr "高亮背景顏色"
 
-#: src/ui/classic/theme.h:143
+#: src/ui/classic/theme.h:141
 msgid "Highlight Candidate Color"
 msgstr "高亮候選詞顏色"
 
-#: src/ui/classic/theme.h:126
+#: src/ui/classic/theme.h:124
 msgid "Highlight Click Margin"
 msgstr "高亮點擊邊距"
 
-#: src/ui/classic/theme.h:138
+#: src/ui/classic/theme.h:136
 msgid "Highlight text color"
 msgstr "高亮文字顏色"
 
@@ -1241,7 +1241,7 @@ msgctxt "Key name"
 msgid "Hot Links"
 msgstr "熱門連結"
 
-#: src/lib/fcitx/globalconfig.cpp:201
+#: src/lib/fcitx/globalconfig.cpp:207
 msgid "Hotkey"
 msgstr "快捷鍵"
 
@@ -1263,7 +1263,7 @@ msgstr "Hyper 鍵"
 msgid "IBus Frontend"
 msgstr "IBus 前端"
 
-#: src/lib/fcitx/globalconfig.cpp:197
+#: src/lib/fcitx/globalconfig.cpp:203
 msgid ""
 "If value is 0, the user data may only be saved when fcitx quits (e.g. "
 "logout)."
@@ -1288,14 +1288,14 @@ msgstr ""
 "${g36_disable_ibus} 指令停用 IBus 整合以使用 ${2} 以外的任何輸入法。更多細節"
 "參見 ${link}。"
 
-#: src/ui/classic/theme.h:129
+#: src/ui/classic/theme.h:127
 msgid "Image"
 msgstr "圖片"
 
-#: src/im/keyboard/keyboard.cpp:684 src/lib/fcitx/instance.cpp:450
-#: src/lib/fcitx/instance.cpp:677 src/lib/fcitx/instance.cpp:839
-#: src/modules/notificationitem/notificationitem.cpp:147
-#: src/modules/notificationitem/notificationitem.cpp:235
+#: src/im/keyboard/keyboard.cpp:677 src/lib/fcitx/instance.cpp:452
+#: src/lib/fcitx/instance.cpp:679 src/lib/fcitx/instance.cpp:841
+#: src/modules/notificationitem/notificationitem.cpp:142
+#: src/modules/notificationitem/notificationitem.cpp:230
 #: src/modules/xcb/xcbconnection.cpp:555 data/org.fcitx.Fcitx5.desktop.in.in:4
 #: data/fcitx5-wayland-launcher.desktop.in.in:4
 #: data/org.fcitx.Fcitx5.metainfo.xml.in:7
@@ -1314,27 +1314,27 @@ msgstr "輸入法相關環境變數："
 msgid "Input Methods:"
 msgstr "輸入法："
 
-#: src/ui/classic/theme.h:201
+#: src/ui/classic/theme.h:199
 msgid "Input Panel"
 msgstr "輸入面板"
 
-#: src/ui/classic/theme.h:65
+#: src/ui/classic/theme.h:63
 msgid "Input Panel Background"
 msgstr "輸入框背景"
 
-#: src/ui/classic/theme.h:65
+#: src/ui/classic/theme.h:63
 msgid "Input Panel Border"
 msgstr "輸入框邊框"
 
-#: src/ui/classic/theme.h:67
+#: src/ui/classic/theme.h:65
 msgid "Input Panel Highlight"
 msgstr "輸入框高亮"
 
-#: src/ui/classic/theme.h:66
+#: src/ui/classic/theme.h:64
 msgid "Input Panel Highlight Candidate Background"
 msgstr "輸入框高亮候選詞背景"
 
-#: src/ui/classic/theme.h:67
+#: src/ui/classic/theme.h:65
 msgid "Input Panel Highlight Candidate Border"
 msgstr "輸入框高亮候選詞邊框"
 
@@ -1342,7 +1342,7 @@ msgstr "輸入框高亮候選詞邊框"
 msgid "Input method selector"
 msgstr "輸入法選擇器"
 
-#: src/lib/fcitx/globalconfig.cpp:103 src/lib/fcitx/globalconfig.cpp:115
+#: src/lib/fcitx/globalconfig.cpp:104 src/lib/fcitx/globalconfig.cpp:116
 msgid ""
 "Input methods may have different setup in their own configuration. This is "
 "commonly used by modules like clipboard or quickphrase."
@@ -1355,7 +1355,7 @@ msgctxt "Key name"
 msgid "Insert"
 msgstr "插入"
 
-#: src/lib/fcitx/globalconfig.cpp:193
+#: src/lib/fcitx/globalconfig.cpp:199
 msgid "Interval of saving user data in minutes"
 msgstr "儲存使用者數據的時間間隔（以分鐘為單位）"
 
@@ -1388,7 +1388,7 @@ msgstr ""
 msgid "KDE Input Method Panel"
 msgstr "KDE 輸入法面板"
 
-#: src/ui/classic/classicui.cpp:280
+#: src/ui/classic/classicui.cpp:278
 msgid "KDE Plasma (Experimental)"
 msgstr "KDE Plasma (實驗性)"
 
@@ -1416,16 +1416,16 @@ msgstr "片假名"
 msgid "Key"
 msgstr "按鍵"
 
-#: src/im/keyboard/keyboard.cpp:315 src/im/keyboard/keyboard.conf.in.in:3
+#: src/im/keyboard/keyboard.cpp:308 src/im/keyboard/keyboard.conf.in.in:3
 msgid "Keyboard"
 msgstr "鍵盤"
 
-#: src/im/keyboard/keyboard.cpp:231
+#: src/im/keyboard/keyboard.cpp:224
 #, c++-format
 msgid "Keyboard - {0}"
 msgstr "鍵盤 - {0}"
 
-#: src/im/keyboard/keyboard.cpp:250
+#: src/im/keyboard/keyboard.cpp:243
 #, c++-format
 msgid "Keyboard - {0} - {1}"
 msgstr "鍵盤 - {0} - {1}"
@@ -1633,7 +1633,7 @@ msgstr "數字鍵盤向上鍵"
 msgid "Kimpanel process:"
 msgstr "Kimpanel 程序："
 
-#: src/ui/classic/theme.h:50
+#: src/ui/classic/theme.h:48
 msgid "Last Candidate"
 msgstr "上一個候選詞"
 
@@ -1770,7 +1770,7 @@ msgctxt "Key name"
 msgid "Logoff"
 msgstr "登出"
 
-#: src/im/keyboard/keyboard.h:89
+#: src/im/keyboard/keyboard.h:87
 msgid "Long Press behavior"
 msgstr "長按行為"
 
@@ -1779,31 +1779,31 @@ msgctxt "Key name"
 msgid "Mail Forward"
 msgstr "轉寄信件"
 
-#: src/ui/classic/theme.h:118
+#: src/ui/classic/theme.h:116
 msgid "Margin"
 msgstr "邊距"
 
-#: src/ui/classic/theme.h:80
+#: src/ui/classic/theme.h:78
 msgid "Margin Bottom"
 msgstr "底部邊距"
 
-#: src/ui/classic/theme.h:74
+#: src/ui/classic/theme.h:72
 msgid "Margin Left"
 msgstr "左側邊距"
 
-#: src/ui/classic/theme.h:76
+#: src/ui/classic/theme.h:74
 msgid "Margin Right"
 msgstr "右側邊距"
 
-#: src/ui/classic/theme.h:78
+#: src/ui/classic/theme.h:76
 msgid "Margin Top"
 msgstr "頂部邊距"
 
-#: src/ui/classic/theme.h:162 src/ui/classic/theme.h:186
+#: src/ui/classic/theme.h:160 src/ui/classic/theme.h:184
 msgid "Margin around all content"
 msgstr "內容周圍邊界"
 
-#: src/ui/classic/theme.h:164 src/ui/classic/theme.h:188
+#: src/ui/classic/theme.h:162 src/ui/classic/theme.h:186
 msgid "Margin around text"
 msgstr "內容周圍邊界"
 
@@ -1862,7 +1862,7 @@ msgctxt "Key name"
 msgid "Meeting"
 msgstr "會議"
 
-#: src/ui/classic/theme.h:202
+#: src/ui/classic/theme.h:200
 msgid "Menu"
 msgstr "選單"
 
@@ -1871,15 +1871,15 @@ msgctxt "Key name"
 msgid "Menu"
 msgstr "選單"
 
-#: src/ui/classic/theme.h:68
+#: src/ui/classic/theme.h:66
 msgid "Menu Background"
 msgstr "選單背景"
 
-#: src/ui/classic/theme.h:68
+#: src/ui/classic/theme.h:66
 msgid "Menu Border"
 msgstr "選單邊框"
 
-#: src/ui/classic/classicui.h:122
+#: src/ui/classic/classicui.h:119
 msgid "Menu Font"
 msgstr "功能表字體"
 
@@ -1888,15 +1888,15 @@ msgctxt "Key name"
 msgid "Menu PB"
 msgstr "選單 PB"
 
-#: src/ui/classic/theme.h:69
+#: src/ui/classic/theme.h:67
 msgid "Menu Selected Item Background"
 msgstr "選單選中項背景"
 
-#: src/ui/classic/theme.h:69
+#: src/ui/classic/theme.h:67
 msgid "Menu Selected Item Border"
 msgstr "選單選中項邊框"
 
-#: src/ui/classic/theme.h:70
+#: src/ui/classic/theme.h:68
 msgid "Menu Separator"
 msgstr "選單分隔符"
 
@@ -1905,7 +1905,7 @@ msgctxt "Key name"
 msgid "Messenger"
 msgstr "即時通訊工具"
 
-#: src/ui/classic/theme.h:199
+#: src/ui/classic/theme.h:197
 msgid "Metadata"
 msgstr "元數據"
 
@@ -1944,7 +1944,7 @@ msgctxt "Key name"
 msgid "My Sites"
 msgstr "個人站台"
 
-#: src/ui/classic/theme.h:191
+#: src/ui/classic/theme.h:189
 msgid "Name"
 msgstr "名稱"
 
@@ -1958,31 +1958,31 @@ msgctxt "Key name"
 msgid "News"
 msgstr "新聞"
 
-#: src/im/keyboard/keyboard.h:48
+#: src/im/keyboard/keyboard.h:46
 msgid "Next Candidate"
 msgstr "下一個候選字"
 
-#: src/ui/classic/theme.h:166
+#: src/ui/classic/theme.h:164
 msgid "Next Page Button"
 msgstr "下一頁按鈕"
 
-#: src/lib/fcitx/globalconfig.cpp:27
+#: src/lib/fcitx/globalconfig.cpp:28
 msgid "No"
 msgstr "否"
 
-#: src/modules/clipboard/clipboard.cpp:355
+#: src/modules/clipboard/clipboard.cpp:350
 msgid "No clipboard history."
 msgstr "沒有輸入法歷史"
 
-#: src/im/keyboard/keyboard.h:32 src/modules/quickphrase/quickphrase.h:28
+#: src/im/keyboard/keyboard.h:30 src/modules/quickphrase/quickphrase.h:25
 msgid "None"
 msgstr "無"
 
-#: src/ui/classic/theme.h:135 src/ui/classic/theme.h:171
+#: src/ui/classic/theme.h:133 src/ui/classic/theme.h:169
 msgid "Normal text color"
 msgstr "一般文字顏色"
 
-#: src/ui/classic/classicui.h:182
+#: src/ui/classic/classicui.h:179
 msgid ""
 "Normally Wayland uses 96 as font DPI in combinition with the screen scale "
 "factor. This option allows you to override the font DPI. If the value is 0, "
@@ -2008,11 +2008,11 @@ msgctxt "Key name"
 msgid "NumLock"
 msgstr "數字鎖定 (NumLock)"
 
-#: src/modules/clipboard/clipboard.h:48
+#: src/modules/clipboard/clipboard.h:45
 msgid "Number of entries"
 msgstr "項目數"
 
-#: src/im/keyboard/keyboard.cpp:670
+#: src/im/keyboard/keyboard.cpp:663
 msgid ""
 "Only emoji support is found. To enable spell checking, you may need to "
 "install spell check data for the language."
@@ -2033,27 +2033,27 @@ msgctxt "Key name"
 msgid "Option"
 msgstr "選項"
 
-#: src/ui/classic/theme.h:120
+#: src/ui/classic/theme.h:118
 msgid "Overlay Clip Margin"
 msgstr "覆蓋圖片裁剪邊界"
 
-#: src/ui/classic/theme.h:110
+#: src/ui/classic/theme.h:108
 msgid "Overlay Image"
 msgstr "覆蓋圖片"
 
-#: src/ui/classic/theme.h:113
+#: src/ui/classic/theme.h:111
 msgid "Overlay X offset"
 msgstr "覆蓋 X 位移"
 
-#: src/ui/classic/theme.h:114
+#: src/ui/classic/theme.h:112
 msgid "Overlay Y offset"
 msgstr "覆蓋 Y 位移"
 
-#: src/ui/classic/theme.h:112
+#: src/ui/classic/theme.h:110
 msgid "Overlay position"
 msgstr "覆蓋圖片位置"
 
-#: src/lib/fcitx/globalconfig.cpp:167
+#: src/lib/fcitx/globalconfig.cpp:173
 msgid "Override Xkb Option"
 msgstr "覆蓋 Xkb 選項"
 
@@ -2075,11 +2075,11 @@ msgctxt "Key name"
 msgid "Page Up"
 msgstr "上一頁"
 
-#: src/ui/classic/theme.h:155
+#: src/ui/classic/theme.h:153
 msgid "Page button vertical alignment"
 msgstr "頁面按鈕垂直對齊"
 
-#: src/im/keyboard/keyboard.h:37
+#: src/im/keyboard/keyboard.h:35
 msgid "Page size"
 msgstr "頁面大小"
 
@@ -2088,7 +2088,7 @@ msgctxt "Key name"
 msgid "Paste"
 msgstr "貼上"
 
-#: src/modules/clipboard/clipboard.h:46
+#: src/modules/clipboard/clipboard.h:43
 msgid "Paste Primary"
 msgstr "貼上主選區"
 
@@ -2135,19 +2135,19 @@ msgctxt "Key name"
 msgid "Power Off"
 msgstr "關機"
 
-#: src/lib/fcitx/instance.cpp:839
+#: src/lib/fcitx/instance.cpp:841
 msgid "Preedit"
 msgstr "預編輯"
 
-#: src/lib/fcitx/instance.cpp:841
+#: src/lib/fcitx/instance.cpp:843
 msgid "Preedit disabled"
 msgstr "預編輯已停用"
 
-#: src/lib/fcitx/instance.cpp:840
+#: src/lib/fcitx/instance.cpp:842
 msgid "Preedit enabled"
 msgstr "預編輯已啟用"
 
-#: src/ui/classic/classicui.h:130 src/ui/kimpanel/kimpanel.h:33
+#: src/ui/classic/classicui.h:127 src/ui/kimpanel/kimpanel.h:28
 msgid "Prefer Text Icon"
 msgstr "首選文字圖示"
 
@@ -2155,11 +2155,11 @@ msgstr "首選文字圖示"
 msgid "Presage"
 msgstr "Presage"
 
-#: src/im/keyboard/keyboard.h:42
+#: src/im/keyboard/keyboard.h:40
 msgid "Prev Candidate"
 msgstr "上一個候選字"
 
-#: src/ui/classic/theme.h:165
+#: src/ui/classic/theme.h:163
 msgid "Prev Page Button"
 msgstr "上一頁按鈕"
 
@@ -2173,7 +2173,7 @@ msgctxt "Key name"
 msgid "Print Screen"
 msgstr "截圖 (PrtSc)"
 
-#: src/lib/fcitx/globalconfig.cpp:27
+#: src/lib/fcitx/globalconfig.cpp:28
 msgid "Program"
 msgstr "程式"
 
@@ -2185,7 +2185,7 @@ msgstr "Qt IM 模組檔案："
 msgid "Quick Phrase"
 msgstr "快速片語"
 
-#: src/modules/quickphrase/quickphrase.cpp:471
+#: src/modules/quickphrase/quickphrase.cpp:467
 msgid "Quick Phrase: "
 msgstr "快速輸入："
 
@@ -2214,8 +2214,12 @@ msgctxt "Key name"
 msgid "Reply"
 msgstr "回覆"
 
+#: src/lib/fcitx/globalconfig.cpp:143
+msgid "Reset state on Focus In"
+msgstr ""
+
 #: src/ui/classic/xcbtraywindow.cpp:39
-#: src/modules/notificationitem/dbusmenu.cpp:262
+#: src/modules/notificationitem/dbusmenu.cpp:261
 msgid "Restart"
 msgstr "重新啟動"
 
@@ -2315,7 +2319,7 @@ msgstr "選擇區域輸入法："
 msgid "Select specific input method via keyboard"
 msgstr "通過鍵盤選擇特定的輸入法"
 
-#: src/ui/classic/theme.h:174
+#: src/ui/classic/theme.h:172
 msgid "Selected Item text color"
 msgstr "選中項文本顏色"
 
@@ -2333,15 +2337,15 @@ msgstr ""
 "目前桌面不支援由 Fcitx 將鍵盤佈局配置傳送給 wayland 混成器。您仍可以透過將佈"
 "局作為輸入法添加至輸入法分組以使用 Fcitx 內的佈局轉換。"
 
-#: src/ui/classic/theme.h:182
+#: src/ui/classic/theme.h:180
 msgid "Separator Background"
 msgstr "分隔符背景"
 
-#: src/ui/classic/theme.h:168
+#: src/ui/classic/theme.h:166
 msgid "Shadow Margin"
 msgstr "陰影邊緣"
 
-#: src/lib/fcitx/globalconfig.cpp:141
+#: src/lib/fcitx/globalconfig.cpp:147
 msgid "Share Input State"
 msgstr "共享輸入法狀態"
 
@@ -2355,27 +2359,27 @@ msgctxt "Key name"
 msgid "Shop"
 msgstr "商店"
 
-#: src/lib/fcitx/globalconfig.cpp:152
+#: src/lib/fcitx/globalconfig.cpp:158
 msgid "Show Input Method Information when changing focus"
 msgstr "當切換輸入焦點時顯示輸入法資訊"
 
-#: src/lib/fcitx/globalconfig.cpp:149
+#: src/lib/fcitx/globalconfig.cpp:155
 msgid "Show Input Method Information when switch input method"
 msgstr "當切換輸入法時顯示輸入法資訊"
 
-#: src/ui/classic/classicui.h:135
+#: src/ui/classic/classicui.h:132
 msgid "Show Layout Name In Icon"
 msgstr "在圖示顯示佈局名稱"
 
-#: src/lib/fcitx/globalconfig.cpp:155
+#: src/lib/fcitx/globalconfig.cpp:161
 msgid "Show compact input method information"
 msgstr "顯示緊湊的輸入法訊息"
 
-#: src/lib/fcitx/globalconfig.cpp:158
+#: src/lib/fcitx/globalconfig.cpp:164
 msgid "Show first input method information"
 msgstr "顯示第一個輸入法資訊"
 
-#: src/ui/classic/classicui.h:139
+#: src/ui/classic/classicui.h:136
 msgid ""
 "Show layout name in icon if there is more than one active layout. If prefer "
 "text icon is set to true, this option will be ignored."
@@ -2383,21 +2387,21 @@ msgstr ""
 "如果有多個活動佈局，則在圖示中顯示佈局名稱。如果首選文字圖示設定為 true，則此"
 "選項將被忽略。"
 
-#: src/lib/fcitx/globalconfig.cpp:145
+#: src/lib/fcitx/globalconfig.cpp:151
 msgid "Show preedit in application"
 msgstr "在應用程式中顯示預編輯"
 
-#: src/lib/fcitx/globalconfig.cpp:189
+#: src/lib/fcitx/globalconfig.cpp:195
 msgid "Show preedit text when typing password"
 msgstr "輸入密碼時顯示預編輯文本"
 
-#: src/im/keyboard/keyboard.h:77
+#: src/im/keyboard/keyboard.h:75
 msgid ""
 "Show preedit when composing, and commit dead key if there is no matching "
 "sequence."
 msgstr "使用組合鍵時顯示預編輯，並且在沒有匹配序列時提交死鍵對應符號"
 
-#: src/lib/fcitx/globalconfig.cpp:64
+#: src/lib/fcitx/globalconfig.cpp:65
 msgid "Skip first input method while enumerating"
 msgstr "枚舉時略過第一個輸入法"
 
@@ -2411,11 +2415,11 @@ msgctxt "Key name"
 msgid "Space"
 msgstr "空格"
 
-#: src/ui/classic/theme.h:176
+#: src/ui/classic/theme.h:174
 msgid "Spacing"
 msgstr "間隔"
 
-#: src/im/keyboard/keyboard.h:79 src/modules/spell/spell.conf.in.in:3
+#: src/im/keyboard/keyboard.h:77 src/modules/spell/spell.conf.in.in:3
 msgid "Spell"
 msgstr "拼寫"
 
@@ -2453,7 +2457,7 @@ msgctxt "Key name"
 msgid "Stop"
 msgstr "停止"
 
-#: src/ui/classic/theme.h:184
+#: src/ui/classic/theme.h:182
 msgid "Sub Menu"
 msgstr "子功能表"
 
@@ -2462,7 +2466,7 @@ msgctxt "Key name"
 msgid "Subtitle"
 msgstr "副標題"
 
-#: src/im/keyboard/keyboard.h:33 src/modules/quickphrase/quickphrase.h:29
+#: src/im/keyboard/keyboard.h:31 src/modules/quickphrase/quickphrase.h:26
 msgid "Super"
 msgstr "超級"
 
@@ -2481,17 +2485,17 @@ msgctxt "Key name"
 msgid "Suspend"
 msgstr "暫停"
 
-#: src/lib/fcitx/instance.cpp:451 src/lib/fcitx/instance.cpp:678
+#: src/lib/fcitx/instance.cpp:453 src/lib/fcitx/instance.cpp:680
 #: src/modules/xcb/xcbconnection.cpp:556
 msgid "Switch group"
 msgstr "切換分組"
 
-#: src/lib/fcitx/instance.cpp:452 src/modules/xcb/xcbconnection.cpp:557
+#: src/lib/fcitx/instance.cpp:454 src/modules/xcb/xcbconnection.cpp:557
 #, c++-format
 msgid "Switch group to {0}"
 msgstr "切換分組到 {0}"
 
-#: src/lib/fcitx/instance.cpp:679
+#: src/lib/fcitx/instance.cpp:681
 #, c++-format
 msgid "Switched group to {0}"
 msgstr "已切換分組到 {0}"
@@ -2515,7 +2519,7 @@ msgctxt "Key name"
 msgid "Task Panel"
 msgstr "工作列"
 
-#: src/lib/fcitx/globalconfig.cpp:44
+#: src/lib/fcitx/globalconfig.cpp:45
 msgid "Temporally switch between first and current Input Method"
 msgstr "臨時在第一個與當前輸入法中切換"
 
@@ -2546,27 +2550,27 @@ msgstr "列表中第 n 個快速鍵選擇第 n 個輸入法。"
 msgid "The script is run as ${1} (${2})."
 msgstr "此腳本以 ${1} (${2}) 執行。"
 
-#: src/ui/classic/classicui.h:155
+#: src/ui/classic/classicui.h:152
 msgid "Theme"
 msgstr "主題"
 
-#: src/ui/classic/classicui.h:101
+#: src/ui/classic/classicui.h:98
 msgid "This is only effective when the tray icon is xembed."
 msgstr "這只在托盤圖示為 xembed 時有效。"
 
-#: src/ui/classic/theme.h:93 src/ui/classic/theme.h:101
+#: src/ui/classic/theme.h:91 src/ui/classic/theme.h:99
 msgid "This option is only effective if image is not set."
 msgstr "此選項僅在圖片沒有設定時有效。"
 
-#: src/ui/classic/classicui.h:194
+#: src/ui/classic/classicui.h:191
 msgid "This option require support from wayland compositor."
 msgstr "此選項需要 Wayland 混成器 (Wayland compositor) 支援。"
 
-#: src/ui/classic/classicui.h:173
+#: src/ui/classic/classicui.h:170
 msgid "This option will be always disabled on XWayland."
 msgstr "在 XWayland 上，此選項將始終被禁用。"
 
-#: src/ui/classic/theme.h:109
+#: src/ui/classic/theme.h:107
 msgid "This value should be less than any of margin value."
 msgstr "這個值應該小於任何邊距值。"
 
@@ -2594,7 +2598,7 @@ msgstr ""
 "若要查看您在使用 xim 時，一些應用程式的特定問題，請檢查 ${link1}。使用 XIM 的"
 "其他一般性的問題包括應用程式凍結，請參閱 ${link2}。"
 
-#: src/lib/fcitx/globalconfig.cpp:132
+#: src/lib/fcitx/globalconfig.cpp:133
 msgid "Toggle embedded preedit"
 msgstr "切換內嵌預編輯區域"
 
@@ -2603,15 +2607,15 @@ msgctxt "Key name"
 msgid "Tools"
 msgstr "工具"
 
-#: src/ui/classic/theme.h:48
+#: src/ui/classic/theme.h:46
 msgid "Top"
 msgstr "頂部"
 
-#: src/ui/classic/theme.h:35
+#: src/ui/classic/theme.h:33
 msgid "Top Center"
 msgstr "頂部居中"
 
-#: src/ui/classic/theme.h:35
+#: src/ui/classic/theme.h:33
 msgid "Top Left"
 msgstr "左上"
 
@@ -2620,7 +2624,7 @@ msgctxt "Key name"
 msgid "Top Menu"
 msgstr "頂部選單"
 
-#: src/ui/classic/theme.h:36
+#: src/ui/classic/theme.h:34
 msgid "Top Right"
 msgstr "右上"
 
@@ -2649,25 +2653,25 @@ msgctxt "Key name"
 msgid "Travel"
 msgstr "旅行"
 
-#: src/ui/classic/classicui.h:124
+#: src/ui/classic/classicui.h:121
 msgid "Tray Font"
 msgstr "托盤字體"
 
-#: src/ui/classic/classicui.h:126
+#: src/ui/classic/classicui.h:123
 msgid "Tray Label Outline Color"
 msgstr "托盤標簽輪廓顏色"
 
-#: src/ui/classic/classicui.h:129
+#: src/ui/classic/classicui.h:126
 msgid "Tray Label Text Color"
 msgstr "托盤標簽文字顏色"
 
-#: src/lib/fcitx/globalconfig.cpp:34
+#: src/lib/fcitx/globalconfig.cpp:35
 msgid "Trigger Input Method"
 msgstr "切換啟用或非啟用輸入法"
 
 #: src/modules/imselector/imselector.h:28
-#: src/modules/quickphrase/quickphrase.h:36 src/modules/unicode/unicode.h:31
-#: src/modules/clipboard/clipboard.h:42
+#: src/modules/quickphrase/quickphrase.h:33 src/modules/unicode/unicode.h:28
+#: src/modules/clipboard/clipboard.h:39
 msgid "Trigger Key"
 msgstr "觸發鍵"
 
@@ -2675,19 +2679,19 @@ msgstr "觸發鍵"
 msgid "Trigger Key for only current input context"
 msgstr "只針對當前輸入環境的觸發鍵"
 
-#: src/im/keyboard/keyboard.h:62
+#: src/im/keyboard/keyboard.h:60
 msgid "Trigger hint mode"
 msgstr "切換提示模式"
 
-#: src/im/keyboard/keyboard.h:67
+#: src/im/keyboard/keyboard.h:65
 msgid "Trigger hint mode for one time"
 msgstr "一次性觸發提示模式"
 
-#: src/im/keyboard/keyboard.h:82
+#: src/im/keyboard/keyboard.h:80
 msgid "Type special characters with long press"
 msgstr "使用長按來輸入特殊字元"
 
-#: src/modules/unicode/unicode.h:36
+#: src/modules/unicode/unicode.h:33
 msgid "Type unicode in Hex number"
 msgstr "使用十六進制數值來輸入 Unicode 字符"
 
@@ -2708,7 +2712,7 @@ msgstr "復原"
 msgid "Unicode"
 msgstr "Unicode"
 
-#: src/modules/unicode/unicode.cpp:456
+#: src/modules/unicode/unicode.cpp:455
 msgid "Unicode: "
 msgstr "Unicode："
 
@@ -2717,27 +2721,27 @@ msgctxt "Key name"
 msgid "Up"
 msgstr "上"
 
-#: src/frontend/xim/xim.h:33
+#: src/frontend/xim/xim.h:27
 msgid "Use On The Spot Style (Needs restarting)"
 msgstr "使用 On The Spot 風格 (需要重新啟動)"
 
-#: src/ui/classic/classicui.h:169
+#: src/ui/classic/classicui.h:166
 msgid "Use Per Screen DPI on X11"
 msgstr "在 X11 上對不同螢幕使用單獨的 DPI"
 
-#: src/ui/classic/theme.h:151
+#: src/ui/classic/theme.h:149
 msgid "Use all horizontal space for highlight when it is vertical list"
 msgstr "當它是垂直列表時，使用所有橫向空間高亮顯示"
 
-#: src/ui/classic/classicui.h:146
+#: src/ui/classic/classicui.h:143
 msgid "Use input method language to display text"
 msgstr "使用輸入法語言來顯示文字"
 
-#: src/ui/classic/classicui.h:116
+#: src/ui/classic/classicui.h:113
 msgid "Use mouse wheel to go to prev or next page"
 msgstr "使用滑鼠滾輪到上一頁或下一頁"
 
-#: src/im/keyboard/keyboard.h:73
+#: src/im/keyboard/keyboard.h:71
 msgid "Use new compose behavior"
 msgstr "使用新的撰寫行為"
 
@@ -2755,7 +2759,7 @@ msgid ""
 "environment:"
 msgstr "使用 ${1} 檢查目前環境下將被實際使用的輸入法模塊："
 
-#: src/ui/classic/theme.h:192
+#: src/ui/classic/theme.h:190
 msgid "Version"
 msgstr "版本"
 
@@ -2763,7 +2767,7 @@ msgstr "版本"
 msgid "Version Line:"
 msgstr "版本行："
 
-#: src/ui/classic/classicui.h:114
+#: src/ui/classic/classicui.h:111
 msgid "Vertical Candidate List"
 msgstr "垂直候選字列表"
 
@@ -2833,7 +2837,7 @@ msgctxt "Key name"
 msgid "WebCam"
 msgstr "網路攝影機"
 
-#: src/lib/fcitx/globalconfig.cpp:171
+#: src/lib/fcitx/globalconfig.cpp:177
 msgid ""
 "Whether to override the xkb option from display server. It will not affect "
 "the xkb option send to display, but just the xkb options for custom xkb "
@@ -3011,17 +3015,17 @@ msgstr "sudo 的環境變數"
 msgid "version:"
 msgstr "版本："
 
-#: src/im/keyboard/keyboard.cpp:292
+#: src/im/keyboard/keyboard.cpp:285
 #, c++-format
 msgid "{0} (Not Available)"
 msgstr "{0} (無法使用)"
 
-#: src/lib/fcitx/instance.cpp:409
+#: src/lib/fcitx/instance.cpp:411
 #, c++-format
 msgid "{0} (Not available)"
 msgstr "{0}（不可用）"
 
-#: src/lib/fcitx/instance.cpp:406
+#: src/lib/fcitx/instance.cpp:408
 #, c++-format
 msgid "{0} ({1})"
 msgstr "{0} ({1})"

@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2024-01-15 20:25+0000\n"
+"POT-Creation-Date: 2024-03-06 20:24+0000\n"
 "PO-Revision-Date: 2017-11-23 04:14+0000\n"
 "Last-Translator: Dmitry <dmitrydmitry761@gmail.com>, 2024\n"
 "Language-Team: Russian (https://app.transifex.com/fcitx/teams/12005/ru/)\n"
@@ -51,11 +51,11 @@ msgstr "${1} не найден."
 msgid "${1} works properly."
 msgstr "${1} работает правильно."
 
-#: src/lib/fcitx/instance.cpp:411
+#: src/lib/fcitx/instance.cpp:413
 msgid "(Not available)"
 msgstr "(Недоступно)"
 
-#: src/modules/unicode/unicode.cpp:458
+#: src/modules/unicode/unicode.cpp:457
 msgid "(Type to search unicode by code or description)"
 msgstr "(Введите для поиска юникода по коду или описанию)"
 
@@ -79,23 +79,23 @@ msgstr "/Заметка_для_пользователей_GNOME_старше_в�
 msgid "/XIM"
 msgstr "/XIM"
 
-#: src/modules/unicode/charselectdata.cpp:215
+#: src/modules/unicode/charselectdata.cpp:213
 msgid "<Low Surrogate>"
 msgstr "<Низкий заменитель>"
 
-#: src/modules/unicode/charselectdata.cpp:211
+#: src/modules/unicode/charselectdata.cpp:209
 msgid "<Non Private Use High Surrogate>"
 msgstr "<Не лично использовать высокий заменитель>"
 
-#: src/modules/unicode/charselectdata.cpp:213
+#: src/modules/unicode/charselectdata.cpp:211
 msgid "<Private Use High Surrogate>"
 msgstr "<Лично использовать высокий заменитель>"
 
-#: src/modules/unicode/charselectdata.cpp:217
+#: src/modules/unicode/charselectdata.cpp:215
 msgid "<Private Use>"
 msgstr "<Для личного использования>"
 
-#: src/modules/unicode/charselectdata.cpp:247
+#: src/modules/unicode/charselectdata.cpp:245
 msgid "<not assigned>"
 msgstr "<не назначен>"
 
@@ -103,15 +103,15 @@ msgstr "<не назначен>"
 msgid "A virtual keyboard backend based on DBus"
 msgstr "Серверная часть виртуальной клавиатуры на основе DBus"
 
-#: src/ui/classic/theme.h:204
+#: src/ui/classic/theme.h:202
 msgid "Accent Colors"
 msgstr "Акцентные цвета"
 
-#: src/lib/fcitx/globalconfig.cpp:82
+#: src/lib/fcitx/globalconfig.cpp:83
 msgid "Activate Input Method"
 msgstr "Активировать метод ввода"
 
-#: src/lib/fcitx/globalconfig.cpp:138
+#: src/lib/fcitx/globalconfig.cpp:139
 msgid "Active By Default"
 msgstr "Активен по умолчанию"
 
@@ -141,7 +141,7 @@ msgctxt "Key name"
 msgid "Adjust Brightness"
 msgstr "Отрегулировать яркость"
 
-#: src/lib/fcitx/globalconfig.cpp:26
+#: src/lib/fcitx/globalconfig.cpp:27
 msgid "All"
 msgstr "Все"
 
@@ -157,21 +157,21 @@ msgstr "Все библиотеки для всех дополнений най�
 msgid "All locales:"
 msgstr "Все локали:"
 
-#: src/modules/xcb/xcbmodule.h:30
+#: src/modules/xcb/xcbmodule.h:26
 msgid "Allow Overriding System XKB Settings"
 msgstr "Разрешить переопределение системных настроек XKB"
 
-#: src/modules/wayland/waylandmodule.h:36
+#: src/modules/wayland/waylandmodule.h:35
 msgid "Allow Overriding System XKB Settings (Only support KDE 5)"
 msgstr ""
 "Разрешить переопределение системных настроек XKB (поддерживается только KDE "
 "5)"
 
-#: src/lib/fcitx/globalconfig.cpp:186
+#: src/lib/fcitx/globalconfig.cpp:192
 msgid "Allow input method in the password field"
 msgstr "Разрешить метод ввода в поле пароля"
 
-#: src/im/keyboard/keyboard.h:32 src/modules/quickphrase/quickphrase.h:29
+#: src/im/keyboard/keyboard.h:30 src/modules/quickphrase/quickphrase.h:26
 msgid "Alt"
 msgstr "Alt"
 
@@ -180,7 +180,7 @@ msgctxt "Key name"
 msgid "Alt"
 msgstr "Alt"
 
-#: src/modules/xcb/xcbmodule.h:33
+#: src/modules/xcb/xcbmodule.h:29
 msgid "Always set layout to be only group layout"
 msgstr "Всегда устанавливайте раскладку только для групповой раскладки"
 
@@ -194,7 +194,7 @@ msgctxt "Key name"
 msgid "Application Right"
 msgstr "Application Right"
 
-#: src/im/keyboard/keyboard.h:87
+#: src/im/keyboard/keyboard.h:85
 msgid "Applications disabled for long press"
 msgstr "Отключение приложений при длительном нажатии"
 
@@ -213,7 +213,7 @@ msgctxt "Key name"
 msgid "Audio Repeat"
 msgstr "Повтор аудио"
 
-#: src/ui/classic/theme.h:193
+#: src/ui/classic/theme.h:191
 msgid "Author"
 msgstr "Автор"
 
@@ -236,11 +236,11 @@ msgstr "Переслать Обратно"
 msgid "Backends"
 msgstr "Бэкенды"
 
-#: src/ui/classic/theme.h:158 src/ui/classic/theme.h:178
+#: src/ui/classic/theme.h:156 src/ui/classic/theme.h:176
 msgid "Background"
 msgstr "Фон"
 
-#: src/ui/classic/theme.h:85
+#: src/ui/classic/theme.h:83
 msgid "Background Image"
 msgstr "Фоновое изображение"
 
@@ -262,7 +262,7 @@ msgstr "Аккумулятор"
 msgid "Beginner's Guide"
 msgstr "Руководство для начинающих"
 
-#: src/lib/fcitx/globalconfig.cpp:203
+#: src/lib/fcitx/globalconfig.cpp:209
 msgid "Behavior"
 msgstr "Поведение"
 
@@ -276,11 +276,11 @@ msgctxt "Key name"
 msgid "Bluetooth"
 msgstr "Блютус"
 
-#: src/ui/classic/theme.h:148
+#: src/ui/classic/theme.h:146
 msgid "Blur Margin"
 msgstr "Размытый Край"
 
-#: src/ui/classic/theme.h:147
+#: src/ui/classic/theme.h:145
 msgid "Blur mask"
 msgstr "Размытая маска"
 
@@ -289,27 +289,27 @@ msgctxt "Key name"
 msgid "Book"
 msgstr "Книга"
 
-#: src/ui/classic/theme.h:97
+#: src/ui/classic/theme.h:95
 msgid "Border Color"
 msgstr "Цвет границы"
 
-#: src/ui/classic/theme.h:105
+#: src/ui/classic/theme.h:103
 msgid "Border width"
 msgstr "Ширина рамки"
 
-#: src/ui/classic/theme.h:50
+#: src/ui/classic/theme.h:48
 msgid "Bottom"
 msgstr "Bottom"
 
-#: src/ui/classic/theme.h:38
+#: src/ui/classic/theme.h:36
 msgid "Bottom Center"
 msgstr "Bottom Center"
 
-#: src/ui/classic/theme.h:38
+#: src/ui/classic/theme.h:36
 msgid "Bottom Left"
 msgstr "Bottom Left"
 
-#: src/ui/classic/theme.h:39
+#: src/ui/classic/theme.h:37
 msgid "Bottom Right"
 msgstr "Bottom Right"
 
@@ -425,15 +425,15 @@ msgctxt "Key name"
 msgid "CapsLock"
 msgstr "CapsLock"
 
-#: src/ui/classic/theme.h:37 src/ui/classic/theme.h:49
+#: src/ui/classic/theme.h:35 src/ui/classic/theme.h:47
 msgid "Center"
 msgstr "Center"
 
-#: src/ui/classic/theme.h:36
+#: src/ui/classic/theme.h:34
 msgid "Center Left"
 msgstr "Center Left"
 
-#: src/ui/classic/theme.h:37
+#: src/ui/classic/theme.h:35
 msgid "Center Right"
 msgstr "Center Right"
 
@@ -441,11 +441,11 @@ msgstr "Center Right"
 msgid "Change Fcitx 5 Configuration"
 msgstr "Изменить конфигурацию Fcitx 5"
 
-#: src/ui/classic/theme.h:183
+#: src/ui/classic/theme.h:181
 msgid "Check box"
 msgstr "Флажок"
 
-#: src/im/keyboard/keyboard.h:56 src/modules/quickphrase/quickphrase.h:41
+#: src/im/keyboard/keyboard.h:54 src/modules/quickphrase/quickphrase.h:38
 msgid "Choose key modifier"
 msgstr "Выбрать клавишу-модификатор"
 
@@ -458,7 +458,7 @@ msgctxt "Key name"
 msgid "Clear"
 msgstr "Очистить"
 
-#: src/ui/classic/theme.h:131
+#: src/ui/classic/theme.h:129
 msgid "Click Margin"
 msgstr "Нажмите на Поле"
 
@@ -466,7 +466,7 @@ msgstr "Нажмите на Поле"
 msgid "Clipboard"
 msgstr "Буфер обмена"
 
-#: src/modules/clipboard/clipboard.cpp:353
+#: src/modules/clipboard/clipboard.cpp:348
 msgid "Clipboard (Press BackSpace/Delete to clear history):"
 msgstr "Буфер обмена (нажмите BackSpace/Delete, чтобы очистить историю):"
 
@@ -480,7 +480,7 @@ msgctxt "Key name"
 msgid "Code input"
 msgstr "Ввести код"
 
-#: src/ui/classic/theme.h:89
+#: src/ui/classic/theme.h:87
 msgid "Color"
 msgstr "Цвет"
 
@@ -489,19 +489,19 @@ msgctxt "Key name"
 msgid "Community"
 msgstr "Сообщество"
 
-#: src/im/keyboard/keyboard.cpp:685
+#: src/im/keyboard/keyboard.cpp:678
 msgid "Completion"
 msgstr "Завершение"
 
-#: src/im/keyboard/keyboard.cpp:676
+#: src/im/keyboard/keyboard.cpp:669
 msgid "Completion is disabled."
 msgstr "Завершение отключено."
 
-#: src/im/keyboard/keyboard.cpp:679
+#: src/im/keyboard/keyboard.cpp:672
 msgid "Completion is enabled temporarily."
 msgstr "Завершение временно включено."
 
-#: src/im/keyboard/keyboard.cpp:681
+#: src/im/keyboard/keyboard.cpp:674
 msgid "Completion is enabled."
 msgstr "Завершение включено."
 
@@ -534,11 +534,11 @@ msgid "Configuration:"
 msgstr "Настройка:"
 
 #: src/ui/classic/xcbtraywindow.cpp:38
-#: src/modules/notificationitem/dbusmenu.cpp:254
+#: src/modules/notificationitem/dbusmenu.cpp:253
 msgid "Configure"
 msgstr "Настроить"
 
-#: src/im/keyboard/keyboard.h:33 src/modules/quickphrase/quickphrase.h:29
+#: src/im/keyboard/keyboard.h:31 src/modules/quickphrase/quickphrase.h:26
 msgid "Control"
 msgstr "Control"
 
@@ -572,7 +572,7 @@ msgstr "Текущее значение ${1}: ${2} (${3})."
 msgid "Custom"
 msgstr "Пользовательский"
 
-#: src/lib/fcitx/globalconfig.cpp:176
+#: src/lib/fcitx/globalconfig.cpp:182
 msgid "Custom Xkb Option"
 msgstr "Пользовательский вариант Xkb"
 
@@ -606,11 +606,11 @@ msgctxt "Key name"
 msgid "DOS"
 msgstr "DOS"
 
-#: src/ui/classic/classicui.h:158
+#: src/ui/classic/classicui.h:155
 msgid "Dark Theme"
 msgstr "Тёмная тема"
 
-#: src/lib/fcitx/globalconfig.cpp:91
+#: src/lib/fcitx/globalconfig.cpp:92
 msgid "Deactivate Input Method"
 msgstr "Деактивация метода ввода"
 
@@ -618,7 +618,7 @@ msgstr "Деактивация метода ввода"
 msgid "Debug information from dbus:"
 msgstr "Отладочная информация от dbus:"
 
-#: src/lib/fcitx/inputmethodmanager.cpp:138 src/lib/fcitx/instance.cpp:358
+#: src/lib/fcitx/inputmethodmanager.cpp:137 src/lib/fcitx/instance.cpp:360
 #: src/ui/classic/themes/default/theme.conf.in:3
 msgid "Default"
 msgstr "По умолчанию"
@@ -627,23 +627,23 @@ msgstr "По умолчанию"
 msgid "Default Dark"
 msgstr "Тёмная по умолчанию"
 
-#: src/lib/fcitx/globalconfig.cpp:127
+#: src/lib/fcitx/globalconfig.cpp:128
 msgid "Default Next Candidate"
 msgstr "Следующий кандидат по умолчанию"
 
-#: src/lib/fcitx/globalconfig.cpp:111
+#: src/lib/fcitx/globalconfig.cpp:112
 msgid "Default Next page"
 msgstr "Следующая страница по умолчанию"
 
-#: src/lib/fcitx/globalconfig.cpp:121
+#: src/lib/fcitx/globalconfig.cpp:122
 msgid "Default Previous Candidate"
 msgstr "Предыдущий кандидат по умолчанию"
 
-#: src/lib/fcitx/globalconfig.cpp:99
+#: src/lib/fcitx/globalconfig.cpp:100
 msgid "Default Previous page"
 msgstr "Предыдущая страница по умолчанию"
 
-#: src/lib/fcitx/globalconfig.cpp:160
+#: src/lib/fcitx/globalconfig.cpp:166
 msgid "Default page size"
 msgstr "Размер страницы по умолчанию"
 
@@ -652,7 +652,7 @@ msgctxt "Key name"
 msgid "Delete"
 msgstr "Удалить"
 
-#: src/ui/classic/theme.h:195
+#: src/ui/classic/theme.h:193
 msgid "Description"
 msgstr "Описание"
 
@@ -664,7 +664,7 @@ msgstr "Среда рабочего стола:"
 msgid "Desktop environment is ${1}."
 msgstr "Среда рабочего стола: ${1}."
 
-#: src/modules/wayland/waylandmodule.cpp:590
+#: src/modules/wayland/waylandmodule.cpp:606
 msgid ""
 "Detect GTK_IM_MODULE and QT_IM_MODULE being set and Wayland Input method "
 "frontend is working. It is recommended to unset GTK_IM_MODULE and "
@@ -677,7 +677,7 @@ msgstr ""
 "более подробной информации см. https://fcitx-im.org/wiki/"
 "Using_Fcitx_5_on_Wayland#KDE_Plasma"
 
-#: src/modules/wayland/waylandmodule.cpp:619
+#: src/modules/wayland/waylandmodule.cpp:635
 msgid ""
 "Detect GTK_IM_MODULE being set and Wayland Input method frontend is working. "
 "It is recommended to unset GTK_IM_MODULE and use Wayland input method "
@@ -700,7 +700,7 @@ msgctxt "Key name"
 msgid "Display"
 msgstr "Дисплей"
 
-#: src/modules/notifications/notifications.cpp:204
+#: src/modules/notifications/notifications.cpp:201
 msgid "Do not show again"
 msgstr "Больше не показывать"
 
@@ -714,7 +714,7 @@ msgctxt "Key name"
 msgid "Down"
 msgstr "Вниз"
 
-#: src/modules/quickphrase/quickphrase.h:47
+#: src/modules/quickphrase/quickphrase.h:44
 msgid "Editor"
 msgstr "Редактор"
 
@@ -741,27 +741,27 @@ msgstr "Эмодзи"
 msgid "Enable"
 msgstr "Включить"
 
-#: src/ui/classic/theme.h:145
+#: src/ui/classic/theme.h:143
 msgid "Enable Blur on KWin"
 msgstr "Включить размытие на KWin"
 
-#: src/modules/quickphrase/quickphrase.h:43
+#: src/modules/quickphrase/quickphrase.h:40
 msgid "Enable Spell check"
 msgstr "Включить проверку орфографии"
 
-#: src/im/keyboard/keyboard.h:51
+#: src/im/keyboard/keyboard.h:49
 msgid "Enable emoji in hint"
 msgstr "Включить эмодзи в подсказке"
 
-#: src/im/keyboard/keyboard.h:54
+#: src/im/keyboard/keyboard.h:52
 msgid "Enable emoji in quickphrase"
 msgstr "Включить эмодзи в быстрой фразе"
 
-#: src/ui/classic/classicui.h:190
+#: src/ui/classic/classicui.h:187
 msgid "Enable fractional scale under Wayland"
 msgstr "Включить дробную шкалу в Wayland"
 
-#: src/im/keyboard/keyboard.h:59
+#: src/im/keyboard/keyboard.h:57
 msgid "Enable hint by default"
 msgstr "Включить подсказку по умолчанию"
 
@@ -778,23 +778,23 @@ msgstr "Окончание"
 msgid "Entries"
 msgstr "Записи"
 
-#: src/lib/fcitx/globalconfig.cpp:58
+#: src/lib/fcitx/globalconfig.cpp:59
 msgid "Enumerate Input Method Backward"
 msgstr "Перечислить методы ввода в обратном порядке"
 
-#: src/lib/fcitx/globalconfig.cpp:51
+#: src/lib/fcitx/globalconfig.cpp:52
 msgid "Enumerate Input Method Forward"
 msgstr "Перечислить методы ввода в прямом порядке"
 
-#: src/lib/fcitx/globalconfig.cpp:75
+#: src/lib/fcitx/globalconfig.cpp:76
 msgid "Enumerate Input Method Group Backward"
 msgstr "Перечислить группы методов ввода в обратном порядке"
 
-#: src/lib/fcitx/globalconfig.cpp:68
+#: src/lib/fcitx/globalconfig.cpp:69
 msgid "Enumerate Input Method Group Forward"
 msgstr "Перечислить группы методов ввода в прямом порядке"
 
-#: src/lib/fcitx/globalconfig.cpp:40
+#: src/lib/fcitx/globalconfig.cpp:41
 msgid "Enumerate when press trigger key repeatedly"
 msgstr "Перечислять при повторном нажатии клавиши-триггера"
 
@@ -839,7 +839,7 @@ msgid "Execute"
 msgstr "Выполнить"
 
 #: src/ui/classic/xcbtraywindow.cpp:40
-#: src/modules/notificationitem/dbusmenu.cpp:268
+#: src/modules/notificationitem/dbusmenu.cpp:267
 msgid "Exit"
 msgstr "Выход"
 
@@ -851,7 +851,7 @@ msgstr "Не удалось найти ${1} в кеше immodule в ${2}"
 msgid "Failed to find ${1} in the output of ${2}"
 msgstr "Не удалось найти ${1} в выводе ${2}"
 
-#: src/modules/quickphrase/quickphrase.h:45
+#: src/modules/quickphrase/quickphrase.h:42
 msgid "Fallback Spell check language"
 msgstr "Резервный язык проверки орфографии"
 
@@ -860,7 +860,7 @@ msgctxt "Key name"
 msgid "Favorites"
 msgstr "Избранное"
 
-#: src/modules/wayland/waylandmodule.cpp:562
+#: src/modules/wayland/waylandmodule.cpp:578
 msgid "Fcitx"
 msgstr "Fcitx"
 
@@ -873,7 +873,7 @@ msgstr "Fcitx 5"
 msgid "Fcitx 5 Configuration"
 msgstr "Конфигурация Fcitx 5"
 
-#: data/org.fcitx.Fcitx5.WaylandLauncher.desktop.in.in:3
+#: data/fcitx5-wayland-launcher.desktop.in.in:3
 msgid "Fcitx 5 Wayland Launcher (Experimental)"
 msgstr "Fcitx 5 Wayland Launcher (Экспериментально)"
 
@@ -899,7 +899,7 @@ msgstr ""
 "собственный язык. Она также предлагает различные варианты дополнений, "
 "которые улучшают удобство набора текста."
 
-#: src/modules/wayland/waylandmodule.cpp:577
+#: src/modules/wayland/waylandmodule.cpp:593
 msgid ""
 "Fcitx should be launched by KWin under KDE Wayland in order to use Wayland "
 "input method frontend. This can improve the experience when using Fcitx on "
@@ -935,17 +935,17 @@ msgctxt "Key name"
 msgid "Find"
 msgstr "Найти"
 
-#: src/ui/classic/theme.h:49
+#: src/ui/classic/theme.h:47
 msgid "First Candidate"
 msgstr "Первый кандидат"
 
-#: src/ui/classic/classicui.h:164
+#: src/ui/classic/classicui.h:161
 msgid "Follow system accent color if it is supported by theme and desktop"
 msgstr ""
 "Следовать цветовому акценту системы, если он поддерживается темой и рабочим "
 "столом"
 
-#: src/ui/classic/classicui.h:160
+#: src/ui/classic/classicui.h:157
 msgid "Follow system light/dark color scheme"
 msgstr "Следовать системной светлой/темной цветовой схеме"
 
@@ -961,11 +961,11 @@ msgstr ""
 "ошибка, если вы не используете какое-либо приложение Qt с определенной "
 "версией Qt или используете поддержку ввода текста Qt под Wayland."
 
-#: src/ui/classic/classicui.h:120
+#: src/ui/classic/classicui.h:117
 msgid "Font"
 msgstr "Шрифт"
 
-#: src/ui/classic/classicui.h:150
+#: src/ui/classic/classicui.h:147
 msgid ""
 "For example, display character with Chinese variant when using Pinyin and "
 "Japanese variant when using Anthy. The font configuration needs to support "
@@ -975,13 +975,13 @@ msgstr ""
 "и японским вариантом при использовании Anthy. Конфигурация шрифта должна "
 "поддерживать это, чтобы использовать эту функцию."
 
-#: src/modules/wayland/waylandmodule.cpp:645
+#: src/modules/wayland/waylandmodule.cpp:661
 msgid "For more details see https://fcitx-im.org/wiki/Using_Fcitx_5_on_Wayland"
 msgstr ""
 "Для получения более подробной информации см. https://fcitx-im.org/wiki/"
 "Using_Fcitx_5_on_Wayland"
 
-#: src/ui/classic/classicui.h:178
+#: src/ui/classic/classicui.h:175
 msgid "Force font DPI on Wayland"
 msgstr "Принудительное изменение DPI шрифта на Wayland"
 
@@ -1085,16 +1085,16 @@ msgid "Green"
 msgstr "Зеленый"
 
 #: src/ui/classic/xcbtraywindow.cpp:36
-#: src/modules/notificationitem/dbusmenu.cpp:244
+#: src/modules/notificationitem/dbusmenu.cpp:243
 msgid "Group"
 msgstr "Группа"
 
-#: src/lib/fcitx/instance.cpp:415
+#: src/lib/fcitx/instance.cpp:417
 #, c++-format
 msgid "Group {0}: {1}"
 msgstr "Группа {0}: {1}"
 
-#: src/lib/fcitx/instance.cpp:360
+#: src/lib/fcitx/instance.cpp:362
 #, c++-format
 msgid "Group {}"
 msgstr "Группа {}"
@@ -1190,31 +1190,31 @@ msgctxt "Key name"
 msgid "Hibernate"
 msgstr "Гибернация"
 
-#: src/modules/notifications/notifications.h:28
+#: src/modules/notifications/notifications.h:26
 msgid "Hidden Notifications"
 msgstr "Скрытые уведомления"
 
-#: src/ui/classic/theme.h:116
+#: src/ui/classic/theme.h:114
 msgid "Hide overlay if size does not fit"
 msgstr "Скрыть наложение, если размер не подходит"
 
-#: src/ui/classic/theme.h:160 src/ui/classic/theme.h:180
+#: src/ui/classic/theme.h:158 src/ui/classic/theme.h:178
 msgid "Highlight Background"
 msgstr "Выделить фон"
 
-#: src/ui/classic/theme.h:140
+#: src/ui/classic/theme.h:138
 msgid "Highlight Background color"
 msgstr "Цвет фона выделения"
 
-#: src/ui/classic/theme.h:143
+#: src/ui/classic/theme.h:141
 msgid "Highlight Candidate Color"
 msgstr "Выделить цветом кандидат"
 
-#: src/ui/classic/theme.h:126
+#: src/ui/classic/theme.h:124
 msgid "Highlight Click Margin"
 msgstr "Выделить поле клика"
 
-#: src/ui/classic/theme.h:138
+#: src/ui/classic/theme.h:136
 msgid "Highlight text color"
 msgstr "Выделить цветом текст"
 
@@ -1257,7 +1257,7 @@ msgctxt "Key name"
 msgid "Hot Links"
 msgstr "Горячие ссылки"
 
-#: src/lib/fcitx/globalconfig.cpp:201
+#: src/lib/fcitx/globalconfig.cpp:207
 msgid "Hotkey"
 msgstr "Горячая клавиша"
 
@@ -1281,7 +1281,7 @@ msgstr "Hyper"
 msgid "IBus Frontend"
 msgstr "Интерфейс IBus"
 
-#: src/lib/fcitx/globalconfig.cpp:197
+#: src/lib/fcitx/globalconfig.cpp:203
 msgid ""
 "If value is 0, the user data may only be saved when fcitx quits (e.g. "
 "logout)."
@@ -1311,17 +1311,16 @@ msgstr ""
 "интеграции с IBus, чтобы использовать любой метод ввода, отличный от ${2}. "
 "Для получения подробной информации см. ${link}."
 
-#: src/ui/classic/theme.h:129
+#: src/ui/classic/theme.h:127
 msgid "Image"
 msgstr "Изображение"
 
-#: src/im/keyboard/keyboard.cpp:684 src/lib/fcitx/instance.cpp:450
-#: src/lib/fcitx/instance.cpp:677 src/lib/fcitx/instance.cpp:839
-#: src/modules/notificationitem/notificationitem.cpp:147
-#: src/modules/notificationitem/notificationitem.cpp:235
-#: src/modules/xcb/xcbconnection.cpp:555
-#: data/org.fcitx.Fcitx5.WaylandLauncher.desktop.in.in:4
-#: data/org.fcitx.Fcitx5.desktop.in.in:4
+#: src/im/keyboard/keyboard.cpp:677 src/lib/fcitx/instance.cpp:452
+#: src/lib/fcitx/instance.cpp:679 src/lib/fcitx/instance.cpp:841
+#: src/modules/notificationitem/notificationitem.cpp:142
+#: src/modules/notificationitem/notificationitem.cpp:230
+#: src/modules/xcb/xcbconnection.cpp:555 data/org.fcitx.Fcitx5.desktop.in.in:4
+#: data/fcitx5-wayland-launcher.desktop.in.in:4
 #: data/org.fcitx.Fcitx5.metainfo.xml.in:7
 msgid "Input Method"
 msgstr "Метод ввода"
@@ -1338,27 +1337,27 @@ msgstr "Относящиеся к методу ввода переменные �
 msgid "Input Methods:"
 msgstr "Методы ввода:"
 
-#: src/ui/classic/theme.h:201
+#: src/ui/classic/theme.h:199
 msgid "Input Panel"
 msgstr "Поле ввода"
 
-#: src/ui/classic/theme.h:65
+#: src/ui/classic/theme.h:63
 msgid "Input Panel Background"
 msgstr "Фон поля ввода"
 
-#: src/ui/classic/theme.h:65
+#: src/ui/classic/theme.h:63
 msgid "Input Panel Border"
 msgstr "Граница поля ввода"
 
-#: src/ui/classic/theme.h:67
+#: src/ui/classic/theme.h:65
 msgid "Input Panel Highlight"
 msgstr "Поле ввода выделено"
 
-#: src/ui/classic/theme.h:66
+#: src/ui/classic/theme.h:64
 msgid "Input Panel Highlight Candidate Background"
 msgstr "В поле ввода выделен фон слова-кандидата"
 
-#: src/ui/classic/theme.h:67
+#: src/ui/classic/theme.h:65
 msgid "Input Panel Highlight Candidate Border"
 msgstr "Выделение границы слова-кандидата в поле ввода"
 
@@ -1366,7 +1365,7 @@ msgstr "Выделение границы слова-кандидата в по�
 msgid "Input method selector"
 msgstr "Выбор метода ввода"
 
-#: src/lib/fcitx/globalconfig.cpp:103 src/lib/fcitx/globalconfig.cpp:115
+#: src/lib/fcitx/globalconfig.cpp:104 src/lib/fcitx/globalconfig.cpp:116
 msgid ""
 "Input methods may have different setup in their own configuration. This is "
 "commonly used by modules like clipboard or quickphrase."
@@ -1380,7 +1379,7 @@ msgctxt "Key name"
 msgid "Insert"
 msgstr "Вставка"
 
-#: src/lib/fcitx/globalconfig.cpp:193
+#: src/lib/fcitx/globalconfig.cpp:199
 msgid "Interval of saving user data in minutes"
 msgstr "Интервал сохранения пользовательских данных в минутах"
 
@@ -1396,7 +1395,7 @@ msgstr ""
 "Можно использовать ${1} встроенный модуль Wayland im, если составитель "
 "полностью поддерживает протокол ввода текста, используемый ${1}."
 
-#: src/modules/wayland/waylandmodule.cpp:602
+#: src/modules/wayland/waylandmodule.cpp:618
 msgid ""
 "It is recommended to install Input Method Panel GNOME Shell Extensions to "
 "provide the input method popup. https://extensions.gnome.org/extension/261/"
@@ -1414,7 +1413,7 @@ msgstr ""
 msgid "KDE Input Method Panel"
 msgstr "Панель метода ввода KDE"
 
-#: src/ui/classic/classicui.cpp:280
+#: src/ui/classic/classicui.cpp:278
 msgid "KDE Plasma (Experimental)"
 msgstr "KDE Plasma (экспериментально)"
 
@@ -1442,16 +1441,16 @@ msgstr "Катакана"
 msgid "Key"
 msgstr "Клавиша"
 
-#: src/im/keyboard/keyboard.cpp:315 src/im/keyboard/keyboard.conf.in.in:3
+#: src/im/keyboard/keyboard.cpp:308 src/im/keyboard/keyboard.conf.in.in:3
 msgid "Keyboard"
 msgstr "Клавиатура"
 
-#: src/im/keyboard/keyboard.cpp:231
+#: src/im/keyboard/keyboard.cpp:224
 #, c++-format
 msgid "Keyboard - {0}"
 msgstr "Клавиатура - {0}"
 
-#: src/im/keyboard/keyboard.cpp:250
+#: src/im/keyboard/keyboard.cpp:243
 #, c++-format
 msgid "Keyboard - {0} - {1}"
 msgstr "Клавиатура - {0} - {1}"
@@ -1659,7 +1658,7 @@ msgstr "Keypad-блок клавиатуры Up"
 msgid "Kimpanel process:"
 msgstr "Процесс Kimpanel:"
 
-#: src/ui/classic/theme.h:50
+#: src/ui/classic/theme.h:48
 msgid "Last Candidate"
 msgstr "Последний кандидат"
 
@@ -1796,7 +1795,7 @@ msgctxt "Key name"
 msgid "Logoff"
 msgstr "Выйти"
 
-#: src/im/keyboard/keyboard.h:89
+#: src/im/keyboard/keyboard.h:87
 msgid "Long Press behavior"
 msgstr "Поведение при длительном нажатии"
 
@@ -1805,31 +1804,31 @@ msgctxt "Key name"
 msgid "Mail Forward"
 msgstr "Пересылка почты"
 
-#: src/ui/classic/theme.h:118
+#: src/ui/classic/theme.h:116
 msgid "Margin"
 msgstr "Поле"
 
-#: src/ui/classic/theme.h:80
+#: src/ui/classic/theme.h:78
 msgid "Margin Bottom"
 msgstr "Поле внизу"
 
-#: src/ui/classic/theme.h:74
+#: src/ui/classic/theme.h:72
 msgid "Margin Left"
 msgstr "Поле слева"
 
-#: src/ui/classic/theme.h:76
+#: src/ui/classic/theme.h:74
 msgid "Margin Right"
 msgstr "Поле справа"
 
-#: src/ui/classic/theme.h:78
+#: src/ui/classic/theme.h:76
 msgid "Margin Top"
 msgstr "Поле сверху"
 
-#: src/ui/classic/theme.h:162 src/ui/classic/theme.h:186
+#: src/ui/classic/theme.h:160 src/ui/classic/theme.h:184
 msgid "Margin around all content"
 msgstr "Поля вокруг всего содержимого"
 
-#: src/ui/classic/theme.h:164 src/ui/classic/theme.h:188
+#: src/ui/classic/theme.h:162 src/ui/classic/theme.h:186
 msgid "Margin around text"
 msgstr "Поле вокруг текста"
 
@@ -1888,7 +1887,7 @@ msgctxt "Key name"
 msgid "Meeting"
 msgstr "Встреча"
 
-#: src/ui/classic/theme.h:202
+#: src/ui/classic/theme.h:200
 msgid "Menu"
 msgstr "Меню"
 
@@ -1897,15 +1896,15 @@ msgctxt "Key name"
 msgid "Menu"
 msgstr "Меню"
 
-#: src/ui/classic/theme.h:68
+#: src/ui/classic/theme.h:66
 msgid "Menu Background"
 msgstr "Фон меню"
 
-#: src/ui/classic/theme.h:68
+#: src/ui/classic/theme.h:66
 msgid "Menu Border"
 msgstr "Граница меню"
 
-#: src/ui/classic/classicui.h:122
+#: src/ui/classic/classicui.h:119
 msgid "Menu Font"
 msgstr "Шрифт меню"
 
@@ -1914,15 +1913,15 @@ msgctxt "Key name"
 msgid "Menu PB"
 msgstr "Menu PB"
 
-#: src/ui/classic/theme.h:69
+#: src/ui/classic/theme.h:67
 msgid "Menu Selected Item Background"
 msgstr "Фон выбранного пункта меню"
 
-#: src/ui/classic/theme.h:69
+#: src/ui/classic/theme.h:67
 msgid "Menu Selected Item Border"
 msgstr "Граница выбранного пункта меню"
 
-#: src/ui/classic/theme.h:70
+#: src/ui/classic/theme.h:68
 msgid "Menu Separator"
 msgstr "Разделитель меню"
 
@@ -1931,7 +1930,7 @@ msgctxt "Key name"
 msgid "Messenger"
 msgstr "Мессенджер"
 
-#: src/ui/classic/theme.h:199
+#: src/ui/classic/theme.h:197
 msgid "Metadata"
 msgstr "Метаданные"
 
@@ -1970,7 +1969,7 @@ msgctxt "Key name"
 msgid "My Sites"
 msgstr "Мои сайты"
 
-#: src/ui/classic/theme.h:191
+#: src/ui/classic/theme.h:189
 msgid "Name"
 msgstr "Имя"
 
@@ -1984,31 +1983,31 @@ msgctxt "Key name"
 msgid "News"
 msgstr "Новости"
 
-#: src/im/keyboard/keyboard.h:48
+#: src/im/keyboard/keyboard.h:46
 msgid "Next Candidate"
 msgstr "Следующий кандидат"
 
-#: src/ui/classic/theme.h:166
+#: src/ui/classic/theme.h:164
 msgid "Next Page Button"
 msgstr "Кнопка следующей страницы"
 
-#: src/lib/fcitx/globalconfig.cpp:27
+#: src/lib/fcitx/globalconfig.cpp:28
 msgid "No"
 msgstr "Нет"
 
-#: src/modules/clipboard/clipboard.cpp:355
+#: src/modules/clipboard/clipboard.cpp:350
 msgid "No clipboard history."
 msgstr "История буфера обмена отсутствует."
 
-#: src/im/keyboard/keyboard.h:32 src/modules/quickphrase/quickphrase.h:28
+#: src/im/keyboard/keyboard.h:30 src/modules/quickphrase/quickphrase.h:25
 msgid "None"
 msgstr "Нет"
 
-#: src/ui/classic/theme.h:135 src/ui/classic/theme.h:171
+#: src/ui/classic/theme.h:133 src/ui/classic/theme.h:169
 msgid "Normal text color"
 msgstr "Обычный цвет текста"
 
-#: src/ui/classic/classicui.h:182
+#: src/ui/classic/classicui.h:179
 msgid ""
 "Normally Wayland uses 96 as font DPI in combinition with the screen scale "
 "factor. This option allows you to override the font DPI. If the value is 0, "
@@ -2035,11 +2034,11 @@ msgctxt "Key name"
 msgid "NumLock"
 msgstr "NumLock"
 
-#: src/modules/clipboard/clipboard.h:48
+#: src/modules/clipboard/clipboard.h:45
 msgid "Number of entries"
 msgstr "Количество входов"
 
-#: src/im/keyboard/keyboard.cpp:670
+#: src/im/keyboard/keyboard.cpp:663
 msgid ""
 "Only emoji support is found. To enable spell checking, you may need to "
 "install spell check data for the language."
@@ -2062,27 +2061,27 @@ msgctxt "Key name"
 msgid "Option"
 msgstr "Выбор"
 
-#: src/ui/classic/theme.h:120
+#: src/ui/classic/theme.h:118
 msgid "Overlay Clip Margin"
 msgstr "Наложение поля клипа"
 
-#: src/ui/classic/theme.h:110
+#: src/ui/classic/theme.h:108
 msgid "Overlay Image"
 msgstr "Наложенное изображение"
 
-#: src/ui/classic/theme.h:113
+#: src/ui/classic/theme.h:111
 msgid "Overlay X offset"
 msgstr "Смещение X"
 
-#: src/ui/classic/theme.h:114
+#: src/ui/classic/theme.h:112
 msgid "Overlay Y offset"
 msgstr "Смещение Y"
 
-#: src/ui/classic/theme.h:112
+#: src/ui/classic/theme.h:110
 msgid "Overlay position"
 msgstr "Позиция наложения"
 
-#: src/lib/fcitx/globalconfig.cpp:167
+#: src/lib/fcitx/globalconfig.cpp:173
 msgid "Override Xkb Option"
 msgstr "Переопределить параметр Xkb"
 
@@ -2104,11 +2103,11 @@ msgctxt "Key name"
 msgid "Page Up"
 msgstr "Страница Вверх"
 
-#: src/ui/classic/theme.h:155
+#: src/ui/classic/theme.h:153
 msgid "Page button vertical alignment"
 msgstr "Выравнивание кнопки страницы по вертикали"
 
-#: src/im/keyboard/keyboard.h:37
+#: src/im/keyboard/keyboard.h:35
 msgid "Page size"
 msgstr "Размер страницы"
 
@@ -2117,7 +2116,7 @@ msgctxt "Key name"
 msgid "Paste"
 msgstr "Вставить"
 
-#: src/modules/clipboard/clipboard.h:46
+#: src/modules/clipboard/clipboard.h:43
 msgid "Paste Primary"
 msgstr "Вставить основное"
 
@@ -2167,19 +2166,19 @@ msgctxt "Key name"
 msgid "Power Off"
 msgstr "Выключение"
 
-#: src/lib/fcitx/instance.cpp:839
+#: src/lib/fcitx/instance.cpp:841
 msgid "Preedit"
 msgstr "Предварительное редактирование"
 
-#: src/lib/fcitx/instance.cpp:841
+#: src/lib/fcitx/instance.cpp:843
 msgid "Preedit disabled"
 msgstr "Предварительное редактирование отключено"
 
-#: src/lib/fcitx/instance.cpp:840
+#: src/lib/fcitx/instance.cpp:842
 msgid "Preedit enabled"
 msgstr "Предварительное редактирование включено"
 
-#: src/ui/classic/classicui.h:130 src/ui/kimpanel/kimpanel.h:33
+#: src/ui/classic/classicui.h:127 src/ui/kimpanel/kimpanel.h:28
 msgid "Prefer Text Icon"
 msgstr "Иконка предпочтительного текста"
 
@@ -2187,11 +2186,11 @@ msgstr "Иконка предпочтительного текста"
 msgid "Presage"
 msgstr "Presage"
 
-#: src/im/keyboard/keyboard.h:42
+#: src/im/keyboard/keyboard.h:40
 msgid "Prev Candidate"
 msgstr "Предыдущий кандидат"
 
-#: src/ui/classic/theme.h:165
+#: src/ui/classic/theme.h:163
 msgid "Prev Page Button"
 msgstr "Кнопка предыдущей страницы"
 
@@ -2205,7 +2204,7 @@ msgctxt "Key name"
 msgid "Print Screen"
 msgstr "Снимок экрана"
 
-#: src/lib/fcitx/globalconfig.cpp:27
+#: src/lib/fcitx/globalconfig.cpp:28
 msgid "Program"
 msgstr "Программа"
 
@@ -2217,7 +2216,7 @@ msgstr "Файлы модуля Qt IM:"
 msgid "Quick Phrase"
 msgstr "Быстрая фраза"
 
-#: src/modules/quickphrase/quickphrase.cpp:471
+#: src/modules/quickphrase/quickphrase.cpp:467
 msgid "Quick Phrase: "
 msgstr "Быстрая фраза: "
 
@@ -2246,8 +2245,12 @@ msgctxt "Key name"
 msgid "Reply"
 msgstr "Ответить"
 
+#: src/lib/fcitx/globalconfig.cpp:143
+msgid "Reset state on Focus In"
+msgstr ""
+
 #: src/ui/classic/xcbtraywindow.cpp:39
-#: src/modules/notificationitem/dbusmenu.cpp:262
+#: src/modules/notificationitem/dbusmenu.cpp:261
 msgid "Restart"
 msgstr "Перезапустить"
 
@@ -2347,7 +2350,7 @@ msgstr "Выбрать локальный метод ввода:"
 msgid "Select specific input method via keyboard"
 msgstr "Выберите конкретный метод ввода с клавиатуры"
 
-#: src/ui/classic/theme.h:174
+#: src/ui/classic/theme.h:172
 msgid "Selected Item text color"
 msgstr "Цвет текста выбранного элемента"
 
@@ -2356,7 +2359,7 @@ msgctxt "Key name"
 msgid "Send"
 msgstr "Отправить"
 
-#: src/modules/wayland/waylandmodule.cpp:634
+#: src/modules/wayland/waylandmodule.cpp:650
 msgid ""
 "Sending keyboard layout configuration to wayland compositor from Fcitx is "
 "not yet supported on current desktop. You may still use Fcitx's internal "
@@ -2367,15 +2370,15 @@ msgstr ""
 "использовать внутреннее преобразование раскладки Fcitx, добавив раскладку в "
 "качестве метода ввода в группу методов ввода."
 
-#: src/ui/classic/theme.h:182
+#: src/ui/classic/theme.h:180
 msgid "Separator Background"
 msgstr "Фон разделителя"
 
-#: src/ui/classic/theme.h:168
+#: src/ui/classic/theme.h:166
 msgid "Shadow Margin"
 msgstr "Затенённое поле"
 
-#: src/lib/fcitx/globalconfig.cpp:141
+#: src/lib/fcitx/globalconfig.cpp:147
 msgid "Share Input State"
 msgstr "Поделиться состоянием ввода"
 
@@ -2389,27 +2392,27 @@ msgctxt "Key name"
 msgid "Shop"
 msgstr "Магазин"
 
-#: src/lib/fcitx/globalconfig.cpp:152
+#: src/lib/fcitx/globalconfig.cpp:158
 msgid "Show Input Method Information when changing focus"
 msgstr "Показывать информацию о способе ввода при изменении фокуса"
 
-#: src/lib/fcitx/globalconfig.cpp:149
+#: src/lib/fcitx/globalconfig.cpp:155
 msgid "Show Input Method Information when switch input method"
 msgstr "Показывать информацию о методе ввода при переключении"
 
-#: src/ui/classic/classicui.h:135
+#: src/ui/classic/classicui.h:132
 msgid "Show Layout Name In Icon"
 msgstr "Показать имя раскладки в значке"
 
-#: src/lib/fcitx/globalconfig.cpp:155
+#: src/lib/fcitx/globalconfig.cpp:161
 msgid "Show compact input method information"
 msgstr "Показать информацию о компактном методе ввода"
 
-#: src/lib/fcitx/globalconfig.cpp:158
+#: src/lib/fcitx/globalconfig.cpp:164
 msgid "Show first input method information"
 msgstr "Показать информацию о первом методе ввода"
 
-#: src/ui/classic/classicui.h:139
+#: src/ui/classic/classicui.h:136
 msgid ""
 "Show layout name in icon if there is more than one active layout. If prefer "
 "text icon is set to true, this option will be ignored."
@@ -2418,15 +2421,15 @@ msgstr ""
 "для значка предпочтительного текста установлено значение true, этот параметр "
 "будет игнорироваться."
 
-#: src/lib/fcitx/globalconfig.cpp:145
+#: src/lib/fcitx/globalconfig.cpp:151
 msgid "Show preedit in application"
 msgstr "Показать предварительное редактирование в приложении"
 
-#: src/lib/fcitx/globalconfig.cpp:189
+#: src/lib/fcitx/globalconfig.cpp:195
 msgid "Show preedit text when typing password"
 msgstr "Показывать предварительно редактируемый текст при вводе пароля"
 
-#: src/im/keyboard/keyboard.h:77
+#: src/im/keyboard/keyboard.h:75
 msgid ""
 "Show preedit when composing, and commit dead key if there is no matching "
 "sequence."
@@ -2434,7 +2437,7 @@ msgstr ""
 "Показывать предварительное редактирование при составлении и фиксировать "
 "мертвую клавишу, если нет подходящей последовательности."
 
-#: src/lib/fcitx/globalconfig.cpp:64
+#: src/lib/fcitx/globalconfig.cpp:65
 msgid "Skip first input method while enumerating"
 msgstr "Пропустить первый метод ввода при перечислении"
 
@@ -2448,11 +2451,11 @@ msgctxt "Key name"
 msgid "Space"
 msgstr "Space"
 
-#: src/ui/classic/theme.h:176
+#: src/ui/classic/theme.h:174
 msgid "Spacing"
 msgstr "Расстояние"
 
-#: src/im/keyboard/keyboard.h:79 src/modules/spell/spell.conf.in.in:3
+#: src/im/keyboard/keyboard.h:77 src/modules/spell/spell.conf.in.in:3
 msgid "Spell"
 msgstr "Подсказки"
 
@@ -2476,8 +2479,8 @@ msgctxt "Key name"
 msgid "Standby"
 msgstr "Режим ожидания"
 
-#: data/org.fcitx.Fcitx5.WaylandLauncher.desktop.in.in:5
 #: data/org.fcitx.Fcitx5.desktop.in.in:5
+#: data/fcitx5-wayland-launcher.desktop.in.in:5
 msgid "Start Input Method"
 msgstr "Запустить метод ввода"
 
@@ -2490,7 +2493,7 @@ msgctxt "Key name"
 msgid "Stop"
 msgstr "Остановить"
 
-#: src/ui/classic/theme.h:184
+#: src/ui/classic/theme.h:182
 msgid "Sub Menu"
 msgstr "Подменю"
 
@@ -2499,7 +2502,7 @@ msgctxt "Key name"
 msgid "Subtitle"
 msgstr "Подзаголовок"
 
-#: src/im/keyboard/keyboard.h:33 src/modules/quickphrase/quickphrase.h:29
+#: src/im/keyboard/keyboard.h:31 src/modules/quickphrase/quickphrase.h:26
 msgid "Super"
 msgstr "Super"
 
@@ -2518,17 +2521,17 @@ msgctxt "Key name"
 msgid "Suspend"
 msgstr "Приостановить"
 
-#: src/lib/fcitx/instance.cpp:451 src/lib/fcitx/instance.cpp:678
+#: src/lib/fcitx/instance.cpp:453 src/lib/fcitx/instance.cpp:680
 #: src/modules/xcb/xcbconnection.cpp:556
 msgid "Switch group"
 msgstr "Сменить группу"
 
-#: src/lib/fcitx/instance.cpp:452 src/modules/xcb/xcbconnection.cpp:557
+#: src/lib/fcitx/instance.cpp:454 src/modules/xcb/xcbconnection.cpp:557
 #, c++-format
 msgid "Switch group to {0}"
 msgstr "Переключить группу на {0}"
 
-#: src/lib/fcitx/instance.cpp:679
+#: src/lib/fcitx/instance.cpp:681
 #, c++-format
 msgid "Switched group to {0}"
 msgstr "Группа переключена на {0}"
@@ -2552,7 +2555,7 @@ msgctxt "Key name"
 msgid "Task Panel"
 msgstr "Панель задач"
 
-#: src/lib/fcitx/globalconfig.cpp:44
+#: src/lib/fcitx/globalconfig.cpp:45
 msgid "Temporally switch between first and current Input Method"
 msgstr "Временное переключение между основным и текущим методом ввода"
 
@@ -2587,28 +2590,28 @@ msgstr ""
 msgid "The script is run as ${1} (${2})."
 msgstr "Сценарий запущен пользователем ${1} (${2})."
 
-#: src/ui/classic/classicui.h:155
+#: src/ui/classic/classicui.h:152
 msgid "Theme"
 msgstr "Тема"
 
-#: src/ui/classic/classicui.h:101
+#: src/ui/classic/classicui.h:98
 msgid "This is only effective when the tray icon is xembed."
 msgstr "Это эффективно только тогда, когда значок в трее встроен."
 
-#: src/ui/classic/theme.h:93 src/ui/classic/theme.h:101
+#: src/ui/classic/theme.h:91 src/ui/classic/theme.h:99
 msgid "This option is only effective if image is not set."
 msgstr ""
 "Этот параметр эффективен только в том случае, если имидж не установлен."
 
-#: src/ui/classic/classicui.h:194
+#: src/ui/classic/classicui.h:191
 msgid "This option require support from wayland compositor."
 msgstr "Для этого параметра требуется поддержка wayland compositor."
 
-#: src/ui/classic/classicui.h:173
+#: src/ui/classic/classicui.h:170
 msgid "This option will be always disabled on XWayland."
 msgstr "Этот параметр всегда будет отключен в XWayland."
 
-#: src/ui/classic/theme.h:109
+#: src/ui/classic/theme.h:107
 msgid "This value should be less than any of margin value."
 msgstr "Это значение должно быть меньше любого значения разницы."
 
@@ -2639,7 +2642,7 @@ msgstr ""
 "Для других более общих проблем, связанных с использованием XIM, включая "
 "замораживание приложений, см. ${link2}."
 
-#: src/lib/fcitx/globalconfig.cpp:132
+#: src/lib/fcitx/globalconfig.cpp:133
 msgid "Toggle embedded preedit"
 msgstr "Переключение встроенного предварительного редактирования"
 
@@ -2648,15 +2651,15 @@ msgctxt "Key name"
 msgid "Tools"
 msgstr "Инструменты"
 
-#: src/ui/classic/theme.h:48
+#: src/ui/classic/theme.h:46
 msgid "Top"
 msgstr "Top"
 
-#: src/ui/classic/theme.h:35
+#: src/ui/classic/theme.h:33
 msgid "Top Center"
 msgstr "Top Center"
 
-#: src/ui/classic/theme.h:35
+#: src/ui/classic/theme.h:33
 msgid "Top Left"
 msgstr "Top Left"
 
@@ -2665,7 +2668,7 @@ msgctxt "Key name"
 msgid "Top Menu"
 msgstr "Верхнее меню"
 
-#: src/ui/classic/theme.h:36
+#: src/ui/classic/theme.h:34
 msgid "Top Right"
 msgstr "Top Right"
 
@@ -2694,25 +2697,25 @@ msgctxt "Key name"
 msgid "Travel"
 msgstr "Ход"
 
-#: src/ui/classic/classicui.h:124
+#: src/ui/classic/classicui.h:121
 msgid "Tray Font"
 msgstr "Шрифт в лотке"
 
-#: src/ui/classic/classicui.h:126
+#: src/ui/classic/classicui.h:123
 msgid "Tray Label Outline Color"
 msgstr "Цвет контура лейбла лотка"
 
-#: src/ui/classic/classicui.h:129
+#: src/ui/classic/classicui.h:126
 msgid "Tray Label Text Color"
 msgstr "Цвет текста лейбла лотка"
 
-#: src/lib/fcitx/globalconfig.cpp:34
+#: src/lib/fcitx/globalconfig.cpp:35
 msgid "Trigger Input Method"
 msgstr "Активация метода ввода"
 
 #: src/modules/imselector/imselector.h:28
-#: src/modules/quickphrase/quickphrase.h:36 src/modules/unicode/unicode.h:31
-#: src/modules/clipboard/clipboard.h:42
+#: src/modules/quickphrase/quickphrase.h:33 src/modules/unicode/unicode.h:28
+#: src/modules/clipboard/clipboard.h:39
 msgid "Trigger Key"
 msgstr "Клавиша-триггер"
 
@@ -2720,19 +2723,19 @@ msgstr "Клавиша-триггер"
 msgid "Trigger Key for only current input context"
 msgstr "Клавиша-триггер только для текущего контекста ввода"
 
-#: src/im/keyboard/keyboard.h:62
+#: src/im/keyboard/keyboard.h:60
 msgid "Trigger hint mode"
 msgstr "Активировать режим подсказки"
 
-#: src/im/keyboard/keyboard.h:67
+#: src/im/keyboard/keyboard.h:65
 msgid "Trigger hint mode for one time"
 msgstr "Активировать режим подсказки один раз"
 
-#: src/im/keyboard/keyboard.h:82
+#: src/im/keyboard/keyboard.h:80
 msgid "Type special characters with long press"
 msgstr "Вводить специальные символы долгим нажатием"
 
-#: src/modules/unicode/unicode.h:36
+#: src/modules/unicode/unicode.h:33
 msgid "Type unicode in Hex number"
 msgstr "Вводить Юникод в шестнадцатеричном формате"
 
@@ -2753,7 +2756,7 @@ msgstr "Отменить"
 msgid "Unicode"
 msgstr "Юникод"
 
-#: src/modules/unicode/unicode.cpp:456
+#: src/modules/unicode/unicode.cpp:455
 msgid "Unicode: "
 msgstr "Юникод: "
 
@@ -2762,29 +2765,29 @@ msgctxt "Key name"
 msgid "Up"
 msgstr "Вверх"
 
-#: src/frontend/xim/xim.h:33
+#: src/frontend/xim/xim.h:27
 msgid "Use On The Spot Style (Needs restarting)"
 msgstr "Использовать стиль On The Spot (требуется перезапуск программы)"
 
-#: src/ui/classic/classicui.h:169
+#: src/ui/classic/classicui.h:166
 msgid "Use Per Screen DPI on X11"
 msgstr "Использовать DPI для каждого экрана на X11"
 
-#: src/ui/classic/theme.h:151
+#: src/ui/classic/theme.h:149
 msgid "Use all horizontal space for highlight when it is vertical list"
 msgstr ""
 "Используйте все горизонтальное пространство для выделения, когда это "
 "вертикальный список"
 
-#: src/ui/classic/classicui.h:146
+#: src/ui/classic/classicui.h:143
 msgid "Use input method language to display text"
 msgstr "Использовать язык метода ввода для отображения текста"
 
-#: src/ui/classic/classicui.h:116
+#: src/ui/classic/classicui.h:113
 msgid "Use mouse wheel to go to prev or next page"
 msgstr "Используйте колёсико мыши, для перелистывания страниц"
 
-#: src/im/keyboard/keyboard.h:73
+#: src/im/keyboard/keyboard.h:71
 msgid "Use new compose behavior"
 msgstr "Использовать новое поведение при написании"
 
@@ -2804,7 +2807,7 @@ msgstr ""
 "Использование ${1} для проверки фактического модуля im, который будет "
 "использоваться в текущей среде:"
 
-#: src/ui/classic/theme.h:192
+#: src/ui/classic/theme.h:190
 msgid "Version"
 msgstr "Версия"
 
@@ -2812,7 +2815,7 @@ msgstr "Версия"
 msgid "Version Line:"
 msgstr "Версия Line:"
 
-#: src/ui/classic/classicui.h:114
+#: src/ui/classic/classicui.h:111
 msgid "Vertical Candidate List"
 msgstr "Вертикальный список кандидатов"
 
@@ -2870,7 +2873,7 @@ msgstr ""
 msgid "Wayland"
 msgstr "Wayland"
 
-#: src/modules/wayland/waylandmodule.cpp:562
+#: src/modules/wayland/waylandmodule.cpp:578
 msgid "Wayland Diagnose"
 msgstr "Wayland Диагностика"
 
@@ -2883,7 +2886,7 @@ msgctxt "Key name"
 msgid "WebCam"
 msgstr "Веб-камера"
 
-#: src/lib/fcitx/globalconfig.cpp:171
+#: src/lib/fcitx/globalconfig.cpp:177
 msgid ""
 "Whether to override the xkb option from display server. It will not affect "
 "the xkb option send to display, but just the xkb options for custom xkb "
@@ -3072,17 +3075,17 @@ msgstr "переменные окружения sudo"
 msgid "version:"
 msgstr "версия:"
 
-#: src/im/keyboard/keyboard.cpp:292
+#: src/im/keyboard/keyboard.cpp:285
 #, c++-format
 msgid "{0} (Not Available)"
 msgstr "{0} (Недоступно)"
 
-#: src/lib/fcitx/instance.cpp:409
+#: src/lib/fcitx/instance.cpp:411
 #, c++-format
 msgid "{0} (Not available)"
 msgstr "{0} (Недоступно)"
 
-#: src/lib/fcitx/instance.cpp:406
+#: src/lib/fcitx/instance.cpp:408
 #, c++-format
 msgid "{0} ({1})"
 msgstr "{0} ({1})"
