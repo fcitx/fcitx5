@@ -1008,6 +1008,26 @@ Instance::Instance(int argc, char **argv) {
         EventType::InputContextFocusIn, EventWatcherPhase::ReservedFirst,
         [this, d](Event &event) {
             auto &icEvent = static_cast<InputContextEvent &>(event);
+            auto isSameProgram = [&icEvent, d]() {
+                // Check if they are same IC, or they are same program.
+                return (icEvent.inputContext() == d->lastUnFocusedIc_.get()) ||
+                       (!icEvent.inputContext()->program().empty() &&
+                        (icEvent.inputContext()->program() ==
+                         d->lastUnFocusedProgram_));
+            };
+
+            if (d->globalConfig_.resetStateWhenFocusIn() ==
+                    PropertyPropagatePolicy::All ||
+                (d->globalConfig_.resetStateWhenFocusIn() ==
+                     PropertyPropagatePolicy::Program &&
+                 !isSameProgram())) {
+                if (d->globalConfig_.activeByDefault()) {
+                    activate(icEvent.inputContext());
+                } else {
+                    deactivate(icEvent.inputContext());
+                }
+            }
+
             activateInputMethod(icEvent);
 
             if (virtualKeyboardAutoShow()) {
@@ -1054,8 +1074,10 @@ Instance::Instance(int argc, char **argv) {
         }));
     d->eventWatchers_.emplace_back(d->watchEvent(
         EventType::InputContextFocusOut, EventWatcherPhase::InputMethod,
-        [this](Event &event) {
+        [this, d](Event &event) {
             auto &icEvent = static_cast<InputContextEvent &>(event);
+            d->lastUnFocusedProgram_ = icEvent.inputContext()->program();
+            d->lastUnFocusedIc_ = icEvent.inputContext()->watch();
             deactivateInputMethod(icEvent);
             if (virtualKeyboardAutoHide()) {
                 auto *inputContext = icEvent.inputContext();

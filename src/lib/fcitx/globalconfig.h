@@ -36,6 +36,16 @@ public:
     const KeyList &togglePreeditKeys() const;
 
     bool activeByDefault() const;
+
+    /**
+     * Reset active state to the value of activeByDefault on Focus In.
+     *
+     * @see activeByDefault
+     * @return the reset policy, no for disable, all for always reset, program
+     * for only reset on program changes.
+     * @since 5.1.8
+     */
+    PropertyPropagatePolicy resetStateWhenFocusIn() const;
     bool showInputMethodInformation() const;
     bool showInputMethodInformationWhenFocusIn() const;
     bool compactInputMethodInformation() const;

@@ -7,6 +7,7 @@
 
 #include "globalconfig.h"
 #include "fcitx-config/configuration.h"
+#include "fcitx-config/enum.h"
 #include "fcitx-config/iniparser.h"
 #include "fcitx-config/option.h"
 #include "fcitx-utils/i18n.h"
@@ -136,6 +137,11 @@ FCITX_CONFIGURATION(
 FCITX_CONFIGURATION(
     BehaviorConfig, Option<bool> activeByDefault{this, "ActiveByDefault",
                                                  _("Active By Default")};
+    OptionWithAnnotation<PropertyPropagatePolicy,
+                         PropertyPropagatePolicyI18NAnnotation>
+        resetStateWhenFocusIn{this, "resetStateWhenFocusIn",
+                              _("Reset state on Focus In"),
+                              PropertyPropagatePolicy::No};
     OptionWithAnnotation<PropertyPropagatePolicy,
                          PropertyPropagatePolicyI18NAnnotation>
         shareState{this, "ShareInputState", _("Share Input State"),
@@ -282,6 +288,11 @@ const KeyList &GlobalConfig::togglePreeditKeys() const {
 bool GlobalConfig::activeByDefault() const {
     FCITX_D();
     return d->behavior->activeByDefault.value();
+}
+
+PropertyPropagatePolicy GlobalConfig::resetStateWhenFocusIn() const {
+    FCITX_D();
+    return d->behavior->resetStateWhenFocusIn.value();
 }
 
 bool GlobalConfig::showInputMethodInformation() const {

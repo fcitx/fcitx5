@@ -14,6 +14,7 @@
 #include "fcitx-utils/event.h"
 #include "fcitx-utils/handlertable.h"
 #include "fcitx-utils/misc.h"
+#include "fcitx-utils/trackableobject.h"
 #include "config.h"
 #include "inputcontextproperty.h"
 #include "inputmethodmanager.h"
@@ -223,6 +224,9 @@ public:
         VirtualKeyboardFunctionMode::Full;
 
     bool binaryMode_ = false;
+
+    std::string lastUnFocusedProgram_;
+    TrackableObjectReference<InputContext> lastUnFocusedIc_;
 };
 
 } // namespace fcitx
