@@ -1,0 +1,55 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - master
+    pull_requuest:
+      branches:
+        - master
+
+jobs:
+  check:
+    name: Build and test
+    runs-on: ubuntu-latest
+    container: archlinux:latest
+    strategy:
+      fail-fast: false
+      matrix:
+        compiler: [gcc, clang]
+        include:
+          - compiler: gcc
+            cxx_compiler: g++
+          - compiler: clang
+            cxx_compiler: clang++
+    env:
+      CC: ${{ matrix.compiler }}
+      CXX: ${{ matrix.cxx_compiler }}
+    steps:
+      - name: Install dependencies
+        run: |
+          pacman -Syu --noconfirm base-devel clang cmake extra-cmake-modules xcb-util xcb-util-keysyms cairo enchant iso-codes libxkbcommon-x11 pango systemd wayland xcb-util-wm libxkbfile fmt gdk-pixbuf2
+      - name: Init CodeQL
+        uses: github/codeql-action/init@v3
+        with:
+          languages: c
+      - uses: actions/checkout@v4
+        with:
+          path: xcb-imdkit
+          repository: fcitx/xcb-imdkit
+      - name: Build and Install xcb-imdkit
+        uses: fcitx/github-actions@cmake
+        with:
+          path: xcb-imdkit
+      - uses: actions/checkout@v4
+        with:
+          path: fcitx5
+      - name: Build and Install xcb-imdkit
+        uses: fcitx/github-actions@cmake
+        with:
+          path: fcitx5
+      - name: Test
+        run: |
+          ctest --test-dir fcitx5/build
+      - name: CodeQL Analysis
+        uses: github/codeql-action/analyze@v2
