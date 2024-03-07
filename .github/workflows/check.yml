@@ -29,10 +29,6 @@ jobs:
       - name: Install dependencies
         run: |
           pacman -Syu --noconfirm base-devel clang cmake extra-cmake-modules xcb-util xcb-util-keysyms cairo enchant iso-codes libxkbcommon-x11 pango systemd wayland xcb-util-wm libxkbfile fmt gdk-pixbuf2 wayland-protocols
-      - name: Init CodeQL
-        uses: github/codeql-action/init@v3
-        with:
-          languages: c
       - uses: actions/checkout@v4
         with:
           path: xcb-imdkit
@@ -44,6 +40,11 @@ jobs:
       - uses: actions/checkout@v4
         with:
           path: fcitx5
+      - name: Init CodeQL
+        uses: github/codeql-action/init@v3
+        with:
+          languages: cpp
+          source-root: fcitx5
       - name: Build and Install xcb-imdkit
         uses: fcitx/github-actions@cmake
         with:
