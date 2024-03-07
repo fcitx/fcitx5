@@ -45,7 +45,7 @@ jobs:
         with:
           languages: cpp
           source-root: fcitx5
-      - name: Build and Install xcb-imdkit
+      - name: Build and Install fcitx5
         uses: fcitx/github-actions@cmake
         with:
           path: fcitx5
