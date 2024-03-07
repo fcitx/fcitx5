@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2024-03-06 20:24+0000\n"
+"POT-Creation-Date: 2024-03-07 20:24+0000\n"
 "PO-Revision-Date: 2017-11-23 04:14+0000\n"
 "Last-Translator: Dmitry <dmitrydmitry761@gmail.com>, 2024\n"
 "Language-Team: Russian (https://app.transifex.com/fcitx/teams/12005/ru/)\n"
@@ -889,7 +889,7 @@ msgstr "Конфигурационный интерфейс Fcitx:"
 msgid "Fcitx State:"
 msgstr "Состояние Fcitx:"
 
-#: data/org.fcitx.Fcitx5.metainfo.xml.in:9
+#: data/org.fcitx.Fcitx5.metainfo.xml.in:12
 msgid ""
 "Fcitx is an input method framework. It can help you to type your own "
 "language. It also features variant choice of addons that improve your typing "
@@ -2247,7 +2247,7 @@ msgstr "Ответить"
 
 #: src/lib/fcitx/globalconfig.cpp:143
 msgid "Reset state on Focus In"
-msgstr ""
+msgstr "Сбросить состояние при фокусировке"
 
 #: src/ui/classic/xcbtraywindow.cpp:39
 #: src/modules/notificationitem/dbusmenu.cpp:261
@@ -2739,7 +2739,7 @@ msgstr "Вводить специальные символы долгим наж
 msgid "Type unicode in Hex number"
 msgstr "Вводить Юникод в шестнадцатеричном формате"
 
-#: data/org.fcitx.Fcitx5.metainfo.xml.in:22
+#: data/org.fcitx.Fcitx5.metainfo.xml.in:26
 msgid "Typing with Fcitx and Kimpanel"
 msgstr "Печатание с помощью Fcitx и Kimpanel"
 
