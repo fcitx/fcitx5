@@ -28,7 +28,7 @@ jobs:
     steps:
       - name: Install dependencies
         run: |
-          pacman -Syu --noconfirm base-devel clang cmake extra-cmake-modules xcb-util xcb-util-keysyms cairo enchant iso-codes libxkbcommon-x11 pango systemd wayland xcb-util-wm libxkbfile fmt gdk-pixbuf2 wayland-protocols
+          pacman -Syu --noconfirm base-devel clang cmake ninja extra-cmake-modules xcb-util xcb-util-keysyms cairo enchant iso-codes libxkbcommon-x11 pango systemd wayland xcb-util-wm libxkbfile fmt gdk-pixbuf2 wayland-protocols
       - uses: actions/checkout@v4
         with:
           path: xcb-imdkit
