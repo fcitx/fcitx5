@@ -40,6 +40,11 @@ jobs:
       - uses: actions/checkout@v4
         with:
           path: fcitx5
+      - name: Cache fcitx5 data files
+        uses: actions/cache@v4
+        with:
+          path: 'fcitx5/**/*.tar.*'
+          key: ${{ runner.os }}-${{ hashFiles('fcitx5/src/modules/spell/CMakeLists.txt') }}
       - name: Init CodeQL
         uses: github/codeql-action/init@v3
         with:
