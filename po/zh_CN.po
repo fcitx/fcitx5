@@ -5,16 +5,16 @@
 # Translators:
 # wwj402 <wwj402@gmail.com>, 2017
 # rocka, 2023
-# Lau YeeYu, 2023
 # csslayer <wengxt@gmail.com>, 2024
+# Lau YeeYu, 2024
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2024-03-06 20:24+0000\n"
+"POT-Creation-Date: 2024-03-24 20:24+0000\n"
 "PO-Revision-Date: 2017-11-23 04:14+0000\n"
-"Last-Translator: csslayer <wengxt@gmail.com>, 2024\n"
+"Last-Translator: Lau YeeYu, 2024\n"
 "Language-Team: Chinese (China) (https://app.transifex.com/fcitx/teams/12005/"
 "zh_CN/)\n"
 "Language: zh_CN\n"
@@ -877,7 +877,7 @@ msgstr "Fcitx 配置界面："
 msgid "Fcitx State:"
 msgstr "Fcitx 状态:"
 
-#: data/org.fcitx.Fcitx5.metainfo.xml.in:9
+#: data/org.fcitx.Fcitx5.metainfo.xml.in:12
 msgid ""
 "Fcitx is an input method framework. It can help you to type your own "
 "language. It also features variant choice of addons that improve your typing "
@@ -2209,7 +2209,7 @@ msgstr "回复"
 
 #: src/lib/fcitx/globalconfig.cpp:143
 msgid "Reset state on Focus In"
-msgstr ""
+msgstr "重新聚焦时重置状态"
 
 #: src/ui/classic/xcbtraywindow.cpp:39
 #: src/modules/notificationitem/dbusmenu.cpp:261
@@ -2688,7 +2688,7 @@ msgstr "用长按来输入特殊字符"
 msgid "Type unicode in Hex number"
 msgstr "使用十六进制数字输入 Unicode 字符"
 
-#: data/org.fcitx.Fcitx5.metainfo.xml.in:22
+#: data/org.fcitx.Fcitx5.metainfo.xml.in:26
 msgid "Typing with Fcitx and Kimpanel"
 msgstr "用 Fcitx 和 Kimpanel 输入"
 
