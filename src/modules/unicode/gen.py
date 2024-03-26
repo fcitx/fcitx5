@@ -91,15 +91,19 @@ import io
 sectiondata = '''
 SECTION European Scripts
 Armenian
+Carian
 Caucasian Albanian
 Cypriot Syllabary
+Cypro-Minoan
 Cyrillic
 Cyrillic Supplement
 Cyrillic Extended-A
 Cyrillic Extended-B
 Cyrillic Extended-C
+Cyrillic Extended-D
 Elbasan
 Georgian
+Georgian Extended
 Georgian Supplement
 Glagolitic
 Glagolitic Supplement
@@ -114,6 +118,8 @@ Latin Extended-B
 Latin Extended-C
 Latin Extended-D
 Latin Extended-E
+Latin Extended-F
+Latin Extended-G
 Latin Extended Additional
 IPA Extensions
 Phonetic Extensions
@@ -122,6 +128,8 @@ Linear A
 Linear B Syllabary
 Linear B Ideograms
 Aegean Numbers
+Lycian
+Lydian
 Ogham
 Old Hungarian
 Old Italic
@@ -129,6 +137,7 @@ Old Permic
 Phaistos Disc
 Runic
 Shavian
+Vithkuqi
 
 SECTION Modifier Letters
 Modifier Tone Letters
@@ -142,6 +151,10 @@ Combining Diacritical Marks Supplement
 Combining Diacritical Marks for Symbols
 Combining Half Marks
 
+SECTION Miscellaneous
+Alphabetic Presentation Forms
+Halfwidth and Fullwidth Forms
+
 SECTION African Scripts
 Adlam
 Bamum
@@ -150,10 +163,13 @@ Bassa Vah
 Coptic
 Coptic Epact Numbers
 Egyptian Hieroglyphs
+Egyptian Hieroglyph Format Controls
 Ethiopic
 Ethiopic Supplement
 Ethiopic Extended
 Ethiopic Extended-A
+Ethiopic Extended-B
+Medefaidrin
 Mende Kikakui
 Meroitic Cursive
 Meroitic Hieroglyphs
@@ -167,20 +183,21 @@ Anatolian Hieroglyphs
 Arabic
 Arabic Supplement
 Arabic Extended-A
+Arabic Extended-B
+Arabic Extended-C
 Arabic Presentation Forms-A
 Arabic Presentation Forms-B
 Imperial Aramaic
 Avestan
-Carian
+Chorasmian
 Cuneiform
 Cuneiform Numbers and Punctuation
 Early Dynastic Cuneiform
 Old Persian
 Ugaritic
+Elymaic
 Hatran
 Hebrew
-Lycian
-Lydian
 Mandaic
 Nabataean
 Old North Arabian
@@ -192,15 +209,22 @@ Inscriptional Parthian
 Phoenician
 Samaritan
 Syriac
+Syriac Supplement
+Yezidi
 
 SECTION Central Asian Scripts
 Manichaean
 Marchen
 Mongolian
 Mongolian Supplement
+Old Sogdian
 Old Turkic
+Old Uyghur
 Phags-pa
+Sogdian
+Soyombo
 Tibetan
+Zanabazar Square
 
 SECTION South Asian Scripts
 Ahom
@@ -210,8 +234,12 @@ Brahmi
 Chakma
 Devanagari
 Devanagari Extended
+Devanagari Extended-A
+Dives Akuru
+Dogra
 Grantha
 Gujarati
+Gunjala Gondi
 Gurmukhi
 Kaithi
 Kannada
@@ -222,11 +250,14 @@ Lepcha
 Limbu
 Mahajani
 Malayalam
+Masaram Gondi
 Meetei Mayek
 Meetei Mayek Extensions
 Modi
 Mro
 Multani
+Nag Mundari
+Nandinagari
 Newa
 Ol Chiki
 Oriya
@@ -239,14 +270,18 @@ Sora Sompeng
 Syloti Nagri
 Takri
 Tamil
+Tamil Supplement
 Telugu
 Thaana
 Tirhuta
+Toto
 Vedic Extensions
+Wancho
 Warang Citi
 
 SECTION Southeast Asian Scripts
 Cham
+Hanifi Rohingya
 Kayah Li
 Khmer
 Khmer Symbols
@@ -255,11 +290,13 @@ Myanmar
 Myanmar Extended-A
 Myanmar Extended-B
 New Tai Lue
+Nyiakeng Puachue Hmong
 Pahawh Hmong
 Pau Cin Hau
 Tai Le
 Tai Tham
 Tai Viet
+Tangsa
 Thai
 
 SECTION Indonesia &amp; Oceania Scripts
@@ -269,6 +306,8 @@ Buginese
 Buhid
 Hanunoo
 Javanese
+Kawi
+Makasar
 Rejang
 Sundanese
 Sundanese Supplement
@@ -284,6 +323,10 @@ CJK Unified Ideographs Extension B
 CJK Unified Ideographs Extension C
 CJK Unified Ideographs Extension D
 CJK Unified Ideographs Extension E
+CJK Unified Ideographs Extension F
+CJK Unified Ideographs Extension G
+CJK Unified Ideographs Extension H
+CJK Unified Ideographs Extension I
 CJK Compatibility Ideographs
 CJK Compatibility Ideographs Supplement
 Kangxi Radicals
@@ -296,14 +339,21 @@ Hangul Jamo Extended-B
 Hangul Compatibility Jamo
 Hangul Syllables
 Hiragana
+Kana Extended-A
+Kana Extended-B
+Kana Supplement
+Small Kana Extension
+Kanbun
 Katakana
 Katakana Phonetic Extensions
-Kana Supplement
-Kanbun
+Khitan Small Script
 Lisu
+Lisu Supplement
 Miao
+Nushu
 Tangut
 Tangut Components
+Tangut Supplement
 Yi Syllables
 Yi Radicals
 
@@ -314,16 +364,14 @@ Deseret
 Osage
 Unified Canadian Aboriginal Syllabics
 Unified Canadian Aboriginal Syllabics Extended
-
-SECTION Other
-Alphabetic Presentation Forms
-Halfwidth and Fullwidth Forms
+Unified Canadian Aboriginal Syllabics Extended-A
 
 SECTION Notational Systems
 Braille Patterns
 Musical Symbols
 Ancient Greek Musical Notation
 Byzantine Musical Symbols
+Znamenny Musical Notation
 Duployan
 Shorthand Format Controls
 Sutton SignWriting
@@ -358,7 +406,11 @@ Common Indic Number Forms
 Coptic Epact Numbers
 Counting Rod Numerals
 Cuneiform Numbers and Punctuation
+Indic Siyaq Numbers
+Kaktovik Numerals
+Mayan Numerals
 Number Forms
+Ottoman Siyaq Numbers
 Rumi Numeral Symbols
 Sinhala Archaic Numbers
 
@@ -387,16 +439,19 @@ Emoticons
 Miscellaneous Symbols
 Miscellaneous Symbols and Pictographs
 Supplemental Symbols and Pictographs
+Symbols and Pictographs Extended-A
 Transport and Map Symbols
 
 SECTION Other Symbols
 Alchemical Symbols
 Ancient Symbols
 Currency Symbols
+Chess Symbols
 Domino Tiles
 Mahjong Tiles
 Playing Cards
 Miscellaneous Symbols and Arrows
+Symbols for Legacy Computing
 Yijing Hexagram Symbols
 Tai Xuan Jing Symbols
 
