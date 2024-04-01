@@ -101,42 +101,21 @@ Clipboard::Clipboard(Instance *instance)
     instance_->inputContextManager().registerProperty("clipboardState",
                                                       &factory_);
 #ifdef ENABLE_X11
-    if (auto xcb = this->xcb()) {
+    if (auto *xcb = this->xcb()) {
         xcbCreatedCallback_ =
             xcb->call<IXCBModule::addConnectionCreatedCallback>(
                 [this](const std::string &name, xcb_connection_t *, int,
                        FocusGroup *) {
-                    auto &callbacks = selectionCallbacks_[name];
-
-                    // Ensure that atom exists. See:
-                    // https://github.com/fcitx/fcitx5/issues/610 PRIMARY /
-                    // CLIPBOARD is not guaranteed to exist if fcitx5 is
-                    // launched at an very early stage. We should try to create
-                    // atom ourselves.
-                    this->xcb()->call<IXCBModule::atom>(name, "PRIMARY", false);
-                    this->xcb()->call<IXCBModule::atom>(name, "CLIPBOARD",
-                                                        false);
-                    callbacks.emplace_back(
-                        this->xcb()->call<IXCBModule::addSelection>(
-                            name, "PRIMARY", [this, name](xcb_atom_t) {
-                                primaryChanged(name);
-                            }));
-                    callbacks.emplace_back(
-                        this->xcb()->call<IXCBModule::addSelection>(
-                            name, "CLIPBOARD", [this, name](xcb_atom_t) {
-                                clipboardChanged(name);
-                            }));
-                    primaryChanged(name);
-                    clipboardChanged(name);
+                    xcbClipboards_[name].reset(new XcbClipboard(this, name));
                 });
         xcbClosedCallback_ = xcb->call<IXCBModule::addConnectionClosedCallback>(
             [this](const std::string &name, xcb_connection_t *) {
-                selectionCallbacks_.erase(name);
+                xcbClipboards_.erase(name);
             });
     }
 #endif
 #ifdef WAYLAND_FOUND
-    if (auto wayland = this->wayland()) {
+    if (auto *wayland = this->wayland()) {
         waylandCreatedCallback_ =
             wayland->call<IWaylandModule::addConnectionCreatedCallback>(
                 [this](const std::string &name, wl_display *display,
@@ -356,39 +335,6 @@ void Clipboard::updateUI(InputContext *inputContext) {
     inputContext->inputPanel().setAuxUp(auxUp);
     inputContext->updatePreedit();
     inputContext->updateUserInterface(UserInterfaceComponent::InputPanel);
-}
-
-void Clipboard::primaryChanged(const std::string &name) {
-    FCITX_UNUSED(name);
-#ifdef ENABLE_X11
-    primaryCallback_ = xcb()->call<IXCBModule::convertSelection>(
-        name, "PRIMARY", "",
-        [this, name](xcb_atom_t, const char *data, size_t length) {
-            if (!data) {
-                setPrimary(name, "");
-            } else {
-                std::string str(data, length);
-                setPrimary(name, str);
-            }
-            primaryCallback_.reset();
-        });
-#endif
-}
-
-void Clipboard::clipboardChanged(const std::string &name) {
-    FCITX_UNUSED(name);
-#ifdef ENABLE_X11
-    clipboardCallback_ = xcb()->call<IXCBModule::convertSelection>(
-        name, "CLIPBOARD", "",
-        [this, name](xcb_atom_t, const char *data, size_t length) {
-            if (!data || !length) {
-                return;
-            }
-            std::string str(data, length);
-            setClipboard(name, str);
-            clipboardCallback_.reset();
-        });
-#endif
 }
 
 void Clipboard::setPrimary(const std::string &name, const std::string &str) {
