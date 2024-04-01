@@ -15,7 +15,7 @@
 #include <tuple>
 #include <type_traits>
 #include <vector>
-#include <fcitx-utils/dbus/message_details.h>
+#include <fcitx-utils/dbus/message_details.h> // IWYU pragma: export
 #include <fcitx-utils/log.h>
 #include <fcitx-utils/macros.h>
 #include <fcitx-utils/metastring.h>

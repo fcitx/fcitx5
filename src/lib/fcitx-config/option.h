@@ -13,7 +13,7 @@
 #include <string>
 #include <type_traits>
 #include <fcitx-config/marshallfunction.h>
-#include <fcitx-config/option_details.h>
+#include <fcitx-config/option_details.h> // IWYU pragma: export
 #include <fcitx-config/optiontypename.h>
 #include <fcitx-config/rawconfig.h>
 

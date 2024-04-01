@@ -9,7 +9,7 @@
 
 #include <functional>
 #include <unordered_map>
-#include <fcitx-utils/handlertable_details.h>
+#include <fcitx-utils/handlertable_details.h> // IWYU pragma: export
 #include <fcitx-utils/intrusivelist.h>
 
 namespace fcitx {

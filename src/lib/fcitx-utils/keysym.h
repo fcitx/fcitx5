@@ -14,7 +14,7 @@
 /// \brief Key sym related types.
 
 #include <cstdint>
-#include <fcitx-utils/keysymgen.h>
+#include <fcitx-utils/keysymgen.h> // IWYU pragma: export
 #include <fcitx-utils/macros.h>
 
 namespace fcitx {

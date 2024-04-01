@@ -12,7 +12,7 @@
 #include <fcitx-config/configuration.h>
 #include <fcitx-utils/metastring.h>
 #include <fcitx/addoninfo.h>
-#include <fcitx/addoninstance_details.h>
+#include <fcitx/addoninstance_details.h> // IWYU pragma: export
 #include "fcitxcore_export.h"
 
 /// \addtogroup FcitxCore
@@ -178,10 +178,10 @@ private:
         &CLASS::FUNCTION)) FUNCTION##Adaptor{#CLASS "::" #FUNCTION, this,      \
                                              &CLASS::FUNCTION};                \
     static_assert(                                                             \
-        std::is_same<decltype(::fcitx::MakeAddonFunctionAdaptor(               \
-                         &CLASS::FUNCTION))::Signature,                        \
-                     ::fcitx::AddonFunctionSignatureType<fcitxMakeMetaString(  \
-                         #CLASS "::" #FUNCTION)>>::value,                      \
+        std::is_same_v<decltype(::fcitx::MakeAddonFunctionAdaptor(             \
+                           &CLASS::FUNCTION))::Signature,                      \
+                       ::fcitx::AddonFunctionSignatureType<                    \
+                           fcitxMakeMetaString(#CLASS "::" #FUNCTION)>>,       \
         "Signature doesn't match");
 
 #define FCITX_ADDON_FACTORY(ClassName)                                         \
