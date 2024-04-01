@@ -593,7 +593,8 @@ void XIMServer::callback(xcb_im_client_t *client, xcb_im_input_context_t *xic,
                        xevent->time);
         XIM_KEY_DEBUG() << "XIM Key Event: "
                         << static_cast<int>(xevent->response_type) << " "
-                        << event.rawKey().toString();
+                        << event.rawKey().toString() << " time:" << xevent->time
+                        << " sequence:" << xevent->sequence;
         if (!ic->hasFocus()) {
             ic->focusIn();
         }
