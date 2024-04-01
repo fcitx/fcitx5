@@ -1,16 +1,18 @@
-set(CLIPBOARD_SOURCES clipboard.cpp)
-if (WAYLAND_FOUND)
-set(CLIPBOARD_SOURCES ${CLIPBOARD_SOURCES} waylandclipboard.cpp)
-endif()
-add_library(clipboard MODULE ${CLIPBOARD_SOURCES})
+add_library(clipboard MODULE)
 
+target_sources(clipboard PRIVATE clipboard.cpp)
 target_link_libraries(clipboard Fcitx5::Core)
+
 if (ENABLE_X11)
+    target_sources(clipboard PRIVATE xcbclipboard.cpp)
     target_link_libraries(clipboard Fcitx5::Module::XCB XCB::XCB)
 endif()
+
 if (WAYLAND_FOUND)
+    target_sources(clipboard PRIVATE waylandclipboard.cpp)
     target_link_libraries(clipboard Fcitx5::Module::Wayland Fcitx5::Wayland::WLRDataControl Pthread::Pthread)
 endif()
+
 install(TARGETS clipboard DESTINATION "${FCITX_INSTALL_ADDONDIR}")
 install(FILES "${CMAKE_CURRENT_BINARY_DIR}/clipboard.conf" DESTINATION "${FCITX_INSTALL_PKGDATADIR}/addon"
         COMPONENT config)
