@@ -22,7 +22,7 @@ uint64_t DataReaderThread::addTask(std::shared_ptr<UnixFD> fd,
     FCITX_CLIPBOARD_DEBUG() << "Add task: " << id << " " << fd;
     dispatcherToWorker_.schedule([this, id, fd = std::move(fd),
                                   dispatcher = &dispatcherToWorker_,
-                                  callback = std::move(callback)]() {
+                                  callback = std::move(callback)]() mutable {
         auto &task = ((*tasks_)[id] = std::make_unique<DataOfferTask>());
         task->fd_ = fd;
         task->callback_ = std::move(callback);
@@ -105,9 +105,30 @@ void DataOffer::receiveData(DataReaderThread &thread,
     if (thread_) {
         return;
     }
+
+    thread_ = &thread;
+    static const std::string passwordHint = "x-kde-passwordManagerHint";
+    if (mimeTypes_.count(passwordHint)) {
+        receiveDataForMime(
+            passwordHint, [this, callback](const std::vector<char> &data) {
+                if (std::string_view(data.data(), data.size()) == "secret") {
+                    return;
+                }
+                receiveRealData(callback);
+            });
+    } else {
+        receiveRealData(std::move(callback));
+    }
+}
+
+void DataOffer::receiveRealData(DataOfferCallback callback) {
+    if (!thread_) {
+        return;
+    }
     std::string mime;
     static const std::string utf8Mime = "text/plain;charset=utf-8";
     static const std::string textMime = "text/plain";
+
     if (mimeTypes_.count(utf8Mime)) {
         mime = utf8Mime;
     } else if (mimeTypes_.count(textMime)) {
@@ -116,6 +137,14 @@ void DataOffer::receiveData(DataReaderThread &thread,
         return;
     }
 
+    receiveDataForMime(mime, std::move(callback));
+}
+
+void DataOffer::receiveDataForMime(const std::string &mime,
+                                   DataOfferCallback callback) {
+    if (!thread_) {
+        return;
+    }
     // Create a pipe for sending data.
     int pipeFds[2];
     if (safePipe(pipeFds) != 0) {
@@ -125,7 +154,6 @@ void DataOffer::receiveData(DataReaderThread &thread,
     offer_->receive(mime.data(), pipeFds[1]);
     close(pipeFds[1]);
 
-    thread_ = &thread;
     taskId_ = thread_->addTask(
         std::make_shared<UnixFD>(UnixFD::own(pipeFds[0])), std::move(callback));
 }
@@ -172,10 +200,11 @@ DataDevice::DataDevice(WaylandClipboard *clipboard,
     thread_.start();
 }
 
-WaylandClipboard::WaylandClipboard(Clipboard *clipboard,
-                                   const std::string &name, wl_display *display)
-    : parent_(clipboard), name_(name), display_(static_cast<wayland::Display *>(
-                                           wl_display_get_user_data(display))) {
+WaylandClipboard::WaylandClipboard(Clipboard *clipboard, std::string name,
+                                   wl_display *display)
+    : parent_(clipboard), name_(std::move(name)),
+      display_(
+          static_cast<wayland::Display *>(wl_display_get_user_data(display))) {
     display_->requestGlobals<wayland::ZwlrDataControlManagerV1>();
     globalConn_ = display_->globalCreated().connect(
         [this](const std::string &interface, std::shared_ptr<void> ptr) {
@@ -221,7 +250,7 @@ void WaylandClipboard::refreshSeat() {
             continue;
         }
 
-        auto device = manager_->getDataDevice(seat.get());
+        auto *device = manager_->getDataDevice(seat.get());
         deviceMap_.emplace(seat.get(),
                            std::make_unique<DataDevice>(this, device));
     }
