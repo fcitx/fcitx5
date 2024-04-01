@@ -8,5 +8,5 @@ OnDemand=False
 Configurable=True
 
 [Addon/OptionalDependencies]
-0=xcb
-1=wayland
+0=xcb:@PROJECT_VERSION@
+1=wayland:@PROJECT_VERSION@

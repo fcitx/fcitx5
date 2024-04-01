@@ -22,6 +22,7 @@
 
 #ifdef ENABLE_X11
 #include "xcb_public.h"
+#include "xcbclipboard.h"
 #endif
 #ifdef WAYLAND_FOUND
 #include "wayland_public.h"
@@ -73,16 +74,15 @@ public:
     void setPrimary(const std::string &name, const std::string &str);
     void setClipboard(const std::string &name, const std::string &str);
 
+#ifdef ENABLE_X11
+    FCITX_ADDON_DEPENDENCY_LOADER(xcb, instance_->addonManager());
+#endif
+
 private:
-    void primaryChanged(const std::string &name);
-    void clipboardChanged(const std::string &name);
     FCITX_ADDON_EXPORT_FUNCTION(Clipboard, primary);
     FCITX_ADDON_EXPORT_FUNCTION(Clipboard, clipboard);
     FCITX_ADDON_EXPORT_FUNCTION(Clipboard, setPrimary);
     FCITX_ADDON_EXPORT_FUNCTION(Clipboard, setClipboard);
-#ifdef ENABLE_X11
-    FCITX_ADDON_DEPENDENCY_LOADER(xcb, instance_->addonManager());
-#endif
 #ifdef WAYLAND_FOUND
     FCITX_ADDON_DEPENDENCY_LOADER(wayland, instance_->addonManager());
 #endif
@@ -98,12 +98,8 @@ private:
     std::unique_ptr<HandlerTableEntry<XCBConnectionCreated>>
         xcbCreatedCallback_;
     std::unique_ptr<HandlerTableEntry<XCBConnectionClosed>> xcbClosedCallback_;
-    std::unordered_map<std::string,
-                       std::vector<std::unique_ptr<HandlerTableEntryBase>>>
-        selectionCallbacks_;
-
-    std::unique_ptr<HandlerTableEntryBase> primaryCallback_;
-    std::unique_ptr<HandlerTableEntryBase> clipboardCallback_;
+    std::unordered_map<std::string, std::unique_ptr<XcbClipboard>>
+        xcbClipboards_;
 #endif
 
 #ifdef WAYLAND_FOUND
