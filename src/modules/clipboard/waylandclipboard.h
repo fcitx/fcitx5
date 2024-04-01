@@ -78,6 +78,10 @@ public:
     void receiveData(DataReaderThread &thread, DataOfferCallback callback);
 
 private:
+    void receiveDataForMime(const std::string &mime,
+                            DataOfferCallback callback);
+    void receiveRealData(DataOfferCallback callback);
+
     std::list<ScopedConnection> conns_;
     std::unordered_set<std::string> mimeTypes_;
     std::unique_ptr<wayland::ZwlrDataControlOfferV1> offer_;
@@ -106,7 +110,7 @@ private:
 class WaylandClipboard {
 
 public:
-    WaylandClipboard(Clipboard *parent, const std::string &name,
+    WaylandClipboard(Clipboard *clipboard, std::string name,
                      wl_display *display);
 
     void setClipboard(const std::string &str);
