@@ -65,7 +65,7 @@ void XCBConvertSelectionRequest::handleReply(xcb_atom_t type, const char *data,
 
     fallbacks_.pop_back();
     if (fallbacks_.empty()) {
-        return invokeCallbackAndCleanUp(XCB_ATOM_NONE, nullptr, 0);
+        return invokeCallbackAndCleanUp(type, data, length);
     }
 
     xcb_delete_property(conn_->connection(), conn_->serverWindow(), property_);
