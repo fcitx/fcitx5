@@ -11,7 +11,7 @@
 #include "utf8.h"
 
 /** check utf8 character */
-#define FCITX_ISUTF8_CB(c) (((c)&0xc0) == 0x80)
+#define FCITX_ISUTF8_CB(c) (((c) & 0xc0) == 0x80)
 
 #define CONT(i) FCITX_ISUTF8_CB(in[i])
 #define VAL(i, s) ((in[i] & 0x3f) << s)
@@ -27,8 +27,8 @@
                                             : ((Char) < 0x4000000 ? 5 : 6)))))
 
 #define UNICODE_VALID(Char)                                                    \
-    ((Char) < 0x110000 && (((Char)&0xFFFFF800) != 0xD800) &&                   \
-     ((Char) < 0xFDD0 || (Char) > 0xFDEF) && ((Char)&0xFFFE) != 0xFFFE)
+    ((Char) < 0x110000 && (((Char) & 0xFFFFF800) != 0xD800) &&                 \
+     ((Char) < 0xFDD0 || (Char) > 0xFDEF) && ((Char) & 0xFFFE) != 0xFFFE)
 
 size_t fcitx_utf8_strlen(const char *s) {
     size_t l = 0;
