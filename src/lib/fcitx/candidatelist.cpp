@@ -125,7 +125,7 @@ Text CandidateWord::textWithComment(std::string separator) const {
     FCITX_D();
     auto text = d->text_;
     if (!d->comment_.empty()) {
-        text.append(separator);
+        text.append(std::move(separator));
         text.append(d->comment_);
     }
     return text;
