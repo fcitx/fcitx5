@@ -420,7 +420,7 @@ std::vector<std::string> VirtualKeyboard::makeCandidateTextList(
         }
 
         auto candidateText =
-            instance_->outputFilter(inputContext, candidate.text());
+            instance_->outputFilter(inputContext, candidate.textWithComment());
         candidateTextList.push_back(candidateText.toString());
     }
 
@@ -446,7 +446,7 @@ std::vector<std::string> VirtualKeyboard::makeBulkCandidateTextList(
                 continue;
             }
 
-            candidateText = candidate.text();
+            candidateText = candidate.textWithComment();
         } catch (...) {
             break;
         }

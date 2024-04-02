@@ -93,6 +93,7 @@ public:
     bool isPlaceHolder_ = false;
     Text customLabel_;
     bool hasCustomLabel_ = false;
+    Text comment_;
 };
 
 CandidateWord::CandidateWord(Text text)
@@ -108,6 +109,26 @@ const Text &CandidateWord::text() const {
 void CandidateWord::setText(Text text) {
     FCITX_D();
     d->text_ = std::move(text);
+}
+
+const Text &CandidateWord::comment() const {
+    FCITX_D();
+    return d->comment_;
+}
+
+void CandidateWord::setComment(Text comment) {
+    FCITX_D();
+    d->comment_ = std::move(comment);
+}
+
+Text CandidateWord::textWithComment(std::string separator) const {
+    FCITX_D();
+    auto text = d->text_;
+    if (!d->comment_.empty()) {
+        text.append(std::move(separator));
+        text.append(d->comment_);
+    }
+    return text;
 }
 
 bool CandidateWord::isPlaceHolder() const {

@@ -194,11 +194,10 @@ public:
     }
 
     void updateClientSideUIImpl() override {
-        auto preedit =
-            im_->instance()->outputFilter(this, inputPanel().preedit());
-        auto auxUp = im_->instance()->outputFilter(this, inputPanel().auxUp());
-        auto auxDown =
-            im_->instance()->outputFilter(this, inputPanel().auxDown());
+        auto instance = im_->instance();
+        auto preedit = instance->outputFilter(this, inputPanel().preedit());
+        auto auxUp = instance->outputFilter(this, inputPanel().auxUp());
+        auto auxDown = instance->outputFilter(this, inputPanel().auxDown());
         auto candidateList = inputPanel().candidateList();
         int cursorIndex = 0;
 
@@ -220,9 +219,9 @@ public:
                 Text labelText = candidate.hasCustomLabel()
                                      ? candidate.customLabel()
                                      : candidateList->label(i);
-                labelText = im_->instance()->outputFilter(this, labelText);
+                labelText = instance->outputFilter(this, labelText);
                 Text candidateText =
-                    im_->instance()->outputFilter(this, candidate.text());
+                    instance->outputFilter(this, candidate.textWithComment());
                 candidates.emplace_back(std::make_tuple(
                     labelText.toString(), candidateText.toString()));
             }

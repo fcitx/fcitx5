@@ -46,12 +46,28 @@ public:
     bool isPlaceHolder() const;
     bool hasCustomLabel() const;
     const Text &customLabel() const;
+    /**
+     * Return comment corresponding to the candidate.
+     *
+     * @return value of comment.
+     * @since 5.1.9
+     */
+    const Text &comment() const;
+    /**
+     * Return text with comment.
+     *
+     * @param separator separator between text and comment.
+     * @return value of comment.
+     * @since 5.1.9
+     */
+    Text textWithComment(std::string separator = " ") const;
 
 protected:
     void setText(Text text);
     void setPlaceHolder(bool placeHolder);
     void resetCustomLabel();
     void setCustomLabel(Text text);
+    void setComment(Text comment);
 
 private:
     std::unique_ptr<CandidateWordPrivate> d_ptr;

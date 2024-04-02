@@ -339,8 +339,8 @@ std::pair<int, int> InputWindow::update(InputContext *inputContext) {
             labelText = instance->outputFilter(inputContext, labelText);
             setTextToMultilineLayout(inputContext, labelLayouts_[localIndex],
                                      labelText);
-            auto candidateText =
-                instance->outputFilter(inputContext, candidate.text());
+            auto candidateText = instance->outputFilter(
+                inputContext, candidate.textWithComment());
             setTextToMultilineLayout(
                 inputContext, candidateLayouts_[localIndex], candidateText);
             localIndex++;

@@ -359,8 +359,8 @@ void Kimpanel::updateInputPanel(InputContext *inputContext) {
 
                 labelText = instance->outputFilter(inputContext, labelText);
                 labels.push_back(labelText.toString());
-                auto candidateText =
-                    instance->outputFilter(inputContext, candidate.text());
+                auto candidateText = instance->outputFilter(
+                    inputContext, candidate.textWithComment());
                 texts.push_back(candidateText.toString());
                 attrs.emplace_back("");
             }

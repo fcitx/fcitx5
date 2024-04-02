@@ -14,8 +14,10 @@ int selected = 0;
 
 class TestCandidateWord : public CandidateWord {
 public:
-    TestCandidateWord(int number)
-        : CandidateWord(Text(std::to_string(number))), number_(number) {}
+    TestCandidateWord(int number, Text comment = {})
+        : CandidateWord(Text(std::to_string(number))), number_(number) {
+        setComment(std::move(comment));
+    }
     void select(InputContext *) const override { selected = number_; }
 
 private:
@@ -303,9 +305,17 @@ void test_label() {
     FCITX_ASSERT(candidatelist.label(9).toString() == ",. ");
 }
 
+void test_comment() {
+    TestCandidateWord candidate(1, Text("comment"));
+    FCITX_ASSERT(candidate.text().toString() == "1");
+    FCITX_ASSERT(candidate.comment().toString() == "comment");
+    FCITX_ASSERT(candidate.textWithComment().toString() == "1 comment");
+}
+
 int main() {
     test_basic();
     test_faulty_placeholder();
     test_label();
+    test_comment();
     return 0;
 }

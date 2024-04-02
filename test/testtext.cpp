@@ -6,6 +6,7 @@
  */
 #include <fcitx-utils/log.h>
 #include <fcitx/text.h>
+#include <fcitx-utils/textformatflags.h>
 using namespace fcitx;
 
 void test_basic() {
@@ -33,6 +34,14 @@ void test_basic() {
     FCITX_ASSERT(lines[2].toStringForCommit() == "");
     FCITX_ASSERT(lines[3].toStringForCommit() == "Z");
     FCITX_ASSERT(lines[4].toStringForCommit() == "1");
+
+    text = Text("ABC");
+    Text another = Text("DEF", TextFormatFlag::Bold);
+    another.append("GHI", TextFormatFlag::Italic);
+    text.append(another);
+    FCITX_ASSERT(text.toString() == "ABCDEFGHI");
+    FCITX_ASSERT(text.formatAt(1) == TextFormatFlag::Bold);
+    FCITX_ASSERT(text.formatAt(2) == TextFormatFlag::Italic);
 }
 
 void test_normalize() {
