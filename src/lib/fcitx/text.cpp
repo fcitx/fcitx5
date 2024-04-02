@@ -55,6 +55,14 @@ void Text::append(std::string str, TextFormatFlags flag) {
     d->texts_.emplace_back(std::move(str), flag);
 }
 
+void Text::append(const Text &text) {
+    FCITX_D();
+    for (const auto &p : text.d_ptr->texts_) {
+        d->texts_.emplace_back(std::get<std::string>(p),
+                               std::get<TextFormatFlags>(p));
+    }
+}
+
 const std::string &Text::stringAt(int idx) const {
     FCITX_D();
     return std::get<std::string>(d->texts_[idx]);

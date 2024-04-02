@@ -37,6 +37,12 @@ public:
     void setCursor(int pos = -1);
     void clear();
     void append(std::string str, TextFormatFlags flag = TextFormatFlag::NoFlag);
+    /**
+     * Append another text.
+     *
+     * @since 5.1.9
+     */
+    void append(const Text &text);
     const std::string &stringAt(int idx) const;
     TextFormatFlags formatAt(int idx) const;
     size_t size() const;
