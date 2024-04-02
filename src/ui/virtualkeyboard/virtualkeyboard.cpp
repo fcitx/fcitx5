@@ -420,13 +420,7 @@ std::vector<std::string> VirtualKeyboard::makeCandidateTextList(
         }
 
         auto candidateText =
-            instance_->outputFilter(inputContext, candidate.text());
-        auto comment =
-            instance_->outputFilter(inputContext, candidate.comment());
-        if (!comment.empty()) {
-            candidateText.append(" ");
-            candidateText.append(comment);
-        }
+            instance_->outputFilter(inputContext, candidate.textWithComment());
         candidateTextList.push_back(candidateText.toString());
     }
 
@@ -445,7 +439,6 @@ std::vector<std::string> VirtualKeyboard::makeBulkCandidateTextList(
     auto totalSize = bulkCandidateList->totalSize();
     for (int index = 0; (totalSize < 0) || (index < totalSize); index++) {
         Text candidateText;
-        Text comment;
         try {
             const auto &candidate = bulkCandidateList->candidateFromAll(index);
             if (candidate.isPlaceHolder()) {
@@ -453,17 +446,11 @@ std::vector<std::string> VirtualKeyboard::makeBulkCandidateTextList(
                 continue;
             }
 
-            candidateText = candidate.text();
-            comment = candidate.comment();
+            candidateText = candidate.textWithComment();
         } catch (...) {
             break;
         }
         candidateText = instance_->outputFilter(inputContext, candidateText);
-        comment = instance_->outputFilter(inputContext, comment);
-        if (!comment.empty()) {
-            candidateText.append(" ");
-            candidateText.append(comment);
-        }
         candidateTextList.push_back(candidateText.toString());
     }
 

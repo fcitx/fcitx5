@@ -40,9 +40,10 @@ public:
     /**
      * Append another text.
      *
+     * @param text text to append
      * @since 5.1.9
      */
-    void append(const Text &text);
+    void append(Text text);
     const std::string &stringAt(int idx) const;
     TextFormatFlags formatAt(int idx) const;
     size_t size() const;

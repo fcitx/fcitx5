@@ -53,6 +53,14 @@ public:
      * @since 5.1.9
      */
     const Text &comment() const;
+    /**
+     * Return text with comment.
+     *
+     * @param separator separator between text and comment.
+     * @return value of comment.
+     * @since 5.1.9
+     */
+    Text textWithComment(std::string separator = " ") const;
 
 protected:
     void setText(Text text);

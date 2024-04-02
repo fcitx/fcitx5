@@ -6,6 +6,7 @@
  */
 
 #include "text.h"
+#include <iterator>
 #include <stdexcept>
 #include <tuple>
 #include <vector>
@@ -55,12 +56,11 @@ void Text::append(std::string str, TextFormatFlags flag) {
     d->texts_.emplace_back(std::move(str), flag);
 }
 
-void Text::append(const Text &text) {
+void Text::append(Text text) {
     FCITX_D();
-    for (const auto &p : text.d_ptr->texts_) {
-        d->texts_.emplace_back(std::get<std::string>(p),
-                               std::get<TextFormatFlags>(p));
-    }
+    std::copy(std::make_move_iterator(text.d_ptr->texts_.begin()),
+              std::make_move_iterator(text.d_ptr->texts_.end()),
+              std::back_inserter(d->texts_));
 }
 
 const std::string &Text::stringAt(int idx) const {

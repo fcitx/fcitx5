@@ -121,6 +121,16 @@ void CandidateWord::setComment(Text comment) {
     d->comment_ = std::move(comment);
 }
 
+Text CandidateWord::textWithComment(std::string separator) const {
+    FCITX_D();
+    auto text = d->text_;
+    if (!d->comment_.empty()) {
+        text.append(separator);
+        text.append(d->comment_);
+    }
+    return text;
+}
+
 bool CandidateWord::isPlaceHolder() const {
     FCITX_D();
     return d->isPlaceHolder_;
