@@ -5,16 +5,38 @@
  *
  */
 #include "clipboard.h"
+#include <cstdint>
+#include <ctime>
+#include <limits>
+#include <unordered_set>
+#include "fcitx-utils/event.h"
 #include "fcitx-utils/i18n.h"
 #include "fcitx-utils/log.h"
 #include "fcitx-utils/misc_p.h"
 #include "fcitx-utils/utf8.h"
+#include "fcitx/addonfactory.h"
 #include "fcitx/addonmanager.h"
 #include "fcitx/inputcontext.h"
 #include "fcitx/inputcontextmanager.h"
 #include "fcitx/inputpanel.h"
+#include "clipboardentry.h"
 
 namespace fcitx {
+
+namespace {
+
+constexpr uint64_t oneSecond = 1000000U;
+
+bool shouldClearPassword(const ClipboardEntry &entry) {
+    if (entry.passwordTimestamp == 0) {
+        // Not password.
+        return false;
+    }
+    // Allow 1 second skew.
+    return (entry.passwordTimestamp + oneSecond >= now(CLOCK_MONOTONIC));
+}
+
+} // namespace
 
 FCITX_DEFINE_LOG_CATEGORY(clipboard_log, "clipboard");
 
@@ -279,10 +301,21 @@ Clipboard::Clipboard(Instance *instance)
 
             updateUI(inputContext);
         }));
+    clearPasswordTimer_ = instance_->eventLoop().addTimeEvent(
+        CLOCK_MONOTONIC, now(CLOCK_MONOTONIC), 0,
+        [this](EventSourceTime *, uint64_t) {
+            refreshPasswordTimer();
+            return true;
+        });
     reloadConfig();
 }
 
 Clipboard::~Clipboard() {}
+
+void Clipboard::reloadConfig() {
+    readAsIni(config_, configFile);
+    refreshPasswordTimer();
+}
 
 void Clipboard::trigger(InputContext *inputContext) {
     auto *state = inputContext->propertyFor(&factory_);
@@ -303,14 +336,7 @@ void Clipboard::updateUI(InputContext *inputContext) {
     }
     // Append primary_, but check duplication first.
     if (!primary_.empty()) {
-        bool dup = false;
-        for (const auto &s : history_) {
-            if (s == primary_) {
-                dup = true;
-                break;
-            }
-        }
-        if (!dup) {
+        if (!history_.contains(primary_)) {
             candidateList->append<ClipboardCandidateWord>(this, primary_);
         }
     }
@@ -338,38 +364,91 @@ void Clipboard::updateUI(InputContext *inputContext) {
 }
 
 void Clipboard::setPrimary(const std::string &name, const std::string &str) {
-    FCITX_UNUSED(name);
-    if (!utf8::validate(str)) {
-        return;
-    }
-    primary_ = str;
+    setPrimaryEntry(name, ClipboardEntry{.text = str});
 }
 
 void Clipboard::setClipboard(const std::string &name, const std::string &str) {
+    setClipboardEntry(name, ClipboardEntry{.text = str});
+}
+
+void Clipboard::setPrimaryEntry(const std::string &name, ClipboardEntry entry) {
     FCITX_UNUSED(name);
-    if (!utf8::validate(str)) {
+    if (!utf8::validate(entry.text)) {
         return;
     }
-    if (!history_.pushFront(str)) {
-        history_.moveToTop(str);
+    primary_ = std::move(entry);
+    if (entry.passwordTimestamp) {
+        refreshPasswordTimer();
+    }
+}
+
+void Clipboard::setClipboardEntry(const std::string &name,
+                                  const ClipboardEntry &entry) {
+    FCITX_UNUSED(name);
+    if (!utf8::validate(entry.text)) {
+        return;
+    }
+    if (!history_.pushFront(entry)) {
+        history_.moveToTop(entry);
+    }
+    if (history_.front().passwordTimestamp || entry.passwordTimestamp) {
+        history_.front().passwordTimestamp = std::max(
+            entry.passwordTimestamp, history_.front().passwordTimestamp);
     }
     while (!history_.empty() &&
            static_cast<int>(history_.size()) > config_.numOfEntries.value()) {
         history_.pop();
     }
+    if (entry.passwordTimestamp) {
+        refreshPasswordTimer();
+    }
 }
 
-std::string Clipboard::primary(const InputContext *) {
+std::string Clipboard::primary(const InputContext *) const {
     // TODO: per ic
-    return primary_;
+    return primary_.text;
 }
 
-std::string Clipboard::clipboard(const InputContext *) {
+std::string Clipboard::clipboard(const InputContext *) const {
     // TODO: per ic
     if (history_.empty()) {
         return "";
     }
-    return history_.front();
+    return history_.front().text;
+}
+
+void Clipboard::refreshPasswordTimer() {
+    if (*config_.clearPasswordAfter == 0) {
+        clearPasswordTimer_->setEnabled(false);
+        return;
+    }
+
+    uint64_t minTimestamp = std::numeric_limits<uint64_t>::max();
+
+    if (shouldClearPassword(primary_)) {
+        primary_.clear();
+    } else if (primary_.passwordTimestamp) {
+        minTimestamp = std::min(minTimestamp, primary_.passwordTimestamp);
+    }
+
+    // Not efficient, but we don't have lots of entries anyway.
+    std::unordered_set<ClipboardEntry> needRemove;
+    for (const auto &entry : history_) {
+        if (shouldClearPassword(entry)) {
+            needRemove.insert(entry);
+        } else if (entry.passwordTimestamp) {
+            minTimestamp = std::min(minTimestamp, entry.passwordTimestamp);
+        }
+    }
+    for (const auto &entry : needRemove) {
+        history_.remove(entry);
+    }
+
+    if (minTimestamp != std::numeric_limits<uint64_t>::max()) {
+        clearPasswordTimer_->setTime(minTimestamp +
+                                     oneSecond * (*config_.clearPasswordAfter));
+        clearPasswordTimer_->setOneShot();
+    }
 }
 
 class ClipboardModuleFactory : public AddonFactory {

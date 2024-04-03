@@ -51,6 +51,7 @@ public:
     bool empty() const { return order_.empty(); }
 
     const T &front() const { return order_.front(); }
+    T &front() { return order_.front(); }
 
     void clear() {
         dict_.clear();

@@ -9,16 +9,18 @@
 
 #include "fcitx-config/configuration.h"
 #include "fcitx-config/iniparser.h"
+#include "fcitx-config/option.h"
 #include "fcitx-utils/i18n.h"
 #include "fcitx-utils/key.h"
 #include "fcitx-utils/log.h"
+#include "fcitx-utils/misc.h"
 #include "fcitx-utils/misc_p.h"
-#include "fcitx/addonfactory.h"
 #include "fcitx/addoninstance.h"
 #include "fcitx/addonmanager.h"
 #include "fcitx/inputcontextproperty.h"
 #include "fcitx/instance.h"
 #include "clipboard_public.h"
+#include "clipboardentry.h"
 
 #ifdef ENABLE_X11
 #include "xcb_public.h"
@@ -27,12 +29,12 @@
 #ifdef WAYLAND_FOUND
 #include "wayland_public.h"
 #include "waylandclipboard.h"
-#include "zwlr_data_control_manager_v1.h"
 #endif
 
 namespace fcitx {
 
 constexpr size_t MAX_CLIPBOARD_SIZE = 4096;
+constexpr char PASSWORD_MIME_TYPE[] = "x-kde-passwordManagerHint";
 
 FCITX_CONFIGURATION(
     ClipboardConfig, KeyListOption triggerKey{this,
@@ -44,7 +46,21 @@ FCITX_CONFIGURATION(
         this, "PastePrimaryKey", _("Paste Primary"), {}, KeyListConstrain()};
     Option<int, IntConstrain> numOfEntries{this, "Number of entries",
                                            _("Number of entries"), 5,
-                                           IntConstrain(3, 30)};);
+                                           IntConstrain(3, 30)};
+    ConditionalHidden<!isAndroid(), Option<bool>>
+        ignorePasswordFromPasswordManager{
+            this, "IgnorePasswordFromPasswordManager",
+            _("Ignore password from password manager"), true};
+    ConditionalHidden<
+        !isAndroid(),
+        Option<int, IntConstrain, DefaultMarshaller<int>, ToolTipAnnotation>>
+        clearPasswordAfter{this,
+                           "ClearPasswordAfter",
+                           _("Clear password after"),
+                           30,
+                           IntConstrain(0, 300),
+                           {},
+                           {_("0 means never clear password.")}};);
 
 class ClipboardState;
 class Clipboard final : public AddonInstance {
@@ -60,7 +76,7 @@ public:
     void updateUI(InputContext *inputContext);
     auto &factory() { return factory_; }
 
-    void reloadConfig() override { readAsIni(config_, configFile); }
+    void reloadConfig() override;
 
     const Configuration *getConfig() const override { return &config_; }
     void setConfig(const RawConfig &config) override {
@@ -68,11 +84,14 @@ public:
         safeSaveAsIni(config_, configFile);
     }
 
-    std::string primary(const InputContext *ic);
-    std::string clipboard(const InputContext *ic);
+    std::string primary(const InputContext *ic) const;
+    std::string clipboard(const InputContext *ic) const;
 
     void setPrimary(const std::string &name, const std::string &str);
     void setClipboard(const std::string &name, const std::string &str);
+    void setPrimaryEntry(const std::string &name, ClipboardEntry entry);
+    void setClipboardEntry(const std::string &name,
+                           const ClipboardEntry &entry);
 
 #ifdef ENABLE_X11
     FCITX_ADDON_DEPENDENCY_LOADER(xcb, instance_->addonManager());
@@ -86,6 +105,8 @@ private:
 #ifdef WAYLAND_FOUND
     FCITX_ADDON_DEPENDENCY_LOADER(wayland, instance_->addonManager());
 #endif
+
+    void refreshPasswordTimer();
 
     Instance *instance_;
     std::vector<std::unique_ptr<fcitx::HandlerTableEntry<fcitx::EventHandler>>>
@@ -110,8 +131,9 @@ private:
     std::unordered_map<std::string, std::unique_ptr<WaylandClipboard>>
         waylandClipboards_;
 #endif
-    OrderedSet<std::string> history_;
-    std::string primary_;
+    OrderedSet<ClipboardEntry> history_;
+    ClipboardEntry primary_;
+    std::unique_ptr<EventSourceTime> clearPasswordTimer_;
 };
 
 FCITX_DECLARE_LOG_CATEGORY(clipboard_log);

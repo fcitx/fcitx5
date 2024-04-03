@@ -107,7 +107,7 @@ void DataOffer::receiveData(DataReaderThread &thread,
     }
 
     thread_ = &thread;
-    static const std::string passwordHint = "x-kde-passwordManagerHint";
+    static const std::string passwordHint = PASSWORD_MIME_TYPE;
     if (mimeTypes_.count(passwordHint)) {
         receiveDataForMime(
             passwordHint, [this, callback](const std::vector<char> &data) {
