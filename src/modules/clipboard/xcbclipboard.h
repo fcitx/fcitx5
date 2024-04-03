@@ -15,6 +15,28 @@
 namespace fcitx {
 
 class Clipboard;
+class XcbClipboard;
+
+enum class XcbClipboardMode {
+    Primary,
+    Clipboard,
+};
+
+class XcbClipboardData {
+public:
+    XcbClipboardData(XcbClipboard *xcbClip, XcbClipboardMode mode);
+
+    void request();
+
+private:
+    void cleanup();
+
+    const char *modeString() const;
+
+    XcbClipboard *xcbClip_ = nullptr;
+    XcbClipboardMode mode_;
+    std::unique_ptr<HandlerTableEntryBase> callback_;
+};
 
 class XcbClipboard {
 
@@ -24,6 +46,9 @@ public:
     void setClipboard(const std::string &str);
     void setPrimary(const std::string &str);
 
+    AddonInstance *xcb() const { return xcb_; }
+    const std::string &name() const { return name_; }
+
 private:
     void primaryChanged();
     void clipboardChanged();
@@ -31,6 +56,7 @@ private:
     std::string name_;
     AddonInstance *xcb_;
     std::vector<std::unique_ptr<HandlerTableEntryBase>> selectionCallbacks_;
+    xcb_atom_t passwordAtom_ = XCB_ATOM_NONE;
     xcb_atom_t utf8StringAtom_ = XCB_ATOM_NONE;
 
     std::unique_ptr<HandlerTableEntryBase> primaryCallback_;

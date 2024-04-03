@@ -5,9 +5,40 @@
  *
  */
 #include "xcbclipboard.h"
+#include <xcb/xproto.h>
 #include "clipboard.h"
 
 namespace fcitx {
+
+XcbClipboardData::XcbClipboardData(XcbClipboard *xcbClip, XcbClipboardMode mode)
+    : xcbClip_(xcbClip), mode_(mode) {}
+
+void XcbClipboardData::request() {
+    //
+    callback_.reset();
+
+    auto checkMime = [this](xcb_atom_t type, const char *data, size_t length) {
+        if (type != XCB_ATOM_ATOM) {
+            return;
+        }
+
+        auto *atoms = reinterpret_cast<xcb_atom_t *>(atom);
+        size_t size = length / sizeof(xcb_atom_t);
+        for (size_t i = 0; i < size; i++) {
+        }
+        callback_.reset();
+    };
+
+    callback_ = xcbClip_->xcb()->call<IXCBModule::convertSelection>(
+        xcbClip_->name(), modeString(), "TARGETS", std::move(checkMime));
+}
+
+const char *XcbClipboardData::modeString() const {
+    if (mode_ == XcbClipboardMode::Primary) {
+        return "PRIMARY";
+    }
+    return "CLIPBOARD";
+}
 
 XcbClipboard::XcbClipboard(Clipboard *clipboard, std::string name)
     : parent_(clipboard), name_(std::move(name)), xcb_(clipboard->xcb()) {
@@ -20,6 +51,8 @@ XcbClipboard::XcbClipboard(Clipboard *clipboard, std::string name)
     xcb_->call<IXCBModule::atom>(name_, "PRIMARY", false);
     xcb_->call<IXCBModule::atom>(name_, "CLIPBOARD", false);
     xcb_->call<IXCBModule::atom>(name_, "TARGETS", false);
+    passwordAtom_ =
+        xcb_->call<IXCBModule::atom>(name_, "x-kde-passwordManagerHint", false);
     utf8StringAtom_ = xcb_->call<IXCBModule::atom>(name_, "UTF8_STRING", false);
     selectionCallbacks_.emplace_back(xcb_->call<IXCBModule::addSelection>(
         name_, "PRIMARY", [this](xcb_atom_t) { primaryChanged(); }));
