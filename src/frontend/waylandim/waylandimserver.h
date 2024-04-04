@@ -12,6 +12,7 @@
 #include "fcitx-utils/key.h"
 #include "fcitx-utils/keysymgen.h"
 #include "fcitx-utils/macros.h"
+#include "fcitx-utils/signals.h"
 #include "virtualinputcontext.h"
 #include "waylandimserverbase.h"
 #include "wl_keyboard.h"
@@ -152,6 +153,9 @@ private:
         return modifiers;
     }
 
+    int32_t repeatRate() const;
+    int32_t repeatDelay() const;
+
     WaylandIMServer *server_;
     std::unique_ptr<wayland::ZwpInputMethodContextV1> ic_;
     std::unique_ptr<wayland::WlKeyboard> keyboard_;
@@ -164,7 +168,7 @@ private:
     uint32_t repeatTime_ = 0;
     KeySym repeatSym_ = FcitxKey_None;
 
-    int32_t repeatRate_ = 40, repeatDelay_ = 400;
+    std::optional<std::tuple<int32_t, int32_t>> repeatInfo_;
 };
 
 } // namespace fcitx

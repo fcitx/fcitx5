@@ -8,16 +8,16 @@
 #include <optional>
 #include <string>
 #include <wayland-client-core.h>
-#include "fcitx-utils/event.h"
 #include "fcitx-utils/utf8.h"
 #include "waylandim.h"
+#include "wl_seat.h"
 
 namespace fcitx {
 
 WaylandIMServerBase::WaylandIMServerBase(wl_display *display, FocusGroup *group,
-                                         const std::string &name,
+                                         std::string name,
                                          WaylandIMModule *waylandim)
-    : group_(group), name_(name), parent_(waylandim),
+    : group_(group), name_(std::move(name)), parent_(waylandim),
       display_(
           static_cast<wayland::Display *>(wl_display_get_user_data(display))) {}
 
@@ -35,6 +35,44 @@ WaylandIMServerBase::mayCommitAsText(const Key &key, uint32_t state) const {
         }
     }
     return std::nullopt;
+}
+
+std::optional<std::tuple<int32_t, int32_t>> WaylandIMServerBase::repeatInfo(
+    const std::shared_ptr<wayland::WlSeat> &seat,
+    const std::optional<std::tuple<int32_t, int32_t>> &defaultValue) const {
+    if (defaultValue) {
+        return defaultValue;
+    }
+    auto seatPtr = seat;
+    if (!seatPtr) {
+        seatPtr = display_->getGlobal<wayland::WlSeat>();
+    }
+    if (seatPtr) {
+        auto repeatInfo = parent_->wayland()->call<IWaylandModule::repeatInfo>(
+            name_, *seatPtr);
+        if (repeatInfo) {
+            return repeatInfo;
+        }
+    }
+    return std::nullopt;
+}
+
+int32_t WaylandIMServerBase::repeatRate(
+    const std::shared_ptr<wayland::WlSeat> &seat,
+    const std::optional<std::tuple<int32_t, int32_t>> &defaultValue) const {
+    if (auto info = repeatInfo(seat, defaultValue)) {
+        return std::get<0>(info.value());
+    }
+    return 25;
+}
+
+int32_t WaylandIMServerBase::repeatDelay(
+    const std::shared_ptr<wayland::WlSeat> &seat,
+    const std::optional<std::tuple<int32_t, int32_t>> &defaultValue) const {
+    if (auto info = repeatInfo(seat, defaultValue)) {
+        return std::get<1>(info.value());
+    }
+    return 600;
 }
 
 } // namespace fcitx

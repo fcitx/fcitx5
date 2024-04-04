@@ -10,11 +10,11 @@
 #include <cstdint>
 #include <memory>
 #include <string>
+#include <wayland-client-protocol.h>
 #include "fcitx-config/iniparser.h"
 #include "fcitx-utils/event.h"
 #include "fcitx-utils/i18n.h"
 #include "fcitx-utils/log.h"
-#include "fcitx/addonfactory.h"
 #include "fcitx/addoninstance.h"
 #include "fcitx/addonmanager.h"
 #include "fcitx/instance.h"
@@ -49,16 +49,24 @@ public:
 
     auto &updateKeymap() { return updateKeymap_; }
 
+    const std::optional<std::tuple<int32_t, int32_t>> &repeatInfo() const {
+        return repeatInfo_;
+    }
+
 private:
     void init() {
         keyboard_->keymap().connect([this](uint32_t, int32_t fd, uint32_t) {
             close(fd);
             updateKeymap_();
         });
+        keyboard_->repeatInfo().connect([this](int32_t rate, int32_t delay) {
+            repeatInfo_ = std::make_tuple(rate, delay);
+        });
     }
     ScopedConnection capConn_;
     std::unique_ptr<wayland::WlKeyboard> keyboard_;
     Signal<void()> updateKeymap_;
+    std::optional<std::tuple<int32_t, int32_t>> repeatInfo_;
 };
 
 class WaylandConnection {
@@ -77,6 +85,9 @@ public:
     auto *parent() const { return parent_; }
 
     bool isWaylandSocket() const { return isWaylandSocket_; }
+
+    std::optional<std::tuple<int32_t, int32_t>>
+    repeatInfo(wayland::WlSeat *seat) const;
 
 private:
     void init(wl_display *display);
@@ -123,6 +134,9 @@ public:
 
     void selfDiagnose();
 
+    std::optional<std::tuple<int32_t, int32_t>>
+    repeatInfo(const std::string &name, wl_seat *seat) const;
+
 private:
     void onConnectionCreated(WaylandConnection &conn);
     void onConnectionClosed(WaylandConnection &conn);
@@ -147,6 +161,7 @@ private:
     FCITX_ADDON_EXPORT_FUNCTION(WaylandModule, openConnection);
     FCITX_ADDON_EXPORT_FUNCTION(WaylandModule, openConnectionSocket);
     FCITX_ADDON_EXPORT_FUNCTION(WaylandModule, reopenConnectionSocket);
+    FCITX_ADDON_EXPORT_FUNCTION(WaylandModule, repeatInfo);
 
     std::vector<std::unique_ptr<HandlerTableEntry<EventHandler>>>
         eventHandlers_;

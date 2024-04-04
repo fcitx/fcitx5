@@ -13,15 +13,15 @@
 #include <fcitx-utils/metastring.h>
 #include <fcitx/addoninstance.h>
 #include <fcitx/focusgroup.h>
+#include <wayland-client-protocol.h>
 #include <wayland-client.h>
 
 namespace fcitx {
 
-typedef std::function<void(const std::string &name, wl_display *display,
-                           FocusGroup *group)>
-    WaylandConnectionCreated;
-typedef std::function<void(const std::string &name, wl_display *display)>
-    WaylandConnectionClosed;
+using WaylandConnectionCreated =
+    std::function<void(const std::string &, wl_display *, FocusGroup *)>;
+using WaylandConnectionClosed =
+    std::function<void(const std::string &, wl_display *)>;
 } // namespace fcitx
 
 FCITX_ADDON_DECLARE_FUNCTION(
@@ -38,5 +38,8 @@ FCITX_ADDON_DECLARE_FUNCTION(WaylandModule, openConnection,
 FCITX_ADDON_DECLARE_FUNCTION(WaylandModule, openConnectionSocket, bool(int fd));
 FCITX_ADDON_DECLARE_FUNCTION(WaylandModule, reopenConnectionSocket,
                              bool(const std::string &name, int fd));
+FCITX_ADDON_DECLARE_FUNCTION(WaylandModule, repeatInfo,
+                             std::optional<std::tuple<int32_t, int32_t>>(
+                                 const std::string &name, wl_seat *));
 
 #endif // _FCITX_MODULES_WAYLAND_WAYLAND_PUBLIC_H_

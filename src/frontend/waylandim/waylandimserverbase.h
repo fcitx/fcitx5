@@ -12,19 +12,28 @@
 #include "fcitx-utils/misc.h"
 #include "display.h"
 #include "waylandim.h"
+#include "wl_seat.h"
 
 namespace fcitx {
 
 class WaylandIMServerBase {
 public:
     WaylandIMServerBase(wl_display *display, FocusGroup *group,
-                        const std::string &name, WaylandIMModule *waylandim);
+                        std::string name, WaylandIMModule *waylandim);
     virtual ~WaylandIMServerBase() = default;
 
     auto *parent() { return parent_; }
+    auto *display() { return display_; }
 
     std::optional<std::string> mayCommitAsText(const Key &key,
                                                uint32_t state) const;
+
+    int32_t repeatRate(
+        const std::shared_ptr<wayland::WlSeat> &seat,
+        const std::optional<std::tuple<int32_t, int32_t>> &defaultValue) const;
+    int32_t repeatDelay(
+        const std::shared_ptr<wayland::WlSeat> &seat,
+        const std::optional<std::tuple<int32_t, int32_t>> &defaultValue) const;
 
 protected:
     FocusGroup *group_;
@@ -37,6 +46,11 @@ protected:
     UniqueCPtr<struct xkb_state, xkb_state_unref> state_;
 
     KeyStates modifiers_;
+
+private:
+    std::optional<std::tuple<int32_t, int32_t>> repeatInfo(
+        const std::shared_ptr<wayland::WlSeat> &seat,
+        const std::optional<std::tuple<int32_t, int32_t>> &defaultValue) const;
 };
 
 } // namespace fcitx

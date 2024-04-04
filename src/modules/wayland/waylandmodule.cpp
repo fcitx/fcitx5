@@ -9,11 +9,12 @@
 #include <fcntl.h>
 #include <algorithm>
 #include <cstdlib>
-#include <ctime>
 #include <memory>
+#include <optional>
 #include <stdexcept>
 #include <string>
 #include <gio/gio.h>
+#include <wayland-client-protocol.h>
 #include "fcitx-config/iniparser.h"
 #include "fcitx-utils/event.h"
 #include "fcitx-utils/log.h"
@@ -22,6 +23,7 @@
 #include "fcitx-utils/standardpath.h"
 #include "fcitx-utils/stringutils.h"
 #include "fcitx-utils/trackableobject.h"
+#include "fcitx/addonfactory.h"
 #include "fcitx/inputcontext.h"
 #include "fcitx/instance.h"
 #include "fcitx/misc_p.h"
@@ -155,6 +157,14 @@ void WaylandConnection::setupKeyboard(wayland::WlSeat *seat) {
         FCITX_WAYLAND_DEBUG() << "Update keymap";
         parent_->reloadXkbOption();
     });
+}
+
+std::optional<std::tuple<int32_t, int32_t>>
+WaylandConnection::repeatInfo(wayland::WlSeat *seat) const {
+    if (const auto *keyboard = findValue(keyboards_, seat)) {
+        return keyboard->get()->repeatInfo();
+    }
+    return std::nullopt;
 }
 
 WaylandModule::WaylandModule(fcitx::Instance *instance)
@@ -665,6 +675,23 @@ void WaylandModule::selfDiagnose() {
                         stringutils::join(messages, "\n"));
         }
     }
+}
+
+std::optional<std::tuple<int32_t, int32_t>>
+WaylandModule::repeatInfo(const std::string &name, wl_seat *seat) const {
+    if (!seat) {
+        return std::nullopt;
+    }
+    auto *wlSeat = static_cast<wayland::WlSeat *>(wl_seat_get_user_data(seat));
+    if (!wlSeat) {
+        return std::nullopt;
+    }
+    conns_.find(name);
+    auto iter = conns_.find(name);
+    if (iter == conns_.end()) {
+        return std::nullopt;
+    }
+    return iter->second->repeatInfo(wlSeat);
 }
 
 class WaylandModuleFactory : public AddonFactory {

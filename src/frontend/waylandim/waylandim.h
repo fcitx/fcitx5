@@ -31,7 +31,7 @@ FCITX_CONFIGURATION(
         _("Forward key event instead of commiting text if it is not handled"),
         true};);
 
-constexpr int32_t repeatHackDelay = 1000;
+constexpr int32_t repeatHackDelay = 3000;
 class WaylandIMServer;
 class WaylandIMServerV2;
 
