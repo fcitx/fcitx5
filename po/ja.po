@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2024-03-07 20:24+0000\n"
+"POT-Creation-Date: 2024-04-05 20:24+0000\n"
 "PO-Revision-Date: 2017-11-23 04:14+0000\n"
 "Last-Translator: UTUMI Hirosi <utuhiro78@yahoo.co.jp>, 2024\n"
 "Language-Team: Japanese (https://app.transifex.com/fcitx/teams/12005/ja/)\n"
@@ -659,7 +659,7 @@ msgstr "デスクトップ環境:"
 msgid "Desktop environment is ${1}."
 msgstr "デスクトップ環境は ${1} です。"
 
-#: src/modules/wayland/waylandmodule.cpp:606
+#: src/modules/wayland/waylandmodule.cpp:616
 msgid ""
 "Detect GTK_IM_MODULE and QT_IM_MODULE being set and Wayland Input method "
 "frontend is working. It is recommended to unset GTK_IM_MODULE and "
@@ -672,7 +672,7 @@ msgstr ""
 "詳しくは https://fcitx-im.org/wiki/Using_Fcitx_5_on_Wayland#KDE_Plasma をご覧"
 "ください。"
 
-#: src/modules/wayland/waylandmodule.cpp:635
+#: src/modules/wayland/waylandmodule.cpp:645
 msgid ""
 "Detect GTK_IM_MODULE being set and Wayland Input method frontend is working. "
 "It is recommended to unset GTK_IM_MODULE and use Wayland input method "
@@ -853,7 +853,7 @@ msgctxt "Key name"
 msgid "Favorites"
 msgstr "お気に入り"
 
-#: src/modules/wayland/waylandmodule.cpp:578
+#: src/modules/wayland/waylandmodule.cpp:588
 msgid "Fcitx"
 msgstr "Fcitx"
 
@@ -891,7 +891,7 @@ msgstr ""
 "Fcitx は入力メソッドフレームワークです。自分の言語を入力するのに役立ちます。"
 "また、タイピング体験を向上させるさまざまなアドオンの選択肢も備えています。"
 
-#: src/modules/wayland/waylandmodule.cpp:593
+#: src/modules/wayland/waylandmodule.cpp:603
 msgid ""
 "Fcitx should be launched by KWin under KDE Wayland in order to use Wayland "
 "input method frontend. This can improve the experience when using Fcitx on "
@@ -968,7 +968,7 @@ msgstr ""
 "ている場合は日本語の書体で文字を表示します。この機能を使用するには多言語フォ"
 "ントを指定する必要があります。"
 
-#: src/modules/wayland/waylandmodule.cpp:661
+#: src/modules/wayland/waylandmodule.cpp:671
 msgid "For more details see https://fcitx-im.org/wiki/Using_Fcitx_5_on_Wayland"
 msgstr ""
 "詳細については、https://fcitx-im.org/wiki/Using_Fcitx_5_on_Wayland を参照して"
@@ -1384,7 +1384,7 @@ msgstr ""
 "コンポジターが ${1} で使用されるテキスト入力プロトコルを完全にサポートしてい"
 "る場合は、${1} に組み込まれた Wayland IM モジュールを使用してもかまいません。"
 
-#: src/modules/wayland/waylandmodule.cpp:618
+#: src/modules/wayland/waylandmodule.cpp:628
 msgid ""
 "It is recommended to install Input Method Panel GNOME Shell Extensions to "
 "provide the input method popup. https://extensions.gnome.org/extension/261/"
@@ -2349,7 +2349,7 @@ msgctxt "Key name"
 msgid "Send"
 msgstr "送信"
 
-#: src/modules/wayland/waylandmodule.cpp:650
+#: src/modules/wayland/waylandmodule.cpp:660
 msgid ""
 "Sending keyboard layout configuration to wayland compositor from Fcitx is "
 "not yet supported on current desktop. You may still use Fcitx's internal "
@@ -2851,9 +2851,9 @@ msgstr ""
 msgid "Wayland"
 msgstr "Wayland"
 
-#: src/modules/wayland/waylandmodule.cpp:578
+#: src/modules/wayland/waylandmodule.cpp:588
 msgid "Wayland Diagnose"
-msgstr "ウェイランド診断"
+msgstr "Wayland 診断"
 
 #: src/frontend/waylandim/waylandim.conf.in.in:3
 msgid "Wayland Input method frontend"
