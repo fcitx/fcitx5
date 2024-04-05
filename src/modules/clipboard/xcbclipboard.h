@@ -25,6 +25,8 @@ enum class XcbClipboardMode {
 class XcbClipboardData {
 public:
     XcbClipboardData(XcbClipboard *xcbClip, XcbClipboardMode mode);
+    XcbClipboardData(const XcbClipboardData &) = delete;
+    XcbClipboardData(XcbClipboardData &&) = delete;
 
     void request();
 
@@ -37,13 +39,14 @@ private:
     void checkMime(xcb_atom_t type, const char *data, size_t length);
     void checkPassword(xcb_atom_t type, const char *data, size_t length);
     void readData(xcb_atom_t type, const char *data, size_t length);
-    void cleanup();
+    void reset();
 
     const char *modeString() const;
 
     XcbClipboard *xcbClip_ = nullptr;
     XcbClipboardMode mode_;
     std::unique_ptr<HandlerTableEntryBase> callback_;
+    bool password_ = false;
 };
 
 class XcbClipboard {
@@ -51,14 +54,15 @@ class XcbClipboard {
 public:
     XcbClipboard(Clipboard *clipboard, std::string name);
 
-    void setClipboard(const std::string &str);
-    void setPrimary(const std::string &str);
+    void setClipboard(const std::string &str, bool password);
+    void setPrimary(const std::string &str, bool password);
 
     AddonInstance *xcb() const { return xcb_; }
     const std::string &name() const { return name_; }
 
     xcb_atom_t passwordAtom() const { return passwordAtom_; }
     xcb_atom_t utf8StringAtom() const { return utf8StringAtom_; }
+    auto parent() const { return parent_; }
 
 private:
     void primaryChanged();
