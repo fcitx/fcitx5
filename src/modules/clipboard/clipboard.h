@@ -47,16 +47,16 @@ FCITX_CONFIGURATION(
     Option<int, IntConstrain> numOfEntries{this, "Number of entries",
                                            _("Number of entries"), 5,
                                            IntConstrain(3, 30)};
-    ConditionalHidden<!isAndroid(), Option<bool>>
+    ConditionalHidden<isAndroid(), Option<bool>>
         ignorePasswordFromPasswordManager{
             this, "IgnorePasswordFromPasswordManager",
-            _("Ignore password from password manager"), true};
+            _("Do not show password from password manager"), true};
     ConditionalHidden<
-        !isAndroid(),
+        isAndroid(),
         Option<int, IntConstrain, DefaultMarshaller<int>, ToolTipAnnotation>>
         clearPasswordAfter{this,
                            "ClearPasswordAfter",
-                           _("Clear password after"),
+                           _("Seconds before clearing password"),
                            30,
                            IntConstrain(0, 300),
                            {},
@@ -92,6 +92,7 @@ public:
     void setPrimaryEntry(const std::string &name, ClipboardEntry entry);
     void setClipboardEntry(const std::string &name,
                            const ClipboardEntry &entry);
+    const auto &config() const { return config_; }
 
 #ifdef ENABLE_X11
     FCITX_ADDON_DEPENDENCY_LOADER(xcb, instance_->addonManager());

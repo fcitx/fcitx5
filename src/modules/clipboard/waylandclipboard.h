@@ -24,10 +24,13 @@ namespace fcitx {
 // Upon receive DataOffer, DataReaderThread::addTask will be used to
 // initiate a reading task and call the callback if it suceeds.
 
-using DataOfferCallback = std::function<void(const std::vector<char> &)>;
+using DataOfferDataCallback =
+    std::function<void(const std::vector<char> &data)>;
+using DataOfferCallback =
+    std::function<void(const std::vector<char> &data, bool password)>;
 
 struct DataOfferTask {
-    DataOfferCallback callback_;
+    DataOfferDataCallback callback_;
     std::shared_ptr<UnixFD> fd_;
     std::vector<char> data_;
     std::unique_ptr<EventSourceIO> ioEvent_;
@@ -41,7 +44,7 @@ public:
     ~DataReaderThread() {
         if (thread_ && thread_->joinable()) {
             dispatcherToWorker_.schedule([this]() {
-                if (auto loop = dispatcherToWorker_.eventLoop()) {
+                if (auto *loop = dispatcherToWorker_.eventLoop()) {
                     loop->exit();
                 }
             });
@@ -55,7 +58,8 @@ public:
 
     static void run(DataReaderThread *self) { self->realRun(); }
 
-    uint64_t addTask(std::shared_ptr<UnixFD> fd, DataOfferCallback callback);
+    uint64_t addTask(std::shared_ptr<UnixFD> fd,
+                     DataOfferDataCallback callback);
     void removeTask(uint64_t token);
 
 private:
@@ -72,19 +76,21 @@ private:
 
 class DataOffer {
 public:
-    DataOffer(wayland::ZwlrDataControlOfferV1 *offer);
+    DataOffer(wayland::ZwlrDataControlOfferV1 *offer, bool ignorePassword);
     ~DataOffer();
 
     void receiveData(DataReaderThread &thread, DataOfferCallback callback);
 
 private:
     void receiveDataForMime(const std::string &mime,
-                            DataOfferCallback callback);
-    void receiveRealData(DataOfferCallback callback);
+                            DataOfferDataCallback callback);
+    void receiveRealData(DataOfferDataCallback callback);
 
     std::list<ScopedConnection> conns_;
     std::unordered_set<std::string> mimeTypes_;
     std::unique_ptr<wayland::ZwlrDataControlOfferV1> offer_;
+    bool ignorePassword_ = true;
+    bool isPassword_ = false;
     UnixFD fd_;
     DataReaderThread *thread_ = nullptr;
     uint64_t taskId_ = 0;
@@ -113,10 +119,11 @@ public:
     WaylandClipboard(Clipboard *clipboard, std::string name,
                      wl_display *display);
 
-    void setClipboard(const std::string &str);
-    void setPrimary(const std::string &str);
+    void setClipboard(const std::string &str, bool password);
+    void setPrimary(const std::string &str, bool password);
     EventLoop *eventLoop();
     auto display() const { return display_; }
+    auto parent() const { return parent_; }
 
 private:
     void refreshSeat();

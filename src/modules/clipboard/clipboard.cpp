@@ -6,7 +6,6 @@
  */
 #include "clipboard.h"
 #include <cstdint>
-#include <ctime>
 #include <limits>
 #include <unordered_set>
 #include "fcitx-utils/event.h"
@@ -25,15 +24,16 @@ namespace fcitx {
 
 namespace {
 
-constexpr uint64_t oneSecond = 1000000U;
+constexpr uint64_t oneSecond = 1000000ULL;
 
-bool shouldClearPassword(const ClipboardEntry &entry) {
-    if (entry.passwordTimestamp == 0) {
+bool shouldClearPassword(const ClipboardEntry &entry, uint64_t life) {
+    if (entry.passwordTimestamp == 0 || life == 0) {
         // Not password.
         return false;
     }
-    // Allow 1 second skew.
-    return (entry.passwordTimestamp + oneSecond >= now(CLOCK_MONOTONIC));
+    // Allow 0.5 second skew.
+    return (entry.passwordTimestamp + life * oneSecond - oneSecond / 2) <=
+           now(CLOCK_MONOTONIC);
 }
 
 } // namespace
@@ -227,7 +227,7 @@ Clipboard::Clipboard(Instance *instance)
                     keyEvent.key().check(FcitxKey_Return) ||
                     keyEvent.key().check(FcitxKey_KP_Enter)) {
                     keyEvent.accept();
-                    if (candidateList->size() > 0 &&
+                    if (!candidateList->empty() &&
                         candidateList->cursorIndex() >= 0) {
                         candidateList->candidate(candidateList->cursorIndex())
                             .select(inputContext);
@@ -331,13 +331,13 @@ void Clipboard::updateUI(InputContext *inputContext) {
     // Append first item from history_.
     auto iter = history_.begin();
     if (iter != history_.end()) {
-        candidateList->append<ClipboardCandidateWord>(this, *iter);
+        candidateList->append<ClipboardCandidateWord>(this, iter->text);
         iter++;
     }
     // Append primary_, but check duplication first.
     if (!primary_.empty()) {
         if (!history_.contains(primary_)) {
-            candidateList->append<ClipboardCandidateWord>(this, primary_);
+            candidateList->append<ClipboardCandidateWord>(this, primary_.text);
         }
     }
     // If primary_ is appended, it might squeeze one space out.
@@ -345,7 +345,7 @@ void Clipboard::updateUI(InputContext *inputContext) {
         if (candidateList->totalSize() >= config_.numOfEntries.value()) {
             break;
         }
-        candidateList->append<ClipboardCandidateWord>(this, *iter);
+        candidateList->append<ClipboardCandidateWord>(this, iter->text);
     }
     candidateList->setSelectionKey(selectionKeys_);
     candidateList->setLayoutHint(CandidateLayoutHint::Vertical);
@@ -388,6 +388,7 @@ void Clipboard::setClipboardEntry(const std::string &name,
     if (!utf8::validate(entry.text)) {
         return;
     }
+
     if (!history_.pushFront(entry)) {
         history_.moveToTop(entry);
     }
@@ -404,12 +405,12 @@ void Clipboard::setClipboardEntry(const std::string &name,
     }
 }
 
-std::string Clipboard::primary(const InputContext *) const {
+std::string Clipboard::primary(const InputContext * /*unused*/) const {
     // TODO: per ic
     return primary_.text;
 }
 
-std::string Clipboard::clipboard(const InputContext *) const {
+std::string Clipboard::clipboard(const InputContext * /*unused*/) const {
     // TODO: per ic
     if (history_.empty()) {
         return "";
@@ -419,13 +420,15 @@ std::string Clipboard::clipboard(const InputContext *) const {
 
 void Clipboard::refreshPasswordTimer() {
     if (*config_.clearPasswordAfter == 0) {
+        FCITX_CLIPBOARD_DEBUG() << "Disable Password Clearing Timer.";
         clearPasswordTimer_->setEnabled(false);
         return;
     }
 
     uint64_t minTimestamp = std::numeric_limits<uint64_t>::max();
 
-    if (shouldClearPassword(primary_)) {
+    if (shouldClearPassword(primary_, *config_.clearPasswordAfter)) {
+        FCITX_CLIPBOARD_DEBUG() << "Clear password in primary.";
         primary_.clear();
     } else if (primary_.passwordTimestamp) {
         minTimestamp = std::min(minTimestamp, primary_.passwordTimestamp);
@@ -434,12 +437,14 @@ void Clipboard::refreshPasswordTimer() {
     // Not efficient, but we don't have lots of entries anyway.
     std::unordered_set<ClipboardEntry> needRemove;
     for (const auto &entry : history_) {
-        if (shouldClearPassword(entry)) {
+        if (shouldClearPassword(entry, *config_.clearPasswordAfter)) {
             needRemove.insert(entry);
         } else if (entry.passwordTimestamp) {
             minTimestamp = std::min(minTimestamp, entry.passwordTimestamp);
         }
     }
+    FCITX_CLIPBOARD_DEBUG() << "Clear " << needRemove.size()
+                            << " password(s) in clipboard history.";
     for (const auto &entry : needRemove) {
         history_.remove(entry);
     }
@@ -447,6 +452,9 @@ void Clipboard::refreshPasswordTimer() {
     if (minTimestamp != std::numeric_limits<uint64_t>::max()) {
         clearPasswordTimer_->setTime(minTimestamp +
                                      oneSecond * (*config_.clearPasswordAfter));
+        FCITX_CLIPBOARD_DEBUG()
+            << "Password Clearing Timer will be triggered after: "
+            << clearPasswordTimer_->time() - now(CLOCK_MONOTONIC);
         clearPasswordTimer_->setOneShot();
     }
 }

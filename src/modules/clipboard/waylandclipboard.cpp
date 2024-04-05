@@ -14,7 +14,7 @@
 namespace fcitx {
 
 uint64_t DataReaderThread::addTask(std::shared_ptr<UnixFD> fd,
-                                   DataOfferCallback callback) {
+                                   DataOfferDataCallback callback) {
     auto id = nextId_++;
     if (id == 0) {
         id = nextId_++;
@@ -88,7 +88,9 @@ void DataReaderThread::realRun() {
     tasks_ = nullptr;
 }
 
-DataOffer::DataOffer(wayland::ZwlrDataControlOfferV1 *offer) : offer_(offer) {
+DataOffer::DataOffer(wayland::ZwlrDataControlOfferV1 *offer,
+                     bool ignorePassword)
+    : offer_(offer), ignorePassword_(ignorePassword) {
     offer_->setUserData(this);
     conns_.emplace_back(offer_->offer().connect(
         [this](const char *offer) { mimeTypes_.insert(offer); }));
@@ -106,22 +108,30 @@ void DataOffer::receiveData(DataReaderThread &thread,
         return;
     }
 
+    auto callbackWrapper = [this, callback](const std::vector<char> &data) {
+        return callback(data, isPassword_);
+    };
+
     thread_ = &thread;
     static const std::string passwordHint = PASSWORD_MIME_TYPE;
     if (mimeTypes_.count(passwordHint)) {
-        receiveDataForMime(
-            passwordHint, [this, callback](const std::vector<char> &data) {
-                if (std::string_view(data.data(), data.size()) == "secret") {
-                    return;
-                }
-                receiveRealData(callback);
-            });
+        receiveDataForMime(passwordHint, [this, callbackWrapper](
+                                             const std::vector<char> &data) {
+            if (std::string_view(data.data(), data.size()) == "secret" &&
+                ignorePassword_) {
+                FCITX_CLIPBOARD_DEBUG()
+                    << "Wayland clipboard contains password, ignore.";
+                return;
+            }
+            isPassword_ = true;
+            receiveRealData(callbackWrapper);
+        });
     } else {
-        receiveRealData(std::move(callback));
+        receiveRealData(callbackWrapper);
     }
 }
 
-void DataOffer::receiveRealData(DataOfferCallback callback) {
+void DataOffer::receiveRealData(DataOfferDataCallback callback) {
     if (!thread_) {
         return;
     }
@@ -141,7 +151,7 @@ void DataOffer::receiveRealData(DataOfferCallback callback) {
 }
 
 void DataOffer::receiveDataForMime(const std::string &mime,
-                                   DataOfferCallback callback) {
+                                   DataOfferDataCallback callback) {
     if (!thread_) {
         return;
     }
@@ -162,7 +172,11 @@ DataDevice::DataDevice(WaylandClipboard *clipboard,
                        wayland::ZwlrDataControlDeviceV1 *device)
     : clipboard_(clipboard), device_(device), thread_(clipboard_->eventLoop()) {
     conns_.emplace_back(device_->dataOffer().connect(
-        [](wayland::ZwlrDataControlOfferV1 *offer) { new DataOffer(offer); }));
+        [this](wayland::ZwlrDataControlOfferV1 *offer) {
+            new DataOffer(offer, *clipboard_->parent()
+                                      ->config()
+                                      .ignorePasswordFromPasswordManager);
+        }));
     conns_.emplace_back(device_->selection().connect(
         [this](wayland::ZwlrDataControlOfferV1 *offer) {
             clipboardOffer_.reset(
@@ -171,9 +185,9 @@ DataDevice::DataDevice(WaylandClipboard *clipboard,
                 return;
             }
             clipboardOffer_->receiveData(
-                thread_, [this](std::vector<char> data) {
+                thread_, [this](std::vector<char> data, bool password) {
                     data.push_back('\0');
-                    clipboard_->setClipboard(data.data());
+                    clipboard_->setClipboard(data.data(), password);
                     clipboardOffer_.reset();
                 });
         }));
@@ -182,14 +196,15 @@ DataDevice::DataDevice(WaylandClipboard *clipboard,
             primaryOffer_.reset(
                 offer ? static_cast<DataOffer *>(offer->userData()) : nullptr);
             if (!primaryOffer_) {
-                clipboard_->setPrimary("");
+                clipboard_->setPrimary("", false);
                 return;
             }
-            primaryOffer_->receiveData(thread_, [this](std::vector<char> data) {
-                data.push_back('\0');
-                clipboard_->setPrimary(data.data());
-                primaryOffer_.reset();
-            });
+            primaryOffer_->receiveData(
+                thread_, [this](std::vector<char> data, bool password) {
+                    data.push_back('\0');
+                    clipboard_->setPrimary(data.data(), password);
+                    primaryOffer_.reset();
+                });
         }));
     conns_.emplace_back(device_->finished().connect([this]() {
         conns_.clear();
@@ -260,12 +275,16 @@ EventLoop *WaylandClipboard::eventLoop() {
     return &parent_->instance()->eventLoop();
 }
 
-void WaylandClipboard::setClipboard(const std::string &str) {
-    parent_->setClipboard(name_, str);
+void WaylandClipboard::setClipboard(const std::string &str, bool password) {
+    parent_->setClipboardEntry(
+        name_, {.text = str,
+                .passwordTimestamp = (password ? now(CLOCK_MONOTONIC) : 0)});
 }
 
-void WaylandClipboard::setPrimary(const std::string &str) {
-    parent_->setPrimary(name_, str);
+void WaylandClipboard::setPrimary(const std::string &str, bool password) {
+    parent_->setPrimaryEntry(
+        name_, {.text = str,
+                .passwordTimestamp = (password ? now(CLOCK_MONOTONIC) : 0)});
 }
 
 } // namespace fcitx

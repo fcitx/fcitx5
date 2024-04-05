@@ -5,6 +5,7 @@
  *
  */
 #include "xcbclipboard.h"
+#include <ctime>
 #include <string_view>
 #include <xcb/xproto.h>
 #include "clipboard.h"
@@ -16,12 +17,17 @@ XcbClipboardData::XcbClipboardData(XcbClipboard *xcbClip, XcbClipboardMode mode)
 
 void XcbClipboardData::request() {
     //
-    callback_.reset();
+    reset();
     callback_ = xcbClip_->xcb()->call<IXCBModule::convertSelection>(
         xcbClip_->name(), modeString(), "TARGETS",
         [this](xcb_atom_t type, const char *data, size_t length) {
             checkMime(type, data, length);
         });
+}
+
+void XcbClipboardData::reset() {
+    callback_.reset();
+    password_ = false;
 }
 
 const char *XcbClipboardData::modeString() const {
@@ -45,16 +51,13 @@ bool XcbClipboardData::isValidTextType(xcb_atom_t type) const {
         return true;
     }
     auto utf8Atom = xcbClip_->utf8StringAtom();
-    if (utf8Atom != XCB_ATOM_NONE && type == utf8Atom) {
-        return true;
-    }
-    return false;
+    return utf8Atom != XCB_ATOM_NONE && type == utf8Atom;
 }
 
 void XcbClipboardData::checkMime(xcb_atom_t type, const char *data,
                                  size_t length) {
     if (type != XCB_ATOM_ATOM) {
-        callback_.reset();
+        reset();
         return;
     }
 
@@ -72,7 +75,7 @@ void XcbClipboardData::checkMime(xcb_atom_t type, const char *data,
     }
 
     if (!isText) {
-        callback_.reset();
+        reset();
         return;
     }
 
@@ -88,8 +91,14 @@ void XcbClipboardData::checkPassword(xcb_atom_t /*type*/, const char *data,
                                      size_t length) {
     std::string_view str(data, length);
     if (str == "secret") {
-        callback_.reset();
-        return;
+        if (*xcbClip_->parent()->config().ignorePasswordFromPasswordManager) {
+            FCITX_CLIPBOARD_DEBUG()
+                << "XCB display:" << xcbClip_->name() << " " << modeString()
+                << " contains password, ignore.";
+            reset();
+            return;
+        }
+        password_ = true;
     }
     callback_ = convertSelection("", &XcbClipboardData::readData);
 }
@@ -100,20 +109,20 @@ void XcbClipboardData::readData(xcb_atom_t type, const char *data,
     switch (mode_) {
     case XcbClipboardMode::Primary:
         if (!data || !isValidTextType(type)) {
-            xcbClip_->setPrimary("");
+            xcbClip_->setPrimary("", /*password=*/false);
         } else {
             std::string str(data, length);
-            xcbClip_->setPrimary(str);
+            xcbClip_->setPrimary(str, /*password=*/password_);
         }
         break;
     case XcbClipboardMode::Clipboard:
         if (isValidTextType(type) && data) {
             std::string str(data, length);
-            xcbClip_->setClipboard(str);
+            xcbClip_->setClipboard(str, /*password=*/password_);
         }
         break;
     }
-    callback_.reset();
+    reset();
 }
 
 XcbClipboard::XcbClipboard(Clipboard *clipboard, std::string name)
@@ -144,12 +153,16 @@ void XcbClipboard::primaryChanged() { primary_.request(); }
 
 void XcbClipboard::clipboardChanged() { clipboard_.request(); }
 
-void XcbClipboard::setClipboard(const std::string &str) {
-    parent_->setClipboard(name_, str);
+void XcbClipboard::setClipboard(const std::string &str, bool password) {
+    parent_->setClipboardEntry(
+        name_, {.text = str,
+                .passwordTimestamp = (password ? now(CLOCK_MONOTONIC) : 0)});
 }
 
-void XcbClipboard::setPrimary(const std::string &str) {
-    parent_->setPrimary(name_, str);
+void XcbClipboard::setPrimary(const std::string &str, bool password) {
+    parent_->setPrimaryEntry(
+        name_, {.text = str,
+                .passwordTimestamp = (password ? now(CLOCK_MONOTONIC) : 0)});
 }
 
 } // namespace fcitx
