@@ -100,10 +100,23 @@ std::string ClipboardSelectionStrip(const std::string &text) {
 
 class ClipboardCandidateWord : public CandidateWord {
 public:
-    ClipboardCandidateWord(Clipboard *q, const std::string &str)
+    ClipboardCandidateWord(Clipboard *q, const std::string &str, bool password)
         : q_(q), str_(str) {
         Text text;
-        text.append(ClipboardSelectionStrip(str));
+        if (password && !*q->config().showPassword) {
+            auto length = utf8::length(str);
+            length = std::min(length, static_cast<size_t>(8));
+            std::string dot;
+            dot.reserve(length * 3);
+            while (length != 0) {
+                dot += "\xe2\x80\xa2";
+                length -= 1;
+            }
+            text.append(dot);
+            setComment(Text{_("<Passowrd>")});
+        } else {
+            text.append(ClipboardSelectionStrip(str));
+        }
         setText(std::move(text));
     }
 
@@ -331,13 +344,15 @@ void Clipboard::updateUI(InputContext *inputContext) {
     // Append first item from history_.
     auto iter = history_.begin();
     if (iter != history_.end()) {
-        candidateList->append<ClipboardCandidateWord>(this, iter->text);
+        candidateList->append<ClipboardCandidateWord>(this, iter->text,
+                                                      iter->passwordTimestamp);
         iter++;
     }
     // Append primary_, but check duplication first.
     if (!primary_.empty()) {
         if (!history_.contains(primary_)) {
-            candidateList->append<ClipboardCandidateWord>(this, primary_.text);
+            candidateList->append<ClipboardCandidateWord>(
+                this, primary_.text, primary_.passwordTimestamp);
         }
     }
     // If primary_ is appended, it might squeeze one space out.
@@ -345,7 +360,8 @@ void Clipboard::updateUI(InputContext *inputContext) {
         if (candidateList->totalSize() >= config_.numOfEntries.value()) {
             break;
         }
-        candidateList->append<ClipboardCandidateWord>(this, iter->text);
+        candidateList->append<ClipboardCandidateWord>(this, iter->text,
+                                                      iter->passwordTimestamp);
     }
     candidateList->setSelectionKey(selectionKeys_);
     candidateList->setLayoutHint(CandidateLayoutHint::Vertical);
@@ -385,7 +401,7 @@ void Clipboard::setPrimaryEntry(const std::string &name, ClipboardEntry entry) {
 void Clipboard::setClipboardEntry(const std::string &name,
                                   const ClipboardEntry &entry) {
     FCITX_UNUSED(name);
-    if (!utf8::validate(entry.text)) {
+    if (entry.text.empty() || !utf8::validate(entry.text)) {
         return;
     }
 
