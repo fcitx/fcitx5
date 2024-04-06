@@ -7,9 +7,15 @@
 #ifndef _FCITX_MODULES_CLIPBOARD_CLIPBOARD_H_
 #define _FCITX_MODULES_CLIPBOARD_CLIPBOARD_H_
 
+#include <cstddef>
+#include <memory>
+#include <string>
+#include <vector>
 #include "fcitx-config/configuration.h"
 #include "fcitx-config/iniparser.h"
 #include "fcitx-config/option.h"
+#include "fcitx-utils/event.h"
+#include "fcitx-utils/handlertable.h"
 #include "fcitx-utils/i18n.h"
 #include "fcitx-utils/key.h"
 #include "fcitx-utils/log.h"
