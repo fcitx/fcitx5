@@ -17,7 +17,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2024-03-24 20:24+0000\n"
+"POT-Creation-Date: 2024-04-06 20:24+0000\n"
 "PO-Revision-Date: 2017-11-23 04:14+0000\n"
 "Last-Translator: Lau YeeYu, 2024\n"
 "Language-Team: Chinese (Taiwan) (https://app.transifex.com/fcitx/teams/12005/"
@@ -84,6 +84,10 @@ msgstr "/Note_for_GNOME_Later_than_3.6"
 msgid "/XIM"
 msgstr "/XIM"
 
+#: src/modules/clipboard/clipboard.h:80
+msgid "0 means never clear password."
+msgstr ""
+
 #: src/modules/unicode/charselectdata.cpp:213
 msgid "<Low Surrogate>"
 msgstr "<低半代理區>"
@@ -91,6 +95,10 @@ msgstr "<低半代理區>"
 #: src/modules/unicode/charselectdata.cpp:209
 msgid "<Non Private Use High Surrogate>"
 msgstr "<非專用高半代理區>"
+
+#: src/modules/clipboard/clipboard.cpp:116
+msgid "<Passowrd>"
+msgstr ""
 
 #: src/modules/unicode/charselectdata.cpp:211
 msgid "<Private Use High Surrogate>"
@@ -464,7 +472,7 @@ msgstr "按區域邊距"
 msgid "Clipboard"
 msgstr "剪貼簿"
 
-#: src/modules/clipboard/clipboard.cpp:348
+#: src/modules/clipboard/clipboard.cpp:369
 msgid "Clipboard (Press BackSpace/Delete to clear history):"
 msgstr "剪貼簿（按 BackSpace/Delete 清除歷史記錄）："
 
@@ -662,7 +670,7 @@ msgstr "桌面環境："
 msgid "Desktop environment is ${1}."
 msgstr "桌面環境為 ${1}。"
 
-#: src/modules/wayland/waylandmodule.cpp:606
+#: src/modules/wayland/waylandmodule.cpp:616
 msgid ""
 "Detect GTK_IM_MODULE and QT_IM_MODULE being set and Wayland Input method "
 "frontend is working. It is recommended to unset GTK_IM_MODULE and "
@@ -674,7 +682,7 @@ msgstr ""
 "Wayland 輸入法前端。更多信息請參見 https://fcitx-im.org/wiki/"
 "Using_Fcitx_5_on_Wayland#KDE_Plasma"
 
-#: src/modules/wayland/waylandmodule.cpp:635
+#: src/modules/wayland/waylandmodule.cpp:645
 msgid ""
 "Detect GTK_IM_MODULE being set and Wayland Input method frontend is working. "
 "It is recommended to unset GTK_IM_MODULE and use Wayland input method "
@@ -700,6 +708,10 @@ msgstr "顯示"
 #: src/modules/notifications/notifications.cpp:201
 msgid "Do not show again"
 msgstr "不再顯示"
+
+#: src/modules/clipboard/clipboard.h:61
+msgid "Do not show password from password managers"
+msgstr ""
 
 #: src/lib/fcitx-utils/key.cpp:162
 msgctxt "Key name"
@@ -855,7 +867,7 @@ msgctxt "Key name"
 msgid "Favorites"
 msgstr "收藏"
 
-#: src/modules/wayland/waylandmodule.cpp:578
+#: src/modules/wayland/waylandmodule.cpp:588
 msgid "Fcitx"
 msgstr "Fcitx"
 
@@ -893,7 +905,7 @@ msgstr ""
 "Fcitx 是輸入法框架。它能幫助您輸入自己的語言。它還具有多種插件選擇，可改善您"
 "的打字體驗。"
 
-#: src/modules/wayland/waylandmodule.cpp:593
+#: src/modules/wayland/waylandmodule.cpp:603
 msgid ""
 "Fcitx should be launched by KWin under KDE Wayland in order to use Wayland "
 "input method frontend. This can improve the experience when using Fcitx on "
@@ -963,7 +975,7 @@ msgstr ""
 "例如，使用拼音時顯示中文異體字，使用 Anthy 時顯示日文異體字。 字體配置需要支"
 "持此功能才能使用此功能。"
 
-#: src/modules/wayland/waylandmodule.cpp:661
+#: src/modules/wayland/waylandmodule.cpp:671
 msgid "For more details see https://fcitx-im.org/wiki/Using_Fcitx_5_on_Wayland"
 msgstr "更多細節請參見 https://fcitx-im.org/wiki/Using_Fcitx_5_on_Wayland"
 
@@ -1178,6 +1190,10 @@ msgstr "休眠"
 msgid "Hidden Notifications"
 msgstr "隱藏通知"
 
+#: src/modules/clipboard/clipboard.h:70
+msgid "Hidden clipboard content that contains a password"
+msgstr ""
+
 #: src/ui/classic/theme.h:114
 msgid "Hide overlay if size does not fit"
 msgstr "如果尺寸不合適，隱藏疊加層"
@@ -1371,7 +1387,7 @@ msgstr ""
 "如果您的混成器完全支持 ${1}使用的 text-input 協議，您也可以使用 ${1} 內置的 "
 "Wayland 模塊。"
 
-#: src/modules/wayland/waylandmodule.cpp:618
+#: src/modules/wayland/waylandmodule.cpp:628
 msgid ""
 "It is recommended to install Input Method Panel GNOME Shell Extensions to "
 "provide the input method popup. https://extensions.gnome.org/extension/261/"
@@ -1970,7 +1986,7 @@ msgstr "下一頁按鈕"
 msgid "No"
 msgstr "否"
 
-#: src/modules/clipboard/clipboard.cpp:350
+#: src/modules/clipboard/clipboard.cpp:371
 msgid "No clipboard history."
 msgstr "沒有輸入法歷史"
 
@@ -2008,7 +2024,7 @@ msgctxt "Key name"
 msgid "NumLock"
 msgstr "數字鎖定 (NumLock)"
 
-#: src/modules/clipboard/clipboard.h:45
+#: src/modules/clipboard/clipboard.h:54
 msgid "Number of entries"
 msgstr "項目數"
 
@@ -2088,7 +2104,7 @@ msgctxt "Key name"
 msgid "Paste"
 msgstr "貼上"
 
-#: src/modules/clipboard/clipboard.h:43
+#: src/modules/clipboard/clipboard.h:52
 msgid "Paste Primary"
 msgstr "貼上主選區"
 
@@ -2302,6 +2318,10 @@ msgctxt "Key name"
 msgid "Search"
 msgstr "搜尋"
 
+#: src/modules/clipboard/clipboard.h:76
+msgid "Seconds before clearing password"
+msgstr ""
+
 #: src/lib/fcitx-utils/key.cpp:233
 msgctxt "Key name"
 msgid "Select"
@@ -2328,7 +2348,7 @@ msgctxt "Key name"
 msgid "Send"
 msgstr "傳送"
 
-#: src/modules/wayland/waylandmodule.cpp:650
+#: src/modules/wayland/waylandmodule.cpp:660
 msgid ""
 "Sending keyboard layout configuration to wayland compositor from Fcitx is "
 "not yet supported on current desktop. You may still use Fcitx's internal "
@@ -2671,7 +2691,7 @@ msgstr "切換啟用或非啟用輸入法"
 
 #: src/modules/imselector/imselector.h:28
 #: src/modules/quickphrase/quickphrase.h:33 src/modules/unicode/unicode.h:28
-#: src/modules/clipboard/clipboard.h:39
+#: src/modules/clipboard/clipboard.h:48
 msgid "Trigger Key"
 msgstr "觸發鍵"
 
@@ -2824,7 +2844,7 @@ msgstr ""
 msgid "Wayland"
 msgstr "Wayland"
 
-#: src/modules/wayland/waylandmodule.cpp:578
+#: src/modules/wayland/waylandmodule.cpp:588
 msgid "Wayland Diagnose"
 msgstr "Wayland 診斷"
 
@@ -2836,6 +2856,13 @@ msgstr "Wayland 輸入法前端"
 msgctxt "Key name"
 msgid "WebCam"
 msgstr "網路攝影機"
+
+#: src/modules/clipboard/clipboard.h:65
+msgid ""
+"When copying password from a password manager, if the password manager "
+"supports marking the clipboard content as password, this clipboard update "
+"will be ignored."
+msgstr ""
 
 #: src/lib/fcitx/globalconfig.cpp:177
 msgid ""

@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2024-03-07 20:24+0000\n"
+"POT-Creation-Date: 2024-04-06 20:24+0000\n"
 "PO-Revision-Date: 2017-11-23 04:14+0000\n"
 "Last-Translator: Dmitry <dmitrydmitry761@gmail.com>, 2024\n"
 "Language-Team: Russian (https://app.transifex.com/fcitx/teams/12005/ru/)\n"
@@ -79,6 +79,10 @@ msgstr "/Заметка_для_пользователей_GNOME_старше_в�
 msgid "/XIM"
 msgstr "/XIM"
 
+#: src/modules/clipboard/clipboard.h:80
+msgid "0 means never clear password."
+msgstr ""
+
 #: src/modules/unicode/charselectdata.cpp:213
 msgid "<Low Surrogate>"
 msgstr "<Низкий заменитель>"
@@ -86,6 +90,10 @@ msgstr "<Низкий заменитель>"
 #: src/modules/unicode/charselectdata.cpp:209
 msgid "<Non Private Use High Surrogate>"
 msgstr "<Не лично использовать высокий заменитель>"
+
+#: src/modules/clipboard/clipboard.cpp:116
+msgid "<Passowrd>"
+msgstr ""
 
 #: src/modules/unicode/charselectdata.cpp:211
 msgid "<Private Use High Surrogate>"
@@ -466,7 +474,7 @@ msgstr "Нажмите на Поле"
 msgid "Clipboard"
 msgstr "Буфер обмена"
 
-#: src/modules/clipboard/clipboard.cpp:348
+#: src/modules/clipboard/clipboard.cpp:369
 msgid "Clipboard (Press BackSpace/Delete to clear history):"
 msgstr "Буфер обмена (нажмите BackSpace/Delete, чтобы очистить историю):"
 
@@ -664,7 +672,7 @@ msgstr "Среда рабочего стола:"
 msgid "Desktop environment is ${1}."
 msgstr "Среда рабочего стола: ${1}."
 
-#: src/modules/wayland/waylandmodule.cpp:606
+#: src/modules/wayland/waylandmodule.cpp:616
 msgid ""
 "Detect GTK_IM_MODULE and QT_IM_MODULE being set and Wayland Input method "
 "frontend is working. It is recommended to unset GTK_IM_MODULE and "
@@ -677,7 +685,7 @@ msgstr ""
 "более подробной информации см. https://fcitx-im.org/wiki/"
 "Using_Fcitx_5_on_Wayland#KDE_Plasma"
 
-#: src/modules/wayland/waylandmodule.cpp:635
+#: src/modules/wayland/waylandmodule.cpp:645
 msgid ""
 "Detect GTK_IM_MODULE being set and Wayland Input method frontend is working. "
 "It is recommended to unset GTK_IM_MODULE and use Wayland input method "
@@ -703,6 +711,10 @@ msgstr "Дисплей"
 #: src/modules/notifications/notifications.cpp:201
 msgid "Do not show again"
 msgstr "Больше не показывать"
+
+#: src/modules/clipboard/clipboard.h:61
+msgid "Do not show password from password managers"
+msgstr ""
 
 #: src/lib/fcitx-utils/key.cpp:162
 msgctxt "Key name"
@@ -860,7 +872,7 @@ msgctxt "Key name"
 msgid "Favorites"
 msgstr "Избранное"
 
-#: src/modules/wayland/waylandmodule.cpp:578
+#: src/modules/wayland/waylandmodule.cpp:588
 msgid "Fcitx"
 msgstr "Fcitx"
 
@@ -899,7 +911,7 @@ msgstr ""
 "собственный язык. Она также предлагает различные варианты дополнений, "
 "которые улучшают удобство набора текста."
 
-#: src/modules/wayland/waylandmodule.cpp:593
+#: src/modules/wayland/waylandmodule.cpp:603
 msgid ""
 "Fcitx should be launched by KWin under KDE Wayland in order to use Wayland "
 "input method frontend. This can improve the experience when using Fcitx on "
@@ -975,7 +987,7 @@ msgstr ""
 "и японским вариантом при использовании Anthy. Конфигурация шрифта должна "
 "поддерживать это, чтобы использовать эту функцию."
 
-#: src/modules/wayland/waylandmodule.cpp:661
+#: src/modules/wayland/waylandmodule.cpp:671
 msgid "For more details see https://fcitx-im.org/wiki/Using_Fcitx_5_on_Wayland"
 msgstr ""
 "Для получения более подробной информации см. https://fcitx-im.org/wiki/"
@@ -1194,6 +1206,10 @@ msgstr "Гибернация"
 msgid "Hidden Notifications"
 msgstr "Скрытые уведомления"
 
+#: src/modules/clipboard/clipboard.h:70
+msgid "Hidden clipboard content that contains a password"
+msgstr ""
+
 #: src/ui/classic/theme.h:114
 msgid "Hide overlay if size does not fit"
 msgstr "Скрыть наложение, если размер не подходит"
@@ -1395,7 +1411,7 @@ msgstr ""
 "Можно использовать ${1} встроенный модуль Wayland im, если составитель "
 "полностью поддерживает протокол ввода текста, используемый ${1}."
 
-#: src/modules/wayland/waylandmodule.cpp:618
+#: src/modules/wayland/waylandmodule.cpp:628
 msgid ""
 "It is recommended to install Input Method Panel GNOME Shell Extensions to "
 "provide the input method popup. https://extensions.gnome.org/extension/261/"
@@ -1995,7 +2011,7 @@ msgstr "Кнопка следующей страницы"
 msgid "No"
 msgstr "Нет"
 
-#: src/modules/clipboard/clipboard.cpp:350
+#: src/modules/clipboard/clipboard.cpp:371
 msgid "No clipboard history."
 msgstr "История буфера обмена отсутствует."
 
@@ -2034,7 +2050,7 @@ msgctxt "Key name"
 msgid "NumLock"
 msgstr "NumLock"
 
-#: src/modules/clipboard/clipboard.h:45
+#: src/modules/clipboard/clipboard.h:54
 msgid "Number of entries"
 msgstr "Количество входов"
 
@@ -2116,7 +2132,7 @@ msgctxt "Key name"
 msgid "Paste"
 msgstr "Вставить"
 
-#: src/modules/clipboard/clipboard.h:43
+#: src/modules/clipboard/clipboard.h:52
 msgid "Paste Primary"
 msgstr "Вставить основное"
 
@@ -2333,6 +2349,10 @@ msgctxt "Key name"
 msgid "Search"
 msgstr "Поиск"
 
+#: src/modules/clipboard/clipboard.h:76
+msgid "Seconds before clearing password"
+msgstr ""
+
 #: src/lib/fcitx-utils/key.cpp:233
 msgctxt "Key name"
 msgid "Select"
@@ -2359,7 +2379,7 @@ msgctxt "Key name"
 msgid "Send"
 msgstr "Отправить"
 
-#: src/modules/wayland/waylandmodule.cpp:650
+#: src/modules/wayland/waylandmodule.cpp:660
 msgid ""
 "Sending keyboard layout configuration to wayland compositor from Fcitx is "
 "not yet supported on current desktop. You may still use Fcitx's internal "
@@ -2715,7 +2735,7 @@ msgstr "Активация метода ввода"
 
 #: src/modules/imselector/imselector.h:28
 #: src/modules/quickphrase/quickphrase.h:33 src/modules/unicode/unicode.h:28
-#: src/modules/clipboard/clipboard.h:39
+#: src/modules/clipboard/clipboard.h:48
 msgid "Trigger Key"
 msgstr "Клавиша-триггер"
 
@@ -2873,7 +2893,7 @@ msgstr ""
 msgid "Wayland"
 msgstr "Wayland"
 
-#: src/modules/wayland/waylandmodule.cpp:578
+#: src/modules/wayland/waylandmodule.cpp:588
 msgid "Wayland Diagnose"
 msgstr "Wayland Диагностика"
 
@@ -2885,6 +2905,13 @@ msgstr "Интерфейс метода ввода Wayland"
 msgctxt "Key name"
 msgid "WebCam"
 msgstr "Веб-камера"
+
+#: src/modules/clipboard/clipboard.h:65
+msgid ""
+"When copying password from a password manager, if the password manager "
+"supports marking the clipboard content as password, this clipboard update "
+"will be ignored."
+msgstr ""
 
 #: src/lib/fcitx/globalconfig.cpp:177
 msgid ""

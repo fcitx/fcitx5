@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2024-04-05 20:24+0000\n"
+"POT-Creation-Date: 2024-04-06 20:24+0000\n"
 "PO-Revision-Date: 2017-11-23 04:14+0000\n"
 "Last-Translator: UTUMI Hirosi <utuhiro78@yahoo.co.jp>, 2024\n"
 "Language-Team: Japanese (https://app.transifex.com/fcitx/teams/12005/ja/)\n"
@@ -78,6 +78,10 @@ msgstr "/Note_for_GNOME_Later_than_3.6"
 msgid "/XIM"
 msgstr "/XIM"
 
+#: src/modules/clipboard/clipboard.h:80
+msgid "0 means never clear password."
+msgstr ""
+
 #: src/modules/unicode/charselectdata.cpp:213
 msgid "<Low Surrogate>"
 msgstr "<Low Surrogate>"
@@ -85,6 +89,10 @@ msgstr "<Low Surrogate>"
 #: src/modules/unicode/charselectdata.cpp:209
 msgid "<Non Private Use High Surrogate>"
 msgstr "<Non Private Use High Surrogate>"
+
+#: src/modules/clipboard/clipboard.cpp:116
+msgid "<Passowrd>"
+msgstr ""
 
 #: src/modules/unicode/charselectdata.cpp:211
 msgid "<Private Use High Surrogate>"
@@ -461,7 +469,7 @@ msgstr "クリックマージン"
 msgid "Clipboard"
 msgstr "クリップボード"
 
-#: src/modules/clipboard/clipboard.cpp:348
+#: src/modules/clipboard/clipboard.cpp:369
 msgid "Clipboard (Press BackSpace/Delete to clear history):"
 msgstr "クリップボード (BackSpace/Delete で履歴をクリア)"
 
@@ -698,6 +706,10 @@ msgstr "ディスプレイ"
 #: src/modules/notifications/notifications.cpp:201
 msgid "Do not show again"
 msgstr "次回から表示しない"
+
+#: src/modules/clipboard/clipboard.h:61
+msgid "Do not show password from password managers"
+msgstr ""
 
 #: src/lib/fcitx-utils/key.cpp:162
 msgctxt "Key name"
@@ -1186,6 +1198,10 @@ msgstr "ハイバネート"
 #: src/modules/notifications/notifications.h:26
 msgid "Hidden Notifications"
 msgstr "隠す通知"
+
+#: src/modules/clipboard/clipboard.h:70
+msgid "Hidden clipboard content that contains a password"
+msgstr ""
 
 #: src/ui/classic/theme.h:114
 msgid "Hide overlay if size does not fit"
@@ -1985,7 +2001,7 @@ msgstr "次ページボタン"
 msgid "No"
 msgstr "いいえ"
 
-#: src/modules/clipboard/clipboard.cpp:350
+#: src/modules/clipboard/clipboard.cpp:371
 msgid "No clipboard history."
 msgstr "クリップボード履歴がありません。"
 
@@ -2024,7 +2040,7 @@ msgctxt "Key name"
 msgid "NumLock"
 msgstr "NumLock"
 
-#: src/modules/clipboard/clipboard.h:45
+#: src/modules/clipboard/clipboard.h:54
 msgid "Number of entries"
 msgstr "エントリー数"
 
@@ -2106,7 +2122,7 @@ msgctxt "Key name"
 msgid "Paste"
 msgstr "Paste"
 
-#: src/modules/clipboard/clipboard.h:43
+#: src/modules/clipboard/clipboard.h:52
 msgid "Paste Primary"
 msgstr "プライマリの貼り付け"
 
@@ -2322,6 +2338,10 @@ msgstr "ScrollLock"
 msgctxt "Key name"
 msgid "Search"
 msgstr "検索"
+
+#: src/modules/clipboard/clipboard.h:76
+msgid "Seconds before clearing password"
+msgstr ""
 
 #: src/lib/fcitx-utils/key.cpp:233
 msgctxt "Key name"
@@ -2698,7 +2718,7 @@ msgstr "入力メソッドの切り替え"
 
 #: src/modules/imselector/imselector.h:28
 #: src/modules/quickphrase/quickphrase.h:33 src/modules/unicode/unicode.h:28
-#: src/modules/clipboard/clipboard.h:39
+#: src/modules/clipboard/clipboard.h:48
 msgid "Trigger Key"
 msgstr "トリガーキー"
 
@@ -2863,6 +2883,13 @@ msgstr "Wayland 入力メソッドフロントエンド"
 msgctxt "Key name"
 msgid "WebCam"
 msgstr "ウェブカメラ"
+
+#: src/modules/clipboard/clipboard.h:65
+msgid ""
+"When copying password from a password manager, if the password manager "
+"supports marking the clipboard content as password, this clipboard update "
+"will be ignored."
+msgstr ""
 
 #: src/lib/fcitx/globalconfig.cpp:177
 msgid ""

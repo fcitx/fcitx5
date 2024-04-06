@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2024-03-06 20:24+0000\n"
+"POT-Creation-Date: 2024-04-06 20:24+0000\n"
 "PO-Revision-Date: 2017-11-23 04:14+0000\n"
 "Last-Translator: JungHee Lee <daemul72@gmail.com>, 2023\n"
 "Language-Team: Korean (https://app.transifex.com/fcitx/teams/12005/ko/)\n"
@@ -79,6 +79,10 @@ msgstr "/Note_for_GNOME_Later_than_3.6"
 msgid "/XIM"
 msgstr "/XIM"
 
+#: src/modules/clipboard/clipboard.h:80
+msgid "0 means never clear password."
+msgstr ""
+
 #: src/modules/unicode/charselectdata.cpp:213
 msgid "<Low Surrogate>"
 msgstr "<하위 확장코드>"
@@ -86,6 +90,10 @@ msgstr "<하위 확장코드>"
 #: src/modules/unicode/charselectdata.cpp:209
 msgid "<Non Private Use High Surrogate>"
 msgstr "<비 개인용 상위 확장코드>"
+
+#: src/modules/clipboard/clipboard.cpp:116
+msgid "<Passowrd>"
+msgstr ""
 
 #: src/modules/unicode/charselectdata.cpp:211
 msgid "<Private Use High Surrogate>"
@@ -461,7 +469,7 @@ msgstr "여백 클릭"
 msgid "Clipboard"
 msgstr "클립보드"
 
-#: src/modules/clipboard/clipboard.cpp:348
+#: src/modules/clipboard/clipboard.cpp:369
 msgid "Clipboard (Press BackSpace/Delete to clear history):"
 msgstr "클립보드(기록을 지우려면 BackSpace/Delete 키 누르기):"
 
@@ -659,7 +667,7 @@ msgstr "데스크탑 환경:"
 msgid "Desktop environment is ${1}."
 msgstr "데스크톱 환경은 ${1}입니다."
 
-#: src/modules/wayland/waylandmodule.cpp:606
+#: src/modules/wayland/waylandmodule.cpp:616
 msgid ""
 "Detect GTK_IM_MODULE and QT_IM_MODULE being set and Wayland Input method "
 "frontend is working. It is recommended to unset GTK_IM_MODULE and "
@@ -667,7 +675,7 @@ msgid ""
 "see https://fcitx-im.org/wiki/Using_Fcitx_5_on_Wayland#KDE_Plasma"
 msgstr ""
 
-#: src/modules/wayland/waylandmodule.cpp:635
+#: src/modules/wayland/waylandmodule.cpp:645
 msgid ""
 "Detect GTK_IM_MODULE being set and Wayland Input method frontend is working. "
 "It is recommended to unset GTK_IM_MODULE and use Wayland input method "
@@ -690,6 +698,10 @@ msgstr "표시"
 #: src/modules/notifications/notifications.cpp:201
 msgid "Do not show again"
 msgstr "다시 표시 안함"
+
+#: src/modules/clipboard/clipboard.h:61
+msgid "Do not show password from password managers"
+msgstr ""
 
 #: src/lib/fcitx-utils/key.cpp:162
 msgctxt "Key name"
@@ -845,7 +857,7 @@ msgctxt "Key name"
 msgid "Favorites"
 msgstr "즐겨찾기"
 
-#: src/modules/wayland/waylandmodule.cpp:578
+#: src/modules/wayland/waylandmodule.cpp:588
 msgid "Fcitx"
 msgstr ""
 
@@ -874,7 +886,7 @@ msgstr "Fcitx UI 구성하기:"
 msgid "Fcitx State:"
 msgstr "Fcitx 상태:"
 
-#: data/org.fcitx.Fcitx5.metainfo.xml.in:9
+#: data/org.fcitx.Fcitx5.metainfo.xml.in:12
 msgid ""
 "Fcitx is an input method framework. It can help you to type your own "
 "language. It also features variant choice of addons that improve your typing "
@@ -883,7 +895,7 @@ msgstr ""
 "Fcitx는 입력기 프레임워크입니다. 자신의 언어를 입력하는데 도움이 될 수 있습니"
 "다. 또한 타이핑 경험을 향상시키는 다양한 애드온을 선택할 수 있습니다."
 
-#: src/modules/wayland/waylandmodule.cpp:593
+#: src/modules/wayland/waylandmodule.cpp:603
 msgid ""
 "Fcitx should be launched by KWin under KDE Wayland in order to use Wayland "
 "input method frontend. This can improve the experience when using Fcitx on "
@@ -946,7 +958,7 @@ msgstr ""
 "일본어 변형으로 문자를 표시합니다. 이 기능을 사용하려면 글꼴 구성에서 이를 지"
 "원해야 합니다."
 
-#: src/modules/wayland/waylandmodule.cpp:661
+#: src/modules/wayland/waylandmodule.cpp:671
 msgid "For more details see https://fcitx-im.org/wiki/Using_Fcitx_5_on_Wayland"
 msgstr ""
 
@@ -1161,6 +1173,10 @@ msgstr "하이버네이트"
 msgid "Hidden Notifications"
 msgstr "숨은 알림"
 
+#: src/modules/clipboard/clipboard.h:70
+msgid "Hidden clipboard content that contains a password"
+msgstr ""
+
 #: src/ui/classic/theme.h:114
 msgid "Hide overlay if size does not fit"
 msgstr "크기가 맞지 않으면 오버레이 숨기기"
@@ -1352,7 +1368,7 @@ msgid ""
 "supports text-input protocol used by ${1}."
 msgstr ""
 
-#: src/modules/wayland/waylandmodule.cpp:618
+#: src/modules/wayland/waylandmodule.cpp:628
 msgid ""
 "It is recommended to install Input Method Panel GNOME Shell Extensions to "
 "provide the input method popup. https://extensions.gnome.org/extension/261/"
@@ -1947,7 +1963,7 @@ msgstr "다음 페이지 버튼"
 msgid "No"
 msgstr "아니오"
 
-#: src/modules/clipboard/clipboard.cpp:350
+#: src/modules/clipboard/clipboard.cpp:371
 msgid "No clipboard history."
 msgstr "클립보드 기록이 없습니다."
 
@@ -1983,7 +1999,7 @@ msgctxt "Key name"
 msgid "NumLock"
 msgstr "NumLock"
 
-#: src/modules/clipboard/clipboard.h:45
+#: src/modules/clipboard/clipboard.h:54
 msgid "Number of entries"
 msgstr "항목 수"
 
@@ -2065,7 +2081,7 @@ msgctxt "Key name"
 msgid "Paste"
 msgstr "붙이기"
 
-#: src/modules/clipboard/clipboard.h:43
+#: src/modules/clipboard/clipboard.h:52
 msgid "Paste Primary"
 msgstr "기본 붙여 넣기"
 
@@ -2280,6 +2296,10 @@ msgctxt "Key name"
 msgid "Search"
 msgstr "검색"
 
+#: src/modules/clipboard/clipboard.h:76
+msgid "Seconds before clearing password"
+msgstr ""
+
 #: src/lib/fcitx-utils/key.cpp:233
 msgctxt "Key name"
 msgid "Select"
@@ -2306,7 +2326,7 @@ msgctxt "Key name"
 msgid "Send"
 msgstr "보내기"
 
-#: src/modules/wayland/waylandmodule.cpp:650
+#: src/modules/wayland/waylandmodule.cpp:660
 msgid ""
 "Sending keyboard layout configuration to wayland compositor from Fcitx is "
 "not yet supported on current desktop. You may still use Fcitx's internal "
@@ -2645,7 +2665,7 @@ msgstr "트리거 입력기"
 
 #: src/modules/imselector/imselector.h:28
 #: src/modules/quickphrase/quickphrase.h:33 src/modules/unicode/unicode.h:28
-#: src/modules/clipboard/clipboard.h:39
+#: src/modules/clipboard/clipboard.h:48
 msgid "Trigger Key"
 msgstr "트리거 키"
 
@@ -2669,7 +2689,7 @@ msgstr "길게 눌러 특수 문자 입력"
 msgid "Type unicode in Hex number"
 msgstr ""
 
-#: data/org.fcitx.Fcitx5.metainfo.xml.in:22
+#: data/org.fcitx.Fcitx5.metainfo.xml.in:26
 msgid "Typing with Fcitx and Kimpanel"
 msgstr "Fcitx 및 Kimpanel로 입력"
 
@@ -2798,7 +2818,7 @@ msgstr ""
 msgid "Wayland"
 msgstr "Wayland"
 
-#: src/modules/wayland/waylandmodule.cpp:578
+#: src/modules/wayland/waylandmodule.cpp:588
 msgid "Wayland Diagnose"
 msgstr ""
 
@@ -2810,6 +2830,13 @@ msgstr "Wayland 입력기 프론트엔드"
 msgctxt "Key name"
 msgid "WebCam"
 msgstr "웹캠"
+
+#: src/modules/clipboard/clipboard.h:65
+msgid ""
+"When copying password from a password manager, if the password manager "
+"supports marking the clipboard content as password, this clipboard update "
+"will be ignored."
+msgstr ""
 
 #: src/lib/fcitx/globalconfig.cpp:177
 msgid ""
