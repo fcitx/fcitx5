@@ -5,8 +5,8 @@
  *
  */
 #include <fcitx-utils/log.h>
-#include <fcitx/text.h>
 #include <fcitx-utils/textformatflags.h>
+#include <fcitx/text.h>
 using namespace fcitx;
 
 void test_basic() {
