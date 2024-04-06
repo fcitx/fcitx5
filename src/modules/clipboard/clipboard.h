@@ -47,10 +47,21 @@ FCITX_CONFIGURATION(
     Option<int, IntConstrain> numOfEntries{this, "Number of entries",
                                            _("Number of entries"), 5,
                                            IntConstrain(3, 30)};
-    ConditionalHidden<isAndroid(), Option<bool>>
+    ConditionalHidden<isAndroid(),
+                      OptionWithAnnotation<bool, ToolTipAnnotation>>
         ignorePasswordFromPasswordManager{
-            this, "IgnorePasswordFromPasswordManager",
-            _("Do not show password from password manager"), true};
+            this,
+            "IgnorePasswordFromPasswordManager",
+            _("Do not show password from password managers"),
+            false,
+            {},
+            {},
+            {_("When copying password from a password manager, if the password "
+               "manager supports marking the clipboard content as password, "
+               "this clipboard update will be ignored.")}};
+    ConditionalHidden<isAndroid(), Option<bool>> showPassword{
+        this, "ShowPassword",
+        _("Hidden clipboard content that contains a password"), false};
     ConditionalHidden<
         isAndroid(),
         Option<int, IntConstrain, DefaultMarshaller<int>, ToolTipAnnotation>>
