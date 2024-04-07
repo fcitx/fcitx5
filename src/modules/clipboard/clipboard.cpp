@@ -380,11 +380,27 @@ void Clipboard::updateUI(InputContext *inputContext) {
 }
 
 void Clipboard::setPrimary(const std::string &name, const std::string &str) {
-    setPrimaryEntry(name, ClipboardEntry{.text = str});
+    setPrimaryV2(name, str, false);
 }
 
 void Clipboard::setClipboard(const std::string &name, const std::string &str) {
-    setClipboardEntry(name, ClipboardEntry{.text = str});
+    setClipboardV2(name, str, false);
+}
+
+void Clipboard::setPrimaryV2(const std::string &name, const std::string &str,
+                             bool password) {
+    setPrimaryEntry(name,
+                    ClipboardEntry{.text = str,
+                                   .passwordTimestamp =
+                                       (password ? now(CLOCK_MONOTONIC) : 0)});
+}
+
+void Clipboard::setClipboardV2(const std::string &name, const std::string &str,
+                               bool password) {
+    setClipboardEntry(
+        name, ClipboardEntry{.text = str,
+                             .passwordTimestamp =
+                                 (password ? now(CLOCK_MONOTONIC) : 0)});
 }
 
 void Clipboard::setPrimaryEntry(const std::string &name, ClipboardEntry entry) {

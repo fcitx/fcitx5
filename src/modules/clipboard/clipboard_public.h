@@ -21,5 +21,11 @@ FCITX_ADDON_DECLARE_FUNCTION(Clipboard, setPrimary,
 FCITX_ADDON_DECLARE_FUNCTION(Clipboard, setClipboard,
                              void(const std::string &name,
                                   const std::string &str));
+FCITX_ADDON_DECLARE_FUNCTION(Clipboard, setPrimaryV2,
+                             void(const std::string &name,
+                                  const std::string &str, bool password));
+FCITX_ADDON_DECLARE_FUNCTION(Clipboard, setClipboardV2,
+                             void(const std::string &name,
+                                  const std::string &str, bool password));
 
 #endif // _FCITX_MODULES_CLIPBOARD_CLIPBOARD_PUBLIC_H_

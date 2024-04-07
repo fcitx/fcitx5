@@ -276,15 +276,11 @@ EventLoop *WaylandClipboard::eventLoop() {
 }
 
 void WaylandClipboard::setClipboard(const std::string &str, bool password) {
-    parent_->setClipboardEntry(
-        name_, {.text = str,
-                .passwordTimestamp = (password ? now(CLOCK_MONOTONIC) : 0)});
+    parent_->setClipboardV2(name_, str, password);
 }
 
 void WaylandClipboard::setPrimary(const std::string &str, bool password) {
-    parent_->setPrimaryEntry(
-        name_, {.text = str,
-                .passwordTimestamp = (password ? now(CLOCK_MONOTONIC) : 0)});
+    parent_->setPrimaryV2(name_, str, password);
 }
 
 } // namespace fcitx

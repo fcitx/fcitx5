@@ -106,9 +106,10 @@ public:
 
     void setPrimary(const std::string &name, const std::string &str);
     void setClipboard(const std::string &name, const std::string &str);
-    void setPrimaryEntry(const std::string &name, ClipboardEntry entry);
-    void setClipboardEntry(const std::string &name,
-                           const ClipboardEntry &entry);
+    void setPrimaryV2(const std::string &name, const std::string &str,
+                      bool password);
+    void setClipboardV2(const std::string &name, const std::string &str,
+                        bool password);
     const auto &config() const { return config_; }
 
 #ifdef ENABLE_X11
@@ -120,11 +121,16 @@ private:
     FCITX_ADDON_EXPORT_FUNCTION(Clipboard, clipboard);
     FCITX_ADDON_EXPORT_FUNCTION(Clipboard, setPrimary);
     FCITX_ADDON_EXPORT_FUNCTION(Clipboard, setClipboard);
+    FCITX_ADDON_EXPORT_FUNCTION(Clipboard, setPrimaryV2);
+    FCITX_ADDON_EXPORT_FUNCTION(Clipboard, setClipboardV2);
 #ifdef WAYLAND_FOUND
     FCITX_ADDON_DEPENDENCY_LOADER(wayland, instance_->addonManager());
 #endif
 
     void refreshPasswordTimer();
+    void setPrimaryEntry(const std::string &name, ClipboardEntry entry);
+    void setClipboardEntry(const std::string &name,
+                           const ClipboardEntry &entry);
 
     Instance *instance_;
     std::vector<std::unique_ptr<fcitx::HandlerTableEntry<fcitx::EventHandler>>>
