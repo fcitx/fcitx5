@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2024-04-06 20:24+0000\n"
+"POT-Creation-Date: 2024-04-09 20:24+0000\n"
 "PO-Revision-Date: 2017-11-23 04:14+0000\n"
 "Last-Translator: Lau YeeYu, 2024\n"
 "Language-Team: Chinese (China) (https://app.transifex.com/fcitx/teams/12005/"
@@ -81,7 +81,7 @@ msgstr "/XIM/zh-cn"
 
 #: src/modules/clipboard/clipboard.h:80
 msgid "0 means never clear password."
-msgstr ""
+msgstr "0 表示永不清除密码。"
 
 #: src/modules/unicode/charselectdata.cpp:213
 msgid "<Low Surrogate>"
@@ -93,7 +93,7 @@ msgstr "<非专用高半代理区>"
 
 #: src/modules/clipboard/clipboard.cpp:116
 msgid "<Passowrd>"
-msgstr ""
+msgstr "<Passowrd>"
 
 #: src/modules/unicode/charselectdata.cpp:211
 msgid "<Private Use High Surrogate>"
@@ -704,7 +704,7 @@ msgstr "不要再显示"
 
 #: src/modules/clipboard/clipboard.h:61
 msgid "Do not show password from password managers"
-msgstr ""
+msgstr "不要显示密码管理工具中的密码"
 
 #: src/lib/fcitx-utils/key.cpp:162
 msgctxt "Key name"
@@ -1185,7 +1185,7 @@ msgstr "隐藏通知"
 
 #: src/modules/clipboard/clipboard.h:70
 msgid "Hidden clipboard content that contains a password"
-msgstr ""
+msgstr "隐藏剪贴板中包含密码的内容"
 
 #: src/ui/classic/theme.h:114
 msgid "Hide overlay if size does not fit"
@@ -2313,7 +2313,7 @@ msgstr "搜索"
 
 #: src/modules/clipboard/clipboard.h:76
 msgid "Seconds before clearing password"
-msgstr ""
+msgstr "自动清除密码的时间间隔（单位：秒）"
 
 #: src/lib/fcitx-utils/key.cpp:233
 msgctxt "Key name"
@@ -2855,7 +2855,7 @@ msgid ""
 "When copying password from a password manager, if the password manager "
 "supports marking the clipboard content as password, this clipboard update "
 "will be ignored."
-msgstr ""
+msgstr "如果密码管理工具支持，那么剪贴板会忽略从密码管理工具复制的密码。"
 
 #: src/lib/fcitx/globalconfig.cpp:177
 msgid ""

@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2024-04-06 20:24+0000\n"
+"POT-Creation-Date: 2024-04-09 20:24+0000\n"
 "PO-Revision-Date: 2017-11-23 04:14+0000\n"
 "Last-Translator: UTUMI Hirosi <utuhiro78@yahoo.co.jp>, 2024\n"
 "Language-Team: Japanese (https://app.transifex.com/fcitx/teams/12005/ja/)\n"
@@ -80,7 +80,7 @@ msgstr "/XIM"
 
 #: src/modules/clipboard/clipboard.h:80
 msgid "0 means never clear password."
-msgstr ""
+msgstr "0 の場合はパスワードをクリアしません。"
 
 #: src/modules/unicode/charselectdata.cpp:213
 msgid "<Low Surrogate>"
@@ -92,7 +92,7 @@ msgstr "<Non Private Use High Surrogate>"
 
 #: src/modules/clipboard/clipboard.cpp:116
 msgid "<Passowrd>"
-msgstr ""
+msgstr "<Passowrd>"
 
 #: src/modules/unicode/charselectdata.cpp:211
 msgid "<Private Use High Surrogate>"
@@ -709,7 +709,7 @@ msgstr "次回から表示しない"
 
 #: src/modules/clipboard/clipboard.h:61
 msgid "Do not show password from password managers"
-msgstr ""
+msgstr "パスワードマネージャーからのパスワードを表示しない"
 
 #: src/lib/fcitx-utils/key.cpp:162
 msgctxt "Key name"
@@ -1201,7 +1201,7 @@ msgstr "隠す通知"
 
 #: src/modules/clipboard/clipboard.h:70
 msgid "Hidden clipboard content that contains a password"
-msgstr ""
+msgstr "パスワードを含んでいる、非表示のクリップボードの内容"
 
 #: src/ui/classic/theme.h:114
 msgid "Hide overlay if size does not fit"
@@ -2341,7 +2341,7 @@ msgstr "検索"
 
 #: src/modules/clipboard/clipboard.h:76
 msgid "Seconds before clearing password"
-msgstr ""
+msgstr "パスワードをクリアするまでの秒数"
 
 #: src/lib/fcitx-utils/key.cpp:233
 msgctxt "Key name"
@@ -2890,6 +2890,9 @@ msgid ""
 "supports marking the clipboard content as password, this clipboard update "
 "will be ignored."
 msgstr ""
+"パスワードマネージャーからパスワードをコピーしたときに、パスワードマネー"
+"ジャーがクリップボードの内容をパスワードとしてマークした場合は、クリップボー"
+"ドの更新が無視されます。"
 
 #: src/lib/fcitx/globalconfig.cpp:177
 msgid ""
