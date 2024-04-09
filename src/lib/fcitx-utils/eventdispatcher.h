@@ -11,6 +11,7 @@
 #include <functional>
 #include <memory>
 #include <fcitx-utils/macros.h>
+#include <fcitx-utils/trackableobject.h>
 #include "fcitxutils_export.h"
 
 namespace fcitx {
@@ -43,6 +44,7 @@ public:
      * thread from event loop.
      */
     void detach();
+
     /**
      * A thread-safe function to schedule a functor to be call from event loop.
      *
@@ -53,6 +55,33 @@ public:
      * @param functor functor to be called.
      */
     void schedule(std::function<void()> functor);
+
+    /**
+     * A helper function that allows to only invoke certain function if the
+     * reference is still valid.
+     *
+     * If context object is not valid when calling scheduleWithContext, it won't
+     * be scheduled at all.
+     *
+     * @param context the context object.
+     * @param functor function to be scheduled
+     *
+     * @since 5.1.8
+     */
+    template <typename T>
+    void scheduleWithContext(TrackableObjectReference<T> context,
+                             std::function<void()> functor) {
+        if (!context.isValid()) {
+            return;
+        }
+
+        schedule(
+            [context = std::move(context), functor = std::move(functor)]() {
+                if (context.isValid()) {
+                    functor();
+                }
+            });
+    }
 
     /**
      * Return the currently attached event loop
