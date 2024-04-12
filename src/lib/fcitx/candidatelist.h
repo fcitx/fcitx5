@@ -17,6 +17,8 @@ class PageableCandidateList;
 class BulkCandidateList;
 class ModifiableCandidateList;
 class CursorMovableCandidateList;
+class CursorModifiableCandidateList;
+class BulkCursorCandidateList;
 
 class CandidateListPrivate;
 
@@ -92,12 +94,16 @@ public:
     BulkCandidateList *toBulk() const;
     ModifiableCandidateList *toModifiable() const;
     CursorMovableCandidateList *toCursorMovable() const;
+    CursorModifiableCandidateList *toCursorModifiable() const;
+    BulkCursorCandidateList *toBulkCursor() const;
 
 protected:
     void setPageable(PageableCandidateList *list);
     void setBulk(BulkCandidateList *list);
     void setModifiable(ModifiableCandidateList *list);
     void setCursorMovable(CursorMovableCandidateList *list);
+    void setCursorModifiable(CursorModifiableCandidateList *list);
+    void setBulkCursor(BulkCursorCandidateList *list);
 
 private:
     std::unique_ptr<CandidateListPrivate> d_ptr;
@@ -125,6 +131,11 @@ class FCITXCORE_EXPORT CursorMovableCandidateList {
 public:
     virtual void prevCandidate() = 0;
     virtual void nextCandidate() = 0;
+};
+
+class FCITXCORE_EXPORT CursorModifiableCandidateList {
+public:
+    virtual void setCursorIndex(int index) = 0;
 };
 
 // useful for virtual keyboard
@@ -168,6 +179,12 @@ public:
     DisplayOnlyCandidateWord(Text text) : CandidateWord(std::move(text)) {}
 
     void select(InputContext *) const override {}
+};
+
+class FCITXCORE_EXPORT BulkCursorCandidateList {
+public:
+    virtual int globalCursorIndex() const = 0;
+    virtual void setGlobalCursorIndex(int index) = 0;
 };
 
 class DisplayOnlyCandidateListPrivate;
@@ -243,6 +260,14 @@ public:
      * @since 5.0.4
      */
     int globalCursorIndex() const;
+
+    /**
+     * Set cursor index on current page.
+     *
+     * @param index index on current page;
+     * @since 5.1.9
+     */
+    void setCursorIndex(int index);
 
     // CandidateList
     const fcitx::Text &label(int idx) const override;

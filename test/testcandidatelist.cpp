@@ -312,10 +312,26 @@ void test_comment() {
     FCITX_ASSERT(candidate.textWithComment().toString() == "1 comment");
 }
 
+void test_cursor() {
+    CommonCandidateList candidatelist;
+    candidatelist.setPageSize(5);
+    candidatelist.setSelectionKey(
+        Key::keyListFromString("1 2 3 4 5 6 7 8 9 0"));
+    for (int i = 0; i < 10; i++) {
+        candidatelist.append<TestCandidateWord>(i);
+    }
+    candidatelist.setPage(1);
+    candidatelist.toCursorModifiable()->setCursorIndex(3);
+    FCITX_ASSERT(candidatelist.toBulkCursor()->globalCursorIndex(), 8);
+    candidatelist.setCursorIndex(0);
+    FCITX_ASSERT(candidatelist.toBulkCursor()->globalCursorIndex(), 5);
+}
+
 int main() {
     test_basic();
     test_faulty_placeholder();
     test_label();
     test_comment();
+    test_cursor();
     return 0;
 }

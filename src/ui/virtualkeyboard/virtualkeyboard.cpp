@@ -459,13 +459,12 @@ std::vector<std::string> VirtualKeyboard::makeBulkCandidateTextList(
 
 int VirtualKeyboard::globalCursorIndex(
     std::shared_ptr<CandidateList> candidateList) const {
-    auto *commonCandidateList =
-        dynamic_cast<CommonCandidateList *>(candidateList.get());
-    if (commonCandidateList == nullptr) {
+    auto *bulkCursor = candidateList->toBulkCursor();
+    if (bulkCursor == nullptr) {
         return -1;
     }
 
-    return commonCandidateList->globalCursorIndex();
+    return bulkCursor->globalCursorIndex();
 }
 
 void VirtualKeyboard::updateCandidateArea(

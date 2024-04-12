@@ -7,6 +7,7 @@
 #ifndef _FCITX_UTILS_COMBINETUPLES_H_
 #define _FCITX_UTILS_COMBINETUPLES_H_
 
+#include <functional>
 #include <tuple>
 
 namespace fcitx {

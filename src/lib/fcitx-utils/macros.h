@@ -46,6 +46,8 @@
 #define FCITX_WHITESPACE "\f\n\r\t\v "
 
 #define FCITX_EXPAND(x) x
+#define FCITX_REMOVE_PARENS_(...) __VA_ARGS__
+#define FCITX_REMOVE_PARENS(X) FCITX_REMOVE_PARENS_ X
 
 #define FCITX_FOR_EACH_0(...)
 #define FCITX_FOR_EACH_1(what, x, ...) what(x)
