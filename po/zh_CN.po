@@ -5,16 +5,16 @@
 # Translators:
 # wwj402 <wwj402@gmail.com>, 2017
 # rocka, 2023
-# csslayer <wengxt@gmail.com>, 2024
 # Lau YeeYu, 2024
+# csslayer <wengxt@gmail.com>, 2024
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2024-04-09 20:24+0000\n"
+"POT-Creation-Date: 2024-04-14 20:24+0000\n"
 "PO-Revision-Date: 2017-11-23 04:14+0000\n"
-"Last-Translator: Lau YeeYu, 2024\n"
+"Last-Translator: csslayer <wengxt@gmail.com>, 2024\n"
 "Language-Team: Chinese (China) (https://app.transifex.com/fcitx/teams/12005/"
 "zh_CN/)\n"
 "Language: zh_CN\n"
@@ -2313,7 +2313,7 @@ msgstr "搜索"
 
 #: src/modules/clipboard/clipboard.h:76
 msgid "Seconds before clearing password"
-msgstr "自动清除密码的时间间隔（单位：秒）"
+msgstr "自动清除密码的秒数"
 
 #: src/lib/fcitx-utils/key.cpp:233
 msgctxt "Key name"
