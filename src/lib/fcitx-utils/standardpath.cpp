@@ -38,11 +38,11 @@ bool isAbsolutePath(const std::string &path) {
 }
 
 std::string constructPath(const std::string &basepath,
-                          const std::string &path) {
+                          const std::string &subpath) {
     if (basepath.empty()) {
         return {};
     }
-    return fs::cleanPath(stringutils::joinPath(basepath, path));
+    return fs::cleanPath(stringutils::joinPath(basepath, subpath));
 }
 
 } // namespace
@@ -76,40 +76,49 @@ void StandardPathTempFile::close() {
 
 class StandardPathPrivate {
 public:
-    StandardPathPrivate(bool skipFcitxPath, bool skipUserPath)
-        : skipUserPath_(skipUserPath) {
+    StandardPathPrivate(
+        const std::string &packageName,
+        const std::unordered_map<std::string, std::string> &builtInPathMap,
+        bool skipBuiltInPath, bool skipUserPath)
+        : skipBuiltInPath_(skipBuiltInPath), skipUserPath_(skipUserPath) {
         // initialize user directory
         configHome_ = defaultPath("XDG_CONFIG_HOME", ".config");
-        pkgconfigHome_ = defaultPath(
-            "FCITX_CONFIG_HOME", constructPath(configHome_, "fcitx5").c_str());
-        configDirs_ = defaultPaths("XDG_CONFIG_DIRS", "/etc/xdg", nullptr);
+        pkgconfigHome_ =
+            defaultPath("FCITX_CONFIG_HOME",
+                        constructPath(configHome_, packageName).c_str());
+        configDirs_ = defaultPaths("XDG_CONFIG_DIRS", "/etc/xdg",
+                                   builtInPathMap, nullptr);
         auto pkgconfigDirFallback = configDirs_;
         for (auto &path : pkgconfigDirFallback) {
-            path = constructPath(path, "fcitx5");
+            path = constructPath(path, packageName);
         }
-        pkgconfigDirs_ = defaultPaths(
-            "FCITX_CONFIG_DIRS",
-            stringutils::join(pkgconfigDirFallback, ":").c_str(), nullptr);
+        pkgconfigDirs_ =
+            defaultPaths("FCITX_CONFIG_DIRS",
+                         stringutils::join(pkgconfigDirFallback, ":").c_str(),
+                         builtInPathMap, nullptr);
 
         dataHome_ = defaultPath("XDG_DATA_HOME", ".local/share");
-        pkgdataHome_ = defaultPath("FCITX_DATA_HOME",
-                                   constructPath(dataHome_, "fcitx5").c_str());
+        pkgdataHome_ = defaultPath(
+            "FCITX_DATA_HOME", constructPath(dataHome_, packageName).c_str());
         dataDirs_ = defaultPaths("XDG_DATA_DIRS", "/usr/local/share:/usr/share",
-                                 skipFcitxPath ? nullptr : "datadir");
+                                 builtInPathMap,
+                                 skipBuiltInPath_ ? nullptr : "datadir");
         auto pkgdataDirFallback = dataDirs_;
         for (auto &path : pkgdataDirFallback) {
-            path = constructPath(path, "fcitx5");
+            path = constructPath(path, packageName);
         }
-        pkgdataDirs_ =
-            defaultPaths("FCITX_DATA_DIRS",
-                         stringutils::join(pkgdataDirFallback, ":").c_str(),
-                         skipFcitxPath ? nullptr : "pkgdatadir");
+        pkgdataDirs_ = defaultPaths(
+            "FCITX_DATA_DIRS",
+            stringutils::join(pkgdataDirFallback, ":").c_str(), builtInPathMap,
+            skipBuiltInPath_ ? nullptr : "pkgdatadir");
         cacheHome_ = defaultPath("XDG_CACHE_HOME", ".cache");
         const char *tmpdir = getenv("TMPDIR");
         runtimeDir_ = defaultPath("XDG_RUNTIME_DIR",
                                   !tmpdir || !tmpdir[0] ? "/tmp" : tmpdir);
-        addonDirs_ =
-            defaultPaths("FCITX_ADDON_DIRS", FCITX_INSTALL_ADDONDIR, nullptr);
+        // Though theoratically, this is also fcitxPath, we just simply don't
+        // use it here.
+        addonDirs_ = defaultPaths("FCITX_ADDON_DIRS", FCITX_INSTALL_ADDONDIR,
+                                  builtInPathMap, nullptr);
 
         syncUmask();
     }
@@ -154,6 +163,7 @@ public:
     }
 
     bool skipUser() const { return skipUserPath_; }
+    bool skipBuiltIn() const { return skipBuiltInPath_; }
 
     void syncUmask() {
         // read umask, use 022 which is likely the default value, so less likely
@@ -207,9 +217,10 @@ private:
         return dir;
     }
 
-    static std::vector<std::string> defaultPaths(const char *env,
-                                                 const char *defaultPath,
-                                                 const char *fcitxPath) {
+    static std::vector<std::string> defaultPaths(
+        const char *env, const char *defaultPath,
+        const std::unordered_map<std::string, std::string> &builtInPathMap,
+        const char *builtInPathType) {
         std::vector<std::string> dirs;
 
         const char *dir = getenv(env);
@@ -231,9 +242,15 @@ private:
                 dirs.push_back(s);
             }
         }
-        if (fcitxPath) {
-            std::string path =
-                fs::cleanPath(StandardPath::fcitxPath(fcitxPath));
+        if (builtInPathType) {
+            std::string builtInPath;
+            if (const auto *value =
+                    findValue(builtInPathMap, builtInPathType)) {
+                builtInPath = *value;
+            } else {
+                builtInPath = StandardPath::fcitxPath(builtInPathType);
+            }
+            std::string path = fs::cleanPath(builtInPath);
             if (!path.empty() &&
                 std::find(dirs.begin(), dirs.end(), path) == dirs.end()) {
                 dirs.push_back(path);
@@ -243,6 +260,7 @@ private:
         return dirs;
     }
 
+    bool skipBuiltInPath_;
     bool skipUserPath_;
     std::string configHome_;
     std::vector<std::string> configDirs_;
@@ -258,9 +276,15 @@ private:
     std::atomic<mode_t> umask_;
 };
 
+StandardPath::StandardPath(
+    const std::string &packageName,
+    const std::unordered_map<std::string, std::string> &builtInPath,
+    bool skipBuiltInPath, bool skipUserPath)
+    : d_ptr(std::make_unique<StandardPathPrivate>(
+          packageName, builtInPath, skipBuiltInPath, skipUserPath)) {}
+
 StandardPath::StandardPath(bool skipFcitxPath, bool skipUserPath)
-    : d_ptr(
-          std::make_unique<StandardPathPrivate>(skipFcitxPath, skipUserPath)) {}
+    : StandardPath("fcitx5", {}, skipFcitxPath, skipUserPath) {}
 
 StandardPath::StandardPath(bool skipFcitxPath)
     : StandardPath(skipFcitxPath, false) {}
@@ -695,5 +719,10 @@ bool StandardPath::hasExecutable(const std::string &name) {
 }
 
 void StandardPath::syncUmask() const { d_ptr->syncUmask(); }
+
+bool StandardPath::skipBuiltInPath() const {
+    FCITX_D();
+    return d->skipBuiltIn();
+}
 
 } // namespace fcitx

@@ -190,6 +190,20 @@ public:
         PkgData
     };
 
+    /**
+     * Allow to construct a StandardPath with customized internal value.
+     *
+     * @param packageName the sub directory under other paths.
+     * @param builtInPath this will override the value from fcitxPath.
+     * @param skipBuiltInPath skip built-in path
+     * @param skipUserPath skip user path, useful when doing readonly-test.
+     * @since 5.1.8
+     */
+    StandardPath(
+        const std::string &packageName,
+        const std::unordered_map<std::string, std::string> &builtInPath,
+        bool skipBuiltInPath, bool skipUserPath);
+
     StandardPath(bool skipFcitxPath, bool skipUserPath);
     StandardPath(bool skipFcitxPath = false);
     virtual ~StandardPath();
@@ -348,6 +362,17 @@ public:
      * @since 5.1.2
      */
     void syncUmask() const;
+
+    /**
+     * Whether this StandardPath is configured to Skip built-in path.
+     *
+     * Built-in path is usually configured at build time, hardcoded.
+     * In portable environment (Install prefix is not fixed), this should be
+     * set to false.
+     *
+     * @since 5.1.8
+     */
+    bool skipBuiltInPath() const;
 
 private:
     std::unique_ptr<StandardPathPrivate> d_ptr;

@@ -115,8 +115,22 @@ void test_nouser() {
     FCITX_ASSERT(file2.fd() == -1);
 }
 
+void test_custom() {
+    FCITX_ASSERT(setenv("XDG_CONFIG_HOME", "/TEST/PATH", 1) == 0);
+    FCITX_ASSERT(setenv("XDG_CONFIG_DIRS", "/TEST/PATH1:/TEST/PATH2", 1) == 0);
+    FCITX_ASSERT(setenv("XDG_DATA_DIRS", TEST_ADDON_DIR, 1) == 0);
+    StandardPath path("mypackage", {{"datadir", "/TEST/PATH3"}}, false, false);
+    FCITX_ASSERT(path.directories(fcitx::StandardPath::Type::PkgConfig) ==
+                 std::vector<std::string>{"/TEST/PATH1/mypackage",
+                                          "/TEST/PATH2/mypackage"});
+    FCITX_ASSERT(path.directories(fcitx::StandardPath::Type::Data) ==
+                 std::vector<std::string>{TEST_ADDON_DIR, "/TEST/PATH3"})
+        << path.directories(fcitx::StandardPath::Type::Data);
+}
+
 int main() {
     test_basic();
     test_nouser();
+    test_custom();
     return 0;
 }
