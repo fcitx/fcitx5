@@ -197,7 +197,7 @@ public:
      * @param builtInPath this will override the value from fcitxPath.
      * @param skipBuiltInPath skip built-in path
      * @param skipUserPath skip user path, useful when doing readonly-test.
-     * @since 5.1.8
+     * @since 5.1.9
      */
     StandardPath(
         const std::string &packageName,
@@ -370,9 +370,16 @@ public:
      * In portable environment (Install prefix is not fixed), this should be
      * set to false.
      *
-     * @since 5.1.8
+     * @since 5.1.9
      */
     bool skipBuiltInPath() const;
+
+    /**
+     * Whether this StandardPath is configured to Skip user path.
+     *
+     * @since 5.1.9
+     */
+    bool skipUserPath() const;
 
 private:
     std::unique_ptr<StandardPathPrivate> d_ptr;

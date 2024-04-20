@@ -725,4 +725,9 @@ bool StandardPath::skipBuiltInPath() const {
     return d->skipBuiltIn();
 }
 
+bool StandardPath::skipUserPath() const {
+    FCITX_D();
+    return d->skipUser();
+}
+
 } // namespace fcitx
