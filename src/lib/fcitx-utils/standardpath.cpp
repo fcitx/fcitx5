@@ -81,10 +81,11 @@ public:
         const std::unordered_map<std::string, std::string> &builtInPathMap,
         bool skipBuiltInPath, bool skipUserPath)
         : skipBuiltInPath_(skipBuiltInPath), skipUserPath_(skipUserPath) {
+        bool isFcitx = (packageName == "fcitx5");
         // initialize user directory
         configHome_ = defaultPath("XDG_CONFIG_HOME", ".config");
         pkgconfigHome_ =
-            defaultPath("FCITX_CONFIG_HOME",
+            defaultPath((isFcitx ? "FCITX_CONFIG_HOME" : nullptr),
                         constructPath(configHome_, packageName).c_str());
         configDirs_ = defaultPaths("XDG_CONFIG_DIRS", "/etc/xdg",
                                    builtInPathMap, nullptr);
@@ -93,13 +94,14 @@ public:
             path = constructPath(path, packageName);
         }
         pkgconfigDirs_ =
-            defaultPaths("FCITX_CONFIG_DIRS",
+            defaultPaths((isFcitx ? "FCITX_CONFIG_DIRS" : nullptr),
                          stringutils::join(pkgconfigDirFallback, ":").c_str(),
                          builtInPathMap, nullptr);
 
         dataHome_ = defaultPath("XDG_DATA_HOME", ".local/share");
-        pkgdataHome_ = defaultPath(
-            "FCITX_DATA_HOME", constructPath(dataHome_, packageName).c_str());
+        pkgdataHome_ =
+            defaultPath((isFcitx ? "FCITX_DATA_HOME" : nullptr),
+                        constructPath(dataHome_, packageName).c_str());
         dataDirs_ = defaultPaths("XDG_DATA_DIRS", "/usr/local/share:/usr/share",
                                  builtInPathMap,
                                  skipBuiltInPath_ ? nullptr : "datadir");
@@ -108,7 +110,7 @@ public:
             path = constructPath(path, packageName);
         }
         pkgdataDirs_ = defaultPaths(
-            "FCITX_DATA_DIRS",
+            (isFcitx ? "FCITX_DATA_DIRS" : nullptr),
             stringutils::join(pkgdataDirFallback, ":").c_str(), builtInPathMap,
             skipBuiltInPath_ ? nullptr : "pkgdatadir");
         cacheHome_ = defaultPath("XDG_CACHE_HOME", ".cache");
@@ -179,7 +181,10 @@ public:
 private:
     // http://standards.freedesktop.org/basedir-spec/basedir-spec-latest.html
     static std::string defaultPath(const char *env, const char *defaultPath) {
-        char *cdir = getenv(env);
+        char *cdir = nullptr;
+        if (env) {
+            cdir = getenv(env);
+        }
         std::string dir;
         if (cdir && cdir[0]) {
             dir = cdir;
@@ -223,7 +228,10 @@ private:
         const char *builtInPathType) {
         std::vector<std::string> dirs;
 
-        const char *dir = getenv(env);
+        const char *dir = nullptr;
+        if (env) {
+            dir = getenv(env);
+        }
         if (!dir) {
             dir = defaultPath;
         }
