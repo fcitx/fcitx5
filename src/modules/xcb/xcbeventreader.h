@@ -37,7 +37,7 @@ private:
     void run();
     bool onIOEvent(IOEventFlags flags);
     XCBConnection *conn_;
-    EventDispatcher dispatcherToMain_;
+    EventDispatcher &dispatcherToMain_;
     EventDispatcher dispatcherToWorker_;
     bool hadError_ = false;
     std::unique_ptr<EventSource> deferEvent_;

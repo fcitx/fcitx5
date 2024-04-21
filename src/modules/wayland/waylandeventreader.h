@@ -12,6 +12,7 @@
 #include <thread>
 #include "fcitx-utils/event.h"
 #include "fcitx-utils/eventdispatcher.h"
+#include "fcitx-utils/trackableobject.h"
 #include "display.h"
 
 namespace fcitx {
@@ -19,7 +20,7 @@ namespace fcitx {
 class WaylandConnection;
 class WaylandModule;
 
-class WaylandEventReader {
+class WaylandEventReader : public TrackableObject<WaylandEventReader> {
 public:
     WaylandEventReader(WaylandConnection *conn);
     ~WaylandEventReader();
@@ -34,7 +35,7 @@ private:
     WaylandModule *module_;
     WaylandConnection *conn_;
     wayland::Display &display_;
-    EventDispatcher dispatcherToMain_;
+    EventDispatcher &dispatcherToMain_;
     EventDispatcher dispatcherToWorker_;
     std::unique_ptr<EventSource> postEvent_;
 

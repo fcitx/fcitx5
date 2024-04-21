@@ -10,6 +10,7 @@
 #include <signal.h>
 #include <sys/wait.h>
 #include <unistd.h>
+#include <memory>
 #include <stdexcept>
 #include <unordered_map>
 #include <utility>
@@ -18,6 +19,7 @@
 #include "fcitx-config/iniparser.h"
 #include "fcitx-utils/capabilityflags.h"
 #include "fcitx-utils/event.h"
+#include "fcitx-utils/eventdispatcher.h"
 #include "fcitx-utils/i18n.h"
 #include "fcitx-utils/log.h"
 #include "fcitx-utils/misc.h"
@@ -641,9 +643,10 @@ Instance::Instance(int argc, char **argv) {
     }
 
     // we need fork before this
-    d_ptr.reset(new InstancePrivate(this));
+    d_ptr = std::make_unique<InstancePrivate>(this);
     FCITX_D();
     d->arg_ = arg;
+    d->eventDispatcher_.attach(&d->eventLoop_);
     d->addonManager_.setInstance(this);
     d->addonManager_.setAddonOptions(arg.addonOptions_);
     d->icManager_.setInstance(this);
@@ -1517,6 +1520,11 @@ InstancePrivate *Instance::privateData() {
 EventLoop &Instance::eventLoop() {
     FCITX_D();
     return d->eventLoop_;
+}
+
+EventDispatcher &Instance::eventDispatcher() {
+    FCITX_D();
+    return d->eventDispatcher_;
 }
 
 InputContextManager &Instance::inputContextManager() {

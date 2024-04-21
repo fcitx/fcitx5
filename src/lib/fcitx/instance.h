@@ -13,6 +13,7 @@
 #include <fcitx/event.h>
 #include <fcitx/globalconfig.h>
 #include <fcitx/text.h>
+#include "fcitx-utils/eventdispatcher.h"
 #include "fcitxcore_export.h"
 
 #define FCITX_INVALID_COMPOSE_RESULT 0xffffffff
@@ -153,6 +154,15 @@ public:
 
     /// Get the fcitx event loop.
     EventLoop &eventLoop();
+
+    /**
+     * Return a shared event dispatcher that is already attached to instance's
+     * event loop.
+     *
+     * @return shared event dispatcher.
+     * @since 5.1.9
+     */
+    EventDispatcher &eventDispatcher();
 
     /// Get the addon manager.
     AddonManager &addonManager();

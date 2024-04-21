@@ -170,7 +170,8 @@ void DataOffer::receiveDataForMime(const std::string &mime,
 
 DataDevice::DataDevice(WaylandClipboard *clipboard,
                        wayland::ZwlrDataControlDeviceV1 *device)
-    : clipboard_(clipboard), device_(device), thread_(clipboard_->eventLoop()) {
+    : clipboard_(clipboard), device_(device),
+      thread_(clipboard_->parent()->instance()->eventDispatcher()) {
     conns_.emplace_back(device_->dataOffer().connect(
         [this](wayland::ZwlrDataControlOfferV1 *offer) {
             new DataOffer(offer, *clipboard_->parent()
@@ -269,10 +270,6 @@ void WaylandClipboard::refreshSeat() {
         deviceMap_.emplace(seat.get(),
                            std::make_unique<DataDevice>(this, device));
     }
-}
-
-EventLoop *WaylandClipboard::eventLoop() {
-    return &parent_->instance()->eventLoop();
 }
 
 void WaylandClipboard::setClipboard(const std::string &str, bool password) {

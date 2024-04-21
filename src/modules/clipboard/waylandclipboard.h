@@ -39,7 +39,8 @@ struct DataOfferTask {
 
 class DataReaderThread {
 public:
-    DataReaderThread(EventLoop *main) { dispatcherToMain_.attach(main); }
+    DataReaderThread(EventDispatcher &dispatcherToMain)
+        : dispatcherToMain_(dispatcherToMain) {}
 
     ~DataReaderThread() {
         if (thread_ && thread_->joinable()) {
@@ -65,7 +66,7 @@ public:
 private:
     void realRun();
 
-    EventDispatcher dispatcherToMain_;
+    EventDispatcher &dispatcherToMain_;
     EventDispatcher dispatcherToWorker_;
     std::unique_ptr<std::thread> thread_;
     // Value only handled by the reader thread.
@@ -121,7 +122,6 @@ public:
 
     void setClipboard(const std::string &str, bool password);
     void setPrimary(const std::string &str, bool password);
-    EventLoop *eventLoop();
     auto display() const { return display_; }
     auto parent() const { return parent_; }
 

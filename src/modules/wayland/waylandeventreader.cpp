@@ -13,7 +13,8 @@
 namespace fcitx {
 
 WaylandEventReader::WaylandEventReader(WaylandConnection *conn)
-    : module_(conn->parent()), conn_(conn), display_(*conn_->display()) {
+    : module_(conn->parent()), conn_(conn), display_(*conn_->display()),
+      dispatcherToMain_(module_->instance()->eventDispatcher()) {
     postEvent_ = module_->instance()->eventLoop().addPostEvent(
         [this](EventSource *source) {
             if (wl_display_get_error(display_)) {
@@ -24,7 +25,6 @@ WaylandEventReader::WaylandEventReader(WaylandConnection *conn)
             display_.flush();
             return true;
         });
-    dispatcherToMain_.attach(&conn->parent()->instance()->eventLoop());
     // Actively trigger an initial dispatch so we can make sure:
     // 1. depending even before this WaylandEventReader are handled.
     // 2. prepare_read is called.
@@ -33,8 +33,6 @@ WaylandEventReader::WaylandEventReader(WaylandConnection *conn)
         std::make_unique<std::thread>(&WaylandEventReader::runThread, this);
 }
 WaylandEventReader::~WaylandEventReader() {
-    // Prevent that dispatcherToMain_ to deliver removeConnection.
-    dispatcherToMain_.detach();
     if (thread_->joinable()) {
         quit();
         thread_->join();
@@ -110,9 +108,10 @@ void WaylandEventReader::quit() {
 
     // Make sure the connection will be removed.
     // The destructor will join the reader thread so it's ok.
-    dispatcherToMain_.schedule([module = module_, name = conn_->name()]() {
-        module->removeConnection(name);
-    });
+    dispatcherToMain_.scheduleWithContext(
+        this->watch(), [module = module_, name = conn_->name()]() {
+            module->removeConnection(name);
+        });
 }
 
 void WaylandEventReader::dispatch() {

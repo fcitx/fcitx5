@@ -11,7 +11,8 @@
 #include "xcbmodule.h"
 
 namespace fcitx {
-XCBEventReader::XCBEventReader(XCBConnection *conn) : conn_(conn) {
+XCBEventReader::XCBEventReader(XCBConnection *conn)
+    : conn_(conn), dispatcherToMain_(conn->instance()->eventDispatcher()) {
     postEvent_ =
         conn->instance()->eventLoop().addPostEvent([this](EventSource *source) {
             if (xcb_connection_has_error(conn_->connection())) {
@@ -22,7 +23,6 @@ XCBEventReader::XCBEventReader(XCBConnection *conn) : conn_(conn) {
             xcb_flush(conn_->connection());
             return true;
         });
-    dispatcherToMain_.attach(&conn->instance()->eventLoop());
     thread_ = std::make_unique<std::thread>(&XCBEventReader::runThread, this);
 }
 
