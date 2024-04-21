@@ -28,7 +28,7 @@ WaylandEventReader::WaylandEventReader(WaylandConnection *conn)
     // Actively trigger an initial dispatch so we can make sure:
     // 1. depending even before this WaylandEventReader are handled.
     // 2. prepare_read is called.
-    dispatcherToMain_.schedule([this]() { dispatch(); });
+    dispatcherToMain_.scheduleWithContext(watch(), [this]() { dispatch(); });
     thread_ =
         std::make_unique<std::thread>(&WaylandEventReader::runThread, this);
 }
@@ -91,7 +91,7 @@ bool WaylandEventReader::onIOEvent(IOEventFlags flags) {
     }
 
     wl_display_read_events(display_);
-    dispatcherToMain_.schedule([this]() { dispatch(); });
+    dispatcherToMain_.scheduleWithContext(watch(), [this]() { dispatch(); });
     return true;
 }
 
@@ -109,7 +109,7 @@ void WaylandEventReader::quit() {
     // Make sure the connection will be removed.
     // The destructor will join the reader thread so it's ok.
     dispatcherToMain_.scheduleWithContext(
-        this->watch(), [module = module_, name = conn_->name()]() {
+        watch(), [module = module_, name = conn_->name()]() {
             module->removeConnection(name);
         });
 }

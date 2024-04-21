@@ -11,6 +11,7 @@
 #include <thread>
 #include <fcitx-utils/event.h>
 #include <fcitx-utils/eventdispatcher.h>
+#include <fcitx-utils/trackableobject.h>
 #include <xcb/xcb.h>
 #include "xcb_public.h"
 
@@ -18,7 +19,7 @@ namespace fcitx {
 
 class XCBConnection;
 
-class XCBEventReader {
+class XCBEventReader : public TrackableObject<XCBEventReader> {
 public:
     XCBEventReader(XCBConnection *conn);
     ~XCBEventReader();

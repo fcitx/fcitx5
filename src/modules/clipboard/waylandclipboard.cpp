@@ -13,7 +13,7 @@
 
 namespace fcitx {
 
-uint64_t DataReaderThread::addTask(std::shared_ptr<UnixFD> fd,
+uint64_t DataReaderThread::addTask(DataOffer* offer, std::shared_ptr<UnixFD> fd,
                                    DataOfferDataCallback callback) {
     auto id = nextId_++;
     if (id == 0) {
@@ -22,6 +22,7 @@ uint64_t DataReaderThread::addTask(std::shared_ptr<UnixFD> fd,
     FCITX_CLIPBOARD_DEBUG() << "Add task: " << id << " " << fd;
     dispatcherToWorker_.schedule([this, id, fd = std::move(fd),
                                   dispatcher = &dispatcherToWorker_,
+                                  offerRef = offer->watch(),
                                   callback = std::move(callback)]() mutable {
         auto &task = ((*tasks_)[id] = std::make_unique<DataOfferTask>());
         task->fd_ = fd;
@@ -29,7 +30,7 @@ uint64_t DataReaderThread::addTask(std::shared_ptr<UnixFD> fd,
         try {
             task->ioEvent_ = dispatcher->eventLoop()->addIOEvent(
                 fd->fd(), {IOEventFlag::In, IOEventFlag::Err},
-                [this, id, task = task.get()](EventSource *, int fd,
+                [this, id, task = task.get(), offerRef](EventSource *, int fd,
                                               IOEventFlags flags) {
                     if (flags.test(IOEventFlag::Err)) {
                         tasks_->erase(id);
@@ -38,7 +39,8 @@ uint64_t DataReaderThread::addTask(std::shared_ptr<UnixFD> fd,
                     char buf[4096];
                     auto n = fs::safeRead(fd, buf, sizeof(buf));
                     if (n == 0) {
-                        dispatcherToMain_.schedule(
+                        dispatcherToMain_.scheduleWithContext(
+                            offerRef,
                             [data = std::move(task->data_),
                              callback = std::move(task->callback_)]() {
                                 callback(data);
@@ -164,7 +166,7 @@ void DataOffer::receiveDataForMime(const std::string &mime,
     offer_->receive(mime.data(), pipeFds[1]);
     close(pipeFds[1]);
 
-    taskId_ = thread_->addTask(
+    taskId_ = thread_->addTask(this, 
         std::make_shared<UnixFD>(UnixFD::own(pipeFds[0])), std::move(callback));
 }
 

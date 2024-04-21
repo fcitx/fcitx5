@@ -12,6 +12,7 @@
 #include <fcitx-utils/event.h>
 #include <fcitx-utils/eventdispatcher.h>
 #include <fcitx-utils/signals.h>
+#include <fcitx-utils/trackableobject.h>
 #include <fcitx-utils/unixfd.h>
 #include "display.h"
 #include "zwlr_data_control_device_v1.h"
@@ -37,6 +38,7 @@ struct DataOfferTask {
     std::unique_ptr<EventSource> timeEvent_;
 };
 
+class DataOffer;
 class DataReaderThread {
 public:
     DataReaderThread(EventDispatcher &dispatcherToMain)
@@ -59,7 +61,7 @@ public:
 
     static void run(DataReaderThread *self) { self->realRun(); }
 
-    uint64_t addTask(std::shared_ptr<UnixFD> fd,
+    uint64_t addTask(DataOffer *offer, std::shared_ptr<UnixFD> fd,
                      DataOfferDataCallback callback);
     void removeTask(uint64_t token);
 
@@ -75,7 +77,7 @@ private:
         nullptr;
 };
 
-class DataOffer {
+class DataOffer : public TrackableObject<DataOffer> {
 public:
     DataOffer(wayland::ZwlrDataControlOfferV1 *offer, bool ignorePassword);
     ~DataOffer();
