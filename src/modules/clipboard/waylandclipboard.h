@@ -14,6 +14,7 @@
 #include <fcitx-utils/signals.h>
 #include <fcitx-utils/trackableobject.h>
 #include <fcitx-utils/unixfd.h>
+#include "fcitx-utils/macros.h"
 #include "display.h"
 #include "zwlr_data_control_device_v1.h"
 #include "zwlr_data_control_manager_v1.h"
@@ -30,7 +31,18 @@ using DataOfferDataCallback =
 using DataOfferCallback =
     std::function<void(const std::vector<char> &data, bool password)>;
 
+class DataOffer;
+
 struct DataOfferTask {
+    DataOfferTask() = default;
+    DataOfferTask(const DataOfferTask &) = delete;
+    DataOfferTask(DataOfferTask &&) = delete;
+
+    DataOfferTask &operator=(const DataOfferTask &) = delete;
+    DataOfferTask &operator=(DataOfferTask &&) = delete;
+
+    uint64_t id_ = 0;
+    TrackableObjectReference<DataOffer> offer_;
     DataOfferDataCallback callback_;
     std::shared_ptr<UnixFD> fd_;
     std::vector<char> data_;
@@ -38,7 +50,6 @@ struct DataOfferTask {
     std::unique_ptr<EventSource> timeEvent_;
 };
 
-class DataOffer;
 class DataReaderThread {
 public:
     DataReaderThread(EventDispatcher &dispatcherToMain)
@@ -66,15 +77,22 @@ public:
     void removeTask(uint64_t token);
 
 private:
+    // Function that run on reader thread
     void realRun();
+    void addTaskOnWorker(uint64_t id, TrackableObjectReference<DataOffer> offer,
+                         std::shared_ptr<UnixFD> fd,
+                         DataOfferDataCallback callback);
+    void handleTaskIO(DataOfferTask *task, IOEventFlags flags);
+    void handleTaskTimeout(DataOfferTask *task);
+    // End of function that run on reader thread
 
     EventDispatcher &dispatcherToMain_;
-    EventDispatcher dispatcherToWorker_;
     std::unique_ptr<std::thread> thread_;
-    // Value only handled by the reader thread.
     uint64_t nextId_ = 1;
-    std::unordered_map<uint64_t, std::unique_ptr<DataOfferTask>> *tasks_ =
-        nullptr;
+
+    // Value only read/write by the reader thread.
+    EventDispatcher dispatcherToWorker_;
+    std::unordered_map<uint64_t, DataOfferTask> tasks_;
 };
 
 class DataOffer : public TrackableObject<DataOffer> {

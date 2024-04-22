@@ -6,6 +6,8 @@
  */
 #include "waylandclipboard.h"
 #include <unordered_set>
+#include "fcitx-utils/event.h"
+#include "fcitx-utils/trackableobject.h"
 #include "clipboard.h"
 #include "wl_seat.h"
 #include "zwlr_data_control_manager_v1.h"
@@ -13,81 +15,94 @@
 
 namespace fcitx {
 
-uint64_t DataReaderThread::addTask(DataOffer* offer, std::shared_ptr<UnixFD> fd,
+uint64_t DataReaderThread::addTask(DataOffer *offer, std::shared_ptr<UnixFD> fd,
                                    DataOfferDataCallback callback) {
     auto id = nextId_++;
     if (id == 0) {
         id = nextId_++;
     }
     FCITX_CLIPBOARD_DEBUG() << "Add task: " << id << " " << fd;
-    dispatcherToWorker_.schedule([this, id, fd = std::move(fd),
-                                  dispatcher = &dispatcherToWorker_,
-                                  offerRef = offer->watch(),
-                                  callback = std::move(callback)]() mutable {
-        auto &task = ((*tasks_)[id] = std::make_unique<DataOfferTask>());
-        task->fd_ = fd;
-        task->callback_ = std::move(callback);
-        try {
-            task->ioEvent_ = dispatcher->eventLoop()->addIOEvent(
-                fd->fd(), {IOEventFlag::In, IOEventFlag::Err},
-                [this, id, task = task.get(), offerRef](EventSource *, int fd,
-                                              IOEventFlags flags) {
-                    if (flags.test(IOEventFlag::Err)) {
-                        tasks_->erase(id);
-                        return true;
-                    }
-                    char buf[4096];
-                    auto n = fs::safeRead(fd, buf, sizeof(buf));
-                    if (n == 0) {
-                        dispatcherToMain_.scheduleWithContext(
-                            offerRef,
-                            [data = std::move(task->data_),
-                             callback = std::move(task->callback_)]() {
-                                callback(data);
-                            });
-                        tasks_->erase(id);
-                    } else if (n < 0) {
-                        tasks_->erase(id);
-                    } else {
-                        if (task->data_.size() + n > MAX_CLIPBOARD_SIZE) {
-                            tasks_->erase(id);
-                            return true;
-                        }
-                        task->data_.insert(task->data_.end(), buf, buf + n);
-                    }
-                    return true;
-                });
-            FCITX_CLIPBOARD_DEBUG() << "Add watch to fd: " << fd->fd();
-            // 1 sec timeout in case it takes forever.
-            task->timeEvent_ = dispatcher->eventLoop()->addTimeEvent(
-                CLOCK_MONOTONIC, now(CLOCK_MONOTONIC) + 1000000, 0,
-                [this, id](EventSource *, uint64_t) {
-                    FCITX_CLIPBOARD_DEBUG() << "Reading data timeout.";
-                    tasks_->erase(id);
-                    return true;
-                });
-        } catch (const EventLoopException &) {
-            // This may happen if fd is already closed.
-            tasks_->erase(id);
-        }
-    });
+    dispatcherToWorker_.scheduleWithContext(
+        offer->watch(),
+        [this, id, fd = std::move(fd), offerRef = offer->watch(),
+         callback = std::move(callback)]() mutable {
+            addTaskOnWorker(id, std::move(offerRef), std::move(fd),
+                            std::move(callback));
+        });
     return id;
 }
 
 void DataReaderThread::removeTask(uint64_t token) {
     FCITX_CLIPBOARD_DEBUG() << "Remove task: " << token;
-    dispatcherToWorker_.schedule([this, token]() { tasks_->erase(token); });
+    dispatcherToWorker_.schedule([this, token]() { tasks_.erase(token); });
 }
 
 void DataReaderThread::realRun() {
     EventLoop loop;
-    std::unordered_map<uint64_t, std::unique_ptr<DataOfferTask>> tasks;
-    tasks_ = &tasks;
     dispatcherToWorker_.attach(&loop);
     loop.exec();
+    dispatcherToWorker_.detach();
     FCITX_DEBUG() << "Ending DataReaderThread";
-    tasks.clear();
-    tasks_ = nullptr;
+    tasks_.clear();
+}
+
+void DataReaderThread::addTaskOnWorker(
+    uint64_t id, TrackableObjectReference<DataOffer> offer,
+    std::shared_ptr<UnixFD> fd, DataOfferDataCallback callback) {
+    // std::unordered_map's ref/pointer to element is stable.
+    auto &task = tasks_[id];
+    task.id_ = id;
+    task.offer_ = std::move(offer);
+    task.fd_ = std::move(fd);
+    task.callback_ = std::move(callback);
+    try {
+        task.ioEvent_ = dispatcherToWorker_.eventLoop()->addIOEvent(
+            task.fd_->fd(), {IOEventFlag::In, IOEventFlag::Err},
+            [this, taskPtr = &task](EventSource *, int, IOEventFlags flags) {
+                handleTaskIO(taskPtr, flags);
+                return true;
+            });
+        FCITX_CLIPBOARD_DEBUG() << "Add watch to fd: " << task.fd_->fd();
+        // 1 sec timeout in case it takes forever.
+        task.timeEvent_ = dispatcherToWorker_.eventLoop()->addTimeEvent(
+            CLOCK_MONOTONIC, now(CLOCK_MONOTONIC) + 1000000, 0,
+            [this, taskPtr = &task](EventSource *, uint64_t) {
+                handleTaskTimeout(taskPtr);
+                return true;
+            });
+    } catch (const EventLoopException &) {
+        // This may happen if fd is already closed.
+        tasks_.erase(id);
+    }
+}
+
+void DataReaderThread::handleTaskIO(DataOfferTask *task, IOEventFlags flags) {
+    if (flags.test(IOEventFlag::Err) || !task->offer_.isValid()) {
+        tasks_.erase(task->id_);
+        return;
+    }
+    char buf[4096];
+    auto n = fs::safeRead(task->fd_->fd(), buf, sizeof(buf));
+    if (n == 0) {
+        dispatcherToMain_.scheduleWithContext(
+            task->offer_,
+            [data = std::move(task->data_),
+             callback = std::move(task->callback_)]() { callback(data); });
+        tasks_.erase(task->id_);
+    } else if (n < 0) {
+        tasks_.erase(task->id_);
+    } else {
+        if (task->data_.size() + n > MAX_CLIPBOARD_SIZE) {
+            tasks_.erase(task->id_);
+            return;
+        }
+        task->data_.insert(task->data_.end(), buf, buf + n);
+    }
+}
+
+void DataReaderThread::handleTaskTimeout(DataOfferTask *task) {
+    FCITX_CLIPBOARD_DEBUG() << "Reading data timeout.";
+    tasks_.erase(task->id_);
 }
 
 DataOffer::DataOffer(wayland::ZwlrDataControlOfferV1 *offer,
@@ -110,9 +125,10 @@ void DataOffer::receiveData(DataReaderThread &thread,
         return;
     }
 
-    auto callbackWrapper = [this, callback](const std::vector<char> &data) {
-        return callback(data, isPassword_);
-    };
+    auto callbackWrapper =
+        [this, callback = std::move(callback)](const std::vector<char> &data) {
+            return callback(data, isPassword_);
+        };
 
     thread_ = &thread;
     static const std::string passwordHint = PASSWORD_MIME_TYPE;
@@ -166,8 +182,9 @@ void DataOffer::receiveDataForMime(const std::string &mime,
     offer_->receive(mime.data(), pipeFds[1]);
     close(pipeFds[1]);
 
-    taskId_ = thread_->addTask(this, 
-        std::make_shared<UnixFD>(UnixFD::own(pipeFds[0])), std::move(callback));
+    taskId_ = thread_->addTask(
+        this, std::make_shared<UnixFD>(UnixFD::own(pipeFds[0])),
+        std::move(callback));
 }
 
 DataDevice::DataDevice(WaylandClipboard *clipboard,
