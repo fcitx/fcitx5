@@ -784,9 +784,11 @@ DBusModule::DBusModule(Instance *instance)
         });
 
     selfWatcher_ = serviceWatcher_->watchService(
-        FCITX_DBUS_SERVICE,
-        [uniqueName, instance](const std::string &, const std::string &,
-                               const std::string &newName) {
+        FCITX_DBUS_SERVICE, [uniqueName, instance](const std::string &service,
+                                                   const std::string &oldName,
+                                                   const std::string &newName) {
+            FCITX_INFO() << "Service name change: " << service << " " << oldName
+                         << " " << newName;
             if (newName != uniqueName) {
                 instance->exit();
             }
