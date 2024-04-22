@@ -41,9 +41,10 @@ public:
                           if (msg.type() != dbus::MessageType::Error) {
                               msg >> newName;
                           } else {
-                            if (msg.errorName() != "org.freedesktop.DBus.Error.NameHasNoOwner") {
-                                return false;
-                            }
+                              if (msg.errorName() !=
+                                  "org.freedesktop.DBus.Error.NameHasNoOwner") {
+                                  return false;
+                              }
                           }
                           for (auto &entry : watcherMap_.view(pivotKey)) {
                               entry(pivotKey, "", newName);
