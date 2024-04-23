@@ -1,7 +1,7 @@
 add_library(dummyaddon MODULE dummyaddon.cpp)
 target_link_libraries(dummyaddon Fcitx5::Core)
 
-set(COPY_ADDON_DEPENDS unicode.conf.in-fmt quickphrase.conf.in-fmt xcb.conf.in-fmt)
+set(COPY_ADDON_DEPENDS unicode.conf.in-fmt quickphrase.conf.in-fmt xcb.conf.in-fmt spell.conf.in-fmt)
 
 if (ENABLE_KEYBOARD)
     list(APPEND COPY_ADDON_DEPENDS keyboard.conf.in-fmt)
