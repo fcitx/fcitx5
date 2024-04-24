@@ -23,6 +23,7 @@ set(FCITX_CORE_SOURCES
     statusarea.cpp
     inputpanel.cpp
     candidatelist.cpp
+    candidateaction.cpp
     icontheme.cpp
     inputmethodengine.cpp
     )
@@ -38,6 +39,7 @@ set(FCITX_CORE_HEADERS
     inputcontextproperty.h
     inputpanel.h
     candidatelist.h
+    candidateaction.h
     focusgroup.h
     surroundingtext.h
     addonloader.h

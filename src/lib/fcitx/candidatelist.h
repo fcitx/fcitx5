@@ -8,7 +8,10 @@
 #define _FCITX_CANDIDATELIST_H_
 
 #include <fcitx-utils/key.h>
+#include <fcitx-utils/macros.h>
+#include <fcitx/candidateaction.h>
 #include <fcitx/text.h>
+#include "fcitxcore_export.h"
 
 namespace fcitx {
 
@@ -19,6 +22,7 @@ class ModifiableCandidateList;
 class CursorMovableCandidateList;
 class CursorModifiableCandidateList;
 class BulkCursorCandidateList;
+class ActionableCandidateList;
 
 class CandidateListPrivate;
 
@@ -96,6 +100,7 @@ public:
     CursorMovableCandidateList *toCursorMovable() const;
     CursorModifiableCandidateList *toCursorModifiable() const;
     BulkCursorCandidateList *toBulkCursor() const;
+    ActionableCandidateList *toActionable() const;
 
 protected:
     void setPageable(PageableCandidateList *list);
@@ -104,6 +109,7 @@ protected:
     void setCursorMovable(CursorMovableCandidateList *list);
     void setCursorModifiable(CursorModifiableCandidateList *list);
     void setBulkCursor(BulkCursorCandidateList *list);
+    void setActionable(ActionableCandidateList *list);
 
 private:
     std::unique_ptr<CandidateListPrivate> d_ptr;
@@ -185,6 +191,35 @@ class FCITXCORE_EXPORT BulkCursorCandidateList {
 public:
     virtual int globalCursorIndex() const = 0;
     virtual void setGlobalCursorIndex(int index) = 0;
+};
+
+/**
+ * Interface for trigger actions on candidates.
+ *
+ * @since 5.1.10
+ */
+class FCITXCORE_EXPORT ActionableCandidateList {
+public:
+    virtual ~ActionableCandidateList();
+
+    /**
+     * Check whether this candidate has action.
+     *
+     * This function should be fast and guarantee that candidateActions return a
+     * not empty vector.
+     */
+    virtual bool hasAction(const CandidateWord &candidate) const = 0;
+
+    /**
+     * Return a list of actions.
+     */
+    virtual std::vector<CandidateAction>
+    candidateActions(const CandidateWord &candidate) const = 0;
+
+    /**
+     * Trigger the action based on the index returned from candidateActions.
+     */
+    virtual void triggerAction(const CandidateWord &candidate, int id) = 0;
 };
 
 class DisplayOnlyCandidateListPrivate;
@@ -307,6 +342,13 @@ public:
     void setCursorIncludeUnselected(bool);
     void setCursorKeepInSamePage(bool);
     void setCursorPositionAfterPaging(CursorPositionAfterPaging afterPaging);
+
+    /**
+     * Set an optional implemenation of actionable candidate list
+     *
+     * @since 5.1.10
+     */
+    void setActionableImpl(std::unique_ptr<ActionableCandidateList> actionable);
 
 private:
     void fixAfterUpdate();

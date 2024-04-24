@@ -7,6 +7,7 @@
 
 #include <stdexcept>
 #include "fcitx-utils/log.h"
+#include "fcitx/candidateaction.h"
 #include "fcitx/candidatelist.h"
 
 using namespace fcitx;
@@ -327,11 +328,43 @@ void test_cursor() {
     FCITX_ASSERT(candidatelist.toBulkCursor()->globalCursorIndex(), 5);
 }
 
+void test_candidateaction() {
+    CandidateAction action;
+    action.setText("Test");
+    action.setId(1);
+    action.setCheckable(true);
+    action.setChecked(false);
+    action.setSeparator(false);
+    action.setIcon("Icon");
+
+    CandidateAction action2;
+    action2 = std::move(action);
+
+    FCITX_ASSERT(action2.text() == "Test");
+    FCITX_ASSERT(action2.id() == 1);
+    FCITX_ASSERT(action2.isCheckable());
+    FCITX_ASSERT(!action2.isChecked());
+    FCITX_ASSERT(!action2.isSeparator());
+    FCITX_ASSERT(action2.icon() == "Icon");
+
+    CandidateAction action3(action2);
+
+    for (const auto &action : {action2, action3}) {
+        FCITX_ASSERT(action.text() == "Test");
+        FCITX_ASSERT(action.id() == 1);
+        FCITX_ASSERT(action.isCheckable());
+        FCITX_ASSERT(!action.isChecked());
+        FCITX_ASSERT(!action.isSeparator());
+        FCITX_ASSERT(action.icon() == "Icon");
+    }
+}
+
 int main() {
     test_basic();
     test_faulty_placeholder();
     test_label();
     test_comment();
     test_cursor();
+    test_candidateaction();
     return 0;
 }
