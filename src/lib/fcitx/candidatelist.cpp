@@ -77,6 +77,8 @@ public:
 
 } // namespace
 
+ActionableCandidateList::~ActionableCandidateList() = default;
+
 class CandidateListPrivate {
 public:
     BulkCandidateList *bulk_ = nullptr;
@@ -85,6 +87,7 @@ public:
     CursorMovableCandidateList *cursorMovable_ = nullptr;
     BulkCursorCandidateList *bulkCursor_ = nullptr;
     CursorModifiableCandidateList *cursorModifiable_ = nullptr;
+    ActionableCandidateList *actionable_ = nullptr;
 };
 
 CandidateList::CandidateList()
@@ -124,6 +127,11 @@ BulkCursorCandidateList *CandidateList::toBulkCursor() const {
     return d->bulkCursor_;
 }
 
+ActionableCandidateList *CandidateList::toActionable() const {
+    FCITX_D();
+    return d->actionable_;
+}
+
 void CandidateList::setBulk(BulkCandidateList *list) {
     FCITX_D();
     d->bulk_ = list;
@@ -152,6 +160,11 @@ void CandidateList::setCursorModifiable(CursorModifiableCandidateList *list) {
 void CandidateList::setBulkCursor(BulkCursorCandidateList *list) {
     FCITX_D();
     d->bulkCursor_ = list;
+}
+
+void CandidateList::setActionable(ActionableCandidateList *list) {
+    FCITX_D();
+    d->actionable_ = list;
 }
 
 class CandidateWordPrivate {
@@ -330,6 +343,7 @@ public:
     bool cursorKeepInSamePage_ = false;
     CursorPositionAfterPaging cursorPositionAfterPaging_ =
         CursorPositionAfterPaging::DonotChange;
+    std::unique_ptr<ActionableCandidateList> actionable_;
 
     int size() const {
         auto start = currentPage_ * pageSize_;
@@ -711,4 +725,12 @@ void CommonCandidateList::fixAfterUpdate() {
         }
     }
 }
+
+void CommonCandidateList::setActionableImpl(
+    std::unique_ptr<ActionableCandidateList> actionable) {
+    FCITX_D();
+    d->actionable_ = std::move(actionable);
+    setActionable(d->actionable_.get());
+}
+
 } // namespace fcitx

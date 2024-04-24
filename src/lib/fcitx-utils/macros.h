@@ -152,15 +152,15 @@
     }
 
 #define FCITX_DECLARE_READ_ONLY_PROPERTY(TYPE, GETTER)                         \
-    std::conditional_t<std::is_class<TYPE>::value, const TYPE &, TYPE>         \
-    GETTER() const;
+    std::conditional_t<std::is_class_v<TYPE>, const TYPE &, TYPE> GETTER()     \
+        const;
 
 #define FCITX_DECLARE_PROPERTY(TYPE, GETTER, SETTER)                           \
     FCITX_DECLARE_READ_ONLY_PROPERTY(TYPE, GETTER)                             \
     void SETTER(TYPE);
 
 #define FCITX_DEFINE_READ_ONLY_PROPERTY_PRIVATE(THIS, TYPE, GETTER)            \
-    std::conditional_t<std::is_class<TYPE>::value, const TYPE &, TYPE>         \
+    std::conditional_t<std::is_class_v<TYPE>, const TYPE &, TYPE>              \
     THIS::GETTER() const {                                                     \
         FCITX_TYPED_D(const THIS##Private);                                    \
         return d->GETTER##_;                                                   \
