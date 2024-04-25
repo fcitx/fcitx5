@@ -974,6 +974,12 @@ Instance::Instance(int argc, char **argv) {
 #ifdef ENABLE_KEYBOARD
             if (keyEvent.forward()) {
                 FCITX_D();
+                // Always let the release key go through, since it shouldn't produce character.
+                // Otherwise it may wrongly trigger wayland client side repetition.
+                if (keyEvent.isRelease()) {
+                    keyEvent.filter();
+                    return;
+                }
                 auto *inputState = ic->propertyFor(&d->inputStateFactory_);
                 if (auto *xkbState = inputState->customXkbState()) {
                     if (auto utf32 = xkb_state_key_get_utf32(
@@ -989,10 +995,8 @@ Instance::Instance(int argc, char **argv) {
                                 keyEvent.origKey().sym()) {
                             return;
                         }
-                        if (!keyEvent.isRelease()) {
-                            FCITX_KEYTRACE() << "Will commit char: " << utf32;
-                            ic->commitString(utf8::UCS4ToUTF8(utf32));
-                        }
+                        FCITX_KEYTRACE() << "Will commit char: " << utf32;
+                        ic->commitString(utf8::UCS4ToUTF8(utf32));
                         keyEvent.filterAndAccept();
                     } else if (!keyEvent.key().states().test(KeyState::Ctrl) &&
                                keyEvent.rawKey().sym() !=
