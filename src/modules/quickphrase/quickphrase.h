@@ -12,7 +12,6 @@
 #include "fcitx-config/iniparser.h"
 #include "fcitx-utils/i18n.h"
 #include "fcitx-utils/key.h"
-#include "fcitx/addonfactory.h"
 #include "fcitx/addoninstance.h"
 #include "fcitx/inputcontextproperty.h"
 #include "fcitx/instance.h"
@@ -59,7 +58,7 @@ public:
         safeSaveAsIni(config_, "conf/quickphrase.conf");
     }
     void setSubConfig(const std::string &path,
-                      const fcitx::RawConfig &) override {
+                      const fcitx::RawConfig & /*unused*/) override {
         if (path == "editor") {
             reloadConfig();
         }
