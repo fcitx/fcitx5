@@ -117,7 +117,7 @@ QuickPhrase::QuickPhrase(Instance *instance)
                 }
 
                 if (keyEvent.key().check(FcitxKey_space) &&
-                    candidateList->size()) {
+                    !candidateList->empty()) {
                     keyEvent.accept();
                     if (candidateList->cursorIndex() >= 0) {
                         candidateList->candidate(candidateList->cursorIndex())
@@ -160,7 +160,7 @@ QuickPhrase::QuickPhrase(Instance *instance)
                     }
                 }
 
-                if (candidateList->size() &&
+                if (!candidateList->empty() &&
                     keyEvent.key().checkKeyList(
                         instance_->globalConfig().defaultPrevCandidate())) {
                     keyEvent.filterAndAccept();
@@ -170,7 +170,7 @@ QuickPhrase::QuickPhrase(Instance *instance)
                     return;
                 }
 
-                if (candidateList->size() &&
+                if (!candidateList->empty() &&
                     keyEvent.key().checkKeyList(
                         instance_->globalConfig().defaultNextCandidate())) {
                     keyEvent.filterAndAccept();
@@ -241,21 +241,21 @@ QuickPhrase::QuickPhrase(Instance *instance)
                     state->buffer_.setCursor(0);
                     keyEvent.accept();
                     return updateUI(inputContext);
-                } else if (key.check(FcitxKey_End) ||
-                           key.check(FcitxKey_KP_End)) {
+                }
+                if (key.check(FcitxKey_End) || key.check(FcitxKey_KP_End)) {
                     state->buffer_.setCursor(state->buffer_.size());
                     keyEvent.accept();
                     return updateUI(inputContext);
-                } else if (key.check(FcitxKey_Left) ||
-                           key.check(FcitxKey_KP_Left)) {
+                }
+                if (key.check(FcitxKey_Left) || key.check(FcitxKey_KP_Left)) {
                     auto cursor = state->buffer_.cursor();
                     if (cursor > 0) {
                         state->buffer_.setCursor(cursor - 1);
                     }
                     keyEvent.accept();
                     return updateUI(inputContext);
-                } else if (key.check(FcitxKey_Right) ||
-                           key.check(FcitxKey_KP_Right)) {
+                }
+                if (key.check(FcitxKey_Right) || key.check(FcitxKey_KP_Right)) {
                     auto cursor = state->buffer_.cursor();
                     if (cursor < state->buffer_.size()) {
                         state->buffer_.setCursor(cursor + 1);
@@ -398,6 +398,8 @@ void QuickPhrase::updateUI(InputContext *inputContext) {
     inputContext->inputPanel().reset();
     if (!state->buffer_.empty()) {
         auto candidateList = std::make_unique<CommonCandidateList>();
+        candidateList->setCursorPositionAfterPaging(
+            CursorPositionAfterPaging::ResetToFirst);
         candidateList->setPageSize(instance_->globalConfig().defaultPageSize());
         QuickPhraseProvider *providers[] = {&callbackProvider_,
                                             &builtinProvider_, &spellProvider_};
