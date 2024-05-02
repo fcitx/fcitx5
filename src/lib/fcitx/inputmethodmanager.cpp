@@ -163,6 +163,9 @@ void InputMethodManagerPrivate::loadStaticEntries(
 
         InputMethodInfo imInfo;
         imInfo.load(config);
+        if (!*imInfo.im->enable) {
+            continue;
+        }
         // Remove ".conf"
         InputMethodEntry entry = toInputMethodEntry(name, imInfo);
         if (checkEntry(entry, addonNames)) {
