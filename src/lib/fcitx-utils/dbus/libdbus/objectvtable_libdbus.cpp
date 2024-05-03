@@ -50,8 +50,7 @@ const std::string &ObjectVTableBasePrivate::getXml(ObjectVTableBase *q) {
             p->xml_ +=
                 stringutils::concat("<signal name=\"", sig->name(), "\">");
             for (auto &type : splitDBusSignature(sig->signature())) {
-                p->xml_ += stringutils::concat("<arg direction=\"in\" type=\"",
-                                               type, "\"/>");
+                p->xml_ += stringutils::concat("<arg type=\"", type, "\"/>");
             }
             p->xml_ += "</signal>";
         }
