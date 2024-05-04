@@ -1,0 +1,26 @@
+blank_issues_enabled: false
+
+contact_links:
+  - name: GitHub Discussions
+    url: https://github.com/fcitx/fcitx5/dicussions
+    about: Ask any question about Fcitx here
+
+  - name: Telegram Group
+    url: https://fcitx-im.org/telegram/captcha.html
+    about: You may also ask questions or discuss new features in the group.
+
+  - name: Wiki
+    url: https://fcitx-im.org
+    about: Wiki
+
+  - name: Release
+    url: https://download.fcitx-im.org/
+    about: Source code release
+
+  - name: Android
+    url: https://github.com/fcitx5-android/fcitx5-android
+    about: Android
+
+  - name: Mac OS
+    url: https://github.com/fcitx-contrib/fcitx5-macos/
+    about: Mac OS

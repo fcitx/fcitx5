@@ -1,0 +1,37 @@
+name: Bug Report
+description: Create a report to help us improve
+
+body:
+  - type: textarea
+    id: summary
+    attributes:
+      label: Summary
+      description: Briefly describe the bug. It is Ok to write the issue in Chinese. 以下内容均可使用中文。
+
+  - type: textarea
+    id: step_to_reproduce
+    attributes:
+      label: Steps to Reproduce
+      description: How to reproduce the bug.
+      placeholder: |
+        1. Switch to which input method
+        2. The key that you pressed
+        3. Something when wrong ... (Unexpected text committed, etc)
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected_behavior
+    attributes:
+      label: Expected Behavior
+      description: What is expected to happen after the steps above.
+    validations:
+      required: true
+
+  - type: textarea
+    id: diagnose
+    attributes:
+      label: Output of fcitx5-diagnose command
+      description: Please copy-paste the output of `LC_ALL=C fcitx5-diagnose` command. If your issue is related to certain application (e.g. cannot use fcitx in some application), please make sure you run this command while this application is running.
+    validations:
+      required: true
