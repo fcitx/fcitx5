@@ -974,8 +974,9 @@ Instance::Instance(int argc, char **argv) {
 #ifdef ENABLE_KEYBOARD
             if (keyEvent.forward()) {
                 FCITX_D();
-                // Always let the release key go through, since it shouldn't produce character.
-                // Otherwise it may wrongly trigger wayland client side repetition.
+                // Always let the release key go through, since it shouldn't
+                // produce character. Otherwise it may wrongly trigger wayland
+                // client side repetition.
                 if (keyEvent.isRelease()) {
                     keyEvent.filter();
                     return;

@@ -39,8 +39,7 @@ FCITX_CONFIGURATION(
     Option<std::string> languageCode{this, "LangCode", "Language Code"};
     Option<std::string> addon{this, "Addon", "Addon"};
     Option<bool> configurable{this, "Configurable", "Configurable", false};
-    Option<bool> enable{this, "Enable", "Enable", true};
-    )
+    Option<bool> enable{this, "Enable", "Enable", true};)
 
 FCITX_CONFIGURATION(InputMethodInfo, Option<InputMethodInfoBase> im{
                                          this, "InputMethod", "Input Method"};)
