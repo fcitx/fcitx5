@@ -18,13 +18,17 @@ endif(ISOCODES_INCLUDE_DIR AND ISOCODES_LIBRARIES)
 find_package(PkgConfig)
 pkg_check_modules(PC_ISOCODES iso-codes)
 
-find_file(ISOCODES_ISO639_JSON iso_639-3.json
-          HINTS "${PC_ISOCODES_PREFIX}/share/iso-codes/json/"
-          )
+if(NOT DEFINED ISOCODES_ISO639_JSON)
+    find_file(ISOCODES_ISO639_JSON iso_639-3.json
+              HINTS "${PC_ISOCODES_PREFIX}/share/iso-codes/json/"
+            )
+endif()
 
-find_file(ISOCODES_ISO3166_JSON iso_3166-1.json
-          HINTS "${PC_ISOCODES_PREFIX}/share/iso-codes/json/"
-          )
+if(NOT DEFINED ISOCODES_ISO3166_JSON)
+    find_file(ISOCODES_ISO3166_JSON iso_3166-1.json
+              HINTS "${PC_ISOCODES_PREFIX}/share/iso-codes/json/"
+            )
+endif()
 
 include(FindPackageHandleStandardArgs)
 find_package_handle_standard_args(IsoCodes  DEFAULT_MSG  ISOCODES_ISO639_JSON ISOCODES_ISO3166_JSON)

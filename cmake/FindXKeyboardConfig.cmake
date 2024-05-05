@@ -2,8 +2,12 @@ find_package(PkgConfig)
 
 pkg_check_modules(PKG_XKEYBOARDCONFIG QUIET xkeyboard-config)
 
-pkg_get_variable(XKEYBOARDCONFIG_XKBBASE xkeyboard-config xkb_base)
-pkg_get_variable(XKEYBOARDCONFIG_DATADIR xkeyboard-config datadir)
+if(NOT DEFINED XKEYBOARDCONFIG_XKBBASE)
+    pkg_get_variable(XKEYBOARDCONFIG_XKBBASE xkeyboard-config xkb_base)
+endif()
+if(NOT DEFINED XKEYBOARDCONFIG_DATADIR)
+    pkg_get_variable(XKEYBOARDCONFIG_DATADIR xkeyboard-config datadir)
+endif()
 
 set(XKEYBOARDCONFIG_VERSION ${PKG_XKEYBOARDCONFIG_VERSION})
 mark_as_advanced(XKEYBOARDCONFIG_VERSION)
