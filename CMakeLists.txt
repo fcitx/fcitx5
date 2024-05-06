@@ -124,8 +124,8 @@ if (ENABLE_KEYBOARD)
     pkg_check_modules(JsonC REQUIRED IMPORTED_TARGET "json-c")
 
     set(DEFAULT_XKB_RULES_FILES "${XKEYBOARDCONFIG_XKBBASE}/rules/${DEFAULT_XKB_RULES}.xml")
-    if (NOT EXISTS "${DEFAULT_XKB_RULES_FILES}")
-    message(FATAL_ERROR "Could not find default xkb rules file: ${DEFAULT_XKB_RULES_FILES}")
+    if (NOT EXISTS "${DEFAULT_XKB_RULES_FILES}" AND NOT APPLE)
+        message(WARNING "Could not find default xkb rules file: ${DEFAULT_XKB_RULES_FILES}")
     endif()
 endif()
 
