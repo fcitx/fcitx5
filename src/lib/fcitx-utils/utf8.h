@@ -12,8 +12,10 @@
 /// \file
 /// \brief C++ Utility functions for handling utf8 strings.
 
+#include <iterator>
 #include <stdexcept>
 #include <string>
+#include <string_view>
 #include <fcitx-utils/cutf8.h>
 #include <fcitx-utils/misc.h>
 #include "fcitxutils_export.h"
@@ -220,6 +222,75 @@ template <typename T>
 auto MakeUTF8CharRange(const T &str) {
     return MakeIterRange(MakeUTF8CharIterator(std::begin(str), std::end(str)),
                          MakeUTF8CharIterator(std::end(str), std::end(str)));
+}
+
+template <typename Iter>
+class UTF8StringViewIter {
+public:
+    using iterator_category = std::input_iterator_tag;
+    using value_type = std::string_view;
+    using difference_type = std::ptrdiff_t;
+    using reference = const value_type &;
+    using pointer = const value_type *;
+
+    UTF8StringViewIter(Iter iter, Iter end) : iter_(iter), end_(end) {
+        update();
+    }
+    FCITX_INLINE_DEFINE_DEFAULT_DTOR_AND_COPY(UTF8StringViewIter)
+
+    reference operator*() const { return currentView_; }
+
+    pointer operator->() const { return &currentView_; }
+
+    size_t charLength() const { return currentView_.size(); }
+
+    uint32_t chr() const { return currentChar_; }
+
+    UTF8StringViewIter &operator++() {
+        iter_ = next_;
+        update();
+        return *this;
+    }
+
+    UTF8StringViewIter operator++(int) {
+        auto old = *this;
+        ++(*this);
+        return old;
+    }
+
+    bool operator==(const UTF8StringViewIter &other) {
+        return iter_ == other.iter_;
+    }
+    bool operator!=(const UTF8StringViewIter &other) {
+        return !operator==(other);
+    }
+
+private:
+    void update() {
+        next_ = getNextChar(iter_, end_, &currentChar_);
+        if (iter_ != end_ && iter_ == next_) {
+            throw std::runtime_error("Invalid UTF8 character.");
+        }
+        currentView_ = std::string_view(&*iter_, std::distance(iter_, next_));
+    }
+
+    std::string_view currentView_;
+    uint32_t currentChar_ = 0;
+    Iter iter_;
+    Iter next_;
+    Iter end_;
+};
+
+template <typename Iter>
+auto MakeUTF8StringViewIterator(Iter iter, Iter end) {
+    return UTF8StringViewIter<Iter>(iter, end);
+}
+
+template <typename T>
+auto MakeUTF8StringViewRange(const T &str) {
+    return MakeIterRange(
+        MakeUTF8StringViewIterator(std::begin(str), std::end(str)),
+        MakeUTF8StringViewIterator(std::end(str), std::end(str)));
 }
 
 } // namespace fcitx::utf8
