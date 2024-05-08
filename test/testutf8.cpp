@@ -85,7 +85,9 @@ int main() {
 
     FCITX_ASSERT(counter == 7);
 
-    FCITX_ASSERT(!fcitx::utf8::UCS4IsValid(0xfdd7));
+    FCITX_ASSERT(fcitx::utf8::UCS4IsValid(0xfdd7));
+    FCITX_ASSERT(fcitx::utf8::UCS4IsValid(0xffff));
+    FCITX_ASSERT(!fcitx::utf8::UCS4IsValid(0x200000));
 
     return 0;
 }
