@@ -27,8 +27,7 @@
                                             : ((Char) < 0x4000000 ? 5 : 6)))))
 
 #define UNICODE_VALID(Char)                                                    \
-    ((Char) < 0x110000 && (((Char) & 0xFFFFF800) != 0xD800) &&                 \
-     ((Char) < 0xFDD0 || (Char) > 0xFDEF) && ((Char) & 0xFFFE) != 0xFFFE)
+    ((Char) < 0x110000 && (((Char) & 0xFFFFF800) != 0xD800))
 
 size_t fcitx_utf8_strlen(const char *s) {
     size_t l = 0;
