@@ -71,33 +71,27 @@ const std::string &InputBuffer::userInput() const {
 
 bool InputBuffer::typeImpl(const char *s, size_t length) {
     FCITX_D();
-    auto utf8Length = fcitx::utf8::lengthValidated(s, s + length);
+    std::string_view view(s, length);
+    auto utf8Length = fcitx::utf8::lengthValidated(view);
     if (utf8Length == fcitx::utf8::INVALID_LENGTH) {
         throw std::invalid_argument("Invalid UTF-8 string");
     }
-    if (d->isAsciiOnly() && utf8Length != length) {
+    if (d->isAsciiOnly() && utf8Length != view.size()) {
         throw std::invalid_argument(
             "ascii only buffer only accept ascii only string");
     }
     if (d->maxSize_ && (utf8Length + size() > d->maxSize_)) {
         return false;
     }
-    d->input_.insert(std::next(d->input_.begin(), cursorByChar()), s,
-                     s + length);
+    d->input_.insert(std::next(d->input_.begin(), cursorByChar()), view.begin(),
+                     view.end());
     if (!d->isAsciiOnly()) {
-        const auto *iter = s;
-        auto func = [&iter]() {
-            const auto *next = fcitx::utf8::nextChar(iter);
-            auto diff = std::distance(iter, next);
-            iter = next;
-            return diff;
-        };
-
         auto pos = d->cursor_;
-        while (iter < s + length) {
-            d->sz_.insert(std::next(d->sz_.begin(), pos), func());
+        for (auto chrView : utf8::MakeUTF8StringViewRange(view)) {
+            d->sz_.insert(std::next(d->sz_.begin(), pos), chrView.size());
             pos++;
         }
+
         d->acc_.resize(d->sz_.size() + 1);
         auto newDirty = d->cursor_ > 0 ? d->cursor_ - 1 : 0;
         if (d->accDirty_ > newDirty) {

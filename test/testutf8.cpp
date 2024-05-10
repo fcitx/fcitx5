@@ -70,6 +70,14 @@ int main() {
         FCITX_ASSERT(iter.view() == expectCharStr[i]);
     }
 
+    auto rangeView = fcitx::utf8::MakeUTF8StringViewRange(str);
+    i = 0;
+    for (auto iter = std::begin(rangeView), end = std::end(rangeView);
+         iter != end; ++iter, ++i) {
+        FCITX_ASSERT(iter->size() == expectLength[i]);
+        FCITX_ASSERT(*iter == expectCharStr[i]);
+    }
+
     FCITX_ASSERT(fcitx::utf8::getLastChar(str) == 0xa);
 
     std::string invalidStr = "\xe4\xff";
