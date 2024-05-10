@@ -490,7 +490,7 @@ void ClassicUI::setSubConfig(const std::string &path,
 std::vector<unsigned char> ClassicUI::labelIcon(const std::string &label,
                                                 unsigned int size) {
     std::vector<unsigned char> data;
-    auto stride = cairo_format_stride_for_width(CAIRO_FORMAT_ARGB32, size);
+    size_t stride = cairo_format_stride_for_width(CAIRO_FORMAT_ARGB32, size);
     data.resize(stride * size);
     UniqueCPtr<cairo_surface_t, cairo_surface_destroy> image;
     image.reset(cairo_image_surface_create_for_data(
