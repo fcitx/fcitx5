@@ -102,7 +102,7 @@ public:
         pkgdataHome_ =
             defaultPath((isFcitx ? "FCITX_DATA_HOME" : nullptr),
                         constructPath(dataHome_, packageName).c_str());
-        dataDirs_ = defaultPaths("XDG_DATA_DIRS", "/usr/local/share:/usr/share",
+        dataDirs_ = defaultPaths("XDG_DATA_DIRS", "/usr/local/share:/usr/share:/app/share",
                                  builtInPathMap,
                                  skipBuiltInPath_ ? nullptr : "datadir");
         auto pkgdataDirFallback = dataDirs_;
