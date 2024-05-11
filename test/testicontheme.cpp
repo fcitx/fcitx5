@@ -21,6 +21,9 @@ int main() {
     FCITX_ASSERT(IconTheme::iconName("fcitx-pinyin", false) == "fcitx-pinyin");
     FCITX_ASSERT(IconTheme::iconName("fcitx-pinyin", true) ==
                  "org.fcitx.Fcitx5.fcitx-pinyin");
+    FCITX_ASSERT(IconTheme::iconName("fcitx_mozc", true) ==
+                 "org.fcitx.Fcitx5.fcitx_mozc");
+    FCITX_ASSERT(IconTheme::iconName("fcitx", true) == "org.fcitx.Fcitx5");
 
     for (const auto &inheritTheme : theme.inherits()) {
         FCITX_INFO() << inheritTheme.name().match();
