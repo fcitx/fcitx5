@@ -797,7 +797,13 @@ std::string IconTheme::defaultIconThemeName() {
 
 /// Rename fcitx-* icon to org.fcitx.Fcitx5.fcitx-* if in flatpak
 std::string IconTheme::iconName(const std::string &icon, bool inFlatpak) {
-    if (inFlatpak && stringutils::startsWith(icon, "fcitx-")) {
+    constexpr std::string_view fcitxIconPrefix = "fcitx";
+    if (inFlatpak && stringutils::startsWith(icon, fcitxIconPrefix)) {
+        // Map "fcitx" to org.fcitx.Fcitx5
+        // And map fcitx* to org.fcitx.Fcitx5.fcitx*
+        if (icon.size() == fcitxIconPrefix.size()) {
+            return "org.fcitx.Fcitx5";
+        }
         return stringutils::concat("org.fcitx.Fcitx5.", icon);
     }
     return icon;
