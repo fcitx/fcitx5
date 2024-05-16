@@ -482,7 +482,7 @@ void WaylandIMInputContextV2::keyCallback(uint32_t serial, uint32_t time,
         WAYLANDIM_DEBUG() << "Engine handling speed can not keep up with key "
                              "repetition rate.";
         timeEvent_->setNextInterval(
-            std::clamp(0, repeatDelay() * 1000 - repeatHackDelay, 1000));
+            std::clamp(repeatDelay() * 1000 - repeatHackDelay, 0, 1000));
     }
 }
 void WaylandIMInputContextV2::modifiersCallback(uint32_t /*serial*/,
