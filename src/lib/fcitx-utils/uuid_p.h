@@ -12,6 +12,7 @@
 #include <fcntl.h>
 #include <unistd.h>
 #include <cstdint>
+#include <cstring>
 #include "charutils.h"
 #include "event.h"
 #include "unixfd.h"
