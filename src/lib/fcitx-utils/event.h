@@ -7,8 +7,7 @@
 #ifndef _FCITX_UTILS_EVENT_H_
 #define _FCITX_UTILS_EVENT_H_
 
-#include <cstring>
-#include <ctime>
+#include <cstdint>
 #include <functional>
 #include <memory>
 #include <stdexcept>

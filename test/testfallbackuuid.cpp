@@ -6,11 +6,16 @@
  */
 #define TEST_DISABLE_LIBUUID
 
+#include <cstdint>
+#include <cstring>
+#include "fcitx-utils/log.h"
 #include "fcitx-utils/uuid_p.h"
 #include "testdir.h"
 
 int main() {
-    uint8_t t[16], t2[16], t3[16];
+    uint8_t t[16];
+    uint8_t t2[16];
+    uint8_t t3[16];
     FCITX_ASSERT(!fcitx::parseUUID("ff4d1624ze568-4f86-9def-302c73959c1d", t));
     FCITX_ASSERT(!fcitx::parseUUID("ff4d1624-m568-4f86-9def-302c73959c1d", t));
     FCITX_ASSERT(fcitx::parseUUID("ff4d1624-e568-4f86-9def-302c73959c1d", t));
