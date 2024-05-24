@@ -7,7 +7,10 @@
 #ifndef _FCITX5_UI_CLASSIC_PLASMATHEMEWATCHDOG_H_
 #define _FCITX5_UI_CLASSIC_PLASMATHEMEWATCHDOG_H_
 
+#include <sys/types.h>
+#include <unistd.h>
 #include <functional>
+#include <memory>
 #include "fcitx-utils/event.h"
 #include "fcitx-utils/unixfd.h"
 
