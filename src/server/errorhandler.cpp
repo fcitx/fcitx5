@@ -11,8 +11,11 @@
 #include <fcntl.h>
 #include <signal.h>
 #include <string.h>
+#include <sys/wait.h>
 #include <time.h>
 #include <unistd.h>
+#include <cstdint>
+#include <string>
 
 #include "fcitx-utils/fs.h"
 #include "errorhandler.h"
@@ -31,12 +34,12 @@
 extern int selfpipe[2];
 extern std::string crashlog;
 
-typedef struct _MinimalBuffer {
+struct MinimalBuffer {
     char buffer[MINIMAL_BUFFER_SIZE];
     int offset;
-} MinimalBuffer;
+};
 
-void SetMyExceptionHandler(void) {
+void SetMyExceptionHandler() {
     int signo;
 
     for (signo = SIGHUP; signo < SIGUNUSED; signo++) {
@@ -111,6 +114,9 @@ static inline void _write_buffer(int fd, const MinimalBuffer *buffer) {
 
 void OnException(int signo) {
     if (signo == SIGCHLD) {
+        uint8_t sig = (signo & 0xff);
+        fcitx::fs::safeWrite(selfpipe[1], &sig, 1);
+        signal(signo, OnException);
         return;
     }
 

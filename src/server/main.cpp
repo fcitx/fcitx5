@@ -7,13 +7,21 @@
 
 #include <locale.h>
 #include <sys/stat.h>
+#include <cstdio>
+#include <cstdlib>
 #include <exception>
 #include <iostream>
+#include <string>
+#include <utility>
+#include <vector>
 #include "fcitx-utils/fs.h"
+#include "fcitx-utils/log.h"
 #include "fcitx-utils/misc.h"
 #include "fcitx-utils/misc_p.h"
 #include "fcitx-utils/standardpath.h"
+#include "fcitx-utils/stringutils.h"
 #include "fcitx/addonfactory.h"
+#include "fcitx/addonloader.h"
 #include "fcitx/addonmanager.h"
 #include "fcitx/instance.h"
 #include "errorhandler.h"
@@ -78,7 +86,7 @@ int main(int argc, char *argv[]) {
         canRestart = instance.canRestart();
     } catch (const InstanceQuietQuit &) {
     } catch (const std::exception &e) {
-        std::cerr << "Received exception: " << e.what() << std::endl;
+        std::cerr << "Received exception: " << e.what() << '\n';
         return 1;
     }
 

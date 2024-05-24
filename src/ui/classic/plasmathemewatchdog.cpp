@@ -5,12 +5,23 @@
  *
  */
 #include "plasmathemewatchdog.h"
+#include <fcntl.h>
+#include <sys/types.h>
 #include <sys/wait.h>
 #include <unistd.h>
+#include <cassert>
+#include <cerrno>
+#include <csignal>
+#include <cstdint>
+#include <functional>
 #include <stdexcept>
+#include <string>
+#include <utility>
+#include <linux/prctl.h>
 #include "fcitx-utils/event.h"
-#include "fcitx-utils/misc_p.h"
+#include "fcitx-utils/fs.h"
 #include "fcitx-utils/standardpath.h"
+#include "fcitx-utils/unixfd.h"
 #include "common.h"
 
 #if defined(__FreeBSD__)

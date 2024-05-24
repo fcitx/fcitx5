@@ -10,6 +10,8 @@
 #include <signal.h>
 #include <sys/wait.h>
 #include <unistd.h>
+#include <cstdint>
+#include <ctime>
 #include <memory>
 #include <stdexcept>
 #include <unordered_map>
@@ -22,6 +24,7 @@
 #include "fcitx-utils/eventdispatcher.h"
 #include "fcitx-utils/i18n.h"
 #include "fcitx-utils/log.h"
+#include "fcitx-utils/macros.h"
 #include "fcitx-utils/misc.h"
 #include "fcitx-utils/standardpath.h"
 #include "fcitx-utils/stringutils.h"
@@ -1361,6 +1364,9 @@ void Instance::handleSignal() {
             exit();
         } else if (signo == SIGUSR1) {
             reloadConfig();
+        } else if (signo == SIGCHLD) {
+            d->zombieReaper_->setNextInterval(2000000);
+            d->zombieReaper_->setOneShot();
         }
     }
 }
@@ -1411,6 +1417,15 @@ void Instance::initialize() {
             }
             return false;
         });
+    d->zombieReaper_ = d->eventLoop_.addTimeEvent(
+        CLOCK_MONOTONIC, now(CLOCK_MONOTONIC), 0,
+        [](EventSourceTime *, uint64_t) {
+            pid_t res;
+            while ((res = waitpid(-1, nullptr, WNOHANG)) > 0) {
+            }
+            return false;
+        });
+    d->zombieReaper_->setEnabled(false);
 
     d->exitEvent_ = d->eventLoop_.addExitEvent([this](EventSource *) {
         FCITX_DEBUG() << "Running save...";
