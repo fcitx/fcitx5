@@ -17,7 +17,6 @@
 #include <stdexcept>
 #include <string>
 #include <utility>
-#include <linux/prctl.h>
 #include "fcitx-utils/event.h"
 #include "fcitx-utils/fs.h"
 #include "fcitx-utils/standardpath.h"
