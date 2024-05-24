@@ -130,41 +130,43 @@ class Controller1 : public ObjectVTable<Controller1> {
 public:
     Controller1(DBusModule *module, Instance *instance)
         : module_(module), instance_(instance) {
-          eventWatchers_.emplace_back(
-              instance_->watchEvent(EventType::InputContextFocusIn,
-              EventWatcherPhase::PostInputMethod, [this](Event &event) {
-                  auto &icEvent = static_cast<InputContextEvent &>(event);
-                  const auto* ic = icEvent.inputContext();
-                  std::ostringstream ss;
-                  for (auto v : ic->uuid()) {
-                      ss << fmt::format("{:02x}", static_cast<int>(v));
-                  }
-                  this->inputContextFocusIn(ss.str(), ic->program(), ic->frontendName());
-              }));
-          eventWatchers_.emplace_back(
-              instance_->watchEvent(EventType::InputContextFocusOut,
-              EventWatcherPhase::PostInputMethod, [this](Event &event) {
-                  auto &icEvent = static_cast<InputContextEvent &>(event);
-                  const auto* ic = icEvent.inputContext();
-                  std::ostringstream ss;
-                  for (auto v : ic->uuid()) {
-                      ss << fmt::format("{:02x}", static_cast<int>(v));
-                  }
-                  this->inputContextFocusOut(ss.str(), ic->program(), ic->frontendName());
-              }));
-          eventWatchers_.emplace_back(
-              instance_->watchEvent(EventType::InputContextSwitchInputMethod,
-              EventWatcherPhase::PostInputMethod, [this](Event &event) {
-                  auto &icEvent = static_cast<InputContextEvent &>(event);
-                  auto* ic = icEvent.inputContext();
-                  std::ostringstream ss;
-                  for (auto v : ic->uuid()) {
-                      ss << fmt::format("{:02x}", static_cast<int>(v));
-                  }
-                  this->inputContextSwitchInputMethod(
-                      ss.str(), ic->program(), ic->frontendName(),
-                      instance_->inputMethod(ic));
-              }));
+        eventWatchers_.emplace_back(instance_->watchEvent(
+            EventType::InputContextFocusIn, EventWatcherPhase::PostInputMethod,
+            [this](Event &event) {
+                auto &icEvent = static_cast<InputContextEvent &>(event);
+                const auto *ic = icEvent.inputContext();
+                std::ostringstream ss;
+                for (auto v : ic->uuid()) {
+                    ss << fmt::format("{:02x}", static_cast<int>(v));
+                }
+                this->inputContextFocusIn(ss.str(), ic->program(),
+                                          ic->frontendName());
+            }));
+        eventWatchers_.emplace_back(instance_->watchEvent(
+            EventType::InputContextFocusOut, EventWatcherPhase::PostInputMethod,
+            [this](Event &event) {
+                auto &icEvent = static_cast<InputContextEvent &>(event);
+                const auto *ic = icEvent.inputContext();
+                std::ostringstream ss;
+                for (auto v : ic->uuid()) {
+                    ss << fmt::format("{:02x}", static_cast<int>(v));
+                }
+                this->inputContextFocusOut(ss.str(), ic->program(),
+                                           ic->frontendName());
+            }));
+        eventWatchers_.emplace_back(instance_->watchEvent(
+            EventType::InputContextSwitchInputMethod,
+            EventWatcherPhase::PostInputMethod, [this](Event &event) {
+                auto &icEvent = static_cast<InputContextEvent &>(event);
+                auto *ic = icEvent.inputContext();
+                std::ostringstream ss;
+                for (auto v : ic->uuid()) {
+                    ss << fmt::format("{:02x}", static_cast<int>(v));
+                }
+                this->inputContextSwitchInputMethod(ss.str(), ic->program(),
+                                                    ic->frontendName(),
+                                                    instance_->inputMethod(ic));
+            }));
     }
 
     void exit() { instance_->exit(); }
@@ -727,11 +729,11 @@ private:
     FCITX_OBJECT_VTABLE_SIGNAL(inputMethodGroupChanged,
                                "InputMethodGroupsChanged", "");
 
-    FCITX_OBJECT_VTABLE_SIGNAL(inputContextFocusIn,
-                               "InputContextFocusIn", "sss");
+    FCITX_OBJECT_VTABLE_SIGNAL(inputContextFocusIn, "InputContextFocusIn",
+                               "sss");
 
-    FCITX_OBJECT_VTABLE_SIGNAL(inputContextFocusOut,
-                               "InputContextFocusOut", "sss");
+    FCITX_OBJECT_VTABLE_SIGNAL(inputContextFocusOut, "InputContextFocusOut",
+                               "sss");
 
     FCITX_OBJECT_VTABLE_SIGNAL(inputContextSwitchInputMethod,
                                "InputContextSwitchInputMethod", "ssss");
