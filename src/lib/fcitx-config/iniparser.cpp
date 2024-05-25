@@ -7,7 +7,13 @@
 #include "iniparser.h"
 #include <fcntl.h>
 #include <cstdio>
+#include <functional>
+#include <string>
+#include <string_view>
+#include "fcitx-config/rawconfig.h"
 #include "fcitx-utils/fs.h"
+#include "fcitx-utils/macros.h"
+#include "fcitx-utils/misc.h"
 #include "fcitx-utils/standardpath.h"
 #include "fcitx-utils/stringutils.h"
 #include "fcitx-utils/unixfd.h"
@@ -54,8 +60,6 @@ void readFromIni(RawConfig &config, FILE *fin) {
             continue;
         }
 
-        std::string::size_type equalPos;
-
         if (lineBuf.front() == '[' && lineBuf.back() == ']') {
             currentGroup = lineBuf.substr(1, lineBuf.size() - 2);
             config.visitItemsOnPath(
@@ -65,8 +69,8 @@ void readFromIni(RawConfig &config, FILE *fin) {
                     }
                 },
                 currentGroup);
-        } else if ((equalPos = lineBuf.find_first_of('=')) !=
-                   std::string::npos) {
+        } else if (std::string::size_type equalPos = lineBuf.find_first_of('=');
+                   equalPos != std::string::npos) {
             auto name = lineBuf.substr(0, equalPos);
             auto valueStart = equalPos + 1;
 
@@ -91,7 +95,7 @@ void readFromIni(RawConfig &config, FILE *fin) {
     }
 }
 
-bool writeAsIni(const RawConfig &root, FILE *fout) {
+bool writeAsIni(const RawConfig &config, FILE *fout) {
     std::function<bool(const RawConfig &, const std::string &path)> callback;
 
     callback = [fout, &callback](const RawConfig &config,
@@ -131,7 +135,7 @@ bool writeAsIni(const RawConfig &root, FILE *fout) {
         return true;
     };
 
-    return callback(root, "");
+    return callback(config, "");
 }
 
 void readAsIni(RawConfig &rawConfig, const std::string &path) {

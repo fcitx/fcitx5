@@ -8,8 +8,13 @@
 #define _FCITX5_MODULES_QUICKPHRASE_QUICKPHRASEPROVIDER_H_
 
 #include <map>
+#include <memory>
 #include <string>
+#include <utility>
 #include "fcitx-utils/connectableobject.h"
+#include "fcitx-utils/handlertable.h"
+#include "fcitx-utils/misc.h"
+#include "fcitx/addoninstance.h"
 #include "fcitx/addonmanager.h"
 #include "fcitx/instance.h"
 #include "quickphrase_public.h"
@@ -33,7 +38,7 @@ public:
     void reloadConfig();
 
 private:
-    void load(StandardPathFile &file);
+    void load(UniqueFilePtr fp);
     std::multimap<std::string, std::string> map_;
 };
 

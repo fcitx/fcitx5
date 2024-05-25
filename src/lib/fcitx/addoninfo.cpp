@@ -6,7 +6,19 @@
  */
 
 #include "addoninfo.h"
+
+#include <memory>
+#include <string>
+#include <tuple>
+#include <utility>
+#include <vector>
 #include "fcitx-config/configuration.h"
+#include "fcitx-config/option.h"
+#include "fcitx-config/rawconfig.h"
+#include "fcitx-utils/i18nstring.h"
+#include "fcitx-utils/macros.h"
+#include "fcitx-utils/semver.h"
+#include "fcitx-utils/stringutils.h"
 namespace fcitx {
 
 FCITX_CONFIGURATION(
@@ -57,7 +69,7 @@ void parseDependencies(const std::vector<std::string> &data,
 
 class AddonInfoPrivate : public AddonConfig {
 public:
-    AddonInfoPrivate(const std::string &name) : uniqueName_(name) {}
+    AddonInfoPrivate(std::string name) : uniqueName_(std::move(name)) {}
 
     bool valid_ = false;
     std::string uniqueName_;
