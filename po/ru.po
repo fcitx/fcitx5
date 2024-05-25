@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2024-04-08 20:24+0000\n"
+"POT-Creation-Date: 2024-05-25 20:24+0000\n"
 "PO-Revision-Date: 2017-11-23 04:14+0000\n"
 "Last-Translator: Dmitry <dmitrydmitry761@gmail.com>, 2024\n"
 "Language-Team: Russian (https://app.transifex.com/fcitx/teams/12005/ru/)\n"
@@ -51,7 +51,7 @@ msgstr "${1} не найден."
 msgid "${1} works properly."
 msgstr "${1} работает правильно."
 
-#: src/lib/fcitx/instance.cpp:413
+#: src/lib/fcitx/instance.cpp:418
 msgid "(Not available)"
 msgstr "(Недоступно)"
 
@@ -179,7 +179,7 @@ msgstr ""
 msgid "Allow input method in the password field"
 msgstr "Разрешить метод ввода в поле пароля"
 
-#: src/im/keyboard/keyboard.h:30 src/modules/quickphrase/quickphrase.h:26
+#: src/im/keyboard/keyboard.h:30 src/modules/quickphrase/quickphrase.h:25
 msgid "Alt"
 msgstr "Alt"
 
@@ -453,7 +453,7 @@ msgstr "Изменить конфигурацию Fcitx 5"
 msgid "Check box"
 msgstr "Флажок"
 
-#: src/im/keyboard/keyboard.h:54 src/modules/quickphrase/quickphrase.h:38
+#: src/im/keyboard/keyboard.h:54 src/modules/quickphrase/quickphrase.h:37
 msgid "Choose key modifier"
 msgstr "Выбрать клавишу-модификатор"
 
@@ -546,7 +546,7 @@ msgstr "Настройка:"
 msgid "Configure"
 msgstr "Настроить"
 
-#: src/im/keyboard/keyboard.h:31 src/modules/quickphrase/quickphrase.h:26
+#: src/im/keyboard/keyboard.h:31 src/modules/quickphrase/quickphrase.h:25
 msgid "Control"
 msgstr "Control"
 
@@ -626,7 +626,7 @@ msgstr "Деактивация метода ввода"
 msgid "Debug information from dbus:"
 msgstr "Отладочная информация от dbus:"
 
-#: src/lib/fcitx/inputmethodmanager.cpp:137 src/lib/fcitx/instance.cpp:360
+#: src/lib/fcitx/inputmethodmanager.cpp:153 src/lib/fcitx/instance.cpp:365
 #: src/ui/classic/themes/default/theme.conf.in:3
 msgid "Default"
 msgstr "По умолчанию"
@@ -726,7 +726,7 @@ msgctxt "Key name"
 msgid "Down"
 msgstr "Вниз"
 
-#: src/modules/quickphrase/quickphrase.h:44
+#: src/modules/quickphrase/quickphrase.h:43
 msgid "Editor"
 msgstr "Редактор"
 
@@ -757,7 +757,7 @@ msgstr "Включить"
 msgid "Enable Blur on KWin"
 msgstr "Включить размытие на KWin"
 
-#: src/modules/quickphrase/quickphrase.h:40
+#: src/modules/quickphrase/quickphrase.h:39
 msgid "Enable Spell check"
 msgstr "Включить проверку орфографии"
 
@@ -863,7 +863,7 @@ msgstr "Не удалось найти ${1} в кеше immodule в ${2}"
 msgid "Failed to find ${1} in the output of ${2}"
 msgstr "Не удалось найти ${1} в выводе ${2}"
 
-#: src/modules/quickphrase/quickphrase.h:42
+#: src/modules/quickphrase/quickphrase.h:41
 msgid "Fallback Spell check language"
 msgstr "Резервный язык проверки орфографии"
 
@@ -1101,12 +1101,12 @@ msgstr "Зеленый"
 msgid "Group"
 msgstr "Группа"
 
-#: src/lib/fcitx/instance.cpp:417
+#: src/lib/fcitx/instance.cpp:422
 #, c++-format
 msgid "Group {0}: {1}"
 msgstr "Группа {0}: {1}"
 
-#: src/lib/fcitx/instance.cpp:362
+#: src/lib/fcitx/instance.cpp:367
 #, c++-format
 msgid "Group {}"
 msgstr "Группа {}"
@@ -1331,8 +1331,8 @@ msgstr ""
 msgid "Image"
 msgstr "Изображение"
 
-#: src/im/keyboard/keyboard.cpp:677 src/lib/fcitx/instance.cpp:452
-#: src/lib/fcitx/instance.cpp:679 src/lib/fcitx/instance.cpp:841
+#: src/im/keyboard/keyboard.cpp:677 src/lib/fcitx/instance.cpp:457
+#: src/lib/fcitx/instance.cpp:685 src/lib/fcitx/instance.cpp:847
 #: src/modules/notificationitem/notificationitem.cpp:142
 #: src/modules/notificationitem/notificationitem.cpp:230
 #: src/modules/xcb/xcbconnection.cpp:555 data/org.fcitx.Fcitx5.desktop.in.in:4
@@ -2015,7 +2015,7 @@ msgstr "Нет"
 msgid "No clipboard history."
 msgstr "История буфера обмена отсутствует."
 
-#: src/im/keyboard/keyboard.h:30 src/modules/quickphrase/quickphrase.h:25
+#: src/im/keyboard/keyboard.h:30 src/modules/quickphrase/quickphrase.h:24
 msgid "None"
 msgstr "Нет"
 
@@ -2182,15 +2182,15 @@ msgctxt "Key name"
 msgid "Power Off"
 msgstr "Выключение"
 
-#: src/lib/fcitx/instance.cpp:841
+#: src/lib/fcitx/instance.cpp:847
 msgid "Preedit"
 msgstr "Предварительное редактирование"
 
-#: src/lib/fcitx/instance.cpp:843
+#: src/lib/fcitx/instance.cpp:849
 msgid "Preedit disabled"
 msgstr "Предварительное редактирование отключено"
 
-#: src/lib/fcitx/instance.cpp:842
+#: src/lib/fcitx/instance.cpp:848
 msgid "Preedit enabled"
 msgstr "Предварительное редактирование включено"
 
@@ -2232,7 +2232,7 @@ msgstr "Файлы модуля Qt IM:"
 msgid "Quick Phrase"
 msgstr "Быстрая фраза"
 
-#: src/modules/quickphrase/quickphrase.cpp:467
+#: src/modules/quickphrase/quickphrase.cpp:470
 msgid "Quick Phrase: "
 msgstr "Быстрая фраза: "
 
@@ -2351,7 +2351,7 @@ msgstr "Поиск"
 
 #: src/modules/clipboard/clipboard.h:76
 msgid "Seconds before clearing password"
-msgstr "Секунд до сбросом пароля"
+msgstr "Секунд до сброса пароля"
 
 #: src/lib/fcitx-utils/key.cpp:233
 msgctxt "Key name"
@@ -2522,7 +2522,7 @@ msgctxt "Key name"
 msgid "Subtitle"
 msgstr "Подзаголовок"
 
-#: src/im/keyboard/keyboard.h:31 src/modules/quickphrase/quickphrase.h:26
+#: src/im/keyboard/keyboard.h:31 src/modules/quickphrase/quickphrase.h:25
 msgid "Super"
 msgstr "Super"
 
@@ -2541,17 +2541,17 @@ msgctxt "Key name"
 msgid "Suspend"
 msgstr "Приостановить"
 
-#: src/lib/fcitx/instance.cpp:453 src/lib/fcitx/instance.cpp:680
+#: src/lib/fcitx/instance.cpp:458 src/lib/fcitx/instance.cpp:686
 #: src/modules/xcb/xcbconnection.cpp:556
 msgid "Switch group"
 msgstr "Сменить группу"
 
-#: src/lib/fcitx/instance.cpp:454 src/modules/xcb/xcbconnection.cpp:557
+#: src/lib/fcitx/instance.cpp:459 src/modules/xcb/xcbconnection.cpp:557
 #, c++-format
 msgid "Switch group to {0}"
 msgstr "Переключить группу на {0}"
 
-#: src/lib/fcitx/instance.cpp:681
+#: src/lib/fcitx/instance.cpp:687
 #, c++-format
 msgid "Switched group to {0}"
 msgstr "Группа переключена на {0}"
@@ -2734,7 +2734,7 @@ msgid "Trigger Input Method"
 msgstr "Активация метода ввода"
 
 #: src/modules/imselector/imselector.h:28
-#: src/modules/quickphrase/quickphrase.h:33 src/modules/unicode/unicode.h:28
+#: src/modules/quickphrase/quickphrase.h:32 src/modules/unicode/unicode.h:28
 #: src/modules/clipboard/clipboard.h:48
 msgid "Trigger Key"
 msgstr "Клавиша-триггер"
@@ -3110,12 +3110,12 @@ msgstr "версия:"
 msgid "{0} (Not Available)"
 msgstr "{0} (Недоступно)"
 
-#: src/lib/fcitx/instance.cpp:411
+#: src/lib/fcitx/instance.cpp:416
 #, c++-format
 msgid "{0} (Not available)"
 msgstr "{0} (Недоступно)"
 
-#: src/lib/fcitx/instance.cpp:408
+#: src/lib/fcitx/instance.cpp:413
 #, c++-format
 msgid "{0} ({1})"
 msgstr "{0} ({1})"
