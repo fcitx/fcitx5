@@ -10,20 +10,45 @@
 #include <sys/stat.h>
 #include <sys/wait.h>
 #include <unistd.h>
+#include <cerrno>
 #include <csignal>
+#include <cstddef>
+#include <cstdint>
+#include <cstdio>
+#include <cstdlib>
+#include <memory>
+#include <optional>
+#include <set>
+#include <string>
+#include <tuple>
+#include <utility>
+#include <vector>
+#include <fmt/core.h>
 #include <fmt/format.h>
 #include "fcitx-config/iniparser.h"
+#include "fcitx-config/rawconfig.h"
+#include "fcitx-utils/capabilityflags.h"
+#include "fcitx-utils/dbus/bus.h"
 #include "fcitx-utils/dbus/message.h"
 #include "fcitx-utils/dbus/objectvtable.h"
 #include "fcitx-utils/dbus/servicewatcher.h"
 #include "fcitx-utils/dbus/variant.h"
+#include "fcitx-utils/event.h"
+#include "fcitx-utils/flags.h"
+#include "fcitx-utils/handlertable.h"
+#include "fcitx-utils/key.h"
 #include "fcitx-utils/log.h"
-#include "fcitx-utils/metastring.h"
+#include "fcitx-utils/macros.h"
+#include "fcitx-utils/misc.h"
+#include "fcitx-utils/rect.h"
 #include "fcitx-utils/standardpath.h"
 #include "fcitx-utils/stringutils.h"
+#include "fcitx-utils/textformatflags.h"
 #include "fcitx-utils/utf8.h"
 #include "fcitx-utils/uuid_p.h"
 #include "fcitx/addonfactory.h"
+#include "fcitx/addoninstance.h"
+#include "fcitx/event.h"
 #include "fcitx/inputcontext.h"
 #include "fcitx/inputpanel.h"
 #include "fcitx/instance.h"
@@ -634,8 +659,8 @@ std::set<std::string> allSocketPaths(const StandardPath &standardPath) {
     if (isInFlatpak()) {
         // Flatpak always use DISPLAY=:99, which means we will need to guess
         // what files are available.
-        auto map = standardPath.multiOpenFilter(
-            StandardPath::Type::Config, "ibus/bus", O_RDONLY,
+        auto map = standardPath.locateWithFilter(
+            StandardPath::Type::Config, "ibus/bus",
             [](const std::string &path, const std::string &, bool user) {
                 if (!user) {
                     return false;
@@ -644,7 +669,7 @@ std::set<std::string> allSocketPaths(const StandardPath &standardPath) {
             });
 
         for (const auto &item : map) {
-            paths.insert(item.second.path());
+            paths.insert(item.second);
         }
 
         // Make the guess that display is 0, it is the most common value that

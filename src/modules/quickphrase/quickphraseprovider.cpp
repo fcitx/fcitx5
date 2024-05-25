@@ -6,12 +6,20 @@
  */
 #include "quickphraseprovider.h"
 #include <fcntl.h>
+#include <cstddef>
+#include <string>
+#include <string_view>
+#include <utility>
 #include <fcitx-utils/utf8.h>
 #include <fcitx/inputmethodentry.h>
 #include "fcitx-utils/fs.h"
+#include "fcitx-utils/macros.h"
+#include "fcitx-utils/misc.h"
 #include "fcitx-utils/standardpath.h"
 #include "fcitx-utils/stringutils.h"
+#include "fcitx/inputcontext.h"
 #include "quickphrase.h"
+#include "quickphrase_public.h"
 #include "spell_public.h"
 
 namespace fcitx {
@@ -36,28 +44,28 @@ bool BuiltInQuickPhraseProvider::populate(
 void BuiltInQuickPhraseProvider::reloadConfig() {
 
     map_.clear();
-    auto file = StandardPath::global().open(StandardPath::Type::PkgData,
-                                            "data/QuickPhrase.mb", O_RDONLY);
-    auto files = StandardPath::global().multiOpen(
-        StandardPath::Type::PkgData, "data/quickphrase.d/", O_RDONLY,
-        filter::Suffix(".mb"));
-    auto disableFiles = StandardPath::global().multiOpen(
-        StandardPath::Type::PkgData, "data/quickphrase.d/", O_RDONLY,
-        filter::Suffix(".mb.disable"));
-    if (file.fd() >= 0) {
-        load(file);
+    if (auto file = StandardPath::global().open(
+            StandardPath::Type::PkgData, "data/QuickPhrase.mb", O_RDONLY);
+        file.fd() >= 0) {
+        load(fs::openFD(file, "rb"));
     }
 
+    auto files = StandardPath::global().locate(StandardPath::Type::PkgData,
+                                               "data/quickphrase.d/",
+                                               filter::Suffix(".mb"));
+    auto disableFiles = StandardPath::global().locate(
+        StandardPath::Type::PkgData, "data/quickphrase.d/",
+        filter::Suffix(".mb.disable"));
     for (auto &p : files) {
         if (disableFiles.count(stringutils::concat(p.first, ".disable"))) {
             continue;
         }
-        load(p.second);
+        UnixFD fd = UnixFD::own(open(p.second.c_str(), O_RDONLY));
+        load(fs::openFD(fd, "rb"));
     }
 }
 
-void BuiltInQuickPhraseProvider::load(StandardPathFile &file) {
-    UniqueFilePtr fp = fs::openFD(file, "rb");
+void BuiltInQuickPhraseProvider::load(UniqueFilePtr fp) {
     if (!fp) {
         return;
     }
@@ -93,8 +101,8 @@ void BuiltInQuickPhraseProvider::load(StandardPathFile &file) {
     }
 }
 
-SpellQuickPhraseProvider::SpellQuickPhraseProvider(QuickPhrase *quickPhrase)
-    : parent_(quickPhrase), instance_(parent_->instance()) {}
+SpellQuickPhraseProvider::SpellQuickPhraseProvider(QuickPhrase *parent)
+    : parent_(parent), instance_(parent_->instance()) {}
 
 bool SpellQuickPhraseProvider::populate(
     InputContext *ic, const std::string &userInput,
@@ -102,12 +110,12 @@ bool SpellQuickPhraseProvider::populate(
     if (!*parent_->config().enableSpell) {
         return true;
     }
-    auto spell = this->spell();
+    auto *spell = this->spell();
     if (!spell) {
         return true;
     }
     std::string lang = *parent_->config().fallbackSpellLanguage;
-    if (auto entry = instance_->inputMethodEntry(ic)) {
+    if (const auto *entry = instance_->inputMethodEntry(ic)) {
         if (spell->call<ISpell::checkDict>(entry->languageCode())) {
             lang = entry->languageCode();
         } else if (!spell->call<ISpell::checkDict>(lang)) {

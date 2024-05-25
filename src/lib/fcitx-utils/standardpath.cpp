@@ -9,16 +9,30 @@
 #include <dirent.h>
 #include <fcntl.h>
 #include <sys/stat.h>
+#include <sys/types.h>
 #include <unistd.h>
 #include <algorithm>
 #include <atomic>
+#include <cstdint>
+#include <cstdio>
+#include <cstdlib>
 #include <cstring>
+#include <exception>
+#include <functional>
+#include <map>
+#include <memory>
 #include <stdexcept>
+#include <string>
+#include <string_view>
+#include <tuple>
 #include <unordered_map>
 #include <unordered_set>
+#include <utility>
 #include <vector>
 #include "config.h"
 #include "fs.h"
+#include "macros.h"
+#include "misc.h"
 #include "misc_p.h"
 #include "stringutils.h"
 
@@ -594,10 +608,11 @@ StandardPath::openUserTemp(Type type, const std::string &pathOrig) const {
         fullPathOrig = constructPath(dirPath, pathOrig);
     }
     if (fs::makePath(fs::dirName(fullPath))) {
-        auto cPath = makeUniqueCPtr(strdup(fullPath.c_str()));
-        int fd = mkstemp(cPath.get());
+        std::vector<char> cPath(fullPath.data(),
+                                fullPath.data() + fullPath.size() + 1);
+        int fd = mkstemp(cPath.data());
         if (fd >= 0) {
-            return {fd, fullPathOrig, cPath.get()};
+            return {fd, fullPathOrig, cPath.data()};
         }
     }
     return {};
@@ -621,6 +636,27 @@ bool StandardPath::safeSave(Type type, const std::string &pathOrig,
     }
     file.removeTemp();
     return false;
+}
+
+std::map<std::string, std::string> StandardPath::locateWithFilter(
+    Type type, const std::string &path,
+    std::function<bool(const std::string &path, const std::string &dir,
+                       bool user)>
+        filter) const {
+    std::map<std::string, std::string> result;
+    scanFiles(type, path,
+              [&result, &filter](const std::string &path,
+                                 const std::string &dir, bool isUser) {
+                  if (!result.count(path) && filter(path, dir, isUser)) {
+                      auto fullPath = constructPath(dir, path);
+                      if (fs::isreg(fullPath)) {
+                          result.emplace(path, std::move(fullPath));
+                      }
+                  }
+                  return true;
+              });
+
+    return result;
 }
 
 StandardPathFileMap StandardPath::multiOpenFilter(

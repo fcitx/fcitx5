@@ -7,19 +7,35 @@
 
 #include "inputmethodmanager.h"
 #include <fcntl.h>
+#include <algorithm>
 #include <cassert>
+#include <cstdint>
+#include <functional>
+#include <iterator>
 #include <list>
+#include <memory>
+#include <stdexcept>
+#include <string>
 #include <unordered_map>
+#include <unordered_set>
+#include <utility>
+#include <vector>
 #include "fcitx-config/iniparser.h"
 #include "fcitx-config/rawconfig.h"
+#include "fcitx-utils/connectableobject.h"
+#include "fcitx-utils/handlertable.h"
 #include "fcitx-utils/i18n.h"
 #include "fcitx-utils/log.h"
+#include "fcitx-utils/macros.h"
+#include "fcitx-utils/misc_p.h"
 #include "fcitx-utils/standardpath.h"
+#include "fcitx-utils/unixfd.h"
+#include "addoninfo.h"
 #include "addonmanager.h"
 #include "inputmethodconfig_p.h"
 #include "inputmethodengine.h"
+#include "inputmethodgroup.h"
 #include "instance.h"
-#include "misc_p.h"
 
 namespace fcitx {
 
@@ -151,15 +167,16 @@ void InputMethodManagerPrivate::loadStaticEntries(
     const std::unordered_set<std::string> &addonNames) {
     const auto &path = StandardPath::global();
     timestamp_ = path.timestamp(StandardPath::Type::PkgData, "inputmethod");
-    auto filesMap = path.multiOpen(StandardPath::Type::PkgData, "inputmethod",
-                                   O_RDONLY, filter::Suffix(".conf"));
-    for (const auto &[fileName, file] : filesMap) {
+    auto filesMap = path.locate(StandardPath::Type::PkgData, "inputmethod",
+                                filter::Suffix(".conf"));
+    for (const auto &[fileName, fullName] : filesMap) {
         std::string name = fileName.substr(0, fileName.size() - 5);
         if (entries_.count(name) != 0) {
             continue;
         }
         RawConfig config;
-        readFromIni(config, file.fd());
+        UnixFD fd = UnixFD::own(open(fullName.c_str(), O_RDONLY));
+        readFromIni(config, fd.fd());
 
         InputMethodInfo imInfo;
         imInfo.load(config);
