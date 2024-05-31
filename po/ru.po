@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2024-05-25 20:24+0000\n"
+"POT-Creation-Date: 2024-05-31 20:24+0000\n"
 "PO-Revision-Date: 2017-11-23 04:14+0000\n"
 "Last-Translator: Dmitry <dmitrydmitry761@gmail.com>, 2024\n"
 "Language-Team: Russian (https://app.transifex.com/fcitx/teams/12005/ru/)\n"
@@ -637,7 +637,7 @@ msgstr "Тёмная по умолчанию"
 
 #: src/lib/fcitx/globalconfig.cpp:128
 msgid "Default Next Candidate"
-msgstr "Следующий кандидат по умолчанию"
+msgstr "Следующее слово-кандидат по умолчанию"
 
 #: src/lib/fcitx/globalconfig.cpp:112
 msgid "Default Next page"
@@ -645,7 +645,7 @@ msgstr "Следующая страница по умолчанию"
 
 #: src/lib/fcitx/globalconfig.cpp:122
 msgid "Default Previous Candidate"
-msgstr "Предыдущий кандидат по умолчанию"
+msgstr "Предыдущее слово-кандидат по умолчанию"
 
 #: src/lib/fcitx/globalconfig.cpp:100
 msgid "Default Previous page"
@@ -949,7 +949,7 @@ msgstr "Найти"
 
 #: src/ui/classic/theme.h:47
 msgid "First Candidate"
-msgstr "Первый кандидат"
+msgstr "Первое слово-кандидат"
 
 #: src/ui/classic/classicui.h:161
 msgid "Follow system accent color if it is supported by theme and desktop"
@@ -1224,7 +1224,7 @@ msgstr "Цвет фона выделения"
 
 #: src/ui/classic/theme.h:141
 msgid "Highlight Candidate Color"
-msgstr "Выделить цветом кандидат"
+msgstr "Выделить цветом слово-кандидат"
 
 #: src/ui/classic/theme.h:124
 msgid "Highlight Click Margin"
@@ -1676,7 +1676,7 @@ msgstr "Процесс Kimpanel:"
 
 #: src/ui/classic/theme.h:48
 msgid "Last Candidate"
-msgstr "Последний кандидат"
+msgstr "Последнее слово-кандидат"
 
 #: src/lib/fcitx-utils/key.cpp:112
 msgctxt "Key name"
@@ -1973,7 +1973,7 @@ msgstr "Muhenkan"
 #: src/lib/fcitx-utils/key.cpp:251
 msgctxt "Key name"
 msgid "Multiple Candidate"
-msgstr "Несколько кандидатов"
+msgstr "Несколько слов-кандидатов"
 
 #: src/lib/fcitx-utils/key.cpp:203
 msgctxt "Key name"
@@ -2001,7 +2001,7 @@ msgstr "Новости"
 
 #: src/im/keyboard/keyboard.h:46
 msgid "Next Candidate"
-msgstr "Следующий кандидат"
+msgstr "Следующее слово-кандидат"
 
 #: src/ui/classic/theme.h:164
 msgid "Next Page Button"
@@ -2204,7 +2204,7 @@ msgstr "Presage"
 
 #: src/im/keyboard/keyboard.h:40
 msgid "Prev Candidate"
-msgstr "Предыдущий кандидат"
+msgstr "Предыдущее слово-кандидат"
 
 #: src/ui/classic/theme.h:163
 msgid "Prev Page Button"
@@ -2213,7 +2213,7 @@ msgstr "Кнопка предыдущей страницы"
 #: src/lib/fcitx-utils/key.cpp:252
 msgctxt "Key name"
 msgid "Previous Candidate"
-msgstr "Предыдущий кандидат"
+msgstr "Предыдущее слово-кандидат"
 
 #: src/lib/fcitx-utils/key.cpp:228
 msgctxt "Key name"
@@ -2837,7 +2837,7 @@ msgstr "Версия Line:"
 
 #: src/ui/classic/classicui.h:111
 msgid "Vertical Candidate List"
-msgstr "Вертикальный список кандидатов"
+msgstr "Вертикальный список слов-кандидатов"
 
 #: src/lib/fcitx-utils/key.cpp:193
 msgctxt "Key name"
