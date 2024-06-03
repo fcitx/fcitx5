@@ -865,7 +865,7 @@ void Theme::populateColor(std::optional<Color> accent) {
     inputPanelBackground_ = *inputPanel->background->color;
     inputPanelBorder_ = *inputPanel->background->borderColor;
     inputPanelHighlightCandidateBackground_ = *inputPanel->highlight->color;
-    inputPanelHighlightCandidateBorder_ = *inputPanel->background->borderColor;
+    inputPanelHighlightCandidateBorder_ = *inputPanel->highlight->borderColor;
     inputPanelHighlight_ = *inputPanel->highlightBackgroundColor;
     inputPanelText_ = *inputPanel->normalColor;
     inputPanelHighlightText_ = *inputPanel->highlightColor;
@@ -874,7 +874,7 @@ void Theme::populateColor(std::optional<Color> accent) {
     menuBackground_ = *menu->background->color;
     menuBorder_ = *menu->background->borderColor;
     menuSelectedItemBackground_ = *menu->highlight->color;
-    menuSelectedItemBorder_ = *menu->background->borderColor;
+    menuSelectedItemBorder_ = *menu->highlight->borderColor;
     menuSeparator_ = *menu->separator->color;
     menuText_ = *menu->normalColor;
     menuSelectedItemText_ = *menu->highlightTextColor;
