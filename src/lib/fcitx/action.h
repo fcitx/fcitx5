@@ -9,6 +9,7 @@
 
 #include <memory>
 #include <fcitx-utils/element.h>
+#include <fcitx-utils/key.h>
 #include <fcitx-utils/macros.h>
 #include "fcitxcore_export.h"
 
@@ -138,6 +139,14 @@ public:
     void update(InputContext *ic);
 
     FCITX_DECLARE_SIGNAL(Action, Update, void(InputContext *));
+
+    /**
+     * Hotkey bound to the action.
+     *
+     * @return key list.
+     * @since 5.1.11
+     */
+    virtual KeyList hotkey() const { return {}; }
 
 private:
     void setName(const std::string &name);
