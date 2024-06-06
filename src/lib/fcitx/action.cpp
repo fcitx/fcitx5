@@ -93,7 +93,7 @@ const std::string &Action::name() const {
 
 void Action::update(InputContext *ic) { emit<Update>(ic); }
 
-KeyList Action::hotkey() const {
+const KeyList &Action::hotkey() const {
     FCITX_D();
     return d->hotkey_;
 }

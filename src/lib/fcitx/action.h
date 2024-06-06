@@ -148,14 +148,15 @@ public:
      * @return key list.
      * @since 5.1.11
      */
-    KeyList hotkey() const;
+    const KeyList &hotkey() const;
 
     /**
      * Set associated hotkey for display.
      *
+     * @param hotkey keys that trigger the action.
      * @since 5.1.11
      */
-    void setHotkey(const KeyList &);
+    void setHotkey(const KeyList &hotkey);
 
 private:
     void setName(const std::string &name);
