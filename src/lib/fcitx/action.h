@@ -142,11 +142,20 @@ public:
 
     /**
      * Hotkey bound to the action.
+     * This is only for display purpose when UI implementation supports it,
+     * and it has nothing to do with the key handling logic.
      *
      * @return key list.
      * @since 5.1.11
      */
-    virtual KeyList hotkey() const { return {}; }
+    KeyList hotkey() const;
+
+    /**
+     * Set associated hotkey for display.
+     *
+     * @since 5.1.11
+     */
+    void setHotkey(const KeyList &);
 
 private:
     void setName(const std::string &name);
