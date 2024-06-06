@@ -18,6 +18,7 @@ public:
     int id_ = 0;
     bool checkable_ = false;
     bool separator_ = false;
+    KeyList hotkey_;
     FCITX_DEFINE_SIGNAL_PRIVATE(Action, Update);
 };
 
@@ -91,6 +92,16 @@ const std::string &Action::name() const {
 }
 
 void Action::update(InputContext *ic) { emit<Update>(ic); }
+
+const KeyList &Action::hotkey() const {
+    FCITX_D();
+    return d->hotkey_;
+}
+
+void Action::setHotkey(const KeyList &hotkey) {
+    FCITX_D();
+    d->hotkey_ = hotkey;
+}
 
 class SimpleActionPrivate : public QPtrHolder<Action> {
 public:

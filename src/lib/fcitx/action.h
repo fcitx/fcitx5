@@ -9,6 +9,7 @@
 
 #include <memory>
 #include <fcitx-utils/element.h>
+#include <fcitx-utils/key.h>
 #include <fcitx-utils/macros.h>
 #include "fcitxcore_export.h"
 
@@ -138,6 +139,24 @@ public:
     void update(InputContext *ic);
 
     FCITX_DECLARE_SIGNAL(Action, Update, void(InputContext *));
+
+    /**
+     * Hotkey bound to the action.
+     * This is only for display purpose when UI implementation supports it,
+     * and it has nothing to do with the key handling logic.
+     *
+     * @return key list.
+     * @since 5.1.11
+     */
+    const KeyList &hotkey() const;
+
+    /**
+     * Set associated hotkey for display.
+     *
+     * @param hotkey keys that trigger the action.
+     * @since 5.1.11
+     */
+    void setHotkey(const KeyList &hotkey);
 
 private:
     void setName(const std::string &name);
