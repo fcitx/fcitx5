@@ -14,6 +14,7 @@
 #include <ctime>
 #include <memory>
 #include <stdexcept>
+#include <string>
 #include <unordered_map>
 #include <utility>
 #include <fmt/format.h>
@@ -2488,6 +2489,14 @@ void Instance::showInputMethodInformation(InputContext *ic) {
         return;
     }
     d->showInputMethodInformation(ic);
+}
+
+void Instance::showCustomInputMethodInformation(InputContext *ic,
+                                                const std::string &message) {
+    FCITX_DEBUG() << "Input method switched";
+    FCITX_D();
+    auto *inputState = ic->propertyFor(&d->inputStateFactory_);
+    inputState->showInputMethodInformation(message);
 }
 
 bool Instance::checkUpdate() const {
