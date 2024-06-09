@@ -8,6 +8,7 @@
 #define _FCITX_INSTANCE_H_
 
 #include <memory>
+#include <string>
 #include <fcitx-utils/connectableobject.h>
 #include <fcitx-utils/macros.h>
 #include <fcitx/event.h>
@@ -441,12 +442,33 @@ public:
      * Show a small popup with input popup window with current input method
      * information.
      *
+     * The popup will be hidden after certain amount of time.
+     *
      * This is useful for input method that has multiple sub modes. It can be
      * called with switching sub modes within the input method.
+     *
+     * The behavior is controlled by global config.
      *
      * @param ic input context.
      */
     void showInputMethodInformation(InputContext *ic);
+
+    /**
+     * Show a small popup with input popup window with current input method
+     * information.
+     *
+     * The popup will be hidden after certain amount of time. The popup will
+     * always be displayed, regardless of the showInputMethodInformation in
+     * global config.
+     *
+     * This is useful for input method that has internal switches.
+     *
+     * @param ic input context.
+     * @param message message string to be displayed
+     * @since 5.1.11
+     */
+    void showCustomInputMethodInformation(InputContext *ic,
+                                          const std::string &message);
 
     /**
      * Check if need to invoke Instance::refresh.
