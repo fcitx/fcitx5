@@ -6,7 +6,18 @@
  */
 
 #include "compose.h"
-#include <fcitx-utils/utf8.h>
+#include <cassert>
+#include <cstddef>
+#include <deque>
+#include <iterator>
+#include <string>
+#include <tuple>
+#include "fcitx-utils/key.h"
+#include "fcitx-utils/keysymgen.h"
+#include "fcitx-utils/log.h"
+#include "fcitx-utils/utf8.h"
+#include "fcitx/inputcontext.h"
+#include "fcitx/instance.h"
 
 namespace fcitx {
 
@@ -101,7 +112,7 @@ bool ComposeState::typeImpl(KeySym sym, std::string &result) {
     // check compose first.
     auto composeResult = instance_->processComposeString(inputContext_, sym);
     if (!composeResult) {
-        assert(composeBuffer_.size() > 0);
+        assert(!composeBuffer_.empty());
         if (instance_->isComposing(inputContext_)) {
             return true;
         }

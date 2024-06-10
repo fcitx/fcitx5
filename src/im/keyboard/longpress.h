@@ -7,7 +7,11 @@
 #ifndef _FCITX5_IM_KEYBOARD_LONGPRESSDATA_H_
 #define _FCITX5_IM_KEYBOARD_LONGPRESSDATA_H_
 
+#include <string>
+#include <unordered_map>
+#include <vector>
 #include "fcitx-config/configuration.h"
+#include "fcitx-config/option.h"
 #include "fcitx-utils/i18n.h"
 
 namespace fcitx {

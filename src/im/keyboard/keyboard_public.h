@@ -8,6 +8,8 @@
 #define _FCITX_IM_KEYBOARD_KEYBOARD_PUBLIC_H_
 
 #include <functional>
+#include <string>
+#include <vector>
 #include <fcitx/addoninstance.h>
 
 FCITX_ADDON_DECLARE_FUNCTION(

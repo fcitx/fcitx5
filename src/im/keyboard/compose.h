@@ -8,7 +8,10 @@
 #define _FCITX_IM_KEYBOARD_COMPOSE_H_
 
 #include <deque>
-#include <fcitx/instance.h>
+#include <string>
+#include <tuple>
+#include "fcitx-utils/key.h"
+#include "fcitx/instance.h"
 
 namespace fcitx {
 class ComposeState {

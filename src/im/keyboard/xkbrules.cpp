@@ -6,8 +6,15 @@
  */
 
 #include "xkbrules.h"
+#include <algorithm>
+#include <cstddef>
 #include <cstring>
+#include <initializer_list>
+#include <iterator>
 #include <list>
+#include <string>
+#include <utility>
+#include <vector>
 #include "fcitx-utils/stringutils.h"
 #include "xmlparser.h"
 
@@ -34,8 +41,8 @@ struct XkbRulesParseState : public XMLParser {
                           array.begin());
     }
 
-    void startElement(const XML_Char *name, const XML_Char **attrs) override {
-        parseStack_.emplace_back(reinterpret_cast<const char *>(name));
+    void startElement(const char *name, const char **attrs) override {
+        parseStack_.emplace_back(std::string(name));
         textBuff_.clear();
 
         if (match({"layoutList", "layout", "configItem"})) {
@@ -46,8 +53,8 @@ struct XkbRulesParseState : public XMLParser {
             modelInfos_.emplace_back();
         } else if (match({"optionList", "group"})) {
             optionGroupInfos_.emplace_back();
-            int i = 0;
-            while (attrs && attrs[i * 2] != 0) {
+            ptrdiff_t i = 0;
+            while (attrs && attrs[i * 2] != nullptr) {
                 if (strcmp(reinterpret_cast<const char *>(attrs[i * 2]),
                            "allowMultipleSelection") == 0) {
                     optionGroupInfos_.back().exclusive =
@@ -60,8 +67,8 @@ struct XkbRulesParseState : public XMLParser {
         } else if (match({"optionList", "group", "option"})) {
             optionGroupInfos_.back().optionInfos.emplace_back();
         } else if (match({"xkbConfigRegistry"})) {
-            int i = 0;
-            while (attrs && attrs[i * 2] != 0) {
+            ptrdiff_t i = 0;
+            while (attrs && attrs[i * 2] != nullptr) {
                 if (strcmp(reinterpret_cast<const char *>(attrs[i * 2]),
                            "version") == 0 &&
                     strlen(reinterpret_cast<const char *>(attrs[i * 2 + 1])) !=
@@ -72,7 +79,7 @@ struct XkbRulesParseState : public XMLParser {
             }
         }
     }
-    void endElement(const XML_Char *) override {
+    void endElement(const char * /*name*/) override {
         auto text = stringutils::trimView(textBuff_);
         if (!text.empty()) {
             if (match({"layoutList", "layout", "configItem", "name"})) {
@@ -123,7 +130,7 @@ struct XkbRulesParseState : public XMLParser {
         textBuff_.clear();
         parseStack_.pop_back();
     }
-    void characterData(const XML_Char *ch, int len) override {
+    void characterData(const char *ch, int len) override {
         textBuff_.append(reinterpret_cast<const char *>(ch), len);
     }
 

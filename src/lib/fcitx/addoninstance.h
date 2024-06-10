@@ -9,7 +9,10 @@
 
 #include <functional>
 #include <memory>
+#include <string>
 #include <fcitx-config/configuration.h>
+#include <fcitx-config/rawconfig.h>
+#include <fcitx-utils/macros.h>
 #include <fcitx-utils/metastring.h>
 #include <fcitx/addoninfo.h>
 #include <fcitx/addoninstance_details.h> // IWYU pragma: export
@@ -162,18 +165,21 @@ private:
     namespace fcitx {                                                          \
     template <>                                                                \
     struct AddonFunctionSignature<fcitxMakeMetaString(#NAME "::" #FUNCTION)> { \
-        typedef std::remove_reference_t<decltype(std::declval<SIGNATURE>())>   \
-            type;                                                              \
+        using type =                                                           \
+            std::remove_reference_t<decltype(std::declval<SIGNATURE>())>;      \
     };                                                                         \
     namespace I##NAME {                                                        \
         struct FUNCTION {                                                      \
-            typedef fcitxMakeMetaString(#NAME "::" #FUNCTION) Name;            \
+            using Name = fcitxMakeMetaString(#NAME "::" #FUNCTION);            \
             using Signature = AddonFunctionSignatureType<Name>;                \
         };                                                                     \
     }                                                                          \
     }
 
 #define FCITX_ADDON_EXPORT_FUNCTION(CLASS, FUNCTION)                           \
+    static_assert(std::is_same_v<::fcitx::I##CLASS::FUNCTION::Name,            \
+                                 fcitxMakeMetaString(#CLASS "::" #FUNCTION)>,  \
+                  "");                                                         \
     decltype(::fcitx::MakeAddonFunctionAdaptor(                                \
         &CLASS::FUNCTION)) FUNCTION##Adaptor{#CLASS "::" #FUNCTION, this,      \
                                              &CLASS::FUNCTION};                \
