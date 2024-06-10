@@ -450,6 +450,21 @@ struct ConditionalHiddenHelper<true,
     using OptionType = HiddenOption<T, Constrain, Marshaller, Annotation>;
 };
 
+template <>
+struct ConditionalHiddenHelper<false, SubConfigOption> {
+    using OptionType = SubConfigOption;
+};
+
+template <>
+struct ConditionalHiddenHelper<true, SubConfigOption> {
+    class HiddenSubConfigOption : public SubConfigOption {
+    public:
+        using SubConfigOption::SubConfigOption;
+        bool skipDescription() const { return true; }
+    };
+    using OptionType = HiddenSubConfigOption;
+};
+
 template <bool hidden, typename T>
 using ConditionalHidden =
     typename ConditionalHiddenHelper<hidden, T>::OptionType;

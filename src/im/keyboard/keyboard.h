@@ -98,8 +98,9 @@ FCITX_CONFIGURATION(
         "LongPressBlocklist",
         _("Applications disabled for long press"),
         {"konsole"}};
-    SubConfigOption longPress{this, "LongPress", _("Long Press behavior"),
-                              "fcitx://config/addon/keyboard/longpress"};);
+    ConditionalHidden<isApple(), SubConfigOption> longPress{
+        this, "LongPress", _("Long Press behavior"),
+        "fcitx://config/addon/keyboard/longpress"};);
 
 class KeyboardEngine;
 
