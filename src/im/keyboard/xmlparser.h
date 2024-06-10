@@ -18,9 +18,9 @@ public:
     bool parse(const std::string &name);
 
 protected:
-    virtual void startElement(const XML_Char *, const XML_Char **) {}
-    virtual void endElement(const XML_Char *) {}
-    virtual void characterData(const XML_Char *, int) {}
+    virtual void startElement(const char *name, const char **attrs) = 0;
+    virtual void endElement(const char *) = 0;
+    virtual void characterData(const char *ch, int len) = 0;
 };
 } // namespace fcitx
 

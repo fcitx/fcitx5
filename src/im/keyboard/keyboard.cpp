@@ -6,20 +6,50 @@
  */
 
 #include "keyboard.h"
-#include <algorithm>
+#include <strings.h>
+#include <cstddef>
+#include <functional>
+#include <iterator>
+#include <memory>
+#include <optional>
+#include <set>
+#include <string>
+#include <string_view>
+#include <tuple>
+#include <utility>
+#include <vector>
+#include <fmt/core.h>
 #include <fmt/format.h>
 #include <xkbcommon/xkbcommon.h>
 #include "fcitx-config/iniparser.h"
+#include "fcitx-config/rawconfig.h"
+#include "fcitx-utils/capabilityflags.h"
+#include "fcitx-utils/event.h"
 #include "fcitx-utils/i18n.h"
+#include "fcitx-utils/key.h"
+#include "fcitx-utils/keysym.h"
+#include "fcitx-utils/keysymgen.h"
+#include "fcitx-utils/macros.h"
+#include "fcitx-utils/misc.h"
+#include "fcitx-utils/misc_p.h"
 #include "fcitx-utils/stringutils.h"
+#include "fcitx-utils/textformatflags.h"
 #include "fcitx-utils/utf8.h"
+#include "fcitx/candidatelist.h"
+#include "fcitx/event.h"
+#include "fcitx/inputcontext.h"
 #include "fcitx/inputcontextmanager.h"
 #include "fcitx/inputcontextproperty.h"
 #include "fcitx/inputmethodentry.h"
 #include "fcitx/inputpanel.h"
 #include "fcitx/instance.h"
+#include "fcitx/misc_p.h"
+#include "fcitx/text.h"
+#include "fcitx/userinterface.h"
 #include "chardata.h"
 #include "config.h"
+#include "emoji_public.h"
+#include "isocodes.h"
 #include "longpress.h"
 #include "notifications_public.h"
 #include "quickphrase_public.h"
@@ -29,9 +59,6 @@
 #define FCITX_NO_XCB
 #include "xcb_public.h"
 #endif
-
-#include <fcitx/inputcontext.h>
-#include "emoji_public.h"
 
 const char imNamePrefix[] = "keyboard-";
 #define FCITX_KEYBOARD_MAX_BUFFER 20
@@ -131,7 +158,7 @@ public:
     const std::string &str() const { return text_; }
 
     void select(InputContext *inputContext) const override {
-        auto state = inputContext->propertyFor(engine_->factory());
+        auto *state = inputContext->propertyFor(engine_->factory());
         state->mode_ = CandidateMode::Hint;
         // Make sure the candidate is from not from long press mode.
         inputContext->inputPanel().setCandidateList(nullptr);
@@ -358,7 +385,7 @@ static inline bool isValidSym(const Key &key) {
 static KeyList FCITX_HYPHEN_APOS = Key::keyListFromString("minus apostrophe");
 
 bool KeyboardEngineState::updateBuffer(std::string_view chr) {
-    auto *entry = engine_->instance()->inputMethodEntry(inputContext_);
+    const auto *entry = engine_->instance()->inputMethodEntry(inputContext_);
     if (!entry) {
         return false;
     }
@@ -472,7 +499,7 @@ bool KeyboardEngine::supportHint(const std::string &language) {
     return hasSpell || hasEmoji;
 }
 
-void KeyboardEngineState::setPreedit() {
+void KeyboardEngineState::setPreedit() const {
     const bool useClientPreedit =
         inputContext_->capabilityFlags().test(CapabilityFlag::Preedit);
     auto preeditText = preeditString();
@@ -499,7 +526,7 @@ void KeyboardEngineState::setPreedit() {
 void KeyboardEngineState::updateCandidate(const InputMethodEntry &entry) {
     inputContext_->inputPanel().reset();
     std::vector<std::pair<std::string, std::string>> results;
-    if (auto spell = engine_->spell()) {
+    if (auto *spell = engine_->spell()) {
         results = spell->call<ISpell::hintForDisplay>(
             entry.languageCode(), SpellProvider::Default, buffer_.userInput(),
             engine_->config().pageSize.value());
@@ -540,7 +567,7 @@ void KeyboardEngine::resetState(InputContext *inputContext) {
     state->reset();
 }
 
-void KeyboardEngine::deactivate(const InputMethodEntry &,
+void KeyboardEngine::deactivate(const InputMethodEntry & /*entry*/,
                                 InputContextEvent &event) {
     auto *inputContext = event.inputContext();
     auto *state = inputContext->propertyFor(&factory_);
@@ -556,7 +583,8 @@ void KeyboardEngine::deactivate(const InputMethodEntry &,
     inputContext->updateUserInterface(UserInterfaceComponent::InputPanel);
 }
 
-void KeyboardEngine::reset(const InputMethodEntry &, InputContextEvent &event) {
+void KeyboardEngine::reset(const InputMethodEntry & /*entry*/,
+                           InputContextEvent &event) {
     auto *inputContext = event.inputContext();
     auto *state = inputContext->propertyFor(&factory_);
     state->reset();
@@ -565,7 +593,7 @@ void KeyboardEngine::reset(const InputMethodEntry &, InputContextEvent &event) {
     inputContext->updateUserInterface(UserInterfaceComponent::InputPanel);
 }
 
-void KeyboardEngine::invokeActionImpl(const InputMethodEntry &,
+void KeyboardEngine::invokeActionImpl(const InputMethodEntry & /*entry*/,
                                       InvokeActionEvent &event) {
     auto *inputContext = event.inputContext();
     auto *state = inputContext->propertyFor(&factory_);
@@ -685,7 +713,7 @@ bool KeyboardEngineState::handleLongPress(const KeyEvent &event) {
         event.rawKey().states().test(KeyState::Repeat) &&
         *engine_->config().enableLongPress &&
         !engine_->isBlockedForLongPress(inputContext->program())) {
-        if (auto results = findValue(engine_->longPressData(), keystr)) {
+        if (const auto *results = findValue(engine_->longPressData(), keystr)) {
             if (repeatStarted_) {
                 return true;
             }
@@ -752,7 +780,8 @@ bool KeyboardEngineState::handleSpellModeTrigger(const InputMethodEntry &entry,
     return false;
 }
 
-bool KeyboardEngineState::handleCandidateSelection(const KeyEvent &event) {
+bool KeyboardEngineState::handleCandidateSelection(
+    const KeyEvent &event) const {
     // check if we can select candidate.
     auto candList = inputContext_->inputPanel().candidateList();
     if (!candList) {
@@ -821,7 +850,8 @@ std::string KeyboardEngineState::currentSelection() const {
             }
         }
         return buffer_.userInput();
-    } else if (mode_ == CandidateMode::LongPress) {
+    }
+    if (mode_ == CandidateMode::LongPress) {
         if (candidateList && candidateList->cursorIndex() >= 0) {
             if (const auto *candidate =
                     dynamic_cast<const LongPressCandidateWord *>(

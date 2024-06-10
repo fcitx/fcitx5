@@ -6,10 +6,15 @@
  */
 
 #include "xmlparser.h"
+#include <cstdio>
+#include <string>
+#include <expat.h>
 #include "fcitx-utils/misc.h"
 #define XML_BUFFER_SIZE 4096
 
-bool fcitx::XMLParser::parse(const std::string &name) {
+namespace fcitx {
+
+bool XMLParser::parse(const std::string &name) {
     UniqueCPtr<XML_ParserStruct, XML_ParserFree> parser(
         XML_ParserCreate(nullptr));
     UniqueFilePtr input(std::fopen(name.c_str(), "r"));
@@ -25,12 +30,12 @@ bool fcitx::XMLParser::parse(const std::string &name) {
             auto *ctx = static_cast<XMLParser *>(data);
             ctx->startElement(element_name, atts);
         },
-        [](void *data, const XML_Char *name) {
+        [](void *data, const char *name) {
             auto *ctx = static_cast<XMLParser *>(data);
             ctx->endElement(name);
         });
     XML_SetCharacterDataHandler(parser.get(),
-                                [](void *data, const XML_Char *s, int len) {
+                                [](void *data, const char *s, int len) {
                                     auto *ctx = static_cast<XMLParser *>(data);
                                     ctx->characterData(s, len);
                                 });
@@ -49,3 +54,5 @@ bool fcitx::XMLParser::parse(const std::string &name) {
 
     return true;
 }
+
+} // namespace fcitx

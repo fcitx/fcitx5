@@ -4,6 +4,7 @@
  * SPDX-License-Identifier: LGPL-2.1-or-later
  *
  */
+#include <fcitx-utils/log.h>
 #include "config.h"
 #include "im/keyboard/isocodes.h"
 
