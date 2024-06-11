@@ -74,6 +74,8 @@ int XCBInputWindow::calculatePositionX(const Rect &cursorRect,
         if (newX + actualWidth > closestScreen->right()) {
             newX = closestScreen->right() - actualWidth;
         }
+
+        x = std::max(newX, closestScreen->left());
     }
 
     // exclude shadow border width
