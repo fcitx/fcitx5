@@ -131,10 +131,10 @@ run_qt() {
 run_xdg() {
     case "$DE" in
         kde)
-            message "$(_ "You're currently running KDE, but KCModule for fcitx couldn't be found, the package name of this KCModule is usually kcm-fcitx or kde-config-fcitx. Now it will open config directory.")"
+            message "$(_ "You're currently running KDE, but KCModule for fcitx couldn't be found. The package name of this KCModule is usually kcm-fcitx5, kde-config-fcitx5, or fcitx5-configtool. Now it will open the configuration directory.")"
             ;;
         *)
-            message "$(_ "You're currently running Fcitx with GUI, but fcitx5-config-qt couldn't be found. Now it will open config directory.")"
+            message "$(_ "You're currently running Fcitx with GUI, but fcitx5-config-qt couldn't be found. The package name provides this binary is usually fcitx5-configtool. Now it will open the configuration directory.")"
             ;;
     esac
 
