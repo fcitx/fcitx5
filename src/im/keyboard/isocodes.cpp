@@ -8,9 +8,7 @@
 #include "isocodes.h"
 #include <cstring>
 #include <string>
-#include <json-c/json_object.h>
-#include <json-c/json_types.h>
-#include <json-c/json_util.h>
+#include <json-c/json.h>
 #include "fcitx-utils/metastring.h"
 #include "fcitx-utils/misc.h"
 
