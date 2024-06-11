@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2024-04-06 20:24+0000\n"
+"POT-Creation-Date: 2024-06-11 20:24+0000\n"
 "PO-Revision-Date: 2017-11-23 04:14+0000\n"
 "Last-Translator: mar well <m.wellendorf@gmx.de>, 2023\n"
 "Language-Team: German (https://app.transifex.com/fcitx/teams/12005/de/)\n"
@@ -50,7 +50,7 @@ msgstr "${1} nicht gefunden."
 msgid "${1} works properly."
 msgstr "${1} funktioniert ordnungsgemäß."
 
-#: src/lib/fcitx/instance.cpp:413
+#: src/lib/fcitx/instance.cpp:419
 msgid "(Not available)"
 msgstr "(nicht vorhanden)"
 
@@ -176,7 +176,7 @@ msgstr "Übergehen der XKB-Einstellungen erlauben (nur für KDE5 unterstützt)"
 msgid "Allow input method in the password field"
 msgstr ""
 
-#: src/im/keyboard/keyboard.h:30 src/modules/quickphrase/quickphrase.h:26
+#: src/im/keyboard/keyboard.h:44 src/modules/quickphrase/quickphrase.h:25
 msgid "Alt"
 msgstr "Alt"
 
@@ -199,7 +199,7 @@ msgctxt "Key name"
 msgid "Application Right"
 msgstr "Anwendung Rechts"
 
-#: src/im/keyboard/keyboard.h:85
+#: src/im/keyboard/keyboard.h:99
 msgid "Applications disabled for long press"
 msgstr ""
 
@@ -338,7 +338,7 @@ msgctxt "Key name"
 msgid "Cancel"
 msgstr "Abbrechen"
 
-#: src/im/keyboard/longpress.h:19
+#: src/im/keyboard/longpress.h:23
 msgid "Candidates"
 msgstr "Kandidaten"
 
@@ -450,7 +450,7 @@ msgstr "Fcitx 5 Konfiguration ändern"
 msgid "Check box"
 msgstr "Checkbox"
 
-#: src/im/keyboard/keyboard.h:54 src/modules/quickphrase/quickphrase.h:38
+#: src/im/keyboard/keyboard.h:68 src/modules/quickphrase/quickphrase.h:37
 msgid "Choose key modifier"
 msgstr "Funktionstaste wählen"
 
@@ -494,19 +494,19 @@ msgctxt "Key name"
 msgid "Community"
 msgstr "Gemeinschaft"
 
-#: src/im/keyboard/keyboard.cpp:678
+#: src/im/keyboard/keyboard.cpp:706
 msgid "Completion"
 msgstr "Vervollständigung"
 
-#: src/im/keyboard/keyboard.cpp:669
+#: src/im/keyboard/keyboard.cpp:697
 msgid "Completion is disabled."
 msgstr "Vervollständigung ist deaktiviert."
 
-#: src/im/keyboard/keyboard.cpp:672
+#: src/im/keyboard/keyboard.cpp:700
 msgid "Completion is enabled temporarily."
 msgstr "Vervollständigung ist vorübergehend aktiviert."
 
-#: src/im/keyboard/keyboard.cpp:674
+#: src/im/keyboard/keyboard.cpp:702
 msgid "Completion is enabled."
 msgstr "Vervollständigung ist aktiviert."
 
@@ -543,7 +543,7 @@ msgstr "Konfiguration:"
 msgid "Configure"
 msgstr "Konfigurieren"
 
-#: src/im/keyboard/keyboard.h:31 src/modules/quickphrase/quickphrase.h:26
+#: src/im/keyboard/keyboard.h:45 src/modules/quickphrase/quickphrase.h:25
 msgid "Control"
 msgstr "Kontrolle"
 
@@ -623,7 +623,7 @@ msgstr "Eingabemethode deaktivieren"
 msgid "Debug information from dbus:"
 msgstr "Debug Informationen vom dbus:"
 
-#: src/lib/fcitx/inputmethodmanager.cpp:137 src/lib/fcitx/instance.cpp:360
+#: src/lib/fcitx/inputmethodmanager.cpp:153 src/lib/fcitx/instance.cpp:366
 #: src/ui/classic/themes/default/theme.conf.in:3
 msgid "Default"
 msgstr "Standard"
@@ -715,7 +715,7 @@ msgctxt "Key name"
 msgid "Down"
 msgstr "Runter"
 
-#: src/modules/quickphrase/quickphrase.h:44
+#: src/modules/quickphrase/quickphrase.h:43
 msgid "Editor"
 msgstr "Editor"
 
@@ -738,7 +738,7 @@ msgstr "Auswerfen"
 msgid "Emoji"
 msgstr "Emoji"
 
-#: src/im/keyboard/longpress.h:17
+#: src/im/keyboard/longpress.h:21
 msgid "Enable"
 msgstr "Aktivieren"
 
@@ -746,15 +746,15 @@ msgstr "Aktivieren"
 msgid "Enable Blur on KWin"
 msgstr "Unschärfe für KWin einschalten"
 
-#: src/modules/quickphrase/quickphrase.h:40
+#: src/modules/quickphrase/quickphrase.h:39
 msgid "Enable Spell check"
 msgstr "Rechtschreibprüfung aktivieren"
 
-#: src/im/keyboard/keyboard.h:49
+#: src/im/keyboard/keyboard.h:63
 msgid "Enable emoji in hint"
 msgstr "Emoji für Hinweise einschalten"
 
-#: src/im/keyboard/keyboard.h:52
+#: src/im/keyboard/keyboard.h:66
 msgid "Enable emoji in quickphrase"
 msgstr ""
 
@@ -762,7 +762,7 @@ msgstr ""
 msgid "Enable fractional scale under Wayland"
 msgstr ""
 
-#: src/im/keyboard/keyboard.h:57
+#: src/im/keyboard/keyboard.h:71
 msgid "Enable hint by default"
 msgstr "Hinweise standardmäßig einschalten"
 
@@ -775,7 +775,7 @@ msgctxt "Key name"
 msgid "End"
 msgstr "Ende"
 
-#: src/im/keyboard/longpress.h:26
+#: src/im/keyboard/longpress.h:30
 msgid "Entries"
 msgstr "Einträge"
 
@@ -850,7 +850,7 @@ msgstr "Kann ${1} im Eingabemethoden-Cache bei ${2} nicht finden"
 msgid "Failed to find ${1} in the output of ${2}"
 msgstr "Finde ${1} nicht in der Ausgabe von ${2}"
 
-#: src/modules/quickphrase/quickphrase.h:42
+#: src/modules/quickphrase/quickphrase.h:41
 msgid "Fallback Spell check language"
 msgstr "Fallback Rechtschreibprüfungssprache"
 
@@ -1068,12 +1068,12 @@ msgstr "Grün"
 msgid "Group"
 msgstr "Gruppe"
 
-#: src/lib/fcitx/instance.cpp:417
+#: src/lib/fcitx/instance.cpp:423
 #, c++-format
 msgid "Group {0}: {1}"
 msgstr "Gruppe {0}: {1}"
 
-#: src/lib/fcitx/instance.cpp:362
+#: src/lib/fcitx/instance.cpp:368
 #, c++-format
 msgid "Group {}"
 msgstr "Gruppe {}"
@@ -1286,8 +1286,8 @@ msgstr ""
 msgid "Image"
 msgstr "Bild"
 
-#: src/im/keyboard/keyboard.cpp:677 src/lib/fcitx/instance.cpp:452
-#: src/lib/fcitx/instance.cpp:679 src/lib/fcitx/instance.cpp:841
+#: src/im/keyboard/keyboard.cpp:705 src/lib/fcitx/instance.cpp:458
+#: src/lib/fcitx/instance.cpp:686 src/lib/fcitx/instance.cpp:848
 #: src/modules/notificationitem/notificationitem.cpp:142
 #: src/modules/notificationitem/notificationitem.cpp:230
 #: src/modules/xcb/xcbconnection.cpp:555 data/org.fcitx.Fcitx5.desktop.in.in:4
@@ -1398,20 +1398,20 @@ msgctxt "Key name"
 msgid "Katakana"
 msgstr "Katakana"
 
-#: src/im/keyboard/longpress.h:16
+#: src/im/keyboard/longpress.h:20
 msgid "Key"
 msgstr "Taste"
 
-#: src/im/keyboard/keyboard.cpp:308 src/im/keyboard/keyboard.conf.in.in:3
+#: src/im/keyboard/keyboard.cpp:335 src/im/keyboard/keyboard.conf.in.in:3
 msgid "Keyboard"
 msgstr "Tastatur"
 
-#: src/im/keyboard/keyboard.cpp:224
+#: src/im/keyboard/keyboard.cpp:251
 #, c++-format
 msgid "Keyboard - {0}"
 msgstr "Tastatur - {0}"
 
-#: src/im/keyboard/keyboard.cpp:243
+#: src/im/keyboard/keyboard.cpp:270
 #, c++-format
 msgid "Keyboard - {0} - {1}"
 msgstr "Tastatur - {0} - {1}"
@@ -1756,7 +1756,7 @@ msgctxt "Key name"
 msgid "Logoff"
 msgstr "Ausloggen"
 
-#: src/im/keyboard/keyboard.h:87
+#: src/im/keyboard/keyboard.h:102
 msgid "Long Press behavior"
 msgstr ""
 
@@ -1944,7 +1944,7 @@ msgctxt "Key name"
 msgid "News"
 msgstr "Neuigkeiten"
 
-#: src/im/keyboard/keyboard.h:46
+#: src/im/keyboard/keyboard.h:60
 msgid "Next Candidate"
 msgstr "Nächster Kandidat"
 
@@ -1960,7 +1960,7 @@ msgstr "Nein"
 msgid "No clipboard history."
 msgstr "Kein Zwischenablageverlauf"
 
-#: src/im/keyboard/keyboard.h:30 src/modules/quickphrase/quickphrase.h:25
+#: src/im/keyboard/keyboard.h:44 src/modules/quickphrase/quickphrase.h:24
 msgid "None"
 msgstr "Nicht beibehalten"
 
@@ -1999,7 +1999,7 @@ msgstr "NumLock"
 msgid "Number of entries"
 msgstr "Anzahl der Einträge"
 
-#: src/im/keyboard/keyboard.cpp:663
+#: src/im/keyboard/keyboard.cpp:691
 msgid ""
 "Only emoji support is found. To enable spell checking, you may need to "
 "install spell check data for the language."
@@ -2066,7 +2066,7 @@ msgstr ""
 msgid "Page button vertical alignment"
 msgstr ""
 
-#: src/im/keyboard/keyboard.h:35
+#: src/im/keyboard/keyboard.h:49
 msgid "Page size"
 msgstr "Seitengröße"
 
@@ -2120,15 +2120,15 @@ msgctxt "Key name"
 msgid "Power Off"
 msgstr "Ausschalten"
 
-#: src/lib/fcitx/instance.cpp:841
+#: src/lib/fcitx/instance.cpp:848
 msgid "Preedit"
 msgstr ""
 
-#: src/lib/fcitx/instance.cpp:843
+#: src/lib/fcitx/instance.cpp:850
 msgid "Preedit disabled"
 msgstr ""
 
-#: src/lib/fcitx/instance.cpp:842
+#: src/lib/fcitx/instance.cpp:849
 msgid "Preedit enabled"
 msgstr ""
 
@@ -2140,7 +2140,7 @@ msgstr ""
 msgid "Presage"
 msgstr "Vorhersage"
 
-#: src/im/keyboard/keyboard.h:40
+#: src/im/keyboard/keyboard.h:54
 msgid "Prev Candidate"
 msgstr "Vorheriger Kandidat"
 
@@ -2170,7 +2170,7 @@ msgstr "Qt-IM-Moduldateien:"
 msgid "Quick Phrase"
 msgstr "Quick Phrase"
 
-#: src/modules/quickphrase/quickphrase.cpp:467
+#: src/modules/quickphrase/quickphrase.cpp:470
 msgid "Quick Phrase: "
 msgstr "Quick Phrase: "
 
@@ -2380,7 +2380,7 @@ msgstr ""
 msgid "Show preedit text when typing password"
 msgstr ""
 
-#: src/im/keyboard/keyboard.h:75
+#: src/im/keyboard/keyboard.h:89
 msgid ""
 "Show preedit when composing, and commit dead key if there is no matching "
 "sequence."
@@ -2404,7 +2404,7 @@ msgstr "Leerzeichen"
 msgid "Spacing"
 msgstr "Abstand"
 
-#: src/im/keyboard/keyboard.h:77 src/modules/spell/spell.conf.in.in:3
+#: src/im/keyboard/keyboard.h:91 src/modules/spell/spell.conf.in.in:3
 msgid "Spell"
 msgstr "Rechtschreibung"
 
@@ -2451,7 +2451,7 @@ msgctxt "Key name"
 msgid "Subtitle"
 msgstr "Untertitel"
 
-#: src/im/keyboard/keyboard.h:31 src/modules/quickphrase/quickphrase.h:26
+#: src/im/keyboard/keyboard.h:45 src/modules/quickphrase/quickphrase.h:25
 msgid "Super"
 msgstr "Super"
 
@@ -2470,17 +2470,17 @@ msgctxt "Key name"
 msgid "Suspend"
 msgstr "Suspend"
 
-#: src/lib/fcitx/instance.cpp:453 src/lib/fcitx/instance.cpp:680
+#: src/lib/fcitx/instance.cpp:459 src/lib/fcitx/instance.cpp:687
 #: src/modules/xcb/xcbconnection.cpp:556
 msgid "Switch group"
 msgstr "Gruppe umschalten"
 
-#: src/lib/fcitx/instance.cpp:454 src/modules/xcb/xcbconnection.cpp:557
+#: src/lib/fcitx/instance.cpp:460 src/modules/xcb/xcbconnection.cpp:557
 #, c++-format
 msgid "Switch group to {0}"
 msgstr "Gruppe auf {0} umschalten"
 
-#: src/lib/fcitx/instance.cpp:681
+#: src/lib/fcitx/instance.cpp:688
 #, c++-format
 msgid "Switched group to {0}"
 msgstr "Gruppe auf {0} umgeschaltet"
@@ -2648,7 +2648,7 @@ msgid "Trigger Input Method"
 msgstr "Eingabemethode aktivieren"
 
 #: src/modules/imselector/imselector.h:28
-#: src/modules/quickphrase/quickphrase.h:33 src/modules/unicode/unicode.h:28
+#: src/modules/quickphrase/quickphrase.h:32 src/modules/unicode/unicode.h:28
 #: src/modules/clipboard/clipboard.h:48
 msgid "Trigger Key"
 msgstr "Auslösetaste"
@@ -2657,15 +2657,15 @@ msgstr "Auslösetaste"
 msgid "Trigger Key for only current input context"
 msgstr ""
 
-#: src/im/keyboard/keyboard.h:60
+#: src/im/keyboard/keyboard.h:74
 msgid "Trigger hint mode"
 msgstr "Hinweismodus anschalten"
 
-#: src/im/keyboard/keyboard.h:65
+#: src/im/keyboard/keyboard.h:79
 msgid "Trigger hint mode for one time"
 msgstr ""
 
-#: src/im/keyboard/keyboard.h:80
+#: src/im/keyboard/keyboard.h:94
 msgid "Type special characters with long press"
 msgstr ""
 
@@ -2719,7 +2719,7 @@ msgstr ""
 msgid "Use mouse wheel to go to prev or next page"
 msgstr ""
 
-#: src/im/keyboard/keyboard.h:71
+#: src/im/keyboard/keyboard.h:85
 msgid "Use new compose behavior"
 msgstr ""
 
@@ -2917,14 +2917,15 @@ msgstr ""
 #: data/fcitx5-configtool.sh:137
 msgid ""
 "You're currently running Fcitx with GUI, but fcitx5-config-qt couldn't be "
-"found. Now it will open config directory."
+"found. The package name provides this binary is usually fcitx5-configtool. "
+"Now it will open the configuration directory."
 msgstr ""
 
 #: data/fcitx5-configtool.sh:134
 msgid ""
-"You're currently running KDE, but KCModule for fcitx couldn't be found, the "
-"package name of this KCModule is usually kcm-fcitx or kde-config-fcitx. Now "
-"it will open config directory."
+"You're currently running KDE, but KCModule for fcitx couldn't be found. The "
+"package name of this KCModule is usually kcm-fcitx5, kde-config-fcitx5, or "
+"fcitx5-configtool. Now it will open the configuration directory."
 msgstr ""
 
 #: data/fcitx5-diagnose.sh:1185
@@ -2985,17 +2986,17 @@ msgstr ""
 msgid "version:"
 msgstr "Version:"
 
-#: src/im/keyboard/keyboard.cpp:285
+#: src/im/keyboard/keyboard.cpp:312
 #, c++-format
 msgid "{0} (Not Available)"
 msgstr "{0} (Nicht verfügbar)"
 
-#: src/lib/fcitx/instance.cpp:411
+#: src/lib/fcitx/instance.cpp:417
 #, c++-format
 msgid "{0} (Not available)"
 msgstr "{0} (Nicht verfügbar)"
 
-#: src/lib/fcitx/instance.cpp:408
+#: src/lib/fcitx/instance.cpp:414
 #, c++-format
 msgid "{0} ({1})"
 msgstr "{0} ({1})"
