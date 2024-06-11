@@ -40,53 +40,62 @@ void XCBInputWindow::postCreateWindow() {
             XCB_EVENT_MASK_LEAVE_WINDOW);
 }
 
-void XCBInputWindow::updatePosition(InputContext *inputContext) {
-    if (!visible()) {
-        return;
-    }
-    int x, y, h;
-
-    // add support of input panel offset here.
-    // TODO: RTL support.
-    auto &theme = parent_->theme();
-    int leftSW, rightSW, topSW, bottomSW, actualWidth, actualHeight;
-    leftSW = theme.inputPanel->shadowMargin->marginLeft.value();
-    rightSW = theme.inputPanel->shadowMargin->marginRight.value();
-    topSW = theme.inputPanel->shadowMargin->marginTop.value();
-    bottomSW = theme.inputPanel->shadowMargin->marginBottom.value();
-
-    x = inputContext->cursorRect().left();
-    y = inputContext->cursorRect().top();
-    h = inputContext->cursorRect().height();
-
-    actualWidth = width() - leftSW - rightSW;
-    actualWidth = actualWidth <= 0 ? width() : actualWidth;
-    actualHeight = height() - topSW - bottomSW;
-    actualHeight = actualHeight <= 0 ? height() : actualHeight;
-
+const Rect *XCBInputWindow::getClosestScreen(const Rect &cursorRect) const {
     const Rect *closestScreen = nullptr;
+
     int shortestDistance = INT_MAX;
     for (const auto &rect : ui_->screenRects()) {
-        int thisDistance = rect.first.distance(x, y);
+        int thisDistance =
+            rect.first.distance(cursorRect.left(), cursorRect.top());
         if (thisDistance < shortestDistance) {
             shortestDistance = thisDistance;
             closestScreen = &rect.first;
         }
     }
 
-    if (closestScreen) {
-        int newX;
+    return closestScreen;
+}
 
-        if (x < closestScreen->left()) {
-            newX = closestScreen->left();
-        } else {
-            newX = x;
-        }
+int XCBInputWindow::calculatePositionX(const Rect &cursorRect,
+                                       const Rect *closestScreen) const {
+    // TODO: RTL support.
+    int x = cursorRect.left();
 
-        if ((newX + static_cast<int>(actualWidth)) > closestScreen->right()) {
+    auto &theme = parent_->theme();
+    int leftSW = theme.inputPanel->shadowMargin->marginLeft.value();
+    int rightSW = theme.inputPanel->shadowMargin->marginRight.value();
+
+    int actualWidth = width() - leftSW - rightSW;
+    actualWidth = actualWidth <= 0 ? width() : actualWidth;
+
+    if (closestScreen != nullptr) {
+        int newX = std::max(x, closestScreen->left());
+
+        if (newX + actualWidth > closestScreen->right()) {
             newX = closestScreen->right() - actualWidth;
         }
+    }
 
+    // exclude shadow border width
+    x -= leftSW;
+
+    return x;
+}
+
+int XCBInputWindow::calculatePositionY(const Rect &cursorRect,
+                                       const Rect *closestScreen) const {
+    // TODO: RTL support.
+    int y = cursorRect.top();
+
+    auto &theme = parent_->theme();
+    int topSW = theme.inputPanel->shadowMargin->marginTop.value();
+    int bottomSW = theme.inputPanel->shadowMargin->marginBottom.value();
+
+    int actualHeight = height() - topSW - bottomSW;
+    actualHeight = actualHeight <= 0 ? height() : actualHeight;
+
+    if (closestScreen != nullptr) {
+        int h = cursorRect.height();
         int newY;
         if (y < closestScreen->top()) {
             newY = closestScreen->top();
@@ -95,7 +104,7 @@ void XCBInputWindow::updatePosition(InputContext *inputContext) {
         }
 
         // Try flip y.
-        if ((newY + static_cast<int>(actualHeight)) > closestScreen->bottom()) {
+        if (newY + actualHeight > closestScreen->bottom()) {
             if (newY > closestScreen->bottom()) {
                 newY = closestScreen->bottom() - actualHeight - 40;
             } else { /* better position the window */
@@ -109,17 +118,25 @@ void XCBInputWindow::updatePosition(InputContext *inputContext) {
             }
         }
 
-        x = newX;
         y = newY;
     }
 
     // exclude shadow border width
-    x -= leftSW;
     y -= topSW;
 
+    return y;
+}
+
+void XCBInputWindow::updatePosition(InputContext *inputContext) {
+    if (!visible()) {
+        return;
+    }
+
+    const Rect &cursorRect = inputContext->cursorRect();
+    const Rect *closestScreen = getClosestScreen(cursorRect);
     xcb_params_configure_window_t wc;
-    wc.x = x;
-    wc.y = y;
+    wc.x = calculatePositionX(cursorRect, closestScreen);
+    wc.y = calculatePositionY(cursorRect, closestScreen);
     wc.stack_mode = XCB_STACK_MODE_ABOVE;
     xcb_aux_configure_window(ui_->connection(), wid_,
                              XCB_CONFIG_WINDOW_STACK_MODE |
