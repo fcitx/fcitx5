@@ -5,16 +5,16 @@
 # Translators:
 # wwj402 <wwj402@gmail.com>, 2017
 # rocka, 2023
-# Yiyu Liu, 2024
 # csslayer <wengxt@gmail.com>, 2024
+# Yiyu Liu, 2024
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2024-06-11 20:24+0000\n"
+"POT-Creation-Date: 2024-06-13 20:24+0000\n"
 "PO-Revision-Date: 2017-11-23 04:14+0000\n"
-"Last-Translator: csslayer <wengxt@gmail.com>, 2024\n"
+"Last-Translator: Yiyu Liu, 2024\n"
 "Language-Team: Chinese (China) (https://app.transifex.com/fcitx/teams/12005/"
 "zh_CN/)\n"
 "Language: zh_CN\n"
@@ -2963,6 +2963,8 @@ msgid ""
 "found. The package name provides this binary is usually fcitx5-configtool. "
 "Now it will open the configuration directory."
 msgstr ""
+"您正在 GUI 下运行 Fcitx，但是 fcitx-config-qt 未被找到。该软件包名称通常为 "
+"fcitx5-configtool。现在将打开配置目录。"
 
 #: data/fcitx5-configtool.sh:134
 msgid ""
@@ -2970,6 +2972,8 @@ msgid ""
 "package name of this KCModule is usually kcm-fcitx5, kde-config-fcitx5, or "
 "fcitx5-configtool. Now it will open the configuration directory."
 msgstr ""
+"您正在使用 KDE，但是 fcitx 的 KCModule 未被找到，此 KCModule 的软件包名称通常"
+"是 kcm-fcitx5、kde-config-fcitx5 或 fcitx5-configtool。现在将打开配置目录。"
 
 #: data/fcitx5-diagnose.sh:1185
 msgid ""
