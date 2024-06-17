@@ -7,9 +7,15 @@
 #ifndef _FCITX_MODULES_QUICKPHRASE_QUICKPHRASE_H_
 #define _FCITX_MODULES_QUICKPHRASE_QUICKPHRASE_H_
 
+#include <memory>
+#include <string>
+#include <vector>
 #include "fcitx-config/configuration.h"
 #include "fcitx-config/enum.h"
 #include "fcitx-config/iniparser.h"
+#include "fcitx-config/option.h"
+#include "fcitx-config/rawconfig.h"
+#include "fcitx-utils/handlertable.h"
 #include "fcitx-utils/i18n.h"
 #include "fcitx-utils/key.h"
 #include "fcitx/addoninstance.h"
@@ -76,9 +82,13 @@ public:
     std::unique_ptr<HandlerTableEntry<QuickPhraseProviderCallback>>
         addProvider(QuickPhraseProviderCallback);
 
+    std::unique_ptr<HandlerTableEntry<QuickPhraseProviderCallbackV2>>
+        addProviderV2(QuickPhraseProviderCallbackV2);
+
 private:
     FCITX_ADDON_EXPORT_FUNCTION(QuickPhrase, trigger);
     FCITX_ADDON_EXPORT_FUNCTION(QuickPhrase, addProvider);
+    FCITX_ADDON_EXPORT_FUNCTION(QuickPhrase, addProviderV2);
     FCITX_ADDON_EXPORT_FUNCTION(QuickPhrase, setBuffer);
 
     void setSelectionKeys(QuickPhraseAction action);

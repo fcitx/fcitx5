@@ -26,7 +26,7 @@ namespace fcitx {
 
 bool BuiltInQuickPhraseProvider::populate(
     InputContext *, const std::string &userInput,
-    const QuickPhraseAddCandidateCallback &addCandidate) {
+    const QuickPhraseAddCandidateCallbackV2 &addCandidate) {
     auto start = map_.lower_bound(userInput);
     auto end = map_.end();
 
@@ -34,9 +34,7 @@ bool BuiltInQuickPhraseProvider::populate(
         if (!stringutils::startsWith(start->first, userInput)) {
             break;
         }
-        addCandidate(start->second,
-                     stringutils::concat(start->second, " ",
-                                         start->first.substr(userInput.size())),
+        addCandidate(start->second, start->second, start->first,
                      QuickPhraseAction::Commit);
     }
     return true;
@@ -106,7 +104,7 @@ SpellQuickPhraseProvider::SpellQuickPhraseProvider(QuickPhrase *parent)
 
 bool SpellQuickPhraseProvider::populate(
     InputContext *ic, const std::string &userInput,
-    const QuickPhraseAddCandidateCallback &addCandidate) {
+    const QuickPhraseAddCandidateCallbackV2 &addCandidate) {
     if (!*parent_->config().enableSpell) {
         return true;
     }
@@ -125,16 +123,26 @@ bool SpellQuickPhraseProvider::populate(
     const auto result = spell->call<ISpell::hint>(
         lang, userInput, instance_->globalConfig().defaultPageSize());
     for (const auto &word : result) {
-        addCandidate(word, word, QuickPhraseAction::Commit);
+        addCandidate(word, word, "", QuickPhraseAction::Commit);
     }
     return true;
 }
 
 bool CallbackQuickPhraseProvider::populate(
     InputContext *ic, const std::string &userInput,
-    const QuickPhraseAddCandidateCallback &addCandidate) {
-    for (const auto &callback : callback_.view()) {
+    const QuickPhraseAddCandidateCallbackV2 &addCandidate) {
+    for (const auto &callback : callbackV2_.view()) {
         if (!callback(ic, userInput, addCandidate)) {
+            return false;
+        }
+    }
+    for (const auto &callback : callback_.view()) {
+        if (!callback(ic, userInput,
+                      [&addCandidate](const std::string &word,
+                                      const std::string &aux,
+                                      QuickPhraseAction action) {
+                          return addCandidate(word, aux, "", action);
+                      })) {
             return false;
         }
     }

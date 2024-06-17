@@ -28,13 +28,14 @@ public:
     virtual ~QuickPhraseProvider() = default;
     virtual bool
     populate(InputContext *ic, const std::string &userInput,
-             const QuickPhraseAddCandidateCallback &addCandidate) = 0;
+             const QuickPhraseAddCandidateCallbackV2 &addCandidate) = 0;
 };
 
 class BuiltInQuickPhraseProvider : public QuickPhraseProvider {
 public:
-    bool populate(InputContext *ic, const std::string &userInput,
-                  const QuickPhraseAddCandidateCallback &addCandidate) override;
+    bool
+    populate(InputContext *ic, const std::string &userInput,
+             const QuickPhraseAddCandidateCallbackV2 &addCandidate) override;
     void reloadConfig();
 
 private:
@@ -47,8 +48,9 @@ public:
     SpellQuickPhraseProvider(QuickPhrase *parent);
     FCITX_ADDON_DEPENDENCY_LOADER(spell, instance_->addonManager());
 
-    bool populate(InputContext *ic, const std::string &userInput,
-                  const QuickPhraseAddCandidateCallback &addCandidate) override;
+    bool
+    populate(InputContext *ic, const std::string &userInput,
+             const QuickPhraseAddCandidateCallbackV2 &addCandidate) override;
 
 private:
     QuickPhrase *parent_;
@@ -58,16 +60,23 @@ private:
 class CallbackQuickPhraseProvider : public QuickPhraseProvider,
                                     public ConnectableObject {
 public:
-    bool populate(InputContext *ic, const std::string &userInput,
-                  const QuickPhraseAddCandidateCallback &addCandidate) override;
+    bool
+    populate(InputContext *ic, const std::string &userInput,
+             const QuickPhraseAddCandidateCallbackV2 &addCandidate) override;
 
     std::unique_ptr<HandlerTableEntry<QuickPhraseProviderCallback>>
     addCallback(QuickPhraseProviderCallback callback) {
         return callback_.add(std::move(callback));
     }
 
+    std::unique_ptr<HandlerTableEntry<QuickPhraseProviderCallbackV2>>
+    addCallback(QuickPhraseProviderCallbackV2 callback) {
+        return callbackV2_.add(std::move(callback));
+    }
+
 private:
     HandlerTable<QuickPhraseProviderCallback> callback_;
+    HandlerTable<QuickPhraseProviderCallbackV2> callbackV2_;
 };
 
 } // namespace fcitx

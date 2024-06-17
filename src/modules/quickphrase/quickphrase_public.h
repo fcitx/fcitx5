@@ -8,7 +8,9 @@
 #define _FCITX_MODULES_QUICKPHRASE_QUICKPHRASE_PUBLIC_H_
 
 #include <functional>
+#include <memory>
 #include <string>
+#include <fcitx-utils/handlertable.h>
 #include <fcitx-utils/key.h>
 #include <fcitx-utils/metastring.h>
 #include <fcitx/addoninstance.h>
@@ -32,6 +34,13 @@ using QuickPhraseProviderCallback =
     std::function<bool(InputContext *ic, const std::string &,
                        const QuickPhraseAddCandidateCallback &)>;
 
+using QuickPhraseAddCandidateCallbackV2 =
+    std::function<void(const std::string &, const std::string &,
+                       const std::string &, QuickPhraseAction action)>;
+using QuickPhraseProviderCallbackV2 =
+    std::function<bool(InputContext *ic, const std::string &,
+                       const QuickPhraseAddCandidateCallbackV2 &)>;
+
 } // namespace fcitx
 
 /// Trigger quickphrase, with following format:
@@ -48,5 +57,10 @@ FCITX_ADDON_DECLARE_FUNCTION(
     QuickPhrase, addProvider,
     std::unique_ptr<HandlerTableEntry<QuickPhraseProviderCallback>>(
         QuickPhraseProviderCallback));
+
+FCITX_ADDON_DECLARE_FUNCTION(
+    QuickPhrase, addProviderV2,
+    std::unique_ptr<HandlerTableEntry<QuickPhraseProviderCallbackV2>>(
+        QuickPhraseProviderCallbackV2));
 
 #endif // _FCITX_MODULES_QUICKPHRASE_QUICKPHRASE_PUBLIC_H_

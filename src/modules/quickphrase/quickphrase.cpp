@@ -6,15 +6,30 @@
  */
 #include "quickphrase.h"
 
+#include <array>
+#include <memory>
+#include <string>
 #include <utility>
 #include "fcitx-config/iniparser.h"
+#include "fcitx-utils/capabilityflags.h"
+#include "fcitx-utils/handlertable.h"
 #include "fcitx-utils/i18n.h"
 #include "fcitx-utils/inputbuffer.h"
+#include "fcitx-utils/key.h"
+#include "fcitx-utils/keysym.h"
+#include "fcitx-utils/textformatflags.h"
 #include "fcitx/addonfactory.h"
+#include "fcitx/addoninstance.h"
 #include "fcitx/addonmanager.h"
 #include "fcitx/candidatelist.h"
+#include "fcitx/event.h"
 #include "fcitx/inputcontextmanager.h"
 #include "fcitx/inputpanel.h"
+#include "fcitx/instance.h"
+#include "fcitx/text.h"
+#include "fcitx/userinterface.h"
+#include "quickphrase_public.h"
+#include "quickphraseprovider.h"
 
 namespace fcitx {
 
@@ -326,9 +341,12 @@ class QuickPhraseCandidateWord : public CandidateWord {
 public:
     QuickPhraseCandidateWord(QuickPhrase *q, std::string commit,
                              const std::string &display,
+                             const std::string &comment,
                              QuickPhraseAction action)
         : CandidateWord(Text(display)), q_(q), commit_(std::move(commit)),
-          action_(action) {}
+          action_(action) {
+        setComment(Text(comment));
+    }
 
     void select(InputContext *inputContext) const override {
         auto *state = inputContext->propertyFor(&q_->factory());
@@ -412,9 +430,9 @@ void QuickPhrase::updateUI(InputContext *inputContext) {
             if (!provider->populate(
                     inputContext, state->buffer_.userInput(),
                     [this, &candidateList, &selectionKeyAction, &autoCommit,
-                     &autoCommitSet](const std::string &word,
-                                     const std::string &aux,
-                                     QuickPhraseAction action) {
+                     &autoCommitSet](
+                        const std::string &word, const std::string &aux,
+                        const std::string &comment, QuickPhraseAction action) {
                         if (!autoCommitSet &&
                             action == QuickPhraseAction::AutoCommit) {
                             autoCommit = word;
@@ -426,7 +444,7 @@ void QuickPhrase::updateUI(InputContext *inputContext) {
                         }
                         if (!word.empty()) {
                             candidateList->append<QuickPhraseCandidateWord>(
-                                this, word, aux, action);
+                                this, word, aux, comment, action);
                         } else {
                             if (action == QuickPhraseAction::DigitSelection ||
                                 action == QuickPhraseAction::AlphaSelection ||
@@ -485,8 +503,14 @@ void QuickPhrase::reloadConfig() {
     builtinProvider_.reloadConfig();
     readAsIni(config_, "conf/quickphrase.conf");
 }
+
 std::unique_ptr<HandlerTableEntry<QuickPhraseProviderCallback>>
 QuickPhrase::addProvider(QuickPhraseProviderCallback callback) {
+    return callbackProvider_.addCallback(std::move(callback));
+}
+
+std::unique_ptr<HandlerTableEntry<QuickPhraseProviderCallbackV2>>
+QuickPhrase::addProviderV2(QuickPhraseProviderCallbackV2 callback) {
     return callbackProvider_.addCallback(std::move(callback));
 }
 
