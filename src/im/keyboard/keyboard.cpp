@@ -426,7 +426,9 @@ void KeyboardEngine::keyEvent(const InputMethodEntry &entry, KeyEvent &event) {
     }
 
     // and by pass all modifier
-    if (event.key().isModifier()) {
+    if (event.key().isModifier() ||
+        event.key().sym() == FcitxKey_ISO_Level3_Shift ||
+        event.key().sym() == FcitxKey_ISO_Level5_Shift) {
         return;
     }
 
