@@ -348,14 +348,13 @@ ThemeImage::ThemeImage(const std::string &name, const ActionImageConfig &cfg) {
 void ThemeImage::drawTextIcon(cairo_surface_t *surface,
                               const std::string &rawLabel, uint32_t size,
                               const ClassicUIConfig &config) {
-
     auto [label, textWidth] = extractTextForLabel(rawLabel);
     auto *cr = cairo_create(surface);
     cairo_set_operator(cr, CAIRO_OPERATOR_SOURCE);
     cairoSetSourceColor(cr, Color("#00000000"));
     cairo_paint(cr);
 
-    int pixelSize = size * 0.75 * (textWidth >= 3 ? (2.0 / textWidth) : 1.0);
+    int pixelSize = size * 0.7 * (textWidth >= 3 ? (2.0 / textWidth) : 1.0);
     if (pixelSize < 0) {
         pixelSize = 1;
     }
