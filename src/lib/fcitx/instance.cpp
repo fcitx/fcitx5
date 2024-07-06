@@ -1042,11 +1042,9 @@ Instance::Instance(int argc, char **argv) {
 
             activateInputMethod(icEvent);
 
-            if (virtualKeyboardAutoShow()) {
-                auto *inputContext = icEvent.inputContext();
-                if (!inputContext->clientControlVirtualkeyboardShow()) {
-                    inputContext->showVirtualKeyboard();
-                }
+            auto *inputContext = icEvent.inputContext();
+            if (!inputContext->clientControlVirtualkeyboardShow()) {
+                inputContext->showVirtualKeyboard();
             }
 
             if (!d->globalConfig_.showInputMethodInformationWhenFocusIn() ||
@@ -1091,11 +1089,10 @@ Instance::Instance(int argc, char **argv) {
             d->lastUnFocusedProgram_ = icEvent.inputContext()->program();
             d->lastUnFocusedIc_ = icEvent.inputContext()->watch();
             deactivateInputMethod(icEvent);
-            if (virtualKeyboardAutoHide()) {
-                auto *inputContext = icEvent.inputContext();
-                if (!inputContext->clientControlVirtualkeyboardHide()) {
-                    inputContext->hideVirtualKeyboard();
-                }
+
+            auto *inputContext = icEvent.inputContext();
+            if (!inputContext->clientControlVirtualkeyboardHide()) {
+                inputContext->hideVirtualKeyboard();
             }
         }));
     d->eventWatchers_.emplace_back(d->watchEvent(

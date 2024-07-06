@@ -333,6 +333,11 @@ bool UserInterfaceManager::isVirtualKeyboardVisible() const {
 void UserInterfaceManager::showVirtualKeyboard() const {
     FCITX_D();
 
+    auto *instance = d->addonManager_->instance();
+    if (!instance->virtualKeyboardAutoShow()) {
+        return;
+    }
+
     auto *ui = d->ui_;
     if (ui == nullptr || ui->addonInfo() == nullptr ||
         ui->addonInfo()->uiType() != UIType::OnScreenKeyboard) {
@@ -345,6 +350,11 @@ void UserInterfaceManager::showVirtualKeyboard() const {
 
 void UserInterfaceManager::hideVirtualKeyboard() const {
     FCITX_D();
+
+    auto *instance = d->addonManager_->instance();
+    if (!instance->virtualKeyboardAutoHide()) {
+        return;
+    }
 
     auto *ui = d->ui_;
     if (ui == nullptr || ui->addonInfo() == nullptr ||
