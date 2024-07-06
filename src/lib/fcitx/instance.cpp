@@ -495,6 +495,7 @@ InputState::InputState(InstancePrivate *d, InputContext *ic)
 
 void InputState::showInputMethodInformation(const std::string &name) {
     ic_->inputPanel().setAuxUp(Text(name));
+    ic_->inputPanel().setTransient(true);
     ic_->updateUserInterface(UserInterfaceComponent::InputPanel);
     lastInfo_ = name;
     imInfoTimer_ = d_ptr->eventLoop_.addTimeEvent(

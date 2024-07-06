@@ -19,6 +19,7 @@ public:
     InputContext *ic_;
     CustomInputPanelCallback customCallback_ = nullptr;
     CustomInputPanelCallback customVirtualKeyboardCallback_ = nullptr;
+    bool transient_;
 };
 
 InputPanel::InputPanel(InputContext *ic)
@@ -102,6 +103,16 @@ void InputPanel::setCustomVirtualKeyboardCallback(
     d->customVirtualKeyboardCallback_ = std::move(callback);
 }
 
+void InputPanel::setTransient(bool transient) {
+    FCITX_D();
+    d->transient_ = transient;
+}
+
+bool InputPanel::transient() const {
+    FCITX_D();
+    return d->transient_;
+}
+
 void InputPanel::reset() {
     FCITX_D();
     d->preedit_.clear();
@@ -112,6 +123,7 @@ void InputPanel::reset() {
     d->auxDown_.clear();
     d->customCallback_ = nullptr;
     d->customVirtualKeyboardCallback_ = nullptr;
+    d->transient_ = false;
 }
 
 bool InputPanel::empty() const {

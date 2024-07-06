@@ -100,6 +100,24 @@ public:
 
     void setCustomVirtualKeyboardCallback(CustomInputPanelCallback callback);
 
+    /**
+     * Set whether the input panel will automatically disappear.
+     * It doesn't actually hide the input panel.
+     *
+     * @param transient whether the input panel is transient.
+     * @since 5.1.11
+     */
+    void setTransient(bool transient);
+
+    /**
+     * Return whether the input panel will automatically disappear.
+     *
+     * @see setTransient
+     * @return whether the input panel is transient.
+     * @since 5.1.11
+     */
+    bool transient() const;
+
     void reset();
 
     /// Whether input panel is totally empty.
