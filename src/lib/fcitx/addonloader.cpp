@@ -45,6 +45,7 @@ AddonInstance *SharedLibraryLoader::load(const AddonInfo &info,
                     info.uniqueName(),
                     std::make_unique<SharedLibraryFactory>(std::move(lib)));
             } catch (const std::exception &e) {
+                FCITX_ERROR() << e.what();
             }
             break;
         }
