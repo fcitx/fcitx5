@@ -3,6 +3,7 @@
 # This file is distributed under the same license as the fcitx5 package.
 #
 # Translators:
+# csslayer <wengxt@gmail.com>, 2017
 # 黃柏諺 <s8321414@gmail.com>, 2017
 # pan93412 <pan93412@gmail.com>, 2019
 # bruh, 2020
@@ -10,16 +11,16 @@
 # 菘菘 <rrt467778@gmail.com>, 2022
 # yan12125, 2022
 # Neko ◣ 0xFF, 2022
-# csslayer <wengxt@gmail.com>, 2023
 # Yiyu Liu, 2024
+# Kisaragi Hiu <flyingfeather1501@gmail.com>, 2024
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2024-06-13 20:24+0000\n"
+"POT-Creation-Date: 2024-07-08 20:24+0000\n"
 "PO-Revision-Date: 2017-11-23 04:14+0000\n"
-"Last-Translator: Yiyu Liu, 2024\n"
+"Last-Translator: Kisaragi Hiu <flyingfeather1501@gmail.com>, 2024\n"
 "Language-Team: Chinese (Taiwan) (https://app.transifex.com/fcitx/teams/12005/"
 "zh_TW/)\n"
 "Language: zh_TW\n"
@@ -118,7 +119,7 @@ msgstr "一個基於 DBus 的虛擬鍵盤後端"
 
 #: src/ui/classic/theme.h:202
 msgid "Accent Colors"
-msgstr "重點色"
+msgstr "強調色"
 
 #: src/lib/fcitx/globalconfig.cpp:83
 msgid "Activate Input Method"
@@ -182,7 +183,7 @@ msgstr "允許覆寫系統 XKB 設定 (僅支援 KDE 5)"
 msgid "Allow input method in the password field"
 msgstr "允許在密碼輸入框中使用輸入法"
 
-#: src/im/keyboard/keyboard.h:44 src/modules/quickphrase/quickphrase.h:25
+#: src/im/keyboard/keyboard.h:44 src/modules/quickphrase/quickphrase.h:31
 msgid "Alt"
 msgstr "Alt"
 
@@ -451,7 +452,7 @@ msgstr "變更 Fcitx 5 設定"
 msgid "Check box"
 msgstr "複選框"
 
-#: src/im/keyboard/keyboard.h:68 src/modules/quickphrase/quickphrase.h:37
+#: src/im/keyboard/keyboard.h:68 src/modules/quickphrase/quickphrase.h:43
 msgid "Choose key modifier"
 msgstr "選擇輔助按鍵"
 
@@ -495,19 +496,19 @@ msgctxt "Key name"
 msgid "Community"
 msgstr "社群"
 
-#: src/im/keyboard/keyboard.cpp:706
+#: src/im/keyboard/keyboard.cpp:708
 msgid "Completion"
 msgstr "補全"
 
-#: src/im/keyboard/keyboard.cpp:697
+#: src/im/keyboard/keyboard.cpp:699
 msgid "Completion is disabled."
 msgstr "補全已停用。"
 
-#: src/im/keyboard/keyboard.cpp:700
+#: src/im/keyboard/keyboard.cpp:702
 msgid "Completion is enabled temporarily."
 msgstr "補全暫時啟用。"
 
-#: src/im/keyboard/keyboard.cpp:702
+#: src/im/keyboard/keyboard.cpp:704
 msgid "Completion is enabled."
 msgstr "已啟用補全。"
 
@@ -544,7 +545,7 @@ msgstr "設定："
 msgid "Configure"
 msgstr "設定"
 
-#: src/im/keyboard/keyboard.h:45 src/modules/quickphrase/quickphrase.h:25
+#: src/im/keyboard/keyboard.h:45 src/modules/quickphrase/quickphrase.h:31
 msgid "Control"
 msgstr "控制"
 
@@ -723,7 +724,7 @@ msgctxt "Key name"
 msgid "Down"
 msgstr "下"
 
-#: src/modules/quickphrase/quickphrase.h:43
+#: src/modules/quickphrase/quickphrase.h:49
 msgid "Editor"
 msgstr "編輯器"
 
@@ -754,7 +755,7 @@ msgstr "啟用"
 msgid "Enable Blur on KWin"
 msgstr "在 KWin 啟用模糊"
 
-#: src/modules/quickphrase/quickphrase.h:39
+#: src/modules/quickphrase/quickphrase.h:45
 msgid "Enable Spell check"
 msgstr "啟用拼字檢查"
 
@@ -858,7 +859,7 @@ msgstr "無法在 ${2} 的輸入法模組快取中找到 ${1}"
 msgid "Failed to find ${1} in the output of ${2}"
 msgstr "無法在 ${2} 的輸出中找到 ${1}。"
 
-#: src/modules/quickphrase/quickphrase.h:41
+#: src/modules/quickphrase/quickphrase.h:47
 msgid "Fallback Spell check language"
 msgstr "備用拼字檢查語言"
 
@@ -945,7 +946,7 @@ msgstr "第一候選詞"
 
 #: src/ui/classic/classicui.h:161
 msgid "Follow system accent color if it is supported by theme and desktop"
-msgstr "在主題與桌面支援時使用系統重點色"
+msgstr "在主題與桌面支援時使用系統強調色"
 
 #: src/ui/classic/classicui.h:157
 msgid "Follow system light/dark color scheme"
@@ -958,13 +959,13 @@ msgid ""
 "you do not use any Qt application with certain version of Qt or you are "
 "using text-input support by Qt under Wayland."
 msgstr ""
-"下列錯誤也許並不准確，因為對 Qt 版本的猜測取決於發行版如何打包 Qt。如果您不使"
-"用任何對應版本的 Qt 程序，或者在 Wayland 下使用 Qt 的 text-input 支持，下列錯"
-"誤也不是嚴重問題。"
+"下列錯誤也許並不準確，因為對 Qt 版本的猜測取決於發行版如何打包 Qt。如果您不使"
+"用任何對應版本的 Qt 應用程式，或者您在 Wayland 下使用 Qt 的 text-input 支援，"
+"那麼下列錯誤不是嚴重問題。"
 
 #: src/ui/classic/classicui.h:117
 msgid "Font"
-msgstr "字體"
+msgstr "字型"
 
 #: src/ui/classic/classicui.h:147
 msgid ""
@@ -972,7 +973,7 @@ msgid ""
 "Japanese variant when using Anthy. The font configuration needs to support "
 "this to use this feature."
 msgstr ""
-"例如，使用拼音時顯示中文異體字，使用 Anthy 時顯示日文異體字。 字體配置需要支"
+"例如，使用拼音時顯示中文異體字，使用 Anthy 時顯示日文異體字。 字型配置需要支"
 "持此功能才能使用此功能。"
 
 #: src/modules/wayland/waylandmodule.cpp:671
@@ -986,11 +987,11 @@ msgstr "在 Wayland 上強制使用字型 DPI"
 #: src/lib/fcitx-utils/key.cpp:94
 msgctxt "Key name"
 msgid "Forward"
-msgstr "往前"
+msgstr "轉遞按鍵事件"
 
 #: src/frontend/waylandim/waylandim.h:31
 msgid "Forward key event instead of commiting text if it is not handled"
-msgstr "在按鍵事件未處理時轉發按鍵而非提交文本"
+msgstr "在按鍵事件未處理時轉遞按鍵事件而非提交文本"
 
 #: data/fcitx5-diagnose.sh:1276
 msgid "Found ${1} ${2} module: ${3}."
@@ -1308,7 +1309,7 @@ msgstr ""
 msgid "Image"
 msgstr "圖片"
 
-#: src/im/keyboard/keyboard.cpp:705 src/lib/fcitx/instance.cpp:458
+#: src/im/keyboard/keyboard.cpp:707 src/lib/fcitx/instance.cpp:458
 #: src/lib/fcitx/instance.cpp:686 src/lib/fcitx/instance.cpp:848
 #: src/modules/notificationitem/notificationitem.cpp:142
 #: src/modules/notificationitem/notificationitem.cpp:230
@@ -1990,7 +1991,7 @@ msgstr "否"
 msgid "No clipboard history."
 msgstr "沒有輸入法歷史"
 
-#: src/im/keyboard/keyboard.h:44 src/modules/quickphrase/quickphrase.h:24
+#: src/im/keyboard/keyboard.h:44 src/modules/quickphrase/quickphrase.h:30
 msgid "None"
 msgstr "無"
 
@@ -2028,7 +2029,7 @@ msgstr "數字鎖定 (NumLock)"
 msgid "Number of entries"
 msgstr "項目數"
 
-#: src/im/keyboard/keyboard.cpp:691
+#: src/im/keyboard/keyboard.cpp:693
 msgid ""
 "Only emoji support is found. To enable spell checking, you may need to "
 "install spell check data for the language."
@@ -2201,7 +2202,7 @@ msgstr "Qt IM 模組檔案："
 msgid "Quick Phrase"
 msgstr "快速片語"
 
-#: src/modules/quickphrase/quickphrase.cpp:470
+#: src/modules/quickphrase/quickphrase.cpp:488
 msgid "Quick Phrase: "
 msgstr "快速輸入："
 
@@ -2232,7 +2233,7 @@ msgstr "回覆"
 
 #: src/lib/fcitx/globalconfig.cpp:143
 msgid "Reset state on Focus In"
-msgstr "重新聚焦時重置狀態"
+msgstr "重新聚焦時重設狀態"
 
 #: src/ui/classic/xcbtraywindow.cpp:39
 #: src/modules/notificationitem/dbusmenu.cpp:261
@@ -2486,7 +2487,7 @@ msgctxt "Key name"
 msgid "Subtitle"
 msgstr "副標題"
 
-#: src/im/keyboard/keyboard.h:45 src/modules/quickphrase/quickphrase.h:25
+#: src/im/keyboard/keyboard.h:45 src/modules/quickphrase/quickphrase.h:31
 msgid "Super"
 msgstr "超級"
 
@@ -2690,7 +2691,7 @@ msgid "Trigger Input Method"
 msgstr "切換啟用或非啟用輸入法"
 
 #: src/modules/imselector/imselector.h:28
-#: src/modules/quickphrase/quickphrase.h:32 src/modules/unicode/unicode.h:28
+#: src/modules/quickphrase/quickphrase.h:38 src/modules/unicode/unicode.h:28
 #: src/modules/clipboard/clipboard.h:48
 msgid "Trigger Key"
 msgstr "觸發鍵"
@@ -2862,7 +2863,7 @@ msgid ""
 "When copying password from a password manager, if the password manager "
 "supports marking the clipboard content as password, this clipboard update "
 "will be ignored."
-msgstr "如果密碼管理工具支持，那麼剪貼簿會忽略從密碼管理工具複製的密碼。"
+msgstr "密碼管理員支援時，讓剪貼簿忽略從密碼管理員複製的密碼。"
 
 #: src/lib/fcitx/globalconfig.cpp:177
 msgid ""
