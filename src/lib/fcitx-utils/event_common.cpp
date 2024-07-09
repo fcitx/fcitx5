@@ -9,11 +9,15 @@
 #include <cstring>
 #include "event.h"
 
-#define USEC_INFINITY ((uint64_t)-1)
-#define USEC_PER_SEC ((uint64_t)1000000ULL)
-#define NSEC_PER_USEC ((uint64_t)1000ULL)
-
 namespace fcitx {
+
+namespace {
+
+constexpr uint64_t USEC_INFINITY = static_cast<uint64_t>(-1);
+constexpr uint64_t USEC_PER_SEC = 1000000ULL;
+constexpr uint64_t NSEC_PER_USEC = 1000ULL;
+
+} // namespace
 
 // From systemd :)
 uint64_t timespec_load(const struct timespec *ts) {

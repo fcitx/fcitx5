@@ -625,7 +625,7 @@ void XCBUI::readXSettings() {
         if (!readCard16(&nameLen)) {
             return;
         }
-#define XSETTINGS_PAD(n, m) (((n) + (m)-1) & (~((m)-1)))
+#define XSETTINGS_PAD(n, m) (((n) + (m) - 1) & (~((m) - 1)))
         uint32_t namePad = XSETTINGS_PAD(nameLen, 4);
         if (std::distance(iter, data.cend()) < namePad) {
             return;
