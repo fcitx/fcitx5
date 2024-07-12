@@ -45,6 +45,8 @@ AddonInstance *SharedLibraryLoader::load(const AddonInfo &info,
                     info.uniqueName(),
                     std::make_unique<SharedLibraryFactory>(std::move(lib)));
             } catch (const std::exception &e) {
+                FCITX_ERROR() << "Failed to initialize addon factory for addon "
+                              << info.uniqueName() << ". Error: " << e.what();
             }
             break;
         }
