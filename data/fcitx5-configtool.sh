@@ -7,14 +7,14 @@ export TEXTDOMAIN=fcitx5
 
 if command -v kdialog > /dev/null 2>&1; then
     message() {
-        kdialog --msgbox "$1"
+        kdialog --yesno "$1"
     }
     error() {
         kdialog --error "$1"
     }
 elif command -v zenity > /dev/null 2>&1; then
     message() {
-        zenity --info --text="$1"
+        zenity --question --text="$1"
     }
     error() {
         zenity --error --text="$1"
@@ -137,6 +137,11 @@ run_xdg() {
             message "$(_ "You're currently running Fcitx with GUI, but fcitx5-config-qt couldn't be found. The package name provides this binary is usually fcitx5-configtool. Now it will open the configuration directory.")"
             ;;
     esac
+
+    # user choose no
+    if [ $? -ne 0 ]; then
+        exit
+    fi
 
     if command="$(command -v xdg-open 2>/dev/null)"; then
         exec "$command" "$HOME/.config/fcitx5"
