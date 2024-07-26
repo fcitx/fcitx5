@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2024-06-13 20:24+0000\n"
+"POT-Creation-Date: 2024-07-26 20:24+0000\n"
 "PO-Revision-Date: 2017-11-23 04:14+0000\n"
 "Last-Translator: Dmitry <dmitrydmitry761@gmail.com>, 2024\n"
 "Language-Team: Russian (https://app.transifex.com/fcitx/teams/12005/ru/)\n"
@@ -179,7 +179,7 @@ msgstr ""
 msgid "Allow input method in the password field"
 msgstr "Разрешить метод ввода в поле пароля"
 
-#: src/im/keyboard/keyboard.h:44 src/modules/quickphrase/quickphrase.h:25
+#: src/im/keyboard/keyboard.h:44 src/modules/quickphrase/quickphrase.h:31
 msgid "Alt"
 msgstr "Alt"
 
@@ -195,12 +195,12 @@ msgstr "Всегда устанавливайте раскладку тольк�
 #: src/lib/fcitx-utils/key.cpp:151
 msgctxt "Key name"
 msgid "Application Left"
-msgstr "Application Left"
+msgstr "Приложение слева"
 
 #: src/lib/fcitx-utils/key.cpp:152
 msgctxt "Key name"
 msgid "Application Right"
-msgstr "Application Right"
+msgstr "Приложение справа"
 
 #: src/im/keyboard/keyboard.h:99
 msgid "Applications disabled for long press"
@@ -255,7 +255,7 @@ msgstr "Фоновое изображение"
 #: src/lib/fcitx-utils/key.cpp:42
 msgctxt "Key name"
 msgid "Backspace"
-msgstr "BackSpace"
+msgstr "Backspace"
 
 #: data/fcitx5-diagnose.sh:827
 msgid "Bash Version:"
@@ -453,7 +453,7 @@ msgstr "Изменить конфигурацию Fcitx 5"
 msgid "Check box"
 msgstr "Флажок"
 
-#: src/im/keyboard/keyboard.h:68 src/modules/quickphrase/quickphrase.h:37
+#: src/im/keyboard/keyboard.h:68 src/modules/quickphrase/quickphrase.h:43
 msgid "Choose key modifier"
 msgstr "Выбрать клавишу-модификатор"
 
@@ -497,19 +497,19 @@ msgctxt "Key name"
 msgid "Community"
 msgstr "Сообщество"
 
-#: src/im/keyboard/keyboard.cpp:706
+#: src/im/keyboard/keyboard.cpp:708
 msgid "Completion"
 msgstr "Завершение"
 
-#: src/im/keyboard/keyboard.cpp:697
+#: src/im/keyboard/keyboard.cpp:699
 msgid "Completion is disabled."
 msgstr "Завершение отключено."
 
-#: src/im/keyboard/keyboard.cpp:700
+#: src/im/keyboard/keyboard.cpp:702
 msgid "Completion is enabled temporarily."
 msgstr "Завершение временно включено."
 
-#: src/im/keyboard/keyboard.cpp:702
+#: src/im/keyboard/keyboard.cpp:704
 msgid "Completion is enabled."
 msgstr "Завершение включено."
 
@@ -546,7 +546,7 @@ msgstr "Настройка:"
 msgid "Configure"
 msgstr "Настроить"
 
-#: src/im/keyboard/keyboard.h:45 src/modules/quickphrase/quickphrase.h:25
+#: src/im/keyboard/keyboard.h:45 src/modules/quickphrase/quickphrase.h:31
 msgid "Control"
 msgstr "Control"
 
@@ -726,7 +726,7 @@ msgctxt "Key name"
 msgid "Down"
 msgstr "Вниз"
 
-#: src/modules/quickphrase/quickphrase.h:43
+#: src/modules/quickphrase/quickphrase.h:49
 msgid "Editor"
 msgstr "Редактор"
 
@@ -757,7 +757,7 @@ msgstr "Включить"
 msgid "Enable Blur on KWin"
 msgstr "Включить размытие на KWin"
 
-#: src/modules/quickphrase/quickphrase.h:39
+#: src/modules/quickphrase/quickphrase.h:45
 msgid "Enable Spell check"
 msgstr "Включить проверку орфографии"
 
@@ -863,7 +863,7 @@ msgstr "Не удалось найти ${1} в кеше immodule в ${2}"
 msgid "Failed to find ${1} in the output of ${2}"
 msgstr "Не удалось найти ${1} в выводе ${2}"
 
-#: src/modules/quickphrase/quickphrase.h:41
+#: src/modules/quickphrase/quickphrase.h:47
 msgid "Fallback Spell check language"
 msgstr "Резервный язык проверки орфографии"
 
@@ -1331,7 +1331,7 @@ msgstr ""
 msgid "Image"
 msgstr "Изображение"
 
-#: src/im/keyboard/keyboard.cpp:705 src/lib/fcitx/instance.cpp:458
+#: src/im/keyboard/keyboard.cpp:707 src/lib/fcitx/instance.cpp:458
 #: src/lib/fcitx/instance.cpp:686 src/lib/fcitx/instance.cpp:848
 #: src/modules/notificationitem/notificationitem.cpp:142
 #: src/modules/notificationitem/notificationitem.cpp:230
@@ -2015,7 +2015,7 @@ msgstr "Нет"
 msgid "No clipboard history."
 msgstr "История буфера обмена отсутствует."
 
-#: src/im/keyboard/keyboard.h:44 src/modules/quickphrase/quickphrase.h:24
+#: src/im/keyboard/keyboard.h:44 src/modules/quickphrase/quickphrase.h:30
 msgid "None"
 msgstr "Нет"
 
@@ -2054,7 +2054,7 @@ msgstr "NumLock"
 msgid "Number of entries"
 msgstr "Количество входов"
 
-#: src/im/keyboard/keyboard.cpp:691
+#: src/im/keyboard/keyboard.cpp:693
 msgid ""
 "Only emoji support is found. To enable spell checking, you may need to "
 "install spell check data for the language."
@@ -2232,7 +2232,7 @@ msgstr "Файлы модуля Qt IM:"
 msgid "Quick Phrase"
 msgstr "Быстрая фраза"
 
-#: src/modules/quickphrase/quickphrase.cpp:470
+#: src/modules/quickphrase/quickphrase.cpp:488
 msgid "Quick Phrase: "
 msgstr "Быстрая фраза: "
 
@@ -2522,7 +2522,7 @@ msgctxt "Key name"
 msgid "Subtitle"
 msgstr "Подзаголовок"
 
-#: src/im/keyboard/keyboard.h:45 src/modules/quickphrase/quickphrase.h:25
+#: src/im/keyboard/keyboard.h:45 src/modules/quickphrase/quickphrase.h:31
 msgid "Super"
 msgstr "Super"
 
@@ -2734,7 +2734,7 @@ msgid "Trigger Input Method"
 msgstr "Активация метода ввода"
 
 #: src/modules/imselector/imselector.h:28
-#: src/modules/quickphrase/quickphrase.h:32 src/modules/unicode/unicode.h:28
+#: src/modules/quickphrase/quickphrase.h:38 src/modules/unicode/unicode.h:28
 #: src/modules/clipboard/clipboard.h:48
 msgid "Trigger Key"
 msgstr "Клавиша-триггер"
