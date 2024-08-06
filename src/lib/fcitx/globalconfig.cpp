@@ -33,7 +33,8 @@ FCITX_CONFIGURATION(
         this,
         "TriggerKeys",
         _("Trigger Input Method"),
-        {Key("Control+space"), Key("Zenkaku_Hankaku"), Key("Hangul")},
+        {isApple() ? Key("Control+Shift_L") : Key("Control+space"),
+         Key("Zenkaku_Hankaku"), Key("Hangul")},
         KeyListConstrain({KeyConstrainFlag::AllowModifierLess,
                           KeyConstrainFlag::AllowModifierOnly})};
     Option<bool> enumerateWithTriggerKeys{

@@ -90,14 +90,15 @@ FCITX_CONFIGURATION(
            "matching sequence.")}};
     SubConfigOption spell{this, "Spell", _("Spell"),
                           "fcitx://config/addon/spell"};
-    Option<bool> enableLongPress{this, "EnableLongPress",
-                                 _("Type special characters with long press"),
-                                 false};
-    Option<std::vector<std::string>> blocklistApplicationForLongPress{
-        this,
-        "LongPressBlocklist",
-        _("Applications disabled for long press"),
-        {"konsole"}};
+    ConditionalHidden<isApple(), Option<bool>> enableLongPress{
+        this, "EnableLongPress", _("Type special characters with long press"),
+        false};
+    ConditionalHidden<isApple(), Option<std::vector<std::string>>>
+        blocklistApplicationForLongPress{
+            this,
+            "LongPressBlocklist",
+            _("Applications disabled for long press"),
+            {"konsole"}};
     ConditionalHidden<isApple(), SubConfigOption> longPress{
         this, "LongPress", _("Long Press behavior"),
         "fcitx://config/addon/keyboard/longpress"};);
