@@ -7,6 +7,7 @@
 #ifndef _FCITX_UTILS_INPUTBUFFER_H_
 #define _FCITX_UTILS_INPUTBUFFER_H_
 
+#include <cstdint>
 #include <cstring>
 #include <memory>
 #include <string>
