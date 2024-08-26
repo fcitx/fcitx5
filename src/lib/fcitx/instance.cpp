@@ -2462,6 +2462,10 @@ void Instance::deactivateInputMethod(InputContextEvent &event) {
     if (!engine || !entry) {
         return;
     }
+
+    if (ic != mostRecentInputContext()) {
+        return;
+    }
     inputState->overrideDeactivateIM_ = entry->uniqueName();
     engine->deactivate(*entry, event);
     inputState->overrideDeactivateIM_.clear();
