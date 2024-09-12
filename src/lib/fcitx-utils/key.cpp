@@ -470,6 +470,11 @@ bool Key::isVirtual() const { return states_.test(KeyState::Virtual); }
 
 Key Key::normalize() const {
     Key key(*this);
+
+    if (key.sym_ == FcitxKey_ISO_Left_Tab) {
+        key.sym_ = FcitxKey_Tab;
+    }
+
     /* key state != 0 */
     key.states_ =
         key.states_ & KeyStates({KeyState::Ctrl_Alt_Shift, KeyState::Super,
@@ -495,15 +500,12 @@ Key Key::normalize() const {
             if ((key.states_ & KeyState::Shift) &&
                 (((Key(key.sym_).isSimple() ||
                    keySymToUnicode(key.sym_) != 0) &&
-                  key.sym_ != FcitxKey_space && key.sym_ != FcitxKey_Return) ||
+                  key.sym_ != FcitxKey_space && key.sym_ != FcitxKey_Return &&
+                  key.sym_ != FcitxKey_Tab) ||
                  (key.sym_ >= FcitxKey_KP_0 && key.sym_ <= FcitxKey_KP_9))) {
                 key.states_ ^= KeyState::Shift;
             }
         }
-    }
-
-    if (key.sym_ == FcitxKey_ISO_Left_Tab) {
-        key.sym_ = FcitxKey_Tab;
     }
 
     return key;
