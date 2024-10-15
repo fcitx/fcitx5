@@ -173,6 +173,16 @@ XCBConnection::XCBConnection(XCBModule *xcb, const std::string &name)
             if (xfixes_query && xfixes_query->major_version >= 2) {
                 hasXFixes_ = true;
                 xfixesFirstEvent_ = reply->first_event;
+
+#ifdef XCB_XFIXES_SET_CLIENT_DISCONNECT_MODE
+                if (xfixes_query->major_version >= 6) {
+                    FCITX_XCB_INFO()
+                        << "Set XFIXES client disconnect mode to TERMINATE";
+                    xcb_xfixes_set_client_disconnect_mode(
+                        conn_.get(),
+                        XCB_XFIXES_CLIENT_DISCONNECT_FLAGS_TERMINATE);
+                }
+#endif
             }
         }
     }
