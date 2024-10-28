@@ -52,10 +52,16 @@ public:
             1, 1, XCB_WINDOW_CLASS_INPUT_OUTPUT, screen_->root_visual, 0, NULL);
         uint32_t input_style = XCB_IM_PreeditPosition | XCB_IM_StatusArea;
         xcb_point_t spot;
-        spot.x = 0;
-        spot.y = 0;
-        xcb_xim_nested_list nested = xcb_xim_create_nested_list(
-            im.get(), XCB_XIM_XNSpotLocation, &spot, NULL);
+        spot.x = 5;
+        spot.y = 10;
+        xcb_rectangle_t area;
+        area.x = 0;
+        area.y = 0;
+        area.width = 5;
+        area.height = 10;
+        xcb_xim_nested_list nested =
+            xcb_xim_create_nested_list(im.get(), XCB_XIM_XNSpotLocation, &spot,
+                                       XCB_XIM_XNArea, &area, NULL);
         xcb_xim_create_ic(im.get(), create_ic_callback, this,
                           XCB_XIM_XNInputStyle, &input_style,
                           XCB_XIM_XNClientWindow, &w_, XCB_XIM_XNFocusWindow,
