@@ -27,6 +27,7 @@
 
 FCITX_DEFINE_LOG_CATEGORY(notificationitem, "notificationitem");
 #define SNI_DEBUG() FCITX_LOGC(::notificationitem, Debug)
+#define SNI_ERROR() FCITX_LOGC(::notificationitem, Error)
 
 namespace fcitx {
 
@@ -363,7 +364,8 @@ void NotificationItem::maybeScheduleRegister() {
 }
 
 void NotificationItem::enable() {
-    if (enabled_) {
+    enabled_ += 1;
+    if (enabled_ > 1) {
         return;
     }
 
@@ -373,13 +375,20 @@ void NotificationItem::enable() {
 }
 
 void NotificationItem::disable() {
-    if (!enabled_) {
-        return;
-    }
+    instance_->eventDispatcher().scheduleWithContext(
+        lifeTimeTracker_.watch(), [this]() {
+            if (enabled_ == 0) {
+                SNI_ERROR()
+                    << "NotificationItem::disable called without enable.";
+                return;
+            }
 
-    SNI_DEBUG() << "Disable SNI";
-    enabled_ = false;
-    setRegistered(false);
+            SNI_DEBUG() << "Disable SNI";
+            enabled_ -= 1;
+            if (enabled_ == 0) {
+                setRegistered(false);
+            }
+        });
 }
 
 void NotificationItem::cleanUp() {
