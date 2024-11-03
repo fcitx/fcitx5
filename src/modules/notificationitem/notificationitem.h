@@ -10,6 +10,7 @@
 #include <memory>
 #include <fcitx/addonmanager.h>
 #include "fcitx-utils/dbus/servicewatcher.h"
+#include "fcitx-utils/trackableobject.h"
 #include "fcitx/addoninstance.h"
 #include "fcitx/instance.h"
 #include "dbus_public.h"
@@ -60,10 +61,11 @@ private:
         eventHandlers_;
     std::unique_ptr<dbus::Slot> pendingRegisterCall_;
     std::string sniWatcherName_;
-    bool enabled_ = false;
+    uint32_t enabled_ = 0;
     bool registered_ = false;
     std::unique_ptr<EventSourceTime> scheduleRegister_;
     HandlerTable<NotificationItemCallback> handlers_;
+    TrackableObject<void> lifeTimeTracker_;
 };
 
 } // namespace fcitx

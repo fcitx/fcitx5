@@ -742,26 +742,19 @@ int XCBUI::scaledDPI(int dpi) {
     return targetDPI;
 }
 
-void XCBUI::resume() { updateTray(); }
+void XCBUI::resume() {}
 
 void XCBUI::suspend() {
     inputWindow_->update(nullptr);
-    updateTray();
+    trayWindow_->suspend();
 }
 
-void XCBUI::updateTray() {
-    bool enableTray = enableTray_ && !parent_->suspended();
+void XCBUI::setEnableTray(bool enable) {
+    bool enableTray = enable && !parent_->suspended();
     if (enableTray) {
         trayWindow_->resume();
     } else {
         trayWindow_->suspend();
-    }
-}
-
-void XCBUI::setEnableTray(bool enable) {
-    if (enable != enableTray_) {
-        enableTray_ = enable;
-        updateTray();
     }
 }
 

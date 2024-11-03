@@ -73,7 +73,6 @@ private:
     void refreshManager();
     void readXSettings();
     void initScreen();
-    void updateTray();
     void scheduleUpdateScreen();
 
     static void destroyCairoDevice(cairo_device_t *device);
@@ -90,7 +89,6 @@ private:
     bool needFreeColorMap_ = false;
     std::unique_ptr<XCBInputWindow> inputWindow_;
     std::unique_ptr<XCBTrayWindow> trayWindow_;
-    bool enableTray_ = false;
 
     std::string iconThemeName_;
 
