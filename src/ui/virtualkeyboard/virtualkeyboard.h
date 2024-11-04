@@ -40,6 +40,7 @@ public:
     void hideVirtualKeyboard() override;
 
     void showVirtualKeyboardForcibly();
+    void hideVirtualKeyboardForcibly();
     void toggleVirtualKeyboard();
 
     void updateInputPanel(InputContext *inputContext);
