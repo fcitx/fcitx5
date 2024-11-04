@@ -195,6 +195,15 @@ void Notifications::showTip(const std::string &tipId,
                             const std::string &appIcon,
                             const std::string &summary, const std::string &body,
                             int32_t timeout) {
+    showTipV2(tipId, appName, appIcon, summary, body, timeout, {});
+}
+
+void Notifications::showTipV2(
+    const std::string &tipId, const std::string &appName,
+    const std::string &appIcon, const std::string &summary,
+    const std::string &body, int32_t timeout,
+    const std::unordered_map<std::string, std::string> &context) {
+    FCITX_UNUSED(context);
     if (hiddenNotifications_.count(tipId)) {
         return;
     }

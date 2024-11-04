@@ -66,12 +66,17 @@ public:
     void showTip(const std::string &tipId, const std::string &appName,
                  const std::string &appIcon, const std::string &summary,
                  const std::string &body, int32_t timeout);
+    void showTipV2(const std::string &tipId, const std::string &appName,
+                   const std::string &appIcon, const std::string &summary,
+                   const std::string &body, int32_t timeout,
+                   const std::unordered_map<std::string, std::string> &context);
 
     void closeNotification(uint64_t internalId);
 
 private:
     FCITX_ADDON_EXPORT_FUNCTION(Notifications, sendNotification);
     FCITX_ADDON_EXPORT_FUNCTION(Notifications, showTip);
+    FCITX_ADDON_EXPORT_FUNCTION(Notifications, showTipV2);
     FCITX_ADDON_EXPORT_FUNCTION(Notifications, closeNotification);
     NotificationItem *find(uint64_t internalId) {
         auto itemIter = items_.find(internalId);

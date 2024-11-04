@@ -9,6 +9,7 @@
 
 #include <functional>
 #include <string>
+#include <unordered_map>
 #include <vector>
 #include <fcitx/addoninstance.h>
 
@@ -38,6 +39,20 @@ FCITX_ADDON_DECLARE_FUNCTION(Notifications, showTip,
                                   const std::string &appIcon,
                                   const std::string &summary,
                                   const std::string &body, int32_t timeout));
+/**
+ * Show a tip with context that may be platform-specific.
+ *
+ * @param context {
+ *    "type": "info" | "warning" | "error" | "success"
+ *  }
+ * @since 5.1.12
+ */
+FCITX_ADDON_DECLARE_FUNCTION(
+    Notifications, showTipV2,
+    void(const std::string &tipId, const std::string &appName,
+         const std::string &appIcon, const std::string &summary,
+         const std::string &body, int32_t timeout,
+         const std::unordered_map<std::string, std::string> &context));
 FCITX_ADDON_DECLARE_FUNCTION(Notifications, closeNotification,
                              void(uint64_t internalId));
 
