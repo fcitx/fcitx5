@@ -17,6 +17,7 @@ install(FILES "${CMAKE_CURRENT_BINARY_DIR}/spell.conf" DESTINATION "${FCITX_INST
         COMPONENT config)
 fcitx5_export_module(Spell TARGET spell BUILD_INCLUDE_DIRECTORIES "${CMAKE_CURRENT_SOURCE_DIR}" HEADERS spell_public.h INSTALL)
 
+if (BUILD_SPELL_DICT)
  set(DICT_COMP_SRC
   comp_spell_dict.cpp
   )
@@ -46,3 +47,4 @@ add_custom_command(
   "${SPELL_EN_DICT_SRC}" "${SPELL_EN_DICT}")
 add_custom_target(spell_en_dict ALL DEPENDS "${SPELL_EN_DICT}")
 install(FILES "${SPELL_EN_DICT}" DESTINATION "${FCITX_INSTALL_PKGDATADIR}/spell")
+endif()
