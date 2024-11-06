@@ -27,14 +27,16 @@ if (ENABLE_DBUS)
     endif()
 endif()
 
-if (NOT TARGET Systemd::Systemd)
+if (TARGET Systemd::Systemd)
+  set(FCITX_UTILS_SOURCES
+    ${FCITX_UTILS_SOURCES}
+    event_sdevent.cpp)
+elseif (TARGET ${LIBUV_TARGET})
   set(FCITX_UTILS_SOURCES
     ${FCITX_UTILS_SOURCES}
     event_libuv.cpp)
 else()
-  set(FCITX_UTILS_SOURCES
-    ${FCITX_UTILS_SOURCES}
-    event_sdevent.cpp)
+  list(APPEND FCITX_UTILS_SOURCES event_stub.cpp)
 endif()
 
 set(FCITX_UTILS_SOURCES
@@ -104,6 +106,10 @@ set(FCITX_UTILS_HEADERS
     ${CMAKE_CURRENT_BINARY_DIR}/fcitxutils_export.h
     )
 
+if (NOT TARGET Systemd::Systemd AND NOT TARGET ${LIBUV_TARGET})
+    list(APPEND FCITX_UTILS_HEADERS event_impl.h)
+endif()
+
 set(FCITX_UTILS_DBUS_HEADERS
     dbus/message.h
     dbus/objectvtable.h
@@ -134,13 +140,13 @@ if(LIBKVM_FOUND)
     target_link_libraries(Fcitx5Utils PRIVATE LibKVM::LibKVM)
 endif()
 
-if (NOT TARGET Systemd::Systemd)
+if (TARGET Systemd::Systemd)
+    target_link_libraries(Fcitx5Utils PRIVATE Systemd::Systemd)
+elseif (TARGET ${LIBUV_TARGET})
     target_link_libraries(Fcitx5Utils PRIVATE ${LIBUV_TARGET})
     if (ENABLE_DBUS)
         target_link_libraries(Fcitx5Utils PRIVATE PkgConfig::DBus)
     endif()
-else()
-    target_link_libraries(Fcitx5Utils PRIVATE Systemd::Systemd)
 endif()
 
 configure_file(Fcitx5Utils.pc.in ${CMAKE_CURRENT_BINARY_DIR}/Fcitx5Utils.pc @ONLY)
