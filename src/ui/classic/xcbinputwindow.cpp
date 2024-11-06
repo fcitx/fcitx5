@@ -165,6 +165,7 @@ void XCBInputWindow::update(InputContext *inputContext) {
     if (!visible()) {
         if (oldVisible) {
             xcb_unmap_window(ui_->connection(), wid_);
+            hoverIndex_ = -1;
         }
         return;
     }

@@ -5,18 +5,14 @@
  *
  */
 #include "waylandinputwindow.h"
-#include <cstddef>
-#include "fcitx/misc_p.h"
 #include "common.h"
 #include "waylandim_public.h"
 #include "waylandui.h"
 #include "waylandwindow.h"
 #include "wl_compositor.h"
 #include "wl_region.h"
-#include "wp_fractional_scale_manager_v1.h"
 #include "zwp_input_method_v2.h"
 #include "zwp_input_panel_v1.h"
-#include "zwp_input_popup_surface_v2.h"
 
 #ifdef __linux__
 #include <linux/input-event-codes.h>
@@ -151,6 +147,7 @@ void WaylandInputWindow::update(fcitx::InputContext *ic) {
 
     if (!visible()) {
         CLASSICUI_DEBUG() << "Hide Wayland Input Window.";
+        hoverIndex_ = -1;
         window_->hide();
         repaintIC_.unwatch();
         panelSurface_.reset();
