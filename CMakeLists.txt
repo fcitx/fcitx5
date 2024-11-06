@@ -36,6 +36,7 @@ option(ENABLE_XDGAUTOSTART "Enable xdg autostart desktop file installation" On)
 option(USE_FLATPAK_ICON "Use flatpak icon name for desktop files" Off)
 option(ENABLE_EMOJI "Enable emoji module" On)
 option(ENABLE_LIBUUID "Use libuuid for uuid generation" On)
+option(BUILD_SPELL_DICT "Build en_dict.fscd for English spell check" On)
 set(NO_PREEDIT_APPS "gvim.*,wps.*,wpp.*,et.*" CACHE STRING "Disable preedit for follwing app by default.")
 
 if (ENABLE_EMOJI)
