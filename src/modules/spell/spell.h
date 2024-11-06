@@ -13,6 +13,7 @@
 #include "fcitx-utils/i18n.h"
 #include "fcitx/addonfactory.h"
 #include "fcitx/addoninstance.h"
+#include "fcitx/addonmanager.h"
 #include "fcitx/instance.h"
 #include "spell_public.h"
 
@@ -103,6 +104,12 @@ public:
 
 private:
     Spell *parent_;
+};
+
+class SpellModuleFactory : public AddonFactory {
+    AddonInstance *create(AddonManager *manager) override {
+        return new Spell(manager->instance());
+    }
 };
 } // namespace fcitx
 
