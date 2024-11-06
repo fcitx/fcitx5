@@ -7,7 +7,6 @@
 
 #include "spell.h"
 #include "fcitx-config/iniparser.h"
-#include "fcitx/addonmanager.h"
 #include "config.h"
 #include "spell-custom.h"
 #ifdef ENABLE_ENCHANT
@@ -110,12 +109,6 @@ Spell::hintForDisplay(const std::string &language, SpellProvider provider,
 
     return iter->second->hint(language, word, limit);
 }
-
-class SpellModuleFactory : public AddonFactory {
-    AddonInstance *create(AddonManager *manager) override {
-        return new Spell(manager->instance());
-    }
-};
 } // namespace fcitx
 
 FCITX_ADDON_FACTORY(fcitx::SpellModuleFactory)
