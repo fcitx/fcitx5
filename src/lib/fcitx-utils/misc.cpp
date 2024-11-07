@@ -21,13 +21,22 @@
 #include <sys/user.h>
 #endif
 #elif defined(__APPLE__)
+#include <TargetConditionals.h>
+#if TARGET_OS_OSX
 #include <libproc.h>
+#endif
 #endif
 
 namespace fcitx {
 
 void startProcess(const std::vector<std::string> &args,
                   const std::string &workingDirectory) {
+#if defined(__APPLE__) && TARGET_OS_IPHONE
+    FCITX_UNUSED(args);
+    FCITX_UNUSED(workingDirectory);
+    FCITX_ERROR() << "Not implemented";
+    return;
+#else
     /* exec command */
     pid_t child_pid;
 
@@ -67,6 +76,7 @@ void startProcess(const std::vector<std::string> &args,
         int status;
         waitpid(child_pid, &status, 0);
     }
+#endif
 }
 
 std::string getProcessName(pid_t pid) {
@@ -111,6 +121,11 @@ std::string getProcessName(pid_t pid) {
     kvm_close(vm);
     return result;
 #elif defined(__APPLE__)
+#if TARGET_OS_IPHONE
+    FCITX_UNUSED(pid);
+    FCITX_ERROR() << "Not implemented";
+    return "";
+#else
     std::string result;
     result.reserve(2 * MAXCOMLEN);
 
@@ -118,6 +133,7 @@ std::string getProcessName(pid_t pid) {
         return {};
     }
     return result;
+#endif
 #else
     auto path = fmt::format("/proc/{}/exe", pid);
     if (auto link = fs::readlink(path)) {
@@ -135,6 +151,9 @@ ssize_t getline(UniqueCPtr<char> &lineptr, size_t *n, std::FILE *stream) {
 }
 
 bool isInFlatpak() {
+#ifdef __APPLE__
+    return false;
+#else
     static const bool flatpak = []() {
         if (checkBoolEnvVar("FCITX_OVERRIDE_FLATPAK")) {
             return true;
@@ -142,6 +161,7 @@ bool isInFlatpak() {
         return fs::isreg("/.flatpak-info");
     }();
     return flatpak;
+#endif
 }
 
 } // namespace fcitx
