@@ -14,6 +14,7 @@ namespace fcitx {
 
 AddonLoader::~AddonLoader() {}
 
+#ifndef FCITX_NO_DL
 SharedLibraryLoader::~SharedLibraryLoader() {}
 
 AddonInstance *SharedLibraryLoader::load(const AddonInfo &info,
@@ -67,6 +68,7 @@ AddonInstance *SharedLibraryLoader::load(const AddonInfo &info,
     }
     return nullptr;
 }
+#endif
 
 StaticLibraryLoader::StaticLibraryLoader(StaticAddonRegistry *registry_)
     : registry(registry_) {}
