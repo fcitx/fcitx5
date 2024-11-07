@@ -47,7 +47,6 @@ set(FCITX_UTILS_SOURCES
     i18nstring.cpp
     event_common.cpp
     eventdispatcher.cpp
-    library.cpp
     fs.cpp
     standardpath.cpp
     unixfd.cpp
@@ -61,6 +60,10 @@ set(FCITX_UTILS_SOURCES
     semver.cpp
     keydata.cpp
     )
+
+if (ENABLE_DL)
+    list(APPEND FCITX_UTILS_SOURCES library.cpp)
+endif()
 
 set(FCITX_UTILS_HEADERS
     macros.h
@@ -129,7 +132,7 @@ target_include_directories(Fcitx5Utils PUBLIC
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/..>
     $<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}>
     $<INSTALL_INTERFACE:${CMAKE_INSTALL_FULL_INCLUDEDIR}/Fcitx5/Utils>)
-target_link_libraries(Fcitx5Utils PRIVATE DL::DL LibIntl::LibIntl Pthread::Pthread ${FMT_TARGET})
+target_link_libraries(Fcitx5Utils PRIVATE ${DL_TARGET} LibIntl::LibIntl Pthread::Pthread ${FMT_TARGET})
 if(LIBKVM_FOUND)
     target_link_libraries(Fcitx5Utils PRIVATE LibKVM::LibKVM)
 endif()

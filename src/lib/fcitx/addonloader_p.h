@@ -17,6 +17,7 @@
 
 namespace fcitx {
 
+#ifndef FCITX_NO_DL
 class SharedLibraryFactory {
 public:
     SharedLibraryFactory(Library lib) : library_(std::move(lib)) {
@@ -50,6 +51,7 @@ private:
     std::unordered_map<std::string, std::unique_ptr<SharedLibraryFactory>>
         registry_;
 };
+#endif
 
 class StaticLibraryLoader : public AddonLoader {
 public:

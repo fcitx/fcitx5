@@ -108,8 +108,13 @@ const I18NString &AddonInfo::comment() const {
 }
 
 const std::string &AddonInfo::type() const {
+#ifdef FCITX_NO_DL
+    static const std::string staticLibrary = "StaticLibrary";
+    return staticLibrary;
+#else
     FCITX_D();
     return d->addon->type.value();
+#endif
 }
 
 AddonCategory AddonInfo::category() const {
