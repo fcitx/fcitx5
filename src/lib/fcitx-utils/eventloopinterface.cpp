@@ -1,13 +1,14 @@
-
 /*
- * SPDX-FileCopyrightText: 2015-2015 CSSlayer <wengxt@gmail.com>
+ * SPDX-FileCopyrightText: 2015-2024 CSSlayer <wengxt@gmail.com>
  *
  * SPDX-License-Identifier: LGPL-2.1-or-later
  *
  */
-
+#include "eventloopinterface.h"
+#include <cstdint>
 #include <cstring>
-#include "event.h"
+#include <ctime>
+#include <stdexcept>
 
 namespace fcitx {
 
@@ -49,4 +50,7 @@ void EventSourceTime::setNextInterval(uint64_t time) {
 }
 
 EventSource::~EventSource() = default;
+
+EventLoopInterface::~EventLoopInterface() = default;
+
 } // namespace fcitx
