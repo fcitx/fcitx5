@@ -98,7 +98,7 @@ FCITX_CONFIGURATION(
             this,
             "LongPressBlocklist",
             _("Applications disabled for long press"),
-            {"konsole"}};
+            {"konsole", "org.kde.konsole"}};
     ConditionalHidden<isApple(), SubConfigOption> longPress{
         this, "LongPress", _("Long Press behavior"),
         "fcitx://config/addon/keyboard/longpress"};);
