@@ -14,15 +14,15 @@
 #include <stdexcept>
 #include <utility>
 #include <sys/epoll.h>
+#include "fcitx-utils/macros.h"
+#include "eventloopinterface.h"
+#include "log.h"
+#include "stringutils.h"
 
 #if defined(__COVERITY__) && !defined(__INCLUDE_LEVEL__)
 #define __INCLUDE_LEVEL__ 2
 #endif
 #include <systemd/sd-event.h>
-#include "event.h"
-#include "log.h"
-#include "macros.h"
-#include "stringutils.h"
 
 namespace fcitx {
 
@@ -56,6 +56,38 @@ IOEventFlags EpollFlagsToIOEventFlags(uint32_t flags) {
 }
 
 } // namespace
+
+class EventLoopSDEvent : public EventLoopInterface {
+public:
+    EventLoopSDEvent();
+    ~EventLoopSDEvent();
+    bool exec() override;
+    void exit() override;
+    const char *implementation() const override;
+    void *nativeHandle() override;
+
+    FCITX_NODISCARD std::unique_ptr<EventSourceIO>
+    addIOEvent(int fd, IOEventFlags flags, IOCallback callback) override;
+    FCITX_NODISCARD std::unique_ptr<EventSourceTime>
+    addTimeEvent(clockid_t clock, uint64_t usec, uint64_t accuracy,
+                 TimeCallback callback) override;
+    FCITX_NODISCARD std::unique_ptr<EventSource>
+    addExitEvent(EventCallback callback) override;
+    FCITX_NODISCARD std::unique_ptr<EventSource>
+    addDeferEvent(EventCallback callback) override;
+    FCITX_NODISCARD std::unique_ptr<EventSource>
+    addPostEvent(EventCallback callback) override;
+
+private:
+    std::mutex mutex_;
+    sd_event *event_ = nullptr;
+};
+
+std::unique_ptr<EventLoopInterface> createDefaultEventLoop() {
+    return std::make_unique<EventLoopSDEvent>();
+}
+
+const char *defaultEventLoopImplementation() { return "sd-event"; }
 
 template <typename Interface>
 struct SDEventSourceBase : public Interface {
@@ -204,42 +236,25 @@ struct SDEventSourceTime : public SDEventSourceBase<EventSourceTime> {
     std::shared_ptr<TimeCallback> callback_;
 };
 
-class EventLoopPrivate {
-public:
-    EventLoopPrivate() {
-        if (int rc = sd_event_new(&event_); rc < 0) {
-            throw std::runtime_error(stringutils::concat(
-                "Create sd_event failed. error code: ", rc));
-        }
+EventLoopSDEvent::EventLoopSDEvent() {
+    if (int rc = sd_event_new(&event_); rc < 0) {
+        throw std::runtime_error(
+            stringutils::concat("Create sd_event failed. error code: ", rc));
     }
-
-    ~EventLoopPrivate() { sd_event_unref(event_); }
-
-    std::mutex mutex_;
-    sd_event *event_ = nullptr;
-};
-
-EventLoop::EventLoop() : d_ptr(std::make_unique<EventLoopPrivate>()) {}
-
-EventLoop::~EventLoop() = default;
-
-const char *EventLoop::impl() { return "sd-event"; }
-
-void *EventLoop::nativeHandle() {
-    FCITX_D();
-    return d->event_;
 }
 
-bool EventLoop::exec() {
-    FCITX_D();
-    int r = sd_event_loop(d->event_);
+EventLoopSDEvent::~EventLoopSDEvent() { sd_event_unref(event_); };
+
+const char *EventLoopSDEvent::implementation() const { return "sd-event"; }
+
+void *EventLoopSDEvent::nativeHandle() { return event_; }
+
+bool EventLoopSDEvent::exec() {
+    int r = sd_event_loop(event_);
     return r >= 0;
 }
 
-void EventLoop::exit() {
-    FCITX_D();
-    sd_event_exit(d->event_, 0);
-}
+void EventLoopSDEvent::exit() { sd_event_exit(event_, 0); }
 
 int IOEventCallback(sd_event_source * /*unused*/, int fd, uint32_t revents,
                     void *userdata) {
@@ -258,12 +273,11 @@ int IOEventCallback(sd_event_source * /*unused*/, int fd, uint32_t revents,
     return -1;
 }
 
-std::unique_ptr<EventSourceIO> EventLoop::addIOEvent(int fd, IOEventFlags flags,
-                                                     IOCallback callback) {
-    FCITX_D();
+std::unique_ptr<EventSourceIO>
+EventLoopSDEvent::addIOEvent(int fd, IOEventFlags flags, IOCallback callback) {
     auto source = std::make_unique<SDEventSourceIO>(std::move(callback));
     sd_event_source *sdEventSource;
-    if (int err = sd_event_add_io(d->event_, &sdEventSource, fd,
+    if (int err = sd_event_add_io(event_, &sdEventSource, fd,
                                   IOEventFlagsToEpollFlags(flags),
                                   IOEventCallback, source.get());
         err < 0) {
@@ -292,12 +306,11 @@ int TimeEventCallback(sd_event_source * /*unused*/, uint64_t usec,
 }
 
 std::unique_ptr<EventSourceTime>
-EventLoop::addTimeEvent(clockid_t clock, uint64_t usec, uint64_t accuracy,
-                        TimeCallback callback) {
-    FCITX_D();
+EventLoopSDEvent::addTimeEvent(clockid_t clock, uint64_t usec,
+                               uint64_t accuracy, TimeCallback callback) {
     auto source = std::make_unique<SDEventSourceTime>(std::move(callback));
     sd_event_source *sdEventSource;
-    if (int err = sd_event_add_time(d->event_, &sdEventSource, clock, usec,
+    if (int err = sd_event_add_time(event_, &sdEventSource, clock, usec,
                                     accuracy, TimeEventCallback, source.get());
         err < 0) {
         throw EventLoopException(err);
@@ -323,12 +336,12 @@ int StaticEventCallback(sd_event_source * /*unused*/, void *userdata) {
     return -1;
 }
 
-std::unique_ptr<EventSource> EventLoop::addExitEvent(EventCallback callback) {
-    FCITX_D();
+std::unique_ptr<EventSource>
+EventLoopSDEvent::addExitEvent(EventCallback callback) {
     auto source = std::make_unique<SDEventSource>(std::move(callback));
     sd_event_source *sdEventSource;
-    if (int err = sd_event_add_exit(d->event_, &sdEventSource,
-                                    StaticEventCallback, source.get());
+    if (int err = sd_event_add_exit(event_, &sdEventSource, StaticEventCallback,
+                                    source.get());
         err < 0) {
         throw EventLoopException(err);
     }
@@ -336,11 +349,11 @@ std::unique_ptr<EventSource> EventLoop::addExitEvent(EventCallback callback) {
     return source;
 }
 
-std::unique_ptr<EventSource> EventLoop::addDeferEvent(EventCallback callback) {
-    FCITX_D();
+std::unique_ptr<EventSource>
+EventLoopSDEvent::addDeferEvent(EventCallback callback) {
     auto source = std::make_unique<SDEventSource>(std::move(callback));
     sd_event_source *sdEventSource;
-    if (int err = sd_event_add_defer(d->event_, &sdEventSource,
+    if (int err = sd_event_add_defer(event_, &sdEventSource,
                                      StaticEventCallback, source.get());
         err < 0) {
         throw EventLoopException(err);
@@ -349,12 +362,12 @@ std::unique_ptr<EventSource> EventLoop::addDeferEvent(EventCallback callback) {
     return source;
 }
 
-std::unique_ptr<EventSource> EventLoop::addPostEvent(EventCallback callback) {
-    FCITX_D();
+std::unique_ptr<EventSource>
+EventLoopSDEvent::addPostEvent(EventCallback callback) {
     auto source = std::make_unique<SDEventSource>(std::move(callback));
     sd_event_source *sdEventSource;
-    if (int err = sd_event_add_post(d->event_, &sdEventSource,
-                                    StaticEventCallback, source.get());
+    if (int err = sd_event_add_post(event_, &sdEventSource, StaticEventCallback,
+                                    source.get());
         err < 0) {
         throw EventLoopException(err);
     }

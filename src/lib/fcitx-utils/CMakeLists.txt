@@ -45,7 +45,6 @@ set(FCITX_UTILS_SOURCES
     cutf8.cpp
     color.cpp
     i18nstring.cpp
-    event_common.cpp
     eventdispatcher.cpp
     library.cpp
     fs.cpp
@@ -60,6 +59,8 @@ set(FCITX_UTILS_SOURCES
     misc.cpp
     semver.cpp
     keydata.cpp
+    event.cpp
+    eventloopinterface.cpp
     )
 
 set(FCITX_UTILS_HEADERS

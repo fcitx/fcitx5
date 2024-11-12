@@ -8,76 +8,29 @@
 #define _FCITX_UTILS_EVENT_H_
 
 #include <cstdint>
-#include <functional>
 #include <memory>
-#include <stdexcept>
+#include <fcitx-utils/eventloopinterface.h>
 #include <fcitx-utils/flags.h>
 #include <fcitx-utils/macros.h>
 #include "fcitxutils_export.h"
 
 namespace fcitx {
 
-enum class IOEventFlag {
-    In = (1 << 0),
-    Out = (1 << 1),
-    Err = (1 << 2),
-    Hup = (1 << 3),
-    EdgeTrigger = (1 << 4),
-};
-
-using IOEventFlags = Flags<IOEventFlag>;
-
-class FCITXUTILS_EXPORT EventLoopException : public std::runtime_error {
-public:
-    EventLoopException(int error);
-
-    FCITX_NODISCARD int error() const { return errno_; }
-
-private:
-    int errno_;
-};
-
-struct FCITXUTILS_EXPORT EventSource {
-    virtual ~EventSource();
-    FCITX_NODISCARD virtual bool isEnabled() const = 0;
-    virtual void setEnabled(bool enabled) = 0;
-    FCITX_NODISCARD virtual bool isOneShot() const = 0;
-    virtual void setOneShot() = 0;
-};
-
-struct FCITXUTILS_EXPORT EventSourceIO : public EventSource {
-    FCITX_NODISCARD virtual int fd() const = 0;
-    virtual void setFd(int fd) = 0;
-    FCITX_NODISCARD virtual IOEventFlags events() const = 0;
-    virtual void setEvents(IOEventFlags flags) = 0;
-    FCITX_NODISCARD virtual IOEventFlags revents() const = 0;
-};
-
-struct FCITXUTILS_EXPORT EventSourceTime : public EventSource {
-    virtual void setNextInterval(uint64_t time);
-    FCITX_NODISCARD virtual uint64_t time() const = 0;
-    virtual void setTime(uint64_t time) = 0;
-    FCITX_NODISCARD virtual uint64_t accuracy() const = 0;
-    virtual void setAccuracy(uint64_t accuracy) = 0;
-    FCITX_NODISCARD virtual clockid_t clock() const = 0;
-};
-
-using IOCallback =
-    std::function<bool(EventSourceIO *, int fd, IOEventFlags flags)>;
-using TimeCallback = std::function<bool(EventSourceTime *, uint64_t usec)>;
-using EventCallback = std::function<bool(EventSource *)>;
-
-FCITXUTILS_EXPORT uint64_t now(clockid_t clock);
-
 class EventLoopPrivate;
 class FCITXUTILS_EXPORT EventLoop {
 public:
     EventLoop();
+    EventLoop(std::unique_ptr<EventLoopInterface> impl);
     virtual ~EventLoop();
     bool exec();
     void exit();
 
-    static const char *impl();
+    /**
+     * Return the default implementation name.
+     */
+    FCITXUTILS_DEPRECATED static const char *impl();
+
+    const char *implementation() const;
     void *nativeHandle();
 
     FCITX_NODISCARD std::unique_ptr<EventSourceIO>
