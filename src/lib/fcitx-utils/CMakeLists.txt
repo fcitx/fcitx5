@@ -71,6 +71,7 @@ set(FCITX_UTILS_HEADERS
     color.h
     i18nstring.h
     event.h
+    eventloopinterface.h
     eventdispatcher.h
     library.h
     cutf8.h
