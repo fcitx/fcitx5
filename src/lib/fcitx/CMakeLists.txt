@@ -51,6 +51,7 @@ set(FCITX_CORE_HEADERS
     globalconfig.h
     text.h
     event.h
+    eventloopinterface.h
     action.h
     menu.h
     userinterface.h
