@@ -1,44 +1,42 @@
 set(FCITX_UTILS_SOURCES)
+set(FCITX_UTILS_DEPS)
 
 if (ENABLE_DBUS)
 
-    set(FCITX_UTILS_SOURCES
-        ${FCITX_UTILS_SOURCES}
+    list(APPEND FCITX_UTILS_SOURCES
         dbus/servicewatcher.cpp
         dbus/matchrule.cpp
         dbus/variant.cpp
         dbus/objectvtable.cpp
     )
 
-    if (NOT TARGET Systemd::Systemd)
-        set(FCITX_UTILS_SOURCES
-            ${FCITX_UTILS_SOURCES}
-            dbus/libdbus/bus.cpp
-            dbus/libdbus/message.cpp
-            dbus/libdbus/objectvtable_libdbus.cpp
-            dbus/libdbus/servicenamecache.cpp)
-    else()
-        set(FCITX_UTILS_SOURCES
-            ${FCITX_UTILS_SOURCES}
+    if (FCITX_EVENT_LOOP_BACKEND STREQUAL "systemd")
+        list(APPEND FCITX_UTILS_SOURCES
             dbus/sdbus/bus.cpp
             dbus/sdbus/message.cpp
             dbus/sdbus/objectvtablewrapper.c
             dbus/sdbus/objectvtable_sdbus.cpp)
+    else()
+        list(APPEND FCITX_UTILS_SOURCES
+            dbus/libdbus/bus.cpp
+            dbus/libdbus/message.cpp
+            dbus/libdbus/objectvtable_libdbus.cpp
+            dbus/libdbus/servicenamecache.cpp)
+        list(APPEND FCITX_UTILS_DEPS PkgConfig::DBus)
     endif()
 endif()
 
-if (NOT TARGET Systemd::Systemd)
-  set(FCITX_UTILS_SOURCES
-    ${FCITX_UTILS_SOURCES}
-    event_libuv.cpp)
-else()
-  set(FCITX_UTILS_SOURCES
-    ${FCITX_UTILS_SOURCES}
-    event_sdevent.cpp)
+if (FCITX_EVENT_LOOP_BACKEND STREQUAL "libuv")
+    list(APPEND FCITX_UTILS_SOURCES event_libuv.cpp)
+    list(APPEND FCITX_UTILS_DEPS "${LIBUV_TARGET}")
+elseif (FCITX_EVENT_LOOP_BACKEND STREQUAL "systemd")
+    list(APPEND FCITX_UTILS_SOURCES event_sdevent.cpp)
+    list(APPEND FCITX_UTILS_DEPS Systemd::Systemd)
+elseif (FCITX_EVENT_LOOP_BACKEND STREQUAL "none")
+    list(APPEND FCITX_UTILS_SOURCES event_none.cpp)
 endif()
 
-set(FCITX_UTILS_SOURCES
-    ${FCITX_UTILS_SOURCES}
+list(APPEND FCITX_UTILS_SOURCES
     stringutils.cpp
     testing.cpp
     key.cpp
@@ -135,15 +133,7 @@ target_link_libraries(Fcitx5Utils PRIVATE DL::DL LibIntl::LibIntl Pthread::Pthre
 if(LIBKVM_FOUND)
     target_link_libraries(Fcitx5Utils PRIVATE LibKVM::LibKVM)
 endif()
-
-if (NOT TARGET Systemd::Systemd)
-    target_link_libraries(Fcitx5Utils PRIVATE ${LIBUV_TARGET})
-    if (ENABLE_DBUS)
-        target_link_libraries(Fcitx5Utils PRIVATE PkgConfig::DBus)
-    endif()
-else()
-    target_link_libraries(Fcitx5Utils PRIVATE Systemd::Systemd)
-endif()
+target_link_libraries(Fcitx5Utils PRIVATE ${FCITX_UTILS_DEPS})
 
 configure_file(Fcitx5Utils.pc.in ${CMAKE_CURRENT_BINARY_DIR}/Fcitx5Utils.pc @ONLY)
 

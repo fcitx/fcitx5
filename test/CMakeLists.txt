@@ -3,6 +3,9 @@ include_directories(${CMAKE_CURRENT_BINARY_DIR})
 
 add_subdirectory(addon)
 
+add_library(eventlooptests STATIC eventlooptests.cpp)
+target_link_libraries(eventlooptests Fcitx5::Utils)
+
 set(FCITX_UTILS_TEST
     testflags
     teststringutils
@@ -11,6 +14,7 @@ set(FCITX_UTILS_TEST
     testcolor
     testi18nstring
     testevent
+    testcustomeventloop
     testlist
     testfs
     testlibrary
@@ -33,7 +37,8 @@ set(FCITX_UTILS_DBUS_TEST
 
 set(testdbus_LIBS Pthread::Pthread)
 set(testeventdispatcher_LIBS Pthread::Pthread)
-set(testevent_LIBS Pthread::Pthread)
+set(testevent_LIBS Pthread::Pthread eventlooptests)
+set(testcustomeventloop_LIBS Pthread::Pthread eventlooptests)
 
 find_program(XVFB_BIN Xvfb)
 
