@@ -72,7 +72,7 @@ if (NOT TARGET Systemd::Systemd)
 
     if (NOT LIBUV_TARGET)
         if (NOT (TARGET PkgConfig::LibUV))
-            pkg_check_modules(LibUV REQUIRED IMPORTED_TARGET "libuv")
+            pkg_check_modules(LibUV IMPORTED_TARGET "libuv")
         endif()
         set(LIBUV_TARGET PkgConfig::LibUV)
     endif()
