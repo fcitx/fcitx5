@@ -16,6 +16,8 @@
 
 namespace fcitx {
 
+using EventLoopFactory = std::function<std::unique_ptr<EventLoopInterface>()>;
+
 class EventLoopPrivate;
 class FCITXUTILS_EXPORT EventLoop {
 public:
@@ -27,9 +29,18 @@ public:
 
     /**
      * Return the default implementation name.
+     *
+     * This will only return the default implementation name.
+     * Do not rely on this value.
+     *
+     * @see EventLoop::implementation
      */
     FCITXUTILS_DEPRECATED static const char *impl();
 
+    /**
+     * Return the name of implementation of event loop.
+     * @since 5.1.12
+     */
     const char *implementation() const;
     void *nativeHandle();
 
@@ -44,6 +55,15 @@ public:
     addDeferEvent(EventCallback callback);
     FCITX_NODISCARD std::unique_ptr<EventSource>
     addPostEvent(EventCallback callback);
+
+    /**
+     * Set an external event loop implementation.
+     *
+     * This is useful if you need to integrate fcitx with another event loop.
+     *
+     * @since 5.1.12
+     */
+    static void setEventLoopFactory(EventLoopFactory factory);
 
 private:
     const std::unique_ptr<EventLoopPrivate> d_ptr;

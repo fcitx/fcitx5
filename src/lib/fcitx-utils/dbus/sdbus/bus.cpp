@@ -6,6 +6,7 @@
  */
 
 #include <stdexcept>
+#include <string_view>
 #include "../../log.h"
 #include "bus_p.h"
 #include "message_p.h"
@@ -117,9 +118,15 @@ void Bus::attachEventLoop(EventLoop *loop) {
     if (d->eventLoop_) {
         return;
     }
-    sd_event *event = static_cast<sd_event *>(loop->nativeHandle());
-    if (sd_bus_attach_event(d->bus_, event, 0) >= 0) {
-        d->eventLoop_ = loop;
+    if (loop->implementation() == std::string_view("sd-event")) {
+        sd_event *event = static_cast<sd_event *>(loop->nativeHandle());
+        if (sd_bus_attach_event(d->bus_, event, 0) >= 0) {
+            d->eventLoop_ = loop;
+        }
+    } else {
+        // TODO: support sd-bus + generic event loop implementation.
+        throw std::invalid_argument(
+            "not support sd-bus with non-sdevent implementation.");
     }
 }
 

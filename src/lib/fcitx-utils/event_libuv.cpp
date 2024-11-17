@@ -249,7 +249,12 @@ void PostEventCallback(uv_prepare_t *handle) {
             source->setEnabled(false);
         }
         auto callback = source->callback_;
-        (*callback)(source);
+        auto ret = (*callback)(source);
+        if (sourceRef.isValid()) {
+            if (!ret) {
+                source->setEnabled(false);
+            }
+        }
     } catch (const std::exception &e) {
         // some abnormal things threw{
         FCITX_FATAL() << e.what();

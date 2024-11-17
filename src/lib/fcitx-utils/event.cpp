@@ -11,6 +11,7 @@
 #include <cstring>
 #include <ctime>
 #include <memory>
+#include <stdexcept>
 #include <utility>
 #include "event_p.h"
 #include "eventloopinterface.h"
@@ -21,12 +22,28 @@ namespace fcitx {
 class EventLoopPrivate {
 public:
     EventLoopPrivate(std::unique_ptr<EventLoopInterface> impl)
-        : impl_(std::move(impl)) {}
+        : impl_(std::move(impl)) {
+        if (!impl_) {
+            throw std::runtime_error("No available event loop implementation.");
+        }
+    }
 
     std::unique_ptr<EventLoopInterface> impl_;
+
+    static EventLoopFactory factory_;
 };
 
-EventLoop::EventLoop() : EventLoop(createDefaultEventLoop()) {}
+EventLoopFactory EventLoopPrivate::factory_ = createDefaultEventLoop;
+
+void EventLoop::setEventLoopFactory(EventLoopFactory factory) {
+    if (factory) {
+        EventLoopPrivate::factory_ = std::move(factory);
+    } else {
+        EventLoopPrivate::factory_ = createDefaultEventLoop;
+    }
+}
+
+EventLoop::EventLoop() : EventLoop(EventLoopPrivate::factory_()) {}
 
 EventLoop::EventLoop(std::unique_ptr<EventLoopInterface> impl)
     : d_ptr(std::make_unique<EventLoopPrivate>(std::move(impl))) {}
