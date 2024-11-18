@@ -6,7 +6,6 @@ endif()
 if (TARGET Fcitx5::Module::Emoji)
     target_link_libraries(keyboard Fcitx5::Module::Emoji)
 endif()
-target_include_directories(keyboard PUBLIC "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>")
 configure_file(keyboard.conf.in.in keyboard.conf.in @ONLY)
 fcitx5_translate_desktop_file(${CMAKE_CURRENT_BINARY_DIR}/keyboard.conf.in keyboard.conf)
 install(FILES "${CMAKE_CURRENT_BINARY_DIR}/keyboard.conf" DESTINATION "${FCITX_INSTALL_PKGDATADIR}/addon"

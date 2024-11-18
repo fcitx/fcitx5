@@ -366,4 +366,4 @@ public:
 };
 } // namespace fcitx
 
-FCITX_ADDON_FACTORY(fcitx::Fcitx4FrontendModuleFactory);
+FCITX_ADDON_FACTORY_V2(fcitx4frontend, fcitx::Fcitx4FrontendModuleFactory);

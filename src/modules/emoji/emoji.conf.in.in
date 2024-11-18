@@ -5,3 +5,6 @@ Library=libemoji
 Category=Module
 Version=@PROJECT_VERSION@
 OnDemand=True
+
+[Addon/Dependencies]
+0=core:@PROJECT_VERSION@

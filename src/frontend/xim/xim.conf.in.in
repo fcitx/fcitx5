@@ -7,7 +7,8 @@ Version=@PROJECT_VERSION@
 Configurable=True
 
 [Addon/Dependencies]
-0=xcb
+0=core:@PROJECT_VERSION@
+1=xcb
 
 # This intends to load xim after dbus & ibusfrontend, so xim is released before dbus.
 # This helps new fcitx server to become xim server properly when replacing.

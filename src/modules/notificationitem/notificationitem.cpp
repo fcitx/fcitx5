@@ -13,6 +13,7 @@
 #include "fcitx-utils/endian_p.h"
 #include "fcitx-utils/i18n.h"
 #include "fcitx/addonfactory.h"
+#include "fcitx/addoninstance.h"
 #include "fcitx/addonmanager.h"
 #include "fcitx/misc_p.h"
 #include "classicui_public.h"
@@ -423,4 +424,4 @@ class NotificationItemFactory : public AddonFactory {
 
 } // namespace fcitx
 
-FCITX_ADDON_FACTORY(fcitx::NotificationItemFactory)
+FCITX_ADDON_FACTORY_V2(notificationitem, fcitx::NotificationItemFactory)

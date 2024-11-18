@@ -5,15 +5,24 @@
  *
  */
 #include "fcitx-utils/eventdispatcher.h"
+#include "fcitx-utils/key.h"
+#include "fcitx-utils/keysym.h"
+#include "fcitx-utils/log.h"
+#include "fcitx-utils/macros.h"
 #include "fcitx-utils/testing.h"
+#include "fcitx/addoninstance.h"
+#include "fcitx/addonloader.h"
 #include "fcitx/addonmanager.h"
+#include "fcitx/inputmethodgroup.h"
 #include "fcitx/inputmethodmanager.h"
 #include "fcitx/instance.h"
-#include "keyboard.h"
 #include "testdir.h"
 #include "testfrontend_public.h"
 
 using namespace fcitx;
+
+StaticAddonRegistry staticAddon;
+FCITX_IMPORT_ADDON_FACTORY(staticAddon, keyboard);
 
 void scheduleEvent(EventDispatcher *dispatcher, Instance *instance) {
     dispatcher->schedule([instance]() {
@@ -63,12 +72,6 @@ int main() {
         {"src/modules/spell", "testing/testfrontend", "testing/testui",
          "testing/testim"},
         {"test", "src/modules", FCITX5_SOURCE_DIR "/src/modules"});
-
-    static KeyboardEngineFactory keyboardFactory;
-
-    StaticAddonRegistry staticAddon = {
-        std::make_pair<std::string, AddonFactory *>("keyboard",
-                                                    &keyboardFactory)};
 
     char arg0[] = "testspell";
     char arg1[] = "--disable=all";

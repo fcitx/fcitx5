@@ -35,6 +35,7 @@
 #include "fcitx-utils/stringutils.h"
 #include "fcitx-utils/textformatflags.h"
 #include "fcitx-utils/utf8.h"
+#include "fcitx/addoninstance.h"
 #include "fcitx/candidatelist.h"
 #include "fcitx/event.h"
 #include "fcitx/inputcontext.h"
@@ -940,3 +941,5 @@ bool KeyboardEngineState::handleBackspace(const InputMethodEntry &entry) {
 }
 
 } // namespace fcitx
+
+FCITX_ADDON_FACTORY_V2(keyboard, fcitx::KeyboardEngineFactory);

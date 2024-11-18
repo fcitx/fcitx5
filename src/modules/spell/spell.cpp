@@ -111,4 +111,4 @@ Spell::hintForDisplay(const std::string &language, SpellProvider provider,
 }
 } // namespace fcitx
 
-FCITX_ADDON_FACTORY(fcitx::SpellModuleFactory)
+FCITX_ADDON_FACTORY_V2(spell, fcitx::SpellModuleFactory)

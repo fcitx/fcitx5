@@ -199,6 +199,33 @@ private:
     }                                                                          \
     }
 
+#define FCITX_ADDON_FACTORY_V2(AddonName, ClassName)                           \
+    extern "C" {                                                               \
+    FCITXCORE_EXPORT                                                           \
+    ::fcitx::AddonFactory *fcitx_addon_factory_instance_##AddonName() {        \
+        static ClassName factory;                                              \
+        return &factory;                                                       \
+    }                                                                          \
+    }
+
+#define FCITX_ADDON_FACTORY_V2_BACKWARDS(AddonName, ClassName)                 \
+    FCITX_ADDON_FACTORY_V2(AddonName, ClassName)                               \
+    FCITX_ADDON_FACTORY(ClassName)
+
+#define FCITX_IMPORT_ADDON_FACTORY(StaticRegistry, AddonName)                  \
+    extern "C" {                                                               \
+    ::fcitx::AddonFactory *fcitx_addon_factory_instance_##AddonName();         \
+    }                                                                          \
+    class StaticAddonRegistrar_##AddonName {                                   \
+    public:                                                                    \
+        StaticAddonRegistrar_##AddonName() {                                   \
+            (StaticRegistry)                                                   \
+                .emplace(FCITX_STRINGIFY(AddonName),                           \
+                         fcitx_addon_factory_instance_##AddonName());          \
+        }                                                                      \
+    };                                                                         \
+    StaticAddonRegistrar_##AddonName staticAddonRegistrar_##AddonName
+
 /// A convenient macro to obtain the addon pointer of another addon.
 #define FCITX_ADDON_DEPENDENCY_LOADER(NAME, ADDONMANAGER)                      \
     auto NAME() {                                                              \

@@ -5,8 +5,18 @@
  *
  */
 
+#include "fcitx/addonloader.h"
+#include <exception>
+#include <memory>
+#include <string>
+#include <utility>
+#include "fcitx-utils/flags.h"
 #include "fcitx-utils/library.h"
 #include "fcitx-utils/log.h"
+#include "fcitx-utils/standardpath.h"
+#include "fcitx-utils/stringutils.h"
+#include "fcitx/addoninfo.h"
+#include "fcitx/addoninstance.h"
 #include "addonloader_p.h"
 #include "config.h"
 
@@ -41,9 +51,9 @@ AddonInstance *SharedLibraryLoader::load(const AddonInfo &info,
                 continue;
             }
             try {
-                registry_.emplace(
-                    info.uniqueName(),
-                    std::make_unique<SharedLibraryFactory>(std::move(lib)));
+                registry_.emplace(info.uniqueName(),
+                                  std::make_unique<SharedLibraryFactory>(
+                                      info, std::move(lib)));
             } catch (const std::exception &e) {
                 FCITX_ERROR() << "Failed to initialize addon factory for addon "
                               << info.uniqueName() << ". Error: " << e.what();

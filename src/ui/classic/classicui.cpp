@@ -508,4 +508,4 @@ bool ClassicUI::showLayoutNameInIcon() const {
 
 } // namespace fcitx::classicui
 
-FCITX_ADDON_FACTORY(fcitx::classicui::ClassicUIFactory);
+FCITX_ADDON_FACTORY_V2(classicui, fcitx::classicui::ClassicUIFactory);

@@ -111,4 +111,4 @@ public:
 };
 } // namespace fcitx
 
-FCITX_ADDON_FACTORY(fcitx::WaylandIMModuleFactory);
+FCITX_ADDON_FACTORY_V2(waylandim, fcitx::WaylandIMModuleFactory);

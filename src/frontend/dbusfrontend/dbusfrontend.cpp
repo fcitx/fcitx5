@@ -610,4 +610,4 @@ public:
 };
 } // namespace fcitx
 
-FCITX_ADDON_FACTORY(fcitx::DBusFrontendModuleFactory);
+FCITX_ADDON_FACTORY_V2(dbusfrontend, fcitx::DBusFrontendModuleFactory);

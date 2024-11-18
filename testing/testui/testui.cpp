@@ -10,6 +10,7 @@
 #include "fcitx-utils/utf8.h"
 #include "fcitx/action.h"
 #include "fcitx/addonfactory.h"
+#include "fcitx/addoninstance.h"
 #include "fcitx/addonmanager.h"
 #include "fcitx/candidatelist.h"
 #include "fcitx/inputcontext.h"
@@ -89,4 +90,4 @@ public:
 };
 } // namespace fcitx
 
-FCITX_ADDON_FACTORY(fcitx::TestUIFactory);
+FCITX_ADDON_FACTORY_V2(testui, fcitx::TestUIFactory);

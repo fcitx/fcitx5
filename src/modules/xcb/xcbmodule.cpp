@@ -208,4 +208,4 @@ public:
 };
 } // namespace fcitx
 
-FCITX_ADDON_FACTORY(fcitx::XCBModuleFactory);
+FCITX_ADDON_FACTORY_V2(xcb, fcitx::XCBModuleFactory);

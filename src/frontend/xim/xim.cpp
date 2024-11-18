@@ -705,4 +705,4 @@ public:
 };
 } // namespace fcitx
 
-FCITX_ADDON_FACTORY(fcitx::XIMModuleFactory);
+FCITX_ADDON_FACTORY_V2(xim, fcitx::XIMModuleFactory);

@@ -1010,4 +1010,4 @@ public:
 };
 } // namespace fcitx
 
-FCITX_ADDON_FACTORY(fcitx::IBusFrontendModuleFactory);
+FCITX_ADDON_FACTORY_V2(ibusfrontend, fcitx::IBusFrontendModuleFactory);

@@ -471,4 +471,4 @@ class UnicodeModuleFactory : public AddonFactory {
 };
 } // namespace fcitx
 
-FCITX_ADDON_FACTORY(fcitx::UnicodeModuleFactory);
+FCITX_ADDON_FACTORY_V2(unicode, fcitx::UnicodeModuleFactory);

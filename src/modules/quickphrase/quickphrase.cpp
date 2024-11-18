@@ -546,4 +546,4 @@ class QuickPhraseModuleFactory : public AddonFactory {
 };
 } // namespace fcitx
 
-FCITX_ADDON_FACTORY(fcitx::QuickPhraseModuleFactory)
+FCITX_ADDON_FACTORY_V2(quickphrase, fcitx::QuickPhraseModuleFactory)
