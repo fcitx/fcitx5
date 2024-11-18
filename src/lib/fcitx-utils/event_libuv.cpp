@@ -89,8 +89,8 @@ bool LibUVSourceTime::setup(uv_loop_t *loop, uv_timer_t *timer) {
     }
     auto curr = now(clock_);
     uint64_t timeout = time_ > curr ? (time_ - curr) : 0;
-    // libuv is milliseconds
-    timeout /= 1000;
+    // libuv is milliseconds, ceil towards 1ms.
+    timeout = timeout / 1000 + (timeout % 1000 != 0);
     if (int err = uv_timer_start(timer, &TimeEventCallback, timeout, 0);
         err < 0) {
         FCITX_LIBUV_DEBUG() << "Failed to start timer with error: " << err;
