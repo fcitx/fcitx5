@@ -86,7 +86,7 @@ foreach(CANDIDATE_EVENT_LOOP_BACKEND IN LISTS CANDIDATE_EVENT_LOOP_BACKENDS)
             endif()
         endif()
 
-        if (TARGET LIBUV_TARGET)
+        if (TARGET "${LIBUV_TARGET}")
             set(FCITX_EVENT_LOOP_BACKEND "libuv")
             break()
         endif()
@@ -102,7 +102,7 @@ if (ENABLE_DBUS AND NOT (FCITX_EVENT_LOOP_BACKEND STREQUAL systemd))
 endif()
 
 if (FCITX_EVENT_LOOP_BACKEND STREQUAL "")
-    message(FATAL_ERROR "Failed to find a valid event loop backend.")
+    message(FATAL_ERROR "Failed to find a valid event loop backend. Backends checked: ${CANDIDATE_EVENT_LOOP_BACKENDS}")
 endif()
 
 if (USE_FLATPAK_ICON)
