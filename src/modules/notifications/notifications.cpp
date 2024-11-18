@@ -222,4 +222,4 @@ class NotificationsModuleFactory : public AddonFactory {
 };
 } // namespace fcitx
 
-FCITX_ADDON_FACTORY(fcitx::NotificationsModuleFactory)
+FCITX_ADDON_FACTORY_V2(notifications, fcitx::NotificationsModuleFactory)

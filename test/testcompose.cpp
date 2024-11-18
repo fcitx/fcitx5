@@ -4,19 +4,27 @@
  * SPDX-License-Identifier: LGPL-2.1-or-later
  *
  */
+#include <exception>
+#include <iostream>
+#include <xkbcommon/xkbcommon-compose.h>
 #include "fcitx-utils/eventdispatcher.h"
+#include "fcitx-utils/key.h"
+#include "fcitx-utils/keysym.h"
+#include "fcitx-utils/log.h"
+#include "fcitx-utils/macros.h"
 #include "fcitx-utils/testing.h"
+#include "fcitx/addoninstance.h"
+#include "fcitx/addonloader.h"
+#include "fcitx/instance.h"
 #include "fcitx/instance_p.h"
-#include "keyboard.h"
 #include "testdir.h"
 #include "testfrontend_public.h"
 
 using namespace fcitx;
 
-static KeyboardEngineFactory keyboardFactory;
+StaticAddonRegistry staticAddon;
+FCITX_IMPORT_ADDON_FACTORY(staticAddon, keyboard);
 
-StaticAddonRegistry staticAddon = {
-    std::make_pair<std::string, AddonFactory *>("keyboard", &keyboardFactory)};
 void scheduleEvent(EventDispatcher *dispatcher, Instance *instance) {
     dispatcher->schedule([instance]() {
         auto *keyboard = instance->addonManager().addon("keyboard", true);

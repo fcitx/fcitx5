@@ -6,7 +6,8 @@ Category=Frontend
 Version=@PROJECT_VERSION@
 
 [Addon/Dependencies]
-0=dbus
+0=core:@PROJECT_VERSION@
+1=dbus
 
 [Addon/OptionalDependencies]
 0=xcb

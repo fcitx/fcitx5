@@ -5,3 +5,6 @@ Library=libxcb
 Category=Module
 Version=@PROJECT_VERSION@
 Configurable=True
+
+[Addon/Dependencies]
+0=core:@PROJECT_VERSION@

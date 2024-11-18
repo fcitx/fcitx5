@@ -7,3 +7,6 @@ Library=libimselector
 Type=SharedLibrary
 OnDemand=False
 Configurable=True
+
+[Addon/Dependencies]
+0=core:@PROJECT_VERSION@

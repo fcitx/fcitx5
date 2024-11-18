@@ -12,6 +12,8 @@
 #include "fcitx-utils/key.h"
 #include "fcitx-utils/log.h"
 #include "fcitx-utils/utf8.h"
+#include "fcitx/addonfactory.h"
+#include "fcitx/addoninstance.h"
 #include "fcitx/addonmanager.h"
 #include "fcitx/candidatelist.h"
 #include "fcitx/inputcontext.h"
@@ -535,4 +537,4 @@ public:
 };
 } // namespace fcitx
 
-FCITX_ADDON_FACTORY(fcitx::VirtualKeyboardFactory);
+FCITX_ADDON_FACTORY_V2(virtualkeyboard, fcitx::VirtualKeyboardFactory);

@@ -702,4 +702,4 @@ public:
 };
 } // namespace fcitx
 
-FCITX_ADDON_FACTORY(fcitx::WaylandModuleFactory);
+FCITX_ADDON_FACTORY_V2(wayland, fcitx::WaylandModuleFactory);

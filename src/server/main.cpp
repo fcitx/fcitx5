@@ -21,28 +21,20 @@
 #include "fcitx-utils/standardpath.h"
 #include "fcitx-utils/stringutils.h"
 #include "fcitx/addonfactory.h"
+#include "fcitx/addoninstance.h"
 #include "fcitx/addonloader.h"
 #include "fcitx/addonmanager.h"
 #include "fcitx/instance.h"
 #include "errorhandler.h"
 
-#ifdef ENABLE_KEYBOARD
-#include "keyboard.h"
-#endif
-
 using namespace fcitx;
 int selfpipe[2];
 std::string crashlog;
 
+StaticAddonRegistry staticAddon;
 #ifdef ENABLE_KEYBOARD
-static KeyboardEngineFactory keyboardFactory;
+FCITX_IMPORT_ADDON_FACTORY(staticAddon, keyboard);
 #endif
-
-StaticAddonRegistry staticAddon = {
-#ifdef ENABLE_KEYBOARD
-    std::make_pair<std::string, AddonFactory *>("keyboard", &keyboardFactory)
-#endif
-};
 
 int main(int argc, char *argv[]) {
     umask(077);

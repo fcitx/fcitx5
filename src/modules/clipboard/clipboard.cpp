@@ -498,4 +498,4 @@ class ClipboardModuleFactory : public AddonFactory {
 };
 } // namespace fcitx
 
-FCITX_ADDON_FACTORY(fcitx::ClipboardModuleFactory);
+FCITX_ADDON_FACTORY_V2(clipboard, fcitx::ClipboardModuleFactory);

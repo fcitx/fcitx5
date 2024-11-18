@@ -6,3 +6,6 @@ Category=Module
 Version=@PROJECT_VERSION@
 OnDemand=True
 Configurable=True
+
+[Addon/Dependencies]
+0=core:@PROJECT_VERSION@

@@ -4,8 +4,8 @@
  * SPDX-License-Identifier: LGPL-2.1-or-later
  *
  */
-#ifndef _FCITX_ADDONRESOLVER_H_
-#define _FCITX_ADDONRESOLVER_H_
+#ifndef _FCITX_ADDONLOADER_H_
+#define _FCITX_ADDONLOADER_H_
 
 #include <string>
 #include <unordered_map>
@@ -18,7 +18,7 @@ namespace fcitx {
 class AddonFactory;
 class AddonManager;
 
-typedef std::unordered_map<std::string, AddonFactory *> StaticAddonRegistry;
+using StaticAddonRegistry = std::unordered_map<std::string, AddonFactory *>;
 
 class FCITXCORE_EXPORT AddonLoader {
 public:
@@ -29,4 +29,4 @@ public:
 };
 } // namespace fcitx
 
-#endif // _FCITX_ADDONRESOLVER_H_
+#endif // _FCITX_ADDONLOADER_H_

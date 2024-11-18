@@ -7,5 +7,6 @@ Version=@PROJECT_VERSION@
 Configurable=True
 
 [Addon/Dependencies]
-0=wayland:@PROJECT_VERSION@
+0=core:@PROJECT_VERSION@
+1=wayland:@PROJECT_VERSION@
 

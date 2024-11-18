@@ -6,6 +6,9 @@ Category=InputMethod
 Version=@PROJECT_VERSION@
 Configurable=True
 
+[Addon/Dependencies]
+0=core:@PROJECT_VERSION@
+
 [Addon/OptionalDependencies]
 0=xcb
 1=spell

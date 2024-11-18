@@ -29,4 +29,4 @@ class DummyAddonFactory : public fcitx::AddonFactory {
     }
 };
 
-FCITX_ADDON_FACTORY(DummyAddonFactory)
+FCITX_ADDON_FACTORY_V2_BACKWARDS(dummyaddon, DummyAddonFactory)

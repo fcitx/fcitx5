@@ -9,4 +9,5 @@ OnDemand=True
 Configurable=True
 
 [Addon/Dependencies]
-0=dbus
+0=core:@PROJECT_VERSION@
+1=dbus
