@@ -169,6 +169,19 @@ FCITXUTILS_EXPORT constexpr inline bool isApple() {
 #endif
 }
 
+/**
+ * Util function that returns whether it is compile against emscripten.
+ *
+ * @since 5.1.12
+ */
+FCITXUTILS_EXPORT constexpr inline bool isEmscripten() {
+#if defined(__EMSCRIPTEN__)
+    return true;
+#else
+    return false;
+#endif
+}
+
 } // namespace fcitx
 
 #endif // _FCITX_UTILS_MISC_H_
