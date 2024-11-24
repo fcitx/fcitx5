@@ -20,8 +20,8 @@ include(CheckSymbolExists)
 #######################################################################
 # Options
 #######################################################################
-option(ENABLE_TESTING "Build testing frontend, im and ui addons" On)
-option(ENABLE_TEST "Build Test (Need ENABLE_TESTING=On)" On)
+option(ENABLE_TESTING_ADDONS "Build testing frontend, im and ui addons" On)
+option(ENABLE_TEST "Build Test (Need ENABLE_TESTING_ADDONS=On)" On)
 option(ENABLE_COVERAGE "Build the project with gcov support (Need ENABLE_TEST=On)" Off)
 set(GCOV_TOOL "gcov" CACHE STRING "Path to gcov tool used by coverage.")
 set(DEFAULT_XKB_RULES "evdev" CACHE STRING "Xkb rules name")
@@ -228,7 +228,7 @@ add_subdirectory(src)
 add_subdirectory(data)
 add_subdirectory(po)
 
-if (ENABLE_TESTING)
+if (ENABLE_TESTING_ADDONS)
   add_subdirectory(testing)
 endif()
 
