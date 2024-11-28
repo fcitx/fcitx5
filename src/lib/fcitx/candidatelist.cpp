@@ -431,8 +431,10 @@ std::string keyToLabel(const Key &key) {
     } else {
         result = Key::keySymToString(key.sym(), KeyStringFormat::Localized);
     }
-    // add a dot as separator
-    result += ". ";
+    if (!isApple()) {
+        // add a dot as separator
+        result += ". ";
+    }
 
     return result;
 }
