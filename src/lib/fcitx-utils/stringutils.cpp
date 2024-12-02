@@ -407,4 +407,13 @@ std::string escapeForValue(std::string_view str) {
 
     return value;
 }
+
+bool consumePrefix(std::string_view &str, std::string_view prefix) {
+    if (stringutils::startsWith(str, prefix)) {
+        str = str.substr(prefix.size());
+        return true;
+    }
+    return false;
+}
+
 } // namespace fcitx::stringutils

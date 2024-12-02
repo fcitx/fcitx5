@@ -17,6 +17,7 @@
 #include <iterator>
 #include <optional>
 #include <string>
+#include <string_view>
 #include <utility>
 #include <vector>
 #include "fcitxutils_export.h"
@@ -181,6 +182,17 @@ unescapeForValue(std::string_view str);
  * \since 5.0.16
  */
 FCITXUTILS_EXPORT std::string escapeForValue(std::string_view str);
+
+/**
+ * Return a substring of input str if str starts with given prefix.
+ *
+ * \param str input string
+ * \param prefix to check
+ * \see startsWith
+ * \since 5.1.12
+ */
+FCITXUTILS_EXPORT bool consumePrefix(std::string_view &str,
+                                     std::string_view prefix);
 
 } // namespace fcitx::stringutils
 

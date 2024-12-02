@@ -16,6 +16,7 @@ int main() {
     FCITX_ASSERT(stringutils::startsWith("abc", "ab"));
     FCITX_ASSERT(!stringutils::startsWith("abc", "abd"));
     FCITX_ASSERT(!stringutils::startsWith("abc", "abcd"));
+    FCITX_ASSERT(stringutils::startsWith("abc", ""));
     FCITX_ASSERT(!stringutils::endsWith("abc", "ab"));
     FCITX_ASSERT(stringutils::endsWith("abc", "abc"));
     FCITX_ASSERT(!stringutils::endsWith("abc", "eabc"));
@@ -128,5 +129,12 @@ int main() {
             FCITX_ASSERT(charutils::toHex(i) == i - 10 + 'a');
         }
     }
+
+    std::string_view str = "abc";
+    FCITX_ASSERT(!stringutils::consumePrefix(str, "ae"));
+    FCITX_ASSERT(str == "abc");
+    FCITX_ASSERT(stringutils::consumePrefix(str, "ab"));
+    FCITX_ASSERT(str == "c");
+
     return 0;
 }
