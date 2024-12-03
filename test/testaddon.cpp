@@ -41,5 +41,12 @@ int main() {
     FCITX_ASSERT(addon2);
     auto *addon3 = manager.addon("dummyaddon3");
     FCITX_ASSERT(!addon3);
+    // loading dummyaddondeps will change log rule level to 3.
+    FCITX_ASSERT(
+        !fcitx::Log::defaultCategory().checkLogLevel(fcitx::LogLevel::Info));
+    FCITX_ASSERT(
+        fcitx::Log::defaultCategory().checkLogLevel(fcitx::LogLevel::Warn));
+    fcitx::Log::setLogRule("default=5");
+
     return 0;
 }

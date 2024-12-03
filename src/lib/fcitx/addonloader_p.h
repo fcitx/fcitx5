@@ -29,16 +29,22 @@ constexpr char FCITX_ADDON_FACTORY_ENTRY[] = "fcitx_addon_factory_instance";
 
 class SharedLibraryFactory {
 public:
-    SharedLibraryFactory(const AddonInfo &info, Library lib)
-        : library_(std::move(lib)) {
+    SharedLibraryFactory(const AddonInfo &info, std::vector<Library> libraries)
+        : libraries_(std::move(libraries)) {
         std::string v2Name = stringutils::concat(FCITX_ADDON_FACTORY_ENTRY, "_",
                                                  info.uniqueName());
-        auto *funcPtr = library_.resolve(v2Name.data());
+        if (libraries_.empty()) {
+            throw std::runtime_error("Got empty libraries.");
+        }
+
+        // Only resolve with last library.
+        auto &library = libraries_.back();
+        auto *funcPtr = library.resolve(v2Name.data());
         if (!funcPtr) {
-            funcPtr = library_.resolve(FCITX_ADDON_FACTORY_ENTRY);
+            funcPtr = library.resolve(FCITX_ADDON_FACTORY_ENTRY);
         }
         if (!funcPtr) {
-            throw std::runtime_error(library_.error());
+            throw std::runtime_error(library.error());
         }
         auto func = Library::toFunction<AddonFactory *()>(funcPtr);
         factory_ = func();
@@ -50,7 +56,7 @@ public:
     AddonFactory *factory() { return factory_; }
 
 private:
-    Library library_;
+    std::vector<Library> libraries_;
     AddonFactory *factory_;
 };
 
