@@ -34,7 +34,7 @@ public:
 
     void showVirtualKeyboard() { parent_->showVirtualKeyboardForcibly(); }
 
-    void hideVirtualKeyboard() { parent_->hideVirtualKeyboard(); }
+    void hideVirtualKeyboard() { parent_->hideVirtualKeyboardForcibly(); }
 
     void toggleVirtualKeyboard() { parent_->toggleVirtualKeyboard(); }
 
@@ -325,13 +325,25 @@ void VirtualKeyboard::showVirtualKeyboardForcibly() {
     showVirtualKeyboard();
 }
 
+void VirtualKeyboard::hideVirtualKeyboardForcibly() {
+    if (!available_) {
+        return;
+    }
+
+    hideVirtualKeyboard();
+
+    if (!instance_->virtualKeyboardAutoShow()) {
+        instance_->setInputMethodMode(InputMethodMode::PhysicalKeyboard);
+    }
+}
+
 void VirtualKeyboard::toggleVirtualKeyboard() {
     if (!available_) {
         return;
     }
 
     if (visible_) {
-        hideVirtualKeyboard();
+        hideVirtualKeyboardForcibly();
     } else {
         showVirtualKeyboardForcibly();
     }
