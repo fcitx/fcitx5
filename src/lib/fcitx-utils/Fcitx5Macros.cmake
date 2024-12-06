@@ -1,7 +1,59 @@
 set(_Fcitx5Macro_SELF "${CMAKE_CURRENT_LIST_FILE}")
 get_filename_component(_Fcitx5Macro_SELF_DIR "${_Fcitx5Macro_SELF}" PATH)
 
+option(BUILD_SHARED_FCITX_ADDON "Build addon as shared library" On)
+
+if (BUILD_SHARED_FCITX_ADDON)
+    set(FCITX_ADDON_CMAKE_LIBRARY_TYPE MODULE)
+    set(FCITX_ADDON_TYPE "SharedLibrary")
+else()
+    set(FCITX_ADDON_CMAKE_LIBRARY_TYPE STATIC)
+    set(FCITX_ADDON_TYPE "StaticLibrary")
+endif()
+
 include(WriteBasicConfigVersionFile)
+
+function(fcitx5_import_addons target)
+  set(options)
+  set(one_value_args REGISTRY_VARNAME)
+  set(multi_value_args ADDONS)
+  cmake_parse_arguments(FCITX5_IMPORT
+    "${options}" "${one_value_args}" "${multi_value_args}" ${ARGN})
+
+  foreach(addon IN LISTS FCITX5_IMPORT_ADDONS)
+      set(filename "${CMAKE_CURRENT_BINARY_DIR}/${target}-${addon}-import-addon.cpp")
+      file(WRITE "${filename}" "
+#include <fcitx/addonloader.h>
+extern fcitx::StaticAddonRegistry ${FCITX5_IMPORT_REGISTRY_VARNAME};
+FCITX_IMPORT_ADDON_FACTORY(${FCITX5_IMPORT_REGISTRY_VARNAME}, ${addon});
+")
+      target_sources(${target} PRIVATE ${filename})
+      target_link_libraries(${target} ${addon})
+  endforeach()
+
+endfunction()
+
+function(fcitx5_get_addon_targets OUT)
+    cmake_parse_arguments(ARG "" "" "" ${ARGN})
+    set(dirs ${ARG_UNPARSED_ARGUMENTS})
+    set(_addon_targets)
+    foreach(dir IN LISTS dirs)
+        get_property(targets DIRECTORY "${dir}" PROPERTY BUILDSYSTEM_TARGETS)
+        foreach(target IN LISTS targets)
+            get_target_property(is_fcitx_addon ${target} FCITX_ADDON)
+            if (is_fcitx_addon)
+                list(APPEND _addon_targets ${target})
+            endif()
+        endforeach()
+
+        get_property(subdirs DIRECTORY "${dir}" PROPERTY SUBDIRECTORIES)
+
+        fcitx5_get_addon_targets(_subdir_addon_targets ${subdirs})
+        list(APPEND _addon_targets ${_subdir_addon_targets})
+    endforeach()
+
+    set(${OUT} ${_addon_targets} PARENT_SCOPE)
+endfunction()
 
 function(fcitx5_download tgt_name url output sha256sum)
   get_filename_component(output "${output}" ABSOLUTE)
@@ -206,3 +258,11 @@ endif()
 if (NOT TARGET translation-file)
     add_custom_target(translation-file)
 endif()
+
+function(add_fcitx5_addon target_name)
+  cmake_parse_arguments(ARG "" "" "" ${ARGN})
+  set(srcs ${ARG_UNPARSED_ARGUMENTS})
+
+  add_library(${target_name} ${FCITX_ADDON_CMAKE_LIBRARY_TYPE} ${srcs} )
+  set_target_properties(${target_name} PROPERTIES FCITX_ADDON TRUE)
+endfunction()

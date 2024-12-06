@@ -1,6 +1,6 @@
 [Addon]
 Name=X Input Method Frontend
-Type=SharedLibrary
+Type=@FCITX_ADDON_TYPE@
 Library=libxim
 Category=Frontend
 Version=@PROJECT_VERSION@

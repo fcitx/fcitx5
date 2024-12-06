@@ -1,4 +1,4 @@
-add_library(unicode MODULE unicode.cpp charselectdata.cpp)
+add_fcitx5_addon(unicode unicode.cpp charselectdata.cpp)
 target_link_libraries(unicode Fcitx5::Core Fcitx5::Module::Clipboard ${FMT_TARGET})
 install(TARGETS unicode DESTINATION "${FCITX_INSTALL_ADDONDIR}")
 configure_file(unicode.conf.in.in unicode.conf.in @ONLY)

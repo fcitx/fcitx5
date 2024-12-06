@@ -1,7 +1,7 @@
 [Addon]
 Name=Unicode
 Comment=Add Unicode Typing Support
-Type=SharedLibrary
+Type=@FCITX_ADDON_TYPE@
 Library=libunicode
 Category=Module
 Version=@PROJECT_VERSION@

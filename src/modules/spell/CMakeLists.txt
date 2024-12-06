@@ -5,7 +5,7 @@ if (TARGET PkgConfig::Enchant)
     set(SPELL_SOURCES ${SPELL_SOURCES} spell-enchant.cpp)
 endif()
 
-add_library(spell MODULE ${SPELL_SOURCES})
+add_fcitx5_addon(spell ${SPELL_SOURCES})
 target_link_libraries(spell Fcitx5::Core)
 if (TARGET PkgConfig::Enchant)
     target_link_libraries(spell PkgConfig::Enchant)

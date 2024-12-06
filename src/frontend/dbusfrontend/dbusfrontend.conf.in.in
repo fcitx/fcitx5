@@ -1,6 +1,6 @@
 [Addon]
 Name=DBus Frontend
-Type=SharedLibrary
+Type=@FCITX_ADDON_TYPE@
 Library=libdbusfrontend
 Category=Frontend
 Version=@PROJECT_VERSION@

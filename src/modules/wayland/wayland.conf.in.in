@@ -1,6 +1,6 @@
 [Addon]
 Name=Wayland
-Type=SharedLibrary
+Type=@FCITX_ADDON_TYPE@
 Library=libwayland
 Category=Module
 Version=@PROJECT_VERSION@

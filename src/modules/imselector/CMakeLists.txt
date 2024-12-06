@@ -1,4 +1,4 @@
-add_library(imselector MODULE imselector.cpp)
+add_fcitx5_addon(imselector imselector.cpp)
 target_link_libraries(imselector Fcitx5::Core)
 install(TARGETS imselector DESTINATION "${FCITX_INSTALL_ADDONDIR}")
 configure_file(imselector.conf.in.in imselector.conf.in @ONLY)

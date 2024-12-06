@@ -1,6 +1,6 @@
 [Addon]
 Name=IBus Frontend
-Type=SharedLibrary
+Type=@FCITX_ADDON_TYPE@
 Library=libibusfrontend
 Category=Frontend
 Version=@PROJECT_VERSION@

@@ -1,4 +1,4 @@
-add_library(testfrontend MODULE testfrontend.cpp)
+add_fcitx5_addon(testfrontend testfrontend.cpp)
 
 target_link_libraries(testfrontend
     Fcitx5::Core)

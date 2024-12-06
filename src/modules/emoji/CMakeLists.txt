@@ -1,5 +1,5 @@
 if (ENABLE_EMOJI)
-    add_library(emoji MODULE emoji.cpp)
+    add_fcitx5_addon(emoji emoji.cpp)
     target_link_libraries(emoji Fcitx5::Core ZLIB::ZLIB)
     install(TARGETS emoji DESTINATION "${FCITX_INSTALL_ADDONDIR}")
     install(FILES "${CMAKE_CURRENT_BINARY_DIR}/emoji.conf" DESTINATION "${FCITX_INSTALL_PKGDATADIR}/addon"

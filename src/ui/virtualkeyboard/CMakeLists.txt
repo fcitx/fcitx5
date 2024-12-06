@@ -1,4 +1,4 @@
-add_library(virtualkeyboard MODULE virtualkeyboard.cpp)
+add_fcitx5_addon(virtualkeyboard virtualkeyboard.cpp)
 
 target_link_libraries(virtualkeyboard
     Fcitx5::Core Fcitx5::Module::DBus Fcitx5::Module::NotificationItem)

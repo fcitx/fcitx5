@@ -1,4 +1,4 @@
-add_library(testui MODULE testui.cpp)
+add_fcitx5_addon(testui testui.cpp)
 
 target_link_libraries(testui
     Fcitx5::Core)

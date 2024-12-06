@@ -8,7 +8,7 @@ ecm_add_wayland_client_protocol(WAYLAND_IM_PROTOCOL_SRCS
     PROTOCOL ${WAYLAND_PROTOCOLS_PKGDATADIR}/unstable/text-input/text-input-unstable-v3.xml
     BASENAME text-input-unstable-v3)
 
-add_library(waylandim MODULE
+add_fcitx5_addon(waylandim
     waylandim.cpp
     waylandimserverbase.cpp
     waylandimserver.cpp

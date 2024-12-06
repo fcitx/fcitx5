@@ -6,4 +6,5 @@ endif()
 if (EXECINFO_FOUND)
 target_link_libraries(fcitx5 Execinfo::Execinfo)
 endif()
+
 install(TARGETS fcitx5 DESTINATION "${FCITX_INSTALL_BINDIR}")

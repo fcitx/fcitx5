@@ -1,7 +1,7 @@
 [Addon]
 Name=DBus Virtual Keyboard
 Comment=A virtual keyboard backend based on DBus
-Type=SharedLibrary
+Type=@FCITX_ADDON_TYPE@
 Library=libvirtualkeyboard
 Category=UI
 Version=@PROJECT_VERSION@

@@ -1,6 +1,6 @@
 [Addon]
 Name=DBus
-Type=SharedLibrary
+Type=@FCITX_ADDON_TYPE@
 Library=libdbus
 Category=Module
 Version=@PROJECT_VERSION@

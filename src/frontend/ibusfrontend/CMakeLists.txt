@@ -1,4 +1,4 @@
-add_library(ibusfrontend MODULE ibusfrontend.cpp)
+add_fcitx5_addon(ibusfrontend ibusfrontend.cpp)
 target_link_libraries(ibusfrontend Fcitx5::Core Fcitx5::Module::DBus ${FMT_TARGET})
 install(TARGETS ibusfrontend DESTINATION "${FCITX_INSTALL_ADDONDIR}")
 configure_file(ibusfrontend.conf.in.in ibusfrontend.conf.in @ONLY)

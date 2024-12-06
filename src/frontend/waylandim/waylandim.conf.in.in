@@ -1,6 +1,6 @@
 [Addon]
 Name=Wayland Input method frontend
-Type=SharedLibrary
+Type=@FCITX_ADDON_TYPE@
 Library=libwaylandim
 Category=Frontend
 Version=@PROJECT_VERSION@

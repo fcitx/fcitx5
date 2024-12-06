@@ -1,6 +1,6 @@
 [Addon]
 Name=Quick Phrase
-Type=SharedLibrary
+Type=@FCITX_ADDON_TYPE@
 Library=libquickphrase
 Category=Module
 Version=@PROJECT_VERSION@
