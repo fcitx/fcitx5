@@ -1,4 +1,4 @@
-add_library(testim MODULE testim.cpp)
+add_fcitx5_addon(testim testim.cpp)
 
 target_link_libraries(testim
     Fcitx5::Core)

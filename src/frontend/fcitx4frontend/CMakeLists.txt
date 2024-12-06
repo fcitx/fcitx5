@@ -1,4 +1,4 @@
-add_library(fcitx4frontend MODULE fcitx4frontend.cpp)
+add_fcitx5_addon(fcitx4frontend fcitx4frontend.cpp)
 target_link_libraries(fcitx4frontend Fcitx5::Core Fcitx5::Module::DBus)
 if (ENABLE_X11)
     target_link_libraries(fcitx4frontend Fcitx5::Module::XCB XCB::XCB)

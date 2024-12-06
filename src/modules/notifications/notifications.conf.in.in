@@ -1,7 +1,7 @@
 [Addon]
 Name=Notification
 Comment=Freedesktop.org Notification Support
-Type=SharedLibrary
+Type=@FCITX_ADDON_TYPE@
 Library=libnotifications
 Category=Module
 Version=@PROJECT_VERSION@

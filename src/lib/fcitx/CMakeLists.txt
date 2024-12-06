@@ -65,7 +65,7 @@ ecm_setup_version(PROJECT
                   PACKAGE_VERSION_FILE "${CMAKE_CURRENT_BINARY_DIR}/Fcitx5CoreConfigVersion.cmake"
                   SOVERSION 7)
 
-add_library(Fcitx5Core SHARED ${FCITX_CORE_SOURCES})
+add_library(Fcitx5Core ${FCITX_CORE_SOURCES})
 set_target_properties(Fcitx5Core
   PROPERTIES VERSION ${Fcitx5Core_VERSION}
   SOVERSION ${Fcitx5Core_SOVERSION}

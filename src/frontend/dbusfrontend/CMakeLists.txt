@@ -1,4 +1,4 @@
-add_library(dbusfrontend MODULE dbusfrontend.cpp)
+add_fcitx5_addon(dbusfrontend dbusfrontend.cpp)
 target_link_libraries(dbusfrontend Fcitx5::Core Fcitx5::Module::DBus)
 install(TARGETS dbusfrontend DESTINATION "${FCITX_INSTALL_ADDONDIR}")
 configure_file(dbusfrontend.conf.in.in dbusfrontend.conf.in @ONLY)

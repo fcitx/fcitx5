@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.6.0)
+cmake_minimum_required(VERSION 3.13)
 project(fcitx VERSION 5.1.12)
 set(FCITX_VERSION ${PROJECT_VERSION})
 
@@ -38,6 +38,7 @@ option(USE_FLATPAK_ICON "Use flatpak icon name for desktop files" Off)
 option(ENABLE_EMOJI "Enable emoji module" On)
 option(ENABLE_LIBUUID "Use libuuid for uuid generation" On)
 option(BUILD_SPELL_DICT "Build en_dict.fscd for English spell check" On)
+option(BUILD_SHARED_LIBS "Build library as shared libs" On)
 set(NO_PREEDIT_APPS "gvim.*,wps.*,wpp.*,et.*" CACHE STRING "Disable preedit for follwing app by default.")
 set(EVENT_LOOP_BACKEND "auto" CACHE STRING "Set the underlying event loop implementation, valid values are auto,systemd,libuv,none")
 

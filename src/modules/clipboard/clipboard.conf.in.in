@@ -1,6 +1,6 @@
 [Addon]
 Name=Clipboard
-Type=SharedLibrary
+Type=@FCITX_ADDON_TYPE@
 Library=libclipboard
 Category=Module
 Version=@PROJECT_VERSION@

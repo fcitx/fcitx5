@@ -1,4 +1,4 @@
-add_library(kimpanel MODULE kimpanel.cpp)
+add_fcitx5_addon(kimpanel kimpanel.cpp)
 
 target_link_libraries(kimpanel
     Fcitx5::Core Fcitx5::Module::DBus Fcitx5::Module::XCB)

@@ -1,4 +1,4 @@
-add_library(quickphrase MODULE quickphrase.cpp quickphraseprovider.cpp)
+add_fcitx5_addon(quickphrase quickphrase.cpp quickphraseprovider.cpp)
 target_link_libraries(quickphrase Fcitx5::Core Fcitx5::Module::Spell)
 install(TARGETS quickphrase DESTINATION "${FCITX_INSTALL_ADDONDIR}")
 configure_file(quickphrase.conf.in.in quickphrase.conf.in @ONLY)

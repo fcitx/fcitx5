@@ -1,4 +1,4 @@
-add_library(clipboard MODULE)
+add_fcitx5_addon(clipboard)
 
 target_sources(clipboard PRIVATE clipboard.cpp)
 target_link_libraries(clipboard Fcitx5::Core)

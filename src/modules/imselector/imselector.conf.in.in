@@ -4,7 +4,7 @@ Comment=Select specific input method via keyboard
 Category=Module
 Version=@PROJECT_VERSION@
 Library=libimselector
-Type=SharedLibrary
+Type=@FCITX_ADDON_TYPE@
 OnDemand=False
 Configurable=True
 

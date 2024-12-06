@@ -1,6 +1,6 @@
 [Addon]
 Name=Emoji
-Type=SharedLibrary
+Type=@FCITX_ADDON_TYPE@
 Library=libemoji
 Category=Module
 Version=@PROJECT_VERSION@

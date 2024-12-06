@@ -1,6 +1,6 @@
 [Addon]
 Name=Classic User Interface
-Type=SharedLibrary
+Type=@FCITX_ADDON_TYPE@
 Library=libclassicui
 Category=UI
 Version=@PROJECT_VERSION@

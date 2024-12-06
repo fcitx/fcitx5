@@ -1,6 +1,6 @@
 [Addon]
 Name=XCB
-Type=SharedLibrary
+Type=@FCITX_ADDON_TYPE@
 Library=libxcb
 Category=Module
 Version=@PROJECT_VERSION@
