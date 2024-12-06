@@ -18,7 +18,7 @@
 #include "fcitx/instance.h"
 #include "notifications_public.h"
 
-namespace fcitx {
+namespace fcitx::notifications {
 
 FCITX_CONFIGURATION(NotificationsConfig,
                     fcitx::Option<std::vector<std::string>> hiddenNotifications{
@@ -113,6 +113,7 @@ private:
     std::unordered_map<uint64_t, NotificationItem> items_;
     std::unordered_map<uint32_t, uint64_t> globalToInternalId_;
 };
-} // namespace fcitx
+
+} // namespace fcitx::notifications
 
 #endif // _FCITX_MODULES_NOTIFICATIONS_NOTIFICATIONS_H_

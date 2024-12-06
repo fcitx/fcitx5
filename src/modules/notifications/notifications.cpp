@@ -18,7 +18,7 @@
 #define NOTIFICATIONS_INTERFACE_NAME "org.freedesktop.Notifications"
 #define NOTIFICATIONS_PATH "/org/freedesktop/Notifications"
 
-namespace fcitx {
+namespace fcitx::notifications {
 
 Notifications::Notifications(Instance *instance)
     : instance_(instance), dbus_(instance_->addonManager().addon("dbus")),
@@ -220,6 +220,7 @@ class NotificationsModuleFactory : public AddonFactory {
         return new Notifications(manager->instance());
     }
 };
-} // namespace fcitx
+} // namespace fcitx::notifications
 
-FCITX_ADDON_FACTORY_V2(notifications, fcitx::NotificationsModuleFactory)
+FCITX_ADDON_FACTORY_V2(notifications,
+                       fcitx::notifications::NotificationsModuleFactory)
