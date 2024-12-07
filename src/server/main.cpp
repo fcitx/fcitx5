@@ -31,9 +31,9 @@ using namespace fcitx;
 int selfpipe[2];
 std::string crashlog;
 
-StaticAddonRegistry staticAddon;
+FCITX_DEFINE_STATIC_ADDON_REGISTRY(getStaticAddon)
 #ifdef ENABLE_KEYBOARD
-FCITX_IMPORT_ADDON_FACTORY(staticAddon, keyboard);
+FCITX_IMPORT_ADDON_FACTORY(getStaticAddon, keyboard);
 #endif
 
 int main(int argc, char *argv[]) {
@@ -71,7 +71,7 @@ int main(int argc, char *argv[]) {
         Instance instance(argc, argv);
         instance.setBinaryMode();
         instance.setSignalPipe(selfpipe[0]);
-        instance.addonManager().registerDefaultLoader(&staticAddon);
+        instance.addonManager().registerDefaultLoader(&getStaticAddon());
 
         ret = instance.exec();
         restart = instance.isRestartRequested();

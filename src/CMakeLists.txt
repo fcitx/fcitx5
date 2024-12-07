@@ -14,7 +14,7 @@ if (ENABLE_SERVER)
         fcitx5_get_addon_targets(ADDON_TARGETS modules frontend im ui)
 
         fcitx5_import_addons(fcitx5
-            REGISTRY_VARNAME staticAddon
+            REGISTRY_VARNAME getStaticAddon
             ADDONS ${ADDON_TARGETS}
         )
     endif()
