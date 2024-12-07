@@ -21,7 +21,7 @@
 
 using namespace fcitx;
 
-StaticAddonRegistry staticAddon;
+FCITX_DEFINE_STATIC_ADDON_REGISTRY(staticAddon);
 FCITX_IMPORT_ADDON_FACTORY(staticAddon, keyboard);
 
 void scheduleEvent(EventDispatcher *dispatcher, Instance *instance) {
@@ -78,7 +78,7 @@ int main() {
     char arg2[] = "--enable=keyboard,testfrontend,spell,testui";
     char *argv[] = {arg0, arg1, arg2};
     Instance instance(FCITX_ARRAY_SIZE(argv), argv);
-    instance.addonManager().registerDefaultLoader(&staticAddon);
+    instance.addonManager().registerDefaultLoader(&staticAddon());
     EventDispatcher dispatcher;
     dispatcher.attach(&instance.eventLoop());
     scheduleEvent(&dispatcher, &instance);

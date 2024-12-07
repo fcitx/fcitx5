@@ -208,20 +208,26 @@ private:
     }                                                                          \
     }
 
+#define FCITX_DEFINE_STATIC_ADDON_REGISTRY(Name, ...)                          \
+    ::fcitx::StaticAddonRegistry &Name() {                                     \
+        static ::fcitx::StaticAddonRegistry registry{__VA_ARGS__};             \
+        return registry;                                                       \
+    }
+
 #define FCITX_ADDON_FACTORY_V2_BACKWARDS(AddonName, ClassName)                 \
     FCITX_ADDON_FACTORY_V2(AddonName, ClassName)                               \
     FCITX_ADDON_FACTORY(ClassName)
 
-#define FCITX_IMPORT_ADDON_FACTORY(StaticRegistry, AddonName)                  \
+#define FCITX_IMPORT_ADDON_FACTORY(StaticRegistryGetter, AddonName)            \
     extern "C" {                                                               \
     ::fcitx::AddonFactory *fcitx_addon_factory_instance_##AddonName();         \
     }                                                                          \
     class StaticAddonRegistrar_##AddonName {                                   \
     public:                                                                    \
         StaticAddonRegistrar_##AddonName() {                                   \
-            (StaticRegistry)                                                   \
-                .emplace(FCITX_STRINGIFY(AddonName),                           \
-                         fcitx_addon_factory_instance_##AddonName());          \
+            (StaticRegistryGetter)().emplace(                                  \
+                FCITX_STRINGIFY(AddonName),                                    \
+                fcitx_addon_factory_instance_##AddonName());                   \
         }                                                                      \
     };                                                                         \
     StaticAddonRegistrar_##AddonName staticAddonRegistrar_##AddonName

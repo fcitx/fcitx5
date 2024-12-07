@@ -22,7 +22,7 @@
 
 using namespace fcitx;
 
-StaticAddonRegistry staticAddon;
+FCITX_DEFINE_STATIC_ADDON_REGISTRY(staticAddon);
 FCITX_IMPORT_ADDON_FACTORY(staticAddon, keyboard);
 
 void scheduleEvent(EventDispatcher *dispatcher, Instance *instance) {
@@ -96,7 +96,7 @@ int main() {
                 instance.privateData()->xkbContext_.get(), testCompose,
                 FCITX_ARRAY_SIZE(testCompose), "", XKB_COMPOSE_FORMAT_TEXT_V1,
                 XKB_COMPOSE_COMPILE_NO_FLAGS));
-        instance.addonManager().registerDefaultLoader(&staticAddon);
+        instance.addonManager().registerDefaultLoader(&staticAddon());
         EventDispatcher dispatcher;
         dispatcher.attach(&instance.eventLoop());
         scheduleEvent(&dispatcher, &instance);
