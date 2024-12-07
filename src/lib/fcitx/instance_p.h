@@ -219,9 +219,9 @@ public:
 
     std::string lastGroup_;
 
-    bool virtualKeyboardAutoShow_ = false;
+    bool virtualKeyboardAutoShow_ = true;
 
-    bool virtualKeyboardAutoHide_ = false;
+    bool virtualKeyboardAutoHide_ = true;
 
     VirtualKeyboardFunctionMode virtualKeyboardFunctionMode_ =
         VirtualKeyboardFunctionMode::Full;
