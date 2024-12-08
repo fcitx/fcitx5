@@ -24,7 +24,7 @@ function(fcitx5_import_addons target)
       set(filename "${CMAKE_CURRENT_BINARY_DIR}/${target}-${addon}-import-addon.cpp")
       file(WRITE "${filename}" "
 #include <fcitx/addonloader.h>
-extern fcitx::StaticAddonRegistry ${FCITX5_IMPORT_REGISTRY_VARNAME}();
+extern fcitx::StaticAddonRegistry &${FCITX5_IMPORT_REGISTRY_VARNAME}();
 FCITX_IMPORT_ADDON_FACTORY(${FCITX5_IMPORT_REGISTRY_VARNAME}, ${addon});
 ")
       target_sources(${target} PRIVATE ${filename})
