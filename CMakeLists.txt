@@ -39,6 +39,7 @@ option(ENABLE_EMOJI "Enable emoji module" On)
 option(ENABLE_LIBUUID "Use libuuid for uuid generation" On)
 option(BUILD_SPELL_DICT "Build en_dict.fscd for English spell check" On)
 option(BUILD_SHARED_LIBS "Build library as shared libs" On)
+option(ENABLE_DL "Enable dynamic loading addons" On)
 set(NO_PREEDIT_APPS "gvim.*,wps.*,wpp.*,et.*" CACHE STRING "Disable preedit for follwing app by default.")
 set(EVENT_LOOP_BACKEND "auto" CACHE STRING "Set the underlying event loop implementation, valid values are auto,systemd,libuv,none")
 
@@ -117,6 +118,10 @@ if(${CMAKE_SYSTEM_NAME} MATCHES "BSD|DragonFly")
     find_package(LibKVM REQUIRED)
 endif()
 find_package(DL REQUIRED)
+
+if(NOT ENABLE_DL)
+    add_definitions("-DFCITX_NO_DL")
+endif()
 
 if (NOT TARGET LibIntl::LibIntl)
     find_package(LibIntl REQUIRED)
