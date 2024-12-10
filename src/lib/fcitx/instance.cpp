@@ -23,6 +23,7 @@
 #include "fcitx-utils/capabilityflags.h"
 #include "fcitx-utils/event.h"
 #include "fcitx-utils/eventdispatcher.h"
+#include "fcitx-utils/eventloopinterface.h"
 #include "fcitx-utils/i18n.h"
 #include "fcitx-utils/log.h"
 #include "fcitx-utils/macros.h"
@@ -580,6 +581,7 @@ void InputState::reset() {
     pendingGroupIndex_ = 0;
     keyReleased_ = -1;
     lastKeyPressed_ = Key();
+    lastKeyPressedTime_ = 0;
     totallyReleased_ = true;
 }
 
@@ -787,7 +789,12 @@ Instance::Instance(int argc, char **argv) {
                         origKey.isReleaseOfModifier(lastKeyPressed) &&
                         keyHandler.check()) {
                         if (isModifier) {
-                            keyHandler.trigger(inputState->totallyReleased_);
+                            if (d->globalConfig_.checkModifierOnlyKeyTimeout(
+                                    inputState->lastKeyPressedTime_)) {
+                                keyHandler.trigger(
+                                    inputState->totallyReleased_);
+                            }
+                            inputState->lastKeyPressedTime_ = 0;
                             if (origKey.hasModifier()) {
                                 inputState->totallyReleased_ = false;
                             }
@@ -820,6 +827,8 @@ Instance::Instance(int argc, char **argv) {
                         inputState->keyReleased_ = idx;
                         inputState->lastKeyPressed_ = origKey;
                         if (isModifier) {
+                            inputState->lastKeyPressedTime_ =
+                                now(CLOCK_MONOTONIC);
                             // don't forward to input method, but make it pass
                             // through to client.
                             return keyEvent.filter();

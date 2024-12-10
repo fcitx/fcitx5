@@ -7,8 +7,11 @@
 #ifndef _FCITX_GLOBALCONFIG_H_
 #define _FCITX_GLOBALCONFIG_H_
 
+#include <cstdint>
 #include <memory>
+#include <string>
 #include <vector>
+#include <fcitx-config/configuration.h>
 #include <fcitx-config/rawconfig.h>
 #include <fcitx-utils/key.h>
 #include <fcitx-utils/macros.h>
@@ -108,6 +111,29 @@ public:
      * @since 5.1.2
      */
     int autoSavePeriod() const;
+
+    /**
+     * Number of milliseconds that modifier only key can be triggered with key
+     * release.
+     *
+     * @return timeout
+     * @since 5.1.12
+     */
+    int modifierOnlyKeyTimeout() const;
+
+    /**
+     * Helper function to check whether the modifier only key should be
+     * triggered.
+     *
+     * The user may need to record the time when the corresponding modifier only
+     * key is pressed. The input time should use CLOCK_MONOTONIC.
+     *
+     * If timeout < 0, always return true.
+     * Otherwise, check if it should be triggered based on current time.
+     *
+     * @return should trigger modifier only key
+     */
+    bool checkModifierOnlyKeyTimeout(uint64_t lastPressedTime) const;
 
     const std::vector<std::string> &enabledAddons() const;
     const std::vector<std::string> &disabledAddons() const;

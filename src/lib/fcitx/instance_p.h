@@ -56,6 +56,7 @@ struct InputState : public InputContextProperty {
     CheckInputMethodChanged *imChanged_ = nullptr;
     int keyReleased_ = -1;
     Key lastKeyPressed_;
+    uint64_t lastKeyPressedTime_ = 0;
     bool totallyReleased_ = true;
     bool firstTrigger_ = false;
     size_t pendingGroupIndex_ = 0;

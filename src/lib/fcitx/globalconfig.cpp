@@ -6,11 +6,14 @@
  */
 
 #include "globalconfig.h"
+#include <cstdint>
 #include "fcitx-config/configuration.h"
 #include "fcitx-config/enum.h"
 #include "fcitx-config/iniparser.h"
 #include "fcitx-config/option.h"
+#include "fcitx-utils/eventloopinterface.h"
 #include "fcitx-utils/i18n.h"
+#include "fcitx-utils/macros.h"
 #include "config.h"
 #include "inputcontextmanager.h"
 
@@ -133,7 +136,19 @@ FCITX_CONFIGURATION(
                                 "TogglePreedit",
                                 _("Toggle embedded preedit"),
                                 {Key("Control+Alt+P")},
-                                KeyListConstrain()};);
+                                KeyListConstrain()};
+    Option<int, IntConstrain, DefaultMarshaller<int>, ToolTipAnnotation>
+        modifierOnlyKeyTimeout{
+            this,
+            "ModifierOnlyKeyTimeout",
+            _("Modifier Only Hotkey Timeout in Milliseconds"),
+            500,
+            IntConstrain{-1, 5000},
+            {},
+            ToolTipAnnotation{
+                _("When using modifier only hotkey, the action may "
+                  "only be triggered if it is released within the timeout. -1 "
+                  "means there is no timeout.")}};);
 
 FCITX_CONFIGURATION(
     BehaviorConfig, Option<bool> activeByDefault{this, "ActiveByDefault",
@@ -401,8 +416,23 @@ int GlobalConfig::autoSavePeriod() const {
     return *d->behavior->autoSavePeriod;
 }
 
+int GlobalConfig::modifierOnlyKeyTimeout() const {
+    FCITX_D();
+    return *d->hotkey->modifierOnlyKeyTimeout;
+}
+
+bool GlobalConfig::checkModifierOnlyKeyTimeout(uint64_t lastPressedTime) const {
+    const auto timeout = modifierOnlyKeyTimeout();
+    if (timeout < 0) {
+        return true;
+    }
+    return now(CLOCK_MONOTONIC) <=
+           (lastPressedTime + static_cast<uint64_t>(timeout) * 1000ULL);
+}
+
 const Configuration &GlobalConfig::config() const {
     FCITX_D();
     return *d;
 }
+
 } // namespace fcitx
