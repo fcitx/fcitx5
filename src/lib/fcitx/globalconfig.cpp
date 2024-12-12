@@ -142,7 +142,7 @@ FCITX_CONFIGURATION(
             this,
             "ModifierOnlyKeyTimeout",
             _("Modifier Only Hotkey Timeout in Milliseconds"),
-            500,
+            250,
             IntConstrain{-1, 5000},
             {},
             ToolTipAnnotation{

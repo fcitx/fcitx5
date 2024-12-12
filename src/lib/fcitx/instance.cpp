@@ -12,6 +12,7 @@
 #include <unistd.h>
 #include <cstdint>
 #include <ctime>
+#include <functional>
 #include <memory>
 #include <stdexcept>
 #include <string>
@@ -25,6 +26,7 @@
 #include "fcitx-utils/eventdispatcher.h"
 #include "fcitx-utils/eventloopinterface.h"
 #include "fcitx-utils/i18n.h"
+#include "fcitx-utils/key.h"
 #include "fcitx-utils/log.h"
 #include "fcitx-utils/macros.h"
 #include "fcitx-utils/misc.h"
