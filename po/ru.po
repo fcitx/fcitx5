@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2024-07-26 20:24+0000\n"
+"POT-Creation-Date: 2024-12-14 20:24+0000\n"
 "PO-Revision-Date: 2017-11-23 04:14+0000\n"
 "Last-Translator: Dmitry <dmitrydmitry761@gmail.com>, 2024\n"
 "Language-Team: Russian (https://app.transifex.com/fcitx/teams/12005/ru/)\n"
@@ -51,7 +51,7 @@ msgstr "${1} не найден."
 msgid "${1} works properly."
 msgstr "${1} работает правильно."
 
-#: src/lib/fcitx/instance.cpp:419
+#: src/lib/fcitx/instance.cpp:422
 msgid "(Not available)"
 msgstr "(Недоступно)"
 
@@ -115,11 +115,11 @@ msgstr "Серверная часть виртуальной клавиатур�
 msgid "Accent Colors"
 msgstr "Акцентные цвета"
 
-#: src/lib/fcitx/globalconfig.cpp:83
+#: src/lib/fcitx/globalconfig.cpp:87
 msgid "Activate Input Method"
 msgstr "Активировать метод ввода"
 
-#: src/lib/fcitx/globalconfig.cpp:139
+#: src/lib/fcitx/globalconfig.cpp:155
 msgid "Active By Default"
 msgstr "Активен по умолчанию"
 
@@ -149,7 +149,7 @@ msgctxt "Key name"
 msgid "Adjust Brightness"
 msgstr "Отрегулировать яркость"
 
-#: src/lib/fcitx/globalconfig.cpp:27
+#: src/lib/fcitx/globalconfig.cpp:30
 msgid "All"
 msgstr "Все"
 
@@ -175,7 +175,7 @@ msgstr ""
 "Разрешить переопределение системных настроек XKB (поддерживается только KDE "
 "5)"
 
-#: src/lib/fcitx/globalconfig.cpp:192
+#: src/lib/fcitx/globalconfig.cpp:208
 msgid "Allow input method in the password field"
 msgstr "Разрешить метод ввода в поле пароля"
 
@@ -183,7 +183,7 @@ msgstr "Разрешить метод ввода в поле пароля"
 msgid "Alt"
 msgstr "Alt"
 
-#: src/lib/fcitx-utils/key.cpp:561
+#: src/lib/fcitx-utils/key.cpp:563
 msgctxt "Key name"
 msgid "Alt"
 msgstr "Alt"
@@ -202,7 +202,7 @@ msgctxt "Key name"
 msgid "Application Right"
 msgstr "Приложение справа"
 
-#: src/im/keyboard/keyboard.h:99
+#: src/im/keyboard/keyboard.h:100
 msgid "Applications disabled for long press"
 msgstr "Отключение приложений при длительном нажатии"
 
@@ -240,7 +240,7 @@ msgctxt "Key name"
 msgid "Back Forward"
 msgstr "Переслать Обратно"
 
-#: src/modules/spell/spell.h:38
+#: src/modules/spell/spell.h:39
 msgid "Backends"
 msgstr "Бэкенды"
 
@@ -270,7 +270,7 @@ msgstr "Аккумулятор"
 msgid "Beginner's Guide"
 msgstr "Руководство для начинающих"
 
-#: src/lib/fcitx/globalconfig.cpp:209
+#: src/lib/fcitx/globalconfig.cpp:225
 msgid "Behavior"
 msgstr "Поведение"
 
@@ -497,19 +497,19 @@ msgctxt "Key name"
 msgid "Community"
 msgstr "Сообщество"
 
-#: src/im/keyboard/keyboard.cpp:708
+#: src/im/keyboard/keyboard.cpp:709
 msgid "Completion"
 msgstr "Завершение"
 
-#: src/im/keyboard/keyboard.cpp:699
+#: src/im/keyboard/keyboard.cpp:700
 msgid "Completion is disabled."
 msgstr "Завершение отключено."
 
-#: src/im/keyboard/keyboard.cpp:702
+#: src/im/keyboard/keyboard.cpp:703
 msgid "Completion is enabled temporarily."
 msgstr "Завершение временно включено."
 
-#: src/im/keyboard/keyboard.cpp:704
+#: src/im/keyboard/keyboard.cpp:705
 msgid "Completion is enabled."
 msgstr "Завершение включено."
 
@@ -550,7 +550,7 @@ msgstr "Настроить"
 msgid "Control"
 msgstr "Control"
 
-#: src/lib/fcitx-utils/key.cpp:560
+#: src/lib/fcitx-utils/key.cpp:562
 msgctxt "Key name"
 msgid "Control"
 msgstr "Control"
@@ -576,11 +576,11 @@ msgstr "Текущий пользователь:"
 msgid "Current value of ${1} is ${2} (${3})."
 msgstr "Текущее значение ${1}: ${2} (${3})."
 
-#: src/modules/spell/spell.h:22
+#: src/modules/spell/spell.h:23
 msgid "Custom"
 msgstr "Пользовательский"
 
-#: src/lib/fcitx/globalconfig.cpp:182
+#: src/lib/fcitx/globalconfig.cpp:198
 msgid "Custom Xkb Option"
 msgstr "Пользовательский вариант Xkb"
 
@@ -618,7 +618,7 @@ msgstr "DOS"
 msgid "Dark Theme"
 msgstr "Тёмная тема"
 
-#: src/lib/fcitx/globalconfig.cpp:92
+#: src/lib/fcitx/globalconfig.cpp:96
 msgid "Deactivate Input Method"
 msgstr "Деактивация метода ввода"
 
@@ -626,7 +626,7 @@ msgstr "Деактивация метода ввода"
 msgid "Debug information from dbus:"
 msgstr "Отладочная информация от dbus:"
 
-#: src/lib/fcitx/inputmethodmanager.cpp:153 src/lib/fcitx/instance.cpp:366
+#: src/lib/fcitx/inputmethodmanager.cpp:153 src/lib/fcitx/instance.cpp:369
 #: src/ui/classic/themes/default/theme.conf.in:3
 msgid "Default"
 msgstr "По умолчанию"
@@ -635,23 +635,23 @@ msgstr "По умолчанию"
 msgid "Default Dark"
 msgstr "Тёмная по умолчанию"
 
-#: src/lib/fcitx/globalconfig.cpp:128
+#: src/lib/fcitx/globalconfig.cpp:132
 msgid "Default Next Candidate"
 msgstr "Следующее слово-кандидат по умолчанию"
 
-#: src/lib/fcitx/globalconfig.cpp:112
+#: src/lib/fcitx/globalconfig.cpp:116
 msgid "Default Next page"
 msgstr "Следующая страница по умолчанию"
 
-#: src/lib/fcitx/globalconfig.cpp:122
+#: src/lib/fcitx/globalconfig.cpp:126
 msgid "Default Previous Candidate"
 msgstr "Предыдущее слово-кандидат по умолчанию"
 
-#: src/lib/fcitx/globalconfig.cpp:100
+#: src/lib/fcitx/globalconfig.cpp:104
 msgid "Default Previous page"
 msgstr "Предыдущая страница по умолчанию"
 
-#: src/lib/fcitx/globalconfig.cpp:166
+#: src/lib/fcitx/globalconfig.cpp:182
 msgid "Default page size"
 msgstr "Размер страницы по умолчанию"
 
@@ -777,7 +777,7 @@ msgstr "Включить дробную шкалу в Wayland"
 msgid "Enable hint by default"
 msgstr "Включить подсказку по умолчанию"
 
-#: src/modules/spell/spell.h:23
+#: src/modules/spell/spell.h:24
 msgid "Enchant"
 msgstr "Enchant"
 
@@ -790,23 +790,23 @@ msgstr "Окончание"
 msgid "Entries"
 msgstr "Записи"
 
-#: src/lib/fcitx/globalconfig.cpp:59
+#: src/lib/fcitx/globalconfig.cpp:63
 msgid "Enumerate Input Method Backward"
 msgstr "Перечислить методы ввода в обратном порядке"
 
-#: src/lib/fcitx/globalconfig.cpp:52
+#: src/lib/fcitx/globalconfig.cpp:56
 msgid "Enumerate Input Method Forward"
 msgstr "Перечислить методы ввода в прямом порядке"
 
-#: src/lib/fcitx/globalconfig.cpp:76
+#: src/lib/fcitx/globalconfig.cpp:80
 msgid "Enumerate Input Method Group Backward"
 msgstr "Перечислить группы методов ввода в обратном порядке"
 
-#: src/lib/fcitx/globalconfig.cpp:69
+#: src/lib/fcitx/globalconfig.cpp:73
 msgid "Enumerate Input Method Group Forward"
 msgstr "Перечислить группы методов ввода в прямом порядке"
 
-#: src/lib/fcitx/globalconfig.cpp:41
+#: src/lib/fcitx/globalconfig.cpp:45
 msgid "Enumerate when press trigger key repeatedly"
 msgstr "Перечислять при повторном нажатии клавиши-триггера"
 
@@ -1101,12 +1101,12 @@ msgstr "Зеленый"
 msgid "Group"
 msgstr "Группа"
 
-#: src/lib/fcitx/instance.cpp:423
+#: src/lib/fcitx/instance.cpp:426
 #, c++-format
 msgid "Group {0}: {1}"
 msgstr "Группа {0}: {1}"
 
-#: src/lib/fcitx/instance.cpp:368
+#: src/lib/fcitx/instance.cpp:371
 #, c++-format
 msgid "Group {}"
 msgstr "Группа {}"
@@ -1273,7 +1273,7 @@ msgctxt "Key name"
 msgid "Hot Links"
 msgstr "Горячие ссылки"
 
-#: src/lib/fcitx/globalconfig.cpp:207
+#: src/lib/fcitx/globalconfig.cpp:223
 msgid "Hotkey"
 msgstr "Горячая клавиша"
 
@@ -1288,7 +1288,7 @@ msgstr ""
 "Горячая клавиша для переключения на определённый метод ввода только для "
 "текущего контекста ввода"
 
-#: src/lib/fcitx-utils/key.cpp:565
+#: src/lib/fcitx-utils/key.cpp:567
 msgctxt "Key name"
 msgid "Hyper"
 msgstr "Hyper"
@@ -1297,7 +1297,7 @@ msgstr "Hyper"
 msgid "IBus Frontend"
 msgstr "Интерфейс IBus"
 
-#: src/lib/fcitx/globalconfig.cpp:203
+#: src/lib/fcitx/globalconfig.cpp:219
 msgid ""
 "If value is 0, the user data may only be saved when fcitx quits (e.g. "
 "logout)."
@@ -1331,11 +1331,11 @@ msgstr ""
 msgid "Image"
 msgstr "Изображение"
 
-#: src/im/keyboard/keyboard.cpp:707 src/lib/fcitx/instance.cpp:458
-#: src/lib/fcitx/instance.cpp:686 src/lib/fcitx/instance.cpp:848
-#: src/modules/notificationitem/notificationitem.cpp:142
-#: src/modules/notificationitem/notificationitem.cpp:230
-#: src/modules/xcb/xcbconnection.cpp:555 data/org.fcitx.Fcitx5.desktop.in.in:4
+#: src/im/keyboard/keyboard.cpp:708 src/lib/fcitx/instance.cpp:461
+#: src/lib/fcitx/instance.cpp:690 src/lib/fcitx/instance.cpp:859
+#: src/modules/notificationitem/notificationitem.cpp:144
+#: src/modules/notificationitem/notificationitem.cpp:232
+#: src/modules/xcb/xcbconnection.cpp:565 data/org.fcitx.Fcitx5.desktop.in.in:4
 #: data/fcitx5-wayland-launcher.desktop.in.in:4
 #: data/org.fcitx.Fcitx5.metainfo.xml.in:7
 msgid "Input Method"
@@ -1381,7 +1381,7 @@ msgstr "Выделение границы слова-кандидата в по�
 msgid "Input method selector"
 msgstr "Выбор метода ввода"
 
-#: src/lib/fcitx/globalconfig.cpp:104 src/lib/fcitx/globalconfig.cpp:116
+#: src/lib/fcitx/globalconfig.cpp:108 src/lib/fcitx/globalconfig.cpp:120
 msgid ""
 "Input methods may have different setup in their own configuration. This is "
 "commonly used by modules like clipboard or quickphrase."
@@ -1395,7 +1395,7 @@ msgctxt "Key name"
 msgid "Insert"
 msgstr "Вставка"
 
-#: src/lib/fcitx/globalconfig.cpp:199
+#: src/lib/fcitx/globalconfig.cpp:215
 msgid "Interval of saving user data in minutes"
 msgstr "Интервал сохранения пользовательских данных в минутах"
 
@@ -1457,16 +1457,16 @@ msgstr "Катакана"
 msgid "Key"
 msgstr "Клавиша"
 
-#: src/im/keyboard/keyboard.cpp:335 src/im/keyboard/keyboard.conf.in.in:3
+#: src/im/keyboard/keyboard.cpp:336 src/im/keyboard/keyboard.conf.in.in:3
 msgid "Keyboard"
 msgstr "Клавиатура"
 
-#: src/im/keyboard/keyboard.cpp:251
+#: src/im/keyboard/keyboard.cpp:252
 #, c++-format
 msgid "Keyboard - {0}"
 msgstr "Клавиатура - {0}"
 
-#: src/im/keyboard/keyboard.cpp:270
+#: src/im/keyboard/keyboard.cpp:271
 #, c++-format
 msgid "Keyboard - {0} - {1}"
 msgstr "Клавиатура - {0} - {1}"
@@ -1811,7 +1811,7 @@ msgctxt "Key name"
 msgid "Logoff"
 msgstr "Выйти"
 
-#: src/im/keyboard/keyboard.h:102
+#: src/im/keyboard/keyboard.h:103
 msgid "Long Press behavior"
 msgstr "Поведение при длительном нажатии"
 
@@ -1955,6 +1955,10 @@ msgctxt "Key name"
 msgid "Microphone Mute"
 msgstr "Отключение микрофона"
 
+#: src/lib/fcitx/globalconfig.cpp:144
+msgid "Modifier Only Hotkey Timeout in Milliseconds"
+msgstr ""
+
 #: src/lib/fcitx-utils/key.cpp:130
 msgctxt "Key name"
 msgid "Monitor Brightness Down"
@@ -2007,7 +2011,7 @@ msgstr "Следующее слово-кандидат"
 msgid "Next Page Button"
 msgstr "Кнопка следующей страницы"
 
-#: src/lib/fcitx/globalconfig.cpp:28
+#: src/lib/fcitx/globalconfig.cpp:31
 msgid "No"
 msgstr "Нет"
 
@@ -2054,7 +2058,7 @@ msgstr "NumLock"
 msgid "Number of entries"
 msgstr "Количество входов"
 
-#: src/im/keyboard/keyboard.cpp:693
+#: src/im/keyboard/keyboard.cpp:694
 msgid ""
 "Only emoji support is found. To enable spell checking, you may need to "
 "install spell check data for the language."
@@ -2097,7 +2101,7 @@ msgstr "Смещение Y"
 msgid "Overlay position"
 msgstr "Позиция наложения"
 
-#: src/lib/fcitx/globalconfig.cpp:173
+#: src/lib/fcitx/globalconfig.cpp:189
 msgid "Override Xkb Option"
 msgstr "Переопределить параметр Xkb"
 
@@ -2182,15 +2186,15 @@ msgctxt "Key name"
 msgid "Power Off"
 msgstr "Выключение"
 
-#: src/lib/fcitx/instance.cpp:848
+#: src/lib/fcitx/instance.cpp:859
 msgid "Preedit"
 msgstr "Предварительное редактирование"
 
-#: src/lib/fcitx/instance.cpp:850
+#: src/lib/fcitx/instance.cpp:861
 msgid "Preedit disabled"
 msgstr "Предварительное редактирование отключено"
 
-#: src/lib/fcitx/instance.cpp:849
+#: src/lib/fcitx/instance.cpp:860
 msgid "Preedit enabled"
 msgstr "Предварительное редактирование включено"
 
@@ -2198,7 +2202,7 @@ msgstr "Предварительное редактирование включе
 msgid "Prefer Text Icon"
 msgstr "Иконка предпочтительного текста"
 
-#: src/modules/spell/spell.h:22
+#: src/modules/spell/spell.h:23
 msgid "Presage"
 msgstr "Presage"
 
@@ -2220,7 +2224,7 @@ msgctxt "Key name"
 msgid "Print Screen"
 msgstr "Снимок экрана"
 
-#: src/lib/fcitx/globalconfig.cpp:28
+#: src/lib/fcitx/globalconfig.cpp:31
 msgid "Program"
 msgstr "Программа"
 
@@ -2261,7 +2265,7 @@ msgctxt "Key name"
 msgid "Reply"
 msgstr "Ответить"
 
-#: src/lib/fcitx/globalconfig.cpp:143
+#: src/lib/fcitx/globalconfig.cpp:159
 msgid "Reset state on Focus In"
 msgstr "Сбросить состояние при фокусировке"
 
@@ -2398,11 +2402,11 @@ msgstr "Фон разделителя"
 msgid "Shadow Margin"
 msgstr "Затенённое поле"
 
-#: src/lib/fcitx/globalconfig.cpp:147
+#: src/lib/fcitx/globalconfig.cpp:163
 msgid "Share Input State"
 msgstr "Поделиться состоянием ввода"
 
-#: src/lib/fcitx-utils/key.cpp:562
+#: src/lib/fcitx-utils/key.cpp:564
 msgctxt "Key name"
 msgid "Shift"
 msgstr "Shift"
@@ -2412,11 +2416,11 @@ msgctxt "Key name"
 msgid "Shop"
 msgstr "Магазин"
 
-#: src/lib/fcitx/globalconfig.cpp:158
+#: src/lib/fcitx/globalconfig.cpp:174
 msgid "Show Input Method Information when changing focus"
 msgstr "Показывать информацию о способе ввода при изменении фокуса"
 
-#: src/lib/fcitx/globalconfig.cpp:155
+#: src/lib/fcitx/globalconfig.cpp:171
 msgid "Show Input Method Information when switch input method"
 msgstr "Показывать информацию о методе ввода при переключении"
 
@@ -2424,11 +2428,11 @@ msgstr "Показывать информацию о методе ввода п�
 msgid "Show Layout Name In Icon"
 msgstr "Показать имя раскладки в значке"
 
-#: src/lib/fcitx/globalconfig.cpp:161
+#: src/lib/fcitx/globalconfig.cpp:177
 msgid "Show compact input method information"
 msgstr "Показать информацию о компактном методе ввода"
 
-#: src/lib/fcitx/globalconfig.cpp:164
+#: src/lib/fcitx/globalconfig.cpp:180
 msgid "Show first input method information"
 msgstr "Показать информацию о первом методе ввода"
 
@@ -2441,11 +2445,11 @@ msgstr ""
 "для значка предпочтительного текста установлено значение true, этот параметр "
 "будет игнорироваться."
 
-#: src/lib/fcitx/globalconfig.cpp:151
+#: src/lib/fcitx/globalconfig.cpp:167
 msgid "Show preedit in application"
 msgstr "Показать предварительное редактирование в приложении"
 
-#: src/lib/fcitx/globalconfig.cpp:195
+#: src/lib/fcitx/globalconfig.cpp:211
 msgid "Show preedit text when typing password"
 msgstr "Показывать предварительно редактируемый текст при вводе пароля"
 
@@ -2457,7 +2461,7 @@ msgstr ""
 "Показывать предварительное редактирование при составлении и фиксировать "
 "мертвую клавишу, если нет подходящей последовательности."
 
-#: src/lib/fcitx/globalconfig.cpp:65
+#: src/lib/fcitx/globalconfig.cpp:69
 msgid "Skip first input method while enumerating"
 msgstr "Пропустить первый метод ввода при перечислении"
 
@@ -2526,7 +2530,7 @@ msgstr "Подзаголовок"
 msgid "Super"
 msgstr "Super"
 
-#: src/lib/fcitx-utils/key.cpp:563
+#: src/lib/fcitx-utils/key.cpp:565
 msgctxt "Key name"
 msgid "Super"
 msgstr "Super"
@@ -2541,17 +2545,17 @@ msgctxt "Key name"
 msgid "Suspend"
 msgstr "Приостановить"
 
-#: src/lib/fcitx/instance.cpp:459 src/lib/fcitx/instance.cpp:687
-#: src/modules/xcb/xcbconnection.cpp:556
+#: src/lib/fcitx/instance.cpp:462 src/lib/fcitx/instance.cpp:691
+#: src/modules/xcb/xcbconnection.cpp:566
 msgid "Switch group"
 msgstr "Сменить группу"
 
-#: src/lib/fcitx/instance.cpp:460 src/modules/xcb/xcbconnection.cpp:557
+#: src/lib/fcitx/instance.cpp:463 src/modules/xcb/xcbconnection.cpp:567
 #, c++-format
 msgid "Switch group to {0}"
 msgstr "Переключить группу на {0}"
 
-#: src/lib/fcitx/instance.cpp:688
+#: src/lib/fcitx/instance.cpp:692
 #, c++-format
 msgid "Switched group to {0}"
 msgstr "Группа переключена на {0}"
@@ -2575,7 +2579,7 @@ msgctxt "Key name"
 msgid "Task Panel"
 msgstr "Панель задач"
 
-#: src/lib/fcitx/globalconfig.cpp:45
+#: src/lib/fcitx/globalconfig.cpp:49
 msgid "Temporally switch between first and current Input Method"
 msgstr "Временное переключение между основным и текущим методом ввода"
 
@@ -2662,7 +2666,7 @@ msgstr ""
 "Для других более общих проблем, связанных с использованием XIM, включая "
 "замораживание приложений, см. ${link2}."
 
-#: src/lib/fcitx/globalconfig.cpp:133
+#: src/lib/fcitx/globalconfig.cpp:137
 msgid "Toggle embedded preedit"
 msgstr "Переключение встроенного предварительного редактирования"
 
@@ -2729,7 +2733,7 @@ msgstr "Цвет контура лейбла лотка"
 msgid "Tray Label Text Color"
 msgstr "Цвет текста лейбла лотка"
 
-#: src/lib/fcitx/globalconfig.cpp:35
+#: src/lib/fcitx/globalconfig.cpp:38
 msgid "Trigger Input Method"
 msgstr "Активация метода ввода"
 
@@ -2916,7 +2920,13 @@ msgstr ""
 "пометку содержимого буфера обмена как пароля, это обновление буфера обмена "
 "будет игнорироваться."
 
-#: src/lib/fcitx/globalconfig.cpp:177
+#: src/lib/fcitx/globalconfig.cpp:149
+msgid ""
+"When using modifier only hotkey, the action may only be triggered if it is "
+"released within the timeout. -1 means there is no timeout."
+msgstr ""
+
+#: src/lib/fcitx/globalconfig.cpp:193
 msgid ""
 "Whether to override the xkb option from display server. It will not affect "
 "the xkb option send to display, but just the xkb options for custom xkb "
@@ -3107,17 +3117,17 @@ msgstr "переменные окружения sudo"
 msgid "version:"
 msgstr "версия:"
 
-#: src/im/keyboard/keyboard.cpp:312
+#: src/im/keyboard/keyboard.cpp:313
 #, c++-format
 msgid "{0} (Not Available)"
 msgstr "{0} (Недоступно)"
 
-#: src/lib/fcitx/instance.cpp:417
+#: src/lib/fcitx/instance.cpp:420
 #, c++-format
 msgid "{0} (Not available)"
 msgstr "{0} (Недоступно)"
 
-#: src/lib/fcitx/instance.cpp:414
+#: src/lib/fcitx/instance.cpp:417
 #, c++-format
 msgid "{0} ({1})"
 msgstr "{0} ({1})"

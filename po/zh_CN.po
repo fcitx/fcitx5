@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2024-06-13 20:24+0000\n"
+"POT-Creation-Date: 2024-12-14 20:24+0000\n"
 "PO-Revision-Date: 2017-11-23 04:14+0000\n"
 "Last-Translator: Yiyu Liu, 2024\n"
 "Language-Team: Chinese (China) (https://app.transifex.com/fcitx/teams/12005/"
@@ -51,7 +51,7 @@ msgstr "${1} 未找到."
 msgid "${1} works properly."
 msgstr "${1} 工作正常。"
 
-#: src/lib/fcitx/instance.cpp:419
+#: src/lib/fcitx/instance.cpp:422
 msgid "(Not available)"
 msgstr "(不可用)"
 
@@ -115,11 +115,11 @@ msgstr "一个基于 DBus 的虚拟键盘后端"
 msgid "Accent Colors"
 msgstr "重点色"
 
-#: src/lib/fcitx/globalconfig.cpp:83
+#: src/lib/fcitx/globalconfig.cpp:87
 msgid "Activate Input Method"
 msgstr "激活输入法"
 
-#: src/lib/fcitx/globalconfig.cpp:139
+#: src/lib/fcitx/globalconfig.cpp:155
 msgid "Active By Default"
 msgstr "默认状态为激活"
 
@@ -149,7 +149,7 @@ msgctxt "Key name"
 msgid "Adjust Brightness"
 msgstr "调整亮度"
 
-#: src/lib/fcitx/globalconfig.cpp:27
+#: src/lib/fcitx/globalconfig.cpp:30
 msgid "All"
 msgstr "所有"
 
@@ -173,15 +173,15 @@ msgstr "允许重写系统 XKB 设置"
 msgid "Allow Overriding System XKB Settings (Only support KDE 5)"
 msgstr "允许重写系统 XKB 设置 (仅支持 KDE 5)"
 
-#: src/lib/fcitx/globalconfig.cpp:192
+#: src/lib/fcitx/globalconfig.cpp:208
 msgid "Allow input method in the password field"
 msgstr "允许在密码框中使用输入法"
 
-#: src/im/keyboard/keyboard.h:44 src/modules/quickphrase/quickphrase.h:25
+#: src/im/keyboard/keyboard.h:44 src/modules/quickphrase/quickphrase.h:31
 msgid "Alt"
 msgstr "Alt"
 
-#: src/lib/fcitx-utils/key.cpp:561
+#: src/lib/fcitx-utils/key.cpp:563
 msgctxt "Key name"
 msgid "Alt"
 msgstr "Alt"
@@ -200,7 +200,7 @@ msgctxt "Key name"
 msgid "Application Right"
 msgstr "应用程序右"
 
-#: src/im/keyboard/keyboard.h:99
+#: src/im/keyboard/keyboard.h:100
 msgid "Applications disabled for long press"
 msgstr "禁用长按的程序"
 
@@ -238,7 +238,7 @@ msgctxt "Key name"
 msgid "Back Forward"
 msgstr "向后"
 
-#: src/modules/spell/spell.h:38
+#: src/modules/spell/spell.h:39
 msgid "Backends"
 msgstr "后端"
 
@@ -268,7 +268,7 @@ msgstr "电池"
 msgid "Beginner's Guide"
 msgstr "入门指南"
 
-#: src/lib/fcitx/globalconfig.cpp:209
+#: src/lib/fcitx/globalconfig.cpp:225
 msgid "Behavior"
 msgstr "行为"
 
@@ -446,7 +446,7 @@ msgstr "修改 Fcitx 5 配置"
 msgid "Check box"
 msgstr "复选框"
 
-#: src/im/keyboard/keyboard.h:68 src/modules/quickphrase/quickphrase.h:37
+#: src/im/keyboard/keyboard.h:68 src/modules/quickphrase/quickphrase.h:43
 msgid "Choose key modifier"
 msgstr "选词修饰键"
 
@@ -490,19 +490,19 @@ msgctxt "Key name"
 msgid "Community"
 msgstr "社区"
 
-#: src/im/keyboard/keyboard.cpp:706
+#: src/im/keyboard/keyboard.cpp:709
 msgid "Completion"
 msgstr "补全"
 
-#: src/im/keyboard/keyboard.cpp:697
+#: src/im/keyboard/keyboard.cpp:700
 msgid "Completion is disabled."
 msgstr "补全已禁用。"
 
-#: src/im/keyboard/keyboard.cpp:700
+#: src/im/keyboard/keyboard.cpp:703
 msgid "Completion is enabled temporarily."
 msgstr "已暂时启用补全。"
 
-#: src/im/keyboard/keyboard.cpp:702
+#: src/im/keyboard/keyboard.cpp:705
 msgid "Completion is enabled."
 msgstr "已启用补全。"
 
@@ -539,11 +539,11 @@ msgstr "配置:"
 msgid "Configure"
 msgstr "配置"
 
-#: src/im/keyboard/keyboard.h:45 src/modules/quickphrase/quickphrase.h:25
+#: src/im/keyboard/keyboard.h:45 src/modules/quickphrase/quickphrase.h:31
 msgid "Control"
 msgstr "Control"
 
-#: src/lib/fcitx-utils/key.cpp:560
+#: src/lib/fcitx-utils/key.cpp:562
 msgctxt "Key name"
 msgid "Control"
 msgstr "Control"
@@ -569,11 +569,11 @@ msgstr "当前用户："
 msgid "Current value of ${1} is ${2} (${3})."
 msgstr "${1} 的当前值是 ${2} (${3})。"
 
-#: src/modules/spell/spell.h:22
+#: src/modules/spell/spell.h:23
 msgid "Custom"
 msgstr "自定义"
 
-#: src/lib/fcitx/globalconfig.cpp:182
+#: src/lib/fcitx/globalconfig.cpp:198
 msgid "Custom Xkb Option"
 msgstr "自定义 Xkb 选项"
 
@@ -611,7 +611,7 @@ msgstr "DOS"
 msgid "Dark Theme"
 msgstr "深色主题"
 
-#: src/lib/fcitx/globalconfig.cpp:92
+#: src/lib/fcitx/globalconfig.cpp:96
 msgid "Deactivate Input Method"
 msgstr "取消激活输入法"
 
@@ -619,7 +619,7 @@ msgstr "取消激活输入法"
 msgid "Debug information from dbus:"
 msgstr "来自 dbus 的调试信息："
 
-#: src/lib/fcitx/inputmethodmanager.cpp:153 src/lib/fcitx/instance.cpp:366
+#: src/lib/fcitx/inputmethodmanager.cpp:153 src/lib/fcitx/instance.cpp:369
 #: src/ui/classic/themes/default/theme.conf.in:3
 msgid "Default"
 msgstr "默认"
@@ -628,23 +628,23 @@ msgstr "默认"
 msgid "Default Dark"
 msgstr "默认深色"
 
-#: src/lib/fcitx/globalconfig.cpp:128
+#: src/lib/fcitx/globalconfig.cpp:132
 msgid "Default Next Candidate"
 msgstr "默认跳转下一个候选词"
 
-#: src/lib/fcitx/globalconfig.cpp:112
+#: src/lib/fcitx/globalconfig.cpp:116
 msgid "Default Next page"
 msgstr "默认下一页"
 
-#: src/lib/fcitx/globalconfig.cpp:122
+#: src/lib/fcitx/globalconfig.cpp:126
 msgid "Default Previous Candidate"
 msgstr "默认跳转前一个候选词"
 
-#: src/lib/fcitx/globalconfig.cpp:100
+#: src/lib/fcitx/globalconfig.cpp:104
 msgid "Default Previous page"
 msgstr "默认上一页"
 
-#: src/lib/fcitx/globalconfig.cpp:166
+#: src/lib/fcitx/globalconfig.cpp:182
 msgid "Default page size"
 msgstr "默认页大小"
 
@@ -716,7 +716,7 @@ msgctxt "Key name"
 msgid "Down"
 msgstr "下"
 
-#: src/modules/quickphrase/quickphrase.h:43
+#: src/modules/quickphrase/quickphrase.h:49
 msgid "Editor"
 msgstr "编辑器"
 
@@ -747,7 +747,7 @@ msgstr "启用"
 msgid "Enable Blur on KWin"
 msgstr "KWin 下启用模糊"
 
-#: src/modules/quickphrase/quickphrase.h:39
+#: src/modules/quickphrase/quickphrase.h:45
 msgid "Enable Spell check"
 msgstr "启用拼写检查"
 
@@ -767,7 +767,7 @@ msgstr "在 Wayland 下启用分数缩放"
 msgid "Enable hint by default"
 msgstr "默认启用提示"
 
-#: src/modules/spell/spell.h:23
+#: src/modules/spell/spell.h:24
 msgid "Enchant"
 msgstr "Enchant"
 
@@ -780,23 +780,23 @@ msgstr "行尾"
 msgid "Entries"
 msgstr "项目"
 
-#: src/lib/fcitx/globalconfig.cpp:59
+#: src/lib/fcitx/globalconfig.cpp:63
 msgid "Enumerate Input Method Backward"
 msgstr "向后切换输入法"
 
-#: src/lib/fcitx/globalconfig.cpp:52
+#: src/lib/fcitx/globalconfig.cpp:56
 msgid "Enumerate Input Method Forward"
 msgstr "向前切换输入法"
 
-#: src/lib/fcitx/globalconfig.cpp:76
+#: src/lib/fcitx/globalconfig.cpp:80
 msgid "Enumerate Input Method Group Backward"
 msgstr "向后切换输入法分组"
 
-#: src/lib/fcitx/globalconfig.cpp:69
+#: src/lib/fcitx/globalconfig.cpp:73
 msgid "Enumerate Input Method Group Forward"
 msgstr "向前切换输入分组"
 
-#: src/lib/fcitx/globalconfig.cpp:41
+#: src/lib/fcitx/globalconfig.cpp:45
 msgid "Enumerate when press trigger key repeatedly"
 msgstr "反复按切换键时进行轮换"
 
@@ -851,7 +851,7 @@ msgstr "无法输入法模块缓存 ${2} 中找到 ${1}"
 msgid "Failed to find ${1} in the output of ${2}"
 msgstr "无法在 ${2} 的输出中找到 ${1}。"
 
-#: src/modules/quickphrase/quickphrase.h:41
+#: src/modules/quickphrase/quickphrase.h:47
 msgid "Fallback Spell check language"
 msgstr "备选拼写检查语言"
 
@@ -1078,12 +1078,12 @@ msgstr "绿"
 msgid "Group"
 msgstr "分组"
 
-#: src/lib/fcitx/instance.cpp:423
+#: src/lib/fcitx/instance.cpp:426
 #, c++-format
 msgid "Group {0}: {1}"
 msgstr "分组 {0}：{1}"
 
-#: src/lib/fcitx/instance.cpp:368
+#: src/lib/fcitx/instance.cpp:371
 #, c++-format
 msgid "Group {}"
 msgstr "分组 {}"
@@ -1250,7 +1250,7 @@ msgctxt "Key name"
 msgid "Hot Links"
 msgstr "热门链接"
 
-#: src/lib/fcitx/globalconfig.cpp:207
+#: src/lib/fcitx/globalconfig.cpp:223
 msgid "Hotkey"
 msgstr "快捷键"
 
@@ -1263,7 +1263,7 @@ msgid ""
 "Hotkey for switching to the N-th input method for only current input context"
 msgstr "切换到当前局部输入法到第...个输入法的按键"
 
-#: src/lib/fcitx-utils/key.cpp:565
+#: src/lib/fcitx-utils/key.cpp:567
 msgctxt "Key name"
 msgid "Hyper"
 msgstr "Hyper"
@@ -1272,7 +1272,7 @@ msgstr "Hyper"
 msgid "IBus Frontend"
 msgstr "IBus 前端"
 
-#: src/lib/fcitx/globalconfig.cpp:203
+#: src/lib/fcitx/globalconfig.cpp:219
 msgid ""
 "If value is 0, the user data may only be saved when fcitx quits (e.g. "
 "logout)."
@@ -1301,11 +1301,11 @@ msgstr ""
 msgid "Image"
 msgstr "图片"
 
-#: src/im/keyboard/keyboard.cpp:705 src/lib/fcitx/instance.cpp:458
-#: src/lib/fcitx/instance.cpp:686 src/lib/fcitx/instance.cpp:848
-#: src/modules/notificationitem/notificationitem.cpp:142
-#: src/modules/notificationitem/notificationitem.cpp:230
-#: src/modules/xcb/xcbconnection.cpp:555 data/org.fcitx.Fcitx5.desktop.in.in:4
+#: src/im/keyboard/keyboard.cpp:708 src/lib/fcitx/instance.cpp:461
+#: src/lib/fcitx/instance.cpp:690 src/lib/fcitx/instance.cpp:859
+#: src/modules/notificationitem/notificationitem.cpp:144
+#: src/modules/notificationitem/notificationitem.cpp:232
+#: src/modules/xcb/xcbconnection.cpp:565 data/org.fcitx.Fcitx5.desktop.in.in:4
 #: data/fcitx5-wayland-launcher.desktop.in.in:4
 #: data/org.fcitx.Fcitx5.metainfo.xml.in:7
 msgid "Input Method"
@@ -1351,7 +1351,7 @@ msgstr "输入框高亮候选词边框"
 msgid "Input method selector"
 msgstr "输入法选择器"
 
-#: src/lib/fcitx/globalconfig.cpp:104 src/lib/fcitx/globalconfig.cpp:116
+#: src/lib/fcitx/globalconfig.cpp:108 src/lib/fcitx/globalconfig.cpp:120
 msgid ""
 "Input methods may have different setup in their own configuration. This is "
 "commonly used by modules like clipboard or quickphrase."
@@ -1364,7 +1364,7 @@ msgctxt "Key name"
 msgid "Insert"
 msgstr "插入"
 
-#: src/lib/fcitx/globalconfig.cpp:199
+#: src/lib/fcitx/globalconfig.cpp:215
 msgid "Interval of saving user data in minutes"
 msgstr "保存用户数据的时间间隔（以分钟为单位）"
 
@@ -1424,16 +1424,16 @@ msgstr "片假名"
 msgid "Key"
 msgstr "按键"
 
-#: src/im/keyboard/keyboard.cpp:335 src/im/keyboard/keyboard.conf.in.in:3
+#: src/im/keyboard/keyboard.cpp:336 src/im/keyboard/keyboard.conf.in.in:3
 msgid "Keyboard"
 msgstr "键盘"
 
-#: src/im/keyboard/keyboard.cpp:251
+#: src/im/keyboard/keyboard.cpp:252
 #, c++-format
 msgid "Keyboard - {0}"
 msgstr "键盘 - {0}"
 
-#: src/im/keyboard/keyboard.cpp:270
+#: src/im/keyboard/keyboard.cpp:271
 #, c++-format
 msgid "Keyboard - {0} - {1}"
 msgstr "键盘 - {0} - {1}"
@@ -1778,7 +1778,7 @@ msgctxt "Key name"
 msgid "Logoff"
 msgstr "注销"
 
-#: src/im/keyboard/keyboard.h:102
+#: src/im/keyboard/keyboard.h:103
 msgid "Long Press behavior"
 msgstr "长按行为"
 
@@ -1922,6 +1922,10 @@ msgctxt "Key name"
 msgid "Microphone Mute"
 msgstr "麦克风静音"
 
+#: src/lib/fcitx/globalconfig.cpp:144
+msgid "Modifier Only Hotkey Timeout in Milliseconds"
+msgstr ""
+
 #: src/lib/fcitx-utils/key.cpp:130
 msgctxt "Key name"
 msgid "Monitor Brightness Down"
@@ -1974,7 +1978,7 @@ msgstr "下一个候选词"
 msgid "Next Page Button"
 msgstr "下一页按钮"
 
-#: src/lib/fcitx/globalconfig.cpp:28
+#: src/lib/fcitx/globalconfig.cpp:31
 msgid "No"
 msgstr "否"
 
@@ -1982,7 +1986,7 @@ msgstr "否"
 msgid "No clipboard history."
 msgstr "无剪贴板历史。"
 
-#: src/im/keyboard/keyboard.h:44 src/modules/quickphrase/quickphrase.h:24
+#: src/im/keyboard/keyboard.h:44 src/modules/quickphrase/quickphrase.h:30
 msgid "None"
 msgstr "无"
 
@@ -2020,7 +2024,7 @@ msgstr "数字锁定"
 msgid "Number of entries"
 msgstr "项目个数"
 
-#: src/im/keyboard/keyboard.cpp:691
+#: src/im/keyboard/keyboard.cpp:694
 msgid ""
 "Only emoji support is found. To enable spell checking, you may need to "
 "install spell check data for the language."
@@ -2062,7 +2066,7 @@ msgstr "覆盖图片 Y 偏移"
 msgid "Overlay position"
 msgstr "覆盖图片位置"
 
-#: src/lib/fcitx/globalconfig.cpp:173
+#: src/lib/fcitx/globalconfig.cpp:189
 msgid "Override Xkb Option"
 msgstr "覆盖 Xkb 选项"
 
@@ -2144,15 +2148,15 @@ msgctxt "Key name"
 msgid "Power Off"
 msgstr "关机"
 
-#: src/lib/fcitx/instance.cpp:848
+#: src/lib/fcitx/instance.cpp:859
 msgid "Preedit"
 msgstr "预编辑"
 
-#: src/lib/fcitx/instance.cpp:850
+#: src/lib/fcitx/instance.cpp:861
 msgid "Preedit disabled"
 msgstr "预编辑已禁用"
 
-#: src/lib/fcitx/instance.cpp:849
+#: src/lib/fcitx/instance.cpp:860
 msgid "Preedit enabled"
 msgstr "预编辑已启用"
 
@@ -2160,7 +2164,7 @@ msgstr "预编辑已启用"
 msgid "Prefer Text Icon"
 msgstr "优先使用文字图标"
 
-#: src/modules/spell/spell.h:22
+#: src/modules/spell/spell.h:23
 msgid "Presage"
 msgstr "Presage"
 
@@ -2182,7 +2186,7 @@ msgctxt "Key name"
 msgid "Print Screen"
 msgstr "截屏"
 
-#: src/lib/fcitx/globalconfig.cpp:28
+#: src/lib/fcitx/globalconfig.cpp:31
 msgid "Program"
 msgstr "程序"
 
@@ -2194,7 +2198,7 @@ msgstr "Qt 输入法模块文件："
 msgid "Quick Phrase"
 msgstr "快速输入"
 
-#: src/modules/quickphrase/quickphrase.cpp:470
+#: src/modules/quickphrase/quickphrase.cpp:488
 msgid "Quick Phrase: "
 msgstr "快速输入: "
 
@@ -2223,7 +2227,7 @@ msgctxt "Key name"
 msgid "Reply"
 msgstr "回复"
 
-#: src/lib/fcitx/globalconfig.cpp:143
+#: src/lib/fcitx/globalconfig.cpp:159
 msgid "Reset state on Focus In"
 msgstr "重新聚焦时重置状态"
 
@@ -2358,11 +2362,11 @@ msgstr "分隔符背景"
 msgid "Shadow Margin"
 msgstr "阴影边距"
 
-#: src/lib/fcitx/globalconfig.cpp:147
+#: src/lib/fcitx/globalconfig.cpp:163
 msgid "Share Input State"
 msgstr "共享输入状态"
 
-#: src/lib/fcitx-utils/key.cpp:562
+#: src/lib/fcitx-utils/key.cpp:564
 msgctxt "Key name"
 msgid "Shift"
 msgstr "Shift"
@@ -2372,11 +2376,11 @@ msgctxt "Key name"
 msgid "Shop"
 msgstr "购物"
 
-#: src/lib/fcitx/globalconfig.cpp:158
+#: src/lib/fcitx/globalconfig.cpp:174
 msgid "Show Input Method Information when changing focus"
 msgstr "在焦点更改时显示输入法信息"
 
-#: src/lib/fcitx/globalconfig.cpp:155
+#: src/lib/fcitx/globalconfig.cpp:171
 msgid "Show Input Method Information when switch input method"
 msgstr "切换输入法时显示输入法信息"
 
@@ -2384,11 +2388,11 @@ msgstr "切换输入法时显示输入法信息"
 msgid "Show Layout Name In Icon"
 msgstr "在图标中显示布局名称"
 
-#: src/lib/fcitx/globalconfig.cpp:161
+#: src/lib/fcitx/globalconfig.cpp:177
 msgid "Show compact input method information"
 msgstr "显示紧凑的输入法信息"
 
-#: src/lib/fcitx/globalconfig.cpp:164
+#: src/lib/fcitx/globalconfig.cpp:180
 msgid "Show first input method information"
 msgstr "显示第一个输入法的信息"
 
@@ -2400,11 +2404,11 @@ msgstr ""
 "如果有超过一个活动布局，则在图标中显示布局名称。如果优先使用文字图标已启用，"
 "这个选项将会被忽略"
 
-#: src/lib/fcitx/globalconfig.cpp:151
+#: src/lib/fcitx/globalconfig.cpp:167
 msgid "Show preedit in application"
 msgstr "在程序中显示预编辑文本"
 
-#: src/lib/fcitx/globalconfig.cpp:195
+#: src/lib/fcitx/globalconfig.cpp:211
 msgid "Show preedit text when typing password"
 msgstr "输入密码时显示预编辑文本"
 
@@ -2414,7 +2418,7 @@ msgid ""
 "sequence."
 msgstr "使用组合键时显示预编辑，并且在没有匹配序列时提交死键对应符号"
 
-#: src/lib/fcitx/globalconfig.cpp:65
+#: src/lib/fcitx/globalconfig.cpp:69
 msgid "Skip first input method while enumerating"
 msgstr "轮换输入法时跳过第一个输入法"
 
@@ -2479,11 +2483,11 @@ msgctxt "Key name"
 msgid "Subtitle"
 msgstr "副标题"
 
-#: src/im/keyboard/keyboard.h:45 src/modules/quickphrase/quickphrase.h:25
+#: src/im/keyboard/keyboard.h:45 src/modules/quickphrase/quickphrase.h:31
 msgid "Super"
 msgstr "Super"
 
-#: src/lib/fcitx-utils/key.cpp:563
+#: src/lib/fcitx-utils/key.cpp:565
 msgctxt "Key name"
 msgid "Super"
 msgstr "Super"
@@ -2498,17 +2502,17 @@ msgctxt "Key name"
 msgid "Suspend"
 msgstr "睡眠"
 
-#: src/lib/fcitx/instance.cpp:459 src/lib/fcitx/instance.cpp:687
-#: src/modules/xcb/xcbconnection.cpp:556
+#: src/lib/fcitx/instance.cpp:462 src/lib/fcitx/instance.cpp:691
+#: src/modules/xcb/xcbconnection.cpp:566
 msgid "Switch group"
 msgstr "切换分组"
 
-#: src/lib/fcitx/instance.cpp:460 src/modules/xcb/xcbconnection.cpp:557
+#: src/lib/fcitx/instance.cpp:463 src/modules/xcb/xcbconnection.cpp:567
 #, c++-format
 msgid "Switch group to {0}"
 msgstr "切换到分组 {0}"
 
-#: src/lib/fcitx/instance.cpp:688
+#: src/lib/fcitx/instance.cpp:692
 #, c++-format
 msgid "Switched group to {0}"
 msgstr "已切换到分组 {0}"
@@ -2532,7 +2536,7 @@ msgctxt "Key name"
 msgid "Task Panel"
 msgstr "任务栏"
 
-#: src/lib/fcitx/globalconfig.cpp:45
+#: src/lib/fcitx/globalconfig.cpp:49
 msgid "Temporally switch between first and current Input Method"
 msgstr "临时在当前和第一个输入法之间切换"
 
@@ -2611,7 +2615,7 @@ msgstr ""
 "您可以在 ${link1} 找到一些会在使用 xim 时出现问题的应用程序。包括应用程序卡死"
 "在内的更多使用 xim 可能出现的普遍问题请参见 ${link2}。"
 
-#: src/lib/fcitx/globalconfig.cpp:133
+#: src/lib/fcitx/globalconfig.cpp:137
 msgid "Toggle embedded preedit"
 msgstr "切换是否使用嵌入预编辑"
 
@@ -2678,12 +2682,12 @@ msgstr "托盘标签轮廓颜色"
 msgid "Tray Label Text Color"
 msgstr "托盘标签文本颜色"
 
-#: src/lib/fcitx/globalconfig.cpp:35
+#: src/lib/fcitx/globalconfig.cpp:38
 msgid "Trigger Input Method"
 msgstr "切换启用/禁用输入法"
 
 #: src/modules/imselector/imselector.h:28
-#: src/modules/quickphrase/quickphrase.h:32 src/modules/unicode/unicode.h:28
+#: src/modules/quickphrase/quickphrase.h:38 src/modules/unicode/unicode.h:28
 #: src/modules/clipboard/clipboard.h:48
 msgid "Trigger Key"
 msgstr "触发键"
@@ -2857,7 +2861,13 @@ msgid ""
 "will be ignored."
 msgstr "如果密码管理工具支持，那么剪贴板会忽略从密码管理工具复制的密码。"
 
-#: src/lib/fcitx/globalconfig.cpp:177
+#: src/lib/fcitx/globalconfig.cpp:149
+msgid ""
+"When using modifier only hotkey, the action may only be triggered if it is "
+"released within the timeout. -1 means there is no timeout."
+msgstr ""
+
+#: src/lib/fcitx/globalconfig.cpp:193
 msgid ""
 "Whether to override the xkb option from display server. It will not affect "
 "the xkb option send to display, but just the xkb options for custom xkb "
@@ -3037,17 +3047,17 @@ msgstr "sudo 的环境变量"
 msgid "version:"
 msgstr "版本："
 
-#: src/im/keyboard/keyboard.cpp:312
+#: src/im/keyboard/keyboard.cpp:313
 #, c++-format
 msgid "{0} (Not Available)"
 msgstr "{0} (不可用)"
 
-#: src/lib/fcitx/instance.cpp:417
+#: src/lib/fcitx/instance.cpp:420
 #, c++-format
 msgid "{0} (Not available)"
 msgstr "{0} (不可用)"
 
-#: src/lib/fcitx/instance.cpp:414
+#: src/lib/fcitx/instance.cpp:417
 #, c++-format
 msgid "{0} ({1})"
 msgstr "{0} ({1})"
