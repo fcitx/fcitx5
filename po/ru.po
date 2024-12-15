@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2024-12-14 20:24+0000\n"
+"POT-Creation-Date: 2024-12-15 20:24+0000\n"
 "PO-Revision-Date: 2017-11-23 04:14+0000\n"
 "Last-Translator: Dmitry <dmitrydmitry761@gmail.com>, 2024\n"
 "Language-Team: Russian (https://app.transifex.com/fcitx/teams/12005/ru/)\n"
@@ -1957,7 +1957,7 @@ msgstr "Отключение микрофона"
 
 #: src/lib/fcitx/globalconfig.cpp:144
 msgid "Modifier Only Hotkey Timeout in Milliseconds"
-msgstr ""
+msgstr "Тайм-аут только горячей клавиши-модификатора в миллисекундах"
 
 #: src/lib/fcitx-utils/key.cpp:130
 msgctxt "Key name"
@@ -2925,6 +2925,9 @@ msgid ""
 "When using modifier only hotkey, the action may only be triggered if it is "
 "released within the timeout. -1 means there is no timeout."
 msgstr ""
+"При использовании только горячей клавиши-модификатора действие может быть "
+"инициировано только в том случае, если она будет отпущена в течение тайм-"
+"аута. -1 означает, что тайм-аут отсутствует."
 
 #: src/lib/fcitx/globalconfig.cpp:193
 msgid ""
