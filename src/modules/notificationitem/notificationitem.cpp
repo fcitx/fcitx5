@@ -55,20 +55,24 @@ public:
     }
     void activate(int, int) { parent_->instance()->toggle(); }
     void secondaryActivate(int, int) {}
-    std::string iconName() {
-        static bool preferSymbolic = !isKDE();
-        std::string icon;
-        if (preferSymbolic) {
-            icon = "input-keyboard-symbolic";
+    std::string keyboardIconName() const {
+        if (isKDE()) {
+            return "input-keyboard";
         } else {
-            icon = "input-keyboard";
+            return "input-keyboard-symbolic";
         }
+    }
+    std::string iconName() {
+        std::string icon;
+
         if (auto *ic = parent_->menu()->lastRelevantIc()) {
             icon = parent_->instance()->inputMethodIcon(ic);
         }
-        if (icon == "input-keyboard" && preferSymbolic) {
-            return "input-keyboard-symbolic";
+
+        if (icon.empty() || icon == "input-keyboard") {
+            icon = keyboardIconName();
         }
+
         return IconTheme::iconName(icon);
     }
 
