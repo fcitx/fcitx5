@@ -18,10 +18,10 @@ XCBInputWindow::XCBInputWindow(XCBUI *ui)
           ui_->displayName(), "_KDE_NET_WM_BLUR_BEHIND_REGION", false)) {}
 
 void XCBInputWindow::postCreateWindow() {
-    if (ui_->ewmh()->_NET_WM_WINDOW_TYPE_POPUP_MENU &&
+    if (ui_->ewmh()->_NET_WM_WINDOW_TYPE_COMBO &&
         ui_->ewmh()->_NET_WM_WINDOW_TYPE) {
-        xcb_ewmh_set_wm_window_type(
-            ui_->ewmh(), wid_, 1, &ui_->ewmh()->_NET_WM_WINDOW_TYPE_POPUP_MENU);
+        xcb_ewmh_set_wm_window_type(ui_->ewmh(), wid_, 1,
+                                    &ui_->ewmh()->_NET_WM_WINDOW_TYPE_COMBO);
     }
 
     if (ui_->ewmh()->_NET_WM_PID) {
