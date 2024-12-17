@@ -6,7 +6,6 @@ Description=Default Dark Theme
 ScaleWithDPI=True
 
 [InputPanel]
-Font=Sans 10
 NormalColor=#e0e0e0
 HighlightCandidateColor=#e0e0e0
 HighlightColor=#e0e0e0

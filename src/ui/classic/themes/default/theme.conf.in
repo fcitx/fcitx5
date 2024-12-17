@@ -6,7 +6,6 @@ Description=Default Theme
 ScaleWithDPI=True
 
 [InputPanel]
-Font=Sans 10
 NormalColor=#000000
 HighlightColor=#ffffff
 PageButtonAlignment=Last Candidate
