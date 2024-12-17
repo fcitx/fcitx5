@@ -32,6 +32,7 @@ namespace fcitx {
 
 WaylandIMModule::WaylandIMModule(Instance *instance) : instance_(instance) {
     reloadConfig();
+    persistentVirtualKeyboard_ = *config_.persistentVirtualKeyboard;
     createdCallback_ =
         wayland()->call<IWaylandModule::addConnectionCreatedCallback>(
             [this](const std::string &name, wl_display *display,

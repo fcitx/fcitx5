@@ -30,6 +30,7 @@
 #include "fcitx/instance.h"
 #include "virtualinputcontext.h"
 #include "wayland-text-input-unstable-v3-client-protocol.h"
+#include "wayland_public.h"
 #include "waylandim.h"
 #include "waylandimserverbase.h"
 #include "wl_seat.h"
@@ -145,6 +146,10 @@ WaylandIMInputContextV2::WaylandIMInputContextV2(
     : VirtualInputContextGlue(inputContextManager), server_(server),
       seat_(std::move(seat)),
       ic_(server->inputMethodManagerV2()->getInputMethod(seat_.get())) {
+    if (server_->parent()->persistentVirtualKeyboard()) {
+        vk_.reset(server_->virtualKeyboardManagerV1()->createVirtualKeyboard(
+            seat_.get()));
+    }
     server->add(this, seat_.get());
     ic_->surroundingText().connect(
         [this](const char *text, uint32_t cursor, uint32_t anchor) {
@@ -185,16 +190,20 @@ WaylandIMInputContextV2::WaylandIMInputContextV2(
                 }
                 focusOutWrapper();
             }
-            vk_.reset();
-            vkReady_ = false;
+            if (!server_->parent()->persistentVirtualKeyboard()) {
+                vk_.reset();
+                vkReady_ = false;
+            }
         }
         if (pendingActivate_) {
             pendingActivate_ = false;
-            vk_.reset();
-            vkReady_ = false;
-            vk_.reset(
-                server_->virtualKeyboardManagerV1()->createVirtualKeyboard(
-                    seat_.get()));
+            if (!server_->parent()->persistentVirtualKeyboard()) {
+                vk_.reset();
+                vkReady_ = false;
+                vk_.reset(
+                    server_->virtualKeyboardManagerV1()->createVirtualKeyboard(
+                        seat_.get()));
+            }
             // There can be only one grab. Always release old grab first.
             // It is possible when switching between two client, there will be
             // two activate. In that case we will have already one grab. The
@@ -445,8 +454,10 @@ void WaylandIMInputContextV2::keymapCallback(uint32_t format, int32_t fd,
         1 << xkb_keymap_mod_get_index(server_->keymap_.get(), "Mod5");
 
     if (keymapChanged || !vkReady_) {
-        vk_->keymap(format, scopeFD.fd(), size);
-        vkReady_ = true;
+        if (vk_) {
+            vk_->keymap(format, scopeFD.fd(), size);
+            vkReady_ = true;
+        }
     }
 
     server_->parent_->wayland()->call<IWaylandModule::reloadXkbOption>();

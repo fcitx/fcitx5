@@ -36,7 +36,18 @@ FCITX_CONFIGURATION(
     Option<bool> preferKeyEvent{
         this, "PreferKeyEvent",
         _("Forward key event instead of commiting text if it is not handled"),
-        true};);
+        true};
+    OptionWithAnnotation<bool, ToolTipAnnotation> persistentVirtualKeyboard{
+        this,
+        "PersistentVirtualKeyboard",
+        _("Keep virtual keyboard object for V2 Protocol (Need restart)"),
+        false,
+        {},
+        {},
+        {_("If enabled, when using zwp_input_method_v2, do not create and "
+           "destroy zwp_virtual_keyboard_v1 on activate and deactivate. This "
+           "may workaround some bug in certain Compositor, including "
+           "Sway<=1.9, RiverWM<=0.3.0.")}};);
 
 constexpr int32_t repeatHackDelay = 3000;
 class WaylandIMServer;
@@ -67,6 +78,10 @@ public:
 
     AggregatedAppMonitor *appMonitor(const std::string &display);
 
+    bool persistentVirtualKeyboard() const {
+        return persistentVirtualKeyboard_;
+    }
+
 private:
     Instance *instance_;
     WaylandIMConfig config_;
@@ -79,6 +94,7 @@ private:
     std::unique_ptr<HandlerTableEntry<WaylandConnectionCreated>>
         createdCallback_;
     std::unique_ptr<HandlerTableEntry<WaylandConnectionClosed>> closedCallback_;
+    bool persistentVirtualKeyboard_ = false;
 };
 } // namespace fcitx
 
