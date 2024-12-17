@@ -7,6 +7,10 @@
 #ifndef _FCITX5_FRONTEND_WAYLANDIM_WLRAPPMONITOR_H_
 #define _FCITX5_FRONTEND_WAYLANDIM_WLRAPPMONITOR_H_
 
+#include <cstdint>
+#include <memory>
+#include <string>
+#include <unordered_map>
 #include "fcitx-utils/signals.h"
 #include "fcitx-wayland/core/display.h"
 #include "appmonitor.h"
@@ -20,13 +24,13 @@ class WlrWindow;
 
 class WlrAppMonitor : public AppMonitor {
 public:
-    WlrAppMonitor(wayland::Display *wayland);
+    WlrAppMonitor(wayland::Display *display);
     ~WlrAppMonitor() override;
 
     bool isAvailable() const override;
 
     void setup(wayland::ZwlrForeignToplevelManagerV1 *management);
-    void remove(wayland::ZwlrForeignToplevelHandleV1 *window);
+    void remove(wayland::ZwlrForeignToplevelHandleV1 *handle);
     void refresh();
 
 private:

@@ -7,9 +7,15 @@
 #ifndef _FCITX5_FRONTEND_WAYLANDIM_WAYLANDIMSERVERBASE_H_
 #define _FCITX5_FRONTEND_WAYLANDIM_WAYLANDIMSERVERBASE_H_
 
+#include <cstdint>
+#include <memory>
+#include <optional>
 #include <string>
+#include <tuple>
 #include <xkbcommon/xkbcommon.h>
+#include "fcitx-utils/key.h"
 #include "fcitx-utils/misc.h"
+#include "fcitx/focusgroup.h"
 #include "display.h"
 #include "waylandim.h"
 #include "wl_seat.h"

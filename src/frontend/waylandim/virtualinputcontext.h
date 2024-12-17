@@ -7,10 +7,14 @@
 #ifndef _FCITX5_FRONTEND_WAYLANDIM_VIRTUALINPUTCONTEXT_H_
 #define _FCITX5_FRONTEND_WAYLANDIM_VIRTUALINPUTCONTEXT_H_
 
+#include <memory>
 #include <optional>
-#include <fcitx/inputcontext.h>
+#include <string>
+#include <unordered_map>
 #include "fcitx-utils/capabilityflags.h"
 #include "fcitx-utils/signals.h"
+#include "fcitx/event.h"
+#include "fcitx/inputcontext.h"
 #include "appmonitor.h"
 
 namespace fcitx {

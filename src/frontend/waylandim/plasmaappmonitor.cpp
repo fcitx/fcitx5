@@ -5,7 +5,14 @@
  *
  */
 #include "plasmaappmonitor.h"
+#include <cstdint>
+#include <list>
+#include <memory>
+#include <optional>
 #include <string>
+#include <unordered_map>
+#include "fcitx-utils/signals.h"
+#include "display.h"
 #include "plasma-window-management/org_kde_plasma_window.h"
 #include "plasma-window-management/org_kde_plasma_window_management.h"
 

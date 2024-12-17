@@ -8,8 +8,22 @@
 #define _FCITX5_FRONTEND_WAYLANDIM_WAYLANDIMSERVERV2_H_
 
 #include <cstdint>
-#include "fcitx-utils/event.h"
+#include <memory>
+#include <optional>
+#include <string>
+#include <tuple>
+#include <unordered_map>
+#include <vector>
+#include "fcitx-utils/eventloopinterface.h"
+#include "fcitx-utils/key.h"
+#include "fcitx-utils/keysymgen.h"
 #include "fcitx-utils/misc_p.h"
+#include "fcitx-utils/signals.h"
+#include "fcitx/event.h"
+#include "fcitx/focusgroup.h"
+#include "fcitx/inputcontext.h"
+#include "fcitx/inputcontextmanager.h"
+#include "fcitx/instance.h"
 #include "virtualinputcontext.h"
 #include "waylandimserverbase.h"
 #include "zwp_input_method_keyboard_grab_v2.h"

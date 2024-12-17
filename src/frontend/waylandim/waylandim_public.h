@@ -7,8 +7,7 @@
 #ifndef _FCITX5_FRONTEND_WAYLANDIM_WAYLANDIM_PUBLIC_H_
 #define _FCITX5_FRONTEND_WAYLANDIM_WAYLANDIM_PUBLIC_H_
 
-#include <functional>
-#include <memory>
+#include <string>
 #include <fcitx-utils/handlertable.h>
 #include <fcitx-utils/metastring.h>
 #include <fcitx/addoninstance.h>

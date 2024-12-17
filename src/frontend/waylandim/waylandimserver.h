@@ -7,12 +7,22 @@
 #ifndef _FCITX5_FRONTEND_WAYLANDIM_WAYLANDIMSERVER_H_
 #define _FCITX5_FRONTEND_WAYLANDIM_WAYLANDIMSERVER_H_
 
+#include <cstdint>
 #include <memory>
-#include "fcitx-utils/event.h"
+#include <optional>
+#include <string>
+#include <tuple>
+#include "fcitx-utils/eventloopinterface.h"
 #include "fcitx-utils/key.h"
-#include "fcitx-utils/keysymgen.h"
+#include "fcitx-utils/keysym.h"
 #include "fcitx-utils/macros.h"
 #include "fcitx-utils/signals.h"
+#include "fcitx-utils/trackableobject.h"
+#include "fcitx/event.h"
+#include "fcitx/focusgroup.h"
+#include "fcitx/inputcontext.h"
+#include "fcitx/inputcontextmanager.h"
+#include "fcitx/instance.h"
 #include "virtualinputcontext.h"
 #include "waylandimserverbase.h"
 #include "wl_keyboard.h"

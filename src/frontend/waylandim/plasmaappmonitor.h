@@ -7,6 +7,8 @@
 #ifndef _FCITX5_FRONTEND_WAYLANDIM_PLASMAAPPMONITOR_H_
 #define _FCITX5_FRONTEND_WAYLANDIM_PLASMAAPPMONITOR_H_
 
+#include <memory>
+#include <unordered_map>
 #include "fcitx-utils/signals.h"
 #include "fcitx-wayland/core/display.h"
 #include "appmonitor.h"

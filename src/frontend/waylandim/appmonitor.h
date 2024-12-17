@@ -7,8 +7,11 @@
 #ifndef _FCITX5_FRONTEND_WAYLANDIM_APPMONITOR_H_
 #define _FCITX5_FRONTEND_WAYLANDIM_APPMONITOR_H_
 
+#include <memory>
 #include <optional>
 #include <string>
+#include <unordered_map>
+#include <vector>
 #include "fcitx-utils/signals.h"
 
 namespace fcitx {

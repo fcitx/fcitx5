@@ -7,14 +7,21 @@
 #ifndef _FCITX_FRONTEND_WAYLANDIM_WAYLANDIM_H_
 #define _FCITX_FRONTEND_WAYLANDIM_WAYLANDIM_H_
 
+#include <cstdint>
+#include <memory>
 #include <string>
 #include <unordered_map>
-#include <fcitx-config/iniparser.h>
-#include <fcitx-utils/i18n.h>
-#include <fcitx/addonfactory.h>
-#include <fcitx/addoninstance.h>
-#include <fcitx/addonmanager.h>
-#include <fcitx/instance.h>
+#include <wayland-client.h>
+#include "fcitx-config/configuration.h"
+#include "fcitx-config/iniparser.h"
+#include "fcitx-config/option.h"
+#include "fcitx-config/rawconfig.h"
+#include "fcitx-utils/handlertable.h"
+#include "fcitx-utils/i18n.h"
+#include "fcitx-utils/log.h"
+#include "fcitx/addoninstance.h"
+#include "fcitx/addonmanager.h"
+#include "fcitx/instance.h"
 #include "appmonitor.h"
 #include "wayland_public.h"
 #include "waylandim_public.h"

@@ -6,15 +6,35 @@
  */
 #include "waylandimserverv2.h"
 #include <sys/mman.h>
+#include <sys/types.h>
+#include <algorithm>
+#include <cstdint>
+#include <cstring>
 #include <ctime>
-#include "fcitx-utils/keysymgen.h"
+#include <memory>
+#include <string>
+#include <tuple>
+#include <utility>
+#include <xkbcommon/xkbcommon.h>
+#include "fcitx-utils/capabilityflags.h"
+#include "fcitx-utils/event.h"
+#include "fcitx-utils/eventloopinterface.h"
+#include "fcitx-utils/key.h"
+#include "fcitx-utils/keysym.h"
+#include "fcitx-utils/macros.h"
+#include "fcitx-utils/textformatflags.h"
 #include "fcitx-utils/unixfd.h"
 #include "fcitx-utils/utf8.h"
+#include "fcitx/event.h"
 #include "fcitx/inputcontext.h"
+#include "fcitx/instance.h"
 #include "virtualinputcontext.h"
 #include "wayland-text-input-unstable-v3-client-protocol.h"
 #include "waylandim.h"
+#include "waylandimserverbase.h"
 #include "wl_seat.h"
+#include "zwp_input_method_manager_v2.h"
+#include "zwp_virtual_keyboard_manager_v1.h"
 
 namespace fcitx {
 
@@ -505,8 +525,9 @@ void WaylandIMInputContextV2::modifiersCallback(uint32_t /*serial*/,
     server_->instance()->updateXkbStateMask(
         server_->group()->display(), mods_depressed, mods_latched, mods_locked);
     mask = xkb_state_serialize_mods(
-        server_->state_.get(), static_cast<xkb_state_component>(
-                                   XKB_STATE_DEPRESSED | XKB_STATE_LATCHED));
+        server_->state_.get(),
+        static_cast<xkb_state_component>(XKB_STATE_MODS_DEPRESSED |
+                                         XKB_STATE_MODS_LATCHED));
 
     server_->modifiers_ = 0;
     if (mask & server_->stateMask_.shift_mask) {

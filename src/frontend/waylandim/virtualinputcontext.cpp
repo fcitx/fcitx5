@@ -5,9 +5,16 @@
  *
  */
 #include "virtualinputcontext.h"
+#include <cassert>
+#include <memory>
+#include <optional>
 #include <string>
+#include <unordered_map>
+#include <utility>
+#include "fcitx-utils/capabilityflags.h"
 #include "fcitx-utils/misc_p.h"
 #include "fcitx/inputcontext.h"
+#include "appmonitor.h"
 
 namespace fcitx {
 
