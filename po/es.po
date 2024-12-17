@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2024-12-14 20:22+0000\n"
+"POT-Creation-Date: 2024-12-17 20:22+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: csslayer <wengxt@gmail.com>, 2017\n"
 "Language-Team: Spanish (https://www.transifex.com/fcitx/teams/12005/es/)\n"
@@ -676,7 +676,7 @@ msgid ""
 "frontend instead."
 msgstr ""
 
-#: src/frontend/waylandim/waylandim.h:28
+#: src/frontend/waylandim/waylandim.h:35
 msgid "Detect current running application (Need restart)"
 msgstr ""
 
@@ -959,7 +959,7 @@ msgctxt "Key name"
 msgid "Forward"
 msgstr ""
 
-#: src/frontend/waylandim/waylandim.h:31
+#: src/frontend/waylandim/waylandim.h:38
 msgid "Forward key event instead of commiting text if it is not handled"
 msgstr ""
 
@@ -1250,6 +1250,13 @@ msgstr ""
 msgid "IBus Frontend"
 msgstr ""
 
+#: src/frontend/waylandim/waylandim.h:47
+msgid ""
+"If enabled, when using zwp_input_method_v2, do not create and destroy "
+"zwp_virtual_keyboard_v1 on activate and deactivate. This may workaround some "
+"bug in certain Compositor, including Sway<=1.9, RiverWM<=0.3.0."
+msgstr ""
+
 #: src/lib/fcitx/globalconfig.cpp:219
 msgid ""
 "If value is 0, the user data may only be saved when fcitx quits (e.g. "
@@ -1384,6 +1391,10 @@ msgstr ""
 #: src/lib/fcitx-utils/key.cpp:239
 msgctxt "Key name"
 msgid "Katakana"
+msgstr ""
+
+#: src/frontend/waylandim/waylandim.h:43
+msgid "Keep virtual keyboard object for V2 Protocol (Need restart)"
 msgstr ""
 
 #: src/im/keyboard/longpress.h:20

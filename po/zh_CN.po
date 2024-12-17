@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2024-12-14 20:24+0000\n"
+"POT-Creation-Date: 2024-12-17 20:24+0000\n"
 "PO-Revision-Date: 2017-11-23 04:14+0000\n"
 "Last-Translator: Yiyu Liu, 2024\n"
 "Language-Team: Chinese (China) (https://app.transifex.com/fcitx/teams/12005/"
@@ -685,7 +685,7 @@ msgstr ""
 "检测到设置了 GTK_IM_MODULE，并且 Wayland 输入法前端可以正常工作。推荐取消设"
 "置 GTK_IM_MODULE 以使用 Wayland 输入法前端。"
 
-#: src/frontend/waylandim/waylandim.h:28
+#: src/frontend/waylandim/waylandim.h:35
 msgid "Detect current running application (Need restart)"
 msgstr "检测当前运行的程序 (需要重启)"
 
@@ -981,7 +981,7 @@ msgctxt "Key name"
 msgid "Forward"
 msgstr "向前"
 
-#: src/frontend/waylandim/waylandim.h:31
+#: src/frontend/waylandim/waylandim.h:38
 msgid "Forward key event instead of commiting text if it is not handled"
 msgstr "按键事件未处理时转发按键而不是提交文本"
 
@@ -1272,6 +1272,13 @@ msgstr "Hyper"
 msgid "IBus Frontend"
 msgstr "IBus 前端"
 
+#: src/frontend/waylandim/waylandim.h:47
+msgid ""
+"If enabled, when using zwp_input_method_v2, do not create and destroy "
+"zwp_virtual_keyboard_v1 on activate and deactivate. This may workaround some "
+"bug in certain Compositor, including Sway<=1.9, RiverWM<=0.3.0."
+msgstr ""
+
 #: src/lib/fcitx/globalconfig.cpp:219
 msgid ""
 "If value is 0, the user data may only be saved when fcitx quits (e.g. "
@@ -1419,6 +1426,10 @@ msgstr "汉字"
 msgctxt "Key name"
 msgid "Katakana"
 msgstr "片假名"
+
+#: src/frontend/waylandim/waylandim.h:43
+msgid "Keep virtual keyboard object for V2 Protocol (Need restart)"
+msgstr ""
 
 #: src/im/keyboard/longpress.h:20
 msgid "Key"
