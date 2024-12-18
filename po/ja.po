@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2024-12-17 20:24+0000\n"
+"POT-Creation-Date: 2024-12-18 20:24+0000\n"
 "PO-Revision-Date: 2017-11-23 04:14+0000\n"
 "Last-Translator: UTUMI Hirosi <utuhiro78@yahoo.co.jp>, 2024\n"
 "Language-Team: Japanese (https://app.transifex.com/fcitx/teams/12005/ja/)\n"
@@ -1294,6 +1294,9 @@ msgid ""
 "zwp_virtual_keyboard_v1 on activate and deactivate. This may workaround some "
 "bug in certain Compositor, including Sway<=1.9, RiverWM<=0.3.0."
 msgstr ""
+"有効にすると、zwp_input_method_v2 でアクティブ化・非アクティブ化を行ったとき"
+"に、zwp_virtual_keyboard_v1 の作成・破棄を行いません。これにより、Sway<=1.9、"
+"RiverWM<=0.3.0 を含む特定のコンポジターのバグを回避できる可能性があります。"
 
 #: src/lib/fcitx/globalconfig.cpp:219
 msgid ""
@@ -1452,7 +1455,7 @@ msgstr "カタカナ"
 
 #: src/frontend/waylandim/waylandim.h:43
 msgid "Keep virtual keyboard object for V2 Protocol (Need restart)"
-msgstr ""
+msgstr "V2 プロトコルの仮想キーボードオブジェクトを維持する (再起動が必要)"
 
 #: src/im/keyboard/longpress.h:20
 msgid "Key"
