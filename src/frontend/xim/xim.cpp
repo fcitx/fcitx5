@@ -303,10 +303,7 @@ public:
 
     void updateCursorLocation() {
         // kinds of like notification for position moving
-        bool hasSpotLocation =
-            xcb_im_input_context_get_preedit_attr_mask(xic_) &
-            XCB_XIM_XNSpotLocation_MASK;
-        auto p = xcb_im_input_context_get_preedit_attr(xic_)->spot_location;
+        auto mask = xcb_im_input_context_get_preedit_attr_mask(xic_);
         auto w = xcb_im_input_context_get_focus_window(xic_);
         if (!w) {
             w = xcb_im_input_context_get_client_window(xic_);
@@ -314,7 +311,20 @@ public:
         if (!w) {
             return;
         }
-        if (hasSpotLocation) {
+        if (mask & XCB_XIM_XNArea_MASK) {
+            auto a = xcb_im_input_context_get_preedit_attr(xic_)->area;
+            auto trans_cookie = xcb_translate_coordinates(
+                server_->conn(), w, server_->root(), a.x, a.y);
+            auto reply = makeUniqueCPtr(xcb_translate_coordinates_reply(
+                server_->conn(), trans_cookie, nullptr));
+            if (!reply) {
+                return;
+            }
+            setCursorRect(Rect()
+                              .setPosition(reply->dst_x, reply->dst_y)
+                              .setSize(a.width, a.height));
+        } else if (mask & XCB_XIM_XNSpotLocation_MASK) {
+            auto p = xcb_im_input_context_get_preedit_attr(xic_)->spot_location;
             auto trans_cookie = xcb_translate_coordinates(
                 server_->conn(), w, server_->root(), p.x, p.y);
             auto reply = makeUniqueCPtr(xcb_translate_coordinates_reply(
