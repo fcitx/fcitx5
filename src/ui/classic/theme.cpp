@@ -7,22 +7,43 @@
 
 #include "theme.h"
 #include <fcntl.h>
+#include <algorithm>
 #include <cassert>
+#include <cstddef>
+#include <cstdint>
 #include <optional>
+#include <string>
+#include <string_view>
+#include <tuple>
 #include <unordered_map>
 #include <unordered_set>
+#include <utility>
+#include <vector>
 #include <cairo.h>
 #include <fmt/format.h>
 #include <gdk-pixbuf/gdk-pixbuf.h>
+#include <gio/gio.h>
 #include <gio/gunixinputstream.h>
+#include <glib.h>
+#include <glibconfig.h>
+#include <pango/pango-font.h>
+#include <pango/pango-fontmap.h>
+#include <pango/pango-layout.h>
+#include <pango/pango-types.h>
 #include <pango/pangocairo.h>
 #include "fcitx-config/iniparser.h"
+#include "fcitx-config/rawconfig.h"
+#include "fcitx-utils/color.h"
 #include "fcitx-utils/fs.h"
 #include "fcitx-utils/log.h"
+#include "fcitx-utils/macros.h"
 #include "fcitx-utils/misc.h"
+#include "fcitx-utils/misc_p.h"
 #include "fcitx-utils/rect.h"
 #include "fcitx-utils/standardpath.h"
+#include "fcitx-utils/stringutils.h"
 #include "fcitx-utils/utf8.h"
+#include "fcitx/icontheme.h"
 #include "fcitx/misc_p.h"
 #include "classicui.h"
 #include "colorhelper.h"
@@ -92,9 +113,12 @@ cairo_surface_t *pixBufToCairoSurface(GdkPixbuf *image) {
     surface = cairo_image_surface_create(format, gdk_pixbuf_get_width(image),
                                          gdk_pixbuf_get_height(image));
 
-    gint width, height;
-    guchar *gdk_pixels, *cairo_pixels;
-    int gdk_rowstride, cairo_stride;
+    gint width;
+    gint height;
+    guchar *gdk_pixels;
+    guchar *cairo_pixels;
+    int gdk_rowstride;
+    int cairo_stride;
     int n_channels;
     int j;
 
@@ -118,7 +142,7 @@ cairo_surface_t *pixBufToCairoSurface(GdkPixbuf *image) {
         guchar *q = cairo_pixels;
 
         if (n_channels == 3) {
-            guchar *end = p + 3 * width;
+            guchar *end = p + static_cast<ptrdiff_t>(3) * width;
 
             while (p < end) {
 #if G_BYTE_ORDER == G_LITTLE_ENDIAN
@@ -136,13 +160,15 @@ cairo_surface_t *pixBufToCairoSurface(GdkPixbuf *image) {
                 q += 4;
             }
         } else {
-            guchar *end = p + 4 * width;
-            guint t1, t2, t3;
+            guchar *end = p + static_cast<ptrdiff_t>(4) * width;
+            guint t1;
+            guint t2;
+            guint t3;
 
 #define MULT(d, c, a, t)                                                       \
     G_STMT_START {                                                             \
-        t = c * a + 0x80;                                                      \
-        d = ((t >> 8) + t) >> 8;                                               \
+        (t) = (c) * (a) + 0x80;                                                \
+        (d) = (((t) >> 8) + (t)) >> 8;                                         \
     }                                                                          \
     G_STMT_END
 
@@ -399,7 +425,8 @@ const ThemeImage &Theme::loadBackground(const BackgroundImageConfig &cfg) {
         return *image;
     }
 
-    Color color, borderColor;
+    Color color;
+    Color borderColor;
     if (&cfg == &*inputPanel->background) {
         color = inputPanelBackground_;
         borderColor = inputPanelBorder_;
@@ -592,7 +619,8 @@ void paintTile(cairo_t *c, int width, int height, double alpha,
         cairo_scale(c, scaleX, scaleY);
         cairo_set_source_surface(c, image, -marginLeft, -marginTop);
         cairo_pattern_set_filter(cairo_get_source(c), CAIRO_FILTER_NEAREST);
-        int w = resizeWidth, h = resizeHeight;
+        int w = resizeWidth;
+        int h = resizeHeight;
 
         cairo_rectangle(c, 0, 0, w, h);
         cairo_clip(c);
@@ -647,7 +675,8 @@ void Theme::paint(cairo_t *c, const BackgroundImageConfig &cfg, int width,
                      *cfg.overlayClipMargin->marginTop)
         .setSize(clipWidth, clipHeight);
 
-    int x = 0, y = 0;
+    int x = 0;
+    int y = 0;
     switch (*cfg.gravity) {
     case Gravity::TopLeft:
     case Gravity::CenterLeft:
@@ -778,7 +807,7 @@ std::vector<Rect> Theme::mask(const BackgroundImageConfig &cfg, int width,
                               int height) {
     UniqueCPtr<cairo_surface_t, cairo_surface_destroy> mask(
         cairo_image_surface_create(CAIRO_FORMAT_A1, width, height));
-    auto c = cairo_create(mask.get());
+    auto *c = cairo_create(mask.get());
     cairo_set_operator(c, CAIRO_OPERATOR_SOURCE);
     paint(c, cfg, width, height, 1, 1);
     cairo_destroy(c);
@@ -798,7 +827,8 @@ std::vector<Rect> Theme::mask(const BackgroundImageConfig &cfg, int width,
     const auto *data = cairo_image_surface_get_data(mask.get());
     auto cairo_stride = cairo_image_surface_get_stride(mask.get());
     constexpr bool little = G_BYTE_ORDER == G_LITTLE_ENDIAN;
-    int x, y;
+    int x;
+    int y;
     for (y = 0; y < height; ++y) {
         uint8_t all = zero;
         int prev1 = -1;

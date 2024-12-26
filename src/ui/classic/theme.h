@@ -8,13 +8,21 @@
 #define _FCITX_UI_CLASSIC_THEME_H_
 
 #include <cstdint>
+#include <optional>
+#include <string>
 #include <string_view>
+#include <unordered_map>
+#include <unordered_set>
 #include <vector>
 #include <cairo.h>
 #include "fcitx-config/configuration.h"
 #include "fcitx-config/enum.h"
 #include "fcitx-config/option.h"
+#include "fcitx-config/rawconfig.h"
+#include "fcitx-utils/color.h"
 #include "fcitx-utils/i18n.h"
+#include "fcitx-utils/i18nstring.h"
+#include "fcitx-utils/misc.h"
 #include "fcitx-utils/rect.h"
 #include "fcitx/icontheme.h"
 
