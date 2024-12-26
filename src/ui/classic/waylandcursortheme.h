@@ -8,8 +8,10 @@
 #define _FCITX_UI_CLASSIC_WAYLANDCURSORTHEME_H_
 
 #include <memory>
+#include <string>
 #include <unordered_map>
 #include <wayland-cursor.h>
+#include "fcitx-utils/signals.h"
 #include "config.h"
 #include "portalsettingmonitor.h"
 #include "wl_shm.h"
@@ -29,7 +31,7 @@ public:
 
     auto &themeChanged() const { return themeChangedSignal_; }
 
-    WaylandCursorInfo loadCursorTheme(int size);
+    WaylandCursorInfo loadCursorTheme(int scale);
     auto cursorSize() const { return cursorSize_; }
 
 private:

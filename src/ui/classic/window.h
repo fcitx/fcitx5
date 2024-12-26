@@ -7,10 +7,9 @@
 #ifndef _FCITX_UI_CLASSIC_WINDOW_H_
 #define _FCITX_UI_CLASSIC_WINDOW_H_
 
-#include <cairo/cairo.h>
+#include <cairo.h>
 
-namespace fcitx {
-namespace classicui {
+namespace fcitx::classicui {
 
 class Window {
 public:
@@ -28,7 +27,7 @@ protected:
     unsigned int width_ = 100;
     unsigned int height_ = 100;
 };
-} // namespace classicui
-} // namespace fcitx
+
+} // namespace fcitx::classicui
 
 #endif // _FCITX_UI_CLASSIC_WINDOW_H_

@@ -7,10 +7,12 @@
 #ifndef _FCITX_WAYLAND_CORE_BUFFER_H_
 #define _FCITX_WAYLAND_CORE_BUFFER_H_
 
+#include <cstddef>
 #include <cstdint>
 #include <memory>
-#include <cairo/cairo.h>
+#include <cairo.h>
 #include <wayland-client.h>
+#include "fcitx-utils/misc.h"
 #include "fcitx-utils/signals.h"
 
 namespace fcitx {

@@ -7,14 +7,25 @@
 #ifndef _FCITX_UI_CLASSIC_XCBUI_H_
 #define _FCITX_UI_CLASSIC_XCBUI_H_
 
+#include <cstdint>
+#include <memory>
+#include <string>
+#include <utility>
+#include <vector>
 #include <cairo.h>
+#include <pango/pango-types.h>
 #include <pango/pangocairo.h>
+#include <xcb/xcb.h>
+#include <xcb/xcb_ewmh.h>
+#include <xcb/xproto.h>
+#include "fcitx-utils/eventloopinterface.h"
+#include "fcitx-utils/handlertable_details.h"
 #include "fcitx-utils/misc.h"
 #include "fcitx-utils/rect.h"
+#include "fcitx/userinterface.h"
 #include "classicui.h"
 
-namespace fcitx {
-namespace classicui {
+namespace fcitx::classicui {
 
 class XCBInputWindow;
 class XCBTrayWindow;
@@ -56,7 +67,7 @@ public:
     void updateCurrentInputMethod(InputContext *inputContext) override;
     void suspend() override;
     void resume() override;
-    void setEnableTray(bool) override;
+    void setEnableTray(bool enable) override;
     void setCairoDevice(cairo_device_t *device);
 
     const auto &screenRects() { return rects_; }
@@ -116,7 +127,6 @@ private:
 
 void addEventMaskToWindow(xcb_connection_t *conn, xcb_window_t wid,
                           uint32_t mask);
-} // namespace classicui
-} // namespace fcitx
+} // namespace fcitx::classicui
 
 #endif // _FCITX_UI_CLASSIC_XCBUI_H_

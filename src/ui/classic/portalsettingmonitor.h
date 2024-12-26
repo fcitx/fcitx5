@@ -7,6 +7,8 @@
 #ifndef _FCITX_UI_CLASSIC_PORTALSETTINGMONITOR_H_
 #define _FCITX_UI_CLASSIC_PORTALSETTINGMONITOR_H_
 
+#include <cstddef>
+#include <functional>
 #include <memory>
 #include <string>
 #include <unordered_map>
@@ -14,6 +16,7 @@
 #include "fcitx-utils/dbus/servicewatcher.h"
 #include "fcitx-utils/dbus/variant.h"
 #include "fcitx-utils/handlertable_details.h"
+#include "fcitx-utils/macros.h"
 #include "fcitx/misc_p.h"
 
 namespace fcitx {
@@ -41,8 +44,8 @@ struct std::hash<fcitx::PortalSettingKey> {
 
 namespace fcitx {
 
-typedef std::function<void(const dbus::Variant &value)> PortalSettingCallback;
-typedef HandlerTableEntry<PortalSettingCallback> PortalSettingEntry;
+using PortalSettingCallback = std::function<void(const dbus::Variant &)>;
+using PortalSettingEntry = HandlerTableEntry<PortalSettingCallback>;
 
 class PortalSettingMonitor {
     struct PortalSettingData {

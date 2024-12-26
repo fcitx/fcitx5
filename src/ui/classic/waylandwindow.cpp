@@ -6,6 +6,9 @@
  */
 
 #include "waylandwindow.h"
+#include <cstdint>
+#include "fcitx-utils/eventloopinterface.h"
+#include "waylandui.h"
 #include "wl_compositor.h"
 #include "wl_output.h"
 #include "wl_surface.h"

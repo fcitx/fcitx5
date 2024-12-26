@@ -7,12 +7,17 @@
 #ifndef _FCITX_UI_CLASSIC_WAYLANDUI_H_
 #define _FCITX_UI_CLASSIC_WAYLANDUI_H_
 
+#include <memory>
+#include <string>
+#include "fcitx-utils/eventloopinterface.h"
+#include "fcitx-utils/signals.h"
+#include "fcitx/userinterface.h"
 #include "classicui.h"
+#include "display.h"
 #include "waylandcursortheme.h"
 #include "waylandpointer.h"
 
-namespace fcitx {
-namespace classicui {
+namespace fcitx::classicui {
 
 class WaylandWindow;
 class WaylandInputWindow;
@@ -28,7 +33,7 @@ public:
                 InputContext *inputContext) override;
     void suspend() override;
     void resume() override;
-    void setEnableTray(bool) override {}
+    void setEnableTray(bool /*unused*/) override {}
 
     std::unique_ptr<WaylandWindow> newWindow();
 
@@ -45,7 +50,7 @@ private:
     std::unique_ptr<WaylandInputWindow> inputWindow_;
     std::unique_ptr<EventSource> defer_;
 };
-} // namespace classicui
-} // namespace fcitx
+
+} // namespace fcitx::classicui
 
 #endif // _FCITX_UI_CLASSIC_WAYLANDUI_H_

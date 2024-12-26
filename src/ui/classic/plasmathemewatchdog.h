@@ -12,6 +12,7 @@
 #include <functional>
 #include <memory>
 #include "fcitx-utils/event.h"
+#include "fcitx-utils/eventloopinterface.h"
 #include "fcitx-utils/unixfd.h"
 
 namespace fcitx::classicui {

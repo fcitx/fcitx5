@@ -9,7 +9,7 @@
 
 namespace fcitx::classicui {
 
-Window::Window() {}
+Window::Window() = default;
 
 void Window::resize(unsigned int width, unsigned int height) {
     width_ = width;

@@ -6,16 +6,33 @@
  */
 #include "xcbtraywindow.h"
 #include <unistd.h>
+#include <algorithm>
+#include <cstddef>
+#include <cstdint>
+#include <cstdio>
+#include <cstring>
+#include <string>
+#include <vector>
+#include <cairo.h>
+#include <xcb/xcb.h>
 #include <xcb/xcb_aux.h>
+#include <xcb/xcb_ewmh.h>
 #include <xcb/xcb_icccm.h>
+#include <xcb/xproto.h>
 #include "fcitx-utils/i18n.h"
+#include "fcitx-utils/misc.h"
+#include "fcitx-utils/rect.h"
+#include "fcitx/action.h"
 #include "fcitx/inputcontext.h"
 #include "fcitx/inputmethodentry.h"
 #include "fcitx/inputmethodmanager.h"
 #include "fcitx/statusarea.h"
 #include "fcitx/userinterfacemanager.h"
 #include "common.h"
+#include "xcb_public.h"
 #include "xcbmenu.h"
+#include "xcbui.h"
+#include "xcbwindow.h"
 
 namespace fcitx::classicui {
 
@@ -146,8 +163,9 @@ bool XCBTrayWindow::filterEvent(xcb_generic_event_t *event) {
             createTrayWindow();
             findDock();
             return true;
-        } else if (property->atom == atoms_[ATOM_ORIENTATION] &&
-                   property->window == dockWindow_) {
+        }
+        if (property->atom == atoms_[ATOM_ORIENTATION] &&
+            property->window == dockWindow_) {
             isHorizontal_ = trayOrientation();
             resizeTrayWindow();
             return true;
@@ -353,7 +371,8 @@ void XCBTrayWindow::paint(cairo_t *c) {
 
     cairo_save(c);
     cairo_set_operator(c, CAIRO_OPERATOR_SOURCE);
-    double scaleW = 1.0, scaleH = 1.0;
+    double scaleW = 1.0;
+    double scaleH = 1.0;
     if (image.width() != width() || image.height() != height()) {
         scaleW = static_cast<double>(width()) / image.width();
         scaleH = static_cast<double>(height()) / image.height();
@@ -367,7 +386,8 @@ void XCBTrayWindow::paint(cairo_t *c) {
     int ah = scaleH * image.height();
 
     cairo_scale(c, scaleW, scaleH);
-    cairo_set_source_surface(c, image, (width() - aw) / 2, (height() - ah) / 2);
+    cairo_set_source_surface(c, image, (width() - aw) / 2.0,
+                             (height() - ah) / 2.0);
     cairo_paint(c);
     cairo_restore(c);
 }

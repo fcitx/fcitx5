@@ -7,12 +7,16 @@
 #ifndef _FCITX_UI_CLASSIC_WAYLANDSHMWINDOW_H_
 #define _FCITX_UI_CLASSIC_WAYLANDSHMWINDOW_H_
 
-#include <cairo/cairo.h>
+#include <cstdint>
+#include <memory>
+#include <vector>
+#include <cairo.h>
+#include "fcitx-utils/eventloopinterface.h"
 #include "buffer.h"
+#include "waylandui.h"
 #include "waylandwindow.h"
 
-namespace fcitx {
-namespace classicui {
+namespace fcitx::classicui {
 
 class WaylandShmWindow : public WaylandWindow {
 public:
@@ -34,7 +38,7 @@ private:
     bool pending_ = false;
     std::unique_ptr<EventSource> deferEvent_;
 };
-} // namespace classicui
-} // namespace fcitx
+
+} // namespace fcitx::classicui
 
 #endif // _FCITX_UI_CLASSIC_WAYLANDSHMWINDOW_H_

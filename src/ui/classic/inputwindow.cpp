@@ -5,21 +5,38 @@
  *
  */
 #include "inputwindow.h"
+#include <algorithm>
 #include <cmath>
+#include <cstddef>
+#include <cstdint>
 #include <functional>
 #include <initializer_list>
 #include <limits>
+#include <string>
+#include <tuple>
+#include <utility>
 #include <cairo.h>
+#include <pango/pango-attributes.h>
 #include <pango/pango-context.h>
 #include <pango/pango-font.h>
+#include <pango/pango-fontmap.h>
+#include <pango/pango-language.h>
 #include <pango/pango-layout.h>
+#include <pango/pango-matrix.h>
+#include <pango/pango-types.h>
 #include <pango/pangocairo.h>
 #include "fcitx-utils/color.h"
+#include "fcitx-utils/rect.h"
+#include "fcitx-utils/textformatflags.h"
+#include "fcitx/candidatelist.h"
 #include "fcitx/inputmethodentry.h"
 #include "fcitx/inputpanel.h"
 #include "fcitx/instance.h"
 #include "fcitx/misc_p.h"
+#include "fcitx/text.h"
+#include "fcitx/userinterface.h"
 #include "classicui.h"
+#include "common.h"
 #include "theme.h"
 
 namespace fcitx::classicui {
@@ -46,7 +63,7 @@ static void prepareLayout(cairo_t *cr, PangoLayout *layout) {
 }
 
 static void renderLayout(cairo_t *cr, PangoLayout *layout, int x, int y) {
-    auto context = pango_layout_get_context(layout);
+    auto *context = pango_layout_get_context(layout);
     auto *metrics = pango_context_get_metrics(
         context, pango_context_get_font_description(context),
         pango_context_get_language(context));
@@ -58,7 +75,10 @@ static void renderLayout(cairo_t *cr, PangoLayout *layout, int x, int y) {
 
     // Ensure the text are not painting on half pixel.
     cairo_move_to(cr, x, y + yOffset);
-    double dx, dy, odx, ody;
+    double dx;
+    double dy;
+    double odx;
+    double ody;
     cairo_get_current_point(cr, &dx, &dy);
     // Save old user value
     odx = dx;
@@ -80,7 +100,8 @@ static void renderLayout(cairo_t *cr, PangoLayout *layout, int x, int y) {
 int MultilineLayout::width() const {
     int width = 0;
     for (const auto &layout : lines_) {
-        int w, h;
+        int w;
+        int h;
         pango_layout_get_pixel_size(layout.get(), &w, &h);
         width = std::max(width, w);
     }
@@ -245,19 +266,19 @@ void InputWindow::setTextToLayout(
         appendText(line, newAttrList, newHighlightAttrList, text);
     }
 
-    auto entry = parent_->instance()->inputMethodEntry(inputContext);
+    const auto *entry = parent_->instance()->inputMethodEntry(inputContext);
     if (*parent_->config().useInputMethodLanguageToDisplayText && entry &&
         !entry->languageCode().empty()) {
-        if (auto language =
+        if (auto *language =
                 pango_language_from_string(entry->languageCode().c_str())) {
             if (newAttrList) {
-                auto attr = pango_attr_language_new(language);
+                auto *attr = pango_attr_language_new(language);
                 attr->start_index = 0;
                 attr->end_index = line.size();
                 pango_attr_list_insert(newAttrList, attr);
             }
             if (newHighlightAttrList) {
-                auto attr = pango_attr_language_new(language);
+                auto *attr = pango_attr_language_new(language);
                 attr->start_index = 0;
                 attr->end_index = line.size();
                 pango_attr_list_insert(newHighlightAttrList, attr);
@@ -364,7 +385,8 @@ std::pair<int, int> InputWindow::update(InputContext *inputContext) {
     visible_ = nCandidates_ ||
                pango_layout_get_character_count(upperLayout_.get()) ||
                pango_layout_get_character_count(lowerLayout_.get());
-    int width = 0, height = 0;
+    int width = 0;
+    int height = 0;
     if (visible_) {
         std::tie(width, height) = sizeHint();
         if (width <= 0 || height <= 0) {
@@ -402,7 +424,8 @@ std::pair<unsigned int, unsigned int> InputWindow::sizeHint() {
             m = n;
         }
     };
-    int w, h;
+    int w;
+    int h;
 
     const auto &textMargin = *theme.inputPanel->textMargin;
     auto extraW = *textMargin.marginLeft + *textMargin.marginRight;
@@ -425,9 +448,11 @@ std::pair<unsigned int, unsigned int> InputWindow::sizeHint() {
         vertical = false;
     }
 
-    size_t wholeH = 0, wholeW = 0;
+    size_t wholeH = 0;
+    size_t wholeW = 0;
     for (size_t i = 0; i < nCandidates_; i++) {
-        size_t candidateW = 0, candidateH = 0;
+        size_t candidateW = 0;
+        size_t candidateH = 0;
         if (labelLayouts_[i].characterCount()) {
             candidateW += labelLayouts_[i].width();
             updateIfLarger(candidateH,
@@ -493,7 +518,8 @@ void InputWindow::paint(cairo_t *cr, unsigned int width, unsigned int height,
     fontHeight = PANGO_PIXELS(fontHeight);
 
     size_t currentHeight = 0;
-    int w, h;
+    int w;
+    int h;
     auto extraW = *textMargin.marginLeft + *textMargin.marginRight;
     auto extraH = *textMargin.marginTop + *textMargin.marginBottom;
     if (pango_layout_get_character_count(upperLayout_.get())) {
@@ -533,14 +559,16 @@ void InputWindow::paint(cairo_t *cr, unsigned int width, unsigned int height,
 
     candidateRegions_.clear();
     candidateRegions_.reserve(nCandidates_);
-    size_t wholeW = 0, wholeH = 0;
+    size_t wholeW = 0;
+    size_t wholeH = 0;
 
     // size of text = textMargin + actual text size.
     // HighLight = HighLight margin + TEXT.
     // Click region = HighLight - click
 
     for (size_t i = 0; i < nCandidates_; i++) {
-        int x, y;
+        int x;
+        int y;
         if (vertical) {
             x = 0;
             y = currentHeight + wholeH;
@@ -550,7 +578,10 @@ void InputWindow::paint(cairo_t *cr, unsigned int width, unsigned int height,
         }
         x += *textMargin.marginLeft;
         y += *textMargin.marginTop;
-        int labelW = 0, labelH = 0, candidateW = 0, candidateH = 0;
+        int labelW = 0;
+        int labelH = 0;
+        int candidateW = 0;
+        int candidateH = 0;
         if (labelLayouts_[i].characterCount()) {
             labelW = labelLayouts_[i].width();
             labelH = fontHeight * labelLayouts_[i].size();
@@ -620,7 +651,8 @@ void InputWindow::paint(cairo_t *cr, unsigned int width, unsigned int height,
         const auto &next = theme.loadAction(*theme.inputPanel->next);
         if (prev.valid() && next.valid()) {
             cairo_save(cr);
-            int prevY = 0, nextY = 0;
+            int prevY = 0;
+            int nextY = 0;
             switch (*theme.inputPanel->buttonAlignment) {
             case PageButtonAlignment::Top:
                 prevY = *margin.marginTop;

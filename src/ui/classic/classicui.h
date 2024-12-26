@@ -7,19 +7,30 @@
 #ifndef _FCITX_UI_CLASSIC_CLASSICUI_H_
 #define _FCITX_UI_CLASSIC_CLASSICUI_H_
 
+#include <cstddef>
 #include <memory>
-#include "config.h"
-
+#include <optional>
+#include <string>
+#include <string_view>
+#include <unordered_map>
+#include <utility>
+#include <vector>
 #include "fcitx-config/configuration.h"
 #include "fcitx-config/iniparser.h"
 #include "fcitx-config/option.h"
+#include "fcitx-config/rawconfig.h"
+#include "fcitx-utils/color.h"
+#include "fcitx-utils/eventloopinterface.h"
+#include "fcitx-utils/handlertable.h"
 #include "fcitx-utils/i18n.h"
-#include "fcitx/addonfactory.h"
+#include "fcitx-utils/stringutils.h"
 #include "fcitx/addoninstance.h"
 #include "fcitx/addonmanager.h"
+#include "fcitx/event.h"
 #include "fcitx/instance.h"
 #include "fcitx/userinterface.h"
 #include "classicui_public.h"
+#include "config.h"
 #include "plasmathemewatchdog.h"
 #include "portalsettingmonitor.h"
 #include "theme.h"
@@ -30,11 +41,9 @@
 #include "wayland_public.h"
 #endif
 #ifdef ENABLE_DBUS
-#include "fcitx-utils/dbus/bus.h"
 #endif
 
-namespace fcitx {
-namespace classicui {
+namespace fcitx::classicui {
 
 inline constexpr std::string_view PlasmaThemeName = "plasma";
 
@@ -47,8 +56,8 @@ public:
     virtual ~UIInterface() {}
     virtual void update(UserInterfaceComponent component,
                         InputContext *inputContext) = 0;
-    virtual void updateCursor(InputContext *) {}
-    virtual void updateCurrentInputMethod(InputContext *) {}
+    virtual void updateCursor(InputContext * /*unused*/) {}
+    virtual void updateCurrentInputMethod(InputContext * /*unused*/) {}
     virtual void suspend() = 0;
     virtual void resume() {}
     virtual void setEnableTray(bool) = 0;
@@ -59,7 +68,7 @@ private:
 
 struct NotEmpty {
     bool check(const std::string &value) { return !value.empty(); }
-    void dumpDescription(RawConfig &) const {}
+    void dumpDescription(RawConfig & /*unused*/) const {}
 };
 
 struct ThemeAnnotation : public EnumAnnotation {
@@ -274,7 +283,6 @@ private:
     std::unique_ptr<EventSource> deferedEnableTray_;
     std::unique_ptr<PlasmaThemeWatchdog> plasmaThemeWatchdog_;
 };
-} // namespace classicui
-} // namespace fcitx
+} // namespace fcitx::classicui
 
 #endif // _FCITX_UI_CLASSIC_CLASSICUI_H_

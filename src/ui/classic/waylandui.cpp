@@ -6,11 +6,16 @@
  */
 
 #include "waylandui.h"
-#include <algorithm>
+#include <memory>
+#include <string>
+#include "fcitx/userinterface.h"
+#include "classicui.h"
+#include "common.h"
 #include "display.h"
 #include "org_kde_kwin_blur_manager.h"
 #include "waylandcursortheme.h"
 #include "waylandinputwindow.h"
+#include "waylandpointer.h"
 #include "waylandshmwindow.h"
 #include "wl_compositor.h"
 #include "wl_seat.h"

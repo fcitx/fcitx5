@@ -7,14 +7,17 @@
 #ifndef _FCITX_UI_CLASSIC_WAYLANDPOINTER_H_
 #define _FCITX_UI_CLASSIC_WAYLANDPOINTER_H_
 
+#include <cstdint>
 #include <memory>
+#include "fcitx-utils/signals.h"
+#include "fcitx-utils/trackableobject.h"
+#include "display.h"
 #include "waylandcursor.h"
 #include "wl_pointer.h"
 #include "wl_seat.h"
 #include "wl_touch.h"
 
-namespace fcitx {
-namespace classicui {
+namespace fcitx::classicui {
 
 class WaylandUI;
 class WaylandWindow;
@@ -50,7 +53,6 @@ private:
     std::unique_ptr<WaylandCursor> cursor_;
 };
 
-} // namespace classicui
-} // namespace fcitx
+} // namespace fcitx::classicui
 
 #endif // _FCITX_UI_CLASSIC_WAYLANDPOINTER_H_

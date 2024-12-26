@@ -8,14 +8,16 @@
 #define _FCITX_UI_CLASSIC_WAYLANDINPUTWINDOW_H_
 
 #include <memory>
+#include <wayland-util.h>
+#include "fcitx-utils/trackableobject.h"
+#include "fcitx/inputcontext.h"
 #include "inputwindow.h"
 #include "org_kde_kwin_blur.h"
 #include "org_kde_kwin_blur_manager.h"
 #include "zwp_input_panel_surface_v1.h"
 #include "zwp_input_popup_surface_v2.h"
 
-namespace fcitx {
-namespace classicui {
+namespace fcitx::classicui {
 
 class WaylandUI;
 class WaylandWindow;
@@ -45,7 +47,6 @@ private:
     std::unique_ptr<wayland::OrgKdeKwinBlur> blur_;
 };
 
-} // namespace classicui
-} // namespace fcitx
+} // namespace fcitx::classicui
 
 #endif // _FCITX_UI_CLASSIC_WAYLANDINPUTWINDOW_H_

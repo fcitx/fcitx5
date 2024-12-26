@@ -7,15 +7,28 @@
 #ifndef _FCITX_UI_CLASSIC_INPUTWINDOW_H_
 #define _FCITX_UI_CLASSIC_INPUTWINDOW_H_
 
+#include <cstddef>
+#include <functional>
+#include <initializer_list>
+#include <string>
 #include <utility>
-#include <cairo/cairo.h>
+#include <vector>
+#include <cairo.h>
+#include <pango/pango-attributes.h>
+#include <pango/pango-layout.h>
+#include <pango/pango-types.h>
 #include <pango/pango.h>
+#include "fcitx-utils/macros.h"
+#include "fcitx-utils/misc.h"
+#include "fcitx-utils/rect.h"
+#include "fcitx-utils/textformatflags.h"
+#include "fcitx-utils/trackableobject.h"
 #include "fcitx/candidatelist.h"
 #include "fcitx/inputcontext.h"
+#include "fcitx/text.h"
 #include "common.h"
 
-namespace fcitx {
-namespace classicui {
+namespace fcitx::classicui {
 
 class ClassicUI;
 
@@ -41,7 +54,7 @@ public:
 
     int width() const;
 
-    int size() { return lines_.size(); }
+    int size() const { return lines_.size(); }
     void render(cairo_t *cr, int x, int y, int lineHeight, bool highlight);
 
     std::vector<GObjectUniquePtr<PangoLayout>> lines_;
@@ -107,7 +120,6 @@ private:
     std::pair<unsigned int, unsigned int> sizeHint();
 };
 
-} // namespace classicui
-} // namespace fcitx
+} // namespace fcitx::classicui
 
 #endif // _FCITX_UI_CLASSIC_INPUTWINDOW_H_

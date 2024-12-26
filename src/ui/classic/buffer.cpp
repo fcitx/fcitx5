@@ -6,15 +6,20 @@
  */
 #include "buffer.h"
 #include <fcntl.h>
-#include <stdlib.h>
 #include <sys/mman.h>
 #include <unistd.h>
+#include <cerrno>
+#include <cstdint>
+#include <cstdlib>
 #include <stdexcept>
+#include <string>
 #include <vector>
 #include <cairo.h>
 #include <sys/syscall.h>
+#include <wayland-client.h>
+#include "fcitx-utils/fs.h"
 #include "fcitx-utils/stringutils.h"
-#include "theme.h"
+#include "fcitx-utils/unixfd.h"
 #include "wl_buffer.h"
 #include "wl_callback.h"
 #include "wl_shm.h"
@@ -28,7 +33,7 @@ namespace fcitx::wayland {
         __VA_ARGS__;                                                           \
     } while (ret < 0 && errno == EINTR)
 
-UnixFD openShm(void) {
+UnixFD openShm() {
     int ret;
     // We support multiple different methods, memfd / shm_open on BSD /
     // O_TMPFILE. While linux has shm_open, it doesn't have SHM_ANON extension

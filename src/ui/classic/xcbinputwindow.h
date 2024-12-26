@@ -7,11 +7,15 @@
 #ifndef _FCITX_UI_CLASSIC_XCBINPUTWINDOW_H_
 #define _FCITX_UI_CLASSIC_XCBINPUTWINDOW_H_
 
+#include <xcb/xcb.h>
+#include <xcb/xproto.h>
+#include "fcitx-utils/rect.h"
+#include "fcitx/inputcontext.h"
 #include "inputwindow.h"
+#include "xcbui.h"
 #include "xcbwindow.h"
 
-namespace fcitx {
-namespace classicui {
+namespace fcitx::classicui {
 
 class XCBInputWindow : public XCBWindow, protected InputWindow {
 public:
@@ -36,7 +40,7 @@ private:
     xcb_atom_t atomBlur_;
     int dpi_ = -1;
 };
-} // namespace classicui
-} // namespace fcitx
+
+} // namespace fcitx::classicui
 
 #endif // _FCITX_UI_CLASSIC_XCBINPUTWINDOW_H_

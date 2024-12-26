@@ -5,7 +5,19 @@
  *
  */
 #include "waylandinputwindow.h"
+#include <cassert>
+#include <cstdint>
+#include <memory>
+#include <string>
+#include <utility>
+#include <vector>
+#include <cairo.h>
+#include "fcitx-utils/rect.h"
+#include "fcitx/inputcontext.h"
 #include "common.h"
+#include "inputwindow.h"
+#include "org_kde_kwin_blur_manager.h"
+#include "theme.h"
 #include "waylandim_public.h"
 #include "waylandui.h"
 #include "waylandwindow.h"
@@ -105,28 +117,27 @@ void WaylandInputWindow::updateBlur() {
     if (!compositor) {
         return;
     }
-    auto width = window_->width(), height = window_->height();
+    auto width = window_->width();
+    auto height = window_->height();
     Rect rect(0, 0, width, height);
     shrink(rect, *ui_->parent()->theme().inputPanel->blurMargin);
     if (!*ui_->parent()->theme().inputPanel->enableBlur || rect.isEmpty()) {
         return;
-    } else {
-        std::vector<uint32_t> data;
-        std::unique_ptr<wayland::WlRegion> region(compositor->createRegion());
-        if (ui_->parent()->theme().inputPanel->blurMask->empty()) {
-            region->add(rect.left(), rect.top(), rect.width(), rect.height());
-        } else {
-            auto regions = parent_->theme().mask(parent_->theme().maskConfig(),
-                                                 width, height);
-            for (const auto &rect : regions) {
-                region->add(rect.left(), rect.top(), rect.width(),
-                            rect.height());
-            }
-        }
-        blur_.reset(blurManager_->create(window_->surface()));
-        blur_->setRegion(region.get());
-        blur_->commit();
     }
+    std::vector<uint32_t> data;
+    std::unique_ptr<wayland::WlRegion> region(compositor->createRegion());
+    if (ui_->parent()->theme().inputPanel->blurMask->empty()) {
+        region->add(rect.left(), rect.top(), rect.width(), rect.height());
+    } else {
+        auto regions =
+            parent_->theme().mask(parent_->theme().maskConfig(), width, height);
+        for (const auto &rect : regions) {
+            region->add(rect.left(), rect.top(), rect.width(), rect.height());
+        }
+    }
+    blur_.reset(blurManager_->create(window_->surface()));
+    blur_->setRegion(region.get());
+    blur_->commit();
 }
 
 void WaylandInputWindow::updateScale() { window_->updateScale(); }
