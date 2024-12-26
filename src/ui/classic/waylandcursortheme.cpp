@@ -1,6 +1,10 @@
 #include "waylandcursortheme.h"
+#include <cstdlib>
 #include <memory>
+#include <string>
+#include <utility>
 #include <wayland-cursor.h>
+#include "fcitx-utils/dbus/variant.h"
 #include "fcitx-utils/misc_p.h"
 #include "dbus_public.h"
 #include "portalsettingmonitor.h"
@@ -28,7 +32,7 @@ WaylandCursorTheme::WaylandCursorTheme(WaylandUI *ui)
     }
 
 #ifdef ENABLE_DBUS
-    if (auto dbusAddon = ui->parent()->dbus()) {
+    if (auto *dbusAddon = ui->parent()->dbus()) {
         settingMonitor_ = std::make_unique<PortalSettingMonitor>(
             *dbusAddon->call<IDBusModule::bus>());
         cursorSizeWatcher_ =
@@ -72,7 +76,7 @@ void WaylandCursorTheme::setTheme(const std::string &theme) {
 
 WaylandCursorInfo WaylandCursorTheme::loadCursorTheme(int scale) {
     auto size = cursorSize_ * scale;
-    if (auto theme = findValue(themes_, size)) {
+    if (auto *theme = findValue(themes_, size)) {
         return *theme;
     }
     WaylandCursorInfo info;

@@ -7,13 +7,17 @@
 #ifndef _FCITX_UI_CLASSIC_XCBWINDOW_H_
 #define _FCITX_UI_CLASSIC_XCBWINDOW_H_
 
-#include <cairo/cairo.h>
+#include <memory>
+#include <cairo.h>
 #include <xcb/xcb.h>
+#include <xcb/xproto.h>
+#include "fcitx-utils/handlertable.h"
+#include "fcitx-utils/misc.h"
 #include "window.h"
+#include "xcb_public.h"
 #include "xcbui.h"
 
-namespace fcitx {
-namespace classicui {
+namespace fcitx::classicui {
 
 class XCBWindow : public Window {
 public:
@@ -41,7 +45,7 @@ protected:
     UniqueCPtr<cairo_surface_t, cairo_surface_destroy> surface_;
     UniqueCPtr<cairo_surface_t, cairo_surface_destroy> contentSurface_;
 };
-} // namespace classicui
-} // namespace fcitx
+
+} // namespace fcitx::classicui
 
 #endif // _FCITX_UI_CLASSIC_XCBWINDOW_H_

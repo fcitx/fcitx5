@@ -18,6 +18,7 @@
 #include <string>
 #include <utility>
 #include "fcitx-utils/event.h"
+#include "fcitx-utils/eventloopinterface.h"
 #include "fcitx-utils/fs.h"
 #include "fcitx-utils/standardpath.h"
 #include "fcitx-utils/unixfd.h"

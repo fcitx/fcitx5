@@ -7,24 +7,49 @@
 
 #include "classicui.h"
 #include <fcntl.h>
+#include <cstddef>
+#include <cstdint>
+#include <functional>
+#include <map>
+#include <memory>
 #include <optional>
+#include <set>
+#include <stdexcept>
 #include <string>
 #include <string_view>
+#include <utility>
+#include <vector>
+#include <cairo.h>
+#include <xcb/xcb.h>
 #include "fcitx-config/iniparser.h"
+#include "fcitx-config/rawconfig.h"
+#include "fcitx-utils/color.h"
 #include "fcitx-utils/dbus/message_details.h"
+#include "fcitx-utils/eventloopinterface.h"
+#include "fcitx-utils/fs.h"
+#include "fcitx-utils/i18n.h"
+#include "fcitx-utils/log.h"
+#include "fcitx-utils/misc.h"
 #include "fcitx-utils/misc_p.h"
 #include "fcitx-utils/standardpath.h"
+#include "fcitx-utils/stringutils.h"
+#include "fcitx/addonfactory.h"
+#include "fcitx/addoninstance.h"
 #include "fcitx/event.h"
 #include "fcitx/inputcontext.h"
 #include "fcitx/inputcontextmanager.h"
 #include "fcitx/instance.h"
+#include "fcitx/userinterface.h"
 #include "common.h"
 #include "notificationitem_public.h"
 #include "plasmathemewatchdog.h"
+#include "theme.h"
 #ifdef ENABLE_X11
+#include "xcb_public.h"
 #include "xcbui.h"
 #endif
 #ifdef WAYLAND_FOUND
+#include "wayland_public.h"
 #include "waylandui.h"
 #endif
 #ifdef ENABLE_DBUS
@@ -40,9 +65,8 @@ FCITX_DEFINE_LOG_CATEGORY(classicui_logcategory, "classicui");
 using AccentColorDBusType = FCITX_STRING_TO_DBUS_TYPE("(ddd)");
 
 ClassicUI::ClassicUI(Instance *instance) : instance_(instance) {
-
 #ifdef ENABLE_DBUS
-    if (auto dbusAddon = dbus()) {
+    if (auto *dbusAddon = dbus()) {
         dbus::VariantTypeRegistry::defaultRegistry()
             .registerType<AccentColorDBusType>();
         settingMonitor_ = std::make_unique<PortalSettingMonitor>(
@@ -108,7 +132,7 @@ ClassicUI::ClassicUI(Instance *instance) : instance_(instance) {
             auto &focusEvent =
                 static_cast<FocusGroupFocusChangedEvent &>(event);
             if (!focusEvent.newFocus()) {
-                if (auto ui = uiForDisplay(focusEvent.group()->display())) {
+                if (auto *ui = uiForDisplay(focusEvent.group()->display())) {
                     ui->update(UserInterfaceComponent::InputPanel, nullptr);
                 }
             }
@@ -400,7 +424,7 @@ void ClassicUI::resume() {
             auto &focusEvent =
                 static_cast<FocusGroupFocusChangedEvent &>(event);
             if (!focusEvent.newFocus()) {
-                if (auto ui = uiForDisplay(focusEvent.group()->display())) {
+                if (auto *ui = uiForDisplay(focusEvent.group()->display())) {
                     ui->update(UserInterfaceComponent::InputPanel, nullptr);
                 }
             }

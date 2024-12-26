@@ -7,12 +7,20 @@
 #ifndef _FCITX_UI_CLASSIC_XCBTRAYWINDOW_H_
 #define _FCITX_UI_CLASSIC_XCBTRAYWINDOW_H_
 
+#include <list>
+#include <memory>
+#include <cairo.h>
+#include <xcb/xcb.h>
+#include <xcb/xproto.h>
+#include "fcitx-utils/handlertable.h"
+#include "fcitx/action.h"
 #include "fcitx/menu.h"
+#include "xcb_public.h"
 #include "xcbmenu.h"
+#include "xcbui.h"
 #include "xcbwindow.h"
 
-namespace fcitx {
-namespace classicui {
+namespace fcitx::classicui {
 
 class XCBTrayWindow : public XCBWindow {
 public:
@@ -76,7 +84,7 @@ private:
     std::list<SimpleAction> groupActions_;
     std::list<SimpleAction> inputMethodActions_;
 };
-} // namespace classicui
-} // namespace fcitx
+
+} // namespace fcitx::classicui
 
 #endif // _FCITX_UI_CLASSIC_XCBTRAYWINDOW_H_

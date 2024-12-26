@@ -6,9 +6,24 @@
  */
 
 #include "xcbinputwindow.h"
+#include <unistd.h>
+#include <algorithm>
+#include <climits>
+#include <cstdint>
+#include <vector>
+#include <cairo.h>
+#include <xcb/xcb.h>
 #include <xcb/xcb_aux.h>
+#include <xcb/xcb_ewmh.h>
 #include <xcb/xcb_icccm.h>
+#include <xcb/xproto.h>
 #include "fcitx-utils/rect.h"
+#include "fcitx/inputcontext.h"
+#include "inputwindow.h"
+#include "theme.h"
+#include "xcb_public.h"
+#include "xcbui.h"
+#include "xcbwindow.h"
 
 namespace fcitx::classicui {
 

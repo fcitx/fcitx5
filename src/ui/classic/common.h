@@ -7,12 +7,11 @@
 #ifndef _FCITX5_UI_CLASSIC_COMMON_H_
 #define _FCITX5_UI_CLASSIC_COMMON_H_
 
-#include <memory>
 #include <glib-object.h>
 #include "fcitx-utils/log.h"
+#include "fcitx-utils/misc.h"
 
-namespace fcitx {
-namespace classicui {
+namespace fcitx::classicui {
 
 template <typename T>
 using GObjectUniquePtr = UniqueCPtr<T, g_object_unref>;
@@ -25,7 +24,6 @@ FCITX_DECLARE_LOG_CATEGORY(classicui_logcategory);
 #define CLASSICUI_INFO()                                                       \
     FCITX_LOGC(::fcitx::classicui::classicui_logcategory, Info)
 
-} // namespace classicui
-} // namespace fcitx
+} // namespace fcitx::classicui
 
 #endif // _FCITX5_UI_CLASSIC_COMMON_H_

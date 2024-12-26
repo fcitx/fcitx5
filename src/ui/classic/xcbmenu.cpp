@@ -5,17 +5,39 @@
  *
  */
 #include "xcbmenu.h"
-#include <optional>
+#include <unistd.h>
+#include <algorithm>
+#include <climits>
+#include <cstddef>
+#include <cstdint>
+#include <tuple>
+#include <utility>
+#include <cairo.h>
+#include <pango/pango-context.h>
+#include <pango/pango-font.h>
+#include <pango/pango-fontmap.h>
+#include <pango/pango-layout.h>
 #include <pango/pangocairo.h>
 #include <xcb/xcb.h>
 #include <xcb/xcb_aux.h>
+#include <xcb/xcb_ewmh.h>
 #include <xcb/xcb_icccm.h>
 #include <xcb/xcb_keysyms.h>
+#include <xcb/xproto.h>
+#include "fcitx-utils/connectableobject.h"
+#include "fcitx-utils/eventloopinterface.h"
 #include "fcitx-utils/log.h"
+#include "fcitx-utils/rect.h"
+#include "fcitx-utils/signals.h"
+#include "fcitx-utils/trackableobject.h"
+#include "fcitx/action.h"
 #include "fcitx/inputcontext.h"
+#include "fcitx/menu.h"
 #include "fcitx/userinterfacemanager.h"
 #include "common.h"
 #include "theme.h"
+#include "xcbui.h"
+#include "xcbwindow.h"
 
 namespace fcitx::classicui {
 

@@ -7,12 +7,26 @@
 #ifndef _FCITX_UI_CLASSIC_XCBMENU_H_
 #define _FCITX_UI_CLASSIC_XCBMENU_H_
 
+#include <cstddef>
+#include <memory>
+#include <unordered_map>
+#include <utility>
+#include <vector>
+#include <pango/pango-layout.h>
+#include <pango/pango-types.h>
+#include <xcb/xcb.h>
+#include "fcitx-utils/eventloopinterface.h"
+#include "fcitx-utils/rect.h"
+#include "fcitx-utils/signals.h"
+#include "fcitx-utils/trackableobject.h"
+#include "fcitx/action.h"
+#include "fcitx/inputcontext.h"
 #include "fcitx/menu.h"
 #include "common.h"
+#include "xcbui.h"
 #include "xcbwindow.h"
 
-namespace fcitx {
-namespace classicui {
+namespace fcitx::classicui {
 
 class MenuPool;
 
@@ -117,7 +131,6 @@ private:
     std::unique_ptr<EventSourceTime> popupMenuTimer_;
 };
 
-} // namespace classicui
-} // namespace fcitx
+} // namespace fcitx::classicui
 
 #endif // _FCITX_UI_CLASSIC_XCBMENU_H_

@@ -6,7 +6,10 @@
  */
 
 #include "waylandpointer.h"
+#include <cstdint>
+#include <wayland-util.h>
 #include "waylandwindow.h"
+#include "wl_seat.h"
 #include "wl_surface.h"
 
 namespace fcitx::classicui {

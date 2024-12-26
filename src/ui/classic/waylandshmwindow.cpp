@@ -6,7 +6,16 @@
  */
 
 #include "waylandshmwindow.h"
+#include <cstdint>
+#include <iterator>
+#include <memory>
+#include <cairo.h>
+#include "fcitx-utils/eventloopinterface.h"
+#include "buffer.h"
 #include "common.h"
+#include "waylandui.h"
+#include "waylandwindow.h"
+#include "wl_shm.h"
 
 namespace fcitx::classicui {
 
@@ -68,7 +77,8 @@ cairo_surface_t *WaylandShmWindow::prerender() {
         }
     }
 
-    uint32_t bufferWidth = width_, bufferHeight = height_;
+    uint32_t bufferWidth = width_;
+    uint32_t bufferHeight = height_;
     surfaceToBufferSize(bufferScale(), &bufferWidth, &bufferHeight);
 
     if (iter != buffers_.end() && ((*iter)->width() != bufferWidth ||

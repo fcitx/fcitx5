@@ -10,7 +10,7 @@
 #include <cstdint>
 #include <string_view>
 #include <vector>
-#include <cairo/cairo.h>
+#include <cairo.h>
 #include "fcitx-config/configuration.h"
 #include "fcitx-config/enum.h"
 #include "fcitx-config/option.h"

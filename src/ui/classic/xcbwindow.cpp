@@ -6,11 +6,18 @@
  */
 
 #include "xcbwindow.h"
+#include <cstdint>
+#include <cstring>
 #include <cairo-xcb.h>
 #include <cairo.h>
 #include <xcb/xcb.h>
 #include <xcb/xcb_aux.h>
+#include <xcb/xproto.h>
+#include "fcitx-utils/misc.h"
 #include "common.h"
+#include "window.h"
+#include "xcb_public.h"
+#include "xcbui.h"
 
 namespace fcitx::classicui {
 
