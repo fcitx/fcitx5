@@ -7,9 +7,18 @@
 
 #include "fs.h"
 #include <sys/stat.h>
+#include <sys/types.h>
 #include <unistd.h>
 #include <algorithm>
 #include <cerrno>
+#include <cstddef>
+#include <cstdint>
+#include <iterator>
+#include <optional>
+#include <string>
+#include <string_view>
+#include "fcitxutils_export.h"
+#include "misc.h"
 #include "mtime_p.h"
 #include "standardpath.h"
 #include "stringutils.h"
@@ -188,21 +197,24 @@ std::string dirName(const std::string &path) {
     return result;
 }
 
-std::string baseName(const std::string &path) {
-    auto result = path;
+FCITXUTILS_DEPRECATED_EXPORT std::string baseName(const std::string &path) {
+    return baseName(std::string_view(path));
+}
+
+std::string baseName(std::string_view path) {
     // remove trailing slash
-    while (result.size() > 1 && result.back() == '/') {
-        result.pop_back();
+    while (path.size() > 1 && path.back() == '/') {
+        path.remove_suffix(1);
     }
-    if (result.size() <= 1) {
-        return result;
+    if (path.size() <= 1) {
+        return std::string{path};
     }
 
-    auto iter = std::find(result.rbegin(), result.rend(), '/');
-    if (iter != result.rend()) {
-        result.erase(result.begin(), iter.base());
+    auto iter = std::find(path.rbegin(), path.rend(), '/');
+    if (iter != path.rend()) {
+        path.remove_prefix(std::distance(path.begin(), iter.base()));
     }
-    return result;
+    return std::string{path};
 }
 
 ssize_t safeRead(int fd, void *data, size_t maxlen) {

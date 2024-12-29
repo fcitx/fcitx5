@@ -7,9 +7,12 @@
 #ifndef _FCITX_UTILS_FS_H_
 #define _FCITX_UTILS_FS_H_
 
-#include <cstdio>
+#include <sys/types.h>
+#include <cstddef>
+#include <cstdint>
 #include <optional>
 #include <string>
+#include <string_view>
 #include <fcitx-utils/misc.h>
 #include "fcitxutils_export.h"
 
@@ -44,7 +47,7 @@ FCITXUTILS_EXPORT bool makePath(const std::string &path);
 /// \brief Get directory name of path
 FCITXUTILS_EXPORT std::string dirName(const std::string &path);
 /// \brief Get base file name of path.
-FCITXUTILS_EXPORT std::string baseName(const std::string &path);
+FCITXUTILS_EXPORT std::string baseName(std::string_view path);
 
 /// \brief a simple wrapper around read(), ignore EINTR.
 FCITXUTILS_EXPORT ssize_t safeRead(int fd, void *data, size_t maxlen);
