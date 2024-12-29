@@ -14,7 +14,7 @@
 #include <utility>
 #include "../macros.h"
 #include "../misc_p.h"
-#include "fmessage.h"
+#include "message.h"
 
 namespace fcitx::dbus {
 
