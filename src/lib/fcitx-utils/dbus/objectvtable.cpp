@@ -4,6 +4,11 @@
  * SPDX-License-Identifier: LGPL-2.1-or-later
  *
  */
+#include "objectvtable.h"
+#include <memory>
+#include <string>
+#include <utility>
+#include "../macros.h"
 #include "bus.h"
 #include "objectvtable_p.h"
 

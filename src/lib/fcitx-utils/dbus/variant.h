@@ -13,9 +13,9 @@
 #include <type_traits>
 #include <utility>
 #include <fcitx-utils/dbus/message.h>
+#include <fcitx-utils/fcitxutils_export.h>
 #include <fcitx-utils/log.h>
 #include <fcitx-utils/macros.h>
-#include "fcitxutils_export.h"
 
 /// \addtogroup FcitxUtils
 /// \{

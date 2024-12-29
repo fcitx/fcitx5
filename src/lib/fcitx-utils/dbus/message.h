@@ -18,12 +18,12 @@
 #include <utility>
 #include <vector>
 #include <fcitx-utils/dbus/message_details.h> // IWYU pragma: export
+#include <fcitx-utils/fcitxutils_export.h>
 #include <fcitx-utils/log.h>
 #include <fcitx-utils/macros.h>
 #include <fcitx-utils/metastring.h>
 #include <fcitx-utils/tuplehelpers.h>
 #include <fcitx-utils/unixfd.h>
-#include "fcitxutils_export.h"
 
 /// \addtogroup FcitxUtils
 /// \{

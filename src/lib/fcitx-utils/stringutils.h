@@ -20,7 +20,7 @@
 #include <string_view>
 #include <utility>
 #include <vector>
-#include "fcitxutils_export.h"
+#include <fcitx-utils/fcitxutils_export.h>
 #include "stringutils_details.h"
 
 namespace fcitx::stringutils {

@@ -13,8 +13,8 @@
 #include <optional>
 #include <string>
 #include <string_view>
+#include <fcitx-utils/fcitxutils_export.h>
 #include <fcitx-utils/misc.h>
-#include "fcitxutils_export.h"
 
 /// \addtogroup FcitxUtils
 /// \{

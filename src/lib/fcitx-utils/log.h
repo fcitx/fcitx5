@@ -25,13 +25,13 @@
 #include <unordered_set>
 #include <utility>
 #include <vector>
+#include <fcitx-utils/fcitxutils_export.h>
 #include <fcitx-utils/fs.h>
 #include <fcitx-utils/key.h>
 #include <fcitx-utils/macros.h>
 #include <fcitx-utils/metastring.h>
 #include <fcitx-utils/misc.h>
 #include <fcitx-utils/tuplehelpers.h>
-#include "fcitxutils_export.h"
 
 namespace fcitx {
 

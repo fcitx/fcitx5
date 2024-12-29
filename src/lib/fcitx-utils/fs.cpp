@@ -17,7 +17,7 @@
 #include <optional>
 #include <string>
 #include <string_view>
-#include "fcitxutils_export.h"
+#include <fcitx-utils/fcitxutils_export.h>
 #include "misc.h"
 #include "mtime_p.h"
 #include "standardpath.h"

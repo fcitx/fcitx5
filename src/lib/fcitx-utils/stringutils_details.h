@@ -17,7 +17,7 @@
 #include <string_view>
 #include <type_traits>
 #include <utility>
-#include "fcitxutils_export.h"
+#include <fcitx-utils/fcitxutils_export.h>
 
 namespace fcitx::stringutils::details {
 

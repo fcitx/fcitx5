@@ -21,9 +21,9 @@
 #include <string_view>
 #include <utility>
 #include <fcitx-utils/cutf8.h>
+#include <fcitx-utils/fcitxutils_export.h>
 #include <fcitx-utils/macros.h>
 #include <fcitx-utils/misc.h>
-#include "fcitxutils_export.h"
 
 namespace fcitx::utf8 {
 

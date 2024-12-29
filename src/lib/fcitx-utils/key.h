@@ -18,10 +18,10 @@
 #include <cstdint>
 #include <string>
 #include <vector>
+#include <fcitx-utils/fcitxutils_export.h>
 #include <fcitx-utils/flags.h>
 #include <fcitx-utils/keysym.h>
 #include <fcitx-utils/macros.h>
-#include "fcitxutils_export.h"
 
 namespace fcitx {
 class Key;

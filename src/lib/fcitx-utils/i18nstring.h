@@ -9,7 +9,7 @@
 
 #include <string>
 #include <unordered_map>
-#include "fcitxutils_export.h"
+#include <fcitx-utils/fcitxutils_export.h>
 
 namespace fcitx {
 class FCITXUTILS_EXPORT I18NString {

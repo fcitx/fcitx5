@@ -13,7 +13,7 @@
 #include <string_view>
 #include <variant>
 #include <vector>
-#include "fcitxutils_export.h"
+#include <fcitx-utils/fcitxutils_export.h>
 #include "log.h"
 #include "macros.h"
 

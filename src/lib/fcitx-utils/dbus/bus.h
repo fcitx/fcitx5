@@ -14,9 +14,9 @@
 #include <fcitx-utils/dbus/message.h>
 #include <fcitx-utils/dbus/objectvtable.h>
 #include <fcitx-utils/event.h>
+#include <fcitx-utils/fcitxutils_export.h>
 #include <fcitx-utils/flags.h>
 #include <fcitx-utils/macros.h>
-#include "fcitxutils_export.h"
 
 /// \addtogroup FcitxUtils
 /// \{

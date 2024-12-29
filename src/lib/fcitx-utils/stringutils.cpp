@@ -14,7 +14,7 @@
 #include <string_view>
 #include <utility>
 #include <vector>
-#include "fcitxutils_export.h"
+#include <fcitx-utils/fcitxutils_export.h>
 #include "charutils.h"
 #include "macros.h"
 

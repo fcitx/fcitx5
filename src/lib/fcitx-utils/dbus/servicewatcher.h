@@ -11,6 +11,7 @@
 #include <memory>
 #include <string>
 #include <fcitx-utils/dbus/bus.h>
+#include <fcitx-utils/fcitxutils_export.h>
 #include <fcitx-utils/handlertable.h>
 #include <fcitx-utils/macros.h>
 

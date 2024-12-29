@@ -11,8 +11,8 @@
 #include <exception>
 #include <ostream>
 #include <string>
+#include <fcitx-utils/fcitxutils_export.h>
 #include <fcitx-utils/macros.h>
-#include "fcitxutils_export.h"
 
 /// \addtogroup FcitxUtils
 /// \{

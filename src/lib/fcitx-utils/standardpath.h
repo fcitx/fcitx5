@@ -26,11 +26,11 @@
 #include <string>
 #include <unordered_map>
 #include <vector>
+#include <fcitx-utils/fcitxutils_export.h>
 #include <fcitx-utils/log.h>
 #include <fcitx-utils/macros.h>
 #include <fcitx-utils/stringutils.h>
 #include <fcitx-utils/unixfd.h>
-#include "fcitxutils_export.h"
 
 namespace fcitx {
 

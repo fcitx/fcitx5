@@ -6,6 +6,12 @@
  */
 
 #include "matchrule.h"
+#include <cstddef>
+#include <memory>
+#include <string>
+#include <utility>
+#include <vector>
+#include "../macros.h"
 #include "../stringutils.h"
 #include "message.h"
 #include "utils_p.h"

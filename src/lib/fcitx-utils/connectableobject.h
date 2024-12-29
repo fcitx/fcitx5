@@ -11,10 +11,10 @@
 #include <memory>
 #include <string>
 #include <utility>
+#include <fcitx-utils/fcitxutils_export.h>
 #include <fcitx-utils/macros.h>
 #include <fcitx-utils/metastring.h>
 #include <fcitx-utils/signals.h>
-#include "fcitxutils_export.h"
 
 /// \addtogroup FcitxUtils
 /// \{

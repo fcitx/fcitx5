@@ -16,10 +16,10 @@
 #include <tuple>
 #include <type_traits>
 #include <fcitx-utils/dbus/message.h>
+#include <fcitx-utils/fcitxutils_export.h>
 #include <fcitx-utils/flags.h>
 #include <fcitx-utils/macros.h>
 #include <fcitx-utils/trackableobject.h>
-#include "fcitxutils_export.h"
 
 /// \addtogroup FcitxUtils
 /// \{

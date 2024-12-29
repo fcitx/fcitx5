@@ -15,7 +15,7 @@
 #include <algorithm>
 #include <ostream>
 #include <utility>
-#include "fcitxutils_export.h"
+#include <fcitx-utils/fcitxutils_export.h>
 
 namespace fcitx {
 class FCITXUTILS_EXPORT Rect {

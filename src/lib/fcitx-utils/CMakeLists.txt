@@ -127,7 +127,7 @@ set_target_properties(Fcitx5Utils
   )
 target_include_directories(Fcitx5Utils PUBLIC
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/..>
-    $<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}>
+    $<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}/..>
     $<INSTALL_INTERFACE:${CMAKE_INSTALL_FULL_INCLUDEDIR}/Fcitx5/Utils>)
 target_link_libraries(Fcitx5Utils PRIVATE DL::DL LibIntl::LibIntl Pthread::Pthread ${FMT_TARGET})
 if(LIBKVM_FOUND)

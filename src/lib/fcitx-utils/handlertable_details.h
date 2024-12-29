@@ -13,9 +13,9 @@
 #include <iterator>
 #include <memory>
 #include <vector>
+#include <fcitx-utils/fcitxutils_export.h>
 #include <fcitx-utils/intrusivelist.h>
 #include <fcitx-utils/macros.h>
-#include "fcitxutils_export.h"
 
 namespace fcitx {
 

@@ -8,7 +8,7 @@
 #define _FCITX_UTILS_I18N_H_
 
 #include <string>
-#include "fcitxutils_export.h"
+#include <fcitx-utils/fcitxutils_export.h>
 
 namespace fcitx {
 

@@ -7,10 +7,13 @@
 #ifndef _FCITX_UTILS_DBUS_MATCHRULE_H_
 #define _FCITX_UTILS_DBUS_MATCHRULE_H_
 
+#include <cstddef>
+#include <functional>
 #include <memory>
 #include <string>
 #include <vector>
 #include <fcitx-utils/dbus/message.h>
+#include <fcitx-utils/fcitxutils_export.h>
 #include <fcitx-utils/macros.h>
 
 /// \addtogroup FcitxUtils

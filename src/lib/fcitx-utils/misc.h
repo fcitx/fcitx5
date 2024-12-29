@@ -16,8 +16,8 @@
 #include <string>
 #include <type_traits>
 #include <vector>
+#include <fcitx-utils/fcitxutils_export.h>
 #include <fcitx-utils/macros.h>
-#include "fcitxutils_export.h"
 
 namespace fcitx {
 
