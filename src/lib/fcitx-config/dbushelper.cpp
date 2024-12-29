@@ -6,7 +6,11 @@
  */
 
 #include "dbushelper.h"
+#include <string>
+#include <utility>
 #include "fcitx-utils/dbus/variant.h"
+#include "configuration.h"
+#include "rawconfig.h"
 
 namespace fcitx {
 
@@ -20,7 +24,7 @@ void variantFillRawConfig(const dbus::Variant &variant, RawConfig &config) {
     if (variant.signature() != "a{sv}") {
         return;
     }
-    const DBusVariantMap &map = variant.dataAs<DBusVariantMap>();
+    const auto &map = variant.dataAs<DBusVariantMap>();
     for (const auto &entry : map) {
         if (entry.key().empty()) {
             config = entry.value().dataAs<std::string>();

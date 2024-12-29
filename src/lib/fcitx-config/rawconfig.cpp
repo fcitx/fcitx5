@@ -5,8 +5,14 @@
  *
  */
 #include "rawconfig.h"
-#include <list>
+#include <cstddef>
+#include <functional>
+#include <memory>
+#include <string>
 #include <utility>
+#include <vector>
+#include "fcitx-utils/log.h"
+#include "fcitx-utils/macros.h"
 #include "fcitx-utils/misc_p.h"
 
 namespace fcitx {
@@ -50,7 +56,8 @@ public:
     }
 
     static std::shared_ptr<const RawConfig>
-    getNonexistentRawConfig(const RawConfig *, const std::string &) {
+    getNonexistentRawConfig(const RawConfig * /*unused*/,
+                            const std::string & /*unused*/) {
         return nullptr;
     }
 

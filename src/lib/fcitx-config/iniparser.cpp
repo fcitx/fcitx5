@@ -10,7 +10,6 @@
 #include <functional>
 #include <string>
 #include <string_view>
-#include "fcitx-config/rawconfig.h"
 #include "fcitx-utils/fs.h"
 #include "fcitx-utils/macros.h"
 #include "fcitx-utils/misc.h"
@@ -18,6 +17,7 @@
 #include "fcitx-utils/stringutils.h"
 #include "fcitx-utils/unixfd.h"
 #include "configuration.h"
+#include "rawconfig.h"
 
 namespace fcitx {
 

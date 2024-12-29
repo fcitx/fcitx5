@@ -7,7 +7,9 @@
 #ifndef _FCITX_CONFIG_OPTION_DETAILS_H_
 #define _FCITX_CONFIG_OPTION_DETAILS_H_
 
+#include <memory>
 #include <string>
+#include <vector>
 #include <fcitx-config/rawconfig.h>
 #include "fcitxconfig_export.h"
 
@@ -71,7 +73,7 @@ struct RemoveVector<std::vector<T>> {
 };
 
 template <typename T>
-void dumpDescriptionHelper(RawConfig &, T *) {}
+void dumpDescriptionHelper(RawConfig & /*unused*/, T * /*unused*/) {}
 
 } // namespace fcitx
 

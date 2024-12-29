@@ -6,15 +6,22 @@
  */
 
 #include "marshallfunction.h"
+#include <exception>
+#include <string>
+#include "fcitx-utils/color.h"
+#include "fcitx-utils/i18nstring.h"
+#include "fcitx-utils/key.h"
+#include "fcitx-utils/semver.h"
 #include "fcitx-utils/stringutils.h"
 #include "configuration.h"
+#include "rawconfig.h"
 
 namespace fcitx {
 void marshallOption(RawConfig &config, bool value) {
     config = value ? "True" : "False";
 }
 
-bool unmarshallOption(bool &value, const RawConfig &config, bool) {
+bool unmarshallOption(bool &value, const RawConfig &config, bool /*unused*/) {
     if (config.value() == "True" || config.value() == "False") {
         value = config.value() == "True";
         return true;
@@ -26,7 +33,7 @@ void marshallOption(RawConfig &config, int value) {
     config = std::to_string(value);
 }
 
-bool unmarshallOption(int &value, const RawConfig &config, bool) {
+bool unmarshallOption(int &value, const RawConfig &config, bool /*unused*/) {
     try {
         value = std::stoi(config.value());
     } catch (const std::exception &) {
@@ -40,7 +47,8 @@ void marshallOption(RawConfig &config, const std::string &value) {
     config = value;
 }
 
-bool unmarshallOption(std::string &value, const RawConfig &config, bool) {
+bool unmarshallOption(std::string &value, const RawConfig &config,
+                      bool /*unused*/) {
     value = config.value();
     return true;
 }
@@ -49,7 +57,8 @@ void marshallOption(RawConfig &config, const SemanticVersion &value) {
     config = value.toString();
 }
 
-bool unmarshallOption(SemanticVersion &value, const RawConfig &config, bool) {
+bool unmarshallOption(SemanticVersion &value, const RawConfig &config,
+                      bool /*unused*/) {
     if (auto result = SemanticVersion::parse(config.value())) {
         value = result.value();
         return true;
@@ -61,7 +70,7 @@ void marshallOption(RawConfig &config, const Key &value) {
     config = value.toString();
 }
 
-bool unmarshallOption(Key &value, const RawConfig &config, bool) {
+bool unmarshallOption(Key &value, const RawConfig &config, bool /*unused*/) {
     value = Key(config.value());
     return true;
 }
@@ -70,7 +79,7 @@ void marshallOption(RawConfig &config, const Color &value) {
     config = value.toString();
 }
 
-bool unmarshallOption(Color &value, const RawConfig &config, bool) {
+bool unmarshallOption(Color &value, const RawConfig &config, bool /*unused*/) {
     try {
         value = Color(config.value());
     } catch (const ColorParseException &) {
@@ -87,7 +96,8 @@ void marshallOption(RawConfig &config, const I18NString &value) {
     }
 }
 
-bool unmarshallOption(I18NString &value, const RawConfig &config, bool) {
+bool unmarshallOption(I18NString &value, const RawConfig &config,
+                      bool /*unused*/) {
     value.clear();
     value.set(config.value());
     if (!config.parent()) {

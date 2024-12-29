@@ -7,15 +7,20 @@
 #ifndef _FCITX_CONFIG_OPTION_H_
 #define _FCITX_CONFIG_OPTION_H_
 
-#include "fcitxconfig_export.h"
-
 #include <limits>
+#include <memory>
+#include <stdexcept>
 #include <string>
 #include <type_traits>
+#include <utility>
+#include <vector>
 #include <fcitx-config/marshallfunction.h>
 #include <fcitx-config/option_details.h> // IWYU pragma: export
 #include <fcitx-config/optiontypename.h>
 #include <fcitx-config/rawconfig.h>
+#include <fcitx-utils/flags.h>
+#include "fcitx-utils/key.h"
+#include "fcitxconfig_export.h"
 
 namespace fcitx {
 
@@ -55,15 +60,15 @@ public:
 template <typename T>
 struct NoConstrain {
     using Type = T;
-    bool check(const T &) const { return true; }
-    void dumpDescription(RawConfig &) const {}
+    bool check(const T & /*unused*/) const { return true; }
+    void dumpDescription(RawConfig & /*unused*/) const {}
 };
 
 /// Default Annotation with no options.
 struct NoAnnotation {
     bool skipDescription() { return false; }
     bool skipSave() { return false; }
-    void dumpDescription(RawConfig &) const {}
+    void dumpDescription(RawConfig & /*unused*/) const {}
 };
 
 /// Annotation to display a tooltip in configtool.
@@ -130,7 +135,7 @@ struct EnumAnnotation {
 struct HideInDescription {
     bool skipDescription() { return true; }
     bool skipSave() { return false; }
-    void dumpDescription(RawConfig &) const {}
+    void dumpDescription(RawConfig & /*unused*/) const {}
 };
 
 template <typename Annotation>
