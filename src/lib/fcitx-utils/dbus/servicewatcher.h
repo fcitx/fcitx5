@@ -7,6 +7,7 @@
 #ifndef _FCITX_UTILS_DBUS_SERVICEWATCHER_H_
 #define _FCITX_UTILS_DBUS_SERVICEWATCHER_H_
 
+#include <functional>
 #include <memory>
 #include <string>
 #include <fcitx-utils/dbus/bus.h>
@@ -18,14 +19,11 @@
 /// \file
 /// \brief API for service monitoring.
 
-namespace fcitx {
-namespace dbus {
+namespace fcitx::dbus {
 
-typedef std::function<void(const std::string &serviceName,
-                           const std::string &oldOwner,
-                           const std::string &newOwner)>
-    ServiceWatcherCallback;
-typedef HandlerTableEntry<ServiceWatcherCallback> ServiceWatcherEntry;
+using ServiceWatcherCallback = std::function<void(
+    const std::string &, const std::string &, const std::string &)>;
+using ServiceWatcherEntry = HandlerTableEntry<ServiceWatcherCallback>;
 
 class ServiceWatcherPrivate;
 
@@ -48,7 +46,6 @@ private:
     std::unique_ptr<ServiceWatcherPrivate> d_ptr;
     FCITX_DECLARE_PRIVATE(ServiceWatcher);
 };
-} // namespace dbus
-} // namespace fcitx
+} // namespace fcitx::dbus
 
 #endif // _FCITX_UTILS_DBUS_SERVICEWATCHER_H_

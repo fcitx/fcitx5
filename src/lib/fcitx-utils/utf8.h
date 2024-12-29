@@ -12,11 +12,16 @@
 /// \file
 /// \brief C++ Utility functions for handling utf8 strings.
 
+#include <sys/types.h>
+#include <cstddef>
+#include <cstdint>
 #include <iterator>
 #include <stdexcept>
 #include <string>
 #include <string_view>
+#include <utility>
 #include <fcitx-utils/cutf8.h>
+#include <fcitx-utils/macros.h>
 #include <fcitx-utils/misc.h>
 #include "fcitxutils_export.h"
 

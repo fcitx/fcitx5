@@ -7,9 +7,11 @@
 #ifndef _FCITX_UTILS_CONNECTABLEOBJECT_H_
 #define _FCITX_UTILS_CONNECTABLEOBJECT_H_
 
+#include <functional>
 #include <memory>
 #include <string>
 #include <utility>
+#include <fcitx-utils/macros.h>
 #include <fcitx-utils/metastring.h>
 #include <fcitx-utils/signals.h>
 #include "fcitxutils_export.h"

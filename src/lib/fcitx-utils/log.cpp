@@ -6,13 +6,23 @@
  */
 
 #include "log.h"
+#include <cstdlib>
+#include <exception>
+#include <iostream>
+#include <memory>
 #include <mutex>
+#include <ostream>
+#include <string>
 #include <type_traits>
 #include <unordered_set>
+#include <utility>
+#include <vector>
 #include <fmt/format.h>
+#include "macros.h"
 #include "stringutils.h"
 
 #if FMT_VERSION >= 50300
+#include <chrono>
 #include <fmt/chrono.h>
 #endif
 

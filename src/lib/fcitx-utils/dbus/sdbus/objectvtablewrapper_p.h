@@ -7,6 +7,8 @@
 #ifndef _FCITX_UTILS_DBUS_OBJECTVTABLEWRAPPER_P_H_
 #define _FCITX_UTILS_DBUS_OBJECTVTABLEWRAPPER_P_H_
 
+#include <stddef.h> // NOLINT(modernize-deprecated-headers)
+#include <stdint.h> // NOLINT(modernize-deprecated-headers)
 #include "sd-bus-wrap.h"
 
 #ifdef __cplusplus

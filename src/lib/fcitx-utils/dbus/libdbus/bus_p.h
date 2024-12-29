@@ -7,14 +7,25 @@
 #ifndef _FCITX_UTILS_DBUS_BUS_P_H_
 #define _FCITX_UTILS_DBUS_BUS_P_H_
 
+#include <memory>
+#include <string>
+#include <unordered_map>
+#include <utility>
+#include <dbus/dbus-shared.h>
 #include <dbus/dbus.h>
-#include "fcitx-utils/event.h"
+#include "../../event.h"
+#include "../../eventloopinterface.h"
+#include "../../handlertable.h"
 #include "../../log.h"
+#include "../../misc.h"
+#include "../../trackableobject.h"
 #include "../bus.h"
+#include "../matchrule.h"
+#include "../message.h"
+#include "../objectvtable.h"
 #include "servicenamecache.h"
 
-namespace fcitx {
-namespace dbus {
+namespace fcitx::dbus {
 
 FCITX_DECLARE_LOG_CATEGORY(libdbus_logcategory);
 
@@ -39,11 +50,11 @@ private:
 class DBusObjectVTableSlot : public Slot,
                              public TrackableObject<DBusObjectVTableSlot> {
 public:
-    DBusObjectVTableSlot(const std::string &path, const std::string &interface,
+    DBusObjectVTableSlot(std::string path, std::string interface,
                          ObjectVTableBase *obj,
                          ObjectVTableBasePrivate *objPriv)
-        : path_(path), interface_(interface), obj_(obj), objPriv_(objPriv),
-          xml_(getXml()) {}
+        : path_(std::move(path)), interface_(std::move(interface)), obj_(obj),
+          objPriv_(objPriv), xml_(getXml()) {}
 
     ~DBusObjectVTableSlot() {}
 
@@ -170,7 +181,6 @@ public:
     DBusPendingCall *reply_ = nullptr;
     TrackableObjectReference<BusPrivate> bus_;
 };
-} // namespace dbus
-} // namespace fcitx
+} // namespace fcitx::dbus
 
 #endif // _FCITX_UTILS_DBUS_BUS_P_H_

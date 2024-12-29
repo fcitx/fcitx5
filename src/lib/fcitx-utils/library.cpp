@@ -12,8 +12,14 @@
 #include <sys/stat.h>
 #include <unistd.h>
 #include <cerrno>
+#include <cstdlib>
 #include <cstring>
+#include <functional>
+#include <memory>
+#include <string>
+#include <utility>
 #include "config.h"
+#include "macros.h"
 #include "misc.h"
 #include "stringutils.h"
 

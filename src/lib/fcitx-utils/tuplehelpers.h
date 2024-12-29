@@ -7,7 +7,6 @@
 #ifndef _FCITX_UTILS_COMBINETUPLES_H_
 #define _FCITX_UTILS_COMBINETUPLES_H_
 
-#include <functional>
 #include <tuple>
 
 namespace fcitx {
@@ -51,9 +50,8 @@ struct MakeSequence<0, S...> {
 };
 
 template <typename... Args, typename F, int... S>
-auto callWithIndices(const F &func, Sequence<S...>,
+auto callWithIndices(const F &func, Sequence<S...> /*unused*/,
                      std::tuple<Args...> &tuple) {
-
     return func(std::get<S>(tuple)...);
 }
 

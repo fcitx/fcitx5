@@ -6,8 +6,18 @@
  */
 
 #include "semver.h"
+#include <algorithm>
 #include <charconv>
+#include <cstddef>
+#include <cstdint>
+#include <iterator>
+#include <optional>
 #include <string>
+#include <string_view>
+#include <system_error>
+#include <utility>
+#include <variant>
+#include <vector>
 #include <fmt/format.h>
 #include "charutils.h"
 #include "misc.h"

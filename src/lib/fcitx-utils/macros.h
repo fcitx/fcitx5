@@ -7,8 +7,6 @@
 #ifndef _FCITX_UTILS_MACROS_H_
 #define _FCITX_UTILS_MACROS_H_
 
-#include "fcitxutils_export.h"
-
 // steal some Qt macro here
 
 #define FCITX_DECLARE_PRIVATE(Class)                                           \

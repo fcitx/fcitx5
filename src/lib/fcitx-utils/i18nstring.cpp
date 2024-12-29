@@ -6,8 +6,11 @@
  */
 
 #include "i18nstring.h"
-#include "fcitx-utils/misc.h"
+#include <clocale>
+#include <cstddef>
+#include <string>
 #include "charutils.h"
+#include "misc.h"
 
 namespace fcitx {
 const std::string &I18NString::match(const std::string &locale_) const {

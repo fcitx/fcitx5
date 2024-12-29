@@ -7,12 +7,13 @@
 #ifndef _FCITX_UTILS_DBUS_BUS_P_H_
 #define _FCITX_UTILS_DBUS_BUS_P_H_
 
+#include <string>
+#include <utility>
 #include "../bus.h"
+#include "../message.h"
 #include "sd-bus-wrap.h"
 
-namespace fcitx {
-
-namespace dbus {
+namespace fcitx::dbus {
 
 int SDMessageCallback(sd_bus_message *m, void *userdata, sd_bus_error *);
 
@@ -29,9 +30,9 @@ private:
 
 class SDVTableSlot : public Slot {
 public:
-    SDVTableSlot(Bus *bus_, const std::string &path_,
-                 const std::string &interface_)
-        : slot_(nullptr), bus_(bus_), path_(path_), interface_(interface_) {}
+    SDVTableSlot(Bus *bus_, std::string path, std::string interface)
+        : bus_(bus_), path_(std::move(path)), interface_(std::move(interface)) {
+    }
 
     ~SDVTableSlot() {
         if (slot_) {
@@ -40,7 +41,7 @@ public:
         }
     }
 
-    sd_bus_slot *slot_;
+    sd_bus_slot *slot_ = nullptr;
     Bus *bus_;
     std::string path_;
     std::string interface_;
@@ -61,7 +62,6 @@ public:
     MessageCallback callback_;
     sd_bus_slot *slot_;
 };
-} // namespace dbus
-} // namespace fcitx
+} // namespace fcitx::dbus
 
 #endif // _FCITX_UTILS_DBUS_BUS_P_H_

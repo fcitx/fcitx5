@@ -8,12 +8,14 @@
 #define _FCITX_UTILS_DBUS_MESSAGE_H_
 
 #include <cassert>
+#include <cstddef>
 #include <cstdint>
 #include <functional>
 #include <memory>
 #include <string>
 #include <tuple>
 #include <type_traits>
+#include <utility>
 #include <vector>
 #include <fcitx-utils/dbus/message_details.h> // IWYU pragma: export
 #include <fcitx-utils/log.h>
@@ -21,6 +23,7 @@
 #include <fcitx-utils/metastring.h>
 #include <fcitx-utils/tuplehelpers.h>
 #include <fcitx-utils/unixfd.h>
+#include "fcitxutils_export.h"
 
 /// \addtogroup FcitxUtils
 /// \{
@@ -39,7 +42,7 @@ class Variant;
  */
 template <typename... Args>
 struct DBusStruct {
-    typedef std::tuple<Args...> tuple_type;
+    using tuple_type = std::tuple<Args...>;
 
     DBusStruct() = default;
 
@@ -133,7 +136,7 @@ private:
 };
 
 class Message;
-typedef std::function<bool(Message &message)> MessageCallback;
+using MessageCallback = std::function<bool(Message &)>;
 class Slot;
 
 enum class MessageType {
@@ -213,8 +216,8 @@ struct TupleMarshaller<Tuple, 1> {
 
 template <typename Tuple>
 struct TupleMarshaller<Tuple, 0> {
-    static void marshall(Message &, const Tuple &) {}
-    static void unmarshall(Message &, Tuple &) {}
+    static void marshall(Message & /*unused*/, const Tuple & /*unused*/) {}
+    static void unmarshall(Message & /*unused*/, Tuple & /*unused*/) {}
 };
 
 /**
@@ -364,9 +367,9 @@ public:
 
     template <typename... Args>
     Message &operator<<(const DBusStruct<Args...> &t) {
-        typedef DBusStruct<Args...> value_type;
-        typedef typename DBusContainerSignatureTraits<value_type>::signature
-            signature;
+        using value_type = DBusStruct<Args...>;
+        using signature =
+            typename DBusContainerSignatureTraits<value_type>::signature;
         if (*this << Container(Container::Type::Struct,
                                Signature(signature::data()))) {
             TupleMarshaller<typename value_type::tuple_type,
@@ -380,9 +383,9 @@ public:
 
     template <typename Key, typename Value>
     Message &operator<<(const DictEntry<Key, Value> &t) {
-        typedef DictEntry<Key, Value> value_type;
-        typedef typename DBusContainerSignatureTraits<value_type>::signature
-            signature;
+        using value_type = DictEntry<Key, Value>;
+        using signature =
+            typename DBusContainerSignatureTraits<value_type>::signature;
         if (*this << Container(Container::Type::DictEntry,
                                Signature(signature::data()))) {
             *this << t.key();
@@ -402,9 +405,9 @@ public:
 
     template <typename T>
     Message &operator<<(const std::vector<T> &t) {
-        typedef std::vector<T> value_type;
-        typedef typename DBusContainerSignatureTraits<value_type>::signature
-            signature;
+        using value_type = std::vector<T>;
+        using signature =
+            typename DBusContainerSignatureTraits<value_type>::signature;
         if (*this << Container(Container::Type::Array,
                                Signature(signature::data()))) {
             for (auto &v : t) {
@@ -453,10 +456,10 @@ public:
 
     template <typename... Args>
     Message &operator>>(DBusStruct<Args...> &t) {
-        typedef DBusStruct<Args...> value_type;
-        typedef typename value_type::tuple_type tuple_type;
-        typedef typename DBusContainerSignatureTraits<value_type>::signature
-            signature;
+        using value_type = DBusStruct<Args...>;
+        using tuple_type = typename value_type::tuple_type;
+        using signature =
+            typename DBusContainerSignatureTraits<value_type>::signature;
         if (*this >>
             Container(Container::Type::Struct, Signature(signature::data()))) {
             TupleMarshaller<tuple_type, sizeof...(Args)>::unmarshall(*this,
@@ -470,9 +473,9 @@ public:
 
     template <typename Key, typename Value>
     Message &operator>>(DictEntry<Key, Value> &t) {
-        typedef DictEntry<Key, Value> value_type;
-        typedef typename DBusContainerSignatureTraits<value_type>::signature
-            signature;
+        using value_type = DictEntry<Key, Value>;
+        using signature =
+            typename DBusContainerSignatureTraits<value_type>::signature;
         if (*this >> Container(Container::Type::DictEntry,
                                Signature(signature::data()))) {
             *this >> t.key();
@@ -492,9 +495,9 @@ public:
 
     template <typename T>
     Message &operator>>(std::vector<T> &t) {
-        typedef std::vector<T> value_type;
-        typedef typename DBusContainerSignatureTraits<value_type>::signature
-            signature;
+        using value_type = std::vector<T>;
+        using signature =
+            typename DBusContainerSignatureTraits<value_type>::signature;
         if (*this >>
             Container(Container::Type::Array, Signature(signature::data()))) {
             t.clear();

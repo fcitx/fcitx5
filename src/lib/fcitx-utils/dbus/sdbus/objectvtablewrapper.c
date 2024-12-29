@@ -5,7 +5,9 @@
  *
  */
 
+#include <stdint.h>
 #include "objectvtablewrapper_p.h"
+#include "sd-bus-wrap.h"
 
 sd_bus_vtable vtable_start() {
     sd_bus_vtable result = SD_BUS_VTABLE_START(0);

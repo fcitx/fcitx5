@@ -9,7 +9,7 @@
 
 #include <sys/stat.h>
 #include <cstdint>
-#include <utility>
+#include <type_traits>
 
 namespace fcitx {
 

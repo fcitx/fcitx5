@@ -16,14 +16,18 @@
 #include <list>
 #include <map>
 #include <memory>
+#include <optional>
 #include <set>
 #include <string>
 #include <tuple>
 #include <type_traits>
 #include <unordered_map>
 #include <unordered_set>
+#include <utility>
+#include <vector>
 #include <fcitx-utils/fs.h>
 #include <fcitx-utils/key.h>
+#include <fcitx-utils/macros.h>
 #include <fcitx-utils/metastring.h>
 #include <fcitx-utils/misc.h>
 #include <fcitx-utils/tuplehelpers.h>
@@ -265,7 +269,8 @@ private:
     }
 
     template <typename... Args, int... S>
-    void printWithIndices(Sequence<S...>, const std::tuple<Args...> &tuple) {
+    void printWithIndices(Sequence<S...> /*unused*/,
+                          const std::tuple<Args...> &tuple) {
         using swallow = int[];
         (void)swallow{
             0,

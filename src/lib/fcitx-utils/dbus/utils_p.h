@@ -10,8 +10,7 @@
 #include <string>
 #include <vector>
 
-namespace fcitx {
-namespace dbus {
+namespace fcitx::dbus {
 
 static inline std::string::const_iterator
 findMatched(std::string::const_iterator start, std::string::const_iterator end,
@@ -58,7 +57,6 @@ splitDBusSignature(const std::string &s) {
     return result;
 }
 
-} // namespace dbus
-} // namespace fcitx
+} // namespace fcitx::dbus
 
 #endif // _FCITX_UTILS_DBUS_UTILS_P_H_

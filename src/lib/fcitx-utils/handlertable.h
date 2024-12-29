@@ -7,10 +7,16 @@
 #ifndef _FCITX_UTILS_HANDLERTABLE_H_
 #define _FCITX_UTILS_HANDLERTABLE_H_
 
+#include <cstddef>
 #include <functional>
+#include <memory>
+#include <tuple>
 #include <unordered_map>
+#include <utility>
 #include <fcitx-utils/handlertable_details.h> // IWYU pragma: export
 #include <fcitx-utils/intrusivelist.h>
+#include <fcitx-utils/macros.h>
+#include <fcitx-utils/misc.h>
 
 namespace fcitx {
 

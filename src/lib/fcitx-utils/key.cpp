@@ -6,13 +6,21 @@
  */
 
 #include "key.h"
+#include <algorithm>
+#include <cstdint>
 #include <cstring>
+#include <exception>
+#include <string>
 #include <unordered_map>
+#include <vector>
 #include "charutils.h"
 #include "i18n.h"
 #include "keydata.h"
 #include "keynametable-compat.h"
 #include "keynametable.h"
+#include "keysym.h"
+#include "macros.h"
+#include "misc.h"
 #include "misc_p.h"
 #include "stringutils.h"
 #include "utf8.h"
@@ -679,16 +687,19 @@ KeySym Key::keySymFromUnicode(uint32_t unicode) {
     if ((unicode >= (FcitxKey_BackSpace & 0x7f) &&
          unicode <= (FcitxKey_Clear & 0x7f)) ||
         unicode == (FcitxKey_Return & 0x7f) ||
-        unicode == (FcitxKey_Escape & 0x7f))
+        unicode == (FcitxKey_Escape & 0x7f)) {
         return static_cast<KeySym>(unicode | 0xff00);
-    if (unicode == (FcitxKey_Delete & 0x7f))
+    }
+    if (unicode == (FcitxKey_Delete & 0x7f)) {
         return FcitxKey_Delete;
+    }
 
     /* Unicode non-symbols and code points outside Unicode planes */
     if ((unicode >= 0xd800 && unicode <= 0xdfff) ||
         (unicode >= 0xfdd0 && unicode <= 0xfdef) || unicode > 0x10ffff ||
-        (unicode & 0xfffe) == 0xfffe)
+        (unicode & 0xfffe) == 0xfffe) {
         return FcitxKey_None;
+    }
 
     /* Binary search in table */
     while (max >= min) {

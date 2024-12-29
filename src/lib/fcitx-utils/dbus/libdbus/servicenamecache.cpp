@@ -5,6 +5,10 @@
  *
  */
 #include "servicenamecache.h"
+#include <cassert>
+#include <memory>
+#include <string>
+#include <utility>
 #include "../servicewatcher.h"
 #include "bus_p.h"
 

@@ -10,6 +10,9 @@
 #if defined(__COVERITY__) && !defined(__INCLUDE_LEVEL__)
 #define __INCLUDE_LEVEL__ 2
 #endif
-#include <systemd/sd-bus.h>
+#include <systemd/sd-bus-protocol.h> // IWYU pragma: export
+#include <systemd/sd-bus-vtable.h>   // IWYU pragma: export
+#include <systemd/sd-bus.h>          // IWYU pragma: export
+#include <systemd/sd-event.h>        // IWYU pragma: export
 
 #endif // _FCITX_UTILS_DBUS_SD_BUS_WRAP_H_

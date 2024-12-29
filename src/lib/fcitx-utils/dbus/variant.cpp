@@ -6,7 +6,7 @@
  */
 #include "variant.h"
 #include <shared_mutex>
-#include "fcitx-utils/misc_p.h"
+#include "../misc_p.h"
 
 namespace fcitx::dbus {
 

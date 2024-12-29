@@ -7,10 +7,13 @@
 #include "misc.h"
 #include <sys/wait.h>
 #include <unistd.h>
+#include <cstdio>
+#include <string>
+#include <vector>
 #include <fmt/format.h>
-#include "fcitx-utils/fs.h"
-#include "fcitx-utils/misc_p.h"
+#include "fs.h"
 #include "log.h"
+#include "misc_p.h"
 
 #if defined(LIBKVM_FOUND)
 #include <fcntl.h>

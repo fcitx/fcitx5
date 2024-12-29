@@ -4,18 +4,36 @@
  * SPDX-License-Identifier: LGPL-2.1-or-later
  *
  */
-#include "config.h"
-
+#include "../../dbus/bus.h"
+#include <sys/types.h>
 #include <unistd.h>
+#include <cstdint>
+#include <cstdlib>
+#include <cstring>
+#include <exception>
 #include <memory>
 #include <stdexcept>
+#include <string>
+#include <unordered_map>
 #include <utility>
-#include "fcitx-utils/event.h"
-#include "fcitx-utils/misc_p.h"
+#include <vector>
+#include <dbus/dbus-protocol.h>
+#include <dbus/dbus-shared.h>
+#include <dbus/dbus.h>
 #include "../../charutils.h"
+#include "../../dbus/matchrule.h"
+#include "../../dbus/message.h"
+#include "../../dbus/objectvtable.h"
+#include "../../event.h"
+#include "../../eventloopinterface.h"
+#include "../../flags.h"
 #include "../../log.h"
+#include "../../macros.h"
+#include "../../misc_p.h"
 #include "../../stringutils.h"
+#include "../../trackableobject.h"
 #include "bus_p.h"
+#include "config.h"
 #include "message_p.h"
 #include "objectvtable_p_libdbus.h"
 
@@ -27,7 +45,7 @@ class BusWatches : public std::enable_shared_from_this<BusWatches> {
     struct Private {};
 
 public:
-    BusWatches(BusPrivate &bus, Private) : bus_(bus.watch()) {}
+    BusWatches(BusPrivate &bus, Private /*unused*/) : bus_(bus.watch()) {}
 
     void addWatch(DBusWatch *watch) {
         watches_[watch] = std::make_shared<DBusWatch *>(watch);
@@ -46,7 +64,7 @@ public:
 
         int fd = dbus_watch_get_unix_fd(watches_.begin()->first);
         IOEventFlags flags;
-        for (auto [watch, _] : watches_) {
+        for (const auto &[watch, _] : watches_) {
             if (!dbus_watch_get_enabled(watch)) {
                 continue;
             }
@@ -76,16 +94,17 @@ public:
                     // Create a copy of watcher pointers, so we can safely
                     // remove the watcher during the loop.
                     std::vector<std::weak_ptr<DBusWatch *>> watchesView;
-                    for (auto [_, watchRef] : watches_) {
+                    watchesView.reserve(watches_.size());
+                    for (const auto &[_, watchRef] : watches_) {
                         watchesView.push_back(watchRef);
                     }
 
-                    for (auto watchRef : watchesView) {
+                    for (const auto &watchRef : watchesView) {
                         auto watchStrongRef = watchRef.lock();
                         if (!watchStrongRef) {
                             continue;
                         }
-                        auto watch = *watchStrongRef;
+                        auto *watch = *watchStrongRef;
                         if (!dbus_watch_get_enabled(watch)) {
                             continue;
                         }
@@ -135,8 +154,8 @@ private:
     std::unique_ptr<EventSourceIO> ioEvent_;
 };
 
-DBusHandlerResult DBusMessageCallback(DBusConnection *, DBusMessage *message,
-                                      void *userdata) {
+DBusHandlerResult DBusMessageCallback(DBusConnection * /*unused*/,
+                                      DBusMessage *message, void *userdata) {
     auto *bus = static_cast<BusPrivate *>(userdata);
     if (!bus) {
         return DBUS_HANDLER_RESULT_NOT_YET_HANDLED;
@@ -173,7 +192,7 @@ DBusHandlerResult DBusMessageCallback(DBusConnection *, DBusMessage *message,
     } catch (const std::exception &e) {
         // some abnormal things threw
         FCITX_ERROR() << e.what();
-        abort();
+        std::abort();
     }
     return DBUS_HANDLER_RESULT_NOT_YET_HANDLED;
 }
@@ -319,7 +338,8 @@ bool BusPrivate::objectVTableCallback(Message &message) {
     }
     if (message.interface() == "org.freedesktop.DBus.Properties") {
         if (message.member() == "Get" && message.signature() == "ss") {
-            std::string interfaceName, propertyName;
+            std::string interfaceName;
+            std::string propertyName;
             message >> interfaceName >> propertyName;
             if (auto *slot = findSlot(message.path(), interfaceName)) {
                 auto *property = slot->obj_->findProperty(propertyName);
@@ -338,7 +358,8 @@ bool BusPrivate::objectVTableCallback(Message &message) {
                 return true;
             }
         } else if (message.member() == "Set" && message.signature() == "ssv") {
-            std::string interfaceName, propertyName;
+            std::string interfaceName;
+            std::string propertyName;
             message >> interfaceName >> propertyName;
             if (auto *slot = findSlot(message.path(), interfaceName)) {
                 auto *property = slot->obj_->findProperty(propertyName);
@@ -460,7 +481,8 @@ std::string addressByType(BusType type) {
         }
 
         {
-            uid_t uid = getuid(), euid = geteuid();
+            uid_t uid = getuid();
+            uid_t euid = geteuid();
             if (uid != euid || euid != 0) {
                 return addressByType(BusType::Session);
             }
@@ -536,7 +558,7 @@ Message Bus::createSignal(const char *path, const char *interface,
 
 void DBusToggleWatch(DBusWatch *watch, void *data) {
     auto *bus = static_cast<BusPrivate *>(data);
-    if (auto watchers =
+    if (auto *watchers =
             findValue(bus->ioWatchers_, dbus_watch_get_unix_fd(watch))) {
         watchers->get()->refreshWatch();
     }
@@ -564,7 +586,7 @@ void DBusRemoveWatch(DBusWatch *watch, void *data) {
         return;
     }
 
-    if (iter->second.get()->removeWatch(watch)) {
+    if (iter->second->removeWatch(watch)) {
         bus->ioWatchers_.erase(iter);
     }
 }
@@ -581,12 +603,15 @@ dbus_bool_t DBusAddTimeout(DBusTimeout *timeout, void *data) {
         bus->timeWatchers_.emplace(
             timeout,
             bus->loop_->addTimeEvent(
-                CLOCK_MONOTONIC, now(CLOCK_MONOTONIC) + interval * 1000ull, 0,
+                CLOCK_MONOTONIC, now(CLOCK_MONOTONIC) + interval * 1000ULL, 0,
                 [timeout, ref](EventSourceTime *event, uint64_t) {
+                    // Copy is required since the lambda may be deleted.
+                    // NOLINTBEGIN(performance-unnecessary-copy-initialization)
                     const auto refPivot = ref;
+                    // NOLINTEND(performance-unnecessary-copy-initialization)
                     if (dbus_timeout_get_enabled(timeout)) {
                         event->setNextInterval(
-                            dbus_timeout_get_interval(timeout) * 1000ull);
+                            dbus_timeout_get_interval(timeout) * 1000ULL);
                         event->setOneShot();
                     }
                     dbus_timeout_handle(timeout);
@@ -611,8 +636,8 @@ void DBusToggleTimeout(DBusTimeout *timeout, void *data) {
     DBusAddTimeout(timeout, data);
 }
 
-void DBusDispatchStatusCallback(DBusConnection *, DBusDispatchStatus status,
-                                void *userdata) {
+void DBusDispatchStatusCallback(DBusConnection * /*unused*/,
+                                DBusDispatchStatus status, void *userdata) {
     auto *bus = static_cast<BusPrivate *>(userdata);
     if (status == DBUS_DISPATCH_DATA_REMAINS) {
         bus->deferEvent_->setOneShot();
@@ -696,7 +721,7 @@ std::unique_ptr<Slot> Bus::addFilter(MessageCallback callback) {
     return slot;
 }
 
-DBusHandlerResult DBusObjectPathMessageCallback(DBusConnection *,
+DBusHandlerResult DBusObjectPathMessageCallback(DBusConnection * /*unused*/,
                                                 DBusMessage *message,
                                                 void *userdata) {
     auto *slot = static_cast<DBusObjectSlot *>(userdata);
@@ -727,9 +752,9 @@ std::unique_ptr<Slot> Bus::addObject(const std::string &path,
     return slot;
 }
 
-DBusHandlerResult DBusObjectPathVTableMessageCallback(DBusConnection *,
-                                                      DBusMessage *message,
-                                                      void *userdata) {
+DBusHandlerResult
+DBusObjectPathVTableMessageCallback(DBusConnection * /*unused*/,
+                                    DBusMessage *message, void *userdata) {
     auto *bus = static_cast<BusPrivate *>(userdata);
     if (!bus) {
         return DBUS_HANDLER_RESULT_NOT_YET_HANDLED;
@@ -743,7 +768,7 @@ DBusHandlerResult DBusObjectPathVTableMessageCallback(DBusConnection *,
 }
 
 bool Bus::addObjectVTable(const std::string &path, const std::string &interface,
-                          ObjectVTableBase &obj) {
+                          ObjectVTableBase &vtable) {
     FCITX_D();
     // Check if interface exists.
     for (auto &item : d->objectRegistration_.view(path)) {
@@ -754,8 +779,8 @@ bool Bus::addObjectVTable(const std::string &path, const std::string &interface,
         }
     }
 
-    auto slot = std::make_unique<DBusObjectVTableSlot>(path, interface, &obj,
-                                                       obj.d_func());
+    auto slot = std::make_unique<DBusObjectVTableSlot>(path, interface, &vtable,
+                                                       vtable.d_func());
 
     auto handler = d->objectRegistration_.add(path, slot->watch());
     if (!handler) {
@@ -765,7 +790,7 @@ bool Bus::addObjectVTable(const std::string &path, const std::string &interface,
     slot->handler_ = std::move(handler);
     slot->bus_ = d->watch();
 
-    obj.setSlot(slot.release());
+    vtable.setSlot(slot.release());
     return true;
 }
 
@@ -788,14 +813,11 @@ bool Bus::requestName(const std::string &name, Flags<RequestNameFlag> flags) {
         ((flags & RequestNameFlag::Queue) ? 0 : DBUS_NAME_FLAG_DO_NOT_QUEUE);
     auto ret =
         dbus_bus_request_name(d->conn_.get(), name.c_str(), d_flags, nullptr);
-    if (ret == DBUS_REQUEST_NAME_REPLY_PRIMARY_OWNER ||
-        ret == DBUS_REQUEST_NAME_REPLY_ALREADY_OWNER ||
-        ((ret == DBUS_REQUEST_NAME_REPLY_IN_QUEUE ||
-          ret == DBUS_REQUEST_NAME_REPLY_EXISTS) &&
-         (flags & RequestNameFlag::Queue))) {
-        return true;
-    }
-    return false;
+    return ret == DBUS_REQUEST_NAME_REPLY_PRIMARY_OWNER ||
+           ret == DBUS_REQUEST_NAME_REPLY_ALREADY_OWNER ||
+           ((ret == DBUS_REQUEST_NAME_REPLY_IN_QUEUE ||
+             ret == DBUS_REQUEST_NAME_REPLY_EXISTS) &&
+            (flags & RequestNameFlag::Queue));
 }
 
 bool Bus::releaseName(const std::string &name) {

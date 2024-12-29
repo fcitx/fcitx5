@@ -20,6 +20,7 @@
 #include <vector>
 #include <fcitx-utils/flags.h>
 #include <fcitx-utils/keysym.h>
+#include <fcitx-utils/macros.h>
 #include "fcitxutils_export.h"
 
 namespace fcitx {

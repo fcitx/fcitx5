@@ -5,9 +5,11 @@
  *
  */
 
-#include <unordered_set>
+#include <memory>
+#include <mutex>
+#include <string>
 #include <utility>
-#include "../../log.h"
+#include "../../macros.h"
 #include "../../stringutils.h"
 #include "../objectvtable.h"
 #include "../utils_p.h"

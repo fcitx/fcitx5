@@ -18,8 +18,7 @@
 /// \file
 /// \brief API for DBus matching rule.
 
-namespace fcitx {
-namespace dbus {
+namespace fcitx::dbus {
 
 class MatchRulePrivate;
 class Message;
@@ -71,8 +70,7 @@ private:
     FCITX_DECLARE_PRIVATE(MatchRule);
 };
 
-} // namespace dbus
-} // namespace fcitx
+} // namespace fcitx::dbus
 
 namespace std {
 

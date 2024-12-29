@@ -7,14 +7,16 @@
 #ifndef _FCITX_UTILS_STRINGUTILS_DETAIL_H_
 #define _FCITX_UTILS_STRINGUTILS_DETAIL_H_
 
-#include <algorithm>
+// IWYU pragma: private, include "stringutils.h"
+
 #include <cassert>
 #include <cstdio>
 #include <cstring>
-#include <iostream>
+#include <initializer_list>
 #include <string>
 #include <string_view>
-#include <tuple>
+#include <type_traits>
+#include <utility>
 #include "fcitxutils_export.h"
 
 namespace fcitx::stringutils::details {

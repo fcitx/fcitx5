@@ -5,10 +5,17 @@
  *
  */
 #include "inputbuffer.h"
+#include <cstddef>
+#include <cstdint>
+#include <iterator>
+#include <memory>
 #include <stdexcept>
+#include <string>
 #include <string_view>
+#include <utility>
 #include <vector>
-#include "fcitx-utils/utf8.h"
+#include "macros.h"
+#include "utf8.h"
 
 namespace fcitx {
 
@@ -157,7 +164,8 @@ void InputBuffer::erase(size_t from, size_t to) {
             return;
         }
 
-        size_t fromByChar, lengthByChar;
+        size_t fromByChar;
+        size_t lengthByChar;
         if (d->isAsciiOnly()) {
             fromByChar = from;
             lengthByChar = to - from;

@@ -11,6 +11,7 @@
 #include <libintl.h>
 #include "log.h"
 #include "standardpath.h"
+#include "stringutils.h"
 
 namespace fcitx {
 

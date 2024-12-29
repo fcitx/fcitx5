@@ -8,6 +8,7 @@
 #define _FCITX_UTILS_EVENT_H_
 
 #include <cstdint>
+#include <functional>
 #include <memory>
 #include <fcitx-utils/eventloopinterface.h>
 #include <fcitx-utils/flags.h>

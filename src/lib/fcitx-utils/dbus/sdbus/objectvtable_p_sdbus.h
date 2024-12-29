@@ -8,18 +8,16 @@
 #define _FCITX_UTILS_DBUS_OBJECTVTABLE_P_SDBUS_H_
 
 #include <map>
-#include <vector>
+#include <memory>
+#include <string>
 #include "../objectvtable.h"
-#include "message_p.h"
-#include "objectvtablewrapper_p.h"
+#include "sd-bus-wrap.h"
 
-namespace fcitx {
-namespace dbus {
+namespace fcitx::dbus {
 class SDVTableSlot;
 
 class ObjectVTableBasePrivate {
 public:
-    ObjectVTableBasePrivate() {}
     ~ObjectVTableBasePrivate();
 
     const sd_bus_vtable *toSDBusVTable(ObjectVTableBase *q);
@@ -31,7 +29,6 @@ public:
     Message *msg_ = nullptr;
 };
 
-} // namespace dbus
-} // namespace fcitx
+} // namespace fcitx::dbus
 
 #endif // _FCITX_UTILS_DBUS_OBJECTVTABLE_SDBUS_P_H_

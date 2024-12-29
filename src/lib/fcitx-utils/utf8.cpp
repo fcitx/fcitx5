@@ -6,6 +6,8 @@
  */
 
 #include "utf8.h"
+#include <cstdint>
+#include <string>
 #include "cutf8.h"
 
 namespace fcitx::utf8 {

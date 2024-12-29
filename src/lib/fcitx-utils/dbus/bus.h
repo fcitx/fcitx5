@@ -7,13 +7,16 @@
 #ifndef _FCITX_UTILS_DBUS_BUS_H_
 #define _FCITX_UTILS_DBUS_BUS_H_
 
+#include <cstdint>
+#include <memory>
 #include <string>
-#include <vector>
 #include <fcitx-utils/dbus/matchrule.h>
 #include <fcitx-utils/dbus/message.h>
 #include <fcitx-utils/dbus/objectvtable.h>
 #include <fcitx-utils/event.h>
-#include "fcitx-utils/macros.h"
+#include <fcitx-utils/flags.h>
+#include <fcitx-utils/macros.h>
+#include "fcitxutils_export.h"
 
 /// \addtogroup FcitxUtils
 /// \{
@@ -90,7 +93,7 @@ public:
      * @return registration succeeds or not.
      */
     bool addObjectVTable(const std::string &path, const std::string &interface,
-                         ObjectVTableBase &obj);
+                         ObjectVTableBase &vtable);
 
     /// Create a new signal message
     Message createSignal(const char *path, const char *interface,

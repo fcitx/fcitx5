@@ -7,7 +7,6 @@
 #ifndef _FCITX_UTILS_I18NSTRING_H_
 #define _FCITX_UTILS_I18NSTRING_H_
 
-#include <locale>
 #include <string>
 #include <unordered_map>
 #include "fcitxutils_export.h"

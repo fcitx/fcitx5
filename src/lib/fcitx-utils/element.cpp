@@ -6,8 +6,9 @@
  */
 
 #include "element.h"
-#include <algorithm>
-#include <unordered_map>
+#include <list>
+#include <memory>
+#include "macros.h"
 #include "misc_p.h"
 
 namespace fcitx {

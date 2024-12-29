@@ -10,6 +10,7 @@
 
 #include <functional>
 #include <memory>
+#include <utility>
 #include <fcitx-utils/macros.h>
 #include <fcitx-utils/trackableobject.h>
 #include "fcitxutils_export.h"

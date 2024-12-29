@@ -9,7 +9,7 @@
 
 #include <initializer_list>
 #include <type_traits>
-#include "fcitx-utils/macros.h"
+#include <fcitx-utils/macros.h>
 
 /// \addtogroup FcitxUtils
 /// \{

@@ -10,10 +10,10 @@
 #include <memory>
 #include <string>
 #include <unordered_map>
+#include <utility>
 #include "../../handlertable.h"
 
-namespace fcitx {
-namespace dbus {
+namespace fcitx::dbus {
 
 class Bus;
 class ServiceWatcher;
@@ -34,7 +34,6 @@ private:
         watcherMap_;
 };
 
-} // namespace dbus
-} // namespace fcitx
+} // namespace fcitx::dbus
 
 #endif // _FCITX_UTILS_DBUS_LIBDBUS_SERVICENAMECACHE_P_H_

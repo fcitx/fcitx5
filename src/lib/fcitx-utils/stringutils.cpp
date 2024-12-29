@@ -5,9 +5,16 @@
  *
  */
 #include "stringutils.h"
+#include <cassert>
 #include <climits>
 #include <cstring>
+#include <initializer_list>
+#include <optional>
 #include <string>
+#include <string_view>
+#include <utility>
+#include <vector>
+#include "fcitxutils_export.h"
 #include "charutils.h"
 #include "macros.h"
 

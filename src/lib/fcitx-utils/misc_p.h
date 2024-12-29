@@ -10,13 +10,16 @@
 #include <fcntl.h>
 #include <unistd.h>
 #include <algorithm>
+#include <cstdint>
 #include <cstdlib>
 #include <cstring>
+#include <functional>
+#include <initializer_list>
 #include <list>
 #include <string>
-#include <type_traits>
 #include <unordered_map>
-#include <config.h>
+#include <utility>
+#include "config.h"
 #include "endian_p.h"
 
 namespace fcitx {

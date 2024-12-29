@@ -10,6 +10,7 @@
 #include <unistd.h>
 #include <cerrno>
 #include <stdexcept>
+#include <utility>
 
 namespace fcitx {
 

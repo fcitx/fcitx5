@@ -14,9 +14,9 @@
 #include <stdexcept>
 #include <utility>
 #include <sys/epoll.h>
-#include "fcitx-utils/macros.h"
 #include "eventloopinterface.h"
 #include "log.h"
+#include "macros.h"
 #include "stringutils.h"
 
 #if defined(__COVERITY__) && !defined(__INCLUDE_LEVEL__)
@@ -300,7 +300,7 @@ int TimeEventCallback(sd_event_source * /*unused*/, uint64_t usec,
     } catch (const std::exception &e) {
         // some abnormal things threw
         FCITX_ERROR() << e.what();
-        abort();
+        std::abort();
     }
     return -1;
 }
@@ -331,7 +331,7 @@ int StaticEventCallback(sd_event_source * /*unused*/, void *userdata) {
     } catch (const std::exception &e) {
         // some abnormal things threw
         FCITX_ERROR() << e.what();
-        abort();
+        std::abort();
     }
     return -1;
 }

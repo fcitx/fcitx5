@@ -204,7 +204,8 @@ char *fcitx_utf8_get_nth_char(const char *s, uint32_t n) {
 static uint32_t fcitx_utf8_get_char_extended(const char *s, int max_len,
                                              int *plen) {
     const auto *p = reinterpret_cast<const unsigned char *>(s);
-    int i, len;
+    int i;
+    int len;
     uint32_t wc = static_cast<unsigned char>(*p);
 
     if (wc < 0x80) {

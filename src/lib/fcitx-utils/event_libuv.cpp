@@ -143,7 +143,7 @@ bool EventLoopLibUV::exec() {
                     event->callback_(event);
                 } catch (const std::exception &e) {
                     // some abnormal things threw
-                    abort();
+                    std::abort();
                 }
             }
         }

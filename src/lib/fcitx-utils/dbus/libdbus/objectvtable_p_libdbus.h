@@ -8,17 +8,15 @@
 #define _FCITX_UTILS_DBUS_OBJECTVTABLE_P_H_
 
 #include <map>
-#include <vector>
+#include <memory>
+#include <string>
 #include "../objectvtable.h"
-#include "message_p.h"
 
-namespace fcitx {
-namespace dbus {
+namespace fcitx::dbus {
 class DBusObjectVTableSlot;
 
 class ObjectVTableBasePrivate {
 public:
-    ObjectVTableBasePrivate() {}
     ~ObjectVTableBasePrivate();
 
     const std::string &getXml(ObjectVTableBase *q);
@@ -29,7 +27,6 @@ public:
     std::unique_ptr<DBusObjectVTableSlot> slot_;
     Message *msg_ = nullptr;
 };
-} // namespace dbus
-} // namespace fcitx
+} // namespace fcitx::dbus
 
 #endif // _FCITX_UTILS_DBUS_OBJECTVTABLE_P_H_

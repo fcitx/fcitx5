@@ -7,25 +7,27 @@
 #ifndef _FCITX_UTILS_DBUS_MESSAGE_DETAILS_H_
 #define _FCITX_UTILS_DBUS_MESSAGE_DETAILS_H_
 
+// IWYU pragma: private, include "message.h"
+
 #include <cstdint>
+#include <string>
 #include <tuple>
+#include <utility>
 #include <vector>
 #include <fcitx-utils/metastring.h>
 #include <fcitx-utils/tuplehelpers.h>
 #include <fcitx-utils/unixfd.h>
 
-namespace fcitx {
-
-namespace dbus {
+namespace fcitx::dbus {
 
 template <typename T>
 struct MakeTupleIfNeeded {
-    typedef std::tuple<T> type;
+    using type = std::tuple<T>;
 };
 
 template <typename... Args>
 struct MakeTupleIfNeeded<std::tuple<Args...>> {
-    typedef std::tuple<Args...> type;
+    using type = std::tuple<Args...>;
 };
 
 template <typename T>
@@ -33,12 +35,12 @@ using MakeTupleIfNeededType = typename MakeTupleIfNeeded<T>::type;
 
 template <typename T>
 struct RemoveTupleIfUnnecessary {
-    typedef T type;
+    using type = T;
 };
 
 template <typename Arg>
 struct RemoveTupleIfUnnecessary<std::tuple<Arg>> {
-    typedef Arg type;
+    using type = Arg;
 };
 
 template <typename T>
@@ -62,12 +64,12 @@ struct DBusSignatureToBasicType;
 #define DBUS_SIGNATURE_TRAITS(TYPENAME, SIG)                                   \
     template <>                                                                \
     struct DBusSignatureTraits<TYPENAME> {                                     \
-        typedef MetaString<SIG> signature;                                     \
+        using signature = MetaString<SIG>;                                     \
     };                                                                         \
                                                                                \
     template <>                                                                \
     struct DBusSignatureToBasicType<SIG> {                                     \
-        typedef TYPENAME type;                                                 \
+        using type = TYPENAME;                                                 \
     };
 
 DBUS_SIGNATURE_TRAITS(std::string, 's');
@@ -86,47 +88,44 @@ DBUS_SIGNATURE_TRAITS(Variant, 'v');
 
 template <typename K, typename V>
 struct DBusSignatureTraits<std::pair<K, V>> {
-    typedef ConcatMetaStringType<typename DBusSignatureTraits<K>::signature,
-                                 typename DBusSignatureTraits<V>::signature>
-        signature;
+    using signature =
+        ConcatMetaStringType<typename DBusSignatureTraits<K>::signature,
+                             typename DBusSignatureTraits<V>::signature>;
 };
 
 template <typename Arg, typename... Args>
 struct DBusSignatureTraits<std::tuple<Arg, Args...>> {
-    typedef ConcatMetaStringType<
+    using signature = ConcatMetaStringType<
         typename DBusSignatureTraits<Arg>::signature,
-        typename DBusSignatureTraits<std::tuple<Args...>>::signature>
-        signature;
+        typename DBusSignatureTraits<std::tuple<Args...>>::signature>;
 };
 
 template <>
 struct DBusSignatureTraits<std::tuple<>> {
-    typedef MetaString<> signature;
+    using signature = MetaString<>;
 };
 
 template <typename... Args>
 struct DBusSignatureTraits<DBusStruct<Args...>> {
-    typedef ConcatMetaStringType<
+    using signature = ConcatMetaStringType<
         MetaString<'('>,
         typename DBusSignatureTraits<std::tuple<Args...>>::signature,
-        MetaString<')'>>
-        signature;
+        MetaString<')'>>;
 };
 
 template <typename Key, typename Value>
 struct DBusSignatureTraits<DictEntry<Key, Value>> {
-    typedef ConcatMetaStringType<
+    using signature = ConcatMetaStringType<
         MetaString<'{'>,
         typename DBusSignatureTraits<std::tuple<Key, Value>>::signature,
-        MetaString<'}'>>
-        signature;
+        MetaString<'}'>>;
 };
 
 template <typename T>
 struct DBusSignatureTraits<std::vector<T>> {
-    typedef ConcatMetaStringType<MetaString<'a'>,
-                                 typename DBusSignatureTraits<T>::signature>
-        signature;
+    using signature =
+        ConcatMetaStringType<MetaString<'a'>,
+                             typename DBusSignatureTraits<T>::signature>;
 };
 
 template <typename T>
@@ -134,19 +133,19 @@ struct DBusContainerSignatureTraits;
 
 template <typename... Args>
 struct DBusContainerSignatureTraits<DBusStruct<Args...>> {
-    typedef
-        typename DBusSignatureTraits<std::tuple<Args...>>::signature signature;
+    using signature =
+        typename DBusSignatureTraits<std::tuple<Args...>>::signature;
 };
 
 template <typename Key, typename Value>
 struct DBusContainerSignatureTraits<DictEntry<Key, Value>> {
-    typedef typename DBusSignatureTraits<std::tuple<Key, Value>>::signature
-        signature;
+    using signature =
+        typename DBusSignatureTraits<std::tuple<Key, Value>>::signature;
 };
 
 template <typename T>
 struct DBusContainerSignatureTraits<std::vector<T>> {
-    typedef typename DBusSignatureTraits<T>::signature signature;
+    using signature = typename DBusSignatureTraits<T>::signature;
 };
 
 template <char left, char right, int level, typename S>
@@ -154,54 +153,51 @@ struct SkipTillNext;
 
 template <char left, char right, int level, char first, char... next>
 struct SkipTillNext<left, right, level, MetaString<first, next...>> {
-    typedef typename SkipTillNext<left, right, level, MetaString<next...>>::type
-        type;
-    typedef ConcatMetaStringType<
+    using type =
+        typename SkipTillNext<left, right, level, MetaString<next...>>::type;
+    using str = ConcatMetaStringType<
         MetaString<first>,
-        typename SkipTillNext<left, right, level, MetaString<next...>>::str>
-        str;
+        typename SkipTillNext<left, right, level, MetaString<next...>>::str>;
 };
 
 template <char left, char right, int level, char... next>
 struct SkipTillNext<left, right, level, MetaString<left, next...>> {
-    typedef
-        typename SkipTillNext<left, right, level + 1, MetaString<next...>>::type
-            type;
-    typedef ConcatMetaStringType<
-        MetaString<left>,
-        typename SkipTillNext<left, right, level + 1, MetaString<next...>>::str>
-        str;
+    using type = typename SkipTillNext<left, right, level + 1,
+                                       MetaString<next...>>::type;
+    using str =
+        ConcatMetaStringType<MetaString<left>,
+                             typename SkipTillNext<left, right, level + 1,
+                                                   MetaString<next...>>::str>;
 };
 
 template <char left, char right, int level, char... next>
 struct SkipTillNext<left, right, level, MetaString<right, next...>> {
-    typedef
-        typename SkipTillNext<left, right, level - 1, MetaString<next...>>::type
-            type;
-    typedef ConcatMetaStringType<
-        MetaString<right>,
-        typename SkipTillNext<left, right, level - 1, MetaString<next...>>::str>
-        str;
+    using type = typename SkipTillNext<left, right, level - 1,
+                                       MetaString<next...>>::type;
+    using str =
+        ConcatMetaStringType<MetaString<right>,
+                             typename SkipTillNext<left, right, level - 1,
+                                                   MetaString<next...>>::str>;
 };
 
 template <char left, char right, char first, char... next>
 struct SkipTillNext<left, right, 0, MetaString<first, next...>> {
-    typedef MetaString<first, next...> type;
-    typedef MetaString<> str;
+    using type = MetaString<first, next...>;
+    using str = MetaString<>;
 };
 
 // This is required to resolve ambiguity like (i)(i), when a '(' appear
 // immediate after a closed ')'.
 template <char left, char right, char... next>
 struct SkipTillNext<left, right, 0, MetaString<left, next...>> {
-    typedef MetaString<left, next...> type;
-    typedef MetaString<> str;
+    using type = MetaString<left, next...>;
+    using str = MetaString<>;
 };
 
 template <char left, char right>
 struct SkipTillNext<left, right, 0, MetaString<>> {
-    typedef MetaString<> type;
-    typedef MetaString<> str;
+    using type = MetaString<>;
+    using str = MetaString<>;
 };
 
 template <char... c>
@@ -233,15 +229,15 @@ struct DBusSignatureGetNextSignature;
 
 template <char first, char... nextChar>
 struct DBusSignatureGetNextSignature<first, nextChar...> {
-    typedef typename DBusSignatureToType<first>::type cur;
-    typedef typename DBusSignatureToType<nextChar...>::type next;
+    using cur = typename DBusSignatureToType<first>::type;
+    using next = typename DBusSignatureToType<nextChar...>::type;
 };
 
 template <char... nextChar>
 struct DBusSignatureGetNextSignature<'a', nextChar...> {
-    typedef DBusSignatureGetNextSignature<nextChar...> SplitType;
-    typedef std::vector<typename SplitType::cur> cur;
-    typedef typename SplitType::next next;
+    using SplitType = DBusSignatureGetNextSignature<nextChar...>;
+    using cur = std::vector<typename SplitType::cur>;
+    using next = typename SplitType::next;
 };
 
 template <int level, typename S>
@@ -252,42 +248,37 @@ using SkipTillNextBrace = SkipTillNext<'{', '}', level, S>;
 
 template <char... nextChar>
 struct DBusSignatureGetNextSignature<'(', nextChar...> {
-    typedef TupleToDBusStruct<
-        DBusMetaStringSignatureToTuple<RemoveMetaStringTailType<
-            typename SkipTillNextParentheses<1, MetaString<nextChar...>>::str>>>
-        cur;
-    typedef DBusMetaStringSignatureToTuple<
-        typename SkipTillNextParentheses<1, MetaString<nextChar...>>::type>
-        next;
+    using cur = TupleToDBusStruct<DBusMetaStringSignatureToTuple<
+        RemoveMetaStringTailType<typename SkipTillNextParentheses<
+            1, MetaString<nextChar...>>::str>>>;
+    using next = DBusMetaStringSignatureToTuple<
+        typename SkipTillNextParentheses<1, MetaString<nextChar...>>::type>;
 };
 
 template <char... nextChar>
 struct DBusSignatureGetNextSignature<'{', nextChar...> {
-    typedef TupleToDictEntry<
+    using cur = TupleToDictEntry<
         DBusMetaStringSignatureToTuple<RemoveMetaStringTailType<
-            typename SkipTillNextBrace<1, MetaString<nextChar...>>::str>>>
-        cur;
-    typedef DBusMetaStringSignatureToTuple<
-        typename SkipTillNextBrace<1, MetaString<nextChar...>>::type>
-        next;
+            typename SkipTillNextBrace<1, MetaString<nextChar...>>::str>>>;
+    using next = DBusMetaStringSignatureToTuple<
+        typename SkipTillNextBrace<1, MetaString<nextChar...>>::type>;
 };
 
 template <char... c>
 struct DBusSignatureToType {
-    typedef DBusSignatureGetNextSignature<c...> SplitType;
-    typedef RemoveTupleIfUnnecessaryType<
+    using SplitType = DBusSignatureGetNextSignature<c...>;
+    using type = RemoveTupleIfUnnecessaryType<
         CombineTuplesType<MakeTupleIfNeededType<typename SplitType::cur>,
-                          MakeTupleIfNeededType<typename SplitType::next>>>
-        type;
+                          MakeTupleIfNeededType<typename SplitType::next>>>;
 };
 template <char c>
 struct DBusSignatureToType<c> {
-    typedef typename DBusSignatureToBasicType<c>::type type;
+    using type = typename DBusSignatureToBasicType<c>::type;
 };
 
 template <>
 struct DBusSignatureToType<> {
-    typedef std::tuple<> type;
+    using type = std::tuple<>;
 };
 
 template <typename M>
@@ -295,7 +286,7 @@ struct MetaStringToDBusTuple;
 
 template <char... c>
 struct MetaStringToDBusTuple<MetaString<c...>> {
-    typedef typename DBusSignatureToType<c...>::type type;
+    using type = typename DBusSignatureToType<c...>::type;
 };
 
 template <typename M>
@@ -303,12 +294,12 @@ using MetaStringToDBusTupleType = typename MetaStringToDBusTuple<M>::type;
 
 template <typename T>
 struct DBusTupleToReturn {
-    typedef T type;
+    using type = T;
 };
 
 template <>
 struct DBusTupleToReturn<std::tuple<>> {
-    typedef void type;
+    using type = void;
 };
 
 template <typename T>
@@ -320,7 +311,6 @@ using DBusTupleToReturnType = typename DBusTupleToReturn<T>::type;
 #define FCITX_STRING_TO_DBUS_TYPE(STRING)                                      \
     ::fcitx::dbus::DBusTupleToReturnType<                                      \
         ::fcitx::dbus::MetaStringToDBusTupleType<fcitxMakeMetaString(STRING)>>
-} // namespace dbus
-} // namespace fcitx
+} // namespace fcitx::dbus
 
 #endif // _FCITX_UTILS_DBUS_MESSAGE_DETAILS_H_

@@ -12,6 +12,7 @@
 #include <memory>
 #include <string>
 #include <string_view>
+#include <utility>
 #include <fcitx-utils/flags.h>
 #include <fcitx-utils/macros.h>
 #include "fcitxutils_export.h"

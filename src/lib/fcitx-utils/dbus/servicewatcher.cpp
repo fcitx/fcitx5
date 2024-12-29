@@ -6,8 +6,16 @@
  */
 
 #include "servicewatcher.h"
+#include <memory>
+#include <string>
+#include <tuple>
 #include <unordered_map>
+#include <utility>
+#include "../handlertable.h"
+#include "../macros.h"
 #include "../trackableobject.h"
+#include "matchrule.h"
+#include "message.h"
 
 namespace fcitx::dbus {
 
@@ -22,7 +30,9 @@ public:
                                 "org.freedesktop.DBus", "NameOwnerChanged",
                                 {key}),
                       [this](Message &msg) {
-                          std::string name, oldOwner, newOwner;
+                          std::string name;
+                          std::string oldOwner;
+                          std::string newOwner;
                           msg >> name >> oldOwner >> newOwner;
                           querySlots_.erase(name);
 
@@ -35,7 +45,7 @@ public:
                   auto querySlot = bus_->serviceOwnerAsync(
                       key, 0, [this, key](Message &msg) {
                           // Key itself may be gone later, put it on the stack.
-                          std::string pivotKey = key;
+                          const std::string &pivotKey = key;
                           auto protector = watch();
                           std::string newName;
                           if (msg.type() != dbus::MessageType::Error) {

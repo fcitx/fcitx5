@@ -13,6 +13,8 @@
 /// \brief Utitliy classes for statically tracking the life of a object.
 
 #include <memory>
+#include <type_traits>
+#include <utility>
 #include <fcitx-utils/handlertable.h>
 #include <fcitx-utils/macros.h>
 

@@ -8,9 +8,16 @@
 #include "../message.h"
 #include <fcntl.h>
 #include <unistd.h>
-#include <atomic>
+#include <cerrno>
+#include <cstdint>
+#include <memory>
 #include <stdexcept>
-#include "../../misc_p.h"
+#include <string>
+#include <utility>
+#include <dbus/dbus-protocol.h>
+#include <dbus/dbus.h>
+#include "../../macros.h"
+#include "../../misc.h"
 #include "../../unixfd.h"
 #include "../variant.h"
 #include "bus_p.h"
@@ -78,7 +85,7 @@ std::string Message::destination() const {
     if (!d->msg()) {
         return {};
     }
-    auto result = dbus_message_get_destination(d->msg());
+    const auto *result = dbus_message_get_destination(d->msg());
     return result ? result : "";
 }
 
@@ -281,6 +288,7 @@ Message &Message::operator>>(bool &b) {
     return *this;
 }
 
+// NOLINTBEGIN(bugprone-macro-parentheses)
 #define _MARSHALL_FUNC(TYPE, TYPE2)                                            \
     Message &Message::operator<<(TYPE v) {                                     \
         if (!(*this)) {                                                        \
@@ -305,6 +313,7 @@ Message &Message::operator>>(bool &b) {
         }                                                                      \
         return *this;                                                          \
     }
+// NOLINTEND(bugprone-macro-parentheses)
 
 _MARSHALL_FUNC(uint8_t, BYTE)
 _MARSHALL_FUNC(int16_t, INT16)
@@ -460,7 +469,7 @@ Message &Message::operator>>(const Container &c) {
     return *this;
 }
 
-Message &Message::operator<<(const ContainerEnd &) {
+Message &Message::operator<<(const ContainerEnd & /*unused*/) {
     if (!(*this)) {
         return *this;
     }
@@ -469,7 +478,7 @@ Message &Message::operator<<(const ContainerEnd &) {
     return *this;
 }
 
-Message &Message::operator>>(const ContainerEnd &) {
+Message &Message::operator>>(const ContainerEnd & /*unused*/) {
     if (!(*this)) {
         return *this;
     }

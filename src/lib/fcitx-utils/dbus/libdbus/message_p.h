@@ -7,13 +7,19 @@
 #ifndef _FCITX_UTILS_DBUS_MESSAGE_P_H_
 #define _FCITX_UTILS_DBUS_MESSAGE_P_H_
 
-#include <dbus/dbus.h>
-
+#include <cassert>
+#include <cstdint>
+#include <iterator>
+#include <list>
+#include <string>
 #include <utility>
+#include <dbus/dbus-protocol.h>
+#include <dbus/dbus.h>
+#include "../../trackableobject.h"
+#include "../libdbus/bus_p.h"
 #include "../message.h"
 
-namespace fcitx {
-namespace dbus {
+namespace fcitx::dbus {
 
 class MessagePrivate {
 public:
@@ -128,7 +134,6 @@ public:
 private:
     DBusMessage *msg_ = nullptr;
 };
-} // namespace dbus
-} // namespace fcitx
+} // namespace fcitx::dbus
 
 #endif // _FCITX_UTILS_DBUS_MESSAGE_P_H_

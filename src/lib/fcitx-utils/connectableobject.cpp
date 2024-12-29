@@ -6,6 +6,12 @@
  */
 
 #include "connectableobject.h"
+#include <memory>
+#include <string>
+#include <unordered_map>
+#include <utility>
+#include "macros.h"
+#include "signals.h"
 
 namespace fcitx {
 

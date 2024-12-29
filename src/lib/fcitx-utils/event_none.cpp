@@ -5,7 +5,9 @@
  * SPDX-License-Identifier: LGPL-2.1-or-later
  *
  */
+#include <memory>
 #include "event_p.h"
+#include "eventloopinterface.h"
 
 namespace fcitx {
 

@@ -8,6 +8,7 @@
 #ifndef _FCITX_UTILS_COLOR_H_
 #define _FCITX_UTILS_COLOR_H_
 
+#include <exception>
 #include <ostream>
 #include <string>
 #include <fcitx-utils/macros.h>

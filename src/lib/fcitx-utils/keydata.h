@@ -25,7 +25,7 @@
 
 #include <array>
 #include <cstdint>
-#include "fcitx-utils/macros.h"
+#include <fcitx-utils/macros.h>
 
 namespace fcitx {
 struct KeySymUnicode {

@@ -7,17 +7,22 @@
 #ifndef _FCITX_UTILS_DBUS_VARIANT_H_
 #define _FCITX_UTILS_DBUS_VARIANT_H_
 
+#include <cassert>
 #include <memory>
 #include <string>
+#include <type_traits>
+#include <utility>
 #include <fcitx-utils/dbus/message.h>
+#include <fcitx-utils/log.h>
+#include <fcitx-utils/macros.h>
+#include "fcitxutils_export.h"
 
 /// \addtogroup FcitxUtils
 /// \{
 /// \file
 /// \brief API for dbus variant type.
 
-namespace fcitx {
-namespace dbus {
+namespace fcitx::dbus {
 
 class VariantTypeRegistryPrivate;
 
@@ -148,7 +153,7 @@ private:
 
 template <typename Value, typename>
 void Variant::setData(Value &&value) {
-    typedef std::remove_cv_t<std::remove_reference_t<Value>> value_type;
+    using value_type = std::remove_cv_t<std::remove_reference_t<Value>>;
     signature_ = DBusSignatureTraits<value_type>::signature::data();
     data_ = std::make_shared<value_type>(std::forward<Value>(value));
     helper_ = std::make_shared<VariantHelper<value_type>>();
@@ -162,7 +167,6 @@ static inline LogMessageBuilder &operator<<(LogMessageBuilder &builder,
     return builder;
 }
 
-} // namespace dbus
-} // namespace fcitx
+} // namespace fcitx::dbus
 
 #endif // _FCITX_UTILS_DBUS_VARIANT_H_

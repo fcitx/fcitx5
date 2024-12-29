@@ -8,15 +8,18 @@
 #include "../message.h"
 #include <fcntl.h>
 #include <unistd.h>
-#include <atomic>
-#include <shared_mutex>
+#include <cerrno>
+#include <cstdint>
+#include <memory>
 #include <stdexcept>
-#include <asm-generic/errno-base.h>
-#include "../../misc_p.h"
+#include <string>
+#include <utility>
+#include "../../macros.h"
 #include "../../unixfd.h"
 #include "../variant.h"
 #include "bus_p.h"
 #include "message_p.h"
+#include "sd-bus-wrap.h"
 
 namespace fcitx::dbus {
 
@@ -240,6 +243,7 @@ Message &Message::operator>>(bool &b) {
     return *this;
 }
 
+// NOLINTBEGIN(bugprone-macro-parentheses)
 #define _MARSHALL_FUNC(TYPE, TYPE2)                                            \
     Message &Message::operator<<(TYPE v) {                                     \
         if (!(*this)) {                                                        \
@@ -259,6 +263,7 @@ Message &Message::operator>>(bool &b) {
             sd_bus_message_read_basic(d->msg_, SD_BUS_TYPE_##TYPE2, &v);       \
         return *this;                                                          \
     }
+// NOLINTEND(bugprone-macro-parentheses)
 
 _MARSHALL_FUNC(uint8_t, BYTE)
 _MARSHALL_FUNC(int16_t, INT16)
@@ -395,7 +400,7 @@ Message &Message::operator>>(const Container &c) {
     return *this;
 }
 
-Message &Message::operator<<(const ContainerEnd &) {
+Message &Message::operator<<(const ContainerEnd & /*unused*/) {
     if (!(*this)) {
         return *this;
     }
@@ -404,7 +409,7 @@ Message &Message::operator<<(const ContainerEnd &) {
     return *this;
 }
 
-Message &Message::operator>>(const ContainerEnd &) {
+Message &Message::operator>>(const ContainerEnd & /*unused*/) {
     if (!(*this)) {
         return *this;
     }
@@ -451,9 +456,8 @@ Message &Message::operator>>(Variant &variant) {
             }
         }
         return *this;
-    } else {
-        d->lastError_ = sd_bus_message_skip(d->msg_, "v");
     }
+    d->lastError_ = sd_bus_message_skip(d->msg_, "v");
     return *this;
 }
 } // namespace fcitx::dbus

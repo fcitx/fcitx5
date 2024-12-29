@@ -7,8 +7,10 @@
 #ifndef _FCITX_UTILS_SIGNAL_DETAILS_H_
 #define _FCITX_UTILS_SIGNAL_DETAILS_H_
 
+#include <cstddef>
 #include <functional>
 #include <iterator>
+#include <memory>
 #include <tuple>
 #include <fcitx-utils/handlertable.h>
 #include <fcitx-utils/intrusivelist.h>

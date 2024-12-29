@@ -6,6 +6,8 @@
  */
 #include "testing.h"
 #include <cstdlib>
+#include <string>
+#include <vector>
 #include "standardpath.h"
 #include "stringutils.h"
 

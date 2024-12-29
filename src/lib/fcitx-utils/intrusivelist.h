@@ -7,10 +7,12 @@
 #ifndef _FCITX_UTILS_INSTRUSIVELIST_H_
 #define _FCITX_UTILS_INSTRUSIVELIST_H_
 
-#include <array>
 #include <cassert>
+#include <cstddef>
 #include <iterator>
 #include <type_traits>
+#include <utility>
+#include <fcitx-utils/macros.h>
 #include "misc.h"
 
 namespace fcitx {
@@ -190,7 +192,7 @@ public:
     template <bool fromConst>
     IntrusiveListIterator(
         const IntrusiveListIterator<T, NodeGetter, fromConst> &other,
-        std::enable_if_t<isConst && !fromConst, enabler> = enabler())
+        std::enable_if_t<isConst && !fromConst, enabler> /*unused*/ = enabler())
         : IntrusiveListIterator(other.pointed_node(), other.get_nodeGetter()) {}
 
     FCITX_INLINE_DEFINE_DEFAULT_DTOR_AND_COPY(IntrusiveListIterator)

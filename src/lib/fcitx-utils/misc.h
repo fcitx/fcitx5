@@ -8,11 +8,13 @@
 #define _FCITX_UTILS_MISC_H_
 
 #include <unistd.h>
+#include <cstddef>
 #include <cstdio>
 #include <cstdlib>
+#include <functional>
 #include <memory>
 #include <string>
-#include <utility>
+#include <type_traits>
 #include <vector>
 #include <fcitx-utils/macros.h>
 #include "fcitxutils_export.h"

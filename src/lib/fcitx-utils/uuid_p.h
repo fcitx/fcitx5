@@ -14,7 +14,8 @@
 #include <cstdint>
 #include <cstring>
 #include "charutils.h"
-#include "event.h"
+#include "eventloopinterface.h"
+#include "fs.h"
 #include "unixfd.h"
 
 #ifdef TEST_DISABLE_LIBUUID

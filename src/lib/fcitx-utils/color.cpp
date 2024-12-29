@@ -10,6 +10,8 @@
 #include <cmath>
 #include <cstdint>
 #include <cstdio>
+#include <ostream>
+#include <string>
 #include "charutils.h"
 #include "stringutils.h"
 

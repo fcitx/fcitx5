@@ -12,7 +12,9 @@
 /// \file
 /// \brief A signal-slot implemention.
 
-#include <tuple>
+#include <functional>
+#include <memory>
+#include <utility>
 #include <fcitx-utils/handlertable.h>
 #include <fcitx-utils/intrusivelist.h>
 #include <fcitx-utils/macros.h>

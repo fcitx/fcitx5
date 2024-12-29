@@ -7,18 +7,20 @@
 #ifndef _FCITX_UTILS_DBUS_OBJECTVTABLE_P_H_
 #define _FCITX_UTILS_DBUS_OBJECTVTABLE_P_H_
 
+#include <string>
+#include <utility>
 #include "objectvtable.h"
 
-namespace fcitx {
-namespace dbus {
+namespace fcitx::dbus {
 
 class ObjectVTableMethodPrivate {
 public:
-    ObjectVTableMethodPrivate(ObjectVTableBase *vtable, const std::string &name,
-                              const std::string &signature,
-                              const std::string &ret, ObjectMethod handler)
-        : name_(name), signature_(signature), ret_(ret),
-          internalHandler_(std::move(handler)), vtable_(vtable) {}
+    ObjectVTableMethodPrivate(ObjectVTableBase *vtable, std::string name,
+                              std::string signature, std::string ret,
+                              ObjectMethod handler)
+        : name_(std::move(name)), signature_(std::move(signature)),
+          ret_(std::move(ret)), internalHandler_(std::move(handler)),
+          vtable_(vtable) {}
 
     const std::string name_;
     const std::string signature_;
@@ -72,7 +74,6 @@ public:
     PropertySetMethod setMethod_;
 };
 
-} // namespace dbus
-} // namespace fcitx
+} // namespace fcitx::dbus
 
 #endif // _FCITX_UTILS_DBUS_OBJECTVTABLE_P_H_

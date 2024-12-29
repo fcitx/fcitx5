@@ -12,6 +12,7 @@
 /// \file
 /// \brief Class to handler dynamic library.
 
+#include <cstddef>
 #include <functional>
 #include <memory>
 #include <string>

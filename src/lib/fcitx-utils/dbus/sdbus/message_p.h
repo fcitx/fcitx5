@@ -7,11 +7,12 @@
 #ifndef _FCITX_UTILS_DBUS_MESSAGE_P_H_
 #define _FCITX_UTILS_DBUS_MESSAGE_P_H_
 
+#include <cstdint>
+#include <string>
 #include "../message.h"
 #include "sd-bus-wrap.h"
 
-namespace fcitx {
-namespace dbus {
+namespace fcitx::dbus {
 
 class MessagePrivate {
 public:
@@ -60,7 +61,6 @@ public:
     std::string message_;
     int lastError_ = 0;
 };
-} // namespace dbus
-} // namespace fcitx
+} // namespace fcitx::dbus
 
 #endif // _FCITX_UTILS_DBUS_MESSAGE_P_H_

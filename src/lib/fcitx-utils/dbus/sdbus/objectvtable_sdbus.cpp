@@ -5,11 +5,23 @@
  *
  */
 
+#include <cstdint>
+#include <cstdlib>
+#include <exception>
+#include <memory>
+#include <mutex>
+#include <string>
 #include <unordered_set>
+#include <utility>
+#include <vector>
 #include "../../log.h"
+#include "../../macros.h"
 #include "../objectvtable.h"
 #include "bus_p.h"
+#include "message_p.h"
 #include "objectvtable_p_sdbus.h"
+#include "objectvtablewrapper_p.h"
+#include "sd-bus-wrap.h"
 
 namespace fcitx::dbus {
 
@@ -28,7 +40,8 @@ public:
     std::unordered_set<std::string> stringPool_;
 };
 
-int SDMethodCallback(sd_bus_message *m, void *userdata, sd_bus_error *) {
+int SDMethodCallback(sd_bus_message *m, void *userdata,
+                     sd_bus_error * /*unused*/) {
     auto *vtable = static_cast<ObjectVTableBase *>(userdata);
     if (!vtable) {
         return 0;
@@ -43,14 +56,15 @@ int SDMethodCallback(sd_bus_message *m, void *userdata, sd_bus_error *) {
     } catch (const std::exception &e) {
         // some abnormal things threw
         FCITX_ERROR() << e.what();
-        abort();
+        std::abort();
     }
     return 0;
 }
 
-int SDPropertyGetCallback(sd_bus *, const char *, const char *,
-                          const char *property, sd_bus_message *reply,
-                          void *userdata, sd_bus_error *) {
+int SDPropertyGetCallback(sd_bus * /*unused*/, const char * /*unused*/,
+                          const char * /*unused*/, const char *property,
+                          sd_bus_message *reply, void *userdata,
+                          sd_bus_error * /*unused*/) {
     auto *vtable = static_cast<ObjectVTableBase *>(userdata);
     if (!vtable) {
         return 0;
@@ -66,14 +80,15 @@ int SDPropertyGetCallback(sd_bus *, const char *, const char *,
     } catch (const std::exception &e) {
         // some abnormal things threw
         FCITX_ERROR() << e.what();
-        abort();
+        std::abort();
     }
     return 0;
 }
 
-int SDPropertySetCallback(sd_bus *, const char *, const char *,
-                          const char *property, sd_bus_message *value,
-                          void *userdata, sd_bus_error *) {
+int SDPropertySetCallback(sd_bus * /*unused*/, const char * /*unused*/,
+                          const char * /*unused*/, const char *property,
+                          sd_bus_message *value, void *userdata,
+                          sd_bus_error * /*unused*/) {
     auto *vtable = static_cast<ObjectVTableBase *>(userdata);
     if (!vtable) {
         return 0;
@@ -89,7 +104,7 @@ int SDPropertySetCallback(sd_bus *, const char *, const char *,
     } catch (const std::exception &e) {
         // some abnormal things threw
         FCITX_ERROR() << e.what();
-        abort();
+        std::abort();
     }
     return 0;
 }
