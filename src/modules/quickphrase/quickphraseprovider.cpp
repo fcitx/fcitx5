@@ -120,6 +120,12 @@ bool SpellQuickPhraseProvider::populate(
             return true;
         }
     }
+
+    // Do not give spell hint if input contains url like character.
+    if (userInput.find_first_of(".@/+%") != std::string::npos) {
+        return true;
+    }
+
     const auto result = spell->call<ISpell::hint>(
         lang, userInput, instance_->globalConfig().defaultPageSize());
     for (const auto &word : result) {
