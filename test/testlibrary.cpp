@@ -6,9 +6,9 @@
  */
 
 #include <string.h>
+#include "fcitx-utils/fcitxutils_export.h"
 #include "fcitx-utils/library.h"
 #include "fcitx-utils/log.h"
-#include "fcitxutils_export.h"
 
 #define DATA "AAAAAAAAA"
 #define MAGIC "MAGIC_TEST_DATA"
