@@ -1,0 +1,10 @@
+#!/bin/sh
+
+if [ "$XDG_CURRENT_DESKTOP" = "KDE" ];then
+    SUDO_USER="$(who|head -n1|cut -f1 -d' ')"
+    RET=$(su $SUDO_USER -c 'qdbus6 org.kde.KWin /VirtualKeyboard org.kde.kwin.VirtualKeyboard.active')
+    if [ "$RET" = "true" ]; then
+        exit
+    fi
+fi
+exec @FCITX_INSTALL_BINDIR@/fcitx5

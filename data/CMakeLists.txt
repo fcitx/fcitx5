@@ -4,6 +4,8 @@ configure_file(${CMAKE_CURRENT_SOURCE_DIR}/fcitx5-configtool.desktop.in.in
                ${CMAKE_CURRENT_BINARY_DIR}/fcitx5-configtool.desktop.in @ONLY)
 configure_file(${CMAKE_CURRENT_SOURCE_DIR}/org.fcitx.Fcitx5.desktop.in.in
                ${CMAKE_CURRENT_BINARY_DIR}/org.fcitx.Fcitx5.desktop.in @ONLY)
+configure_file(${CMAKE_CURRENT_SOURCE_DIR}/start-fcitx5.sh.in
+               ${CMAKE_CURRENT_BINARY_DIR}/start-fcitx5.sh @ONLY)
 configure_file(${CMAKE_CURRENT_SOURCE_DIR}/fcitx5-diagnose.sh
                ${CMAKE_CURRENT_BINARY_DIR}/fcitx5-diagnose ESCAPE_QUOTES @ONLY)
 
@@ -30,6 +32,9 @@ install(FILES "${CMAKE_CURRENT_BINARY_DIR}/fcitx5-diagnose" DESTINATION "${FCITX
 GROUP_READ GROUP_EXECUTE WORLD_READ WORLD_EXECUTE)
 
 install(DIRECTORY default DESTINATION "${FCITX_INSTALL_PKGDATADIR}" COMPONENT config)
+install(FILES "${CMAKE_CURRENT_BINARY_DIR}/start-fcitx5.sh"
+        DESTINATION "${FCITX_INSTALL_LIBEXECDIR}/fcitx5/"
+        PERMISSIONS OWNER_READ OWNER_WRITE OWNER_EXECUTE GROUP_READ GROUP_EXECUTE WORLD_READ WORLD_EXECUTE)
 
 if (WAYLAND_FOUND AND ENABLE_X11)
     configure_file(${CMAKE_CURRENT_SOURCE_DIR}/20-fcitx-x11.in
