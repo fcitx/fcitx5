@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fcitx5\n"
 "Report-Msgid-Bugs-To: fcitx-dev@googlegroups.com\n"
-"POT-Creation-Date: 2024-12-17 20:24+0000\n"
+"POT-Creation-Date: 2024-12-31 20:24+0000\n"
 "PO-Revision-Date: 2017-11-23 04:14+0000\n"
 "Last-Translator: scootergrisen, 2021\n"
 "Language-Team: Danish (https://app.transifex.com/fcitx/teams/12005/da/)\n"
@@ -108,7 +108,7 @@ msgstr "<ikke tildelt>"
 msgid "A virtual keyboard backend based on DBus"
 msgstr ""
 
-#: src/ui/classic/theme.h:202
+#: src/ui/classic/theme.h:210
 msgid "Accent Colors"
 msgstr ""
 
@@ -120,7 +120,7 @@ msgstr "Aktivér inputmetode"
 msgid "Active By Default"
 msgstr "Aktivér som standard"
 
-#: src/lib/fcitx-utils/key.cpp:144
+#: src/lib/fcitx-utils/key.cpp:152
 msgctxt "Key name"
 msgid "Add Favorite"
 msgstr "Tilføj favorit"
@@ -129,19 +129,19 @@ msgstr "Tilføj favorit"
 msgid "Add Unicode Typing Support"
 msgstr "Tilføj understøttelse af unicode-indtastning"
 
-#: data/fcitx5-diagnose.sh:1565
+#: data/fcitx5-diagnose.sh:1465
 msgid "Addon Config Dir:"
 msgstr "Tilføjelseskonfigurationsmappe:"
 
-#: data/fcitx5-diagnose.sh:1650
+#: data/fcitx5-diagnose.sh:1550
 msgid "Addon Libraries:"
 msgstr "Tilføjelsesbiblioteker:"
 
-#: data/fcitx5-diagnose.sh:1593
+#: data/fcitx5-diagnose.sh:1493
 msgid "Addon List:"
 msgstr "Tilføjelsesliste:"
 
-#: src/lib/fcitx-utils/key.cpp:146
+#: src/lib/fcitx-utils/key.cpp:154
 msgctxt "Key name"
 msgid "Adjust Brightness"
 msgstr "Juster lysstyrke"
@@ -150,11 +150,11 @@ msgstr "Juster lysstyrke"
 msgid "All"
 msgstr ""
 
-#: data/fcitx5-diagnose.sh:1367
+#: data/fcitx5-diagnose.sh:1267
 msgid "All found Gtk ${1} immodule files exist."
 msgstr "Alle fundne Gtk ${1} im-modul-filer findes."
 
-#: data/fcitx5-diagnose.sh:1676
+#: data/fcitx5-diagnose.sh:1576
 msgid "All libraries for all addons are found."
 msgstr "Alle biblioteker til alle tilføjelse er fundet."
 
@@ -178,7 +178,7 @@ msgstr ""
 msgid "Alt"
 msgstr "Alt"
 
-#: src/lib/fcitx-utils/key.cpp:563
+#: src/lib/fcitx-utils/key.cpp:571
 msgctxt "Key name"
 msgid "Alt"
 msgstr "Alt"
@@ -187,12 +187,12 @@ msgstr "Alt"
 msgid "Always set layout to be only group layout"
 msgstr ""
 
-#: src/lib/fcitx-utils/key.cpp:151
+#: src/lib/fcitx-utils/key.cpp:159
 msgctxt "Key name"
 msgid "Application Left"
 msgstr "Program venstre"
 
-#: src/lib/fcitx-utils/key.cpp:152
+#: src/lib/fcitx-utils/key.cpp:160
 msgctxt "Key name"
 msgid "Application Right"
 msgstr "Program højre"
@@ -201,36 +201,36 @@ msgstr "Program højre"
 msgid "Applications disabled for long press"
 msgstr "Programmer deaktiveret for langt tryk"
 
-#: src/lib/fcitx-utils/key.cpp:211
+#: src/lib/fcitx-utils/key.cpp:219
 msgctxt "Key name"
 msgid "Audio Cycle Track"
 msgstr "Lyd gennemløb spor"
 
-#: src/lib/fcitx-utils/key.cpp:209
+#: src/lib/fcitx-utils/key.cpp:217
 msgctxt "Key name"
 msgid "Audio Random Play"
 msgstr "Lyd tilfældig afspilning"
 
-#: src/lib/fcitx-utils/key.cpp:208
+#: src/lib/fcitx-utils/key.cpp:216
 msgctxt "Key name"
 msgid "Audio Repeat"
 msgstr "Lyd gentag"
 
-#: src/ui/classic/theme.h:191
+#: src/ui/classic/theme.h:199
 msgid "Author"
 msgstr "Forfatter"
 
-#: src/lib/fcitx-utils/key.cpp:198
+#: src/lib/fcitx-utils/key.cpp:206
 msgctxt "Key name"
 msgid "Away"
 msgstr "Væk"
 
-#: src/lib/fcitx-utils/key.cpp:93
+#: src/lib/fcitx-utils/key.cpp:101
 msgctxt "Key name"
 msgid "Back"
 msgstr "Tilbage"
 
-#: src/lib/fcitx-utils/key.cpp:150
+#: src/lib/fcitx-utils/key.cpp:158
 msgctxt "Key name"
 msgid "Back Forward"
 msgstr "Tilbage fremad"
@@ -239,15 +239,15 @@ msgstr "Tilbage fremad"
 msgid "Backends"
 msgstr ""
 
-#: src/ui/classic/theme.h:156 src/ui/classic/theme.h:176
+#: src/ui/classic/theme.h:164 src/ui/classic/theme.h:184
 msgid "Background"
 msgstr "Baggrund"
 
-#: src/ui/classic/theme.h:83
+#: src/ui/classic/theme.h:91
 msgid "Background Image"
 msgstr "Baggrundsbillede"
 
-#: src/lib/fcitx-utils/key.cpp:42
+#: src/lib/fcitx-utils/key.cpp:50
 msgctxt "Key name"
 msgid "Backspace"
 msgstr "Backspace"
@@ -256,7 +256,7 @@ msgstr "Backspace"
 msgid "Bash Version:"
 msgstr "Bash-version:"
 
-#: src/lib/fcitx-utils/key.cpp:204
+#: src/lib/fcitx-utils/key.cpp:212
 msgctxt "Key name"
 msgid "Battery"
 msgstr "Batteri"
@@ -269,69 +269,69 @@ msgstr "Begyndervejledning"
 msgid "Behavior"
 msgstr "Opførsel"
 
-#: src/lib/fcitx-utils/key.cpp:222
+#: src/lib/fcitx-utils/key.cpp:230
 msgctxt "Key name"
 msgid "Blue"
 msgstr "Blå"
 
-#: src/lib/fcitx-utils/key.cpp:205
+#: src/lib/fcitx-utils/key.cpp:213
 msgctxt "Key name"
 msgid "Bluetooth"
 msgstr "Bluetooth"
 
-#: src/ui/classic/theme.h:146
+#: src/ui/classic/theme.h:154
 msgid "Blur Margin"
 msgstr "Sløringsmargen"
 
-#: src/ui/classic/theme.h:145
+#: src/ui/classic/theme.h:153
 msgid "Blur mask"
 msgstr ""
 
-#: src/lib/fcitx-utils/key.cpp:153
+#: src/lib/fcitx-utils/key.cpp:161
 msgctxt "Key name"
 msgid "Book"
 msgstr "Bog"
 
-#: src/ui/classic/theme.h:95
+#: src/ui/classic/theme.h:103
 msgid "Border Color"
 msgstr ""
 
-#: src/ui/classic/theme.h:103
+#: src/ui/classic/theme.h:111
 msgid "Border width"
 msgstr ""
 
-#: src/ui/classic/theme.h:48
+#: src/ui/classic/theme.h:56
 msgid "Bottom"
 msgstr ""
 
-#: src/ui/classic/theme.h:36
+#: src/ui/classic/theme.h:44
 msgid "Bottom Center"
 msgstr "Nederst i midten"
 
-#: src/ui/classic/theme.h:36
+#: src/ui/classic/theme.h:44
 msgid "Bottom Left"
 msgstr "Nederst til venstre"
 
-#: src/ui/classic/theme.h:37
+#: src/ui/classic/theme.h:45
 msgid "Bottom Right"
 msgstr "Nederst til højre"
 
-#: src/lib/fcitx-utils/key.cpp:164
+#: src/lib/fcitx-utils/key.cpp:172
 msgctxt "Key name"
 msgid "Browser"
 msgstr "Browser"
 
-#: src/lib/fcitx-utils/key.cpp:154
+#: src/lib/fcitx-utils/key.cpp:162
 msgctxt "Key name"
 msgid "CD"
 msgstr "CD"
 
-#: src/lib/fcitx-utils/key.cpp:155
+#: src/lib/fcitx-utils/key.cpp:163
 msgctxt "Key name"
 msgid "Calculator"
 msgstr "Lommeregner"
 
-#: src/lib/fcitx-utils/key.cpp:264
+#: src/lib/fcitx-utils/key.cpp:272
 msgctxt "Key name"
 msgid "Cancel"
 msgstr "Annuller"
@@ -348,28 +348,24 @@ msgstr "Kan ikke oprette forbindelse til ${1} korrekt."
 msgid "Cannot determine desktop environment."
 msgstr "Kan ikke bestemme skrivebordsmiljø."
 
-#: data/fcitx5-diagnose.sh:1584
+#: data/fcitx5-diagnose.sh:1484
 msgid "Cannot find ${1} addon config directory."
 msgstr "Kan ikke finde ${1}-tilføjelseskonfigurationsmappe."
 
-#: data/fcitx5-diagnose.sh:1099
-msgid "Cannot find ${1} executable!"
-msgstr "Kan ikke finde ${1}-eksekverbar!"
-
-#: data/fcitx5-diagnose.sh:1517
+#: data/fcitx5-diagnose.sh:1417
 msgid "Cannot find ${1} im module for gtk ${2} in cache."
 msgstr "Kan ikke finde ${1}-im-modul til gtk ${2} i mellemlager."
 
-#: data/fcitx5-diagnose.sh:1434
+#: data/fcitx5-diagnose.sh:1334
 msgid "Cannot find ${1} im module for gtk ${2}."
 msgstr "Kan ikke finde ${1}-im-modul til gtk ${2}."
 
-#: data/fcitx5-diagnose.sh:1288 data/fcitx5-diagnose.sh:1293
-#: data/fcitx5-diagnose.sh:1298
+#: data/fcitx5-diagnose.sh:1188 data/fcitx5-diagnose.sh:1193
+#: data/fcitx5-diagnose.sh:1198
 msgid "Cannot find ${1} input method module for ${2}."
 msgstr "Kan ikke finde ${1}-inputmetode-modul til ${2}."
 
-#: data/fcitx5-diagnose.sh:1428
+#: data/fcitx5-diagnose.sh:1328
 msgid "Cannot find ${2} for gtk ${1}"
 msgstr "Kan ikke finde ${2} til gtk ${1}"
 
@@ -377,13 +373,7 @@ msgstr "Kan ikke finde ${2} til gtk ${1}"
 msgid "Cannot find DBus name ${1} owner."
 msgstr "Kan ikke finde ejer af DBus-navnet ${1}."
 
-#: data/fcitx5-diagnose.sh:1109
-msgid "Cannot find a GUI config tool, please install one of ${1}, or ${2}."
-msgstr ""
-"Kan ikke finde et konfigurationsværktøj med grafisk brugerflade, installer "
-"venligst ${1} eller ${2}."
-
-#: data/fcitx5-diagnose.sh:1679
+#: data/fcitx5-diagnose.sh:1579
 msgid "Cannot find enabled ${1} user interface!"
 msgstr "Kan ikke finde aktiveret ${1}-brugerflade!"
 
@@ -391,20 +381,20 @@ msgstr "Kan ikke finde aktiveret ${1}-brugerflade!"
 msgid "Cannot find fcitx5 executable!"
 msgstr "Kan ikke finde fcitx5-eksekverbar!"
 
-#: data/fcitx5-diagnose.sh:1658
+#: data/fcitx5-diagnose.sh:1558
 msgid "Cannot find file ${1} of addon ${2}."
 msgstr "Kan ikke filen ${1} af tilføjelsen ${2}."
 
-#: data/fcitx5-diagnose.sh:1668
+#: data/fcitx5-diagnose.sh:1568
 msgid "Cannot find following required libraries for ${1} of addon ${2}."
 msgstr ""
 "Kan ikke finde følgende krævede biblioteker for ${1} af tilføjelsen ${2}."
 
-#: data/fcitx5-diagnose.sh:1512
+#: data/fcitx5-diagnose.sh:1412
 msgid "Cannot find immodules cache for gtk ${1}"
 msgstr "Kan ikke finde im-modul mellemlager til gtk ${1}"
 
-#: data/fcitx5-diagnose.sh:1698
+#: data/fcitx5-diagnose.sh:1598
 msgid ""
 "Cannot find kimpanel dbus interface or enabled non-kimpanel user interface."
 msgstr ""
@@ -415,28 +405,28 @@ msgstr ""
 msgid "Cannot find pid of DBus name ${1} owner."
 msgstr "Kan ikke finde pid på ejer af DBus-navnet ${1}."
 
-#: data/fcitx5-diagnose.sh:1175
+#: data/fcitx5-diagnose.sh:1075
 msgid "Cannot find xim_server on root window."
 msgstr "Kan ikke finde xim_server på rodvindue."
 
-#: data/fcitx5-diagnose.sh:1149
+#: data/fcitx5-diagnose.sh:1049
 msgid "Cannot interpret XMODIFIERS: ${1}."
 msgstr "Kan ikke fortolke XMODIFIERS: ${1}."
 
-#: src/lib/fcitx-utils/key.cpp:53
+#: src/lib/fcitx-utils/key.cpp:61
 msgctxt "Key name"
 msgid "CapsLock"
 msgstr "CapsLock"
 
-#: src/ui/classic/theme.h:35 src/ui/classic/theme.h:47
+#: src/ui/classic/theme.h:43 src/ui/classic/theme.h:55
 msgid "Center"
 msgstr "I midten"
 
-#: src/ui/classic/theme.h:34
+#: src/ui/classic/theme.h:42
 msgid "Center Left"
 msgstr "I midten til venstre"
 
-#: src/ui/classic/theme.h:35
+#: src/ui/classic/theme.h:43
 msgid "Center Right"
 msgstr "I midten til højre"
 
@@ -444,7 +434,7 @@ msgstr "I midten til højre"
 msgid "Change Fcitx 5 Configuration"
 msgstr "Skift Fcitx 5-konfiguration"
 
-#: src/ui/classic/theme.h:181
+#: src/ui/classic/theme.h:189
 msgid "Check box"
 msgstr "Afkrydsningsboks"
 
@@ -456,12 +446,12 @@ msgstr "Vælg ændringstast"
 msgid "Classic User Interface"
 msgstr ""
 
-#: src/lib/fcitx-utils/key.cpp:156
+#: src/lib/fcitx-utils/key.cpp:164
 msgctxt "Key name"
 msgid "Clear"
 msgstr "Ryd"
 
-#: src/ui/classic/theme.h:129
+#: src/ui/classic/theme.h:137
 msgid "Click Margin"
 msgstr "Klikmargen"
 
@@ -473,21 +463,21 @@ msgstr "Udklipsholder"
 msgid "Clipboard (Press BackSpace/Delete to clear history):"
 msgstr ""
 
-#: src/lib/fcitx-utils/key.cpp:157
+#: src/lib/fcitx-utils/key.cpp:165
 msgctxt "Key name"
 msgid "Close"
 msgstr "Luk"
 
-#: src/lib/fcitx-utils/key.cpp:250
+#: src/lib/fcitx-utils/key.cpp:258
 msgctxt "Key name"
 msgid "Code input"
 msgstr "Kodeinput"
 
-#: src/ui/classic/theme.h:87
+#: src/ui/classic/theme.h:95
 msgid "Color"
 msgstr ""
 
-#: src/lib/fcitx-utils/key.cpp:148
+#: src/lib/fcitx-utils/key.cpp:156
 msgctxt "Key name"
 msgid "Community"
 msgstr "Fællesskab"
@@ -508,35 +498,11 @@ msgstr ""
 msgid "Completion is enabled."
 msgstr "Fuldførsel er aktiveret."
 
-#: data/fcitx5-diagnose.sh:1051
-msgid "Config GUI for gtk${1} not found."
-msgstr "Konfiguration med grafisk brugerflade til gtk${1} ikke fundet."
-
-#: data/fcitx5-diagnose.sh:1047
-msgid "Config GUI for gtk${1}:"
-msgstr "Konfiguration med grafisk brugerflade til gtk${1}:"
-
-#: data/fcitx5-diagnose.sh:1081
-msgid "Config GUI for kde:"
-msgstr "Konfiguration med grafisk brugerflade til kde:"
-
-#: data/fcitx5-diagnose.sh:1070
-msgid "Config GUI for qt not found."
-msgstr "Konfiguration med grafisk brugerflade til qt ikke fundet."
-
-#: data/fcitx5-diagnose.sh:1068
-msgid "Config GUI for qt:"
-msgstr "Konfiguration med grafisk brugerflade til qt:"
-
-#: data/fcitx5-diagnose.sh:1097
-msgid "Config Tool Wrapper:"
-msgstr "Konfigurationsværktøjs-wrapper:"
-
-#: data/fcitx5-diagnose.sh:1793
+#: data/fcitx5-diagnose.sh:1692
 msgid "Configuration:"
 msgstr "Konfiguration:"
 
-#: src/ui/classic/xcbtraywindow.cpp:38
+#: src/ui/classic/xcbtraywindow.cpp:55
 #: src/modules/notificationitem/dbusmenu.cpp:253
 msgid "Configure"
 msgstr "Konfigurer"
@@ -545,12 +511,12 @@ msgstr "Konfigurer"
 msgid "Control"
 msgstr "Styring"
 
-#: src/lib/fcitx-utils/key.cpp:562
+#: src/lib/fcitx-utils/key.cpp:570
 msgctxt "Key name"
 msgid "Control"
 msgstr "Styring"
 
-#: src/lib/fcitx-utils/key.cpp:158
+#: src/lib/fcitx-utils/key.cpp:166
 msgctxt "Key name"
 msgid "Copy"
 msgstr "Kopiér"
@@ -579,7 +545,7 @@ msgstr "Tilpasset"
 msgid "Custom Xkb Option"
 msgstr ""
 
-#: src/lib/fcitx-utils/key.cpp:159
+#: src/lib/fcitx-utils/key.cpp:167
 msgctxt "Key name"
 msgid "Cut"
 msgstr "Kliip"
@@ -604,12 +570,12 @@ msgstr "DBus-baseret nyt Freedesktop.org-bakkeikon"
 msgid "DBus interface:"
 msgstr "DBus-grænseflade:"
 
-#: src/lib/fcitx-utils/key.cpp:161
+#: src/lib/fcitx-utils/key.cpp:169
 msgctxt "Key name"
 msgid "DOS"
 msgstr "DOS"
 
-#: src/ui/classic/classicui.h:155
+#: src/ui/classic/classicui.h:164
 msgid "Dark Theme"
 msgstr ""
 
@@ -650,12 +616,12 @@ msgstr "Standard-forrige side"
 msgid "Default page size"
 msgstr "Standardsidestørrelse"
 
-#: src/lib/fcitx-utils/key.cpp:230
+#: src/lib/fcitx-utils/key.cpp:238
 msgctxt "Key name"
 msgid "Delete"
 msgstr "Slet"
 
-#: src/ui/classic/theme.h:193
+#: src/ui/classic/theme.h:201
 msgid "Description"
 msgstr "Beskrivelse"
 
@@ -690,7 +656,7 @@ msgstr ""
 msgid "Directories:"
 msgstr "Mapper:"
 
-#: src/lib/fcitx-utils/key.cpp:160
+#: src/lib/fcitx-utils/key.cpp:168
 msgctxt "Key name"
 msgid "Display"
 msgstr "Vis"
@@ -703,12 +669,12 @@ msgstr "Vis ikke igen"
 msgid "Do not show password from password managers"
 msgstr ""
 
-#: src/lib/fcitx-utils/key.cpp:162
+#: src/lib/fcitx-utils/key.cpp:170
 msgctxt "Key name"
 msgid "Documents"
 msgstr "Dokumenter"
 
-#: src/lib/fcitx-utils/key.cpp:50
+#: src/lib/fcitx-utils/key.cpp:58
 msgctxt "Key name"
 msgid "Down"
 msgstr "Ned"
@@ -717,17 +683,17 @@ msgstr "Ned"
 msgid "Editor"
 msgstr "Redigering"
 
-#: src/lib/fcitx-utils/key.cpp:248
+#: src/lib/fcitx-utils/key.cpp:256
 msgctxt "Key name"
 msgid "Eisu Shift"
 msgstr "Eisu-skift"
 
-#: src/lib/fcitx-utils/key.cpp:249
+#: src/lib/fcitx-utils/key.cpp:257
 msgctxt "Key name"
 msgid "Eisu toggle"
 msgstr "Eisu skift"
 
-#: src/lib/fcitx-utils/key.cpp:137
+#: src/lib/fcitx-utils/key.cpp:145
 msgctxt "Key name"
 msgid "Eject"
 msgstr "Skub ud"
@@ -740,7 +706,7 @@ msgstr "Emoji"
 msgid "Enable"
 msgstr "Aktivér"
 
-#: src/ui/classic/theme.h:143
+#: src/ui/classic/theme.h:151
 msgid "Enable Blur on KWin"
 msgstr "Aktivér sløring i KWin"
 
@@ -756,7 +722,7 @@ msgstr "Aktivér emoji i tip"
 msgid "Enable emoji in quickphrase"
 msgstr "Aktivér emoji i hurtigfrase"
 
-#: src/ui/classic/classicui.h:187
+#: src/ui/classic/classicui.h:196
 msgid "Enable fractional scale under Wayland"
 msgstr ""
 
@@ -768,7 +734,7 @@ msgstr ""
 msgid "Enchant"
 msgstr "Enchant"
 
-#: src/lib/fcitx-utils/key.cpp:46
+#: src/lib/fcitx-utils/key.cpp:54
 msgctxt "Key name"
 msgid "End"
 msgstr "End"
@@ -797,7 +763,7 @@ msgstr "Gennemløb inputmetode-gruppe forlæns"
 msgid "Enumerate when press trigger key repeatedly"
 msgstr "Gennemløb når der trykkes på udløsertast gentagne gange"
 
-#: data/fcitx5-diagnose.sh:1127
+#: data/fcitx5-diagnose.sh:1027
 msgid ""
 "Environment variable ${1} is \"${2}\" instead of \"${3}\". Please check if "
 "you have exported it incorrectly in any of your init files."
@@ -809,7 +775,7 @@ msgstr ""
 msgid "Environment variable ${1} is not set."
 msgstr "Miljøvariablen ${1} er ikke sat."
 
-#: data/fcitx5-diagnose.sh:1121
+#: data/fcitx5-diagnose.sh:1021
 msgid "Environment variable ${1} is set to \"${2}\" correctly."
 msgstr "Miljøvariablen ${1} er sat korrekt til \"${2}\"."
 
@@ -827,26 +793,26 @@ msgstr ""
 "Der opstod en fejl under kørsel af ${1}. Tjek venligst dine lokale "
 "indstillinger."
 
-#: src/lib/fcitx-utils/key.cpp:231
+#: src/lib/fcitx-utils/key.cpp:239
 msgctxt "Key name"
 msgid "Escape"
 msgstr "Escape"
 
-#: src/lib/fcitx-utils/key.cpp:265
+#: src/lib/fcitx-utils/key.cpp:273
 msgctxt "Key name"
 msgid "Execute"
 msgstr "Udfør"
 
-#: src/ui/classic/xcbtraywindow.cpp:40
+#: src/ui/classic/xcbtraywindow.cpp:57
 #: src/modules/notificationitem/dbusmenu.cpp:267
 msgid "Exit"
 msgstr "Afslut"
 
-#: data/fcitx5-diagnose.sh:1506
+#: data/fcitx5-diagnose.sh:1406
 msgid "Failed to find ${1} in immodule cache at ${2}"
 msgstr "Kunne ikke finde ${1} i im-modul mellemlager ved ${2}"
 
-#: data/fcitx5-diagnose.sh:1422
+#: data/fcitx5-diagnose.sh:1322
 msgid "Failed to find ${1} in the output of ${2}"
 msgstr "Kunne ikke finde ${1} i outputtet af ${2}"
 
@@ -854,7 +820,7 @@ msgstr "Kunne ikke finde ${1} i outputtet af ${2}"
 msgid "Fallback Spell check language"
 msgstr "Reserve sprog for stavekontrol"
 
-#: src/lib/fcitx-utils/key.cpp:107
+#: src/lib/fcitx-utils/key.cpp:115
 msgctxt "Key name"
 msgid "Favorites"
 msgstr "Favoritter"
@@ -876,13 +842,9 @@ msgstr "Fcitx 5-konfiguration"
 msgid "Fcitx 5 Wayland Launcher (Experimental)"
 msgstr ""
 
-#: data/fcitx5-diagnose.sh:1564
+#: data/fcitx5-diagnose.sh:1464
 msgid "Fcitx Addons:"
 msgstr "Fcitx-tilføjelser:"
-
-#: data/fcitx5-diagnose.sh:1096
-msgid "Fcitx Configure UI:"
-msgstr "Fcitx-konfiguration med brugerflade:"
 
 #: data/fcitx5-diagnose.sh:935
 msgid "Fcitx State:"
@@ -917,29 +879,29 @@ msgstr "Fcitx-version: ${1}"
 msgid "Fcitx4 Frontend"
 msgstr "Fcitx4-frontend"
 
-#: src/lib/fcitx-utils/key.cpp:147
+#: src/lib/fcitx-utils/key.cpp:155
 msgctxt "Key name"
 msgid "Finance"
 msgstr "Finans"
 
-#: src/lib/fcitx-utils/key.cpp:225
+#: src/lib/fcitx-utils/key.cpp:233
 msgctxt "Key name"
 msgid "Find"
 msgstr "Find"
 
-#: src/ui/classic/theme.h:47
+#: src/ui/classic/theme.h:55
 msgid "First Candidate"
 msgstr ""
 
-#: src/ui/classic/classicui.h:161
+#: src/ui/classic/classicui.h:170
 msgid "Follow system accent color if it is supported by theme and desktop"
 msgstr ""
 
-#: src/ui/classic/classicui.h:157
+#: src/ui/classic/classicui.h:166
 msgid "Follow system light/dark color scheme"
 msgstr ""
 
-#: data/fcitx5-diagnose.sh:1284
+#: data/fcitx5-diagnose.sh:1184
 msgid ""
 "Following error may not be accurate because guessing Qt version from path "
 "depends on how your distribution packages Qt. It is not a critical error if "
@@ -947,11 +909,11 @@ msgid ""
 "using text-input support by Qt under Wayland."
 msgstr ""
 
-#: src/ui/classic/classicui.h:117
+#: src/ui/classic/classicui.h:126
 msgid "Font"
 msgstr "Skrifttype"
 
-#: src/ui/classic/classicui.h:147
+#: src/ui/classic/classicui.h:156
 msgid ""
 "For example, display character with Chinese variant when using Pinyin and "
 "Japanese variant when using Anthy. The font configuration needs to support "
@@ -962,11 +924,11 @@ msgstr ""
 msgid "For more details see https://fcitx-im.org/wiki/Using_Fcitx_5_on_Wayland"
 msgstr ""
 
-#: src/ui/classic/classicui.h:175
+#: src/ui/classic/classicui.h:184
 msgid "Force font DPI on Wayland"
 msgstr ""
 
-#: src/lib/fcitx-utils/key.cpp:94
+#: src/lib/fcitx-utils/key.cpp:102
 msgctxt "Key name"
 msgid "Forward"
 msgstr "Fremad"
@@ -975,7 +937,7 @@ msgstr "Fremad"
 msgid "Forward key event instead of commiting text if it is not handled"
 msgstr ""
 
-#: data/fcitx5-diagnose.sh:1276
+#: data/fcitx5-diagnose.sh:1176
 msgid "Found ${1} ${2} module: ${3}."
 msgstr "Fandt ${1} ${2}-modul: ${3}."
 
@@ -987,56 +949,51 @@ msgstr "Fandt ${1} ${2}-proces:"
 msgid "Found ${1} ${2} processes:"
 msgstr "Fandt ${1} ${2}-processer:"
 
-#: data/fcitx5-diagnose.sh:1587
+#: data/fcitx5-diagnose.sh:1487
 msgid "Found ${1} addon config directory: ${2}."
 msgstr "Fandt ${1}-tilføjelseskonfigurationsmappe: ${2}."
 
-#: data/fcitx5-diagnose.sh:944 data/fcitx5-diagnose.sh:1060
-#: data/fcitx5-diagnose.sh:1073 data/fcitx5-diagnose.sh:1101
+#: data/fcitx5-diagnose.sh:944
 msgid "Found ${1} at ${2}."
 msgstr "Fandt ${1} ved ${2}."
 
-#: data/fcitx5-diagnose.sh:1640
+#: data/fcitx5-diagnose.sh:1540
 msgid "Found ${1} disabled addons:"
 msgstr "Fandt ${1} deaktiverede tilføjelser:"
 
-#: data/fcitx5-diagnose.sh:1631
+#: data/fcitx5-diagnose.sh:1531
 msgid "Found ${1} enabled addons:"
 msgstr "Fandt ${1} aktiverede tilføjelser:"
 
-#: data/fcitx5-diagnose.sh:1681
+#: data/fcitx5-diagnose.sh:1581
 msgid "Found ${1} enabled user interface addons:"
 msgstr "Fandt ${1} aktiverede brugergrænsefladetilføjelser:"
 
-#: data/fcitx5-diagnose.sh:1416 data/fcitx5-diagnose.sh:1500
+#: data/fcitx5-diagnose.sh:1316 data/fcitx5-diagnose.sh:1400
 msgid "Found ${1} im modules for gtk ${2}."
 msgstr "Fandt ${1} im-moduler til gtk ${2}."
 
-#: data/fcitx5-diagnose.sh:1087
-msgid "Found ${1} kcm module."
-msgstr "Fandt ${1} kcm-modul."
-
-#: data/fcitx5-diagnose.sh:1408
+#: data/fcitx5-diagnose.sh:1308
 msgid "Found ${2} for unknown gtk version at ${1}."
 msgstr "Fandt ${2} til ukendt gtk-version ved ${1}."
 
-#: data/fcitx5-diagnose.sh:1400
+#: data/fcitx5-diagnose.sh:1300
 msgid "Found ${3} for gtk ${1} at ${2}."
 msgstr "Fandt ${3} til gtk ${1} ved ${2}."
 
-#: data/fcitx5-diagnose.sh:1263 data/fcitx5-diagnose.sh:1268
+#: data/fcitx5-diagnose.sh:1163 data/fcitx5-diagnose.sh:1168
 msgid "Found ${3} im module for ${2}: ${1}."
 msgstr "Fandt ${3} im-modul til ${2}: ${1}."
 
-#: data/fcitx5-diagnose.sh:1493
+#: data/fcitx5-diagnose.sh:1393
 msgid "Found immodule cache for unknown gtk version at ${1}."
 msgstr "Fandt im-modul mellemlager for ukendt gtk-version ved ${1}."
 
-#: data/fcitx5-diagnose.sh:1485
+#: data/fcitx5-diagnose.sh:1385
 msgid "Found immodules cache for gtk ${1} at ${2}."
 msgstr "Fandt im-modulers mellemlager til gtk ${1} ved ${2}."
 
-#: data/fcitx5-diagnose.sh:1279
+#: data/fcitx5-diagnose.sh:1179
 msgid "Found unknown ${1} qt module: ${2}."
 msgstr "Fandt ukendt ${1} qt-modul: ${2}."
 
@@ -1044,26 +1001,26 @@ msgstr "Fandt ukendt ${1} qt-modul: ${2}."
 msgid "Freedesktop.org Notification Support"
 msgstr "Understøttelse af Freedesktop.org-underretning"
 
-#: data/fcitx5-diagnose.sh:1785
+#: data/fcitx5-diagnose.sh:1684
 msgid "Frontends setup:"
 msgstr "Frontendens opsætning:"
 
-#: src/lib/fcitx-utils/key.cpp:165
+#: src/lib/fcitx-utils/key.cpp:173
 msgctxt "Key name"
 msgid "Game"
 msgstr "Spil"
 
-#: src/lib/fcitx-utils/key.cpp:166
+#: src/lib/fcitx-utils/key.cpp:174
 msgctxt "Key name"
 msgid "Go"
 msgstr "Gå"
 
-#: src/lib/fcitx-utils/key.cpp:220
+#: src/lib/fcitx-utils/key.cpp:228
 msgctxt "Key name"
 msgid "Green"
 msgstr "Grøn"
 
-#: src/ui/classic/xcbtraywindow.cpp:36
+#: src/ui/classic/xcbtraywindow.cpp:53
 #: src/modules/notificationitem/dbusmenu.cpp:243
 msgid "Group"
 msgstr "Gruppe"
@@ -1078,15 +1035,15 @@ msgstr "Gruppe {0}: {1}"
 msgid "Group {}"
 msgstr "Gruppe {}"
 
-#: data/fcitx5-diagnose.sh:1361
+#: data/fcitx5-diagnose.sh:1261
 msgid "Gtk ${1} immodule file ${2} does not exist."
 msgstr "Gtk ${1} im-modul-filen ${2} findes ikke."
 
-#: data/fcitx5-diagnose.sh:1545
+#: data/fcitx5-diagnose.sh:1445
 msgid "Gtk IM module cache:"
 msgstr "Mellemlager for Gtk IM-modul:"
 
-#: data/fcitx5-diagnose.sh:1550
+#: data/fcitx5-diagnose.sh:1450
 msgid "Gtk IM module files:"
 msgstr "Filer for Gtk IM-modul:"
 
@@ -1094,77 +1051,77 @@ msgstr "Filer for Gtk IM-modul:"
 msgid "Hall of Shame for Linux IME Support"
 msgstr "Hall of Shame for understøttelse af Linux IME"
 
-#: src/lib/fcitx-utils/key.cpp:253
+#: src/lib/fcitx-utils/key.cpp:261
 msgctxt "Key name"
 msgid "Hangul"
 msgstr "Hangul"
 
-#: src/lib/fcitx-utils/key.cpp:260
+#: src/lib/fcitx-utils/key.cpp:268
 msgctxt "Key name"
 msgid "Hangul Banja"
 msgstr "Hangul Banja"
 
-#: src/lib/fcitx-utils/key.cpp:255
+#: src/lib/fcitx-utils/key.cpp:263
 msgctxt "Key name"
 msgid "Hangul End"
 msgstr "Hangul-slut"
 
-#: src/lib/fcitx-utils/key.cpp:256
+#: src/lib/fcitx-utils/key.cpp:264
 msgctxt "Key name"
 msgid "Hangul Hanja"
 msgstr "Hangul Hanja"
 
-#: src/lib/fcitx-utils/key.cpp:257
+#: src/lib/fcitx-utils/key.cpp:265
 msgctxt "Key name"
 msgid "Hangul Jamo"
 msgstr "Hangul Jamo"
 
-#: src/lib/fcitx-utils/key.cpp:259
+#: src/lib/fcitx-utils/key.cpp:267
 msgctxt "Key name"
 msgid "Hangul Jeonja"
 msgstr "Hangul Jeonja"
 
-#: src/lib/fcitx-utils/key.cpp:262
+#: src/lib/fcitx-utils/key.cpp:270
 msgctxt "Key name"
 msgid "Hangul PostHanja"
 msgstr "Hangul PostHanja"
 
-#: src/lib/fcitx-utils/key.cpp:261
+#: src/lib/fcitx-utils/key.cpp:269
 msgctxt "Key name"
 msgid "Hangul PreHanja"
 msgstr "Hangul PreHanja"
 
-#: src/lib/fcitx-utils/key.cpp:258
+#: src/lib/fcitx-utils/key.cpp:266
 msgctxt "Key name"
 msgid "Hangul Romaja"
 msgstr "Hangul Romaja"
 
-#: src/lib/fcitx-utils/key.cpp:263
+#: src/lib/fcitx-utils/key.cpp:271
 msgctxt "Key name"
 msgid "Hangul Special"
 msgstr "Hangul-special"
 
-#: src/lib/fcitx-utils/key.cpp:254
+#: src/lib/fcitx-utils/key.cpp:262
 msgctxt "Key name"
 msgid "Hangul Start"
 msgstr "Hangul-start"
 
-#: src/lib/fcitx-utils/key.cpp:242
+#: src/lib/fcitx-utils/key.cpp:250
 msgctxt "Key name"
 msgid "Hankaku"
 msgstr "Hankaku"
 
-#: src/lib/fcitx-utils/key.cpp:92
+#: src/lib/fcitx-utils/key.cpp:100
 msgctxt "Key name"
 msgid "Help"
 msgstr "Hjælp"
 
-#: src/lib/fcitx-utils/key.cpp:236
+#: src/lib/fcitx-utils/key.cpp:244
 msgctxt "Key name"
 msgid "Henkan"
 msgstr "Henkan"
 
-#: src/lib/fcitx-utils/key.cpp:213
+#: src/lib/fcitx-utils/key.cpp:221
 msgctxt "Key name"
 msgid "Hibernate"
 msgstr "Dvale"
@@ -1177,56 +1134,56 @@ msgstr "Skjulte underretninger"
 msgid "Hidden clipboard content that contains a password"
 msgstr ""
 
-#: src/ui/classic/theme.h:114
+#: src/ui/classic/theme.h:122
 msgid "Hide overlay if size does not fit"
 msgstr "Skjul overlægningen hvis størrelsen ikke passer"
 
-#: src/ui/classic/theme.h:158 src/ui/classic/theme.h:178
+#: src/ui/classic/theme.h:166 src/ui/classic/theme.h:186
 msgid "Highlight Background"
 msgstr "Baggrund for fremhævning"
 
-#: src/ui/classic/theme.h:138
+#: src/ui/classic/theme.h:146
 msgid "Highlight Background color"
 msgstr "Baggrundsfarve for fremhævning"
 
-#: src/ui/classic/theme.h:141
+#: src/ui/classic/theme.h:149
 msgid "Highlight Candidate Color"
 msgstr "Kandidatfarve for fremhævning"
 
-#: src/ui/classic/theme.h:124
+#: src/ui/classic/theme.h:132
 msgid "Highlight Click Margin"
 msgstr "Fremhæv klikmargen"
 
-#: src/ui/classic/theme.h:136
+#: src/ui/classic/theme.h:144
 msgid "Highlight text color"
 msgstr "Tekstfarve for fremhævning"
 
-#: src/lib/fcitx-utils/key.cpp:238
+#: src/lib/fcitx-utils/key.cpp:246
 msgctxt "Key name"
 msgid "Hiragana"
 msgstr "Hiragana"
 
-#: src/lib/fcitx-utils/key.cpp:240
+#: src/lib/fcitx-utils/key.cpp:248
 msgctxt "Key name"
 msgid "Hiragana Katakana"
 msgstr "Hiragana Katakana"
 
-#: src/lib/fcitx-utils/key.cpp:143
+#: src/lib/fcitx-utils/key.cpp:151
 msgctxt "Key name"
 msgid "History"
 msgstr "Historik"
 
-#: src/lib/fcitx-utils/key.cpp:45
+#: src/lib/fcitx-utils/key.cpp:53
 msgctxt "Key name"
 msgid "Home"
 msgstr "Home"
 
-#: src/lib/fcitx-utils/key.cpp:175
+#: src/lib/fcitx-utils/key.cpp:183
 msgctxt "Key name"
 msgid "Home Office"
 msgstr "Hjemmekontor"
 
-#: src/lib/fcitx-utils/key.cpp:106
+#: src/lib/fcitx-utils/key.cpp:114
 msgctxt "Key name"
 msgid "Home Page"
 msgstr "Startside"
@@ -1235,7 +1192,7 @@ msgstr "Startside"
 msgid "Home:"
 msgstr "Hjem:"
 
-#: src/lib/fcitx-utils/key.cpp:145
+#: src/lib/fcitx-utils/key.cpp:153
 msgctxt "Key name"
 msgid "Hot Links"
 msgstr "Hotlinks"
@@ -1255,7 +1212,7 @@ msgstr ""
 "Hottast til at skifte til den niende inputmetode kun til nuværende "
 "inputkontekst"
 
-#: src/lib/fcitx-utils/key.cpp:567
+#: src/lib/fcitx-utils/key.cpp:575
 msgctxt "Key name"
 msgid "Hyper"
 msgstr "Hyper"
@@ -1297,7 +1254,7 @@ msgstr ""
 "bruger kommandoen ${g36_disable_ibus} til at deaktivere IBus-integration for "
 "at kunne bruge andre inputmetoder end ${2}. Se ${link} for flere detaljer."
 
-#: src/ui/classic/theme.h:127
+#: src/ui/classic/theme.h:135
 msgid "Image"
 msgstr "Billede"
 
@@ -1319,31 +1276,31 @@ msgstr "Konfiguration af inputmetode"
 msgid "Input Method Related Environment Variables: "
 msgstr "Inputmetode med relation til miljøvariabler: "
 
-#: data/fcitx5-diagnose.sh:1704
+#: data/fcitx5-diagnose.sh:1604
 msgid "Input Methods:"
 msgstr ""
 
-#: src/ui/classic/theme.h:199
+#: src/ui/classic/theme.h:207
 msgid "Input Panel"
 msgstr "Inputpanel"
 
-#: src/ui/classic/theme.h:63
+#: src/ui/classic/theme.h:71
 msgid "Input Panel Background"
 msgstr ""
 
-#: src/ui/classic/theme.h:63
+#: src/ui/classic/theme.h:71
 msgid "Input Panel Border"
 msgstr ""
 
-#: src/ui/classic/theme.h:65
+#: src/ui/classic/theme.h:73
 msgid "Input Panel Highlight"
 msgstr ""
 
-#: src/ui/classic/theme.h:64
+#: src/ui/classic/theme.h:72
 msgid "Input Panel Highlight Candidate Background"
 msgstr ""
 
-#: src/ui/classic/theme.h:65
+#: src/ui/classic/theme.h:73
 msgid "Input Panel Highlight Candidate Border"
 msgstr ""
 
@@ -1357,7 +1314,7 @@ msgid ""
 "commonly used by modules like clipboard or quickphrase."
 msgstr ""
 
-#: src/lib/fcitx-utils/key.cpp:229
+#: src/lib/fcitx-utils/key.cpp:237
 msgctxt "Key name"
 msgid "Insert"
 msgstr "Indsæt"
@@ -1366,11 +1323,11 @@ msgstr "Indsæt"
 msgid "Interval of saving user data in minutes"
 msgstr ""
 
-#: data/fcitx5-diagnose.sh:1599
+#: data/fcitx5-diagnose.sh:1499
 msgid "Invalid addon config file ${1}."
 msgstr "Ugyldig tilføjelseskonfigurationsfil ${1}."
 
-#: data/fcitx5-diagnose.sh:1205
+#: data/fcitx5-diagnose.sh:1105
 msgid ""
 "It is OK to use ${1} built-in Wayland im module if your compositor fully "
 "supports text-input protocol used by ${1}."
@@ -1389,26 +1346,26 @@ msgstr ""
 msgid "KDE Input Method Panel"
 msgstr "Panel til KDE-inputmetode"
 
-#: src/ui/classic/classicui.cpp:278
+#: src/ui/classic/classicui.cpp:302
 msgid "KDE Plasma (Experimental)"
 msgstr ""
 
-#: src/lib/fcitx-utils/key.cpp:246
+#: src/lib/fcitx-utils/key.cpp:254
 msgctxt "Key name"
 msgid "Kana Lock"
 msgstr "Kana-lås"
 
-#: src/lib/fcitx-utils/key.cpp:247
+#: src/lib/fcitx-utils/key.cpp:255
 msgctxt "Key name"
 msgid "Kana Shift"
 msgstr "Kana-skift"
 
-#: src/lib/fcitx-utils/key.cpp:234
+#: src/lib/fcitx-utils/key.cpp:242
 msgctxt "Key name"
 msgid "Kanji"
 msgstr "Kanji"
 
-#: src/lib/fcitx-utils/key.cpp:239
+#: src/lib/fcitx-utils/key.cpp:247
 msgctxt "Key name"
 msgid "Katakana"
 msgstr "Katakana"
@@ -1435,12 +1392,12 @@ msgstr "Tastatur - {0}"
 msgid "Keyboard - {0} - {1}"
 msgstr "Tastatur - {0} - {1}"
 
-#: src/lib/fcitx-utils/key.cpp:134
+#: src/lib/fcitx-utils/key.cpp:142
 msgctxt "Key name"
 msgid "Keyboard Brightness Down"
 msgstr "Tastaturlysstyrke ned"
 
-#: src/lib/fcitx-utils/key.cpp:132
+#: src/lib/fcitx-utils/key.cpp:140
 msgctxt "Key name"
 msgid "Keyboard Brightness Up"
 msgstr "Tastaturlysstyrke op"
@@ -1449,315 +1406,315 @@ msgstr "Tastaturlysstyrke op"
 msgid "Keyboard Layout:"
 msgstr "Tastaturlayout:"
 
-#: src/lib/fcitx-utils/key.cpp:131
+#: src/lib/fcitx-utils/key.cpp:139
 msgctxt "Key name"
 msgid "Keyboard Light On/Off"
 msgstr "Tastaturlys til/fra"
 
-#: src/lib/fcitx-utils/key.cpp:171
+#: src/lib/fcitx-utils/key.cpp:179
 msgctxt "Key name"
 msgid "Keyboard Menu"
 msgstr "Tastaturmenu"
 
-#: src/lib/fcitx-utils/key.cpp:74
+#: src/lib/fcitx-utils/key.cpp:82
 msgctxt "Key name"
 msgid "Keypad *"
 msgstr ""
 
-#: src/lib/fcitx-utils/key.cpp:75
+#: src/lib/fcitx-utils/key.cpp:83
 msgctxt "Key name"
 msgid "Keypad +"
 msgstr ""
 
-#: src/lib/fcitx-utils/key.cpp:76
+#: src/lib/fcitx-utils/key.cpp:84
 msgctxt "Key name"
 msgid "Keypad ,"
 msgstr ""
 
-#: src/lib/fcitx-utils/key.cpp:77
+#: src/lib/fcitx-utils/key.cpp:85
 msgctxt "Key name"
 msgid "Keypad -"
 msgstr ""
 
-#: src/lib/fcitx-utils/key.cpp:78
+#: src/lib/fcitx-utils/key.cpp:86
 msgctxt "Key name"
 msgid "Keypad ."
 msgstr ""
 
-#: src/lib/fcitx-utils/key.cpp:79
+#: src/lib/fcitx-utils/key.cpp:87
 msgctxt "Key name"
 msgid "Keypad /"
 msgstr ""
 
-#: src/lib/fcitx-utils/key.cpp:80
+#: src/lib/fcitx-utils/key.cpp:88
 msgctxt "Key name"
 msgid "Keypad 0"
 msgstr ""
 
-#: src/lib/fcitx-utils/key.cpp:81
+#: src/lib/fcitx-utils/key.cpp:89
 msgctxt "Key name"
 msgid "Keypad 1"
 msgstr ""
 
-#: src/lib/fcitx-utils/key.cpp:82
+#: src/lib/fcitx-utils/key.cpp:90
 msgctxt "Key name"
 msgid "Keypad 2"
 msgstr ""
 
-#: src/lib/fcitx-utils/key.cpp:83
+#: src/lib/fcitx-utils/key.cpp:91
 msgctxt "Key name"
 msgid "Keypad 3"
 msgstr ""
 
-#: src/lib/fcitx-utils/key.cpp:84
+#: src/lib/fcitx-utils/key.cpp:92
 msgctxt "Key name"
 msgid "Keypad 4"
 msgstr ""
 
-#: src/lib/fcitx-utils/key.cpp:85
+#: src/lib/fcitx-utils/key.cpp:93
 msgctxt "Key name"
 msgid "Keypad 5"
 msgstr ""
 
-#: src/lib/fcitx-utils/key.cpp:86
+#: src/lib/fcitx-utils/key.cpp:94
 msgctxt "Key name"
 msgid "Keypad 6"
 msgstr ""
 
-#: src/lib/fcitx-utils/key.cpp:87
+#: src/lib/fcitx-utils/key.cpp:95
 msgctxt "Key name"
 msgid "Keypad 7"
 msgstr ""
 
-#: src/lib/fcitx-utils/key.cpp:88
+#: src/lib/fcitx-utils/key.cpp:96
 msgctxt "Key name"
 msgid "Keypad 8"
 msgstr ""
 
-#: src/lib/fcitx-utils/key.cpp:89
+#: src/lib/fcitx-utils/key.cpp:97
 msgctxt "Key name"
 msgid "Keypad 9"
 msgstr ""
 
-#: src/lib/fcitx-utils/key.cpp:73
+#: src/lib/fcitx-utils/key.cpp:81
 msgctxt "Key name"
 msgid "Keypad ="
 msgstr ""
 
-#: src/lib/fcitx-utils/key.cpp:70
+#: src/lib/fcitx-utils/key.cpp:78
 msgctxt "Key name"
 msgid "Keypad Begin"
 msgstr ""
 
-#: src/lib/fcitx-utils/key.cpp:72
+#: src/lib/fcitx-utils/key.cpp:80
 msgctxt "Key name"
 msgid "Keypad Delete"
 msgstr ""
 
-#: src/lib/fcitx-utils/key.cpp:66
+#: src/lib/fcitx-utils/key.cpp:74
 msgctxt "Key name"
 msgid "Keypad Down"
 msgstr ""
 
-#: src/lib/fcitx-utils/key.cpp:69
+#: src/lib/fcitx-utils/key.cpp:77
 msgctxt "Key name"
 msgid "Keypad End"
 msgstr ""
 
-#: src/lib/fcitx-utils/key.cpp:57
+#: src/lib/fcitx-utils/key.cpp:65
 msgctxt "Key name"
 msgid "Keypad Enter"
 msgstr ""
 
-#: src/lib/fcitx-utils/key.cpp:58
+#: src/lib/fcitx-utils/key.cpp:66
 msgctxt "Key name"
 msgid "Keypad F1"
 msgstr ""
 
-#: src/lib/fcitx-utils/key.cpp:59
+#: src/lib/fcitx-utils/key.cpp:67
 msgctxt "Key name"
 msgid "Keypad F2"
 msgstr ""
 
-#: src/lib/fcitx-utils/key.cpp:60
+#: src/lib/fcitx-utils/key.cpp:68
 msgctxt "Key name"
 msgid "Keypad F3"
 msgstr ""
 
-#: src/lib/fcitx-utils/key.cpp:61
+#: src/lib/fcitx-utils/key.cpp:69
 msgctxt "Key name"
 msgid "Keypad F4"
 msgstr ""
 
-#: src/lib/fcitx-utils/key.cpp:62
+#: src/lib/fcitx-utils/key.cpp:70
 msgctxt "Key name"
 msgid "Keypad Home"
 msgstr ""
 
-#: src/lib/fcitx-utils/key.cpp:71
+#: src/lib/fcitx-utils/key.cpp:79
 msgctxt "Key name"
 msgid "Keypad Insert"
 msgstr ""
 
-#: src/lib/fcitx-utils/key.cpp:63
+#: src/lib/fcitx-utils/key.cpp:71
 msgctxt "Key name"
 msgid "Keypad Left"
 msgstr ""
 
-#: src/lib/fcitx-utils/key.cpp:68
+#: src/lib/fcitx-utils/key.cpp:76
 msgctxt "Key name"
 msgid "Keypad Page Down"
 msgstr ""
 
-#: src/lib/fcitx-utils/key.cpp:67
+#: src/lib/fcitx-utils/key.cpp:75
 msgctxt "Key name"
 msgid "Keypad Page Up"
 msgstr ""
 
-#: src/lib/fcitx-utils/key.cpp:65
+#: src/lib/fcitx-utils/key.cpp:73
 msgctxt "Key name"
 msgid "Keypad Right"
 msgstr ""
 
-#: src/lib/fcitx-utils/key.cpp:55
+#: src/lib/fcitx-utils/key.cpp:63
 msgctxt "Key name"
 msgid "Keypad Space"
 msgstr ""
 
-#: src/lib/fcitx-utils/key.cpp:56
+#: src/lib/fcitx-utils/key.cpp:64
 msgctxt "Key name"
 msgid "Keypad Tab"
 msgstr ""
 
-#: src/lib/fcitx-utils/key.cpp:64
+#: src/lib/fcitx-utils/key.cpp:72
 msgctxt "Key name"
 msgid "Keypad Up"
 msgstr ""
 
-#: data/fcitx5-diagnose.sh:1690
+#: data/fcitx5-diagnose.sh:1590
 msgid "Kimpanel process:"
 msgstr "Kimpanel-proces:"
 
-#: src/ui/classic/theme.h:48
+#: src/ui/classic/theme.h:56
 msgid "Last Candidate"
 msgstr ""
 
-#: src/lib/fcitx-utils/key.cpp:112
+#: src/lib/fcitx-utils/key.cpp:120
 msgctxt "Key name"
 msgid "Launch (0)"
 msgstr "Start (0)"
 
-#: src/lib/fcitx-utils/key.cpp:113
+#: src/lib/fcitx-utils/key.cpp:121
 msgctxt "Key name"
 msgid "Launch (1)"
 msgstr "Start (1)"
 
-#: src/lib/fcitx-utils/key.cpp:114
+#: src/lib/fcitx-utils/key.cpp:122
 msgctxt "Key name"
 msgid "Launch (2)"
 msgstr "Start (2)"
 
-#: src/lib/fcitx-utils/key.cpp:115
+#: src/lib/fcitx-utils/key.cpp:123
 msgctxt "Key name"
 msgid "Launch (3)"
 msgstr "Start (3)"
 
-#: src/lib/fcitx-utils/key.cpp:116
+#: src/lib/fcitx-utils/key.cpp:124
 msgctxt "Key name"
 msgid "Launch (4)"
 msgstr "Start (4)"
 
-#: src/lib/fcitx-utils/key.cpp:117
+#: src/lib/fcitx-utils/key.cpp:125
 msgctxt "Key name"
 msgid "Launch (5)"
 msgstr "Start (5)"
 
-#: src/lib/fcitx-utils/key.cpp:118
+#: src/lib/fcitx-utils/key.cpp:126
 msgctxt "Key name"
 msgid "Launch (6)"
 msgstr "Start (6)"
 
-#: src/lib/fcitx-utils/key.cpp:119
+#: src/lib/fcitx-utils/key.cpp:127
 msgctxt "Key name"
 msgid "Launch (7)"
 msgstr "Start (7)"
 
-#: src/lib/fcitx-utils/key.cpp:120
+#: src/lib/fcitx-utils/key.cpp:128
 msgctxt "Key name"
 msgid "Launch (8)"
 msgstr "Start (8)"
 
-#: src/lib/fcitx-utils/key.cpp:121
+#: src/lib/fcitx-utils/key.cpp:129
 msgctxt "Key name"
 msgid "Launch (9)"
 msgstr "Start (9)"
 
-#: src/lib/fcitx-utils/key.cpp:122
+#: src/lib/fcitx-utils/key.cpp:130
 msgctxt "Key name"
 msgid "Launch (A)"
 msgstr "Start (A)"
 
-#: src/lib/fcitx-utils/key.cpp:123
+#: src/lib/fcitx-utils/key.cpp:131
 msgctxt "Key name"
 msgid "Launch (B)"
 msgstr "Start (B)"
 
-#: src/lib/fcitx-utils/key.cpp:124
+#: src/lib/fcitx-utils/key.cpp:132
 msgctxt "Key name"
 msgid "Launch (C)"
 msgstr "Start (C)"
 
-#: src/lib/fcitx-utils/key.cpp:125
+#: src/lib/fcitx-utils/key.cpp:133
 msgctxt "Key name"
 msgid "Launch (D)"
 msgstr "Start (D)"
 
-#: src/lib/fcitx-utils/key.cpp:126
+#: src/lib/fcitx-utils/key.cpp:134
 msgctxt "Key name"
 msgid "Launch (E)"
 msgstr "Start (E)"
 
-#: src/lib/fcitx-utils/key.cpp:127
+#: src/lib/fcitx-utils/key.cpp:135
 msgctxt "Key name"
 msgid "Launch (F)"
 msgstr "Start (F)"
 
-#: src/lib/fcitx-utils/key.cpp:111
+#: src/lib/fcitx-utils/key.cpp:119
 msgctxt "Key name"
 msgid "Launch Mail"
 msgstr "Start mail"
 
-#: src/lib/fcitx-utils/key.cpp:47
+#: src/lib/fcitx-utils/key.cpp:55
 msgctxt "Key name"
 msgid "Left"
 msgstr "Venstre"
 
-#: src/lib/fcitx-utils/key.cpp:30
+#: src/lib/fcitx-utils/key.cpp:38
 msgctxt "Key name"
 msgid "Left Alt"
 msgstr "Venstre Alt"
 
-#: src/lib/fcitx-utils/key.cpp:34
+#: src/lib/fcitx-utils/key.cpp:42
 msgctxt "Key name"
 msgid "Left Control"
 msgstr "Venstre Control"
 
-#: src/lib/fcitx-utils/key.cpp:38
+#: src/lib/fcitx-utils/key.cpp:46
 msgctxt "Key name"
 msgid "Left Hyper"
 msgstr "Venstre Hyper"
 
-#: src/lib/fcitx-utils/key.cpp:32
+#: src/lib/fcitx-utils/key.cpp:40
 msgctxt "Key name"
 msgid "Left Shift"
 msgstr "Venstre Skift"
 
-#: src/lib/fcitx-utils/key.cpp:36
+#: src/lib/fcitx-utils/key.cpp:44
 msgctxt "Key name"
 msgid "Left Super"
 msgstr "Venstre Super"
 
-#: src/lib/fcitx-utils/key.cpp:141
+#: src/lib/fcitx-utils/key.cpp:149
 msgctxt "Key name"
 msgid "LightBulb"
 msgstr "Pære"
@@ -1766,11 +1723,11 @@ msgstr "Pære"
 msgid "Locale:"
 msgstr "Sprog:"
 
-#: data/fcitx5-diagnose.sh:1799
+#: data/fcitx5-diagnose.sh:1698
 msgid "Log:"
 msgstr "Log:"
 
-#: src/lib/fcitx-utils/key.cpp:168
+#: src/lib/fcitx-utils/key.cpp:176
 msgctxt "Key name"
 msgid "Logoff"
 msgstr "Log ud"
@@ -1779,142 +1736,142 @@ msgstr "Log ud"
 msgid "Long Press behavior"
 msgstr "Opførsel for langt tryk"
 
-#: src/lib/fcitx-utils/key.cpp:201
+#: src/lib/fcitx-utils/key.cpp:209
 msgctxt "Key name"
 msgid "Mail Forward"
 msgstr "Mail videresend"
 
-#: src/ui/classic/theme.h:116
+#: src/ui/classic/theme.h:124
 msgid "Margin"
 msgstr "Margen"
 
-#: src/ui/classic/theme.h:78
+#: src/ui/classic/theme.h:86
 msgid "Margin Bottom"
 msgstr "Margen nederst"
 
-#: src/ui/classic/theme.h:72
+#: src/ui/classic/theme.h:80
 msgid "Margin Left"
 msgstr "Margen til venstre"
 
-#: src/ui/classic/theme.h:74
+#: src/ui/classic/theme.h:82
 msgid "Margin Right"
 msgstr "Margen til højre"
 
-#: src/ui/classic/theme.h:76
+#: src/ui/classic/theme.h:84
 msgid "Margin Top"
 msgstr "Margen øverst"
 
-#: src/ui/classic/theme.h:160 src/ui/classic/theme.h:184
+#: src/ui/classic/theme.h:168 src/ui/classic/theme.h:192
 msgid "Margin around all content"
 msgstr "Margen omkring al indholdet"
 
-#: src/ui/classic/theme.h:162 src/ui/classic/theme.h:186
+#: src/ui/classic/theme.h:170 src/ui/classic/theme.h:194
 msgid "Margin around text"
 msgstr "Margen omkring tekst"
 
-#: src/lib/fcitx-utils/key.cpp:169
+#: src/lib/fcitx-utils/key.cpp:177
 msgctxt "Key name"
 msgid "Market"
 msgstr "Marked"
 
-#: src/lib/fcitx-utils/key.cpp:245
+#: src/lib/fcitx-utils/key.cpp:253
 msgctxt "Key name"
 msgid "Massyo"
 msgstr "Massyo"
 
-#: src/lib/fcitx-utils/key.cpp:207
+#: src/lib/fcitx-utils/key.cpp:215
 msgctxt "Key name"
 msgid "Media Fast Forward"
 msgstr "Medie hurtig fremad"
 
-#: src/lib/fcitx-utils/key.cpp:103
+#: src/lib/fcitx-utils/key.cpp:111
 msgctxt "Key name"
 msgid "Media Next"
 msgstr "Medie næste"
 
-#: src/lib/fcitx-utils/key.cpp:105
+#: src/lib/fcitx-utils/key.cpp:113
 msgctxt "Key name"
 msgid "Media Pause"
 msgstr "Medie pause"
 
-#: src/lib/fcitx-utils/key.cpp:100
+#: src/lib/fcitx-utils/key.cpp:108
 msgctxt "Key name"
 msgid "Media Play"
 msgstr "Medie afspil"
 
-#: src/lib/fcitx-utils/key.cpp:102
+#: src/lib/fcitx-utils/key.cpp:110
 msgctxt "Key name"
 msgid "Media Previous"
 msgstr "Medie forrige"
 
-#: src/lib/fcitx-utils/key.cpp:104
+#: src/lib/fcitx-utils/key.cpp:112
 msgctxt "Key name"
 msgid "Media Record"
 msgstr "Medie optag"
 
-#: src/lib/fcitx-utils/key.cpp:149
+#: src/lib/fcitx-utils/key.cpp:157
 msgctxt "Key name"
 msgid "Media Rewind"
 msgstr "Medie spol tilbage"
 
-#: src/lib/fcitx-utils/key.cpp:101
+#: src/lib/fcitx-utils/key.cpp:109
 msgctxt "Key name"
 msgid "Media Stop"
 msgstr "Medie stop"
 
-#: src/lib/fcitx-utils/key.cpp:170
+#: src/lib/fcitx-utils/key.cpp:178
 msgctxt "Key name"
 msgid "Meeting"
 msgstr "Møde"
 
-#: src/ui/classic/theme.h:200
+#: src/ui/classic/theme.h:208
 msgid "Menu"
 msgstr "Menu"
 
-#: src/lib/fcitx-utils/key.cpp:91
+#: src/lib/fcitx-utils/key.cpp:99
 msgctxt "Key name"
 msgid "Menu"
 msgstr "Menu"
 
-#: src/ui/classic/theme.h:66
+#: src/ui/classic/theme.h:74
 msgid "Menu Background"
 msgstr ""
 
-#: src/ui/classic/theme.h:66
+#: src/ui/classic/theme.h:74
 msgid "Menu Border"
 msgstr ""
 
-#: src/ui/classic/classicui.h:119
+#: src/ui/classic/classicui.h:128
 msgid "Menu Font"
 msgstr "Menuens skrifttype"
 
-#: src/lib/fcitx-utils/key.cpp:172
+#: src/lib/fcitx-utils/key.cpp:180
 msgctxt "Key name"
 msgid "Menu PB"
 msgstr "Menu-PB"
 
-#: src/ui/classic/theme.h:67
+#: src/ui/classic/theme.h:75
 msgid "Menu Selected Item Background"
 msgstr ""
 
-#: src/ui/classic/theme.h:67
+#: src/ui/classic/theme.h:75
 msgid "Menu Selected Item Border"
 msgstr ""
 
-#: src/ui/classic/theme.h:68
+#: src/ui/classic/theme.h:76
 msgid "Menu Separator"
 msgstr ""
 
-#: src/lib/fcitx-utils/key.cpp:199
+#: src/lib/fcitx-utils/key.cpp:207
 msgctxt "Key name"
 msgid "Messenger"
 msgstr "Messenger"
 
-#: src/ui/classic/theme.h:197
+#: src/ui/classic/theme.h:205
 msgid "Metadata"
 msgstr "Metadata"
 
-#: src/lib/fcitx-utils/key.cpp:218
+#: src/lib/fcitx-utils/key.cpp:226
 msgctxt "Key name"
 msgid "Microphone Mute"
 msgstr "Mikrofon mute"
@@ -1923,46 +1880,46 @@ msgstr "Mikrofon mute"
 msgid "Modifier Only Hotkey Timeout in Milliseconds"
 msgstr ""
 
-#: src/lib/fcitx-utils/key.cpp:130
+#: src/lib/fcitx-utils/key.cpp:138
 msgctxt "Key name"
 msgid "Monitor Brightness Down"
 msgstr "Skærm lysstyrke ned"
 
-#: src/lib/fcitx-utils/key.cpp:128
+#: src/lib/fcitx-utils/key.cpp:136
 msgctxt "Key name"
 msgid "Monitor Brightness Up"
 msgstr "Skærm lysstyrke op"
 
-#: src/lib/fcitx-utils/key.cpp:235
+#: src/lib/fcitx-utils/key.cpp:243
 msgctxt "Key name"
 msgid "Muhenkan"
 msgstr "Muhenkan"
 
-#: src/lib/fcitx-utils/key.cpp:251
+#: src/lib/fcitx-utils/key.cpp:259
 msgctxt "Key name"
 msgid "Multiple Candidate"
 msgstr "Flere kandidat"
 
-#: src/lib/fcitx-utils/key.cpp:203
+#: src/lib/fcitx-utils/key.cpp:211
 msgctxt "Key name"
 msgid "Music"
 msgstr "Musik"
 
-#: src/lib/fcitx-utils/key.cpp:173
+#: src/lib/fcitx-utils/key.cpp:181
 msgctxt "Key name"
 msgid "My Sites"
 msgstr "Mine steder"
 
-#: src/ui/classic/theme.h:189
+#: src/ui/classic/theme.h:197
 msgid "Name"
 msgstr "Navn"
 
-#: src/lib/fcitx-utils/key.cpp:223
+#: src/lib/fcitx-utils/key.cpp:231
 msgctxt "Key name"
 msgid "New"
 msgstr "Ny(t)"
 
-#: src/lib/fcitx-utils/key.cpp:174
+#: src/lib/fcitx-utils/key.cpp:182
 msgctxt "Key name"
 msgid "News"
 msgstr "Nyheder"
@@ -1971,7 +1928,7 @@ msgstr "Nyheder"
 msgid "Next Candidate"
 msgstr "Næste kandidat"
 
-#: src/ui/classic/theme.h:164
+#: src/ui/classic/theme.h:172
 msgid "Next Page Button"
 msgstr "Knap for næste side"
 
@@ -1987,11 +1944,11 @@ msgstr "Ingen udklipsholderhistorik."
 msgid "None"
 msgstr "Ingen"
 
-#: src/ui/classic/theme.h:133 src/ui/classic/theme.h:169
+#: src/ui/classic/theme.h:141 src/ui/classic/theme.h:177
 msgid "Normal text color"
 msgstr "Normal tekstfarve"
 
-#: src/ui/classic/classicui.h:179
+#: src/ui/classic/classicui.h:188
 msgid ""
 "Normally Wayland uses 96 as font DPI in combinition with the screen scale "
 "factor. This option allows you to override the font DPI. If the value is 0, "
@@ -2010,7 +1967,7 @@ msgstr "Bemærkning til GNOME senere end 3.6"
 msgid "Notification"
 msgstr "Underretning"
 
-#: src/lib/fcitx-utils/key.cpp:54
+#: src/lib/fcitx-utils/key.cpp:62
 msgctxt "Key name"
 msgid "NumLock"
 msgstr "NumLock"
@@ -2027,38 +1984,38 @@ msgstr ""
 "Fandt kun understøttelse af emoji. For at aktivere stavekontrol skal du "
 "installere stavekontroldata til sproget."
 
-#: src/lib/fcitx-utils/key.cpp:224
+#: src/lib/fcitx-utils/key.cpp:232
 msgctxt "Key name"
 msgid "Open"
 msgstr "Åbn"
 
-#: src/lib/fcitx-utils/key.cpp:110
+#: src/lib/fcitx-utils/key.cpp:118
 msgctxt "Key name"
 msgid "Open URL"
 msgstr "Åbn URL"
 
-#: src/lib/fcitx-utils/key.cpp:176
+#: src/lib/fcitx-utils/key.cpp:184
 msgctxt "Key name"
 msgid "Option"
 msgstr "Valgmulighed"
 
-#: src/ui/classic/theme.h:118
+#: src/ui/classic/theme.h:126
 msgid "Overlay Clip Margin"
 msgstr "Klikmargen for overlægning"
 
-#: src/ui/classic/theme.h:108
+#: src/ui/classic/theme.h:116
 msgid "Overlay Image"
 msgstr "Billede for overlægning"
 
-#: src/ui/classic/theme.h:111
+#: src/ui/classic/theme.h:119
 msgid "Overlay X offset"
 msgstr "X-forskydning for overlægning"
 
-#: src/ui/classic/theme.h:112
+#: src/ui/classic/theme.h:120
 msgid "Overlay Y offset"
 msgstr "Y-forskydning for overlægning"
 
-#: src/ui/classic/theme.h:110
+#: src/ui/classic/theme.h:118
 msgid "Overlay position"
 msgstr "Placering for overlægning"
 
@@ -2074,17 +2031,17 @@ msgstr "Ejer af DBus-navnet ${1} er ${2}."
 msgid "PID of DBus name ${1} owner is ${2}."
 msgstr "PID af ejeren af DBus-navnet ${1} er ${2}."
 
-#: src/lib/fcitx-utils/key.cpp:52
+#: src/lib/fcitx-utils/key.cpp:60
 msgctxt "Key name"
 msgid "Page Down"
 msgstr ""
 
-#: src/lib/fcitx-utils/key.cpp:51
+#: src/lib/fcitx-utils/key.cpp:59
 msgctxt "Key name"
 msgid "Page Up"
 msgstr ""
 
-#: src/ui/classic/theme.h:153
+#: src/ui/classic/theme.h:161
 msgid "Page button vertical alignment"
 msgstr ""
 
@@ -2092,7 +2049,7 @@ msgstr ""
 msgid "Page size"
 msgstr "Sidestørrelse"
 
-#: src/lib/fcitx-utils/key.cpp:177
+#: src/lib/fcitx-utils/key.cpp:185
 msgctxt "Key name"
 msgid "Paste"
 msgstr "Indsæt"
@@ -2101,17 +2058,17 @@ msgstr "Indsæt"
 msgid "Paste Primary"
 msgstr "Indsæt primære"
 
-#: src/lib/fcitx-utils/key.cpp:44
+#: src/lib/fcitx-utils/key.cpp:52
 msgctxt "Key name"
 msgid "Pause"
 msgstr "Pause"
 
-#: src/lib/fcitx-utils/key.cpp:178
+#: src/lib/fcitx-utils/key.cpp:186
 msgctxt "Key name"
 msgid "Phone"
 msgstr "Telefon"
 
-#: src/lib/fcitx-utils/key.cpp:202
+#: src/lib/fcitx-utils/key.cpp:210
 msgctxt "Key name"
 msgid "Pictures"
 msgstr "Billeder"
@@ -2137,12 +2094,12 @@ msgstr ""
 "værktøjet som din distribution leverer eller tilføj ${1} til din ${2}. Se "
 "${link}."
 
-#: src/lib/fcitx-utils/key.cpp:216
+#: src/lib/fcitx-utils/key.cpp:224
 msgctxt "Key name"
 msgid "Power Down"
 msgstr "Sluk"
 
-#: src/lib/fcitx-utils/key.cpp:135
+#: src/lib/fcitx-utils/key.cpp:143
 msgctxt "Key name"
 msgid "Power Off"
 msgstr "Sluk"
@@ -2159,7 +2116,7 @@ msgstr "Preedit deaktiveret"
 msgid "Preedit enabled"
 msgstr "Preedit aktiveret"
 
-#: src/ui/classic/classicui.h:127 src/ui/kimpanel/kimpanel.h:28
+#: src/ui/classic/classicui.h:136 src/ui/kimpanel/kimpanel.h:28
 msgid "Prefer Text Icon"
 msgstr ""
 
@@ -2171,16 +2128,16 @@ msgstr "Varsel"
 msgid "Prev Candidate"
 msgstr "Forrige kandidat"
 
-#: src/ui/classic/theme.h:163
+#: src/ui/classic/theme.h:171
 msgid "Prev Page Button"
 msgstr "Knap for forrige side"
 
-#: src/lib/fcitx-utils/key.cpp:252
+#: src/lib/fcitx-utils/key.cpp:260
 msgctxt "Key name"
 msgid "Previous Candidate"
 msgstr "Forrige kandidat"
 
-#: src/lib/fcitx-utils/key.cpp:228
+#: src/lib/fcitx-utils/key.cpp:236
 msgctxt "Key name"
 msgid "Print Screen"
 msgstr "Print Screen"
@@ -2189,7 +2146,7 @@ msgstr "Print Screen"
 msgid "Program"
 msgstr ""
 
-#: data/fcitx5-diagnose.sh:1249
+#: data/fcitx5-diagnose.sh:1149
 msgid "Qt IM module files:"
 msgstr "Filer for Qt IM-modul:"
 
@@ -2201,27 +2158,27 @@ msgstr "Hurtigfrase"
 msgid "Quick Phrase: "
 msgstr "Hurtigfrase: "
 
-#: src/lib/fcitx-utils/key.cpp:219
+#: src/lib/fcitx-utils/key.cpp:227
 msgctxt "Key name"
 msgid "Red"
 msgstr "Rød"
 
-#: src/lib/fcitx-utils/key.cpp:227
+#: src/lib/fcitx-utils/key.cpp:235
 msgctxt "Key name"
 msgid "Redo"
 msgstr "Omgør"
 
-#: src/lib/fcitx-utils/key.cpp:96
+#: src/lib/fcitx-utils/key.cpp:104
 msgctxt "Key name"
 msgid "Refresh"
 msgstr "Genindlæs"
 
-#: src/lib/fcitx-utils/key.cpp:180
+#: src/lib/fcitx-utils/key.cpp:188
 msgctxt "Key name"
 msgid "Reload"
 msgstr "Genindlæs"
 
-#: src/lib/fcitx-utils/key.cpp:179
+#: src/lib/fcitx-utils/key.cpp:187
 msgctxt "Key name"
 msgid "Reply"
 msgstr "Svar"
@@ -2230,62 +2187,62 @@ msgstr "Svar"
 msgid "Reset state on Focus In"
 msgstr ""
 
-#: src/ui/classic/xcbtraywindow.cpp:39
+#: src/ui/classic/xcbtraywindow.cpp:56
 #: src/modules/notificationitem/dbusmenu.cpp:261
 msgid "Restart"
 msgstr "Genstart"
 
-#: src/lib/fcitx-utils/key.cpp:43
+#: src/lib/fcitx-utils/key.cpp:51
 msgctxt "Key name"
 msgid "Return"
 msgstr "Retur"
 
-#: src/lib/fcitx-utils/key.cpp:49
+#: src/lib/fcitx-utils/key.cpp:57
 msgctxt "Key name"
 msgid "Right"
 msgstr "Højre"
 
-#: src/lib/fcitx-utils/key.cpp:31
+#: src/lib/fcitx-utils/key.cpp:39
 msgctxt "Key name"
 msgid "Right Alt"
 msgstr "Højre Alt"
 
-#: src/lib/fcitx-utils/key.cpp:35
+#: src/lib/fcitx-utils/key.cpp:43
 msgctxt "Key name"
 msgid "Right Control"
 msgstr "Højre Control"
 
-#: src/lib/fcitx-utils/key.cpp:39
+#: src/lib/fcitx-utils/key.cpp:47
 msgctxt "Key name"
 msgid "Right Hyper"
 msgstr "Højre Hyper"
 
-#: src/lib/fcitx-utils/key.cpp:33
+#: src/lib/fcitx-utils/key.cpp:41
 msgctxt "Key name"
 msgid "Right Shift"
 msgstr "Højre Skift"
 
-#: src/lib/fcitx-utils/key.cpp:37
+#: src/lib/fcitx-utils/key.cpp:45
 msgctxt "Key name"
 msgid "Right Super"
 msgstr "Højre Super"
 
-#: src/lib/fcitx-utils/key.cpp:237
+#: src/lib/fcitx-utils/key.cpp:245
 msgctxt "Key name"
 msgid "Romaji"
 msgstr "Romaji"
 
-#: src/lib/fcitx-utils/key.cpp:181
+#: src/lib/fcitx-utils/key.cpp:189
 msgctxt "Key name"
 msgid "Rotate Windows"
 msgstr "Roter vinduer"
 
-#: src/lib/fcitx-utils/key.cpp:183
+#: src/lib/fcitx-utils/key.cpp:191
 msgctxt "Key name"
 msgid "Rotation KB"
 msgstr "Rotation KB"
 
-#: src/lib/fcitx-utils/key.cpp:182
+#: src/lib/fcitx-utils/key.cpp:190
 msgctxt "Key name"
 msgid "Rotation PB"
 msgstr "Rotation PB"
@@ -2294,22 +2251,22 @@ msgstr "Rotation PB"
 msgid "Running as root:"
 msgstr "Kører som root:"
 
-#: src/lib/fcitx-utils/key.cpp:184
+#: src/lib/fcitx-utils/key.cpp:192
 msgctxt "Key name"
 msgid "Save"
 msgstr "Gem"
 
-#: src/lib/fcitx-utils/key.cpp:138
+#: src/lib/fcitx-utils/key.cpp:146
 msgctxt "Key name"
 msgid "Screensaver"
 msgstr "Pauseskærm"
 
-#: src/lib/fcitx-utils/key.cpp:90
+#: src/lib/fcitx-utils/key.cpp:98
 msgctxt "Key name"
 msgid "ScrollLock"
 msgstr "ScrollLock"
 
-#: src/lib/fcitx-utils/key.cpp:108
+#: src/lib/fcitx-utils/key.cpp:116
 msgctxt "Key name"
 msgid "Search"
 msgstr "Søg"
@@ -2318,7 +2275,7 @@ msgstr "Søg"
 msgid "Seconds before clearing password"
 msgstr ""
 
-#: src/lib/fcitx-utils/key.cpp:233
+#: src/lib/fcitx-utils/key.cpp:241
 msgctxt "Key name"
 msgid "Select"
 msgstr "Vælg"
@@ -2335,11 +2292,11 @@ msgstr "Vælg lokal inputmetode:"
 msgid "Select specific input method via keyboard"
 msgstr "Vælg bestemt inputmetode via tastatur"
 
-#: src/ui/classic/theme.h:172
+#: src/ui/classic/theme.h:180
 msgid "Selected Item text color"
 msgstr ""
 
-#: src/lib/fcitx-utils/key.cpp:185
+#: src/lib/fcitx-utils/key.cpp:193
 msgctxt "Key name"
 msgid "Send"
 msgstr "Send"
@@ -2351,11 +2308,11 @@ msgid ""
 "layout conversion by adding layout as input method to the input method group."
 msgstr ""
 
-#: src/ui/classic/theme.h:180
+#: src/ui/classic/theme.h:188
 msgid "Separator Background"
 msgstr "Baggrund for separator"
 
-#: src/ui/classic/theme.h:166
+#: src/ui/classic/theme.h:174
 msgid "Shadow Margin"
 msgstr ""
 
@@ -2363,12 +2320,12 @@ msgstr ""
 msgid "Share Input State"
 msgstr "Del inputtilstand"
 
-#: src/lib/fcitx-utils/key.cpp:564
+#: src/lib/fcitx-utils/key.cpp:572
 msgctxt "Key name"
 msgid "Shift"
 msgstr "Skift"
 
-#: src/lib/fcitx-utils/key.cpp:142
+#: src/lib/fcitx-utils/key.cpp:150
 msgctxt "Key name"
 msgid "Shop"
 msgstr "Butik"
@@ -2381,7 +2338,7 @@ msgstr "Vis information om inputmetode når der skiftes fokus"
 msgid "Show Input Method Information when switch input method"
 msgstr "Vis information om inputmetode når der skiftes inputmetode"
 
-#: src/ui/classic/classicui.h:132
+#: src/ui/classic/classicui.h:141
 msgid "Show Layout Name In Icon"
 msgstr ""
 
@@ -2393,7 +2350,7 @@ msgstr "Vis kompakt information om inputmetode"
 msgid "Show first input method information"
 msgstr "Vis første information om inputmetode"
 
-#: src/ui/classic/classicui.h:136
+#: src/ui/classic/classicui.h:145
 msgid ""
 "Show layout name in icon if there is more than one active layout. If prefer "
 "text icon is set to true, this option will be ignored."
@@ -2417,17 +2374,17 @@ msgstr ""
 msgid "Skip first input method while enumerating"
 msgstr "Spring over første inputmetode under gennemløb"
 
-#: src/lib/fcitx-utils/key.cpp:140
+#: src/lib/fcitx-utils/key.cpp:148
 msgctxt "Key name"
 msgid "Sleep"
 msgstr "Sov"
 
-#: src/lib/fcitx-utils/key.cpp:40
+#: src/lib/fcitx-utils/key.cpp:48
 msgctxt "Key name"
 msgid "Space"
 msgstr "Mellemrum"
 
-#: src/ui/classic/theme.h:174
+#: src/ui/classic/theme.h:182
 msgid "Spacing"
 msgstr "Afstand"
 
@@ -2435,22 +2392,22 @@ msgstr "Afstand"
 msgid "Spell"
 msgstr "Stav"
 
-#: src/lib/fcitx-utils/key.cpp:186
+#: src/lib/fcitx-utils/key.cpp:194
 msgctxt "Key name"
 msgid "Spellchecker"
 msgstr "Stavekontrol"
 
-#: src/lib/fcitx-utils/key.cpp:187
+#: src/lib/fcitx-utils/key.cpp:195
 msgctxt "Key name"
 msgid "Split Screen"
 msgstr "Opdelt skærm"
 
-#: src/lib/fcitx-utils/key.cpp:163
+#: src/lib/fcitx-utils/key.cpp:171
 msgctxt "Key name"
 msgid "Spreadsheet"
 msgstr "Regneark"
 
-#: src/lib/fcitx-utils/key.cpp:109
+#: src/lib/fcitx-utils/key.cpp:117
 msgctxt "Key name"
 msgid "Standby"
 msgstr "Standby"
@@ -2464,16 +2421,16 @@ msgstr "Start inputmetode"
 msgid "Status Notifier"
 msgstr "Statusunderretter"
 
-#: src/lib/fcitx-utils/key.cpp:95
+#: src/lib/fcitx-utils/key.cpp:103
 msgctxt "Key name"
 msgid "Stop"
 msgstr "Stop"
 
-#: src/ui/classic/theme.h:182
+#: src/ui/classic/theme.h:190
 msgid "Sub Menu"
 msgstr "Undermenu"
 
-#: src/lib/fcitx-utils/key.cpp:210
+#: src/lib/fcitx-utils/key.cpp:218
 msgctxt "Key name"
 msgid "Subtitle"
 msgstr "Undertekst"
@@ -2482,17 +2439,17 @@ msgstr "Undertekst"
 msgid "Super"
 msgstr "Super"
 
-#: src/lib/fcitx-utils/key.cpp:565
+#: src/lib/fcitx-utils/key.cpp:573
 msgctxt "Key name"
 msgid "Super"
 msgstr "Super"
 
-#: src/lib/fcitx-utils/key.cpp:188
+#: src/lib/fcitx-utils/key.cpp:196
 msgctxt "Key name"
 msgid "Support"
 msgstr "Understøttelse"
 
-#: src/lib/fcitx-utils/key.cpp:217
+#: src/lib/fcitx-utils/key.cpp:225
 msgctxt "Key name"
 msgid "Suspend"
 msgstr "Hvile"
@@ -2516,17 +2473,17 @@ msgstr "Skiftede gruppe til {0}"
 msgid "System Info:"
 msgstr "Systeminfo:"
 
-#: src/lib/fcitx-utils/key.cpp:232
+#: src/lib/fcitx-utils/key.cpp:240
 msgctxt "Key name"
 msgid "System Request"
 msgstr "System Request"
 
-#: src/lib/fcitx-utils/key.cpp:41
+#: src/lib/fcitx-utils/key.cpp:49
 msgctxt "Key name"
 msgid "Tab"
 msgstr "Tabulator"
 
-#: src/lib/fcitx-utils/key.cpp:189
+#: src/lib/fcitx-utils/key.cpp:197
 msgctxt "Key name"
 msgid "Task Panel"
 msgstr "Opgavepanel"
@@ -2535,12 +2492,12 @@ msgstr "Opgavepanel"
 msgid "Temporally switch between first and current Input Method"
 msgstr "Skift midlertidigt mellem første og nuværende inputmetode"
 
-#: src/lib/fcitx-utils/key.cpp:190
+#: src/lib/fcitx-utils/key.cpp:198
 msgctxt "Key name"
 msgid "Terminal"
 msgstr "Terminal"
 
-#: data/fcitx5-diagnose.sh:1786
+#: data/fcitx5-diagnose.sh:1685
 #, sh-format
 msgid ""
 "The environment variable checked by this script only shows the environment "
@@ -2559,38 +2516,38 @@ msgstr "Den niende hottast i listen vælger den niende inputmetode."
 msgid "The script is run as ${1} (${2})."
 msgstr "Scriptet køres som ${1} (${2})."
 
-#: src/ui/classic/classicui.h:152
+#: src/ui/classic/classicui.h:161
 msgid "Theme"
 msgstr "Tema"
 
-#: src/ui/classic/classicui.h:98
+#: src/ui/classic/classicui.h:107
 msgid "This is only effective when the tray icon is xembed."
 msgstr "Anvendes kun når bakkeikonet er xembed."
 
-#: src/ui/classic/theme.h:91 src/ui/classic/theme.h:99
+#: src/ui/classic/theme.h:99 src/ui/classic/theme.h:107
 msgid "This option is only effective if image is not set."
 msgstr ""
 
-#: src/ui/classic/classicui.h:191
+#: src/ui/classic/classicui.h:200
 msgid "This option require support from wayland compositor."
 msgstr ""
 
-#: src/ui/classic/classicui.h:170
+#: src/ui/classic/classicui.h:179
 msgid "This option will be always disabled on XWayland."
 msgstr ""
 
-#: src/ui/classic/theme.h:107
+#: src/ui/classic/theme.h:115
 msgid "This value should be less than any of margin value."
 msgstr ""
 
-#: data/fcitx5-diagnose.sh:1805
+#: data/fcitx5-diagnose.sh:1704
 msgid ""
 "Though such information can be helpful to developers for diagnostic purpose, "
 "please double check and remove as necessary before posting it online "
 "publicly."
 msgstr ""
 
-#: src/lib/fcitx-utils/key.cpp:212
+#: src/lib/fcitx-utils/key.cpp:220
 msgctxt "Key name"
 msgid "Time"
 msgstr "Klokkeslæt"
@@ -2610,66 +2567,66 @@ msgstr ""
 msgid "Toggle embedded preedit"
 msgstr "Indlejret preedit til/fra"
 
-#: src/lib/fcitx-utils/key.cpp:191
+#: src/lib/fcitx-utils/key.cpp:199
 msgctxt "Key name"
 msgid "Tools"
 msgstr "Værktøjer"
 
-#: src/ui/classic/theme.h:46
+#: src/ui/classic/theme.h:54
 msgid "Top"
 msgstr ""
 
-#: src/ui/classic/theme.h:33
+#: src/ui/classic/theme.h:41
 msgid "Top Center"
 msgstr "Øverst i midten"
 
-#: src/ui/classic/theme.h:33
+#: src/ui/classic/theme.h:41
 msgid "Top Left"
 msgstr "Øverst til venstre"
 
-#: src/lib/fcitx-utils/key.cpp:215
+#: src/lib/fcitx-utils/key.cpp:223
 msgctxt "Key name"
 msgid "Top Menu"
 msgstr "Topmenu"
 
-#: src/ui/classic/theme.h:34
+#: src/ui/classic/theme.h:42
 msgid "Top Right"
 msgstr "Øverst til højre"
 
-#: src/lib/fcitx-utils/key.cpp:268
+#: src/lib/fcitx-utils/key.cpp:276
 msgctxt "Key name"
 msgid "Touchpad Off"
 msgstr "Touchpad fra"
 
-#: src/lib/fcitx-utils/key.cpp:267
+#: src/lib/fcitx-utils/key.cpp:275
 msgctxt "Key name"
 msgid "Touchpad On"
 msgstr "Touchpad til"
 
-#: src/lib/fcitx-utils/key.cpp:266
+#: src/lib/fcitx-utils/key.cpp:274
 msgctxt "Key name"
 msgid "Touchpad Toggle"
 msgstr "Touchpad til/fra"
 
-#: src/lib/fcitx-utils/key.cpp:244
+#: src/lib/fcitx-utils/key.cpp:252
 msgctxt "Key name"
 msgid "Touroku"
 msgstr "Touroku"
 
-#: src/lib/fcitx-utils/key.cpp:192
+#: src/lib/fcitx-utils/key.cpp:200
 msgctxt "Key name"
 msgid "Travel"
 msgstr "Rejse"
 
-#: src/ui/classic/classicui.h:121
+#: src/ui/classic/classicui.h:130
 msgid "Tray Font"
 msgstr "Skrifttype for bakke"
 
-#: src/ui/classic/classicui.h:123
+#: src/ui/classic/classicui.h:132
 msgid "Tray Label Outline Color"
 msgstr ""
 
-#: src/ui/classic/classicui.h:126
+#: src/ui/classic/classicui.h:135
 msgid "Tray Label Text Color"
 msgstr ""
 
@@ -2711,7 +2668,7 @@ msgstr "Skriver med Fcitx og Kimpanel"
 msgid "Unable to find a program to check dbus."
 msgstr "Kan ikke finde et program til at tjekke dbus."
 
-#: src/lib/fcitx-utils/key.cpp:226
+#: src/lib/fcitx-utils/key.cpp:234
 msgctxt "Key name"
 msgid "Undo"
 msgstr "Fortryd"
@@ -2724,7 +2681,7 @@ msgstr "Unicode"
 msgid "Unicode: "
 msgstr "Unicode: "
 
-#: src/lib/fcitx-utils/key.cpp:48
+#: src/lib/fcitx-utils/key.cpp:56
 msgctxt "Key name"
 msgid "Up"
 msgstr "Op"
@@ -2733,19 +2690,19 @@ msgstr "Op"
 msgid "Use On The Spot Style (Needs restarting)"
 msgstr "Brug her-og-nu-stil (kræver genstart)"
 
-#: src/ui/classic/classicui.h:166
+#: src/ui/classic/classicui.h:175
 msgid "Use Per Screen DPI on X11"
 msgstr ""
 
-#: src/ui/classic/theme.h:149
+#: src/ui/classic/theme.h:157
 msgid "Use all horizontal space for highlight when it is vertical list"
 msgstr "Brug al vandret plads til fremhævning når det er en lodret liste"
 
-#: src/ui/classic/classicui.h:143
+#: src/ui/classic/classicui.h:152
 msgid "Use input method language to display text"
 msgstr ""
 
-#: src/ui/classic/classicui.h:113
+#: src/ui/classic/classicui.h:122
 msgid "Use mouse wheel to go to prev or next page"
 msgstr "Brug musehjulet for at gå til forrige eller næste side"
 
@@ -2753,7 +2710,7 @@ msgstr "Brug musehjulet for at gå til forrige eller næste side"
 msgid "Use new compose behavior"
 msgstr ""
 
-#: data/fcitx5-diagnose.sh:1677
+#: data/fcitx5-diagnose.sh:1577
 msgid "User Interface:"
 msgstr "Brugerflade:"
 
@@ -2767,59 +2724,59 @@ msgid ""
 "environment:"
 msgstr ""
 
-#: src/ui/classic/theme.h:190
+#: src/ui/classic/theme.h:198
 msgid "Version"
 msgstr "Version"
 
-#: data/fcitx5-diagnose.sh:1405 data/fcitx5-diagnose.sh:1489
+#: data/fcitx5-diagnose.sh:1305 data/fcitx5-diagnose.sh:1389
 msgid "Version Line:"
 msgstr "Versionslinje:"
 
-#: src/ui/classic/classicui.h:111
+#: src/ui/classic/classicui.h:120
 msgid "Vertical Candidate List"
 msgstr "Lodret kandidatliste"
 
-#: src/lib/fcitx-utils/key.cpp:193
+#: src/lib/fcitx-utils/key.cpp:201
 msgctxt "Key name"
 msgid "Video"
 msgstr "Video"
 
-#: src/lib/fcitx-utils/key.cpp:214
+#: src/lib/fcitx-utils/key.cpp:222
 msgctxt "Key name"
 msgid "View"
 msgstr "Visning"
 
-#: src/lib/fcitx-utils/key.cpp:269
+#: src/lib/fcitx-utils/key.cpp:277
 msgctxt "Key name"
 msgid "Void Symbol"
 msgstr ""
 
-#: src/lib/fcitx-utils/key.cpp:97
+#: src/lib/fcitx-utils/key.cpp:105
 msgctxt "Key name"
 msgid "Volume Down"
 msgstr "Lydstyrke ned"
 
-#: src/lib/fcitx-utils/key.cpp:98
+#: src/lib/fcitx-utils/key.cpp:106
 msgctxt "Key name"
 msgid "Volume Mute"
 msgstr "Lydstyrke mute"
 
-#: src/lib/fcitx-utils/key.cpp:99
+#: src/lib/fcitx-utils/key.cpp:107
 msgctxt "Key name"
 msgid "Volume Up"
 msgstr "Lydstyrke op"
 
-#: src/lib/fcitx-utils/key.cpp:139
+#: src/lib/fcitx-utils/key.cpp:147
 msgctxt "Key name"
 msgid "WWW"
 msgstr "WWW"
 
-#: src/lib/fcitx-utils/key.cpp:136
+#: src/lib/fcitx-utils/key.cpp:144
 msgctxt "Key name"
 msgid "Wake Up"
 msgstr "Vågn op"
 
-#: data/fcitx5-diagnose.sh:1804
+#: data/fcitx5-diagnose.sh:1703
 msgid ""
 "Warning: the output of fcitx5-diagnose contains sensitive information, "
 "including the distribution name, kernel version, name of currently running "
@@ -2838,7 +2795,7 @@ msgstr ""
 msgid "Wayland Input method frontend"
 msgstr "Wayland-inputmetode-frontend"
 
-#: src/lib/fcitx-utils/key.cpp:200
+#: src/lib/fcitx-utils/key.cpp:208
 msgctxt "Key name"
 msgid "WebCam"
 msgstr "Webcam"
@@ -2867,12 +2824,12 @@ msgstr ""
 msgid "Why is it bad to run as root"
 msgstr "Hvorfor det er en dårlig ide at køre som root"
 
-#: src/lib/fcitx-utils/key.cpp:206
+#: src/lib/fcitx-utils/key.cpp:214
 msgctxt "Key name"
 msgid "Wireless"
 msgstr "Trådløs"
 
-#: src/lib/fcitx-utils/key.cpp:194
+#: src/lib/fcitx-utils/key.cpp:202
 msgctxt "Key name"
 msgid "Word Processor"
 msgstr "Tekstbehandling"
@@ -2889,36 +2846,36 @@ msgstr "XCB"
 msgid "XDG SESSION TYPE:"
 msgstr ""
 
-#: src/lib/fcitx-utils/key.cpp:195
+#: src/lib/fcitx-utils/key.cpp:203
 msgctxt "Key name"
 msgid "XFer"
 msgstr "XFer"
 
-#: data/fcitx5-diagnose.sh:1188
+#: data/fcitx5-diagnose.sh:1088
 msgid "XIM encoding:"
 msgstr "XIM-kodning:"
 
-#: data/fcitx5-diagnose.sh:1183
+#: data/fcitx5-diagnose.sh:1083
 msgid "XIM for Emacs:"
 msgstr "XIM til Emacs:"
 
-#: data/fcitx5-diagnose.sh:1159
+#: data/fcitx5-diagnose.sh:1059
 msgid "XIM_SERVERS on root window:"
 msgstr "XIM_SERVERS på rod-vindue:"
 
-#: data/fcitx5-diagnose.sh:1136
+#: data/fcitx5-diagnose.sh:1036
 msgid "XMODIFIERS is not set"
 msgstr "XMODIFIERS er ikke sat"
 
-#: data/fcitx5-diagnose.sh:1157
+#: data/fcitx5-diagnose.sh:1057
 msgid "Xim Server Name from Environment variable is ${1}."
 msgstr "Xim-servernavn fra miljøvariabel er ${1}."
 
-#: data/fcitx5-diagnose.sh:1169
+#: data/fcitx5-diagnose.sh:1069
 msgid "Xim server name is the same with that set in the environment variable."
 msgstr "Xim-servernavn er det samme som det der er sat i miljøvariablen."
 
-#: data/fcitx5-diagnose.sh:1171
+#: data/fcitx5-diagnose.sh:1071
 msgid ""
 "Xim server name: \"${1}\" is different from that set in the environment "
 "variable: \"${2}\"."
@@ -2926,7 +2883,7 @@ msgstr ""
 "Xim-servernavn: \"${1}\" er ikke det samme som det der er sat i "
 "miljøvariablen: \"${2}\"."
 
-#: src/lib/fcitx-utils/key.cpp:221
+#: src/lib/fcitx-utils/key.cpp:229
 msgctxt "Key name"
 msgid "Yellow"
 msgstr "Gul"
@@ -2950,11 +2907,11 @@ msgstr ""
 "Du bruger formodentligt ${1} til at køre scriptet. Det betyder at resultatet "
 "af scriptet kan være upræcist. Se ${2} for mere information."
 
-#: data/fcitx5-diagnose.sh:1213
+#: data/fcitx5-diagnose.sh:1113
 msgid "You are using xim in ${1} programs."
 msgstr "Du bruger xim i ${1} programmer."
 
-#: data/fcitx5-diagnose.sh:1218
+#: data/fcitx5-diagnose.sh:1118
 msgid "You may have trouble using fcitx in ${1} programs."
 msgstr "Det kan være at du har problemer med at bruge fcitx i ${1} programmer."
 
@@ -2972,7 +2929,7 @@ msgid ""
 "fcitx5-configtool. Now it will open the configuration directory."
 msgstr ""
 
-#: data/fcitx5-diagnose.sh:1185
+#: data/fcitx5-diagnose.sh:1085
 msgid ""
 "Your LC_CTYPE is set to ${1} instead of one of zh, ja, ko. You may not be "
 "able to use input method in emacs because of an really old emacs bug that "
@@ -2982,7 +2939,7 @@ msgstr ""
 "kunne bruge inputmetode i emacs pga. en meget gammel emacs-fejl som upstream "
 "har nægtet at rette i årevis."
 
-#: data/fcitx5-diagnose.sh:1190
+#: data/fcitx5-diagnose.sh:1090
 msgid ""
 "Your LC_CTYPE is set to ${1} whose encoding is not UTF-8. You may have "
 "trouble committing strings using XIM."
@@ -2990,22 +2947,22 @@ msgstr ""
 "Din LC_CTYPE er sat til ${1} hvor kodningen ikke er UTF-8. Du kan have "
 "problemer med at udføre strenge ved brug af XIM."
 
-#: src/lib/fcitx-utils/key.cpp:241
+#: src/lib/fcitx-utils/key.cpp:249
 msgctxt "Key name"
 msgid "Zenkaku"
 msgstr "Zenkaku"
 
-#: src/lib/fcitx-utils/key.cpp:243
+#: src/lib/fcitx-utils/key.cpp:251
 msgctxt "Key name"
 msgid "Zenkaku Hankaku"
 msgstr "Zenkaku Hankaku"
 
-#: src/lib/fcitx-utils/key.cpp:196
+#: src/lib/fcitx-utils/key.cpp:204
 msgctxt "Key name"
 msgid "Zoom In"
 msgstr "Zoom ind"
 
-#: src/lib/fcitx-utils/key.cpp:197
+#: src/lib/fcitx-utils/key.cpp:205
 msgctxt "Key name"
 msgid "Zoom Out"
 msgstr "Zoom ud"
@@ -3018,7 +2975,7 @@ msgstr "eksekverbar:"
 msgid "here"
 msgstr "her"
 
-#: src/lib/fcitx-utils/key.cpp:167
+#: src/lib/fcitx-utils/key.cpp:175
 msgctxt "Key name"
 msgid "iTouch"
 msgstr "iTouch"
